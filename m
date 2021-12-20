@@ -1,110 +1,91 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F8B29CA
-	for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 19:32:02 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id f5so19572730edq.6
-        for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 11:32:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC1129CA
+	for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 20:25:29 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id x15so43289428edv.1
+        for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 12:25:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=MpsgppUSFoPZhIJl2SnW8my3RwTRZUO3jm3yedovwCw=;
-        b=jZf7RwAhl4FsNV0mmR8HFQVjMO8+XasHmk4N1spDsroEawvLukKGM6KxVD/5giCHu7
-         KxaRhqYnAxibnQqtezfdGqTQTAra1tgQIx+P38IPYJhkkwCRwHC0Av7N38A5vmNZlJtB
-         hw+GoeicQTN/lfbqrBjZLI6jezyIc3XqWfcS9MXZ7Ai82cvbfxr1jCzRj+ysfYKeEQTk
-         dIsWd6RBG9O5nWof8UVKydkW4GM8WmJ8vthorciwF5e63WqqDh4D3EHo2KyYlYaYVYUR
-         16evFhOW8B+25pgIH4S6BM79fAmzQjVMxI3EMQfUW6Y0DEGoAEeA19Z3qQJszKUNmyEv
-         u0pg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2AYLI7JdI7TbMwlaYryTUxSOZm+WGuEnbMb6+8ROGO4=;
+        b=Fnvq83+DsdfkVRSWhjEyhen1P7OhEyRFkwlKmJG3NrTis1dNBb6to4Sfn8+1TUPXzU
+         Dz6FGj43pmiLx3wO9RgIijSOto5BUFBq6W5Te9HIBgQIsdd1A495IAeC57RayheM65y4
+         cBzGxP1tEJxXhpKzFmlr6dcr6ErN5qkEaFhIUOXAyRDXFTN3yyuTh2gBJ5+JghBJO/6U
+         mxF0HF6MIF5QB/TOYJtRdD4Imdmwhh/XqenKfTejRLMQpM3H7TqQQ16KMKNoTQlE+2pz
+         14fcbQGRf6lY7ZeVUmippQ5kjB4eGH1d8Utt528KmWqLKH9XUYJTslI+DNvHxCdP/yCm
+         Hhig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MpsgppUSFoPZhIJl2SnW8my3RwTRZUO3jm3yedovwCw=;
-        b=qlPQIJBuvI+qEwXkCOle9bW/JKPGTevO3FHHda7Udf32oB/XRHWdiaAWZiyhLbgQKC
-         Vd/cZ1J9UUjI0BpMX5OvOneApn2YeM1AeG4OA17W3Q56DLGYmzRj1PD/chKEyAgzFWGy
-         THSbPCCFK4qYdCbG/m1DSW12qPWV6QsYaoE8HFhVJHOeNcBDglph022J3+/47VBNx9oN
-         kEn34ZM81U0aLEw4eUe4dIS1EUfANR6P3nbsEDOR55CH4e8a875gfldXzTv1V6yKxBB+
-         /D2YxZz3ULli1S9+NI4p1O0DEICaJwr+ecect1UDujARcfH3ZAeJiPYm4BKlVgFlo5O5
-         J6sA==
-X-Gm-Message-State: AOAM531T/RJ082pm2YCoG2BmT02gPHJUOJfpy/BaonGQo/uRtrub5why
-	WOKEF2F2qmCRvTjz/+iEpoU=
-X-Google-Smtp-Source: ABdhPJzKvc/MSW6zd1ePYHAHL3icUqe+cW0CX27OrFKvjJ+GHGloAITAHbQAswBU4g+37Wr3qMS6oQ==
-X-Received: by 2002:a17:906:a20e:: with SMTP id r14mr14164190ejy.376.1640028720615;
-        Mon, 20 Dec 2021 11:32:00 -0800 (PST)
-Received: from tom-desktop (net-93-151-129-173.cust.dsl.teletu.it. [93.151.129.173])
-        by smtp.gmail.com with ESMTPSA id 4sm5596273ejc.160.2021.12.20.11.31.58
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2AYLI7JdI7TbMwlaYryTUxSOZm+WGuEnbMb6+8ROGO4=;
+        b=gB1G0q6BZpqs2EbnMLLvuW3dgSDzyM4IXoRKWn4yFm3bYNMnczWwXsDJUcA55vo+uk
+         Gfbln/sxjYWJ29XsG+dH8vYbyUYkrjf4i4ELXCu3zNC5rmG/M/rViXaltJK+9F8rXpRW
+         hwAtwg1sy5X+FxXXlW0Vyld2eb3OjNhaqKAK7kcFwoMK5OXJx59VCxp1Gxy+3P58nBJn
+         Dq6w7pvsMberdjd7H6I1Pl6TzV+Z0NTxDfLxkZ4/m68DEMA4pwX8iHkGw4ZRSYJBP1b3
+         PSw2TKv3EeKIv8HNHar2PGlL6NqRtf5M9LRXoiS2ldjhuogw2W3xuiyqEauh7AxSuhay
+         vGDA==
+X-Gm-Message-State: AOAM531wK9upeCmIECie8sVCw1rmLlF49jv+gJlJv+mv1rjC2bCGQuq6
+	z8K4I0B1F3dwkOtsIJQQ+kA=
+X-Google-Smtp-Source: ABdhPJzDmYaOTUfFDV/rudT38TnvrnSN7mvowKXpxM4hKADww7K7BbIp+GIEo/E7ZI9cn0hSlEgGDA==
+X-Received: by 2002:a17:907:60c9:: with SMTP id hv9mr5154325ejc.681.1640031928052;
+        Mon, 20 Dec 2021 12:25:28 -0800 (PST)
+Received: from tom-desktop.station (net-93-151-129-173.cust.dsl.teletu.it. [93.151.129.173])
+        by smtp.gmail.com with ESMTPSA id ji16sm135681ejc.114.2021.12.20.12.25.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 11:32:00 -0800 (PST)
-Date: Mon, 20 Dec 2021 20:31:57 +0100
+        Mon, 20 Dec 2021 12:25:27 -0800 (PST)
 From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linuxfancy@googlegroups.com, Forest Bond <forest@alittletooquiet.net>,
-	Alberto Merciai <alb3rt0.m3rciai@gmail.com>,
+To: 
+Cc: tomm.merciai@gmail.com,
+	linuxfancy@googlegroups.com,
+	Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Karolina Drobnik <karolinadrobnik@gmail.com>,
-	Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vt6655: drop off byRxMode var in device.h
-Message-ID: <20211220193157.GA4401@tom-desktop>
-References: <20211219182004.25656-1-tomm.merciai@gmail.com>
- <YcCxtkNJKhFWONv7@kroah.com>
+	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: vt6655: drop off byRxMode var in device.h
+Date: Mon, 20 Dec 2021 21:25:20 +0100
+Message-Id: <20211220202523.21805-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YcCxtkNJKhFWONv7@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 20, 2021 at 05:39:18PM +0100, Greg Kroah-Hartman wrote:
-> On Sun, Dec 19, 2021 at 07:20:03PM +0100, Tommaso Merciai wrote:
-> > Drop off unused variable byRxMode in device.h, this fix following 
-> > checkpatch.pl check:
-> > 
-> > CHECK: Avoid CamelCase: <byRxMode>
-> > 131: FILE: drivers/staging/vt6655/device.h:131:
-> > 	unsigned char byRxMode
-> > 
-> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > ---
-> >  drivers/staging/vt6655/device.h | 2 --
-> >  1 file changed, 2 deletions(-)
-> > 
-> > diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-> > index 4706bde1ec1d..84b1dcf80e47 100644
-> > --- a/drivers/staging/vt6655/device.h
-> > +++ b/drivers/staging/vt6655/device.h
-> > @@ -128,8 +128,6 @@ struct vnt_private {
-> >  	u32                         memaddr;
-> >  	u32                         ioaddr;
-> >  
-> > -	unsigned char byRxMode;
-> > -
-> >  	spinlock_t                  lock;
-> >  
-> >  	volatile int                iTDUsed[TYPE_MAXTD];
-> > -- 
-> > 2.25.1
-> > 
-> > 
-> 
-> Did you send this twice?  What is the difference between the two
-> versions?
+Drop off unused variable byRxMode in device.h, this fix following
+checkpatch.pl check:
+CHECK: Avoid CamelCase: <byRxMode>
+131: FILE: drivers/staging/vt6655/device.h:131:
+unsigned char byRxMode
 
-Hi Gregh,
-I send twice for error, sorry.
-> 
-> And you have trailing whitespace in the changelog for this message,
-> please fix.
-I'll fix and send v2.
+Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+---
+Changes since v1:
+ - Remove trailing whitespace in changelog as suggested by gregkh
 
-> 
-> thanks,
-> 
-> greg k-h
+ drivers/staging/vt6655/device.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-thanks,
-tommaso
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 4706bde1ec1d..84b1dcf80e47 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -128,8 +128,6 @@ struct vnt_private {
+ 	u32                         memaddr;
+ 	u32                         ioaddr;
+ 
+-	unsigned char byRxMode;
+-
+ 	spinlock_t                  lock;
+ 
+ 	volatile int                iTDUsed[TYPE_MAXTD];
+-- 
+2.25.1
 
