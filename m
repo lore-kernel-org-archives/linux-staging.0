@@ -1,27 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647F729CA
-	for <linux-staging@lists.linux.dev>; Tue, 21 Dec 2021 07:42:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7C4C36AE2;
-	Tue, 21 Dec 2021 07:42:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1640072560;
-	bh=LDrzRwiWMRLX8IYuABYzc4sjUMW7eKO2kgtMj3KTOaE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oYu2l4i6sqxAg6a1F9M67YJ5whsDyuaBF0jHzKnU97G/fN9Ar/QTVFxx0kbXqoInf
-	 WRjTWleA7ljGD6bGKOMY1uLBh4bwkXxNTqOnzFJpcFBP4F7p0I2KVY77ffrSoEWNkR
-	 /jHa5USsWPo4gQKFq2LxWL/+IGp7umGH5JFtxm5A=
-Date: Tue, 21 Dec 2021 08:42:37 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH v3] staging: r8188eu: Use strndup_user instead of
- kmalloc/copy_from_user
-Message-ID: <YcGFbUXOAVoxjDB0@kroah.com>
-References: <20211213092558.77624-1-jiapeng.chong@linux.alibaba.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE2829CA
+	for <linux-staging@lists.linux.dev>; Tue, 21 Dec 2021 20:40:09 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id l11so230001qke.11
+        for <linux-staging@lists.linux.dev>; Tue, 21 Dec 2021 12:40:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CA9IWavU63XG2gXPf0Ek8dVYzF3SSJzma8mENQ8i0FI=;
+        b=GUJqO5fkKd228TnOmKcYkuDCb4kQeaJrE/8O3rq5oOYr558k1XrQseIUEwv60oB53j
+         MLNB3eWYdA3Ar5fU6Y7mG6IvL1lCtMbrKxFgsTXa99XwsErz8kr7gj8dGT37yfezNc2f
+         PaNiUp+2F/WnpTVhKcxn7DGWrrR6WFpGQkflQaZ3NACVRfdw+ckC+OndqEFV49gdEgc6
+         O7p5rMquNSl1YHyQwXbWeU+xhlRkCapl6goJ/8gWeE+cBH+m6NrBmv2RifibLrguZE9m
+         w86TScRZR/y/NmI5iSfwUIPHPcBkhLA0XLmQtsgv3B0r6pMp9PCj8eziAIeBRs3lCr5o
+         RW5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CA9IWavU63XG2gXPf0Ek8dVYzF3SSJzma8mENQ8i0FI=;
+        b=VCxI9Iur7ISabuCfUNFdcAgcoT/UoAVs7HVkCwYNsqCev13bsjJH08CXyVAms4ntRV
+         ZgwFudIIdv6w5IzFC7L/HJATruttDLbvYCHQKB3uY9WIP0frmRkwmJ1BrpiB0PeiRTnB
+         uXr5p5Yoxheg6Ltr/tkvrptqUjGHMBvRJFxBWLk18wfz+D0F1tjmFVrVgbSePyO+YcAz
+         +e6HMUbhgrZZCWcs83jPseksn0z57hT0aobkCRsH4TE0d8WY9z0sdJbp8vTKqCsXOdcv
+         9NHrSJXhBdC97aUvx9IOnIPtVn96xhhJP2YzgKnKiye2V6MKkqQJ6LEBg+v+KPrZZxF3
+         KERA==
+X-Gm-Message-State: AOAM533OV2NlZmZ0LW3pZ/rpTNcGJlZLa0xH3esep+8ptBeQEmHRDWoM
+	Eb4anL101+OLdSIYJT7zh9k=
+X-Google-Smtp-Source: ABdhPJw0wRHZas/LCq2WLTm8mLs8VsVYgQgbhBLolRHcZrEdPydvbZvbiU/KzDQWHRpUBOc9rzwwww==
+X-Received: by 2002:a37:a956:: with SMTP id s83mr84812qke.500.1640119208810;
+        Tue, 21 Dec 2021 12:40:08 -0800 (PST)
+Received: from debianG ([190.191.20.243])
+        by smtp.gmail.com with ESMTPSA id w63sm41651qkd.88.2021.12.21.12.40.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Dec 2021 12:40:08 -0800 (PST)
+Date: Tue, 21 Dec 2021 17:40:00 -0300
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, nsaenz@kernel.org, f.fainelli@gmail.com,
+	rjui@broadcom.com, sbranden@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	juerg.haefliger@canonical.com, rdunlap@infradead.org,
+	dave.stevenson@raspberrypi.com, stefan.wahren@i2se.com,
+	unixbhaskar@gmail.com, mitaliborkar810@gmail.com,
+	phil@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: Re: [PATCH 0/4] staging: vc04_services: avoid the use of typedef for
+ function pointers
+Message-ID: <YcI7oGVjwQA4+5uc@debianG>
+References: <cover.1639858361.git.gascoar@gmail.com>
+ <YcFyNFR66Ii2tos+@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,65 +61,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211213092558.77624-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <YcFyNFR66Ii2tos+@kroah.com>
 
-On Mon, Dec 13, 2021 at 05:25:58PM +0800, Jiapeng Chong wrote:
-> This code assumes that the user is going to give us a NUL terminated
-> string which is not necessarily true.
+On Tue, Dec 21, 2021 at 07:20:36AM +0100, Greg KH wrote:
+> On Mon, Dec 20, 2021 at 06:29:10PM -0300, Gaston Gonzalez wrote:
+> > This patch set removes some typedefs for function pointers in vc04_services.
+> > 
+> > After patches 01 to 03, there are no remaining typedef under vc04_services.
+> > Hence, the patch 04/04 updates the TODO file removing the 'remove typedefs'
+> > task.
+> > 
+> > Gaston Gonzalez (4):
+> >   staging: bcm2835-audio: replace function typedefs with equivalent
+> >     declaration
+> >   staging: vc04_services: replace function typedef with equivalent
+> >     declaration
+> >   staging: vc04_services: avoid the use of typedef for function pointers
+> >   staging: vc04_services: update TODO file
 > 
-> Fix following coccicheck warning:
+> These are not the name of the patches that you sent out at all :(
 > 
-> ./drivers/staging/r8188eu/os_dep/ioctl_linux.c:4253:8-15: WARNING
-> opportunity for memdup_user.
+> Are you sure you created this properly?
 > 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
-> Changes in v3:
->   -Delete useless printk, modified the commit message and fixes tag.
+> Something went wrong.
 > 
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 14 +++-----------
->  1 file changed, 3 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 77728ba78d76..d8c28f279aa0 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -4247,18 +4247,10 @@ static int rtw_test(
->  
->  	DBG_88E("+%s\n", __func__);
->  	len = wrqu->data.length;
-> +	pbuf = strndup_user(wrqu->data.pointer, len);
-> +	if (IS_ERR(pbuf))
-> +		return PTR_ERR(pbuf);
->  
-> -	pbuf = kzalloc(len, GFP_KERNEL);
-> -	if (!pbuf) {
-> -		DBG_88E("%s: no memory!\n", __func__);
-> -		return -ENOMEM;
-> -	}
-> -
-> -	if (copy_from_user(pbuf, wrqu->data.pointer, len)) {
-> -		kfree(pbuf);
-> -		DBG_88E("%s: copy from user fail!\n", __func__);
-> -		return -EFAULT;
-> -	}
->  	DBG_88E("%s: string =\"%s\"\n", __func__, pbuf);
->  
->  	ptmp = (char *)pbuf;
-> -- 
-> 2.20.1.7.g153144c
-> 
-> 
+> greg k-h
 
-This function does nothing, so it should just be deleted entirely.
-Please let's not have odd custom ioctls hanging around that can do
-nothing but cause problems.
+Hi Greg,
 
-Also, this function looks like a lovely way to crash a kernel, even with
-your fix, so the sooner we get it removed the better.
+I'm sorry, I messed up editing the subjects using git send-email
+directly. I didn't realized that that would create a mismatch with the
+summary in patch 0/4. It is clear now ...
 
 thanks,
 
-greg k-h
+Gaston
