@@ -1,42 +1,42 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE2829CA
-	for <linux-staging@lists.linux.dev>; Tue, 21 Dec 2021 20:40:09 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id l11so230001qke.11
-        for <linux-staging@lists.linux.dev>; Tue, 21 Dec 2021 12:40:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7766D29CA
+	for <linux-staging@lists.linux.dev>; Tue, 21 Dec 2021 20:41:48 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id e16so227864qkl.12
+        for <linux-staging@lists.linux.dev>; Tue, 21 Dec 2021 12:41:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=CA9IWavU63XG2gXPf0Ek8dVYzF3SSJzma8mENQ8i0FI=;
-        b=GUJqO5fkKd228TnOmKcYkuDCb4kQeaJrE/8O3rq5oOYr558k1XrQseIUEwv60oB53j
-         MLNB3eWYdA3Ar5fU6Y7mG6IvL1lCtMbrKxFgsTXa99XwsErz8kr7gj8dGT37yfezNc2f
-         PaNiUp+2F/WnpTVhKcxn7DGWrrR6WFpGQkflQaZ3NACVRfdw+ckC+OndqEFV49gdEgc6
-         O7p5rMquNSl1YHyQwXbWeU+xhlRkCapl6goJ/8gWeE+cBH+m6NrBmv2RifibLrguZE9m
-         w86TScRZR/y/NmI5iSfwUIPHPcBkhLA0XLmQtsgv3B0r6pMp9PCj8eziAIeBRs3lCr5o
-         RW5Q==
+        bh=0L/zCdTzYL+bpasAbKxdwMufx6Ki92cX1lsoKE84Vow=;
+        b=Th4r/bsQMnfzXLtz0OKCa8UfMb8HvudGBMXAYe5iT23P2800sYKRUunevTcnrnjKOW
+         Xu72cQF+znRdJYd22sXrOx/OraCv7DB6XLZaP4HdEIIfZz5x67mkxYej8jogYcLTCLDd
+         p8ykJf0v9nNWosEXLv5sb1FJvn4rBO9GYR9G+7uOt+L5ARuOVeXgopWr5oQXjFcH7aAm
+         aGRIRWs5EDKb34aN6K3f2TFmFmgrFPgOneOMUH+b7ftIUjsoz46CKGpvAOyDPKvD2Jhp
+         MwlJOD+kKZsiNcZ+VevuluRhsaXGUKmV6lgAKiFsPRaBWceSaZ6+ypVsfuU7MmjdojMA
+         SyRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=CA9IWavU63XG2gXPf0Ek8dVYzF3SSJzma8mENQ8i0FI=;
-        b=VCxI9Iur7ISabuCfUNFdcAgcoT/UoAVs7HVkCwYNsqCev13bsjJH08CXyVAms4ntRV
-         ZgwFudIIdv6w5IzFC7L/HJATruttDLbvYCHQKB3uY9WIP0frmRkwmJ1BrpiB0PeiRTnB
-         uXr5p5Yoxheg6Ltr/tkvrptqUjGHMBvRJFxBWLk18wfz+D0F1tjmFVrVgbSePyO+YcAz
-         +e6HMUbhgrZZCWcs83jPseksn0z57hT0aobkCRsH4TE0d8WY9z0sdJbp8vTKqCsXOdcv
-         9NHrSJXhBdC97aUvx9IOnIPtVn96xhhJP2YzgKnKiye2V6MKkqQJ6LEBg+v+KPrZZxF3
-         KERA==
-X-Gm-Message-State: AOAM533OV2NlZmZ0LW3pZ/rpTNcGJlZLa0xH3esep+8ptBeQEmHRDWoM
-	Eb4anL101+OLdSIYJT7zh9k=
-X-Google-Smtp-Source: ABdhPJw0wRHZas/LCq2WLTm8mLs8VsVYgQgbhBLolRHcZrEdPydvbZvbiU/KzDQWHRpUBOc9rzwwww==
-X-Received: by 2002:a37:a956:: with SMTP id s83mr84812qke.500.1640119208810;
-        Tue, 21 Dec 2021 12:40:08 -0800 (PST)
+        bh=0L/zCdTzYL+bpasAbKxdwMufx6Ki92cX1lsoKE84Vow=;
+        b=PfBiTy02F8jPxlO8C7tUJwFliuG3rk13RDodLZYLGDMH6qd+pmLICbGPiDqkxa+Sxd
+         m4r2kuRDlOPbkZXPAOe2tg82AeoinLjDoLDGh3QyKwhG+WAllz1jf7RWlaITrf+uBOpD
+         1k0hw35ITqFObZvZL827DJ18Kli/Zo5olo8GAPrrU1wglNe+rKayqLB+IPYI7nqQ1WPj
+         tRpwzgJIByam1htipgq6dyiUs/bxziJ2iBHkXNjPhsbNvAuQBQsg7GC9cvRWPQM4XTlA
+         gHj18mhlvzlwNLiVWi6TdmDjU4xWM4n4Vu/0D8dIZAFeuNZNn8YpF1zd8OuTO3pkCZg2
+         wIqQ==
+X-Gm-Message-State: AOAM530rXhe3vCoIo1QWGMu4JtujrEIE4K54If1CixzypLVK1lQEjWD/
+	b8fAmRg7vZmG7jAkrZBoYqc=
+X-Google-Smtp-Source: ABdhPJygxTUYpfu/KJlTncs23BQYQ9IlPS+6EmdoAjQJ5no6Z/JqFkZRwEiDvjn0MaPp6ZMq2okYZQ==
+X-Received: by 2002:a05:620a:2494:: with SMTP id i20mr85971qkn.624.1640119307571;
+        Tue, 21 Dec 2021 12:41:47 -0800 (PST)
 Received: from debianG ([190.191.20.243])
-        by smtp.gmail.com with ESMTPSA id w63sm41651qkd.88.2021.12.21.12.40.04
+        by smtp.gmail.com with ESMTPSA id n20sm50421qkp.65.2021.12.21.12.41.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 12:40:08 -0800 (PST)
-Date: Tue, 21 Dec 2021 17:40:00 -0300
+        Tue, 21 Dec 2021 12:41:47 -0800 (PST)
+Date: Tue, 21 Dec 2021 17:41:46 -0300
 From: Gaston Gonzalez <gascoar@gmail.com>
 To: Greg KH <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, nsaenz@kernel.org, f.fainelli@gmail.com,
@@ -48,11 +48,12 @@ Cc: linux-staging@lists.linux.dev, nsaenz@kernel.org, f.fainelli@gmail.com,
 	phil@raspberrypi.com, linux-rpi-kernel@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	gascoar@gmail.com
-Subject: Re: [PATCH 0/4] staging: vc04_services: avoid the use of typedef for
+Subject: Re: [PATCH 2/4] staging: vc04_services: avoid the use of typedef for
  function pointers
-Message-ID: <YcI7oGVjwQA4+5uc@debianG>
+Message-ID: <YcI8ChRmECkk/6RV@debianG>
 References: <cover.1639858361.git.gascoar@gmail.com>
- <YcFyNFR66Ii2tos+@kroah.com>
+ <7f681ccee713ef8600f40c765b6a59e119c6bf2c.1639858361.git.gascoar@gmail.com>
+ <YcFyASAYo6yimT8W@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,38 +62,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YcFyNFR66Ii2tos+@kroah.com>
+In-Reply-To: <YcFyASAYo6yimT8W@kroah.com>
 
-On Tue, Dec 21, 2021 at 07:20:36AM +0100, Greg KH wrote:
-> On Mon, Dec 20, 2021 at 06:29:10PM -0300, Gaston Gonzalez wrote:
-> > This patch set removes some typedefs for function pointers in vc04_services.
+On Tue, Dec 21, 2021 at 07:19:45AM +0100, Greg KH wrote:
+> On Mon, Dec 20, 2021 at 06:29:12PM -0300, Gaston Gonzalez wrote:
+> > Replace typedef bm2835_mmal_v4l2_ctrl_cb with equivalent declaration to
+> > better align with the linux kernel coding style.
 > > 
-> > After patches 01 to 03, there are no remaining typedef under vc04_services.
-> > Hence, the patch 04/04 updates the TODO file removing the 'remove typedefs'
-> > task.
+> > Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+> > ---
+> >  .../vc04_services/bcm2835-camera/controls.c   | 76 +++++++++----------
+> >  1 file changed, 35 insertions(+), 41 deletions(-)
 > > 
-> > Gaston Gonzalez (4):
-> >   staging: bcm2835-audio: replace function typedefs with equivalent
-> >     declaration
-> >   staging: vc04_services: replace function typedef with equivalent
-> >     declaration
-> >   staging: vc04_services: avoid the use of typedef for function pointers
-> >   staging: vc04_services: update TODO file
+> > diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+> > index b096a12387f7..7782742396fc 100644
+> > --- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
+> > +++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+> > @@ -65,13 +65,6 @@ enum bm2835_mmal_ctrl_type {
+> >  	MMAL_CONTROL_TYPE_CLUSTER, /* special cluster entry */
+> >  };
+> >  
+> > -struct bm2835_mmal_v4l2_ctrl;
+> > -
+> > -typedef	int(bm2835_mmal_v4l2_ctrl_cb)(
+> > -				struct bm2835_mmal_dev *dev,
+> > -				struct v4l2_ctrl *ctrl,
+> > -				const struct bm2835_mmal_v4l2_ctrl *mmal_ctrl);
 > 
-> These are not the name of the patches that you sent out at all :(
+> Function pointer typedefs are ok, if they are needed.
 > 
-> Are you sure you created this properly?
+> > -
+> >  struct bm2835_mmal_v4l2_ctrl {
+> >  	u32 id; /* v4l2 control identifier */
+> >  	enum bm2835_mmal_ctrl_type type;
+> > @@ -84,7 +77,8 @@ struct bm2835_mmal_v4l2_ctrl {
+> >  	u64 step; /* step size of the control */
+> >  	const s64 *imenu; /* integer menu array */
+> >  	u32 mmal_id; /* mmal parameter id */
+> > -	bm2835_mmal_v4l2_ctrl_cb *setter;
+> > +	int (*bm2835_mmal_v4l2_ctrl_cb)(struct bm2835_mmal_dev *dev, struct v4l2_ctrl *ctrl,
+> > +					const struct bm2835_mmal_v4l2_ctrl *mmal_ctrl);
 > 
-> Something went wrong.
+> No need to rename this function pointer, why not keep it at "setter"?
+> That would make this patch much smaller and more obvious.
 > 
-> greg k-h
 
-Hi Greg,
-
-I'm sorry, I messed up editing the subjects using git send-email
-directly. I didn't realized that that would create a mismatch with the
-summary in patch 0/4. It is clear now ...
+Ok, will do that in v2.
 
 thanks,
 
 Gaston
+
+
+> thanks,
+> 
+> greg k-h
+> 
