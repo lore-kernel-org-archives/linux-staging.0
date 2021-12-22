@@ -1,48 +1,47 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB12168
-	for <linux-staging@lists.linux.dev>; Wed, 22 Dec 2021 07:03:02 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id a23so1316661pgm.4
-        for <linux-staging@lists.linux.dev>; Tue, 21 Dec 2021 23:03:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0052CA0
+	for <linux-staging@lists.linux.dev>; Wed, 22 Dec 2021 09:36:32 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id m1so1862389pfk.8
+        for <linux-staging@lists.linux.dev>; Wed, 22 Dec 2021 01:36:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=3VDOWPcXWhDFPAt9Df/Qo17xw6phBw6+Cx2n5GdYw8I=;
-        b=KQEn3RcHLikmtvkAq09i7D8+irGECceKpSEVr09pDFXyO8xdK79Z3J+FSAxdQPfZmK
-         6fDhpjfwz/ErFKb5Y84eXlHPyfeMiSQOeYj6qiHfFEuhn+MWlDuYOxdwKfI23GgsFSHe
-         +VQv7tZsd/3Zp3lFgIP8LWo6Su6kJX+FA281G9z+iyX2t9Imtu5as0ChygbTECXfoDuu
-         4HjadGJM7+Qt9QP1nvVu5qcNii5jqaiiGzkKAoKKuiLrUe22xQEaVyf4jSVsRx0mJLk5
-         WXUEbQHaQvlh8gBAdEM3fpV3ZqXjurLJpNAOl3OhIdbuSN8SnKgzc7fhftaMjLYY8lSe
-         f8vQ==
+        bh=sgwNBG2Cny1fVZO0hlT3ohe+sFdmqVc2UDvfjIkF6eM=;
+        b=Gtw64aYKGZsQ+dMlQmcTSBpB89iTplIsqutgq9KDlrnM+hli46Z2Ro7tachGGxM7w4
+         oUHUisn4R+tgsDxHmxWzg/LEExczh+vNBt6gBCVzH9qgcomJ4JklY7E38fQ+HmXH9HHc
+         eg2Uwx83TBMqxyE0lJyNBg71kv7DbhicLgTHhAmTtGgukQa6l5rvw0p/aS98bodqL36y
+         T3DVarvdhCMZjo+ddhF8fX7JF++uK//sTAFFRAMbLqv627qG2eQiwOzNM5TZeFFE+ITH
+         MWRmvG4cCUo+5gxWrK3LbO7iNauV6aqEwHEn832cG6ta7EdEYLBuG1LmqJ4qRwlqTIqV
+         iAsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition;
-        bh=3VDOWPcXWhDFPAt9Df/Qo17xw6phBw6+Cx2n5GdYw8I=;
-        b=7s//WlHVbRpoGRho+FlNpaxFw8gHKAtif5kXqwOtrgr52cDJW9Iiq8vwvbwXL8w6C8
-         W6dfvhhEW9ZfYOw5zIBHf5DLJGhIJhdVbcwtkprMVILVStboQ6O/hvJBJwYZQ540AhGK
-         Mm46V/sKb5jWctq0rOoquI1VSbQBWiM4a3lMKt/Xc3k35fvhuAH8TkUSF7qPf3+O8d6w
-         4lDYH8RuEpyBgOznSwadwWomHPnKAEIaTt4L+mdv3uT4LidMjVMHvoq9a3IwqMTqpcE9
-         zgu5L7QSEbJyC6HwCj8z1uqso4nmAZM33ShrTawfVGXHDiXm6RcjsU20WGS6V2FvoKu7
-         u0pQ==
-X-Gm-Message-State: AOAM531h5LbPzJDmgvXvDlPAKx0IWdpOmxTOLC6CXl4fxQHwnUdBkzYo
-	xtkEf6VVWorqYl+kodCwji4=
-X-Google-Smtp-Source: ABdhPJycGG6AFTvNA5CCdWBtS06E4j1qggcF88zMZtOu/rUTQU/wK+IpHwer4hO2GDScPqbJ0V0QYA==
-X-Received: by 2002:a05:6a00:248f:b0:4a0:1e25:3155 with SMTP id c15-20020a056a00248f00b004a01e253155mr1650662pfv.21.1640156582285;
-        Tue, 21 Dec 2021 23:03:02 -0800 (PST)
+        bh=sgwNBG2Cny1fVZO0hlT3ohe+sFdmqVc2UDvfjIkF6eM=;
+        b=FRgcGwI5bpLh+XhLV11J9zHGva0hErRwu8ZikKvizmnJ9dOBBEt4SLk7Nh2TImFLKm
+         YsJZyk8xuGhiNFo12uno5j+UuA30C0OUvU9t+h5WaNiIXHZvh4LaPfRf5f0z7knJ5AVG
+         ql09fihPcjGEU4mj2r7+EGfAsrdTWWdAcN6O6eL+70iRXLYAKjjs+kXOjajaHFly64el
+         x1RYCZUM6HpvUFMKwRusrhW9NaYdcunrjAr5fu2KK6NSr0viyJTeioqV7DV3TEMIjmf+
+         Kcr5q/F0tBjfMoZwjHF+XlbTdmmtvhPWftTh9IpArt2lMithFER3h200Nz/JrorpeAMG
+         Wjzw==
+X-Gm-Message-State: AOAM5337qTHYOsJQz8H7/SiCXadkNQ/+AzSn5FqsyVSnZXW2ZWa6AIrX
+	vbJvTMym/6HSYJbW8pGABhk=
+X-Google-Smtp-Source: ABdhPJyERfHYaADMDkqmMfs0w+6zK8q5UnftfZAI+ylhVVB8Anx7cAHpS4amJepVdBH9A76ZpOYUQQ==
+X-Received: by 2002:aa7:8e52:0:b0:4a1:5820:d9cc with SMTP id d18-20020aa78e52000000b004a15820d9ccmr2060919pfr.49.1640165792078;
+        Wed, 22 Dec 2021 01:36:32 -0800 (PST)
 Received: from localhost.localdomain (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id z2sm1034777pge.86.2021.12.21.23.02.59
+        by smtp.gmail.com with ESMTPSA id s207sm1616088pgs.74.2021.12.22.01.36.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 23:03:01 -0800 (PST)
-Date: Wed, 22 Dec 2021 20:02:56 +1300
+        Wed, 22 Dec 2021 01:36:31 -0800 (PST)
+Date: Wed, 22 Dec 2021 22:36:26 +1300
 From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 To: gregkh@linuxfoundation.org, realwakka@gmail.com,
 	paulo.miguel.almeida.rodenas@gmail.com
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: pi433: remove unnecessary parentheses pointed out
- by checkpatch.pl
-Message-ID: <20211222070256.GA7644@localhost.localdomain>
+Subject: [PATCH] staging: pi433: add comment to rx_lock mutex definition
+Message-ID: <20211222093626.GA13332@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,31 +51,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Checkpatch reports 'Unnecessary parentheses around <lines>'.
-Fix this by removing extraneous parentheses where applicable.
+Checkpatch reports: CHECK: struct mutex definition without comment.
+Fix this by documenting what rx_mutex struct is used for in pi433 driver.
 
 Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 ---
- drivers/staging/pi433/rf69.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/pi433/pi433_if.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-index dc047bcdf44b..e62e61ef4d27 100644
---- a/drivers/staging/pi433/rf69.c
-+++ b/drivers/staging/pi433/rf69.c
-@@ -470,9 +470,9 @@ static int rf69_set_bandwidth_intern(struct spi_device *spi, u8 reg,
- 		return -EINVAL;
- 	}
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 29bd37669059..aa0ecb3788c6 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -92,6 +92,7 @@ struct pi433_device {
+ 	u32			rx_bytes_to_drop;
+ 	u32			rx_bytes_dropped;
+ 	unsigned int		rx_position;
++	/* rx read and config operations can only be served one at the time */
+ 	struct mutex		rx_lock;
+ 	wait_queue_head_t	rx_wait_queue;
  
--	if ((mantisse != mantisse16) &&
--	    (mantisse != mantisse20) &&
--	    (mantisse != mantisse24)) {
-+	if (mantisse != mantisse16 &&
-+	    mantisse != mantisse20 &&
-+	    mantisse != mantisse24) {
- 		dev_dbg(&spi->dev, "set: illegal bandwidth mantisse %u", mantisse);
- 		return -EINVAL;
- 	}
 -- 
 2.25.4
 
