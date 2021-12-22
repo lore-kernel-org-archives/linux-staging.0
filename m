@@ -1,101 +1,73 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552952CA0
-	for <linux-staging@lists.linux.dev>; Wed, 22 Dec 2021 10:10:29 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id v138so5091118ybb.8
-        for <linux-staging@lists.linux.dev>; Wed, 22 Dec 2021 02:10:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5D4168
+	for <linux-staging@lists.linux.dev>; Wed, 22 Dec 2021 18:51:19 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id t18so6692483wrg.11
+        for <linux-staging@lists.linux.dev>; Wed, 22 Dec 2021 10:51:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WD93X3OyN4cNksS3WzdLzMZDmKT4youItA9pASTKcKc=;
-        b=m2r0ykFzvLQzs5312dlDRpjSOXo0+WWDfp9ivUWagPUizhOp2QrzVdbfRgcovvdxM8
-         ZaZn8hkXZ6y5dH1iS0wpmEMAE40rswqjTuRiF+D5IBlL3lOG7v9QiyG2elSeGKIXT6+M
-         y2dvASo+6pcyzYY/L94UIjeyso1zXQNkZAEUo4Sr5/eUGsGCoX34eZjkpQJ8flhw76ss
-         wZbzLFDKHJUhYw/kSnnERn3cOxXikyV6xj9IIVpCplVdSMYrgyESLOcxYNpgycpVbUGr
-         LkXvMQnFLM7dodTFchFn7Ldi0OrqgKjBvCLue27bxv0W+M6W16mtbr2EPWtuzkk/0LLC
-         ivsw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iFdMpcrr9o9bPG0hcRF2a2u7eyMqSDF/03Ew3buL0XY=;
+        b=AL0ojshv1OS8C2F6fadtkHbhMfDp2ZswA+Hk7rM05LJ36Z0ssItKQ1H0C0sSZ1ULEe
+         U/FUjMbd5oXbUEknuZmmy2lfkDrc2HkgdTgbCO120aEkJaKbbGZ681RgJpnby3qfZR1o
+         2kV0yJAmH0BqKNk7/UZYY5VTo2EIRNNE6zGKse2TytJ66W2qzVHwZKq8ifln9y5nmrlP
+         xmxIMAdfR7PoHd9GpjoJAqFm3RkOpxGPGgqogXx7fzRnHwkDVnq6HeljiCqm2hk2iPoe
+         huvd9KxeFv5wJexZM9aqOp7SHep8sW2UsfMWPbUuSq0ZXLQLRMMbK6iAa/iKXQj8JhKo
+         zgnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WD93X3OyN4cNksS3WzdLzMZDmKT4youItA9pASTKcKc=;
-        b=OrmawDEZLLL9a4C5d9VvU4bMQ5ZGG5GlKeDHFSpp6NqgN8F/8rcqXc0/IHliINEAOX
-         x8LUyxBYcMwIsAx95mDX1JySHX4Q4tZrp1TEIXzCwnvD3wXomAhBTxyzrxkpBAcTQIZi
-         KLj+36FPklCXKJC+hHI6EhCzIZ5U8Q3+DM/697yQeNoxYfABTXvj6oNX7XMXSQ7OqK1a
-         bCygqyvkPegSytbf935bJotvzRbqvarroTGqwnVAn2NeQyirs76qb4JuWDCWMCQkM/Gh
-         YXo4R0/Ga21hXKcFY6rVwE67e8JbPt1/7v7DmRPZALx41Vt9OblAgAmoM9pKN4BbvOql
-         Yhww==
-X-Gm-Message-State: AOAM531l6GfHYsaemPHj+ZUlVbKqA+p5vKoHMTkRvRQnLSG3xq8abQn/
-	tIwskAyH6/XNX7o4tM5aqtEanl6lXnuy+fEYMsJxRy021sg=
-X-Google-Smtp-Source: ABdhPJzgoS9gFYIDd1l8xex1e/RnV0TW7nPju+EzGvlG7g2PdPAi/NYAxac/XCO9lYL+vMSFYsBOaIdRsNxrQZKj1Qo=
-X-Received: by 2002:a25:dfd1:: with SMTP id w200mr3227618ybg.359.1640167828349;
- Wed, 22 Dec 2021 02:10:28 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iFdMpcrr9o9bPG0hcRF2a2u7eyMqSDF/03Ew3buL0XY=;
+        b=FUE58cE0pC1vsCgu231NiCKvn7Am8J36U14LcT43onXnPZXTU+8/JQoOHVcdJ89QTA
+         2PnNJzNmWeHr7T4B2/3BbIT32L1xwtOK+eO90bO02mSNgG9e6xjJJ7VAtAedcX1NyJUl
+         rIznB5GzyrbUCLcR4lBcRSJ3lc7CKIoMoBFyM5owp9yDyXVNkiV9zM2uNGXeOMNNjMFE
+         M5b9OqUOIIqI/SNwwNj8WJWqayPVQPWx16+Syzfw/BqQGQEtMgTdGYr0GFCsWEvZRNpG
+         yRRjOmH06AijGPFbVEtRKUNREIJuVy/LbZAs7UZuOYYPRsbPcy2C7bh5U4inN1Kxynqz
+         t4lQ==
+X-Gm-Message-State: AOAM532pACKN7YI0XngacaqqJVGxF+T4oz3Fe1H3DtGa7foouatS9MNn
+	I9dGrxiONPcuXnVMEnzIEuUpZJyKi0+pwJxt
+X-Google-Smtp-Source: ABdhPJw1OVXRodfVy7W+AP+9gCFySfqBPjOId41wWG1DvnpvV0z9Y/10x1NCDkgspwY08+rdBJLUSg==
+X-Received: by 2002:a5d:698f:: with SMTP id g15mr3083893wru.256.1640199078041;
+        Wed, 22 Dec 2021 10:51:18 -0800 (PST)
+Received: from localhost.localdomain (78-128-31-15.blagoevgrad.ddns.bulsat.com. [78.128.31.15])
+        by smtp.gmail.com with ESMTPSA id d2sm2456202wmb.31.2021.12.22.10.51.17
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 22 Dec 2021 10:51:17 -0800 (PST)
+From: Ismayil Mirzali <ismayilmirzeli@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	fabioaiuto83@gmail.com,
+	linux@roeck-us.net,
+	paskripkin@gmail.com
+Subject: [PATCH v3 0/2] Fix styling issues and remove unused code in rtl8723bs
+Date: Wed, 22 Dec 2021 20:51:13 +0200
+Message-Id: <cover.1640197297.git.ismayilmirzeli@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAKXUXMym0M1UNuNGUVpFr2yUwOwjkZ_sQpCD0jC8YB+hs=j-bA@mail.gmail.com>
- <YcL20/7ddWTsdIuQ@kroah.com>
-In-Reply-To: <YcL20/7ddWTsdIuQ@kroah.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Wed, 22 Dec 2021 11:10:17 +0100
-Message-ID: <CAKXUXMyAa0RExrEXO1RVV+Lh-60RdO+4+pgE1PmEik9PRzypPQ@mail.gmail.com>
-Subject: Re: Addition of config USB_HSIC_USB3613 soon?
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Johan Hovold <johan@kernel.org>, 
-	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 22, 2021 at 10:58 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Dec 22, 2021 at 10:54:41AM +0100, Lukas Bulwahn wrote:
-> > Dear Vaibhav, dear Johan, dear Alex, dear Greg,
-> >
-> > I have seen that the greybus arche driver has been under heavy
-> > development in 2016 and 2017 with some further clean-up in 2019.
-> >
-> > However, so far, the config GREYBUS_ARCHE for this driver still
-> > depends on the out-of-tree config USB_HSIC_USB3613, with a proper
-> > exception made for compile testing (with COMPILE_TEST).
-> >
-> > Will this USB_HSIC_USB3613 config and driver still be added in the
-> > mainline kernel in the near future, so that the config dependencies
-> > are consistent in mainline?
->
-> Do you have this hardware?  If so, we can add the driver, but given that
-> I did not think the chip ever actually shipped, it didn't make much
-> sense.
->
-> > Or, are the further out-of-tree additions still maintained for the
-> > current kernel and will stay out of tree? Is this arche driver not
-> > needed anymore and can be dropped?
->
-> Do you want to drop it as it is causing problems for you?  It's a good
-> example driver for those wanting to create a greybus host controller
-> driver so it's nice to have in the tree, unless you have a different one
-> that should be merged instead?
->
+This patchset splits my previous changes into individual patches to
+better conform to the contributing guidelines. I addressed issues with
+extra whitespaces, wrongly formatted if blocks, fixed order of variables
+in if comparisons and deleted the unused parts of the code as suggested
+by Pavel Skripkin <paskripkin@gmail.com>. Apologies for the previous
+mistakes.
 
-Greg, I just stumbled over this code due to some janitorial workwith
-./scripts/checkkconfigsymbols.py in the kernel repository and wondered
-if it is worth keeping this in the kernel tree. I do not have the
-hardware, nor do I need it and the driver code to it.
+Ismayil Mirzali (2):
+  staging: rtl8723bs: address style guide warnings
+  staging: rtl8723bs: removed unused if blocks
 
-Of course, the repository is full of other dead code*... so, if you
-know the current state of this driver, it just remains in staging, and
-is actually a good example for educational purposes, we are all fine
-:)
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 21 +++++++------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
-*... This is not a complaint, but my task description for me as kernel
-janitor to submit clean-up patches for the various places of the dead
-code.
+-- 
+2.25.1
 
-Thanks for your quick response,
-
-Lukas
