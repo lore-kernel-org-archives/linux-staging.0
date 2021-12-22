@@ -1,65 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EB22CA0
-	for <linux-staging@lists.linux.dev>; Wed, 22 Dec 2021 09:58:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD3C5C36AE8;
-	Wed, 22 Dec 2021 09:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1640167126;
-	bh=4Jbtx0sxV9eUary/KdEpdFh2LPUEDT9+q6duvRyEM3M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IldX2r97TCE1WX4R71Z6NObvVMPrG5wnqtdEYIZ3ukMQAQW2gpG8U5J8ikHJVEu/D
-	 /tB02O/QmMhYdfGSaZylcxZicU2OqDzkozPpFT+OxK2O83UCwro3anDPCdoTH+j5sW
-	 jY5mjqU6YFwpZ1U0MIzvqyG4oDM63KcExIcFsHqI=
-Date: Wed, 22 Dec 2021 10:58:43 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-staging@lists.linux.dev
-Subject: Re: Addition of config USB_HSIC_USB3613 soon?
-Message-ID: <YcL20/7ddWTsdIuQ@kroah.com>
-References: <CAKXUXMym0M1UNuNGUVpFr2yUwOwjkZ_sQpCD0jC8YB+hs=j-bA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552952CA0
+	for <linux-staging@lists.linux.dev>; Wed, 22 Dec 2021 10:10:29 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id v138so5091118ybb.8
+        for <linux-staging@lists.linux.dev>; Wed, 22 Dec 2021 02:10:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WD93X3OyN4cNksS3WzdLzMZDmKT4youItA9pASTKcKc=;
+        b=m2r0ykFzvLQzs5312dlDRpjSOXo0+WWDfp9ivUWagPUizhOp2QrzVdbfRgcovvdxM8
+         ZaZn8hkXZ6y5dH1iS0wpmEMAE40rswqjTuRiF+D5IBlL3lOG7v9QiyG2elSeGKIXT6+M
+         y2dvASo+6pcyzYY/L94UIjeyso1zXQNkZAEUo4Sr5/eUGsGCoX34eZjkpQJ8flhw76ss
+         wZbzLFDKHJUhYw/kSnnERn3cOxXikyV6xj9IIVpCplVdSMYrgyESLOcxYNpgycpVbUGr
+         LkXvMQnFLM7dodTFchFn7Ldi0OrqgKjBvCLue27bxv0W+M6W16mtbr2EPWtuzkk/0LLC
+         ivsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WD93X3OyN4cNksS3WzdLzMZDmKT4youItA9pASTKcKc=;
+        b=OrmawDEZLLL9a4C5d9VvU4bMQ5ZGG5GlKeDHFSpp6NqgN8F/8rcqXc0/IHliINEAOX
+         x8LUyxBYcMwIsAx95mDX1JySHX4Q4tZrp1TEIXzCwnvD3wXomAhBTxyzrxkpBAcTQIZi
+         KLj+36FPklCXKJC+hHI6EhCzIZ5U8Q3+DM/697yQeNoxYfABTXvj6oNX7XMXSQ7OqK1a
+         bCygqyvkPegSytbf935bJotvzRbqvarroTGqwnVAn2NeQyirs76qb4JuWDCWMCQkM/Gh
+         YXo4R0/Ga21hXKcFY6rVwE67e8JbPt1/7v7DmRPZALx41Vt9OblAgAmoM9pKN4BbvOql
+         Yhww==
+X-Gm-Message-State: AOAM531l6GfHYsaemPHj+ZUlVbKqA+p5vKoHMTkRvRQnLSG3xq8abQn/
+	tIwskAyH6/XNX7o4tM5aqtEanl6lXnuy+fEYMsJxRy021sg=
+X-Google-Smtp-Source: ABdhPJzgoS9gFYIDd1l8xex1e/RnV0TW7nPju+EzGvlG7g2PdPAi/NYAxac/XCO9lYL+vMSFYsBOaIdRsNxrQZKj1Qo=
+X-Received: by 2002:a25:dfd1:: with SMTP id w200mr3227618ybg.359.1640167828349;
+ Wed, 22 Dec 2021 02:10:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKXUXMym0M1UNuNGUVpFr2yUwOwjkZ_sQpCD0jC8YB+hs=j-bA@mail.gmail.com>
+References: <CAKXUXMym0M1UNuNGUVpFr2yUwOwjkZ_sQpCD0jC8YB+hs=j-bA@mail.gmail.com>
+ <YcL20/7ddWTsdIuQ@kroah.com>
+In-Reply-To: <YcL20/7ddWTsdIuQ@kroah.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 22 Dec 2021 11:10:17 +0100
+Message-ID: <CAKXUXMyAa0RExrEXO1RVV+Lh-60RdO+4+pgE1PmEik9PRzypPQ@mail.gmail.com>
+Subject: Re: Addition of config USB_HSIC_USB3613 soon?
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Johan Hovold <johan@kernel.org>, 
+	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Dec 22, 2021 at 10:54:41AM +0100, Lukas Bulwahn wrote:
-> Dear Vaibhav, dear Johan, dear Alex, dear Greg,
-> 
-> I have seen that the greybus arche driver has been under heavy
-> development in 2016 and 2017 with some further clean-up in 2019.
-> 
-> However, so far, the config GREYBUS_ARCHE for this driver still
-> depends on the out-of-tree config USB_HSIC_USB3613, with a proper
-> exception made for compile testing (with COMPILE_TEST).
-> 
-> Will this USB_HSIC_USB3613 config and driver still be added in the
-> mainline kernel in the near future, so that the config dependencies
-> are consistent in mainline?
+On Wed, Dec 22, 2021 at 10:58 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Dec 22, 2021 at 10:54:41AM +0100, Lukas Bulwahn wrote:
+> > Dear Vaibhav, dear Johan, dear Alex, dear Greg,
+> >
+> > I have seen that the greybus arche driver has been under heavy
+> > development in 2016 and 2017 with some further clean-up in 2019.
+> >
+> > However, so far, the config GREYBUS_ARCHE for this driver still
+> > depends on the out-of-tree config USB_HSIC_USB3613, with a proper
+> > exception made for compile testing (with COMPILE_TEST).
+> >
+> > Will this USB_HSIC_USB3613 config and driver still be added in the
+> > mainline kernel in the near future, so that the config dependencies
+> > are consistent in mainline?
+>
+> Do you have this hardware?  If so, we can add the driver, but given that
+> I did not think the chip ever actually shipped, it didn't make much
+> sense.
+>
+> > Or, are the further out-of-tree additions still maintained for the
+> > current kernel and will stay out of tree? Is this arche driver not
+> > needed anymore and can be dropped?
+>
+> Do you want to drop it as it is causing problems for you?  It's a good
+> example driver for those wanting to create a greybus host controller
+> driver so it's nice to have in the tree, unless you have a different one
+> that should be merged instead?
+>
 
-Do you have this hardware?  If so, we can add the driver, but given that
-I did not think the chip ever actually shipped, it didn't make much
-sense.
+Greg, I just stumbled over this code due to some janitorial workwith
+./scripts/checkkconfigsymbols.py in the kernel repository and wondered
+if it is worth keeping this in the kernel tree. I do not have the
+hardware, nor do I need it and the driver code to it.
 
-> Or, are the further out-of-tree additions still maintained for the
-> current kernel and will stay out of tree? Is this arche driver not
-> needed anymore and can be dropped?
+Of course, the repository is full of other dead code*... so, if you
+know the current state of this driver, it just remains in staging, and
+is actually a good example for educational purposes, we are all fine
+:)
 
-Do you want to drop it as it is causing problems for you?  It's a good
-example driver for those wanting to create a greybus host controller
-driver so it's nice to have in the tree, unless you have a different one
-that should be merged instead?
+*... This is not a complaint, but my task description for me as kernel
+janitor to submit clean-up patches for the various places of the dead
+code.
 
-thanks,
+Thanks for your quick response,
 
-greg k-h
+Lukas
