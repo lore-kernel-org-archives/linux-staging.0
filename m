@@ -1,23 +1,53 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49B6A2C9D
-	for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 09:09:30 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.126])
-	by APP-01 (Coremail) with SMTP id qwCowABnbp7pjMVhX9gFBQ--.25613S2;
-	Fri, 24 Dec 2021 17:03:37 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294122C82
+	for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 12:11:16 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id gj24so7570591pjb.0
+        for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 04:11:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eLRsIPs2YlObaX94PJ2gtnsp2s66ALN3C2c1+XvIaAA=;
+        b=LJDZsQ7rVTVbdZzMSvllJ2ILUIgHVKV2b9P1Y/Mu2j80ULnPrnUK3JeUbwPS/Bo8Cs
+         wcoAoVpLTbdRDa0y4R/K6K30413Ox9cEJmzgkVfBNhdhVW6Xs9+Ho7VvfCqjEvFGD1i+
+         3cXZuuW6AnPAABGURM3oUdSWb2M9M4qTEKsUNla7OSy5xF2IbfoRQdWDtAnx2OtZoqci
+         SzWihexL6btxoBM+r9TpWYviAJoqW8VB7X8tWE43NmxlXBa9saD/z/+f3hfq4nG1umFS
+         zZ396rYVT3LntD6rP0+fl6csSIoY9Rs4xDZpMIC/Hv+QW77NRj2+5xCI8sldGMB9YBjv
+         fm7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eLRsIPs2YlObaX94PJ2gtnsp2s66ALN3C2c1+XvIaAA=;
+        b=6636aftOaAA6g2wCQQuahdT+VxdRwTxnxoL4eToCbklWUuYvBiQYI9kb+qTV8i63PZ
+         WDkSiwbnJqYN6IY5NcRKuul+96KoCLHvtJHDg+IO1r5WeTYl8/UrSwmwr9E/zanudHi9
+         taUi0iw1keNMP2CPRXeJwjZXgafF+eHTWUOoVcHtUJuAcxm/klXLGAO9wpYCBi35PM/u
+         s/CHubW58zK4r+P8E9WYEU6F6bZRadgQeBwf4GVwM6bGNMyQE/qxZosxsqLv3xmRIkj+
+         b37jrop9Ev05WNNYwQ17FGRAOo8QuUHKCNeLe8B9dAzS5AU9h8YMnvye5VpdjIyh2D7l
+         Dwwg==
+X-Gm-Message-State: AOAM532bqyBX6uqoe1u+E+SwUXdxJsvjvc0hZRgZFdwRuctWtKTeZuKS
+	fJ88vcezY1HC/F1xe6x7KdQ=
+X-Google-Smtp-Source: ABdhPJwVKis/iBpumb86o3yaM2fzVdi4PSkxzjKNzY2lHBVVSiauCuKydNExi9UYyvL2yFd3o0OL1Q==
+X-Received: by 2002:a17:902:8a84:b0:148:a2f7:9d8d with SMTP id p4-20020a1709028a8400b00148a2f79d8dmr6374310plo.172.1640347875602;
+        Fri, 24 Dec 2021 04:11:15 -0800 (PST)
+Received: from localhost.localdomain ([122.164.161.127])
+        by smtp.googlemail.com with ESMTPSA id h17sm3729047pfv.217.2021.12.24.04.11.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Dec 2021 04:11:14 -0800 (PST)
+From: Abdun Nihaal <abdun.nihaal@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	abdun.nihaal@gmail.com,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH] staging: greybus: audio: Check null pointer
-Date: Fri, 24 Dec 2021 17:03:36 +0800
-Message-Id: <20211224090336.1612305-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: include variable declarations from Hal8188EPwrSeq.h
+Date: Fri, 24 Dec 2021 17:40:43 +0530
+Message-Id: <20211224121043.175650-1-abdun.nihaal@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -25,99 +55,37 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABnbp7pjMVhX9gFBQ--.25613S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAFy5ZF1kJrW7Jw4rtr13Jwb_yoW5Xw1fpF
-	sYkr9Iyr4UJasI9Fs7Ars5Z3ZxZ34kKFWUK3y7Ww45ZrsIqrW093W3KryYvFn8Wr18Jw4F
-	ya10vrW5A3Wqqr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8uwCF
-	04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
-	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-	1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAI
-	cVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU4BT5UUUUU=
-X-Originating-IP: [124.16.138.126]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
-As the possible alloc failure of devm_kcalloc, it could return null
-pointer.
-To prevent the dereference of the null pointer, it should be checked.
+Variable declarations of rtl8188E_power_on_flow, rtl8188E_card_disable_flow
+and rtl8188E_enter_lps_flow are present in Hal8188EPwrSeq.h.
 
-Fixes: e65579e335da ("greybus: audio: topology: Enable enumerated control support")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+A previous commit changed Hal8188EPwrSeq.c to include HalPwrSeqCmd.h
+directly instead of Hal8188EPwrSeq.h, causing these sparse warnings:
+- symbol 'rtl8188E_power_on_flow' was not declared. Should it be static?
+- symbol 'rtl8188E_card_disable_flow' was not declared.Should it be static?
+- symbol 'rtl8188E_enter_lps_flow' was not declared. Should it be static?
+
+This patch reverts the include line to include the declarations.
+
+Fixes: 4f458ec5f497 ("staging: r8188: move the steps into Hal8188EPwrSeq.c")
+Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
 ---
- drivers/staging/greybus/audio_topology.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
-index 1fc7727ab7be..e9f47a1f0d28 100644
---- a/drivers/staging/greybus/audio_topology.c
-+++ b/drivers/staging/greybus/audio_topology.c
-@@ -146,7 +146,11 @@ static const char **gb_generate_enum_strings(struct gbaudio_module_info *gb,
- 	__u8 *data;
+diff --git a/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c b/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
+index 566a1701302c..6505e1fcb070 100644
+--- a/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
++++ b/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /* Copyright(c) 2007 - 2011 Realtek Corporation. */
  
- 	items = le32_to_cpu(gbenum->items);
-+
- 	strings = devm_kcalloc(gb->dev, items, sizeof(char *), GFP_KERNEL);
-+	if (!strings)
-+		return NULL;
-+
- 	data = gbenum->names;
+-#include "../include/HalPwrSeqCmd.h"
++#include "../include/Hal8188EPwrSeq.h"
+ #include "../include/rtl8188e_hal.h"
  
- 	for (i = 0; i < items; i++) {
-@@ -654,7 +658,10 @@ static int gbaudio_tplg_create_enum_kctl(struct gbaudio_module_info *gb,
- 
- 	/* since count=1, and reg is dummy */
- 	gbe->items = le32_to_cpu(gb_enum->items);
-+
- 	gbe->texts = gb_generate_enum_strings(gb, gb_enum);
-+	if (!gbe->texts)
-+		return -ENOMEM;
- 
- 	/* debug enum info */
- 	dev_dbg(gb->dev, "Max:%d, name_length:%d\n", gbe->items,
-@@ -861,7 +868,10 @@ static int gbaudio_tplg_create_enum_ctl(struct gbaudio_module_info *gb,
- 
- 	/* since count=1, and reg is dummy */
- 	gbe->items = le32_to_cpu(gb_enum->items);
-+
- 	gbe->texts = gb_generate_enum_strings(gb, gb_enum);
-+	if (!gbe->texts)
-+		return -ENOMEM;
- 
- 	/* debug enum info */
- 	dev_dbg(gb->dev, "Max:%d, name_length:%d\n", gbe->items,
-@@ -1032,8 +1042,12 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
- 			csize += offsetof(struct gb_audio_ctl_elem_info, value);
- 			csize += offsetof(struct gb_audio_enumerated, names);
- 			csize += le16_to_cpu(gbenum->names_length);
-+
- 			control->texts = (const char * const *)
- 				gb_generate_enum_strings(module, gbenum);
-+			if (!control->texts)
-+				return -ENOMEM;
-+
- 			control->items = le32_to_cpu(gbenum->items);
- 		} else {
- 			csize = sizeof(struct gb_audio_control);
-@@ -1181,8 +1195,12 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
- 			csize += offsetof(struct gb_audio_ctl_elem_info, value);
- 			csize += offsetof(struct gb_audio_enumerated, names);
- 			csize += le16_to_cpu(gbenum->names_length);
-+
- 			control->texts = (const char * const *)
- 				gb_generate_enum_strings(module, gbenum);
-+			if (!control->texts)
-+				return -ENOMEM;
-+
- 			control->items = le32_to_cpu(gbenum->items);
- 		} else {
- 			csize = sizeof(struct gb_audio_control);
+ struct wl_pwr_cfg rtl8188E_power_on_flow[] = {
 -- 
-2.25.1
+2.34.1
 
