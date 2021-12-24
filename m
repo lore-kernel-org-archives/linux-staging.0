@@ -1,38 +1,38 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BE62C9D
-	for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 08:43:17 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id j13so6238141plx.4
-        for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 00:43:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCC12C9D
+	for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 08:43:19 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id f18-20020a17090aa79200b001ad9cb23022so7871793pjq.4
+        for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 00:43:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5DsPt2zNbbtIU1NI6wS2ot/7njOz7ta1uGVnZDlkFWM=;
-        b=odTBL+Ss8EO5+U+uct7LVs0Pve7LC5QfIaNtLt32WSB6piHr9KdMp+/19pIllXd9zp
-         qqullEMewlissvvB5beEXjBRmG2GkmKb3xVskbcX0xeGcFDFxH/jBcSZjCxpNSoOWql/
-         Fi8hQhJE9K1K3FUT6DUkN00QUE0FjpE0lFVRk=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=mlbvlnlc5ECOuwY+fmdHWmlq/HvKa+/AWyi6jrBEyVk=;
+        b=QUpeyU4ozzEExZYC53GPCIo345mlX3Up0uMIXU9ol7Y3xE97WX6Yps8UrzK/bu8zwf
+         GDUjygz/zZAJ8SuoQ0g9WTSASjDii+9Pn+4W6GvfpVSQ3btRM/LEpIT1nR6RbX0X4cfL
+         zD5wOCoJ5KNixvc+PVlf52w8CTdudb5xD648c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5DsPt2zNbbtIU1NI6wS2ot/7njOz7ta1uGVnZDlkFWM=;
-        b=o16UhYAlSj2M1HDjSPo9eP5Nmtio7/Nd8OpjExsMdyRgQpy8ZDQ4ta2g1SPk/Is6YG
-         aR+AnuGA2j5wwMjn7/WUP+A15WEncDhImb3WdEzTqwKSgPYS5lnuB+gqHrZD5TtkSXkt
-         InLcYyidRysWNDTdG2diDzSD+BnMOpWqmXhu+8fyPJX4wbxvm8irvqxTxXThedc6MEG/
-         MQgqRV/3uYWM1XY0hUIHnQ3NOI7pKltJGkMnwEEwDDeNwLRcH23F6HUHzJXY5om19LA6
-         mL8WgG4jBM/AnJAJ4DWBaoWQeleHFm0H2A80kfoOcIvME88tpTz3yfYAe1/2RY6/Xf7l
-         6bjg==
-X-Gm-Message-State: AOAM530OpaX00hwO3QreF1h1BJ7XP3Dlu7VVaoaILt3ajPRcbJ4ormGo
-	kozDS6FE4Hjm5t9HMMFu1c43CA==
-X-Google-Smtp-Source: ABdhPJyPRMLCBGrr/ppBW8e99WjUWf52RcTgYPg35ndZ15IoYOS+iG4iZ/CRCFWBrFVNLgJvmIUWlg==
-X-Received: by 2002:a17:902:bd44:b0:148:a2f7:9d85 with SMTP id b4-20020a170902bd4400b00148a2f79d85mr5795145plx.164.1640335397029;
-        Fri, 24 Dec 2021 00:43:17 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=mlbvlnlc5ECOuwY+fmdHWmlq/HvKa+/AWyi6jrBEyVk=;
+        b=dPPFOX/bh0iKwPKxHSEkLnvj9SRAoLrG1RExnrM0nuHvkWTYaSL4TI9Y2oITwTWsl1
+         Z8Rk5MtQGfiwX4gsK+P+Bvm1cRaK1vXsdLqLTMoNwkIxlUhw1Mh9B6TSSertZFJvbXc7
+         d2zaM0fL/4QbtrLCQZzh1GfPzuZeORteVWE2ots29doqGzvB1VzElRL92mchm82upuxh
+         F/tEKYNkVi7eUFJiF0th3UeMWYCd6B+N4W8dQ4RZcHhMSYQyuqE1bVzvDuENArAvhDY5
+         W/JPQvg0QSqPTuPr4WfoZqoN/xSJCOiq3XQt+6qQrM2IeAZr5oqZpyFcu7xjJ4DEGaaH
+         t8YQ==
+X-Gm-Message-State: AOAM530Ex9FAiWTVEXWfdiEtyciOMh+euyOeL4G/bNWqPsW2knOpWuCO
+	+UoGWrr7eLx2WimXXGL0iQO0Pw==
+X-Google-Smtp-Source: ABdhPJz+m1CkCeHpGL1ORDi92M2Qxm8IPKb08iVIJbZZGhbQv7LRalwXM/qB2WNnXDeTOo0535Idqg==
+X-Received: by 2002:a17:902:8346:b0:148:b843:751a with SMTP id z6-20020a170902834600b00148b843751amr5940338pln.141.1640335399358;
+        Fri, 24 Dec 2021 00:43:19 -0800 (PST)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:fd40:cbd0:c42a:3c26])
-        by smtp.gmail.com with ESMTPSA id p13sm436369pgl.23.2021.12.24.00.43.14
+        by smtp.gmail.com with ESMTPSA id p13sm436369pgl.23.2021.12.24.00.43.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Dec 2021 00:43:16 -0800 (PST)
+        Fri, 24 Dec 2021 00:43:19 -0800 (PST)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -45,10 +45,12 @@ Cc: Tomasz Figa <tfiga@chromium.org>,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RFT 0/7] media: hantro: jpeg: Various improvements
-Date: Fri, 24 Dec 2021 16:42:41 +0800
-Message-Id: <20211224084248.3070568-1-wenst@chromium.org>
+Subject: [PATCH RFT 1/7] media: hantro: jpeg: Relax register writes before write starting hardware
+Date: Fri, 24 Dec 2021 16:42:42 +0800
+Message-Id: <20211224084248.3070568-2-wenst@chromium.org>
 X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
+In-Reply-To: <20211224084248.3070568-1-wenst@chromium.org>
+References: <20211224084248.3070568-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,75 +59,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi everyone,
+In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
+wmb() was inserted before the final register write that starts the
+encoder. In v11, it was removed and the second-to-last register write
+was changed to a non-relaxed write, which has an implicit wmb() [1].
+The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
+is another writel_relaxed() following the non-relaxed one.
 
-Here are some improvements to the Hantro JPEG encoder driver. This
-finishes two of the TODO items.
+Turns out only the last writel() needs to be non-relaxed. Device I/O
+mappings already guarantee strict ordering to the same endpoint, and
+the writel() triggering the hardware would force all writes to memory
+to be observed before the writel() to the hardware is observed.
 
-Patch 1 cleans up the final register write sequence in the JPEG encoder
-driver. This particular bit was a bit confusing and hard to understand
-given the lack of context around the original wmb(). Was it used to
-force all the register writes to finish or to make sure memory writes
-were completed? In the end I stuck with what the other hantro decoders
-were doing.
+[1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
 
-Patch 2 fixes a misleading register name.
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+ drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
+ drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-Patch 3 implements cropping on the output queue with the selection API
-for the JPEG encoder. This allows specifying the visible area slightly
-smaller than the macroblock-aligned coded size. This bit can be reused
-by other stateless encoders once they are implemented.
-
-Patch 4 adds a JFIF APP0 segment to the JPEG encoder output.
-
-Patch 5 adds a COM segment to the JPEG encoder output. This is used to
-align the SOS segment payload area.
-
-Patch 6 implements the V4L2_CID_JPEG_ACTIVE_MARKER control. This is only
-used to signal the segments added to userspace. The driver ignores any
-changes requested.
-
-Patch 7 lets the encoder output directly into the capture buffer,
-getting rid of the DMA bounce buffer.
-
-
-Please have a look and test. I only tested this on the RK3399 with
-gstreamer. The H1 variant is untested by me.
-
-To test the selection API bits with gstreamer, the v4l2videoenc plugin
-needs to be patched. A gst_v4l2_object_set_crop() call should be
-inserted after gst_v4l2_object_set_format() in
-gst_v4l2_video_enc_set_format().
-
-
-Regards
-ChenYu
-
-
-Chen-Yu Tsai (7):
-  media: hantro: jpeg: Relax register writes before write starting
-    hardware
-  media: hantro: Fix overfill bottom register field name
-  media: hantro: Support cropping visible area for encoders
-  media: hantro: jpeg: Add JFIF APP0 segment to JPEG encoder output
-  media: hantro: jpeg: Add COM segment to JPEG header to align image
-    scan
-  media: hantro: Implement V4L2_CID_JPEG_ACTIVE_MARKER control
-  media: hantro: output encoded JPEG content directly to capture buffers
-
- drivers/staging/media/hantro/TODO             |  7 --
- drivers/staging/media/hantro/hantro.h         |  1 -
- drivers/staging/media/hantro/hantro_drv.c     | 51 ++++++++----
- .../staging/media/hantro/hantro_h1_jpeg_enc.c | 44 ++++++-----
- drivers/staging/media/hantro/hantro_h1_regs.h |  2 +-
- drivers/staging/media/hantro/hantro_hw.h      | 11 ---
- drivers/staging/media/hantro/hantro_jpeg.c    | 51 ++++--------
- drivers/staging/media/hantro/hantro_jpeg.h    |  2 +-
- drivers/staging/media/hantro/hantro_v4l2.c    | 77 +++++++++++++++++++
- .../media/hantro/rockchip_vpu2_hw_jpeg_enc.c  | 47 ++++++-----
- .../staging/media/hantro/rockchip_vpu_hw.c    |  6 --
- 11 files changed, 186 insertions(+), 113 deletions(-)
-
+diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+index 1450013d3685..03db1c3444f8 100644
+--- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
++++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+@@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+ 		| H1_REG_AXI_CTRL_INPUT_SWAP32
+ 		| H1_REG_AXI_CTRL_OUTPUT_SWAP8
+ 		| H1_REG_AXI_CTRL_INPUT_SWAP8;
+-	/* Make sure that all registers are written at this point. */
+-	vepu_write(vpu, reg, H1_REG_AXI_CTRL);
++	vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
+ 
+ 	reg = H1_REG_ENC_CTRL_WIDTH(MB_WIDTH(ctx->src_fmt.width))
+ 		| H1_REG_ENC_CTRL_HEIGHT(MB_HEIGHT(ctx->src_fmt.height))
+diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+index 4df16f59fb97..b931fc5fa1a9 100644
+--- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
++++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+@@ -152,8 +152,7 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
+ 		| VEPU_REG_INPUT_SWAP8
+ 		| VEPU_REG_INPUT_SWAP16
+ 		| VEPU_REG_INPUT_SWAP32;
+-	/* Make sure that all registers are written at this point. */
+-	vepu_write(vpu, reg, VEPU_REG_DATA_ENDIAN);
++	vepu_write_relaxed(vpu, reg, VEPU_REG_DATA_ENDIAN);
+ 
+ 	reg = VEPU_REG_AXI_CTRL_BURST_LEN(16);
+ 	vepu_write_relaxed(vpu, reg, VEPU_REG_AXI_CTRL);
 -- 
 2.34.1.448.ga2b2bfdf31-goog
 
