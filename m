@@ -1,91 +1,89 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294122C82
-	for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 12:11:16 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id gj24so7570591pjb.0
-        for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 04:11:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eLRsIPs2YlObaX94PJ2gtnsp2s66ALN3C2c1+XvIaAA=;
-        b=LJDZsQ7rVTVbdZzMSvllJ2ILUIgHVKV2b9P1Y/Mu2j80ULnPrnUK3JeUbwPS/Bo8Cs
-         wcoAoVpLTbdRDa0y4R/K6K30413Ox9cEJmzgkVfBNhdhVW6Xs9+Ho7VvfCqjEvFGD1i+
-         3cXZuuW6AnPAABGURM3oUdSWb2M9M4qTEKsUNla7OSy5xF2IbfoRQdWDtAnx2OtZoqci
-         SzWihexL6btxoBM+r9TpWYviAJoqW8VB7X8tWE43NmxlXBa9saD/z/+f3hfq4nG1umFS
-         zZ396rYVT3LntD6rP0+fl6csSIoY9Rs4xDZpMIC/Hv+QW77NRj2+5xCI8sldGMB9YBjv
-         fm7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eLRsIPs2YlObaX94PJ2gtnsp2s66ALN3C2c1+XvIaAA=;
-        b=6636aftOaAA6g2wCQQuahdT+VxdRwTxnxoL4eToCbklWUuYvBiQYI9kb+qTV8i63PZ
-         WDkSiwbnJqYN6IY5NcRKuul+96KoCLHvtJHDg+IO1r5WeTYl8/UrSwmwr9E/zanudHi9
-         taUi0iw1keNMP2CPRXeJwjZXgafF+eHTWUOoVcHtUJuAcxm/klXLGAO9wpYCBi35PM/u
-         s/CHubW58zK4r+P8E9WYEU6F6bZRadgQeBwf4GVwM6bGNMyQE/qxZosxsqLv3xmRIkj+
-         b37jrop9Ev05WNNYwQ17FGRAOo8QuUHKCNeLe8B9dAzS5AU9h8YMnvye5VpdjIyh2D7l
-         Dwwg==
-X-Gm-Message-State: AOAM532bqyBX6uqoe1u+E+SwUXdxJsvjvc0hZRgZFdwRuctWtKTeZuKS
-	fJ88vcezY1HC/F1xe6x7KdQ=
-X-Google-Smtp-Source: ABdhPJwVKis/iBpumb86o3yaM2fzVdi4PSkxzjKNzY2lHBVVSiauCuKydNExi9UYyvL2yFd3o0OL1Q==
-X-Received: by 2002:a17:902:8a84:b0:148:a2f7:9d8d with SMTP id p4-20020a1709028a8400b00148a2f79d8dmr6374310plo.172.1640347875602;
-        Fri, 24 Dec 2021 04:11:15 -0800 (PST)
-Received: from localhost.localdomain ([122.164.161.127])
-        by smtp.googlemail.com with ESMTPSA id h17sm3729047pfv.217.2021.12.24.04.11.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Dec 2021 04:11:14 -0800 (PST)
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	abdun.nihaal@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: include variable declarations from Hal8188EPwrSeq.h
-Date: Fri, 24 Dec 2021 17:40:43 +0530
-Message-Id: <20211224121043.175650-1-abdun.nihaal@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44CA329CA
+	for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 16:18:53 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.88,232,1635174000"; 
+   d="scan'208";a="104628883"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 25 Dec 2021 01:13:45 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 43A8D4018924;
+	Sat, 25 Dec 2021 01:13:44 +0900 (JST)
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: axis-fifo: Use platform_get_irq() to get the interrupt
+Date: Fri, 24 Dec 2021 16:13:34 +0000
+Message-Id: <20211224161334.31123-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20211224161334.31123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20211224161334.31123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Variable declarations of rtl8188E_power_on_flow, rtl8188E_card_disable_flow
-and rtl8188E_enter_lps_flow are present in Hal8188EPwrSeq.h.
+platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
+allocation of IRQ resources in DT core code, this causes an issue
+when using hierarchical interrupt domains using "interrupts" property
+in the node as this bypasses the hierarchical setup and messes up the
+irq chaining.
 
-A previous commit changed Hal8188EPwrSeq.c to include HalPwrSeqCmd.h
-directly instead of Hal8188EPwrSeq.h, causing these sparse warnings:
-- symbol 'rtl8188E_power_on_flow' was not declared. Should it be static?
-- symbol 'rtl8188E_card_disable_flow' was not declared.Should it be static?
-- symbol 'rtl8188E_enter_lps_flow' was not declared. Should it be static?
+In preparation for removal of static setup of IRQ resource from DT core
+code use platform_get_irq().
 
-This patch reverts the include line to include the declarations.
-
-Fixes: 4f458ec5f497 ("staging: r8188: move the steps into Hal8188EPwrSeq.c")
-Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c b/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
-index 566a1701302c..6505e1fcb070 100644
---- a/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
-+++ b/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- /* Copyright(c) 2007 - 2011 Realtek Corporation. */
+Dropping usage of platform_get_resource() was agreed based on
+the discussion [0].
+
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/
+patch/20211209001056.29774-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Cheers,
+Prabhakar
+---
+ drivers/staging/axis-fifo/axis-fifo.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 632f140dddbc..dfd2b357f484 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -809,7 +809,6 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
  
--#include "../include/HalPwrSeqCmd.h"
-+#include "../include/Hal8188EPwrSeq.h"
- #include "../include/rtl8188e_hal.h"
+ static int axis_fifo_probe(struct platform_device *pdev)
+ {
+-	struct resource *r_irq; /* interrupt resources */
+ 	struct resource *r_mem; /* IO mem resources */
+ 	struct device *dev = &pdev->dev; /* OS device (from device tree) */
+ 	struct axis_fifo *fifo = NULL;
+@@ -882,16 +881,12 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	 */
  
- struct wl_pwr_cfg rtl8188E_power_on_flow[] = {
+ 	/* get IRQ resource */
+-	r_irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+-	if (!r_irq) {
+-		dev_err(fifo->dt_device, "no IRQ found for 0x%pa\n",
+-			&r_mem->start);
+-		rc = -EIO;
++	rc = platform_get_irq(pdev, 0);
++	if (rc < 0)
+ 		goto err_initial;
+-	}
+ 
+ 	/* request IRQ */
+-	fifo->irq = r_irq->start;
++	fifo->irq = rc;
+ 	rc = devm_request_irq(fifo->dt_device, fifo->irq, &axis_fifo_irq, 0,
+ 			      DRIVER_NAME, fifo);
+ 	if (rc) {
 -- 
-2.34.1
+2.17.1
 
