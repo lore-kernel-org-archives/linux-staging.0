@@ -1,89 +1,106 @@
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44CA329CA
-	for <linux-staging@lists.linux.dev>; Fri, 24 Dec 2021 16:18:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.88,232,1635174000"; 
-   d="scan'208";a="104628883"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 25 Dec 2021 01:13:45 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 43A8D4018924;
-	Sat, 25 Dec 2021 01:13:44 +0900 (JST)
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: axis-fifo: Use platform_get_irq() to get the interrupt
-Date: Fri, 24 Dec 2021 16:13:34 +0000
-Message-Id: <20211224161334.31123-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211224161334.31123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20211224161334.31123-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BD2173
+	for <linux-staging@lists.linux.dev>; Sat, 25 Dec 2021 17:10:10 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0V.j7Uhg_1640451878;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0V.j7Uhg_1640451878)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Sun, 26 Dec 2021 01:04:41 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH v4] staging: r8188eu: Use strndup_user instead of kmalloc/copy_from_user
+Date: Sun, 26 Dec 2021 01:04:36 +0800
+Message-Id: <20211225170436.111000-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-platform_get_resource(pdev, IORESOURCE_IRQ, ..) relies on static
-allocation of IRQ resources in DT core code, this causes an issue
-when using hierarchical interrupt domains using "interrupts" property
-in the node as this bypasses the hierarchical setup and messes up the
-irq chaining.
+This code assumes that the user is going to give us a NUL terminated
+string which is not necessarily true.
 
-In preparation for removal of static setup of IRQ resource from DT core
-code use platform_get_irq().
+Fix following coccicheck warning:
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+./drivers/staging/r8188eu/os_dep/ioctl_linux.c:4253:8-15: WARNING
+opportunity for memdup_user.
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
-Hi,
+Changes in v2:
+  -This function does nothing, so it should just be deleted entirely.
 
-Dropping usage of platform_get_resource() was agreed based on
-the discussion [0].
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 38 --------------------
+ 1 file changed, 38 deletions(-)
 
-[0] https://patchwork.kernel.org/project/linux-renesas-soc/
-patch/20211209001056.29774-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-
-Cheers,
-Prabhakar
----
- drivers/staging/axis-fifo/axis-fifo.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 632f140dddbc..dfd2b357f484 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -809,7 +809,6 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index e7f35143dfe1..518625730883 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -4229,43 +4229,6 @@ static int rtw_tdls_get(struct net_device *dev,
+ 	return 0;
+ }
  
- static int axis_fifo_probe(struct platform_device *pdev)
- {
--	struct resource *r_irq; /* interrupt resources */
- 	struct resource *r_mem; /* IO mem resources */
- 	struct device *dev = &pdev->dev; /* OS device (from device tree) */
- 	struct axis_fifo *fifo = NULL;
-@@ -882,16 +881,12 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 	 */
- 
- 	/* get IRQ resource */
--	r_irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
--	if (!r_irq) {
--		dev_err(fifo->dt_device, "no IRQ found for 0x%pa\n",
--			&r_mem->start);
--		rc = -EIO;
-+	rc = platform_get_irq(pdev, 0);
-+	if (rc < 0)
- 		goto err_initial;
+-static int rtw_test(
+-	struct net_device *dev,
+-	struct iw_request_info *info,
+-	union iwreq_data *wrqu, char *extra)
+-{
+-	u32 len;
+-	u8 *pbuf, *pch;
+-	char *ptmp;
+-	u8 *delim = ",";
+-
+-	DBG_88E("+%s\n", __func__);
+-	len = wrqu->data.length;
+-
+-	pbuf = kzalloc(len, GFP_KERNEL);
+-	if (!pbuf) {
+-		DBG_88E("%s: no memory!\n", __func__);
+-		return -ENOMEM;
 -	}
+-
+-	if (copy_from_user(pbuf, wrqu->data.pointer, len)) {
+-		kfree(pbuf);
+-		DBG_88E("%s: copy from user fail!\n", __func__);
+-		return -EFAULT;
+-	}
+-	DBG_88E("%s: string =\"%s\"\n", __func__, pbuf);
+-
+-	ptmp = (char *)pbuf;
+-	pch = strsep(&ptmp, delim);
+-	if (!pch || strlen(pch) == 0) {
+-		kfree(pbuf);
+-		DBG_88E("%s: parameter error(level 1)!\n", __func__);
+-		return -EFAULT;
+-	}
+-	kfree(pbuf);
+-	return 0;
+-}
+-
+ static iw_handler rtw_handlers[] = {
+ 	IW_HANDLER(SIOCGIWNAME, rtw_wx_get_name),
+ 	IW_HANDLER(SIOCGIWFREQ, rtw_wx_get_freq),
+@@ -4431,7 +4394,6 @@ NULL,					/* 0x03 */
+ 	NULL,				/* 0x1A */
+ 	NULL,				/* 0x1B */
+ 	NULL,				/*  0x1C is reserved for hostapd */
+-	rtw_test,			/*  0x1D */
+ };
  
- 	/* request IRQ */
--	fifo->irq = r_irq->start;
-+	fifo->irq = rc;
- 	rc = devm_request_irq(fifo->dt_device, fifo->irq, &axis_fifo_irq, 0,
- 			      DRIVER_NAME, fifo);
- 	if (rc) {
+ static struct iw_statistics *rtw_get_wireless_stats(struct net_device *dev)
 -- 
-2.17.1
+2.20.1.7.g153144c
 
