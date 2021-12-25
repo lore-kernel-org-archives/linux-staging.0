@@ -1,24 +1,56 @@
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BD2173
-	for <linux-staging@lists.linux.dev>; Sat, 25 Dec 2021 17:10:10 +0000 (UTC)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0V.j7Uhg_1640451878;
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0V.j7Uhg_1640451878)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Sun, 26 Dec 2021 01:04:41 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: Larry.Finger@lwfinger.net
-Cc: phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEDB173
+	for <linux-staging@lists.linux.dev>; Sat, 25 Dec 2021 17:35:06 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id bm14so44721071edb.5
+        for <linux-staging@lists.linux.dev>; Sat, 25 Dec 2021 09:35:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YgTnPIC9YP7wdodBdY0fSo9j7jZM6/evdbFzplwCYO0=;
+        b=genMatVYTiM84x5h3vOTjUgU3vXcIy8B17eW2WodptBO5iex7nBrazzcfUuK+p+r2H
+         PPs0xI/tZCm7uUehlhsuWpYSP1dzPZr3EANIoodRd8ZG6HDohYu+cZeFLqoKdXRi8IS8
+         wyA1nCpVgOlG5MC421Uxxjp1J5iOmPfksENNYS2HHnbPrkXT2C7clO7aUNr+p/27a6lI
+         7HpopZnrUvlCW/c1lrlHKg6L1Hv9EH7B/ALnL2YTeTf4PXWp1SAI/9I9jOmF/n8MFgfa
+         SbzOkno7Y932J5tm2v4QbeWXS+cBqaPD9AqQe93DyiN2AT6BQ/wR5TsBpZ9Kn2rvTQF1
+         YP1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YgTnPIC9YP7wdodBdY0fSo9j7jZM6/evdbFzplwCYO0=;
+        b=FnH5y8RtwIbimCxr8PIWiy4hryHNkPGrQaKYV2+sEyrH+kFQIgUCEkDuwqz16wjEya
+         F00uRmLnhCm4ALw1MS5jIfkdeuNOqV7NiITL1t7bztqsiDln0YAAW/8PpAqQEcMEmC4/
+         XZtvdqCfillMlDnAA6ofR1YFLmTy1TXShQhs6rVp92Yry+uX663kvJwnk4FlXyNPO111
+         A35zfWshE01+Ixb68W/KAg9Xf3CarLGbNJ9G+7n1ZBIsjyFtx9nYzCdFPQ5pG5U2Pk9F
+         xE0xEd/yC1Fj2pB2oOjT6T3CMsnaUCFgQKWKTKXHEa6WvMpZH5BdaihlyCw82x84Ir/q
+         jaTg==
+X-Gm-Message-State: AOAM533+v93s/qKcxnYmmE5Cd6NulBRKMAxTwZ1nlfBud83VQzgJkmET
+	cVHZ6C8+34xPbyPqE7oY38A=
+X-Google-Smtp-Source: ABdhPJy7+K89Yfy2APO+P/Soru9MTPkun8qF5b+pJCTKsObTEow/pIRzpUnqiJXunbDcTa/4ut+p0w==
+X-Received: by 2002:a05:6402:5112:: with SMTP id m18mr6085207edd.191.1640453704659;
+        Sat, 25 Dec 2021 09:35:04 -0800 (PST)
+Received: from tom-desktop.station (net-93-71-218-227.cust.vodafonedsl.it. [93.71.218.227])
+        by smtp.gmail.com with ESMTPSA id j5sm3596102ejo.177.2021.12.25.09.35.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Dec 2021 09:35:03 -0800 (PST)
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: 
+Cc: tomm.merciai@gmail.com,
+	linuxfancy@googlegroups.com,
+	Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Karolina Drobnik <karolinadrobnik@gmail.com>,
+	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH v4] staging: r8188eu: Use strndup_user instead of kmalloc/copy_from_user
-Date: Sun, 26 Dec 2021 01:04:36 +0800
-Message-Id: <20211225170436.111000-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] staging: vt6655: drop off byRxMode var in device.h
+Date: Sat, 25 Dec 2021 18:34:57 +0100
+Message-Id: <20211225173500.5459-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,80 +59,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This code assumes that the user is going to give us a NUL terminated
-string which is not necessarily true.
+Drop off unused variable byRxMode in device.h
 
-Fix following coccicheck warning:
-
-./drivers/staging/r8188eu/os_dep/ioctl_linux.c:4253:8-15: WARNING
-opportunity for memdup_user.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
 ---
-Changes in v2:
-  -This function does nothing, so it should just be deleted entirely.
+Changes since v1:
+ - Remove trailing whitespace in changelog as suggested by gregkh
 
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 38 --------------------
- 1 file changed, 38 deletions(-)
+Changes since v2:
+ - Fix commit body as suggested by gregkh
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index e7f35143dfe1..518625730883 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -4229,43 +4229,6 @@ static int rtw_tdls_get(struct net_device *dev,
- 	return 0;
- }
+ drivers/staging/vt6655/device.h | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 4706bde1ec1d..84b1dcf80e47 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -128,8 +128,6 @@ struct vnt_private {
+ 	u32                         memaddr;
+ 	u32                         ioaddr;
  
--static int rtw_test(
--	struct net_device *dev,
--	struct iw_request_info *info,
--	union iwreq_data *wrqu, char *extra)
--{
--	u32 len;
--	u8 *pbuf, *pch;
--	char *ptmp;
--	u8 *delim = ",";
+-	unsigned char byRxMode;
 -
--	DBG_88E("+%s\n", __func__);
--	len = wrqu->data.length;
--
--	pbuf = kzalloc(len, GFP_KERNEL);
--	if (!pbuf) {
--		DBG_88E("%s: no memory!\n", __func__);
--		return -ENOMEM;
--	}
--
--	if (copy_from_user(pbuf, wrqu->data.pointer, len)) {
--		kfree(pbuf);
--		DBG_88E("%s: copy from user fail!\n", __func__);
--		return -EFAULT;
--	}
--	DBG_88E("%s: string =\"%s\"\n", __func__, pbuf);
--
--	ptmp = (char *)pbuf;
--	pch = strsep(&ptmp, delim);
--	if (!pch || strlen(pch) == 0) {
--		kfree(pbuf);
--		DBG_88E("%s: parameter error(level 1)!\n", __func__);
--		return -EFAULT;
--	}
--	kfree(pbuf);
--	return 0;
--}
--
- static iw_handler rtw_handlers[] = {
- 	IW_HANDLER(SIOCGIWNAME, rtw_wx_get_name),
- 	IW_HANDLER(SIOCGIWFREQ, rtw_wx_get_freq),
-@@ -4431,7 +4394,6 @@ NULL,					/* 0x03 */
- 	NULL,				/* 0x1A */
- 	NULL,				/* 0x1B */
- 	NULL,				/*  0x1C is reserved for hostapd */
--	rtw_test,			/*  0x1D */
- };
+ 	spinlock_t                  lock;
  
- static struct iw_statistics *rtw_get_wireless_stats(struct net_device *dev)
+ 	volatile int                iTDUsed[TYPE_MAXTD];
 -- 
-2.20.1.7.g153144c
+2.25.1
 
