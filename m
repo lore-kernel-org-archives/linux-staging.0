@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5691168
-	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 20:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DCF2CA1
+	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 20:08:27 +0000 (UTC)
 Received: from dslb-188-097-047-111.188.097.pools.vodafone-ip.de ([188.97.47.111] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1n1Zcp-0000Fz-OW; Sun, 26 Dec 2021 20:56:11 +0100
+	id 1n1Zcn-0000Fz-MX; Sun, 26 Dec 2021 20:56:09 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -15,10 +15,11 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 03/21] staging: r8188eu: move (de)init functions from hal to rtw_led
-Date: Sun, 26 Dec 2021 20:55:38 +0100
-Message-Id: <20211226195556.159471-4-martin@kaiser.cx>
+	Martin Kaiser <martin@kaiser.cx>,
+	stable@vger.kernel.org
+Subject: [PATCH 01/21] staging: r8188eu: switch the led off during deinit
+Date: Sun, 26 Dec 2021 20:55:36 +0100
+Message-Id: <20211226195556.159471-2-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211226195556.159471-1-martin@kaiser.cx>
 References: <20211226195556.159471-1-martin@kaiser.cx>
@@ -30,172 +31,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the led init and deinit functions from the hal layer to rtw_led.c.
-rtl8188eu_led.c and rtl8188e_led.h can now be removed.
+When the driver is unloaded or when the system goes into standby mode,
+DeInitLed871x is called to stop the led layer. In this case, we stop
+the blinking worker but we do not switch the led off explicitly. On my
+system, I can go into standby mode with the LED enabled.
 
+Add a call to SwLedOff to fix this.
+
+Cc: stable@vger.kernel.org
+Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/Makefile              |  1 -
- drivers/staging/r8188eu/core/rtw_led.c        | 16 ++++++++++
- drivers/staging/r8188eu/hal/rtl8188eu_led.c   | 30 -------------------
- drivers/staging/r8188eu/hal/usb_halinit.c     |  1 -
- .../staging/r8188eu/include/rtl8188e_led.h    | 16 ----------
- drivers/staging/r8188eu/include/rtw_led.h     |  3 ++
- drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  2 +-
- drivers/staging/r8188eu/os_dep/os_intfs.c     |  2 +-
- 8 files changed, 21 insertions(+), 50 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/hal/rtl8188eu_led.c
- delete mode 100644 drivers/staging/r8188eu/include/rtl8188e_led.h
+ drivers/staging/r8188eu/core/rtw_led.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/r8188eu/Makefile b/drivers/staging/r8188eu/Makefile
-index 580b9308d566..5e1649491ef4 100644
---- a/drivers/staging/r8188eu/Makefile
-+++ b/drivers/staging/r8188eu/Makefile
-@@ -22,7 +22,6 @@ r8188eu-y = \
- 		hal/rtl8188e_rf6052.o \
- 		hal/rtl8188e_rxdesc.o \
- 		hal/rtl8188e_xmit.o \
--		hal/rtl8188eu_led.o \
- 		hal/rtl8188eu_recv.o \
- 		hal/rtl8188eu_xmit.o \
- 		hal/usb_halinit.o \
 diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-index 2e3a689fb2fd..50dabc3d2e29 100644
+index e1be1ba189cb..25fab7bce7dc 100644
 --- a/drivers/staging/r8188eu/core/rtw_led.c
 +++ b/drivers/staging/r8188eu/core/rtw_led.c
-@@ -417,6 +417,22 @@ void BlinkHandler(struct LED_871x *pLed)
- 	SwLedBlink1(pLed);
+@@ -41,6 +41,7 @@ void DeInitLed871x(struct LED_871x *pLed)
+ {
+ 	cancel_delayed_work_sync(&pLed->blink_work);
+ 	ResetLedStatus(pLed);
++	SwLedOff(pLed->padapter, pLed);
  }
  
-+void rtl8188eu_InitSwLeds(struct adapter *padapter)
-+{
-+	struct led_priv *pledpriv = &padapter->ledpriv;
-+
-+	pledpriv->LedControlHandler = LedControl8188eu;
-+
-+	InitLed871x(padapter, &pledpriv->SwLed0);
-+}
-+
-+void rtl8188eu_DeInitSwLeds(struct adapter *padapter)
-+{
-+	struct led_priv	*ledpriv = &padapter->ledpriv;
-+
-+	DeInitLed871x(&ledpriv->SwLed0);
-+}
-+
- void LedControl8188eu(struct adapter *padapter, enum LED_CTL_MODE LedAction)
- {
- 	struct led_priv *ledpriv = &padapter->ledpriv;
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_led.c b/drivers/staging/r8188eu/hal/rtl8188eu_led.c
-deleted file mode 100644
-index 46dd8c6703b7..000000000000
---- a/drivers/staging/r8188eu/hal/rtl8188eu_led.c
-+++ /dev/null
-@@ -1,30 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#include "../include/osdep_service.h"
--#include "../include/drv_types.h"
--#include "../include/rtl8188e_hal.h"
--#include "../include/rtl8188e_led.h"
--
--/*  Interface to manipulate LED objects. */
--/*  Default LED behavior. */
--
--/*	Description: */
--/*		Initialize all LED_871x objects. */
--void rtl8188eu_InitSwLeds(struct adapter *padapter)
--{
--	struct led_priv *pledpriv = &padapter->ledpriv;
--
--	pledpriv->LedControlHandler = LedControl8188eu;
--
--	InitLed871x(padapter, &pledpriv->SwLed0);
--}
--
--/*	Description: */
--/*		DeInitialize all LED_819xUsb objects. */
--void rtl8188eu_DeInitSwLeds(struct adapter *padapter)
--{
--	struct led_priv	*ledpriv = &padapter->ledpriv;
--
--	DeInitLed871x(&ledpriv->SwLed0);
--}
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 9edde72aebb2..293a616eabc6 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -8,7 +8,6 @@
- #include "../include/rtw_efuse.h"
- 
- #include "../include/rtl8188e_hal.h"
--#include "../include/rtl8188e_led.h"
- #include "../include/rtw_iol.h"
- #include "../include/usb_ops.h"
- #include "../include/usb_osintf.h"
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_led.h b/drivers/staging/r8188eu/include/rtl8188e_led.h
-deleted file mode 100644
-index 02cdc970bb17..000000000000
---- a/drivers/staging/r8188eu/include/rtl8188e_led.h
-+++ /dev/null
-@@ -1,16 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#ifndef __RTL8188E_LED_H__
--#define __RTL8188E_LED_H__
--
--#include "osdep_service.h"
--#include "drv_types.h"
--
--/*  */
--/*  Interface to manipulate LED objects. */
--/*  */
--void rtl8188eu_InitSwLeds(struct adapter *padapter);
--void rtl8188eu_DeInitSwLeds(struct adapter *padapter);
--
--#endif
-diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
-index 37f1dbc111f1..d4ba5ac3e48a 100644
---- a/drivers/staging/r8188eu/include/rtw_led.h
-+++ b/drivers/staging/r8188eu/include/rtw_led.h
-@@ -107,6 +107,9 @@ void ResetLedStatus(struct LED_871x * pLed);
- void InitLed871x(struct adapter *padapter, struct LED_871x *pLed);
- void DeInitLed871x(struct LED_871x *pLed);
- 
-+void rtl8188eu_InitSwLeds(struct adapter *padapter);
-+void rtl8188eu_DeInitSwLeds(struct adapter *padapter);
-+
- void BlinkHandler(struct LED_871x * pLed);
- 
- #endif /* __RTW_LED_H_ */
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index e7f35143dfe1..88e9734b3094 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -12,7 +12,7 @@
- #include "../include/rtw_ioctl_set.h"
- #include "../include/usb_ops.h"
- #include "../include/rtl8188e_hal.h"
--#include "../include/rtl8188e_led.h"
-+#include "../include/rtw_led.h"
- 
- #include "../include/rtw_iol.h"
- 
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index ad20ab12ee8c..f81e26785d66 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -11,7 +11,7 @@
- #include "../include/rtw_ioctl.h"
- #include "../include/usb_osintf.h"
- #include "../include/rtw_br_ext.h"
--#include "../include/rtl8188e_led.h"
-+#include "../include/rtw_led.h"
- #include "../include/rtl8188e_dm.h"
- 
- MODULE_LICENSE("GPL");
+ static void SwLedBlink1(struct LED_871x *pLed)
 -- 
 2.30.2
 
