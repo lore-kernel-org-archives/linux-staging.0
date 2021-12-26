@@ -1,57 +1,52 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5897B29CA
-	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 16:47:12 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id s15so11848750pfk.6
-        for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 08:47:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2ADC168
+	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 18:42:23 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id t26so28332730wrb.4
+        for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 10:42:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ansSlz8HDsJB8ecrOJ3F72s+yUKx5QSDGORnGt8rLcg=;
-        b=LTMafr+N1w+Gnu1qx/mswRZsY++dpxOT1v/3jtQOnzAAiDCVlm/Rw9C5qFtLrEo9Uh
-         YNOk1Gz8KnuYJMLKjFi1VLkduP63K7hhYL7Z7UZQVKp6qxTjhimXCRa0PaX7qcpTa83R
-         Qvg9K/MGDoE/KfTydpyETWdLQNfEaMWM3ZuwHC7mvxPG9qjJpyDERY+7jNT1a/1FRcsc
-         qXCsj0C7huUmVT0KTMF0q1+vWYopFY0zokA0aiPW4Ssf7WE3Fk8DEgvJoQZxtOCGO9IB
-         AQa2U6iY3ToVdFXfCszXz58sXKC4+0+lK79tnh4fzAtgSW+oenucTm9er+ZxMDsWqNHf
-         3gwg==
+        bh=j1aFnyHFUtPdBZotM5iBED56xT2FvKcAtJi+DzbG5wA=;
+        b=KdpXsUBvXceMlS3BbbivfGX38reWvw/ataU6adl3aWWSdA0MMAeYpnG/EgMZ6+vdUj
+         D3HZgQF/Vd2gcjsGO77PDmV5n8e5xQKImGcwlcDDg5EvQNVDH3KIbHD7DdYRuiGDpFql
+         1yVswVelaXTskyge3EfGoOQy3NA/lapbL5zCiBz26ycww8I5xpSMZHG/zPGt6Pj2fnYy
+         Mbo2Wxa2gH0gyP7hfhzoT34KtMZ9Eg8A/Sc9qEA2qz1oIsvoKONcj75J+NBHOmy3+Bvi
+         Lp2S2+cE9RdTRwDMR1c/gbscYQbR21JD0pwtnow/a0Dqs9fbVAbHndoSyP+cb2etQTL9
+         bPpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ansSlz8HDsJB8ecrOJ3F72s+yUKx5QSDGORnGt8rLcg=;
-        b=rPP/zoxo3FMgDnFlmlq7Y8hj+laehsDZuj1emeV8rW8Rf3Lb7t24xZKhti4BK4YGUF
-         AiuakOW7cEXBLLoG0WEUcU9/iy4KY+oo4FztWzOfJSx/7hzQEvqMDmnjvHONhg3luiE4
-         OiJFH7FbT8BPI0rNIwX/9IflwQkc89NSHl2sSY+S4GSLiMFiY6nuOiKG19hskrIe8hMl
-         BR93CW9XWP624cbk3oWyhRgmDkG7IBEYwQpWIkz7HKqxC7yBd3fJAD3NBhVs533R7YcS
-         qFaDS6nI308R4Pj6fXp91u1z7H0PaskTUp/tI8p5jcJgD6UVvnbQEvWmTmqubuNlGHAk
-         j+Yw==
-X-Gm-Message-State: AOAM532W57fA4L4zEU1mRFf6y9VYyACrjJRS+vbMmZpOZEalAl2EG1V1
-	oeqcCOmkC1LkSoUR2pK/+yc=
-X-Google-Smtp-Source: ABdhPJy5FOMhkI4iy6O+TYeQ+qNRJhhIbEpvKYFdzOgbG+ObnTYy4gslK29ZKTC/77nLlYOZ7AIbqA==
-X-Received: by 2002:a63:7d3:: with SMTP id 202mr12617172pgh.120.1640537231877;
-        Sun, 26 Dec 2021 08:47:11 -0800 (PST)
-Received: from localhost.localdomain ([103.230.148.190])
-        by smtp.gmail.com with ESMTPSA id n14sm12236759pgd.80.2021.12.26.08.47.08
+        bh=j1aFnyHFUtPdBZotM5iBED56xT2FvKcAtJi+DzbG5wA=;
+        b=iZMmiPupBeDgpPKSTHqF8gc+N9i9Nc/qGgZyblnJrvjEeupLi7QcAUX9PBtv3Ujr7c
+         XtS1poryQt1k9vvZMKuSdJ4aWVmL2z8ccCddDyuz20YurOWQLu2HEpgRVjtc+r/DHo2t
+         22PJaHI9c5hqFAydJ/uJkYLDJp00GWv9SCJYpzkI7vy7tXoMX4i+rhZ28lIOi2ZbxSII
+         nAQI/OFsulA76mkTHgqm0RRfgmm3eiCRIdficcQkrphrGt7EQCGe9Uq3gy5PoVxqOgbL
+         qckLomWKIp9gU3/rtO8cIJ0z9f1/ASte6CXQCqIOQg5bY84Hs8hf7PCfKsCJPagx766f
+         f4aA==
+X-Gm-Message-State: AOAM530Ss5fb6JmWmhHbm0n8K+/bxBghzh54C4lQBK9yq5k9Ol3S/5qa
+	UKxW0mGp+RVPZWBuWvPj5y4=
+X-Google-Smtp-Source: ABdhPJwDY7Ucruwn5gzXi8gy4EPXbNU+4YBcDRBXoC7wULgEfe0NyHFGWdiUFjJPpEF7NIfueAB1Rg==
+X-Received: by 2002:adf:ecc3:: with SMTP id s3mr10351148wro.713.1640544142264;
+        Sun, 26 Dec 2021 10:42:22 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::abe6])
+        by smtp.gmail.com with ESMTPSA id u10sm13809421wrs.28.2021.12.26.10.42.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Dec 2021 08:47:11 -0800 (PST)
-From: Gautam Menghani <gautammenghani14@gmail.com>
-To: nsaenz@kernel.org,
-	gregkh@linuxfoundation.org,
-	stefan.wahren@i2se.com,
-	gascoar@gmail.com,
-	ojaswin98@gmail.com
-Cc: Gautam Menghani <gautammenghani14@gmail.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
+        Sun, 26 Dec 2021 10:42:22 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Remove repeated word in vchiq log warning
-Date: Sun, 26 Dec 2021 22:16:32 +0530
-Message-Id: <20211226164632.48952-1-gautammenghani14@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove GET_CVID_ROM_VERSION
+Date: Sun, 26 Dec 2021 19:42:17 +0100
+Message-Id: <20211226184217.9726-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,24 +55,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Gautam Menghani <gautammenghani14@gmail.com>
----
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The macro GET_CVID_ROM_VERSION is not used. Remove it.
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index c650a32bcedf..6759a6261500 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1661,7 +1661,7 @@ vchiq_dump_service_use_state(struct vchiq_state *state)
- 				  service_data[i].clientid, service_data[i].use_count,
- 				  service_data[i].use_count ? nz : "");
- 	}
--	vchiq_log_warning(vchiq_susp_log_level, "----- VCHIQ use count count %d", peer_count);
-+	vchiq_log_warning(vchiq_susp_log_level, "----- VCHIQ use count %d", peer_count);
- 	vchiq_log_warning(vchiq_susp_log_level, "--- Overall vchiq instance use count %d",
- 			  vc_use_count);
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/include/HalVerDef.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/r8188eu/include/HalVerDef.h b/drivers/staging/r8188eu/include/HalVerDef.h
+index 1d96657e6a98..62b94c993f0d 100644
+--- a/drivers/staging/r8188eu/include/HalVerDef.h
++++ b/drivers/staging/r8188eu/include/HalVerDef.h
+@@ -35,7 +35,6 @@ struct HAL_VERSION {
+ #define GET_CVID_CHIP_TYPE(version)	(((version).ChipType))
+ #define GET_CVID_MANUFACTUER(version)	(((version).VendorType))
+ #define GET_CVID_CUT_VERSION(version)	(((version).CUTVersion))
+-#define GET_CVID_ROM_VERSION(version)	(((version).ROMVer) & ROM_VERSION_MASK)
  
+ /* Common Macro. -- */
+ /* HAL_VERSION VersionID */
 -- 
-2.25.1
+2.34.1
 
