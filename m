@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20AC2C80
-	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 20:08:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C173D2C80
+	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 20:08:43 +0000 (UTC)
 Received: from dslb-188-097-047-111.188.097.pools.vodafone-ip.de ([188.97.47.111] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1n1Zd6-0000Fz-MP; Sun, 26 Dec 2021 20:56:28 +0100
+	id 1n1Zcu-0000Fz-TH; Sun, 26 Dec 2021 20:56:16 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 20/21] staging: r8188eu: merge rtw_led_control and SwLedControlMode1
-Date: Sun, 26 Dec 2021 20:55:55 +0100
-Message-Id: <20211226195556.159471-21-martin@kaiser.cx>
+Subject: [PATCH 08/21] staging: r8188eu: clean up blinking macros
+Date: Sun, 26 Dec 2021 20:55:43 +0100
+Message-Id: <20211226195556.159471-9-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211226195556.159471-1-martin@kaiser.cx>
 References: <20211226195556.159471-1-martin@kaiser.cx>
@@ -30,337 +30,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_led_control is the only caller of SwLedControlMode1.
-Pull SwLedControlMode1 into rtw_led_control.
+Clean up the macros that check the blinking mode of a LED.
+
+The macro IS_LED_BLINKING is not used and can be removed.
+
+The IS_LED_WPS_BLINKING macro is used only by rtw_led.c. Move the macro
+into this file. The macro parameter is always a struct LED_871x *,
+there's no need for a cast. Rename the parameter to l and put it in
+parentheses, which is good practice for macro parameters.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_led.c | 303 ++++++++++++-------------
- 1 file changed, 148 insertions(+), 155 deletions(-)
+ drivers/staging/r8188eu/core/rtw_led.c    | 5 +++++
+ drivers/staging/r8188eu/include/rtw_led.h | 9 ---------
+ 2 files changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-index 2b550e5821e0..09a9676eb503 100644
+index 517aef664bfc..63b811cba277 100644
 --- a/drivers/staging/r8188eu/core/rtw_led.c
 +++ b/drivers/staging/r8188eu/core/rtw_led.c
-@@ -62,12 +62,159 @@ static void SwLedOff(struct adapter *padapter, struct LED_871x *pLed)
- 	pLed->bLedOn = false;
- }
+@@ -5,6 +5,11 @@
+ #include "../include/rtw_led.h"
+ #include "../include/rtl8188e_spec.h"
  
--static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAction)
-+static void blink_work(struct work_struct *work)
-+{
-+	struct delayed_work *dwork = to_delayed_work(work);
-+	struct LED_871x *pLed = container_of(dwork, struct LED_871x, blink_work);
-+	struct adapter *padapter = pLed->padapter;
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++#define IS_LED_WPS_BLINKING(l) \
++	((l)->CurrLedState == LED_BLINK_WPS || \
++	(l)->CurrLedState == LED_BLINK_WPS_STOP || \
++	(l)->bLedWPSBlinkInProgress)
 +
-+	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped))
-+		return;
-+
-+	if (padapter->pwrctrlpriv.rf_pwrstate != rf_on) {
-+		SwLedOff(padapter, pLed);
-+		ResetLedStatus(pLed);
-+		return;
-+	}
-+
-+	/*  Change LED according to BlinkingLedState specified. */
-+	if (pLed->BlinkingLedState == RTW_LED_ON)
-+		SwLedOn(padapter, pLed);
-+	else
-+		SwLedOff(padapter, pLed);
-+
-+	switch (pLed->CurrLedState) {
-+	case LED_BLINK_SLOWLY:
-+		if (pLed->bLedOn)
-+			pLed->BlinkingLedState = RTW_LED_OFF;
-+		else
-+			pLed->BlinkingLedState = RTW_LED_ON;
-+		schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
-+		break;
-+	case LED_BLINK_NORMAL:
-+		if (pLed->bLedOn)
-+			pLed->BlinkingLedState = RTW_LED_OFF;
-+		else
-+			pLed->BlinkingLedState = RTW_LED_ON;
-+		schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
-+		break;
-+	case LED_BLINK_SCAN:
-+		if (pLed->bLedOn)
-+			pLed->BlinkingLedState = RTW_LED_OFF;
-+		else
-+			pLed->BlinkingLedState = RTW_LED_ON;
-+		pLed->BlinkTimes--;
-+		if (pLed->BlinkTimes == 0) {
-+			if (check_fwstate(pmlmepriv, _FW_LINKED)) {
-+				pLed->bLedLinkBlinkInProgress = true;
-+				pLed->CurrLedState = LED_BLINK_NORMAL;
-+				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
-+			} else if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
-+				pLed->bLedNoLinkBlinkInProgress = true;
-+				pLed->CurrLedState = LED_BLINK_SLOWLY;
-+				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
-+			}
-+			pLed->bLedScanBlinkInProgress = false;
-+		} else {
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
-+		}
-+		break;
-+	case LED_BLINK_TXRX:
-+		if (pLed->bLedOn)
-+			pLed->BlinkingLedState = RTW_LED_OFF;
-+		else
-+			pLed->BlinkingLedState = RTW_LED_ON;
-+		pLed->BlinkTimes--;
-+		if (pLed->BlinkTimes == 0) {
-+			if (check_fwstate(pmlmepriv, _FW_LINKED)) {
-+				pLed->bLedLinkBlinkInProgress = true;
-+				pLed->CurrLedState = LED_BLINK_NORMAL;
-+				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
-+			} else if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
-+				pLed->bLedNoLinkBlinkInProgress = true;
-+				pLed->CurrLedState = LED_BLINK_SLOWLY;
-+				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
-+			}
-+			pLed->bLedBlinkInProgress = false;
-+		} else {
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_FASTER_INTVL);
-+		}
-+		break;
-+	case LED_BLINK_WPS:
-+		if (pLed->bLedOn)
-+			pLed->BlinkingLedState = RTW_LED_OFF;
-+		else
-+			pLed->BlinkingLedState = RTW_LED_ON;
-+		schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
-+		break;
-+	case LED_BLINK_WPS_STOP:	/* WPS success */
-+		if (pLed->BlinkingLedState != RTW_LED_ON) {
-+			pLed->bLedLinkBlinkInProgress = true;
-+			pLed->CurrLedState = LED_BLINK_NORMAL;
-+			if (pLed->bLedOn)
-+				pLed->BlinkingLedState = RTW_LED_OFF;
-+			else
-+				pLed->BlinkingLedState = RTW_LED_ON;
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
-+
-+			pLed->bLedWPSBlinkInProgress = false;
-+		} else {
-+			pLed->BlinkingLedState = RTW_LED_OFF;
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_WPS_SUCESS_INTVL);
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+void rtl8188eu_InitSwLeds(struct adapter *padapter)
-+{
-+	struct led_priv *pledpriv = &padapter->ledpriv;
-+	struct LED_871x *pLed = &pledpriv->SwLed0;
-+
-+	pLed->padapter = padapter;
-+	ResetLedStatus(pLed);
-+	INIT_DELAYED_WORK(&pLed->blink_work, blink_work);
-+}
-+
-+void rtl8188eu_DeInitSwLeds(struct adapter *padapter)
-+{
-+	struct led_priv	*ledpriv = &padapter->ledpriv;
-+	struct LED_871x *pLed = &ledpriv->SwLed0;
-+
-+	cancel_delayed_work_sync(&pLed->blink_work);
-+	ResetLedStatus(pLed);
-+	SwLedOff(padapter, pLed);
-+}
-+
-+void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
+ static void ResetLedStatus(struct LED_871x *pLed)
  {
- 	struct led_priv *ledpriv = &padapter->ledpriv;
-+	struct registry_priv *registry_par;
- 	struct LED_871x *pLed = &ledpriv->SwLed0;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	pLed->CurrLedState = RTW_LED_OFF; /*  Current LED state. */
+diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
+index cd9e40aa7c65..69656da76d19 100644
+--- a/drivers/staging/r8188eu/include/rtw_led.h
++++ b/drivers/staging/r8188eu/include/rtw_led.h
+@@ -74,15 +74,6 @@ struct LED_871x {
+ 	struct delayed_work blink_work;
+ };
  
-+	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped) ||
-+	    (!padapter->hw_init_completed))
-+		return;
-+
-+	if (!ledpriv->bRegUseLed)
-+		return;
-+
-+	registry_par = &padapter->registrypriv;
-+	if (!registry_par->led_enable)
-+		return;
-+
-+	if ((padapter->pwrctrlpriv.rf_pwrstate != rf_on &&
-+	     padapter->pwrctrlpriv.rfoff_reason > RF_CHANGE_BY_PS) &&
-+	    (LedAction == LED_CTL_TX || LedAction == LED_CTL_RX ||
-+	     LedAction == LED_CTL_SITE_SURVEY ||
-+	     LedAction == LED_CTL_LINK ||
-+	     LedAction == LED_CTL_NO_LINK))
-+		return;
-+
- 	switch (LedAction) {
- 	case LED_CTL_START_TO_LINK:
- 	case LED_CTL_NO_LINK:
-@@ -263,157 +410,3 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 		break;
- 	}
- }
+-#define IS_LED_WPS_BLINKING(_LED_871x)					\
+-	(((struct LED_871x *)_LED_871x)->CurrLedState == LED_BLINK_WPS || \
+-	((struct LED_871x *)_LED_871x)->CurrLedState == LED_BLINK_WPS_STOP || \
+-	((struct LED_871x *)_LED_871x)->bLedWPSBlinkInProgress)
 -
--static void blink_work(struct work_struct *work)
--{
--	struct delayed_work *dwork = to_delayed_work(work);
--	struct LED_871x *pLed = container_of(dwork, struct LED_871x, blink_work);
--	struct adapter *padapter = pLed->padapter;
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-#define IS_LED_BLINKING(_LED_871x)					\
+-	(((struct LED_871x *)_LED_871x)->bLedWPSBlinkInProgress	||	\
+-	((struct LED_871x *)_LED_871x)->bLedScanBlinkInProgress)
 -
--	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped))
--		return;
--
--	/*  Change LED according to BlinkingLedState specified. */
--	if (pLed->BlinkingLedState == RTW_LED_ON)
--		SwLedOn(padapter, pLed);
--	else
--		SwLedOff(padapter, pLed);
--
--	if (padapter->pwrctrlpriv.rf_pwrstate != rf_on) {
--		SwLedOff(padapter, pLed);
--		ResetLedStatus(pLed);
--		return;
--	}
--
--	switch (pLed->CurrLedState) {
--	case LED_BLINK_SLOWLY:
--		if (pLed->bLedOn)
--			pLed->BlinkingLedState = RTW_LED_OFF;
--		else
--			pLed->BlinkingLedState = RTW_LED_ON;
--		schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
--		break;
--	case LED_BLINK_NORMAL:
--		if (pLed->bLedOn)
--			pLed->BlinkingLedState = RTW_LED_OFF;
--		else
--			pLed->BlinkingLedState = RTW_LED_ON;
--		schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
--		break;
--	case LED_BLINK_SCAN:
--		if (pLed->bLedOn)
--			pLed->BlinkingLedState = RTW_LED_OFF;
--		else
--			pLed->BlinkingLedState = RTW_LED_ON;
--		pLed->BlinkTimes--;
--		if (pLed->BlinkTimes == 0) {
--			if (check_fwstate(pmlmepriv, _FW_LINKED)) {
--				pLed->bLedLinkBlinkInProgress = true;
--				pLed->CurrLedState = LED_BLINK_NORMAL;
--				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
--			} else if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
--				pLed->bLedNoLinkBlinkInProgress = true;
--				pLed->CurrLedState = LED_BLINK_SLOWLY;
--				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
--			}
--			pLed->bLedScanBlinkInProgress = false;
--		} else {
--			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
--		}
--		break;
--	case LED_BLINK_TXRX:
--		if (pLed->bLedOn)
--			pLed->BlinkingLedState = RTW_LED_OFF;
--		else
--			pLed->BlinkingLedState = RTW_LED_ON;
--		pLed->BlinkTimes--;
--		if (pLed->BlinkTimes == 0) {
--			if (check_fwstate(pmlmepriv, _FW_LINKED)) {
--				pLed->bLedLinkBlinkInProgress = true;
--				pLed->CurrLedState = LED_BLINK_NORMAL;
--				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
--			} else if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
--				pLed->bLedNoLinkBlinkInProgress = true;
--				pLed->CurrLedState = LED_BLINK_SLOWLY;
--				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
--			}
--			pLed->bLedBlinkInProgress = false;
--		} else {
--			schedule_delayed_work(&pLed->blink_work, LED_BLINK_FASTER_INTVL);
--		}
--		break;
--	case LED_BLINK_WPS:
--		if (pLed->bLedOn)
--			pLed->BlinkingLedState = RTW_LED_OFF;
--		else
--			pLed->BlinkingLedState = RTW_LED_ON;
--		schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
--		break;
--	case LED_BLINK_WPS_STOP:	/* WPS success */
--		if (pLed->BlinkingLedState != RTW_LED_ON) {
--			pLed->bLedLinkBlinkInProgress = true;
--			pLed->CurrLedState = LED_BLINK_NORMAL;
--			if (pLed->bLedOn)
--				pLed->BlinkingLedState = RTW_LED_OFF;
--			else
--				pLed->BlinkingLedState = RTW_LED_ON;
--			schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
--
--			pLed->bLedWPSBlinkInProgress = false;
--		} else {
--			pLed->BlinkingLedState = RTW_LED_OFF;
--			schedule_delayed_work(&pLed->blink_work, LED_BLINK_WPS_SUCESS_INTVL);
--		}
--		break;
--	default:
--		break;
--	}
--}
--
--void rtl8188eu_InitSwLeds(struct adapter *padapter)
--{
--	struct led_priv *pledpriv = &padapter->ledpriv;
--	struct LED_871x *pLed = &pledpriv->SwLed0;
--
--	pLed->padapter = padapter;
--	ResetLedStatus(pLed);
--	INIT_DELAYED_WORK(&pLed->blink_work, blink_work);
--}
--
--void rtl8188eu_DeInitSwLeds(struct adapter *padapter)
--{
--	struct led_priv	*ledpriv = &padapter->ledpriv;
--	struct LED_871x *pLed = &ledpriv->SwLed0;
--
--	cancel_delayed_work_sync(&pLed->blink_work);
--	ResetLedStatus(pLed);
--	SwLedOff(padapter, pLed);
--}
--
--void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
--{
--	struct led_priv *ledpriv = &padapter->ledpriv;
--	struct registry_priv *registry_par;
--
--	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped) ||
--	    (!padapter->hw_init_completed))
--		return;
--
--	if (!ledpriv->bRegUseLed)
--		return;
--
--	registry_par = &padapter->registrypriv;
--	if (!registry_par->led_enable)
--		return;
--
--	if ((padapter->pwrctrlpriv.rf_pwrstate != rf_on &&
--	     padapter->pwrctrlpriv.rfoff_reason > RF_CHANGE_BY_PS) &&
--	    (LedAction == LED_CTL_TX || LedAction == LED_CTL_RX ||
--	     LedAction == LED_CTL_SITE_SURVEY ||
--	     LedAction == LED_CTL_LINK ||
--	     LedAction == LED_CTL_NO_LINK))
--		return;
--
--	SwLedControlMode1(padapter, LedAction);
--}
+ void LedControl8188eu(struct adapter *padapter, enum LED_CTL_MODE	LedAction);
+ 
+ struct led_priv{
 -- 
 2.30.2
 
