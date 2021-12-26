@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D362C80
-	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 20:08:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88C52C80
+	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 20:08:58 +0000 (UTC)
 Received: from dslb-188-097-047-111.188.097.pools.vodafone-ip.de ([188.97.47.111] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1n1Zct-0000Fz-Tm; Sun, 26 Dec 2021 20:56:15 +0100
+	id 1n1Zcm-0000Fz-0L; Sun, 26 Dec 2021 20:56:08 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,12 +16,10 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 07/21] staging: r8188eu: clean up the blink worker code
-Date: Sun, 26 Dec 2021 20:55:42 +0100
-Message-Id: <20211226195556.159471-8-martin@kaiser.cx>
+Subject: [PATCH 00/21] staging: r8188eu: simplify the led layer
+Date: Sun, 26 Dec 2021 20:55:35 +0100
+Message-Id: <20211226195556.159471-1-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211226195556.159471-1-martin@kaiser.cx>
-References: <20211226195556.159471-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,71 +28,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Merge the BlinkWorkItemCallback and BlinkHandler functions.
-Rename the resulting function to blink_work and make it
-internal to the led layer.
+This patch set starts to clean up the led handling.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_led.c    | 13 ++++---------
- drivers/staging/r8188eu/include/rtw_led.h |  4 ----
- 2 files changed, 4 insertions(+), 13 deletions(-)
+Apart from removing unused code and defines, it merges the led code
+from the hal layer with the led handling in rtw_led.c and tries to
+simplify the code for blinking.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-index 52e31d3307df..517aef664bfc 100644
---- a/drivers/staging/r8188eu/core/rtw_led.c
-+++ b/drivers/staging/r8188eu/core/rtw_led.c
-@@ -5,13 +5,6 @@
- #include "../include/rtw_led.h"
- #include "../include/rtl8188e_spec.h"
- 
--void BlinkWorkItemCallback(struct work_struct *work)
--{
--	struct delayed_work *dwork = to_delayed_work(work);
--	struct LED_871x *pLed = container_of(dwork, struct LED_871x, blink_work);
--	BlinkHandler(pLed);
--}
--
- static void ResetLedStatus(struct LED_871x *pLed)
- {
- 	pLed->CurrLedState = RTW_LED_OFF; /*  Current LED state. */
-@@ -391,8 +384,10 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 	}
- }
- 
--void BlinkHandler(struct LED_871x *pLed)
-+static void blink_work(struct work_struct *work)
- {
-+	struct delayed_work *dwork = to_delayed_work(work);
-+	struct LED_871x *pLed = container_of(dwork, struct LED_871x, blink_work);
- 	struct adapter *padapter = pLed->padapter;
- 
- 	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped))
-@@ -410,7 +405,7 @@ void rtl8188eu_InitSwLeds(struct adapter *padapter)
- 
- 	pLed->padapter = padapter;
- 	ResetLedStatus(pLed);
--	INIT_DELAYED_WORK(&pLed->blink_work, BlinkWorkItemCallback);
-+	INIT_DELAYED_WORK(&pLed->blink_work, blink_work);
- }
- 
- void rtl8188eu_DeInitSwLeds(struct adapter *padapter)
-diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
-index 984fba6363ad..cd9e40aa7c65 100644
---- a/drivers/staging/r8188eu/include/rtw_led.h
-+++ b/drivers/staging/r8188eu/include/rtw_led.h
-@@ -100,11 +100,7 @@ struct led_priv{
- 			(adapt)->ledpriv.LedControlHandler((adapt), (action)); \
- 	} while (0)
- 
--void BlinkWorkItemCallback(struct work_struct *work);
--
- void rtl8188eu_InitSwLeds(struct adapter *padapter);
- void rtl8188eu_DeInitSwLeds(struct adapter *padapter);
- 
--void BlinkHandler(struct LED_871x * pLed);
--
- #endif /* __RTW_LED_H_ */
+Martin Kaiser (21):
+  staging: r8188eu: switch the led off during deinit
+  staging: r8188eu: move SwLedOn and SwLedOff into rtw_led.c
+  staging: r8188eu: move (de)init functions from hal to rtw_led
+  staging: r8188eu: merge InitLed871x and rtl8188eu_InitSwLeds
+  staging: r8188eu: merge DeInitLed871x and rtl8188eu_DeInitSwLeds
+  staging: r8188eu: make ResetLedStatus static
+  staging: r8188eu: clean up the blink worker code
+  staging: r8188eu: clean up blinking macros
+  staging: r8188eu: remove unused blink mode defines
+  staging: r8188eu: bLedStartToLinkBlinkInProgress is set but not used
+  staging: r8188eu: make blink interval defines internal
+  staging: r8188eu: use bool for boolean values
+  staging: r8188eu: remove obsolete comments
+  staging: r8188eu: remove LedControlHandler
+  staging: r8188eu: LED_CTL_POWER_ON is not used
+  staging: r8188eu: LED_CTL_START_WPS_BOTTON is not used
+  staging: r8188eu: remove bStopBlinking
+  staging: r8188eu: summarize some BlinkingLedState
+  staging: r8188eu: merge blink_work and SwLedBlink1
+  staging: r8188eu: merge rtw_led_control and SwLedControlMode1
+  staging: r8188eu: rfoff_reason is never initialised
+
+ drivers/staging/r8188eu/Makefile              |   1 -
+ drivers/staging/r8188eu/core/rtw_led.c        | 188 +++++++++---------
+ drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  62 ------
+ drivers/staging/r8188eu/hal/usb_halinit.c     |   1 -
+ drivers/staging/r8188eu/include/hal_intf.h    |   6 -
+ .../staging/r8188eu/include/rtl8188e_led.h    |  16 --
+ drivers/staging/r8188eu/include/rtw_led.h     |  68 ++-----
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h |   1 -
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  |   2 +-
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |   2 +-
+ 10 files changed, 103 insertions(+), 244 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/hal/rtl8188eu_led.c
+ delete mode 100644 drivers/staging/r8188eu/include/rtl8188e_led.h
+
 -- 
 2.30.2
 
