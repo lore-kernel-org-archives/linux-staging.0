@@ -1,52 +1,27 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2ADC168
-	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 18:42:23 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id t26so28332730wrb.4
-        for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 10:42:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j1aFnyHFUtPdBZotM5iBED56xT2FvKcAtJi+DzbG5wA=;
-        b=KdpXsUBvXceMlS3BbbivfGX38reWvw/ataU6adl3aWWSdA0MMAeYpnG/EgMZ6+vdUj
-         D3HZgQF/Vd2gcjsGO77PDmV5n8e5xQKImGcwlcDDg5EvQNVDH3KIbHD7DdYRuiGDpFql
-         1yVswVelaXTskyge3EfGoOQy3NA/lapbL5zCiBz26ycww8I5xpSMZHG/zPGt6Pj2fnYy
-         Mbo2Wxa2gH0gyP7hfhzoT34KtMZ9Eg8A/Sc9qEA2qz1oIsvoKONcj75J+NBHOmy3+Bvi
-         Lp2S2+cE9RdTRwDMR1c/gbscYQbR21JD0pwtnow/a0Dqs9fbVAbHndoSyP+cb2etQTL9
-         bPpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j1aFnyHFUtPdBZotM5iBED56xT2FvKcAtJi+DzbG5wA=;
-        b=iZMmiPupBeDgpPKSTHqF8gc+N9i9Nc/qGgZyblnJrvjEeupLi7QcAUX9PBtv3Ujr7c
-         XtS1poryQt1k9vvZMKuSdJ4aWVmL2z8ccCddDyuz20YurOWQLu2HEpgRVjtc+r/DHo2t
-         22PJaHI9c5hqFAydJ/uJkYLDJp00GWv9SCJYpzkI7vy7tXoMX4i+rhZ28lIOi2ZbxSII
-         nAQI/OFsulA76mkTHgqm0RRfgmm3eiCRIdficcQkrphrGt7EQCGe9Uq3gy5PoVxqOgbL
-         qckLomWKIp9gU3/rtO8cIJ0z9f1/ASte6CXQCqIOQg5bY84Hs8hf7PCfKsCJPagx766f
-         f4aA==
-X-Gm-Message-State: AOAM530Ss5fb6JmWmhHbm0n8K+/bxBghzh54C4lQBK9yq5k9Ol3S/5qa
-	UKxW0mGp+RVPZWBuWvPj5y4=
-X-Google-Smtp-Source: ABdhPJwDY7Ucruwn5gzXi8gy4EPXbNU+4YBcDRBXoC7wULgEfe0NyHFGWdiUFjJPpEF7NIfueAB1Rg==
-X-Received: by 2002:adf:ecc3:: with SMTP id s3mr10351148wro.713.1640544142264;
-        Sun, 26 Dec 2021 10:42:22 -0800 (PST)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::abe6])
-        by smtp.gmail.com with ESMTPSA id u10sm13809421wrs.28.2021.12.26.10.42.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Dec 2021 10:42:22 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C73168
+	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 19:56:21 +0000 (UTC)
+Received: from dslb-188-097-047-111.188.097.pools.vodafone-ip.de ([188.97.47.111] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1n1Zcv-0000Fz-RC; Sun, 26 Dec 2021 20:56:17 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove GET_CVID_ROM_VERSION
-Date: Sun, 26 Dec 2021 19:42:17 +0100
-Message-Id: <20211226184217.9726-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 09/21] staging: r8188eu: remove unused blink mode defines
+Date: Sun, 26 Dec 2021 20:55:44 +0100
+Message-Id: <20211226195556.159471-10-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211226195556.159471-1-martin@kaiser.cx>
+References: <20211226195556.159471-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,25 +30,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The macro GET_CVID_ROM_VERSION is not used. Remove it.
+Remove defines for led blink modes which are not used by this driver.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/include/HalVerDef.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/r8188eu/include/rtw_led.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/HalVerDef.h b/drivers/staging/r8188eu/include/HalVerDef.h
-index 1d96657e6a98..62b94c993f0d 100644
---- a/drivers/staging/r8188eu/include/HalVerDef.h
-+++ b/drivers/staging/r8188eu/include/HalVerDef.h
-@@ -35,7 +35,6 @@ struct HAL_VERSION {
- #define GET_CVID_CHIP_TYPE(version)	(((version).ChipType))
- #define GET_CVID_MANUFACTUER(version)	(((version).VendorType))
- #define GET_CVID_CUT_VERSION(version)	(((version).CUTVersion))
--#define GET_CVID_ROM_VERSION(version)	(((version).ROMVer) & ROM_VERSION_MASK)
+diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
+index 69656da76d19..e7fd3966326b 100644
+--- a/drivers/staging/r8188eu/include/rtw_led.h
++++ b/drivers/staging/r8188eu/include/rtw_led.h
+@@ -34,21 +34,15 @@ enum LED_STATE_871x {
+ 	RTW_LED_OFF = 2,
+ 	LED_BLINK_NORMAL = 3,
+ 	LED_BLINK_SLOWLY = 4,
+-	LED_BLINK_POWER_ON = 5,
+ 	LED_BLINK_SCAN = 6, /*  LED is blinking during scanning period,
+ 			     * the # of times to blink is depend on time
+ 			     * for scanning. */
+-	LED_BLINK_NO_LINK = 7, /*  LED is blinking during no link state. */
+ 	LED_BLINK_StartToBlink = 8,/*  Customzied for Sercomm Printer
+ 				    * Server case */
+ 	LED_BLINK_TXRX = 9,
+ 	LED_BLINK_WPS = 10,	/*  LED is blinkg during WPS communication */
+ 	LED_BLINK_WPS_STOP = 11,	/* for ALPHA */
+-	LED_BLINK_WPS_STOP_OVERLAP = 12,	/* for BELKIN */
+ 	LED_BLINK_RUNTOP = 13, /*  Customized for RunTop */
+-	LED_BLINK_CAMEO = 14,
+-	LED_BLINK_XAVI = 15,
+-	LED_BLINK_ALWAYS_ON = 16,
+ };
  
- /* Common Macro. -- */
- /* HAL_VERSION VersionID */
+ struct LED_871x {
 -- 
-2.34.1
+2.30.2
 
