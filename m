@@ -1,55 +1,92 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D169E2CA0
-	for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 21:25:55 +0000 (UTC)
-Received: from dslb-188-097-047-111.188.097.pools.vodafone-ip.de ([188.97.47.111] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1n1b1c-0000qQ-SD; Sun, 26 Dec 2021 22:25:52 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 10/10] staging: r8188eu: remove unused prototype
-Date: Sun, 26 Dec 2021 22:25:35 +0100
-Message-Id: <20211226212535.197989-11-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211226212535.197989-1-martin@kaiser.cx>
-References: <20211226212535.197989-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5AE173
+	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 06:22:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB49C36AE9;
+	Mon, 27 Dec 2021 06:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1640586154;
+	bh=x0C0vb8ishT2V5+rf2VVWHRrHwoEM9zfj/BD07nqD3U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oRGzizb4t67HqTkAWQvWWt+7o2Xk9gqpIjG5wIbw/ieC7810lMfyQNRPwy93xVIOs
+	 LQDmoQLjGl0wD9P372VolX4TjECFwVC1DskJP1RiuCNTS6d4ZfRbg7RX7h7HnU6P3J
+	 CDS6MiqOOrFRckEL8vV/Usv1YqDjxg/vG/twaKlg=
+Date: Mon, 27 Dec 2021 07:22:31 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Gautam Menghani <gautammenghani14@gmail.com>
+Cc: nsaenz@kernel.org, stefan.wahren@i2se.com, gascoar@gmail.com,
+	ojaswin98@gmail.com, bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Remove repeated word in vchiq log warning
+Message-ID: <Yclbp0ZBkT8dxgbu@kroah.com>
+References: <20211226164632.48952-1-gautammenghani14@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211226164632.48952-1-gautammenghani14@gmail.com>
 
-Remove the prototype for wifirate2_ratetbl_inx, it is not needed.
+On Sun, Dec 26, 2021 at 10:16:32PM +0530, Gautam Menghani wrote:
+> Signed-off-by: Gautam Menghani <gautammenghani14@gmail.com>
+> ---
+>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index c650a32bcedf..6759a6261500 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -1661,7 +1661,7 @@ vchiq_dump_service_use_state(struct vchiq_state *state)
+>  				  service_data[i].clientid, service_data[i].use_count,
+>  				  service_data[i].use_count ? nz : "");
+>  	}
+> -	vchiq_log_warning(vchiq_susp_log_level, "----- VCHIQ use count count %d", peer_count);
+> +	vchiq_log_warning(vchiq_susp_log_level, "----- VCHIQ use count %d", peer_count);
+>  	vchiq_log_warning(vchiq_susp_log_level, "--- Overall vchiq instance use count %d",
+>  			  vc_use_count);
+>  
+> -- 
+> 2.25.1
+> 
+> 
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 2 --
- 1 file changed, 2 deletions(-)
+Hi,
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index c08b60ec1e64..adc03862bc03 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -4176,8 +4176,6 @@ static int rtw_pm_set(struct net_device *dev,
- 	return ret;
- }
- 
--extern int wifirate2_ratetbl_inx(unsigned char rate);
--
- static iw_handler rtw_handlers[] = {
- 	IW_HANDLER(SIOCGIWNAME, rtw_wx_get_name),
- 	IW_HANDLER(SIOCGIWFREQ, rtw_wx_get_freq),
--- 
-2.30.2
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what is needed in order to
+  properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
