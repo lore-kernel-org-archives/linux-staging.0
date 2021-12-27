@@ -1,90 +1,126 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964BF168
-	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 17:42:58 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id s4so8768917ljd.5
-        for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 09:42:58 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6B1168
+	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 17:48:58 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id x10so21444445oix.6
+        for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 09:48:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Z/Pzs7cNZuKis90GG3bbsIu5TMKHsaB8FDneWM7eJxw=;
-        b=K4bQIMvfBces3htJK287EvIQWGCqtRE442DkSrqrgTioEuTPI0TZphdrpMQrGIIVqL
-         LMxhbgdGKYmrKWHg57eVKMA4uyyDHtBA4Ea/6hoJyAVkxT46mCWnLDmsNeVmVqarGHWU
-         4I2+ecSZZN7sLla3yosSbdVBoyN1e35E4NebS099GRSWJOu/0022hpypM+pHw2SFK6nV
-         q5TRI7FBhUDylzAlpxVZSRAJb2BmfuU1tM/Hyr6wAJ4CLHu4kXz4E+KdWEKwEwRvyVSk
-         qGoBdH/Y64hFhVpCbB1wYBi8Ntgf434Me+ocJrBTGj6POIWeDi5Qrh25rLb2SXOiaA3x
-         FErA==
+        h=sender:to:cc:references:from:subject:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pEDTSevr8Wui7/9Ib0ms0N7Elw3SuXo4ylecnWyhlSo=;
+        b=ehv/beOOjVHY0/sgKdcpY8YzavbZDivcQVdBoIeoRKI4qC8EayE8VBARAwiSsJBeMg
+         Zz3lXu+y9k2nNSuIlCNv/KXJeQUZt+jBe9GlImPC6RkELaI4OwGtotJ8lJT4/RYUvXeg
+         5Yx++5EIDR1wB7QuoetS4tNem0svdSDSCecLUq4Nl5eBOUOKs2Gs+UisJK8zu7iYw2pq
+         PcDsXaJJl8yT+sBrdf2ZMSprNPKxdo/1kTE/fvwlcME88l50Ds0vKqwzoH4bPkfvnAPw
+         BW+JRWfrn/ItjQte78Dwgt8Dko2eYYW3nLA+EyqURprwTeFBH4+RkctBrk7LJGBiMFCC
+         vwig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Z/Pzs7cNZuKis90GG3bbsIu5TMKHsaB8FDneWM7eJxw=;
-        b=fBH8ZIlcnvoVew3WP+oYopx2n2y1tbwTkA2+GnQAQmeWXpkLwfvEsJTYeDp+HtATLz
-         axQOwV0Z+6DR8TQMFrrgUmD6kSBvFEXdAb5XXXEZdI8h/gnOq7AMtQHQAQbnzAWt+Urq
-         DzhhuQMfTdeQpDLYucgrdxi0HmC6fmQdLw++G2NQqn54i0EKeFHSNwtO1clXa5rsdlC2
-         5pPZrlghr+XVthySIr/NT0MXlzCZVxTESqB1aqUKWInWWX2SZx+iA6A+hrL9YLICWR5E
-         xnQ0Fwt+/0K3+6mMtWeYtSQCd8JmAETbg4NCYUShEp6mKxdMdjog7pVLz6Y7rGWxyIU6
-         d5Iw==
-X-Gm-Message-State: AOAM530MLM1ORXpfEWGW1Z4FgRC2xuH4UmPsvbFGsg5ogSAlgJ1fO5yu
-	fU1ipATMLQ4FV7o15B44Q04=
-X-Google-Smtp-Source: ABdhPJxTMynXzIeEeGWkYSA2Y4LAC2J4FkDRiycHyqOmu948dvds5O4/stRGWxQJzIgcV7HuMhGrJw==
-X-Received: by 2002:a2e:4a0a:: with SMTP id x10mr14374504lja.322.1640626976434;
-        Mon, 27 Dec 2021 09:42:56 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.235.97])
-        by smtp.gmail.com with ESMTPSA id b14sm377920ljj.89.2021.12.27.09.42.55
+        bh=pEDTSevr8Wui7/9Ib0ms0N7Elw3SuXo4ylecnWyhlSo=;
+        b=6KQzniy2ePFxKFHbcp/5fJalkWrNzRbT2ISdiksktxeVn4XV8aFKBIqhM8/iGmbMZO
+         hzQSWZIRwShIz3g5bgGAzuQi5kt+mf3x6dmaBGZdBN+EBgzcMm4tq49IBT7RAHzLofla
+         MyOK8oQvNzVdyXwidaszd9aeyRETXgg7apFw9TOiU9Pg9an5WJKhuwvq7EdygF6wtv21
+         kFG4HBoTdR1e6kdoq7zD4KpurSZNATkUADkQfYnu4jO+3kipQoddmQ0MC/3yLCY3Cc3A
+         kaCrBqBJgVMQe+RMxsz0FfNDs6gjHe05fsAgVFpDj8yFt+LGOht/rGqbmKpBWzRpaxmB
+         V3aQ==
+X-Gm-Message-State: AOAM532omOlcrODQ9p3/ZE7pvKHttjD1eyuXLjl+k38VL15mrS/jCELT
+	TUr0FjIGcrxv/lP2eMK9940=
+X-Google-Smtp-Source: ABdhPJxb6+7biAtxOQefdtgXxvyx2b2YNDyhmSemqV7yYJxoDKcbxu7R4xufBgYDTWnPfrrEWMwb0g==
+X-Received: by 2002:a05:6808:20a6:: with SMTP id s38mr14781112oiw.152.1640627337723;
+        Mon, 27 Dec 2021 09:48:57 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 23sm2931424oty.6.2021.12.27.09.48.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Dec 2021 09:42:56 -0800 (PST)
-Message-ID: <671aa7f6-7dd2-792c-73bf-a8092f9e7910@gmail.com>
-Date: Mon, 27 Dec 2021 20:42:52 +0300
+        Mon, 27 Dec 2021 09:48:57 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+To: Niklas Schnelle <schnelle@linux.ibm.com>, Arnd Bergmann
+ <arnd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ John Garry <john.garry@huawei.com>, Nick Hu <nickhu@andestech.com>,
+ Greentime Hu <green.hu@gmail.com>, Vincent Chen <deanbo422@gmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Guo Ren <guoren@kernel.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Ian Abbott <abbotti@mev.co.uk>,
+ H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Jean Delvare <jdelvare@suse.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Karsten Keil <isdn@linux-pingi.de>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sathya Prakash <sathya.prakash@broadcom.com>,
+ Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+ Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+ Michael Grzeschik <m.grzeschik@pengutronix.de>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>, Kalle Valo <kvalo@kernel.org>,
+ Jouni Malinen <j@w1.fi>, "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Hannes Reinecke <hare@suse.com>, Kashyap Desai <kashyap.desai@broadcom.com>,
+ Sumit Saxena <sumit.saxena@broadcom.com>,
+ Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+ Nilesh Javali <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com,
+ Mark Brown <broonie@kernel.org>, Sudip Mukherjee
+ <sudipm.mukherjee@gmail.com>, Teddy Wang <teddy.wang@siliconmotion.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Forest Bond <forest@alittletooquiet.net>, Jiri Slaby <jirislaby@kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+ netdev@vger.kernel.org, linux-media@vger.kernel.org,
+ MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-wireless@vger.kernel.org,
+ megaraidlinux.pdl@broadcom.com, linux-spi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org
+References: <20211227164317.4146918-1-schnelle@linux.ibm.com>
+ <20211227164317.4146918-2-schnelle@linux.ibm.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
+Message-ID: <281298ec-3898-9b02-1d92-66bf6df41170@roeck-us.net>
+Date: Mon, 27 Dec 2021 09:48:50 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] staging: rtl8192e: rtllib_module: add free for error exit
+In-Reply-To: <20211227164317.4146918-2-schnelle@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Peiwei Hu <jlu.hpw@foxmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- trivial@kernel.org
-References: <tencent_D7DF0257121D1A21F136595372ED101BA10A@qq.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <tencent_D7DF0257121D1A21F136595372ED101BA10A@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/27/21 11:07, Peiwei Hu wrote:
-> Original source code of alloc_rtllib returns directly in
-> error, without freeing variable dev.
+On 12/27/21 8:42 AM, Niklas Schnelle wrote:
+> Introduce a new LEGACY_PCI Kconfig option which gates support for legacy
+> PCI devices including those attached to a PCI-to-PCI Express bridge and
+> PCI Express devices using legacy I/O spaces. Note that this is different
+> from non PCI uses of I/O ports such as by ACPI.
 > 
-> Signed-off-by: Peiwei Hu <jlu.hpw@foxmail.com>
-> ---
->   drivers/staging/rtl8192e/rtllib_module.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Add dependencies on LEGACY_PCI for all PCI drivers which only target
+> legacy PCI devices and ifdef legacy PCI specific functions in ata
+> handling.
 > 
-> diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
-> index 64d9feee1f39..18d898714c5c 100644
-> --- a/drivers/staging/rtl8192e/rtllib_module.c
-> +++ b/drivers/staging/rtl8192e/rtllib_module.c
-> @@ -125,7 +125,7 @@ struct net_device *alloc_rtllib(int sizeof_priv)
->   
->   	ieee->pHTInfo = kzalloc(sizeof(struct rt_hi_throughput), GFP_KERNEL);
->   	if (!ieee->pHTInfo)
-> -		return NULL;
-> +		goto failed;
->   
->   	HTUpdateDefaultSetting(ieee);
->   	HTInitializeHTInfo(ieee);
 
+This effectively disables all default configurations which now depend
+on CONFIG_LEGACY_PCI. Yet, I don't see CONFIG_LEGACY_PCI added to
+configuration files which explicitly enable any of the affected
+configurations. Is that on purpose ? If so, I think it should at least
+be mentioned in the commit description. However, I think it would be
+more appropriate to either delete all affected configuration flags from
+the affected configuration files, or to add CONFIG_LEGACY_PCI=y to those
+files.
 
-This one is already fixed in staging-testing branch. See commit 
-e730cd57ac2dfe94bca0f14a3be8e1b21de41a9c
-
-
-With regards,
-Pavel Skripkin
+Guenter
