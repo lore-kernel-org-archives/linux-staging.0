@@ -1,105 +1,86 @@
-Received: from out4436.biz.mail.alibaba.com (out4436.biz.mail.alibaba.com [47.88.44.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39D72C82
-	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 11:33:48 +0000 (UTC)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0V.wezou_1640604787;
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0V.wezou_1640604787)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 27 Dec 2021 19:33:22 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: Larry.Finger@lwfinger.net
-Cc: phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH v5] staging: r8188eu: Remove useless function rtw_test()
-Date: Mon, 27 Dec 2021 19:33:05 +0800
-Message-Id: <20211227113305.86407-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E423A173
+	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 13:19:21 +0000 (UTC)
+Received: by mail-vk1-f169.google.com with SMTP id b77so8575920vka.11
+        for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 05:19:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=a38JSinn6KGDl7s2dZ5j9DvJA5cTm6pRNLn1Do3OpbM=;
+        b=Td9zBgf+8LvoYGqM1W1HTekFTTSf5ZLojhZlPd1gOuSmOlralfxnewnCu9/57IyXQC
+         htUK71RuhW1e+WC7G/K/vxZ6AGGQ13f2m9+yTiitCwmcA3Mph2lqTERZC8bjMCLdBAlz
+         y6gqTqPIq46bjMxYj5uZSoqOVPmaOld+DgO8gIJW0RpUBu/UUSkdqVnSPZNSKfesLCNo
+         dtdMvL4+Zzjc66O0KXodrywD4eyumjcE9V6Nak0jshBfeD/y+4Mlbv+5EQliHOVPQnFy
+         ci8LVRb7i2Kz/34fQn0uDpiNUb9pyskRP0WZp6KS01C6ZQSmabEl12CEUVNyzOLR25+X
+         YNHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=a38JSinn6KGDl7s2dZ5j9DvJA5cTm6pRNLn1Do3OpbM=;
+        b=sAS4TFReFiI2K+3jYTVAf1wOactIye0I8dHIKLUblaUh4S5peyleMizzUuokNkewo0
+         8Dw9olsGTXx1mf+6UISCE4IiBX1qo/qRAPQEZMp0ZbbUGHzi2MTEJmQjaU4qMvces+io
+         rnBKr0yht/Borw/H9jMcp3F10Pbbq2lk003rgnmhfcXOsBAx6XLtHorTRDzpd8tlHw8l
+         EzJBXLe/lUune2JRiVrN3I98ZvDemeH2lmIEDODlTPhhS72pi/VTU72VWJchuV7JJa+R
+         qwrcGi8ROZsaSXS00z4vot0zE+J8B1J8ncQgQsD9UlAxWlwSgk+zjTUTyz+AovYhm3yd
+         fcsQ==
+X-Gm-Message-State: AOAM5339BpmNo53L/GkrI1QUaF2NyVhVWV/SIR/q6g6xRu4+xDneuxVC
+	a87Rb5PDy2jA5f8OJLL7mz3rgJewo9TwjjaBqPk=
+X-Google-Smtp-Source: ABdhPJxOlPkSAUR0PoLL5+VRcmCBcY35kR+I9xvdCz17NSXH1FlWClSZH1LvpwpXp67hHa5swHQNQsrd8pGtxsIMM1E=
+X-Received: by 2002:a05:6122:178d:: with SMTP id o13mr4725985vkf.15.1640611160867;
+ Mon, 27 Dec 2021 05:19:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Adam Kandur <sys.arch.adam@gmail.com>
+Date: Mon, 27 Dec 2021 16:19:10 +0300
+Message-ID: <CAE28pkNNsUnp4UiaKX-OjAQHPGjSNY6+hn-oK39m8w=ybXSO6Q@mail.gmail.com>
+Subject: [PATCH] qlge: rewrite qlge_change_rx_buffers()
+To: netdev@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-This function does nothing, so it should just be deleted entirely.
+I replaced while loop with for. It looks nicer to me.
 
-Fix following coccicheck warning:
+Signed-off-by: Adam Kandur <sys.arch.adam@gmail.com>
 
-./drivers/staging/r8188eu/os_dep/ioctl_linux.c:4253:8-15: WARNING
-opportunity for memdup_user.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
-Changes in v2:
-  -Modified subject line and commit message.
+ drivers/staging/qlge/qlge_main.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 38 --------------------
- 1 file changed, 38 deletions(-)
+diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+index 9873bb2a9ee4..69d57c2e199a 100644
+--- a/drivers/staging/qlge/qlge_main.c
++++ b/drivers/staging/qlge/qlge_main.c
+@@ -4012,19 +4012,17 @@ static int qlge_change_rx_buffers(struct
+qlge_adapter *qdev)
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index e7f35143dfe1..518625730883 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -4229,43 +4229,6 @@ static int rtw_tdls_get(struct net_device *dev,
- 	return 0;
- }
- 
--static int rtw_test(
--	struct net_device *dev,
--	struct iw_request_info *info,
--	union iwreq_data *wrqu, char *extra)
--{
--	u32 len;
--	u8 *pbuf, *pch;
--	char *ptmp;
--	u8 *delim = ",";
+        /* Wait for an outstanding reset to complete. */
+        if (!test_bit(QL_ADAPTER_UP, &qdev->flags)) {
+-               int i = 4;
++               for (int i = 4; !test_bit(QL_ADAPTER_UP, &qdev->flags); i--) {
++                       if (!i) {
++                               netif_err(qdev, ifup, qdev->ndev,
++                                         "Timed out waiting for adapter UP\n");
++                               return -ETIMEDOUT;
++                       }
+
+-               while (--i && !test_bit(QL_ADAPTER_UP, &qdev->flags)) {
+                        netif_err(qdev, ifup, qdev->ndev,
+                                  "Waiting for adapter UP...\n");
+                        ssleep(1);
+                }
 -
--	DBG_88E("+%s\n", __func__);
--	len = wrqu->data.length;
--
--	pbuf = kzalloc(len, GFP_KERNEL);
--	if (!pbuf) {
--		DBG_88E("%s: no memory!\n", __func__);
--		return -ENOMEM;
--	}
--
--	if (copy_from_user(pbuf, wrqu->data.pointer, len)) {
--		kfree(pbuf);
--		DBG_88E("%s: copy from user fail!\n", __func__);
--		return -EFAULT;
--	}
--	DBG_88E("%s: string =\"%s\"\n", __func__, pbuf);
--
--	ptmp = (char *)pbuf;
--	pch = strsep(&ptmp, delim);
--	if (!pch || strlen(pch) == 0) {
--		kfree(pbuf);
--		DBG_88E("%s: parameter error(level 1)!\n", __func__);
--		return -EFAULT;
--	}
--	kfree(pbuf);
--	return 0;
--}
--
- static iw_handler rtw_handlers[] = {
- 	IW_HANDLER(SIOCGIWNAME, rtw_wx_get_name),
- 	IW_HANDLER(SIOCGIWFREQ, rtw_wx_get_freq),
-@@ -4431,7 +4394,6 @@ NULL,					/* 0x03 */
- 	NULL,				/* 0x1A */
- 	NULL,				/* 0x1B */
- 	NULL,				/*  0x1C is reserved for hostapd */
--	rtw_test,			/*  0x1D */
- };
- 
- static struct iw_statistics *rtw_get_wireless_stats(struct net_device *dev)
+-               if (!i) {
+-                       netif_err(qdev, ifup, qdev->ndev,
+-                                 "Timed out waiting for adapter UP\n");
+-                       return -ETIMEDOUT;
+-               }
+        }
+
+        status = qlge_adapter_down(qdev);
 -- 
-2.20.1.7.g153144c
-
+2.34.0
