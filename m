@@ -1,92 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5AE173
-	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 06:22:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB49C36AE9;
-	Mon, 27 Dec 2021 06:22:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1640586154;
-	bh=x0C0vb8ishT2V5+rf2VVWHRrHwoEM9zfj/BD07nqD3U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oRGzizb4t67HqTkAWQvWWt+7o2Xk9gqpIjG5wIbw/ieC7810lMfyQNRPwy93xVIOs
-	 LQDmoQLjGl0wD9P372VolX4TjECFwVC1DskJP1RiuCNTS6d4ZfRbg7RX7h7HnU6P3J
-	 CDS6MiqOOrFRckEL8vV/Usv1YqDjxg/vG/twaKlg=
-Date: Mon, 27 Dec 2021 07:22:31 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Gautam Menghani <gautammenghani14@gmail.com>
-Cc: nsaenz@kernel.org, stefan.wahren@i2se.com, gascoar@gmail.com,
-	ojaswin98@gmail.com, bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Remove repeated word in vchiq log warning
-Message-ID: <Yclbp0ZBkT8dxgbu@kroah.com>
-References: <20211226164632.48952-1-gautammenghani14@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1AB2C80
+	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 07:34:01 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id k21so33165042lfu.0
+        for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 23:34:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IphlBiJuwkvTWlaGouUePkoncfLLkrJz0XZEERgcR1A=;
+        b=dh8+DTclQmyh7s+EcvCf2hb6WKEugyNKN35hHVMS7W2IhaMMhBDE2eTNN7ljhCdqWl
+         nVlqa/HZb8mFP+hbkB6K+htLaYpA4H08Hq6SNx43HLVAmXp4Duz3aov7sRt1jqK8fplL
+         Yhl4sZsFZbRbE4QD7FOSbDeIBbUdzm2KLRfv0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IphlBiJuwkvTWlaGouUePkoncfLLkrJz0XZEERgcR1A=;
+        b=eb/2CqLmAuOqLvxKDq4uAQprvyl+Inc7+FVLeKToxx9NFsUZqrQ4WiAlUIH0XFc/rK
+         TEKTqEm8f1BUwNaaLTTz42As72QQMrcIt20uI+eUDnA3O2UQjiqWoFXIQyo4DJ6ZKSOC
+         DJaIWOJJOyJ9YRDe6GCD/68nqUgKrzi9Yh/GWz0y+bIiUoIQinJrMbTIoGxhH3zRYSTl
+         v/G0n5gAdMpXew55E/WxXNvizNKLCqDStJQN9XhZdXHZKioYEnjqWMKgCWmgIYDE08iQ
+         IPoYStCyh7SjbbJ0GJNeNzO44vNHEMq0rQ60SDxITyw9AqQypJcmE35mzKJreAR70IlG
+         xS5Q==
+X-Gm-Message-State: AOAM532W+1A6BcVA/fre+Gehgv1Olr9dPehGV4ol9Po7DwOK3C1znyza
+	o8aW04CFAp5EvpRWwwmn5JMlV7zylsKj4gGfhwMuFw==
+X-Google-Smtp-Source: ABdhPJwPi8ZEN4x6LJlIvtEv1S+Z2YOWAU1DTIc3KIzqBQAYjs6CY0YqUD8gntWVlxa80Y2Z49i7iuku7gad5jNfulE=
+X-Received: by 2002:a05:6512:202f:: with SMTP id s15mr15224264lfs.501.1640590439292;
+ Sun, 26 Dec 2021 23:33:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211226164632.48952-1-gautammenghani14@gmail.com>
+References: <20211224084248.3070568-1-wenst@chromium.org> <20211224084248.3070568-6-wenst@chromium.org>
+ <YciZZ2hA4uMveN2l@eze-laptop>
+In-Reply-To: <YciZZ2hA4uMveN2l@eze-laptop>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 27 Dec 2021 15:33:48 +0800
+Message-ID: <CAGXv+5GJzZE1xDxxOqzV3Bq2XfuG2-aFuu-6hNxJ9S2YXFM_og@mail.gmail.com>
+Subject: Re: [PATCH RFT 5/7] media: hantro: jpeg: Add COM segment to JPEG
+ header to align image scan
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Dec 26, 2021 at 10:16:32PM +0530, Gautam Menghani wrote:
-> Signed-off-by: Gautam Menghani <gautammenghani14@gmail.com>
-> ---
->  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index c650a32bcedf..6759a6261500 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -1661,7 +1661,7 @@ vchiq_dump_service_use_state(struct vchiq_state *state)
->  				  service_data[i].clientid, service_data[i].use_count,
->  				  service_data[i].use_count ? nz : "");
->  	}
-> -	vchiq_log_warning(vchiq_susp_log_level, "----- VCHIQ use count count %d", peer_count);
-> +	vchiq_log_warning(vchiq_susp_log_level, "----- VCHIQ use count %d", peer_count);
->  	vchiq_log_warning(vchiq_susp_log_level, "--- Overall vchiq instance use count %d",
->  			  vc_use_count);
->  
-> -- 
-> 2.25.1
-> 
-> 
+On Mon, Dec 27, 2021 at 12:33 AM Ezequiel Garcia
+<ezequiel@vanguardiasur.com.ar> wrote:
+>
+> Hi,
+>
+> On Fri, Dec 24, 2021 at 04:42:46PM +0800, Chen-Yu Tsai wrote:
+> > The JPEG header size is not 64-bit aligned. This makes the driver
+> > require a bounce buffer for the encoded JPEG image scan output.
+> >
+> > Add a COM (comment) segment to the JPEG header so that the header size
+> > is a multiple of 64 bits. This will then allow dropping the use of the
+> > bounce buffer, and instead have the hardware write out to the capture
+> > buffer directly.
+> >
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> >  drivers/staging/media/hantro/hantro_jpeg.c | 3 +++
+> >  drivers/staging/media/hantro/hantro_jpeg.h | 2 +-
+> >  2 files changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/media/hantro/hantro_jpeg.c b/drivers/staging/media/hantro/hantro_jpeg.c
+> > index 7d4018bd6876..51e67e5cf86f 100644
+> > --- a/drivers/staging/media/hantro/hantro_jpeg.c
+> > +++ b/drivers/staging/media/hantro/hantro_jpeg.c
+> > @@ -247,6 +247,9 @@ static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
+> >       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> >       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> >
+> > +     /* COM */
+> > +     0xff, 0xfe, 0x00, 0x03, 0x00,
+> > +
+> >       /* SOS */
+> >       0xff, 0xda, 0x00, 0x0c, 0x03, 0x01, 0x00, 0x02,
+> >       0x11, 0x03, 0x11, 0x00, 0x3f, 0x00,
+> > diff --git a/drivers/staging/media/hantro/hantro_jpeg.h b/drivers/staging/media/hantro/hantro_jpeg.h
+> > index f33c492134e4..0b49d0b82caa 100644
+> > --- a/drivers/staging/media/hantro/hantro_jpeg.h
+> > +++ b/drivers/staging/media/hantro/hantro_jpeg.h
+> > @@ -1,6 +1,6 @@
+> >  /* SPDX-License-Identifier: GPL-2.0+ */
+> >
+> > -#define JPEG_HEADER_SIZE     619
+> > +#define JPEG_HEADER_SIZE     624
+>
+> Can we add some compile-time check for the 8-byte alignment,
+> so this is always enforced?
 
-Hi,
+Ack.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+> Perhaps getting rid of the JPEG_HEADER_SIZE macro,
+> something like this....
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+I don't think that's doable. The other parts of the driver need to know
+how large the header is, and we can't use "sizeof(hantro_jpeg_header)"
+in those places unless the size is predetermined in the header declaration,
+or we move the definition into the header file. Otherwise we need to
+keep the macro and have another static assertion to check that
+JPEG_HEADER_SIZE == sizeof(hantro_jpeg_header).
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
+> @@ -140,7 +140,7 @@ static const unsigned char chroma_ac_table[] = {
+>   * and we'll use fixed offsets to change the width, height
+>   * quantization tables, etc.
+>   */
+> -static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
+> +static const unsigned char hantro_jpeg_header[] = {
+>         /* SOI */
+>         0xff, 0xd8,
+>
+> @@ -304,8 +304,13 @@ void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
+>  {
+>         char *buf = ctx->buffer;
+>
+> -       memcpy(buf, hantro_jpeg_header,
+> -              sizeof(hantro_jpeg_header));
+> +       /*
+> +        * THE JPEG buffer is prepended with the JPEG header,
+> +        * so 64-bit alignment is needed for DMA.
+> +        */
+> +       BUILD_BUG_ON(!IS_ALIGNED(sizeof(hantro_jpeg_header), 8));
 
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
+Probably bikeshedding, but I was thinking more of a static assert just
+beneath hantro_jpeg_header[], along with some comments.
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
 
-thanks,
+ChenYu
 
-greg k-h's patch email bot
+> +
+> +       memcpy(buf, hantro_jpeg_header, sizeof(hantro_jpeg_header));
+>
+> Thanks,
+> Ezequiel
