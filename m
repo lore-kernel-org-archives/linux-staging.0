@@ -1,144 +1,84 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1AB2C80
-	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 07:34:01 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id k21so33165042lfu.0
-        for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 23:34:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA652C80
+	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 07:55:54 +0000 (UTC)
+Received: by mail-ua1-f47.google.com with SMTP id i5so10654711uaq.10
+        for <linux-staging@lists.linux.dev>; Sun, 26 Dec 2021 23:55:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IphlBiJuwkvTWlaGouUePkoncfLLkrJz0XZEERgcR1A=;
-        b=dh8+DTclQmyh7s+EcvCf2hb6WKEugyNKN35hHVMS7W2IhaMMhBDE2eTNN7ljhCdqWl
-         nVlqa/HZb8mFP+hbkB6K+htLaYpA4H08Hq6SNx43HLVAmXp4Duz3aov7sRt1jqK8fplL
-         Yhl4sZsFZbRbE4QD7FOSbDeIBbUdzm2KLRfv0=
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=q+MeYuRGV0NsF2AP1J4hMDWlr77F6+vb2TjV7qTkXr4=;
+        b=VmN93Bvvz/EaSRdgUDCcFq/WOYY7G9Bvoh0vpigKJ0LqcCa/H/xwkJT4XSRqGhp3Os
+         RzQ7z3SiJq//wb+2Vbib82x9jdyLWXlCKX7BWQ2RYqzdkWLYyNDc7YTfY3R/Qfl/4a5v
+         TnyAamyAZJIaBjRRO6XhWdYc4wwlPegr9C750F8s1OURuKM5i9QE5K5/Jcwx5Q1qUw63
+         dlcriA2KnYodUBictTNseN4Dbuo7276DhPQSJpf/T8/KTrsIfUGihFBMFneJ9t9lVsLB
+         pCxeb6z0lFhzXtDcz5Oo01oFCTXxhoLvUgTske7HWma/uc7DFmZXh1fHGB2ulcXRibt1
+         WjWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IphlBiJuwkvTWlaGouUePkoncfLLkrJz0XZEERgcR1A=;
-        b=eb/2CqLmAuOqLvxKDq4uAQprvyl+Inc7+FVLeKToxx9NFsUZqrQ4WiAlUIH0XFc/rK
-         TEKTqEm8f1BUwNaaLTTz42As72QQMrcIt20uI+eUDnA3O2UQjiqWoFXIQyo4DJ6ZKSOC
-         DJaIWOJJOyJ9YRDe6GCD/68nqUgKrzi9Yh/GWz0y+bIiUoIQinJrMbTIoGxhH3zRYSTl
-         v/G0n5gAdMpXew55E/WxXNvizNKLCqDStJQN9XhZdXHZKioYEnjqWMKgCWmgIYDE08iQ
-         IPoYStCyh7SjbbJ0GJNeNzO44vNHEMq0rQ60SDxITyw9AqQypJcmE35mzKJreAR70IlG
-         xS5Q==
-X-Gm-Message-State: AOAM532W+1A6BcVA/fre+Gehgv1Olr9dPehGV4ol9Po7DwOK3C1znyza
-	o8aW04CFAp5EvpRWwwmn5JMlV7zylsKj4gGfhwMuFw==
-X-Google-Smtp-Source: ABdhPJwPi8ZEN4x6LJlIvtEv1S+Z2YOWAU1DTIc3KIzqBQAYjs6CY0YqUD8gntWVlxa80Y2Z49i7iuku7gad5jNfulE=
-X-Received: by 2002:a05:6512:202f:: with SMTP id s15mr15224264lfs.501.1640590439292;
- Sun, 26 Dec 2021 23:33:59 -0800 (PST)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=q+MeYuRGV0NsF2AP1J4hMDWlr77F6+vb2TjV7qTkXr4=;
+        b=z/eF/99LPb/GnoDGcBylrzSrLH2JOnyt8iiyGA1I5oQLgASuMjA/gkb8Tk6wbute45
+         xWWp1dG4Ucy5w11tHPsNunlxz2nD6geBQGkDJmAY+h6F7z+2AwXh1+TA4bmmQMNTpycs
+         gLdF9Y3NXNAL72ysuhHbyGSKawHo3svIiKD7k0KzvFFaQ+zK/a0mGxWe0IpD0JSb0nI6
+         nYMPkmf0IsmeVtU8TNTi/3LhPLbFBoa/5Qn3UP+OekE7P83yo3JayBKG+7HgbEo7nVrh
+         gjq//fZU0nPK9K64o5PsyNH/HxP76Rztjmop1odK1blIyhbV1nnHTQs3nQsDKceqc6aP
+         sXDQ==
+X-Gm-Message-State: AOAM532mY/FVc/6ZKygU3epPYaqxxgao4LstknXni44RsjfUs/1GdbPD
+	FXmsgERQ715Zm6S8pwvE319u6L68xXv/9apxyTboD8+djPs=
+X-Google-Smtp-Source: ABdhPJzWuSNLeTTp6ntAFLjT4Ruv5knjm6xIRDK3x1HQQzNAQthPW5Ir6r5zUiAlC8y+jklvaS5o49r0wxfl8Nmvdec=
+X-Received: by 2002:a05:6102:c89:: with SMTP id f9mr4377716vst.65.1640591753420;
+ Sun, 26 Dec 2021 23:55:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211224084248.3070568-1-wenst@chromium.org> <20211224084248.3070568-6-wenst@chromium.org>
- <YciZZ2hA4uMveN2l@eze-laptop>
-In-Reply-To: <YciZZ2hA4uMveN2l@eze-laptop>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 27 Dec 2021 15:33:48 +0800
-Message-ID: <CAGXv+5GJzZE1xDxxOqzV3Bq2XfuG2-aFuu-6hNxJ9S2YXFM_og@mail.gmail.com>
-Subject: Re: [PATCH RFT 5/7] media: hantro: jpeg: Add COM segment to JPEG
- header to align image scan
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+From: Adam Kandur <sys.arch.adam@gmail.com>
+Date: Mon, 27 Dec 2021 10:55:42 +0300
+Message-ID: <CAE28pkPuP-H2A9Q2m3Eu8aOKQQj9uaVBFYX9XNQXu+Dnz38j9Q@mail.gmail.com>
+Subject: [PATCH] qlge: replace goto
+To: linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Dec 27, 2021 at 12:33 AM Ezequiel Garcia
-<ezequiel@vanguardiasur.com.ar> wrote:
->
-> Hi,
->
-> On Fri, Dec 24, 2021 at 04:42:46PM +0800, Chen-Yu Tsai wrote:
-> > The JPEG header size is not 64-bit aligned. This makes the driver
-> > require a bounce buffer for the encoded JPEG image scan output.
-> >
-> > Add a COM (comment) segment to the JPEG header so that the header size
-> > is a multiple of 64 bits. This will then allow dropping the use of the
-> > bounce buffer, and instead have the hardware write out to the capture
-> > buffer directly.
-> >
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > ---
-> >  drivers/staging/media/hantro/hantro_jpeg.c | 3 +++
-> >  drivers/staging/media/hantro/hantro_jpeg.h | 2 +-
-> >  2 files changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/media/hantro/hantro_jpeg.c b/drivers/staging/media/hantro/hantro_jpeg.c
-> > index 7d4018bd6876..51e67e5cf86f 100644
-> > --- a/drivers/staging/media/hantro/hantro_jpeg.c
-> > +++ b/drivers/staging/media/hantro/hantro_jpeg.c
-> > @@ -247,6 +247,9 @@ static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
-> >       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> >       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> >
-> > +     /* COM */
-> > +     0xff, 0xfe, 0x00, 0x03, 0x00,
-> > +
-> >       /* SOS */
-> >       0xff, 0xda, 0x00, 0x0c, 0x03, 0x01, 0x00, 0x02,
-> >       0x11, 0x03, 0x11, 0x00, 0x3f, 0x00,
-> > diff --git a/drivers/staging/media/hantro/hantro_jpeg.h b/drivers/staging/media/hantro/hantro_jpeg.h
-> > index f33c492134e4..0b49d0b82caa 100644
-> > --- a/drivers/staging/media/hantro/hantro_jpeg.h
-> > +++ b/drivers/staging/media/hantro/hantro_jpeg.h
-> > @@ -1,6 +1,6 @@
-> >  /* SPDX-License-Identifier: GPL-2.0+ */
-> >
-> > -#define JPEG_HEADER_SIZE     619
-> > +#define JPEG_HEADER_SIZE     624
->
-> Can we add some compile-time check for the 8-byte alignment,
-> so this is always enforced?
+I think this goto can be easily replaced. Hope, this is right.
 
-Ack.
+---
+ drivers/staging/qlge/qlge_mpi.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-> Perhaps getting rid of the JPEG_HEADER_SIZE macro,
-> something like this....
+diff --git a/drivers/staging/qlge/qlge_mpi.c b/drivers/staging/qlge/qlge_mpi.c
+index 96a4de6d2b34..b739dd051c87 100644
+--- a/drivers/staging/qlge/qlge_mpi.c
++++ b/drivers/staging/qlge/qlge_mpi.c
+@@ -1122,7 +1122,8 @@ void qlge_mpi_port_cfg_work(struct work_struct *work)
+        if (status) {
+                netif_err(qdev, drv, qdev->ndev,
+                          "Bug: Failed to get port config data.\n");
+-               goto err;
++               clear_bit(QL_PORT_CFG, &qdev->flags);
++               return;
+        }
 
-I don't think that's doable. The other parts of the driver need to know
-how large the header is, and we can't use "sizeof(hantro_jpeg_header)"
-in those places unless the size is predetermined in the header declaration,
-or we move the definition into the header file. Otherwise we need to
-keep the macro and have another static assertion to check that
-JPEG_HEADER_SIZE == sizeof(hantro_jpeg_header).
+        if (qdev->link_config & CFG_JUMBO_FRAME_SIZE &&
+@@ -1135,14 +1136,9 @@ void qlge_mpi_port_cfg_work(struct work_struct *work)
+        if (status) {
+                netif_err(qdev, drv, qdev->ndev,
+                          "Bug: Failed to set port config data.\n");
+-               goto err;
++               qlge_queue_fw_error(qdev);
++               goto end;
+        }
+-end:
+-       clear_bit(QL_PORT_CFG, &qdev->flags);
+-       return;
+-err:
+-       qlge_queue_fw_error(qdev);
+-       goto end;
+ }
 
-> @@ -140,7 +140,7 @@ static const unsigned char chroma_ac_table[] = {
->   * and we'll use fixed offsets to change the width, height
->   * quantization tables, etc.
->   */
-> -static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
-> +static const unsigned char hantro_jpeg_header[] = {
->         /* SOI */
->         0xff, 0xd8,
->
-> @@ -304,8 +304,13 @@ void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
->  {
->         char *buf = ctx->buffer;
->
-> -       memcpy(buf, hantro_jpeg_header,
-> -              sizeof(hantro_jpeg_header));
-> +       /*
-> +        * THE JPEG buffer is prepended with the JPEG header,
-> +        * so 64-bit alignment is needed for DMA.
-> +        */
-> +       BUILD_BUG_ON(!IS_ALIGNED(sizeof(hantro_jpeg_header), 8));
-
-Probably bikeshedding, but I was thinking more of a static assert just
-beneath hantro_jpeg_header[], along with some comments.
-
-
-ChenYu
-
-> +
-> +       memcpy(buf, hantro_jpeg_header, sizeof(hantro_jpeg_header));
->
-> Thanks,
-> Ezequiel
+ /* Process an inter-device request.  This is issues by
+-- 
+2.34.0
