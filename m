@@ -1,52 +1,24 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4436.biz.mail.alibaba.com (out4436.biz.mail.alibaba.com [47.88.44.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8278A2C82
-	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 10:43:25 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id v10-20020a05600c214a00b00345e59928eeso4197059wml.0
-        for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 02:43:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6D1iaBgXOAkMH79XbQmEXP2lg5qLQCLAwgOT3lAeyto=;
-        b=jVLvQO/SkxwSpmG2aYr+vTlUlNYWzDiK8cbDvVIMs/ifRD/i2BmYE9rFPu5ximZqG5
-         7p0fllhwni7cE6XGcp46ssIipffO6Ji+5BzpzyyE49Gxik7fna7WnodGaA7HUiIOUrCj
-         KH3I1dPmJ3ROYEi7hP6hhlZjVjr3Mdiq+lSyptO8CHvGAIa+qQTQhpdfsIcDt+2NsHdp
-         RNrnxgWPs6HgOs59tpRznxDKDTL5CMkBFww0AN75UsT0a2pJN3dzDWttf0/BUMa9AGyS
-         xAdxMEjb6lxmm98ohwbVroKcGUPI5Wuxf/1URtckLVFyCQaqKmv61Cfc8dQa94m2l68M
-         IBbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6D1iaBgXOAkMH79XbQmEXP2lg5qLQCLAwgOT3lAeyto=;
-        b=PmD/GT/07eUlPGGjAUXGeamPg+ZHDf0DZ8sI290UDWvow1HzwI3DBa/fJZPnvnXQEr
-         zK5giTcJMmSHhjCUdEhu2mjIsCcED2xjYEj34rriitmCwRYhXni00qeoZfBf4C0tyI8N
-         mUzdRApGTGynBeeFDNxm6gtFYJwG92ifflziFjniw2ZqWPWDI+E+GOn88YVzuN7yHwOJ
-         E2raEfYnFRHgi1/vVpxX1y7RaVqgvX12fOGDX7VPsk1OHlcZr9Uz1otwCwzmemv0A6FS
-         UHdryxQ/iobGItnHZCj0pky7jiRVH4Kszcyzl58zpHFvSWX4Ih2dDoqyujmcpGAKiecs
-         651Q==
-X-Gm-Message-State: AOAM532fcgE9AIiN0Z5Hd4R3bjFBcep3obDVYMwbN/A6vIDwGegjD8HU
-	hJOxjzWcZHOmmTEYGaY6+ts=
-X-Google-Smtp-Source: ABdhPJxhedIKRHvaF6GcsvxZqnYw0kYidOc1LXXNsn+OGSOKPv04pzC935HNvh57x5N694hQ3DiXrA==
-X-Received: by 2002:a7b:c3c5:: with SMTP id t5mr1403286wmj.168.1640601803924;
-        Mon, 27 Dec 2021 02:43:23 -0800 (PST)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::abe6])
-        by smtp.gmail.com with ESMTPSA id w17sm16089205wmc.14.2021.12.27.02.43.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Dec 2021 02:43:23 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39D72C82
+	for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 11:33:48 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0V.wezou_1640604787;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0V.wezou_1640604787)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 27 Dec 2021 19:33:22 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove unused enum odm_h2c_cmd
-Date: Mon, 27 Dec 2021 11:43:12 +0100
-Message-Id: <20211227104312.13163-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH v5] staging: r8188eu: Remove useless function rtw_test()
+Date: Mon, 27 Dec 2021 19:33:05 +0800
+Message-Id: <20211227113305.86407-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,31 +27,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The enum odm_h2c_cmd is not used in this driver. Remove it.
+This function does nothing, so it should just be deleted entirely.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Fix following coccicheck warning:
+
+./drivers/staging/r8188eu/os_dep/ioctl_linux.c:4253:8-15: WARNING
+opportunity for memdup_user.
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/staging/r8188eu/include/odm_interface.h | 7 -------
- 1 file changed, 7 deletions(-)
+Changes in v2:
+  -Modified subject line and commit message.
 
-diff --git a/drivers/staging/r8188eu/include/odm_interface.h b/drivers/staging/r8188eu/include/odm_interface.h
-index 64c29c1da19d..e27ba77577a7 100644
---- a/drivers/staging/r8188eu/include/odm_interface.h
-+++ b/drivers/staging/r8188eu/include/odm_interface.h
-@@ -4,13 +4,6 @@
- #ifndef	__ODM_INTERFACE_H__
- #define __ODM_INTERFACE_H__
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 38 --------------------
+ 1 file changed, 38 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index e7f35143dfe1..518625730883 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -4229,43 +4229,6 @@ static int rtw_tdls_get(struct net_device *dev,
+ 	return 0;
+ }
  
--enum odm_h2c_cmd {
--	ODM_H2C_RSSI_REPORT = 0,
--	ODM_H2C_PSD_RESULT= 1,
--	ODM_H2C_PathDiv = 2,
--	ODM_MAX_H2CCMD
--};
+-static int rtw_test(
+-	struct net_device *dev,
+-	struct iw_request_info *info,
+-	union iwreq_data *wrqu, char *extra)
+-{
+-	u32 len;
+-	u8 *pbuf, *pch;
+-	char *ptmp;
+-	u8 *delim = ",";
 -
- /*  2012/02/17 MH For non-MP compile pass only. Linux does not support workitem. */
- /*  Suggest HW team to use thread instead of workitem. Windows also support the feature. */
- typedef void (*RT_WORKITEM_CALL_BACK)(void *pContext);
+-	DBG_88E("+%s\n", __func__);
+-	len = wrqu->data.length;
+-
+-	pbuf = kzalloc(len, GFP_KERNEL);
+-	if (!pbuf) {
+-		DBG_88E("%s: no memory!\n", __func__);
+-		return -ENOMEM;
+-	}
+-
+-	if (copy_from_user(pbuf, wrqu->data.pointer, len)) {
+-		kfree(pbuf);
+-		DBG_88E("%s: copy from user fail!\n", __func__);
+-		return -EFAULT;
+-	}
+-	DBG_88E("%s: string =\"%s\"\n", __func__, pbuf);
+-
+-	ptmp = (char *)pbuf;
+-	pch = strsep(&ptmp, delim);
+-	if (!pch || strlen(pch) == 0) {
+-		kfree(pbuf);
+-		DBG_88E("%s: parameter error(level 1)!\n", __func__);
+-		return -EFAULT;
+-	}
+-	kfree(pbuf);
+-	return 0;
+-}
+-
+ static iw_handler rtw_handlers[] = {
+ 	IW_HANDLER(SIOCGIWNAME, rtw_wx_get_name),
+ 	IW_HANDLER(SIOCGIWFREQ, rtw_wx_get_freq),
+@@ -4431,7 +4394,6 @@ NULL,					/* 0x03 */
+ 	NULL,				/* 0x1A */
+ 	NULL,				/* 0x1B */
+ 	NULL,				/*  0x1C is reserved for hostapd */
+-	rtw_test,			/*  0x1D */
+ };
+ 
+ static struct iw_statistics *rtw_get_wireless_stats(struct net_device *dev)
 -- 
-2.34.1
+2.20.1.7.g153144c
 
