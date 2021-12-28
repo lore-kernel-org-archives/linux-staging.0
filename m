@@ -1,127 +1,114 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3387829CA
-	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 07:18:13 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id 200so15319803pgg.3
-        for <linux-staging@lists.linux.dev>; Mon, 27 Dec 2021 23:18:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=gA0ge5qDn9G6uzsgw9S7cd95iGIT0BOtbhzvX/7hD5Y=;
-        b=ewHhWd4IHNFG9Orz/2kY6QzgTeTJ84zVFFAQKHoEWHbiUxmMlYWHxAttxEz+KO2+c8
-         6wRPkGDBfgxC9EALFu68LyBpNf7HT9vnWgBsGwnTj0J0k5+YlhMpax4AeDvvMF/cEd2x
-         IHsRqJNBcZoJ0c1OQPLlu+WkmRczwNG6rpt/EtA/WbpsHAtolkFYawgstLzlveTIpgQD
-         vw8nNIQZ4DWf7WuwG9OoyqYdb+sTJSTn8XHfpIm2MetLnMJfp9Z9uJoD4lKGpzooIEBW
-         MrGlxGyFVoNZbrhviiRG/p0QxmlmApmspv4Puwq1OXHVPcx+Nd3sy0w4DsagXjJBm588
-         mUSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=gA0ge5qDn9G6uzsgw9S7cd95iGIT0BOtbhzvX/7hD5Y=;
-        b=zA/BCa1N5c4jRBrzjYTag1ujRQoZiEDtCcyJss20VGHpdcLtm6X83GExNzYYROCWHA
-         BxTGFPbnXvUGOPg140FzMDJLl0C4x4uFZlLno835lgBg3hsCi75o/rXRWjm7nn5MysrX
-         9o0K72OQrT6krDXej6oNA9IKMasbwULtXRYQqpMqsCslq29mISvlsew763xbaPsB837h
-         GuiGsR/VBH0MUYHkh2kHKcG2023mI16ZExAVxB2KgOfuDkR2EtXnfyNjS3saSEqiQLCq
-         uoYCHP3jE28DZmr9AqDCkiSLtdyqIT0nijxJXgyAEc8TjIF0kNl2rgUxcYR5IG49jMV0
-         GisA==
-X-Gm-Message-State: AOAM530GBi2WhyOk9dMBhDcb0DxQRiZXOpOLkF5Ufyz7aQEv2lpK15f5
-	1gkn2zg9RwwvBxzxubmbEV0=
-X-Google-Smtp-Source: ABdhPJwiNLAKBrgJMVcRQJZ8sbDIPpyhHQwkmVHGO4EIRUTzURMKOwaqYy1I70udhw5cnBmSGMB69w==
-X-Received: by 2002:a63:78cd:: with SMTP id t196mr9137103pgc.503.1640675892757;
-        Mon, 27 Dec 2021 23:18:12 -0800 (PST)
-Received: from [192.168.1.100] ([166.111.139.127])
-        by smtp.gmail.com with ESMTPSA id lc3sm21634075pjb.2.2021.12.27.23.18.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Dec 2021 23:18:12 -0800 (PST)
-From: Jia-Ju Bai <baijiaju1990@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>, gregkh@linuxfoundation.org,
- zhansayabagdaulet@gmail.com, christophe.jaillet@wanadoo.fr,
- insafonov@gmail.com, paskripkin@gmail.com, deborahbrouwer3563@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
-Subject: [BUG] staging: rtl8712: possible ABBA deadlocks
-Message-ID: <8d695b41-74e6-4733-4841-e21fdebde890@gmail.com>
-Date: Tue, 28 Dec 2021 15:18:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61C829CA
+	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 08:21:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB991C36AE8;
+	Tue, 28 Dec 2021 08:21:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1640679691;
+	bh=AyTvVvui2qlcHtQrKzueO2aVJtq3B/0n6NTMMAVaPv0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kH6mvQE+CbYxtdqKfYIrcnXRRkMOKzNgkkDI4Qj231PIqAVKah1gnHZGbf7pyzYif
+	 5Fy29Whi1PzPFIz42NBP1CwIg6Czpkv7Hvsk4tV4vJc5VHnlaMIkb+39JrPmPYspb6
+	 8Fb7cSFih5JdAhKULSvypMAJ71q6QDfYXW2GEFIA=
+Date: Tue, 28 Dec 2021 09:21:23 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: Arnd Bergmann <arnd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	John Garry <john.garry@huawei.com>, Nick Hu <nickhu@andestech.com>,
+	Greentime Hu <green.hu@gmail.com>,
+	Vincent Chen <deanbo422@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Karsten Keil <isdn@linux-pingi.de>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sathya Prakash <sathya.prakash@broadcom.com>,
+	Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
+	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Hannes Reinecke <hare@suse.com>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	Mark Brown <broonie@kernel.org>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Forest Bond <forest@alittletooquiet.net>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-csky@vger.kernel.org, linux-ide@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, linux-media@vger.kernel.org,
+	MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, linux-wireless@vger.kernel.org,
+	megaraidlinux.pdl@broadcom.com, linux-spi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
+Message-ID: <YcrJAwsKIxxX18pW@kroah.com>
+References: <20211227164317.4146918-1-schnelle@linux.ibm.com>
+ <20211227164317.4146918-2-schnelle@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211227164317.4146918-2-schnelle@linux.ibm.com>
 
-Hello,
+On Mon, Dec 27, 2021 at 05:42:46PM +0100, Niklas Schnelle wrote:
+> --- a/drivers/pci/Kconfig
+> +++ b/drivers/pci/Kconfig
+> @@ -23,6 +23,17 @@ menuconfig PCI
+>  
+>  if PCI
+>  
+> +config LEGACY_PCI
+> +	bool "Enable support for legacy PCI devices"
+> +	depends on HAVE_PCI
+> +	help
+> +	   This option enables support for legacy PCI devices. This includes
+> +	   PCI devices attached directly or via a bridge on a PCI Express bus.
+> +	   It also includes compatibility features on PCI Express devices which
+> +	   make use of legacy I/O spaces.
 
-My static analysis tool reports several possible ABBA deadlocks in the 
-rtl8712 driver in Linux 5.10:
+All you really care about is the "legacy" I/O spaces here, this isn't
+tied to PCI specifically at all, right?
 
-# BUG1:
-r8712_free_all_stainfo()
-   spin_lock_irqsave(&pstapriv->sta_hash_lock, irqL); --> Line 202 (Lock A)
-   r8712_free_stainfo()
-     r8712_free_xmitframe_queue()
-       spin_lock_irqsave(&(pframequeue->lock), irqL); --> Line 834 (Lock B)
+So why not just have a OLD_STYLE_IO config option or something like
+that, to show that it's the i/o functions we care about here, not PCI at
+all?
 
-r8711_wx_set_wap()
-   spin_lock_irqsave(&queue->lock, irqL); --> Line 1049 (Lock B)
-   r8712_set_802_11_infrastructure_mode()
-     r8712_free_assoc_resources()
-       r8712_get_stainfo()
-         spin_lock_irqsave(&pstapriv->sta_hash_lock, irqL); --> Line 228 
-(Lock A)
+And maybe not call it "old" or "legacy" as time constantly goes forward,
+just describe it as it is, "DIRECT_IO"?
 
-When r8712_free_all_stainfo() and r8711_wx_set_wap() are concurrently 
-executed, the deadlocks can occur.
+thanks,
 
-# BUG2:
-r8712_joinbss_event_callback()
-   spin_lock_irqsave(&pstapriv->sta_hash_lock, irqL2); --> Line 735 (Lock A)
-   r8712_free_stainfo()
-     r8712_free_xmitframe_queue()
-       spin_lock_irqsave(&(pframequeue->lock), irqL); --> Line 834 (Lock B)
-
-r8711_wx_set_wap()
-   spin_lock_irqsave(&queue->lock, irqL); --> Line 1049 (Lock B)
-   r8712_set_802_11_infrastructure_mode()
-     r8712_free_assoc_resources()
-       r8712_get_stainfo()
-         spin_lock_irqsave(&pstapriv->sta_hash_lock, irqL); --> Line 228 
-(Lock A)
-
-When r8712_joinbss_event_callback() and r8711_wx_set_wap() are 
-concurrently executed, the deadlocks can occur.
-
-# BUG3:
-r8712_stadel_event_callback()
-   spin_lock_irqsave(&pstapriv->sta_hash_lock, irqL); --> Line 932 (Lock A)
-   r8712_free_stainfo()
-     r8712_free_xmitframe_queue()
-       spin_lock_irqsave(&(pframequeue->lock), irqL); --> Line 834 (Lock B)
-
-r8711_wx_set_wap()
-   spin_lock_irqsave(&queue->lock, irqL); --> Line 1049 (Lock B)
-   r8712_set_802_11_infrastructure_mode()
-     r8712_free_assoc_resources()
-       r8712_get_stainfo()
-         spin_lock_irqsave(&pstapriv->sta_hash_lock, irqL); --> Line 228 
-(Lock A)
-
-When r8712_stadel_event_callback() and r8711_wx_set_wap() are 
-concurrently executed, the deadlocks can occur.
-
-
-I am not quite sure whether these possible deadlocks are real and how to 
-fix them if them are real.
-Any feedback would be appreciated, thanks :)
-
-Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-
-
-Best wishes,
-Jia-Ju Bai
+greg k-h
