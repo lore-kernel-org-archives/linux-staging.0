@@ -1,54 +1,57 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC80B2CA4
-	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 10:11:51 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id q16so37389689wrg.7
-        for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 02:11:51 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C076168
+	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 10:17:52 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id lr15-20020a17090b4b8f00b001b19671cbebso16679512pjb.1
+        for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 02:17:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=oY9hSfkqZTFPqAFtoGBpdMUae0krMzwYjwLMqlw8+0I=;
-        b=JHfloE24oleodZ3g+wWzd3v/hSXxLN6jmrsVGqZ/iN4MQYQsax2gGyFoQDuOrFUfyc
-         Ft99f3nus0fTrbAguzYnQvwxtOluL5tSq3Hj+LRYnDQfk/ocIj+AO8z6hQ0KwLNQAtWA
-         v7u38tHMUdHUHj2p8v1BbVBA5jkgsJnJ1tFYGJLfevlvQhkl2D7qi23VLPuXOouqYPaP
-         Hf6LPMQL3kcQ3H/wA60+mrwaE84eIUS7XTZYY/C5SQSuPGM2xDk3PMXDI2rWKApidx9w
-         MwXH47DYQoXWpzqNuN1hXSgw3JYWIGy9LkbMsqrtdTXaoyPx6S+gMvGL+mJra0aW3tyK
-         ZsNg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p/VayS/BsqiSiN6ukY1nlzS20RWmSqXpiNahjHrdYfs=;
+        b=mqJ+zuSLjx9zZFj3oo94UbK16dt1vE8SMoRs/PTFjMm2aX9CfHxzezaOoGbQIN5dJH
+         WjbuuCtbmOT90pqr6edA/FFjQIDcc5XhwtGHQg3nIaPTKksiWfwEz/JLDrvsuo0xGuRo
+         +89fP6UocmvfqAA2HEguqblCZ7FlS8g0n1hrSv4i9Lzt5GwODQHzlzdP3jvy+J74t19C
+         ThpoqXwqTKQqre/JyArMxgl9e2YxqjtstwPnNE3X6qiVt30AzAbvXKhk8/i+c7kW5HVo
+         Z7il6hZpddGc7KDSupj8VfH6YmcZLyyUxd1e6r8Gd2plutgGU6Z38ttxnAjB03k5g/qO
+         Cenw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=oY9hSfkqZTFPqAFtoGBpdMUae0krMzwYjwLMqlw8+0I=;
-        b=X4ionPSHYLBRuTVUOIhIsMWCePQUTbLX2xBcsDShHBRRDBHXYyqp9OjHZKBDMpxPpT
-         Ui0H5t/PtNLjc9GJTbdLGB9JP/ZpTZ6bFWIzDWBzBOlFa5pExQzLSYEo/1jzXJtYGjMH
-         h8iD1gNVVB9Xzho2A2W8dkdKj/YE/QtMXLZ9CrKzRDJbW2aKCjqgiJeJ9OkSxsa38x0b
-         UZ8l6pYx1qFxVnDfW+OcX8JO+Ee80bDs9qNMhHqQAb2VTTQmW0QVQjMBoS9qyst5LlTA
-         /PMrwJWRz/gaaOo8qa1XgqicUnXvLNYDfs2CqC+Sv8+4tElbqtK4Gg14QHrsk7PkTKuk
-         Zd1w==
-X-Gm-Message-State: AOAM532DNeeblV5R77cwXglVY14Rwsthps25smlw9s/qrk05cBZTLNHh
-	TeYa1j8p6POOA55NABUVqvE=
-X-Google-Smtp-Source: ABdhPJzNxtaG7srAogqMjSOtL5UgMh5WTzO8tfE7aTZKkZe08FODYcEuoKfzyHp5COgFsW/IaSs14Q==
-X-Received: by 2002:a05:6000:2a9:: with SMTP id l9mr15786747wry.185.1640686310321;
-        Tue, 28 Dec 2021 02:11:50 -0800 (PST)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
-        by smtp.gmail.com with ESMTPSA id d62sm21160984wmd.3.2021.12.28.02.11.49
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p/VayS/BsqiSiN6ukY1nlzS20RWmSqXpiNahjHrdYfs=;
+        b=idlqWTlfOnI7v7au2uHsau7qRnHRPU0hT82uFY+hYZGcUhu3yEEuIf0P1S4lBvJqUx
+         joq/oesstv1kOBfe+pFEY8n+5Z943lNwMimEV0HNGTA1Bjk7tCimwgBkqlPoQ0dAjyxy
+         RrSX4hNaMY2JA61AYz51CftTq8Uv7W87JogbbYBCREiwC9JrJxrmdr1g2XDOx6D1Dsp0
+         4VTQ02dcuuQuN7oqmFt91YT3h5C4fQmXbEZiVWye+Nncc8kkGHs9awFfvuHgkj26U5Xb
+         B96DxtEyGSi548Hw1Whl3hmlGrPq335r9pI6Vj7jACeUxG0g/+u4eb2lqiiu7leSzvsX
+         cxFg==
+X-Gm-Message-State: AOAM5304ci5AQu0+kHcU+Fsa0tw7aF2t9CXF70rjI7pnSbUl9uPvKs19
+	zGmoujTv0ThXDAzJF+6DT7g=
+X-Google-Smtp-Source: ABdhPJzMgkPnEDB3/JPDkBk1kIfG7elVB019OKw2Fkhr8+SouvbJ3YYsUFUWtQgjNV++iOu2zF4/Cg==
+X-Received: by 2002:a17:90b:384f:: with SMTP id nl15mr14747235pjb.91.1640686671744;
+        Tue, 28 Dec 2021 02:17:51 -0800 (PST)
+Received: from localhost.localdomain ([103.230.148.190])
+        by smtp.gmail.com with ESMTPSA id f7sm18795938pfe.71.2021.12.28.02.17.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Dec 2021 02:11:50 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+        Tue, 28 Dec 2021 02:17:51 -0800 (PST)
+From: Gautam Menghani <gautammenghani14@gmail.com>
+To: nsaenz@kernel.org,
+	gregkh@linuxfoundation.org,
+	stefan.wahren@i2se.com,
+	gascoar@gmail.com,
+	ojaswin98@gmail.com
+Cc: Gautam Menghani <gautammenghani14@gmail.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 10/10] staging: r8188eu: merge _ReadLEDSetting() into ReadAdapterInfo8188EU()
-Date: Tue, 28 Dec 2021 11:11:20 +0100
-Message-Id: <20211228101120.9120-11-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211228101120.9120-1-straube.linux@gmail.com>
-References: <20211228101120.9120-1-straube.linux@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] Drivers : vc04_services : Remove repeated word in vchiq log warning 
+Date: Tue, 28 Dec 2021 15:46:15 +0530
+Message-Id: <20211228101615.5073-1-gautammenghani14@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,49 +60,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function _ReadLEDSetting() sets only a single variable and the only
-user is ReadAdapterInfo8188EU(). Remove _ReadLEDSetting() and set the
-variable in ReadAdapterInfo8188EU() directly.
+In a log warning in vhciq code, the word 'count' is repeated twice. 
+Remove repeated word 'count' from vhciq log warning.
+This change has been suggested by checkpatch.pl
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Gautam Menghani <gautammenghani14@gmail.com>
 ---
- drivers/staging/r8188eu/hal/usb_halinit.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+Changes in v2:
+- Specify a description of why the patch is needed
+- Write a more descriptive subject
 
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 9edde72aebb2..b362c622ea8a 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -914,12 +914,6 @@ unsigned int rtl8188eu_inirp_init(struct adapter *Adapter)
- /*	EEPROM/EFUSE Content Parsing */
- /*  */
- /*  */
--static void _ReadLEDSetting(struct adapter *Adapter, u8 *PROMContent, bool AutoloadFail)
--{
--	struct led_priv *pledpriv = &Adapter->ledpriv;
--
--	pledpriv->bRegUseLed = true;
--}
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index c650a32bcedf..6759a6261500 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -1661,7 +1661,7 @@ vchiq_dump_service_use_state(struct vchiq_state *state)
+ 				  service_data[i].clientid, service_data[i].use_count,
+ 				  service_data[i].use_count ? nz : "");
+ 	}
+-	vchiq_log_warning(vchiq_susp_log_level, "----- VCHIQ use count count %d", peer_count);
++	vchiq_log_warning(vchiq_susp_log_level, "----- VCHIQ use count %d", peer_count);
+ 	vchiq_log_warning(vchiq_susp_log_level, "--- Overall vchiq instance use count %d",
+ 			  vc_use_count);
  
- static void Hal_EfuseParseMACAddr_8188EU(struct adapter *adapt, u8 *hwinfo, bool AutoLoadFail)
- {
-@@ -939,6 +933,7 @@ static void Hal_EfuseParseMACAddr_8188EU(struct adapter *adapt, u8 *hwinfo, bool
- void ReadAdapterInfo8188EU(struct adapter *Adapter)
- {
- 	struct eeprom_priv *eeprom = &Adapter->eeprompriv;
-+	struct led_priv *ledpriv = &Adapter->ledpriv;
- 	u8 eeValue;
- 
- 	/*  Read EEPROM size before call any EEPROM function */
-@@ -966,7 +961,7 @@ void ReadAdapterInfo8188EU(struct adapter *Adapter)
- 	Hal_ReadAntennaDiversity88E(Adapter, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
- 	Hal_ReadThermalMeter_88E(Adapter, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
- 
--	_ReadLEDSetting(Adapter, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
-+	ledpriv->bRegUseLed = true;
- }
- 
- static void ResumeTxBeacon(struct adapter *adapt)
 -- 
-2.34.1
+2.25.1
 
