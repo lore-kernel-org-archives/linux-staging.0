@@ -1,82 +1,136 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 946F7168
-	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 02:04:29 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.126])
-	by APP-05 (Coremail) with SMTP id zQCowABXXn4eb8ph_T8tBQ--.54598S2;
-	Tue, 28 Dec 2021 09:57:50 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: Re: Re: [PATCH] staging: greybus: audio: Check null pointer
-Date: Tue, 28 Dec 2021 09:57:49 +0800
-Message-Id: <20211228015749.1635832-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A78168
+	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 02:10:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19A8C36AEA;
+	Tue, 28 Dec 2021 02:09:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1640657404;
+	bh=SWYw07zmaaDNu+bU6UjWMUGttSEKl48ssAwYr917Irk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=AP7PTZtlYcp1DDFFD9oOox44rlGILxnZhjrWGoppO9nx889cG994Anev93Fi8avnE
+	 QKDjPgXQd+0j5ryyJUZRF2fBwkLwO80XrnSF/7Fx+x50yneeRCMv+6NTewDTm+M3mY
+	 UmjlUI3lKpBa+eY+azArRNs2im3Ff4KiJ7Zi2yf5dhhdWeFi5sankCfKs3hH/NkcWY
+	 C3nDae4xyYfSY866Hl7iueZkbXg7sQjQFFHeioueEr+2zR+wkgXwGDiPuaIoio9xml
+	 rwSFGRLZ2Ry45efsPcHYEzY5Wj/FdpgdsOlVeG8/L54LBpew0o0F/pJgWb5CCAbMPX
+	 5d9alQgd1Ngqw==
+Date: Tue, 28 Dec 2021 03:09:46 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: Arnd Bergmann <arnd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ John Garry <john.garry@huawei.com>, Nick Hu <nickhu@andestech.com>,
+ Greentime Hu <green.hu@gmail.com>, Vincent Chen <deanbo422@gmail.com>, Paul
+ Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, Damien Le
+ Moal <damien.lemoal@opensource.wdc.com>, Ian Abbott <abbotti@mev.co.uk>, H
+ Hartley Sweeten <hsweeten@visionengravers.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Jean
+ Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, Karsten Keil <isdn@linux-pingi.de>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Sathya Prakash
+ <sathya.prakash@broadcom.com>, Sreekanth Reddy
+ <sreekanth.reddy@broadcom.com>, Suganath Prabu Subramani
+ <suganath-prabu.subramani@broadcom.com>, Michael Grzeschik
+ <m.grzeschik@pengutronix.de>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Jesse Brandeburg
+ <jesse.brandeburg@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>, "James E.J.
+ Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Hannes Reinecke <hare@suse.com>, Kashyap
+ Desai <kashyap.desai@broadcom.com>, Sumit Saxena
+ <sumit.saxena@broadcom.com>, Shivasharan S
+ <shivasharan.srikanteshwara@broadcom.com>, Nilesh Javali
+ <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, Mark Brown
+ <broonie@kernel.org>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Teddy
+ Wang <teddy.wang@siliconmotion.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Forest Bond <forest@alittletooquiet.net>,
+ Jiri Slaby <jirislaby@kernel.org>, Wim Van Sebroeck
+ <wim@linux-watchdog.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-csky@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+ netdev@vger.kernel.org, linux-media@vger.kernel.org,
+ MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-wireless@vger.kernel.org,
+ megaraidlinux.pdl@broadcom.com, linux-spi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
+Message-ID: <20211228030946.65932d2e@coco.lan>
+In-Reply-To: <20211227164317.4146918-2-schnelle@linux.ibm.com>
+References: <20211227164317.4146918-1-schnelle@linux.ibm.com>
+	<20211227164317.4146918-2-schnelle@linux.ibm.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABXXn4eb8ph_T8tBQ--.54598S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7WryDJryktr47uF1DAFy7ZFb_yoW8AF17pa
-	yfK34Ik3Z8Xrn5AF18Jw1fJa4fuw4kJrW5GFn8W39rZrW3XF48GrZ3Kr4UWrW7Cr4rAa1q
-	vFW0yw1rCr1qvrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
-	1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-	7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
-	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_
-	KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r
-	1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij
-	64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
-	0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUOMKZDUUUU
-X-Originating-IP: [124.16.138.126]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 27, 2021 at 11:54:10PM +0800, Alex Elder wrote:
-> I think this is a good change, but I would like you to improve
-> the description, and fix some different bugs introduced by your
-> change.
->
-> What you are specifically doing is checking for a null return
-> from devm_kcalloc() in gb_generate_enum_strings(), and are
-> returning the NULL pointer if that occurs.  That means you
-> need to update all the callers of gb_generate_enum_strings()
-> to also handle a possible null return value.
->
-> The fix does a good thing, and your description is correct
-> about what you are fixing.  But it should supply more
-> complete context for the change.
+Em Mon, 27 Dec 2021 17:42:46 +0100
+Niklas Schnelle <schnelle@linux.ibm.com> escreveu:
 
-Thanks for your advice, I will correct my description in next version.
-But I still have some question about the devm_kzalloc().
+> Introduce a new LEGACY_PCI Kconfig option which gates support for legacy
+> PCI devices including those attached to a PCI-to-PCI Express bridge and
+> PCI Express devices using legacy I/O spaces. Note that this is different
+> from non PCI uses of I/O ports such as by ACPI.
+> 
+> Add dependencies on LEGACY_PCI for all PCI drivers which only target
+> legacy PCI devices and ifdef legacy PCI specific functions in ata
+> handling.
+> 
+> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> Signed-off-by: Arnd Bergmann <arnd@kernel.org>
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> ---
+>  drivers/ata/Kconfig                          | 34 ++++++++--------
+>  drivers/ata/ata_generic.c                    |  3 +-
+>  drivers/ata/libata-sff.c                     |  2 +
+>  drivers/comedi/Kconfig                       | 42 +++++++++++++++++++
+>  drivers/gpio/Kconfig                         |  2 +-
+>  drivers/hwmon/Kconfig                        |  6 +--
+>  drivers/i2c/busses/Kconfig                   | 24 +++++------
+>  drivers/input/gameport/Kconfig               |  4 +-
+>  drivers/isdn/hardware/mISDN/Kconfig          | 14 +++----
 
-> You can't simply return here.  If you look a bit above this,
-> where the call to allocate a control structure is done, you
-> see that a NULL return there jumps to the "error" label, so
-> any already allocated and initialized control widgets get
-> cleaned up before returning.
+>  drivers/media/cec/platform/Kconfig           |  2 +-
+>  drivers/media/pci/dm1105/Kconfig             |  2 +-
+>  drivers/media/radio/Kconfig                  |  2 +-
 
-Actually, I have already thought of whether it needs to free after the devm_kzalloc().
-As we can find in the gbaudio_tplg_create_widget(), the widget_kctls is allocated by devm_kzalloc(), but isn't released when gbaudio_tplg_create_wcontrol() fails and goto error.
-And I check of the comment of the devm_kmalloc() in `drivers/base/devres.c`, because devm_kzalloc() returns devm_kmalloc().
-And it says that "Memory allocated with this function is automatically freed on driver detach."
-So there is no need to free the memory manually.
-Is that right?
-And I am sorry again because of the lack of the above explanation in my commit message.
-I will also add to my new commit.
+Not sure what you meant by "legacy I/O spaces" on this patch. 
+I mean, I would expect non-PCIe devices - like bttv and other
+devices developed at the past millennium or so to be "legacy",
+but at least on media, it is touching some drivers that aren't
+that old, while keeping the really old ones untouched. Instead,
+it is touching a driver developed in 2017 plus two other ones
+that are a way newer than other drivers.
 
-Thanks,
-Jiang
+The support for the Bt8xx chipset, in particular, is really 
+weird, as a sound driver for such chipset:
 
+> @@ -172,6 +177,7 @@ config SND_AZT3328
+>  
+>  config SND_BT87X
+>  	tristate "Bt87x Audio Capture"
+> +	depends on LEGACY_PCI
+>  	select SND_PCM
+>  	help
+>  	  If you want to record audio from TV cards based on
+
+was marked as dependent of LEGACY_PCI, while the DVB and V4L2 ones 
+weren't.
+
+Sounds confusing to me, as the PCI bridge used by a Bt87x device 
+should be the same for all three subdevices.
+
+I'm confused...
+
+Regards,
+Mauro
