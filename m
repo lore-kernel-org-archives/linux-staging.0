@@ -1,92 +1,138 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188B42C82
-	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 08:54:51 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id i22so36964831wrb.13
-        for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 00:54:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=H5kooFMapB/0KjAVgfVIQg5n2UJOAisEF+Pze2Iutxc=;
-        b=q6mKLH/W9YIDmIZ64NpWrbl80tK0H7KYBnVD9n1QlVR7nzrqFMSEqiJoggg7GMXQhB
-         5nBbA7g6Jf8QnSGcDp4XgFubeqWYeI/coaXqHt3JltrZbp3MOuoS2suP+ZfxS36tVVtC
-         LKunv0jeMgq/qnncyahcHcJjBvXx+B/e4jf1oYLemrmNOScHEF5zZICCdnObHU/pWxtj
-         sESq5/WiVd43YuMc6yXhffqdcJlEBGGSBY6WAFEbfl0bJlq7hhQ8IH0QLFnhbnGTHrAV
-         jTa6IrXf4aAd8Cu6r2CJxickUOxy/jqcHEEdk2xgL/Rs0AVyOXRbpE4K2p7Zf3E3/UDC
-         fEHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=H5kooFMapB/0KjAVgfVIQg5n2UJOAisEF+Pze2Iutxc=;
-        b=oxRResGxILLL40CFhEevfEgw9NqvfGva4pwt9tq8AViltFqeOPUiKE/Sbd+LToBj0j
-         l6YnWDNZfPr7yhMmrR7hVh8ORhsz7gn++CLwGttYIBJ3aigI6K35pzoUEN3w92l5+jZo
-         oo0JPQPTMfLsPoGJgrUdFqbxPF4/fxOnZM0iFHcAjsLNFpz7UyIGzVLyBpDoJkNbbl/g
-         39Wget+SwmVWRl71hxZObd976sOJ/GhdSLyAMi1oAn29YoJNMrMJovKt5NlyW2pwFqwl
-         zthWfKK2hW2JKF3VUqsMN0Wtma4LYbDCB9AcUJozVQjqT/8zXbneSEV3RLpVcOH+rs+d
-         R59A==
-X-Gm-Message-State: AOAM532P8V2ivdbER/YD9bUNh06HLU6Df/NBCgQR6u/wBA/v8dwQ+lgg
-	coDhYA2Bo9JFGdsqqO/07D4=
-X-Google-Smtp-Source: ABdhPJzQAxCWisCdkdfPr5vGpfIAG6IGoBOSCH9r8lH50zbUaVhfwdc1axTv6cEnISraUnufOUsQ8A==
-X-Received: by 2002:adf:fe11:: with SMTP id n17mr15021730wrr.643.1640681690516;
-        Tue, 28 Dec 2021 00:54:50 -0800 (PST)
-Received: from ?IPV6:2a02:8108:96c0:3b88::d7e8? ([2a02:8108:96c0:3b88::d7e8])
-        by smtp.gmail.com with ESMTPSA id az15sm16843877wmb.47.2021.12.28.00.54.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Dec 2021 00:54:50 -0800 (PST)
-Message-ID: <b6ff906f-63ff-17a1-9c1d-01e0ac8107d2@gmail.com>
-Date: Tue, 28 Dec 2021 09:54:49 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D8B168
+	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 09:15:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36527C36AE7;
+	Tue, 28 Dec 2021 09:15:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1640682932;
+	bh=GhkQipbGlKDnWFYSWHR8QJ9jDw3XiA0zWUSH0TczCbE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dYWghGQbT+zkKYVLv1Zhab/gyFy9VpZvbxpbFRNzp3Lo5J6P/Q+Wf9wZJ3oL1Y4nF
+	 96QRZWFgrpKChm6T6ENMeuTcDkoRMS//XW4vNdMJB4gLdNcNmX96GZTLdULruuieLb
+	 emRGzvA33ANfq1HyCg7yWlEMSY81FT51jd/pZeMOMTkwWI2S8tmDueYyTyJr7hwGcG
+	 yL5P+Au50kwMpsldooh4cVnB+oQkMDs7kWcv4culv3nNyxGHHdqsdStKVVXhf5e3AJ
+	 K3RgIP6/xYabneVHyG9NqbWuq3dYLRaZSL3QAii2RDYrapQzGorXDljBWHF9TwGY4F
+	 k139XXS0mA/xw==
+Date: Tue, 28 Dec 2021 10:15:16 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Niklas Schnelle <schnelle@linux.ibm.com>, Arnd Bergmann
+ <arnd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, John Garry
+ <john.garry@huawei.com>, Nick Hu <nickhu@andestech.com>, Greentime Hu
+ <green.hu@gmail.com>, Vincent Chen <deanbo422@gmail.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, Damien Le Moal
+ <damien.lemoal@opensource.wdc.com>, Ian Abbott <abbotti@mev.co.uk>, H
+ Hartley Sweeten <hsweeten@visionengravers.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Jean
+ Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Dmitry
+ Torokhov <dmitry.torokhov@gmail.com>, Karsten Keil <isdn@linux-pingi.de>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Sathya Prakash
+ <sathya.prakash@broadcom.com>, Sreekanth Reddy
+ <sreekanth.reddy@broadcom.com>, Suganath Prabu Subramani        
+ <suganath-prabu.subramani@broadcom.com>, Michael Grzeschik
+ <m.grzeschik@pengutronix.de>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Jesse Brandeburg
+ <jesse.brandeburg@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>, "James E.J.
+ Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Hannes Reinecke <hare@suse.com>, Kashyap
+ Desai <kashyap.desai@broadcom.com>, Sumit Saxena
+ <sumit.saxena@broadcom.com>, Shivasharan S
+ <shivasharan.srikanteshwara@broadcom.com>, Nilesh Javali
+ <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, Mark Brown
+ <broonie@kernel.org>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Teddy
+ Wang <teddy.wang@siliconmotion.com>, Forest Bond
+ <forest@alittletooquiet.net>, Jiri Slaby <jirislaby@kernel.org>, Wim Van
+ Sebroeck <wim@linux-watchdog.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-input@vger.kernel.org, netdev@vger.kernel.org,
+ linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
+ linux-scsi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-wireless@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
+ linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-watchdog@vger.kernel.org,
+ alsa-devel@alsa-project.org
+Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
+Message-ID: <20211228101435.3a55b983@coco.lan>
+In-Reply-To: <YcrJAwsKIxxX18pW@kroah.com>
+References: <20211227164317.4146918-1-schnelle@linux.ibm.com>
+	<20211227164317.4146918-2-schnelle@linux.ibm.com>
+	<YcrJAwsKIxxX18pW@kroah.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH] staging: r8188eu: remove unused enum odm_h2c_cmd
-Content-Language: en-US
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20211227104312.13163-1-straube.linux@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20211227104312.13163-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 12/27/21 11:43, Michael Straube wrote:
-> The enum odm_h2c_cmd is not used in this driver. Remove it.
-> 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->   drivers/staging/r8188eu/include/odm_interface.h | 7 -------
->   1 file changed, 7 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/include/odm_interface.h b/drivers/staging/r8188eu/include/odm_interface.h
-> index 64c29c1da19d..e27ba77577a7 100644
-> --- a/drivers/staging/r8188eu/include/odm_interface.h
-> +++ b/drivers/staging/r8188eu/include/odm_interface.h
-> @@ -4,13 +4,6 @@
->   #ifndef	__ODM_INTERFACE_H__
->   #define __ODM_INTERFACE_H__
->   
-> -enum odm_h2c_cmd {
-> -	ODM_H2C_RSSI_REPORT = 0,
-> -	ODM_H2C_PSD_RESULT= 1,
-> -	ODM_H2C_PathDiv = 2,
-> -	ODM_MAX_H2CCMD
-> -};
-> -
->   /*  2012/02/17 MH For non-MP compile pass only. Linux does not support workitem. */
->   /*  Suggest HW team to use thread instead of workitem. Windows also support the feature. */
->   typedef void (*RT_WORKITEM_CALL_BACK)(void *pContext);
+Em Tue, 28 Dec 2021 09:21:23 +0100
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 
-This patch is outdated, please drop it.
-I'll resend it as part of a series.
+> On Mon, Dec 27, 2021 at 05:42:46PM +0100, Niklas Schnelle wrote:
+> > --- a/drivers/pci/Kconfig
+> > +++ b/drivers/pci/Kconfig
+> > @@ -23,6 +23,17 @@ menuconfig PCI
+> >  
+> >  if PCI
+> >  
+> > +config LEGACY_PCI
+> > +	bool "Enable support for legacy PCI devices"
+> > +	depends on HAVE_PCI
+> > +	help
+> > +	   This option enables support for legacy PCI devices. This includes
+> > +	   PCI devices attached directly or via a bridge on a PCI Express bus.
+> > +	   It also includes compatibility features on PCI Express devices which
+> > +	   make use of legacy I/O spaces.  
+
+This Kconfig doesn't seem what it is needed there, as this should be an 
+arch-dependent feature, and not something that the poor user should be
+aware if a given architecture supports it or not. Also, the above will keep
+causing warnings or errors with randconfigs.
+
+Also, the "depends on HAVE_CPI" is bogus, as PCI already depends on 
+HAVE_PCI:
+
+	menuconfig PCI
+	bool "PCI support"
+	depends on HAVE_PCI
+	help
+	  This option enables support for the PCI local bus, including
+	  support for PCI-X and the foundations for PCI Express support.
+	  Say 'Y' here unless you know what you are doing.
+
+So, instead, I would expect that a new HAVE_xxx option would be
+added at arch/*/Kconfig, like:
+
+	config X86
+		...
+		select HAVE_PCI_DIRECT_IO
+
+It would also make sense to document it at Documentation/features/.
+
+> 
+> All you really care about is the "legacy" I/O spaces here, this isn't
+> tied to PCI specifically at all, right?
+> 
+> So why not just have a OLD_STYLE_IO config option or something like
+> that, to show that it's the i/o functions we care about here, not PCI at
+> all?
+> 
+> And maybe not call it "old" or "legacy" as time constantly goes forward,
+> just describe it as it is, "DIRECT_IO"?
+
+Agreed. HAVE_PCI_DIRECT_IO (or something similar) seems a more appropriate
+name for it.
 
 Thanks,
-Michael
+Mauro
