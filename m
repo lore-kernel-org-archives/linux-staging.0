@@ -1,222 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67951173
-	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 12:54:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4546BC36AE8;
-	Tue, 28 Dec 2021 12:54:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1640696083;
-	bh=Gap0GwZ7QhskHCBuxCWJ0ehIbXdcDMw/3DRBfuFroAo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uT1Bi526RdiqCovjK+BsZ0LQ21O6eAGdLfperJgxt/T4KZXCQHLowjI+U/BnL+30l
-	 HJRegFW6ceEx7gRTUzAnY/lOi8+345syFMoVZJg23IyMTVv8lxOmatGJsejunnysTY
-	 b7cgtAhK1rV1ciaHNDicksS8OtcQVVqsJ8fTaLs35K3JpOGyDL1M7tu/pQlaK0TC5o
-	 847l3oZwcFMOo4LfbX6OTisn674FFeznktD1n6AMeVW9VoFWIsJndv9O02I/tcIR5D
-	 xfPFEZmvAPeSdi4V+6+pSCDV5v0lZDnuzytqnQmuAjGw0iIL513WDap3bYMORE0U6k
-	 6wPKV3GCt3SBA==
-Date: Tue, 28 Dec 2021 13:54:25 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Greg Kroah-Hartman  <gregkh@linuxfoundation.org>, Arnd Bergmann
- <arnd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, John Garry
- <john.garry@huawei.com>, Nick Hu <nickhu@andestech.com>, Greentime Hu
- <green.hu@gmail.com>, Vincent Chen <deanbo422@gmail.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, Damien Le Moal
- <damien.lemoal@opensource.wdc.com>, Ian Abbott <abbotti@mev.co.uk>, H
- Hartley Sweeten <hsweeten@visionengravers.com>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Jean
- Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Dmitry
- Torokhov <dmitry.torokhov@gmail.com>, Karsten Keil <isdn@linux-pingi.de>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Sathya Prakash
- <sathya.prakash@broadcom.com>, Sreekanth Reddy
- <sreekanth.reddy@broadcom.com>, Suganath Prabu Subramani
- <suganath-prabu.subramani@broadcom.com>, Michael Grzeschik
- <m.grzeschik@pengutronix.de>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Jesse Brandeburg
- <jesse.brandeburg@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
- Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>, "James E.J.
- Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Hannes Reinecke <hare@suse.com>, Kashyap
- Desai <kashyap.desai@broadcom.com>, Sumit Saxena
- <sumit.saxena@broadcom.com>, Shivasharan S
- <shivasharan.srikanteshwara@broadcom.com>, Nilesh Javali
- <njavali@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, Mark Brown
- <broonie@kernel.org>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Teddy
- Wang <teddy.wang@siliconmotion.com>, Forest Bond
- <forest@alittletooquiet.net>, Jiri Slaby <jirislaby@kernel.org>, Wim Van
- Sebroeck <wim@linux-watchdog.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
- linux-scsi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-wireless@vger.kernel.org, megaraidlinux.pdl@broadcom.com,
- linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-watchdog@vger.kernel.org,
- alsa-devel@alsa-project.org
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-Message-ID: <20211228135425.0a69168c@coco.lan>
-In-Reply-To: <b1475f6aecb752a858941f44a957b2183cd68405.camel@linux.ibm.com>
-References: <20211227164317.4146918-1-schnelle@linux.ibm.com>
-	<20211227164317.4146918-2-schnelle@linux.ibm.com>
-	<YcrJAwsKIxxX18pW@kroah.com>
-	<20211228101435.3a55b983@coco.lan>
-	<b1475f6aecb752a858941f44a957b2183cd68405.camel@linux.ibm.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B348173
+	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 13:05:25 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 8D1DC3200904;
+	Tue, 28 Dec 2021 08:05:24 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Tue, 28 Dec 2021 08:05:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm2; bh=LgvjAfc+b2l248WyB/HBBBCF00E
+	oiQ69EgT/Ly4tEOA=; b=AFGonbwEmdFO0kKPYpWq3ZuSBnsG0XK1L2bGHK43nN4
+	eB+nsD2/8j+p4iDiobZAFAbVFB7TptX2BZgnj2YaMUyvtxFXuTf8PCNtawm9YltW
+	X4zhrg3SbUE81TQasveopYu7Qc8lnWLZW5hxiQZZU5hfYcLz6tjxO2yJdou4ArlU
+	r/VnDhb48Gq42G2JOT5Bg86zud8evzw95CD3ZxhQOt1Rw9v3Q4/MbktsNDAd9emK
+	ZhGmYq39027FR7UU7H8auCmH+XLXzDKK5JOo0KtB9e5JAL09pFuoEdENGCVgepJ9
+	Z9w1UxZkJy7fQLdCs1holBZiT8uQz6ykfC5RHXwqYkg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=LgvjAf
+	c+b2l248WyB/HBBBCF00EoiQ69EgT/Ly4tEOA=; b=BY59p57asrO0pu16lAF3F1
+	G70AyH4FoRy9DgKYT/tqepb2EHNB9KrYkuVNOyQWNbZkrsnbceM7VK+VGVNByvU7
+	gH4QPtMuFD9mjFM6dO9eHJuLRkHOwdX98WearBBjwzY7sMQzsNwuoHAhQxZ+J2iG
+	EhNhQL0OeBJJYbD2oMXRCtRWoQfaAbB4aCfdQoSaqXpBzLPAah92LI8pPN9XM69q
+	386+1266+AFU+zxLxsQKpHByZvaLEpm9NrlZVKY+LGGu7P9FatQyw2Sz5UuVW4zk
+	2xm6g4J0g651WV/k38pqxC/gRibrPuN+NFCal8LlCdrGL9TTBFuOSA8pfWPrcqNw
+	==
+X-ME-Sender: <xms:kwvLYXkKL7qGlAATmpEnoKczGvN5H7qj3YG7zIgotru9UUf878zxKA>
+    <xme:kwvLYa1H8mb816HkYMnhFqRiQanRks6DK6GkVhWayh6WQwGef534oG7Oc8NHUKSoh
+    jfSNR_vYpwY0Q>
+X-ME-Received: <xmr:kwvLYdpKapLW2BNHtIbYSszOxwQoid4Axpl6As29rXT9QkbzR3OpYir8EaorlBvZ5aPr1jm_KmbysevNldNUEZop9i1nHymf>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudduledggeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
+    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
+    necuggftrfgrthhtvghrnhepveeuheejgfffgfeivddukedvkedtleelleeghfeljeeiue
+    eggeevueduudekvdetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:kwvLYfkmXSj8fZRKqWgt6mmgaw506HaSZQpsdskTJoGwxm0lAyO8tg>
+    <xmx:kwvLYV0SffhkDskFMVEMdq7wJxW0YF1g6k2NKtbkS3N4HAAGvLxNmw>
+    <xmx:kwvLYev7YkB1TJKo9ey4NaNumVeIJxTNERACvumhaWrfxKuq77xa_A>
+    <xmx:lAvLYTAuw93rAZxzvmLbO1YPXvJMD0-rBchHYQJtDTg4n7DTQLCFvQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Dec 2021 08:05:23 -0500 (EST)
+Date: Tue, 28 Dec 2021 14:05:21 +0100
+From: Greg KH <greg@kroah.com>
+To: Adam Kandur <sys.arch.adam@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] qlge: refactor qlge_change_rx_buffers() in qlge_main.c
+Message-ID: <YcsLkb8iDGDcmO8f@kroah.com>
+References: <CAE28pkP48Or4LhmuBd2CMamL3yZ1_ipjtEFWqXjuUunNU9bTSQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE28pkP48Or4LhmuBd2CMamL3yZ1_ipjtEFWqXjuUunNU9bTSQ@mail.gmail.com>
 
-Em Tue, 28 Dec 2021 11:58:55 +0100
-Niklas Schnelle <schnelle@linux.ibm.com> escreveu:
-
-> On Tue, 2021-12-28 at 10:15 +0100, Mauro Carvalho Chehab wrote:
-> > Em Tue, 28 Dec 2021 09:21:23 +0100
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> >   
-> > > On Mon, Dec 27, 2021 at 05:42:46PM +0100, Niklas Schnelle wrote:  
-> > > > --- a/drivers/pci/Kconfig
-> > > > +++ b/drivers/pci/Kconfig
-> > > > @@ -23,6 +23,17 @@ menuconfig PCI
-> > > >  
-> > > >  if PCI
-> > > >  
-> > > > +config LEGACY_PCI
-> > > > +	bool "Enable support for legacy PCI devices"
-> > > > +	depends on HAVE_PCI
-> > > > +	help
-> > > > +	   This option enables support for legacy PCI devices. This includes
-> > > > +	   PCI devices attached directly or via a bridge on a PCI Express bus.
-> > > > +	   It also includes compatibility features on PCI Express devices which
-> > > > +	   make use of legacy I/O spaces.    
-> > 
-> > This Kconfig doesn't seem what it is needed there, as this should be an 
-> > arch-dependent feature, and not something that the poor user should be
-> > aware if a given architecture supports it or not. Also, the above will keep
-> > causing warnings or errors with randconfigs.
-> > 
-> > Also, the "depends on HAVE_CPI" is bogus, as PCI already depends on 
-> > HAVE_PCI:  
+On Tue, Dec 28, 2021 at 03:17:59PM +0300, Adam Kandur wrote:
+> Greetings. As I understand, qlge_change_rx_buffers() waits 4 times for
+> an outstanding reset to complete. And if it cannot, reports about
+> timeout. I assume this can be written using for loop instead of while,
+> wich looks nicer for me.
 > 
-> Ah yes you're right.
+> Signed-off-by: Adam Kandur <sys.arch.adam@gmail.com>
+> ---
+>  drivers/staging/qlge/qlge_main.c | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
 > 
-> > 
-> > 	menuconfig PCI
-> > 	bool "PCI support"
-> > 	depends on HAVE_PCI
-> > 	help
-> > 	  This option enables support for the PCI local bus, including
-> > 	  support for PCI-X and the foundations for PCI Express support.
-> > 	  Say 'Y' here unless you know what you are doing.
-> > 
-> > So, instead, I would expect that a new HAVE_xxx option would be
-> > added at arch/*/Kconfig, like:
-> > 
-> > 	config X86
-> > 		...
-> > 		select HAVE_PCI_DIRECT_IO
-> > 
-> > It would also make sense to document it at Documentation/features/.  
+> diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+> index 9873bb2a9ee4..f36e43a85038 100644
+> --- a/drivers/staging/qlge/qlge_main.c
+> +++ b/drivers/staging/qlge/qlge_main.c
+> @@ -4012,19 +4012,16 @@ static int qlge_change_rx_buffers(struct
+> qlge_adapter *qdev)
 > 
-> I'll look into that, thanks.
+>   /* Wait for an outstanding reset to complete. */
+>   if (!test_bit(QL_ADAPTER_UP, &qdev->flags)) {
+> - int i = 4;
+> -
+> - while (--i && !test_bit(QL_ADAPTER_UP, &qdev->flags)) {
+> + for (int i = 4; !test_bit(QL_ADAPTER_UP, &qdev->flags); i--) {
+> + if (!i) {
+> + netif_err(qdev, ifup, qdev->ndev,
+> +   "Timed out waiting for adapter UP\n");
+> + return -ETIMEDOUT;
+> + }
+>   netif_err(qdev, ifup, qdev->ndev,
+>     "Waiting for adapter UP...\n");
+>   ssleep(1);
+>   }
+> -
+> - if (!i) {
+> - netif_err(qdev, ifup, qdev->ndev,
+> -   "Timed out waiting for adapter UP\n");
+> - return -ETIMEDOUT;
+> - }
+>   }
 > 
-> >   
-> > > All you really care about is the "legacy" I/O spaces here, this isn't
-> > > tied to PCI specifically at all, right?
-> > > 
-> > > So why not just have a OLD_STYLE_IO config option or something like
-> > > that, to show that it's the i/o functions we care about here, not PCI at
-> > > all?
-> > > 
-> > > And maybe not call it "old" or "legacy" as time constantly goes forward,
-> > > just describe it as it is, "DIRECT_IO"?  
-> > 
-> > Agreed. HAVE_PCI_DIRECT_IO (or something similar) seems a more appropriate
-> > name for it.
-> > 
-> > Thanks,
-> > Mauro  
+>   status = qlge_adapter_down(qdev);
+> -- 
+> 2.34.0
 > 
-> Hmm, I might be missing something here but that sounds a lot like the
-> HAS_IOPORT option added in patch 02.
-> 
-> We add both LEGACY_PCI and HAS_IOPORT to differentiate between two
-> cases. HAS_IOPORT is for PC-style devices that are not on a PCI card
-> while LEGACY_PCI is for PCI drivers that require port I/O. 
 
-I didn't look at the other patches on this series, but why it is needed
-to deal with them on a separate way? Won't "PCI" and "HAS_IOPORT" be enough? 
+Hi,
 
-I mean, are there any architecture where HAVE_PCI=y and HAS_IOPORT=y
-where LEGACY_PCI shall be "n"?
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-> This
-> includes pre-PCIe devices as well as PCIe devices which require
-> features like I/O spaces. The "legacy" naming is comes from the PCIe
-> spec which in section 2.1.1.2 says "PCI Express supports I/O Space for
-> compatibility with legacy devices which require their use. Future
-> revisions of this specification may deprecate the use of I/O Space."
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-I would still avoid calling it LEGACY_PCI, as this sounds too generic.
+- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
+  and can not be applied.  Please read the file,
+  Documentation/email-clients.txt in order to fix this.
 
-I didn't read the PCI/PCIe specs, but I suspect that are a lot more
-features that were/will be deprecated on PCI specs as time goes by.
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
 
-So, I would, instead, use something like PCI_LEGACY_IO_SPACE or 
-HAVE_PCI_LEGACY_IO_SPACE, in order to let it clear what "legacy"
-means.
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
-> These two separate config options allow us to compile without support
-> for these legacy PCI devices even on a system where inb()/outb() and
-> friends are required for some PC style devices and for example ACPI.
+thanks,
 
-Hmm... why this patch make SND_BT87X dependent on LEGACY_PCI?
-
-> @@ -172,6 +177,7 @@ config SND_AZT3328
->  
->  config SND_BT87X
->  	tristate "Bt87x Audio Capture"
-> +	depends on LEGACY_PCI
->  	select SND_PCM
->  	help
->  	  If you want to record audio from TV cards based on
-
-I couldn't find any usage of inb/outb & friends on it:
-
-	$ grep -E '(inb|outb|inw|outw|inl|outl)\b' ./sound/pci/bt87x.c
-
-It uses, instead, readl/writel:
-
-	static inline u32 snd_bt87x_readl(struct snd_bt87x *chip, u32 reg)
-	{
-	        return readl(chip->mmio + reg);
-	}
-
-	static inline void snd_bt87x_writel(struct snd_bt87x *chip, u32 reg, u32 value)
-	{
-	        writel(value, chip->mmio + reg);
-	}
-
-I failed to see what makes it different from VIDEO_BT848 and
-DVB_BT8XX drivers. They all support exactly the same chipset:
-Brooktree/Conexant BT8xx. On those devices, depending on the exact
-model, up to three separate interfaces are provided, each one with
-its own Kconfig var:
-
-	- audio I/O (SND_BT87X);
-	- video I/O (VIDEO_BT848);
-	- MPEG-TS I/O (DVB_BT8XX).
-
-Thanks,
-Mauro
+greg k-h's patch email bot
