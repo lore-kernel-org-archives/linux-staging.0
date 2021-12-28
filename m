@@ -1,44 +1,41 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B3629CA
-	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 14:45:13 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id bp20so41905439lfb.6
-        for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 06:45:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB49729CA
+	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 14:50:24 +0000 (UTC)
+Received: by mail-io1-f54.google.com with SMTP id o7so21040796ioo.9
+        for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 06:50:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=ieee.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=4gNUjzA8KlzMe1Lw4SKhbvOeuiCO4MLYSKvzBpEL6Sg=;
-        b=L6fR2gBs9jHO/gefGZ/281PAeZYPb1Sgd+KmUxmfzRxaqtg8lrnPW57r+zWO96VwoI
-         99gtepb4QRuHF6DhYIW1bNBImz+8Je/6kmKKaNsPL6YqaCL7N0Ar9Kbcn+RTH2ppJdcl
-         3UiqkU/pxgYjYTniTJ3016w+Uf4tc8eSKkSURDnCEWDe8I9D5iKmKVII8uiARDxXyyMD
-         qoo4gVRr8uXzC2XpOE+qzk5oUNJ8RoTjkZEst6hbJqJmk9nWBfp6+6JP6k8Jya8l9Y2b
-         1s3pTS8hFrCH1HwD5OtKc9hE1myErrZq8r1eemPDXyUtyNuAst/ICGiKvSzOstnmzghP
-         hbkw==
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=l9nM/caC7jqplBef01OjNObpmzs6O53UR3TuHU2t930=;
+        b=UZinsWCZe0ig758ZYaZg6eSk8CKPxR3PgBVvDfPOd0kgcrjKqBQeoD/Rtf61ksbFxU
+         KWnQTqobxvDG7SJHhkjT/zSks3ZJhcvhfSAGlKa9HUdASuJofy2z/xWSpk4QF/TIcJKH
+         iDbn5fBKSN/te5FWgkWD3LVlybAet056CZ3uQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=4gNUjzA8KlzMe1Lw4SKhbvOeuiCO4MLYSKvzBpEL6Sg=;
-        b=dWPEz8nz9vOb32DfKBQvi3YGgufON48HButxeNLiRDK6ChGD1b/zVfKBq6tB9KNnbv
-         uW0aeq0A/FGBMQNoxK4fX66OyC9OxVse3dM76NaVrXMX/Re+X/O/Sr4ujPqw+JCjQXMH
-         vbhiLu686Q9JkBPn0nk5CS05LR6Qn31IPRuI7DXyhqx0lSuUrGOl8/ZaDNGoXFryolxW
-         PgsRy2muwSVTsO/ErTcii590JX0TW/E4/X3c/3fHxvVlfiFc0zXIcX0C36V4htu5kyI0
-         njbSo3pN1XhEGNort+DlCCBXUfaVIEDmkVWoNqbp3J63L3iLK6+bSwmW9qfu6FsLyT4f
-         df3A==
-X-Gm-Message-State: AOAM531S3/o9GccJRtUB7smYHn3A8NMC8LcKBpLjIfkg73BTfI/5AUDd
-	gQB+tT6NXmqCHtpacE7gLOOf6oDBz1w=
-X-Google-Smtp-Source: ABdhPJzTIBFAWdxt7+I+ecuDAMewI/NEam/OCMIRzzwYrw/g6gJI92z5m2xCA/TiKVh+Gj9qVRo/Tg==
-X-Received: by 2002:a05:6512:110a:: with SMTP id l10mr18760690lfg.527.1640702711569;
-        Tue, 28 Dec 2021 06:45:11 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.235.97])
-        by smtp.gmail.com with ESMTPSA id 1sm1865474ljq.102.2021.12.28.06.45.10
+        bh=l9nM/caC7jqplBef01OjNObpmzs6O53UR3TuHU2t930=;
+        b=GQhJQTlBmGlQ6310KKk6Xwj/pca6ln8pYOEgoPOMEgsclCVUMQtD5eEHJI2iOuCALh
+         oI8QHcz9e5vIHLO19JFsjYmz5DQuM9ItD8ryVAi9K21nHydNwe2r05IRSAduezUNXks9
+         vZZYc/LVSZhJa7gkEppIgpEpJrF/G/E3ctIfUtJ0Rp9XkScFgRZJ5+zLmciedZ52ffc0
+         Y1XLeA7dmLdvZx9fP9+dpxFotR6nV8TfKXv89DPwbwwkULYv+Or3WYzluW1T/TYuxUtF
+         9XopPeYdks+/k4Oy/uKgyZVOx51QPIWjtO469kxtWvug8ZJWPz0CBT4tXUaiCA57qom7
+         UUSg==
+X-Gm-Message-State: AOAM532lDIB6x7jZJyrkcX8ySYG+zzDzNwZzoYSs3CTr45zq9GfM4694
+	Fr5RnWDRw+EODT7AKD7qpQSiNg==
+X-Google-Smtp-Source: ABdhPJxw2e4B7IZMXTMBU/MguvgUyWMDdeJBwhgrgC7n+eBhfsdp+BFLVDXHmuv2wBeA6fO49CxqOw==
+X-Received: by 2002:a5d:9f4c:: with SMTP id u12mr9371354iot.22.1640703023773;
+        Tue, 28 Dec 2021 06:50:23 -0800 (PST)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id m2sm11776748iob.21.2021.12.28.06.50.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Dec 2021 06:45:11 -0800 (PST)
-Message-ID: <8e4cd620-282a-8a1f-27c7-94f05a7e0f4f@gmail.com>
-Date: Tue, 28 Dec 2021 17:45:09 +0300
+        Tue, 28 Dec 2021 06:50:23 -0800 (PST)
+Message-ID: <2410da25-5f91-dd4c-77d0-b7226b56616d@ieee.org>
+Date: Tue, 28 Dec 2021 08:50:22 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,63 +43,87 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH] qlge: refactor qlge_change_rx_buffers() in qlge_main.c
+ Thunderbird/91.3.1
+Subject: Re: [PATCH] staging: greybus: audio: Check null pointer
 Content-Language: en-US
-To: Adam Kandur <sys.arch.adam@gmail.com>, linux-staging@lists.linux.dev
-References: <20211228135756.7343-1-sys.arch.adam@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20211228135756.7343-1-sys.arch.adam@gmail.com>
+To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, vaibhav.sr@gmail.com,
+ mgreer@animalcreek.com, johan@kernel.org, elder@kernel.org,
+ gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20211228020221.1635885-1-jiasheng@iscas.ac.cn>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20211228020221.1635885-1-jiasheng@iscas.ac.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi, Adam!
+On 12/27/21 8:02 PM, Jiasheng Jiang wrote:
+> Sorry the previous email is forgetten to wrap line.
+> This email is corrected and the content is the same.
+> 
+> On Mon, Dec 27, 2021 at 11:54:10PM +0800, Alex Elder wrote:
+>> I think this is a good change, but I would like you to improve
+>> the description, and fix some different bugs introduced by your
+>> change.
+>>
+>> What you are specifically doing is checking for a null return
+>> from devm_kcalloc() in gb_generate_enum_strings(), and are
+>> returning the NULL pointer if that occurs.  That means you
+>> need to update all the callers of gb_generate_enum_strings()
+>> to also handle a possible null return value.
+>>
+>> The fix does a good thing, and your description is correct
+>> about what you are fixing.  But it should supply more
+>> complete context for the change.
+> 
+> Thanks for your advice, I will correct my description in next version.
+> But I still have some question about the devm_kzalloc().
+> 
+>> You can't simply return here.  If you look a bit above this,
+>> where the call to allocate a control structure is done, you
+>> see that a NULL return there jumps to the "error" label, so
+>> any already allocated and initialized control widgets get
+>> cleaned up before returning.
+> 
+> Actually, I have already thought of whether it needs to free after the
+> devm_kzalloc().
+> As we can find in the gbaudio_tplg_create_widget(), the widget_kctls is
+> allocated by devm_kzalloc(), but isn't released when
+> gbaudio_tplg_create_wcontrol() fails and goto error.
+> And I check of the comment of the devm_kmalloc() in `drivers/base/devres.c`,
+> because devm_kzalloc() returns devm_kmalloc().
+> And it says that "Memory allocated with this function is automatically
+> freed on driver detach."
+> So there is no need to free the memory manually.
+> Is that right?
 
-Looks like you have missed all maintainers in your CC list :) Please, 
-use ./script/get_mainainer.pl to get list of people who are responsible 
-for reviewing your code
+You are partially right, but you're missing something.  Yes, anything
+allocated with devm_kzalloc() will be freed automatically when the
+last reference to the device is dropped.
 
-On 12/28/21 16:57, Adam Kandur wrote:
-> Greetings. As I understand, qlge_change_rx_buffers() waits 4 times for
-> an outstanding reset to complete. And if it cannot, reports about
-> timeout. I assume this can be written using for loop instead of while,
-> wich looks nicer for me. Hope my guess was right.
+But the two places you're returning are in the middle of a loop (in 
+gbaudio_tplg_create_widget() and gbaudio_tplg_process_kcontrols()).
+Each is building up a sort of hierarchical data structure, and as
+you can see, the existing code takes care to de-construct the partially
+built structure in the event an error occurs before it completes.
+
+There is a chance that your simple return would "work", but by
+reading the surrounding code you should recognize that the proper
+way to handle the error is to jump to the cleanup at the end.
+
+The other alternative would be to fix those functions so they
+don't do that controlled cleanup on error and simply return
+early (as you were proposing).  But without digging deeper, I
+would assume the original developers designed it this way
+very intentionally, because it avoids a problem somewhere.
+
+					-Alex
+
+> And I am sorry again because of the lack of the above explanation in my
+> commit message.
+> I will also add to my new commit.
+> 
+> Thanks,
+> Jiang
 > 
 
-Commit message should only explain why you do this change. You can leave 
-your unrelated thoughts/questions below ---, since this part won't be 
-visible in gitlog
-
-> Signed-off-by: Adam Kandur <sys.arch.adam@gmail.com>
-> ---
-
-<--- here
-
->   drivers/staging/qlge/qlge_main.c | 15 ++++++---------
->   1 file changed, 6 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-> index 9873bb2a9ee4..f36e43a85038 100644
-> --- a/drivers/staging/qlge/qlge_main.c
-> +++ b/drivers/staging/qlge/qlge_main.c
-> @@ -4012,19 +4012,16 @@ static int qlge_change_rx_buffers(struct qlge_adapter *qdev)
->   
->   	/* Wait for an outstanding reset to complete. */
->   	if (!test_bit(QL_ADAPTER_UP, &qdev->flags)) {
-
-Aren't there 5 checks actually? It seems unlikely that this bit will be 
-set after 3-4 instructions
-
-
-> -		int i = 4;
-> -
-> -		while (--i && !test_bit(QL_ADAPTER_UP, &qdev->flags)) {
-> +		for (int i = 4; !test_bit(QL_ADAPTER_UP, &qdev->flags); i--) {
-
-Have you compiled this patch? Compiler should have warn you about mixed 
-declaration and code.
-
-
-
-With regards,
-Pavel Skripkin
