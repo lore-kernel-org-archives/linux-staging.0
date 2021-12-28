@@ -1,41 +1,41 @@
 Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2A52CA4
-	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 10:11:47 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id r17so37406732wrc.3
-        for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 02:11:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5AC2CA5
+	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 10:11:48 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id k18so649146wrg.11
+        for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 02:11:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=syi4xzz6q/zd3yOkEKI1/sCYTEmmG2y2NufKeEEtv6A=;
-        b=XcrJ/gN1FeqnF/1WCEj8RpzU58LK5SdY+3TMl3pN69VXieZJqNwvXAxunM5tvphHPq
-         xLvFuvdZVIIokviXLObUepAeDZu71yJGDTkYc3AwWVgD4ZbD4jgo0nOASjmQbiuN4do+
-         VGpM3iua23xiK4lwnlBEl4jY4pwA2SaihRkWiL09FHH1PzChfXZ2n3e2XAQKG42EYJ3d
-         OkFzI32mRITF4CLzlIk61n5NQtJqifui5zEeSJBH2z1l7SQXB/2+1PY0vSle82Z5WkEx
-         ko0HPPdfX443cl1AX2AoSo5w3lBzqALGRA3Q8PmFKoG4fw+qWMqGBiZHjnoO5iuCANhw
-         t44A==
+        bh=Mt8uB8InKVSd7M1Zm7yP7T7TeRc65Jt+J/dhsCZjMMo=;
+        b=dcTjK2Pvj/EejNH03RgYIAfrJE+aeYz78xbMM8wkdl29TrZHN56BYImT9LC76ZezGc
+         CecKBq25JGqOCa4xkUZI9jPXE0vkzFM4O/8G2/namHfBsQTiP9mW7rKt2uOYZlxcgIhG
+         ohgKw0bA6Z6rjx1TTgk8ChpSWhRRoqmnGpwc7a6/DuEGQ4Pqx1G4xETQK03IamT8V4xz
+         3lgeVnel0ica3qi2LBt6Z6yOTulCaCgHNIEMpoclUAa5j7ltMYrZnIichs7ERdbGML/d
+         p4X+YrHU1qcYEwFe69TCoHcKm8JT+Pdr0/KtG7tN9jlbEJ2U+LEGOYa+cFUEWPdwTr44
+         2q8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=syi4xzz6q/zd3yOkEKI1/sCYTEmmG2y2NufKeEEtv6A=;
-        b=M9MOtf8spOnWm7PWbslTw7FKCNPOjjA8yxjsfsRI37LOcLKhGxzKozFwfhE4xDTS9m
-         IjRHMu0EtZPC6u3ipABvfKSO8S1BkFuYEykbcGeCRFWVPni7PEbLe+8mwyw/ioDKtdpL
-         pMA00Yz8omNwJoStw90I0blohEdN1IKOaCpeSAe7CswypHoIttvXA9XXDyXryObpLyyf
-         vO/evRAAojUv4vkcHv6CqD3Yz9OmwX80gVNPKV4x8RK5+eySfkCQsSkUQaoeQTAXd//O
-         kn+7LvrNUHqfSIAjQ+YNATWK5DCLgiYp2ihcVV+DdyXbYNNEptSSLNCzU7ggiCoGE10i
-         clZQ==
-X-Gm-Message-State: AOAM5315nYAVybFtpZlsgwGNFmyKt0qEis21pipdLufy5hOMajyDKI8x
-	GQa2CtdI2P949+5pGksLtQU=
-X-Google-Smtp-Source: ABdhPJzt8Kac8Iry1ow3xpBJEQwN2DRCUeHzY5IeIjE4QawqTRQt8vRMQEsgo7Kqb2d9tHyuIGM4HQ==
-X-Received: by 2002:a5d:584f:: with SMTP id i15mr16388073wrf.542.1640686305982;
-        Tue, 28 Dec 2021 02:11:45 -0800 (PST)
+        bh=Mt8uB8InKVSd7M1Zm7yP7T7TeRc65Jt+J/dhsCZjMMo=;
+        b=clc9sbgD8o67B//bcTR/3AGK1SqSiltk/d2ISbw9UlfuWsWdLdzbwMpXrehi5QzoG3
+         cDo5a7LPFdZnLgo6SEs+0y8mPf77zM8u79RlSNQI9JJBRVGsI6jF0IjHvqVI9Rh8xfoV
+         VkqDQII/WVZ5SdIZYfrfr43i5fm4VTgXmugYjxeCJ5vDKf3NgOf7/h1f9lL/Kx/z3Ymu
+         Wa5NPcvqGw8hKCzXAI6L3JH1xFHeuVDS8aMqC+OSc7co66xQfC5oAc95uIv+gL5YXvBg
+         sQgyqXJl9rUmyhVw4WYp58Mbw/PEB1n0YaP1Sh4HmlZyslZ5dhEXXFlDqTENABmUhyLz
+         AcGA==
+X-Gm-Message-State: AOAM530YMJ7VP0RxPoPQQ2GbuspTFunbJQL4hAWfBKBsyOOZijOvjO3L
+	kmwJPIYXMrt1E7Sbg7sJzwIXq/8F2Ik=
+X-Google-Smtp-Source: ABdhPJwMNY3LTqwVY0YmTfHcJEtQ1xU3tYGpxwVxPTulidN87ehPxDy/PrduER3+tf8rCDR4WZShIQ==
+X-Received: by 2002:adf:f48e:: with SMTP id l14mr16026826wro.88.1640686306631;
+        Tue, 28 Dec 2021 02:11:46 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
-        by smtp.gmail.com with ESMTPSA id d62sm21160984wmd.3.2021.12.28.02.11.45
+        by smtp.gmail.com with ESMTPSA id d62sm21160984wmd.3.2021.12.28.02.11.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Dec 2021 02:11:45 -0800 (PST)
+        Tue, 28 Dec 2021 02:11:46 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 04/10] staging: r8188eu: remove ODM_CMNINFO_ABILITY from ODM_CmnInfoInit()
-Date: Tue, 28 Dec 2021 11:11:14 +0100
-Message-Id: <20211228101120.9120-5-straube.linux@gmail.com>
+Subject: [PATCH 05/10] staging: r8188eu: remove write-only fields from struct rtl_ps
+Date: Tue, 28 Dec 2021 11:11:15 +0100
+Message-Id: <20211228101120.9120-6-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211228101120.9120-1-straube.linux@gmail.com>
 References: <20211228101120.9120-1-straube.linux@gmail.com>
@@ -57,28 +57,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ODM_CmnInfoInit() is never called with ODM_CMNINFO_ABILITY.
-Remove that unused case from ODM_CmnInfoInit().
+The fields pre_cca_state, cur_cca_state and rssi_val_min of struct
+rtl_ps are set but never used. Remove them.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/r8188eu/hal/odm.c     |  3 ---
+ drivers/staging/r8188eu/include/odm.h | 12 ------------
+ 2 files changed, 15 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index a820bdc26fbc..afd208c3ba05 100644
+index afd208c3ba05..b1bb81c97c5c 100644
 --- a/drivers/staging/r8188eu/hal/odm.c
 +++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -195,9 +195,6 @@ void ODM_CmnInfoInit(struct odm_dm_struct *pDM_Odm, enum odm_common_info_def Cmn
- 	/*  This section is used for init value */
- 	switch	(CmnInfo) {
- 	/*  Fixed ODM value. */
--	case	ODM_CMNINFO_ABILITY:
--		pDM_Odm->SupportAbility = (u32)Value;
--		break;
- 	case	ODM_CMNINFO_MP_TEST_CHIP:
- 		pDM_Odm->bIsMPChip = (u8)Value;
- 		break;
+@@ -574,11 +574,8 @@ void odm_DynamicBBPowerSavingInit(struct odm_dm_struct *pDM_Odm)
+ {
+ 	struct rtl_ps *pDM_PSTable = &pDM_Odm->DM_PSTable;
+ 
+-	pDM_PSTable->pre_cca_state = CCA_MAX;
+-	pDM_PSTable->cur_cca_state = CCA_MAX;
+ 	pDM_PSTable->pre_rf_state = RF_MAX;
+ 	pDM_PSTable->cur_rf_state = RF_MAX;
+-	pDM_PSTable->rssi_val_min = 0;
+ 	pDM_PSTable->initialize = 0;
+ }
+ 
+diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
+index 306640e92e6f..66dc93518628 100644
+--- a/drivers/staging/r8188eu/include/odm.h
++++ b/drivers/staging/r8188eu/include/odm.h
+@@ -48,14 +48,8 @@ struct rtw_dig {
+ };
+ 
+ struct rtl_ps {
+-	u8		pre_cca_state;
+-	u8		cur_cca_state;
+-
+ 	u8		pre_rf_state;
+ 	u8		cur_rf_state;
+-
+-	int		rssi_val_min;
+-
+ 	u8		initialize;
+ 	u32		reg_874;
+ 	u32		reg_c70;
+@@ -543,12 +537,6 @@ enum odm_bb_config_type {
+ /* 3 BB Power Save */
+ /* 3=========================================================== */
+ 
+-enum dm_1r_cca {
+-	CCA_1R = 0,
+-	CCA_2R = 1,
+-	CCA_MAX = 2,
+-};
+-
+ enum dm_rf {
+ 	RF_Save = 0,
+ 	RF_Normal = 1,
 -- 
 2.34.1
 
