@@ -1,114 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61C829CA
-	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 08:21:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB991C36AE8;
-	Tue, 28 Dec 2021 08:21:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1640679691;
-	bh=AyTvVvui2qlcHtQrKzueO2aVJtq3B/0n6NTMMAVaPv0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kH6mvQE+CbYxtdqKfYIrcnXRRkMOKzNgkkDI4Qj231PIqAVKah1gnHZGbf7pyzYif
-	 5Fy29Whi1PzPFIz42NBP1CwIg6Czpkv7Hvsk4tV4vJc5VHnlaMIkb+39JrPmPYspb6
-	 8Fb7cSFih5JdAhKULSvypMAJ71q6QDfYXW2GEFIA=
-Date: Tue, 28 Dec 2021 09:21:23 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	John Garry <john.garry@huawei.com>, Nick Hu <nickhu@andestech.com>,
-	Greentime Hu <green.hu@gmail.com>,
-	Vincent Chen <deanbo422@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Karsten Keil <isdn@linux-pingi.de>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sathya Prakash <sathya.prakash@broadcom.com>,
-	Sreekanth Reddy <sreekanth.reddy@broadcom.com>,
-	Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Kalle Valo <kvalo@kernel.org>, Jouni Malinen <j@w1.fi>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Hannes Reinecke <hare@suse.com>,
-	Kashyap Desai <kashyap.desai@broadcom.com>,
-	Sumit Saxena <sumit.saxena@broadcom.com>,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	Mark Brown <broonie@kernel.org>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Forest Bond <forest@alittletooquiet.net>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-ide@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-	netdev@vger.kernel.org, linux-media@vger.kernel.org,
-	MPT-FusionLinux.pdl@broadcom.com, linux-scsi@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, linux-wireless@vger.kernel.org,
-	megaraidlinux.pdl@broadcom.com, linux-spi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [RFC 01/32] Kconfig: introduce and depend on LEGACY_PCI
-Message-ID: <YcrJAwsKIxxX18pW@kroah.com>
-References: <20211227164317.4146918-1-schnelle@linux.ibm.com>
- <20211227164317.4146918-2-schnelle@linux.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537CA168
+	for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 08:54:01 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id v11so37012662wrw.10
+        for <linux-staging@lists.linux.dev>; Tue, 28 Dec 2021 00:54:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Pkvw6csXcwg8RmHKDtZs5IoBzTWTuHVHlsv8fcTdUlA=;
+        b=Ct2mi1cHUa+RMp0BrDtn1d34DSv23tMc9y4kSBfmbDY3Z+fKHk9PPkBjW5sLZcpXds
+         kEqJu2LGedZGXZy18oUfNTexbX4vWR0uzupmsbVEOtR3XU1GfUG4lx7ZxR2d7Co4Iiel
+         H2I3jpLg7SYUQ8y6tcc707IrEzBMH+V1nmoTBfjUhoe17hAx1kDypbllgXNzTJHvcpGN
+         fk2FoFTOiaBsg+0/RCR5zFhbeyipBPQeFw8OaYMsNt9iN413VfszbKO8VHVsaepA0QSG
+         NGG9KccSP21OjrXA6WFPfdNdZwk7Vb7LiHO6oBf8xvgnxsrKmI8ORCfO4+05cI6NMG73
+         PuYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Pkvw6csXcwg8RmHKDtZs5IoBzTWTuHVHlsv8fcTdUlA=;
+        b=FC3cjzhR+oMzjLLXBwf/g5HgCdj6eAOwG3ncETOur8dYqzvRsjcwadERyEmp/P/Anx
+         f2I0KtETMX2NicicGEa2iwMMxNJP+E2A0QzajaxkX9f60RotG9SE7SicjeZM3+RJTOZl
+         kMKys3+c6rzduRDY0PSDejLL1mdmOoeLW77npG/+cYD9p2xk72KEKbOgpo6fiI3BODKe
+         dI0FSURj3E0NYvjEmyXDVMak74dZQXzEJ89PexvdexftM1iQrLfcNlKulnwiu3NpiyWV
+         K6sgVdrEvNjHHFlMYFv/Wf8WBIuYlNmaJwO9LZjQyN1/AM7vW0TaA0uqgN0j3YAU3QMv
+         ybvA==
+X-Gm-Message-State: AOAM532aTnUFGVXga3JUVhxaVojGNh2KhVwrM6+dtp+bjRNezuqnlC78
+	QK+tTERA9ZlPmHrNfbdO52c=
+X-Google-Smtp-Source: ABdhPJzJwFqCDidmXrCsnTzWItkz/+RA3/ErHCgqLsOgssbSGD8r7NhVvYVFnC9k/aBcOYcSvtRRtQ==
+X-Received: by 2002:a5d:6989:: with SMTP id g9mr15150714wru.12.1640681639686;
+        Tue, 28 Dec 2021 00:53:59 -0800 (PST)
+Received: from ?IPV6:2a02:8108:96c0:3b88::d7e8? ([2a02:8108:96c0:3b88::d7e8])
+        by smtp.gmail.com with ESMTPSA id b1sm19413505wrd.92.2021.12.28.00.53.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Dec 2021 00:53:59 -0800 (PST)
+Message-ID: <48d870dc-7ab1-92e3-af13-30bb9e73db0b@gmail.com>
+Date: Tue, 28 Dec 2021 09:53:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211227164317.4146918-2-schnelle@linux.ibm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH] staging: r8188eu: DM_PriCCA is set but never used
+Content-Language: en-US
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20211226162921.10227-1-straube.linux@gmail.com>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20211226162921.10227-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 27, 2021 at 05:42:46PM +0100, Niklas Schnelle wrote:
-> --- a/drivers/pci/Kconfig
-> +++ b/drivers/pci/Kconfig
-> @@ -23,6 +23,17 @@ menuconfig PCI
->  
->  if PCI
->  
-> +config LEGACY_PCI
-> +	bool "Enable support for legacy PCI devices"
-> +	depends on HAVE_PCI
-> +	help
-> +	   This option enables support for legacy PCI devices. This includes
-> +	   PCI devices attached directly or via a bridge on a PCI Express bus.
-> +	   It also includes compatibility features on PCI Express devices which
-> +	   make use of legacy I/O spaces.
+On 12/26/21 17:29, Michael Straube wrote:
+> The field DM_PriCCA of struct odm_dm_struct is set but never used.
+> Remove it and remove related dead code.
+> 
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+>   drivers/staging/r8188eu/hal/odm.c              |  1 -
+>   drivers/staging/r8188eu/hal/odm_RTL8188E.c     | 15 ---------------
+>   drivers/staging/r8188eu/include/odm.h          |  9 ---------
+>   drivers/staging/r8188eu/include/odm_RTL8188E.h |  2 --
+>   4 files changed, 27 deletions(-)
+> 
 
-All you really care about is the "legacy" I/O spaces here, this isn't
-tied to PCI specifically at all, right?
+This patch is outdated, please drop it.
+I'll resend it as part of a series.
 
-So why not just have a OLD_STYLE_IO config option or something like
-that, to show that it's the i/o functions we care about here, not PCI at
-all?
-
-And maybe not call it "old" or "legacy" as time constantly goes forward,
-just describe it as it is, "DIRECT_IO"?
-
-thanks,
-
-greg k-h
+Thanks,
+Michael
