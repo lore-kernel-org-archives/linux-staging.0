@@ -1,112 +1,242 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED52B29CA
-	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 15:33:46 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id s1so45222464wrg.1
-        for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 07:33:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=yaFPtv68FbWYXGv8VLXk7KGh6SEfuXe5S0bPe1jKtfY=;
-        b=jk3C/jHTfzsqW+Hy0loflhYtDDtvEBT1DbQxyp9C1LBXQ035oUqiFLlEDD4T2wYXZT
-         SCmD1VlLZyOj3aL5xF81F0v5KDmA36PJYj/2Jfm4rTSNCk7TeHtcFgmDWzzgoWdsJwdU
-         xLumxBO11BthYZoeqFrA/+gSaY6UvZLmDY2joWg6jKogL6Y12sdkYp2LgxIke7u52ros
-         ZpvOZlPvJFIVdJtzWPn1xDZNkBjnsbIDkhaKj+AcXwwQpi6ydMp1lBfFd6YI3oRtasCl
-         B+B0kCbfyDflM7pC9gDTWfisOc0AvXuRcCMWGv6Ljq3z8hC4ricTVwoQ+Zv+JhrlPf+a
-         ZT0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=yaFPtv68FbWYXGv8VLXk7KGh6SEfuXe5S0bPe1jKtfY=;
-        b=gpTwneZrW9vuQkgnKnzblOE7ZFETpd6IlO0To8ONQYgu/pbwHccirfF73q3gp1v/Tp
-         1ZwvtVl8VHv3JaM1spLO+AelNZwoTFF4hP9sAmFiDS4QVW16t83U2rSlrDo3MlanbuLs
-         EYUWsfmCSfuwMWJRIKFxPf5XT9R/QI1JC041JSgiqg6AaUpdeHOAKgJekiUIFuAjCA0k
-         Cr/0aF8ufmIXLOasIObWezOzhNYjoI6GHczfVwxzPSeDCNPg9Y3ql4tvqTnwYiBhQQ2Z
-         75odI7HVOIe/yNcHCIDtTkmFwZpLMNOV1wAdcqWYZteh1gPeDhagnzU6qOFdPgNdjAaj
-         HM5w==
-X-Gm-Message-State: AOAM5314Du6pSrfFXhlmfTOCa0w0/W6mdHkLj90wrw2QzBDSqvW2nnPU
-	BHIShE5kWCbpmLL+9+TXS6A=
-X-Google-Smtp-Source: ABdhPJxHX/R+GnbR8HnzoKbDUijAmc3zIEpe+luqaDUulZ5jxVlaVvrMbn4pLGtC37tYfdBm/4Y1Tg==
-X-Received: by 2002:adf:e8cd:: with SMTP id k13mr21643961wrn.10.1640792025183;
-        Wed, 29 Dec 2021 07:33:45 -0800 (PST)
-Received: from pswork.fritz.box (i5E86B42B.versanet.de. [94.134.180.43])
-        by smtp.gmail.com with ESMTPSA id l10sm6801522wmq.7.2021.12.29.07.33.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Dec 2021 07:33:44 -0800 (PST)
-From: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
-To: linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	nsaenz@kernel.org,
-	treasure4paddy@gmail.com,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Gaston Gonzalez <gascoar@gmail.com>,
-	Ojaswin Mujoo <ojaswin98@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Phil Elwell <phil@raspberrypi.com>,
-	bcm-kernel-feedback-list@broadcom.com
-Subject: [PATCH] staging: vc04_services: Fix RCU dereference check
-Date: Wed, 29 Dec 2021 16:32:40 +0100
-Message-Id: <20211229153243.6064-1-treasure4paddy@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8082C80
+	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 19:27:25 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.169]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M9nEJ-1n6DAG3gV3-005mU0; Wed, 29 Dec 2021 20:13:41 +0100
+Subject: Re: [PATCH] staging: vc04_services: Fix RCU dereference check
+To: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, nsaenz@kernel.org,
+ Gaston Gonzalez <gascoar@gmail.com>, Ojaswin Mujoo <ojaswin98@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>, Phil Elwell <phil@raspberrypi.com>,
+ bcm-kernel-feedback-list@broadcom.com
+References: <20211229153243.6064-1-treasure4paddy@gmail.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Autocrypt: addr=stefan.wahren@i2se.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
+ CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
+ bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
+ TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
+ NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
+ MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
+ by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
+ MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
+ VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
+ aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
+ OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
+ bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
+ Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
+ ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
+ bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
+ dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
+ QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
+ UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
+ SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
+ VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
+ akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
+ NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
+ RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
+ QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
+ ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
+ cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
+ R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
+ aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
+ NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
+ SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
+ TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
+ TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
+ NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
+ YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
+ SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
+ KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
+ ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
+ VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
+ SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
+ d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
+ UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
+ c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
+ a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
+ anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
+ WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
+ Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
+ QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
+ Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
+ K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
+ aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
+ dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
+ TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
+ SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
+ U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
+ VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
+ OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
+ Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
+ eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
+ MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
+ SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
+ Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
+ WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
+ Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
+ OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
+ TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
+ eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
+ WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
+ cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
+ QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
+ Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
+ RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
+ SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
+ cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
+ dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
+ RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
+ SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
+ WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
+ VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
+ am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
+ OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
+ L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
+ aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
+ cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
+ WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
+ MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
+ RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
+ RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
+ TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
+ SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
+ M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
+ VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
+ MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
+ bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
+ NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
+ ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
+ Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
+ eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
+ QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
+ TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
+ dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
+ S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
+ VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
+ QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
+ ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
+ UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
+ SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
+ UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
+ N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
+ dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
+ MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
+ d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
+ WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
+ MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
+ MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
+ TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
+ NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
+ MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
+ RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
+ VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
+ WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
+ ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
+ SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
+ MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
+ M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
+ dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
+ CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
+ VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
+ bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
+ LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+Message-ID: <a30849fa-dd7c-f661-0b27-a04c6531cfb8@i2se.com>
+Date: Wed, 29 Dec 2021 20:13:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+In-Reply-To: <20211229153243.6064-1-treasure4paddy@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Provags-ID: V03:K1:dJGm1sbhxVkQq1YjuIvU9e4ko7B/0Y4MCQBMfTNs4N1XzuI7V7F
+ GjJ4qK7fuqjy8S4SrwShiCbMapNH/wTRz8ucFN34qy6AAzZmevmpIy9l0R4IjJyLtGz5ER6
+ FWEO6XP/Dg8FQu1yrOn7cKgOtPeslLq2xBjtKX58BYLDdifH/TzLtbuE8KWFEEPbRkimXHJ
+ i6Sf5nPhZ2g9mmIBbG9KQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gvAwrCTi274=:hFXvFIuuBtPSGye6DbAru1
+ YzbCv3QtwAFNSKpWsCorRM6Rfw5TtbPKexldcTDABjaeJbsHXm4JtkNgJ7icw6J64CV6nf8bf
+ xA0vt/khSsWNHFPdKrePzEnoTYe5jrEfepOvAUIEVahWPf8d/R5cP0HLRNj4QyfzYTBn0E/X+
+ 140D9OaZQIEiWeWWMdiv5u1YmRijwW1fG47gIde5tw72kxY2l+rDHI2ZRJvUvF3fgYZGQBaqu
+ xX8fj43YwV3RsHT1gtQ2OvyqTa8+uCpESlTVtLZcfH6ro+I1HvQvPGy1Z5RgKin+bu+w7mmOh
+ H4TEP2drYQ1CGAgXNrwlhOVdIpU3fe1NfOdYfL27TktaHw4zMvjxeE96MyGdAyoq0xshtf65Y
+ SutNz3kpA0MZunQjzVp83gtzxnO4ugVFAKi82uN/FVQ9a0ntSdCnG3f9Kh+8o3u6A+rdN0fKq
+ pPDi4DeohuVFLnx0mov/vM8Fgzk6OXK6YDOn1Ht2/ABuP3YsAXMDR0WQsddk72+m7+NmZEudE
+ yldtyQkFmSgPpOGwihGCH9YZA71lBFR65QPU62gqhugf+hx6jG6ldbfWPa3TPsty7uu4/tGB8
+ DyoJ5Acn9zmzFYtDLZZXKyAe76OPaAL3XaQdvbLjHS3vzG9t3gD9L0uDQeiNQqqAbMvRwuYFC
+ RyNx8qqaiFs3VE6VUMfMsk8hSK6AgYYouJ/TV96yJpefxpwtn4JoQV7rCDs+spKqHzJQAwj05
+ U4SNnJ4Jl48sjJxR
 
-In service_callback path RCU dereference done without
-rcu_read_[lock/unlock] pair, fixing same by using them.
+Hi Padmanabha,
 
-[   32.201659] =============================
-[   32.201664] WARNING: suspicious RCU usage
-[   32.201670] 5.15.11-rt24-v8+ #3 Not tainted
-[   32.201680] -----------------------------
-[   32.201685] drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:529 suspicious rcu_dereference_check() usage!
-[   32.201695]
-[   32.201695] other info that might help us debug this:
-[   32.201695]
-[   32.201700]
-[   32.201700] rcu_scheduler_active = 2, debug_locks = 1
-[   32.201708] no locks held by vchiq-slot/0/98.
-[   32.201715]
-[   32.201715] stack backtrace:
-[   32.201723] CPU: 1 PID: 98 Comm: vchiq-slot/0 Not tainted 5.15.11-rt24-v8+ #3
-[   32.201733] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
-[   32.201739] Call trace:
-[   32.201742]  dump_backtrace+0x0/0x1b8
-[   32.201772]  show_stack+0x20/0x30
-[   32.201784]  dump_stack_lvl+0x8c/0xb8
-[   32.201799]  dump_stack+0x18/0x34
-[   32.201808]  lockdep_rcu_suspicious+0xe4/0xf8
-[   32.201817]  service_callback+0x124/0x400
-[   32.201830]  slot_handler_func+0xf60/0x1e20
-[   32.201839]  kthread+0x19c/0x1a8
-[   32.201849]  ret_from_fork+0x10/0x20
+Am 29.12.21 um 16:32 schrieb Padmanabha Srinivasaiah:
+> In service_callback path RCU dereference done without
+> rcu_read_[lock/unlock] pair, fixing same by using them.
+>
+> [   32.201659] =============================
+> [   32.201664] WARNING: suspicious RCU usage
+> [   32.201670] 5.15.11-rt24-v8+ #3 Not tainted
+> [   32.201680] -----------------------------
+> [   32.201685] drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:529 suspicious rcu_dereference_check() usage!
+> [   32.201695]
+> [   32.201695] other info that might help us debug this:
+> [   32.201695]
+> [   32.201700]
+> [   32.201700] rcu_scheduler_active = 2, debug_locks = 1
+> [   32.201708] no locks held by vchiq-slot/0/98.
+> [   32.201715]
+> [   32.201715] stack backtrace:
+> [   32.201723] CPU: 1 PID: 98 Comm: vchiq-slot/0 Not tainted 5.15.11-rt24-v8+ #3
+> [   32.201733] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
+> [   32.201739] Call trace:
+> [   32.201742]  dump_backtrace+0x0/0x1b8
+> [   32.201772]  show_stack+0x20/0x30
+> [   32.201784]  dump_stack_lvl+0x8c/0xb8
+> [   32.201799]  dump_stack+0x18/0x34
+> [   32.201808]  lockdep_rcu_suspicious+0xe4/0xf8
+> [   32.201817]  service_callback+0x124/0x400
+> [   32.201830]  slot_handler_func+0xf60/0x1e20
+> [   32.201839]  kthread+0x19c/0x1a8
+> [   32.201849]  ret_from_fork+0x10/0x20
+>
+> Signed-off-by: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
+> ---
+>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 6759a6261500..ee1b48db9681 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -1058,7 +1058,10 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+>  
+>  	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+>  
+> +	rcu_read_lock();
+>  	service = handle_to_service(handle);
+> +	rcu_read_unlock();
+> +
+>  	if (WARN_ON(!service))
+>  		return VCHIQ_SUCCESS;
+>  
 
-Signed-off-by: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
----
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 3 +++
- 1 file changed, 3 insertions(+)
+thanks for reporting this issue.
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 6759a6261500..ee1b48db9681 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1058,7 +1058,10 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
- 
- 	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
- 
-+	rcu_read_lock();
- 	service = handle_to_service(handle);
-+	rcu_read_unlock();
-+
- 	if (WARN_ON(!service))
- 		return VCHIQ_SUCCESS;
- 
--- 
-2.17.1
+Could you please explain how to reproduce this issue?
+
+What makes you sure that your patch fixes the issue and not just hiding
+the warning?
+
+Best regards
 
