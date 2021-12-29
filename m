@@ -1,39 +1,39 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DA72CA3
-	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 20:51:47 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id w20so37583205wra.9
-        for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 12:51:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C572CA1
+	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 20:51:48 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id v7so46497514wrv.12
+        for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 12:51:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PBcF53XoTwOshk3YrZwbKbN/UyVDJ23qlHTXxkU+SnU=;
-        b=e/aonn1BxuMfd3aCITdHkFbqGTt2Qy74p9EyGH/oCB9D15PGcF2PczDq3ZJn7/N2Ah
-         XYy4iEuF9+AIDb6tKayJUQ+Fv7PdVUHjHnPh7B/UKzY9QvdlB49oiZ675A/yNf1x+kw0
-         52O1pqUyx/DKFc17tl2v1DKJjpLMpAIi2bDaxuU056DteU5daBVuGK3rd4ax45M0szkR
-         iXVZ8nVwdEtjotSSc615VBidZs9EPq9kO6Yp7QXA5sPR3mqrvFt7Yff2djicwumPacqD
-         nDqek+DEWnqjTF75nk8QS1b74D/7QchCTht1PJqC9Lct/NulKf90ql72VR4rn627YTn0
-         HDfA==
+        bh=lQA7LVKqvDnPuelUA4+jyIgMnVTumcfi5D4swJ7Rfsc=;
+        b=WGfUfO1AnVZ7NSvH0OFn8WnlyWFfF2yfaz2YzBA4fsrflsJew8AM+U1OoNCikBkzFu
+         V5Ach7yGWVUcpyeCRlKc8bUoLuH9LKf18T2HRruvPYR9NvaMwa7tbuNJX2UkKCqhc/ub
+         0BIglehDFz/7q6sC+5vDtYvejHX4gILR55AiuITD0xaatxFZM9/mTNpQWmG57m1Ur3Rv
+         C3QBIsII+LRPNG/ZxP6nTyfysXHyqYK9Yqe8DrXAmC8s7FrNrx5sfA+xe8CM9GaxMf9x
+         x2nNeRv0Aj3WCZpiYUj87lQ8h55/5gnOhbNZQ3JKl+2oypF/x9PADjFqraTK0JtxZM/E
+         HbGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PBcF53XoTwOshk3YrZwbKbN/UyVDJ23qlHTXxkU+SnU=;
-        b=Vea8O49+DbLx5ADYvoatpoU6+rsT7XCYmZui34y7+VnjGnnvKXz1fl0HysAtxlgnso
-         mju1PVL1rSL14ms81YZL0BX8H061YsvJcZgeQUJxCa7Tc0hWM03J/xktOcH6MZl0k0di
-         VyK9A1XMsdBx0Zl1IH2On3xfm7qyiWC0e6BkRw2Y0tE3/gx6W8DCNTKKCV9evOO40ZXy
-         XLSD34NsME66+rFAo1isJlEMiuMqi/NNEH4yia1OIDAcPagc7K0riViUjySn63x+L5R8
-         wvYrLfmXo+4+mXW60yr3lJmgt3ZF4hCJsv4xPqQM9YRGoINpWe/hSKy6e3+jiGvlSJVB
-         LU8g==
-X-Gm-Message-State: AOAM532wAvDfFr2kZu9DZlA4kVhxAXV5K9URqaC6g3HJYYwagKhyrI2J
-	PRBQJXtZXwDoIJM1mM11k5y/wyeGpEU=
-X-Google-Smtp-Source: ABdhPJxf0uiAx9Dgqb9+3Jn2xkcZDan6uqG/GZbfJ2RYKg7h+OfFVAjyk0y8cSkjTlkrZSZwqwvBug==
-X-Received: by 2002:adf:aa9a:: with SMTP id h26mr21712625wrc.437.1640811106429;
-        Wed, 29 Dec 2021 12:51:46 -0800 (PST)
+        bh=lQA7LVKqvDnPuelUA4+jyIgMnVTumcfi5D4swJ7Rfsc=;
+        b=iVKslpnkQWm2Vnmk6pz8EO3gmmHRJzcxuIfJAXIWP8eIx6dPv0fmvSlxxk/6op4qyN
+         kKu4MWPmxVQAfwtBpR3RdW/9nhlqPiQ8Xh+PG7l/ETFnpbK0xHo31Tq6L9QICHnr9oUp
+         rNPJRMJWY+RgFoRiWTI9qfOY/tE/mkQIkOndO1wjzXWq0swqt+k4s3Ncv59dj3s2jb8d
+         lz3U+eHc7XX6BDHKBIIsGHvhngvJofEooWVE5tyvAc6GndzGnRCVphhN+Sw9w9D5Nm+g
+         djqpdv/AWlqBJxdGyG24i/a4sYUYNkOgwhzGz8Fy3E4B6ao1Rx7EWyyPrkiJrWLFx0xy
+         ohNQ==
+X-Gm-Message-State: AOAM5332d3RDa2iO1c0alwq7XUw3iQJObpk5RU0aNSW1zcCJUM426oRA
+	DWZUf1D4glNv/8rk2pxmFOxBhk7kIDw=
+X-Google-Smtp-Source: ABdhPJyfNgwEjgNdz35ANn/DxnLLKaRPAHpm/FDEr5rVs/GBVpn/vfQOzM7YkksIHsuQuJVQsbXkmQ==
+X-Received: by 2002:a5d:4dca:: with SMTP id f10mr22545866wru.595.1640811107208;
+        Wed, 29 Dec 2021 12:51:47 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
-        by smtp.gmail.com with ESMTPSA id l12sm27421989wmq.2.2021.12.29.12.51.45
+        by smtp.gmail.com with ESMTPSA id l12sm27421989wmq.2.2021.12.29.12.51.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 29 Dec 2021 12:51:46 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 28/32] staging: r8188eu: make odm_HwAntDiv() static
-Date: Wed, 29 Dec 2021 21:51:04 +0100
-Message-Id: <20211229205108.26373-29-straube.linux@gmail.com>
+Subject: [PATCH 29/32] staging: r8188eu: make ODM_EdcaTurboInit() static
+Date: Wed, 29 Dec 2021 21:51:05 +0100
+Message-Id: <20211229205108.26373-30-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211229205108.26373-1-straube.linux@gmail.com>
 References: <20211229205108.26373-1-straube.linux@gmail.com>
@@ -57,57 +57,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function odm_HwAntDiv() is only used in odm.c. Make it static.
+Function ODM_EdcaTurboInit() is only used in odm.c. Make it static.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm.c             | 16 ++++++++--------
+ drivers/staging/r8188eu/hal/odm.c             | 18 ++++++++----------
  drivers/staging/r8188eu/include/odm_precomp.h |  1 -
- 2 files changed, 8 insertions(+), 9 deletions(-)
+ 2 files changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index e067e46ccf64..14020a3e67d4 100644
+index 14020a3e67d4..9afd9ed10432 100644
 --- a/drivers/staging/r8188eu/hal/odm.c
 +++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -544,6 +544,14 @@ static void odm_InitHybridAntDiv(struct odm_dm_struct *pDM_Odm)
- 	ODM_AntennaDiversityInit_88E(pDM_Odm);
+@@ -552,6 +552,14 @@ static void odm_HwAntDiv(struct odm_dm_struct *pDM_Odm)
+ 	ODM_AntennaDiversity_88E(pDM_Odm);
  }
  
-+static void odm_HwAntDiv(struct odm_dm_struct *pDM_Odm)
++static void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm)
 +{
-+	if (!(pDM_Odm->SupportAbility & ODM_BB_ANT_DIV))
-+		return;
-+
-+	ODM_AntennaDiversity_88E(pDM_Odm);
++	struct adapter *Adapter = pDM_Odm->Adapter;
++	pDM_Odm->DM_EDCA_Table.bCurrentTurboEDCA = false;
++	pDM_Odm->DM_EDCA_Table.bIsCurRDLState = false;
++	Adapter->recvpriv.bIsAnyNonBEPkts = false;
 +}
 +
  /* 3 Export Interface */
  
  /*  2011/09/21 MH Add to describe different team necessary resource allocate?? */
-@@ -859,14 +867,6 @@ void ODM_TXPowerTrackingCheck(struct odm_dm_struct *pDM_Odm)
+@@ -867,16 +875,6 @@ void ODM_TXPowerTrackingCheck(struct odm_dm_struct *pDM_Odm)
  	}
  }
  
--void odm_HwAntDiv(struct odm_dm_struct *pDM_Odm)
+-/* EDCA Turbo */
+-void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm)
 -{
--	if (!(pDM_Odm->SupportAbility & ODM_BB_ANT_DIV))
--		return;
+-	struct adapter *Adapter = pDM_Odm->Adapter;
+-	pDM_Odm->DM_EDCA_Table.bCurrentTurboEDCA = false;
+-	pDM_Odm->DM_EDCA_Table.bIsCurRDLState = false;
+-	Adapter->recvpriv.bIsAnyNonBEPkts = false;
 -
--	ODM_AntennaDiversity_88E(pDM_Odm);
--}
+-}	/*  ODM_InitEdcaTurbo */
 -
- /* EDCA Turbo */
- void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm)
+ void odm_EdcaTurboCheck(struct odm_dm_struct *pDM_Odm)
  {
+ 	struct adapter *Adapter = pDM_Odm->Adapter;
 diff --git a/drivers/staging/r8188eu/include/odm_precomp.h b/drivers/staging/r8188eu/include/odm_precomp.h
-index c3fce8b91a5a..fdd0e2355c69 100644
+index fdd0e2355c69..d6046cf9645a 100644
 --- a/drivers/staging/r8188eu/include/odm_precomp.h
 +++ b/drivers/staging/r8188eu/include/odm_precomp.h
-@@ -33,6 +33,5 @@
+@@ -31,7 +31,6 @@
+ #include "odm_RegConfig8188E.h"
+ #include "odm_RTL8188E.h"
  
- void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm);
+-void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm);
  void odm_EdcaTurboCheck(struct odm_dm_struct *pDM_Odm);
--void odm_HwAntDiv(struct odm_dm_struct *pDM_Odm);
  
  #endif	/*  __ODM_PRECOMP_H__ */
 -- 
