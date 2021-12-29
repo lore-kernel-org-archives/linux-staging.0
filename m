@@ -1,41 +1,41 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C52B2CA3
-	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 20:51:31 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id v7so46496427wrv.12
-        for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 12:51:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C7B2CA1
+	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 20:51:33 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id j18so46600659wrd.2
+        for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 12:51:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7MbMMyPr87vEUHPRPtFi8HsJB5tWhgRE5CZBsQSl7Ek=;
-        b=l9w3/BCj9mlW04MuglqpKOIeqlFCs9IAd0HeM16Kcsq1DYOM/FHyTLLuYbZOELyy/S
-         uDoDh4TOvDjl+QFyLBw2q2WOyAnMLsuM0CR6MtdcNeg8eEwcMrKpB8JAPosijXnQ8UU1
-         zO5CyRyZ4R8k7sdrF/NtsThhneCyTqrQmVLtpnoIgFVc5CS4W33xP1c/vVlBHX6SpxHq
-         DQ5ZzymojM9SGkf/7yXzp4T64KhHuGvb4cYR4yib0DvLXBnjgUkVXOe+UTp/Nlv4aedL
-         mjk1PUGxQMHEV3UEazWQk8MueUuKslVc6hzYug6wkP2GzSoO5NOg9Yu+NV8T8fLlsYbE
-         PK6w==
+        bh=UL7Kn9Pt7QSxCX3ozk8sdDTpNPjuICREpZJE33+iy7g=;
+        b=AJ0GPSzKZkzR0OZtAN1puQWHbU7AlzaOhvVtaTa1+4j7Asij4eJ94eaqLQkWOZjpBF
+         /dUNNxFOjemSixCCMXvlNcOTJgU64/dIcTBN2lhJF4qsecQTlbgIWxn8SNbLPG/WQnng
+         QIBeHiKQ97snAKh19+I2LhOhxJ7vrU9gzm0mfnA1xdUfosgnPLFwffyge54bLf1ox/Sk
+         Yg5qmdcgQEhpB/F1XQ5SbTF5T76d70kPZPdz6rG8uw63mugqbkG7OjZjF9vpNE6PObtL
+         zAG4n7/11C3RVAJWEtAwsXmE6hMgnFj0CXcO9iQis5MAlxnYD5u4zRWxPj/VqUgkmpco
+         qOwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7MbMMyPr87vEUHPRPtFi8HsJB5tWhgRE5CZBsQSl7Ek=;
-        b=GnwAn2DRt1++g/IjxpGwg/sIik4fCqV5f07QBg2nGbMM3sbCfO+1zMM9KjS3ZhOwFh
-         EXjOsRLSUomEBwwN9sdr3T6C+WdLVN2uKY/c13FLCQcn7HWx35Qtr5SUU1KKSpLtckue
-         px0EuP3AIhaV0svrtSAkWDkzA1L3qgdc7hA5lPCQfTfEzO7zrHQJnRApzaWFyuzb+KYD
-         tja6PWxRQsNh+yLICw5KGeetfeq2ioZ8ta93iIVkQTbfLLlvuMjFFSVhaviQPsyYDqSW
-         wpP++CpEiGggSzBu80glnjzyTCciBHhsMJHWTv76kJvD2po9atAVqLoUl8WjPV/yKxcO
-         Vf8w==
-X-Gm-Message-State: AOAM531Zx8AVnr4Juea7mm5i7pkbgqLElF+SCUD90OHOVKrf3c3bmy5H
-	YBurKdXxveoT/eI8cBeSUfQ=
-X-Google-Smtp-Source: ABdhPJxH0vuoISegHLKuP3sL20+eQOmNNkwAQOvtviSX+jmza5j06HEuMH6ppZEKFj1uTLsJzwjlHg==
-X-Received: by 2002:a5d:4dcd:: with SMTP id f13mr21684941wru.432.1640811089977;
-        Wed, 29 Dec 2021 12:51:29 -0800 (PST)
+        bh=UL7Kn9Pt7QSxCX3ozk8sdDTpNPjuICREpZJE33+iy7g=;
+        b=m/4ERlbjVWmy030SDOBhOuqs6now+B2BuDsZcGB6Wcz4IOUpk6BzL7dWfEJvVBHSEc
+         bRFLSAp0NxM5Wcwk+uZVepxpRViIi33aQdGz6VEiIDm/GbH4FbF270AYKYDxByBCIi2D
+         /n9naUtpE1bp3XefowTihdN99wxCbf51NYdh0Oz/DqxqVbdMRXcQ81nNVDFB6Sy+co6V
+         x/ECB41aK5/kzgUS8BHNKCN6TLf7em4l2pMkgfEh4ZYQIrHQAef5Ubl97Qq2ZRvw3GqO
+         nWjiKtKoIPTMVy6uCLPOZDnAnb/8hdpd26PJSPgb7NnB/6raUZHem0e1r8RqM6yxcRDj
+         gnEw==
+X-Gm-Message-State: AOAM530CROXpXBCea8zR97Z46ElZzI6cod359ZVBD74JqMXnXjGT5Efv
+	bJCFz9e087saGj+aCa9bSZ0=
+X-Google-Smtp-Source: ABdhPJxywXSYd5shvP11bCpoLVc2r4gWUNwGPxvGGsvH7q+xiqL706RvnN/TYXMkje03x0FUCJiEPw==
+X-Received: by 2002:a05:6000:2aa:: with SMTP id l10mr22680499wry.518.1640811091476;
+        Wed, 29 Dec 2021 12:51:31 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
-        by smtp.gmail.com with ESMTPSA id l12sm27421989wmq.2.2021.12.29.12.51.29
+        by smtp.gmail.com with ESMTPSA id l12sm27421989wmq.2.2021.12.29.12.51.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Dec 2021 12:51:29 -0800 (PST)
+        Wed, 29 Dec 2021 12:51:31 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 05/32] staging: r8188eu: remove ODM_GetBBReg()
-Date: Wed, 29 Dec 2021 21:50:41 +0100
-Message-Id: <20211229205108.26373-6-straube.linux@gmail.com>
+Subject: [PATCH 07/32] staging: r8188eu: clean up coding style issues
+Date: Wed, 29 Dec 2021 21:50:43 +0100
+Message-Id: <20211229205108.26373-8-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211229205108.26373-1-straube.linux@gmail.com>
 References: <20211229205108.26373-1-straube.linux@gmail.com>
@@ -57,264 +57,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ODM_GetBBReg() is just a wrapper around rtl8188e_PHY_QueryBBReg().
-Remove ODM_GetBBReg() and call rtl8188e_PHY_QueryBBReg() directly.
+Clean up coding style issues in odm_ConfigRFReg_8188E() reported by
+checkpatch.
+
+WARNING: please, no spaces at the start of a line
+WARNING: suspect code indent for conditional statements (4, 16)
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  | 40 +++++++++----------
- drivers/staging/r8188eu/hal/odm.c             | 35 +++++++++-------
- drivers/staging/r8188eu/hal/odm_interface.c   |  6 ---
- .../staging/r8188eu/include/odm_interface.h   |  2 -
- 4 files changed, 39 insertions(+), 44 deletions(-)
+ drivers/staging/r8188eu/hal/odm_RegConfig8188E.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index 8eec8ea95162..5f28ed3b9231 100644
---- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-+++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -146,7 +146,7 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 
- 	if (ThermalValue) {
- 		/* Query OFDM path A default setting */
--		ele_D = ODM_GetBBReg(dm_odm, rOFDM0_XATxIQImbalance, bMaskDWord) & bMaskOFDM_D;
-+		ele_D = rtl8188e_PHY_QueryBBReg(Adapter, rOFDM0_XATxIQImbalance, bMaskDWord) & bMaskOFDM_D;
- 		for (i = 0; i < OFDM_TABLE_SIZE_92D; i++) {	/* find the index */
- 			if (ele_D == (OFDMSwingTable[i] & bMaskOFDM_D)) {
- 				OFDM_index_old[0] = (u8)i;
-@@ -157,7 +157,7 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 
- 		/* Query OFDM path B default setting */
- 		if (is2t) {
--			ele_D = ODM_GetBBReg(dm_odm, rOFDM0_XBTxIQImbalance, bMaskDWord) & bMaskOFDM_D;
-+			ele_D = rtl8188e_PHY_QueryBBReg(Adapter, rOFDM0_XBTxIQImbalance, bMaskDWord) & bMaskOFDM_D;
- 			for (i = 0; i < OFDM_TABLE_SIZE_92D; i++) {	/* find the index */
- 				if (ele_D == (OFDMSwingTable[i] & bMaskOFDM_D)) {
- 					OFDM_index_old[1] = (u8)i;
-@@ -387,9 +387,9 @@ phy_PathA_IQK_8188E(struct adapter *adapt)
- 	ODM_delay_ms(IQK_DELAY_TIME_88E);
- 
- 	/*  Check failed */
--	regeac = ODM_GetBBReg(dm_odm, rRx_Power_After_IQK_A_2, bMaskDWord);
--	regE94 = ODM_GetBBReg(dm_odm, rTx_Power_Before_IQK_A, bMaskDWord);
--	regE9C = ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_A, bMaskDWord);
-+	regeac = rtl8188e_PHY_QueryBBReg(adapt, rRx_Power_After_IQK_A_2, bMaskDWord);
-+	regE94 = rtl8188e_PHY_QueryBBReg(adapt, rTx_Power_Before_IQK_A, bMaskDWord);
-+	regE9C = rtl8188e_PHY_QueryBBReg(adapt, rTx_Power_After_IQK_A, bMaskDWord);
- 
- 	if (!(regeac & BIT(28)) &&
- 	    (((regE94 & 0x03FF0000) >> 16) != 0x142) &&
-@@ -441,9 +441,9 @@ phy_PathA_RxIQK(struct adapter *adapt)
- 	ODM_delay_ms(IQK_DELAY_TIME_88E);
- 
- 	/*  Check failed */
--	regeac = ODM_GetBBReg(dm_odm, rRx_Power_After_IQK_A_2, bMaskDWord);
--	regE94 = ODM_GetBBReg(dm_odm, rTx_Power_Before_IQK_A, bMaskDWord);
--	regE9C = ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_A, bMaskDWord);
-+	regeac = rtl8188e_PHY_QueryBBReg(adapt, rRx_Power_After_IQK_A_2, bMaskDWord);
-+	regE94 = rtl8188e_PHY_QueryBBReg(adapt, rTx_Power_Before_IQK_A, bMaskDWord);
-+	regE9C = rtl8188e_PHY_QueryBBReg(adapt, rTx_Power_After_IQK_A, bMaskDWord);
- 
- 	if (!(regeac & BIT(28)) &&
- 	    (((regE94 & 0x03FF0000) >> 16) != 0x142) &&
-@@ -485,10 +485,10 @@ phy_PathA_RxIQK(struct adapter *adapt)
- 	ODM_delay_ms(IQK_DELAY_TIME_88E);
- 
- 	/*  Check failed */
--	regeac = ODM_GetBBReg(dm_odm, rRx_Power_After_IQK_A_2, bMaskDWord);
--	regE94 = ODM_GetBBReg(dm_odm, rTx_Power_Before_IQK_A, bMaskDWord);
--	regE9C = ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_A, bMaskDWord);
--	regEA4 = ODM_GetBBReg(dm_odm, rRx_Power_Before_IQK_A_2, bMaskDWord);
-+	regeac = rtl8188e_PHY_QueryBBReg(adapt, rRx_Power_After_IQK_A_2, bMaskDWord);
-+	regE94 = rtl8188e_PHY_QueryBBReg(adapt, rTx_Power_Before_IQK_A, bMaskDWord);
-+	regE9C = rtl8188e_PHY_QueryBBReg(adapt, rTx_Power_After_IQK_A, bMaskDWord);
-+	regEA4 = rtl8188e_PHY_QueryBBReg(adapt, rRx_Power_Before_IQK_A_2, bMaskDWord);
- 
- 	/* reload RF 0xdf */
- 	ODM_SetBBReg(dm_odm, rFPGA0_IQK, bMaskDWord, 0x00000000);
-@@ -512,7 +512,7 @@ static void patha_fill_iqk(struct adapter *adapt, bool iqkok, s32 result[][8], u
- 	if (final_candidate == 0xFF) {
- 		return;
- 	} else if (iqkok) {
--		Oldval_0 = (ODM_GetBBReg(dm_odm, rOFDM0_XATxIQImbalance, bMaskDWord) >> 22) & 0x3FF;
-+		Oldval_0 = (rtl8188e_PHY_QueryBBReg(adapt, rOFDM0_XATxIQImbalance, bMaskDWord) >> 22) & 0x3FF;
- 
- 		X = result[final_candidate][0];
- 		if ((X & 0x00000200) != 0)
-@@ -549,11 +549,9 @@ static void patha_fill_iqk(struct adapter *adapt, bool iqkok, s32 result[][8], u
- void _PHY_SaveADDARegisters(struct adapter *adapt, u32 *ADDAReg, u32 *ADDABackup, u32 RegisterNum)
+diff --git a/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c b/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
+index b5b614686a65..3c591bf9459c 100644
+--- a/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
++++ b/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
+@@ -7,7 +7,7 @@ void odm_ConfigRFReg_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr,
+ 			   u32 Data, enum rf_radio_path RF_PATH,
+ 			   u32 RegAddr)
  {
- 	u32 i;
--	struct hal_data_8188e *pHalData = &adapt->haldata;
--	struct odm_dm_struct *dm_odm = &pHalData->odmpriv;
- 
- 	for (i = 0; i < RegisterNum; i++) {
--		ADDABackup[i] = ODM_GetBBReg(dm_odm, ADDAReg[i], bMaskDWord);
-+		ADDABackup[i] = rtl8188e_PHY_QueryBBReg(adapt, ADDAReg[i], bMaskDWord);
- 	}
- }
- 
-@@ -760,7 +758,7 @@ static void phy_IQCalibrate_8188E(struct adapter *adapt, s32 result[][8], u8 t)
- 
- 	_PHY_PathADDAOn(adapt, ADDA_REG);
- 	if (t == 0)
--		dm_odm->RFCalibrateInfo.bRfPiEnable = (u8)ODM_GetBBReg(dm_odm, rFPGA0_XA_HSSIParameter1, BIT(8));
-+		dm_odm->RFCalibrateInfo.bRfPiEnable = (u8)rtl8188e_PHY_QueryBBReg(adapt, rFPGA0_XA_HSSIParameter1, BIT(8));
- 
- 	if (!dm_odm->RFCalibrateInfo.bRfPiEnable) {
- 		/*  Switch BB to PI mode to do IQ Calibration. */
-@@ -794,8 +792,8 @@ static void phy_IQCalibrate_8188E(struct adapter *adapt, s32 result[][8], u8 t)
- 	for (i = 0; i < retryCount; i++) {
- 		PathAOK = phy_PathA_IQK_8188E(adapt);
- 		if (PathAOK == 0x01) {
--			result[t][0] = (ODM_GetBBReg(dm_odm, rTx_Power_Before_IQK_A, bMaskDWord) & 0x3FF0000) >> 16;
--			result[t][1] = (ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_A, bMaskDWord) & 0x3FF0000) >> 16;
-+			result[t][0] = (rtl8188e_PHY_QueryBBReg(adapt, rTx_Power_Before_IQK_A, bMaskDWord) & 0x3FF0000) >> 16;
-+			result[t][1] = (rtl8188e_PHY_QueryBBReg(adapt, rTx_Power_After_IQK_A, bMaskDWord) & 0x3FF0000) >> 16;
- 			break;
- 		}
- 	}
-@@ -803,8 +801,8 @@ static void phy_IQCalibrate_8188E(struct adapter *adapt, s32 result[][8], u8 t)
- 	for (i = 0; i < retryCount; i++) {
- 		PathAOK = phy_PathA_RxIQK(adapt);
- 		if (PathAOK == 0x03) {
--			result[t][2] = (ODM_GetBBReg(dm_odm, rRx_Power_Before_IQK_A_2, bMaskDWord) & 0x3FF0000) >> 16;
--			result[t][3] = (ODM_GetBBReg(dm_odm, rRx_Power_After_IQK_A_2, bMaskDWord) & 0x3FF0000) >> 16;
-+			result[t][2] = (rtl8188e_PHY_QueryBBReg(adapt, rRx_Power_Before_IQK_A_2, bMaskDWord) & 0x3FF0000) >> 16;
-+			result[t][3] = (rtl8188e_PHY_QueryBBReg(adapt, rRx_Power_After_IQK_A_2, bMaskDWord) & 0x3FF0000) >> 16;
- 			break;
- 		}
- 	}
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index b1bb81c97c5c..9329ba9057ac 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -267,8 +267,10 @@ void ODM_CmnInfoUpdate(struct odm_dm_struct *pDM_Odm, u32 CmnInfo, u64 Value)
- 
- void odm_CommonInfoSelfInit(struct odm_dm_struct *pDM_Odm)
- {
--	pDM_Odm->bCckHighPower = (bool)ODM_GetBBReg(pDM_Odm, 0x824, BIT(9));
--	pDM_Odm->RFPathRxEnable = (u8)ODM_GetBBReg(pDM_Odm, 0xc04, 0x0F);
-+	struct adapter *adapter = pDM_Odm->Adapter;
-+
-+	pDM_Odm->bCckHighPower = (bool)rtl8188e_PHY_QueryBBReg(adapter, 0x824, BIT(9));
-+	pDM_Odm->RFPathRxEnable = (u8)rtl8188e_PHY_QueryBBReg(adapter, 0xc04, 0x0F);
- }
- 
- void odm_CommonInfoSelfUpdate(struct odm_dm_struct *pDM_Odm)
-@@ -310,8 +312,9 @@ void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
- void odm_DIGInit(struct odm_dm_struct *pDM_Odm)
- {
- 	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
-+	struct adapter *adapter = pDM_Odm->Adapter;
- 
--	pDM_DigTable->CurIGValue = (u8)ODM_GetBBReg(pDM_Odm, ODM_REG_IGI_A_11N, ODM_BIT_IGI_11N);
-+	pDM_DigTable->CurIGValue = (u8)rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_IGI_A_11N, ODM_BIT_IGI_11N);
- 	pDM_DigTable->RssiLowThresh	= DM_DIG_THRESH_LOW;
- 	pDM_DigTable->RssiHighThresh	= DM_DIG_THRESH_HIGH;
- 	pDM_DigTable->FALowThresh	= DM_false_ALARM_THRESH_LOW;
-@@ -475,6 +478,7 @@ void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm)
- {
- 	u32 ret_value;
- 	struct false_alarm_stats *FalseAlmCnt = &pDM_Odm->FalseAlmCnt;
-+	struct adapter *adapter = pDM_Odm->Adapter;
- 
- 	if (!(pDM_Odm->SupportAbility & ODM_BB_FA_CNT))
- 		return;
-@@ -483,23 +487,23 @@ void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm)
- 	ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_HOLDC_11N, BIT(31), 1); /* hold page C counter */
- 	ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(31), 1); /* hold page D counter */
- 
--	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE1_11N, bMaskDWord);
-+	ret_value = rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_OFDM_FA_TYPE1_11N, bMaskDWord);
- 	FalseAlmCnt->Cnt_Fast_Fsync = (ret_value & 0xffff);
- 	FalseAlmCnt->Cnt_SB_Search_fail = ((ret_value & 0xffff0000) >> 16);
--	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE2_11N, bMaskDWord);
-+	ret_value = rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_OFDM_FA_TYPE2_11N, bMaskDWord);
- 	FalseAlmCnt->Cnt_OFDM_CCA = (ret_value & 0xffff);
- 	FalseAlmCnt->Cnt_Parity_Fail = ((ret_value & 0xffff0000) >> 16);
--	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE3_11N, bMaskDWord);
-+	ret_value = rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_OFDM_FA_TYPE3_11N, bMaskDWord);
- 	FalseAlmCnt->Cnt_Rate_Illegal = (ret_value & 0xffff);
- 	FalseAlmCnt->Cnt_Crc8_fail = ((ret_value & 0xffff0000) >> 16);
--	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE4_11N, bMaskDWord);
-+	ret_value = rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_OFDM_FA_TYPE4_11N, bMaskDWord);
- 	FalseAlmCnt->Cnt_Mcs_fail = (ret_value & 0xffff);
- 
- 	FalseAlmCnt->Cnt_Ofdm_fail = FalseAlmCnt->Cnt_Parity_Fail + FalseAlmCnt->Cnt_Rate_Illegal +
- 				     FalseAlmCnt->Cnt_Crc8_fail + FalseAlmCnt->Cnt_Mcs_fail +
- 				     FalseAlmCnt->Cnt_Fast_Fsync + FalseAlmCnt->Cnt_SB_Search_fail;
- 
--	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_SC_CNT_11N, bMaskDWord);
-+	ret_value = rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_SC_CNT_11N, bMaskDWord);
- 	FalseAlmCnt->Cnt_BW_LSC = (ret_value & 0xffff);
- 	FalseAlmCnt->Cnt_BW_USC = ((ret_value & 0xffff0000) >> 16);
- 
-@@ -507,12 +511,12 @@ void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm)
- 	ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(12), 1);
- 	ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(14), 1);
- 
--	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_FA_LSB_11N, bMaskByte0);
-+	ret_value = rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_CCK_FA_LSB_11N, bMaskByte0);
- 	FalseAlmCnt->Cnt_Cck_fail = ret_value;
--	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_FA_MSB_11N, bMaskByte3);
-+	ret_value = rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_CCK_FA_MSB_11N, bMaskByte3);
- 	FalseAlmCnt->Cnt_Cck_fail +=  (ret_value & 0xff) << 8;
- 
--	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_CCA_CNT_11N, bMaskDWord);
-+	ret_value = rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_CCK_CCA_CNT_11N, bMaskDWord);
- 	FalseAlmCnt->Cnt_CCK_CCA = ((ret_value & 0xFF) << 8) | ((ret_value & 0xFF00) >> 8);
- 
- 	FalseAlmCnt->Cnt_all = (FalseAlmCnt->Cnt_Fast_Fsync +
-@@ -582,14 +586,15 @@ void odm_DynamicBBPowerSavingInit(struct odm_dm_struct *pDM_Odm)
- void ODM_RF_Saving(struct odm_dm_struct *pDM_Odm, u8 bForceInNormal)
- {
- 	struct rtl_ps *pDM_PSTable = &pDM_Odm->DM_PSTable;
-+	struct adapter *adapter = pDM_Odm->Adapter;
- 	u8 Rssi_Up_bound = 30;
- 	u8 Rssi_Low_bound = 25;
- 
- 	if (pDM_PSTable->initialize == 0) {
--		pDM_PSTable->reg_874 = (ODM_GetBBReg(pDM_Odm, 0x874, bMaskDWord) & 0x1CC000) >> 14;
--		pDM_PSTable->reg_c70 = (ODM_GetBBReg(pDM_Odm, 0xc70, bMaskDWord) & BIT(3)) >> 3;
--		pDM_PSTable->reg_85c = (ODM_GetBBReg(pDM_Odm, 0x85c, bMaskDWord) & 0xFF000000) >> 24;
--		pDM_PSTable->reg_a74 = (ODM_GetBBReg(pDM_Odm, 0xa74, bMaskDWord) & 0xF000) >> 12;
-+		pDM_PSTable->reg_874 = (rtl8188e_PHY_QueryBBReg(adapter, 0x874, bMaskDWord) & 0x1CC000) >> 14;
-+		pDM_PSTable->reg_c70 = (rtl8188e_PHY_QueryBBReg(adapter, 0xc70, bMaskDWord) & BIT(3)) >> 3;
-+		pDM_PSTable->reg_85c = (rtl8188e_PHY_QueryBBReg(adapter, 0x85c, bMaskDWord) & 0xFF000000) >> 24;
-+		pDM_PSTable->reg_a74 = (rtl8188e_PHY_QueryBBReg(adapter, 0xa74, bMaskDWord) & 0xF000) >> 12;
- 		pDM_PSTable->initialize = 1;
- 	}
- 
-diff --git a/drivers/staging/r8188eu/hal/odm_interface.c b/drivers/staging/r8188eu/hal/odm_interface.c
-index 42d6485758c0..90c5f02660d2 100644
---- a/drivers/staging/r8188eu/hal/odm_interface.c
-+++ b/drivers/staging/r8188eu/hal/odm_interface.c
-@@ -10,12 +10,6 @@ void ODM_SetBBReg(struct odm_dm_struct *pDM_Odm, u32 RegAddr, u32 BitMask, u32 D
- 	rtl8188e_PHY_SetBBReg(Adapter, RegAddr, BitMask, Data);
- }
- 
--u32 ODM_GetBBReg(struct odm_dm_struct *pDM_Odm, u32 RegAddr, u32 BitMask)
--{
--	struct adapter *Adapter = pDM_Odm->Adapter;
--	return rtl8188e_PHY_QueryBBReg(Adapter, RegAddr, BitMask);
--}
--
- /*  ODM Memory relative API. */
- s32 ODM_CompareMemory(struct odm_dm_struct *pDM_Odm, void *pBuf1, void *pBuf2, u32 length)
- {
-diff --git a/drivers/staging/r8188eu/include/odm_interface.h b/drivers/staging/r8188eu/include/odm_interface.h
-index 29bf5ae468da..a013ef44f3c4 100644
---- a/drivers/staging/r8188eu/include/odm_interface.h
-+++ b/drivers/staging/r8188eu/include/odm_interface.h
-@@ -15,8 +15,6 @@ typedef void (*RT_WORKITEM_CALL_BACK)(void *pContext);
- void ODM_SetBBReg(struct odm_dm_struct *pDM_Odm, u32 RegAddr,
- 		  u32 BitMask, u32 Data);
- 
--u32 ODM_GetBBReg(struct odm_dm_struct *pDM_Odm, u32 RegAddr, u32 BitMask);
--
- /*  Memory Relative Function. */
- s32 ODM_CompareMemory(struct odm_dm_struct *pDM_Odm, void *pBuf1, void *pBuf2,
- 		      u32 length);
+-    if (Addr == 0xffe) {
++	if (Addr == 0xffe) {
+ 		ODM_sleep_ms(50);
+ 	} else if (Addr == 0xfd) {
+ 		ODM_delay_ms(5);
 -- 
 2.34.1
 
