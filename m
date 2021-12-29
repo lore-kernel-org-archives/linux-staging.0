@@ -1,147 +1,106 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E0FC168
-	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 02:29:15 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.126])
-	by APP-05 (Coremail) with SMTP id zQCowABnb3_kx8thSpE9BQ--.9864S2;
-	Wed, 29 Dec 2021 10:28:52 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH v2] staging: greybus: audio: Check null pointer
-Date: Wed, 29 Dec 2021 10:28:50 +0800
-Message-Id: <20211229022850.1682897-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE9C168
+	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 09:47:20 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id a11-20020a17090a854b00b001b11aae38d6so19462483pjw.2
+        for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 01:47:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=SZt+PdB0ksyIlIomXjnYYgxpDLtpRJk7mrjUXL3/SSc=;
+        b=Bk2zDX9ojYrZN7oWsfacN1JWYmi3ylxb7LAqzopN4ngSoqNyqYkoC5yFSp/2GE+S2l
+         ZsvJ2gaWnOUZQoYqYLh/OaQOuwm0US2gEAecPBGnDSFiVendAdZjNG+y3w3ex+og3Tpz
+         4bBFKgIoqtsz6ejXfdCL+/JZ904vDk03+o9Vf5AbMV3WBGTbh5JFcAIn+gTCnXsm3Hwn
+         wBZ1pEWeyR5qej9DHL632ycz09P10O5jS4MtPR+7Q/lyr2vI1Wd/uecPBfbje2Giogqq
+         37Y7uTQVhWfJq6dYJ2LKg1YeAB8MX46CKaQntrm42aeSKzx5RRIyWGomVdCRj+GSbovy
+         Pe6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=SZt+PdB0ksyIlIomXjnYYgxpDLtpRJk7mrjUXL3/SSc=;
+        b=RuCnm3wFKXzwqurQMlQntp/3S5XQ86UPMxmK7BFemdql2QyUcQgoTCtzjW5rf4D2Fr
+         PgwXv+lUSMdX3R2lYYWu11HWFBh2YtiLZvlZxdtU81tjlKIuyxSRKY++WaQzKyplXIvS
+         95siQINO0wBMdGUWH8bLpaveqzrdslg5/D66hyD670bsWRzFotfahAzehnL/ATw8OaXj
+         IubLezey/HFlrFsb6W5wPSuP427VK8DstWsohBUCQRNzFihpv4dnjSg18IWtRqr7YJsX
+         9mhhv+EOkb0ITTshEWneOTFqqTR/DGDrx7IFaEtf2fXDv9V0h7LmnfAlEYHdrhnGbpFB
+         ED6g==
+X-Gm-Message-State: AOAM533A+Z7PvDRdZu8mjobuy9a0aL3PtpaAHIjSADFJtnvJi854VRRp
+	oOzQFmqBiGRx5QVYFvepH0Q=
+X-Google-Smtp-Source: ABdhPJz6/T+KLZzxfQ2wy0I4wTo+QS0cfasrrZF/tfBUmYiwfzfmVH0b2eZ5IQebxE7cVPNioFHCQw==
+X-Received: by 2002:a17:902:c401:b0:149:7451:2200 with SMTP id k1-20020a170902c40100b0014974512200mr17245850plk.14.1640771239605;
+        Wed, 29 Dec 2021 01:47:19 -0800 (PST)
+Received: from localhost.localdomain (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id v3sm4940247pgl.64.2021.12.29.01.47.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Dec 2021 01:47:19 -0800 (PST)
+Date: Wed, 29 Dec 2021 22:47:13 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: pi433: add docs to packet_format and
+ tx_start_condition enum
+Message-ID: <20211229094713.GA28795@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABnb3_kx8thSpE9BQ--.9864S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJw13uF13KF45Kr45tr1DKFg_yoWrWry7pF
-	s5KrnxAr4DJasIkFs7Ar4rZ3ZxZ34kGFWUK3y7W3yDZrsIqrW09ay3KFyYvF13uFy8Zw40
-	ya1IvF45X3WqvrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
-	4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-	7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
-	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_
-	Gr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
-	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
-	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
-	1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbpwZ7UUUU
-	U==
-X-Originating-IP: [124.16.138.126]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Dec 28, 2021 at 10:50:22PM +0800, Alex Elder wrote:
-> But the two places you're returning are in the middle of a loop (in 
-> gbaudio_tplg_create_widget() and gbaudio_tplg_process_kcontrols()).
-> Each is building up a sort of hierarchical data structure, and as
-> you can see, the existing code takes care to de-construct the partially
-> built structure in the event an error occurs before it completes.
->
-> There is a chance that your simple return would "work", but by
-> reading the surrounding code you should recognize that the proper
-> way to handle the error is to jump to the cleanup at the end.
+While pi433 driver deals with the nuances of the different possible
+config combinations, it's hard (at first) to understand the rationale
+for some of the tx/rx-related source code unless you're fairly familiar
+with the rf69's inner workings.
 
-Yes, I agree with your opinion and this time I use "goto error" instead
-of directly return in the two callers.
-The new patch is as follow.
+This patch documents the expected behaviour and limits of both
+packet_format and tx_start_condition enum fields.
 
-As the possible alloc failure of devm_kcalloc(), it could return null
-pointer.
-Therefore, 'strings' should be checked and return NULL if alloc fails to
-prevent the dereference of the NULL pointer.
-Also, the caller should also deal with the return value of the
-gb_generate_enum_strings() and return -ENOMEM if returns NULL.
-Moreover, because the memory allocated with devm_kzalloc() will be
-freed automatically when the last reference to the device is dropped,
-the 'gbe' in gbaudio_tplg_create_enum_kctl() and
-gbaudio_tplg_create_enum_ctl() do not need to free manually.
-But the 'control' in gbaudio_tplg_create_widget() and
-gbaudio_tplg_process_kcontrols() has a specially error handle to
-cleanup.
-So it should be better to cleanup 'control' when fails.
-
-Fixes: e65579e335da ("greybus: audio: topology: Enable enumerated control support")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 ---
-Changelog:
+ drivers/staging/pi433/rf69_enum.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-v1 -> v2
-
-*Change 1. Add the cleanup process when alloc fails in two callers and
-refine the commit message.
----
- drivers/staging/greybus/audio_topology.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
-index 1fc7727ab7be..6bba735d2e5c 100644
---- a/drivers/staging/greybus/audio_topology.c
-+++ b/drivers/staging/greybus/audio_topology.c
-@@ -147,6 +147,9 @@ static const char **gb_generate_enum_strings(struct gbaudio_module_info *gb,
+diff --git a/drivers/staging/pi433/rf69_enum.h b/drivers/staging/pi433/rf69_enum.h
+index fbf56fcf5fe8..c902916a063d 100644
+--- a/drivers/staging/pi433/rf69_enum.h
++++ b/drivers/staging/pi433/rf69_enum.h
+@@ -109,13 +109,32 @@ enum fifo_fill_condition {
+ 	always
+ };
  
- 	items = le32_to_cpu(gbenum->items);
- 	strings = devm_kcalloc(gb->dev, items, sizeof(char *), GFP_KERNEL);
-+	if (!strings)
-+		return NULL;
-+
- 	data = gbenum->names;
++/*
++ * Defines the packet format used.
++ *
++ * In both modes the length of the payload is limited to 255 bytes if AES
++ * is not enabled or 64 bytes otherwise.
++ */
+ enum packet_format {
++    /*
++     * Used when the size of payload is fixed in advance. This mode of
++     * operation may be of interest to minimize RF overhead by 1 byte as
++     * no length byte field is required
++     */
+ 	packet_length_fix,
++    /*
++     * Used when the size of payload isn't known in advance. It requires the
++     * transmitter to send the length byte in each packet so the receiver
++     * would know how to operate properly
++     */
+ 	packet_length_var
+ };
  
- 	for (i = 0; i < items; i++) {
-@@ -655,6 +658,8 @@ static int gbaudio_tplg_create_enum_kctl(struct gbaudio_module_info *gb,
- 	/* since count=1, and reg is dummy */
- 	gbe->items = le32_to_cpu(gb_enum->items);
- 	gbe->texts = gb_generate_enum_strings(gb, gb_enum);
-+	if (!gbe->texts)
-+		return -ENOMEM;
++/* Defines the condition to start packet transmission */
+ enum tx_start_condition {
++    /* the number of bytes in the FIFO exceeds FIFO_THRESHOLD */
+ 	fifo_level,
++    /* at least one byte in the FIFO */
+ 	fifo_not_empty
+ };
  
- 	/* debug enum info */
- 	dev_dbg(gb->dev, "Max:%d, name_length:%d\n", gbe->items,
-@@ -862,6 +867,8 @@ static int gbaudio_tplg_create_enum_ctl(struct gbaudio_module_info *gb,
- 	/* since count=1, and reg is dummy */
- 	gbe->items = le32_to_cpu(gb_enum->items);
- 	gbe->texts = gb_generate_enum_strings(gb, gb_enum);
-+	if (!gbe->texts)
-+		return -ENOMEM;
- 
- 	/* debug enum info */
- 	dev_dbg(gb->dev, "Max:%d, name_length:%d\n", gbe->items,
-@@ -1034,6 +1041,10 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
- 			csize += le16_to_cpu(gbenum->names_length);
- 			control->texts = (const char * const *)
- 				gb_generate_enum_strings(module, gbenum);
-+			if (!control->texts) {
-+				ret = -ENOMEM;
-+				goto error;
-+			}
- 			control->items = le32_to_cpu(gbenum->items);
- 		} else {
- 			csize = sizeof(struct gb_audio_control);
-@@ -1183,6 +1194,10 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
- 			csize += le16_to_cpu(gbenum->names_length);
- 			control->texts = (const char * const *)
- 				gb_generate_enum_strings(module, gbenum);
-+			if (!control->texts) {
-+				ret = -ENOMEM;
-+				goto error;
-+			}
- 			control->items = le32_to_cpu(gbenum->items);
- 		} else {
- 			csize = sizeof(struct gb_audio_control);
 -- 
-2.25.1
+2.25.4
 
