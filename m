@@ -1,41 +1,41 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3092C2CA3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF4C2CA4
 	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 20:51:35 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id e5so46561285wrc.5
+Received: by mail-wr1-f47.google.com with SMTP id d9so46677846wrb.0
         for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 12:51:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0tEcEKEhMAf+p+W97OxzOZ8O3ogIaO1IGoSzDMSrfzs=;
-        b=R9aqlwl15GTLUUilUJhnb/9qpCu+pknb2U2GZzHRxXrNGFq2Mh+g2xhfLS+U41usk+
-         Hk6zJbjS6BCy5zaXpKh1TPi4YSsWViI43oZZvhBX8ye4HnF3v9pagieZfTyUPf9FIJMP
-         Q0mHIOfi9iw8f1mO5xMi5yR/qsvCrifP2C3ATr8vEXB0x9cw9dTYHgdlmybHdsOHCFf3
-         GECM/vaikgK3KshqjYA7ORr/hEm2AZ5g5Hc4md5TFOaacIqDgj9W75rDMAvKiAK0ESSV
-         7JZqFg2KMUxIK/WXoA1UDDYd7MKW2Q/XV/2gdSk+qIj43e7ykdF4iY7gMZVnh8P2pJTx
-         uFCg==
+        bh=AVOyTdq/5dHYhqv/1i6ZsUz7g+g+c+tsXa1zpjG5d2M=;
+        b=pG/SaO2m4P+jMZTnL5DxxiO7glcchCgRY6YHfgHidfeYsuHMzeOYbYpN39mX1jCDXS
+         7oJwQVT0d5I24OP6XXaojd7z5YNZOC5P6+QynUOZiVZV12iYdzsK0Vw8BqKEpGY5pLmw
+         ldYpZslyw0GK6lKSZz274ivFxTZOmu26rVJS7f+sD/rOwOUpsO4a2cKn6FutwIjixnpv
+         Ug6zm4sUiP1AxEUaFTkG3ViA2dsSVmKYYzlt9WSZjaqIn721F/IMVdXkEktrkYEAMOb8
+         v7DxeYX9b86yxgg5lkC3Q9n+SFkWFnxXD5K6r/Sfbi5qbk8rAazzjIkuxz+MeFbb1NGt
+         HcTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0tEcEKEhMAf+p+W97OxzOZ8O3ogIaO1IGoSzDMSrfzs=;
-        b=biUR8sakdsZBaJzwyEg9bC8R8SiANOe/irlfpFmLe1ZCfK3QsxfYLcyboWNsjRRyua
-         5iXgj6i+m3SiriOcb2Db1wPbE/HmsB2dH1a5ImldiOLJ+NSYWB0das9ND6Pvvy0WoP4+
-         E13vrP5LVO03XmBa+x7O0cib+pi1yjaown/undsQAzpYm+7BQny5vOnpusQvW5648AxA
-         XCrlTU/nMj/KV4jxWZag965r50OpFyDmxD/gG53deQd7Oh4H2NUBs0EeGKEhm+JLFMYz
-         QiWamAcmvJPdOF4EJ2j0AXVndZ1KC3Dqf5PQQL1Hpc7VwQIURZlBFDS9INnmpj8tO+xl
-         I5YQ==
-X-Gm-Message-State: AOAM532n++2rJte71h0VMPG/11nOm4JieNCnFlpMLo36d3/U6aI3kET/
-	tkxf+y2thAw7qGyRSbQxtiU=
-X-Google-Smtp-Source: ABdhPJxCQaA3FvH2D6UhnZjVj5FKFwgMTkEYTm5voVwWrAEumomx573p3TOgsc8PPLdjzrwTm+UHjg==
-X-Received: by 2002:adf:dd11:: with SMTP id a17mr22208307wrm.174.1640811093648;
-        Wed, 29 Dec 2021 12:51:33 -0800 (PST)
+        bh=AVOyTdq/5dHYhqv/1i6ZsUz7g+g+c+tsXa1zpjG5d2M=;
+        b=IO5YDu74LZUe4edavSfhroFTE8p85RoqN6ltP95mVz4eGIQyD6R4Wplm1sm3Bmammc
+         yqLVa/yGkdo34uUvBcJVrHd42ZnRE5yfPvvoA5pxqgKru/ffsLFm40zLQKBmjivbgJMJ
+         408dSZf4wVaKIsiHasP41SU8KRReiW4um2DHPv7eWCKNGWBddldRPPMv4TjkxFYZjYuy
+         cfdrMy2X09QX8ctvzYlWbP1fpfIOB38s9zDiUhbq8r83ufS4QKIBVZ33GM52AQV0k3mN
+         SPY6r2TpAE17oZ7iDTlQvDApgVXF27gERI8sm0Mm0TlluOFcQ5RWWsnd7967NziFbMx1
+         Fufw==
+X-Gm-Message-State: AOAM532FHXw0vybLt2DARwiOR5EWRLiXaM4CjD+k3MNdga0/d/Qcd9v8
+	qeIUIX1utkL8TNhRteZdih8=
+X-Google-Smtp-Source: ABdhPJwNdv9BCnMGV162yKJE8osChh8oCjvW4YA3On6EXThSBYkpwvwFS5BTJVluzEMewwCt8E5lrg==
+X-Received: by 2002:adf:fac9:: with SMTP id a9mr14673260wrs.172.1640811094345;
+        Wed, 29 Dec 2021 12:51:34 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
         by smtp.gmail.com with ESMTPSA id l12sm27421989wmq.2.2021.12.29.12.51.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Dec 2021 12:51:33 -0800 (PST)
+        Wed, 29 Dec 2021 12:51:34 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 10/32] staging: r8188eu: remove ODM_delay_ms()
-Date: Wed, 29 Dec 2021 21:50:46 +0100
-Message-Id: <20211229205108.26373-11-straube.linux@gmail.com>
+Subject: [PATCH 11/32] staging: r8188eu: remove ODM_CompareMemory()
+Date: Wed, 29 Dec 2021 21:50:47 +0100
+Message-Id: <20211229205108.26373-12-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211229205108.26373-1-straube.linux@gmail.com>
 References: <20211229205108.26373-1-straube.linux@gmail.com>
@@ -57,121 +57,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ODM_delay_ms() is just a wrapper around mdelay().
-Remove ODM_delay_ms() and call mdelay() directly.
+ODM_CompareMemory() is just a wrapper around memcmp().
+Remove ODM_CompareMemory() and call memcmp() directly.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c     |  8 ++++----
- drivers/staging/r8188eu/hal/odm_RegConfig8188E.c | 12 ++++++------
- drivers/staging/r8188eu/hal/odm_interface.c      |  6 ------
- drivers/staging/r8188eu/include/odm_interface.h  |  3 ---
- 4 files changed, 10 insertions(+), 19 deletions(-)
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c    | 4 ++--
+ drivers/staging/r8188eu/hal/odm_interface.c     | 5 -----
+ drivers/staging/r8188eu/include/odm_interface.h | 4 ----
+ 3 files changed, 2 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index 35e1c81bf9a7..5db8ea92046e 100644
+index 5db8ea92046e..04e24beb0488 100644
 --- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
 +++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -382,7 +382,7 @@ phy_PathA_IQK_8188E(struct adapter *adapt)
+@@ -171,13 +171,13 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
  
- 	/*  delay x ms */
- 	/* PlatformStallExecution(IQK_DELAY_TIME_88E*1000); */
--	ODM_delay_ms(IQK_DELAY_TIME_88E);
-+	mdelay(IQK_DELAY_TIME_88E);
- 
- 	/*  Check failed */
- 	regeac = rtl8188e_PHY_QueryBBReg(adapt, rRx_Power_After_IQK_A_2, bMaskDWord);
-@@ -434,7 +434,7 @@ phy_PathA_RxIQK(struct adapter *adapt)
- 	rtl8188e_PHY_SetBBReg(adapt, rIQK_AGC_Pts, bMaskDWord, 0xf8000000);
- 
- 	/*  delay x ms */
--	ODM_delay_ms(IQK_DELAY_TIME_88E);
-+	mdelay(IQK_DELAY_TIME_88E);
- 
- 	/*  Check failed */
- 	regeac = rtl8188e_PHY_QueryBBReg(adapt, rRx_Power_After_IQK_A_2, bMaskDWord);
-@@ -478,7 +478,7 @@ phy_PathA_RxIQK(struct adapter *adapt)
- 
- 	/*  delay x ms */
- 	/* PlatformStallExecution(IQK_DELAY_TIME_88E*1000); */
--	ODM_delay_ms(IQK_DELAY_TIME_88E);
-+	mdelay(IQK_DELAY_TIME_88E);
- 
- 	/*  Check failed */
- 	regeac = rtl8188e_PHY_QueryBBReg(adapt, rRx_Power_After_IQK_A_2, bMaskDWord);
-@@ -1000,7 +1000,7 @@ void PHY_LCCalibrate_8188E(struct adapter *adapt)
- 		return;
- 
- 	while (*dm_odm->pbScanInProcess && timecount < timeout) {
--		ODM_delay_ms(50);
-+		mdelay(50);
- 		timecount += 50;
- 	}
- 
-diff --git a/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c b/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
-index 20201353c14f..3f1e30eb1a15 100644
---- a/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
-+++ b/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
-@@ -10,9 +10,9 @@ void odm_ConfigRFReg_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr,
- 	if (Addr == 0xffe) {
- 		msleep(50);
- 	} else if (Addr == 0xfd) {
--		ODM_delay_ms(5);
-+		mdelay(5);
- 	} else if (Addr == 0xfc) {
--		ODM_delay_ms(1);
-+		mdelay(1);
- 	} else if (Addr == 0xfb) {
- 		udelay(50);
- 	} else if (Addr == 0xfa) {
-@@ -52,9 +52,9 @@ void odm_ConfigBB_PHY_REG_PG_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr,
- 	if (Addr == 0xfe)
- 		msleep(50);
- 	else if (Addr == 0xfd)
--		ODM_delay_ms(5);
-+		mdelay(5);
- 	else if (Addr == 0xfc)
--		ODM_delay_ms(1);
-+		mdelay(1);
- 	else if (Addr == 0xfb)
- 		udelay(50);
- 	else if (Addr == 0xfa)
-@@ -70,9 +70,9 @@ void odm_ConfigBB_PHY_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr, u32 Bitmask
- 	if (Addr == 0xfe) {
- 		msleep(50);
- 	} else if (Addr == 0xfd) {
--		ODM_delay_ms(5);
-+		mdelay(5);
- 	} else if (Addr == 0xfc) {
--		ODM_delay_ms(1);
-+		mdelay(1);
- 	} else if (Addr == 0xfb) {
- 		udelay(50);
- 	} else if (Addr == 0xfa) {
+ 		for (i = 0; i < CCK_TABLE_SIZE; i++) {
+ 			if (dm_odm->RFCalibrateInfo.bCCKinCH14) {
+-				if (ODM_CompareMemory(dm_odm, (void *)&TempCCk, (void *)&CCKSwingTable_Ch14[i][2], 4) == 0) {
++				if (memcmp((void *)&TempCCk, (void *)&CCKSwingTable_Ch14[i][2], 4)) {
+ 					CCK_index_old = (u8)i;
+ 					dm_odm->BbSwingIdxCckBase = (u8)i;
+ 					break;
+ 				}
+ 			} else {
+-				if (ODM_CompareMemory(dm_odm, (void *)&TempCCk, (void *)&CCKSwingTable_Ch1_Ch13[i][2], 4) == 0) {
++				if (memcmp((void *)&TempCCk, (void *)&CCKSwingTable_Ch1_Ch13[i][2], 4)) {
+ 					CCK_index_old = (u8)i;
+ 					dm_odm->BbSwingIdxCckBase = (u8)i;
+ 					break;
 diff --git a/drivers/staging/r8188eu/hal/odm_interface.c b/drivers/staging/r8188eu/hal/odm_interface.c
-index ce9832ab7b13..03a149069126 100644
+index 03a149069126..a70fda30a24f 100644
 --- a/drivers/staging/r8188eu/hal/odm_interface.c
 +++ b/drivers/staging/r8188eu/hal/odm_interface.c
-@@ -9,9 +9,3 @@ s32 ODM_CompareMemory(struct odm_dm_struct *pDM_Odm, void *pBuf1, void *pBuf2, u
- {
- 	return !memcmp(pBuf1, pBuf2, length);
- }
--
--/*  ODM Timer relative API. */
--void ODM_delay_ms(u32 ms)
+@@ -4,8 +4,3 @@
+ #include "../include/odm_precomp.h"
+ /*  ODM IO Relative API. */
+ 
+-/*  ODM Memory relative API. */
+-s32 ODM_CompareMemory(struct odm_dm_struct *pDM_Odm, void *pBuf1, void *pBuf2, u32 length)
 -{
--	mdelay(ms);
+-	return !memcmp(pBuf1, pBuf2, length);
 -}
 diff --git a/drivers/staging/r8188eu/include/odm_interface.h b/drivers/staging/r8188eu/include/odm_interface.h
-index 20c662628646..d5a75dfe0f8e 100644
+index d5a75dfe0f8e..ef96d577cfa5 100644
 --- a/drivers/staging/r8188eu/include/odm_interface.h
 +++ b/drivers/staging/r8188eu/include/odm_interface.h
-@@ -16,7 +16,4 @@ typedef void (*RT_WORKITEM_CALL_BACK)(void *pContext);
- s32 ODM_CompareMemory(struct odm_dm_struct *pDM_Odm, void *pBuf1, void *pBuf2,
- 		      u32 length);
+@@ -12,8 +12,4 @@ typedef void (*RT_WORKITEM_CALL_BACK)(void *pContext);
  
--/*  ODM Timer relative API. */
--void ODM_delay_ms(u32 ms);
+ /*  =========== EXtern Function Prototype */
+ 
+-/*  Memory Relative Function. */
+-s32 ODM_CompareMemory(struct odm_dm_struct *pDM_Odm, void *pBuf1, void *pBuf2,
+-		      u32 length);
 -
  #endif	/*  __ODM_INTERFACE_H__ */
 -- 
