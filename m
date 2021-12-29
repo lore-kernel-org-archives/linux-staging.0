@@ -1,39 +1,39 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F8D2CA1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF5D2CA0
 	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 20:51:38 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id a9so46504542wrr.8
-        for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 12:51:37 -0800 (PST)
+Received: by mail-wm1-f46.google.com with SMTP id e5so13954566wmq.1
+        for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 12:51:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IOo319fzjEUISZs5YH9GJVr9iNceoSjpl9nm5JKLpLQ=;
-        b=TAbOBgbUuQTficM757lP2hK188zm8Dm3LZ72aLeoAOG6iq3W3TAf0oKmNmSGcu67FZ
-         zuhrAXwMYNQdzJwZ6w3yA9ys0cJS8YAU1Ukjlh6N6YEhTCDHz43vQvyUbzYZd7cqipgH
-         y92YVNo/n8eh6XQRPNgomORSexiVQxOrmqNybdmDVqOjfyV52gQaEkw/DIaYj36/kjk2
-         fbEJ1VdWk2F2ufe7lPpkIBEqP6c7Qi4/j5W9cJgi1TYb9mePmxY0mmH0IJDx/0Dhn10J
-         t4rBXft1YF9ZIF2XwSTjhUUbpZz0nt2LyI79HuFg2rbIndFvMc2WsL0cATWcS3ajjSLF
-         agrA==
+        bh=eo0tfBwpFHKmaR9uiricUJYGewJt0PxAB46raXgX+vQ=;
+        b=OCvcOZjiP3MfnVzjNKa/Pd4TQMzgNtpZeV5QTlf8gykItJ0aH7mviqOXdjnM8PUDAC
+         kFSHImHNx360vVlosGk1Sp0s4myY2TUed0an0H5JVUvLKX7mECAP6vhguZtIeNAyo9FO
+         jirb0R/oXEJjEGsUd0IpLs//qCFMveUGitwPp7uFJO8we8Y/u4fQdP1v2mmTlmhaP8aQ
+         pJoe6qdnyfJTN6u9Xr2t5D5T3l8712rW3RWPd2mFx8nOR0iDe+Mu6QAYpTTdAiKq4DMT
+         Rx/n0ozGMKp5VLXgh8aJQdv1WbV6ZAP3hynVdPzlaweWG1YkezKE0JBijpF0ydO+q5WP
+         VRrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IOo319fzjEUISZs5YH9GJVr9iNceoSjpl9nm5JKLpLQ=;
-        b=D5v3Rm5HqrdslJSRnF/xT4D/rO1bjHI7JuxytEqJ7PPLoq7pSHm4fvXjiz6cN1tY2v
-         jk9/Os77NtbBr4bW5WhkqKxr/6n2HlHzumkix8tfVy/Nv6GrtNfazkXKXxiWbm+tACKD
-         pRrfvLAkTQz5EQYes8mZLmktLMX6K2JESFOvkCnrYRGg+dVrnuSdKLW6s2TwDUGSc/wD
-         ceWrGObCgAtL7iO4OlvcKf/YCRB1H0JqaC7zB/8AdZ9ceq0SyR3mFBspcfET+nJCDvv4
-         B+0OlP67vLYx2TZeOvEu9lOfzD7ZLL4Cfkv7TEImYi9wiwrVOMUje6Kt3zoI8IOx/sGL
-         dNxw==
-X-Gm-Message-State: AOAM530Y//DST6wl4+kxPzROMowCZgXlzqzntcY+pyZgyQMbLoZ3qmgu
-	jdCODcHBR2SkpJt3MNNzl9M=
-X-Google-Smtp-Source: ABdhPJwp0yJzthg0rlbGx92oO4njXNnCTWGOCf2HKFqEwWwnheMmgOSW8MysMWgcihKXHkCTUje2gQ==
-X-Received: by 2002:a5d:47aa:: with SMTP id 10mr22246992wrb.455.1640811096455;
-        Wed, 29 Dec 2021 12:51:36 -0800 (PST)
+        bh=eo0tfBwpFHKmaR9uiricUJYGewJt0PxAB46raXgX+vQ=;
+        b=cHX9KoBqlp+mA49isL04T/BqsOHPGqHW8KWH9WTo/eZTX/LDt/GTSmPKimWawnnURc
+         mL02NKvKSHPQKRrRSKsP1DL3kyaUMkEg/iskXYGH6NOIzAtVRcs/eaJxv4iFdpBljjkj
+         Xa8u1wr0BTlYoLdzHs887i3Sc62iAwU0BPGXnkfzfK+z2IZCirs2SksRWEJgcxuzMadv
+         omuqPGi00q2w1ZXLGP86VlVJUndWxZJN/xHWQI39vCMYo0PadbtxV53jrGX+Upy1uqkH
+         HscX7eyXPxlAElxKbMQHek0wqpyHreGmF8DZ4P5ZfgkteIsRck4COAqyOV8TnZFpMD5x
+         m7uQ==
+X-Gm-Message-State: AOAM531QjiH+fwVYBkNr7f1CXkjHECp/AZ9+xho1weGOqlAkt8mjs/bw
+	zCeonzWwcTcei9MEcCbeSlQ=
+X-Google-Smtp-Source: ABdhPJx1uxF1NI04/LcRERUu4LP2wJXu5LEcCa3YTkeGs3L3pYG9ffLBsfNkIaebsIqIixTWUozUrw==
+X-Received: by 2002:a7b:c08c:: with SMTP id r12mr23494060wmh.161.1640811097140;
+        Wed, 29 Dec 2021 12:51:37 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
-        by smtp.gmail.com with ESMTPSA id l12sm27421989wmq.2.2021.12.29.12.51.35
+        by smtp.gmail.com with ESMTPSA id l12sm27421989wmq.2.2021.12.29.12.51.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 29 Dec 2021 12:51:36 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 14/32] staging: r8188eu: remove unused prototypes
-Date: Wed, 29 Dec 2021 21:50:50 +0100
-Message-Id: <20211229205108.26373-15-straube.linux@gmail.com>
+Subject: [PATCH 15/32] staging: r8188eu: make odm_DIGInit() static
+Date: Wed, 29 Dec 2021 21:50:51 +0100
+Message-Id: <20211229205108.26373-16-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211229205108.26373-1-straube.linux@gmail.com>
 References: <20211229205108.26373-1-straube.linux@gmail.com>
@@ -57,53 +57,102 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove some unused function prototypes.
+Function odm_DIGInit() is used only in odm.c. Make it static.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/include/odm.h          | 2 --
- drivers/staging/r8188eu/include/odm_RTL8188E.h | 4 ----
- drivers/staging/r8188eu/include/odm_precomp.h  | 1 -
- 3 files changed, 7 deletions(-)
+ drivers/staging/r8188eu/hal/odm.c             | 58 +++++++++----------
+ drivers/staging/r8188eu/include/odm_precomp.h |  1 -
+ 2 files changed, 29 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index c07dbf763903..793068778833 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -558,8 +558,6 @@ extern	u8 CCKSwingTable_Ch14 [CCK_TABLE_SIZE][8];
- void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI);
- void ODM_Write_CCK_CCA_Thres(struct odm_dm_struct *pDM_Odm, u8 CurCCK_CCAThres);
+diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
+index c50f5219df36..cb1882f8a8bd 100644
+--- a/drivers/staging/r8188eu/hal/odm.c
++++ b/drivers/staging/r8188eu/hal/odm.c
+@@ -142,6 +142,35 @@ u8 CCKSwingTable_Ch14[CCK_TABLE_SIZE][8] = {
+ #define		RxDefaultAnt1		0x65a9
+ #define	RxDefaultAnt2		0x569a
  
--void ODM_SetAntenna(struct odm_dm_struct *pDM_Odm, u8 Antenna);
++static void odm_DIGInit(struct odm_dm_struct *pDM_Odm)
++{
++	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
++	struct adapter *adapter = pDM_Odm->Adapter;
++
++	pDM_DigTable->CurIGValue = (u8)rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_IGI_A_11N, ODM_BIT_IGI_11N);
++	pDM_DigTable->RssiLowThresh	= DM_DIG_THRESH_LOW;
++	pDM_DigTable->RssiHighThresh	= DM_DIG_THRESH_HIGH;
++	pDM_DigTable->FALowThresh	= DM_false_ALARM_THRESH_LOW;
++	pDM_DigTable->FAHighThresh	= DM_false_ALARM_THRESH_HIGH;
++	pDM_DigTable->rx_gain_range_max = DM_DIG_MAX_NIC;
++	pDM_DigTable->rx_gain_range_min = DM_DIG_MIN_NIC;
++	pDM_DigTable->BackoffVal = DM_DIG_BACKOFF_DEFAULT;
++	pDM_DigTable->BackoffVal_range_max = DM_DIG_BACKOFF_MAX;
++	pDM_DigTable->BackoffVal_range_min = DM_DIG_BACKOFF_MIN;
++	pDM_DigTable->PreCCK_CCAThres = 0xFF;
++	pDM_DigTable->CurCCK_CCAThres = 0x83;
++	pDM_DigTable->ForbiddenIGI = DM_DIG_MIN_NIC;
++	pDM_DigTable->LargeFAHit = 0;
++	pDM_DigTable->Recover_cnt = 0;
++	pDM_DigTable->DIG_Dynamic_MIN_0 = DM_DIG_MIN_NIC;
++	pDM_DigTable->DIG_Dynamic_MIN_1 = DM_DIG_MIN_NIC;
++	pDM_DigTable->bMediaConnect_0 = false;
++	pDM_DigTable->bMediaConnect_1 = false;
++
++	/* To Initialize pDM_Odm->bDMInitialGainEnable == false to avoid DIG error */
++	pDM_Odm->bDMInitialGainEnable = true;
++}
++
+ /* 3 Export Interface */
+ 
+ /*  2011/09/21 MH Add to describe different team necessary resource allocate?? */
+@@ -310,35 +339,6 @@ void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
+ 	}
+ }
+ 
+-void odm_DIGInit(struct odm_dm_struct *pDM_Odm)
+-{
+-	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
+-	struct adapter *adapter = pDM_Odm->Adapter;
 -
- void ODM_RF_Saving(struct odm_dm_struct *pDM_Odm, u8 bForceInNormal);
- 
- void ODM_TXPowerTrackingCheck(struct odm_dm_struct *pDM_Odm);
-diff --git a/drivers/staging/r8188eu/include/odm_RTL8188E.h b/drivers/staging/r8188eu/include/odm_RTL8188E.h
-index 85a0d7ec7378..3c6471f1a893 100644
---- a/drivers/staging/r8188eu/include/odm_RTL8188E.h
-+++ b/drivers/staging/r8188eu/include/odm_RTL8188E.h
-@@ -25,8 +25,4 @@ void ODM_AntselStatistics_88E(struct odm_dm_struct *pDM_Odm, u8	antsel_tr_mux,
- 
- void odm_FastAntTraining(struct odm_dm_struct *pDM_Odm);
- 
--void odm_FastAntTrainingCallback(struct odm_dm_struct *pDM_Odm);
+-	pDM_DigTable->CurIGValue = (u8)rtl8188e_PHY_QueryBBReg(adapter, ODM_REG_IGI_A_11N, ODM_BIT_IGI_11N);
+-	pDM_DigTable->RssiLowThresh	= DM_DIG_THRESH_LOW;
+-	pDM_DigTable->RssiHighThresh	= DM_DIG_THRESH_HIGH;
+-	pDM_DigTable->FALowThresh	= DM_false_ALARM_THRESH_LOW;
+-	pDM_DigTable->FAHighThresh	= DM_false_ALARM_THRESH_HIGH;
+-	pDM_DigTable->rx_gain_range_max = DM_DIG_MAX_NIC;
+-	pDM_DigTable->rx_gain_range_min = DM_DIG_MIN_NIC;
+-	pDM_DigTable->BackoffVal = DM_DIG_BACKOFF_DEFAULT;
+-	pDM_DigTable->BackoffVal_range_max = DM_DIG_BACKOFF_MAX;
+-	pDM_DigTable->BackoffVal_range_min = DM_DIG_BACKOFF_MIN;
+-	pDM_DigTable->PreCCK_CCAThres = 0xFF;
+-	pDM_DigTable->CurCCK_CCAThres = 0x83;
+-	pDM_DigTable->ForbiddenIGI = DM_DIG_MIN_NIC;
+-	pDM_DigTable->LargeFAHit = 0;
+-	pDM_DigTable->Recover_cnt = 0;
+-	pDM_DigTable->DIG_Dynamic_MIN_0 = DM_DIG_MIN_NIC;
+-	pDM_DigTable->DIG_Dynamic_MIN_1 = DM_DIG_MIN_NIC;
+-	pDM_DigTable->bMediaConnect_0 = false;
+-	pDM_DigTable->bMediaConnect_1 = false;
 -
--void odm_FastAntTrainingWorkItemCallback(struct odm_dm_struct *pDM_Odm);
+-	/* To Initialize pDM_Odm->bDMInitialGainEnable == false to avoid DIG error */
+-	pDM_Odm->bDMInitialGainEnable = true;
+-}
 -
- #endif
+ void odm_DIG(struct odm_dm_struct *pDM_Odm)
+ {
+ 	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
 diff --git a/drivers/staging/r8188eu/include/odm_precomp.h b/drivers/staging/r8188eu/include/odm_precomp.h
-index a0d5e870c11a..7f08f2d0a671 100644
+index 7f08f2d0a671..258119e2c4b9 100644
 --- a/drivers/staging/r8188eu/include/odm_precomp.h
 +++ b/drivers/staging/r8188eu/include/odm_precomp.h
-@@ -36,7 +36,6 @@ void odm_RateAdaptiveMaskInit(struct odm_dm_struct *pDM_Odm);
+@@ -31,7 +31,6 @@
+ #include "odm_RegConfig8188E.h"
+ #include "odm_RTL8188E.h"
+ 
+-void odm_DIGInit(struct odm_dm_struct *pDM_Odm);
+ void odm_RateAdaptiveMaskInit(struct odm_dm_struct *pDM_Odm);
  void odm_DynamicBBPowerSavingInit(struct odm_dm_struct *pDM_Odm);
  void odm_TXPowerTrackingInit(struct odm_dm_struct *pDM_Odm);
- void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm);
--void odm_SwAntDivInit_NIC(struct odm_dm_struct *pDM_Odm);
- void odm_CommonInfoSelfUpdate(struct odm_dm_struct *pDM_Odm);
- void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm);
- void odm_DIG(struct odm_dm_struct *pDM_Odm);
 -- 
 2.34.1
 
