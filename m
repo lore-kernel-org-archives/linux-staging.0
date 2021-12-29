@@ -1,41 +1,41 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8772B2CA2
-	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 20:51:44 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id n14-20020a7bcbce000000b00332f4abf43fso7439500wmi.0
-        for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 12:51:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302872CA0
+	for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 20:51:45 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id b73so14380569wmd.0
+        for <linux-staging@lists.linux.dev>; Wed, 29 Dec 2021 12:51:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Fq5juEOTi76Ho3pqz6a84Y5x4oefXL3HjI7ksvNnre4=;
-        b=aTlifOqlUocEoolvrf6BCPc14OcPgjlJgVfDoCufA70tzmYfbZOxfUpAA3UQz4BHGy
-         kekth1KUYIUhjj0TEQ6vOYU1g4FQh0bNBRlIRUhGlasKrrSTfa+a2g8SllGwpQeKk7WK
-         aNj9deOqRgsDFx1Ny0Eaffymxy9pcUCpoJVHTI3Mc2v3oxgAuphNZIf39bYJNF254asK
-         4yLTLnDRqwpEa6K/ZISGTmmdIlwRzhLkXGjZ5uw+G8cNnamJi6ZvrZqWab8OOWc3Y9P1
-         vIK8Gwf6dBbTEnDtO5QvxyKrsvmKCOhFHv5HMRtfR+swEBMY7EmU5nHKBKT8hGwKVYZq
-         OZPA==
+        bh=KNcBsGkgbuF3jMvtnNADnzVX5XV2OEwlyvafToFPdO0=;
+        b=ntmCOynjOVu6CT64KOi5XybB6ojWl5kzqPoXOoQ5LX9RqCIpNj0sMhk1pMmy9sabKe
+         Ga1oEN9gn9XslKY2r0yAVXnEf2ve05cYaK52KhQbDnEI09hEtLY0+5lmfsTBCoUGfYrA
+         PWTdMzNYjlO0UHgTYvjAtuDPiHk9t72nt7fyk9jO7p2mLTJgXM7JK4jy+OiygxAhiWHy
+         cxGUwAVzG4Toa7oMv9UalcUeRUeT4N4x+8kvt7GNFe0vD0akcyjil/vAwuPYvos0aBbE
+         jOwEiYCo400tmNogBMtIl6iRg6lWsybRXhgdLGiPJmB7oZ8kM2DEFbdruUM4ZZFG+lE8
+         DxmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Fq5juEOTi76Ho3pqz6a84Y5x4oefXL3HjI7ksvNnre4=;
-        b=RHzilMiVplhoFFqNlF/qXYOXeE+oKC5sKHIX8Ww89/aLXoa/X3TcXsfGU7+2AFwVYv
-         RHRcNkU+0J8E36crryHle/tX5wq9X6NunpXX0H/aD9sh9BF84+wucGLXWRXT03cVdR+T
-         e5ky09kDjsDoBDpYSW1Ah/CAFMyMD2mNMXn+eBzfA1qEih3/YLr5VvrC1Q7awhdAmtWN
-         md3iC+kXmha8DRm9XEdnHUfGgaRJVEMIEdDK16DJDyrz087l4bC0r0YnEFWC8ODCqfcr
-         GQ+oDORVtTHCJEzaUpEBmViMD4gF29jPFuPHnUhUkhEaJMHsBtrcPiZ6bn+IXFawgQZ5
-         G+Gg==
-X-Gm-Message-State: AOAM5309f9W33l/5xQjKjQ5WWmfsB4ACFaZOK94aodTXwrCwJFINjdvT
-	kOC8tvW2dlFGXB5+j8PkJjPSaGdqGQ4=
-X-Google-Smtp-Source: ABdhPJy5k35jqwR/stmBhmeBbKukfcTQtmRLssRtaGnpH8nT6BYkZooSRv+WXxGc17EkkPUYw5JbmA==
-X-Received: by 2002:a7b:ce01:: with SMTP id m1mr23427396wmc.187.1640811103013;
+        bh=KNcBsGkgbuF3jMvtnNADnzVX5XV2OEwlyvafToFPdO0=;
+        b=J/Uh4OAGyRoXpHIIHGMKeB03Qqj9XPSHq6DgjjAiAmpsnN49A8GPLZS7zivLhHYHeG
+         dh3ZjW7k8EaK5iNOCtfKFX27POrS9mfkCHsuYq4ufm+CQAy7aPbL9gp7jPmUWrT2nzTx
+         D21cnLI8CJv/00AP3yIRpSHLEsXtkx05Z+Mkzo+XvgBZ3JUk+K0Aj9Uy7J7kYAHa8PTj
+         HGXmMgHyIDTBrvA0jTS9pFecf4ZwvVq/sRUHnx5aKAKQKTTSNEDmrTR/C8GKngEl/WLU
+         OrRHFvlrjiWqtVTyKWkVJ74Y+vVr926ip37tT8UjLKPt/APJnhru1e7LF4CBhtOG+k5Q
+         dvuQ==
+X-Gm-Message-State: AOAM531Au/ocdCuPGrFCWNMa+XWAx13PS86/UYSHjo+WWWtwsQmir2LZ
+	f7hyqnqU2Zme+KdqMoweAZw=
+X-Google-Smtp-Source: ABdhPJxpcBXzLBTXK1CC834Ev/TfD3ZATrVeAoSRqJKQn1OJ4SovdHKSaENeB8g7jszRdL1LhBqpQg==
+X-Received: by 2002:a05:600c:2308:: with SMTP id 8mr23139236wmo.14.1640811103700;
         Wed, 29 Dec 2021 12:51:43 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
-        by smtp.gmail.com with ESMTPSA id l12sm27421989wmq.2.2021.12.29.12.51.42
+        by smtp.gmail.com with ESMTPSA id l12sm27421989wmq.2.2021.12.29.12.51.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Dec 2021 12:51:42 -0800 (PST)
+        Wed, 29 Dec 2021 12:51:43 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 23/32] staging: r8188eu: make odm_CCKPacketDetectionThresh() static
-Date: Wed, 29 Dec 2021 21:50:59 +0100
-Message-Id: <20211229205108.26373-24-straube.linux@gmail.com>
+Subject: [PATCH 24/32] staging: r8188eu: make odm_RSSIMonitorCheck() static
+Date: Wed, 29 Dec 2021 21:51:00 +0100
+Message-Id: <20211229205108.26373-25-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211229205108.26373-1-straube.linux@gmail.com>
 References: <20211229205108.26373-1-straube.linux@gmail.com>
@@ -57,103 +57,193 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function odm_CCKPacketDetectionThresh() is only used in odm.c.
+Function odm_RSSIMonitorCheck() is only used in odm.c.
 Make it static.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm.c             | 58 +++++++++----------
- drivers/staging/r8188eu/include/odm_precomp.h |  1 -
- 2 files changed, 27 insertions(+), 32 deletions(-)
+ drivers/staging/r8188eu/hal/odm.c             | 148 +++++++++---------
+ drivers/staging/r8188eu/include/odm_precomp.h |   1 -
+ 2 files changed, 72 insertions(+), 77 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 6e3325721c7b..88ce6675fb30 100644
+index 88ce6675fb30..a8b477f70c29 100644
 --- a/drivers/staging/r8188eu/hal/odm.c
 +++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -429,6 +429,33 @@ static void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm)
- 	FalseAlmCnt->Cnt_CCA_all = FalseAlmCnt->Cnt_OFDM_CCA + FalseAlmCnt->Cnt_CCK_CCA;
+@@ -456,6 +456,78 @@ static void odm_CCKPacketDetectionThresh(struct odm_dm_struct *pDM_Odm)
+ 	ODM_Write_CCK_CCA_Thres(pDM_Odm, CurCCK_CCAThres);
  }
  
-+static void odm_CCKPacketDetectionThresh(struct odm_dm_struct *pDM_Odm)
++static void FindMinimumRSSI(struct adapter *pAdapter)
 +{
-+	u8 CurCCK_CCAThres;
-+	struct false_alarm_stats *FalseAlmCnt = &pDM_Odm->FalseAlmCnt;
++	struct hal_data_8188e *pHalData = &pAdapter->haldata;
++	struct dm_priv	*pdmpriv = &pHalData->dmpriv;
++	struct mlme_priv	*pmlmepriv = &pAdapter->mlmepriv;
 +
-+	if (!(pDM_Odm->SupportAbility & (ODM_BB_CCK_PD | ODM_BB_FA_CNT)))
++	/* 1 1.Determine the minimum RSSI */
++	if (!check_fwstate(pmlmepriv, _FW_LINKED) &&
++	    pdmpriv->EntryMinUndecoratedSmoothedPWDB == 0)
++		pdmpriv->MinUndecoratedPWDBForDM = 0;
++
++	pdmpriv->MinUndecoratedPWDBForDM = pdmpriv->EntryMinUndecoratedSmoothedPWDB;
++}
++
++static void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
++{
++	struct adapter *Adapter = pDM_Odm->Adapter;
++	struct hal_data_8188e *pHalData = &Adapter->haldata;
++	struct dm_priv	*pdmpriv = &pHalData->dmpriv;
++	int	i;
++	int	tmpEntryMaxPWDB = 0, tmpEntryMinPWDB = 0xff;
++	u8	sta_cnt = 0;
++	u32 PWDB_rssi[NUM_STA] = {0};/* 0~15]:MACID, [16~31]:PWDB_rssi */
++	struct sta_info *psta;
++
++	if (!(pDM_Odm->SupportAbility & ODM_BB_RSSI_MONITOR))
 +		return;
-+	if (pDM_Odm->bLinked) {
-+		if (pDM_Odm->RSSI_Min > 25) {
-+			CurCCK_CCAThres = 0xcd;
-+		} else if ((pDM_Odm->RSSI_Min <= 25) && (pDM_Odm->RSSI_Min > 10)) {
-+			CurCCK_CCAThres = 0x83;
-+		} else {
-+			if (FalseAlmCnt->Cnt_Cck_fail > 1000)
-+				CurCCK_CCAThres = 0x83;
-+			else
-+				CurCCK_CCAThres = 0x40;
++
++	if (!check_fwstate(&Adapter->mlmepriv, _FW_LINKED))
++		return;
++
++	for (i = 0; i < ODM_ASSOCIATE_ENTRY_NUM; i++) {
++		psta = pDM_Odm->pODM_StaInfo[i];
++		if (IS_STA_VALID(psta) &&
++		    (psta->state & WIFI_ASOC_STATE) &&
++		    !is_broadcast_ether_addr(psta->hwaddr) &&
++		    memcmp(psta->hwaddr, myid(&Adapter->eeprompriv), ETH_ALEN)) {
++			if (psta->rssi_stat.UndecoratedSmoothedPWDB < tmpEntryMinPWDB)
++				tmpEntryMinPWDB = psta->rssi_stat.UndecoratedSmoothedPWDB;
++
++			if (psta->rssi_stat.UndecoratedSmoothedPWDB > tmpEntryMaxPWDB)
++				tmpEntryMaxPWDB = psta->rssi_stat.UndecoratedSmoothedPWDB;
++			if (psta->rssi_stat.UndecoratedSmoothedPWDB != (-1))
++				PWDB_rssi[sta_cnt++] = (psta->mac_id | (psta->rssi_stat.UndecoratedSmoothedPWDB << 16));
 +		}
-+	} else {
-+		if (FalseAlmCnt->Cnt_Cck_fail > 1000)
-+			CurCCK_CCAThres = 0x83;
-+		else
-+			CurCCK_CCAThres = 0x40;
 +	}
-+	ODM_Write_CCK_CCA_Thres(pDM_Odm, CurCCK_CCAThres);
++
++	for (i = 0; i < sta_cnt; i++) {
++		if (PWDB_rssi[i] != (0)) {
++			if (pHalData->fw_ractrl) {
++				/*  Report every sta's RSSI to FW */
++			} else {
++				ODM_RA_SetRSSI_8188E(
++				&pHalData->odmpriv, (PWDB_rssi[i] & 0xFF), (u8)((PWDB_rssi[i] >> 16) & 0xFF));
++			}
++		}
++	}
++
++	if (tmpEntryMaxPWDB != 0)	/*  If associated entry is found */
++		pdmpriv->EntryMaxUndecoratedSmoothedPWDB = tmpEntryMaxPWDB;
++	else
++		pdmpriv->EntryMaxUndecoratedSmoothedPWDB = 0;
++
++	if (tmpEntryMinPWDB != 0xff) /*  If associated entry is found */
++		pdmpriv->EntryMinUndecoratedSmoothedPWDB = tmpEntryMinPWDB;
++	else
++		pdmpriv->EntryMinUndecoratedSmoothedPWDB = 0;
++
++	FindMinimumRSSI(Adapter);
++	ODM_CmnInfoUpdate(&pHalData->odmpriv, ODM_CMNINFO_RSSI_MIN, pdmpriv->MinUndecoratedPWDBForDM);
 +}
 +
  /* 3 Export Interface */
  
  /*  2011/09/21 MH Add to describe different team necessary resource allocate?? */
-@@ -563,37 +590,6 @@ void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
- 	}
+@@ -753,82 +825,6 @@ bool ODM_RAStateCheck(struct odm_dm_struct *pDM_Odm, s32 RSSI, bool bForceUpdate
+ 	return false;
  }
  
 -/* 3============================================================ */
--/* 3 CCK Packet Detect Threshold */
+-/* 3 RSSI Monitor */
 -/* 3============================================================ */
 -
--void odm_CCKPacketDetectionThresh(struct odm_dm_struct *pDM_Odm)
+-static void FindMinimumRSSI(struct adapter *pAdapter)
 -{
--	u8 CurCCK_CCAThres;
--	struct false_alarm_stats *FalseAlmCnt = &pDM_Odm->FalseAlmCnt;
+-	struct hal_data_8188e *pHalData = &pAdapter->haldata;
+-	struct dm_priv	*pdmpriv = &pHalData->dmpriv;
+-	struct mlme_priv	*pmlmepriv = &pAdapter->mlmepriv;
 -
--	if (!(pDM_Odm->SupportAbility & (ODM_BB_CCK_PD | ODM_BB_FA_CNT)))
--		return;
--	if (pDM_Odm->bLinked) {
--		if (pDM_Odm->RSSI_Min > 25) {
--			CurCCK_CCAThres = 0xcd;
--		} else if ((pDM_Odm->RSSI_Min <= 25) && (pDM_Odm->RSSI_Min > 10)) {
--			CurCCK_CCAThres = 0x83;
--		} else {
--			if (FalseAlmCnt->Cnt_Cck_fail > 1000)
--				CurCCK_CCAThres = 0x83;
--			else
--				CurCCK_CCAThres = 0x40;
--		}
--	} else {
--		if (FalseAlmCnt->Cnt_Cck_fail > 1000)
--			CurCCK_CCAThres = 0x83;
--		else
--			CurCCK_CCAThres = 0x40;
--	}
--	ODM_Write_CCK_CCA_Thres(pDM_Odm, CurCCK_CCAThres);
+-	/* 1 1.Determine the minimum RSSI */
+-	if (!check_fwstate(pmlmepriv, _FW_LINKED) &&
+-	    pdmpriv->EntryMinUndecoratedSmoothedPWDB == 0)
+-		pdmpriv->MinUndecoratedPWDBForDM = 0;
+-
+-	pdmpriv->MinUndecoratedPWDBForDM = pdmpriv->EntryMinUndecoratedSmoothedPWDB;
 -}
 -
- void ODM_Write_CCK_CCA_Thres(struct odm_dm_struct *pDM_Odm, u8 CurCCK_CCAThres)
- {
- 	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
+-void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
+-{
+-	struct adapter *Adapter = pDM_Odm->Adapter;
+-	struct hal_data_8188e *pHalData = &Adapter->haldata;
+-	struct dm_priv	*pdmpriv = &pHalData->dmpriv;
+-	int	i;
+-	int	tmpEntryMaxPWDB = 0, tmpEntryMinPWDB = 0xff;
+-	u8	sta_cnt = 0;
+-	u32 PWDB_rssi[NUM_STA] = {0};/* 0~15]:MACID, [16~31]:PWDB_rssi */
+-	struct sta_info *psta;
+-
+-	if (!(pDM_Odm->SupportAbility & ODM_BB_RSSI_MONITOR))
+-		return;
+-
+-	if (!check_fwstate(&Adapter->mlmepriv, _FW_LINKED))
+-		return;
+-
+-	for (i = 0; i < ODM_ASSOCIATE_ENTRY_NUM; i++) {
+-		psta = pDM_Odm->pODM_StaInfo[i];
+-		if (IS_STA_VALID(psta) &&
+-		    (psta->state & WIFI_ASOC_STATE) &&
+-		    !is_broadcast_ether_addr(psta->hwaddr) &&
+-		    memcmp(psta->hwaddr, myid(&Adapter->eeprompriv), ETH_ALEN)) {
+-			if (psta->rssi_stat.UndecoratedSmoothedPWDB < tmpEntryMinPWDB)
+-				tmpEntryMinPWDB = psta->rssi_stat.UndecoratedSmoothedPWDB;
+-
+-			if (psta->rssi_stat.UndecoratedSmoothedPWDB > tmpEntryMaxPWDB)
+-				tmpEntryMaxPWDB = psta->rssi_stat.UndecoratedSmoothedPWDB;
+-			if (psta->rssi_stat.UndecoratedSmoothedPWDB != (-1))
+-				PWDB_rssi[sta_cnt++] = (psta->mac_id | (psta->rssi_stat.UndecoratedSmoothedPWDB << 16));
+-		}
+-	}
+-
+-	for (i = 0; i < sta_cnt; i++) {
+-		if (PWDB_rssi[i] != (0)) {
+-			if (pHalData->fw_ractrl) {
+-				/*  Report every sta's RSSI to FW */
+-			} else {
+-				ODM_RA_SetRSSI_8188E(
+-				&pHalData->odmpriv, (PWDB_rssi[i] & 0xFF), (u8)((PWDB_rssi[i] >> 16) & 0xFF));
+-			}
+-		}
+-	}
+-
+-	if (tmpEntryMaxPWDB != 0)	/*  If associated entry is found */
+-		pdmpriv->EntryMaxUndecoratedSmoothedPWDB = tmpEntryMaxPWDB;
+-	else
+-		pdmpriv->EntryMaxUndecoratedSmoothedPWDB = 0;
+-
+-	if (tmpEntryMinPWDB != 0xff) /*  If associated entry is found */
+-		pdmpriv->EntryMinUndecoratedSmoothedPWDB = tmpEntryMinPWDB;
+-	else
+-		pdmpriv->EntryMinUndecoratedSmoothedPWDB = 0;
+-
+-	FindMinimumRSSI(Adapter);
+-	ODM_CmnInfoUpdate(&pHalData->odmpriv, ODM_CMNINFO_RSSI_MIN, pdmpriv->MinUndecoratedPWDBForDM);
+-}
+-
+ /* 3============================================================ */
+ /* 3 Tx Power Tracking */
+ /* 3============================================================ */
 diff --git a/drivers/staging/r8188eu/include/odm_precomp.h b/drivers/staging/r8188eu/include/odm_precomp.h
-index de95948c7325..71f3cd6eb9cd 100644
+index 71f3cd6eb9cd..9a22a9211d1c 100644
 --- a/drivers/staging/r8188eu/include/odm_precomp.h
 +++ b/drivers/staging/r8188eu/include/odm_precomp.h
-@@ -33,7 +33,6 @@
- 
+@@ -34,7 +34,6 @@
  void odm_TXPowerTrackingInit(struct odm_dm_struct *pDM_Odm);
  void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm);
--void odm_CCKPacketDetectionThresh(struct odm_dm_struct *pDM_Odm);
  void odm_EdcaTurboCheck(struct odm_dm_struct *pDM_Odm);
- void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm);
+-void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm);
  void odm_TXPowerTrackingThermalMeterInit(struct odm_dm_struct *pDM_Odm);
+ void odm_InitHybridAntDiv(struct odm_dm_struct *pDM_Odm);
+ void odm_HwAntDiv(struct odm_dm_struct *pDM_Odm);
 -- 
 2.34.1
 
