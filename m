@@ -1,55 +1,51 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3191173
-	for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 13:34:32 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id j140-20020a1c2392000000b003399ae48f58so16067959wmj.5
-        for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 05:34:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280B62C82
+	for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 14:56:27 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id u16so18402143plg.9
+        for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 06:56:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Wk6QPu8R27ZzqD0xJCv/P/Bm+q/Aw5Xjx08K6+16C4w=;
-        b=NxIUr/AMFV7p8+mpayu7CB60tSNUN5YGPVBV9Mty31tRBfbvV+gCuPGPsdjrOP2lIn
-         iLwAkdrNPEdQLsyeXJ63H5Fr/Uht6YaBjPuHXe+nwMt+yJCMUKYPC1F30mVp12aUtgJy
-         ZSd+SSgZfiQvNttevvTkX2mU/0Amt4FN3zJz+n6G3TwuuUuhlgyy2Dn1Ldc7HHyisyoE
-         tIRzk3p0dpyYwWfG9sLam4aAqXsGOYOih0+UsL1TJbcTieRr4EBT/2Qw2f4UlqPRc8nR
-         7oIRaZMyrfiMWkQMWeO9eUwjdY0o0mmJUwH+u/oVvFGU0RN51qiwEkwUgJiQZ5EiWvF/
-         lghQ==
+         :content-disposition:in-reply-to;
+        bh=vFH2S9/SPFr2cX1fts6IlFx6h2kNtoUhgIhOm/pvEmo=;
+        b=ZhOgUPC5bUoJql5Fx6nUGX8tiaPdbiaZtsNX4d5bE11o2G3EDLSDI7rneXlL4y3YSf
+         MrNiE7Ij09mrIpYRvqX67erSi7zw/Y3mSgVqXgtxuZuBqaDPRfuGSeTxeUq+P1DUO7r8
+         D9cLJ5ILgpWxroWr4avTZMlhDDtKFXusKEp3WfhQM8m95tKNDdJXoKG2/NUMjykcIHMj
+         TVqqDlKfOlhvBUoynlO0gBg9sTN+Ui8JcWmBS5kgrGV6M1WmjVlYsw7FDB1xQGvHMGeA
+         c9V4htvvHk5nS+Vh0kkAINQe/PJ4U/BjrJMueEMxazyxFkM8uUjV9iOAR/O54MBbtS0l
+         EfiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Wk6QPu8R27ZzqD0xJCv/P/Bm+q/Aw5Xjx08K6+16C4w=;
-        b=qFASbC2elNPAjAJR3JSu+K3jKrOcaAwUVDiaDr+4xmcxnd7p82NYQJtXxq0FkLtngw
-         NgmLaibLVNCE1m3C98q3Gz26wHVMUF/ll532QJ30kX/LlnITzFgS/Ymbr6lvI0jM3fUY
-         Vybs+BCP86aBVGuyxelu0gx7izEvWDjZIjxpZb4PU5G3a+eBQRSB2uZjJGW88AnYlmvQ
-         K1i09I8YIjztv60rV7RMjTvSAoUhKJUpphh9xeW1Jx6chW2pks0/A6JO/5PDV3XHWp/g
-         wmIav8+RpsOYXJOTo4MTbVcRVJ7I9ocEpfqcfg1N3hevjdmAOVjMbquFwYRNsKZj21l/
-         dhaA==
-X-Gm-Message-State: AOAM533lU63fW679suM8VfI4px4ZXQjLcb+Rux4yjCzmsBWBYe/BFzXN
-	V+d+o6Pb2OSVL+E9/KmivTQ=
-X-Google-Smtp-Source: ABdhPJxJ8bJsZtVkSh/cfUL8wfs5mSFdk7RFcltu0ESWV0+YKaDRXbUoIgCs/ayDawK4l/2H9o6UCQ==
-X-Received: by 2002:a7b:c1d0:: with SMTP id a16mr23018582wmj.166.1640871271002;
-        Thu, 30 Dec 2021 05:34:31 -0800 (PST)
-Received: from pswork (i577BCE2C.versanet.de. [87.123.206.44])
-        by smtp.gmail.com with ESMTPSA id o9sm8983268wri.97.2021.12.30.05.34.30
+         :mime-version:content-disposition:in-reply-to;
+        bh=vFH2S9/SPFr2cX1fts6IlFx6h2kNtoUhgIhOm/pvEmo=;
+        b=BNIAU+DlavUAW0JocfuApESsqkANbKTz7L6x7EQ3b8TB6pWuXlKF0mURYcm9Eoemp0
+         B2uMWInWmDGBboSrb/Ho3BnTaLBys3+mtIG/urT1xWTQ5ni+mEDNEy359eS6UJ9JMIMm
+         sm1mp9m3kubVV+sI/2wM7H+5ljaGdtTGpcgclYhIhVZpU4uAwFIgp1g9wfOlgVRX3Ltl
+         ADThaNqlbZr2Ew5O4qgfyilkjuCUfFAl5oyHD0yo9zdEntYJboIjTH10PQ3M4LvqO5BQ
+         EdPM5vozzMwwuTU/dvNnLypqVbnG+DQdWj2zobezf6An/sS2pra5RLwjZQFbukB+ioq8
+         NxOA==
+X-Gm-Message-State: AOAM533WO0CdDhUqHgbJonluCRsbf+MFpgTygrTTb3vbmnUaJz+gNm1F
+	RyLB1u1HIJ7hjhah7SnHjBA=
+X-Google-Smtp-Source: ABdhPJwGhDfFBamhxu7nFxp8gB31M2zkqBL/XEgelVha8hrRSjl/80nfntIqPOHySsRY5vIqSkXC5w==
+X-Received: by 2002:a17:90b:3b4d:: with SMTP id ot13mr38984562pjb.196.1640876186671;
+        Thu, 30 Dec 2021 06:56:26 -0800 (PST)
+Received: from localhost.localdomain (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id s207sm23518792pgs.74.2021.12.30.06.56.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Dec 2021 05:34:30 -0800 (PST)
-Date: Thu, 30 Dec 2021 14:34:30 +0100
-From: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-	nsaenz@kernel.org, Gaston Gonzalez <gascoar@gmail.com>,
-	Ojaswin Mujoo <ojaswin98@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-	Phil Elwell <phil@raspberrypi.com>,
-	bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [PATCH] staging: vc04_services: Fix RCU dereference check
-Message-ID: <20211230133430.GA10256@pswork>
-References: <20211229153243.6064-1-treasure4paddy@gmail.com>
- <a30849fa-dd7c-f661-0b27-a04c6531cfb8@i2se.com>
+        Thu, 30 Dec 2021 06:56:26 -0800 (PST)
+Date: Fri, 31 Dec 2021 03:56:21 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: realwakka@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: pi433: add comment to rx_lock mutex
+ definition
+Message-ID: <20211230145621.GA3236@localhost.localdomain>
+References: <20211222215615.GA9361@localhost.localdomain>
+ <Yc2QYUcIAV2SY9JU@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,78 +54,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a30849fa-dd7c-f661-0b27-a04c6531cfb8@i2se.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <Yc2QYUcIAV2SY9JU@kroah.com>
 
-On Wed, Dec 29, 2021 at 08:13:40PM +0100, Stefan Wahren wrote:
-> Hi Padmanabha,
+On Thu, Dec 30, 2021 at 11:56:33AM +0100, Greg KH wrote:
+> On Thu, Dec 23, 2021 at 10:56:15AM +1300, Paulo Miguel Almeida wrote:
+> > +	/*
+> > +	 * rx_lock is used to avoid race-conditions that can be triggered from userspace.
+> > +	 *
+> > +	 * For instance, if a program in userspace is reading the char device
+> > +	 * allocated in this module then another program won't be able to change RX
+> > +	 * configuration of the RF69 hardware module via ioctl and vice versa.
+> > +	 *
+> > +	 * utilization summary:
+> > +	 *  - pi433_read: blocks are read until rx read something (up to the buffer size)
+> > +	 *  - pi433_ioctl: during pending read request, change of config not allowed
+> > +	 */
 > 
-> Am 29.12.21 um 16:32 schrieb Padmanabha Srinivasaiah:
-> > In service_callback path RCU dereference done without
-> > rcu_read_[lock/unlock] pair, fixing same by using them.
-> >
-> > [   32.201659] =============================
-> > [   32.201664] WARNING: suspicious RCU usage
-> > [   32.201670] 5.15.11-rt24-v8+ #3 Not tainted
-> > [   32.201680] -----------------------------
-> > [   32.201685] drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:529 suspicious rcu_dereference_check() usage!
-> > [   32.201695]
-> > [   32.201695] other info that might help us debug this:
-> > [   32.201695]
-> > [   32.201700]
-> > [   32.201700] rcu_scheduler_active = 2, debug_locks = 1
-> > [   32.201708] no locks held by vchiq-slot/0/98.
-> > [   32.201715]
-> > [   32.201715] stack backtrace:
-> > [   32.201723] CPU: 1 PID: 98 Comm: vchiq-slot/0 Not tainted 5.15.11-rt24-v8+ #3
-> > [   32.201733] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
-> > [   32.201739] Call trace:
-> > [   32.201742]  dump_backtrace+0x0/0x1b8
-> > [   32.201772]  show_stack+0x20/0x30
-> > [   32.201784]  dump_stack_lvl+0x8c/0xb8
-> > [   32.201799]  dump_stack+0x18/0x34
-> > [   32.201808]  lockdep_rcu_suspicious+0xe4/0xf8
-> > [   32.201817]  service_callback+0x124/0x400
-> > [   32.201830]  slot_handler_func+0xf60/0x1e20
-> > [   32.201839]  kthread+0x19c/0x1a8
-> > [   32.201849]  ret_from_fork+0x10/0x20
-> >
-> > Signed-off-by: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>
-> > ---
-> >  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > index 6759a6261500..ee1b48db9681 100644
-> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > @@ -1058,7 +1058,10 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
-> >  
-> >  	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-> >  
-> > +	rcu_read_lock();
-> >  	service = handle_to_service(handle);
-> > +	rcu_read_unlock();
-> > +
-> >  	if (WARN_ON(!service))
-> >  		return VCHIQ_SUCCESS;
-> >  
+> This is nice, but way too specific, and will quickly get out-of-date.
 > 
-> thanks for reporting this issue.
+> How about something simple like:
+> 	/* Protects all rx_* variable accesses */
 > 
-> Could you please explain how to reproduce this issue?
+I see your point. I will send a new version of this patch with your
+sugestion. Thanks for guidance.
 
-Have enabled lock dependency check in 5.15 plus rt patchset have been
-applied. And to catch this warning not loading any modules from default
-build.
+thanks,
 
-> 
-> What makes you sure that your patch fixes the issue and not just hiding
-> the warning?
-
-Thank you stefan for the question. Yes, you are right dereferenced pointer
-access should be inside the rcu read-side critical section. Will regenerate the patch
-and will share for the review.
-
-> Best regards
-> 
+Paulo A.
