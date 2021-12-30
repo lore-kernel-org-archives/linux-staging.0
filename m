@@ -1,41 +1,41 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8732C80
-	for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 11:32:09 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id 69so22360439qkd.6
-        for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 03:32:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978912C80
+	for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 11:32:37 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id bp39so21128510qtb.6
+        for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 03:32:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xz9wQgVFaOyvwZSGL/SXwsOeqxcneFSh8VrphgAkOqA=;
-        b=oLmztMoulnp8cgFl7flECDJjqpl7wy1OssjGEqmxxdhM0dn8QTiy6mBZQxXn5sSgh2
-         EPxtFZDcDlwyqpsJFeMfdUYSjUKteu0nIa9RrYdTkoLNUR5tg7TA/5mw2wJ80HrJyvYO
-         tcUWlGuuTSWazSSSf+Dr+wpcelJ2tzrzarYv9mS7QJEFrLzoPj8h3CNyrs6ryicbBVkz
-         yZ28lMgpLexnN+aBrWfyaHPBJ6M+LhHq2hedYNpMtCEinIdA8+BN/gbyD91q9rnuNgWt
-         MdNJXl1im7gvMaKXCDnfiOhuDgiwgzGuVglJqt3mU4WUggix4cCN9CN+h2Pq3ulQozXM
-         zCyQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=nbtCBNF6sxyvZFWUemZV++F4nWdCRsnh+BO2TPv43oo=;
+        b=hUJxB2QDslx3YNl5pocgvID8fPQB1GANa4RM6OjJHB61N+RLR/lcBOf0rIhO91SGyI
+         lYRmPggUcwoQkHJtCL+Uj0XFWe/NdQEZY2lM9Fm8va3qrYKutAxGa+bvrUZbAiggrTm5
+         CALNPlBfkis2yF869vjq6Q2bDz9X6+dYqx2ZtTzcy9jwDB2K6S3aZ0tGzpqA2kBtRVLT
+         mUZSdtVtv4ilMC9uGg3qE+n3rFlTsaTWkVdWTZswbC5tebqasKFQ0N+x+3lJ6Uyqci52
+         qVDR3ldhF4heiHeDKBOpqy6C07aYvIkciVnqSF/506SL6HJVKlfza6KfqdO7v8b0LT5A
+         ey4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xz9wQgVFaOyvwZSGL/SXwsOeqxcneFSh8VrphgAkOqA=;
-        b=tAvuLcVSQ9oLCkS+UPdMxot9NlONTcaLEWBmDEx16AxDc27gSY5xt8nYYrj6NCXLXG
-         mA/V9O1dIcZqBTecQEJXI9nLsoAIr5qtOi740Hgn7ZWkNlaFPGPl3jE2jlRFRoPZHhIA
-         7xeuzWx03799AOYPFNVyl5Tg84stbEdeNWNmLIkSbyqny7TTn4tBcaUWaawF46111P8G
-         hIX4MhozYTnx65XKtHzB8zSawGo+F5p2K6gJrw2I78jMVeseg0Jexgey2TVW+yaicmZX
-         N0kiyqfubFMrkisyDd9C4ATt6Scxt6WnwKuQKAIrpqPh2fJEvSU3SbIUkHGLsj9qIc03
-         Wd+g==
-X-Gm-Message-State: AOAM5333VjARfvzHTjyGE7UrrbCK4F4hzEeZXqhCl5r3+panXy3T0ubv
-	EjGzNT+a9skPtzjs6HrH0JMRZm1BKIyPYw==
-X-Google-Smtp-Source: ABdhPJwvSVUosC04j83BLB3MFg/6DOg4p/GiNncYIT7N60+th9yGaj2v6JlgxzJRehd+qfqLM2RtTw==
-X-Received: by 2002:a05:620a:4305:: with SMTP id u5mr20944784qko.577.1640863928191;
-        Thu, 30 Dec 2021 03:32:08 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=nbtCBNF6sxyvZFWUemZV++F4nWdCRsnh+BO2TPv43oo=;
+        b=SuOp/5kCEkJa1ZuSUlalAaTdvpT8zLqD83udPatSjIFaoOOvWXvl0F+II/lG4IEeyt
+         KW7BoVh7TZH7n8NMTsVJOV2W81x/GhYij8wXdT8YABeWuzAiNunCKhK4YVuOlYWkZ4jF
+         lqXmxZqr+7Jxk7ssq2oNS+244zNAKXeI9/+9Mm0UagioQdKHnEHd/AEfh5qlIU1qDILq
+         tKNeKgI6wtyTqZnAZkltE9+8uM9NXmz6Quw4T6bL0o1PJv1e2MwpxscXq/EifEg1ChDp
+         seOgTvW4Gb7KgdRw9IprX3T6sqWewuUt1ioiNOYCBOwv8UmPr1sD1fbAueeP6XwRoWbR
+         +8tg==
+X-Gm-Message-State: AOAM530jho4tCk/jmICSFPTg1/oLz1U7rlGiyh7AX7lgxYYDSkL9NzgK
+	5ppjfddd6yjTpmqbk6aRBx6zZlLtYxUJlQ==
+X-Google-Smtp-Source: ABdhPJyKW4CawNE3aJaa06FIHWRv2QQ6s4gqoNbfviXivu684EH0slEHhlaQ5RHmGrEkya481hb8mA==
+X-Received: by 2002:a05:622a:1c6:: with SMTP id t6mr26056580qtw.211.1640863956489;
+        Thu, 30 Dec 2021 03:32:36 -0800 (PST)
 Received: from localhost.localdomain ([181.23.70.139])
-        by smtp.gmail.com with ESMTPSA id v5sm20348559qkp.126.2021.12.30.03.32.04
+        by smtp.gmail.com with ESMTPSA id v5sm20348559qkp.126.2021.12.30.03.32.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Dec 2021 03:32:07 -0800 (PST)
+        Thu, 30 Dec 2021 03:32:36 -0800 (PST)
 From: Gaston Gonzalez <gascoar@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
@@ -55,10 +55,12 @@ Cc: gregkh@linuxfoundation.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	gascoar@gmail.com
-Subject: [PATCH v2 0/3] staging: vc04_services: avoid the use of typedef for function pointers
-Date: Thu, 30 Dec 2021 08:31:23 -0300
-Message-Id: <cover.1640776340.git.gascoar@gmail.com>
+Subject: [PATCH v2 1/3] staging: vc04_services: bcm2835-audio: avoid the use of typedef for function pointers
+Date: Thu, 30 Dec 2021 08:31:25 -0300
+Message-Id: <b53a77682994bbc3ccb9b89d617dec23d0785059.1640776340.git.gascoar@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1640776340.git.gascoar@gmail.com>
+References: <cover.1640776340.git.gascoar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,31 +69,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch set removes some typedefs for function pointers in vc04_services.
+Replace typedefs bcm2835_audio_newpcm_func and bcm2835_audio_newctl_func
+with equivalent declarations to better align with the linux kernel
+coding style.
 
-v1 -> v2:
-
-- Following Greg suggestion, functions pointers were not renamed making patches
-  1 and 2 much smaller.
-- Function pointers in vchiq-mmal were not touched as the result is less
-  readable than the original.
-- In the description of changes in the TODO file, it was specified that there
-  are no current 'struct typedefs' left inside vc04_servivces. 
-- The name of the particular subsystem of vc04_services was included in the
-  title of each commit.
-
-Gaston Gonzalez (3):
-  staging: vc04_services: bcm2835-audio: avoid the use of typedef for
-    function pointers
-  staging: vc04_services: bcm2835-camera: avoid the use of typedef for
-    function pointers
-  staging: vc04_services: update TODO file
-
+Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+---
  .../staging/vc04_services/bcm2835-audio/bcm2835.c    | 12 +++---------
- .../staging/vc04_services/bcm2835-camera/controls.c  | 10 ++--------
- drivers/staging/vc04_services/interface/TODO         |  8 ++------
- 3 files changed, 7 insertions(+), 23 deletions(-)
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
+index c250fbef2fa3..628732d7bf6a 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
++++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
+@@ -52,20 +52,14 @@ static int bcm2835_devm_add_vchi_ctx(struct device *dev)
+ 	return 0;
+ }
+ 
+-typedef int (*bcm2835_audio_newpcm_func)(struct bcm2835_chip *chip,
+-					 const char *name,
+-					 enum snd_bcm2835_route route,
+-					 u32 numchannels);
+-
+-typedef int (*bcm2835_audio_newctl_func)(struct bcm2835_chip *chip);
+-
+ struct bcm2835_audio_driver {
+ 	struct device_driver driver;
+ 	const char *shortname;
+ 	const char *longname;
+ 	int minchannels;
+-	bcm2835_audio_newpcm_func newpcm;
+-	bcm2835_audio_newctl_func newctl;
++	int (*newpcm)(struct bcm2835_chip *chip, const char *name,
++		      enum snd_bcm2835_route route, u32 numchannels);
++	int (*newctl)(struct bcm2835_chip *chip);
+ 	enum snd_bcm2835_route route;
+ };
+ 
 -- 
 2.34.1
 
