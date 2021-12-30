@@ -1,107 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA707168
-	for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 17:12:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4EA9C36AE9;
-	Thu, 30 Dec 2021 17:12:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1640884356;
-	bh=Qoyvwny4RIcNEyTTjTptbnDKv3Vi7ycyTXmv8nLl+xU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J4vJK4Q2vdqC50QEUrgws0u2ruzCkbtWSovMAisTN9uDkbDiaPWCIbCqPOND/V6iJ
-	 RCoh6Yy4bEW1dTW+MC0HiT4baouV1M1NdoTiqHWiS3Gaki2Cx5SaYuYNbp1MyGNdBa
-	 BcJ51o5vZUR+ijFpTZPi8nu3btYkkNaLJXIuRwbY=
-Date: Thu, 30 Dec 2021 18:12:33 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: pi433: add docs to packet_format and
- tx_start_condition enum
-Message-ID: <Yc3ogfD+Cs8zteiB@kroah.com>
-References: <20211230170129.GA10296@mail.google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2161B29CA
+	for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 20:01:07 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id s1so52452896wrg.1
+        for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 12:01:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5lEVdYlzZfTaki180D8atXlsL/EBivmN1Gj1imf7WQ8=;
+        b=oIVpwi1LF5eTKikUrWdbpaoj9pI9gXvIxBK6yvL17bTigNVdUW1pKf1D8d/GPHNxkn
+         JC2KBk9kgWfKNo61rbq0tNF2LV4uE8iQShdBe13WzCmYNz2C/mEvFAVDnOz6IU6NhhDm
+         1GNdQWsueWhDqk/rLaE0kwU4ley5gzmsF1CySLPEQc0ytucekjc8S/0LrdVs2HhsSzN+
+         M1QSfHL3N2IzkE001mK1Untz2eEu+fg85YDNk2jyIxUc+csA0/vY6LM1AyOrVUMLjoFW
+         dBp0j1Zn+KwteQoUe5mpu/I3U0AqavZ7uhCuaemPukjuYw5sPYLDxkLgfypBS2WZmsyt
+         STPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5lEVdYlzZfTaki180D8atXlsL/EBivmN1Gj1imf7WQ8=;
+        b=qfQ5QNZwPLnoqX0M5N0c/HfCtR8wpfHFIN5p8SPi/5TAnFht5B3ttontZOTvQ5JiBp
+         ZQ1mIPWtM8NJDXq6tpVaHx8QkRPdxAhO+Qg7I0yEB8+BFLIngWBdG+nwnLexCgKw68in
+         u6oBPEfSAr/i7BrSqUykjqeItVh1TjKKppo4CdkTNPAZDDjsTrK5Wy2GJ/F07Orei1x6
+         uahm2OGOsuIASZaYbpfbLKSRIjg8DXZ8013joMhFCVRogA+4Q2N7wsUYjSX8nkQWWk0Z
+         TaPJC9Rmjpbm1Ym4CyYlERF3uVTHKmIk+iFQEVROkUml728x0WesjaHV0OoPy0rVKzdd
+         BsyQ==
+X-Gm-Message-State: AOAM530LxSMxLFJ9yBKUTTzE+TT1YOAFwQjYbLElwpUiPBnZwja4CfNu
+	u5DTOYpgVD/xJvW5zuPf6IM=
+X-Google-Smtp-Source: ABdhPJz3YyOlFd4kL21Rw92SNWkwx+qIiiQ4xiYMKJ7WT3VOlWvKFgw8AZ38MXSIEZBmFwP8F3+X3g==
+X-Received: by 2002:adf:a35d:: with SMTP id d29mr26202624wrb.264.1640894465542;
+        Thu, 30 Dec 2021 12:01:05 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
+        by smtp.gmail.com with ESMTPSA id o8sm29042286wry.20.2021.12.30.12.01.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Dec 2021 12:01:05 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/7] staging: r8188eu: clean up struct hal_data_r8188e
+Date: Thu, 30 Dec 2021 21:00:52 +0100
+Message-Id: <20211230200059.13406-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211230170129.GA10296@mail.google.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 31, 2021 at 06:01:29AM +1300, Paulo Miguel Almeida wrote:
-> While pi433 driver deals with the nuances of the different possible
-> config combinations, it's hard (at first) to understand the rationale
-> for some of the tx/rx-related source code unless you're fairly familiar
-> with the rf69's inner workings.
-> 
-> This patch documents the expected behaviour and limits of both
-> packet_format and tx_start_condition enum fields.
-> 
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> ---
-> v2: removed comments pointed out during v1 review (Req Greg k-h)
-> v1: https://lore.kernel.org/lkml/20211229094713.GA28795@localhost.localdomain/
-> ---
->  drivers/staging/pi433/rf69_enum.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/staging/pi433/rf69_enum.h b/drivers/staging/pi433/rf69_enum.h
-> index fbf56fcf5fe8..0f0fa741d089 100644
-> --- a/drivers/staging/pi433/rf69_enum.h
-> +++ b/drivers/staging/pi433/rf69_enum.h
-> @@ -110,12 +110,24 @@ enum fifo_fill_condition {
->  };
->  
->  enum packet_format {
-> +    /*
-> +     * Used when the size of payload is fixed in advance. This mode of
-> +     * operation may be of interest to minimize RF overhead by 1 byte as
-> +     * no length byte field is required
-> +     */
->  	packet_length_fix,
-> +    /*
-> +     * Used when the size of payload isn't known in advance. It requires the
-> +     * transmitter to send the length byte in each packet so the receiver
-> +     * would know how to operate properly
-> +     */
->  	packet_length_var
->  };
->  
->  enum tx_start_condition {
-> +    /* the number of bytes in the FIFO exceeds FIFO_THRESHOLD */
->  	fifo_level,
-> +    /* at least one byte in the FIFO */
->  	fifo_not_empty
->  };
->  
-> -- 
-> 2.25.4
-> 
-> 
+This series removes unused and set but never used fields from the
+hal_data_r8188e structure.
 
-Hi,
+Tested on x86_64 with Inter-Tech DMG-02.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Michael Straube (7):
+  staging: r8188eu: bRDGEnable is always false
+  staging: r8188eu: UsbRxHighSpeedMode is set but never used
+  staging: r8188eu: bTXPowerDataReadFromEEPORM is set but never used
+  staging: r8188eu: bAPKThermalMeterIgnore is set but never used
+  staging: r8188eu: remove unused fields from struct hal_data_8188e
+  staging: r8188eu: IntArray and C2hArray are set but never used
+  staging: r8188eu: FwRsvdPageStartOffset is set but never used
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  3 --
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  8 +---
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 15 -------
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   | 10 -----
+ .../staging/r8188eu/include/rtl8188e_hal.h    | 43 -------------------
+ .../staging/r8188eu/include/rtl8188e_spec.h   |  7 ---
+ 6 files changed, 2 insertions(+), 84 deletions(-)
 
-- Your patch contains warnings and/or errors noticed by the
-  scripts/checkpatch.pl tool.
+-- 
+2.34.1
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
