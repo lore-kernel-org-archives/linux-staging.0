@@ -1,95 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8852C80
-	for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 10:57:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E16E4C36AEA;
-	Thu, 30 Dec 2021 10:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1640861871;
-	bh=iFlZ4wt7LI1+4h2aPKyiKIRISOvhlTY1S2WNqNp8KRg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i45hnyK2GkEE2R6V3UILQW6XUWgov9qcEv/aeFC0psN2ifwxrfc8GqOZFM4LsqNM6
-	 Wh1qEefpgxWfoaODe8xOMSdb+RjUxJqvwZEA4mPJVfpO5HeMxKa7PmlwIwrYmu5cmQ
-	 uiO4cfCcWKixYt4WuEBB17c5BvrHNS6lZf7r1Byo=
-Date: Thu, 30 Dec 2021 11:57:48 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: add docs to packet_format and
- tx_start_condition enum
-Message-ID: <Yc2QrMecuVQFRcBZ@kroah.com>
-References: <20211229094713.GA28795@localhost.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8732C80
+	for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 11:32:09 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id 69so22360439qkd.6
+        for <linux-staging@lists.linux.dev>; Thu, 30 Dec 2021 03:32:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xz9wQgVFaOyvwZSGL/SXwsOeqxcneFSh8VrphgAkOqA=;
+        b=oLmztMoulnp8cgFl7flECDJjqpl7wy1OssjGEqmxxdhM0dn8QTiy6mBZQxXn5sSgh2
+         EPxtFZDcDlwyqpsJFeMfdUYSjUKteu0nIa9RrYdTkoLNUR5tg7TA/5mw2wJ80HrJyvYO
+         tcUWlGuuTSWazSSSf+Dr+wpcelJ2tzrzarYv9mS7QJEFrLzoPj8h3CNyrs6ryicbBVkz
+         yZ28lMgpLexnN+aBrWfyaHPBJ6M+LhHq2hedYNpMtCEinIdA8+BN/gbyD91q9rnuNgWt
+         MdNJXl1im7gvMaKXCDnfiOhuDgiwgzGuVglJqt3mU4WUggix4cCN9CN+h2Pq3ulQozXM
+         zCyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xz9wQgVFaOyvwZSGL/SXwsOeqxcneFSh8VrphgAkOqA=;
+        b=tAvuLcVSQ9oLCkS+UPdMxot9NlONTcaLEWBmDEx16AxDc27gSY5xt8nYYrj6NCXLXG
+         mA/V9O1dIcZqBTecQEJXI9nLsoAIr5qtOi740Hgn7ZWkNlaFPGPl3jE2jlRFRoPZHhIA
+         7xeuzWx03799AOYPFNVyl5Tg84stbEdeNWNmLIkSbyqny7TTn4tBcaUWaawF46111P8G
+         hIX4MhozYTnx65XKtHzB8zSawGo+F5p2K6gJrw2I78jMVeseg0Jexgey2TVW+yaicmZX
+         N0kiyqfubFMrkisyDd9C4ATt6Scxt6WnwKuQKAIrpqPh2fJEvSU3SbIUkHGLsj9qIc03
+         Wd+g==
+X-Gm-Message-State: AOAM5333VjARfvzHTjyGE7UrrbCK4F4hzEeZXqhCl5r3+panXy3T0ubv
+	EjGzNT+a9skPtzjs6HrH0JMRZm1BKIyPYw==
+X-Google-Smtp-Source: ABdhPJwvSVUosC04j83BLB3MFg/6DOg4p/GiNncYIT7N60+th9yGaj2v6JlgxzJRehd+qfqLM2RtTw==
+X-Received: by 2002:a05:620a:4305:: with SMTP id u5mr20944784qko.577.1640863928191;
+        Thu, 30 Dec 2021 03:32:08 -0800 (PST)
+Received: from localhost.localdomain ([181.23.70.139])
+        by smtp.gmail.com with ESMTPSA id v5sm20348559qkp.126.2021.12.30.03.32.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Dec 2021 03:32:07 -0800 (PST)
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	nsaenz@kernel.org,
+	f.fainelli@gmail.com,
+	rjui@broadcom.com,
+	sbranden@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	juerg.haefliger@canonical.com,
+	rdunlap@infradead.org,
+	dave.stevenson@raspberrypi.com,
+	stefan.wahren@i2se.com,
+	unixbhaskar@gmail.com,
+	mitaliborkar810@gmail.com,
+	phil@raspberrypi.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: [PATCH v2 0/3] staging: vc04_services: avoid the use of typedef for function pointers
+Date: Thu, 30 Dec 2021 08:31:23 -0300
+Message-Id: <cover.1640776340.git.gascoar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211229094713.GA28795@localhost.localdomain>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 29, 2021 at 10:47:13PM +1300, Paulo Miguel Almeida wrote:
-> While pi433 driver deals with the nuances of the different possible
-> config combinations, it's hard (at first) to understand the rationale
-> for some of the tx/rx-related source code unless you're fairly familiar
-> with the rf69's inner workings.
-> 
-> This patch documents the expected behaviour and limits of both
-> packet_format and tx_start_condition enum fields.
-> 
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> ---
->  drivers/staging/pi433/rf69_enum.h | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/drivers/staging/pi433/rf69_enum.h b/drivers/staging/pi433/rf69_enum.h
-> index fbf56fcf5fe8..c902916a063d 100644
-> --- a/drivers/staging/pi433/rf69_enum.h
-> +++ b/drivers/staging/pi433/rf69_enum.h
-> @@ -109,13 +109,32 @@ enum fifo_fill_condition {
->  	always
->  };
->  
-> +/*
-> + * Defines the packet format used.
+This patch set removes some typedefs for function pointers in vc04_services.
 
-What "Defines"?  This is an odd sentence.
+v1 -> v2:
 
-> + *
-> + * In both modes the length of the payload is limited to 255 bytes if AES
-> + * is not enabled or 64 bytes otherwise.
+- Following Greg suggestion, functions pointers were not renamed making patches
+  1 and 2 much smaller.
+- Function pointers in vchiq-mmal were not touched as the result is less
+  readable than the original.
+- In the description of changes in the TODO file, it was specified that there
+  are no current 'struct typedefs' left inside vc04_servivces. 
+- The name of the particular subsystem of vc04_services was included in the
+  title of each commit.
 
-What does this have to do with the format type?
+Gaston Gonzalez (3):
+  staging: vc04_services: bcm2835-audio: avoid the use of typedef for
+    function pointers
+  staging: vc04_services: bcm2835-camera: avoid the use of typedef for
+    function pointers
+  staging: vc04_services: update TODO file
 
-> + */
->  enum packet_format {
-> +    /*
-> +     * Used when the size of payload is fixed in advance. This mode of
-> +     * operation may be of interest to minimize RF overhead by 1 byte as
-> +     * no length byte field is required
-> +     */
->  	packet_length_fix,
-> +    /*
-> +     * Used when the size of payload isn't known in advance. It requires the
-> +     * transmitter to send the length byte in each packet so the receiver
-> +     * would know how to operate properly
-> +     */
->  	packet_length_var
->  };
->  
-> +/* Defines the condition to start packet transmission */
->  enum tx_start_condition {
-> +    /* the number of bytes in the FIFO exceeds FIFO_THRESHOLD */
->  	fifo_level,
-> +    /* at least one byte in the FIFO */
->  	fifo_not_empty
->  };
+ .../staging/vc04_services/bcm2835-audio/bcm2835.c    | 12 +++---------
+ .../staging/vc04_services/bcm2835-camera/controls.c  | 10 ++--------
+ drivers/staging/vc04_services/interface/TODO         |  8 ++------
+ 3 files changed, 7 insertions(+), 23 deletions(-)
 
-Also, always run your patches through scripts/checkpatch.pl before
-sending them out.  I couldn't take this patch for that reason alone :(
+-- 
+2.34.1
 
-thanks,
-
-greg k-h
