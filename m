@@ -1,41 +1,41 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775BE2CA0
-	for <linux-staging@lists.linux.dev>; Sat,  1 Jan 2022 08:18:09 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id q16so59625349wrg.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133F42C80
+	for <linux-staging@lists.linux.dev>; Sat,  1 Jan 2022 08:18:10 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id n14-20020a7bcbce000000b00332f4abf43fso8992991wmi.0
         for <linux-staging@lists.linux.dev>; Sat, 01 Jan 2022 00:18:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kTPq3bwy8yog6hFLtW+V15w6R9lOZAWWw5IrK/yQyN8=;
-        b=HgKm7xkW/qoi/ID9pKhSSSbbF/4253umdAAPLBkG2ooU7m5o7vPdbout5Liuf4APqh
-         egHIEF3SKUWBDnUjKTFbYFhBa70bj1f4l6VS0Yf6w9EQKyIyFs4lZUveBecSqGyCDbAb
-         VqSQEsCL5sGG5mydHNwzXanpzUlhK335sFVp/QSQzOqBtSlaPr/Z6dC6uuObN2wARAy/
-         tctqWxpxGxH7IzvPFwqtYUwKv3c42eRv99WQgI1vqLeQT+jhMciubDtyW7W+NHXzMHS2
-         qFuJtcipZEAJSy3Jafc7IQkYen2uChAg+mc6iz2XTxKvkHSRIyRXSZjwe2MR3Ymwx/Yj
-         YCUA==
+        bh=DXMWSZptIeRPrV7Ny9e/lWoHz+fzwKFZLfpVM59vyP0=;
+        b=VO34iHaCEpkAEFs44Q7eYbTI8ph5n1PkIqK1h8CXuIAV5t45xXfaLuPAyFJXZjUgdG
+         Vei2424ILY+gQlG0xyBOuSOb9EntmNhVN8gwaQ1n19zOT6ozZdQ4xtNNm1dkakeJk6Xm
+         6hEqxqqohHzr2WN9yJUIAJDptKJ1azvn7553/bMZkI/1u5J5PPYZkCyN2rSLT4urTudy
+         2OhYGWrbDHRpEBDKL0pfacml2nbQjHLUphvHwMwrkm0MdQPVQy6boRtcIDFKNidwLZ+D
+         QdcJqrfQVSnNaXhLYCMZxYRvF+M9ThP8NUddfGhU5DEYMwH8MYvTR5fgHnBKQnrx1xTm
+         CksA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kTPq3bwy8yog6hFLtW+V15w6R9lOZAWWw5IrK/yQyN8=;
-        b=Vz4v46MzbQheW9ISM9+eyfSXT+AojqKVxIQyMwOQP/VeTlD/AlNj52BQu6XVP6mIyJ
-         2fwRY13qZxMEjNm67zTQkVOIaGeLdAXHAXeWILaARuQU4+653SDYfCdVhWSMw7Pwx4jH
-         0RpvolWjXICif/0j5MMaUMH4g/Y3AvN4F5J3tpgl0cqKbRWw8Ysi9DZirEkWsFtRlNlZ
-         7ZqbLg4UwOZb375Y3QErZB8o+E8oB2NEewXWlyepDTc9uvjJTBfFyU/FxOoBPQwl9R7s
-         EQUPVeoqXo+hOEuF3X/VGeUw3/rvUXn3YoDleBkrNv/Abe/8Pwvbb5gqP1m0fYIfEh+D
-         ncVw==
-X-Gm-Message-State: AOAM530F5UjWOfVDcrm/bgc/kEwfvHHO7QGdElahfyKqNcztZy0Isuxh
-	FDfvjrR3Nu8ZeippCBSHRh0Pg7BKlTo=
-X-Google-Smtp-Source: ABdhPJwKMf+fs+TBJ1CkJHY8LOPZFsGF3o+HS+5e3UgWJ4mJSAx7EQQma8XXTTKq3w3nQQue2pemyQ==
-X-Received: by 2002:adf:f6c1:: with SMTP id y1mr31607998wrp.351.1641025087926;
-        Sat, 01 Jan 2022 00:18:07 -0800 (PST)
+        bh=DXMWSZptIeRPrV7Ny9e/lWoHz+fzwKFZLfpVM59vyP0=;
+        b=dlXqzNQoDT1La7OcYAq7wfafd5y/qKGMNC323d+G9TwA0rJSlKdvOlWqxRlWoBwPpu
+         64PqpNkC2da3iMAb4Sjl5w/PqcrBBz/Ln33ZsrcWyWlIWM3v0I/28R9TdPPE/7GqPTzP
+         utL+dTx+dDIZw5PgdARlp4qceKkIy6EmAyH2xQVTxN97zKGlV/b8VXUkKcJ4Pa3VhAdL
+         pJlTd7jFAiQzq3Zwrgla7bVPSjgu2ExVmuj74oaEyK/T7993SlKZSz75dc4UNVAvfig8
+         P0v73a7zdV9kftE3qDCPfMx/l0wCNGvgNXQg5C4ASeCRdG987HnWGv2r0zvg7+zN2yI+
+         BH2w==
+X-Gm-Message-State: AOAM531n9vZM6QhQVftiWyY177h6Hyf9gR3pbcTXNHuzt5BA/+10g8Fu
+	rrf4WYIRaVA8jZCCz0J47/E=
+X-Google-Smtp-Source: ABdhPJyFiu1ixPgRE8CH34H8v8h+o9BmECh2Uy5ksNd1t+hrQ/8aGFGyVvA4bjvcVN26k+CHPiwN+w==
+X-Received: by 2002:a05:600c:3797:: with SMTP id o23mr31927594wmr.178.1641025088584;
+        Sat, 01 Jan 2022 00:18:08 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
         by smtp.gmail.com with ESMTPSA id u9sm30693651wmm.7.2022.01.01.00.18.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Jan 2022 00:18:07 -0800 (PST)
+        Sat, 01 Jan 2022 00:18:08 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 5/7] staging: r8188eu: remove unused fields from struct hal_data_8188e
-Date: Sat,  1 Jan 2022 09:17:56 +0100
-Message-Id: <20220101081758.9716-6-straube.linux@gmail.com>
+Subject: [PATCH v2 6/7] staging: r8188eu: IntArray and C2hArray are set but never used
+Date: Sat,  1 Jan 2022 09:17:57 +0100
+Message-Id: <20220101081758.9716-7-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220101081758.9716-1-straube.linux@gmail.com>
 References: <20220101081758.9716-1-straube.linux@gmail.com>
@@ -57,103 +57,92 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused fields from struct hal_data_8188e.
+The fields IntArray and C2hArray of struct hal_data_8188e are set but
+never used. Remove them and remove interrupt_handler_8188eu() since it
+does nothing now.
+
+While at it, remove the unsed defines USB_INTR_CONTENT_CPWM1_OFFSET
+and USB_INTR_CONTENT_CPWM2_OFFSET as well.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
-v2: no changes
+v2: Remove interrupt_handler_8188eu() since it does nothing now.
 
- .../staging/r8188eu/include/rtl8188e_hal.h    | 30 -------------------
- 1 file changed, 30 deletions(-)
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   | 20 -------------------
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  3 ---
+ .../staging/r8188eu/include/rtl8188e_spec.h   |  7 -------
+ 3 files changed, 30 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+index 9ec55a77dccd..4a0ab4053e90 100644
+--- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
++++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+@@ -183,24 +183,6 @@ int rtw_writeN(struct adapter *adapter, u32 addr, u32 length, u8 *data)
+ 	return RTW_STATUS_CODE(ret);
+ }
+ 
+-static void interrupt_handler_8188eu(struct adapter *adapt, u16 pkt_len, u8 *pbuf)
+-{
+-	struct hal_data_8188e *haldata = &adapt->haldata;
+-
+-	if (pkt_len != INTERRUPT_MSG_FORMAT_LEN) {
+-		DBG_88E("%s Invalid interrupt content length (%d)!\n", __func__, pkt_len);
+-		return;
+-	}
+-
+-	/*  HISR */
+-	memcpy(&haldata->IntArray[0], &pbuf[USB_INTR_CONTENT_HISR_OFFSET], 4);
+-	memcpy(&haldata->IntArray[1], &pbuf[USB_INTR_CONTENT_HISRE_OFFSET], 4);
+-
+-	/*  C2H Event */
+-	if (pbuf[0] != 0)
+-		memcpy(&haldata->C2hArray[0], &pbuf[USB_INTR_CONTENT_C2H_OFFSET], 16);
+-}
+-
+ static int recvbuf2recvframe(struct adapter *adapt, struct sk_buff *pskb)
+ {
+ 	u8	*pbuf;
+@@ -342,8 +324,6 @@ static int recvbuf2recvframe(struct adapter *adapt, struct sk_buff *pskb)
+ 							pattrib->MacIDValidEntry[0],
+ 							pattrib->MacIDValidEntry[1]
+ 							);
+-			} else if (pattrib->pkt_rpt_type == HIS_REPORT) {
+-				interrupt_handler_8188eu(adapt, pattrib->pkt_len, precvframe->rx_data);
+ 			}
+ 			rtw_free_recvframe(precvframe, pfree_recv_queue);
+ 		}
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 40b3db34b8f2..2ce42d647a34 100644
+index 2ce42d647a34..239d0db55639 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -175,15 +175,9 @@ struct hal_data_8188e {
+@@ -246,9 +246,6 @@ struct hal_data_8188e {
  
- 	u16	BasicRateSet;
+ 	u32	UsbBulkOutSize;
  
--	/*  EEPROM setting. */
--	u16	EEPROMSVID;
--	u16	EEPROMSDID;
- 	u8	EEPROMRegulatory;
--
- 	u8	EEPROMThermalMeter;
- 
--	bool	EepromOrEfuse;
--
- 	u8	Index24G_CCK_Base[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
- 	u8	Index24G_BW40_Base[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
- 	/* If only one tx, only BW20 and OFDM are used. */
-@@ -192,11 +186,6 @@ struct hal_data_8188e {
- 	s8	BW20_24G_Diff[RF_PATH_MAX][MAX_TX_COUNT];
- 	s8	BW40_24G_Diff[RF_PATH_MAX][MAX_TX_COUNT];
- 
--	u8	TxPwrLevelCck[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
--	/*  For HT 40MHZ pwr */
--	u8	TxPwrLevelHT40_1S[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
--	/*  For HT 40MHZ pwr */
--	u8	TxPwrLevelHT40_2S[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
- 	/*  HT 20<->40 Pwr diff */
- 	u8	TxPwrHt20Diff[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
- 	/*  For HT<->legacy pwr diff */
-@@ -205,7 +194,6 @@ struct hal_data_8188e {
- 	u8	PwrGroupHT20[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
- 	u8	PwrGroupHT40[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
- 
--	u8	LegacyHTTxPowerDiff;/*  Legacy to HT rate power diff */
- 	/*  The current Tx Power Level */
- 	u8	CurrentCckTxPwrIdx;
- 	u8	CurrentOfdm24GTxPwrIdx;
-@@ -213,21 +201,12 @@ struct hal_data_8188e {
- 	u8	CurrentBW4024GTxPwrIdx;
- 
- 	/*  Read/write are allow for following hardware information variables */
--	u8	framesync;
--	u32	framesyncC34;
--	u8	framesyncMonitor;
--	u8	DefaultInitialGain[4];
- 	u8	pwrGroupCnt;
- 	u32	MCSTxPowerLevelOriginalOffset[MAX_PG_GROUP][16];
--	u32	CCKTxPowerLevelOriginalOffset;
- 
- 	u8	CrystalCap;
--	u32	AntennaTxPath;			/*  Antenna path Tx */
--	u32	AntennaRxPath;			/*  Antenna path Rx */
- 	u8	ExternalPA;
- 
--	u8	b1x1RecvCombine;	/*  for 1T1R receive combining */
--
- 	u32	AcParam_BE; /* Original parameter for BE, use for EDCA turbo. */
- 
- 	struct bb_reg_def PHYRegDef[2];	/* Radio A/B */
-@@ -254,17 +233,9 @@ struct hal_data_8188e {
- 	u8	FwRsvdPageStartOffset; /* Reserve page start offset except
- 					*  beacon in TxQ. */
- 
--	/*  2010/08/09 MH Add CU power down mode. */
--	bool		pwrdown;
--
- 	u8	OutEpQueueSel;
- 	u8	OutEpNumber;
- 
--	/*  2010/11/22 MH Add for slim combo debug mode selective. */
--	/*  This is used for fix the drawback of CU TSMC-A/UMC-A cut.
--	 * HW auto suspend ability. Close BT clock. */
--	bool		SlimComboDbg;
--
- 	u16	EfuseUsedBytes;
- 
- 	struct P2P_PS_Offload_t	p2p_ps_offload;
-@@ -280,7 +251,6 @@ struct hal_data_8188e {
- 	u8	C2hArray[16];
+-	/*  Interrupt relatd register information. */
+-	u32	IntArray[3];/* HISR0,HISR1,HSISR */
+-	u8	C2hArray[16];
  	u8	UsbTxAggMode;
  	u8	UsbTxAggDescNum;
--	u32	MaxUsbRxAggBlock;
  
- 	enum usb_rx_agg_mode UsbRxAggMode;
- 	u8	UsbRxAggBlockCount;	/*  USB Block count. Block size is
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_spec.h b/drivers/staging/r8188eu/include/rtl8188e_spec.h
+index e59fd2fe82c5..009222b4a95d 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_spec.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_spec.h
+@@ -475,13 +475,6 @@ Default: 00b.
+ #define	MSR_INFRA			0x02
+ #define	MSR_AP				0x03
+ 
+-/*   88EU (MSR) Media Status Register	(Offset 0x4C, 8 bits) */
+-#define	USB_INTR_CONTENT_C2H_OFFSET	0
+-#define	USB_INTR_CONTENT_CPWM1_OFFSET	16
+-#define	USB_INTR_CONTENT_CPWM2_OFFSET	20
+-#define	USB_INTR_CONTENT_HISR_OFFSET	48
+-#define	USB_INTR_CONTENT_HISRE_OFFSET	52
+-
+ /*  88E Driver Initialization Offload REG_FDHM0(Offset 0x88, 8 bits) */
+ /* IOL config for REG_FDHM0(Reg0x88) */
+ #define CMD_INIT_LLT			BIT(0)
 -- 
 2.34.1
 
