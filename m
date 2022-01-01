@@ -1,39 +1,39 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2DB2CA0
-	for <linux-staging@lists.linux.dev>; Sat,  1 Jan 2022 08:18:07 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id s1so59710563wrg.1
-        for <linux-staging@lists.linux.dev>; Sat, 01 Jan 2022 00:18:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7B02C80
+	for <linux-staging@lists.linux.dev>; Sat,  1 Jan 2022 08:18:08 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id f134-20020a1c1f8c000000b00345c05bc12dso15663814wmf.3
+        for <linux-staging@lists.linux.dev>; Sat, 01 Jan 2022 00:18:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=eK7taryyQSQVDJH0tOpVoMb90mygew6Vz5QUqjyD+10=;
-        b=A3vpCJPzTHTnzx3JxK4ba+oIxWkOqewjdxEFSjIvVIoCZMRq5vGyFfSBVwIHgS9RCc
-         qmZKCnmB28KgQywNn74wrsp7822NlNQip2ry3YiOHmTSqoJusLN52LfcjoSPdNA9TLZH
-         n3+TfUmda6iB/CNRwF+W+MDCgl1B1cBN8KWYPfkCEY1PWBHi+OEB5FtEEiPANZDCYX4G
-         /gfNsgFa8cjdfDJZrfrdm47fKm0wRJ6spl7j9sSoN1+UG/EBWWTBi2hcPZHnxBqNp9G9
-         ZK8KYYR7+8mQyDI1Qlwssxxr0Huu86dvQsIQktnenKCff9SyIvqyHTGcqNnrxMYGBkNw
-         Vy9w==
+        bh=V/ySfznrCVwP33nHINhDWA0To2qZRQwyQe3jvr0Q578=;
+        b=V37BQwEVVnSS2lKE1SO4KaC7cKd5pd5SQVAuwhWCPRwvfKzcLfM78buuuYweTdm+6I
+         RWtW/ga1F0/BHu359sg3H76w6+9jIgT1n0dSPf7fXJfEIe3gT/OXsEqOVVlaHcERLbqb
+         0MjFG8E6BWS3Hi82bXHM2L4bFr+PMjWlwmBsmBsh3ixYObwDrCzTdMteKh0wKuG4vxC7
+         v9iPW36XmIH5MmqFHmlsm0jAHsDqB1RZ+ewDUum1dAjR12fGEjeQI/DAXDF4FiwaHl/y
+         i/tzkABEIGCVoxwCzhb4rLB/mhdr4iFT0NjBy0T6PEkFAoMngYlAMsm/kX9/KTUGU97K
+         yvtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eK7taryyQSQVDJH0tOpVoMb90mygew6Vz5QUqjyD+10=;
-        b=g+3tjyQZDkp2la2usy2dndmhYs1kA6CkJn3/kOsyYhSO+Zh7yGAiS8cK5Pi5CidfNw
-         Nijm/8iRxlaldT9cjC0XDESideJXEqJTzQcfHljc5G/aBWY4cGcJVvWtfkhiyHA6I+wA
-         VqZmVnvE1Gm/BbksOGsBGliDm9sE4hdshRBDLFJnttYyqr2Q1G/324bHoqisJ1ESLIaG
-         8Oj/QRpyfPtuS/LFBU0hxBi4brXXDH1hJi77dHtlGKSWuNT6ONDzMOJQK+xH501dl+I5
-         ub+w16OTHX/pgLObkAzmt0ihUAh1BukFQB3rZsqvxwMOvabB9kzLMYO2LS1x0uw592wt
-         F1gA==
-X-Gm-Message-State: AOAM533PW3xSg61AlY8ymKMmRwDfkLWSvsKi9b0PFvnXnbakt0WHo4EP
-	o0BNG22j5Txt5IGReTcu0slz7gtonBQ=
-X-Google-Smtp-Source: ABdhPJxBBUk1kWB1nOkNsVekcIfhxgoiz7bCp3zOW5hmK4GCz4GYNOcuRgsvVk8ay1q/qcuoSPql4A==
-X-Received: by 2002:a05:6000:1112:: with SMTP id z18mr31091235wrw.129.1641025086424;
-        Sat, 01 Jan 2022 00:18:06 -0800 (PST)
+        bh=V/ySfznrCVwP33nHINhDWA0To2qZRQwyQe3jvr0Q578=;
+        b=DBMgpJ3DayJGe7lZVm6znyhrDBUWnTdJZFXoPXEkSxEJ6Dz4xcVRryTx4WuBsZm6tq
+         OBvMrifwDOuRw6E7S8L8KBbiZySjkmT/voGHZj//Aqdk9XMo+qKj6KjLq5BbBys8MGxH
+         5TmcXs1bldY3644iDYSfo+nlY+6MRwsWLIIlcFPApcHSeUL0eLwX4rqTl1i1vK9HxiwG
+         cV9Zm0Mnd++zt8Ba3C+8Ytm3BtNhgsPHc86h/a7q8etyOUu5nzUR3WQHzkks/PZnN7DQ
+         jYfEBhoZ4eoeeJCpiHESB0vRXB0Tuax12Px+YwaJ9InhOreXcF2goywHjIGWke72H/56
+         /SOw==
+X-Gm-Message-State: AOAM532CN8xrUl7J27CaOZb0TICyxXaqxv9KEheHeUN1/DxhgDFZkaTk
+	tDCc2CJvLnOXGchTC7yPFMs=
+X-Google-Smtp-Source: ABdhPJy1Ob1E9s+MfJ0wRuUANVYtAtgJGP6Jbjlh3QPDn83Qc6hu31IsZzKfpbX+vph7xnIVLkRang==
+X-Received: by 2002:a1c:9d14:: with SMTP id g20mr32131418wme.134.1641025087270;
+        Sat, 01 Jan 2022 00:18:07 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
-        by smtp.gmail.com with ESMTPSA id u9sm30693651wmm.7.2022.01.01.00.18.05
+        by smtp.gmail.com with ESMTPSA id u9sm30693651wmm.7.2022.01.01.00.18.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 01 Jan 2022 00:18:06 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 3/7] staging: r8188eu: bTXPowerDataReadFromEEPORM is set but never used
-Date: Sat,  1 Jan 2022 09:17:54 +0100
-Message-Id: <20220101081758.9716-4-straube.linux@gmail.com>
+Subject: [PATCH v2 4/7] staging: r8188eu: bAPKThermalMeterIgnore is set but never used
+Date: Sat,  1 Jan 2022 09:17:55 +0100
+Message-Id: <20220101081758.9716-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220101081758.9716-1-straube.linux@gmail.com>
 References: <20220101081758.9716-1-straube.linux@gmail.com>
@@ -57,42 +57,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The field bTXPowerDataReadFromEEPORM of struct hal_data_8188e is set
-but never used. Remove it.
+The field bAPKThermalMeterIgnore of struct hal_data_8188e is set but
+never used. Remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
 v2: no changes
 
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 3 ---
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 5 ++---
  drivers/staging/r8188eu/include/rtl8188e_hal.h  | 1 -
- 2 files changed, 4 deletions(-)
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index d8d6547465a7..065c2701077d 100644
+index 065c2701077d..cce291ca44b1 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -1127,9 +1127,6 @@ void Hal_ReadTxPowerInfo88E(struct adapter *padapter, u8 *PROMContent, bool Auto
+@@ -1230,9 +1230,8 @@ void Hal_ReadThermalMeter_88E(struct adapter *Adapter, u8 *PROMContent, bool Aut
+ 	else
+ 		pHalData->EEPROMThermalMeter = EEPROM_Default_ThermalMeter_88E;
  
- 	Hal_ReadPowerValueFromPROM_8188E(&pwrInfo24G, PROMContent, AutoLoadFail);
- 
--	if (!AutoLoadFail)
--		pHalData->bTXPowerDataReadFromEEPORM = true;
--
- 	for (ch = 0; ch < CHANNEL_MAX_NUMBER; ch++) {
- 		hal_get_chnl_group_88e(ch, &group);
- 
+-	if (pHalData->EEPROMThermalMeter == 0xff || AutoloadFail) {
+-		pHalData->bAPKThermalMeterIgnore = true;
++	if (pHalData->EEPROMThermalMeter == 0xff || AutoloadFail)
+ 		pHalData->EEPROMThermalMeter = EEPROM_Default_ThermalMeter_88E;
+-	}
++
+ 	DBG_88E("ThermalMeter = 0x%x\n", pHalData->EEPROMThermalMeter);
+ }
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 8b54f52f49e2..de58c85b8bdc 100644
+index de58c85b8bdc..40b3db34b8f2 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -180,7 +180,6 @@ struct hal_data_8188e {
- 	u16	EEPROMSDID;
+@@ -181,7 +181,6 @@ struct hal_data_8188e {
  	u8	EEPROMRegulatory;
  
--	u8	bTXPowerDataReadFromEEPORM;
  	u8	EEPROMThermalMeter;
- 	u8	bAPKThermalMeterIgnore;
+-	u8	bAPKThermalMeterIgnore;
+ 
+ 	bool	EepromOrEfuse;
  
 -- 
 2.34.1
