@@ -1,41 +1,41 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FBC2C80
-	for <linux-staging@lists.linux.dev>; Sat,  1 Jan 2022 08:18:05 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id r17so59593615wrc.3
-        for <linux-staging@lists.linux.dev>; Sat, 01 Jan 2022 00:18:05 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872BC2CA0
+	for <linux-staging@lists.linux.dev>; Sat,  1 Jan 2022 08:18:06 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id d9so59692848wrb.0
+        for <linux-staging@lists.linux.dev>; Sat, 01 Jan 2022 00:18:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nYN4CGdw687VcG/7qXWY+NuX3XQ4M4+2ldzGKsRJ3TA=;
-        b=J1E/6Kg2zk61N2ivT8+YH/IDBZHU13efDb7d27eEhfrVEaM9LcOmpe+fq2K4A5sVW0
-         CbSzKdhlFwPCzqlW7c3ouJXlCvCODkkt2kycmaxdzbuRio4jkiJDLEVWxiIki2xUxypo
-         hzudeHHMYdQ59BLhY+LE0E72DPn1X6VYboO9dLBPcu8wiw7Jr8UFMcBrK+qKKZUTTmC4
-         ukXNkZNRmP2OQa1JDN1bwYEd2/Wu/QOvYcFdJw8fBP5wRaCNKod3Vd+v9iclYbjUfuSG
-         9sxMiRmFAAEQ2tzoi3e6Rkikq/sU3GKOPrTqFKrZv5E0SbJ0cI+N9+P7AIlOjsjRQ1Do
-         Dq+w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dyAlzOohNwnAjxD5jG0//dHME7ZhYBT+DvDH2X9pgaU=;
+        b=QQc25IzK8IPVhEqsb3ZK80AwVLRmnlQRIh7IdICYlwaRCHfNlmSwGkjEs2hYcpXb/r
+         TVZNWFKGqHZeBlIVqS6H38k7EZgXzNkbYDpriNaecs6xR2AX9Pa7gDxhF3TLju2tETxL
+         owvlBNDTZZFVlTDXFqeBLlRBGAjxhGSXnsVndYGH/zSHXBWI8vlf/AVgFDaDdTpTsook
+         pAdGijuK2GQSXjLQw8BicaQgjtAgIyKcIEvN2GhAJk2X7Far87HaFVBhWbAFfTmEkCoD
+         de/7sTDT9CsVPAroePAPYsrqO3nTDpQS6dewUI6t+M3pUOIeNYWkBXaZDvDCCCRAS04D
+         +EVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nYN4CGdw687VcG/7qXWY+NuX3XQ4M4+2ldzGKsRJ3TA=;
-        b=KvLrs+ogkr0FYqbbVZdaSIib6YJPvsz7vDBELaTN/KJ5eAGyRIgu3vS5K+0Tc9z3a5
-         3ALrVKyTknyrg9VQcCtz94Y+Mqi/cdkz3IWKhn2ZoR1vj1qkcZdp/+tWadAOI3NZs23j
-         NHXzBzWo1bPMgm5YNe9SP0I8WGbF00GSCJw/uzEFxtOsXX9QWGztrH6zO8+cu+D6eSdk
-         l0X1LEw//ngBp0qyJEH2eGfOZneQOMrXMcKMpUGsBK2DPLNvH2xKlgbRiHwNXlTyZdTZ
-         hkZo2h4Cv6nWX3AnZEgMWGt36aV/gHRrH9oPakEAJmhMUHErxVLSbgji9NT7gDv4ouKI
-         FM1w==
-X-Gm-Message-State: AOAM530wqG7UB7GljIDwrU668KE1nwfC5oejMV1kQ2hyqaagCnYb9LGG
-	AgedFhBaFxqZjfjwKzrO3Xc=
-X-Google-Smtp-Source: ABdhPJyeq7SmwVC8Np6cJVXbkr+D9cBGhap5+P8F3NVcvAJt+YKsZXoJUCs+ajakXMAx+aVYgHoRyw==
-X-Received: by 2002:adf:ce84:: with SMTP id r4mr32226629wrn.131.1641025084286;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dyAlzOohNwnAjxD5jG0//dHME7ZhYBT+DvDH2X9pgaU=;
+        b=IAZ9tIfK4kMCWeOJIAyv/dCyKbBVWa/SxIu2zL9fDrViuGBzCVXLH5hzyVwVqWcZtg
+         szMZk581JRsPXpZ57K9QdD5fCPj/bEUHa9xCL7NvB+qHjLO+pD3PaU80jZvaNYki4QDy
+         9DM+zIXrlQh7Yq4Ra7M/Yk4pgSBNQvJSTSV+pRfynJ/n7Csi1SzuM6/DQitFgTAg8sSj
+         tmLLvZcLriPgji+ojk/NGPp5I/hYX0bjMeKJy4v9dNIuqotQcpWJ1GW4FTXJlGY/wZeh
+         ynJYQmpHHmS3ybeuDEwGdInPIfcFnCJjNsi4rk7u5TJoTIFi/DEUpACfZkMC9WYL8Wlc
+         +xUA==
+X-Gm-Message-State: AOAM533klt2WBPb8QYO+2Blc/Bt9CT97bqPPlme8ygiKEF9dBMYKz6Jg
+	zq4p1hEponctGKN+SrhwWjM=
+X-Google-Smtp-Source: ABdhPJzapFx0oe3HhEZKXjEF6XsDgiZqdAh8zkrYFst0mZq9OpPraT/ADSPbztlN960M+rvVnEqD5A==
+X-Received: by 2002:adf:e88a:: with SMTP id d10mr31547425wrm.114.1641025084924;
         Sat, 01 Jan 2022 00:18:04 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::6619])
-        by smtp.gmail.com with ESMTPSA id u9sm30693651wmm.7.2022.01.01.00.18.03
+        by smtp.gmail.com with ESMTPSA id u9sm30693651wmm.7.2022.01.01.00.18.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Jan 2022 00:18:03 -0800 (PST)
+        Sat, 01 Jan 2022 00:18:04 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 0/7] staging: r8188eu: clean up struct hal_data_8188e
-Date: Sat,  1 Jan 2022 09:17:51 +0100
-Message-Id: <20220101081758.9716-1-straube.linux@gmail.com>
+Subject: [PATCH v2 1/7] staging: r8188eu: bRDGEnable is always false
+Date: Sat,  1 Jan 2022 09:17:52 +0100
+Message-Id: <20220101081758.9716-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220101081758.9716-1-straube.linux@gmail.com>
+References: <20220101081758.9716-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,32 +57,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series removes unused and set but never used fields from the
-hal_data_8188e structure.
+The field bRDGEnable in struct hal_data_8188e is never set. It stays
+at its default value 0. Remove bRDGEnable and related dead code.
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+v2: no changes
 
-v2:
-- Remove interrupt_handler_8188eu() since it does nothing now.
-- Fixed typo in cover letter. hal_data_r8188e -> hal_data_8188e
+ drivers/staging/r8188eu/hal/usb_halinit.c      | 10 ----------
+ drivers/staging/r8188eu/include/rtl8188e_hal.h |  3 ---
+ 2 files changed, 13 deletions(-)
 
-Michael Straube (7):
-  staging: r8188eu: bRDGEnable is always false
-  staging: r8188eu: UsbRxHighSpeedMode is set but never used
-  staging: r8188eu: bTXPowerDataReadFromEEPORM is set but never used
-  staging: r8188eu: bAPKThermalMeterIgnore is set but never used
-  staging: r8188eu: remove unused fields from struct hal_data_8188e
-  staging: r8188eu: IntArray and C2hArray are set but never used
-  staging: r8188eu: FwRsvdPageStartOffset is set but never used
-
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  3 --
- .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  8 +---
- drivers/staging/r8188eu/hal/usb_halinit.c     | 15 -------
- drivers/staging/r8188eu/hal/usb_ops_linux.c   | 20 ---------
- .../staging/r8188eu/include/rtl8188e_hal.h    | 43 -------------------
- .../staging/r8188eu/include/rtl8188e_spec.h   |  7 ---
- 6 files changed, 2 insertions(+), 94 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index d5c7e8bf1f38..104705ef170e 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -384,13 +384,6 @@ static void _InitEDCA(struct adapter *Adapter)
+ 	rtw_write32(Adapter, REG_EDCA_VO_PARAM, 0x002FA226);
+ }
+ 
+-static void _InitRDGSetting(struct adapter *Adapter)
+-{
+-	rtw_write8(Adapter, REG_RD_CTRL, 0xFF);
+-	rtw_write16(Adapter, REG_RD_NAV_NXT, 0x200);
+-	rtw_write8(Adapter, REG_RD_RESP_PKT_TH, 0x05);
+-}
+-
+ static void _InitRetryFunction(struct adapter *Adapter)
+ {
+ 	u8 value8;
+@@ -712,9 +705,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	value16 |= (MACTXEN | MACRXEN);
+ 	rtw_write8(Adapter, REG_CR, value16);
+ 
+-	if (haldata->bRDGEnable)
+-		_InitRDGSetting(Adapter);
+-
+ 	/* Enable TX Report */
+ 	/* Enable Tx Report Timer */
+ 	value8 = rtw_read8(Adapter, REG_TX_RPT_CTRL);
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
+index b42af86555cd..e8cb093abb62 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
+@@ -236,9 +236,6 @@ struct hal_data_8188e {
+ 
+ 	u32	RfRegChnlVal[2];
+ 
+-	/* RDG enable */
+-	bool	 bRDGEnable;
+-
+ 	/* for host message to fw */
+ 	u8	LastHMEBoxNum;
+ 
 -- 
 2.34.1
 
