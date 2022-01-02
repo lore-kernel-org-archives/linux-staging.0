@@ -1,44 +1,44 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C294173
-	for <linux-staging@lists.linux.dev>; Sun,  2 Jan 2022 18:41:16 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id d9so66098773wrb.0
-        for <linux-staging@lists.linux.dev>; Sun, 02 Jan 2022 10:41:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472CD168
+	for <linux-staging@lists.linux.dev>; Sun,  2 Jan 2022 21:44:15 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id h15so39815122ljh.12
+        for <linux-staging@lists.linux.dev>; Sun, 02 Jan 2022 13:44:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=tShDbYknZRWS4YLp1TQWmgakh1Xx5r6yUGEJ8fPlufM=;
-        b=KT1w8ru6khj009b2hhJSG+gmT9S2sh+TI+IC0XSmz5/a8YvlQD1is3MFEjGtPRbkzL
-         qxo9N0eB9cd8U65sUkhbyD7CC5mLDQtbLM0+BTZ2NQvl9XXnUhmcRiMRTplU15reqs1A
-         0vZ2oMuUhPHP541+0MiWGLXZqFoSrvb2j4mUa0td8puRYZtQMgn1CYZjSCPXidAJHcGh
-         IABazWv+OY/w24UGF6j2pu1BYESyngrg19tEzG0p939EuMVtm2oebyHx4PtSyf+1O0PL
-         b60Q+iMde0KCQ2gZNO2suYmqEcKwemJ49rr0OooZVZ2tWuU8111/coVS0YhF2C6hM9Kb
-         y4DA==
+        bh=FMeedJAM/soUFft4dLwmEecukljurYLI/Ey+pp0EcD8=;
+        b=o4xoodImPAky4S+E99OQAsZLmM7glmo90i5nznhNt9fNe35KpdFpmUfN+jiQ0mvLON
+         HRpOiQqx6lOuvmPGPU4tr6Ml4ITr0ttmFpHUNCDvU0AX8lffhl7D/r+Pd1lz5BnWuHY2
+         feGmHDNaf4obqR/lGE7lAVnxkLIhjZSlZOD82vnoj2dpTZllSFWaVMf0mMsNUsIIqY/d
+         P0Y+P0NwSwfPJkrfCf3DTVC4DLkQR93qIfnSVBijcyffEjrwc4Jex/ZsjuGKHKxiTG7Z
+         lDTLWAVM8Jj1GEdmcw4WNMfqyjzXhHFDH9mLn+AqtXSofm5OS8SHqiBWiQIR1b3cMjyW
+         H8SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=tShDbYknZRWS4YLp1TQWmgakh1Xx5r6yUGEJ8fPlufM=;
-        b=QVV21+fvlJWM46iHPO/Ct7BqzRDSRFO05yM7Fyl45Iqm8lEpIry/+wn143qjyPAxBR
-         VqRT99wuxA6qmEfSUNNoEu0nIC5UjlvrwZkWwF6VFGQi6ICpKkbP1EC0IyYoSF0T3veD
-         Q1olfw2APrT1Y4zSM4fqxcpxCMSJxv1ZLfoezpZ1Ury6fm6uEQKv/GeFUmKQHpO+toiq
-         d12uhlHxgOG60xy7haslEKPSOrrbawMEevg+zBPtvmZocrXy3UZiQHVKeuELHZUtI+qb
-         9ZYBSxq+LfvWWDMdLr3wbsXTFZPiUgcbCax0qrcWW+aRhcxtKQryaYguLNulg36WvRiD
-         WsBA==
-X-Gm-Message-State: AOAM5305JAU71mj4KxByDWinYOryy3DtiaN7uVWScvdH3fRWTUy0Ufos
-	sLxVexhC5/piB7vhtZ/7p/U=
-X-Google-Smtp-Source: ABdhPJwGzVTO3MmfHrAdE+ZI+yg060sdsonun9deEPMt3V7tGLIQ2Xs2Ex44QO2xbPCkYcj5KPFwGg==
-X-Received: by 2002:a5d:56c2:: with SMTP id m2mr36334359wrw.313.1641148874773;
-        Sun, 02 Jan 2022 10:41:14 -0800 (PST)
-Received: from ?IPV6:2a02:8108:96c0:3b88::d7e8? ([2a02:8108:96c0:3b88::d7e8])
-        by smtp.gmail.com with ESMTPSA id z11sm39696846wmf.9.2022.01.02.10.41.13
+        bh=FMeedJAM/soUFft4dLwmEecukljurYLI/Ey+pp0EcD8=;
+        b=tyAIXzMVK/Pn0Y+ZpTfkKlBrvDE3b9pAwFwKqL5uWEwlFKyBhm7dZI580lIyt6UyUC
+         GzkcNJtU4Ird0eD38DHRuYHTWjVGxypvQEviYLraoRFZSFuMNiSoJ6VA+SQ+swXOAaMd
+         PX5+TmLDmmyTe3t1OKvtSYGbea6tfMuvpoNSRvYYZTUjPCfnJzG9nNaUD4H19moEFtVO
+         g+20mQhfGHI1GEoKhLjdWrDPHJTclbcQ4q2stGpApb1s4dakJVLGQ85oVYZx2faJCnm5
+         HCOuB56Qdrag1KIjAn2yxjkfJMK1wxKM/Y7FXQ2sKVX9D7BUiq4tDbiiiw7cRwm2gmOv
+         CvDQ==
+X-Gm-Message-State: AOAM531ZvBnx69duSOedRwZqSkZUOUGYbkHme5rAQ+JKvwkNxZdy//YW
+	FHEZ7ZmV3WIRvmC4eBTSpuE=
+X-Google-Smtp-Source: ABdhPJwWWGBrUDZA8W7z0CJAjMI9vIe+DXEUHcSgH2jJ/EpegvLIJ0MqC0o9vZLaJi86Yh142AizZg==
+X-Received: by 2002:a05:651c:12c9:: with SMTP id 9mr36811289lje.474.1641159853363;
+        Sun, 02 Jan 2022 13:44:13 -0800 (PST)
+Received: from [192.168.1.11] ([217.117.245.177])
+        by smtp.gmail.com with ESMTPSA id 8sm3245140ljf.123.2022.01.02.13.44.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Jan 2022 10:41:14 -0800 (PST)
-Message-ID: <1821100d-c647-5237-de4a-b96bde556c5e@gmail.com>
-Date: Sun, 2 Jan 2022 19:41:13 +0100
+        Sun, 02 Jan 2022 13:44:13 -0800 (PST)
+Message-ID: <6d33d346-b797-aeb3-8b1b-64332e05fb87@gmail.com>
+Date: Mon, 3 Jan 2022 00:44:12 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,42 +47,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.1
-Subject: Re: [PATCH 0/5] staging: r8188eu: some trivial cleanups
+Subject: Re: [PATCH 5/5] staging: r8188eu: turbo scan is always off for
+ r8188eu
 Content-Language: en-US
 To: Martin Kaiser <martin@kaiser.cx>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20220102175932.89127-1-martin@kaiser.cx>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20220102175932.89127-1-martin@kaiser.cx>
+ <20220102175932.89127-6-martin@kaiser.cx>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20220102175932.89127-6-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 1/2/22 18:59, Martin Kaiser wrote:
-> Remove unused variables and defines in several places.
+On 1/2/22 20:59, Martin Kaiser wrote:
+> Turbo scan is always disabled. Remove the TurboScanOff variable and
+> related checks.
 > 
-> Martin Kaiser (5):
->    staging: r8188eu: remove unused power management defines
->    staging: r8188eu: internal autosuspend is always false
->    staging: r8188eu: fix_rate is set but not used.
->    staging: r8188eu: cmd_issued_cnt is set but not used
->    staging: r8188eu: turbo scan is always off for r8188eu
-> 
->   drivers/staging/r8188eu/core/rtw_cmd.c        |  3 ---
->   drivers/staging/r8188eu/core/rtw_pwrctrl.c    |  9 +-------
->   drivers/staging/r8188eu/hal/rtl8188e_dm.c     |  1 -
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
 >   drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 21 +++++++------------
->   drivers/staging/r8188eu/include/drv_types.h   |  2 --
->   drivers/staging/r8188eu/include/rtw_cmd.h     |  1 -
->   drivers/staging/r8188eu/include/rtw_pwrctrl.h |  5 -----
->   drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  6 ------
->   drivers/staging/r8188eu/os_dep/os_intfs.c     |  4 ----
->   drivers/staging/r8188eu/os_dep/usb_intf.c     |  3 +--
->   10 files changed, 9 insertions(+), 46 deletions(-)
+>   1 file changed, 7 insertions(+), 14 deletions(-)
 > 
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+> index 0b982cc7c86f..6e0231099986 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+> @@ -87,28 +87,21 @@ rtl8188e_PHY_RF6052SetCckTxPower(
+>   	struct hal_data_8188e *pHalData = &Adapter->haldata;
+>   	struct mlme_ext_priv *pmlmeext = &Adapter->mlmeextpriv;
+>   	u32 TxAGC[2] = {0, 0}, tmpval = 0, pwrtrac_value;
+> -	bool TurboScanOff = false;
+>   	u8 idx1, idx2;
+>   	u8 *ptr;
+>   	u8 direction;
+> -	/* FOR CE ,must disable turbo scan */
+> -	TurboScanOff = true;
+>   
+>   	if (pmlmeext->sitesurvey_res.state == SCAN_PROCESS) {
+>   		TxAGC[RF_PATH_A] = 0x3f3f3f3f;
+>   		TxAGC[RF_PATH_B] = 0x3f3f3f3f;
+>   
+> -		TurboScanOff = true;/* disable turbo scan */
+> -
+> -		if (TurboScanOff) {
+> -			for (idx1 = RF_PATH_A; idx1 <= RF_PATH_B; idx1++) {
+> -				TxAGC[idx1] =
+> -					pPowerlevel[idx1] | (pPowerlevel[idx1] << 8) |
+> -					(pPowerlevel[idx1] << 16) | (pPowerlevel[idx1] << 24);
+> -				/*  2010/10/18 MH For external PA module. We need to limit power index to be less than 0x20. */
+> -				if (TxAGC[idx1] > 0x20 && pHalData->ExternalPA)
+> -					TxAGC[idx1] = 0x20;
+> -			}
+> +		for (idx1 = RF_PATH_A; idx1 <= RF_PATH_B; idx1++) {
+> +			TxAGC[idx1] =
+> +				pPowerlevel[idx1] | (pPowerlevel[idx1] << 8) |
+> +				(pPowerlevel[idx1] << 16) | (pPowerlevel[idx1] << 24);
+> +			/*  2010/10/18 MH For external PA module. We need to limit power index to be less than 0x20. */
+> +			if (TxAGC[idx1] > 0x20 && pHalData->ExternalPA)
+> +				TxAGC[idx1] = 0x20;
+>   		}
+>   	} else {
+>   		for (idx1 = RF_PATH_A; idx1 <= RF_PATH_B; idx1++) {
 
-Looks good to me. For all patches:
+Hi Martin,
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+thanks for your clean up work!
+
+
+It's a bit unrelated to the patch, but I found it while reviewing this. 
+It's in the same function rtl8188e_PHY_RF6052SetCckTxPower():
+
+89: 	u32 TxAGC[2] = {0, 0};
+...
+92	u8 *ptr;
+...
+129	for (idx1 = RF_PATH_A; idx1 <= RF_PATH_B; idx1++) {
+130		ptr = (u8 *)(&TxAGC[idx1]);
+131		for (idx2 = 0; idx2 < 4; idx2++) {
+132			if (*ptr > RF6052_MAX_TX_PWR)
+133				*ptr = RF6052_MAX_TX_PWR;
+134			ptr++;
+135		}
+136	}
+
+
+What is going on here? Code just checks and writes to random place on 
+stack outside TxAGC array? I might be missing something, but it looks 
+wrong...
+
+Just wanted to share, since I believe your knowledge about this driver 
+is much deeper than mine :)
+
+thanks
+
+
+With regards,
+Pavel Skripkin
