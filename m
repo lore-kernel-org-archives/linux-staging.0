@@ -1,50 +1,48 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A453D168
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 22:28:17 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id w24so25739901ply.12
-        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 14:28:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4C62C80
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 23:26:22 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id y16-20020a17090a6c9000b001b13ffaa625so38993674pjj.2
+        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 15:26:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=scLme1me/0UxlFwtDPAEkrpt4SJIwSBGjImUO7Hvan8=;
-        b=F89F64Oh0gYb1DYapXQNgjUITveKUu0OV6oM4B/4RDoodqY2nAR+EexPKklhohGfAx
-         W3tb/mGgwIQU7U3x9oU5bozXzZfbYqmuseRyu8xVvoOOg44r19Z/H0EM3ylxBT91pWLn
-         lNeHlm4f9ZEzePdt5aBjW1TM2MWM0p+mDJXonaWgwrep8nsatqChgyLSRtUQMtK0IqLY
-         wdxjEhj7kjQf8/teJNE98QVxSZW9FWR9ek3v0djD/VzaYw4hvETTkfwe9CbUWRx584x3
-         KyKtMwHHYntNDgG8tm0A9ElPTAiggQo1WmjG/vpYYISbRG6VIwbDN+uVvUKlMEZOWSe0
-         jZyA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to;
+        bh=TImvYhTQWFr0YfBVbpdLjvTy76TIgj121A4b+zqdZXg=;
+        b=Zkkzhoe4agRWHMotPs+Mof8gpE/7yF/Lo7HcEHVkqDLyS7yl7k7X4kovUADnYCRvct
+         ThFimL4c/NLbv4sgzVjfE6dat0CFb6GogVwF55Sm6WgnIoHxNscF5T/L2Pftxr4XWdid
+         RZd5ltdt6mDGuYu4bVbdFiSmPU/963gQYFkjEIiBBJBElWrnqcoEdSaJoej1fss+nbAM
+         RzL3v2nI/rDhcLRcFDeWGl/8200l0663KfWGRk012DKJw8G8W4n3INrx7H692lmxccdo
+         3pZlMSFlzmGuJEb18ZrkD7055cMrVPNhLNXd1OXcHMl+/sTH6CaloT6tXx0ND7QtMlMh
+         JzFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=scLme1me/0UxlFwtDPAEkrpt4SJIwSBGjImUO7Hvan8=;
-        b=s10d/rpXNArUPUgojWCc+XUY3EDf9p/o9rFCFj26OLoqBt41VXd18Lx4/01LhWrUH4
-         KhaVM+Gx4CopfsqJvg8Zo5X8VTMa3O5HLDXne1YlB7nq8dQD3lyhLgyBu7HiGMiatu6a
-         26dgk7GpdHFwqoQp1jmwwq8EgPBO+9WHtOWxH+NLQmb1dDeLCfzvdoXI5yIIg6UHMT7F
-         9oRxMh09yrz2Q5nP1bejP6KI8GeFDAUTFZ+21hD0Ws4CfT2N+QVRZEFLZOkyHwFIeyA6
-         R5DBWk6mQt8Jfs+DwNkoszSAQlyyc8zEkso+in/qTbvq/v/3swg9n9yKcwe4ThrrXt63
-         n9JA==
-X-Gm-Message-State: AOAM532yln5qcRofnZpMU9tfgpHyrAMY5wNM4WntDx9h9oIQLtzLdZZy
-	xgRXTOo3QGEz5HFzOJI5L+A=
-X-Google-Smtp-Source: ABdhPJw5Eh9ze8vem7JU3X38Brouv0NzrOiB7e98/fWKYp9QBYY6dQ6jHK+N3CtndO/3A82N0A5Azw==
-X-Received: by 2002:a17:903:228f:b0:148:d5d0:5be0 with SMTP id b15-20020a170903228f00b00148d5d05be0mr47419628plh.104.1641248897119;
-        Mon, 03 Jan 2022 14:28:17 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to;
+        bh=TImvYhTQWFr0YfBVbpdLjvTy76TIgj121A4b+zqdZXg=;
+        b=5qdqqJJC0Mq5u2WqxeyXMgNtOfxH1hWTS7MiVxTuVnxAPohdn8ogE+DdNn5G2tCuYL
+         Gi2Oemo1mBNFcEZ6aw1z0tKRzHZC7fP42EurIbLeIdOaBKsTAWaPeiwyAHkqUxfCRP2e
+         iRliabfNfeIhSXb0JmzFoAvS3q/Wj083l9wqPR17gkt+ln+W25PtvWKneG3CwhPyZpEc
+         6YpKfQPylW2i2QXjycO5HAXDyfnvcbsNcI9e/nbxbFjAtiquk8l6vO6L7EPKWEGVNs1d
+         S29Gm5jgvw/s+UtfrrDYQsNRRD0YCrWlMf8DFiidB/+rLBk8PYLMnK2fwzXRtGq2srd3
+         pkHw==
+X-Gm-Message-State: AOAM531wQxi/hNt1UzaRpBKnN0WV59c3ASO1IPH35GmI0/RfygBs/tNR
+	FRfs5QgrSwNh1ZqMBLBPdo8=
+X-Google-Smtp-Source: ABdhPJxFB/gL4NQWSORjKPYNmCqHT7u3Y87gUgAVvHj8FiNUnY88bZEjcOB8VCbtuf6lD9mXakaa1w==
+X-Received: by 2002:a17:903:228b:b0:149:29da:e624 with SMTP id b11-20020a170903228b00b0014929dae624mr47136411plh.77.1641252382016;
+        Mon, 03 Jan 2022 15:26:22 -0800 (PST)
 Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id b65sm38452265pfg.209.2022.01.03.14.28.14
+        by smtp.gmail.com with ESMTPSA id q19sm40531132pfk.153.2022.01.03.15.26.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 14:28:16 -0800 (PST)
-Date: Tue, 4 Jan 2022 11:28:11 +1300
+        Mon, 03 Jan 2022 15:26:21 -0800 (PST)
+Date: Tue, 4 Jan 2022 12:26:16 +1300
 From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>, fabioaiuto83@gmail.com
-Cc: realwakka@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: fix frequency deviation check
-Message-ID: <20220103222811.GA6995@mail.google.com>
-References: <20220103081135.GA11642@mail.google.com>
- <YdL5rtWw2PTXdsRM@kroah.com>
+To: gregkh@linuxfoundation.org, realwakka@gmail.com,
+	paulo.miguel.almeida.rodenas@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] staging: pi433: add comment to rx_lock mutex definition
+Message-ID: <20220103232616.GA11161@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,19 +51,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YdL5rtWw2PTXdsRM@kroah.com>
+In-Reply-To: <YdL6QzDK26W5WnaD@kroah.com>
 
-On Mon, Jan 03, 2022 at 02:27:10PM +0100, Greg KH wrote:
-> On Mon, Jan 03, 2022 at 09:11:35PM +1300, Paulo Miguel Almeida wrote:
-> > -	// calculat f step
-> > +	// calculate f step
-> 
-> This change should be a separate patch.
->
+Checkpatch reports: CHECK: struct mutex definition without comment.
+Fix this by documenting what rx_mutex struct is used for in pi433
+driver.
 
-Thanks Fabio and Greg for reviewing my patch. I just sent a v2 of this
-patch with that line untouched.
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+---
+v4: wrap changelog comments at 72 columns where possible (Req:
+ Greg k-h)
+v3: wrote a more succinct desc so it doesn't become out-of-date (Req:
+ Greg k-h)
+v2: ellaborate on reasons why the mutex lock is used in driver (Req:
+ Greg k-h)
+v1: https://lore.kernel.org/lkml/20211222093626.GA13332@localhost.localdomain/
+---
+ drivers/staging/pi433/pi433_if.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 29bd37669059..68c09fa016ed 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -92,7 +92,7 @@ struct pi433_device {
+ 	u32			rx_bytes_to_drop;
+ 	u32			rx_bytes_dropped;
+ 	unsigned int		rx_position;
+-	struct mutex		rx_lock;
++	struct mutex		rx_lock; /* protects rx_* variable accesses */
+ 	wait_queue_head_t	rx_wait_queue;
+ 
+ 	/* fifo wait queue */
+-- 
+2.25.4
 
-Paulo A.
