@@ -1,41 +1,41 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8723173
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:20:27 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id j6so139400714edw.12
-        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:20:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BCC52C9D
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:21:26 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id f5so139544585edq.6
+        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:21:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gnLMiq8Mm2ARPQsexbrW9egBTCgyloKoB1Bo0S3MfQc=;
-        b=AOY97vn0ni7cV9yW+M+6M+jY/FPaZ9J7gv58MWx8ojvRG5LiYNF3EcHoXWIdu8Y8Er
-         hwaVlCvZ2R/DxxLX3oFNZOU+HavfwgHEPheCNqAuGwyaG/jHdiT0nTImc9oPHUgGAZmn
-         1oeO+5q0lBVaDWuxG9yXmw9EgK6Cz3oa9M8dYQvjO15saVrTYekxOLgbGjAjYyzMF/04
-         UK720mfVxItFQ4l6JlpGN6dS6HrYd7UFWr4K8mYmm+FHaH5atGAQGAnJ3jGF1IqTwDqB
-         /EN1P4KqkxVYhbMlNjljJLWQfUFBCP+LGA7fSiaIgkdUOlfDbEKQW/UoJvbiHFfnIQC6
-         PMXQ==
+        bh=g1Blw+/+IapJAwwma/5viAfpA+NmnRSXvCOl9KgWYPg=;
+        b=m/Uba719A6RRJcMgOgPsw6dQ5TNUf3nrb0kDD/Tnkcj3Pc5u/eRfBth5uG0DxjaZTq
+         YfrGo6Siq13O8zwhGfqopOP57iOe956uPv3C0oPVQIXveHIVRuqvWA33B5h8VK5luBR7
+         7U825J24ASULsH/dSpnEHr7pslDHL6GQaoGCpvsKftNL2OxMttTOibUmO5xfmnbloP0B
+         TAeWqwcuTELUvTVAY1r8DDd8d/mG0j+WLnK9m7QOgCCAh+nPt9TSMEMKPhXoUpNdK92L
+         2UMMrMGde816DlSggo2SVHxXHV94P4SP/X/6i/QyyXlJ70A8QsbMSJDg5hTx3hACloBe
+         0Eqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gnLMiq8Mm2ARPQsexbrW9egBTCgyloKoB1Bo0S3MfQc=;
-        b=7lwmw4t19TVBhzh9lUd+LKis6xZ3rkEETmrVTY19kk/DvZyGVpJsa9161Qkj1XjxFB
-         2InhnpkmhhfXIcDOa82jVNNr6I6/TCgtHHYXZs6K9QigzvgqeqRl9MP5oFvm6aitZuG5
-         vPNzh6slX35Cn7Yts4MNX8NklbcuzPFGGjdrgsEeoD8jmjq3kWsHpJTgCcIacBIrp0wq
-         S/8HdsLF95PPAPlNGOUBuZ8FlJT1rZ7bADVbQmRHFdnbxcbfEl3PlO5/T3TQKBbAOI76
-         8fL11/BiPbci1oimf2keyVxHp4rN8kI47iWMAtE8R7CV2Cy1X6G/xf8IQWcUu4J+o1mn
-         d6BA==
-X-Gm-Message-State: AOAM530iN1qSwMJa7aAggf7SFpbu3/iHfyyqY8JOAq6jFDNQKBrMIqps
-	AqhpGuaUo+ZHgjYfLL2S7W0=
-X-Google-Smtp-Source: ABdhPJyW8VwR2Fmp7fAb1CmReVpCcLPh55im4PGVyWUpDRm/ZDT9PGtpcMkoleB6v/45hUzlJIudqQ==
-X-Received: by 2002:a17:906:2f97:: with SMTP id w23mr35780885eji.739.1641237626372;
-        Mon, 03 Jan 2022 11:20:26 -0800 (PST)
+        bh=g1Blw+/+IapJAwwma/5viAfpA+NmnRSXvCOl9KgWYPg=;
+        b=EZfnapvMsvJR3/UbhCAz5nM5Q81myIW9YK4PeXEoDVVjbDjAV49YQBQ3GVg8fABbVB
+         4tULZKeBoLLu3p8Xu72B0xGoEJQ9ppdWTUfmFvnieThD0He5twBOqW52Ds4MWaVR4rkI
+         puZ92jpt5aWoGCMyHuzYmbDHvCWB0pxal1bmNPhzYiuwdVckfsdohmeLWpX2+gswOApj
+         mwVpg3zNwiPwI8Fi1dJ9bDqI9IarmNln9yLzhYrt1Rv8dZAZafXP1FlGHbj5CRKJgm9a
+         Sjv/IwRy4srFCVIqPgIgSyCtGbZJycGFUfbis7Mq9ZDJPjAOye4xG+AdFt1mHBEE5Ewc
+         HEGQ==
+X-Gm-Message-State: AOAM531LFk+IdPg/EcXBYXBpOOeuEKTwUgqej3GjymATweHSOfvQuCtr
+	a9r1tJib+N87mtJIGNXkwRc=
+X-Google-Smtp-Source: ABdhPJz0DXJv0uHyJZPwcD3PLKMkhZpEVEMX11DoVOF2zNS3OxRUSn34Y3Wfy84MzT0oorII2z0UXg==
+X-Received: by 2002:a17:906:4793:: with SMTP id cw19mr39570554ejc.15.1641237684928;
+        Mon, 03 Jan 2022 11:21:24 -0800 (PST)
 Received: from t470p.fritz.box (host-87-18-201-21.retail.telecomitalia.it. [87.18.201.21])
-        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.20.25
+        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.21.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 11:20:26 -0800 (PST)
+        Mon, 03 Jan 2022 11:21:24 -0800 (PST)
 From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 To: 
 Cc: alb3rt0.m3rciai@gmail.com,
@@ -46,16 +46,18 @@ Cc: alb3rt0.m3rciai@gmail.com,
 	Michael Straube <straube.linux@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>,
 	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Saurav Girepunje <saurav.girepunje@gmail.com>,
 	Ivan Safonov <insafonov@gmail.com>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Yang Li <yang.lee@linux.alibaba.com>,
 	Zameer Manji <zmanji@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 16/56] staging: r8188eu: remove dead macro ClearRetry
-Date: Mon,  3 Jan 2022 20:01:51 +0100
-Message-Id: <20220103190326.363960-17-alb3rt0.m3rciai@gmail.com>
+Subject: [PATCH 17/56] staging: r8188eu: rename camelcase SetPwrMgt to set_pwr_mgt
+Date: Mon,  3 Jan 2022 20:01:52 +0100
+Message-Id: <20220103190326.363960-18-alb3rt0.m3rciai@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
 References: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
@@ -67,27 +69,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove dead macro ClearRetry.
+Rename camel case macro SetPwrMgt into set_pwr_mgt.
 
 Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 ---
- drivers/staging/r8188eu/include/wifi.h | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c  | 4 ++--
+ drivers/staging/r8188eu/include/wifi.h      | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 885a6412738b..63e16f9deff4 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -5412,7 +5412,7 @@ static int _issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned
+ 		set_to_ds(fctrl);
+ 
+ 	if (power_mode)
+-		SetPwrMgt(fctrl);
++		set_pwr_mgt(fctrl);
+ 
+ 	memcpy(pwlanhdr->addr1, da, ETH_ALEN);
+ 	memcpy(pwlanhdr->addr2, myid(&padapter->eeprompriv), ETH_ALEN);
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+index b7385ec7ce93..8fb4789d9e65 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+@@ -305,7 +305,7 @@ static void ConstructPSPoll(struct adapter *adapt, u8 *pframe, u32 *pLength)
+ 	/*  Frame control. */
+ 	fctrl = &pwlanhdr->frame_ctl;
+ 	*(fctrl) = 0;
+-	SetPwrMgt(fctrl);
++	set_pwr_mgt(fctrl);
+ 	SetFrameSubType(pframe, WIFI_PSPOLL);
+ 
+ 	/*  AID. */
+@@ -341,7 +341,7 @@ static void ConstructNullFunctionData(struct adapter *adapt, u8 *pframe,
+ 	fctrl = &pwlanhdr->frame_ctl;
+ 	*(fctrl) = 0;
+ 	if (bForcePowerSave)
+-		SetPwrMgt(fctrl);
++		set_pwr_mgt(fctrl);
+ 
+ 	switch (cur_network->network.InfrastructureMode) {
+ 	case Ndis802_11Infrastructure:
 diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index 20a70cde2272..ab8ed3ce89f4 100644
+index ab8ed3ce89f4..3f16e9b9c342 100644
 --- a/drivers/staging/r8188eu/include/wifi.h
 +++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -185,9 +185,6 @@ enum WIFI_REG_DOMAIN {
+@@ -185,7 +185,7 @@ enum WIFI_REG_DOMAIN {
  
  #define get_retry(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_RETRY_)) != 0)
  
--#define ClearRetry(pbuf)	\
--	*(__le16 *)(pbuf) &= (~cpu_to_le16(_RETRY_))
--
- #define SetPwrMgt(pbuf)	\
+-#define SetPwrMgt(pbuf)	\
++#define set_pwr_mgt(pbuf)	\
  	*(__le16 *)(pbuf) |= cpu_to_le16(_PWRMGT_)
  
+ #define GetPwrMgt(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_PWRMGT_)) != 0)
 -- 
 2.25.1
 
