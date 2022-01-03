@@ -1,41 +1,41 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7512CA2
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:31:45 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id j21so139505718edt.9
-        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:31:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082322C9D
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:32:41 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id w16so139717006edc.11
+        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:32:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uyNG+ZjpWqtCeXlTaZ0dPbSnFKzzoe17vf1JNoxFiQc=;
-        b=TecXSHWQHDZQ2/FCfV6MKHj+9rw4v+iniWhpyugWuo6jJoDS26cTFTjSmptocnK7yT
-         D6nnWS20Z2L9aNW4pwVfGlwJz80TLlHcYDFb7yMD0IhHIESgYa70YhlBc7IhwhUdZP/z
-         2X5zIzIXPZGq26gMrZHi9Bup6ctE8ik0jCsnbuougHvZzmxYpI22Xv7hb39C/ZFza5fD
-         gchAkwGomeDPCQo2k0nC7uuw3kBUe8cFu01XCftepwvzyItI2UueDgz1suuTC8m6tG4q
-         3xS9vDkGde9An0ZRMtDbv6oYQpa9J7tytX24eB3vb+5ze/Szy3YyYWB4baBJGow194LP
-         Eyjw==
+        bh=Bq1dSHQoeqlNk5QVOrOuEQOgKYZqz8cC6Xs7IfH7rcY=;
+        b=oaPT/uekecFXVUfGyl2UWe6oeDmnm8XgvSWANTbdKDunLuHs4YjNPjU35Rsc8qgWzU
+         M4teysVHNUtKWpeps+Xxcb36Uh+x6xGpkYpqrA2Ub6OcHoBUhxOojJJpoDLGQool45lJ
+         5GMdohGoBkperuNmk805onQ6ficyotwos9vP6b8s99T094w/fbTO+8wVbeqpBvCQMd+N
+         4Xc/aotXU4G7Fp4XPlHrAoSo5mor1ikiZPga5353gpNLCxuoh/ImTPq/gvyCE1smLQf1
+         gYcy337Yj7GwLIn9fQSvyuBG6yJ/bGcqZ4SfMdGV6lDItUDum2pwlNbkPNgI5ts7F3cI
+         dviA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uyNG+ZjpWqtCeXlTaZ0dPbSnFKzzoe17vf1JNoxFiQc=;
-        b=fHjT8CzW4lb0QEiZzp9DCciQgqSQ4eLHsnroN/hbz+l+OkSDNRjw2YwsEZRZ2Q/Ve5
-         0y3LktYdNgUBDRPcermfCISSG+UIsulIzDgQAlQqvu5KFlRCysZrvreKhctkorSdFwK5
-         8PCpmp/f5pu1bQ8fJ5Qz82ZVebKhFtXzHK1QqILAj7uryK9PFzyXr6hYaz0DnCuxAVzi
-         uHyak4X9xcPQjaJIOp1Ot/Q8pX1TVeWihXjj7jqkfbASNO+ZdRUVTB6XwB/1YJmIJRR8
-         9uPRC1zndjtoWFMRR0iDBZD8rpAgUx2U6bPr5oCSW1HnZQAIQe7w8lgArUo31omb7uO0
-         Bx8Q==
-X-Gm-Message-State: AOAM5322Jul9sJYjdpRBewk/yYrwo4tbJbkaH1hfVHd5DYJY7uTtxfK5
-	kG+Ab6OHJV7SbFZO8Osz7bQ=
-X-Google-Smtp-Source: ABdhPJyqRykrUy6TouhbrTxrIGws7U5bdoQLbKZ+BoLFOEQGf17Ys8ZmHZmGjHpJjfVQMnnFkk812w==
-X-Received: by 2002:a05:6402:b68:: with SMTP id cb8mr44951618edb.141.1641238303827;
-        Mon, 03 Jan 2022 11:31:43 -0800 (PST)
+        bh=Bq1dSHQoeqlNk5QVOrOuEQOgKYZqz8cC6Xs7IfH7rcY=;
+        b=Z+IukHsktpiM89UEhyOh4sim4j9ejXXPSAmXaIsSKT9dJk/r+tx8JhQmYFVTzPcPvH
+         ys7XgZwnAu6+wOyQuB+7hLa/8mJA91k6cNthoz9v6v/TocUm9OfDRu+yV5TapEelMQHg
+         umSuj6t13x/+o9leFI8q3CzKIMhSAqRMxBVjKnI/uGDAYA464ONR7WsE+Ge4HZ5jEcH8
+         pCV7998zvV0X23zB7w/Hs+CEGYaygSvwlorAFmx8aFLsyk+gBB+FFzwkceSz2RebfLAT
+         x4AtD+JaD3IbOFfTlI7XtPZXbJpgSMRlH5agNfP6Bdy1iVQgHjGHThg7AilGK/BY/xSs
+         H3Wg==
+X-Gm-Message-State: AOAM533ceGdfXixQBldPWYLI7ezXcsM1J+hPmiyLhMGWS+Cv1tXdm0jt
+	v1VPs414p1gITLaWJIH5v6ls28kLzrk=
+X-Google-Smtp-Source: ABdhPJzXm7UpN5ZVUn69V6RuzJQU44zx5s1gzrrOygKDLG1wJsVgPSrqIVQlD6yjhalDk3Y39wR9iQ==
+X-Received: by 2002:aa7:cb09:: with SMTP id s9mr6683199edt.379.1641238360511;
+        Mon, 03 Jan 2022 11:32:40 -0800 (PST)
 Received: from t470p.fritz.box (host-87-18-201-21.retail.telecomitalia.it. [87.18.201.21])
-        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.31.42
+        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.32.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 11:31:43 -0800 (PST)
+        Mon, 03 Jan 2022 11:32:40 -0800 (PST)
 From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 To: 
 Cc: alb3rt0.m3rciai@gmail.com,
@@ -55,9 +55,9 @@ Cc: alb3rt0.m3rciai@gmail.com,
 	Zameer Manji <zmanji@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 28/56] staging: r8188eu: remove dead macro ClearPrivacy
-Date: Mon,  3 Jan 2022 20:02:03 +0100
-Message-Id: <20220103190326.363960-29-alb3rt0.m3rciai@gmail.com>
+Subject: [PATCH 29/56] staging: r8188eu: rename camelcase GetOrder to get_order
+Date: Mon,  3 Jan 2022 20:02:04 +0100
+Message-Id: <20220103190326.363960-30-alb3rt0.m3rciai@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
 References: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
@@ -69,27 +69,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove dead macro ClearPrivacy.
+Rename camel case macro GetOrder into get_order.
 
 Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 ---
- drivers/staging/r8188eu/include/wifi.h | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/r8188eu/core/rtw_recv.c | 2 +-
+ drivers/staging/r8188eu/include/wifi.h  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 81f1ed9b5186..230c8198ed84 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -1112,7 +1112,7 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
+ 	pattrib->mfrag = get_m_frag(ptr);
+ 	pattrib->mdata = get_m_data(ptr);
+ 	pattrib->privacy = get_privacy(ptr);
+-	pattrib->order = GetOrder(ptr);
++	pattrib->order = get_order(ptr);
+ 
+ 	/* Dump rx packets */
+ 	GetHalDefVar8188EUsb(adapter, HAL_DEF_DBG_DUMP_RXPKT, &bDumpRxPkt);
 diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index da8a5bd12646..7eb4da42d5a7 100644
+index 7eb4da42d5a7..1f65309aa1fe 100644
 --- a/drivers/staging/r8188eu/include/wifi.h
 +++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -201,9 +201,6 @@ enum WIFI_REG_DOMAIN {
+@@ -201,7 +201,7 @@ enum WIFI_REG_DOMAIN {
  #define get_privacy(pbuf)					\
  	(((*(__le16 *)(pbuf)) & cpu_to_le16(_PRIVACY_)) != 0)
  
--#define ClearPrivacy(pbuf)	\
--	*(__le16 *)(pbuf) &= (~cpu_to_le16(_PRIVACY_))
--
- #define GetOrder(pbuf)					\
+-#define GetOrder(pbuf)					\
++#define get_order(pbuf)					\
  	(((*(__le16 *)(pbuf)) & cpu_to_le16(_ORDER_)) != 0)
  
+ #define GetFrameType(pbuf)				\
 -- 
 2.25.1
 
