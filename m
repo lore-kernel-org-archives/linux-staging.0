@@ -1,41 +1,41 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53EE2C9D
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:13:48 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id bm14so139504153edb.5
-        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:13:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119F02C9D
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:14:49 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id n30so27363112eda.13
+        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:14:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yv3Zs6aPCOxb9Ol1DDbz0c0Mf8kauTqoujTLZniKHjw=;
-        b=BztBCGZSq6z+6Uwkb9kf9ip5wW9ErWdSJr5YwSQXpko3DvCC4fnTGqYC0r7A+nO1tw
-         QSTVpf41RBRa5/dkOkf0HNTszxxEkaU7PoHGwSeEDwV/AOhqxKzjwUzWo6Z4/n/H6tO/
-         2FvJu0ULC/yr6+Bd6JjSc9+O3BPSPKkhWCrIfngtOaf+P1ibxDg6Jtcdw0zt/XyxotP8
-         oRV4N8PBVflkgk8hyFdSjUbZh8gyaZqN2YQGy+qlEIvb9Yr24p2Tz9Q5khBO7OkzInb9
-         oZRh39tzJsWmhramzIYWurMsffJGI6Qe0mcGitKiPe4Znh0JZyjYp6nndA1ce5FrBmeu
-         xO/A==
+        bh=LpkU+rNWe8spczBIxaAKXqgJnKkb3NyjCTDX0PoMqaU=;
+        b=q3ro+IBRzmPDLa7DYjCIXT6k1CfPsfXKgwUwXQ7VdWAnXt66nokFXABDR6oyllM+jD
+         c3Y3HZjNgPspXB1ggKzpZNKnvvFdDmB2oqcqEdX6UVfEDBDIXw0A5eHhSYzfdlRgxes+
+         vGxYq8oATTtOskrE9owyGj/X+DYCTTmUsusDqPls2MKESX/nzrgxjjW/aXu0PaMF55LX
+         NWoMfXq87TlhBmYNaXUWEuPT6QBftDjBtbGWQZhHirchoGHdBlf4bKLxtO7LcRblXbe6
+         WbkOdvxPyVdkn7+fqQsSXLhxIlFZYrL4j8PW8p6ka4HT09V2+XXbSRU9KwC5UIF3Fc9r
+         8aMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yv3Zs6aPCOxb9Ol1DDbz0c0Mf8kauTqoujTLZniKHjw=;
-        b=gWqEq7YU+KUYf7uW6By0dra3owQM/z2r/8p7nUoUFeSdziGXSWBhdTD1UUH1kRpwM4
-         Jw3dXthpBI2I1n+iIGteTQ2Ro1K7nP6cuJ5yZ+r2nNwndNprEaX4nVJWXza5k/OfB6xy
-         5jkQJdUSivgTo76v25wZhubvAnMs+ZeYVZ6eZDhtZ+hQxrQBHGx4FM7ARfE52NE/UesH
-         P+hvmIBvD5jm+5TQcokaQ8rmsVm9eNln82SlsuXyS/SocaH2lSKTXS1RXpU2hu+lO5IX
-         b+DJTym22ARCDh6wJGpj8QMeIElOD23TXmnNn5MUvooGlgYZELKzBOTmBFTdQ+8IaqO8
-         rykQ==
-X-Gm-Message-State: AOAM5337VPLihntxI6xfhzoDMxWVTKKShJXItavIEC+A5gOu138Fr6/T
-	Yp/CSxjH/bfA73zPApzbOE0=
-X-Google-Smtp-Source: ABdhPJy7IEcaJEYb5Nt3I3zEfVaJkbfr4U9ODBi8QD/RO9SRYe3OZnX8l+CniTyRUOw6A3+eGY8Hog==
-X-Received: by 2002:a50:8e4b:: with SMTP id 11mr43805692edx.272.1641237227388;
-        Mon, 03 Jan 2022 11:13:47 -0800 (PST)
+        bh=LpkU+rNWe8spczBIxaAKXqgJnKkb3NyjCTDX0PoMqaU=;
+        b=VBSlHganvi9ciNL/xIiHXX/83EagIc6wyg8IMBBLEQzBn/rNjg0LOD16gq9nCy5hpr
+         5kz1rod/vcCkw4sm8PkkmFvSmyMSoSa5xeaLlxatxXZ7GIzSd77lwCpiPm1IRgNXXA8T
+         jXGI8sCtoSXFpajaTZBn8smLcq2nTQ/vQDLZvbDrKYIxX9eHYqmcas3kOg06DECeJ4BC
+         SRNISUjB+HDBed55ET0Caj2Gf9pTmgq9MBlkYgvz9GRXHiB4quxbeSUKtrecvsRS6LCY
+         syis0R+nQEvix0b3s1Tvumx6ByjEVD6m1mLaPPTFMjFGUsCRpaeZt7HHKC7RVVLyNDDi
+         AAew==
+X-Gm-Message-State: AOAM5318AOf8MRcct6xRTLM3tZL6TCa7Q3Yu+B+sH7QXp/yTNsy6DNEg
+	nVGBKZgH/ANUzFxPgBue0Xk=
+X-Google-Smtp-Source: ABdhPJy81N6FCCEQ6dQ/tdjBcRxFYtzEJ5ss5JG48wp7TXQkP5XU94Fs9na08sbmIkcH0Z//ymXaIw==
+X-Received: by 2002:a17:907:97cd:: with SMTP id js13mr36969524ejc.497.1641237287446;
+        Mon, 03 Jan 2022 11:14:47 -0800 (PST)
 Received: from t470p.fritz.box (host-87-18-201-21.retail.telecomitalia.it. [87.18.201.21])
-        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.13.46
+        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.14.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 11:13:47 -0800 (PST)
+        Mon, 03 Jan 2022 11:14:47 -0800 (PST)
 From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 To: 
 Cc: alb3rt0.m3rciai@gmail.com,
@@ -46,15 +46,17 @@ Cc: alb3rt0.m3rciai@gmail.com,
 	Michael Straube <straube.linux@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>,
 	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Saurav Girepunje <saurav.girepunje@gmail.com>,
 	Ivan Safonov <insafonov@gmail.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	Zameer Manji <zmanji@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 09/56] staging: r8188eu: rename camelcase GetToDs to get_to_ds
-Date: Mon,  3 Jan 2022 20:01:44 +0100
-Message-Id: <20220103190326.363960-10-alb3rt0.m3rciai@gmail.com>
+Subject: [PATCH 10/56] staging: r8188eu: rename camelcase GetFrDs to get_fr_ds
+Date: Mon,  3 Jan 2022 20:01:45 +0100
+Message-Id: <20220103190326.363960-11-alb3rt0.m3rciai@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
 References: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
@@ -66,7 +68,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename camel case macro GetToDs into get_to_ds.
+Rename camel case macro GetFrDs into get_fr_ds.
 
 Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 ---
@@ -74,23 +76,18 @@ Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
  1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index fc5be22c5d2a..0075b438027b 100644
+index 0075b438027b..355c8f854b08 100644
 --- a/drivers/staging/r8188eu/include/wifi.h
 +++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -166,14 +166,14 @@ enum WIFI_REG_DOMAIN {
- #define set_to_ds(pbuf)	\
- 	(*(__le16 *)(pbuf) |= cpu_to_le16(_TO_DS_))
- 
--#define GetToDs(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_TO_DS_)) != 0)
-+#define get_to_ds(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_TO_DS_)) != 0)
- 
+@@ -171,9 +171,9 @@ enum WIFI_REG_DOMAIN {
  #define set_fr_ds(pbuf)	\
  	(*(__le16 *)(pbuf) |= cpu_to_le16(_FROM_DS_))
  
- #define GetFrDs(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_FROM_DS_)) != 0)
+-#define GetFrDs(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_FROM_DS_)) != 0)
++#define get_fr_ds(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_FROM_DS_)) != 0)
  
--#define get_tofr_ds(pframe)	((GetToDs(pframe) << 1) | GetFrDs(pframe))
-+#define get_tofr_ds(pframe)	((get_to_ds(pframe) << 1) | GetFrDs(pframe))
+-#define get_tofr_ds(pframe)	((get_to_ds(pframe) << 1) | GetFrDs(pframe))
++#define get_tofr_ds(pframe)	((get_to_ds(pframe) << 1) | get_fr_ds(pframe))
  
  #define set_m_frag(pbuf)	\
  	(*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_FRAG_))
@@ -98,8 +95,8 @@ index fc5be22c5d2a..0075b438027b 100644
  #define GetAid(pbuf)	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 2)) & 0x3fff)
  
  #define GetTid(pbuf)	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) +	\
--			(((GetToDs(pbuf)<<1) | GetFrDs(pbuf)) == 3 ?	\
-+			(((get_to_ds(pbuf)<<1) | GetFrDs(pbuf)) == 3 ?	\
+-			(((get_to_ds(pbuf)<<1) | GetFrDs(pbuf)) == 3 ?	\
++			(((get_to_ds(pbuf)<<1) | get_fr_ds(pbuf)) == 3 ?	\
  			30 : 24))) & 0x000f)
  
  #define GetAddr1Ptr(pbuf)	((unsigned char *)((size_t)(pbuf) + 4))
@@ -107,8 +104,8 @@ index fc5be22c5d2a..0075b438027b 100644
  static inline unsigned char *get_da(unsigned char *pframe)
  {
  	unsigned char	*da;
--	unsigned int to_fr_ds = (GetToDs(pframe) << 1) | GetFrDs(pframe);
-+	unsigned int to_fr_ds = (get_to_ds(pframe) << 1) | GetFrDs(pframe);
+-	unsigned int to_fr_ds = (get_to_ds(pframe) << 1) | GetFrDs(pframe);
++	unsigned int to_fr_ds = (get_to_ds(pframe) << 1) | get_fr_ds(pframe);
  
  	switch (to_fr_ds) {
  	case 0x00:	/*  ToDs=0, FromDs=0 */
@@ -116,8 +113,8 @@ index fc5be22c5d2a..0075b438027b 100644
  static inline unsigned char *get_sa(unsigned char *pframe)
  {
  	unsigned char	*sa;
--	unsigned int	to_fr_ds = (GetToDs(pframe) << 1) | GetFrDs(pframe);
-+	unsigned int	to_fr_ds = (get_to_ds(pframe) << 1) | GetFrDs(pframe);
+-	unsigned int	to_fr_ds = (get_to_ds(pframe) << 1) | GetFrDs(pframe);
++	unsigned int	to_fr_ds = (get_to_ds(pframe) << 1) | get_fr_ds(pframe);
  
  	switch (to_fr_ds) {
  	case 0x00:	/*  ToDs=0, FromDs=0 */
@@ -125,8 +122,8 @@ index fc5be22c5d2a..0075b438027b 100644
  static inline unsigned char *get_hdr_bssid(unsigned char *pframe)
  {
  	unsigned char	*sa;
--	unsigned int	to_fr_ds = (GetToDs(pframe) << 1) | GetFrDs(pframe);
-+	unsigned int	to_fr_ds = (get_to_ds(pframe) << 1) | GetFrDs(pframe);
+-	unsigned int	to_fr_ds = (get_to_ds(pframe) << 1) | GetFrDs(pframe);
++	unsigned int	to_fr_ds = (get_to_ds(pframe) << 1) | get_fr_ds(pframe);
  
  	switch (to_fr_ds) {
  	case 0x00:	/*  ToDs=0, FromDs=0 */
