@@ -1,41 +1,41 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C362C9D
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:19:31 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id n30so27403592eda.13
-        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:19:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8723173
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:20:27 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id j6so139400714edw.12
+        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:20:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kYW+GlDgxuMha0v3wE5Ost5hQDPE9vGdy3lUXZcEoYs=;
-        b=UKmcg+NlBTV/+iKI2Al18jKKVKcDKOPGFk22FJXo5fUFOv6vlBWY9BItsdp4eY/wdW
-         AiiqNp9hLt43VaNZt6h5YX6D8saXa4Po49FYSYirxsjXUGmhs/WIcM4lApRijhNOIfnZ
-         gRbsVmJuF8SyO5UoA1HttgpOU6u6XTzEoaIRnChJeNGv4vZiX6y7YOQUO3h1peuNVd+5
-         B0vUh7eaW6OhiDm54U0BCrn7UB4rjib0zHlndME12lSvUzT1IeM5IFCTnhkTow0npTU5
-         M2WsUQoiWwJpRe+xHHLpAVktNUXIkgp27ZCMgAx5bOw4o8XiUGxekl2jwun90NjCQ0el
-         obkg==
+        bh=gnLMiq8Mm2ARPQsexbrW9egBTCgyloKoB1Bo0S3MfQc=;
+        b=AOY97vn0ni7cV9yW+M+6M+jY/FPaZ9J7gv58MWx8ojvRG5LiYNF3EcHoXWIdu8Y8Er
+         hwaVlCvZ2R/DxxLX3oFNZOU+HavfwgHEPheCNqAuGwyaG/jHdiT0nTImc9oPHUgGAZmn
+         1oeO+5q0lBVaDWuxG9yXmw9EgK6Cz3oa9M8dYQvjO15saVrTYekxOLgbGjAjYyzMF/04
+         UK720mfVxItFQ4l6JlpGN6dS6HrYd7UFWr4K8mYmm+FHaH5atGAQGAnJ3jGF1IqTwDqB
+         /EN1P4KqkxVYhbMlNjljJLWQfUFBCP+LGA7fSiaIgkdUOlfDbEKQW/UoJvbiHFfnIQC6
+         PMXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kYW+GlDgxuMha0v3wE5Ost5hQDPE9vGdy3lUXZcEoYs=;
-        b=MxzGHigOBt1L+r24jBUUJRlZUmchqswdjDJvvjjkdeztH80vD+jC782Ob/fuI1Iq4f
-         RW9+hH1ADcXi2iJMqlM9ariSjxzU9V5L7Y1IklyxuMaSXFdue8/Qzh3V1BghlLCt5UEG
-         LI8Ev0f7pxo8UFHJH7Svwf8cQKdmLGTHWlRid+0L2ruyphVPXDQ+L+HwNzg1quLbbJLJ
-         mQ4AGOglHnUEC8VIGdrH9DdextDn76byCQG/OrXiLyGwQTGtxIXE68j/s+GINb+gveJC
-         G8/eyFc8MIqAKjAqt0eetCsspPHpgYRSbNzJQspyxqZqFSNyoy1WCSO8WTdye9Upeh8+
-         0F3g==
-X-Gm-Message-State: AOAM5306i52kJklR/aCD7z2TLNVDbr05Bt4ecA/zaXWQaPqdPMPMS1M0
-	3pwLO7xRujztgZs7lkIRfN8=
-X-Google-Smtp-Source: ABdhPJzwWSH/AGoJwEhDRAnELFxBOYC3hMaJWUjKsxw0NhLterizuVlFGU2n3p4rnrKx6MbZLN7Hsg==
-X-Received: by 2002:a17:907:6093:: with SMTP id ht19mr37998915ejc.286.1641237570325;
-        Mon, 03 Jan 2022 11:19:30 -0800 (PST)
+        bh=gnLMiq8Mm2ARPQsexbrW9egBTCgyloKoB1Bo0S3MfQc=;
+        b=7lwmw4t19TVBhzh9lUd+LKis6xZ3rkEETmrVTY19kk/DvZyGVpJsa9161Qkj1XjxFB
+         2InhnpkmhhfXIcDOa82jVNNr6I6/TCgtHHYXZs6K9QigzvgqeqRl9MP5oFvm6aitZuG5
+         vPNzh6slX35Cn7Yts4MNX8NklbcuzPFGGjdrgsEeoD8jmjq3kWsHpJTgCcIacBIrp0wq
+         S/8HdsLF95PPAPlNGOUBuZ8FlJT1rZ7bADVbQmRHFdnbxcbfEl3PlO5/T3TQKBbAOI76
+         8fL11/BiPbci1oimf2keyVxHp4rN8kI47iWMAtE8R7CV2Cy1X6G/xf8IQWcUu4J+o1mn
+         d6BA==
+X-Gm-Message-State: AOAM530iN1qSwMJa7aAggf7SFpbu3/iHfyyqY8JOAq6jFDNQKBrMIqps
+	AqhpGuaUo+ZHgjYfLL2S7W0=
+X-Google-Smtp-Source: ABdhPJyW8VwR2Fmp7fAb1CmReVpCcLPh55im4PGVyWUpDRm/ZDT9PGtpcMkoleB6v/45hUzlJIudqQ==
+X-Received: by 2002:a17:906:2f97:: with SMTP id w23mr35780885eji.739.1641237626372;
+        Mon, 03 Jan 2022 11:20:26 -0800 (PST)
 Received: from t470p.fritz.box (host-87-18-201-21.retail.telecomitalia.it. [87.18.201.21])
-        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.19.28
+        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.20.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 11:19:29 -0800 (PST)
+        Mon, 03 Jan 2022 11:20:26 -0800 (PST)
 From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 To: 
 Cc: alb3rt0.m3rciai@gmail.com,
@@ -46,16 +46,16 @@ Cc: alb3rt0.m3rciai@gmail.com,
 	Michael Straube <straube.linux@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>,
 	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Saurav Girepunje <saurav.girepunje@gmail.com>,
 	Ivan Safonov <insafonov@gmail.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	Zameer Manji <zmanji@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 15/56] staging: r8188eu: rename camelcase GetRetry to get_retry
-Date: Mon,  3 Jan 2022 20:01:50 +0100
-Message-Id: <20220103190326.363960-16-alb3rt0.m3rciai@gmail.com>
+Subject: [PATCH 16/56] staging: r8188eu: remove dead macro ClearRetry
+Date: Mon,  3 Jan 2022 20:01:51 +0100
+Message-Id: <20220103190326.363960-17-alb3rt0.m3rciai@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
 References: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
@@ -67,63 +67,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename camel case macro GetRetry into get_retry
+Remove dead macro ClearRetry.
 
 Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 4 ++--
- drivers/staging/r8188eu/core/rtw_recv.c     | 2 +-
- drivers/staging/r8188eu/include/wifi.h      | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/include/wifi.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index b033705c0578..885a6412738b 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -433,7 +433,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
- 	ptable += index;
- 
- 	if (psta) {
--		if (GetRetry(pframe)) {
-+		if (get_retry(pframe)) {
- 			if (precv_frame->attrib.seq_num == psta->RxMgmtFrameSeqNum) {
- 				/* drop the duplicate management frame */
- 				DBG_88E("Drop duplicate management frame with seq_num=%d.\n", precv_frame->attrib.seq_num);
-@@ -3706,7 +3706,7 @@ static s32 rtw_action_public_decache(struct recv_frame *recv_frame, s32 token)
- 	u16 seq_ctrl = ((recv_frame->attrib.seq_num & 0xffff) << 4) |
- 		(recv_frame->attrib.frag_num & 0xf);
- 
--	if (GetRetry(frame)) {
-+	if (get_retry(frame)) {
- 		if (token >= 0) {
- 			if ((seq_ctrl == mlmeext->action_public_rxseq) && (token == mlmeext->action_public_dialog_token)) {
- 				DBG_88E(FUNC_ADPT_FMT" seq_ctrl = 0x%x, rxseq = 0x%x, token:%d\n",
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 0f87a01a39fb..ed2a563ab63c 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -975,7 +975,7 @@ static int validate_recv_data_frame(struct adapter *adapter,
- 	struct security_priv	*psecuritypriv = &adapter->securitypriv;
- 	int ret = _SUCCESS;
- 
--	bretry = GetRetry(ptr);
-+	bretry = get_retry(ptr);
- 	pda = get_da(ptr);
- 	psa = get_sa(ptr);
- 	pbssid = get_hdr_bssid(ptr);
 diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index 4b124376d263..20a70cde2272 100644
+index 20a70cde2272..ab8ed3ce89f4 100644
 --- a/drivers/staging/r8188eu/include/wifi.h
 +++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -183,7 +183,7 @@ enum WIFI_REG_DOMAIN {
- #define clear_m_frag(pbuf)	\
- 	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_FRAG_)))
+@@ -185,9 +185,6 @@ enum WIFI_REG_DOMAIN {
  
--#define GetRetry(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_RETRY_)) != 0)
-+#define get_retry(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_RETRY_)) != 0)
+ #define get_retry(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_RETRY_)) != 0)
  
- #define ClearRetry(pbuf)	\
- 	*(__le16 *)(pbuf) &= (~cpu_to_le16(_RETRY_))
+-#define ClearRetry(pbuf)	\
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_RETRY_))
+-
+ #define SetPwrMgt(pbuf)	\
+ 	*(__le16 *)(pbuf) |= cpu_to_le16(_PWRMGT_)
+ 
 -- 
 2.25.1
 
