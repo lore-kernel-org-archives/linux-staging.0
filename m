@@ -1,41 +1,41 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829F32C9D
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:17:39 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id z29so139448700edl.7
-        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:17:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997C52C9D
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:18:35 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id b13so139449076edd.8
+        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:18:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZzBnG5Tq6fNKffbRz6OE2Xlj0QLh5ytz67gRg7INpU0=;
-        b=UTaqcYUhCOb3rqmd7JkCb5ZvPokVzDW4Sq7tzf7XBtAy0UJ0ZU3RiQs0TDhac1XDV4
-         OHdSi4M5D18sExUevZq02uhK9FV/bWPO2XONEzQ2TcZzB3juAoIKq1SPVnijwkw3QtJB
-         9x008MMVcg5Ebbkr/r0pgvEUJRGa6nTxSB0JEt4K8YxgS3oz4SW3TPdhd6A4gm9vo1Jw
-         TyUQFAlt+8XpY/+8UD072AJGIazEvSq/nGEy/b9iNv6WNLWnGPLYIaP72tCjyiq/DPcI
-         E4z1+qHQJlPe43dpY/za02CIs1f7fP87vThnC2LbKYFuMzpfr716mwUd5MD3C0pwA9z5
-         ialg==
+        bh=pf4Guz/QyLHYzCL9xnQna1t1OdhnRtr/IjFq1WthQ44=;
+        b=VNZeSrS+zf/bxOvADVakMf97HdMDClGE3Hp92HF6jZytJyVGU+/mMRYK10vsOslQBC
+         vs6OFd9xfZHZXpC2/8zbW7lLrd0BbGFBVKOjr0Uuc7yE34mNBq1/2qvdp9DrRHUrUgQB
+         5RUIpmeBycKnZnokgbLmBWlJ4Z7Kkmh7OcrzCMrm22JMewbxYs3LJSf4EVEiKopD6nqR
+         gACXUEr+9QBOmAGHj9GHfsrec4INvmpTXxpEgdrbLUGLGNYu66mT0NUQYLclxFcHsQcW
+         nAENprVEavDATTBZHo73ystXtxd0H42Gg/20XwErpapKLWTuZoJltpsN/cpraQ/T+paS
+         H9tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZzBnG5Tq6fNKffbRz6OE2Xlj0QLh5ytz67gRg7INpU0=;
-        b=cqE+WDhsSL5yi61c4/BJ2bd/UfwYfC21JPOVjF5GhtEc8I9pucjs2mxxscxOl9v8KD
-         wTONibFXQ4vhviLtacbu2P2avtt7yHjCptmd96urxaPTp+ylC20rltRs+89GOKovOhfk
-         PODpbU3NsqnEmU1Hesmg7QS3tGhjgdYJRJUeB5Rm5xKVhhrAREIpmSgEnNObwyNxf9Yp
-         wDfB0dxb5bkxRDRPXXz7x38MAl9QMvwvkYRXaoOFRqodNA8nTKyPmcv4ys+TKsrpKz9a
-         4yztoJFovNeBOCuCIn16j9yUnmmo34tqmrxji+gQT0E9LYjoSYBWvJDALCP6QgI0zx15
-         OaMA==
-X-Gm-Message-State: AOAM533WAfj/DD/u0TSdGxWYtM27WQL2UwNC7GIHbMbix2epa9oUKXrJ
-	fEnXiLohRQqn/bLEKx+iw5UHw1ByFi4=
-X-Google-Smtp-Source: ABdhPJzegIVxVKh9kTFs0NiBdhnD5cWGuyxD41QL+Mq9PNfF6Bv4PFzqxXB+VM+prYBe0aB7uWmwMA==
-X-Received: by 2002:a05:6402:408:: with SMTP id q8mr23482089edv.254.1641237458038;
-        Mon, 03 Jan 2022 11:17:38 -0800 (PST)
+        bh=pf4Guz/QyLHYzCL9xnQna1t1OdhnRtr/IjFq1WthQ44=;
+        b=HgC/kVWNBMz6F8/iOW42OVN08WyotHUFuVvoypnIWz7Qs3qxsO9oNxXxt102IeX+dR
+         cVIvzhr/AHlz5BI+asKCFsTz49W4ESbxMKjtxxsroNGjMGrxlcl5PQgvKOjruY9femd9
+         oy0oX3UNU7hNEEg/LaSXRH6bEQQF38jb7rAmw5xM1bhj2Phq+1tvJ/XqIsIOa8R5oHXo
+         Ldmj8eK2YMDzSTPfjef+zb6O98W5zyznok7NIwlW6syIzzcVnMZ8Vpmcj76vQt4bQvM3
+         DiqZcl8JbyO8kT556ENvdGDnh1bMuzIDw8OJ0qkhZ0K+nw1sYleaoAfinQ4V58WCIXq0
+         BRZw==
+X-Gm-Message-State: AOAM530xKkk5/1c4rr4LunnU3ZEs0KGWGz226QhWyfuvG9fIeSg9tb74
+	pkg48f0Rzn3RYTxDQvdnGVc=
+X-Google-Smtp-Source: ABdhPJwMWvbp3Ey9CtteKr2S4t3lqXcd40I5sTCGN9QUlCOsfdCkv/aN9QeEs6Hgzv5vmIsBp0PEDQ==
+X-Received: by 2002:a17:907:6d9c:: with SMTP id sb28mr36461651ejc.393.1641237514049;
+        Mon, 03 Jan 2022 11:18:34 -0800 (PST)
 Received: from t470p.fritz.box (host-87-18-201-21.retail.telecomitalia.it. [87.18.201.21])
-        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.17.36
+        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.18.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 11:17:37 -0800 (PST)
+        Mon, 03 Jan 2022 11:18:33 -0800 (PST)
 From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 To: 
 Cc: alb3rt0.m3rciai@gmail.com,
@@ -46,17 +46,17 @@ Cc: alb3rt0.m3rciai@gmail.com,
 	Michael Straube <straube.linux@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>,
 	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Saurav Girepunje <saurav.girepunje@gmail.com>,
 	Ivan Safonov <insafonov@gmail.com>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Yang Li <yang.lee@linux.alibaba.com>,
 	Zameer Manji <zmanji@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 13/56] staging: r8188eu: add parenthesis to macro clear_m_frag
-Date: Mon,  3 Jan 2022 20:01:48 +0100
-Message-Id: <20220103190326.363960-14-alb3rt0.m3rciai@gmail.com>
+Subject: [PATCH 14/56] staging: r8188eu: remove dead macro SetRetry
+Date: Mon,  3 Jan 2022 20:01:49 +0100
+Message-Id: <20220103190326.363960-15-alb3rt0.m3rciai@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
 References: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
@@ -68,26 +68,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Enclose in parenthesis complex macro clear_m_frag
+Remove dead macro SetRetry.
 
 Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 ---
- drivers/staging/r8188eu/include/wifi.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/include/wifi.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index e2ec9e630fbf..30185d0dabec 100644
+index 30185d0dabec..4b124376d263 100644
 --- a/drivers/staging/r8188eu/include/wifi.h
 +++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -181,7 +181,7 @@ enum WIFI_REG_DOMAIN {
- #define get_m_frag(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_MORE_FRAG_)) != 0)
- 
+@@ -183,9 +183,6 @@ enum WIFI_REG_DOMAIN {
  #define clear_m_frag(pbuf)	\
--	*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_FRAG_))
-+	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_FRAG_)))
+ 	(*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_FRAG_)))
  
- #define SetRetry(pbuf)	\
- 	*(__le16 *)(pbuf) |= cpu_to_le16(_RETRY_)
+-#define SetRetry(pbuf)	\
+-	*(__le16 *)(pbuf) |= cpu_to_le16(_RETRY_)
+-
+ #define GetRetry(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_RETRY_)) != 0)
+ 
+ #define ClearRetry(pbuf)	\
 -- 
 2.25.1
 
