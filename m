@@ -1,41 +1,41 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFFE2C9D
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:38:22 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id b13so139619254edd.8
-        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:38:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E47173
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:39:18 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id f5so139697855edq.6
+        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oMh+q7mC2mFIsFYxBYOdHoBM17ue2y9c4qk5sF/l0tY=;
-        b=jo1NqZ18M5fENeho9u7mnv/iD6okof2ZJHHu40MWuzynWuyY7LwdZyPhFU9W4ujJvd
-         xDsVJW1WTALCsbd5INUR3un6mwJGPylj47/3j3X5sgi5DoFTkF8+rXXc+9hSkG6usrJx
-         A3H8jpMjROfiG4z502ituAFjUQJWgKd2LSRB7SXvYGoVRoF5POG8RkfT2okvWyr9I8L6
-         58tT/Vhjy/UPz2SL5wvmtlXyWQL8KTtIiVP8uN7IR7HfVbo5zcu3B9vIyL23nnd9YbMj
-         6QVN0wDihNQHeM6aJt72i6vR2FB+zDl0ol0EUcw4GcHoTKn6GengCmbGnQkZJDlxfl97
-         P1HA==
+        bh=BMhggAvIizLWpZm5anArBqzFIM1VgWDkud2H5TZUdOQ=;
+        b=ILjtXqTydxDVe43R7vp27AFF1uezTtpQc2Pq41CcWnIn7oeOYpc4rd/Gv9YHBZG1q9
+         raRvH0tYi7J4QcDjb0AC6CNGZV1yMZMekWXRhXjhKQnlVYtZtR1hFpB8rw8wg2mNG7sH
+         lrOUr5uALw7BbMOB93VTF38N1O6KZCr5F1HuQpvNo/uycHDsMuey2oxzUGOrT3huyA8S
+         zVfX7I1YIZJSGMlF+lRNI1xYvNjR8fFOKeO2WMkKJIZasUcIGFUpQl3Ck7XwxQVvuB0j
+         g1QioGYzGeQsiNepciskXOoJFzlh1aQoxwoaVGTEX0MmSZ/JG4fTsO2FGw/H0FuZEhGE
+         kKtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oMh+q7mC2mFIsFYxBYOdHoBM17ue2y9c4qk5sF/l0tY=;
-        b=JuN4Jdcv5HU1p0UpFVlooj+aPLxGoREFAuoTkC4DBFiYms/e/akpFa23wnNFfWqDlC
-         02FwXNob9x+LgKT2PoKl3M1Z7nPkn3dWZtLEbRoBOQ21IwCDPyCB462Fu1DDKX5iyuFe
-         Lm/yVsX+StEJDY6mDwzpDPuDmbYlGWe+V+vKxWJdKRtIN3RBxcX6QP+x2Jzouxw3FS3e
-         QFj7lzfYlu5vcCsX/hNJN1K0pe7rYtXFFzgU+jUNw0La5YVjipGP8iKBzosLE63XDPFS
-         0uzXdilAg4z1jnsOT2wAkVNbz9ZAQ5yalhmfLGO0nygBnZin/21zeypXJ+vO3/N389Sp
-         5zrA==
-X-Gm-Message-State: AOAM531QSSfCQOANCTOYs/0xQuPqFBWHbrPhHexhFhPcEezQWbleuktT
-	U9qThC/UBo9UUj+bY7/61VI=
-X-Google-Smtp-Source: ABdhPJyLVf0d2NqzeZXMVzFExPbbehQ3yj2eTcbSMWiEkRXhS8hIjHriCeOWJentwohyMvMid/YX8Q==
-X-Received: by 2002:a17:907:9694:: with SMTP id hd20mr35888097ejc.360.1641238700748;
-        Mon, 03 Jan 2022 11:38:20 -0800 (PST)
+        bh=BMhggAvIizLWpZm5anArBqzFIM1VgWDkud2H5TZUdOQ=;
+        b=CIDF12s6yUYoKuOXvi7UnPaM5xAQbnUFGiIubZ25XtZH+da0/fGY2OdPd++PmYKIIb
+         4OrT5smoiDGFbhQnyFxgPSZ5f5tSMVzyITWDBVN/jiX+mlYJVLkVbJJmRS0j9MIw5vbY
+         VSwC97FW5xY33kuCZyX0R/S7FYddkINaanppVUK3pB2vhXphqAulsDY6o/Z6pxLYvnpG
+         fjxunk9cQgoJHLTykP4KPlzchuS38ZSV0KSQHynckzAJW1KWFwIXzoMZihWwGqC8u5UE
+         LKKVNSYjyfpyqRAVKkZcKWjfMYtw5QN9CZH52h1AIHRmhg/xGtiWmFaDRPqT55XZ9pED
+         GOJg==
+X-Gm-Message-State: AOAM533UuU6onu3wvvGymwxRGKPshvrRmf8sNw6Q+zDC547/L7nYG3Hl
+	7Tk/5gUrclVQ392mixqgkZo=
+X-Google-Smtp-Source: ABdhPJyDx/PUo9F9PIasWO3OfV4fpxNZtHIjJ5Ib3UTPlJLaFrNiDwiGGdk7W/1OtHBydLkqLjPVGw==
+X-Received: by 2002:a17:906:71cc:: with SMTP id i12mr38604007ejk.457.1641238756758;
+        Mon, 03 Jan 2022 11:39:16 -0800 (PST)
 Received: from t470p.fritz.box (host-87-18-201-21.retail.telecomitalia.it. [87.18.201.21])
-        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.38.19
+        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.39.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 11:38:20 -0800 (PST)
+        Mon, 03 Jan 2022 11:39:16 -0800 (PST)
 From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 To: 
 Cc: alb3rt0.m3rciai@gmail.com,
@@ -50,14 +50,12 @@ Cc: alb3rt0.m3rciai@gmail.com,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Saurav Girepunje <saurav.girepunje@gmail.com>,
 	Ivan Safonov <insafonov@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Yang Li <yang.lee@linux.alibaba.com>,
 	Zameer Manji <zmanji@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 35/56] staging: r8188eu: rename camelcase GetFragNum to get_frag_num
-Date: Mon,  3 Jan 2022 20:02:10 +0100
-Message-Id: <20220103190326.363960-36-alb3rt0.m3rciai@gmail.com>
+Subject: [PATCH 36/56] staging: r8188eu: remove dead macro GetTupleCache
+Date: Mon,  3 Jan 2022 20:02:11 +0100
+Message-Id: <20220103190326.363960-37-alb3rt0.m3rciai@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
 References: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
@@ -69,40 +67,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename camel case macro GetFragNum to get_frag_num
+Remove dead macro GetTupleCache.
 
 Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 2 +-
- drivers/staging/r8188eu/include/wifi.h  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/r8188eu/include/wifi.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 6224e4631bf9..8bda34f87849 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -1105,7 +1105,7 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 
- 	pattrib->to_fr_ds = get_tofr_ds(ptr);
- 
--	pattrib->frag_num = GetFragNum(ptr);
-+	pattrib->frag_num = get_frag_num(ptr);
- 	pattrib->seq_num = get_sequence(ptr);
- 
- 	pattrib->pw_save = get_pwr_mgt(ptr);
 diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index 1b2545cba279..ec9fe081dbb4 100644
+index ec9fe081dbb4..652a31da0556 100644
 --- a/drivers/staging/r8188eu/include/wifi.h
 +++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -220,7 +220,7 @@ enum WIFI_REG_DOMAIN {
- #define get_sequence(pbuf)			\
- 	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 22)) >> 4)
- 
--#define GetFragNum(pbuf)			\
-+#define get_frag_num(pbuf)			\
+@@ -223,9 +223,6 @@ enum WIFI_REG_DOMAIN {
+ #define get_frag_num(pbuf)			\
  	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 22)) & 0x0f)
  
- #define GetTupleCache(pbuf)			\
+-#define GetTupleCache(pbuf)			\
+-	(cpu_to_le16(*(unsigned short *)((size_t)(pbuf) + 22)))
+-
+ #define SetFragNum(pbuf, num) \
+ 	do {    \
+ 		*(unsigned short *)((size_t)(pbuf) + 22) = \
 -- 
 2.25.1
 
