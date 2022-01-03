@@ -1,41 +1,41 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A778173
-	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:50:32 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id n30so27665676eda.13
-        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:50:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFEF2C9D
+	for <linux-staging@lists.linux.dev>; Mon,  3 Jan 2022 19:51:28 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id n30so27674380eda.13
+        for <linux-staging@lists.linux.dev>; Mon, 03 Jan 2022 11:51:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=EBCtfraAmRgogN+TWk2b+fgrpyt6FHhijN3lm5IyMGo=;
-        b=JzwE8OC+fCMIVb3rBIi/xQH4TYFNbUi8v0d5H78d7WUSWqRTtbrdU22axLUwCTVngR
-         wMmjtxQyRYDHHMf/iLecPAjUm/O2L8wQznXROEYsC2dPSGLP8TvHqBhAJf4d1w01GFyM
-         nclmr4Mb4B1GFDWTasgqPNbf8UO35b9NlW9IStmOinMIipN5BgJ+/wn2NxH5R7wtluFX
-         tKEuEGwppVgVgZABG9XBjq9YJA1ygWDMZFupnIWxaUJKFKJEhScmJ7gZTZSsQFtVrr0/
-         Bcj/Jc6djvExOAg50xTEujsALlX3jS5pOfiL5Emu+L5dfN4BEsGLi1dL3/5yWA5QL7uU
-         52AA==
+        bh=k4MP9cdcpwJv4AnIhTdvzZ5UofI+2H5vG44bmxBYiF4=;
+        b=e10pV/xyhikyTMrLwOXfOTvNB7+9lfRl50lbv5taXuIvG27gNI9Ry24SaiQeWmfOb+
+         NH3piNXxKYrxj03YsI9y7ZE/ql9ro/ULC1d6h2GaqBkILq8v3AdiRfVMVGXNWfOkG0Ak
+         EXjosndDOchJD185VyhkV6iY0hAlyUZbbwBYer8sYJRDOQXufIHSwnxBfQaZ7BuC1OJA
+         C6U1f2MjlKEuil7BrDZtF1Y0z1cLjl3A84eK6QZcDEbE/zUD8ewnpdyVJ4GHtaCdsY+J
+         5tUN0ZJLm+89TdrYQJ09k1E8we2JlwAKlArBaGoGE9ARpiWKUYkpPkHz7E5EbX6+0N8S
+         o6tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EBCtfraAmRgogN+TWk2b+fgrpyt6FHhijN3lm5IyMGo=;
-        b=6LtuPijD+x/XOpga76x2ZvmJ93CTbBWkNbn+9rCSmWy8iRI3m9QDYgOWnkatXynEL8
-         BrgwyrfIWuovtGb3gKXKJxayU23QTzsDuxJ5RLbTXjaz5yTPUbIIn3uVY0mgdjRNcz2G
-         s5HdcJHt2jZYp5Pdh074uHmoo9p4Rbf7RK9VWhSlQ8dCQabg59EbLoxjHMXUbOa+54X3
-         U9GM4RmY6KTctlwongODuogZF8U88N1JJScm20YnQrvC+DcHuu2AXtR0el26O+OCqYJB
-         /vo7bM0XoBFlzfY7RTBHnF5JdgDrqy66evN8mNk3Z/Xo+GBb37pjWhNgQyDCMqGMD/07
-         4tdQ==
-X-Gm-Message-State: AOAM533YZ52DCug+mb3V7vb/k8EJXHFA0vTDgBrSt8zIcHfKHE0nD9sO
-	loRxLAIYp94VazM+Pu1i0Mo=
-X-Google-Smtp-Source: ABdhPJxXdT44TSAg1vs0//faejxwIDsltTZMMfc0YXca1vWx4ZXdQGUkDuvnESkhyU7BNbNDLLpzfQ==
-X-Received: by 2002:aa7:cb09:: with SMTP id s9mr6730576edt.379.1641239430745;
-        Mon, 03 Jan 2022 11:50:30 -0800 (PST)
+        bh=k4MP9cdcpwJv4AnIhTdvzZ5UofI+2H5vG44bmxBYiF4=;
+        b=KjiuaEzVBvKbu6cxoF4evzoeQgx9d2nJAzRByRvE3MAH3qxegM7wCvd3taOwhpx2cz
+         EmmpByqD8WvqJztmwXxru2vTjm6hUWh27NKzUpYK8TScBsgDTmHEXQFBDZXr2UagpGZA
+         /pa93lkgIALxUteWjYo4knIj/Wc1BeltyvnWxkzK9Y2oE0cqRAKen6l68KmnBLY1ui5f
+         SBPDLteAeKgC98Jjl/5rDRtyCdh9wz17PgMlou2YKiTtXw6IqSiEWBxqe4rW5nBq668r
+         zR0YpwR0GuorKWL2AyD0uaGsKDDMyXqs+W59LhkeG18DVxaXLbYJT0+RwytPoSfEU8SK
+         SZUg==
+X-Gm-Message-State: AOAM533iFVsbOvKrKiUnmCvBff2PtTUAG1I333JuMSRHCGgkfbBGEMhv
+	KKYSLhyecATXfWmExyw+xA8=
+X-Google-Smtp-Source: ABdhPJzeJr5tl2OWAo42OxvC44dV2qIAJ9G22xYVXm6CIt4ibrPv0HYcPid50ae20FEazLx48fX8aA==
+X-Received: by 2002:a17:906:2802:: with SMTP id r2mr38768004ejc.172.1641239486689;
+        Mon, 03 Jan 2022 11:51:26 -0800 (PST)
 Received: from t470p.fritz.box (host-87-18-201-21.retail.telecomitalia.it. [87.18.201.21])
-        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.50.29
+        by smtp.gmail.com with ESMTPSA id gt20sm7009614ejc.11.2022.01.03.11.51.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 11:50:30 -0800 (PST)
+        Mon, 03 Jan 2022 11:51:26 -0800 (PST)
 From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 To: 
 Cc: alb3rt0.m3rciai@gmail.com,
@@ -46,6 +46,7 @@ Cc: alb3rt0.m3rciai@gmail.com,
 	Michael Straube <straube.linux@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>,
 	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Saurav Girepunje <saurav.girepunje@gmail.com>,
 	Ivan Safonov <insafonov@gmail.com>,
@@ -53,9 +54,9 @@ Cc: alb3rt0.m3rciai@gmail.com,
 	Zameer Manji <zmanji@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 48/56] staging: r8188eu: add parenthesis to macro set_ack_policy
-Date: Mon,  3 Jan 2022 20:02:23 +0100
-Message-Id: <20220103190326.363960-49-alb3rt0.m3rciai@gmail.com>
+Subject: [PATCH 49/56] staging: r8188eu: rename camelcase GetAckpolicy into get_ack_policy
+Date: Mon,  3 Jan 2022 20:02:24 +0100
+Message-Id: <20220103190326.363960-50-alb3rt0.m3rciai@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
 References: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
@@ -67,25 +68,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Enclose in parenthesis complex macro set_ack_policy
+Rename camel case macro GetAckpolicy into get_ack_policy.
 
 Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 ---
- drivers/staging/r8188eu/include/wifi.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/core/rtw_recv.c | 2 +-
+ drivers/staging/r8188eu/include/wifi.h  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index d187bb73f539..4aa295ad4a27 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -1036,7 +1036,7 @@ static int validate_recv_data_frame(struct adapter *adapter,
+ 	/* parsing QC field */
+ 	if (pattrib->qos == 1) {
+ 		pattrib->priority = get_priority((ptr + 24));
+-		pattrib->ack_policy = GetAckpolicy((ptr + 24));
++		pattrib->ack_policy = get_ack_policy((ptr + 24));
+ 		pattrib->amsdu = GetAMsdu((ptr + 24));
+ 		pattrib->hdrlen = pattrib->to_fr_ds == 3 ? 32 : 26;
+ 
 diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index 75b54ab0fe9c..584161c9b5c5 100644
+index 584161c9b5c5..2de7addd1fbf 100644
 --- a/drivers/staging/r8188eu/include/wifi.h
 +++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -242,7 +242,7 @@ enum WIFI_REG_DOMAIN {
- 		(*(__le16 *)(pbuf) |= cpu_to_le16((eosp & 1) << 4))
- 
+@@ -244,7 +244,7 @@ enum WIFI_REG_DOMAIN {
  #define set_ack_policy(pbuf, ack)	\
--	*(__le16 *)(pbuf) |= cpu_to_le16((ack & 3) << 5)
-+	(*(__le16 *)(pbuf) |= cpu_to_le16((ack & 3) << 5))
+ 	(*(__le16 *)(pbuf) |= cpu_to_le16((ack & 3) << 5))
  
- #define GetAckpolicy(pbuf) (((le16_to_cpu(*(__le16 *)pbuf)) >> 5) & 0x3)
+-#define GetAckpolicy(pbuf) (((le16_to_cpu(*(__le16 *)pbuf)) >> 5) & 0x3)
++#define get_ack_policy(pbuf) (((le16_to_cpu(*(__le16 *)pbuf)) >> 5) & 0x3)
+ 
+ #define GetAMsdu(pbuf) (((le16_to_cpu(*(__le16 *)pbuf)) >> 7) & 0x1)
  
 -- 
 2.25.1
