@@ -1,72 +1,108 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0FF168
-	for <linux-staging@lists.linux.dev>; Tue,  4 Jan 2022 20:51:11 +0000 (UTC)
-Received: from dslb-084-059-253-200.084.059.pools.vodafone-ip.de ([84.59.253.200] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <postmaster@kaiser.cx>)
-	id 1n4qlp-0001Au-6E; Tue, 04 Jan 2022 21:51:01 +0100
-Received: from martin by martin-debian-2.paytec.ch with local (Exim 4.94.2)
-	(envelope-from <martin@martin-debian-2.paytec.ch>)
-	id 1n4qlo-000cOR-Hx; Tue, 04 Jan 2022 21:51:00 +0100
-Date: Tue, 4 Jan 2022 21:51:00 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] staging: r8188eu: turbo scan is always off for
- r8188eu
-Message-ID: <YdSzNFZ+DXX6gemR@martin-debian-1.paytec.ch>
-References: <20220102175932.89127-1-martin@kaiser.cx>
- <20220102175932.89127-6-martin@kaiser.cx>
- <6d33d346-b797-aeb3-8b1b-64332e05fb87@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972D8168
+	for <linux-staging@lists.linux.dev>; Tue,  4 Jan 2022 20:52:56 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id i11so50127043ljm.13
+        for <linux-staging@lists.linux.dev>; Tue, 04 Jan 2022 12:52:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=hQXt2kCpfG17wQ1j0L2RQe+/2vBRsqY/bfs0/xljrmk=;
+        b=Sl6kYQCb3QpKqVRvV+KqRiCE6mav78rEOgyuwrXmG0oiUQKGAudDcsSOVFG172QqKl
+         lsyMpFUhe750++f0TIjr8WLhKNIwA55tclWp1quOopzdmbV1mZ9mFZaXiIGJaBooFt84
+         YfT+wTiBvMjjxhs5SCX1VFbTct2ID3Jzhkd1PwGwGZ9S9fC2Bo+/QROM6dQClKSs1lW0
+         JGTsphOv1SZWSXCADf5NrWYYv+n8rJ3IpDbvvXCmgNdg10ixNAwAXZww7Clw1D5/KS20
+         Yt/ogRKlgnah9D/cpkkGxp9/ClIXSAFnsbdNiWoBBObKBHndH1kDZBovDxtrNcR+WIW7
+         dz4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=hQXt2kCpfG17wQ1j0L2RQe+/2vBRsqY/bfs0/xljrmk=;
+        b=SBBgxkewJX8CLhjLytIVfW7/4wIC1BRRoV1HrtCzPe0Vzlg5WZYawrfrvOnKN/7I1V
+         wIDamQ7ehcaYjVEjjWSGOZYrwyRGQKu/qbAefZe6VxHaGZ6d64hvYRm86+49ewEOXRPw
+         gcx59PhnQloBII913xX53nYQPN69Am1O2QGfUfgFG2scE5f1ZOYhf430aTQ0ikP0G7fc
+         An5X3/7gWYfL/DLwNSJsqkahwdZ15RoHuO3iY0CJ9BCNND1b6LzYt1bxuxMlSabjyDOp
+         q+GUF00TJ9OWEDhqE6y4RCnyFCrvyVOtXab5lv+faA0MFb4Oh3CSHEc7XYDpH2/ZvEKr
+         WlTg==
+X-Gm-Message-State: AOAM531zBOjq7EyPfUqc8gF8NbzwBEV2pbaRsqh+F4H48ULUCiqIjqYH
+	OqLUj6c58r6Kqsi10HQd2K0=
+X-Google-Smtp-Source: ABdhPJyQK7kBxykRgNtvFA6LuKt3Snmy/xF5WKSxPxjbxF5RTO+yMs1pT9KzaOvYRnmX1y1aOn55UQ==
+X-Received: by 2002:a05:651c:10a6:: with SMTP id k6mr40926577ljn.194.1641329574663;
+        Tue, 04 Jan 2022 12:52:54 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.235.38])
+        by smtp.gmail.com with ESMTPSA id c4sm4015245lfm.160.2022.01.04.12.52.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jan 2022 12:52:54 -0800 (PST)
+Message-ID: <f93b7f73-ce0f-2f95-d775-5d644c05ca21@gmail.com>
+Date: Tue, 4 Jan 2022 23:52:53 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6d33d346-b797-aeb3-8b1b-64332e05fb87@gmail.com>
-Sender: "Martin Kaiser,,," <martin@martin-debian-2.paytec.ch>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH 5/5] staging: r8188eu: turbo scan is always off for
+ r8188eu
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220102175932.89127-1-martin@kaiser.cx>
+ <20220102175932.89127-6-martin@kaiser.cx>
+ <6d33d346-b797-aeb3-8b1b-64332e05fb87@gmail.com>
+ <YdSzNFZ+DXX6gemR@martin-debian-1.paytec.ch>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <YdSzNFZ+DXX6gemR@martin-debian-1.paytec.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Pavel,
+On 1/4/22 23:51, Martin Kaiser wrote:
+> Hi Pavel,
+> 
+> Thus wrote Pavel Skripkin (paskripkin@gmail.com):
+> 
+>> It's a bit unrelated to the patch, but I found it while reviewing this. It's
+>> in the same function rtl8188e_PHY_RF6052SetCckTxPower():
+> 
+>> 89: 	u32 TxAGC[2] = {0, 0};
+>> ...
+>> 92	u8 *ptr;
+>> ...
+>> 129	for (idx1 = RF_PATH_A; idx1 <= RF_PATH_B; idx1++) {
+>> 130		ptr = (u8 *)(&TxAGC[idx1]);
+>> 131		for (idx2 = 0; idx2 < 4; idx2++) {
+>> 132			if (*ptr > RF6052_MAX_TX_PWR)
+>> 133				*ptr = RF6052_MAX_TX_PWR;
+>> 134			ptr++;
+>> 135		}
+>> 136	}
+> 
+> 
+>> What is going on here? Code just checks and writes to random place on stack
+>> outside TxAGC array? I might be missing something, but it looks wrong...
+> 
+> TxAGC is two 32-bit values, i.e. 2 x 4 Bytes. The outer loop selects a
+> 32-bit array entry, the inner loop iterates over each byte of this entry
+> and checks that it is <= RF6052_MAX_TX_PWR. I don't think this writes past
+> the end of the TxAGC[] array.
+> 
 
-Thus wrote Pavel Skripkin (paskripkin@gmail.com):
+Oh.... I should have go to sleep earlier that evening, sorry. I've 
+missed, that this array is u32, but not u8.
 
-> It's a bit unrelated to the patch, but I found it while reviewing this. It's
-> in the same function rtl8188e_PHY_RF6052SetCckTxPower():
-
-> 89: 	u32 TxAGC[2] = {0, 0};
-> ...
-> 92	u8 *ptr;
-> ...
-> 129	for (idx1 = RF_PATH_A; idx1 <= RF_PATH_B; idx1++) {
-> 130		ptr = (u8 *)(&TxAGC[idx1]);
-> 131		for (idx2 = 0; idx2 < 4; idx2++) {
-> 132			if (*ptr > RF6052_MAX_TX_PWR)
-> 133				*ptr = RF6052_MAX_TX_PWR;
-> 134			ptr++;
-> 135		}
-> 136	}
+Sorry for that noise :(
 
 
-> What is going on here? Code just checks and writes to random place on stack
-> outside TxAGC array? I might be missing something, but it looks wrong...
 
-TxAGC is two 32-bit values, i.e. 2 x 4 Bytes. The outer loop selects a
-32-bit array entry, the inner loop iterates over each byte of this entry
-and checks that it is <= RF6052_MAX_TX_PWR. I don't think this writes past
-the end of the TxAGC[] array.
 
-The rtlwifi driver contains a similar check in
-rtl92ce_phy_rf6052_set_cck_txpower().
-
-Best regards,
-Martin
+With regards,
+Pavel Skripkin
