@@ -1,280 +1,146 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920DB2C80
-	for <linux-staging@lists.linux.dev>; Tue,  4 Jan 2022 16:52:43 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id n30so38709032eda.13
-        for <linux-staging@lists.linux.dev>; Tue, 04 Jan 2022 08:52:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B7A168
+	for <linux-staging@lists.linux.dev>; Tue,  4 Jan 2022 20:46:34 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id q3so35532578qvc.7
+        for <linux-staging@lists.linux.dev>; Tue, 04 Jan 2022 12:46:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=u6V6IrU9rSb+SxqUTIO/OsWV01QIdgCFVuaG2NS96qM=;
-        b=RutrI7e4da2CiNLlCqwJ6/sLlNi/nmMfe7o/GUDfYEx2HCIJVAvgC8AH1jFInFJmsn
-         /mY+INuPnh07PJ5rxKvs4ba53kDJCExGvpcOjRVaUc58oeMjztsnxQxWo72FOfrM88c8
-         mfamE1eKDwJUXM0Nx1bdEnhug3M8N5HKuWZIdd7jIwZgF4YdlNbJnb8UMker1dMX9BWU
-         v9zVzklVtxmp1edHx2Wdrww3yRkOqMXD18WKa3qTh2PaLqmhJKMqzYZlGvM6H7PCFf4r
-         z3C/KrqTGC35KTuLARGzVXxhBJfekb6Sd0nByc9WLGUnQrerh5wawIsAt1FOSRRaRV5H
-         Shvg==
+        d=ieee.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=TWapPhsHYw3VtBoPQgmWd2yPfeI/3LTqvIBr/d8b8MA=;
+        b=eUsY5bx0KaZNUWF69TH1bVVX0ClCrXV/8+zehGbpDu27aJz407/M4e2Y4oO8MIOE7C
+         0IhQsaYyjYbs0Vkmg1EzpHEN3GCcHdTH0+zL0xg6fOm0sM2ZQf3IdvNYXu809V4ZyVM0
+         UgKS4CzdHOCLvOPYyVY3+Z4hNGkHA28eSa8AI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=u6V6IrU9rSb+SxqUTIO/OsWV01QIdgCFVuaG2NS96qM=;
-        b=c2FbV4ofoMOgvLEZshthazHpkfFHqV1B9O8/ak+saa1yop3yHlr82PUzwCCe0QmlMP
-         qrbYmRkX6FVmLIA1CA2GFYQh66xkcfB78vcQgYlRkveJCKZ0RILLxads9z+U6w9yeoFh
-         MUXOO0w9xwYuDvdsAa3x/MH6MpWF5V+oour0h4mzkqrrm/IMPVKddkOU/mZit81DnKfV
-         ynK+6JxaflCu4KcfHm7D1zEKvYIRAuERDkUMoOpFty3kKL/2zuCqz1ML+FLRDJuedKm5
-         x11Fmbo9I2GBJRS8ohT903RBQ9hR0M+TT2aePnYhTIyvUU3oh3cgNu+xaQ4+CvOB/KdX
-         Kcxw==
-X-Gm-Message-State: AOAM531TsLoTHBhvxt4DgTh5zAWrc9tfZR3L7tnr6GemtXAZxRSCVeA0
-	M9pDF3maF/H01G+8vXfpNj0=
-X-Google-Smtp-Source: ABdhPJwQXyF2aVNJGOFmtwM7j4vIDFsS7PwXKDrRA/8jJFNYpAQlmyCWPCx+f/tNbCPEGyBPkmMcVw==
-X-Received: by 2002:a05:6402:35c2:: with SMTP id z2mr50619873edc.43.1641315161905;
-        Tue, 04 Jan 2022 08:52:41 -0800 (PST)
-Received: from t470p.fritz.box (host-79-36-120-235.retail.telecomitalia.it. [79.36.120.235])
-        by smtp.gmail.com with ESMTPSA id w16sm3703881edc.24.2022.01.04.08.52.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jan 2022 08:52:41 -0800 (PST)
-From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
-To: 
-Cc: alb3rt0.m3rciai@gmail.com,
-	linuxfancy@googlegroups.com,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	Martin Kaiser <martin@kaiser.cx>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: rename camelcase variable peerMAC to peer_mac
-Date: Tue,  4 Jan 2022 17:52:32 +0100
-Message-Id: <20220104165236.462551-1-alb3rt0.m3rciai@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=TWapPhsHYw3VtBoPQgmWd2yPfeI/3LTqvIBr/d8b8MA=;
+        b=Pr3kbg5kFcZuRXOg3pFZDSQ3GsC9B1Z7gGnANWSjqlVxRP1t9BftlkzjtXvhCGdc4E
+         9i13qdemIDZdMUC3tpS+l7aQxsmBFa2+yIoHZUtTd3J5W3iTocYrPk5bfLvbCa5C5rni
+         lyR/C1dQ1dBHJNCEwffrgFovEe1JW/x2pnjM586kcKcnyw7ehtz120z2XqZbu1PYJ4PG
+         wKAhiJnzhakjOL5GLZ++pRa0wAk9YEHue4bmC+OdGuje803VvH3V5Zp0EWU/2AyfjOZK
+         BcM5uOek88Kq4v8RM9P/o08jykR/nftq+Y+imHtsE36qneKUIJJMWbM2r7pNm/i80ZMG
+         YBzw==
+X-Gm-Message-State: AOAM533LWigZZO7p2YWGHpjEiXPHu+87MK0u3E5oomVerls6+tWWVVO5
+	kOhjD/PZKME5gckSOfRbEiX1DQ==
+X-Google-Smtp-Source: ABdhPJyo5ioGOfzcQV1Z4+h5S/0pv/JabmELhbJt3jcNITsDgK8amivYK96uZOZM8l8bApMp2O6nqg==
+X-Received: by 2002:a05:6214:c4f:: with SMTP id r15mr47994044qvj.22.1641329193040;
+        Tue, 04 Jan 2022 12:46:33 -0800 (PST)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id bi9sm31266556qkb.60.2022.01.04.12.46.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jan 2022 12:46:32 -0800 (PST)
+Message-ID: <c78c7f1f-40bc-1d3a-744f-199a613c4af1@ieee.org>
+Date: Tue, 4 Jan 2022 14:46:31 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH v3] staging: greybus: audio: Check null pointer
+Content-Language: en-US
+To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, vaibhav.sr@gmail.com,
+ mgreer@animalcreek.com, johan@kernel.org, elder@kernel.org,
+ gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220104150628.1987906-1-jiasheng@iscas.ac.cn>
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20220104150628.1987906-1-jiasheng@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Rename camelcase variable peerMAC to peer_mac.
+On 1/4/22 9:06 AM, Jiasheng Jiang wrote:
+> As the possible alloc failure of devm_kcalloc(), it could return null
+> pointer.
+> Therefore, 'strings' should be checked and return NULL if alloc fails to
+> prevent the dereference of the NULL pointer.
+> Also, the caller should also deal with the return value of the
+> gb_generate_enum_strings() and return -ENOMEM if returns NULL.
+> Moreover, because the memory allocated with devm_kzalloc() will be
+> freed automatically when the last reference to the device is dropped,
+> the 'gbe' in gbaudio_tplg_create_enum_kctl() and
+> gbaudio_tplg_create_enum_ctl() do not need to free manually.
+> But the 'control' in gbaudio_tplg_create_widget() and
+> gbaudio_tplg_process_kcontrols() has a specially error handle to
+> cleanup.
+> So it should be better to cleanup 'control' when fails.
+> 
+> Fixes: e65579e335da ("greybus: audio: topology: Enable enumerated control support")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 
-Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 46 ++++++++++----------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+This looks good to me.  Thanks for fixing things.
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 67a8af79508f..54d8357d668a 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -2622,7 +2622,7 @@ static int rtw_p2p_get_wps_configmethod(struct net_device *dev,
- {
- 	int ret = 0;
- 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
--	u8 peerMAC[ETH_ALEN] = {0x00};
-+	u8 peer_mac[ETH_ALEN] = {0x00};
- 	int jj, kk;
- 	u8 peerMACStr[17] = {0x00};
- 	struct mlme_priv		*pmlmepriv = &padapter->mlmepriv;
-@@ -2645,7 +2645,7 @@ static int rtw_p2p_get_wps_configmethod(struct net_device *dev,
- 		return -EFAULT;
- 
- 	for (jj = 0, kk = 0; jj < ETH_ALEN; jj++, kk += 3)
--		peerMAC[jj] = key_2char2num(peerMACStr[kk], peerMACStr[kk + 1]);
-+		peer_mac[jj] = key_2char2num(peerMACStr[kk], peerMACStr[kk + 1]);
- 
- 	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 
-@@ -2654,7 +2654,7 @@ static int rtw_p2p_get_wps_configmethod(struct net_device *dev,
- 
- 	while (phead != plist) {
- 		pnetwork = container_of(plist, struct wlan_network, list);
--		if (!memcmp(pnetwork->network.MacAddress, peerMAC, ETH_ALEN)) {
-+		if (!memcmp(pnetwork->network.MacAddress, peer_mac, ETH_ALEN)) {
- 			u8 *wpsie;
- 			uint wpsie_len = 0;
- 			__be16 be_tmp;
-@@ -2690,7 +2690,7 @@ static int rtw_p2p_get_go_device_address(struct net_device *dev,
- {
- 	int ret = 0;
- 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
--	u8 peerMAC[ETH_ALEN] = {0x00};
-+	u8 peer_mac[ETH_ALEN] = {0x00};
- 	int jj, kk;
- 	u8 peerMACStr[17] = {0x00};
- 	struct mlme_priv		*pmlmepriv = &padapter->mlmepriv;
-@@ -2714,7 +2714,7 @@ static int rtw_p2p_get_go_device_address(struct net_device *dev,
- 		return -EFAULT;
- 
- 	for (jj = 0, kk = 0; jj < ETH_ALEN; jj++, kk += 3)
--		peerMAC[jj] = key_2char2num(peerMACStr[kk], peerMACStr[kk + 1]);
-+		peer_mac[jj] = key_2char2num(peerMACStr[kk], peerMACStr[kk + 1]);
- 
- 	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 
-@@ -2723,7 +2723,7 @@ static int rtw_p2p_get_go_device_address(struct net_device *dev,
- 
- 	while (phead != plist) {
- 		pnetwork = container_of(plist, struct wlan_network, list);
--		if (!memcmp(pnetwork->network.MacAddress, peerMAC, ETH_ALEN)) {
-+		if (!memcmp(pnetwork->network.MacAddress, peer_mac, ETH_ALEN)) {
- 			/*	Commented by Albert 2011/05/18 */
- 			/*	Match the device address located in the P2P IE */
- 			/*	This is for the case that the P2P device address is not the same as the P2P interface address. */
-@@ -2773,7 +2773,7 @@ static int rtw_p2p_get_device_type(struct net_device *dev,
- {
- 	int ret = 0;
- 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
--	u8 peerMAC[ETH_ALEN] = {0x00};
-+	u8 peer_mac[ETH_ALEN] = {0x00};
- 	int jj, kk;
- 	u8 peerMACStr[17] = {0x00};
- 	struct mlme_priv		*pmlmepriv = &padapter->mlmepriv;
-@@ -2795,7 +2795,7 @@ static int rtw_p2p_get_device_type(struct net_device *dev,
- 		return -EFAULT;
- 
- 	for (jj = 0, kk = 0; jj < ETH_ALEN; jj++, kk += 3)
--		peerMAC[jj] = key_2char2num(peerMACStr[kk], peerMACStr[kk + 1]);
-+		peer_mac[jj] = key_2char2num(peerMACStr[kk], peerMACStr[kk + 1]);
- 
- 	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 
-@@ -2804,7 +2804,7 @@ static int rtw_p2p_get_device_type(struct net_device *dev,
- 
- 	while (phead != plist) {
- 		pnetwork = container_of(plist, struct wlan_network, list);
--		if (!memcmp(pnetwork->network.MacAddress, peerMAC, ETH_ALEN)) {
-+		if (!memcmp(pnetwork->network.MacAddress, peer_mac, ETH_ALEN)) {
- 			u8 *wpsie;
- 			uint wpsie_len = 0;
- 
-@@ -2849,7 +2849,7 @@ static int rtw_p2p_get_device_name(struct net_device *dev,
- {
- 	int ret = 0;
- 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
--	u8 peerMAC[ETH_ALEN] = {0x00};
-+	u8 peer_mac[ETH_ALEN] = {0x00};
- 	int jj, kk;
- 	u8 peerMACStr[17] = {0x00};
- 	struct mlme_priv		*pmlmepriv = &padapter->mlmepriv;
-@@ -2871,7 +2871,7 @@ static int rtw_p2p_get_device_name(struct net_device *dev,
- 		return -EFAULT;
- 
- 	for (jj = 0, kk = 0; jj < ETH_ALEN; jj++, kk += 3)
--		peerMAC[jj] = key_2char2num(peerMACStr[kk], peerMACStr[kk + 1]);
-+		peer_mac[jj] = key_2char2num(peerMACStr[kk], peerMACStr[kk + 1]);
- 
- 	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 
-@@ -2880,7 +2880,7 @@ static int rtw_p2p_get_device_name(struct net_device *dev,
- 
- 	while (phead != plist) {
- 		pnetwork = container_of(plist, struct wlan_network, list);
--		if (!memcmp(pnetwork->network.MacAddress, peerMAC, ETH_ALEN)) {
-+		if (!memcmp(pnetwork->network.MacAddress, peer_mac, ETH_ALEN)) {
- 			u8 *wpsie;
- 			uint wpsie_len = 0;
- 
-@@ -2915,7 +2915,7 @@ static int rtw_p2p_get_invitation_procedure(struct net_device *dev,
- {
- 	int ret = 0;
- 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
--	u8 peerMAC[ETH_ALEN] = {0x00};
-+	u8 peer_mac[ETH_ALEN] = {0x00};
- 	int jj, kk;
- 	u8 peerMACStr[17] = {0x00};
- 	struct mlme_priv		*pmlmepriv = &padapter->mlmepriv;
-@@ -2939,7 +2939,7 @@ static int rtw_p2p_get_invitation_procedure(struct net_device *dev,
- 		return -EFAULT;
- 
- 	for (jj = 0, kk = 0; jj < ETH_ALEN; jj++, kk += 3)
--		peerMAC[jj] = key_2char2num(peerMACStr[kk], peerMACStr[kk + 1]);
-+		peer_mac[jj] = key_2char2num(peerMACStr[kk], peerMACStr[kk + 1]);
- 
- 	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 
-@@ -2948,7 +2948,7 @@ static int rtw_p2p_get_invitation_procedure(struct net_device *dev,
- 
- 	while (phead != plist) {
- 		pnetwork = container_of(plist, struct wlan_network, list);
--		if (!memcmp(pnetwork->network.MacAddress, peerMAC, ETH_ALEN)) {
-+		if (!memcmp(pnetwork->network.MacAddress, peer_mac, ETH_ALEN)) {
- 			/*	Commented by Albert 20121226 */
- 			/*	Match the device address located in the P2P IE */
- 			/*	This is for the case that the P2P device address is not the same as the P2P interface address. */
-@@ -2992,7 +2992,7 @@ static int rtw_p2p_connect(struct net_device *dev,
- 	int ret = 0;
- 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
- 	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
--	u8 peerMAC[ETH_ALEN] = {0x00};
-+	u8 peer_mac[ETH_ALEN] = {0x00};
- 	int jj, kk;
- 	struct mlme_priv		*pmlmepriv = &padapter->mlmepriv;
- 	struct list_head *plist, *phead;
-@@ -3018,7 +3018,7 @@ static int rtw_p2p_connect(struct net_device *dev,
- 		return -1;
- 
- 	for (jj = 0, kk = 0; jj < ETH_ALEN; jj++, kk += 3)
--		peerMAC[jj] = key_2char2num(extra[kk], extra[kk + 1]);
-+		peer_mac[jj] = key_2char2num(extra[kk], extra[kk + 1]);
- 
- 	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 
-@@ -3027,7 +3027,7 @@ static int rtw_p2p_connect(struct net_device *dev,
- 
- 	while (phead != plist) {
- 		pnetwork = container_of(plist, struct wlan_network, list);
--		if (!memcmp(pnetwork->network.MacAddress, peerMAC, ETH_ALEN)) {
-+		if (!memcmp(pnetwork->network.MacAddress, peer_mac, ETH_ALEN)) {
- 			uintPeerChannel = pnetwork->network.Configuration.DSConfig;
- 			break;
- 		}
-@@ -3209,7 +3209,7 @@ static int rtw_p2p_prov_disc(struct net_device *dev,
- 	int ret = 0;
- 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
- 	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
--	u8 peerMAC[ETH_ALEN] = {0x00};
-+	u8 peer_mac[ETH_ALEN] = {0x00};
- 	int jj, kk;
- 	struct mlme_priv		*pmlmepriv = &padapter->mlmepriv;
- 	struct list_head *plist, *phead;
-@@ -3244,7 +3244,7 @@ static int rtw_p2p_prov_disc(struct net_device *dev,
- 	}
- 
- 	for (jj = 0, kk = 0; jj < ETH_ALEN; jj++, kk += 3)
--		peerMAC[jj] = key_2char2num(extra[kk], extra[kk + 1]);
-+		peer_mac[jj] = key_2char2num(extra[kk], extra[kk + 1]);
- 
- 	if (!memcmp(&extra[18], "display", 7)) {
- 		pwdinfo->tx_prov_disc_info.wps_config_method_request = WPS_CM_DISPLYA;
-@@ -3282,13 +3282,13 @@ static int rtw_p2p_prov_disc(struct net_device *dev,
- 
- 				if (rtw_get_p2p_attr_content(p2pie, p2pielen, P2P_ATTR_DEVICE_ID, attr_content, &attr_contentlen)) {
- 					/*	Handle the P2P Device ID attribute of Beacon first */
--					if (!memcmp(attr_content, peerMAC, ETH_ALEN)) {
-+					if (!memcmp(attr_content, peer_mac, ETH_ALEN)) {
- 						uintPeerChannel = pnetwork->network.Configuration.DSConfig;
- 						break;
- 					}
- 				} else if (rtw_get_p2p_attr_content(p2pie, p2pielen, P2P_ATTR_DEVICE_INFO, attr_content, &attr_contentlen)) {
- 					/*	Handle the P2P Device Info attribute of probe response */
--					if (!memcmp(attr_content, peerMAC, ETH_ALEN)) {
-+					if (!memcmp(attr_content, peer_mac, ETH_ALEN)) {
- 						uintPeerChannel = pnetwork->network.Configuration.DSConfig;
- 						break;
- 					}
-@@ -3307,7 +3307,7 @@ static int rtw_p2p_prov_disc(struct net_device *dev,
- 	if (uintPeerChannel) {
- 		DBG_88E("[%s] peer channel: %d!\n", __func__, uintPeerChannel);
- 		memcpy(pwdinfo->tx_prov_disc_info.peerIFAddr, pnetwork->network.MacAddress, ETH_ALEN);
--		memcpy(pwdinfo->tx_prov_disc_info.peerDevAddr, peerMAC, ETH_ALEN);
-+		memcpy(pwdinfo->tx_prov_disc_info.peerDevAddr, peer_mac, ETH_ALEN);
- 		pwdinfo->tx_prov_disc_info.peer_channel_num[0] = (u16)uintPeerChannel;
- 		pwdinfo->tx_prov_disc_info.benable = true;
- 		rtw_p2p_set_pre_state(pwdinfo, rtw_p2p_state(pwdinfo));
--- 
-2.25.1
+Reviewed-by: Alex Elder <elder@linaro.org>
+
+> ---
+> v3: Same code as v2, but remove the redundant message as requested.
+> v2: Updated to use common error processing at the end of both
+> gbaudio_tplg_create_widget() and gbaudio_tplg_process_kcontrols().
+> ---
+>   drivers/staging/greybus/audio_topology.c | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
+> 
+> diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+> index 1fc7727ab7be..6bba735d2e5c 100644
+> --- a/drivers/staging/greybus/audio_topology.c
+> +++ b/drivers/staging/greybus/audio_topology.c
+> @@ -147,6 +147,9 @@ static const char **gb_generate_enum_strings(struct gbaudio_module_info *gb,
+>   
+>   	items = le32_to_cpu(gbenum->items);
+>   	strings = devm_kcalloc(gb->dev, items, sizeof(char *), GFP_KERNEL);
+> +	if (!strings)
+> +		return NULL;
+> +
+>   	data = gbenum->names;
+>   
+>   	for (i = 0; i < items; i++) {
+> @@ -655,6 +658,8 @@ static int gbaudio_tplg_create_enum_kctl(struct gbaudio_module_info *gb,
+>   	/* since count=1, and reg is dummy */
+>   	gbe->items = le32_to_cpu(gb_enum->items);
+>   	gbe->texts = gb_generate_enum_strings(gb, gb_enum);
+> +	if (!gbe->texts)
+> +		return -ENOMEM;
+>   
+>   	/* debug enum info */
+>   	dev_dbg(gb->dev, "Max:%d, name_length:%d\n", gbe->items,
+> @@ -862,6 +867,8 @@ static int gbaudio_tplg_create_enum_ctl(struct gbaudio_module_info *gb,
+>   	/* since count=1, and reg is dummy */
+>   	gbe->items = le32_to_cpu(gb_enum->items);
+>   	gbe->texts = gb_generate_enum_strings(gb, gb_enum);
+> +	if (!gbe->texts)
+> +		return -ENOMEM;
+>   
+>   	/* debug enum info */
+>   	dev_dbg(gb->dev, "Max:%d, name_length:%d\n", gbe->items,
+> @@ -1034,6 +1041,10 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+>   			csize += le16_to_cpu(gbenum->names_length);
+>   			control->texts = (const char * const *)
+>   				gb_generate_enum_strings(module, gbenum);
+> +			if (!control->texts) {
+> +				ret = -ENOMEM;
+> +				goto error;
+> +			}
+>   			control->items = le32_to_cpu(gbenum->items);
+>   		} else {
+>   			csize = sizeof(struct gb_audio_control);
+> @@ -1183,6 +1194,10 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
+>   			csize += le16_to_cpu(gbenum->names_length);
+>   			control->texts = (const char * const *)
+>   				gb_generate_enum_strings(module, gbenum);
+> +			if (!control->texts) {
+> +				ret = -ENOMEM;
+> +				goto error;
+> +			}
+>   			control->items = le32_to_cpu(gbenum->items);
+>   		} else {
+>   			csize = sizeof(struct gb_audio_control);
+> 
 
