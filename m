@@ -1,24 +1,24 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1EED2CA1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1EBD2C9C
 	for <linux-staging@lists.linux.dev>; Tue,  4 Jan 2022 07:48:25 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:d353:5de8:6c9d:602a])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6614F1F4138F;
-	Tue,  4 Jan 2022 07:38:51 +0000 (GMT)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6CD281F41F70;
+	Tue,  4 Jan 2022 07:38:52 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1641281931;
-	bh=HocsvGOuLezQKsuF/xYuc+qqHeGMMKBZYDtcezq1e9Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=XFDWOFExLpN8umM/K0Gci/w8z2/Cyj8zEQWJnfFS6Y4ZQPlNww70vqmss4D0kjU6w
-	 oONmgrk1javAQzhJy0Wsc5FDVRpOottHgDXHFDoOHb4cPYamCGueEczFYZ3zTo5DsN
-	 SPhQNvXRKQlFHlDCc++BzakMOmna9XlaAdAIzuL4KQ7fT/PAZWm4kHJDC0Y2zPVkGb
-	 JE2Im/UizsXoDwUyKPSAyNZrJAPnuszadJiaPep6fEVbjkQQCinSQ2FFBINo5YEbgy
-	 zRR6nLTiw79JBrHQcMLt74IZMoTEFVmlwPWqopadVK0xJf3LczNQh+Y49m1snt3i7b
-	 syE9mmlmCoecQ==
+	s=mail; t=1641281932;
+	bh=SAi1ztXP7xeJzkfvtdO9T3ZNImLIw7Mi5FVGPlgxY34=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ModcKljVmIsvVo2rGzp9vzjPiziRX7eN5+UF5OFmeXChLVWlMvH9c5NerZvmTpX1o
+	 DpfiejHMRJBGDfxkpZpkqnW8Idv/B7unQgJjxOyxXamGcYAr83ZVFPfr7ghUMGKR+K
+	 FarLORhy0yeT4QJWsK7hXCLaYDXicKR5m6MyZSDDVqgovWWg4JABibNOUhFgsPVikA
+	 NWlwJRxFXT3VD/7iPB3Nn4rAqghiN/PWZTey4YxVKzQZSfb2v/a4rCG1FYzcUNoX6+
+	 zrElabH2EbYalM9SyOJgaa6Tt8bWUz0190QqTDFJ4KY9yA1FL/5H3tDS7FiHWZO6k6
+	 IhiRtSoctrSFw==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	ezequiel@vanguardiasur.com.ar,
@@ -33,10 +33,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v4 0/2] media: HEVC: RPS clean up
-Date: Tue,  4 Jan 2022 08:38:40 +0100
-Message-Id: <20220104073842.1791639-1-benjamin.gaignard@collabora.com>
+Subject: [PATCH v4 2/2] media: hevc: Embedded indexes in RPS
+Date: Tue,  4 Jan 2022 08:38:42 +0100
+Message-Id: <20220104073842.1791639-3-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220104073842.1791639-1-benjamin.gaignard@collabora.com>
+References: <20220104073842.1791639-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,41 +47,99 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series aims to clean up Reference Picture Set usage and flags.
+Reference Picture Set lists provide indexes of short and long term
+reference in DBP array.
+Fix Hantro to not do a look up in DBP entries.
+Make documentation more clear about it.
 
-Long term flag was named with RPS prefix while it is not used for RPS
-but for mark long term references in DBP. Remane it and remove the two
-other useless RPS flags.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ .../media/v4l/ext-ctrls-codec.rst             |  6 ++---
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 25 +++++--------------
+ 2 files changed, 9 insertions(+), 22 deletions(-)
 
-Clarify documentation about RPS lists content and make sure that Hantro
-driver use them correctly (i.e without look up in DBP).
-
-version 4:
-- check flags with & and not ==
-- remove the 2 last patches which becomes useless since VPU ctrl-blk
-  driver introduction.
-
-version 3:
-- rebased on top of v5.16-rc1
-
-version 2:
-- change DPB field name from rps to flags
-
-GStreamer HEVC plugin merge request can be found here:
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
-
-With those piece of code fluster score is 77/147.
-
-Benjamin Gaignard (2):
-  media: hevc: Remove RPS named flags
-  media: hevc: Embedded indexes in RPS
-
- .../media/v4l/ext-ctrls-codec.rst             | 14 +++++-----
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++++--------------
- .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
- include/media/hevc-ctrls.h                    |  6 ++---
- 4 files changed, 16 insertions(+), 33 deletions(-)
-
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index 38da33e61c3d..b12ad5b3eaba 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -3381,15 +3381,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+     * - __u8
+       - ``poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+       - PocStCurrBefore as described in section 8.3.2 "Decoding process for reference
+-        picture set.
++        picture set": provides the index of the short term before references in DPB array.
+     * - __u8
+       - ``poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+       - PocStCurrAfter as described in section 8.3.2 "Decoding process for reference
+-        picture set.
++        picture set": provides the index of the short term after references in DPB array.
+     * - __u8
+       - ``poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+       - PocLtCurr as described in section 8.3.2 "Decoding process for reference
+-        picture set.
++        picture set": provides the index of the long term references in DPB array.
+     * - __u64
+       - ``flags``
+       - See :ref:`Decode Parameters Flags <hevc_decode_params_flags>`
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index 14e0e6414100..c524af41baf5 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -255,24 +255,11 @@ static void set_params(struct hantro_ctx *ctx)
+ 	hantro_reg_write(vpu, &g2_apf_threshold, 8);
+ }
+ 
+-static int find_ref_pic_index(const struct v4l2_hevc_dpb_entry *dpb, int pic_order_cnt)
+-{
+-	int i;
+-
+-	for (i = 0; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
+-		if (dpb[i].pic_order_cnt[0] == pic_order_cnt)
+-			return i;
+-	}
+-
+-	return 0x0;
+-}
+-
+ static void set_ref_pic_list(struct hantro_ctx *ctx)
+ {
+ 	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
+-	const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
+ 	u32 list0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX] = {};
+ 	u32 list1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX] = {};
+ 	static const struct hantro_reg ref_pic_regs0[] = {
+@@ -316,11 +303,11 @@ static void set_ref_pic_list(struct hantro_ctx *ctx)
+ 	/* List 0 contains: short term before, short term after and long term */
+ 	j = 0;
+ 	for (i = 0; i < decode_params->num_poc_st_curr_before && j < ARRAY_SIZE(list0); i++)
+-		list0[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_before[i]);
++		list0[j++] = decode_params->poc_st_curr_before[i];
+ 	for (i = 0; i < decode_params->num_poc_st_curr_after && j < ARRAY_SIZE(list0); i++)
+-		list0[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_after[i]);
++		list0[j++] = decode_params->poc_st_curr_after[i];
+ 	for (i = 0; i < decode_params->num_poc_lt_curr && j < ARRAY_SIZE(list0); i++)
+-		list0[j++] = find_ref_pic_index(dpb, decode_params->poc_lt_curr[i]);
++		list0[j++] = decode_params->poc_lt_curr[i];
+ 
+ 	/* Fill the list, copying over and over */
+ 	i = 0;
+@@ -329,11 +316,11 @@ static void set_ref_pic_list(struct hantro_ctx *ctx)
+ 
+ 	j = 0;
+ 	for (i = 0; i < decode_params->num_poc_st_curr_after && j < ARRAY_SIZE(list1); i++)
+-		list1[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_after[i]);
++		list1[j++] = decode_params->poc_st_curr_after[i];
+ 	for (i = 0; i < decode_params->num_poc_st_curr_before && j < ARRAY_SIZE(list1); i++)
+-		list1[j++] = find_ref_pic_index(dpb, decode_params->poc_st_curr_before[i]);
++		list1[j++] = decode_params->poc_st_curr_before[i];
+ 	for (i = 0; i < decode_params->num_poc_lt_curr && j < ARRAY_SIZE(list1); i++)
+-		list1[j++] = find_ref_pic_index(dpb, decode_params->poc_lt_curr[i]);
++		list1[j++] = decode_params->poc_lt_curr[i];
+ 
+ 	i = 0;
+ 	while (j < ARRAY_SIZE(list1))
 -- 
 2.30.2
 
