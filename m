@@ -1,130 +1,71 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8681F168
-	for <linux-staging@lists.linux.dev>; Tue,  4 Jan 2022 15:13:14 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.126])
-	by APP-01 (Coremail) with SMTP id qwCowAAnLlZ1YtRh6qLGBQ--.57883S2;
-	Tue, 04 Jan 2022 23:06:30 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: elder@ieee.org,
-	vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH v3] staging: greybus: audio: Check null pointer
-Date: Tue,  4 Jan 2022 23:06:28 +0800
-Message-Id: <20220104150628.1987906-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31AD12C9C
+	for <linux-staging@lists.linux.dev>; Tue,  4 Jan 2022 15:34:54 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id o3so18755483wrh.10
+        for <linux-staging@lists.linux.dev>; Tue, 04 Jan 2022 07:34:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=wUmxQ2CKmUZwcrN5uTGmilHnj2rnj+XkjhOUMtgeq20=;
+        b=g1LECz3y5ju9IcfvJz5hsPoUyZBUz3pK133gvGgSNX9xGSyfnT5Xf8AKEV2I5QLFjS
+         JZ2B7xSbgx66c+MdQOs90WCC/SB4Ka2PI7xMyyCMeHnzxxJUWNf4AB1zAkEQdaLGrW19
+         R/4btO4fvefAdXbNEEJ9gzf9sTM7CTnZ+ubtjbb2PVu1ThQDuE90+J9527wL33LJnTFt
+         bGFOmylU6fuC8e1peLPpEeMQ86qQm6wEMeXMdtGmNB1lVm4smgmBnVBiEX2QWjtUk3Wd
+         LvDmJgcSw+qKUJiKl/ZhD11vp6mhJ+K0K5/PQ7/zOraEoN8kZR1y1lIGVDqINr3om+pV
+         3IQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=wUmxQ2CKmUZwcrN5uTGmilHnj2rnj+XkjhOUMtgeq20=;
+        b=MXiMNUT3H9I9kqognTm/m3ZDLFavGbjUlbki25KG/MjXpo21flP36YnEIQC3Q+JPNi
+         R2YxVQRYr9rFW20SX6TMCB541MXOmOUWVG6jeZ6qg6T7FORJgilZxDHhW5ukm8o/eKpC
+         1uqkfIspugUQ+45fOLO/AjKJ+oAbNu+qdw4fgHIp8GQeAZJnVKiH8zBLnTXKrw/GP7gD
+         Tf5dtbez7j5QgCfA2fDHolNGFTTyXIYRfUQD3NbxEk2YeViUPLFq8q7eshHgDzQayuOH
+         WHzm4K4CaH1Cy1KcpbL3N0Ivo69MyGSsaC5m0TVHOF5fFa4r1VwsNLWD6pE8p4uB0i0m
+         yPjA==
+X-Gm-Message-State: AOAM5322RwA/inuFCZX6uJbe2ppwQLKhOBXHcxfxkgXuPbWg+ebFqKsb
+	AB4wC+tXtfM72VUta+pDM2c=
+X-Google-Smtp-Source: ABdhPJyA3hAT/SXsiTH53fThRpj8xpD7XnHj0ABuWCmDtywvBXdrguCfCeInuOOSKLyak3B6lG3qsw==
+X-Received: by 2002:a05:6000:38b:: with SMTP id u11mr43379975wrf.408.1641310492643;
+        Tue, 04 Jan 2022 07:34:52 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id 11sm48820119wrz.63.2022.01.04.07.34.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jan 2022 07:34:52 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.co.uk, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v4 1/2] media: hevc: Remove RPS named flags
+Date: Tue, 04 Jan 2022 16:34:51 +0100
+Message-ID: <2610538.mvXUDI8C0e@kista>
+In-Reply-To: <20220104073842.1791639-2-benjamin.gaignard@collabora.com>
+References: <20220104073842.1791639-1-benjamin.gaignard@collabora.com> <20220104073842.1791639-2-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAnLlZ1YtRh6qLGBQ--.57883S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXF48AFW3JryUXw1fAr1rCrg_yoW5uw17pF
-	sYkrnrCr4DJasIyFs7Ar1rZwnxZrykKFWUK3y7uws0vwsIqrW09ay3KFyYvF43uF1rZw40
-	ka10vw45J3WqqrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-	n2kIc2xKxwCY02Avz4vE14v_XrWl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
-	0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
-	17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
-	C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI
-	42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
-	evJa73UjIFyTuYvjfU5Q6JUUUUU
-X-Originating-IP: [124.16.138.126]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-As the possible alloc failure of devm_kcalloc(), it could return null
-pointer.
-Therefore, 'strings' should be checked and return NULL if alloc fails to
-prevent the dereference of the NULL pointer.
-Also, the caller should also deal with the return value of the
-gb_generate_enum_strings() and return -ENOMEM if returns NULL.
-Moreover, because the memory allocated with devm_kzalloc() will be
-freed automatically when the last reference to the device is dropped,
-the 'gbe' in gbaudio_tplg_create_enum_kctl() and
-gbaudio_tplg_create_enum_ctl() do not need to free manually.
-But the 'control' in gbaudio_tplg_create_widget() and
-gbaudio_tplg_process_kcontrols() has a specially error handle to
-cleanup.
-So it should be better to cleanup 'control' when fails.
+Hi Benjamin!
 
-Fixes: e65579e335da ("greybus: audio: topology: Enable enumerated control support")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
-v3: Same code as v2, but remove the redundant message as requested.
-v2: Updated to use common error processing at the end of both
-gbaudio_tplg_create_widget() and gbaudio_tplg_process_kcontrols().
----
- drivers/staging/greybus/audio_topology.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Dne torek, 04. januar 2022 ob 08:38:41 CET je Benjamin Gaignard napisal(a):
+> Marking a picture as long-term reference is valid for DPB but not for RPS.
+> Change flag name to match with it description in HEVC spec chapiter
+> "8.3.2 Decoding process for reference picture set".
+> Remove the other unused RPS flags.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
-index 1fc7727ab7be..6bba735d2e5c 100644
---- a/drivers/staging/greybus/audio_topology.c
-+++ b/drivers/staging/greybus/audio_topology.c
-@@ -147,6 +147,9 @@ static const char **gb_generate_enum_strings(struct gbaudio_module_info *gb,
- 
- 	items = le32_to_cpu(gbenum->items);
- 	strings = devm_kcalloc(gb->dev, items, sizeof(char *), GFP_KERNEL);
-+	if (!strings)
-+		return NULL;
-+
- 	data = gbenum->names;
- 
- 	for (i = 0; i < items; i++) {
-@@ -655,6 +658,8 @@ static int gbaudio_tplg_create_enum_kctl(struct gbaudio_module_info *gb,
- 	/* since count=1, and reg is dummy */
- 	gbe->items = le32_to_cpu(gb_enum->items);
- 	gbe->texts = gb_generate_enum_strings(gb, gb_enum);
-+	if (!gbe->texts)
-+		return -ENOMEM;
- 
- 	/* debug enum info */
- 	dev_dbg(gb->dev, "Max:%d, name_length:%d\n", gbe->items,
-@@ -862,6 +867,8 @@ static int gbaudio_tplg_create_enum_ctl(struct gbaudio_module_info *gb,
- 	/* since count=1, and reg is dummy */
- 	gbe->items = le32_to_cpu(gb_enum->items);
- 	gbe->texts = gb_generate_enum_strings(gb, gb_enum);
-+	if (!gbe->texts)
-+		return -ENOMEM;
- 
- 	/* debug enum info */
- 	dev_dbg(gb->dev, "Max:%d, name_length:%d\n", gbe->items,
-@@ -1034,6 +1041,10 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
- 			csize += le16_to_cpu(gbenum->names_length);
- 			control->texts = (const char * const *)
- 				gb_generate_enum_strings(module, gbenum);
-+			if (!control->texts) {
-+				ret = -ENOMEM;
-+				goto error;
-+			}
- 			control->items = le32_to_cpu(gbenum->items);
- 		} else {
- 			csize = sizeof(struct gb_audio_control);
-@@ -1183,6 +1194,10 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
- 			csize += le16_to_cpu(gbenum->names_length);
- 			control->texts = (const char * const *)
- 				gb_generate_enum_strings(module, gbenum);
-+			if (!control->texts) {
-+				ret = -ENOMEM;
-+				goto error;
-+			}
- 			control->items = le32_to_cpu(gbenum->items);
- 		} else {
- 			csize = sizeof(struct gb_audio_control);
--- 
-2.25.1
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
 
