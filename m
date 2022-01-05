@@ -1,231 +1,158 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4A5168
-	for <linux-staging@lists.linux.dev>; Wed,  5 Jan 2022 09:57:51 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2056uo4i008994;
-	Wed, 5 Jan 2022 09:57:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=z0x3ThgQ/k7QUdm0tnadWHfW0Nvp2I7x5jntVlP8xYY=;
- b=U0dY25PNgjoDqVp1WdZcV0zkT9O9BZ5CnKrliLRXUxuhXAlQx1AKk2ASbOpb6wXQFV9s
- fLBBcTfp55tMlelKK7XKCEOndoJ5kI5X++YtqzKB57epoE1AR8Lules5tbGfQrzyVTvk
- BuFPSPjGzy4hyllQHeUde+3uWWhNCQznarVep0Zi5CIObYAEi3NZ1Tk3jnKfR2s8fs3h
- fvoa3DZzaekPSOEh4y4gISDqG2SEEyVfmuAGGLGXC/MRLUkHRYo26b240SjWBKul4t9D
- QDv8ePDYMG5Ixsel6e3bj83MvpoMI3+JOsGTm6109TPDLbX9EPO/EPseNONShRjM/73V Hw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3dc9d93kwu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 05 Jan 2022 09:57:48 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2059tduJ145692;
-	Wed, 5 Jan 2022 09:57:47 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2176.outbound.protection.outlook.com [104.47.57.176])
-	by aserp3020.oracle.com with ESMTP id 3daes4y6jj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 05 Jan 2022 09:57:46 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FGWiodAO7EF90StBy0+2S1Y1Wsrxq9f1ypwLZipsMukFtOGhE4zhWv4lY7NJC5B+u6/TwOLU2tY3khFupYFktWTRF0IeFjZ9UPBg2a75xy6xlfC0MbMNu2DYCc46ScGJcio1t0nIyRFdKOOUGnrtwSA5zs1tP16KPnWvj4mLUUK+G6U9o+RMTSKwmWP4K7ndrzRdquNtpWQ+VbNp7qYC7BN5naFW73Qwj7PiENU2961udea3TfgZpoY8D1rCSRVrvaqAcL0Bp5j4b3BrM89RHZuBRGBSq55DePu10kAmMNr4i1fk6+hT2IAG2HffWx7KzUWM4qCTc5H2MLCl/lTGhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z0x3ThgQ/k7QUdm0tnadWHfW0Nvp2I7x5jntVlP8xYY=;
- b=W3X17ut0yl8y3AawAEIWeCrYCVZ3KmcAwW/KnAAcCzrv/at0P+qeU/1Ptyp8vEB4U3qJTjPXMVHSgHGsQWydO9hUhi18VYHm1U5ZpfC8abHiz1VGjWgPiEPr5G+n88yAuiweB8oTkOpTuQrwkCUPdR+THcrChVatnAPX2fQcpyqzxP3GaztZgMFs+VY0t3wTtQ8vGgB6DC3vS2xI9kprUipSYlRKzLF8pgqogt8H8/JvOm2/xWnE64jttQa59ch3O9yEkanhFXVWvpHzTG/+6kv7tFXrlR1glWVrxLeX6sjh6iAZqqAhmCav5NttkBKWcw1w02dVur3V2fv8/zflKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5742C9C
+	for <linux-staging@lists.linux.dev>; Wed,  5 Jan 2022 12:26:42 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id fo11so37338511qvb.4
+        for <linux-staging@lists.linux.dev>; Wed, 05 Jan 2022 04:26:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z0x3ThgQ/k7QUdm0tnadWHfW0Nvp2I7x5jntVlP8xYY=;
- b=oEkWddXvttBo0JfqiaUdxvlwls8yvxg13bjxIOYIHYn9lHAbvT9b4gHKniJtC8lBj5tDhNB7gKK5D+eUA8xM5Wvi8guw34S1e5i0n+gvVa0iGAlRU9wZfbTGvyAp11u223S24SMVc71ikMYqOU8Ra63CTkIhYoTKzRnrq/wKJ+s=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1728.namprd10.prod.outlook.com
- (2603:10b6:301:9::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.15; Wed, 5 Jan
- 2022 09:57:45 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b889:5c86:23c0:82b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b889:5c86:23c0:82b8%4]) with mapi id 15.20.4844.016; Wed, 5 Jan 2022
- 09:57:44 +0000
-Date: Wed, 5 Jan 2022 12:57:25 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Ismayil Mirzali <ismayilmirzeli@gmail.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        simon.fodin@gmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: Fix styling issues
-Message-ID: <20220105095725.GB7674@kadam>
-References: <20211218203647.24486-1-ismayilmirzeli@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211218203647.24486-1-ismayilmirzeli@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0027.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::15)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+6zUFKikZ5uI7X+WBRedpvpkwDXnTgkeRYffGhJplBQ=;
+        b=v0GeznWOJp1intYhv38FsyRKC2LY+s7ndDGtu8347+i9nbXXv04HckdcZQOYkPKp90
+         /jX/cn0VqKe2GUgFg8xH4/RRsX2gOU2vi4YIq2jnAXgtJFu8NKWOmv5UTm7JKOBG3wVd
+         yX9NM8tByP/uwWU3/WPQ7QTsUzFb47l90lqhxnFgpjcN80pQu3wHho0EGORmw4jD4Hze
+         2N7+JCrk4rGAxSTsjSt08zwMWj9DQKe79mw7iOhhxX8p6AUqdjfORxMRC/f4QgTqsNJB
+         wYnJmPOreCRXYJ/LqiEG5E0tR+gwvKZVim6Fcfba4VyFEW0Zya6GV1LFeZO/aFjf05Op
+         DDbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+6zUFKikZ5uI7X+WBRedpvpkwDXnTgkeRYffGhJplBQ=;
+        b=olWRJbtf37p8P0blH0nhf76VIYM5ZarEDm1aVygDVmCQgtNQKVYosVugclIl1lHSiJ
+         6h69kWkAjB+/aDgcqOrZeZSzmP9cJEWquKUnelNVMglkeZtGRdf92VOeNQ2YGjF/W+IS
+         F+2Q4ZQm++3yUBJJ/a2ssJnciWKVKPhPyKmCq5HQygowj3T6ksnZB6htpaJ6c6TLc40U
+         GAH5g0A5hetbt70HkFQQR9L4Pi1Id9pc87QwEe/E+dIEkUY8rjOceLoqUnRmwjllM0Gj
+         7eOW7loNvpMGWkn96jCdsunTPReS8vsiwkA8FVAzWZHIORQ6sZMQG2oJqqV7YfeICc0g
+         SSlA==
+X-Gm-Message-State: AOAM533hY/WHnYwgXC12Sme2IGk9WrQ4Ro4D2nlnuozqdcJ2Xf8ln3DY
+	Hrh7M6yd6AMyuAlcWOlqaf/njw==
+X-Google-Smtp-Source: ABdhPJxqbVB7XWk6LPZe9NdWapRfu4IObMFem/esLdwpybt5KuvKvaxSKJK/v6LXDUp/1xX65da8KA==
+X-Received: by 2002:a05:6214:262d:: with SMTP id gv13mr49591568qvb.23.1641385601790;
+        Wed, 05 Jan 2022 04:26:41 -0800 (PST)
+Received: from eze-laptop ([186.122.18.30])
+        by smtp.gmail.com with ESMTPSA id a15sm36481925qtb.5.2022.01.05.04.26.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jan 2022 04:26:39 -0800 (PST)
+Date: Wed, 5 Jan 2022 09:26:33 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl, jernej.skrabec@gmail.com,
+	nicolas.dufresne@collabora.co.uk, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev, kernel@collabora.com
+Subject: Re: [PATCH v4 1/2] media: hevc: Remove RPS named flags
+Message-ID: <YdWOecbZHO+Skbnn@eze-laptop>
+References: <20220104073842.1791639-1-benjamin.gaignard@collabora.com>
+ <20220104073842.1791639-2-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69e3a02b-31d1-43f3-807b-08d9d031d1b1
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1728:EE_
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR10MB1728D0EC509824F3850E6A9E8E4B9@MWHPR10MB1728.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1201;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	JnofBK0bcUnpmkvwnSkRVJSXCL7+xZty/cLoRz1OSMe1FiF8ydt0eI+kyGHB73NN1llR2JJiONEkcqLpmCxrCJ/XQ6uxNDclYPmHVh2g/xlYXHvBanaOg+m3sokKuQ1fblyCMYNQ4KiPF0lf7KVMMqJ22bGjUev0gAIU1n5103+BSVB1HINMOTcfKZX59XOfAtsItBG5fiaNgGPA6Xh9MgRyAgkeQwKCtD9Ii62HAt+Dem5lgufETxyRwkrMpldDFLcE9npNPkunVRUKj5kY+hmFR5dzKYRDvn2idY7+50cMmNqTQmyZ4VqTdHjnFp9mPJv/7IWlHuRPjExnjLf4eCpiyeSi06E2isExo5TupWzkRuHFDaDH4Rb6HzIEtpXziMVoYypsijxuWREjkD5ZtryYr8IvAePyFBJuIPDkUUZy8mNUIRSNKtKfPqenNPFtofwZKm1hWYxeYUQLZ2tLbEB6gT+YIfhF7QkG+tZawfvc4NE7kcFprRCcHb2v1lH3WWb5cU4Z4ESV+LfH5wYxEezFHpCPeg+0fgRGabqqmZ5qPy65WSFkhziOku3UfrQwheuwJenHw2d2SORxEI8R49CwFL0z/d4X5Cd8ufruo0RtJHTMW6CqQRMxzrgp3/Xh0X5BmCMPRrBEz/i0MNGUBpbZ6fwya4ku96e/RF3XbgQMMW1QTEsKMJcbUMmdGoqSHPnfsFvOTM2A0IntWrED8g==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(366004)(66476007)(66556008)(83380400001)(2906002)(1076003)(8676002)(26005)(6512007)(5660300002)(66946007)(8936002)(38100700002)(33716001)(6666004)(33656002)(38350700002)(4326008)(44832011)(186003)(9686003)(52116002)(86362001)(6916009)(6486002)(6506007)(316002)(508600001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?knPEvNM9LOph1cb4lL+ErqUvjAVWgPBGt2K4kANwRGF6GCAxOcxJY5uftDdL?=
- =?us-ascii?Q?38/qYB+K78rDywfN0qkK40MeMMRzgtgYKDt1UIEYBmwcX+QaN1rxz5c7ECCu?=
- =?us-ascii?Q?5bEmqaS74JvIFvoMC1gLXIkbYBlpCjz3EYoBds6sm8fV1MulN8gpTBTjzs6f?=
- =?us-ascii?Q?QmBTmS3k7Mh52Nwtaqkv4rHH0D0Mz3dzL2MgP/YWEClyYdqpwQxBeRo+8HPc?=
- =?us-ascii?Q?jpG0X8gXcMDocezUCQkzVdORaYSh5bpH/NUdkomNEDnvLuHc73l1UxUZx1DB?=
- =?us-ascii?Q?ZcWCzlFcxoOb1NcQ4Iloay7UAKaNQgInBa4FxSRFzsazW4mKG785YOkZml+w?=
- =?us-ascii?Q?A0uetTMetgIBtKlrImC7B4VsQzmCDb7b26dIVlUsPa6bKSOoPIJpK+RE0+pv?=
- =?us-ascii?Q?zVi9fXVUftUpdtii+WhbqkNl+cIT9TeVNFH6sFQFaJoufIbMSdyHiPwNm9Ce?=
- =?us-ascii?Q?cbA6HcrZDVqNctWA9nRg+6qSmqn0Q051v+HWLC2cSuzfU3VC2NA7uVDxrl33?=
- =?us-ascii?Q?U285afByY6vVIgb0lo0dIpWtPKD/IYalPKoYOsJxA3fQWXkyr9E7dYVi/XG+?=
- =?us-ascii?Q?EEFixO9CmKufXPJ3cUH/ans0zq3m56pJeJZG1G/NNYEhPKOQyMxoCu2Gg6XK?=
- =?us-ascii?Q?l0dzJ4rXjF7XHJm0F9U6/uVN/mtMDJ2lVzoxeq+jtzSSS1Wd9ADHnuyKPZY7?=
- =?us-ascii?Q?r2TEOvbwHLFn4rK55CfFpFlSYGee+NPQCjaXODd3xxO1xEw0vmhkvysEwomZ?=
- =?us-ascii?Q?QpW5HHWcjNR1y0L9zMtlI4RvZIZo0rH74TNqrrS4CspzcnYxKY81+f1HxDUV?=
- =?us-ascii?Q?ekUAok4zk5UNqh8DGU1PIfpxJnyhpmmDxtweJUgTCFxiecV/ji+69NEOsdTP?=
- =?us-ascii?Q?u96VDN1XUVqBmVdOzBuFgLvD/U6Vx1YOwrXx3IxM9y50WjXQ1YlJttMd+YB0?=
- =?us-ascii?Q?DdlEDADnlNUmKtHcNHtb7Wmguai4fFWyXT7/R7y/+6ifzHY/sUQ15DUFgpd8?=
- =?us-ascii?Q?zjeXK0jB2Rjco+Z9pM0nSO9b67b71nkqbdtIXTnbvMUTC5IrmRJLEL2kA79G?=
- =?us-ascii?Q?8RUkBP+D4atlCO47jkXO8CWw4RhdYY8GRjuBiWG9dH6vJ+P9RqOfdFRsYY7r?=
- =?us-ascii?Q?NKqJXuzemS9sjZk/fAJa0xkzS0H7mYg/75WTdZjJCp3slGmFYwDJhiJ8Dk6x?=
- =?us-ascii?Q?9vdL7Hz6BxLDI33rPqsZS4wG9dxWTF5B11oDtidjiJGn2yM8ODte50dvxGca?=
- =?us-ascii?Q?vCdPs2nj9B+L33uWNu6MflwPwpYcdPGbWglSUO8dXqb4IztWh5KkjnYYbdwh?=
- =?us-ascii?Q?ULfbqh0PCWYESuqaAGmPX03zlp0Pe13N1xVNR6vc0sfdoXRgDOasAXFnLsvM?=
- =?us-ascii?Q?0cNCJouMibRirDXiWXgtet3FTbPXIx5z45Usnkv3UTs8NRFP47IYZoubGCwc?=
- =?us-ascii?Q?MLdbOfu8F/GV7/Fa0JH5ThDO767EHuEEsGqM1FnkYZuElcfKJ7Ajjmy+p0N3?=
- =?us-ascii?Q?jMD/e2mQ1MMwS5bJ/uY++xayggTZGkqStX6EHoYiRPpIIyf3dssK0Drio0kN?=
- =?us-ascii?Q?XTXlrsDtSa2u2Qg2u+XVVzAejmdbXIpek/sM+LjLOO/xBe4wJvPI6EWX1BEn?=
- =?us-ascii?Q?gHq1KkK452PrKsOlo6O+hlMV/em9pU1O+s3M8iMUoJgZajqZQUIAiIRlKn/C?=
- =?us-ascii?Q?DgdXT+u+esQnVkUTTbgXmtUWgJ8=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69e3a02b-31d1-43f3-807b-08d9d031d1b1
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2022 09:57:44.8899
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6oBuOBnnWAyNnVoU7VYURlzY64W43nzZ7w3MrYDSsdFL40C6XQflmPD7UX/Eif6aECDLx9onu10tk5J7Zk63mWssLy3vZ0k3uD0Lxhza7nY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1728
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10217 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 bulkscore=0
- spamscore=0 adultscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201050066
-X-Proofpoint-ORIG-GUID: j6mHc8TYfGHDxoWAmqFP2fqfmaeDNIIF
-X-Proofpoint-GUID: j6mHc8TYfGHDxoWAmqFP2fqfmaeDNIIF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220104073842.1791639-2-benjamin.gaignard@collabora.com>
 
-On Sat, Dec 18, 2021 at 10:36:47PM +0200, Ismayil Mirzali wrote:
-> Removed extra whitespaces and brackets for oneline if statements
+Hi Benjamin,
 
-s/oneline/one line/.
-
-Do this in two separate patches.
-
+On Tue, Jan 04, 2022 at 08:38:41AM +0100, Benjamin Gaignard wrote:
+> Marking a picture as long-term reference is valid for DPB but not for RPS.
+> Change flag name to match with it description in HEVC spec chapiter
+> "8.3.2 Decoding process for reference picture set".
+> Remove the other unused RPS flags.
 > 
-> Signed-off-by: Ismayil Mirzali <ismayilmirzeli@gmail.com>
+
+A change like this, which is affecting a kernel interface and has impact
+on userspace and drivers, requires a lot more attention in the commit description.
+
+If I understand correctly, this change is related to how HEVC was first
+introduced and how the DPB was originally represented in V4L2.
+
+Originally, a DPB entry struct v4l2_hevc_dpb_entry had an rps field
+which can be:
+
+  V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE
+  V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER
+  V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR
+
+Perhaps this idea followed libva, where a VAPictureHEVC has flags field
+which can be:
+
+  VA_PICTURE_HEVC_RPS_ST_CURR_BEFORE, 
+  VA_PICTURE_HEVC_RPS_ST_CURR_AFTER,
+  VA_PICTURE_HEVC_RPS_LT_CURR,
+  VA_PICTURE_HEVC_LONG_TERM_REFERENCE
+
+In this representation, the sets PocStCurrBefore, PocStCurrAfter,
+PocLtCurr are implicit, and must be built by the kernel from the DPB
+entries struct v4l2_hevc_dpb_entry, using the information in the rps field.
+
+Last year, we changed this with your commit:
+
+commit d395a78db9eabd12633b39e05c80e803543b6590
+Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Date:   Thu Jun 3 13:49:57 2021 +0200
+
+    media: hevc: Add decode params control
+
+Which added the control v4l2_ctrl_hevc_decode_params, which includes
+the sets PocStCurrBefore, PocStCurrAfter, PocLtCurr explicitly and therefore
+moved the responsability of creating and maintaining the sets to userspace.
+
+This effectively made the rps field in the struct v4l2_hevc_dpb_entry
+useless. The longterm flag is still needed though for a DPB entry.
+
+With this in mind, you could even say this commit is doing actually two
+things:
+
+1. Removes the unused rps field.
+2. Adds a flag field, for the longterm DPB entry boolean.
+
+Do you think a single byte of flags will be OK for a DPB entry?
+I think so, but I'd love yours/others input here.
+
+If the above is more or less accurate then, and provided you
+submit a new version with a more detailed commit description:
+
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+Also, a small question:
+
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 20 ++++++++-----------
->  1 file changed, 8 insertions(+), 12 deletions(-)
+> version 4:
+> - check flags with & and not ==
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> index 7fe3df863fe1..7807b2a6cdc5 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> @@ -32,7 +32,7 @@ static u8 rtw_sdio_wait_enough_TxOQT_space(struct adapter *padapter, u8 agg_num)
->  	pHalData->SdioTxOQTFreeSpace -= agg_num;
->  
->  	/* if (n > 1) */
-> -	/* 	++priv->pshare->nr_out_of_txoqt_space; */
-> +	/*	++priv->pshare->nr_out_of_txoqt_space; */
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 8 +++-----
+>  drivers/staging/media/hantro/hantro_g2_hevc_dec.c         | 2 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
+>  include/media/hevc-ctrls.h                                | 6 ++----
+>  4 files changed, 7 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index e141f0e4eec9..38da33e61c3d 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -3166,11 +3166,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>  	:c:func:`v4l2_timeval_to_ns()` function to convert the struct
+>  	:c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
+>      * - __u8
+> -      - ``rps``
+> -      - The reference set for the reference frame
+> -        (V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE,
+> -        V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER or
+> -        V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
+> +      - ``flags``
+> +      - Long term flag for the reference frame
+> +        (V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
 
-Just delete dead code.
+Is this longterm flag associated in any way to a syntax element
+or an HEVC process? If so, please document that.
 
->  
->  	return true;
->  }
-> @@ -147,13 +147,12 @@ s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
->  		return _SUCCESS;
->  
->  	ret = rtw_register_tx_alive(padapter);
-> -	if (ret != _SUCCESS) {
-> +	if (ret != _SUCCESS)
->  		return _SUCCESS;
-> -	}
->  
->  	do {
->  		queue_empty = rtl8723_dequeue_writeport(padapter);
-> -/* 	dump secondary adapter xmitbuf */
-> +		/*	dump secondary adapter xmitbuf */
->  	} while (!queue_empty);
->  
->  	rtw_unregister_tx_alive(padapter);
-> @@ -311,7 +310,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->  					pxmitframe->pg_num = (txlen + 127) / 128;
->  					pxmitbuf->pg_num += (txlen + 127) / 128;
->  				    /* if (k != 1) */
-> -					/* 	((struct xmit_frame*)pxmitbuf->priv_data)->pg_num += pxmitframe->pg_num; */
-> +					/*	((struct xmit_frame*)pxmitbuf->priv_data)->pg_num += pxmitframe->pg_num; */
-
-Delete.
-
->  					pxmitbuf->ptail += _RND(txlen, 8); /*  round to 8 bytes alignment */
->  					pxmitbuf->len = _RND(pxmitbuf->len, 8) + txlen;
->  				}
-> @@ -385,9 +384,8 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
->  	spin_lock_bh(&pxmitpriv->lock);
->  	ret = rtw_txframes_pending(padapter);
->  	spin_unlock_bh(&pxmitpriv->lock);
-> -	if (ret == 0) {
-> +	if (ret == 0)
->  		return _SUCCESS;
-> -	}
->  
->  	/*  dequeue frame and write to hardware */
->  
-> @@ -405,9 +403,8 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
->  	spin_lock_bh(&pxmitpriv->lock);
->  	ret = rtw_txframes_pending(padapter);
->  	spin_unlock_bh(&pxmitpriv->lock);
-> -	if (ret == 1) {
-> +	if (ret == 1)
->  		goto next;
-> -	}
->  
->  	return _SUCCESS;
->  }
-> @@ -428,10 +425,9 @@ int rtl8723bs_xmit_thread(void *context)
->  
->  	do {
->  		ret = rtl8723bs_xmit_handler(padapter);
-> -		if (signal_pending(current)) {
-> +		if (signal_pending(current))
->  			flush_signals(current);
-> -		}
-> -	} while (_SUCCESS == ret);
-> +	} while (ret == _SUCCESS);
-
-This change was not described in the commit message.
-
-regards,
-dan carpenter
-
+Thanks,
+Ezequiel
