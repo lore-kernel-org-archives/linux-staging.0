@@ -1,26 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668D9173
-	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 14:04:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 781D1C36AE3;
-	Thu,  6 Jan 2022 14:04:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E596C173
+	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 14:12:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6D22C36AE0;
+	Thu,  6 Jan 2022 14:12:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1641477852;
-	bh=vagtv4d0QkzdvwtqkyA9ntM9HugyoKiIJ3Sgw7fKpBY=;
+	s=korg; t=1641478358;
+	bh=S/619fxc8rw0lpO5vyMU+8P9KRO/68r1eyUO9y6srEc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lp1u25aJVBBOdTEq/ORyja1wa9XhMvMe7FEHZgZNbba5uBggie7V8oAOoZeD/zDoL
-	 PmRHUpT8G2pYLLdOgwIkuPv85i0vmtfvZwJnWxpXvRzFUSBzKU038KY5h+uRw4iRi6
-	 Aa4WcmGGs9OeJlfe0lEvtOVTTEHoQWiF4Tcb2xqg=
-Date: Thu, 6 Jan 2022 15:04:09 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc: realwakka@gmail.com, linux-staging@lists.linux.dev,
+	b=PPpxy+IdDvDtUAUERUUgduAyBlIm09+80Rj0g1kfg3ODhZHP44zFbBiItcG+CDaXw
+	 +i+P8ige8rbQ4mlUnvRfEYS7jnWObchSJ2Yht6wsIio0ZX0whgPyZWHL2JBsXPKNEP
+	 por6NNWWmaDOuM9hL3KFSlf3RiLI9ayCYDctKIHM=
+Date: Thu, 6 Jan 2022 15:12:35 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+Cc: linuxfancy@googlegroups.com, Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Saurav Girepunje <saurav.girepunje@gmail.com>,
+	Ivan Safonov <insafonov@gmail.com>,
+	Yang Li <yang.lee@linux.alibaba.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Zameer Manji <zmanji@gmail.com>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: move get version func to where all other
- functions are
-Message-ID: <Ydb22Tuvm0MwfpOK@kroah.com>
-References: <20220106093110.GA20011@mail.google.com>
+Subject: Re: [PATCH 01/56] staging: r8188eu: add parenthesis to macro SetToDs
+Message-ID: <Ydb40xesTGFftdol@kroah.com>
+References: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
+ <20220103190326.363960-2-alb3rt0.m3rciai@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,45 +40,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220106093110.GA20011@mail.google.com>
+In-Reply-To: <20220103190326.363960-2-alb3rt0.m3rciai@gmail.com>
 
-On Thu, Jan 06, 2022 at 10:31:10PM +1300, Paulo Miguel Almeida wrote:
-> As a convention for the pi433 driver, all routines that deals with the
-> rf69 chip are defined in the rf69.c file. There was an exception in
-> which the uC version verification was being done directly elsewhere.
-> While at it, the Version Register hardcoded value was replaced with a
-> pre-existing constant in the driver.
-> 
-> This patch adds rf69_get_chip_version function to rf69.c
-> 
-> Additionally, the patch below must be applied first as it was sent
-> before and touches the same file.
-> https://lore.kernel.org/lkml/20220103222334.GA6814@mail.google.com/
-> 
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+On Mon, Jan 03, 2022 at 08:01:36PM +0100, Alberto Merciai wrote:
+> Enclose in parenthesis complex macro SetToDs
+
+Why?
+
+You are saying what you are doing (which is easy to see by looking at
+the patch itself), but not _why_ you are doing this.  Please read the
+documentation in the kernel source tree for how to write a good kernel
+commit message.  It is in the section entitled "The canonical patch
+format" in the kernel file, Documentation/SubmittingPatches.
+
+> Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 > ---
->  drivers/staging/pi433/pi433_if.c | 4 +---
->  drivers/staging/pi433/rf69.c     | 8 ++++++++
->  drivers/staging/pi433/rf69.h     | 1 +
->  3 files changed, 10 insertions(+), 3 deletions(-)
+>  drivers/staging/r8188eu/include/wifi.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-> index 29bd37669059..a19afda5b188 100644
-> --- a/drivers/staging/pi433/pi433_if.c
-> +++ b/drivers/staging/pi433/pi433_if.c
-> @@ -1116,9 +1116,7 @@ static int pi433_probe(struct spi_device *spi)
->  		spi->mode, spi->bits_per_word, spi->max_speed_hz);
+> diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
+> index 7cbc7015e90f..f16e9f44babe 100644
+> --- a/drivers/staging/r8188eu/include/wifi.h
+> +++ b/drivers/staging/r8188eu/include/wifi.h
+> @@ -164,7 +164,7 @@ enum WIFI_REG_DOMAIN {
+>  #define _ORDER_		BIT(15)
 >  
->  	/* Ping the chip by reading the version register */
-> -	retval = spi_w8r8(spi, 0x10);
-> -	if (retval < 0)
-> -		return retval;
-> +	retval = rf69_get_chip_version(spi);
+>  #define SetToDs(pbuf)	\
+> -	*(__le16 *)(pbuf) |= cpu_to_le16(_TO_DS_)
+> +	(*(__le16 *)(pbuf) |= cpu_to_le16(_TO_DS_))
 
-This can not fail anymore, like it used to be able to.  So I think you
-just broke the functionality for why this call was being made in the
-first place (i.e. ping the chip to see if it was alive, and fail if it
-is not.)
+The cast here should not be happening as odds are it hides other endian
+issues.
+
+Also the name is horrid, but really, the lack of () is is fine as-is as
+it is used as a "function call" in the driver.  Wrapping it in () does
+nothing to it at all from what I can tell so this change isn't even
+helping :(
+
+Why not fix this up properly by replacing the places where it is called
+with the code here instead?
+
+For example, these lines:
+	else if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
+		SetToDs(fctrl);
+would be:
+	else if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
+		fctrl |= cpu_to_le16(_TO_DS_);
+
+Isn't that now much more readable and easier to understand what is
+happening here?
+
+Then there's the crazyness of a bit field being called "_TO_DS_", but
+that can be cleaned up later...
+
+I hate to reject patch 1 of a 50+ patch series, but next time try
+sending smaller series so that you don't have to redo a bunch of work
+like now has to happen here (the same comments apply to your other ()
+patches in this series.)
 
 thanks,
 
