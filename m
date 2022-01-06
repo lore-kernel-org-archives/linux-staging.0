@@ -1,141 +1,149 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85432C80
-	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 10:19:55 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id c2so2145411pfc.1
-        for <linux-staging@lists.linux.dev>; Thu, 06 Jan 2022 02:19:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C722C80
+	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 10:28:35 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2067Xwlw017380;
+	Thu, 6 Jan 2022 10:28:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=D6vZCrrvXtQOu4iAmIFIgNe2eIZ6SUt/m9fL4rumSMM=;
+ b=bBMjenI9pTN1RdgxOyqYC5zS3bFRJMbf6daZtjM7WcCeRWZ+nKDfMpmqWFnysk42Krri
+ gJZB+q6hwr9p4A9Z8Vz6iCkhYLCpKUaThn/6CdoD/hntiTiw61vVFVyV6I5I89HU4EAN
+ c2RnqUpOnb26WnBqMmPZtMN558s4JvOVLcBeet6Es+gV4LPpqJCSIziDs+CgnQZDTacR
+ EQSP+z8gZE5fsKoJ8M2MzT7YJfDxK3mnD1n0DCCxLdbQA/o48i+cuXGquJwXok+tj57e
+ R7OC9Ed4u9y2Hno5UhBY04Ayp7g9SZYIfftgnVrHpTg8udE4bu4RlmVDYTzSwdexlzjV Sw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3ddmpm17r5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 06 Jan 2022 10:28:00 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 206AFpIV131082;
+	Thu, 6 Jan 2022 10:27:58 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2102.outbound.protection.outlook.com [104.47.70.102])
+	by userp3030.oracle.com with ESMTP id 3ddmqcj0f8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 06 Jan 2022 10:27:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KIQIN6Mo3DYGxipOEmnSg+mpoYAmpLF6Cv8zjzhkuUTRSjPk0ojIQj4K2Cu/fuRprWohUYwF1ITEbA/6Pxr+BnMfosCUI5v+UEdezagb6XCM1HQJ00lFtoVPFsbxdLxzHWDrHKhqBMtS3wYc9hLiiyX5YIT0B4+o5MqDQee0UPWK6WYLA0H8lLsfLdALOBjdY+/rJ0LE+PFTUxTGAp1WbI/kbDg/rT4OYcDIXkQQnDWN+Tk0YB2pssDcu8TTWXM334ww3TuRWbZrY8kYxN/fd8DLzwurvXXQgPQ84YWDmMjcOyiNqQ29A8C/NjPwvjdYwcXDWdFhcObofPnLc5GXew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D6vZCrrvXtQOu4iAmIFIgNe2eIZ6SUt/m9fL4rumSMM=;
+ b=QiUzKqrzWSf4RYYrTNTkiKKqgPQeeImHYcthRtm0O7ybXLxT+i0JFa7Ir2js/CdbUtQd6zVfm/Yb/ef1RoEAcTG7MAIiG5ZHBrwk9L2YIuxFg9I1z7kj3LyFqAEur1zPGst4u5j5VAa/eUm8/PsGnB0ioqi8UIRhECBNz3FFbqj6mWkdIBchHxZPRTvmXAkwNw2qthIbZjkc6xo7VT57kk4swKjn80Yre7rQqpD0HyRp3Z9YZNl8lvLmmZUG9TAsmVcR5uNbzlIhZUCGOk9StuY3ijniRW0UEFOyhZPKhmE3PF9189+uBMzMvZfwxJ+CEt7dkWAAWndZ6XkFHXP4rA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=H3j3OBM8zalTDzIk5cZKKGbGfOPu4uEf9KmgtZeTqBw=;
-        b=j3AIMULN87EQ8JeCbKonwMvBB8mnMshBTr357TwGdx6h+wKLPVBElr4UlP5GlpJVxh
-         1x0jWASYLFuE5lHfCDiXCE+5hNZZgyPOvACz0umqZicetVOE2CzP4R+ujDPHxTnzpOP2
-         fHHS+n/cNX6xDu0uWmQ0XKC24yxH+Kbd58w0wGxBJI57AYho1tDK1GcRKayZUlbWcmo5
-         8mjThdFXD5DSznaB6Xe3e4RiMBfnXLg8a2oiqckYkvgrmqFvx0ANf7PzrBRdMEGjmqVM
-         keMSj9CoZNrI4paLNnP7VYcH1k8Ny1D+zLpr4Yu1I9KCh2r/LGURj0Qaad7cvaCR0hgs
-         wYww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=H3j3OBM8zalTDzIk5cZKKGbGfOPu4uEf9KmgtZeTqBw=;
-        b=0H/XHa/jUnUfdd3YzzEqT5rsB55M54uEF5QhYDMmGr/3B5aSA+Zb69WPe68KWKCOp3
-         JpjB+ZCKzHAzRZjU2DYY0WyqAiHbGIXuHMoMcwmpSJ57D7JRUTJOoOFasLxxMe57SCvZ
-         1X1eZvC0HpOBkyx89/xWVtB5fkDeTY07dX8WWnQYnG7W4WGGViC6d1PtnqQVE8HPMbcH
-         PXXpYVrEfrWCnnUKed9oRq/hXjpe7FSBx9hd0Ro46YLf/iG4G/ANORxPsS9nosAN/vgd
-         ggYgWbxbsMSkVJ9UHIsSpochirbQUTJutN5YIgvy/5woXL5BiSOo/EMbe4ePT2+Veg63
-         ho6w==
-X-Gm-Message-State: AOAM533sRYhAs22RMR/SjQ/OW/vm2nbtQX8HcLzHofrzszAbQiCou9gy
-	oChAm2WJDzzrITLaJL78vxtYjNKsrWY7QA==
-X-Google-Smtp-Source: ABdhPJx7S0Pqw2sMVIPTNFhfAVp8sEM3Cn1nW7X2eXcb8p6RbxBSAlw7+xP64R0nGQGMEUSr8JjT5A==
-X-Received: by 2002:a63:3101:: with SMTP id x1mr52105577pgx.113.1641464395244;
-        Thu, 06 Jan 2022 02:19:55 -0800 (PST)
-Received: from realwakka ([59.12.165.26])
-        by smtp.gmail.com with ESMTPSA id q17sm2133922pfj.119.2022.01.06.02.19.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jan 2022 02:19:55 -0800 (PST)
-Date: Thu, 6 Jan 2022 10:19:46 +0000
-From: Sidong Yang <realwakka@gmail.com>
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: move get version func to where all other
- functions are
-Message-ID: <20220106101946.GA23794@realwakka>
-References: <20220106093110.GA20011@mail.google.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D6vZCrrvXtQOu4iAmIFIgNe2eIZ6SUt/m9fL4rumSMM=;
+ b=q6O4SDvBn4T3FuANLzAfdjr49DotzyPhOgljLX6KzzU8NghK7zXRNiHesu91BsyF35gDWNVpy/Ox6hsVFbSmEWoAR+3yzyPLHbc/XiGb6jVjJvRogTi2KHCnP+fVZ2fGasgkY8JGBOGUrJtf13DHdsBYET6lXDySXuwHunjv/so=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1885.namprd10.prod.outlook.com
+ (2603:10b6:300:10a::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.15; Thu, 6 Jan
+ 2022 10:27:56 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b889:5c86:23c0:82b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b889:5c86:23c0:82b8%4]) with mapi id 15.20.4844.016; Thu, 6 Jan 2022
+ 10:27:56 +0000
+Date: Thu, 6 Jan 2022 13:27:33 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Alex Elder <elder@ieee.org>
+Cc: Jiasheng Jiang <jiasheng@iscas.ac.cn>, vaibhav.sr@gmail.com,
+        mgreer@animalcreek.com, johan@kernel.org, elder@kernel.org,
+        gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: audio: Check null pointer
+Message-ID: <20220106102733.GK7674@kadam>
+References: <20211228020221.1635885-1-jiasheng@iscas.ac.cn>
+ <2410da25-5f91-dd4c-77d0-b7226b56616d@ieee.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2410da25-5f91-dd4c-77d0-b7226b56616d@ieee.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0063.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::21)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220106093110.GA20011@mail.google.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 00f7aa5f-703c-4de5-55ce-08d9d0ff342a
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1885:EE_
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR10MB1885B0F5632DEE3F5CEE334E8E4C9@MWHPR10MB1885.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:483;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	V66yt/VupFaQaol4d2LO4/1DXzT41lzPytRW1gQciYxOvXFLFoqzqXGN6EvKhsadi/mQWTFPmDxMKYCTLZJuT3Giyk0+DqFEFB1VTENLpmDFAcBVKwfM91YpAIbiQDJhxSJ7TQetd7QfHcAr4GrsYNhxfArrEg3MeUdxnaLi0hQo1xTjowQQur0X7Aru9pfC33lb5Xc239C1YUghF+0bvGidVdc70AL7RUrqKyypis1rihBRxgyL+KekL6FeebHsjGEB3ly3pYwPj7KyWN1aS7NUbFixQqptNUIvOd6x+MaokpLPB2Ns4gdJJgcBCR14LS9uMLXHmbCUnQu5RPtwLCM/cZ/bPh9s5kUJjrqDROG9VJCj7Lm3DR2VO6xXqhrFqChBrBuNl1/06YUJ/aHHyHpC0Io3yJHlctQMxbvvAbIai+GEMk24CmEltyZ13erJDrWv1kM9tdPzOemf90CsA/we/mtlzEBKXRCSjSa9CP/ksNg5G3YcWAwmPjgdiHF9cm4NGwDoo8HeDmTmNSX7dRbbJmnICY7x3YjKJn0ck3zheZwxgZe+t4bAMoSMBOO3QQPYdSo3gM6RS4GfXnJooQZbfSJI7UmaojVgkpIHe19ktc7jox9F3R7uPDpZ4ufRctIh9PI/fMKjci1RUFx04Hwma94/DcJActkfpxK01Bi+o6XU2YKQj1WLCODe5hP2jNCJM4oXpDB1SqrFlsU3sg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(366004)(316002)(508600001)(8676002)(8936002)(1076003)(6916009)(33716001)(86362001)(5660300002)(26005)(66946007)(2906002)(6506007)(66556008)(66476007)(9686003)(558084003)(38350700002)(44832011)(38100700002)(6666004)(52116002)(7416002)(6486002)(4326008)(33656002)(186003)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?vaCmDdw6hyLWQje73hSzj7MKFt+f0xKp2F14TeOfnLdcJtQ1/3QW/hj3ukEh?=
+ =?us-ascii?Q?T6ga2oOMGdaHWJQxpxg239ruBw+2F+ix/IP4hjiI56lsvFf7UkH1IFdHsymv?=
+ =?us-ascii?Q?e1Cb/PKjcvJAsu79qPZCcIDxAcNX3flA/u3viOgGNA7h92VQp6DuX9BPvoH/?=
+ =?us-ascii?Q?CGRJTcfB+Sf3wX93ZG9emuo4lWeFTT30/m2putcjvXXt03/IfXP6wbzWE9mr?=
+ =?us-ascii?Q?XO1RLfhuhdEyT2P9CEbDZBW4VcYOpUiSPprR6e78iA3xux9EwEjD354PGcto?=
+ =?us-ascii?Q?g83wSmf0705rYKxyVkF2HybEBcQSHCgZM7NinTkJDq7XlGbx5BCqzl9GIfD9?=
+ =?us-ascii?Q?HZtX1i/S+MV6keu8JKRvndWGVB1Po8of4SqcTxwG31Wi0enFQA/x2MnOe8pa?=
+ =?us-ascii?Q?XLw7QCPdEJUB3Bp7YsWGJmBl0LiFfEUb60RpLNwU5LOOywtd63Hi11A730zd?=
+ =?us-ascii?Q?OXiFiiQmlLJHUKQIZlk1R3TJQgSObihliVswZEt5zZ7ixDh4SD+cMBiVF7f5?=
+ =?us-ascii?Q?VAN0BSp/LWTKzaMmrXzj/fVr2Bue1PQ/h08B6A36MTgHBdUjl1KhUSUxmZ15?=
+ =?us-ascii?Q?UWg+10RVy6L3p8sILJLK46R01sS4JoY8WtuH5SsWBloKp2zmg+i23s49nGNu?=
+ =?us-ascii?Q?oP6rMl3JHl64AwRnIZkLo1OQCCBfMzSWSd9IJV2Nbzo/qqysZCE1mqcysany?=
+ =?us-ascii?Q?eOi/Qx6jSy9JWLvMN/ja8PiOLtGa54xWmhz3Gd79dtw+HA8MoA1bDOhJvhuo?=
+ =?us-ascii?Q?p6GZU0okHRfE/Qj+2KYlDMOO2Z3Zn0/qc+BEFd6iTB5bDLpgEKzdblbh7Imt?=
+ =?us-ascii?Q?6bTV352tzeioVAiPsntSlY2rL9fpaVi9VrrO+6rX1L5qeQ7rgfmqjKVPDAnD?=
+ =?us-ascii?Q?Zlffd1drx39B0SYgUiTGj5+nJR3L1CdNq1FGtXagEtYB5Y0sJjqlCblo2/X7?=
+ =?us-ascii?Q?UEDGkQjeUNWK2ZZ7PDLXZi3SjcHWOvu+jVZCKfh5iAPC/l0jUcRCHxUE9A5k?=
+ =?us-ascii?Q?6fX/KIUv1BT7eR0K8ZllTQZ0qUIv2dkW6SREOoMiu2R3xU9B2l+lLzcfED8e?=
+ =?us-ascii?Q?IPjCCgxGso0J7x7upEJP1Zf7ZBPU58/rZ1fIhroTBAoKmW/dHHPG5SrARmV0?=
+ =?us-ascii?Q?/2W9Wu8sDJpwaiJugGSneR5Owmv3WAorteZLXgakewnfeeEg69Lo2Iguz+6l?=
+ =?us-ascii?Q?JMAbNnGNz6gIOlf2WgYR31T15OkGllMsQltG4X4hFxN/XLaUUbcXvB9SUsn1?=
+ =?us-ascii?Q?ZFRFN6lKD04RnT2R+wgVyHdz+LrQPjn2cyZ7znx9wOCPSycOP4DBgG8ItXAp?=
+ =?us-ascii?Q?huHn2uD/bGIvIFCYvoCjgw2lTLesYJQidLyxL6Qmctkm+xbM7NsnORgfyNJ+?=
+ =?us-ascii?Q?XRxLW340nMkI24WzCOfZfe7mOsof4A4ewN2vPbgafhVsLWwca6G6dDz4JITb?=
+ =?us-ascii?Q?d/Ay9aQVHpyx/BwOgrkC8aSknawdqCrXaRGqLDlhbUVBARVCSTmAJLryFON3?=
+ =?us-ascii?Q?cJeftOiVuGdGnWU2yIIAwbsXBhIvJkWygFh0yLT2D97WS2Y/xLGRko9sNCUN?=
+ =?us-ascii?Q?vROX2AqwG3w/1IdUcSjdPq21UAOIHCuR4ue2V83hrenX37xbSPHw3QD0352d?=
+ =?us-ascii?Q?XzQu0aSlwUC9B3XfUeaA5FzH0eob+Kw3XBTAUNenBfn9e0X/HpVPi7UEZ6i5?=
+ =?us-ascii?Q?twGAq56BDIffzmX5zuN4jBUSStg=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00f7aa5f-703c-4de5-55ce-08d9d0ff342a
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2022 10:27:56.3188
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0Ie+iHSBaB5AjnVXJvrYLsM28DDNS8+u9X1835B7mZan6pr6jNb1IsmZVhBCmnB+kznLSeGjhLK11ScpJNnBTCeuZ7aJjGIAwh39i2ys+UA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1885
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10218 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=999 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2112160000
+ definitions=main-2201060073
+X-Proofpoint-ORIG-GUID: asPPJRk-SeQxlekWboAEkInOwmGo3Tw4
+X-Proofpoint-GUID: asPPJRk-SeQxlekWboAEkInOwmGo3Tw4
 
-On Thu, Jan 06, 2022 at 10:31:10PM +1300, Paulo Miguel Almeida wrote:
-
-
-> As a convention for the pi433 driver, all routines that deals with the
-> rf69 chip are defined in the rf69.c file. There was an exception in
-> which the uC version verification was being done directly elsewhere.
-> While at it, the Version Register hardcoded value was replaced with a
-> pre-existing constant in the driver.
+On Tue, Dec 28, 2021 at 08:50:22AM -0600, Alex Elder wrote:
 > 
-> This patch adds rf69_get_chip_version function to rf69.c
-> 
-> Additionally, the patch below must be applied first as it was sent
-> before and touches the same file.
-> https://lore.kernel.org/lkml/20220103222334.GA6814@mail.google.com/
-> 
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> There is a chance that your simple return would "work"
 
-Hi, Paulo. 
-Thanks for a patch.
+No.  Your original comment was correct.  It has to "ret = -ENOMEM;
+goto error;"
 
-I think it's good overall. But I have some opinion below.
+regards,
+dan carpenter
 
-> ---
->  drivers/staging/pi433/pi433_if.c | 4 +---
->  drivers/staging/pi433/rf69.c     | 8 ++++++++
->  drivers/staging/pi433/rf69.h     | 1 +
->  3 files changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-> index 29bd37669059..a19afda5b188 100644
-> --- a/drivers/staging/pi433/pi433_if.c
-> +++ b/drivers/staging/pi433/pi433_if.c
-> @@ -1116,9 +1116,7 @@ static int pi433_probe(struct spi_device *spi)
->  		spi->mode, spi->bits_per_word, spi->max_speed_hz);
->  
->  	/* Ping the chip by reading the version register */
-> -	retval = spi_w8r8(spi, 0x10);
-> -	if (retval < 0)
-> -		return retval;
-> +	retval = rf69_get_chip_version(spi);
->  
->  	switch (retval) {
->  	case 0x24:
-> diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-> index d64df072d8e8..1516012f9bb7 100644
-> --- a/drivers/staging/pi433/rf69.c
-> +++ b/drivers/staging/pi433/rf69.c
-> @@ -102,6 +102,14 @@ static inline int rf69_read_mod_write(struct spi_device *spi, u8 reg,
->  
->  /*-------------------------------------------------------------------------*/
->  
-> +int rf69_get_chip_version(struct spi_device *spi)
-> +{
-> +	int retval;
-> +
-> +	retval = rf69_read_reg(spi, REG_VERSION);
-> +	return retval;
-> +}
-> +
-If we don't modify retval, why don't we just return directly without
-retval?
 
->  int rf69_set_mode(struct spi_device *spi, enum mode mode)
->  {
->  	static const u8 mode_map[] = {
-> diff --git a/drivers/staging/pi433/rf69.h b/drivers/staging/pi433/rf69.h
-> index b648ba5fff89..ca9b75267840 100644
-> --- a/drivers/staging/pi433/rf69.h
-> +++ b/drivers/staging/pi433/rf69.h
-> @@ -17,6 +17,7 @@
->  #define FIFO_SIZE	66		/* bytes */
->  #define FIFO_THRESHOLD	15		/* bytes */
->  
-> +int rf69_get_chip_version(struct spi_device *spi);
-IMHO, I think that we don't need to include 'chip'. Because all other
-functions in this code don't have 'chip' in function name. and version
-code seems to be more accurate representation.
-
->  int rf69_set_mode(struct spi_device *spi, enum mode mode);
->  int rf69_set_data_mode(struct spi_device *spi, u8 data_mode);
->  int rf69_set_modulation(struct spi_device *spi, enum modulation modulation);
-> -- 
-> 2.25.4
-> 
