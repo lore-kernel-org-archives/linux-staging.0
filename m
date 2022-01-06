@@ -1,26 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9AD173
-	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 14:01:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39B99C36AE3;
-	Thu,  6 Jan 2022 14:01:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668D9173
+	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 14:04:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 781D1C36AE3;
+	Thu,  6 Jan 2022 14:04:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1641477708;
-	bh=LnhcNm2woC798UYuUxRQnM+UQkBAfsqI/F0kZU392K4=;
+	s=korg; t=1641477852;
+	bh=vagtv4d0QkzdvwtqkyA9ntM9HugyoKiIJ3Sgw7fKpBY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mLzUFTW3qiEI4/gtlhZxkE3ALcpStfnFvDFyLab7sjbb77kWohSZ3VqifA28Ztfkm
-	 jKkdVAOI6zNuFwASw/6NbmrGGlO9rAy+95kFzISKA3FDxe5j2gecx99Z8w4/RKlXmA
-	 kNtYk3dPxr/lH07D7DWHOqv88f+9w39M2sJ1iwl8=
-Date: Thu, 6 Jan 2022 15:01:44 +0100
+	b=lp1u25aJVBBOdTEq/ORyja1wa9XhMvMe7FEHZgZNbba5uBggie7V8oAOoZeD/zDoL
+	 PmRHUpT8G2pYLLdOgwIkuPv85i0vmtfvZwJnWxpXvRzFUSBzKU038KY5h+uRw4iRi6
+	 Aa4WcmGGs9OeJlfe0lEvtOVTTEHoQWiF4Tcb2xqg=
+Date: Thu, 6 Jan 2022 15:04:09 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc: knv418@gmail.com, linux-staging@lists.linux.dev,
+To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+Cc: realwakka@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: kpc2000: kpc2000_spi: Check for null pointer
- after calling devm_ioremap
-Message-ID: <Ydb2SLUZ25skxLZd@kroah.com>
-References: <20220106092257.2738018-1-jiasheng@iscas.ac.cn>
+Subject: Re: [PATCH] staging: pi433: move get version func to where all other
+ functions are
+Message-ID: <Ydb22Tuvm0MwfpOK@kroah.com>
+References: <20220106093110.GA20011@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,69 +29,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220106092257.2738018-1-jiasheng@iscas.ac.cn>
+In-Reply-To: <20220106093110.GA20011@mail.google.com>
 
-On Thu, Jan 06, 2022 at 05:22:57PM +0800, Jiasheng Jiang wrote:
-> As the possible failure of the allocation, the devm_ioremap() may return
-> NULL pointer.
-> Then the kpspi->base is assigned to cs->base in kp_spi_setup() and used
-> in kp_spi_read_reg() and kp_spi_write_reg().
-> Therefore, it should be better to add the sanity check and return error
-> in order to avoid the dereference of the NULL pointer.
+On Thu, Jan 06, 2022 at 10:31:10PM +1300, Paulo Miguel Almeida wrote:
+> As a convention for the pi433 driver, all routines that deals with the
+> rf69 chip are defined in the rf69.c file. There was an exception in
+> which the uC version verification was being done directly elsewhere.
+> While at it, the Version Register hardcoded value was replaced with a
+> pre-existing constant in the driver.
 > 
-> Fixes: 677b993a5749 ("staging: kpc2000: kpc_spi: use devm_* API to manage mapped I/O space")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> This patch adds rf69_get_chip_version function to rf69.c
+> 
+> Additionally, the patch below must be applied first as it was sent
+> before and touches the same file.
+> https://lore.kernel.org/lkml/20220103222334.GA6814@mail.google.com/
+> 
+> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 > ---
->  drivers/staging/kpc2000/kpc2000_spi.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  drivers/staging/pi433/pi433_if.c | 4 +---
+>  drivers/staging/pi433/rf69.c     | 8 ++++++++
+>  drivers/staging/pi433/rf69.h     | 1 +
+>  3 files changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/kpc2000/kpc2000_spi.c b/drivers/staging/kpc2000/kpc2000_spi.c
-> index 16ca18b8aa15..ead4aa0c988c 100644
-> --- a/drivers/staging/kpc2000/kpc2000_spi.c
-> +++ b/drivers/staging/kpc2000/kpc2000_spi.c
-> @@ -466,6 +466,10 @@ kp_spi_probe(struct platform_device *pldev)
+> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+> index 29bd37669059..a19afda5b188 100644
+> --- a/drivers/staging/pi433/pi433_if.c
+> +++ b/drivers/staging/pi433/pi433_if.c
+> @@ -1116,9 +1116,7 @@ static int pi433_probe(struct spi_device *spi)
+>  		spi->mode, spi->bits_per_word, spi->max_speed_hz);
 >  
->  	kpspi->base = devm_ioremap(&pldev->dev, r->start,
->  				   resource_size(r));
-> +	if (!kpspi->base) {
-> +		status = -ENOMEM;
-> +		goto free_master;
-> +	}
->  
->  	status = spi_register_master(master);
->  	if (status < 0) {
-> -- 
-> 2.25.1
-> 
-> 
+>  	/* Ping the chip by reading the version register */
+> -	retval = spi_w8r8(spi, 0x10);
+> -	if (retval < 0)
+> -		return retval;
+> +	retval = rf69_get_chip_version(spi);
 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did not apply to any known trees that Greg is in control
-  of.  Possibly this is because you made it against Linus's tree, not
-  the linux-next tree, which is where all of the development for the
-  next version of the kernel is at.  Please refresh your patch against
-  the linux-next tree, or even better yet, the development tree
-  specified in the MAINTAINERS file for the subsystem you are submitting
-  a patch for, and resend it.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+This can not fail anymore, like it used to be able to.  So I think you
+just broke the functionality for why this call was being made in the
+first place (i.e. ping the chip to see if it was alive, and fail if it
+is not.)
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
