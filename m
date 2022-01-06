@@ -1,27 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78922168
-	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 17:58:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78058C36AEB;
-	Thu,  6 Jan 2022 17:58:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1641491934;
-	bh=2ZIVF+u68miL0WQl4iX6q7KvCTfASSc9mWjOlyuw1oU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uN9IH3OWWmWyIl0uJLjZmNAyJkLuHC1Hjz74CmIHJ7cFS48lvG1RbGo8Svhj4t2M3
-	 movfS7cn7Qi4TMfHL8cbevTgRX+YGj+bRjXwlYsWLujXqtHMk8iFAtz3hanmxlW0wa
-	 AvyCbi49JNZcr6RdEXfdHjmlHrVDPCOhgdvC/mjU=
-Date: Thu, 6 Jan 2022 18:58:50 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Abdun Nihaal <abdun.nihaal@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: r8188eu: change functions to return void
-Message-ID: <Ydct2sBt6aB+MChS@kroah.com>
-References: <cover.1641490034.git.abdun.nihaal@gmail.com>
- <9db6b08837bd6354c8e07a4b1c4bca662091f945.1641490034.git.abdun.nihaal@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37D3173
+	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 20:14:36 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id l10-20020a17090a384a00b001b22190e075so9784617pjf.3
+        for <linux-staging@lists.linux.dev>; Thu, 06 Jan 2022 12:14:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=iY7kaZWechPsDL3Q2mJcGuDW8q/eF7XLJPP9KZVQVwc=;
+        b=KNr05I3wAGKIk2RV2Y7lMTmPYQBJlch8m8XX0o7OWe+L0TVKyIvZD1S8rJIAERnHYu
+         zyvGrekWXD22/FLLNq8ZbeS10yDkiJ3tz/6LufLZY/yO6vQuIGJ3k9qvxRb0/dXrFeC9
+         Z+l0BpaawmD5Ou0HPcfrTJZstZXTdcgoE7P/YgpKW9zcTUpGtTKHUFp784fc/KY6rhdv
+         eEC1McorJRnQxaFvO/iI/3tyGUXMpFL1vHubhfBb3uKqrvH0Ghhd8CI/fcq0WuaYaZMh
+         R5MqhowepaKmn/lyjMtUgAMI8VHRVb47pLBnfHljv23hOVi9ppF7S5oCw/AgxcH9Rik3
+         GoVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=iY7kaZWechPsDL3Q2mJcGuDW8q/eF7XLJPP9KZVQVwc=;
+        b=nCAY4sGIeR7Do3kDi8SK8HrH94xdkMBuR9mEm9Kizg5NdQbipTdqEPsT1+1rmbnHQA
+         QY/BeulMtIQsA5V1kBKG+jCvLYyV/EBS8Ma9DHYvEgv+ot3yVAH1wM/hWrNHVItwOJWq
+         YPZn87aIm5KjLp7v5A/ARM4k/XQwcgGQOxn5umdGlIUaanezv3gMhoRgQ7DeSnWtDxmc
+         Ks5+ymK64Ul8oF1b1S59x5Md+/yziJakS+MM/EEV4NH4obF0uKlKqOPwZiZJ0vm+KtWS
+         T+wB4/nhcqcfEWQlwIwegBJ6plz/nf/TnGIM1EnXNdtKEin1uxBMk4ovg3FP2mB0u5w7
+         WLMQ==
+X-Gm-Message-State: AOAM533dpJNjuwsxlh7fBGX2RthrRMickYRSphXaAYK0D6q0a9ZQ+fQ6
+	dqnygVeZs4fRPA9WoxTiTrw=
+X-Google-Smtp-Source: ABdhPJyygoC0sktO/hQHbN0E2GrqJNnr8NvPR62/Rpv92McIKlH1hsaYEaz6rmQFd+qkok9K7LQc/A==
+X-Received: by 2002:a17:902:7fc6:b0:14a:663:f359 with SMTP id t6-20020a1709027fc600b0014a0663f359mr464061plb.169.1641500076487;
+        Thu, 06 Jan 2022 12:14:36 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id c6sm3285512pfv.62.2022.01.06.12.14.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jan 2022 12:14:35 -0800 (PST)
+Date: Fri, 7 Jan 2022 09:14:30 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: Sidong Yang <realwakka@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: pi433: move get version func to where all other
+ functions are
+Message-ID: <20220106201430.GA3416@mail.google.com>
+References: <20220106093110.GA20011@mail.google.com>
+ <20220106101946.GA23794@realwakka>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,324 +54,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9db6b08837bd6354c8e07a4b1c4bca662091f945.1641490034.git.abdun.nihaal@gmail.com>
+In-Reply-To: <20220106101946.GA23794@realwakka>
 
-On Thu, Jan 06, 2022 at 11:11:52PM +0530, Abdun Nihaal wrote:
-> Some functions in ioctl_linux.c always returns 0 and their return values
-> are never used. Change return type of such functions to void.
-> 
-> While at it, align function arguments with open parenthesis to fix
-> checkpatch checks.
-> 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
-> ---
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 115 ++++++++++---------
->  1 file changed, 58 insertions(+), 57 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 6d8adbee85f3..08914b246380 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -2308,9 +2308,9 @@ static int rtw_wext_p2p_enable(struct net_device *dev,
->  	return ret;
->  }
->  
-> -static int rtw_p2p_set_go_nego_ssid(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_set_go_nego_ssid(struct net_device *dev,
-> +				     struct iw_request_info *info,
-> +				     union iwreq_data *wrqu, char *extra)
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
->  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
-> @@ -2319,7 +2319,7 @@ static int rtw_p2p_set_go_nego_ssid(struct net_device *dev,
->  	memcpy(pwdinfo->nego_ssid, extra, strlen(extra));
->  	pwdinfo->nego_ssidlen = strlen(extra);
->  
-> -	return 0;
-> +	return;
->  }
->  
->  static int rtw_p2p_set_intent(struct net_device *dev,
-> @@ -2455,9 +2455,9 @@ static int rtw_p2p_profilefound(struct net_device *dev,
->  	return ret;
->  }
->  
-> -static int rtw_p2p_setDN(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_setDN(struct net_device *dev,
-> +			  struct iw_request_info *info,
-> +			  union iwreq_data *wrqu, char *extra)
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
->  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
-> @@ -2467,10 +2467,10 @@ static int rtw_p2p_setDN(struct net_device *dev,
->  	memcpy(pwdinfo->device_name, extra, wrqu->data.length - 1);
->  	pwdinfo->device_name_len = wrqu->data.length - 1;
->  
-> -	return 0;
-> +	return;
->  }
->  
-> -static int rtw_p2p_get_status(struct net_device *dev,
-> +static void rtw_p2p_get_status(struct net_device *dev,
->  			       struct iw_request_info *info,
->  			       union iwreq_data *wrqu, char *extra)
->  {
-> @@ -2488,7 +2488,7 @@ static int rtw_p2p_get_status(struct net_device *dev,
->  	sprintf(extra, "\n\nStatus =%.2d\n", rtw_p2p_state(pwdinfo));
->  	wrqu->data.length = strlen(extra);
->  
-> -	return 0;
-> +	return;
->  }
->  
->  /*	Commented by Albert 20110520 */
-> @@ -2496,7 +2496,7 @@ static int rtw_p2p_get_status(struct net_device *dev,
->  /*	This config method description will show us which config method the remote P2P device is intended to use */
->  /*	by sending the provisioning discovery request frame. */
->  
-> -static int rtw_p2p_get_req_cm(struct net_device *dev,
-> +static void rtw_p2p_get_req_cm(struct net_device *dev,
->  			       struct iw_request_info *info,
->  			       union iwreq_data *wrqu, char *extra)
->  {
-> @@ -2505,12 +2505,12 @@ static int rtw_p2p_get_req_cm(struct net_device *dev,
->  
->  	sprintf(extra, "\n\nCM =%s\n", pwdinfo->rx_prov_disc_info.strconfig_method_desc_of_prov_disc_req);
->  	wrqu->data.length = strlen(extra);
-> -	return 0;
-> +	return;
->  }
->  
-> -static int rtw_p2p_get_role(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_get_role(struct net_device *dev,
-> +			     struct iw_request_info *info,
-> +			     union iwreq_data *wrqu, char *extra)
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
->  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
-> @@ -2521,12 +2521,12 @@ static int rtw_p2p_get_role(struct net_device *dev,
->  
->  	sprintf(extra, "\n\nRole =%.2d\n", rtw_p2p_role(pwdinfo));
->  	wrqu->data.length = strlen(extra);
-> -	return 0;
-> +	return;
->  }
->  
-> -static int rtw_p2p_get_peer_ifaddr(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_get_peer_ifaddr(struct net_device *dev,
-> +				    struct iw_request_info *info,
-> +				    union iwreq_data *wrqu, char *extra)
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
->  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
-> @@ -2537,12 +2537,12 @@ static int rtw_p2p_get_peer_ifaddr(struct net_device *dev,
->  	sprintf(extra, "\nMAC %pM",
->  		pwdinfo->p2p_peer_interface_addr);
->  	wrqu->data.length = strlen(extra);
-> -	return 0;
-> +	return;
->  }
->  
-> -static int rtw_p2p_get_peer_devaddr(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_get_peer_devaddr(struct net_device *dev,
-> +				     struct iw_request_info *info,
-> +				     union iwreq_data *wrqu, char *extra)
->  
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
-> @@ -2554,12 +2554,13 @@ static int rtw_p2p_get_peer_devaddr(struct net_device *dev,
->  	sprintf(extra, "\n%pM",
->  		pwdinfo->rx_prov_disc_info.peerDevAddr);
->  	wrqu->data.length = strlen(extra);
-> -	return 0;
-> +	return;
->  }
->  
-> -static int rtw_p2p_get_peer_devaddr_by_invitation(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_get_peer_devaddr_by_invitation(struct net_device *dev,
-> +						   struct iw_request_info *info,
-> +						   union iwreq_data *wrqu,
-> +						   char *extra)
->  
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
-> @@ -2571,12 +2572,12 @@ static int rtw_p2p_get_peer_devaddr_by_invitation(struct net_device *dev,
->  	sprintf(extra, "\nMAC %pM",
->  		pwdinfo->p2p_peer_device_addr);
->  	wrqu->data.length = strlen(extra);
-> -	return 0;
-> +	return;
->  }
->  
-> -static int rtw_p2p_get_groupid(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_get_groupid(struct net_device *dev,
-> +				struct iw_request_info *info,
-> +				union iwreq_data *wrqu, char *extra)
->  
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
-> @@ -2588,12 +2589,12 @@ static int rtw_p2p_get_groupid(struct net_device *dev,
->  		pwdinfo->groupid_info.go_device_addr[4], pwdinfo->groupid_info.go_device_addr[5],
->  		pwdinfo->groupid_info.ssid);
->  	wrqu->data.length = strlen(extra);
-> -	return 0;
-> +	return;
->  }
->  
-> -static int rtw_p2p_get_op_ch(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_get_op_ch(struct net_device *dev,
-> +			      struct iw_request_info *info,
-> +			      union iwreq_data *wrqu, char *extra)
->  
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
-> @@ -2603,7 +2604,7 @@ static int rtw_p2p_get_op_ch(struct net_device *dev,
->  
->  	sprintf(extra, "\n\nOp_ch =%.2d\n", pwdinfo->operating_channel);
->  	wrqu->data.length = strlen(extra);
-> -	return 0;
-> +	return;
->  }
->  
->  static int rtw_p2p_get_wps_configmethod(struct net_device *dev,
-> @@ -3049,9 +3050,9 @@ static int rtw_p2p_connect(struct net_device *dev,
->  	return ret;
->  }
->  
-> -static int rtw_p2p_invite_req(struct net_device *dev,
-> -			      struct iw_request_info *info,
-> -			      union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_invite_req(struct net_device *dev,
-> +			       struct iw_request_info *info,
-> +			       union iwreq_data *wrqu, char *extra)
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
->  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
-> @@ -3076,12 +3077,12 @@ static int rtw_p2p_invite_req(struct net_device *dev,
->  
->  	if (wrqu->data.length <=  37) {
->  		DBG_88E("[%s] Wrong format!\n", __func__);
-> -		return 0;
-> +		return;
->  	}
->  
->  	if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE)) {
->  		DBG_88E("[%s] WiFi Direct is disable!\n", __func__);
-> -		return 0;
-> +		return;
->  	} else {
->  		/*	Reset the content of struct tx_invite_req_info */
->  		pinvite_req_info->benable = false;
-> @@ -3154,12 +3155,12 @@ static int rtw_p2p_invite_req(struct net_device *dev,
->  	} else {
->  		DBG_88E("[%s] NOT Found in the Scanning Queue!\n", __func__);
->  	}
-> -	return 0;
-> +	return;
->  }
->  
-> -static int rtw_p2p_set_persistent(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_set_persistent(struct net_device *dev,
-> +				   struct iw_request_info *info,
-> +				   union iwreq_data *wrqu, char *extra)
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
->  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
-> @@ -3172,7 +3173,7 @@ static int rtw_p2p_set_persistent(struct net_device *dev,
->  
->  	if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE)) {
->  		DBG_88E("[%s] WiFi Direct is disable!\n", __func__);
-> -		return 0;
-> +		return;
->  	} else {
->  		if (extra[0] == '0')	/*	Disable the persistent group function. */
->  			pwdinfo->persistent_supported = false;
-> @@ -3182,12 +3183,12 @@ static int rtw_p2p_set_persistent(struct net_device *dev,
->  			pwdinfo->persistent_supported = false;
->  	}
->  	pr_info("[%s] persistent_supported = %d\n", __func__, pwdinfo->persistent_supported);
-> -	return 0;
-> +	return;
->  }
->  
-> -static int rtw_p2p_prov_disc(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_prov_disc(struct net_device *dev,
-> +			      struct iw_request_info *info,
-> +			      union iwreq_data *wrqu, char *extra)
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
->  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
-> @@ -3214,7 +3215,7 @@ static int rtw_p2p_prov_disc(struct net_device *dev,
->  
->  	if (pwdinfo->p2p_state == P2P_STATE_NONE) {
->  		DBG_88E("[%s] WiFi Direct is disable!\n", __func__);
-> -		return 0;
-> +		return;
->  	} else {
->  		/*	Reset the content of struct tx_provdisc_req_info excluded the wps_config_method_request. */
->  		memset(pwdinfo->tx_prov_disc_info.peerDevAddr, 0x00, ETH_ALEN);
-> @@ -3238,7 +3239,7 @@ static int rtw_p2p_prov_disc(struct net_device *dev,
->  		pwdinfo->tx_prov_disc_info.wps_config_method_request = WPS_CM_LABEL;
->  	} else {
->  		DBG_88E("[%s] Unknown WPS config methodn", __func__);
-> -		return 0;
-> +		return;
->  	}
->  
->  	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
-> @@ -3310,15 +3311,15 @@ static int rtw_p2p_prov_disc(struct net_device *dev,
->  	} else {
->  		DBG_88E("[%s] NOT Found in the Scanning Queue!\n", __func__);
->  	}
-> -	return 0;
-> +	return;
->  }
->  
->  /*	This function is used to inform the driver the user had specified the pin code value or pbc */
->  /*	to application. */
->  
-> -static int rtw_p2p_got_wpsinfo(struct net_device *dev,
-> -			       struct iw_request_info *info,
-> -			       union iwreq_data *wrqu, char *extra)
-> +static void rtw_p2p_got_wpsinfo(struct net_device *dev,
-> +				struct iw_request_info *info,
-> +				union iwreq_data *wrqu, char *extra)
->  {
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
->  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
-> @@ -3340,7 +3341,7 @@ static int rtw_p2p_got_wpsinfo(struct net_device *dev,
->  		pwdinfo->ui_got_wps_info = P2P_GOT_WPSINFO_PBC;
->  	else
->  		pwdinfo->ui_got_wps_info = P2P_NO_WPSINFO;
-> -	return 0;
-> +	return;
->  }
->  
->  static int rtw_p2p_set(struct net_device *dev,
-> -- 
-> 2.34.1
-> 
->
+On Thu, Jan 06, 2022 at 10:19:46AM +0000, Sidong Yang wrote:
+> > +int rf69_get_chip_version(struct spi_device *spi)
+> > +{
+> > +	int retval;
+> > +
+> > +	retval = rf69_read_reg(spi, REG_VERSION);
+> > +	return retval;
+> > +}
+> > +
+> If we don't modify retval, why don't we just return directly without
+> retval?
 
-Are you sure that checkpatch allowed this change?
+fair point, I will change that.
+
+> > @@ -17,6 +17,7 @@
+> >  #define FIFO_SIZE	66		/* bytes */
+> >  #define FIFO_THRESHOLD	15		/* bytes */
+> >  
+> > +int rf69_get_chip_version(struct spi_device *spi);
+> IMHO, I think that we don't need to include 'chip'. Because all other
+> functions in this code don't have 'chip' in function name. and version
+> code seems to be more accurate representation.
+> 
+
+will change that too. Thanks for taking the time to review this patch.
+
+thanks,
+
+Paulo A.
