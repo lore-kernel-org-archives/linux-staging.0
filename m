@@ -1,51 +1,49 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA932C80
-	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 21:01:40 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id r5so3643174pgi.6
-        for <linux-staging@lists.linux.dev>; Thu, 06 Jan 2022 13:01:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB8C2C80
+	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 21:33:31 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id w7so3352602plp.13
+        for <linux-staging@lists.linux.dev>; Thu, 06 Jan 2022 13:33:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ft4KTDnmfGNxrsGxX/0Cc8w5WOpSQF6ljEU4UL8RaD8=;
-        b=oQv+P66yLtYEjzRdtw6E+azvb1+cssHtxap+eylA/E6oDuldn/j9leLANeLuYuXGu+
-         196ocDCi50FISgMjWsuWaMgbWeJ9p2GINm85nplZL1qYWzUawKSrIhB9lybagNk4HTC/
-         pJJqrBWGcpOlGa7ieS+EawyTLVVXFx/x0017f1S7LiquuXr7fJJW22Qzm6La7qWcyj0l
-         3XCNP7DEQ24c7MBLo/yMFqYzFL/9GGsCXAIbXUv5OxHvVM6nmF5pp9hoDI2HUrj/G9ZH
-         vFJH6UODT8yMbQb5OLhVh6KCP4t9YiGgusl+iCFeIFb6eekicCxm9it/iKOuL08QVT+i
-         ZlNQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to;
+        bh=WuKRGo9ecKyj+0SJ1Lg32Xx/ZEzcZuPmTJpgDjcU7uY=;
+        b=AhRuXFF2ulHp/rvfG1I45ArchYIMXBwQfjay6KahHpQaAneqhy7iGqzYTfDEMB5wKc
+         A8VmTa3Ix3Rzd1IaR20QG5S3yoTSnvgfJnTiFfL++7ziPLnM4ptRvE3MThwuZqoA08cB
+         0ksjMdSB4B5ueb9BZLaQmzqh/3QxQF4a8j9MosJluV3/OOHaDxjTg9eGjmKjJOFMT4H3
+         EiOUXptQrtjvD9x2/+29Vm+v873oz1nokdmIEdg9LNK3KjyBmL/pnF55IxP7QdMWHbyN
+         2MxaBo4mox0G1Mbr/eUNIY4ylgmodkLBjLj7PCn6OmYCrskG74mFWuVwNagpqTIR7a22
+         0IVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ft4KTDnmfGNxrsGxX/0Cc8w5WOpSQF6ljEU4UL8RaD8=;
-        b=VjpqI1fM2fGGPHJwXgjupXwCIlCFB5oAal+rPZOC6C60Abs76wic1+UUbnheXRonn9
-         IC7K8iPl9ZNk5aSVk6MmvsmJA94qMqRCvWmgGx2k2mhIhg4NYuTrJVVgI3lPw1M+I4eI
-         xp9nC0piIg2gRCuP7Ik1iQ8RoHApaTgRDdxOsE1LqHHtialLJ1/6ojhGROd3HDP4CgjT
-         xZceiy8O3NmpiU2YQKj50SeKqSQcaNSPHe6D9DuWhFK4eaN7ECISniSv18Xi0f8DMMu0
-         GSpQAJ3Smmw1qiEpE/h02kArkdGS4yMMHDubfLXQ5t20AWx8k1zh5Ncak6rEl33cEw+p
-         KDBA==
-X-Gm-Message-State: AOAM533UGNT/dLvuzuN2XNg9ZOhcJiCbw7EXOZjSlZyqnbXZ5GCN58Af
-	nNShxw+RBETFpzTUNscY7AE=
-X-Google-Smtp-Source: ABdhPJyUAM2wF97lFOwI55hw8C21xSxvLscFnuutC/Yawdg8EhM6MeUMQobVIDOJ/tdMtHo/FghKXw==
-X-Received: by 2002:a63:b20d:: with SMTP id x13mr8730426pge.310.1641502900186;
-        Thu, 06 Jan 2022 13:01:40 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to;
+        bh=WuKRGo9ecKyj+0SJ1Lg32Xx/ZEzcZuPmTJpgDjcU7uY=;
+        b=8E834o5wQplXLgTQP95r98Z34qlorzafn1pE04HXWSZ/Gu/TVGnIggaNi9L+zj5MVg
+         YKDee5+3PJkHGd6T5u4L10xvG+qbs7y8dwgoZZDpEuSXNyhpEkh1hr8SL9ggcVNRCELl
+         5HlEGPDqmKtkDCIIMVaR/zfdPy7Nnx36F2s0LB1KO8Su59e6lZC9/qs15DK6rV+DraI9
+         RElauODPhJ/LxQqtN1lihWrCGxbZ9TVZxrLAbrS78xy+3u0alBnGT9zdGXRLthnKQP3O
+         g7x7e0y8HjB0oV7pHMj8IxuwU8N5CKnX8/BJ+uIRMbUEzBmP3k3x1MVBO86sDAsPT7yK
+         6VNA==
+X-Gm-Message-State: AOAM532m8BrzO0UVLaEp3bLoAG/bYG0Z46da9xGQcqXoDjDaqVrX0HXt
+	mtJehWW6ZI3AlEBIMuds5ZQ=
+X-Google-Smtp-Source: ABdhPJxAkBpesp/+H7KaHoCKMNePmUsNKQ1ND3NiASQkIa2G2NvKPPF+Yz0sLtdNLD+Ok4OKSQzYRQ==
+X-Received: by 2002:a17:902:6b02:b0:149:9c7d:3ae7 with SMTP id o2-20020a1709026b0200b001499c7d3ae7mr37369260plk.51.1641504811598;
+        Thu, 06 Jan 2022 13:33:31 -0800 (PST)
 Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id t126sm2739702pgc.61.2022.01.06.13.01.37
+        by smtp.gmail.com with ESMTPSA id s12sm3683830pfg.148.2022.01.06.13.33.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jan 2022 13:01:39 -0800 (PST)
-Date: Fri, 7 Jan 2022 10:01:34 +1300
+        Thu, 06 Jan 2022 13:33:31 -0800 (PST)
+Date: Fri, 7 Jan 2022 10:33:25 +1300
 From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: realwakka@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: move get version func to where all other
+To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
+	realwakka@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: pi433: move get version func to where all other
  functions are
-Message-ID: <20220106210134.GB3416@mail.google.com>
-References: <20220106093110.GA20011@mail.google.com>
- <Ydb22Tuvm0MwfpOK@kroah.com>
+Message-ID: <20220106213325.GA10767@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,53 +52,70 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ydb22Tuvm0MwfpOK@kroah.com>
+In-Reply-To: <20220106201430.GA3416@mail.google.com>
 
-On Thu, Jan 06, 2022 at 03:04:09PM +0100, Greg KH wrote:
-> > --- a/drivers/staging/pi433/pi433_if.c
-> > +++ b/drivers/staging/pi433/pi433_if.c
-> > @@ -1116,9 +1116,7 @@ static int pi433_probe(struct spi_device *spi)
-> >  		spi->mode, spi->bits_per_word, spi->max_speed_hz);
-> >  
-> >  	/* Ping the chip by reading the version register */
-> > -	retval = spi_w8r8(spi, 0x10);
-> > -	if (retval < 0)
-> > -		return retval;
-> > +	retval = rf69_get_chip_version(spi);
-> 
-> This can not fail anymore, like it used to be able to.  So I think you
-> just broke the functionality for why this call was being made in the
-> first place (i.e. ping the chip to see if it was alive, and fail if it
-> is not.)
->
+As a convention for the pi433 driver, all routines that deals with the
+rf69 chip are defined in the rf69.c file. There was an exception in
+which the uC version verification was being done directly elsewhere.
+While at it, the Version Register hardcoded value was replaced with a
+pre-existing constant in the driver.
 
-I thought that this if statement was somewhat redudant because right
-after obtaining the chip version, there is a switch statement that
-checks if the value is what we expect or return an error otherwise.
+This patch adds rf69_get_version function to rf69.c
 
-Unfortunately, in the patch file generated the whole switch statement 
-isn't visible so I admit that it looks funny at first. I will paste the
-routine here:
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+---
+v2: function names where altered to match suggestions given during code
+review. Requester: Sidong Yang
+v1: https://lore.kernel.org/lkml/20220106093110.GA20011@mail.google.com/
+---
+ drivers/staging/pi433/pi433_if.c | 4 +---
+ drivers/staging/pi433/rf69.c     | 5 +++++
+ drivers/staging/pi433/rf69.h     | 1 +
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-/* Ping the chip by reading the version register */
-retval = rf69_get_chip_version(spi);
-
-switch (retval) {
-case 0x24:
-	dev_dbg(&spi->dev, "found pi433 (ver. 0x%x)", retval);
-	break;
-default:
-	dev_dbg(&spi->dev, "unknown chip version: 0x%x", retval);
-	return -ENODEV;
-}
-
-Let me know if you agree with the approach I've taken, otherwise I am
-more than happy to add the original if statement if you think I'm
-missing any edge case here.
-
-Once again, thanks for taking the time to review my patch :)
-
-thanks,
-
-Paulo A.
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 68c09fa016ed..1372361d56e1 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -1116,9 +1116,7 @@ static int pi433_probe(struct spi_device *spi)
+ 		spi->mode, spi->bits_per_word, spi->max_speed_hz);
+ 
+ 	/* Ping the chip by reading the version register */
+-	retval = spi_w8r8(spi, 0x10);
+-	if (retval < 0)
+-		return retval;
++	retval = rf69_get_version(spi);
+ 
+ 	switch (retval) {
+ 	case 0x24:
+diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
+index d64df072d8e8..ee8c81d164e1 100644
+--- a/drivers/staging/pi433/rf69.c
++++ b/drivers/staging/pi433/rf69.c
+@@ -102,6 +102,11 @@ static inline int rf69_read_mod_write(struct spi_device *spi, u8 reg,
+ 
+ /*-------------------------------------------------------------------------*/
+ 
++int rf69_get_version(struct spi_device *spi)
++{
++	return rf69_read_reg(spi, REG_VERSION);
++}
++
+ int rf69_set_mode(struct spi_device *spi, enum mode mode)
+ {
+ 	static const u8 mode_map[] = {
+diff --git a/drivers/staging/pi433/rf69.h b/drivers/staging/pi433/rf69.h
+index b648ba5fff89..c25942f142a6 100644
+--- a/drivers/staging/pi433/rf69.h
++++ b/drivers/staging/pi433/rf69.h
+@@ -17,6 +17,7 @@
+ #define FIFO_SIZE	66		/* bytes */
+ #define FIFO_THRESHOLD	15		/* bytes */
+ 
++int rf69_get_version(struct spi_device *spi);
+ int rf69_set_mode(struct spi_device *spi, enum mode mode);
+ int rf69_set_data_mode(struct spi_device *spi, u8 data_mode);
+ int rf69_set_modulation(struct spi_device *spi, enum modulation modulation);
+-- 
+2.25.4
 
