@@ -1,18 +1,18 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522A82C9C
-	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 14:13:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D5BFC36AE0;
-	Thu,  6 Jan 2022 14:13:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049E2173
+	for <linux-staging@lists.linux.dev>; Thu,  6 Jan 2022 14:14:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366EBC36AE0;
+	Thu,  6 Jan 2022 14:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1641478420;
-	bh=veutsRFUwa9z/eJAKuABD/dWPy10kh8Exy8k3RIMy6g=;
+	s=korg; t=1641478476;
+	bh=slmfr7V9LUKvIHn0GZI1NJ4IhCLh4V1HhpAF4FS8DR0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uLpui3QCqtcs/STyGWN1L7c5fIy8N6Dh3ai+Xd0ChVi9njNNqNysXlIwbCAuwiI6o
-	 vS6FSWqkdq1XQaP6ryz/BusKu17Z+xBCm8+NdXk6fSMr6qa5U3SuvzepA1OE5uWxU3
-	 ZK5b78rKsljGCKwc1ZhUd491z1PMqnsS1lVEvVHM=
-Date: Thu, 6 Jan 2022 15:13:37 +0100
+	b=vZHpgAydIbN26uTloIMdOlFTa1huYlZu6ehyfM6eQrSl10qbeCtHktJawpllz6xt3
+	 uM1dGPZ3LxijZjPLKiWi3CfEVciJ1Jhasme2QReCliHNO5EcAa+SThBPSum85n9Nfu
+	 7jHxSkTY/EmnHJMrNz5EqIQSwva1thwiuDV6gllg=
+Date: Thu, 6 Jan 2022 15:14:34 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 Cc: linuxfancy@googlegroups.com, Larry Finger <Larry.Finger@lwfinger.net>,
@@ -24,14 +24,14 @@ Cc: linuxfancy@googlegroups.com, Larry Finger <Larry.Finger@lwfinger.net>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Saurav Girepunje <saurav.girepunje@gmail.com>,
 	Ivan Safonov <insafonov@gmail.com>,
+	Yang Li <yang.lee@linux.alibaba.com>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	Zameer Manji <zmanji@gmail.com>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/56] staging: r8188eu: rename camelcase SetToDs to
- set_to_ds
-Message-ID: <Ydb5EYA0EWRJTjVB@kroah.com>
+Subject: Re: [PATCH 03/56] staging: r8188eu: remove dead macro ClearToDs
+Message-ID: <Ydb5SrclLcYzUrsC@kroah.com>
 References: <20220103190326.363960-1-alb3rt0.m3rciai@gmail.com>
- <20220103190326.363960-3-alb3rt0.m3rciai@gmail.com>
+ <20220103190326.363960-4-alb3rt0.m3rciai@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,35 +40,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220103190326.363960-3-alb3rt0.m3rciai@gmail.com>
+In-Reply-To: <20220103190326.363960-4-alb3rt0.m3rciai@gmail.com>
 
-On Mon, Jan 03, 2022 at 08:01:37PM +0100, Alberto Merciai wrote:
-> Rename camel case macro SetToDs into set_to_ds.
-> 
-> Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_mlme_ext.c | 4 ++--
->  drivers/staging/r8188eu/core/rtw_xmit.c     | 2 +-
->  drivers/staging/r8188eu/hal/rtl8188e_cmd.c  | 2 +-
->  drivers/staging/r8188eu/include/wifi.h      | 2 +-
->  4 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> index 0aa958f20cd6..6c784134d957 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> @@ -5409,7 +5409,7 @@ static int _issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned
->  	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)
->  		SetFrDs(fctrl);
->  	else if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
-> -		SetToDs(fctrl);
-> +		set_to_ds(fctrl);
+On Mon, Jan 03, 2022 at 08:01:38PM +0100, Alberto Merciai wrote:
+> Remove dead macro ClearToDs.
 
-This patch will not be needed at all if you take my advice from patch
-01.
+"dead"?  Was it ever alive?
 
-The goal is to make readable code, not just rename things to pass a perl
-script's suggestions :)
+I think you mean to write something like:
+
+	The #define ClearToDs() is not used anywhere in the r8188eu
+	driver, so it can be safely removed.
+
+right?
 
 thanks,
 
