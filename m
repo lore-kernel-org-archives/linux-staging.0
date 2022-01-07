@@ -1,76 +1,100 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00F929CA
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 09:55:40 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id l15so4512264pls.7
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 01:55:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECC5168
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 10:36:29 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id c71so8910013edf.6
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 02:36:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zFGzcYvSOCyKFk85uoXR06gkzPo3qnZX3+iKg13B8Qs=;
-        b=fDe/ventyNhPXmnvbmLfT4xlloglwiYf+RpthMcLc5Pk0UbdbKiFlxNU4w/Jh12lz3
-         0GMloo5wHSewYXABHYpnjgtrrGYLHoA0U+/1jqqXl8CcIsjy/LsqYalDEq2nNvZNRfaI
-         cPgJfiyHspv4A+To9wy3XiGLfDfQYp7xI/Jq3BLwe/KqNCQ5oDws67Dttp7pUejRQIoW
-         bwwZha9NFeQa6kotkd8fOF5d7wKrnnV+I4fn5f5lYh9xzTgf+In4zfETcKd40j+QN+w7
-         aELX/H1EMfQOHx67fD4xZecWSzmw+l+37UeM49PHuuE7pMpaaBxOQPzFIeRbQeh5B383
-         t6Fw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=66unC0o6NAYb1N3MoU5TQCeMb7FNDSFj5FiR3BmbU7E=;
+        b=pEECgb0W4WEd8MXiCFFBi+LN8ajtK1xT65HeLPUzyxaYAXLMndztDGpJ88JA2vWQXB
+         FwNKYMbB3L+nkkKPOudieSd0OvuFUx5BlZkmQd9Dqe/qTsQIBweATxm0254YffHG8PHy
+         94GALaK+yO75TbPUiDxoFrcmcOblHZM0UssphI8D5a+wXD26mEcKB+Sj9slg9THoR8lN
+         oqpSiNTH+CKp6yaCjAAZ8QtdJLsl/xVgWdYj5KPIndhe2uYiyxA3VRGdUJacSrp4B5J5
+         vlv03lhyabMmgofead7NajmcYkY2VM+4DMPcOWGpMdEP+ASf9GOdYJNGAoY8F43sntAB
+         vBKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zFGzcYvSOCyKFk85uoXR06gkzPo3qnZX3+iKg13B8Qs=;
-        b=AeySyMqC6acZ15SVE56qY0BZLjFZ84duQUTPZ4ZV+jWoX3QtH1druKl4wdkZr1kCTo
-         dwyYrL+QmZG1vKdPrTAAIMimujyzi9hi+DGkW6eXAjqrHu7G1WwKrNp43jbkdTy/LUgz
-         d+mx48+tejdHsjkYQjOE+T/s9f1Rc9HM+Brrm9+h9OiLm5TP3DIIFQVZm2iZ7wguTR5+
-         tFTYUr4CpXgdMo8gOM2sw4hHp4unxpOUmpzaLz+Mtsimuz9v0VV/9/iDdIuk8Hm8lbD+
-         J3nUtHSnT2pKYRV+U7j9XFVQ3ZxTrl77E7Nl8ZLKk+pPTdY8hAO5GRNcPFmPdc68eGYd
-         CZ/w==
-X-Gm-Message-State: AOAM5300I+Rgjl+j3MyXwKygnMWan+eGRx4JnZk4jwUJlP/dVXpKJh68
-	yAH/FGptEi+ipLQNWhkp+vQ=
-X-Google-Smtp-Source: ABdhPJxO1HqtsaEul2VvPlXMzFWkpde4PUaL57aUmXCzXUP4g3slVu5RUBEc82gJdiJHoSSSFqUQ5g==
-X-Received: by 2002:a17:90a:e7cb:: with SMTP id kb11mr14742426pjb.75.1641549340245;
-        Fri, 07 Jan 2022 01:55:40 -0800 (PST)
-Received: from nlap2 ([171.78.146.184])
-        by smtp.gmail.com with ESMTPSA id s7sm5635783pfu.133.2022.01.07.01.55.35
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=66unC0o6NAYb1N3MoU5TQCeMb7FNDSFj5FiR3BmbU7E=;
+        b=iurEDas0Dpv7p88Bu8C4Jw3TydzAB5Bs166vwMSqEl7WSGFD6Umz0cmpW8LRLMF1I7
+         0sMlSLF01YGI2aynUN/HQmT9nZzP3MuCmo3JFoQtbETHpc0sBi46ctp2SfJDnQB1bd0h
+         jvR48fyOG+kKYvm2H4KXSS2nqemHc1AseOGL7Uos3y3JVOWn6SaXjRKEaKIR85Q/GPHq
+         v4Q66jJUDfzSVgN1jooy2uQBxuBe29UN2TrOhOZNB/VRBpUx0/azzLW2UpQ5bfUfb5BS
+         Vi5VFonWGiGu6Swro31jq3MATj1bVyHjKCPMSqziIcxrorBC+ztG/Sa4/liTRsdw9UvM
+         rI6g==
+X-Gm-Message-State: AOAM531QbOFV1nyjW8VfEzVyB2IXFTJejTmW6rWaKdphoipF9CfTNZfJ
+	MQVuyUmtb6j65SxrrrkOkH4=
+X-Google-Smtp-Source: ABdhPJxf7aBlPfvtyy5mxAyF8PAN/gPrs04OA1NVicRJd0xG7eDBW629T6SvFnY70waxhNHgsYcbRA==
+X-Received: by 2002:a17:907:a088:: with SMTP id hu8mr50451030ejc.56.1641551788383;
+        Fri, 07 Jan 2022 02:36:28 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::51e2])
+        by smtp.gmail.com with ESMTPSA id v8sm1869857edt.10.2022.01.07.02.36.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 01:55:39 -0800 (PST)
-Date: Fri, 7 Jan 2022 15:25:32 +0530
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: r8188eu: change functions to return void
-Message-ID: <20220107095532.gosbmlwdmnljxbxp@nlap2>
-References: <cover.1641490034.git.abdun.nihaal@gmail.com>
- <9db6b08837bd6354c8e07a4b1c4bca662091f945.1641490034.git.abdun.nihaal@gmail.com>
- <Ydct2sBt6aB+MChS@kroah.com>
- <20220107065210.7utcwjenvcspydyk@nlap2>
- <20220107085852.GQ7674@kadam>
+        Fri, 07 Jan 2022 02:36:28 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 00/19] staging: r8188eu: move firmware loading out of the hal layer
+Date: Fri,  7 Jan 2022 11:36:01 +0100
+Message-Id: <20220107103620.15648-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220107085852.GQ7674@kadam>
+Content-Transfer-Encoding: 8bit
 
-Hello,
+This series starts to clean up firmware related code and moves
+the firmware loading out of rtl8188e_hal_init.c into the new file
+core/rtw_fw.c.
 
-On Fri, Jan 07, 2022 at 11:58:52AM +0300, Dan Carpenter wrote:
-> You're not allowed to end a void function with a return statement.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Sorry, I didn't know that. I'll fix it.
+Michael Straube (19):
+  staging: r8188eu: remove Firmware* from struct hal_data_8188e
+  staging: r8188eu: remove rtl8188e_InitializeFirmwareVars()
+  staging: r8188eu: release_firmware is not called if allocation fails
+  staging: r8188eu: rename Exit label in load_firmware()
+  staging: r8188eu: rename rtStatus in load_firmware()
+  staging: r8188eu: convert type of return variable in load_firmware()
+  staging: r8188eu: rename parameter pFirmware of load_firmware()
+  staging: r8188eu: rename fields of struct rt_firmware
+  staging: r8188eu: use kmemdup instead of kzalloc and memcpy
+  staging: r8188eu: rename fw related functions to avoid camel case
+  staging: r8188eu: clean up rtw_reset_8051()
+  staging: r8188eu: convert two functions from s32 to int
+  staging: r8188eu: rename Exit label in rtl8188e_firmware_download()
+  staging: r8188eu: rename rtSatus in rtl8188e_firmware_download()
+  staging: r8188eu: rename FWDL_ChkSum_rpt
+  staging: r8188eu: rename writeFW_retry
+  staging: r8188eu: rename pFwHdr in rtl8188e_firmware_download()
+  staging: r8188eu: rename pFirmwareBuf and FirmwareLen
+  staging: r8188eu: move firmware loading code out of the hal layer
 
-> Checkpatch will only detect these if you run it again with the -f
-> option.
+ drivers/staging/r8188eu/Makefile              |   1 +
+ drivers/staging/r8188eu/core/rtw_fw.c         | 284 ++++++++++++++++
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 303 +-----------------
+ drivers/staging/r8188eu/hal/usb_halinit.c     |   8 +-
+ drivers/staging/r8188eu/include/drv_types.h   |   4 +-
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  10 -
+ .../staging/r8188eu/include/rtl8188e_spec.h   |   2 +-
+ drivers/staging/r8188eu/include/rtw_fw.h      |  14 +
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |   4 +-
+ 9 files changed, 311 insertions(+), 319 deletions(-)
+ create mode 100644 drivers/staging/r8188eu/core/rtw_fw.c
+ create mode 100644 drivers/staging/r8188eu/include/rtw_fw.h
 
-Thanks. I'll make sure to run checkpatch on the modified files also (not
-just on the patches).
+-- 
+2.34.1
 
-Regards,
-Abdun Nihaal
