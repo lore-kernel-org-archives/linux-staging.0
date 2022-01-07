@@ -1,41 +1,41 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA65B2CA1
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 21:50:48 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id k18so13456151wrg.11
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 13:50:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D192CA3
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 21:50:49 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id v6so13467441wra.8
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 13:50:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zi3gM1/OmTLXRomRp3HhtI8qkjro02kWGCf0OSZWoVE=;
-        b=KnaSrhV8B/eZKOnnkEZsU2xqmkruCSe1wFYtGui5kAtDTpeDimemW7GbGnZ/893rh3
-         oQ4QFx0NKWKbujSFi6WeFTsF0Y8uOreKOzwf4dtBbypbt7NQFjx/+6xhEaeqhp2/XVVP
-         gPTieud3kqj2eKtnFniVt+V7g60v5L4SHaMIBvLD7A1dxWMoCJWFl0TX7f0VoOvAo0IX
-         gaSVunhZ7d2Gd9x7nz+r9WIY3IJYcevHm0ph78w/5n/HL3mRtIAIg7O8ioyPmat7lKyr
-         Y7KRuDgUuThe+7OooxteyDPPrnmBduFOrr9un8mgBtkknf9pFuyWV7fe8wmUxarIR5GH
-         +DqQ==
+        bh=/Ep42MnLkFZlrJ74AAV9uWHzBCOpHXZvB1eY1I6VZcA=;
+        b=eiJW1xFSgYimTpYHbuZMyHZkNTPU8Swy4orSrOqottjTnPVlC3u96iSHevzBZ4K6Oy
+         80fk7UhPLDPH9VyEeh7+HRiGRTL37Xxs8ZTrTct25l4CdUK+9MKufVQCYDN8vYk2hMAc
+         8AiTu4P1gCsv4w55Dj/ZteE2FQ7MTseIDMcEN/Ipjj7paQBnfc6AB5Au0hLnbDhIa61c
+         jFRNC5x7mCcy6l2FdhSNgV4YOrokSaQUYTwX0a2qSt9+jeTxAVWgSgTTalr4o3syiYkO
+         NpuROKuTlujJevJxqewO08IwI+PsEaE7pT31tazccsIZr2zDGcrEZRB+Nxeqn5ifWgXb
+         /h6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zi3gM1/OmTLXRomRp3HhtI8qkjro02kWGCf0OSZWoVE=;
-        b=w61u3jBPPk9RUWrHOL1Z0bx8uDx8wage3sSUMJMcn8iHwQflMEqcnXWGoDJriy75wO
-         EoLq5Dz2Rn9HbKX/QIpL8yrcwfnz20tcCtTdbmrnc3LZfhVN13rq4T4wosOACZUsAK5I
-         iOEvVXCQyACB+ZNtbwnpLKwOpSa4mYQZpDyCXJFZNAVWL99CkmGPAiR2xnT8382vUK6T
-         j5yL2CiTrwumHUd3BQAJTRSTZ+jz9HZjAkYPxYBOHe3bYhcfK3Cidjt3yw2ULhXOJZwa
-         SzgjVEfh+lKBnkMMvPwruZu5lmWAjqNao2T39f4yhmnrBb3Zxp5XOeZEcyLvKdlVC8LT
-         B+5g==
-X-Gm-Message-State: AOAM530CsAj32mxQZptkUhEIC+U9uPWlm+9/nMf4A7/voik37nl4rVoQ
-	xc6x8igJJm2I343aXCoTJCQ=
-X-Google-Smtp-Source: ABdhPJzFsj6o5eEUglkmlEp7yW3inw9d0Zk4DgnLEk+7iaV31h5QcJqP/twBH0j7MSaA/8hnKnC/tQ==
-X-Received: by 2002:a5d:64cc:: with SMTP id f12mr55786468wri.145.1641592247345;
-        Fri, 07 Jan 2022 13:50:47 -0800 (PST)
+        bh=/Ep42MnLkFZlrJ74AAV9uWHzBCOpHXZvB1eY1I6VZcA=;
+        b=LAjhug7DutQeZgX0ppXGfvF5h4Vdm+7D1hg5vG+whA+EU7ZN1baFRrRUkiGGZHgGFN
+         26Gu4dvSpr7Ggu/DuT+FAvDZYoVo6+e5+qkjDgKWIZIvPM1HBILPz1w6l04u/CfVmD0m
+         y1tOjPAsNXGZpBshOVLRTRDj9QCX8l1hvf8fLFcPIXNKDWnwqVxYO7RdOiuA1Ytlu4/2
+         7QdzDZygmPeURp/VO5CDZu/zCrdhGezaIA+a/8DxJfZif/4g+j25oaOjqPKYiguHjWiM
+         F8FsKKPnQmUZJSXyA/2cW+AhBtxb8OvIZtIvzX7KByJ5/UwLHR+I1lJ/z12FaqJ+ntmk
+         F4dw==
+X-Gm-Message-State: AOAM533v2ahtypnwgeXDWy1cWKPqY/EvQF8tMo0j9bj9wcWslzJXY1si
+	EeSV+sDMI81TCtO6XV2hnho=
+X-Google-Smtp-Source: ABdhPJzQZNvgEuxGSnAUVjNxYEivHw1oWGioiYTl+nKKA9jiH8QB6Zjdyfw+kt6JOKdvHq7JXFAkKQ==
+X-Received: by 2002:a05:6000:12c3:: with SMTP id l3mr2893987wrx.638.1641592248395;
+        Fri, 07 Jan 2022 13:50:48 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::51e2])
-        by smtp.gmail.com with ESMTPSA id k14sm1729161wrn.59.2022.01.07.13.50.46
+        by smtp.gmail.com with ESMTPSA id k14sm1729161wrn.59.2022.01.07.13.50.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 13:50:47 -0800 (PST)
+        Fri, 07 Jan 2022 13:50:48 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/6] staging: r8188eu: remove HW_VAR_CURRENT_ANTENNA from GetHwReg8188EU()
-Date: Fri,  7 Jan 2022 22:50:30 +0100
-Message-Id: <20220107215033.12257-4-straube.linux@gmail.com>
+Subject: [PATCH 4/6] staging: r8188eu: remove HW_VAR_EFUSE_BYTES from GetHwReg8188EU()
+Date: Fri,  7 Jan 2022 22:50:31 +0100
+Message-Id: <20220107215033.12257-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220107215033.12257-1-straube.linux@gmail.com>
 References: <20220107215033.12257-1-straube.linux@gmail.com>
@@ -57,41 +57,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-GetHwReg8188EU() is never called with HW_VAR_CURRENT_ANTENNA. Remove
-that case from the function.
+GetHwReg8188EU() is never called with HW_VAR_EFUSE_BYTES. Remove that
+case from the function.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/usb_halinit.c  | 3 ---
- drivers/staging/r8188eu/include/hal_intf.h | 1 -
- 2 files changed, 4 deletions(-)
+ drivers/staging/r8188eu/hal/usb_halinit.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 72b008a78d75..33523ca90ee5 100644
+index 33523ca90ee5..c1129c83ebf7 100644
 --- a/drivers/staging/r8188eu/hal/usb_halinit.c
 +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
 @@ -1614,9 +1614,6 @@ void GetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
  			}
  		}
  		break;
--	case HW_VAR_CURRENT_ANTENNA:
--		val[0] = haldata->CurAntenna;
+-	case HW_VAR_EFUSE_BYTES: /*  To get EFUE total used bytes, added by Roger, 2008.12.22. */
+-		*((u16 *)(val)) = haldata->EfuseUsedBytes;
 -		break;
- 	case HW_VAR_EFUSE_BYTES: /*  To get EFUE total used bytes, added by Roger, 2008.12.22. */
- 		*((u16 *)(val)) = haldata->EfuseUsedBytes;
+ 	case HW_VAR_APFM_ON_MAC:
+ 		*val = haldata->bMacPwrCtrlOn;
  		break;
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 77149eda7edf..37c2d2b82ea8 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -55,7 +55,6 @@ enum hw_variables {
- 	HW_VAR_INITIAL_GAIN,
- 	HW_VAR_BT_SET_COEXIST,
- 	HW_VAR_BT_ISSUE_DELBA,
--	HW_VAR_CURRENT_ANTENNA,
- 	HW_VAR_ANTENNA_DIVERSITY_LINK,
- 	HW_VAR_ANTENNA_DIVERSITY_SELECT,
- 	HW_VAR_SWITCH_EPHY_WoWLAN,
 -- 
 2.34.1
 
