@@ -1,116 +1,92 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA332CA4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE692CA1
 	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 10:36:37 +0000 (UTC)
-Received: by mail-ua1-f42.google.com with SMTP id i5so9345360uaq.10
+Received: by mail-ed1-f42.google.com with SMTP id bm14so20439759edb.5
         for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 02:36:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=PdULxgeJgX8+A1cdZ258MGjOqiluPf6EFrTzZ37jHOw=;
-        b=LZcA3nUGjgfyqBPNVe0WTr7yH6LtHr4pPbD6WPCs7D6agcc5rs++0wOJESRnlBFv/p
-         NtHPUripp1I5QlVhAXEX2NH7tSQc5LaqB+DxNuOEgwW6+/XOe24UshOh33xNVDcRfOwK
-         06p9PwvzCYyx9PXFPZUyNF8G7IhlC3l1oVaEJM/NDhCqfwY5tGJddN3eDKyGzFuTpHha
-         Q+Ox0C/2oUww9ydD0R9PTsghV9q9pVECsMlVXYBpmfoUWuPJsf7EN7XBRef4vqN31Vpx
-         9KG2LKj8kYXJ3pQlPIUhLMT897M27KJ1VNV072Wzw/npE/6CdivNqXnd+igCJWPeC/5r
-         SHcQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rWGc25I9UHfLAvl83M8OVDS0k2GJV0r/8CZZ7jpKHXI=;
+        b=nOAYZAqJKCBfbha4LmVid9XfWWPF8Hn+fLbU/aq7W/Q9JkhTZYcFZq4Q7RH/601qps
+         IgSACDshJlwYL9A1jcY2HhwlME4gm7dqzsLXfRv9ioXSHBQYIsrwn5Blwqm94QXyoMC6
+         JOq+fJGC84cDB3dtPdCBLwOQqNw8czucTW0LZwFsg6o6xymMOVugVWmeQy3lSe1rDMb7
+         g4eQqg/pM8Nj1818gfdF0xxQxBlgzTUXZ9e4KnoIuPimi1U8mU+pN82Wc3RMBxjrqMlw
+         +ToD4pkcxuqa79274Ft2Dcbr96pWkU5MbcOi1GCYAuMCZkwgRuL19SK89e5F20XWcySZ
+         Rxyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PdULxgeJgX8+A1cdZ258MGjOqiluPf6EFrTzZ37jHOw=;
-        b=juidKya1HydXN4P6epp4jMJvr03sy0YoeDxZxYFKD9B8koNX/GvPZrLcBfDAo+gHDN
-         kA9/k2LX17OYjOBJ2Xm6YJd4FPf2ZR7G9V5yjjSCmo6UOc+SM++XDKscXIzKij6KMPrC
-         AGoYlDQ0hL53Huc6r2joO1hSuf7LM0pYnjhQSmcTQC1Z1r60KB1rslkrixhIpUwhF2Ed
-         fQ8PblUQEzjbPtb9mxgxUQiJj79VpBi/tE855MM1UnFI+9fdQ1D9GL6hhoC0tvr0zOio
-         v36bFF6VspCSQgxqNL8WrTWE5d8GMaFUjQqUbvV3Rk9qH98aTSaZkbYCiyV1yU9sgT1l
-         uD5w==
-X-Gm-Message-State: AOAM5316cMcI3H5NQTXmRI/tA9kJGoy4WmDCc8ZzttSi+QDYE7GuONB9
-	q/pjm919VThlPwgxuptxFRE=
-X-Google-Smtp-Source: ABdhPJzeQinVyWPndd+8G2FDbxw+Vw/Uya4GsMOkBH0gI97jL36HuA3gU7z3alG7jx8vTazqddpWXQ==
-X-Received: by 2002:a05:6102:736:: with SMTP id u22mr21042957vsg.60.1641551796284;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rWGc25I9UHfLAvl83M8OVDS0k2GJV0r/8CZZ7jpKHXI=;
+        b=yOmrZnpDaqFFMs725D6IbtARquuMSGqDeJiqY6+4BEvf88hgTyrvggo2c3ryj2Y1Ae
+         dgpmdHOp+x/4STBvAsJNccENjiETHvCdfcOT8mjcmM56wg9sEutsFoTxfGVnyLYqdXbJ
+         1caRrs/YRFjcyPiKQ5UDZbQk/WqMTtG5yNI5kcspGixqmeJerZlmBRHPMtTBvVVDfNt2
+         BXuR9zcx8z78uUCb6LcPXVm1qU5uHrbLPLroRG1FZDMxhEWWzuYuN+MnMrcMvr5KgGI7
+         0lVgwdAkHt9qB0ZZFZuK6HY8saVSFaCZ/2IkPp5DDq7OHM778rB+LVyg64jTUmvSq+bs
+         AEeg==
+X-Gm-Message-State: AOAM5305AQXzEMXeVJmyT09n4SO2fMZSTRFbpW4WREdx1YPfqyNk1Fca
+	+qsbNtIf0wqYdXMV2T8INjk=
+X-Google-Smtp-Source: ABdhPJxqzWL2cC5MH8XEMhWW9Z+kpyjzXks3CJZar9/yFi9O7GPdogFMNanyVhXCmXNKxhVm/P4HJg==
+X-Received: by 2002:a05:6402:4313:: with SMTP id m19mr63020648edc.326.1641551796090;
         Fri, 07 Jan 2022 02:36:36 -0800 (PST)
-Received: from localhost.localdomain ([181.23.70.139])
-        by smtp.gmail.com with ESMTPSA id g4sm2803896vkd.46.2022.01.07.02.36.33
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::51e2])
+        by smtp.gmail.com with ESMTPSA id v8sm1869857edt.10.2022.01.07.02.36.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 07 Jan 2022 02:36:35 -0800 (PST)
-Date: Fri, 7 Jan 2022 07:36:20 -0300
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, nsaenz@kernel.org, f.fainelli@gmail.com,
-	rjui@broadcom.com, sbranden@broadcom.com,
-	juerg.haefliger@canonical.com, rdunlap@infradead.org,
-	dave.stevenson@raspberrypi.com, stefan.wahren@i2se.com,
-	unixbhaskar@gmail.com, mitaliborkar810@gmail.com,
-	phil@raspberrypi.com, len.baker@gmx.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	gascoar@gmail.com
-Subject: Re: [PATCH 5/6] staging: vc04_services: rename macros
- BM2835_MMAL_VERSION and BM2835_MMAL_MODULE_NAME
-Message-ID: <YdgXpPS51cWgQY3a@localhost.localdomain>
-References: <cover.1641414449.git.gascoar@gmail.com>
- <d450b9e22e5ab335a61591dbf0d2104031c9fc46.1641414449.git.gascoar@gmail.com>
- <YdbzKaKQW7N04QgA@kroah.com>
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 11/19] staging: r8188eu: clean up rtw_reset_8051()
+Date: Fri,  7 Jan 2022 11:36:12 +0100
+Message-Id: <20220107103620.15648-12-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220107103620.15648-1-straube.linux@gmail.com>
+References: <20220107103620.15648-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YdbzKaKQW7N04QgA@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 06, 2022 at 02:48:25PM +0100, Greg KH wrote:
-> On Wed, Jan 05, 2022 at 05:35:47PM -0300, Gaston Gonzalez wrote:
-> > In the kernel, all names related to the chip BCM2835 are always named
-> > bcm2835_*. To avoid confusion, and to make things more consistent,
-> > rename the macros BM2835_MMAL_VERSION and BM2835_MMAL_MODULE_NAME
-> > accordingly.
-> > 
-> > While at it, some realignments were made to improve readability.
-> > 
-> > Suggested-by: Stefan Wahren <stefan.wahren@i2se.com>
-> > Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
-> > ---
-> >  .../vc04_services/bcm2835-camera/bcm2835-camera.c  | 14 ++++++--------
-> >  1 file changed, 6 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> > index aaf529f2186c..c729b1b7de71 100644
-> > --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> > +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> > @@ -33,8 +33,8 @@
-> >  #include "mmal-parameters.h"
-> >  #include "bcm2835-camera.h"
-> >  
-> > -#define BM2835_MMAL_VERSION "0.0.2"
-> > -#define BM2835_MMAL_MODULE_NAME "bcm2835-v4l2"
-> > +#define BCM2835_MMAL_VERSION "0.0.2"
-> 
-> MODULE_VERSION means nothing when the code is in the kernel tree, this
-> shold just be removed entirely.
-> 
-> > +#define BCM2835_MMAL_MODULE_NAME "bcm2835-v4l2"
-> 
-> KBUILD_MODULE_NAME provides this, please delete this and just use that
-> instead.
-> 
-> This can be 2 different commits because of this.
-> 
-> thanks,
-> 
-> greg k-h
-> 
+Rename the local variable u1bTmp in rtw_reset_8051() to avoid camel
+case and remove a call to DBG_88E that contains no important
+information.
 
-Hi Greg,
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-Thanks for reviewing.
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index b1f2d349c33a..d219882fc4a2 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -460,12 +460,11 @@ static int write_fw(struct adapter *padapter, void *buffer, u32 size)
+ 
+ void rtw_reset_8051(struct adapter *padapter)
+ {
+-	u8 u1bTmp;
++	u8 val8;
+ 
+-	u1bTmp = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
+-	rtw_write8(padapter, REG_SYS_FUNC_EN + 1, u1bTmp & (~BIT(2)));
+-	rtw_write8(padapter, REG_SYS_FUNC_EN + 1, u1bTmp | (BIT(2)));
+-	DBG_88E("=====> _8051Reset88E(): 8051 reset success .\n");
++	val8 = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
++	rtw_write8(padapter, REG_SYS_FUNC_EN + 1, val8 & (~BIT(2)));
++	rtw_write8(padapter, REG_SYS_FUNC_EN + 1, val8 | (BIT(2)));
+ }
+ 
+ static s32 fw_free_to_go(struct adapter *padapter)
+-- 
+2.34.1
 
-Ok, will do.
-
-Gaston
