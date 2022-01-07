@@ -1,38 +1,38 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186D12C9E
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 09:35:22 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id m1so4722364pfk.8
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 01:35:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D9D2C9E
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 09:35:24 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id r16-20020a17090a0ad000b001b276aa3aabso11457022pje.0
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 01:35:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MMIgs6JV3qr3mO9HXJgs5H5mxHze2FFqWn2TBOXwrrE=;
-        b=fTtqxVOBMqmnaQlz1V4JE09u5aL+IQphLZ4c2+1LsMT+GivwwxXN1DeOCWMA1ZITEs
-         Ex3IiEv6TOcBFh+38J5dqeXUOcSsASPV2FWZj2j5wHpa3oWqG0luecpiPN7GSt/pKKtm
-         0scw3uAMFxBKtvCoU6pHTtWWLRqkHLpVpyUpo=
+        bh=uPa2Y9r48Tr2TjgiZvIGBvNI/0pFs3VgGlpYuEIyE5A=;
+        b=kyFrRWAXItsw/PhTpWsDKkqDCYcDPo/CSsPz1chXl/ng4d2iLDV1memUqL/OEl+92l
+         jKGiMTZfVGLMq/WAxpbqkBA9h7hsvxOyy3iKpvjEEyM4xccxqp3tdTL9PIwyyUim/vQx
+         bFvPiAgPzVA3vzOPwBiMo8GFUrN8g69RFQnTM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MMIgs6JV3qr3mO9HXJgs5H5mxHze2FFqWn2TBOXwrrE=;
-        b=vSNvszH++kgm6iwSdduJ8FmUbc4PRw0FzwhvoUJCadlUGZa5InqliY03did9yrIR/Z
-         joWrAas7Td9wF3EgSTQjcP9zvVuYSnRAxkjEwFn/I+ikREKfX/cLeT5+JXpgFfQg316Z
-         hwsSrZGP+Ixmlajx+KB2jUeZGd3VnbUpL9yx1FOPET7DonmtFO1KFoEdp6b1QAywESHK
-         RR/ehmj1MOoZM3WblqB/BNNo8EGcQo4Lj9c9U0cQqgJewidxjBRx92TABQfeeMC35S6y
-         33xFqSIpxK+ZdMWeEZVexY45WOK9oBAKaZfoAedJHw4HcZUB7OIZuwSLF4i/C4nFtxPR
-         E5OQ==
-X-Gm-Message-State: AOAM533/Wn5NEKLFiiqwm1LbivDJ33kZLYkGsWSSSOF1jHSgBUTBRvIG
-	USu0M4WLKm11zn8xcyrxdt3TUQ==
-X-Google-Smtp-Source: ABdhPJzEWFAy9PZ8q8sfbf4R3+dIbdNTfJQGlQCKHmWDmuapid1M6NXZ1CX89TlsHmr046bon70/kQ==
-X-Received: by 2002:a62:1642:0:b0:4bb:b3b6:c037 with SMTP id 63-20020a621642000000b004bbb3b6c037mr58631309pfw.50.1641548121657;
-        Fri, 07 Jan 2022 01:35:21 -0800 (PST)
+        bh=uPa2Y9r48Tr2TjgiZvIGBvNI/0pFs3VgGlpYuEIyE5A=;
+        b=niLO6ARrzmdkHQ6I0Q5OooP/OFqaPYuxYA7dewpsXY6F4DSfUVvvbVQHWpyA8dYL/H
+         TgCRC8CO6B/npH9hhpQBB42tUJwQ0c2TAtn4vYh4dhJpop5ppNA8P9tA9KtMtyBe8EXq
+         N0LlzXJ8twQNTQrVKWsoKEHIm7m5Fxqetb4wNRFoUN51aTAKIzzM2u/ajkr9QNFYUz6r
+         4sRkWj33+4L1oAD7cs1k5QeVDbDYpsqam8/mcAjuZzNv9QJErb/XIVojwZOWjHWxynyB
+         +aXaTN1KYU/l40lhe7Esfyk624rzcur9ivdOZ3FcQPIrcl9Mzh22wvIeCmBPqXe46Dld
+         NlYQ==
+X-Gm-Message-State: AOAM533mEssIqskYs13AbGohZZ1kqNecWe7YyyZrAJFKDv295oGddv9k
+	x8lZQ7jFeHZh0o4Hw4So71Kh+Q==
+X-Google-Smtp-Source: ABdhPJz1h5qNBJkMbnlr4tRBRegzKszr22xmYctO5J2KYeGk4idAT8zh0U05V3Xl73n4YwTJZIM3aA==
+X-Received: by 2002:a17:902:7c05:b0:149:a3b4:934c with SMTP id x5-20020a1709027c0500b00149a3b4934cmr35858061pll.42.1641548123889;
+        Fri, 07 Jan 2022 01:35:23 -0800 (PST)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:8f6b:ee:64d8:ae81])
-        by smtp.gmail.com with ESMTPSA id j17sm5269192pfu.77.2022.01.07.01.35.19
+        by smtp.gmail.com with ESMTPSA id j17sm5269192pfu.77.2022.01.07.01.35.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 01:35:21 -0800 (PST)
+        Fri, 07 Jan 2022 01:35:23 -0800 (PST)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -44,9 +44,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RFT v2 7/8] media: hantro: output encoded JPEG content directly to capture buffers
-Date: Fri,  7 Jan 2022 17:34:54 +0800
-Message-Id: <20220107093455.73766-8-wenst@chromium.org>
+Subject: [PATCH RFT v2 8/8] media: hantro: jpeg: Remove open-coded size in quantization table code
+Date: Fri,  7 Jan 2022 17:34:55 +0800
+Message-Id: <20220107093455.73766-9-wenst@chromium.org>
 X-Mailer: git-send-email 2.34.1.575.g55b058a8bb-goog
 In-Reply-To: <20220107093455.73766-1-wenst@chromium.org>
 References: <20220107093455.73766-1-wenst@chromium.org>
@@ -58,309 +58,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that the JPEG header length is aligned with bus access boundaries,
-the JPEG encoder can output to the capture buffers directly without
-going through a bounce buffer.
+The quantization tables used in the Hantro JPEG encoder driver are
+implicitly sized by the data they contain, but the loop that scales
+the tables based on the compression quality hard codes the size to
+64. No code exists to check whether the two actually match.
 
-Do just that, and get rid of all the bounce buffer related code.
+Commit 85bdcb7eaae7 ("media: hantro: Write the quantization tables in
+proper order") introduced two new tables, with sizes hardcoded to 64,
+but still no checking if all the sizes are the same.
+
+Commit 41479adb5e52 ("media: hantro: Avoid global variable for jpeg
+quantization tables") added the macro JPEG_QUANT_SIZE, but only the
+newly added fields used this.
+
+This has resulted in code scattered with magic numbers and array sizes
+that happen to match up, without any sort of sanity checking to enforce
+it.
+
+Drop the hard-coded array sizes, replace the magic loop count with
+a proper JPEG_QUANT_SIZE macro, and add BUILD_BUG_ON()s to check
+that all the table sizes match up.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- drivers/staging/media/hantro/TODO             |  4 ---
- drivers/staging/media/hantro/hantro.h         |  1 -
- drivers/staging/media/hantro/hantro_drv.c     | 20 +++++--------
- .../staging/media/hantro/hantro_h1_jpeg_enc.c | 24 ++++++++--------
- drivers/staging/media/hantro/hantro_hw.h      | 11 --------
- drivers/staging/media/hantro/hantro_jpeg.c    | 28 -------------------
- .../media/hantro/rockchip_vpu2_hw_jpeg_enc.c  | 27 ++++++++++--------
- .../staging/media/hantro/rockchip_vpu_hw.c    |  6 ----
- 8 files changed, 34 insertions(+), 87 deletions(-)
+ drivers/staging/media/hantro/hantro_jpeg.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/TODO b/drivers/staging/media/hantro/TODO
-index da181dc93069..1d7fed936019 100644
---- a/drivers/staging/media/hantro/TODO
-+++ b/drivers/staging/media/hantro/TODO
-@@ -4,7 +4,3 @@
-   the uABI, it will be required to have the driver in staging.
- 
-   For this reason, we are keeping this driver in staging for now.
--
--* Instead of having a DMA bounce buffer, it could be possible to use a
--  normal buffer and memmove() the payload to make space for the header.
--  This might need to use extra JPEG markers for padding reasons.
-diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-index 06d0f3597694..357f83b86809 100644
---- a/drivers/staging/media/hantro/hantro.h
-+++ b/drivers/staging/media/hantro/hantro.h
-@@ -259,7 +259,6 @@ struct hantro_ctx {
- 	/* Specific for particular codec modes. */
- 	union {
- 		struct hantro_h264_dec_hw_ctx h264_dec;
--		struct hantro_jpeg_enc_hw_ctx jpeg_enc;
- 		struct hantro_mpeg2_dec_hw_ctx mpeg2_dec;
- 		struct hantro_vp8_dec_hw_ctx vp8_dec;
- 		struct hantro_hevc_dec_hw_ctx hevc_dec;
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index b376b9d94b01..bc9bcb4eaf46 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -219,21 +219,15 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
- 	if (ret)
- 		return ret;
- 
-+	dst_vq->bidirectional = true;
-+	dst_vq->mem_ops = &vb2_dma_contig_memops;
-+	dst_vq->dma_attrs = DMA_ATTR_ALLOC_SINGLE_PAGES;
- 	/*
--	 * When encoding, the CAPTURE queue doesn't need dma memory,
--	 * as the CPU needs to create the JPEG frames, from the
--	 * hardware-produced JPEG payload.
--	 *
--	 * For the DMA destination buffer, we use a bounce buffer.
-+	 * The Kernel needs access to the JPEG destination buffer for the
-+	 * JPEG encoder to fill in the JPEG headers.
- 	 */
--	if (ctx->is_encoder) {
--		dst_vq->mem_ops = &vb2_vmalloc_memops;
--	} else {
--		dst_vq->bidirectional = true;
--		dst_vq->mem_ops = &vb2_dma_contig_memops;
--		dst_vq->dma_attrs = DMA_ATTR_ALLOC_SINGLE_PAGES |
--				    DMA_ATTR_NO_KERNEL_MAPPING;
--	}
-+	if (!ctx->is_encoder)
-+		dst_vq->dma_attrs |= DMA_ATTR_NO_KERNEL_MAPPING;
- 
- 	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
- 	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-index 9104973af8df..54d2ffbb2637 100644
---- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-+++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-@@ -39,17 +39,23 @@ static void hantro_h1_set_src_img_ctrl(struct hantro_dev *vpu,
- 
- static void hantro_h1_jpeg_enc_set_buffers(struct hantro_dev *vpu,
- 					   struct hantro_ctx *ctx,
--					   struct vb2_buffer *src_buf)
-+					   struct vb2_buffer *src_buf,
-+					   struct vb2_buffer *dst_buf)
- {
- 	struct v4l2_pix_format_mplane *pix_fmt = &ctx->src_fmt;
- 	dma_addr_t src[3];
-+	u32 size_left;
-+
-+	size_left = vb2_plane_size(dst_buf, 0) - ctx->vpu_dst_fmt->header_size;
-+	if (WARN_ON(vb2_plane_size(dst_buf, 0) < ctx->vpu_dst_fmt->header_size))
-+		size_left = 0;
- 
- 	WARN_ON(pix_fmt->num_planes > 3);
- 
--	vepu_write_relaxed(vpu, ctx->jpeg_enc.bounce_buffer.dma,
-+	vepu_write_relaxed(vpu, vb2_dma_contig_plane_dma_addr(dst_buf, 0) +
-+				ctx->vpu_dst_fmt->header_size,
- 			   H1_REG_ADDR_OUTPUT_STREAM);
--	vepu_write_relaxed(vpu, ctx->jpeg_enc.bounce_buffer.size,
--			   H1_REG_STR_BUF_LIMIT);
-+	vepu_write_relaxed(vpu, size_left, H1_REG_STR_BUF_LIMIT);
- 
- 	if (pix_fmt->num_planes == 1) {
- 		src[0] = vb2_dma_contig_plane_dma_addr(src_buf, 0);
-@@ -121,7 +127,8 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
- 			   H1_REG_ENC_CTRL);
- 
- 	hantro_h1_set_src_img_ctrl(vpu, ctx);
--	hantro_h1_jpeg_enc_set_buffers(vpu, ctx, &src_buf->vb2_buf);
-+	hantro_h1_jpeg_enc_set_buffers(vpu, ctx, &src_buf->vb2_buf,
-+				       &dst_buf->vb2_buf);
- 	hantro_h1_jpeg_enc_set_qtable(vpu, jpeg_ctx.hw_luma_qtable,
- 				      jpeg_ctx.hw_chroma_qtable);
- 
-@@ -153,13 +160,6 @@ void hantro_h1_jpeg_enc_done(struct hantro_ctx *ctx)
- 	u32 bytesused = vepu_read(vpu, H1_REG_STR_BUF_LIMIT) / 8;
- 	struct vb2_v4l2_buffer *dst_buf = hantro_get_dst_buf(ctx);
- 
--	/*
--	 * TODO: Rework the JPEG encoder to eliminate the need
--	 * for a bounce buffer.
--	 */
--	memcpy(vb2_plane_vaddr(&dst_buf->vb2_buf, 0) +
--	       ctx->vpu_dst_fmt->header_size,
--	       ctx->jpeg_enc.bounce_buffer.cpu, bytesused);
- 	vb2_set_plane_payload(&dst_buf->vb2_buf, 0,
- 			      ctx->vpu_dst_fmt->header_size + bytesused);
- }
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 4a19ae8940b9..c1fd807bc090 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -43,15 +43,6 @@ struct hantro_aux_buf {
- 	unsigned long attrs;
- };
- 
--/**
-- * struct hantro_jpeg_enc_hw_ctx
-- *
-- * @bounce_buffer:	Bounce buffer
-- */
--struct hantro_jpeg_enc_hw_ctx {
--	struct hantro_aux_buf bounce_buffer;
--};
--
- /* Max. number of entries in the DPB (HW limitation). */
- #define HANTRO_H264_DPB_SIZE		16
- 
-@@ -327,8 +318,6 @@ void hantro_g1_reset(struct hantro_ctx *ctx);
- 
- int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx);
- int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx);
--int hantro_jpeg_enc_init(struct hantro_ctx *ctx);
--void hantro_jpeg_enc_exit(struct hantro_ctx *ctx);
- void hantro_h1_jpeg_enc_done(struct hantro_ctx *ctx);
- void rockchip_vpu2_jpeg_enc_done(struct hantro_ctx *ctx);
- 
 diff --git a/drivers/staging/media/hantro/hantro_jpeg.c b/drivers/staging/media/hantro/hantro_jpeg.c
-index e63eeef3952d..84d3f0bfff00 100644
+index 84d3f0bfff00..d07b1b449b61 100644
 --- a/drivers/staging/media/hantro/hantro_jpeg.c
 +++ b/drivers/staging/media/hantro/hantro_jpeg.c
-@@ -9,7 +9,6 @@
+@@ -49,7 +49,7 @@ static const unsigned char chroma_q_table[] = {
+ 	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63
+ };
  
- #include <linux/align.h>
- #include <linux/build_bug.h>
--#include <linux/dma-mapping.h>
- #include <linux/kernel.h>
- #include <linux/string.h>
- #include "hantro_jpeg.h"
-@@ -339,30 +338,3 @@ void hantro_jpeg_header_assemble(struct hantro_jpeg_ctx *ctx)
+-static const unsigned char zigzag[64] = {
++static const unsigned char zigzag[] = {
+ 	 0,  1,  8, 16,  9,  2,  3, 10,
+ 	17, 24, 32, 25, 18, 11,  4,  5,
+ 	12, 19, 26, 33, 40, 48, 41, 34,
+@@ -60,7 +60,7 @@ static const unsigned char zigzag[64] = {
+ 	53, 60, 61, 54, 47, 55, 62, 63
+ };
  
- 	jpeg_set_quality(ctx);
- }
--
--int hantro_jpeg_enc_init(struct hantro_ctx *ctx)
--{
--	ctx->jpeg_enc.bounce_buffer.size =
--		ctx->dst_fmt.plane_fmt[0].sizeimage -
--		ctx->vpu_dst_fmt->header_size;
--
--	ctx->jpeg_enc.bounce_buffer.cpu =
--		dma_alloc_attrs(ctx->dev->dev,
--				ctx->jpeg_enc.bounce_buffer.size,
--				&ctx->jpeg_enc.bounce_buffer.dma,
--				GFP_KERNEL,
--				DMA_ATTR_ALLOC_SINGLE_PAGES);
--	if (!ctx->jpeg_enc.bounce_buffer.cpu)
--		return -ENOMEM;
--
--	return 0;
--}
--
--void hantro_jpeg_enc_exit(struct hantro_ctx *ctx)
--{
--	dma_free_attrs(ctx->dev->dev,
--		       ctx->jpeg_enc.bounce_buffer.size,
--		       ctx->jpeg_enc.bounce_buffer.cpu,
--		       ctx->jpeg_enc.bounce_buffer.dma,
--		       DMA_ATTR_ALLOC_SINGLE_PAGES);
--}
-diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-index da275568874a..d0ae0f14b61e 100644
---- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-+++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-@@ -66,17 +66,23 @@ static void rockchip_vpu2_set_src_img_ctrl(struct hantro_dev *vpu,
- 
- static void rockchip_vpu2_jpeg_enc_set_buffers(struct hantro_dev *vpu,
- 					       struct hantro_ctx *ctx,
--					       struct vb2_buffer *src_buf)
-+					       struct vb2_buffer *src_buf,
-+					       struct vb2_buffer *dst_buf)
+-static const u32 hw_reorder[64] = {
++static const u32 hw_reorder[] = {
+ 	 0,  8, 16, 24,  1,  9, 17, 25,
+ 	32, 40, 48, 56, 33, 41, 49, 57,
+ 	 2, 10, 18, 26,  3, 11, 19, 27,
+@@ -292,7 +292,10 @@ jpeg_scale_quant_table(unsigned char *file_q_tab,
  {
- 	struct v4l2_pix_format_mplane *pix_fmt = &ctx->src_fmt;
- 	dma_addr_t src[3];
-+	u32 size_left;
+ 	int i;
+ 
+-	for (i = 0; i < 64; i++) {
++	BUILD_BUG_ON(ARRAY_SIZE(zigzag) != JPEG_QUANT_SIZE);
++	BUILD_BUG_ON(ARRAY_SIZE(hw_reorder) != JPEG_QUANT_SIZE);
 +
-+	size_left = vb2_plane_size(dst_buf, 0) - ctx->vpu_dst_fmt->header_size;
-+	if (WARN_ON(vb2_plane_size(dst_buf, 0) < ctx->vpu_dst_fmt->header_size))
-+		size_left = 0;
++	for (i = 0; i < JPEG_QUANT_SIZE; i++) {
+ 		file_q_tab[i] = jpeg_scale_qp(tab[zigzag[i]], scale);
+ 		reordered_q_tab[i] = jpeg_scale_qp(tab[hw_reorder[i]], scale);
+ 	}
+@@ -311,6 +314,11 @@ static void jpeg_set_quality(struct hantro_jpeg_ctx *ctx)
+ 	else
+ 		scale = 200 - 2 * ctx->quality;
  
- 	WARN_ON(pix_fmt->num_planes > 3);
- 
--	vepu_write_relaxed(vpu, ctx->jpeg_enc.bounce_buffer.dma,
-+	vepu_write_relaxed(vpu, vb2_dma_contig_plane_dma_addr(dst_buf, 0) +
-+				ctx->vpu_dst_fmt->header_size,
- 			   VEPU_REG_ADDR_OUTPUT_STREAM);
--	vepu_write_relaxed(vpu, ctx->jpeg_enc.bounce_buffer.size,
--			   VEPU_REG_STR_BUF_LIMIT);
-+	vepu_write_relaxed(vpu, size_left, VEPU_REG_STR_BUF_LIMIT);
- 
- 	if (pix_fmt->num_planes == 1) {
- 		src[0] = vb2_dma_contig_plane_dma_addr(src_buf, 0);
-@@ -137,6 +143,9 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
- 
- 	memset(&jpeg_ctx, 0, sizeof(jpeg_ctx));
- 	jpeg_ctx.buffer = vb2_plane_vaddr(&dst_buf->vb2_buf, 0);
-+	if (!jpeg_ctx.buffer)
-+		return -ENOMEM;
++	BUILD_BUG_ON(ARRAY_SIZE(luma_q_table) != JPEG_QUANT_SIZE);
++	BUILD_BUG_ON(ARRAY_SIZE(chroma_q_table) != JPEG_QUANT_SIZE);
++	BUILD_BUG_ON(ARRAY_SIZE(ctx->hw_luma_qtable) != JPEG_QUANT_SIZE);
++	BUILD_BUG_ON(ARRAY_SIZE(ctx->hw_chroma_qtable) != JPEG_QUANT_SIZE);
 +
- 	jpeg_ctx.width = ctx->dst_fmt.width;
- 	jpeg_ctx.height = ctx->dst_fmt.height;
- 	jpeg_ctx.quality = ctx->jpeg_quality;
-@@ -147,7 +156,8 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
- 			   VEPU_REG_ENCODE_START);
- 
- 	rockchip_vpu2_set_src_img_ctrl(vpu, ctx);
--	rockchip_vpu2_jpeg_enc_set_buffers(vpu, ctx, &src_buf->vb2_buf);
-+	rockchip_vpu2_jpeg_enc_set_buffers(vpu, ctx, &src_buf->vb2_buf,
-+					   &dst_buf->vb2_buf);
- 	rockchip_vpu2_jpeg_enc_set_qtable(vpu, jpeg_ctx.hw_luma_qtable,
- 					  jpeg_ctx.hw_chroma_qtable);
- 
-@@ -181,13 +191,6 @@ void rockchip_vpu2_jpeg_enc_done(struct hantro_ctx *ctx)
- 	u32 bytesused = vepu_read(vpu, VEPU_REG_STR_BUF_LIMIT) / 8;
- 	struct vb2_v4l2_buffer *dst_buf = hantro_get_dst_buf(ctx);
- 
--	/*
--	 * TODO: Rework the JPEG encoder to eliminate the need
--	 * for a bounce buffer.
--	 */
--	memcpy(vb2_plane_vaddr(&dst_buf->vb2_buf, 0) +
--	       ctx->vpu_dst_fmt->header_size,
--	       ctx->jpeg_enc.bounce_buffer.cpu, bytesused);
- 	vb2_set_plane_payload(&dst_buf->vb2_buf, 0,
- 			      ctx->vpu_dst_fmt->header_size + bytesused);
- }
-diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-index c203b606e6e7..163cf92eafca 100644
---- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
-+++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
-@@ -343,9 +343,7 @@ static const struct hantro_codec_ops rk3066_vpu_codec_ops[] = {
- 	[HANTRO_MODE_JPEG_ENC] = {
- 		.run = hantro_h1_jpeg_enc_run,
- 		.reset = rockchip_vpu1_enc_reset,
--		.init = hantro_jpeg_enc_init,
- 		.done = hantro_h1_jpeg_enc_done,
--		.exit = hantro_jpeg_enc_exit,
- 	},
- 	[HANTRO_MODE_H264_DEC] = {
- 		.run = hantro_g1_h264_dec_run,
-@@ -371,9 +369,7 @@ static const struct hantro_codec_ops rk3288_vpu_codec_ops[] = {
- 	[HANTRO_MODE_JPEG_ENC] = {
- 		.run = hantro_h1_jpeg_enc_run,
- 		.reset = rockchip_vpu1_enc_reset,
--		.init = hantro_jpeg_enc_init,
- 		.done = hantro_h1_jpeg_enc_done,
--		.exit = hantro_jpeg_enc_exit,
- 	},
- 	[HANTRO_MODE_H264_DEC] = {
- 		.run = hantro_g1_h264_dec_run,
-@@ -399,9 +395,7 @@ static const struct hantro_codec_ops rk3399_vpu_codec_ops[] = {
- 	[HANTRO_MODE_JPEG_ENC] = {
- 		.run = rockchip_vpu2_jpeg_enc_run,
- 		.reset = rockchip_vpu2_enc_reset,
--		.init = hantro_jpeg_enc_init,
- 		.done = rockchip_vpu2_jpeg_enc_done,
--		.exit = hantro_jpeg_enc_exit,
- 	},
- 	[HANTRO_MODE_H264_DEC] = {
- 		.run = rockchip_vpu2_h264_dec_run,
+ 	jpeg_scale_quant_table(ctx->buffer + LUMA_QUANT_OFF,
+ 			       ctx->hw_luma_qtable, luma_q_table, scale);
+ 	jpeg_scale_quant_table(ctx->buffer + CHROMA_QUANT_OFF,
 -- 
 2.34.1.575.g55b058a8bb-goog
 
