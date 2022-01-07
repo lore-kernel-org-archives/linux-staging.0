@@ -1,79 +1,74 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B99173
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 06:52:18 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id i8so4684754pgt.13
-        for <linux-staging@lists.linux.dev>; Thu, 06 Jan 2022 22:52:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=R1MbqjjHlpwAkbujyAZzAl4HorX8RJtW6RCBhq0VRmY=;
-        b=YGZ+fwK7uqgnP0cbS69isHiEPZLNAEUtfGVRtBCLnZ5PLeTKmf6u3zi1tDvyhu8GAQ
-         6n9orQGMOmMPhW0HXwEZeIc+Anb2vxbXdrNIlWYJabmqm7X4v1WGQLGsi/4I9HCM7hdi
-         GQhd6gsSYJd5w/MV1lpxTdSLbonKNKQDrw2Su3mQmODioS10xcI8yoteiU84uD7niwEr
-         sZf0CqAEZzZWj3R1iNXNoAzlAxMouhS73dSJ/mUHOPNkdTpcmz2MW8qiregTvN1Lt6Mb
-         n5h82aaGl997KWtEtv7b65/DE7Rg09jh2cif807kcbKgEIHV5zai3X3DueheuOuxJjFn
-         gnng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=R1MbqjjHlpwAkbujyAZzAl4HorX8RJtW6RCBhq0VRmY=;
-        b=XJvWzkewuLeqVTCkQSbeZd8ZupJBaG/3VBIKI727RDQj+vV11uXGnDY5M9ndjZOCeS
-         aEupN3TptQCTOh7peUrcIq/OFFfkz4vytrJirxJ4o1Px8sEpVudnlPrFC7iwUV7TU4gJ
-         y7+qYVZZlaEVk7ErEkt3VRlgUA3I6IbG2rw9RLT/e8YGGOSnzGdXaLcbwkMg+sg4lwIi
-         vP3MS/IMDBxzLry6aBGywbgUaI3EM56HasxqCVuIWTTGT++IyPXvD5zRCa6GEdEWd3IW
-         qbah3uUWSrRpd2o3RMymL4oxQ52zNutgKXvmR3GtGEL0Zwz/XtqrNdmTjmuefn6OR0UB
-         DIpQ==
-X-Gm-Message-State: AOAM530uLKLFUhfhUAbVIDBdsnoDteCJWFwee8/NlNKXc5itGLX+Gn5h
-	AH5BmY5/61urQTFz/6wcj/s=
-X-Google-Smtp-Source: ABdhPJySAFJK6FIQ6td62XvHq169EysjllUEfbwhF5Wjwe6eFzSfyCJUAsyXZAyybo1q4XAiC2E60A==
-X-Received: by 2002:a05:6a00:892:b0:4ba:12d5:1d4 with SMTP id q18-20020a056a00089200b004ba12d501d4mr64311542pfj.46.1641538338089;
-        Thu, 06 Jan 2022 22:52:18 -0800 (PST)
-Received: from nlap2 ([171.78.146.184])
-        by smtp.gmail.com with ESMTPSA id g9sm4688248pfj.123.2022.01.06.22.52.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jan 2022 22:52:17 -0800 (PST)
-Date: Fri, 7 Jan 2022 12:22:10 +0530
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: r8188eu: change functions to return void
-Message-ID: <20220107065210.7utcwjenvcspydyk@nlap2>
-References: <cover.1641490034.git.abdun.nihaal@gmail.com>
- <9db6b08837bd6354c8e07a4b1c4bca662091f945.1641490034.git.abdun.nihaal@gmail.com>
- <Ydct2sBt6aB+MChS@kroah.com>
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01481173
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 08:00:37 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.126])
+	by APP-01 (Coremail) with SMTP id qwCowAAHnqYW89dhYnv1BQ--.51251S2;
+	Fri, 07 Jan 2022 16:00:22 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	straube.linux@gmail.com,
+	martin@kaiser.cx
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] staging: r8188eu: Check for null pointer after calling skb_clone
+Date: Fri,  7 Jan 2022 16:00:21 +0800
+Message-Id: <20220107080021.4034205-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ydct2sBt6aB+MChS@kroah.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowAAHnqYW89dhYnv1BQ--.51251S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gw43GryUtFWUGr4fCr17Jrb_yoWDAwc_uF
+	W0qF1DX34DGr1xtw1UtF1xJryIva1xZr4Svw4jka95Xw43GFW5X34kuFy5Ga45WFW5Kr9r
+	Cr4vqrWFqr18WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbckFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8ZwCF
+	04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
+	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+	1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
+	0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUhdbbUUUUU=
+X-Originating-IP: [124.16.138.126]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
-Hello Greg,
+As the possible failure of the allocation, the skb_clone may return NULL
+pointer.
+Therefore, it may cause the dereference of NULL pointer.
+Also, same as rtw_os_recv_indicate_pkt() in
+`drivers/staging/rtl8723bs/os_dep/recv_linux.c`, it should be better to
+add the check.
 
-On Thu, Jan 06, 2022 at 06:58:50PM +0100, Greg KH wrote:
-> On Thu, Jan 06, 2022 at 11:11:52PM +0530, Abdun Nihaal wrote:
-> > Some functions in ioctl_linux.c always returns 0 and their return values
-> > are never used. Change return type of such functions to void.
-> > 
-> > While at it, align function arguments with open parenthesis to fix
-> > checkpatch checks.
-> > 
-> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
-> 
-> Are you sure that checkpatch allowed this change?
+Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/staging/r8188eu/os_dep/recv_linux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, I ran checkpatch on both the patches and found no errors, warnings
-or checks. Is there something that needs to be fixed?
+diff --git a/drivers/staging/r8188eu/os_dep/recv_linux.c b/drivers/staging/r8188eu/os_dep/recv_linux.c
+index 917a63e3e94c..cf40f33f3295 100644
+--- a/drivers/staging/r8188eu/os_dep/recv_linux.c
++++ b/drivers/staging/r8188eu/os_dep/recv_linux.c
+@@ -151,7 +151,7 @@ int rtw_recv_indicatepkt(struct adapter *padapter,
+ 
+ 				rtw_xmit_entry(skb, pnetdev);
+ 
+-				if (bmcast)
++				if (bmcast && pskb2)
+ 					skb = pskb2;
+ 				else
+ 					goto _recv_indicatepkt_end;
+-- 
+2.25.1
 
-Regards,
-Abdun Nihaal
