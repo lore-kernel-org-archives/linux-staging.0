@@ -1,83 +1,78 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94143168
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 11:27:02 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id h2so14406146lfv.9
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 03:27:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900D72C9D
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 14:36:32 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id a18so21835900edj.7
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 06:36:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=RxWUtBRyBuu8CzF10hutvoPzGTvhxAChpkFfMOfJmvE=;
-        b=GA0Mf+iffPTAJnINy4M8AAt9tQbBULAZNoe8zLYeTstHuqComujV6aSKbEHJldF3gZ
-         +SirHlsCed9J1FeMafhn04vYGrqEHzujD7KmEp1E3sLfuiFPfFLQnkOyk/xApF+taYCP
-         sX9kYvcGx/npGKYFo6Fh5HSKuMIGEhgTOupbFE4bEFdZkZ31ckdVKz1kn4IStozwGaAV
-         AbrlpHtxYmAhKypfQq0Uld+lgYiu657i+3EPsAVt/Y7/AK8VoT/fnkpRp9zOF6tjN8xX
-         T6HZ4DZTKdgRQ9SmL2M+Q9hQFbgahgWswsEtv+zJ5vLQLdvZVgIiG4ZVeuJWaNzqa/YY
-         JaxA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NK1daiMXXe0LeZNqPUiALjw7BMBMV4uzHsm9KMsXtg0=;
+        b=gfE1VC/xN1Gf+WwqI7G4ljA87mIcGks2r6mp1MlP+xjVIxDGtuEjrT8VZawygxA0rh
+         EE0Mkz9zV5n3GODOlvhMZe6cIukDQNolseuER31yKDxUOgYJl2NK+bCcZzgGjclYXw6/
+         6d53AV+18lbON7rYp3fKhH3xUbG1qrfuUYDv3reE+UUmTaJuYRCznz8oYgwjlP2rQrlH
+         VPe5zKk1UPb8PeamhhrgnkzyjZLZMMc5o5h1bDSmIO2j8JnXR/cTPaInIjtgp4+JHKaT
+         0bJB4bsGDnygiHewyLloczEJ01BwWSix00M583WtKv4N9ll0iKGNqjq/hFxrSJkVf93e
+         ZJDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=RxWUtBRyBuu8CzF10hutvoPzGTvhxAChpkFfMOfJmvE=;
-        b=yEokN/hy152NiJQkP1lZ00mg4ZF1v/ZbMSl1xMX5KVqfM7JjqcH5xp+gmUNLdO5V3m
-         qBJA30yEpu/AHEg/XuJHYDloEXWTXT1MVU8W0eB7CPACBHHsXDG1VFTp9iMuVdEVW4jt
-         20u9xrSRi12dTAsAi/DafLUqwW0o2JmwXLl6Hc0ehQRD5FHuGKUtN8a185pW25C5c/c/
-         hCeH6TOdIGY6YsjMMA359RuPIZbjjyGjgHB5bPxNFINH2WI93wR74X0MkTctDlXQRFh7
-         q28K5uMJsyuXT0WYMRc15PbZj+3+FgG/hxO9Oaep2QMiOliv76Vl7TyCdYoPezmP4/iv
-         +QXA==
-X-Gm-Message-State: AOAM530FJZLJ6QJ5BM+Ds/LHuXI6d8iqv02t8vvjWGO2s/oRaijJ+EYA
-	xBWZSs6qadWuBNAByiCifTemB3zq+ho=
-X-Google-Smtp-Source: ABdhPJww9MRxbZpc0vn18WhW4VAK3hqhxh0WUsSaZY9VC/I3EJvcyZ+NUMJLAxDRTD3ZBd4oo2HE5Q==
-X-Received: by 2002:ac2:4e06:: with SMTP id e6mr55038059lfr.59.1641554820683;
-        Fri, 07 Jan 2022 03:27:00 -0800 (PST)
-Received: from [192.168.1.11] ([217.117.245.67])
-        by smtp.gmail.com with ESMTPSA id z10sm541947lfd.220.2022.01.07.03.26.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Jan 2022 03:27:00 -0800 (PST)
-Message-ID: <2a79a17c-5cfd-9aec-cf44-b44fb382eb6c@gmail.com>
-Date: Fri, 7 Jan 2022 14:26:59 +0300
+        bh=NK1daiMXXe0LeZNqPUiALjw7BMBMV4uzHsm9KMsXtg0=;
+        b=tJwTV2lSoAQFk3tWTa/U8x3KkPouJ7SuoSpxdAh+wTx9qtX+LovITh7qTVvdaL2g/m
+         Sx2BKvDMwmhwxbwGjgpPPjwz/RADviYGJySqSKEemkybCmRTuVp4RZYIivCF+SCdiyqi
+         0iQHinZYo/97Mr9X00Fnfw0G+Vx8E2t9xin4Ca3O/+nRR4xzre+VhvOg4bRDEVVWTEvU
+         YoGgOG6X5DVVwY5K5AfbGv4HheMvVJu/Z5EWfVpBTzH4Kl90PkTYL3vktaiC6ynfRGDU
+         SU3lwAbTU9+2j4+Gvi865Q1pKSwMGuFNo/PO25dfXuKz3Q0e8E/K8r9zwCozZbqNJ0V7
+         nTIw==
+X-Gm-Message-State: AOAM533YW8SOn5zh5Xf0vYMG2WOl7ySPywgZTq/H0ZZMrqxHVjz7rGNY
+	vOkq7MzPHZ727YoVuzm/jgM=
+X-Google-Smtp-Source: ABdhPJxrCWNxevTx7Tkga8k6Ujuhdr0bSHNVETc57425UiHlwXlQuZl8hByA3zr9KUI1zLMQ4e0EQA==
+X-Received: by 2002:a17:906:87c9:: with SMTP id zb9mr2645803ejb.725.1641566190968;
+        Fri, 07 Jan 2022 06:36:30 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::51e2])
+        by smtp.gmail.com with ESMTPSA id b4sm1445181ejl.206.2022.01.07.06.36.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jan 2022 06:36:30 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/3] staging: r8188eu: move firmware related macros to rtw_fw.h
+Date: Fri,  7 Jan 2022 15:36:14 +0100
+Message-Id: <20220107143617.2214-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH 03/19] staging: r8188eu: release_firmware is not called if
- allocation fails
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Michael Straube <straube.linux@gmail.com>, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220107103620.15648-1-straube.linux@gmail.com>
- <20220107103620.15648-4-straube.linux@gmail.com>
- <ca0548c0-b36c-98dc-3e49-b629b3d3fb6a@gmail.com> <YdgjJRwLjIBWVQvU@kroah.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <YdgjJRwLjIBWVQvU@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+This series moves firmware related macros from rtl8188e_hal.h to rtw_fw.h.
+I missed these when I moved the firmware code into its own file.
 
-On 1/7/22 14:25, Greg KH wrote:
->> Or, maybe, Greg knows some magic that will help here, we can wait him before
->> you resend 20 patch series :)
-> 
-> It's just not worth it for this staging driver, and for an allocation
-> failure, to be backported here.  Allocation failures almost never happen
-> in real-world situations, and if they do, they are not alone, so this
-> would be the least of the problems happening here.
-> 
-> So no need to care about it, I can take this as-is.
-> 
+Please apply this series on top of the series
+"staging: r8188eu: move firmware loading out of the hal layer".
 
-Got it, thanks.
+Thanks,
+Michael
 
+Michael Straube (3):
+  staging: r8188eu: rename _pFwHdr in IS_FW_HEADER_EXIST
+  staging: r8188eu: add spaces around & operator in IS_FW_HEADER_EXIST
+  staging: r8188eu: move firmware related macros to rtw_fw.h
 
-With regards,
-Pavel Skripkin
+ drivers/staging/r8188eu/include/rtl8188e_hal.h | 11 -----------
+ drivers/staging/r8188eu/include/rtw_fw.h       | 10 +++++++++-
+ 2 files changed, 9 insertions(+), 12 deletions(-)
+
+-- 
+2.34.1
+
