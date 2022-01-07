@@ -1,51 +1,52 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FFA173
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 18:45:10 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id c3so5527060pls.5
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 10:45:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C03173
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 19:24:44 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id g22so6248890pgn.1
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 11:24:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=w9ypsLnISzV2puuOjG8DGvXifynHcs0yI+Cx33i9X+w=;
-        b=cygrNEBmz1DyagL+MK9Smfevh5IjJuSHSuEOlVsYJY/IsYLSqwrcAwQNSk35RtzqNQ
-         C2Ngafv6Of7aHLdg+JJ1h7IfZE+dlMpZhyvQVYQjpqoOEGWLjXsCzPisUq2RZG6Go3Ez
-         6BR6BadHpK5krEsAYIggJBO5cVnWOHb0vPUc1YQxJnxvDwjV8w9SgzvbnjWyQgfczshx
-         ISExdudMCktyvp765YZGtSHppNG5Y1zZw4P8sJPB/k2gurJwwmoNbzhrb6EWZCzAzgKu
-         aVQMgcyhNKNl6Gr4aA+mRXJH/063lvSSx6t4NgOKxpZhDaqRbDx1ZTs8197f0dm546Hx
-         uZOw==
+        bh=QMs6fkUvgPrjBNmbVuzeEIMf/pxNE8LPDDFFuRfaa5Y=;
+        b=dCs9HdAqqz6QxAPNLPq8whgVc4oHvxWlnjZ37shwKGAMr9nLlMHGTj32npKCuokJKK
+         idNPSZSRGH+nc2ioJAjnp/yxWTM7ATkZ2TMfTlI7vyXrC1mU6oPQBIUjpC02jlA+iTOw
+         KbrAJCTT/bPrRAvxOqGuQS1xW3bHeO2vbFjBWifi40D+8J2v5Rt9vuieY4N6QGCgy8vS
+         aWdxpFRMQl354PWRrVct4DMvizHyYS/1Vmo9qjqIuaNlW01Q7bE2FZF9t4Fbl9WYHFts
+         BG3bILBB0K1lP4jZgUcJmqDYwKxxYAtJdsXFi/N8w/jvnVY3Dh9HHPfouAWPWes9Ljq4
+         uoEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=w9ypsLnISzV2puuOjG8DGvXifynHcs0yI+Cx33i9X+w=;
-        b=hUq+ylZ9HDyf+B51bdJrxe8KKSFTgS/gB0KO6oMUQlfG0BlLH0XVNxyUc+pfKDMQpO
-         C4WUK6TPQv36K2RuekVcgl9+po0RsXqxDdmyIlGiXoFTLkHqMVqNrSlINqxWwbEy9m7s
-         t3fjwljQA+Ctf03iBdxu20LyKvHvvCo/hVys2rZk+tzBvaJjbGs5Z0/ejMIq8NkPwStr
-         Bvvce2D0+Cnt8VG8y8ijxICgNnqPNeet3bJkNzC/5EwTP8fg/NXtehpfxVNyv653vJMX
-         ziummt5knvU4jVEupWkyyJo4z1/OgJROfN+tku7BE4txV5zbLfmnAbZHY/69s3lb5vwR
-         +7og==
-X-Gm-Message-State: AOAM530Xe8656/ocxajNDcRWeXPc/I6JyCoGUsBlWa9oJUmdJwMKR2yL
-	5+YPTpJWKWBuhZBvDawLP/4=
-X-Google-Smtp-Source: ABdhPJyKrLj0SsxFVhf0tlmH+eC9y6nJK4bslfXYvaePyZfl6eGKptmPg5yL7l0pOLb81WgTx3pmZw==
-X-Received: by 2002:a17:90a:d3c8:: with SMTP id d8mr17189863pjw.189.1641581110207;
-        Fri, 07 Jan 2022 10:45:10 -0800 (PST)
+        bh=QMs6fkUvgPrjBNmbVuzeEIMf/pxNE8LPDDFFuRfaa5Y=;
+        b=qMdahykZkHhf+pUtYjaq2uhe7wVCD59EUeOwwtNK0JmwfD+Sed7io9oNy2GUyq7YPq
+         9uK7uhCCYBHwQJAeOHAsGciBuagM+604bSox4mS7jpTLFIFdWArqr/R4+iEGNzB7g0ey
+         uUcxVPJg4c5ArlXdFEkhW5dQH6C7bM5sFmK5CaOhiC+qMznlEDBazudqUbIOxfKWTUiL
+         6IWkT8rUlR8xeoZFDUfdMbl8WlDo+Kzelu1dHcFqKHqbgpxIWOeU8iRhoLdtAThA5RJY
+         q5bb6Z2Q4qpEYRqmk3IGgS8WhZUQ+cn5OQZ/nSWrmQ9YrBZptLzIUNHVZd5thfTkSVhD
+         z3Uw==
+X-Gm-Message-State: AOAM532woxf38jKRZPfSLtmId4C/XUgf7tD7h4fJanWGuB8WOzl2n3tr
+	Q7WlBK7Avs6GMEMI83kj4rV65Dhv7tSZ2xLe
+X-Google-Smtp-Source: ABdhPJw9+NE0KP0rvwvLCzBHuz55aXfsGF21CuiFGPHj6dzg+8vwq0rmp3jqYablU9dH/XO+ZgdS2w==
+X-Received: by 2002:a05:6a00:1249:b0:4bb:4a31:1e0a with SMTP id u9-20020a056a00124900b004bb4a311e0amr65594800pfi.81.1641583484198;
+        Fri, 07 Jan 2022 11:24:44 -0800 (PST)
 Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id x25sm6301929pfu.113.2022.01.07.10.45.07
+        by smtp.gmail.com with ESMTPSA id y3sm5968077pjp.55.2022.01.07.11.24.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 10:45:09 -0800 (PST)
-Date: Sat, 8 Jan 2022 07:45:04 +1300
+        Fri, 07 Jan 2022 11:24:43 -0800 (PST)
+Date: Sat, 8 Jan 2022 08:24:38 +1300
 From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 To: Dan Carpenter <dan.carpenter@oracle.com>
 Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: move get version func to where all other
- functions are
-Message-ID: <20220107184504.GA2693@mail.google.com>
-References: <20220106093110.GA20011@mail.google.com>
- <20220107083258.GO7674@kadam>
+Subject: Re: [PATCH v2] staging: pi433: move get version func to where all
+ other functions are
+Message-ID: <20220107192438.GB2693@mail.google.com>
+References: <20220106201430.GA3416@mail.google.com>
+ <20220106213325.GA10767@mail.google.com>
+ <20220107085343.GP7674@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,28 +55,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220107083258.GO7674@kadam>
+In-Reply-To: <20220107085343.GP7674@kadam>
 
-On Fri, Jan 07, 2022 at 11:32:58AM +0300, Dan Carpenter wrote:
-> > Additionally, the patch below must be applied first as it was sent
-> > before and touches the same file.
-> > https://lore.kernel.org/lkml/20220103222334.GA6814@mail.google.com/
+On Fri, Jan 07, 2022 at 11:53:44AM +0300, Dan Carpenter wrote:
+> On Fri, Jan 07, 2022 at 10:33:25AM +1300, Paulo Miguel Almeida wrote:
+> > As a convention for the pi433 driver, all routines that deals with the
+> > rf69 chip are defined in the rf69.c file.
 > 
-> Put these sorts of meta commentary underneath the --- cut off
+> That's some EnterpriseQuality[tm] style guidelines.  It's an over fussy
+> rule that just makes the code harder to read for no reason.
 
-Thanks, I didn't know. Will start doing this from now onwards
+EnterpriseQuality[tm] was witty :)
 
-> > 
-> > Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> > ---
->   ^^^
+> >  
+> >  	/* Ping the chip by reading the version register */
 > 
-> here.  We don't need to preserve that information in the git log for all
-> of history.
+> This comment doesn't make sense now.
+
+you are right, I will change this.
+
+> > -	retval = spi_w8r8(spi, 0x10);
+> > -	if (retval < 0)
+> > -		return retval;
+> > +	retval = rf69_get_version(spi);
 > 
-> Other people have basically said all the other stuff that I was going
-> to say...
+> Just say:
 > 
-> regards,
-> dan carpenter
+> 	retval = rf69_read_reg(spi, REG_VERSION);
+
+atm rf69_read_reg is a static function in rf69.c.
+
+I do agree that this is technically possible to write the code
+exactly as you suggested but on the other hand, that would be the only
+exception to the rule when considering all other higher-level functions
+provided in the rf69.c
+
+are you strongly set on the rf69_read_reg approach or would you 
+be open to keep the original approach? (rf69_get_version)
+
+> 	if (retval < 0)
+> 		return retval;
 > 
+> Deleting the error handling was a bad style choice.  Also preserve the
+> error code.
+>
+
+I just want to double-check if this suggestion is taking into
+consideration what was mentioned here:
+https://lore.kernel.org/lkml/20220106210134.GB3416@mail.google.com/
+
+If it is, I'm happy to add it back but I just wanted to confirm it
+first.
+
+thanks,
+
+Paulo A.
