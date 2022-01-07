@@ -1,97 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A372C9E
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 02:10:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E932AC36AE3;
-	Fri,  7 Jan 2022 02:10:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1641521431;
-	bh=djRrn1BCkoZjoqC6mQjBa9SC3D/NEGTiHMDRuQlCKRk=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=etWMUzXnVxiYjPMEZD1rJeLbDG2/xTA6oE5Jze6qz75s112D0bqXjTjYk8sw0kgda
-	 LrSe5d1bAlKWBvDKFF59iSjN4mwhe6sphKZvQ7pXZJ/NvUgl47W1NlgfOx5qqAk56E
-	 Pu0fBhVY+ihWCKvNM0jI2Fa8nPII/aKoxkCkh/YAyFo5tTZO4qKOfVXyPNvfC0pRrt
-	 /3uWAywDRGvwSN7Y9GX5ajatwd9Y/FQOYNYXiPBBP9sH9BsPAWo/fqWWAIgkEASaLk
-	 Krj1sSgly5EBzjOjdrOQ8XjbNPBxfy2eb79OvEYLy69K9Io1dTtqsKHvvSw2G3F4RH
-	 to/lAQ88f+CAw==
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B99173
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 06:52:18 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id i8so4684754pgt.13
+        for <linux-staging@lists.linux.dev>; Thu, 06 Jan 2022 22:52:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=R1MbqjjHlpwAkbujyAZzAl4HorX8RJtW6RCBhq0VRmY=;
+        b=YGZ+fwK7uqgnP0cbS69isHiEPZLNAEUtfGVRtBCLnZ5PLeTKmf6u3zi1tDvyhu8GAQ
+         6n9orQGMOmMPhW0HXwEZeIc+Anb2vxbXdrNIlWYJabmqm7X4v1WGQLGsi/4I9HCM7hdi
+         GQhd6gsSYJd5w/MV1lpxTdSLbonKNKQDrw2Su3mQmODioS10xcI8yoteiU84uD7niwEr
+         sZf0CqAEZzZWj3R1iNXNoAzlAxMouhS73dSJ/mUHOPNkdTpcmz2MW8qiregTvN1Lt6Mb
+         n5h82aaGl997KWtEtv7b65/DE7Rg09jh2cif807kcbKgEIHV5zai3X3DueheuOuxJjFn
+         gnng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=R1MbqjjHlpwAkbujyAZzAl4HorX8RJtW6RCBhq0VRmY=;
+        b=XJvWzkewuLeqVTCkQSbeZd8ZupJBaG/3VBIKI727RDQj+vV11uXGnDY5M9ndjZOCeS
+         aEupN3TptQCTOh7peUrcIq/OFFfkz4vytrJirxJ4o1Px8sEpVudnlPrFC7iwUV7TU4gJ
+         y7+qYVZZlaEVk7ErEkt3VRlgUA3I6IbG2rw9RLT/e8YGGOSnzGdXaLcbwkMg+sg4lwIi
+         vP3MS/IMDBxzLry6aBGywbgUaI3EM56HasxqCVuIWTTGT++IyPXvD5zRCa6GEdEWd3IW
+         qbah3uUWSrRpd2o3RMymL4oxQ52zNutgKXvmR3GtGEL0Zwz/XtqrNdmTjmuefn6OR0UB
+         DIpQ==
+X-Gm-Message-State: AOAM530uLKLFUhfhUAbVIDBdsnoDteCJWFwee8/NlNKXc5itGLX+Gn5h
+	AH5BmY5/61urQTFz/6wcj/s=
+X-Google-Smtp-Source: ABdhPJySAFJK6FIQ6td62XvHq169EysjllUEfbwhF5Wjwe6eFzSfyCJUAsyXZAyybo1q4XAiC2E60A==
+X-Received: by 2002:a05:6a00:892:b0:4ba:12d5:1d4 with SMTP id q18-20020a056a00089200b004ba12d501d4mr64311542pfj.46.1641538338089;
+        Thu, 06 Jan 2022 22:52:18 -0800 (PST)
+Received: from nlap2 ([171.78.146.184])
+        by smtp.gmail.com with ESMTPSA id g9sm4688248pfj.123.2022.01.06.22.52.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jan 2022 22:52:17 -0800 (PST)
+Date: Fri, 7 Jan 2022 12:22:10 +0530
+From: Abdun Nihaal <abdun.nihaal@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	straube.linux@gmail.com, martin@kaiser.cx,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] staging: r8188eu: change functions to return void
+Message-ID: <20220107065210.7utcwjenvcspydyk@nlap2>
+References: <cover.1641490034.git.abdun.nihaal@gmail.com>
+ <9db6b08837bd6354c8e07a4b1c4bca662091f945.1641490034.git.abdun.nihaal@gmail.com>
+ <Ydct2sBt6aB+MChS@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAMhs-H81xnaFqgTJT3jiNy_BBCuHhrA-t0A+0wMnp5Y0kFjGUQ@mail.gmail.com>
-References: <20211107074200.18911-1-sergio.paracuellos@gmail.com> <CAMhs-H81xnaFqgTJT3jiNy_BBCuHhrA-t0A+0wMnp5Y0kFjGUQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/4] clk: ralink: make system controller a reset provider
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>, John Crispin <john@phrozen.org>, linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, NeilBrown <neil@brown.name>, Philipp Zabel <p.zabel@pengutronix.de>
-To: COMMON CLK FRAMEWORK <linux-clk@vger.kernel.org>, Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Thu, 06 Jan 2022 18:10:29 -0800
-User-Agent: alot/0.9.1
-Message-Id: <20220107021030.E932AC36AE3@smtp.kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ydct2sBt6aB+MChS@kroah.com>
 
-Quoting Sergio Paracuellos (2021-12-13 04:00:17)
-> Hi Stephen,
->=20
-> On Sun, Nov 7, 2021 at 8:42 AM Sergio Paracuellos
-> <sergio.paracuellos@gmail.com> wrote:
-> >
-> > Hi all,
-> >
-> > This patch series add minimal change to provide mt7621 resets properly
-> > defining them in the 'mediatek,mt7621-sysc' node which is the system
-> > controller of the SoC and is already providing clocks to the rest of
-> > the world.
-> >
-> > There is shared architecture code for all ralink platforms in 'reset.c'
-> > file located in 'arch/mips/ralink' but the correct thing to do to align
-> > hardware with software seems to define and add related reset code to the
-> > already mainlined clock driver.
-> >
-> > After this changes, we can get rid of the useless reset controller node
-> > in the device tree and use system controller node instead where the pro=
-perty
-> > '#reset-cells' has been added. Binding documentation for this nodeq has
-> > been updated with the new property accordly.
-> >
-> > This series also provide a bindings include header where all related
-> > reset bits for the MT7621 SoC are defined.
-> >
-> > Also, please take a look to this review [0] to understand better motiva=
-tion
+Hello Greg,
 
-Is [0] a link?
+On Thu, Jan 06, 2022 at 06:58:50PM +0100, Greg KH wrote:
+> On Thu, Jan 06, 2022 at 11:11:52PM +0530, Abdun Nihaal wrote:
+> > Some functions in ioctl_linux.c always returns 0 and their return values
+> > are never used. Change return type of such functions to void.
+> > 
+> > While at it, align function arguments with open parenthesis to fix
+> > checkpatch checks.
+> > 
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
+> 
+> Are you sure that checkpatch allowed this change?
 
-> > for this series.
-> >
-> > Regarding the way of merging this:
-> >  - I'd like patches 1 and 4 which are related going through staging tre=
-e.
-> >  - The other two (patches 2 and 3) can perfectly go through the clock t=
-ree.
-> >
-> > Thanks in advance for your feedback.
-> >
-> > Changes in v5:
-> >  - Move platform driver init process into 'arch_initcall' to be sure the
-> >    rest of the world can get the resets available when needed (since PC=
-Ie
-> >    controller driver has been moved from staging into 'drivers/pci/cont=
-roller'
-> >    is probed earlier and reset was not available so it was returning
-> >    -EPROBE_DEFER on firt try. Moving into 'arch_initcall' avoids the 'a=
- bit
-> >    anoying' PCI first failed log trace.
->=20
-> Gentle ping on this series.
->=20
+Yes, I ran checkpatch on both the patches and found no errors, warnings
+or checks. Is there something that needs to be fixed?
 
-It looks to largely be a reset controller patch series. Can you get
-review from the reset maintainer?
-
-RESET CONTROLLER FRAMEWORK
-M:	Philipp Zabel <p.zabel@pengutronix.de>
-S:	Maintained
+Regards,
+Abdun Nihaal
