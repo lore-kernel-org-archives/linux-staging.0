@@ -1,112 +1,79 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C03173
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 19:24:44 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id g22so6248890pgn.1
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 11:24:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33DC29CA
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 21:50:45 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id e5so4827497wmq.1
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 13:50:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QMs6fkUvgPrjBNmbVuzeEIMf/pxNE8LPDDFFuRfaa5Y=;
-        b=dCs9HdAqqz6QxAPNLPq8whgVc4oHvxWlnjZ37shwKGAMr9nLlMHGTj32npKCuokJKK
-         idNPSZSRGH+nc2ioJAjnp/yxWTM7ATkZ2TMfTlI7vyXrC1mU6oPQBIUjpC02jlA+iTOw
-         KbrAJCTT/bPrRAvxOqGuQS1xW3bHeO2vbFjBWifi40D+8J2v5Rt9vuieY4N6QGCgy8vS
-         aWdxpFRMQl354PWRrVct4DMvizHyYS/1Vmo9qjqIuaNlW01Q7bE2FZF9t4Fbl9WYHFts
-         BG3bILBB0K1lP4jZgUcJmqDYwKxxYAtJdsXFi/N8w/jvnVY3Dh9HHPfouAWPWes9Ljq4
-         uoEg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wQnTAOzqfnEo9STtUG3p3gnrWCeSeGnMweWxCdq98J4=;
+        b=l3aYK2qsZES/UMTB5Dj5xMSWSGdqQggwJ3aZCUV0OcmD2G1e7ZquqML2OsMOl9sbU+
+         uUaoRUQ65f9Kt72KdVV5Fk4ItZ+gf0MzCs32xgmiAakVK+eulsGry8sKqhqgi6FdBMjF
+         PJy0i6/1ygrYUbixHPb9dBtPrNYa9K/hYTf2RUqOmKgX3f9zkFIv2YSjAqvG5/vSRIIf
+         PwOlKo8ccAEtWHD4FyHPijdz67t5nYevsDzcNfhptq0k/WcV7WLIzBoPmLqYylX/MIm0
+         w+7xv1NZUaT/uVIf/RJL60VAngX3Sc0TRtCcogE5SvLfsXa8NPaKeqwvMCbJfr35CljX
+         1n6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QMs6fkUvgPrjBNmbVuzeEIMf/pxNE8LPDDFFuRfaa5Y=;
-        b=qMdahykZkHhf+pUtYjaq2uhe7wVCD59EUeOwwtNK0JmwfD+Sed7io9oNy2GUyq7YPq
-         9uK7uhCCYBHwQJAeOHAsGciBuagM+604bSox4mS7jpTLFIFdWArqr/R4+iEGNzB7g0ey
-         uUcxVPJg4c5ArlXdFEkhW5dQH6C7bM5sFmK5CaOhiC+qMznlEDBazudqUbIOxfKWTUiL
-         6IWkT8rUlR8xeoZFDUfdMbl8WlDo+Kzelu1dHcFqKHqbgpxIWOeU8iRhoLdtAThA5RJY
-         q5bb6Z2Q4qpEYRqmk3IGgS8WhZUQ+cn5OQZ/nSWrmQ9YrBZptLzIUNHVZd5thfTkSVhD
-         z3Uw==
-X-Gm-Message-State: AOAM532woxf38jKRZPfSLtmId4C/XUgf7tD7h4fJanWGuB8WOzl2n3tr
-	Q7WlBK7Avs6GMEMI83kj4rV65Dhv7tSZ2xLe
-X-Google-Smtp-Source: ABdhPJw9+NE0KP0rvwvLCzBHuz55aXfsGF21CuiFGPHj6dzg+8vwq0rmp3jqYablU9dH/XO+ZgdS2w==
-X-Received: by 2002:a05:6a00:1249:b0:4bb:4a31:1e0a with SMTP id u9-20020a056a00124900b004bb4a311e0amr65594800pfi.81.1641583484198;
-        Fri, 07 Jan 2022 11:24:44 -0800 (PST)
-Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id y3sm5968077pjp.55.2022.01.07.11.24.41
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wQnTAOzqfnEo9STtUG3p3gnrWCeSeGnMweWxCdq98J4=;
+        b=qQvfqHQczidRa+g0Bcsp/+8ROC8sE+wvvt7EP1/Pd9asCTtCDk/tFc237TeuiecUZb
+         BRKCt2TL7cTdxdXTGTVRnR3/iej0u+ZMTU839kKsA4Z3N707B/fUOS0j9wn2UDJoL/Em
+         VF3li8hvMrd7YTj9kcV0RDyGnP4Q5xHAIjysr/5JB0OQldCu6u0evLunM0VTOnsamTZP
+         qS8FZFDDCVjTiSLL88f8lc71nBNVliWVmMR6jHzYjHirDHX44rB3xuCedvJtA4li5uYm
+         qbIvx5V+C9ZPQYbKgTQOa/uQbJURONeewsYZO9rzDSecbQa+iiAo7CbV9KaMU4Q9YGU4
+         3aDQ==
+X-Gm-Message-State: AOAM53224+qzVJWm/LI7dRw3g7/xCOhnAlNGbuO5LgY1UcTmsDi/yPw+
+	a6AdjOSuuA+u0KMfjkMv+d4=
+X-Google-Smtp-Source: ABdhPJz9FjU6RPQHxLJMyrC3sBYKcJwGoUxuDVqAat1O6y7hObS2LOthMSza8UlzN1X+k02m4SmHvA==
+X-Received: by 2002:a05:600c:1991:: with SMTP id t17mr12546723wmq.21.1641592244312;
+        Fri, 07 Jan 2022 13:50:44 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::51e2])
+        by smtp.gmail.com with ESMTPSA id k14sm1729161wrn.59.2022.01.07.13.50.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 11:24:43 -0800 (PST)
-Date: Sat, 8 Jan 2022 08:24:38 +1300
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: pi433: move get version func to where all
- other functions are
-Message-ID: <20220107192438.GB2693@mail.google.com>
-References: <20220106201430.GA3416@mail.google.com>
- <20220106213325.GA10767@mail.google.com>
- <20220107085343.GP7674@kadam>
+        Fri, 07 Jan 2022 13:50:44 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/6] staging: r8188eu: clean up GetHwReg8188EU()
+Date: Fri,  7 Jan 2022 22:50:27 +0100
+Message-Id: <20220107215033.12257-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220107085343.GP7674@kadam>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 07, 2022 at 11:53:44AM +0300, Dan Carpenter wrote:
-> On Fri, Jan 07, 2022 at 10:33:25AM +1300, Paulo Miguel Almeida wrote:
-> > As a convention for the pi433 driver, all routines that deals with the
-> > rf69 chip are defined in the rf69.c file.
-> 
-> That's some EnterpriseQuality[tm] style guidelines.  It's an over fussy
-> rule that just makes the code harder to read for no reason.
+This series removes unused cases from GetHwReg8188EU(). Some of the
+cases are also unused in SetHwReg8188EU() and removed there as well.
 
-EnterpriseQuality[tm] was witty :)
+Tested on x86_64 with Inter-Tech DMG-02.
 
-> >  
-> >  	/* Ping the chip by reading the version register */
-> 
-> This comment doesn't make sense now.
+Michael Straube (6):
+  staging: r8188eu: remove HW_VAR_BASIC_RATE from GetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_TXPAUSE
+  staging: r8188eu: remove HW_VAR_CURRENT_ANTENNA from GetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_EFUSE_BYTES from GetHwReg8188EU()
+  staging: r8188eu: EfuseUsedBytes is set but never used
+  staging: r8188eu: remove HW_VAR_APFM_ON_MAC
 
-you are right, I will change this.
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  3 ---
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 25 -------------------
+ drivers/staging/r8188eu/include/hal_intf.h    |  5 ----
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  2 --
+ 4 files changed, 35 deletions(-)
 
-> > -	retval = spi_w8r8(spi, 0x10);
-> > -	if (retval < 0)
-> > -		return retval;
-> > +	retval = rf69_get_version(spi);
-> 
-> Just say:
-> 
-> 	retval = rf69_read_reg(spi, REG_VERSION);
+-- 
+2.34.1
 
-atm rf69_read_reg is a static function in rf69.c.
-
-I do agree that this is technically possible to write the code
-exactly as you suggested but on the other hand, that would be the only
-exception to the rule when considering all other higher-level functions
-provided in the rf69.c
-
-are you strongly set on the rf69_read_reg approach or would you 
-be open to keep the original approach? (rf69_get_version)
-
-> 	if (retval < 0)
-> 		return retval;
-> 
-> Deleting the error handling was a bad style choice.  Also preserve the
-> error code.
->
-
-I just want to double-check if this suggestion is taking into
-consideration what was mentioned here:
-https://lore.kernel.org/lkml/20220106210134.GB3416@mail.google.com/
-
-If it is, I'm happy to add it back but I just wanted to confirm it
-first.
-
-thanks,
-
-Paulo A.
