@@ -1,164 +1,81 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD9C2C9D
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 16:02:45 +0000 (UTC)
-Received: from [IPv6:2a01:e0a:120:3210:21c7:4f13:8afa:4f9f] (unknown [IPv6:2a01:e0a:120:3210:21c7:4f13:8afa:4f9f])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 7F42B1F4654B;
-	Fri,  7 Jan 2022 16:02:43 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1641571363;
-	bh=82iQizbllLUiJnSZ0KgoTJ5nL7tu9HnbfQNsu6IOb7Q=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=Ltlx5Bhib0ENtTQhrAzGB82bBtC4tkIYMRrCj8Vrhow05nZya/dIt4H8Wj9w1Qig1
-	 9RLIscX2KkZc7nHarBXeZ31CRw1SL3qKTmNEbXkFS5xqC3bxXa8F8RRw3mtbP24WD+
-	 kMAkITOLamoY6pPUvFfsZM6NRwUDaqZ3lnlV7sE3AXIHAr1yho/VK0ZPRtBzpdmnSa
-	 LrqmquOpKeH8lPUqbbcGqc0n2bSPvA5WRBPaaZl4Lm6dD7/HttaMXqaovJ9oiCNoXv
-	 hMkR4sAkuO+YshRUqYg/W62jZOPVXw6Uhe+3frDWWrNT8ZpU4KX7pERFEomX1huChd
-	 A8WywpNLYTYYg==
-Subject: Re: [PATCH v4 1/2] media: hevc: Remove RPS named flags
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
- hverkuil-cisco@xs4all.nl, jernej.skrabec@gmail.com,
- nicolas.dufresne@collabora.co.uk, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20220104073842.1791639-1-benjamin.gaignard@collabora.com>
- <20220104073842.1791639-2-benjamin.gaignard@collabora.com>
- <YdWOecbZHO+Skbnn@eze-laptop>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <a8b2640b-35e3-7e4c-c1ac-4d8651470d2b@collabora.com>
-Date: Fri, 7 Jan 2022 17:02:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FFA173
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 18:45:10 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id c3so5527060pls.5
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 10:45:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=w9ypsLnISzV2puuOjG8DGvXifynHcs0yI+Cx33i9X+w=;
+        b=cygrNEBmz1DyagL+MK9Smfevh5IjJuSHSuEOlVsYJY/IsYLSqwrcAwQNSk35RtzqNQ
+         C2Ngafv6Of7aHLdg+JJ1h7IfZE+dlMpZhyvQVYQjpqoOEGWLjXsCzPisUq2RZG6Go3Ez
+         6BR6BadHpK5krEsAYIggJBO5cVnWOHb0vPUc1YQxJnxvDwjV8w9SgzvbnjWyQgfczshx
+         ISExdudMCktyvp765YZGtSHppNG5Y1zZw4P8sJPB/k2gurJwwmoNbzhrb6EWZCzAzgKu
+         aVQMgcyhNKNl6Gr4aA+mRXJH/063lvSSx6t4NgOKxpZhDaqRbDx1ZTs8197f0dm546Hx
+         uZOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=w9ypsLnISzV2puuOjG8DGvXifynHcs0yI+Cx33i9X+w=;
+        b=hUq+ylZ9HDyf+B51bdJrxe8KKSFTgS/gB0KO6oMUQlfG0BlLH0XVNxyUc+pfKDMQpO
+         C4WUK6TPQv36K2RuekVcgl9+po0RsXqxDdmyIlGiXoFTLkHqMVqNrSlINqxWwbEy9m7s
+         t3fjwljQA+Ctf03iBdxu20LyKvHvvCo/hVys2rZk+tzBvaJjbGs5Z0/ejMIq8NkPwStr
+         Bvvce2D0+Cnt8VG8y8ijxICgNnqPNeet3bJkNzC/5EwTP8fg/NXtehpfxVNyv653vJMX
+         ziummt5knvU4jVEupWkyyJo4z1/OgJROfN+tku7BE4txV5zbLfmnAbZHY/69s3lb5vwR
+         +7og==
+X-Gm-Message-State: AOAM530Xe8656/ocxajNDcRWeXPc/I6JyCoGUsBlWa9oJUmdJwMKR2yL
+	5+YPTpJWKWBuhZBvDawLP/4=
+X-Google-Smtp-Source: ABdhPJyKrLj0SsxFVhf0tlmH+eC9y6nJK4bslfXYvaePyZfl6eGKptmPg5yL7l0pOLb81WgTx3pmZw==
+X-Received: by 2002:a17:90a:d3c8:: with SMTP id d8mr17189863pjw.189.1641581110207;
+        Fri, 07 Jan 2022 10:45:10 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id x25sm6301929pfu.113.2022.01.07.10.45.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jan 2022 10:45:09 -0800 (PST)
+Date: Sat, 8 Jan 2022 07:45:04 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: pi433: move get version func to where all other
+ functions are
+Message-ID: <20220107184504.GA2693@mail.google.com>
+References: <20220106093110.GA20011@mail.google.com>
+ <20220107083258.GO7674@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YdWOecbZHO+Skbnn@eze-laptop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220107083258.GO7674@kadam>
 
+On Fri, Jan 07, 2022 at 11:32:58AM +0300, Dan Carpenter wrote:
+> > Additionally, the patch below must be applied first as it was sent
+> > before and touches the same file.
+> > https://lore.kernel.org/lkml/20220103222334.GA6814@mail.google.com/
+> 
+> Put these sorts of meta commentary underneath the --- cut off
 
-Le 05/01/2022 à 13:26, Ezequiel Garcia a écrit :
-> Hi Benjamin,
->
-> On Tue, Jan 04, 2022 at 08:38:41AM +0100, Benjamin Gaignard wrote:
->> Marking a picture as long-term reference is valid for DPB but not for RPS.
->> Change flag name to match with it description in HEVC spec chapiter
->> "8.3.2 Decoding process for reference picture set".
->> Remove the other unused RPS flags.
->>
-> A change like this, which is affecting a kernel interface and has impact
-> on userspace and drivers, requires a lot more attention in the commit description.
->
-> If I understand correctly, this change is related to how HEVC was first
-> introduced and how the DPB was originally represented in V4L2.
->
-> Originally, a DPB entry struct v4l2_hevc_dpb_entry had an rps field
-> which can be:
->
->    V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE
->    V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER
->    V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR
->
-> Perhaps this idea followed libva, where a VAPictureHEVC has flags field
-> which can be:
->
->    VA_PICTURE_HEVC_RPS_ST_CURR_BEFORE,
->    VA_PICTURE_HEVC_RPS_ST_CURR_AFTER,
->    VA_PICTURE_HEVC_RPS_LT_CURR,
->    VA_PICTURE_HEVC_LONG_TERM_REFERENCE
->
-> In this representation, the sets PocStCurrBefore, PocStCurrAfter,
-> PocLtCurr are implicit, and must be built by the kernel from the DPB
-> entries struct v4l2_hevc_dpb_entry, using the information in the rps field.
->
-> Last year, we changed this with your commit:
->
-> commit d395a78db9eabd12633b39e05c80e803543b6590
-> Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Date:   Thu Jun 3 13:49:57 2021 +0200
->
->      media: hevc: Add decode params control
->
-> Which added the control v4l2_ctrl_hevc_decode_params, which includes
-> the sets PocStCurrBefore, PocStCurrAfter, PocLtCurr explicitly and therefore
-> moved the responsability of creating and maintaining the sets to userspace.
->
-> This effectively made the rps field in the struct v4l2_hevc_dpb_entry
-> useless. The longterm flag is still needed though for a DPB entry.
->
-> With this in mind, you could even say this commit is doing actually two
-> things:
->
-> 1. Removes the unused rps field.
-> 2. Adds a flag field, for the longterm DPB entry boolean.
->
-> Do you think a single byte of flags will be OK for a DPB entry?
-> I think so, but I'd love yours/others input here.
+Thanks, I didn't know. Will start doing this from now onwards
 
-In ITU HEVC spec it is said that:
-"When a picture is referred to as being marked as "used for reference",
-this collectively refers to the picture being marked as "used
-  for
-short-term reference" or "used for long-term reference" (but not both)."
-
-So I believe that a single if enough for DPB entry.
-
->
-> If the above is more or less accurate then, and provided you
-> submit a new version with a more detailed commit description:
-
-I will follow your suggestions and improve it in v5
-
->
-> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
->
-> Also, a small question:
->
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->> version 4:
->> - check flags with & and not ==
->>
->>   Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 8 +++-----
->>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c         | 2 +-
->>   drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
->>   include/media/hevc-ctrls.h                                | 6 ++----
->>   4 files changed, 7 insertions(+), 11 deletions(-)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index e141f0e4eec9..38da33e61c3d 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -3166,11 +3166,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>   	:c:func:`v4l2_timeval_to_ns()` function to convert the struct
->>   	:c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
->>       * - __u8
->> -      - ``rps``
->> -      - The reference set for the reference frame
->> -        (V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE,
->> -        V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER or
->> -        V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->> +      - ``flags``
->> +      - Long term flag for the reference frame
->> +        (V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
-> Is this longterm flag associated in any way to a syntax element
-> or an HEVC process? If so, please document that.
-
-done in v5.
-
-Thanks for your review.
-
-Benjamin
-
->
-> Thanks,
-> Ezequiel
+> > 
+> > Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> > ---
+>   ^^^
+> 
+> here.  We don't need to preserve that information in the git log for all
+> of history.
+> 
+> Other people have basically said all the other stuff that I was going
+> to say...
+> 
+> regards,
+> dan carpenter
+> 
