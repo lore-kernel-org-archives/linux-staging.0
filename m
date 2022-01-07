@@ -1,135 +1,76 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D9D2C9E
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 09:35:24 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id r16-20020a17090a0ad000b001b276aa3aabso11457022pje.0
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 01:35:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00F929CA
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 09:55:40 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id l15so4512264pls.7
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 01:55:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uPa2Y9r48Tr2TjgiZvIGBvNI/0pFs3VgGlpYuEIyE5A=;
-        b=kyFrRWAXItsw/PhTpWsDKkqDCYcDPo/CSsPz1chXl/ng4d2iLDV1memUqL/OEl+92l
-         jKGiMTZfVGLMq/WAxpbqkBA9h7hsvxOyy3iKpvjEEyM4xccxqp3tdTL9PIwyyUim/vQx
-         bFvPiAgPzVA3vzOPwBiMo8GFUrN8g69RFQnTM=
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zFGzcYvSOCyKFk85uoXR06gkzPo3qnZX3+iKg13B8Qs=;
+        b=fDe/ventyNhPXmnvbmLfT4xlloglwiYf+RpthMcLc5Pk0UbdbKiFlxNU4w/Jh12lz3
+         0GMloo5wHSewYXABHYpnjgtrrGYLHoA0U+/1jqqXl8CcIsjy/LsqYalDEq2nNvZNRfaI
+         cPgJfiyHspv4A+To9wy3XiGLfDfQYp7xI/Jq3BLwe/KqNCQ5oDws67Dttp7pUejRQIoW
+         bwwZha9NFeQa6kotkd8fOF5d7wKrnnV+I4fn5f5lYh9xzTgf+In4zfETcKd40j+QN+w7
+         aELX/H1EMfQOHx67fD4xZecWSzmw+l+37UeM49PHuuE7pMpaaBxOQPzFIeRbQeh5B383
+         t6Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uPa2Y9r48Tr2TjgiZvIGBvNI/0pFs3VgGlpYuEIyE5A=;
-        b=niLO6ARrzmdkHQ6I0Q5OooP/OFqaPYuxYA7dewpsXY6F4DSfUVvvbVQHWpyA8dYL/H
-         TgCRC8CO6B/npH9hhpQBB42tUJwQ0c2TAtn4vYh4dhJpop5ppNA8P9tA9KtMtyBe8EXq
-         N0LlzXJ8twQNTQrVKWsoKEHIm7m5Fxqetb4wNRFoUN51aTAKIzzM2u/ajkr9QNFYUz6r
-         4sRkWj33+4L1oAD7cs1k5QeVDbDYpsqam8/mcAjuZzNv9QJErb/XIVojwZOWjHWxynyB
-         +aXaTN1KYU/l40lhe7Esfyk624rzcur9ivdOZ3FcQPIrcl9Mzh22wvIeCmBPqXe46Dld
-         NlYQ==
-X-Gm-Message-State: AOAM533mEssIqskYs13AbGohZZ1kqNecWe7YyyZrAJFKDv295oGddv9k
-	x8lZQ7jFeHZh0o4Hw4So71Kh+Q==
-X-Google-Smtp-Source: ABdhPJz1h5qNBJkMbnlr4tRBRegzKszr22xmYctO5J2KYeGk4idAT8zh0U05V3Xl73n4YwTJZIM3aA==
-X-Received: by 2002:a17:902:7c05:b0:149:a3b4:934c with SMTP id x5-20020a1709027c0500b00149a3b4934cmr35858061pll.42.1641548123889;
-        Fri, 07 Jan 2022 01:35:23 -0800 (PST)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:8f6b:ee:64d8:ae81])
-        by smtp.gmail.com with ESMTPSA id j17sm5269192pfu.77.2022.01.07.01.35.21
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zFGzcYvSOCyKFk85uoXR06gkzPo3qnZX3+iKg13B8Qs=;
+        b=AeySyMqC6acZ15SVE56qY0BZLjFZ84duQUTPZ4ZV+jWoX3QtH1druKl4wdkZr1kCTo
+         dwyYrL+QmZG1vKdPrTAAIMimujyzi9hi+DGkW6eXAjqrHu7G1WwKrNp43jbkdTy/LUgz
+         d+mx48+tejdHsjkYQjOE+T/s9f1Rc9HM+Brrm9+h9OiLm5TP3DIIFQVZm2iZ7wguTR5+
+         tFTYUr4CpXgdMo8gOM2sw4hHp4unxpOUmpzaLz+Mtsimuz9v0VV/9/iDdIuk8Hm8lbD+
+         J3nUtHSnT2pKYRV+U7j9XFVQ3ZxTrl77E7Nl8ZLKk+pPTdY8hAO5GRNcPFmPdc68eGYd
+         CZ/w==
+X-Gm-Message-State: AOAM5300I+Rgjl+j3MyXwKygnMWan+eGRx4JnZk4jwUJlP/dVXpKJh68
+	yAH/FGptEi+ipLQNWhkp+vQ=
+X-Google-Smtp-Source: ABdhPJxO1HqtsaEul2VvPlXMzFWkpde4PUaL57aUmXCzXUP4g3slVu5RUBEc82gJdiJHoSSSFqUQ5g==
+X-Received: by 2002:a17:90a:e7cb:: with SMTP id kb11mr14742426pjb.75.1641549340245;
+        Fri, 07 Jan 2022 01:55:40 -0800 (PST)
+Received: from nlap2 ([171.78.146.184])
+        by smtp.gmail.com with ESMTPSA id s7sm5635783pfu.133.2022.01.07.01.55.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 01:35:23 -0800 (PST)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RFT v2 8/8] media: hantro: jpeg: Remove open-coded size in quantization table code
-Date: Fri,  7 Jan 2022 17:34:55 +0800
-Message-Id: <20220107093455.73766-9-wenst@chromium.org>
-X-Mailer: git-send-email 2.34.1.575.g55b058a8bb-goog
-In-Reply-To: <20220107093455.73766-1-wenst@chromium.org>
-References: <20220107093455.73766-1-wenst@chromium.org>
+        Fri, 07 Jan 2022 01:55:39 -0800 (PST)
+Date: Fri, 7 Jan 2022 15:25:32 +0530
+From: Abdun Nihaal <abdun.nihaal@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk, straube.linux@gmail.com, martin@kaiser.cx,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] staging: r8188eu: change functions to return void
+Message-ID: <20220107095532.gosbmlwdmnljxbxp@nlap2>
+References: <cover.1641490034.git.abdun.nihaal@gmail.com>
+ <9db6b08837bd6354c8e07a4b1c4bca662091f945.1641490034.git.abdun.nihaal@gmail.com>
+ <Ydct2sBt6aB+MChS@kroah.com>
+ <20220107065210.7utcwjenvcspydyk@nlap2>
+ <20220107085852.GQ7674@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220107085852.GQ7674@kadam>
 
-The quantization tables used in the Hantro JPEG encoder driver are
-implicitly sized by the data they contain, but the loop that scales
-the tables based on the compression quality hard codes the size to
-64. No code exists to check whether the two actually match.
+Hello,
 
-Commit 85bdcb7eaae7 ("media: hantro: Write the quantization tables in
-proper order") introduced two new tables, with sizes hardcoded to 64,
-but still no checking if all the sizes are the same.
+On Fri, Jan 07, 2022 at 11:58:52AM +0300, Dan Carpenter wrote:
+> You're not allowed to end a void function with a return statement.
 
-Commit 41479adb5e52 ("media: hantro: Avoid global variable for jpeg
-quantization tables") added the macro JPEG_QUANT_SIZE, but only the
-newly added fields used this.
+Sorry, I didn't know that. I'll fix it.
 
-This has resulted in code scattered with magic numbers and array sizes
-that happen to match up, without any sort of sanity checking to enforce
-it.
+> Checkpatch will only detect these if you run it again with the -f
+> option.
 
-Drop the hard-coded array sizes, replace the magic loop count with
-a proper JPEG_QUANT_SIZE macro, and add BUILD_BUG_ON()s to check
-that all the table sizes match up.
+Thanks. I'll make sure to run checkpatch on the modified files also (not
+just on the patches).
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- drivers/staging/media/hantro/hantro_jpeg.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/media/hantro/hantro_jpeg.c b/drivers/staging/media/hantro/hantro_jpeg.c
-index 84d3f0bfff00..d07b1b449b61 100644
---- a/drivers/staging/media/hantro/hantro_jpeg.c
-+++ b/drivers/staging/media/hantro/hantro_jpeg.c
-@@ -49,7 +49,7 @@ static const unsigned char chroma_q_table[] = {
- 	0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63, 0x63
- };
- 
--static const unsigned char zigzag[64] = {
-+static const unsigned char zigzag[] = {
- 	 0,  1,  8, 16,  9,  2,  3, 10,
- 	17, 24, 32, 25, 18, 11,  4,  5,
- 	12, 19, 26, 33, 40, 48, 41, 34,
-@@ -60,7 +60,7 @@ static const unsigned char zigzag[64] = {
- 	53, 60, 61, 54, 47, 55, 62, 63
- };
- 
--static const u32 hw_reorder[64] = {
-+static const u32 hw_reorder[] = {
- 	 0,  8, 16, 24,  1,  9, 17, 25,
- 	32, 40, 48, 56, 33, 41, 49, 57,
- 	 2, 10, 18, 26,  3, 11, 19, 27,
-@@ -292,7 +292,10 @@ jpeg_scale_quant_table(unsigned char *file_q_tab,
- {
- 	int i;
- 
--	for (i = 0; i < 64; i++) {
-+	BUILD_BUG_ON(ARRAY_SIZE(zigzag) != JPEG_QUANT_SIZE);
-+	BUILD_BUG_ON(ARRAY_SIZE(hw_reorder) != JPEG_QUANT_SIZE);
-+
-+	for (i = 0; i < JPEG_QUANT_SIZE; i++) {
- 		file_q_tab[i] = jpeg_scale_qp(tab[zigzag[i]], scale);
- 		reordered_q_tab[i] = jpeg_scale_qp(tab[hw_reorder[i]], scale);
- 	}
-@@ -311,6 +314,11 @@ static void jpeg_set_quality(struct hantro_jpeg_ctx *ctx)
- 	else
- 		scale = 200 - 2 * ctx->quality;
- 
-+	BUILD_BUG_ON(ARRAY_SIZE(luma_q_table) != JPEG_QUANT_SIZE);
-+	BUILD_BUG_ON(ARRAY_SIZE(chroma_q_table) != JPEG_QUANT_SIZE);
-+	BUILD_BUG_ON(ARRAY_SIZE(ctx->hw_luma_qtable) != JPEG_QUANT_SIZE);
-+	BUILD_BUG_ON(ARRAY_SIZE(ctx->hw_chroma_qtable) != JPEG_QUANT_SIZE);
-+
- 	jpeg_scale_quant_table(ctx->buffer + LUMA_QUANT_OFF,
- 			       ctx->hw_luma_qtable, luma_q_table, scale);
- 	jpeg_scale_quant_table(ctx->buffer + CHROMA_QUANT_OFF,
--- 
-2.34.1.575.g55b058a8bb-goog
-
+Regards,
+Abdun Nihaal
