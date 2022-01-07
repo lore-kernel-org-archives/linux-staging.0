@@ -1,38 +1,38 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7922C9E
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 09:35:15 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id b1-20020a17090a990100b001b14bd47532so5987053pjp.0
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 01:35:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857972C9E
+	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 09:35:17 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id b22so4749283pfb.5
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 01:35:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GMnNxOVPdXzMfPknulPEnJPfMLKNc3bQyvDsss2ILoA=;
-        b=SQOfsqu/dTsrW4Rh30S050hhBuAno4qMY8keBxE7AeP2blOAkVtr8166QXlMCquZbL
-         EXE7PCbtLHdRGuJlnaekl8QvBtSA+T2fhNfa3f7AIgIiaUnRst4YARLjvaLh3XXln5dz
-         FXS+1C8FFj6VMVZlufqphj5b4ErQeSQ/QrmiQ=
+        bh=fjiy0XooAZ6+kW7wDLSv0ZRGyBQbrxYjLs1RiRmdLbE=;
+        b=QvJo4nFH0gD8APv38byE5spLLGm2EstyxyTk2J3FFBpW7w7wx3d58C4oK9BSis/uWT
+         V1neR7ko1JCTXSYbOsosrDSHBLVmVjSezPdgElFoRM5iWaBNNSSD5HqnNWw1baqQnlWR
+         Dfu9ZPxAq50562bbUX1Ev9gRjkuCgBJ5lrK+o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GMnNxOVPdXzMfPknulPEnJPfMLKNc3bQyvDsss2ILoA=;
-        b=gQW0xbW1Z9dYhgIcglEpDm8USc89QkfUt7o9aYPaFLtuceniw4ysJyWK7vyraHXR0e
-         SwVQCY0WgVO5qca7ienWdT6iHbhIHiwSahmLvUAkSG1aertcmh5VdtQeUhaEzTlSAXA1
-         QIrJwJXkvNcUotLKNliXl71qFWesWIyVcKB9PoF+yZMHlD1RqVLukzjjm3fIa/hwTACM
-         91xPX2NQ2K4b5yyHuQluEM7s41as8aqVoTJsKpDGAqipjHTgurWKxUUlNYAI2Hx7Jwa1
-         aq146HOmjjkCRSjAVfYSQC6IQajGxRxUL3Ro4RA5XnIGTVVXDAfL1XteKBZ0OgxN5e8g
-         eq6g==
-X-Gm-Message-State: AOAM5317GJ8H9tSGo2+ArzhSNXnWaYx4paF7q2UK4EhqONi5cC9u27ik
-	BcwJSH5+gU3MZfxspkJ6GmCFXw==
-X-Google-Smtp-Source: ABdhPJz2DHgRtXL8o0aUKFZg+E1A4xv2/O6qvFArtKHRvQeL73J/2Bshk583jXCoFWRB9NYatEWTcw==
-X-Received: by 2002:a17:902:9a8b:b0:149:be04:40ab with SMTP id w11-20020a1709029a8b00b00149be0440abmr21318112plp.159.1641548114894;
-        Fri, 07 Jan 2022 01:35:14 -0800 (PST)
+        bh=fjiy0XooAZ6+kW7wDLSv0ZRGyBQbrxYjLs1RiRmdLbE=;
+        b=V8tEDXS4BpVc7G6Lo9atKp8j3W+4KCRN+51CSltOLxAgBP4H9atgAnrdEAw+1yx+o9
+         45bS2jg5YQQEl/VBYTCu0NCHfpW2A4vFJkCEm8HoUD0GgrKYzqGwGAR33P2Nsi/o2/0d
+         nN91643ECRgYf8fQ08L4DJwEDReifqbFvCjlhXFMC/HKT0Z4BNr0s9XKolN1Q+HzyjxE
+         SNy+J4Y6qVWQhAEKQR5zIp9wtwaUKXNZlkHhpobASNGmwqzmnJm187EhRm8lgZBZg1hZ
+         AJuRYdaue/fJtY+hA/L/4WsNN07Sg2JVX2mA/TFrnYRdgvx81JypFdCnQSCCQjSP2qvq
+         cmoQ==
+X-Gm-Message-State: AOAM531pYWCv/41LWneVA1c/eSaheBv01dFmWwzqvuJaxI9tCoN7v/EM
+	3rnKxM9ksu28ib41Sr2pAR3qAQ==
+X-Google-Smtp-Source: ABdhPJwXKfTmxMvstQkseMraIWF9HRswARtFjx8amtQ1SIu1hk1yMo3q40/yRoCkMDPgQvU/zWmg0Q==
+X-Received: by 2002:a05:6a00:1a4f:b0:4bb:113a:677c with SMTP id h15-20020a056a001a4f00b004bb113a677cmr63742556pfv.63.1641548117149;
+        Fri, 07 Jan 2022 01:35:17 -0800 (PST)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:8f6b:ee:64d8:ae81])
-        by smtp.gmail.com with ESMTPSA id j17sm5269192pfu.77.2022.01.07.01.35.12
+        by smtp.gmail.com with ESMTPSA id j17sm5269192pfu.77.2022.01.07.01.35.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 01:35:14 -0800 (PST)
+        Fri, 07 Jan 2022 01:35:16 -0800 (PST)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -44,9 +44,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RFT v2 4/8] media: hantro: jpeg: Add JFIF APP0 segment to JPEG encoder output
-Date: Fri,  7 Jan 2022 17:34:51 +0800
-Message-Id: <20220107093455.73766-5-wenst@chromium.org>
+Subject: [PATCH RFT v2 5/8] media: hantro: jpeg: Add COM segment to JPEG header to align image scan
+Date: Fri,  7 Jan 2022 17:34:52 +0800
+Message-Id: <20220107093455.73766-6-wenst@chromium.org>
 X-Mailer: git-send-email 2.34.1.575.g55b058a8bb-goog
 In-Reply-To: <20220107093455.73766-1-wenst@chromium.org>
 References: <20220107093455.73766-1-wenst@chromium.org>
@@ -58,69 +58,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-While the V4L2_PIX_FMT_JPEG format doesn't specify any requirements for
-the APP0 or APP1 segments, it would be nice if the output is JFIF
-compliant. While some programs can read JPEG streams that aren't, some
-guess work is involved.
+The JPEG header size is not 64-bit aligned. This makes the driver
+require a bounce buffer for the encoded JPEG image scan output.
 
-Add the standard JFIF APP0 segment to the JPEG header, so that the JPEG
-encoder output is JFIF compliant.
+Add a COM (comment) segment to the JPEG header so that the header size
+is a multiple of 64 bits. This will then allow dropping the use of the
+bounce buffer, and instead have the hardware write out to the capture
+buffer directly.
 
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- drivers/staging/media/hantro/hantro_jpeg.c | 21 +++++++++++++--------
+ drivers/staging/media/hantro/hantro_jpeg.c | 23 +++++++++++++++++++++-
  drivers/staging/media/hantro/hantro_jpeg.h |  2 +-
- 2 files changed, 14 insertions(+), 9 deletions(-)
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/hantro/hantro_jpeg.c b/drivers/staging/media/hantro/hantro_jpeg.c
-index df62fbdff7c9..7d4018bd6876 100644
+index 7d4018bd6876..e63eeef3952d 100644
 --- a/drivers/staging/media/hantro/hantro_jpeg.c
 +++ b/drivers/staging/media/hantro/hantro_jpeg.c
-@@ -12,15 +12,15 @@
- #include "hantro_jpeg.h"
- #include "hantro.h"
- 
--#define LUMA_QUANT_OFF		7
--#define CHROMA_QUANT_OFF	72
--#define HEIGHT_OFF		141
--#define WIDTH_OFF		143
-+#define LUMA_QUANT_OFF		25
-+#define CHROMA_QUANT_OFF	90
-+#define HEIGHT_OFF		159
-+#define WIDTH_OFF		161
- 
--#define HUFF_LUMA_DC_OFF	160
--#define HUFF_LUMA_AC_OFF	193
--#define HUFF_CHROMA_DC_OFF	376
--#define HUFF_CHROMA_AC_OFF	409
-+#define HUFF_LUMA_DC_OFF	178
-+#define HUFF_LUMA_AC_OFF	211
-+#define HUFF_CHROMA_DC_OFF	394
-+#define HUFF_CHROMA_AC_OFF	427
- 
- /* Default tables from JPEG ITU-T.81
-  * (ISO/IEC 10918-1) Annex K, tables K.1 and K.2
-@@ -144,6 +144,11 @@ static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
+@@ -6,6 +6,9 @@
+  * Copyright (C) Jean-Francois Moine (http://moinejf.free.fr)
+  * Copyright (C) 2014 Philipp Zabel, Pengutronix
+  */
++
++#include <linux/align.h>
++#include <linux/build_bug.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/kernel.h>
+ #include <linux/string.h>
+@@ -140,7 +143,7 @@ static const unsigned char chroma_ac_table[] = {
+  * and we'll use fixed offsets to change the width, height
+  * quantization tables, etc.
+  */
+-static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
++static const unsigned char hantro_jpeg_header[] = {
  	/* SOI */
  	0xff, 0xd8,
  
-+	/* JFIF-APP0 */
-+	0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46,
-+	0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x01,
-+	0x00, 0x00,
-+
- 	/* DQT */
- 	0xff, 0xdb, 0x00, 0x84,
+@@ -247,11 +250,29 @@ static const unsigned char hantro_jpeg_header[JPEG_HEADER_SIZE] = {
+ 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+ 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
  
++	/* COM */
++	0xff, 0xfe, 0x00, 0x03, 0x00,
++
+ 	/* SOS */
+ 	0xff, 0xda, 0x00, 0x0c, 0x03, 0x01, 0x00, 0x02,
+ 	0x11, 0x03, 0x11, 0x00, 0x3f, 0x00,
+ };
+ 
++/*
++ * JPEG_HEADER_SIZE is used in other parts of the driver in lieu of
++ * "sizeof(hantro_jpeg_header)". The two must be equal.
++ */
++static_assert(sizeof(hantro_jpeg_header) == JPEG_HEADER_SIZE);
++
++/*
++ * hantro_jpeg_header is padded with a COM segment, so that the payload
++ * of the SOS segment (the entropy-encoded image scan), which should
++ * trail the whole header, is 8-byte aligned for the hardware to write
++ * to directly.
++ */
++static_assert(IS_ALIGNED(sizeof(hantro_jpeg_header), 8),
++	      "Hantro JPEG header size needs to be 8-byte aligned.");
++
+ static unsigned char jpeg_scale_qp(const unsigned char qp, int scale)
+ {
+ 	unsigned int temp;
 diff --git a/drivers/staging/media/hantro/hantro_jpeg.h b/drivers/staging/media/hantro/hantro_jpeg.h
-index 035ab25b803f..f33c492134e4 100644
+index f33c492134e4..0b49d0b82caa 100644
 --- a/drivers/staging/media/hantro/hantro_jpeg.h
 +++ b/drivers/staging/media/hantro/hantro_jpeg.h
 @@ -1,6 +1,6 @@
  /* SPDX-License-Identifier: GPL-2.0+ */
  
--#define JPEG_HEADER_SIZE	601
-+#define JPEG_HEADER_SIZE	619
+-#define JPEG_HEADER_SIZE	619
++#define JPEG_HEADER_SIZE	624
  #define JPEG_QUANT_SIZE		64
  
  struct hantro_jpeg_ctx {
