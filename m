@@ -1,41 +1,41 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B562C9D
-	for <linux-staging@lists.linux.dev>; Sat,  8 Jan 2022 08:27:45 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id o203-20020a1ca5d4000000b003477d032384so2541158wme.2
-        for <linux-staging@lists.linux.dev>; Sat, 08 Jan 2022 00:27:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3DF2CA7
+	for <linux-staging@lists.linux.dev>; Sat,  8 Jan 2022 08:27:46 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id o3so15610668wrh.10
+        for <linux-staging@lists.linux.dev>; Sat, 08 Jan 2022 00:27:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TxNoAeeze9rEMrqirvTKwXGPuD7a3cum906IRqtGFSE=;
-        b=OudwkM3oWhgdary6En7VLK/7ka17/mFv1TG88WtBAJ8jdBQkDn6Oy7JgyK2xIwut4c
-         qYdVfdRaF5xUhOmRsfKEz/wsY5SEghD/wIN9fre4XlWufbeHaCM8Klh2j9Zof8/U5qzu
-         s0e2RJ0PUBbLGMhNnPjbt4LMqgWnt/we4Zltwx6w7yXbZFIjcHI9Y5afu1/KUUhINxhS
-         dCh36A5Z+Fzwv/An/cgTaxn5Sf01R5S1/T8c4duQbpy4QPGVmHCE7bC179lXi5zZQqFu
-         JPmcogb1c/iLI9gJZTQyURV5qwactd6LlejpKsA9I3eVW1i6vJ1cGicJmpDaUL/ZbGIL
-         hXcg==
+        bh=opcJou2QKZvpZH47htaA4xNqATRUo6eWlvXfZY39el4=;
+        b=nOQZj1onBzDYlaJN1PlgdYElMGxvr/tNW98NxsFmb3IurHk5NXNA3vMnfzXO8zHVj5
+         Sf/pTxk0gDNZlYbukNIjbA6dxaDuU9QLrcC/GUYUm0OxMAXTtMxHdZSIeDO05TZnvOJC
+         e7CNpr3NMtW0aO0IA/kKrAHfaxPufZdMWo8MXch7bhJljfhTSKtdgVfL+mR5SEC0sRHW
+         LzdlRnw+X2IZY9VRFpXVfpdjYgqVVMuyzJ0ATscpjk/tCogEj/b3mCDgBexNCBc9y7GV
+         j/TQT7bPSlD610VwUi528RS6iLxP7kEooNXsqV019cA+ef/3WiwCuoC33T7iRy3uwsHx
+         k+bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TxNoAeeze9rEMrqirvTKwXGPuD7a3cum906IRqtGFSE=;
-        b=0CzLIni070TmkdTPQzno6fPPm+UeCmZHOuCJPPEienYeGMVgduLRTjBaxB1RideYNm
-         raafHYe50rUwWDp7UcIpCCvaXVNvplxJRzVeJKalV+UxmVaKn5br7IeRGOKJS351qVig
-         80XTVebdR2MiasUSgfzbHkBILIh42oCW0hOqf3KNNU66DOS+9ByUWpXokknvLGIf8BOq
-         Vs+mGr1l9/0+nWRnJ5BouwolV6DzIXlr5S1fmUZqC8jktnp7SWuNIZyKl1xLAhjzfdhr
-         opQHdUSsZ7/brv4K+zQf9+3OVIP/K3BN0p4PA+53qXxhx62zcSq3VSo08aLaZ/bZlFV5
-         WTJQ==
-X-Gm-Message-State: AOAM532J9YWM4+xK95tNMHnqs+QRsTnt1H874Y/XE3v2kONeEPD4QYTp
-	6ud30kwxLBNfkf7h1iGEh+0=
-X-Google-Smtp-Source: ABdhPJxD8l8RHFO9v/JDurGVDXLLNA4PKivI9I/jMvoDQH1Zop1p7WOPJ42QHXXdXvZC2qT+PUveAA==
-X-Received: by 2002:a1c:9856:: with SMTP id a83mr13738246wme.157.1641630464158;
-        Sat, 08 Jan 2022 00:27:44 -0800 (PST)
+        bh=opcJou2QKZvpZH47htaA4xNqATRUo6eWlvXfZY39el4=;
+        b=7WBGo2HHd9dlMNTnYcHIe7rlKKy1nC/sRDyTIwPpmwTztcULohRxtdMZY16gqvXOmh
+         CKpTqCsVcWoUASSBTvrN0GxDzchogj2bNNPxWQcSnelacg/Awl8wOgDE2o+UqfoMB3Eq
+         4JaQX+ZRtuwXE9uN9HHPLq8Czp6tLB6hQbQHKyxLkYf0fWt931A7DZWbxdfZPaJCSM24
+         R6lvBz9VP16W1k0TkZ7AMWLODIR+kS7DxH3IA82Zbc69J/7edlMlP3bucXw39bE6c/2Y
+         gDkV5vCMh6P90lzPKmJOSWlJYkExCiRuDlW6PQ2JJ5gi91oEX6obYNrBaZYJNbBtgFa5
+         Sslg==
+X-Gm-Message-State: AOAM5301GlIUo7McilDO2ss5b0u1b0hm3VsYGD+z949y+ysWLdk01X/q
+	fdteKf8aSn+hVOUPI/nvNtU=
+X-Google-Smtp-Source: ABdhPJyPFf14zcqBjofnAyCSqwP5j6ImF0l1eXdd8vn/EQE269wYzrcAz/GNZHYi56K3XgSTlv6Bug==
+X-Received: by 2002:adf:f68b:: with SMTP id v11mr8735309wrp.260.1641630465164;
+        Sat, 08 Jan 2022 00:27:45 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::51e2])
-        by smtp.gmail.com with ESMTPSA id az1sm964536wrb.104.2022.01.08.00.27.43
+        by smtp.gmail.com with ESMTPSA id az1sm964536wrb.104.2022.01.08.00.27.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Jan 2022 00:27:43 -0800 (PST)
+        Sat, 08 Jan 2022 00:27:44 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/5] staging: r8188eu: convert switch to if statement in mgt_dispatcher()
-Date: Sat,  8 Jan 2022 09:27:33 +0100
-Message-Id: <20220108082736.16788-3-straube.linux@gmail.com>
+Subject: [PATCH 3/5] staging: r8188eu: rtw_os_recv_resource_free() is empty
+Date: Sat,  8 Jan 2022 09:27:34 +0100
+Message-Id: <20220108082736.16788-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220108082736.16788-1-straube.linux@gmail.com>
 References: <20220108082736.16788-1-straube.linux@gmail.com>
@@ -57,46 +57,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The 'switch (GetFrameSubType(pframe))' in mgt_dispatcher() has only
-one case that does something different than the default case. Convert
-the switch to an if statement to improve readability.
+The function rtw_os_recv_resource_free() is empty. Remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+ drivers/staging/r8188eu/core/rtw_recv.c      | 2 --
+ drivers/staging/r8188eu/include/recv_osdep.h | 1 -
+ drivers/staging/r8188eu/os_dep/recv_linux.c  | 5 -----
+ 3 files changed, 8 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index cdd928c37a3e..a169a7a39ebc 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -443,24 +443,13 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
- 		psta->RxMgmtFrameSeqNum = precv_frame->attrib.seq_num;
- 	}
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 51a13262a226..72007952ee74 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -100,8 +100,6 @@ void _rtw_free_recv_priv(struct recv_priv *precvpriv)
  
--	switch (GetFrameSubType(pframe)) {
--	case WIFI_AUTH:
-+	if (GetFrameSubType(pframe) == WIFI_AUTH) {
- 		if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
- 			ptable->func = &OnAuth;
- 		else
- 			ptable->func = &OnAuthClient;
--		fallthrough;
--	case WIFI_ASSOCREQ:
--	case WIFI_REASSOCREQ:
--	case WIFI_PROBEREQ:
--	case WIFI_BEACON:
--	case WIFI_ACTION:
--		_mgt_dispatcher(padapter, ptable, precv_frame);
--		break;
--	default:
--		_mgt_dispatcher(padapter, ptable, precv_frame);
--		break;
- 	}
-+	_mgt_dispatcher(padapter, ptable, precv_frame);
+ 	rtw_free_uc_swdec_pending_queue(padapter);
+ 
+-	rtw_os_recv_resource_free(precvpriv);
+-
+ 	vfree(precvpriv->pallocated_frame_buf);
+ 
+ 	rtl8188eu_free_recv_priv(padapter);
+diff --git a/drivers/staging/r8188eu/include/recv_osdep.h b/drivers/staging/r8188eu/include/recv_osdep.h
+index 4b5e3dde4590..4c6cf5b1ac76 100644
+--- a/drivers/staging/r8188eu/include/recv_osdep.h
++++ b/drivers/staging/r8188eu/include/recv_osdep.h
+@@ -21,7 +21,6 @@ void rtw_free_recv_priv(struct recv_priv *precvpriv);
+ 
+ int rtw_os_recv_resource_init(struct recv_priv *recvpr, struct adapter *adapt);
+ int rtw_os_recv_resource_alloc(struct adapter *adapt, struct recv_frame *recvfr);
+-void rtw_os_recv_resource_free(struct recv_priv *precvpriv);
+ 
+ int rtw_os_recvbuf_resource_alloc(struct adapter *adapt, struct recv_buf *buf);
+ int rtw_os_recvbuf_resource_free(struct adapter *adapt, struct recv_buf *buf);
+diff --git a/drivers/staging/r8188eu/os_dep/recv_linux.c b/drivers/staging/r8188eu/os_dep/recv_linux.c
+index 41c4e35d967f..0d3110a4c3d2 100644
+--- a/drivers/staging/r8188eu/os_dep/recv_linux.c
++++ b/drivers/staging/r8188eu/os_dep/recv_linux.c
+@@ -28,11 +28,6 @@ int rtw_os_recv_resource_alloc(struct adapter *padapter,
+ 	return _SUCCESS;
  }
  
- static u32 p2p_listen_state_process(struct adapter *padapter, unsigned char *da)
+-/* free os related resource in struct recv_frame */
+-void rtw_os_recv_resource_free(struct recv_priv *precvpriv)
+-{
+-}
+-
+ /* alloc os related resource in struct recv_buf */
+ int rtw_os_recvbuf_resource_alloc(struct adapter *padapter,
+ 		struct recv_buf *precvbuf)
 -- 
 2.34.1
 
