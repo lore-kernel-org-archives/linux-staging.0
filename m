@@ -1,54 +1,52 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C552CA3
-	for <linux-staging@lists.linux.dev>; Sat,  8 Jan 2022 00:55:56 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id p1-20020a1c7401000000b00345c2d068bdso6308948wmc.3
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 16:55:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CBF2C9D
+	for <linux-staging@lists.linux.dev>; Sat,  8 Jan 2022 08:27:44 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id q8so15565828wra.12
+        for <linux-staging@lists.linux.dev>; Sat, 08 Jan 2022 00:27:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Hx9acdXZrHH5WrEhXGyj7+f46x8W+jthxlPUPFgwmdA=;
-        b=NazZP+1WN4fOzaHsJ58tz0viTo/FlUhGS6Tc6z1HT6/H+FVuZJODIq/ieurYVxogP4
-         cF0wNmD4iEEgAagUgLy4e4ZnUEfAS9zX8upeFfoSiilLGWP1RW8pN0i8CeUM+DQrkRk7
-         nW2uZ5EjT2EifoBzykJ5xP7Qjah8QBC5fR4ZwDhA7E0dJ9hE9NcdLZcfptnQIbLwOnKC
-         HgS+UUg8dNnXneEm6n378kHKaIoHNKRLx2ME9MJ7ypHXFKlntSvJBmR4+Ct+8CG3bV0k
-         Bxmp0hSA1qwK5+gKR6iGKJskLupf0ETqhvLWk1k4T82/c0yB2EMcGYKdHdU+apAcAXfs
-         YK1g==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4E8jaiZ7dEeM8qAJaXi8Fcn8hzo1yKBv8Ma6YtpsuIg=;
+        b=RlEyiuJG4M5Kbe9dJJ8WpP1wMzQA7sKBi0par8RdgiEoC/2vB6ExHh7HUoiMbw8jMT
+         W+evjG4pbiaxw0V94GlMrcj1OtleVO41hbYQ8sw/EORDpderAOi2itqm9H05kwgTL7YW
+         jL0zA/wCFZU7tEHWSw71dkEdkZZNVv73JaQY4LFRKX4fqhuZOeXEegXbzQmISZkWBy2U
+         xz3IGuJrVC0r1nrJZ1HnbmsMFNfTkbvrtv7eWxYPb8J/0NciymXS/8RryAoO/jiZyCFn
+         uXVAwpPNp2vUtsD32BB7wB7huDmsDR0osjQJnLg74a0giFM6TH3sufX2Kc64rWJwszCT
+         Ehag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Hx9acdXZrHH5WrEhXGyj7+f46x8W+jthxlPUPFgwmdA=;
-        b=Pdss59JR3U7ETE0PHbuwOQvJC5Z+eBIHvynd5dfIcOTM8Ex60JAm9p7LlgVFViOvkK
-         K+WoPHTUTHZ90k2H5t5fNVZgc5cWkXaiyvycuO2yLjxzNt5aXaRSFnyom/HnGFm2tCiX
-         sip0bU8vGQ9h/Wp1nhNfK/pfBr7GGZFLtXTyMDkWsS1jqWMTjdxtpZQ494YQCs5sB+sS
-         LplrtgeTbtBbyDPaNGvKHV68g2ECrz0CRbNFritanfKf5pbJCWXLL5JY8G7XayDtgXW9
-         zx4ziuhq9kZ82ZZUGAcCAgsdCah9eATqmknFHJ4Yaa3aC+CKxPC7dWQlUfxg+icIydgY
-         t0EA==
-X-Gm-Message-State: AOAM530tHhZ79bSInRaouh/DjYlpIzs2ilCmgiE2fxkvb/79JcErQrB3
-	rNSaUNjsw7ydAMVjFwJE28is/gD5iRQPow==
-X-Google-Smtp-Source: ABdhPJxuzbWpuwtH/naH3oZqYAsR/BlcwGg+trqccxjemAKPgZC/QM4bAZCM5uurIIOaiBZUWf0WEQ==
-X-Received: by 2002:a05:600c:600a:: with SMTP id az10mr12771504wmb.69.1641603354892;
-        Fri, 07 Jan 2022 16:55:54 -0800 (PST)
-Received: from localhost.localdomain (d.f.5.e.6.6.b.1.e.6.2.7.e.5.c.8.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:8c5e:726e:1b66:e5fd])
-        by smtp.gmail.com with ESMTPSA id c18sm238853wrn.81.2022.01.07.16.55.54
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4E8jaiZ7dEeM8qAJaXi8Fcn8hzo1yKBv8Ma6YtpsuIg=;
+        b=OwnIGRG26jE1YDmyQY+vEQLfPpKfLb6EIhwVLFNt1DvoiqB8Q+rbvYImTTHoH1dVBd
+         l8yO77EnM/TnK+AzwRKf7P23YY4cG5Z5CnmmcRlf2ehqg7D51Lby4POMA83jt+Jjsdpn
+         Z0y1ykyo5JHJAQe1PA1iKfJ13CgfzkI/cDU9pNnQnSagcGWGTgsiHQn0ZNwETJj7NCFD
+         +kJT3xtSw/dts3Oy33H0i1G05X9YUuf3QNdeGLZbpyg6HSE5nbdNaiGTfNCP0GdoF8Bk
+         nY/Vf0MGFkevz7lHHXiBNea4QcTaU2DNvIfQ4piMZRexwWCThhu0Om/TNy7pEBAim2c6
+         rbTA==
+X-Gm-Message-State: AOAM531iVQOGZxlAtWWqT/q9gCZM3hAuFF6rmCbi9nHfT3b3mDSIStNt
+	7MGg1bHQkf8Khb3TXHvPSk4=
+X-Google-Smtp-Source: ABdhPJz7iO2/QykfmzMWMYYaO0cxOYQBFMJN0ZrPK6LNDJaBvGx6Z1h3g/n8CcZowWjij9d67eXOAQ==
+X-Received: by 2002:a05:6000:1e1b:: with SMTP id bj27mr13678224wrb.648.1641630462689;
+        Sat, 08 Jan 2022 00:27:42 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::51e2])
+        by smtp.gmail.com with ESMTPSA id az1sm964536wrb.104.2022.01.08.00.27.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 16:55:54 -0800 (PST)
-From: Phillip Potter <phil@philpotter.co.uk>
+        Sat, 08 Jan 2022 00:27:42 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
-	straube.linux@gmail.com,
-	martin@kaiser.cx,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] staging: r8188eu: convert/remove DBG_88E calls in os_dep/usb_ops_linux.c
-Date: Sat,  8 Jan 2022 00:55:50 +0000
-Message-Id: <20220108005550.26264-6-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220108005550.26264-1-phil@philpotter.co.uk>
-References: <20220108005550.26264-1-phil@philpotter.co.uk>
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: remove some functions
+Date: Sat,  8 Jan 2022 09:27:31 +0100
+Message-Id: <20220108082736.16788-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,87 +55,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert DBG_88E macro calls in os_dep/usb_ops_linux.c to use netdev_dbg
-when they may display useful information, and remove erroneous DBG_88E
-calls entirely.
+This series removes some empty or unneeded functions from
+os_dep/recv_linux.c.
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- .../staging/r8188eu/os_dep/usb_ops_linux.c    | 24 +++++++++----------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+Tested on x86_64 with Inter-Tech DMG-02.
 
-diff --git a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-index d1cb33d3e6a7..3977a717d30a 100644
---- a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-@@ -32,8 +32,6 @@ void rtw_read_port_cancel(struct adapter *padapter)
- 	int i;
- 	struct recv_buf *precvbuf = (struct recv_buf *)padapter->recvpriv.precv_buf;
- 
--	DBG_88E("%s\n", __func__);
--
- 	padapter->bReadPortCancel = true;
- 
- 	for (i = 0; i < NR_RECVBUFF; i++) {
-@@ -72,30 +70,32 @@ static void usb_write_port_complete(struct urb *purb, struct pt_regs *regs)
- 
- 	if (padapter->bSurpriseRemoved || padapter->bDriverStopped ||
- 	    padapter->bWritePortCancel) {
--		DBG_88E("%s(): TX Warning! bDriverStopped(%d) OR bSurpriseRemoved(%d) bWritePortCancel(%d) pxmitbuf->ext_tag(%x)\n",
--			__func__, padapter->bDriverStopped,
--			padapter->bSurpriseRemoved, padapter->bReadPortCancel,
--			pxmitbuf->ext_tag);
-+		netdev_dbg(padapter->pnetdev,
-+			   "TX Warning! bDriverStopped(%d) OR bSurpriseRemoved(%d)\n",
-+			   padapter->bDriverStopped, padapter->bSurpriseRemoved);
-+		netdev_dbg(padapter->pnetdev,
-+			   "TX Warning! bWritePortCancel(%d) pxmitbuf->ext_tag(%x)\n",
-+			   padapter->bReadPortCancel, pxmitbuf->ext_tag);
- 
- 		goto check_completion;
- 	}
- 
- 	if (purb->status) {
--		DBG_88E("###=> urb_write_port_complete status(%d)\n", purb->status);
-+		netdev_dbg(padapter->pnetdev, "status(%d)\n", purb->status);
- 		if (purb->status == -EINPROGRESS) {
- 			goto check_completion;
- 		} else if (purb->status == -ENOENT) {
--			DBG_88E("%s: -ENOENT\n", __func__);
-+			netdev_dbg(padapter->pnetdev, "-ENOENT\n");
- 			goto check_completion;
- 		} else if (purb->status == -ECONNRESET) {
--			DBG_88E("%s: -ECONNRESET\n", __func__);
-+			netdev_dbg(padapter->pnetdev, "-ECONNRESET\n");
- 			goto check_completion;
- 		} else if (purb->status == -ESHUTDOWN) {
- 			padapter->bDriverStopped = true;
- 			goto check_completion;
- 		} else if ((purb->status != -EPIPE) && (purb->status != -EPROTO)) {
- 			padapter->bSurpriseRemoved = true;
--			DBG_88E("bSurpriseRemoved = true\n");
-+			netdev_dbg(padapter->pnetdev, "bSurpriseRemoved = true\n");
- 
- 			goto check_completion;
- 		}
-@@ -174,7 +174,7 @@ u32 rtw_write_port(struct adapter *padapter, u32 addr, u32 cnt, u8 *wmem)
- 	status = usb_submit_urb(purb, GFP_ATOMIC);
- 	if (status) {
- 		rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_WRITE_PORT_ERR);
--		DBG_88E("usb_write_port, status =%d\n", status);
-+		netdev_dbg(padapter->pnetdev, "usb_write_port, status = %d\n", status);
- 
- 		switch (status) {
- 		case -ENODEV:
-@@ -202,8 +202,6 @@ void rtw_write_port_cancel(struct adapter *padapter)
- 	int i, j;
- 	struct xmit_buf *pxmitbuf = (struct xmit_buf *)padapter->xmitpriv.pxmitbuf;
- 
--	DBG_88E("%s\n", __func__);
--
- 	padapter->bWritePortCancel = true;
- 
- 	for (i = 0; i < NR_XMITBUFF; i++) {
+Michael Straube (5):
+  staging: r8188eu: rtw_hostapd_mlme_rx() is empty
+  staging: r8188eu: convert switch to if statement in mgt_dispatcher()
+  staging: r8188eu: rtw_os_recv_resource_free() is empty
+  staging: r8188eu: rtw_os_recv_resource_init() does nothing
+  staging: r8188eu: remove rtw_os_recv_resource_alloc()
+
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 17 ++-----------
+ drivers/staging/r8188eu/core/rtw_recv.c      |  7 ++----
+ drivers/staging/r8188eu/include/recv_osdep.h |  5 ----
+ drivers/staging/r8188eu/os_dep/recv_linux.c  | 26 --------------------
+ 4 files changed, 4 insertions(+), 51 deletions(-)
+
 -- 
-2.33.1
+2.34.1
 
