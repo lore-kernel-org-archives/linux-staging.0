@@ -1,67 +1,52 @@
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04162CA1
-	for <linux-staging@lists.linux.dev>; Fri,  7 Jan 2022 23:48:26 +0000 (UTC)
-Received: by mail-ua1-f53.google.com with SMTP id c36so12959196uae.13
-        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 15:48:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E8F2C9C
+	for <linux-staging@lists.linux.dev>; Sat,  8 Jan 2022 00:55:52 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id r10so6460502wrc.3
+        for <linux-staging@lists.linux.dev>; Fri, 07 Jan 2022 16:55:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EIZk0/qrlbHk+D+cMnIml9bJG7V5kb5RZ/SaCUVYBAY=;
-        b=ff2nsmcgN8gRdsIDTf1XYGNtXyP31JzUHAlbJBfa3CiJeUpCJifzJ44U4qPadzdRVM
-         AFKkFj3cKVqGePtvbdnKJZkelTgYCq68/g6FyzoGzZifVtFi/PE2gXEz20eNSPR93v0i
-         BgQMke5lc884eJszRh16/7YZDPaxZLKMiMrIl8RmDOz0Xx9mlWld4G5NtTPjbE2iztid
-         FXImzzzSAmY4YvVWlNwZZqpV4YuYBbnBK73B/wjfLZoSi7r31lTdQa0dPX9Huy5qiwIl
-         sAAkcTVV5cQHERv6e906kG75nV45SLjx9OFPXoufwvN+jH/7euFRdnITBD4/YB/B/6i0
-         dF9Q==
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iZK2bzn+VEDYvJEehx01sEshek4cKVaA9ZGbUqbBEFw=;
+        b=yIVJvHoywJPDV6cBJz149GUftE+KZM3Q1atR5w5tggD2zxAIjjYJozDAFWJ/r9plPD
+         iK1nG2KWKPxzmQ26AKPYG4uRs6nlBMwIov8BbyFY2NgkCVwm048PYtEFD5JIumPvYvfa
+         l0V21FLpnrPYhXT0bezdTZ1ZDlLbzrsuxIxR9XqJ9rhRg8GyDGhY+7RgUugztdCKOnfl
+         gUlMLj4jPcBajw/NOGw0GrqpL0H7NuBcy2wvv3mGuZGScBe85bAjVBXzNkRmMzJHJFlm
+         OCRwaaUk3YVz75ASnnhxd8Hn4FyPjZhbP46A2/DsPY0YffNFq0EFJ16ITWAMOWzKFc96
+         rW/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EIZk0/qrlbHk+D+cMnIml9bJG7V5kb5RZ/SaCUVYBAY=;
-        b=WHHv7I91plIpDA7OXuYU7emGu75R5CDi1QXyrA/wfeVZK7o2lD0a2WXSDN7cq3CnPv
-         PvL275duGFZAR/ovkhoS3Mf7uWv49PcigXtqydvbM/cUmgi8A0gyLAcKxKhKDlzTHdxM
-         Rd2MyCX/Ml9FFdoLF4wG76+n/xF1y4Jxf3a5LCISWXn6//VF/uGsv37aWq9A84VyD9MA
-         wZq2iJGa2qQ3feWGzqJt3GX2cKRGoVSdt1T6rkXAsIpF9JG1SAecAVsHTR2V7AVvQ2wN
-         Ux3c+cqY8+u1KTJikrqKSKG/MfLMGUyP3LoG/zPTbgwDvp13l+Gq7yyl5s0QW/mRnUFx
-         xy1g==
-X-Gm-Message-State: AOAM530T16zUXmnezv+9V0oT/uzRGzDdVdxkS7TtvExl8yfx/ndboYHo
-	8GlRb+lcidMvfn0eX1RzXRHTOuaQw4WVww==
-X-Google-Smtp-Source: ABdhPJyWNeF7ASXynzT/leso0yUuJElkPHuPa9OSKOGKrxcsz33Uc7mqrtzfaz1NAw+cDg/f0o1Ihg==
-X-Received: by 2002:a05:6102:2927:: with SMTP id cz39mr21534038vsb.59.1641599305666;
-        Fri, 07 Jan 2022 15:48:25 -0800 (PST)
-Received: from localhost.localdomain ([181.23.94.152])
-        by smtp.gmail.com with ESMTPSA id az22sm92911vkb.15.2022.01.07.15.48.21
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iZK2bzn+VEDYvJEehx01sEshek4cKVaA9ZGbUqbBEFw=;
+        b=owMa0T3kRJpCrdRsRU4qpEyMx1ABR7+u5DcDhZYXFyMTjCTOertcELR09rbnPt8YHK
+         00jdWwCdbZRzBsDLsrIC2cofDUUzrmNZatAIDom/73R1o/tOmix3skoC4LtqioUKYlyz
+         A2BudPFVV6SG/a4S32liTJWh1cFM3+iMPbJF1qkTklui6DVCF93GHvdJMXw+dhX2C6cc
+         S5QOT2sEZoEmFrRVuYIIVGMGSyg3mr3WtzmmAWCP89SbtsqR/EnHmLMHetLbrygFBZTz
+         anq282caPoTHaHoKQnlnue94D/QNcCTCv3mN0cGYnbgiggzlio9RHBY6Lfn8H0JhgxqF
+         uv0g==
+X-Gm-Message-State: AOAM5329t/LSqskxFIz2u58equs1njicPN8TL+icb+00X1c55xgBNXZ5
+	+rEtVDTG8cfHT7YiBXSCOX2JWg==
+X-Google-Smtp-Source: ABdhPJyPTOTFXwAeO3W22g2S4nkN99gz4XBTEooWa74uAVTrPNrs+faG/TTL55i+ucqSkU1KlOzD0w==
+X-Received: by 2002:a05:6000:124a:: with SMTP id j10mr55212148wrx.110.1641603351412;
+        Fri, 07 Jan 2022 16:55:51 -0800 (PST)
+Received: from localhost.localdomain (d.f.5.e.6.6.b.1.e.6.2.7.e.5.c.8.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:8c5e:726e:1b66:e5fd])
+        by smtp.gmail.com with ESMTPSA id c18sm238853wrn.81.2022.01.07.16.55.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 15:48:25 -0800 (PST)
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	nsaenz@kernel.org,
-	f.fainelli@gmail.com,
-	rjui@broadcom.com,
-	sbranden@broadcom.com,
-	juerg.haefliger@canonical.com,
-	rdunlap@infradead.org,
-	dave.stevenson@raspberrypi.com,
-	stefan.wahren@i2se.com,
-	unixbhaskar@gmail.com,
-	mitaliborkar810@gmail.com,
-	phil@raspberrypi.com,
-	len.baker@gmx.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	gascoar@gmail.com
-Subject: [PATCH 2/2] staging: vc04_services: use KBUILD_MODNAME instead of own module name definition
-Date: Fri,  7 Jan 2022 20:46:22 -0300
-Message-Id: <20220107234620.49900-3-gascoar@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220107234620.49900-1-gascoar@gmail.com>
-References: <20220107234620.49900-1-gascoar@gmail.com>
+        Fri, 07 Jan 2022 16:55:51 -0800 (PST)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com,
+	martin@kaiser.cx,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] staging: r8188eu: more DBG_88E to netdev_dbg work
+Date: Sat,  8 Jan 2022 00:55:45 +0000
+Message-Id: <20220108005550.26264-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,39 +55,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove own module name definition and use KBUILD_MODNAME instead, which
-is the standard way of getting the module name.
+Another small series of patches to convert more DBG_88E calls to
+netdev_dbg calls, or remove them as appropriate.
 
-While at it, one realignment was made to improve readability.
+Phillip Potter (5):
+  staging: r8188eu: convert/remove DBG_88E calls in core/rtw_ap.c
+  staging: r8188eu: convert DBG_88E calls in os_dep/xmit_linux.c
+  staging: r8188eu: remove DBG_88E call from os_dep/osdep_service.c
+  staging: r8188eu: convert DBG_88E call in core/rtw_cmd.c
+  staging: r8188eu: convert/remove DBG_88E calls in
+    os_dep/usb_ops_linux.c
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
----
- drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/staging/r8188eu/core/rtw_ap.c         | 145 +++++++-----------
+ drivers/staging/r8188eu/core/rtw_cmd.c        |   4 +-
+ .../staging/r8188eu/os_dep/osdep_service.c    |   2 -
+ .../staging/r8188eu/os_dep/usb_ops_linux.c    |  24 ++-
+ drivers/staging/r8188eu/os_dep/xmit_linux.c   |   6 +-
+ 5 files changed, 73 insertions(+), 108 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index 35ac0fda6e14..88b1878854e0 100644
---- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -33,7 +33,6 @@
- #include "mmal-parameters.h"
- #include "bcm2835-camera.h"
- 
--#define BM2835_MMAL_MODULE_NAME "bcm2835-v4l2"
- #define MIN_WIDTH 32
- #define MIN_HEIGHT 32
- #define MIN_BUFFER_SIZE (80 * 1024)
-@@ -1893,8 +1892,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
- 		dev->capture.fmt = &formats[3]; /* JPEG */
- 
- 		/* v4l device registration */
--		dev->camera_num = v4l2_device_set_name(&dev->v4l2_dev,
--						       BM2835_MMAL_MODULE_NAME,
-+		dev->camera_num = v4l2_device_set_name(&dev->v4l2_dev, KBUILD_MODNAME,
- 						       &camera_instance);
- 		ret = v4l2_device_register(NULL, &dev->v4l2_dev);
- 		if (ret) {
 -- 
-2.34.1
+2.33.1
 
