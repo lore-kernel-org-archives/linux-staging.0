@@ -1,41 +1,41 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3DF2CA7
-	for <linux-staging@lists.linux.dev>; Sat,  8 Jan 2022 08:27:46 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id o3so15610668wrh.10
-        for <linux-staging@lists.linux.dev>; Sat, 08 Jan 2022 00:27:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726E52C9D
+	for <linux-staging@lists.linux.dev>; Sat,  8 Jan 2022 08:27:47 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id v6so15594135wra.8
+        for <linux-staging@lists.linux.dev>; Sat, 08 Jan 2022 00:27:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=opcJou2QKZvpZH47htaA4xNqATRUo6eWlvXfZY39el4=;
-        b=nOQZj1onBzDYlaJN1PlgdYElMGxvr/tNW98NxsFmb3IurHk5NXNA3vMnfzXO8zHVj5
-         Sf/pTxk0gDNZlYbukNIjbA6dxaDuU9QLrcC/GUYUm0OxMAXTtMxHdZSIeDO05TZnvOJC
-         e7CNpr3NMtW0aO0IA/kKrAHfaxPufZdMWo8MXch7bhJljfhTSKtdgVfL+mR5SEC0sRHW
-         LzdlRnw+X2IZY9VRFpXVfpdjYgqVVMuyzJ0ATscpjk/tCogEj/b3mCDgBexNCBc9y7GV
-         j/TQT7bPSlD610VwUi528RS6iLxP7kEooNXsqV019cA+ef/3WiwCuoC33T7iRy3uwsHx
-         k+bA==
+        bh=avAv+SjmzSPk3oTkCTZAzHE4JzLH4DnHeEbaVJD8pf4=;
+        b=lAOtfrSUhTIldjcpHxr7p8tG44vGhspLxjVquuuVLTlKNMLbKDENid1yNs2h5ceSOr
+         FKd38fGV76Q59suDPEo/hXvva0fCdMdZJONnhFp6Ugj/HSIU/Po90PxYDWB10n4cRAzt
+         wpVOgLROa2IJREYON/alDuAEYI7NsbmBpx8Re+2EfWj25pDtAGjcR4p5makvrIhWirOx
+         n/VMuERtOMlDJTSVO/ufFvA9EekyDHNwW2hMAwzA+3jZvA7dnqy5QFmqSCcx5JPHqtFr
+         eMSuT72FiIZWfj3RYBwc1Z+p14fUf9NMJOFP9mmF3MKy4+ouf+J6/EM+1G9uen4ESrJm
+         MBQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=opcJou2QKZvpZH47htaA4xNqATRUo6eWlvXfZY39el4=;
-        b=7WBGo2HHd9dlMNTnYcHIe7rlKKy1nC/sRDyTIwPpmwTztcULohRxtdMZY16gqvXOmh
-         CKpTqCsVcWoUASSBTvrN0GxDzchogj2bNNPxWQcSnelacg/Awl8wOgDE2o+UqfoMB3Eq
-         4JaQX+ZRtuwXE9uN9HHPLq8Czp6tLB6hQbQHKyxLkYf0fWt931A7DZWbxdfZPaJCSM24
-         R6lvBz9VP16W1k0TkZ7AMWLODIR+kS7DxH3IA82Zbc69J/7edlMlP3bucXw39bE6c/2Y
-         gDkV5vCMh6P90lzPKmJOSWlJYkExCiRuDlW6PQ2JJ5gi91oEX6obYNrBaZYJNbBtgFa5
-         Sslg==
-X-Gm-Message-State: AOAM5301GlIUo7McilDO2ss5b0u1b0hm3VsYGD+z949y+ysWLdk01X/q
-	fdteKf8aSn+hVOUPI/nvNtU=
-X-Google-Smtp-Source: ABdhPJyPFf14zcqBjofnAyCSqwP5j6ImF0l1eXdd8vn/EQE269wYzrcAz/GNZHYi56K3XgSTlv6Bug==
-X-Received: by 2002:adf:f68b:: with SMTP id v11mr8735309wrp.260.1641630465164;
+        bh=avAv+SjmzSPk3oTkCTZAzHE4JzLH4DnHeEbaVJD8pf4=;
+        b=w4d4V1VlE6gZ/fyLG1dbP026KEKUhQUU7RB2weoHebVQ0V6kXZhk6Chtc9kW0KD/nL
+         g/kV8c/ChVXhe/bHcuBhw2PKwelCm/S6Uw21+s3kz35efFaVoDoZ5aDhXq0MnisERbrH
+         IMQkOlMSFAKovRfqimiIXccTfGFhvpzU24aFq9B6YKstSbDt4YnIfqIDd4i0ddXW1sQR
+         QQo3OhcJt2SIoouyHByx+9NelVCEtFf6Qg6CYAXaK5XC4IvfL6lpxWUqN2CvuvVt5YPp
+         l0xhulfmZCMTssQepPXtmbeGGebBY7KaKkUHp5+gR6AtUppP7ctCGTV8wUmEbtRdpOnQ
+         UhCg==
+X-Gm-Message-State: AOAM532b08pvAnDegI1F9CPwE44A/OgoFJ/I/oF8lsoS8j1KTosAXYzq
+	TyySJWaOurJcg0N17GC7E+s=
+X-Google-Smtp-Source: ABdhPJzUwTCfBbq+Z6JY2QNO4VXXTtvIMXsOJshn6iiVvdXOZUX67Uf131NQOD+3zrl32D/XQAsM3w==
+X-Received: by 2002:a5d:4c82:: with SMTP id z2mr8270620wrs.605.1641630465879;
         Sat, 08 Jan 2022 00:27:45 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::51e2])
-        by smtp.gmail.com with ESMTPSA id az1sm964536wrb.104.2022.01.08.00.27.44
+        by smtp.gmail.com with ESMTPSA id az1sm964536wrb.104.2022.01.08.00.27.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Jan 2022 00:27:44 -0800 (PST)
+        Sat, 08 Jan 2022 00:27:45 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/5] staging: r8188eu: rtw_os_recv_resource_free() is empty
-Date: Sat,  8 Jan 2022 09:27:34 +0100
-Message-Id: <20220108082736.16788-4-straube.linux@gmail.com>
+Subject: [PATCH 4/5] staging: r8188eu: rtw_os_recv_resource_init() does nothing
+Date: Sat,  8 Jan 2022 09:27:35 +0100
+Message-Id: <20220108082736.16788-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220108082736.16788-1-straube.linux@gmail.com>
 References: <20220108082736.16788-1-straube.linux@gmail.com>
@@ -57,56 +57,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function rtw_os_recv_resource_free() is empty. Remove it.
+The function rtw_os_recv_resource_init() just returns _SUCCESS and
+the return value is not checked by the caller. Remove the function.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
  drivers/staging/r8188eu/core/rtw_recv.c      | 2 --
  drivers/staging/r8188eu/include/recv_osdep.h | 1 -
- drivers/staging/r8188eu/os_dep/recv_linux.c  | 5 -----
- 3 files changed, 8 deletions(-)
+ drivers/staging/r8188eu/os_dep/recv_linux.c  | 7 -------
+ 3 files changed, 10 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 51a13262a226..72007952ee74 100644
+index 72007952ee74..26893f36d1ff 100644
 --- a/drivers/staging/r8188eu/core/rtw_recv.c
 +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -100,8 +100,6 @@ void _rtw_free_recv_priv(struct recv_priv *precvpriv)
+@@ -54,8 +54,6 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
  
- 	rtw_free_uc_swdec_pending_queue(padapter);
+ 	precvpriv->free_recvframe_cnt = NR_RECVFRAME;
  
--	rtw_os_recv_resource_free(precvpriv);
+-	rtw_os_recv_resource_init(precvpriv, padapter);
 -
- 	vfree(precvpriv->pallocated_frame_buf);
+ 	precvpriv->pallocated_frame_buf = vzalloc(NR_RECVFRAME * sizeof(struct recv_frame) + RXFRAME_ALIGN_SZ);
  
- 	rtl8188eu_free_recv_priv(padapter);
+ 	if (!precvpriv->pallocated_frame_buf) {
 diff --git a/drivers/staging/r8188eu/include/recv_osdep.h b/drivers/staging/r8188eu/include/recv_osdep.h
-index 4b5e3dde4590..4c6cf5b1ac76 100644
+index 4c6cf5b1ac76..71fe581fbc85 100644
 --- a/drivers/staging/r8188eu/include/recv_osdep.h
 +++ b/drivers/staging/r8188eu/include/recv_osdep.h
-@@ -21,7 +21,6 @@ void rtw_free_recv_priv(struct recv_priv *precvpriv);
+@@ -19,7 +19,6 @@ void rtw_handle_tkip_mic_err(struct adapter *padapter, u8 bgroup);
+ int rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter);
+ void rtw_free_recv_priv(struct recv_priv *precvpriv);
  
- int rtw_os_recv_resource_init(struct recv_priv *recvpr, struct adapter *adapt);
+-int rtw_os_recv_resource_init(struct recv_priv *recvpr, struct adapter *adapt);
  int rtw_os_recv_resource_alloc(struct adapter *adapt, struct recv_frame *recvfr);
--void rtw_os_recv_resource_free(struct recv_priv *precvpriv);
  
  int rtw_os_recvbuf_resource_alloc(struct adapter *adapt, struct recv_buf *buf);
- int rtw_os_recvbuf_resource_free(struct adapter *adapt, struct recv_buf *buf);
 diff --git a/drivers/staging/r8188eu/os_dep/recv_linux.c b/drivers/staging/r8188eu/os_dep/recv_linux.c
-index 41c4e35d967f..0d3110a4c3d2 100644
+index 0d3110a4c3d2..da21490fe168 100644
 --- a/drivers/staging/r8188eu/os_dep/recv_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/recv_linux.c
-@@ -28,11 +28,6 @@ int rtw_os_recv_resource_alloc(struct adapter *padapter,
- 	return _SUCCESS;
- }
+@@ -12,13 +12,6 @@
+ #include "../include/osdep_intf.h"
+ #include "../include/usb_ops.h"
  
--/* free os related resource in struct recv_frame */
--void rtw_os_recv_resource_free(struct recv_priv *precvpriv)
+-/* init os related resource in struct recv_priv */
+-int rtw_os_recv_resource_init(struct recv_priv *precvpriv,
+-		struct adapter *padapter)
 -{
+-	return _SUCCESS;
 -}
 -
- /* alloc os related resource in struct recv_buf */
- int rtw_os_recvbuf_resource_alloc(struct adapter *padapter,
- 		struct recv_buf *precvbuf)
+ /* alloc os related resource in struct recv_frame */
+ int rtw_os_recv_resource_alloc(struct adapter *padapter,
+ 		struct recv_frame *precvframe)
 -- 
 2.34.1
 
