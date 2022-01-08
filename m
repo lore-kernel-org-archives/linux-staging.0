@@ -1,41 +1,41 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CBF2C9D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5172CA7
 	for <linux-staging@lists.linux.dev>; Sat,  8 Jan 2022 08:27:44 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id q8so15565828wra.12
+Received: by mail-wr1-f45.google.com with SMTP id l25so4779707wrb.13
         for <linux-staging@lists.linux.dev>; Sat, 08 Jan 2022 00:27:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4E8jaiZ7dEeM8qAJaXi8Fcn8hzo1yKBv8Ma6YtpsuIg=;
-        b=RlEyiuJG4M5Kbe9dJJ8WpP1wMzQA7sKBi0par8RdgiEoC/2vB6ExHh7HUoiMbw8jMT
-         W+evjG4pbiaxw0V94GlMrcj1OtleVO41hbYQ8sw/EORDpderAOi2itqm9H05kwgTL7YW
-         jL0zA/wCFZU7tEHWSw71dkEdkZZNVv73JaQY4LFRKX4fqhuZOeXEegXbzQmISZkWBy2U
-         xz3IGuJrVC0r1nrJZ1HnbmsMFNfTkbvrtv7eWxYPb8J/0NciymXS/8RryAoO/jiZyCFn
-         uXVAwpPNp2vUtsD32BB7wB7huDmsDR0osjQJnLg74a0giFM6TH3sufX2Kc64rWJwszCT
-         Ehag==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2VTMSOScwZ5T0eJZE+RIoj2iFIAziaiqOLrqg1J6kPo=;
+        b=VDyagUQnQ9G/ePVpOaXdBthLWofpAvyn6zKq4pXXZENzFU+MYPdthLPbFDeRcz1ZU3
+         dnDqxjEdWmNl7elZxYk2YnqSz5oX/IbczUmBe8hs0pVEFMHGzU+jU7/mdCSGLsrVKbvu
+         Y1EcJTL/Qgdl3CK0ciwIa+r4QI/FVCkHmA96XlIddNEWW8U+ShS14k8OFvW1JuxLGjru
+         3sm82mPZmaJI/GF/vnrvfyOLP7dnvAIZOWHKMbqJSuNdV+6f9n2gDGYK6m9yJoip3lMx
+         tIs+saQ+nq45UYenNPg4XzYpa9S1pkYZL/0UdP5UA5TPT+O2Iqaj2ut0+w/qSg+F4FKr
+         prqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4E8jaiZ7dEeM8qAJaXi8Fcn8hzo1yKBv8Ma6YtpsuIg=;
-        b=OwnIGRG26jE1YDmyQY+vEQLfPpKfLb6EIhwVLFNt1DvoiqB8Q+rbvYImTTHoH1dVBd
-         l8yO77EnM/TnK+AzwRKf7P23YY4cG5Z5CnmmcRlf2ehqg7D51Lby4POMA83jt+Jjsdpn
-         Z0y1ykyo5JHJAQe1PA1iKfJ13CgfzkI/cDU9pNnQnSagcGWGTgsiHQn0ZNwETJj7NCFD
-         +kJT3xtSw/dts3Oy33H0i1G05X9YUuf3QNdeGLZbpyg6HSE5nbdNaiGTfNCP0GdoF8Bk
-         nY/Vf0MGFkevz7lHHXiBNea4QcTaU2DNvIfQ4piMZRexwWCThhu0Om/TNy7pEBAim2c6
-         rbTA==
-X-Gm-Message-State: AOAM531iVQOGZxlAtWWqT/q9gCZM3hAuFF6rmCbi9nHfT3b3mDSIStNt
-	7MGg1bHQkf8Khb3TXHvPSk4=
-X-Google-Smtp-Source: ABdhPJz7iO2/QykfmzMWMYYaO0cxOYQBFMJN0ZrPK6LNDJaBvGx6Z1h3g/n8CcZowWjij9d67eXOAQ==
-X-Received: by 2002:a05:6000:1e1b:: with SMTP id bj27mr13678224wrb.648.1641630462689;
-        Sat, 08 Jan 2022 00:27:42 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2VTMSOScwZ5T0eJZE+RIoj2iFIAziaiqOLrqg1J6kPo=;
+        b=o7JCs1MTB3c8VfSrPx3TU8gzFllcJyFyeY6Q/Z5HGD/YZ8EHbS0EUd2VPzlENvFz9O
+         caUwb4xvpEU+4+kz5AZO1B7WwizqzHIoqAA0ahzwDSG7s5e92OHZOqVWpu9dOvK3bGLd
+         8LnnWJpXoHTvq4CGoaiFW4H46/sutoo5VV0cj4tNYg4JlrTgkZXWCRKxxNTsE184lJCU
+         Zfz7YlZNw8GWQBBBSN7VkduAT95a0XTkrbmmWvgJSqyBwyWQxLEKkqPJCwXu8snmhD5v
+         gX5v+eyvgBf5XuR52Su9lLHgoI0WY0lXspI+u6RPDPVKkSY2FzndDiookZEqRQgJNbjS
+         Yumw==
+X-Gm-Message-State: AOAM530UG9HxNQvkEiKax359gqYTIY/By3KPrW7d1Jfm2KT8x9ul6oyM
+	nsmKaqeqU0qtLDGygcObR18=
+X-Google-Smtp-Source: ABdhPJwXet+ZeTuvwBc2WsufI6r47xn7p8ytBi3ECBDVsmEpsrr1ECpygzI7SLAmmr962hf/Y1D8+A==
+X-Received: by 2002:a05:6000:12d0:: with SMTP id l16mr55460959wrx.466.1641630463421;
+        Sat, 08 Jan 2022 00:27:43 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::51e2])
-        by smtp.gmail.com with ESMTPSA id az1sm964536wrb.104.2022.01.08.00.27.41
+        by smtp.gmail.com with ESMTPSA id az1sm964536wrb.104.2022.01.08.00.27.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Jan 2022 00:27:42 -0800 (PST)
+        Sat, 08 Jan 2022 00:27:43 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/5] staging: r8188eu: remove some functions
-Date: Sat,  8 Jan 2022 09:27:31 +0100
-Message-Id: <20220108082736.16788-1-straube.linux@gmail.com>
+Subject: [PATCH 1/5] staging: r8188eu: rtw_hostapd_mlme_rx() is empty
+Date: Sat,  8 Jan 2022 09:27:32 +0100
+Message-Id: <20220108082736.16788-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220108082736.16788-1-straube.linux@gmail.com>
+References: <20220108082736.16788-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,24 +57,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series removes some empty or unneeded functions from
-os_dep/recv_linux.c.
+The function rtw_hostapd_mlme_rx() is empty. Remove it.
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 2 --
+ drivers/staging/r8188eu/include/recv_osdep.h | 1 -
+ drivers/staging/r8188eu/os_dep/recv_linux.c  | 5 -----
+ 3 files changed, 8 deletions(-)
 
-Michael Straube (5):
-  staging: r8188eu: rtw_hostapd_mlme_rx() is empty
-  staging: r8188eu: convert switch to if statement in mgt_dispatcher()
-  staging: r8188eu: rtw_os_recv_resource_free() is empty
-  staging: r8188eu: rtw_os_recv_resource_init() does nothing
-  staging: r8188eu: remove rtw_os_recv_resource_alloc()
-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 17 ++-----------
- drivers/staging/r8188eu/core/rtw_recv.c      |  7 ++----
- drivers/staging/r8188eu/include/recv_osdep.h |  5 ----
- drivers/staging/r8188eu/os_dep/recv_linux.c  | 26 --------------------
- 4 files changed, 4 insertions(+), 51 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index a9141ab1690e..cdd928c37a3e 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -459,8 +459,6 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+ 		break;
+ 	default:
+ 		_mgt_dispatcher(padapter, ptable, precv_frame);
+-		if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
+-			rtw_hostapd_mlme_rx(padapter, precv_frame);
+ 		break;
+ 	}
+ }
+diff --git a/drivers/staging/r8188eu/include/recv_osdep.h b/drivers/staging/r8188eu/include/recv_osdep.h
+index e87467022b39..4b5e3dde4590 100644
+--- a/drivers/staging/r8188eu/include/recv_osdep.h
++++ b/drivers/staging/r8188eu/include/recv_osdep.h
+@@ -14,7 +14,6 @@ s32  rtw_recv_entry(struct recv_frame *precv_frame);
+ int rtw_recv_indicatepkt(struct adapter *adapter, struct recv_frame *recv_frame);
+ void rtw_recv_returnpacket(struct  net_device *cnxt, struct sk_buff *retpkt);
+ 
+-void rtw_hostapd_mlme_rx(struct adapter *padapter, struct recv_frame *recv_fr);
+ void rtw_handle_tkip_mic_err(struct adapter *padapter, u8 bgroup);
+ 
+ int rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter);
+diff --git a/drivers/staging/r8188eu/os_dep/recv_linux.c b/drivers/staging/r8188eu/os_dep/recv_linux.c
+index 5a7fb94e21c1..41c4e35d967f 100644
+--- a/drivers/staging/r8188eu/os_dep/recv_linux.c
++++ b/drivers/staging/r8188eu/os_dep/recv_linux.c
+@@ -100,11 +100,6 @@ void rtw_handle_tkip_mic_err(struct adapter *padapter, u8 bgroup)
+ 			    &wrqu, (char *)&ev);
+ }
+ 
+-void rtw_hostapd_mlme_rx(struct adapter *padapter,
+-			 struct recv_frame *precv_frame)
+-{
+-}
+-
+ int rtw_recv_indicatepkt(struct adapter *padapter,
+ 			 struct recv_frame *precv_frame)
+ {
 -- 
 2.34.1
 
