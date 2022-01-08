@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BF02CA5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF4B2CA9
 	for <linux-staging@lists.linux.dev>; Sat,  8 Jan 2022 12:50:21 +0000 (UTC)
 Received: from dslb-188-097-214-229.188.097.pools.vodafone-ip.de ([188.97.214.229] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1n6BAo-0005EJ-JG; Sat, 08 Jan 2022 13:50:18 +0100
+	id 1n6BAn-0005EJ-Oh; Sat, 08 Jan 2022 13:50:17 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 08/12] staging: r8188eu: CurrentOfdm24GTxPwrIdx is set but not used
-Date: Sat,  8 Jan 2022 13:49:55 +0100
-Message-Id: <20220108124959.313215-9-martin@kaiser.cx>
+Subject: [PATCH 07/12] staging: r8188eu: CurrentBW2024GTxPwrIdx is set but not used
+Date: Sat,  8 Jan 2022 13:49:54 +0100
+Message-Id: <20220108124959.313215-8-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220108124959.313215-1-martin@kaiser.cx>
 References: <20220108124959.313215-1-martin@kaiser.cx>
@@ -30,7 +30,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-CurrentOfdm24GTxPwrIdx in struct hal_data_8188e is set but not used.
+CurrentBW2024GTxPwrIdx in struct hal_data_8188e is set but not used.
 It can be removed.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
@@ -40,26 +40,26 @@ Signed-off-by: Martin Kaiser <martin@kaiser.cx>
  2 files changed, 2 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index 24b5604afbc9..a80f40fccf09 100644
+index fe15b15ab951..24b5604afbc9 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -587,7 +587,6 @@ static void phy_PowerIndexCheck88E(struct adapter *Adapter, u8 channel, u8 *cckP
- 	struct hal_data_8188e *pHalData = &Adapter->haldata;
+@@ -588,7 +588,6 @@ static void phy_PowerIndexCheck88E(struct adapter *Adapter, u8 channel, u8 *cckP
  
  	pHalData->CurrentCckTxPwrIdx = cckPowerLevel[0];
--	pHalData->CurrentOfdm24GTxPwrIdx = ofdmPowerLevel[0];
+ 	pHalData->CurrentOfdm24GTxPwrIdx = ofdmPowerLevel[0];
+-	pHalData->CurrentBW2024GTxPwrIdx = BW20PowerLevel[0];
  }
  
  /*-----------------------------------------------------------------------------
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 0c7f5e078bed..fd2ee1739f88 100644
+index 1c52dd9d9721..0c7f5e078bed 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -178,7 +178,6 @@ struct hal_data_8188e {
- 
+@@ -179,7 +179,6 @@ struct hal_data_8188e {
  	/*  The current Tx Power Level */
  	u8	CurrentCckTxPwrIdx;
--	u8	CurrentOfdm24GTxPwrIdx;
+ 	u8	CurrentOfdm24GTxPwrIdx;
+-	u8	CurrentBW2024GTxPwrIdx;
  
  	/*  Read/write are allow for following hardware information variables */
  	u8	pwrGroupCnt;
