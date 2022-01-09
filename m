@@ -1,52 +1,51 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626252C80
-	for <linux-staging@lists.linux.dev>; Sun,  9 Jan 2022 19:51:32 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id v6so22805438wra.8
-        for <linux-staging@lists.linux.dev>; Sun, 09 Jan 2022 11:51:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F06229CA
+	for <linux-staging@lists.linux.dev>; Sun,  9 Jan 2022 21:54:31 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id s1so23278391wra.6
+        for <linux-staging@lists.linux.dev>; Sun, 09 Jan 2022 13:54:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=p1AMiJvHNkryIw3zq3NggfXLhQA0Q2EvdEfeBbUqQJk=;
-        b=aHe7mNIczcm7TCfDxqBQG2VIjLxWDMqx/qbHztIUodmkRcpR0c/nzNuApL4Q9K4Mdj
-         16Axw2LGRfw5uaRPWd5uJBfyCgxXAON9phKk8ZIO+N/VbSsqL6I6yCxDF9fO3H3P21ew
-         4L4DQFLYzJaYHG1HnmrENGenh+7h+/v9kELHvblwdyQn/obdp4+Bfw0qzlIFrx302OLu
-         E8yy9UpOUGHnt6O2QvnkyffXJ+zOSzOu0wGtKqwGMU03Bdzc65xzV6BMxqh+xpzJ0ens
-         3v+ihWU7UaMO0RTLgyTzfwekIDtyOoe3Mp4FCgyk8420yBFTKcceUH+i0Pqxj2RYl5Qb
-         Eb2w==
+        bh=p59DSvWE9IMx8qmJZqkeAExPWC4n0KTZsniTKDZX1oc=;
+        b=kLufeGGzoXH7blj6kIRfzTwYoOWF4rzNY/xapzgzTUSCKXqtgv+B+4hwwSRGZ5fM5I
+         HV4bnpP5WRjZDFbx9xNeZz6x0srLVA91F9azQj8yJTj/vR5jEVBCLS0iVPqKEwCd/4xh
+         6CD9BsEsvI5VLGNhXkB8g2tLa4NfU991XtVfBcQ/i84W9xsf7zCr4HzuiapJzrJ9nmXF
+         X/FVAdj7atm1b7xrFT0Xvu3jFYgsGM6wJEeMO2o4JS0mdWJHUHDxTqpN/PeikmlUCCFz
+         F97ay8OpfbLBPKGAjH/Qdl0U1/3Tsn5AnXNv9rvTBOm6sBwZWu6smEvDVpB2+LpXpH89
+         CmuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=p1AMiJvHNkryIw3zq3NggfXLhQA0Q2EvdEfeBbUqQJk=;
-        b=jAQdueHzsU/lvga1U7BE3/0tV2qRNh3DUfFqEwgT96GzbRY1fz4vn9zutgS4XbCjcK
-         2tskp/1YAy1T5jpbyNcVWPQePY4hwLzhPwX7gxueRP+XtUEwKM6kPhwKVs3wreMR9epW
-         jVo0ihP4ju0kOBa2g+ZB5FiPnRicsx8njQMPfJ/kzvSfWk0kYQM7HGLTXxbAhT1nL2Qr
-         dsq0suH4tsqrEZQjptltj45wQebfXL4oELLCOlRxM5y2eGOYY2a37jwhL7I8y3r+NTJk
-         TNkVz1MjpXMHkFrD215GTw02BcvkPn3ygNHnZCWd/z6NY0ZfHeHNFZ7UfcfksrKomVoN
-         wL+g==
-X-Gm-Message-State: AOAM530rTgr03krHOqsRbXGw4P9yzgCCoTTACsudsZHLnUNwBCCkf/kd
-	dn0++QSBF5HYAvZe4LbRYFY=
-X-Google-Smtp-Source: ABdhPJxjZVTMHT+0k4EdM0whztncj82t+8E6deuAW+u7Dda4nR1z+UqDqS9/1mLW8rO7FS80wkxrXQ==
-X-Received: by 2002:adf:d1c9:: with SMTP id b9mr21664358wrd.560.1641757890760;
-        Sun, 09 Jan 2022 11:51:30 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id 5sm5411820wrb.77.2022.01.09.11.51.30
+        bh=p59DSvWE9IMx8qmJZqkeAExPWC4n0KTZsniTKDZX1oc=;
+        b=o60h41Wu92IafV67BayFmQzT4Pt3/7U8ORO6mU+dxTloo0suqQV5sPpp877iQshAhy
+         4BFiseqWXgRhzyh/PbNRRj/WRJJyFyfUKihV170YMcGfcHGrMbJNjAVZJnoTJaEHRMT7
+         vNCWNlRP5QxBWVRpsNNwWPqOFWVWvynLwW0D//VOa6YLVj28dtBQ5MHHVE+kCthv2wLr
+         +myEHwUJ88Dr0aMX502FslWCvHcXDXvuRr6Ormu46YX9ub9RPCqxxfKEG9N5IItaqzwL
+         jCLWXi+V66zbLdinedHWFPvl8Gp+kTVkGTxFldA9QCw80Acz33AHsYTD0FKdU19zMbeL
+         oLWA==
+X-Gm-Message-State: AOAM533PxLpv7/9WjGo/ZiRTyW30ABvRkaeWqpmLUmbfF6ZPUDmrm6YB
+	CGMUfxnp3BKOHiQCOsHDROlT+w==
+X-Google-Smtp-Source: ABdhPJy0Q+lQQBSx72VEsVvHyWYq9bvuUcUPot9tx4YSqIjvTvvSzmQpx2HDXDT7x0kKHTGsuluJpA==
+X-Received: by 2002:a5d:610c:: with SMTP id v12mr62061841wrt.410.1641765269719;
+        Sun, 09 Jan 2022 13:54:29 -0800 (PST)
+Received: from localhost.localdomain (d.f.5.e.6.6.b.1.e.6.2.7.e.5.c.8.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:8c5e:726e:1b66:e5fd])
+        by smtp.gmail.com with ESMTPSA id r13sm5065650wmq.28.2022.01.09.13.54.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jan 2022 11:51:30 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
+        Sun, 09 Jan 2022 13:54:29 -0800 (PST)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com,
+	martin@kaiser.cx,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: atomisp: make array idx_map static const
-Date: Sun,  9 Jan 2022 19:51:29 +0000
-Message-Id: <20220109195129.46118-1-colin.i.king@gmail.com>
+Subject: [PATCH 0/7] staging: r8188eu: further per-file DBG_88E cleanups
+Date: Sun,  9 Jan 2022 21:54:20 +0000
+Message-Id: <20220109215427.887-1-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -56,27 +55,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Don't populate the read-only array idx_map on the stack but
-instead it static const. Also makes the object code a little smaller.
+This series has more conversions/deletions of DBG_88E macro calls,
+per-file, as I've continued to chip away at them. This converts almost
+200 calls to standard kernel macros/functions such as netdev_dbg and
+pr_debug as appropriate. It also deletes several calls which simply
+aren't necessary.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- .../atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5.host.c  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Phillip Potter (7):
+  staging: r8188eu: convert DBG_88E calls in core/rtw_ieee80211.c
+  staging: r8188eu: convert DBG_88E calls in core/rtw_xmit.c
+  staging: r8188eu: convert DBG_88E calls in core/rtw_iol.c
+  staging: r8188eu: convert DBG_88E calls in core/rtw_mlme.c
+  staging: r8188eu: convert DBG_88E calls in core/rtw_ioctl_set.c
+  staging: r8188eu: convert DBG_88E calls in core/rtw_mlme_ext.c
+  staging: r8188eu: convert DBG_88E calls in core/rtw_sta_mgt.c
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5.host.c
-index 562662ab8a44..a70bce1179da 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc1_5/ia_css_macc1_5.host.c
-@@ -44,7 +44,7 @@ ia_css_macc1_5_vmem_encode(
-     unsigned int size)
- {
- 	unsigned int i, j, k, idx;
--	unsigned int idx_map[] = {
-+	static const unsigned int idx_map[] = {
- 		0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8
- 	};
- 
+ drivers/staging/r8188eu/core/rtw_ieee80211.c |  36 +-
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c |  10 +-
+ drivers/staging/r8188eu/core/rtw_iol.c       |  10 +-
+ drivers/staging/r8188eu/core/rtw_mlme.c      |  95 +++--
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 427 +++++++++++--------
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c   |   4 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c      |  30 +-
+ 7 files changed, 344 insertions(+), 268 deletions(-)
+
 -- 
-2.32.0
+2.33.1
 
