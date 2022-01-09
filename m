@@ -1,41 +1,41 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08C62CA4
-	for <linux-staging@lists.linux.dev>; Sun,  9 Jan 2022 21:54:34 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id r9so21490146wrg.0
-        for <linux-staging@lists.linux.dev>; Sun, 09 Jan 2022 13:54:34 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7A82CA3
+	for <linux-staging@lists.linux.dev>; Sun,  9 Jan 2022 21:54:36 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id l10so23227906wrh.7
+        for <linux-staging@lists.linux.dev>; Sun, 09 Jan 2022 13:54:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Vdq1YRATZXZW2zTmJrFcNBwG86kVUBqymJ+QklrHyQY=;
-        b=gv/eMrPNGoJxfFDDr+alQE/D+5aLkbxcJNLkK4YWX8UDGNdJ4k7poYXy18d2nrkdQS
-         RTYAwoVFeG+gKq78kdCsctxjoq6t2hy6FoNEjiXwIjOYa59jdy4KSw5rk/6rDb5g6QYz
-         whCeJ042WBl4BbrVwPrVCCRULFicOZGczziQ/FEMTwoFVf+8V1Kqgxs7/B5CsiAqcz+I
-         oGpR8pb9n77OOXHlqPQdIM9UzD/GMoEnqH9eo0V8uRBoPD+7VTJoIuZWYHofCe5hq7ks
-         EBjBntojRj4/rA76IYCgSURnoJY570k6rqG4WUYnnqswOscaZv8JcUjRQAKaU5r/WbP1
-         OuSw==
+        bh=Hv6GKoLKoAgQtrfvNhQxv0aNjpwK6o2iQIchk0LCYiA=;
+        b=cEhZqtjI6Tsj63Rx8MazVj6+PPTi5P3cmIJ2g0RCSlVg4mD1PikZVdbLwyeRl1HjaG
+         qp6lpor951pdRl2IAwV/N4CLUKXbBpucveS7U8534e0jUfpbxl2wjWRd4UX7FkvNEn4T
+         17qSNxrBFr7K+Tf5MxauZzbji7D4WT4f6EHSjSUgaUSXzSk5+m6SysE4k+Q17ZETzPIw
+         U8O+lqM2IHhYwdqzwf0RmIrFYsmiHgubljr2FYGJ+0RumZVbiepA8t6XlsYB6Q2isvYF
+         WAUT4SY+KqsNCka3fNv+omxhgbdAaeacttooGdF381/mfbGB/L3B5ssQMbFD8eAClyNw
+         R1Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Vdq1YRATZXZW2zTmJrFcNBwG86kVUBqymJ+QklrHyQY=;
-        b=LNP/fKRz3eDUM0cjwFGPbnfcp3fpQwOB7GB44EOVJllJ4Hj8J5sZ1wVXBzq3q4k2vE
-         2LnxkyC0PJrocvq1bKDEJVtt3r0wcNPxM+abzPMr9TQxd/jONYkKvnNA8j9Q8VZF3nUn
-         S1YSVU2GyB5bHRxb4taYukWHjES/04ZeoCy0PghFPMEX8LNAQbSxjtRxdnPMkLUP/r4z
-         KxL9/aa+766z6X8JdEOH+mT3wirjM+hxfHXGXshAzQGT2vUYbxaXPboIdNa3RkAuemqa
-         vRx17LlRf+WNKySBOVkaezd1oCyj1XKEGstb+tKkKUZ6IP4nDRoA7jvumQwZjMBsMRhB
-         grUQ==
-X-Gm-Message-State: AOAM530W/5TX3djy4qUXPPDvc8zwIQl/TVPB82DmJ4rSS/GDkW2CIQmU
-	fex30AODrx8osgn1k3Ztn5sA6Q==
-X-Google-Smtp-Source: ABdhPJxUpUmT5MbLA5YoZ7kD2mSLR+NDmKiRNWUKB6301WvAE03Ywl4Vx2fqSE4IOYlCkgCdqXzRTg==
-X-Received: by 2002:adf:f303:: with SMTP id i3mr2467096wro.413.1641765273222;
-        Sun, 09 Jan 2022 13:54:33 -0800 (PST)
+        bh=Hv6GKoLKoAgQtrfvNhQxv0aNjpwK6o2iQIchk0LCYiA=;
+        b=B6gWIhcrTXakicVklAf3nEqDhQ3ewYMCZ3lyDhAkISGGnJx5QjKOZ5xBzypCXHuqYS
+         oqo/D58WE22pFFkDSgyRw1s7kL0N2f5eU6hdXvjMzzQKChd4G6USMJ6X6159YmZZVYne
+         R02SeoqTbQO1Fm3TOw0SYNlkXaEK7ltmuD9IjbPZI/3/Sb//80C5HvV4SED/uq/yIQTQ
+         Fr+jKJGFLQ4HDPz5MW+Wzzn8aS0NJydo2WoQ5PUrjY2aryCfKw5pErarbuFZXjnUF9kd
+         T6brpc6GaDmb5sO+noka5DPRwmibIPnQ042JpDk0Gx6RNMGNkitnYSINooiqablAQgm1
+         yIFw==
+X-Gm-Message-State: AOAM532sSeqaKdq5pGB1FixY6MoZUprlGrgsRaHsL3FGz6T2ChNKWvzo
+	aoQ09qcOFogiRTxQf4bA4t5oHg==
+X-Google-Smtp-Source: ABdhPJyIC20YEkY3frcaHfTb2KnJwAKDFs2xhjGDz8Wx6E7M95pKEkKFjvnUJ8IH8SdnxdxtThy1EQ==
+X-Received: by 2002:adf:e444:: with SMTP id t4mr4860826wrm.325.1641765275062;
+        Sun, 09 Jan 2022 13:54:35 -0800 (PST)
 Received: from localhost.localdomain (d.f.5.e.6.6.b.1.e.6.2.7.e.5.c.8.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:8c5e:726e:1b66:e5fd])
-        by smtp.gmail.com with ESMTPSA id r13sm5065650wmq.28.2022.01.09.13.54.32
+        by smtp.gmail.com with ESMTPSA id r13sm5065650wmq.28.2022.01.09.13.54.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jan 2022 13:54:32 -0800 (PST)
+        Sun, 09 Jan 2022 13:54:34 -0800 (PST)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	martin@kaiser.cx,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/7] staging: r8188eu: convert DBG_88E calls in core/rtw_ioctl_set.c
-Date: Sun,  9 Jan 2022 21:54:25 +0000
-Message-Id: <20220109215427.887-6-phil@philpotter.co.uk>
+Subject: [PATCH 7/7] staging: r8188eu: convert DBG_88E calls in core/rtw_sta_mgt.c
+Date: Sun,  9 Jan 2022 21:54:27 +0000
+Message-Id: <20220109215427.887-8-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109215427.887-1-phil@philpotter.co.uk>
 References: <20220109215427.887-1-phil@philpotter.co.uk>
@@ -57,59 +57,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the DBG_88E macro calls in core/rtw_ioctl_set.c to use netdev_dbg,
+Convert the DBG_88E macro calls in core/rtw_sta_mgt.c to use pr_debug,
 as their information may be useful to observers, and this gets the
 driver closer to the point of being able to remove DBG_88E itself.
-Also remove one unnecessary DBG_88E call which was already commented
-out.
+
+These calls are at points in the call chain where use of dev_dbg or
+netdev_dbg isn't possible due to lack of device pointer, so plain
+pr_debug is appropriate here.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/r8188eu/core/rtw_ioctl_set.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-index eadfbdb94dd5..c95ca471ae55 100644
---- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-+++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-@@ -122,7 +122,8 @@ u8 rtw_set_802_11_bssid(struct adapter *padapter, u8 *bssid)
+diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+index 54561ff239a0..de5406a5870c 100644
+--- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+@@ -104,7 +104,7 @@ inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
+ 	int offset = (((u8 *)sta) - stapriv->pstainfo_buf) / sizeof(struct sta_info);
  
- 	spin_lock_bh(&pmlmepriv->lock);
+ 	if (!stainfo_offset_valid(offset))
+-		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
++		pr_debug("invalid offset(%d), out of range!!!", offset);
  
--	DBG_88E("Set BSSID under fw_state = 0x%08x\n", get_fwstate(pmlmepriv));
-+	netdev_dbg(padapter->pnetdev, "Set BSSID under fw_state = 0x%08x\n",
-+		   get_fwstate(pmlmepriv));
- 	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
- 		goto handle_tkip_countermeasure;
- 	else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
-@@ -195,7 +196,8 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, struct ndis_802_11_ssid *ssid)
+ 	return offset;
+ }
+@@ -112,7 +112,7 @@ inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
+ inline struct sta_info *rtw_get_stainfo_by_offset(struct sta_priv *stapriv, int offset)
+ {
+ 	if (!stainfo_offset_valid(offset))
+-		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
++		pr_debug("invalid offset(%d), out of range!!!", offset);
  
- 	spin_lock_bh(&pmlmepriv->lock);
- 
--	DBG_88E("Set SSID under fw_state = 0x%08x\n", get_fwstate(pmlmepriv));
-+	netdev_dbg(padapter->pnetdev, "Set SSID under fw_state = 0x%08x\n",
-+		   get_fwstate(pmlmepriv));
- 	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY)) {
- 		goto handle_tkip_countermeasure;
- 	} else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING)) {
-@@ -280,8 +282,6 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
- 	if (*pold_state != networktype) {
- 		spin_lock_bh(&pmlmepriv->lock);
- 
--		/* DBG_88E("change mode, old_mode =%d, new_mode =%d, fw_state = 0x%x\n", *pold_state, networktype, get_fwstate(pmlmepriv)); */
--
- 		if (*pold_state == Ndis802_11APMode) {
- 			/* change to other mode from Ndis802_11APMode */
- 			cur_network->join_res = -1;
-@@ -364,7 +364,7 @@ u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_802_11_s
- 		res = true;
- 	} else {
- 		if (rtw_is_scan_deny(padapter)) {
--			DBG_88E(FUNC_ADPT_FMT": scan deny\n", FUNC_ADPT_ARG(padapter));
-+			netdev_dbg(padapter->pnetdev, "scan deny\n");
- 			indicate_wx_scan_complete_event(padapter);
- 			return _SUCCESS;
- 		}
+ 	return (struct sta_info *)(stapriv->pstainfo_buf + offset * sizeof(struct sta_info));
+ }
 -- 
 2.33.1
 
