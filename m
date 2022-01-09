@@ -1,41 +1,41 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574FA2CA5
-	for <linux-staging@lists.linux.dev>; Sun,  9 Jan 2022 21:54:33 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id q8so23168072wra.12
-        for <linux-staging@lists.linux.dev>; Sun, 09 Jan 2022 13:54:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B622CA1
+	for <linux-staging@lists.linux.dev>; Sun,  9 Jan 2022 21:54:34 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id r9so21490096wrg.0
+        for <linux-staging@lists.linux.dev>; Sun, 09 Jan 2022 13:54:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Z/xQgPdF4pLZ7rSZV7wFE+mDlaQQE7y+ojmrtCNp2S0=;
-        b=mtH68rJeTi1TCPm8g4SR/TY0WUCwPBzeSVXMbAf1eSEUkBL7UC6voDIyjPs+H2bweC
-         Mj0SwpyaSvyEBT+HJdTbrFvfP5JD4hLxF/vTG3/77qPB0DMd0hypZRDvDwgOFIuu/HBR
-         Sd2Rsy4ieJ90ew392xiVLXJnSHnrjU08kRVgzXF5i+ppzRHLM/0zHgPRtqJhSPCc9u35
-         r9qP+IUqZa9+Z+vIcXB6juEHd8rak25RiuNnTYWyQdh/ZPVMzoocbOqRMutPduN+q9Gu
-         MLxisPEyWtarAnE6Nm/hnBL4hP3P8RPRg1HCbNQANANg88FsBnOezs/ZVT/N64cPBffD
-         Kgww==
+        bh=aPRuMB0jxHDNDiMPDzjIW5DNAgL2LNRE1zZsfnCeADs=;
+        b=sXgnP/nb9FxqdxVD3Skj7sgt4eS5leHgfZ9KDUhFFbEyljQSzyap4hp0y1A3SNNN7S
+         202MujTsggWiOA8Zz9woN3dxzHClKiBOjzPVEoEhmZ9U5pEF0MJETrJXehG2vC9zMjrF
+         tZlp9H8uT8C/rRmGFRf+Ux6yVvuEN7dFTehedcwPyRpW/wPy/EaF+ARdw6WuPGCVrF0r
+         T+kxe9NBSqpaLQf2aap3aZdCvNBvw9pd8eUWQ2h0+Nf8hQJhpE8QYExQu8yopow6TmfR
+         WcSdrgDKatvRz3DekB/QoJcQcrGCAf+9BACdxyKzcxKJiVTU/GK120QZDLRdvUrlMR30
+         czpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Z/xQgPdF4pLZ7rSZV7wFE+mDlaQQE7y+ojmrtCNp2S0=;
-        b=PFf2WBStpv4rSfFC/X2qiVe2xTmV/FJ5sKSp28RXzMeWQOZDyNcOAZMNL9sHCrEmas
-         dHZjiSd8t4BInNtLtic8a8RhsZUfsnERC/kA0pKQrWkbdJZQ6HfRLeVeASN8KRk6Y7XZ
-         wBw+5hGagFWajaeP7vtNTjvfhhbl2OxqrjI1YSIcdrhclm3rrAoWHltKxpHuZ611f3/p
-         +3ItOpEcvVCCSvkYfAL00aYwo6zbJDxtc6NRwFMuYYJlsJyT9Fy+ZJBpkekVedUHhtnt
-         oZn0epfWfpL9wKMm+w84orYxSRNoLdC9fOX2tksWzAIo6PqDG96AD2jAWWv2809gXzGY
-         S4sQ==
-X-Gm-Message-State: AOAM533/rRaIkkBnA/nye74OdaUpVmxg+1FTddkffX9Cl0m4RN0IyT9u
-	ca6OEYKcjdVb1vrc0OT5d1P4lw==
-X-Google-Smtp-Source: ABdhPJyvbrJiyg+WkmzDY0n4DUHVXi0xtNTepHogOuVbyWf7jbsxCDl8Q0KKy1GDTYe3iJ0wj+n90g==
-X-Received: by 2002:a5d:584e:: with SMTP id i14mr6157958wrf.255.1641765271791;
-        Sun, 09 Jan 2022 13:54:31 -0800 (PST)
+        bh=aPRuMB0jxHDNDiMPDzjIW5DNAgL2LNRE1zZsfnCeADs=;
+        b=3S95mRVypyuV+a45JfBZ3U8rxtFkvojAy1U777dbQZP3kGjEdAtqvY9eJ7PsI/r5W/
+         ZkOUSKTXOOHtMq48WRVMPKxpyWU2QweDF4H9SR82tsqGOOwduYsCDwQHYPJyLVtgQlyf
+         zz+Zjf4k9XrcysvWzitcn0EZkWUf916AG8vPyZfAMNv2VPE7htkIxs2BSaKpJgjNax9m
+         55gz8mH2LSrmVksEOpBV1QwkZvlbyZ+jOukjJRlW5q0GFDnNpBS1f+lUQRAGa7CRza22
+         gigg2zz3AxPtoQ1bmJqO8hZA/Yo7MFVzwcy0P+87uCiW2LNm/c2Vh4OxREHeL1VWShv3
+         t5WQ==
+X-Gm-Message-State: AOAM530Pw3TbKOA218m37+vSu/7zzBrEdn9iNXOVlrz9Wl7J4QjFCmHZ
+	0sbgdaFnJl2KMOhZ6DAjkLQygw==
+X-Google-Smtp-Source: ABdhPJzCG3VKkDVe5xKdRKjkEDxV42TatJAlgt8QCZWZ/Z58jwo+oBKmA67WKaol+maWKuW2JH5G+g==
+X-Received: by 2002:adf:e491:: with SMTP id i17mr15381394wrm.44.1641765272524;
+        Sun, 09 Jan 2022 13:54:32 -0800 (PST)
 Received: from localhost.localdomain (d.f.5.e.6.6.b.1.e.6.2.7.e.5.c.8.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:8c5e:726e:1b66:e5fd])
         by smtp.gmail.com with ESMTPSA id r13sm5065650wmq.28.2022.01.09.13.54.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jan 2022 13:54:31 -0800 (PST)
+        Sun, 09 Jan 2022 13:54:32 -0800 (PST)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	martin@kaiser.cx,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/7] staging: r8188eu: convert DBG_88E calls in core/rtw_iol.c
-Date: Sun,  9 Jan 2022 21:54:23 +0000
-Message-Id: <20220109215427.887-4-phil@philpotter.co.uk>
+Subject: [PATCH 4/7] staging: r8188eu: convert DBG_88E calls in core/rtw_mlme.c
+Date: Sun,  9 Jan 2022 21:54:24 +0000
+Message-Id: <20220109215427.887-5-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109215427.887-1-phil@philpotter.co.uk>
 References: <20220109215427.887-1-phil@philpotter.co.uk>
@@ -57,53 +57,267 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the DBG_88E macro calls in core/rtw_iol.c to use pr_debug
-or netdev_dbg appropriately, as their information may be useful to
-observers, and this gets the driver closer to the point of being
-able to remove DBG_88E itself.
-
-Some calls are at points in the call chain where use of dev_dbg or
-netdev_dbg isn't possible due to lack of device pointer, so plain
-pr_debug is appropriate here.
+Convert the DBG_88E macro calls in core/rtw_mlme.c to use netdev_dbg,
+as their information may be useful to observers, and this gets the
+driver closer to the point of being able to remove DBG_88E itself.
+Also remove some unnecessary DBG_88E calls altogether as all they do
+is print the function name.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/r8188eu/core/rtw_iol.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c | 95 ++++++++++++++-----------
+ 1 file changed, 54 insertions(+), 41 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
-index 7e78b47c1284..923da2a9f6ae 100644
---- a/drivers/staging/r8188eu/core/rtw_iol.c
-+++ b/drivers/staging/r8188eu/core/rtw_iol.c
-@@ -12,13 +12,15 @@ struct xmit_frame	*rtw_IOL_accquire_xmit_frame(struct adapter  *adapter)
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 394e8a5ce03c..189b48b17326 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -617,7 +617,9 @@ static int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *
+ 	}
  
- 	xmit_frame = rtw_alloc_xmitframe(pxmitpriv);
- 	if (!xmit_frame) {
--		DBG_88E("%s rtw_alloc_xmitframe return null\n", __func__);
+ 	if ((desired_encmode != Ndis802_11EncryptionDisabled) && (privacy == 0)) {
+-		DBG_88E("desired_encmode: %d, privacy: %d\n", desired_encmode, privacy);
 +		netdev_dbg(adapter->pnetdev,
-+			   "rtw_alloc_xmitframe return null\n");
- 		return NULL;
++			   "desired_encmode: %d, privacy: %d\n",
++			   desired_encmode, privacy);
+ 		bselected = false;
  	}
  
- 	xmitbuf = rtw_alloc_xmitbuf(pxmitpriv);
- 	if (!xmitbuf) {
--		DBG_88E("%s rtw_alloc_xmitbuf return null\n", __func__);
+@@ -734,8 +736,9 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+ 				rtw_indicate_connect(adapter);
+ 			} else {
+-				DBG_88E("try_to_join, but select scanning queue fail, to_roaming:%d\n",
+-					pmlmepriv->to_roaming);
++				netdev_dbg(adapter->pnetdev,
++					   "try_to_join, but select scanning queue fail, to_roaming:%d\n",
++					   pmlmepriv->to_roaming);
+ 				if (rtw_to_roaming(adapter) != 0) {
+ 					if (--pmlmepriv->to_roaming == 0 ||
+ 					    _SUCCESS != rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid, 1, NULL, 0)) {
+@@ -909,7 +912,6 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
+ 		psta = rtw_alloc_stainfo(pstapriv, pnetwork->network.MacAddress);
+ 
+ 	if (psta) { /* update ptarget_sta */
+-		DBG_88E("%s\n", __func__);
+ 		psta->aid  = pnetwork->join_res;
+ 		psta->mac_id = 0;
+ 		/* sta mode */
+@@ -969,8 +971,6 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
+ 	struct mlme_priv	*pmlmepriv = &padapter->mlmepriv;
+ 	struct wlan_network  *cur_network = &pmlmepriv->cur_network;
+ 
+-	DBG_88E("%s\n", __func__);
+-
+ 	/*  why not use ptarget_wlan?? */
+ 	memcpy(&cur_network->network, &pnetwork->network, pnetwork->network.Length);
+ 	/*  some IEs in pnetwork is wrong, so we should use ptarget_wlan IEs */
+@@ -1196,7 +1196,7 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
+ 	/* to do: init sta_info variable */
+ 	psta->qos_option = 0;
+ 	psta->mac_id = (uint)pstassoc->cam_id;
+-	DBG_88E("%s\n", __func__);
++
+ 	/* for ad-hoc mode */
+ 	rtl8188e_SetHalODMVar(adapter, psta, true);
+ 	rtw_sta_media_status_rpt(adapter, psta, 1);
+@@ -1239,7 +1239,9 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
+ 	else
+ 		mac_id = pstadel->mac_id;
+ 
+-	DBG_88E("%s(mac_id=%d)=%pM\n", __func__, mac_id, pstadel->macaddr);
++	netdev_dbg(adapter->pnetdev,
++		   "(mac_id=%d)=%pM\n",
++		   mac_id, pstadel->macaddr);
+ 
+ 	if (mac_id >= 0) {
+ 		u16 media_status;
+@@ -1330,7 +1332,7 @@ void _rtw_join_timeout_handler (struct adapter *adapter)
+ 	struct	mlme_priv *pmlmepriv = &adapter->mlmepriv;
+ 	int do_join_r;
+ 
+-	DBG_88E("%s, fw_state=%x\n", __func__, get_fwstate(pmlmepriv));
++	netdev_dbg(adapter->pnetdev, "fw_state=%x\n", get_fwstate(pmlmepriv));
+ 
+ 	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
+ 		return;
+@@ -1341,15 +1343,19 @@ void _rtw_join_timeout_handler (struct adapter *adapter)
+ 		while (1) {
+ 			pmlmepriv->to_roaming--;
+ 			if (rtw_to_roaming(adapter) != 0) { /* try another */
+-				DBG_88E("%s try another roaming\n", __func__);
++				netdev_dbg(adapter->pnetdev,
++					   "try another roaming\n");
+ 				do_join_r = rtw_do_join(adapter);
+ 				if (_SUCCESS != do_join_r) {
+-					DBG_88E("%s roaming do_join return %d\n", __func__, do_join_r);
++					netdev_dbg(adapter->pnetdev,
++						   "roaming do_join return %d\n",
++						   do_join_r);
+ 					continue;
+ 				}
+ 				break;
+ 			} else {
+-				DBG_88E("%s We've try roaming but fail\n", __func__);
++				netdev_dbg(adapter->pnetdev,
++					   "We've tried roaming but failed\n");
+ 				rtw_indicate_disconnect(adapter);
+ 				break;
+ 			}
+@@ -1370,7 +1376,7 @@ void rtw_scan_timeout_handler (struct adapter *adapter)
+ {
+ 	struct	mlme_priv *pmlmepriv = &adapter->mlmepriv;
+ 
+-	DBG_88E(FUNC_ADPT_FMT" fw_state=%x\n", FUNC_ADPT_ARG(adapter), get_fwstate(pmlmepriv));
++	netdev_dbg(adapter->pnetdev, "fw_state=%x\n", get_fwstate(pmlmepriv));
+ 	spin_lock_bh(&pmlmepriv->lock);
+ 	_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY);
+ 	spin_unlock_bh(&pmlmepriv->lock);
+@@ -1385,7 +1391,6 @@ static void rtw_auto_scan_handler(struct adapter *padapter)
+ 	if (pmlmepriv->scan_interval > 0) {
+ 		pmlmepriv->scan_interval--;
+ 		if (pmlmepriv->scan_interval == 0) {
+-			DBG_88E("%s\n", __func__);
+ 			rtw_set_802_11_bssid_list_scan(padapter, NULL, 0);
+ 			pmlmepriv->scan_interval = SCAN_INTERVAL;/*  30*2 sec = 60sec */
+ 		}
+@@ -1476,13 +1481,15 @@ static int rtw_check_join_candidate(struct mlme_priv *pmlmepriv
+ 		updated = true;
+ 	}
+ 	if (updated) {
+-		DBG_88E("[by_bssid:%u][assoc_ssid:%s]new candidate: %s(%pM rssi:%d\n",
+-			pmlmepriv->assoc_by_bssid,
+-			pmlmepriv->assoc_ssid.Ssid,
+-			(*candidate)->network.Ssid.Ssid,
+-			(*candidate)->network.MacAddress,
+-			(int)(*candidate)->network.Rssi);
+-		DBG_88E("[to_roaming:%u]\n", rtw_to_roaming(adapter));
 +		netdev_dbg(adapter->pnetdev,
-+			   "rtw_alloc_xmitbuf return null\n");
- 		rtw_free_xmitframe(pxmitpriv, xmit_frame);
- 		return NULL;
- 	}
-@@ -49,8 +51,8 @@ int rtw_IOL_append_cmds(struct xmit_frame *xmit_frame, u8 *IOL_cmds, u32 cmd_len
- 
- 	/* check if the io_buf can accommodate new cmds */
- 	if (ori_len + cmd_len + 8 > MAX_XMITBUF_SZ) {
--		DBG_88E("%s %u is large than MAX_XMITBUF_SZ:%u, can't accommodate new cmds\n",
--			__func__, ori_len + cmd_len + 8, MAX_XMITBUF_SZ);
-+		pr_debug("%u is larger than MAX_XMITBUF_SZ:%u, can't accommodate new cmds\n",
-+			 ori_len + cmd_len + 8, MAX_XMITBUF_SZ);
- 		return _FAIL;
++			   "[by_bssid:%u][assoc_ssid:%s]new candidate: %s(%pM rssi:%d\n",
++			   pmlmepriv->assoc_by_bssid,
++			   pmlmepriv->assoc_ssid.Ssid,
++			   (*candidate)->network.Ssid.Ssid,
++			   (*candidate)->network.MacAddress,
++			   (int)(*candidate)->network.Rssi);
++		netdev_dbg(adapter->pnetdev,
++			   "[to_roaming:%u]\n", rtw_to_roaming(adapter));
  	}
  
+ exit:
+@@ -1520,18 +1527,20 @@ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
+ 		rtw_check_join_candidate(pmlmepriv, &candidate, pnetwork);
+ 	}
+ 	if (!candidate) {
+-		DBG_88E("%s: return _FAIL(candidate==NULL)\n", __func__);
++		netdev_dbg(adapter->pnetdev,
++			   "return _FAIL(candidate==NULL)\n");
+ 		ret = _FAIL;
+ 		goto exit;
+ 	} else {
+-		DBG_88E("%s: candidate: %s(%pM ch:%u)\n", __func__,
+-			candidate->network.Ssid.Ssid, candidate->network.MacAddress,
+-			candidate->network.Configuration.DSConfig);
++		netdev_dbg(adapter->pnetdev, "candidate: %s(%pM ch:%u)\n",
++			   candidate->network.Ssid.Ssid, candidate->network.MacAddress,
++			   candidate->network.Configuration.DSConfig);
+ 	}
+ 
+ 	/*  check for situation of  _FW_LINKED */
+ 	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+-		DBG_88E("%s: _FW_LINKED while ask_for_joinbss!!!\n", __func__);
++		netdev_dbg(adapter->pnetdev,
++			   "_FW_LINKED while ask_for_joinbss!!!\n");
+ 
+ 		rtw_disassoc_cmd(adapter, 0, true);
+ 		rtw_indicate_disconnect(adapter);
+@@ -1542,10 +1551,9 @@ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
+ 	if (supp_ant_div) {
+ 		u8 cur_ant;
+ 		GetHalDefVar8188EUsb(adapter, HAL_DEF_CURRENT_ANTENNA, &cur_ant);
+-		DBG_88E("#### Opt_Ant_(%s), cur_Ant(%s)\n",
+-			(2 == candidate->network.PhyInfo.Optimum_antenna) ? "A" : "B",
+-			(2 == cur_ant) ? "A" : "B"
+-		);
++		netdev_dbg(adapter->pnetdev, "Opt_Ant_(%s), cur_Ant(%s)\n",
++			   (candidate->network.PhyInfo.Optimum_antenna == 2) ? "A" : "B",
++			   (cur_ant == 2) ? "A" : "B");
+ 	}
+ 
+ 	ret = rtw_joinbss_cmd(adapter, candidate);
+@@ -1617,8 +1625,10 @@ int rtw_set_key(struct adapter *adapter, struct security_priv *psecuritypriv, in
+ 	psetkeyparm->keyid = (u8)keyid;/* 0~3 */
+ 	psetkeyparm->set_tx = set_tx;
+ 	pmlmepriv->key_mask |= BIT(psetkeyparm->keyid);
+-	DBG_88E("==> rtw_set_key algorithm(%x), keyid(%x), key_mask(%x)\n",
+-		psetkeyparm->algorithm, psetkeyparm->keyid, pmlmepriv->key_mask);
++	netdev_dbg(adapter->pnetdev,
++		   "algorithm(%x), keyid(%x), key_mask(%x)\n",
++		   psetkeyparm->algorithm, psetkeyparm->keyid,
++		   pmlmepriv->key_mask);
+ 
+ 	switch (psetkeyparm->algorithm) {
+ 	case _WEP40_:
+@@ -1970,8 +1980,6 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len)
+ 	if ((!pmlmeinfo->HT_info_enable) || (!pmlmeinfo->HT_caps_enable))
+ 		return;
+ 
+-	DBG_88E("+rtw_update_ht_cap()\n");
+-
+ 	/* maybe needs check if ap supports rx ampdu. */
+ 	if ((!phtpriv->ampdu_enable) && (pregistrypriv->ampdu_enable == 1)) {
+ 		if (pregistrypriv->wifi_spec == 1)
+@@ -2022,7 +2030,7 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len)
+ 	/*  Config SM Power Save setting */
+ 	pmlmeinfo->SM_PS = (le16_to_cpu(pmlmeinfo->HT_caps.u.HT_cap_element.HT_caps_info) & 0x0C) >> 2;
+ 	if (pmlmeinfo->SM_PS == WLAN_HT_CAP_SM_PS_STATIC)
+-		DBG_88E("%s(): WLAN_HT_CAP_SM_PS_STATIC\n", __func__);
++		netdev_dbg(padapter->pnetdev, "WLAN_HT_CAP_SM_PS_STATIC\n");
+ 
+ 	/*  Config current HT Protection mode. */
+ 	pmlmeinfo->HT_protection = pmlmeinfo->HT_info.infos[1] & 0x3;
+@@ -2057,7 +2065,7 @@ void rtw_issue_addbareq_cmd(struct adapter *padapter, struct xmit_frame *pxmitfr
+ 		issued |= (phtpriv->candidate_tid_bitmap >> priority) & 0x1;
+ 
+ 		if (0 == issued) {
+-			DBG_88E("rtw_issue_addbareq_cmd, p=%d\n", priority);
++			netdev_dbg(padapter->pnetdev, "p=%d\n", priority);
+ 			psta->htpriv.candidate_tid_bitmap |= BIT((u8)priority);
+ 			rtw_addbareq_cmd(padapter, (u8)priority, pattrib->ra);
+ 		}
+@@ -2085,9 +2093,11 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
+ 		pnetwork = &pmlmepriv->cur_network;
+ 
+ 	if (0 < rtw_to_roaming(padapter)) {
+-		DBG_88E("roaming from %s(%pM length:%d\n",
+-			pnetwork->network.Ssid.Ssid, pnetwork->network.MacAddress,
+-			pnetwork->network.Ssid.SsidLength);
++		netdev_dbg(padapter->pnetdev,
++			   "roaming from %s(%pM length:%d\n",
++			   pnetwork->network.Ssid.Ssid,
++			   pnetwork->network.MacAddress,
++			   pnetwork->network.Ssid.SsidLength);
+ 		memcpy(&pmlmepriv->assoc_ssid, &pnetwork->network.Ssid, sizeof(struct ndis_802_11_ssid));
+ 
+ 		pmlmepriv->assoc_by_bssid = false;
+@@ -2097,13 +2107,16 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
+ 			if (_SUCCESS == do_join_r) {
+ 				break;
+ 			} else {
+-				DBG_88E("roaming do_join return %d\n", do_join_r);
++				netdev_dbg(padapter->pnetdev,
++					   "roaming do_join return %d\n",
++					   do_join_r);
+ 				pmlmepriv->to_roaming--;
+ 
+ 				if (0 < pmlmepriv->to_roaming) {
+ 					continue;
+ 				} else {
+-					DBG_88E("%s(%d) -to roaming fail, indicate_disconnect\n", __func__, __LINE__);
++					netdev_dbg(padapter->pnetdev,
++						   "-to roaming fail, indicate_disconnect\n");
+ 					rtw_indicate_disconnect(padapter);
+ 					break;
+ 				}
 -- 
 2.33.1
 
