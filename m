@@ -1,41 +1,41 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3632CA3
-	for <linux-staging@lists.linux.dev>; Sun,  9 Jan 2022 21:54:32 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id k30so5677724wrd.9
-        for <linux-staging@lists.linux.dev>; Sun, 09 Jan 2022 13:54:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574FA2CA5
+	for <linux-staging@lists.linux.dev>; Sun,  9 Jan 2022 21:54:33 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id q8so23168072wra.12
+        for <linux-staging@lists.linux.dev>; Sun, 09 Jan 2022 13:54:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AlKhIkC0Td2+80z6FQm+ECWH1t7QHBdMgOZBS6zGzEk=;
-        b=cbl+3OaSmFsf1hDjiFlgosI/D97JR1jKwk4r1z3ZTpBzyE2k9JDZYdCuAar6wcOMBq
-         X8wS+y9U6LurDgVDOkcauq1lJvxgzb49mJjFKHq6u0J+fblvaaIGbCuwVrWRvaE9nFwV
-         EDiqyt3mf0sQ898mRjHW+MEHkzOUZpRS66607N0+8GqajvQCeuqGqGgpb0S7KTkPRLMt
-         rW6VPtfdBvodJI1SLirxbUDKtjU4J/KDtQu/vJ0sc+xDsn00vUl4YWT31iJtKYbw3wHA
-         WGPKyh4oXMi4UKqmup5QmhTnsFqjAhXf2EUyEnaq/QGwWdeoqIB+qV0BVmPSHSH0rQnt
-         eboQ==
+        bh=Z/xQgPdF4pLZ7rSZV7wFE+mDlaQQE7y+ojmrtCNp2S0=;
+        b=mtH68rJeTi1TCPm8g4SR/TY0WUCwPBzeSVXMbAf1eSEUkBL7UC6voDIyjPs+H2bweC
+         Mj0SwpyaSvyEBT+HJdTbrFvfP5JD4hLxF/vTG3/77qPB0DMd0hypZRDvDwgOFIuu/HBR
+         Sd2Rsy4ieJ90ew392xiVLXJnSHnrjU08kRVgzXF5i+ppzRHLM/0zHgPRtqJhSPCc9u35
+         r9qP+IUqZa9+Z+vIcXB6juEHd8rak25RiuNnTYWyQdh/ZPVMzoocbOqRMutPduN+q9Gu
+         MLxisPEyWtarAnE6Nm/hnBL4hP3P8RPRg1HCbNQANANg88FsBnOezs/ZVT/N64cPBffD
+         Kgww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AlKhIkC0Td2+80z6FQm+ECWH1t7QHBdMgOZBS6zGzEk=;
-        b=kcpfyBrSzxLA7hh7GklN7JHG1b0hMQdNW0kx6VmP3tPRCMIoHyiRszefupUFipHdaX
-         U3OkmXA18yQuOl21JErbujJKWfNxSDT++RkA6sfzVi0HoXXlXtM1nXLm0QRxEKw9M+Am
-         +rqpAG8tipFAd1vjOTYUhfrJXC7vCjb0MmHgf9NKNhAG60lV3IozdKq8STas+7HONHGs
-         gVEcwDnFrwPy81M4Ij7ajq3j+w1CEa0IFiKGd+hYkcDQzr0plRvx6C1L2fgrYM8d1TgB
-         VI61CDpu9RbuBnlFrNfJvxYBoNHhI8SqcUZ6KkR2vL7lUU7nU74qJ15lKsnmhrBaY2Hv
-         WOXg==
-X-Gm-Message-State: AOAM5329r4HQhcDCoTx8wC6Nrwz5Z3F3cgv7JsDR9I9ejoB4hPi25Im4
-	Np7B1V2eyCoPqLkO9jIWW/IeMw==
-X-Google-Smtp-Source: ABdhPJwLVad1tmKiSjvKwhncJKglQg8aiXkOyvjj5ZpeJFRGdG1jOK4VmNHEnfSzmPhuu/jTstTKLA==
-X-Received: by 2002:adf:dc50:: with SMTP id m16mr7055266wrj.538.1641765271111;
+        bh=Z/xQgPdF4pLZ7rSZV7wFE+mDlaQQE7y+ojmrtCNp2S0=;
+        b=PFf2WBStpv4rSfFC/X2qiVe2xTmV/FJ5sKSp28RXzMeWQOZDyNcOAZMNL9sHCrEmas
+         dHZjiSd8t4BInNtLtic8a8RhsZUfsnERC/kA0pKQrWkbdJZQ6HfRLeVeASN8KRk6Y7XZ
+         wBw+5hGagFWajaeP7vtNTjvfhhbl2OxqrjI1YSIcdrhclm3rrAoWHltKxpHuZ611f3/p
+         +3ItOpEcvVCCSvkYfAL00aYwo6zbJDxtc6NRwFMuYYJlsJyT9Fy+ZJBpkekVedUHhtnt
+         oZn0epfWfpL9wKMm+w84orYxSRNoLdC9fOX2tksWzAIo6PqDG96AD2jAWWv2809gXzGY
+         S4sQ==
+X-Gm-Message-State: AOAM533/rRaIkkBnA/nye74OdaUpVmxg+1FTddkffX9Cl0m4RN0IyT9u
+	ca6OEYKcjdVb1vrc0OT5d1P4lw==
+X-Google-Smtp-Source: ABdhPJyvbrJiyg+WkmzDY0n4DUHVXi0xtNTepHogOuVbyWf7jbsxCDl8Q0KKy1GDTYe3iJ0wj+n90g==
+X-Received: by 2002:a5d:584e:: with SMTP id i14mr6157958wrf.255.1641765271791;
         Sun, 09 Jan 2022 13:54:31 -0800 (PST)
 Received: from localhost.localdomain (d.f.5.e.6.6.b.1.e.6.2.7.e.5.c.8.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:8c5e:726e:1b66:e5fd])
-        by smtp.gmail.com with ESMTPSA id r13sm5065650wmq.28.2022.01.09.13.54.30
+        by smtp.gmail.com with ESMTPSA id r13sm5065650wmq.28.2022.01.09.13.54.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jan 2022 13:54:30 -0800 (PST)
+        Sun, 09 Jan 2022 13:54:31 -0800 (PST)
 From: Phillip Potter <phil@philpotter.co.uk>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	martin@kaiser.cx,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/7] staging: r8188eu: convert DBG_88E calls in core/rtw_xmit.c
-Date: Sun,  9 Jan 2022 21:54:22 +0000
-Message-Id: <20220109215427.887-3-phil@philpotter.co.uk>
+Subject: [PATCH 3/7] staging: r8188eu: convert DBG_88E calls in core/rtw_iol.c
+Date: Sun,  9 Jan 2022 21:54:23 +0000
+Message-Id: <20220109215427.887-4-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109215427.887-1-phil@philpotter.co.uk>
 References: <20220109215427.887-1-phil@philpotter.co.uk>
@@ -57,11 +57,10 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the DBG_88E macro calls in core/rtw_xmit.c to use pr_debug
+Convert the DBG_88E macro calls in core/rtw_iol.c to use pr_debug
 or netdev_dbg appropriately, as their information may be useful to
 observers, and this gets the driver closer to the point of being
-able to remove DBG_88E itself. Also remove some commented out
-DBG_88E calls altogether.
+able to remove DBG_88E itself.
 
 Some calls are at points in the call chain where use of dev_dbg or
 netdev_dbg isn't possible due to lack of device pointer, so plain
@@ -69,139 +68,42 @@ pr_debug is appropriate here.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/r8188eu/core/rtw_xmit.c | 30 ++++++++++++-------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ drivers/staging/r8188eu/core/rtw_iol.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 8503059edc46..334644e46000 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -372,7 +372,7 @@ u8	qos_acm(u8 acm_mask, u8 priority)
- 			change_priority = 5;
- 		break;
- 	default:
--		DBG_88E("qos_acm(): invalid pattrib->priority: %d!!!\n", priority);
-+		pr_debug("invalid pattrib->priority: %d!!!\n", priority);
- 		break;
+diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
+index 7e78b47c1284..923da2a9f6ae 100644
+--- a/drivers/staging/r8188eu/core/rtw_iol.c
++++ b/drivers/staging/r8188eu/core/rtw_iol.c
+@@ -12,13 +12,15 @@ struct xmit_frame	*rtw_IOL_accquire_xmit_frame(struct adapter  *adapter)
+ 
+ 	xmit_frame = rtw_alloc_xmitframe(pxmitpriv);
+ 	if (!xmit_frame) {
+-		DBG_88E("%s rtw_alloc_xmitframe return null\n", __func__);
++		netdev_dbg(adapter->pnetdev,
++			   "rtw_alloc_xmitframe return null\n");
+ 		return NULL;
  	}
  
-@@ -489,7 +489,6 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 	xmitbuf = rtw_alloc_xmitbuf(pxmitpriv);
+ 	if (!xmitbuf) {
+-		DBG_88E("%s rtw_alloc_xmitbuf return null\n", __func__);
++		netdev_dbg(adapter->pnetdev,
++			   "rtw_alloc_xmitbuf return null\n");
+ 		rtw_free_xmitframe(pxmitpriv, xmit_frame);
+ 		return NULL;
+ 	}
+@@ -49,8 +51,8 @@ int rtw_IOL_append_cmds(struct xmit_frame *xmit_frame, u8 *IOL_cmds, u32 cmd_len
  
- 	if (psta) {
- 		pattrib->mac_id = psta->mac_id;
--		/* DBG_88E("%s ==> mac_id(%d)\n", __func__, pattrib->mac_id); */
- 		pattrib->psta = psta;
- 	} else {
- 		/*  if we cannot get psta => drop the pkt */
-@@ -895,7 +894,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 	/* check if the io_buf can accommodate new cmds */
+ 	if (ori_len + cmd_len + 8 > MAX_XMITBUF_SZ) {
+-		DBG_88E("%s %u is large than MAX_XMITBUF_SZ:%u, can't accommodate new cmds\n",
+-			__func__, ori_len + cmd_len + 8, MAX_XMITBUF_SZ);
++		pr_debug("%u is larger than MAX_XMITBUF_SZ:%u, can't accommodate new cmds\n",
++			 ori_len + cmd_len + 8, MAX_XMITBUF_SZ);
  		return _FAIL;
- 
- 	if (!pxmitframe->buf_addr) {
--		DBG_88E("==> %s buf_addr == NULL\n", __func__);
-+		netdev_dbg(padapter->pnetdev, "buf_addr == NULL\n");
- 		return _FAIL;
  	}
  
-@@ -906,7 +905,8 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
- 	mem_start = pbuf_start +	hw_hdr_offset;
- 
- 	if (rtw_make_wlanhdr(padapter, mem_start, pattrib) == _FAIL) {
--		DBG_88E("rtw_xmitframe_coalesce: rtw_make_wlanhdr fail; drop pkt\n");
-+		netdev_dbg(padapter->pnetdev,
-+			   "rtw_make_wlanhdr fail; drop pkt\n");
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -1003,7 +1003,8 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
- 	}
- 
- 	if (xmitframe_addmic(padapter, pxmitframe) == _FAIL) {
--		DBG_88E("xmitframe_addmic(padapter, pxmitframe) == _FAIL\n");
-+		netdev_dbg(padapter->pnetdev,
-+			   "xmitframe_addmic(padapter, pxmitframe) == _FAIL\n");
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -1134,7 +1135,7 @@ struct xmit_buf *rtw_alloc_xmitbuf_ext(struct xmit_priv *pxmitpriv)
- 		/* pxmitbuf->ext_tag = true; */
- 
- 		if (pxmitbuf->sctx) {
--			DBG_88E("%s pxmitbuf->sctx is not NULL\n", __func__);
-+			pr_debug("pxmitbuf->sctx is not NULL\n");
- 			rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_BUF_ALLOC);
- 		}
- 	}
-@@ -1171,8 +1172,6 @@ struct xmit_buf *rtw_alloc_xmitbuf(struct xmit_priv *pxmitpriv)
- 	struct __queue *pfree_xmitbuf_queue = &pxmitpriv->free_xmitbuf_queue;
- 	unsigned long flags;
- 
--	/* DBG_88E("+rtw_alloc_xmitbuf\n"); */
--
- 	spin_lock_irqsave(&pfree_xmitbuf_queue->lock, flags);
- 
- 	if (list_empty(&pfree_xmitbuf_queue->queue)) {
-@@ -1191,7 +1190,7 @@ struct xmit_buf *rtw_alloc_xmitbuf(struct xmit_priv *pxmitpriv)
- 		pxmitpriv->free_xmitbuf_cnt--;
- 		pxmitbuf->priv_data = NULL;
- 		if (pxmitbuf->sctx) {
--			DBG_88E("%s pxmitbuf->sctx is not NULL\n", __func__);
-+			pr_debug("pxmitbuf->sctx is not NULL\n");
- 			rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_BUF_ALLOC);
- 		}
- 	}
-@@ -1209,7 +1208,7 @@ s32 rtw_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
- 		return _FAIL;
- 
- 	if (pxmitbuf->sctx) {
--		DBG_88E("%s pxmitbuf->sctx is not NULL\n", __func__);
-+		pr_debug("pxmitbuf->sctx is not NULL\n");
- 		rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_BUF_FREE);
- 	}
- 
-@@ -1479,7 +1478,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
- 
- 	if (!psta) {
- 		res = _FAIL;
--		DBG_88E("rtw_xmit_classifier: psta == NULL\n");
-+		netdev_dbg(padapter->pnetdev, "psta == NULL\n");
- 		goto exit;
- 	}
- 
-@@ -1725,7 +1724,8 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
- 
- 	pxmitframe = rtw_alloc_xmitframe(pxmitpriv);
- 	if (!pxmitframe) {
--		DBG_88E("DBG_TX_DROP_FRAME %s no more pxmitframe\n", __func__);
-+		netdev_dbg(padapter->pnetdev,
-+			   "DBG_TX_DROP_FRAME no more pxmitframe\n");
- 		return -1;
- 	}
- 
-@@ -2150,7 +2150,7 @@ int rtw_sctx_wait(struct submit_ctx *sctx)
- 	if (!wait_for_completion_timeout(&sctx->done, expire)) {
- 		/* timeout, do something?? */
- 		status = RTW_SCTX_DONE_TIMEOUT;
--		DBG_88E("%s timeout\n", __func__);
-+		pr_debug("timeout\n");
- 	} else {
- 		status = sctx->status;
- 	}
-@@ -2180,7 +2180,7 @@ void rtw_sctx_done_err(struct submit_ctx **sctx, int status)
- {
- 	if (*sctx) {
- 		if (rtw_sctx_chk_waring_status(status))
--			DBG_88E("%s status:%d\n", __func__, status);
-+			pr_debug("status:%d\n", status);
- 		(*sctx)->status = status;
- 		complete(&((*sctx)->done));
- 		*sctx = NULL;
-@@ -2205,5 +2205,5 @@ void rtw_ack_tx_done(struct xmit_priv *pxmitpriv, int status)
- 	if (pxmitpriv->ack_tx)
- 		rtw_sctx_done_err(&pack_tx_ops, status);
- 	else
--		DBG_88E("%s ack_tx not set\n", __func__);
-+		pr_debug("ack_tx not set\n");
- }
 -- 
 2.33.1
 
