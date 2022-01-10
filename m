@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B582CA2
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 12:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5A12CA8
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 12:46:59 +0000 (UTC)
 Received: from pd956d63d.dip0.t-ipconnect.de ([217.86.214.61] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1n6u4X-0007Td-Ii; Mon, 10 Jan 2022 13:46:49 +0100
+	id 1n6u4d-0007Td-Ux; Mon, 10 Jan 2022 13:46:56 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/9] staging: r8188eu: remove unused function parameter
-Date: Mon, 10 Jan 2022 13:46:32 +0100
-Message-Id: <20220110124638.6909-4-martin@kaiser.cx>
+Subject: [PATCH 9/9] staging: r8188eu: merge ODM_ConfigBBWithHeaderFile with its callers
+Date: Mon, 10 Jan 2022 13:46:38 +0100
+Message-Id: <20220110124638.6909-10-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220110124638.6909-1-martin@kaiser.cx>
 References: <20220110124638.6909-1-martin@kaiser.cx>
@@ -30,53 +30,89 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ODM_ConfigRFWithHeaderFile does not use its content parameter.
-Remove it.
+ODM_ConfigBBWithHeaderFile is a "multiplexer" for ODM_ReadAndConfig_...
+functions. It's called only from phy_BB8188E_Config_ParaFile.
+
+We can remove ODM_ConfigBBWithHeaderFile and call the
+ODM_ReadAndConfig_... functions directly.
+
+ODM_ReadAndConfig_PHY_REG_PG_8188E does not return an error status,
+there's no need for a check.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/odm_HWConfig.c     | 1 -
- drivers/staging/r8188eu/hal/rtl8188e_rf6052.c  | 2 +-
- drivers/staging/r8188eu/include/odm_HWConfig.h | 1 -
- 3 files changed, 1 insertion(+), 3 deletions(-)
+ drivers/staging/r8188eu/hal/odm_HWConfig.c     | 15 ---------------
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c  |  8 +++-----
+ drivers/staging/r8188eu/include/odm_HWConfig.h |  3 ---
+ 3 files changed, 3 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index d5212a166dd2..a62af532ac82 100644
+index 1c3074fc6be4..dcc38b036280 100644
 --- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
 +++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -363,7 +363,6 @@ void ODM_PhyStatusQuery(struct odm_dm_struct *dm_odm,
- }
- 
- enum HAL_STATUS ODM_ConfigRFWithHeaderFile(struct odm_dm_struct *dm_odm,
--					   enum rf_radio_path content,
- 					   enum rf_radio_path rfpath)
+@@ -362,18 +362,3 @@ enum HAL_STATUS ODM_ConfigRFWithHeaderFile(struct odm_dm_struct *dm_odm)
  {
- 	if (rfpath == RF_PATH_A)
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-index 7474db05e8af..a5c94be95ccb 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-@@ -399,7 +399,7 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
- 	udelay(1);/* PlatformStallExecution(1); */
+ 	return ODM_ReadAndConfig_RadioA_1T_8188E(dm_odm);
+ }
+-
+-enum HAL_STATUS ODM_ConfigBBWithHeaderFile(struct odm_dm_struct *dm_odm,
+-					   enum odm_bb_config_type config_tp)
+-{
+-	if (config_tp == CONFIG_BB_PHY_REG) {
+-		return ODM_ReadAndConfig_PHY_REG_1T_8188E(dm_odm);
+-	} else if (config_tp == CONFIG_BB_AGC_TAB) {
+-		return ODM_ReadAndConfig_AGC_TAB_1T_8188E(dm_odm);
+-	} else if (config_tp == CONFIG_BB_PHY_REG_PG) {
+-		ODM_ReadAndConfig_PHY_REG_PG_8188E(dm_odm);
+-		return HAL_STATUS_SUCCESS;
+-	}
+-
+-	return HAL_STATUS_FAILURE;
+-}
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+index 15370b674e53..0b0690dfb947 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+@@ -493,7 +493,7 @@ static	int phy_BB8188E_Config_ParaFile(struct adapter *Adapter)
+ 	/*  1. Read PHY_REG.TXT BB INIT!! */
+ 	/*  We will separate as 88C / 92C according to chip version */
+ 	/*  */
+-	if (HAL_STATUS_FAILURE == ODM_ConfigBBWithHeaderFile(&pHalData->odmpriv, CONFIG_BB_PHY_REG))
++	if (HAL_STATUS_FAILURE == ODM_ReadAndConfig_PHY_REG_1T_8188E(&pHalData->odmpriv))
+ 		rtStatus = _FAIL;
+ 	if (rtStatus != _SUCCESS)
+ 		goto phy_BB8190_Config_ParaFile_Fail;
+@@ -501,16 +501,14 @@ static	int phy_BB8188E_Config_ParaFile(struct adapter *Adapter)
+ 	/*  2. If EEPROM or EFUSE autoload OK, We must config by PHY_REG_PG.txt */
+ 	if (!pEEPROM->bautoload_fail_flag) {
+ 		pHalData->pwrGroupCnt = 0;
+-
+-		if (HAL_STATUS_FAILURE == ODM_ConfigBBWithHeaderFile(&pHalData->odmpriv, CONFIG_BB_PHY_REG_PG))
+-			rtStatus = _FAIL;
++		ODM_ReadAndConfig_PHY_REG_PG_8188E(&pHalData->odmpriv);
+ 	}
  
- 	/*----Initialize RF fom connfiguration file----*/
--	if (HAL_STATUS_FAILURE == ODM_ConfigRFWithHeaderFile(&pHalData->odmpriv, RF_PATH_A, RF_PATH_A))
-+	if (HAL_STATUS_FAILURE == ODM_ConfigRFWithHeaderFile(&pHalData->odmpriv, RF_PATH_A))
+ 	if (rtStatus != _SUCCESS)
+ 		goto phy_BB8190_Config_ParaFile_Fail;
+ 
+ 	/*  3. BB AGC table Initialization */
+-	if (HAL_STATUS_FAILURE == ODM_ConfigBBWithHeaderFile(&pHalData->odmpriv,  CONFIG_BB_AGC_TAB))
++	if (HAL_STATUS_FAILURE == ODM_ReadAndConfig_AGC_TAB_1T_8188E(&pHalData->odmpriv))
  		rtStatus = _FAIL;
  
- 	/*----Restore RFENV control type----*/;
+ 	if (rtStatus != _SUCCESS)
 diff --git a/drivers/staging/r8188eu/include/odm_HWConfig.h b/drivers/staging/r8188eu/include/odm_HWConfig.h
-index 3ed265e00ac1..efc809354720 100644
+index 1bd6f254bf53..b37962edb2ed 100644
 --- a/drivers/staging/r8188eu/include/odm_HWConfig.h
 +++ b/drivers/staging/r8188eu/include/odm_HWConfig.h
-@@ -96,7 +96,6 @@ void ODM_PhyStatusQuery(struct odm_dm_struct *pDM_Odm,
+@@ -67,7 +67,4 @@ void ODM_PhyStatusQuery(struct odm_dm_struct *pDM_Odm,
  			struct adapter *adapt);
  
- enum HAL_STATUS ODM_ConfigRFWithHeaderFile(struct odm_dm_struct *pDM_Odm,
--					   enum rf_radio_path Content,
- 					   enum rf_radio_path eRFPath);
- 
- enum HAL_STATUS ODM_ConfigBBWithHeaderFile(struct odm_dm_struct *pDM_Odm,
+ enum HAL_STATUS ODM_ConfigRFWithHeaderFile(struct odm_dm_struct *pDM_Odm);
+-
+-enum HAL_STATUS ODM_ConfigBBWithHeaderFile(struct odm_dm_struct *pDM_Odm,
+-					   enum odm_bb_config_type ConfigType);
+ #endif
 -- 
 2.30.2
 
