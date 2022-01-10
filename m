@@ -1,94 +1,120 @@
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F4E2C9C
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 15:58:36 +0000 (UTC)
-Received: by mail-ua1-f53.google.com with SMTP id y4so24290585uad.1
-        for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 07:58:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11716173
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 20:56:05 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id o3so29105731wrh.10
+        for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 12:56:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NH00wvgzSBu075ZlsRFt1eAfhX6GcrnxDSDE9TnCjtE=;
+        b=fHaJAlljhP2NPoLA1IsGrrExlEisLMnvA2pphAZUHGUjYOP6HHSxbYhnHcHAtK3nRT
+         jG1Mp9EvF/dKdqgh+VG/9UuBtP1+Y2UHoA9mIEMOhttkodV7F7pcVKb3OGnMEqvLnifF
+         hYLCQp6Nh0aRUcXMIzuDfh9zHlC/8cHBQpNIREpGJTMTbi8Qagt96DetpLuOJuFfz5rZ
+         lhITB9gYByn4l9VEtwCABrdDTIV1qhZxb9Y1G3VsG8dqmqLb5TWATNyjDaVfhZUzk2Pa
+         UF57vJzE6KGF/ThdG80S0e7h7V7sYnTbN5gEPg+ipzqqYefXzCcp5x2rG5UtpWb4VxJ3
+         OWag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YMgV+mDX/K3qcOomX1PVvdIm2AvlPzqwI7apstT0jDc=;
-        b=wb21Q7HQnM3u0UQoNite5swlQJ6GkyDPyQws8qS8bokxXPXz9iNxrDnhzN0AnAPPVb
-         YccJl+fm9s7qkhZSdLb2WsiaynIL+gVmD49eCV7EL4uwp7P09gov52cFSnyJy9fLFIvo
-         ZkEldbpBhAv4SRbNBvo/Ggr3/72kmbEq4iNlOMjwhD3qgYZUHrIv8Vz5ZZCQAtmphxFV
-         6wYr36Sut0d7dFeKAifdfAhp/phiE034Xxrys1rloHq0j6cpztL7x+VkWTBO62dBZrZq
-         rY+c9aDm5dZVfPrPIOZ+S4IetKY8N0oKkvU80x8xOOz7KuPZrBnRKoxKWzBlOyZ6970F
-         GdHg==
-X-Gm-Message-State: AOAM5314/Gu8EI2ABFUhahZJ4nThzejkm3fPDYM52+lSQ1WfZTtKtq+a
-	ZQn2YXf924Q6SNZGEbJsnfqyXnV35O90jg==
-X-Google-Smtp-Source: ABdhPJz8snoEH27WVD7cgJv7o54jYJcvpI2FEDmignsxk43ZFn+3BfJK2/KRYaDO8XsJD6UOQ6OL6g==
-X-Received: by 2002:a05:6102:3581:: with SMTP id h1mr55125vsu.17.1641830315239;
-        Mon, 10 Jan 2022 07:58:35 -0800 (PST)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id k135sm3906813vke.53.2022.01.10.07.58.34
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jan 2022 07:58:34 -0800 (PST)
-Received: by mail-ua1-f53.google.com with SMTP id p1so24217679uap.9
-        for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 07:58:34 -0800 (PST)
-X-Received: by 2002:a67:e985:: with SMTP id b5mr182967vso.77.1641830314339;
- Mon, 10 Jan 2022 07:58:34 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NH00wvgzSBu075ZlsRFt1eAfhX6GcrnxDSDE9TnCjtE=;
+        b=GXWHd+LVM5aIgZuvQzkZD5vHs9gouvAinOc5sMktquWoqS18veNTTkph/huT3Ze4Sn
+         3rgE3p3TlWXvfHHbOTJPoVOitLDvfQmSIocn+RYQhpyjHDkOXhrR4kdo9Ek06WRr3Mzd
+         AWtmsZBJZzTk3r0SWav7uJKslOyeM/JIivADCV8AlW6uTchL+wgYSsPc1/zW9WeecBWX
+         YlUjJS5NBR3IvLy1OKyGuGgLSPsPwh9TbPw/ZhSW+2XpfWtqlXVNMU8W5k2oId8YYuJW
+         LBh3zr5LLdkGxDEV6VTjrOuCE8sI/DhmHTYIluMdm3a724c0MrYDZJY+p5jTjFixmqgk
+         WllA==
+X-Gm-Message-State: AOAM530bE6YBQ3w4k+SAZ5R3N+hmPnKSp9j1bxXxlea+sI8e9013O0yz
+	2nw5eWpMoyIAU1OyH/oaU8OqEA==
+X-Google-Smtp-Source: ABdhPJys17cBO+N6fWfnZJiSmxn+PAF0SxFfWG5jY3SMFiSjvHV2cbjLdn/b6eW4S15O5I9L+u0r7g==
+X-Received: by 2002:a5d:4c4d:: with SMTP id n13mr1104632wrt.641.1641848164366;
+        Mon, 10 Jan 2022 12:56:04 -0800 (PST)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id p18sm7999858wmq.23.2022.01.10.12.56.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jan 2022 12:56:03 -0800 (PST)
+Date: Mon, 10 Jan 2022 20:56:02 +0000
+From: Phillip Potter <phil@philpotter.co.uk>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com, martin@kaiser.cx,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/7] staging: r8188eu: convert DBG_88E calls in
+ core/rtw_iol.c
+Message-ID: <YdydYlpVzHoLy2Wh@equinox>
+References: <20220109215427.887-1-phil@philpotter.co.uk>
+ <20220109215427.887-4-phil@philpotter.co.uk>
+ <20220110100843.GC1951@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211226082530.2245198-1-nikita.yoush@cogentembedded.com> <20211226082530.2245198-2-nikita.yoush@cogentembedded.com>
-In-Reply-To: <20211226082530.2245198-2-nikita.yoush@cogentembedded.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Jan 2022 16:58:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV+Yb1As-2fjq+1eeUEiTo21OH+aUQwEcSCAEErDh2A7w@mail.gmail.com>
-Message-ID: <CAMuHMdV+Yb1As-2fjq+1eeUEiTo21OH+aUQwEcSCAEErDh2A7w@mail.gmail.com>
-Subject: Re: [PATCH 1/3] staging: most: dim2: update renesas compatible string
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Christian Gromm <christian.gromm@microchip.com>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220110100843.GC1951@kadam>
 
-Hi Nikita,
+On Mon, Jan 10, 2022 at 01:08:43PM +0300, Dan Carpenter wrote:
+> On Sun, Jan 09, 2022 at 09:54:23PM +0000, Phillip Potter wrote:
+> > Convert the DBG_88E macro calls in core/rtw_iol.c to use pr_debug
+> > or netdev_dbg appropriately, as their information may be useful to
+> > observers, and this gets the driver closer to the point of being
+> > able to remove DBG_88E itself.
+> > 
+> > Some calls are at points in the call chain where use of dev_dbg or
+> > netdev_dbg isn't possible due to lack of device pointer, so plain
+> > pr_debug is appropriate here.
+> > 
+> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> > ---
+> >  drivers/staging/r8188eu/core/rtw_iol.c | 10 ++++++----
+> >  1 file changed, 6 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
+> > index 7e78b47c1284..923da2a9f6ae 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_iol.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_iol.c
+> > @@ -12,13 +12,15 @@ struct xmit_frame	*rtw_IOL_accquire_xmit_frame(struct adapter  *adapter)
+> >  
+> >  	xmit_frame = rtw_alloc_xmitframe(pxmitpriv);
+> >  	if (!xmit_frame) {
+> > -		DBG_88E("%s rtw_alloc_xmitframe return null\n", __func__);
+> > +		netdev_dbg(adapter->pnetdev,
+> > +			   "rtw_alloc_xmitframe return null\n");
+> 
+> You're going to have to send this anyway because of the compile issue.
+> 
+> I feel like you are not being aggressive enough in the debug messages
+> that you delete.  For example, this one should definitely be deleted.
+> Don't print an error message for alloc failures.
+> 
+> It would be easier to Ack a mass delete of these messages.
+> 
+> regards,
+> dan carpenter
+> 
 
-On Sun, Dec 26, 2021 at 9:25 AM Nikita Yushchenko
-<nikita.yoush@cogentembedded.com> wrote:
-> Use "renesas,rcar-gen3-mlp" instead of "rcar,medialb-dim2"
-> - the documented vendor prefix for Renesas is "renesas,"
-> - existing r-car devices use "rcar-genN-XXX" pattern.
->
-> There are currently no in-tree users to update.
->
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Dear Dan,
 
-Thanks for your patch!
+Thank you for your feedback. I already sent a V2 series to fix the empty case
+label I left in core/rtw_mlme_ext.c, sounds like a V3 is needed though 
+based on this feedback - admittedly I have tried to be conservative and
+basically only removed commented DBG_88E calls or calls which just print the
+function name/line number so far.
 
-> --- a/drivers/staging/most/dim2/dim2.c
-> +++ b/drivers/staging/most/dim2/dim2.c
-> @@ -1086,7 +1086,7 @@ static const struct of_device_id dim2_of_match[] = {
->                 .data = plat_data + RCAR_H2
->         },
->         {
-> -               .compatible = "rcar,medialb-dim2",
-> +               .compatible = "renesas,rcar-gen3-mlp",
->                 .data = plat_data + RCAR_M3
->         },
+I get what you're saying about deleting them all just being easier,
+but I've already converted several in previous series that have
+made it in. It would make sense to delete these converted calls as well
+if going for the total deletion approach. Also, I do worry some of the
+info could be useful. I'd appreciate your thoughts on this.
 
-Looks sane, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I am happy to delete it all by all means, just want to make sure majority
+would be happy with that approach, as opposed to a refinement of this
+approach and being more judicious with deletion of more DBG_88E calls.
 
-But there is no DT binding documentation covering this block :-(
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks again,
+Phil
