@@ -1,44 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AB82C9D;
-	Mon, 10 Jan 2022 01:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EF22C9C
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 06:16:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641778565; x=1673314565;
+  t=1641795372; x=1673331372;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QE8bNZMszeD42Sg+GicP4A7fdI2QzmXFDe6QcHkZS3o=;
-  b=MzuBgOvkB/l+9yafQnAaT4TmJSHgWBbgOZjbsz7LPXPUkBiu5msa67aY
-   ufJzmgb83hi4++dYcp2kYyR2j5hyCWKaRiah922He7sWuCoWoa4AABehu
-   RYk+tRZMRbBpNRURo1/GxXypimhlTuNb++aSCqMGVxXZYiRvPXzw1NhGR
-   hDFFMHouwPCaUPI9Gy1rkhyqHDban/VyagCXYUv1E53ELWOihhCBVGfXH
-   h05y1aaxTB3q6P0VKdX3FLrrK4RWq6ywrJQ4KHeM2bzUNiFhGaEM6o8gn
-   Fq5EzhRaihAM5VPMn4+Vcq+O3CvvyFT3JJn2obuu3fTsXzRmZvwp3Ssxe
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="267455566"
-X-IronPort-AV: E=Sophos;i="5.88,275,1635231600"; 
-   d="scan'208";a="267455566"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2022 17:36:04 -0800
+  bh=B06A3u6gFx4FxgHVcZ1+mhwy9kIYXfRppFBd1wrgXyU=;
+  b=e+B8WsklhqWLfxXCFmekCh4Bk7MX3O44Z1xDJAhr45fDna4KiCEmAq2h
+   U0PE7rp4dsJZv/uZS/5QCQjfJAJV36mXLkso4xi11BcvzXg8SocJjLn49
+   aDahzAd60uB0gnuWVmuzIWAiepjUYmZeww3SkbdUcn60L0e1WbNhTprBt
+   nQDEyk66WShe2DWlNncEPvKG1bCCn3owq4trR9OkF0qbTorTHCKTAhgIx
+   eVAicg8v6HA8Y7QKLDQ/rt9BMlP4TSYyGEIXU68r0XCInZGgmMQlZU+Js
+   2vNUEYL8AcsXEQt4QuhChpYHzDbpkveeX8tGVaV8BHDGktKwVaWIIS1Ld
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="306517526"
+X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; 
+   d="scan'208";a="306517526"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2022 22:16:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,275,1635231600"; 
-   d="scan'208";a="471917757"
+X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; 
+   d="scan'208";a="575719236"
 Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 Jan 2022 17:36:01 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 09 Jan 2022 22:16:09 -0800
 Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
 	(envelope-from <lkp@intel.com>)
-	id 1n6jbN-00022V-38; Mon, 10 Jan 2022 01:36:01 +0000
-Date: Mon, 10 Jan 2022 09:35:17 +0800
+	id 1n6nyS-0002JI-AX; Mon, 10 Jan 2022 06:16:08 +0000
+Date: Mon, 10 Jan 2022 14:15:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
-	Larry.Finger@lwfinger.net, straube.linux@gmail.com,
-	martin@kaiser.cx, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+Cc: kbuild-all@lists.01.org, Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com, martin@kaiser.cx,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 6/7] staging: r8188eu: convert DBG_88E calls in
  core/rtw_mlme_ext.c
-Message-ID: <202201100935.4h1VYxmR-lkp@intel.com>
+Message-ID: <202201101405.RNRjMxAF-lkp@intel.com>
 References: <20220109215427.887-7-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,31 +58,29 @@ I love your patch! Yet something to improve:
 
 url:    https://github.com/0day-ci/linux/commits/Phillip-Potter/staging-r8188eu-further-per-file-DBG_88E-cleanups/20220110-055642
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git fa783154524a71ab74e293cd8251155e5971952b
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20220110/202201100935.4h1VYxmR-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f3a344d2125fa37e59bae1b0874442c650a19607)
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220110/202201101405.RNRjMxAF-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # https://github.com/0day-ci/linux/commit/cc951de8ec99ed47dd19c0c276799a9ac0d679d4
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Phillip-Potter/staging-r8188eu-further-per-file-DBG_88E-cleanups/20220110-055642
         git checkout cc951de8ec99ed47dd19c0c276799a9ac0d679d4
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/staging/r8188eu/
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/r8188eu/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> drivers/staging/r8188eu/core/rtw_mlme_ext.c:7105:1: error: expected statement
-   }
-   ^
-   1 error generated.
+   drivers/staging/r8188eu/core/rtw_mlme_ext.c: In function 'mlmeext_joinbss_event_callback':
+>> drivers/staging/r8188eu/core/rtw_mlme_ext.c:7104:1: error: label at end of compound statement
+    7104 | exit_mlmeext_joinbss_event_callback:
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +7105 drivers/staging/r8188eu/core/rtw_mlme_ext.c
+vim +7104 drivers/staging/r8188eu/core/rtw_mlme_ext.c
 
 15865124feed88 Phillip Potter  2021-07-28  7028  
 15865124feed88 Phillip Potter  2021-07-28  7029  void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
@@ -161,8 +158,8 @@ vim +7105 drivers/staging/r8188eu/core/rtw_mlme_ext.c
 15865124feed88 Phillip Potter  2021-07-28  7101  	}
 15865124feed88 Phillip Potter  2021-07-28  7102  	rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_CONNECT, 0);
 15865124feed88 Phillip Potter  2021-07-28  7103  
-15865124feed88 Phillip Potter  2021-07-28  7104  exit_mlmeext_joinbss_event_callback:
-15865124feed88 Phillip Potter  2021-07-28 @7105  }
+15865124feed88 Phillip Potter  2021-07-28 @7104  exit_mlmeext_joinbss_event_callback:
+15865124feed88 Phillip Potter  2021-07-28  7105  }
 15865124feed88 Phillip Potter  2021-07-28  7106  
 
 ---
