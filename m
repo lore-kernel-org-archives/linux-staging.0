@@ -1,167 +1,124 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EF22C9C
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 06:16:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641795372; x=1673331372;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B06A3u6gFx4FxgHVcZ1+mhwy9kIYXfRppFBd1wrgXyU=;
-  b=e+B8WsklhqWLfxXCFmekCh4Bk7MX3O44Z1xDJAhr45fDna4KiCEmAq2h
-   U0PE7rp4dsJZv/uZS/5QCQjfJAJV36mXLkso4xi11BcvzXg8SocJjLn49
-   aDahzAd60uB0gnuWVmuzIWAiepjUYmZeww3SkbdUcn60L0e1WbNhTprBt
-   nQDEyk66WShe2DWlNncEPvKG1bCCn3owq4trR9OkF0qbTorTHCKTAhgIx
-   eVAicg8v6HA8Y7QKLDQ/rt9BMlP4TSYyGEIXU68r0XCInZGgmMQlZU+Js
-   2vNUEYL8AcsXEQt4QuhChpYHzDbpkveeX8tGVaV8BHDGktKwVaWIIS1Ld
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="306517526"
-X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; 
-   d="scan'208";a="306517526"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2022 22:16:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; 
-   d="scan'208";a="575719236"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Jan 2022 22:16:09 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-	(envelope-from <lkp@intel.com>)
-	id 1n6nyS-0002JI-AX; Mon, 10 Jan 2022 06:16:08 +0000
-Date: Mon, 10 Jan 2022 14:15:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
-Cc: kbuild-all@lists.01.org, Larry.Finger@lwfinger.net,
-	straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/7] staging: r8188eu: convert DBG_88E calls in
- core/rtw_mlme_ext.c
-Message-ID: <202201101405.RNRjMxAF-lkp@intel.com>
-References: <20220109215427.887-7-phil@philpotter.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E962C80
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 06:31:50 +0000 (UTC)
+Received: by mail-vk1-f177.google.com with SMTP id l68so7515949vkh.4
+        for <linux-staging@lists.linux.dev>; Sun, 09 Jan 2022 22:31:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hZzd9srfJg0sRysUCYuH0L2R2O31L83ni9EMVLSvk6o=;
+        b=CK57ykFCY0qvPnBtUyV62MrYaX3TXTcUB6bsUUIT4lIFv5DN2PGAZj4SupJUfjSq2s
+         DRANo9MnDw3s4V7ic+SUCvFFg/EUri6QUIUC6KLVR7WWAic+hV5PwtSm5ixGQl2kHv0B
+         q4ZpO/4DEruQAHdfnkg1pLi4EtnpPwnS2sQ03A8PEcu2FmX3lRvNctNxnJvdkYslp52I
+         WtL9Ac9e4PC46vNQbWOTkZTrrMq6sWu85fhigyewQvl46qe8rjD7wYBFuK5wjXICk2nq
+         Mw4DnTJT1anZ7aQMzgdl+yPGDKhb+op8PbrVCEmmvC0ZJWdAZA9QMZ36y4EDjm1JHM/m
+         UB9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hZzd9srfJg0sRysUCYuH0L2R2O31L83ni9EMVLSvk6o=;
+        b=EJ2gCsCgBlvSlbmc6EfCakBSg9XxtXPikDtii81ZLXzhl5vquRwZALiya/WWuctDWp
+         W+kw+2zB/+WMnLthlGS/6DL3JAWSYkGyMj35XhB86/DRvfKHQEE1T5xyj5o6Q2B/Z/NJ
+         HKsg/lRuUzmkcdFWEv+eHgDW8V4xFEH6HLBmLQKEzHfuW3GdQdOlKEWHNjXzzE2duGkE
+         Q3MX9dF0RzgeVcC+sgTyTInKMO/Uny2FVPmrhI4mncsbm05WDpmbMKZU77YN6T/Skw9u
+         HBbgnek8q5DZzIuIpOtk/GFgI26CMefslp/xjsDQ70v7JrjSDv5wSHzCpixfxa8eb4k4
+         VHjw==
+X-Gm-Message-State: AOAM531xtvXVrJODRoLkjt0O3fQSpGQnkxB+O1/Znt88pkYAJhW7XYP6
+	57whvQOmt8CyEhSIcZqDKKzhXe8VWFLa0rE9U6M=
+X-Google-Smtp-Source: ABdhPJwIxdDHtNSAl0aUtbd6IW+MthJ3qEfuhE9cVqBxFzEgncOmC0MEsw2sNo4twwWvQ18b1lmDcuS5brOiTlyTRvI=
+X-Received: by 2002:a05:6122:2009:: with SMTP id l9mr27528442vkd.4.1641796309392;
+ Sun, 09 Jan 2022 22:31:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220109215427.887-7-phil@philpotter.co.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20211107074200.18911-1-sergio.paracuellos@gmail.com>
+ <CAMhs-H81xnaFqgTJT3jiNy_BBCuHhrA-t0A+0wMnp5Y0kFjGUQ@mail.gmail.com> <20220107021030.E932AC36AE3@smtp.kernel.org>
+In-Reply-To: <20220107021030.E932AC36AE3@smtp.kernel.org>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Mon, 10 Jan 2022 07:31:38 +0100
+Message-ID: <CAMhs-H9SHk8aMm2RX0sA9zC3ktHQSmCtNbKe2ERg0Fg7-Tdk3Q@mail.gmail.com>
+Subject: Re: [PATCH v5 0/4] clk: ralink: make system controller a reset provider
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: COMMON CLK FRAMEWORK <linux-clk@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	John Crispin <john@phrozen.org>, linux-staging@lists.linux.dev, 
+	Greg KH <gregkh@linuxfoundation.org>, NeilBrown <neil@brown.name>, 
+	Philipp Zabel <p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Phillip,
+Hi Stephen,
 
-I love your patch! Yet something to improve:
+On Fri, Jan 7, 2022 at 3:10 AM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Sergio Paracuellos (2021-12-13 04:00:17)
+> > Hi Stephen,
+> >
+> > On Sun, Nov 7, 2021 at 8:42 AM Sergio Paracuellos
+> > <sergio.paracuellos@gmail.com> wrote:
+> > >
+> > > Hi all,
+> > >
+> > > This patch series add minimal change to provide mt7621 resets properly
+> > > defining them in the 'mediatek,mt7621-sysc' node which is the system
+> > > controller of the SoC and is already providing clocks to the rest of
+> > > the world.
+> > >
+> > > There is shared architecture code for all ralink platforms in 'reset.c'
+> > > file located in 'arch/mips/ralink' but the correct thing to do to align
+> > > hardware with software seems to define and add related reset code to the
+> > > already mainlined clock driver.
+> > >
+> > > After this changes, we can get rid of the useless reset controller node
+> > > in the device tree and use system controller node instead where the property
+> > > '#reset-cells' has been added. Binding documentation for this nodeq has
+> > > been updated with the new property accordly.
+> > >
+> > > This series also provide a bindings include header where all related
+> > > reset bits for the MT7621 SoC are defined.
+> > >
+> > > Also, please take a look to this review [0] to understand better motivation
+>
+> Is [0] a link?
 
-[auto build test ERROR on staging/staging-testing]
+Yes, sorry it was not included:
 
-url:    https://github.com/0day-ci/linux/commits/Phillip-Potter/staging-r8188eu-further-per-file-DBG_88E-cleanups/20220110-055642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git fa783154524a71ab74e293cd8251155e5971952b
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220110/202201101405.RNRjMxAF-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/cc951de8ec99ed47dd19c0c276799a9ac0d679d4
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Phillip-Potter/staging-r8188eu-further-per-file-DBG_88E-cleanups/20220110-055642
-        git checkout cc951de8ec99ed47dd19c0c276799a9ac0d679d4
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/r8188eu/
+[0]: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20210926145931.14603-3-sergio.paracuellos@gmail.com/
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+>
+> > > for this series.
+> > >
+> > > Regarding the way of merging this:
+> > >  - I'd like patches 1 and 4 which are related going through staging tree.
+> > >  - The other two (patches 2 and 3) can perfectly go through the clock tree.
+> > >
+> > > Thanks in advance for your feedback.
+> > >
+> > > Changes in v5:
+> > >  - Move platform driver init process into 'arch_initcall' to be sure the
+> > >    rest of the world can get the resets available when needed (since PCIe
+> > >    controller driver has been moved from staging into 'drivers/pci/controller'
+> > >    is probed earlier and reset was not available so it was returning
+> > >    -EPROBE_DEFER on firt try. Moving into 'arch_initcall' avoids the 'a bit
+> > >    anoying' PCI first failed log trace.
+> >
+> > Gentle ping on this series.
+> >
+>
+> It looks to largely be a reset controller patch series. Can you get
+> review from the reset maintainer?
+>
+> RESET CONTROLLER FRAMEWORK
+> M:      Philipp Zabel <p.zabel@pengutronix.de>
+> S:      Maintained
 
-All errors (new ones prefixed by >>):
+Ok, I'll rebase and resend the series including Philipp Zabel for
+reviewing this.
 
-   drivers/staging/r8188eu/core/rtw_mlme_ext.c: In function 'mlmeext_joinbss_event_callback':
->> drivers/staging/r8188eu/core/rtw_mlme_ext.c:7104:1: error: label at end of compound statement
-    7104 | exit_mlmeext_joinbss_event_callback:
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +7104 drivers/staging/r8188eu/core/rtw_mlme_ext.c
-
-15865124feed88 Phillip Potter  2021-07-28  7028  
-15865124feed88 Phillip Potter  2021-07-28  7029  void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
-15865124feed88 Phillip Potter  2021-07-28  7030  {
-15865124feed88 Phillip Potter  2021-07-28  7031  	struct sta_info		*psta, *psta_bmc;
-15865124feed88 Phillip Potter  2021-07-28  7032  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
-3b522a11b50476 Michael Straube 2021-08-09  7033  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
-3b522a11b50476 Michael Straube 2021-08-09  7034  	struct wlan_bssid_ex *cur_network = &pmlmeinfo->network;
-15865124feed88 Phillip Potter  2021-07-28  7035  	struct sta_priv		*pstapriv = &padapter->stapriv;
-15865124feed88 Phillip Potter  2021-07-28  7036  	u8 join_type;
-15865124feed88 Phillip Potter  2021-07-28  7037  	u16 media_status;
-15865124feed88 Phillip Potter  2021-07-28  7038  
-15865124feed88 Phillip Potter  2021-07-28  7039  	if (join_res < 0) {
-15865124feed88 Phillip Potter  2021-07-28  7040  		join_type = 1;
-461c4776856c15 Michael Straube 2021-10-07  7041  		SetHwReg8188EU(padapter, HW_VAR_MLME_JOIN, (u8 *)(&join_type));
-461c4776856c15 Michael Straube 2021-10-07  7042  		SetHwReg8188EU(padapter, HW_VAR_BSSID, null_addr);
-15865124feed88 Phillip Potter  2021-07-28  7043  
-15865124feed88 Phillip Potter  2021-07-28  7044  		/* restore to initial setting. */
-15865124feed88 Phillip Potter  2021-07-28  7045  		update_tx_basic_rate(padapter, padapter->registrypriv.wireless_mode);
-15865124feed88 Phillip Potter  2021-07-28  7046  
-15865124feed88 Phillip Potter  2021-07-28  7047  		goto exit_mlmeext_joinbss_event_callback;
-15865124feed88 Phillip Potter  2021-07-28  7048  	}
-15865124feed88 Phillip Potter  2021-07-28  7049  
-15865124feed88 Phillip Potter  2021-07-28  7050  	if ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) {
-15865124feed88 Phillip Potter  2021-07-28  7051  		/* for bc/mc */
-15865124feed88 Phillip Potter  2021-07-28  7052  		psta_bmc = rtw_get_bcmc_stainfo(padapter);
-15865124feed88 Phillip Potter  2021-07-28  7053  		if (psta_bmc) {
-15865124feed88 Phillip Potter  2021-07-28  7054  			pmlmeinfo->FW_sta_info[psta_bmc->mac_id].psta = psta_bmc;
-15865124feed88 Phillip Potter  2021-07-28  7055  			update_bmc_sta_support_rate(padapter, psta_bmc->mac_id);
-15865124feed88 Phillip Potter  2021-07-28  7056  			Update_RA_Entry(padapter, psta_bmc->mac_id);
-15865124feed88 Phillip Potter  2021-07-28  7057  		}
-15865124feed88 Phillip Potter  2021-07-28  7058  	}
-15865124feed88 Phillip Potter  2021-07-28  7059  
-15865124feed88 Phillip Potter  2021-07-28  7060  	/* turn on dynamic functions */
-15865124feed88 Phillip Potter  2021-07-28  7061  	Switch_DM_Func(padapter, DYNAMIC_ALL_FUNC_ENABLE, true);
-15865124feed88 Phillip Potter  2021-07-28  7062  
-15865124feed88 Phillip Potter  2021-07-28  7063  	/*  update IOT-releated issue */
-15865124feed88 Phillip Potter  2021-07-28  7064  	update_IOT_info(padapter);
-15865124feed88 Phillip Potter  2021-07-28  7065  
-461c4776856c15 Michael Straube 2021-10-07  7066  	SetHwReg8188EU(padapter, HW_VAR_BASIC_RATE, cur_network->SupportedRates);
-15865124feed88 Phillip Potter  2021-07-28  7067  
-15865124feed88 Phillip Potter  2021-07-28  7068  	/* BCN interval */
-461c4776856c15 Michael Straube 2021-10-07  7069  	SetHwReg8188EU(padapter, HW_VAR_BEACON_INTERVAL, (u8 *)(&pmlmeinfo->bcn_interval));
-15865124feed88 Phillip Potter  2021-07-28  7070  
-15865124feed88 Phillip Potter  2021-07-28  7071  	/* udpate capability */
-15865124feed88 Phillip Potter  2021-07-28  7072  	update_capinfo(padapter, pmlmeinfo->capability);
-15865124feed88 Phillip Potter  2021-07-28  7073  
-15865124feed88 Phillip Potter  2021-07-28  7074  	/* WMM, Update EDCA param */
-15865124feed88 Phillip Potter  2021-07-28  7075  	WMMOnAssocRsp(padapter);
-15865124feed88 Phillip Potter  2021-07-28  7076  
-15865124feed88 Phillip Potter  2021-07-28  7077  	/* HT */
-15865124feed88 Phillip Potter  2021-07-28  7078  	HTOnAssocRsp(padapter);
-15865124feed88 Phillip Potter  2021-07-28  7079  
-15865124feed88 Phillip Potter  2021-07-28  7080  	set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode);
-15865124feed88 Phillip Potter  2021-07-28  7081  
-15865124feed88 Phillip Potter  2021-07-28  7082  	psta = rtw_get_stainfo(pstapriv, cur_network->MacAddress);
-15865124feed88 Phillip Potter  2021-07-28  7083  	if (psta) { /* only for infra. mode */
-15865124feed88 Phillip Potter  2021-07-28  7084  		pmlmeinfo->FW_sta_info[psta->mac_id].psta = psta;
-15865124feed88 Phillip Potter  2021-07-28  7085  
-15865124feed88 Phillip Potter  2021-07-28  7086  		psta->wireless_mode = pmlmeext->cur_wireless_mode;
-15865124feed88 Phillip Potter  2021-07-28  7087  
-15865124feed88 Phillip Potter  2021-07-28  7088  		/* set per sta rate after updating HT cap. */
-15865124feed88 Phillip Potter  2021-07-28  7089  		set_sta_rate(padapter, psta);
-461c4776856c15 Michael Straube 2021-10-07  7090  		SetHwReg8188EU(padapter, HW_VAR_TX_RPT_MAX_MACID, (u8 *)&psta->mac_id);
-15865124feed88 Phillip Potter  2021-07-28  7091  		media_status = (psta->mac_id << 8) | 1; /*   MACID|OPMODE: 1 means connect */
-461c4776856c15 Michael Straube 2021-10-07  7092  		SetHwReg8188EU(padapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status);
-15865124feed88 Phillip Potter  2021-07-28  7093  	}
-15865124feed88 Phillip Potter  2021-07-28  7094  
-15865124feed88 Phillip Potter  2021-07-28  7095  	join_type = 2;
-461c4776856c15 Michael Straube 2021-10-07  7096  	SetHwReg8188EU(padapter, HW_VAR_MLME_JOIN, (u8 *)(&join_type));
-15865124feed88 Phillip Potter  2021-07-28  7097  
-15865124feed88 Phillip Potter  2021-07-28  7098  	if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE) {
-15865124feed88 Phillip Potter  2021-07-28  7099  		/*  correcting TSF */
-15865124feed88 Phillip Potter  2021-07-28  7100  		correct_TSF(padapter, pmlmeext);
-15865124feed88 Phillip Potter  2021-07-28  7101  	}
-15865124feed88 Phillip Potter  2021-07-28  7102  	rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_CONNECT, 0);
-15865124feed88 Phillip Potter  2021-07-28  7103  
-15865124feed88 Phillip Potter  2021-07-28 @7104  exit_mlmeext_joinbss_event_callback:
-15865124feed88 Phillip Potter  2021-07-28  7105  }
-15865124feed88 Phillip Potter  2021-07-28  7106  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Thanks,
+    Sergio Paracuellos
