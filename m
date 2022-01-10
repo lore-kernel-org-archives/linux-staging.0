@@ -1,41 +1,41 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC2329CA
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 08:39:14 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id x4so55581wru.7
-        for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 00:39:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F752CA3
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 08:39:15 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id e5so8182444wmq.1
+        for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 00:39:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9BZOz3rBRK9T1NJYwX4wR3Rx8LIgVrV05ZwydszvJ/w=;
-        b=SUj2/8gzHk7Re+1i01IPUqGCS3lyvGwRjRmxmuTKEf3DL3wDTs+OjGpE3Aqr+4f9gZ
-         Z+sRbTUBpRktgTHwE5Bx7IVWzkMYp+t9yweFs0AKn+wPs3lwtexMI+Fd0WYD+Z9AqfGF
-         e0lHVGbLqJ0NXLjGHTlbrFBVfuaEeSUIDkL6X4oi/R2h7IdE55GWDU+azfMZaKeyBkI9
-         7y58en4styGl1btMiA6pzFTpxjwDLdsdRjbEsF/zLesXKYO/4ePatTR0MHcnIWy6jmMq
-         XfzpT/ZDpC209Hy961OM8q+tWoOAvkU4G0H1rU1rqaQEIdnEQx8TvyxR9Shn2MImWViw
-         oZrA==
+        bh=7Y+fkGNLGqdfMAAiGU48wuA+SIBMA19TPv5MMqKzhcc=;
+        b=MhigOSGLaWchHK24cy23CmZKOnM8CIar36SUtK2JCZhxA8+VIjZikqsO37xv/HiqeN
+         Xt7+LZUymU6S8pjtqa+3fOJdrNA9aFx8FipBiqWSbNHx88XGRoyjpcFD/cB4FR0fL/lh
+         xAm8cBuMDNokwnBBciJFlLakGRO+liwUXwnCIZ3FvJNHvm+P8HnUYDBPGqSxBRCOVTHf
+         O+XNlHGdugLWchVGNcXnMzoLtfWP+7X+JQpzLceWKcKhbEPcWYVk7V22fLiz15gijh/M
+         G/5PC7lTtPhB8X5OXsY6zHG72eZsPVQwsS+oB+zpqwL9ZdehlVynAg6eLF7/wpsuZn4X
+         2ZeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9BZOz3rBRK9T1NJYwX4wR3Rx8LIgVrV05ZwydszvJ/w=;
-        b=MEiBSeaFMGVK6LYuCRQ7sXutYeQrrHeVJrhXVdidOMyHVPFoeoF4aQZ+n5JJto2DjJ
-         oQSn2ajwt3VprCPKgCuMASHHFzp/OCVGt1hllIBM57KzlqZABVVzJR6E8FKc/ehEEmgW
-         lnjWBjfItkYDYsXXvyWplRvxFS+ROfFeOnpytAeJQXoAKUumo65LJLTAGSqITVNZUZF1
-         /Ew0rF934cgTfLG0Y6VODP/z+K6ynySoqu7MLOtKYkMysrNU0PfCHteAL2EIEsVsEBUz
-         0FnDHvMWdsRsULb4/7vzNmb6DDPEhDBR7FMBg9pIlyD7rtMPFAa+Qa1sv673pF5ZbLwD
-         LSQA==
-X-Gm-Message-State: AOAM530cpDyNmGHnmBqDh3E2jh9HEHUK49nKD+ufFff+HgE90PvR0B5L
-	XQi9VeIhasin6+Uil3cF3vs=
-X-Google-Smtp-Source: ABdhPJwcJYgNMCVqDHqSF6f6uVq0pRv+GQUOmxr1/UfeXK6WNusqbp8tb4Bq6/kEIIOhN6x/k7c+Bw==
-X-Received: by 2002:a5d:670b:: with SMTP id o11mr8947962wru.493.1641803953094;
-        Mon, 10 Jan 2022 00:39:13 -0800 (PST)
+        bh=7Y+fkGNLGqdfMAAiGU48wuA+SIBMA19TPv5MMqKzhcc=;
+        b=rS2pXK+zHNqtB6Rdn0ZCTm6YZgyiPDrbaamojCTC+pP6/AyfZGHn9yETo/LlhqXInx
+         /+JU8XJwlHYvtrCyuVp0V5aH6CGqDlFIXALyyOgccZJ3MKsdMeRgL8gbLHJgV4Q3kWRE
+         3dOuaT/K/YtSiz4CX5zeIiX8fJDvkVKpj8rvHkuHJfSA0CeNblfJoIRsMCZvKzlYaDcV
+         oCFuOTuZ81Vi83lygcCNzxHvLvAf5lvwLTG3zehJqjETgqPWzkJfCHtvU/gtLijRqzzH
+         Qya3+LpDKPZL3+LbyxUd/sPNNiNA7zPbs/LNJ+2xz3UjOt4zWROXIFx42O0pcpDVP/Ax
+         LaoQ==
+X-Gm-Message-State: AOAM531NH8+XJVpuqDE5sffTaLnnvC6XyXR+Dn3ZzmtFPOEBxHNKYWxf
+	4COMrejQjqrKtUlxCZGSd+M=
+X-Google-Smtp-Source: ABdhPJycHdlLGlDD8T9SXQB3qKMTovwuGLnXIUg28UmVzzNF+rLWRW8LCju1eWkY9e6tNtzc/na3sg==
+X-Received: by 2002:a1c:43c5:: with SMTP id q188mr11393626wma.54.1641803954064;
+        Mon, 10 Jan 2022 00:39:14 -0800 (PST)
 Received: from localhost.localdomain (198.red-81-44-130.dynamicip.rima-tde.net. [81.44.130.198])
-        by smtp.gmail.com with ESMTPSA id m7sm508926wmi.13.2022.01.10.00.39.12
+        by smtp.gmail.com with ESMTPSA id m7sm508926wmi.13.2022.01.10.00.39.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jan 2022 00:39:12 -0800 (PST)
+        Mon, 10 Jan 2022 00:39:13 -0800 (PST)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: linux-clk@vger.kernel.org
 Cc: john@phrozen.org,
@@ -46,9 +46,9 @@ Cc: john@phrozen.org,
 	linux-kernel@vger.kernel.org,
 	sboyd@kernel.org,
 	Rob Herring <robh@kernel.org>
-Subject: [PATCH v6 1/4] dt-bindings: reset: add dt binding header for Mediatek MT7621 resets
-Date: Mon, 10 Jan 2022 09:39:07 +0100
-Message-Id: <20220110083910.1351020-2-sergio.paracuellos@gmail.com>
+Subject: [PATCH v6 2/4] dt-bindings: clock: mediatek,mt7621-sysc: add '#reset-cells' property
+Date: Mon, 10 Jan 2022 09:39:08 +0100
+Message-Id: <20220110083910.1351020-3-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220110083910.1351020-1-sergio.paracuellos@gmail.com>
 References: <20220110083910.1351020-1-sergio.paracuellos@gmail.com>
@@ -60,58 +60,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add dt binding header for resets lines in Mediatek MT7621 SoCs.
+Make system controller a reset provider for all the peripherals in the
+MT7621 SoC adding '#reset-cells' property.
 
 Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- include/dt-bindings/reset/mt7621-reset.h | 37 ++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
- create mode 100644 include/dt-bindings/reset/mt7621-reset.h
+ .../bindings/clock/mediatek,mt7621-sysc.yaml         | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/include/dt-bindings/reset/mt7621-reset.h b/include/dt-bindings/reset/mt7621-reset.h
-new file mode 100644
-index 000000000000..7572c6b41453
---- /dev/null
-+++ b/include/dt-bindings/reset/mt7621-reset.h
-@@ -0,0 +1,37 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-+/*
-+ * Copyright (c) 2021 Sergio Paracuellos
-+ * Author: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-+ */
+diff --git a/Documentation/devicetree/bindings/clock/mediatek,mt7621-sysc.yaml b/Documentation/devicetree/bindings/clock/mediatek,mt7621-sysc.yaml
+index 915f84efd763..0c0b0ae5e2ac 100644
+--- a/Documentation/devicetree/bindings/clock/mediatek,mt7621-sysc.yaml
++++ b/Documentation/devicetree/bindings/clock/mediatek,mt7621-sysc.yaml
+@@ -22,6 +22,11 @@ description: |
+ 
+   The clocks are provided inside a system controller node.
+ 
++  This node is also a reset provider for all the peripherals.
 +
-+#ifndef DT_BINDING_MT7621_RESET_H
-+#define DT_BINDING_MT7621_RESET_H
++  Reset related bits are defined in:
++  [2]: <include/dt-bindings/reset/mt7621-reset.h>.
 +
-+#define MT7621_RST_SYS		0
-+#define MT7621_RST_MCM		2
-+#define MT7621_RST_HSDMA	5
-+#define MT7621_RST_FE		6
-+#define MT7621_RST_SPDIFTX	7
-+#define MT7621_RST_TIMER	8
-+#define MT7621_RST_INT		9
-+#define MT7621_RST_MC		10
-+#define MT7621_RST_PCM		11
-+#define MT7621_RST_PIO		13
-+#define MT7621_RST_GDMA		14
-+#define MT7621_RST_NFI		15
-+#define MT7621_RST_I2C		16
-+#define MT7621_RST_I2S		17
-+#define MT7621_RST_SPI		18
-+#define MT7621_RST_UART1	19
-+#define MT7621_RST_UART2	20
-+#define MT7621_RST_UART3	21
-+#define MT7621_RST_ETH		23
-+#define MT7621_RST_PCIE0	24
-+#define MT7621_RST_PCIE1	25
-+#define MT7621_RST_PCIE2	26
-+#define MT7621_RST_AUX_STCK	28
-+#define MT7621_RST_CRYPTO	29
-+#define MT7621_RST_SDXC		30
-+#define MT7621_RST_PPE		31
+ properties:
+   compatible:
+     items:
+@@ -37,6 +42,12 @@ properties:
+       clocks.
+     const: 1
+ 
++  "#reset-cells":
++    description:
++      The first cell indicates the reset bit within the register, see
++      [2] for available resets.
++    const: 1
 +
-+#endif /* DT_BINDING_MT7621_RESET_H */
+   ralink,memctl:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description:
+@@ -61,6 +72,7 @@ examples:
+       compatible = "mediatek,mt7621-sysc", "syscon";
+       reg = <0x0 0x100>;
+       #clock-cells = <1>;
++      #reset-cells = <1>;
+       ralink,memctl = <&memc>;
+       clock-output-names = "xtal", "cpu", "bus",
+                            "50m", "125m", "150m",
 -- 
 2.25.1
 
