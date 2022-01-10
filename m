@@ -1,53 +1,55 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35522CA2
-	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 11:54:25 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1n6tFn-00022W-GG; Mon, 10 Jan 2022 12:54:23 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1n6tFm-000CGx-Ur; Mon, 10 Jan 2022 12:54:22 +0100
-Message-ID: <d62d838872d26201b04a1014a925738d29ff3e48.camel@pengutronix.de>
-Subject: Re: [PATCH v8 4/4] staging: mt7621-dts: align resets with binding
- documentation
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>, 
-	linux-clk@vger.kernel.org
-Cc: john@phrozen.org, linux-staging@lists.linux.dev,
- gregkh@linuxfoundation.org,  neil@brown.name, linux-kernel@vger.kernel.org,
- sboyd@kernel.org
-Date: Mon, 10 Jan 2022 12:54:22 +0100
-In-Reply-To: <20220110114930.1406665-5-sergio.paracuellos@gmail.com>
-References: <20220110114930.1406665-1-sergio.paracuellos@gmail.com>
-	 <20220110114930.1406665-5-sergio.paracuellos@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2172A2CA1
+	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 12:46:56 +0000 (UTC)
+Received: from pd956d63d.dip0.t-ipconnect.de ([217.86.214.61] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1n6u4T-0007Td-PB; Mon, 10 Jan 2022 13:46:45 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 0/9] staging: r8188eu: clean up odm phy functions
+Date: Mon, 10 Jan 2022 13:46:29 +0100
+Message-Id: <20220110124638.6909-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2022-01-10 at 12:49 +0100, Sergio Paracuellos wrote:
-> Binding documentation for compatible 'mediatek,mt7621-sysc' has been upda=
-ted
-> to be used as a reset provider. Align reset related bits and system contr=
-oller
-> node with binding documentation along the dtsi file.
->=20
-> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+This set cleans up the error handling for some of the odm phy functions
+and merges small functions. While at it, it also removes a couple of
+unused defines.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Martin Kaiser (9):
+  staging: r8188eu: fix phy_RF6052_Config_ParaFile error handling
+  staging: r8188eu: remove a constant variable
+  staging: r8188eu: remove unused function parameter
+  staging: r8188eu: remove constant function parameter
+  staging: r8188eu: replace the READ_AND_CONFIG
+  staging: r8188eu: relay errors from ODM_ReadAndConfig_...
+  staging: r8188eu: merge ODM_ConfigMACWithHeaderFile into
+    PHY_MACConfig8188E
+  staging: r8188eu: remove unused cck, ofdm and mcs rate defines
+  staging: r8188eu: merge ODM_ConfigBBWithHeaderFile with its callers
 
-regards
-Philipp
+ drivers/staging/r8188eu/hal/odm_HWConfig.c    | 34 +---------------
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 10 ++---
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 11 +-----
+ .../staging/r8188eu/include/odm_HWConfig.h    | 39 +------------------
+ 4 files changed, 9 insertions(+), 85 deletions(-)
+
+-- 
+2.30.2
+
