@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2172A2CA1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217592CA2
 	for <linux-staging@lists.linux.dev>; Mon, 10 Jan 2022 12:46:56 +0000 (UTC)
 Received: from pd956d63d.dip0.t-ipconnect.de ([217.86.214.61] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1n6u4T-0007Td-PB; Mon, 10 Jan 2022 13:46:45 +0100
+	id 1n6u4a-0007Td-Kc; Mon, 10 Jan 2022 13:46:52 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,10 +16,12 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 0/9] staging: r8188eu: clean up odm phy functions
-Date: Mon, 10 Jan 2022 13:46:29 +0100
-Message-Id: <20220110124638.6909-1-martin@kaiser.cx>
+Subject: [PATCH 6/9] staging: r8188eu: relay errors from ODM_ReadAndConfig_...
+Date: Mon, 10 Jan 2022 13:46:35 +0100
+Message-Id: <20220110124638.6909-7-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220110124638.6909-1-martin@kaiser.cx>
+References: <20220110124638.6909-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,28 +30,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This set cleans up the error handling for some of the odm phy functions
-and merges small functions. While at it, it also removes a couple of
-unused defines.
+Most of the ODM_ReadAndConfig_... functions return an error status.
+Update their callers to process these return values.
 
-Martin Kaiser (9):
-  staging: r8188eu: fix phy_RF6052_Config_ParaFile error handling
-  staging: r8188eu: remove a constant variable
-  staging: r8188eu: remove unused function parameter
-  staging: r8188eu: remove constant function parameter
-  staging: r8188eu: replace the READ_AND_CONFIG
-  staging: r8188eu: relay errors from ODM_ReadAndConfig_...
-  staging: r8188eu: merge ODM_ConfigMACWithHeaderFile into
-    PHY_MACConfig8188E
-  staging: r8188eu: remove unused cck, ofdm and mcs rate defines
-  staging: r8188eu: merge ODM_ConfigBBWithHeaderFile with its callers
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/hal/odm_HWConfig.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
- drivers/staging/r8188eu/hal/odm_HWConfig.c    | 34 +---------------
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 10 ++---
- drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 11 +-----
- .../staging/r8188eu/include/odm_HWConfig.h    | 39 +------------------
- 4 files changed, 9 insertions(+), 85 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
+index 2f0752418fe2..5ec9a04be26b 100644
+--- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
++++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
+@@ -360,22 +360,22 @@ void ODM_PhyStatusQuery(struct odm_dm_struct *dm_odm,
+ 
+ enum HAL_STATUS ODM_ConfigRFWithHeaderFile(struct odm_dm_struct *dm_odm)
+ {
+-	ODM_ReadAndConfig_RadioA_1T_8188E(dm_odm);
+-
+-	return HAL_STATUS_SUCCESS;
++	return ODM_ReadAndConfig_RadioA_1T_8188E(dm_odm);
+ }
+ 
+ enum HAL_STATUS ODM_ConfigBBWithHeaderFile(struct odm_dm_struct *dm_odm,
+ 					   enum odm_bb_config_type config_tp)
+ {
+-	if (config_tp == CONFIG_BB_PHY_REG)
+-		ODM_ReadAndConfig_PHY_REG_1T_8188E(dm_odm);
+-	else if (config_tp == CONFIG_BB_AGC_TAB)
+-		ODM_ReadAndConfig_AGC_TAB_1T_8188E(dm_odm);
+-	else if (config_tp == CONFIG_BB_PHY_REG_PG)
++	if (config_tp == CONFIG_BB_PHY_REG) {
++		return ODM_ReadAndConfig_PHY_REG_1T_8188E(dm_odm);
++	} else if (config_tp == CONFIG_BB_AGC_TAB) {
++		return ODM_ReadAndConfig_AGC_TAB_1T_8188E(dm_odm);
++	} else if (config_tp == CONFIG_BB_PHY_REG_PG) {
+ 		ODM_ReadAndConfig_PHY_REG_PG_8188E(dm_odm);
++		return HAL_STATUS_SUCCESS;
++	}
+ 
+-	return HAL_STATUS_SUCCESS;
++	return HAL_STATUS_FAILURE;
+ }
+ 
+ enum HAL_STATUS ODM_ConfigMACWithHeaderFile(struct odm_dm_struct *dm_odm)
 -- 
 2.30.2
 
