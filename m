@@ -1,151 +1,143 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8152C82
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 04:22:15 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id l8so2272707plt.6
-        for <linux-staging@lists.linux.dev>; Tue, 11 Jan 2022 20:22:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14082CA7
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 08:40:08 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id g5so3055168plo.12
+        for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 00:40:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=2R7ZVHCw02Rsd6KEYUhmsx7al3DqDAEUHEngmsp8FkQ=;
-        b=dnxIrVKdQ6h2JdYrWAjfTleVVECs28kpUbTiUcf0mNwpjSUzOyPKjUdmx0JI9i9lQR
-         O9jzMhAz05DwGdXbPQq4zhCOWo/1TN+DfDnoaB0ybjhjxiAsPcYGXi52q4whryQc//Sw
-         Zlr9gI20VM0EgdUtab4vePrTV6qNdjCI7jQRK1jnSvGjKwDVb/0vTjc3lY+ayCbmfFMo
-         RFGNwS63jDa/C9uAptISdrcbl0va30U/tY8/Xclz0G5sQBru1hhrzN2d58Zq4oWZPw7c
-         rhd8Iq1QcJBITPJ6LNW7Znm2Dyaq52mq6qdi6aPQtx4r8oKxRD0KqyV6EwMHSzInXZ3p
-         Eg5g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oGT+OmnHAaV8+CpqkOxHNu2JHcWJotBh+uAlzG+Es4s=;
+        b=KLJdbf+PfYk80rI4D2vUJy2bVIr9S7yYHpGppI9h/OnmTUECA1HNXVz27xhjtvZ/05
+         gno7Hjc+EbYpkj+o7HZubDLlyElGrW7RI1Kn5nBgPCaDdyHr5XPp2dvAwAysoEzwNDFx
+         DIaqJ8CdWcfsxNwzZDQqe0F0SroXifZSbaYtRlzNN/+xEDNKWvJuecGQyZYiEzlFaDjS
+         XXLsegvOiz5qVtzD5VvknHcFPEu+iHqWK8d5BxsX1ctzN8WolwJ7yYZhMZI3p1ua7iZ1
+         rjZnyDoqtCYitle6qHqOXTiXg+4oACfa9gtVa1XrYUGhTAvpAahDkpTdRRniwlykCgPc
+         flSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=2R7ZVHCw02Rsd6KEYUhmsx7al3DqDAEUHEngmsp8FkQ=;
-        b=LI4K0LVTE89M6jEqUV6dSj/RUY/QFvF1j/FPNwI3YJtucgnS32gacurirK1tENDuOu
-         0Zl77VQJakQhjPCavb1RxOCP6WByJ9A3QXhNLt5PdcIuVVU7ecr6EXfzAVlyRbITiH2r
-         hjCHY3drf+Awpwliy4S1gC/BujD6pc1+OMhtmA42slPjjggpDm1CUyhOcdtb1rTPv8VN
-         Ot4RQt4BtQhw23cPy3Ps5ieJclu2kHPSJNgiEOMb1N2+IMMKUi43PJx4FvBr+PpPejgH
-         MdvT0mm+7Dc6bmtAfYj9h2Cll4pJWpSxhpAWi3zT1jTwQ+ntZTj7G248sRMUBRb6A6d3
-         Fuqg==
-X-Gm-Message-State: AOAM533FZSrH3G6TZw86G3YztU+pQ4dbmgLoq1yzF1T5xLIDqkdP+4/5
-	aBlJJRy/R32D1SHfT0ILJls=
-X-Google-Smtp-Source: ABdhPJwH04RiAnN/vpjJy/C7SUy9+Vt8ZIlRoKWHoHEUBCj0SXUouBS2IRJIOCWZ4bA4kXpR9eRK9A==
-X-Received: by 2002:a17:903:10c:b0:14a:3d99:d883 with SMTP id y12-20020a170903010c00b0014a3d99d883mr7797461plc.75.1641961335190;
-        Tue, 11 Jan 2022 20:22:15 -0800 (PST)
-Received: from localhost.localdomain ([115.99.137.58])
-        by smtp.gmail.com with ESMTPSA id t207sm11237747pfc.205.2022.01.11.20.22.13
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oGT+OmnHAaV8+CpqkOxHNu2JHcWJotBh+uAlzG+Es4s=;
+        b=f/bGIQnqaaqyWpR6yhqP8/6WWquarimDW3bSCJKDhB921bNPUW+RVYjye6OV4oOppe
+         TIXNKNf27cHraIxV96QW1oY9niUkIpRKmrxmvGRO+Nnx93xNyZ9MguzyG273//O5OEt1
+         Z1Pd3omnfHF+jA121hxYyAdmNiiFeNS6eS2waZ6u5u/l+XIj1hbaYeCq3yB8l9IN0dMz
+         FBU6TdEEtoc7+gq9JVi7VnRPnBI7GtOkNha/oVroEkxLsxNEoFCk0sm7UIxh/AwcR/Hh
+         VIGmiToZBg3KGmEzQR4TnEMkR90k8PwN6cXr0otLF6fpTq79I+5ySFN6a1YRS5zZL0Ab
+         7Peg==
+X-Gm-Message-State: AOAM532u29r9WUAUyq8s3/C11bh8GUZQ7hrb7s4JuNVW3qq+hBSlk3f5
+	injx6qmlTeWp3mRFTAm0DQo=
+X-Google-Smtp-Source: ABdhPJxAorWeZUwWiVuAdF3aZFd2ZIFw3b6RqWM4ERhR5+nQdMUkVCc/BfcPa78w6mG6JFXXgK+PBQ==
+X-Received: by 2002:a17:90b:3ec9:: with SMTP id rm9mr4605684pjb.142.1641976808160;
+        Wed, 12 Jan 2022 00:40:08 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id u126sm1854361pgc.22.2022.01.12.00.40.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 20:22:14 -0800 (PST)
-From: Jagath Jog J <jagathjog1996@gmail.com>
-To: gregkh@linuxfoundation.org,
-	fabioaiuto83@gmail.com,
-	marcocesati@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	jagathjog1996@gmail.com
-Subject: [PATCH  4/4] Staging: rtl8723bs: Inserting blank line after declaration
-Date: Wed, 12 Jan 2022 09:52:01 +0530
-Message-Id: <20220112042201.5056-5-jagathjog1996@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220112042201.5056-1-jagathjog1996@gmail.com>
-References: <20220112042201.5056-1-jagathjog1996@gmail.com>
+        Wed, 12 Jan 2022 00:40:07 -0800 (PST)
+Date: Wed, 12 Jan 2022 21:40:02 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: pi433: enforce tx_cfg to be set before any
+ message can be sent
+Message-ID: <20220112084002.GA27596@mail.google.com>
+References: <20220108222652.GA11883@mail.google.com>
+ <20220110091723.GB1951@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220110091723.GB1951@kadam>
 
-Fix following checkpatch.pl warning by inserting blank line
-and removing unwanted spaces
-WARNING: Missing a blank line after declarations
+On Mon, Jan 10, 2022 at 12:17:23PM +0300, Dan Carpenter wrote:
+> Seems reasonable.
+> 
+> On Sun, Jan 09, 2022 at 11:26:52AM +1300, Paulo Miguel Almeida wrote:
+> > meta-comments:
+> > - I'm not entirely sure if -EPERM is the best error code to return here,
+> >   I'm taking suggestions
+> 
+> Better to just return -EINVAL.
 
-Signed-off-by: Jagath Jog J <jagathjog1996@gmail.com>
----
- drivers/staging/rtl8723bs/hal/hal_intf.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+> > ---
+> >  drivers/staging/pi433/pi433_if.c | 16 +++++++++++++++-
+> >  1 file changed, 15 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+> > index 051c9052aeeb..3e9913f4bc7d 100644
+> > --- a/drivers/staging/pi433/pi433_if.c
+> > +++ b/drivers/staging/pi433/pi433_if.c
+> > @@ -108,6 +108,9 @@ struct pi433_device {
+> >  struct pi433_instance {
+> >  	struct pi433_device	*device;
+> >  	struct pi433_tx_cfg	tx_cfg;
+> > +
+> > +	/* control flags */
+> > +	bool			tx_cfg_initialized;
+> >  };
+> >  
+> >  /*-------------------------------------------------------------------------*/
+> > @@ -823,6 +826,16 @@ pi433_write(struct file *filp, const char __user *buf,
+> >  	if (count > MAX_MSG_SIZE)
+> >  		return -EMSGSIZE;
+> >  
+> > +	/*
+> > +	 * check if tx_cfg has been initialized otherwise we won't be able to
+> > +	 * config the RF trasmitter correctly due to invalid settings
+> > +	 */
+> > +	if (!instance->tx_cfg_initialized) {
+> > +		dev_dbg(device->dev,
+> > +			"write: failed due to uninitialized tx_cfg");
+> 
+> Use dev_notice_once() or similar.  Maybe "unconfigured" instead of
+> uninitialized?
+> 
+> 	dev_notice_once(device->dev,
+> 			"write: failed due to unconfigured tx_cfg (see PI433_IOC_WR_TX_CFG)");
+> 
+> 
+> > +		return -EPERM;
+> > +	}
+> > +
+> >  	/*
+> >  	 * write the following sequence into fifo:
+> >  	 * - tx_cfg
+> > @@ -897,6 +910,7 @@ pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+> >  			return -EFAULT;
+> >  		mutex_lock(&device->tx_fifo_lock);
+> >  		memcpy(&instance->tx_cfg, &tx_cfg, sizeof(struct pi433_tx_cfg));
+> > +		instance->tx_cfg_initialized = true;
+> >  		mutex_unlock(&device->tx_fifo_lock);
+> >  		break;
+> >  	case PI433_IOC_RD_RX_CFG:
+> > @@ -950,7 +964,7 @@ static int pi433_open(struct inode *inode, struct file *filp)
+> >  	/* setup instance data*/
+> >  	instance->device = device;
+> >  	instance->tx_cfg.bit_rate = 4711;
+> 
+> This is sort of pointless because it can't work until that gets over
+> written.
+> 
+> 
+> > -	// TODO: fill instance->tx_cfg;
+> > +	instance->tx_cfg_initialized = false;
+> 
+> kzalloc() will already set this to false.
+> 
+> regards,
+> dan carpenter
+> 
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 4868a69cdb8f..02c720d49b53 100644
---- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -181,13 +181,14 @@ void rtw_hal_disable_interrupt(struct adapter *padapter)
- u8 rtw_hal_check_ips_status(struct adapter *padapter)
- {
- 	u8 val = false;
-+
- 	if (padapter->HalFunc.check_ips_status)
- 		val = padapter->HalFunc.check_ips_status(padapter);
- 
- 	return val;
- }
- 
--s32	rtw_hal_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitframe)
-+s32 rtw_hal_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitframe)
- {
- 	if (padapter->HalFunc.hal_xmitframe_enqueue)
- 		return padapter->HalFunc.hal_xmitframe_enqueue(padapter, pxmitframe);
-@@ -195,7 +196,7 @@ s32	rtw_hal_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmit
- 	return false;
- }
- 
--s32	rtw_hal_xmit(struct adapter *padapter, struct xmit_frame *pxmitframe)
-+s32 rtw_hal_xmit(struct adapter *padapter, struct xmit_frame *pxmitframe)
- {
- 	if (padapter->HalFunc.hal_xmit)
- 		return padapter->HalFunc.hal_xmit(padapter, pxmitframe);
-@@ -206,9 +207,10 @@ s32	rtw_hal_xmit(struct adapter *padapter, struct xmit_frame *pxmitframe)
- /*
-  * [IMPORTANT] This function would be run in interrupt context.
-  */
--s32	rtw_hal_mgnt_xmit(struct adapter *padapter, struct xmit_frame *pmgntframe)
-+s32 rtw_hal_mgnt_xmit(struct adapter *padapter, struct xmit_frame *pmgntframe)
- {
- 	s32 ret = _FAIL;
-+
- 	update_mgntframe_attrib_addr(padapter, pmgntframe);
- 	/* pframe = (u8 *)(pmgntframe->buf_addr) + TXDESC_OFFSET; */
- 	/* pwlanhdr = (struct rtw_ieee80211_hdr *)pframe; */
-@@ -230,7 +232,7 @@ s32	rtw_hal_mgnt_xmit(struct adapter *padapter, struct xmit_frame *pmgntframe)
- 	return ret;
- }
- 
--s32	rtw_hal_init_xmit_priv(struct adapter *padapter)
-+s32 rtw_hal_init_xmit_priv(struct adapter *padapter)
- {
- 	if (padapter->HalFunc.init_xmit_priv)
- 		return padapter->HalFunc.init_xmit_priv(padapter);
-@@ -243,7 +245,7 @@ void rtw_hal_free_xmit_priv(struct adapter *padapter)
- 		padapter->HalFunc.free_xmit_priv(padapter);
- }
- 
--s32	rtw_hal_init_recv_priv(struct adapter *padapter)
-+s32 rtw_hal_init_recv_priv(struct adapter *padapter)
- {
- 	if (padapter->HalFunc.init_recv_priv)
- 		return padapter->HalFunc.init_recv_priv(padapter);
-@@ -299,6 +301,7 @@ void rtw_hal_stop_thread(struct adapter *padapter)
- u32 rtw_hal_read_bbreg(struct adapter *padapter, u32 RegAddr, u32 BitMask)
- {
- 	u32 data = 0;
-+
- 	if (padapter->HalFunc.read_bbreg)
- 		 data = padapter->HalFunc.read_bbreg(padapter, RegAddr, BitMask);
- 	return data;
-@@ -312,6 +315,7 @@ void rtw_hal_write_bbreg(struct adapter *padapter, u32 RegAddr, u32 BitMask, u32
- u32 rtw_hal_read_rfreg(struct adapter *padapter, u32 eRFPath, u32 RegAddr, u32 BitMask)
- {
- 	u32 data = 0;
-+
- 	if (padapter->HalFunc.read_rfreg)
- 		data = padapter->HalFunc.read_rfreg(padapter, eRFPath, RegAddr, BitMask);
- 	return data;
-@@ -385,6 +389,7 @@ bool rtw_hal_c2h_valid(struct adapter *adapter, u8 *buf)
- s32 rtw_hal_c2h_handler(struct adapter *adapter, u8 *c2h_evt)
- {
- 	s32 ret = _FAIL;
-+
- 	if (adapter->HalFunc.c2h_handler)
- 		ret = adapter->HalFunc.c2h_handler(adapter, c2h_evt);
- 	return ret;
--- 
-2.17.1
+I agree with you on all points mentioned above. I will send another
+version of this patch shortly.
 
+Thanks for the patch review.
+
+Paulo A.
