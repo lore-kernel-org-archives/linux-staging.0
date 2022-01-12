@@ -1,40 +1,40 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9A62C82
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 04:22:09 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id t18so2240263plg.9
-        for <linux-staging@lists.linux.dev>; Tue, 11 Jan 2022 20:22:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484A02C82
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 04:22:11 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id c14-20020a17090a674e00b001b31e16749cso9385457pjm.4
+        for <linux-staging@lists.linux.dev>; Tue, 11 Jan 2022 20:22:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=kboHIb2qimmeziUoT1eD5XtRn5oDOkA2cacDUt27T1s=;
-        b=F+xr3MeBBBwQ6Bn32wVfIBpyKp3OeuNBgl81G53UM3nhoPGi+bh45DIUWSnB+tJWZa
-         kj5mksiXv41PBrSIvoSpHSgdP27M5/7RsUVCdBKGCt7DitiLtlcsO6ebNCPSxrAusHsM
-         86eYIY8Eu3YfbfpfTH7yWPD2bE+5viurSLAIE7A+yLKjH47U7F7sWo47ULefQEvgtJ9K
-         lGbf2VDkdxRolr6itpieS7eX5vv7OoBOyHP71TPmh46StPVnUaIeTDoGl41NrWhbkP1M
-         50P5Tqa+sxsknLlifbnLnV34FtLqOaYfRBNH8zNWyD6AYoTwYbuuPQVTX/iK+UkmAqot
-         79UA==
+        bh=o7osdo2BrmjDyjcS9PkvYkntr2CZq4Fce8zzeRAMN9w=;
+        b=MJRkHySPt6R9biKhtWIETa/mGGma9zDhgdKwaT3b2KtzBOoHr89RLeRwj914ky+cLZ
+         gPJ2xB5zpFBs65WuPawhtY2f4wweQRDrfu7YiarMdj0n9gk8EhMc5gukRpdomHgEFmfs
+         T+4j4KsnUXWKIeAQukVuPH+gM+Y3s10tFmz5QS/1aejjJsB1bpAhf+CiGtwY5COF3ZoB
+         4wwJ/WDtSnyzgRDxKzhtCzwcVx20BHmjryPeNhjOakrEIutXqM7t9cOrMzGJ0VAx3+E4
+         ZF8K/zJsBy1/7Uq0JU2sZZ6MswnmQJO3l/yBfOe/HUmW5gvnmscB71vnoT4DaEq994/q
+         is5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=kboHIb2qimmeziUoT1eD5XtRn5oDOkA2cacDUt27T1s=;
-        b=pdNbBrv99Vlpei0uK1yI0WY+IsOetRufnH6gPyGQQ5vWGpAhbDdY1Zes5WPgo6Lwzc
-         POr37KGf0HajKrrAKVhLj42HYDbp1yP/xzCgFaGuRs/naoksAd/aRLBHaVzuuWavIQrF
-         0wuH4Wq+hRlE3JL945aM6ca9gXft8dbCYpK7WssYGyoN80OuwEni6jUn3z8FHcvlFQmK
-         3AKdbUse+UBTz7fZF2hJPm5EAFkkF5N7ciyE5ic15HPCBTXpa1PGviQrktLF28XsgM3e
-         6QFyN7ck1ytbjYwmIXbSLuVeOR6uxcaI9Qe4wTBNNnmWzmDJA1+In7fdsj9adIt63zrc
-         PlQQ==
-X-Gm-Message-State: AOAM530YVWzmvL6E3EaUcNSEhrBg+0RxREYOAaeJ1BP4t0tNErIeDAxT
-	EQYGbYg5+j5V0FCUefT/zHLGJmfOOemr+Q==
-X-Google-Smtp-Source: ABdhPJzVGvNhr1ihwiJVs3pL1YYkNtBu1Z5wvKSit5bZKeiMwVRvn8UYqCjK9P9ApU23ZF8F1B2NLA==
-X-Received: by 2002:a17:90a:8b81:: with SMTP id z1mr6817104pjn.83.1641961328550;
-        Tue, 11 Jan 2022 20:22:08 -0800 (PST)
+        bh=o7osdo2BrmjDyjcS9PkvYkntr2CZq4Fce8zzeRAMN9w=;
+        b=XIlOtFOUjifwTs1k1q3JnFta+ovK2MR3O/lM8rmyQI60gL/FtRZyCUMIegb+nwXaCK
+         9l6NyqpoKTsOlM0Z70apO9KKZnhsUy5Lv/9Q83kPKCnn2Mwzcjc5fnp+sWFW9LuyFS6j
+         TCPfB/J//WgZS5WxbAOYpmTfo9ur2LYs0jZvde7ACYIHBO9i3d6UsMxGoSwYpJwav58o
+         Vzz+UVFSm++MxDuOLGsjqrNXTAeQmKchLY4jiYPeFmyUmrgNQECWuCRtAkRbDFmhJZUw
+         a9rcHnZ5GPM4Hn2cDYkudwIEbsjYzfF5ik4ttH3Ny5VGDT943dG4zwtYi3HJfutpvu3l
+         uGLA==
+X-Gm-Message-State: AOAM532NVPbuk55XsbaMxgiHPJwJscqQKxIkmxfT/W2NHZUh6v7mULjx
+	tp6yJmOuKl3ErFARZqBvlWc=
+X-Google-Smtp-Source: ABdhPJxwgjM4wHLTKFa51oNax5zFELQWraXlDGN1SnqWlEvcRwhlxE0SSqLjxv5NWGsVtrk5UP4haQ==
+X-Received: by 2002:a63:5007:: with SMTP id e7mr6729952pgb.295.1641961330772;
+        Tue, 11 Jan 2022 20:22:10 -0800 (PST)
 Received: from localhost.localdomain ([115.99.137.58])
-        by smtp.gmail.com with ESMTPSA id t207sm11237747pfc.205.2022.01.11.20.22.06
+        by smtp.gmail.com with ESMTPSA id t207sm11237747pfc.205.2022.01.11.20.22.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 20:22:08 -0800 (PST)
+        Tue, 11 Jan 2022 20:22:10 -0800 (PST)
 From: Jagath Jog J <jagathjog1996@gmail.com>
 To: gregkh@linuxfoundation.org,
 	fabioaiuto83@gmail.com,
@@ -42,9 +42,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	jagathjog1996@gmail.com
-Subject: [PATCH  1/4] Staging: rtl8723bs: Placing opening { braces in previous line
-Date: Wed, 12 Jan 2022 09:51:58 +0530
-Message-Id: <20220112042201.5056-2-jagathjog1996@gmail.com>
+Subject: [PATCH  2/4] Staging: rtl8723bs: Interchanging comparison expression operands
+Date: Wed, 12 Jan 2022 09:51:59 +0530
+Message-Id: <20220112042201.5056-3-jagathjog1996@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220112042201.5056-1-jagathjog1996@gmail.com>
 References: <20220112042201.5056-1-jagathjog1996@gmail.com>
@@ -54,122 +54,28 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Fix following checkpatch.pl error by placing opening {
-braces in previous line
-ERROR: that open brace { should be on the previous line
+Fix following checkpatch.pl warning by placing constant on rignt side of
+comparison
+WARNING: Comparisons should place the constant on the right side of the test
 
 Signed-off-by: Jagath Jog J <jagathjog1996@gmail.com>
 ---
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 40 ++++++-------------
- 1 file changed, 13 insertions(+), 27 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_security.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 5157b5b12597..81b548ad4e30 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -113,13 +113,10 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
- 	struct ieee80211_supported_band *spt_band = NULL;
- 	int n_channels, n_bitrates;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index ac731415f733..fcecee824797 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -1554,7 +1554,7 @@ void rtw_sec_restore_wep_key(struct adapter *adapter)
+ 	struct security_priv *securitypriv = &(adapter->securitypriv);
+ 	signed int keyid;
  
--	if (band == NL80211_BAND_2GHZ)
--	{
-+	if (band == NL80211_BAND_2GHZ) {
- 		n_channels = RTW_2G_CHANNELS_NUM;
- 		n_bitrates = RTW_G_RATES_NUM;
--	}
--	else
--	{
-+	} else {
- 		goto exit;
- 	}
- 
-@@ -135,8 +132,7 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
- 	spt_band->n_channels = n_channels;
- 	spt_band->n_bitrates = n_bitrates;
- 
--	if (band == NL80211_BAND_2GHZ)
--	{
-+	if (band == NL80211_BAND_2GHZ) {
- 		rtw_2g_channels_init(spt_band->channels);
- 		rtw_2g_rates_init(spt_band->bitrates);
- 	}
-@@ -235,8 +231,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 	{
- 		u16 wapi_len = 0;
- 
--		if (rtw_get_wapi_ie(pnetwork->network.ies, pnetwork->network.ie_length, NULL, &wapi_len) > 0)
--		{
-+		if (rtw_get_wapi_ie(pnetwork->network.ies, pnetwork->network.ie_length, NULL, &wapi_len) > 0) {
- 			if (wapi_len > 0)
- 				goto exit;
- 		}
-@@ -244,8 +239,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 
- 	/* To reduce PBC Overlap rate */
- 	/* spin_lock_bh(&pwdev_priv->scan_req_lock); */
--	if (adapter_wdev_data(padapter)->scan_request)
--	{
-+	if (adapter_wdev_data(padapter)->scan_request) {
- 		u8 *psr = NULL, sr = 0;
- 		struct ndis_802_11_ssid *pssid = &pnetwork->network.ssid;
- 		struct cfg80211_scan_request *request = adapter_wdev_data(padapter)->scan_request;
-@@ -258,14 +252,12 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 		if (wpsie && wpsielen > 0)
- 			psr = rtw_get_wps_attr_content(wpsie,  wpsielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
- 
--		if (sr != 0)
--		{
--			if (request->n_ssids == 1 && request->n_channels == 1) /*  it means under processing WPS */
--			{
-+		if (sr != 0) {
-+			/*  it means under processing WPS */
-+			if (request->n_ssids == 1 && request->n_channels == 1) {
- 				if (ssids[0].ssid_len != 0 &&
- 				    (pssid->ssid_length != ssids[0].ssid_len ||
--				     memcmp(pssid->ssid, ssids[0].ssid, ssids[0].ssid_len)))
--				{
-+				     memcmp(pssid->ssid, ssids[0].ssid, ssids[0].ssid_len))) {
- 					if (psr)
- 						*psr = 0; /* clear sr */
- 				}
-@@ -374,8 +366,7 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
- 	int freq = (int)cur_network->network.configuration.ds_config;
- 	struct ieee80211_channel *chan;
- 
--	if (pwdev->iftype != NL80211_IFTYPE_ADHOC)
--	{
-+	if (pwdev->iftype != NL80211_IFTYPE_ADHOC) {
- 		return;
- 	}
- 
-@@ -383,14 +374,11 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
- 		struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
- 		struct wlan_network *scanned = pmlmepriv->cur_network_scanned;
- 
--		if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true)
--		{
-+		if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) {
- 
- 			memcpy(&cur_network->network, pnetwork, sizeof(struct wlan_bssid_ex));
- 			rtw_cfg80211_inform_bss(padapter, cur_network);
--		}
--		else
--		{
-+		} else {
- 			if (!scanned) {
- 				rtw_warn_on(1);
- 				return;
-@@ -473,9 +461,7 @@ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
- 		roam_info.resp_ie_len =
- 			pmlmepriv->assoc_rsp_len-sizeof(struct ieee80211_hdr_3addr)-6;
- 		cfg80211_roamed(padapter->pnetdev, &roam_info, GFP_ATOMIC);
--	}
--	else
--	{
-+	} else {
- 		cfg80211_connect_result(padapter->pnetdev, cur_network->network.mac_address
- 			, pmlmepriv->assoc_req+sizeof(struct ieee80211_hdr_3addr)+2
- 			, pmlmepriv->assoc_req_len-sizeof(struct ieee80211_hdr_3addr)-2
+-	if ((_WEP40_ == securitypriv->dot11PrivacyAlgrthm) || (_WEP104_ == securitypriv->dot11PrivacyAlgrthm)) {
++	if ((securitypriv->dot11PrivacyAlgrthm == _WEP40_) || (securitypriv->dot11PrivacyAlgrthm == _WEP104_)) {
+ 		for (keyid = 0; keyid < 4; keyid++) {
+ 			if (securitypriv->key_mask & BIT(keyid)) {
+ 				if (keyid == securitypriv->dot11PrivacyKeyIndex)
 -- 
 2.17.1
 
