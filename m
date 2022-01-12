@@ -1,143 +1,108 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14082CA7
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 08:40:08 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id g5so3055168plo.12
-        for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 00:40:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5C0173
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 08:56:53 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id o15so5578751lfo.11
+        for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 00:56:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=oGT+OmnHAaV8+CpqkOxHNu2JHcWJotBh+uAlzG+Es4s=;
-        b=KLJdbf+PfYk80rI4D2vUJy2bVIr9S7yYHpGppI9h/OnmTUECA1HNXVz27xhjtvZ/05
-         gno7Hjc+EbYpkj+o7HZubDLlyElGrW7RI1Kn5nBgPCaDdyHr5XPp2dvAwAysoEzwNDFx
-         DIaqJ8CdWcfsxNwzZDQqe0F0SroXifZSbaYtRlzNN/+xEDNKWvJuecGQyZYiEzlFaDjS
-         XXLsegvOiz5qVtzD5VvknHcFPEu+iHqWK8d5BxsX1ctzN8WolwJ7yYZhMZI3p1ua7iZ1
-         rjZnyDoqtCYitle6qHqOXTiXg+4oACfa9gtVa1XrYUGhTAvpAahDkpTdRRniwlykCgPc
-         flSA==
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=IDxp9FEehAgEBeTvpHIK9wQEhQiO4fcWr7Sjuf0LJAY=;
+        b=vuGmTB2J1fH0iBujlaSOiI3IPsdBAdSsSCZzotNymWfhsBtnWHFw05PrQYfIZ/YqJT
+         gFQmQ7axOsaovrtuP7GT7uT2isBOQgR41KzhYHX3FfFyhRHZvxAAw0MTgoXMzfwZk60x
+         Jlchm2EEQtZusZFteVLmQGKhMxGX3F7BsdIP1r2w6qWCFPEGS4BOloPATcLTPMc5rQXj
+         gyEErB2ODq/pnrIUiOEsEoOlDRwuhVrZtRZp5CCMQZvrUt+D/RLZNFlGemI+yuYdl9I3
+         UFetZEoz8J7F4FATydKaD6A5q5nkM62cT+1nh5e4IRCbMSS/7tQ21CIZ5UmCI4hAMJLX
+         1Z3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=oGT+OmnHAaV8+CpqkOxHNu2JHcWJotBh+uAlzG+Es4s=;
-        b=f/bGIQnqaaqyWpR6yhqP8/6WWquarimDW3bSCJKDhB921bNPUW+RVYjye6OV4oOppe
-         TIXNKNf27cHraIxV96QW1oY9niUkIpRKmrxmvGRO+Nnx93xNyZ9MguzyG273//O5OEt1
-         Z1Pd3omnfHF+jA121hxYyAdmNiiFeNS6eS2waZ6u5u/l+XIj1hbaYeCq3yB8l9IN0dMz
-         FBU6TdEEtoc7+gq9JVi7VnRPnBI7GtOkNha/oVroEkxLsxNEoFCk0sm7UIxh/AwcR/Hh
-         VIGmiToZBg3KGmEzQR4TnEMkR90k8PwN6cXr0otLF6fpTq79I+5ySFN6a1YRS5zZL0Ab
-         7Peg==
-X-Gm-Message-State: AOAM532u29r9WUAUyq8s3/C11bh8GUZQ7hrb7s4JuNVW3qq+hBSlk3f5
-	injx6qmlTeWp3mRFTAm0DQo=
-X-Google-Smtp-Source: ABdhPJxAorWeZUwWiVuAdF3aZFd2ZIFw3b6RqWM4ERhR5+nQdMUkVCc/BfcPa78w6mG6JFXXgK+PBQ==
-X-Received: by 2002:a17:90b:3ec9:: with SMTP id rm9mr4605684pjb.142.1641976808160;
-        Wed, 12 Jan 2022 00:40:08 -0800 (PST)
-Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id u126sm1854361pgc.22.2022.01.12.00.40.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jan 2022 00:40:07 -0800 (PST)
-Date: Wed, 12 Jan 2022 21:40:02 +1300
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: enforce tx_cfg to be set before any
- message can be sent
-Message-ID: <20220112084002.GA27596@mail.google.com>
-References: <20220108222652.GA11883@mail.google.com>
- <20220110091723.GB1951@kadam>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=IDxp9FEehAgEBeTvpHIK9wQEhQiO4fcWr7Sjuf0LJAY=;
+        b=Qa/+d9K3e1Fx5zuSSCpu1ORhDpQo3mHPCjMwNuFLTZj5Ag+QI00YKcpEqfoQ61hwTY
+         Smd83jvh2zsKuHG3xQfvp9Cl5l4gbb/GubsHsxVhXoqECw4o+mYxRRXjA2zBqLaenm1p
+         h3JUiUDN2zl3mr8jNhUYpll1dX+W/0sQK3gPzKRaEUuEyD84Lag94HOX9cUX2lXBS9Y+
+         HlVeK3Q0g9YwOZlufAKa0s57rlV2SHIVkau1EcfcyUzx5k4ncREaz+32TdDzZeOKA5xU
+         bv5o0NEDGurS4inNigCfqC6wrq+inZW5ky3Axvj9IDWRV4Ahg2+ThsEfWw46uCadnT83
+         Mnrg==
+X-Gm-Message-State: AOAM530YzgT/OJiwy6nI7SUmmtoUNftO1E6UsdHYyP+9jn0fqaTEakzZ
+	x12ZnXZEAzOdCYmq0KfXfNJlsw==
+X-Google-Smtp-Source: ABdhPJwlZ3tdMoNqbxzIWmOER1wBJcpslBtRJoH2RKcV8qK3clqLQmuNhQ9NYHuCOS4FCZRSiALWMA==
+X-Received: by 2002:a19:750b:: with SMTP id y11mr6135004lfe.265.1641977811417;
+        Wed, 12 Jan 2022 00:56:51 -0800 (PST)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id q14sm1581984lfu.74.2022.01.12.00.56.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jan 2022 00:56:51 -0800 (PST)
+Message-ID: <fccd00c9-ec44-9586-0df2-6e46568665c1@cogentembedded.com>
+Date: Wed, 12 Jan 2022 11:56:50 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220110091723.GB1951@kadam>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH 3/3 v2] arm64: dts: renesas: add MOST device
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Christian Gromm <christian.gromm@microchip.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-staging@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211226082530.2245198-4-nikita.yoush@cogentembedded.com>
+ <20211226153349.2296024-1-nikita.yoush@cogentembedded.com>
+ <CAMuHMdUJfq+nFFMoiPiTt1=Ny9zOm-O1EAmq3n56n4RJ6H8tdA@mail.gmail.com>
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+In-Reply-To: <CAMuHMdUJfq+nFFMoiPiTt1=Ny9zOm-O1EAmq3n56n4RJ6H8tdA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 10, 2022 at 12:17:23PM +0300, Dan Carpenter wrote:
-> Seems reasonable.
+>> +                       reg = <0 0xec520000 0 0x800>;
+>> +                       interrupts = <GIC_SPI 384 IRQ_TYPE_LEVEL_HIGH>,
+>> +                               <GIC_SPI 385 IRQ_TYPE_LEVEL_HIGH>,
+>> +                               <GIC_SPI 386 IRQ_TYPE_LEVEL_HIGH>,
+>> +                               <GIC_SPI 387 IRQ_TYPE_LEVEL_HIGH>,
+>> +                               <GIC_SPI 388 IRQ_TYPE_LEVEL_HIGH>;
 > 
-> On Sun, Jan 09, 2022 at 11:26:52AM +1300, Paulo Miguel Almeida wrote:
-> > meta-comments:
-> > - I'm not entirely sure if -EPERM is the best error code to return here,
-> >   I'm taking suggestions
-> 
-> Better to just return -EINVAL.
+> What is the purpose of the various interrupts?
+> Perhaps you need interrupt-names?
+> The driver seems to use only the first two, which is strange, as
+> the second and third interrupt handle different channels.
 
-> > ---
-> >  drivers/staging/pi433/pi433_if.c | 16 +++++++++++++++-
-> >  1 file changed, 15 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-> > index 051c9052aeeb..3e9913f4bc7d 100644
-> > --- a/drivers/staging/pi433/pi433_if.c
-> > +++ b/drivers/staging/pi433/pi433_if.c
-> > @@ -108,6 +108,9 @@ struct pi433_device {
-> >  struct pi433_instance {
-> >  	struct pi433_device	*device;
-> >  	struct pi433_tx_cfg	tx_cfg;
-> > +
-> > +	/* control flags */
-> > +	bool			tx_cfg_initialized;
-> >  };
-> >  
-> >  /*-------------------------------------------------------------------------*/
-> > @@ -823,6 +826,16 @@ pi433_write(struct file *filp, const char __user *buf,
-> >  	if (count > MAX_MSG_SIZE)
-> >  		return -EMSGSIZE;
-> >  
-> > +	/*
-> > +	 * check if tx_cfg has been initialized otherwise we won't be able to
-> > +	 * config the RF trasmitter correctly due to invalid settings
-> > +	 */
-> > +	if (!instance->tx_cfg_initialized) {
-> > +		dev_dbg(device->dev,
-> > +			"write: failed due to uninitialized tx_cfg");
-> 
-> Use dev_notice_once() or similar.  Maybe "unconfigured" instead of
-> uninitialized?
-> 
-> 	dev_notice_once(device->dev,
-> 			"write: failed due to unconfigured tx_cfg (see PI433_IOC_WR_TX_CFG)");
-> 
-> 
-> > +		return -EPERM;
-> > +	}
-> > +
-> >  	/*
-> >  	 * write the following sequence into fifo:
-> >  	 * - tx_cfg
-> > @@ -897,6 +910,7 @@ pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-> >  			return -EFAULT;
-> >  		mutex_lock(&device->tx_fifo_lock);
-> >  		memcpy(&instance->tx_cfg, &tx_cfg, sizeof(struct pi433_tx_cfg));
-> > +		instance->tx_cfg_initialized = true;
-> >  		mutex_unlock(&device->tx_fifo_lock);
-> >  		break;
-> >  	case PI433_IOC_RD_RX_CFG:
-> > @@ -950,7 +964,7 @@ static int pi433_open(struct inode *inode, struct file *filp)
-> >  	/* setup instance data*/
-> >  	instance->device = device;
-> >  	instance->tx_cfg.bit_rate = 4711;
-> 
-> This is sort of pointless because it can't work until that gets over
-> written.
-> 
-> 
-> > -	// TODO: fill instance->tx_cfg;
-> > +	instance->tx_cfg_initialized = false;
-> 
-> kzalloc() will already set this to false.
-> 
-> regards,
-> dan carpenter
-> 
+Maybe Christian Gromm (the original driver author) can comment here?
 
-I agree with you on all points mentioned above. I will send another
-version of this patch shortly.
+As far as I understand:
+- interrupts are: mlb, ahb0, ahb1, ch0rx, ch1rx
+- of those, the first 3 are from dim2 itself, and the last two are from renesas-specific logic around dim2
+- in the interrupt assignment tables for gen3 SoCs, renesas documents all 5 interrupts, however in the 
+mlb section, renesas mentions only mlb, ahb0 and ch0rx interrupts
+- moreover, renesas explicitly denies access dim2 registers responsible for channels 32..63 - which 
+renders ahb1 interrupt useless; and renesas does not document any registers related to "async rx 
+response" on channels 32..63 - which renders chrx1 interrupt useless
+- anyway, dim2 driver registers only 32 channels (for all use cases, not only for renesas), and thus 
+uses only ahb0 interrupt
+- dim2 driver does not implement renesas-specific processing logic and thus does not use ch0rx interrupt
 
-Thanks for the patch review.
+I'm not sure how to proceed here.
+Is it better to define only two interrupts (mlb, ahb0) in device trees?
 
-Paulo A.
+Regarding 'interrupt-names' - dim2 driver currently uses platform_get_irq() and thus depends on numeric 
+positions (mlb interrupt at index 0 and ahb0 interrupt at index 1). I'm not sure about current use cases 
+of the driver other than with rcar-gen3, and if it is ok to use of_get_irq_byname() instead. And without 
+using of_get_irq_byname(), interrupt-names looks somewhat useless.
+
+> But without any DT binding documentation
+> for this hardware block, this is hard to validate, and not yet ready for
+> upstream integration.
+
+Christian, are you going to provide DT binding documentation for dim2?
+
+Nikita
