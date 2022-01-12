@@ -1,153 +1,53 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383C5168
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 19:04:33 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id g11so11570956lfu.2
-        for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 11:04:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=AoPuX+EUlxzJxYdQxRNYp+9dW2sZW6liSiiQkVnA/Jw=;
-        b=NO7erDCSXeezum1F/S4Q1RhF4Orm3SIVVirAVX/RwbK8t4jRcfKHi6TBRWRq8OX7WW
-         BGoU0GYg4r2Tartb55ujVvTepkYFLYfUJjmWbrglXCghFolUnucinXGck7ibP9x8o57K
-         YwmszPPlhdEj58moQ3gyxMHBguanVYHUjYSZQgzWcLNRySdL0RqhcLfMih5tkwKaVZr8
-         MKkYdqpiWAgAEVunDLwsLDhOanE4YN83vDinjQ6lSjGDaW8JN6HsE3/P/gyqNafHo9Y9
-         RUn8B2I61Gtpr07TfRqfva0Glvs9ADefUljifR9nNGu1pbq9UHknCjZ3hNQ/bTZpurON
-         N5hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=AoPuX+EUlxzJxYdQxRNYp+9dW2sZW6liSiiQkVnA/Jw=;
-        b=DRpMf1giRa9MkU7qn5Z3ciJGM3AUtLty6szOEskKlLhPreQQRmflV85jbT9Xo/lWGd
-         yHlLXI9zn80TzJ1SJV6nsEmrpfi//ZyPDoGifjOSwzdCdPKyABCuXrou748JvZjBzyUn
-         9A2SLRJ1u6Udv2bEbiZ6xIZLtY0OdU5Byq6qdohF1QuhqFWExqiwKG0BjcUJ/TNrxKLs
-         hIeF2Jap2R+KIIClZC9aCSWW0RIm2a5I+oUwvjqGUA2jekR6Z5TVc/3fI0WB+AHSSd7R
-         GW9cQ7P9mMiOXE31R6JToQ4XefwMpeiKuQvLOELeEsaWMQ4ZHHWC9iZCJGt0LaoiYRs2
-         pioA==
-X-Gm-Message-State: AOAM530lU5b8p7yzkJ2TuSno09dGUpr3MpxdTxYEqKyYTgjMXAhWkTq7
-	Qe/JKSu/egIJsF/o0zbrbjg=
-X-Google-Smtp-Source: ABdhPJxYmby34wzVXbOHaAIVC1OMnAStvNIDPd5+AYkLk6XmDkHvYoHM3XLMOL3hHUA2BFluOZ7QMQ==
-X-Received: by 2002:a05:6512:74a:: with SMTP id c10mr819861lfs.234.1642014271240;
-        Wed, 12 Jan 2022 11:04:31 -0800 (PST)
-Received: from [192.168.2.145] (94-29-62-108.dynamic.spd-mgts.ru. [94.29.62.108])
-        by smtp.googlemail.com with ESMTPSA id j1sm45110ljg.45.2022.01.12.11.04.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jan 2022 11:04:30 -0800 (PST)
-Subject: Re: [PATCH v1 2/2] media: staging: tegra-vde: Support V4L stateless
- video decoder API
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220112153952.1291-1-digetx@gmail.com>
- <20220112153952.1291-3-digetx@gmail.com>
- <e5bcc0a6d283ce3ed0cfe7d318232fb878c1b47d.camel@ndufresne.ca>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <0ae51264-8578-0b4f-4348-7f7a239c98dc@gmail.com>
-Date: Wed, 12 Jan 2022 22:04:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0C5168
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 19:40:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 45020C36AEC;
+	Wed, 12 Jan 2022 19:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1642016406;
+	bh=6PpuJzxX6ocSg9vNv7VN3S0KS23WcI9NaETzJ/y1BqM=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=d24pzYp0vGfFzEENMl6cnDzngu67vlqwijRhfDWXHAoFJvSUUJyKdxlKI6NPbS7v6
+	 caUs6UUqvwNZ3xxpn2p6yBwPHg3az+iq81S1zFS3xO2fJDEFQzcDnLjmajU2iTSvpY
+	 4S8EnjekJIs68og5e02xBccrZIOxwpCf+F/qgR/ahKSc76/VlnTHn/kSwqYwBCzIxj
+	 hPdNb5+Q+2YUWbIXE4J44sZMzN0jM6HxQPtbIBYzx3UWxPsFmc4G8Z62xFMeiN4TOg
+	 MZcStbmAcmdASxy+wRT4uEkgWeHvyHVziaeoY2EVdsa0bOFsXRSuny9JQTS5DCiGw9
+	 xwu4Bsa0mUifA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 32BA9F6078C;
+	Wed, 12 Jan 2022 19:40:06 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver changes for 5.17-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Yd7d6/W1fYi0QGSF@kroah.com>
+References: <Yd7d6/W1fYi0QGSF@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Yd7d6/W1fYi0QGSF@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.17-rc1
+X-PR-Tracked-Commit-Id: fa783154524a71ab74e293cd8251155e5971952b
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 22ef12195e13c5ec58320dbf99ef85059a2c0820
+Message-Id: <164201640619.24328.2464065391407963815.pr-tracker-bot@kernel.org>
+Date: Wed, 12 Jan 2022 19:40:06 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <e5bcc0a6d283ce3ed0cfe7d318232fb878c1b47d.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
 
-12.01.2022 19:49, Nicolas Dufresne пишет:
-> Le mercredi 12 janvier 2022 à 18:39 +0300, Dmitry Osipenko a écrit :
->> Expose Tegra video decoder as a generic V4L M2M stateless video decoder.
-> 
-> Thanks for working on this. Note that it would be nice to provide V4L2
-> compliance test result, and if this is actually possible, provide fluster
-> conformance results using ffmpeg, gstreamer, chromium or your own decoder,
-> though if its your own, it would be nice to share a bit more so we can check
-> that it's not interpreting the uAPI differently from other (we'd like drivers to
-> work on multiple userland ideally).
+The pull request you sent on Wed, 12 Jan 2022 14:55:55 +0100:
 
-Thank you for taking a look at this patch. Now I recalled that wanted to
-run V4L2 compliance test, but forgot to do that.
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.17-rc1
 
-I'll take a look at fluster, it's new to me.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/22ef12195e13c5ec58320dbf99ef85059a2c0820
 
-> As usual I leave to other doing proper review, I added a comment below, pointing
-> out the presence of a bitstream parser in this driver, and suggested an
-> amendment to the spec to get rid of this. For me the code looks otherwise quite
-> straight forward, is there any known issue that would keep this driver in
-> staging ?
+Thank you!
 
-V4L decoding works on par with the legacy custom UAPI used by this
-driver. I wish the hardware spec was made public, so we could support
-more complex streams, but since it's not going to happen, I think
-nothing keeps this driver in staging. It's working good for what is
-supported.
-
-> Please see below ...
-> 
-...
->> +	slice_type = tegra_h264_parse_slice_type(bitstream + bitstream_offset,
->> +						 bitstream_size);
-> 
-> Oh, this is a bit unfortunate, we didn't expect frame based decoder to ever need
-> the slice_type (only available to slice based decoders). I've lookahead and
-> notice a bitstream parsing, with emulation byte handling and Golum code. I
-> expect to see maintainers concerns with doing this, the goals of the interface
-> was to avoid parsing in kernel space (security in mind).
-
-Initially I patched GStreamer to perform the flagging and it worked
-okay. GStreamer even has variable for that, which is unused by the code
-[1]. But in the end I decided that a universal solution will be a better
-option.
-
-[1]
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/subprojects/gst-plugins-bad/gst-libs/gst/codecs/gsth264picture.h#L119
-
-> If so, I may suggest to drop this fallback, and propose an amendment to the
-> spec, we can require flagging KEYFRAME/PFRAME/BFRAME on the OUTPUT buffer, this
-> won't break any drivers/userland on other HW, and will benefit possibly other HW
-> in the future. I can volunteer to patch GStreamer and LibreELEC ffmpeg if we
-> agree to this. Not sure how it works for Chromium, or if it actually make sense
-> to support here.
-> 
-> (expecting feedback from Hans and Ezequiel here)
-
-Amending the spec will be great, although it's not clear how to flag
-frame that consists of slices having different types.
-
-...
->> +static const struct v4l2_ctrl_config ctrl_cfgs[] = {
->> +	{	.id = V4L2_CID_STATELESS_H264_DECODE_PARAMS,	},
->> +	{	.id = V4L2_CID_STATELESS_H264_SPS,		},
->> +	{	.id = V4L2_CID_STATELESS_H264_PPS,		},
->> +	{
->> +		.id = V4L2_CID_STATELESS_H264_DECODE_MODE,
->> +		.min = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
->> +		.max = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
->> +		.def = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
->> +	},
->> +	{
->> +		.id = V4L2_CID_STATELESS_H264_START_CODE,
->> +		.min = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
->> +		.max = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
->> +		.def = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
->> +	},
->> +	{
->> +		.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
->> +		.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
->> +		.max = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
->> +		.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
-> 
-> No action needed, just be aware that exposing BASELINE is a small lie, since FMO
-> and ASO feature are not supported in the uAPI.
-
-Okay
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
