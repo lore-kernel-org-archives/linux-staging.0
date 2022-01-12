@@ -1,279 +1,112 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F522CA7
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 08:57:13 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id s1so2864574wra.6
-        for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 00:57:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=HhvZ3uKij/5andIsYWXWjb4Izd/6e/PP/vgXNxLfogY=;
-        b=5kf6KDQr39SrKewfAropcE6gWWCr/MgoEwhYKIcc1ZpTzaQk53nBFiKLuQJB5uA8GP
-         6XEz3aWy2A1TcXRAncBzuNdR79AVjVUY10aS14chzi5ajrOe51PgYYYTpaeDSCkX2Qcn
-         mpIfnN22bTAe20qyIGLZeU5tyAECgoy9xUcKNmIyg8TFgRhfAvE/A1F4nKCg4Tc6EUXb
-         g2J++gp5Zm5wzoWxZHRVZ/FsDfgD18oikdxH33L9pjSu02UNseeuxXcVbbUu2GoaRC/P
-         HgzVbt6b6vzpbK3AteWBtDxTWWyfZMrizjp62EYFKmHjtDxx4vHd3gNU/LZvdenzT2IU
-         hFCw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D030173
+	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 10:15:26 +0000 (UTC)
+Received: by mail-ua1-f46.google.com with SMTP id r15so3808673uao.3
+        for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 02:15:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=HhvZ3uKij/5andIsYWXWjb4Izd/6e/PP/vgXNxLfogY=;
-        b=4RE7c+LO8SXEbye8nB9OyQc2b2I/MiElHs9ClTL93UnKuCPhhSe2NqZzYgPHm1OF36
-         4SG1+Cpixmi34x0Ge550RZYui9tKAHlTV+J7kQatU0Lkxu3KL523uaelk00JeFnpf0cB
-         F/SR0gZ5bK2yAnIB+2HuVkzDDNXfSo2zjL6SP9QA+1GHF179fvOzfBlZffyMaldGYAiA
-         7Qpqa1nlaMALEDAScJ91+oUwyQiHMCJ7vE9FB6T0Qk+0DhQgIo3Cb+YH4KdMC1J+s1Jg
-         MlML2aIgpiAEqQTZvFN7gIZh2i1Tf0sHfYXgo0FfhEfo+ggUL/6cJWYwVhsTEsvZoI6Y
-         Br9A==
-X-Gm-Message-State: AOAM532eFG+KsgtxEpY5L+dxGb8HryPz37T+bD2aSBD5jcWtht15GQ8v
-	b7cPH9SuCeR0NUhDCF0T9JqDyw==
-X-Google-Smtp-Source: ABdhPJxoppz080L/K51cmR/DK3+uH3HTamW+P2BTnZcrNLMIGJdrepJU9AzsphtY3FXV8DqUpuNMZw==
-X-Received: by 2002:a5d:4905:: with SMTP id x5mr7075999wrq.30.1641977831283;
-        Wed, 12 Jan 2022 00:57:11 -0800 (PST)
-Received: from ?IPv6:2001:861:44c0:66c0:381b:6e50:a892:5269? ([2001:861:44c0:66c0:381b:6e50:a892:5269])
-        by smtp.gmail.com with ESMTPSA id n1sm12619238wri.46.2022.01.12.00.57.10
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6wKmSWMHWAmRWv4Hqzo9xUOdqr9ud8CTsl9Le52Qq2A=;
+        b=0AziKzd4ZqzqxbGPcqZxZ1FdWkSR4axQRzLDpXF/LKUdpqmC8inZltwwCxZ1sf7AWn
+         IBXinTESO3AmExtEbUnfJCB0mEKEInlwofl2si6eITRge4FgB7kb3Atq6kFeakL5E5KV
+         jGKPtSG7ftsxjeKPxEzQQyjVAewzdzJUV/3HlVuLl5YhRmqD+8CnWHIRC5myW0N86nl+
+         f7Hb3r5CCLz+YPTUoS0WQCoH/LjfCRdwOTkrW4iqRgEbqrVzFme19Y+bbB4k0Wtbozpw
+         g/nwOBCiOT9eqquuidJ6uYHtMBhP4xZCVprBaoJCfWKlHOac0idYM4UpIsGbv/hmq6d3
+         uH8g==
+X-Gm-Message-State: AOAM532uzIMe98DGRvJE46IevV7Degm8H99FpA8T7S3lqqioWef6PhF2
+	77AogE2bVm8OIJEMUSsvVLDS8kGOwsvjSNsb
+X-Google-Smtp-Source: ABdhPJwqxeaV0Qe7AbtT608bnVy5MrvNwoul/SVpeZZkyDVDIrH700zEYCoGTq28QODLEUyhb7OHgw==
+X-Received: by 2002:a67:ec82:: with SMTP id h2mr591757vsp.53.1641982525332;
+        Wed, 12 Jan 2022 02:15:25 -0800 (PST)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com. [209.85.222.52])
+        by smtp.gmail.com with ESMTPSA id d3sm6393541vsl.4.2022.01.12.02.15.24
+        for <linux-staging@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jan 2022 00:57:10 -0800 (PST)
-Subject: Re: [PATCH v3] media: meson: vdec: Fix a NULL pointer dereference in
- amvdec_add_ts()
-To: Qingyang Zhou <zhou1615@umn.edu>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Kangjie Lu <kjlu@umn.edu>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Jourdan <mjourdan@baylibre.com>, linux-media@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20211214144613.35fec82a@coco.lan>
- <20211215033535.40422-1-zhou1615@umn.edu>
- <368bc1b7-ff86-beaa-6749-afbe5960eaeb@xs4all.nl>
- <CA+Cm_xSOv5NnW5GXcKKGi8bQSvT45iH6=65YJk3EG6uW0c5_Vw@mail.gmail.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <7e9f1b17-7087-3513-84b9-f5dd25211b87@baylibre.com>
-Date: Wed, 12 Jan 2022 09:57:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Wed, 12 Jan 2022 02:15:25 -0800 (PST)
+Received: by mail-ua1-f52.google.com with SMTP id i5so3716419uaq.10
+        for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 02:15:24 -0800 (PST)
+X-Received: by 2002:a67:c81c:: with SMTP id u28mr3649287vsk.38.1641982524577;
+ Wed, 12 Jan 2022 02:15:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CA+Cm_xSOv5NnW5GXcKKGi8bQSvT45iH6=65YJk3EG6uW0c5_Vw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20211226082530.2245198-4-nikita.yoush@cogentembedded.com>
+ <20211226153349.2296024-1-nikita.yoush@cogentembedded.com>
+ <CAMuHMdUJfq+nFFMoiPiTt1=Ny9zOm-O1EAmq3n56n4RJ6H8tdA@mail.gmail.com> <fccd00c9-ec44-9586-0df2-6e46568665c1@cogentembedded.com>
+In-Reply-To: <fccd00c9-ec44-9586-0df2-6e46568665c1@cogentembedded.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 12 Jan 2022 11:15:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWa+2q+Zx79YxRZECN-d52Zcs7rP-BNYBxWX5250aaxJw@mail.gmail.com>
+Message-ID: <CAMuHMdWa+2q+Zx79YxRZECN-d52Zcs7rP-BNYBxWX5250aaxJw@mail.gmail.com>
+Subject: Re: [PATCH 3/3 v2] arm64: dts: renesas: add MOST device
+To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Christian Gromm <christian.gromm@microchip.com>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hi Nikita,
 
-On 11/01/2022 14:03, Qingyang Zhou wrote:
-> Hi Hans:
-> 
-> Here I certify that this is an origin patch I wrote. I did not copy Neil's patch, and I did not know his patch.
-> 
-> Neil, please post your original patch here, so everyone can see both patches.
-> 
-> Yours 
-> Zhou Qingyang.
-> 
-> On Tue, Jan 11, 2022 at 5:16 PM Hans Verkuil <hverkuil-cisco@xs4all.nl <mailto:hverkuil-cisco@xs4all.nl>> wrote:
-> 
->     Zhou Qingyang, this is exactly the patch Neil wrote, except you just stuck your
->     name on it. Not nice.
-> 
->     Neil, can you post your patch with your own Signed-off-by, then I'll take that one.
-> 
->     Regards,
-> 
->             Hans
-> 
->     On 15/12/2021 04:35, Zhou Qingyang wrote:
->     > In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
->     > to a NULL pointer dereference on failure of kzalloc().
->     >
->     > Fix this bug by adding a NULL check of new_ts.
->     >
->     > This bug was found by a static analyzer[1].
->     >
->     > Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
->     > and our static analyzer no longer warns about this code.
->     >
->     > Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
->     > Signed-off-by: Zhou Qingyang <zhou1615@umn.edu <mailto:zhou1615@umn.edu>>
->     > ---
->     >
->     > [1] The analysis employs differential checking to identify inconsistent
->     > security operations (e.g., checks or kfrees) between two code paths and
->     > confirms that the inconsistent operations are not recovered in the
->     > current function or the callers, so they constitute bugs.
->     >
->     > Note that, as a bug found by static analysis, it can be a false
->     > positive or hard to trigger. Multiple researchers have cross-reviewed
->     > the bug.
->     >
->     > Changes in v3:
->     >   -  Change the description of patch
->     >   -  Turn the return type from 'void' to 'int'
->     >   -  Check the return value in the caller 'esparser_queue()'
->     >
->     > Changes in v2:
->     >   -  Delete dev_err() message
->     >
->     >  drivers/staging/media/meson/vdec/esparser.c     | 7 ++++++-
->     >  drivers/staging/media/meson/vdec/vdec_helpers.c | 8 ++++++--
->     >  drivers/staging/media/meson/vdec/vdec_helpers.h | 4 ++--
->     >  3 files changed, 14 insertions(+), 5 deletions(-)
->     >
->     > diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
->     > index db7022707ff8..095100a50da8 100644
->     > --- a/drivers/staging/media/meson/vdec/esparser.c
->     > +++ b/drivers/staging/media/meson/vdec/esparser.c
->     > @@ -328,7 +328,12 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
->     > 
->     >       offset = esparser_get_offset(sess);
->     > 
->     > -     amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
->     > +     ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
->     > +     if (!ret) {
->     > +             v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
->     > +             return ret;
->     > +     }
->     > +
->     >       dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
->     >               vb->timestamp, payload_size, offset, vbuf->flags);
->     > 
->     > diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
->     > index b9125c295d1d..06fd66539797 100644
->     > --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
->     > +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
->     > @@ -227,13 +227,16 @@ int amvdec_set_canvases(struct amvdec_session *sess,
->     >  }
->     >  EXPORT_SYMBOL_GPL(amvdec_set_canvases);
->     > 
->     > -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > -                struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
->     > +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > +               struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
->     >  {
->     >       struct amvdec_timestamp *new_ts;
->     >       unsigned long flags;
->     > 
->     >       new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
->     > +     if (!new_ts)
->     > +             return -ENOMEM;
->     > +
->     >       new_ts->ts = ts;
->     >       new_ts->tc = tc;
->     >       new_ts->offset = offset;
->     > @@ -242,6 +245,7 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     >       spin_lock_irqsave(&sess->ts_spinlock, flags);
->     >       list_add_tail(&new_ts->list, &sess->timestamps);
->     >       spin_unlock_irqrestore(&sess->ts_spinlock, flags);
->     > +     return 0;
->     >  }
->     >  EXPORT_SYMBOL_GPL(amvdec_add_ts);
->     > 
->     > diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
->     > index 88137d15aa3a..4bf3e61d081b 100644
->     > --- a/drivers/staging/media/meson/vdec/vdec_helpers.h
->     > +++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
->     > @@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
->     >   * @offset: offset in the VIFIFO where the associated packet was written
->     >   * @flags: the vb2_v4l2_buffer flags
->     >   */
->     > -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > -                struct v4l2_timecode tc, u32 offset, u32 flags);
->     > +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->     > +               struct v4l2_timecode tc, u32 offset, u32 flags);
->     >  void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
->     > 
->     >  /**
-> 
+On Wed, Jan 12, 2022 at 9:56 AM Nikita Yushchenko
+<nikita.yoush@cogentembedded.com> wrote:
+> >> +                       reg = <0 0xec520000 0 0x800>;
+> >> +                       interrupts = <GIC_SPI 384 IRQ_TYPE_LEVEL_HIGH>,
+> >> +                               <GIC_SPI 385 IRQ_TYPE_LEVEL_HIGH>,
+> >> +                               <GIC_SPI 386 IRQ_TYPE_LEVEL_HIGH>,
+> >> +                               <GIC_SPI 387 IRQ_TYPE_LEVEL_HIGH>,
+> >> +                               <GIC_SPI 388 IRQ_TYPE_LEVEL_HIGH>;
+> >
+> > What is the purpose of the various interrupts?
+> > Perhaps you need interrupt-names?
+> > The driver seems to use only the first two, which is strange, as
+> > the second and third interrupt handle different channels.
+>
+> Maybe Christian Gromm (the original driver author) can comment here?
+>
+> As far as I understand:
+> - interrupts are: mlb, ahb0, ahb1, ch0rx, ch1rx
+> - of those, the first 3 are from dim2 itself, and the last two are from renesas-specific logic around dim2
+> - in the interrupt assignment tables for gen3 SoCs, renesas documents all 5 interrupts, however in the
+> mlb section, renesas mentions only mlb, ahb0 and ch0rx interrupts
+> - moreover, renesas explicitly denies access dim2 registers responsible for channels 32..63 - which
+> renders ahb1 interrupt useless; and renesas does not document any registers related to "async rx
+> response" on channels 32..63 - which renders chrx1 interrupt useless
+> - anyway, dim2 driver registers only 32 channels (for all use cases, not only for renesas), and thus
+> uses only ahb0 interrupt
+> - dim2 driver does not implement renesas-specific processing logic and thus does not use ch0rx interrupt
+>
+> I'm not sure how to proceed here.
+> Is it better to define only two interrupts (mlb, ahb0) in device trees?
+>
+> Regarding 'interrupt-names' - dim2 driver currently uses platform_get_irq() and thus depends on numeric
+> positions (mlb interrupt at index 0 and ahb0 interrupt at index 1). I'm not sure about current use cases
+> of the driver other than with rcar-gen3, and if it is ok to use of_get_irq_byname() instead. And without
+> using of_get_irq_byname(), interrupt-names looks somewhat useless.
 
-Let's inspect:
+As the driver is under staging, I think we can make any changes we want.
 
-I posted a probable solution the 09/12/2021 in a reply to 20211209085840.2081024-1-jiasheng@iscas.ac.cn :
+> > But without any DT binding documentation
+> > for this hardware block, this is hard to validate, and not yet ready for
+> > upstream integration.
+>
+> Christian, are you going to provide DT binding documentation for dim2?
 
-===================><=============================
-diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-index db7022707ff8..df733eff9ac7 100644
---- a/drivers/staging/media/meson/vdec/esparser.c
-+++ b/drivers/staging/media/meson/vdec/esparser.c
-@@ -328,7 +328,11 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+Gr{oetje,eeting}s,
 
-        offset = esparser_get_offset(sess);
+                        Geert
 
--       amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-+       ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-+       if (ret) {
-+               v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
-+               return ret;
-+       }
-        dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
-                vb->timestamp, payload_size, offset, vbuf->flags);
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-index b9125c295d1d..593b2ccbece2 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-@@ -227,13 +227,15 @@ int amvdec_set_canvases(struct amvdec_session *sess,
- }
- EXPORT_SYMBOL_GPL(amvdec_set_canvases);
-
--void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
--                  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
-+int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-+                 struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
- {
-        struct amvdec_timestamp *new_ts;
-        unsigned long flags;
-
-        new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-+       if (!new_ts)
-+               return -ENOMEM;
-        new_ts->ts = ts;
-        new_ts->tc = tc;
-        new_ts->offset = offset;
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
-index 88137d15aa3a..4bf3e61d081b 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.h
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
-@@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
-  * @offset: offset in the VIFIFO where the associated packet was written
-  * @flags: the vb2_v4l2_buffer flags
-  */
--void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
--                  struct v4l2_timecode tc, u32 offset, u32 flags);
-+int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-+                 struct v4l2_timecode tc, u32 offset, u32 flags);
- void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
-===================><=============================
-
-
-Then the patches were sent:
-- 20211210015620.2143555-1-jiasheng@iscas.ac.cn on 10/12/2021
-- 20211215033535.40422-1-zhou1615@umn.edu on 15/12/2021
-
-They are extremely close but not similar, mostly indenting differs.
-
-Both patches have the missing final "return 0" in amvdec_add_ts which is missing in my proposal.
-
-But only 20211210015620.2143555-1-jiasheng@iscas.ac.cn has the correct "if (ret)" in esparser_queue().
-Patch 20211215033535.40422-1-zhou1615@umn.ed has a wrong "if (!ret)".
-
-But when comparing, 20211215033535.40422-1-zhou1615@umn.edu is an almost exact copy of my proposal, minus the fixes and the bogus return check.
-
-To be honest, there is a limited way to fix this, it's probable 20211215033535.40422-1-zhou1615@umn.edu was written independently from
-my proposal since there is a bug return check, and 20211210015620.2143555-1-jiasheng@iscas.ac.cn was rewritten from my proposal.
-
-Since 20211215033535.40422-1-zhou1615@umn.ed has a bogus return check, it should be naked.
-
-I'll only ask 20211210015620.2143555-1-jiasheng@iscas.ac.cn to be resent with a "Suggested-by" and indentation fixed like my proposal.
-
-Neil
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
