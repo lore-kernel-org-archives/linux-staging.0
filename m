@@ -1,41 +1,20 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7622C9D
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 18:29:06 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id pf13so11498120pjb.0
-        for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 10:29:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=GNbIhnDu8mbLRfTXlwtBvscLfboFwv21ObpyqMknyMU=;
-        b=l4lXFAvPwW8ptxy2c92znFTwv5GsqM4IWfYUgkhhMcp1Pwk9cZeNmv1nWmiKNpG1pS
-         uVEQ8lRvKYFGHNpC7aW2avDuuHb2/xXtNHRvyQYQ3riMGlcSs6yYg89/yL1boexm0oQz
-         Qav0Txllf4/MZlJyWhkghlFTqMUlquKTz0IAk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GNbIhnDu8mbLRfTXlwtBvscLfboFwv21ObpyqMknyMU=;
-        b=FV5wWldJTX5CT6E+4Zw8WAHqt67EHB9XgsWt7CY7vyVegyukcoNKlJqVQj5V6Xjiwc
-         neHALJFJ3c83JOvIigPG2+LVUT45QwQ9Pu9SRkp1FMZEezQ6pjS9G94DFE3f7EmY/u85
-         3lDP6tng9uUXEGpv+wE5XlneHVqOpPZygV3dvTNFQWKmVAQoFVl9A43mx+Picql1fmLV
-         TNJQp9Yi3WUNKsmYCE6oaOiQTDSA2G+pShOr3UM93uiX1c0W8JTXeWrzaOMjV5jx3ZdZ
-         VJeu/tSL/biS9XFZf5FNwD49VIm09ozvYBaULwKHmZTBNlg65HH8wqvp7FAbDPh8jQ0l
-         0s/w==
-X-Gm-Message-State: AOAM532XIRoQpatPK2DrBc/UTa51zoieSyxEo21opVdgqgU9X3OaQNJt
-	mlEHcHDx+XJMiFxaiC+2xb4Mfg==
-X-Google-Smtp-Source: ABdhPJxbEiRlNgouAu1xXHQaBLC6lvNqbdwcbBhm0vZPbQdO6PK0RrNQGS6ckHyBEZKhLggIwJtG9w==
-X-Received: by 2002:a17:903:404a:b0:14a:501b:8c92 with SMTP id n10-20020a170903404a00b0014a501b8c92mr5952668pla.86.1642098545687;
-        Thu, 13 Jan 2022 10:29:05 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q2sm3660966pfu.66.2022.01.13.10.29.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jan 2022 10:29:05 -0800 (PST)
-Date: Thu, 13 Jan 2022 10:29:04 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E892C9C
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 18:51:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A315C36AE9;
+	Thu, 13 Jan 2022 18:51:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1642099888;
+	bh=N3+9p+4jyeYRxCvXQcf91ZlSqIklpUkeObUtYJy0Ong=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=xS0uBDoTFOc9I45x3Zku8TDPUMFpewBN2sjPX4wH95pz5+7k1aLbtoR8qArn1k32q
+	 oH2Cj+L5wg8h4INFHrzvxW5TztRv9qJOxtI0tXnlnd1RJqbelHOOVM8+2Ely2RIgZY
+	 +o/NHntjCjQuZNoRS7NLrQsdtdbG3GRSzkP7NH6M=
+Date: Thu, 13 Jan 2022 19:51:24 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Kees Cook <keescook@chromium.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	Michael Straube <straube.linux@gmail.com>,
@@ -45,9 +24,10 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Marco Cesati <marcocesati@gmail.com>, linux-kernel@vger.kernel.org,
 	linux-hardening@vger.kernel.org
 Subject: Re: [PATCH] staging: rtl8723bs: Check for NULL header value
-Message-ID: <202201131027.FCAC3072E4@keescook>
+Message-ID: <YeB0rP7KXtbIKr6I@kroah.com>
 References: <20220113002001.3498383-1-keescook@chromium.org>
  <Yd/tSpnpb4vWp6OP@kroah.com>
+ <202201131027.FCAC3072E4@keescook>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,75 +36,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yd/tSpnpb4vWp6OP@kroah.com>
+In-Reply-To: <202201131027.FCAC3072E4@keescook>
 
-On Thu, Jan 13, 2022 at 10:13:46AM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Jan 12, 2022 at 04:20:01PM -0800, Kees Cook wrote:
-> > When building with -Warray-bounds, the following warning is emitted:
+On Thu, Jan 13, 2022 at 10:29:04AM -0800, Kees Cook wrote:
+> On Thu, Jan 13, 2022 at 10:13:46AM +0100, Greg Kroah-Hartman wrote:
+> > On Wed, Jan 12, 2022 at 04:20:01PM -0800, Kees Cook wrote:
+> > > When building with -Warray-bounds, the following warning is emitted:
+> > > 
+> > > In file included from ./include/linux/string.h:253,
+> > >                  from ./arch/x86/include/asm/page_32.h:22,
+> > >                  from ./arch/x86/include/asm/page.h:14,
+> > >                  from ./arch/x86/include/asm/thread_info.h:12,
+> > >                  from ./include/linux/thread_info.h:60,
+> > >                  from ./arch/x86/include/asm/preempt.h:7,
+> > >                  from ./include/linux/preempt.h:78,
+> > >                  from ./include/linux/rcupdate.h:27,
+> > >                  from ./include/linux/rculist.h:11,
+> > >                  from ./include/linux/sched/signal.h:5,
+> > >                  from ./drivers/staging/rtl8723bs/include/drv_types.h:17,
+> > >                  from drivers/staging/rtl8723bs/core/rtw_recv.c:7:
+> > > In function 'memcpy',
+> > >     inlined from 'wlanhdr_to_ethhdr' at drivers/staging/rtl8723bs/core/rtw_recv.c:1554:2:
+> > > ./include/linux/fortify-string.h:41:33: warning: '__builtin_memcpy' offset [0, 5] is out of the bounds [0, 0] [-Warray-bounds]
+> > >    41 | #define __underlying_memcpy     __builtin_memcpy
+> > >       |                                 ^
+> > > 
+> > > This is because the compiler sees it is possible for "ptr" to be a NULL
+> > > value, and concludes that it has zero size and attempts to copy to it
+> > > would overflow. Instead, detect the NULL return and error out early.
+> > > 
+> > > Cc: Larry Finger <Larry.Finger@lwfinger.net>
+> > > Cc: Phillip Potter <phil@philpotter.co.uk>
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Cc: Michael Straube <straube.linux@gmail.com>
+> > > Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
+> > > Cc: linux-staging@lists.linux.dev
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > ---
+> > >  drivers/staging/rtl8723bs/core/rtw_recv.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > > 
+> > > diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> > > index 41bfca549c64..61135c49322b 100644
+> > > --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
+> > > +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> > > @@ -1513,6 +1513,9 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
+> > >  	u8 *ptr = get_recvframe_data(precvframe) ; /*  point to frame_ctrl field */
+> > >  	struct rx_pkt_attrib *pattrib = &precvframe->u.hdr.attrib;
+> > >  
+> > > +	if (!ptr)
+> > > +		return _FAIL;
 > > 
-> > In file included from ./include/linux/string.h:253,
-> >                  from ./arch/x86/include/asm/page_32.h:22,
-> >                  from ./arch/x86/include/asm/page.h:14,
-> >                  from ./arch/x86/include/asm/thread_info.h:12,
-> >                  from ./include/linux/thread_info.h:60,
-> >                  from ./arch/x86/include/asm/preempt.h:7,
-> >                  from ./include/linux/preempt.h:78,
-> >                  from ./include/linux/rcupdate.h:27,
-> >                  from ./include/linux/rculist.h:11,
-> >                  from ./include/linux/sched/signal.h:5,
-> >                  from ./drivers/staging/rtl8723bs/include/drv_types.h:17,
-> >                  from drivers/staging/rtl8723bs/core/rtw_recv.c:7:
-> > In function 'memcpy',
-> >     inlined from 'wlanhdr_to_ethhdr' at drivers/staging/rtl8723bs/core/rtw_recv.c:1554:2:
-> > ./include/linux/fortify-string.h:41:33: warning: '__builtin_memcpy' offset [0, 5] is out of the bounds [0, 0] [-Warray-bounds]
-> >    41 | #define __underlying_memcpy     __builtin_memcpy
-> >       |                                 ^
+> > This will never happen, so let's not paper over compiler issues with
+> > stuff like this please.
 > > 
-> > This is because the compiler sees it is possible for "ptr" to be a NULL
-> > value, and concludes that it has zero size and attempts to copy to it
-> > would overflow. Instead, detect the NULL return and error out early.
+> > As the call to get_recvframe_data() is only done in one place in this
+> > driver (in all drivers that look like this as well), it can just be
+> > replaced with the real code instead of the nonsensical test for NULL and
+> > then the compiler should be happy.
 > > 
-> > Cc: Larry Finger <Larry.Finger@lwfinger.net>
-> > Cc: Phillip Potter <phil@philpotter.co.uk>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Michael Straube <straube.linux@gmail.com>
-> > Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
-> > Cc: linux-staging@lists.linux.dev
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  drivers/staging/rtl8723bs/core/rtw_recv.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> > index 41bfca549c64..61135c49322b 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> > @@ -1513,6 +1513,9 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
-> >  	u8 *ptr = get_recvframe_data(precvframe) ; /*  point to frame_ctrl field */
-> >  	struct rx_pkt_attrib *pattrib = &precvframe->u.hdr.attrib;
-> >  
-> > +	if (!ptr)
-> > +		return _FAIL;
+> > I'll gladly take that fix instead of this one, as that would be the
+> > correct solution here.
 > 
-> This will never happen, so let's not paper over compiler issues with
-> stuff like this please.
-> 
-> As the call to get_recvframe_data() is only done in one place in this
-> driver (in all drivers that look like this as well), it can just be
-> replaced with the real code instead of the nonsensical test for NULL and
-> then the compiler should be happy.
-> 
-> I'll gladly take that fix instead of this one, as that would be the
-> correct solution here.
+> I changed it around, but it doesn't help. I assume this is because we
+> build with -fno-delete-null-pointer-checks, so the compiler continues
+> to assume it's possible for the incoming argument to be NULL.
 
-I changed it around, but it doesn't help. I assume this is because we
-build with -fno-delete-null-pointer-checks, so the compiler continues
-to assume it's possible for the incoming argument to be NULL.
+That's a broken compiler then.
 
-Should I rearrange this to do a NULL check for precvframe before all the
-assignments in addition to removing get_recvframe_data()?
+> Should I rearrange this to do a NULL check for precvframe before all the
+> assignments in addition to removing get_recvframe_data()?
 
--Kees
+If you walk the call-chain back, you will see that precvframe can't ever
+be NULL here (which is why this code doesn't crash), so don't check for
+something that is impossible to ever hit please just because the
+compiler is broken.
 
--- 
-Kees Cook
+thanks,
+
+greg k-h
