@@ -1,42 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B440173
-	for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 20:40:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF098C36AE9;
-	Wed, 12 Jan 2022 20:40:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1642020055;
-	bh=5kA6B5XXa0Vtj9s858sVvMwlFnSTWQ7WiPBnw4ZOkf0=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=rzK2cMIlhCNsnf9awyfyBOuoDzUzJbm4kaB8bm4femolKF+3CzukgrIQAVnMJ5xYf
-	 46JLdSLR7ErX80r0T3HGbutaQwwkfq4oXgCydPI8XrKczTkJzKlCcx1Zv7RMDfm/oc
-	 aTZ1W+L3OnCOV02KJ7wy4WhiKK7lp1ffocUeFNKx49jf7J6uVRdZyOtC21A5Y5JFVK
-	 EAEtZAzxDBRJfuQ+eHZokJNHADrypGHD1OSrEKLIuvSDRQ3HPO3sPXfhAWXGgQxI3F
-	 JDJITKtT9xm7EnTT7mGfs3tcfTiB7WxRoVcj0U/Tdb+4YgSkDSaYJFBAEp+gyZzmwS
-	 fX4BTrmtKaW2g==
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA3C2C9D
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 00:19:38 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id pf13so8349145pjb.0
+        for <linux-staging@lists.linux.dev>; Wed, 12 Jan 2022 16:19:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xF5Ls1sb2CQFBzCSyRPSIJo9fSFz4AHOfm9dcoWo+2w=;
+        b=Y8QfIbVMxvQCli4PhtNf8FyU8P2Aqw2HvMkBVSCl793tLHboIj34ZAwRq3/MPgD2pN
+         Cnxce3voqzB9a3CcaYm/SXgFMoLz36VTkl3rS+B8AHDRg8zNyQgnO0US+397ypNsXakU
+         lmVVp0ChTcN90kjw6Fwd5Ix+Ts/ZV5Mf9CueM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xF5Ls1sb2CQFBzCSyRPSIJo9fSFz4AHOfm9dcoWo+2w=;
+        b=INCo9up2+zFeyTlSo1wal40MtIyHDNS3OQx38AndG0cy5ZgfAuBVGpVNsjg9SKqV11
+         sDYsE8F8U29DMejtDyZPmzMYycAnLtQ+chwfZiHjlIl6QBWY8Kbo19i5oqvB2nLMyWuw
+         nvDFV1gsf28FxXGgWe1zfcTbIxJys6GXIiM1kwcPDqwpWxY15H5oT8T3jTMLJgLmC6MA
+         LPVpgWTCmr1vyxBSxxOtz3ZpVvrPBXKae4qWQmAlaf2kDNWI5lN7gU5Zp/mKyk4F70h3
+         7EjWuOtnmrRQ8rqkRV7ddgmMDMyJ3HqsZ3RHvGth3Rdgy2sJZE6osRe+s8GTfqUd9iNj
+         l4Hg==
+X-Gm-Message-State: AOAM5319tjZ1o5bK4UYJp02P2pSUX6OzFb+n/pLA9ZIWRDzoLW/MbbJn
+	ia0LXZ9X+gAU4FD7feGYCJD99Q==
+X-Google-Smtp-Source: ABdhPJxWnv7wDFAep/GW/Z2BsgCkrmxrhSUJ5DHHikLX9c78w3OsDcW6/OOKZu0NLgo79uivCJ9twg==
+X-Received: by 2002:a05:6a00:1acb:b0:4bd:bb9:4649 with SMTP id f11-20020a056a001acb00b004bd0bb94649mr1850426pfv.46.1642033177966;
+        Wed, 12 Jan 2022 16:19:37 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id qe14sm735042pjb.44.2022.01.12.16.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jan 2022 16:19:37 -0800 (PST)
+From: Kees Cook <keescook@chromium.org>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Kees Cook <keescook@chromium.org>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-staging@lists.linux.dev,
+	Martin Kaiser <martin@kaiser.cx>,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: Check for NULL header value
+Date: Wed, 12 Jan 2022 16:19:34 -0800
+Message-Id: <20220113001934.3455851-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAKfKVtGGsw10RAzowZdGmuu-5ABsnfOWhR-Sxnoymc4QiqvCPA@mail.gmail.com>
-References: <cover.1631623906.git.shubhrajyoti.datta@xilinx.com> <CAKfKVtGGsw10RAzowZdGmuu-5ABsnfOWhR-Sxnoymc4QiqvCPA@mail.gmail.com>
-Subject: Re: [PATCH v13 0/5] clk: clocking-wizard: Driver updates
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>, linux-staging@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, git@xilinx.com;
-To: Shubhrajyoti Datta <shubhrajyoti.datta@gmail.com>, Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-Date: Wed, 12 Jan 2022 12:40:53 -0800
-User-Agent: alot/0.9.1
-Message-Id: <20220112204055.CF098C36AE9@smtp.kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2332; h=from:subject; bh=Zmi3fjZGyAfVSBSf4uQJo3gwV1oUVCB/Nh5e/ReE5wQ=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBh33AW3Ti5Xn/EzwreXPTWXeWCbp/shR/gDd2CsI0Z po8mz1aJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYd9wFgAKCRCJcvTf3G3AJrU0EA CrVQSc4PKaFcWdOWEpq1bcppiQd5uGg2C2qAFzAA/V6N8fA9Mi6N+iWt0+ICa/G85xDAFzuedbeqnS vyklSZyiwfH67R2Tw1sisD4Oj2RM1LNHHxYIrU6HC4ISJvEeXHGY/7nkB46WXhVqWRA/e7u+yGqDJ2 1a85/PNExS927iGtQPSPRq10zI88tE1vcEdjC9/y02KAhAiPZXu8+xJpP27ijzMhiBnbGnQXnVuHni vlfgvrF4+VWv+L+T/4+Tlg3GnmGrNANNfoQ94eHHUgFUsPF9ozMfhVIbevX4tcnyk4QSh4yK0zzHag O/ClMOaE5YMSKK3PDzlmvkscIJsw/gE0lJ9KQQAIRPbGUtYeRpTdKh0YUUsoDR5A8FSo+ptcbfudyp Y5xMwqXa5YKuIXB/53yjs1juwC+vzihFJHso3AXGoziHV6pH5VY5Jyh1KG5mzsDFF5FUBO4hK667B7 oILw2V9R6ewLQdXaTMsXd4DXgJQgeWisb5JCbJt3P+XG5pQeJEY23aUu4Q0gQevhrf3Q8FyTzH6vG8 8HRgh+iDUoikzPB2LupyB6KDjhGPNAAZ/ajQJkYBWe+mjFyqDi8QPQGDQjBWV029Hc6Ra7Q5SKq6Xi phuT8hPTm2gTwJjV/LR+b0OF0Un4eH0vtnfoOf+My1yXg1zrKSR0zdPSUikQ==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-Quoting Shubhrajyoti Datta (2021-11-14 21:31:10)
-> Hi ,
-> Could this patch series be merged if there are not further comments.
+When building with -Warray-bounds, the following warning is emitted:
 
-I'll merge it after the merge window closes. One comment on the
-location. Also, the subject would be better as "move out of staging" and
-ideally an Ack from Greg on that patch.
+In file included from ./include/linux/string.h:253,
+                 from ./arch/x86/include/asm/page_32.h:22,
+                 from ./arch/x86/include/asm/page.h:14,
+                 from ./arch/x86/include/asm/thread_info.h:12,
+                 from ./include/linux/thread_info.h:60,
+                 from ./arch/x86/include/asm/preempt.h:7,
+                 from ./include/linux/preempt.h:78,
+                 from ./include/linux/rcupdate.h:27,
+                 from ./include/linux/rculist.h:11,
+                 from ./include/linux/sched/signal.h:5,
+                 from ./drivers/staging/rtl8723bs/include/drv_types.h:17,
+                 from drivers/staging/rtl8723bs/core/rtw_recv.c:7:
+In function 'memcpy',
+    inlined from 'wlanhdr_to_ethhdr' at drivers/staging/rtl8723bs/core/rtw_recv.c:1554:2:
+./include/linux/fortify-string.h:41:33: warning: '__builtin_memcpy' offset [0, 5] is out of the bounds [0, 0] [-Warray-bounds]
+   41 | #define __underlying_memcpy     __builtin_memcpy
+      |                                 ^
+
+This is because the compiler sees it is possible for "ptr" to be a NULL
+value, and concludes that it has zero size and attempts to copy to it
+would overflow. Instead, detect the NULL return and error out early.
+
+Cc: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Phillip Potter <phil@philpotter.co.uk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Michael Straube <straube.linux@gmail.com>
+Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/staging/r8188eu/core/rtw_recv.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 51a13262a226..93b0aa5688e3 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -1191,6 +1191,9 @@ static int wlanhdr_to_ethhdr(struct recv_frame *precvframe)
+ 	u8	*ptr = get_recvframe_data(precvframe); /*  point to frame_ctrl field */
+ 	struct rx_pkt_attrib *pattrib = &precvframe->attrib;
+ 
++	if (!ptr)
++		return _FAIL;
++
+ 	if (pattrib->encrypt)
+ 		recvframe_pull_tail(precvframe, pattrib->icv_len);
+ 
+-- 
+2.30.2
+
