@@ -1,165 +1,99 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A51173
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 08:56:10 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id k30so8767398wrd.9
-        for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 00:56:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=X0+ozbHcABk5ySvOTGmwVfjCMF9e3Hws3Q4P++iFDE8=;
-        b=S22Oc+skUbJl8z4Eod43RO9F3hW0kpqZqXk2XXm9zJGVSdw2AUhvNhAUPHul3lPl8Q
-         RFy8dnmfxWv/CExpTnXVLtglKBYj0e4gX00hWwARoRG3o8B1QJGzLOWzv/pz+rBGdXC+
-         fqFm62wg98/bKx1VMw67IdnIp+Xe4jpUsMA0m4zmUGQdM+v0HReuxI+Qzuzrv69EdCbk
-         GKB6EZgBjW0BPDWhwcPSCU0hIWi7Hhpi39F6zo39iR8IjUcq4AzkFUZW/qqi8fPlMAgN
-         bz98GCBnzhg+5INS9L51bnJkPHD6IKm8FSrYrkg7OrGMb6pu8uR7uckiZ1xeBjk2IVdd
-         o6NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=X0+ozbHcABk5ySvOTGmwVfjCMF9e3Hws3Q4P++iFDE8=;
-        b=HiFV3j8MxYtbeyUkgiTfinkmyQMqr+b0IDUi7EO97gPoORhwhj3XY81hK9vmRAmSlx
-         CBDeyqvIxmkaGZzTGoA8lqad1QP2E4UKY3wR72QOEMM7ZVfUPSsgdRlPZQ9vw0E0b63H
-         C9V2TyV2czoghz1iCXRlkpLNkr5/+/UfHQ0lNT/WFlTTwfVVGKe8bPjvHJzrwQeI+TB8
-         f19ukhftZlKJZETo023V/PxBA40z5Z+VZ/rdKsuF39YAxQ1H0epd1/4rq0pwoiG8Gtt2
-         bVx2F+xiQ5KNMyHuSNVXWB0EozbLN0/VHGCl/hjmYsQPvXWnZA3GGypTEVvPf4W60gYn
-         Ve+Q==
-X-Gm-Message-State: AOAM530qIkX8vS47yKtlb7GmMNgu/xlwh83Da1S0qCH/SCihoqPLCEE9
-	94npUj72l3MmhSN1Sb2fA1H/QA==
-X-Google-Smtp-Source: ABdhPJzCqB5Gaox46foEvNONiUieQzo54Bxv6HmJbs3dUXMjYORDT1Ec6Klm2nWfvI5HjO9SJyURXg==
-X-Received: by 2002:a5d:6dc9:: with SMTP id d9mr3171002wrz.42.1642064168857;
-        Thu, 13 Jan 2022 00:56:08 -0800 (PST)
-Received: from ?IPv6:2001:861:44c0:66c0:bece:ab45:7469:4195? ([2001:861:44c0:66c0:bece:ab45:7469:4195])
-        by smtp.gmail.com with ESMTPSA id u16sm1935832wrn.24.2022.01.13.00.56.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jan 2022 00:56:08 -0800 (PST)
-Subject: Re: [PATCH v3] media: meson: vdec: potential dereference of null
- pointer
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, hverkuil-cisco@xs4all.nl,
- mchehab@kernel.org, gregkh@linuxfoundation.org, khilman@baylibre.com,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
- p.zabel@pengutronix.de
-Cc: linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20220113065928.1198125-1-jiasheng@iscas.ac.cn>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <9790448d-53bb-cc61-655e-dda70ae97fa3@baylibre.com>
-Date: Thu, 13 Jan 2022 09:56:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C74F2C9C
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 09:13:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85ED7C36AE3;
+	Thu, 13 Jan 2022 09:13:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1642065229;
+	bh=RW4DozPOxlNI92jF6lBPdvOqnuQ/ZzGN/UAe58oV+eg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K4dL/XHGr472oceoPwK418OamfSTy6sXTEBZyBLOSUC9WDd1h15zxDee6x9Rx2KpK
+	 +M6uixytBwvn8wbTG7AQfc0Erao4AbQPXnSvij/3DQ8Nnlun1QeLIOKzezgeN2CQ0F
+	 7xMVsqVgszFZ1QSj94nA+z+FH0C9ogay5S6qgrSw=
+Date: Thu, 13 Jan 2022 10:13:46 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev,
+	Hans de Goede <hdegoede@redhat.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Marco Cesati <marcocesati@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Check for NULL header value
+Message-ID: <Yd/tSpnpb4vWp6OP@kroah.com>
+References: <20220113002001.3498383-1-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220113065928.1198125-1-jiasheng@iscas.ac.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220113002001.3498383-1-keescook@chromium.org>
 
-On 13/01/2022 07:59, Jiasheng Jiang wrote:
-> As the possible failure of the kzalloc(), the 'new_ts' could be NULL
-> pointer.
-> Therefore, it should be better to check it in order to avoid the
-> dereference of the NULL pointer.
-> Also, the caller esparser_queue() needs to deal with the return value of
-> the amvdec_add_ts().
+On Wed, Jan 12, 2022 at 04:20:01PM -0800, Kees Cook wrote:
+> When building with -Warray-bounds, the following warning is emitted:
 > 
-> Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> In file included from ./include/linux/string.h:253,
+>                  from ./arch/x86/include/asm/page_32.h:22,
+>                  from ./arch/x86/include/asm/page.h:14,
+>                  from ./arch/x86/include/asm/thread_info.h:12,
+>                  from ./include/linux/thread_info.h:60,
+>                  from ./arch/x86/include/asm/preempt.h:7,
+>                  from ./include/linux/preempt.h:78,
+>                  from ./include/linux/rcupdate.h:27,
+>                  from ./include/linux/rculist.h:11,
+>                  from ./include/linux/sched/signal.h:5,
+>                  from ./drivers/staging/rtl8723bs/include/drv_types.h:17,
+>                  from drivers/staging/rtl8723bs/core/rtw_recv.c:7:
+> In function 'memcpy',
+>     inlined from 'wlanhdr_to_ethhdr' at drivers/staging/rtl8723bs/core/rtw_recv.c:1554:2:
+> ./include/linux/fortify-string.h:41:33: warning: '__builtin_memcpy' offset [0, 5] is out of the bounds [0, 0] [-Warray-bounds]
+>    41 | #define __underlying_memcpy     __builtin_memcpy
+>       |                                 ^
+> 
+> This is because the compiler sees it is possible for "ptr" to be a NULL
+> value, and concludes that it has zero size and attempts to copy to it
+> would overflow. Instead, detect the NULL return and error out early.
+> 
+> Cc: Larry Finger <Larry.Finger@lwfinger.net>
+> Cc: Phillip Potter <phil@philpotter.co.uk>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Michael Straube <straube.linux@gmail.com>
+> Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
+> Cc: linux-staging@lists.linux.dev
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
-> Changelog
+>  drivers/staging/rtl8723bs/core/rtw_recv.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> v1 -> v2
-> 
-> * Change 1. Change the return type of amvdec_add_ts from void to int.
-> * Change 2. Return -ENOMEN if alloc fail and return 0 if not.
-> * Change 3. Modify the caller to deal with the error.
-> 
-> v2 -> v3
-> 
-> * Change 1. Fix the indentation and refine the commit message.
-> ---
->  drivers/staging/media/meson/vdec/esparser.c     | 7 ++++++-
->  drivers/staging/media/meson/vdec/vdec_helpers.c | 8 ++++++--
->  drivers/staging/media/meson/vdec/vdec_helpers.h | 4 ++--
->  3 files changed, 14 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-> index db7022707ff8..86ccc8937afc 100644
-> --- a/drivers/staging/media/meson/vdec/esparser.c
-> +++ b/drivers/staging/media/meson/vdec/esparser.c
-> @@ -328,7 +328,12 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> index 41bfca549c64..61135c49322b 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> @@ -1513,6 +1513,9 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
+>  	u8 *ptr = get_recvframe_data(precvframe) ; /*  point to frame_ctrl field */
+>  	struct rx_pkt_attrib *pattrib = &precvframe->u.hdr.attrib;
 >  
->  	offset = esparser_get_offset(sess);
->  
-> -	amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-> +	ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-> +	if (ret) {
-> +		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
-> +		return ret;
-> +	}
-> +
->  	dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
->  		vb->timestamp, payload_size, offset, vbuf->flags);
->  
-> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> index 203d7afa085d..7d2a75653250 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> @@ -227,13 +227,16 @@ int amvdec_set_canvases(struct amvdec_session *sess,
->  }
->  EXPORT_SYMBOL_GPL(amvdec_set_canvases);
->  
-> -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-> -		   struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
-> +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-> +		  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
->  {
->  	struct amvdec_timestamp *new_ts;
->  	unsigned long flags;
->  
->  	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-> +	if (!new_ts)
-> +		return -ENOMEM;
-> +
->  	new_ts->ts = ts;
->  	new_ts->tc = tc;
->  	new_ts->offset = offset;
-> @@ -242,6 +245,7 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->  	spin_lock_irqsave(&sess->ts_spinlock, flags);
->  	list_add_tail(&new_ts->list, &sess->timestamps);
->  	spin_unlock_irqrestore(&sess->ts_spinlock, flags);
-> +	return 0;
->  }
->  EXPORT_SYMBOL_GPL(amvdec_add_ts);
->  
-> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
-> index 88137d15aa3a..4bf3e61d081b 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_helpers.h
-> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
-> @@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
->   * @offset: offset in the VIFIFO where the associated packet was written
->   * @flags: the vb2_v4l2_buffer flags
->   */
-> -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-> -		   struct v4l2_timecode tc, u32 offset, u32 flags);
-> +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-> +		  struct v4l2_timecode tc, u32 offset, u32 flags);
->  void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
->  
->  /**
-> 
+> +	if (!ptr)
+> +		return _FAIL;
 
-Suggested-by: Neil Armstrong <narmstrong@baylibre.com>
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+This will never happen, so let's not paper over compiler issues with
+stuff like this please.
 
-Neil
+As the call to get_recvframe_data() is only done in one place in this
+driver (in all drivers that look like this as well), it can just be
+replaced with the real code instead of the nonsensical test for NULL and
+then the compiler should be happy.
+
+I'll gladly take that fix instead of this one, as that would be the
+correct solution here.
+
+thanks,
+
+greg k-h
