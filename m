@@ -1,64 +1,165 @@
-Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DA572C9D
-	for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 07:06:44 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.126])
-	by APP-03 (Coremail) with SMTP id rQCowAAXH1t+z99hqZR7BQ--.10684S2;
-	Thu, 13 Jan 2022 15:06:38 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: hverkuil-cisco@xs4all.nl,
-	narmstrong@baylibre.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	khilman@baylibre.com,
-	jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com,
-	p.zabel@pengutronix.de
-Cc: linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: Re: Re: [PATCH v3] media: meson: vdec: Fix a NULL pointer dereference in amvdec_add_ts()
-Date: Thu, 13 Jan 2022 15:06:37 +0800
-Message-Id: <20220113070637.1198179-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A51173
+	for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 08:56:10 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id k30so8767398wrd.9
+        for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 00:56:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=X0+ozbHcABk5ySvOTGmwVfjCMF9e3Hws3Q4P++iFDE8=;
+        b=S22Oc+skUbJl8z4Eod43RO9F3hW0kpqZqXk2XXm9zJGVSdw2AUhvNhAUPHul3lPl8Q
+         RFy8dnmfxWv/CExpTnXVLtglKBYj0e4gX00hWwARoRG3o8B1QJGzLOWzv/pz+rBGdXC+
+         fqFm62wg98/bKx1VMw67IdnIp+Xe4jpUsMA0m4zmUGQdM+v0HReuxI+Qzuzrv69EdCbk
+         GKB6EZgBjW0BPDWhwcPSCU0hIWi7Hhpi39F6zo39iR8IjUcq4AzkFUZW/qqi8fPlMAgN
+         bz98GCBnzhg+5INS9L51bnJkPHD6IKm8FSrYrkg7OrGMb6pu8uR7uckiZ1xeBjk2IVdd
+         o6NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=X0+ozbHcABk5ySvOTGmwVfjCMF9e3Hws3Q4P++iFDE8=;
+        b=HiFV3j8MxYtbeyUkgiTfinkmyQMqr+b0IDUi7EO97gPoORhwhj3XY81hK9vmRAmSlx
+         CBDeyqvIxmkaGZzTGoA8lqad1QP2E4UKY3wR72QOEMM7ZVfUPSsgdRlPZQ9vw0E0b63H
+         C9V2TyV2czoghz1iCXRlkpLNkr5/+/UfHQ0lNT/WFlTTwfVVGKe8bPjvHJzrwQeI+TB8
+         f19ukhftZlKJZETo023V/PxBA40z5Z+VZ/rdKsuF39YAxQ1H0epd1/4rq0pwoiG8Gtt2
+         bVx2F+xiQ5KNMyHuSNVXWB0EozbLN0/VHGCl/hjmYsQPvXWnZA3GGypTEVvPf4W60gYn
+         Ve+Q==
+X-Gm-Message-State: AOAM530qIkX8vS47yKtlb7GmMNgu/xlwh83Da1S0qCH/SCihoqPLCEE9
+	94npUj72l3MmhSN1Sb2fA1H/QA==
+X-Google-Smtp-Source: ABdhPJzCqB5Gaox46foEvNONiUieQzo54Bxv6HmJbs3dUXMjYORDT1Ec6Klm2nWfvI5HjO9SJyURXg==
+X-Received: by 2002:a5d:6dc9:: with SMTP id d9mr3171002wrz.42.1642064168857;
+        Thu, 13 Jan 2022 00:56:08 -0800 (PST)
+Received: from ?IPv6:2001:861:44c0:66c0:bece:ab45:7469:4195? ([2001:861:44c0:66c0:bece:ab45:7469:4195])
+        by smtp.gmail.com with ESMTPSA id u16sm1935832wrn.24.2022.01.13.00.56.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jan 2022 00:56:08 -0800 (PST)
+Subject: Re: [PATCH v3] media: meson: vdec: potential dereference of null
+ pointer
+To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, hverkuil-cisco@xs4all.nl,
+ mchehab@kernel.org, gregkh@linuxfoundation.org, khilman@baylibre.com,
+ jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+ p.zabel@pengutronix.de
+Cc: linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20220113065928.1198125-1-jiasheng@iscas.ac.cn>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <9790448d-53bb-cc61-655e-dda70ae97fa3@baylibre.com>
+Date: Thu, 13 Jan 2022 09:56:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAAXH1t+z99hqZR7BQ--.10684S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYq7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87
-	Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAK
-	zVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx
-	8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIF
-	xwACI402YVCY1x02628vn2kIc2xKxwCY02Avz4vE14v_GF4l42xK82IYc2Ij64vIr41l4I
-	8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
-	xVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
-	AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8I
-	cIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
-	v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOPEfUUUUU
-X-Originating-IP: [124.16.138.126]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+In-Reply-To: <20220113065928.1198125-1-jiasheng@iscas.ac.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 12, 2022 at 05:04:41PM +0800, Hans Verkuil wrote:
-> I changed the status of this patch to 'Changes Requested'. Jiasheng,
-> can you post a v3 with
-> the requested changes?
+On 13/01/2022 07:59, Jiasheng Jiang wrote:
+> As the possible failure of the kzalloc(), the 'new_ts' could be NULL
+> pointer.
+> Therefore, it should be better to check it in order to avoid the
+> dereference of the NULL pointer.
+> Also, the caller esparser_queue() needs to deal with the return value of
+> the amvdec_add_ts().
+> 
+> Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> ---
+> Changelog
+> 
+> v1 -> v2
+> 
+> * Change 1. Change the return type of amvdec_add_ts from void to int.
+> * Change 2. Return -ENOMEN if alloc fail and return 0 if not.
+> * Change 3. Modify the caller to deal with the error.
+> 
+> v2 -> v3
+> 
+> * Change 1. Fix the indentation and refine the commit message.
+> ---
+>  drivers/staging/media/meson/vdec/esparser.c     | 7 ++++++-
+>  drivers/staging/media/meson/vdec/vdec_helpers.c | 8 ++++++--
+>  drivers/staging/media/meson/vdec/vdec_helpers.h | 4 ++--
+>  3 files changed, 14 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
+> index db7022707ff8..86ccc8937afc 100644
+> --- a/drivers/staging/media/meson/vdec/esparser.c
+> +++ b/drivers/staging/media/meson/vdec/esparser.c
+> @@ -328,7 +328,12 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+>  
+>  	offset = esparser_get_offset(sess);
+>  
+> -	amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
+> +	ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
+> +	if (ret) {
+> +		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
+> +		return ret;
+> +	}
+> +
+>  	dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
+>  		vb->timestamp, payload_size, offset, vbuf->flags);
+>  
+> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+> index 203d7afa085d..7d2a75653250 100644
+> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
+> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+> @@ -227,13 +227,16 @@ int amvdec_set_canvases(struct amvdec_session *sess,
+>  }
+>  EXPORT_SYMBOL_GPL(amvdec_set_canvases);
+>  
+> -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+> -		   struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
+> +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+> +		  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
+>  {
+>  	struct amvdec_timestamp *new_ts;
+>  	unsigned long flags;
+>  
+>  	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
+> +	if (!new_ts)
+> +		return -ENOMEM;
+> +
+>  	new_ts->ts = ts;
+>  	new_ts->tc = tc;
+>  	new_ts->offset = offset;
+> @@ -242,6 +245,7 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+>  	spin_lock_irqsave(&sess->ts_spinlock, flags);
+>  	list_add_tail(&new_ts->list, &sess->timestamps);
+>  	spin_unlock_irqrestore(&sess->ts_spinlock, flags);
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(amvdec_add_ts);
+>  
+> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
+> index 88137d15aa3a..4bf3e61d081b 100644
+> --- a/drivers/staging/media/meson/vdec/vdec_helpers.h
+> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
+> @@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
+>   * @offset: offset in the VIFIFO where the associated packet was written
+>   * @flags: the vb2_v4l2_buffer flags
+>   */
+> -void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+> -		   struct v4l2_timecode tc, u32 offset, u32 flags);
+> +int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+> +		  struct v4l2_timecode tc, u32 offset, u32 flags);
+>  void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
+>  
+>  /**
+> 
 
-Thanks, I have sent the v3 with the correct indentation.
-And I am sorry that I sent two patches, and the first one is
-lack of 'v3' tag.
-So please ignore it.
-And the later one is right.
+Suggested-by: Neil Armstrong <narmstrong@baylibre.com>
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 
-Sincerely thanks,
-Jiang
-
+Neil
