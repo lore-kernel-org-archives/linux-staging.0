@@ -1,53 +1,54 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E3029CA
-	for <linux-staging@lists.linux.dev>; Fri, 14 Jan 2022 00:32:54 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id d19so13143180wrb.0
-        for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 16:32:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7C929CA
+	for <linux-staging@lists.linux.dev>; Fri, 14 Jan 2022 00:42:55 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id c126-20020a1c9a84000000b00346f9ebee43so4725942wme.4
+        for <linux-staging@lists.linux.dev>; Thu, 13 Jan 2022 16:42:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=KlzgoeIphsWtbK6+VtD88aVKqCm4pOwdtls8/CLOXkE=;
-        b=06t5TCnFYjUobCTtTnRue9V6YcrweMimjAEa4YzgiKwtjWhdsrR77J2SlGuf/iEZ65
-         HCrCHxXONUhfe1leuumwj3LM4vtSiMy0U0lwX4rfHBsCdrISZ+OMJAfliWTNR+E6Bch2
-         49C67TZGgAtdvz1hi37aG7iN+o08TYp7XPkwC9WuPm1o+5482JBRs0aUHLJyHQyUSYvx
-         T0gy/J/X8l0HSrTWjdNah/TnAUS0eMTuhCezBIm4SM2uhFhh7DIZwjuFEf3YqtQIrzUz
-         JoNDi/By6ofnU5Acinuv9IN4Ljx/Ec0UEJ+cL0wCEIBgh4+3PricbSM6Nau6I/l2I2j2
-         0TZA==
+        bh=PdLaFJ7mQpkrAJQLB818USTGDL7xDCP3yDj71WsdZOc=;
+        b=ermvpzRfAeXvbQoW/NU+Nyz8KsVNsA+9MkTJMeZnzvAz8noUZtj+DIoLp5KH1pToY4
+         nO0EcZKTo7/CBd8fwseqhxZuZzaCHgJg9Y2wIvKJYLU5D/pFkPrlnUmgU+Ybmr6f3MJ9
+         Obj1b+Gqt3LebbsYskHDf/TCCDEMVW+3d5QAkrVU+cdkhnB+3pAYe91cUowL6COSHauy
+         MXdA8+dbSBPlLz3HO5z6XyXFzk2vb1FqVrAy7M/gEI61kT9hhiuv0C3lEj4UTEkSqjuN
+         FNh1Gf/Q/aIy0ZzMC8Ps0iX31+vJScTapecJ0dqLUmQOPG4pRQMs1P2pRhErlF/mkIED
+         WGXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=KlzgoeIphsWtbK6+VtD88aVKqCm4pOwdtls8/CLOXkE=;
-        b=yRm8PFl32S+/IrH9lCvjJMmtMvAqv7qMoObwv/SCS4sZXuS4XjDA7cmAZGfgG0hseK
-         4Gi+DLqq5S7gzT7/DcAeesfGVkiaX2to4lIg0LtW4F0k9uSfMHxOS7VSRJ04tfpeZGYZ
-         gD33KBLbx4gJLn09CFCnEbLqYRnqu8EV9BmJiAWBsJmj9IirTiE+k/lelNSr8E2jhq8G
-         aLyMuJD4B3YMBZsDspiukzyt98aHz6kXy6F1jWaTmuRVhmnfZkVL5qqoC12Wsw5KkjPQ
-         vq1D2X4erEIJWbXbOEmH3IeFsRDN40EQ1ZUcXsdkPoZ92wYuIXMspCNNrlC0JtA/PUc8
-         w3Fg==
-X-Gm-Message-State: AOAM530KC+DOQwydu04bf3XMxDY8RxY0RNv6i0DIvsfY8iUcJVPpfSRE
-	SwfMfqVOUvKsGL2oQWuurK4hvA==
-X-Google-Smtp-Source: ABdhPJxIxU23ZFw7SgW+EYYPZ0nrj6BYFkziYsFCgTIKo9oHokqLByvSQcfQmoaKsCIF+fi2IYcJVA==
-X-Received: by 2002:a5d:648b:: with SMTP id o11mr6339386wri.227.1642120372431;
-        Thu, 13 Jan 2022 16:32:52 -0800 (PST)
+        bh=PdLaFJ7mQpkrAJQLB818USTGDL7xDCP3yDj71WsdZOc=;
+        b=izl+F5bLPr1IIKLXoqL6vPvH5o5UELwZQpMWZOvKUhPeeI7SP4xGtf5qPj1M7UPd3N
+         E7mTCVOSq4yTNWD4X3omVAkNsIQI6ppE3gTUoCtVKq3Si2DUEVL9crtfI9UMa08mLM+T
+         73aGhDjA2+E8MAZrafIS1ERjIgIJhCwk++zeheiIP4aNYvzj0BRENABkrXMJKECf2mml
+         mwQM6eeFdwSkCVzqzoSS3+sN3+mRi1Ip2CHrWqlH6rse3qSkAyQT/h8H4mceJxn+wmOd
+         HjEsDrsUW3Ppf+ZBBftP3RFBsua2if0a/a03tsy7n54xRwxwFalMtyiVOGoN1S3w0cWl
+         lejg==
+X-Gm-Message-State: AOAM530JhS4nsMzGkICFKEPXIH09XBOOPqXe79jeWbthsiAhe3ddRQxR
+	AxUxcWNn8T5X6ec9JBcVPGIrpw==
+X-Google-Smtp-Source: ABdhPJzBs1bQyASATtj77sp9ccpf3cUeDakj6icFSLtQN2uQCU+yX18t3BthUb6wWC0qkOFApNc4xQ==
+X-Received: by 2002:a05:600c:4e46:: with SMTP id e6mr6117400wmq.132.1642120973799;
+        Thu, 13 Jan 2022 16:42:53 -0800 (PST)
 Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id z17sm3946965wrh.87.2022.01.13.16.32.51
+        by smtp.gmail.com with ESMTPSA id bk17sm3594437wrb.105.2022.01.13.16.42.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jan 2022 16:32:51 -0800 (PST)
-Date: Fri, 14 Jan 2022 00:32:48 +0000
+        Thu, 13 Jan 2022 16:42:53 -0800 (PST)
+Date: Fri, 14 Jan 2022 00:42:50 +0000
 From: Phillip Potter <phil@philpotter.co.uk>
-To: Pavel Skripkin <paskripkin@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net, straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 7/7] staging: r8188eu: convert DBG_88E calls in
- core/rtw_sta_mgt.c
-Message-ID: <YeDEsOz8GkNPJYJQ@equinox>
-References: <20220110090020.6800-1-phil@philpotter.co.uk>
- <20220110090020.6800-8-phil@philpotter.co.uk>
- <32d83cb4-ceff-a5c5-be62-a8fe99aac3de@gmail.com>
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/7] staging: r8188eu: convert DBG_88E calls in
+ core/rtw_iol.c
+Message-ID: <YeDHCtZ+hy0Q+ZXV@equinox>
+References: <20220109215427.887-1-phil@philpotter.co.uk>
+ <20220109215427.887-4-phil@philpotter.co.uk>
+ <20220110100843.GC1951@kadam>
+ <YdydYlpVzHoLy2Wh@equinox>
+ <20220111050644.GD1951@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,68 +57,95 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <32d83cb4-ceff-a5c5-be62-a8fe99aac3de@gmail.com>
+In-Reply-To: <20220111050644.GD1951@kadam>
 
-On Tue, Jan 11, 2022 at 12:05:09AM +0300, Pavel Skripkin wrote:
-> Hi Phillip,
-> 
-> On 1/10/22 12:00, Phillip Potter wrote:
-> > Convert the DBG_88E macro calls in core/rtw_sta_mgt.c to use pr_debug,
-> > as their information may be useful to observers, and this gets the
-> > driver closer to the point of being able to remove DBG_88E itself.
+On Tue, Jan 11, 2022 at 08:06:44AM +0300, Dan Carpenter wrote:
+> On Mon, Jan 10, 2022 at 08:56:02PM +0000, Phillip Potter wrote:
+> > On Mon, Jan 10, 2022 at 01:08:43PM +0300, Dan Carpenter wrote:
+> > > On Sun, Jan 09, 2022 at 09:54:23PM +0000, Phillip Potter wrote:
+> > > > Convert the DBG_88E macro calls in core/rtw_iol.c to use pr_debug
+> > > > or netdev_dbg appropriately, as their information may be useful to
+> > > > observers, and this gets the driver closer to the point of being
+> > > > able to remove DBG_88E itself.
+> > > > 
+> > > > Some calls are at points in the call chain where use of dev_dbg or
+> > > > netdev_dbg isn't possible due to lack of device pointer, so plain
+> > > > pr_debug is appropriate here.
+> > > > 
+> > > > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> > > > ---
+> > > >  drivers/staging/r8188eu/core/rtw_iol.c | 10 ++++++----
+> > > >  1 file changed, 6 insertions(+), 4 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
+> > > > index 7e78b47c1284..923da2a9f6ae 100644
+> > > > --- a/drivers/staging/r8188eu/core/rtw_iol.c
+> > > > +++ b/drivers/staging/r8188eu/core/rtw_iol.c
+> > > > @@ -12,13 +12,15 @@ struct xmit_frame	*rtw_IOL_accquire_xmit_frame(struct adapter  *adapter)
+> > > >  
+> > > >  	xmit_frame = rtw_alloc_xmitframe(pxmitpriv);
+> > > >  	if (!xmit_frame) {
+> > > > -		DBG_88E("%s rtw_alloc_xmitframe return null\n", __func__);
+> > > > +		netdev_dbg(adapter->pnetdev,
+> > > > +			   "rtw_alloc_xmitframe return null\n");
+> > > 
+> > > You're going to have to send this anyway because of the compile issue.
+> > > 
+> > > I feel like you are not being aggressive enough in the debug messages
+> > > that you delete.  For example, this one should definitely be deleted.
+> > > Don't print an error message for alloc failures.
+> > > 
+> > > It would be easier to Ack a mass delete of these messages.
+> > > 
+> > > regards,
+> > > dan carpenter
+> > > 
 > > 
-> > These calls are at points in the call chain where use of dev_dbg or
-> > netdev_dbg isn't possible due to lack of device pointer, so plain
-> > pr_debug is appropriate here.
+> > Dear Dan,
 > > 
-> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> > ---
-> >   drivers/staging/r8188eu/core/rtw_sta_mgt.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > Thank you for your feedback. I already sent a V2 series to fix the empty case
+> > label I left in core/rtw_mlme_ext.c, sounds like a V3 is needed though 
+> > based on this feedback - admittedly I have tried to be conservative and
+> > basically only removed commented DBG_88E calls or calls which just print the
+> > function name/line number so far.
+> 
+> Yeah.  I saw v3.  It's fine.  I'm not really trying to nak your patches.
+> 
 > > 
-> > diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-> > index 54561ff239a0..de5406a5870c 100644
-> > --- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-> > +++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-> > @@ -104,7 +104,7 @@ inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
-> >   	int offset = (((u8 *)sta) - stapriv->pstainfo_buf) / sizeof(struct sta_info);
-> >   	if (!stainfo_offset_valid(offset))
-> > -		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
-> > +		pr_debug("invalid offset(%d), out of range!!!", offset);
-> >   	return offset;
-> >   }
+> > I get what you're saying about deleting them all just being easier,
+> > but I've already converted several in previous series that have
+> > made it in. It would make sense to delete these converted calls as well
+> > if going for the total deletion approach. Also, I do worry some of the
+> > info could be useful. I'd appreciate your thoughts on this.
+> > 
+> > I am happy to delete it all by all means, just want to make sure majority
+> > would be happy with that approach, as opposed to a refinement of this
+> > approach and being more judicious with deletion of more DBG_88E calls.
 > 
-> There is only one caller of this function and it also checks if offset is
-> valid. I think, this check with debug message can be removed from this
-> function.
+> In the original code DBG_88E was kind of an error level severity message
+> not a debug level severity.  Of course, you had to use a module option
+> to turn on any output at all so it's hard to judge how that works in
+> real life.  By making them debug level severity, you've basically
+> deleted them already...  Don't be a hoarder.
 > 
+> Once you change it to dev_dbg() then it becomes more difficult
+> emotionally to do a mass delete.
+> 
+> There is a real value to just deleting stuff.
+> 
+> regards,
+> dan carpenter
 
-Dear Pavel,
+Thanks Dan,
 
-Thank you for your feedback, much appreciated. Good call on this one, I
-can take it out in a subsequent v3 series.
+OK - based on what you've said, I will make a series to just remove all
+DBG_88E calls, including any I've already converted that have been
+merged, and also the aliased versions that are defined via additional
+preprocessor directives.
 
-> > @@ -112,7 +112,7 @@ inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
-> >   inline struct sta_info *rtw_get_stainfo_by_offset(struct sta_priv *stapriv, int offset)
-> >   {
-> >   	if (!stainfo_offset_valid(offset))
-> > -		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
-> > +		pr_debug("invalid offset(%d), out of range!!!", offset);
-> >   	return (struct sta_info *)(stapriv->pstainfo_buf + offset * sizeof(struct sta_info));
-> >   }
-> 
-> Is it safe to proceed with invalid offset? Debug message says it's out of
-> range, so might be we should just return with an error?
-> 
-> 
-> 
-> 
-> With regards,
-> Pavel Skripkin
-
-I would need to check the code, but good observation. I wanted to limit
-the scope of this series explicitly to DBG_88E calls, but might be worth
-changing this at the same time.
+Greg - please could you disregard this series and the previous smaller
+one I sent? The new series will supersede them both when it's ready.
+Many thanks.
 
 Regards,
 Phil
