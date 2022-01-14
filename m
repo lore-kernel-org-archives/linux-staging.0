@@ -1,104 +1,134 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7E12C82
-	for <linux-staging@lists.linux.dev>; Fri, 14 Jan 2022 20:15:18 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id x11so8082348lfa.2
-        for <linux-staging@lists.linux.dev>; Fri, 14 Jan 2022 12:15:18 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85738173
+	for <linux-staging@lists.linux.dev>; Fri, 14 Jan 2022 22:16:49 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id i30so3827856pgl.0
+        for <linux-staging@lists.linux.dev>; Fri, 14 Jan 2022 14:16:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Af/c/cmtwosjw0APkMST/3ZMvIGAMWEBBfXo5bF9yz4=;
-        b=FbvanhEpZqk0O3klSmyorAa4SenfcjBKEwaCoBAujnpi2H6lbhAAl9UaEb3OU1AX9S
-         tq0yAwzp6rebqElwcBgvp5SXFcdgr0ZO7x9OTTgXYo0Kt6hMx0aTOB2W2HzqMe8eUeCg
-         Rn1vVlCoRyO6TpFBrav28mV1gwcwHMvHiGFSOkXBYcMl0K/0r+7SNujgjwIRdwQehmA9
-         1rvMjJC1yV6+wrmo//S5bf7VWPJXgVArhQnfE0rYYtco3s4BsBt1HZyrWYERRHUGoijp
-         udx9xMGh8Z3J0gNZrUmuBdds1I5CGcCi1oNsfuhMNveAI9NvLxYXh/c4+FQ7YDvWzzsX
-         3PgA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to;
+        bh=OttVB1JDlQIH0hruwh7e4jzJ1Iy+SYzWcI9z74YarIM=;
+        b=JvBtn0GSCXd6vAqtj8DQaYeUDRg19TCiv9rSLRoPfTSZjbR6M6+1S7UlYA2WU11buk
+         qbu/WQgLZdQGevF046+rKgxsgr9hC5QgY5BgzZ/1cNAooxVNi7cCLXRsuE0dZZrbGPtV
+         04M3IUbb7sKh6iNKJMKsDnMyTaB/L4Fn2UxZAFJ1Ugm58uI2UCdKYoYkMBBvfPLTrssR
+         rKZ72WvgO2UzAXSeecFasBhHenv7OoB+uezilCpPWVeemociUZztPFHwbyTg4PZP0s8V
+         4KD/GLpHidzLKh7ujVbDrek6mDJFaRgJNcYhvaiBiZ90p5JFM5P9yWzJ68CFyzOTdAoT
+         oK9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Af/c/cmtwosjw0APkMST/3ZMvIGAMWEBBfXo5bF9yz4=;
-        b=PVSCmloecKrCuhr9FlMV7Uu3acWM/9+ru08a7uNC9QbxftsfWegl9ympIKmG50qLAj
-         /m1dwTE3jkCccYtpJrT33QP9ElO6Yc43kTOsCrXHet6KcGszWgj+mIY4tbBXMtpK1muh
-         7sbD3sp/LfXl4JbZDH5dduQuGtw6y45J6glv3pePxa3xP48AbiLHu4UFflDttYCE7zog
-         hQIKkSaKeYTu51vj08Gh2QwiBomOLFOutcwR2TKCIvOlL2Unk9BQfLjW7m79uj8YHvAr
-         1hDfCtoqFBo79d86dMoyDYLKF0d1qsST3KSxOc5ehP85U2lLfpHph8EqSamG29S7N5Td
-         XMRA==
-X-Gm-Message-State: AOAM533M1cbFMrGiAWgqxATDpN+mcgtiQj4BT7KZ3fiCMoItsHKxzFR1
-	HSnOb3io/FoIWtazUrveV5Y=
-X-Google-Smtp-Source: ABdhPJz5MiqlmXP0O7zQjXu7kndxxygVYNSidIoVO+o80uaIKj74qbztLyYPTH+7DYm4A7IsMyL59w==
-X-Received: by 2002:ac2:4116:: with SMTP id b22mr7954880lfi.530.1642191316151;
-        Fri, 14 Jan 2022 12:15:16 -0800 (PST)
-Received: from [192.168.1.11] ([217.117.245.67])
-        by smtp.gmail.com with ESMTPSA id f18sm676700lfr.5.2022.01.14.12.15.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jan 2022 12:15:15 -0800 (PST)
-Message-ID: <8faa56ea-c670-9ad2-c3b3-a560f8cf2aaa@gmail.com>
-Date: Fri, 14 Jan 2022 23:15:14 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to;
+        bh=OttVB1JDlQIH0hruwh7e4jzJ1Iy+SYzWcI9z74YarIM=;
+        b=yQTrLP9UiidPy0J7VR2hiReoSRUQNkeuRBzE9Dnqg2wzL8xPhXQZitXZEvv4kk9Ujo
+         bj0HHNKtYarAdG3sSOTEBrQNjOgfRR3XU/DLXEn7A2iq9YvKVHDpxRbZW4ZjzvmbzKJs
+         RT4vVcBaWf1Fn0f48dExbKRLbUh4TM+JO0eHPiE7a/XKujnL7FjVU57A2MMVCuUQw0dT
+         SywBhe0nt9s8ZeNHflroqJT22Fs5r2utQSEzbilsjI01ptHPyPjX244RGdpsGmwYLd1T
+         DqtCz4qTtCJJwvede/tjcDuhuovC1TZbAUh3ZxSKhXKnp/ifmfyGSG7eouCGAU4twYke
+         uoFQ==
+X-Gm-Message-State: AOAM532qnzRjqppvOdIjVmzDzKLwE/Y3ev4f0FB2LkPLGCcI+XkRCkJp
+	zZsOpbtDjHKYCkXOiT2u28w=
+X-Google-Smtp-Source: ABdhPJy/Rj6TFe+U/d0OOo6+3Ko57hsBHqhfkURqGKUVYdWRL/6lGMcKVTNOsT7mV122SJDkFzmDig==
+X-Received: by 2002:aa7:9510:0:b0:4bd:ce79:d158 with SMTP id b16-20020aa79510000000b004bdce79d158mr10750064pfp.24.1642198608915;
+        Fri, 14 Jan 2022 14:16:48 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id k3sm11972788pjt.39.2022.01.14.14.16.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jan 2022 14:16:48 -0800 (PST)
+Date: Sat, 15 Jan 2022 11:16:43 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
+	realwakka@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: pi433: enforce tx_cfg to be set before any
+ message can be sent
+Message-ID: <20220114221643.GA7843@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v2 7/7] staging: r8188eu: convert DBG_88E calls in
- core/rtw_sta_mgt.c
-Content-Language: en-US
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Larry.Finger@lwfinger.net, straube.linux@gmail.com, martin@kaiser.cx,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- gregkh@linuxfoundation.org
-References: <20220110090020.6800-1-phil@philpotter.co.uk>
- <20220110090020.6800-8-phil@philpotter.co.uk>
- <32d83cb4-ceff-a5c5-be62-a8fe99aac3de@gmail.com> <YeDEsOz8GkNPJYJQ@equinox>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <YeDEsOz8GkNPJYJQ@equinox>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220112084002.GA27596@mail.google.com>
 
-Hi Phillip,
+this driver relies on exposing a char device to userspace to tx
+messages. Every message can be sent using different trasmitter settings
+such so the tx_cfg must be written before sending any messages.
+Failing to do so will cause the message to fail silently depending on
+printk/dynamic_debug settings which makes it hard to troubleshoot.
 
-On 1/14/22 03:32, Phillip Potter wrote:
-[...]
+This patch add a control variable that will get initialized once tx_cfg
+is set for the fd used when interacting with the char device.
 
->> > @@ -112,7 +112,7 @@ inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
->> >   inline struct sta_info *rtw_get_stainfo_by_offset(struct sta_priv *stapriv, int offset)
->> >   {
->> >   	if (!stainfo_offset_valid(offset))
->> > -		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
->> > +		pr_debug("invalid offset(%d), out of range!!!", offset);
->> >   	return (struct sta_info *)(stapriv->pstainfo_buf + offset * sizeof(struct sta_info));
->> >   }
->> 
->> Is it safe to proceed with invalid offset? Debug message says it's out of
->> range, so might be we should just return with an error?
->> 
->> 
->> 
->> 
->> With regards,
->> Pavel Skripkin
-> 
-> I would need to check the code, but good observation. I wanted to limit
-> the scope of this series explicitly to DBG_88E calls, but might be worth
-> changing this at the same time.
-> 
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+---
 
-I think, this log without immediate return is not very useful. If code 
-writes somewhere OOB it means bomb has been planted. And this message 
-can be reworked as "hey, I've placed a small bomb somewhere, please, be 
-ready".
+changelog:
 
-I do not mean, that log is useless, I mean log without return is not 
-very useful
+v2: changed message and remove redudant assignments pointed out during
+    code review. (Req: Dan Carpenter, Sidong Yang)
+v1: https://lore.kernel.org/lkml/20220108222652.GA11883@mail.google.com/
 
+patch dependency:
 
+- This patch needs the patch below to be applied first as both tweak the
+  same file.
+  https://lore.kernel.org/lkml/20220108212728.GA7784@mail.google.com/
+---
+ drivers/staging/pi433/pi433_if.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-With regards,
-Pavel Skripkin
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 051c9052aeeb..f9f86e2c44a9 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -108,6 +108,9 @@ struct pi433_device {
+ struct pi433_instance {
+ 	struct pi433_device	*device;
+ 	struct pi433_tx_cfg	tx_cfg;
++
++	/* control flags */
++	bool			tx_cfg_initialized;
+ };
+ 
+ /*-------------------------------------------------------------------------*/
+@@ -823,6 +826,16 @@ pi433_write(struct file *filp, const char __user *buf,
+ 	if (count > MAX_MSG_SIZE)
+ 		return -EMSGSIZE;
+ 
++	/*
++	 * check if tx_cfg has been initialized otherwise we won't be able to
++	 * config the RF trasmitter correctly due to invalid settings
++	 */
++	if (!instance->tx_cfg_initialized) {
++		dev_notice_once(device->dev,
++				"write: failed due to unconfigured tx_cfg (see PI433_IOC_WR_TX_CFG)");
++		return -EINVAL;
++	}
++
+ 	/*
+ 	 * write the following sequence into fifo:
+ 	 * - tx_cfg
+@@ -897,6 +910,7 @@ pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 			return -EFAULT;
+ 		mutex_lock(&device->tx_fifo_lock);
+ 		memcpy(&instance->tx_cfg, &tx_cfg, sizeof(struct pi433_tx_cfg));
++		instance->tx_cfg_initialized = true;
+ 		mutex_unlock(&device->tx_fifo_lock);
+ 		break;
+ 	case PI433_IOC_RD_RX_CFG:
+@@ -949,8 +963,6 @@ static int pi433_open(struct inode *inode, struct file *filp)
+ 
+ 	/* setup instance data*/
+ 	instance->device = device;
+-	instance->tx_cfg.bit_rate = 4711;
+-	// TODO: fill instance->tx_cfg;
+ 
+ 	/* instance data as context */
+ 	filp->private_data = instance;
+-- 
+2.25.4
+
