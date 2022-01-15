@@ -1,49 +1,55 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85738173
-	for <linux-staging@lists.linux.dev>; Fri, 14 Jan 2022 22:16:49 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id i30so3827856pgl.0
-        for <linux-staging@lists.linux.dev>; Fri, 14 Jan 2022 14:16:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA346168
+	for <linux-staging@lists.linux.dev>; Sat, 15 Jan 2022 04:14:04 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id f13so4485708plg.0
+        for <linux-staging@lists.linux.dev>; Fri, 14 Jan 2022 20:14:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to;
-        bh=OttVB1JDlQIH0hruwh7e4jzJ1Iy+SYzWcI9z74YarIM=;
-        b=JvBtn0GSCXd6vAqtj8DQaYeUDRg19TCiv9rSLRoPfTSZjbR6M6+1S7UlYA2WU11buk
-         qbu/WQgLZdQGevF046+rKgxsgr9hC5QgY5BgzZ/1cNAooxVNi7cCLXRsuE0dZZrbGPtV
-         04M3IUbb7sKh6iNKJMKsDnMyTaB/L4Fn2UxZAFJ1Ugm58uI2UCdKYoYkMBBvfPLTrssR
-         rKZ72WvgO2UzAXSeecFasBhHenv7OoB+uezilCpPWVeemociUZztPFHwbyTg4PZP0s8V
-         4KD/GLpHidzLKh7ujVbDrek6mDJFaRgJNcYhvaiBiZ90p5JFM5P9yWzJ68CFyzOTdAoT
-         oK9Q==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mfIrzj6cPcGzWR/gN8R7LyeEpSY521Rk0SIcNjAgQwo=;
+        b=D4zpVPRtkIQYIqolRPih/thQZjac99N1tHrhrQcT4NLSu6zjJXH4rmRWaNBUL6gGa0
+         2McD+Nc+1QM0Nu586VyP4uNHqGirwrAj4JTypaa/zSdMaac6wmocNYLr/pOUsC1KtWQw
+         x/6LRvnryvaGPECwPHL7/hu/JGK/oBFCuipqQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to;
-        bh=OttVB1JDlQIH0hruwh7e4jzJ1Iy+SYzWcI9z74YarIM=;
-        b=yQTrLP9UiidPy0J7VR2hiReoSRUQNkeuRBzE9Dnqg2wzL8xPhXQZitXZEvv4kk9Ujo
-         bj0HHNKtYarAdG3sSOTEBrQNjOgfRR3XU/DLXEn7A2iq9YvKVHDpxRbZW4ZjzvmbzKJs
-         RT4vVcBaWf1Fn0f48dExbKRLbUh4TM+JO0eHPiE7a/XKujnL7FjVU57A2MMVCuUQw0dT
-         SywBhe0nt9s8ZeNHflroqJT22Fs5r2utQSEzbilsjI01ptHPyPjX244RGdpsGmwYLd1T
-         DqtCz4qTtCJJwvede/tjcDuhuovC1TZbAUh3ZxSKhXKnp/ifmfyGSG7eouCGAU4twYke
-         uoFQ==
-X-Gm-Message-State: AOAM532qnzRjqppvOdIjVmzDzKLwE/Y3ev4f0FB2LkPLGCcI+XkRCkJp
-	zZsOpbtDjHKYCkXOiT2u28w=
-X-Google-Smtp-Source: ABdhPJy/Rj6TFe+U/d0OOo6+3Ko57hsBHqhfkURqGKUVYdWRL/6lGMcKVTNOsT7mV122SJDkFzmDig==
-X-Received: by 2002:aa7:9510:0:b0:4bd:ce79:d158 with SMTP id b16-20020aa79510000000b004bdce79d158mr10750064pfp.24.1642198608915;
-        Fri, 14 Jan 2022 14:16:48 -0800 (PST)
-Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id k3sm11972788pjt.39.2022.01.14.14.16.45
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mfIrzj6cPcGzWR/gN8R7LyeEpSY521Rk0SIcNjAgQwo=;
+        b=FasAXKZSSWB7rb0WAitBmpvXoFYStQpLZ57PIo7KonTaft1M1H6OOO+r1VU927BmYV
+         x+IpxKc9qwMoNDozWrpPNDxg9B+JYoJo/Pgez/4eZ9HKR1oVRvzGMev2QaNYzcIdB8A8
+         xFnfKL73oWubFJFMuh20kOzW80s27qUZO9jnPauYMH4jAZ8U/hzlDk8vzeEZQs6yc8pW
+         QFtukIUMCZLT4/ovXsmcCzou3407o5nkOHxoSj5WVnEUUjVfBEVndUCz17HeoGv+u2tJ
+         CLslGGei3BRWalalKyyigtQnV7j4fGAiac+JjQ+88f9RR7D0xP3t1TWS+aTnbzykgdUb
+         cnHA==
+X-Gm-Message-State: AOAM531DxC3asqa+TODLBm/fx9jf/yMcVndzETOgzgaSCoCzEwwkquIc
+	/mWaPFGVFVORG1vBsWdCRQ5xYw==
+X-Google-Smtp-Source: ABdhPJxUkgWJzQPhcFWbWuR/K659eJVHLeC9GLGXuxaI75I5X0fvvZfdu3tleS0bdLQyXvQPZxcrvg==
+X-Received: by 2002:a17:902:6bc7:b0:149:9004:ca04 with SMTP id m7-20020a1709026bc700b001499004ca04mr12535270plt.43.1642220044226;
+        Fri, 14 Jan 2022 20:14:04 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id oj6sm9671328pjb.18.2022.01.14.20.14.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jan 2022 14:16:48 -0800 (PST)
-Date: Sat, 15 Jan 2022 11:16:43 +1300
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
-	realwakka@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: pi433: enforce tx_cfg to be set before any
- message can be sent
-Message-ID: <20220114221643.GA7843@mail.google.com>
+        Fri, 14 Jan 2022 20:14:03 -0800 (PST)
+Date: Fri, 14 Jan 2022 20:14:03 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev,
+	Hans de Goede <hdegoede@redhat.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Marco Cesati <marcocesati@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Check for NULL header value
+Message-ID: <202201141958.5864A3ABD@keescook>
+References: <20220113002001.3498383-1-keescook@chromium.org>
+ <Yd/tSpnpb4vWp6OP@kroah.com>
+ <202201131027.FCAC3072E4@keescook>
+ <YeB0rP7KXtbIKr6I@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,83 +58,112 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220112084002.GA27596@mail.google.com>
+In-Reply-To: <YeB0rP7KXtbIKr6I@kroah.com>
 
-this driver relies on exposing a char device to userspace to tx
-messages. Every message can be sent using different trasmitter settings
-such so the tx_cfg must be written before sending any messages.
-Failing to do so will cause the message to fail silently depending on
-printk/dynamic_debug settings which makes it hard to troubleshoot.
+On Thu, Jan 13, 2022 at 07:51:24PM +0100, Greg Kroah-Hartman wrote:
+> On Thu, Jan 13, 2022 at 10:29:04AM -0800, Kees Cook wrote:
+> > On Thu, Jan 13, 2022 at 10:13:46AM +0100, Greg Kroah-Hartman wrote:
+> > > On Wed, Jan 12, 2022 at 04:20:01PM -0800, Kees Cook wrote:
+> > > > When building with -Warray-bounds, the following warning is emitted:
+> > > > 
+> > > > In file included from ./include/linux/string.h:253,
+> > > >                  from ./arch/x86/include/asm/page_32.h:22,
+> > > >                  from ./arch/x86/include/asm/page.h:14,
+> > > >                  from ./arch/x86/include/asm/thread_info.h:12,
+> > > >                  from ./include/linux/thread_info.h:60,
+> > > >                  from ./arch/x86/include/asm/preempt.h:7,
+> > > >                  from ./include/linux/preempt.h:78,
+> > > >                  from ./include/linux/rcupdate.h:27,
+> > > >                  from ./include/linux/rculist.h:11,
+> > > >                  from ./include/linux/sched/signal.h:5,
+> > > >                  from ./drivers/staging/rtl8723bs/include/drv_types.h:17,
+> > > >                  from drivers/staging/rtl8723bs/core/rtw_recv.c:7:
+> > > > In function 'memcpy',
+> > > >     inlined from 'wlanhdr_to_ethhdr' at drivers/staging/rtl8723bs/core/rtw_recv.c:1554:2:
+> > > > ./include/linux/fortify-string.h:41:33: warning: '__builtin_memcpy' offset [0, 5] is out of the bounds [0, 0] [-Warray-bounds]
+> > > >    41 | #define __underlying_memcpy     __builtin_memcpy
+> > > >       |                                 ^
+> > > > 
+> > > > This is because the compiler sees it is possible for "ptr" to be a NULL
+> > > > value, and concludes that it has zero size and attempts to copy to it
+> > > > would overflow. Instead, detect the NULL return and error out early.
+> > > > 
+> > > > Cc: Larry Finger <Larry.Finger@lwfinger.net>
+> > > > Cc: Phillip Potter <phil@philpotter.co.uk>
+> > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Cc: Michael Straube <straube.linux@gmail.com>
+> > > > Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
+> > > > Cc: linux-staging@lists.linux.dev
+> > > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > > ---
+> > > >  drivers/staging/rtl8723bs/core/rtw_recv.c | 3 +++
+> > > >  1 file changed, 3 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> > > > index 41bfca549c64..61135c49322b 100644
+> > > > --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
+> > > > +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> > > > @@ -1513,6 +1513,9 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
+> > > >  	u8 *ptr = get_recvframe_data(precvframe) ; /*  point to frame_ctrl field */
+> > > >  	struct rx_pkt_attrib *pattrib = &precvframe->u.hdr.attrib;
+> > > >  
+> > > > +	if (!ptr)
+> > > > +		return _FAIL;
+> > > 
+> > > This will never happen, so let's not paper over compiler issues with
+> > > stuff like this please.
+> > > 
+> > > As the call to get_recvframe_data() is only done in one place in this
+> > > driver (in all drivers that look like this as well), it can just be
+> > > replaced with the real code instead of the nonsensical test for NULL and
+> > > then the compiler should be happy.
+> > > 
+> > > I'll gladly take that fix instead of this one, as that would be the
+> > > correct solution here.
+> > 
+> > I changed it around, but it doesn't help. I assume this is because we
+> > build with -fno-delete-null-pointer-checks, so the compiler continues
+> > to assume it's possible for the incoming argument to be NULL.
+> 
+> That's a broken compiler then.
+> 
+> > Should I rearrange this to do a NULL check for precvframe before all the
+> > assignments in addition to removing get_recvframe_data()?
+> 
+> If you walk the call-chain back, you will see that precvframe can't ever
+> be NULL here (which is why this code doesn't crash), so don't check for
+> something that is impossible to ever hit please just because the
+> compiler is broken.
 
-This patch add a control variable that will get initialized once tx_cfg
-is set for the fd used when interacting with the char device.
+I agree that the _original_ precvframe is always non-NULL, but the pointer
+landing at memcpy() gets updated along the way. It seems the new problem
+is that recvframe_pull() may return NULL and nothing is checking for that.
+Adding this silences the warning:
 
-Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
----
-
-changelog:
-
-v2: changed message and remove redudant assignments pointed out during
-    code review. (Req: Dan Carpenter, Sidong Yang)
-v1: https://lore.kernel.org/lkml/20220108222652.GA11883@mail.google.com/
-
-patch dependency:
-
-- This patch needs the patch below to be applied first as both tweak the
-  same file.
-  https://lore.kernel.org/lkml/20220108212728.GA7784@mail.google.com/
----
- drivers/staging/pi433/pi433_if.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-index 051c9052aeeb..f9f86e2c44a9 100644
---- a/drivers/staging/pi433/pi433_if.c
-+++ b/drivers/staging/pi433/pi433_if.c
-@@ -108,6 +108,9 @@ struct pi433_device {
- struct pi433_instance {
- 	struct pi433_device	*device;
- 	struct pi433_tx_cfg	tx_cfg;
-+
-+	/* control flags */
-+	bool			tx_cfg_initialized;
- };
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 49a02d6239d6..946e659ae97a 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -1223,10 +1223,14 @@ static int wlanhdr_to_ethhdr(struct recv_frame *precvframe)
+ 		eth_type = 0x8712;
+ 		/*  append rx status for mp test packets */
+ 		ptr = recvframe_pull(precvframe, (rmv_len - sizeof(struct ethhdr) + 2) - 24);
++		if (!ptr)
++			return _FAIL;
+ 		memcpy(ptr, get_rxmem(precvframe), 24);
+ 		ptr += 24;
+ 	} else {
+ 		ptr = recvframe_pull(precvframe, (rmv_len - sizeof(struct ethhdr) + (bsnaphdr ? 2 : 0)));
++		if (!ptr)
++			return _FAIL;
+ 	}
  
- /*-------------------------------------------------------------------------*/
-@@ -823,6 +826,16 @@ pi433_write(struct file *filp, const char __user *buf,
- 	if (count > MAX_MSG_SIZE)
- 		return -EMSGSIZE;
- 
-+	/*
-+	 * check if tx_cfg has been initialized otherwise we won't be able to
-+	 * config the RF trasmitter correctly due to invalid settings
-+	 */
-+	if (!instance->tx_cfg_initialized) {
-+		dev_notice_once(device->dev,
-+				"write: failed due to unconfigured tx_cfg (see PI433_IOC_WR_TX_CFG)");
-+		return -EINVAL;
-+	}
-+
- 	/*
- 	 * write the following sequence into fifo:
- 	 * - tx_cfg
-@@ -897,6 +910,7 @@ pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- 			return -EFAULT;
- 		mutex_lock(&device->tx_fifo_lock);
- 		memcpy(&instance->tx_cfg, &tx_cfg, sizeof(struct pi433_tx_cfg));
-+		instance->tx_cfg_initialized = true;
- 		mutex_unlock(&device->tx_fifo_lock);
- 		break;
- 	case PI433_IOC_RD_RX_CFG:
-@@ -949,8 +963,6 @@ static int pi433_open(struct inode *inode, struct file *filp)
- 
- 	/* setup instance data*/
- 	instance->device = device;
--	instance->tx_cfg.bit_rate = 4711;
--	// TODO: fill instance->tx_cfg;
- 
- 	/* instance data as context */
- 	filp->private_data = instance;
+ 	memcpy(ptr, pattrib->dst, ETH_ALEN);
+
+> 
+> thanks,
+> 
+> greg k-h
+
 -- 
-2.25.4
-
+Kees Cook
