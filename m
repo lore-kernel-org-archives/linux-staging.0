@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3ED2CA0
-	for <linux-staging@lists.linux.dev>; Sat, 15 Jan 2022 16:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7C72CA5
+	for <linux-staging@lists.linux.dev>; Sat, 15 Jan 2022 16:55:59 +0000 (UTC)
 Received: from dslb-178-004-201-171.178.004.pools.vodafone-ip.de ([178.4.201.171] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1n8mLH-0005N8-Pu; Sat, 15 Jan 2022 17:55:51 +0100
+	id 1n8mLM-0005N8-NC; Sat, 15 Jan 2022 17:55:56 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 03/11] staging: r8188eu: remove unused bitshift function
-Date: Sat, 15 Jan 2022 17:55:28 +0100
-Message-Id: <20220115165536.231210-4-martin@kaiser.cx>
+Subject: [PATCH 08/11] staging: r8188eu: remove rtw_netif_wake_queue wrapper
+Date: Sat, 15 Jan 2022 17:55:33 +0100
+Message-Id: <20220115165536.231210-9-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220115165536.231210-1-martin@kaiser.cx>
 References: <20220115165536.231210-1-martin@kaiser.cx>
@@ -30,33 +30,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The bitshift function from osdep_service.h is not used.
-Remove it.
+Remove the rtw_netif_wake_queue wrapper function. Call
+netif_tx_wake_all_queues directly.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/include/osdep_service.h | 9 ---------
- 1 file changed, 9 deletions(-)
+ drivers/staging/r8188eu/include/osdep_service.h | 5 -----
+ drivers/staging/r8188eu/os_dep/os_intfs.c       | 2 +-
+ 2 files changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index 2f6b8acd0a10..6d03e135d1e3 100644
+index e52e78b2c6b0..b8f983a1254e 100644
 --- a/drivers/staging/r8188eu/include/osdep_service.h
 +++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -163,15 +163,6 @@ static inline u32 _RND512(u32 sz)
- 	return val;
+@@ -67,11 +67,6 @@ static inline int rtw_netif_queue_stopped(struct net_device *pnetdev)
+ 		netif_tx_queue_stopped(netdev_get_tx_queue(pnetdev, 3));
  }
  
--static inline u32 bitshift(u32 bitmask)
+-static inline void rtw_netif_wake_queue(struct net_device *pnetdev)
 -{
--	u32 i;
--
--	for (i = 0; i <= 31; i++)
--		if (((bitmask>>i) &  0x1) == 1) break;
--	return i;
+-	netif_tx_wake_all_queues(pnetdev);
 -}
 -
- /*  limitation of path length */
- #define PATH_LENGTH_MAX PATH_MAX
+ static inline void rtw_netif_start_queue(struct net_device *pnetdev)
+ {
+ 	netif_tx_start_all_queues(pnetdev);
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 08d719822062..2e4ad090c77c 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -656,7 +656,7 @@ int _netdev_open(struct net_device *pnetdev)
+ 	if (!rtw_netif_queue_stopped(pnetdev))
+ 		rtw_netif_start_queue(pnetdev);
+ 	else
+-		rtw_netif_wake_queue(pnetdev);
++		netif_tx_wake_all_queues(pnetdev);
+ 
+ 	netdev_br_init(pnetdev);
  
 -- 
 2.30.2
