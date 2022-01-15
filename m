@@ -1,49 +1,50 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1A1168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20ABF2C9C
 	for <linux-staging@lists.linux.dev>; Sat, 15 Jan 2022 04:24:30 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id j27so4414232pgj.3
+Received: by mail-pj1-f51.google.com with SMTP id hv15so15080510pjb.5
         for <linux-staging@lists.linux.dev>; Fri, 14 Jan 2022 20:24:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cfHd7InBKggohreeo6TzAmVAoKc+zClbIDJTEU/k7sE=;
-        b=SX9u92+/2fJvDeBP2v8rFZN7fVMouG3mSDO3/wvSgAKaHI7Sv4H5a3JXMMJYqtZqqN
-         3LwAuXYOJpDOspW7oaqoPw4VnQQ+fwj7zTQbA05VfYMvECM4M/vY/vs++jrmO0kOjILC
-         +CHQZIp6+AEjd4vB2HXahvrW+QCb/eSagFd7g=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=3IlqdjSCw9fn2cQPvzn1XJmEWy/5ZU80Qr6iGup90/4=;
+        b=PSr6XCQSrvIx2D9DCagVuTK95ye7Q8ksV7u0dgJ13iOuZTyGSX56JQbkOmcDH3rXMj
+         nm0CgQsvKldP39vdACMvf+aaf0faqqfBYEMDJyhPwp20l2sQ0si+cvtfCAECxIOc5P9V
+         cyYurILSG2cB5zStQOaom9yULzzJqHIg2O60s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cfHd7InBKggohreeo6TzAmVAoKc+zClbIDJTEU/k7sE=;
-        b=2+iImfLgQt6KiTgLRXTY5MvjDRadD7bp15WYdV6j0jAwRB8olgJSnAzTLXOHoje0qu
-         4B2Eu0eqc/J3KOiH2kHkoS9d2tzR5NeFrwHL1GuyaAgBBFo3fJk3xnHNiyXae2MmAC/p
-         E3+lFJxFiumRW73CPwvoC3YJ2fF8+PeHKT5rHd0lBOY6TP1zdU53aWqtbabU/jepTNq8
-         LvhjP/ulJIKqvyhDc46b+5nAKSE3+uenIPVod7Y93vpnW3Sy+gGntJmZeariwL5IaOrT
-         4k0Odc/8RY751F/lYRy88suxbi9Bt25GIDX8SeUwrtt3ita+236fQF9L9+ri3teYFNuu
-         r6+w==
-X-Gm-Message-State: AOAM533dWioWRgH/BD1tToXOynGdT4VK59D1ft28SM24bv9uXU0BBDWi
-	SWn10eG3BDQWbhea/0WAxhvlFQ==
-X-Google-Smtp-Source: ABdhPJz9ih5ar8BWOxTELabdEWwF47rVOKy8bBcgJeO3O07v8K/TCocM/wzrxtuBchFZGqNxpR41LQ==
-X-Received: by 2002:a63:ad0e:: with SMTP id g14mr10490719pgf.408.1642220669588;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=3IlqdjSCw9fn2cQPvzn1XJmEWy/5ZU80Qr6iGup90/4=;
+        b=kQVcEQDdC5VMTSZsOodMX5T15PaAw7CPf0vhMKjOgyTGehX/A65L1KokrEb1z6ej1R
+         giEiG/Wm+PalvAwQq5q1vCagdvlwZf62whXyR+M+8PniDW+avIMAOD2x4kqb5E6PeQRt
+         qjqNRIm0XX77saWL1OoIxQqGOtUjly4lqrLK2RB+KuU1ZOo9WpF63UqC/IpDbmNluOY7
+         M7w1wYEkQ3DnLZErvVNyDnf/yinbKljLk3hfIXYp7tKWhwWN1IXmlgG61B+BjyovW59w
+         N2yWmZyPg/77vkdifcHJFVKAEKtJmhmIvAPXmHf0+Cp16t6cWMQ/KFO1ucm+iLTPT+Vf
+         pFYw==
+X-Gm-Message-State: AOAM533hV2BS990A9/GI2tgHgcIzbaM2avgxqdRg+IJ3KrbUu2XBJ4VH
+	MzzckGxG3s81CKAZZqf1D12uPw==
+X-Google-Smtp-Source: ABdhPJzOgXLX9FGHPckbQPJWuZVFYwDThRwB5pEspdEkZm1ZzItf8sExNcQiArsQljfkBB2x/JzA0Q==
+X-Received: by 2002:a17:902:c10c:b0:14a:922d:39d5 with SMTP id 12-20020a170902c10c00b0014a922d39d5mr4285944pli.66.1642220669728;
         Fri, 14 Jan 2022 20:24:29 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f8sm12177412pjs.47.2022.01.14.20.24.29
+        by smtp.gmail.com with ESMTPSA id s24sm6614673pfm.100.2022.01.14.20.24.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 14 Jan 2022 20:24:29 -0800 (PST)
 From: Kees Cook <keescook@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Kees Cook <keescook@chromium.org>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>,
 	Ivan Safonov <insafonov@gmail.com>,
+	linux-staging@lists.linux.dev,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>,
 	Yang Li <yang.lee@linux.alibaba.com>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -53,73 +54,81 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Joe Perches <joe@perches.com>,
 	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
 	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 0/3 v2] staging: rtl*: Check for NULL header value
-Date: Fri, 14 Jan 2022 20:24:24 -0800
-Message-Id: <20220115042427.824542-1-keescook@chromium.org>
+Subject: [PATCH 3/3 v2] staging: rtl8712: Drop get_recvframe_data()
+Date: Fri, 14 Jan 2022 20:24:27 -0800
+Message-Id: <20220115042427.824542-4-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220115042427.824542-1-keescook@chromium.org>
+References: <20220115042427.824542-1-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2346; h=from:subject; bh=0//lkO/0wFXg2CJ7H8evHpq6JQek92k7+udPsATuwMQ=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBh4kx6IoojX1My8JDm3s8RTZJRNnwTPi665D4rHLZS ZBQR7imJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYeJMegAKCRCJcvTf3G3AJv+9D/ 9Ynz91Nz2s14j7d43+u9u8iqDnSN9MWomqbv810lPS7N8T8hC5EZlnk1nbFxvrPDhHw+uPR9PuiKxr t2WRtrzegBAU64+lA5YZdq2ruByk9frXDx/+1pi8eitLVZwUIQJbtYZO2o3XQ0R+EHmoAerTXpdnXS Y+llUjStu73BkWFtMg4AVRC4jagtnF2R0xVXT8LlAzp6z6RHj1LggNlPT+MB1PS7KDb6HmfMtz1Adu b1cDSLqFv2jZWJfzXf2UUCB9BsXMOkNsnT7iPPLN96osQN9U/TVNXqG3IUdtn4X7iBMjcmMowpaXTr 677AZM9KHQJYsJfCcCp6xPHzd7ueJwlAKcXH9kE+hw7/NZV82AWRpuaMcQwiSqfpWIAj03PVKEMbI9 wnpPnBWDPK/8XH+gYuCWYKr1HDgEHmUsR3Ej287pXviHivGPUwJ88v5yWPMjKGQr+Z/2EAIgh1yurq wS1HLipnYH30uQlf1fbQOFA9Cc3UnQ26Vle1WrZH/Qrxjw8rUSdUUbfJxs/oR5gQMlM+VZ0/tS5V13 iMqZTpVjbmAa6+x4kHRZS6/4vr1HMqOCGUhGdtv2aSWSqcz4m6RKLnQ+D68bpENAIXv//dMdLkcN5Y rUDjxw0tlTTkJjXCm5ZTUBXLhJ2OmxJOSLrQdiex/hK0KQ5iHqNRqNrWZjvA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2444; h=from:subject; bh=XALIzCjDjV/dc1s/Cum+fXM6T7eQf++MOdcsN2qRBWk=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBh4kx71MTNBgFhaHYjw2TdY9QrTgQSd4EUNHHod4d3 aZ6LfIOJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYeJMewAKCRCJcvTf3G3AJkw5D/ 9WGI+fo2Cjmg+40ISmphWU4B5hsYvQ2mUQEAAUi5z36vrDOJmaSoEz/mXfhZ4ttl4yscNKDT5Jt8oD E32BlH8dsHOzdDkHAVYXXtMXWDHvSgIHdOA9L2fwkY4LTYYRelsmSSbpZYZFvA+tkGL52cRkV6xOfL rkSLipCVvi9exLM+nyCWAMGn3AtL9TIaE5oLKaB8Z6/dS0pXUb9yaMwwdD9QGq5XJCr3OgAE73MHco 5ExyXiPhbP6+mxQxrysjyYulBzpRqzuIufeCZRbA67npJTLSQMTcHoH/cle3bh7nkGV/4cdckK85CI Z1+F3u34mwfkq3kodOh2lw6Iqavaw9FjZM7MnNa0ZtR19FCmaZmNaM3lFaiVS7B8kAc+GrRf1hm7HR Zz77BGSUenwdZvPL1BPCtxgkgCBFC2xvogGZK/ikpypd9yM/Nbdwc8dTdtiEvA8og0zP8M6zAcdd3H EmAhUUTzcpCv1rkP0efchMTATRCofoZa+G4y7pmb+FmcAZUMCpjzaUb6/jmd3yhgSjMxZgcCm/5fae XJa+x4a06Do9UxCfC8OVq2AbYsMTs8gEXGJVD/6ah26/WrWS1UEWw6o0K1lmoZZEgJYh/2+SZNH8ao mGahL2SWVp621gWMQb7GEBU35IKOcjEcCzSbV2yYKLf8ubWuhMrKQDwWpYEA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Hi,
+As done for rtl8723bs and r8188eu, drop get_recvframe_data(), as it
+introduces an impossible value (NULL) for the compiler to check code
+paths against which could result in nonsensical warnings.
 
-When building with -Warray-bounds, the following warning is emitted:
+Cc: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Florian Schilhabel <florian.c.schilhabel@googlemail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>
+Cc: Ivan Safonov <insafonov@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/staging/rtl8712/rtl871x_recv.c | 4 ++--
+ drivers/staging/rtl8712/rtl871x_recv.h | 8 --------
+ 2 files changed, 2 insertions(+), 10 deletions(-)
 
-In file included from ./include/linux/string.h:253,
-                 from ./arch/x86/include/asm/page_32.h:22,
-                 from ./arch/x86/include/asm/page.h:14,
-                 from ./arch/x86/include/asm/thread_info.h:12,
-                 from ./include/linux/thread_info.h:60,
-                 from ./arch/x86/include/asm/preempt.h:7,
-                 from ./include/linux/preempt.h:78,
-                 from ./include/linux/rcupdate.h:27,
-                 from ./include/linux/rculist.h:11,
-                 from ./include/linux/sched/signal.h:5,
-                 from ./drivers/staging/rtl8723bs/include/drv_types.h:17,
-                 from drivers/staging/rtl8723bs/core/rtw_recv.c:7:
-In function 'memcpy',
-    inlined from 'wlanhdr_to_ethhdr' at drivers/staging/rtl8723bs/core/rtw_recv.c:1554:2:
-./include/linux/fortify-string.h:41:33: warning: '__builtin_memcpy' offset [0, 5] is out of the bounds [0, 0] [-Warray-bounds]
-   41 | #define __underlying_memcpy     __builtin_memcpy
-      |                                 ^
-
-This is due to various paths to the memcpy() where the compile could
-see the destination buffer having a NULL value. This series fixes this
-by both eliminating cases where NULL returns were impossible and adding
-missing NULL checks where values were possible.
-
-Thanks!
-
--Kees
-
-v1: https://lore.kernel.org/lkml/20220113002001.3498383-1-keescook@chromium.org/
-v2:
- - drop get_recvframe_data()
- - add missing NULL checks to r8188eu and rtl8723bs (already present in rtl8712)
-
-Kees Cook (3):
-  staging: r8188eu: Drop get_recvframe_data()
-  staging: rtl8723bs: Drop get_recvframe_data()
-  staging: rtl8712: Drop get_recvframe_data()
-
- drivers/staging/r8188eu/core/rtw_recv.c        |  6 +++++-
- drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c  |  4 +---
- drivers/staging/r8188eu/include/rtw_recv.h     |  9 ---------
- drivers/staging/rtl8712/rtl871x_recv.c         |  4 ++--
- drivers/staging/rtl8712/rtl871x_recv.h         |  8 --------
- drivers/staging/rtl8723bs/core/rtw_recv.c      | 11 ++++++++---
- drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c |  3 +--
- drivers/staging/rtl8723bs/include/rtw_recv.h   | 11 -----------
- 8 files changed, 17 insertions(+), 39 deletions(-)
-
+diff --git a/drivers/staging/rtl8712/rtl871x_recv.c b/drivers/staging/rtl8712/rtl871x_recv.c
+index c23f6b376111..a069e4d98eef 100644
+--- a/drivers/staging/rtl8712/rtl871x_recv.c
++++ b/drivers/staging/rtl8712/rtl871x_recv.c
+@@ -234,7 +234,7 @@ union recv_frame *r8712_portctrl(struct _adapter *adapter,
+ 	u16 ether_type;
+ 
+ 	pstapriv = &adapter->stapriv;
+-	ptr = get_recvframe_data(precv_frame);
++	ptr = precvframe->u.hdr.rx_data;
+ 	pfhdr = &precv_frame->u.hdr;
+ 	psta_addr = pfhdr->attrib.ta;
+ 	psta = r8712_get_stainfo(pstapriv, psta_addr);
+@@ -593,7 +593,7 @@ int r8712_wlanhdr_to_ethhdr(union recv_frame *precvframe)
+ 	struct _adapter	*adapter = precvframe->u.hdr.adapter;
+ 	struct mlme_priv *pmlmepriv = &adapter->mlmepriv;
+ 
+-	u8 *ptr = get_recvframe_data(precvframe); /*point to frame_ctrl field*/
++	u8 *ptr = precvframe->u.hdr.rx_data; /*point to frame_ctrl field*/
+ 	struct rx_pkt_attrib *pattrib = &precvframe->u.hdr.attrib;
+ 
+ 	if (pattrib->encrypt)
+diff --git a/drivers/staging/rtl8712/rtl871x_recv.h b/drivers/staging/rtl8712/rtl871x_recv.h
+index 1c8298bde033..0760bccbf389 100644
+--- a/drivers/staging/rtl8712/rtl871x_recv.h
++++ b/drivers/staging/rtl8712/rtl871x_recv.h
+@@ -139,14 +139,6 @@ static inline u8 *get_rxmem(union recv_frame *precvframe)
+ 	return precvframe->u.hdr.rx_head;
+ }
+ 
+-static inline u8 *get_recvframe_data(union recv_frame *precvframe)
+-{
+-	/* always return rx_data */
+-	if (!precvframe)
+-		return NULL;
+-	return precvframe->u.hdr.rx_data;
+-}
+-
+ static inline u8 *recvframe_pull(union recv_frame *precvframe, sint sz)
+ {
+ 	/* used for extract sz bytes from rx_data, update rx_data and return
 -- 
 2.30.2
 
