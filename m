@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E7F2CA2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EF72CA1
 	for <linux-staging@lists.linux.dev>; Sat, 15 Jan 2022 16:55:57 +0000 (UTC)
 Received: from dslb-178-004-201-171.178.004.pools.vodafone-ip.de ([178.4.201.171] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1n8mLK-0005N8-Kf; Sat, 15 Jan 2022 17:55:54 +0100
+	id 1n8mLE-0005N8-FY; Sat, 15 Jan 2022 17:55:48 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 06/11] staging: r8188eu: remove _cancel_timer wrapper
-Date: Sat, 15 Jan 2022 17:55:31 +0100
-Message-Id: <20220115165536.231210-7-martin@kaiser.cx>
+Subject: [PATCH 01/11] staging: r8188eu: remove unused externl variables
+Date: Sat, 15 Jan 2022 17:55:26 +0100
+Message-Id: <20220115165536.231210-2-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220115165536.231210-1-martin@kaiser.cx>
 References: <20220115165536.231210-1-martin@kaiser.cx>
@@ -30,129 +30,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the _cancel_timer wrapper function and call del_timer_sync
-directly.
-
-None of the callers needs the bcancelled variable that's populated by
-_cancel_timer, these variables can be removed in the calling functions.
-
-rtw_surveydone_event_callback calls _cancel_timer only if it believes
-that the timer is currently running. We can drop this. It's safe to
-call del_timer_sync when the timer is not running. The timer in question,
-scan_to_timer, is used only for the site survey command (the rtw_survey
-functions) so we won't be stopping it while it's in use by someone else.
+Remove a group of external variables which are not used in
+osdep_service.h or in the files where osdep_service.h is included.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c          |  3 +--
- drivers/staging/r8188eu/core/rtw_mlme.c         | 14 ++++----------
- drivers/staging/r8188eu/core/rtw_p2p.c          |  4 +---
- drivers/staging/r8188eu/include/osdep_service.h |  6 ------
- 4 files changed, 6 insertions(+), 21 deletions(-)
+ drivers/staging/r8188eu/include/osdep_service.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 410b5dacfaa7..266bb7db5252 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -1460,7 +1460,6 @@ void rtw_joinbss_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
- 
- void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- {
--	u8 timer_cancelled;
- 	struct sta_info *psta = NULL;
- 	struct wlan_network *pwlan = NULL;
- 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
-@@ -1470,7 +1469,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 	if (pcmd->res != H2C_SUCCESS)
- 		_set_timer(&pmlmepriv->assoc_timer, 1);
- 
--	_cancel_timer(&pmlmepriv->assoc_timer, &timer_cancelled);
-+	del_timer_sync(&pmlmepriv->assoc_timer);
- 
- 	spin_lock_bh(&pmlmepriv->lock);
- 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 394e8a5ce03c..e76a11422f6f 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -674,7 +674,6 @@ void rtw_survey_event_callback(struct adapter	*adapter, u8 *pbuf)
- void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
- {
- 	struct	mlme_priv *pmlmepriv = &adapter->mlmepriv;
--	u8 timer_cancelled = 0;
- 
- 	spin_lock_bh(&pmlmepriv->lock);
- 
-@@ -684,16 +683,12 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
- 		pmlmepriv->wps_probe_req_ie = NULL;
- 	}
- 
--	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY)) {
--		timer_cancelled = 1;
--
-+	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
- 		_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY);
--	}
- 
- 	spin_unlock_bh(&pmlmepriv->lock);
- 
--	if (timer_cancelled)
--		_cancel_timer(&pmlmepriv->scan_to_timer, &timer_cancelled);
-+	del_timer_sync(&pmlmepriv->scan_to_timer);
- 
- 	spin_lock_bh(&pmlmepriv->lock);
- 	rtw_set_signal_stat_timer(&adapter->recvpriv);
-@@ -1017,7 +1012,6 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
- 
- void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
- {
--	u8 timer_cancelled;
- 	struct sta_info *ptarget_sta = NULL, *pcur_sta = NULL;
- 	struct	sta_priv *pstapriv = &adapter->stapriv;
- 	struct	mlme_priv	*pmlmepriv = &adapter->mlmepriv;
-@@ -1092,8 +1086,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
- 				rtw_indicate_connect(adapter);
- 			}
- 
--			/* s5. Cancle assoc_timer */
--			_cancel_timer(&pmlmepriv->assoc_timer, &timer_cancelled);
-+			/* s5. Cancel assoc_timer */
-+			del_timer_sync(&pmlmepriv->assoc_timer);
- 		} else {
- 			spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
- 			goto ignore_joinbss_callback;
-diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-index 7b30b9b64b41..50b4fca869a7 100644
---- a/drivers/staging/r8188eu/core/rtw_p2p.c
-+++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-@@ -1380,9 +1380,7 @@ u8 process_p2p_group_negotation_confirm(struct wifidirect_info *pwdinfo, u8 *pfr
- 			result = attr_content;
- 
- 			if (attr_content == P2P_STATUS_SUCCESS) {
--				u8	bcancelled = 0;
--
--				_cancel_timer(&pwdinfo->restore_p2p_state_timer, &bcancelled);
-+				del_timer_sync(&pwdinfo->restore_p2p_state_timer);
- 
- 				/*	Commented by Albert 20100911 */
- 				/*	Todo: Need to handle the case which both Intents are the same. */
 diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index 8ca9f86e3c9b..754691cb2b12 100644
+index 6c8241372a06..f42e15117c95 100644
 --- a/drivers/staging/r8188eu/include/osdep_service.h
 +++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -59,12 +59,6 @@ static inline void _set_timer(struct timer_list *ptimer,u32 delay_time)
- 	mod_timer(ptimer , (jiffies+(delay_time*HZ/1000)));
- }
+@@ -99,12 +99,6 @@ static inline void rtw_netif_stop_queue(struct net_device *pnetdev)
  
--static inline void _cancel_timer(struct timer_list *ptimer,u8 *bcancelled)
--{
--	del_timer_sync(ptimer);
--	*bcancelled=  true;/* true ==1; false==0 */
--}
+ extern int RTW_STATUS_CODE(int error_code);
+ 
+-extern unsigned char MCS_rate_2R[16];
+-extern unsigned char MCS_rate_1R[16];
+-extern unsigned char RTW_WPA_OUI[];
+-extern unsigned char WPA_TKIP_CIPHER[4];
+-extern unsigned char RSN_TKIP_CIPHER[4];
 -
- static inline int rtw_netif_queue_stopped(struct net_device *pnetdev)
- {
- 	return  netif_tx_queue_stopped(netdev_get_tx_queue(pnetdev, 0)) &&
+ void *rtw_malloc2d(int h, int w, int size);
+ 
+ #define rtw_init_queue(q)					\
 -- 
 2.30.2
 
