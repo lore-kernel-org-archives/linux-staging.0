@@ -1,131 +1,103 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E712C82;
-	Sun, 16 Jan 2022 14:07:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642342022; x=1673878022;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x4VQ4nR9VUlZ83fYyFKy/XXbdvbRBwbal6RMpIkpZLk=;
-  b=m7bsqatFzagVq5wB+RQIb08uR4V7ZgJcpFILy9vwkd+iPYbXdZJKtIAG
-   xOym9jrpn8Z1d0JW58uRMrPrNwj1Kx915k1hrnUOYZAdzZ1iFBZF2xpXI
-   gEGn67gsdi99KNSNCt5YZ2Vyqs9rocEiWuGDr3nF+n0adgfj3KEg/iJO5
-   etJLlt1eDunpkqwyZt617bk/51oA+v3+yBSNq6KGi3Qryh9+L7PJSjBF0
-   o4zwAQG6C3eZpKdrX8xFZ0W6R5qZA8IS+URF7KVh76FioWw2n6hR97qdi
-   puSUW2Hot+1rOuLvDLGP8yXLnwCt3dPcER+gmWbgch3thB31KJrVFICoU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10228"; a="307831905"
-X-IronPort-AV: E=Sophos;i="5.88,293,1635231600"; 
-   d="scan'208";a="307831905"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2022 06:07:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,293,1635231600"; 
-   d="scan'208";a="517094263"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 16 Jan 2022 06:07:00 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-	(envelope-from <lkp@intel.com>)
-	id 1n96BP-000AlI-RA; Sun, 16 Jan 2022 14:06:59 +0000
-Date: Sun, 16 Jan 2022 22:06:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
-	gregkh@linuxfoundation.org, realwakka@gmail.com
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] staging: pi433: validate max bit_rate based on
- modulation used
-Message-ID: <202201162116.8r1xEw9q-lkp@intel.com>
-References: <20220116002333.GA23305@mail.google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD122C9D
+	for <linux-staging@lists.linux.dev>; Sun, 16 Jan 2022 18:56:40 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id o12so32801253lfu.12
+        for <linux-staging@lists.linux.dev>; Sun, 16 Jan 2022 10:56:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=E4FmdEgxbwPubxxkiia0kL4WCWZwqzpIW7ElFWNYU4w=;
+        b=nd2wFlld9Wox3ENuyt7ne2Y/cGmtRcvWl4a5Lz2OMrM/SQr0/KGsi7H43qpU9uqKeB
+         iA2d826iTLLmq441+mZJB8Zqg7SGO7PF7RhfIWJmpGxry0M5OawIUxWjtG928YVNicep
+         DOykfnwQPQ9hPLpk6fT+tjiMJf/Pxl7kiTKEbfi9SPm5ma4o+k9KeQJD9w30+DgHgFUH
+         euVjst8As27WKt1SNSljgMBvLgxdR3W4HImDj22mIHxaEWoc0/Ck5HKgddSoRALqOghN
+         RNAJYHf9/svbxHnwNsKuKKDbjXS2ATgb5zP2sRTGx6LKZTWucWnwCTf9m+/VPwS7p8Zf
+         YYkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=E4FmdEgxbwPubxxkiia0kL4WCWZwqzpIW7ElFWNYU4w=;
+        b=6ZKX6ua3qIhd3Xwb6zYQgJ1wfxzKjBt4trZ+vifbiUB24pGwrE9RkjR2WefdJ3aWBf
+         y8OBFdQxIzehmAY62S4E6EHav2yz7Zo8NZcHvlOOPN4jGuiA2XeJw6GJ+qqcuvq6oL9q
+         zmCoNYMG5JFKBTFf1RNv0qzBkunL/4o8uth8VbZOrwBNvNbspY8UvM6Q8N0xP+NzuxwX
+         KwCyKhc90FHQeHrowDWo/qVBhX8EdZVUn6VwOd2i4Zb2XPPLiyqEHCRZxeeV6apla2U8
+         A4zJHDqOB9VPARTvOeK/qR+wfpmwzzTQG+Oz2n0uSOE0EQW6FiHlXKuaUNOb+xtiB4jF
+         zxaQ==
+X-Gm-Message-State: AOAM530+TqvzR42sIe343fqxkVr4eXwxMHr04i6SxqJy6689HRLzHL6T
+	DEwwJL+EOyZSDqtGmI6/moA=
+X-Google-Smtp-Source: ABdhPJwKMDcf+qSy168mw1tEQzGEQb93396LqX75APtUu/vyMHnWvtpiNM4h5UqaYX1yiaWMRmSBmw==
+X-Received: by 2002:a05:6512:ea9:: with SMTP id bi41mr13930971lfb.54.1642359398013;
+        Sun, 16 Jan 2022 10:56:38 -0800 (PST)
+Received: from localhost.localdomain (46-138-227-157.dynamic.spd-mgts.ru. [46.138.227.157])
+        by smtp.gmail.com with ESMTPSA id j2sm1179597lfe.18.2022.01.16.10.56.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jan 2022 10:56:37 -0800 (PST)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] Add V4L stateless video decoder API support to NVIDIA Tegra driver
+Date: Sun, 16 Jan 2022 21:55:53 +0300
+Message-Id: <20220116185556.10657-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220116002333.GA23305@mail.google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-Hi Paulo,
+Support V4L stateless video decoder API by NVIDIA Tegra decoder driver.
+Tested using GStreamer [1] and libvdpau-tegra [2].
 
-Thank you for the patch! Perhaps something to improve:
+[1] https://github.com/grate-driver/gstreamer/commit/b8509bdbb69b534e61419ea1798f32f9ad2f3597
+[2] https://github.com/grate-driver/libvdpau-tegra/commit/f822e95911e5e0c39f8ba19f843ddc1e0138d5ce
 
-[auto build test WARNING on staging/staging-testing]
+Changelog:
 
-url:    https://github.com/0day-ci/linux/commits/Paulo-Miguel-Almeida/staging-pi433-validate-min-max-bit-rate-settings/20220116-082432
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git fa783154524a71ab74e293cd8251155e5971952b
-config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20220116/202201162116.8r1xEw9q-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c63a3175c2947e8c1a2d3bbe16a8586600705c54)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/4bbc9e444fd3bab38d93ae4261102db64385a26c
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Paulo-Miguel-Almeida/staging-pi433-validate-min-max-bit-rate-settings/20220116-082432
-        git checkout 4bbc9e444fd3bab38d93ae4261102db64385a26c
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/pi433/
+v2: - Made V4L2_BUF_FLAG_*FRAME flags mandatory [3] and dropped reading
+      of raw bitstream from the driver code, as was suggested by
+      Nicolas Dufresne.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+      [3] https://github.com/grate-driver/gstreamer/commit/aee292f0f2e84b7654a314dd7e63f916888ffaa5
 
-All warnings (new ones prefixed by >>):
+    - Ran v4l2-compliance [4] and fluster [5][6] tests, like was suggested by
+      Nicolas Dufresne. Fixed minor v4l2-compliance errors that were related
+      to a partial initialization of the coded format and were harmless in
+      practice, but made compliance checker unhappy.
 
->> drivers/staging/pi433/rf69.c:238:30: warning: result of comparison of constant 300000 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-               (mod == FSK && bit_rate > 300000) ||
-                              ~~~~~~~~ ^ ~~~~~~
-   1 warning generated.
+      [4] https://gist.github.com/digetx/5d6bcdab633488f1dcc7c141ab90d30e
+      [5] https://gist.github.com/digetx/b06c5d779e9d25afa41d9f46946fe399
+      [6] https://gist.github.com/digetx/ac4198bc340e5065aa8ec3288bb21356
 
+Dmitry Osipenko (3):
+  media: staging: tegra-vde: Factor out H.264 code
+  media: staging: tegra-vde: Support V4L stateless video decoder API
+  media: docs: dev-stateless-decoder: Document frame type flags
 
-vim +238 drivers/staging/pi433/rf69.c
+ .../media/v4l/dev-stateless-decoder.rst       |    3 +
+ drivers/staging/media/tegra-vde/Kconfig       |    7 +
+ drivers/staging/media/tegra-vde/Makefile      |    2 +-
+ drivers/staging/media/tegra-vde/h264.c        |  940 +++++++++++++++
+ drivers/staging/media/tegra-vde/v4l2.c        | 1018 +++++++++++++++++
+ drivers/staging/media/tegra-vde/vde.c         |  700 ++----------
+ drivers/staging/media/tegra-vde/vde.h         |  127 ++
+ 7 files changed, 2181 insertions(+), 616 deletions(-)
+ create mode 100644 drivers/staging/media/tegra-vde/h264.c
+ create mode 100644 drivers/staging/media/tegra-vde/v4l2.c
 
-   220	
-   221	int rf69_set_bit_rate(struct spi_device *spi, u16 bit_rate)
-   222	{
-   223		int retval;
-   224		u32 bit_rate_reg;
-   225		u8 msb;
-   226		u8 lsb;
-   227		enum modulation mod;
-   228	
-   229		// check if modulation is configured
-   230		mod = rf69_get_modulation(spi);
-   231		if (mod == UNDEF) {
-   232			dev_dbg(&spi->dev, "setBitRate: modulation is undefined");
-   233			return -EINVAL;
-   234		}
-   235	
-   236		// check input value
-   237		if (bit_rate < 1200 ||
- > 238		    (mod == FSK && bit_rate > 300000) ||
-   239		    (mod == OOK && bit_rate > 32768)) {
-   240			dev_dbg(&spi->dev, "setBitRate: illegal input param");
-   241			return -EINVAL;
-   242		}
-   243	
-   244		// calculate reg settings
-   245		bit_rate_reg = (F_OSC / bit_rate);
-   246	
-   247		msb = (bit_rate_reg & 0xff00) >> 8;
-   248		lsb = (bit_rate_reg & 0xff);
-   249	
-   250		// transmit to RF 69
-   251		retval = rf69_write_reg(spi, REG_BITRATE_MSB, msb);
-   252		if (retval)
-   253			return retval;
-   254		retval = rf69_write_reg(spi, REG_BITRATE_LSB, lsb);
-   255		if (retval)
-   256			return retval;
-   257	
-   258		return 0;
-   259	}
-   260	
+-- 
+2.33.1
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
