@@ -1,102 +1,99 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3669173
-	for <linux-staging@lists.linux.dev>; Sun, 16 Jan 2022 21:47:07 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id bu18so27508683lfb.5
-        for <linux-staging@lists.linux.dev>; Sun, 16 Jan 2022 13:47:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=EvCUOP5l/xUm9Ih4QfQxYRATDJQR7bxJhJawcjpWBaQ=;
-        b=Txv/NF3iEKEyQK1LuA1INgaaW3XLF23PzWKv3Ya6f01kRqh/aYGa3UohY2ARes5Tdu
-         aT3inXEKixY/mZm8gaNM+nE2ms7FKWYRW3XPs/j+TRUTvy44fIWDYWvbg5iiRFkn1HmZ
-         lLlEhmaOx+HBbtmtlbH9W91YyHxdj+DB1R0WVZNlJYP8fI7M9fm+br0iwo+qiSbYUymG
-         o66X2pd4MpBgZXtEcmiz/1v0N2PGVCLQD8Lz0DAJg83JMZUbepjiP0evy617n8ZIzD9g
-         eFoTUemnSFEmU5XP8yzuc9HU2aA/hrH+g3UkVQZoXXBcDd7PURpiSWaC4HzBz4JmfDl2
-         G/gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=EvCUOP5l/xUm9Ih4QfQxYRATDJQR7bxJhJawcjpWBaQ=;
-        b=Y9lt7nN2ws3bccGvQVZwQ6XHJU+W8lAAtW6vJghCxIc65a92b5zmQXzsQT6oadGISU
-         h12tMkHGljZ3tLRIxpfgggMo100X9MDa3PtjRTavkl0SWDL/7OAE8aWVW93GByWB6b4f
-         l3EmkH99QKwPbD+ae1bWUAbJcv0pC2bL4ieLaT8ypKkOYWmA0CxfDzO0o+/LUTpDTMAz
-         dymf1lqSqTkEXLL8qJJ5gMOa44m4+9QL3IyRMmUlpSWu6eKdUpL1NUYAZR9mzwkXMsJd
-         J2XcY9UZ3gDuMNRqcQdG0vWBZg+2zKbNHkHPE8SthmnJQ8paVb5eHxdVR/8tGKZZZCHM
-         ZDFA==
-X-Gm-Message-State: AOAM533qzWmoxnV4/S7N9Zt/26KPUYL9aEqPFra+qXqT4IOOnwh23q9Y
-	1UeYSEAdfOYNaj/ssAP0eYs=
-X-Google-Smtp-Source: ABdhPJyDya66CkmXshaXuImVg7rp1Y+lioNQqwieC9gFb7QSx0Qacr8x4blt2Qf3sU+PUxkaRx9+2g==
-X-Received: by 2002:a2e:98c5:: with SMTP id s5mr14268358ljj.221.1642369625327;
-        Sun, 16 Jan 2022 13:47:05 -0800 (PST)
-Received: from [192.168.1.11] ([217.117.245.67])
-        by smtp.gmail.com with ESMTPSA id h3sm940703lft.74.2022.01.16.13.47.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Jan 2022 13:47:04 -0800 (PST)
-Message-ID: <c908c21f-1de3-cb70-7694-54b3db669da6@gmail.com>
-Date: Mon, 17 Jan 2022 00:47:03 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04ABB173
+	for <linux-staging@lists.linux.dev>; Sun, 16 Jan 2022 21:52:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1642369931;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=fu9JUFLFDd7k9Vjdl87gQ/5XK2cF3NHEN2KMj6+7gTY=;
+	b=eZM6kPS63I5rDeh+lFca6IYucoz4su7/X/oTYHvQAsbbcs2LhtdpC6Wd8us9JW7v22loFq
+	kP208oFPLP3CC8iXnBis8QMD+KRiTaVzvsxnbFj5csJ7zx1KFCKyErUJaEZtMjZ0x3iVYl
+	9oLznWa7k/sA/s5svuBRKQwLGANBNKk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-479-AHw5Ov5hO-e2zqqw94LDQA-1; Sun, 16 Jan 2022 16:52:09 -0500
+X-MC-Unique: AHw5Ov5hO-e2zqqw94LDQA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D810C814243;
+	Sun, 16 Jan 2022 21:52:07 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.40.192.3])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6158312E37;
+	Sun, 16 Jan 2022 21:52:05 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 0/9] media: atomisp: Fix AXP288 PMIC and dual-cam support
+Date: Sun, 16 Jan 2022 22:51:55 +0100
+Message-Id: <20220116215204.307649-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH] staging: r8188eu: handle rtw_init_netdev_name() failure
- appropriately
-Content-Language: en-US
-To: Vihas Mak <makvihas@gmail.com>, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org, martin@kaiser.cx,
- straube.linux@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220116192611.19224-1-makvihas@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20220116192611.19224-1-makvihas@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 
-Hi Vihas,
+Hi All,
 
-On 1/16/22 22:26, Vihas Mak wrote:
-> rtw_init_netdev_name() calls dev_alloc_name() which allocates the name
-> for the device as per the given name format.
-> It returns a negative err code if the format is invalid. Currently the
-> name format is specified by the module parameter "ifname".
-> Warn the user if "ifname" is invalid.
-> 
-> Signed-off-by: Vihas Mak <makvihas@gmail.com>
-> ---
->   drivers/staging/r8188eu/os_dep/usb_intf.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> index 91792dfd3..875815b5e 100644
-> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> @@ -399,7 +399,10 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
->   			DBG_88E("can't get autopm:\n");
->   
->   	/*  alloc dev name after read efuse. */
-> -	rtw_init_netdev_name(pnetdev, padapter->registrypriv.ifname);
-> +	if (rtw_init_netdev_name(pnetdev, padapter->registrypriv.ifname) < 0) {
-> +		DBG_88E("rtw_init_netdev_name failed, ifname:%s\n",
-> +			padapter->registrypriv.ifname);
-> +	}
->   	rtw_macaddr_cfg(padapter->eeprompriv.mac_addr);
->   	rtw_init_wifidirect_addrs(padapter, padapter->eeprompriv.mac_addr,
->   				  padapter->eeprompriv.mac_addr);
+Here is a patch series fixing various bugs in the current
+atomisp_gmin_platform AXP288 support (it was completely broken before
+this series) as well as adding support for devices with front and back
+sensors.
 
-rtw_init_netdev_name() has an error message in case of allocation 
-failure. It looks like it's better to handle the error normally and pass 
-it to caller
+This has been tested on a Teclast Tbook11 and a
+Trekstor Surftab Duo W1 10.1, both of which use ov2680 sensors as both
+there front and back sensors.
+
+I think this should also make things work on the Cyberbook T116,
+but I did not get around to testing that yet.
+
+This series also contains some code to try and get things to work on
+Bay Trail devices. This at least makes the driver load, but it does
+not work yet and actually getting it to work may very well be quite
+tricky.
+
+Regards,
+
+Hans
 
 
+Hans de Goede (9):
+  media: atomisp: Don't use ifdef on IS_ISP2401
+  media: atomisp: Don't use ifdef ISP2400
+  media: atomisp: Use irci_stable_candrpv_0415_20150423_1753 fw for byt
+  media: atomisp_gmin_platform: Fix axp_regulator_set() writing to the
+    wrong register
+  media: atomisp_gmin_platform: Add enable-count to
+    gmin_[v1p8|v2p8]_ctrl()
+  media: atomisp_gmin_platform: Set ELDO1 to 1.6V on devices with an
+    AXP288 PMIC
+  media: atomisp_gmin_platform: Do not turn ELDO2 off from axp_v1p8_on()
+  media: atomisp_gmin_platform: Base CsiPort default on detected CLK
+  media: atomisp_gmin_platform: Add DMI quirk to not turn AXP ELDO2
+    regulator off on some boards
 
+ .../media/atomisp/pci/atomisp_compat_css20.c  |   4 +-
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 148 +++++++++++++-----
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |   2 +-
+ .../media/atomisp/pci/sh_css_firmware.c       |   4 +
+ 4 files changed, 114 insertions(+), 44 deletions(-)
 
-With regards,
-Pavel Skripkin
+-- 
+2.33.1
+
