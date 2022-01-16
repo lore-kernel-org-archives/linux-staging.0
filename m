@@ -1,30 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04ABB173
-	for <linux-staging@lists.linux.dev>; Sun, 16 Jan 2022 21:52:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23142CA0
+	for <linux-staging@lists.linux.dev>; Sun, 16 Jan 2022 21:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1642369931;
+	s=mimecast20190719; t=1642369937;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=fu9JUFLFDd7k9Vjdl87gQ/5XK2cF3NHEN2KMj6+7gTY=;
-	b=eZM6kPS63I5rDeh+lFca6IYucoz4su7/X/oTYHvQAsbbcs2LhtdpC6Wd8us9JW7v22loFq
-	kP208oFPLP3CC8iXnBis8QMD+KRiTaVzvsxnbFj5csJ7zx1KFCKyErUJaEZtMjZ0x3iVYl
-	9oLznWa7k/sA/s5svuBRKQwLGANBNKk=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FBFnWvgcrYpJ9MThj/22dUVsFhYmMpemjqGRrijtr88=;
+	b=LpVKG6/1/Sku0dXx4cg5QJvanNjJpnVEkA07QPtQO8D7TJKLpUGOVYBWZ/jSV96LnYGlbe
+	D3Al5+7Ex4TXwmAAys/67wTeQkoLizMPVY+WtDgI8lWBDc1i/dM4/1ryTSYHjc27/neEVp
+	HzJtfP2VbwjeQy0STQpdJBvkIf2v5Ms=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-AHw5Ov5hO-e2zqqw94LDQA-1; Sun, 16 Jan 2022 16:52:09 -0500
-X-MC-Unique: AHw5Ov5hO-e2zqqw94LDQA-1
+ us-mta-213-HHL40vT-Otyb7CP3EOLTgg-1; Sun, 16 Jan 2022 16:52:12 -0500
+X-MC-Unique: HHL40vT-Otyb7CP3EOLTgg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D810C814243;
-	Sun, 16 Jan 2022 21:52:07 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA37A802924;
+	Sun, 16 Jan 2022 21:52:10 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.40.192.3])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6158312E37;
-	Sun, 16 Jan 2022 21:52:05 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3D04D12E37;
+	Sun, 16 Jan 2022 21:52:08 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -37,9 +38,11 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 0/9] media: atomisp: Fix AXP288 PMIC and dual-cam support
-Date: Sun, 16 Jan 2022 22:51:55 +0100
-Message-Id: <20220116215204.307649-1-hdegoede@redhat.com>
+Subject: [PATCH 1/9] media: atomisp: Don't use ifdef on IS_ISP2401
+Date: Sun, 16 Jan 2022 22:51:56 +0100
+Message-Id: <20220116215204.307649-2-hdegoede@redhat.com>
+In-Reply-To: <20220116215204.307649-1-hdegoede@redhat.com>
+References: <20220116215204.307649-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,51 +52,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 
-Hi All,
+IS_ISP2401 is a function like macro which is always defined, so it must
+not be used together with #ifdef. #ifdef checks should check for
+"ISP2401", not "IS_ISP2401".
 
-Here is a patch series fixing various bugs in the current
-atomisp_gmin_platform AXP288 support (it was completely broken before
-this series) as well as adding support for devices with front and back
-sensors.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This has been tested on a Teclast Tbook11 and a
-Trekstor Surftab Duo W1 10.1, both of which use ov2680 sensors as both
-there front and back sensors.
-
-I think this should also make things work on the Cyberbook T116,
-but I did not get around to testing that yet.
-
-This series also contains some code to try and get things to work on
-Bay Trail devices. This at least makes the driver load, but it does
-not work yet and actually getting it to work may very well be quite
-tricky.
-
-Regards,
-
-Hans
-
-
-Hans de Goede (9):
-  media: atomisp: Don't use ifdef on IS_ISP2401
-  media: atomisp: Don't use ifdef ISP2400
-  media: atomisp: Use irci_stable_candrpv_0415_20150423_1753 fw for byt
-  media: atomisp_gmin_platform: Fix axp_regulator_set() writing to the
-    wrong register
-  media: atomisp_gmin_platform: Add enable-count to
-    gmin_[v1p8|v2p8]_ctrl()
-  media: atomisp_gmin_platform: Set ELDO1 to 1.6V on devices with an
-    AXP288 PMIC
-  media: atomisp_gmin_platform: Do not turn ELDO2 off from axp_v1p8_on()
-  media: atomisp_gmin_platform: Base CsiPort default on detected CLK
-  media: atomisp_gmin_platform: Add DMI quirk to not turn AXP ELDO2
-    regulator off on some boards
-
- .../media/atomisp/pci/atomisp_compat_css20.c  |   4 +-
- .../media/atomisp/pci/atomisp_gmin_platform.c | 148 +++++++++++++-----
- .../staging/media/atomisp/pci/atomisp_v4l2.c  |   2 +-
- .../media/atomisp/pci/sh_css_firmware.c       |   4 +
- 4 files changed, 114 insertions(+), 44 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index 7edee293b132..49f235f9c365 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -972,7 +972,7 @@ int atomisp_css_irq_translate(struct atomisp_device *isp,
+ void atomisp_css_rx_get_irq_info(enum mipi_port_id port,
+ 				 unsigned int *infos)
+ {
+-#ifndef IS_ISP2401
++#ifndef ISP2401
+ 	ia_css_isys_rx_get_irq_info(port, infos);
+ #else
+ 	*infos = 0;
+@@ -982,7 +982,7 @@ void atomisp_css_rx_get_irq_info(enum mipi_port_id port,
+ void atomisp_css_rx_clear_irq_info(enum mipi_port_id port,
+ 				   unsigned int infos)
+ {
+-#ifndef IS_ISP2401
++#ifndef ISP2401
+ 	ia_css_isys_rx_clear_irq_info(port, infos);
+ #endif
+ }
 -- 
 2.33.1
 
