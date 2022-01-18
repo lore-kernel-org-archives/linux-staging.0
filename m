@@ -1,55 +1,48 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475F629CA
-	for <linux-staging@lists.linux.dev>; Tue, 18 Jan 2022 21:02:22 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id m8-20020a9d4c88000000b00592bae7944bso201562otf.1
-        for <linux-staging@lists.linux.dev>; Tue, 18 Jan 2022 13:02:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1095168
+	for <linux-staging@lists.linux.dev>; Tue, 18 Jan 2022 23:03:17 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id e8so351563plh.8
+        for <linux-staging@lists.linux.dev>; Tue, 18 Jan 2022 15:03:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1VLSpDu78a/QQtlbDHw8oRJ41Gic+mpyfMuI9CFwaS4=;
-        b=oyfsdS43YUPbHomPJmvS7UB7JpqPg2VMwTN5ajXlyJmBBvFNT7pc6f8z+BD7YjMWzd
-         oUSCXl+2cA5Ln44yyBF46k6vdsJdA1GYZNYZQpVGADN1ZjomOWKlxGF2uXmimH0nnvSR
-         wCZhSpABsmN4J/VgIgQDS+odQ2TxhhutMFE95eMNCXO5AWCtFlArmqO+/RR6szL8q0ub
-         0RhUNLHj+M9bTk6u7jNOHPtBMrPM5r1cpTopnnJ8fT6uVESC/kmMS+XI388RhK9AIyM8
-         ISh4ZNhG9TM9J0X5HDZ0decq+jfKGz641ylwXHBTdTA/jq9fJs1BFAzKyRGG/09n1GHu
-         wapg==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to;
+        bh=rt6/npTiHHjWj3ecoUN0HYwqJoJlmgLKj93DKfKnkfU=;
+        b=ThyT2to8lu+EdzoAhImiUkr1hJ4EQoLjTs7z7wPDbjeTuO7s4QWPLbKv5qzKZwTOJV
+         w/E6qozGQ8/ntOaQOsLjUT0vIYHezTR0+m8rKsgBQhgge8XtJBbtFfwO0Gte62FBVvyq
+         E/5U59VX3nrhzJdTW2ocksnHQQDLl3Ucjt9O8D3N6cx2k3cJnSgJIXykhvROBS1iYwrD
+         m9+qT6LJRJMNeQeDHEZLISCBgSzZ4YSJuZTVMn0Ctbcb9vOFZ2QjUA3ae0r77lMX3NFp
+         SB5tR/7XsneXOIpvf9aUvlTQJzuMLc6b5LWzGykhNCVKbspDZHEPPUD5SYewmQC2vzcB
+         m27A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1VLSpDu78a/QQtlbDHw8oRJ41Gic+mpyfMuI9CFwaS4=;
-        b=tRMILe7anQfJIuVckz/EzO48r8P3DsobdHgPBADfxdmUpat0Fkobh7uSUuYvTswiDG
-         gBLlgAD9OQo5FQ/OwRIRWXadzi96EPNYLpVluDoPq8bEmAUKrNd5qupu45JvjWdxgEfH
-         SRotzfkXT0hcSQ0ZSpYf/XqTTqOgqBqrRxSqOFkvE98FTVLYyPyxuAcXIOGncSRVlcqA
-         yBg95cgV4+kpxyhEd4DfgSXPx14FDPrl5M8CoiM6eI63TWjswzJS8MYeCKE5k5IFjLid
-         JAvkNZqWZBci5cFxrUNxxfMmwJlu/DDAIHKhbHNmJEI2QuW4VPDjV9s7KOCUURKKlAQu
-         7f3A==
-X-Gm-Message-State: AOAM532GRktszL8G2JPqYE+b4658HbA0726b80xnDrg/RvZmJyeuiERN
-	9WMzpxC34aSdRSjn877O0AnoFA==
-X-Google-Smtp-Source: ABdhPJy9JqUlPm4DjmcQEbF/c7bKPYBtmvOFvFI1wvmpsaCmzCHcGp9F8cZ10lhpzdzWUlzzZUoGbg==
-X-Received: by 2002:a9d:17cc:: with SMTP id j70mr21545588otj.313.1642539741207;
-        Tue, 18 Jan 2022 13:02:21 -0800 (PST)
-Received: from eze-laptop ([190.194.87.200])
-        by smtp.gmail.com with ESMTPSA id j26sm4929362oou.29.2022.01.18.13.02.18
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to;
+        bh=rt6/npTiHHjWj3ecoUN0HYwqJoJlmgLKj93DKfKnkfU=;
+        b=5+XZn/KrnxCu9u8T0uoZW9JL7Ve9NBF0MVXn2Nzu+gyEjM4+KRNxLNl9C9P5vq1vP1
+         BkEz6qsmFKJuC8DSqEyGPISvZ9LGQNm/auQQgWxzL1rPU8rhkxbUwP9DdundYjNyNXr5
+         I63+eVpfrAvwPDbOzLBB6nomCf+9Q1HFXf+xNGHMDBvS2Xf+ENviUJmtZuc3F0I7dH0d
+         KOA0nlkSMT29/M/4AvAIPVAKI9HXQ1iX5Ly4pH1usvC/7u4reihsgNbWC67e9HTGqRtN
+         dqwdxo0m3IvbAgWYVJz2jvYHVeOWo9Ob2Pks5bH/mUQvvUuzvOUEpOoZWZl0ScnSM/xI
+         i0vQ==
+X-Gm-Message-State: AOAM532J0lndcnE20f9y25Mi2+qhIJKKlYZaQjfhy3FApHJdj7ZKdlvy
+	ZRcNwCJ5saXwu4Kht5DUdFo=
+X-Google-Smtp-Source: ABdhPJzRz6I2/Y8tLeRhH017WM73iOH13SYJr0Thb8EEaCjKTk85I1yCFtsDK04PML4YqUIYlPJHYQ==
+X-Received: by 2002:a17:90b:797:: with SMTP id l23mr280187pjz.30.1642546997427;
+        Tue, 18 Jan 2022 15:03:17 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id h63sm6274007pfe.12.2022.01.18.15.03.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jan 2022 13:02:19 -0800 (PST)
-Date: Tue, 18 Jan 2022 18:02:15 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFT v2 1/8] media: hantro: jpeg: Relax register writes
- before write starting hardware
-Message-ID: <Yecq111pZDP9XFNO@eze-laptop>
-References: <20220107093455.73766-1-wenst@chromium.org>
- <20220107093455.73766-2-wenst@chromium.org>
+        Tue, 18 Jan 2022 15:03:17 -0800 (PST)
+Date: Wed, 19 Jan 2022 12:03:12 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
+	realwakka@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/3] staging: pi433: validate min/max bit rate settings
+Message-ID: <20220118230312.GA4826@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,78 +51,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220107093455.73766-2-wenst@chromium.org>
+In-Reply-To: <20220118193422.GA3155@mail.google.com>
 
-Hi Chen-Yu,
+RF69 chip supports different bit rate settings depending on which frequency
+modulation is used. Failing to correctly validate bit rate can lead to a 
+silent failure and cause packets not to be read/sent.
 
-The series looks good, thanks for picking up this task.
+This series change the order in which the rf69 chip is configured and add
+max bit rate validation.
 
-Just a one comment.
+Patch dependency:
 
-On Fri, Jan 07, 2022 at 05:34:48PM +0800, Chen-Yu Tsai wrote:
-> In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
-> wmb() was inserted before the final register write that starts the
-> encoder. In v11, it was removed and the second-to-last register write
-> was changed to a non-relaxed write, which has an implicit wmb() [1].
-> The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
-> is another writel_relaxed() following the non-relaxed one.
-> 
-> Turns out only the last writel() needs to be non-relaxed. Device I/O
-> mappings already guarantee strict ordering to the same endpoint, and
-> the writel() triggering the hardware would force all writes to memory
-> to be observed before the writel() to the hardware is observed.
-> 
-> [1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
->  drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
->  drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
->  2 files changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> index 1450013d3685..03db1c3444f8 100644
-> --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> @@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
->  		| H1_REG_AXI_CTRL_INPUT_SWAP32
->  		| H1_REG_AXI_CTRL_OUTPUT_SWAP8
->  		| H1_REG_AXI_CTRL_INPUT_SWAP8;
-> -	/* Make sure that all registers are written at this point. */
-> -	vepu_write(vpu, reg, H1_REG_AXI_CTRL);
-> +	vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
->  
+This series depend on these patches as they change the same set of files:
 
-As far as I can remember, this logic comes from really old Chromium Kernels.
-You might be right, and this barrier isn't needed... but then OTOH the comment
-is here for a reason, so maybe it is needed (or was needed on some RK3288 SoC revision).
+- https://lore.kernel.org/lkml/20220108212728.GA7784@mail.google.com/
+- https://lore.kernel.org/lkml/20220114221643.GA7843@mail.google.com/
 
-I don't have RK3288 boards near me, but in any case, I'm not sure
-we'd be able to test this easily (maybe there are issues that only
-trigger under a certain load).
+Changelog:
 
-I'd personally avoid this one change, but if you are confident enough with it
-that's fine too.
+v3: revert bitrate variable data type change. Req: Dan Carpenter
+v2: change bitrate variable type to u32 as pointed by kernel test bot
+v1: https://lore.kernel.org/lkml/20220116001726.GA22699@mail.google.com/
 
-Thanks!
-Ezequiel
+Paulo Miguel Almeida (3):
+  staging: pi433: fix validation for min bit rate supported by the
+    device
+  staging: pi433: change order in which driver config the rf69 chip
+  staging: pi433: validate max bit_rate based on modulation used
 
->  	reg = H1_REG_ENC_CTRL_WIDTH(MB_WIDTH(ctx->src_fmt.width))
->  		| H1_REG_ENC_CTRL_HEIGHT(MB_HEIGHT(ctx->src_fmt.height))
-> diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> index 4df16f59fb97..b931fc5fa1a9 100644
-> --- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> +++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> @@ -152,8 +152,7 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
->  		| VEPU_REG_INPUT_SWAP8
->  		| VEPU_REG_INPUT_SWAP16
->  		| VEPU_REG_INPUT_SWAP32;
-> -	/* Make sure that all registers are written at this point. */
-> -	vepu_write(vpu, reg, VEPU_REG_DATA_ENDIAN);
-> +	vepu_write_relaxed(vpu, reg, VEPU_REG_DATA_ENDIAN);
->  
->  	reg = VEPU_REG_AXI_CTRL_BURST_LEN(16);
->  	vepu_write_relaxed(vpu, reg, VEPU_REG_AXI_CTRL);
-> -- 
-> 2.34.1.575.g55b058a8bb-goog
-> 
+ drivers/staging/pi433/TODO       |  2 ++
+ drivers/staging/pi433/pi433_if.c |  8 ++++----
+ drivers/staging/pi433/rf69.c     | 12 +++++++++---
+ 3 files changed, 15 insertions(+), 7 deletions(-)
+
+-- 
+2.25.4
+
