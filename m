@@ -1,52 +1,55 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250212C82
-	for <linux-staging@lists.linux.dev>; Tue, 18 Jan 2022 19:34:29 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id c3so25385709pls.5
-        for <linux-staging@lists.linux.dev>; Tue, 18 Jan 2022 11:34:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475F629CA
+	for <linux-staging@lists.linux.dev>; Tue, 18 Jan 2022 21:02:22 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id m8-20020a9d4c88000000b00592bae7944bso201562otf.1
+        for <linux-staging@lists.linux.dev>; Tue, 18 Jan 2022 13:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=40MV7ZI2tGZi+RBScQrhTZKoyeO5b0aBJdwY+wGkH1Y=;
-        b=lFjZ7Dwsvh/f8q7mVj1DmtDPHMX9W5RAtybXK2f+6FWm6oXdSYGUpkrkmCQbwc34iw
-         shhFwQmavNA4UBmMBREr7gojGZBiab3kBA11j+Xk9H07pVon5rnsk/fBEP8ggWMyeLHq
-         rm4IdfVqlUGZLsi0tWs0yk25iNCNpNHlhR1yufzBrqhOsY3+qnfgtebQXQBZRyLGYAxO
-         ImwKeN9rU8bxkJLJy7dirHfjmGGYkVJyvGfFPAdhqY/v8Zb9xYxzNaMQBDQ+MCaBRL89
-         XaxuR4oiAimjjjUvYRLdeIsAUo36g+YQZxna9WAcUooZBAMI124cPXjLHDXefK/3HkRV
-         giOA==
+        bh=1VLSpDu78a/QQtlbDHw8oRJ41Gic+mpyfMuI9CFwaS4=;
+        b=oyfsdS43YUPbHomPJmvS7UB7JpqPg2VMwTN5ajXlyJmBBvFNT7pc6f8z+BD7YjMWzd
+         oUSCXl+2cA5Ln44yyBF46k6vdsJdA1GYZNYZQpVGADN1ZjomOWKlxGF2uXmimH0nnvSR
+         wCZhSpABsmN4J/VgIgQDS+odQ2TxhhutMFE95eMNCXO5AWCtFlArmqO+/RR6szL8q0ub
+         0RhUNLHj+M9bTk6u7jNOHPtBMrPM5r1cpTopnnJ8fT6uVESC/kmMS+XI388RhK9AIyM8
+         ISh4ZNhG9TM9J0X5HDZ0decq+jfKGz641ylwXHBTdTA/jq9fJs1BFAzKyRGG/09n1GHu
+         wapg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=40MV7ZI2tGZi+RBScQrhTZKoyeO5b0aBJdwY+wGkH1Y=;
-        b=4DjgQDKEOZ2iZ5nf+lvoaXZPO4WkLcZkr9JCIpJTV9G5R8mClvJ5hkuZkZxN5LBXAx
-         9TFOexGqv9rSCR4O7IGSYGIIyXVycfr6UZTYKCTi07Zo4iY8to+EtYTXlSCn0Fltc13P
-         Ba2x+2eY2xC3PoUJOJlm8oZCvObWM/hSF3E0KvFotzOtq+YRn+CgV32bdF5zl9rYV3ms
-         eX/43yf5IZrq6E9Sq8yu2eHBim4X/HCSKv1aelafjJdEOH4O/tFzbfWqQCrf4bL/IelE
-         WqUTSB/TmUcnWGfQfoVAg0exAgisnhLha8yE+FcNAQvZ+e6GnkZyxD8jYV0pv6OL/y86
-         n6ZA==
-X-Gm-Message-State: AOAM532qtt1K9uejsmiTdO7FYsy9mG1Kc13jJDoF+vWqe/ejQ7b3R3hW
-	vjMy9BuirQiJcDN8Kpe6ZZG+0fm3HJHyXpIo0OU=
-X-Google-Smtp-Source: ABdhPJw/rumCUvksSOyguf/QDdyWBBtXkFA5pXyBJirVib31imNTt3X4WukBEBSf1DekNqSl1VXHmA==
-X-Received: by 2002:a17:902:70c9:b0:149:76f1:47dc with SMTP id l9-20020a17090270c900b0014976f147dcmr29334321plt.130.1642534468623;
-        Tue, 18 Jan 2022 11:34:28 -0800 (PST)
-Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id c2sm3778204pfv.71.2022.01.18.11.34.25
+        bh=1VLSpDu78a/QQtlbDHw8oRJ41Gic+mpyfMuI9CFwaS4=;
+        b=tRMILe7anQfJIuVckz/EzO48r8P3DsobdHgPBADfxdmUpat0Fkobh7uSUuYvTswiDG
+         gBLlgAD9OQo5FQ/OwRIRWXadzi96EPNYLpVluDoPq8bEmAUKrNd5qupu45JvjWdxgEfH
+         SRotzfkXT0hcSQ0ZSpYf/XqTTqOgqBqrRxSqOFkvE98FTVLYyPyxuAcXIOGncSRVlcqA
+         yBg95cgV4+kpxyhEd4DfgSXPx14FDPrl5M8CoiM6eI63TWjswzJS8MYeCKE5k5IFjLid
+         JAvkNZqWZBci5cFxrUNxxfMmwJlu/DDAIHKhbHNmJEI2QuW4VPDjV9s7KOCUURKKlAQu
+         7f3A==
+X-Gm-Message-State: AOAM532GRktszL8G2JPqYE+b4658HbA0726b80xnDrg/RvZmJyeuiERN
+	9WMzpxC34aSdRSjn877O0AnoFA==
+X-Google-Smtp-Source: ABdhPJy9JqUlPm4DjmcQEbF/c7bKPYBtmvOFvFI1wvmpsaCmzCHcGp9F8cZ10lhpzdzWUlzzZUoGbg==
+X-Received: by 2002:a9d:17cc:: with SMTP id j70mr21545588otj.313.1642539741207;
+        Tue, 18 Jan 2022 13:02:21 -0800 (PST)
+Received: from eze-laptop ([190.194.87.200])
+        by smtp.gmail.com with ESMTPSA id j26sm4929362oou.29.2022.01.18.13.02.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jan 2022 11:34:28 -0800 (PST)
-Date: Wed, 19 Jan 2022 08:34:22 +1300
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
+        Tue, 18 Jan 2022 13:02:19 -0800 (PST)
+Date: Tue, 18 Jan 2022 18:02:15 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] staging: pi433: validate max bit_rate based on
- modulation used
-Message-ID: <20220118193422.GA3155@mail.google.com>
-References: <20220117055849.GA10644@mail.google.com>
- <20220117060220.GA11202@mail.google.com>
- <20220118135902.GH1951@kadam>
+Subject: Re: [PATCH RFT v2 1/8] media: hantro: jpeg: Relax register writes
+ before write starting hardware
+Message-ID: <Yecq111pZDP9XFNO@eze-laptop>
+References: <20220107093455.73766-1-wenst@chromium.org>
+ <20220107093455.73766-2-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,61 +58,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220118135902.GH1951@kadam>
+In-Reply-To: <20220107093455.73766-2-wenst@chromium.org>
 
-On Tue, Jan 18, 2022 at 04:59:02PM +0300, Dan Carpenter wrote:
-> At the same time, this is a GCC warning so it will break the build.
+Hi Chen-Yu,
+
+The series looks good, thanks for picking up this task.
+
+Just a one comment.
+
+On Fri, Jan 07, 2022 at 05:34:48PM +0800, Chen-Yu Tsai wrote:
+> In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
+> wmb() was inserted before the final register write that starts the
+> encoder. In v11, it was removed and the second-to-last register write
+> was changed to a non-relaxed write, which has an implicit wmb() [1].
+> The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
+> is another writel_relaxed() following the non-relaxed one.
 > 
-> Instead of applying this patch, I wish you would just make a note of it
-> in the drivers/staging/pi433/TODO file.  
+> Turns out only the last writel() needs to be non-relaxed. Device I/O
+> mappings already guarantee strict ordering to the same endpoint, and
+> the writel() triggering the hardware would force all writes to memory
+> to be observed before the writel() to the hardware is observed.
 > 
->     "Change (struct pi433_tx_cfg)->bit_rate to be a u32 so that we can
->      support bit rates up to 300kbps per the spec."
-
-thanks for taking the time to review this patchset.
-
-It makes sense to me. So essentially for this version of the patchset I
-would only validate OOK max bit rate as it fits within the u16 boundary
-of the current implementation, right?
-
-Something akin to this:
-
-// check input value
-if (bit_rate < 1200 || (mod == OOK && bit_rate > 32768)) {
-	dev_dbg(&spi->dev, "setBitRate: illegal input param");
-	return -EINVAL;
-}
-
+> [1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
 > 
-> But you're right that it's complicated to fix this because it's part of
-> the UAPI.  I think that the UAPI for pi433 is kind of garbage.  No one
-> like custom ioctls.  It would be better to use sysfs.  
-> ...
-> So my idea is that instead of modifying the custom ioctl then we can
-> just add a new sysfs file to set the bit_rate and all the other stuff.
-> Eventually we will delete the ioctl after all the users have updated to
-> the new userspace.
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>  drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
+>  drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
 > 
+> diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> index 1450013d3685..03db1c3444f8 100644
+> --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> @@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+>  		| H1_REG_AXI_CTRL_INPUT_SWAP32
+>  		| H1_REG_AXI_CTRL_OUTPUT_SWAP8
+>  		| H1_REG_AXI_CTRL_INPUT_SWAP8;
+> -	/* Make sure that all registers are written at this point. */
+> -	vepu_write(vpu, reg, H1_REG_AXI_CTRL);
+> +	vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
+>  
 
-Using sysfs or even possibly configfs was one of the things I had in
-mind too. 
+As far as I can remember, this logic comes from really old Chromium Kernels.
+You might be right, and this barrier isn't needed... but then OTOH the comment
+is here for a reason, so maybe it is needed (or was needed on some RK3288 SoC revision).
 
-I started a similar discussion on how to change/remove ioctl:
-https://lore.kernel.org/kernelnewbies/YeVoAlv0ubKrmckV@kroah.com/T/#t
+I don't have RK3288 boards near me, but in any case, I'm not sure
+we'd be able to test this easily (maybe there are issues that only
+trigger under a certain load).
 
-The tldr;:
+I'd personally avoid this one change, but if you are confident enough with it
+that's fine too.
 
-If there is a userspace tool that interfaces with char
-device and we can change it at the same time as the kernel code then we 
-can have a bit more flexibility on how to send/retrieve values to/from 
-the driver. If not then we would be required to keep the original ioctl
-compatibility even if we move to a different approach due to the
-impossibility of knowing whether or not someone is relying on that. :(
+Thanks!
+Ezequiel
 
-Everything leads me to believe that there isn't such userspace tool /
-lib so I emailed the original author just to be 100% sure that this is
-the case.
-
-thanks,
-
-Paulo Almeida
+>  	reg = H1_REG_ENC_CTRL_WIDTH(MB_WIDTH(ctx->src_fmt.width))
+>  		| H1_REG_ENC_CTRL_HEIGHT(MB_HEIGHT(ctx->src_fmt.height))
+> diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+> index 4df16f59fb97..b931fc5fa1a9 100644
+> --- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+> +++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+> @@ -152,8 +152,7 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
+>  		| VEPU_REG_INPUT_SWAP8
+>  		| VEPU_REG_INPUT_SWAP16
+>  		| VEPU_REG_INPUT_SWAP32;
+> -	/* Make sure that all registers are written at this point. */
+> -	vepu_write(vpu, reg, VEPU_REG_DATA_ENDIAN);
+> +	vepu_write_relaxed(vpu, reg, VEPU_REG_DATA_ENDIAN);
+>  
+>  	reg = VEPU_REG_AXI_CTRL_BURST_LEN(16);
+>  	vepu_write_relaxed(vpu, reg, VEPU_REG_AXI_CTRL);
+> -- 
+> 2.34.1.575.g55b058a8bb-goog
+> 
