@@ -1,45 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214222C82
-	for <linux-staging@lists.linux.dev>; Tue, 18 Jan 2022 02:36:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 028C6C36AEF;
-	Tue, 18 Jan 2022 02:36:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFE32C82
+	for <linux-staging@lists.linux.dev>; Tue, 18 Jan 2022 02:40:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C00E0C36AEB;
+	Tue, 18 Jan 2022 02:40:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1642473363;
-	bh=t6EK6nXBYsJjngzkuNBBOsN4uXBS60XMMOEjqfzHALs=;
+	s=k20201202; t=1642473635;
+	bh=wIvNlmpifgpujICak+JLTgxCU2meCQ2EhSf6G7TR9lU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KJmGqkEld2E1r6BX9XXn7wrDBWvgr0MX7+PJfjfOWf4ahINuCRMpbi2HKBjQSakI6
-	 asyxfXi0b6Rae0YfdBIklEub/XJCKptdAaFVDXlCmdZFufsa2fjNtK1aB6UlCHvipY
-	 G2a77ORadkgOl24bn3XrWCT3hTehp1etjbqChvmVSIEaB1J/luKnNluisXJVquWJRZ
-	 1rZcIWIal4Ld//5lOLUqigZ+mB1f0Q4o26EmPRPSD5ugLXk1GrxnDdRDhYEf3bVQAj
-	 3fc12AhvdeIfDSafjEDhSSo/IYBHXYc+L0HfQPjLog7Jdjzl+/NQyRlhCb5F4yd0V7
-	 88Cu6TYL7Kfwg==
+	b=XWjVO4Q0aEOR3DZ5ZsNOSEX5jmeoxG5A2xLcxm6I5IeeZrZ8Q+wc7MtcJi1mvEM3G
+	 xgtKpGtra/4fhZRPrw/g4A4Q9YjuTxvXE+PTTfPVxTpcCCAezqFU8N7Knq/G5ghcF7
+	 E5+Mr+CCsWJuC3N/r/9YgVYdUv9b1wFqP+PyXOd4D5lvMdCSB17gdoNmU2r7piRqik
+	 w27Oahgih+lkgDDKlwZbPbtKATeGOGALQnlGd2aDKdNCnHEQUleUOuZ0Gz789VRzdw
+	 fm0wh4wCdovHs6Ml6kfmrSQpmrFIf2xHsyxrdMd9VPx9zeb8PAqfYUrN3wa9iYN/vL
+	 T+5bzYs/kZIiw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tsuchiya Yuto <kitakar@gmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
 	gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl,
-	arnd@arndb.de,
-	tomi.valkeinen@ideasonboard.com,
-	alex.dewar90@gmail.com,
-	alinesantanacordeiro@gmail.com,
+	kitakar@gmail.com,
 	peterz@infradead.org,
+	dan.carpenter@oracle.com,
 	mingo@kernel.org,
 	kaixuxia@tencent.com,
+	arnd@arndb.de,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.15 086/188] media: atomisp: fix "variable dereferenced before check 'asd'"
-Date: Mon, 17 Jan 2022 21:30:10 -0500
-Message-Id: <20220118023152.1948105-86-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 009/116] media: atomisp: fix try_fmt logic
+Date: Mon, 17 Jan 2022 21:38:20 -0500
+Message-Id: <20220118024007.1950576-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
-References: <20220118023152.1948105-1-sashal@kernel.org>
+In-Reply-To: <20220118024007.1950576-1-sashal@kernel.org>
+References: <20220118024007.1950576-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,67 +46,113 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Tsuchiya Yuto <kitakar@gmail.com>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit ac56760a8bbb4e654b2fd54e5de79dd5d72f937d ]
+[ Upstream commit c9e9094c4e42124af909b2f5f6ded0498e0854ac ]
 
-There are two occurrences where the variable 'asd' is dereferenced
-before check. Fix this issue by using the variable after the check.
+The internal try_fmt logic is not meant to provide everything
+that the V4L2 API should provide. Also, it doesn't decrement
+the pads that are used only internally by the driver, but aren't
+part of the device's output.
 
-Link: https://lore.kernel.org/linux-media/20211122074122.GA6581@kili/
+Fix it.
 
-Link: https://lore.kernel.org/linux-media/20211201141904.47231-1-kitakar@gmail.com
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c   | 3 ++-
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 72 ++++++++++++++++++-
+ 1 file changed, 71 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 1ddb9c815a3cb..ef0b0963cf930 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -5224,7 +5224,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
- 	int (*configure_pp_input)(struct atomisp_sub_device *asd,
- 				  unsigned int width, unsigned int height) =
- 				      configure_pp_input_nop;
--	u16 stream_index = atomisp_source_pad_to_stream_id(asd, source_pad);
-+	u16 stream_index;
- 	const struct atomisp_in_fmt_conv *fc;
- 	int ret, i;
- 
-@@ -5233,6 +5233,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
- 			__func__, vdev->name);
- 		return -EINVAL;
- 	}
-+	stream_index = atomisp_source_pad_to_stream_id(asd, source_pad);
- 
- 	v4l2_fh_init(&fh.vfh, vdev);
- 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 442446e5d59f7..3861e794272ea 100644
+index 9da82855552de..973012c6153e5 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1112,7 +1112,7 @@ int __atomisp_reqbufs(struct file *file, void *fh,
- 	struct ia_css_frame *frame;
- 	struct videobuf_vmalloc_memory *vm_mem;
- 	u16 source_pad = atomisp_subdev_source_pad(vdev);
--	u16 stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
-+	u16 stream_id;
- 	int ret = 0, i = 0;
+@@ -834,6 +834,72 @@ static int atomisp_g_fmt_file(struct file *file, void *fh,
+ 	return 0;
+ }
  
- 	if (!asd) {
-@@ -1120,6 +1120,7 @@ int __atomisp_reqbufs(struct file *file, void *fh,
- 			__func__, vdev->name);
- 		return -EINVAL;
- 	}
-+	stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
++static int atomisp_adjust_fmt(struct v4l2_format *f)
++{
++	const struct atomisp_format_bridge *format_bridge;
++	u32 padded_width;
++
++	format_bridge = atomisp_get_format_bridge(f->fmt.pix.pixelformat);
++
++	padded_width = f->fmt.pix.width + pad_w;
++
++	if (format_bridge->planar) {
++		f->fmt.pix.bytesperline = padded_width;
++		f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height *
++						  DIV_ROUND_UP(format_bridge->depth *
++						  padded_width, 8));
++	} else {
++		f->fmt.pix.bytesperline = DIV_ROUND_UP(format_bridge->depth *
++						      padded_width, 8);
++		f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height * f->fmt.pix.bytesperline);
++	}
++
++	if (f->fmt.pix.field == V4L2_FIELD_ANY)
++		f->fmt.pix.field = V4L2_FIELD_NONE;
++
++	format_bridge = atomisp_get_format_bridge(f->fmt.pix.pixelformat);
++	if (!format_bridge)
++		return -EINVAL;
++
++	/* Currently, raw formats are broken!!! */
++	if (format_bridge->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
++		f->fmt.pix.pixelformat = V4L2_PIX_FMT_YUV420;
++
++		format_bridge = atomisp_get_format_bridge(f->fmt.pix.pixelformat);
++		if (!format_bridge)
++			return -EINVAL;
++	}
++
++	padded_width = f->fmt.pix.width + pad_w;
++
++	if (format_bridge->planar) {
++		f->fmt.pix.bytesperline = padded_width;
++		f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height *
++						  DIV_ROUND_UP(format_bridge->depth *
++						  padded_width, 8));
++	} else {
++		f->fmt.pix.bytesperline = DIV_ROUND_UP(format_bridge->depth *
++						      padded_width, 8);
++		f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height * f->fmt.pix.bytesperline);
++	}
++
++	if (f->fmt.pix.field == V4L2_FIELD_ANY)
++		f->fmt.pix.field = V4L2_FIELD_NONE;
++
++	/*
++	 * FIXME: do we need to setup this differently, depending on the
++	 * sensor or the pipeline?
++	 */
++	f->fmt.pix.colorspace = V4L2_COLORSPACE_REC709;
++	f->fmt.pix.ycbcr_enc = V4L2_YCBCR_ENC_709;
++	f->fmt.pix.xfer_func = V4L2_XFER_FUNC_709;
++
++	f->fmt.pix.width -= pad_w;
++	f->fmt.pix.height -= pad_h;
++
++	return 0;
++}
++
+ /* This function looks up the closest available resolution. */
+ static int atomisp_try_fmt_cap(struct file *file, void *fh,
+ 			       struct v4l2_format *f)
+@@ -845,7 +911,11 @@ static int atomisp_try_fmt_cap(struct file *file, void *fh,
+ 	rt_mutex_lock(&isp->mutex);
+ 	ret = atomisp_try_fmt(vdev, f, NULL);
+ 	rt_mutex_unlock(&isp->mutex);
+-	return ret;
++
++	if (ret)
++		return ret;
++
++	return atomisp_adjust_fmt(f);
+ }
  
- 	if (req->count == 0) {
- 		mutex_lock(&pipe->capq.vb_lock);
+ static int atomisp_s_fmt_cap(struct file *file, void *fh,
 -- 
 2.34.1
 
