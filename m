@@ -1,145 +1,58 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA9B2CA5
-	for <linux-staging@lists.linux.dev>; Wed, 19 Jan 2022 12:00:08 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id c24so7691655edy.4
-        for <linux-staging@lists.linux.dev>; Wed, 19 Jan 2022 04:00:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8BZXEWpLZHNGFLnHvF+VUrdwjsLd9cNgSucSnPROzJ4=;
-        b=OzbGVXBL5geph+h5UpYKQFMaYOvOFUNOW9r1GtHvF42MqCILSEJuzWweeMYMiVywz2
-         HIWYHcUvDh8D1JM1GPIIqNL+UYPrBNH/BN0Vx+hhuAGi8Rd/QYIjii/K81k0nSBGY9qg
-         tEdOi9gydP/ZKVyHMhD5nflgNWmoOZ7EC4sRylfCwNI0OjBN9xqW8/fOuBaNXFFHDevA
-         TDloC4Lcx9EsoIL0rl+Vq05B6PQLVDuFpLcBbEG6f6jOa1KsyGRDyuIfg+eiyizj0GvX
-         163UvWCZZZtx7r6z9TIn0lwEGPQpbvJpa9NEEtZ3NPCKKce9ZLL6B3X5/opzn/anpWK9
-         HwMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8BZXEWpLZHNGFLnHvF+VUrdwjsLd9cNgSucSnPROzJ4=;
-        b=1liCsiL5++coCOk6nc/Zz8GWnTygg+S+KKLgrp2Hj0FPDEGgAaI5Y6wqh2FRJnAGhw
-         jQy0mUOItGOgr5DSJkJdpw4nMFY0v+gv3ELWhraAAyHLwHu7oGqQ0/F3NsNiYvGFmqwl
-         uoyiZPpL+KEGu6vfzdz8NpxKZl0kBg/YP9I/jXSgF0gXyTRnX75NXWHtMNjFRiRJPpem
-         OEVQFzjB3grJ0RITx/eROWkQg+FoVI/vZ+aEL1+Mw+v9btUdeDW6WOmd2E5nEo8fOiDE
-         4YDaTDAT0u2Q3mRACMuoOgZEMAaiPI6D6NpHO6y0nKGw/3xJhQXT3gpJc94fGSnvdY4l
-         nbgQ==
-X-Gm-Message-State: AOAM533Oif3rwOKkjnBbtmZwjV6p0rl6yjIvnOhL42ioPCnHS7DAL/Ai
-	LyVz0bZE2w3E+DY5su3GKUxLIQd5gYd3rqBG3PVN1g==
-X-Google-Smtp-Source: ABdhPJx698OCGgL9gobCcTHcx/x3zyqw6IuDjzeKHZeQHHEMq40nl0OIDYQzfYebVsR+hUN+VulaPBPAjUESyzV4Gqc=
-X-Received: by 2002:a17:907:972a:: with SMTP id jg42mr25276206ejc.757.1642593607306;
- Wed, 19 Jan 2022 04:00:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBE42CA3
+	for <linux-staging@lists.linux.dev>; Wed, 19 Jan 2022 13:27:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1642598848; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=n7KdY5O1IbkTGFTFg/xlnfZdjpPH5GaTWxvNfw4i1t+32loGtX+GAERcljh3UIUbKF7UX8tbKhfAmdUsf5mv/VXKW0SH8EiCemqY4H6eWD33C64wNOMikfHa9cNTDg9nnC5PYGJ0+5eJkK2JuTJml/5cCYqLKrf/u9lxXXirbAI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1642598848; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=vYkKrZxCG/cKt6+IIDyfS1RNbgmwpgZCPpOYO0clTEo=; 
+	b=Gc/LqWYOFdrhAhVTy+Libkdux8VwDwDeWdBZREpUm2FDF3wJK5c75miXorRp6t9th9ZcLy89sUwD+EfjEY5EPJPHf3Sd/xhiwgBEC+6KXRMcW8DczAip64KQmJLI+g/m7vyOX029hp8kpuUhXEySNWGidEj8+b1SKy2l9AclwLQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=arinc9.com;
+	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+	dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1642598848;
+	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=vYkKrZxCG/cKt6+IIDyfS1RNbgmwpgZCPpOYO0clTEo=;
+	b=ZAGDQczAj1fTsc5MR8Nkb36EgQSc5u+YHbIGUPTUIFPQaYIvaLuTKqjqL5i2varu
+	WudQAAJOca0zc9SQbAGb7qt+SL+52gwh8DPPssC+2Zlp50r5cS+fUJ07CqeYXxZMBV1
+	fqCw8SNNq4s8jz7z4NRoXldsabFr3tBcj2dP59YI=
+Received: from [10.10.10.216] (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
+	with SMTPS id 1642598845836963.4816161923367; Wed, 19 Jan 2022 05:27:25 -0800 (PST)
+Message-ID: <d46fcc03-40f1-edbf-e966-e35aabf84111@arinc9.com>
+Date: Wed, 19 Jan 2022 16:27:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220107093455.73766-1-wenst@chromium.org> <20220107093455.73766-2-wenst@chromium.org>
- <Yecq111pZDP9XFNO@eze-laptop> <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
-In-Reply-To: <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Wed, 19 Jan 2022 08:59:51 -0300
-Message-ID: <CAAEAJfBM4d4hd1Av_TO-WVXQoUCNUckm+YHawdg6PY3urkB9nA@mail.gmail.com>
-Subject: Re: [PATCH RFT v2 1/8] media: hantro: jpeg: Relax register writes
- before write starting hardware
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-media <linux-media@vger.kernel.org>, 
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v8 0/4] clk: ralink: make system controller a reset
+ provider
+Content-Language: en-US
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+ linux-clk@vger.kernel.org
+Cc: john@phrozen.org, linux-staging@lists.linux.dev,
+ gregkh@linuxfoundation.org, neil@brown.name, p.zabel@pengutronix.de,
+ linux-kernel@vger.kernel.org, sboyd@kernel.org, erkin.bozoglu@xeront.com,
+ Luiz Angelo Daros de Luca <luizluca@gmail.com>
+References: <20220110114930.1406665-1-sergio.paracuellos@gmail.com>
+From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+In-Reply-To: <20220110114930.1406665-1-sergio.paracuellos@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Wed, 19 Jan 2022 at 07:09, Chen-Yu Tsai <wenst@chromium.org> wrote:
->
-> Hi,
->
-> On Wed, Jan 19, 2022 at 5:02 AM Ezequiel Garcia
-> <ezequiel@vanguardiasur.com.ar> wrote:
-> >
-> > Hi Chen-Yu,
-> >
-> > The series looks good, thanks for picking up this task.
-> >
-> > Just a one comment.
-> >
-> > On Fri, Jan 07, 2022 at 05:34:48PM +0800, Chen-Yu Tsai wrote:
-> > > In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
-> > > wmb() was inserted before the final register write that starts the
-> > > encoder. In v11, it was removed and the second-to-last register write
-> > > was changed to a non-relaxed write, which has an implicit wmb() [1].
-> > > The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
-> > > is another writel_relaxed() following the non-relaxed one.
-> > >
-> > > Turns out only the last writel() needs to be non-relaxed. Device I/O
-> > > mappings already guarantee strict ordering to the same endpoint, and
-> > > the writel() triggering the hardware would force all writes to memory
-> > > to be observed before the writel() to the hardware is observed.
-> > >
-> > > [1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
-> > >
-> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > ---
-> > >  drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
-> > >  drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
-> > >  2 files changed, 2 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> > > index 1450013d3685..03db1c3444f8 100644
-> > > --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> > > +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> > > @@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
-> > >               | H1_REG_AXI_CTRL_INPUT_SWAP32
-> > >               | H1_REG_AXI_CTRL_OUTPUT_SWAP8
-> > >               | H1_REG_AXI_CTRL_INPUT_SWAP8;
-> > > -     /* Make sure that all registers are written at this point. */
-> > > -     vepu_write(vpu, reg, H1_REG_AXI_CTRL);
-> > > +     vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
-> > >
-> >
-> > As far as I can remember, this logic comes from really old Chromium Kernels.
-> > You might be right, and this barrier isn't needed... but then OTOH the comment
-> > is here for a reason, so maybe it is needed (or was needed on some RK3288 SoC revision).
->
-> I just realized that my commit log is wrong.
->
-> " ... a wmb() was inserted before the final register write that starts the
-> encoder. ... " . It is actually before the second-to-last register write.
->
-> > I don't have RK3288 boards near me, but in any case, I'm not sure
-> > we'd be able to test this easily (maybe there are issues that only
-> > trigger under a certain load).
->
-> I see. I do have a Veyron around that I haven't used in awhile. But as you
-> said, it might not be an obvious hardware limitation.
->
-> > I'd personally avoid this one change, but if you are confident enough with it
-> > that's fine too.
->
-> Unfortunately they didn't leave a whole lot of clues around. For most hardware,
-> as I mentioned in the commit log, I think the final non-relaxed write should
-> suffice. I'd point to the decoder drivers not having any barriers or
-> non-relaxed writes except the final one, but IIUC they are actually two
-> distinct pieces of hardware.
->
-> I suspect we will never know. This JPEG encoder doesn't seem to get used
-> a lot. The VP8 and H.264 encoders on ChromeOS work correctly without the
-> extra barrier and get tested a lot, but that's only testing the RK3399.
->
-> Hans, would it be possible for you to skip this patch and pick the rest?
-> Or would you like me to resent without this one?
->
+This series fixes the SPI & MDIO probing issues we were having with our 
+mt7621 board.
 
-If you decide to resend, feel free to add:
+Tested-by: Arınç ÜNAL <arinc.unal@arinc9.com>
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-
-to the whole series.
-
-Thanks,
-Ezequiel
+Cheers.
+Arınç
