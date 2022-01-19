@@ -1,71 +1,95 @@
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05olkn2067.outbound.protection.outlook.com [40.92.91.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E838E2CA3
-	for <linux-staging@lists.linux.dev>; Wed, 19 Jan 2022 13:55:51 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id 2so4575388uax.10
-        for <linux-staging@lists.linux.dev>; Wed, 19 Jan 2022 05:55:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=SKB+2gqwkmhRtvujHObAiP9QZA52p+CI6WHOcuhFGvs=;
-        b=eUmHCDw3wkS0lUrAB+dFozV67Z/lrxEZLfdOsHGpbjZjf/IGmx4wrYpyfYNb8b/n0U
-         wsQljeZuQsKBFT+WEsz5my5qMD+P3YaU4uOwq9YrVW8yNIow2nsrFZyu2O05i244dHk9
-         Dqa7CBlNQpqftWj2tfUzOUmVGA3cNrmBpHru4/6ar2KKmtY58jN7SqAvg/m9cKXaU/BY
-         Zg+DkyqTi/cBEVzUW9abyDk28qh14oTPk6AeqziJLLgdDxOMYRCsAQYPa9Tf3w4ZuhT7
-         W+ZjndhlALXtwXaS5/aBNk/lJisvMPxu3kdnLncL060EX83mSEEg8m8/2SWR+Y2GkwY0
-         3ubg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=SKB+2gqwkmhRtvujHObAiP9QZA52p+CI6WHOcuhFGvs=;
-        b=7w/70diNhFxh2abfkW0fm/M4wocn0fvmF7dy7H5dt4SEQDmyt2fSJ+GDEArNjimsji
-         tysXgWhRcs5WhDjfD490Ag7DEHFDoVHCa4H50O/o41sXgibwPA0Rq1CJJwCnWHDYcM5W
-         L8Nh84qDxkrr3ON2dwEl88ZUbNfixxQT2dHBFm64K5TGzgu9CB+BCh3DNlO7Oqi5jk6i
-         xnoW/z3F/foQttpSKhVfksfDT/Dm1bSdlMBcNrRKwIomLr9rLcAJpa+DzBXvB4dSnSje
-         NIm9tKd+y/eyO4piHaljZnJCwqBUj7ZwNpTEXoG46qJuDdllPdFJkzc9CZNUm+vUQZZU
-         YNLg==
-X-Gm-Message-State: AOAM531dLQ+A8LAq42MWNiDGTw34vEVnKtgO0wZ3RgUnc/5FRpG4UVHx
-	FUdv5CtEuLMyDcJiGB6jiy8StvpaOMAmlUGmMZM=
-X-Google-Smtp-Source: ABdhPJwMAzx9yjy9ZymirKauhj5j++PmaIjJ6L+QWvrMT9gAYuDon288paA6SJNFakl9aTsokpI9doq/OxtxK5AOQ8k=
-X-Received: by 2002:a9f:31cc:: with SMTP id w12mr12500442uad.46.1642600550848;
- Wed, 19 Jan 2022 05:55:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C63B2C82
+	for <linux-staging@lists.linux.dev>; Wed, 19 Jan 2022 15:37:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J7j1CKh3BPnE8/vCnI1zKcqK9zeltvBCLc5E04uy9BgqASsAsXfmkIOR3WNjB3qEHDmf2pNOjrQPlqpD8NsZBEGnWyTLkC4ztO5tWVXTjwqmk5s3yhjKOHOddHn8zPQ3gfPB+3uj1+ZUqKPo+2gAj51UXoP4CYdlvcCjDbepLgiBbX9i/kpNsIrakMf+XhOdcCWCmQMlsZr3TNvLGB4KfBi6Fwt4oaPb3VeKMffPUITblQTOPCwryz5Oi/SCDGN/NXCSnZW5V1xIw6AIUqYYNGfSQZnEaAUvwuafdcJhDXKFlyhHgLSwM36FjvzcbplhA+7Ro4DEI+bQ/Y+9MA348A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ArdGgZDbM8Q93A13UxsJc+qZ9kP0jLw4bv+yx/d9XHg=;
+ b=NgSk39VbGI1rsOqTAKx9mlU2obK/Yt31R/V6yo/6sWGuOn1EuFViDXa8StzYYB2fZR9OqFwl1sTzNgwGp+HoMf+vMEYVD9IhmZ64e29ieIezzTuqxQEGzZYmbquqYytrTsSZjUN0yvP7q847luvi7Cn0R89fIpaUP63EZiqs+tYMKxr/1isn3NKSu+SruWyuNvDxHM+n1txGYuI2Z0+XEOQtwPLz0quIy9D/nn882nK6b48PnXQvwlPm3QPO0i4lr/oUfiN8D1qTdOrYxNjiGkYO1ikhhFzx/+nsr2wgZ+a4VkRBBMtFOgEs5O7Z2LfJRmG/vXChZcF6BY8kkdfpTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ArdGgZDbM8Q93A13UxsJc+qZ9kP0jLw4bv+yx/d9XHg=;
+ b=iq5zEfFpeoYN4egMxnEvNYZnAXaZg+EnkDO2PTrf4PVAl2mbWOE1Pk7YEaua+Bqlm68nMroz/W/MMDHWcxoMelchSfgWLia/Sm4ZRmscS4/I/v5LG6a8tnVjSBUKwU1qVKXG9t2LqYHcynmVeWL0q2SAwrGK5y2bDmi4UZJ2MqQuOO7waT9PRICZhH3vBO2aXSh6Ny4CpySWKAU/rnyr1WR8qHZvKjnLSjpo0Y+5K7pl8Bnd0rVoZI1wiaoEBPFc78amjRRZLXigYfP/IgJTqZyJG4Kjr5xjsp2ghD1z3JpJlaVNLlXO1HjEEXh74q1f9MRXXl/Ap96+Ywdn4+rjsQ==
+Received: from HE1P189MB0571.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:55::12) by
+ AM8P189MB1362.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:242::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4909.7; Wed, 19 Jan 2022 15:37:54 +0000
+Received: from HE1P189MB0571.EURP189.PROD.OUTLOOK.COM
+ ([fe80::a5f9:80fa:e67d:25d2]) by HE1P189MB0571.EURP189.PROD.OUTLOOK.COM
+ ([fe80::a5f9:80fa:e67d:25d2%4]) with mapi id 15.20.4909.008; Wed, 19 Jan 2022
+ 15:37:54 +0000
+From: David Binderman <dcb314@hotmail.com>
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+CC: "mchehab@kernel.org" <mchehab@kernel.org>, "sakari.ailus@linux.intel.com"
+	<sakari.ailus@linux.intel.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>
+Subject: Re:
+ drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c:275: dangling
+ pointer ?
+Thread-Topic:
+ drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c:275: dangling
+ pointer ?
+Thread-Index: AQHYDFDSXDsLdkCQYE+BEgKvRCmmvKxqJi8AgABVq10=
+Date: Wed, 19 Jan 2022 15:37:54 +0000
+Message-ID:
+ <HE1P189MB0571BD2F120F3775019F295F9C599@HE1P189MB0571.EURP189.PROD.OUTLOOK.COM>
+References:
+ <HE1P189MB05719D490E35B19D832195139C589@HE1P189MB0571.EURP189.PROD.OUTLOOK.COM>
+ <Yefn/J0D33c9bDO+@kroah.com>
+In-Reply-To: <Yefn/J0D33c9bDO+@kroah.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+suggested_attachment_session_id: 7a9ea7b3-ae5d-1113-902f-639851a3ef1e
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [8VqepobJenJWqWeCNnl+TQCoO4Abvqxn]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1634df22-98a3-4053-fe42-08d9db61a90d
+x-ms-traffictypediagnostic: AM8P189MB1362:EE_
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 7diUwC7xRBMBez7d3RqVCXvfPy4hJLE6cS/TGjGv2JOCB7mvaybaHqgSBYPjbRkbra3Sw7HODUvuD1rERjtw3auOWT/lKkkxcs49utlIozkJxa5jXNZN1DzF6eCxHHsl9/8RtKd2YD4KB2xat6JTBseo8rsz2Ij9TCn7crQS5D3B9llFJR+j30qQpjLyuwOBQy5fjsBMorM+WvAX0nvChQlJ76kPRbGTbuWdX8pQrK8P4j20uF7QXG/A/4JErpu0CKVPxmzA5S0EHdTDZsjXwK/r2Bi5Stj0iGfxYoJcdYjfF7yaVIPJqxuDeHZa3XNVRgx2Ciw9CB4zWMNmBb0FNVI8KS1dftFkQLCvrmWkFDw7cSWZkRPw0PWCDc359F22J3Q0n75KaBM/Pg2G3Vo/I/dMcfk9Jh+fYsuD0YklkHH4N+IYXPfxQOV0k6Zy5vzb1NvBIznEa85MUCRoYCbPaiMi61pMkhV64fdHvPRCe+CMcXnQLPjuV8TYLPKcnhmlBWGfrTsh1MyWXz8aoO2pOp52PYf832GXPGL9rFkEwyMFiZtUytWycBe4LJ7B2RsSKR5DKYPrWHwL38m+sTCn+g==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ 9gJniojhVkifDmB0ko9YjPw3vbJs3DOeCGO8CKzWq9ShiGrOp3TmgZ5KjXkcnKsvMliOOw76kvl5GCJOodgg0sq/e2mQMKvacKNFp3Bgd/g8gneM0XrsFJBe6vJGFzwHslPnFqy2TRVH3/2/P9nrKqJvkT+qvql/aO/o1U45pz+HYIt11H7G3yb90hB3i70pptu58TlXQhI1uP+vZH9mOc47VW2wFuKvIikxAhPUor4VeY6oY+lh+9oLzWFxMatIHU9wfZiPJDhoiSkVYbsqPlOlN2dXgi2FL+F83AAU5x/fTIzHd5jx7mZ+dw0TYvUek2MyGQlbF8ubIOFqCTCws6W30CNlc5aKSWskPhIG/sLX7Iso9xLeXhxXs4seRRPZ778Jm8uw/G5wB6+wkWxrAzlJXWoz5CWJtHIDUpFLjaHhsnwKFfpodq1hpm632K8S3URXDwPEYr4PFay8ElIHPUmtUl64UYBt3C9bJH3Ybiqo75X1oebQYoKpq/js6bqtYOabE0VPUYpX77dMxW+3rDXSEpYIjXBpJLYbZEiW96Bh+bMQyHzn/Du6Ts7rWcHr9IUTjFShhAuN8FgWQlfAOUY49WTm8+QsElPxU6M6lBf6+c4GVEqZA0+Jn7+eUDmaZ6x7I2pBEcnzBFDx6oF/25uty+fB5tEEoxZOaL11v/ol+fCY7QRtRdWW22kLGL4eI8Y41ldnziJZXFLxVtcnEeUIpIc755z7Xz0lSBEAZ0LSk+9Mli6pVKOorobhAyxX0j5mEda+kI2MZpvLsbcA0AR2Mj/wzAkq9NCHsrD/3Au6YBQfbekDymJdxv79FAv/eQBT7BA0z651mefppBh6fEUk4Ao2cyBCDz8VKla2djCdsn5HYqKYvDF2tAUoVmEAiTExh/GllgRZHGlwiLu6Kp0tdvX7S4zVT+5tuKqXT8IaE5dmZMzQzra6wBvhY3Wp
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220110114930.1406665-1-sergio.paracuellos@gmail.com> <d46fcc03-40f1-edbf-e966-e35aabf84111@arinc9.com>
-In-Reply-To: <d46fcc03-40f1-edbf-e966-e35aabf84111@arinc9.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Wed, 19 Jan 2022 14:55:39 +0100
-Message-ID: <CAMhs-H9j+0F_9GgTfFfPP=br61pZ9PX=ndu9apnA_Fn9k7JEog@mail.gmail.com>
-Subject: Re: [PATCH v8 0/4] clk: ralink: make system controller a reset provider
-To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Cc: "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, John Crispin <john@phrozen.org>, 
-	linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, 
-	NeilBrown <neil@brown.name>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	erkin.bozoglu@xeront.com, Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HE1P189MB0571.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1634df22-98a3-4053-fe42-08d9db61a90d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2022 15:37:54.3275
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8P189MB1362
 
-On Wed, Jan 19, 2022 at 2:27 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
-9.com> wrote:
->
-> This series fixes the SPI & MDIO probing issues we were having with our
-> mt7621 board.
->
-> Tested-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
-
-Thanks for testing this!
-
-Best regards,
-    Sergio Paracuellos
->
-> Cheers.
-> Ar=C4=B1n=C3=A7
->
+Hello there Greg,=0A=
+=0A=
+>Great, can you send a patch to fix this up?=0A=
+=0A=
+Sorry no. I have no idea what the fix is for this problem.=0A=
+=0A=
+I just find them, I don't fix them.=0A=
+=0A=
+Regards=0A=
+=0A=
+David Binderman=
