@@ -1,58 +1,71 @@
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBE42CA3
-	for <linux-staging@lists.linux.dev>; Wed, 19 Jan 2022 13:27:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1642598848; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=n7KdY5O1IbkTGFTFg/xlnfZdjpPH5GaTWxvNfw4i1t+32loGtX+GAERcljh3UIUbKF7UX8tbKhfAmdUsf5mv/VXKW0SH8EiCemqY4H6eWD33C64wNOMikfHa9cNTDg9nnC5PYGJ0+5eJkK2JuTJml/5cCYqLKrf/u9lxXXirbAI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1642598848; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=vYkKrZxCG/cKt6+IIDyfS1RNbgmwpgZCPpOYO0clTEo=; 
-	b=Gc/LqWYOFdrhAhVTy+Libkdux8VwDwDeWdBZREpUm2FDF3wJK5c75miXorRp6t9th9ZcLy89sUwD+EfjEY5EPJPHf3Sd/xhiwgBEC+6KXRMcW8DczAip64KQmJLI+g/m7vyOX029hp8kpuUhXEySNWGidEj8+b1SKy2l9AclwLQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=arinc9.com;
-	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
-	dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1642598848;
-	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=vYkKrZxCG/cKt6+IIDyfS1RNbgmwpgZCPpOYO0clTEo=;
-	b=ZAGDQczAj1fTsc5MR8Nkb36EgQSc5u+YHbIGUPTUIFPQaYIvaLuTKqjqL5i2varu
-	WudQAAJOca0zc9SQbAGb7qt+SL+52gwh8DPPssC+2Zlp50r5cS+fUJ07CqeYXxZMBV1
-	fqCw8SNNq4s8jz7z4NRoXldsabFr3tBcj2dP59YI=
-Received: from [10.10.10.216] (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
-	with SMTPS id 1642598845836963.4816161923367; Wed, 19 Jan 2022 05:27:25 -0800 (PST)
-Message-ID: <d46fcc03-40f1-edbf-e966-e35aabf84111@arinc9.com>
-Date: Wed, 19 Jan 2022 16:27:21 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E838E2CA3
+	for <linux-staging@lists.linux.dev>; Wed, 19 Jan 2022 13:55:51 +0000 (UTC)
+Received: by mail-ua1-f54.google.com with SMTP id 2so4575388uax.10
+        for <linux-staging@lists.linux.dev>; Wed, 19 Jan 2022 05:55:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=SKB+2gqwkmhRtvujHObAiP9QZA52p+CI6WHOcuhFGvs=;
+        b=eUmHCDw3wkS0lUrAB+dFozV67Z/lrxEZLfdOsHGpbjZjf/IGmx4wrYpyfYNb8b/n0U
+         wsQljeZuQsKBFT+WEsz5my5qMD+P3YaU4uOwq9YrVW8yNIow2nsrFZyu2O05i244dHk9
+         Dqa7CBlNQpqftWj2tfUzOUmVGA3cNrmBpHru4/6ar2KKmtY58jN7SqAvg/m9cKXaU/BY
+         Zg+DkyqTi/cBEVzUW9abyDk28qh14oTPk6AeqziJLLgdDxOMYRCsAQYPa9Tf3w4ZuhT7
+         W+ZjndhlALXtwXaS5/aBNk/lJisvMPxu3kdnLncL060EX83mSEEg8m8/2SWR+Y2GkwY0
+         3ubg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=SKB+2gqwkmhRtvujHObAiP9QZA52p+CI6WHOcuhFGvs=;
+        b=7w/70diNhFxh2abfkW0fm/M4wocn0fvmF7dy7H5dt4SEQDmyt2fSJ+GDEArNjimsji
+         tysXgWhRcs5WhDjfD490Ag7DEHFDoVHCa4H50O/o41sXgibwPA0Rq1CJJwCnWHDYcM5W
+         L8Nh84qDxkrr3ON2dwEl88ZUbNfixxQT2dHBFm64K5TGzgu9CB+BCh3DNlO7Oqi5jk6i
+         xnoW/z3F/foQttpSKhVfksfDT/Dm1bSdlMBcNrRKwIomLr9rLcAJpa+DzBXvB4dSnSje
+         NIm9tKd+y/eyO4piHaljZnJCwqBUj7ZwNpTEXoG46qJuDdllPdFJkzc9CZNUm+vUQZZU
+         YNLg==
+X-Gm-Message-State: AOAM531dLQ+A8LAq42MWNiDGTw34vEVnKtgO0wZ3RgUnc/5FRpG4UVHx
+	FUdv5CtEuLMyDcJiGB6jiy8StvpaOMAmlUGmMZM=
+X-Google-Smtp-Source: ABdhPJwMAzx9yjy9ZymirKauhj5j++PmaIjJ6L+QWvrMT9gAYuDon288paA6SJNFakl9aTsokpI9doq/OxtxK5AOQ8k=
+X-Received: by 2002:a9f:31cc:: with SMTP id w12mr12500442uad.46.1642600550848;
+ Wed, 19 Jan 2022 05:55:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v8 0/4] clk: ralink: make system controller a reset
- provider
-Content-Language: en-US
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- linux-clk@vger.kernel.org
-Cc: john@phrozen.org, linux-staging@lists.linux.dev,
- gregkh@linuxfoundation.org, neil@brown.name, p.zabel@pengutronix.de,
- linux-kernel@vger.kernel.org, sboyd@kernel.org, erkin.bozoglu@xeront.com,
- Luiz Angelo Daros de Luca <luizluca@gmail.com>
-References: <20220110114930.1406665-1-sergio.paracuellos@gmail.com>
-From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <20220110114930.1406665-1-sergio.paracuellos@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20220110114930.1406665-1-sergio.paracuellos@gmail.com> <d46fcc03-40f1-edbf-e966-e35aabf84111@arinc9.com>
+In-Reply-To: <d46fcc03-40f1-edbf-e966-e35aabf84111@arinc9.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Wed, 19 Jan 2022 14:55:39 +0100
+Message-ID: <CAMhs-H9j+0F_9GgTfFfPP=br61pZ9PX=ndu9apnA_Fn9k7JEog@mail.gmail.com>
+Subject: Re: [PATCH v8 0/4] clk: ralink: make system controller a reset provider
+To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Cc: "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, John Crispin <john@phrozen.org>, 
+	linux-staging@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>, 
+	NeilBrown <neil@brown.name>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	erkin.bozoglu@xeront.com, Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This series fixes the SPI & MDIO probing issues we were having with our 
-mt7621 board.
+On Wed, Jan 19, 2022 at 2:27 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
+9.com> wrote:
+>
+> This series fixes the SPI & MDIO probing issues we were having with our
+> mt7621 board.
+>
+> Tested-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
 
-Tested-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+Thanks for testing this!
 
-Cheers.
-Arınç
+Best regards,
+    Sergio Paracuellos
+>
+> Cheers.
+> Ar=C4=B1n=C3=A7
+>
