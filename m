@@ -1,82 +1,149 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2438B168
-	for <linux-staging@lists.linux.dev>; Thu, 20 Jan 2022 12:29:01 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id v10-20020a4a244a000000b002ddfb22ab49so2280292oov.0
-        for <linux-staging@lists.linux.dev>; Thu, 20 Jan 2022 04:29:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=H6QsODldDl5vUgs0b13/9aR4jGe2tT2snE0u6JkjQn0=;
-        b=bRYyD/20jPnVHwXJmaGTX2YCs+KqgLPib7Z/rbv0dldagVrFIPz+H41ONzcGaNucFo
-         OQyzpSyQaLbKHpT/DKw0GYF4hbcmllmux8krdcoQ4lQf5jJasFMrlaSfcjz+nG8gtzLg
-         hkPJqVsKb7hNA4diqJOApKL9/Uk1JtR7+zKzcKQbnzhii5ZFILXhHvFjHtZyHum17ljo
-         iAzlFpRJccy6CeEre/amrfejwXnKnQR/fFqnGUYBNs8t0HQaqybTmmut/01DG2ue6q49
-         fmWDwdNewwcebVTlhHZ/wNU8yfi80s+/+CKX+M3jl8DiGVIAlRD5OOS5u4yhlVxkTk+F
-         TWNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=H6QsODldDl5vUgs0b13/9aR4jGe2tT2snE0u6JkjQn0=;
-        b=rh27F2hhvxPmWtcHfqlqSMpxh12BYg/Ob9grTJqF2Q1kHl+XOAsfUzv0oSuK1sz2/c
-         LmTa7UDXYjJCQQ2bShQDrOt3xKyTR23ICIDT+WfxD8d3M24/UPTmZBWRllYV78n4s/kn
-         rl8AcB7qpLzPSRUaz/KN30GRhGiH7SmL+2m4ZIl32RLt4IMWShKMUSvSiTeDO6eoLqe8
-         MRBeAwbpbFdeLRJ3xkK0LQaFmQAj9ZWK8Kng/KVFk+Sffi8m6cbbYUFIG05qxvWNZSue
-         K53XxQKU4XibqhxZJAWWQy+IXOaypLGCFnkxqFtUrr3+38tK3PRmzjqXZ3BA2MQaJbY5
-         BmLA==
-X-Gm-Message-State: AOAM532Td052n8oyfrYuoQrS9viOEDvDj+rdSWYjusyJ6xHPbjJSOLxa
-	nGeJrpqCOyX3cl8rTqYO2WWbfARcnjnvcwUIk6Y=
-X-Google-Smtp-Source: ABdhPJwq+Q1G+48YsvpIZjULWllI1ZZq8IxUCv3NoC6RCpfoN12YDpvhjJHY2y/Fk/0gKRLrY7mIKHTWU2iTepMCcEw=
-X-Received: by 2002:a4a:b4cb:: with SMTP id g11mr25861335ooo.46.1642681741170;
- Thu, 20 Jan 2022 04:29:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75D12C82
+	for <linux-staging@lists.linux.dev>; Thu, 20 Jan 2022 14:20:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5746C340E0;
+	Thu, 20 Jan 2022 14:20:33 +0000 (UTC)
+Message-ID: <7b0ac4d2-a78e-f1be-e7ee-6f4c69acc386@xs4all.nl>
+Date: Thu, 20 Jan 2022 15:20:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220116192611.19224-1-makvihas@gmail.com> <20220118150728.GJ1951@kadam>
-In-Reply-To: <20220118150728.GJ1951@kadam>
-From: Vihas Mak <makvihas@gmail.com>
-Date: Thu, 20 Jan 2022 17:58:50 +0530
-Message-ID: <CAH1kMwThGSp7v5BuPvRiY44i6TvLbK2an0iqGw-_r3RZYOADzQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: handle rtw_init_netdev_name() failure appropriately
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Larry.Finger@lwfinger.net, Phillip Potter <phil@philpotter.co.uk>, 
-	Greg KH <gregkh@linuxfoundation.org>, martin@kaiser.cx, straube.linux@gmail.com, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH RFT v2 1/8] media: hantro: jpeg: Relax register writes
+ before write starting hardware
+Content-Language: en-US
+To: Chen-Yu Tsai <wenst@chromium.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220107093455.73766-1-wenst@chromium.org>
+ <20220107093455.73766-2-wenst@chromium.org> <Yecq111pZDP9XFNO@eze-laptop>
+ <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
->> This doesn't really fix the bug.  Better to re-write the error handling.
->> See my error handling guide here:
+Hi Chen-Yu,
 
-Thanks Dan for the guide. Will submit a v2 soon.
+I'll take patches 2-8.
 
-On Tue, Jan 18, 2022 at 8:37 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Mon, Jan 17, 2022 at 12:56:11AM +0530, Vihas Mak wrote:
-> > rtw_init_netdev_name() calls dev_alloc_name() which allocates the name
-> > for the device as per the given name format.
-> > It returns a negative err code if the format is invalid. Currently the
-> > name format is specified by the module parameter "ifname".
-> > Warn the user if "ifname" is invalid.
-> >
-> > Signed-off-by: Vihas Mak <makvihas@gmail.com>
-> > ---
->
-> This doesn't really fix the bug.  Better to re-write the error handling.
-> See my error handling guide here:
->
-> https://lore.kernel.org/all/20210831084735.GL12231@kadam/
->
-> regards,
-> dan carpenter
->
+So should I mark patch 1/8 as 'Rejected' or 'Changes Requested' in patchwork?
 
+Regards,
 
--- 
-Thanks,
-Vihas
+	Hans
+
+On 1/19/22 11:08, Chen-Yu Tsai wrote:
+> Hi,
+> 
+> On Wed, Jan 19, 2022 at 5:02 AM Ezequiel Garcia
+> <ezequiel@vanguardiasur.com.ar> wrote:
+>>
+>> Hi Chen-Yu,
+>>
+>> The series looks good, thanks for picking up this task.
+>>
+>> Just a one comment.
+>>
+>> On Fri, Jan 07, 2022 at 05:34:48PM +0800, Chen-Yu Tsai wrote:
+>>> In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
+>>> wmb() was inserted before the final register write that starts the
+>>> encoder. In v11, it was removed and the second-to-last register write
+>>> was changed to a non-relaxed write, which has an implicit wmb() [1].
+>>> The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
+>>> is another writel_relaxed() following the non-relaxed one.
+>>>
+>>> Turns out only the last writel() needs to be non-relaxed. Device I/O
+>>> mappings already guarantee strict ordering to the same endpoint, and
+>>> the writel() triggering the hardware would force all writes to memory
+>>> to be observed before the writel() to the hardware is observed.
+>>>
+>>> [1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
+>>>
+>>> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+>>> ---
+>>>  drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
+>>>  drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
+>>>  2 files changed, 2 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+>>> index 1450013d3685..03db1c3444f8 100644
+>>> --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+>>> +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+>>> @@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+>>>               | H1_REG_AXI_CTRL_INPUT_SWAP32
+>>>               | H1_REG_AXI_CTRL_OUTPUT_SWAP8
+>>>               | H1_REG_AXI_CTRL_INPUT_SWAP8;
+>>> -     /* Make sure that all registers are written at this point. */
+>>> -     vepu_write(vpu, reg, H1_REG_AXI_CTRL);
+>>> +     vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
+>>>
+>>
+>> As far as I can remember, this logic comes from really old Chromium Kernels.
+>> You might be right, and this barrier isn't needed... but then OTOH the comment
+>> is here for a reason, so maybe it is needed (or was needed on some RK3288 SoC revision).
+> 
+> I just realized that my commit log is wrong.
+> 
+> " ... a wmb() was inserted before the final register write that starts the
+> encoder. ... " . It is actually before the second-to-last register write.
+> 
+>> I don't have RK3288 boards near me, but in any case, I'm not sure
+>> we'd be able to test this easily (maybe there are issues that only
+>> trigger under a certain load).
+> 
+> I see. I do have a Veyron around that I haven't used in awhile. But as you
+> said, it might not be an obvious hardware limitation.
+> 
+>> I'd personally avoid this one change, but if you are confident enough with it
+>> that's fine too.
+> 
+> Unfortunately they didn't leave a whole lot of clues around. For most hardware,
+> as I mentioned in the commit log, I think the final non-relaxed write should
+> suffice. I'd point to the decoder drivers not having any barriers or
+> non-relaxed writes except the final one, but IIUC they are actually two
+> distinct pieces of hardware.
+> 
+> I suspect we will never know. This JPEG encoder doesn't seem to get used
+> a lot. The VP8 and H.264 encoders on ChromeOS work correctly without the
+> extra barrier and get tested a lot, but that's only testing the RK3399.
+> 
+> Hans, would it be possible for you to skip this patch and pick the rest?
+> Or would you like me to resent without this one?
+> 
+> 
+> Thanks
+> ChenYu
+> 
+>> Thanks!
+>> Ezequiel
+>>
+>>>       reg = H1_REG_ENC_CTRL_WIDTH(MB_WIDTH(ctx->src_fmt.width))
+>>>               | H1_REG_ENC_CTRL_HEIGHT(MB_HEIGHT(ctx->src_fmt.height))
+>>> diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+>>> index 4df16f59fb97..b931fc5fa1a9 100644
+>>> --- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+>>> +++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+>>> @@ -152,8 +152,7 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
+>>>               | VEPU_REG_INPUT_SWAP8
+>>>               | VEPU_REG_INPUT_SWAP16
+>>>               | VEPU_REG_INPUT_SWAP32;
+>>> -     /* Make sure that all registers are written at this point. */
+>>> -     vepu_write(vpu, reg, VEPU_REG_DATA_ENDIAN);
+>>> +     vepu_write_relaxed(vpu, reg, VEPU_REG_DATA_ENDIAN);
+>>>
+>>>       reg = VEPU_REG_AXI_CTRL_BURST_LEN(16);
+>>>       vepu_write_relaxed(vpu, reg, VEPU_REG_AXI_CTRL);
+>>> --
+>>> 2.34.1.575.g55b058a8bb-goog
+>>>
