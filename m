@@ -1,176 +1,152 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53395173
+	for <linux-staging@lists.linux.dev>; Fri, 21 Jan 2022 09:23:05 +0000 (UTC)
+Received: from [IPv6:2a00:c281:14a3:8100:790d:f8e9:248f:920d] (unknown [IPv6:2a00:c281:14a3:8100:790d:f8e9:248f:920d])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12D3173
-	for <linux-staging@lists.linux.dev>; Fri, 21 Jan 2022 02:26:07 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id bu18so28754408lfb.5
-        for <linux-staging@lists.linux.dev>; Thu, 20 Jan 2022 18:26:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RpKKO4ylHuM6kH8lsX+wX53sB01OoZDncA9yX3EX+qc=;
-        b=CpA44EeujslrqN01Eu9AJz7nZ1cQ0c5KIEex5DUw6a2+z55dwtiKqVsH36unGy38Ti
-         5QW53eZSZLaoxXn9TF0asYaeBKf3a3JpFZTuMNVNBzdveH9SR1LL0I+btYIOeqvYOGo4
-         mDZfgQuFHtIQHYvmiAfyHxfPARXQ372t5spaA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RpKKO4ylHuM6kH8lsX+wX53sB01OoZDncA9yX3EX+qc=;
-        b=fdvL/IseMYpacAS6MHmz76fw5JKyZMTlQVlOfUeyAcN/ffldeD8EdofRCBPRUICS+D
-         vvRGzy12dUbtNfqJSJI4wNPlaMUWGbcDggnxfNrfhL6VGIypZ0UIJVAhhO8a9Fi1HhNg
-         KK8OpGxLovuu3JhTuVs1vk2MoOotxY6WIXRr/Yig6A/Bb6nRIWhlYLtaro1h304JBVGs
-         w5I3fB4NIvroMnpIHeokczUhbtu4euoCcdYmlp0mr5eppwmSQGMMh2DwiFDKDyrRDdMx
-         aK5/78LEdOIPYGVHgyGygmc6sMPZYbYfEAyhqA4rHINBcYobo62LG4dd7mTDFsrPFwlh
-         ylxw==
-X-Gm-Message-State: AOAM531TjudPtJ02GwQP7KuEn76pce+Z7LFiuGaQ04IX6wBRv2RIVlPi
-	pmwBBZR/nAZZx3VOhuDyt9dJyjiAcYiPfFoG4Sc7qg==
-X-Google-Smtp-Source: ABdhPJxDB78Oqnt1XAkD0z1LftL11k8JAKZL+THEVBsVJ/FpCJvoMc0Bz4nyFo7PhDTKZivklMHmltLuJdmQs9ybsDo=
-X-Received: by 2002:a05:6512:3b0b:: with SMTP id f11mr1972336lfv.670.1642731965890;
- Thu, 20 Jan 2022 18:26:05 -0800 (PST)
+	(Authenticated sender: dafna)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D983E1F45A16;
+	Fri, 21 Jan 2022 09:22:55 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1642756977;
+	bh=0TIsGlnLKMUom5ggVD25li7Cq1Lj4YN0nlzLub4RZbg=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=nVulpkLIhGN9sTcIsd5KLT+Adyk/QC0TpLFvujsCBEcTYb8KUIC45depU9jw339/d
+	 wopGCXMlnuhvdRNgxyonIAoyUDeY09/DkB8g0r1n/bLIs71L0cIoA/PQo9n+y26w6w
+	 9CduqbwQ2xCgYMyN8K+RNlXIPAs1ae9uEdTVwLnxYW/NY6+PKkLfJG2sIfPSQRJi+X
+	 5orh1aDF87gohud81DWvXNHaWI8dJzrIAKuMloNitj2ZR+0JPv8mR2TYwSE6gMAYyZ
+	 m9swsXbFw57OFW78PbnfT/DG+cPF+BG1X08OUyV+UFShBSEXwEKxtgAT/9aHabUJx3
+	 dICyRaWXR01EQ==
+Subject: Re: [PATCH v4 1/6] staging: media: wave5: Add vpuapi layer
+To: Daniel Palmer <daniel@0x0f.com>
+Cc: "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)"
+ <linux-media@vger.kernel.org>, Robert Beckett <bob.beckett@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hverkuil@xs4all.nl,
+ kernel@collabora.com, dafna3@gmail.com, kiril.bicevski@collabora.com,
+ Nas Chung <nas.chung@chipsnmedia.com>, lafley.kim@chipsnmedia.com,
+ scott.woo@chipsnmedia.com, olivier.crete@collabora.com,
+ dan.carpenter@oracle.com, Randy Dunlap <rdunlap@infradead.org>
+References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
+ <20211201175613.13710-2-dafna.hirschfeld@collabora.com>
+ <CAFr9PX=6Pd1Rg=wJvpuX6WX63L=iAnwPA24e59An3Kac5f_vzA@mail.gmail.com>
+ <cdd9b485-364f-c6bd-776f-a0ca2d260762@collabora.com>
+ <e9905774-a994-6311-7b53-b40588d4f6ec@collabora.com>
+ <CAFr9PXnnGc1TUQBeW8JW9qGewhU99gmRbvzZEsZaDmr12jMg0A@mail.gmail.com>
+From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <25e7d6db-1cff-6fd5-1071-1f21c5ff7a8a@collabora.com>
+Date: Fri, 21 Jan 2022 11:22:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220107093455.73766-1-wenst@chromium.org> <20220107093455.73766-2-wenst@chromium.org>
- <Yecq111pZDP9XFNO@eze-laptop> <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
- <7b0ac4d2-a78e-f1be-e7ee-6f4c69acc386@xs4all.nl>
-In-Reply-To: <7b0ac4d2-a78e-f1be-e7ee-6f4c69acc386@xs4all.nl>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 21 Jan 2022 10:25:54 +0800
-Message-ID: <CAGXv+5Fw+vuq3CTRPStGWBtU9JcHtuGwxNy=_xTMvecEAzd2JQ@mail.gmail.com>
-Subject: Re: [PATCH RFT v2 1/8] media: hantro: jpeg: Relax register writes
- before write starting hardware
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAFr9PXnnGc1TUQBeW8JW9qGewhU99gmRbvzZEsZaDmr12jMg0A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 20, 2022 at 10:20 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> Hi Chen-Yu,
->
-> I'll take patches 2-8.
 
-Got it.
 
-> So should I mark patch 1/8 as 'Rejected' or 'Changes Requested' in patchwork?
+On 14.12.21 12:20, Daniel Palmer wrote:
+> Hi Dafna,
+> 
+> On Tue, 14 Dec 2021 at 16:48, Dafna Hirschfeld
+> <dafna.hirschfeld@collabora.com> wrote:
+>>>>> +static int wave5_wait_bus_busy(struct vpu_device *vpu_dev, int timeout, unsigned int addr)
+>>>>> +{
+>>>>> +       u32 gdi_status_check_value = 0x3f;
+>>>>> +       u32 data;
+>>>>> +
+>>>>> +       if (vpu_dev->product_code == WAVE521C_CODE ||
+>>>>> +           vpu_dev->product_code == WAVE521_CODE ||
+>>>>> +        vpu_dev->product_code == WAVE521E1_CODE)
+>>>>> +               gdi_status_check_value = 0x00ff1f3f;
+>>>>> +
+>>>>> +       return read_poll_timeout(wave5_vdi_read_register, data, data == gdi_status_check_value,
+>>>>> +                                0, timeout * 1000, false, vpu_dev, addr);
+>>>>> +}
+>>>>> +
+>>>>
+>>>> This looks like it should be s/wave5_vdi_read_register/wave5_read_register/.
+>>>> For wave511 addr passed in here is 0x8e14 so well outside of what is
+>>>> directly accessible.
+>>>
+>>> Hi, I didn't understand this explanation. I see that
+>>> wave5_read_register eventually calls 'wave5_vdi_read_register'.
+>>> Could you please explain in more detail why you think
+>>> calling wave5_vdi_read_register is wrong?
+> 
+> Mainly because the address accessed 0x8e14 but on my machine the
+> directly accessible registers end at 0x800.
+> 
+>> hi, I see know that those backbone address are indeed not read and written directly but
+>> the address should be first written to a regsiter W5_VPU_FIO_CTRL_ADDR,
+>> and then the content is returned from W5_VPU_FIO_DATA.
+> 
+> I think so. But as I can't get this driver to fully work yet I can
+> only say I think so.
 
-I'd say "Changes Requested", but it won't really progress unless someone
-from Rockchip fills in the blanks about the wmb() though.
+Hi,
+Thanks a lot for helping me with compiling the kernel and booting the smart display 'ido-sbc2d70-v1b'.
+I am now at a point where the probe of the driver on that board fails with:
 
-ChenYu
+[   30.710385] write --> 0x000000f0:0x00000001
+[   30.727445] wave5_vpu_reset:1594
+[   30.730712] write --> 0x00000070:0x00000000
+[   30.734944] wave5_vpu_reset:1652
+[   30.738186] write --> 0x00000024:0x00000007
+[   30.742382] write --> 0x00000020:0x00018e10
+[   40.746598] wave5_vpu_reset:1656
+[   40.749849] CPU: 1 PID: 1 Comm: sh Not tainted 5.16.0-11196-gd076cd89f795-dirty #14
+[   40.757531] Hardware name: MStar/Sigmastar Armv7 (Device Tree)
+[   40.763389]  unwind_backtrace from show_stack+0x10/0x14
+[   40.768647]  show_stack from dump_stack_lvl+0x40/0x4c
+[   40.773720]  dump_stack_lvl from wave5_wait_bus_busy+0x10/0x44
+[   40.779579]  wave5_wait_bus_busy from wave5_vpu_reset+0x28c/0x584
+[   40.785696]  wave5_vpu_reset from wave5_vpu_init_with_bitcode+0x58/0xe8
+[   40.792337]  wave5_vpu_init_with_bitcode from wave5_vpu_probe+0x2b0/0x560
+[   40.799153]  wave5_vpu_probe from platform_probe+0x5c/0xb8
+[   40.804663]  platform_probe from really_probe+0xc0/0x2fc
+[   40.809998]  really_probe from __driver_probe_device+0x84/0xe4
+[   40.815854]  __driver_probe_device from device_driver_attach+0x24/0x50
+[   40.822407]  device_driver_attach from bind_store+0x80/0xec
+[   40.828002]  bind_store from kernfs_fop_write_iter+0x118/0x1b4
+[   40.833860]  kernfs_fop_write_iter from vfs_write+0x308/0x3fc
+[   40.839631]  vfs_write from ksys_write+0xa4/0xd4
+[   40.844268]  ksys_write from ret_fast_syscall+0x0/0x54
+[   40.849427] Exception stack(0xc189dfa8 to 0xc189dff0)
+[   40.854497] dfa0:                   004751a8 00000015 00000001 004751a8 00000015 00000001
+[   40.862700] dfc0: 004751a8 00000015 00000001 00000004 00000015 bea7eb50 00460a6d 004745e4
+[   40.870900] dfe0: 00000000 bea7e924 0045d43f b6f71cf6
+[   40.875987] write --> 0x00000020:0x00008e14
+[   50.880186] write --> 0x00000024:0x00000000
+[   50.884397] write --> 0x00000020:0x00018e10
+[   60.888598] vdec 1f344800.video-codec: wave5_vpu_reset failed -16
+[   60.894726] vdec 1f344800.video-codec: vpu_init_with_bitcode fail
+[   60.900889] vcc_5v: disabling
+[   60.903890] vcc_sd: disabling
+[   60.904026] vdec 1f344800.video-codec: failed to wave5_vpu_load_firmware: -16
+[   60.906869] vcc_4g: disabling
+[   60.914729] vdec: probe of 1f344800.video-codec failed with error -16
 
-> Regards,
->
->         Hans
->
-> On 1/19/22 11:08, Chen-Yu Tsai wrote:
-> > Hi,
-> >
-> > On Wed, Jan 19, 2022 at 5:02 AM Ezequiel Garcia
-> > <ezequiel@vanguardiasur.com.ar> wrote:
-> >>
-> >> Hi Chen-Yu,
-> >>
-> >> The series looks good, thanks for picking up this task.
-> >>
-> >> Just a one comment.
-> >>
-> >> On Fri, Jan 07, 2022 at 05:34:48PM +0800, Chen-Yu Tsai wrote:
-> >>> In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
-> >>> wmb() was inserted before the final register write that starts the
-> >>> encoder. In v11, it was removed and the second-to-last register write
-> >>> was changed to a non-relaxed write, which has an implicit wmb() [1].
-> >>> The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
-> >>> is another writel_relaxed() following the non-relaxed one.
-> >>>
-> >>> Turns out only the last writel() needs to be non-relaxed. Device I/O
-> >>> mappings already guarantee strict ordering to the same endpoint, and
-> >>> the writel() triggering the hardware would force all writes to memory
-> >>> to be observed before the writel() to the hardware is observed.
-> >>>
-> >>> [1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
-> >>>
-> >>> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> >>> ---
-> >>>  drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
-> >>>  drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
-> >>>  2 files changed, 2 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> >>> index 1450013d3685..03db1c3444f8 100644
-> >>> --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> >>> +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-> >>> @@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
-> >>>               | H1_REG_AXI_CTRL_INPUT_SWAP32
-> >>>               | H1_REG_AXI_CTRL_OUTPUT_SWAP8
-> >>>               | H1_REG_AXI_CTRL_INPUT_SWAP8;
-> >>> -     /* Make sure that all registers are written at this point. */
-> >>> -     vepu_write(vpu, reg, H1_REG_AXI_CTRL);
-> >>> +     vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
-> >>>
-> >>
-> >> As far as I can remember, this logic comes from really old Chromium Kernels.
-> >> You might be right, and this barrier isn't needed... but then OTOH the comment
-> >> is here for a reason, so maybe it is needed (or was needed on some RK3288 SoC revision).
-> >
-> > I just realized that my commit log is wrong.
-> >
-> > " ... a wmb() was inserted before the final register write that starts the
-> > encoder. ... " . It is actually before the second-to-last register write.
-> >
-> >> I don't have RK3288 boards near me, but in any case, I'm not sure
-> >> we'd be able to test this easily (maybe there are issues that only
-> >> trigger under a certain load).
-> >
-> > I see. I do have a Veyron around that I haven't used in awhile. But as you
-> > said, it might not be an obvious hardware limitation.
-> >
-> >> I'd personally avoid this one change, but if you are confident enough with it
-> >> that's fine too.
-> >
-> > Unfortunately they didn't leave a whole lot of clues around. For most hardware,
-> > as I mentioned in the commit log, I think the final non-relaxed write should
-> > suffice. I'd point to the decoder drivers not having any barriers or
-> > non-relaxed writes except the final one, but IIUC they are actually two
-> > distinct pieces of hardware.
-> >
-> > I suspect we will never know. This JPEG encoder doesn't seem to get used
-> > a lot. The VP8 and H.264 encoders on ChromeOS work correctly without the
-> > extra barrier and get tested a lot, but that's only testing the RK3399.
-> >
-> > Hans, would it be possible for you to skip this patch and pick the rest?
-> > Or would you like me to resent without this one?
-> >
-> >
-> > Thanks
-> > ChenYu
-> >
-> >> Thanks!
-> >> Ezequiel
-> >>
-> >>>       reg = H1_REG_ENC_CTRL_WIDTH(MB_WIDTH(ctx->src_fmt.width))
-> >>>               | H1_REG_ENC_CTRL_HEIGHT(MB_HEIGHT(ctx->src_fmt.height))
-> >>> diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> >>> index 4df16f59fb97..b931fc5fa1a9 100644
-> >>> --- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> >>> +++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
-> >>> @@ -152,8 +152,7 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
-> >>>               | VEPU_REG_INPUT_SWAP8
-> >>>               | VEPU_REG_INPUT_SWAP16
-> >>>               | VEPU_REG_INPUT_SWAP32;
-> >>> -     /* Make sure that all registers are written at this point. */
-> >>> -     vepu_write(vpu, reg, VEPU_REG_DATA_ENDIAN);
-> >>> +     vepu_write_relaxed(vpu, reg, VEPU_REG_DATA_ENDIAN);
-> >>>
-> >>>       reg = VEPU_REG_AXI_CTRL_BURST_LEN(16);
-> >>>       vepu_write_relaxed(vpu, reg, VEPU_REG_AXI_CTRL);
-> >>> --
-> >>> 2.34.1.575.g55b058a8bb-goog
-> >>>
+Were you able to reach a point where the probe succeed ?
+Could you write in more detail to which point were you able to make the driver work?
+Does the driver code in https://github.com/linux-chenxing/linux/tree/mstar_v5_17_rebase includes a fix to the bug you mentioned above?
+
+Thanks,
+Dafna
+
+> 
+> Cheers,
+> 
+> Daniel
+> 
