@@ -1,71 +1,69 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD712C80
-	for <linux-staging@lists.linux.dev>; Fri, 21 Jan 2022 13:34:23 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-158-ysBuzeI9M8SqWpb1UFyJlg-1; Fri, 21 Jan 2022 13:34:20 +0000
-X-MC-Unique: ysBuzeI9M8SqWpb1UFyJlg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Fri, 21 Jan 2022 13:34:19 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Fri, 21 Jan 2022 13:34:19 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Jiapeng Chong' <jiapeng.chong@linux.alibaba.com>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Abaci Robot
-	<abaci@linux.alibaba.com>
-Subject: RE: [PATCH] staging: pi433: using div64_u64() instead of do_div()
-Thread-Topic: [PATCH] staging: pi433: using div64_u64() instead of do_div()
-Thread-Index: AQHYDr0JeXBHu5JbA0ymi5sg9Q/cbqxteQpg
-Date: Fri, 21 Jan 2022 13:34:19 +0000
-Message-ID: <03591933cc384d7e91ede82f0cdd76a8@AcuMS.aculab.com>
-References: <20220121114955.96979-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20220121114955.96979-1-jiapeng.chong@linux.alibaba.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566DB2C82
+	for <linux-staging@lists.linux.dev>; Fri, 21 Jan 2022 22:16:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69CA1C340E1;
+	Fri, 21 Jan 2022 22:16:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1642803373;
+	bh=OYCTY6mYYqGyq46xX5k/Wa4Dv6rOx+5pvjKpAGsRp24=;
+	h=Date:From:To:Cc:Subject:From;
+	b=FRnPNsvltvoh2BGl5bCUGgetbbZ730rbs2ZcCbMpYkPPZ6yFU80O51YaATBcV1ri7
+	 sqxzLVvTD+ioqbBRm3NfkDR+mujYVp9wPbEf4DyvbN+oO6CJ0QfxZqXcXtfQumnzU5
+	 bSAAe03qRCOxYcWg/B45y7a7qlk4xW/38IPOQN+Sd9mVUlZ8URIPJz3B9m+gzf+tWW
+	 7YtXRrXsEkLxeyZZWfpSqY3iBw3bnC2MguqijDK3ZumDLvcHsGlk8KamXIJY66jxrp
+	 1Z/2An8DdBuWIPYfYZIuptc5q285hK7qzxTKeETKu93ALHaT7/KpiBusFqrsOWxQJG
+	 ilV6lXAWtgxiA==
+Date: Fri, 21 Jan 2022 16:22:50 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] staging: greybus: i2c: Use struct_size() helper in
+ gb_i2c_operation_create()
+Message-ID: <20220121222250.GA73021@embeddedor>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Jiapeng Chong
-> Sent: 21 January 2022 11:50
-> Subject: [PATCH] staging: pi433: using div64_u64() instead of do_div()
->=20
-> Clean the following coccicheck warning:
->=20
-> ./drivers/staging/pi433/rf69.c:286:1-7: WARNING: do_div() does a
-> 64-by-32 division, please consider using div64_u64 instead.
+Make use of the struct_size() helper instead of an open-coded version,
+in order to avoid any potential type mistakes or integer overflows that,
+in the worst scenario, could lead to heap overflows.
 
-That is one of patchcheck's worse warnings.
+Also, address the following sparse warnings:
+drivers/staging/greybus/i2c.c:111:24: warning: using sizeof on a flexible structure
 
-You need to check the domain of the divisor, not its type.
+Link: https://github.com/KSPP/linux/issues/174
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/staging/greybus/i2c.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-do_div() exists to avoid expensive 64bit divides when the
-divisor is small.
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+diff --git a/drivers/staging/greybus/i2c.c b/drivers/staging/greybus/i2c.c
+index de2f6516da09..9dfc6791c20e 100644
+--- a/drivers/staging/greybus/i2c.c
++++ b/drivers/staging/greybus/i2c.c
+@@ -108,9 +108,7 @@ gb_i2c_operation_create(struct gb_connection *connection,
+ 		else
+ 			data_out_size += (u32)msg->len;
+ 
+-	request_size = sizeof(*request);
+-	request_size += msg_count * sizeof(*op);
+-	request_size += data_out_size;
++	request_size = struct_size(request, ops, msg_count) + data_out_size;
+ 
+ 	/* Response consists only of incoming data */
+ 	operation = gb_operation_create(connection, GB_I2C_TYPE_TRANSFER,
+-- 
+2.27.0
 
