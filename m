@@ -1,153 +1,176 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F542C80
-	for <linux-staging@lists.linux.dev>; Thu, 20 Jan 2022 14:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1642689176;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jPuayk7DGgimlXmWWU/Kaumg5LesFzzxr2Pf+6g42xY=;
-	b=cOOuNyXU+stBKDjYK6G80HGbchswiyIQfjBNsjXKY5LepNHSWeGeq2jL0cBXPEaN1CPMvi
-	x10L3jG+gsxb28kLjEv0ZEe8h5bcA+lJ0POE/23YyuSMs9ktZ6Z9uHkL6b7seeuecK4+tv
-	c3cRXwSkJyc04R05IpQkUeLZh9uwcoE=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-217-3of9bbmQN9KG2gcwAsdwIw-1; Thu, 20 Jan 2022 09:32:55 -0500
-X-MC-Unique: 3of9bbmQN9KG2gcwAsdwIw-1
-Received: by mail-ed1-f71.google.com with SMTP id i9-20020a05640242c900b003fe97faab62so6033773edc.9
-        for <linux-staging@lists.linux.dev>; Thu, 20 Jan 2022 06:32:54 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12D3173
+	for <linux-staging@lists.linux.dev>; Fri, 21 Jan 2022 02:26:07 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id bu18so28754408lfb.5
+        for <linux-staging@lists.linux.dev>; Thu, 20 Jan 2022 18:26:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RpKKO4ylHuM6kH8lsX+wX53sB01OoZDncA9yX3EX+qc=;
+        b=CpA44EeujslrqN01Eu9AJz7nZ1cQ0c5KIEex5DUw6a2+z55dwtiKqVsH36unGy38Ti
+         5QW53eZSZLaoxXn9TF0asYaeBKf3a3JpFZTuMNVNBzdveH9SR1LL0I+btYIOeqvYOGo4
+         mDZfgQuFHtIQHYvmiAfyHxfPARXQ372t5spaA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=jPuayk7DGgimlXmWWU/Kaumg5LesFzzxr2Pf+6g42xY=;
-        b=EwFIpGQCmXcurVFSkOpVGzons8g/+kO53SiyVoZ/d2eKSyx2mvyxeXmExWM3fFWS+3
-         Xd+SflG+HJKyi5mJRj7ccSdqIF4zoK9AEk+s7QtbuEfELJ7ai9H3AoRzbDDMeWSiDnCy
-         cCyirtrACxJe8OM4SjOOQ1GOcQnn0+Dt6SxZF+aVHzhjxUQl0Ki2u7CMznSA3qIslKjj
-         LwlRK8xiokEp997lQMlWJk2xIASwUqG47k/j6qkL7h2rol7OJyBWPs+alzhOsUzgaYYB
-         U6sWOKRP6FvsxbJnzOQWurl7s8Nx7i964MXA68YnBTNeMrSvIugZBMm0LGCS5XVdZFl+
-         zoqw==
-X-Gm-Message-State: AOAM532hQkgHj8MzaGBF2hGZq4y3iYfIuNWgAmxZhOP4iYBS2LHC1QS2
-	3yU5LE3YX/2InOrhxQRYe3bNCiw1iyt6Q8LfdluvbbLqJdkf9KQyYZBn919Bv8vShPu1Y14vVew
-	sLbkYXNOAkCyk10NdlnaZA/3NLA==
-X-Received: by 2002:a17:907:3d91:: with SMTP id he17mr14437297ejc.622.1642689173704;
-        Thu, 20 Jan 2022 06:32:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJySnocBxUR99vTCzzZxpDykzAPeol+7jCbYORO7z/14B2A79sii/h2tGX/mROZQ2zMR6hngxQ==
-X-Received: by 2002:a17:907:3d91:: with SMTP id he17mr14437269ejc.622.1642689173470;
-        Thu, 20 Jan 2022 06:32:53 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
-        by smtp.gmail.com with ESMTPSA id x31sm1397173ede.26.2022.01.20.06.32.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Jan 2022 06:32:53 -0800 (PST)
-Message-ID: <59c27f72-5132-6c3d-1e74-6c1010c41178@redhat.com>
-Date: Thu, 20 Jan 2022 15:32:52 +0100
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RpKKO4ylHuM6kH8lsX+wX53sB01OoZDncA9yX3EX+qc=;
+        b=fdvL/IseMYpacAS6MHmz76fw5JKyZMTlQVlOfUeyAcN/ffldeD8EdofRCBPRUICS+D
+         vvRGzy12dUbtNfqJSJI4wNPlaMUWGbcDggnxfNrfhL6VGIypZ0UIJVAhhO8a9Fi1HhNg
+         KK8OpGxLovuu3JhTuVs1vk2MoOotxY6WIXRr/Yig6A/Bb6nRIWhlYLtaro1h304JBVGs
+         w5I3fB4NIvroMnpIHeokczUhbtu4euoCcdYmlp0mr5eppwmSQGMMh2DwiFDKDyrRDdMx
+         aK5/78LEdOIPYGVHgyGygmc6sMPZYbYfEAyhqA4rHINBcYobo62LG4dd7mTDFsrPFwlh
+         ylxw==
+X-Gm-Message-State: AOAM531TjudPtJ02GwQP7KuEn76pce+Z7LFiuGaQ04IX6wBRv2RIVlPi
+	pmwBBZR/nAZZx3VOhuDyt9dJyjiAcYiPfFoG4Sc7qg==
+X-Google-Smtp-Source: ABdhPJxDB78Oqnt1XAkD0z1LftL11k8JAKZL+THEVBsVJ/FpCJvoMc0Bz4nyFo7PhDTKZivklMHmltLuJdmQs9ybsDo=
+X-Received: by 2002:a05:6512:3b0b:: with SMTP id f11mr1972336lfv.670.1642731965890;
+ Thu, 20 Jan 2022 18:26:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v3 0/3] staging: rtl*: Check for NULL header value
-To: Kees Cook <keescook@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- Fabio Aiuto <fabioaiuto83@gmail.com>,
- Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Zhansaya Bagdauletkyzy <zhansayabagdaulet@gmail.com>,
- Ivan Safonov <insafonov@gmail.com>, Martin Kaiser <martin@kaiser.cx>,
- Yang Li <yang.lee@linux.alibaba.com>, Nathan Chancellor <nathan@kernel.org>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Marco Cesati <marcocesati@gmail.com>, Joe Perches <joe@perches.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-hardening@vger.kernel.org
-References: <20220118193327.2822099-1-keescook@chromium.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220118193327.2822099-1-keescook@chromium.org>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220107093455.73766-1-wenst@chromium.org> <20220107093455.73766-2-wenst@chromium.org>
+ <Yecq111pZDP9XFNO@eze-laptop> <CAGXv+5GfNgQGJOBihdpGQDbdx-1co_wi0m=-HyxiHDn-kKZBsA@mail.gmail.com>
+ <7b0ac4d2-a78e-f1be-e7ee-6f4c69acc386@xs4all.nl>
+In-Reply-To: <7b0ac4d2-a78e-f1be-e7ee-6f4c69acc386@xs4all.nl>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 21 Jan 2022 10:25:54 +0800
+Message-ID: <CAGXv+5Fw+vuq3CTRPStGWBtU9JcHtuGwxNy=_xTMvecEAzd2JQ@mail.gmail.com>
+Subject: Re: [PATCH RFT v2 1/8] media: hantro: jpeg: Relax register writes
+ before write starting hardware
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Thu, Jan 20, 2022 at 10:20 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> Hi Chen-Yu,
+>
+> I'll take patches 2-8.
 
-On 1/18/22 20:33, Kees Cook wrote:
-> Hi,
-> 
-> When building with -Warray-bounds, the following warning is emitted:
-> 
-> In file included from ./include/linux/string.h:253,
->                  from ./arch/x86/include/asm/page_32.h:22,
->                  from ./arch/x86/include/asm/page.h:14,
->                  from ./arch/x86/include/asm/thread_info.h:12,
->                  from ./include/linux/thread_info.h:60,
->                  from ./arch/x86/include/asm/preempt.h:7,
->                  from ./include/linux/preempt.h:78,
->                  from ./include/linux/rcupdate.h:27,
->                  from ./include/linux/rculist.h:11,
->                  from ./include/linux/sched/signal.h:5,
->                  from ./drivers/staging/rtl8723bs/include/drv_types.h:17,
->                  from drivers/staging/rtl8723bs/core/rtw_recv.c:7:
-> In function 'memcpy',
->     inlined from 'wlanhdr_to_ethhdr' at drivers/staging/rtl8723bs/core/rtw_recv.c:1554:2:
-> ./include/linux/fortify-string.h:41:33: warning: '__builtin_memcpy' offset [0, 5] is out of the bounds [0, 0] [-Warray-bounds]
->    41 | #define __underlying_memcpy     __builtin_memcpy
->       |                                 ^
-> 
-> This is due to various paths to the memcpy() where the compile could
-> see the destination buffer having a NULL value. This series fixes this
-> by both eliminating cases where NULL returns were impossible and adding
-> missing NULL checks where values were possible.
-> 
-> Thanks!
+Got it.
 
-Thanks, the series looks good to me:
+> So should I mark patch 1/8 as 'Rejected' or 'Changes Requested' in patchwork?
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+I'd say "Changes Requested", but it won't really progress unless someone
+from Rockchip fills in the blanks about the wmb() though.
 
-for the entire series.
+ChenYu
 
-Regards,
-
-Hans
-
-
-
-
-> -Kees
-> 
-> v1: https://lore.kernel.org/lkml/20220113002001.3498383-1-keescook@chromium.org/
-> v2: https://lore.kernel.org/lkml/20220115042427.824542-1-keescook@chromium.org
-> v3:
->  - fix paste-o causing build failures (0day)
-> 
-> 
-> Kees Cook (3):
->   staging: r8188eu: Drop get_recvframe_data()
->   staging: rtl8723bs: Drop get_recvframe_data()
->   staging: rtl8712: Drop get_recvframe_data()
-> 
->  drivers/staging/r8188eu/core/rtw_recv.c        |  6 +++++-
->  drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c  |  4 +---
->  drivers/staging/r8188eu/include/rtw_recv.h     |  9 ---------
->  drivers/staging/rtl8712/rtl871x_recv.c         |  4 ++--
->  drivers/staging/rtl8712/rtl871x_recv.h         |  8 --------
->  drivers/staging/rtl8723bs/core/rtw_recv.c      | 11 ++++++++---
->  drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c |  3 +--
->  drivers/staging/rtl8723bs/include/rtw_recv.h   | 11 -----------
->  8 files changed, 17 insertions(+), 39 deletions(-)
-> 
-
+> Regards,
+>
+>         Hans
+>
+> On 1/19/22 11:08, Chen-Yu Tsai wrote:
+> > Hi,
+> >
+> > On Wed, Jan 19, 2022 at 5:02 AM Ezequiel Garcia
+> > <ezequiel@vanguardiasur.com.ar> wrote:
+> >>
+> >> Hi Chen-Yu,
+> >>
+> >> The series looks good, thanks for picking up this task.
+> >>
+> >> Just a one comment.
+> >>
+> >> On Fri, Jan 07, 2022 at 05:34:48PM +0800, Chen-Yu Tsai wrote:
+> >>> In the earlier submissions of the Hantro/Rockchip JPEG encoder driver, a
+> >>> wmb() was inserted before the final register write that starts the
+> >>> encoder. In v11, it was removed and the second-to-last register write
+> >>> was changed to a non-relaxed write, which has an implicit wmb() [1].
+> >>> The rockchip_vpu2 (then rk3399_vpu) variant is even weirder as there
+> >>> is another writel_relaxed() following the non-relaxed one.
+> >>>
+> >>> Turns out only the last writel() needs to be non-relaxed. Device I/O
+> >>> mappings already guarantee strict ordering to the same endpoint, and
+> >>> the writel() triggering the hardware would force all writes to memory
+> >>> to be observed before the writel() to the hardware is observed.
+> >>>
+> >>> [1] https://lore.kernel.org/linux-media/CAAFQd5ArFG0hU6MgcyLd+_UOP3+T_U-aw2FXv6sE7fGqVCVGqw@mail.gmail.com/
+> >>>
+> >>> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> >>> ---
+> >>>  drivers/staging/media/hantro/hantro_h1_jpeg_enc.c        | 3 +--
+> >>>  drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c | 3 +--
+> >>>  2 files changed, 2 insertions(+), 4 deletions(-)
+> >>>
+> >>> diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> >>> index 1450013d3685..03db1c3444f8 100644
+> >>> --- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> >>> +++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+> >>> @@ -123,8 +123,7 @@ int hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+> >>>               | H1_REG_AXI_CTRL_INPUT_SWAP32
+> >>>               | H1_REG_AXI_CTRL_OUTPUT_SWAP8
+> >>>               | H1_REG_AXI_CTRL_INPUT_SWAP8;
+> >>> -     /* Make sure that all registers are written at this point. */
+> >>> -     vepu_write(vpu, reg, H1_REG_AXI_CTRL);
+> >>> +     vepu_write_relaxed(vpu, reg, H1_REG_AXI_CTRL);
+> >>>
+> >>
+> >> As far as I can remember, this logic comes from really old Chromium Kernels.
+> >> You might be right, and this barrier isn't needed... but then OTOH the comment
+> >> is here for a reason, so maybe it is needed (or was needed on some RK3288 SoC revision).
+> >
+> > I just realized that my commit log is wrong.
+> >
+> > " ... a wmb() was inserted before the final register write that starts the
+> > encoder. ... " . It is actually before the second-to-last register write.
+> >
+> >> I don't have RK3288 boards near me, but in any case, I'm not sure
+> >> we'd be able to test this easily (maybe there are issues that only
+> >> trigger under a certain load).
+> >
+> > I see. I do have a Veyron around that I haven't used in awhile. But as you
+> > said, it might not be an obvious hardware limitation.
+> >
+> >> I'd personally avoid this one change, but if you are confident enough with it
+> >> that's fine too.
+> >
+> > Unfortunately they didn't leave a whole lot of clues around. For most hardware,
+> > as I mentioned in the commit log, I think the final non-relaxed write should
+> > suffice. I'd point to the decoder drivers not having any barriers or
+> > non-relaxed writes except the final one, but IIUC they are actually two
+> > distinct pieces of hardware.
+> >
+> > I suspect we will never know. This JPEG encoder doesn't seem to get used
+> > a lot. The VP8 and H.264 encoders on ChromeOS work correctly without the
+> > extra barrier and get tested a lot, but that's only testing the RK3399.
+> >
+> > Hans, would it be possible for you to skip this patch and pick the rest?
+> > Or would you like me to resent without this one?
+> >
+> >
+> > Thanks
+> > ChenYu
+> >
+> >> Thanks!
+> >> Ezequiel
+> >>
+> >>>       reg = H1_REG_ENC_CTRL_WIDTH(MB_WIDTH(ctx->src_fmt.width))
+> >>>               | H1_REG_ENC_CTRL_HEIGHT(MB_HEIGHT(ctx->src_fmt.height))
+> >>> diff --git a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+> >>> index 4df16f59fb97..b931fc5fa1a9 100644
+> >>> --- a/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+> >>> +++ b/drivers/staging/media/hantro/rockchip_vpu2_hw_jpeg_enc.c
+> >>> @@ -152,8 +152,7 @@ int rockchip_vpu2_jpeg_enc_run(struct hantro_ctx *ctx)
+> >>>               | VEPU_REG_INPUT_SWAP8
+> >>>               | VEPU_REG_INPUT_SWAP16
+> >>>               | VEPU_REG_INPUT_SWAP32;
+> >>> -     /* Make sure that all registers are written at this point. */
+> >>> -     vepu_write(vpu, reg, VEPU_REG_DATA_ENDIAN);
+> >>> +     vepu_write_relaxed(vpu, reg, VEPU_REG_DATA_ENDIAN);
+> >>>
+> >>>       reg = VEPU_REG_AXI_CTRL_BURST_LEN(16);
+> >>>       vepu_write_relaxed(vpu, reg, VEPU_REG_AXI_CTRL);
+> >>> --
+> >>> 2.34.1.575.g55b058a8bb-goog
+> >>>
