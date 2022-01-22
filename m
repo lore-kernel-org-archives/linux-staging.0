@@ -1,69 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566DB2C82
-	for <linux-staging@lists.linux.dev>; Fri, 21 Jan 2022 22:16:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69CA1C340E1;
-	Fri, 21 Jan 2022 22:16:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1642803373;
-	bh=OYCTY6mYYqGyq46xX5k/Wa4Dv6rOx+5pvjKpAGsRp24=;
-	h=Date:From:To:Cc:Subject:From;
-	b=FRnPNsvltvoh2BGl5bCUGgetbbZ730rbs2ZcCbMpYkPPZ6yFU80O51YaATBcV1ri7
-	 sqxzLVvTD+ioqbBRm3NfkDR+mujYVp9wPbEf4DyvbN+oO6CJ0QfxZqXcXtfQumnzU5
-	 bSAAe03qRCOxYcWg/B45y7a7qlk4xW/38IPOQN+Sd9mVUlZ8URIPJz3B9m+gzf+tWW
-	 7YtXRrXsEkLxeyZZWfpSqY3iBw3bnC2MguqijDK3ZumDLvcHsGlk8KamXIJY66jxrp
-	 1Z/2An8DdBuWIPYfYZIuptc5q285hK7qzxTKeETKu93ALHaT7/KpiBusFqrsOWxQJG
-	 ilV6lXAWtgxiA==
-Date: Fri, 21 Jan 2022 16:22:50 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46768173
+	for <linux-staging@lists.linux.dev>; Sat, 22 Jan 2022 17:06:06 +0000 (UTC)
+Received: from dslb-188-097-041-028.188.097.pools.vodafone-ip.de ([188.97.41.28] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1nBJpr-0002IN-Bi; Sat, 22 Jan 2022 18:05:55 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH][next] staging: greybus: i2c: Use struct_size() helper in
- gb_i2c_operation_create()
-Message-ID: <20220121222250.GA73021@embeddedor>
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 0/4] staging: r8188eu: some more odm cleanup
+Date: Sat, 22 Jan 2022 18:05:43 +0100
+Message-Id: <20220122170547.68378-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Make use of the struct_size() helper instead of an open-coded version,
-in order to avoid any potential type mistakes or integer overflows that,
-in the worst scenario, could lead to heap overflows.
+Remove some flags in the odm layer which are always set.
+Remove an unused variable and merge two small functions.
 
-Also, address the following sparse warnings:
-drivers/staging/greybus/i2c.c:111:24: warning: using sizeof on a flexible structure
+Martin Kaiser (4):
+  staging: r8188eu: EntryMaxUndecoratedSmoothedPWDB is set but not used
+  staging: r8188eu: ODM_RF_TX_PWR_TRACK is always set
+  staging: r8188eu: ODM_RF_CALIBRATION is always set
+  staging: r8188eu: merge Init_ODM_ComInfo_88E and rtl8188e_init_dm_priv
 
-Link: https://github.com/KSPP/linux/issues/174
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/staging/greybus/i2c.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |  5 ---
+ drivers/staging/r8188eu/hal/odm.c             |  8 -----
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     | 32 ++++---------------
+ drivers/staging/r8188eu/include/odm.h         |  4 ---
+ drivers/staging/r8188eu/include/rtl8188e_dm.h |  3 +-
+ 5 files changed, 8 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/staging/greybus/i2c.c b/drivers/staging/greybus/i2c.c
-index de2f6516da09..9dfc6791c20e 100644
---- a/drivers/staging/greybus/i2c.c
-+++ b/drivers/staging/greybus/i2c.c
-@@ -108,9 +108,7 @@ gb_i2c_operation_create(struct gb_connection *connection,
- 		else
- 			data_out_size += (u32)msg->len;
- 
--	request_size = sizeof(*request);
--	request_size += msg_count * sizeof(*op);
--	request_size += data_out_size;
-+	request_size = struct_size(request, ops, msg_count) + data_out_size;
- 
- 	/* Response consists only of incoming data */
- 	operation = gb_operation_create(connection, GB_I2C_TYPE_TRANSFER,
 -- 
-2.27.0
+2.30.2
 
