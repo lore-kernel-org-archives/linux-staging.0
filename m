@@ -1,11 +1,11 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51202CB7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12922CB9
 	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 20:03:02 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.169]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MplHR-1mUN2A3ePd-00qAw5; Sun, 23 Jan 2022 21:02:55 +0100
+ id 1MA7b8-1n1FkI0dha-00Bams; Sun, 23 Jan 2022 21:02:56 +0100
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -14,65 +14,69 @@ Cc: bcm-kernel-feedback-list@broadcom.com,
 	Gaston Gonzalez <gascoar@gmail.com>,
 	linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 12/18] staging: vchiq_core: fix alignment
-Date: Sun, 23 Jan 2022 21:02:17 +0100
-Message-Id: <1642968143-19281-13-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 13/18] staging: vchiq_core: avoid ternary operator for set_service_state
+Date: Sun, 23 Jan 2022 21:02:18 +0100
+Message-Id: <1642968143-19281-14-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
 References: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:dvHs22P9OF1yM+4JOTHGPfQfNvQ9+v5tQ+CC7g2qsrvq1yuTAWv
- EaPIUp3IjnBwgYDZz5jsn+DXiIHxoyzVcyeY28zwym+m+PZUI4Z2hsX3Pa9IXS+VSTALZTc
- kqX2blf5ZuIDJVeQPRht36GsMwVlEENcu08YTLaw19zz6xE5ZmxiTMLIVprnu1fYSfGsXYh
- K2NlDYN00pUTZBOK5OKPw==
+X-Provags-ID: V03:K1:wtiVkW7T4Wa39fBJm1QCbft2EArtshrn7Fd3hU31yOfCjuQAOPS
+ ZNgtDOECY1VcrgBaiYEN+Mi3vgkQROLn9abKakS9zqcfPQk5b2OPVMABVLxI87qHeIlh2aT
+ IN1+7k5CWo9QevwBVLlpMUv43BzKfUJogbxNHfh3zcIYAlExX1UPGOCH/bKeW41SRQVLgzw
+ uydfJMoiTfSvB9QFZQBQw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mxOUJyeiSbM=:mdjRAK5CoR3V7Hx7J73Zku
- ONhh02EfbgpezbpDHf8YQFaTYlGVEObn8kGrri+aIfyHyWEWf4Hl95sYmnaIpejdnPPqd7q9n
- SsT9i1aJPOltCBvWG8aKhsLsVIBUQKQYRg0kj9iGm8prt1E09yoE/JYJ2fqo3+2CxK8VWrfbq
- /izmpsR3ILT9MLjF6S6H/14xrwtYnN0VzmAVd0q6k9FwWiWR3XDzbo1B7Au5e2NmZOB1/V2Fm
- UlwpDreo+rMZB42qsJ9riq8/WjFc27dP/Uga4SYE3o2JbXOY/4sPoNTZ/NU98HGdgV9lwMF0s
- vJ0NdZhoiObSS7jkudp+7kXP+v6uLDVKIk3muyNv/f8TzYQlowZW6esQBtmwCHP3lK/6e7GGX
- yfdW6ivfgV2IL1rScouAYes1IfxbB7apdblke1vnk4O0yUD8eOAr06Gml8M12z/bi1GZWhyMO
- 3lJf+vo+No+xh8z6ccDUjGMZzOzEoB+2xf3vY4aK/C1XFmtHjlDEpTDqvhUPIgEStcC1jL9oo
- t2us+nAW/B7/uBYkl1odABPMeFRY43Yxo/nisEolBbCBfoiBNMK5WKhqF9fb8cQU/ygIjQ7dm
- 0kYiDaLke06Qs6yw0b9aQx2VwuTJtafGySqPd8jHs9vKGYsJy+weWNVC+S3ung20h//N1lA2u
- DeZMIzUNgRGCtkjrsrZRGEASxPf42ObreiAcv1bQIFmkRRaF6St4nm+zKeVG8QRjl+JFC0hTa
- 9kjMdiZFkIwIMiAQ
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rJj0pyzCy0k=:NvW7Xdm9xJeY0yI0G4bf2r
+ aPX23CeGHX4vg/muwYbdSNigJ+auK9LJ9WXi/62D3uG4SilsprTmHL83Ez021KcMENKCDRnvt
+ Zno3DGEBXIeXtbp+h40DAqdSMfMh6LAmJdsPVozB7u4svMjgG7AZFzONIR6ZGLbGvLYXppy6S
+ lMZP3XnF5+B9N3qcVPbNbug6BB3fd8QwQ/6lPj5UBLte3ictHCKSGlBZUYBJ4jUuKU4j4/Wcx
+ IPWziasM7B7/V5YzIPQBlzO8sxa/m17KnLBIjOFZhyUCD53DzK+MgZBM8xLP+CFbgP6skOzbO
+ NERymOzdCdYJOzmD1OjqqMDxappC7lh0clp9OTyrnlDNuTfbXUNJKZm2yNQV3cvunmUmDv7vc
+ Ro1U0jt4gJwIjeRjQ0qxYt5MhCQ0jhlYExabhpCAdBpzQ1pBbRflDnmmXrHOMOUCzMNx4rlyi
+ yb7OdUb4lmyEobtvLXnD//NHkIYqnpaErFti4nnvwfT5gppaSioNL7IRTA43xpPtdjOLFc3aF
+ W8PCsy6AwmvtCaI+wn0JwbQXqbcgZkaDcW2WfJw7owChPZCjfGrcFWEGC/AOtAjRPvb+HbRw0
+ +IS6dzSjUKlUb5Vv2WVbS7o5R0vbRqg/w2zlXolt+7Q+4pfsguT9m+161GbzfxWdgtA8criJA
+ eM3SEnQRupt8qHl5cxkbjUtysK14ZB3z6Me+jZ3A4F+Xg6nj0CLqfpUc0Hx+E26eHYADje2y6
+ TiZa4XHee8VtnORU
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-This fixes some alignment found by checkpatch.pl.
+There is already a check for service->sync, so use this instead of a
+separate ternary operator to update the service state.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index fbc44e7..7e901be 100644
+index 7e901be..6127244 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -2687,8 +2687,7 @@ vchiq_close_service_internal(struct vchiq_service *service, int close_recvd)
- 			} else {
- 				service->client_id = 0;
- 				service->remoteport = VCHIQ_PORT_FREE;
--				if (service->srvstate ==
--					VCHIQ_SRVSTATE_CLOSEWAIT)
-+				if (service->srvstate == VCHIQ_SRVSTATE_CLOSEWAIT)
- 					set_service_state(service, VCHIQ_SRVSTATE_LISTENING);
- 			}
- 			complete(&service->remove_event);
-@@ -2893,7 +2892,7 @@ vchiq_close_service(unsigned int handle)
- 		status = vchiq_close_service_internal(service, NO_CLOSE_RECVD);
- 		WARN_ON(status == VCHIQ_RETRY);
- 	} else {
--	/* Mark the service for termination by the slot handler */
-+		/* Mark the service for termination by the slot handler */
- 		request_poll(service->state, service, VCHIQ_POLL_TERMINATE);
+@@ -1521,15 +1521,17 @@ parse_open(struct vchiq_state *state, struct vchiq_header *header)
+ 			if (queue_message_sync(state, NULL, openack_id, memcpy_copy_callback,
+ 					       &ack_payload, sizeof(ack_payload), 0) == VCHIQ_RETRY)
+ 				goto bail_not_ready;
++
++			/* The service is now open */
++			set_service_state(service, VCHIQ_SRVSTATE_OPENSYNC);
+ 		} else {
+ 			if (queue_message(state, NULL, openack_id, memcpy_copy_callback,
+ 					  &ack_payload, sizeof(ack_payload), 0) == VCHIQ_RETRY)
+ 				goto bail_not_ready;
+-		}
+ 
+-		/* The service is now open */
+-		set_service_state(service, service->sync ? VCHIQ_SRVSTATE_OPENSYNC
+-					: VCHIQ_SRVSTATE_OPEN);
++			/* The service is now open */
++			set_service_state(service, VCHIQ_SRVSTATE_OPEN);
++		}
  	}
  
+ 	/* Success - the message has been dealt with */
 -- 
 2.7.4
 
