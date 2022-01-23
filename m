@@ -1,11 +1,11 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9E72CAC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4F12CAD
 	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 20:03:00 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.169]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MWRi7-1mnpax3UPD-00Xx1z; Sun, 23 Jan 2022 21:02:52 +0100
+ id 1Mow4E-1mVCFP1qSk-00qRv0; Sun, 23 Jan 2022 21:02:53 +0100
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -14,80 +14,89 @@ Cc: bcm-kernel-feedback-list@broadcom.com,
 	Gaston Gonzalez <gascoar@gmail.com>,
 	linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 03/18] staging: vchiq_arm: introduce is_adjacent_block
-Date: Sun, 23 Jan 2022 21:02:08 +0100
-Message-Id: <1642968143-19281-4-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 05/18] staging: vchiq: drop completed tasks from TODO
+Date: Sun, 23 Jan 2022 21:02:10 +0100
+Message-Id: <1642968143-19281-6-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
 References: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:tJA/nCdr+Dz8jBifMJ1WTOJjYSCL4n6utDFSMgLxUgjRV8CEXYR
- 9leqFu7ZjPa+NPgkUitJVFgm6ED/QWUlTkYvHzMxZCkQlqxwrrYugp/8UmAixkavh8yBaSL
- l25cBgGBUmQeP+L5+MNL31ndsfo0Y6clNoFNB6z+rotBAgntSO7WYQy/VNu/o6qET0zhFNd
- RI1WWm7xuWNtW8r033wCw==
+X-Provags-ID: V03:K1:CrXiWn9LZxMlf7JS/sBz03h66MLzVnsdiz4zDQ7Jra6+rN+ok9h
+ gqc/XxeKCifZGT0z+P5bdh/FCTLc/CsPuziKK9P7Ng1q9sVWhU9oRsC/lyITwraD2de82EG
+ 38zuyMcJnLJBWVmujAcpQShnRKjCn2hRAKd4kaDcpY6tmgOnKx6DXxoSdIkXJIhV2lL1qKs
+ mYFYev0sR0L0SqMcnTJ5w==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5eG5dD2+jP8=:OkYSpk0r+NbWLJzaEmzoEa
- yKjdFl7uct8CaJ5c6MrLRwuX7qIFTxd9xs6rD07kUXnGdVy+9nyo9ztIdX4+hRduSiQfqWAtY
- kY1VEpBxuGAodEFsoY1oFNMuLZ8MgNfWkQuhWuNpvrn0OTXM4Y36f26CQnHc/Wqad8rk5Bai4
- 9RMJrR5sHyAjpDJ0yOupYp7Q1+J7k3wYdgLl2tMw47IvAMdgaFSiNa4F6JJ0r6CFIJK0PFwT0
- 9o3nJfkOgghWKcVc+GKm26P/lOUw5hkmEuOweIm3SoUu7b9xUPnGnfztFi4fvt/JIlcXoa9l1
- NWoi9sLun4LaswM/IWZHj99uFxYjmnU+ZSQr8NitnY+adj1+K+UuvOfbUdOiLPq7/1qhklIg/
- 4EC+gZwYlY0+f+tScGIshxXThMExozuv8T0PgEtkbrlsZcsrjZoiNGe2vOpzeh+FPhSygTd5a
- Gt2+qg1gmvNKbjGpmRdbc3i7JbAH4X5gsuetfr6Eb7TliXqZBW+z1WEum+C10FFs5ysxcShVH
- mff9Wu+mEgQgPStwNNoGtwvzq61xLD/sJ0nL7Vw24j+mn2dAn/pcuOjkUXHBsmpbPvRQUZEJe
- u4vvdY2H/sTgXlOJV0vfPcjGN56KRjj3uHGPITj2UwKGDJFz9AzJJYLkCcm1HUKJgLcutVSiT
- fhNySeOGW1K/cSgpG3QmoRnCUxIuyOC1H0alqgXN2KJkiYAD/gHRHNBpl53Cu14Lhsi6BOk0e
- oIgWYvSdbr6nmIgw
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3Mlk8aGfm9M=:OfJHOmBpvItaDDjP3dUaIf
+ 0Xg/bTZMJFZ0BRKDaLy1NG7kvbJp7GIiZ1nltKWOVIy6cdd92RPStDKsRd93s/oTKmT/60zPU
+ L/Y6j2S0oTTS9ZP94ikXJljbjrqcPMAO6LVN03pHYQ2+wvEHvmONqk5qa+vaLBsK3e7Qqv4un
+ t5uEba7QcssFztiTUJRyLgOe47hZPdBkgiojsrrn7VPSgcjPcJm3vxtS3XWGvn7VB7N4HX83U
+ kxVGF4hVdVOVO70pDphezkHJzzzngS+xIiPGgdwxpPMREWcCAL0f1kk08kv9ppc5PsgWnalb8
+ qRAUMRofHNB0iebItJyOuOIMZvTRRLzsUC0rYn6O933o2rp57G7qU2VGaRrPxK0xH8ZjoqWQs
+ 0i4ZNNc2FEepLIeqT3IZjhfqezolXo/HhESq63egCp9toAePUKVqc60MS0qIpr/qxVJtQcOQl
+ GyoCoLYZVpoQYpUM1ZJcUCqBz+YBKzRignHq5iSOXxau7m5cs6L3gixELV5oflLSGaHi1Vxh2
+ wJIMTPALUPQOpf6HprF13Hb4YMC9STD3NDgpYCrngqP4EZFdvkavc7CfSuc5uFvv6MIS5c4hn
+ 5Tz4bSV2rmLV1w4ZE+fHHppBSHg0EpHD0wmuk5vSjhOHftyiv86yiHDl7+6yQobOlXmEwnHIV
+ es7jOwsCRcE2fT9tpLs/eUtzVL0w1g0+jlrBjAoLqp1D8cIgrRyYtJC9N24wNZ97rtoIkKHgk
+ F70CxgAtMaEbM3Ju
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-The check for an adjacent block is hard to read. So move it into a separate
-inline function.
+This removes all already completed tasks from the TODO file.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_arm.c     | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ drivers/staging/vc04_services/interface/TODO | 29 ----------------------------
+ 1 file changed, 29 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 6759a62..9748044 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -189,6 +189,20 @@ cleanup_pagelistinfo(struct vchiq_pagelist_info *pagelistinfo)
- 			  pagelistinfo->pagelist, pagelistinfo->dma_addr);
- }
+diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
+index 2e4ec58..e2d44a4 100644
+--- a/drivers/staging/vc04_services/interface/TODO
++++ b/drivers/staging/vc04_services/interface/TODO
+@@ -16,23 +16,6 @@ some of the ones we want:
+   to manage these buffers as dmabufs so that we can zero-copy import
+   camera images into vc4 for rendering/display.
  
-+static inline bool
-+is_adjacent_block(u32 *addrs, u32 addr, unsigned int k)
-+{
-+	u32 tmp;
-+
-+	if (!k)
-+		return false;
-+
-+	tmp = (addrs[k - 1] & PAGE_MASK) +
-+	      (((addrs[k - 1] & ~PAGE_MASK) + 1) << PAGE_SHIFT);
-+
-+	return tmp == (addr & PAGE_MASK);
-+}
-+
- /* There is a potential problem with partial cache lines (pages?)
-  * at the ends of the block when reading. If the CPU accessed anything in
-  * the same line (page?) then it may have pulled old data into the cache,
-@@ -349,10 +363,7 @@ create_pagelist(char *buf, char __user *ubuf,
- 		WARN_ON(len == 0);
- 		WARN_ON(i && (i != (dma_buffers - 1)) && (len & ~PAGE_MASK));
- 		WARN_ON(i && (addr & ~PAGE_MASK));
--		if (k > 0 &&
--		    ((addrs[k - 1] & PAGE_MASK) +
--		     (((addrs[k - 1] & ~PAGE_MASK) + 1) << PAGE_SHIFT))
--		    == (addr & PAGE_MASK))
-+		if (is_adjacent_block(addrs, addr, k))
- 			addrs[k - 1] += ((len + PAGE_SIZE - 1) >> PAGE_SHIFT);
- 		else
- 			addrs[k++] = (addr & PAGE_MASK) |
+-* Garbage-collect unused code
+-
+-One of the reasons this driver wasn't upstreamed previously was that
+-there's a lot code that got built that's probably unnecessary these
+-days.  Once we have the set of VCHI-using drivers we want in tree, we
+-should be able to do a sweep of the code to see what's left that's
+-unused.
+-
+-* Make driver more portable
+-
+-Building this driver with arm/multi_v7_defconfig or arm64/defconfig
+-leads to data corruption during the following command:
+-
+-  vchiq_test -f 1
+-
+-This should be fixed.
+-
+ * Fix kernel module support
+ 
+ Even the VPU firmware doesn't support a VCHI re-connect, the driver
+@@ -68,18 +51,6 @@ The code follows the 80 characters limitation yet tends to go 3 or 4 levels of
+ indentation deep making it very unpleasant to read. This is specially relevant
+ in the character driver ioctl code and in the core thread functions.
+ 
+-* Reorganize file structure: Move char driver to it's own file and join both
+-platform files
+-
+-The cdev is defined alongside with the platform code in vchiq_arm.c. It would
+-be nice to completely decouple it from the actual core code. For instance to be
+-able to use bcm2835-audio without having /dev/vchiq created. One could argue
+-it's better for security reasons or general cleanliness. It could even be
+-interesting to create two different kernel modules, something the likes of
+-vchiq-core.ko and vchiq-dev.ko. This would also ease the upstreaming process.
+-
+-The code in vchiq_bcm2835_arm.c should fit in the generic platform file.
+-
+ * Get rid of all non essential global structures and create a proper per
+ device structure
+ 
 -- 
 2.7.4
 
