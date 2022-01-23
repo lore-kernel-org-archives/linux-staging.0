@@ -1,11 +1,11 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816B32CB6
-	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 20:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F5B2CA8
+	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 20:03:00 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.169]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MY5s5-1mmAtu2RLB-00YVWj; Sun, 23 Jan 2022 21:02:55 +0100
+ id 1M89XH-1nGO2i3ux1-005F0Z; Sun, 23 Jan 2022 21:02:52 +0100
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -14,78 +14,66 @@ Cc: bcm-kernel-feedback-list@broadcom.com,
 	Gaston Gonzalez <gascoar@gmail.com>,
 	linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 11/18] staging: vchiq_core: reduce multi-line statements
-Date: Sun, 23 Jan 2022 21:02:16 +0100
-Message-Id: <1642968143-19281-12-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 00/18] staging: vchiq_arm: minor adjustments
+Date: Sun, 23 Jan 2022 21:02:05 +0100
+Message-Id: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
-References: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:bcybrOAsfprv52F3inb7uXUDZfvWIoXzoa6fmgiNgXIl5KiIXZm
- VTwmQU8nMmFWZdaMPi6t+MVi+jmpcIdY/bXzLdircbeAh+kbk2uSOrsPZlTTeE6lSI4moHC
- YxLw3cVPXlqKFE6qzf+lqmUWE8DrMM6w86s8F93k3gXxIiNcpnu6K6fTieM+Mcej4baNc43
- 1vsDlnAIt5opv8QGbJySw==
+X-Provags-ID: V03:K1:/ggID+UUVAnVbdvkOfY5Z/fij2BhtO1k/eetAfhZBwMGDXjbJyc
+ xW8ZjnevdM+udQ2UfcxUAWL09C4Ky5BP9XmRmV4LNCw/KY/+v1ngjW+GPIUFDyccX9qn92/
+ HklsGkZdIJQUW+EvKotNpRdvLI2JqhHJXJS5cOgSSQlCEGidYfE2/+/3Gw54Q0aAwkoJBCB
+ YUk79ISxnbSTdmMnnykpA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:X6v7vjsEZ3M=:SVl7ZYvxFy0rCdLbHYBCSQ
- ZAa37dEJn/Qa/8hcy7EPdjoXGezwwJoKggw4D6kT/mjj9A3NgM3MhKwhtoKD0q9h3bLqe+1lY
- rf3QeL84ZhJHzAgnhfH1y5sXT5ps55MopjT6A7jjjNWODPlLYgkq+tWx1jBCwyWbFa6VyTFzF
- n4XahHGUcag3hheHcef8AlKL43iheQQfMdDt/HRsqV6bPbIYAujzf9LRft8qdoliO3BKJj7kw
- s0ImFR0/JwgQSuJ/g07fSRe5K0AZUmW+kincX+1MPVfpzjXVLUKZnAhfr20JweS36lEeMIaOk
- 7RIhTr4VLKF3yX6ARICqcl6gfNaZXJQPRb0qvS/WGay7aXWnPhAqKw2sCko7kmJ/VBp5X1SGD
- 2wS1t1KtnEVSQ69DlMYyqNGZ5AI5A55YMOjcofJGKcJBxWR2TWagbvf1YUgXPMcpzbCJIqjmT
- cUzOW6QzLdlCcFvYMLdmYrstr9SWdIBTNIlmgzTYqOs9vp1f0P3K/EOe0iUxsDbqq+rXT21Ty
- OTJUOMWQdjF8fCh82agWR7eRTOyQZuVQOgqu3VzOfCnsYYGT4T9njaw+WsYy45EKEBgo5X4bM
- jnzOghcAkCRVr9DG8s2I/MzHDnzzkH3AciQgFMzFWTsscaEfbGc6W50lxxClUk2g1te3ci3tu
- 3E0fes5ZwzDS1hPmLeqQeQdvz0st6cW7qvecR3y5PasJ1KGoepjAFUzP2SUgSPZw9L3W5zuLx
- T9GCHLnEbRi7uJAS
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5dL0NeF8kjo=:M9c3YD6glIp78vADsBRYar
+ xQWvI03EOy3XdHFHlBITyO/Oip+nAhEXE7dY8p3lUnaC0L88h/zJyLAOVcDL8pchDUySj1Rns
+ /Gj6OPR/6v/AqDOlXMRaA5QB5GtyDmEql97iJxiuCYY4A/UFJgUVC1aXzL/FdDjyQwWY8dqgu
+ u8x5ESeow4QHxbnQmY6FbanI+bVGJSC/ujwseQNRAy1GB560/CjffuxccFtX1Gyf92NPh2QmG
+ 6try3X5wQAXeX2WJR6K0Qn8lRaWfo0Ituco5UzrJN2onET17OYLMw2MMq7SLkJcgRL3alSwpx
+ EjwQbEZvEGVkFoX92Ep5qvevyw5+CcFYyMRk8jT/36oYK2r2prmDWrwiGekG1ogC5CTW9v03n
+ utcAZt5A2g22f2P96xKKklidR/1oLlyaPeUwOhlH2ad9O9Xu5w3Tm2R8JRE9yZcd3t2sP8BM3
+ Y+hURNQRT9n2vgqWQ9IQsnKL1HLncB664Mcnloiv140wbgQqDYbF/peFQKowk8oUFafqP0U1B
+ BJSS2a0JUYMlfseknQtT4KCo6Jw79lK9Doac2e1Qno1pXmeD4A7DBH3jcvcIPLO0FSF5kRg+t
+ iC8pYe41f5xZiKyfVPzFJH6wJawuGT4e5DyqtpxPwCpgzK2wlO4mRt6QOm6kTgsM1GX4Bfop8
+ dHDd22Za0TT+O9y2OgqgdIpPHgMUylPbr9Gtn7ql3k93TpGmDWZ0FMGMGR5jVb9qrEyyATvbq
+ MeLmPOl1ty7u0zdo
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-In order to improvement readability try to reduce the multi-line statements.
+This is a loose collection of small adjustments to the VCHIQ code 
+(mostly coding style, but also bugfixes).
 
-Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
----
- .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c    | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Stefan Wahren (18):
+  staging: vchiq_core: fix indentation in vchiq_log_dump_mem
+  staging: vchiq_debugfs: get the rid of n_log_entries
+  staging: vchiq_arm: introduce is_adjacent_block
+  staging: vchiq: convert TODOs into unordered list
+  staging: vchiq: drop completed tasks from TODO
+  staging: vchiq: add message handling to TODO list
+  staging: vchiq_core: fix type of parameter localport
+  staging: vchiq_core: simplify vchiq_add_service_internal
+  staging: vchiq_core: align return statements in msg_type_str
+  staging: vchiq_core: drop prefix of vchiq_set_service_state
+  staging: vchiq_core: reduce multi-line statements
+  staging: vchiq_core: fix alignment
+  staging: vchiq_core: avoid ternary operator for set_service_state
+  staging: vchiq_core: use min_t macro
+  staging: vchiq_arm: make vchiq_get_state return early
+  staging: vchiq_arm: Avoid NULL ptr deref in
+    vchiq_dump_platform_instances
+  staging: vchiq_core: handle NULL result of find_service_by_handle
+  staging: vchiq_dev: Avoid unnecessary alloc in
+    vchiq_ioc_create_service
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index d861857..fbc44e7 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -872,9 +872,8 @@ copy_message_data(ssize_t (*copy_callback)(void *context, void *dest, size_t off
- 		ssize_t callback_result;
- 		size_t max_bytes = size - pos;
- 
--		callback_result =
--			copy_callback(context, dest + pos,
--				      pos, max_bytes);
-+		callback_result = copy_callback(context, dest + pos, pos,
-+						max_bytes);
- 
- 		if (callback_result < 0)
- 			return callback_result;
-@@ -1028,8 +1027,7 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
- 
- 		if (callback_result < 0) {
- 			mutex_unlock(&state->slot_mutex);
--			VCHIQ_SERVICE_STATS_INC(service,
--						error_count);
-+			VCHIQ_SERVICE_STATS_INC(service, error_count);
- 			return VCHIQ_ERROR;
- 		}
- 
-@@ -1177,8 +1175,7 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
- 
- 	if (callback_result < 0) {
- 		mutex_unlock(&state->slot_mutex);
--		VCHIQ_SERVICE_STATS_INC(service,
--					error_count);
-+		VCHIQ_SERVICE_STATS_INC(service, error_count);
- 		return VCHIQ_ERROR;
- 	}
- 
+ drivers/staging/vc04_services/interface/TODO       |  56 +++------
+ .../vc04_services/interface/vchiq_arm/vchiq_arm.c  |  34 +++--
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c | 137 +++++++++------------
+ .../vc04_services/interface/vchiq_arm/vchiq_core.h |   2 +-
+ .../interface/vchiq_arm/vchiq_debugfs.c            |   4 +-
+ .../vc04_services/interface/vchiq_arm/vchiq_dev.c  |   7 +-
+ 6 files changed, 107 insertions(+), 133 deletions(-)
+
 -- 
 2.7.4
 
