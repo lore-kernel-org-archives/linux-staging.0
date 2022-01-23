@@ -1,11 +1,11 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12922CB9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5A02CBA
 	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 20:03:02 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.169]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MA7b8-1n1FkI0dha-00Bams; Sun, 23 Jan 2022 21:02:56 +0100
+ id 1N49xZ-1mBkkj3ABd-01076b; Sun, 23 Jan 2022 21:02:56 +0100
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -14,69 +14,69 @@ Cc: bcm-kernel-feedback-list@broadcom.com,
 	Gaston Gonzalez <gascoar@gmail.com>,
 	linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 13/18] staging: vchiq_core: avoid ternary operator for set_service_state
-Date: Sun, 23 Jan 2022 21:02:18 +0100
-Message-Id: <1642968143-19281-14-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 15/18] staging: vchiq_arm: make vchiq_get_state return early
+Date: Sun, 23 Jan 2022 21:02:20 +0100
+Message-Id: <1642968143-19281-16-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
 References: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:wtiVkW7T4Wa39fBJm1QCbft2EArtshrn7Fd3hU31yOfCjuQAOPS
- ZNgtDOECY1VcrgBaiYEN+Mi3vgkQROLn9abKakS9zqcfPQk5b2OPVMABVLxI87qHeIlh2aT
- IN1+7k5CWo9QevwBVLlpMUv43BzKfUJogbxNHfh3zcIYAlExX1UPGOCH/bKeW41SRQVLgzw
- uydfJMoiTfSvB9QFZQBQw==
+X-Provags-ID: V03:K1:L4cMCNqxfKMXjaVQ6dVOz25tlaDe4xViFmsejSFn3+PqxnukIDJ
+ OA4OYosSMY3nSXLMRfJxbqdRWQW8GP4OsG/2MQASyDXhhLSYu+ondIBwxMp2r7HmEbhEDxa
+ ZZGcSxm8XAPdyeMUwTF3tmJHMuZNi8sKaYHzw3Mq/Z2l2XQzZ85HVOmYWcTbYrsvnDJ42U6
+ WvBYd8OOJCcaVJmFt5e4Q==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rJj0pyzCy0k=:NvW7Xdm9xJeY0yI0G4bf2r
- aPX23CeGHX4vg/muwYbdSNigJ+auK9LJ9WXi/62D3uG4SilsprTmHL83Ez021KcMENKCDRnvt
- Zno3DGEBXIeXtbp+h40DAqdSMfMh6LAmJdsPVozB7u4svMjgG7AZFzONIR6ZGLbGvLYXppy6S
- lMZP3XnF5+B9N3qcVPbNbug6BB3fd8QwQ/6lPj5UBLte3ictHCKSGlBZUYBJ4jUuKU4j4/Wcx
- IPWziasM7B7/V5YzIPQBlzO8sxa/m17KnLBIjOFZhyUCD53DzK+MgZBM8xLP+CFbgP6skOzbO
- NERymOzdCdYJOzmD1OjqqMDxappC7lh0clp9OTyrnlDNuTfbXUNJKZm2yNQV3cvunmUmDv7vc
- Ro1U0jt4gJwIjeRjQ0qxYt5MhCQ0jhlYExabhpCAdBpzQ1pBbRflDnmmXrHOMOUCzMNx4rlyi
- yb7OdUb4lmyEobtvLXnD//NHkIYqnpaErFti4nnvwfT5gppaSioNL7IRTA43xpPtdjOLFc3aF
- W8PCsy6AwmvtCaI+wn0JwbQXqbcgZkaDcW2WfJw7owChPZCjfGrcFWEGC/AOtAjRPvb+HbRw0
- +IS6dzSjUKlUb5Vv2WVbS7o5R0vbRqg/w2zlXolt+7Q+4pfsguT9m+161GbzfxWdgtA8criJA
- eM3SEnQRupt8qHl5cxkbjUtysK14ZB3z6Me+jZ3A4F+Xg6nj0CLqfpUc0Hx+E26eHYADje2y6
- TiZa4XHee8VtnORU
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4wvN45pam6Y=:dMzY4tjC05uJvCHlf7551L
+ ZBZ3BV9JuLLYiJPg7jdPpbYjb32Oa0t5auHRQBDSxGka4DPkYzyHkrMn31SSmu9ZPxeaW/4d0
+ 360BLsw6m1JlJQcBhVKvhaFKXp9JoX6Z4xCECx+9PG30FbfMqM7/lCC5urdXVzwNiIfw0JYde
+ MPAWr9inN5HhFXiaRZAamAYQVgGBHj/zpD9p9k3Jo5BmnrttAj8jYCGto4ASUDKWt16Zcgz3N
+ NGyNK1ae5JqKXlhaYVDycjbmv47gp63dTRtVYDNPLnqxgY03GywMlqGQzSkobyrq16UUN2fcm
+ EgQiB549tdPLrHYXaZ7W884IBjfut9bt2bnC6X4hSI85FQw9QGXAlN82lmkiuBJytYLpwOltF
+ Da9axYHwDXMqsSJahQvqusUo3WU9D0CrgkKtbFCLWVl5uK6W0+R91KZcY5P0K28EvGUr4z42M
+ 4jAQjLR24Pqgcp5kLYjdr2NJNhTh/wQZ4lABoqZijYt9uMjEo4mRwmODM5H5NOm4ah3zsPHme
+ O9V7dva0DfIdOWHwmydSzy1cVlEYyvO36UvNrDS7V3MmTnTcJFrfMKTRDXMvwpc0TbHMn4txz
+ Gdir28EiotwlPPf2vR7VrDU7GgVBAbS2qsoy6Bna+P72YN0w0yGfFpyhVRmlWak5I0YhmQLX4
+ sQknSEEHf4d6bDAOsZZFYycSW+c+p8iEhx7FnpPvG+Opd4ZUjjkf0oKmG+2LvVhGIYmW4qAZv
+ L9mBTInCqyTrvHTh
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-There is already a check for service->sync, so use this instead of a
-separate ternary operator to update the service state.
+Make vchiq_get_state return early with NULL and improve the readability.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c    | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 7e901be..6127244 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -1521,15 +1521,17 @@ parse_open(struct vchiq_state *state, struct vchiq_header *header)
- 			if (queue_message_sync(state, NULL, openack_id, memcpy_copy_callback,
- 					       &ack_payload, sizeof(ack_payload), 0) == VCHIQ_RETRY)
- 				goto bail_not_ready;
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 9748044..6ef8f19 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -1285,14 +1285,18 @@ int vchiq_dump_platform_service_state(void *dump_context,
+ struct vchiq_state *
+ vchiq_get_state(void)
+ {
+-	if (!g_state.remote)
++	if (!g_state.remote) {
+ 		pr_err("%s: g_state.remote == NULL\n", __func__);
+-	else if (g_state.remote->initialised != 1)
++		return NULL;
++	}
 +
-+			/* The service is now open */
-+			set_service_state(service, VCHIQ_SRVSTATE_OPENSYNC);
- 		} else {
- 			if (queue_message(state, NULL, openack_id, memcpy_copy_callback,
- 					  &ack_payload, sizeof(ack_payload), 0) == VCHIQ_RETRY)
- 				goto bail_not_ready;
--		}
++	if (g_state.remote->initialised != 1) {
+ 		pr_notice("%s: g_state.remote->initialised != 1 (%d)\n",
+ 			  __func__, g_state.remote->initialised);
++		return NULL;
++	}
  
--		/* The service is now open */
--		set_service_state(service, service->sync ? VCHIQ_SRVSTATE_OPENSYNC
--					: VCHIQ_SRVSTATE_OPEN);
-+			/* The service is now open */
-+			set_service_state(service, VCHIQ_SRVSTATE_OPEN);
-+		}
- 	}
+-	return (g_state.remote &&
+-		(g_state.remote->initialised == 1)) ? &g_state : NULL;
++	return &g_state;
+ }
  
- 	/* Success - the message has been dealt with */
+ /*
 -- 
 2.7.4
 
