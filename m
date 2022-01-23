@@ -1,11 +1,11 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60662CAF
-	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 20:03:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD7F2CB1
+	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 20:03:01 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.169]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1My2lr-1mME5J28Nz-00zYcd; Sun, 23 Jan 2022 21:02:54 +0100
+ id 1MnJUy-1mSS9i3wFo-00jHAu; Sun, 23 Jan 2022 21:02:55 +0100
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -14,102 +14,83 @@ Cc: bcm-kernel-feedback-list@broadcom.com,
 	Gaston Gonzalez <gascoar@gmail.com>,
 	linux-staging@lists.linux.dev,
 	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 08/18] staging: vchiq_core: simplify vchiq_add_service_internal
-Date: Sun, 23 Jan 2022 21:02:13 +0100
-Message-Id: <1642968143-19281-9-git-send-email-stefan.wahren@i2se.com>
+Subject: [PATCH 09/18] staging: vchiq_core: align return statements in msg_type_str
+Date: Sun, 23 Jan 2022 21:02:14 +0100
+Message-Id: <1642968143-19281-10-git-send-email-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
 References: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
-X-Provags-ID: V03:K1:nfCbNZLHAHd6fnfcgTkgpzBGFLD6uUmXluxr+ZVKYKWhp5IL4e9
- SFkYcOetWDJyxnXXCM6lPkffTCUxy13LZvF+cVjD5Sngviq3Vf8XBD+rH5ObzmQLzKOjJSW
- 57GOjbZ3tEYiiTvpsqKr7YiyboVhbY1Yo9TjcdAHp2qV2gkHMXzLeQtqag1ylqc9BkqTs8/
- n4/9Kfu1yWSe6DvAwzu2g==
+X-Provags-ID: V03:K1:IXpFW5qMOCFn+nMgFXUuiGGH+d1n806jYtVXlBxVBvKUy6FuBgH
+ PZG4rjAVlDmFnB0ZDgicWRKFfsPW+pmuXwOzia1ZugGcZsobi/0N6bw8f3FrYh+NjDLdQ8i
+ TO73DqynTLaVhB5ql/yQ30UoZX4XLe6WqKeVp7O3MbeOSgLA8R/gqu8o60+Y0KXgtzfASTU
+ 0kc1C4fHhdqnIF1CclwiA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bHkiPvmDW7U=:bVeI6UUH6ZXQIsK0dfZkIL
- EDkHB/1+6WhOaGVNaUJNfH5crv2wGVWlTTvX3qfvLd34WpLAOW4thAtwWHIQ5cHCgKBzLSkit
- T1oz/5cE0zPxoIYZTMryar/tXSfL7DHhx0nrFiIhn2Raz6kL738TUpEoKDtIQ/AcNviYuh8mI
- XO8buvkA6moP/0ykVg6U3zTtKZR3nomwOjYAIKXdzO7gEuWdxVv0BqOp2u/r+GI5s96mwLFiM
- oTzL83TNoKX9LMDHRoqE7yYEu6fx01MqC1GVmsSQxfelB2744KJraQANruN/xQfjnITVBRno8
- 3qUerXGMUR3nBSW+G13T6T6fK5C8AzatYis4GGnI/eE0ywK8xw9pMlGQJ1OZzzQi+sUupJJgF
- WTIRTBvbe6wR4bchF1DYEfWYpvK0eXxEE9e+5g45Fnr9bdaUr+qPdcwxwlJaQdLoORa8yLdGR
- h/di9PQJVj12NUqaRBLsRLtIiAYkdwPCpgQW/upIOWIvWZiesn9TpfwztMERwa6S2QiNH5m3R
- IdTMRPEh/GYtA7ZcNTNEjynm/lxcQ6SeSIArr6q9rhXpv5xofsyMT3otahNa+UxHDl8x5Ui5U
- f80ABRPAs8upZK6A/YRQYS9Vv9zqoY3bAiJp56X0FU+7giK+8mBZMEcLjNQN2u2fFyKYOT/oU
- 1rpi3W7MGji8Vi1aFBq96iAINSukoNZ+z9lrWb6pcg4NCQ2khOFNMbzchVb6FXjbZu1vB21qJ
- hFYV1GMA4Lygs4TB
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/3aONyms9go=:Ahko3rKs/kwdCksblg/LGd
+ Vxk5hx9EFHlY/FD+7i7TKYjDx1f20sPG0ruKa5RI2A29RzXLuvU9LhhQ+Ju7VX8dJKhwkNU+8
+ azQ4mQ5+Rc8k3MADsXZNcRdQvj5Z7QI36iDLqQwQm1FVUxkgNCg7XByKt8wjOXX7ZK0YVG4xJ
+ 5wZeBkpajEj8ICICDOeDVEQePHeF7JDi6qLu07xeLYnl2llLrVYtwEBlf6vxfKZnJyC8iCAuV
+ Vk0sUHbjWCmWBEF0bjjgAAKtgN7JmKpEmFI60JoAUjAHRAlGaUnmmm6TWRJGfsK1zwawjtnUG
+ hknIrXL5IisJMG7Hx0jK+jiZfR9C2W3Dkfv5oYS1BXAbPRvpiT/uUVqlU0UFGUQmEif5bk8HB
+ H6dZ/xuYQizd6quOTiml/TO3/4cHqbK6wvhk/xa3ZiuJn+NBtPptQvJLS+gSuTsUzV6hmbvHF
+ B8ZkcWepBOEOiYZ8renWd6oLABCh4hhasTKhuJ9bKdnNXvGmo7ekfTChgn5xRvgIutkdpXa+i
+ 0yGVdHdRJAwT8mP2GAAh+tDcnNVbc6rhATqBexCddsxJ1dcI3KKojKRkN2S/wszIeFcFzYxKo
+ SDE/bWzOi4j573NcNCmy0kYjb0LxMvHGjkyfjxKYYH5mtxbywmK+Y6NHVMsR6+AFRoegP24Jn
+ BZZNwLCd+9N7Y5J9fxXUef+BhzO1PiK9LYLNNy4x32d6saTMELxeQRW5sfHv6PVDGePtX6XRF
+ aqsSiEOBdWCpY3iv
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Better use kzalloc to properly init vchiq_service with zero. As a result
-this saves us all the zero assignments.
+The return statements aren't properly aligned. So fix this by using tabs.
 
 Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_core.c | 23 +---------------------
- 1 file changed, 1 insertion(+), 22 deletions(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c | 30 +++++++++++-----------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 6fa9fee..a13a076 100644
+index a13a076..e500cef 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -2097,16 +2097,6 @@ sync_func(void *v)
- 	return 0;
- }
- 
--static void
--init_bulk_queue(struct vchiq_bulk_queue *queue)
--{
--	queue->local_insert = 0;
--	queue->remote_insert = 0;
--	queue->process = 0;
--	queue->remote_notify = 0;
--	queue->remove = 0;
--}
--
- inline const char *
- get_conn_state_name(enum vchiq_connstate conn_state)
+@@ -205,21 +205,21 @@ release_message_sync(struct vchiq_state *state, struct vchiq_header *header);
+ static const char *msg_type_str(unsigned int msg_type)
  {
-@@ -2371,7 +2361,7 @@ vchiq_add_service_internal(struct vchiq_state *state,
- 	if (ret)
- 		return NULL;
- 
--	service = kmalloc(sizeof(*service), GFP_KERNEL);
-+	service = kzalloc(sizeof(*service), GFP_KERNEL);
- 	if (!service)
- 		return service;
- 
-@@ -2387,28 +2377,17 @@ vchiq_add_service_internal(struct vchiq_state *state,
- 
- 	service->public_fourcc = (srvstate == VCHIQ_SRVSTATE_OPENING) ?
- 		VCHIQ_FOURCC_INVALID : params->fourcc;
--	service->client_id     = 0;
- 	service->auto_close    = 1;
--	service->sync          = 0;
--	service->closing       = 0;
--	service->trace         = 0;
- 	atomic_set(&service->poll_flags, 0);
- 	service->version       = params->version;
- 	service->version_min   = params->version_min;
- 	service->state         = state;
- 	service->instance      = instance;
--	service->service_use_count = 0;
--	service->msg_queue_read = 0;
--	service->msg_queue_write = 0;
--	init_bulk_queue(&service->bulk_tx);
--	init_bulk_queue(&service->bulk_rx);
- 	init_completion(&service->remove_event);
- 	init_completion(&service->bulk_remove_event);
- 	init_completion(&service->msg_queue_pop);
- 	init_completion(&service->msg_queue_push);
- 	mutex_init(&service->bulk_mutex);
--	memset(&service->stats, 0, sizeof(service->stats));
--	memset(&service->msg_queue, 0, sizeof(service->msg_queue));
- 
- 	/*
- 	 * Although it is perfectly possible to use a spinlock
+ 	switch (msg_type) {
+-	case VCHIQ_MSG_PADDING:       return "PADDING";
+-	case VCHIQ_MSG_CONNECT:       return "CONNECT";
+-	case VCHIQ_MSG_OPEN:          return "OPEN";
+-	case VCHIQ_MSG_OPENACK:       return "OPENACK";
+-	case VCHIQ_MSG_CLOSE:         return "CLOSE";
+-	case VCHIQ_MSG_DATA:          return "DATA";
+-	case VCHIQ_MSG_BULK_RX:       return "BULK_RX";
+-	case VCHIQ_MSG_BULK_TX:       return "BULK_TX";
+-	case VCHIQ_MSG_BULK_RX_DONE:  return "BULK_RX_DONE";
+-	case VCHIQ_MSG_BULK_TX_DONE:  return "BULK_TX_DONE";
+-	case VCHIQ_MSG_PAUSE:         return "PAUSE";
+-	case VCHIQ_MSG_RESUME:        return "RESUME";
+-	case VCHIQ_MSG_REMOTE_USE:    return "REMOTE_USE";
+-	case VCHIQ_MSG_REMOTE_RELEASE:      return "REMOTE_RELEASE";
+-	case VCHIQ_MSG_REMOTE_USE_ACTIVE:   return "REMOTE_USE_ACTIVE";
++	case VCHIQ_MSG_PADDING:			return "PADDING";
++	case VCHIQ_MSG_CONNECT:			return "CONNECT";
++	case VCHIQ_MSG_OPEN:			return "OPEN";
++	case VCHIQ_MSG_OPENACK:			return "OPENACK";
++	case VCHIQ_MSG_CLOSE:			return "CLOSE";
++	case VCHIQ_MSG_DATA:			return "DATA";
++	case VCHIQ_MSG_BULK_RX:			return "BULK_RX";
++	case VCHIQ_MSG_BULK_TX:			return "BULK_TX";
++	case VCHIQ_MSG_BULK_RX_DONE:		return "BULK_RX_DONE";
++	case VCHIQ_MSG_BULK_TX_DONE:		return "BULK_TX_DONE";
++	case VCHIQ_MSG_PAUSE:			return "PAUSE";
++	case VCHIQ_MSG_RESUME:			return "RESUME";
++	case VCHIQ_MSG_REMOTE_USE:		return "REMOTE_USE";
++	case VCHIQ_MSG_REMOTE_RELEASE:		return "REMOTE_RELEASE";
++	case VCHIQ_MSG_REMOTE_USE_ACTIVE:	return "REMOTE_USE_ACTIVE";
+ 	}
+ 	return "???";
+ }
 -- 
 2.7.4
 
