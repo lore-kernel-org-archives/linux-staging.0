@@ -1,55 +1,70 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEF6173
-	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 18:18:36 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id e9so13134664pgb.3
-        for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 10:18:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCF2168
+	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 18:41:38 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id t18so13472890plg.9
+        for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 10:41:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=LM0mMzefnSfZje8daSUkdPFi8UkMvseVamFzoxFU/CQ=;
-        b=IVrpsy/tjwu0SUk9J+FsWyANxgvEcSBSx88SqsySONb7XLsdhdErMEkGSlPbPrwezu
-         qCSxGGQaZire7aSWgQRB4kwjbweDZKy2B7O9IL/DNzJ/tS+4lajPiESJJ6EQ7vuneAj3
-         pFqz7ATwHq2S5BdvA+ZGIzd17UjvLWTMqUdB1VM7bYRgjm8EhSL88eXBQZfpscahRj6Y
-         Ny28p4SHvptgYDqvSxznzqytARJi3bIaEV17cQMxWYODRWPxYkjTPhpXTFR8XJk1VUya
-         apiQFrOUEEKfbPW5WwzAfbC4OwoYPDviVPvfH0mWjithQOtZlIE6ng3vcN5Bl9hLfR0h
-         XyPg==
+        bh=IkNrFbXH9gY1KIOKy+h9o3LQcC7Su75w6LGwm4LKjaA=;
+        b=EaNO/dASy+lPZWlcOtxF1hC9GdUeB2iS8umkWOWTX4v3h315YhPaRibVAi7vXbbHWe
+         dZQi44B8tyxUoVsiF1ho0iJZOHCw92Invp1s1Jngv0T8L+0c7uqMPEEfpdlpf7wsR2hX
+         def6pyngVUbofEtQ0onarODYce0lr6EcewlHKAkg7wW7/E/IkNjJ29EwgZ9JC95dqfwt
+         HyYjjJh6C7hZd1XozPUerv73BbBwkDAQaBq4LR4A9muS5E19XN+FHJn+gDMMIIQ3OCVG
+         BFULBqru13piNITxvIlEYH3XteGH1vToU8U0ADIfL8v4GWj0g5Y1FVAMkzSf8zEQusxa
+         sUQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LM0mMzefnSfZje8daSUkdPFi8UkMvseVamFzoxFU/CQ=;
-        b=WkaW5gVaXLBSzDD0HQNxzLZQ4G6VAje4XDh4BDraTph7MAAJu2fcOcJA6UGKIfXyqr
-         JuAT4Ek2NMm7b2fjLj2QtdVXN0KTTmrrtrpZRoKEEM7NbRv2Xb/26Gswpe28krOVmaSy
-         P0INB4xfo+Af54Gmo0td/4mhE0WBIiwYTV9vfbGOQ+qgbd+sIjQHswcMUqgSzCJTrPyw
-         hcy+8vUfeUv1BMIHNow8lVNokIiNRfCI2q5g4N2/x9bIPSFmzM88P19GburB/179Lcwq
-         SnsThG6zyPDzsMUEa6LGb6HX8S9zOW/eTok+kH5YHpKyz9aesLTTOeWqdGiYs2+ecUC4
-         EVSQ==
-X-Gm-Message-State: AOAM532UWaVMoFJ3j7gnWrjyeiZr4vXe9dC3FlX5fwRHg+7CFHqJpLOw
-	Qx48kSnqF08uSd4Dty2PkT0=
-X-Google-Smtp-Source: ABdhPJxNugxrCfpZDi11NGkw2Bzh4uFDeQ7gOSmsfifv+0dTKuSstL00nrlFPomTYwAyQorNFtz8DQ==
-X-Received: by 2002:a62:3003:0:b0:4c1:6983:f1c3 with SMTP id w3-20020a623003000000b004c16983f1c3mr10974880pfw.20.1642961915949;
-        Sun, 23 Jan 2022 10:18:35 -0800 (PST)
-Received: from localhost.localdomain ([103.85.11.151])
-        by smtp.gmail.com with ESMTPSA id h6sm2634220pfk.110.2022.01.23.10.18.33
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=IkNrFbXH9gY1KIOKy+h9o3LQcC7Su75w6LGwm4LKjaA=;
+        b=Qn8IpnF/mFXm+2NCcIx5qX8QZk8o4OWi8Pm9iCX8voJj/ENBRdRs+u1QZAj0Wg1irK
+         aiTv53jINZhYr9HRUYbyDalwZ17c0wf9k8fd1+YWFJ1lVweXDte66gKUqeGNcprTfCI+
+         coADZuULOS5DiWJyyEdXDdBVJF9Mw6MY0xhSxUvsCiwtpnl45lEAOVrHi6koOkHZyzsd
+         +bz7YyaxpOtFlx2IVJr8fuCCplDMmWfASbL8zcnOC8Eiq2q6r9+eMXGYyGw/nTjI1bE3
+         CTbfNDl9Ssxv80yNy+aZuvxOOyjJ9vvKUi6DVtic78DZ0vn6xF2l5OuE5qnHl4GiKOuw
+         1rTQ==
+X-Gm-Message-State: AOAM530/eRMd+QsrYmoekwHGOYnVlUKqFh1974w1ui/pbnuA3MQBr1Ol
+	6zsGOUmy3gtjusHRbHHoD84=
+X-Google-Smtp-Source: ABdhPJzWjGjT87hpyuJ8zxGhbFECmd1/Zcro15HLI2qS1pA/4gjZkUJUdMuLJwg9rhA75s0Tv2Dbgg==
+X-Received: by 2002:a17:902:c40d:b0:14a:96a4:1044 with SMTP id k13-20020a170902c40d00b0014a96a41044mr11869369plk.50.1642963297601;
+        Sun, 23 Jan 2022 10:41:37 -0800 (PST)
+Received: from localhost (searspoint.nvidia.com. [216.228.112.21])
+        by smtp.gmail.com with ESMTPSA id ms14sm11163509pjb.15.2022.01.23.10.41.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jan 2022 10:18:35 -0800 (PST)
-From: Vihas Mak <makvihas@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
+        Sun, 23 Jan 2022 10:41:37 -0800 (PST)
+From: Yury Norov <yury.norov@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	Martin Kaiser <martin@kaiser.cx>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>,
-	linux-staging@lists.linux.dev,
+	Peter Zijlstra <peterz@infradead.org>,
+	David Laight <David.Laight@aculab.com>,
+	Joe Perches <joe@perches.com>,
+	Dennis Zhou <dennis@kernel.org>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Alexey Klimov <aklimov@redhat.com>,
 	linux-kernel@vger.kernel.org,
-	Vihas Mak <makvihas@gmail.com>
-Subject: [PATCH v2] staging: r8188eu: handle rtw_init_netdev_name() failure appropriately
-Date: Sun, 23 Jan 2022 23:47:35 +0530
-Message-Id: <20220123181734.10402-1-makvihas@gmail.com>
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 35/54] drivers/staging: replace bitmap_weight with bitmap_weight_le for tegra-video
+Date: Sun, 23 Jan 2022 10:39:06 -0800
+Message-Id: <20220123183925.1052919-36-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220123183925.1052919-1-yury.norov@gmail.com>
+References: <20220123183925.1052919-1-yury.norov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,64 +73,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_init_netdev_name() calls dev_alloc_name() which allocates the name
-for the device as per the given name format.
-The name format is specified by the module parameter "ifname".
-It returns a negative err code if the format is invalid. Handle this
-error appropriately.
-Cancel the timers ininitliazed by rtw_init_drv_sw() before calling
-rtw_free_drv_sw() and then proceed to free the adapter.
+tegra_channel_enum_format() calls bitmap_weight() to compare the weight
+of bitmap with a given number. We can do it more efficiently with
+bitmap_weight_le() because conditional bitmap_weight may stop traversing
+the bitmap earlier, as soon as condition is met.
 
-Also, if register_netdev() fails then goto free_drv_sw instead of
-goto handle_dualmac.
-
-Signed-off-by: Vihas Mak <makvihas@gmail.com>
+Signed-off-by: Yury Norov <yury.norov@gmail.com>
 ---
-v1->v2:
-    free the adapter and netdev instead of warning the user about 
-    allocation failure.
+ drivers/staging/media/tegra-video/vi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/r8188eu/os_dep/usb_intf.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index 91792dfd3..85b5d0bd7 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -399,7 +399,11 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- 			DBG_88E("can't get autopm:\n");
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index d1f43f465c22..4e79a80e9307 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -436,7 +436,7 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
+ 	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+ 		fmts_bitmap = chan->fmts_bitmap;
  
- 	/*  alloc dev name after read efuse. */
--	rtw_init_netdev_name(pnetdev, padapter->registrypriv.ifname);
-+	if (rtw_init_netdev_name(pnetdev, padapter->registrypriv.ifname) < 0) {
-+		DBG_88E("rtw_init_netdev_name failed, ifname:%s\n",
-+			padapter->registrypriv.ifname);
-+		goto free_drv_sw;
-+	}
- 	rtw_macaddr_cfg(padapter->eeprompriv.mac_addr);
- 	rtw_init_wifidirect_addrs(padapter, padapter->eeprompriv.mac_addr,
- 				  padapter->eeprompriv.mac_addr);
-@@ -409,7 +413,7 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
+-	if (f->index >= bitmap_weight(fmts_bitmap, MAX_FORMAT_NUM))
++	if (bitmap_weight_le(fmts_bitmap, MAX_FORMAT_NUM, f->index))
+ 		return -EINVAL;
  
- 	/* step 6. Tell the network stack we exist */
- 	if (register_netdev(pnetdev) != 0)
--		goto handle_dualmac;
-+		goto free_drv_sw;
- 
- 	DBG_88E("bDriverStopped:%d, bSurpriseRemoved:%d, bup:%d, hw_init_completed:%d\n"
- 		, padapter->bDriverStopped
-@@ -420,6 +424,11 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- 
- 	status = _SUCCESS;
- 
-+free_drv_sw:
-+	if (status != _SUCCESS) {
-+		rtw_cancel_all_timer(padapter);
-+		rtw_free_drv_sw(padapter);
-+	}
- handle_dualmac:
- 	if (status != _SUCCESS)
- 		rtw_handle_dualmac(padapter, 0);
+ 	for (i = 0; i < f->index + 1; i++, index++)
 -- 
 2.30.2
 
