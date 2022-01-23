@@ -1,79 +1,106 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F5B2CA8
-	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 20:03:00 +0000 (UTC)
-Received: from localhost.localdomain ([37.4.249.169]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M89XH-1nGO2i3ux1-005F0Z; Sun, 23 Jan 2022 21:02:52 +0100
-From: Stefan Wahren <stefan.wahren@i2se.com>
-To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	Phil Elwell <phil@raspberrypi.com>,
-	Gaston Gonzalez <gascoar@gmail.com>,
-	linux-staging@lists.linux.dev,
-	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH 00/18] staging: vchiq_arm: minor adjustments
-Date: Sun, 23 Jan 2022 21:02:05 +0100
-Message-Id: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
-X-Mailer: git-send-email 2.7.4
-X-Provags-ID: V03:K1:/ggID+UUVAnVbdvkOfY5Z/fij2BhtO1k/eetAfhZBwMGDXjbJyc
- xW8ZjnevdM+udQ2UfcxUAWL09C4Ky5BP9XmRmV4LNCw/KY/+v1ngjW+GPIUFDyccX9qn92/
- HklsGkZdIJQUW+EvKotNpRdvLI2JqhHJXJS5cOgSSQlCEGidYfE2/+/3Gw54Q0aAwkoJBCB
- YUk79ISxnbSTdmMnnykpA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5dL0NeF8kjo=:M9c3YD6glIp78vADsBRYar
- xQWvI03EOy3XdHFHlBITyO/Oip+nAhEXE7dY8p3lUnaC0L88h/zJyLAOVcDL8pchDUySj1Rns
- /Gj6OPR/6v/AqDOlXMRaA5QB5GtyDmEql97iJxiuCYY4A/UFJgUVC1aXzL/FdDjyQwWY8dqgu
- u8x5ESeow4QHxbnQmY6FbanI+bVGJSC/ujwseQNRAy1GB560/CjffuxccFtX1Gyf92NPh2QmG
- 6try3X5wQAXeX2WJR6K0Qn8lRaWfo0Ituco5UzrJN2onET17OYLMw2MMq7SLkJcgRL3alSwpx
- EjwQbEZvEGVkFoX92Ep5qvevyw5+CcFYyMRk8jT/36oYK2r2prmDWrwiGekG1ogC5CTW9v03n
- utcAZt5A2g22f2P96xKKklidR/1oLlyaPeUwOhlH2ad9O9Xu5w3Tm2R8JRE9yZcd3t2sP8BM3
- Y+hURNQRT9n2vgqWQ9IQsnKL1HLncB664Mcnloiv140wbgQqDYbF/peFQKowk8oUFafqP0U1B
- BJSS2a0JUYMlfseknQtT4KCo6Jw79lK9Doac2e1Qno1pXmeD4A7DBH3jcvcIPLO0FSF5kRg+t
- iC8pYe41f5xZiKyfVPzFJH6wJawuGT4e5DyqtpxPwCpgzK2wlO4mRt6QOm6kTgsM1GX4Bfop8
- dHDd22Za0TT+O9y2OgqgdIpPHgMUylPbr9Gtn7ql3k93TpGmDWZ0FMGMGR5jVb9qrEyyATvbq
- MeLmPOl1ty7u0zdo
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B17329CA
+	for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 23:10:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD29AA15;
+	Mon, 24 Jan 2022 00:04:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1642979090;
+	bh=oRXijnjlbc6rg3Y2fSOFxHu51GuUHv+cYHsNAhLMCA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tv0TZEZzAvgw05R1Mz2Bm/Kw91rC2bpFLl865puTFQS1f3vIIqWTfS+A9P3X80ECW
+	 7L14TY0mt3m+kHd/ItG2fKaL/5WyoumSUPXmfzRJO8AdQM+0YKx8g5MfH7mtnA4Iv2
+	 XlDIL6fpTx0TnATVBXGBlgknNqRtAZpgIY0AuZJI=
+Date: Mon, 24 Jan 2022 01:04:34 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	mchehab@kernel.org, Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH v3] drivers: staging: media: omap4iss: Use BIT macro
+ instead of left shifting
+Message-ID: <Ye3fAuBFkuzesBTM@pendragon.ideasonboard.com>
+References: <20220121100837.337094-2-mosescb.dev@gmail.com>
+ <20220121105111.2651-1-mosescb.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220121105111.2651-1-mosescb.dev@gmail.com>
 
-This is a loose collection of small adjustments to the VCHIQ code 
-(mostly coding style, but also bugfixes).
+Hi Moses,
 
-Stefan Wahren (18):
-  staging: vchiq_core: fix indentation in vchiq_log_dump_mem
-  staging: vchiq_debugfs: get the rid of n_log_entries
-  staging: vchiq_arm: introduce is_adjacent_block
-  staging: vchiq: convert TODOs into unordered list
-  staging: vchiq: drop completed tasks from TODO
-  staging: vchiq: add message handling to TODO list
-  staging: vchiq_core: fix type of parameter localport
-  staging: vchiq_core: simplify vchiq_add_service_internal
-  staging: vchiq_core: align return statements in msg_type_str
-  staging: vchiq_core: drop prefix of vchiq_set_service_state
-  staging: vchiq_core: reduce multi-line statements
-  staging: vchiq_core: fix alignment
-  staging: vchiq_core: avoid ternary operator for set_service_state
-  staging: vchiq_core: use min_t macro
-  staging: vchiq_arm: make vchiq_get_state return early
-  staging: vchiq_arm: Avoid NULL ptr deref in
-    vchiq_dump_platform_instances
-  staging: vchiq_core: handle NULL result of find_service_by_handle
-  staging: vchiq_dev: Avoid unnecessary alloc in
-    vchiq_ioc_create_service
+Thank you for the patch.
 
- drivers/staging/vc04_services/interface/TODO       |  56 +++------
- .../vc04_services/interface/vchiq_arm/vchiq_arm.c  |  34 +++--
- .../vc04_services/interface/vchiq_arm/vchiq_core.c | 137 +++++++++------------
- .../vc04_services/interface/vchiq_arm/vchiq_core.h |   2 +-
- .../interface/vchiq_arm/vchiq_debugfs.c            |   4 +-
- .../vc04_services/interface/vchiq_arm/vchiq_dev.c  |   7 +-
- 6 files changed, 107 insertions(+), 133 deletions(-)
+On Fri, Jan 21, 2022 at 11:51:11AM +0100, Moses Christopher Bollavarapu wrote:
+> There is a BIT(nr) macro available in Linux Kernel,
+> which does the same thing.
+> 
+> Example:  1 << 7  is same as BIT(7)
+> 
+> Signed-off-by: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  V2 -> V3: Add Dan's Reviewed-by tag to commit message
+>  V1 -> V2: Use BIT(0) instead of 1
+> 
+>  drivers/staging/media/omap4iss/iss_video.h | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/staging/media/omap4iss/iss_video.h b/drivers/staging/media/omap4iss/iss_video.h
+> index 526281bf0051..1724ed03ce9d 100644
+> --- a/drivers/staging/media/omap4iss/iss_video.h
+> +++ b/drivers/staging/media/omap4iss/iss_video.h
+> @@ -53,19 +53,19 @@ enum iss_pipeline_stream_state {
+>  
+>  enum iss_pipeline_state {
+>  	/* The stream has been started on the input video node. */
+> -	ISS_PIPELINE_STREAM_INPUT = 1,
+> +	ISS_PIPELINE_STREAM_INPUT = BIT(0),
+>  	/* The stream has been started on the output video node. */
+> -	ISS_PIPELINE_STREAM_OUTPUT = (1 << 1),
+> +	ISS_PIPELINE_STREAM_OUTPUT = BIT(1),
+>  	/* At least one buffer is queued on the input video node. */
+> -	ISS_PIPELINE_QUEUE_INPUT = (1 << 2),
+> +	ISS_PIPELINE_QUEUE_INPUT = BIT(2),
+>  	/* At least one buffer is queued on the output video node. */
+> -	ISS_PIPELINE_QUEUE_OUTPUT = (1 << 3),
+> +	ISS_PIPELINE_QUEUE_OUTPUT = BIT(3),
+>  	/* The input entity is idle, ready to be started. */
+> -	ISS_PIPELINE_IDLE_INPUT = (1 << 4),
+> +	ISS_PIPELINE_IDLE_INPUT = BIT(4),
+>  	/* The output entity is idle, ready to be started. */
+> -	ISS_PIPELINE_IDLE_OUTPUT = (1 << 5),
+> +	ISS_PIPELINE_IDLE_OUTPUT = BIT(5),
+>  	/* The pipeline is currently streaming. */
+> -	ISS_PIPELINE_STREAM = (1 << 6),
+> +	ISS_PIPELINE_STREAM = BIT(6),
+>  };
+>  
+>  /*
+> @@ -119,9 +119,9 @@ struct iss_buffer {
+>  
+>  enum iss_video_dmaqueue_flags {
+>  	/* Set if DMA queue becomes empty when ISS_PIPELINE_STREAM_CONTINUOUS */
+> -	ISS_VIDEO_DMAQUEUE_UNDERRUN = (1 << 0),
+> +	ISS_VIDEO_DMAQUEUE_UNDERRUN = BIT(0),
+>  	/* Set when queuing buffer to an empty DMA queue */
+> -	ISS_VIDEO_DMAQUEUE_QUEUED = (1 << 1),
+> +	ISS_VIDEO_DMAQUEUE_QUEUED = BIT(1),
+>  };
+>  
+>  #define iss_video_dmaqueue_flags_clr(video)	\
 
 -- 
-2.7.4
+Regards,
 
+Laurent Pinchart
