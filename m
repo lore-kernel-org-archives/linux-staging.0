@@ -1,85 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF932CA7
-	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 20:36:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15638C340E7;
-	Mon, 24 Jan 2022 20:36:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1643056569;
-	bh=N6HkrGlOPhp/lfQrBU6OuWeAmsz4cFxje4P56uyHS08=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tMvS0u9vqPHiJmamtWo2hxIfeAM+s7Ecv0ZmZJ0nQZ3D9W1YwYkePQzqZdW43jJC/
-	 pfn1HewwRr0fGJ+xwd5Szt17yDi6vy2vdgPuuIuDHKlaCZuIULmPqLbZn9cVnX2nzn
-	 AtH4RV7t+kJEaz7frVA2Aebsq/f/78dU+4jAly/NqVY6WvAUtuMyruYuYh2yF/EwF4
-	 nhXr1MwoYKa6iexDzDGY+fGXeEWHH1cVD03wqebpbpxEwrgzZAcxu4mUZBDTrdMb4K
-	 albBIx6R0f/tPjsk7yittG9m7wqN75cGDYd3L2DxSO/JotyKF7DmJsKKXj/81iMtvq
-	 fD0RpJx+KWiuQ==
-Date: Mon, 24 Jan 2022 14:42:53 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Kees Cook <keescook@chromium.org>
-Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] staging: greybus: i2c: Use struct_size() helper in
- gb_i2c_operation_create()
-Message-ID: <20220124204253.GA11735@embeddedor>
-References: <20220121222250.GA73021@embeddedor>
- <202201241213.82E7D9F598@keescook>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1AB829CA
+	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 22:44:21 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id s9so532976wrb.6
+        for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 14:44:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aZhdR7WzThndblzZsr8d03scH0vKnQACS9be2wdEni8=;
+        b=r+JoXgviNYzPT9NLyF1ZN0EZpKKzUsI32D2OUkXsOXnGv/8yfSE8cHQ0ivUW/PVLqr
+         rq255ukBTU4Z8NnNoucRXFPDtyjPXsYKcjOmGdmIhki0d738Y+A9H0kcW0KHPmLuQkCG
+         H4513rfEGAc94GP2oaPUx7g1OHrbWNclgWU4jQVFe7kpJA3Nz/jps+AFh40Fe6vsRvq4
+         k1OFO3+19YSJP2GWDPN+oCtiI4MCstHNsKPdPvgIZgudWvCKJIaNyM9Tl8VD3Xg/OPDA
+         G1aBA3MPtgt6W86hwAZAiU/0ToC2ub8pATcVCdhj8EMCltPSUd+u8jiVpCzIcKMBKbva
+         U1/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aZhdR7WzThndblzZsr8d03scH0vKnQACS9be2wdEni8=;
+        b=bls8RPZ14feHBdpITGRoNvTIypFQIF2PSGb7zYq465XqWUiOrs2ULa5x58RO7UyPbz
+         COcM2rrTEHztCJQQPRcf+VtGQMw59SrKqM+WS6Mpd0Ao0LYdt31AcZsZeCfKvG2GiyyM
+         l+WfNTFzp8kSOhZy/cbm8fhQON+SsbLbTNRn9nEjNqBkDhzPV6IrWWjvxI7OTFx+kukQ
+         Hj1cM/xWjIPbMBFD6p46ehMeYO1R4GI5M17l57db+Gd/3Ez4v0xfIsK7NrCzpunOzdvp
+         qRgqMTrRbVkBhSqxEjf6KXqUbUJ0SyCQYYYYzAQ6XwsapxShfHG2++d/6lxgzwlph2Tl
+         474A==
+X-Gm-Message-State: AOAM531QU2T1Ft1qsHRbyItHBcuMwI8JmXYrEBVNOWRmzJh5BSEc5IpR
+	ETF/9Ix8bhnHFhSCigVXzWDrAg==
+X-Google-Smtp-Source: ABdhPJxcKyahmF6MlNwDoAkTtr7eAnTxLu5plcMBwLNt4+53GfA0dcQcZWzbUVK+cVwSV+DSx6JFwQ==
+X-Received: by 2002:adf:eb88:: with SMTP id t8mr15408011wrn.291.1643064260084;
+        Mon, 24 Jan 2022 14:44:20 -0800 (PST)
+Received: from localhost.localdomain (d.f.5.e.6.6.b.1.e.6.2.7.e.5.c.8.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0:8c5e:726e:1b66:e5fd])
+        by smtp.gmail.com with ESMTPSA id i3sm15010613wru.33.2022.01.24.14.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jan 2022 14:44:19 -0800 (PST)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@oracle.com,
+	Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com,
+	martin@kaiser.cx,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	paskripkin@gmail.com
+Subject: [PATCH 00/10] Cleanup and removal of DBG_88E macro
+Date: Mon, 24 Jan 2022 22:44:05 +0000
+Message-Id: <20220124224415.831-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202201241213.82E7D9F598@keescook>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 24, 2022 at 12:19:03PM -0800, Kees Cook wrote:
-> On Fri, Jan 21, 2022 at 04:22:50PM -0600, Gustavo A. R. Silva wrote:
-> > Make use of the struct_size() helper instead of an open-coded version,
-> > in order to avoid any potential type mistakes or integer overflows that,
-> > in the worst scenario, could lead to heap overflows.
-> > 
-> > Also, address the following sparse warnings:
-> > drivers/staging/greybus/i2c.c:111:24: warning: using sizeof on a flexible structure
-> > 
-> > Link: https://github.com/KSPP/linux/issues/174
-> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> > ---
-> >  drivers/staging/greybus/i2c.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/staging/greybus/i2c.c b/drivers/staging/greybus/i2c.c
-> > index de2f6516da09..9dfc6791c20e 100644
-> > --- a/drivers/staging/greybus/i2c.c
-> > +++ b/drivers/staging/greybus/i2c.c
-> > @@ -108,9 +108,7 @@ gb_i2c_operation_create(struct gb_connection *connection,
-> >  		else
-> >  			data_out_size += (u32)msg->len;
-> >  
-> > -	request_size = sizeof(*request);
-> > -	request_size += msg_count * sizeof(*op);
-> > -	request_size += data_out_size;
-> > +	request_size = struct_size(request, ops, msg_count) + data_out_size;
-> 
-> This could still overflow if struct_size() returns SIZE_MAX. Perhaps:
+This series does a few things in order to effect the removal of the
+DBG_88E macro:
 
-uggh... I got too excited with all the new cases reported. 
-> 
-> 	if (check_add_overflow(struct_size(request, ops, msg_count),
-> 			       data_out_size, &request_size))
-> 		request_size = SIZE_MAX;
+(1) It removes previously converted calls for consistency.
+(2) It removes all current DBG_88E calls.
+(3) It removes all aliased DBG_88E calls.
+(4) It removes the GlobalDebugLevel flag and the file that defines it.
 
-Yep; I'll respin and include this change, thanks!
-> 
-> I should brush off the saturating arithmetic helpers series:
-> https://lore.kernel.org/all/20210920180853.1825195-1-keescook@chromium.org/
+By its very nature, it is a large patchset, so I've tried to group as
+appropriate. I went by file as I did the work, which led to over 40
+patches originally, so I've listed the largest C files as their own
+patches and then grouped everything else by subdir which gives closer
+sizes for the other patches.
 
-Yeah; those helpers are very much needed in many places we need to audit...
+Phillip Potter (10):
+  staging: r8188eu: remove previously added dev_dbg and netdev_dbg calls
+  staging: r8188eu: remove smaller sets of DBG_88E calls from core dir
+  staging: r8188eu: remove DBG_88E calls from core/rtw_mlme_ext.c
+  staging: r8188eu: remove all DBG_88E calls from hal dir
+  staging: r8188eu: remove smaller sets of DBG_88E calls from os_dep dir
+  staging: r8188eu: remove DBG_88E calls from os_dep/ioctl_linux.c
+  staging: r8188eu: remove DBG_88E call from include/usb_ops.h
+  staging: r8188eu: remove all remaining aliased DBG_88E calls
+  staging: r8188eu: remove DBG_88E macro definition
+  staging: r8188eu: remove GlobalDebugLevel flag
 
---
-Gustavo
+ drivers/staging/r8188eu/Makefile              |   1 -
+ drivers/staging/r8188eu/core/rtw_ap.c         | 108 +----
+ drivers/staging/r8188eu/core/rtw_br_ext.c     |  59 +--
+ drivers/staging/r8188eu/core/rtw_cmd.c        |  12 +-
+ drivers/staging/r8188eu/core/rtw_ieee80211.c  |  37 +-
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c  |  15 +-
+ drivers/staging/r8188eu/core/rtw_iol.c        |  10 +-
+ drivers/staging/r8188eu/core/rtw_mlme.c       |  54 +--
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 343 +--------------
+ drivers/staging/r8188eu/core/rtw_p2p.c        |  61 +--
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    |  49 +--
+ drivers/staging/r8188eu/core/rtw_recv.c       |  73 +--
+ drivers/staging/r8188eu/core/rtw_security.c   |  19 +-
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c    |   6 -
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  | 102 +----
+ drivers/staging/r8188eu/core/rtw_xmit.c       |  62 +--
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   4 +-
+ drivers/staging/r8188eu/hal/hal_intf.c        |   3 -
+ drivers/staging/r8188eu/hal/odm_debug.c       |   6 -
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  43 +-
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  95 +---
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |   3 -
+ drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |   5 -
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |   8 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  62 +--
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |  31 +-
+ drivers/staging/r8188eu/include/rtw_br_ext.h  |   5 -
+ drivers/staging/r8188eu/include/rtw_debug.h   |   8 -
+ drivers/staging/r8188eu/include/usb_ops.h     |   5 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 416 +-----------------
+ drivers/staging/r8188eu/os_dep/mlme_linux.c   |   4 -
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  34 +-
+ .../staging/r8188eu/os_dep/osdep_service.c    |   2 -
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |  84 +---
+ .../staging/r8188eu/os_dep/usb_ops_linux.c    |  18 +-
+ drivers/staging/r8188eu/os_dep/xmit_linux.c   |   6 +-
+ 36 files changed, 166 insertions(+), 1687 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/hal/odm_debug.c
+
+-- 
+2.34.1
+
