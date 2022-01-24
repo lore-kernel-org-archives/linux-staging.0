@@ -1,40 +1,40 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5385C2CA8
-	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 03:45:07 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id f8so14112220pgf.8
-        for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 19:45:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160D0168
+	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 03:45:10 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id g2so14122240pgo.9
+        for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 19:45:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=o5goEzVTL8jcl0JNIqgZWIhooaVKAMAMA+en32+iljw=;
-        b=qP8cVR6TY+bklbJiYJNaATSc+XFaZvjghft5GhaE2ulpWRl+guuUEFPza8K10W0ANm
-         wM56kGzB6BG94XYS+N20Z4/t6UTjIqx2bcXV02DpPSol4omEiHPExrYbsbg7sIDarHEe
-         QeFAaKgYWXrGdo99Md4qnNcYMWWgQ7WW7KCKR7dxydbfjw1jEGR5/rDOtxE5XqYfnGCs
-         mT74LzASZhuRKjVuk3EoyAKwaM5Iw6nCXt6e79IQ6A2jecGo8U2+b2WCQURpqvVirltI
-         TuVU2j9DfRIRVrKZMyXGo91Y/wIPqcMJbHhoqFMpd8flbr2TrCo2OAJlzZOzLdFXzj+M
-         69zA==
+        bh=tb8ev88MIiS9qrS2N39+coBDw1ZgKiiPgwQGLIy8NO0=;
+        b=gh96JrdmAPsc3vo6qQxKFADlpyd8LFLO5olb3vqBrStdF45pW+n0QcSP602gA3hBEU
+         vrwHNLqoYKQBonkebuD1MwqDQcyL5qO1lMYU8hbac8rcOJHbhlsZGyKRw+UODPSXTTZx
+         yCgf0I0vJxh7/bI1SDb3TmNMuuVdaDWgvo9TTXFDBl/sn+Ncl6wsufslVow0wP9nMiMh
+         GxlLJ0NuIIwVTEWrjWm0kcxMfO8saGIbGaCK/ZrHSvfcWFqZsPXknCCsbK6B4Hdk5lqu
+         ZYMv5wGvg9DWSvUzW5r5/6l+e2mjtDfIYe6Z15qR9a9yRKBupmIY5i/JLxnWUQeeN4qq
+         GgIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=o5goEzVTL8jcl0JNIqgZWIhooaVKAMAMA+en32+iljw=;
-        b=kuZvccM13iNli7USPTlg44SZOmjlZsQnQkDBacwB8wN0JymRz56hHJz+aKTjrW/RTr
-         wLzcgSaiq1xOi++Ln1eJsLpKIyAKvynGm74mOPMJHpUyOqUzF5ZRUu6tI3/ItiR+5W0L
-         z94bXZ+XMjIXxE73Wb30El9g4tXeva/IUil3pEZHyTWV3bD42DskoK7XXap+KJNOQZOg
-         s7t8/IKlgSsyG9l9StNJ5D7AyxBYOvgLO1ZtSFDwAjdcBkFwFt2+1taccgVJ8Ywn6DJr
-         XBM6ECAW7emcV76EKzMxOGf3Joaorx46W33A8uKR7yPogsAWqe/iQj3Vzj2iE1s1+BRV
-         5ulQ==
-X-Gm-Message-State: AOAM5339YjNj0VvfYIltWnjEJIQfX4ViARu8y3sMb6DUqqutqiF9XSG3
-	zeu9ZcJRoW+xj6GwJ6ExlFa+kdFvTOSjaA==
-X-Google-Smtp-Source: ABdhPJxrtmYNC8f6EujWuQAHjiV04DUJZZgQCztAO28ohBunjINzlUDHQjO8glKft91l1wUzuZaQSg==
-X-Received: by 2002:a62:7602:0:b0:4c6:864b:6400 with SMTP id r2-20020a627602000000b004c6864b6400mr12604078pfc.14.1642995906830;
-        Sun, 23 Jan 2022 19:45:06 -0800 (PST)
+        bh=tb8ev88MIiS9qrS2N39+coBDw1ZgKiiPgwQGLIy8NO0=;
+        b=uk8uRzVkaB9pOnROov43EvA3pz8l6aQx8Og6gi8lns7dtFBNdoP6ZHApziPReZ19zZ
+         ui5SUCH7yYqO28V1oi6amx65SFxTeq90l/zJhlQm5lvxWeAUwzzlBhXG5Tm2ibYno3en
+         IQCq1I5O2Lb90NHUg0SyuMpict4LIfrSG4UcbSibYigfASBGRTm3NrVlmsQbif+QAirR
+         +ALS1ylztThqzUcgsnNeuNgCIM1kl7c+vhYVGU8XO2agjWWFSaKNkwOyA/BR833LIPTg
+         yq+xVWKcAVAJ4CiHlPDbOr3nSBXyqrraCP7xC+vDlLCN79PqXUPuXP16QWU37HdSt1cx
+         IGBA==
+X-Gm-Message-State: AOAM532f0iNGJMFeAkJFHBavUZIsd/nh39FOr2Uu4S9dwL14q+rVG31G
+	cRDupQifNCUjRtS8NwQHVUbKUmvdq6fDPQ==
+X-Google-Smtp-Source: ABdhPJxNnfREXnof87U37sNWFZ2xiV4qj18RlwYBQyDNpnGgxu5CdKxZB8dkppEQ/4BfzAznDv/Y4g==
+X-Received: by 2002:a05:6a00:b84:b0:4c8:fe03:94f8 with SMTP id g4-20020a056a000b8400b004c8fe0394f8mr3563911pfj.33.1642995909597;
+        Sun, 23 Jan 2022 19:45:09 -0800 (PST)
 Received: from localhost.localdomain ([27.7.142.194])
-        by smtp.gmail.com with ESMTPSA id p38sm9853390pgb.36.2022.01.23.19.45.04
+        by smtp.gmail.com with ESMTPSA id p38sm9853390pgb.36.2022.01.23.19.45.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jan 2022 19:45:06 -0800 (PST)
+        Sun, 23 Jan 2022 19:45:09 -0800 (PST)
 From: Jagath Jog J <jagathjog1996@gmail.com>
 To: gregkh@linuxfoundation.org,
 	hdegoede@redhat.com,
@@ -45,9 +45,9 @@ Cc: fabioaiuto83@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	jagathjog1996@gmail.com
-Subject: [Patch  2/3] Staging: rtl8723bs: Removed extra spaces between datatype and variable
-Date: Mon, 24 Jan 2022 09:14:55 +0530
-Message-Id: <20220124034456.8665-3-jagathjog1996@gmail.com>
+Subject: [Patch  3/3] Staging: rtl8723bs: Inserting blank line after declaration
+Date: Mon, 24 Jan 2022 09:14:56 +0530
+Message-Id: <20220124034456.8665-4-jagathjog1996@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220124034456.8665-1-jagathjog1996@gmail.com>
 References: <20220124034456.8665-1-jagathjog1996@gmail.com>
@@ -57,139 +57,58 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Fix following checkpatch.pl warning by placing single space between
-datatype and variable
-WARNING: please, no space before tabs
+Fix following checkpatch.pl warning by inserting blank line
+WARNING: Missing a blank line after declarations
 
 Signed-off-by: Jagath Jog J <jagathjog1996@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 54 ++++++++++++------------
- 1 file changed, 26 insertions(+), 28 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_intf.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index b28351a97cd3..14d37b369273 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -531,9 +531,9 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
- 	struct rtw_ieee80211_channel *ch, int ch_num)
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index 4868a69cdb8f..94ecefb9113d 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -181,6 +181,7 @@ void rtw_hal_disable_interrupt(struct adapter *padapter)
+ u8 rtw_hal_check_ips_status(struct adapter *padapter)
  {
- 	u8 res = _FAIL;
--	struct cmd_obj		*ph2c;
--	struct sitesurvey_parm	*psurveyPara;
--	struct cmd_priv 	*pcmdpriv = &padapter->cmdpriv;
-+	struct cmd_obj *ph2c;
-+	struct sitesurvey_parm *psurveyPara;
-+	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	u8 val = false;
++
+ 	if (padapter->HalFunc.check_ips_status)
+ 		val = padapter->HalFunc.check_ips_status(padapter);
  
- 	if (check_fwstate(pmlmepriv, _FW_LINKED))
-@@ -632,8 +632,8 @@ void rtw_getbbrfreg_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *p
- u8 rtw_createbss_cmd(struct adapter  *padapter)
+@@ -209,6 +210,7 @@ s32	rtw_hal_xmit(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ s32	rtw_hal_mgnt_xmit(struct adapter *padapter, struct xmit_frame *pmgntframe)
  {
- 	struct cmd_obj *pcmd;
--	struct cmd_priv 			*pcmdpriv = &padapter->cmdpriv;
--	struct wlan_bssid_ex		*pdev_network = &padapter->registrypriv.dev_network;
-+	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
-+	struct wlan_bssid_ex *pdev_network = &padapter->registrypriv.dev_network;
- 	u8 res = _SUCCESS;
- 
- 	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
-@@ -707,14 +707,14 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+ 	s32 ret = _FAIL;
++
+ 	update_mgntframe_attrib_addr(padapter, pmgntframe);
+ 	/* pframe = (u8 *)(pmgntframe->buf_addr) + TXDESC_OFFSET; */
+ 	/* pwlanhdr = (struct rtw_ieee80211_hdr *)pframe; */
+@@ -299,6 +301,7 @@ void rtw_hal_stop_thread(struct adapter *padapter)
+ u32 rtw_hal_read_bbreg(struct adapter *padapter, u32 RegAddr, u32 BitMask)
  {
- 	u8 res = _SUCCESS;
- 	uint	t_len = 0;
--	struct wlan_bssid_ex		*psecnetwork;
--	struct cmd_obj		*pcmd;
--	struct cmd_priv 	*pcmdpriv = &padapter->cmdpriv;
--	struct mlme_priv 	*pmlmepriv = &padapter->mlmepriv;
--	struct qos_priv 	*pqospriv = &pmlmepriv->qospriv;
-+	struct wlan_bssid_ex *psecnetwork;
-+	struct cmd_obj *pcmd;
-+	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-+	struct qos_priv *pqospriv = &pmlmepriv->qospriv;
- 	struct security_priv *psecuritypriv = &padapter->securitypriv;
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
--	struct ht_priv 		*phtpriv = &pmlmepriv->htpriv;
-+	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 	enum ndis_802_11_network_infrastructure ndis_network_mode = pnetwork->network.infrastructure_mode;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
-@@ -789,9 +789,9 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 	phtpriv->ht_option = false;
- 	ptmp = rtw_get_ie(&pnetwork->network.ies[12], WLAN_EID_HT_CAPABILITY, &tmp_len, pnetwork->network.ie_length-12);
- 	if (pregistrypriv->ht_enable && ptmp && tmp_len > 0) {
--		/* 	Added by Albert 2010/06/23 */
--		/* 	For the WEP mode, we will use the bg mode to do the connection to avoid some IOT issue. */
--		/* 	Especially for Realtek 8192u SoftAP. */
-+		/* Added by Albert 2010/06/23 */
-+		/* For the WEP mode, we will use the bg mode to do the connection to avoid some IOT issue. */
-+		/* Especially for Realtek 8192u SoftAP. */
- 		if ((padapter->securitypriv.dot11PrivacyAlgrthm != _WEP40_) &&
- 			(padapter->securitypriv.dot11PrivacyAlgrthm != _WEP104_) &&
- 			(padapter->securitypriv.dot11PrivacyAlgrthm != _TKIP_)) {
-@@ -897,12 +897,11 @@ u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infrast
- u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_key, bool enqueue)
+ 	u32 data = 0;
++
+ 	if (padapter->HalFunc.read_bbreg)
+ 		 data = padapter->HalFunc.read_bbreg(padapter, RegAddr, BitMask);
+ 	return data;
+@@ -312,6 +315,7 @@ void rtw_hal_write_bbreg(struct adapter *padapter, u32 RegAddr, u32 BitMask, u32
+ u32 rtw_hal_read_rfreg(struct adapter *padapter, u32 eRFPath, u32 RegAddr, u32 BitMask)
  {
- 	struct cmd_obj *ph2c;
--	struct set_stakey_parm	*psetstakey_para;
--	struct cmd_priv 			*pcmdpriv = &padapter->cmdpriv;
--	struct set_stakey_rsp		*psetstakey_rsp = NULL;
--
--	struct mlme_priv 		*pmlmepriv = &padapter->mlmepriv;
--	struct security_priv 	*psecuritypriv = &padapter->securitypriv;
-+	struct set_stakey_parm *psetstakey_para;
-+	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
-+	struct set_stakey_rsp *psetstakey_rsp = NULL;
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-+	struct security_priv *psecuritypriv = &padapter->securitypriv;
- 	u8 res = _SUCCESS;
- 
- 	psetstakey_para = rtw_zmalloc(sizeof(struct set_stakey_parm));
-@@ -957,9 +956,9 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
- u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueue)
+ 	u32 data = 0;
++
+ 	if (padapter->HalFunc.read_rfreg)
+ 		data = padapter->HalFunc.read_rfreg(padapter, eRFPath, RegAddr, BitMask);
+ 	return data;
+@@ -385,6 +389,7 @@ bool rtw_hal_c2h_valid(struct adapter *adapter, u8 *buf)
+ s32 rtw_hal_c2h_handler(struct adapter *adapter, u8 *c2h_evt)
  {
- 	struct cmd_obj *ph2c;
--	struct set_stakey_parm	*psetstakey_para;
--	struct cmd_priv 			*pcmdpriv = &padapter->cmdpriv;
--	struct set_stakey_rsp		*psetstakey_rsp = NULL;
-+	struct set_stakey_parm *psetstakey_para;
-+	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
-+	struct set_stakey_rsp *psetstakey_rsp = NULL;
- 	s16 cam_id = 0;
- 	u8 res = _SUCCESS;
- 
-@@ -1009,9 +1008,9 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
- 
- u8 rtw_addbareq_cmd(struct adapter *padapter, u8 tid, u8 *addr)
- {
--	struct cmd_priv 	*pcmdpriv = &padapter->cmdpriv;
-+	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 	struct cmd_obj *ph2c;
--	struct addBaReq_parm	*paddbareq_parm;
-+	struct addBaReq_parm *paddbareq_parm;
- 
- 	u8 res = _SUCCESS;
- 
-@@ -1228,8 +1227,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 	u16 BusyThreshold = BusyThresholdHigh;
- 	u8 bBusyTraffic = false, bTxBusyTraffic = false, bRxBusyTraffic = false;
- 	u8 bHigherBusyTraffic = false, bHigherBusyRxTraffic = false, bHigherBusyTxTraffic = false;
--
--	struct mlme_priv 	*pmlmepriv = &padapter->mlmepriv;
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 
- 	collect_traffic_statistics(padapter);
- 
-@@ -1409,7 +1407,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
- u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue)
- {
- 	struct cmd_obj	*ph2c;
--	struct drvextra_cmd_parm	*pdrvextra_cmd_parm;
-+	struct drvextra_cmd_parm *pdrvextra_cmd_parm;
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 	/* struct pwrctrl_priv *pwrctrlpriv = adapter_to_pwrctl(padapter); */
- 	u8 res = _SUCCESS;
+ 	s32 ret = _FAIL;
++
+ 	if (adapter->HalFunc.c2h_handler)
+ 		ret = adapter->HalFunc.c2h_handler(adapter, c2h_evt);
+ 	return ret;
 -- 
 2.17.1
 
