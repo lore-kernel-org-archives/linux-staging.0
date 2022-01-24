@@ -1,235 +1,189 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30FC168
-	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 04:27:26 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id n16-20020a17090a091000b001b46196d572so15399640pjn.5
-        for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 20:27:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806A529CA
+	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 06:49:57 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20O2TNBK026846;
+	Mon, 24 Jan 2022 06:49:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=bg7iHWAUAmnApD8+c8cP1Qzz5jvEkP9bfopd1nnY+4c=;
+ b=sFb3dbWkAW+9oaIbyEkUYExtMEPxWGRn8GRIiOPwzoVtVFVBvqARyO4Qb7WkjXp2VQ76
+ sROXN7Wrjrad7XjWuHEJuyNvEzBkBVq1od38rnx8GhmLjEpFjwL8Oy2UBPz/RCwLomEO
+ JsGka9skCczMCogJXuR/+2tepzgCe4Xpmv3v24QS0ZgFYdkTOe9JmXLFz2/1EeUP+cmZ
+ Xd0WetYMqYg2fTb7AJJqORW+0tHWrDalE1Rpr9AeIcT76v/iTFcq+n1z00A5DZ7axZtl
+ O8VuPhMbK32ap5IK1ObOGexzerjlojCZa4SqqWBvKU75VaJY1CluSTgMayFAKKyCfY6d tg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3dr9tb35bx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 24 Jan 2022 06:49:44 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20O6kMAg082055;
+	Mon, 24 Jan 2022 06:49:43 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
+	by userp3020.oracle.com with ESMTP id 3drbcju57t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 24 Jan 2022 06:49:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DAMFVJSNhoKIcWaY0ielpWEJVJ0eqk7/Ujh/UBvo/hrbEIMxqSJ0BiykCRIta0f/pAVuiQkLSfA1B01oDFNi5lUR0xGS0DP2WEG5tGwrM1Ma25iwFBQuoVpffn3JCQ14SrOH0k742VytSgTdHM3mNwjVB3nMzLRMPt73KNbF7Z60MAw/TfOMb8mAK7gM7xMjaBxWW/ckoUlAdArAZx1BGqRjwTnbxhkmLnR3sUPJWwbAkfWgmVVwHGitQHd/19QNBWzxpZY7tpj4hNp932YIx6PnrL193Ejvm5x7plVzRfjxIK4gJEYi7OU/GNcVGtctUt25nitAnM7toaYkrMEidA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bg7iHWAUAmnApD8+c8cP1Qzz5jvEkP9bfopd1nnY+4c=;
+ b=OHMsKzqIg8/coCF6fSWneEe5XQoqQSz+ABDsMozRmW+tADB6aULKVuDieP0RLn/9s+FPdxklJ7boaCccqbn/xqhO63rRmg0AWLMGoFuUuN906DpJ1XqFrqsureMbu4+vK2UMl6zGBm537GPGjEfW7gCrOO1IIEc3pXokosi265bRIc57nLUpHylVDP091tEpVJFnOb1CiD3E1mMoO4JfQ928bvBLoKChPIfSK21JEYiqBhLdKOFjRfabPT0N3SOrbdimM3ovIZpRFxrzxqJMzwPiGs5y3aCMYRQxPs4ZCsTLC9jBU+OCxDZ8t+o8qSaBN66RaqAEZOX/XEql0s9puA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to;
-        bh=svTekGvyDZ2bj2QSTavJFICPjSj2BK/HSxFtjLcNUZg=;
-        b=cj0eJduN2KD5xEDRexDuFEFl4CfVOoLVzYDtJOl6ELjecKQaraYubvOQIp/D4VOY7v
-         UXiZigrN4Yxe2fl431ykYdmnkNlqcUUs3NdayA6V22qLlplls/yxNcjFPZqaNT/xj53e
-         52NV5Ib7Y8zOJ3OAbkDz2TO9D7FGMCP0/HHX9dxHUzYj5sD0fmVwbBp5uzlGRD49lgmQ
-         bQHnFornUjHarm30lAbpt2/DNZJPsMBMvHrWroKKpHvrGrodTj7XH0v9wIQ3FexNMSU5
-         TDPxTbOGliqV3ns6VwnkwvAp9FOtk3poUVwbhbPkEtDASeOfwzdtLp5ymwDkwY/UE/wn
-         OSQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to;
-        bh=svTekGvyDZ2bj2QSTavJFICPjSj2BK/HSxFtjLcNUZg=;
-        b=OoBI1ZBVtvung2QU5TA3KnEZWUvZtllLEa8yh4NknoZi93JKpo8JcePp4x00hqd+hq
-         Lx04+XV5pOSIqbE7qcXMYmNweX7hveJMhtAfZUn5gjNA+6rF72Os3/yGyRP1HLC9INpN
-         pbUJmpuaWfLI8Uqpv0bO407Bsp2r2GwCUbdZfur3a+bNCzJVN1B3tVYN8dKMOxNVYTyO
-         iQM+a5Mn4XFOM1IwBVaWDBFS/n14RVG7vWwOgBCk0fmLcd3oBQSrsGMh1v+NkINp1lES
-         WLxJUXVPiy6oAcgjFa7YS2rtgMLVTg++upqwl1z21KmECUXVvogMYve3iW75iP1m0Yhg
-         oJ5Q==
-X-Gm-Message-State: AOAM5320PS5RK2lQ4K7fX8KMiDnmnGywtxkUPIylZImOwWbEAhgpyIUW
-	1qupHZsimrMaRv3ac+GKGyNc8DXyjOpEn+vu
-X-Google-Smtp-Source: ABdhPJwKJtczzDDaS0Jalw6m0S4Hj+FDST5vD3k+dEoP4A9L2yVgAJ4dVMz4b4B7Ef/4kbkBPUgj0g==
-X-Received: by 2002:a17:902:b40c:b0:14a:792:741f with SMTP id x12-20020a170902b40c00b0014a0792741fmr12884384plr.113.1642998446441;
-        Sun, 23 Jan 2022 20:27:26 -0800 (PST)
-Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id 189sm2875339pfg.142.2022.01.23.20.27.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jan 2022 20:27:26 -0800 (PST)
-Date: Mon, 24 Jan 2022 17:27:21 +1300
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
-	realwakka@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] staging: pi433: add debugfs interface
-Message-ID: <20220124042721.GA8078@mail.google.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bg7iHWAUAmnApD8+c8cP1Qzz5jvEkP9bfopd1nnY+4c=;
+ b=jXhQlzPovCEJm2rTWOKM2a0UjLAwtiIr8S8R8qiKIuW2mk+nW9T2TRkGq5Hvaisa3nJ87nPISg2A82t1l9F3Z6LOhFNdIkvrNtSPcswF+yCxkO969LvCS4gPJNRW4lR5ppdn/9wdpBPuUUvXGn1Vx75vL3hB2chD4jbuLBRbc84=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BN6PR10MB1556.namprd10.prod.outlook.com
+ (2603:10b6:404:3d::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.8; Mon, 24 Jan
+ 2022 06:49:40 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::c13b:5812:a403:6d96]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::c13b:5812:a403:6d96%6]) with mapi id 15.20.4909.017; Mon, 24 Jan 2022
+ 06:49:40 +0000
+Date: Mon, 24 Jan 2022 09:49:18 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Vihas Mak <makvihas@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+        Phillip Potter <phil@philpotter.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Michael Straube <straube.linux@gmail.com>,
+        Martin Kaiser <martin@kaiser.cx>, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: r8188eu: handle rtw_init_netdev_name()
+ failure appropriately
+Message-ID: <20220124064918.GR1951@kadam>
+References: <20220123181734.10402-1-makvihas@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220123181734.10402-1-makvihas@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0039.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::27)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220124042506.GA7662@mail.google.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 67eefe56-97c2-43c9-161f-08d9df05b16e
+X-MS-TrafficTypeDiagnostic: BN6PR10MB1556:EE_
+X-Microsoft-Antispam-PRVS: 
+	<BN6PR10MB15568CFEF0F7B75C163BE46F8E5E9@BN6PR10MB1556.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	uhaeoZy3O2HchMGhLtj9HJD7cALvtAPnSkoBDEuXylOgacJZ8pMxkZR8I/CCASjPFzcHtgYV4atGcP82HYd0doe8zjMkIsRKe1sYbTWkvdorlodke8tjXXxhvMrS5w9IoofrG1sh250FwVbfAO5YDCXk8fJI/UDiWsomYyzbUC/Xhrv0FF7YAEzGFwAigKoVGiUxI7geDfPAucW19CCv3fAXoUO7CmHmqE3G/oCG5N2aHfDzwmTJXj0zbycnstjMVEQInlfAAAmUcortLt8Fs7u5wQMy/PGhaXHF8tWBBgMLSOi2FGUFpM5MP4GoZ1lhBViitU6OMIU+bNoA7XawX8dX8zgyN9XbMHix7U1fcUGECG70GEvSqt8vdufiGR9X5cPnkmr6xzobTAy+twqi3jecLoBXDgyds8jGSB9Yg32E8fXhkvLKZCBTJMoejM5ftdSf+gCZfYFuifEZHDSBweh9utLjSSkNK0WL0vK34O92DyP9tfYPW2v6511uz0OnyDrw+5lrKFVlcwf2iBSrnaHGAzoH9RLjb1F24RY44zVSwWFAMORr14qZKiB1AaX/slHgNfMy4Nbvx4HSLQGUHMcgWqHgQjPtYLTGIXMZzdNWq7pNmXMStBTeB6YWu/mV6RT5O6sBUH0uwrLzePWZN+HOiqfv3PFHYyVSxn85JrkHkY/C4S5bpEtL2t6xLkQtFjrcZGzzGYfE80OIILyz+A==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(366004)(8936002)(6916009)(83380400001)(8676002)(44832011)(1076003)(508600001)(52116002)(316002)(38350700002)(86362001)(186003)(6506007)(54906003)(33656002)(66946007)(9686003)(2906002)(4326008)(6512007)(66556008)(26005)(6666004)(66476007)(38100700002)(33716001)(5660300002)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?41ICoxmT0e4Tx5QhF1Q6K4vVuvpQ1zofBc0QbvtU+myVEQKJNjceymhgiMLM?=
+ =?us-ascii?Q?s40Sc44lr8zwNdw7MCUvL6sMCFixsRnWrFxzttiMPmmx67fSqXNjeKTceWGD?=
+ =?us-ascii?Q?QqHGtCNJLvT1AUq9ogIK0G6fBPAOno/Hv36nd+F8FVvJynfXgbtd9JzG88tT?=
+ =?us-ascii?Q?EddfdfSBlTs57wE9x4+qhCvl6x5kM55Inp+uV0IX6fQT4PNhQAH+cPgLibuY?=
+ =?us-ascii?Q?O4tIHuftnQ7fJ08+i8DhO/jglgWVV71wVc9iC6zkPuzp2uo4QIEF/YrZ3h+S?=
+ =?us-ascii?Q?GVwjQ1GT9BlTWm71z7AdsqtQNHsztgYBPTuoeruP4NDNaWXIqmC3XLpsIXYc?=
+ =?us-ascii?Q?fuR8OziLHYAlkYLHuaoKslFtXkz/oEfasinzrv3t3WhUmaBJh3gnAzpbRy3o?=
+ =?us-ascii?Q?IcubmmcrgKIMgSyDxsaZ226VFe/xWWfyw4OQtA1w9rpVzRmwMIi6bAdZ+E+J?=
+ =?us-ascii?Q?OkFI81D8aWpqRM+mKXvASVnBe8Ys0mw8Qjav189shxacLc1xIwEYGRGEkFwb?=
+ =?us-ascii?Q?E0J/Vfzng6Cxi4200Lyw4/OfN/aJpzYrYRUXIUBj/k6YsxgFb7MhgARjwpBU?=
+ =?us-ascii?Q?3au4MxtmqLQ9IRk1ThdS2vWi8Ol3dNOXQ7d3uRD956x7EOlAJy3pdw+zc+un?=
+ =?us-ascii?Q?HfMJqYBJJu66Vppsu7VmNww9oBXhMpQSu1VJ5iHVtMxnOPGfxh2gA+B6+yCV?=
+ =?us-ascii?Q?VDS51TcJGqjuZDeDZAiRNKEEDsGTQ8xGv2Qn9UPRb5a4IeVJY6k93zXQz0M1?=
+ =?us-ascii?Q?wWg5BBXwBMWi7r8q5OCnbYUI0X7sHpQ1+8exgDcZxxzs7mzaxH5Yh+lXkRo8?=
+ =?us-ascii?Q?wg2LYTxE7EZUrTi0MBO02UpYZnEpsT12F0sDytfzUu+mYLUwPyvP9auygGM+?=
+ =?us-ascii?Q?3kuNEU0+gbIwdk5L5yQygg7QREsI8Lonp4TlVfreXDRaPP5Z0UGhLaT1DR/y?=
+ =?us-ascii?Q?Bxkzf02Kb9COCCBSMad0BSg3ut4r0geDXThG1PJTcX0FZOkuChJmXcDU8fxq?=
+ =?us-ascii?Q?X5Wjz8jlGuzghfDXaFGveGwdpQHw9TOzldBL2Yq2U1mNBtrG9prXQ+/pK4vY?=
+ =?us-ascii?Q?ifO8dFF/4e4km6SznoH0BlKqXTY3U78DFZrBiJDb5Z+D+k768yBluQtkq8CV?=
+ =?us-ascii?Q?/RFCmfc1RT+7DOFpPvssDEpfOYJ1K6hIWVSrpMHRFbz6miuDwBqkxEkEw0uU?=
+ =?us-ascii?Q?OXP8lWcsQxZ3tOZonZcOUlyScC/qZTtLJ8dHAxzpPvSvIhi0tz3fsXFAkLDb?=
+ =?us-ascii?Q?1yLCZF2y/xFaKCZzEzqECHmX0xLMxcx11tbd0SJGqOvkfx5UQLMNmDLeN7rA?=
+ =?us-ascii?Q?+dvxqPkPRHad+VUPj1o8gU62/63EFwHrIiJ4WW318AUA27qEOXwsD+3Qgz90?=
+ =?us-ascii?Q?kdhtEl+h2vMcDnfenbiWSJEDtvR/D84TlN0P+LLgpCL7kPrdkeo8HKWJ5rH1?=
+ =?us-ascii?Q?HOHjFb/Fhmvly1dGQPEW5wlbtrT/6/7mpJvhjTo1A8IxWHTZmH9zEiBrQ0y9?=
+ =?us-ascii?Q?WKD78PMlFONISsH2EIJZvLH91eT9i2R3Us+gaeDbGp6KoUeX3d0CdbpX9gEk?=
+ =?us-ascii?Q?0Wl+mA1VPQ/GyVHp3TVZ8PyoT0xEhu2UcmsFe37hg1FEvQcFhp8bvkcGdV8y?=
+ =?us-ascii?Q?71xvQWIL/tqjFjzt1GKp6xa+nmP0CIQxYPVP9AolgnnpMLU8vUyqDmV9xvxr?=
+ =?us-ascii?Q?EMgFdA=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67eefe56-97c2-43c9-161f-08d9df05b16e
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2022 06:49:40.0341
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: akWTvDXC/Ra67at0ulIAAptYtMCUirlsm1lJVvn96qLecvJDrCehPTZdvqnpbaiwe/ad0QpBePhw3aH4t1j7yETMoNfXw12KOjrWxFfCSPc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR10MB1556
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10236 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 malwarescore=0
+ spamscore=0 phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2201240044
+X-Proofpoint-GUID: MOtAv-DhGyeRnqzTKEWhohH_ttzFb0Ta
+X-Proofpoint-ORIG-GUID: MOtAv-DhGyeRnqzTKEWhohH_ttzFb0Ta
 
-This adds debugfs interface that can be used for debugging possible
-hardware/software issues.
+On Sun, Jan 23, 2022 at 11:47:35PM +0530, Vihas Mak wrote:
+> rtw_init_netdev_name() calls dev_alloc_name() which allocates the name
+> for the device as per the given name format.
+> The name format is specified by the module parameter "ifname".
+> It returns a negative err code if the format is invalid. Handle this
+> error appropriately.
+> Cancel the timers ininitliazed by rtw_init_drv_sw() before calling
+> rtw_free_drv_sw() and then proceed to free the adapter.
+> 
+> Also, if register_netdev() fails then goto free_drv_sw instead of
+> goto handle_dualmac.
+> 
+> Signed-off-by: Vihas Mak <makvihas@gmail.com>
+> ---
+> v1->v2:
+>     free the adapter and netdev instead of warning the user about 
+>     allocation failure.
 
-It currently exposes the following debugfs entries for each SPI device
-probed:
+Thanks!
 
-  /sys/kernel/debug/pi433/<DEVICE>/regs
-  ...
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-The 'regs' file contains all rf69 uC registers values that are useful
-for troubleshooting misconfigurations between 2 devices. It contains one
-register per line so it should be easy to use normal filtering tools to
-find the registers of interest if needed.
+Of course, all this code is staging code and terrible.  This function
+is needlessly difficult to read/review.
 
-Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
----
- drivers/staging/pi433/pi433_if.c | 80 ++++++++++++++++++++++++++++++++
- drivers/staging/pi433/rf69.c     |  2 +-
- drivers/staging/pi433/rf69.h     |  1 +
- 3 files changed, 82 insertions(+), 1 deletion(-)
+TODO: re-write probe error handling
 
-diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-index 17ff51f6a9da..54bb2af2c2ea 100644
---- a/drivers/staging/pi433/pi433_if.c
-+++ b/drivers/staging/pi433/pi433_if.c
-@@ -41,6 +41,8 @@
- #ifdef CONFIG_COMPAT
- #include <linux/compat.h>
- #endif
-+#include <linux/debugfs.h>
-+#include <linux/seq_file.h>
- 
- #include "pi433_if.h"
- #include "rf69.h"
-@@ -1102,11 +1104,77 @@ static const struct file_operations pi433_fops = {
- 	.llseek =	no_llseek,
- };
- 
-+static int pi433_debugfs_regs_show(struct seq_file *m, void *p)
-+{
-+	struct pi433_device *dev;
-+	u8 reg_data[114];
-+	size_t i;
-+	char *fmt = "0x%02x, 0x%02x\n";
-+
-+	dev = m->private;
-+
-+	// acquire locks to avoid race conditions
-+	mutex_lock(&dev->tx_fifo_lock);
-+	mutex_lock(&dev->rx_lock);
-+
-+	// wait for on-going operations to finish
-+	if (dev->tx_active)
-+		wait_event_interruptible(dev->rx_wait_queue, !dev->tx_active);
-+
-+	if (dev->rx_active)
-+		wait_event_interruptible(dev->tx_wait_queue, !dev->rx_active);
-+
-+	// read contiguous regs
-+	// skip FIFO register (0x0) otherwise this can affect some of uC ops
-+	for (i = 1; i < 0x50; i++)
-+		reg_data[i] = rf69_read_reg(dev->spi, i);
-+
-+	// read non-contiguous regs
-+	reg_data[REG_TESTLNA] = rf69_read_reg(dev->spi, REG_TESTLNA);
-+	reg_data[REG_TESTPA1] = rf69_read_reg(dev->spi, REG_TESTPA1);
-+	reg_data[REG_TESTPA2] = rf69_read_reg(dev->spi, REG_TESTPA2);
-+	reg_data[REG_TESTDAGC] = rf69_read_reg(dev->spi, REG_TESTDAGC);
-+	reg_data[REG_TESTAFC] = rf69_read_reg(dev->spi, REG_TESTAFC);
-+
-+	seq_puts(m, "# reg, val\n");
-+
-+	// print contiguous regs
-+	for (i = 1; i < 0x50; i++)
-+		seq_printf(m, fmt, i, reg_data[i]);
-+
-+	// print non-contiguous regs
-+	seq_printf(m, fmt, REG_TESTLNA, reg_data[REG_TESTLNA]);
-+	seq_printf(m, fmt, REG_TESTPA1, reg_data[REG_TESTPA1]);
-+	seq_printf(m, fmt, REG_TESTPA2, reg_data[REG_TESTPA2]);
-+	seq_printf(m, fmt, REG_TESTDAGC, reg_data[REG_TESTDAGC]);
-+	seq_printf(m, fmt, REG_TESTAFC, reg_data[REG_TESTAFC]);
-+
-+	// release locks
-+	mutex_unlock(&dev->tx_fifo_lock);
-+	mutex_unlock(&dev->rx_lock);
-+
-+	return 0;
-+}
-+
-+static ssize_t pi433_debugfs_regs_open(struct inode *inode, struct file *filp)
-+{
-+	return single_open(filp, pi433_debugfs_regs_show, inode->i_private);
-+}
-+
-+static const struct file_operations debugfs_fops = {
-+	.llseek =	seq_lseek,
-+	.open =		pi433_debugfs_regs_open,
-+	.owner =	THIS_MODULE,
-+	.read =		seq_read,
-+	.release =	single_release
-+};
-+
- /*-------------------------------------------------------------------------*/
- 
- static int pi433_probe(struct spi_device *spi)
- {
- 	struct pi433_device	*device;
-+	struct dentry		*entry; /* debugfs */
- 	int			retval;
- 
- 	/* setup spi parameters */
-@@ -1256,6 +1324,11 @@ static int pi433_probe(struct spi_device *spi)
- 	/* spi setup */
- 	spi_set_drvdata(spi, device);
- 
-+	/* debugfs setup */
-+	entry = debugfs_create_dir(dev_name(device->dev),
-+				   debugfs_lookup(KBUILD_MODNAME, NULL));
-+	debugfs_create_file("regs", 0400, entry, device, &debugfs_fops);
-+
- 	return 0;
- 
- del_cdev:
-@@ -1279,6 +1352,10 @@ static int pi433_probe(struct spi_device *spi)
- static int pi433_remove(struct spi_device *spi)
- {
- 	struct pi433_device	*device = spi_get_drvdata(spi);
-+	struct dentry *mod_entry = debugfs_lookup(KBUILD_MODNAME, NULL);
-+
-+	/* debugfs */
-+	debugfs_remove(debugfs_lookup(dev_name(device->dev), mod_entry));
- 
- 	/* free GPIOs */
- 	free_gpio(device);
-@@ -1353,6 +1430,8 @@ static int __init pi433_init(void)
- 		return PTR_ERR(pi433_class);
- 	}
- 
-+	debugfs_create_dir(KBUILD_MODNAME, NULL);
-+
- 	status = spi_register_driver(&pi433_spi_driver);
- 	if (status < 0) {
- 		class_destroy(pi433_class);
-@@ -1370,6 +1449,7 @@ static void __exit pi433_exit(void)
- 	spi_unregister_driver(&pi433_spi_driver);
- 	class_destroy(pi433_class);
- 	unregister_chrdev(MAJOR(pi433_dev), pi433_spi_driver.driver.name);
-+	debugfs_remove_recursive(debugfs_lookup(KBUILD_MODNAME, NULL));
- }
- module_exit(pi433_exit);
- 
-diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-index d60514a840c2..b1a3382f4042 100644
---- a/drivers/staging/pi433/rf69.c
-+++ b/drivers/staging/pi433/rf69.c
-@@ -24,7 +24,7 @@
- 
- /*-------------------------------------------------------------------------*/
- 
--static u8 rf69_read_reg(struct spi_device *spi, u8 addr)
-+u8 rf69_read_reg(struct spi_device *spi, u8 addr)
- {
- 	int retval;
- 
-diff --git a/drivers/staging/pi433/rf69.h b/drivers/staging/pi433/rf69.h
-index c25942f142a6..3ff5609ecf2e 100644
---- a/drivers/staging/pi433/rf69.h
-+++ b/drivers/staging/pi433/rf69.h
-@@ -17,6 +17,7 @@
- #define FIFO_SIZE	66		/* bytes */
- #define FIFO_THRESHOLD	15		/* bytes */
- 
-+u8 rf69_read_reg(struct spi_device *spi, u8 addr);
- int rf69_get_version(struct spi_device *spi);
- int rf69_set_mode(struct spi_device *spi, enum mode mode);
- int rf69_set_data_mode(struct spi_device *spi, u8 data_mode);
--- 
-2.25.4
+Step 1: Keep the success path and error path separate.
+
+-	status = _SUCCESS;
++	return padapter;
+
+Step 2: Eliminate do-nothing-gotos.  s/goto exit/return NULL/
+
+Step 3: Delete the vfree(pnpi->priv); from rtw_free_netdev() and call
+        vfree(pnpi->priv); from probe and rtw_usb_if1_deinit() instead.
+        Avoid a layering violation.
+
+Step 4: Every allocation function needs a matching free function.  Move
+        the rtw_cancel_all_timer() into the rtw_free_drv_sw() function.
+        Open coding it is a layering violation.
+
+Step 5: Get rid of the rtw_handle_dualmac() function.  It has a bad
+        name and a global variable.  What is the point of this function?
+
+But that stuff is for later patches.
+
+regards,
+dan carpenter
 
