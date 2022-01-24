@@ -1,41 +1,41 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382692CA8
-	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 02:31:49 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id r16so12614967ile.8
-        for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 18:31:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB192CA8
+	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 02:31:51 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id d188so3437774iof.7
+        for <linux-staging@lists.linux.dev>; Sun, 23 Jan 2022 18:31:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mMhTEWTe94/lxvR3iguUuMULiaaMgsYkOT2qY7s3xZk=;
-        b=iJ2k95ZXWZirEU8bh7HgcSE0cLcZLG8UBsmAXLbZx9hvWK1MtzagTzps3fE9ud0Dt6
-         3dl1qjaI1gdmN1GxlYJXDkE+uXmsTyZazE2HLsJBU2WJoAIVn6+MJ58eC6ct/1/5xQzA
-         6sQTNCiu8F5Ijk7PTZpf8seB/5qcxwqwEuEs2RqnJCB6yEIXvGk6C/yTlt65lnn28k1J
-         Z1EdyWuI5GQSnSzct51pe3r/ejd2W0/roNplZDbgIOIDwBczinrOcMrEHFYfXRpW1z4C
-         SbRx4kyUvDow7ajO+pSP+CLVWn283R3l8Q0ow0zy3VNtA4K8Cs2LaTFD+TY2kKd7ZZwa
-         ISkA==
+        bh=wM27uiC4jZN6SIACqztmxLT6jE1eUS0JxDrZiiXzyRg=;
+        b=OeEzUz+xSnEJ37CVSWNU73LKZ0yZoFVZW300ZrxE0zAlrUsF5B00SQDxDtIgduR0qe
+         wjo+DFeHXaKCvIpUxXIFbK4SgqgFafQY2aFDBZtoanjokOm2VxhV7DApE36kYOI+qqk3
+         qXdObbAmy7fUyTuApsbsl8TCJxZuO/SnVDPIuV+Dstc4lZg2GlxRZUcgU9Y20Hji7HZ4
+         wzL/MIagejiycvC0z9eb39TB+hjzYvTywl7dF52F2Q+xmkcVkngQAHohfaqN2TiMSoKF
+         kqZB5Unnk90Jlk5hThs1ymZYgncn4s9DwQzGWnmiI/JdMHdhBPu4x4TEj4WuUQ6wN4cS
+         uOtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mMhTEWTe94/lxvR3iguUuMULiaaMgsYkOT2qY7s3xZk=;
-        b=R/ZhPkZTtCdk5JL0qLJLXUmQrnrP6I6x6ZAR/SV6Hw1cd8K7tshbK1eUBf++2Z8Syr
-         1j3cHCem3WNbZXj1pPkF4NT9SsVjYt4K8a0z8b4UUGA6r6/hJwRTdffd0Zg8sMUArY1h
-         GM3uaIQcwqaVf2xGjgg2fU4MLM2e1XUCUPpuYj5jLBSiEIZrvtPI337RZozLH1Kqwr3D
-         Loq+/g14J0an2vHJnhnIH9iUnJMLT6QzyebG+AwO6nJCxQVc1zrJZ5rcTX5Zqeltt0r3
-         E//4Udb18g1OlDF+PTU8AmTkX4iKPsh88TPkw3ymqdp4qaOikON2LcKCuxWT2Y942bM0
-         W7oA==
-X-Gm-Message-State: AOAM530HaELM2nyvEqgjsUlMOOZ/LgTsnQZ3nti8Zs+m42KV3Vf60aMN
-	fAsAbY97o0GKR3RmZ0jgmfY=
-X-Google-Smtp-Source: ABdhPJwHTfqTsXF+kZcb3xdm1e8LTE53DcTCXSzva0z9kKf4O8RhDcx2Gr+M5yR2Za1D9tLhQp22Hg==
-X-Received: by 2002:a05:6e02:c71:: with SMTP id f17mr7680778ilj.309.1642991508220;
-        Sun, 23 Jan 2022 18:31:48 -0800 (PST)
+        bh=wM27uiC4jZN6SIACqztmxLT6jE1eUS0JxDrZiiXzyRg=;
+        b=W7MnTblTWF4/yeuuRd24cm8eAGtIq6rVRb0p3O/gbLd9ey52hqgoiD/bkc4VRd+frp
+         AiQbS+BXQ+a9Kj2nYxFsvkgOKbs+BrYCEdZHtes3gcOwdZrakzjaXmdNDhvK/gViVoX+
+         KHif6UhBvjujFspZjjooyusqfjbBrSCybDbxYhKIu2E8+pSYuK/ncE5jtoHtZ1NSbKos
+         Ag49nOgooj8VX1P3+MsSeAtwKIgVyxz97lUx1Vx8j+4ldEGywmb4ZUTdAxvBUwhCwuTq
+         vr8OokPimKxpcKbnGJ7vTGV64xm64gwl/bWCjMQLiwz8Gkejk4dvfzxpqVYYjwkplTWT
+         K+6A==
+X-Gm-Message-State: AOAM532KRzEjQMJz4N+g61hnYwZ2AGFpZdQR7TvDQZsD7FuSFFSuXWwN
+	GGTKjJpcVg0OujeQo14ArhY=
+X-Google-Smtp-Source: ABdhPJwVCAXerAQEZRw1wksjIQuYDlek3Gm5nUOSoAy/LVpBfHxOaxA2QAELIH/ZTZREKTlcu6u43w==
+X-Received: by 2002:a02:3904:: with SMTP id l4mr5957775jaa.161.1642991510607;
+        Sun, 23 Jan 2022 18:31:50 -0800 (PST)
 Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:582d:ad0e:e5a6:94b6])
-        by smtp.gmail.com with ESMTPSA id w4sm6625633ilq.56.2022.01.23.18.31.46
+        by smtp.gmail.com with ESMTPSA id w4sm6625633ilq.56.2022.01.23.18.31.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jan 2022 18:31:47 -0800 (PST)
+        Sun, 23 Jan 2022 18:31:50 -0800 (PST)
 From: Adam Ford <aford173@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: linux-arm-kernel@lists.infradead.org,
@@ -56,9 +56,9 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH V3 07/10] arm64: dts: imx8mm: Fix VPU Hanging
-Date: Sun, 23 Jan 2022 20:31:21 -0600
-Message-Id: <20220124023125.414794-8-aford173@gmail.com>
+Subject: [PATCH V3 08/10] dt-bindings: media: nxp, imx8mq-vpu: Add support for G1 on imx8mm
+Date: Sun, 23 Jan 2022 20:31:22 -0600
+Message-Id: <20220124023125.414794-9-aford173@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220124023125.414794-1-aford173@gmail.com>
 References: <20220124023125.414794-1-aford173@gmail.com>
@@ -70,25 +70,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The vpumix power domain has a reset assigned to it, however
-when used, it causes a system hang.  Testing has shown that
-it does not appear to be needed anywhere.
+The i.MX8M mini appears to have a similar G1 decoder but the
+post-processing isn't present, so different compatible flag is required.
+Since all the other parameters are the same with imx8mq, just add
+the new compatible flag to nxp,imx8mq-vpu.yaml.
 
-Fixes: d39d4bb15310 ("arm64: dts: imx8mm: add GPC node")
 Signed-off-by: Adam Ford <aford173@gmail.com>
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-index f77f90ed416f..0c7a72c51a31 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-@@ -707,7 +707,6 @@ pgc_vpumix: power-domain@6 {
- 						clocks = <&clk IMX8MM_CLK_VPU_DEC_ROOT>;
- 						assigned-clocks = <&clk IMX8MM_CLK_VPU_BUS>;
- 						assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_800M>;
--						resets = <&src IMX8MQ_RESET_VPU_RESET>;
- 					};
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+index 9c28d562112b..7dc13a4b1805 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+@@ -5,7 +5,7 @@
+ $id: "http://devicetree.org/schemas/media/nxp,imx8mq-vpu.yaml#"
+ $schema: "http://devicetree.org/meta-schemas/core.yaml#"
  
- 					pgc_vpu_g1: power-domain@7 {
+-title: Hantro G1/G2 VPU codecs implemented on i.MX8MQ SoCs
++title: Hantro G1/G2 VPU codecs implemented on i.MX8M SoCs
+ 
+ maintainers:
+   - Philipp Zabel <p.zabel@pengutronix.de>
+@@ -20,6 +20,7 @@ properties:
+         deprecated: true
+       - const: nxp,imx8mq-vpu-g1
+       - const: nxp,imx8mq-vpu-g2
++      - const: nxp,imx8mm-vpu-g1
+ 
+   reg:
+     maxItems: 1
 -- 
 2.32.0
 
