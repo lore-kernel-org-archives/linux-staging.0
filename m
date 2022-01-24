@@ -1,28 +1,28 @@
 Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EE92C82
-	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 13:02:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1643029336; cv=none; 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156802CB8
+	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 13:02:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1643029340; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=UdYWdi0qG4StOokBvt+2nBXIcce/ib7UqASoLIr5Iu2Qm6gux3gcfHLZWfxcAgWcSBKSI4fBvR6KVhPooc39Os+Bus+cZW6dCoG989VRyfgEod4iFq+/Acw6XILUMF4EP42yxDt+kXawueUW03OKbSglNltAjseORAIVSvkOmyk=
+	b=Ri4ihh6OH3mtRoCGc7TDPEbW0cOGT3nqpBa7qeTJ1PeUPTzf5TasOkWIbqmfYkRZTA72/HO2OcxJQl5QxMoBLUpIoweexOYWxFFOPz8DbTvPdNfwnHfV3jywSnUoH9z53kBqXO/YAzu7B684N/NR+HDK65XI/ym+U1AC2/V11YM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1643029336; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=uIXZa/x2uQtFs7sWVctnPkAsGWGbs+goD+F0fUPfYBo=; 
-	b=W0OpZvSCVwAWfQqv3ewT2LCNLTgN28odXMR7yiIIEouTbDaS0Mfuz7kPoLiudMLQTSL2W5CMrX4t9O9hYKxKxR1VsuLg9YXBUBpzNCRA5shcJmQqMyLTIYGeFLzvFKwBw32xD/Q6b3PUIX/xoTA4MPtXL8+AZJx2LOvkO+wL59s=
+	t=1643029340; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=m8YqoVp25S994BPcuNFbPKVmwC/AY4m4bDgbC/f45w8=; 
+	b=ZLMEE1uJa3+lHB7I+Pc7EXERHLVU1setFIxlW3mTF8pEInZwukx//54oI+UDiNFueZRhJRfsosJ2ARdbmcr9BaMxPLkpXg+f8TX9Zvbq2dc6R5dVgP9BLUZB+cVbNVxdu45FZDwgt9dTiCK6VuGnVj0CSyUf468rpJ9Ienp8kIE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=arinc9.com;
 	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
 	dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1643029336;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1643029340;
 	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=uIXZa/x2uQtFs7sWVctnPkAsGWGbs+goD+F0fUPfYBo=;
-	b=e092NBegJWz4qJ9fUxNdXj8nkUzJXlKXhRBIHS+XuFCX01wGks34kkGl5iDVcedO
-	hmMXz48ucE1r2L+NZzyIJJMATv2ler6D6qCYBYjhgz+y/2eyaL/i0TzqpUDPWikgX4K
-	HelsJOEQsjO6NflUwJZ9piFvWZ+CpkAb4L0jva6I=
+	bh=m8YqoVp25S994BPcuNFbPKVmwC/AY4m4bDgbC/f45w8=;
+	b=Qel5w48WS6DQvE7/XvQrfQJA3G1gEhO6Dr8VXxzHcq9sx5+tq1ncWhXzHbQiDLKL
+	BrTdNtFJhgSBtBfBJApA8rrlbcVagv1piEDYxYACq7ETrTsbssaxjDF0bYScb/uBhht
+	dxH0jLY2B2/eHFuMI2NpQC3JuYz9gHeiUXk6E8io=
 Received: from arinc9-PC.localdomain (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
-	with SMTPS id 164302933529316.6934989459603; Mon, 24 Jan 2022 05:02:15 -0800 (PST)
+	with SMTPS id 1643029339083379.77231906722295; Mon, 24 Jan 2022 05:02:19 -0800 (PST)
 From: =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
 To: Greg KH <gregkh@linuxfoundation.org>,
 	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
@@ -33,9 +33,9 @@ To: Greg KH <gregkh@linuxfoundation.org>,
 	erkin.bozoglu@xeront.com
 Cc: linux-staging@lists.linux.dev,
 	=?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-Subject: [PATCH v2 3/4] staging: mt7621-dts: use trgmii on gmac0 and enable flow control on port@6
-Date: Mon, 24 Jan 2022 16:01:46 +0300
-Message-Id: <20220124130147.8043-4-arinc.unal@arinc9.com>
+Subject: [PATCH v2 4/4] staging: mt7621-dts: fix pinctrl properties for ethernet
+Date: Mon, 24 Jan 2022 16:01:47 +0300
+Message-Id: <20220124130147.8043-5-arinc.unal@arinc9.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220124130147.8043-1-arinc.unal@arinc9.com>
 References: <20220124130147.8043-1-arinc.unal@arinc9.com>
@@ -49,37 +49,83 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Change phy-mode of gmac0 to trgmii to match the other side, port@6.
+Add pinctrl properties with rgmii1 & mdio pins under ethernet node which
+was wrongfully put under an external phy node.
+GMAC1 will start working with this fix.
 
-Flow control needs to be enabled on both sides to work.
-It is already enabled on gmac0, enable it on port@6 too.
+Link: https://lore.kernel.org/netdev/02ecce91-7aad-4392-c9d7-f45ca1b31e0b@arinc9.com/T/
+
+Move GB-PC2 specific phy_external node to its own device tree.
 
 Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
 ---
- drivers/staging/mt7621-dts/mt7621.dtsi | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/mt7621-dts/gbpc2.dts   | 16 +++++++++++-----
+ drivers/staging/mt7621-dts/mt7621.dtsi | 13 +++----------
+ 2 files changed, 14 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/staging/mt7621-dts/gbpc2.dts b/drivers/staging/mt7621-dts/gbpc2.dts
+index 6fe603c7711d..03d6bb6735ac 100644
+--- a/drivers/staging/mt7621-dts/gbpc2.dts
++++ b/drivers/staging/mt7621-dts/gbpc2.dts
+@@ -13,10 +13,16 @@ &default_gpio {
+ 	function = "gpio";
+ };
+ 
+-&gmac1 {
+-	status = "ok";
+-};
++&ethernet {
++	gmac1: mac@1 {
++		status = "ok";
++		phy-handle = <&phy_external>;
++	};
+ 
+-&phy_external {
+-	status = "ok";
++	mdio-bus {
++		phy_external: ethernet-phy@5 {
++			reg = <5>;
++			phy-mode = "rgmii-rxid";
++		};
++	};
+ };
 diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 35f19d6ae4bd..489754f6ed77 100644
+index 489754f6ed77..38ab6447756a 100644
 --- a/drivers/staging/mt7621-dts/mt7621.dtsi
 +++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -328,7 +328,7 @@ ethernet: ethernet@1e100000 {
+@@ -325,6 +325,9 @@ ethernet: ethernet@1e100000 {
+ 
+ 		mediatek,ethsys = <&sysc>;
+ 
++		pinctrl-names = "default";
++		pinctrl-0 = <&rgmii1_pins &rgmii2_pins &mdio_pins>;
++
  		gmac0: mac@0 {
  			compatible = "mediatek,eth-mac";
  			reg = <0>;
--			phy-mode = "rgmii";
-+			phy-mode = "trgmii";
+@@ -342,22 +345,12 @@ gmac1: mac@1 {
+ 			reg = <1>;
+ 			status = "off";
+ 			phy-mode = "rgmii-rxid";
+-			phy-handle = <&phy_external>;
+ 		};
  
- 			fixed-link {
- 				speed = <1000>;
-@@ -412,6 +412,7 @@ port@6 {
- 						fixed-link {
- 							speed = <1000>;
- 							full-duplex;
-+							pause;
- 						};
- 					};
- 				};
+ 		mdio-bus {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 
+-			phy_external: ethernet-phy@5 {
+-				status = "off";
+-				reg = <5>;
+-				phy-mode = "rgmii-rxid";
+-
+-				pinctrl-names = "default";
+-				pinctrl-0 = <&rgmii2_pins>;
+-			};
+-
+ 			switch0: switch0@0 {
+ 				compatible = "mediatek,mt7621";
+ 				reg = <0>;
 -- 
 2.25.1
 
