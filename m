@@ -1,47 +1,71 @@
-Received: from mail.portyid.pl (mail.portyid.pl [192.36.61.58])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EC8173
-	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 09:21:15 +0000 (UTC)
-Received: by mail.portyid.pl (Postfix, from userid 1001)
-	id 51AE34134F; Mon, 24 Jan 2022 10:11:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=portyid.pl; s=mail;
-	t=1643015483; bh=+PMi7irkA4XlRgpdW2HqpqcJeZNxKGysf407T0katTE=;
-	h=Date:From:To:Subject:From;
-	b=guQ3HUqzL3iDjjPCqEzTGNHj7egcDOmiWENKFZ8Lykh9INFG7M1wt5BSJ+dElGG9J
-	 kPxumIXySTO15VNzH2+Sw261BocgfoOViqXq0dRcgItOa3NM7lIruK3sUr2veRgB3K
-	 YAgiiLP/DxiZHFyaf8duztamk0oyIr0gwDSrIRF8X1HXoj9lIHvERy8pTU6Xc//c6p
-	 METZLmeNa5ISYvEaMtyX936BT0sKK4ubz2VxvzImsbaoea2T3/EttpnmOqjV9rW+UU
-	 XEiUiKKPdzKiYnz9VMGUq9sjqd2tWPeju5aD6KlCA768Yh5ybEgPKrr8WRkkr3aPJl
-	 QeEfjReFX/otA==
-Received: by mail.portyid.pl for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 09:11:00 GMT
-Message-ID: <20220124084500-0.1.1b.5fkc.0.a2jz1wf17g@portyid.pl>
-Date: Mon, 24 Jan 2022 09:11:00 GMT
-From: =?UTF-8?Q?"Pawe=C5=82_Jasi=C5=84ski"?= <pawel.jasinski@portyid.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: Fotowoltaika - nowe warunki
-X-Mailer: mail.portyid.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A77173
+	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 09:52:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D6B8C340E1;
+	Mon, 24 Jan 2022 09:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1643017935;
+	bh=vUoWMLoJ92jY8f9yzXk9E50pdajanomuGshJBU59A4E=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=LXYS0GE/zE7/ge6zIktXJJ2WEme0o/EO/JSJEqu9xGNgkXM0OKdoIHmaMtMtCV6O3
+	 Wx05j9EKD/t2s7iPMBRsNWEjH7k93sYdtXNgD9YY1X04NrOSh1HI6Hubf1K6h5zr/U
+	 kWhGwYEveeRhYSwiPGHe8DUWCRtiVGug9zH9aU7xnMBeV8o5T+ogyJBVs1q8PyQAGm
+	 JcYgDkuqbK/gRvL0UBZv21x27+MmgaOMF65Y264P5o3Rnpe6UrpjaM36XSJW8L9rMv
+	 yJp1rmQF5v12GbNE37V5a+C1B3x7Kh3rdJMM4dkQqMIPZXJYc8zrnyPSXzhsYEI/YH
+	 mZiCW7fIiDotw==
+Message-ID: <02eed426fbd5533b446d1d82db1eb973107e93f7.camel@kernel.org>
+Subject: Re: [PATCH 00/18] staging: vchiq_arm: minor adjustments
+From: nicolas saenz julienne <nsaenz@kernel.org>
+To: Stefan Wahren <stefan.wahren@i2se.com>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: bcm-kernel-feedback-list@broadcom.com, Phil Elwell
+ <phil@raspberrypi.com>,  Gaston Gonzalez <gascoar@gmail.com>,
+ linux-staging@lists.linux.dev
+Date: Mon, 24 Jan 2022 10:52:10 +0100
+In-Reply-To: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
+References: <1642968143-19281-1-git-send-email-stefan.wahren@i2se.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Dzie=C5=84 dobry,
+On Sun, 2022-01-23 at 21:02 +0100, Stefan Wahren wrote:
+> This is a loose collection of small adjustments to the VCHIQ code 
+> (mostly coding style, but also bugfixes).
+> 
+> Stefan Wahren (18):
+>   staging: vchiq_core: fix indentation in vchiq_log_dump_mem
+>   staging: vchiq_debugfs: get the rid of n_log_entries
+>   staging: vchiq_arm: introduce is_adjacent_block
+>   staging: vchiq: convert TODOs into unordered list
+>   staging: vchiq: drop completed tasks from TODO
+>   staging: vchiq: add message handling to TODO list
+>   staging: vchiq_core: fix type of parameter localport
+>   staging: vchiq_core: simplify vchiq_add_service_internal
+>   staging: vchiq_core: align return statements in msg_type_str
+>   staging: vchiq_core: drop prefix of vchiq_set_service_state
+>   staging: vchiq_core: reduce multi-line statements
+>   staging: vchiq_core: fix alignment
+>   staging: vchiq_core: avoid ternary operator for set_service_state
+>   staging: vchiq_core: use min_t macro
+>   staging: vchiq_arm: make vchiq_get_state return early
+>   staging: vchiq_arm: Avoid NULL ptr deref in
+>     vchiq_dump_platform_instances
+>   staging: vchiq_core: handle NULL result of find_service_by_handle
+>   staging: vchiq_dev: Avoid unnecessary alloc in
+>     vchiq_ioc_create_service
 
-jeszcze w pierwszej po=C5=82owie 2022 roku wzrosn=C4=85 ceny za wykup ene=
-rgii dla posiadaczy fotowoltaiki.=20
 
-Aby unikn=C4=85=C4=87 umowy na nowych zasadach trzeba zdecydowa=C4=87 si=C4=
-=99 na instalacj=C4=99 paneli PV do ko=C5=84ca marca.=20
+For the whole series:
 
-Jako firma specjalizuj=C4=85ca si=C4=99 w monta=C5=BCu i serwisie fotowol=
-taiki ch=C4=99tnie podejmiemy si=C4=99 realizacji ca=C5=82ego projektu. S=
-=C4=85 Pa=C5=84stwo zainteresowani?
+Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
 
-
-Pozdrawiam
-Pawe=C5=82 Jasi=C5=84ski
+Thanks!
+Nicolas
