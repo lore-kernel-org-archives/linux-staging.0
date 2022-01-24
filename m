@@ -1,63 +1,50 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7C7173
-	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 18:11:01 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id m9so12318461oia.12
-        for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 10:11:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E913F168
+	for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 20:19:04 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id h23so16362523pgk.11
+        for <linux-staging@lists.linux.dev>; Mon, 24 Jan 2022 12:19:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=bLjR18B4+O+BIq4G++lcJm85fWQaGrH2dHhZhdZDiNg=;
-        b=4Pwvu6wbVKNMT1IIQfGgwf/cWB5DOhgoxtmYK9b6CJBDR/cUI8aLbOZCfdjQK3m8Oy
-         fYczIA0hgH9T+qPlgcE6d5o896j4zVri+HqCwa1ld7/XoTdCR1F2qd4oNDAFDyCAyjfc
-         1e91X48DOh4n4D+LcPA17yp8DIYCconJ51xP7BnflNfJ/vSnPtRWU0GSjkiDJU0kV4Kc
-         XLMa7fgbCO8Vyns+V1qjIAnOKSZGIDxf96+kQ+kHGz3tIBpgAFuflEDcENF7GRTgSxR5
-         WzSvGjETaJE1YsmuJ2b0vU2pJw1+fsx0n5zBJrd+KI4zrRBgmZDKsqTWwd0R8IyjQGp3
-         oGdw==
+        bh=EsjxDBMm/CMDAK0wKf2bhoiQ9gqiwqZCH7vh6dCq6Nw=;
+        b=GxbNEjo5OWuFsGAJ6mmDLTkptrYH98ruVoE6emQiNyVh4DXl2855c4/nQnzXH8aPBj
+         kGbHAZd2bG6QzBtjtiEmzffG2UqPBg9D0nGasTg9KFpQKT10+8tQdS8wmLKb1NeMGNrd
+         /kBh1KajfhLWZ9mzXBGIQqfCzQIIT2o+/wQBI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=bLjR18B4+O+BIq4G++lcJm85fWQaGrH2dHhZhdZDiNg=;
-        b=avKOrhqQy+EYk40POr06TqxOdx7ONu0Ie2sI7KXQeQot3tW3eyQ9gyRqh6SqXfJgaC
-         aJ3HBJFo7gLacdSWlV+sRa18g0gjHfFJDckJDjgNg9iUwgmNt03PNRE9b8J7vwMVsQ3G
-         TJGVPLyIV7deJTNpKg7Pcn0RcOpt4GnpPQEnCXFVA5x8U8VN6TaOB4cOeqj/Xh/O3RIH
-         4EVCuELq+BLAP17UB0PE8Y6vdRRm0h8oXRp9Np+1SvJ6Np+hesMaJMxXZD6WKAGMX2iN
-         C9MEU563Lzaij9tPVJVTpK7NClCq9SqdyfnDeGmOJq2TzJEufVOxTHNPxMJ12bKOrjh3
-         z/Aw==
-X-Gm-Message-State: AOAM532HIG+lcfjN4Vlz5h3BGlV8doMNkgNk8JluOj/FBx/6H58PHVa0
-	EI7AKdZxZ2rAza67HBt7erLxYw==
-X-Google-Smtp-Source: ABdhPJxJ2boFuR0dh+CNPK3ZdaELWLmFBxuDXsa8zlM+dj8aIG0igVhT92WI5bJwXPs1aRkb87N7PQ==
-X-Received: by 2002:a05:6808:1644:: with SMTP id az4mr2599697oib.18.1643047860800;
-        Mon, 24 Jan 2022 10:11:00 -0800 (PST)
-Received: from eze-laptop ([190.194.87.200])
-        by smtp.gmail.com with ESMTPSA id b7sm4602674ooq.30.2022.01.24.10.10.56
+        bh=EsjxDBMm/CMDAK0wKf2bhoiQ9gqiwqZCH7vh6dCq6Nw=;
+        b=7qkcrxuouXylyyGHUI5hbks2U/2JUdrCgNTZ10QmHh3Jbw9Y0nL1iqOyT3g47oVzKF
+         oRHmPCwtOsDbQI3ksNzEQq0EvT4TQv+sB/XFfj9bV2lhvWWmZpb+BuXpc6pUetDmkhW6
+         FWHzs4B0TxwqleNqxLbLEEml4itW6g+DTSkLR4Ti3hSUDkX7dUJR5khPUCPsAWn+HpkB
+         CIJKTPZ7R+9WTh4RtVi0/9c5+4t1G4dHKYu7zprlhkNxQI8rdD7l0q5LxR7+NRXcBmeC
+         GZiC7ccr1Ln3fuUDbyVHIQs1NZeq5mwO9RtIxN6rtNwZo+4m0sf9PI3EOGxWQ0NzNrFm
+         YsMw==
+X-Gm-Message-State: AOAM531ixL93OxrOYYJK2gXjbqmAxOMSYzMfD9ecqY31mppTVPw2jMBe
+	8l8nQAEhrB97TZprkOhBGFLtbQ==
+X-Google-Smtp-Source: ABdhPJxU9wiN3m+FHgY11ltcXHbduJ5dePRdoXqE1S7KFCWXf/pNbiUloQZQu6GMJjMSw1xiM3hh5w==
+X-Received: by 2002:a63:7c06:: with SMTP id x6mr588413pgc.316.1643055544483;
+        Mon, 24 Jan 2022 12:19:04 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id x23sm3833982pfh.178.2022.01.24.12.19.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Jan 2022 10:10:59 -0800 (PST)
-Date: Mon, 24 Jan 2022 15:10:53 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Adam Ford <aford173@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	shawnguo@kernel.org, aford@beaconembedded.com,
-	Rob Herring <robh@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
+        Mon, 24 Jan 2022 12:19:04 -0800 (PST)
+Date: Mon, 24 Jan 2022 12:19:03 -0800
+From: Kees Cook <keescook@chromium.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH V3 04/10] dt-bindings: media: nxp, imx8mq-vpu: Split G1
- and G2 nodes
-Message-ID: <Ye7rrQHtu1rnbdHm@eze-laptop>
-References: <20220124023125.414794-1-aford173@gmail.com>
- <20220124023125.414794-5-aford173@gmail.com>
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] staging: greybus: i2c: Use struct_size() helper in
+ gb_i2c_operation_create()
+Message-ID: <202201241213.82E7D9F598@keescook>
+References: <20220121222250.GA73021@embeddedor>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,126 +53,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220124023125.414794-5-aford173@gmail.com>
+In-Reply-To: <20220121222250.GA73021@embeddedor>
 
-On Sun, Jan 23, 2022 at 08:31:18PM -0600, Adam Ford wrote:
-> The G1 and G2 are independent and separate decoder blocks
-> that are enabled by the vpu-blk-ctrl power-domain controller,
-> which now has a proper driver.
+On Fri, Jan 21, 2022 at 04:22:50PM -0600, Gustavo A. R. Silva wrote:
+> Make use of the struct_size() helper instead of an open-coded version,
+> in order to avoid any potential type mistakes or integer overflows that,
+> in the worst scenario, could lead to heap overflows.
 > 
-> Because these blocks only share the power-domain, and can be
-> independently fused out, update the bindings to support separate
-> nodes for the G1 and G2 decoders with vpu-blk-ctrl power-domain
-> support.
+> Also, address the following sparse warnings:
+> drivers/staging/greybus/i2c.c:111:24: warning: using sizeof on a flexible structure
 > 
-> The new DT + old kernel isn't a supported configuration.
+> Link: https://github.com/KSPP/linux/issues/174
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+>  drivers/staging/greybus/i2c.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> 
+> diff --git a/drivers/staging/greybus/i2c.c b/drivers/staging/greybus/i2c.c
+> index de2f6516da09..9dfc6791c20e 100644
+> --- a/drivers/staging/greybus/i2c.c
+> +++ b/drivers/staging/greybus/i2c.c
+> @@ -108,9 +108,7 @@ gb_i2c_operation_create(struct gb_connection *connection,
+>  		else
+>  			data_out_size += (u32)msg->len;
+>  
+> -	request_size = sizeof(*request);
+> -	request_size += msg_count * sizeof(*op);
+> -	request_size += data_out_size;
+> +	request_size = struct_size(request, ops, msg_count) + data_out_size;
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+This could still overflow if struct_size() returns SIZE_MAX. Perhaps:
 
-Thanks,
-Ezequiel
+	if (check_add_overflow(struct_size(request, ops, msg_count),
+			       data_out_size, &request_size))
+		request_size = SIZE_MAX;
 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> index 762be3f96ce9..9c28d562112b 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> @@ -15,33 +15,20 @@ description:
+I should brush off the saturating arithmetic helpers series:
+https://lore.kernel.org/all/20210920180853.1825195-1-keescook@chromium.org/
+
 >  
->  properties:
->    compatible:
-> -    const: nxp,imx8mq-vpu
-> +    oneOf:
-> +      - const: nxp,imx8mq-vpu
-> +        deprecated: true
-> +      - const: nxp,imx8mq-vpu-g1
-> +      - const: nxp,imx8mq-vpu-g2
->  
->    reg:
-> -    maxItems: 3
-> -
-> -  reg-names:
-> -    items:
-> -      - const: g1
-> -      - const: g2
-> -      - const: ctrl
-> +    maxItems: 1
->  
->    interrupts:
-> -    maxItems: 2
-> -
-> -  interrupt-names:
-> -    items:
-> -      - const: g1
-> -      - const: g2
-> +    maxItems: 1
->  
->    clocks:
-> -    maxItems: 3
-> -
-> -  clock-names:
-> -    items:
-> -      - const: g1
-> -      - const: g2
-> -      - const: bus
-> +    maxItems: 1
->  
->    power-domains:
->      maxItems: 1
-> @@ -49,31 +36,33 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - reg-names
->    - interrupts
-> -  - interrupt-names
->    - clocks
-> -  - clock-names
->  
->  additionalProperties: false
->  
->  examples:
->    - |
->          #include <dt-bindings/clock/imx8mq-clock.h>
-> +        #include <dt-bindings/power/imx8mq-power.h>
-> +        #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +        vpu_g1: video-codec@38300000 {
-> +                compatible = "nxp,imx8mq-vpu-g1";
-> +                reg = <0x38300000 0x10000>;
-> +                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> +                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
-> +                power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
-> +        };
-> +  - |
-> +        #include <dt-bindings/clock/imx8mq-clock.h>
-> +        #include <dt-bindings/power/imx8mq-power.h>
->          #include <dt-bindings/interrupt-controller/arm-gic.h>
->  
-> -        vpu: video-codec@38300000 {
-> -                compatible = "nxp,imx8mq-vpu";
-> -                reg = <0x38300000 0x10000>,
-> -                      <0x38310000 0x10000>,
-> -                      <0x38320000 0x10000>;
-> -                reg-names = "g1", "g2", "ctrl";
-> -                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> -                             <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> -                interrupt-names = "g1", "g2";
-> -                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-> -                         <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
-> -                         <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-> -                clock-names = "g1", "g2", "bus";
-> -                power-domains = <&pgc_vpu>;
-> +        vpu_g2: video-codec@38300000 {
-> +                compatible = "nxp,imx8mq-vpu-g2";
-> +                reg = <0x38310000 0x10000>;
-> +                interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> +                clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-> +                power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
->          };
+>  	/* Response consists only of incoming data */
+>  	operation = gb_operation_create(connection, GB_I2C_TYPE_TRANSFER,
 > -- 
-> 2.32.0
+> 2.27.0
 > 
+
+-- 
+Kees Cook
