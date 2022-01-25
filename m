@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA02D2CA3
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 01:11:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62708C340E4;
-	Tue, 25 Jan 2022 01:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F167A173
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 01:14:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D9FC340E4;
+	Tue, 25 Jan 2022 01:14:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1643073094;
-	bh=SZQl2OYvF7dYq5ExNDfTCvJM3j5G6REAjF7S3w9vODQ=;
+	s=k20201202; t=1643073269;
+	bh=vuPHwP5mvesHSyqAIvXrWSziPwVD5YCX+k4I3E3APq4=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=CqvEZBYClop7DzOWBD4V5JRZls6qR9LNmJlm58IX+9Dt5ISzZO52HnK0IdRz38SCp
-	 svowT/so8LHfOFgNqefwLNVxzCNTC9Rwa5NZ/NDFGemiHZ34I0QwzPkUmbfiFzqOM8
-	 N+CSG7P6woDwroM1BYLsdl+LqQ2kLHoV3rVTc7rUvI0xBV3W86ZaI/TSLU+QLkpq4v
-	 DLJCN0PqC7j5NO7ZCU8dF/j4ZQn9LiZG4PzEDB+yG/0yd1kqQ9oea8z26HHJuL/ux3
-	 nv9u82LurQ3f8LHY/sCfo92qbea1UScdYHgYRr1yDPJxYnnCzxVJALpNW/kPBUNzLo
-	 +prsIKHrgpdyQ==
+	b=MOMxz1i+dBupYvGtGZbKKOp/v5MChx3K2YKwfCQZupOUGfu7w0EggtKGwG8etHmGP
+	 Wgq2lKH2GZEaq0TpI/7hKvfEnwDaUQuvmX7oKG4swynQ4zJRc9LqK5Gqf22OSNfU8c
+	 Oz4AGC8QaXFcFtyog53UhMJuuiG7G7B86/iUI3c9WgH254aYhoLbpIzYeb2hDGITsW
+	 2G43C3eMsNljAHoTZLKezN0S7Ubxb18/mEVI4BHZd5bhby9rz0IQTcemDPB6m1/EGi
+	 2IcJEnkzbY2Cnk9Rhqfiy2ho/SesUh4aooLXCSibniW+ZTFLP3ZYCa3NltD8bp4eFz
+	 wDBQ/sdDrWeBQ==
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -29,9 +29,9 @@ Subject: Re: [PATCH v8 3/4] clk: ralink: make system controller node a reset pro
 From: Stephen Boyd <sboyd@kernel.org>
 Cc: john@phrozen.org, linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, neil@brown.name, p.zabel@pengutronix.de, linux-kernel@vger.kernel.org
 To: Sergio Paracuellos <sergio.paracuellos@gmail.com>, linux-clk@vger.kernel.org
-Date: Mon, 24 Jan 2022 17:11:32 -0800
+Date: Mon, 24 Jan 2022 17:14:27 -0800
 User-Agent: alot/0.10
-Message-Id: <20220125011134.62708C340E4@smtp.kernel.org>
+Message-Id: <20220125011429.93D9FC340E4@smtp.kernel.org>
 
 Quoting Sergio Paracuellos (2022-01-10 03:49:29)
 > MT7621 system controller node is already providing the clocks for the who=
@@ -46,5 +46,23 @@ ess
 > CC: Philipp Zabel <p.zabel@pengutronix.de>
 > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 > ---
+>  drivers/clk/ralink/clk-mt7621.c | 92 ++++++++++++++++++++++++++++++++-
+>  1 file changed, 91 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/clk/ralink/clk-mt7621.c b/drivers/clk/ralink/clk-mt7=
+621.c
+> index a2c045390f00..99256659dd96 100644
+> --- a/drivers/clk/ralink/clk-mt7621.c
+> +++ b/drivers/clk/ralink/clk-mt7621.c
+> @@ -11,14 +11,17 @@
+>  #include <linux/mfd/syscon.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/regmap.h>
+> +#include <linux/reset-controller.h>
+>  #include <linux/slab.h>
+>  #include <dt-bindings/clock/mt7621-clk.h>
+> +#include <dt-bindings/reset/mt7621-reset.h>
 
-Applied to clk-next
+I can't take this patch without taking the first patch. I suppose if
+Greg is OK I can take the staging patch #4 through clk tree too? Let me
+know.
