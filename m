@@ -1,185 +1,174 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A4D168
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 19:03:10 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id n8so18222869lfq.4
-        for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 11:03:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E734168
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 19:04:47 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id bb37so32943958oib.1
+        for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 11:04:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=9gdYrrg8x04ug7UjMhLRJzA5TbsZ5ufvAwyd3dzX5Zc=;
-        b=OF+M1jImGD65G86hbWx/Mp3H9qEXxLV6k58BVfn8Fjjs1FiaBFqIT77J5aMGtfagM4
-         az2NcbOyd4h6lQUnPrnfF8XIpVanD2j0EOO4R8vGloNCPoJORMv+o1L3lFS8q0uvtO1f
-         CN2PaQQj0UHtPbu7W7GlWZcUmNyRhDI528C8mqrlW5e1xdY9bfEIS/1+Q1qlf9/9k8j3
-         gnUoBZa3B6CsmR25OSDIXmWEUYUZYNzJwiNKcqZZoqjfWkChGMmnbjH4JpHwjiIySyw1
-         TbBTv6FWUEkiCGIi4ZmtXexdsz480MFXTpDF8hlS1Yac7RYIz/P+8RGvKgCEXadxcAaE
-         zvPQ==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xx6pPxDWusTyXDPmQQkkGMWNHJXpoVx/sQtpxlse54Q=;
+        b=eL1XuwFOYuGbQjWefmXn6X59kcQdEJcCZ0aASe9nlq8PTeo3O0rnT1Qpn/1x7ivWkI
+         4ZhaWoAqzBJr/lYrFFq3xNGF4BFcQ8zYx7O0jheGHTbCPf14s6Z18suZMXkvpRlglKY3
+         lrfHLQSAHe4Zpg/wXlMH+melwJq2a6fGzyDvKR4QuygoxgypoukSjjY3xCXHtA8nyOKJ
+         qMBZOZ9wR9cSVEkBdyyRJaddOaQqoix59xQlctEVoNA8U+kZLZ3VMwf1WUQrFJNo01Q8
+         agr1KSTZTMyd4gRVquSgfyVDjQrkZDrKTVlDvOOcbYYVQF5F2y0VG7XVMwJGbPx1tlSt
+         tlog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=9gdYrrg8x04ug7UjMhLRJzA5TbsZ5ufvAwyd3dzX5Zc=;
-        b=sy9e0KYa4KPOf65czIO3WtSbX5eOneBP8WQVQLmjh4U2Q9N/1hIk9/lX5S4TYWU0MG
-         CYsun/HQokvtGKdrB7QUAspw6VTmypN2PZb/DS1w62Kl9p2VhDKnAEuXy6qSF7P5uopX
-         EUfND62vxfJiCRmZ4KiG6ydaOOyt1T+fOXOuefnxlJvSXt2Q0ZuVlgOhCV3ymNRDFck3
-         vukEtO4d37yxhiCvKdYLAyLRajzC76E5IUMq5j/PE2aOJKR7MzRsmjTlvRPkO/we/HdR
-         cH7/h4Zf1kYrrpAoszO7oNGCcIAoh/7hZxXGlZCfqsQI/sO/9GH2eJlufnRsGgI9oYpg
-         gKXQ==
-X-Gm-Message-State: AOAM530JdWVjNaRzKInUvBDRsHgRos+A/aRKAcwCA761WOjbbehjeqs6
-	i1fKDevUJtcDj91E+S8y49E=
-X-Google-Smtp-Source: ABdhPJzVxK69QJVS1EwxnFny0TDTGSI/9M1GtVkBMAEfugUNeg1wTJAGYE5M5ex2UsChGmeDqpZSnw==
-X-Received: by 2002:a05:6512:68a:: with SMTP id t10mr1657328lfe.10.1643137388089;
-        Tue, 25 Jan 2022 11:03:08 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.227.208])
-        by smtp.gmail.com with ESMTPSA id s4sm899971lfb.215.2022.01.25.11.03.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jan 2022 11:03:07 -0800 (PST)
-Message-ID: <a681a562-eb41-9dc8-703a-5b235c15a3a1@gmail.com>
-Date: Tue, 25 Jan 2022 22:03:06 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xx6pPxDWusTyXDPmQQkkGMWNHJXpoVx/sQtpxlse54Q=;
+        b=L7QUaVkfpk9aFp58pPIbGEThAdwcsmyAH8DUP9bd2Wvyigz8hPcxeXINvpHKFPNwOQ
+         qXaWFDCVhuco9ZHnU9bSajFBTCwU5D2oVbqOqSvtyXNFcAFgjnFPttV+Da2R4kt1Pxy7
+         bu+wewxCJqy/PxArSqflq6BauAraqBVaxTGT6hn9XyqoQ0NI6Oypu5ZzBxmdnSRYS/yo
+         BMCMqAvj1yWTRvtZarh8aIKkt/ypWH12raocBluQxllYp/AkjSTbBufvp/WH9yL3GtM7
+         LDXDcctkpCDhVu0gUOQJKLi9CugUd6EwSHXPgHCXlpqSsUs8MaXY63JgFvZ8cgfZyWJT
+         e4eg==
+X-Gm-Message-State: AOAM531XFrRt31R1sbCCql8KjE7dddXUGgH8PQolDl+afuyPMS3Fg3EM
+	QQC3dRXBU/toRu533jvBCekkDQ==
+X-Google-Smtp-Source: ABdhPJxIP6+oD7gt9eH5+LFe++w9dIATHyaj+iBj28F054mPXWZGdYsjQk56Ug7nZcA1f6wMwrDeog==
+X-Received: by 2002:a05:6808:1b06:: with SMTP id bx6mr1656291oib.176.1643137486631;
+        Tue, 25 Jan 2022 11:04:46 -0800 (PST)
+Received: from eze-laptop ([186.122.18.78])
+        by smtp.gmail.com with ESMTPSA id l18sm8138754otv.49.2022.01.25.11.04.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Jan 2022 11:04:45 -0800 (PST)
+Date: Tue, 25 Jan 2022 16:04:38 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Adam Ford <aford173@gmail.com>
+Cc: linux-media@vger.kernel.org, aford@beaconembedded.com,
+	cphealy@gmail.com, kernel test robot <lkp@intel.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2 VPU's
+ with vpu-blk-ctrl
+Message-ID: <YfBJxmgwLGbVqGba@eze-laptop>
+References: <20220125171129.472775-1-aford173@gmail.com>
+ <20220125171129.472775-8-aford173@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 06/10] staging: r8188eu: remove DBG_88E calls from
- os_dep/ioctl_linux.c
-Content-Language: en-US
-To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
-Cc: dan.carpenter@oracle.com, Larry.Finger@lwfinger.net,
- straube.linux@gmail.com, martin@kaiser.cx, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220124224415.831-1-phil@philpotter.co.uk>
- <20220124224415.831-7-phil@philpotter.co.uk>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20220124224415.831-7-phil@philpotter.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220125171129.472775-8-aford173@gmail.com>
 
-Hi Phillip,
-
-On 1/25/22 01:44, Phillip Potter wrote:
-> Remove all DBG_88E calls from os_dep/ioctl_linux.c, as they do not
-> conform to kernel coding standards and are superfluous. Also restructure
-> where appropriate to remove no longer needed code left behind by removal
-> of these calls. This will allow the eventual removal of the DBG_88E macro
-> itself.
+On Tue, Jan 25, 2022 at 11:11:24AM -0600, Adam Ford wrote:
+> With the Hantro G1 and G2 now setup to run independently, update
+> the device tree to allow both to operate.  This requires the
+> vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
+> certain clock enabled to handle the gating of the G1 and G2
+> fuses, the clock-parents and clock-rates for the various VPU's
+> to be moved into the pgc_vpu because they cannot get re-parented
+> once enabled, and the pgc_vpu is the highest in the chain.
 > 
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Reported-by: kernel test robot <lkp@intel.com>
 
-[code snip]
+It doesn't seem correct to have the Reported-by on this commit.
 
-> @@ -3746,7 +3541,6 @@ static int rtw_dbg_port(struct net_device *dev,
->   			u32 write_num = extra_arg;
->   
->   			int i;
-> -			u16 final;
->   			struct xmit_frame	*xmit_frame;
->   
->   			xmit_frame = rtw_IOL_accquire_xmit_frame(padapter);
-> @@ -3760,11 +3554,7 @@ static int rtw_dbg_port(struct net_device *dev,
->   			if (rtl8188e_IOL_exec_cmds_sync(padapter, xmit_frame, 5000, 0) != _SUCCESS)
->   				ret = -EPERM;
->   
-> -			final = rtw_read16(padapter, reg);
-> -			if (start_value + write_num - 1 == final)
-> -				DBG_88E("continuous IOL_CMD_WW_REG to 0x%x %u times Success, start:%u, final:%u\n", reg, write_num, start_value, final);
-> -			else
-> -				DBG_88E("continuous IOL_CMD_WW_REG to 0x%x %u times Fail, start:%u, final:%u\n", reg, write_num, start_value, final);
-> +			rtw_read16(padapter, reg);
->   		}
->   			break;
+Thanks,
+Ezequiel
 
-I see, that you somewhere removes reads and somewhere leaves them. 
-What's the difference? I saw, that one of the places has the comment, 
-that asks not to remove the read, but others do not have such comment
-
-I can point to few places in 2 and 4 patches where you have removed reads.
-
-
-
-[code snip]
-
-> @@ -4014,16 +3664,8 @@ static int rtw_dbg_port(struct net_device *dev,
->   			{
->   				u32 odm_flag;
->   
-> -				if (0xf == extra_arg) {
-> +				if (extra_arg == 0xf) {
->   					GetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DM_FUNC, &odm_flag);
-> -					DBG_88E(" === DMFlag(0x%08x) ===\n", odm_flag);
-> -					DBG_88E("extra_arg = 0  - disable all dynamic func\n");
-> -					DBG_88E("extra_arg = 1  - disable DIG- BIT(0)\n");
-> -					DBG_88E("extra_arg = 2  - disable High power - BIT(1)\n");
-> -					DBG_88E("extra_arg = 3  - disable tx power tracking - BIT(2)\n");
-> -					DBG_88E("extra_arg = 4  - disable BT coexistence - BIT(3)\n");
-> -					DBG_88E("extra_arg = 5  - disable antenna diversity - BIT(4)\n");
-> -					DBG_88E("extra_arg = 6  - enable all dynamic func\n");
->   				} else {
->   					/*	extra_arg = 0  - disable all dynamic func
->   						extra_arg = 1  - disable DIG
-> @@ -4032,51 +3674,17 @@ static int rtw_dbg_port(struct net_device *dev,
->   					*/
->   					SetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DM_FUNC, &extra_arg);
->   					GetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DM_FUNC, &odm_flag);
-> -					DBG_88E(" === DMFlag(0x%08x) ===\n", odm_flag);
->   				}
->   			}
->   			break;
->   
-
-Is odm_flag needed now? Seems like it was used only for printing random 
-debug info
-
->   		case 0xfd:
->   			rtw_write8(padapter, 0xc50, arg);
-> -			DBG_88E("wr(0xc50) = 0x%x\n", rtw_read8(padapter, 0xc50));
->   			rtw_write8(padapter, 0xc58, arg);
-> -			DBG_88E("wr(0xc58) = 0x%x\n", rtw_read8(padapter, 0xc58));
-> -			break;
-> -		case 0xfe:
-> -			DBG_88E("rd(0xc50) = 0x%x\n", rtw_read8(padapter, 0xc50));
-> -			DBG_88E("rd(0xc58) = 0x%x\n", rtw_read8(padapter, 0xc58));
-> -			break;
-> -		case 0xff:
-> -			DBG_88E("dbg(0x210) = 0x%x\n", rtw_read32(padapter, 0x210));
-> -			DBG_88E("dbg(0x608) = 0x%x\n", rtw_read32(padapter, 0x608));
-> -			DBG_88E("dbg(0x280) = 0x%x\n", rtw_read32(padapter, 0x280));
-> -			DBG_88E("dbg(0x284) = 0x%x\n", rtw_read32(padapter, 0x284));
-> -			DBG_88E("dbg(0x288) = 0x%x\n", rtw_read32(padapter, 0x288));
-> -
-> -			DBG_88E("dbg(0x664) = 0x%x\n", rtw_read32(padapter, 0x664));
-> -
-> -			DBG_88E("\n");
-> -
-> -			DBG_88E("dbg(0x430) = 0x%x\n", rtw_read32(padapter, 0x430));
-> -			DBG_88E("dbg(0x438) = 0x%x\n", rtw_read32(padapter, 0x438));
-> -
-> -			DBG_88E("dbg(0x440) = 0x%x\n", rtw_read32(padapter, 0x440));
-> -
-> -			DBG_88E("dbg(0x458) = 0x%x\n", rtw_read32(padapter, 0x458));
-> -
-> -			DBG_88E("dbg(0x484) = 0x%x\n", rtw_read32(padapter, 0x484));
-> -			DBG_88E("dbg(0x488) = 0x%x\n", rtw_read32(padapter, 0x488));
-> -
-> -			DBG_88E("dbg(0x444) = 0x%x\n", rtw_read32(padapter, 0x444));
-> -			DBG_88E("dbg(0x448) = 0x%x\n", rtw_read32(padapter, 0x448));
-> -			DBG_88E("dbg(0x44c) = 0x%x\n", rtw_read32(padapter, 0x44c));
-> -			DBG_88E("dbg(0x450) = 0x%x\n", rtw_read32(padapter, 0x450));
->   			break;
->   		}
-
-And here you also removes the reads. I guess, some kind of magic pattern 
-is used
-
-
-
-
-With regards,
-Pavel Skripkin
+> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> index 2df2510d0118..549b2440f55d 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
+>  					pgc_vpu: power-domain@6 {
+>  						#power-domain-cells = <0>;
+>  						reg = <IMX8M_POWER_DOMAIN_VPU>;
+> -						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> +						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>,
+> +							 <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> +							 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> +						assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
+> +								  <&clk IMX8MQ_CLK_VPU_G2>,
+> +								  <&clk IMX8MQ_CLK_VPU_BUS>,
+> +								  <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> +						assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> +									 <&clk IMX8MQ_VPU_PLL_OUT>,
+> +									 <&clk IMX8MQ_SYS1_PLL_800M>,
+> +									 <&clk IMX8MQ_VPU_PLL>;
+> +						assigned-clock-rates = <600000000>,
+> +								       <600000000>,
+> +								       <800000000>,
+> +								       <0>;
+>  					};
+>  
+>  					pgc_disp: power-domain@7 {
+> @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
+>  			status = "disabled";
+>  		};
+>  
+> -		vpu: video-codec@38300000 {
+> -			compatible = "nxp,imx8mq-vpu";
+> -			reg = <0x38300000 0x10000>,
+> -			      <0x38310000 0x10000>,
+> -			      <0x38320000 0x10000>;
+> -			reg-names = "g1", "g2", "ctrl";
+> -			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> -			interrupt-names = "g1", "g2";
+> +		vpu_g1: video-codec@38300000 {
+> +			compatible = "nxp,imx8mq-vpu-g1";
+> +			reg = <0x38300000 0x10000>;
+> +			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
+> +			power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
+> +		};
+> +
+> +		vpu_g2: video-codec@38310000 {
+> +			compatible = "nxp,imx8mq-vpu-g2";
+> +			reg = <0x38310000 0x10000>;
+> +			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> +			power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
+> +		};
+> +
+> +		vpu_blk_ctrl: blk-ctrl@38320000 {
+> +			compatible = "fsl,imx8mq-vpu-blk-ctrl";
+> +			reg = <0x38320000 0x100>;
+> +			power-domains = <&pgc_vpu>, <&pgc_vpu>, <&pgc_vpu>;
+> +			power-domain-names = "bus", "g1", "g2";
+>  			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> -				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+> -				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> -			clock-names = "g1", "g2", "bus";
+> -			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
+> -					  <&clk IMX8MQ_CLK_VPU_G2>,
+> -					  <&clk IMX8MQ_CLK_VPU_BUS>,
+> -					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> -			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> -						 <&clk IMX8MQ_VPU_PLL_OUT>,
+> -						 <&clk IMX8MQ_SYS1_PLL_800M>,
+> -						 <&clk IMX8MQ_VPU_PLL>;
+> -			assigned-clock-rates = <600000000>, <600000000>,
+> -					       <800000000>, <0>;
+> -			power-domains = <&pgc_vpu>;
+> +				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> +			clock-names = "g1", "g2";
+> +			#power-domain-cells = <1>;
+>  		};
+>  
+>  		pcie0: pcie@33800000 {
+> -- 
+> 2.32.0
+> 
