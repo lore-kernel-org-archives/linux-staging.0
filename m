@@ -1,31 +1,32 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7219C173
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 18:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DDC173
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 18:21:16 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <l.stach@pengutronix.de>)
-	id 1nCQPZ-000612-AU; Tue, 25 Jan 2022 19:19:21 +0100
-Message-ID: <3b1c784ac4e21c2e6d5a645fdf673aa47348c6f4.camel@pengutronix.de>
-Subject: Re: [PATCH V4 08/11] arm64: dts: imx8mm: Fix VPU Hanging
+	id 1nCQRA-0006LO-0u; Tue, 25 Jan 2022 19:21:00 +0100
+Message-ID: <3c88964a10f2e0b523191ca2f66602c6644efd7c.camel@pengutronix.de>
+Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2
+ VPU's with vpu-blk-ctrl
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
-Cc: aford@beaconembedded.com, cphealy@gmail.com, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: aford@beaconembedded.com, cphealy@gmail.com, kernel test robot
+ <lkp@intel.com>,  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
+ <linux-imx@nxp.com>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
  linux-staging@lists.linux.dev
-Date: Tue, 25 Jan 2022 19:19:16 +0100
-In-Reply-To: <20220125171129.472775-9-aford173@gmail.com>
+Date: Tue, 25 Jan 2022 19:20:57 +0100
+In-Reply-To: <20220125171129.472775-8-aford173@gmail.com>
 References: <20220125171129.472775-1-aford173@gmail.com>
-	 <20220125171129.472775-9-aford173@gmail.com>
+	 <20220125171129.472775-8-aford173@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 Precedence: bulk
@@ -41,27 +42,102 @@ X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to f
 X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
 Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
-> The vpumix power domain has a reset assigned to it, however
-> when used, it causes a system hang.  Testing has shown that
-> it does not appear to be needed anywhere.
+> With the Hantro G1 and G2 now setup to run independently, update
+> the device tree to allow both to operate.  This requires the
+> vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
+> certain clock enabled to handle the gating of the G1 and G2
+> fuses, the clock-parents and clock-rates for the various VPU's
+> to be moved into the pgc_vpu because they cannot get re-parented
+> once enabled, and the pgc_vpu is the highest in the chain.
 > 
-> Fixes: d39d4bb15310 ("arm64: dts: imx8mm: add GPC node")
 > Signed-off-by: Adam Ford <aford173@gmail.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
 Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 
 > 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> index f77f90ed416f..0c7a72c51a31 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-> @@ -707,7 +707,6 @@ pgc_vpumix: power-domain@6 {
->  						clocks = <&clk IMX8MM_CLK_VPU_DEC_ROOT>;
->  						assigned-clocks = <&clk IMX8MM_CLK_VPU_BUS>;
->  						assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_800M>;
-> -						resets = <&src IMX8MQ_RESET_VPU_RESET>;
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> index 2df2510d0118..549b2440f55d 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
+>  					pgc_vpu: power-domain@6 {
+>  						#power-domain-cells = <0>;
+>  						reg = <IMX8M_POWER_DOMAIN_VPU>;
+> -						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> +						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>,
+> +							 <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> +							 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> +						assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
+> +								  <&clk IMX8MQ_CLK_VPU_G2>,
+> +								  <&clk IMX8MQ_CLK_VPU_BUS>,
+> +								  <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> +						assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> +									 <&clk IMX8MQ_VPU_PLL_OUT>,
+> +									 <&clk IMX8MQ_SYS1_PLL_800M>,
+> +									 <&clk IMX8MQ_VPU_PLL>;
+> +						assigned-clock-rates = <600000000>,
+> +								       <600000000>,
+> +								       <800000000>,
+> +								       <0>;
 >  					};
 >  
->  					pgc_vpu_g1: power-domain@7 {
+>  					pgc_disp: power-domain@7 {
+> @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
+>  			status = "disabled";
+>  		};
+>  
+> -		vpu: video-codec@38300000 {
+> -			compatible = "nxp,imx8mq-vpu";
+> -			reg = <0x38300000 0x10000>,
+> -			      <0x38310000 0x10000>,
+> -			      <0x38320000 0x10000>;
+> -			reg-names = "g1", "g2", "ctrl";
+> -			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> -				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> -			interrupt-names = "g1", "g2";
+> +		vpu_g1: video-codec@38300000 {
+> +			compatible = "nxp,imx8mq-vpu-g1";
+> +			reg = <0x38300000 0x10000>;
+> +			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
+> +			power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
+> +		};
+> +
+> +		vpu_g2: video-codec@38310000 {
+> +			compatible = "nxp,imx8mq-vpu-g2";
+> +			reg = <0x38310000 0x10000>;
+> +			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> +			power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
+> +		};
+> +
+> +		vpu_blk_ctrl: blk-ctrl@38320000 {
+> +			compatible = "fsl,imx8mq-vpu-blk-ctrl";
+> +			reg = <0x38320000 0x100>;
+> +			power-domains = <&pgc_vpu>, <&pgc_vpu>, <&pgc_vpu>;
+> +			power-domain-names = "bus", "g1", "g2";
+>  			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> -				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+> -				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> -			clock-names = "g1", "g2", "bus";
+> -			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
+> -					  <&clk IMX8MQ_CLK_VPU_G2>,
+> -					  <&clk IMX8MQ_CLK_VPU_BUS>,
+> -					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> -			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> -						 <&clk IMX8MQ_VPU_PLL_OUT>,
+> -						 <&clk IMX8MQ_SYS1_PLL_800M>,
+> -						 <&clk IMX8MQ_VPU_PLL>;
+> -			assigned-clock-rates = <600000000>, <600000000>,
+> -					       <800000000>, <0>;
+> -			power-domains = <&pgc_vpu>;
+> +				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> +			clock-names = "g1", "g2";
+> +			#power-domain-cells = <1>;
+>  		};
+>  
+>  		pcie0: pcie@33800000 {
 
 
