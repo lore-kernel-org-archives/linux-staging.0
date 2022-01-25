@@ -1,73 +1,181 @@
-Received: from relay.hostedemail.com (relay034.a.hostedemail.com [64.99.140.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6972C173
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 17:40:11 +0000 (UTC)
-Received: from omf11.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id A81D8226FE;
-	Tue, 25 Jan 2022 17:22:57 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf11.hostedemail.com (Postfix) with ESMTPA id 356BA20037;
-	Tue, 25 Jan 2022 17:22:51 +0000 (UTC)
-Message-ID: <b40820130b12bedce168f70886b9ff9dd98d2b08.camel@perches.com>
-Subject: Re: [Patch  1/3] Staging: rtl8723bs: Placing opening { braces in
- previous line
-From: Joe Perches <joe@perches.com>
-To: Jagath Jog J <jagathjog1996@gmail.com>, gregkh@linuxfoundation.org, 
-	hdegoede@redhat.com, Larry.Finger@lwfinger.net
-Cc: fabioaiuto83@gmail.com, dan.carpenter@oracle.com, marcocesati@gmail.com,
-  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Tue, 25 Jan 2022 09:22:53 -0800
-In-Reply-To: <20220124034456.8665-2-jagathjog1996@gmail.com>
-References: <20220124034456.8665-1-jagathjog1996@gmail.com>
-	 <20220124034456.8665-2-jagathjog1996@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE73B173
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 18:17:50 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id z4so3222287lft.3
+        for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 10:17:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=dSrhbE6iArK7VijAEwS8NR5d4m9Smmxvwd2EDBXBHpo=;
+        b=VUSOPfVzTzm4wRr/wB2VnqTi6Fj2OqDXU8+PHVeLlp3K+Pc/x1RY+fglCx7BhMBSa+
+         PKTHsi4O1AL9e6WXXPWUT7+3SKRkeGq39KUQoXuE9dxFrNqnFz7nmw8odA2lYDnIQ5pl
+         5cek0vjaRZh8ehbk3FUt/iIQEjnU0JdFR4+/+7pBueAAT9kU6lGiLYMGxhTVFL/h/Owt
+         LpL8znqPwu2Wo2BH8xzJUL36k8ldSsODaxbq8Wtf00Hwsoh+muyJEtyC0E/xEaVjJSAO
+         1mVk6Whr4D6GG6syoPyFB8BIjrJS6tWkVk2dixxxZZueeunZx7NiGiUJZoZTiPABF1f1
+         L7dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=dSrhbE6iArK7VijAEwS8NR5d4m9Smmxvwd2EDBXBHpo=;
+        b=bfbGyfMiG/ax15KeCOsOFQbhRwKR4UyXJn8+0TQeZAM6noT8sSh6XDoUCvmen1NkV4
+         +g4s7domWo06RbWK3T0t4y4JnL6jbugHCocPlpf1sgPHT09GgEEl/JjcVwqrFKZVjl3R
+         jr8/gmHsd73liolATboiShevJjqTe/CyNv0ALtomMqHJOhM71WxmQuMWgYgJbw5wF9Kf
+         /S/Xw5Pm9bywA+3Kc7WfmtuGM+1+9771GldRpeplrx20qDWFE1elfjw/9Cyv8Ds23LUj
+         4AI1buCSvE85HCh+mhrGiE2/dgPBn13JtRVL3lw+SkowbhVYFDza4gg57IDLBAFO47ae
+         1sMA==
+X-Gm-Message-State: AOAM5322oVNBYh7RxA6hkUqOIpXKizvBoo0xhdZp26O+RI98IE/Cfqz7
+	chRv3D9gaHxWztHJEqg9KnM=
+X-Google-Smtp-Source: ABdhPJwsxaWTWmvC4LeG2DLDz32vnINItdR3fWQNB9i+auG2YZyF8jicYHresU/0MXauuZ64ffaZDA==
+X-Received: by 2002:a05:6512:2386:: with SMTP id c6mr17510288lfv.684.1643134668514;
+        Tue, 25 Jan 2022 10:17:48 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.227.208])
+        by smtp.gmail.com with ESMTPSA id f22sm1560371lfj.261.2022.01.25.10.17.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Jan 2022 10:17:47 -0800 (PST)
+Message-ID: <47fcbfb5-ee59-a1ef-781d-83989e26e1aa@gmail.com>
+Date: Tue, 25 Jan 2022 21:17:46 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 02/10] staging: r8188eu: remove smaller sets of DBG_88E
+ calls from core dir
+Content-Language: en-US
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: dan.carpenter@oracle.com, Larry.Finger@lwfinger.net,
+ straube.linux@gmail.com, martin@kaiser.cx, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220124224415.831-1-phil@philpotter.co.uk>
+ <20220124224415.831-3-phil@philpotter.co.uk>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20220124224415.831-3-phil@philpotter.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=0.10
-X-Stat-Signature: ujaimyencnwmrey7kj7okky61fr7khfu
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 356BA20037
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+cER3feRAnHr9g8xb3BJva3Bfg7EsAbUc=
-X-HE-Tag: 1643131371-237344
 
-On Mon, 2022-01-24 at 09:14 +0530, Jagath Jog J wrote:
-> Fix following checkpatch.pl error by placing opening {
-> braces in previous line
-> ERROR: that open brace { should be on the previous line
-[]
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-[]
-> @@ -113,13 +113,10 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
->  	struct ieee80211_supported_band *spt_band = NULL;
->  	int n_channels, n_bitrates;
->  
-> -	if (band == NL80211_BAND_2GHZ)
-> -	{
-> +	if (band == NL80211_BAND_2GHZ) {
->  		n_channels = RTW_2G_CHANNELS_NUM;
->  		n_bitrates = RTW_G_RATES_NUM;
+Hi Phillip,
+
+On 1/25/22 01:44, Phillip Potter wrote:
+> Remove all DBG_88E calls from the core directory, other than those in
+> core/rtw_mlme_ext.c, as this contains over 100 on its own so will be
+> done in a separate patch for ease of review. These calls do not conform
+> to kernel coding standards and are superfluous. Also restructure where
+> appropriate to remove no longer needed code left behind by removal of
+> these calls. This will allow the eventual removal of the DBG_88E macro
+> itself.
+> 
+> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> ---
+
+[code snip]
+
+> diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
+> index ad87954bdeb4..62354c3194bd 100644
+> --- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
+> +++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
+> @@ -653,13 +653,8 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
+>   	/* first 3 bytes in vendor specific information element are the IEEE
+>   	 * OUI of the vendor. The following byte is used a vendor specific
+>   	 * sub-type. */
+> -	if (elen < 4) {
+> -		if (show_errors) {
+> -			DBG_88E("short vendor specific information element ignored (len=%lu)\n",
+> -				(unsigned long)elen);
+> -		}
+> +	if (elen < 4)
+>   		return -1;
 > -	}
-> -	else
-> -	{
-> +	} else {
->  		goto exit;
->  	}
 
-Reversing the test would be less indented and simpler code:
+show_errors seems unused after this change
 
-	if (band != NL80211_BAND_2GHZ)
-		goto exit;
+>   
+>   	oui = RTW_GET_BE24(pos);
+>   	switch (oui) {
+> @@ -674,11 +669,8 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
+>   			elems->wpa_ie_len = elen;
+>   			break;
+>   		case WME_OUI_TYPE: /* this is a Wi-Fi WME info. element */
+> -			if (elen < 5) {
+> -				DBG_88E("short WME information element ignored (len=%lu)\n",
+> -					(unsigned long)elen);
+> +			if (elen < 5)
+>   				return -1;
+> -			}
+>   			switch (pos[4]) {
+>   			case WME_OUI_SUBTYPE_INFORMATION_ELEMENT:
+>   			case WME_OUI_SUBTYPE_PARAMETER_ELEMENT:
+> @@ -690,8 +682,6 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
+>   				elems->wme_tspec_len = elen;
+>   				break;
+>   			default:
+> -				DBG_88E("unknown WME information element ignored (subtype=%d len=%lu)\n",
+> -					pos[4], (unsigned long)elen);
+>   				return -1;
+>   			}
+>   			break;
+> @@ -701,8 +691,6 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
+>   			elems->wps_ie_len = elen;
+>   			break;
+>   		default:
+> -			DBG_88E("Unknown Microsoft information element ignored (type=%d len=%lu)\n",
+> -				pos[3], (unsigned long)elen);
+>   			return -1;
+>   		}
+>   		break;
+> @@ -714,14 +702,10 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
+>   			elems->vendor_ht_cap_len = elen;
+>   			break;
+>   		default:
+> -			DBG_88E("Unknown Broadcom information element ignored (type=%d len=%lu)\n",
+> -				pos[3], (unsigned long)elen);
+>   			return -1;
+>   		}
+>   		break;
+>   	default:
+> -		DBG_88E("unknown vendor specific information element ignored (vendor OUI %02x:%02x:%02x len=%lu)\n",
+> -			pos[0], pos[1], pos[2], (unsigned long)elen);
+>   		return -1;
+>   	}
+>   	return 0;
+> @@ -752,13 +736,8 @@ enum parse_res rtw_ieee802_11_parse_elems(u8 *start, uint len,
+>   		elen = *pos++;
+>   		left -= 2;
+>   
+> -		if (elen > left) {
+> -			if (show_errors) {
+> -				DBG_88E("IEEE 802.11 element parse failed (id=%d elen=%d left=%lu)\n",
+> -					id, elen, (unsigned long)left);
+> -			}
 
-	n_channels = RTW_2G_CHANNELS_NUM;
-	n_bitrates = RTW_G_RATES_NUM;
+same here
 
-etc...
+> +		if (elen > left)
+>   			return ParseFailed;
+> -		}
+>   
+>   		switch (id) {
+>   		case WLAN_EID_SSID:
+> @@ -839,10 +818,6 @@ enum parse_res rtw_ieee802_11_parse_elems(u8 *start, uint len,
+>   			break;
+>   		default:
+>   			unknown++;
+> -			if (!show_errors)
+> -				break;
+> -			DBG_88E("IEEE 802.11 element parse ignored unknown element (id=%d elen=%d)\n",
+> -				id, elen);
+>   			break;
+
+and here
 
 
+
+With regards,
+Pavel Skripkin
