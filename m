@@ -1,132 +1,118 @@
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77622CA9
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 15:39:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1643125170; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=lpgT6r5RjDUP/LgrS89EoHJhSasNBN1zuJ70YV2h0IqDq99sdGtlhd+K2s+VRGHc8cGx0hpybvOBLIety4Rh6ekegx5BGzQJpptTnUKTneG/lnWlER/UnvVvrViipLuRwUu7P+QWoPcVu6uLJl/dSEagbRSn3bBSRcHk8J4hRvg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1643125170; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=ZhnlCxJ2TJ+7QWS9FfAX+8gUhVrsvjec8+gxBjmiwwc=; 
-	b=mq1EjMpCXhFycfBt7pLLtU5Wqklc26TSw+sAlCANbhjJFAzK1B3puyrKE/BgdbsKhKa4bdoo87AZdmCn8PEA+k7EDj55kJGDK2x7tW+C6kgy0W05l+dhEPKn+EZEewrhFtOaOvoCF49tfkkUbEgSpgl8NsSDVIvrwgfgii0rvsY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=arinc9.com;
-	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
-	dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1643125170;
-	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ZhnlCxJ2TJ+7QWS9FfAX+8gUhVrsvjec8+gxBjmiwwc=;
-	b=gazk//RmktLPNBJPHnSPZ/dB72q6OBJB54fpfrcd7eEjJWam18s/ZtHfndpjxebJ
-	A60JH/2GNbjElZbc+gKxYF4Q3PeeyJvT7n5A6hEGWL0SXii70S04z4Hds3pVkjJGl/Y
-	/By65cMk19BsDSGQaEDjh3QSNV8fAf4jorpt+5Pc=
-Received: from arinc9-PC.localdomain (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
-	with SMTPS id 1643125168598950.6849966026564; Tue, 25 Jan 2022 07:39:28 -0800 (PST)
-From: =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-To: Greg KH <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	NeilBrown <neil@brown.name>,
-	DENG Qingfang <dqfext@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Luiz Angelo Daros de Luca <luizluca@gmail.com>,
-	erkin.bozoglu@xeront.com
-Cc: linux-staging@lists.linux.dev,
-	=?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-Subject: [PATCH v3 4/4] staging: mt7621-dts: fix pinctrl properties for ethernet
-Date: Tue, 25 Jan 2022 18:39:03 +0300
-Message-Id: <20220125153903.1469-5-arinc.unal@arinc9.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220125153903.1469-1-arinc.unal@arinc9.com>
-References: <20220125153903.1469-1-arinc.unal@arinc9.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7999D29CA
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 15:50:27 +0000 (UTC)
+Received: by mail-ua1-f46.google.com with SMTP id f24so38029430uab.11
+        for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 07:50:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=BXICmb+K5gHsP99jbb/gVMS8+IxvQM3+maecEWPQCPo=;
+        b=DD0QwWos02OKm6u58ksXETf33HlUUIUqbE8eKVW1grtFdMXFFZxxyA29YZ5ag+2Mca
+         +TUCI4wT3djIESZEfOTVvh4NGN0HFk4ztLokx0JxMV0PFOdbkLucDJt5rYGAbZQRWfnG
+         uFNkrkuR9KdsTrxxfWQIGODoCwWWvMxGpzn3Dq7c5bFqEX/G7hegg0eCCAcDOPYPVY6R
+         yifAeqIlu8OtK5OGiAXKO2tPMqLfmL/4w79EARAr/RgnF/Q0BGkDAteTZcNvKT1otr/f
+         kj2PBghnjC0k6Qvw4pnDEtwihmws2nI6/RN5RXdh45GTF8Bkwg/dmnWHULPzf654ebCR
+         AgjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=BXICmb+K5gHsP99jbb/gVMS8+IxvQM3+maecEWPQCPo=;
+        b=eDdkLzcvjiexVeOlwal+GiacJ4cTXV+6ySYsR2toei91aD5jtTRr6DsSDb7URNW4QS
+         v3U7CTL/rlJgVqlwPf+LOUgc2ItZ0d1WL5rNJ2oo3CSY6tqnTOYNjpYxjN7mZGimxYLp
+         lKny6OANZHSjkvuOlcm6QDAnUdsgyrNt3vf4CH5qYMuKsTDqpelIXGX8Ls5HivEbwKAF
+         11HiaMDFaS+bEsbdr1QRTva+snLmOCh/MHyHHAJIyqekiH1h0pTWPnZwki+BA+qSvl4Z
+         czVBbUJ8qRyQ4p7SCMuUFX303YZZyM951U+6Qmo8armD95Pd9cLp/bKXLwnxa7ZpjNgV
+         P8zg==
+X-Gm-Message-State: AOAM530JtFd/NR50YDMfTziW6NtJSpx04W4GECCtIujSWPFTqxLfRNHs
+	K46iuEMfhuwQfMgjnGDdGtkwOgL4aqoL4smBr8A=
+X-Google-Smtp-Source: ABdhPJz/DlMZfXK/aLSv/MvuefUZlIuXBT8YNJjvsXeC1VmCHWKT00hXXxaTI5jlctSIIz1rB1jaSxOeCyz3DEiTsBQ=
+X-Received: by 2002:a67:ca03:: with SMTP id z3mr3722094vsk.1.1643125826417;
+ Tue, 25 Jan 2022 07:50:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20220124124351.4604-1-arinc.unal@arinc9.com> <CAMhs-H9qkd-uy75d=NPLc5Azt3ejyW5zstpq75=i-e8iR4Xaow@mail.gmail.com>
+ <a4506b38-4ec8-d192-8579-79132c25969a@arinc9.com>
+In-Reply-To: <a4506b38-4ec8-d192-8579-79132c25969a@arinc9.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Tue, 25 Jan 2022 16:50:15 +0100
+Message-ID: <CAMhs-H_zgas1b15w3S3Y4x9N9eaAqbMPxTXa6owPSEJThSGqvg@mail.gmail.com>
+Subject: Re:
+To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, NeilBrown <neil@brown.name>, 
+	DENG Qingfang <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Luiz Angelo Daros de Luca <luizluca@gmail.com>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add pinctrl properties with rgmii1 & mdio pins under ethernet node which
-was wrongfully put under an external phy node.
-GMAC1 will start working with this fix.
+On Tue, Jan 25, 2022 at 4:24 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
+9.com> wrote:
+>
+> Hey Sergio,
+>
+> On 25/01/2022 17:03, Sergio Paracuellos wrote:
+> > Hi Arinc!
+> >
+> > On Mon, Jan 24, 2022 at 1:45 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@a=
+rinc9.com> wrote:
+> >>
+> >> Hey everyone,
+> >>
+> >> In preperation to mainline mt7621-dts; fix formatting, dtc warning on
+> >> switch0@0 node and pinctrl properties for ethernet node on the mt7621.=
+dtsi.
+> >> Move the GB-PC2 specific external phy configuration on the main dtsi t=
+o
+> >> GB-PC2's devicetree, gbpc2.dts.
+> >>
+> >> Now that pinctrl properties are properly defined on the ethernet node,
+> >> GMAC1 will start working.
+> >>
+> >> Traffic flow on GMAC1 was tested on a mt7621a board with these modes:
+> >> External phy <-> GMAC1
+> >> PHY 0/4 <-> GMAC1
+> >>
+> >> Cheers.
+> >> Ar=C4=B1n=C3=A7
+> >
+> > Nitpick: next time try to put also a subject like "staging:
+> > mt7621-dts: cleanups (or whatever)" in the cover letter of the series.
+>
+> I had already sent v2 with that. I'll send v3 with your input on the
+> series, thanks!
 
-Link: https://lore.kernel.org/netdev/02ecce91-7aad-4392-c9d7-f45ca1b31e0b@arinc9.com/T/
+True, sorry I missed that!
 
-Move GB-PC2 specific phy_external node to its own device tree.
-
-Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
-Reviewed-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/staging/mt7621-dts/gbpc2.dts   | 16 +++++++++++-----
- drivers/staging/mt7621-dts/mt7621.dtsi | 13 +++----------
- 2 files changed, 14 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/staging/mt7621-dts/gbpc2.dts b/drivers/staging/mt7621-dts/gbpc2.dts
-index 6fe603c7711d..03d6bb6735ac 100644
---- a/drivers/staging/mt7621-dts/gbpc2.dts
-+++ b/drivers/staging/mt7621-dts/gbpc2.dts
-@@ -13,10 +13,16 @@ &default_gpio {
- 	function = "gpio";
- };
- 
--&gmac1 {
--	status = "ok";
--};
-+&ethernet {
-+	gmac1: mac@1 {
-+		status = "ok";
-+		phy-handle = <&phy_external>;
-+	};
- 
--&phy_external {
--	status = "ok";
-+	mdio-bus {
-+		phy_external: ethernet-phy@5 {
-+			reg = <5>;
-+			phy-mode = "rgmii-rxid";
-+		};
-+	};
- };
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 489754f6ed77..38ab6447756a 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -325,6 +325,9 @@ ethernet: ethernet@1e100000 {
- 
- 		mediatek,ethsys = <&sysc>;
- 
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&rgmii1_pins &rgmii2_pins &mdio_pins>;
-+
- 		gmac0: mac@0 {
- 			compatible = "mediatek,eth-mac";
- 			reg = <0>;
-@@ -342,22 +345,12 @@ gmac1: mac@1 {
- 			reg = <1>;
- 			status = "off";
- 			phy-mode = "rgmii-rxid";
--			phy-handle = <&phy_external>;
- 		};
- 
- 		mdio-bus {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			phy_external: ethernet-phy@5 {
--				status = "off";
--				reg = <5>;
--				phy-mode = "rgmii-rxid";
--
--				pinctrl-names = "default";
--				pinctrl-0 = <&rgmii2_pins>;
--			};
--
- 			switch0: switch0@0 {
- 				compatible = "mediatek,mt7621";
- 				reg = <0>;
--- 
-2.25.1
-
+Thanks,
+    Sergio Paracuellos
+>
+> >
+> >>
+> >> [0]: https://lore.kernel.org/netdev/83a35aa3-6cb8-2bc4-2ff4-64278bbcd8=
+c8@arinc9.com/T/
+> >>
+> >> Ar=C4=B1n=C3=A7 =C3=9CNAL (4):
+> >>        staging: mt7621-dts: fix formatting
+> >>        staging: mt7621-dts: fix switch0@0 warnings
+> >>        staging: mt7621-dts: use trgmii on gmac0 and enable flow contro=
+l on port@6
+> >>        staging: mt7621-dts: fix pinctrl properties for ethernet
+> >>
+> >>   drivers/staging/mt7621-dts/gbpc2.dts   | 16 +++++++++++-----
+> >>   drivers/staging/mt7621-dts/mt7621.dtsi | 32 ++++++++++++++++--------=
+--------
+> >>   2 files changed, 27 insertions(+), 21 deletions(-)
+> >>
+> >>
+> >
+> > Thanks for doing this!
+> >
+> > Best regards,
+> >      Sergio Paracuellos
