@@ -1,33 +1,33 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED0A2CA7
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 20:21:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3652CA7
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 20:21:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643142077; x=1674678077;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lUZK4l/4nhTIU+qINgzNeJUNGAB8cORP+SXj5e08x/Q=;
-  b=cm5lmuG08guK0GzOD3YxxZ5jOxfg1Ebf4HugO4WvR6xyJOuv8CpfRaur
-   wlBJCgHVty75MA2FjDGANvkU2AKcN2yLb0NWm3t1W9NwfO+TbAZc1X7NV
-   GqDmkERCnSTrnHRIBeALT+UJuE3J/HD55XFUeM+gN2PUcUJ+OheMQJEW4
-   kH0HI83hR5u9XQEzNuJeI8Awga62gYb7Gw2U0Dpm1Mwun62D1AEpNM3Cr
-   r9Lf5I2btZdsiepxWrhC7LmVmYG3vJbtPbvWVuVITQMKUHAJTXPWJrlNe
-   M4wqsB0WNpYX+mhv1VGR9bUU368zwhrYQM3BIfNLSZrLcv6hRRlvU0+At
+  t=1643142079; x=1674678079;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=irQ3/6gwBL9yizU5uUBclawuANglylnqeXDX3dUW+3M=;
+  b=Be8j+oQ65nmYAaGu4IjcnRGHuXawAwh4GlC/gX8iiByl0XO+ENLe0pbu
+   VEGqG0qztudBcZgQyZb7BCfPVXWsBoQAbEJj14eT4koMN1axFZzmoBCCD
+   SCwlKyDXw1Oyn/6yVgOZ5gU/yL8BU/qcGHAIdJxspZprpqZXN4leW7nx+
+   H4Q1+5KdOy0zuCIzFLo+dj30sLX/6NuVY7ABIQQlKjhRTMwzX8ELtSSbb
+   JBDhYJHpjlyd80OlZFuPMLLSHbqZp8Zi85mWSk6BNP8DzZ1JlgqTTy229
+   1yhEF4KQetJpKn4c6SywM9HJGgvW4+gqvNaQsd3xszV01TrkJA8myKrNh
    w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="245242268"
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="245242270"
 X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; 
-   d="scan'208";a="245242268"
+   d="scan'208";a="245242270"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 12:21:13 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; 
-   d="scan'208";a="477249110"
+   d="scan'208";a="477249112"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orsmga003.jf.intel.com with ESMTP; 25 Jan 2022 12:21:09 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 5E917FD; Tue, 25 Jan 2022 22:21:22 +0200 (EET)
+	id 7A8921F1; Tue, 25 Jan 2022 22:21:22 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -42,10 +42,12 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
 	Helge Deller <deller@gmx.de>,
 	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
-Date: Tue, 25 Jan 2022 22:21:13 +0200
-Message-Id: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 3/4] fbtft: Kill outdated documentation
+Date: Tue, 25 Jan 2022 22:21:16 +0200
+Message-Id: <20220125202118.63362-4-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,112 +56,65 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since we got a maintainer for fbdev, I would like to
-unorphan fbtft (with the idea of sending PRs to Helge)
-and move it out of staging since there is no more clean
-up work expected and no more drivers either.
+The driver is in maintenance mode, i.e. no new drivers will be accepted,
+and for a long time it is part of the kernel, means no need to clone any
+separate sources.
 
-Thoughts?
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/video/fbtft/README | 32 --------------------------------
+ drivers/video/fbtft/TODO   |  3 ---
+ 2 files changed, 35 deletions(-)
+ delete mode 100644 drivers/video/fbtft/README
+ delete mode 100644 drivers/video/fbtft/TODO
 
-Andy Shevchenko (4):
-  fbtft: Unorphan the driver
-  fbtft: Move driver out from staging
-  fbtft: Kill outdated documentation
-  fbtft: Replace 'depends on FB_TFT' by 'if FB_TFT ... endif'
-
- MAINTAINERS                                   |  6 ++--
- drivers/staging/Kconfig                       |  2 --
- drivers/staging/Makefile                      |  1 -
- drivers/staging/fbtft/README                  | 32 ------------------
- drivers/staging/fbtft/TODO                    |  3 --
- drivers/video/Kconfig                         |  1 +
- drivers/video/Makefile                        |  1 +
- drivers/{staging => video}/fbtft/Kconfig      | 33 +++----------------
- drivers/{staging => video}/fbtft/Makefile     |  0
- .../{staging => video}/fbtft/fb_agm1264k-fl.c |  0
- .../{staging => video}/fbtft/fb_bd663474.c    |  0
- .../{staging => video}/fbtft/fb_hx8340bn.c    |  0
- drivers/{staging => video}/fbtft/fb_hx8347d.c |  0
- drivers/{staging => video}/fbtft/fb_hx8353d.c |  0
- drivers/{staging => video}/fbtft/fb_hx8357d.c |  0
- drivers/{staging => video}/fbtft/fb_hx8357d.h |  0
- drivers/{staging => video}/fbtft/fb_ili9163.c |  0
- drivers/{staging => video}/fbtft/fb_ili9320.c |  0
- drivers/{staging => video}/fbtft/fb_ili9325.c |  0
- drivers/{staging => video}/fbtft/fb_ili9340.c |  0
- drivers/{staging => video}/fbtft/fb_ili9341.c |  0
- drivers/{staging => video}/fbtft/fb_ili9481.c |  0
- drivers/{staging => video}/fbtft/fb_ili9486.c |  0
- drivers/{staging => video}/fbtft/fb_pcd8544.c |  0
- drivers/{staging => video}/fbtft/fb_ra8875.c  |  0
- drivers/{staging => video}/fbtft/fb_s6d02a1.c |  0
- drivers/{staging => video}/fbtft/fb_s6d1121.c |  0
- drivers/{staging => video}/fbtft/fb_seps525.c |  0
- drivers/{staging => video}/fbtft/fb_sh1106.c  |  0
- drivers/{staging => video}/fbtft/fb_ssd1289.c |  0
- drivers/{staging => video}/fbtft/fb_ssd1305.c |  0
- drivers/{staging => video}/fbtft/fb_ssd1306.c |  0
- drivers/{staging => video}/fbtft/fb_ssd1325.c |  0
- drivers/{staging => video}/fbtft/fb_ssd1331.c |  0
- drivers/{staging => video}/fbtft/fb_ssd1351.c |  0
- drivers/{staging => video}/fbtft/fb_st7735r.c |  0
- drivers/{staging => video}/fbtft/fb_st7789v.c |  0
- drivers/{staging => video}/fbtft/fb_tinylcd.c |  0
- drivers/{staging => video}/fbtft/fb_tls8204.c |  0
- drivers/{staging => video}/fbtft/fb_uc1611.c  |  0
- drivers/{staging => video}/fbtft/fb_uc1701.c  |  0
- .../{staging => video}/fbtft/fb_upd161704.c   |  0
- drivers/{staging => video}/fbtft/fbtft-bus.c  |  0
- drivers/{staging => video}/fbtft/fbtft-core.c |  0
- drivers/{staging => video}/fbtft/fbtft-io.c   |  0
- .../{staging => video}/fbtft/fbtft-sysfs.c    |  0
- drivers/{staging => video}/fbtft/fbtft.h      |  0
- drivers/{staging => video}/fbtft/internal.h   |  0
- 48 files changed, 10 insertions(+), 69 deletions(-)
- delete mode 100644 drivers/staging/fbtft/README
- delete mode 100644 drivers/staging/fbtft/TODO
- rename drivers/{staging => video}/fbtft/Kconfig (89%)
- rename drivers/{staging => video}/fbtft/Makefile (100%)
- rename drivers/{staging => video}/fbtft/fb_agm1264k-fl.c (100%)
- rename drivers/{staging => video}/fbtft/fb_bd663474.c (100%)
- rename drivers/{staging => video}/fbtft/fb_hx8340bn.c (100%)
- rename drivers/{staging => video}/fbtft/fb_hx8347d.c (100%)
- rename drivers/{staging => video}/fbtft/fb_hx8353d.c (100%)
- rename drivers/{staging => video}/fbtft/fb_hx8357d.c (100%)
- rename drivers/{staging => video}/fbtft/fb_hx8357d.h (100%)
- rename drivers/{staging => video}/fbtft/fb_ili9163.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ili9320.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ili9325.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ili9340.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ili9341.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ili9481.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ili9486.c (100%)
- rename drivers/{staging => video}/fbtft/fb_pcd8544.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ra8875.c (100%)
- rename drivers/{staging => video}/fbtft/fb_s6d02a1.c (100%)
- rename drivers/{staging => video}/fbtft/fb_s6d1121.c (100%)
- rename drivers/{staging => video}/fbtft/fb_seps525.c (100%)
- rename drivers/{staging => video}/fbtft/fb_sh1106.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ssd1289.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ssd1305.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ssd1306.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ssd1325.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ssd1331.c (100%)
- rename drivers/{staging => video}/fbtft/fb_ssd1351.c (100%)
- rename drivers/{staging => video}/fbtft/fb_st7735r.c (100%)
- rename drivers/{staging => video}/fbtft/fb_st7789v.c (100%)
- rename drivers/{staging => video}/fbtft/fb_tinylcd.c (100%)
- rename drivers/{staging => video}/fbtft/fb_tls8204.c (100%)
- rename drivers/{staging => video}/fbtft/fb_uc1611.c (100%)
- rename drivers/{staging => video}/fbtft/fb_uc1701.c (100%)
- rename drivers/{staging => video}/fbtft/fb_upd161704.c (100%)
- rename drivers/{staging => video}/fbtft/fbtft-bus.c (100%)
- rename drivers/{staging => video}/fbtft/fbtft-core.c (100%)
- rename drivers/{staging => video}/fbtft/fbtft-io.c (100%)
- rename drivers/{staging => video}/fbtft/fbtft-sysfs.c (100%)
- rename drivers/{staging => video}/fbtft/fbtft.h (100%)
- rename drivers/{staging => video}/fbtft/internal.h (100%)
-
+diff --git a/drivers/video/fbtft/README b/drivers/video/fbtft/README
+deleted file mode 100644
+index ba4c74c92e4c..000000000000
+--- a/drivers/video/fbtft/README
++++ /dev/null
+@@ -1,32 +0,0 @@
+-  FBTFT
+-=========
+-
+-Linux Framebuffer drivers for small TFT LCD display modules.
+-The module 'fbtft' makes writing drivers for some of these displays very easy.
+-
+-Development is done on a Raspberry Pi running the Raspbian "wheezy" distribution.
+-
+-INSTALLATION
+-  Download kernel sources
+-
+-  From Linux 3.15
+-    cd drivers/video/fbdev/fbtft
+-    git clone https://github.com/notro/fbtft.git
+-
+-    Add to drivers/video/fbdev/Kconfig:   source "drivers/video/fbdev/fbtft/Kconfig"
+-    Add to drivers/video/fbdev/Makefile:  obj-y += fbtft/
+-
+-  Before Linux 3.15
+-    cd drivers/video
+-    git clone https://github.com/notro/fbtft.git
+-
+-    Add to drivers/video/Kconfig:   source "drivers/video/fbtft/Kconfig"
+-    Add to drivers/video/Makefile:  obj-y += fbtft/
+-
+-  Enable driver(s) in menuconfig and build the kernel
+-
+-
+-See wiki for more information: https://github.com/notro/fbtft/wiki
+-
+-
+-Source: https://github.com/notro/fbtft/
+diff --git a/drivers/video/fbtft/TODO b/drivers/video/fbtft/TODO
+deleted file mode 100644
+index e72a08bf221c..000000000000
+--- a/drivers/video/fbtft/TODO
++++ /dev/null
+@@ -1,3 +0,0 @@
+-* convert all these over to drm_simple_display_pipe and submit for inclusion
+-  into the DRM subsystem under drivers/gpu/drm - fbdev doesn't take any new
+-  drivers anymore.
 -- 
 2.34.1
 
