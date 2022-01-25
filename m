@@ -1,28 +1,28 @@
 Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEE62CA9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9150F2CAE
 	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 15:39:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1643125164; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1643125162; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=YLvM5b4cfD664NTaopBOH0LcstS+TvpMlF5mPijaiD6/kgFAxrO9nqidBl5vZXmZEqf9jUnGID+tdLHf6D0x2z8RJRyVT1g0Y4pbyevKU/Gr6ICkC661hyscCCQYQ+v2so+cYQ3owhjqRa88oKc5gGcKAmcnLEcbky53uv3ec3g=
+	b=RVMqqhQPQbwOban9kjSjjXNxbKfwnNoip2JCHzSLKl29ITF3kDxm/or9pwuFtEQQDYB+2ET8HzzDa5n4FJsSQbSzR7A2pr5QII4LediOPr2SPt1nRm+YyIHo76MiCdrnLFaloKznNV7ETHza0GuEnnUOpAeDlxQUQHe9oNRXidw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1643125164; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=CTomf6OOv8I4SDbKKsHm1luQh5NFcZk1nh+a60opaKU=; 
-	b=kuoyQSVGPrwkTJ+8TczzUCnFDodCsr1+q7WgDikFTBzPKfdOAPBWprE005Mgkro57F+VYC5aS1JGRGrzxbJilMhYBLBum+fHZCkxAbW+4zryUMT404042Oujy49Y+Xc43Y7rIpPMvtFQwGCy6ZwcHPkHFk2Yx2j2fJdHTq1xq54=
+	t=1643125162; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=9+kVenqn8AbK0m/ME6pI/7utddHDpDPd8kfN1qJlWhw=; 
+	b=SJ3lCfWctgMYiq1O55zZgGjwYsqoJPLlYGzL3hgrouuBeYmXq1GP5D1b4+lEiGEjhfY3Jx1Skre2aZq/qyNykTpoenr4E4QT2GCx2vwda9CG8SHobVxaWzXPdyRRs3BoSHEwrnHHViUL1FtBATtQrLcUV+7xo0qDDvHHn2p3n4E=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=arinc9.com;
 	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
 	dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1643125164;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1643125162;
 	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=CTomf6OOv8I4SDbKKsHm1luQh5NFcZk1nh+a60opaKU=;
-	b=KIY07Hut53JwXZc5cwdYRIzL3pxNNIAJPdCp9nD5i9Khnc2HPB0JKchNqJ4JtCfK
-	BsX3wxJG3TQVL8Jp5KwpjaY7JuQfmBzo237odRIVOcGKT/DfGEU+Aa06PvRVK2iuDgV
-	ShHvS4xasAQvB3CLEJUEb20vYiDt2q09f8AQ5lIA=
+	bh=9+kVenqn8AbK0m/ME6pI/7utddHDpDPd8kfN1qJlWhw=;
+	b=eAaaqMmPd3DFbAI6KKE0auZgolTfNzzvMx8U2GqFzrr9bXpoS0iuarsQdB397CJo
+	z6MFccLEQGpyvH0MjcZMO26I8Cqghf8HALN6bou606C3EeJjzPvpZsxVkE1ZfDP7z/R
+	7dIW0LENFBErZHSURrmZZiL3oR+1Tjhydk5+wvSA=
 Received: from arinc9-PC.localdomain (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
-	with SMTPS id 1643125163345522.4334745964095; Tue, 25 Jan 2022 07:39:23 -0800 (PST)
+	with SMTPS id 1643125160665126.14179561817866; Tue, 25 Jan 2022 07:39:20 -0800 (PST)
 From: =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
 To: Greg KH <gregkh@linuxfoundation.org>,
 	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
@@ -33,9 +33,9 @@ To: Greg KH <gregkh@linuxfoundation.org>,
 	erkin.bozoglu@xeront.com
 Cc: linux-staging@lists.linux.dev,
 	=?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-Subject: [PATCH v3 2/4] staging: mt7621-dts: fix switch0@0 warnings
-Date: Tue, 25 Jan 2022 18:39:01 +0300
-Message-Id: <20220125153903.1469-3-arinc.unal@arinc9.com>
+Subject: [PATCH v3 1/4] staging: mt7621-dts: fix formatting
+Date: Tue, 25 Jan 2022 18:39:00 +0300
+Message-Id: <20220125153903.1469-2-arinc.unal@arinc9.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220125153903.1469-1-arinc.unal@arinc9.com>
 References: <20220125153903.1469-1-arinc.unal@arinc9.com>
@@ -49,42 +49,102 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Remove reg property from ports node to fix this warning:
-
-Warning (unit_address_vs_reg): /ethernet@1e100000/mdio-bus/switch0@0/ports: node has a reg or ranges property, but no unit name
-
-Another warning surfaces afterwards. Remove #address-cells and #size-cells
-from switch0@0 node to fix this warning:
-
-Warning (avoid_unnecessary_addr_size): /ethernet@1e100000/mdio-bus/switch0@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+Fix formatting on mt7621.dtsi.
 
 Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
 Reviewed-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- drivers/staging/mt7621-dts/mt7621.dtsi | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/mt7621-dts/mt7621.dtsi | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index d120e5872165..35f19d6ae4bd 100644
+index 644a65d1a6a1..d120e5872165 100644
 --- a/drivers/staging/mt7621-dts/mt7621.dtsi
 +++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -360,8 +360,6 @@ phy_external: ethernet-phy@5 {
+@@ -44,9 +44,9 @@ mmc_fixed_3v3: fixedregulator@0 {
+ 		regulator-max-microvolt = <3300000>;
+ 		enable-active-high;
+ 		regulator-always-on;
+-	  };
++	};
  
- 			switch0: switch0@0 {
- 				compatible = "mediatek,mt7621";
--				#address-cells = <1>;
--				#size-cells = <0>;
- 				reg = <0>;
- 				mediatek,mcm;
- 				resets = <&rstctrl 2>;
-@@ -374,7 +372,6 @@ switch0: switch0@0 {
- 				ports {
+-	  mmc_fixed_1v8_io: fixedregulator@1 {
++	mmc_fixed_1v8_io: fixedregulator@1 {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "mmc_io";
+ 		regulator-min-microvolt = <1800000>;
+@@ -325,17 +325,18 @@ ethernet: ethernet@1e100000 {
+ 
+ 		mediatek,ethsys = <&sysc>;
+ 
+-
+ 		gmac0: mac@0 {
+ 			compatible = "mediatek,eth-mac";
+ 			reg = <0>;
+ 			phy-mode = "rgmii";
++
+ 			fixed-link {
+ 				speed = <1000>;
+ 				full-duplex;
+ 				pause;
+ 			};
+ 		};
++
+ 		gmac1: mac@1 {
+ 			compatible = "mediatek,eth-mac";
+ 			reg = <1>;
+@@ -343,6 +344,7 @@ gmac1: mac@1 {
+ 			phy-mode = "rgmii-rxid";
+ 			phy-handle = <&phy_external>;
+ 		};
++
+ 		mdio-bus {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+@@ -373,36 +375,43 @@ ports {
  					#address-cells = <1>;
  					#size-cells = <0>;
--					reg = <0>;
- 
+ 					reg = <0>;
++
  					port@0 {
  						status = "off";
+ 						reg = <0>;
+ 						label = "lan0";
+ 					};
++
+ 					port@1 {
+ 						status = "off";
+ 						reg = <1>;
+ 						label = "lan1";
+ 					};
++
+ 					port@2 {
+ 						status = "off";
+ 						reg = <2>;
+ 						label = "lan2";
+ 					};
++
+ 					port@3 {
+ 						status = "off";
+ 						reg = <3>;
+ 						label = "lan3";
+ 					};
++
+ 					port@4 {
+ 						status = "off";
+ 						reg = <4>;
+ 						label = "lan4";
+ 					};
++
+ 					port@6 {
+ 						reg = <6>;
+ 						label = "cpu";
+ 						ethernet = <&gmac0>;
+ 						phy-mode = "trgmii";
++
+ 						fixed-link {
+ 							speed = <1000>;
+ 							full-duplex;
 -- 
 2.25.1
 
