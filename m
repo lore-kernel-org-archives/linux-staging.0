@@ -1,46 +1,47 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2582CAE
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 17:12:24 +0000 (UTC)
-Received: by mail-il1-f177.google.com with SMTP id i14so17388845ila.11
-        for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 09:12:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F762CAE
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 17:12:27 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id h7so6546030iof.3
+        for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 09:12:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WrtH5ghaKPN4zPq0sPHDAur3BisSAdvDShbVq3dIejA=;
-        b=qfiSSeIxefWvWW91HY1bM17R0N/s6o0+Yjh0p4BV/GcxYzIkNnorxVtPITTcwXvpI9
-         TLcDMfDF+wuNR5qhQUpsq2OOvaJ3QX+ase3dO7BliS2YLsm//qPllzUxk1yGEbhooRhO
-         i5U3KuLFBMsUzdAmQeMyD3aBKR/oaCtzEXjdcCwYf/zjkcyzDfZjLrnBnqtnlzwv0/Hy
-         AF0d+nV/lEjuL2TtWvolLPHu/Kt70emVwZQ2nmvHSTrvlzbt62kqHevDG5RHvfXTG8F3
-         Bp+FyZRL79jGpWuBhI6bp02kkU5zwaNlAA/fxQ/7+iw/TDCGgd5BIokiJwShQ1jDX1nB
-         exbA==
+        bh=fa6XTevFEqtbC/DVeN/V/vlo7FN29Xl+JkqDuO3dnjc=;
+        b=W9ap+qvkTCG8bjc0uQsVrBYvZj+B6Rvoq6pwWYTLVUoilzUICwT2AXwpniH10xZ1uq
+         fUKZ9RiQFWI2INOumUpsFdJ92qRdGBLlMC4sgcC7hexgQX8yoIqWQmi2+sEuAUEOowIR
+         DZOI45GDFr2y8nALDb+hk9VuaZy/4zTuvZpI6tDFuWiZincB1L8RfzNkOaLhFVTvyGct
+         TUu8dM/96xsrK0KNQd5MSsZL6cWEQfq0p5q7/DQ9tISr37V9Dlt7RwoKaXJT/V17C8Wu
+         sVcNjMdhPdt8gMTRuqr7NtOX6PwxTafeRjOWDmZVOzM0kr4LFQ29VVSmSED74t6HxJ9/
+         G3jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WrtH5ghaKPN4zPq0sPHDAur3BisSAdvDShbVq3dIejA=;
-        b=H9jq/9P5xhM+cb1QtS52xgLsxM5/HNtk7n9WLGcUcpP74lRswDmqZSYgdPJY72DAz4
-         ZpPnbauAkHQ9NNSqIw9LHxhf4V+AGWnR8s35W/wtGQkw3OOr3cjvTZK5muBI2avBIPuu
-         BCmIPAIKA2SFQnubTTI7tqYDzXwUBV20h9yCg9vcOe76tWlkFtccHiRkDBoXiVlqfsko
-         yj1FqfiK5rtzUqiW6/9cn01SYqhQ4d/r3VLiPoACTYaDPyXTtnw+CDTEyIvBlSFoTVui
-         gz408d4xrYtKoYGUYQ5DTaTaLpewcbaf6bJFLERTfC2wJ5tR9pYinvRsqdQ+WxlP298m
-         CpZQ==
-X-Gm-Message-State: AOAM531X8cPnEkCsD9NkA2xwYfuBMxRcQrwfQa9lslAVU7dEBXBsHGY7
-	nyFzJBZSThyhc0+PAwYm5Wc=
-X-Google-Smtp-Source: ABdhPJzkxyIibb1FGTbKN+rTHBAFQa3lU1Qx2tprXS7p7+K9mSBL7V22s7wjlfzr5Avd5Q1iORjH7A==
-X-Received: by 2002:a05:6e02:12ca:: with SMTP id i10mr11495329ilm.284.1643130743930;
-        Tue, 25 Jan 2022 09:12:23 -0800 (PST)
+        bh=fa6XTevFEqtbC/DVeN/V/vlo7FN29Xl+JkqDuO3dnjc=;
+        b=4BYgbkrJU7LhXk8jtdlgaQfAIfMXikfb37gOKaLZUv3Pc0akNVpZchTrjlC8UO77xW
+         TnFTXBLtZjk3J3bLSR3D8xTKSV/sOhE+XD47lDRg5JE+jFT9ra91KR3+GVaqgAqN23W/
+         GfAvc5fhGCHfqL1NxyzDdRc6AZ1XU7tI7xJsUz0F5NAoRt4tMx2ImS9WN0XmBvHEbQBX
+         YhKtcvuwHZLHsYtD51UEddtfKwi5aYQjhw6KOFKrdP3y3R+CIeoadf6hLtOm78l7VenB
+         wLu2Fr7P9guP1d6p8RHMYqs6IprLvDyhbJEJ6mGpK85QnInRI3bMs62d2xFlSu6DjuGU
+         AyeQ==
+X-Gm-Message-State: AOAM531HwcS7152JtzpmvW5PYhYOKekl957qLWq17rkZT/5UNUHksXHI
+	BvOriac8jEc31+Jdh1TZ58o=
+X-Google-Smtp-Source: ABdhPJye5D11pR1pHEM0xttSm1nhgngvx9EPzIDrdcN8uSOlWKpqZa7TaFWo9wUdt1OTEK1fxYrw6Q==
+X-Received: by 2002:a5e:de4a:: with SMTP id e10mr5353405ioq.51.1643130746425;
+        Tue, 25 Jan 2022 09:12:26 -0800 (PST)
 Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:6592:b6fe:71b1:9f4c])
-        by smtp.gmail.com with ESMTPSA id m14sm8090291iov.0.2022.01.25.09.12.22
+        by smtp.gmail.com with ESMTPSA id m14sm8090291iov.0.2022.01.25.09.12.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jan 2022 09:12:22 -0800 (PST)
+        Tue, 25 Jan 2022 09:12:25 -0800 (PST)
 From: Adam Ford <aford173@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: aford@beaconembedded.com,
 	cphealy@gmail.com,
-	Adam Ford <aford173@gmail.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
 	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -51,15 +52,14 @@ Cc: aford@beaconembedded.com,
 	Fabio Estevam <festevam@gmail.com>,
 	NXP Linux Team <linux-imx@nxp.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lucas Stach <l.stach@pengutronix.de>,
 	linux-rockchip@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH V4 01/11] arm64: dts: imx8mq-tqma8mq: Remove redundant vpu reference
-Date: Tue, 25 Jan 2022 11:11:18 -0600
-Message-Id: <20220125171129.472775-2-aford173@gmail.com>
+Subject: [PATCH V4 02/11] dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
+Date: Tue, 25 Jan 2022 11:11:19 -0600
+Message-Id: <20220125171129.472775-3-aford173@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220125171129.472775-1-aford173@gmail.com>
 References: <20220125171129.472775-1-aford173@gmail.com>
@@ -71,26 +71,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The vpu is enabled by default, so there is no need to manually
-enable it.
+From: Lucas Stach <l.stach@pengutronix.de>
 
-Signed-off-by: Adam Ford <aford173@gmail.com>
+This adds the defines for the power domains provided by the VPU
+blk-ctrl on the i.MX8MQ.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq-tqma8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq-tqma8mq.dtsi
-index 8aedcddfeab8..38ffcd145b33 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq-tqma8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq-tqma8mq.dtsi
-@@ -272,10 +272,6 @@ &usdhc1 {
- 	status = "okay";
- };
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Acked-by: Rob Herring <robh@kernel.org>
+
+diff --git a/include/dt-bindings/power/imx8mq-power.h b/include/dt-bindings/power/imx8mq-power.h
+index 8a513bd9166e..9f7d0f1e7c32 100644
+--- a/include/dt-bindings/power/imx8mq-power.h
++++ b/include/dt-bindings/power/imx8mq-power.h
+@@ -18,4 +18,7 @@
+ #define IMX8M_POWER_DOMAIN_MIPI_CSI2	9
+ #define IMX8M_POWER_DOMAIN_PCIE2	10
  
--&vpu {
--	status = "okay";
--};
--
- /* Attention: wdog reset forcing POR needs baseboard support */
- &wdog1 {
- 	status = "okay";
++#define IMX8MQ_VPUBLK_PD_G1		0
++#define IMX8MQ_VPUBLK_PD_G2		1
++
+ #endif
 -- 
 2.32.0
 
