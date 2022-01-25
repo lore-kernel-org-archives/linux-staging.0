@@ -1,70 +1,67 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A15C2CA7
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 20:40:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=mvUJSAebKkRB+lgViRYbpCTTlvrAohmMaeU/GWRYPN8=; b=YTwMSEuPR7d+zRgdkpSBHn3QOM
-	8N8N7raV22tIBHgVeYcKS0NQ2nKGsd6UTLl6e1WeveHS/ETV9KPODONVoNc2mF/EEYuw8YICsylAM
-	RI8knU3CXNCS9QvuEXRmdU+w1ytqSDLg3y34FZ0p1EXrq9wIJ5KHNqLgFIEINHwY3ugv8kAUR0jbN
-	XmpvyAxG1bw6XKVkZJNdTu8gk5dzB4iPa5K72YbrLjNq5FVClIo7RBJ3w5zo4/rJ9Y+fNwKcAb5ku
-	c+JuGGiW+PCmjY/t+VVX8BJv1XsbdhS+F2i5PFLLlP9+LWN9JMzFE99PImgIAQny0AbjtHrL2Cbpb
-	QvfHYGcg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nCSbz-003Ywk-Pp; Tue, 25 Jan 2022 20:40:20 +0000
-Message-ID: <34f76f2a-1e41-d7ef-d135-7be56dba88ae@infradead.org>
-Date: Tue, 25 Jan 2022 12:40:14 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250752CA7
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 22:27:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B7F5C340E0;
+	Tue, 25 Jan 2022 22:27:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1643149676;
+	bh=21Wcgn1j9relNyi3Uz6u2QsAkpxOeBhxGiQVPqE19R4=;
+	h=Date:From:To:Cc:Subject:From;
+	b=Gj0nd8JJzBg2ACxpoOnKSAcoEBiYNetMzpqhFkBlB8pUui+yl2xZdzXiV5bfg2hAI
+	 +5U2cQKH2/DUpwIyfrjcJN1c03InGAJ1p9eHpF0s/Xr0bhM4maFEqYz0jlWHSg03cG
+	 VYwqPX9XEImDw0ojzIzhtfsULg80yFT5FVCsneauZoKgyXw2vJDngxmgbSyUJxZL6m
+	 iaKD10QhK4Ua9NCiZdZzw4dvh31PsatVTyw3Lre0S9lVL8OB2MHjq+6MqjSG8ra0iq
+	 n0k1NuRBz2HY0bJQ3savB8v6LJuRnFOSl8JJMXooLF+2enassriW2Q91Vvx8FtP3nW
+	 Q1tLdEbmK/kxw==
+Date: Tue, 25 Jan 2022 16:34:43 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: David Kershner <david.kershner@unisys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: sparmaintainer@unisys.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] staging: unisys: visorinput: Use struct_size() helper
+ in kzalloc()
+Message-ID: <20220125223443.GA76937@embeddedor>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 4/4] fbtft: Replace 'depends on FB_TFT' by 'if FB_TFT
- ... endif'
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Phillip Potter <phil@philpotter.co.uk>, Lee Jones <lee.jones@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, Carlis <zhangxuezhi1@yulong.com>,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Michael Hennerich <michael.hennerich@analog.com>,
- Helge Deller <deller@gmx.de>, Andy Shevchenko <andy@kernel.org>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Make use of the struct_size() helper instead of an open-coded version,
+in order to avoid any potential type mistakes or integer overflows that,
+in the worst scenario, could lead to heap overflows.
 
+Also, address the following sparse warnings:
+drivers/staging/unisys/visorinput/visorinput.c:409:27: warning: using sizeof on a flexible structure
 
-On 1/25/22 12:21, Andy Shevchenko wrote:
-> Replace 'depends on FB_TFT' by 'if FB_TFT ... endif'
-> for the sake of deduplication.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/video/fbtft/Kconfig | 33 ++++-----------------------------
->  1 file changed, 4 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/video/fbtft/Kconfig b/drivers/video/fbtft/Kconfig
-> index 4d29e8c1014e..14ea3c6a60da 100644
-> --- a/drivers/video/fbtft/Kconfig
-> +++ b/drivers/video/fbtft/Kconfig
-> @@ -10,87 +10,75 @@ menuconfig FB_TFT
+Link: https://github.com/KSPP/linux/issues/174
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/staging/unisys/visorinput/visorinput.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks.
-
+diff --git a/drivers/staging/unisys/visorinput/visorinput.c b/drivers/staging/unisys/visorinput/visorinput.c
+index 426deab22d62..dffa71ac3cc5 100644
+--- a/drivers/staging/unisys/visorinput/visorinput.c
++++ b/drivers/staging/unisys/visorinput/visorinput.c
+@@ -406,7 +406,8 @@ static struct visorinput_devdata *devdata_create(struct visor_device *dev,
+ 	if (dtype == visorinput_keyboard)
+ 		/* allocate room for devdata->keycode_table, filled in below */
+ 		extra_bytes = KEYCODE_TABLE_BYTES * 2;
+-	devdata = kzalloc(sizeof(*devdata) + extra_bytes, GFP_KERNEL);
++	devdata = kzalloc(struct_size(devdata, keycode_table, extra_bytes),
++			  GFP_KERNEL);
+ 	if (!devdata)
+ 		return NULL;
+ 	mutex_init(&devdata->lock_visor_dev);
 -- 
-~Randy
+2.27.0
+
