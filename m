@@ -1,186 +1,125 @@
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35902173
-	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 09:30:55 +0000 (UTC)
-Received: by mail-ua1-f44.google.com with SMTP id y4so36267466uad.1
-        for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 01:30:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1mm7+Qmz3LImo4aFwbhXIFkzVEgm/HAOzd6fbdAVMrg=;
-        b=kCmCEgQ+xOVJqgvY6mIiDwGpng9RE64Ri/x5bVEJVgfKmrbder8yB0SJa9j3j/iO6u
-         VSlwxJi1GtMfRaX9rz0Fi8V70QZmpTm/yg+yqKEhFTP/kvAigM6NlkG016BHxBuEGBud
-         aKKG3vXyGKhkWECz7g02ij5pN8RBjRbfSAGJhF2s+s/E8Wzq61/RmUZzmkHINs6y38kj
-         8W/C1tUsfkR71I5xYVxyEgRhxjIz/FmTGO/CwLqL3papla/+aWUpb3kyrOT/GpbDGqeC
-         c1kCPdzAMoEjl9Ka3L/ozlubTR502/GpTZoRLS5kuqKqPkl9NQ2lJSPzTzJVIDppuhpp
-         EfLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1mm7+Qmz3LImo4aFwbhXIFkzVEgm/HAOzd6fbdAVMrg=;
-        b=jFUdGS2R38JIXGqf122sl98lwdmctaeMJ5VEBt8vnqsShr999hfiyjrGU2Lp361d0s
-         +IgQ57hUSBwVVv54luY1VRMspmqRVJ/OKRZoTWEEsy1kFiomny9diyxPfohGtVMrIC8E
-         FAaDSNvRD/auNOykpML2D9ml+ZNF+TYhiC2srnVN0kCSIl8shQILSv9vFUDBwNtFfqrV
-         +mMIPYj2L1jm96M0SPIIOwfMg7+d33WXKZIbshQFYeD0i/afYD0/74q3WcA2p2UKvgE2
-         oTvdxQ6IQ+nLoJxHbyVabZLSKPtDGRFRBDQTFKjhMV3jFfyn8qzB9uaDWCa6CSX7OHNn
-         wxZw==
-X-Gm-Message-State: AOAM530REscIHtRvB+j6HceopuuelwB9n0AQ8feuSmt+U4NJQOUUsG1/
-	kPOoP/+dF7bRlpy3w+GDmwXEKi7NXcVr4ehSdnAm5w==
-X-Google-Smtp-Source: ABdhPJwHGGkAwOnsd7qe0zHQAqHAUzi5PBqvJQ90yr1sdZ5zdG5wkLeKm2Z8HhNpFMDsTHL1nOGUCrWQS9pCXlyV9Y0=
-X-Received: by 2002:a67:8c2:: with SMTP id 185mr712613vsi.19.1643103053912;
- Tue, 25 Jan 2022 01:30:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9C32CAB
+	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 09:31:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643103103; x=1674639103;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+VQ5+r1Kq+buQ3KBsLXGaXoqqEJxE2QX8j2kQTLRU9o=;
+  b=K6DIqxJ9kSXQ2zjoX4bp5icEuy3+70k+P5QTIAjNVHZq0bMw1EdTcmrL
+   aQzJU7v1R8wfQLfD5Lax1EXA2ttEp/drLwfjenETFiJlTMGk8jqW6kQAn
+   iFB0I74qjxqHAA+t065nUxE3X5qZ5BZwpggTqmj7YUROiD+Uay6MarRuz
+   RSI4VJzxzgY8QhcbI3V4A973x8Wkc1K+4bCbYgpkGk0XWJJiuJ/twdgCI
+   /BPvjt2hpzKxoJWchjQtRC/unV1yqhlCIzcmHpUsyzCOX7S8ohWoW3VZb
+   gYr924bEkbY5lpLg3I8hUlNLy/2yz3Zq9p2LVJ/SsLW0TlQe76D6+6i3S
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="246045336"
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; 
+   d="scan'208";a="246045336"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 01:31:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; 
+   d="scan'208";a="597074199"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 25 Jan 2022 01:31:34 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1nCIAo-000Jf9-1a; Tue, 25 Jan 2022 09:31:34 +0000
+Date: Tue, 25 Jan 2022 17:31:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: kbuild-all@lists.01.org, dan.carpenter@oracle.com,
+	Larry.Finger@lwfinger.net, straube.linux@gmail.com,
+	martin@kaiser.cx, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, paskripkin@gmail.com
+Subject: Re: [PATCH 06/10] staging: r8188eu: remove DBG_88E calls from
+ os_dep/ioctl_linux.c
+Message-ID: <202201251730.AgK9qxSH-lkp@intel.com>
+References: <20220124224415.831-7-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220123175201.34839-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20220123175201.34839-1-u.kleine-koenig@pengutronix.de>
-From: Lee Jones <lee.jones@linaro.org>
-Date: Tue, 25 Jan 2022 09:30:43 +0000
-Message-ID: <CAF2Aj3g0uxj7=m+USWz9QvmQ511DN83e9WsVDW-484aEdix4hg@mail.gmail.com>
-Subject: Re: [PATCH 0/5] spi: make remove callback a void function
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Mark Brown <broonie@kernel.org>, =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>, 
-	Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
-	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
-	Markuss Broks <markuss.broks@gmail.com>, Emma Anholt <emma@anholt.net>, 
-	David Lechner <david@lechnology.com>, Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>, 
-	=?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Dan Robertson <dan@dlrobertson.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <michael.hennerich@analog.com>, 
-	Marcus Folkesson <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>, 
-	Rui Miguel Silva <rmfrfs@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Pavel Machek <pavel@ucw.cz>, Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Charles-Antoine Couret <charles-antoine.couret@nexvision.fr>, Antti Palosaari <crope@iki.fi>, 
-	Support Opensource <support.opensource@diasemi.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Eric Piel <eric.piel@tremplin-utc.net>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Wolfgang Grandegger <wg@grandegger.com>, Marc Kleine-Budde <mkl@pengutronix.de>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Thomas Kopp <thomas.kopp@microchip.com>, 
-	Florian Fainelli <f.fainelli@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Vivien Didelot <vivien.didelot@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, 
-	Woojung Huh <woojung.huh@microchip.com>, UNGLinuxDriver@microchip.com, 
-	=?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Stefan Schmidt <stefan@datenfreihafen.org>, 
-	Harry Morris <h.morris@cascoda.com>, Varka Bhadram <varkabhadram@gmail.com>, 
-	Xue Liu <liuxuenetmail@gmail.com>, Alan Ott <alan@signal11.us>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Christian Lamparter <chunkeey@googlemail.com>, Kalle Valo <kvalo@kernel.org>, 
-	Ajay Singh <ajay.kathat@microchip.com>, Claudiu Beznea <Claudiu.Beznea@microchip.com>, 
-	Solomon Peachy <pizza@shaftnet.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, Mark Greer <mgreer@animalcreek.com>, 
-	Benson Leung <bleung@chromium.org>, Hans de Goede <hdegoede@redhat.com>, 
-	Mark Gross <markgross@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	=?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>, 
-	Jiri Slaby <jirislaby@kernel.org>, Felipe Balbi <balbi@kernel.org>, 
-	Daniel Thompson <daniel.thompson@linaro.org>, Jingoo Han <jingoohan1@gmail.com>, 
-	Helge Deller <deller@gmx.de>, James Schulman <james.schulman@cirrus.com>, 
-	David Rhodes <david.rhodes@cirrus.com>, Lucas Tanure <tanureal@opensource.cirrus.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Daniel Mack <daniel@zonque.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Stephan Gerhold <stephan@gerhold.net>, 
-	Alexandru Ardelean <ardeleanalex@gmail.com>, Mike Looijmans <mike.looijmans@topic.nl>, 
-	Gwendal Grignou <gwendal@chromium.org>, Cai Huoqing <caihuoqing@baidu.com>, 
-	Minghao Chi <chi.minghao@zte.com.cn>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
-	Julia Lawall <julia.lawall@inria.fr>, =?UTF-8?Q?Ronald_Tschal=C3=A4r?= <ronald@innovation.ch>, 
-	Marco Felsch <m.felsch@pengutronix.de>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>, Jon Hunter <jonathanh@nvidia.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Heiko Schocher <hs@denx.de>, 
-	Fabio Estevam <festevam@gmail.com>, Colin Ian King <colin.king@intel.com>, 
-	Dan Carpenter <dan.carpenter@oracle.com>, Tudor Ambarus <Tudor.Ambarus@microchip.com>, 
-	Matt Kline <matt@bitbashing.io>, Torin Cooper-Bennun <torin@maxiluxsystems.com>, 
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>, =?UTF-8?Q?Stefan_M=C3=A4tje?= <stefan.maetje@esd.eu>, 
-	Frieder Schrempf <frieder.schrempf@kontron.de>, Wei Yongjun <weiyongjun1@huawei.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Nanyong Sun <sunnanyong@huawei.com>, 
-	Yang Shen <shenyang39@huawei.com>, dingsenjie <dingsenjie@yulong.com>, 
-	Aditya Srivastava <yashsri421@gmail.com>, Stefan Wahren <stefan.wahren@i2se.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Michael Walle <michael@walle.cc>, 
-	Yang Li <yang.lee@linux.alibaba.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	wengjianfeng <wengjianfeng@yulong.com>, Sidong Yang <realwakka@gmail.com>, 
-	Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>, 
-	Zhang Qilong <zhangqilong3@huawei.com>, Will Deacon <will@kernel.org>, 
-	Mark Tomlinson <mark.tomlinson@alliedtelesis.co.nz>, Davidlohr Bueso <dbueso@suse.de>, 
-	Claudius Heine <ch@denx.de>, Jiri Prchal <jiri.prchal@aksignal.cz>, linux-kernel@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-media@vger.kernel.org, patches@opensource.cirrus.com, 
-	alsa-devel@alsa-project.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-mmc@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, linux-can@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-wpan@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, libertas-dev@lists.infradead.org, 
-	platform-driver-x86@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-omap@vger.kernel.org, kernel@pengutronix.de, 
-	Noralf Tronnes <notro@tronnes.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Guenter Roeck <groeck@google.com>, Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220124224415.831-7-phil@philpotter.co.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-My usual mailer won't let me reply to this many people, so I'm using Gmail.
+Hi Phillip,
 
-No idea what chaos this will cause, but here goes ...
+I love your patch! Perhaps something to improve:
 
-> The value returned by an spi driver's remove function is mostly ignored.
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
->
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared to
-> return 0 before.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
+[auto build test WARNING on staging/staging-testing]
+[also build test WARNING on v5.17-rc1 next-20220124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-[...]
+url:    https://github.com/0day-ci/linux/commits/Phillip-Potter/Cleanup-and-removal-of-DBG_88E-macro/20220125-125206
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git fa783154524a71ab74e293cd8251155e5971952b
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220125/202201251730.AgK9qxSH-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/1724ade2c1f2fa95e0e314ed9229700d6158fbbc
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Phillip-Potter/Cleanup-and-removal-of-DBG_88E-macro/20220125-125206
+        git checkout 1724ade2c1f2fa95e0e314ed9229700d6158fbbc
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arc SHELL=/bin/bash drivers/staging/r8188eu/
 
->  drivers/mfd/arizona-spi.c                             |  4 +---
->  drivers/mfd/da9052-spi.c                             |  3 +--
->  drivers/mfd/ezx-pcap.c                                |  4 +---
->  drivers/mfd/madera-spi.c                             |  4 +---
->  drivers/mfd/mc13xxx-spi.c                           |  3 +--
->  drivers/mfd/rsmu_spi.c                                |  4 +---
->  drivers/mfd/stmpe-spi.c                               |  4 +---
->  drivers/mfd/tps65912-spi.c                          |  4 +---
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
->  drivers/video/backlight/ams369fg06.c         |  3 +--
->  drivers/video/backlight/corgi_lcd.c               |  3 +--
->  drivers/video/backlight/ili922x.c                    |  3 +--
->  drivers/video/backlight/l4f00242t03.c           |  3 +--
->  drivers/video/backlight/lms501kf03.c            |  3 +--
->  drivers/video/backlight/ltv350qv.c                 |  3 +--
->  drivers/video/backlight/tdo24m.c                  |  3 +--
->  drivers/video/backlight/tosa_lcd.c                |  4 +---
->  drivers/video/backlight/vgg2432a4.c            |  4 +---
+All warnings (new ones prefixed by >>):
 
-If it's okay with Mark, it's okay with me.
+   drivers/staging/r8188eu/os_dep/ioctl_linux.c: In function 'rtw_wx_set_mlme':
+>> drivers/staging/r8188eu/os_dep/ioctl_linux.c:1022:13: warning: variable 'reason' set but not used [-Wunused-but-set-variable]
+    1022 |         u16 reason;
+         |             ^~~~~~
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
 
---=20
-Lee Jones [=E6=9D=8E=E7=90=BC=E6=96=AF]
-Linaro Services Principle Technical Lead
-Linaro.org =E2=94=82 Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+vim +/reason +1022 drivers/staging/r8188eu/os_dep/ioctl_linux.c
+
+2b42bd58b32155 Phillip Potter  2021-07-28  1016  
+2b42bd58b32155 Phillip Potter  2021-07-28  1017  static int rtw_wx_set_mlme(struct net_device *dev,
+2b42bd58b32155 Phillip Potter  2021-07-28  1018  			     struct iw_request_info *info,
+2b42bd58b32155 Phillip Potter  2021-07-28  1019  			     union iwreq_data *wrqu, char *extra)
+2b42bd58b32155 Phillip Potter  2021-07-28  1020  {
+2b42bd58b32155 Phillip Potter  2021-07-28  1021  	int ret = 0;
+2b42bd58b32155 Phillip Potter  2021-07-28 @1022  	u16 reason;
+2b42bd58b32155 Phillip Potter  2021-07-28  1023  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
+2b42bd58b32155 Phillip Potter  2021-07-28  1024  	struct iw_mlme *mlme = (struct iw_mlme *)extra;
+2b42bd58b32155 Phillip Potter  2021-07-28  1025  
+d8062f6adca1ef Michael Straube 2021-07-30  1026  	if (!mlme)
+2b42bd58b32155 Phillip Potter  2021-07-28  1027  		return -1;
+2b42bd58b32155 Phillip Potter  2021-07-28  1028  
+2b42bd58b32155 Phillip Potter  2021-07-28  1029  	reason = mlme->reason_code;
+2b42bd58b32155 Phillip Potter  2021-07-28  1030  
+2b42bd58b32155 Phillip Potter  2021-07-28  1031  	switch (mlme->cmd) {
+2b42bd58b32155 Phillip Potter  2021-07-28  1032  	case IW_MLME_DEAUTH:
+2b42bd58b32155 Phillip Potter  2021-07-28  1033  		if (!rtw_set_802_11_disassociate(padapter))
+2b42bd58b32155 Phillip Potter  2021-07-28  1034  			ret = -1;
+2b42bd58b32155 Phillip Potter  2021-07-28  1035  		break;
+2b42bd58b32155 Phillip Potter  2021-07-28  1036  	case IW_MLME_DISASSOC:
+2b42bd58b32155 Phillip Potter  2021-07-28  1037  		if (!rtw_set_802_11_disassociate(padapter))
+2b42bd58b32155 Phillip Potter  2021-07-28  1038  			ret = -1;
+2b42bd58b32155 Phillip Potter  2021-07-28  1039  		break;
+2b42bd58b32155 Phillip Potter  2021-07-28  1040  	default:
+2b42bd58b32155 Phillip Potter  2021-07-28  1041  		return -EOPNOTSUPP;
+2b42bd58b32155 Phillip Potter  2021-07-28  1042  	}
+2b42bd58b32155 Phillip Potter  2021-07-28  1043  	return ret;
+2b42bd58b32155 Phillip Potter  2021-07-28  1044  }
+2b42bd58b32155 Phillip Potter  2021-07-28  1045  
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
