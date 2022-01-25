@@ -1,33 +1,33 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C452CA7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65CF2CAF
 	for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 20:21:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643142076; x=1674678076;
+  t=1643142077; x=1674678077;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=5bzSfljY1YSz8887v/yq7xlM6sikYIoDRsSS5+W86wQ=;
-  b=PC0K1T3KBow1RnmtcUd14ktsKVbBPBiJvtxUpQ9NxEN9KGvblpoqxPbf
-   wEetDWDAeH1FmK0zBWQOVBJcwxyWrPIDJuMSAxWwOyUlBlFO8TzQ6sEMO
-   0Otuhl3KOPp2rKyYyOiMRUf5+tQq585wyQAguG8RYFpiKDbfVntOpKx6l
-   TdcNXthnhqBN7IWKvQ4hvVHLzZ6szczuaDxOiczYjSICl39L4mBlgD3nw
-   DKTEMLMUxRqDh1rExALN4XPz7TNb1pRMNbB/911FR1H4Wq0aOK9A5so6a
-   n5dAIDPhxjEwiGzYnmbKdE4jKN4BDzI1dCH98itQvpS2VExlO3OWw4Ceq
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="246189304"
+  bh=IFz3nUGKP1Br+iYMI85YwEwstVhziXjn5Y7bO34ZEVI=;
+  b=RoC9eCr8qXuNGhfWwvGJTQgofWpFgA/kbIUpRA+fgXQmFt5QCxRnaxwm
+   osloFeTkUX4uEA4P4igrY6FKyBtdwwiS0LbPdn2/KJ0Pco6bVNQ0jTDK4
+   xBfIO0APAUEcODo1qtUw5wqdYsL8JXFAhYUXxAq6qpmKouvZhA7Bqav4D
+   diqylwp8dG/JCj7sS+9IuB/59LjwLU0hY9+kZz9aw4PKNN3WvXKlahHm3
+   gioUN54NZkVFa+CfCEfZmr7YLuUwMiFObf7pDzvlqNLI8S+cJ1MssOr82
+   6wwG7CzN+uD4xMJ1Wd1W5+Jun/wtq4klpp+l0mi+n/ZPGdE2E9dquneCl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="227082862"
 X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; 
-   d="scan'208";a="246189304"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 12:21:13 -0800
+   d="scan'208";a="227082862"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 12:21:13 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; 
-   d="scan'208";a="624600071"
+   d="scan'208";a="628073594"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Jan 2022 12:21:09 -0800
+  by orsmga004.jf.intel.com with ESMTP; 25 Jan 2022 12:21:09 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 83E2F287; Tue, 25 Jan 2022 22:21:22 +0200 (EET)
+	id 71154198; Tue, 25 Jan 2022 22:21:22 +0200 (EET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -42,9 +42,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: Michael Hennerich <michael.hennerich@analog.com>,
 	Helge Deller <deller@gmx.de>,
 	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v1 4/4] fbtft: Replace 'depends on FB_TFT' by 'if FB_TFT ... endif'
-Date: Tue, 25 Jan 2022 22:21:17 +0200
-Message-Id: <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 2/4] fbtft: Move driver out from staging
+Date: Tue, 25 Jan 2022 22:21:15 +0200
+Message-Id: <20220125202118.63362-3-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
 References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
@@ -56,204 +56,340 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace 'depends on FB_TFT' by 'if FB_TFT ... endif'
-for the sake of deduplication.
+The driver is under maintenance mode, but some of the devices supported
+by it are not going to be converted to (tiny) DRM in the feasible future.
+
+In order to support them, move driver out from staging.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/video/fbtft/Kconfig | 33 ++++-----------------------------
- 1 file changed, 4 insertions(+), 29 deletions(-)
+ MAINTAINERS                                       | 2 +-
+ drivers/staging/Kconfig                           | 2 --
+ drivers/staging/Makefile                          | 1 -
+ drivers/video/Kconfig                             | 1 +
+ drivers/video/Makefile                            | 1 +
+ drivers/{staging => video}/fbtft/Kconfig          | 0
+ drivers/{staging => video}/fbtft/Makefile         | 0
+ drivers/{staging => video}/fbtft/README           | 0
+ drivers/{staging => video}/fbtft/TODO             | 0
+ drivers/{staging => video}/fbtft/fb_agm1264k-fl.c | 0
+ drivers/{staging => video}/fbtft/fb_bd663474.c    | 0
+ drivers/{staging => video}/fbtft/fb_hx8340bn.c    | 0
+ drivers/{staging => video}/fbtft/fb_hx8347d.c     | 0
+ drivers/{staging => video}/fbtft/fb_hx8353d.c     | 0
+ drivers/{staging => video}/fbtft/fb_hx8357d.c     | 0
+ drivers/{staging => video}/fbtft/fb_hx8357d.h     | 0
+ drivers/{staging => video}/fbtft/fb_ili9163.c     | 0
+ drivers/{staging => video}/fbtft/fb_ili9320.c     | 0
+ drivers/{staging => video}/fbtft/fb_ili9325.c     | 0
+ drivers/{staging => video}/fbtft/fb_ili9340.c     | 0
+ drivers/{staging => video}/fbtft/fb_ili9341.c     | 0
+ drivers/{staging => video}/fbtft/fb_ili9481.c     | 0
+ drivers/{staging => video}/fbtft/fb_ili9486.c     | 0
+ drivers/{staging => video}/fbtft/fb_pcd8544.c     | 0
+ drivers/{staging => video}/fbtft/fb_ra8875.c      | 0
+ drivers/{staging => video}/fbtft/fb_s6d02a1.c     | 0
+ drivers/{staging => video}/fbtft/fb_s6d1121.c     | 0
+ drivers/{staging => video}/fbtft/fb_seps525.c     | 0
+ drivers/{staging => video}/fbtft/fb_sh1106.c      | 0
+ drivers/{staging => video}/fbtft/fb_ssd1289.c     | 0
+ drivers/{staging => video}/fbtft/fb_ssd1305.c     | 0
+ drivers/{staging => video}/fbtft/fb_ssd1306.c     | 0
+ drivers/{staging => video}/fbtft/fb_ssd1325.c     | 0
+ drivers/{staging => video}/fbtft/fb_ssd1331.c     | 0
+ drivers/{staging => video}/fbtft/fb_ssd1351.c     | 0
+ drivers/{staging => video}/fbtft/fb_st7735r.c     | 0
+ drivers/{staging => video}/fbtft/fb_st7789v.c     | 0
+ drivers/{staging => video}/fbtft/fb_tinylcd.c     | 0
+ drivers/{staging => video}/fbtft/fb_tls8204.c     | 0
+ drivers/{staging => video}/fbtft/fb_uc1611.c      | 0
+ drivers/{staging => video}/fbtft/fb_uc1701.c      | 0
+ drivers/{staging => video}/fbtft/fb_upd161704.c   | 0
+ drivers/{staging => video}/fbtft/fbtft-bus.c      | 0
+ drivers/{staging => video}/fbtft/fbtft-core.c     | 0
+ drivers/{staging => video}/fbtft/fbtft-io.c       | 0
+ drivers/{staging => video}/fbtft/fbtft-sysfs.c    | 0
+ drivers/{staging => video}/fbtft/fbtft.h          | 0
+ drivers/{staging => video}/fbtft/internal.h       | 0
+ 48 files changed, 3 insertions(+), 4 deletions(-)
+ rename drivers/{staging => video}/fbtft/Kconfig (100%)
+ rename drivers/{staging => video}/fbtft/Makefile (100%)
+ rename drivers/{staging => video}/fbtft/README (100%)
+ rename drivers/{staging => video}/fbtft/TODO (100%)
+ rename drivers/{staging => video}/fbtft/fb_agm1264k-fl.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_bd663474.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_hx8340bn.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_hx8347d.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_hx8353d.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_hx8357d.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_hx8357d.h (100%)
+ rename drivers/{staging => video}/fbtft/fb_ili9163.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ili9320.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ili9325.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ili9340.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ili9341.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ili9481.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ili9486.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_pcd8544.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ra8875.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_s6d02a1.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_s6d1121.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_seps525.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_sh1106.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ssd1289.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ssd1305.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ssd1306.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ssd1325.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ssd1331.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_ssd1351.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_st7735r.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_st7789v.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_tinylcd.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_tls8204.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_uc1611.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_uc1701.c (100%)
+ rename drivers/{staging => video}/fbtft/fb_upd161704.c (100%)
+ rename drivers/{staging => video}/fbtft/fbtft-bus.c (100%)
+ rename drivers/{staging => video}/fbtft/fbtft-core.c (100%)
+ rename drivers/{staging => video}/fbtft/fbtft-io.c (100%)
+ rename drivers/{staging => video}/fbtft/fbtft-sysfs.c (100%)
+ rename drivers/{staging => video}/fbtft/fbtft.h (100%)
+ rename drivers/{staging => video}/fbtft/internal.h (100%)
 
-diff --git a/drivers/video/fbtft/Kconfig b/drivers/video/fbtft/Kconfig
-index 4d29e8c1014e..14ea3c6a60da 100644
---- a/drivers/video/fbtft/Kconfig
-+++ b/drivers/video/fbtft/Kconfig
-@@ -10,87 +10,75 @@ menuconfig FB_TFT
- 	select FB_DEFERRED_IO
- 	select FB_BACKLIGHT
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 16e614606ac1..1c2787d22132 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7377,7 +7377,7 @@ L:	dri-devel@lists.freedesktop.org
+ L:	linux-fbdev@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-fbtft.git
+-F:	drivers/staging/fbtft/
++F:	drivers/video/fbtft/
  
-+if FB_TFT
-+
- config FB_TFT_AGM1264K_FL
- 	tristate "FB driver for the AGM1264K-FL LCD display"
--	depends on FB_TFT
- 	help
- 	  Framebuffer support for the AGM1264K-FL LCD display (two Samsung KS0108 compatible chips)
+ FC0011 TUNER DRIVER
+ M:	Michael Buesch <m@bues.ch>
+diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
+index 8d41fdd40657..0ed757061e58 100644
+--- a/drivers/staging/Kconfig
++++ b/drivers/staging/Kconfig
+@@ -72,8 +72,6 @@ source "drivers/staging/unisys/Kconfig"
  
- config FB_TFT_BD663474
- 	tristate "FB driver for the BD663474 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for BD663474
+ source "drivers/staging/clocking-wizard/Kconfig"
  
- config FB_TFT_HX8340BN
- 	tristate "FB driver for the HX8340BN LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for HX8340BN
+-source "drivers/staging/fbtft/Kconfig"
+-
+ source "drivers/staging/most/Kconfig"
  
- config FB_TFT_HX8347D
- 	tristate "FB driver for the HX8347D LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for HX8347D
+ source "drivers/staging/ks7010/Kconfig"
+diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
+index 02b01949b94e..77d8e385498b 100644
+--- a/drivers/staging/Makefile
++++ b/drivers/staging/Makefile
+@@ -26,7 +26,6 @@ obj-$(CONFIG_FIREWIRE_SERIAL)	+= fwserial/
+ obj-$(CONFIG_GS_FPGABOOT)	+= gs_fpgaboot/
+ obj-$(CONFIG_UNISYSSPAR)	+= unisys/
+ obj-$(CONFIG_COMMON_CLK_XLNX_CLKWZRD)	+= clocking-wizard/
+-obj-$(CONFIG_FB_TFT)		+= fbtft/
+ obj-$(CONFIG_MOST)		+= most/
+ obj-$(CONFIG_KS7010)		+= ks7010/
+ obj-$(CONFIG_GREYBUS)		+= greybus/
+diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
+index 427a993c7f57..5903cb4db1a4 100644
+--- a/drivers/video/Kconfig
++++ b/drivers/video/Kconfig
+@@ -21,6 +21,7 @@ source "drivers/gpu/drm/Kconfig"
  
- config FB_TFT_HX8353D
- 	tristate "FB driver for the HX8353D LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for HX8353D
+ menu "Frame buffer Devices"
+ source "drivers/video/fbdev/Kconfig"
++source "drivers/video/fbtft/Kconfig"
+ endmenu
  
- config FB_TFT_HX8357D
- 	tristate "FB driver for the HX8357D LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for HX8357D
+ source "drivers/video/backlight/Kconfig"
+diff --git a/drivers/video/Makefile b/drivers/video/Makefile
+index df7650adede9..323d002f404d 100644
+--- a/drivers/video/Makefile
++++ b/drivers/video/Makefile
+@@ -8,6 +8,7 @@ obj-$(CONFIG_LOGO)		  += logo/
+ obj-y				  += backlight/
  
- config FB_TFT_ILI9163
- 	tristate "FB driver for the ILI9163 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for ILI9163
+ obj-y				  += fbdev/
++obj-y				  += fbtft/
  
- config FB_TFT_ILI9320
- 	tristate "FB driver for the ILI9320 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for ILI9320
- 
- config FB_TFT_ILI9325
- 	tristate "FB driver for the ILI9325 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for ILI9325
- 
- config FB_TFT_ILI9340
- 	tristate "FB driver for the ILI9340 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for ILI9340
- 
- config FB_TFT_ILI9341
- 	tristate "FB driver for the ILI9341 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for ILI9341
- 
- config FB_TFT_ILI9481
- 	tristate "FB driver for the ILI9481 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for ILI9481
- 
- config FB_TFT_ILI9486
- 	tristate "FB driver for the ILI9486 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for ILI9486
- 
- config FB_TFT_PCD8544
- 	tristate "FB driver for the PCD8544 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for PCD8544
- 
-@@ -108,62 +96,52 @@ config FB_TFT_S6D02A1
- 
- config FB_TFT_S6D1121
- 	tristate "FB driver for the S6D1211 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for S6D1121
- 
- config FB_TFT_SEPS525
- 	tristate "FB driver for the SEPS525 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for SEPS525
- 	  Say Y if you have such a display that utilizes this controller.
- 
- config FB_TFT_SH1106
- 	tristate "FB driver for the SH1106 OLED Controller"
--	depends on FB_TFT
- 	help
- 	  Framebuffer support for SH1106
- 
- config FB_TFT_SSD1289
- 	tristate "FB driver for the SSD1289 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Framebuffer support for SSD1289
- 
- config FB_TFT_SSD1305
- 	tristate "FB driver for the SSD1305 OLED Controller"
--	depends on FB_TFT
- 	help
- 	  Framebuffer support for SSD1305
- 
- config FB_TFT_SSD1306
- 	tristate "FB driver for the SSD1306 OLED Controller"
--	depends on FB_TFT
- 	help
- 	  Framebuffer support for SSD1306
- 
- config FB_TFT_SSD1331
- 	tristate "FB driver for the SSD1331 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Framebuffer support for SSD1331
- 
- config FB_TFT_SSD1351
- 	tristate "FB driver for the SSD1351 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Framebuffer support for SSD1351
- 
- config FB_TFT_ST7735R
- 	tristate "FB driver for the ST7735R LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for ST7735R
- 
- config FB_TFT_ST7789V
- 	tristate "FB driver for the ST7789V LCD Controller"
--	depends on FB_TFT
- 	help
- 	  This enables generic framebuffer support for the Sitronix ST7789V
- 	  display controller. The controller is intended for small color
-@@ -173,30 +151,27 @@ config FB_TFT_ST7789V
- 
- config FB_TFT_TINYLCD
- 	tristate "FB driver for tinylcd.com display"
--	depends on FB_TFT
- 	help
- 	  Custom Framebuffer support for tinylcd.com display
- 
- config FB_TFT_TLS8204
- 	tristate "FB driver for the TLS8204 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for TLS8204
- 
- config FB_TFT_UC1611
- 	tristate "FB driver for the UC1611 LCD controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for UC1611
- 
- config FB_TFT_UC1701
- 	tristate "FB driver for the UC1701 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for UC1701
- 
- config FB_TFT_UPD161704
- 	tristate "FB driver for the uPD161704 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for uPD161704
-+
-+endif
+ obj-$(CONFIG_VIDEOMODE_HELPERS) += display_timing.o videomode.o
+ ifeq ($(CONFIG_OF),y)
+diff --git a/drivers/staging/fbtft/Kconfig b/drivers/video/fbtft/Kconfig
+similarity index 100%
+rename from drivers/staging/fbtft/Kconfig
+rename to drivers/video/fbtft/Kconfig
+diff --git a/drivers/staging/fbtft/Makefile b/drivers/video/fbtft/Makefile
+similarity index 100%
+rename from drivers/staging/fbtft/Makefile
+rename to drivers/video/fbtft/Makefile
+diff --git a/drivers/staging/fbtft/README b/drivers/video/fbtft/README
+similarity index 100%
+rename from drivers/staging/fbtft/README
+rename to drivers/video/fbtft/README
+diff --git a/drivers/staging/fbtft/TODO b/drivers/video/fbtft/TODO
+similarity index 100%
+rename from drivers/staging/fbtft/TODO
+rename to drivers/video/fbtft/TODO
+diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c b/drivers/video/fbtft/fb_agm1264k-fl.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_agm1264k-fl.c
+rename to drivers/video/fbtft/fb_agm1264k-fl.c
+diff --git a/drivers/staging/fbtft/fb_bd663474.c b/drivers/video/fbtft/fb_bd663474.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_bd663474.c
+rename to drivers/video/fbtft/fb_bd663474.c
+diff --git a/drivers/staging/fbtft/fb_hx8340bn.c b/drivers/video/fbtft/fb_hx8340bn.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_hx8340bn.c
+rename to drivers/video/fbtft/fb_hx8340bn.c
+diff --git a/drivers/staging/fbtft/fb_hx8347d.c b/drivers/video/fbtft/fb_hx8347d.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_hx8347d.c
+rename to drivers/video/fbtft/fb_hx8347d.c
+diff --git a/drivers/staging/fbtft/fb_hx8353d.c b/drivers/video/fbtft/fb_hx8353d.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_hx8353d.c
+rename to drivers/video/fbtft/fb_hx8353d.c
+diff --git a/drivers/staging/fbtft/fb_hx8357d.c b/drivers/video/fbtft/fb_hx8357d.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_hx8357d.c
+rename to drivers/video/fbtft/fb_hx8357d.c
+diff --git a/drivers/staging/fbtft/fb_hx8357d.h b/drivers/video/fbtft/fb_hx8357d.h
+similarity index 100%
+rename from drivers/staging/fbtft/fb_hx8357d.h
+rename to drivers/video/fbtft/fb_hx8357d.h
+diff --git a/drivers/staging/fbtft/fb_ili9163.c b/drivers/video/fbtft/fb_ili9163.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ili9163.c
+rename to drivers/video/fbtft/fb_ili9163.c
+diff --git a/drivers/staging/fbtft/fb_ili9320.c b/drivers/video/fbtft/fb_ili9320.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ili9320.c
+rename to drivers/video/fbtft/fb_ili9320.c
+diff --git a/drivers/staging/fbtft/fb_ili9325.c b/drivers/video/fbtft/fb_ili9325.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ili9325.c
+rename to drivers/video/fbtft/fb_ili9325.c
+diff --git a/drivers/staging/fbtft/fb_ili9340.c b/drivers/video/fbtft/fb_ili9340.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ili9340.c
+rename to drivers/video/fbtft/fb_ili9340.c
+diff --git a/drivers/staging/fbtft/fb_ili9341.c b/drivers/video/fbtft/fb_ili9341.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ili9341.c
+rename to drivers/video/fbtft/fb_ili9341.c
+diff --git a/drivers/staging/fbtft/fb_ili9481.c b/drivers/video/fbtft/fb_ili9481.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ili9481.c
+rename to drivers/video/fbtft/fb_ili9481.c
+diff --git a/drivers/staging/fbtft/fb_ili9486.c b/drivers/video/fbtft/fb_ili9486.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ili9486.c
+rename to drivers/video/fbtft/fb_ili9486.c
+diff --git a/drivers/staging/fbtft/fb_pcd8544.c b/drivers/video/fbtft/fb_pcd8544.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_pcd8544.c
+rename to drivers/video/fbtft/fb_pcd8544.c
+diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/video/fbtft/fb_ra8875.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ra8875.c
+rename to drivers/video/fbtft/fb_ra8875.c
+diff --git a/drivers/staging/fbtft/fb_s6d02a1.c b/drivers/video/fbtft/fb_s6d02a1.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_s6d02a1.c
+rename to drivers/video/fbtft/fb_s6d02a1.c
+diff --git a/drivers/staging/fbtft/fb_s6d1121.c b/drivers/video/fbtft/fb_s6d1121.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_s6d1121.c
+rename to drivers/video/fbtft/fb_s6d1121.c
+diff --git a/drivers/staging/fbtft/fb_seps525.c b/drivers/video/fbtft/fb_seps525.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_seps525.c
+rename to drivers/video/fbtft/fb_seps525.c
+diff --git a/drivers/staging/fbtft/fb_sh1106.c b/drivers/video/fbtft/fb_sh1106.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_sh1106.c
+rename to drivers/video/fbtft/fb_sh1106.c
+diff --git a/drivers/staging/fbtft/fb_ssd1289.c b/drivers/video/fbtft/fb_ssd1289.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ssd1289.c
+rename to drivers/video/fbtft/fb_ssd1289.c
+diff --git a/drivers/staging/fbtft/fb_ssd1305.c b/drivers/video/fbtft/fb_ssd1305.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ssd1305.c
+rename to drivers/video/fbtft/fb_ssd1305.c
+diff --git a/drivers/staging/fbtft/fb_ssd1306.c b/drivers/video/fbtft/fb_ssd1306.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ssd1306.c
+rename to drivers/video/fbtft/fb_ssd1306.c
+diff --git a/drivers/staging/fbtft/fb_ssd1325.c b/drivers/video/fbtft/fb_ssd1325.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ssd1325.c
+rename to drivers/video/fbtft/fb_ssd1325.c
+diff --git a/drivers/staging/fbtft/fb_ssd1331.c b/drivers/video/fbtft/fb_ssd1331.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ssd1331.c
+rename to drivers/video/fbtft/fb_ssd1331.c
+diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/video/fbtft/fb_ssd1351.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_ssd1351.c
+rename to drivers/video/fbtft/fb_ssd1351.c
+diff --git a/drivers/staging/fbtft/fb_st7735r.c b/drivers/video/fbtft/fb_st7735r.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_st7735r.c
+rename to drivers/video/fbtft/fb_st7735r.c
+diff --git a/drivers/staging/fbtft/fb_st7789v.c b/drivers/video/fbtft/fb_st7789v.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_st7789v.c
+rename to drivers/video/fbtft/fb_st7789v.c
+diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/video/fbtft/fb_tinylcd.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_tinylcd.c
+rename to drivers/video/fbtft/fb_tinylcd.c
+diff --git a/drivers/staging/fbtft/fb_tls8204.c b/drivers/video/fbtft/fb_tls8204.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_tls8204.c
+rename to drivers/video/fbtft/fb_tls8204.c
+diff --git a/drivers/staging/fbtft/fb_uc1611.c b/drivers/video/fbtft/fb_uc1611.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_uc1611.c
+rename to drivers/video/fbtft/fb_uc1611.c
+diff --git a/drivers/staging/fbtft/fb_uc1701.c b/drivers/video/fbtft/fb_uc1701.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_uc1701.c
+rename to drivers/video/fbtft/fb_uc1701.c
+diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/video/fbtft/fb_upd161704.c
+similarity index 100%
+rename from drivers/staging/fbtft/fb_upd161704.c
+rename to drivers/video/fbtft/fb_upd161704.c
+diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/video/fbtft/fbtft-bus.c
+similarity index 100%
+rename from drivers/staging/fbtft/fbtft-bus.c
+rename to drivers/video/fbtft/fbtft-bus.c
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/video/fbtft/fbtft-core.c
+similarity index 100%
+rename from drivers/staging/fbtft/fbtft-core.c
+rename to drivers/video/fbtft/fbtft-core.c
+diff --git a/drivers/staging/fbtft/fbtft-io.c b/drivers/video/fbtft/fbtft-io.c
+similarity index 100%
+rename from drivers/staging/fbtft/fbtft-io.c
+rename to drivers/video/fbtft/fbtft-io.c
+diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/video/fbtft/fbtft-sysfs.c
+similarity index 100%
+rename from drivers/staging/fbtft/fbtft-sysfs.c
+rename to drivers/video/fbtft/fbtft-sysfs.c
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/video/fbtft/fbtft.h
+similarity index 100%
+rename from drivers/staging/fbtft/fbtft.h
+rename to drivers/video/fbtft/fbtft.h
+diff --git a/drivers/staging/fbtft/internal.h b/drivers/video/fbtft/internal.h
+similarity index 100%
+rename from drivers/staging/fbtft/internal.h
+rename to drivers/video/fbtft/internal.h
 -- 
 2.34.1
 
