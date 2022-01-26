@@ -1,117 +1,63 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BECA2C82
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 11:53:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1643197978;
-	bh=F7OJttXg/1SZ0+8XJ9RiNQByJGuOFHv6GJfi8vBzmYw=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BmLcpCzUBSLykup7cIGSUDtObsuUdvnq63pboFGQ2DPbPrvxRudA5+fwMJwM2HODc
-	 bY1+Bylrk3oQi4cktMU1K5x8JIABqVO/92bB3NGuUkKiH+FSeu7eNa0YDKWd49qTtQ
-	 rn3+65OTV/7gluAsoKD/Igz7+XA4qzGk7/3p5uoE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.143.57]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1McH5Q-1mgw0T46RA-00ceIm; Wed, 26
- Jan 2022 12:52:58 +0100
-Message-ID: <1d00ed48-0606-823c-58c4-e45948383c42@gmx.de>
-Date: Wed, 26 Jan 2022 12:51:46 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D422C82
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 12:03:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC006C340E3;
+	Wed, 26 Jan 2022 12:03:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1643198586;
+	bh=LQmTP+KmRWl3m9v2Km0Z/hWKneKL6Li6IlRAbvPpx+E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HJLFjewCXAqFsgPogVd2jlu7dDix1vaWVBQGwc0a4bs9gv52iF/MBeZNNJtNoBfVX
+	 CxpGz66LHWTpxuByvLdyGquzN2hVR66mvSXeEsTaH4gFhbLOKy8Hlmj+TPA64B7L/B
+	 BhK+X+09SgypH+kwqwnCTbQ2kRY47shqj6KDomfo=
+Date: Wed, 26 Jan 2022 13:03:03 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+Cc: realwakka@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] staging: pi433: add debugfs interface
+Message-ID: <YfE4d4UY1yIVvapC@kroah.com>
+References: <20220124042506.GA7662@mail.google.com>
+ <20220124042721.GA8078@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Andy Shevchenko <andy@kernel.org>,
- linux-fbdev@vger.kernel.org, Michael Hennerich
- <michael.hennerich@analog.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Phillip Potter <phil@philpotter.co.uk>, Carlis <zhangxuezhi1@yulong.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
- <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
- <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
- <b13c0634-e766-74db-ab1f-672f5d0c04d6@redhat.com>
- <6f508ff0-1807-7665-6c93-7f3eea4a1bdd@gmx.de> <YfEyo2xxfFyl2ADI@kroah.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <YfEyo2xxfFyl2ADI@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZGYf5OHyO+vtorTjqz8WFu3J4v+yvqdZUvA02XGd8Gg3WJg6h54
- VohWg1nKDLCpu2ALkG9i4njJwx8Q/aW7irq0BafPPszKlHI7qYiPQaWgUJ09y1mDg8NWqio
- C29bSn/Mci4UAmVj4ifYixzvoNSdl6CaTyuZ1eZ6NvGfc5olq99d+lrA9BpkdEzgmRpHyNE
- MhcUnZ8b2ebV3f76EYsqA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:w9qrTwYOmn0=:UxpeVox+PWTxA4QnRfHa+k
- iVXHQ/nCYtI9WMoeQuHm5tszeSgZmOTGq82hL8XrRhwmioSX7lWlqvh0EN5YNqsC40C8VWUrT
- rDiEg0qCUFCrM/n0ct12Y4OGaZg0VM/LUdW4MvEODYEOPocWYcr2YFi88cIxozYxlLTHnlgN1
- 5UStEUd8FVeKjgluZ9yTxv7MtqrENOCCtOndIU5XRWKH6PT2wwCq5+0pblf7iGFLWdT/xypzL
- FQQODd4qpJAPUckfDDc+tdKMPP66d7vFBKDib23CXEG3N4sZe4fMcviVUeexCCC1spikSdSTq
- /VsMT9GxNC+MPg3SG+qAb1rK/+FAsFafTlxGaUXmZK+/qVY038e9L08ui+DO0xld7wJ7r1er5
- dNhEIGqnpBD2rN3i99sk29cPzTT3x3K8b7Adx5KliVu8kMvaRur9XuM0UymBQGUi12qGveE+D
- Gk3eNJT1eWqDeJF8ku/1lQMK99k8oBA5xWUNuwxMO/QIXER49eEaoWuevjJZ/FWbzScjLn9jM
- P1vzySpRYQphcZU3WMEP9gXdPNYGkrr1BHd0BBqvFor4Xs5ZyFkttG18Mu/8Uchx6fGaYcQg7
- 2/Txj5eTCKtqnweZ4Vpi6ZztMa2Pf7JVM93OU1s4T/PBCaBhyNFuGrqkzKZKhIw9TAyLfAIWD
- Fbj+/EhNa6Zh2Pn0zlfAr1dA/Pzs45H2syyCLHTg7uM0/LQ3FZ7qz7edk9VJECGLkH6IP+8wG
- 5smGPqyvI7K5BDKpC99xozOad/aF03ktqBUem5aMmiwJcOWg7qWcfgTuP+2Y7FYE4HBRxkNna
- fXMfFiagItVApdQNm0dLHZJkJWleOn8xthvb1mdibJncedpImpPInC4goKdbZaqZcSSf5pFak
- v2xB6zIFeKQBBhHCNDWyWuXkNN1GVN8jVvdaL+UeEIQxd1pfcbixj32PUhGgy5EwkirwuF4C8
- Amt+iDwWEGgHqWdUCxh6klwqx77msMuT91lZrxtzVGojm9uYGS/fKx0yM10UQFwddsDx7HJE9
- 435eXk1ea8I6Ws01873zGd0T1G/ft+cCc9BUJNFq0BsfWigFanusbzYU0CRUPYN59CYRo+o90
- GlkE+JYxRjuSx0=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220124042721.GA8078@mail.google.com>
 
-On 1/26/22 12:38, Greg Kroah-Hartman wrote:
-> On Wed, Jan 26, 2022 at 12:31:21PM +0100, Helge Deller wrote:
->> On 1/26/22 12:18, Javier Martinez Canillas wrote:
->>> On 1/26/22 11:59, Helge Deller wrote:
->>>> On 1/26/22 11:02, Andy Shevchenko wrote:
->>>
->>> [snip]
->>>
->>>>> P.S. For the record, I will personally NAK any attempts to remove th=
-at
->>>>> driver from the kernel. And this is another point why it's better no=
-t
->>>>> to be under the staging.
->>>>
->>>> I agree. Same as for me to NAK the disabling of fbcon's acceleration
->>>> features or even attempting to remove fbdev altogether (unless all
->>>> relevant drivers are ported to DRM).
->>>>
->>>
->>> But that will never happen if we keep moving the goal post.
->>>
->>> At some point new fbdev drivers should not be added anymore, otherwise
->>> the number of existing drivers that need conversion will keep growing.
->>
->> Good point, and yes you are right!
->>
->> I think the rule should be something like:
->>
->> New graphics devices (e.g. max. 3 years old from now) usually are
->> capable to be ported to DRM.
->> For those graphics cards we should put a hard stop and not include them
->> as new driver into the fbdev framework. Inclusion for those will only
->> happen as DRM driver.
->
-> We made this rule 6 years ago already.
+On Mon, Jan 24, 2022 at 05:27:21PM +1300, Paulo Miguel Almeida wrote:
+> This adds debugfs interface that can be used for debugging possible
+> hardware/software issues.
+> 
+> It currently exposes the following debugfs entries for each SPI device
+> probed:
+> 
+>   /sys/kernel/debug/pi433/<DEVICE>/regs
+>   ...
+> 
+> The 'regs' file contains all rf69 uC registers values that are useful
+> for troubleshooting misconfigurations between 2 devices. It contains one
+> register per line so it should be easy to use normal filtering tools to
+> find the registers of interest if needed.
+> 
+> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> ---
+>  drivers/staging/pi433/pi433_if.c | 80 ++++++++++++++++++++++++++++++++
+>  drivers/staging/pi433/rf69.c     |  2 +-
+>  drivers/staging/pi433/rf69.h     |  1 +
+>  3 files changed, 82 insertions(+), 1 deletion(-)
 
-Very good.
+Breaks the build:
 
-Was there any decision how to handle drivers which can't use DRM,
-or for which DRM doesn't make sense?
+drivers/staging/pi433/pi433_if.c:1166:25: error: initialization of ‘int (*)(struct inode *, struct file *)’ from incompatible pointer type ‘ssize_t (*)(struct inode *, struct file *)’ {aka ‘long int (*)(struct inode *, struct file *)’} [-Werror=incompatible-pointer-types]
+ 1166 |         .open =         pi433_debugfs_regs_open,
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~
 
-So the best way forward regarding those fbtft drivers is probably what
-you suggested: Split them and move those DRM-capable drivers to DRM,
-the others to fbdev, right?
 
-Helge
