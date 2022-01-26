@@ -1,42 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC28929CA
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 12:56:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2038C340E3;
-	Wed, 26 Jan 2022 12:56:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1643201774;
-	bh=+uQzWCy3goF3RaLFGLDlYtTmhbKDwJ9mmroAyGz68E8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ktW4xyvmOe9ChP6gtf/lRqUThgjRVhgORLSFiSKHpg9Fbg9q4ywvt2V1Pk8495zsw
-	 r0w87+hKzyOlWngV8M6cW9TWY/lkNKTY/XQLPzdt14VKcfO/tmcAp5MDWkISDu6lnK
-	 IFuDvJw5FKnkgMv1YCYDD83d1UYwrRLMZxge6nvc=
-Date: Wed, 26 Jan 2022 13:56:11 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Helge Deller <deller@gmx.de>, linux-staging@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171AA2CA8
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 13:04:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643202244; x=1674738244;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mSnFOYWb2NTAiZJ6gl/F22Fq/rOFI1cKTn49lNqjzw4=;
+  b=MGFdU2KsEa2dTca1z3pCV6qBPAOhNPamSEYoBAeUCk2sMWcnXwE4HkeP
+   xjEhG6ZytrbOivd6jl/8TSJp/O47+UIHyQylOGHoYVPOVawzy0eOZpaXT
+   Jh34UgK8npz1O51JHjYMuchx79wdttE+Qbi0KcYl+u6KPXxF61AR8jqZm
+   Br4XwA4wi3Gzwdzpjebj7vfnp/F4EHN7y9DrkefTWiueqrnfcUKOXJa5l
+   eCzoGGfmWLksw03LmhPHc+TBpTAlnCRCD7kNwUYkORst0YOjsbVG9YWsa
+   W/5B/x071lJjreNDttoC60B8maQ4Nod9Xoa/61I+wYb0QL0eVmqWgNbo9
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="244142423"
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
+   d="scan'208";a="244142423"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 05:03:50 -0800
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
+   d="scan'208";a="617957353"
+Received: from smile.fi.intel.com ([10.237.72.61])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 05:03:47 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1nChwe-00EbPb-NL;
+	Wed, 26 Jan 2022 15:02:40 +0200
+Date: Wed, 26 Jan 2022 15:02:40 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Joe Perches <joe@perches.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Phillip Potter <phil@philpotter.co.uk>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Carlis <zhangxuezhi1@yulong.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Lee Jones <lee.jones@linaro.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
-Message-ID: <YfFE61IQus3SMQRZ@kroah.com>
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Carlis <zhangxuezhi1@yulong.com>, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Helge Deller <deller@gmx.de>, Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH v1 4/4] fbtft: Replace 'depends on FB_TFT' by 'if FB_TFT
+ ... endif'
+Message-ID: <YfFGcEDnQwdDSwOx@smile.fi.intel.com>
 References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
- <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
- <CAHp75Vd7oaYPKx6bxjCqNnm6fieeQFrtq5K4YYrxYbXoXFy=+Q@mail.gmail.com>
- <20220126102858.GX1951@kadam>
- <1b665bb8-7acb-519b-0a02-ef0f2dd4b524@redhat.com>
+ <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
+ <e12b11d20e22123736e5d8728286947e971c489f.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,68 +55,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1b665bb8-7acb-519b-0a02-ef0f2dd4b524@redhat.com>
+In-Reply-To: <e12b11d20e22123736e5d8728286947e971c489f.camel@perches.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Jan 26, 2022 at 01:37:00PM +0100, Javier Martinez Canillas wrote:
-> On 1/26/22 11:28, Dan Carpenter wrote:
-> > On Wed, Jan 26, 2022 at 12:04:26PM +0200, Andy Shevchenko wrote:
-> >> On Wed, Jan 26, 2022 at 12:02 PM Andy Shevchenko
-> >> <andy.shevchenko@gmail.com> wrote:
-> >>> On Wed, Jan 26, 2022 at 10:52 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >>>> Am 25.01.22 um 21:21 schrieb Andy Shevchenko:
-> >>
-> >> ...
-> >>
-> >>>> But why? We already have DRM drivers for some of these devices.
-> >>>
-> >>> No, we do not (only a few are available).
-> >>
-> >> Sorry, I missed your word 'some'. Some == almost none from the list (I
-> >> don't remember exact numbers but something like 2 out of 10 are
-> >> supported by tiny DRM and see about interfaces).
-> > 
-> > Could we get an exact list?
-> > 
+On Wed, Jan 26, 2022 at 12:54:13AM -0800, Joe Perches wrote:
+> On Tue, 2022-01-25 at 22:21 +0200, Andy Shevchenko wrote:
+> > Replace 'depends on FB_TFT' by 'if FB_TFT ... endif'
+> > for the sake of deduplication.
+> []
+> > diff --git a/drivers/video/fbtft/Kconfig b/drivers/video/fbtft/Kconfig
+> []
+> > @@ -10,87 +10,75 @@ menuconfig FB_TFT
+> >  	select FB_DEFERRED_IO
+> >  	select FB_BACKLIGHT
+> >  
+> > +if FB_TFT
+> > +
+> []
+> >  config FB_TFT_PCD8544
+> >  	tristate "FB driver for the PCD8544 LCD Controller"
+> > -	depends on FB_TFT
+> >  	help
+> >  	  Generic Framebuffer support for PCD8544
+> >  
+> > @@ -108,62 +96,52 @@ config FB_TFT_S6D02A1
 > 
-> The list AFAICT is the following. I'm not familiar with these so please
-> feel free to correct anything I got wrong here.
-> 
-> I've marked with '?' if found references to the device supported by the
-> fbdev driver in a DRM driver, but it's not clear if support the same HW.
-> 
-> Drivers in drivers/staging/fbtft:
-> 
->    fb_agm1264k-fl.c
->    fb_bd663474.c
->    fb_hx8340bn.c
->    fb_hx8347d.c (DRM driver in drivers/gpu/drm/tiny/hx8357d.c)
->    fb_hx8353d.c
->    fb_hx8357d.c (DRM driver in drivers/gpu/drm/tiny/hx8357d.c)
->    fb_ili9163.c (DRM driver in drivers/gpu/drm/tiny/ili9163.c)
->    fb_ili9320.c
->    fb_ili9325.c
->    fb_ili9340.c (DRM driver in drivers/gpu/drm/tiny/mi0283qt.c ?)
->    fb_ili9341.c (DRM driver in drivers/gpu/drm/tiny/mi0283qt.c ?)
->    fb_ili9481.c
->    fb_ili9486.c (DRM driver in drivers/gpu/drm/tiny/ili9486.c)
->    fb_pcd8544.c
->    fb_ra8875.c
->    fb_s6d02a1.c
->    fb_s6d1121.c
->    fb_seps525.c
->    fb_sh1106.c
->    fb_ssd1289.c
->    fb_ssd1305.c
->    fb_ssd1306.c
->    fb_ssd1325.c
->    fb_ssd1331.c
->    fb_ssd1351.c
->    fb_st7735r.c (DRM driver in drivers/gpu/drm/tiny/st7735r.c)
->    fb_st7789v.c (DRM driver in drivers/gpu/drm/panel/panel-sitronix-st7789v.c)
+> Looks like you missed a couple.
 
-I'll gladly take a patch that deletes the fb_* files that are already
-handled by a DRM driver like you list here.
+Thanks! I'll incorporate it, if the series has a continuation.
 
-thanks,
+-- 
+With Best Regards,
+Andy Shevchenko
 
-greg k-h
+
