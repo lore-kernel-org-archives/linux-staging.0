@@ -1,63 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D422C82
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 12:03:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC006C340E3;
-	Wed, 26 Jan 2022 12:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802B42C82
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 12:06:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBE72C340E8;
+	Wed, 26 Jan 2022 12:06:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1643198586;
-	bh=LQmTP+KmRWl3m9v2Km0Z/hWKneKL6Li6IlRAbvPpx+E=;
+	s=korg; t=1643198771;
+	bh=wBuUv2urNmkd6B7YiVdXQn3atD/cdJFkM+tiso+uQ4E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HJLFjewCXAqFsgPogVd2jlu7dDix1vaWVBQGwc0a4bs9gv52iF/MBeZNNJtNoBfVX
-	 CxpGz66LHWTpxuByvLdyGquzN2hVR66mvSXeEsTaH4gFhbLOKy8Hlmj+TPA64B7L/B
-	 BhK+X+09SgypH+kwqwnCTbQ2kRY47shqj6KDomfo=
-Date: Wed, 26 Jan 2022 13:03:03 +0100
+	b=r3FrCtAYS5xIhjHWzlg3RBJ7tWHuB9zz3QQI0i2vIkIlT+j1/dZkgkT/UhaRWjChG
+	 nYCT0cTZh/16lpfuxFbjMRiikUStCKIPtk7XZHn4Dk6BZntyOoqyAIGcbac9zbOURR
+	 uoeNVWkNKSbgGFXVe8hFlyvb5j2d1Je38zAExUi8=
+Date: Wed, 26 Jan 2022 13:06:08 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc: realwakka@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: pi433: add debugfs interface
-Message-ID: <YfE4d4UY1yIVvapC@kroah.com>
-References: <20220124042506.GA7662@mail.google.com>
- <20220124042721.GA8078@mail.google.com>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: linux-clk@vger.kernel.org, john@phrozen.org,
+	linux-staging@lists.linux.dev, neil@brown.name,
+	p.zabel@pengutronix.de, linux-kernel@vger.kernel.org,
+	sboyd@kernel.org
+Subject: Re: [PATCH v8 0/4] clk: ralink: make system controller a reset
+ provider
+Message-ID: <YfE5MOkQRoHQV7Wf@kroah.com>
+References: <20220110114930.1406665-1-sergio.paracuellos@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220124042721.GA8078@mail.google.com>
+In-Reply-To: <20220110114930.1406665-1-sergio.paracuellos@gmail.com>
 
-On Mon, Jan 24, 2022 at 05:27:21PM +1300, Paulo Miguel Almeida wrote:
-> This adds debugfs interface that can be used for debugging possible
-> hardware/software issues.
+On Mon, Jan 10, 2022 at 12:49:26PM +0100, Sergio Paracuellos wrote:
+> Hi all,
 > 
-> It currently exposes the following debugfs entries for each SPI device
-> probed:
+> This patch series add minimal change to provide mt7621 resets properly
+> defining them in the 'mediatek,mt7621-sysc' node which is the system
+> controller of the SoC and is already providing clocks to the rest of
+> the world.
 > 
->   /sys/kernel/debug/pi433/<DEVICE>/regs
->   ...
+> There is shared architecture code for all ralink platforms in 'reset.c'
+> file located in 'arch/mips/ralink' but the correct thing to do to align
+> hardware with software seems to define and add related reset code to the
+> already mainlined clock driver.
 > 
-> The 'regs' file contains all rf69 uC registers values that are useful
-> for troubleshooting misconfigurations between 2 devices. It contains one
-> register per line so it should be easy to use normal filtering tools to
-> find the registers of interest if needed.
+> After this changes, we can get rid of the useless reset controller node
+> in the device tree and use system controller node instead where the property
+> '#reset-cells' has been added. Binding documentation for this nodeq has
+> been updated with the new property accordly.
 > 
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> ---
->  drivers/staging/pi433/pi433_if.c | 80 ++++++++++++++++++++++++++++++++
->  drivers/staging/pi433/rf69.c     |  2 +-
->  drivers/staging/pi433/rf69.h     |  1 +
->  3 files changed, 82 insertions(+), 1 deletion(-)
+> This series also provide a bindings include header where all related
+> reset bits for the MT7621 SoC are defined.
+> 
+> Also, please take a look to this review [0] to understand better motivation
+> for this series.
+> 
+> Regarding the way of merging this:
+>  - I'd like patches 1 and 4 which are related going through staging tree.
 
-Breaks the build:
+Patches 1 and 4 now in the staging tree, thanks.
 
-drivers/staging/pi433/pi433_if.c:1166:25: error: initialization of ‘int (*)(struct inode *, struct file *)’ from incompatible pointer type ‘ssize_t (*)(struct inode *, struct file *)’ {aka ‘long int (*)(struct inode *, struct file *)’} [-Werror=incompatible-pointer-types]
- 1166 |         .open =         pi433_debugfs_regs_open,
-      |                         ^~~~~~~~~~~~~~~~~~~~~~~
-
-
+greg k-h
