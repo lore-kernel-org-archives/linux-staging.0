@@ -1,94 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AC42C82
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 11:15:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4310DC340E3;
-	Wed, 26 Jan 2022 11:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1643195755;
-	bh=+4rsfIJDJ4RCHu7OuW2tvtcRhL9lTvl+RI6cItq5TAo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JnwDZ8qRomlPUQLgU6z2cI1tStqj3Y3wu5rQ8Kjah36iZ1b8Q5ggGif26ysmeLjiX
-	 sILKvqs4FtBU4K1nHotRLY8D2OnXaFv5J+gNeSmB4vmhkoZMpesOrBVYhVGqeiB1tI
-	 qN1adwtil5CgHJZrpxUhzI5D3UfGSXvpvb8sevvE=
-Date: Wed, 26 Jan 2022 12:15:48 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Helge Deller <deller@gmx.de>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Carlis <zhangxuezhi1@yulong.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
-Message-ID: <YfEtZD0uYp9yngvq@kroah.com>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
- <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
- <YfEmuGVQ+IlhdQDh@kroah.com>
- <CAKMK7uEiUH8vD3jUCDPXFbF2YS5LygJLVOosbnUnvMP0MU2kTg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052BB2C82
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 11:18:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1643195914;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=srD1l04gPQ84q1XF/RWjCuwwGgitsqKSn4fv06ciBhg=;
+	b=jKG7ZkCrvIV2mJY2yIpbkIVX7cz8PcF3JCWy8pQixJyKJ7y+7xBuUNQbWAfjTIeHBVbJaC
+	IJbrKiBXEzUFMUZZudRDxMLyKGAWZayHsyTTACd6TbiuYYbHlDY99wKhbnLOdKEJYF7Ijl
+	+1u1u0EdXRkvvCoTTAaKcB8BaFo2PhM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-519-GpddVGRpN--ATnrIWBO1Wg-1; Wed, 26 Jan 2022 06:18:33 -0500
+X-MC-Unique: GpddVGRpN--ATnrIWBO1Wg-1
+Received: by mail-wr1-f69.google.com with SMTP id c9-20020adfa709000000b001dde29c3202so309738wrd.22
+        for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 03:18:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=srD1l04gPQ84q1XF/RWjCuwwGgitsqKSn4fv06ciBhg=;
+        b=I4CAmVWzgu/g/oVaYo6auX6QXXtqVtJile80PBI7DVxotRstQGZzwHPg1chcOMoz+A
+         sBvr6NvWlDdZNxKIDg/OtiYFcKRfZ941Xdvnw8NqNM/Pi5yTbYBJR6mdDD/9nGT6Ls7u
+         PgLHHwHREKqf/H0FIe30ELmAF7dvT/JtkByXijbPOkE3qexDmA4zbijg/Y+/uMScTU44
+         VdIzd6JC0C4xrI3UztzbwdHcVl3z1bs4W/Xjy9GNxq650TANU14jGSIYUrvdDCbPhBDy
+         9R04EwQ3LngEMcWRqATgCzmb09ILD6qk5LjNrgtgooKnVARZ+JWOm3q5n+QQSr/zlKa/
+         aOfg==
+X-Gm-Message-State: AOAM532b8tOWhnMWOeLYnJ83V46J9/J9KLIaLN4FDnocVm+sh7QKQyyV
+	EOOOgwV8821ibEkz0/R/7XvrYVqjM3d8IKG2z7vuveZMZPD0wVF6V05U+6xQOMR0jrnGQuHFWLm
+	Bi+shFQRc+vkOgkylFb4tUVPkQQ==
+X-Received: by 2002:a05:6000:156d:: with SMTP id 13mr1586778wrz.66.1643195912593;
+        Wed, 26 Jan 2022 03:18:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyvCzW4Jn73KJItw350M3F/f6JTN+7T8OA7kDxsaF2hqvwBivMpTbBXPxCTm3unY1Mql6OAYg==
+X-Received: by 2002:a05:6000:156d:: with SMTP id 13mr1586760wrz.66.1643195912374;
+        Wed, 26 Jan 2022 03:18:32 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id i17sm19005103wru.107.2022.01.26.03.18.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jan 2022 03:18:32 -0800 (PST)
+Message-ID: <b13c0634-e766-74db-ab1f-672f5d0c04d6@redhat.com>
+Date: Wed, 26 Jan 2022 12:18:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uEiUH8vD3jUCDPXFbF2YS5LygJLVOosbnUnvMP0MU2kTg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
+To: Helge Deller <deller@gmx.de>, Andy Shevchenko
+ <andy.shevchenko@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>,
+ Carlis <zhangxuezhi1@yulong.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
+References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+ <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
+ <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
+ <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 26, 2022 at 11:52:16AM +0100, Daniel Vetter wrote:
-> On Wed, Jan 26, 2022 at 11:47 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Wed, Jan 26, 2022 at 12:02:36PM +0200, Andy Shevchenko wrote:
-> > > On Wed, Jan 26, 2022 at 10:52 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > >
-> > > > Hi
-> > > >
-> > > > Am 25.01.22 um 21:21 schrieb Andy Shevchenko:
-> > > > > Since we got a maintainer for fbdev, I would like to
-> > > > > unorphan fbtft (with the idea of sending PRs to Helge)
-> > > > > and move it out of staging since there is no more clean
-> > > > > up work expected and no more drivers either.
-> > > > >
-> > > > > Thoughts?
-> > >
-> > > Thanks for sharing yours, my answers below.
-> > >
-> > > > But why? We already have DRM drivers for some of these devices.
-> > >
-> > > No, we do not (only a few are available).
-> > >
-> > > > Porting
-> > > > the others to DRM is such a better long-term plan.  OTOH, as no one has
-> > > > shown up and converted them, maybe they should be left dead or removed
-> > > > entirely.
-> > >
-> > > As I mentioned above there are devices that nobody will take time to
-> > > port to a way too complex DRM subsystem. But the devices are cheap and
-> > > quite widespread in the embedded world. I'm in possession of 3 or 4
-> > > different models and only 1 is supported by tiny DRM.
-> >
-> > Great, then let's just move the 2 models that you do not have support
-> > for in DRM, not the whole lot.  When we have real users for the drivers,
-> > we can move them out of staging, but until then, dragging all of them
-> > out does not make sense.
+On 1/26/22 11:59, Helge Deller wrote:
+> On 1/26/22 11:02, Andy Shevchenko wrote:
+
+[snip]
+
+>> P.S. For the record, I will personally NAK any attempts to remove that
+>> driver from the kernel. And this is another point why it's better not
+>> to be under the staging.
 > 
-> Can't we create drm drivers for these 2-3 models? Like we have drivers
-> which are below 300 lines with all the helpers taking care of
-> everything, this shouldn't be too tricky.
+> I agree. Same as for me to NAK the disabling of fbcon's acceleration
+> features or even attempting to remove fbdev altogether (unless all
+> relevant drivers are ported to DRM).
+> 
 
-Agreed, having the hardware to test this with is the hardest part.
-Andy, this should be better to do in the longrun than trying to keep
-these other drivers "alive".
+But that will never happen if we keep moving the goal post.
 
-thanks,
+At some point new fbdev drivers should not be added anymore, otherwise
+the number of existing drivers that need conversion will keep growing.
 
-greg k-h
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
