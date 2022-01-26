@@ -1,194 +1,205 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1A5173
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 01:13:42 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id a13so22959573wrh.9
-        for <linux-staging@lists.linux.dev>; Tue, 25 Jan 2022 17:13:41 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B496B2C80
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 06:00:50 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20Q4dCFB010061;
+	Wed, 26 Jan 2022 06:00:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=q2j2MqwTytob6dbo9dxxK4qCBfabKdefJv46Mri5PxE=;
+ b=fdwjHKCfsauDTRkJbqcAVyQlXTvMs1VUI+rUsR9qlLarl1S+Xs+B2r2JWfH7Vesl2z22
+ DNxfl8PXTGbg//owUIXQENXZYjBTQm0G2WGurG6bV9vz5fCGxLcxSRNoAw6HNTwXkXUr
+ PhySN6mX3ax3g/ICi8BoU0fcUb6DmjSA7Dc8vU4cyhwfhln49clBgDktbFnclVHwRZcO
+ pkdU8AMha5jShE3Ne6QU816GOM22K3GwmeeUgX9Yx0M9+2qWzE92sjKZ4MZd/MurGRxK
+ wUWzpoccfJKvG8QMXh9nymsUP7BOgAxOkeE1uva1cuOe3I65p+buIdayFFcFC+wG0h9F VA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3dsxvfn2a7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 26 Jan 2022 06:00:41 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20Q5pKw0181428;
+	Wed, 26 Jan 2022 06:00:39 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
+	by aserp3030.oracle.com with ESMTP id 3dr7yh5h9x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 26 Jan 2022 06:00:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kGayL5BR3vv6g+W6To6iNTJdR+beyc0w8kWL7tXHlZMYklPOH72ooEnOuuLTOKdfGmnAmaRISyjsQwlTsxcBlzRkPnrsrPIXBDTQwanPn3/dB2dGoG3T7xlM18HRH1x3t5HZQiYl08EQ22YGE0EFaiJ+nzdUHLnqfMVIO4e3qGmsFXLRIv5vX8F+zsShAHCBhne4K5TWrrhRsDjeZzWAEcnGa52LniOFfSLtWde8mKGWC8zhH+ZCPqWQ/QcRD4lhDJ7LgGCf4fJkBm67mGSZJ05KspEE1s4i9bG7/4zieMGXos8OAYDQgSDpWHWI/w3QZoS73+SAxKJA2Glb2/yJ+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q2j2MqwTytob6dbo9dxxK4qCBfabKdefJv46Mri5PxE=;
+ b=kdKtJ/HaOqdQcOpFQM05rb6mRVUMdTvn4RiBCh181M5wltKVvic7inTK/4gUaQksULue6Gw0Ev3Fx+jm6/r2QCG0lDNXa6EuSWzAjzO02GvfQKsrwonA9hBx2JfWeHtAwoW4q9I/GUY0xMro2WYYR0hyd0iNL02h9UBkClz+BNcNztGxLOIGTMzMp0NSHCrBZlYjMCPJc8yWRiBvJkkiQrBC1s9VVqHnlwZpRuty7ljjl4QZLMC0swIOBtHvrSj44GcPiKEpwy1fWcG3tfWe+rmnUuLuYalxJoQrEniNaofb8sptt7/r2h00Cv70JE1Pj1nCggMGxxLz8ofTP+CPog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=CFXUuMD/RxDnEPUeEcbsOCRjB4mk9SQ3BfvXI60YXYs=;
-        b=BMechtmzreeAKWlgV+2TdjoMHWA/SJUeWzj6Rwdrvd5HBqn4J2cXG2ijPQzEqrSPMC
-         8q9STiYuONo50Hx9rw1SUJPPcNhgBqVzpo1tRmXXR3j49rFcppwIWIjOvM+9a7qFyFga
-         H08hKNhweyvi7YsQbx9/glN8aokZj+l9rMFCAHjlCsc71vuq7JdaIocGL8uFrWnR/kD1
-         aKT7qkzjRdeZcmU4Z4x59vT4or3IJfTzMo2XvOAcOXT56SVtvUDsu1k4jdFd7nB3ZyKY
-         aWAv9yoJuOCUv/3Xw61f1yHUVQYQ8AmzZShcqGLhduZCgKFzyKDIY7SPGeatB2oO+5Bq
-         IMcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CFXUuMD/RxDnEPUeEcbsOCRjB4mk9SQ3BfvXI60YXYs=;
-        b=zpyoBqmudGqlIOtKj9TvQKgmK/32u0n91iD0/cKqPMrKJkz4VW1mZJKGqIfugu4Y27
-         zkWByPUH8qL4OlntfRRsnZe2lztvc8+Q9YPAPsRiDVc7ZngHWOIqIeZn/URdyEjm+U1R
-         dGb5Jya4SeL2KOxcmCY/KSZwXm4NrGfG1Ced13e/r04gzjyXvldXymAIXdFPbh6gnJc0
-         Fm3pfSj0/+VN8I4NyGpKhXD9OrMvoaF3RfOOQsyfRyQLJM4HjCe9syHs4wuk3V4TP1kN
-         VG+YA10udAlSgvX/4FGWcpzfWLK+ZWtUfNEcWvi8yf3D9IVlxclmkOQm4/zcEbm8ayhI
-         ZThw==
-X-Gm-Message-State: AOAM533SlkVkw+/ixA89Wh3ZMzj6vMJwXv5qqwUepwszzAYlDpurDUn0
-	duuCzLk+9jzMtBawOU78GAkTSA==
-X-Google-Smtp-Source: ABdhPJyvbJf/H8CgNv5jLlxc03o51t7SEhNgUGSvL2xHce673xbPpfdtlUui7Wwc9numaqG7/kkiHg==
-X-Received: by 2002:a5d:4d09:: with SMTP id z9mr20077026wrt.638.1643159620475;
-        Tue, 25 Jan 2022 17:13:40 -0800 (PST)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id 11sm1815610wmx.5.2022.01.25.17.13.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jan 2022 17:13:39 -0800 (PST)
-Date: Wed, 26 Jan 2022 01:13:37 +0000
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: gregkh@linuxfoundation.org, dan.carpenter@oracle.com,
-	Larry.Finger@lwfinger.net, straube.linux@gmail.com,
-	martin@kaiser.cx, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/10] staging: r8188eu: remove DBG_88E calls from
- os_dep/ioctl_linux.c
-Message-ID: <YfCgQbFxfVZXw9Fg@equinox>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q2j2MqwTytob6dbo9dxxK4qCBfabKdefJv46Mri5PxE=;
+ b=NF7MNF+HakTkMrdlhqtHYDXP4yE2lx4MdAd3EZSfWyd9AhMOmqTfGHcJI1RpsDO/0nijqffOgUmzavRLBE3i37M/iZGKNeDTkmpiI245pCXkkp35CMUxX4OCB14qM2IdBzKS72KpSv7o5cQSUdhTVODMoY6U8fBn5TzvtXWhzGk=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by SA2PR10MB4713.namprd10.prod.outlook.com
+ (2603:10b6:806:11d::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.8; Wed, 26 Jan
+ 2022 06:00:37 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::c13b:5812:a403:6d96]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::c13b:5812:a403:6d96%6]) with mapi id 15.20.4909.019; Wed, 26 Jan 2022
+ 06:00:37 +0000
+Date: Wed, 26 Jan 2022 09:00:17 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+        straube.linux@gmail.com, martin@kaiser.cx,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        paskripkin@gmail.com
+Subject: Re: [PATCH 02/10] staging: r8188eu: remove smaller sets of DBG_88E
+ calls from core dir
+Message-ID: <20220126060017.GU1978@kadam>
 References: <20220124224415.831-1-phil@philpotter.co.uk>
- <20220124224415.831-7-phil@philpotter.co.uk>
- <a681a562-eb41-9dc8-703a-5b235c15a3a1@gmail.com>
+ <20220124224415.831-3-phil@philpotter.co.uk>
+ <20220125090233.GR1978@kadam>
+ <YfCbw3ENI/1tEdwi@equinox>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YfCbw3ENI/1tEdwi@equinox>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0034.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::22)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a681a562-eb41-9dc8-703a-5b235c15a3a1@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dded115a-9bf4-45fd-d692-08d9e0912c4b
+X-MS-TrafficTypeDiagnostic: SA2PR10MB4713:EE_
+X-Microsoft-Antispam-PRVS: 
+	<SA2PR10MB471345AEBDF312C3C136E49A8E209@SA2PR10MB4713.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	nbATF1pa49HI3rAhvuUwbAsRwrG3LVY/Ia2M2FggnhYTD+n0j+Jax8F7nDvxFw81alx7KiUL5KIC84TlQMgtVP2aTWmCS2xIdBl0szuocYrhNKEJbfsijf7v/dZBCgmPdQIplIKDDxLG3ltXK+aB+YLlwttKYILMrDvjsBiNiMNKg124MoB2pzSEMx/kq+BMHpjwkDzWvoGlgXylnDK/yYiXKsCvLqgTjebAArYwqcyYh2bxmDdKX+BfX+68xgStcRIOIiwq40xslYE37AJyePxL/dT3RsYC57eX8tVPTeEAS4GWYax4Cy6r54BQFQ0CEkeAg17gKy3A9UsbPHU0CTC0cUU9JVajwlkblMCRoCz9gpOse50UuhCA53Xkb8YAw3Jx70rNONDtVNfDpiQJ3on8/tUoi0HoogD20JrPKu8Hb9zMi1zrtp3Ai73vta21eBzQOG3JtXCp2yTyPxz0ge8XReTmh4Z5NfPrVfiL4mTdkz+fwy7fCG9/463830l8+k+S53SVvB/97T+QmSXoVblHC+ooEhXU5nLXbN/wgAyHprWj6Y8+6ETrULCW0rHV1srjKic1IKY7LNgj1st5YjjIeOOdLQHOJY2ySXwqPUjQ5GZ+thduaE/6FlYTkd8lxnj8lPAFryyVae2KnX2ztYZkghfTbEZ5EDoENkAaUfprbytcK6heT7ix7niBosilEXBuZwgEWzSRKUNGZ+QDnw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(366004)(316002)(1076003)(8936002)(86362001)(8676002)(66946007)(186003)(26005)(33716001)(6512007)(44832011)(6666004)(508600001)(5660300002)(83380400001)(9686003)(52116002)(6486002)(66556008)(6916009)(4326008)(38100700002)(6506007)(38350700002)(66476007)(2906002)(33656002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?DEldKCibHmkMgx8V8hxhr3vRvudUbFPGg7xNhQr9HCU+7EKhoJExWpQR1eOm?=
+ =?us-ascii?Q?vPXASGYm5utfjvvZVcZH4aTo3a8NwCKoDNrGLy5EJMyC6TXJGJKV/To8Nk3+?=
+ =?us-ascii?Q?JQHQPXaPo5+l3Mwf48oURUtln8+sPvd8HjeL9eJZV7QtbqcHcr5+4CfLCD2o?=
+ =?us-ascii?Q?UN2Kc1Rr032e7W370TfFpXJQWWIpu+TcoF7psGKgZCZbSr/lvb7RaMuCjgn1?=
+ =?us-ascii?Q?1a1oQl4N2ujdFABsXR5LwQq8RiffzNIOFc+GpoSJA+GVjxkaRlXuwOXeKGIF?=
+ =?us-ascii?Q?rUH9QfyD/RAQiDOCmPO+B1sDGiNppcsPJhZ6N4tQsZTeBaFr19RpgEXgKA4N?=
+ =?us-ascii?Q?oMo9Cl+3us2wFZnzLt95DI/GNhbBmJGBfLbvKjggD9qQVsjNRWkmjskq50Oj?=
+ =?us-ascii?Q?LIut8nsptUKpAJ3i8Cbptte+QF5i/KipTn3VhlAf9LOoejbw1f60I7ZFV9xm?=
+ =?us-ascii?Q?2Ri9yFvcvy6DThSceCpDREdzEPLaOK8e+wKxJeu3o3g7CMNJk+5hS0OPPOqq?=
+ =?us-ascii?Q?gAqwSp/ejBqihCeUyja1KN1f5NlUQVqnMaMTNytqw+LP3tSl9nMag5k1M6Ll?=
+ =?us-ascii?Q?sITDUAfhkfiw0tUvDUxeFpaUg0h3poDF4EXvc4UsgNKDESIb0AnNJzpcAm8s?=
+ =?us-ascii?Q?7LNJIHzdfa8lFiC/cNXoSoizxGtTVTEQZGsuJkJL7EQDlUvk87brJkxsBqs5?=
+ =?us-ascii?Q?pcgy7ft2KGRmjS5t23zCvUmCjhI0+r3ioj+JR+Zr0kpExAXKqCrxw5Dy8d0g?=
+ =?us-ascii?Q?DZhG/TGHU9h75FvffXw5WBeKepuT4ci6icfvPOnj3yRI/EHd5m9jcKuGEqJy?=
+ =?us-ascii?Q?NVDVqtGGjF63bctupFLNcbFNQ4AEpKLvxTisKXhF9ODKZdnLOosMloPgiUoX?=
+ =?us-ascii?Q?DSzg3TlGnum2GklIyzBQB/VnCWX4e2iAamfZai/xPld9KQVX7nvavzUaxB8I?=
+ =?us-ascii?Q?6ZANm2RYzt9empkpKzwJzl0Jtj+QAm5Hnf6A2GsYDQIAVMdJEJFRAC+4IAZ8?=
+ =?us-ascii?Q?Il0FbNN+YhIs/6JqxRTbwCaygl3Owtqj92eMYC1BAToTA7m8tdAwfJZ+EoQc?=
+ =?us-ascii?Q?JDYnQvhE39sY4R8xC9N+2GtGp2OQYtvd9Tpe93qwCKtlWB12DMyHEaWVE8n8?=
+ =?us-ascii?Q?L1zz2VZtaOT7HWefG21jymfn22JU7jQZdK98WvfN/9czJOpdCLsoho7S14Iu?=
+ =?us-ascii?Q?nHv/gQDrMA6qCahXUUD9PYyBIt6YwwyRcQQE5Ctrq/hTsOFRJQSPqemA9tRB?=
+ =?us-ascii?Q?8MIJkERPFiE7FU/Yiziq1sDScIdWugtmnhzMNXASciDo4Yb0t/zmApvMaYk/?=
+ =?us-ascii?Q?iBiU7UDXe0a2NkeKdGUY8eF8pKBcFsxIHjSvINFdWuuSVVtdecO8hFlIOTkj?=
+ =?us-ascii?Q?clQN6lno76r7xyvJ5wcI8Ghax+85gcKkW3dlbT26n2y+1TJ4ua0Y7RyLIJ7u?=
+ =?us-ascii?Q?zQ8yq4TjqdMfGlVlkGb4Hz6qEQRGPPo/hXEIdxWu/LKDv2R6eIadv/TnoT8d?=
+ =?us-ascii?Q?Et3pPm+8hXUjdQ/Y9wwi5S6hI5Dt4BcT5QxDKENOBUhVOoU8NxEPPOvZ/10p?=
+ =?us-ascii?Q?fGZyasXJLFkNUMldaS8GtSXQzdY8rMyP+/xpz45RLAHIAQwlK5/bwseFPWgf?=
+ =?us-ascii?Q?TG5qHSVcP+5gipA0wECPas8r207qsMzzT35aGczScbGOnjBgG7MG4SOmkozC?=
+ =?us-ascii?Q?BOs1+HjtUVrFLUv5b2LGqdY9RBI=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dded115a-9bf4-45fd-d692-08d9e0912c4b
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2022 06:00:37.0183
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2ptlaXOML1jLayoX8E/urPTozbdpFe8hlwZJuVDZy8GDzl4Iryr3zb48+2+PdW927YyfCPPoNS/xS+xOGRm+CIcwiOvZUAYtGH+GI2dEuW0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4713
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10238 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 bulkscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2201260031
+X-Proofpoint-GUID: sJ7BMzSuUQrJiazPLtstABhICkR8kQMx
+X-Proofpoint-ORIG-GUID: sJ7BMzSuUQrJiazPLtstABhICkR8kQMx
 
-On Tue, Jan 25, 2022 at 10:03:06PM +0300, Pavel Skripkin wrote:
-> Hi Phillip,
-> 
-> On 1/25/22 01:44, Phillip Potter wrote:
-> > Remove all DBG_88E calls from os_dep/ioctl_linux.c, as they do not
-> > conform to kernel coding standards and are superfluous. Also restructure
-> > where appropriate to remove no longer needed code left behind by removal
-> > of these calls. This will allow the eventual removal of the DBG_88E macro
-> > itself.
+On Wed, Jan 26, 2022 at 12:54:27AM +0000, Phillip Potter wrote:
+> On Tue, Jan 25, 2022 at 12:02:33PM +0300, Dan Carpenter wrote:
+> > On Mon, Jan 24, 2022 at 10:44:07PM +0000, Phillip Potter wrote:
+> > >  void rtw_sctx_done_err(struct submit_ctx **sctx, int status)
+> > >  {
+> > >  	if (*sctx) {
+> > > -		if (rtw_sctx_chk_waring_status(status))
+> > > -			DBG_88E("%s status:%d\n", __func__, status);
+> > > +		rtw_sctx_chk_waring_status(status);
 > > 
-> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> > ---
+> > In a follow on patch, can you just remove the rtw_sctx_chk_waring_status()
+> > function?
+> > 
+> > Looking through these warnings, a mass delete is the right thing.  The
+> > debugging messages are garbage.  Use ftrace.  Some of the errors are
+> > debug level so they will never be seen.  If you enable printing error
+> > messages, it print a debug information but at error level so that's
+> > useless.  Forget about it.  Just delete it.
+> > 
+> > You're going to need to redo these again because kbuild found some
+> > build warnings...
+> > 
+> > Normally we would say if you're deleting a printk() and that makes the
+> > curly braces unnecessary, then you have to delete the curly braces in
+> > the same patch.  But in this case, you're changing a ton of code and
+> > deleting the curly braces makes it hard to review.  I would prefer it
+> > if you just deleted the printks and fixed up the curly braces in a
+> > follow up patch.  And please don't fix long line warnings either.  Do
+> > that in another even later patch if you want.
+> > 
+> > You do need to fix any build warnings about unused variables etc, but
+> > don't worry about checkpatch until the end.
+> > 
+> > Basically as much as possible I'd prefer to only see deleted lines in
+> > this patch.  No insertions.
+> > 
+> >  12 files changed, 66 insertions(+), 472 deletions(-)
+> > 
+> > There was one function where you removed the padatper argument because
+> > it wasn't necessary.  That's great but do it in a follow on patch.
+> > Keep a notepad app next to your vim and write down notes as you go:
+> > 
+> > 0) Re-run checkpatch and delete unnecessary curly braces
+> > 1) Delete rtw_sctx_chk_waring_status()
+> > 2) padatper not needed for frob_whatever()
+> > 3) Fix long lines
+> > 
+> > regards,
+> > dan carpenter
 > 
-> [code snip]
+> Hi Dan,
 > 
-> > @@ -3746,7 +3541,6 @@ static int rtw_dbg_port(struct net_device *dev,
-> >   			u32 write_num = extra_arg;
-> >   			int i;
-> > -			u16 final;
-> >   			struct xmit_frame	*xmit_frame;
-> >   			xmit_frame = rtw_IOL_accquire_xmit_frame(padapter);
-> > @@ -3760,11 +3554,7 @@ static int rtw_dbg_port(struct net_device *dev,
-> >   			if (rtl8188e_IOL_exec_cmds_sync(padapter, xmit_frame, 5000, 0) != _SUCCESS)
-> >   				ret = -EPERM;
-> > -			final = rtw_read16(padapter, reg);
-> > -			if (start_value + write_num - 1 == final)
-> > -				DBG_88E("continuous IOL_CMD_WW_REG to 0x%x %u times Success, start:%u, final:%u\n", reg, write_num, start_value, final);
-> > -			else
-> > -				DBG_88E("continuous IOL_CMD_WW_REG to 0x%x %u times Fail, start:%u, final:%u\n", reg, write_num, start_value, final);
-> > +			rtw_read16(padapter, reg);
-> >   		}
-> >   			break;
-> 
-> I see, that you somewhere removes reads and somewhere leaves them. What's
-> the difference? I saw, that one of the places has the comment, that asks not
-> to remove the read, but others do not have such comment
-> 
-> I can point to few places in 2 and 4 patches where you have removed reads.
-> 
-> 
-> 
-> [code snip]
-> 
-> > @@ -4014,16 +3664,8 @@ static int rtw_dbg_port(struct net_device *dev,
-> >   			{
-> >   				u32 odm_flag;
-> > -				if (0xf == extra_arg) {
-> > +				if (extra_arg == 0xf) {
-> >   					GetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DM_FUNC, &odm_flag);
-> > -					DBG_88E(" === DMFlag(0x%08x) ===\n", odm_flag);
-> > -					DBG_88E("extra_arg = 0  - disable all dynamic func\n");
-> > -					DBG_88E("extra_arg = 1  - disable DIG- BIT(0)\n");
-> > -					DBG_88E("extra_arg = 2  - disable High power - BIT(1)\n");
-> > -					DBG_88E("extra_arg = 3  - disable tx power tracking - BIT(2)\n");
-> > -					DBG_88E("extra_arg = 4  - disable BT coexistence - BIT(3)\n");
-> > -					DBG_88E("extra_arg = 5  - disable antenna diversity - BIT(4)\n");
-> > -					DBG_88E("extra_arg = 6  - enable all dynamic func\n");
-> >   				} else {
-> >   					/*	extra_arg = 0  - disable all dynamic func
-> >   						extra_arg = 1  - disable DIG
-> > @@ -4032,51 +3674,17 @@ static int rtw_dbg_port(struct net_device *dev,
-> >   					*/
-> >   					SetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DM_FUNC, &extra_arg);
-> >   					GetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DM_FUNC, &odm_flag);
-> > -					DBG_88E(" === DMFlag(0x%08x) ===\n", odm_flag);
-> >   				}
-> >   			}
-> >   			break;
-> 
-> Is odm_flag needed now? Seems like it was used only for printing random
-> debug info
-
-You're right, it can probably go :-)
-
-> 
-> >   		case 0xfd:
-> >   			rtw_write8(padapter, 0xc50, arg);
-> > -			DBG_88E("wr(0xc50) = 0x%x\n", rtw_read8(padapter, 0xc50));
-> >   			rtw_write8(padapter, 0xc58, arg);
-> > -			DBG_88E("wr(0xc58) = 0x%x\n", rtw_read8(padapter, 0xc58));
-> > -			break;
-> > -		case 0xfe:
-> > -			DBG_88E("rd(0xc50) = 0x%x\n", rtw_read8(padapter, 0xc50));
-> > -			DBG_88E("rd(0xc58) = 0x%x\n", rtw_read8(padapter, 0xc58));
-> > -			break;
-> > -		case 0xff:
-> > -			DBG_88E("dbg(0x210) = 0x%x\n", rtw_read32(padapter, 0x210));
-> > -			DBG_88E("dbg(0x608) = 0x%x\n", rtw_read32(padapter, 0x608));
-> > -			DBG_88E("dbg(0x280) = 0x%x\n", rtw_read32(padapter, 0x280));
-> > -			DBG_88E("dbg(0x284) = 0x%x\n", rtw_read32(padapter, 0x284));
-> > -			DBG_88E("dbg(0x288) = 0x%x\n", rtw_read32(padapter, 0x288));
-> > -
-> > -			DBG_88E("dbg(0x664) = 0x%x\n", rtw_read32(padapter, 0x664));
-> > -
-> > -			DBG_88E("\n");
-> > -
-> > -			DBG_88E("dbg(0x430) = 0x%x\n", rtw_read32(padapter, 0x430));
-> > -			DBG_88E("dbg(0x438) = 0x%x\n", rtw_read32(padapter, 0x438));
-> > -
-> > -			DBG_88E("dbg(0x440) = 0x%x\n", rtw_read32(padapter, 0x440));
-> > -
-> > -			DBG_88E("dbg(0x458) = 0x%x\n", rtw_read32(padapter, 0x458));
-> > -
-> > -			DBG_88E("dbg(0x484) = 0x%x\n", rtw_read32(padapter, 0x484));
-> > -			DBG_88E("dbg(0x488) = 0x%x\n", rtw_read32(padapter, 0x488));
-> > -
-> > -			DBG_88E("dbg(0x444) = 0x%x\n", rtw_read32(padapter, 0x444));
-> > -			DBG_88E("dbg(0x448) = 0x%x\n", rtw_read32(padapter, 0x448));
-> > -			DBG_88E("dbg(0x44c) = 0x%x\n", rtw_read32(padapter, 0x44c));
-> > -			DBG_88E("dbg(0x450) = 0x%x\n", rtw_read32(padapter, 0x450));
-> >   			break;
-> >   		}
-> 
-> And here you also removes the reads. I guess, some kind of magic pattern is
-> used
+> Thank you for the feedback - reason I removed the padapter arg is
+> because I was the one that added it. To be clear, you're happy with this
+> and the brace changes etc. as long as I take them out within a separate
+> patch at the end of the series?
 > 
 
-So these calls are macro arguments, they would never be executed under
-normal circumstances anyway, unless the rtw_debug kernel module was
-passed in as 5 or more - it is 1 by default. The DBG_88E macro would
-expand during preprocessing phase to (for example):
+Yes, please.  It's not normally what we tell people to do but with this
+kind of mass delete patch it makes things easier to review if that step
+is done separately.
 
-do {
-	if (5 <= GlobalDebugLevel)
-		pr_info("R8188EU: " "dbg(0x450) = 0x%x\n", rtw_read32(padapter, 0x450));
-} while (0)
+regards,
+dan carpenter
 
-As this is never executed under normal circumstances anyway, I would say
-calls like these are therefore safe to remove. Happy to be convinced
-though :-) Many thanks.
-
-Regards,
-Phil
