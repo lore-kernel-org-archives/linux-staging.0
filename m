@@ -1,134 +1,74 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4482C82
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 11:01:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1643194865;
-	bh=uymom++AR8s55d1uh5nbU+HZwmHUw4VPjm694+wj/XM=;
-	h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=BcqbZJRuXuAfSiIa8cgTBhpiingjbvzeVpxUg0E4UsxzUHT/7CnEszHtA9nEy0g4j
-	 tgwYnGr35Ed5Mh674mbCqwLNk268bmuFvRRgrcUDwSOu/QzUZ1skXRkwBLqBNh/xCS
-	 +JCw5rhHr3zORNvqhgJb9oTxJyzjm3bMYCcYeS4s=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.143.57]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MuUnK-1mMdco47eM-00rZo2; Wed, 26
- Jan 2022 12:01:05 +0100
-Message-ID: <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
-Date: Wed, 26 Jan 2022 11:59:52 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB18E2C82
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 11:14:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF3C0C340E5;
+	Wed, 26 Jan 2022 11:14:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1643195663;
+	bh=iniSGw5ceUDMz++jSAmxPoQI73FaerNBpq0KCsIYRXo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tezx2+KVPeuZ2TXi3cX+Wt8ttOBO+DhhTRU3E5GC8bgFYFIOZFtzdCmbOwItd1/kR
+	 8GtDxGoh6kWLRZ97RB+HwfVklvpMtulCRQ3EvjDMp5RHUVD9/cj54UFrnxoluR/WuB
+	 RQM69TonMxF1I3wjQjh4jYyIJwEkOHH6sWJEqWZw=
+Date: Wed, 26 Jan 2022 12:14:20 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Phillip Potter <phil@philpotter.co.uk>, dan.carpenter@oracle.com,
+	Larry.Finger@lwfinger.net, straube.linux@gmail.com,
+	martin@kaiser.cx, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 06/10] staging: r8188eu: remove DBG_88E calls from
+ os_dep/ioctl_linux.c
+Message-ID: <YfEtDN6qiRci02Xe@kroah.com>
+References: <20220124224415.831-1-phil@philpotter.co.uk>
+ <20220124224415.831-7-phil@philpotter.co.uk>
+ <a681a562-eb41-9dc8-703a-5b235c15a3a1@gmail.com>
+ <YfCgQbFxfVZXw9Fg@equinox>
+ <b5bbe488-ac43-fd89-7c65-36bfa9c903a6@gmail.com>
+ <YfEm4t+fhO4I2uDW@kroah.com>
+ <b6da2cde-b489-0b9d-819f-c36cd64f9531@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Content-Language: en-US
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Phillip Potter <phil@philpotter.co.uk>, Lee Jones <lee.jones@linaro.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, Carlis <zhangxuezhi1@yulong.com>,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Andy Shevchenko <andy@kernel.org>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
- <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
-In-Reply-To: <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8NQorOHRDOeHezX4LE3v2ty5WxtXOwxHqCdYTIFvRNufvqoA9Sx
- AV4uZg3ef5HfUsHv+4KrqKzb5X56ReOwUHJub0J8c8/ECShoS0zZsYeOFASWAfD1yH5qxkp
- 3AoSGKzSbEL0LQiiOVfHGHmBsXHwd7QXuj0u6JGWoFju5mq0nSsA7vYJivv4jcwzFwEbpsX
- ylO27UqmSCmTzIJHVLIlQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vHW26HAwWkM=:3WTENPNKJ5r5rcEdtBn/o+
- l5dstyuPg3VtWXE2nFRr6MAbE4WtpY9VZOUyHD4FNIC19JcL+9fRHIR2OI1tFV/KJ6RM5tdtW
- rx7XzebFQn3D7mwVrQWNm0qH2KG8ozRLPpk8E/Y5rp2lAA3Xiv+5CqDlm32B+6/tbmV6qTe35
- mAb15+o4WJpHv5nKcKuEHc1pO2r2JF1R6DM2WCE6y3L7Ez6bTPOl0mUzzujKAOMuMdHpMAdtA
- AYwtXaYKarlSOGL5IZVy0z8O9WfL06DgkuPpfNGSXe/+ZMQIzOhGN07wZExlJT4xTXKr6SGEv
- 4aOV8I/MWetOOh3wUmCqjnGf6MRyypMulexVMm/Rko41L7bCKYVuCoMLKdmhXtH0uyTHb7e7j
- 8Dqbc9t6hBZiy0pyVygcIKH/BRF3wIMGiXvBcexok+lL4l/fHGBokOpe9lNgqPu7XD0d+NObe
- uuD2XbA89Hy2vkX9YB4JZEIP7nNhEUh0Icc041vrfJHcSOFV34xHtJ5yEkh8xlk/4qN/6I3/y
- +4d7Rk0M/Qr9LwyIgDvQmLy6WIsFkxn+YCZglAABGI4D/MzqaYnipKDHPdZLLRUYzt4v+2+wQ
- j7ax61UI+nRC1j+ci1UFiFlRVRtQChaLJO1Adl1WQ40tcq6I12AgBv1n783bjpPLElm0FeLkv
- vHkHTsa4wolYqO6r25Vf9UkC3Z5VjxEt/8qBrD2V3Qur1+BV8cKlHW52UDiQ6WJihtF76MY7E
- iVT/z7xsLpkeIG1ydKpQhWiUbmZltEu5Y63+5mPqYBmHk9pL5l+ziELbG9BLMTQivE8z2Q1kH
- wZeD5UFiqiTdKtJp1jQSPLLAp+ibEUQCJR1RpT7hdbFS+p9T8QKXnRWZbQTSJ9EbFfkwvmEZ2
- 6QXjcWgjoUQ8pC0113DZwNzMwF6xtgSrc9qvaCgQjSxqg7m2E/U8js9PCNG3ZnrZirvB2XxoI
- 5XgTcHdg4U0KKgniKUmzfFRQWH9MrKdYpCSu1fSjpBNkrraXf2fhc1R9Mt0fek8ile4K5QU9k
- KNkXkegY7NIPL40WofOxOkghiRKT2VxBSVRdwQBLs1ucSmtCtJC/ke1locRSQ47p/RA5XOKC0
- XEGoA5np3CU8/w=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b6da2cde-b489-0b9d-819f-c36cd64f9531@gmail.com>
 
-On 1/26/22 11:02, Andy Shevchenko wrote:
-> On Wed, Jan 26, 2022 at 10:52 AM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->> Am 25.01.22 um 21:21 schrieb Andy Shevchenko:
->>> Since we got a maintainer for fbdev, I would like to
->>> unorphan fbtft (with the idea of sending PRs to Helge)
->>> and move it out of staging since there is no more clean
->>> up work expected and no more drivers either.
->>>
->>> Thoughts?
+On Wed, Jan 26, 2022 at 01:58:52PM +0300, Pavel Skripkin wrote:
+> Hi Greg,
+> 
+> On 1/26/22 13:48, Greg KH wrote:
+> > > IMHO the best thing you can do is to leave these reads and leave a comment
+> > > like "hey, please remove me and test". One day useless reads should be
+> > > anyway removed, since ideally rtw_read family must get __must_check
+> > > annotation + normal error handling.
+> > 
+> > No, if these were never getting called in normal operation, there's no
+> > need to add them back.
+> > 
+> 
+> I guess, I was not clear, sorry. I mean leave reads that were called during
+> normal operations, but used only for printing debug info. (As Phillip has
+> already done in v1)
+> 
+> Reads inside R88_DBG() and other debug macros of course should be removed,
+> but other places seems dangerous without good testing. There is al least one
+> place with following comment:
+> 
+> > 			/* Although lenc is only used in a debug statement,
+> > 			 * do not remove it as the rtw_read16() call consumes
+> > 			 * 2 bytes from the EEPROM source.
+> > 			 */
+> > 			u16 lenc = rtw_read16(adapter, REG_PKTBUF_DBG_DATA_L);
+> 
+> There is a chance that other places have same problem, but don't have a
+> comment above it. That's why I suggested to leave all these "debug" reads
+> and leave a comment for further work. It will help to easily spot them in
+> future and remove or leave them with explanations why.
 
-Personally I'm in favour of this proposal and would be happy
-to take patches for it through the fbdev git tree.
-Reasoning below...
-
->> But why? We already have DRM drivers for some of these devices.
->
-> No, we do not (only a few are available).
-
-seems to be 2 out of 10 (according to the other mails)
->> Porting the others to DRM is such a better long-term plan.  OTOH,
->> as no one has shown up and converted them, maybe they should be
->> left dead or removed entirely.
->
-> As I mentioned above there are devices that nobody will take time to
-> port to a way too complex DRM subsystem. But the devices are cheap and
-> quite widespread in the embedded world. I'm in possession of 3 or 4
-> different models and only 1 is supported by tiny DRM.
->
-> On top of that the subtle fact people forgot about FBTFT is that it
-> does support parallel interface (yes, I know that it's not performant,
-> but one of the displays I have is with that type of interface).
-
-I don't know those devices, but it seems they are still being used.
-
-And the reasons why they have not been ported to DRM yet is
-likely because either lack of man-power, a slow-down with DRM (due to
-slow bus connections or increased memory usage with DRM), or
-simply that it's used in embedded-like scenarios with a limited
-set of userspace applications for which existing fbdev access is sufficien=
-t.
-
-Again, I don't know the reason for this specific devices, but I know
-of other devices for which those reasons above are valid.
-Just the example I posted yesterday where a simple "time dmesg" needed
-unaccelerated 19 seconds compared to 2 seconds with acceleration.
-So, as long as acceleration isn't possible with that driver in
-DRM, DRM isn't a preferred target where the driver should be ported.
-
-So, I'd be fine to take it into fbdev tree.
-
-Interestingly there is another fbdev driver in staging (sm750fb) with
-similiar issues. The TODO mentions a porting to DRM which happens at
-https://gitlab.com/sudipm/sm750/tree/sm750
-but the last commit there is 3 years ago. I don't know why it wasn't
-continued yet.
-
-> P.S. For the record, I will personally NAK any attempts to remove that
-> driver from the kernel. And this is another point why it's better not
-> to be under the staging.
-
-I agree. Same as for me to NAK the disabling of fbcon's acceleration
-features or even attempting to remove fbdev altogether (unless all
-relevant drivers are ported to DRM).
-
-Helge
+Yes, those are fine, thanks.
