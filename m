@@ -1,88 +1,110 @@
-Received: from relay.hostedemail.com (relay032.a.hostedemail.com [64.99.140.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD06168
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 10:19:12 +0000 (UTC)
-Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay11.hostedemail.com (Postfix) with ESMTP id 3476880F26;
-	Wed, 26 Jan 2022 08:54:22 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 27CD060010;
-	Wed, 26 Jan 2022 08:53:56 +0000 (UTC)
-Message-ID: <e12b11d20e22123736e5d8728286947e971c489f.camel@perches.com>
-Subject: Re: [PATCH v1 4/4] fbtft: Replace 'depends on FB_TFT' by 'if FB_TFT
- ... endif'
-From: Joe Perches <joe@perches.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>, Lee
- Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>,
- Carlis <zhangxuezhi1@yulong.com>, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
-Cc: Michael Hennerich <michael.hennerich@analog.com>, Helge Deller
-	 <deller@gmx.de>, Andy Shevchenko <andy@kernel.org>
-Date: Wed, 26 Jan 2022 00:54:13 -0800
-In-Reply-To: <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
-	 <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F008168
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 10:26:12 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id y15so53839329lfa.9
+        for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 02:26:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=JBuWtik7LMy3F0tZeItzrFUrCNM6hkXa3Q1aN59RsBA=;
+        b=Ekgs2EYw50nyD1x1t3pixFS8bs8OxZICI/3+cxOHhZ0vbKJtbmNnyfq4jc2uKKZkC6
+         iAB07lg3EW9dtTB0ieXIh4//aeK6Ojxp6QlKj+QhSdnQXW6302ZcbyyN6PRrA5a7AYfm
+         WbweAJ9MvYTnoozdA7VtCJgjKUuprS86MjERUTWCK3dM/yJSF/Ug/+UxsPZmW9DxfvgL
+         ctzsmM03KAoSXof/dH8nyxv4Gkm02gj7ZCXjCXU2EXDdV/Y76tiWjJkiS0yWEJ16TO//
+         WN5QQedd34NlZFMVVRI+5u0g1Pmyym6WAKvqMzVlq6iOH+9TtyE/Htj0p5KcYgNv+AR5
+         cpHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=JBuWtik7LMy3F0tZeItzrFUrCNM6hkXa3Q1aN59RsBA=;
+        b=tf1dQvQxp7l1Xs0wnPHBdMBzbMoYAwefIRFP1kzhoRQdqCBFNaAHsL+bmtpyF8b5VQ
+         XAb97unjn+HfUhGmaSYOP5rdWahQqIRP6JDbita1xzWzc86J4HRZkSG5jXqClgcB8EQX
+         DyicAKtQxhR6UTDBLWM2+fTLqCejg0RIA+QGPjknVqNxGb1ANjcxqZb2NskqbyNTJV7B
+         RpZ+38Xw9O3YD1ecmipnv3/IQ0gM5f9onFGWOWJq9R+Nf07rgv9mOK+dOBeqZFgygLAm
+         Ee0lESY1uzXmduP4CGTY69eTi6SULLH1GLmRwihW4N0mjc2KibIWs5ArgO45uEarCyht
+         UT9A==
+X-Gm-Message-State: AOAM531Lb2sSiCXTNCLPkA+ccoG8qXiwA03rPbytgtg03oOq1sUy5vk9
+	uCoYQ/Dy5M0EtrbzBoG4Yqg=
+X-Google-Smtp-Source: ABdhPJwKwnsRBlqvUoLKTHrSyQj8uUXFSX/FmudG4LYAu5KSPT2vGMNNTQ04zW2W9f3M6m2tpPVgeA==
+X-Received: by 2002:a05:6512:10d2:: with SMTP id k18mr19638544lfg.167.1643192770102;
+        Wed, 26 Jan 2022 02:26:10 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.227.208])
+        by smtp.gmail.com with ESMTPSA id b39sm1516962ljr.88.2022.01.26.02.26.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Jan 2022 02:26:09 -0800 (PST)
+Message-ID: <b5bbe488-ac43-fd89-7c65-36bfa9c903a6@gmail.com>
+Date: Wed, 26 Jan 2022 13:26:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 06/10] staging: r8188eu: remove DBG_88E calls from
+ os_dep/ioctl_linux.c
+Content-Language: en-US
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: gregkh@linuxfoundation.org, dan.carpenter@oracle.com,
+ Larry.Finger@lwfinger.net, straube.linux@gmail.com, martin@kaiser.cx,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220124224415.831-1-phil@philpotter.co.uk>
+ <20220124224415.831-7-phil@philpotter.co.uk>
+ <a681a562-eb41-9dc8-703a-5b235c15a3a1@gmail.com> <YfCgQbFxfVZXw9Fg@equinox>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <YfCgQbFxfVZXw9Fg@equinox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.16
-X-Stat-Signature: em88uec87srrhrfjxjnjwiqf8orq9fet
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 27CD060010
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19Vno09lLkNwZ/zyG+OKu9T1j1sTiaf0bM=
-X-HE-Tag: 1643187236-759005
 
-On Tue, 2022-01-25 at 22:21 +0200, Andy Shevchenko wrote:
-> Replace 'depends on FB_TFT' by 'if FB_TFT ... endif'
-> for the sake of deduplication.
-[]
-> diff --git a/drivers/video/fbtft/Kconfig b/drivers/video/fbtft/Kconfig
-[]
-> @@ -10,87 +10,75 @@ menuconfig FB_TFT
->  	select FB_DEFERRED_IO
->  	select FB_BACKLIGHT
->  
-> +if FB_TFT
-> +
-[]
->  config FB_TFT_PCD8544
->  	tristate "FB driver for the PCD8544 LCD Controller"
-> -	depends on FB_TFT
->  	help
->  	  Generic Framebuffer support for PCD8544
->  
-> @@ -108,62 +96,52 @@ config FB_TFT_S6D02A1
+Hi Phillip,
 
-Looks like you missed a couple.
----
- drivers/video/fbtft/Kconfig | 2 --
- 1 file changed, 2 deletions(-)
+On 1/26/22 04:13, Phillip Potter wrote:
 
-diff --git a/drivers/video/fbtft/Kconfig b/drivers/video/fbtft/Kconfig
-index 14ea3c6a60da0..4a02871f2cc71 100644
---- a/drivers/video/fbtft/Kconfig
-+++ b/drivers/video/fbtft/Kconfig
-@@ -84,13 +84,11 @@ config FB_TFT_PCD8544
- 
- config FB_TFT_RA8875
- 	tristate "FB driver for the RA8875 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for RA8875
- 
- config FB_TFT_S6D02A1
- 	tristate "FB driver for the S6D02A1 LCD Controller"
--	depends on FB_TFT
- 	help
- 	  Generic Framebuffer support for S6D02A1
- 
+[snip]
 
+}
+>> 
+>> And here you also removes the reads. I guess, some kind of magic pattern is
+>> used
+>> 
+> 
+> So these calls are macro arguments, they would never be executed under
+> normal circumstances anyway, unless the rtw_debug kernel module was
+> passed in as 5 or more - it is 1 by default. The DBG_88E macro would
+> expand during preprocessing phase to (for example):
+> 
+> do {
+> 	if (5 <= GlobalDebugLevel)
+> 		pr_info("R8188EU: " "dbg(0x450) = 0x%x\n", rtw_read32(padapter, 0x450));
+> } while (0)
+> 
+> As this is never executed under normal circumstances anyway, I would say
+> calls like these are therefore safe to remove. Happy to be convinced
+> though :-) Many thanks.
+> 
+
+I see your point, thanks for explanation.
+
+Well, in this case, you may left all reads, that are executed during 
+normal lifetime of a driver. We know, that there is at least 1 place, 
+where read() call removal can break things. Might be there are couple of 
+other places we don't know about.
+
+IMHO the best thing you can do is to leave these reads and leave a 
+comment like "hey, please remove me and test". One day useless reads 
+should be anyway removed, since ideally rtw_read family must get 
+__must_check annotation + normal error handling.
+
+Thanks :)
+
+
+
+
+With regards,
+Pavel Skripkin
