@@ -1,44 +1,41 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5555529CA
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 13:31:47 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="309862391"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B75F2CA8
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 13:34:04 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="332902449"
 X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
-   d="scan'208";a="309862391"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 05:31:46 -0800
+   d="scan'208";a="332902449"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 05:34:04 -0800
 X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
-   d="scan'208";a="477480490"
+   d="scan'208";a="597463395"
 Received: from smile.fi.intel.com ([10.237.72.61])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 05:31:42 -0800
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 05:34:01 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.95)
 	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1nCiNf-00EbsA-L1;
-	Wed, 26 Jan 2022 15:30:35 +0200
-Date: Wed, 26 Jan 2022 15:30:35 +0200
+	id 1nCiPu-00EbuP-G0;
+	Wed, 26 Jan 2022 15:32:54 +0200
+Date: Wed, 26 Jan 2022 15:32:54 +0200
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Helge Deller <deller@gmx.de>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
-	Michael Hennerich <michael.hennerich@analog.com>,
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Helge Deller <deller@gmx.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
 	Phillip Potter <phil@philpotter.co.uk>,
-	Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>
+	Lee Jones <lee.jones@linaro.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Carlis <zhangxuezhi1@yulong.com>, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Andy Shevchenko <andy@kernel.org>
 Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
-Message-ID: <YfFM+6pvJLmtY0Zg@smile.fi.intel.com>
+Message-ID: <YfFNhsPr4kS2/LXa@smile.fi.intel.com>
 References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
  <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
  <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
  <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
- <b13c0634-e766-74db-ab1f-672f5d0c04d6@redhat.com>
- <CAKMK7uEqwyZuVheqyNG33Un4WK1cd1B+WBYbCmi20fZi0qVG2w@mail.gmail.com>
- <88ea01b8-3fdd-72cc-c3d8-e2890c68533b@gmx.de>
+ <75a10e6f-ade7-01d9-9523-9a1936f8a2cc@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,46 +44,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <88ea01b8-3fdd-72cc-c3d8-e2890c68533b@gmx.de>
+In-Reply-To: <75a10e6f-ade7-01d9-9523-9a1936f8a2cc@suse.de>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Jan 26, 2022 at 12:38:09PM +0100, Helge Deller wrote:
-> On 1/26/22 12:24, Daniel Vetter wrote:
-> > On Wed, Jan 26, 2022 at 12:18 PM Javier Martinez Canillas
-> > <javierm@redhat.com> wrote:
-> >> On 1/26/22 11:59, Helge Deller wrote:
-> >>> On 1/26/22 11:02, Andy Shevchenko wrote:
+On Wed, Jan 26, 2022 at 12:41:41PM +0100, Thomas Zimmermann wrote:
+> Am 26.01.22 um 11:59 schrieb Helge Deller:
 
 ...
 
-> >>>> P.S. For the record, I will personally NAK any attempts to remove that
-> >>>> driver from the kernel. And this is another point why it's better not
-> >>>> to be under the staging.
-> >>>
-> >>> I agree. Same as for me to NAK the disabling of fbcon's acceleration
-> >>> features or even attempting to remove fbdev altogether (unless all
-> >>> relevant drivers are ported to DRM).
-> >>
-> >> But that will never happen if we keep moving the goal post.
-> >>
-> >> At some point new fbdev drivers should not be added anymore, otherwise
-> >> the number of existing drivers that need conversion will keep growing.
-> >
-> > And that point was about 5 years ago, and has been discussed at some
-> > plumbers meanwhile, resulting in the staging TODO patches to make
-> > these drm drivers to destage them.
-> >
-> > Fixing bugs in fbdev is all fine, reopening it for merging new drivers is not.
-> 
-> We are on the same page!
-> I'm not at all proposing to include new drivers for (relatively) new
-> hardware into fbdev, which is capable to be written as DRM driver.
 
-Agree. The point here is neither in opening it for new comers nor for
-expanding, the drivers in question are all in the kernel in different folder
-that is not suitable for them, but I gave up. I see that nobody wants
-maintainers to be appearing for the old _working_ code, as it was shown
-already by the DVB case few month ago.
+> It's always for the same reason: the hw is old and devs have moved on.
+
+It's pity to have a working system with an old hardware that no one in
+the kernel community gives a shit about because simply they are not in
+the same boat. Try to be on the people's position...
 
 -- 
 With Best Regards,
