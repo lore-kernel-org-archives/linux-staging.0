@@ -1,53 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3442CA8
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 13:15:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643202926; x=1674738926;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5iUtFO+EhpHndQGOg3UJPsNAroHVFCQnJAjNbMjiMGc=;
-  b=RBh8k1PrR7YqKwEVSOe+Nlf5Vn3jmCWw/xqCDmWK4jQia3nG8xLgldQz
-   ici/3UHd7DlrGBc1zIHS+6eTMMiU6U4SDD4RCVu81mWzD29XLVHlSyYCE
-   4tHTNESFOti4cI8opOkYa1576uzW3XxyC0fBAEXM2f1L3AvDIpxOH0uHy
-   hFUpMByxVrc84MHMThWVUjEeXPq/Yi88EYW/lRO2/azdopbwFDTXqI/im
-   ZQjF/wks57Mqk0Uv0fuJ1CpC20cQjNSdVdPHYf36bvHnFpfy4Rn0XIS1D
-   XBcRv9kzwkcO9fWAVslbt72aaAhL5liKgCL9TaXezc3mJ+/y9m2tFGh9O
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="309860072"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D106529CA
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 13:18:38 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="230120272"
 X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
-   d="scan'208";a="309860072"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 05:15:25 -0800
+   d="scan'208";a="230120272"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 05:18:38 -0800
 X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
-   d="scan'208";a="597459271"
+   d="scan'208";a="581101464"
 Received: from smile.fi.intel.com ([10.237.72.61])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 05:15:22 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 05:18:34 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1nCi5k-00EbXE-U5;
-	Wed, 26 Jan 2022 15:12:04 +0200
-Date: Wed, 26 Jan 2022 15:12:04 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Helge Deller <deller@gmx.de>, Daniel Vetter <daniel@ffwll.ch>,
-	Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
+	(envelope-from <andy.shevchenko@gmail.com>)
+	id 1nCiAx-00Ebfj-Q9;
+	Wed, 26 Jan 2022 15:17:27 +0200
+Date: Wed, 26 Jan 2022 15:17:27 +0200
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
 	Michael Hennerich <michael.hennerich@analog.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helge Deller <deller@gmx.de>, linux-staging@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	dri-devel <dri-devel@lists.freedesktop.org>,
 	Phillip Potter <phil@philpotter.co.uk>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
 	Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
 	Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-Message-ID: <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
+Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
+Message-ID: <YfFJ5ykgMi+wBc2f@smile.fi.intel.com>
 References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-2-andriy.shevchenko@linux.intel.com>
- <YfEG2qVO9K9G+g1d@kroah.com>
- <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
- <f671a112-880d-1526-a395-360947b40c5a@gmx.de>
- <YfEv7OQs98O9wJdJ@kroah.com>
+ <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
+ <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
+ <CAHp75Vd7oaYPKx6bxjCqNnm6fieeQFrtq5K4YYrxYbXoXFy=+Q@mail.gmail.com>
+ <20220126102858.GX1951@kadam>
+ <1b665bb8-7acb-519b-0a02-ef0f2dd4b524@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,34 +47,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YfEv7OQs98O9wJdJ@kroah.com>
+In-Reply-To: <1b665bb8-7acb-519b-0a02-ef0f2dd4b524@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Jan 26, 2022 at 12:26:36PM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Jan 26, 2022 at 12:17:08PM +0100, Helge Deller wrote:
-> > On 1/26/22 11:31, Daniel Vetter wrote:
-
-...
-
-> > You are describing a transitioning over to DRM - which is Ok.
-> > But on that way there is no need to ignore, deny or even kill usage scenarios
-> > which are different compared to your usage scenarios (e.g. embedded devices,
-> > old platforms, slow devices, slow busses, no 3D hardware features,
-> > low-color devices, ...).
+On Wed, Jan 26, 2022 at 01:37:00PM +0100, Javier Martinez Canillas wrote:
+> On 1/26/22 11:28, Dan Carpenter wrote:
+> > On Wed, Jan 26, 2022 at 12:04:26PM +0200, Andy Shevchenko wrote:
+> >> On Wed, Jan 26, 2022 at 12:02 PM Andy Shevchenko
+> >> <andy.shevchenko@gmail.com> wrote:
+> >>> On Wed, Jan 26, 2022 at 10:52 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >>>> Am 25.01.22 um 21:21 schrieb Andy Shevchenko:
+> >>
+> >> ...
+> >>
+> >>>> But why? We already have DRM drivers for some of these devices.
+> >>>
+> >>> No, we do not (only a few are available).
+> >>
+> >> Sorry, I missed your word 'some'. Some == almost none from the list (I
+> >> don't remember exact numbers but something like 2 out of 10 are
+> >> supported by tiny DRM and see about interfaces).
+> > 
+> > Could we get an exact list?
+> > 
 > 
-> All of those should be handled by the drm layer, as Daniel keeps
-> pointing out.  If not, then the tinydrm layer needs to be enhanced to do
-> so.
+> The list AFAICT is the following. I'm not familiar with these so please
+> feel free to correct anything I got wrong here.
 > 
-> Anyone have a pointer to hardware I can buy that is one of these fbtft
-> drivers that I could do a port to drm to see just how much work is
-> really needed here?
+> I've marked with '?' if found references to the device supported by the
+> fbdev driver in a DRM driver, but it's not clear if support the same HW.
+> 
+> Drivers in drivers/staging/fbtft:
 
-I have bought myself (for other purposes, I mean not to convert the driver(s))
-SSD1306 based display (SPI), SSD1331 (SPI), HX88347d (parallel).
+Thanks!
 
-Each of them costed less than $10 with delivery to EU (nowadays maybe a bit
-more expensive). I believe it's very easy to find the links on AliExpress.
+Note, there is no support for the devices with parallel interface in the DRM.
+So, basically we can't kill even a single one from fbtft if there is a user
+for it.
+
+>    fb_agm1264k-fl.c
+>    fb_bd663474.c
+>    fb_hx8340bn.c
+>    fb_hx8347d.c (DRM driver in drivers/gpu/drm/tiny/hx8357d.c)
+>    fb_hx8353d.c
+>    fb_hx8357d.c (DRM driver in drivers/gpu/drm/tiny/hx8357d.c)
+>    fb_ili9163.c (DRM driver in drivers/gpu/drm/tiny/ili9163.c)
+>    fb_ili9320.c
+>    fb_ili9325.c
+
+>    fb_ili9340.c (DRM driver in drivers/gpu/drm/tiny/mi0283qt.c ?)
+
+Not sure.
+
+>    fb_ili9341.c (DRM driver in drivers/gpu/drm/tiny/mi0283qt.c ?)
+
+Yes and for the fact there are two drivers for the same chip in the DRM.
+Overall there are three different drivers for Ilitek 9341.
+
+>    fb_ili9481.c
+>    fb_ili9486.c (DRM driver in drivers/gpu/drm/tiny/ili9486.c)
+>    fb_pcd8544.c
+>    fb_ra8875.c
+>    fb_s6d02a1.c
+>    fb_s6d1121.c
+>    fb_seps525.c
+>    fb_sh1106.c
+>    fb_ssd1289.c
+>    fb_ssd1305.c
+>    fb_ssd1306.c
+>    fb_ssd1325.c
+>    fb_ssd1331.c
+>    fb_ssd1351.c
+>    fb_st7735r.c (DRM driver in drivers/gpu/drm/tiny/st7735r.c)
+>    fb_st7789v.c (DRM driver in drivers/gpu/drm/panel/panel-sitronix-st7789v.c)
+>    fb_tinylcd.c
+>    fb_tls8204.c
+>    fb_uc1611.c
+>    fb_uc1701.c
+>    fb_upd161704.c
+>    fb_watterott.c
 
 -- 
 With Best Regards,
