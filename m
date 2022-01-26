@@ -1,44 +1,51 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E0E29CA
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 12:33:08 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id x11so62796600lfa.2
-        for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 04:33:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=6OXgethaEVSuGUoIJLKI5iFIA2Ipk0lRmZ63qBolC2U=;
-        b=bjzIM842rRwvViFamRup3z3aJEBDNp7tCRmFuDoDFiae+gjUp/49PjKa6CKTbB7yYv
-         7Z1SNIrNyT0oiEKpdGzIWY9S4DYtb6f2jcALkn5pfIduq0u9DAcszAiVaHtLj2TcWVtY
-         9/hRDuojtmeYIAYlGpFABxXn1+j9bxJX282Z+TmzV4lz3kDfX4Q0L6j0wGVZYAGlrnp8
-         LFnDKoCNuDDGK98uR5kJOB+1zUWNaGTXbJ66kpocACrDYHIROvr/KU9gC1JM0TL0q/oC
-         v7kAsj6beUP8QzdL4Vk83pv4lkG9tD3VcWiYQKFZHJ/FdCSK4HPIIvVman6zEztEb5vs
-         TtBg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFA029CA
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 12:37:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1643200625;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4TS0TGM1vcAom1pyqONn2J8siKmdxKUcGnkktOHArQk=;
+	b=Pj6r588LXzcVpW9mIhT/S65C6shHD+GNcMEZpfXBFPbqT4YY4AizPdYwAHFcjpfecXmTQC
+	jvbiVdA7WAFMhPqK+t24v9OxGv9C5DVWd9qImhXlght8wE/EL6404sre+BoEPqOY+MP86P
+	Yy4eCW3WTELwOCPcfNiIHjnMIl0lRUc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-524-VoxvVMa7OHmJjl6fISXZEw-1; Wed, 26 Jan 2022 07:37:03 -0500
+X-MC-Unique: VoxvVMa7OHmJjl6fISXZEw-1
+Received: by mail-wr1-f72.google.com with SMTP id v28-20020adfa1dc000000b001dd1cb24081so1818197wrv.10
+        for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 04:37:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=6OXgethaEVSuGUoIJLKI5iFIA2Ipk0lRmZ63qBolC2U=;
-        b=VorytOlQlp/Ytgk1p+cbu2ijDE/nYL4vbA7bfsup/7KuYmlrhFGlA8eeRFNplkqkMY
-         Y3XMk/lwThj0/BWXDWK+uyNswk0fTDKr2/+rlq0yf+CPzfrMQnnxZQ1l1FeVGzpslS7Y
-         Aipo10PBFj/4LumYlG1v1BMtUFtX8BaUcL1NP8NlYEcuj1zgqH2kChWDrdrrkDgriihE
-         ffxAk7shHzj2y6GxdYE1Ms2yuzCoB9ocV7x/D5vIXni11N9FNMebmF4+6dCkM2748MmN
-         2o+etIbc4Yj7YwBto9Fo2F2p7zu9LQJ32baNCs8OxRnGRgChyKRHYdE2WOAax5t6+BZ2
-         fP5Q==
-X-Gm-Message-State: AOAM533emMapUDXo8Jo+z9NYG6mhWo9t7yFq9gaXPaO6aM4ZCAUOalnB
-	J9p/XynJlC8l/gmUHMJjykY=
-X-Google-Smtp-Source: ABdhPJwNnXi9wLqx15NOubuOprn7fwXwbrmrm5p4w3yPdbLl0N6yVTJHJzunjw70CL9Fl5B0tHa8IQ==
-X-Received: by 2002:a05:6512:3d12:: with SMTP id d18mr20260673lfv.213.1643200386593;
-        Wed, 26 Jan 2022 04:33:06 -0800 (PST)
-Received: from [192.168.2.145] (109-252-138-126.dynamic.spd-mgts.ru. [109.252.138.126])
-        by smtp.googlemail.com with ESMTPSA id y11sm74999ljj.69.2022.01.26.04.33.04
+        bh=4TS0TGM1vcAom1pyqONn2J8siKmdxKUcGnkktOHArQk=;
+        b=RpVOfWIwnyQSqqgtK2If07iSQ79u1ArewCPFPRirq8ANu4r/cQMQ+iCS1G+4ARRJC/
+         PZfN5jCdKQgeZDzKKYdvxXAEImEy1ZVv1Zr+EkKhQMkv3BJJ/5yiLu7TRD9vO3+d3FkZ
+         +MrHepN/hrsAyCrEQ6Xs14lq+EFnmz4BA+Bp2pOTf5z+XIgNhblhU0QLfW2SjLpv3tvr
+         dmPTN7SJKJ6W9Yx28kmOKbNaqWvagYy6fMJVHAXFxbY0SZlS3EsznNoIowykfj4G8wYy
+         DjZscS5o8UOEN9AL3EKAlWJsBwKkX0FgwZj1Wuz03/RVZupFa7LujTDAuwDwNZdgqhjF
+         pPcQ==
+X-Gm-Message-State: AOAM533wEeSCqYyHfEkPXl4HeOPxvDoq9vff8QCWkpYpjVf53qAH/Jk1
+	DIRrpx4y2ALeW28QaOUFuTo9xgPSS2lWHHNaYtsCgbmrAc54M0/V7Pk6qG929RmvBI49e1WkaM7
+	A9Pc0KwGFsBMb5X5AEVwBF6qJDg==
+X-Received: by 2002:a05:600c:298:: with SMTP id 24mr7129440wmk.100.1643200622738;
+        Wed, 26 Jan 2022 04:37:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyFeRqcMR4sp5TihDa0aCwBpHf/6PAChPHR3bf/s902hBLlOchViJcHCwGI8NoHTi6Uqd/TdQ==
+X-Received: by 2002:a05:600c:298:: with SMTP id 24mr7129411wmk.100.1643200622473;
+        Wed, 26 Jan 2022 04:37:02 -0800 (PST)
+Received: from [192.168.1.102] ([92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id i6sm3207248wma.22.2022.01.26.04.37.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jan 2022 04:33:05 -0800 (PST)
-Message-ID: <ceedff4c-3233-23c7-41f0-183fa8d75c9a@gmail.com>
-Date: Wed, 26 Jan 2022 15:33:03 +0300
+        Wed, 26 Jan 2022 04:37:01 -0800 (PST)
+Message-ID: <1b665bb8-7acb-519b-0a02-ef0f2dd4b524@redhat.com>
+Date: Wed, 26 Jan 2022 13:37:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,57 +53,102 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 3/3] media: docs: dev-stateless-decoder: Document frame
- type flags
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
+To: Dan Carpenter <dan.carpenter@oracle.com>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>, linux-staging@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Carlis <zhangxuezhi1@yulong.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
+References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+ <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
+ <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
+ <CAHp75Vd7oaYPKx6bxjCqNnm6fieeQFrtq5K4YYrxYbXoXFy=+Q@mail.gmail.com>
+ <20220126102858.GX1951@kadam>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220126102858.GX1951@kadam>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- kernel <kernel@collabora.com>
-References: <20220116185556.10657-1-digetx@gmail.com>
- <20220116185556.10657-4-digetx@gmail.com>
- <8be37d34b7090e3d3adca5b0d298c4b1b5639fa1.camel@ndufresne.ca>
-From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <8be37d34b7090e3d3adca5b0d298c4b1b5639fa1.camel@ndufresne.ca>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-25.01.2022 23:37, Nicolas Dufresne пишет:
-> Le dimanche 16 janvier 2022 à 21:55 +0300, Dmitry Osipenko a écrit :
->> Document that frame type flags must be set for the coded buffer.
->> Decoders, like NVIDIA Tegra h264 decoder for example, won't work
->> properly without these flags.
+On 1/26/22 11:28, Dan Carpenter wrote:
+> On Wed, Jan 26, 2022 at 12:04:26PM +0200, Andy Shevchenko wrote:
+>> On Wed, Jan 26, 2022 at 12:02 PM Andy Shevchenko
+>> <andy.shevchenko@gmail.com> wrote:
+>>> On Wed, Jan 26, 2022 at 10:52 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>>> Am 25.01.22 um 21:21 schrieb Andy Shevchenko:
 >>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  .../userspace-api/media/v4l/dev-stateless-decoder.rst          | 3 +++
->>  1 file changed, 3 insertions(+)
+>> ...
 >>
->> diff --git a/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst b/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
->> index 4a26646eeec5..845f4481d34f 100644
->> --- a/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
->> +++ b/Documentation/userspace-api/media/v4l/dev-stateless-decoder.rst
->> @@ -271,6 +271,9 @@ A typical frame would thus be decoded using the following sequence:
->>            we are not sure that the current decode request is the last one needed
->>            to produce a fully decoded frame, then
->>            ``V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF`` must also be set.
->> +          ``V4L2_BUF_FLAG_KEYFRAME``, ``V4L2_BUF_FLAG_PFRAME`` and
->> +          ``V4L2_BUF_FLAG_BFRAME`` must be set if relevant to the coded
->> +          format.
+>>>> But why? We already have DRM drivers for some of these devices.
+>>>
+>>> No, we do not (only a few are available).
+>>
+>> Sorry, I missed your word 'some'. Some == almost none from the list (I
+>> don't remember exact numbers but something like 2 out of 10 are
+>> supported by tiny DRM and see about interfaces).
 > 
-> I think I would rather keep this in the CODEC specific APIs (BFrame being an
-> MPEG specific concept). If I knew about this before we made the API final, I
-> would have added the slice_type bitstream parameter in the
-> v4l2_h264_decode_params structure. But as the types are rather limited, I would
-> preserve our "reservered" space and make that part of the
-> V4L2_H264_DECODE_PARAM_FLAGS_{} instead. Do you also need that for HEVC ? (do
-> you have HEVC on that generation of tegra ?)
+> Could we get an exact list?
+> 
 
-That generation of Tegra doesn't support HEVC. I'll try to move frame
-type to v4l2_h264_decode_params, thank you.
+The list AFAICT is the following. I'm not familiar with these so please
+feel free to correct anything I got wrong here.
+
+I've marked with '?' if found references to the device supported by the
+fbdev driver in a DRM driver, but it's not clear if support the same HW.
+
+Drivers in drivers/staging/fbtft:
+
+   fb_agm1264k-fl.c
+   fb_bd663474.c
+   fb_hx8340bn.c
+   fb_hx8347d.c (DRM driver in drivers/gpu/drm/tiny/hx8357d.c)
+   fb_hx8353d.c
+   fb_hx8357d.c (DRM driver in drivers/gpu/drm/tiny/hx8357d.c)
+   fb_ili9163.c (DRM driver in drivers/gpu/drm/tiny/ili9163.c)
+   fb_ili9320.c
+   fb_ili9325.c
+   fb_ili9340.c (DRM driver in drivers/gpu/drm/tiny/mi0283qt.c ?)
+   fb_ili9341.c (DRM driver in drivers/gpu/drm/tiny/mi0283qt.c ?)
+   fb_ili9481.c
+   fb_ili9486.c (DRM driver in drivers/gpu/drm/tiny/ili9486.c)
+   fb_pcd8544.c
+   fb_ra8875.c
+   fb_s6d02a1.c
+   fb_s6d1121.c
+   fb_seps525.c
+   fb_sh1106.c
+   fb_ssd1289.c
+   fb_ssd1305.c
+   fb_ssd1306.c
+   fb_ssd1325.c
+   fb_ssd1331.c
+   fb_ssd1351.c
+   fb_st7735r.c (DRM driver in drivers/gpu/drm/tiny/st7735r.c)
+   fb_st7789v.c (DRM driver in drivers/gpu/drm/panel/panel-sitronix-st7789v.c)
+   fb_tinylcd.c
+   fb_tls8204.c
+   fb_uc1611.c
+   fb_uc1701.c
+   fb_upd161704.c
+   fb_watterott.c
+
+
+Best regards,
+-- 
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
