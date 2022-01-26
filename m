@@ -1,85 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEDE2C82
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 10:48:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1862BC340E3;
-	Wed, 26 Jan 2022 10:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1643194085;
-	bh=NDYIA12Lp80m8mzBikJjKfoIdYohJwIilWBj4Myci9E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iKj0u4TmCD5cyALouDUEs+XdggPems82wyll1Tljp52x4txPWifZie2Rv4G0vC6uy
-	 F2M2yIECM8vjyzjAl3+kxOfFWGAojjMK5qpkCWV7lHrVNqihRF5S0xo9zrsu+64PdS
-	 9oOwnT8g6asrqJSjT1MQeOtNM/JaHBGuEduqrV7o=
-Date: Wed, 26 Jan 2022 11:48:02 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Phillip Potter <phil@philpotter.co.uk>, dan.carpenter@oracle.com,
-	Larry.Finger@lwfinger.net, straube.linux@gmail.com,
-	martin@kaiser.cx, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/10] staging: r8188eu: remove DBG_88E calls from
- os_dep/ioctl_linux.c
-Message-ID: <YfEm4t+fhO4I2uDW@kroah.com>
-References: <20220124224415.831-1-phil@philpotter.co.uk>
- <20220124224415.831-7-phil@philpotter.co.uk>
- <a681a562-eb41-9dc8-703a-5b235c15a3a1@gmail.com>
- <YfCgQbFxfVZXw9Fg@equinox>
- <b5bbe488-ac43-fd89-7c65-36bfa9c903a6@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DFC2C82
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 10:52:28 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id v67so18527299oie.9
+        for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 02:52:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hNuGvUirpZLgviiUUWup/Or/h967yV7FWMRVHEHBy84=;
+        b=XuQJ2QuaOAH1guMFs+7qJK7Usxs3OIJFOFUJh3Kg+W+9uVg8Ypcz+nzh+l6fpvZNNr
+         WFfm2rMdpfX28Su8mn1xY2IpJUW6FmKhs4toEMVo5qSEu1Omchn0rkkbwdI5t9edO7yt
+         BMwnEqCn0Ci7qjy9Yx8Fxa3ZoSb96QLGfI/nY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hNuGvUirpZLgviiUUWup/Or/h967yV7FWMRVHEHBy84=;
+        b=nLRyiXqGngOCbfW5F2+M/Bn5/Mbut9GWyFno7ekEg8mLTiu5X36Ksd7L657h6aIEjx
+         dP0O1H8gga+P0XjcTFq6Kx0mjhpTIByNeqD6XnBWdBgrGOWnVxOXaBDZn22Dh3s8c/m+
+         qIzwuOQeOO7Vv6Q5pOZanv7kHZTtxjXX2LEXO2CNBaqiZYC5o5gVPd3KKmKQcPmtaD3x
+         PTGuf5CTjrXzaA0BuSvlUh+XkG+L8bu0iQxFd7JjglbrfBW0KmcvM0cYDCW0u529NbAd
+         Rb4hQySqVzyOGjgQ8/rD/0+rkbfDcWz8Dw1vyo52lWCOZv0bqVcEht6R4jtyYMxScK6y
+         SKuQ==
+X-Gm-Message-State: AOAM531WzGAjkEgTr8NdmI/16nTbMsGQxfEvbeCyNzXDaFkfZIQvy41z
+	AEazW9p1yviSjuEsOyZ1mPyI5O2DWHJQZ1p1fHGrZt+Rj3E=
+X-Google-Smtp-Source: ABdhPJzPYkubRtpxhbQ9mgH5mK8ga1ADV0xj1R2SeDADNqICmknnx/N/28B3XxA4NLAA3/9nww800A/xqxovI/pIEAE=
+X-Received: by 2002:aca:ab4a:: with SMTP id u71mr3195965oie.176.1643194347425;
+ Wed, 26 Jan 2022 02:52:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b5bbe488-ac43-fd89-7c65-36bfa9c903a6@gmail.com>
+References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+ <991e988b-7225-881b-a59a-33c3eae044be@suse.de> <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
+ <YfEmuGVQ+IlhdQDh@kroah.com>
+In-Reply-To: <YfEmuGVQ+IlhdQDh@kroah.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 26 Jan 2022 11:52:16 +0100
+Message-ID: <CAKMK7uEiUH8vD3jUCDPXFbF2YS5LygJLVOosbnUnvMP0MU2kTg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Andy Shevchenko <andy@kernel.org>, 
+	linux-fbdev@vger.kernel.org, Michael Hennerich <michael.hennerich@analog.com>, 
+	Helge Deller <deller@gmx.de>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, Phillip Potter <phil@philpotter.co.uk>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Carlis <zhangxuezhi1@yulong.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Lee Jones <lee.jones@linaro.org>, 
+	Heiner Kallweit <hkallweit1@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 26, 2022 at 01:26:08PM +0300, Pavel Skripkin wrote:
-> Hi Phillip,
-> 
-> On 1/26/22 04:13, Phillip Potter wrote:
-> 
-> [snip]
-> 
-> }
-> > > 
-> > > And here you also removes the reads. I guess, some kind of magic pattern is
-> > > used
-> > > 
-> > 
-> > So these calls are macro arguments, they would never be executed under
-> > normal circumstances anyway, unless the rtw_debug kernel module was
-> > passed in as 5 or more - it is 1 by default. The DBG_88E macro would
-> > expand during preprocessing phase to (for example):
-> > 
-> > do {
-> > 	if (5 <= GlobalDebugLevel)
-> > 		pr_info("R8188EU: " "dbg(0x450) = 0x%x\n", rtw_read32(padapter, 0x450));
-> > } while (0)
-> > 
-> > As this is never executed under normal circumstances anyway, I would say
-> > calls like these are therefore safe to remove. Happy to be convinced
-> > though :-) Many thanks.
-> > 
-> 
-> I see your point, thanks for explanation.
-> 
-> Well, in this case, you may left all reads, that are executed during normal
-> lifetime of a driver. We know, that there is at least 1 place, where read()
-> call removal can break things. Might be there are couple of other places we
-> don't know about.
-> 
-> IMHO the best thing you can do is to leave these reads and leave a comment
-> like "hey, please remove me and test". One day useless reads should be
-> anyway removed, since ideally rtw_read family must get __must_check
-> annotation + normal error handling.
+On Wed, Jan 26, 2022 at 11:47 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Jan 26, 2022 at 12:02:36PM +0200, Andy Shevchenko wrote:
+> > On Wed, Jan 26, 2022 at 10:52 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > >
+> > > Hi
+> > >
+> > > Am 25.01.22 um 21:21 schrieb Andy Shevchenko:
+> > > > Since we got a maintainer for fbdev, I would like to
+> > > > unorphan fbtft (with the idea of sending PRs to Helge)
+> > > > and move it out of staging since there is no more clean
+> > > > up work expected and no more drivers either.
+> > > >
+> > > > Thoughts?
+> >
+> > Thanks for sharing yours, my answers below.
+> >
+> > > But why? We already have DRM drivers for some of these devices.
+> >
+> > No, we do not (only a few are available).
+> >
+> > > Porting
+> > > the others to DRM is such a better long-term plan.  OTOH, as no one has
+> > > shown up and converted them, maybe they should be left dead or removed
+> > > entirely.
+> >
+> > As I mentioned above there are devices that nobody will take time to
+> > port to a way too complex DRM subsystem. But the devices are cheap and
+> > quite widespread in the embedded world. I'm in possession of 3 or 4
+> > different models and only 1 is supported by tiny DRM.
+>
+> Great, then let's just move the 2 models that you do not have support
+> for in DRM, not the whole lot.  When we have real users for the drivers,
+> we can move them out of staging, but until then, dragging all of them
+> out does not make sense.
 
-No, if these were never getting called in normal operation, there's no
-need to add them back.
+Can't we create drm drivers for these 2-3 models? Like we have drivers
+which are below 300 lines with all the helpers taking care of
+everything, this shouldn't be too tricky.
 
-thanks,
-
-greg k-h
+And if no one cares enough for that, then imo let's just keep this in
+staging and let it quietly&slowly pass away. At least from the people
+who've been active in any kind of display development the past 6+
+years (which is roughly when Tomi abandoned fbdev as last active
+maintainer) the consensus _is_ that drm drivers are simpler, quicker
+to type (once you got hold of the subsystem and all its helpers at
+least), and adding new fbdev drivers just makes no sense at all.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
