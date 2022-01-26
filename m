@@ -1,76 +1,88 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (relay032.a.hostedemail.com [64.99.140.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57E3168
-	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 10:05:26 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id m4so37894524ejb.9
-        for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 02:05:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZIBPG5KdggrxdxTcsYEqUFW4Fhlz+KszjlvwSs+5dP8=;
-        b=GM+KII2Zv2mUcviteB7pgK0Y9FBFJP2nO//R8vEVHLFufcw/LNeiZV4JarZZlqsYkZ
-         typFLgdqp25CkKGspN+0DHGeN5GNkW+3DjPd4XTCHNHBY/e/I6gkmEN3GhUWqlSyGSGj
-         Z8B5WazAgU42xBefblCAiNrg3WVNpF3jLD+DvUzBktRcVvkcg6eC9RdHkCs5+8edRKum
-         Zrw2I70CN9r2Xef0xxX81h5fp4hrMHnprwD6oxttKhgbvmAZP3/2lGv1TWeIGgPTqozd
-         pUsR807hVsRKG2taCPOQU2lv7WJ33Gld6uqElywbeadjRO+VmwV+MOYBV3CETS9ESn/r
-         oLaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZIBPG5KdggrxdxTcsYEqUFW4Fhlz+KszjlvwSs+5dP8=;
-        b=gTcEzsXt1dSnPBO56MuCKsEBRou2TbuXX3mLIFy0tvpw2jJxWW6HE80rwbVCItUH8r
-         OeUwOUwZVaWJPWPAW4lELsVlK6HM+/y/0tcPwNJRHH6p5y2XRUWIRKPAu9kwUNDaaArR
-         6EJNHlueMm5cdBg5Ph/BltH5uJrZ/DEIa9bmBbZ4z0p/y7VFK4IhCpuh9pwFVL5xpvok
-         RsXO5HA4Ya22RF0KWqJBqVE6KhetVwUuWZQOjL0mL8V/9JUqIdxOCKCdnUSz1r9rn0Y2
-         NH7PfntL6TU7cKvaH12jXvG9V2GUrs2ipUSUNl4t2noJ30CuQulo2FJ6O7RjOBuuQoFa
-         MYSA==
-X-Gm-Message-State: AOAM530ly9p/xcYdHgPFtka05OIjQz8SPe6MLg4XqWs0X1uT3V0SZCVq
-	H0jo2F55baYMbPAX9pa5Cai1460EQ3MHnh8gI3A=
-X-Google-Smtp-Source: ABdhPJxLTWUKmHtcOeib3twEwVqJGJ4TxCtjycPib6a85lcs7VMVl7shvXiH79nfAsy8Iir3ilNC+ATyz+6Lrri68Ok=
-X-Received: by 2002:a17:907:60d6:: with SMTP id hv22mr3480319ejc.132.1643191525022;
- Wed, 26 Jan 2022 02:05:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD06168
+	for <linux-staging@lists.linux.dev>; Wed, 26 Jan 2022 10:19:12 +0000 (UTC)
+Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay11.hostedemail.com (Postfix) with ESMTP id 3476880F26;
+	Wed, 26 Jan 2022 08:54:22 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf03.hostedemail.com (Postfix) with ESMTPA id 27CD060010;
+	Wed, 26 Jan 2022 08:53:56 +0000 (UTC)
+Message-ID: <e12b11d20e22123736e5d8728286947e971c489f.camel@perches.com>
+Subject: Re: [PATCH v1 4/4] fbtft: Replace 'depends on FB_TFT' by 'if FB_TFT
+ ... endif'
+From: Joe Perches <joe@perches.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>, Lee
+ Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Carlis <zhangxuezhi1@yulong.com>, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Cc: Michael Hennerich <michael.hennerich@analog.com>, Helge Deller
+	 <deller@gmx.de>, Andy Shevchenko <andy@kernel.org>
+Date: Wed, 26 Jan 2022 00:54:13 -0800
+In-Reply-To: <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
+References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+	 <20220125202118.63362-5-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <991e988b-7225-881b-a59a-33c3eae044be@suse.de> <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
-In-Reply-To: <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 26 Jan 2022 12:04:26 +0200
-Message-ID: <CAHp75Vd7oaYPKx6bxjCqNnm6fieeQFrtq5K4YYrxYbXoXFy=+Q@mail.gmail.com>
-Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>, 
-	Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Carlis <zhangxuezhi1@yulong.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	"open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	Michael Hennerich <michael.hennerich@analog.com>, Helge Deller <deller@gmx.de>, 
-	Andy Shevchenko <andy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.16
+X-Stat-Signature: em88uec87srrhrfjxjnjwiqf8orq9fet
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 27CD060010
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19Vno09lLkNwZ/zyG+OKu9T1j1sTiaf0bM=
+X-HE-Tag: 1643187236-759005
 
-On Wed, Jan 26, 2022 at 12:02 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Wed, Jan 26, 2022 at 10:52 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > Am 25.01.22 um 21:21 schrieb Andy Shevchenko:
+On Tue, 2022-01-25 at 22:21 +0200, Andy Shevchenko wrote:
+> Replace 'depends on FB_TFT' by 'if FB_TFT ... endif'
+> for the sake of deduplication.
+[]
+> diff --git a/drivers/video/fbtft/Kconfig b/drivers/video/fbtft/Kconfig
+[]
+> @@ -10,87 +10,75 @@ menuconfig FB_TFT
+>  	select FB_DEFERRED_IO
+>  	select FB_BACKLIGHT
+>  
+> +if FB_TFT
+> +
+[]
+>  config FB_TFT_PCD8544
+>  	tristate "FB driver for the PCD8544 LCD Controller"
+> -	depends on FB_TFT
+>  	help
+>  	  Generic Framebuffer support for PCD8544
+>  
+> @@ -108,62 +96,52 @@ config FB_TFT_S6D02A1
 
-...
+Looks like you missed a couple.
+---
+ drivers/video/fbtft/Kconfig | 2 --
+ 1 file changed, 2 deletions(-)
 
-> > But why? We already have DRM drivers for some of these devices.
->
-> No, we do not (only a few are available).
+diff --git a/drivers/video/fbtft/Kconfig b/drivers/video/fbtft/Kconfig
+index 14ea3c6a60da0..4a02871f2cc71 100644
+--- a/drivers/video/fbtft/Kconfig
++++ b/drivers/video/fbtft/Kconfig
+@@ -84,13 +84,11 @@ config FB_TFT_PCD8544
+ 
+ config FB_TFT_RA8875
+ 	tristate "FB driver for the RA8875 LCD Controller"
+-	depends on FB_TFT
+ 	help
+ 	  Generic Framebuffer support for RA8875
+ 
+ config FB_TFT_S6D02A1
+ 	tristate "FB driver for the S6D02A1 LCD Controller"
+-	depends on FB_TFT
+ 	help
+ 	  Generic Framebuffer support for S6D02A1
+ 
 
-Sorry, I missed your word 'some'. Some == almost none from the list (I
-don't remember exact numbers but something like 2 out of 10 are
-supported by tiny DRM and see about interfaces).
-
--- 
-With Best Regards,
-Andy Shevchenko
