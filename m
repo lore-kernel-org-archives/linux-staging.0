@@ -1,30 +1,30 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4362CA2
-	for <linux-staging@lists.linux.dev>; Thu, 27 Jan 2022 11:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353A82CA2
+	for <linux-staging@lists.linux.dev>; Thu, 27 Jan 2022 11:33:23 +0000 (UTC)
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1643283194;
+	s=2020; t=1643283197;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i7B20wzlMtToieI5G7tCnCKu5TFMOwHYL5yYAy+C5s0=;
-	b=JBkP8NyESqVS1Hlzz9WJk5NOcg243nCN04rH587WjPfrsgbMd+GF/cLL/KbCXARSBGy1te
-	hnCMEdp37RY02ygC9IbYA60OWJRD5q7sv+jMgvDu1eUKskhYRm8bG1FdR30mutei0b5Wi4
-	0k2g6OoFCBnXNs6C8CXFmSE+P3tuS6qhvlOyeWawldEug7w4y5qGsgUCe8Ca2Q1TguzFAY
-	VtqdCdIlbp3ysKNH7OdDI0WzDdkrdnrKM/ELtMGf8lwFX15SItsdZSArQhIdQB4OHefEDF
-	pAiL+soouMZwsuDsrY0hfyAN42JEj2I+goxptLQyo3+9vr4MAWvXSJMxVycebA==
+	bh=dIv+CVYntwJz8CieaPTocbRGy6Ut677BgfsZfTXIw6A=;
+	b=Nuf3tVNxG0voSB6Eq9C+Q+03rsuiHd1WOV7BrA6PWBHlOuqHjAsWiRhx8/KAY7oyXAqMMf
+	1hYwsdjRM3EsyLDJCMTZwzFfxxrkEBlLL17RLHV48XR5nFNu60GYtSCjZBFOzJpekRdQp4
+	kAOfETSk4RC7OMq0hJz4PpF4B3LXWFqirBuqRcsnnBOfVw95CqTttqNchbKU2ip9hM6A2/
+	7RPQNXCjzQ87gUAzk89m7i9+P8FxDeQEWPvX43Qgw8VBbLhwne43yMItyWIcpueOLXn/d6
+	z5/+Gf1jHbTrMfvFgv4MaFZOr+j1NtXIhTjzRbsvMGlFWrNrbedDQ9Je3n/miA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1643283194;
+	s=2020e; t=1643283197;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i7B20wzlMtToieI5G7tCnCKu5TFMOwHYL5yYAy+C5s0=;
-	b=rx72YmxkZxACjESl0FCo5J02aVqivX+TAKPihjEbioTCo9OxW5XT5J4ODTO61qpGacEqwu
-	WPl6X2GShe2I5oAw==
+	bh=dIv+CVYntwJz8CieaPTocbRGy6Ut677BgfsZfTXIw6A=;
+	b=8jF8mB8ZhtxYzNFXU7s06Q1sCfcl859MLbH+qbWdcr/S7Q9PuvfPUJeb9ZT3AnpOl+8O73
+	GKRB2ImlPEcqezAA==
 To: greybus-dev@lists.linaro.org,
 	linux-i2c@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -45,9 +45,9 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Wolfram Sang <wsa@kernel.org>,
 	Woojung Huh <woojung.huh@microchip.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH 1/7] genirq: Provide generic_handle_irq_safe().
-Date: Thu, 27 Jan 2022 12:32:57 +0100
-Message-Id: <20220127113303.3012207-2-bigeasy@linutronix.de>
+Subject: [PATCH 5/7] mfd: ezx-pcap: Use generic_handle_irq_safe().
+Date: Thu, 27 Jan 2022 12:33:01 +0100
+Message-Id: <20220127113303.3012207-6-bigeasy@linutronix.de>
 In-Reply-To: <20220127113303.3012207-1-bigeasy@linutronix.de>
 References: <20220127113303.3012207-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -58,61 +58,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Provide generic_handle_irq_safe() which can be used can used from any
-context.
+Instead of manually disabling interrupts before invoking use
+generic_handle_irq() which can be invoked with enabled and disabled
+interrupts.
 
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/irqdesc.h |  1 +
- kernel/irq/irqdesc.c    | 21 +++++++++++++++++++++
- 2 files changed, 22 insertions(+)
+ drivers/mfd/ezx-pcap.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/include/linux/irqdesc.h b/include/linux/irqdesc.h
-index 93d270ca0c567..a77584593f7d1 100644
---- a/include/linux/irqdesc.h
-+++ b/include/linux/irqdesc.h
-@@ -160,6 +160,7 @@ static inline void generic_handle_irq_desc(struct irq_d=
-esc *desc)
+diff --git a/drivers/mfd/ezx-pcap.c b/drivers/mfd/ezx-pcap.c
+index 70fa18b04ad2b..b14d3f98e1ebd 100644
+--- a/drivers/mfd/ezx-pcap.c
++++ b/drivers/mfd/ezx-pcap.c
+@@ -193,13 +193,11 @@ static void pcap_isr_work(struct work_struct *work)
+ 		ezx_pcap_write(pcap, PCAP_REG_MSR, isr | msr);
+ 		ezx_pcap_write(pcap, PCAP_REG_ISR, isr);
 =20
- int handle_irq_desc(struct irq_desc *desc);
- int generic_handle_irq(unsigned int irq);
-+int generic_handle_irq_safe(unsigned int irq);
-=20
- #ifdef CONFIG_IRQ_DOMAIN
- /*
-diff --git a/kernel/irq/irqdesc.c b/kernel/irq/irqdesc.c
-index 2267e6527db3c..97223df2f460e 100644
---- a/kernel/irq/irqdesc.c
-+++ b/kernel/irq/irqdesc.c
-@@ -662,6 +662,27 @@ int generic_handle_irq(unsigned int irq)
+-		local_irq_disable();
+ 		service =3D isr & ~msr;
+ 		for (irq =3D pcap->irq_base; service; service >>=3D 1, irq++) {
+ 			if (service & 1)
+-				generic_handle_irq(irq);
++				generic_handle_irq_safe(irq);
+ 		}
+-		local_irq_enable();
+ 		ezx_pcap_write(pcap, PCAP_REG_MSR, pcap->msr);
+ 	} while (gpio_get_value(pdata->gpio));
  }
- EXPORT_SYMBOL_GPL(generic_handle_irq);
-=20
-+/**
-+ * generic_handle_irq_safe - Invoke the handler for a particular irq
-+ * @irq:	The irq number to handle
-+ *
-+ * Returns:	0 on success, or -EINVAL if conversion has failed
-+ *
-+ * This function must be called either from an IRQ context with irq regs
-+ * initialized or with care from any context.
-+ */
-+int generic_handle_irq_safe(unsigned int irq)
-+{
-+	unsigned long flags;
-+	int ret;
-+
-+	local_irq_save(flags);
-+	ret =3D handle_irq_desc(irq_to_desc(irq));
-+	local_irq_restore(flags);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(generic_handle_irq_safe);
-+
- #ifdef CONFIG_IRQ_DOMAIN
- /**
-  * generic_handle_domain_irq - Invoke the handler for a HW irq belonging
 --=20
 2.34.1
 
