@@ -1,158 +1,81 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282202CA1
-	for <linux-staging@lists.linux.dev>; Thu, 27 Jan 2022 09:18:25 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.nyi.internal (Postfix) with ESMTP id B34C3580350;
-	Thu, 27 Jan 2022 04:18:24 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 27 Jan 2022 04:18:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; bh=9T5RBslyEteXBKTxiCWnHx41KnlmqwYF4wb/qh
-	g+Kfg=; b=gz+NlBbawCZK1DOG8BwUgjYruyApOVSjjeHVkn+AL3/CIensP0iSQ0
-	Rd+MylVBNFZhuwZRNyQJPI22klaptWVx+Ke76gBeDBKxxALr2uXnsK4yqSufobI6
-	18c62w3cpYF7m/7BBgBEF5GLvaHA4fDc+xATeQDui1OBi3Qi212dzHsgdALHZ4zu
-	tmnMogAbIE90VT3xvjmGb/PHm4zemnbAS78AIuQKqpnjteHFXYbJnbtQvEosFGwk
-	4hidLsUztQfOlj1hCFlm+3mhDmfXdlsk6gC6LgPtZZomwz0qdpp8C+OSZJ+fD/Xn
-	yhSbUVXWNYbBmtF5GOh8NEPdTj6q672g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9T5RBslyEteXBKTxi
-	CWnHx41KnlmqwYF4wb/qhg+Kfg=; b=ACiwWx8nT9UVs9xnAW0muyPmcsBAC2dPO
-	JpXc7uZ7dyY8wguF+ciWCKDLCKNqRcScZoGIE7FC+PZnQFG0VrbZaPLpSaIRC9Xj
-	b9iA3FXvOC109ykhFCi8ZGTqC+w06j/CshCbaQQ3X5yZfFCu88Def2K49lwr+msn
-	q6P7NjCrY2CExOy2vXl82y28QfAsuZOSxQmoMe2AqAtPZ1LHHxjRIvSZNJDCgezu
-	AuUOQYEc6aFfFMxE7Wsf4l7ee0MEdCxQWszyL9vfxZIxhKkVE0kzeHKmPw/EY17h
-	yZoTwQ1nty4pkwknp405/NAjqG9kyOLkou9sYh9d3Zda+S0f28TuQ==
-X-ME-Sender: <xms:X2PyYbLBPspeccnceI5EyotcWrDez0Er1EeK0U6mLBZS7Y1tzL-vUg>
-    <xme:X2PyYfKAzLKk4_N93TADPVjpZpwF2PH3rJTjs5zYHtJzRYKo1uRrw5Ijfk2VlJ9Mo
-    u8vpGzMTZxCJgkqmmA>
-X-ME-Received: <xmr:X2PyYTurZI9jh1UFmTno-fXD87QF3Ty5NnSjylTQGZVClGDXtXRNVgF8KFETLq7N9OydaJxKxTvH0_dyzvrlaLO2Xf0ERYHzqEhr0lk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeefgddtvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
-    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:YGPyYUZW-8g1zq-063gLSVyVcl6WlxMRjeGQKi6S8ZM180q-N6hMeQ>
-    <xmx:YGPyYSZkUtufYmK49t1ULhao90Xx3BOxnMvPLx1S-jxkzdtF1myjGg>
-    <xmx:YGPyYYBk_S9-JMyegb5ZcRJL-84ce5knLm0zcJn2c_y2RXrIrM88Xw>
-    <xmx:YGPyYappdGraeNojxsp8qu34-f6YX7-sefGEkD9pbkkSIvDjGas5VQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Jan 2022 04:18:23 -0500 (EST)
-Date: Thu, 27 Jan 2022 10:18:20 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Helge Deller <deller@gmx.de>, Andy Shevchenko <andy@kernel.org>,
-	linux-fbdev@vger.kernel.org,
-	Michael Hennerich <michael.hennerich@analog.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A03D2CA1
+	for <linux-staging@lists.linux.dev>; Thu, 27 Jan 2022 10:05:25 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id d5so2416862pjk.5
+        for <linux-staging@lists.linux.dev>; Thu, 27 Jan 2022 02:05:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=LBOQjqTrRKyhdvBvzMylROfqbjWsRkHJwbCc+XSqEB4=;
+        b=hU+y8UUCtnvmLs91gy6C7O0CCHoYJ2TYmaHx7LExtXnAX3g2ZUWGqWjQGO9/EoDTHL
+         LKJm5G2IXBdaabWdTa5DJp52fycGA3iBYSheTFsR6/eT0zTGBJ9vL1CUM+YzZJ4QOml5
+         mjaQGcvCY2aRk+2I7XMu+2PSCwnYj1z7fGDwI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LBOQjqTrRKyhdvBvzMylROfqbjWsRkHJwbCc+XSqEB4=;
+        b=nLZlafbUEndyYC9TdJThDGu3aNinTAkK8l/Kl6gbl4VFpYcpUSbxxrR8GSZK6ef6+l
+         qARKdn0GZWVjBGQONnoIcH4Jer1xVePEqc+rgtqRqLHecuEYMoNf1t6m+3eIH3gdLeX9
+         52Gom6HiAB2sf70XoxYsEbTDZ/VlmrCtCOqot0fqre+tP2nDb4V4w3HhW3eV59E3Y7km
+         sWHzIaAi2JWCASV8n2csVfQ0hIhmEiRQkysIEO0an9PW/4xVlW1N7nCpZYZulZn4GX5C
+         Z2SB4ntnsMKwIuylU6F/hxQMYEy0okV4I9MMvhhDGBHmXWIDxH9JbzbAvSnKo9SGIZoa
+         2MNw==
+X-Gm-Message-State: AOAM531/JOFU7VjafaxXaM8OjD/WOntqsLIAFjyOFd0R29Eb1qdMz5k8
+	LypE9DNjxsrUVhEnxwoFpoUoEA==
+X-Google-Smtp-Source: ABdhPJwHB0qa1O7m8UjQXGx1IEj/br7glW0Yig/xNOufSEf8geSAYNnvEm+sDvMzb7zRtZzMRbp7zw==
+X-Received: by 2002:a17:90b:1b46:: with SMTP id nv6mr3459486pjb.178.1643277924815;
+        Thu, 27 Jan 2022 02:05:24 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p42sm4980243pfw.71.2022.01.27.02.05.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Jan 2022 02:05:24 -0800 (PST)
+Date: Thu, 27 Jan 2022 02:05:23 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Carlis <zhangxuezhi1@yulong.com>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Lee Jones <lee.jones@linaro.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
-Message-ID: <20220127091820.5ktfbovvw5bnef2e@houat>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
- <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
- <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
- <b13c0634-e766-74db-ab1f-672f5d0c04d6@redhat.com>
- <CAKMK7uEqwyZuVheqyNG33Un4WK1cd1B+WBYbCmi20fZi0qVG2w@mail.gmail.com>
- <88ea01b8-3fdd-72cc-c3d8-e2890c68533b@gmx.de>
- <YfFM+6pvJLmtY0Zg@smile.fi.intel.com>
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] staging: greybus: i2c: Use struct_size() helper in
+ gb_i2c_operation_create()
+Message-ID: <202201270204.D460EC35@keescook>
+References: <20220121222250.GA73021@embeddedor>
+ <202201241213.82E7D9F598@keescook>
+ <20220126105404.GY1951@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xbrmyhidxdqgdgca"
-Content-Disposition: inline
-In-Reply-To: <YfFM+6pvJLmtY0Zg@smile.fi.intel.com>
-
-
---xbrmyhidxdqgdgca
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220126105404.GY1951@kadam>
 
-On Wed, Jan 26, 2022 at 03:30:35PM +0200, Andy Shevchenko wrote:
-> On Wed, Jan 26, 2022 at 12:38:09PM +0100, Helge Deller wrote:
-> > On 1/26/22 12:24, Daniel Vetter wrote:
-> > > On Wed, Jan 26, 2022 at 12:18 PM Javier Martinez Canillas
-> > > <javierm@redhat.com> wrote:
-> > >> On 1/26/22 11:59, Helge Deller wrote:
-> > >>> On 1/26/22 11:02, Andy Shevchenko wrote:
->=20
-> ...
->=20
-> > >>>> P.S. For the record, I will personally NAK any attempts to remove =
-that
-> > >>>> driver from the kernel. And this is another point why it's better =
-not
-> > >>>> to be under the staging.
-> > >>>
-> > >>> I agree. Same as for me to NAK the disabling of fbcon's acceleration
-> > >>> features or even attempting to remove fbdev altogether (unless all
-> > >>> relevant drivers are ported to DRM).
-> > >>
-> > >> But that will never happen if we keep moving the goal post.
-> > >>
-> > >> At some point new fbdev drivers should not be added anymore, otherwi=
-se
-> > >> the number of existing drivers that need conversion will keep growin=
-g.
-> > >
-> > > And that point was about 5 years ago, and has been discussed at some
-> > > plumbers meanwhile, resulting in the staging TODO patches to make
-> > > these drm drivers to destage them.
-> > >
-> > > Fixing bugs in fbdev is all fine, reopening it for merging new driver=
-s is not.
-> >=20
-> > We are on the same page!
-> > I'm not at all proposing to include new drivers for (relatively) new
-> > hardware into fbdev, which is capable to be written as DRM driver.
->=20
-> Agree. The point here is neither in opening it for new comers nor for
-> expanding, the drivers in question are all in the kernel in different fol=
-der
-> that is not suitable for them, but I gave up. I see that nobody wants
-> maintainers to be appearing for the old _working_ code, as it was shown
-> already by the DVB case few month ago.
+On Wed, Jan 26, 2022 at 01:54:04PM +0300, Dan Carpenter wrote:
+> On Mon, Jan 24, 2022 at 12:19:03PM -0800, Kees Cook wrote:
+> > This could still overflow if struct_size() returns SIZE_MAX. Perhaps:
+> > 
+> > 	if (check_add_overflow(struct_size(request, ops, msg_count),
+> > 			       data_out_size, &request_size))
+> > 		request_size = SIZE_MAX;
+> > 
+> > I should brush off the saturating arithmetic helpers series:
+> > https://lore.kernel.org/all/20210920180853.1825195-1-keescook@chromium.org/
+> 
+> Yes, please!  Those seem like a million times easier to use.
 
-I mean, the main reason fbtft was in staging all this time has never
-been about fbdev. It was about the device tree bindings that have never
-been documented, reviewed and agreed upon. And given its bindings, we're
-very far from it.
+Here they are! :) Please review:
 
-That's what Noralf has been mostly working on all this time, and yeah,
-it takes time but we're getting there.
+https://lore.kernel.org/lkml/20220124232342.3113350-1-keescook@chromium.org/
 
-Maxime
+Thanks!
 
---xbrmyhidxdqgdgca
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfJjXAAKCRDj7w1vZxhR
-xULNAQCrENDC07h9aXPXO4Zo9zV4kHn9oaiD/6+T+S3Kdu4ccwD+L9kAd89Qtw9V
-5/R0wrL1Cozn+TiEGqlFRMfAAuNuJwY=
-=Dqiz
------END PGP SIGNATURE-----
-
---xbrmyhidxdqgdgca--
+-- 
+Kees Cook
