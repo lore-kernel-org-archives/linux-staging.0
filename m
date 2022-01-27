@@ -1,135 +1,158 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B952CA1
-	for <linux-staging@lists.linux.dev>; Thu, 27 Jan 2022 08:57:33 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id s18so3384092wrv.7
-        for <linux-staging@lists.linux.dev>; Thu, 27 Jan 2022 00:57:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=eOvZPOI7RXFam/ItocxZZVe1bSa9SKQ8eYJgocnt9iw=;
-        b=CjCNS1FGFXhJiRwBqKvDeBDBoQKi7s4iefVlGkgV/JlyDZhcXKwPRHlX1sZFEtGimM
-         sVJOCWip25O6xTsTZd+dcO5gMdbN9GoiNDYcG0PstSeWM+i9FFCsDEZxifJGWcAl4QgB
-         cYPGzqYuizHQaPseEqCSwyDZS0wBj1foMit6V8WN0nShT5gpJKBPxLn3vo0BFdWJbyUJ
-         h1PtYlVnVeBoqglrG8pyVweAGbbGwV6cxB9+h5UKhV87e8MxGS/gzI8FwAVDo7Fctp4X
-         XKkt8/DXjpo4OqvrmvJDN1JWRiU3QUP3p/qwZ355ZgiYKrda/xDQgvr/yOXQSC4a+4SA
-         m3oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eOvZPOI7RXFam/ItocxZZVe1bSa9SKQ8eYJgocnt9iw=;
-        b=kdIPQnLDm5bkOstX8vG2CCK/jUi/FMR40Gykl7hhbKeXmIPMhccVrU55R5NlNE9wO6
-         Sygke8DO7q2OQewovGpaPP3TtpmXe7hNBVARIB6X2h2hWhw0F3Dl0TRmPN9OZ6znA65Z
-         yP0CYJP/lGbxUMrf7KyGeXjK04SE1tR+C6fOaKn+/DXkK4JW1OBf/kJESTEWNu3APcik
-         Rk7PKhYSAf6DDn4KYy+vP4BizqaKLHuxUsBrYL+VAUDpoTkyfncco8oy7o4Pz5UFecyy
-         0WIOGrTZ/6dI5SEaALjKu2g8OhhzWJJNZKISG8TckIo+i/RAaeaOEsn/E2NGPXKWIKRA
-         CR8A==
-X-Gm-Message-State: AOAM531MIRNYusyyvy62KYJvGzb4U30PzGCPYz1kMMjr6NnjSFrwRLdk
-	CcQnNY0vcjBSBBgZa1np+NFaZA==
-X-Google-Smtp-Source: ABdhPJwZvxc5A1fW5LuddhyJb0yw8xCGeU8LyE6qh01sDxOX/VKiruuawOrJ0+uN1TuPEj4AdS9LDA==
-X-Received: by 2002:adf:e6c9:: with SMTP id y9mr2200999wrm.389.1643273851356;
-        Thu, 27 Jan 2022 00:57:31 -0800 (PST)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id a6sm1554842wrx.101.2022.01.27.00.57.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jan 2022 00:57:30 -0800 (PST)
-Date: Thu, 27 Jan 2022 08:57:29 +0000
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: gregkh@linuxfoundation.org, dan.carpenter@oracle.com,
-	Larry.Finger@lwfinger.net, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	paskripkin@gmail.com
-Subject: Re: [PATCH 10/10] staging: r8188eu: remove GlobalDebugLevel flag
-Message-ID: <YfJeebt2/4E6KWhr@equinox>
-References: <20220124225032.860-1-phil@philpotter.co.uk>
- <20220124225950.784-1-phil@philpotter.co.uk>
- <20220124225950.784-3-phil@philpotter.co.uk>
- <e63e7a5c-68a8-8160-bc84-b5ecbca6e5cc@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282202CA1
+	for <linux-staging@lists.linux.dev>; Thu, 27 Jan 2022 09:18:25 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.nyi.internal (Postfix) with ESMTP id B34C3580350;
+	Thu, 27 Jan 2022 04:18:24 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Thu, 27 Jan 2022 04:18:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; bh=9T5RBslyEteXBKTxiCWnHx41KnlmqwYF4wb/qh
+	g+Kfg=; b=gz+NlBbawCZK1DOG8BwUgjYruyApOVSjjeHVkn+AL3/CIensP0iSQ0
+	Rd+MylVBNFZhuwZRNyQJPI22klaptWVx+Ke76gBeDBKxxALr2uXnsK4yqSufobI6
+	18c62w3cpYF7m/7BBgBEF5GLvaHA4fDc+xATeQDui1OBi3Qi212dzHsgdALHZ4zu
+	tmnMogAbIE90VT3xvjmGb/PHm4zemnbAS78AIuQKqpnjteHFXYbJnbtQvEosFGwk
+	4hidLsUztQfOlj1hCFlm+3mhDmfXdlsk6gC6LgPtZZomwz0qdpp8C+OSZJ+fD/Xn
+	yhSbUVXWNYbBmtF5GOh8NEPdTj6q672g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9T5RBslyEteXBKTxi
+	CWnHx41KnlmqwYF4wb/qhg+Kfg=; b=ACiwWx8nT9UVs9xnAW0muyPmcsBAC2dPO
+	JpXc7uZ7dyY8wguF+ciWCKDLCKNqRcScZoGIE7FC+PZnQFG0VrbZaPLpSaIRC9Xj
+	b9iA3FXvOC109ykhFCi8ZGTqC+w06j/CshCbaQQ3X5yZfFCu88Def2K49lwr+msn
+	q6P7NjCrY2CExOy2vXl82y28QfAsuZOSxQmoMe2AqAtPZ1LHHxjRIvSZNJDCgezu
+	AuUOQYEc6aFfFMxE7Wsf4l7ee0MEdCxQWszyL9vfxZIxhKkVE0kzeHKmPw/EY17h
+	yZoTwQ1nty4pkwknp405/NAjqG9kyOLkou9sYh9d3Zda+S0f28TuQ==
+X-ME-Sender: <xms:X2PyYbLBPspeccnceI5EyotcWrDez0Er1EeK0U6mLBZS7Y1tzL-vUg>
+    <xme:X2PyYfKAzLKk4_N93TADPVjpZpwF2PH3rJTjs5zYHtJzRYKo1uRrw5Ijfk2VlJ9Mo
+    u8vpGzMTZxCJgkqmmA>
+X-ME-Received: <xmr:X2PyYTurZI9jh1UFmTno-fXD87QF3Ty5NnSjylTQGZVClGDXtXRNVgF8KFETLq7N9OydaJxKxTvH0_dyzvrlaLO2Xf0ERYHzqEhr0lk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeefgddtvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:YGPyYUZW-8g1zq-063gLSVyVcl6WlxMRjeGQKi6S8ZM180q-N6hMeQ>
+    <xmx:YGPyYSZkUtufYmK49t1ULhao90Xx3BOxnMvPLx1S-jxkzdtF1myjGg>
+    <xmx:YGPyYYBk_S9-JMyegb5ZcRJL-84ce5knLm0zcJn2c_y2RXrIrM88Xw>
+    <xmx:YGPyYappdGraeNojxsp8qu34-f6YX7-sefGEkD9pbkkSIvDjGas5VQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Jan 2022 04:18:23 -0500 (EST)
+Date: Thu, 27 Jan 2022 10:18:20 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Helge Deller <deller@gmx.de>, Andy Shevchenko <andy@kernel.org>,
+	linux-fbdev@vger.kernel.org,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Carlis <zhangxuezhi1@yulong.com>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Lee Jones <lee.jones@linaro.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [PATCH v1 0/4] fbtft: Unorphan the driver for maintenance
+Message-ID: <20220127091820.5ktfbovvw5bnef2e@houat>
+References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
+ <991e988b-7225-881b-a59a-33c3eae044be@suse.de>
+ <CAHp75Vc2cjHkJwNSiJ-HSWBG=DYy68uvD7QQzNdRp3mQxoY1nw@mail.gmail.com>
+ <3877516e-3db3-f732-b44f-7fe12b175226@gmx.de>
+ <b13c0634-e766-74db-ab1f-672f5d0c04d6@redhat.com>
+ <CAKMK7uEqwyZuVheqyNG33Un4WK1cd1B+WBYbCmi20fZi0qVG2w@mail.gmail.com>
+ <88ea01b8-3fdd-72cc-c3d8-e2890c68533b@gmx.de>
+ <YfFM+6pvJLmtY0Zg@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xbrmyhidxdqgdgca"
+Content-Disposition: inline
+In-Reply-To: <YfFM+6pvJLmtY0Zg@smile.fi.intel.com>
+
+
+--xbrmyhidxdqgdgca
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e63e7a5c-68a8-8160-bc84-b5ecbca6e5cc@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 26, 2022 at 11:33:46AM +0100, Michael Straube wrote:
-> On 1/24/22 23:59, Phillip Potter wrote:
-> > Remove hal/odm_debug.c, to get rid of the GlobalDebugLevel flag,
-> > and remove the two other lines that reference GlobalDebugLevel, as
-> > the last remaining user (DBG_88E) is now gone. Also modify Makefile
-> > to no longer build hal/odm_debug.c.
-> > 
-> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> > ---
-> >   drivers/staging/r8188eu/Makefile            | 1 -
-> >   drivers/staging/r8188eu/hal/odm_debug.c     | 6 ------
-> >   drivers/staging/r8188eu/include/rtw_debug.h | 2 --
-> >   drivers/staging/r8188eu/os_dep/os_intfs.c   | 1 -
-> >   4 files changed, 10 deletions(-)
-> >   delete mode 100644 drivers/staging/r8188eu/hal/odm_debug.c
-> > 
-> > diff --git a/drivers/staging/r8188eu/Makefile b/drivers/staging/r8188eu/Makefile
-> > index a7a486cc16dd..ecd6fe5bd94c 100644
-> > --- a/drivers/staging/r8188eu/Makefile
-> > +++ b/drivers/staging/r8188eu/Makefile
-> > @@ -10,7 +10,6 @@ r8188eu-y = \
-> >   		hal/hal_intf.o \
-> >   		hal/hal_com.o \
-> >   		hal/odm.o \
-> > -		hal/odm_debug.o \
-> >   		hal/odm_HWConfig.o \
-> >   		hal/odm_RegConfig8188E.o \
-> >   		hal/odm_RTL8188E.o \
-> > diff --git a/drivers/staging/r8188eu/hal/odm_debug.c b/drivers/staging/r8188eu/hal/odm_debug.c
-> > deleted file mode 100644
-> > index 7a134229fe39..000000000000
-> > --- a/drivers/staging/r8188eu/hal/odm_debug.c
-> > +++ /dev/null
-> > @@ -1,6 +0,0 @@
-> > -// SPDX-License-Identifier: GPL-2.0
-> > -/* Copyright(c) 2007 - 2011 Realtek Corporation. */
-> > -
-> > -#include "../include/rtw_debug.h"
-> > -
-> > -u32 GlobalDebugLevel;
-> > diff --git a/drivers/staging/r8188eu/include/rtw_debug.h b/drivers/staging/r8188eu/include/rtw_debug.h
-> > index 959fb6bd25ca..01a7d987d6cc 100644
-> > --- a/drivers/staging/r8188eu/include/rtw_debug.h
-> > +++ b/drivers/staging/r8188eu/include/rtw_debug.h
-> > @@ -52,6 +52,4 @@
-> >   #define DRIVER_PREFIX	"R8188EU: "
-> > -extern u32 GlobalDebugLevel;
-> > -
-> >   #endif	/* __RTW_DEBUG_H__ */
-> > diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> > index 17249b4fb7ad..8589de487289 100644
-> > --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-> > +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> > @@ -155,7 +155,6 @@ static uint loadparam(struct adapter *padapter)
-> >   {
-> >   	struct registry_priv  *registry_par = &padapter->registrypriv;
-> > -	GlobalDebugLevel = rtw_debug;
-> >   	registry_par->chip_version = (u8)rtw_chip_version;
-> >   	registry_par->rfintfs = (u8)rtw_rfintfs;
-> >   	registry_par->lbkmode = (u8)rtw_lbkmode;
-> 
-> Hi Phillip,
-> 
-> so rtw_debug is unused now. Should we remove the 'debug' module
-> parameter and rtw_debug as well?
-> 
-> Regards,
-> Michael
+On Wed, Jan 26, 2022 at 03:30:35PM +0200, Andy Shevchenko wrote:
+> On Wed, Jan 26, 2022 at 12:38:09PM +0100, Helge Deller wrote:
+> > On 1/26/22 12:24, Daniel Vetter wrote:
+> > > On Wed, Jan 26, 2022 at 12:18 PM Javier Martinez Canillas
+> > > <javierm@redhat.com> wrote:
+> > >> On 1/26/22 11:59, Helge Deller wrote:
+> > >>> On 1/26/22 11:02, Andy Shevchenko wrote:
+>=20
+> ...
+>=20
+> > >>>> P.S. For the record, I will personally NAK any attempts to remove =
+that
+> > >>>> driver from the kernel. And this is another point why it's better =
+not
+> > >>>> to be under the staging.
+> > >>>
+> > >>> I agree. Same as for me to NAK the disabling of fbcon's acceleration
+> > >>> features or even attempting to remove fbdev altogether (unless all
+> > >>> relevant drivers are ported to DRM).
+> > >>
+> > >> But that will never happen if we keep moving the goal post.
+> > >>
+> > >> At some point new fbdev drivers should not be added anymore, otherwi=
+se
+> > >> the number of existing drivers that need conversion will keep growin=
+g.
+> > >
+> > > And that point was about 5 years ago, and has been discussed at some
+> > > plumbers meanwhile, resulting in the staging TODO patches to make
+> > > these drm drivers to destage them.
+> > >
+> > > Fixing bugs in fbdev is all fine, reopening it for merging new driver=
+s is not.
+> >=20
+> > We are on the same page!
+> > I'm not at all proposing to include new drivers for (relatively) new
+> > hardware into fbdev, which is capable to be written as DRM driver.
+>=20
+> Agree. The point here is neither in opening it for new comers nor for
+> expanding, the drivers in question are all in the kernel in different fol=
+der
+> that is not suitable for them, but I gave up. I see that nobody wants
+> maintainers to be appearing for the old _working_ code, as it was shown
+> already by the DVB case few month ago.
 
-Good point, might as well. Will add this into v2. Thanks for the
-suggestion.
+I mean, the main reason fbtft was in staging all this time has never
+been about fbdev. It was about the device tree bindings that have never
+been documented, reviewed and agreed upon. And given its bindings, we're
+very far from it.
 
-Regards,
-Phil
+That's what Noralf has been mostly working on all this time, and yeah,
+it takes time but we're getting there.
+
+Maxime
+
+--xbrmyhidxdqgdgca
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfJjXAAKCRDj7w1vZxhR
+xULNAQCrENDC07h9aXPXO4Zo9zV4kHn9oaiD/6+T+S3Kdu4ccwD+L9kAd89Qtw9V
+5/R0wrL1Cozn+TiEGqlFRMfAAuNuJwY=
+=Dqiz
+-----END PGP SIGNATURE-----
+
+--xbrmyhidxdqgdgca--
