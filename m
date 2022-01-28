@@ -1,90 +1,137 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F172CA1
-	for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 10:23:12 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id u6so10765696lfm.10
-        for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 02:23:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=x/9CSXvgs7itWENuvqfwnHsLwy/dW8BRtkhJB5JxTZM=;
-        b=aXkn21kttW5XZ4d68NPV9wmASb9mf0RHDdkv6aulozhRSlQW34zPV7+ur53K14vwwh
-         IcICBR1PxZQfYDwSPVaTfmQgpL6iPHnjKMg5F0NKkRlJbUWKmCsZJzpI2VduiaENRn7y
-         ZF0+eHElCngqXmKKPODJHRTUDw1Cvn+Ljx/2WdORDAK/i8ro3GxZEoJQGLHxvkCkPQT7
-         d7tgs/0TYqx5KhulapVwyCqEhatGxB16EzVySjZHiIMAL0sLh5WN+bP3BZ3KjgwowI7I
-         V+14HotO3p5eCDVnU9OOzp4dh9Qbx160uk5ijngcQF96omkN3+AdROuYvAun0AAcqSoz
-         DcVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=x/9CSXvgs7itWENuvqfwnHsLwy/dW8BRtkhJB5JxTZM=;
-        b=Dp6cThztMbhIiDhRotnDZQU0xmbkGKCjWrpGlo+XhkwUIc5jTdsEPiHJl1CHCLNymz
-         Mba5jptjA4oPun4zQFw+b/N7dsYSlrkRWG8yGAiLWblkJbGL/eDHx3eQ07xTesyAgg0E
-         fn8q9HrDVrPvi9LphifQtSKUwPQkJRLsRB7G8U3nkJSyVZlqRkQnDn0vfNv+288Z3Bxi
-         HFUnPXJRzX3wGiDBpzF8u/iU6zE8p4ryzuBeEGlTw4SH/aTqHOzp8bqPwphnpiX0XOt5
-         rpTyc6pjXPyBoRizBZtXg3cABL0e/4UrGE/3c1w3EV89nkoJoy0WO2W+J6G8mNDFdsTv
-         kSGA==
-X-Gm-Message-State: AOAM532bgse6YIQAq3wQmgkn9Gd444Yg+2DO/AviM4tarwVdXCl0Zx5f
-	SObeI8fQFnXt2FgvGQp6ErKVtTt+/nU=
-X-Google-Smtp-Source: ABdhPJwxbAYkS9/zKQirmZw5BCnQdN8trlg3dDjqY6SqJZzRCjj27U6ilBxgsbR6RGVKu/bAlx/kQA==
-X-Received: by 2002:a05:6512:39c2:: with SMTP id k2mr5582026lfu.586.1643365390218;
-        Fri, 28 Jan 2022 02:23:10 -0800 (PST)
-Received: from [192.168.1.103] ([31.173.81.83])
-        by smtp.gmail.com with ESMTPSA id u25sm626293ljg.134.2022.01.28.02.23.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jan 2022 02:23:09 -0800 (PST)
-Subject: Re: [PATCH 4/7] mfd: hi6421-spmi-pmic: Use generic_handle_irq_safe().
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>, Alex Elder <elder@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans de Goede <hdegoede@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Johan Hovold <johan@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- Rui Miguel Silva <rmfrfs@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
- UNGLinuxDriver@microchip.com, Wolfram Sang <wsa@kernel.org>,
- Woojung Huh <woojung.huh@microchip.com>
-References: <20220127113303.3012207-1-bigeasy@linutronix.de>
- <20220127113303.3012207-5-bigeasy@linutronix.de>
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <44b42c37-67a4-1d20-e2ff-563d4f9bfae2@gmail.com>
-Date: Fri, 28 Jan 2022 13:23:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7858E2C9E
+	for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 10:57:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB35FC340E0;
+	Fri, 28 Jan 2022 10:57:01 +0000 (UTC)
+Message-ID: <3f5a10aa-fda8-ea3d-9ca2-eba77c720338@xs4all.nl>
+Date: Fri, 28 Jan 2022 11:57:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220127113303.3012207-5-bigeasy@linutronix.de>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCHv3 4/4] media: imx: Use dedicated format handler for
+ i.MX7/8
 Content-Language: en-US
+To: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
+ Steve Longerbeam <slongerbeam@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kernel@puri.sm, phone-devel@vger.kernel.org
+References: <20211019120047.827915-1-dorota.czaplejewicz@puri.sm>
+ <20211019120047.827915-4-dorota.czaplejewicz@puri.sm>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20211019120047.827915-4-dorota.czaplejewicz@puri.sm>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 1/27/22 2:33 PM, Sebastian Andrzej Siewior wrote:
+Hi Dorota,
 
-> generic_handle_irq() is invoked from a regular interrupt service
-> routing. This handler will become a forced-threaded handler on
+Since I marked "media: Add 16-bit Bayer formats" as 'Changes Requested', and since
+this patch appears to depend on that patch based on a comment in the first patch,
+I decided to mark this series as 'Changes Requested' (except for patch 1 which has
+already been accepted).
 
-   s/routing/routine/?
+Please post a v4 if you want this in, and add the "media: Add 16-bit Bayer formats"
+patch as well to that v4 series.
 
-> PREEMPT_RT and will be invoked with enabled interrupts. The
-> generic_handle_irq() must be invoked with disabled interrupts in order
-> to avoid deadlocks.
+Thanks!
+
+	Hans
+
+On 19/10/2021 14:14, Dorota Czaplejewicz wrote:
+> This splits out a format handler which takes into account
+> the capabilities of the i.MX7/8 video device,
+> as opposed to the default handler compatible with both i.MX5/6 and i.MX7/8.
 > 
-> Instead of manually disabling interrupts before invoking use
-> generic_handle_irq() which can be invoked with enabled and disabled
-> interrupts.
+> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> ---
+>  drivers/staging/media/imx/imx-media-utils.c | 56 +++++++++++++++++++--
+>  1 file changed, 52 insertions(+), 4 deletions(-)
 > 
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-[...]
-
-MBR, Sergey
+> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+> index 8b5c6bcfd4fa..1ff7ec4c877a 100644
+> --- a/drivers/staging/media/imx/imx-media-utils.c
+> +++ b/drivers/staging/media/imx/imx-media-utils.c
+> @@ -516,10 +516,9 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framefmt *tryfmt,
+>  }
+>  EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
+>  
+> -int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+> -				  const struct v4l2_mbus_framefmt *mbus,
+> -				  const struct imx_media_pixfmt *cc,
+> -				  enum imx_media_device_type type)
+> +static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+> +					   const struct v4l2_mbus_framefmt *mbus,
+> +					   const struct imx_media_pixfmt *cc)
+>  {
+>  	u32 width;
+>  	u32 stride;
+> @@ -568,6 +567,55 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+>  
+>  	return 0;
+>  }
+> +
+> +static int imx78_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+> +					   const struct v4l2_mbus_framefmt *mbus,
+> +					   const struct imx_media_pixfmt *cc)
+> +{
+> +	int ret;
+> +
+> +	if (!cc)
+> +		cc = imx_media_find_mbus_format(mbus->code, PIXFMT_SEL_ANY);
+> +
+> +	/*
+> +	 * The hardware can handle line lengths divisible by 4 pixels
+> +	 * as long as the whole buffer size ends up divisible by 8 bytes.
+> +	 * If not, use the value of 8 pixels recommended in the datasheet.
+> +	 */
+> +	ret = v4l2_fill_pixfmt(pix, cc->fourcc,
+> +			       round_up(mbus->width, 4), mbus->height);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Only 8bits-per-pixel formats may need to get aligned to 8 pixels,
+> +	 * because both 10-bit and 16-bit pixels occupy 2 bytes.
+> +	 * In those, 4-pixel aligmnent is equal to 8-byte alignment.
+> +	 */
+> +	if (pix->sizeimage % 8 != 0)
+> +		ret = v4l2_fill_pixfmt(pix, cc->fourcc,
+> +				       round_up(mbus->width, 8), mbus->height);
+> +
+> +	pix->colorspace = mbus->colorspace;
+> +	pix->xfer_func = mbus->xfer_func;
+> +	pix->ycbcr_enc = mbus->ycbcr_enc;
+> +	pix->quantization = mbus->quantization;
+> +	pix->field = mbus->field;
+> +
+> +	return ret;
+> +}
+> +
+> +int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+> +				  const struct v4l2_mbus_framefmt *mbus,
+> +				  const struct imx_media_pixfmt *cc,
+> +				  enum imx_media_device_type type) {
+> +	switch (type) {
+> +	case DEVICE_TYPE_IMX56:
+> +		return imx56_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
+> +	case DEVICE_TYPE_IMX78:
+> +		return imx78_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
+> +	}
+> +	return -EINVAL;
+> +}
+>  EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
+>  
+>  void imx_media_free_dma_buf(struct device *dev,
 
