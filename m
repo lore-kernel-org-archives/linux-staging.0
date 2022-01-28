@@ -1,82 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC0C29CA
-	for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 07:17:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A656DC340E0;
-	Fri, 28 Jan 2022 07:17:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1643354222;
-	bh=+CQJj+Wy3FyhSrLEQk/MoP9KSnO3ECMLEzZsREv0YV4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U0RXEHZmQYrEOPIZ8T9JblN8HxHUbsBq9lYybraKlnLmvNw4CmQOJP7o1ZHF4pVHS
-	 byDvoCAIUMMHQ1J9DHwhkDM4C4r6Qj6jWYkslT1jQmINiqHMUEpkNre2SFwQq6Ov03
-	 f73drERTeNKmbGVB8ldMK92USjuiM53p8dUhR0YA=
-Date: Fri, 28 Jan 2022 08:16:59 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Mark Brown <broonie@kernel.org>, linux-fbdev@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Noralf Tronnes <notro@tronnes.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-spi@vger.kernel.org, kernel@pengutronix.de,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH 2/5] staging: fbtft: Deduplicate driver registration
- macros
-Message-ID: <YfOYa/vX8cYKQxgo@kroah.com>
-References: <20220123175201.34839-1-u.kleine-koenig@pengutronix.de>
- <20220123175201.34839-3-u.kleine-koenig@pengutronix.de>
- <20220127213607.xbggvbm454u7qfid@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B728D168
+	for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 10:18:20 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id t9so8270298lji.12
+        for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 02:18:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ix2P1Qb5ofQ32QsYkBPXKMooy+IhErtwFmSskoxD7SE=;
+        b=HeDUP1mJe5Wh7L3Q7OGU3bD0vrHT35bY3RPQL27RrmknbAcnZRL5iJpoWD+mFG2SV2
+         qh0YRbrARJJ+Qlu3XnBT6QX8t+1gBDwL6iyvf6B9E+4T8F+PH4dKJvdiJWG4ILQTdBFe
+         WMqyYiiSSKliFToRWugPWsxurGNdumszzo2nbc73NZRzcG9E8wj2bohO8yQKy+FwDFVN
+         eLW+xh6jHZCMB2dGEz7dsTfL/PX5Ckx7r27LBzA3/upqJrcE0BHt2zfGIqrd6PDx2sGS
+         1Mmpox9pvKYsUotNxW6VPOKYv03J3WHh2cViaiSQTjzDEyNOybPo+1gOWUf4iwgXJmaa
+         zZHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ix2P1Qb5ofQ32QsYkBPXKMooy+IhErtwFmSskoxD7SE=;
+        b=4HY1UtQKw7G5na+9jrtOlXbPTgv5B32SoPGl1ktSL7o+nTrdlOp7E6EHNfpck/gZ82
+         QA7DJWjtBDuL0pVeZocfu9F4bCiVixQrbMTwIi5OgIUh9E2Oah8m4a3gIbk+OeMBL5N4
+         gHHgiB67bB5xCdT56sna8YHFqazlTHJm0MYdG3sG+n5q6bZmGTOlCxWMoyohKfe/5oXE
+         eW5ykDfwDMgcdUebb70dfNJ4bkWVZOPvvximpob8L6OLXPzFyUxcD2SJRBMoy7X7NVN6
+         sJGmj7NzYCYJgk5kLsd0cU3rrj1VD3CLH2zPwe94asqxq1kHyOtzSVPiou4AyoV9sOcH
+         d5Rw==
+X-Gm-Message-State: AOAM5300XEnkmraowY+V8BJ5bAeeY46uEbHDZVk10WE1hehil0hCM65n
+	21kriYyO6oMCIfDup4WhYSk=
+X-Google-Smtp-Source: ABdhPJyB16VsXVJnNjJMJADy3aApl/JsRwD6PTo2A73BfnawYgkLg1UmTv6X0o3ez3H1uCaT+ZH+Ew==
+X-Received: by 2002:a2e:9f4a:: with SMTP id v10mr5239509ljk.233.1643365098684;
+        Fri, 28 Jan 2022 02:18:18 -0800 (PST)
+Received: from [192.168.1.103] ([31.173.81.83])
+        by smtp.gmail.com with ESMTPSA id j15sm1005692lfr.203.2022.01.28.02.18.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jan 2022 02:18:17 -0800 (PST)
+Subject: Re: [PATCH 1/7] genirq: Provide generic_handle_irq_safe().
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>, Alex Elder <elder@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans de Goede <hdegoede@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ Rui Miguel Silva <rmfrfs@gmail.com>, Thomas Gleixner <tglx@linutronix.de>,
+ UNGLinuxDriver@microchip.com, Wolfram Sang <wsa@kernel.org>,
+ Woojung Huh <woojung.huh@microchip.com>
+References: <20220127113303.3012207-1-bigeasy@linutronix.de>
+ <20220127113303.3012207-2-bigeasy@linutronix.de>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <c26a4348-fa0c-6eb6-a571-7dbc454c05d0@gmail.com>
+Date: Fri, 28 Jan 2022 13:18:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220127213607.xbggvbm454u7qfid@pengutronix.de>
+In-Reply-To: <20220127113303.3012207-2-bigeasy@linutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 27, 2022 at 10:36:07PM +0100, Uwe Kleine-König wrote:
-> Hello Greg,
+On 1/27/22 2:32 PM, Sebastian Andrzej Siewior wrote:
+
+> Provide generic_handle_irq_safe() which can be used can used from any
+                                          ^^^^^^^^^^^^^^^^^^^^
+   You're repeating yourself. :-)
+
+> context.
 > 
-> On Sun, Jan 23, 2022 at 06:51:58PM +0100, Uwe Kleine-König wrote:
-> > The two macros FBTFT_REGISTER_DRIVER and FBTFT_REGISTER_SPI_DRIVER
-> > contain quite some duplication: Both define an spi driver and an of device
-> > table and the differences are quite subtle.
-> > 
-> > So create two new macros and use both twice.
-> > 
-> > Link: https://lore.kernel.org/r/20220118181338.207943-2-u.kleine-koenig@pengutronix.de
-> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> 
-> You picked this patch into your staging-next branch, I guess from the
-> original submission. Not sure how Mark wants to continue with the series
-> from this thread, but at least my plan was that he will create an
-> immutable branch on top of 5.17-rc2 (assuming 5.17-rc2 will contain
-> "staging: fbtft: Fix error path in fbtft_driver_module_init()") with the
-> remaining 4 patches in this series.
+> Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+[...]
 
-That's fine, I can pull from that.
-
-> In a private mail you agreed to this procedure, but this didn't stop you
-> taking this patch?! What is your plan here? The obvious (to me) options
-> are:
-> 
->  - Delay this series until after the next merge window.
->  - You back out this patch from staging-next and ack here for Mark to
->    apply it to an immutable branch.
->  - You keep this patch in staging-next and still ack here for Mark to
->    apply it to an immutable branch. Then the patch would be included
->    twice.
-
-Included twice is fine, or I can revert it in the staging tree.
-
-Don't let staging tree issues prevent you from doing real work in the
-other part of the kernel, I can manage merges and other issues like this
-very easily.
-
-thanks,
-
-greg k-h
+MBR, Sergey
