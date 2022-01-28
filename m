@@ -1,137 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7858E2C9E
-	for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 10:57:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB35FC340E0;
-	Fri, 28 Jan 2022 10:57:01 +0000 (UTC)
-Message-ID: <3f5a10aa-fda8-ea3d-9ca2-eba77c720338@xs4all.nl>
-Date: Fri, 28 Jan 2022 11:57:00 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CCF2C9E
+	for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 11:20:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: usama.anjum)
+	with ESMTPSA id CA6991F45E5C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1643368833;
+	bh=x9fTrAMc+WSP7mUnGClV42n8Ny1xy61uKU+6iyvm7GM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UcgiNIymLKglSL0k9dF6TP6kXedYMV/pfnHQ9UiAenR0xAImysoIGXUDO+9BAY5IF
+	 cMSesaH7aLUKdK3xdapCkWVtd7hk6s9lvFxRjjklNpRLo6m2wLCPUEOJ8hU9AAmjW4
+	 U/ZS3Gb1lq7uskP5t00uH7q++y+52eYHKuoQEIsizcl2JWQ/vuRMbtzTain71HmTMM
+	 w4YKMbkklB6uFS8UtqjPLarLkHUD1j+XbW1saitECLY+q3OmvAGVqVRo6QdIIWO28a
+	 cVAxORaNevI2LcY5rxxKYYQtOr0B8vHpf753CgxAE4QC9IMncSEXu+z3CCk7++UjK3
+	 lOf+l4c/MDFlg==
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Martin Kaiser <martin@kaiser.cx>
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	kernel@collabora.com,
+	kernel-janitors@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rt8188eu: Remove dead code
+Date: Fri, 28 Jan 2022 16:19:54 +0500
+Message-Id: <20220128111954.1028121-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCHv3 4/4] media: imx: Use dedicated format handler for
- i.MX7/8
-Content-Language: en-US
-To: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
- Steve Longerbeam <slongerbeam@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel@puri.sm, phone-devel@vger.kernel.org
-References: <20211019120047.827915-1-dorota.czaplejewicz@puri.sm>
- <20211019120047.827915-4-dorota.czaplejewicz@puri.sm>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20211019120047.827915-4-dorota.czaplejewicz@puri.sm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Dorota,
+rtStatus is _SUCCESS when the execution reaches this if condition.
+Remove the dead code.
 
-Since I marked "media: Add 16-bit Bayer formats" as 'Changes Requested', and since
-this patch appears to depend on that patch based on a comment in the first patch,
-I decided to mark this series as 'Changes Requested' (except for patch 1 which has
-already been accepted).
+Fixes: 67396d2dfef3 ("staging: r8188eu: merge ODM_ConfigBBWithHeaderFile with its callers")
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Please post a v4 if you want this in, and add the "media: Add 16-bit Bayer formats"
-patch as well to that v4 series.
-
-Thanks!
-
-	Hans
-
-On 19/10/2021 14:14, Dorota Czaplejewicz wrote:
-> This splits out a format handler which takes into account
-> the capabilities of the i.MX7/8 video device,
-> as opposed to the default handler compatible with both i.MX5/6 and i.MX7/8.
-> 
-> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> ---
->  drivers/staging/media/imx/imx-media-utils.c | 56 +++++++++++++++++++--
->  1 file changed, 52 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index 8b5c6bcfd4fa..1ff7ec4c877a 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -516,10 +516,9 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framefmt *tryfmt,
->  }
->  EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
->  
-> -int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> -				  const struct v4l2_mbus_framefmt *mbus,
-> -				  const struct imx_media_pixfmt *cc,
-> -				  enum imx_media_device_type type)
-> +static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> +					   const struct v4l2_mbus_framefmt *mbus,
-> +					   const struct imx_media_pixfmt *cc)
->  {
->  	u32 width;
->  	u32 stride;
-> @@ -568,6 +567,55 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
->  
->  	return 0;
->  }
-> +
-> +static int imx78_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> +					   const struct v4l2_mbus_framefmt *mbus,
-> +					   const struct imx_media_pixfmt *cc)
-> +{
-> +	int ret;
-> +
-> +	if (!cc)
-> +		cc = imx_media_find_mbus_format(mbus->code, PIXFMT_SEL_ANY);
-> +
-> +	/*
-> +	 * The hardware can handle line lengths divisible by 4 pixels
-> +	 * as long as the whole buffer size ends up divisible by 8 bytes.
-> +	 * If not, use the value of 8 pixels recommended in the datasheet.
-> +	 */
-> +	ret = v4l2_fill_pixfmt(pix, cc->fourcc,
-> +			       round_up(mbus->width, 4), mbus->height);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Only 8bits-per-pixel formats may need to get aligned to 8 pixels,
-> +	 * because both 10-bit and 16-bit pixels occupy 2 bytes.
-> +	 * In those, 4-pixel aligmnent is equal to 8-byte alignment.
-> +	 */
-> +	if (pix->sizeimage % 8 != 0)
-> +		ret = v4l2_fill_pixfmt(pix, cc->fourcc,
-> +				       round_up(mbus->width, 8), mbus->height);
-> +
-> +	pix->colorspace = mbus->colorspace;
-> +	pix->xfer_func = mbus->xfer_func;
-> +	pix->ycbcr_enc = mbus->ycbcr_enc;
-> +	pix->quantization = mbus->quantization;
-> +	pix->field = mbus->field;
-> +
-> +	return ret;
-> +}
-> +
-> +int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> +				  const struct v4l2_mbus_framefmt *mbus,
-> +				  const struct imx_media_pixfmt *cc,
-> +				  enum imx_media_device_type type) {
-> +	switch (type) {
-> +	case DEVICE_TYPE_IMX56:
-> +		return imx56_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-> +	case DEVICE_TYPE_IMX78:
-> +		return imx78_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-> +	}
-> +	return -EINVAL;
-> +}
->  EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
->  
->  void imx_media_free_dma_buf(struct device *dev,
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+index 0b0690dfb947c..41a0d7f0d29f4 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+@@ -504,9 +504,6 @@ static	int phy_BB8188E_Config_ParaFile(struct adapter *Adapter)
+ 		ODM_ReadAndConfig_PHY_REG_PG_8188E(&pHalData->odmpriv);
+ 	}
+ 
+-	if (rtStatus != _SUCCESS)
+-		goto phy_BB8190_Config_ParaFile_Fail;
+-
+ 	/*  3. BB AGC table Initialization */
+ 	if (HAL_STATUS_FAILURE == ODM_ReadAndConfig_AGC_TAB_1T_8188E(&pHalData->odmpriv))
+ 		rtStatus = _FAIL;
+-- 
+2.30.2
 
