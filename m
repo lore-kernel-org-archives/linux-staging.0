@@ -1,88 +1,98 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2682D2C82
-	for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 14:51:25 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: usama.anjum)
-	with ESMTPSA id A3E141F460DD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1643381483;
-	bh=6wPdzXaH8f6GblGOZIXEb8xAztd6pZNs7b+ck+XJb6Y=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=Pcq2GzngcDwmdv7f6o62VSZCrE4VV8uE6ax3TobmwwqsYX3yDyNcDwSfxKU5mjGKf
-	 QfXhP6yrGJF1yEBoeZjoNjNJdvRi4ky3ZyMzPCpcFYeiJg4kTM5KI5AT+XQwBwEtTb
-	 88tR5I73XIDB1C+jVWP+2X5s2qrQemZiPfhNCSKb1DhYoZYv5sCz/xogA4VOljLGR2
-	 NfH1L8Y/zDFQLlYWnCzPpE3CCQ+zCptrFu0XoR7q/qbjKYA26cpbom1rMrqClM8xL7
-	 XTZjO1dxANhGNl+heWpqjnNQf5sRz4ptLpvXsN+8aQ6hqd1ZHoIZESXpsnud5Jra72
-	 2/mEvuyDIhLog==
-Message-ID: <61220daf-ff1e-0c5d-b89e-9325625417ae@collabora.com>
-Date: Fri, 28 Jan 2022 19:51:13 +0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A5E2C82
+	for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 15:29:01 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id x23so12613373lfc.0
+        for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 07:29:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=N4J//Mo9xUttrK0yF032bWbn0KZLi4C3IbfSaVZ898E=;
+        b=nMCCJwPleajqB6C9nJrLYmYyxvYJDjsPBaeAckGvpvNJDlogXVNDX5CMorLz8EkXwK
+         tOGGJLbUBQ5vVXgmuATMWVHVp6zRhthE/Z4c3fXvDzusCCvuSOLi2PeQqPPynXDiEqJa
+         wpkWD/KytYGfhbLSPodHYTZ193CEPYVnW8yYjqop2VUUI19OJJSNODw9+MHhdzD6OI8n
+         reTz6lWlg50Q6pG/G+MdGVZEs7E/JstVtaC73N7E3+wALEq524Y3vPRmf0zJQjvvlg5R
+         cR0EZAoEAIZxSDSUjdrrZQayHItW8C9PmvfUhNyD52CwO42YQFOTC1TF8xhvGNG+gp0E
+         rLPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=N4J//Mo9xUttrK0yF032bWbn0KZLi4C3IbfSaVZ898E=;
+        b=qkSZr1x8b9fF+0Ql/VVkctXIRDaEsblEzYxQEESBsemuK8AbBOORRULBQCP0I/ULAI
+         rS0/yoG5Njm+LsPIvQVEHwp+QkpGwzJqofBdnn8/lOcmUq7xb3AGImgi9/CS/eaiad4s
+         6QoB+dIHiuv5FCLDFAvCY20BJGRZ+Xgg6F4Ii6dYt7eKXIcJpAyTa6deVdA9I39Tp++K
+         lZWfs9QTsSEdoJCwhXXrs1ce37n3WVd5C5Gvfdff3De1fQoGHha6cyZ3pz40W8DExT7A
+         dhAF12ex+BsTl5GY+S7OLAQZlCMS/sxf6V6mLoqrkf+k91Caj3prklU9eZoAcyxv5lUJ
+         nk7w==
+X-Gm-Message-State: AOAM531+zB7kmE1Pp3ussmqeDzFjSXy+7K19gzbOZFaBWPq2lFHWJEYA
+	+u/nyJqAeIC5lJaWGIjQNYk=
+X-Google-Smtp-Source: ABdhPJyQ9v4PdBJzaie5bbiSmHbBxFsVgyJTcSUuDvUITdCGgIiqmLYFQd/isDs0HBzExLgZ/Z5wJg==
+X-Received: by 2002:a05:6512:3a96:: with SMTP id q22mr6579539lfu.521.1643383739523;
+        Fri, 28 Jan 2022 07:28:59 -0800 (PST)
+Received: from [192.168.1.103] ([31.173.86.67])
+        by smtp.gmail.com with ESMTPSA id z11sm2563451lfu.106.2022.01.28.07.28.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jan 2022 07:28:58 -0800 (PST)
+Subject: Re: [PATCH 4/7] mfd: hi6421-spmi-pmic: Use generic_handle_irq_safe().
+To: Lee Jones <lee.jones@linaro.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>, Alex Elder <elder@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans de Goede <hdegoede@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, UNGLinuxDriver@microchip.com,
+ Wolfram Sang <wsa@kernel.org>, Woojung Huh <woojung.huh@microchip.com>
+References: <20220127113303.3012207-1-bigeasy@linutronix.de>
+ <20220127113303.3012207-5-bigeasy@linutronix.de>
+ <44b42c37-67a4-1d20-e2ff-563d4f9bfae2@gmail.com>
+ <YfPwqfmrWEPm/9K0@google.com>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <0daa924f-790c-cdc7-a1c0-4eb91917e084@gmail.com>
+Date: Fri, 28 Jan 2022 18:28:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Cc: usama.anjum@collabora.com, Steve Longerbeam <slongerbeam@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Martin Kepplinger <martink@posteo.de>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-staging@lists.linux.dev,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: imx: imx8mq-mipi_csi2: Remove unneeded code
+In-Reply-To: <YfPwqfmrWEPm/9K0@google.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Marc Kleine-Budde <mkl@pengutronix.de>
-References: <20220128133649.1393201-1-usama.anjum@collabora.com>
- <20220128135217.ncvjlffzpxxmqbjo@pengutronix.de>
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <20220128135217.ncvjlffzpxxmqbjo@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 1/28/22 6:52 PM, Marc Kleine-Budde wrote:
-> On 28.01.2022 18:36:49, Muhammad Usama Anjum wrote:
->> ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
->> return error. Remove the return variable. Simplify other functions which
->> are using this function.
->>
->> Fixes: f0c2ba1ed4ad ("media: imx: imx8mq-mipi_csi2: fix system resume")
->> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
->> ---
->>  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 16 ++++------------
->>  1 file changed, 4 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
->> index 3b9fa75efac6b..c992b845e63d1 100644
->> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
->> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> [...]
->>  static int imx8mq_mipi_csi_pm_resume(struct device *dev)
->> @@ -742,15 +739,12 @@ static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
->>  {
->>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->>  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
->> -	int ret;
->>  
->> -	ret = imx8mq_mipi_csi_pm_suspend(dev);
->> -	if (ret)
->> -		return ret;
->> +	imx8mq_mipi_csi_pm_suspend(dev);
->>  
->>  	state->state |= ST_SUSPENDED;
-> 
-> 
-> what about this flag?
-Now that no error is possible inside this function. The state is being
-updated each time. This seems correct logically.
+On 1/28/22 4:33 PM, Lee Jones wrote:
 
-Thanks,
-Usama
+>>> generic_handle_irq() is invoked from a regular interrupt service
+>>> routing. This handler will become a forced-threaded handler on
+>>
+>>    s/routing/routine/?
+>>
+>>> PREEMPT_RT and will be invoked with enabled interrupts. The
+>>> generic_handle_irq() must be invoked with disabled interrupts in order
+>>> to avoid deadlocks.
+>>>
+>>> Instead of manually disabling interrupts before invoking use
+>>> generic_handle_irq() which can be invoked with enabled and disabled
+>>> interrupts.
+>>>
+>>> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>> [...]
+>>
+>> MBR, Sergey
+> 
+> What does that mean?
+
+   That means that I think you had a typo in the word "routing".
+The s/// comes from vim, I think --where it means search and replace.
+
+MBR, Sergey
