@@ -1,41 +1,41 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D99C2CA2
-	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 16:05:46 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id d5so9406217pjk.5
-        for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 08:05:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE372CA1
+	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 16:31:21 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id z14-20020a17090ab10e00b001b6175d4040so8155193pjq.0
+        for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 08:31:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Xa9/uQimRO4U5DdZfy5OHCYx6e+VSAPR4ymHWAiOiFc=;
-        b=nitZL45Jd8jjpmzytmvzZg4RNy1iCWk6koqbhkdU1VvecYhAnNMJIExE7JcVSBVnkU
-         khBVIo/39rVRwuAUJAHUdiuvYXA4DoqN9hIb4W56m34+quB80y8obNhshlBxcBwwb188
-         T+e+kie/Geu4QFabfsT40lKBOyY26ijKOpL+rxEyn0hSk86kkNXdmwYcLDKsG2/AE+Mc
-         2Y0zv7OkmR8j2Qb4KdENcjqEn+rM8X1f7whpg4Q8eSlEWjBpxDIn+rTwyyL5ICZaTlrJ
-         5UmWwAWdg7GpPQ+3CXsJtbzvejV+5LipP+U+chLXcwBrf3to+Cxfxk1aoWgydyga/ItY
-         j4+g==
+        bh=6zjHCA2mlhxhOhnGWQKP59mu6FW4vaokSvYIkJkIJG4=;
+        b=NWXU90bGfAUDA6hnvcDB5yiOVHb+f9xHcauQTwA8xma4HVI6f85R1CSe5QwHGt93UF
+         hYkCtOtC1zkTgqdFTuVkozOgwh/ZP/3xhmwWvEMRSqkGNMoxYWbmnyWajPXkzYEQPj+Y
+         k5d8KOEDxUIQ+FyY+drr/o1eCPdqEoD0rgXDbPGjrm+VdfeXD3kvVlDifqKyYFmE2Hl3
+         23cM3m3Q/Mb+VH4NxUWko8dDRsEpYFugSblIxuo76jWrNlZKe8TQEyzvW5/MTm1YDibx
+         UcUDnSOfpuVTjXacv+0KPW8veRh6vqfPTIlhdtyuVEgE8p4gvStyP+3AiD0D9JGAEljl
+         mL3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Xa9/uQimRO4U5DdZfy5OHCYx6e+VSAPR4ymHWAiOiFc=;
-        b=Mh5Ppq+WNz04cuGyEEfg6GKVk191+dP3E4P1ZU32AMCnNP01ioUKpBM8CjHLf0cPV1
-         ifbb0uAqv4WDnESLAGNSlRWvH2Si3akVmZvgRhrowvfj/NGjRd3wfvsLUmWHBBImBWWt
-         X6gRpVUd2V87alf3KgXhG7OHrAVgqy8WaDbp7hCH6fcZGYeeAb9h+0gv05nS+m02xPpk
-         XMjVGB1GzipNfrPlcoAEx/CIgt8ddyH9YB70Y7jlq+C0PfYPcQvwYOe6s5H8tKevJQDR
-         Za4LmYPnF5v0ewyDDP5BHlej6fPDTyuMpS9HLH25bymGvES+onpjB0cR8O4eviWrlmdk
-         h0GA==
-X-Gm-Message-State: AOAM531pw/Oa2SRR/QXo7PXyOZiaMNVnmJBnmZ36s2stUYZBYE2dXjEn
-	DLRbf7mDV827S732u9UGce8=
-X-Google-Smtp-Source: ABdhPJyiCGW59QHIl7TaXuJn+iXBBjkYu4OgfUAwdBNc3X9SDa9676AKvhMF8dkYwjmEhbT8AzGJTw==
-X-Received: by 2002:a17:902:e746:: with SMTP id p6mr13199995plf.78.1643472345817;
-        Sat, 29 Jan 2022 08:05:45 -0800 (PST)
+        bh=6zjHCA2mlhxhOhnGWQKP59mu6FW4vaokSvYIkJkIJG4=;
+        b=aEs0jhjaNISrCJXU4hT6NFZqjHKvVlvHC0jDyxYrdtyBkvc27qRC4giFRYOm8CvV6z
+         L2WKxGaTVI0LuuzLVbAppUaWS1skHIfecWMJvGNc1RLzwedMVGxO/UWp2SYeamS7Gv07
+         UQUXeIiHoj3fxusKoFzhKOqxroUZ2hihHPoyqbUZwdNOb9rWBqt4sTaQqb+DzS1+ZGp/
+         nLy2N4048s3tDOvsRY+LprPDtQj788jyrLuD0kdz75I5dC9V4ZKcvieyFabtb1cj+mle
+         T1o2tPqE59kM3th8dc3YXqP2e+A+MSkPMD7uhNuTabENKkZfixxqtSid0e0bwAb69AZY
+         ug4w==
+X-Gm-Message-State: AOAM533aXgtIwLQLZAC8GqfCPQsJA8W4Hez38+kt+RM5C27+Hi8tFCQI
+	4Ttmg+E8KOqsQF+UKHAALi0=
+X-Google-Smtp-Source: ABdhPJyQSOi4W71WzoPSJo03LOFHDk6YD4WNRlSITcWcGAElPRpQy9HNiRGkqU01AEMV+9nqf9YmNQ==
+X-Received: by 2002:a17:902:e746:: with SMTP id p6mr13284175plf.78.1643473881469;
+        Sat, 29 Jan 2022 08:31:21 -0800 (PST)
 Received: from localhost.localdomain ([171.78.146.184])
-        by smtp.googlemail.com with ESMTPSA id t9sm5672868pjg.44.2022.01.29.08.05.42
+        by smtp.googlemail.com with ESMTPSA id q13sm1893528pfj.44.2022.01.29.08.29.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Jan 2022 08:05:45 -0800 (PST)
+        Sat, 29 Jan 2022 08:31:20 -0800 (PST)
 From: Abdun Nihaal <abdun.nihaal@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Abdun Nihaal <abdun.nihaal@gmail.com>,
@@ -45,9 +45,9 @@ Cc: Abdun Nihaal <abdun.nihaal@gmail.com>,
 	martin@kaiser.cx,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 02/23] staging: r8188eu: remove unneeded variable in rtw_wx_get_enc
-Date: Sat, 29 Jan 2022 21:34:08 +0530
-Message-Id: <e31a2b15673497cbd70bf62b0093f46952cc7596.1643466748.git.abdun.nihaal@gmail.com>
+Subject: [PATCH v4 03/23] staging: r8188eu: remove unneeded variable in rtw_p2p_get
+Date: Sat, 29 Jan 2022 21:57:55 +0530
+Message-Id: <6c992e9481c7481aa5931635e162dd7a4400a2e2.1643466748.git.abdun.nihaal@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1643466748.git.abdun.nihaal@gmail.com>
 References: <cover.1643466748.git.abdun.nihaal@gmail.com>
@@ -65,31 +65,31 @@ assigned after.
 Found using Coccinelle
 Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
 ---
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 3a60e1f81592..f99942417a71 100644
+index f99942417a71..bc5c8454ebcf 100644
 --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -1717,7 +1717,7 @@ static int rtw_wx_get_enc(struct net_device *dev,
- 			    struct iw_request_info *info,
- 			    union iwreq_data *wrqu, char *keybuf)
+@@ -3422,8 +3422,6 @@ static int rtw_p2p_get(struct net_device *dev,
+ 			       struct iw_request_info *info,
+ 			       union iwreq_data *wrqu, char *extra)
  {
--	uint key, ret = 0;
-+	uint key;
+-	int ret = 0;
+-
  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
- 	struct iw_point *erq = &wrqu->encoding;
- 	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
-@@ -1778,7 +1778,7 @@ static int rtw_wx_get_enc(struct net_device *dev,
+ 
+ 	if (padapter->bShowGetP2PState)
+@@ -3447,7 +3445,7 @@ static int rtw_p2p_get(struct net_device *dev,
+ 	} else if (!memcmp(wrqu->data.pointer, "op_ch", 5)) {
+ 		rtw_p2p_get_op_ch(dev, info, wrqu, extra);
  	}
- 
- 
 -	return ret;
 +	return 0;
  }
  
- static int rtw_wx_get_power(struct net_device *dev,
+ static int rtw_p2p_get2(struct net_device *dev,
 -- 
 2.34.1
 
