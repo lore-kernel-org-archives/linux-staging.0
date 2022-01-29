@@ -1,41 +1,41 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32B22CA1
-	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 16:31:44 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id c9so8828749plg.11
-        for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 08:31:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E77D2CA1
+	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 16:31:48 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id z10-20020a17090acb0a00b001b520826011so13877443pjt.5
+        for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 08:31:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=31GtAtozxIAbYu2fcxuIJ0ssFhQMM45afowSfajVZ7k=;
-        b=dfS2BCG1tJ1YlJ8hD0HkFk8j+DSZ4faQbbQrySqr+fx9awuWxbsRaR9+AoIOQyj/oB
-         C2Py6wKfw0AIDfbzJUp7DFxSEgiFhZ5LF798yGGVmJ6EEXO9p81yqgyllc7wFOkQ8+ay
-         ETwn3V3GopEg4peLiZ11vbOWtiIlqAg2xb73euxynkqHeUqKdIneFymqPS3H6/1ULp85
-         NkNMCOMxJGs8JZdFuMfzeAd+VyiqzqIGg+WlrqhtIpqETDAhdd+SYQmHjYErLKABARIe
-         bvpABVN/8a/l/yQwtt+cRtXedv8sfNLGWqdZqfLlCczpqVWNu+jbgMtjp7aAG0wfo4HG
-         TAaQ==
+        bh=Th8PVyYelZWCsFcO3s4hWSpijYoiPjQX9yudaKFZQco=;
+        b=UTdYPZZph8EsAJuRqYnss+oruj9Z7o1I+TKpquPsJv5MGwF93vsHmNWTUr/hutsjJg
+         Dge+8mILBYWEOKQMnzqXz8x5W3xIRUdZYk6x0YabTfDtCQAt/ddIpaE+op9XV+fk9MMe
+         PER/0j6n9askSdZgwS1tPC/MOWkQe94pMafJMb9vpuJ+0CzxnC6dpOYpDc5cxyNDDqQw
+         vwRrVaSvgpxK24Vn2orj2sDPZ2WoIwVARu0kBBkIpCHX7t1cn+eqXonzJY06hzV55Ryu
+         MjCsP3/B2y8dvNqpgJxr0D0P6fAp8QIk9BQ3QBatZ00HTvcOx0uHKd+uS/REfV4h33++
+         14pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=31GtAtozxIAbYu2fcxuIJ0ssFhQMM45afowSfajVZ7k=;
-        b=2E7j85O5qVfF/IEAgO3ISr+0bYZ/ktubo1CINYSExeDM47zO0JPR/RtHpeH3g7p7R3
-         5vz0b8K18SmyM/s8tnyjDK3RUnq14XXAl1ARht+VtfWUwo20raJNNS65rV2k2+6/QHXO
-         QX3jkq2NlRCQHofjyjSB6hDFFz3xkCk2VknXe9GLweLHt7pIK+NI6GMHeMMyB+Wmg1VH
-         qqFrz2DtBbt0MNTTwRdYehfJ1Wco451JXMpMviWZMuXfMh51pU4IuZcmR0pR1JgD0lVE
-         xxuMeF2VsWWxKH16PLSt98n+yiAVCOl2+/UmIqiqezl8yeRXliltBzE4qn2RCqyrQS60
-         hggw==
-X-Gm-Message-State: AOAM533/EPvVtDalGnB5Xf57GXw77Zr9VyJFBVznAFJXXDu9gz3BqEdE
-	rKudrT+p03lG2g+l/1fuF4w=
-X-Google-Smtp-Source: ABdhPJxtO8DiEZcoOTpV5REIv5alM0Q6jY679YqiEc/Mqly/lKm1FbLOkrvIO5JJSdKwBsGTDNk9JQ==
-X-Received: by 2002:a17:90b:1912:: with SMTP id mp18mr25454989pjb.152.1643473904583;
-        Sat, 29 Jan 2022 08:31:44 -0800 (PST)
+        bh=Th8PVyYelZWCsFcO3s4hWSpijYoiPjQX9yudaKFZQco=;
+        b=1/DSWvnkzViu2Hu+8Jx8xzC52VwhU8/BdfXhQ6Q076vkdzMAh1cDtbArH/T6ngQIDG
+         HzNp0O4616A2sy1P0vwZHflcDudbGNSjTtt1ta8Pv6xZlWDFpCIehQLhl9hd7G5nsssv
+         Gt/b+T11EJfxF2YlrJhpPwaF2fqJ0lusDy8lU7wPwluz6Bl9wVq1EzE9eliy/ffCvwt/
+         3J7rzc8XRCex9SsNIQtQtDAhT2us5kYxjmc3LNOKxaH9icyKeQE4GYfAED6fgHcvsQM5
+         iFSBHMW3Ba1hplGLHdBdsFPT5mwB12WckZVhTlFmYV7Xh1W/5m/49f3d6FLyZ951kKo8
+         aMhw==
+X-Gm-Message-State: AOAM531YFIpzNuysqY5UpRuZdDsgxOj5do5dVPtt1hriwLrvQyMGrYEy
+	dD8QNXsFzb342bMy8CgZveg=
+X-Google-Smtp-Source: ABdhPJynPVtFor8dKoPc0tEvfK703tA77lIEm8g7DHSvdjqcOn/m9uN8N6N1EB9qisseLzWkLIjj7w==
+X-Received: by 2002:a17:902:758c:: with SMTP id j12mr13491819pll.34.1643473908565;
+        Sat, 29 Jan 2022 08:31:48 -0800 (PST)
 Received: from localhost.localdomain ([171.78.146.184])
-        by smtp.googlemail.com with ESMTPSA id q13sm1893528pfj.44.2022.01.29.08.31.40
+        by smtp.googlemail.com with ESMTPSA id q13sm1893528pfj.44.2022.01.29.08.31.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Jan 2022 08:31:44 -0800 (PST)
+        Sat, 29 Jan 2022 08:31:48 -0800 (PST)
 From: Abdun Nihaal <abdun.nihaal@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Abdun Nihaal <abdun.nihaal@gmail.com>,
@@ -45,9 +45,9 @@ Cc: Abdun Nihaal <abdun.nihaal@gmail.com>,
 	martin@kaiser.cx,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 09/23] staging: r8188eu: propagate error code in rtw_p2p_get2
-Date: Sat, 29 Jan 2022 21:58:01 +0530
-Message-Id: <818aad89738b66942bb66568081f1953a9494078.1643466748.git.abdun.nihaal@gmail.com>
+Subject: [PATCH v4 10/23] staging: r8188eu: convert rtw_p2p_set_go_nego_ssid to return void
+Date: Sat, 29 Jan 2022 21:58:02 +0530
+Message-Id: <90e2b3e4ff99131423c11b8f9206916791f742d9.1643466748.git.abdun.nihaal@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1643466748.git.abdun.nihaal@gmail.com>
 References: <cover.1643466748.git.abdun.nihaal@gmail.com>
@@ -59,45 +59,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_p2p_get2 calls functions that can fail with -EFAULT.
-Return the error code from the called functions.
+rtw_p2p_set_go_nego_ssid always returns 0 and it's return value is not
+used. Convert it to return void.
 
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
 ---
-- Newly added in V4
-
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 35f7ba66a7cf..99c7f9369d2a 100644
+index 99c7f9369d2a..c761c06cf6e8 100644
 --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -3452,19 +3452,19 @@ static int rtw_p2p_get2(struct net_device *dev,
- 	DBG_88E("[%s] extra = %s\n", __func__, (char *)wrqu->data.pointer);
- 	if (!memcmp(extra, "wpsCM =", 6)) {
- 		wrqu->data.length -= 6;
--		rtw_p2p_get_wps_configmethod(dev, info, wrqu,  &extra[6]);
-+		ret = rtw_p2p_get_wps_configmethod(dev, info, wrqu,  &extra[6]);
- 	} else if (!memcmp(extra, "devN =", 5)) {
- 		wrqu->data.length -= 5;
--		rtw_p2p_get_device_name(dev, info, wrqu, &extra[5]);
-+		ret = rtw_p2p_get_device_name(dev, info, wrqu, &extra[5]);
- 	} else if (!memcmp(extra, "dev_type =", 9)) {
- 		wrqu->data.length -= 9;
--		rtw_p2p_get_device_type(dev, info, wrqu, &extra[9]);
-+		ret = rtw_p2p_get_device_type(dev, info, wrqu, &extra[9]);
- 	} else if (!memcmp(extra, "go_devadd =", 10)) {
- 		wrqu->data.length -= 10;
--		rtw_p2p_get_go_device_address(dev, info, wrqu, &extra[10]);
-+		ret = rtw_p2p_get_go_device_address(dev, info, wrqu, &extra[10]);
- 	} else if (!memcmp(extra, "InvProc =", 8)) {
- 		wrqu->data.length -= 8;
--		rtw_p2p_get_invitation_procedure(dev, info, wrqu, &extra[8]);
-+		ret = rtw_p2p_get_invitation_procedure(dev, info, wrqu, &extra[8]);
- 	}
- 
+@@ -2308,19 +2308,16 @@ static int rtw_wext_p2p_enable(struct net_device *dev,
  	return ret;
+ }
+ 
+-static int rtw_p2p_set_go_nego_ssid(struct net_device *dev,
+-			       struct iw_request_info *info,
+-			       union iwreq_data *wrqu, char *extra)
++static void rtw_p2p_set_go_nego_ssid(struct net_device *dev,
++				     struct iw_request_info *info,
++				     union iwreq_data *wrqu, char *extra)
+ {
+-	int ret = 0;
+ 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
+ 	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
+ 
+ 	DBG_88E("[%s] ssid = %s, len = %zu\n", __func__, extra, strlen(extra));
+ 	memcpy(pwdinfo->nego_ssid, extra, strlen(extra));
+ 	pwdinfo->nego_ssidlen = strlen(extra);
+-
+-	return ret;
+ }
+ 
+ static int rtw_p2p_set_intent(struct net_device *dev,
 -- 
 2.34.1
 
