@@ -1,107 +1,70 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968002CA0
-	for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 19:37:33 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id t7so10439999ljc.10
-        for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 11:37:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CDB2CA6
+	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 03:31:06 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id qe6-20020a17090b4f8600b001b7aaad65b9so2092385pjb.2
+        for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 19:31:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aiENhwM8k5s4CI1T29f+7g3ngGtWKHx/bWX81I/XFuo=;
-        b=VsehauSzbNf0n6Z/JkRnEEIXEmu5fPVfxgn01c1ll5kYNgwjlRcLEloqB4fUIcPxJt
-         GdWfe/XgkyzNkttXaf4aRo4s7sUlgvNyt69j5WJbMbArnqwuf1BUpEMr8TlmjgDNGybx
-         GPHmkyvIebgiAMcnbQPPsSM5jTsT7eb7SPBjnj0l58rV9Gv/qWKq+N4WB2sBRVWlnN+e
-         mI/b+m/izcdyzR9uwE/UxKgQIY2cJRrPxoP9E2aglmiokMSP32rwDDmwCMlpniTOG9bO
-         krI+E0b+sC7vs+YUAjpzDr1AQccTFkvb2PGASdFJcSplJN0FxuH5cvMj8AtcuzZQdoyc
-         O6Gw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DgOT1D+Wv4LKuKGK2zVNFgZ5Xa2oIBBVn65t7kpdTTo=;
+        b=OA/Rv103HDf2pylvjEkyQP9ofUar4Lt0aP0XUWTG2tV3olpZFn9ODp/bih0QPNyzKt
+         zAGGxwgHEj8xf0y7nOlYFhqNnY1CxO81W8irtjqITmACM6UOEHQ2FP4J7dJV1C8ymeT2
+         4UWo3vAiLMXfA2dRjX79Y9x50f1nOlLfFTi5hPhZQOIcpdFtMC0HK7m5jV5oDawtEI0Q
+         7BHbMXANs4dVnHkhEjX/xVVofZu9DAtYjrom5uRzw1zVxDwNxnVv94aQfmHVNdxzH/ud
+         OXyu7ghtmtZBDhf9aiAKwrPsB4CX3c1GB+byQEJjG16dkmelVq6lQhWG4M5cd8AuIcQY
+         fMlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aiENhwM8k5s4CI1T29f+7g3ngGtWKHx/bWX81I/XFuo=;
-        b=txkE70CdUck3cwiOsphAp+jL1XbAZWWXhImdiQWjKI+4HJf6W0rELCMCyPyWqnuRpY
-         fh+XLajfpyDCrvWPIPw/WRIYOEuvk84JwEYCe211oLcvfcO7JqTh8/hWnA2xTjum6EMI
-         MTLH+rx4wpN+f8fqY5majGNQ6NJfSP5/4EOB17iPoQeVtVsTTOgCKpkiVYmeFQTOavjV
-         5byDAZHkkgGH2zGl9u4+ZvNS3c/4HtXKEkqrQ5PpzP6UpYk0s0npglCzwNPMAvqnwBxo
-         lmzXYXLrI0ZiRaohrtsoDL2Cnz0ghN6gxLIzu2h+efKwpQ7Myb6UMnDj7ztkz1OQYotg
-         0xUQ==
-X-Gm-Message-State: AOAM531KaJ17QMBg7/i8KNKTX6FpghPjEonSOaOqFVrd0c47VpEtOqEC
-	zHjAOmpKRsCfGECSzpIZV5M=
-X-Google-Smtp-Source: ABdhPJwrjMI4ZpB5Ov1Fk2wbeI8iclUzrmf1/QctXusS4SbUXC0q/1kcZ3akLOrdfD9K15D7hbd1+A==
-X-Received: by 2002:a2e:a594:: with SMTP id m20mr6552416ljp.491.1643398651584;
-        Fri, 28 Jan 2022 11:37:31 -0800 (PST)
-Received: from [192.168.1.103] ([178.176.74.103])
-        by smtp.gmail.com with ESMTPSA id d15sm359077lft.202.2022.01.28.11.37.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jan 2022 11:37:30 -0800 (PST)
-Subject: Re: [PATCH 4/7] mfd: hi6421-spmi-pmic: Use generic_handle_irq_safe().
-To: Lee Jones <lee.jones@linaro.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Alex Elder <elder@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans de Goede <hdegoede@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Johan Hovold <johan@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, UNGLinuxDriver@microchip.com,
- Wolfram Sang <wsa@kernel.org>, Woojung Huh <woojung.huh@microchip.com>
-References: <20220127113303.3012207-1-bigeasy@linutronix.de>
- <20220127113303.3012207-5-bigeasy@linutronix.de>
- <44b42c37-67a4-1d20-e2ff-563d4f9bfae2@gmail.com>
- <YfPwqfmrWEPm/9K0@google.com>
- <d351e221-ddd4-eb34-5bbe-08314d26a2e0@gmail.com>
- <YfQeuWk0S4bxPVCg@google.com>
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <42d216c4-abf2-7937-1a99-0aecc4ef2222@gmail.com>
-Date: Fri, 28 Jan 2022 22:37:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DgOT1D+Wv4LKuKGK2zVNFgZ5Xa2oIBBVn65t7kpdTTo=;
+        b=Ad+C3UGsXkv6Jff273s2vC4NabRMQSVocx7NE4ik12bi1PwtOjuANXIt8eHXIpo1L/
+         suAug9H357dlaxoBrihUHZPRkvP5606vpa3GFMZjCwrrO4cED/lNmXFsEtiRjXPmQQS5
+         thT9jIVfr8kNwRVBBxG4myQp1jBF1UkILb2Sr791MJXqBBjC1fVibEbZDAtrEGmU3ahR
+         lokV4hMtGkMdpApwX8miPeatX+dE23Sq4L2F5exXyhlBLi3UtagcDFMTaybGM3EgYWja
+         dmOqBsSwQsBB2T6Ry6xuHG7p/L4csbuJ0Sl8JMPY0ha8yIIWOCsU5nWGpg3ra61qMRje
+         1u0g==
+X-Gm-Message-State: AOAM533jeUeJAI5WzexRMriaLtwN6+zBEt79Aj5lvEByE/QaSctcMAo8
+	Thu6tOy9DIMVDvuCHSD/CXg=
+X-Google-Smtp-Source: ABdhPJzoYYmD2WTeVwOsySiwKvXJDBrwyFeE17mhXds8cZqByJzkv8Q00iEa/BP+vcuUZZXrjH49sQ==
+X-Received: by 2002:a17:903:31c8:: with SMTP id v8mr11552660ple.76.1643427065697;
+        Fri, 28 Jan 2022 19:31:05 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id f22sm9359156pfj.206.2022.01.28.19.31.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jan 2022 19:31:05 -0800 (PST)
+Date: Sat, 29 Jan 2022 16:30:59 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] staging: pi433: add debugfs interface
+Message-ID: <YfS087tUCqT3JAXY@mail.google.com>
+References: <20220124042506.GA7662@mail.google.com>
+ <20220124042721.GA8078@mail.google.com>
+ <20220126132116.GA1951@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YfQeuWk0S4bxPVCg@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220126132116.GA1951@kadam>
 
-On 1/28/22 7:50 PM, Lee Jones wrote:
-
-[...]
->>>>> generic_handle_irq() is invoked from a regular interrupt service
->>>>> routing. This handler will become a forced-threaded handler on
->>>>
->>>>    s/routing/routine/?
->>>>
->>>>> PREEMPT_RT and will be invoked with enabled interrupts. The
->>>>> generic_handle_irq() must be invoked with disabled interrupts in order
->>>>> to avoid deadlocks.
->>>>>
->>>>> Instead of manually disabling interrupts before invoking use
->>>>> generic_handle_irq() which can be invoked with enabled and disabled
->>>>> interrupts.
->>>>>
->>>>> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
->>>> [...]
->>>>
->>>> MBR, Sergey
->>>
->>> What does that mean?
->>
->>    Ah, you were asking about MBR! My best regards then. :-)
+On Wed, Jan 26, 2022 at 04:21:16PM +0300, Dan Carpenter wrote:
+> Since you're going to have to redo these anyway can you make some
+> additional changes?
+> ...... 
 > 
-> Yes this.  It's okay, Dan was kind enough to enlighten me.
-> 
-> Every day is a school day on the list! :)
 
-   It's not exactly a well known phrase, I like it mainly because it also stands
-for the Master Boot Record. :-)
+Hi Dan, thanks for reviewing this patch. I will make those changes 
+and submit a new version of the patch shortly.
 
-MBR, Sergey
+thanks,
+
+Paulo A.
