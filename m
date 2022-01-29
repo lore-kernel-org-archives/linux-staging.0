@@ -1,79 +1,72 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0FE12CA6
-	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 03:35:14 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id j10so6957713pgc.6
-        for <linux-staging@lists.linux.dev>; Fri, 28 Jan 2022 19:35:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374212C9D
+	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 10:20:12 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id j16so8384483plx.4
+        for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 02:20:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=xpheXdEDJM6VvCfIU64qNXEiyDxBWjW4KluJVHuQUq8=;
-        b=qk0s19Q63d4FCHY6zN3MYD2/RLhB2CtR31+rQUXSro1imnRPKWj9qn1DpvmGx4hZCn
-         siQ1TchQPOw6yc/jzjh7F+vMKNWN9lKn1VxOkWB4osIvobPGht+fYITAZgXhQXLjtHwE
-         3hpXHGUNSMGWeva0d+Y8DXATmYSdfiaxqv2mZ39x5OSQ6U2n3FLN1ageb0/CW0O331AI
-         iritYYNhUWQiYrwNv4Z9rRaZGtVgLY9jJJo4yF64qOmKegu/DcSIqFo5KWwchuNI0RuU
-         gtpJWiW8Az9qt6XIt2b8q5724Cic2RKAdF6G0h0uCYmEoGSWXElY9RtqjYFb/W0o+u6S
-         WTHw==
+         :content-disposition:in-reply-to;
+        bh=eNsBUeSPBs0Qx4jcu0B26Fmmisvc82tqbPd5SR7juWw=;
+        b=PO6ZuNzqPth2Ll5QiIIVzIuXypGKRintUdfijuI4Q3ax8D0X9bnCQa+lRPa8PJJVzz
+         Nrnot9GwYozCGu+i+AakNEHNI0U6nYXjdc1lmKDVfiH2KaDhIm0fRrXVhP3VjBJ0fLh2
+         qScsbySfuLmCg4Htow+98kU4NCNM7qtbU2LkjhJbhtEM5xBt4g9tYGnIsZB/cl1Yhy2h
+         0YKyoeKHxb9iWDPdoCjCWO/SWAu9IlZAzu1s/IRM0WmKe2Tn9wTkLGmwBkUfgVKXnmKb
+         8kv2GJVroz/TZYyNVRoUmFh2VFe4jH/GpPr09gdelU29raOHfmBQlq5s1vF6tF8sv1tq
+         JTJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=xpheXdEDJM6VvCfIU64qNXEiyDxBWjW4KluJVHuQUq8=;
-        b=XJCP8onEn+q2cefpGVRFeDSKMdFq83l/2qVDK6zxorvSa2Eq5G4e7J3KBwOXMdgA4d
-         vhq1RoYV3X3bRlGbAV3k7EcIiq7YLOa3rLV/Bz+SFGWPUj4fLrB8mY2UzPUNBjF27ICS
-         SxeyxM3mEk38wQibXFXW50WKPpnMy0JX/LTMt9QtpiybgDU2SetUGfJZKZJ+MIZsSkMt
-         GD/sZX4WWugPiRiwgMyrVEY6u6ydyuooZIzyUIRwaqLemNsEWmemYfTr3mTMOjb2IG/h
-         ohaj0N87fZq/phOToUkQo9rtWN8Ga/88B9bpJWJk1EZf7fDjSRp+tvIs/yg6gidc1aj6
-         0PWQ==
-X-Gm-Message-State: AOAM531amHuuTE4XYhK5MzUZ7Rt6MZeXUtqytnu5bG3AMsX9Tgs98ZMm
-	egSZ1cBcGPOV3EbkZdKsc3Q=
-X-Google-Smtp-Source: ABdhPJzeKLGw416T+p9clA7uBhbAloo6Y7BlYFBP1/1XY4HpKuYJVe4Ng0C83GcCvAyaFMeYJotKWA==
-X-Received: by 2002:aa7:9838:: with SMTP id q24mr11061113pfl.76.1643427314445;
-        Fri, 28 Jan 2022 19:35:14 -0800 (PST)
-Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id s37sm5963592pfg.144.2022.01.28.19.35.12
+         :mime-version:content-disposition:in-reply-to;
+        bh=eNsBUeSPBs0Qx4jcu0B26Fmmisvc82tqbPd5SR7juWw=;
+        b=faKIf+PSrwV8UTxNJ1zLmk7VaEQwNa4MGsVMyXnrJ5S8rNiqx2Rrkpowi52fzQPBGw
+         pfaelg6Oqp1B4ywxkPfH9JIoVwA7j+yd0Q/FBJ939RwwD2bDxgPhPGVLMsvqDhgdsxvT
+         xu0uemmWea3a0Lq5Hsxx4Q63i8kKupVQ8IcxFPSs1LwVSkjbl25T/xQkbN9EEzQv38o7
+         DGgYP88qd/tHcur+gMiYtVZ3ocFWeuXmmQdEe4vIYdp9PTno78mlR4m7jHPNKit223pa
+         r4gQD5Yz7r0Aro6hUO05mWjfZDwTNWS9b92keWjYi2PTMmB0xJV3+KwpIxAUqzuHrOZc
+         VOuQ==
+X-Gm-Message-State: AOAM53266Ux2ct6GYWp79K7G/G7qq751BPK+4SYDJ7oDsZAV74cbncWk
+	Vi44aFvJmaFAQY8fVJyPutA=
+X-Google-Smtp-Source: ABdhPJz8lNeovR2tijhKSePiGxzOcKkGdCrx5jTEU0R+kIZq2KeNdlh1xfxdG38Qp5rLn5lE9CYEoQ==
+X-Received: by 2002:a17:902:bd0a:: with SMTP id p10mr12779367pls.159.1643451611733;
+        Sat, 29 Jan 2022 02:20:11 -0800 (PST)
+Received: from nlap2 ([171.78.146.184])
+        by smtp.gmail.com with ESMTPSA id h6sm12312606pfc.96.2022.01.29.02.20.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jan 2022 19:35:14 -0800 (PST)
-Date: Sat, 29 Jan 2022 16:35:09 +1300
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+        Sat, 29 Jan 2022 02:20:10 -0800 (PST)
+Date: Sat, 29 Jan 2022 15:50:04 +0530
+From: Abdun Nihaal <abdun.nihaal@gmail.com>
 To: Greg KH <gregkh@linuxfoundation.org>
-Cc: realwakka@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: pi433: add debugfs interface
-Message-ID: <YfS17W10UTAKn3dc@mail.google.com>
-References: <20220124042506.GA7662@mail.google.com>
- <20220124042721.GA8078@mail.google.com>
- <YfE4d4UY1yIVvapC@kroah.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	straube.linux@gmail.com, martin@kaiser.cx,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] staging: r8188eu: remove unneeded ret variables
+Message-ID: <20220129102004.im7dcq5gbuyqlw4o@nlap2>
+References: <cover.1641551261.git.abdun.nihaal@gmail.com>
+ <c9c24c13d2823ccaadbbce33613d1242531dbe86.1641551261.git.abdun.nihaal@gmail.com>
+ <YfATARBq6FJ2e3HE@kroah.com>
+ <20220127152543.ttvp7gj5bzpuvr3p@nlap2>
+ <YfK/aOgEqftXuj1S@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YfE4d4UY1yIVvapC@kroah.com>
+In-Reply-To: <YfK/aOgEqftXuj1S@kroah.com>
 
-On Wed, Jan 26, 2022 at 01:03:03PM +0100, Greg KH wrote:
+On Thu, Jan 27, 2022 at 04:51:04PM +0100, Greg KH wrote:
+> A single patch per function you are changing is a good idea.  Do not mix
+> them all together, would you want to review something like that?
 > 
-> Breaks the build:
-> 
-> drivers/staging/pi433/pi433_if.c:1166:25: error: initialization of ‘int (*)(struct inode *, struct file *)’ from incompatible pointer type ‘ssize_t (*)(struct inode *, struct file *)’ {aka ‘long int (*)(struct inode *, struct file *)’} [-Werror=incompatible-pointer-types]
->  1166 |         .open =         pi433_debugfs_regs_open,
->       |                         ^~~~~~~~~~~~~~~~~~~~~~~
-> 
-> 
+> Always remember that you want to make changes obvious and simple to
+> review.
 
-My apologies, I will be more careful next time. I must have missed
-something out on my module-specific makefile. 
+Got it. I'll split the changes, as single patch per function.
 
-I will incorporate the changes that Dan Carpenter suggested and submit a
-new version of this patch shortly.
-
-thanks,
-
-Paulo A.
+Thanks,
+Abdun Nihaal
