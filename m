@@ -1,41 +1,41 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE372CA1
-	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 16:31:21 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id z14-20020a17090ab10e00b001b6175d4040so8155193pjq.0
-        for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 08:31:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449EA2CA1
+	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 16:31:25 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id v74so8990148pfc.1
+        for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 08:31:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6zjHCA2mlhxhOhnGWQKP59mu6FW4vaokSvYIkJkIJG4=;
-        b=NWXU90bGfAUDA6hnvcDB5yiOVHb+f9xHcauQTwA8xma4HVI6f85R1CSe5QwHGt93UF
-         hYkCtOtC1zkTgqdFTuVkozOgwh/ZP/3xhmwWvEMRSqkGNMoxYWbmnyWajPXkzYEQPj+Y
-         k5d8KOEDxUIQ+FyY+drr/o1eCPdqEoD0rgXDbPGjrm+VdfeXD3kvVlDifqKyYFmE2Hl3
-         23cM3m3Q/Mb+VH4NxUWko8dDRsEpYFugSblIxuo76jWrNlZKe8TQEyzvW5/MTm1YDibx
-         UcUDnSOfpuVTjXacv+0KPW8veRh6vqfPTIlhdtyuVEgE8p4gvStyP+3AiD0D9JGAEljl
-         mL3Q==
+        bh=p/iheAiKRNX/zYagp3+t2KC4OOAuSnRdRHqutW+clxo=;
+        b=nA9IWgTDotqfDmoKv7jAI40+lzrUkh+z9+by6wqMk3ljCJWHMfYRuOKbEgxC3QXYNU
+         cLxIFWe3VDoFvyXN+NEnEeXa5PGl/JhZxp1uL9qyXgBwV4Gc4JaeZJg701RiSJ1Brmfm
+         c4c6tghq3u47UHWKPJ+dhriE+YAsbkcuZvAQraS3a32ctt7gzXEswiEWiuGG/FRDzbUB
+         9mZ4GQ/xYJtzqxzd/AxDefH/6GzK+IeSVogximlCfD6mroROHp7F2KS5HsMS4IqRvB5Y
+         sotf/jQ52nBLP4A0ulProHB9hFZpUF5x/CbW7Jr6zegbWyW5EmRcreszwX8wYZNg/YNl
+         5Blw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6zjHCA2mlhxhOhnGWQKP59mu6FW4vaokSvYIkJkIJG4=;
-        b=aEs0jhjaNISrCJXU4hT6NFZqjHKvVlvHC0jDyxYrdtyBkvc27qRC4giFRYOm8CvV6z
-         L2WKxGaTVI0LuuzLVbAppUaWS1skHIfecWMJvGNc1RLzwedMVGxO/UWp2SYeamS7Gv07
-         UQUXeIiHoj3fxusKoFzhKOqxroUZ2hihHPoyqbUZwdNOb9rWBqt4sTaQqb+DzS1+ZGp/
-         nLy2N4048s3tDOvsRY+LprPDtQj788jyrLuD0kdz75I5dC9V4ZKcvieyFabtb1cj+mle
-         T1o2tPqE59kM3th8dc3YXqP2e+A+MSkPMD7uhNuTabENKkZfixxqtSid0e0bwAb69AZY
-         ug4w==
-X-Gm-Message-State: AOAM533aXgtIwLQLZAC8GqfCPQsJA8W4Hez38+kt+RM5C27+Hi8tFCQI
-	4Ttmg+E8KOqsQF+UKHAALi0=
-X-Google-Smtp-Source: ABdhPJyQSOi4W71WzoPSJo03LOFHDk6YD4WNRlSITcWcGAElPRpQy9HNiRGkqU01AEMV+9nqf9YmNQ==
-X-Received: by 2002:a17:902:e746:: with SMTP id p6mr13284175plf.78.1643473881469;
-        Sat, 29 Jan 2022 08:31:21 -0800 (PST)
+        bh=p/iheAiKRNX/zYagp3+t2KC4OOAuSnRdRHqutW+clxo=;
+        b=pSX+GqpqlXRHbinZPPVEX1jYNJsv+0wt4fK/0IWLcv1WnNc//ivcihyDLy8xF4VeYE
+         P9Mn452Wb6SV5tuBy82uzYU+gVK7d6ptJsh+nuZrVTu6CCmQtcWcSEWmXs/1WUNaeMRv
+         o0Jj7BtK5yo4m9KTK+Bq38w+5yRhTIEMpf3JrQotkljqorxIX0AfWq5gdGt8UfN/aJov
+         YJkkdFY9ZXHYp4qiQHWkmTwB2cc5h7Ur6E4gY2CodL658IQS89Gl5i4xSXea5tZtssXb
+         a2UiOgMvy+gJzWbFZAGaMYdP0PrEHk3Rkk6LhiAYmBlQojzHBShrSu4a18eO/pMNkc7d
+         DYZA==
+X-Gm-Message-State: AOAM5336T2FFoibC9H4TbMuUZGmI1gokQ9l5NCD4Upuu9bu4Tcrx2IiP
+	+EQyxC6/rBMWgSnRcAFpv9g=
+X-Google-Smtp-Source: ABdhPJzZnyEB0ENS44pWvYySVcUEPE95WuntkwrZCiIALKslTQeB6dmyt4rVhh6TwqCRfbnEiQHhRA==
+X-Received: by 2002:a62:1643:: with SMTP id 64mr13019916pfw.55.1643473884798;
+        Sat, 29 Jan 2022 08:31:24 -0800 (PST)
 Received: from localhost.localdomain ([171.78.146.184])
-        by smtp.googlemail.com with ESMTPSA id q13sm1893528pfj.44.2022.01.29.08.29.09
+        by smtp.googlemail.com with ESMTPSA id q13sm1893528pfj.44.2022.01.29.08.31.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Jan 2022 08:31:20 -0800 (PST)
+        Sat, 29 Jan 2022 08:31:24 -0800 (PST)
 From: Abdun Nihaal <abdun.nihaal@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Abdun Nihaal <abdun.nihaal@gmail.com>,
@@ -45,9 +45,9 @@ Cc: Abdun Nihaal <abdun.nihaal@gmail.com>,
 	martin@kaiser.cx,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 03/23] staging: r8188eu: remove unneeded variable in rtw_p2p_get
-Date: Sat, 29 Jan 2022 21:57:55 +0530
-Message-Id: <6c992e9481c7481aa5931635e162dd7a4400a2e2.1643466748.git.abdun.nihaal@gmail.com>
+Subject: [PATCH v4 04/23] staging: r8188eu: remove unneeded variable in rtw_p2p_get_wps_configmethod
+Date: Sat, 29 Jan 2022 21:57:56 +0530
+Message-Id: <ae35e6f6f603ef83c2bad685ac247273041bd138.1643466748.git.abdun.nihaal@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1643466748.git.abdun.nihaal@gmail.com>
 References: <cover.1643466748.git.abdun.nihaal@gmail.com>
@@ -65,31 +65,30 @@ assigned after.
 Found using Coccinelle
 Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
 ---
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index f99942417a71..bc5c8454ebcf 100644
+index bc5c8454ebcf..b0f78673d9b7 100644
 --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -3422,8 +3422,6 @@ static int rtw_p2p_get(struct net_device *dev,
+@@ -2620,7 +2620,6 @@ static int rtw_p2p_get_wps_configmethod(struct net_device *dev,
  			       struct iw_request_info *info,
  			       union iwreq_data *wrqu, char *extra)
  {
 -	int ret = 0;
--
  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
+ 	u8 peerMAC[ETH_ALEN] = {0x00};
+ 	int jj, kk;
+@@ -2681,7 +2680,7 @@ static int rtw_p2p_get_wps_configmethod(struct net_device *dev,
  
- 	if (padapter->bShowGetP2PState)
-@@ -3447,7 +3445,7 @@ static int rtw_p2p_get(struct net_device *dev,
- 	} else if (!memcmp(wrqu->data.pointer, "op_ch", 5)) {
- 		rtw_p2p_get_op_ch(dev, info, wrqu, extra);
- 	}
+ 	if (copy_to_user(wrqu->data.pointer, attr_content_str, 6 + 17))
+ 		return -EFAULT;
 -	return ret;
 +	return 0;
  }
  
- static int rtw_p2p_get2(struct net_device *dev,
+ static int rtw_p2p_get_go_device_address(struct net_device *dev,
 -- 
 2.34.1
 
