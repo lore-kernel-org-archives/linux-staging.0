@@ -1,102 +1,71 @@
-Received: from relay.hostedemail.com (relay025.a.hostedemail.com [64.99.140.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD302CA1
-	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 16:37:32 +0000 (UTC)
-Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay13.hostedemail.com (Postfix) with ESMTP id 0E75360C6F;
-	Sat, 29 Jan 2022 16:37:12 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id A7ADA3C;
-	Sat, 29 Jan 2022 16:37:00 +0000 (UTC)
-Message-ID: <17bc03b62ebb71ca8d80f0e7ad0c6a7a7ea96d0c.camel@perches.com>
-Subject: Re: [PATCH] staging: media: atomisp: Use BIT macro instead of left
- shifting
-From: Joe Perches <joe@perches.com>
-To: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Yizhuo <yzhai003@ucr.edu>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Colin Ian King <colin.king@intel.com>, 
- Kaixu Xia <kaixuxia@tencent.com>, Baokun Li <libaokun1@huawei.com>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Aditya Srivastava
- <yashsri421@gmail.com>,  Aline Santana Cordeiro
- <alinesantanacordeiro@gmail.com>, Tsuchiya Yuto <kitakar@gmail.com>, Yang
- Yingliang <yangyingliang@huawei.com>, Alan <alan@linux.intel.com>, Souptick
- Joarder <jrdr.linux@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Alexey Dobriyan
- <adobriyan@gmail.com>, Ard Biesheuvel <ardb@kernel.org>, "Rafael J.
- Wysocki" <rafael.j.wysocki@intel.com>
-Date: Sat, 29 Jan 2022 08:36:59 -0800
-In-Reply-To: <20220129113821.324180-1-mosescb.dev@gmail.com>
-References: <20220129113821.324180-1-mosescb.dev@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CC62CA2
+	for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 18:54:39 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id d10so28083201eje.10
+        for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 10:54:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1dIx/IqWiv/WWm7kyGBaD8OgAX89Qcfb4TRiFj5tbEo=;
+        b=l1c+s/Ubw5dRxJadxh3PcbeOrd3x3kbo6i8JmXjzEQMZaSTO16HQdx3I0vUreojh8A
+         5mIJ83BN5mNHZAgJg+INAsnQri3TGqmnQ0DBWeF1SpYfsvnH4MqLrQk5/AyrAHTAxEVo
+         ZsArQrsEzOnLjRNP/UzelTlsxsZWzzCYjTeWwZZc+jSiBfdUzN5Kc0aoyB/jnJQ2JckI
+         wJ3hKoBwta9a3ZHAD4DzsnZ3CGlwDYxl5cXszd76KYXPfWPsVZNfFaB1RS/A2W8ynhAk
+         +/wPxXFt2IDRRhN1vsBtwXc8p8CP8DtCqFK/5wfdMjxXhZKhrfCXrx5hOY5wKo7TAFa2
+         uB2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1dIx/IqWiv/WWm7kyGBaD8OgAX89Qcfb4TRiFj5tbEo=;
+        b=REf7tX11O+QVyDb9B6FLbSdsN7aURiJwZA9XkFAGv9IBZUfbv+1XwdbHLZGNuluBY8
+         z121IJJHd565/kaof41wU0oo6dTrPSGsg2ffSn3yFyz2S2lUIYKKHMQFmISfdZOkrV8V
+         BQSboxE+zqhZE2p9pmCEm0pUw9HPl46ozolq4oUZ3oFBYXbJZGplGNaMTEJiUz62pjcY
+         Fg5Pe/2bq+jPxPiy9tqNG9VJi7AT7kwhgt8nQNMZ0QHNggaHn/6HfiPQOu5MiWjZzhXE
+         bevul5A/b2ADHXqS9NsKtXezdW9CETHAQR2wbolFl34mlgYFjEYt9RE/GTvb2/DLZO/6
+         p8vw==
+X-Gm-Message-State: AOAM533x9ZrczxwnYf8JszT8EZgF90CccL4q2nglXmbvln23FExmMr9E
+	vLZV8NxVIgf5RI7Wr+Fx2wAuhAcFL2V0LjSR6MQ=
+X-Google-Smtp-Source: ABdhPJwUYgNNHPJYIUcBsTAd++MKr5tL+VooDz4sr2nMIPD4IgrE8R7vylTrJQW1Y+cutuXpRXb6G/sD0JTzSWu4TTs=
+X-Received: by 2002:a17:906:eb8a:: with SMTP id mh10mr8511020ejb.492.1643482477674;
+ Sat, 29 Jan 2022 10:54:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: f7hho91x7ghyxojz4sfacmj81jcsayi1
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: A7ADA3C
-X-Spam-Status: No, score=-3.39
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/iKUfIN/lCXEcN3DWYYXRCadUaTK5AfDE=
-X-HE-Tag: 1643474220-22022
+References: <20220128170722.1624767-1-usama.anjum@collabora.com>
+In-Reply-To: <20220128170722.1624767-1-usama.anjum@collabora.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Sat, 29 Jan 2022 15:54:26 -0300
+Message-ID: <CAOMZO5CSE8bwASsk8_Z3J_i1rSKoiENx96_bLaYxQnvghgWtyw@mail.gmail.com>
+Subject: Re: [PATCH V2] media: imx: imx8mq-mipi_csi2: Remove unneeded code
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>, 
+	"open list:MEDIA DRIVERS FOR FREESCALE IMX" <linux-media@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
+	open list <linux-kernel@vger.kernel.org>, Marc Kleine-Budde <mkl@pengutronix.de>, kernel@collabora.com, 
+	kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 2022-01-29 at 12:38 +0100, Moses Christopher Bollavarapu wrote:
-> There is a BIT(nr) macro available in Linux Kernel,
-> which does the same thing.
-> 
-> Example: BIT(7) = (1UL << 7)
-[]
-> diff --git a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-[]
-> @@ -548,7 +548,7 @@ static long __ov5693_set_exposure(struct v4l2_subdev *sd, int coarse_itg,
->  	 * The way is to write coarse_itg/2 to the reg, meanwhile write 2*hts
->  	 * to the reg.
->  	 */
-> -	if (coarse_itg > (1 << 15)) {
-> +	if (coarse_itg > BIT(15)) {
+On Fri, Jan 28, 2022 at 2:07 PM Muhammad Usama Anjum
+<usama.anjum@collabora.com> wrote:
+>
+> ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
+> return error. Remove the return variable. Simplify other functions which
+> are using this function.
+>
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> ---
+> Changes in V2:
+> Removed fixes tag
 
-Not all uses of 1 left shift should be converted to BIT
-Especially when used with a non-bit value comparison test.
-
-This is a size and not a bit position so this is likely not appropriate.
-
-It'd probably be better as
-	if (coarse_itg > 0x8000)
-or
-	if (coarse_itg > 32768)
-or
-	if (coarse_itg > SOME_CONSTANT_DEFINE)
-
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-[]
-> @@ -1913,11 +1913,11 @@ void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
->  			    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream_config;
->  		s_config->mode = IA_CSS_INPUT_MODE_TPG;
->  		s_config->source.tpg.mode = IA_CSS_TPG_MODE_CHECKERBOARD;
-> -		s_config->source.tpg.x_mask = (1 << 4) - 1;
-> +		s_config->source.tpg.x_mask = BIT(4) - 1;
-
-These should probably use GENMASK
-
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-[]
-> @@ -626,11 +626,11 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
->  	 * IRQ, if so, waiting for it to be served
->  	 */
->  	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
-> -	irq = irq & 1 << INTR_IIR;
-> +	irq = irq & BIT(INTR_IIR);
-
-The rest seems sensible.
-
-
+Reviewed-by: Fabio Estevam <festevam@gmail.com>
