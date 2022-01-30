@@ -1,48 +1,47 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2762C80
-	for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 02:57:33 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id qe6-20020a17090b4f8600b001b7aaad65b9so4146930pjb.2
-        for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 18:57:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4D029CA
+	for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 05:08:46 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id my12-20020a17090b4c8c00b001b528ba1cd7so10453543pjb.1
+        for <linux-staging@lists.linux.dev>; Sat, 29 Jan 2022 21:08:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to;
-        bh=hyjaqV00PXV1hP8HC0tm5VzjlRs2Xpo6guoz0GL6a50=;
-        b=i13y+QEhfUTTZjUL4sP4Td7Wtev+Yp6HL8u+Qmx0DLBzIHzqxzG1f7FGf1zpZ6WHU4
-         wgfHtu1ygOdPPwIjiXJa+RkqMxmfCOAq31Xa2rjBbWmqzL/XlKWFGlvbHHHEnvloeX3O
-         mtpEEF+PPguAnTt3WUoAwM4lA3eMs2bXX9QDBDK8anpX/jFIZgNXM6paL+CZrWy1X719
-         FLZmfnRZwOVyipw7OO5S3Drhgqfjy2oHPkuwxEs272KQkUQ8loLbzYUMCFBBNUkoyheA
-         tLVM/8ixSBzVQIOKTMYwmWyLvXG6nnxnw480qj0wN0cpbPzaMc0AAMcE6Xqex9WKnsz9
-         ylfQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=K+srP5VtjGUVfkF3Gd4z8iDliRUZYWBlpiguTbcMjJ0=;
+        b=KN7STkDHGeQZ+/fNT/PQ+6ccsDcfJnLHbvGFF0XJC+T28JDxFH7W55A0ieHnZg5U+C
+         K/y9H+pNTIB/Pddn0z6vP/z6k4eUsng+Pz0ooMsO3VQAKq/pIYK+4PcXNR0iBfUJfolu
+         Z9kAth7ajWR4RyfDMpMYjJgVobBuY+xKVADMP4S4bp/IWqCHzCnZ5baaE/Q+/lRaE22y
+         qE5lFkWNw+Q9uSVntysvwOh5ft/jLQ5wk5TQpO5buEHe/S4v8+RJD/KTFDrLGVbxQQ2E
+         jffDFflrXZps3bkFA2xJFQFyWb9vptBOfEeS1QB6rtT64pXfA2AsyHLWN13CIcC9YttJ
+         9PiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to;
-        bh=hyjaqV00PXV1hP8HC0tm5VzjlRs2Xpo6guoz0GL6a50=;
-        b=ezAemm0dvdQiWPrcvb9/a9mP/1E9IWyYy6Epe4ePDlxqc8gR7T9yvoSQm88ymELZa9
-         uLwD0XVskaCQ97lTyOowa6NPY3VsIw8VyKgRSEsFNJPAWxdDDjynzA4alylrdMe/PRDy
-         grYouviWxS2WMeAIfyPb1fu4ZwRil38qy7mfMEG06jaJX1K3MhwJ0zEsG1IHUPRouodf
-         uMaCahfhVpotgaRN/RREELmUX24QgiYu430gQlStDEV7uoBUu0qcg15EfeVFlP6kHz5P
-         +ACrlosUF6Y/yp0OdL/7SRwLC38RhyqZSc5mtZ0PU6z/3MIKQDWVFSbXo1jmgMm1FlJH
-         vK5A==
-X-Gm-Message-State: AOAM532+yHT5spimE0+L+IRVsqhmKn2RdXm7Sbkjo/HD7nsFGH4nFfML
-	dJJ0ATUUGvtoSydKaJPGwbo=
-X-Google-Smtp-Source: ABdhPJzRRW6wkNIGS7BUfv3L6Cm/2INQ4QYEu9lW/awOwN5FXYeNlHVm3Zlw92NW7XkPkK6AS1WDyw==
-X-Received: by 2002:a17:90b:1b03:: with SMTP id nu3mr10477195pjb.130.1643511452846;
-        Sat, 29 Jan 2022 18:57:32 -0800 (PST)
+         :content-disposition;
+        bh=K+srP5VtjGUVfkF3Gd4z8iDliRUZYWBlpiguTbcMjJ0=;
+        b=3oD9fwFR4EM9BMCQPVTcTwU0X0EPok1mBAgXTsKX7mVA7Jv13v2t8rO0Fn+ckxGol/
+         NgLVT0VMDPNnicFPVp2gRGSIWV3Pq42QpQ8KOrmAQMwY9oxQ8vr3A/o1IVV3k23QN40M
+         vopKKabn73Qglo7KP4ltl37cR31YR47Xwgyouq2KOqyJQ33oPVKn0gdJoB/DE8VAD0y8
+         Rq33hWvDDVsfmPSiR3dMW3kdpZnNZmPDuxMsygintwz2LC1Xom/yEBfb1CiyHhVqDmmC
+         e/vP1GP+abycKeB61LzFuldfkZzVfzvy3WpdSdJZfNhh1YxBN3oX55ksQtBVGKkMCysV
+         jgSg==
+X-Gm-Message-State: AOAM533tFQ9Eqe/Suc3JSCYB/YDDqrgZCVeJRzQ70C3znhbopL1rc7rz
+	C464AxDO6TQOHSSPlZmU5Zs=
+X-Google-Smtp-Source: ABdhPJzg5kvfXicnLxOB+7t6a/SutVJjX2J8kjE0aEuyT7W7WExZP2ys9vjwywim6+Pox8l0rSrYkg==
+X-Received: by 2002:a17:90a:17a5:: with SMTP id q34mr27892356pja.1.1643519325450;
+        Sat, 29 Jan 2022 21:08:45 -0800 (PST)
 Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id nn4sm6602382pjb.39.2022.01.29.18.57.29
+        by smtp.gmail.com with ESMTPSA id p16sm1081948pgj.79.2022.01.29.21.08.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Jan 2022 18:57:32 -0800 (PST)
-Date: Sun, 30 Jan 2022 15:57:26 +1300
+        Sat, 29 Jan 2022 21:08:44 -0800 (PST)
+Date: Sun, 30 Jan 2022 18:08:38 +1300
 From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
 	realwakka@gmail.com
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] staging: pi433: add debugfs interface
-Message-ID: <YfX+llwDWZZMz+NY@mail.google.com>
+Subject: [PATCH] staging: pi433: remove coding style item from the TODO file
+Message-ID: <YfYdVokxsQ+Adl+T@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,189 +50,93 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220126132116.GA1951@kadam>
 
-This adds debugfs interface that can be used for debugging possible
-hardware/software issues.
+After several patches sent by the community along the last couple of
+years, it's possible to remove the coding style item from the TODO file
+in the driver's folder.
 
-It currently exposes the following debugfs entries for each SPI device
-probed:
-
-  /sys/kernel/debug/pi433/<DEVICE>/regs
-  ...
-
-The 'regs' file contains all rf69 uC registers values that are useful
-for troubleshooting misconfigurations between 2 devices. It contains one
-register per line so it should be easy to use normal filtering tools to
-find the registers of interest if needed.
+This patch addresses the last code formatting inconsistences and remove
+the coding style item from the TODO file.
 
 Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 ---
-Changelog:
+Patch dependency:
 
-v3: fix build error, remove redundant comments and validate return values
-	from wait_event_interruptible routines: Req: Greg K-h, Dan Carpenter
-v2: remove redudant references to dentry pointers in the code and perform 
-     debugsfs_lookup instead. Req: Greg k-h  
-v1: https://lore.kernel.org/lkml/20220123073855.GA79453@mail.google.com/
+- https://lore.kernel.org/lkml/YfX+llwDWZZMz+NY@mail.google.com/
+
 ---
- drivers/staging/pi433/pi433_if.c | 75 ++++++++++++++++++++++++++++++++
- drivers/staging/pi433/rf69.c     |  2 +-
- drivers/staging/pi433/rf69.h     |  1 +
- 3 files changed, 77 insertions(+), 1 deletion(-)
+ drivers/staging/pi433/TODO       |  1 -
+ drivers/staging/pi433/pi433_if.c | 12 ++++--------
+ drivers/staging/pi433/rf69.c     |  3 ++-
+ 3 files changed, 6 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/staging/pi433/TODO b/drivers/staging/pi433/TODO
+index b9e6c01a0..8d0f1b579 100644
+--- a/drivers/staging/pi433/TODO
++++ b/drivers/staging/pi433/TODO
+@@ -1,4 +1,3 @@
+-* coding style does not fully comply with the kernel style guide.
+ * still TODOs, annotated in the code
+ * currently the code introduces new IOCTLs. I'm afraid this is a bad idea.
+   -> Replace this with another interface, hints are welcome!
 diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-index 17ff51f6a..74748d3cd 100644
+index 74748d3cd..02d4ccebf 100644
 --- a/drivers/staging/pi433/pi433_if.c
 +++ b/drivers/staging/pi433/pi433_if.c
-@@ -41,6 +41,8 @@
- #ifdef CONFIG_COMPAT
- #include <linux/compat.h>
- #endif
-+#include <linux/debugfs.h>
-+#include <linux/seq_file.h>
- 
- #include "pi433_if.h"
- #include "rf69.h"
-@@ -1102,12 +1104,75 @@ static const struct file_operations pi433_fops = {
- 	.llseek =	no_llseek,
- };
- 
-+static int pi433_debugfs_regs_show(struct seq_file *m, void *p)
-+{
-+	struct pi433_device *dev;
-+	u8 reg_data[114];
-+	int i;
-+	char *fmt = "0x%02x, 0x%02x\n";
-+	int ret = 0;
-+
-+	dev = m->private;
-+
-+	mutex_lock(&dev->tx_fifo_lock);
-+	mutex_lock(&dev->rx_lock);
-+
-+	// wait for on-going operations to finish
-+	ret = wait_event_interruptible(dev->rx_wait_queue, !dev->tx_active);
-+	if (ret)
-+		return ret;
-+
-+	ret = wait_event_interruptible(dev->tx_wait_queue, !dev->rx_active);
-+	if (ret)
-+		return ret;
-+
-+	// skip FIFO register (0x0) otherwise this can affect some of uC ops
-+	for (i = 1; i < 0x50; i++)
-+		reg_data[i] = rf69_read_reg(dev->spi, i);
-+
-+	reg_data[REG_TESTLNA] = rf69_read_reg(dev->spi, REG_TESTLNA);
-+	reg_data[REG_TESTPA1] = rf69_read_reg(dev->spi, REG_TESTPA1);
-+	reg_data[REG_TESTPA2] = rf69_read_reg(dev->spi, REG_TESTPA2);
-+	reg_data[REG_TESTDAGC] = rf69_read_reg(dev->spi, REG_TESTDAGC);
-+	reg_data[REG_TESTAFC] = rf69_read_reg(dev->spi, REG_TESTAFC);
-+
-+	seq_puts(m, "# reg, val\n");
-+
-+	for (i = 1; i < 0x50; i++)
-+		seq_printf(m, fmt, i, reg_data[i]);
-+
-+	seq_printf(m, fmt, REG_TESTLNA, reg_data[REG_TESTLNA]);
-+	seq_printf(m, fmt, REG_TESTPA1, reg_data[REG_TESTPA1]);
-+	seq_printf(m, fmt, REG_TESTPA2, reg_data[REG_TESTPA2]);
-+	seq_printf(m, fmt, REG_TESTDAGC, reg_data[REG_TESTDAGC]);
-+	seq_printf(m, fmt, REG_TESTAFC, reg_data[REG_TESTAFC]);
-+
-+	mutex_unlock(&dev->rx_lock);
-+	mutex_unlock(&dev->tx_fifo_lock);
-+
-+	return ret;
-+}
-+
-+static int pi433_debugfs_regs_open(struct inode *inode, struct file *filp)
-+{
-+	return single_open(filp, pi433_debugfs_regs_show, inode->i_private);
-+}
-+
-+static const struct file_operations debugfs_fops = {
-+	.llseek =	seq_lseek,
-+	.open =		pi433_debugfs_regs_open,
-+	.owner =	THIS_MODULE,
-+	.read =		seq_read,
-+	.release =	single_release
-+};
-+
- /*-------------------------------------------------------------------------*/
- 
- static int pi433_probe(struct spi_device *spi)
- {
- 	struct pi433_device	*device;
- 	int			retval;
-+	struct dentry		*entry;
- 
- 	/* setup spi parameters */
- 	spi->mode = 0x00;
-@@ -1256,6 +1321,10 @@ static int pi433_probe(struct spi_device *spi)
- 	/* spi setup */
- 	spi_set_drvdata(spi, device);
- 
-+	entry = debugfs_create_dir(dev_name(device->dev),
-+				   debugfs_lookup(KBUILD_MODNAME, NULL));
-+	debugfs_create_file("regs", 0400, entry, device, &debugfs_fops);
-+
- 	return 0;
- 
- del_cdev:
-@@ -1279,6 +1348,9 @@ static int pi433_probe(struct spi_device *spi)
- static int pi433_remove(struct spi_device *spi)
- {
- 	struct pi433_device	*device = spi_get_drvdata(spi);
-+	struct dentry *mod_entry = debugfs_lookup(KBUILD_MODNAME, NULL);
-+
-+	debugfs_remove(debugfs_lookup(dev_name(device->dev), mod_entry));
- 
- 	/* free GPIOs */
- 	free_gpio(device);
-@@ -1353,6 +1425,8 @@ static int __init pi433_init(void)
- 		return PTR_ERR(pi433_class);
- 	}
- 
-+	debugfs_create_dir(KBUILD_MODNAME, NULL);
-+
- 	status = spi_register_driver(&pi433_spi_driver);
- 	if (status < 0) {
- 		class_destroy(pi433_class);
-@@ -1370,6 +1444,7 @@ static void __exit pi433_exit(void)
- 	spi_unregister_driver(&pi433_spi_driver);
- 	class_destroy(pi433_class);
- 	unregister_chrdev(MAJOR(pi433_dev), pi433_spi_driver.driver.name);
-+	debugfs_remove_recursive(debugfs_lookup(KBUILD_MODNAME, NULL));
- }
- module_exit(pi433_exit);
- 
-diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-index d60514a84..b1a3382f4 100644
---- a/drivers/staging/pi433/rf69.c
-+++ b/drivers/staging/pi433/rf69.c
-@@ -24,7 +24,7 @@
+@@ -364,8 +364,7 @@ rf69_set_tx_cfg(struct pi433_device *dev, struct pi433_tx_cfg *tx_cfg)
  
  /*-------------------------------------------------------------------------*/
  
--static u8 rf69_read_reg(struct spi_device *spi, u8 addr)
-+u8 rf69_read_reg(struct spi_device *spi, u8 addr)
+-static int
+-pi433_start_rx(struct pi433_device *dev)
++static int pi433_start_rx(struct pi433_device *dev)
  {
  	int retval;
  
-diff --git a/drivers/staging/pi433/rf69.h b/drivers/staging/pi433/rf69.h
-index c25942f14..3ff5609ec 100644
---- a/drivers/staging/pi433/rf69.h
-+++ b/drivers/staging/pi433/rf69.h
-@@ -17,6 +17,7 @@
- #define FIFO_SIZE	66		/* bytes */
- #define FIFO_THRESHOLD	15		/* bytes */
+@@ -405,8 +404,7 @@ pi433_start_rx(struct pi433_device *dev)
  
-+u8 rf69_read_reg(struct spi_device *spi, u8 addr);
- int rf69_get_version(struct spi_device *spi);
- int rf69_set_mode(struct spi_device *spi, enum mode mode);
- int rf69_set_data_mode(struct spi_device *spi, u8 data_mode);
+ /*-------------------------------------------------------------------------*/
+ 
+-static int
+-pi433_receive(void *data)
++static int pi433_receive(void *data)
+ {
+ 	struct pi433_device *dev = data;
+ 	struct spi_device *spi = dev->spi;
+@@ -557,8 +555,7 @@ pi433_receive(void *data)
+ 		return bytes_total;
+ }
+ 
+-static int
+-pi433_tx_thread(void *data)
++static int pi433_tx_thread(void *data)
+ {
+ 	struct pi433_device *device = data;
+ 	struct spi_device *spi = device->spi;
+@@ -883,8 +880,7 @@ pi433_write(struct file *filp, const char __user *buf,
+ 	return -EAGAIN;
+ }
+ 
+-static long
+-pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
++static long pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ {
+ 	struct pi433_instance	*instance;
+ 	struct pi433_device	*device;
+diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
+index b1a3382f4..2ab3bf46e 100644
+--- a/drivers/staging/pi433/rf69.c
++++ b/drivers/staging/pi433/rf69.c
+@@ -654,7 +654,8 @@ bool rf69_get_flag(struct spi_device *spi, enum flag flag)
+ 		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_CRC_OK);
+ 	case battery_low:
+ 		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_LOW_BAT);
+-	default:			 return false;
++	default:
++		return false;
+ 	}
+ }
+ 
 -- 
 2.34.1
 
