@@ -1,41 +1,41 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44412CA1
-	for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 11:12:27 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id u24so20776945eds.11
-        for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 03:12:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BC32CA6
+	for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 11:12:28 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id me13so33622639ejb.12
+        for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 03:12:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fBqhdQDBJRGoBLP7N57YtbXFLEg4i5iAZLmqRoUPvx0=;
-        b=dXIOQfjcCa9oro1DdBhyRD2GfQlKwq8gWPz/p4iWbpJM0ZEEHpoJzS1yTMgqBXRjwk
-         1OIjFfyMSJOgAzZ/FoVjf6dTxMiMMi2Mma/QAwPmSJ98WqDxf+bGw9QxmegVp8oU+d2W
-         uyYphjUt+0PzOvNjBjuSYUwTQNCXBL7fRRSASVevBQj5jAxeKhGIrjmNOCcb6j5Iqjrp
-         NOYoN80lz2ychKggU/s5WUw3aTxtH4JRQb0xmey2FlHxapZIE/inGyLPtq91ubNsijk3
-         wdaeA5QiazGsSV6/06HCWHebPNTb+KDPGoVKWr/Hhr1NNfAhAMckp20DK0pMKWJHY33t
-         iI5w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8HO/N3phK9Cgv5RkgvHGJMfII6OZKPml7frfeVGhWnc=;
+        b=mahg+qJ/yG4RGbk6JOlo66JbXDWodeNzkkJevG3145KRWDxInRtORgAt9VwhEk3HiD
+         TJy3tUruSZwkVrOCjV6YkplgSE86niSQlx2XujJF7RoeVqvZgCezmPGwg4MgBcOdy4Fn
+         XRmmAXvq/g8NmOkhVthZwN6xM5errYluqiN64Yk+toU45hBcsKTMDUD9suIZTk2Uw36Z
+         o43mBcJC2SY0l0pZjxYjMApMqZP3qV5eMOyGAaBOYPqfBuaKLPRkcL3KywsMl/idYn1a
+         xdIk9S17ZgEV2TKXB/WRyBZibwHOSlmO/FvL6fUpVb8cL14O0FyyxTDYTZTcRa8XjnsT
+         Eh3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fBqhdQDBJRGoBLP7N57YtbXFLEg4i5iAZLmqRoUPvx0=;
-        b=HsCQh26qJZbHu8PYzm6Hh0OZjq99INDbdvR9Loibq5IMW6h1V4mCdQ0EbsLn4lr4k1
-         jkpkRnsuQCbZYYXIDyDVhgV/dIq+fCfxSqioL/nd81mje1RNRazKDX39xY9heaJEvM67
-         qIM0o0yN7XwW5fZMMd4S2aZJV2tVwerbePt/0wo/iZZa7l6UOFQhl2k0hYspmJ9zPVGz
-         6VbnI75WvgX9sqwJUhKhW3H/Ot0o7yeeoWfDABNR4YnMHj5kWuxEE1fdPnPxlvHFRwZY
-         YIYmLv3mKkGMOMTAeerOdBPU/gaomdToTft0dO4MjfvNYJgMwrISg3G6Y6l9cfbjT7MM
-         NtjA==
-X-Gm-Message-State: AOAM531xgikuxIYIFWA2odQzJv9LCQeW9uD1r4tMoCP5MJTOqkPs4+GC
-	MAPKAcHSKZ1L8B5F2P0tHco=
-X-Google-Smtp-Source: ABdhPJwj6gVPg5wkvarYkfHovH7XPab80gbraUv3eTCbmjY1Pf0pKANgFAdGYaVsEDIzdwqDu2gZfg==
-X-Received: by 2002:a05:6402:2c7:: with SMTP id b7mr16530788edx.217.1643541146085;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8HO/N3phK9Cgv5RkgvHGJMfII6OZKPml7frfeVGhWnc=;
+        b=sHWpQm/Yp2jwWKZLuAPwKDOCWBBWZXxnysU09GD+KxIyst/Xk2HiHDno+mf2uNBTAU
+         4M6fSLyp2q5KlcwXFGAqset8N/RouDhgg0UyV6I/23K1o3IQWGVbjLXGT3LrUMWj+Olw
+         kXgxr+BxTJ5dswRFrN7poALR74kQpNWKJoRTsSIMfFRidaKGPxrgvYrLn35LSDmaRWzt
+         H1X+BRDFbYjrCmZB/1gULOUMxNCiFwevG5F3IlkbmnFIWC0A+Ak5OOZuE9ZiD9Bor/ni
+         DhvJUplM5kD1p7m5prPO12ol2aoLtl4+zmUYAcBlCjc8UY7AHGTfIzMTn5XO7LIVxNXh
+         +Uhw==
+X-Gm-Message-State: AOAM5316pfZFlzemu0v1iUx8ydfRrJMl6Omtu06IBLuP1bQSgfw9OgPK
+	Z3o7C0Cx09O/S4k4BTmh7nA=
+X-Google-Smtp-Source: ABdhPJyDrcJBHEGmz08stab4Aak+vkpJcchWPLJvt4endsTLoeyt75MYtFpbTMCkt2Sc0SZt4pOUbw==
+X-Received: by 2002:a17:907:948f:: with SMTP id dm15mr13497491ejc.52.1643541146720;
         Sun, 30 Jan 2022 03:12:26 -0800 (PST)
 Received: from localhost.localdomain (ip5f5abb5a.dynamic.kabel-deutschland.de. [95.90.187.90])
-        by smtp.gmail.com with ESMTPSA id nd9sm12129510ejc.169.2022.01.30.03.12.25
+        by smtp.gmail.com with ESMTPSA id nd9sm12129510ejc.169.2022.01.30.03.12.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jan 2022 03:12:25 -0800 (PST)
+        Sun, 30 Jan 2022 03:12:26 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/3] staging: r8188eu: remove two wrappers
-Date: Sun, 30 Jan 2022 12:12:16 +0100
-Message-Id: <20220130111219.6390-1-straube.linux@gmail.com>
+Subject: [PATCH 1/3] staging: r8188eu: remove c2h_evt_clear()
+Date: Sun, 30 Jan 2022 12:12:17 +0100
+Message-Id: <20220130111219.6390-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220130111219.6390-1-straube.linux@gmail.com>
+References: <20220130111219.6390-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,23 +57,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This set removes the wrapper functions c2h_evt_clear() and
-hal_init_macaddr().
+Function c2h_evt_clear() is just a wrapper around rtw_write8().
+Remove c2h_evt_clear() and call rtw_write8() directly.
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_cmd.c    | 2 +-
+ drivers/staging/r8188eu/hal/hal_com.c     | 7 +------
+ drivers/staging/r8188eu/include/hal_com.h | 1 -
+ 3 files changed, 2 insertions(+), 8 deletions(-)
 
-Michael Straube (3):
-  staging: r8188eu: remove c2h_evt_clear()
-  staging: r8188eu: remove unused parameter from hw_var_set_*
-  staging: r8188eu: remove hal_init_macaddr()
-
- drivers/staging/r8188eu/core/rtw_cmd.c     |  2 +-
- drivers/staging/r8188eu/hal/hal_com.c      | 12 +------
- drivers/staging/r8188eu/hal/usb_halinit.c  | 39 ++++++++++------------
- drivers/staging/r8188eu/include/hal_com.h  |  3 --
- drivers/staging/r8188eu/include/hal_intf.h |  1 -
- 5 files changed, 20 insertions(+), 37 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 266bb7db5252..c7e8602d2097 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -1331,7 +1331,7 @@ static void c2h_wk_callback(struct work_struct *work)
+ 	while (!rtw_cbuf_empty(evtpriv->c2h_queue)) {
+ 		if ((c2h_evt = (struct c2h_evt_hdr *)rtw_cbuf_pop(evtpriv->c2h_queue)) != NULL) {
+ 			/* This C2H event is read, clear it */
+-			c2h_evt_clear(adapter);
++			rtw_write8(adapter, REG_C2HEVT_CLEAR, C2H_EVT_HOST_CLOSE);
+ 		} else {
+ 			c2h_evt = kmalloc(16, GFP_KERNEL);
+ 			if (c2h_evt) {
+diff --git a/drivers/staging/r8188eu/hal/hal_com.c b/drivers/staging/r8188eu/hal/hal_com.c
+index 7f28fd08f0aa..f83375a389f8 100644
+--- a/drivers/staging/r8188eu/hal/hal_com.c
++++ b/drivers/staging/r8188eu/hal/hal_com.c
+@@ -298,11 +298,6 @@ void hal_init_macaddr(struct adapter *adapter)
+ * BITS	 [127:120]	[119:16]      [15:8]		  [7:4]		   [3:0]
+ */
+ 
+-void c2h_evt_clear(struct adapter *adapter)
+-{
+-	rtw_write8(adapter, REG_C2HEVT_CLEAR, C2H_EVT_HOST_CLOSE);
+-}
+-
+ s32 c2h_evt_read(struct adapter *adapter, u8 *buf)
+ {
+ 	s32 ret = _FAIL;
+@@ -340,7 +335,7 @@ s32 c2h_evt_read(struct adapter *adapter, u8 *buf)
+ 	* If this field isn't clear, the FW won't update the next
+ 	* command message.
+ 	*/
+-	c2h_evt_clear(adapter);
++	rtw_write8(adapter, REG_C2HEVT_CLEAR, C2H_EVT_HOST_CLOSE);
+ exit:
+ 	return ret;
+ }
+diff --git a/drivers/staging/r8188eu/include/hal_com.h b/drivers/staging/r8188eu/include/hal_com.h
+index 95167f0b327f..4417054c0f93 100644
+--- a/drivers/staging/r8188eu/include/hal_com.h
++++ b/drivers/staging/r8188eu/include/hal_com.h
+@@ -150,7 +150,6 @@ bool Hal_MappingOutPipe(struct adapter *pAdapter, u8 NumOutPipe);
+ 
+ void hal_init_macaddr(struct adapter *adapter);
+ 
+-void c2h_evt_clear(struct adapter *adapter);
+ s32 c2h_evt_read(struct adapter *adapter, u8 *buf);
+ 
+ #endif /* __HAL_COMMON_H__ */
 -- 
 2.34.1
 
