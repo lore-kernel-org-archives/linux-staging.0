@@ -1,175 +1,69 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FFE2CA6
-	for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 11:12:29 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id r10so21081662edt.1
-        for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 03:12:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gko303HZwHZ0Al5RiiTL+rtQndEeK/ZYFqcpqPlMJRA=;
-        b=IyGZrmpMOGd136RiRrYvCeLQZXL7ZcP7VVQ/tcxxhFJ1iL1HEpDTBLOURlYr6M9taW
-         zBT8mg4w+H0glm+s7WU8Lmur50NHIDYgO35oYgJRwD6lT+rE2GWkiU46NPo61YfhbXDD
-         vfx23Ml5uGe2gactxlINTfDqfMEd1yhnWiiVbtxGeOOiuxJ9ygUZ/aOx5B7iuNKPxOz4
-         HJ46ftdPw3zZOUW9u2azbe/6JxZg20qbQ87XuaSpn0QVeUxBXGL2j9+EkeXB1GA0YF8v
-         /y7/WTDnFF4FP4CF6X4/FOyaTBIr8b3mht0g0uBgmLDXqyfjQzBsgH1y+2sA9IO2le5C
-         vkWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gko303HZwHZ0Al5RiiTL+rtQndEeK/ZYFqcpqPlMJRA=;
-        b=3qlS2P5ujR+5Sm8GS98OrI0Qi5FM6nZ9wUfPuLxFJdKfVaigcHGSayCdMWSwo2hzBL
-         JlySakylZG98hcQqEPQG69sQ+JDYhdZLx7UAru73nnd+WVj0WwOGKARu7pDiOFLTvASG
-         SqAZOYg/Qk5dP9W02Ger95+qUNKkZQXp9AurYzIdoZc26u7Du71QDVStPrRUOc8BWCGJ
-         +uzDEwZvzzQdDX6grmpZoBH5CuqxwOTD659R/u9YXr/akhl0SJyBtF0SaocnAFixwLjv
-         2jbJyoFuKaw85Hc7eyXgHAzAvuF5VZA+vZBerOAq8GqKvIB0T6q0oLyWm7jGbtj2FpTK
-         NqhQ==
-X-Gm-Message-State: AOAM533uASxoceTc1tRAlu7bLTP8wPzzH+lkW/6fRmqP5UVumQ3UT4mb
-	b9rstHn8h6nPC5vB0dn1z4I=
-X-Google-Smtp-Source: ABdhPJxaC2J8BjmMPtMbqolj7fFjGDUA+0KxsUbGVxuhdVq2bgtLJSfLxEZOzZU64HAecBfAy849ng==
-X-Received: by 2002:a05:6402:90b:: with SMTP id g11mr11378328edz.69.1643541148136;
-        Sun, 30 Jan 2022 03:12:28 -0800 (PST)
-Received: from localhost.localdomain (ip5f5abb5a.dynamic.kabel-deutschland.de. [95.90.187.90])
-        by smtp.gmail.com with ESMTPSA id nd9sm12129510ejc.169.2022.01.30.03.12.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jan 2022 03:12:27 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/3] staging: r8188eu: remove hal_init_macaddr()
-Date: Sun, 30 Jan 2022 12:12:19 +0100
-Message-Id: <20220130111219.6390-4-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220130111219.6390-1-straube.linux@gmail.com>
-References: <20220130111219.6390-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652272C9E
+	for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 17:54:13 +0000 (UTC)
+Received: from ipservice-092-217-087-009.092.217.pools.vodafone-ip.de ([92.217.87.9] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.89)
+	(envelope-from <postmaster@kaiser.cx>)
+	id 1nEEOn-0007xP-Bc; Sun, 30 Jan 2022 18:54:01 +0100
+Received: from martin by martin-debian-2.paytec.ch with local (Exim 4.94.2)
+	(envelope-from <martin@martin-debian-2.paytec.ch>)
+	id 1nEEOm-002wou-Ny; Sun, 30 Jan 2022 18:54:00 +0100
+Date: Sun, 30 Jan 2022 18:54:00 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kernel@collabora.com, kernel-janitors@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rt8188eu: Remove dead code
+Message-ID: <YfbQuA6SSIEXGrWu@martin-debian-1.paytec.ch>
+References: <20220128111954.1028121-1-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220128111954.1028121-1-usama.anjum@collabora.com>
+Sender: "Martin Kaiser,,," <martin@martin-debian-2.paytec.ch>
 
-hal_init_macaddr() is just a wrapper around SetHwReg8188EU() which
-calls hw_var_set_macaddr(). Remove hal_init_macaddr(), remove the
-HW_VAR_MAC_ADDR case from SetHwReg8188EU() and call
-hw_var_set_macaddr() directly.
+Thus wrote Muhammad Usama Anjum (usama.anjum@collabora.com):
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/hal_com.c      |  5 ----
- drivers/staging/r8188eu/hal/usb_halinit.c  | 27 ++++++++++------------
- drivers/staging/r8188eu/include/hal_com.h  |  2 --
- drivers/staging/r8188eu/include/hal_intf.h |  1 -
- 4 files changed, 12 insertions(+), 23 deletions(-)
+> rtStatus is _SUCCESS when the execution reaches this if condition.
+> Remove the dead code.
 
-diff --git a/drivers/staging/r8188eu/hal/hal_com.c b/drivers/staging/r8188eu/hal/hal_com.c
-index f83375a389f8..06f2a9083056 100644
---- a/drivers/staging/r8188eu/hal/hal_com.c
-+++ b/drivers/staging/r8188eu/hal/hal_com.c
-@@ -287,11 +287,6 @@ bool Hal_MappingOutPipe(struct adapter *adapter, u8 numoutpipe)
- 	return result;
- }
- 
--void hal_init_macaddr(struct adapter *adapter)
--{
--	SetHwReg8188EU(adapter, HW_VAR_MAC_ADDR, adapter->eeprompriv.mac_addr);
--}
--
- /*
- * C2H event format:
- * Field	 TRIGGER		CONTENT	   CMD_SEQ	CMD_LEN		 CMD_ID
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index c5282603a42c..90f545f17710 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -567,6 +567,17 @@ static void _InitAntenna_Selection(struct adapter *Adapter)
- 	DBG_88E("%s,Cur_ant:(%x)%s\n", __func__, haldata->CurAntenna, (haldata->CurAntenna == Antenna_A) ? "Antenna_A" : "Antenna_B");
- }
- 
-+static void hw_var_set_macaddr(struct adapter *Adapter, u8 *val)
-+{
-+	u8 idx = 0;
-+	u32 reg_macid;
-+
-+	reg_macid = REG_MACID;
-+
-+	for (idx = 0; idx < 6; idx++)
-+		rtw_write8(Adapter, (reg_macid + idx), val[idx]);
-+}
-+
- u32 rtl8188eu_hal_init(struct adapter *Adapter)
- {
- 	u8 value8 = 0;
-@@ -673,7 +684,7 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
- 	_InitDriverInfoSize(Adapter, DRVINFO_SZ);
- 
- 	_InitInterrupt(Adapter);
--	hal_init_macaddr(Adapter);/* set mac_address */
-+	hw_var_set_macaddr(Adapter, Adapter->eeprompriv.mac_addr);
- 	_InitNetworkType(Adapter);/* set msr */
- 	_InitWMACSetting(Adapter);
- 	_InitAdaptiveCtrl(Adapter);
-@@ -1027,17 +1038,6 @@ static void hw_var_set_opmode(struct adapter *Adapter, u8 *val)
- 	}
- }
- 
--static void hw_var_set_macaddr(struct adapter *Adapter, u8 *val)
--{
--	u8 idx = 0;
--	u32 reg_macid;
--
--	reg_macid = REG_MACID;
--
--	for (idx = 0; idx < 6; idx++)
--		rtw_write8(Adapter, (reg_macid + idx), val[idx]);
--}
--
- static void hw_var_set_bssid(struct adapter *Adapter, u8 *val)
- {
- 	u8 idx = 0;
-@@ -1080,9 +1080,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 	case HW_VAR_SET_OPMODE:
- 		hw_var_set_opmode(Adapter, val);
- 		break;
--	case HW_VAR_MAC_ADDR:
--		hw_var_set_macaddr(Adapter, val);
--		break;
- 	case HW_VAR_BSSID:
- 		hw_var_set_bssid(Adapter, val);
- 		break;
-diff --git a/drivers/staging/r8188eu/include/hal_com.h b/drivers/staging/r8188eu/include/hal_com.h
-index 4417054c0f93..56ba356b5371 100644
---- a/drivers/staging/r8188eu/include/hal_com.h
-+++ b/drivers/staging/r8188eu/include/hal_com.h
-@@ -148,8 +148,6 @@ void HalSetBrateCfg(struct adapter *Adapter, u8 *mBratesOS, u16 *pBrateCfg);
- 
- bool Hal_MappingOutPipe(struct adapter *pAdapter, u8 NumOutPipe);
- 
--void hal_init_macaddr(struct adapter *adapter);
--
- s32 c2h_evt_read(struct adapter *adapter, u8 *buf);
- 
- #endif /* __HAL_COMMON_H__ */
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 9b4d1650b4b5..9e66ef68e1e8 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -11,7 +11,6 @@
- enum hw_variables {
- 	HW_VAR_MEDIA_STATUS,
- 	HW_VAR_SET_OPMODE,
--	HW_VAR_MAC_ADDR,
- 	HW_VAR_BSSID,
- 	HW_VAR_INIT_RTS_RATE,
- 	HW_VAR_BASIC_RATE,
--- 
-2.34.1
+> Fixes: 67396d2dfef3 ("staging: r8188eu: merge ODM_ConfigBBWithHeaderFile with its callers")
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> ---
+>  drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 3 ---
+>  1 file changed, 3 deletions(-)
 
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+> index 0b0690dfb947c..41a0d7f0d29f4 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+> @@ -504,9 +504,6 @@ static	int phy_BB8188E_Config_ParaFile(struct adapter *Adapter)
+>  		ODM_ReadAndConfig_PHY_REG_PG_8188E(&pHalData->odmpriv);
+>  	}
+
+> -	if (rtStatus != _SUCCESS)
+> -		goto phy_BB8190_Config_ParaFile_Fail;
+> -
+>  	/*  3. BB AGC table Initialization */
+>  	if (HAL_STATUS_FAILURE == ODM_ReadAndConfig_AGC_TAB_1T_8188E(&pHalData->odmpriv))
+>  		rtStatus = _FAIL;
+> -- 
+> 2.30.2
+
+Thanks for spotting this. It makes sense to remove this duplicate check.
+
+Acked-by: Martin Kaiser <martin@kaiser.cx>
+
+Looking at the function again, the rest of the error handling should be
+cleaned up as well. I'll send a patch for this.
