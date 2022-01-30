@@ -1,26 +1,52 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B5D2C9E
-	for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 18:23:02 +0000 (UTC)
-Received: from ipservice-092-217-087-009.092.217.pools.vodafone-ip.de ([92.217.87.9] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1nEEqn-0008B8-VJ; Sun, 30 Jan 2022 19:22:58 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0DF2C80
+	for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 19:03:35 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id d10so36046288eje.10
+        for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 11:03:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sY7P/t1AUJsEIOGpEH9jaDzmKFiJT+OmhoPSXZS+aIU=;
+        b=KVgyFQYvaCRMG8doNu5bpdNayOmMOVW9c5lDnOPnN+8l5VCOJ5iGipAdwjLMmkrjcc
+         JowLuzdEuCzMedpD58bdrhcczDKcZqi2FKpjxaXjjQ+gpFifMvxRof39272dM63rRDpC
+         Sep+T/f57kqrf9n00LULD6w6Pafd4U7OlJxSDXDCd2JSWjnUTF2lpHe80eOKt1sbiELQ
+         G2GifrF/8LpNYkgUccs2tVwR3AkxRxdbHXSn5wW99y8jMhLlotWplzHpZIMrldH5hJcW
+         YWjHeUvfcFGFhSvFs29+/3YUydmS8bv9gNPeReSb6IC9QcbiqiJnt0hv2Tyj7Y5tmBy8
+         yaFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sY7P/t1AUJsEIOGpEH9jaDzmKFiJT+OmhoPSXZS+aIU=;
+        b=UcIUCCsr30pKpEpnCJb8tv1i5W92CjvEkFfnOGx38WSQcLJRSwGErofWqiuKKfbn1E
+         h2lBUSLfdQrb8eGi+zQO2nPbKoPhb1kMr5HBsbF4X+sxxpNAJkGGJ4ISE8PmDZcLfZw+
+         BbZWACfTWskqXPThxVryYqNmbr5L/KI7ArMzkXXVCFaayrGUDmVwmYLx5QvGGieN6hDF
+         m0+SNIIO61Y0KYTEZxmbcnhblPHrs62cUQ5tKh/GHJxpb2Ouf3nA39NuJLWEgmV//J2x
+         MUMeDfxciSQ9lNL5lQaBxJX9Ntn/n+tXb4L48Oq61wefhWxhDQPQ6MEu3Xj3CZyg/b3A
+         PMbg==
+X-Gm-Message-State: AOAM532M9VSOibrtN0azbLlNzXT1Py1HT3VjWqVPeD39cJIdXQpwlWLw
+	XgMw4ULBaEdqhqp94+hVaCY=
+X-Google-Smtp-Source: ABdhPJy80yJCavGANxQUw1B/AB5X3t8dzuJoZKNdwdH6uhYKbCE/WBKO1flQ8Fn3z3MgtvB16bgPRQ==
+X-Received: by 2002:a17:907:7d8e:: with SMTP id oz14mr6463555ejc.764.1643569414130;
+        Sun, 30 Jan 2022 11:03:34 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb5a.dynamic.kabel-deutschland.de. [95.90.187.90])
+        by smtp.gmail.com with ESMTPSA id n3sm921124ejr.6.2022.01.30.11.03.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Jan 2022 11:03:33 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH] staging: r8188eu: clean up phy_BB8188E_Config_ParaFile
-Date: Sun, 30 Jan 2022 19:22:49 +0100
-Message-Id: <20220130182249.712034-1-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 00/12] staging: r8188eu: remove some HW variables
+Date: Sun, 30 Jan 2022 20:03:09 +0100
+Message-Id: <20220130190321.7172-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,69 +55,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clean up the code of the phy_BB8188E_Config_ParaFile function.
+This series removes some cases from SetHwReg8188EU() and replaces
+the usages with calling the according code directly. In most cases
+calls to rtw_write/rtw_read.
 
-Replace a TAB with a space in the function definition.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Put the HAL_STATUS_FAILURE on the right-hand side of the comparisons.
+Please apply this series on top of the series
+"staging: r8188eu: remove two wrappers"
 
-Simplify the error handling. Exit directly if we detect an error.
+Thanks,
+Michael
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
-This should be applied on top of
-[PATCH] staging: rt8188eu: Remove dead code.
+Michael Straube (12):
+  staging: r8188eu: remove HW_VAR_BEACON_INTERVAL
+  staging: r8188eu: remove HW_VAR_SEC_CFG
+  staging: r8188eu: remove HW_VAR_CAM_INVALID_ALL
+  staging: r8188eu: remove HW_VAR_AC_PARAM_VO
+  staging: r8188eu: remove HW_VAR_AC_PARAM_VI
+  staging: r8188eu: remove HW_VAR_AC_PARAM_BK
+  staging: r8188eu: remove HW_VAR_MEDIA_STATUS
+  staging: r8188eu: merge Set_NETYPE0_MSR() and Set_MSR()
+  staging: r8188eu: remove HW_VAR_CAM_WRITE
+  staging: r8188eu: remove HW_VAR_BCN_FUNC
+  staging: r8188eu: remove HW_VAR_CHECK_BSSID
+  staging: r8188eu: remove HW_VAR_CAM_EMPTY_ENTRY
 
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 20 ++++++-------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 15 ++--
+ drivers/staging/r8188eu/core/rtw_wlan_util.c | 24 +++---
+ drivers/staging/r8188eu/hal/usb_halinit.c    | 88 --------------------
+ drivers/staging/r8188eu/include/hal_intf.h   | 11 ---
+ 4 files changed, 18 insertions(+), 120 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index 41a0d7f0d29f..f1cd220ea20b 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -483,20 +483,17 @@ void storePwrIndexDiffRateOffset(struct adapter *Adapter, u32 RegAddr, u32 BitMa
- 		pHalData->MCSTxPowerLevelOriginalOffset[pHalData->pwrGroupCnt][13] = Data;
- }
- 
--static	int phy_BB8188E_Config_ParaFile(struct adapter *Adapter)
-+static int phy_BB8188E_Config_ParaFile(struct adapter *Adapter)
- {
- 	struct eeprom_priv *pEEPROM = &Adapter->eeprompriv;
- 	struct hal_data_8188e *pHalData = &Adapter->haldata;
--	int			rtStatus = _SUCCESS;
- 
- 	/*  */
- 	/*  1. Read PHY_REG.TXT BB INIT!! */
- 	/*  We will separate as 88C / 92C according to chip version */
- 	/*  */
--	if (HAL_STATUS_FAILURE == ODM_ReadAndConfig_PHY_REG_1T_8188E(&pHalData->odmpriv))
--		rtStatus = _FAIL;
--	if (rtStatus != _SUCCESS)
--		goto phy_BB8190_Config_ParaFile_Fail;
-+	if (ODM_ReadAndConfig_PHY_REG_1T_8188E(&pHalData->odmpriv) == HAL_STATUS_FAILURE)
-+		return _FAIL;
- 
- 	/*  2. If EEPROM or EFUSE autoload OK, We must config by PHY_REG_PG.txt */
- 	if (!pEEPROM->bautoload_fail_flag) {
-@@ -505,15 +502,10 @@ static	int phy_BB8188E_Config_ParaFile(struct adapter *Adapter)
- 	}
- 
- 	/*  3. BB AGC table Initialization */
--	if (HAL_STATUS_FAILURE == ODM_ReadAndConfig_AGC_TAB_1T_8188E(&pHalData->odmpriv))
--		rtStatus = _FAIL;
--
--	if (rtStatus != _SUCCESS)
--		goto phy_BB8190_Config_ParaFile_Fail;
-+	if (ODM_ReadAndConfig_AGC_TAB_1T_8188E(&pHalData->odmpriv) == HAL_STATUS_FAILURE)
-+		return _FAIL;
- 
--phy_BB8190_Config_ParaFile_Fail:
--
--	return rtStatus;
-+	return _SUCCESS;
- }
- 
- int
 -- 
-2.30.2
+2.34.1
 
