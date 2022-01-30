@@ -1,132 +1,139 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CB62C9E
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 10:19:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1643624341;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ezN9srlnTogaHSQ6pDdu/S41B39M1Hq9JuNzonZ57Cg=;
-	b=PHkJf5zTNsw/KZ9NsBFrE0Pxt7cRreREq1+rxQ2xWEXOIi3NslVPn/c6aN87W4mmbI1aBU
-	4QrVfkacNXPbcRt3VCVTqqTgzHGz5km8e5XlKEYjBILCCCXJ76ZyUrBveNIQZlKCpv/LCG
-	SFeWdTzXYLoxHKKwYyr1B9I2JsNcRVM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-pZUT5_emOiKDEowdHyztBw-1; Mon, 31 Jan 2022 05:19:00 -0500
-X-MC-Unique: pZUT5_emOiKDEowdHyztBw-1
-Received: by mail-wm1-f70.google.com with SMTP id bg23-20020a05600c3c9700b0034bb19dfdc0so2771290wmb.1
-        for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 02:18:59 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F572C80
+	for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 19:03:37 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id k25so35851829ejp.5
+        for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 11:03:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2J/aQ9AQ1tUzCIztuJ6yMYj0ykJYPL3EoCYMelHD2cg=;
+        b=G/RYvTibsfIxb+lndRj/Cf0q2Ssir5hF4b2QBb2H9afM1ggumHWdJwCuTHi18nqDK3
+         jiDgjiOwDgekk/cbPQfK11Brzrl/KR2bPEuk5J/PHwKUxj/ElgAFoNs4le+0MUqvUkww
+         Zvrlm0pEEVIcc76Gfdi6RU7M0bYjCNr8sVxJVoiAkgTrv+wky5Sr4eVfBDXSBp+oaRu/
+         rn3LwzKuY421Mm9cvLomIol3noGyAnBJSc7pWCPWZUX6HJxdScOJgrG9aAPPAmSOcqAy
+         YCBEXB+3APsOd6lr+QT59faQ7EXkhY6R4GEphmkt5XjqaOO6a9jiukCc2oeV4z/e1QBT
+         c9Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ezN9srlnTogaHSQ6pDdu/S41B39M1Hq9JuNzonZ57Cg=;
-        b=MZ05Rr0HCcyB4qnVvBujGdGABgVDIKniwknSLEOxRDB8c5Oj9hO1liR0IjyyL+WVQp
-         dy2iar4OWIqgpTipUKDZAKzIJqgkHLos7Cgkv9NBhLTe5qjb8iSUJJU/clYaTfANNor1
-         M9YDTFA+JptkD2OuLesRfMtNNuS4z3XA0Griv2WPGWEiUgqb00Lo/kPsFg4wwZqRyTwy
-         I+AsqHyFeGqOZ8eaUoUEr4eyrhY9HS4SYO/2988rjX2HmnWc5QedsF8zssQFMOdkbs4V
-         77F1m0t02420r1QZAWPPEmPH1ezcYfAHDG2zCURzOnH2mmc6hESIYt+AtN0dO9nIVUDn
-         Oe4Q==
-X-Gm-Message-State: AOAM533OBma9zCbG8vH0G557hZkLx2rT7K0cA2v0nC7beE1aMYvG5Nnw
-	Q8PHgNFSNkzXxeK/5nBrQC5heKA4kuFOVyqk3mPifrvldM6NuXCTSzHeg1+pywkTIJYfTVVqEfV
-	UAqMeoY6321lM5OHF/H9+rpPOBA==
-X-Received: by 2002:a1c:2b06:: with SMTP id r6mr26447540wmr.4.1643624338962;
-        Mon, 31 Jan 2022 02:18:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy6yso14y+Zswq6KcxIX1p6IfO2d1DlRdiLxdSQGf4tasukfjBg65Jy0k1OpEVR9pwdMvsjnQ==
-X-Received: by 2002:a1c:2b06:: with SMTP id r6mr26447519wmr.4.1643624338693;
-        Mon, 31 Jan 2022 02:18:58 -0800 (PST)
-Received: from [192.168.1.102] ([92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id n18sm11302007wrm.47.2022.01.31.02.18.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 02:18:58 -0800 (PST)
-Message-ID: <840ec74d-60c6-9480-709c-8cd597c6f5b0@redhat.com>
-Date: Mon, 31 Jan 2022 11:18:57 +0100
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2J/aQ9AQ1tUzCIztuJ6yMYj0ykJYPL3EoCYMelHD2cg=;
+        b=w1BJgkItMmEsrNCwNqAyTDo9J/mJ78JV8Cf4OULoHcrab9BGdnuNND+xVJ/C7ujPGw
+         X4zPh4NcvgW/Tttw4YA12OzMrs6Aqp5zN8L90IEjsE3mRUBTGBzgt+67mcaVqs7GRUrJ
+         m8xd513168pzrhY/Lo7YIM6iGadgkwc02uRC+hyCzPIwt2LUvmB1KdmHm8nssU4Bg+Kq
+         8kmfMsvfF/hmPll/ZK/gLyQFR5mpAlZ8E4eWwZbkYhFXGnPy7RdfMofjuiXmqUlGMEpD
+         woXrNZzyUvwq35o1VJs+cSHpnvd1J4WXNNdN4If57NluHKKFEmvp+zz/yt0yddKzHT1Q
+         ItmQ==
+X-Gm-Message-State: AOAM532jzEZBcp8CZvdwyJeq/xTvywDHTr1ldzaVAZuVENaX2vUYTpj8
+	B0uYd8ZuZzlqMIwA/oDg4aU=
+X-Google-Smtp-Source: ABdhPJyoS14JOH+r7QylwrqKq0J9jt75zFltYWWsmsS6+ukiAYM4yezQDTmFtUNtm7xG4fKCMMwZLg==
+X-Received: by 2002:a17:906:7316:: with SMTP id di22mr14901977ejc.505.1643569415685;
+        Sun, 30 Jan 2022 11:03:35 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb5a.dynamic.kabel-deutschland.de. [95.90.187.90])
+        by smtp.gmail.com with ESMTPSA id n3sm921124ejr.6.2022.01.30.11.03.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Jan 2022 11:03:35 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 02/12] staging: r8188eu: remove HW_VAR_SEC_CFG
+Date: Sun, 30 Jan 2022 20:03:11 +0100
+Message-Id: <20220130190321.7172-3-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220130190321.7172-1-straube.linux@gmail.com>
+References: <20220130190321.7172-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Phillip Potter <phil@philpotter.co.uk>, Carlis <zhangxuezhi1@yulong.com>,
- Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-2-andriy.shevchenko@linux.intel.com>
- <YfEG2qVO9K9G+g1d@kroah.com>
- <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
- <f671a112-880d-1526-a395-360947b40c5a@gmx.de> <YfEv7OQs98O9wJdJ@kroah.com>
- <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
- <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com> <YfFWPmG2D093gz4N@smile.fi.intel.com>
- <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
- <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
- <ddb0f354-be19-92fe-20b3-56b00c9304ab@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <ddb0f354-be19-92fe-20b3-56b00c9304ab@suse.de>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello Thomas,
+Remove HW_VAR_SEC_CFG from SetHwReg8188EU() and call rtw_write8()
+directly.
 
-On 1/31/22 10:18, Thomas Zimmermann wrote:
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 9 +++------
+ drivers/staging/r8188eu/hal/usb_halinit.c   | 3 ---
+ drivers/staging/r8188eu/include/hal_intf.h  | 1 -
+ 3 files changed, 3 insertions(+), 10 deletions(-)
 
-[snip]
-
->> There are some hacks in the driver though. For example it exposes an XRGB8888
->> format even thought the OLED display is monochromatic and has 1 bit per pixel.
->>
->> The driver then goes and converts the XRGB8888 pixels first to grayscale and
->> then to reverse mono. I took that idea from the repaper driver but that gives
->> us the multiple copies that Geert was complaining about.
-> 
-> This requires to update the console code for 1-bit BW output. The fbcon 
-> side already supports this AFAIK. DRM's fbdev needs a few more branches 
-> and something like a DRM_FORMAT_C1 fourcc. The XRGB8888 is really a 
-> userspace requirement that is imposed by modern desktops. If DRM's 
-> console has been updated, you could leave it out entirely.
->
-> I could imagine that some simple userspace, such as Weston, comes with 
-> support for palette formats and BW. Or there could be an entirely 
-> separate program that puts graphics onto these displays.
->
-
-Yes, I understand the rationale of why the repaper driver is doing that way
-but was just pointing out because Geert mentioned that is not efficient.
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index ca4135ae587d..e7782d2499a8 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -6400,7 +6400,6 @@ u8 collect_bss_info(struct adapter *padapter, struct recv_frame *precv_frame, st
+ void start_create_ibss(struct adapter *padapter)
+ {
+ 	unsigned short	caps;
+-	u8 val8;
+ 	u8 join_type;
+ 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+@@ -6415,8 +6414,7 @@ void start_create_ibss(struct adapter *padapter)
+ 	caps = rtw_get_capability((struct wlan_bssid_ex *)pnetwork);
+ 	update_capinfo(padapter, caps);
+ 	if (caps & cap_IBSS) {/* adhoc master */
+-		val8 = 0xcf;
+-		SetHwReg8188EU(padapter, HW_VAR_SEC_CFG, (u8 *)(&val8));
++		rtw_write8(padapter, REG_SECCFG, 0xcf);
  
-Maybe in the meantime we can add a drm_fb_gray8_to_mono_reversed() helper to
-drivers/gpu/drm/drm_format_helper.c since there is more than one driver that
-does the same ?
-
-It's not a big issue for this device really since the I2C bus is slow anyways
-and the multiple copies are not a bottleneck AFAICT.
-
-I believe is worth to propose this driver as is and then try to optimize later.
-
-Another thing that's missing is a DRM_MODE_CONNECTOR_I2C, because I used for
-now a DRM_MODE_CONNECTOR_Unknown.
-
-Best regards,
+ 		/* switch channel */
+ 		/* SelectChannel(padapter, pmlmeext->cur_channel, HAL_PRIME_CHNL_OFFSET_DONT_CARE); */
+@@ -6472,7 +6470,7 @@ void start_clnt_join(struct adapter *padapter)
+ 
+ 		val8 = (pmlmeinfo->auth_algo == dot11AuthAlgrthm_8021X) ? 0xcc : 0xcf;
+ 
+-		SetHwReg8188EU(padapter, HW_VAR_SEC_CFG, (u8 *)(&val8));
++		rtw_write8(padapter, REG_SECCFG, val8);
+ 
+ 		/* switch channel */
+ 		set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode);
+@@ -6488,8 +6486,7 @@ void start_clnt_join(struct adapter *padapter)
+ 	} else if (caps & cap_IBSS) { /* adhoc client */
+ 		Set_MSR(padapter, WIFI_FW_ADHOC_STATE);
+ 
+-		val8 = 0xcf;
+-		SetHwReg8188EU(padapter, HW_VAR_SEC_CFG, (u8 *)(&val8));
++		rtw_write8(padapter, REG_SECCFG, 0xcf);
+ 
+ 		/* switch channel */
+ 		set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode);
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 95e89c3063f1..1fa57354389a 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -1290,9 +1290,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 			rtw_write8(Adapter, REG_RRSR + 2, regTmp);
+ 		}
+ 		break;
+-	case HW_VAR_SEC_CFG:
+-		rtw_write8(Adapter, REG_SECCFG, *((u8 *)val));
+-		break;
+ 	case HW_VAR_DM_FLAG:
+ 		podmpriv->SupportAbility = *((u8 *)val);
+ 		break;
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index f5a6cb9a03fd..5fb0143c86fe 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -23,7 +23,6 @@ enum hw_variables {
+ 	HW_VAR_SLOT_TIME,
+ 	HW_VAR_RESP_SIFS,
+ 	HW_VAR_ACK_PREAMBLE,
+-	HW_VAR_SEC_CFG,
+ 	HW_VAR_BCN_VALID,
+ 	HW_VAR_DM_FLAG,
+ 	HW_VAR_DM_FUNC_OP,
 -- 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.34.1
 
