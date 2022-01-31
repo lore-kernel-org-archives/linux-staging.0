@@ -1,47 +1,57 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025F22C9D
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 11:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB5E2C9D
+	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 11:37:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643627785; x=1675163785;
+  t=1643629055; x=1675165055;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=P5JrPttF53yk0cR8vMW+WeMw6didWDvy3oIQC4TtgCQ=;
-  b=gHPYFyq3n8hQK5BvTNmuEFVzrqU/2gbYuIdhE+FfJF5YOf/6jXQT+s1u
-   wsTwA0LJ7og+VMQrjJVpHODGSScXCgQVVj8WqS4fQ1i8ncS/RyoGMNA36
-   kkKKBaO6OPFfl7rVJrC0DG/5DTfGcZsaPxeAubsLnIVzksXJkafZ3K4N4
-   /db5i2vQD0JzeLHPsx8kVg7OvzDs2/afZlbGDd8Iv6pDJZRtW8jspOjSw
-   GDXAQ6rH3J+dSyCtXUw9+lz41dZ6hzvP0Xw1OAXn9MP9eavTP6Qmvfdhy
-   cnmCAvOkmVoVywJbOOuI/fPTXlsDDKxsdl9etvakmNWsRZ6sWn+HwGUQi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="246274570"
+  bh=lI9J06ShMDzX4snLdMSWm2sVJLb4bsM0sL6ARCPRO8s=;
+  b=ZkxmOalOGXjlNf/PX5LLvzvsbw75MIsno3j22Ds6lBQpxyPsH43+imL1
+   yHubldVjdyrff5otJZzDkYWJGLRKa9EzgyMChFb17HtbVKczzEgCHcX3z
+   uLJMjpeCj6EU45n8UlytBhqsslSkzj82+hsfLBhoVVwVgHhBXUC71H+iW
+   /BUvO8+xAbUuwVYNJIbXV/h7rnBxqNBFBAeboHPtncdcEdOcgfoslZns3
+   RMUKtPmqv+iCcJIKa3jplBq2HgC6FeB1P//NP8XHNme1M5oMPVl72t/RA
+   YYlji8dpGxkwQbhqveQK0gfkBEP4+AqPr6ExeNDjPJ1xnF7TigaPU8TpT
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="247214286"
 X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; 
-   d="scan'208";a="246274570"
+   d="scan'208";a="247214286"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 03:16:24 -0800
-X-ExtLoop1: 1
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 03:37:34 -0800
 X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; 
-   d="scan'208";a="619350847"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 31 Jan 2022 03:16:22 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-	(envelope-from <lkp@intel.com>)
-	id 1nEUfV-000Rpa-9J; Mon, 31 Jan 2022 11:16:21 +0000
-Date: Mon, 31 Jan 2022 19:16:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nguyen Dinh Phi <phind.uet@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kbuild-all@lists.01.org, Nguyen Dinh Phi <phind.uet@gmail.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vc04_services: make a couple of functions static
-Message-ID: <202201311901.HT4PtVja-lkp@intel.com>
-References: <20220131071006.1764343-1-phind.uet@gmail.com>
+   d="scan'208";a="619355861"
+Received: from smile.fi.intel.com ([10.237.72.61])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 03:37:31 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1nEUyx-00Gqnl-AM;
+	Mon, 31 Jan 2022 13:36:27 +0200
+Date: Mon, 31 Jan 2022 13:36:26 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Helge Deller <deller@gmx.de>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>
+Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
+Message-ID: <YffJujbpUGUqpIk/@smile.fi.intel.com>
+References: <YfEG2qVO9K9G+g1d@kroah.com>
+ <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
+ <f671a112-880d-1526-a395-360947b40c5a@gmx.de>
+ <YfEv7OQs98O9wJdJ@kroah.com>
+ <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
+ <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
+ <YfFV4EJosayH+e6C@smile.fi.intel.com>
+ <YfFWPmG2D093gz4N@smile.fi.intel.com>
+ <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
+ <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,132 +60,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220131071006.1764343-1-phind.uet@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Nguyen,
+On Mon, Jan 31, 2022 at 09:29:33AM +0100, Javier Martinez Canillas wrote:
+> On 1/26/22 15:15, Javier Martinez Canillas wrote:
+> > On 1/26/22 15:10, Andy Shevchenko wrote:
+> >> On Wed, Jan 26, 2022 at 04:08:32PM +0200, Andy Shevchenko wrote:
+> >>> On Wed, Jan 26, 2022 at 02:46:08PM +0100, Javier Martinez Canillas wrote:
+> >>>> On 1/26/22 14:12, Andy Shevchenko wrote:
+> >>
+> >> ...
+> >>
+> >>>> I've just bought a SSD1306 (I2C) based one and will attempt to write a DRM
+> >>>> driver using drivers/staging/fbtft/fb_ssd1306.c as a reference.
+> >>>
+> >>> You should take ssd1307fb.c instead. And basically create a MIPI based driver
+> >>> for I2C. Then we won't go same road again for other similar devices.
+> >>
+> >> For the record it supports your device:
+> >>
+> >> static const struct i2c_device_id ssd1307fb_i2c_id[] = {
+> >> { "ssd1305fb", 0 },
+> >> { "ssd1306fb", 0 },
+> >> { "ssd1307fb", 0 },
+> >> { "ssd1309fb", 0 },
+> >>
+> >>
+> > 
+> > Thanks a lot for the pointer. I was only looking at drivers/staging
+> > and didn't check drivers/video. I'll try to convert that one then
+> > once I get the display.
+> > 
+> 
+> I got some time this weekend and was able to port the ssd1306 fbdev driver
+> to DRM [0]. I'm not that familiar with the simple display pipe helpers, so
+> there may be some wrong things there. But it does work and all the fbtests
+> from https://git.kernel.org/pub/scm/linux/kernel/git/geert/fbtest.git pass.
 
-Thank you for the patch! Perhaps something to improve:
+Thanks! Good news, everybody!
 
-[auto build test WARNING on staging/staging-testing]
+> There are some hacks in the driver though. For example it exposes an XRGB8888
+> format even thought the OLED display is monochromatic and has 1 bit per pixel.
+> 
+> The driver then goes and converts the XRGB8888 pixels first to grayscale and
+> then to reverse mono. I took that idea from the repaper driver but that gives
+> us the multiple copies that Geert was complaining about.
+> 
+> Another hack is that I am just hardcoding the {width, height}_mm, but I don't
+> know what DPI could be used for these panels nor how I could calculate the mm.
 
-url:    https://github.com/0day-ci/linux/commits/Nguyen-Dinh-Phi/staging-vc04_services-make-a-couple-of-functions-static/20220131-151209
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 64b2d6ffff862c0e7278198b4229e42e1abb3bb1
-config: arm-randconfig-r002-20220130 (https://download.01.org/0day-ci/archive/20220131/202201311901.HT4PtVja-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/1b64825a2b5b3312ae309c1714239df049b018ac
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Nguyen-Dinh-Phi/staging-vc04_services-make-a-couple-of-functions-static/20220131-151209
-        git checkout 1b64825a2b5b3312ae309c1714239df049b018ac
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash drivers/staging/vc04_services/
+I think the hacks is the first what should be eliminated, also see below.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+...
 
-All warnings (new ones prefixed by >>):
+> +config TINYDRM_SSD130X
+> +	tristate "DRM support for Solomon SSD130X OLED displays"
+> +	depends on DRM && OF && I2C
 
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: In function 'free_pagelist':
->> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:434:25: warning: argument 2 null where non-null expected [-Wnonnull]
-     434 |                         memcpy((char *)kmap(pages[0]) +
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     435 |                                 pagelist->offset,
-         |                                 ~~~~~~~~~~~~~~~~~
-     436 |                                 fragments,
-         |                                 ~~~~~~~~~~
-     437 |                                 head_bytes);
-         |                                 ~~~~~~~~~~~
-   In file included from include/linux/string.h:20,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
-   arch/arm/include/asm/string.h:20:15: note: in a call to function 'memcpy' declared 'nonnull'
-      20 | extern void * memcpy(void *, const void *, __kernel_size_t);
-         |               ^~~~~~
+Please, make sure that it does NOT dependent on OF.
+
+...
+
+> +obj-$(CONFIG_TINYDRM_SSD130X)		+= ssd130x.o
+
+I would keep the original name since we have I2C (fbdev) implementation, SPI
+and platform (fbtft), and now i2c (drm). I would like to avoid more confusion
+that we already have.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-vim +434 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  398  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  399  static void
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  400  free_pagelist(struct vchiq_pagelist_info *pagelistinfo,
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  401  	      int actual)
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  402  {
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  403  	struct pagelist *pagelist = pagelistinfo->pagelist;
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  404  	struct page **pages = pagelistinfo->pages;
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  405  	unsigned int num_pages = pagelistinfo->num_pages;
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  406  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  407  	vchiq_log_trace(vchiq_arm_log_level, "%s - %pK, %d",
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  408  			__func__, pagelistinfo->pagelist, actual);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  409  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  410  	/*
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  411  	 * NOTE: dma_unmap_sg must be called before the
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  412  	 * cpu can touch any of the data/pages.
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  413  	 */
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  414  	dma_unmap_sg(g_dev, pagelistinfo->scatterlist,
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  415  		     pagelistinfo->num_pages, pagelistinfo->dma_dir);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  416  	pagelistinfo->scatterlist_mapped = 0;
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  417  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  418  	/* Deal with any partial cache lines (fragments) */
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  419  	if (pagelist->type >= PAGELIST_READ_WITH_FRAGMENTS) {
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  420  		char *fragments = g_fragments_base +
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  421  			(pagelist->type - PAGELIST_READ_WITH_FRAGMENTS) *
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  422  			g_fragments_size;
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  423  		int head_bytes, tail_bytes;
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  424  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  425  		head_bytes = (g_cache_line_size - pagelist->offset) &
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  426  			(g_cache_line_size - 1);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  427  		tail_bytes = (pagelist->offset + actual) &
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  428  			(g_cache_line_size - 1);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  429  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  430  		if ((actual >= 0) && (head_bytes != 0)) {
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  431  			if (head_bytes > actual)
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  432  				head_bytes = actual;
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  433  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21 @434  			memcpy((char *)kmap(pages[0]) +
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  435  				pagelist->offset,
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  436  				fragments,
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  437  				head_bytes);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  438  			kunmap(pages[0]);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  439  		}
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  440  		if ((actual >= 0) && (head_bytes < actual) &&
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  441  		    (tail_bytes != 0)) {
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  442  			memcpy((char *)kmap(pages[num_pages - 1]) +
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  443  				((pagelist->offset + actual) &
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  444  				(PAGE_SIZE - 1) & ~(g_cache_line_size - 1)),
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  445  				fragments + g_cache_line_size,
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  446  				tail_bytes);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  447  			kunmap(pages[num_pages - 1]);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  448  		}
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  449  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  450  		down(&g_free_fragments_mutex);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  451  		*(char **)fragments = g_free_fragments;
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  452  		g_free_fragments = fragments;
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  453  		up(&g_free_fragments_mutex);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  454  		up(&g_free_fragments_sema);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  455  	}
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  456  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  457  	/* Need to mark all the pages dirty. */
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  458  	if (pagelist->type != PAGELIST_WRITE &&
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  459  	    pagelistinfo->pages_need_release) {
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  460  		unsigned int i;
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  461  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  462  		for (i = 0; i < num_pages; i++)
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  463  			set_page_dirty(pages[i]);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  464  	}
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  465  
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  466  	cleanup_pagelistinfo(pagelistinfo);
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  467  }
-7b9148dcb74a00 Ojaswin Mujoo 2021-07-21  468  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
