@@ -1,141 +1,179 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AACF2C9D
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 10:35:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643625322; x=1675161322;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5Ps3THcmasrGsnJuJcpK5UxxsYkVWGxZa/gZhdYbC9Y=;
-  b=D67WdBm1GLleSpYC9sKtHpKzh2yrkKrpgHmdQvC/Cgcvcil0rg5RJKuN
-   S9HzeMrnK2XPYnG7BJECAY1EGVLeqizcysBCEO09wrI6Dop5oDhUtonYe
-   Ghz2MCyEXBPVcodUeZI4IpBKXG+fGrwFsfQASFsUh9D9bNZy7fdNjemj7
-   Ybn/Nr8l8FqIUR6gu4nLaQ52K2H6NyPgU1XzWi/mHJ0ksOxyNZ8/QmlY4
-   kmJYbjcs1Qo+LuUl8g478tZ81sjXLxydzQKPXYr3o6CjY3cYJed1JMzie
-   +oCi47tPx9OVLUTQrQQqjZhnnL/Jdpl59MQcPSFM4SQCaSu+VQrDzrwfI
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="333793157"
-X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; 
-   d="scan'208";a="333793157"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 02:35:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; 
-   d="scan'208";a="626328621"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2022 02:35:19 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-	(envelope-from <lkp@intel.com>)
-	id 1nEU1n-000Rmi-1M; Mon, 31 Jan 2022 10:35:19 +0000
-Date: Mon, 31 Jan 2022 18:35:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nguyen Dinh Phi <phind.uet@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kbuild-all@lists.01.org, Nguyen Dinh Phi <phind.uet@gmail.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vc04_services: make a couple of functions static
-Message-ID: <202201311820.inNbCM0H-lkp@intel.com>
-References: <20220131071006.1764343-1-phind.uet@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0862C9D
+	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 10:40:47 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VATi8i019158;
+	Mon, 31 Jan 2022 10:40:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=zdxXsbZJ9cFUbvj+RVgWcg9tEmNDWHTJ0ES5ko21pXI=;
+ b=QPmGCsMcANqNa48+cwUpiQsuc+Lkxopy96rT9YRNcMhO2K9wQnrFeRAsiH2JtSKPZ0E3
+ qLJ/4My+dlbghcy2rB5mo+otlOKvbfUqpk8ENRxOEpIACvVpBlFmL5QsssFiBN7nwles
+ RSqzkfZtGhgH/q2CjMaUQgftkTYXtvxoP2YLLQ2Uu09p+OkCKym7//FdEB3Fip0+lS2o
+ u3sQJeLp3SNomkISp7m45ooJgqmWn3QJtn9sdn8usfztaW0nLcMLYkUMf0CGzDeOyqn/
+ VEX0O7LXlFO6qM9V4pT/EprPIx9snLZ3G9CcmNgOVD8gPA8HA4fZEaRLf8LBSnPtRC4d tg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3dvwfb3gec-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 31 Jan 2022 10:40:44 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20VAeFrc140878;
+	Mon, 31 Jan 2022 10:40:43 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2101.outbound.protection.outlook.com [104.47.70.101])
+	by userp3020.oracle.com with ESMTP id 3dvy1mdrtn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 31 Jan 2022 10:40:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g2dF6DO3MmiQvy5kLCArnYkbkvNXxBTOoAa8KmGwkynYwbzHo7yZdPu3ntdVNSG2gX7rs37wOT+qaQCj9dIBcJ0ApfebzGtCp27M4VKc0krGK/OvkV/6g0OQlXMMnRdCxfDoqKpbilhGc0oojMlyyA0AnK4m3SmyrzygDFtFLObWS2UswAlM2qZaz6TnVDEsBKIHf7AoV/3fapjQTsvDe6o+iukuqv5Vc+Rg53Rh93HOWv0+2KHQV+69t16NkPKwdQbEj5OheSFN0QioDo75H+OyRopj9VJYP4UNuBUlyvMREmZA3VSTd3nnt7j7xs3QfHgnr3Kl1cru1JI6DlK1Bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zdxXsbZJ9cFUbvj+RVgWcg9tEmNDWHTJ0ES5ko21pXI=;
+ b=KQF6dWn3LLWFuJLLylL9NEYU4wxI1kcCJ7aHgHDbyh+46AKpLFWH7xc60CDOpCMVrlOB5GKAQTekEx9kqxIZSlfqzQhmI1B3xMN593y1tlTMCZCnBsKOT9lYzrSXew3HrWfKGsJGmlABX9/VafxILvyblRk/eWqx/WNOxc6wWP2R3DDbSkDXzaXjqI8qqxdxxOh9fxzyRixX+vgRBk1c/DT7SpD7z36petQzfaf7EndY/niWIIvh4Ty4VO/6mAxvqHFhjCKA889ftq55fkUTc1fnUmBRJ4urqu3bNvHOV9zc6cpx8czykvySEdntfCUPMoiYhy7OUxLfTXDVdHxmLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zdxXsbZJ9cFUbvj+RVgWcg9tEmNDWHTJ0ES5ko21pXI=;
+ b=WV3VmUI70bVm22m2dgCyyBdvyPVcHmJOLhnUM2zZkRoNL3vqQn6xsLP9hNWd3rI/QpJ5LmGWbgNs4XmgntN+P+DJL9vG5USFpBAOwCGJts9VjnzhcF6l+uPoZZst2QOglkydhtAG4m0LLeKfCgoIFvsOlXNaTKNf8znbVcUv+U0=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BN6PR10MB1586.namprd10.prod.outlook.com
+ (2603:10b6:404:48::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.15; Mon, 31 Jan
+ 2022 10:40:40 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8%5]) with mapi id 15.20.4930.021; Mon, 31 Jan 2022
+ 10:40:40 +0000
+Date: Mon, 31 Jan 2022 13:40:20 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: pi433: remove unnecessary new line escape
+ sequence characters
+Message-ID: <20220131104020.GI1951@kadam>
+References: <YfYtsiKbOXghIN+5@mail.google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YfYtsiKbOXghIN+5@mail.google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0036.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::6)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220131071006.1764343-1-phind.uet@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 38406b73-806c-4a94-8a8a-08d9e4a61ff9
+X-MS-TrafficTypeDiagnostic: BN6PR10MB1586:EE_
+X-Microsoft-Antispam-PRVS: 
+	<BN6PR10MB15864D4930E9E0DD42CC42648E259@BN6PR10MB1586.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	gLIZHdHYGfo92XaBgis8VV8/4yby/5K6Sl8U8PZl1ThVUlHwJbN2JxHjR2UBtBhlDKrEtifDpCIfD0hOrtMacUFkxH0blvPF42/w9lU5Zw9IYjFYzGmz7CL0x+EFwSF3mkov0fu8kkevufHz1RDOf2xaXlkjt7FjyOzgjMx7a2b7WZNm7t+2CiXfUyf/1xIfyPyTO0tyGaAIrfMVVh+432bP1lk66fVjPQbQq6ap68R43z1UyQn8XvQ+zUdKO3GDFqAk3f+I7Ql8RkBxwcyaC03Ec9vChXUA0qEuad+vKZMkBSFroiEtwCBsoo4ZitANsdfEOIgqcezXJiEI6w6cEelZ9IiAb7W5IXHh4kTMffAddVCmxpxHuyju1yWqko5LeKTRLI+UHMEc+d580/WywqrEDI/Na4QZyGDvHvo1V3fipxJxB4FBzPvoh2N/WQ9ctatQDlz/Cyj3mOmEhlcMdOo2AIL3aqyEGODw1erF4BRt/SdQPqpC7xaSWqLsoaw4VVKI+Pcr2pKONLQ5ytcFq2J7r/+nt3Dv9SrqcQ8/LfUoyjf1ljGsPNAcdhZAjyVl1YFQ1uzciepQvmKq4EiYNVd8SaeutpLIDzXfSj4PTTq1eSElvcjB234PRWQth9QETQylWey8luv12hiYlHfPl6jzxwfq6fOladnwESg4ZxDLslnYGT62RS3vR2MSUxhzYHbNHZqgGGjD6qZ0UU+2kR4/jWbtK8fimXsDLsfVEfqBNK1Ao9l3ghK+td0VQ8glY20xpw7Y2u31ZqeCbdk/LCSbeUyY0vIynuxnI5SOQ1uOspZfruLvgNz0oADdj9FuV9feGl11eqh4hSSzdyy1Ow==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(52116002)(5660300002)(6506007)(6512007)(9686003)(1076003)(186003)(26005)(33656002)(83380400001)(2906002)(44832011)(66556008)(86362001)(316002)(38350700002)(66476007)(38100700002)(6486002)(966005)(6916009)(508600001)(6666004)(4326008)(8676002)(8936002)(66946007)(33716001)(20210929001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?j3j6Uz2Dgu+aNRV8BsXO+WQlleQy056o9/fzaYN2xiom5geI9t7vN1y/Kw45?=
+ =?us-ascii?Q?LTTDe+wgQOsIOdoLR5jRGv7bgJltEjVYmfT69ycR3X6UyO1podzrnqSJGyS/?=
+ =?us-ascii?Q?0yZpqYH+9CYPfjYP7rFQ6B/hQ0O0kVBWsz2q3z73kmx6s1eFidYaeMY6+YBv?=
+ =?us-ascii?Q?zCB0jLIiQE4dUop81NUVFzU2hkCTUARU9hggh9xx33Vh5kRwmofuEmleHDTy?=
+ =?us-ascii?Q?yvs3I1X3EZbGWqRNybFqe/T2+xf541D9P/VmNpiXUp2ErY5QEb9wBH7YGcT6?=
+ =?us-ascii?Q?i/GwWwi4tsgQQee+pNISa0RTnkSpqQNil5ititoSWTJ8U/uUk06jNrMUpisX?=
+ =?us-ascii?Q?rR5VIcF1CFbBu95g6NfINYPDTcINQhZc7SlozG5X4v1EilXIZKc8bOB1raOQ?=
+ =?us-ascii?Q?xwcRs+qEnq678ZKSKL0+PaXe+pids+14t+1SIewJveL3cGCe6a+EgLG7SvLi?=
+ =?us-ascii?Q?94RhQFTTzPqPOwAFAPVaIMUAq4fGZDs+o4o0dvOT8Pkf9t5unjMDQ4pXimoa?=
+ =?us-ascii?Q?QvMWKWXORIKyjp7lIujmBQ7MuZMZYPSMjd6asjKHTlLJ38tylzWbAIT0Ubpl?=
+ =?us-ascii?Q?mViMiNkTJfbhbhYmjk4axCDgh/HYGPiF2kDRkyhF8VfFf7WEZkhwzZc5TN0s?=
+ =?us-ascii?Q?YO+0DHtZUEDxm6/MZMlBRjnx022jz5ire/fQiU7nyDEUiTlWDGSXX6984zFW?=
+ =?us-ascii?Q?75fAQ2U9fdT+vghUa2EW1wfRG1L/t2ctV1+RFm/Fetp5tWfsjUbIio8BQjbh?=
+ =?us-ascii?Q?utr1QqrRA8jDkPD4dioCNRS4z1rhLmVLawSUHJJDPqXyrFk57qKQsmHCygx/?=
+ =?us-ascii?Q?8NPNCrqMtLSutH08VMOBmjDA4Kue9XW0oTjCxvGMNNWAcm3v9gkAzGHivh4G?=
+ =?us-ascii?Q?S/y/Um7phgnfhoPptfKmuRgJyKv+65p1IlU3EzW/uIMYEAzIpviitkJS9Jr+?=
+ =?us-ascii?Q?sAX/b1Q2ZMBt2CyyFpiuAD+NAMrIRO2N2zzoHW4lRMBftHgvm2cZfkbTNofD?=
+ =?us-ascii?Q?6ZrgCAh50Voyy4XB2AgVmpP3Rlrs373a+P1BoAghbb9wxk6LbJvBiYehv7xw?=
+ =?us-ascii?Q?QQLSdOyYPNFaN9bxr6EdX32XE7f25Vor9ajk+RKe2ZF7FFww2FO2vBLPg93H?=
+ =?us-ascii?Q?T6oqdDLAh8FWb4e0bpmcU4jKY9BGOZ0cyQMP+50CRqeFQk0Brz8wuoYup1W6?=
+ =?us-ascii?Q?49nqUjWyuKqRopvotyJ3DWTdeswrP04gGSea++GTc6J6Mh5sXQw2J10IJjqB?=
+ =?us-ascii?Q?kodbfrEoE8ngOz4mxnD9j/Fn3qjdighBa2JiHTZW21+miJ1hlHziBOUJ6V8e?=
+ =?us-ascii?Q?77cpL2CEkZaikN2jH2D0e+Wo74X/P9EhCK5SkTrC6stWxxmL+reCc1NgLn70?=
+ =?us-ascii?Q?dZerXXxWIK+9ENbMGof3vGgEeaVWHFobX3f70I2VGTybMNMuTOvX3mGx4ktR?=
+ =?us-ascii?Q?79wnCynmExAeLrkuIlNqEDtQrj7Wm1tTcdHHA4+aXzYEqsTFSZxeSifqhHnO?=
+ =?us-ascii?Q?R6rafVxM3Lpo+5t/EVCdkzT7dKOU9NSbGlKXPx/pQ36IeMMizafZ+ySpdQPF?=
+ =?us-ascii?Q?ellcn2QkRlejtqHrdd7KbGv6qLG4gmS9oX/VN7Qymf9CbrVrEkw8z2bPq1IS?=
+ =?us-ascii?Q?1k40Zbb41Io1t9Ski0KAmS+5w4CHpyNiMyaA3MyncEDW4ZN87usnZv7K/FKk?=
+ =?us-ascii?Q?SnlCsg=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38406b73-806c-4a94-8a8a-08d9e4a61ff9
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2022 10:40:40.6943
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r8JihbssCcQmTQhP2ClCYttWdzihMjJzvvWj0MxlkzKM9zezok4jJNXRV/iR9vrQHAKvr4lW9mMQh7Td9GnWJnabtacSxs88753DFJwG1E0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR10MB1586
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10243 signatures=673430
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 spamscore=0
+ bulkscore=0 adultscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2201310071
+X-Proofpoint-ORIG-GUID: IvxG8Cs_ixi_zDW5VBouSQYIMaTTyYSk
+X-Proofpoint-GUID: IvxG8Cs_ixi_zDW5VBouSQYIMaTTyYSk
 
-Hi Nguyen,
+On Sun, Jan 30, 2022 at 07:18:26PM +1300, Paulo Miguel Almeida wrote:
+> In this driver there were occurences of '\n'-ended strings when using
+> dev_dbg function which isn't required which most likely were leftovers
+> from a previous printk/pr_<level> implementation.
+> 
+> This patch removes the extraneous '\n' characters to make it consistent
+> with the other dev_dbg instances.
+> 
+> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> ---
+> Patch dependencies:
+> 
+> The following patches must be applied first given that changes are made
+> to the same set of files:
+> 
+> - https://lore.kernel.org/lkml/YfYdVokxsQ+Adl+T@mail.google.com/
+> - https://lore.kernel.org/lkml/YfX+llwDWZZMz+NY@mail.google.com/
+> ---
+>  drivers/staging/pi433/pi433_if.c | 14 +++++++-------
+>  drivers/staging/pi433/rf69.c     | 16 ++++++++--------
+>  2 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+> index 02d4ccebf..db1b092e8 100644
+> --- a/drivers/staging/pi433/pi433_if.c
+> +++ b/drivers/staging/pi433/pi433_if.c
+> @@ -124,13 +124,13 @@ static irqreturn_t DIO0_irq_handler(int irq, void *dev_id)
+>  
+>  	if (device->irq_state[DIO0] == DIO_PACKET_SENT) {
+>  		device->free_in_fifo = FIFO_SIZE;
+> -		dev_dbg(device->dev, "DIO0 irq: Packet sent\n");
+> +		dev_dbg(device->dev, "DIO0 irq: Packet sent");
 
-Thank you for the patch! Perhaps something to improve:
+Both the old and new code will do the same thing.  You are correct.
+However in terms of style, I believe the preference is to add a newline.
 
-[auto build test WARNING on staging/staging-testing]
+I don't remember the reasoning behind this.  But a lot of these style
+rules are just decided by consensus.  If you do a
+`git grep -w dev_dbg | grep \;$` then it is 12391 places that add a
+new line and 622 which don't.  Adding a newline is the clear winner.
 
-url:    https://github.com/0day-ci/linux/commits/Nguyen-Dinh-Phi/staging-vc04_services-make-a-couple-of-functions-static/20220131-151209
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 64b2d6ffff862c0e7278198b4229e42e1abb3bb1
-config: x86_64-buildonly-randconfig-r004-20220131 (https://download.01.org/0day-ci/archive/20220131/202201311820.inNbCM0H-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/1b64825a2b5b3312ae309c1714239df049b018ac
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Nguyen-Dinh-Phi/staging-vc04_services-make-a-couple-of-functions-static/20220131-151209
-        git checkout 1b64825a2b5b3312ae309c1714239df049b018ac
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/vc04_services/
+regards,
+dan carpenter
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/string.h:253,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from arch/x86/include/asm/cpumask.h:5,
-                    from arch/x86/include/asm/msr.h:11,
-                    from arch/x86/include/asm/processor.h:22,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:65,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
-   In function 'memcpy',
-       inlined from 'free_pagelist' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:434:4,
-       inlined from 'vchiq_complete_bulk' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:650:3:
->> include/linux/fortify-string.h:41:29: warning: argument 2 null where non-null expected [-Wnonnull]
-      41 | #define __underlying_memcpy __builtin_memcpy
-         |                             ^
-   include/linux/fortify-string.h:225:9: note: in expansion of macro '__underlying_memcpy'
-     225 |  return __underlying_memcpy(p, q, size);
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: In function 'vchiq_complete_bulk':
-   include/linux/fortify-string.h:41:29: note: in a call to built-in function '__builtin_memcpy'
-      41 | #define __underlying_memcpy __builtin_memcpy
-         |                             ^
-   include/linux/fortify-string.h:225:9: note: in expansion of macro '__underlying_memcpy'
-     225 |  return __underlying_memcpy(p, q, size);
-         |         ^~~~~~~~~~~~~~~~~~~
-
-
-vim +41 include/linux/fortify-string.h
-
-3009f891bb9f32 Kees Cook      2021-08-02  26  
-a28a6e860c6cf2 Francis Laniel 2021-02-25  27  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  28  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  29  extern int __underlying_memcmp(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  30  extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  31  extern void *__underlying_memmove(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  32  extern void *__underlying_memset(void *p, int c, __kernel_size_t size) __RENAME(memset);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  33  extern char *__underlying_strcat(char *p, const char *q) __RENAME(strcat);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  34  extern char *__underlying_strcpy(char *p, const char *q) __RENAME(strcpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  35  extern __kernel_size_t __underlying_strlen(const char *p) __RENAME(strlen);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  36  extern char *__underlying_strncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  37  extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  38  #else
-a28a6e860c6cf2 Francis Laniel 2021-02-25  39  #define __underlying_memchr	__builtin_memchr
-a28a6e860c6cf2 Francis Laniel 2021-02-25  40  #define __underlying_memcmp	__builtin_memcmp
-a28a6e860c6cf2 Francis Laniel 2021-02-25 @41  #define __underlying_memcpy	__builtin_memcpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  42  #define __underlying_memmove	__builtin_memmove
-a28a6e860c6cf2 Francis Laniel 2021-02-25  43  #define __underlying_memset	__builtin_memset
-a28a6e860c6cf2 Francis Laniel 2021-02-25  44  #define __underlying_strcat	__builtin_strcat
-a28a6e860c6cf2 Francis Laniel 2021-02-25  45  #define __underlying_strcpy	__builtin_strcpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  46  #define __underlying_strlen	__builtin_strlen
-a28a6e860c6cf2 Francis Laniel 2021-02-25  47  #define __underlying_strncat	__builtin_strncat
-a28a6e860c6cf2 Francis Laniel 2021-02-25  48  #define __underlying_strncpy	__builtin_strncpy
-a28a6e860c6cf2 Francis Laniel 2021-02-25  49  #endif
-a28a6e860c6cf2 Francis Laniel 2021-02-25  50  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
