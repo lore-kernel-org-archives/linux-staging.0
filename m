@@ -1,179 +1,141 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAB82C9E
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 10:28:32 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E66DF1F380;
-	Mon, 31 Jan 2022 10:28:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1643624904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0hEwjjztuAMQ6HOIkBxkxvREvNlCP9wj8cSDJPQwry8=;
-	b=t+amtVhFlc088/rdq+54a4AeTVyVHQsWAdSWKDpsra0FgMpFdhlbktgYg0gf7QuYsiS7gW
-	sKwoYqbtn8m3vo8oOQoL2qf+k+xiA1qr96+7K8cukUE+yDh+eKojk8ZVojnbJcOISDIhun
-	0CcJFQFbn1n1mLlecrFGgncC48aAOzA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1643624904;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0hEwjjztuAMQ6HOIkBxkxvREvNlCP9wj8cSDJPQwry8=;
-	b=m1OR1rc5ickrq7rmocSnX5yyvXJYi/lw5e8V0XL1zgbxx0qSCO/NogJZn4wiPw6WbkICLM
-	MyDjhyntihHPriCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8CC4013BFF;
-	Mon, 31 Jan 2022 10:28:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id ptYIIci592HzKgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 31 Jan 2022 10:28:24 +0000
-Message-ID: <e7fbef3c-2f87-15f9-b24d-34ffaa5a2853@suse.de>
-Date: Mon, 31 Jan 2022 11:28:23 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AACF2C9D
+	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 10:35:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643625322; x=1675161322;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5Ps3THcmasrGsnJuJcpK5UxxsYkVWGxZa/gZhdYbC9Y=;
+  b=D67WdBm1GLleSpYC9sKtHpKzh2yrkKrpgHmdQvC/Cgcvcil0rg5RJKuN
+   S9HzeMrnK2XPYnG7BJECAY1EGVLeqizcysBCEO09wrI6Dop5oDhUtonYe
+   Ghz2MCyEXBPVcodUeZI4IpBKXG+fGrwFsfQASFsUh9D9bNZy7fdNjemj7
+   Ybn/Nr8l8FqIUR6gu4nLaQ52K2H6NyPgU1XzWi/mHJ0ksOxyNZ8/QmlY4
+   kmJYbjcs1Qo+LuUl8g478tZ81sjXLxydzQKPXYr3o6CjY3cYJed1JMzie
+   +oCi47tPx9OVLUTQrQQqjZhnnL/Jdpl59MQcPSFM4SQCaSu+VQrDzrwfI
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="333793157"
+X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; 
+   d="scan'208";a="333793157"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 02:35:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; 
+   d="scan'208";a="626328621"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2022 02:35:19 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1nEU1n-000Rmi-1M; Mon, 31 Jan 2022 10:35:19 +0000
+Date: Mon, 31 Jan 2022 18:35:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nguyen Dinh Phi <phind.uet@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kbuild-all@lists.01.org, Nguyen Dinh Phi <phind.uet@gmail.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vc04_services: make a couple of functions static
+Message-ID: <202201311820.inNbCM0H-lkp@intel.com>
+References: <20220131071006.1764343-1-phind.uet@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Phillip Potter <phil@philpotter.co.uk>, Carlis <zhangxuezhi1@yulong.com>,
- Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-2-andriy.shevchenko@linux.intel.com>
- <YfEG2qVO9K9G+g1d@kroah.com>
- <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
- <f671a112-880d-1526-a395-360947b40c5a@gmx.de> <YfEv7OQs98O9wJdJ@kroah.com>
- <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
- <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com> <YfFWPmG2D093gz4N@smile.fi.intel.com>
- <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
- <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
- <ddb0f354-be19-92fe-20b3-56b00c9304ab@suse.de>
- <840ec74d-60c6-9480-709c-8cd597c6f5b0@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <840ec74d-60c6-9480-709c-8cd597c6f5b0@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------xM37x5FXjsZC9MGML5heKsDI"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220131071006.1764343-1-phind.uet@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------xM37x5FXjsZC9MGML5heKsDI
-Content-Type: multipart/mixed; boundary="------------VkA3h43xUW90kt73iiWJgW1G";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
- Michael Hennerich <michael.hennerich@analog.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Phillip Potter <phil@philpotter.co.uk>, Carlis <zhangxuezhi1@yulong.com>,
- Lee Jones <lee.jones@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
-Message-ID: <e7fbef3c-2f87-15f9-b24d-34ffaa5a2853@suse.de>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-References: <20220125202118.63362-1-andriy.shevchenko@linux.intel.com>
- <20220125202118.63362-2-andriy.shevchenko@linux.intel.com>
- <YfEG2qVO9K9G+g1d@kroah.com>
- <CAKMK7uGoRC9a4cMCADTipV67oivfWvTw=6RYm2kOthB_bhWnXQ@mail.gmail.com>
- <f671a112-880d-1526-a395-360947b40c5a@gmx.de> <YfEv7OQs98O9wJdJ@kroah.com>
- <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
- <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com> <YfFWPmG2D093gz4N@smile.fi.intel.com>
- <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
- <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
- <ddb0f354-be19-92fe-20b3-56b00c9304ab@suse.de>
- <840ec74d-60c6-9480-709c-8cd597c6f5b0@redhat.com>
-In-Reply-To: <840ec74d-60c6-9480-709c-8cd597c6f5b0@redhat.com>
+Hi Nguyen,
 
---------------VkA3h43xUW90kt73iiWJgW1G
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thank you for the patch! Perhaps something to improve:
 
-SGkNCg0KQW0gMzEuMDEuMjIgdW0gMTE6MTggc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IE9uIDEvMzEvMjIgMTA6MTgsIFRob21h
-cyBaaW1tZXJtYW5uIHdyb3RlOg0KPiANCj4gW3NuaXBdDQo+IA0KPj4+IFRoZXJlIGFyZSBz
-b21lIGhhY2tzIGluIHRoZSBkcml2ZXIgdGhvdWdoLiBGb3IgZXhhbXBsZSBpdCBleHBvc2Vz
-IGFuIFhSR0I4ODg4DQo+Pj4gZm9ybWF0IGV2ZW4gdGhvdWdodCB0aGUgT0xFRCBkaXNwbGF5
-IGlzIG1vbm9jaHJvbWF0aWMgYW5kIGhhcyAxIGJpdCBwZXIgcGl4ZWwuDQo+Pj4NCj4+PiBU
-aGUgZHJpdmVyIHRoZW4gZ29lcyBhbmQgY29udmVydHMgdGhlIFhSR0I4ODg4IHBpeGVscyBm
-aXJzdCB0byBncmF5c2NhbGUgYW5kDQo+Pj4gdGhlbiB0byByZXZlcnNlIG1vbm8uIEkgdG9v
-ayB0aGF0IGlkZWEgZnJvbSB0aGUgcmVwYXBlciBkcml2ZXIgYnV0IHRoYXQgZ2l2ZXMNCj4+
-PiB1cyB0aGUgbXVsdGlwbGUgY29waWVzIHRoYXQgR2VlcnQgd2FzIGNvbXBsYWluaW5nIGFi
-b3V0Lg0KPj4NCj4+IFRoaXMgcmVxdWlyZXMgdG8gdXBkYXRlIHRoZSBjb25zb2xlIGNvZGUg
-Zm9yIDEtYml0IEJXIG91dHB1dC4gVGhlIGZiY29uDQo+PiBzaWRlIGFscmVhZHkgc3VwcG9y
-dHMgdGhpcyBBRkFJSy4gRFJNJ3MgZmJkZXYgbmVlZHMgYSBmZXcgbW9yZSBicmFuY2hlcw0K
-Pj4gYW5kIHNvbWV0aGluZyBsaWtlIGEgRFJNX0ZPUk1BVF9DMSBmb3VyY2MuIFRoZSBYUkdC
-ODg4OCBpcyByZWFsbHkgYQ0KPj4gdXNlcnNwYWNlIHJlcXVpcmVtZW50IHRoYXQgaXMgaW1w
-b3NlZCBieSBtb2Rlcm4gZGVza3RvcHMuIElmIERSTSdzDQo+PiBjb25zb2xlIGhhcyBiZWVu
-IHVwZGF0ZWQsIHlvdSBjb3VsZCBsZWF2ZSBpdCBvdXQgZW50aXJlbHkuDQo+Pg0KPj4gSSBj
-b3VsZCBpbWFnaW5lIHRoYXQgc29tZSBzaW1wbGUgdXNlcnNwYWNlLCBzdWNoIGFzIFdlc3Rv
-biwgY29tZXMgd2l0aA0KPj4gc3VwcG9ydCBmb3IgcGFsZXR0ZSBmb3JtYXRzIGFuZCBCVy4g
-T3IgdGhlcmUgY291bGQgYmUgYW4gZW50aXJlbHkNCj4+IHNlcGFyYXRlIHByb2dyYW0gdGhh
-dCBwdXRzIGdyYXBoaWNzIG9udG8gdGhlc2UgZGlzcGxheXMuDQo+Pg0KPiANCj4gWWVzLCBJ
-IHVuZGVyc3RhbmQgdGhlIHJhdGlvbmFsZSBvZiB3aHkgdGhlIHJlcGFwZXIgZHJpdmVyIGlz
-IGRvaW5nIHRoYXQgd2F5DQo+IGJ1dCB3YXMganVzdCBwb2ludGluZyBvdXQgYmVjYXVzZSBH
-ZWVydCBtZW50aW9uZWQgdGhhdCBpcyBub3QgZWZmaWNpZW50Lg0KDQpJdCdzIGEgZmFpciBw
-b2ludCwgSSB0aGluay4gUGVvcGxlIGFyZSBjb25jZXJuZWQgYWJvdXQgcmVzb3VyY2UgDQpj
-b25zdW1wdGlvbiBvbiBsb3ctZW5kIGRldmljZXMuDQoNCj4gICANCj4gTWF5YmUgaW4gdGhl
-IG1lYW50aW1lIHdlIGNhbiBhZGQgYSBkcm1fZmJfZ3JheThfdG9fbW9ub19yZXZlcnNlZCgp
-IGhlbHBlciB0bw0KPiBkcml2ZXJzL2dwdS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuYyBzaW5j
-ZSB0aGVyZSBpcyBtb3JlIHRoYW4gb25lIGRyaXZlciB0aGF0DQo+IGRvZXMgdGhlIHNhbWUg
-Pw0KDQpTdXJlLg0KDQo+IA0KPiBJdCdzIG5vdCBhIGJpZyBpc3N1ZSBmb3IgdGhpcyBkZXZp
-Y2UgcmVhbGx5IHNpbmNlIHRoZSBJMkMgYnVzIGlzIHNsb3cgYW55d2F5cw0KPiBhbmQgdGhl
-IG11bHRpcGxlIGNvcGllcyBhcmUgbm90IGEgYm90dGxlbmVjayBBRkFJQ1QuDQo+IA0KPiBJ
-IGJlbGlldmUgaXMgd29ydGggdG8gcHJvcG9zZSB0aGlzIGRyaXZlciBhcyBpcyBhbmQgdGhl
-biB0cnkgdG8gb3B0aW1pemUgbGF0ZXIuDQoNCkFic29sdXRlbHkuIElmIHlvdSBwb3N0IGEg
-Y2xlYW5lZC11cCB2ZXJzaW9uIG9mIHRoZSBwYXRjaCwgSSdkIHRha2UgYSBsb29rLg0KDQo+
-IA0KPiBBbm90aGVyIHRoaW5nIHRoYXQncyBtaXNzaW5nIGlzIGEgRFJNX01PREVfQ09OTkVD
-VE9SX0kyQywgYmVjYXVzZSBJIHVzZWQgZm9yDQo+IG5vdyBhIERSTV9NT0RFX0NPTk5FQ1RP
-Ul9Vbmtub3duLg0KDQpUaGF0IG1pZ2h0IGhhdmUgaW1wbGljYXRpb25zIG9uIHVzZXJzcGFj
-ZS4gTWF5YmUgYXNrIGFyb3VuZC4gKE5vdCB0aGF0IA0Kd2UgYWN0dWFsbHkgcnVuIHVzZXJz
-cGFjZSBvbiB0aGUgZGV2aWNlKS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4g
-QmVzdCByZWdhcmRzLA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2
-ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1h
-eGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcg
-TsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+[auto build test WARNING on staging/staging-testing]
 
---------------VkA3h43xUW90kt73iiWJgW1G--
+url:    https://github.com/0day-ci/linux/commits/Nguyen-Dinh-Phi/staging-vc04_services-make-a-couple-of-functions-static/20220131-151209
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 64b2d6ffff862c0e7278198b4229e42e1abb3bb1
+config: x86_64-buildonly-randconfig-r004-20220131 (https://download.01.org/0day-ci/archive/20220131/202201311820.inNbCM0H-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/0day-ci/linux/commit/1b64825a2b5b3312ae309c1714239df049b018ac
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Nguyen-Dinh-Phi/staging-vc04_services-make-a-couple-of-functions-static/20220131-151209
+        git checkout 1b64825a2b5b3312ae309c1714239df049b018ac
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/vc04_services/
 
---------------xM37x5FXjsZC9MGML5heKsDI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
------BEGIN PGP SIGNATURE-----
+All warnings (new ones prefixed by >>):
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmH3uccFAwAAAAAACgkQlh/E3EQov+BQ
-bw//TbV6HobOdKEyUcaDwO7YuOGz13iBi89/XmeCQ8cdliCybMqXL0Ws5kj8ULtYqQjE+y2ndKKu
-H0HtvAz6h/S/nnV13yELLT/d5Dv5HKC9Ju/jvErEvDNdr9Wbl2AHkX4GSapBaZosyu+euy4Ty5Gu
-TVPUPTt2Xs1xXNj2+BxNE+CmiVTiGuPjV9NmjTb/+5zmSD8Ge4ehpPdpxVscZxq5mJPjzYMjZNQU
-TRX4i7g07hIeKDSUyLry+kAco80+uBwnZMDcNTqyGEQgtPptI/J5BXA302qgQxdPKunavYk4jzwk
-mna7DF7EXsQtYEtke9GpteJy4w5EwUDKoRWbMpzRsLzlfhhMEQxEPCzq3WWCwPTpoJI1AVFPD00Q
-OdDzFIn1umrt+1y8OwLuZ7unv3AeO1GwW94Mzbr12+X2xEGJ7s4PLfC6BsMGRVn4/Zh2jTQMl4z1
-57krrjByXt1+/IzvPuY8ietL1GfBkZx+yGz5TnANZsG0BuZnBTXtcU212lMk7Uy9CD7aF/BZE4lx
-Z5ZCBOrX2AQNvW4E1F1qxa8qN49a7dBBlF4v0HW3d6ZbGvgGIPtheZboK1SoDOsVG7HCbOrYrOBW
-lYeyuKO/d4zGGQGQAxr8kN4tkpQp+BAHoscs5MxhZ81DK0bIIllYOIfVP8jupuKeY8Ehza8DObpn
-ZW0=
-=cLqY
------END PGP SIGNATURE-----
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from arch/x86/include/asm/cpumask.h:5,
+                    from arch/x86/include/asm/msr.h:11,
+                    from arch/x86/include/asm/processor.h:22,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:65,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
+   In function 'memcpy',
+       inlined from 'free_pagelist' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:434:4,
+       inlined from 'vchiq_complete_bulk' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:650:3:
+>> include/linux/fortify-string.h:41:29: warning: argument 2 null where non-null expected [-Wnonnull]
+      41 | #define __underlying_memcpy __builtin_memcpy
+         |                             ^
+   include/linux/fortify-string.h:225:9: note: in expansion of macro '__underlying_memcpy'
+     225 |  return __underlying_memcpy(p, q, size);
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: In function 'vchiq_complete_bulk':
+   include/linux/fortify-string.h:41:29: note: in a call to built-in function '__builtin_memcpy'
+      41 | #define __underlying_memcpy __builtin_memcpy
+         |                             ^
+   include/linux/fortify-string.h:225:9: note: in expansion of macro '__underlying_memcpy'
+     225 |  return __underlying_memcpy(p, q, size);
+         |         ^~~~~~~~~~~~~~~~~~~
 
---------------xM37x5FXjsZC9MGML5heKsDI--
+
+vim +41 include/linux/fortify-string.h
+
+3009f891bb9f32 Kees Cook      2021-08-02  26  
+a28a6e860c6cf2 Francis Laniel 2021-02-25  27  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  28  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  29  extern int __underlying_memcmp(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  30  extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  31  extern void *__underlying_memmove(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  32  extern void *__underlying_memset(void *p, int c, __kernel_size_t size) __RENAME(memset);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  33  extern char *__underlying_strcat(char *p, const char *q) __RENAME(strcat);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  34  extern char *__underlying_strcpy(char *p, const char *q) __RENAME(strcpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  35  extern __kernel_size_t __underlying_strlen(const char *p) __RENAME(strlen);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  36  extern char *__underlying_strncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  37  extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  38  #else
+a28a6e860c6cf2 Francis Laniel 2021-02-25  39  #define __underlying_memchr	__builtin_memchr
+a28a6e860c6cf2 Francis Laniel 2021-02-25  40  #define __underlying_memcmp	__builtin_memcmp
+a28a6e860c6cf2 Francis Laniel 2021-02-25 @41  #define __underlying_memcpy	__builtin_memcpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  42  #define __underlying_memmove	__builtin_memmove
+a28a6e860c6cf2 Francis Laniel 2021-02-25  43  #define __underlying_memset	__builtin_memset
+a28a6e860c6cf2 Francis Laniel 2021-02-25  44  #define __underlying_strcat	__builtin_strcat
+a28a6e860c6cf2 Francis Laniel 2021-02-25  45  #define __underlying_strcpy	__builtin_strcpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  46  #define __underlying_strlen	__builtin_strlen
+a28a6e860c6cf2 Francis Laniel 2021-02-25  47  #define __underlying_strncat	__builtin_strncat
+a28a6e860c6cf2 Francis Laniel 2021-02-25  48  #define __underlying_strncpy	__builtin_strncpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  49  #endif
+a28a6e860c6cf2 Francis Laniel 2021-02-25  50  
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
