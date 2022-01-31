@@ -1,34 +1,33 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53F42C9D
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 10:51:12 +0000 (UTC)
-Date: Mon, 31 Jan 2022 11:51:09 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB962C9D
+	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 11:07:53 +0000 (UTC)
+Date: Mon, 31 Jan 2022 12:07:50 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1643626270;
+	s=2020; t=1643627272;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1HrP+Vgt7n8HpLZHmiyqAEpK9Ixl+Sdp3tB06tFj4yc=;
-	b=aGcD+R4O0eu7ZleuhENO8bvx7FAC54O8C7udu7gGgCzpcy58KmGtlMzLtXubTSOQQUOnUJ
-	qZmGkIyx4Y8o1hDWUbQUZ5OEkMWSB3mXFSHH+TxeNar7MkxjuvkSQpObE212Cts36kIKoJ
-	2L3B9UUJ357lZju+xXEVCb85G4euGPy8GE4Ithmkr4VEMkkRM4WhUbG+9qYM2w2bX5fzn6
-	cZYAK+LP2LPp7zd6FqcjtKUIqHb9fNSUX+91ife3yHrjv1ee8ZYo76PqiQ7kAnT79+ygDH
-	WqWt0qJcEMH3UkSCFxmdV7SCMiqJPt1XxCvMsiUsrznDxH7yX15F0Vw/AdnJjQ==
+	bh=wZ2f6mxJtMd++5Aml5rgNLLSnjcWCv443/ajj7HSqQo=;
+	b=H7sx3pRzJHs2iSgUDPf/9+DKJAQHt0np+pCaCdI+Ffi232MTfpVtlOijisw4TtgPa3KVaT
+	bNORJUrty8/GGtFI1qKf1WVuvW4Ci3Ly0dfhBMIYtmaQWjHck7DDl2soXrVFPn5VDlduyn
+	oGD7LifyA365+7K8lYlyf/gateZqhErFd7NrEDXuN39w904LIrV7coW/7bBcWc7mkU8vHi
+	JwHBiqMFl2mUvs5bLgAZY+LglkvJs+um0fXck7OxYIX8xGzAZt0cgFaWAYOBVSewL39uW2
+	+dgVGYthpNPJLJUVA6VakYI3XwoZoHJP2Gcu52wyLvOn6mdZx9L9rh8cc8su5Q==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1643626271;
+	s=2020e; t=1643627272;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1HrP+Vgt7n8HpLZHmiyqAEpK9Ixl+Sdp3tB06tFj4yc=;
-	b=MaOSiJLkg8AEcChbUuJMKsgGzU8A4SbK6zofyz0ImKVT9VSKNj0JPchJW0k/x6EYQIIyU+
-	hhglHafTXe7PsJAw==
+	bh=wZ2f6mxJtMd++5Aml5rgNLLSnjcWCv443/ajj7HSqQo=;
+	b=kzgTFt+D+034T01mnmcXciv1jHrUGkWJ38AFDFX50eklm0gwKWXdMojKgeBSU+4Rw+9DPy
+	5ED8sSRdw15wHbBQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc: greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
+To: Wolfram Sang <wsa@kernel.org>, greybus-dev@lists.linaro.org,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
 	Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Hans de Goede <hdegoede@redhat.com>,
@@ -36,13 +35,15 @@ Cc: greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
 	Lee Jones <lee.jones@linaro.org>,
 	Rui Miguel Silva <rmfrfs@gmail.com>,
 	Thomas Gleixner <tglx@linutronix.de>, UNGLinuxDriver@microchip.com,
-	Wolfram Sang <wsa@kernel.org>,
-	Woojung Huh <woojung.huh@microchip.com>
-Subject: Re: [PATCH 1/7] genirq: Provide generic_handle_irq_safe().
-Message-ID: <Yfe/HRsKaGPPUc/B@linutronix.de>
+	Woojung Huh <woojung.huh@microchip.com>,
+	Michael Below <below@judiz.de>,
+	Salvatore Bonaccorso <carnil@debian.org>
+Subject: Re: [PATCH 2/7] i2c: core: Use generic_handle_irq_safe() in
+ i2c_handle_smbus_host_notify().
+Message-ID: <YffDBiITSRQQXnVh@linutronix.de>
 References: <20220127113303.3012207-1-bigeasy@linutronix.de>
- <20220127113303.3012207-2-bigeasy@linutronix.de>
- <c26a4348-fa0c-6eb6-a571-7dbc454c05d0@gmail.com>
+ <20220127113303.3012207-3-bigeasy@linutronix.de>
+ <YfLSNNDVtAFx1P9u@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,15 +52,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <c26a4348-fa0c-6eb6-a571-7dbc454c05d0@gmail.com>
+In-Reply-To: <YfLSNNDVtAFx1P9u@shikoro>
 
-On 2022-01-28 13:18:14 [+0300], Sergei Shtylyov wrote:
-> On 1/27/22 2:32 PM, Sebastian Andrzej Siewior wrote:
+On 2022-01-27 18:11:16 [+0100], Wolfram Sang wrote:
 > 
-> > Provide generic_handle_irq_safe() which can be used can used from any
->                                           ^^^^^^^^^^^^^^^^^^^^
->    You're repeating yourself. :-)
+> I guess you want this to go together with patch 1, so:
+> 
+> Acked-by: Wolfram Sang <wsa@kernel.org>
+> 
+> I agree with adding the kernel bugzilla entry at least:
+> 
+> https://bugzilla.kernel.org/show_bug.cgi?id=202453
+> 
+> Probably the others which Oleksandr metioned, too.
 
-corrected, thank you.
+No, they are not relevant because none of them can be reproduced on a
+v5.12+ kernel or any of <v5.12 stable maintained trees.
+
+They triggered in the past only with the `threadirqs' option on the
+commandline and this has been fixed by commit
+   81e2073c175b8 ("genirq: Disable interrupts for force threaded handlers")
 
 Sebastian
