@@ -1,51 +1,51 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125DC2CA1
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 19:30:39 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id z10-20020a17090acb0a00b001b520826011so113504pjt.5
-        for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 11:30:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00ACD2CA1
+	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 19:38:03 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id d1so13357450plh.10
+        for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 11:38:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=gyaD8qPhQQxiUsgl19Fa58voK0du9zBveZZ7eFx9ZSw=;
-        b=Q90Y79EwEqu8irEhc7lCqS3XLtYpcSC5ckBzDm3uVDccGuXzfSGxsn+66JeDKmaX7I
-         iwWBdqGIZLWAOZMIUA1g0VLlpYhhhL8a+IPRZmgZzcystG5a9lZhMBfP54judzI+heoI
-         mEF7IgR0cVsxj0PFC8ldh7CDT4kzXSWxvnoSsXKMAXfGpoWS0fYO86bRnJi5Cs8Xljmd
-         4hMXEkvaAm5N+dHJOYmxT1L+oFXbcD9XK7H4R3BsG1e+cyPSOirbCBZG5Ud7vIa83F+K
-         Gti1FZAO/GPjEepInLYX3UQ9TwrjYdYx647ppxb6XdM8OFmiBw/cUBYr7+gYmbn/Sg9Y
-         bVvw==
+        bh=xzVa+kpI2P5pcrQ6q9RAyjwxclzwOqeJjWm5GlzFQtk=;
+        b=lCV+OL9RHYZ/y/+aXRVJx2OIAAk0VGu75AVLXk973DnP+4Uwd6/Cj9rEh20rTDlKEi
+         rj2JW+wENteqcF2sGP6/NWTC09K/TcLD2m4MBwdq+W4L9fFCtjbATklhgukmkdEfXEl/
+         Suexv0Rr3NSjxuExdqiCP7gjqNX2RI0YjQG4kIkKtO9Vdw998ruMyLRQbsuI75KceBBy
+         A0Orfx7aghxdVM9M7o+Cl0ZWbj48dgXwmj4IS3hODlMuREEPl+vAG8Hh4nhGGdi4tr7Z
+         iBPfQVgGcEyGg/eJTSJeiTbRhnIetVgGjOU2XdmX17QwdxywBxcNVhq9nzJmrxy0qhVk
+         gRjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=gyaD8qPhQQxiUsgl19Fa58voK0du9zBveZZ7eFx9ZSw=;
-        b=duKeygvGQo9TfVoIU9eurkgBkxkljhK3yGSfqamNctaqzRoAMv69UV7jAsMLZD417d
-         fgq42ZeK6RsYxRferdEkEEQ0brB3QC/M/aBdxnT/NBAE0nRo9GjBkC3we5SjPuiGg/MC
-         Ag92v4zRtrFpzKvG5V72juUz8QIfuJOT7Alz3dJKR+fTB+aNgzzpIm2d4LdVhFwQS5PG
-         2vnkIMBB/Ba0GwnzpYsAtaDWMxrTMA+qDoEU0ef7/nXVZc7zL5bA1eL8JatAiQZTFkP9
-         2xTQwHsppt+/QC7WWQMmC4SnGRXQ0zEMRLyLX2UBIPwaK03CASLIlkjP9BC2uzodTKDt
-         vOxg==
-X-Gm-Message-State: AOAM531X1eZO6/nb6iDdIQsEALPOSafbTv5K6zAZPcm4Gx9w/LMXDvHZ
-	XrmIxpsFCvDW9LWP4mopzWc=
-X-Google-Smtp-Source: ABdhPJwNsCxuqEhd5yXAbRuAC5lW4mCRMrzmSRJSBBgLI8ltKiluxcg8U2txtKFdQV0d8kPGciQrsw==
-X-Received: by 2002:a17:90a:1784:: with SMTP id q4mr36207945pja.3.1643657439462;
-        Mon, 31 Jan 2022 11:30:39 -0800 (PST)
+        bh=xzVa+kpI2P5pcrQ6q9RAyjwxclzwOqeJjWm5GlzFQtk=;
+        b=aHkZMA//rgvLD1Vpa1EK/J2oGJ9A+vLbvvrdsWYnFgbGb+1b4Fh8DCAmXtUQSdnDgz
+         Bro8l5EggNN3Jpuv2B3h6sPpniBdOXS2Js9XZQaXq4ZziAKguaitW7qvJgu9HRFaBKAI
+         ZnvFBzWdZpzm0uK51+x7wtlvsFt41Wb+E+dtrcS3eWfN4ehufhP02PiozwE6OXpah4jq
+         dkW7jkin3j+v2NkFfTBVDXyJSK0MP47I7wV4+rbLviYzzJZ0E0SArLRfPeFHRBpCkdQO
+         1Skt40Aa1oK2ulTswJJduRaxLZ/ghxGk52bX/3Nh5AuKMTOBj/bZtzT622XH+x9Nj9TI
+         gd+g==
+X-Gm-Message-State: AOAM531hpBOuI9NAXp1l+nq2i5wNnbOT2LdalvDa4+wsGM0NB4FuZDJ8
+	rcYOM1u9/LZGU6CxcbUIyDQ=
+X-Google-Smtp-Source: ABdhPJzxdWGPv1XAWrMDsXWHrZgoHwdcemerau22RVBNPdYWRaF6qMmCgG/0CwqjNt0cfHA8s+aI4g==
+X-Received: by 2002:a17:902:ec86:: with SMTP id x6mr22630459plg.96.1643657883448;
+        Mon, 31 Jan 2022 11:38:03 -0800 (PST)
 Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id q1sm114942pjd.48.2022.01.31.11.30.36
+        by smtp.gmail.com with ESMTPSA id j10sm19471459pfu.93.2022.01.31.11.38.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jan 2022 11:30:38 -0800 (PST)
-Date: Tue, 1 Feb 2022 08:30:32 +1300
+        Mon, 31 Jan 2022 11:38:02 -0800 (PST)
+Date: Tue, 1 Feb 2022 08:37:57 +1300
 From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 To: Dan Carpenter <dan.carpenter@oracle.com>
 Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: remove unnecessary new line escape
- sequence characters
-Message-ID: <Yfg42KS3sQ8PZmo1@mail.google.com>
-References: <YfYtsiKbOXghIN+5@mail.google.com>
- <20220131104020.GI1951@kadam>
+Subject: Re: [PATCH v3] staging: pi433: add debugfs interface
+Message-ID: <Yfg6laurUQF02TPR@mail.google.com>
+References: <20220126132116.GA1951@kadam>
+ <YfX+llwDWZZMz+NY@mail.google.com>
+ <20220131134558.GL1951@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,26 +54,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220131104020.GI1951@kadam>
+In-Reply-To: <20220131134558.GL1951@kadam>
 
-On Mon, Jan 31, 2022 at 01:40:20PM +0300, Dan Carpenter wrote:
-> >  	if (device->irq_state[DIO0] == DIO_PACKET_SENT) {
-> >  		device->free_in_fifo = FIFO_SIZE;
-> > -		dev_dbg(device->dev, "DIO0 irq: Packet sent\n");
-> > +		dev_dbg(device->dev, "DIO0 irq: Packet sent");
+On Mon, Jan 31, 2022 at 04:45:58PM +0300, Dan Carpenter wrote:
+> On Sun, Jan 30, 2022 at 03:57:26PM +1300, Paulo Miguel Almeida wrote:
+> > +	dev = m->private;
+> > +
+> > +	mutex_lock(&dev->tx_fifo_lock);
+> > +	mutex_lock(&dev->rx_lock);
+> > +
+> > +	// wait for on-going operations to finish
+> > +	ret = wait_event_interruptible(dev->rx_wait_queue, !dev->tx_active);
+> > +	if (ret)
+> > +		return ret;
 > 
-> Both the old and new code will do the same thing.  You are correct.
-> However in terms of style, I believe the preference is to add a newline.
-> 
-> I don't remember the reasoning behind this.  But a lot of these style
-> rules are just decided by consensus.  If you do a
-> `git grep -w dev_dbg | grep \;$` then it is 12391 places that add a
-> new line and 622 which don't.  Adding a newline is the clear winner.
+> Drop the two mutexes before returning.
 > 
 
-it makes sense. I will send a different patch adding the newline escapes
-instead. 
 
-Thanks heaps! 
+thanks for taking the time for reviewing this patch.
+
+good catch, I completely missed it. Thanks a lot!
+
+thanks,
 
 Paulo Almeida
