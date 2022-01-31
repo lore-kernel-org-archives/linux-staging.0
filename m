@@ -1,54 +1,54 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A10F2C9D
-	for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 19:03:36 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id u24so22365109eds.11
-        for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 11:03:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B496C2CA2
+	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 07:10:29 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id d1so11584773plh.10
+        for <linux-staging@lists.linux.dev>; Sun, 30 Jan 2022 23:10:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tpjEU+HIzlgzBoge8WodNw05G6vDhZ9EYEyUvkNOGoo=;
-        b=naQ3ofGHLF180Kudff9gq5aGmb5N7VtlRFVbdjziOzgFQpXE6F4uWIZr7W+ur3F6vI
-         e3b0tNN6cy+yyscOG17KL7HSVODDRGynY2VEm7CqYaTUJ1wYJS1/6ZIsjzvFD3MlpwY5
-         gcFE3rXQdgMsU+HDn8KG27NMvZ2cTVsBW0LXZ08McMbEc0f8cghELdg5x2VNiMb2h3eS
-         CeMa0jhVfFybb65+tM44YeJZjEpLxIQyG3pfpKM9EOIUYAkVJUcOlqGi/Vr1X4y5Ymv9
-         vxWvf0AdkS2PQwEYsR003Wd+BRetW6w5NqA/1+gRzMaol8hCAGxH9bnD2CqUxbaDL/dD
-         FI2w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EXoGqYo2y+bCVaCTIHHUoSe6xGzYWrBda92ceekLMjA=;
+        b=IUI94W6n5iT79oWzjyBLQGuamO21vxqmVQMbbhrrI/ooBx6w7D0ATiQwThBpm8xtHs
+         zmUPFLYuh9VEk6llfYtjR3sTqpT3fxMSFeAGuE+WY2VtExUnhBzlsO+dWrJdyQtoHoJA
+         F77UARbNDFsgURHrDF0aP301QW7Nx+50r0bO9/9nUlcVzMs6oUjsqXvSlwZVApQJk1rJ
+         Aiiw9NOTN8C9lltj2Z+qbNZokCa/YJDtJIcKub35lXCJ00P1zn15z2iOwLSzhFqpLJXv
+         yLivBcbp1+Vc2/O9Go+m3WWPLIyphMJmRIvc+/t0s6R04l3MQu1iSpzk3hzFCSdXACQs
+         tAPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tpjEU+HIzlgzBoge8WodNw05G6vDhZ9EYEyUvkNOGoo=;
-        b=I1Ccq8UapyAWQ1skjrnjtBSApbEnPLO2tlz2Ie/3pPizIIn62Gokgi/HCni0Fpif8a
-         L74RuVb4ft8s84k77TrBL4GQMZIC389CTEIH0Ov4jm/fyk+pPhAciAwr8M0Ov1fw4Qhn
-         r1WtpImHelmR5Gbj+rHS8MpJcv1wgzUseI19kdanF3YfwYRdt63j0vUeWa/uQWw38u3P
-         vGsFATISc55erlq3CyYIzBYT3vTBpTnb9c6rMfprj1lKLeb84tfrJnnD871OfHwsWyAM
-         ho92BfsQhcaGrZaG9x8N1fv9AMAADpx6oqpT4Zi4cTVXt58+On2tPChrCIG7gxo9Ql27
-         28LQ==
-X-Gm-Message-State: AOAM532hHnt3DdUWQw/k+2hDOinSARqX4JG2py0HjEiRVzx5qY7Z1iMK
-	OJS8LX31S+YpigDQpXvULZ4=
-X-Google-Smtp-Source: ABdhPJwgn4s4l4xW0DYeD7BDUIO5LZxcNr4KsaPnrESap+vQCq1swDXv7rQGG/omvrlDka+XZMxXxw==
-X-Received: by 2002:a50:ab1a:: with SMTP id s26mr17283316edc.85.1643569414894;
-        Sun, 30 Jan 2022 11:03:34 -0800 (PST)
-Received: from localhost.localdomain (ip5f5abb5a.dynamic.kabel-deutschland.de. [95.90.187.90])
-        by smtp.gmail.com with ESMTPSA id n3sm921124ejr.6.2022.01.30.11.03.34
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EXoGqYo2y+bCVaCTIHHUoSe6xGzYWrBda92ceekLMjA=;
+        b=aSvdHJTn9m2vNv+R9hOTJEiVfz2iKGELWat4Eu93x69Q9FrbnSjpy1KiSyNgGMj0S0
+         I1gbbNcgjDXyEoGxXAjPU5QcKMisaTGgTrQ2cxLouQaSxaKBefesaZ/EMROZ6wt0yQ4m
+         9EU6n2voFvBCPP+MAFmQbowgFCeajAQfi+VD1avkLcGCAoadK8Kp5YUvh1WHfUP3AZhU
+         06/Hqw8gEEk0m+uNRrQGhK/+gMBYolrVSwY6yF2J9qus4p4rRoBW/Es10JoiPZbt2+qp
+         tw8OeFEowKyJUKdUCWjFaqW6Df23VJgrhy8/eGgBxWo/vJSWv2U/YA6psadf0ElitbBq
+         UFAw==
+X-Gm-Message-State: AOAM533Gn7J2+dzTPw59Ido8ay4BRGueI9X0azLKtoAjcxab4ZmBpK3o
+	yZWTcMTc0UfvP7rlJrGhw+M=
+X-Google-Smtp-Source: ABdhPJwEZXaIPTB6mkYByUXxajcLnSoq5qDsRUeG6ZEQr9iLGroanZi9GSC/0lAPmCmGeWsxxh2s2Q==
+X-Received: by 2002:a17:902:7048:: with SMTP id h8mr8005725plt.40.1643613029103;
+        Sun, 30 Jan 2022 23:10:29 -0800 (PST)
+Received: from localhost.localdomain (bb42-60-144-185.singnet.com.sg. [42.60.144.185])
+        by smtp.gmail.com with ESMTPSA id q16sm17404392pfu.194.2022.01.30.23.10.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jan 2022 11:03:34 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+        Sun, 30 Jan 2022 23:10:28 -0800 (PST)
+From: Nguyen Dinh Phi <phind.uet@gmail.com>
+To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Nguyen Dinh Phi <phind.uet@gmail.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 01/12] staging: r8188eu: remove HW_VAR_BEACON_INTERVAL
-Date: Sun, 30 Jan 2022 20:03:10 +0100
-Message-Id: <20220130190321.7172-2-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220130190321.7172-1-straube.linux@gmail.com>
-References: <20220130190321.7172-1-straube.linux@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vc04_services: make a couple of functions static
+Date: Mon, 31 Jan 2022 15:10:06 +0800
+Message-Id: <20220131071006.1764343-1-phind.uet@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,55 +57,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove HW_VAR_BEACON_INTERVAL from SetHwReg8188EU() and call
-rtw_write16() directly.
+Functions vchiq_platform_init and vchiq_platform_get_arm_state are used
+locally in vchiq_arm.c file, so make them static.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Cleans up sparse warnings:
+warning: symbol 'vchiq_platform_init' was not declared. Should it be
+static?
+warning: warning: symbol 'vchiq_platform_get_arm_state' was not declared.
+Should it be static?
+
+Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 2 +-
- drivers/staging/r8188eu/hal/usb_halinit.c   | 3 ---
- drivers/staging/r8188eu/include/hal_intf.h  | 1 -
- 3 files changed, 1 insertion(+), 5 deletions(-)
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index aa5ed6ecc432..ca4135ae587d 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -7053,7 +7053,7 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
- 	SetHwReg8188EU(padapter, HW_VAR_BASIC_RATE, cur_network->SupportedRates);
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 54ab6208ddae..b1054550ed27 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -466,7 +466,7 @@ free_pagelist(struct vchiq_pagelist_info *pagelistinfo,
+ 	cleanup_pagelistinfo(pagelistinfo);
+ }
  
- 	/* BCN interval */
--	SetHwReg8188EU(padapter, HW_VAR_BEACON_INTERVAL, (u8 *)(&pmlmeinfo->bcn_interval));
-+	rtw_write16(padapter, REG_BCN_INTERVAL, pmlmeinfo->bcn_interval);
+-int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
++static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct vchiq_drvdata *drvdata = platform_get_drvdata(pdev);
+@@ -593,7 +593,7 @@ vchiq_platform_init_state(struct vchiq_state *state)
+ 	return 0;
+ }
  
- 	/* udpate capability */
- 	update_capinfo(padapter, pmlmeinfo->capability);
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 7043dd603c11..95e89c3063f1 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1246,9 +1246,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 			rtw_write16(Adapter, REG_RL, RetryLimit << RETRY_LIMIT_SHORT_SHIFT | RetryLimit << RETRY_LIMIT_LONG_SHIFT);
- 		}
- 		break;
--	case HW_VAR_BEACON_INTERVAL:
--		rtw_write16(Adapter, REG_BCN_INTERVAL, *((u16 *)val));
--		break;
- 	case HW_VAR_SLOT_TIME:
- 		{
- 			u8 u1bAIFS, aSifsTime;
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 40e1f98f9587..f5a6cb9a03fd 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -20,7 +20,6 @@ enum hw_variables {
- 	HW_VAR_MLME_DISCONNECT,
- 	HW_VAR_MLME_SITESURVEY,
- 	HW_VAR_MLME_JOIN,
--	HW_VAR_BEACON_INTERVAL,
- 	HW_VAR_SLOT_TIME,
- 	HW_VAR_RESP_SIFS,
- 	HW_VAR_ACK_PREAMBLE,
+-struct vchiq_arm_state*
++static struct vchiq_arm_state*
+ vchiq_platform_get_arm_state(struct vchiq_state *state)
+ {
+ 	struct vchiq_2835_state *platform_state;
 -- 
-2.34.1
+2.25.1
 
