@@ -1,97 +1,217 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE2129CA
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 14:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643638330; x=1675174330;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u2/KL+QczLeO5HW7c5Ow6qXPV61IYgm4mFoJmsrc6Pk=;
-  b=PDUCK+QR754S5uoJNw/DRZcqHQ8y5D2snIBJKgg4XisjtG9C8BU/+Ij6
-   5H6FIeSHA4WoDhYetwE1hj69SxaL8mbtNfDpUkoYnrU1fuiplhvm+d4PS
-   yO5uJLgMsgh7IrwWsFKoRM75GQFQEna/6TQd3pVllZeqbhgqk/1YzQERh
-   Sf4040i9pANWpoYQg00BVDNMZd8NObroH1iupkKguIgjas1ONJ+kr3NZo
-   Qa8bRNFp0WyUEyVBYVrjn496yHCjDa2bB9Y79E7lzdqLpPaMmHqSqduC6
-   iZE2sypyKu+F8C7UQ6cpWDZ8XqB1CMt0tMVVLoo2xh+1uVgvSNjUghSrY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="227437717"
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
-   d="scan'208";a="227437717"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 06:07:19 -0800
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
-   d="scan'208";a="522665965"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 06:07:14 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1nEXJq-00GtM0-Jq;
-	Mon, 31 Jan 2022 16:06:10 +0200
-Date: Mon, 31 Jan 2022 16:06:10 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helge Deller <deller@gmx.de>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-Message-ID: <Yffs0nuG3ElH1bNE@smile.fi.intel.com>
-References: <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
- <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com>
- <YfFWPmG2D093gz4N@smile.fi.intel.com>
- <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
- <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
- <YffJujbpUGUqpIk/@smile.fi.intel.com>
- <5a3fffc8-b2d8-6ac3-809e-e8e71b66a8ea@redhat.com>
- <YffiwCiFnqF1X1pD@smile.fi.intel.com>
- <29ab99fb-d906-907b-e922-251ac72b25ef@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E112CA5
+	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 15:12:56 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20VF94Bp015816;
+	Mon, 31 Jan 2022 15:12:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=LMiL2M2tVTNlSsG3mgk1++aOUAoqhGKDkttePCrHfGk=;
+ b=YKv6lvfc/apECHD9L8YnZt8p8DYnjqrzoppy3+akgsKIGC0ZZ95AwKbdCie8l7I8UXLb
+ JNhfXo1dv2rt7/bp33xOyiAV1wOLyoeedDWlGIOw5GAas+GaV/2ZVwFGYVW9+DCDrP7r
+ lQl6J4AnefgDTNXTug8n5X9VNqMDj7EkUz4pf5JrmKdnOdfNcsmPwz5JwCM4WMhQ9bZT
+ 93uJDnk6nyUhT+2icwdrNfjadKL2w6oqFW2vGIMzwimhViehxmZ5SMyzb0ldHI9NhmoQ
+ RQqJrei70nqUEsbiLn2Bd55vBvODUhGPU0hzv5roKZb7xLTcW0Zy/iiiAKBy71KpQ4oM xQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3dvx4uvdva-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 31 Jan 2022 15:12:36 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20VEZJQd100834;
+	Mon, 31 Jan 2022 14:37:21 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+	by userp3030.oracle.com with ESMTP id 3dvtpx323x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 31 Jan 2022 14:37:21 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aOFygq4KoGQSR2omBpqY9TPuZ7oz/OxymBiBi92Z3hl+fOFU5T4cL9p6ocb/YDOyrDm+ORQSlz6kwBZgR91QfHYstIYhH+A3rULXT34SczD8XJRV0Q3TgiSqw/jcd9AzuXiDJ+zU9nmIFpvs6SGS/J4JY8YwlInDkmTzr/6BCnaB8HixuqV8PD+uGftEnzEKeIB9ZUVL5pa78vG9SLRl3yMGfSHRFp89k2v9/j2Lr2cUXeOreaJfLXUp2PMLzI/CUEZlaIfBSb4GahkRH75UJmTmSbWyKrDsDzAZHT0RKFiWKs7XFMfvg/eiylmxSx3/YQeT+TQr7+5oDpD5xSA/gw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LMiL2M2tVTNlSsG3mgk1++aOUAoqhGKDkttePCrHfGk=;
+ b=Rp43eoXNh1r3OQMbBxb/fteU3v8tFF2Sb2mMoqlmkZOkSUT3Tv3nsZoqcgcijb3jGm7ZLr3xRY0SqHw75nB8dHuGcxRighb5dflmRHedrS2q90GFQtxZyylxALngCvMgzBKbtm6pWteD10ZsNcYMnJLZcBR/+yyguc3IwbwTQgYT5a32Kbc3RPlaysrvN/1pdhhrANY36yzwQ5H6GNqnlPXDvskBhKwnY5RPjERB58sw2GR5P4XrBETaK8J/EqEJQqwb8c3MlbjIsWqlkLDKfOUGudjEAUtKR4ELGfWi1KCZCSP9+ud0mA/iMooHBMAP3bes7vulbY7Vq4h7sK8anQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LMiL2M2tVTNlSsG3mgk1++aOUAoqhGKDkttePCrHfGk=;
+ b=mr2ZXv/SUusXDX9VnRY964saJaTJ/ax5lbReDjcCuzrgQ7rqBXo6/2Dho7ds7sFZQTXYSmPilGzpOzCZFxoiLgCNEhJ0YdL22q5RlclRkROKomeWfHL3rOcXXSnsmN83EALt2I7hLb3HR5tw6LV1c9eSRG61sR7JEn+yLbCU2SM=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BYAPR10MB2773.namprd10.prod.outlook.com
+ (2603:10b6:a03:8e::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.20; Mon, 31 Jan
+ 2022 14:37:18 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8%5]) with mapi id 15.20.4930.021; Mon, 31 Jan 2022
+ 14:37:18 +0000
+Date: Mon, 31 Jan 2022 17:36:57 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc: kernel test robot <lkp@intel.com>, Nguyen Dinh Phi <phind.uet@gmail.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>, kbuild-all@lists.01.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vc04_services: make a couple of functions static
+Message-ID: <20220131143657.GM1951@kadam>
+References: <20220131071006.1764343-1-phind.uet@gmail.com>
+ <202201311901.HT4PtVja-lkp@intel.com>
+ <Yffe9tO6rRyzod2F@kroah.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yffe9tO6rRyzod2F@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0007.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::12)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <29ab99fb-d906-907b-e922-251ac72b25ef@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 625ed0f7-6696-48f6-ca43-08d9e4c72e7a
+X-MS-TrafficTypeDiagnostic: BYAPR10MB2773:EE_
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR10MB27731761E5E6C1FA68C96F538E259@BYAPR10MB2773.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	48HJJzLuSYUIQ/IfEoqM79HA/rJcf4xpp1wSN8g70knjjaLw2Rh+sh+W4JLpQKeNCqXW0Zt+/MJ1tVAxjf7Pm4kV+PJcKLb83sC8BYrv28AyaIDVAKP97DCfgQGGL+B+Tq9vu6qXTxBsyDQYiVcgcsFlp3yeWHog+yePHscgzsrYBRzst7NiTnM8VhhiEP0op/VmkEONGUFG4Q8BXJj/7is1PrYfPNZtS5W3v6XOtZu9cxsP/wylYXFhf2dHuWW8n6lts5/zd6AVamyruqQ8IIv0aZerKoVmSr2En0mMJbKUKcBu8jod+CpIHVGEYZDLHNM58A2OGP35k5amZH5reOn9moqiljuBdkugQdj2+3ghPRMn69NAUhxKRpyWK7a8DCGAtv8u5Hl+a8ztm6EuZvqWOVFZ4n/Jw2U4UcjjkKljtYfaroqrj4Jyddb27JBwCE7X3CIkju99wMxvuFMjnuJYVKf22HmC05M/zqisjj0LnLtFGX/eIb9ZggRnqkS+YkjtTQ//C6HL1Oxbz1FqvpfybjAZLshUV25TtXAKGIu432hyowtLJYh7zP6ysz0ZGTIcn4kmnc3yMt8VuWIkcFPUDSZCQZKGAvLO8l6kllDInCK3zKmq+993OvuJASEZyfGkZKm4H1SyWgk1ZlpfAf9kBwTBsdHThcynl4IQH8Q8F7Sx6kDGNqs86LiArp6Vzh7cSeiMUu/XTrCs/VkEAhOrG/eMRbn+0ky0MJL5IOo67ueQPuo3kVBz7ue8gpC55eCnL2TMeDH3fDaME/lGjZud68sD8KrD0s8NfNnk/6Iw45Fzy9QbGwnxynYDL6gS
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(66476007)(66556008)(66946007)(44832011)(110136005)(38350700002)(5660300002)(8676002)(8936002)(4326008)(54906003)(38100700002)(316002)(26005)(186003)(1076003)(33656002)(83380400001)(52116002)(2906002)(6506007)(6512007)(6666004)(966005)(508600001)(6486002)(86362001)(7416002)(33716001)(9686003)(20210929001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?mEVfj99QTD5GjZ3eCy4IuD6j4sQ0ALzVj6VMaxvLKcfEuly9eDLD1IBuLTmI?=
+ =?us-ascii?Q?B3CDTR175ac9SGTgfJC+YDvSJaRsNbaESqZy2rHy4RI4/ReGgr7yM48WTHeR?=
+ =?us-ascii?Q?3anItU8jw7URZP2fk8ifchPoYmBCCgW71z2uegUJsuldVuSRDfa6YJUVwqsR?=
+ =?us-ascii?Q?HC+7HvZbf+smddeChTGT4Yoeg8+idtDgffm0DeGZ0SHTa3ZUxEw5jYddrcGr?=
+ =?us-ascii?Q?mkOm/uB0VJOCK+fcjE0xRZhJoxzAQlL8jtxgyr80pkFnBNOHiooWNlgfYWYH?=
+ =?us-ascii?Q?SjjKKRkzsPbJneOSNWGaK8zaEkG83B+c3ysy/Vko+4r3r8z79SfPlJoLPxA0?=
+ =?us-ascii?Q?q2dwNWPrvo3yhlDTp23/77f2Rj/0ReM9h2n7ooh8vvXfSsoqnMxSpF8Cbl33?=
+ =?us-ascii?Q?FZpRcVO28aOYBiumrMEDK0yDohVIJnkQbp0oGn1RkVNn1kCZmzoFRkxr385V?=
+ =?us-ascii?Q?ANB5wKRf9eIk7XbhNH47VTVZnANmcas69/hfJdglTytmGG6id8XiwmdEkfTl?=
+ =?us-ascii?Q?ocOe+BLIok8YYxwKZ0BtuX+zyKQ22DM5n4KKnDVBlPcr5UMM4ucdJjiEfGEu?=
+ =?us-ascii?Q?5S+SVFIo2yoTov5Q9QTfXDmDh/QYRejn6qRMomtmwslpwIJUZ8InsvQUeV1n?=
+ =?us-ascii?Q?59O2Hou3RMAOJ9fJ/i1ZD/9O9ULUdnc/xwGMynDMx+SqtpxAv8Ul6aNMvag9?=
+ =?us-ascii?Q?XXNo1KKupYlFGQm6Lq7yXv7SgHShJoSrPZgSDFvDTc7KmNloyCPIDAQZZbMI?=
+ =?us-ascii?Q?NQWMchDZjBzf6s0aZa5dXotldV53c4ZoRMcijmg37AVKhuvPqtz/qfBy6+yn?=
+ =?us-ascii?Q?DWj7WfLVkXmzOK85GFkvUFSReC/c5zoZA75Tv8q9sF11P+m1hjMY5YFv2oC3?=
+ =?us-ascii?Q?BSrXpCAqTABbB8MSdNvcP2Y6wKcyZurPrQr/Fl3CoSAgLMFmp6S1wo/HZJGM?=
+ =?us-ascii?Q?VjxiR741hs4qYT7U3iWVL9HECtUWo5J4rVSjJLZyHsUJTw9cT6/HRnaUcCYJ?=
+ =?us-ascii?Q?RhuQnYEIv6IZ5S1TpbbJJXKLKnHDkHwK2e8JoXDWq+vUwNDi1hH+FkHiJYcU?=
+ =?us-ascii?Q?Rl+zdSJt01NWwAwNr3Po37Ewe8AjD9asr8mQKOaL4Q25U0YQytbV1bSPd6QV?=
+ =?us-ascii?Q?KLfHJFTsZIG+0f3g3AhbhE9BqEPEnqxJ4rxujREXtRHr6NmVrasOKjhnU3Sy?=
+ =?us-ascii?Q?cDlvkKpu6442wecB1P4Ouo5ZmsV3I9a8D+4sCGmNYNzs3s6OJ6lQ2vmiTZPk?=
+ =?us-ascii?Q?GKD4n6KNh1AnQ+5BmsLTkxwVwNcFAGUeJtre3j4xHXkOP1hVD2joetCqTQ93?=
+ =?us-ascii?Q?WUgGnvYi+XnQtOqLkBRN0XC5XYaVvMRaU3HPRXEN2emfX0t4h+DTfA+fohGW?=
+ =?us-ascii?Q?QCQa0v+0mxxpes4S5mCsVCqQbuxRn2R/kNW9tFVzwWE0A1UnrTZye5l1lnrK?=
+ =?us-ascii?Q?lXHmK4gnGNDNPHsqoF0TItLrzqj4mwvzuAnE41pSpY/U+idUbuDhk7Sb+ClC?=
+ =?us-ascii?Q?9tSfVEc1hYRdGRxzB9wVzVVhjcnaHw+m0F/q3kjQHee+JFI+gbASfhH5q4wM?=
+ =?us-ascii?Q?3S5xn7/oUEXNZlIuqsw6yYvmAK7lVdnmb5pvy2bQfKwR6Vvghue/+tH1lZiX?=
+ =?us-ascii?Q?K686oXgXZBhMGaLyK6TKPj6ZXZJsMEDGMm0LjMFh2f2QnjaWV73/mitpu1jU?=
+ =?us-ascii?Q?agYEGncBDMHHZWYOjJZr2c1Qkqk=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 625ed0f7-6696-48f6-ca43-08d9e4c72e7a
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2022 14:37:18.4215
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I11SLYOV6sVZ99+HtM7C36l3coW5dnc+V4urMg036Oni3WtgKBuP1YWa1m0o+0Hd0pkKDTpEOzPXd2g3TrB74OHYVQimxp3P+M0lzitppY0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2773
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10243 signatures=673430
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
+ adultscore=0 malwarescore=0 bulkscore=0 suspectscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2201310097
+X-Proofpoint-ORIG-GUID: v31CKWBpEjIVu0JyLIzcc2JlJeVW-Ea-
+X-Proofpoint-GUID: v31CKWBpEjIVu0JyLIzcc2JlJeVW-Ea-
 
-On Mon, Jan 31, 2022 at 02:55:21PM +0100, Javier Martinez Canillas wrote:
-> On 1/31/22 14:23, Andy Shevchenko wrote:
-> > On Mon, Jan 31, 2022 at 01:08:32PM +0100, Javier Martinez Canillas wrote:
-
-...
-
-> > The tricky part is the PRP0001
-> > ACPI PNP ID that allows to reuse it on ACPI-based platforms.
+On Mon, Jan 31, 2022 at 02:07:02PM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Jan 31, 2022 at 07:16:01PM +0800, kernel test robot wrote:
+> > Hi Nguyen,
+> > 
+> > Thank you for the patch! Perhaps something to improve:
+> > 
+> > [auto build test WARNING on staging/staging-testing]
+> > 
+> > url:    https://github.com/0day-ci/linux/commits/Nguyen-Dinh-Phi/staging-vc04_services-make-a-couple-of-functions-static/20220131-151209
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 64b2d6ffff862c0e7278198b4229e42e1abb3bb1
+> > config: arm-randconfig-r002-20220130 (https://download.01.org/0day-ci/archive/20220131/202201311901.HT4PtVja-lkp@intel.com/config)
+> > compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # https://github.com/0day-ci/linux/commit/1b64825a2b5b3312ae309c1714239df049b018ac
+> >         git remote add linux-review https://github.com/0day-ci/linux
+> >         git fetch --no-tags linux-review Nguyen-Dinh-Phi/staging-vc04_services-make-a-couple-of-functions-static/20220131-151209
+> >         git checkout 1b64825a2b5b3312ae309c1714239df049b018ac
+> >         # save the config file to linux build tree
+> >         mkdir build_dir
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash drivers/staging/vc04_services/
+> > 
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: In function 'free_pagelist':
+> > >> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:434:25: warning: argument 2 null where non-null expected [-Wnonnull]
+> >      434 |                         memcpy((char *)kmap(pages[0]) +
+> >          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >      435 |                                 pagelist->offset,
+> >          |                                 ~~~~~~~~~~~~~~~~~
+> >      436 |                                 fragments,
+> >          |                                 ~~~~~~~~~~
+> >      437 |                                 head_bytes);
+> >          |                                 ~~~~~~~~~~~
+> >    In file included from include/linux/string.h:20,
+> >                     from include/linux/bitmap.h:11,
+> >                     from include/linux/cpumask.h:12,
+> >                     from include/linux/mm_types_task.h:14,
+> >                     from include/linux/mm_types.h:5,
+> >                     from include/linux/buildid.h:5,
+> >                     from include/linux/module.h:14,
+> >                     from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
+> >    arch/arm/include/asm/string.h:20:15: note: in a call to function 'memcpy' declared 'nonnull'
+> >       20 | extern void * memcpy(void *, const void *, __kernel_size_t);
+> >          |               ^~~~~~
+> > 
 > 
-> Oh, I wasn't aware about PRP0001. I've read about it at:
+> Oddly, your patch caused these build errors to happen, which implies
+> that you did not test-build your patch?
 > 
-> https://www.kernel.org/doc/Documentation/acpi/enumeration.txt
+> I remember seeing this before and being confused as to why this type of
+> change would cause this error, but it must be for some reason, which
+> means we can't take this patch.
+> 
+> Always test-build your changes before sending them out.
+> 
 
-Yep!
+This is an annoying thing.
 
-The idea is that new drivers for discrete (and sometimes even on-SoC)
-components should be platform-agnostic (means no strict OF / ACPI
-dependencies), so anybody can prototype devices on either of the
-platforms.
+Unless I'm mistaken, it's a totally nonsense GCC false positive.  In
+Smatch, I have a similar NULL dereference check, but I have never felt
+confident enough to harrass people with false positives even though mine
+are fewer.  (Smatch has *way* better flow analysis than GCC but the
+tradeoff is that Smatch is slower.)
 
-As a matter of fact IIO subsystem is leading in this by cleaning up
-most of the drivers towards that goal.
+I can't understand why this warning triggers on this particular patch.
+It has to do with the .config.  A make allmodconfig will not trigger it,
+but the kbuild .config does.  Possibly to do with chance and inlining.
 
-OF/ACPI explicit dependency makes sense when we 100+% sure that
-IP in question won't ever appear on the other type of platform
-(which I believe is very rare nowadays for most of the components).
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
