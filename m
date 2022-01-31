@@ -1,81 +1,144 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00ACD2CA1
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 19:38:03 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id d1so13357450plh.10
-        for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 11:38:03 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009F02C82
+	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 21:06:55 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id c23so27904238wrb.5
+        for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 13:06:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xzVa+kpI2P5pcrQ6q9RAyjwxclzwOqeJjWm5GlzFQtk=;
-        b=lCV+OL9RHYZ/y/+aXRVJx2OIAAk0VGu75AVLXk973DnP+4Uwd6/Cj9rEh20rTDlKEi
-         rj2JW+wENteqcF2sGP6/NWTC09K/TcLD2m4MBwdq+W4L9fFCtjbATklhgukmkdEfXEl/
-         Suexv0Rr3NSjxuExdqiCP7gjqNX2RI0YjQG4kIkKtO9Vdw998ruMyLRQbsuI75KceBBy
-         A0Orfx7aghxdVM9M7o+Cl0ZWbj48dgXwmj4IS3hODlMuREEPl+vAG8Hh4nhGGdi4tr7Z
-         iBPfQVgGcEyGg/eJTSJeiTbRhnIetVgGjOU2XdmX17QwdxywBxcNVhq9nzJmrxy0qhVk
-         gRjQ==
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=FxNR4P5lDXdqDoRY6o7wMDtTBWXikuXUtP+0kdBf7FQ=;
+        b=Lo4AW9guvOF81u6WGQBXjsTZUvFuBcQIdzBj2fKuxIY0ijvWI/WKVVcAEew+wpAmNv
+         T9o5T51UXeGAC8PY0e/dJSsEAeJCL79CCkRMNfyQnjXBUsH8+RxF6XddMCurXVkMGdfT
+         UwQJSGBW+iiRzyYdMPsOrpy+yu64udBa1ILAk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xzVa+kpI2P5pcrQ6q9RAyjwxclzwOqeJjWm5GlzFQtk=;
-        b=aHkZMA//rgvLD1Vpa1EK/J2oGJ9A+vLbvvrdsWYnFgbGb+1b4Fh8DCAmXtUQSdnDgz
-         Bro8l5EggNN3Jpuv2B3h6sPpniBdOXS2Js9XZQaXq4ZziAKguaitW7qvJgu9HRFaBKAI
-         ZnvFBzWdZpzm0uK51+x7wtlvsFt41Wb+E+dtrcS3eWfN4ehufhP02PiozwE6OXpah4jq
-         dkW7jkin3j+v2NkFfTBVDXyJSK0MP47I7wV4+rbLviYzzJZ0E0SArLRfPeFHRBpCkdQO
-         1Skt40Aa1oK2ulTswJJduRaxLZ/ghxGk52bX/3Nh5AuKMTOBj/bZtzT622XH+x9Nj9TI
-         gd+g==
-X-Gm-Message-State: AOAM531hpBOuI9NAXp1l+nq2i5wNnbOT2LdalvDa4+wsGM0NB4FuZDJ8
-	rcYOM1u9/LZGU6CxcbUIyDQ=
-X-Google-Smtp-Source: ABdhPJzxdWGPv1XAWrMDsXWHrZgoHwdcemerau22RVBNPdYWRaF6qMmCgG/0CwqjNt0cfHA8s+aI4g==
-X-Received: by 2002:a17:902:ec86:: with SMTP id x6mr22630459plg.96.1643657883448;
-        Mon, 31 Jan 2022 11:38:03 -0800 (PST)
-Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id j10sm19471459pfu.93.2022.01.31.11.38.00
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=FxNR4P5lDXdqDoRY6o7wMDtTBWXikuXUtP+0kdBf7FQ=;
+        b=ClDM4ul1WjkqLK0mT7L8wwG0E3SqfBF1HsHtarAeM5hE1P5D7deKLoorpKj1hgNycW
+         oxYZ20Nn5snopCt08lSA+OKGOkV1s86J8SohKnxqdxWiQn4qYgIVHVNCVrh/c/qfPiA7
+         azGKNlfrWcX+cwO3kURff1L9aT7omG5057SYNev1HFFIm8zI+6Vc1iq4tqrBvJr5Ry0l
+         1FmDBvgtQdk7KD3wB4uOEmBxGZjL6GcoXb2QXfSCzmIHWf+q70dePKK2R5aIhJFKWRWu
+         lfEmk4CU30oo1Z98eRxzPZvsb9aqyz5xgjxFlsy9N0nyoP9CWlCmb2/XVX87ngUwYORk
+         +PuQ==
+X-Gm-Message-State: AOAM531ljFBtunWWJITGHL4PNVFtVd8M6XNFWjHyOZ3FYljG7PlNTkm1
+	GND+gbRlXM47XlYg9NC4MErvVg==
+X-Google-Smtp-Source: ABdhPJwF2QvK4hmf/7QGpz8EsMBpbsf23W007iTEYAPXtLNPFXTESQvIlo2rylKpGsmivnZGCNYQaQ==
+X-Received: by 2002:adf:e8ce:: with SMTP id k14mr10214483wrn.284.1643663214293;
+        Mon, 31 Jan 2022 13:06:54 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id b11sm314961wmq.46.2022.01.31.13.06.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jan 2022 11:38:02 -0800 (PST)
-Date: Tue, 1 Feb 2022 08:37:57 +1300
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: pi433: add debugfs interface
-Message-ID: <Yfg6laurUQF02TPR@mail.google.com>
-References: <20220126132116.GA1951@kadam>
- <YfX+llwDWZZMz+NY@mail.google.com>
- <20220131134558.GL1951@kadam>
+        Mon, 31 Jan 2022 13:06:53 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+	linux-fbdev@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Jens Frederich <jfrederich@gmail.com>,
+	Jon Nettleton <jon.nettleton@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	Daniel Vetter <daniel.vetter@intel.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Helge Deller <deller@gmx.de>,
+	Matthew Wilcox <willy@infradead.org>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+	Zheyu Ma <zheyuma97@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH 21/21] fbdev: Make registered_fb[] private to fbmem.c
+Date: Mon, 31 Jan 2022 22:05:52 +0100
+Message-Id: <20220131210552.482606-22-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
+References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220131134558.GL1951@kadam>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 31, 2022 at 04:45:58PM +0300, Dan Carpenter wrote:
-> On Sun, Jan 30, 2022 at 03:57:26PM +1300, Paulo Miguel Almeida wrote:
-> > +	dev = m->private;
-> > +
-> > +	mutex_lock(&dev->tx_fifo_lock);
-> > +	mutex_lock(&dev->rx_lock);
-> > +
-> > +	// wait for on-going operations to finish
-> > +	ret = wait_event_interruptible(dev->rx_wait_queue, !dev->tx_active);
-> > +	if (ret)
-> > +		return ret;
-> 
-> Drop the two mutexes before returning.
-> 
+Well except when the olpc dcon fbdev driver is enabled, that thing
+digs around in there in rather unfixable ways.
 
+Cc oldc_dcon maintainers as fyi.
 
-thanks for taking the time for reviewing this patch.
+Cc: Jens Frederich <jfrederich@gmail.com>
+Cc: Jon Nettleton <jon.nettleton@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+Cc: linux-fbdev@vger.kernel.org
+Cc: Zheyu Ma <zheyuma97@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+---
+ drivers/video/fbdev/core/fbmem.c | 8 ++++++--
+ include/linux/fb.h               | 7 +++----
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
-good catch, I completely missed it. Thanks a lot!
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 904ef1250677..dad6572942fa 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -48,10 +48,14 @@
+ static DEFINE_MUTEX(registration_lock);
+ 
+ struct fb_info *registered_fb[FB_MAX] __read_mostly;
+-EXPORT_SYMBOL(registered_fb);
+-
+ int num_registered_fb __read_mostly;
++#if IS_ENABLED(CONFIG_OLPC_DCON)
++EXPORT_SYMBOL(registered_fb);
+ EXPORT_SYMBOL(num_registered_fb);
++#endif
++#define for_each_registered_fb(i)		\
++	for (i = 0; i < FB_MAX; i++)		\
++		if (!registered_fb[i]) {} else
+ 
+ bool fb_center_logo __read_mostly;
+ 
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index a8a00d2ba1f3..e236817502c2 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -622,16 +622,15 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
+ extern int fb_get_options(const char *name, char **option);
+ extern int fb_new_modelist(struct fb_info *info);
+ 
++#if IS_ENABLED(CONFIG_OLPC_DCON)
+ extern struct fb_info *registered_fb[FB_MAX];
++
+ extern int num_registered_fb;
++#endif
+ extern bool fb_center_logo;
+ extern int fb_logo_count;
+ extern struct class *fb_class;
+ 
+-#define for_each_registered_fb(i)		\
+-	for (i = 0; i < FB_MAX; i++)		\
+-		if (!registered_fb[i]) {} else
+-
+ static inline void lock_fb_info(struct fb_info *info)
+ {
+ 	mutex_lock(&info->lock);
+-- 
+2.33.0
 
-thanks,
-
-Paulo Almeida
