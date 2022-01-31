@@ -1,97 +1,116 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from relay.hostedemail.com (relay031.a.hostedemail.com [64.99.140.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D64229CA
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 13:25:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643635549; x=1675171549;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PV2NMENejzNWL/eUmut4tFJ0nE85m4L6jACezcDdRYI=;
-  b=ZD7uVo38BRZ2AeTJHkBsqwWJt1ypKa/Y4aH/5XKp/ONxqHjjvYFDV0dt
-   H6vP8BWahbkV9l00KNtMcERcRXiSjw+oVsrwXrn8EGtdRYk5AVupZKfsX
-   e+vaGtOOk/jrJlQIrSFJpkFms9Vn7ev6EJ49C/8n+ma3UTFmXcxY++1Tt
-   C0bG+rgso+RqxGHaQvnJZIczKZd+cm0wl/XCGCv2FN8V2frALl/f8cjqi
-   88S4gTf5SHwiRd33RCsDYW+6MY46/dDPL87RcaqbcQgNRe6PdA2EuPCEE
-   s4o5Pk3E3FUCycfjLjZGqhLFkZH4OJmdxiUYcSYIK03KzemGzurGcxTpC
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="247412839"
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
-   d="scan'208";a="247412839"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 05:25:48 -0800
-X-IronPort-AV: E=Sophos;i="5.88,331,1635231600"; 
-   d="scan'208";a="481748551"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 05:25:45 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1nEWfh-00GseD-PN;
-	Mon, 31 Jan 2022 15:24:41 +0200
-Date: Mon, 31 Jan 2022 15:24:41 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Andy Shevchenko <andy@kernel.org>, linux-fbdev@vger.kernel.org,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helge Deller <deller@gmx.de>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Carlis <zhangxuezhi1@yulong.com>, Lee Jones <lee.jones@linaro.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-Message-ID: <YffjGQY4KgsAqniL@smile.fi.intel.com>
-References: <YfEv7OQs98O9wJdJ@kroah.com>
- <YfFIpBb7lL4ukWjm@smile.fi.intel.com>
- <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com>
- <YfFWPmG2D093gz4N@smile.fi.intel.com>
- <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
- <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
- <YffJujbpUGUqpIk/@smile.fi.intel.com>
- <5a3fffc8-b2d8-6ac3-809e-e8e71b66a8ea@redhat.com>
- <YffiwCiFnqF1X1pD@smile.fi.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D69D29CA
+	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 13:33:12 +0000 (UTC)
+Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id 759F320CE6;
+	Mon, 31 Jan 2022 13:33:04 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf18.hostedemail.com (Postfix) with ESMTPA id 971C233;
+	Mon, 31 Jan 2022 13:32:47 +0000 (UTC)
+Message-ID: <8faabe9985a330afc41d774db3ac899e1453c88d.camel@perches.com>
+Subject: Re: [PATCH v2] staging: media: atomisp: Use BIT macro instead of
+ left shifting
+From: Joe Perches <joe@perches.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Moses Christopher Bollavarapu
+	 <mosescb.dev@gmail.com>
+Cc: andriy.shevchenko@linux.intel.com, gregkh@linuxfoundation.org, 
+ kitakar@gmail.com, laurent.pinchart@ideasonboard.com, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com,  tomi.valkeinen@ideasonboard.com
+Date: Mon, 31 Jan 2022 05:33:00 -0800
+In-Reply-To: <20220131073624.GH1951@kadam>
+References: <YfVstOJ38OTtd43n@smile.fi.intel.com>
+	 <20220130180655.22970-1-mosescb.dev@gmail.com>
+	 <20220131073624.GH1951@kadam>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YffiwCiFnqF1X1pD@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 971C233
+X-Spam-Status: No, score=-2.99
+X-Stat-Signature: yyiar3d9dom5ro6b3omwwrzjn55z5zrd
+X-Rspamd-Server: rspamout06
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+wLKO2r8bL7xWLkEInCdDfMKblV0U7hAY=
+X-HE-Tag: 1643635967-396179
 
-On Mon, Jan 31, 2022 at 03:23:13PM +0200, Andy Shevchenko wrote:
-> On Mon, Jan 31, 2022 at 01:08:32PM +0100, Javier Martinez Canillas wrote:
-> > On 1/31/22 12:36, Andy Shevchenko wrote:
-
-...
-
-> > I actually added this dependency deliberative. It's true that the driver is using
-> > the device properties API and so there isn't anything from the properties parsing
-> > point of view that depends on OF. And the original driver didn't depend on OF.
+On Mon, 2022-01-31 at 10:36 +0300, Dan Carpenter wrote:
+> On Sun, Jan 30, 2022 at 07:06:55PM +0100, Moses Christopher Bollavarapu wrote:
+> > There is a BIT(nr) macro available in Linux Kernel,
+> > which does the same thing.
+> > Example: BIT(7) = (1UL << 7)
 > > 
-> > But the original driver also only would had worked with Device Trees since the
-> > of_device_id table is the only one that contains the device specific data info.
+> > Also use GENMASK for masking
+> > Example: GENMASK(3, 0) = 0b00001111 (same as (1 << 4) - 1)
 > > 
-> > The i2c_device_id table only listed the devices supported to match, but then it
-> > would only had worked with the default values that are set by the driver.
-> > 
-> > So in practice it *does* depend on OF. I'll be happy to drop that dependency if
-> > you provide an acpi_device_id table to match.
+> > Signed-off-by: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
 > 
-> The code is deceptive and you become to a wrong conclusion. No, the driver
-> does NOT depend on OF as a matter of fact. The tricky part is the PRP0001
-> ACPI PNP ID that allows to reuse it on ACPI-based platforms.
+> This patch does a couple unrelated things.  Break out the GENMASK()
+> change into its own patch.
 > 
-> That said, please drop OF dependency.
+> > @@ -65,7 +66,7 @@ enum ia_css_fw_type {
+> >  	ia_css_sp_firmware,		/** Firmware for the SP */
+> >  	ia_css_isp_firmware,		/** Firmware for the ISP */
+> >  	ia_css_bootloader_firmware,	/** Firmware for the BootLoader */
+> > -	ia_css_acc_firmware		/** Firmware for accelrations */
+> > +	ia_css_acc_firmware,		/** Firmware for accelrations */
+> >  };
+> 
+> This change needs to be in its own patch.
 
-Side note: 72915994e028 ("video: ssd1307fb: Make use of device properties")
+Because it's unrelated.  As is the repetitive use of 'Firmware for'
+and the typo/misspelling of accelerations.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Another possibility would be to change the /** to /* or maybe
+change to // and remove the ' */' trailing comment termination
+also in a separate patch.
+
+> > diff --git a/drivers/staging/media/atomisp/pci/ia_css_env.h b/drivers/staging/media/atomisp/pci/ia_css_env.h
+[]
+> >  enum ia_css_rx_irq_info {
+> > -	IA_CSS_RX_IRQ_INFO_BUFFER_OVERRUN   = 1U << 0, /** buffer overrun */
+> > -	IA_CSS_RX_IRQ_INFO_ENTER_SLEEP_MODE = 1U << 1, /** entering sleep mode */
+> > -	IA_CSS_RX_IRQ_INFO_EXIT_SLEEP_MODE  = 1U << 2, /** exited sleep mode */
+> > -	IA_CSS_RX_IRQ_INFO_ECC_CORRECTED    = 1U << 3, /** ECC corrected */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_SOT          = 1U << 4,
+> > +	IA_CSS_RX_IRQ_INFO_BUFFER_OVERRUN   = BIT(0), /** buffer overrun */
+> > +	IA_CSS_RX_IRQ_INFO_ENTER_SLEEP_MODE = BIT(1), /** entering sleep mode */
+> > +	IA_CSS_RX_IRQ_INFO_EXIT_SLEEP_MODE  = BIT(2), /** exited sleep mode */
+> > +	IA_CSS_RX_IRQ_INFO_ECC_CORRECTED    = BIT(3), /** ECC corrected */
+> > +	IA_CSS_RX_IRQ_INFO_ERR_SOT          = BIT(4),
+> >  	/** Start of transmission */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_SOT_SYNC     = 1U << 5, /** SOT sync (??) */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_CONTROL      = 1U << 6, /** Control (??) */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_ECC_DOUBLE   = 1U << 7, /** Double ECC */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_CRC          = 1U << 8, /** CRC error */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_UNKNOWN_ID   = 1U << 9, /** Unknown ID */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_FRAME_SYNC   = 1U << 10,/** Frame sync error */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_FRAME_DATA   = 1U << 11,/** Frame data error */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_DATA_TIMEOUT = 1U << 12,/** Timeout occurred */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_UNKNOWN_ESC  = 1U << 13,/** Unknown escape seq. */
+> > -	IA_CSS_RX_IRQ_INFO_ERR_LINE_SYNC    = 1U << 14,/** Line Sync error */
+> > -	IA_CSS_RX_IRQ_INFO_INIT_TIMEOUT     = 1U << 15,
+> > +	IA_CSS_RX_IRQ_INFO_ERR_SOT_SYNC     = BIT(5), /** SOT sync (??) */
+> > +	IA_CSS_RX_IRQ_INFO_ERR_CONTROL      = BIT(6), /** Control (??) */
+> > +	IA_CSS_RX_IRQ_INFO_ERR_ECC_DOUBLE   = BIT(7), /** Double ECC */
+> > +	IA_CSS_RX_IRQ_INFO_ERR_CRC          = BIT(8), /** CRC error */
+> > +	IA_CSS_RX_IRQ_INFO_ERR_UNKNOWN_ID   = BIT(9), /** Unknown ID */
+> > +	IA_CSS_RX_IRQ_INFO_ERR_FRAME_SYNC   = BIT(10),/** Frame sync error */
+> > +	IA_CSS_RX_IRQ_INFO_ERR_FRAME_DATA   = BIT(11),/** Frame data error */
+> > +	IA_CSS_RX_IRQ_INFO_ERR_DATA_TIMEOUT = BIT(12),/** Timeout occurred */
+> > +	IA_CSS_RX_IRQ_INFO_ERR_UNKNOWN_ESC  = BIT(13),/** Unknown escape seq. */
+> > +	IA_CSS_RX_IRQ_INFO_ERR_LINE_SYNC    = BIT(14),/** Line Sync error */
+> 
+> The comment is kind of messed up.  There should be a space after the
+> comma and just /* Line Sync error */
+
+or just a tab before all of the comments
 
 
