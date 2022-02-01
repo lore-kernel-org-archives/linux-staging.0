@@ -1,41 +1,41 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8693FE0
-	for <linux-staging@lists.linux.dev>; Tue,  1 Feb 2022 08:43:13 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id j23so32550934edp.5
-        for <linux-staging@lists.linux.dev>; Tue, 01 Feb 2022 00:43:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A103FDC
+	for <linux-staging@lists.linux.dev>; Tue,  1 Feb 2022 08:43:14 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id k25so51424809ejp.5
+        for <linux-staging@lists.linux.dev>; Tue, 01 Feb 2022 00:43:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=08thSjsgd1AJJVXbNNLuNDEbPWt749B6BX7mkpr4V3o=;
-        b=kSKHoRyVchCr9vi0DKFilMcjnyIIfwONZLBn9uxTfv1ggMfpgtyvHl5LgNCmsrqLLm
-         U2G3IdDO2Sroe6/gbvyCjV8j8ZWttXZZ39avQ2ZpyY/V3Dvhv8CSjW9SNoIMfkY/0Nhf
-         ehwElTrXFdTVtZwOLvR+JvBsp/i5JMb2KKGuSo9I/VjGrVbnutrUUbKSEMP0pMi7DW5P
-         u204ZBFZdLOG/pyAD3Bcb5aKhXerl0a0sdAYcSLKaDa4XGVlV781LVt/+LwRLjRlNd5C
-         4IXLx9uiUikUgSh9FMPcgwmz3aentygoo1+oRldykPZ46K4ViSCBfeiPLZ/HPCbPDQTd
-         PeNA==
+        bh=vPQCFVUGDeDMouS1odhJlOYowD2BZ8XAZv0e1KiFcMo=;
+        b=nJcTaD/F0+VZC2ybxywaJf7H0PwTo7aCzxgk9dVSrGKWlo20fo5rvndS+5shAyM7gq
+         LreNSVdToXdQx4fcD84XRMJrjYloOdma44WtUODA9YqsIaEZAuwZ3vQ8dj42CkFEjmui
+         bBrOqQKTM6Qqs/eQTxL0qWbrTj8XK/ZRLFRcJMgstRWD76y71PJF2XYmjOGJ8EWaC29P
+         3GH5M9gplz37Iarer4/JB4eYQ8CstWfcYfcrdGpJMHMbuiJyo4iNAr0cDmLODUeQkvB6
+         0iqYoHmh2J7AZ2TkyUxYWgLbgMzKhlTrGjjyElfwUAhl5TsU/Ad6fyXJtlFtu1ml9wuY
+         4Slw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=08thSjsgd1AJJVXbNNLuNDEbPWt749B6BX7mkpr4V3o=;
-        b=lbeh4fRLnIVCQ8OvZ2xD4HSePvq8coZ1Uxx2uU4QiiamBOLL0nSK41AhBEk527CcCN
-         Oecs3NguM4R77cAvNG9X6Yxb2KLrAETuTuJRwhEoV2rfprrT1z4n1RkctjwPScG0zcFV
-         gpDKXqc+nau+I7OC9p3uZZVMx7JWPZM7LCptP/imeEPNN3sRFaAZbkfpgPcnCpUZRp9I
-         iNW/HXeg7OObwE2zpIkNh34+4nMVuqHzxW+FC+D15czafjj5K6eAOvjZU0vk6xm0rwoy
-         mCDNCSNHfOK600aYwKID/XbESxhJBnGAO6pWjbP6HF8MlrxU/qKdqDIxi7Ozepch9VTx
-         pGfw==
-X-Gm-Message-State: AOAM53312mztRqO26mbjJciDUShzNyz2QKtnQGeIN1AT2BlWw6T5zgzf
-	w7a63wBaM6xWfuuBLZw/YOE=
-X-Google-Smtp-Source: ABdhPJw06DCVkCUqXomP7kIF/fgeasEVzVcSC+tzC6zr42aD2TnRVzeMXMx0vZwyDvIK18ko3l8xVA==
-X-Received: by 2002:a05:6402:34c7:: with SMTP id w7mr24203551edc.397.1643704992264;
+        bh=vPQCFVUGDeDMouS1odhJlOYowD2BZ8XAZv0e1KiFcMo=;
+        b=p5CryO4xZBhK8Xw2UB5lrc9OGyF9MAMZH4rO4pPy66hwVE5BYCXKPaIc0bAwIKvpyC
+         RrwyqKP6j7pYh1MeCaHvuHleOZjFH2IwfNbMtbsJwWOZbkGVljwXLdEQjVzcBwMTNR69
+         P2oDFw2o9wT9XCiucP7+zai6PXiBVOYTTb2LJYJmWnNMJZfu4xb+BxyxJFZTs9/39Fs0
+         oYHHaCySLKaaR44Gw/I7X63ahofiHOCmc7f+9P64SZo3zIvpbHk2MtXDpY5cwPvPcc8M
+         HPDRGx/huGRf7Zi8dFnBE8AACR6frP7dzg7iUBVN47nFiWdw5epoAjaPO8w1YuLhGzI+
+         pt5w==
+X-Gm-Message-State: AOAM530HtKN13glI64sxBtb0xlukPExU4xvM266gzAvHUPZeB9Myc2pc
+	eksxwC6ODs3F7JEspBmyCf4=
+X-Google-Smtp-Source: ABdhPJzLIKmai4++TF1kULNC15dnHMhxMezgP2z433alncp1QshFpkCsfuz6oLyJFtCEK/+j41WmpQ==
+X-Received: by 2002:a17:907:6290:: with SMTP id nd16mr19760537ejc.33.1643704992960;
         Tue, 01 Feb 2022 00:43:12 -0800 (PST)
 Received: from localhost.localdomain (ip5f5abb5a.dynamic.kabel-deutschland.de. [95.90.187.90])
-        by smtp.gmail.com with ESMTPSA id c14sm19123431edy.66.2022.02.01.00.43.11
+        by smtp.gmail.com with ESMTPSA id c14sm19123431edy.66.2022.02.01.00.43.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Feb 2022 00:43:11 -0800 (PST)
+        Tue, 01 Feb 2022 00:43:12 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/9] staging: r8188eu: remove PGMaxGroup from struct hal_data_8188e
-Date: Tue,  1 Feb 2022 09:42:52 +0100
-Message-Id: <20220201084259.7497-3-straube.linux@gmail.com>
+Subject: [PATCH 3/9] staging: r8188eu: remove ReceiveConfig from struct hal_data_8188e
+Date: Tue,  1 Feb 2022 09:42:53 +0100
+Message-Id: <20220201084259.7497-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220201084259.7497-1-straube.linux@gmail.com>
 References: <20220201084259.7497-1-straube.linux@gmail.com>
@@ -57,54 +57,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-the variable PGMaxGroup in struct hal_data_8188e is set to 13 and
-never changed. We can use the already defined constant MAX_PG_GROUP,
-which is 13, and remove PGMaxGroup from struct hal_data_8188e.
+The ReceiveConfig variable in struct hal_data_8188e is only used
+to store a local value. Use a local variable instead and remove
+ReceiveConfig from struct hal_data_8188e.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_rf6052.c  | 2 +-
- drivers/staging/r8188eu/hal/usb_halinit.c      | 1 -
- drivers/staging/r8188eu/include/rtl8188e_hal.h | 1 -
- 3 files changed, 1 insertion(+), 3 deletions(-)
+ drivers/staging/r8188eu/hal/usb_halinit.c      | 12 +++++-------
+ drivers/staging/r8188eu/include/rtl8188e_hal.h |  1 -
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-index 9b06a23df2ac..ea847ec39e13 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-@@ -200,7 +200,7 @@ static void get_rx_power_val_by_reg(struct adapter *Adapter, u8 Channel,
- 			/*  increase power diff defined by Realtek for regulatory */
- 			if (pHalData->pwrGroupCnt == 1)
- 				chnlGroup = 0;
--			if (pHalData->pwrGroupCnt >= pHalData->PGMaxGroup) {
-+			if (pHalData->pwrGroupCnt >= MAX_PG_GROUP) {
- 				if (Channel < 3)			/*  Channel 1-2 */
- 					chnlGroup = 0;
- 				else if (Channel < 6)		/*  Channel 3-5 */
 diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 0fdade585d25..91b854c7b9a1 100644
+index 91b854c7b9a1..2252e8a1d55b 100644
 --- a/drivers/staging/r8188eu/hal/usb_halinit.c
 +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1738,7 +1738,6 @@ void rtl8188eu_init_default_value(struct adapter *adapt)
- 	haldata->odmpriv.RFCalibrateInfo.bIQKInitialized = false;
- 	haldata->odmpriv.RFCalibrateInfo.TM_Trigger = 0;/* for IQK */
- 	haldata->pwrGroupCnt = 0;
--	haldata->PGMaxGroup = 13;
- 	haldata->odmpriv.RFCalibrateInfo.ThermalValue_HP_index = 0;
- 	for (i = 0; i < HP_THERMAL_NUM; i++)
- 		haldata->odmpriv.RFCalibrateInfo.ThermalValue_HP[i] = 0;
+@@ -324,15 +324,13 @@ static void _InitDriverInfoSize(struct adapter *Adapter, u8 drvInfoSize)
+ 
+ static void _InitWMACSetting(struct adapter *Adapter)
+ {
+-	struct hal_data_8188e *haldata = &Adapter->haldata;
+-
+-	haldata->ReceiveConfig = RCR_AAP | RCR_APM | RCR_AM | RCR_AB |
+-				  RCR_CBSSID_DATA | RCR_CBSSID_BCN |
+-				  RCR_APP_ICV | RCR_AMF | RCR_HTC_LOC_CTRL |
+-				  RCR_APP_MIC | RCR_APP_PHYSTS;
++	u32 receive_config = RCR_AAP | RCR_APM | RCR_AM | RCR_AB |
++			     RCR_CBSSID_DATA | RCR_CBSSID_BCN |
++			     RCR_APP_ICV | RCR_AMF | RCR_HTC_LOC_CTRL |
++			     RCR_APP_MIC | RCR_APP_PHYSTS;
+ 
+ 	/*  some REG_RCR will be modified later by phy_ConfigMACWithHeaderFile() */
+-	rtw_write32(Adapter, REG_RCR, haldata->ReceiveConfig);
++	rtw_write32(Adapter, REG_RCR, receive_config);
+ 
+ 	/*  Accept all multicast address */
+ 	rtw_write32(Adapter, REG_MAR, 0xFFFFFFFF);
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 2de7c0464411..661c447a0453 100644
+index 661c447a0453..88246ef65f8a 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -150,7 +150,6 @@ struct txpowerinfo24g {
- 
+@@ -151,7 +151,6 @@ struct txpowerinfo24g {
  struct hal_data_8188e {
  	struct HAL_VERSION	VersionID;
--	u8	PGMaxGroup;
  	/* current WIFI_PHY values */
- 	u32	ReceiveConfig;
+-	u32	ReceiveConfig;
  	enum ht_channel_width CurrentChannelBW;
+ 	u8	CurrentChannel;
+ 	u8	nCur40MhzPrimeSC;/*  Control channel sub-carrier */
 -- 
 2.34.1
 
