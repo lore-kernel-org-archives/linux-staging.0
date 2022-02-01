@@ -1,144 +1,87 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009F02C82
-	for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 21:06:55 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id c23so27904238wrb.5
-        for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 13:06:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA12329CA
+	for <linux-staging@lists.linux.dev>; Tue,  1 Feb 2022 07:09:43 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id e28so15044223pfj.5
+        for <linux-staging@lists.linux.dev>; Mon, 31 Jan 2022 23:09:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FxNR4P5lDXdqDoRY6o7wMDtTBWXikuXUtP+0kdBf7FQ=;
-        b=Lo4AW9guvOF81u6WGQBXjsTZUvFuBcQIdzBj2fKuxIY0ijvWI/WKVVcAEew+wpAmNv
-         T9o5T51UXeGAC8PY0e/dJSsEAeJCL79CCkRMNfyQnjXBUsH8+RxF6XddMCurXVkMGdfT
-         UwQJSGBW+iiRzyYdMPsOrpy+yu64udBa1ILAk=
+        d=gmail.com; s=20210112;
+        h=from:subject:to:cc:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=30OxmrfKBbCG4hj/X3lsJFFvPMa8rJcIl2RH+GTl1+c=;
+        b=mhDV0XtJlte0Om1SvFzaHSKspJpOm4zs+iaK7pwkTbq02CRjXk7keFp0VG1dgt3NAQ
+         HhZlEK8n/5JsdmEiiQgaYAyhBJ8QJOSOQknTuBXjZ5oj0+MtTPh8fVsqxVLFjWWxuW/v
+         wQ59egONKIocS0nvyFlCnlLGT1yIaPO14HhFbVcCyQVsX0TqGvo+HUCSJcXUOnI2pC10
+         WNBa763RKmq7xot14B/U2BzflA796QfH98wCFvmBVEmtiQ7VnCtqIvoblsjaW236AAgf
+         shU7DLKubnotSnFp/70OkQBgfj8DGsLOwm5y2os0E/SHhZpxFpX6lMq6hMmvbIRKOdOD
+         TMnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FxNR4P5lDXdqDoRY6o7wMDtTBWXikuXUtP+0kdBf7FQ=;
-        b=ClDM4ul1WjkqLK0mT7L8wwG0E3SqfBF1HsHtarAeM5hE1P5D7deKLoorpKj1hgNycW
-         oxYZ20Nn5snopCt08lSA+OKGOkV1s86J8SohKnxqdxWiQn4qYgIVHVNCVrh/c/qfPiA7
-         azGKNlfrWcX+cwO3kURff1L9aT7omG5057SYNev1HFFIm8zI+6Vc1iq4tqrBvJr5Ry0l
-         1FmDBvgtQdk7KD3wB4uOEmBxGZjL6GcoXb2QXfSCzmIHWf+q70dePKK2R5aIhJFKWRWu
-         lfEmk4CU30oo1Z98eRxzPZvsb9aqyz5xgjxFlsy9N0nyoP9CWlCmb2/XVX87ngUwYORk
-         +PuQ==
-X-Gm-Message-State: AOAM531ljFBtunWWJITGHL4PNVFtVd8M6XNFWjHyOZ3FYljG7PlNTkm1
-	GND+gbRlXM47XlYg9NC4MErvVg==
-X-Google-Smtp-Source: ABdhPJwF2QvK4hmf/7QGpz8EsMBpbsf23W007iTEYAPXtLNPFXTESQvIlo2rylKpGsmivnZGCNYQaQ==
-X-Received: by 2002:adf:e8ce:: with SMTP id k14mr10214483wrn.284.1643663214293;
-        Mon, 31 Jan 2022 13:06:54 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id b11sm314961wmq.46.2022.01.31.13.06.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Jan 2022 13:06:53 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	linux-fbdev@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	Daniel Vetter <daniel.vetter@intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Helge Deller <deller@gmx.de>,
-	Matthew Wilcox <willy@infradead.org>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Zhen Lei <thunder.leizhen@huawei.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Xiyu Yang <xiyuyang19@fudan.edu.cn>,
-	Zheyu Ma <zheyuma97@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH 21/21] fbdev: Make registered_fb[] private to fbmem.c
-Date: Mon, 31 Jan 2022 22:05:52 +0100
-Message-Id: <20220131210552.482606-22-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
-References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
+        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=30OxmrfKBbCG4hj/X3lsJFFvPMa8rJcIl2RH+GTl1+c=;
+        b=Z1/KWA2juXFfNUrlEwQBx9hIm+bGN8Ikm3/UNIe0wwwLC9+mYqyuJicQ6Ly4+Qf8F4
+         Bxdrt8/doY2z3WzC4lL0k9VBKxDOI+t6wHhjxHKxM55nwHri9xySQ5EKBalZT7vfkP23
+         4uH87S3LL/9hZmIj9sct/2O8FbOuO6eMxnGzOZSWCiSvsS5HtdbPjItiAVh/LBeoUtWQ
+         +Vx3hWZNy3QnIw84BshgTlM5PF0m3frxSk8k5M1ti7ZwYBzo9FKYnLZLC8F9MT60M7bY
+         K9Wefn3Ow8yYceddr/otCG3tFtCFAym9yiF5hDHpS4tiaH6q2Dy0VOs0v72qwUx4uHIr
+         0sUw==
+X-Gm-Message-State: AOAM5325H3YRvxYH4KZGa0HvOimthw+LY42EF8ZmfCjWcv/vqZKGVTt6
+	3ZJ39hFQDi3sChfUGtEISw0=
+X-Google-Smtp-Source: ABdhPJziuKz49mS+l3/gxjF2ulHnmtnYWYPEnlwQpCgJgPtp9ORDVwZExaGCW2JC7ubPOPU27LhpOQ==
+X-Received: by 2002:a63:f30e:: with SMTP id l14mr19357924pgh.410.1643699383259;
+        Mon, 31 Jan 2022 23:09:43 -0800 (PST)
+Received: from [10.59.0.6] ([85.203.23.80])
+        by smtp.gmail.com with ESMTPSA id q19sm19964158pfn.159.2022.01.31.23.09.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Jan 2022 23:09:42 -0800 (PST)
+From: Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [BUG] staging: wfx: possible deadlock in wfx_conf_tx() and
+ wfx_add_interface()
+To: jerome.pouiller@silabs.com, Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
+Message-ID: <6f489bf2-bac0-8030-7ea5-6f5c12daa568@gmail.com>
+Date: Tue, 1 Feb 2022 15:09:34 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Well except when the olpc dcon fbdev driver is enabled, that thing
-digs around in there in rather unfixable ways.
+Hello,
 
-Cc oldc_dcon maintainers as fyi.
+My static analysis tool reports a possible deadlock in the wfx driver in 
+Linux 5.16:
 
-Cc: Jens Frederich <jfrederich@gmail.com>
-Cc: Jon Nettleton <jon.nettleton@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Zhen Lei <thunder.leizhen@huawei.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-Cc: linux-fbdev@vger.kernel.org
-Cc: Zheyu Ma <zheyuma97@gmail.com>
-Cc: Guenter Roeck <linux@roeck-us.net>
----
- drivers/video/fbdev/core/fbmem.c | 8 ++++++--
- include/linux/fb.h               | 7 +++----
- 2 files changed, 9 insertions(+), 6 deletions(-)
+wfx_conf_tx()
+   mutex_lock(&wdev->conf_mutex); --> Line 225 (Lock A)
+   wfx_update_pm()
+     wait_for_completion_timeout(&wvif->set_pm_mode_complete, ...); --> 
+Line 3019 (Wait X)
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 904ef1250677..dad6572942fa 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -48,10 +48,14 @@
- static DEFINE_MUTEX(registration_lock);
- 
- struct fb_info *registered_fb[FB_MAX] __read_mostly;
--EXPORT_SYMBOL(registered_fb);
--
- int num_registered_fb __read_mostly;
-+#if IS_ENABLED(CONFIG_OLPC_DCON)
-+EXPORT_SYMBOL(registered_fb);
- EXPORT_SYMBOL(num_registered_fb);
-+#endif
-+#define for_each_registered_fb(i)		\
-+	for (i = 0; i < FB_MAX; i++)		\
-+		if (!registered_fb[i]) {} else
- 
- bool fb_center_logo __read_mostly;
- 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index a8a00d2ba1f3..e236817502c2 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -622,16 +622,15 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
- extern int fb_get_options(const char *name, char **option);
- extern int fb_new_modelist(struct fb_info *info);
- 
-+#if IS_ENABLED(CONFIG_OLPC_DCON)
- extern struct fb_info *registered_fb[FB_MAX];
-+
- extern int num_registered_fb;
-+#endif
- extern bool fb_center_logo;
- extern int fb_logo_count;
- extern struct class *fb_class;
- 
--#define for_each_registered_fb(i)		\
--	for (i = 0; i < FB_MAX; i++)		\
--		if (!registered_fb[i]) {} else
--
- static inline void lock_fb_info(struct fb_info *info)
- {
- 	mutex_lock(&info->lock);
--- 
-2.33.0
+wfx_add_interface()
+   mutex_lock(&wdev->conf_mutex); --> Line 737 (Lock A)
+   complete(&wvif->set_pm_mode_complete); --> Line 758 (Wake X)
+
+When wfx_conf_tx() is executed, "Wait X" is performed by holding "Lock 
+A". If wfx_add_interface() is executed at this time, "Wake X" cannot be 
+performed to wake up "Wait X" in wfx_conf_tx(), because "Lock A" has 
+been already hold by wfx_conf_tx(), causing a possible deadlock.
+I find that "Wait X" is performed with a timeout, to relieve the 
+possible deadlock; but I think this timeout can cause inefficient execution.
+
+I am not quite sure whether this possible problem is real and how to fix 
+it if it is real.
+Any feedback would be appreciated, thanks :)
+
+
+Best wishes,
+Jia-Ju Bai
 
