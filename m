@@ -1,52 +1,66 @@
-Received: from mail.profitfirm24.com.pl (mail.profitfirm24.com.pl [212.237.10.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7A92F24
-	for <linux-staging@lists.linux.dev>; Wed,  2 Feb 2022 11:52:14 +0000 (UTC)
-Received: by mail.profitfirm24.com.pl (Postfix, from userid 1001)
-	id CC011AAA04; Tue,  1 Feb 2022 09:17:42 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitfirm24.com.pl;
-	s=mail; t=1643708019;
-	bh=M1ZVeu3q6Upppe+FUx/3rgI7MKJXh389NZDbgCK1SX4=;
-	h=Date:From:To:Subject:From;
-	b=UkUC0nnCR4U4gCQMDhKVsaW/tNvMkBj2MxUDp2wVumABW3V5SnnZcsq9tfsouqGdL
-	 5Z9MLmxQua5IQrSG7crmgQ2Vs03dVn7d2gQn5ncJCT+3bI69Zd3zPCckyqGaMT36y8
-	 yiRFBzXKS/j7XxF6zrJebgxnwN3QkN7/BYb49wpta+5+w+52iJZRz/3dh5tahiH18b
-	 gDx6cqTz/I4J17aMChiBP6PLu+CaRtBdE7n0o+QZWYVv/4RZs8u0EM4cvZbQAF+8s0
-	 C3fCg41SfqHnrigYIKIsLL7wumc6RXRNMyLKS6aecT/wvSeLzYQ9QgNdKuzTgDYsMs
-	 tLoLDqWF9ZlOA==
-Received: by profitfirm24.com.pl for <linux-staging@lists.linux.dev>; Tue,  1 Feb 2022 09:17:20 GMT
-Message-ID: <20220201074652-0.1.b.2zcy.0.jhymensicy@profitfirm24.com.pl>
-Date: Tue,  1 Feb 2022 09:17:20 GMT
-From: =?UTF-8?Q?"Arkadiusz_Soko=C5=82owski"?= <arkadiusz.sokolowski@profitfirm24.com.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: Koszty instalacji fotowoltaicznej
-X-Mailer: mail.profitfirm24.com.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2F82CA6;
+	Tue,  1 Feb 2022 15:44:03 +0000 (UTC)
+Received: by mail-vs1-f52.google.com with SMTP id x13so16616893vsl.10;
+        Tue, 01 Feb 2022 07:44:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
+        b=XlaBX5xf2kC2PYFh91EO4ufBvcLkfsBOS665OsIpRa9DQkpb7u+LxrdpNGJzxoAnJ0
+         6Zrb97yEFwak4wNM5a0BjH3AdPWqIlAwjxrNKkSzysr8CFAIoYhUPvJm6Qcznt67FGJa
+         7c9Sj9fxgdbh2vhCp424CZvvJ1UrpoZyojJwNagTfy7FdayiBCXf6mVeEEvxUs5vhht/
+         f371R1RqGkTBAQFf/gEHEAhojKs0nS5FarjH5vHJG+n5BYFkMvHQorqXLR+d0iWDZ/HK
+         EHDUCIDj5zcbSEABUPNFWoSmIlD5wghMJe3kzeG7eFpipQf7kXFiZVWg4C44VU3TC3nw
+         cf+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
+        b=zGWqDVvgo3fGsbJUB2qbvIbUvH3FmLFGHUe7O4oCMYpBJrFkJCMIFK//PeeEY27dNW
+         FJVH1D5lPoQIz/HYt1J6kvF3pumRsxJkVeDU4C+xGHfUTDHjzdDZ8Uq1yx/0rOlveP4T
+         OqlidV41qr9eNTbit0xjltpYkU8QE+ls6bENMCclSvCx05KpvL/Ar/ZVXM88n0WgBAsY
+         +GroZfSt5PL4L5Ci1iO9pDFt2A7B9n4uPRi28XozFi78gmHfKEqDBDz/U38CEePTzvPV
+         YgTe9grvQVGyD4R9AUGkfYdVM7kI6c1zcD0gfTmAfx1A0Sbc6mrVYsNFvC/PZCbJDXyr
+         C0EA==
+X-Gm-Message-State: AOAM532vhLytiotCRPAVTS3NkTMQHmEYmql1TzuqJLZI0zqU5xd8LK1I
+	GvHOROknFivWqBaI3vJmXBH7IStEIbb3TxGL5j4yUdNuUQuRxbH4ZY2xgQ==
+X-Google-Smtp-Source: ABdhPJwhlWLLV81lekh4LZE/fQYhJPXbW4owMGw7muEEAo0II3hymR3KzIUfuse9+LlQjTToAGFxAtsFrBNFhnqhg+w=
+X-Received: by 2002:a67:ca0d:: with SMTP id z13mr10443702vsk.9.1643730242915;
+ Tue, 01 Feb 2022 07:44:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+From: sanita retan <sanitaretan@gmail.com>
+Date: Tue, 1 Feb 2022 16:43:50 +0100
+Message-ID: <CABLemWhTUqqM=_vEScEc6i=rEAnhtUrQm6-XQOgAxrr3A8p5Qg@mail.gmail.com>
+Subject: subscribe
+To: sanitaretan@gmail.com
+Cc: chrome-platform+subscribe@lists.linux.dev, chrome-platform@lists.linux.dev, 
+	connman+subscribe@lists.linux.dev, connman@lists.linux.dev, 
+	containers+subscribe@lists.linux.dev, containers@lists.linux.dev, 
+	ell+subscribe@lists.linux.dev, ell@lists.linux.dev, 
+	iwd+subscribe@lists.linux.dev, iwd@lists.linux.dev, 
+	ksummit+subscribe@lists.linux.dev, ksummit@lists.linux.dev, 
+	landlock+subscribe@lists.linux.dev, landlock@lists.linux.dev, 
+	linux-coco+subscribe@lists.linux.dev, linux-coco@lists.linux.dev, 
+	linux-staging+subscribe@lists.linux.dev, linux-staging@lists.linux.dev, 
+	linux-sunxi+subscribe@lists.linux.dev, linux-sunxi@lists.linux.dev, 
+	llvm+subscribe@lists.linux.dev, llvm@lists.linux.dev, 
+	mhi+subscribe@lists.linux.dev, mhi@lists.linux.dev, 
+	mptcp+subscribe@lists.linux.dev, mptcp@lists.linux.dev, 
+	ntb+subscribe@lists.linux.dev, ntb@lists.linux.dev, 
+	ntfs3+subscribe@lists.linux.dev, ntfs3@lists.linux.dev, 
+	nvdimm+subscribe@lists.linux.dev, nvdimm@lists.linux.dev, 
+	ofono+subscribe@lists.linux.dev, ofono@lists.linux.dev, 
+	patches+subscribe@lists.linux.dev, patches@lists.linux.dev, 
+	regressions+subscribe@lists.linux.dev, regressions@lists.linux.dev, 
+	linux-somesuch@lists.linux.dev, postmaster@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Dzie=C5=84 dobry,
-
-stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
- obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
-
-Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
-acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
-ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
-
-Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
-=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
-=2E
-
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
-
-
-Pozdrawiam
-Arkadiusz Soko=C5=82owski
+subscribe
