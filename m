@@ -1,193 +1,83 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46A629CA
-	for <linux-staging@lists.linux.dev>; Tue,  1 Feb 2022 08:13:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643703210; x=1675239210;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nPSQKuIXYlxkx1AwqzWrUCeAbzqbk2COfYDFVttPyDI=;
-  b=W/Vm+5hkUycj5c8e7SwRbZa3KFpWV7v44GpwToOi3AE9dYW8EHXZPsWk
-   DjSLydBURyDdiHpFX5GUUesmwH/dX93jXPPDicaj/7Q980f6wX339/AGY
-   YOuJSa0a9oqV98rj53b+iN2nVz/PNN/9dHP3K3wHi8+NF3pJNUCVVsdwc
-   VM1w/lQkoX2ed5RuUwjyuGAltyp/umRDWKqPb8X+9h1Nbed1XCh5r1s7e
-   OwbkWZ8lib+YtUOFri2JYp/KRMHmdqnv3laB9blrBA5hRJsWNxZ+80vR8
-   uysvnCf9v77DxL2EZekFjyz9gGe7vraJ/X7rzao/ksDD3beDPoAY/aNkG
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="247411511"
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; 
-   d="scan'208";a="247411511"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2022 00:13:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,333,1635231600"; 
-   d="scan'208";a="537709080"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 01 Feb 2022 00:13:27 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-	(envelope-from <lkp@intel.com>)
-	id 1nEoI3-000T0T-0G; Tue, 01 Feb 2022 08:13:27 +0000
-Date: Tue, 1 Feb 2022 16:13:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
-	DRI Development <dri-devel@lists.freedesktop.org>
-Cc: kbuild-all@lists.01.org, linux-fbdev@vger.kernel.org,
-	Zheyu Ma <zheyuma97@gmail.com>, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	linux-staging@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [Intel-gfx] [PATCH 21/21] fbdev: Make registered_fb[] private to
- fbmem.c
-Message-ID: <202202011603.vczWPod7-lkp@intel.com>
-References: <20220131210552.482606-22-daniel.vetter@ffwll.ch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726642CA4
+	for <linux-staging@lists.linux.dev>; Tue,  1 Feb 2022 08:43:12 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id k25so51424535ejp.5
+        for <linux-staging@lists.linux.dev>; Tue, 01 Feb 2022 00:43:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AY4/TLKg4nBDSqO8QlLkXd5EAxzP2IB0RJLZxohCkH4=;
+        b=kSjzGRNv0u0sZNDxM+TD1KeebIt7Lp0PxxGaiYsh20s6vtV2lYZ2koFB3WIt5popdk
+         rFKHBOJqv6/PRFd9BUNK1RBR4TT5T6ebP4hmRfIiX0WBDM/X9D/kuyYAiH7dw6WLJ12B
+         eD5s2YO/Y5beEn4EAUnMLpBo37U70BGO4p9E2HbMEqDJGHUpJO1LoJDFdGucUmdC+cib
+         xJWmNLHJZtv721dJRmyD2s/D3SVJzbt13gIWiRsekSe+S6f+bSuTBbmKmySrxArNI1IW
+         41GAnWqS8WehcuyEZ/ejl0Y9BHlN74avMYeyD2DLRjJUJsGlOm9F5LMWuRT0+50cK9Eo
+         Z1wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AY4/TLKg4nBDSqO8QlLkXd5EAxzP2IB0RJLZxohCkH4=;
+        b=Hj5gtRSYPhsRyK38u+Y+z0553SVCp7d01q71+T3CjKud1+Gkc6RWFOaVPtl2uh010F
+         qmjCHPsdmlsUy86tfexMxiMSESn8Y9haTjnBmFL6CHITPeOJXiEQ9cqcTaojbRB1iSgd
+         FrdsCLnUIZl+O/OucIXNuAycdMeUwnV6yZMlOGE3+Outo5ZEZ34BH9M1KU8RYW4K4ps7
+         nWEH0vXQaoAZC37bsUeHnAoETz9ItK8QaWIIIZXlfUNcivWpNDA+YY8SAmiurtjepwEy
+         7DyM7x7NWPCttUe6nrlUgrbizmfoipyDQQ6IbhzAcCaBLnPO4Ipw46V2lqZkhij+rDKA
+         4DeQ==
+X-Gm-Message-State: AOAM530OT3xaC5+DgP/qFNzXGpTVFcTjUawSEojgmosI3ZCOYbyOlKG7
+	5G2E9ueQ8mQykwWhL74nZrS2gm802kA=
+X-Google-Smtp-Source: ABdhPJzfiokD/cOFOfWe7SOUqFFEvlK4NMX/cdmop+vDETdD1nMiM3A+AOWc0G+OhPLola7/yfYFqw==
+X-Received: by 2002:a17:907:2d0d:: with SMTP id gs13mr20169633ejc.161.1643704990757;
+        Tue, 01 Feb 2022 00:43:10 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb5a.dynamic.kabel-deutschland.de. [95.90.187.90])
+        by smtp.gmail.com with ESMTPSA id c14sm19123431edy.66.2022.02.01.00.43.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Feb 2022 00:43:10 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/9] staging: r8188eu: hal_data_8188e cleanups
+Date: Tue,  1 Feb 2022 09:42:50 +0100
+Message-Id: <20220201084259.7497-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220131210552.482606-22-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-Hi Daniel,
+This set removes some variables from the hal_data_8188e structure.
 
-I love your patch! Yet something to improve:
+Tested on x86_64 with Inter-Tech DMG-02.
 
-[auto build test ERROR on tegra-drm/drm/tegra/for-next]
-[also build test ERROR on drm/drm-next linus/master v5.17-rc2 next-20220131]
-[cannot apply to airlied/drm-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Michael Straube (9):
+  staging: r8188eu: ExternalPA is read-only
+  staging: r8188eu: remove PGMaxGroup from struct hal_data_8188e
+  staging: r8188eu: remove ReceiveConfig from struct hal_data_8188e
+  staging: r8188eu: BasicRateSet is set but never used
+  staging: r8188eu: remove UsbTxAggDescNum from struct hal_data_8188e
+  staging: r8188eu: remove UsbTxAggMode from struct hal_data_8188e
+  staging: r8188eu: remove UsbRxAggMode from struct hal_data_8188e
+  staging: r8188eu: remove UsbRxAggBlock* from struct hal_data_8188e
+  staging: r8188eu: remove UsbRxAggPage* from struct hal_data_8188e
 
-url:    https://github.com/0day-ci/linux/commits/Daniel-Vetter/some-fbcon-patches-mostly-locking/20220201-050907
-base:   git://anongit.freedesktop.org/tegra/linux.git drm/tegra/for-next
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220201/202202011603.vczWPod7-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/245da5ab93b17c0cf1521713d5bde655a72efb65
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Daniel-Vetter/some-fbcon-patches-mostly-locking/20220201-050907
-        git checkout 245da5ab93b17c0cf1521713d5bde655a72efb65
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  5 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  2 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 86 ++++---------------
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   | 14 +--
+ .../staging/r8188eu/include/rtl8188e_hal.h    | 26 +-----
+ .../staging/r8188eu/include/rtl8188e_xmit.h   |  2 +
+ 6 files changed, 26 insertions(+), 109 deletions(-)
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+-- 
+2.34.1
 
-All errors (new ones prefixed by >>):
-
-   drivers/staging/olpc_dcon/olpc_dcon.c: In function 'dcon_probe':
->> drivers/staging/olpc_dcon/olpc_dcon.c:605:6: error: 'num_registered_fb' undeclared (first use in this function); did you mean 'WB_registered'?
-     605 |  if (num_registered_fb < 1) {
-         |      ^~~~~~~~~~~~~~~~~
-         |      WB_registered
-   drivers/staging/olpc_dcon/olpc_dcon.c:605:6: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/staging/olpc_dcon/olpc_dcon.c:610:17: error: 'registered_fb' undeclared (first use in this function)
-     610 |  dcon->fbinfo = registered_fb[0];
-         |                 ^~~~~~~~~~~~~
-
-
-vim +605 drivers/staging/olpc_dcon/olpc_dcon.c
-
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  584  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  585  static int dcon_probe(struct i2c_client *client, const struct i2c_device_id *id)
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  586  {
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  587  	struct dcon_priv *dcon;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  588  	int rc, i, j;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  589  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  590  	if (!pdata)
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  591  		return -ENXIO;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  592  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  593  	dcon = kzalloc(sizeof(*dcon), GFP_KERNEL);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  594  	if (!dcon)
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  595  		return -ENOMEM;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  596  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  597  	dcon->client = client;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  598  	init_waitqueue_head(&dcon->waitq);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  599  	INIT_WORK(&dcon->switch_source, dcon_source_switch);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  600  	dcon->reboot_nb.notifier_call = dcon_reboot_notify;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  601  	dcon->reboot_nb.priority = -1;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  602  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  603  	i2c_set_clientdata(client, dcon);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  604  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04 @605  	if (num_registered_fb < 1) {
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  606  		dev_err(&client->dev, "DCON driver requires a registered fb\n");
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  607  		rc = -EIO;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  608  		goto einit;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  609  	}
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04 @610  	dcon->fbinfo = registered_fb[0];
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  611  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  612  	rc = dcon_hw_init(dcon, 1);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  613  	if (rc)
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  614  		goto einit;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  615  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  616  	/* Add the DCON device */
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  617  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  618  	dcon_device = platform_device_alloc("dcon", -1);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  619  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  620  	if (!dcon_device) {
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  621  		pr_err("Unable to create the DCON device\n");
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  622  		rc = -ENOMEM;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  623  		goto eirq;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  624  	}
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  625  	rc = platform_device_add(dcon_device);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  626  	platform_set_drvdata(dcon_device, dcon);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  627  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  628  	if (rc) {
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  629  		pr_err("Unable to add the DCON device\n");
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  630  		goto edev;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  631  	}
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  632  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  633  	for (i = 0; i < ARRAY_SIZE(dcon_device_files); i++) {
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  634  		rc = device_create_file(&dcon_device->dev,
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  635  					&dcon_device_files[i]);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  636  		if (rc) {
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  637  			dev_err(&dcon_device->dev, "Cannot create sysfs file\n");
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  638  			goto ecreate;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  639  		}
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  640  	}
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  641  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  642  	dcon->bl_val = dcon_read(dcon, DCON_REG_BRIGHT) & 0x0F;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  643  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  644  	/* Add the backlight device for the DCON */
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  645  	dcon_bl_props.brightness = dcon->bl_val;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  646  	dcon->bl_dev = backlight_device_register("dcon-bl", &dcon_device->dev,
-848d9eabcaebf21 Zebulon McCorkle   2017-11-21  647  						 dcon, &dcon_bl_ops,
-848d9eabcaebf21 Zebulon McCorkle   2017-11-21  648  						 &dcon_bl_props);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  649  	if (IS_ERR(dcon->bl_dev)) {
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  650  		dev_err(&client->dev, "cannot register backlight dev (%ld)\n",
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  651  			PTR_ERR(dcon->bl_dev));
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  652  		dcon->bl_dev = NULL;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  653  	}
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  654  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  655  	register_reboot_notifier(&dcon->reboot_nb);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  656  	atomic_notifier_chain_register(&panic_notifier_list, &dcon_panic_nb);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  657  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  658  	return 0;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  659  
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  660   ecreate:
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  661  	for (j = 0; j < i; j++)
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  662  		device_remove_file(&dcon_device->dev, &dcon_device_files[j]);
-4996b4610767064 Jing Xiangfeng     2020-11-20  663  	platform_device_del(dcon_device);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  664   edev:
-4996b4610767064 Jing Xiangfeng     2020-11-20  665  	platform_device_put(dcon_device);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  666  	dcon_device = NULL;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  667   eirq:
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  668  	free_irq(DCON_IRQ, dcon);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  669   einit:
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  670  	kfree(dcon);
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  671  	return rc;
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  672  }
-53c43c5ca13328a Greg Kroah-Hartman 2016-04-04  673  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
