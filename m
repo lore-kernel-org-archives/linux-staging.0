@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31F52F21
-	for <linux-staging@lists.linux.dev>; Wed,  2 Feb 2022 05:20:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11094C004E1;
-	Wed,  2 Feb 2022 05:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E94E2F21
+	for <linux-staging@lists.linux.dev>; Wed,  2 Feb 2022 05:24:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9698CC004E1;
+	Wed,  2 Feb 2022 05:24:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1643779237;
-	bh=+Ft2F5sVLRHh1Pp8pxHlA0yq0lccuM3N/YhAGhykIME=;
+	s=k20201202; t=1643779472;
+	bh=j0Se/qdEtuI552spXh1n3SW3Pdql6yIzAII1xQVtw7o=;
 	h=Date:From:To:Cc:Subject:From;
-	b=JFyHcFJ4V4CNFYHfgEGRKpfVGFlbHoOrQFHo48cbL463opA/mHP7hGlNJLVAy0Kbl
-	 6K/1/ox6yPyL/ubuniQ8q9ZXgrXxSa7YFbet9woC9sy7boZSQYURx7YwNxq+ljWv/y
-	 4wxTW5Skq2bJG+GM7A3tCV7unY6+w2ygRPCxv9ETkrXkG/hkOFy/YEDspglnDNbptB
-	 MUuhJcxOYAOdy1c1LcH+rIRXMDQe9MvI3cWffR66SmieOcbFQZ64Wu8ekkGOSeyIPx
-	 d4PngYy/4MaOshdlP/DH6Uc/63UvfG+46fr0S91g/E3cG66m/z47UC9mq23CqSmftq
-	 3/ohsts/pcy4w==
-Date: Tue, 1 Feb 2022 23:27:41 -0600
+	b=t2rqmqJXBCpb4sjddufoteghBZEXckpCHKs7F8Sk1UQVh15Qowdg59mh1/icCLHSz
+	 SYERpgR3GiTmmo12Umvnvc4xqgWBOhdU88ttWFhhyV6jYQX1KHHO8ESSuAmqFqbnjI
+	 Kv21c37z7X+M2EILGA+Wn+X2aNcKbJQheyxg8KR0mfVkaY1QKK2Xk8mrWUwe4b0ODm
+	 +n5rjjEUC+8mSjg+uwMOIh0fhD3kM2xROa5+VGQGs/euSCoXdjuXZGMp/svs4PZohC
+	 gQRQ9lHgoQpv8ha3hptkt6eKl5ssCeLo53RnWpPeS97pZ/Uaxh2aMi6BZ2gkdOiYFl
+	 GM2YBZdf7l7EQ==
+Date: Tue, 1 Feb 2022 23:31:36 -0600
 From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -23,8 +23,9 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH][next] staging: r8188eu: Fix out-of-bounds error in
-Message-ID: <20220202052741.GA238470@embeddedor>
+Subject: [PATCH v2][next] staging: r8188eu: Fix out-of-bounds error in
+ HT_caps_handler()
+Message-ID: <20220202053136.GA238541@embeddedor>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,9 +35,6 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-
-HT_caps_handler()
-Reply-To: 
 
 Fix the following out-of-bounds error (caught with -Warray-bounds=2):
 
@@ -66,6 +64,9 @@ This is part of the ongoing efforts to globally enable -Warray-bounds.
 
 Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
+Changes in v2:
+ - Fix subject line.
+
  drivers/staging/r8188eu/include/wlan_bssdef.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
