@@ -1,102 +1,87 @@
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com [91.221.196.215])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B0E2F27
-	for <linux-staging@lists.linux.dev>; Tue,  1 Feb 2022 20:55:13 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
-	by mx1.smtp.larsendata.com (Halon) with ESMTPS
-	id 3a4211e5-83a1-11ec-b20b-0050568c148b;
-	Tue, 01 Feb 2022 20:55:03 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: sam@ravnborg.org)
-	by mail01.mxhotel.dk (Postfix) with ESMTPSA id 5A64D194B9E;
-	Tue,  1 Feb 2022 21:54:05 +0100 (CET)
-Date: Tue, 1 Feb 2022 21:54:01 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helge Deller <deller@gmx.de>, linux-staging@lists.linux.dev,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31F52F21
+	for <linux-staging@lists.linux.dev>; Wed,  2 Feb 2022 05:20:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11094C004E1;
+	Wed,  2 Feb 2022 05:20:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1643779237;
+	bh=+Ft2F5sVLRHh1Pp8pxHlA0yq0lccuM3N/YhAGhykIME=;
+	h=Date:From:To:Cc:Subject:From;
+	b=JFyHcFJ4V4CNFYHfgEGRKpfVGFlbHoOrQFHo48cbL463opA/mHP7hGlNJLVAy0Kbl
+	 6K/1/ox6yPyL/ubuniQ8q9ZXgrXxSa7YFbet9woC9sy7boZSQYURx7YwNxq+ljWv/y
+	 4wxTW5Skq2bJG+GM7A3tCV7unY6+w2ygRPCxv9ETkrXkG/hkOFy/YEDspglnDNbptB
+	 MUuhJcxOYAOdy1c1LcH+rIRXMDQe9MvI3cWffR66SmieOcbFQZ64Wu8ekkGOSeyIPx
+	 d4PngYy/4MaOshdlP/DH6Uc/63UvfG+46fr0S91g/E3cG66m/z47UC9mq23CqSmftq
+	 3/ohsts/pcy4w==
+Date: Tue, 1 Feb 2022 23:27:41 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Carlis <zhangxuezhi1@yulong.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH v1 1/4] fbtft: Unorphan the driver
-Message-ID: <Yfmd6V9F4JlgwQu4@ravnborg.org>
-References: <b8eb7111-43aa-cc8a-a1bc-f08e0f2987ed@redhat.com>
- <YfFV4EJosayH+e6C@smile.fi.intel.com>
- <YfFWPmG2D093gz4N@smile.fi.intel.com>
- <6e74d4cc-655a-e38e-0856-a59e4e6deb36@redhat.com>
- <c423a2f0-e7be-3884-3568-7629c7e9104e@redhat.com>
- <ddb0f354-be19-92fe-20b3-56b00c9304ab@suse.de>
- <840ec74d-60c6-9480-709c-8cd597c6f5b0@redhat.com>
- <e7fbef3c-2f87-15f9-b24d-34ffaa5a2853@suse.de>
- <CAMuHMdXnn+JcyMAV_Vbb4Yj8hJmae=Snc2R2fLviq67UYXg7Ew@mail.gmail.com>
- <CAKMK7uEPuw1+-=h7gvSyCxW4zNuTK3UNZP6yjpP6MPV17sAasQ@mail.gmail.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] staging: r8188eu: Fix out-of-bounds error in
+Message-ID: <20220202052741.GA238470@embeddedor>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uEPuw1+-=h7gvSyCxW4zNuTK3UNZP6yjpP6MPV17sAasQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Daniel,
+HT_caps_handler()
+Reply-To: 
 
-On Tue, Feb 01, 2022 at 06:06:33PM +0100, Daniel Vetter wrote:
-> On Tue, Feb 1, 2022 at 6:01 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> >
-> > Hi Thomas,
-> >
-> > On Tue, Feb 1, 2022 at 5:16 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > Am 31.01.22 um 11:18 schrieb Javier Martinez Canillas:
-> > > > Another thing that's missing is a DRM_MODE_CONNECTOR_I2C, because I used for
-> > > > now a DRM_MODE_CONNECTOR_Unknown.
-> > >
-> > > That might have implications on userspace. Maybe ask around. (Not that
-> > > we actually run userspace on the device).
-> >
-> > Looking at the list of connector types (and wondering if we're gonna
-> > need more when converting existing fbdev drivers to drm drivers),
-> > there seem to be two different families of connector types, for
-> >   1. transports between CRTC and display (e.g. VGA, DVID, HDMI),
-> >   2. transports between CPU and CRTC (e.g. SPI, possibly USB, and
-> >      the proposed I2C)?
-> 
-> I was trying to argue for a panel connector type and stop doing all
-> these internal things because like you point out, it kinda doesn't,
-> only the external connectors are relevant to users. But it didn't
-> stick anywhere yet, we keep adding more connector types and then
-> having to update userspace, which should map these all to "it's the
-> panel" or something like that. But also since various technicolor
-> abbreviations are about as useful to end-users as "unknown" it really
-> doesn't matter, so I'm happy to let this bikeshed get a tad fancier
-> every year :-)
+Fix the following out-of-bounds error (caught with -Warray-bounds=2):
 
-We discussed DRM_MODE_CONNECTOR_PANEL or some sort - but I recall we ended up
-with worrying about breaking userspace.
-See https://lore.kernel.org/dri-devel/?q=DRM_MODE_CONNECTOR_PANEL
+drivers/staging/r8188eu/core/rtw_wlan_util.c: In function ‘HT_caps_handler’:
+drivers/staging/r8188eu/core/rtw_wlan_util.c:719:54: error: array subscript 2 is above array bounds of ‘u8[1]’ {aka ‘unsigned char[1]’} [-Werror=array-bounds]
+  719 |                                             pIE->data[i] & 0x3);
+      |                                             ~~~~~~~~~^~~
+./include/linux/minmax.h:32:39: note: in definition of macro ‘__cmp_once’
+   32 |                 typeof(y) unique_y = (y);               \
+      |                                       ^
+./include/linux/minmax.h:45:25: note: in expansion of macro ‘__careful_cmp’
+   45 | #define min(x, y)       __careful_cmp(x, y, <)
+      |                         ^~~~~~~~~~~~~
+drivers/staging/r8188eu/core/rtw_wlan_util.c:718:41: note: in expansion of macro ‘min’
+  718 |                         max_AMPDU_len = min(pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3,
+      |                                         ^~~
+In file included from drivers/staging/r8188eu/core/../include/drv_types.h:16,
+                 from drivers/staging/r8188eu/core/rtw_wlan_util.c:7:
+drivers/staging/r8188eu/core/../include/wlan_bssdef.h:64:13: note: while referencing ‘data’
+   64 |         u8  data[1];
+      |             ^~~~
 
-For this kind of change I chicken out due to lack of understanding of
-the userspace implications.
+by transforming one-element array into a flexible-array member in
+struct ndis_802_11_var_ie
 
-Typing the patch is simple but taking the correct decision not so.
+This is part of the ongoing efforts to globally enable -Warray-bounds.
 
-The discussion popped up when we made it mandatory to specify a
-connector so we could better match up stuff between display
-drivers/bridges and panel drivers.
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/staging/r8188eu/include/wlan_bssdef.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	Sam
+diff --git a/drivers/staging/r8188eu/include/wlan_bssdef.h b/drivers/staging/r8188eu/include/wlan_bssdef.h
+index 99ca097b8edd..9d1c9e763287 100644
+--- a/drivers/staging/r8188eu/include/wlan_bssdef.h
++++ b/drivers/staging/r8188eu/include/wlan_bssdef.h
+@@ -61,7 +61,7 @@ struct ndis_802_11_fixed_ie {
+ struct ndis_802_11_var_ie {
+ 	u8  ElementID;
+ 	u8  Length;
+-	u8  data[1];
++	u8  data[];
+ };
+ 
+ /*
+-- 
+2.27.0
+
