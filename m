@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BB52C80
-	for <linux-staging@lists.linux.dev>; Thu,  3 Feb 2022 20:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE8D2C9D
+	for <linux-staging@lists.linux.dev>; Thu,  3 Feb 2022 20:32:29 +0000 (UTC)
 Received: from dslb-188-096-149-005.188.096.pools.vodafone-ip.de ([188.96.149.5] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nFimI-0004W7-Jm; Thu, 03 Feb 2022 21:32:26 +0100
+	id 1nFimJ-0004W7-KH; Thu, 03 Feb 2022 21:32:27 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 1/4] staging: r8188eu: remove constant parameter of phy_LCCalibrate_8188E
-Date: Thu,  3 Feb 2022 21:32:14 +0100
-Message-Id: <20220203203217.252156-2-martin@kaiser.cx>
+Subject: [PATCH 2/4] staging: r8188eu: remove dead code for tx power tracking
+Date: Thu,  3 Feb 2022 21:32:15 +0100
+Message-Id: <20220203203217.252156-3-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220203203217.252156-1-martin@kaiser.cx>
 References: <20220203203217.252156-1-martin@kaiser.cx>
@@ -30,67 +30,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The only caller of phy_LCCalibrate_8188E sets is2t to false.
-Remove this parameter and resulting dead code.
+The odm_TXPowerTrackingCallback_ThermalMeter_8188E contains code
+for OFDM paths A and B. It seems that path B is not used, is2t is
+always false. Remove resulting dead code.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 52 +-------------------
+ 1 file changed, 2 insertions(+), 50 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index 5f7a2668cabb..db87eaafb72f 100644
+index db87eaafb72f..8bdd02271203 100644
 --- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
 +++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -821,10 +821,10 @@ static void phy_IQCalibrate_8188E(struct adapter *adapt, s32 result[][8], u8 t)
- 	}
- }
+@@ -102,12 +102,11 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
+ 	u8 ThermalValue = 0, delta, delta_LCK, delta_IQK, offset;
+ 	u8 ThermalValue_AVG_count = 0;
+ 	u32 ThermalValue_AVG = 0;
+-	s32 ele_A = 0, ele_D, TempCCk, X, value32;
++	s32 ele_A = 0, ele_D, TempCCk, X;
+ 	s32 Y, ele_C = 0;
+ 	s8 OFDM_index[2], CCK_index = 0;
+ 	s8 OFDM_index_old[2] = {0, 0}, CCK_index_old = 0;
+ 	u32 i = 0, j = 0;
+-	bool is2t = false;
  
--static void phy_LCCalibrate_8188E(struct adapter *adapt, bool is2t)
-+static void phy_LCCalibrate_8188E(struct adapter *adapt)
- {
- 	u8 tmpreg;
--	u32 RF_Amode = 0, RF_Bmode = 0, LC_Cal;
-+	u32 RF_Amode = 0, LC_Cal;
+ 	u8 OFDM_min_index = 6, rf; /* OFDM BB Swing should be less than +3.0dB, which is required by Arthur */
+ 	s8 OFDM_index_mapping[2][index_mapping_NUM_88E] = {
+@@ -139,10 +138,7 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
  
- 	/* Check continuous TX and Packet TX */
- 	tmpreg = rtw_read8(adapt, 0xd03);
-@@ -839,17 +839,9 @@ static void phy_LCCalibrate_8188E(struct adapter *adapt, bool is2t)
- 		/* Path-A */
- 		RF_Amode = rtl8188e_PHY_QueryRFReg(adapt, RF_PATH_A, RF_AC, bMask12Bits);
+ 	ThermalValue = (u8)rtl8188e_PHY_QueryRFReg(Adapter, RF_PATH_A, RF_T_METER_88E, 0xfc00); /* 0x42: RF Reg[15:10] 88E */
  
--		/* Path-B */
--		if (is2t)
--			RF_Bmode = rtl8188e_PHY_QueryRFReg(adapt, RF_PATH_B, RF_AC, bMask12Bits);
+-	if (is2t)
+-		rf = 2;
+-	else
+-		rf = 1;
++	rf = 1;
+ 
+ 	if (ThermalValue) {
+ 		/* Query OFDM path A default setting */
+@@ -155,17 +151,6 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
+ 			}
+ 		}
+ 
+-		/* Query OFDM path B default setting */
+-		if (is2t) {
+-			ele_D = rtl8188e_PHY_QueryBBReg(Adapter, rOFDM0_XBTxIQImbalance, bMaskDWord) & bMaskOFDM_D;
+-			for (i = 0; i < OFDM_TABLE_SIZE_92D; i++) {	/* find the index */
+-				if (ele_D == (OFDMSwingTable[i] & bMaskOFDM_D)) {
+-					OFDM_index_old[1] = (u8)i;
+-					break;
+-				}
+-			}
+-		}
 -
- 		/* 2. Set RF mode = standby mode */
- 		/* Path-A */
- 		rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_AC, bMask12Bits, (RF_Amode & 0x8FFFF) | 0x10000);
--
--		/* Path-B */
--		if (is2t)
--			rtl8188e_PHY_SetRFReg(adapt, RF_PATH_B, RF_AC, bMask12Bits, (RF_Bmode & 0x8FFFF) | 0x10000);
- 	}
+ 		/* Query CCK default setting From 0xa24 */
+ 		TempCCk = dm_odm->RFCalibrateInfo.RegA24;
  
- 	/* 3. Read RF reg18 */
-@@ -866,10 +858,6 @@ static void phy_LCCalibrate_8188E(struct adapter *adapt, bool is2t)
- 		/* Path-A */
- 		rtw_write8(adapt, 0xd03, tmpreg);
- 		rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_AC, bMask12Bits, RF_Amode);
+@@ -309,39 +294,6 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
+ 					/*  2012/04/23 MH According to Luke's suggestion, we can not write BB digital */
+ 					/*  to increase TX power. Otherwise, EVM will be bad. */
+ 				}
 -
--		/* Path-B */
--		if (is2t)
--			rtl8188e_PHY_SetRFReg(adapt, RF_PATH_B, RF_AC, bMask12Bits, RF_Bmode);
- 	} else {
- 		/*  Deal with Packet TX case */
- 		rtw_write8(adapt, REG_TXPAUSE, 0x00);
-@@ -999,5 +987,5 @@ void PHY_LCCalibrate_8188E(struct adapter *adapt)
- 		timecount += 50;
- 	}
+-				if (is2t) {
+-					ele_D = (OFDMSwingTable[(u8)OFDM_index[1]] & 0xFFC00000) >> 22;
+-
+-					/* new element A = element D x X */
+-					X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][4];
+-					Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][5];
+-
+-					if (X != 0) {
+-						if ((X & 0x00000200) != 0)	/* consider minus */
+-							X = X | 0xFFFFFC00;
+-						ele_A = ((X * ele_D) >> 8) & 0x000003FF;
+-
+-						/* new element C = element D x Y */
+-						if ((Y & 0x00000200) != 0)
+-							Y = Y | 0xFFFFFC00;
+-						ele_C = ((Y * ele_D) >> 8) & 0x00003FF;
+-
+-						/* wtite new elements A, C, D to regC88 and regC9C, element B is always 0 */
+-						value32 = (ele_D << 22) | ((ele_C & 0x3F) << 16) | ele_A;
+-						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_XBTxIQImbalance, bMaskDWord, value32);
+-
+-						value32 = (ele_C & 0x000003C0) >> 6;
+-						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_XDTxAFE, bMaskH4Bits, value32);
+-
+-						value32 = ((X * ele_D) >> 7) & 0x01;
+-						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_ECCAThreshold, BIT(28), value32);
+-					} else {
+-						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_XBTxIQImbalance, bMaskDWord, OFDMSwingTable[(u8)OFDM_index[1]]);
+-						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_XDTxAFE, bMaskH4Bits, 0x00);
+-						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_ECCAThreshold, BIT(28), 0x00);
+-					}
+-				}
+ 			}
+ 		}
  
--	phy_LCCalibrate_8188E(adapt, false);
-+	phy_LCCalibrate_8188E(adapt);
- }
 -- 
 2.30.2
 
