@@ -1,100 +1,78 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273602F23
-	for <linux-staging@lists.linux.dev>; Thu,  3 Feb 2022 13:16:56 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id d10so8725098eje.10
-        for <linux-staging@lists.linux.dev>; Thu, 03 Feb 2022 05:16:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5427D2C9C
+	for <linux-staging@lists.linux.dev>; Thu,  3 Feb 2022 19:22:05 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id me13so11817519ejb.12
+        for <linux-staging@lists.linux.dev>; Thu, 03 Feb 2022 11:22:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Bdyf7D6NeIfikPS/uqe99QCdtkoBXMfRD7d4Vkt8KZ0=;
-        b=fnO4Z9ikvpsMPCsKu6x6QsuM8vFnXR7m2mYfr5RDy4CHjqdkG4l8mUCcQ3/A/ZVq3N
-         Tiw9v8aDR+6j+MTTtKmYvP1/T6tCYwgGtshXIsljrlWgPPwefokeevA26/GU4gJlJ73R
-         v0dAV3zxaUspQD+1z4tJbSqZGpYqAUUrBgUa+a+D6zSSAVrMHHcbvxZV/40hWQSwQAq7
-         gZw6dMjO/DSilkrdUsV9tG53PBkShl+rCqf7H55tqCNq1oH9Wz5gpzenx95pIk2CUHH1
-         D6nvoKHkradIsoR9S6Ugx8D65IEEi7P2NlMyirZyNM8K87yMmopmd2hD1WODbzd5MuUD
-         IIPg==
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=YnamjwK8jac8VMGcddEQMuZZzkDqdQtjPGT5HOzqnyA=;
+        b=dZBRrD1sg7XDLYXmoaWYGCuuxOZbQmxERTngTz23xxfweSixACEGf+QcYQSNv7f7VG
+         fFc89935UFYKIdky/sB3SOKdzrwp3gPryih05ZjqvaVj29WHTlFads7HSrt6L+OdH+gE
+         StXpIJrNeZ56OKwgOVmgLQSCBHuVsgAEsv4/ESBRATUJ8/dQYcRl/mswRrW44UZI7Bta
+         /3vkKIa/0GENSNLZVHMfnufFbPSPV1HveGDYHdAbUgvTUWeHBdO8qccGdlfMO3zLnSev
+         XcfQcOxJahg3raWFGyAAFy216c1Asm3cZO0v5Bzj+kym7jxE+IvadrQEC86u8PEcQn3P
+         QCzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Bdyf7D6NeIfikPS/uqe99QCdtkoBXMfRD7d4Vkt8KZ0=;
-        b=NHRZi8Ezl6dPyqqoo5MsZubDTmv4YG4iD0u3yobxHW67hQQcFssrgBjM0PY9a6pSd9
-         89YU7QwVIybhrgfkVN11Y2w123mDe4f1tgfgezyUhTb7RxEDPdmZWFbIozX2ngZfXgNR
-         oOOkumbksCPNMZE8xFe7blk64crTy9+RH8pOsCnSUFbFmA7sP7p50fboMRff9gXnoy84
-         2mqQzQs/36YpoTO+JYeqOOCW/T3VTmMGxEN0hbDfcp6EC8mDEMEskwg70Tl2kKX/7i4b
-         Y6CbnVBzOrG9e8lMsw8xtqP7pJjlDMWm7sz2G4J/RW2Jo62atuBwZegzCU/xhDxKgzap
-         14yw==
-X-Gm-Message-State: AOAM530EHhCAQyqn2wX+L661pjJAxd2Of/uFHiYnVXSO+afgdPkSIeDD
-	kjSRJE4TDq7dGJrCQdX/8rEOcE7FbNCiruSVJTg=
-X-Google-Smtp-Source: ABdhPJxk9m897IDjpBQJ4LNiGZxfQhz/ry40RQmM9zo6kAM1YbhCHKqydSjqdaAq8TwWy4Z9YFP8VO86vKIUQc2JKdU=
-X-Received: by 2002:a17:906:4787:: with SMTP id cw7mr25116328ejc.504.1643894214217;
- Thu, 03 Feb 2022 05:16:54 -0800 (PST)
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=YnamjwK8jac8VMGcddEQMuZZzkDqdQtjPGT5HOzqnyA=;
+        b=0sG/ALRXNd7BI16PY6tnKymR4+R3LmL4iMZVnTKT+2TzTiiXwMoXtlgKPKBymfwbAb
+         9HQ9/EltRJKzU5DHhY909sacHLxBOl6x62UiYDuz1CIY9qk9DmwAmju32MHSIUBWrEgs
+         Zg5zvNNbku6Jj13Xmhx6WhGVk08isltaVkP7xYlmhMaEyhGsWkydkI5cRYF0WDPOf0I3
+         LtocsnPHHCcnsa7kRBYcQPVNeiqQXVn50N3bKmWJjqo8eGDt054zhsm+e5j8e1iMtHTn
+         yVsS+Tyo63yjAVXgmq0LIvTa46PNWsmoDs27xfbTmjL8XjzBps0wbKOyCKg6hliPFrQR
+         mlsw==
+X-Gm-Message-State: AOAM530mX7vcKvoQ6U9pUO7UcPv7xNTmGppE03IyDUrMEy0Sss0aALaF
+	FIGxu9TGE2grqtE0tQOVW/4=
+X-Google-Smtp-Source: ABdhPJzZGzBzocy0s6F8V3moHy8ukluUcy4G5rEs15hnduJD0mG3YyohXcWOILgzp3+ExFEmiRjUKQ==
+X-Received: by 2002:a17:907:3e9b:: with SMTP id hs27mr30799212ejc.72.1643916123500;
+        Thu, 03 Feb 2022 11:22:03 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p200300c78f4e069597fe2fbbbc37c063.dip0.t-ipconnect.de. [2003:c7:8f4e:695:97fe:2fbb:bc37:c063])
+        by smtp.gmail.com with ESMTPSA id lc22sm17055801ejc.74.2022.02.03.11.22.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Feb 2022 11:22:03 -0800 (PST)
+Date: Thu, 3 Feb 2022 20:22:01 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vt6656: Fix crash when WLAN is turned off
+Message-ID: <20220203192201.GA18509@matrix-ESPRIMO-P710>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220125171129.472775-1-aford173@gmail.com> <20220125171129.472775-3-aford173@gmail.com>
- <43e29322-fc4d-2c72-86b2-1f41fb05a2f9@xs4all.nl>
-In-Reply-To: <43e29322-fc4d-2c72-86b2-1f41fb05a2f9@xs4all.nl>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 3 Feb 2022 07:16:43 -0600
-Message-ID: <CAHCN7xLRnCRUwOLLW=EF2XdFY+V4EHqcGG-tj2SymiBL5Cki0w@mail.gmail.com>
-Subject: Re: [PATCH V4 02/11] dt-bindings: power: imx8mq: add defines for VPU
- blk-ctrl domains
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Shawn Guo <shawnguo@kernel.org>, Adam Ford-BE <aford@beaconembedded.com>, 
-	Chris Healy <cphealy@gmail.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	Rob Herring <robh@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"open list:HANTRO VPU CODEC DRIVER" <linux-rockchip@lists.infradead.org>, 
-	devicetree <devicetree@vger.kernel.org>, arm-soc <linux-arm-kernel@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jan 27, 2022 at 2:46 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> Shawn,
->
-> Can you take patches 2-4 of this series or shall I? In the latter case I
-> need your Acked-by for these three patches.
+Stop submitting urbs before calling usb_kill_urb() and usb_free_urb().
 
-If necessary, I can tweak the YAML file.  I just need to know if I
-need to resubmit the whole series of just the one file.
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ drivers/staging/vt6656/usbpipe.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-adam
->
-> Regards,
->
->         Hans
->
-> On 25/01/2022 18:11, Adam Ford wrote:
-> > From: Lucas Stach <l.stach@pengutronix.de>
-> >
-> > This adds the defines for the power domains provided by the VPU
-> > blk-ctrl on the i.MX8MQ.
-> >
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > Acked-by: Rob Herring <robh@kernel.org>
-> >
-> > diff --git a/include/dt-bindings/power/imx8mq-power.h b/include/dt-bindings/power/imx8mq-power.h
-> > index 8a513bd9166e..9f7d0f1e7c32 100644
-> > --- a/include/dt-bindings/power/imx8mq-power.h
-> > +++ b/include/dt-bindings/power/imx8mq-power.h
-> > @@ -18,4 +18,7 @@
-> >  #define IMX8M_POWER_DOMAIN_MIPI_CSI2 9
-> >  #define IMX8M_POWER_DOMAIN_PCIE2     10
-> >
-> > +#define IMX8MQ_VPUBLK_PD_G1          0
-> > +#define IMX8MQ_VPUBLK_PD_G2          1
-> > +
-> >  #endif
->
+diff --git a/drivers/staging/vt6656/usbpipe.c b/drivers/staging/vt6656/usbpipe.c
+index 7f45734390f6..d505b4b69ba4 100644
+--- a/drivers/staging/vt6656/usbpipe.c
++++ b/drivers/staging/vt6656/usbpipe.c
+@@ -230,7 +230,9 @@ static void vnt_start_interrupt_urb_complete(struct urb *urb)
+ 	else
+ 		vnt_int_process_data(priv);
+ 
+-	status = usb_submit_urb(priv->interrupt_urb, GFP_ATOMIC);
++	if (!test_bit(DEVICE_FLAGS_DISCONNECTED, &priv->flags))
++		status = usb_submit_urb(priv->interrupt_urb, GFP_ATOMIC);
++
+ 	if (status)
+ 		dev_dbg(&priv->usb->dev, "Submit int URB failed %d\n", status);
+ }
+-- 
+2.25.1
+
