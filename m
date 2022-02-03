@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049DB2F29
-	for <linux-staging@lists.linux.dev>; Thu,  3 Feb 2022 20:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFDF2C9C
+	for <linux-staging@lists.linux.dev>; Thu,  3 Feb 2022 20:18:05 +0000 (UTC)
 Received: from dslb-188-096-149-005.188.096.pools.vodafone-ip.de ([188.96.149.5] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nFiYE-0004N1-EF; Thu, 03 Feb 2022 21:17:54 +0100
+	id 1nFiYH-0004N1-08; Thu, 03 Feb 2022 21:17:57 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,10 +16,12 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 0/2] staging: r8188eu: clean up phy_BB8188E_Config_ParaFile
-Date: Thu,  3 Feb 2022 21:17:43 +0100
-Message-Id: <20220203201745.251826-1-martin@kaiser.cx>
+Subject: [PATCH 1/2] staging: r8188eu: remove unnecessary error check
+Date: Thu,  3 Feb 2022 21:17:44 +0100
+Message-Id: <20220203201745.251826-2-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220203201745.251826-1-martin@kaiser.cx>
+References: <20220203201745.251826-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,17 +30,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Two simple patches to clean up the error handling of
-phy_BB8188E_Config_ParaFile.
+Remove an unnecessary error check in phy_BB8188E_Config_ParaFile.
+There's no need to goto phy_BB8190_Config_ParaFile_Fail, this label
+is in the following line.
 
-Martin Kaiser (2):
-  staging: r8188eu: remove unnecessary error check
-  staging: r8188eu: simplify error handling in
-    phy_BB8188E_Config_ParaFile
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+index 41a0d7f0d29f..accbd08d4fd1 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+@@ -508,9 +508,6 @@ static	int phy_BB8188E_Config_ParaFile(struct adapter *Adapter)
+ 	if (HAL_STATUS_FAILURE == ODM_ReadAndConfig_AGC_TAB_1T_8188E(&pHalData->odmpriv))
+ 		rtStatus = _FAIL;
+ 
+-	if (rtStatus != _SUCCESS)
+-		goto phy_BB8190_Config_ParaFile_Fail;
+-
+ phy_BB8190_Config_ParaFile_Fail:
+ 
+ 	return rtStatus;
 -- 
 2.30.2
 
