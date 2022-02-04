@@ -1,23 +1,23 @@
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF1B2C9C
-	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 12:16:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FF62CA2
+	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 12:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643976998; x=1675512998;
+  t=1643977000; x=1675513000;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=9MfQeFSRHHpb33Jz73vY5dhj1TL4KHQ2EhLys86WNF0=;
-  b=bQuvadcDluLNhfXiroMpOqwB552K6CN1YNYVUypgXN/NcYKurbhkuy+5
-   bfy0pC0XWjPhOHQ9xgm5odNBrEmBYLt+KGdMOJnv7tHdzt6yd809nOxoC
-   A/TevnHqkZ00ABFiDnpz4azs1PNzTc81vApg4FTrMJp724h17O8klzbro
-   jcdQl4K5YHRxooHP5jcoM5XVmaVi9UHIvrn+30iUKtKZrt704Zh1Bdnpq
-   k2pqb2Aw67M6lLulLiBERF+8piVMr8tKvp19XjV09sfVnkJJZbq6Yok2G
-   2CHzEcNMT/cEE21LRWjftWdCeMpEzIzItyQsQiEm1B54L3e4IMLq6r3fJ
-   g==;
+  bh=WX0S5yywfJteoi/TvV8TssMpvmQJ3W0EAQZbPxU9SAY=;
+  b=P45hxCzvwZQoOGkQKpX9KlxWgJy5lNnmztx2kfaTULUlU4Q10y10RL6Q
+   xg1LeIFidxpQtAR+xuEohqurN0F8ronUO9ro2ehOVy5ic0v264MnyneBA
+   7gzc92wa+f7NupWVvIYpsRsI9F/xsltuOiabGy8AaCb3lrUZ5uV2pXA8N
+   KO94K8ZLCC7Ssh1mlUoV+aCK6j62QdNfH7HFYdyC30Lu6ge2pWjtYuwGO
+   apjA/z//aZyoECqyVF+W1h0n9SsW+bbk+InNAmrxlJfgetuK68bzLIiSa
+   e+LF2UHmKMUi4DyCBuzAd7OPytooz4sv6auK4QXQnS9OTlKhoID0YUavu
+   w==;
 X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
-   d="scan'208";a="21903434"
+   d="scan'208";a="21903438"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
   by mx1-pgp.tq-group.com with ESMTP; 04 Feb 2022 13:15:26 +0100
 Received: from mx1.tq-group.com ([192.168.6.7])
@@ -30,23 +30,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   t=1643976926; x=1675512926;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=9MfQeFSRHHpb33Jz73vY5dhj1TL4KHQ2EhLys86WNF0=;
-  b=Tl/i8ElgbQohSRh9TncCZ2vgP1zO5+V/esxfIspBt8U/htVenhVqpoGW
-   Slh50WGzPJHBnnm8PSYSJznNKr4Z2LMWi8pO9xS5jXS2Ceu0I1gtKt35k
-   So7yO2v9y52+ibEikUCm4y3v5UYafkDz/PHFUAa51GioCi1d7CD9pIqjs
-   oqvjKqXgWIJfAIclqx4zieUTrDC2w39RKvIR/E0A/Jssx7Oe/FPnT+L5/
-   2fjiTWbBU+3wIGMzl3b9ANZlSBFAgM6C6xnKF2arkwWwZxoVINKSS2q09
-   qfXoFatZuhUHzbYZ7kKZCi0fF2joAiuZyB13lXUkCUEh9QGGFDPBaMwxj
+  bh=WX0S5yywfJteoi/TvV8TssMpvmQJ3W0EAQZbPxU9SAY=;
+  b=UNFkcce9q6budxdHMNO+j4l/CwIDPZuVxW1Nz0ysYQ9GbAPUbSlNyFIP
+   VI0OHH3sxX7/zQ7b14VXozFCEqBdqyb+/KRXq7Ng+9CS0dc8xCFdN6JYX
+   h/mK2SQxQ7MqCjov6EXNr5ndPkGfeMcXTRmm+Y8KUg1hqmTpoOy3X7ei6
+   lui4d6HbmzT4aLSi9LtnW6rz/krFy3wDqa2seirQfvGIqNKH80xehZ7v+
+   Vrczd38PFJWWMgOzsojS8dstUifJhgTOC+WcSb+yDjL/h6EMU5vCn5xiZ
+   u4vrqwLd2RcuOJuYjUMGxHkcBRPUa+ysiJh5TcQS3X3dzDq+d7kk3w65w
    A==;
 X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
-   d="scan'208";a="21903433"
+   d="scan'208";a="21903437"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
   by mx1.tq-group.com with ESMTP; 04 Feb 2022 13:15:26 +0100
 Received: from steina-w.tq-net.de (unknown [10.123.49.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D2359280065;
-	Fri,  4 Feb 2022 13:15:25 +0100 (CET)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6D5A7280065;
+	Fri,  4 Feb 2022 13:15:26 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Steve Longerbeam <slongerbeam@gmail.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -65,9 +65,9 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 6/8] media: imx: imx7_media-csi: Add support for additional Bayer patterns
-Date: Fri,  4 Feb 2022 13:15:12 +0100
-Message-Id: <20220204121514.2762676-7-alexander.stein@ew.tq-group.com>
+Subject: [PATCH 8/8] [DNI] arm64: dts: tqma8mqml: add IMX327 MIPI-CSI overlay
+Date: Fri,  4 Feb 2022 13:15:14 +0100
+Message-Id: <20220204121514.2762676-9-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
 References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
@@ -79,44 +79,129 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-imx7_csi_configure() allows configuring these Bayer patterns when
-starting a stream. So allow these in link_validate() as well.
-
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
-I'm wondering if V4L2_PIX_FMT_SBGGR16 (and their variants) is correct in this
-function. imx7_csi_configure() does not list MEDIA_BUS_FMT_Sxxxx16_1X16.
-Also I can't find a proper a proper setting in CSI_CR18 of CSI Bridge in
-IMX8M Mini RM for RAW16. The feature list names a  "16-bit data port for
-Bayer data input", but is it actually supported? I do not know anything about
-the MIPI CSI data formats though. Maybe someone else can clarify this.
+ arch/arm64/boot/dts/freescale/Makefile        |  4 +
+ .../imx8mm-tqma8mqml-mba8mx-imx327.dts        | 95 +++++++++++++++++++
+ 2 files changed, 99 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
 
- drivers/staging/media/imx/imx7-media-csi.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 158d2a736c6d..7e737221f187 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1004,6 +1004,18 @@ static int imx7_csi_pad_link_validate(struct v4l2_subdev *sd,
- 	case V4L2_PIX_FMT_SGBRG8:
- 	case V4L2_PIX_FMT_SGRBG8:
- 	case V4L2_PIX_FMT_SRGGB8:
-+	case V4L2_PIX_FMT_SBGGR10:
-+	case V4L2_PIX_FMT_SGBRG10:
-+	case V4L2_PIX_FMT_SGRBG10:
-+	case V4L2_PIX_FMT_SRGGB10:
-+	case V4L2_PIX_FMT_SBGGR12:
-+	case V4L2_PIX_FMT_SGBRG12:
-+	case V4L2_PIX_FMT_SGRBG12:
-+	case V4L2_PIX_FMT_SRGGB12:
-+	case V4L2_PIX_FMT_SBGGR14:
-+	case V4L2_PIX_FMT_SGBRG14:
-+	case V4L2_PIX_FMT_SGRBG14:
-+	case V4L2_PIX_FMT_SRGGB14:
- 	case V4L2_PIX_FMT_SBGGR16:
- 	case V4L2_PIX_FMT_SGBRG16:
- 	case V4L2_PIX_FMT_SGRBG16:
+diff --git a/arch/arm64/boot/dts/freescale/Makefile b/arch/arm64/boot/dts/freescale/Makefile
+index 852615febf9a..5ef8ff05452e 100644
+--- a/arch/arm64/boot/dts/freescale/Makefile
++++ b/arch/arm64/boot/dts/freescale/Makefile
+@@ -57,6 +57,10 @@ dtb-$(CONFIG_ARCH_MXC) += imx8mm-icore-mx8mm-edimm2.2.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx8mm-kontron-n801x-s.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx8mm-nitrogen-r2.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx8mm-tqma8mqml-mba8mx.dtb
++
++tqma8mqml-mba8mx-imx327-dtbs += imx8mm-tqma8mqml-mba8mx.dtb imx8mm-tqma8mqml-mba8mx-imx327.dtbo
++dtb-$(CONFIG_ARCH_MXC) += tqma8mqml-mba8mx-imx327.dtb
++
+ dtb-$(CONFIG_ARCH_MXC) += imx8mm-var-som-symphony.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw71xx-0x.dtb
+ dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw72xx-0x.dtb
+diff --git a/arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts b/arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
+new file mode 100644
+index 000000000000..3f1223d4d73b
+--- /dev/null
++++ b/arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
+@@ -0,0 +1,95 @@
++// SPDX-License-Identifier: (GPL-2.0-or-later OR MIT)
++/*
++ * Copyright 2021 TQ-Systems GmbH
++ */
++
++#include <dt-bindings/gpio/gpio.h>
++
++/dts-v1/;
++/plugin/;
++
++&{/} {
++	compatible = "tq,imx8mm-tqma8mqml-mba8mx", "tq,imx8mm-tqma8mqml", "fsl,imx8mm";
++
++	sensor_clk: sensor-clk {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <37125000>;
++	};
++};
++
++&csi {
++       status = "okay";
++};
++
++&i2c3 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	vc_fpga: fpga@10 {
++		reg = <0x10>;
++		compatible = "vc,fpga";
++
++		vc_fpga_reg: regulator {
++			regulator-name = "CAM_VCC";
++		};
++
++		vc_fpga_reset: reset {
++			#reset-cells = <0>;
++		};
++
++		vc_fpga_gpio: gpio-chip {
++			gpio-controller;
++			#gpio-cells = <2>;
++		};
++	};
++
++	sony_imx327: camera@1a {
++		#address-cells = <0x1>;
++		#size-cells = <0x0>;
++		reg = <0x1a>;
++
++		compatible = "sony,imx327", "sony,imx290";
++
++		clock-names = "xclk";
++		clocks = <&sensor_clk>;
++		clock-frequency = <37125000>;
++
++		vdd-supply = <&vc_fpga_reg>;
++
++		vdda-supply = <&vc_fpga_reg>;
++		vddd-supply = <&vc_fpga_reg>;
++		vdddo-supply = <&vc_fpga_reg>;
++
++		reset-gpios = <&vc_fpga_gpio 0 GPIO_ACTIVE_HIGH>;
++
++		port@0 {
++			reg = <0>;
++
++			sony_imx327_ep0: endpoint {
++				remote-endpoint = <&imx8mm_mipi_csi_in>;
++				data-lanes = <1 2>;
++				clock-lanes = <0>;
++				clock-noncontinuous = <1>;
++				link-frequencies = /bits/ 64 <445500000 297000000>;
++			};
++		};
++	};
++};
++
++&mipi_csi {
++       status = "okay";
++
++       ports {
++               #address-cells = <1>;
++               #size-cells = <0>;
++
++               port@0 {
++                       reg = <0>;
++                       imx8mm_mipi_csi_in: endpoint {
++                               remote-endpoint = <&sony_imx327_ep0>;
++                               data-lanes = <1 2>;
++                       };
++               };
++       };
++};
+\ No newline at end of file
 -- 
 2.25.1
 
