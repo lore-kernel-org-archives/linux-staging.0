@@ -1,67 +1,215 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B672C9D
-	for <linux-staging@lists.linux.dev>; Thu,  3 Feb 2022 20:32:32 +0000 (UTC)
-Received: from dslb-188-096-149-005.188.096.pools.vodafone-ip.de ([188.96.149.5] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1nFimL-0004W7-TF; Thu, 03 Feb 2022 21:32:29 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 4/4] staging: r8188eu: remove constant variable eRFPath
-Date: Thu,  3 Feb 2022 21:32:17 +0100
-Message-Id: <20220203203217.252156-5-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220203203217.252156-1-martin@kaiser.cx>
-References: <20220203203217.252156-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651492F21
+	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 05:06:16 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id z14-20020a17090ab10e00b001b6175d4040so12100064pjq.0
+        for <linux-staging@lists.linux.dev>; Thu, 03 Feb 2022 21:06:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to;
+        bh=8iIaekhxi09m7pSk70nnsISsTi/jiwvJuDakRs67WzM=;
+        b=QQ9QGZR4swuOAW0lPBw4aDKrkuP3UYIWVJrFRADUR1r8bP8KJKL7IPFyPbfRs/U4fR
+         2O6Z155M39uSvc2Ohxyt+bI9ZDvG6dKQBrTg4mqjh+SWE/aEEY00xoRORTuKB3oanIu+
+         H2Mmz+gfg9rG8X3OwNyXxu5u7f5QUdrq0fm+/bUjNWYoD9ZB3eXc6T0RAv5ulnqfx29p
+         q6Q/EO8BtoUuAvhaO8m6+u2y796/3Rq0VFkfXe7U15J7Jcl2QiLVfU93coGAim+Ukyad
+         geaJdlibaDaQhMPDabG6y+DV7DRvOar16O7Sp8d6uwRnNF1eUs3nLK6Y2j8KTu+SamcW
+         7Dpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to;
+        bh=8iIaekhxi09m7pSk70nnsISsTi/jiwvJuDakRs67WzM=;
+        b=jTCJblpIPARkYmDl14IDUsfotarCafYOM4ZNqeN12/1tRQx9vyNwMu6brlUlXpACpL
+         nElH92gpqmULHQXXbkxRdBMYAHpc8zbeWSfK9hk0YLZLdzKhdHuuksp9COEpY8ENsICg
+         9DIpHZW5fI0pZdkhRbUyO28cxcwlCtbNky76WRi3ckmbBBhJHVFmA+8tdr6+2Y/eY908
+         vojdZtaHsB8/F8mzP+C8kVTSZ6ZjrZDISEGfY8UQus+TG0708/V2UUD47TWNBK4jjm1L
+         lIibk5k1kmMzNw+nwyoXvX0QnU8Rh6IVHHHuzuFexvwFLevieMOKBlFWn54yeofRx4ZU
+         oBzw==
+X-Gm-Message-State: AOAM531BXDBtO5WUqLxOLom6NEyFHVQIW2NQi/h+hRPpw82QY8KDieWv
+	JFy2xyExshlAgk3sc7IpJcM=
+X-Google-Smtp-Source: ABdhPJxciBopEAgZ/POSc3i/8dhx71oGzm7qVEf6WvE7YaH1iY8mA9ApWVkQYf5OKw8Iix+0MeDV/g==
+X-Received: by 2002:a17:902:d044:: with SMTP id l4mr1487632pll.5.1643951175659;
+        Thu, 03 Feb 2022 21:06:15 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id p22sm716627pfo.163.2022.02.03.21.06.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Feb 2022 21:06:15 -0800 (PST)
+Date: Fri, 4 Feb 2022 18:06:09 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
+	realwakka@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] staging: pi433: add debugfs interface
+Message-ID: <Yfy0QSxL+3lbPlLK@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220131134558.GL1951@kadam>
 
-In the _PHY_SwChnl8192C function, eRFPath is always zero. Remove the
-variable and use 0 in the code. Replace (enum rf_radio_path)0 with
-RF_PATH_A.
+This adds debugfs interface that can be used for debugging possible
+hardware/software issues.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+It currently exposes the following debugfs entries for each SPI device
+probed:
+
+  /sys/kernel/debug/pi433/<DEVICE>/regs
+  ...
+
+The 'regs' file contains all rf69 uC registers values that are useful
+for troubleshooting misconfigurations between 2 devices. It contains one
+register per line so it should be easy to use normal filtering tools to
+find the registers of interest if needed.
+
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Changelog:
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index 8279768201b7..6e26359bdda7 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -712,7 +712,6 @@ void PHY_SetBWMode8188E(struct adapter *Adapter, enum ht_channel_width Bandwidth
+v4: remove unnecessary variable initializer, ensure mutex locks are
+	released before returning from routine. Req: Dan Carpenter
+v3: fix build error, remove redundant comments and validate return values
+        from wait_event_interruptible routines: Req: Greg K-h, Dan Carpenter
+v2: remove redudant references to dentry pointers in the code and perform
+     debugsfs_lookup instead. Req: Greg k-h
+v1: https://lore.kernel.org/lkml/20220123073855.GA79453@mail.google.com/
+---
+ drivers/staging/pi433/pi433_if.c | 76 ++++++++++++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
+
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 86ad497417f7..4fbac3ccef74 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -41,6 +41,8 @@
+ #ifdef CONFIG_COMPAT
+ #include <linux/compat.h>
+ #endif
++#include <linux/debugfs.h>
++#include <linux/seq_file.h>
  
- static void _PHY_SwChnl8192C(struct adapter *Adapter, u8 channel)
+ #include "pi433_if.h"
+ #include "rf69.h"
+@@ -1098,12 +1100,76 @@ static const struct file_operations pi433_fops = {
+ 	.llseek =	no_llseek,
+ };
+ 
++static int pi433_debugfs_regs_show(struct seq_file *m, void *p)
++{
++	struct pi433_device *dev;
++	u8 reg_data[114];
++	int i;
++	char *fmt = "0x%02x, 0x%02x\n";
++	int ret;
++
++	dev = m->private;
++
++	mutex_lock(&dev->tx_fifo_lock);
++	mutex_lock(&dev->rx_lock);
++
++	// wait for on-going operations to finish
++	ret = wait_event_interruptible(dev->rx_wait_queue, !dev->tx_active);
++	if (ret)
++		goto out_unlock;
++
++	ret = wait_event_interruptible(dev->tx_wait_queue, !dev->rx_active);
++	if (ret)
++		goto out_unlock;
++
++	// skip FIFO register (0x0) otherwise this can affect some of uC ops
++	for (i = 1; i < 0x50; i++)
++		reg_data[i] = rf69_read_reg(dev->spi, i);
++
++	reg_data[REG_TESTLNA] = rf69_read_reg(dev->spi, REG_TESTLNA);
++	reg_data[REG_TESTPA1] = rf69_read_reg(dev->spi, REG_TESTPA1);
++	reg_data[REG_TESTPA2] = rf69_read_reg(dev->spi, REG_TESTPA2);
++	reg_data[REG_TESTDAGC] = rf69_read_reg(dev->spi, REG_TESTDAGC);
++	reg_data[REG_TESTAFC] = rf69_read_reg(dev->spi, REG_TESTAFC);
++
++	seq_puts(m, "# reg, val\n");
++
++	for (i = 1; i < 0x50; i++)
++		seq_printf(m, fmt, i, reg_data[i]);
++
++	seq_printf(m, fmt, REG_TESTLNA, reg_data[REG_TESTLNA]);
++	seq_printf(m, fmt, REG_TESTPA1, reg_data[REG_TESTPA1]);
++	seq_printf(m, fmt, REG_TESTPA2, reg_data[REG_TESTPA2]);
++	seq_printf(m, fmt, REG_TESTDAGC, reg_data[REG_TESTDAGC]);
++	seq_printf(m, fmt, REG_TESTAFC, reg_data[REG_TESTAFC]);
++
++out_unlock:
++	mutex_unlock(&dev->rx_lock);
++	mutex_unlock(&dev->tx_fifo_lock);
++
++	return ret;
++}
++
++static int pi433_debugfs_regs_open(struct inode *inode, struct file *filp)
++{
++	return single_open(filp, pi433_debugfs_regs_show, inode->i_private);
++}
++
++static const struct file_operations debugfs_fops = {
++	.llseek =	seq_lseek,
++	.open =		pi433_debugfs_regs_open,
++	.owner =	THIS_MODULE,
++	.read =		seq_read,
++	.release =	single_release
++};
++
+ /*-------------------------------------------------------------------------*/
+ 
+ static int pi433_probe(struct spi_device *spi)
  {
--	u8 eRFPath = 0;
- 	u32 param1, param2;
- 	struct hal_data_8188e *pHalData = &Adapter->haldata;
+ 	struct pi433_device	*device;
+ 	int			retval;
++	struct dentry		*entry;
  
-@@ -725,8 +724,8 @@ static void _PHY_SwChnl8192C(struct adapter *Adapter, u8 channel)
- 	/* s2. RF dependent command - CmdID_RF_WriteReg, param1=RF_CHNLBW, param2=channel */
- 	param1 = RF_CHNLBW;
- 	param2 = channel;
--	pHalData->RfRegChnlVal[eRFPath] = ((pHalData->RfRegChnlVal[eRFPath] & 0xfffffc00) | param2);
--	rtl8188e_PHY_SetRFReg(Adapter, (enum rf_radio_path)eRFPath, param1, bRFRegOffsetMask, pHalData->RfRegChnlVal[eRFPath]);
-+	pHalData->RfRegChnlVal[0] = ((pHalData->RfRegChnlVal[0] & 0xfffffc00) | param2);
-+	rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, param1, bRFRegOffsetMask, pHalData->RfRegChnlVal[0]);
+ 	/* setup spi parameters */
+ 	spi->mode = 0x00;
+@@ -1252,6 +1318,10 @@ static int pi433_probe(struct spi_device *spi)
+ 	/* spi setup */
+ 	spi_set_drvdata(spi, device);
+ 
++	entry = debugfs_create_dir(dev_name(device->dev),
++				   debugfs_lookup(KBUILD_MODNAME, NULL));
++	debugfs_create_file("regs", 0400, entry, device, &debugfs_fops);
++
+ 	return 0;
+ 
+ del_cdev:
+@@ -1275,6 +1345,9 @@ static int pi433_probe(struct spi_device *spi)
+ static int pi433_remove(struct spi_device *spi)
+ {
+ 	struct pi433_device	*device = spi_get_drvdata(spi);
++	struct dentry *mod_entry = debugfs_lookup(KBUILD_MODNAME, NULL);
++
++	debugfs_remove(debugfs_lookup(dev_name(device->dev), mod_entry));
+ 
+ 	/* free GPIOs */
+ 	free_gpio(device);
+@@ -1349,6 +1422,8 @@ static int __init pi433_init(void)
+ 		return PTR_ERR(pi433_class);
+ 	}
+ 
++	debugfs_create_dir(KBUILD_MODNAME, NULL);
++
+ 	status = spi_register_driver(&pi433_spi_driver);
+ 	if (status < 0) {
+ 		class_destroy(pi433_class);
+@@ -1366,6 +1441,7 @@ static void __exit pi433_exit(void)
+ 	spi_unregister_driver(&pi433_spi_driver);
+ 	class_destroy(pi433_class);
+ 	unregister_chrdev(MAJOR(pi433_dev), pi433_spi_driver.driver.name);
++	debugfs_remove_recursive(debugfs_lookup(KBUILD_MODNAME, NULL));
  }
+ module_exit(pi433_exit);
  
- void PHY_SwChnl8188E(struct adapter *Adapter, u8 channel)
 -- 
-2.30.2
+2.34.1
 
