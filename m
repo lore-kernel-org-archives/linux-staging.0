@@ -1,52 +1,52 @@
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851E32C9C
-	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 12:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790DF2C9D
+	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 12:16:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643976995; x=1675512995;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cR70RHsoqfuHVwt9ephCevXoTQCZ6y12xcf3PcFCPD8=;
-  b=WB1nRWwhQrd7eVFr5V4otFY1/DqCi58DY2nG/gJZGmW5Y2tOEXvArkSD
-   ez6kSpVAQAQZsD4gICCjvyBvvZcNXU8grIRM8GD5/q32WgqdOXcTiXnDx
-   B7+ZHboN7w3dPmM5eN5JMifHjqtSkElScmEO1p/vUcF+iyD549Bk0xOmI
-   yJU/0DSKlNNGLyJZaKtMVyXstnrQtCjb/lzBWYU4Btd3srWbcfpP3YVcW
-   lUQzEwqOrtCoY1NzM9+q/c+VdNM7XADVEwjZPfgSq5G8NmzUsNFYo6hMq
-   bWSZaVpzV914lkwTROqCIUuyaX2IyxlqFMDuxDbgmL1A1iuz2a/rk3VvG
+  t=1643976997; x=1675512997;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Bc6AZVTrc7BoI0dNeWm1pc1eWQvq627GTftRErmHl+E=;
+  b=R+WAQFStr5PqxWfyYpMMldfGoP8AAs8zTngeLKXXGiBisCu8c/nJ9+qS
+   T5hz6ZwCWTIP8xvYWdASowGiBrhWKk1q58k+Mne+vPFKgOM1/caS1GfI0
+   dlA5mwGfk4CGdDX/QdjExoBTK589WSFz6JYl9EDy9K3koHGyFwdrvBWKD
+   qP9JJEX66SpeUxeLoqfD+CzLhcToZeTwGTowlCEwWWpBi0a4JWOIziuZY
+   pHYZq/AbPUjt4vRkwsH1rRPu2Ma7C47mCv1UImrG24e4CEo/+NbUtlKj7
+   PAhUxhLVHAQ51oM3OvXy2Ql6LiOAkYt/1w/ZjbpC7pkr1DNhDalni6nAC
    A==;
 X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
-   d="scan'208";a="21903425"
+   d="scan'208";a="21903432"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 04 Feb 2022 13:15:24 +0100
+  by mx1-pgp.tq-group.com with ESMTP; 04 Feb 2022 13:15:25 +0100
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 04 Feb 2022 13:15:24 +0100
+  Fri, 04 Feb 2022 13:15:25 +0100
 X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Fri, 04 Feb 2022 13:15:24 +0100
+	by tq-pgp-pr1.tq-net.de on Fri, 04 Feb 2022 13:15:25 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643976924; x=1675512924;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cR70RHsoqfuHVwt9ephCevXoTQCZ6y12xcf3PcFCPD8=;
-  b=f22/CAbkl0kptFrKHwO6g9mz8G61RbHtS73+8Ux/s8UR1zEAZNMCQI3H
-   TB9IL5pVUCdn9SMlW69VQ9PM+QO41KPoJWAgZ+mefdqXgLP3siqRvNfjm
-   kH4XSI3mpkueFPP68o0NS+srM6vRL3uCncCYirCAo2zE+y0/DS/5vaZXS
-   tTegvvpNecZpBOxx4YtDYtBoBVR/KSmUYapygvoDZYb2ImNQKoZgM3Hub
-   6K2+Z25m/vxg8CTvnoH0N4kzIcl45hFIvKwQhn/B8TDS0vf5kAWXYZ38U
-   S7rPiiSz5XwMxWkN1w0Nb16L9Ay4LqhmFByjMeVD3U6iRSPKuyO3zWKPy
+  t=1643976925; x=1675512925;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Bc6AZVTrc7BoI0dNeWm1pc1eWQvq627GTftRErmHl+E=;
+  b=oZSrnE4np0h67rOeQNqUsg/k2MtCG11arHHHzJrh0isXktCOi31itxhU
+   srNAWnbP6WasBHiplUuE0IP9gSbZvg6VVnCKE8dbEc/tf5p9dqDHiaD95
+   EhRvDjvF+GL/1ryJH1mdFM4qboHbB6LYlqjs1DKg3Yi2HtJWUMfIpoJAR
+   n/ZMVNTOQhFilM9dTp9i0v8qGL8tT+pJYOGQ/9N9oSnx91WN4JXZ2O4xX
+   TwPbLmUtiMJnSark8nSZgmBhA7YfNsz8z/3mbPPFPfEwB9f+yGPLTG+nk
+   NipuHjVlHgq9aBVps6r1urEGkPaeL2XG7/ZFkm0mOi86D+rUB++0paU7B
    Q==;
 X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
-   d="scan'208";a="21903424"
+   d="scan'208";a="21903431"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 04 Feb 2022 13:15:24 +0100
+  by mx1.tq-group.com with ESMTP; 04 Feb 2022 13:15:25 +0100
 Received: from steina-w.tq-net.de (unknown [10.123.49.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 1B667280065;
-	Fri,  4 Feb 2022 13:15:24 +0100 (CET)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 8AF2E280075;
+	Fri,  4 Feb 2022 13:15:25 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Steve Longerbeam <slongerbeam@gmail.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -65,10 +65,12 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/8] imx7/imx8mm media / csi patches
-Date: Fri,  4 Feb 2022 13:15:06 +0100
-Message-Id: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
+Subject: [PATCH 5/8] media: imx: imx7_mipi_csis: store colorspace in set_fmt as well
+Date: Fri,  4 Feb 2022 13:15:11 +0100
+Message-Id: <20220204121514.2762676-6-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
+References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,125 +79,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hey everyone,
+Without this the default (SMPTE 170M) from init_cfg stays unchanged.
+Even after configuring 'srgb' colorspace (or 'raw')
+$ media-ctl -V "'csis-32e30000.mipi-csi':0 [colorspace:srgb]"
+the colorspace does not change at all:
+$ media-ctl --get-v4l2 "'csis-32e30000.mipi-csi':0"
+  [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:smpte170m xfer:709
+   ycbcr:601 quantization:lim-range]
 
-this is a set of patch for imx[7] media drivers based on next-20220203. With
-this set I was able to capture video frames from a MIPI CSI-2 camera in my
-TQMa8MQML + MBA8MX hardware. The actual camera used is a Vision Components
-'VC MIPI IMX327 C' camera. IMX327 is compatible to IMX290. Patch 8 shows the
-DT overlay I'm using, not suitable for merging.
-Please ignore the FPGA part, this is mainly for power supply and GPIO reset
-line. This is currently a custom driver I'm working on, but I do not want to
-focus on in this series.
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+ drivers/staging/media/imx/imx7-mipi-csis.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Please note I tested this only on this imx8 platform.
-
-First thanks to Dorota for the patchset at [1] (patches 1-4) which is necessary
-to capture correct images. I integrated Hans' review into it. I hope the
-I didn't make a mistake and the original author is kept along. I used v4 for that
-patchset, it is v1 again in this set. I hope this is not confusing.
-
-Starting from patch 5 there are small fixes which allows me to configure my
-media device.
-
-Device configuration:
-```
-media-ctl -l "'imx290 2-001a':0->'csis-32e30000.mipi-csi':0 [1]"
-media-ctl -V "'imx290 2-001a':0 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]"
-media-ctl -V "'csi':0 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]"
-v4l2-ctl -d0 --set-fmt-video width=1920,height=1080,pixelformat='RG10',field=none
-media-ctl -p
-```
-
-The media-ctl topology is:
-```
-# media-ctl -p
-Media controller API version 5.17.0
-
-Media device information
-------------------------
-driver          imx7-csi
-model           imx-media
-serial          
-bus info        platform:32e20000.csi
-hw revision     0x0
-driver version  5.17.0
-
-Device topology
-- entity 1: csi (2 pads, 2 links)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev0
-        pad0: Sink
-                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
-                <- "csis-32e30000.mipi-csi":1 [ENABLED,IMMUTABLE]
-        pad1: Source
-                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
-                -> "csi capture":0 [ENABLED,IMMUTABLE]
-
-- entity 4: csi capture (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video0
-        pad0: Sink
-                <- "csi":1 [ENABLED,IMMUTABLE]
-
-- entity 10: csis-32e30000.mipi-csi (2 pads, 2 links)
-             type V4L2 subdev subtype Unknown flags 0
-             device node name /dev/v4l-subdev1
-        pad0: Sink
-                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:709 ycbcr:601 quantization:lim-range]
-                <- "imx290 2-001a":0 [ENABLED]
-        pad1: Source
-                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:709 ycbcr:601 quantization:lim-range]
-                -> "csi":0 [ENABLED,IMMUTABLE]
-
-- entity 15: imx290 2-001a (1 pad, 1 link)
-             type V4L2 subdev subtype Sensor flags 0
-             device node name /dev/v4l-subdev2
-        pad0: Source
-                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]
-                -> "csis-32e30000.mipi-csi":0 [ENABLED]
-```
-
-Note: MIPI CSI settle times are not calculated correctly right now and need a
-manual overwrite:
-echo 13 > /sys/kernel/debug/32e30000.mipi-csi/ths_settle 
-echo 2 > /sys/kernel/debug/32e30000.mipi-csi/tclk_settle
-
-I ignored the settings for xfer, ycbcr and quantization for now. I do neither
-know how they will affect me nor what it should be.
-Also I did not focus on v4l2-compliance tool, this is a further task as well.
-IMHO imx7-mipi-csis.c should also create an immutable link to the camera
-sensor.
-
-Regards,
-Alexander
-
-[1] https://patchwork.linuxtv.org/project/linux-media/patch/20211104113631.206899-2-dorota.czaplejewicz@puri.sm/
-
-Alexander Stein (4):
-  media: imx: imx7_mipi_csis: store colorspace in set_fmt as well
-  media: imx: imx7_media-csi: Add support for additional Bayer patterns
-  media: imx: utils: Add more Bayer formats
-  [DNI] arm64: dts: tqma8mqml: add IMX327 MIPI-CSI overlay
-
-Dorota Czaplejewicz (4):
-  media: imx: Store the type of hardware implementation
-  media: imx: Forward type of hardware implementation
-  media: imx: Use dedicated format handler for i.MX7/8
-  media: imx: Fail conversion if pixel format not supported
-
- arch/arm64/boot/dts/freescale/Makefile        |   4 +
- .../imx8mm-tqma8mqml-mba8mx-imx327.dts        |  95 +++++++++++++
- drivers/staging/media/imx/imx-ic-prpencvf.c   |   3 +-
- drivers/staging/media/imx/imx-media-capture.c |  20 ++-
- drivers/staging/media/imx/imx-media-csi.c     |   3 +-
- drivers/staging/media/imx/imx-media-utils.c   | 130 +++++++++++++++++-
- drivers/staging/media/imx/imx-media.h         |   6 +-
- drivers/staging/media/imx/imx7-media-csi.c    |  15 +-
- drivers/staging/media/imx/imx7-mipi-csis.c    |   1 +
- 9 files changed, 262 insertions(+), 15 deletions(-)
- create mode 100644 arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
-
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index a22d0e6b3d44..7b0e57efcf82 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -1062,6 +1062,7 @@ static int mipi_csis_set_fmt(struct v4l2_subdev *sd,
+ 	fmt->code = csis_fmt->code;
+ 	fmt->width = sdformat->format.width;
+ 	fmt->height = sdformat->format.height;
++	fmt->colorspace = sdformat->format.colorspace;
+ 
+ 	sdformat->format = *fmt;
+ 
 -- 
 2.25.1
 
