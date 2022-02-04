@@ -1,51 +1,51 @@
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21AC92C9C
-	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 12:15:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851E32C9C
+	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 12:16:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643976942; x=1675512942;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=wxzlrhc4NRiZGi76LZW5C2eEFoWSR5gV+Yrp/AZNDME=;
-  b=IYznh3sfWOrs9ikd1NxfoIttkLfn9x3ToFjcC5XwgbwnOELQgWhqjF+s
-   pEChSrSVOxeJznZM2uEp+CZBKp1oyJXW+G1TQoHy13yga/w1NwBj8ZqFX
-   Fj/hYGb3zCHHxxP1gfiawyCkK4hphzg9S2DxqbFDKOMuDfwjtn1Y/fjOX
-   51qlvpQhZAebBurs21Cx+1Oydjh2HKWCTMH67u/dyRvJpQbtpAMtKvX8o
-   Ed/buN3c9Z5pbmi2GL34T8tDmPgDXOzuOnDiS/KxrCIK8OpmmBUFVF8LM
-   dt7uF8C/AAB988CeU09jDjrAat4U2h0E7nBXbcjvPukzDmB901Rloz+8C
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
-   d="scan'208";a="21903444"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 04 Feb 2022 13:15:30 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 04 Feb 2022 13:15:30 +0100
-X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Fri, 04 Feb 2022 13:15:30 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643976930; x=1675512930;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=wxzlrhc4NRiZGi76LZW5C2eEFoWSR5gV+Yrp/AZNDME=;
-  b=M2TltVT6lr+eQS8IzKEtkI2FlEQDvXhnt93Q/Kcryg9f/56KiGAY6L+X
-   OO+DeFuvGn7+9h18ih075dR3jETsTCh+J04ULa7a5/px+kKcveZPKjRaH
-   WBKgOhAX9BHBTMyePPbq3gAtTw97728+JAuAg/mRgd5/higVxxtI1I6D7
-   CzzSx9H61CYy3uryj3vwiUCsp6RLExdaKVwWjSjb/BKo674jFT82b9v8p
-   tjKOlf2OSWPSYm9KtAwSo7uFFKiQJXyrUZW9NRKpgaaASmAf+qnf9UH0M
-   RJbZVG/cjZe3AVauClUzWkTHg5mIOCpEv6kDifd+aZ5VM80EZKrknwTPP
+  t=1643976995; x=1675512995;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cR70RHsoqfuHVwt9ephCevXoTQCZ6y12xcf3PcFCPD8=;
+  b=WB1nRWwhQrd7eVFr5V4otFY1/DqCi58DY2nG/gJZGmW5Y2tOEXvArkSD
+   ez6kSpVAQAQZsD4gICCjvyBvvZcNXU8grIRM8GD5/q32WgqdOXcTiXnDx
+   B7+ZHboN7w3dPmM5eN5JMifHjqtSkElScmEO1p/vUcF+iyD549Bk0xOmI
+   yJU/0DSKlNNGLyJZaKtMVyXstnrQtCjb/lzBWYU4Btd3srWbcfpP3YVcW
+   lUQzEwqOrtCoY1NzM9+q/c+VdNM7XADVEwjZPfgSq5G8NmzUsNFYo6hMq
+   bWSZaVpzV914lkwTROqCIUuyaX2IyxlqFMDuxDbgmL1A1iuz2a/rk3VvG
    A==;
 X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
-   d="scan'208";a="21903428"
+   d="scan'208";a="21903425"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 04 Feb 2022 13:15:24 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Fri, 04 Feb 2022 13:15:24 +0100
+X-PGP-Universal: processed;
+	by tq-pgp-pr1.tq-net.de on Fri, 04 Feb 2022 13:15:24 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1643976924; x=1675512924;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cR70RHsoqfuHVwt9ephCevXoTQCZ6y12xcf3PcFCPD8=;
+  b=f22/CAbkl0kptFrKHwO6g9mz8G61RbHtS73+8Ux/s8UR1zEAZNMCQI3H
+   TB9IL5pVUCdn9SMlW69VQ9PM+QO41KPoJWAgZ+mefdqXgLP3siqRvNfjm
+   kH4XSI3mpkueFPP68o0NS+srM6vRL3uCncCYirCAo2zE+y0/DS/5vaZXS
+   tTegvvpNecZpBOxx4YtDYtBoBVR/KSmUYapygvoDZYb2ImNQKoZgM3Hub
+   6K2+Z25m/vxg8CTvnoH0N4kzIcl45hFIvKwQhn/B8TDS0vf5kAWXYZ38U
+   S7rPiiSz5XwMxWkN1w0Nb16L9Ay4LqhmFByjMeVD3U6iRSPKuyO3zWKPy
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.88,342,1635199200"; 
+   d="scan'208";a="21903424"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 04 Feb 2022 13:15:25 +0100
+  by mx1.tq-group.com with ESMTP; 04 Feb 2022 13:15:24 +0100
 Received: from steina-w.tq-net.de (unknown [10.123.49.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id F12C9280075;
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 1B667280065;
 	Fri,  4 Feb 2022 13:15:24 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Steve Longerbeam <slongerbeam@gmail.com>,
@@ -60,17 +60,15 @@ To: Steve Longerbeam <slongerbeam@gmail.com>,
 	Rui Miguel Silva <rmfrfs@gmail.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc: linux-media@vger.kernel.org,
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: [PATCH 3/8] media: imx: Use dedicated format handler for i.MX7/8
-Date: Fri,  4 Feb 2022 13:15:09 +0100
-Message-Id: <20220204121514.2762676-4-alexander.stein@ew.tq-group.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/8] imx7/imx8mm media / csi patches
+Date: Fri,  4 Feb 2022 13:15:06 +0100
+Message-Id: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
-References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,95 +77,125 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+Hey everyone,
 
-This splits out a format handler which takes into account
-the capabilities of the i.MX7/8 video device,
-as opposed to the default handler compatible with both i.MX5/6 and i.MX7/8.
+this is a set of patch for imx[7] media drivers based on next-20220203. With
+this set I was able to capture video frames from a MIPI CSI-2 camera in my
+TQMa8MQML + MBA8MX hardware. The actual camera used is a Vision Components
+'VC MIPI IMX327 C' camera. IMX327 is compatible to IMX290. Patch 8 shows the
+DT overlay I'm using, not suitable for merging.
+Please ignore the FPGA part, this is mainly for power supply and GPIO reset
+line. This is currently a custom driver I'm working on, but I do not want to
+focus on in this series.
 
-Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-Changes in comparison to original commit from Dorota:
-* is_imx56 is used instead of enum
+Please note I tested this only on this imx8 platform.
 
- drivers/staging/media/imx/imx-media-utils.c | 56 +++++++++++++++++++--
- 1 file changed, 52 insertions(+), 4 deletions(-)
+First thanks to Dorota for the patchset at [1] (patches 1-4) which is necessary
+to capture correct images. I integrated Hans' review into it. I hope the
+I didn't make a mistake and the original author is kept along. I used v4 for that
+patchset, it is v1 again in this set. I hope this is not confusing.
 
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index 0daa6aad45f4..32aaa2e81bea 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -516,10 +516,9 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framefmt *tryfmt,
- }
- EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
- 
--int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
--				  const struct v4l2_mbus_framefmt *mbus,
--				  const struct imx_media_pixfmt *cc,
--				  bool is_imx56)
-+static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-+					   const struct v4l2_mbus_framefmt *mbus,
-+					   const struct imx_media_pixfmt *cc)
- {
- 	u32 width;
- 	u32 stride;
-@@ -568,6 +567,55 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
- 
- 	return 0;
- }
-+
-+static int imx78_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-+					   const struct v4l2_mbus_framefmt *mbus,
-+					   const struct imx_media_pixfmt *cc)
-+{
-+	int ret;
-+
-+	if (!cc)
-+		cc = imx_media_find_mbus_format(mbus->code, PIXFMT_SEL_ANY);
-+
-+	if (!cc)
-+		return -EINVAL;
-+	/*
-+	 * The hardware can handle line lengths divisible by 4 pixels
-+	 * as long as the whole buffer size ends up divisible by 8 bytes.
-+	 * If not, use the value of 8 pixels recommended in the datasheet.
-+	 */
-+	ret = v4l2_fill_pixfmt(pix, cc->fourcc,
-+			       round_up(mbus->width, 4), mbus->height);
-+	if (ret)
-+		return ret;
-+
-+	/* Only 8bits-per-pixel formats may need to get aligned to 8 pixels,
-+	 * because both 10-bit and 16-bit pixels occupy 2 bytes.
-+	 * In those, 4-pixel aligmnent is equal to 8-byte alignment.
-+	 */
-+	if (pix->sizeimage % 8 != 0)
-+		ret = v4l2_fill_pixfmt(pix, cc->fourcc,
-+				       round_up(mbus->width, 8), mbus->height);
-+
-+	pix->colorspace = mbus->colorspace;
-+	pix->xfer_func = mbus->xfer_func;
-+	pix->ycbcr_enc = mbus->ycbcr_enc;
-+	pix->quantization = mbus->quantization;
-+	pix->field = mbus->field;
-+
-+	return ret;
-+}
-+
-+int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-+				  const struct v4l2_mbus_framefmt *mbus,
-+				  const struct imx_media_pixfmt *cc,
-+				  bool is_imx56)
-+{
-+	if (is_imx56)
-+		return imx56_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-+	else
-+		return imx78_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-+}
- EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
- 
- void imx_media_free_dma_buf(struct device *dev,
+Starting from patch 5 there are small fixes which allows me to configure my
+media device.
+
+Device configuration:
+```
+media-ctl -l "'imx290 2-001a':0->'csis-32e30000.mipi-csi':0 [1]"
+media-ctl -V "'imx290 2-001a':0 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]"
+media-ctl -V "'csi':0 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]"
+v4l2-ctl -d0 --set-fmt-video width=1920,height=1080,pixelformat='RG10',field=none
+media-ctl -p
+```
+
+The media-ctl topology is:
+```
+# media-ctl -p
+Media controller API version 5.17.0
+
+Media device information
+------------------------
+driver          imx7-csi
+model           imx-media
+serial          
+bus info        platform:32e20000.csi
+hw revision     0x0
+driver version  5.17.0
+
+Device topology
+- entity 1: csi (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+        pad0: Sink
+                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+                <- "csis-32e30000.mipi-csi":1 [ENABLED,IMMUTABLE]
+        pad1: Source
+                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+                -> "csi capture":0 [ENABLED,IMMUTABLE]
+
+- entity 4: csi capture (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+        pad0: Sink
+                <- "csi":1 [ENABLED,IMMUTABLE]
+
+- entity 10: csis-32e30000.mipi-csi (2 pads, 2 links)
+             type V4L2 subdev subtype Unknown flags 0
+             device node name /dev/v4l-subdev1
+        pad0: Sink
+                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:709 ycbcr:601 quantization:lim-range]
+                <- "imx290 2-001a":0 [ENABLED]
+        pad1: Source
+                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:709 ycbcr:601 quantization:lim-range]
+                -> "csi":0 [ENABLED,IMMUTABLE]
+
+- entity 15: imx290 2-001a (1 pad, 1 link)
+             type V4L2 subdev subtype Sensor flags 0
+             device node name /dev/v4l-subdev2
+        pad0: Source
+                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]
+                -> "csis-32e30000.mipi-csi":0 [ENABLED]
+```
+
+Note: MIPI CSI settle times are not calculated correctly right now and need a
+manual overwrite:
+echo 13 > /sys/kernel/debug/32e30000.mipi-csi/ths_settle 
+echo 2 > /sys/kernel/debug/32e30000.mipi-csi/tclk_settle
+
+I ignored the settings for xfer, ycbcr and quantization for now. I do neither
+know how they will affect me nor what it should be.
+Also I did not focus on v4l2-compliance tool, this is a further task as well.
+IMHO imx7-mipi-csis.c should also create an immutable link to the camera
+sensor.
+
+Regards,
+Alexander
+
+[1] https://patchwork.linuxtv.org/project/linux-media/patch/20211104113631.206899-2-dorota.czaplejewicz@puri.sm/
+
+Alexander Stein (4):
+  media: imx: imx7_mipi_csis: store colorspace in set_fmt as well
+  media: imx: imx7_media-csi: Add support for additional Bayer patterns
+  media: imx: utils: Add more Bayer formats
+  [DNI] arm64: dts: tqma8mqml: add IMX327 MIPI-CSI overlay
+
+Dorota Czaplejewicz (4):
+  media: imx: Store the type of hardware implementation
+  media: imx: Forward type of hardware implementation
+  media: imx: Use dedicated format handler for i.MX7/8
+  media: imx: Fail conversion if pixel format not supported
+
+ arch/arm64/boot/dts/freescale/Makefile        |   4 +
+ .../imx8mm-tqma8mqml-mba8mx-imx327.dts        |  95 +++++++++++++
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |   3 +-
+ drivers/staging/media/imx/imx-media-capture.c |  20 ++-
+ drivers/staging/media/imx/imx-media-csi.c     |   3 +-
+ drivers/staging/media/imx/imx-media-utils.c   | 130 +++++++++++++++++-
+ drivers/staging/media/imx/imx-media.h         |   6 +-
+ drivers/staging/media/imx/imx7-media-csi.c    |  15 +-
+ drivers/staging/media/imx/imx7-mipi-csis.c    |   1 +
+ 9 files changed, 262 insertions(+), 15 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
+
 -- 
 2.25.1
 
