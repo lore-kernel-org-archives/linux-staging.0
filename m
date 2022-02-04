@@ -1,88 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3B62F21
-	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 14:23:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBE70C340E9;
-	Fri,  4 Feb 2022 14:23:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1643984616;
-	bh=lfy7vJioDybXdR7wJftnkVwV2ISJao8GP2gpwcbuuDM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=v+mGhZ9+A2O8dRNg9jsF7KdtrrKZQJpW1woDpMdTJwOSJNYJpwQeixtCCsXpuSt3e
-	 K4QKJK0UMWNkB1GxozNwMBMIucRnzCj+jUXx/iPv42DRksA0+GtLpgDh0FJ/0Qr2qQ
-	 vAOpOvvjpq9AxePyU/lNgd+cdpnvMQHJhpndPPPo=
-Date: Fri, 4 Feb 2022 15:23:33 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tong Zhang <ztong0001@gmail.com>
-Cc: Paul Bolle <pebolle@tiscali.nl>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, insop.song@gainspeed.com,
-	devel@driverdev.osuosl.org
-Subject: Re: [PATCH] staging: gs_fpgaboot: revert removed board specific code
-Message-ID: <Yf025dphJw2rUVR5@kroah.com>
-References: <20220204054028.3123858-1-ztong0001@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B642F23
+	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 18:36:32 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id e145so1207597yba.12
+        for <linux-staging@lists.linux.dev>; Fri, 04 Feb 2022 10:36:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+5Aj1KjYxfLdKjI/WZUbvXzI5x0t228gk/N8Q28NwXc=;
+        b=m2yPocPkciKFGCCbvaln3VxAlvAsooZ724bmD/N4oVRNvlL0VoMSE4qNXZ6Dp4VN84
+         TMskNSAHGDldEClw1PdUHIrN0kRP0kI/yqSHpPMNihmGdy2UxKXS8Gm5Tq18MkRAinRe
+         EdWn3NlqWh12+3X55hF/jc2PCPBonzObBRf0sM/j8oKsDhKedcOjCciXuiAW1EruLmtY
+         mBdSkQd1/NxxDo1jv6dDI1lM9SuAS+WEZ9LRGBAiYNqt+tQBpU0N0/fAxT7BMIY4QQMu
+         xY1sTyYSg6fr4V+QxtOFxy9rhjoa8sFwIhSkXK2ImsPcFnvdbFhgBmG7iWv7XNtP885n
+         D1iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+5Aj1KjYxfLdKjI/WZUbvXzI5x0t228gk/N8Q28NwXc=;
+        b=VZNKHA40brpt7cjwTArvoMYiq6UHbh2kabpNgog2jTplsMYs9bYiztJ/Ma0mHcblTe
+         hWPMzqt7a9DXz2FuDloAvBnvr6vHCT5PwnfoXjLivGKqeokdLlz4hwgKyi/jEnReLpPp
+         kMFmulHsgSIyOIWBnfXuiBkUQ66xIRtWpqcZQ8Sjepz+JywysHRfUA3Q0WIK9eLIwEix
+         q5qaYaccc3i1doLirf7s0lyZm390Q4iTRgpUZyLejG2exp2NA1bz69LEySWO9FLtC/rI
+         SHopBSGzhZrxGmIfqhiJpQi7nT4pca78O8ttJagtK9FLShiMYZAt/DIQSqHdBKVbKq5W
+         +NwA==
+X-Gm-Message-State: AOAM5336DP0eARDEHYMMKc1f0Gif3frmIKUfk397d/bmztvj1nEDq2UC
+	pVek9zZTeTD6Y3fFw9oayDBdjxt/1t+QwmPiwF0=
+X-Google-Smtp-Source: ABdhPJxcSUbvJwDw+JlzrS/bulYbjADv05HysQJPJATVorWp5WCcH3QqAPDjvAjAGc8SvpMHCNCL8XrxA9N1cb+TU3s=
+X-Received: by 2002:a25:1809:: with SMTP id 9mr434289yby.633.1643999791205;
+ Fri, 04 Feb 2022 10:36:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220204054028.3123858-1-ztong0001@gmail.com>
+References: <20220204054028.3123858-1-ztong0001@gmail.com> <Yf025dphJw2rUVR5@kroah.com>
+In-Reply-To: <Yf025dphJw2rUVR5@kroah.com>
+From: Tong Zhang <ztong0001@gmail.com>
+Date: Fri, 4 Feb 2022 10:36:20 -0800
+Message-ID: <CAA5qM4By97L-QEjJd3HhzJ=9XLve7Fuj_Wo-uO8Lp94XWJDx3g@mail.gmail.com>
+Subject: Re: [PATCH] staging: gs_fpgaboot: revert removed board specific code
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Paul Bolle <pebolle@tiscali.nl>, linux-staging@lists.linux.dev, 
+	open list <linux-kernel@vger.kernel.org>, insop.song@gainspeed.com, 
+	devel@driverdev.osuosl.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Feb 03, 2022 at 09:40:27PM -0800, Tong Zhang wrote:
-> gs_fpgaboot is currently useless since the board specific code is
-> removed in 06a3fab941da.
+On Fri, Feb 4, 2022 at 6:23 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Feb 03, 2022 at 09:40:27PM -0800, Tong Zhang wrote:
+> > Loading the driver will always fail since
+> > xl_init_io() always returns -1. This driver is broken since 2014 and I
+> > doubt anyone is actually using it, we could either remove it or revert
+> > to the previous working version.
+>
+> Let's just remove it obviously no one is using it.
+>
 
-Nit, commits should be printed out like this:
-06a3fab941da ("staging: gs_fpgaboot: remove checks for CONFIG_B4860G100")
+I am on the same page with you folks. We should remove it. I sent out
+the patch to see if
+anyone in the list is still interested in keeping it just in case. I
+will send another patch to
+remove it from the staging folder.
 
-> Loading the driver will always fail since
-> xl_init_io() always returns -1. This driver is broken since 2014 and I
-> doubt anyone is actually using it, we could either remove it or revert
-> to the previous working version.
-
-Let's just remove it obviously no one is using it.
-
-Or do you want to use it for your hardware?  if so, let's fix it for
-that platform.
-
-> 
-> $ modprobe gs_fpga
-> GPIO INIT FAIL!!
-> 
-> This patch reverts previously removed code and adds a Kconfig to make
-> this board selectable for PPC_85xx processors.
-> 
-> Fixes: 06a3fab941da ("staging: gs_fpgaboot: remove checks for CONFIG_B4860G100")
-> Signed-off-by: Tong Zhang <ztong0001@gmail.com>
-> ---
->  drivers/staging/gs_fpgaboot/Kconfig |  14 ++-
->  drivers/staging/gs_fpgaboot/io.c    | 173 ++++++++++++++++++++++++++++
->  2 files changed, 186 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/gs_fpgaboot/Kconfig b/drivers/staging/gs_fpgaboot/Kconfig
-> index 968a153c4ab6..0b4144450123 100644
-> --- a/drivers/staging/gs_fpgaboot/Kconfig
-> +++ b/drivers/staging/gs_fpgaboot/Kconfig
-> @@ -5,4 +5,16 @@
->  config GS_FPGABOOT
->  	tristate "Xilinx FPGA firmware download module"
->  	help
-> -	  Xilinx FPGA firmware download module
-> +	  Xilinx FPGA firmware download module.
-> +
-> +choice
-> +	prompt "Support Board"
-> +	depends on GS_FPGABOOT
-
-That's an odd config option, what will that show?  Shouldn't the prompt
-have something to do with the board name?
-
-Anyway, no new config options please, either lets remove it or fix it
-for your hardware.
-
-thanks,
-
-greg k-h
+Thanks!
+- Tong
