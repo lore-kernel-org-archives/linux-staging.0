@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85952C80
-	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 09:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA7E2CA5
+	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 09:10:03 +0000 (UTC)
 Received: from dslb-188-096-149-005.188.096.pools.vodafone-ip.de ([188.96.149.5] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nFubO-0002IT-Nh; Fri, 04 Feb 2022 10:09:58 +0100
+	id 1nFubQ-0002IT-EM; Fri, 04 Feb 2022 10:10:00 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -15,11 +15,10 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v2 2/4] staging: r8188eu: remove dead code for tx power tracking
-Date: Fri,  4 Feb 2022 10:09:39 +0100
-Message-Id: <20220204090941.309900-3-martin@kaiser.cx>
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH v2 4/4] staging: r8188eu: remove constant variable eRFPath
+Date: Fri,  4 Feb 2022 10:09:41 +0100
+Message-Id: <20220204090941.309900-5-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220204090941.309900-1-martin@kaiser.cx>
 References: <20220203203217.252156-1-martin@kaiser.cx>
@@ -32,136 +31,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The odm_TXPowerTrackingCallback_ThermalMeter_8188E contains code
-for OFDM paths A and B. It seems that path B is not used, is2t is
-always false. Remove resulting dead code.
+In the _PHY_SwChnl8192C function, eRFPath is always zero. Remove the
+variable and use 0 in the code. Replace (enum rf_radio_path)0 with
+RF_PATH_A.
 
-Without the path B code, the ele_A and ele_C variables are set but
-not used. They can be removed. With ele_A and ele_C gone, X and Y
-are now set but no longer used. Remove them as well.
-
-Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
-v2: remove variables which are set but not used
+v2: no changes
 
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 72 +-------------------
- 1 file changed, 2 insertions(+), 70 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index db87eaafb72f..795320e13e55 100644
---- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-+++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -102,12 +102,10 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 	u8 ThermalValue = 0, delta, delta_LCK, delta_IQK, offset;
- 	u8 ThermalValue_AVG_count = 0;
- 	u32 ThermalValue_AVG = 0;
--	s32 ele_A = 0, ele_D, TempCCk, X, value32;
--	s32 Y, ele_C = 0;
-+	s32 ele_D, TempCCk;
- 	s8 OFDM_index[2], CCK_index = 0;
- 	s8 OFDM_index_old[2] = {0, 0}, CCK_index_old = 0;
- 	u32 i = 0, j = 0;
--	bool is2t = false;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+index 8279768201b7..6e26359bdda7 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+@@ -712,7 +712,6 @@ void PHY_SetBWMode8188E(struct adapter *Adapter, enum ht_channel_width Bandwidth
  
- 	u8 OFDM_min_index = 6, rf; /* OFDM BB Swing should be less than +3.0dB, which is required by Arthur */
- 	s8 OFDM_index_mapping[2][index_mapping_NUM_88E] = {
-@@ -139,10 +137,7 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
+ static void _PHY_SwChnl8192C(struct adapter *Adapter, u8 channel)
+ {
+-	u8 eRFPath = 0;
+ 	u32 param1, param2;
+ 	struct hal_data_8188e *pHalData = &Adapter->haldata;
  
- 	ThermalValue = (u8)rtl8188e_PHY_QueryRFReg(Adapter, RF_PATH_A, RF_T_METER_88E, 0xfc00); /* 0x42: RF Reg[15:10] 88E */
+@@ -725,8 +724,8 @@ static void _PHY_SwChnl8192C(struct adapter *Adapter, u8 channel)
+ 	/* s2. RF dependent command - CmdID_RF_WriteReg, param1=RF_CHNLBW, param2=channel */
+ 	param1 = RF_CHNLBW;
+ 	param2 = channel;
+-	pHalData->RfRegChnlVal[eRFPath] = ((pHalData->RfRegChnlVal[eRFPath] & 0xfffffc00) | param2);
+-	rtl8188e_PHY_SetRFReg(Adapter, (enum rf_radio_path)eRFPath, param1, bRFRegOffsetMask, pHalData->RfRegChnlVal[eRFPath]);
++	pHalData->RfRegChnlVal[0] = ((pHalData->RfRegChnlVal[0] & 0xfffffc00) | param2);
++	rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, param1, bRFRegOffsetMask, pHalData->RfRegChnlVal[0]);
+ }
  
--	if (is2t)
--		rf = 2;
--	else
--		rf = 1;
-+	rf = 1;
- 
- 	if (ThermalValue) {
- 		/* Query OFDM path A default setting */
-@@ -155,17 +150,6 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 			}
- 		}
- 
--		/* Query OFDM path B default setting */
--		if (is2t) {
--			ele_D = rtl8188e_PHY_QueryBBReg(Adapter, rOFDM0_XBTxIQImbalance, bMaskDWord) & bMaskOFDM_D;
--			for (i = 0; i < OFDM_TABLE_SIZE_92D; i++) {	/* find the index */
--				if (ele_D == (OFDMSwingTable[i] & bMaskOFDM_D)) {
--					OFDM_index_old[1] = (u8)i;
--					break;
--				}
--			}
--		}
--
- 		/* Query CCK default setting From 0xa24 */
- 		TempCCk = dm_odm->RFCalibrateInfo.RegA24;
- 
-@@ -277,11 +261,6 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 			if (dm_odm->RFCalibrateInfo.TxPowerTrackControl) {
- 				dm_odm->RFCalibrateInfo.bDoneTxpower = true;
- 
--				/* Adujst OFDM Ant_A according to IQK result */
--				ele_D = (OFDMSwingTable[(u8)OFDM_index[0]] & 0xFFC00000) >> 22;
--				X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][0];
--				Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][1];
--
- 				/*  Revse TX power table. */
- 				dm_odm->BbSwingIdxOfdm		= (u8)OFDM_index[0];
- 				dm_odm->BbSwingIdxCck		= (u8)CCK_index;
-@@ -295,53 +274,6 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 					dm_odm->BbSwingIdxCckCurrent = dm_odm->BbSwingIdxCck;
- 					dm_odm->BbSwingFlagCck = true;
- 				}
--
--				if (X != 0) {
--					if ((X & 0x00000200) != 0)
--						X = X | 0xFFFFFC00;
--					ele_A = ((X * ele_D) >> 8) & 0x000003FF;
--
--					/* new element C = element D x Y */
--					if ((Y & 0x00000200) != 0)
--						Y = Y | 0xFFFFFC00;
--					ele_C = ((Y * ele_D) >> 8) & 0x000003FF;
--
--					/*  2012/04/23 MH According to Luke's suggestion, we can not write BB digital */
--					/*  to increase TX power. Otherwise, EVM will be bad. */
--				}
--
--				if (is2t) {
--					ele_D = (OFDMSwingTable[(u8)OFDM_index[1]] & 0xFFC00000) >> 22;
--
--					/* new element A = element D x X */
--					X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][4];
--					Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][5];
--
--					if (X != 0) {
--						if ((X & 0x00000200) != 0)	/* consider minus */
--							X = X | 0xFFFFFC00;
--						ele_A = ((X * ele_D) >> 8) & 0x000003FF;
--
--						/* new element C = element D x Y */
--						if ((Y & 0x00000200) != 0)
--							Y = Y | 0xFFFFFC00;
--						ele_C = ((Y * ele_D) >> 8) & 0x00003FF;
--
--						/* wtite new elements A, C, D to regC88 and regC9C, element B is always 0 */
--						value32 = (ele_D << 22) | ((ele_C & 0x3F) << 16) | ele_A;
--						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_XBTxIQImbalance, bMaskDWord, value32);
--
--						value32 = (ele_C & 0x000003C0) >> 6;
--						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_XDTxAFE, bMaskH4Bits, value32);
--
--						value32 = ((X * ele_D) >> 7) & 0x01;
--						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_ECCAThreshold, BIT(28), value32);
--					} else {
--						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_XBTxIQImbalance, bMaskDWord, OFDMSwingTable[(u8)OFDM_index[1]]);
--						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_XDTxAFE, bMaskH4Bits, 0x00);
--						rtl8188e_PHY_SetBBReg(Adapter, rOFDM0_ECCAThreshold, BIT(28), 0x00);
--					}
--				}
- 			}
- 		}
- 
+ void PHY_SwChnl8188E(struct adapter *Adapter, u8 channel)
 -- 
 2.30.2
 
