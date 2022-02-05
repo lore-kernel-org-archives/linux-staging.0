@@ -1,23 +1,23 @@
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEEC2C9C;
-	Sat,  5 Feb 2022 18:56:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62AB2C9D;
+	Sat,  5 Feb 2022 18:56:16 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 35EE4240020;
-	Sat,  5 Feb 2022 18:56:10 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 9284924001B;
+	Sat,  5 Feb 2022 18:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1644087371;
+	t=1644087375;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=r7vkirzgla1o4VdWEyY7qc3mJDeawM6hQPmFQlwv7HE=;
-	b=jI3xbAZGghrP+ZL330+omfHnhKuELkaMUHdbyt7gUXmhlbZTPJkbSq+9H1m1yb/I1c2FCZ
-	r1EAw+FysCHBy8OkqrapX6KlNO9kRGvb7C+5r04TjW6gObLl899cpArENcJhNwXAAvNVcp
-	wyJbRqJRr7oWFMen250ndy4oaBEEDhfzRQvF1Uk7XaO8FoF996Irb5hPRp5jTJIfmhhCfg
-	2BpVyx+ZlPAMAouZHotkpItDTrfIl/kRFSKPT2DISLfRKxXe9G2yvph0bYRAw86E4c7tgW
-	o0WQGLukHP9T1KEKH/kT6qCzjVyV6PrPPJ2M+Wbn7OkHl2yt8nwUFLhPmycPGg==
+	bh=EndNmZca+VVvmr6LnUGh3p/snwLNh6qthIjCr+h8acE=;
+	b=Msqlzw/UiMuePIAE9ELEdIs4DM8y7gUaomdiFQ80P+1LCnwHEWqAO+EJv4NSHYtvi2MtVo
+	TczyyBV+AD5lRR6NIQnNTk4oDe4nIFjg25K2HNQdAHzvhEzp3ebewgECbb5aDITV9tdf+w
+	tA5rVRswEYU1razwt/ZLsFj7DYDy0VMyIg1tDYjt5xvALujJhb/1D/Xc4uxEQBiMqsiP3a
+	phEKsZ3UtVhBQXeTB8k59Us/OSYuMbBJSh/dwckR654Cw5yaOSALqsdupCw+/VL8ioR8ug
+	cEf8O/97LS4CUKXcobw816ExFYHyjDJou8RaJ2Tx8ujEKjx2P1PWvZI3tXY3Ew==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -40,9 +40,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Helen Koike <helen.koike@collabora.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v2 54/66] media: sun6i-csi: Add support for MIPI CSI-2 to the bridge code
-Date: Sat,  5 Feb 2022 19:54:17 +0100
-Message-Id: <20220205185429.2278860-55-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v2 56/66] media: sun6i-csi: Add extra checks to the interrupt routine
+Date: Sat,  5 Feb 2022 19:54:19 +0100
+Message-Id: <20220205185429.2278860-57-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
@@ -54,121 +54,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce MIPI CSI-2 support to the bridge with a new port, source
-and hardware configuration helper.
+Check against the enabled bits and make sure capture is running before
+serving an interrupt, to add extra safety in the process.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  1 +
- .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 35 +++++++++++++++++--
- .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |  1 +
- 3 files changed, 35 insertions(+), 2 deletions(-)
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-index d7082e951b06..3c08b2712215 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-@@ -21,6 +21,7 @@
- 
- enum sun6i_csi_port {
- 	SUN6I_CSI_PORT_PARALLEL		= 0,
-+	SUN6I_CSI_PORT_MIPI_CSI2	= 1,
- };
- 
- struct sun6i_csi_buffer {
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-index f5303842d169..b631220dd682 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-@@ -226,7 +226,7 @@ static void sun6i_csi_bridge_disable(struct sun6i_csi_device *csi_dev)
- }
- 
- static void
--sun6i_csi_bridge_configure_interface(struct sun6i_csi_device *csi_dev)
-+sun6i_csi_bridge_configure_parallel(struct sun6i_csi_device *csi_dev)
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+index 8941104f611b..e3ac7dad86ae 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+@@ -111,13 +111,17 @@ static void sun6i_csi_v4l2_cleanup(struct sun6i_csi_device *csi_dev)
+ static irqreturn_t sun6i_csi_isr(int irq, void *private)
  {
- 	struct device *dev = csi_dev->dev;
+ 	struct sun6i_csi_device *csi_dev = private;
++	bool capture_streaming = csi_dev->capture.state.streaming;
  	struct regmap *regmap = csi_dev->regmap;
-@@ -316,6 +316,25 @@ sun6i_csi_bridge_configure_interface(struct sun6i_csi_device *csi_dev)
- 	regmap_write(regmap, SUN6I_CSI_IF_CFG_REG, value);
- }
+-	u32 status;
++	u32 status = 0, enable = 0;
  
-+static void
-+sun6i_csi_bridge_configure_mipi_csi2(struct sun6i_csi_device *csi_dev)
-+{
-+	struct regmap *regmap = csi_dev->regmap;
-+	u32 value = SUN6I_CSI_IF_CFG_IF_MIPI;
-+	u32 field;
-+
-+	sun6i_csi_bridge_format(csi_dev, NULL, &field);
-+
-+	if (field == V4L2_FIELD_INTERLACED ||
-+	    field == V4L2_FIELD_INTERLACED_TB ||
-+	    field == V4L2_FIELD_INTERLACED_BT)
-+		value |= SUN6I_CSI_IF_CFG_SRC_TYPE_INTERLACED;
-+	else
-+		value |= SUN6I_CSI_IF_CFG_SRC_TYPE_PROGRESSIVE;
-+
-+	regmap_write(regmap, SUN6I_CSI_IF_CFG_REG, value);
-+}
-+
- static void sun6i_csi_bridge_configure_format(struct sun6i_csi_device *csi_dev)
- {
- 	struct regmap *regmap = csi_dev->regmap;
-@@ -369,7 +388,11 @@ static void sun6i_csi_bridge_configure_format(struct sun6i_csi_device *csi_dev)
+ 	regmap_read(regmap, SUN6I_CSI_CH_INT_STA_REG, &status);
++	regmap_read(regmap, SUN6I_CSI_CH_INT_EN_REG, &enable);
  
- static void sun6i_csi_bridge_configure(struct sun6i_csi_device *csi_dev)
- {
--	sun6i_csi_bridge_configure_interface(csi_dev);
-+	if (csi_dev->bridge.source == &csi_dev->bridge.source_parallel)
-+		sun6i_csi_bridge_configure_parallel(csi_dev);
-+	else if (csi_dev->bridge.source == &csi_dev->bridge.source_mipi_csi2)
-+		sun6i_csi_bridge_configure_mipi_csi2(csi_dev);
-+
- 	sun6i_csi_bridge_configure_format(csi_dev);
- }
+-	if (!(status & 0xFF))
++	if (!status)
+ 		return IRQ_NONE;
++	else if (!(status & enable) || !capture_streaming)
++		goto complete;
  
-@@ -552,6 +575,8 @@ static int sun6i_csi_bridge_link_validate(struct media_link *link)
+ 	if ((status & SUN6I_CSI_CH_INT_STA_FIFO0_OF) ||
+ 	    (status & SUN6I_CSI_CH_INT_STA_FIFO1_OF) ||
+@@ -138,6 +142,7 @@ static irqreturn_t sun6i_csi_isr(int irq, void *private)
+ 	if (status & SUN6I_CSI_CH_INT_STA_VS)
+ 		sun6i_csi_capture_sync(csi_dev);
  
- 	if (source_subdev == bridge->source_parallel.subdev)
- 		bridge->source = &bridge->source_parallel;
-+	else if (source_subdev == bridge->source_mipi_csi2.subdev)
-+		bridge->source = &bridge->source_mipi_csi2;
- 	else
- 		return -EINVAL;
++complete:
+ 	regmap_write(regmap, SUN6I_CSI_CH_INT_STA_REG, status);
  
-@@ -638,6 +663,10 @@ sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
- 			source = &bridge->source_parallel;
- 			enabled = true;
- 			break;
-+		case SUN6I_CSI_PORT_MIPI_CSI2:
-+			source = &bridge->source_mipi_csi2;
-+			enabled = !bridge->source_parallel.expected;
-+			break;
- 		default:
- 			break;
- 		}
-@@ -784,6 +813,8 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
- 	sun6i_csi_bridge_source_setup(csi_dev, &bridge->source_parallel,
- 				      SUN6I_CSI_PORT_PARALLEL,
- 				      parallel_mbus_types);
-+	sun6i_csi_bridge_source_setup(csi_dev, &bridge->source_mipi_csi2,
-+				      SUN6I_CSI_PORT_MIPI_CSI2, NULL);
- 
- 	ret = v4l2_async_nf_register(v4l2_dev, notifier);
- 	if (ret) {
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
-index 079227c02482..e59c40611872 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
-@@ -40,6 +40,7 @@ struct sun6i_csi_bridge {
- 	struct v4l2_mbus_framefmt	mbus_format;
- 
- 	struct sun6i_csi_bridge_source	source_parallel;
-+	struct sun6i_csi_bridge_source	source_mipi_csi2;
- 	struct sun6i_csi_bridge_source	*source;
- };
- 
+ 	return IRQ_HANDLED;
 -- 
 2.34.1
 
