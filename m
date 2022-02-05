@@ -1,113 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7D82C9C
-	for <linux-staging@lists.linux.dev>; Fri,  4 Feb 2022 23:23:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8397C004E1;
-	Fri,  4 Feb 2022 23:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2A62F23
+	for <linux-staging@lists.linux.dev>; Sat,  5 Feb 2022 02:55:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA1BBC004E1;
+	Sat,  5 Feb 2022 02:55:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1644016984;
-	bh=9P1b74WtVzZInz8h2Map/kXphQdxYtNWHMeXnkSUnm0=;
-	h=Date:From:To:Cc:Subject:From;
-	b=YZIno/g6yKC7ttomeryazCn7gfeS0G3OE31leh3kiR4qRitJ4eYSj+t6TfZBVP3uV
-	 CJeCakEVpYoB0U/xLCLrNWgxcrJHkgscx8kWPNb786I9wb9QtY7bHgb1cZtPIRQlTW
-	 teKdLC6f+k3bVs+iLyhU9nGsMMNtBYCRvL9NP2VkznuZ8L/qDy3Psuqop7WiTkMVAO
-	 uHwbJa5T0LY2bFtGukyGtgAmKuiHVsQLBb0KtgqGAHKDkK6qbYJIxBz1ymWoIIXGvW
-	 hynF2rX0TqpztGx17DVpX4yQbVOkxaFYIw0WSAn0h9TVMSY0ti2fuYYetyRY6dvoKB
-	 KjdkqgVA5fZTg==
-Date: Fri, 4 Feb 2022 17:30:15 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH][next] staging: wlan-ng: Replace one-element arrays with
- flexible-array members
-Message-ID: <20220204233015.GA454979@embeddedor>
+	s=k20201202; t=1644029748;
+	bh=BQUS4mKdVMdQIuKV+9qmm5n95QdGCKeA5gbAJQNI5a4=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=uG+rJszuNbiwN9nUKvB9AHrWF0wucl97LlmgSUSQEEq5PyV981G+OfIz3c3Atba61
+	 djk0cQoGfBOaqu2Yn4R7sqUuHXAHGzcXFGMDgVTN1mV74Swe/unZspxgfOEhkrbMrb
+	 pSHzBpWHyqt1h8rPjVnyZoCLrplCSwyz9Nf8QIRSGgyRGmO1nBnsDcqthzRd/x5i9r
+	 kq1UijJ1KPzqINzfjJR2egFHt8gjXUrRnI+G3AHRiu+pqYK5czmRDhj9ygQa9BbLVt
+	 Bwz93TBtA7IthgukYw1IRXJAt5oEd1gtLimfGDo1ehJX2fZSxzSosVHqHuiCHBKbfG
+	 KGW9zrHXn0okg==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMhs-H9c8zF=v2tu5Y1OsFRP6esOi5zrUceqS_OUiJ=MSfCvRQ@mail.gmail.com>
+References: <20220110114930.1406665-1-sergio.paracuellos@gmail.com> <YfE5MOkQRoHQV7Wf@kroah.com> <CAMhs-H8s0d=PswQDR86Tq-bQt634Z6rdFYHTE+DFepsthmKAYA@mail.gmail.com> <YfE7LNFuf79i3oAQ@kroah.com> <CAMhs-H9c8zF=v2tu5Y1OsFRP6esOi5zrUceqS_OUiJ=MSfCvRQ@mail.gmail.com>
+Subject: Re: [PATCH v8 0/4] clk: ralink: make system controller a reset provider
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: <linux-clk@vger.kernel.org>, John Crispin <john@phrozen.org>, linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, Philipp Zabel <p.zabel@pengutronix.de>, linux-kernel <linux-kernel@vger.kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>, Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Fri, 04 Feb 2022 18:55:46 -0800
+User-Agent: alot/0.10
+Message-Id: <20220205025548.AA1BBC004E1@smtp.kernel.org>
 
-There is a regular need in the kernel to provide a way to declare having
-a dynamically sized set of trailing elements in a structure. Kernel code
-should always use “flexible array members”[1] for these cases. The older
-style of one-element or zero-length arrays should no longer be used[2].
+Quoting Sergio Paracuellos (2022-01-26 04:45:31)
+> On Wed, Jan 26, 2022 at 1:14 PM Greg KH <gregkh@linuxfoundation.org> wrot=
+e:
+> >
+> > On Wed, Jan 26, 2022 at 01:08:52PM +0100, Sergio Paracuellos wrote:
+> > > On Wed, Jan 26, 2022 at 1:06 PM Greg KH <gregkh@linuxfoundation.org> =
+wrote:
+> > > >
+> > > > On Mon, Jan 10, 2022 at 12:49:26PM +0100, Sergio Paracuellos wrote:
+> > > > > Hi all,
+> > > > >
+> > > > > This patch series add minimal change to provide mt7621 resets pro=
+perly
+> > > > > defining them in the 'mediatek,mt7621-sysc' node which is the sys=
+tem
+> > > > > controller of the SoC and is already providing clocks to the rest=
+ of
+> > > > > the world.
+> > > > >
+> > > > > There is shared architecture code for all ralink platforms in 're=
+set.c'
+> > > > > file located in 'arch/mips/ralink' but the correct thing to do to=
+ align
+> > > > > hardware with software seems to define and add related reset code=
+ to the
+> > > > > already mainlined clock driver.
+> > > > >
+> > > > > After this changes, we can get rid of the useless reset controlle=
+r node
+> > > > > in the device tree and use system controller node instead where t=
+he property
+> > > > > '#reset-cells' has been added. Binding documentation for this nod=
+eq has
+> > > > > been updated with the new property accordly.
+> > > > >
+> > > > > This series also provide a bindings include header where all rela=
+ted
+> > > > > reset bits for the MT7621 SoC are defined.
+> > > > >
+> > > > > Also, please take a look to this review [0] to understand better =
+motivation
+> > > > > for this series.
+> > > > >
+> > > > > Regarding the way of merging this:
+> > > > >  - I'd like patches 1 and 4 which are related going through stagi=
+ng tree.
+> > > >
+> > > > Patches 1 and 4 now in the staging tree, thanks.
+> > >
+> > > Stephen wanted all to go through the CLK tree since PATCH 3 and 1 were
+> > > also a dependency... Can we get all of them through the same tree,
+> > > then? I am ok with both CLK or staging trees.
+> >
+> > That's fine with me if they all go through the CLK tree, but there will
+> > be a merge issue that I already fixed up in my tree.  If you want me to
+> > drop them, just let me know.
+>=20
+> Stephen, what do you prefer? Is it better all going through staging-tree =
+then?
+>=20
 
-This helps with the ongoing efforts to globally enable -Warray-bounds
-and get us closer to being able to tighten the FORTIFY_SOURCE routines
-on memcpy().
+Sure take them through staging tree.
 
-This issue was found with the help of Coccinelle and audited and fixed,
-manually.
-
-[1] https://en.wikipedia.org/wiki/Flexible_array_member
-[2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-length-and-one-element-arrays
-
-Link: https://github.com/KSPP/linux/issues/79
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/staging/wlan-ng/p80211mgmt.h  | 8 ++++----
- drivers/staging/wlan-ng/p80211types.h | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/wlan-ng/p80211mgmt.h b/drivers/staging/wlan-ng/p80211mgmt.h
-index 1ef30d3f3159..d6fe52de2c8f 100644
---- a/drivers/staging/wlan-ng/p80211mgmt.h
-+++ b/drivers/staging/wlan-ng/p80211mgmt.h
-@@ -229,14 +229,14 @@ struct wlan_ie {
- struct wlan_ie_ssid {
- 	u8 eid;
- 	u8 len;
--	u8 ssid[1];		/* may be zero, ptrs may overlap */
-+	u8 ssid[];		/* may be zero, ptrs may overlap */
- } __packed;
- 
- /*-- Supported Rates  -----------------------------*/
- struct wlan_ie_supp_rates {
- 	u8 eid;
- 	u8 len;
--	u8 rates[1];		/* had better be at LEAST one! */
-+	u8 rates[];		/* had better be at LEAST one! */
- } __packed;
- 
- /*-- FH Parameter Set  ----------------------------*/
-@@ -274,7 +274,7 @@ struct wlan_ie_tim {
- 	u8 dtim_cnt;
- 	u8 dtim_period;
- 	u8 bitmap_ctl;
--	u8 virt_bm[1];
-+	u8 virt_bm[];
- } __packed;
- 
- /*-- IBSS Parameter Set ---------------------------*/
-@@ -288,7 +288,7 @@ struct wlan_ie_ibss_parms {
- struct wlan_ie_challenge {
- 	u8 eid;
- 	u8 len;
--	u8 challenge[1];
-+	u8 challenge[];
- } __packed;
- 
- /*-------------------------------------------------*/
-diff --git a/drivers/staging/wlan-ng/p80211types.h b/drivers/staging/wlan-ng/p80211types.h
-index 6486612a8f31..b2ffd09881b0 100644
---- a/drivers/staging/wlan-ng/p80211types.h
-+++ b/drivers/staging/wlan-ng/p80211types.h
-@@ -234,7 +234,7 @@ struct p80211pstr32 {
- /* MAC address array */
- struct p80211macarray {
- 	u32 cnt;
--	u8 data[1][MAXLEN_PSTR6];
-+	u8 data[][MAXLEN_PSTR6];
- } __packed;
- 
- /* prototype template */
--- 
-2.27.0
-
+Acked-by: Stephen Boyd <sboyd@kernel.org>
