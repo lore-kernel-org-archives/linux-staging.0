@@ -1,106 +1,96 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D582F21
-	for <linux-staging@lists.linux.dev>; Sat,  5 Feb 2022 14:01:38 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id l5so19425591edv.3
-        for <linux-staging@lists.linux.dev>; Sat, 05 Feb 2022 06:01:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/T0j4YmGJcgpIu421P1/dimIR0CxdCqo8uH7IcJ/4gQ=;
-        b=ycgJvcnTlpqZNVhoA9CjXAOtRLtmOrllHT1AJKLyornTNPy09m2qelUk1JxtgQwfsh
-         Emsd2HifHnckUBnGChCm10HiE0IGAta4CrWgFdqWXZTB0d/+t1dZw4cE8uESEFK/KosN
-         bnscZp2nSU9kcgN5jFuravGijoeZsmlL4Rmxva3vPzZlmXfGdBzwtPTh5tkcYcKs0Koh
-         648OpvPXCqky7qcStI1CCBKxOht54+wepTL893Z13+mx+caKvBtpIh8t3q5S1jZcrj/I
-         6mHMOlPCdcHY24RFD7mDo+S1PDZm58w+2q5k9PldbILlFD8u9WGQYAvzqjmpAvBTctw1
-         TYNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/T0j4YmGJcgpIu421P1/dimIR0CxdCqo8uH7IcJ/4gQ=;
-        b=68OaGdu4eYobKkEx4OnjtT4zt0DJbR9Zt1SNsBa33viibuB+rAW5zsArdACtCCOLfB
-         Pd0ngD3HdQ/PBDr6TQkhZauQZj6kFLKrVIAmWdQn2kYTk4E0UOaLbyk1k+U2KdOiHypl
-         XYkJLyyzd6zvHIIB2aDNBpjKNHsgHJxG0Erh+j4rmaOcb3KjDHha2I4eN+kNKJiqO3JF
-         sEX2LWmmBOwfMN1TnVzb6Rr7EY4IGEamr1Olli2wKw40ZAEVvOsZnFBAsPyMKpPHlq3n
-         bh1cLY1gRzi3yM4Gt2FQxexWcCD5OQRGh6ehGI/Ep9Y8dMzmu04TvhyKkv4KFzIjcQFf
-         pRgA==
-X-Gm-Message-State: AOAM5311nstzbqaV/MIERocwov5FRLhBtM093SA+lup2IL+WGB23ZD+m
-	dUND+cBTX4CBrqYdl09c3+evBPY0eUrAhyWV2cVLSQ==
-X-Google-Smtp-Source: ABdhPJxjORbMvr+wAzN/c18pI3z16Av5bxvxOpm75K+cTPP+HabLnq/blEZ/OGup/Zv8zvg4hjtNH/oISTd1EXOz5/M=
-X-Received: by 2002:a05:6402:34c2:: with SMTP id w2mr4442225edc.357.1644069696418;
- Sat, 05 Feb 2022 06:01:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE882C9C;
+	Sat,  5 Feb 2022 18:54:50 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 45282240008;
+	Sat,  5 Feb 2022 18:54:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1644087288;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zk1bbI/Xt7gJda0Cl2OjSITy4xxHr8HjLDg7r/ilG+I=;
+	b=Pt+tfG/gQjNnTXSXJ6enzW+2j/VmmYhxinr+RoNfI5OHcTJt/N8i2sdo4zbNrIkXdbl9a8
+	4k18+Sfl8S4pjmsLvl0g8xVfhVZ7WyGmXX6Q3jmIi6GAymK3neRTw50mMdaAbHYR1KHDV3
+	5ua8cSTd9d1krK1ekOku2UzBcdmtVuDU64CyZnfwtEKMRopLrKOJYufrJms8EGDOYVg8Y7
+	wU9JlLtmXmzZ0cIDHAHIlGaPosJYcm/c8Ki0gOrxxf9F4Ut9ay0s2jObjw5zwmEakAfA9s
+	/efijnGyTV3JoTDep9L5RRU5PzHbCQ79LDKsJicn3cfyjfEk99aGKn4jP0lieg==
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v2 05/66] dt-bindings: sun6i-a31-mipi-dphy: Add optional direction property
+Date: Sat,  5 Feb 2022 19:53:28 +0100
+Message-Id: <20220205185429.2278860-6-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220125171129.472775-1-aford173@gmail.com> <20220125171129.472775-3-aford173@gmail.com>
- <43e29322-fc4d-2c72-86b2-1f41fb05a2f9@xs4all.nl>
-In-Reply-To: <43e29322-fc4d-2c72-86b2-1f41fb05a2f9@xs4all.nl>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Sat, 5 Feb 2022 11:01:23 -0300
-Message-ID: <CAAEAJfDfd83LWOZmcg-==JTs7QHveT3dQ=BdnFc21=zZXrTxuA@mail.gmail.com>
-Subject: Re: [PATCH V4 02/11] dt-bindings: power: imx8mq: add defines for VPU
- blk-ctrl domains
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Shawn Guo <shawnguo@kernel.org>, Adam Ford-BE <aford@beaconembedded.com>, 
-	Chris Healy <cphealy@gmail.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	Rob Herring <robh@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
-	devicetree <devicetree@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, linux-media <linux-media@vger.kernel.org>, 
-	Adam Ford <aford173@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Shawn, Hans,
+The Allwinner A31 MIPI D-PHY block supports both tx and rx directions,
+although each instance of the block is meant to be used in one
+direction only. There will typically be one instance for MIPI DSI and
+one for MIPI CSI-2 (it seems unlikely to ever see a shared instance).
 
-On Thu, 27 Jan 2022 at 05:46, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> Shawn,
->
-> Can you take patches 2-4 of this series or shall I? In the latter case I
-> need your Acked-by for these three patches.
->
+Describe the direction with a new allwinner,direction property.
+For backwards compatibility, the property is optional and tx mode
+should be assumed by default.
 
-Gentle reminder about these patches.
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml  | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Thanks!
-Ezequiel
+diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
+index d0b541a461f3..22636c9fdab8 100644
+--- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
++++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
+@@ -37,6 +37,18 @@ properties:
+   resets:
+     maxItems: 1
+ 
++  allwinner,direction:
++    $ref: '/schemas/types.yaml#/definitions/string'
++    description: |
++      Direction of the D-PHY:
++      - "rx" for receiving (e.g. when used with MIPI CSI-2);
++      - "tx" for transmitting (e.g. when used with MIPI DSI).
++
++    enum:
++      - tx
++      - rx
++    default: tx
++
+ required:
+   - "#phy-cells"
+   - compatible
+-- 
+2.34.1
 
-
-> Regards,
->
->         Hans
->
-> On 25/01/2022 18:11, Adam Ford wrote:
-> > From: Lucas Stach <l.stach@pengutronix.de>
-> >
-> > This adds the defines for the power domains provided by the VPU
-> > blk-ctrl on the i.MX8MQ.
-> >
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > Acked-by: Rob Herring <robh@kernel.org>
-> >
-> > diff --git a/include/dt-bindings/power/imx8mq-power.h b/include/dt-bindings/power/imx8mq-power.h
-> > index 8a513bd9166e..9f7d0f1e7c32 100644
-> > --- a/include/dt-bindings/power/imx8mq-power.h
-> > +++ b/include/dt-bindings/power/imx8mq-power.h
-> > @@ -18,4 +18,7 @@
-> >  #define IMX8M_POWER_DOMAIN_MIPI_CSI2 9
-> >  #define IMX8M_POWER_DOMAIN_PCIE2     10
-> >
-> > +#define IMX8MQ_VPUBLK_PD_G1          0
-> > +#define IMX8MQ_VPUBLK_PD_G2          1
-> > +
-> >  #endif
->
