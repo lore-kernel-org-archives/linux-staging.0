@@ -1,109 +1,106 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE142CA5
-	for <linux-staging@lists.linux.dev>; Sat,  5 Feb 2022 11:38:01 +0000 (UTC)
-Received: from dslb-188-104-059-100.188.104.pools.vodafone-ip.de ([188.104.59.100] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1nGJO4-0005c9-L0; Sat, 05 Feb 2022 12:37:52 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 6/8] staging: r8188eu: RfRegChnlVal[1] is set but not used
-Date: Sat,  5 Feb 2022 12:37:39 +0100
-Message-Id: <20220205113741.379070-7-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220205113741.379070-1-martin@kaiser.cx>
-References: <20220205113741.379070-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D582F21
+	for <linux-staging@lists.linux.dev>; Sat,  5 Feb 2022 14:01:38 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id l5so19425591edv.3
+        for <linux-staging@lists.linux.dev>; Sat, 05 Feb 2022 06:01:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/T0j4YmGJcgpIu421P1/dimIR0CxdCqo8uH7IcJ/4gQ=;
+        b=ycgJvcnTlpqZNVhoA9CjXAOtRLtmOrllHT1AJKLyornTNPy09m2qelUk1JxtgQwfsh
+         Emsd2HifHnckUBnGChCm10HiE0IGAta4CrWgFdqWXZTB0d/+t1dZw4cE8uESEFK/KosN
+         bnscZp2nSU9kcgN5jFuravGijoeZsmlL4Rmxva3vPzZlmXfGdBzwtPTh5tkcYcKs0Koh
+         648OpvPXCqky7qcStI1CCBKxOht54+wepTL893Z13+mx+caKvBtpIh8t3q5S1jZcrj/I
+         6mHMOlPCdcHY24RFD7mDo+S1PDZm58w+2q5k9PldbILlFD8u9WGQYAvzqjmpAvBTctw1
+         TYNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/T0j4YmGJcgpIu421P1/dimIR0CxdCqo8uH7IcJ/4gQ=;
+        b=68OaGdu4eYobKkEx4OnjtT4zt0DJbR9Zt1SNsBa33viibuB+rAW5zsArdACtCCOLfB
+         Pd0ngD3HdQ/PBDr6TQkhZauQZj6kFLKrVIAmWdQn2kYTk4E0UOaLbyk1k+U2KdOiHypl
+         XYkJLyyzd6zvHIIB2aDNBpjKNHsgHJxG0Erh+j4rmaOcb3KjDHha2I4eN+kNKJiqO3JF
+         sEX2LWmmBOwfMN1TnVzb6Rr7EY4IGEamr1Olli2wKw40ZAEVvOsZnFBAsPyMKpPHlq3n
+         bh1cLY1gRzi3yM4Gt2FQxexWcCD5OQRGh6ehGI/Ep9Y8dMzmu04TvhyKkv4KFzIjcQFf
+         pRgA==
+X-Gm-Message-State: AOAM5311nstzbqaV/MIERocwov5FRLhBtM093SA+lup2IL+WGB23ZD+m
+	dUND+cBTX4CBrqYdl09c3+evBPY0eUrAhyWV2cVLSQ==
+X-Google-Smtp-Source: ABdhPJxjORbMvr+wAzN/c18pI3z16Av5bxvxOpm75K+cTPP+HabLnq/blEZ/OGup/Zv8zvg4hjtNH/oISTd1EXOz5/M=
+X-Received: by 2002:a05:6402:34c2:: with SMTP id w2mr4442225edc.357.1644069696418;
+ Sat, 05 Feb 2022 06:01:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220125171129.472775-1-aford173@gmail.com> <20220125171129.472775-3-aford173@gmail.com>
+ <43e29322-fc4d-2c72-86b2-1f41fb05a2f9@xs4all.nl>
+In-Reply-To: <43e29322-fc4d-2c72-86b2-1f41fb05a2f9@xs4all.nl>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Sat, 5 Feb 2022 11:01:23 -0300
+Message-ID: <CAAEAJfDfd83LWOZmcg-==JTs7QHveT3dQ=BdnFc21=zZXrTxuA@mail.gmail.com>
+Subject: Re: [PATCH V4 02/11] dt-bindings: power: imx8mq: add defines for VPU
+ blk-ctrl domains
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Shawn Guo <shawnguo@kernel.org>, Adam Ford-BE <aford@beaconembedded.com>, 
+	Chris Healy <cphealy@gmail.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	Rob Herring <robh@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
+	devicetree <devicetree@vger.kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, linux-media <linux-media@vger.kernel.org>, 
+	Adam Ford <aford173@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-RfRegChnlVal[1] in hal_data_8188e is set but not used. This driver needs
-only one RfRegChnlVal setting. Replace the array with a single u32.
+Hi Shawn, Hans,
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c  | 4 ++--
- drivers/staging/r8188eu/hal/rtl8188e_rf6052.c  | 8 ++++----
- drivers/staging/r8188eu/hal/usb_halinit.c      | 3 +--
- drivers/staging/r8188eu/include/rtl8188e_hal.h | 2 +-
- 4 files changed, 8 insertions(+), 9 deletions(-)
+On Thu, 27 Jan 2022 at 05:46, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Shawn,
+>
+> Can you take patches 2-4 of this series or shall I? In the latter case I
+> need your Acked-by for these three patches.
+>
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index 6e26359bdda7..cd82452238e0 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -724,8 +724,8 @@ static void _PHY_SwChnl8192C(struct adapter *Adapter, u8 channel)
- 	/* s2. RF dependent command - CmdID_RF_WriteReg, param1=RF_CHNLBW, param2=channel */
- 	param1 = RF_CHNLBW;
- 	param2 = channel;
--	pHalData->RfRegChnlVal[0] = ((pHalData->RfRegChnlVal[0] & 0xfffffc00) | param2);
--	rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, param1, bRFRegOffsetMask, pHalData->RfRegChnlVal[0]);
-+	pHalData->RfRegChnlVal = ((pHalData->RfRegChnlVal & 0xfffffc00) | param2);
-+	rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, param1, bRFRegOffsetMask, pHalData->RfRegChnlVal);
- }
- 
- void PHY_SwChnl8188E(struct adapter *Adapter, u8 channel)
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-index ea847ec39e13..2d5d04b384d1 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-@@ -50,12 +50,12 @@ void rtl8188e_PHY_RF6052SetBandwidth(struct adapter *Adapter,
- 
- 	switch (Bandwidth) {
- 	case HT_CHANNEL_WIDTH_20:
--		pHalData->RfRegChnlVal[0] = ((pHalData->RfRegChnlVal[0] & 0xfffff3ff) | BIT(10) | BIT(11));
--		rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, RF_CHNLBW, bRFRegOffsetMask, pHalData->RfRegChnlVal[0]);
-+		pHalData->RfRegChnlVal = ((pHalData->RfRegChnlVal & 0xfffff3ff) | BIT(10) | BIT(11));
-+		rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, RF_CHNLBW, bRFRegOffsetMask, pHalData->RfRegChnlVal);
- 		break;
- 	case HT_CHANNEL_WIDTH_40:
--		pHalData->RfRegChnlVal[0] = ((pHalData->RfRegChnlVal[0] & 0xfffff3ff) | BIT(10));
--		rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, RF_CHNLBW, bRFRegOffsetMask, pHalData->RfRegChnlVal[0]);
-+		pHalData->RfRegChnlVal = ((pHalData->RfRegChnlVal & 0xfffff3ff) | BIT(10));
-+		rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, RF_CHNLBW, bRFRegOffsetMask, pHalData->RfRegChnlVal);
- 		break;
- 	default:
- 		break;
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index f21b910bd88d..e8bc4a115a2b 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -668,8 +668,7 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
- 	rtw_write16(Adapter, REG_PKT_BE_BK_LIFE_TIME, 0x0400);	/*  unit: 256us. 256ms */
- 
- 	/* Keep RfRegChnlVal for later use. */
--	haldata->RfRegChnlVal[0] = rtl8188e_PHY_QueryRFReg(Adapter, (enum rf_radio_path)0, RF_CHNLBW, bRFRegOffsetMask);
--	haldata->RfRegChnlVal[1] = rtl8188e_PHY_QueryRFReg(Adapter, (enum rf_radio_path)1, RF_CHNLBW, bRFRegOffsetMask);
-+	haldata->RfRegChnlVal = rtl8188e_PHY_QueryRFReg(Adapter, (enum rf_radio_path)0, RF_CHNLBW, bRFRegOffsetMask);
- 
- 	_BBTurnOnBlock(Adapter);
- 
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index c323476f5936..c6472d13e069 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -143,7 +143,7 @@ struct hal_data_8188e {
- 
- 	struct bb_reg_def PHYRegDef[2];	/* Radio A/B */
- 
--	u32	RfRegChnlVal[2];
-+	u32	RfRegChnlVal;
- 
- 	/* for host message to fw */
- 	u8	LastHMEBoxNum;
--- 
-2.30.2
+Gentle reminder about these patches.
 
+Thanks!
+Ezequiel
+
+
+> Regards,
+>
+>         Hans
+>
+> On 25/01/2022 18:11, Adam Ford wrote:
+> > From: Lucas Stach <l.stach@pengutronix.de>
+> >
+> > This adds the defines for the power domains provided by the VPU
+> > blk-ctrl on the i.MX8MQ.
+> >
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > Acked-by: Rob Herring <robh@kernel.org>
+> >
+> > diff --git a/include/dt-bindings/power/imx8mq-power.h b/include/dt-bindings/power/imx8mq-power.h
+> > index 8a513bd9166e..9f7d0f1e7c32 100644
+> > --- a/include/dt-bindings/power/imx8mq-power.h
+> > +++ b/include/dt-bindings/power/imx8mq-power.h
+> > @@ -18,4 +18,7 @@
+> >  #define IMX8M_POWER_DOMAIN_MIPI_CSI2 9
+> >  #define IMX8M_POWER_DOMAIN_PCIE2     10
+> >
+> > +#define IMX8MQ_VPUBLK_PD_G1          0
+> > +#define IMX8MQ_VPUBLK_PD_G2          1
+> > +
+> >  #endif
+>
