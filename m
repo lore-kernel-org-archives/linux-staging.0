@@ -1,104 +1,81 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E67C2F25;
-	Sat,  5 Feb 2022 10:28:59 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 893B73200BD2;
-	Sat,  5 Feb 2022 05:28:58 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sat, 05 Feb 2022 05:28:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; bh=kDIVNzj7Wmv2um
-	X4p4+USo9n563udVzIVi1lCU9eBZc=; b=hdDALldVe6+S/QPKYThCWr9wp/sddm
-	ozGHp8eHCO+O+3eyOxcuWnVcaHVU0btXIBy5wmMvUuZp1byAzP4MVm0xrplNwyr5
-	ChBJEVr4XEcDAUuaR80u2auxRRbm7n9ozIJJrbatdaeLGuOQOMc9Kkin5z/mEo/b
-	Nhuu2YaBk9MV5V2VrhOXoO0M/YoPMXjWr6YruYGrMWZlGm933yLzl01qWzokmWiL
-	5m9A7SQwVqU1YeaZrU3XOwwT3Zhls6DoiFVW3b22gIzlYkfZu0JKi1WyxLuiIN5r
-	nhWdM+bfNI5Zt0ATUtbVpWvZs6wFKH7ZDQgo9WuEXd/hBCanQC4qAIwQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=kDIVNzj7Wmv2umX4p4+USo9n563udVzIVi1lCU9eB
-	Zc=; b=Seku+8XrNnyp/Jl+m462wmfmYKcsMxjPAshO7AGHuhsFz0frJVC3YBT6w
-	SWmO4FKUBharAWxlDG1nVzEoAyHlLcfURlhqRMjfJe7xCp4HkhpxDVGS1Lfg+qx7
-	kGtJz0EXTlPe5909vYZx7pB4356I00ICm/pncsI+YFwQB9celWstwhONrW2s0t/y
-	9Bg4I4eNUTLoieCt9McLkDkCJZybYdKaDOfumHr7H1tH6pACJAfPwH/5ntw4DWZF
-	sXJPH3PPxu1ugdxlbu5ml+1hvw9Ox6Lfd/dsHGb4DW6+CaQ/dqAPOkX/7FtC1euE
-	aklyppyMvZt/V505WlSpBSrh2JDlQ==
-X-ME-Sender: <xms:aVH-Ya8lU-te0HbneRWha2h86S8WIjZ0XWDdvyjrdm5h_trw-zeOiw>
-    <xme:aVH-YathjK3Jteh-eNMxNYbp_i6OgU1EwMWOdhMq9qsUK8cwLcysLEBe_riyeIVFQ
-    aD0EXTQZ-bjKTXWcoM>
-X-ME-Received: <xmr:aVH-YQCQiU9jhIYug_i98FdGdZIxXiVIZx_yWhJlp93czYNyaPWqDQfYuzJhjiYJaPuyF1Ol0YEd1at0vAZ298DYsaA7sQHBCq3c2dw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrhedugddujecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttdejnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepgfejjeekjedttdethedtfeelteefffduvdevvdfhtdeiudetleejgeelfeef
-    uedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:aVH-YSe81XnDWXCNubtmtEbXYS8ajf5nVZyAg6RRtgk_Y5G2oz1WYg>
-    <xmx:aVH-YfPqQ2kRi3_Nmf3zsJI-nMsz4flxH-2BL5P0qxMcn1jbkzVBbw>
-    <xmx:aVH-Ycn366n9gyzlkRLv_7iNmnC-irmo95TlKSYVRk_5u90OC2FMnw>
-    <xmx:alH-YaesTX34_qQChH6ZwNwT0Uq0xAy6ZDAOgDz8VmS_wOCsY-QCnQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 5 Feb 2022 05:28:56 -0500 (EST)
-Date: Sat, 5 Feb 2022 11:28:53 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, mchehab@kernel.org,
-	wens@csie.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: Add watchdog for job completion
-Message-ID: <20220205102853.54wcmxzalb7uj7n6@houat>
-References: <20220201183324.493542-1-jernej.skrabec@gmail.com>
- <YfztZE8ymJ5RERTq@aptenodytes>
- <12946098.uLZWGnKmhe@jernej-laptop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E0E2C9C
+	for <linux-staging@lists.linux.dev>; Sat,  5 Feb 2022 11:37:56 +0000 (UTC)
+Received: from dslb-188-104-059-100.188.104.pools.vodafone-ip.de ([188.104.59.100] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1nGJO0-0005c9-3v; Sat, 05 Feb 2022 12:37:48 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 1/8] staging: r8188eu: TXPowercount is set but not used
+Date: Sat,  5 Feb 2022 12:37:34 +0100
+Message-Id: <20220205113741.379070-2-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220205113741.379070-1-martin@kaiser.cx>
+References: <20220205113741.379070-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <12946098.uLZWGnKmhe@jernej-laptop>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 05, 2022 at 08:40:21AM +0100, Jernej =C5=A0krabec wrote:
-> > > +void cedrus_watchdog(struct work_struct *work)
-> > > +{
-> > > +	struct cedrus_dev *dev;
-> > > +	struct cedrus_ctx *ctx;
-> > > +
-> > > +	dev =3D container_of(to_delayed_work(work),
-> > > +			   struct cedrus_dev, watchdog_work);
-> > > +
-> > > +	ctx =3D v4l2_m2m_get_curr_priv(dev->m2m_dev);
-> > > +	if (!ctx)
-> > > +		return;
-> > > +
-> > > +	v4l2_err(&dev->v4l2_dev, "frame processing timed out!\n");
-> > > +	reset_control_reset(dev->rstc);
-> >=20
-> > I don't think playing with the reset is the right approach here.
-> > First we don't really know if the reset is shared or not, so this might=
- have
-> > no effect.
->=20
-> AFAIK only few reset lines are shared in all Allwinner SoC, never for Ced=
-rus=20
-> and even then, this is considered as HW issue. So, I'm good with using re=
-set=20
-> line. This principle is also taken from Hantro driver.
+TXPowercount in struct odm_rf_cal is set but not used.
+Remove it.
 
-Also, we got the reset handle through reset_control_get_exclusive, so
-we're guaranteed to be the only user.
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 1 -
+ drivers/staging/r8188eu/hal/odm.c            | 1 -
+ drivers/staging/r8188eu/include/odm.h        | 1 -
+ 3 files changed, 3 deletions(-)
 
-Maxime
+diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+index 795320e13e55..f0f26eecb2c0 100644
+--- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
++++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+@@ -285,7 +285,6 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
+ 		if (dm_odm->RFCalibrateInfo.TxPowerTrackControl)
+ 			dm_odm->RFCalibrateInfo.ThermalValue = ThermalValue;
+ 	}
+-	dm_odm->RFCalibrateInfo.TXPowercount = 0;
+ }
+ 
+ /* 1 7.	IQK */
+diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
+index 9b4b75c225a7..117cdf2e5180 100644
+--- a/drivers/staging/r8188eu/hal/odm.c
++++ b/drivers/staging/r8188eu/hal/odm.c
+@@ -506,7 +506,6 @@ static void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
+ static void odm_TXPowerTrackingThermalMeterInit(struct odm_dm_struct *pDM_Odm)
+ {
+ 	pDM_Odm->RFCalibrateInfo.bTXPowerTracking = true;
+-	pDM_Odm->RFCalibrateInfo.TXPowercount = 0;
+ 	pDM_Odm->RFCalibrateInfo.bTXPowerTrackingInit = false;
+ 	pDM_Odm->RFCalibrateInfo.TxPowerTrackControl = true;
+ }
+diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
+index 63e0b6725bee..046a4b9e0899 100644
+--- a/drivers/staging/r8188eu/include/odm.h
++++ b/drivers/staging/r8188eu/include/odm.h
+@@ -229,7 +229,6 @@ struct odm_rf_cal {
+ 	s32	RegEB4;
+ 	s32	RegEBC;
+ 
+-	u8	TXPowercount;
+ 	bool	bTXPowerTrackingInit;
+ 	bool	bTXPowerTracking;
+ 	u8	TxPowerTrackControl; /* for mp mode, turn off txpwrtracking
+-- 
+2.30.2
+
