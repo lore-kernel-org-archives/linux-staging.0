@@ -1,26 +1,26 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA772C9D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653FE2F23;
 	Sat,  5 Feb 2022 19:02:12 +0000 (UTC)
 Received: from relay10.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::230])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 31FF9CDCA7;
-	Sat,  5 Feb 2022 18:54:55 +0000 (UTC)
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 1832ACD896;
+	Sat,  5 Feb 2022 18:54:50 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id A0F29240004;
-	Sat,  5 Feb 2022 18:54:45 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 8CD26240002;
+	Sat,  5 Feb 2022 18:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1644087287;
+	t=1644087282;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dDCmDmAN+Ty0U7DqUOAg9vP8g2Wl/CIoMBBYtqtH7g8=;
-	b=CDEjJlCnsBm3lhVvhpzIl/nmi4riWbPPeXCShzknju9GZh4sGUYCq+KC+pVPMm3sXhQ/V4
-	eXerouOKCBsh28ZubTVNey2POl3g3bHWFgfCP8BmqXoSPk8zCMU2//Bkpe+ghoPqdnJlxb
-	s+Nyp91hYtYtAc33WlJzi/SZ14FMP46YNwCO8pwMTv58g1WoSBJZ8xg3BxBXXVjKjeoeye
-	n2GhVNcWpKpkSlSqdrs++Abyp6MglLgM4+vy5bv5h/2bdJnCAWQehHpZXMQ3QxqUr4uYC+
-	LKTAefwtGY2dJkn//aj2g+ass3BZd0plGsR2LZHyE8qqpXVNPEZvTEGDfAMkfA==
+	bh=2/xu3hAtIBOWd+KCnFmzXwlyYrEkfN5VTs0idJ4hc5I=;
+	b=OLmTKT6anszjEQxSYcOhR8iI7S7a95IAwH5bqilJOumk5CfMfJsMZUAKlw/7yByGvALBwy
+	rCqHLTX95g/krIoIeIbw71ZgtV8GtWiYINgMb7YSwY5iXaoEaK07NrnDxOEEesIBNnAxPP
+	LTxDJQ2JbLnnVhijD5ZQ49hNkQnFS/jKt0cteDTI+nIb+AELxTvRkJhyBWJc+FJLy5TxvZ
+	9sFTBIaa3UfJnYNyiF0HWftWLamuAhG28UZK986Eq18Z2/8031GKqP/S2W5E0CC+vVQeJg
+	Cx+dIcuZWqA+NyXpPltyTz77qljicjtPsb0OM4yLItkyfmbJCDIjpffBKSceWA==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -43,9 +43,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Helen Koike <helen.koike@collabora.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v2 04/66] ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
-Date: Sat,  5 Feb 2022 19:53:27 +0100
-Message-Id: <20220205185429.2278860-5-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v2 01/66] ARM: dts: sun8i: v3s: Move the csi1 block to follow address order
+Date: Sat,  5 Feb 2022 19:53:24 +0100
+Message-Id: <20220205185429.2278860-2-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
@@ -57,36 +57,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The V3s uses the mbus interconnect to provide DRAM access for a
-number of blocks. The SoC can only map 2 GiB of DRAM, which is
-reflected in the dma-ranges property.
+The csi1 block node was mistakenly added before the gic node, although
+its address comes after the gic's. Move the node to its correct
+position.
 
+Fixes: 90e048101fa1 ("ARM: dts: sun8i: V3/V3s/S3/S3L: add CSI1 device node")
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- arch/arm/boot/dts/sun8i-v3s.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ arch/arm/boot/dts/sun8i-v3s.dtsi | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index 084323d5c61c..1b3048b6f197 100644
+index b30bc1a25ebb..084323d5c61c 100644
 --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
 +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -577,6 +577,16 @@ int_mii_phy: ethernet-phy@1 {
- 			};
+@@ -593,6 +593,17 @@ spi0: spi@1c68000 {
+ 			#size-cells = <0>;
  		};
  
-+		mbus: dram-controller@1c62000 {
-+			compatible = "allwinner,sun8i-v3s-mbus";
-+			reg = <0x01c62000 0x1000>;
-+			clocks = <&ccu CLK_MBUS>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			dma-ranges = <0x00000000 0x40000000 0x80000000>;
-+			#interconnect-cells = <1>;
++		gic: interrupt-controller@1c81000 {
++			compatible = "arm,gic-400";
++			reg = <0x01c81000 0x1000>,
++			      <0x01c82000 0x2000>,
++			      <0x01c84000 0x2000>,
++			      <0x01c86000 0x2000>;
++			interrupt-controller;
++			#interrupt-cells = <3>;
++			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
 +		};
 +
- 		spi0: spi@1c68000 {
- 			compatible = "allwinner,sun8i-h3-spi";
- 			reg = <0x01c68000 0x1000>;
+ 		csi1: camera@1cb4000 {
+ 			compatible = "allwinner,sun8i-v3s-csi";
+ 			reg = <0x01cb4000 0x3000>;
+@@ -604,16 +615,5 @@ csi1: camera@1cb4000 {
+ 			resets = <&ccu RST_BUS_CSI>;
+ 			status = "disabled";
+ 		};
+-
+-		gic: interrupt-controller@1c81000 {
+-			compatible = "arm,gic-400";
+-			reg = <0x01c81000 0x1000>,
+-			      <0x01c82000 0x2000>,
+-			      <0x01c84000 0x2000>,
+-			      <0x01c86000 0x2000>;
+-			interrupt-controller;
+-			#interrupt-cells = <3>;
+-			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
+-		};
+ 	};
+ };
 -- 
 2.34.1
 
