@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A1A2CA2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1F02CAB
 	for <linux-staging@lists.linux.dev>; Sun,  6 Feb 2022 16:18:29 +0000 (UTC)
 Received: from ipservice-092-217-075-184.092.217.pools.vodafone-ip.de ([92.217.75.184] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nGkF2-0001bS-Fm; Sun, 06 Feb 2022 17:18:20 +0100
+	id 1nGkF3-0001bS-7i; Sun, 06 Feb 2022 17:18:21 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 04/14] staging: r8188eu: remove debug code to bypass LC calibration
-Date: Sun,  6 Feb 2022 17:17:59 +0100
-Message-Id: <20220206161809.423031-5-martin@kaiser.cx>
+Subject: [PATCH 05/14] staging: r8188eu: remove debug code to bypass IQ calibration
+Date: Sun,  6 Feb 2022 17:18:00 +0100
+Message-Id: <20220206161809.423031-6-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220206161809.423031-1-martin@kaiser.cx>
 References: <20220206161809.423031-1-martin@kaiser.cx>
@@ -30,7 +30,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove a check before the LC calibration that is always false.
+Remove a check before the IQ calibration that is always false.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
@@ -38,25 +38,28 @@ Signed-off-by: Martin Kaiser <martin@kaiser.cx>
  1 file changed, 5 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index 27cac9775a90..0c2dbef59197 100644
+index 0c2dbef59197..8edae488d998 100644
 --- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
 +++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -895,15 +895,10 @@ void PHY_IQCalibrate_8188E(struct adapter *adapt, bool recovery)
- 
- void PHY_LCCalibrate_8188E(struct adapter *adapt)
- {
+@@ -795,7 +795,6 @@ void PHY_IQCalibrate_8188E(struct adapter *adapt, bool recovery)
+ 	bool pathaok;
+ 	s32 RegE94, RegE9C, RegEA4, RegEB4, RegEBC;
+ 	bool is12simular, is13simular, is23simular;
 -	bool singletone = false, carrier_sup = false;
- 	u32 timeout = 2000, timecount = 0;
- 	struct hal_data_8188e *pHalData = &adapt->haldata;
- 	struct odm_dm_struct *dm_odm = &pHalData->odmpriv;
+ 	u32 IQK_BB_REG_92C[IQK_BB_REG_NUM] = {
+ 		rOFDM0_XARxIQImbalance, rOFDM0_XBRxIQImbalance,
+ 		rOFDM0_ECCAThreshold, rOFDM0_AGCRSSITable,
+@@ -803,10 +802,6 @@ void PHY_IQCalibrate_8188E(struct adapter *adapt, bool recovery)
+ 		rOFDM0_XCTxAFE, rOFDM0_XDTxAFE,
+ 		rOFDM0_RxIQExtAnta};
  
 -	/*  20120213<Kordan> Turn on when continuous Tx to pass lab testing. (required by Edlu) */
 -	if (singletone || carrier_sup)
 -		return;
 -
- 	while (*dm_odm->pbScanInProcess && timecount < timeout) {
- 		mdelay(50);
- 		timecount += 50;
+ 	if (recovery) {
+ 		reload_adda_reg(adapt, IQK_BB_REG_92C, dm_odm->RFCalibrateInfo.IQK_BB_backup_recover, 9);
+ 		return;
 -- 
 2.30.2
 
