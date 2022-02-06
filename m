@@ -1,105 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay3.hostedemail.com (relay3.hostedemail.com [64.99.140.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3412F23
-	for <linux-staging@lists.linux.dev>; Sun,  6 Feb 2022 20:11:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10199C340E9;
-	Sun,  6 Feb 2022 20:11:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1644178272;
-	bh=jljw/NXDE01h/Pq3byW2tpFU83OPdtk2kq8rd42Jk1c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nhvpRiAHeyPnhoPW5AJYz7sXsz9qtFaixezo/f6lKIoTinmiRK/0KfhqtTjkJMiZA
-	 C1eoikWCvjFFaQoyqdBqnt61Sxj9tcqo0hoj4c33suJ2iCZVvxedjh6hh9d879NQUy
-	 D91VqLaA4kYzRnFvGL+lqISffF5jEMJeJz/KehV/F5DPWnP4iRK5HBxqJZ8N5Qpqov
-	 u/68l4FbFrs1dFjSIxxVA0bjW0xDBeDhMAwDNgmwQeGdSpN03gGah6Mw9+50+gKID4
-	 mgmnJ0HiCVk6qrLd1K0L185npwEZ8epAYyk8NiTmVh/xeQiJvC8hROwGWHFXO+yTZR
-	 g2rbP6e0rw9Lw==
-Date: Sun, 6 Feb 2022 21:11:06 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>, UNGLinuxDriver@microchip.com,
-	Woojung Huh <woojung.huh@microchip.com>,
-	Oleksandr Natalenko <oleksandr@natalenko.name>
-Subject: Re: [PATCH v2 1/7] genirq: Provide generic_handle_irq_safe().
-Message-ID: <YgArWgyvy9xF3V5Q@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>, UNGLinuxDriver@microchip.com,
-	Woojung Huh <woojung.huh@microchip.com>,
-	Oleksandr Natalenko <oleksandr@natalenko.name>
-References: <20220131123404.175438-1-bigeasy@linutronix.de>
- <20220131123404.175438-2-bigeasy@linutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886502F21
+	for <linux-staging@lists.linux.dev>; Sun,  6 Feb 2022 20:55:38 +0000 (UTC)
+Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay12.hostedemail.com (Postfix) with ESMTP id 5A8AF120714;
+	Sun,  6 Feb 2022 17:17:53 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id A466018;
+	Sun,  6 Feb 2022 17:17:08 +0000 (UTC)
+Message-ID: <8536ca17c2945cb77c506d99eff5ccc42e71f2f3.camel@perches.com>
+Subject: Re: [PATCH] staging: octeon-usb: Fix 'should not end with '(''
+From: Joe Perches <joe@perches.com>
+To: David Laight <David.Laight@ACULAB.COM>, "'joelcchangg@gmail.com'"
+	 <joelcchangg@gmail.com>, "linux-staging@lists.linux.dev"
+	 <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	 <linux-kernel@vger.kernel.org>, "gregkh@linuxfoundation.com"
+	 <gregkh@linuxfoundation.com>
+Date: Sun, 06 Feb 2022 09:17:45 -0800
+In-Reply-To: <c0b504dd1f254f19b6ff60948684303b@AcuMS.aculab.com>
+References: <20220206074615.3527-1-joelcchangg@gmail.com>
+	 <c0b504dd1f254f19b6ff60948684303b@AcuMS.aculab.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="agAcRzQ1V4vmM4bn"
-Content-Disposition: inline
-In-Reply-To: <20220131123404.175438-2-bigeasy@linutronix.de>
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: qg4yiupiwhcsqe6n45gxqr7fdpk59b16
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: A466018
+X-Spam-Status: No, score=-4.46
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+fnhxLHTdi5aumjIE+T5F75ykVyJ/qk3Y=
+X-HE-Tag: 1644167828-153419
+
+On Sun, 2022-02-06 at 14:16 +0000, David Laight wrote:
+> From: joelcchangg@gmail.com
+> > Sent: 06 February 2022 07:46
+> > 
+> > This patch fixes the checkpatch.pl check:
+> > 
+> > CHECK: Line should not end with '('
+[]
+> > diff --git a/drivers/staging/octeon-usb/octeon-hcd.c b/drivers/staging/octeon-usb/octeon-hcd.c
+[]
+> > @@ -1792,23 +1792,18 @@ static void cvmx_usb_start_channel(struct octeon_hcd *usb, int channel,
+> >  	case CVMX_USB_TRANSFER_INTERRUPT:
+> >  		break;
+> >  	case CVMX_USB_TRANSFER_ISOCHRONOUS:
+> > -		if (!cvmx_usb_pipe_needs_split(usb, pipe)) {
+> > +		if (!cvmx_usb_pipe_needs_split(usb, pipe) &&
+> > +		    pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) {
+> >  			/*
+> >  			 * ISO transactions require different PIDs depending on
+> >  			 * direction and how many packets are needed
+> >  			 */
+> > -			if (pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) {
+> > -				if (pipe->multi_count < 2) /* Need DATA0 */
+> > -					USB_SET_FIELD32(
+> > -						CVMX_USBCX_HCTSIZX(channel,
+> > -								   usb->index),
+> > +			if (pipe->multi_count < 2) /* Need DATA0 */
+> > +				USB_SET_FIELD32(CVMX_USBCX_HCTSIZX(channel, usb->index),
+> >  						cvmx_usbcx_hctsizx, pid, 0);
+> > -				else /* Need MDATA */
+> > -					USB_SET_FIELD32(
+> > -						CVMX_USBCX_HCTSIZX(channel,
+> > -								   usb->index),
+> > +			else /* Need MDATA */
+> > +				USB_SET_FIELD32(CVMX_USBCX_HCTSIZX(channel, usb->index),
+> >  						cvmx_usbcx_hctsizx, pid, 3);
+> > -			}
+> >  		}
+> >  		break;
+> >  	}
+> 
+> What has that hunk got to do with the patch description?
+
+Nothing and this should be revisited or explained much more
+as it seems to change the logic.
+
+> > @@ -2121,17 +2116,17 @@ static void cvmx_usb_complete(struct octeon_hcd *usb,
+> >   *
+> >   * Returns: Transaction or NULL on failure.
+> >   */
+> > -static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(
+> > -				struct octeon_hcd *usb,
+> > -				struct cvmx_usb_pipe *pipe,
+> > -				enum cvmx_usb_transfer type,
+> > -				u64 buffer,
+> > -				int buffer_length,
+> > -				u64 control_header,
+> > -				int iso_start_frame,
+> > -				int iso_number_packets,
+> > -				struct cvmx_usb_iso_packet *iso_packets,
+> > -				struct urb *urb)
+> > +static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(struct octeon_hcd *usb,
+> > +								struct cvmx_usb_pipe *pipe,
+> > +								enum cvmx_usb_transfer type,
+> > +								u64 buffer,
+> > +								int buffer_length,
+> > +								u64 control_header,
+> > +								int iso_start_frame,
+> > +								int iso_number_packets,
+> > +								struct cvmx_usb_iso_packet
+> > +									*iso_packets,
+> > +								struct urb *urb)
+> 
+> Those lines are now far longer than is 'nice'.
+
+True.
+
+This _might_ be better with the return type on a separate line
+
+Something like:
+
+static struct cvmx_usb_transaction *
+cvmx_usb_submit_transaction(struct octeon_hcd *usb, struct cvmx_usb_pipe *pipe,
+			    enum cvmx_usb_transfer type,
+			    u64 buffer, int buffer_length,
+			    u64 control_header, int iso_start_frame,
+			    int iso_number_packets,
+			    struct cvmx_usb_iso_packet *iso_packets,
+			    struct urb *urb)
 
 
---agAcRzQ1V4vmM4bn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-
-> + * This function can be called any context (IRQ or process context). It will
-
-"from any context"
-
-> + * report an error if not invoked from IRQ context and the irq has been marked
-> + * to enforce IRQ-contex only.
-
-"IRQ-context"
-
-Other than that, the paragraph is really helpful now IMO. So with the
-above fixed, you may add:
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-
---agAcRzQ1V4vmM4bn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIAK1UACgkQFA3kzBSg
-KbbBQA//be5yTyPptkcw8xl8xEjjuosJmrSOMBREgzarO4DbrPX/pC/W0Nak54bs
-UnjGfnRDFQXa2krCIIbZmmwtCLKftVVbqB5eFFJ/Y6uM/pa2hKgli0sNfHJ2p++i
-jT01vDRqxEjyA795yxeF8nD3/xkmIM49A5hbPq7yW6YTGF8VJ6Qhe+5vWpMoNqFH
-6KoSHGUFpwCgVBEadLhdV8a0OpSrjPTs+MOZhWL+IIpb3Ay+tztQpUL1f2ncnlG/
-Sq5E7KPuKem03swyvKmFcn1fl+R3eLy7ueoHbXeyfKDi8eqLImP1ZYwfq0K+LwKK
-O2LHRkXcrPnHM/lSt9dQDbJNY9J6wzav77BzF9zS8e23KhPlTlidSDHWwgtkq2vj
-yr825hAIMoecoj8t4pgpSDYyyw9rnSeGwmB7AFWZctzLoaLtdGBZrIZKJv4ZM5bH
-p79anJodYwJEVRRvj3t1ZA+vH8n4TThUG6RFWV18a9rLUi1N/YvwsZO7wTf9Msw6
-lnL8iMPAcHpx0byMztoiHybZsmoV4eKGteuu1dwt0CK7Vz1MMKOgQKkLtq1NzWUe
-5DEWew6kXfumd6/yxKJV4i0Zj21mzkjWAtFYk/JXenTGN42RRCErqCFCbZ2qOHq/
-26QRgRBrQ+i9B3h91gLA2r7T7+UTcboUEhA8zhvvf8omx/gYw0M=
-=mPjB
------END PGP SIGNATURE-----
-
---agAcRzQ1V4vmM4bn--
