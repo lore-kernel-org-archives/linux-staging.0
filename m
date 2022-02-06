@@ -1,130 +1,540 @@
-Received: from relay3.hostedemail.com (relay3.hostedemail.com [64.99.140.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886502F21
-	for <linux-staging@lists.linux.dev>; Sun,  6 Feb 2022 20:55:38 +0000 (UTC)
-Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay12.hostedemail.com (Postfix) with ESMTP id 5A8AF120714;
-	Sun,  6 Feb 2022 17:17:53 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id A466018;
-	Sun,  6 Feb 2022 17:17:08 +0000 (UTC)
-Message-ID: <8536ca17c2945cb77c506d99eff5ccc42e71f2f3.camel@perches.com>
-Subject: Re: [PATCH] staging: octeon-usb: Fix 'should not end with '(''
-From: Joe Perches <joe@perches.com>
-To: David Laight <David.Laight@ACULAB.COM>, "'joelcchangg@gmail.com'"
-	 <joelcchangg@gmail.com>, "linux-staging@lists.linux.dev"
-	 <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>, "gregkh@linuxfoundation.com"
-	 <gregkh@linuxfoundation.com>
-Date: Sun, 06 Feb 2022 09:17:45 -0800
-In-Reply-To: <c0b504dd1f254f19b6ff60948684303b@AcuMS.aculab.com>
-References: <20220206074615.3527-1-joelcchangg@gmail.com>
-	 <c0b504dd1f254f19b6ff60948684303b@AcuMS.aculab.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96CA2F21
+	for <linux-staging@lists.linux.dev>; Sun,  6 Feb 2022 21:06:43 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id e28so9985984pfj.5
+        for <linux-staging@lists.linux.dev>; Sun, 06 Feb 2022 13:06:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=su79yK5PjW7+pNzvbyvigH1Rm7iVRwIedAHcLPkHlXo=;
+        b=WL/h0XEU/FQBVU/6TSAIaMBIqxlXMHmR/cjzq9O6IODRjNP/QcVDCjWpQkxJO5szaY
+         VDajaBWRprXdq0tzTxHUD0m80BlcKovgf30Vy6gp7fz15n1LJW75jaJZ9R2K7Bgw1zb0
+         gOMP6VouAetxryE0XBSzyHFT5qfpnQPx0+JZ1mrIw4hV8ALNI77xuO7VHuzss8ATM+vr
+         vQhhZTky3zWBL/eIqMLH3IXdO8BYMh/Lk/D1CJdmSyY+KvrHY1rxMxQsUrrUqCJFEuUw
+         1ctDFUfZyKT6F/TsaaI2Xm+Ycy0a6MA7D02ihfBhnP1CPo88C37wbxR2kT6JaorWH5s5
+         3sng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=su79yK5PjW7+pNzvbyvigH1Rm7iVRwIedAHcLPkHlXo=;
+        b=QI3re9Ohl2MA306oBN/YgPlGSB4PvE05Lto1YKS6bwMBQYU7Km+spzRFj1UmrhsMJc
+         KfNWX1X7HlvP8AQLIe4xsMMjHXVNWieyUP50YygiI/EyvhqSUGsetLPo1Bln4vG5ksgm
+         Jh2iSzU8LEn4xHPsm/VxajbW48tCY+KBfl2S836z+jwQExBgKxzysQbS8bqvVhbGUVDv
+         0N0RZlrNjC8GTx06hX9z+icAWseYHY/3yt5FGiqz/t+xxsj2VEEF0zVdN/t9oWcDXnil
+         XluHIF4NndRn+KX29Tq4hpGepim9HJO5WFvO40PgG1W6NmH7gJP3R/9DsL45Qm0ZQTYt
+         /mYg==
+X-Gm-Message-State: AOAM531ZivXbQl0jYCGOisBnF+OCY9k6hnxNaXrrS6ZLkfbBJy5gnMkN
+	GgS/uAImmI2Am4obXLpYO5M=
+X-Google-Smtp-Source: ABdhPJw8rzO6wntMCJ+EAbfoCeoAM2IbVZtHM+HdXLCICLOfxcwE/vez4/iDN2KLFKBACRoan0bmPw==
+X-Received: by 2002:a05:6a00:1a53:: with SMTP id h19mr12806016pfv.65.1644181603029;
+        Sun, 06 Feb 2022 13:06:43 -0800 (PST)
+Received: from mail.google.com ([124.157.67.163])
+        by smtp.gmail.com with ESMTPSA id pi9sm8836778pjb.46.2022.02.06.13.06.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Feb 2022 13:06:42 -0800 (PST)
+Date: Mon, 7 Feb 2022 10:06:36 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
+	realwakka@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: pi433: standardize use of line escape chars in
+ dev_dbg stmts
+Message-ID: <YgA4XHU4uf6YkOk5@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: qg4yiupiwhcsqe6n45gxqr7fdpk59b16
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: A466018
-X-Spam-Status: No, score=-4.46
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+fnhxLHTdi5aumjIE+T5F75ykVyJ/qk3Y=
-X-HE-Tag: 1644167828-153419
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 2022-02-06 at 14:16 +0000, David Laight wrote:
-> From: joelcchangg@gmail.com
-> > Sent: 06 February 2022 07:46
-> > 
-> > This patch fixes the checkpatch.pl check:
-> > 
-> > CHECK: Line should not end with '('
-[]
-> > diff --git a/drivers/staging/octeon-usb/octeon-hcd.c b/drivers/staging/octeon-usb/octeon-hcd.c
-[]
-> > @@ -1792,23 +1792,18 @@ static void cvmx_usb_start_channel(struct octeon_hcd *usb, int channel,
-> >  	case CVMX_USB_TRANSFER_INTERRUPT:
-> >  		break;
-> >  	case CVMX_USB_TRANSFER_ISOCHRONOUS:
-> > -		if (!cvmx_usb_pipe_needs_split(usb, pipe)) {
-> > +		if (!cvmx_usb_pipe_needs_split(usb, pipe) &&
-> > +		    pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) {
-> >  			/*
-> >  			 * ISO transactions require different PIDs depending on
-> >  			 * direction and how many packets are needed
-> >  			 */
-> > -			if (pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) {
-> > -				if (pipe->multi_count < 2) /* Need DATA0 */
-> > -					USB_SET_FIELD32(
-> > -						CVMX_USBCX_HCTSIZX(channel,
-> > -								   usb->index),
-> > +			if (pipe->multi_count < 2) /* Need DATA0 */
-> > +				USB_SET_FIELD32(CVMX_USBCX_HCTSIZX(channel, usb->index),
-> >  						cvmx_usbcx_hctsizx, pid, 0);
-> > -				else /* Need MDATA */
-> > -					USB_SET_FIELD32(
-> > -						CVMX_USBCX_HCTSIZX(channel,
-> > -								   usb->index),
-> > +			else /* Need MDATA */
-> > +				USB_SET_FIELD32(CVMX_USBCX_HCTSIZX(channel, usb->index),
-> >  						cvmx_usbcx_hctsizx, pid, 3);
-> > -			}
-> >  		}
-> >  		break;
-> >  	}
-> 
-> What has that hunk got to do with the patch description?
+In this driver there are strings ending with of both '\n' and ''
+(without '\n') when using dev_dbg function. While it doesn't affect
+drivers functionality, it would be good to keep it consistent across the
+driver's source code.
 
-Nothing and this should be revisited or explained much more
-as it seems to change the logic.
+This patch add '\n' characters where it's missing to make it consistent
+with the other dev_dbg instances.
 
-> > @@ -2121,17 +2116,17 @@ static void cvmx_usb_complete(struct octeon_hcd *usb,
-> >   *
-> >   * Returns: Transaction or NULL on failure.
-> >   */
-> > -static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(
-> > -				struct octeon_hcd *usb,
-> > -				struct cvmx_usb_pipe *pipe,
-> > -				enum cvmx_usb_transfer type,
-> > -				u64 buffer,
-> > -				int buffer_length,
-> > -				u64 control_header,
-> > -				int iso_start_frame,
-> > -				int iso_number_packets,
-> > -				struct cvmx_usb_iso_packet *iso_packets,
-> > -				struct urb *urb)
-> > +static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(struct octeon_hcd *usb,
-> > +								struct cvmx_usb_pipe *pipe,
-> > +								enum cvmx_usb_transfer type,
-> > +								u64 buffer,
-> > +								int buffer_length,
-> > +								u64 control_header,
-> > +								int iso_start_frame,
-> > +								int iso_number_packets,
-> > +								struct cvmx_usb_iso_packet
-> > +									*iso_packets,
-> > +								struct urb *urb)
-> 
-> Those lines are now far longer than is 'nice'.
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+---
+Meta-comments:
+- Originally I proposed removing '\n' chars in the patch below, however
+  Dan Carpenter explained to me that '\n'-ending strings would be a
+  better option giving that this is defined by consensus in this
+  particular case. Given that the patch changed it's original purpose,
+  I'm not submitting it as 'v2' of the original patch.
+  https://lore.kernel.org/lkml/YfYtsiKbOXghIN+5@mail.google.com/
 
-True.
+Patch dependency:
+- This patch needs to be applied after the patch below is applied since
+  both of them tweak the same files.
+  https://lore.kernel.org/lkml/Yf9ivRB5qpmA5rY2@mail.google.com/
+---
+ drivers/staging/pi433/pi433_if.c | 54 ++++++++++++++++----------------
+ drivers/staging/pi433/rf69.c     | 51 +++++++++++++++---------------
+ 2 files changed, 53 insertions(+), 52 deletions(-)
 
-This _might_ be better with the return type on a separate line
-
-Something like:
-
-static struct cvmx_usb_transaction *
-cvmx_usb_submit_transaction(struct octeon_hcd *usb, struct cvmx_usb_pipe *pipe,
-			    enum cvmx_usb_transfer type,
-			    u64 buffer, int buffer_length,
-			    u64 control_header, int iso_start_frame,
-			    int iso_number_packets,
-			    struct cvmx_usb_iso_packet *iso_packets,
-			    struct urb *urb)
-
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 4fbac3ccef74..069255f023c8 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -414,7 +414,7 @@ static int pi433_receive(void *data)
+ 	dev->interrupt_rx_allowed = false;
+ 
+ 	/* wait for any tx to finish */
+-	dev_dbg(dev->dev, "rx: going to wait for any tx to finish");
++	dev_dbg(dev->dev, "rx: going to wait for any tx to finish\n");
+ 	retval = wait_event_interruptible(dev->rx_wait_queue, !dev->tx_active);
+ 	if (retval) {
+ 		/* wait was interrupted */
+@@ -440,7 +440,7 @@ static int pi433_receive(void *data)
+ 		wake_up_interruptible(&dev->tx_wait_queue);
+ 
+ 		/* wait for RSSI level to become high */
+-		dev_dbg(dev->dev, "rx: going to wait for high RSSI level");
++		dev_dbg(dev->dev, "rx: going to wait for high RSSI level\n");
+ 		retval = wait_event_interruptible(dev->rx_wait_queue,
+ 						  rf69_get_flag(dev->spi,
+ 								rssi_exceeded_threshold));
+@@ -467,11 +467,11 @@ static int pi433_receive(void *data)
+ 			goto abort;
+ 		}
+ 		bytes_total = dev->rx_cfg.fixed_message_length;
+-		dev_dbg(dev->dev, "rx: msg len set to %d by fixed length",
++		dev_dbg(dev->dev, "rx: msg len set to %d by fixed length\n",
+ 			bytes_total);
+ 	} else {
+ 		bytes_total = dev->rx_buffer_size;
+-		dev_dbg(dev->dev, "rx: msg len set to %d as requested by read",
++		dev_dbg(dev->dev, "rx: msg len set to %d as requested by read\n",
+ 			bytes_total);
+ 	}
+ 
+@@ -488,7 +488,7 @@ static int pi433_receive(void *data)
+ 			goto abort;
+ 		}
+ 		dev->free_in_fifo++;
+-		dev_dbg(dev->dev, "rx: msg len reset to %d due to length byte",
++		dev_dbg(dev->dev, "rx: msg len reset to %d due to length byte\n",
+ 			bytes_total);
+ 	}
+ 
+@@ -505,7 +505,7 @@ static int pi433_receive(void *data)
+ 
+ 		rf69_read_fifo(spi, &dummy, 1);
+ 		dev->free_in_fifo++;
+-		dev_dbg(dev->dev, "rx: address byte stripped off");
++		dev_dbg(dev->dev, "rx: address byte stripped off\n");
+ 	}
+ 
+ 	/* get payload */
+@@ -567,7 +567,7 @@ static int pi433_tx_thread(void *data)
+ 
+ 	while (1) {
+ 		/* wait for fifo to be populated or for request to terminate*/
+-		dev_dbg(device->dev, "thread: going to wait for new messages");
++		dev_dbg(device->dev, "thread: going to wait for new messages\n");
+ 		wait_event_interruptible(device->tx_wait_queue,
+ 					 (!kfifo_is_empty(&device->tx_fifo) ||
+ 					  kthread_should_stop()));
+@@ -583,7 +583,7 @@ static int pi433_tx_thread(void *data)
+ 		retval = kfifo_out(&device->tx_fifo, &tx_cfg, sizeof(tx_cfg));
+ 		if (retval != sizeof(tx_cfg)) {
+ 			dev_dbg(device->dev,
+-				"reading tx_cfg from fifo failed: got %d byte(s), expected %d",
++				"reading tx_cfg from fifo failed: got %d byte(s), expected %d\n",
+ 				retval, (unsigned int)sizeof(tx_cfg));
+ 			continue;
+ 		}
+@@ -591,7 +591,7 @@ static int pi433_tx_thread(void *data)
+ 		retval = kfifo_out(&device->tx_fifo, &size, sizeof(size_t));
+ 		if (retval != sizeof(size_t)) {
+ 			dev_dbg(device->dev,
+-				"reading msg size from fifo failed: got %d, expected %d",
++				"reading msg size from fifo failed: got %d, expected %d\n",
+ 				retval, (unsigned int)sizeof(size_t));
+ 			continue;
+ 		}
+@@ -628,7 +628,7 @@ static int pi433_tx_thread(void *data)
+ 		retval = kfifo_out(&device->tx_fifo, &device->buffer[position],
+ 				   sizeof(device->buffer) - position);
+ 		dev_dbg(device->dev,
+-			"read %d message byte(s) from fifo queue.", retval);
++			"read %d message byte(s) from fifo queue.\n", retval);
+ 
+ 		/*
+ 		 * if rx is active, we need to interrupt the waiting for
+@@ -733,7 +733,7 @@ static int pi433_tx_thread(void *data)
+ 
+ 		/* we are done. Wait for packet to get sent */
+ 		dev_dbg(device->dev,
+-			"thread: wait for packet to get sent/fifo to be empty");
++			"thread: wait for packet to get sent/fifo to be empty\n");
+ 		wait_event_interruptible(device->fifo_wait_queue,
+ 					 device->free_in_fifo == FIFO_SIZE ||
+ 					 kthread_should_stop());
+@@ -741,7 +741,7 @@ static int pi433_tx_thread(void *data)
+ 			return 0;
+ 
+ 		/* STOP_TRANSMISSION */
+-		dev_dbg(device->dev, "thread: Packet sent. Set mode to stby.");
++		dev_dbg(device->dev, "thread: Packet sent. Set mode to stby.\n");
+ 		retval = rf69_set_mode(spi, standby);
+ 		if (retval < 0)
+ 			goto abort;
+@@ -831,7 +831,7 @@ pi433_write(struct file *filp, const char __user *buf,
+ 	 */
+ 	if (!instance->tx_cfg_initialized) {
+ 		dev_notice_once(device->dev,
+-				"write: failed due to unconfigured tx_cfg (see PI433_IOC_WR_TX_CFG)");
++				"write: failed due to unconfigured tx_cfg (see PI433_IOC_WR_TX_CFG)\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -846,7 +846,7 @@ pi433_write(struct file *filp, const char __user *buf,
+ 	required = sizeof(instance->tx_cfg) + sizeof(size_t) + count;
+ 	available = kfifo_avail(&device->tx_fifo);
+ 	if (required > available) {
+-		dev_dbg(device->dev, "write to fifo failed: %d bytes required but %d available",
++		dev_dbg(device->dev, "write to fifo failed: %d bytes required but %d available\n",
+ 			required, available);
+ 		mutex_unlock(&device->tx_fifo_lock);
+ 		return -EAGAIN;
+@@ -869,13 +869,13 @@ pi433_write(struct file *filp, const char __user *buf,
+ 
+ 	/* start transfer */
+ 	wake_up_interruptible(&device->tx_wait_queue);
+-	dev_dbg(device->dev, "write: generated new msg with %d bytes.", copied);
++	dev_dbg(device->dev, "write: generated new msg with %d bytes.\n", copied);
+ 
+ 	return copied;
+ 
+ abort:
+ 	dev_warn(device->dev,
+-		 "write to fifo failed, non recoverable: 0x%x", retval);
++		 "write to fifo failed, non recoverable: 0x%x\n", retval);
+ 	mutex_unlock(&device->tx_fifo_lock);
+ 	return -EAGAIN;
+ }
+@@ -1000,12 +1000,12 @@ static int setup_gpio(struct pi433_device *device)
+ 
+ 		if (device->gpiod[i] == ERR_PTR(-ENOENT)) {
+ 			dev_dbg(&device->spi->dev,
+-				"Could not find entry for %s. Ignoring.", name);
++				"Could not find entry for %s. Ignoring.\n", name);
+ 			continue;
+ 		}
+ 
+ 		if (device->gpiod[i] == ERR_PTR(-EBUSY))
+-			dev_dbg(&device->spi->dev, "%s is busy.", name);
++			dev_dbg(&device->spi->dev, "%s is busy.\n", name);
+ 
+ 		if (IS_ERR(device->gpiod[i])) {
+ 			retval = PTR_ERR(device->gpiod[i]);
+@@ -1038,7 +1038,7 @@ static int setup_gpio(struct pi433_device *device)
+ 		if (retval)
+ 			return retval;
+ 
+-		dev_dbg(&device->spi->dev, "%s successfully configured", name);
++		dev_dbg(&device->spi->dev, "%s successfully configured\n", name);
+ 	}
+ 
+ 	return 0;
+@@ -1186,7 +1186,7 @@ static int pi433_probe(struct spi_device *spi)
+ 	}
+ 
+ 	dev_dbg(&spi->dev,
+-		"spi interface setup: mode 0x%2x, %d bits per word, %dhz max speed",
++		"spi interface setup: mode 0x%2x, %d bits per word, %dhz max speed\n",
+ 		spi->mode, spi->bits_per_word, spi->max_speed_hz);
+ 
+ 	/* read chip version */
+@@ -1196,10 +1196,10 @@ static int pi433_probe(struct spi_device *spi)
+ 
+ 	switch (retval) {
+ 	case 0x24:
+-		dev_dbg(&spi->dev, "found pi433 (ver. 0x%x)", retval);
++		dev_dbg(&spi->dev, "found pi433 (ver. 0x%x)\n", retval);
+ 		break;
+ 	default:
+-		dev_dbg(&spi->dev, "unknown chip version: 0x%x", retval);
++		dev_dbg(&spi->dev, "unknown chip version: 0x%x\n", retval);
+ 		return -ENODEV;
+ 	}
+ 
+@@ -1236,7 +1236,7 @@ static int pi433_probe(struct spi_device *spi)
+ 	/* setup GPIO (including irq_handler) for the different DIOs */
+ 	retval = setup_gpio(device);
+ 	if (retval) {
+-		dev_dbg(&spi->dev, "setup of GPIOs failed");
++		dev_dbg(&spi->dev, "setup of GPIOs failed\n");
+ 		goto GPIO_failed;
+ 	}
+ 
+@@ -1266,7 +1266,7 @@ static int pi433_probe(struct spi_device *spi)
+ 	/* determ minor number */
+ 	retval = pi433_get_minor(device);
+ 	if (retval) {
+-		dev_dbg(&spi->dev, "get of minor number failed");
++		dev_dbg(&spi->dev, "get of minor number failed\n");
+ 		goto minor_failed;
+ 	}
+ 
+@@ -1295,7 +1295,7 @@ static int pi433_probe(struct spi_device *spi)
+ 					     "pi433.%d_tx_task",
+ 					     device->minor);
+ 	if (IS_ERR(device->tx_task_struct)) {
+-		dev_dbg(device->dev, "start of send thread failed");
++		dev_dbg(device->dev, "start of send thread failed\n");
+ 		retval = PTR_ERR(device->tx_task_struct);
+ 		goto send_thread_failed;
+ 	}
+@@ -1303,7 +1303,7 @@ static int pi433_probe(struct spi_device *spi)
+ 	/* create cdev */
+ 	device->cdev = cdev_alloc();
+ 	if (!device->cdev) {
+-		dev_dbg(device->dev, "allocation of cdev failed");
++		dev_dbg(device->dev, "allocation of cdev failed\n");
+ 		retval = -ENOMEM;
+ 		goto cdev_failed;
+ 	}
+@@ -1311,7 +1311,7 @@ static int pi433_probe(struct spi_device *spi)
+ 	cdev_init(device->cdev, &pi433_fops);
+ 	retval = cdev_add(device->cdev, device->devt, 1);
+ 	if (retval) {
+-		dev_dbg(device->dev, "register of cdev failed");
++		dev_dbg(device->dev, "register of cdev failed\n");
+ 		goto del_cdev;
+ 	}
+ 
+diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
+index bf26aef69daa..a8def70808d6 100644
+--- a/drivers/staging/pi433/rf69.c
++++ b/drivers/staging/pi433/rf69.c
+@@ -85,7 +85,7 @@ int rf69_set_mode(struct spi_device *spi, enum mode mode)
+ 	};
+ 
+ 	if (unlikely(mode >= ARRAY_SIZE(mode_map))) {
+-		dev_dbg(&spi->dev, "set: illegal mode %u", mode);
++		dev_dbg(&spi->dev, "set: illegal mode %u\n", mode);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -115,7 +115,7 @@ int rf69_set_modulation(struct spi_device *spi, enum modulation modulation)
+ 	};
+ 
+ 	if (unlikely(modulation >= ARRAY_SIZE(modulation_map))) {
+-		dev_dbg(&spi->dev, "set: illegal modulation %u", modulation);
++		dev_dbg(&spi->dev, "set: illegal modulation %u\n", modulation);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -163,7 +163,7 @@ int rf69_set_modulation_shaping(struct spi_device *spi,
+ 						   MASK_DATAMODUL_MODULATION_SHAPE,
+ 						   DATAMODUL_MODULATION_SHAPE_0_3);
+ 		default:
+-			dev_dbg(&spi->dev, "set: illegal mod shaping for FSK %u", mod_shaping);
++			dev_dbg(&spi->dev, "set: illegal mod shaping for FSK %u\n", mod_shaping);
+ 			return -EINVAL;
+ 		}
+ 	case OOK:
+@@ -181,11 +181,11 @@ int rf69_set_modulation_shaping(struct spi_device *spi,
+ 						   MASK_DATAMODUL_MODULATION_SHAPE,
+ 						   DATAMODUL_MODULATION_SHAPE_2BR);
+ 		default:
+-			dev_dbg(&spi->dev, "set: illegal mod shaping for OOK %u", mod_shaping);
++			dev_dbg(&spi->dev, "set: illegal mod shaping for OOK %u\n", mod_shaping);
+ 			return -EINVAL;
+ 		}
+ 	default:
+-		dev_dbg(&spi->dev, "set: modulation undefined");
++		dev_dbg(&spi->dev, "set: modulation undefined\n");
+ 		return -EINVAL;
+ 	}
+ }
+@@ -201,13 +201,13 @@ int rf69_set_bit_rate(struct spi_device *spi, u16 bit_rate)
+ 	// check if modulation is configured
+ 	mod = rf69_get_modulation(spi);
+ 	if (mod == UNDEF) {
+-		dev_dbg(&spi->dev, "setBitRate: modulation is undefined");
++		dev_dbg(&spi->dev, "setBitRate: modulation is undefined\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	// check input value
+ 	if (bit_rate < 1200 || (mod == OOK && bit_rate > 32768)) {
+-		dev_dbg(&spi->dev, "setBitRate: illegal input param");
++		dev_dbg(&spi->dev, "setBitRate: illegal input param\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -251,7 +251,7 @@ int rf69_set_deviation(struct spi_device *spi, u32 deviation)
+ 	 */
+ 	if (deviation < 600 || (deviation + (bit_rate / 2)) > 500000) {
+ 		dev_dbg(&spi->dev,
+-			"set_deviation: illegal input param: %u", deviation);
++			"set_deviation: illegal input param: %u\n", deviation);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -268,7 +268,7 @@ int rf69_set_deviation(struct spi_device *spi, u32 deviation)
+ 
+ 	// check msb
+ 	if (msb & ~FDEVMASB_MASK) {
+-		dev_dbg(&spi->dev, "set_deviation: err in calc of msb");
++		dev_dbg(&spi->dev, "set_deviation: err in calc of msb\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -301,7 +301,7 @@ int rf69_set_frequency(struct spi_device *spi, u32 frequency)
+ 	// check input value
+ 	f_max = div_u64(f_step * 8388608, factor);
+ 	if (frequency > f_max) {
+-		dev_dbg(&spi->dev, "setFrequency: illegal input param");
++		dev_dbg(&spi->dev, "setFrequency: illegal input param\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -382,7 +382,7 @@ int rf69_set_output_power_level(struct spi_device *spi, u8 power_level)
+ 	return rf69_read_mod_write(spi, REG_PALEVEL, MASK_PALEVEL_OUTPUT_POWER,
+ 				   power_level);
+ failed:
+-	dev_dbg(&spi->dev, "set: illegal power level %u", power_level);
++	dev_dbg(&spi->dev, "set: illegal power level %u\n", power_level);
+ 	return -EINVAL;
+ }
+ 
+@@ -407,7 +407,7 @@ int rf69_set_pa_ramp(struct spi_device *spi, enum pa_ramp pa_ramp)
+ 	};
+ 
+ 	if (unlikely(pa_ramp >= ARRAY_SIZE(pa_ramp_map))) {
+-		dev_dbg(&spi->dev, "set: illegal pa_ramp %u", pa_ramp);
++		dev_dbg(&spi->dev, "set: illegal pa_ramp %u\n", pa_ramp);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -423,7 +423,7 @@ int rf69_set_antenna_impedance(struct spi_device *spi,
+ 	case two_hundred_ohm:
+ 		return rf69_set_bit(spi, REG_LNA, MASK_LNA_ZIN);
+ 	default:
+-		dev_dbg(&spi->dev, "set: illegal antenna impedance %u", antenna_impedance);
++		dev_dbg(&spi->dev, "set: illegal antenna impedance %u\n", antenna_impedance);
+ 		return -EINVAL;
+ 	}
+ }
+@@ -441,7 +441,7 @@ int rf69_set_lna_gain(struct spi_device *spi, enum lna_gain lna_gain)
+ 	};
+ 
+ 	if (unlikely(lna_gain >= ARRAY_SIZE(lna_gain_map))) {
+-		dev_dbg(&spi->dev, "set: illegal lna gain %u", lna_gain);
++		dev_dbg(&spi->dev, "set: illegal lna gain %u\n", lna_gain);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -456,14 +456,14 @@ static int rf69_set_bandwidth_intern(struct spi_device *spi, u8 reg,
+ 
+ 	// check value for mantisse and exponent
+ 	if (exponent > 7) {
+-		dev_dbg(&spi->dev, "set: illegal bandwidth exponent %u", exponent);
++		dev_dbg(&spi->dev, "set: illegal bandwidth exponent %u\n", exponent);
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (mantisse != mantisse16 &&
+ 	    mantisse != mantisse20 &&
+ 	    mantisse != mantisse24) {
+-		dev_dbg(&spi->dev, "set: illegal bandwidth mantisse %u", mantisse);
++		dev_dbg(&spi->dev, "set: illegal bandwidth mantisse %u\n", mantisse);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -521,7 +521,8 @@ int rf69_set_ook_threshold_dec(struct spi_device *spi,
+ 	};
+ 
+ 	if (unlikely(threshold_decrement >= ARRAY_SIZE(td_map))) {
+-		dev_dbg(&spi->dev, "set: illegal OOK threshold decrement %u", threshold_decrement);
++		dev_dbg(&spi->dev, "set: illegal OOK threshold decrement %u\n",
++			threshold_decrement);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -568,7 +569,7 @@ int rf69_set_dio_mapping(struct spi_device *spi, u8 dio_number, u8 value)
+ 		dio_addr = REG_DIOMAPPING2;
+ 		break;
+ 	default:
+-		dev_dbg(&spi->dev, "set: illegal dio number %u", dio_number);
++		dev_dbg(&spi->dev, "set: illegal dio number %u\n", dio_number);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -672,7 +673,7 @@ int rf69_set_fifo_fill_condition(struct spi_device *spi,
+ 		return rf69_clear_bit(spi, REG_SYNC_CONFIG,
+ 				      MASK_SYNC_CONFIG_FIFO_FILL_CONDITION);
+ 	default:
+-		dev_dbg(&spi->dev, "set: illegal fifo fill condition %u", fifo_fill_condition);
++		dev_dbg(&spi->dev, "set: illegal fifo fill condition %u\n", fifo_fill_condition);
+ 		return -EINVAL;
+ 	}
+ }
+@@ -681,7 +682,7 @@ int rf69_set_sync_size(struct spi_device *spi, u8 sync_size)
+ {
+ 	// check input value
+ 	if (sync_size > 0x07) {
+-		dev_dbg(&spi->dev, "set: illegal sync size %u", sync_size);
++		dev_dbg(&spi->dev, "set: illegal sync size %u\n", sync_size);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -718,7 +719,7 @@ int rf69_set_packet_format(struct spi_device *spi,
+ 		return rf69_clear_bit(spi, REG_PACKETCONFIG1,
+ 				      MASK_PACKETCONFIG1_PACKET_FORMAT_VARIABLE);
+ 	default:
+-		dev_dbg(&spi->dev, "set: illegal packet format %u", packet_format);
++		dev_dbg(&spi->dev, "set: illegal packet format %u\n", packet_format);
+ 		return -EINVAL;
+ 	}
+ }
+@@ -744,7 +745,7 @@ int rf69_set_address_filtering(struct spi_device *spi,
+ 	};
+ 
+ 	if (unlikely(address_filtering >= ARRAY_SIZE(af_map))) {
+-		dev_dbg(&spi->dev, "set: illegal address filtering %u", address_filtering);
++		dev_dbg(&spi->dev, "set: illegal address filtering %u\n", address_filtering);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -779,7 +780,7 @@ int rf69_set_tx_start_condition(struct spi_device *spi,
+ 		return rf69_set_bit(spi, REG_FIFO_THRESH,
+ 				    MASK_FIFO_THRESH_TXSTART);
+ 	default:
+-		dev_dbg(&spi->dev, "set: illegal tx start condition %u", tx_start_condition);
++		dev_dbg(&spi->dev, "set: illegal tx start condition %u\n", tx_start_condition);
+ 		return -EINVAL;
+ 	}
+ }
+@@ -790,7 +791,7 @@ int rf69_set_fifo_threshold(struct spi_device *spi, u8 threshold)
+ 
+ 	/* check input value */
+ 	if (threshold & 0x80) {
+-		dev_dbg(&spi->dev, "set: illegal fifo threshold %u", threshold);
++		dev_dbg(&spi->dev, "set: illegal fifo threshold %u\n", threshold);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -817,7 +818,7 @@ int rf69_set_dagc(struct spi_device *spi, enum dagc dagc)
+ 	};
+ 
+ 	if (unlikely(dagc >= ARRAY_SIZE(dagc_map))) {
+-		dev_dbg(&spi->dev, "set: illegal dagc %u", dagc);
++		dev_dbg(&spi->dev, "set: illegal dagc %u\n", dagc);
+ 		return -EINVAL;
+ 	}
+ 
+-- 
+2.34.1
 
