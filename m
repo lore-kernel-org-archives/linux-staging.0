@@ -1,133 +1,190 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658162F21
-	for <linux-staging@lists.linux.dev>; Sun,  6 Feb 2022 05:55:16 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id n32so8815305pfv.11
-        for <linux-staging@lists.linux.dev>; Sat, 05 Feb 2022 21:55:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680302F25
+	for <linux-staging@lists.linux.dev>; Sun,  6 Feb 2022 07:46:23 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id b1so244543pfi.9
+        for <linux-staging@lists.linux.dev>; Sat, 05 Feb 2022 23:46:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=QllGcs8jzslhBf9s27Nd7fCzfzy4T3imE/YP1j3Ms3c=;
-        b=l6+4DZO0eT+NO+dc2mLF5dsgbs9+drsyJuMcPj3hNHjIyyhgmfWhsgIhnPVEqTl5ww
-         7FzxZ/fU5knE1fPFx4tIU/J4vN6P/zg+2FlLqnzbfaQtgYbVCa80fa5eoJDg1FXjZgWl
-         E6vEYJjrEHyVeZT0He2n+JdsXJWNn5ZiOgWJ5EI87v6Ws7+8itqaInyWZChB1UyZNrGw
-         VVASpSMs23kvPx0gnd+LJJiGXPYuLxow4ztB4FHAtb2F0HIzaKCUOCKmUtrWgwfvmLN8
-         pgoAyL1hbOEqz8yniKBpweAIYxoYEMfQdI6I12tyEzpKhSJCN49BMspFGUKUyrONhYko
-         MRiA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JfNa77FHoLegWMiGAXFL+Tu9PZ+tk17TjCdFCf2r/90=;
+        b=BwlP/N3BSptV3rohiHx1sSRLuPz5PHJAMh5eVkSv++a3F9oJ+qXtJrIoSvBT8NiIql
+         /20XuTTkFcVGAahsoKrTd58ABo/Df+QVgvOf30g13kD+31TKg0+HvvNPHgAwAasxcROO
+         3TjFrvs+4mGhkecDPn2LJN4m669CclNCQl3U1wbLwRv5pXiHXvv0PlYwApYPw4NUGnbK
+         4dik41D46xeC2x4IscupMUni3o9WdEsGpAy7Wqh05oP5Sp0Y8b2d/vyKrTrn8JUQfgI6
+         TDj/aDkMy1z6G39vUJHoJsfChh4ARVQHvLbDi7lJWsgq8eps5yrFXmo+u848gNhMf2lh
+         uHSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=QllGcs8jzslhBf9s27Nd7fCzfzy4T3imE/YP1j3Ms3c=;
-        b=abT4KQrx9RyCgV2KHMVPabMfRchPQ8AnO0B9B1CgLh5dMR+sWjKwPTcw/ZS9w4gNr4
-         HR/7fqiTWpAAMcEJWjVSe+aB5RvzsS6gWfoVmiXs1F2zoHVhU3gl5GvSssmet2I7z7H/
-         IH/8Gh35tot4SFcLWcUo+SMwV5oDSD2iBlCkI9uTU6qUKdvwpaFNFmb91VJQ1ruD2BtX
-         LA9GkeHF7TZBwXMKX1MfV6BvRE4JoeDE7IayN/Ejn68icycBJjH+yzQqGXQzX6CZkcW+
-         jUMTe8yUY0N5wEsIFdsStb9IM7CD3Xakxgx0RHhz/plFeJQYm+XSA3URSt0/raWTP9cs
-         r1SA==
-X-Gm-Message-State: AOAM531uvLqTPmrXwV8nR3ujFlrYO0BwP6LWBC/V0Ow/na9/Sx0Tw4QU
-	jPOD8urWxNcJ6V//MSRT80U=
-X-Google-Smtp-Source: ABdhPJxmThNqiX6NqrU4WsRYYdLRfnbKATWJt3yOAjweie1fwvFZ++Dq7mGovWp/DrwF6mynq4CL/Q==
-X-Received: by 2002:a05:6a00:194d:: with SMTP id s13mr10230054pfk.22.1644126915744;
-        Sat, 05 Feb 2022 21:55:15 -0800 (PST)
-Received: from mail.google.com ([124.157.67.163])
-        by smtp.gmail.com with ESMTPSA id o1sm8311886pfu.88.2022.02.05.21.55.12
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JfNa77FHoLegWMiGAXFL+Tu9PZ+tk17TjCdFCf2r/90=;
+        b=S2xbmC4xKGt9ioUjQ0vmP5aJE2G8rNruHECdk7LDkJfGxd599JGPuUifcGELyvh6cm
+         T2hMNmuO4Cfbr8SIPy4QH4s3sl1DtKqFoIWy8B3ibSTibcVAeKZyZ/qemsg/rweR4WdJ
+         9cZnKsRMcJI3L5n2lybye5YRhkix0llvucYt9VH8rEGARRcJ+Clfhey0iv7qxynwHsbh
+         CgZLaU+B3AlXvywMHFSgMveAwnEaBCqbNfI9JtTBN2Vo/pOUBO0OVlOvyX4rp1iSzXTT
+         AQO8yzaSRYIR2pUGNX8znuKesDfHb9oxQTVz+HCjsxPG4psDk7DJPgeEZLrdYRxpB83m
+         /Skw==
+X-Gm-Message-State: AOAM533XNRC3rylhoEANePNQ+H9myX7REvN1CFpFXCbVjnQK+ViHnDHg
+	AAMH0PR6yGoGDOCzf3HvIXWT702Kw58El+by
+X-Google-Smtp-Source: ABdhPJzSbyLpXEwkAp6UoCpEVfFg5g9kYmRiY+WpwOJkwYlLlNlEmJvcC+DG9lF2O/Wkf/CckM+/Ug==
+X-Received: by 2002:a63:185c:: with SMTP id 28mr5195709pgy.238.1644133582647;
+        Sat, 05 Feb 2022 23:46:22 -0800 (PST)
+Received: from mlpln-zenbook.hitronhub.home (123-194-202-33.dynamic.kbronet.com.tw. [123.194.202.33])
+        by smtp.gmail.com with ESMTPSA id on14sm1264755pjb.34.2022.02.05.23.46.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Feb 2022 21:55:15 -0800 (PST)
-Date: Sun, 6 Feb 2022 18:55:09 +1300
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
-	realwakka@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: pi433: remove register debug dev_dbg stmts using
- DEBUG_VALUES
-Message-ID: <Yf9ivRB5qpmA5rY2@mail.google.com>
+        Sat, 05 Feb 2022 23:46:22 -0800 (PST)
+From: joelcchangg@gmail.com
+To: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.com
+Cc: Joel Camilo Chang Gonzalez <joelcchangg@gmail.com>
+Subject: [PATCH] staging: octeon-usb: Fix 'should not end with '(''
+Date: Sun,  6 Feb 2022 15:46:15 +0800
+Message-Id: <20220206074615.3527-1-joelcchangg@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Which the recent addition of the debugfs dentry (regs), users can now
-obtain rf69 register values without having to tweak constants
-(DEBUG_VALUES) and recompile the pi433 module source code in order to
-see those values.
+From: Joel Camilo Chang Gonzalez <joelcchangg@gmail.com>
 
-This patch removes code blocks made obsolete by debugfs regs file.
+This patch fixes the checkpatch.pl check:
 
-Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+CHECK: Line should not end with '('
+
+at lines 1802, 1807 and at some function headers.
+
+Signed-off-by: Joel Camilo Chang Gonzalez <joelcchangg@gmail.com>
 ---
- drivers/staging/pi433/rf69.c | 37 ++----------------------------------
- 1 file changed, 2 insertions(+), 35 deletions(-)
+ drivers/staging/octeon-usb/octeon-hcd.c | 67 +++++++++++--------------
+ 1 file changed, 29 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-index 2ab3bf46e37d..bf26aef69daa 100644
---- a/drivers/staging/pi433/rf69.c
-+++ b/drivers/staging/pi433/rf69.c
-@@ -8,8 +8,6 @@
- 
- /* enable prosa debug info */
- #undef DEBUG
--/* enable print of values on reg access */
--#undef DEBUG_VALUES
- /* enable print of values on fifo access */
- #undef DEBUG_FIFO_ACCESS
- 
-@@ -26,48 +24,17 @@
- 
- u8 rf69_read_reg(struct spi_device *spi, u8 addr)
+diff --git a/drivers/staging/octeon-usb/octeon-hcd.c b/drivers/staging/octeon-usb/octeon-hcd.c
+index a1cd81d4a114..60e8354104e6 100644
+--- a/drivers/staging/octeon-usb/octeon-hcd.c
++++ b/drivers/staging/octeon-usb/octeon-hcd.c
+@@ -1792,23 +1792,18 @@ static void cvmx_usb_start_channel(struct octeon_hcd *usb, int channel,
+ 	case CVMX_USB_TRANSFER_INTERRUPT:
+ 		break;
+ 	case CVMX_USB_TRANSFER_ISOCHRONOUS:
+-		if (!cvmx_usb_pipe_needs_split(usb, pipe)) {
++		if (!cvmx_usb_pipe_needs_split(usb, pipe) &&
++		    pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) {
+ 			/*
+ 			 * ISO transactions require different PIDs depending on
+ 			 * direction and how many packets are needed
+ 			 */
+-			if (pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) {
+-				if (pipe->multi_count < 2) /* Need DATA0 */
+-					USB_SET_FIELD32(
+-						CVMX_USBCX_HCTSIZX(channel,
+-								   usb->index),
++			if (pipe->multi_count < 2) /* Need DATA0 */
++				USB_SET_FIELD32(CVMX_USBCX_HCTSIZX(channel, usb->index),
+ 						cvmx_usbcx_hctsizx, pid, 0);
+-				else /* Need MDATA */
+-					USB_SET_FIELD32(
+-						CVMX_USBCX_HCTSIZX(channel,
+-								   usb->index),
++			else /* Need MDATA */
++				USB_SET_FIELD32(CVMX_USBCX_HCTSIZX(channel, usb->index),
+ 						cvmx_usbcx_hctsizx, pid, 3);
+-			}
+ 		}
+ 		break;
+ 	}
+@@ -2121,17 +2116,17 @@ static void cvmx_usb_complete(struct octeon_hcd *usb,
+  *
+  * Returns: Transaction or NULL on failure.
+  */
+-static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(
+-				struct octeon_hcd *usb,
+-				struct cvmx_usb_pipe *pipe,
+-				enum cvmx_usb_transfer type,
+-				u64 buffer,
+-				int buffer_length,
+-				u64 control_header,
+-				int iso_start_frame,
+-				int iso_number_packets,
+-				struct cvmx_usb_iso_packet *iso_packets,
+-				struct urb *urb)
++static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(struct octeon_hcd *usb,
++								struct cvmx_usb_pipe *pipe,
++								enum cvmx_usb_transfer type,
++								u64 buffer,
++								int buffer_length,
++								u64 control_header,
++								int iso_start_frame,
++								int iso_number_packets,
++								struct cvmx_usb_iso_packet
++									*iso_packets,
++								struct urb *urb)
  {
--	int retval;
--
--	retval = spi_w8r8(spi, addr);
--
--#ifdef DEBUG_VALUES
--	if (retval < 0)
--		/*
--		 * should never happen, since we already checked,
--		 * that module is connected. Therefore no error
--		 * handling, just an optional error message...
--		 */
--		dev_dbg(&spi->dev, "read 0x%x FAILED\n", addr);
--	else
--		dev_dbg(&spi->dev, "read 0x%x from reg 0x%x\n", retval, addr);
--#endif
--
--	return retval;
-+	return spi_w8r8(spi, addr);
- }
+ 	struct cvmx_usb_transaction *transaction;
  
- static int rf69_write_reg(struct spi_device *spi, u8 addr, u8 value)
+@@ -2182,10 +2177,9 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(
+  *
+  * Returns: A submitted transaction or NULL on failure.
+  */
+-static struct cvmx_usb_transaction *cvmx_usb_submit_bulk(
+-						struct octeon_hcd *usb,
+-						struct cvmx_usb_pipe *pipe,
+-						struct urb *urb)
++static struct cvmx_usb_transaction *cvmx_usb_submit_bulk(struct octeon_hcd *usb,
++							 struct cvmx_usb_pipe *pipe,
++							 struct urb *urb)
  {
--	int retval;
- 	char buffer[2];
+ 	return cvmx_usb_submit_transaction(usb, pipe, CVMX_USB_TRANSFER_BULK,
+ 					   urb->transfer_dma,
+@@ -2206,10 +2200,9 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_bulk(
+  *
+  * Returns: A submitted transaction or NULL on failure.
+  */
+-static struct cvmx_usb_transaction *cvmx_usb_submit_interrupt(
+-						struct octeon_hcd *usb,
+-						struct cvmx_usb_pipe *pipe,
+-						struct urb *urb)
++static struct cvmx_usb_transaction *cvmx_usb_submit_interrupt(struct octeon_hcd *usb,
++							      struct cvmx_usb_pipe *pipe,
++							      struct urb *urb)
+ {
+ 	return cvmx_usb_submit_transaction(usb, pipe,
+ 					   CVMX_USB_TRANSFER_INTERRUPT,
+@@ -2231,10 +2224,9 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_interrupt(
+  *
+  * Returns: A submitted transaction or NULL on failure.
+  */
+-static struct cvmx_usb_transaction *cvmx_usb_submit_control(
+-						struct octeon_hcd *usb,
+-						struct cvmx_usb_pipe *pipe,
+-						struct urb *urb)
++static struct cvmx_usb_transaction *cvmx_usb_submit_control(struct octeon_hcd *usb,
++							    struct cvmx_usb_pipe *pipe,
++							    struct urb *urb)
+ {
+ 	int buffer_length = urb->transfer_buffer_length;
+ 	u64 control_header = urb->setup_dma;
+@@ -2262,10 +2254,9 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_control(
+  *
+  * Returns: A submitted transaction or NULL on failure.
+  */
+-static struct cvmx_usb_transaction *cvmx_usb_submit_isochronous(
+-						struct octeon_hcd *usb,
+-						struct cvmx_usb_pipe *pipe,
+-						struct urb *urb)
++static struct cvmx_usb_transaction *cvmx_usb_submit_isochronous(struct octeon_hcd *usb,
++								struct cvmx_usb_pipe *pipe,
++								struct urb *urb)
+ {
+ 	struct cvmx_usb_iso_packet *packets;
  
- 	buffer[0] = addr | WRITE_BIT;
- 	buffer[1] = value;
- 
--	retval = spi_write(spi, &buffer, 2);
--
--#ifdef DEBUG_VALUES
--	if (retval < 0)
--		/*
--		 * should never happen, since we already checked,
--		 * that module is connected. Therefore no error
--		 * handling, just an optional error message...
--		 */
--		dev_dbg(&spi->dev, "write 0x%x to 0x%x FAILED\n", value, addr);
--	else
--		dev_dbg(&spi->dev, "wrote 0x%x to reg 0x%x\n", value, addr);
--#endif
--
--	return retval;
-+	return spi_write(spi, &buffer, ARRAY_SIZE(buffer));
- }
- 
- /*-------------------------------------------------------------------------*/
 -- 
-2.34.1
+2.25.1
 
