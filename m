@@ -1,189 +1,138 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DC52F21
-	for <linux-staging@lists.linux.dev>; Sun,  6 Feb 2022 13:09:25 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id l25so3968793eda.12
-        for <linux-staging@lists.linux.dev>; Sun, 06 Feb 2022 05:09:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MHIz3Dwre4tP6Q9bEyDnouvCJsPoMkCD31ljHi1figY=;
-        b=n4em8JyzX1Xmca5wj9Ex2hf6ab5VBqAE25+S/+kRckovgV+6/U2epazWCx43iWv9cR
-         aYDRm2UNdFB3lDdMZ/ECBez5QZgn48O5vx3i90N+sjYAt+RsD7/xHRWAZs6GDtZsENeU
-         wKgXB0gG8CnR1ZwL63F4/oB6nfNTM3MD4PMZ9E90zbQlp9XkQ4b6jzgVEodLrl7yy5op
-         a3h6ep2+ZYf07EVsa2eBQsz20wUqmHvl+VVoF2orEgIuwe6rWh/+ukf9aNTog3YXEzDv
-         g12lqmS0M3+b3z6drByy6kZPBZLngY1vT3W4k/9h2izHFNbhSCzcWeNQjmqTxfTCU1ws
-         kvmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MHIz3Dwre4tP6Q9bEyDnouvCJsPoMkCD31ljHi1figY=;
-        b=4/eRtd1y7PWVRnNk0Wg/U/Bifx8q4cqHq+lt1HroyJ9fRQWGQ0VtRhb7M1DonXwroq
-         RWM27Rmz7m28e6Xe4AdWA3OlmJ8Xk5s9U2uO+EZ0hxbgMGLlYrkoQuwYXspU4umb/wHQ
-         nS/g7lsPg0IpEQTglCNDSsfeBeTOPgXGm17hjH/PImHyh3eVQOVpUkv+WBcTNroDLAFi
-         7mIpZLXaNzMUQoN/q28TTa5Asw2KsdSwTrmR5mvESQnpQ+02/Ncv2RykcwtDi4giek3v
-         fYY+PionGAq0VO10WCDhIBIVhtNqf6kAeo+/UTRNObm6BjYoTrnLmY7pMeq7hjk1Aopf
-         0zqA==
-X-Gm-Message-State: AOAM531UB6PY0gQm8pZuVQrY1LKOO7iRMIp0QkO+vdsuqxefzSKNab7x
-	jZQfuzfS5f1cfs/1+coRnr9ydmWp0AGURBHFaB+f+w==
-X-Google-Smtp-Source: ABdhPJzIGdBf/BwLMf3qdRE5GZYN+c8/w4PVd7M5MgrPgzYMrAWBQIf/AaIXvRrJOY+pnPtpOYwtHhAfQprBX/EXA/o=
-X-Received: by 2002:a05:6402:84a:: with SMTP id b10mr8849389edz.143.1644152964025;
- Sun, 06 Feb 2022 05:09:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E15A2F21
+	for <linux-staging@lists.linux.dev>; Sun,  6 Feb 2022 14:16:30 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-172-J1tvwRiQPeqVqBMlrnKtLg-1; Sun, 06 Feb 2022 14:16:28 +0000
+X-MC-Unique: J1tvwRiQPeqVqBMlrnKtLg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.28; Sun, 6 Feb 2022 14:16:26 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.028; Sun, 6 Feb 2022 14:16:26 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: "'joelcchangg@gmail.com'" <joelcchangg@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"gregkh@linuxfoundation.com" <gregkh@linuxfoundation.com>
+Subject: RE: [PATCH] staging: octeon-usb: Fix 'should not end with '(''
+Thread-Topic: [PATCH] staging: octeon-usb: Fix 'should not end with '(''
+Thread-Index: AQHYGy2lT3+mOj+jAkq4B/NGasIIi6yGkYKQ
+Date: Sun, 6 Feb 2022 14:16:26 +0000
+Message-ID: <c0b504dd1f254f19b6ff60948684303b@AcuMS.aculab.com>
+References: <20220206074615.3527-1-joelcchangg@gmail.com>
+In-Reply-To: <20220206074615.3527-1-joelcchangg@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220201183324.493542-1-jernej.skrabec@gmail.com>
-In-Reply-To: <20220201183324.493542-1-jernej.skrabec@gmail.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Sun, 6 Feb 2022 10:09:11 -0300
-Message-ID: <CAAEAJfALjVhrLcVbS0vyXXPJUy1tmv4PcMbWxte0u9htn+myjw@mail.gmail.com>
-Subject: Re: [PATCH] media: cedrus: Add watchdog for job completion
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	linux-media <linux-media@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-On Tue, 1 Feb 2022 at 15:34, Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
->
-> Currently, if job is not completed for whatever reason, userspace
-> application can hang on ioctl and thus become unkillable.
->
-> In order to prevent that, implement watchdog, which will complete job
-> after 2 seconds with error state.
->
-> Concept is borrowed from hantro driver.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-This has been very useful developing Hantro,
-to get some indication of hardware being programmed wrongly:
-
-Patch looks correct.
-
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-
-
+From: joelcchangg@gmail.com
+> Sent: 06 February 2022 07:46
+>=20
+> This patch fixes the checkpatch.pl check:
+>=20
+> CHECK: Line should not end with '('
+>=20
+> at lines 1802, 1807 and at some function headers.
+>=20
+> Signed-off-by: Joel Camilo Chang Gonzalez <joelcchangg@gmail.com>
 > ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  2 ++
->  drivers/staging/media/sunxi/cedrus/cedrus.h   |  3 +++
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +++
->  .../staging/media/sunxi/cedrus/cedrus_hw.c    | 25 +++++++++++++++++++
->  .../staging/media/sunxi/cedrus/cedrus_hw.h    |  2 ++
->  5 files changed, 36 insertions(+)
->
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> index 4a4b714b0f26..68b3dcdb5df3 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -439,6 +439,8 @@ static int cedrus_probe(struct platform_device *pdev)
->
->         mutex_init(&dev->dev_mutex);
->
-> +       INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
-> +
->         ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
->         if (ret) {
->                 dev_err(&pdev->dev, "Failed to register V4L2 device\n");
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> index c345f2984041..3bc094eb497f 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> @@ -24,6 +24,7 @@
->
->  #include <linux/iopoll.h>
->  #include <linux/platform_device.h>
-> +#include <linux/workqueue.h>
->
->  #define CEDRUS_NAME                    "cedrus"
->
-> @@ -194,6 +195,8 @@ struct cedrus_dev {
->         struct reset_control    *rstc;
->
->         unsigned int            capabilities;
-> +
-> +       struct delayed_work     watchdog_work;
->  };
->
->  extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> index a16c1422558f..9c7200299465 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> @@ -97,4 +97,8 @@ void cedrus_device_run(void *priv)
->                 v4l2_ctrl_request_complete(src_req, &ctx->hdl);
->
->         dev->dec_ops[ctx->current_codec]->trigger(ctx);
-> +
-> +       /* Start the watchdog timer. */
-> +       schedule_delayed_work(&dev->watchdog_work,
-> +                             msecs_to_jiffies(2000));
->  }
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> index 2d7663726467..a6470a89851e 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -118,6 +118,13 @@ static irqreturn_t cedrus_irq(int irq, void *data)
->         enum vb2_buffer_state state;
->         enum cedrus_irq_status status;
->
-> +       /*
-> +        * If cancel_delayed_work returns false it means watchdog already
-> +        * executed and finished the job.
-> +        */
-> +       if (!cancel_delayed_work(&dev->watchdog_work))
-> +               return IRQ_HANDLED;
-> +
->         ctx = v4l2_m2m_get_curr_priv(dev->m2m_dev);
->         if (!ctx) {
->                 v4l2_err(&dev->v4l2_dev,
-> @@ -143,6 +150,24 @@ static irqreturn_t cedrus_irq(int irq, void *data)
->         return IRQ_HANDLED;
->  }
->
-> +void cedrus_watchdog(struct work_struct *work)
-> +{
-> +       struct cedrus_dev *dev;
-> +       struct cedrus_ctx *ctx;
-> +
-> +       dev = container_of(to_delayed_work(work),
-> +                          struct cedrus_dev, watchdog_work);
-> +
-> +       ctx = v4l2_m2m_get_curr_priv(dev->m2m_dev);
-> +       if (!ctx)
-> +               return;
-> +
-> +       v4l2_err(&dev->v4l2_dev, "frame processing timed out!\n");
-> +       reset_control_reset(dev->rstc);
-> +       v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
-> +                                        VB2_BUF_STATE_ERROR);
-> +}
-> +
->  int cedrus_hw_suspend(struct device *device)
->  {
->         struct cedrus_dev *dev = dev_get_drvdata(device);
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> index 45f641f0bfa2..7c92f00e36da 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> @@ -28,4 +28,6 @@ int cedrus_hw_resume(struct device *device);
->  int cedrus_hw_probe(struct cedrus_dev *dev);
->  void cedrus_hw_remove(struct cedrus_dev *dev);
->
-> +void cedrus_watchdog(struct work_struct *work);
-> +
->  #endif
-> --
-> 2.35.1
->
+>  drivers/staging/octeon-usb/octeon-hcd.c | 67 +++++++++++--------------
+>  1 file changed, 29 insertions(+), 38 deletions(-)
+>=20
+> diff --git a/drivers/staging/octeon-usb/octeon-hcd.c b/drivers/staging/oc=
+teon-usb/octeon-hcd.c
+> index a1cd81d4a114..60e8354104e6 100644
+> --- a/drivers/staging/octeon-usb/octeon-hcd.c
+> +++ b/drivers/staging/octeon-usb/octeon-hcd.c
+> @@ -1792,23 +1792,18 @@ static void cvmx_usb_start_channel(struct octeon_=
+hcd *usb, int channel,
+>  =09case CVMX_USB_TRANSFER_INTERRUPT:
+>  =09=09break;
+>  =09case CVMX_USB_TRANSFER_ISOCHRONOUS:
+> -=09=09if (!cvmx_usb_pipe_needs_split(usb, pipe)) {
+> +=09=09if (!cvmx_usb_pipe_needs_split(usb, pipe) &&
+> +=09=09    pipe->transfer_dir =3D=3D CVMX_USB_DIRECTION_OUT) {
+>  =09=09=09/*
+>  =09=09=09 * ISO transactions require different PIDs depending on
+>  =09=09=09 * direction and how many packets are needed
+>  =09=09=09 */
+> -=09=09=09if (pipe->transfer_dir =3D=3D CVMX_USB_DIRECTION_OUT) {
+> -=09=09=09=09if (pipe->multi_count < 2) /* Need DATA0 */
+> -=09=09=09=09=09USB_SET_FIELD32(
+> -=09=09=09=09=09=09CVMX_USBCX_HCTSIZX(channel,
+> -=09=09=09=09=09=09=09=09   usb->index),
+> +=09=09=09if (pipe->multi_count < 2) /* Need DATA0 */
+> +=09=09=09=09USB_SET_FIELD32(CVMX_USBCX_HCTSIZX(channel, usb->index),
+>  =09=09=09=09=09=09cvmx_usbcx_hctsizx, pid, 0);
+> -=09=09=09=09else /* Need MDATA */
+> -=09=09=09=09=09USB_SET_FIELD32(
+> -=09=09=09=09=09=09CVMX_USBCX_HCTSIZX(channel,
+> -=09=09=09=09=09=09=09=09   usb->index),
+> +=09=09=09else /* Need MDATA */
+> +=09=09=09=09USB_SET_FIELD32(CVMX_USBCX_HCTSIZX(channel, usb->index),
+>  =09=09=09=09=09=09cvmx_usbcx_hctsizx, pid, 3);
+> -=09=09=09}
+>  =09=09}
+>  =09=09break;
+>  =09}
+
+What has that hunk got to do with the patch description?
+
+> @@ -2121,17 +2116,17 @@ static void cvmx_usb_complete(struct octeon_hcd *=
+usb,
+>   *
+>   * Returns: Transaction or NULL on failure.
+>   */
+> -static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(
+> -=09=09=09=09struct octeon_hcd *usb,
+> -=09=09=09=09struct cvmx_usb_pipe *pipe,
+> -=09=09=09=09enum cvmx_usb_transfer type,
+> -=09=09=09=09u64 buffer,
+> -=09=09=09=09int buffer_length,
+> -=09=09=09=09u64 control_header,
+> -=09=09=09=09int iso_start_frame,
+> -=09=09=09=09int iso_number_packets,
+> -=09=09=09=09struct cvmx_usb_iso_packet *iso_packets,
+> -=09=09=09=09struct urb *urb)
+> +static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(struct o=
+cteon_hcd *usb,
+> +=09=09=09=09=09=09=09=09struct cvmx_usb_pipe *pipe,
+> +=09=09=09=09=09=09=09=09enum cvmx_usb_transfer type,
+> +=09=09=09=09=09=09=09=09u64 buffer,
+> +=09=09=09=09=09=09=09=09int buffer_length,
+> +=09=09=09=09=09=09=09=09u64 control_header,
+> +=09=09=09=09=09=09=09=09int iso_start_frame,
+> +=09=09=09=09=09=09=09=09int iso_number_packets,
+> +=09=09=09=09=09=09=09=09struct cvmx_usb_iso_packet
+> +=09=09=09=09=09=09=09=09=09*iso_packets,
+> +=09=09=09=09=09=09=09=09struct urb *urb)
+
+Those lines are now far longer than is 'nice'.
+
+=09David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
