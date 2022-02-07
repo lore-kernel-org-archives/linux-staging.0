@@ -1,84 +1,175 @@
-Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [142.44.231.140])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBAA2C9C
-	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 16:01:09 +0000 (UTC)
-Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nH6Rp-000Efg-DF; Mon, 07 Feb 2022 16:01:01 +0000
-Date: Mon, 7 Feb 2022 16:01:01 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Leonardo Araujo <leonardo.aa88@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] Staging : android: Struct file_operations should be const
-Message-ID: <YgFCPbnqs40wS+j1@zeniv-ca.linux.org.uk>
-References: <20220207031711.13644-1-leonardo.aa88@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1552F24;
+	Mon,  7 Feb 2022 16:03:08 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC3CF340;
+	Mon,  7 Feb 2022 17:03:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1644249787;
+	bh=nfHhY7SAAx/jSa8dp1hMDTzjQj/OuY2kGz3jjvPk5xk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S+CZh0fGXgBerQVwuj4ZfLJQ6bwJ9df1Vzllh4VKcSm+MtCyn0LFsexbZWLsxjcsb
+	 2skIMGdk4g0rNN5bgOMEeHnJUPIe4cLJ3I4iUbUt3S9fuywk0x7fmElGrEqbiPZV8J
+	 3HmpuM9QGZsrLtswnZ8AtdRp5YENQqjto4nHkQHs=
+Date: Mon, 7 Feb 2022 18:03:05 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 07/66] dt-bindings: media: sun6i-a31-csi: Add MIPI
+ CSI-2 input port
+Message-ID: <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220207031711.13644-1-leonardo.aa88@gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+In-Reply-To: <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
 
-On Mon, Feb 07, 2022 at 12:17:11AM -0300, Leonardo Araujo wrote:
-> From: "Leonardo Araujo" <leonardo.aa88@gmail.com>
+Hi Paul,
+
+Thank you for the patch.
+
+On Sat, Feb 05, 2022 at 07:53:30PM +0100, Paul Kocialkowski wrote:
+> The A31 CSI controller supports two distinct input interfaces:
+> parallel and an external MIPI CSI-2 bridge. The parallel interface
+> is often connected to a set of hardware pins while the MIPI CSI-2
+> bridge is an internal FIFO-ish link. As a result, these two inputs
+> are distinguished as two different ports.
 > 
-> WARNING: struct file_operations should normally be const
+> Note that only one of the two may be present on a controller instance.
+> For example, the V3s has one controller dedicated to MIPI-CSI2 and one
+> dedicated to parallel.
+
+Is it that only one of the two is present, or only one of the two is
+connected ? In the latter case I'd make both ports required, but with
+only one of them connected.
+
+> Update the binding with an explicit ports node that holds two distinct
+> port nodes: one for parallel input and one for MIPI CSI-2.
 > 
-> Signed-off-by: Leonardo Araujo <leonardo.aa88@gmail.com>
+> This is backward-compatible with the single-port approach that was
+> previously taken for representing the parallel interface port, which
+> stays enumerated as fwnode port 0.
+> 
+> Note that additional ports may be added in the future, especially to
+> support feeding the CSI controller's output to the ISP.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Acked-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/staging/android/ashmem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../media/allwinner,sun6i-a31-csi.yaml        | 60 +++++++++++++++----
+>  1 file changed, 47 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
-> index ddbde3f8430e..4c6b420fbf4d 100644
-> --- a/drivers/staging/android/ashmem.c
-> +++ b/drivers/staging/android/ashmem.c
-> @@ -377,7 +377,7 @@ ashmem_vmfile_get_unmapped_area(struct file *file, unsigned long addr,
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+> index 8b568072a069..3cc61866ea89 100644
+> --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+> @@ -61,6 +61,34 @@ properties:
 >  
->  static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
->  {
-> -	static struct file_operations vmfile_fops;
-> +	static const struct file_operations vmfile_fops;
->  	struct ashmem_area *asma = file->private_data;
->  	int ret = 0;
+>      additionalProperties: false
+>  
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: "#/properties/port"
+> +        unevaluatedProperties: false
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: MIPI CSI-2 bridge input port
+> +
+> +        properties:
+> +          reg:
+> +            const: 1
+> +
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +    anyOf:
+> +      - required:
+> +        - port@0
+> +      - required:
+> +        - port@1
+> +
+>  required:
+>    - compatible
+>    - reg
 
-Wait a minute.  Why the hell would it possibly want a private instance
-of all-NULLs file_operations?  Odd...
-<checks>
-                if (!vmfile_fops.mmap) {
-                        vmfile_fops = *vmfile->f_op;
-                        vmfile_fops.mmap = ashmem_vmfile_mmap;
-                        vmfile_fops.get_unmapped_area =
-                                        ashmem_vmfile_get_unmapped_area;
-                }
-Er...  So it *is* modified down the road.  What, in your opinion, is signified
-by the const you are adding?
+Shouldn't you specify that either port or ports is required, but not
+both ? I'd also add a comment in the port node to tell it's deprecated,
+and that ports should be used instead.
 
-Folks, could we please have the first "WARNING" in checkpatch.pl output replaced
-with
-"I'm a dumb script; this line looks like there might be something fishy in the
-area.  Somebody smarter than me might want to take a look and figure out if
-there's something wrong going on there.  From now on I'll mark all such places
-with 'WARNING' (with the summary of heuristics that pointed to them), to avoid
-repeating the above".
+> @@ -89,19 +117,25 @@ examples:
+>                        "ram";
+>          resets = <&ccu RST_BUS_CSI>;
+>  
+> -        port {
+> -            /* Parallel bus endpoint */
+> -            csi1_ep: endpoint {
+> -                remote-endpoint = <&adv7611_ep>;
+> -                bus-width = <16>;
+> -
+> -                /*
+> -                 * If hsync-active/vsync-active are missing,
+> -                 * embedded BT.656 sync is used.
+> -                 */
+> -                 hsync-active = <0>; /* Active low */
+> -                 vsync-active = <0>; /* Active low */
+> -                 pclk-sample = <1>;  /* Rising */
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                /* Parallel bus endpoint */
+> +                csi1_ep: endpoint {
+> +                    remote-endpoint = <&adv7611_ep>;
+> +                    bus-width = <16>;
+> +
+> +                    /*
+> +                     * If hsync-active/vsync-active are missing,
+> +                     * embedded BT.656 sync is used.
+> +                     */
+> +                     hsync-active = <0>; /* Active low */
+> +                     vsync-active = <0>; /* Active low */
+> +                     pclk-sample = <1>;  /* Rising */
 
-Pretty please?  This exact trap keeps snagging newbies - folks misinterpret
-"this place might be worth looking into" for "great (s)tool says: this is
-what's wrong there; must propitiate the great (s)tool!"
+Wrong indentation.
 
-In this case the damage is minimal - the resulting change would be instantly
-caught by compiler, so it's just a matter of mild embarrassment for poster.
-In other cases results had been nowhere near as mild.
+> +                };
+>              };
+>          };
+>      };
 
-Incidentally, the place those heuristics had pointed too _DOES_ look fishy,
-indeed.  What happens, AFAICS, is that the first time we hit that branch
-(asma->file being NULL) we stash a copy of whatever file_operations we get
-on file obtained by shmem_setup_file() (IOW, shmem_file_operations),
-with ->mmap and ->get_unmapped_area replaced with local functions.
-This is a bloody convoluted way to do things, not to mention being rather
-brittle...
+-- 
+Regards,
+
+Laurent Pinchart
