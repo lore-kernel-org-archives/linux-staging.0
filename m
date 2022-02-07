@@ -1,100 +1,154 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACE52F28
-	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 00:02:22 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id v129so5170042wme.2
-        for <linux-staging@lists.linux.dev>; Sun, 06 Feb 2022 16:02:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF162F24
+	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 01:57:46 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id s11so10035472ybl.7
+        for <linux-staging@lists.linux.dev>; Sun, 06 Feb 2022 17:57:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=q6y8D3kpo4uKuVZoaqtD5J5vageNIGOTp/wVMHU+XYk=;
-        b=gElwdwxlVHLX8tMzCIjES1hP49FBEizTKUY6xDy+76oDB8AT9SPVXAsMxkGs6B7ABd
-         DF8n/7RHE12GUwBzB0Ev18YzRn+3lgOUfMHcD5Vp2tuxuhv9byBCMguuSD1vjWlui5xH
-         MT355TRhzTbR6aApCyTzHajT8LQPYrWQBvreuk5syqdG8rPZuxfsFF7bAlvhgI5i3lqm
-         bFYxKYL9XJVNyZZEnlgTJidwTbsrfcxDdKXpFEhFN4u6YkcFMRBepGIBGRNlY644/S+U
-         /QlyAEhXoSUzHeTG6wS/TVfZ+I9ZAPH0xUS9a2WtQIjU4i6T1K/NqtDN1GeMf4hwDzas
-         VYvg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=E6jB5unxCOG3OGPVEmlfiBcR16mWOiuXX5uTcKkbUQI=;
+        b=Zm0HO44MuTh3Ps5IZZv8ARTzJUHAkn0gmuSgse19xSu+4RBR3xXWtUFMhDlpZwnpNL
+         oeHCrCy1Y+J6yEEwQotcYLROd50usnIe+1sdVWddcJPzilfVgSQwqzNOYXrwYLP0i/0T
+         yPysrrH5XxK3Vgqo75kJnst7+hTTyAOUf69xZcLrQ4wnFEwP03pZUP/qBF8qO2QGVOg3
+         qtJ0zqAczc/7GPOss4fS3lwXdFhrYr3CG1cTrKzZVwfgmSQ+N8SrZp75scLK88JLn3n+
+         yTIGu3bLb66Z4z66xS/8gKPKECIgOSTmEpTKOY7tY1y8HOP+zFY5r5IsB4akL+geFjWt
+         +YIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=q6y8D3kpo4uKuVZoaqtD5J5vageNIGOTp/wVMHU+XYk=;
-        b=Dhtdmu+MfPtmkfoncebjZlE4UVT47RjyDdfLHxZpuMLfMBhXZifyKMhkRqG1w3Ewg0
-         mnXDgO3J7L3qq1vOYN+g+2n1xZBu9oGOgY4rQLE5eJ5HUf0C9VkoG5QkAEdVjVsVc7+K
-         AeKOdIvd7YxLbAPpcN54p/wIS1SEUcXp8Cocuo26hPb36Eyn/71cH1avMpd6xB/EGmzU
-         y/swnXaXj53MW+bWCzLr6tF9xqG2awIvtldOkMSV+kj9vPbWt3W9eYFyPp3vrPRmGq3Z
-         /cZywxSkWLxktNTyaITmm36sgbO7Rc0Um+XHC70OIvM3BE6To4O//2q0AoAUzt/9xb2Q
-         jEVA==
-X-Gm-Message-State: AOAM530o5zLa09U7wSc2mcFD04f83wUK3M7A58y92zZz9boMbElIb9mW
-	3Q88NERyH/Deq/ungigDeF+lUePgEHE=
-X-Google-Smtp-Source: ABdhPJzttKD35oquTDKy+pzbXdCkOtSBB8h8Sdt62xvWcG4vlV66CWY4GuL+PkwLAKBi7rmaxGnD0w==
-X-Received: by 2002:a05:600c:1da5:: with SMTP id p37mr8672026wms.93.1644192140127;
-        Sun, 06 Feb 2022 16:02:20 -0800 (PST)
-Received: from leap.localnet (host-95-245-2-16.retail.telecomitalia.it. [95.245.2.16])
-        by smtp.gmail.com with ESMTPSA id b16sm2780974wmj.32.2022.02.06.16.02.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Feb 2022 16:02:19 -0800 (PST)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, phil@philpotter.co.uk, larry.finger@lwfinger.net
-Cc: julia.lawall@inria.fr, linux-kernel@vger.kernel.org, Michael Straube <michael.straube@stud.uni-goettingen.de>, martin@kaiser.cx
-Subject: [RFC] staging: r8188eu: Sleeping in atomic context (SAC) bugs
-Date: Mon, 07 Feb 2022 01:02:17 +0100
-Message-ID: <2111927.Icojqenx9y@leap>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=E6jB5unxCOG3OGPVEmlfiBcR16mWOiuXX5uTcKkbUQI=;
+        b=tdd4PfOMk4wuksY/YZCDb2U03qjVrOV/2q7aszML1bYS6m5DHXi4YydvlassdVrN1d
+         zOuMjouhR2iVdXuqBJpyptuu+wNzynhwvi+YLimZeO9x4K4nhppOg41ADDO8pygAPOT3
+         P2ZwAkOPg89p9YS3oYUzu2iPv76KJDcFkwr/zndPWucPa3GmzcA0ysn1caCvilIhYygb
+         oo12YhG7kITib/1koJEIUSAcJxJuKLNfPaV76yfUba5KgK0HNOGNK9JzajAKltWZSKEK
+         T/Dwoqu7u4sRBCus4X32cOyUGFI6llQdG9U22OupnbqWlGqguNzjyCB9M4N59mSEU14e
+         /eRQ==
+X-Gm-Message-State: AOAM530/7qCVPGL2rFOVg/oOwbPEUN7pOWDbiFrOXFE26yQjaXBzpC6s
+	Mfnlnm07oxkoULe0XviBLXh4P5Vfeirj1ETzQ7s=
+X-Google-Smtp-Source: ABdhPJxfztv/wBcGEPXfgrgrXn8ooNS5PkjWrqePaC+KxO3p486LI47ivujmNuL3yE1MnPf7NdaDnvArqLVBhY8Q5is=
+X-Received: by 2002:a81:de4c:: with SMTP id o12mr8984374ywl.109.1644199065562;
+ Sun, 06 Feb 2022 17:57:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20220206074615.3527-1-joelcchangg@gmail.com> <c0b504dd1f254f19b6ff60948684303b@AcuMS.aculab.com>
+ <8536ca17c2945cb77c506d99eff5ccc42e71f2f3.camel@perches.com>
+In-Reply-To: <8536ca17c2945cb77c506d99eff5ccc42e71f2f3.camel@perches.com>
+From: Joel Chang <joelcchangg@gmail.com>
+Date: Mon, 7 Feb 2022 09:57:34 +0800
+Message-ID: <CAJ-=yTE7mZr_DtCE3HA4ruqexo1gH+LPCWzHAeSmivzj5H76Gg@mail.gmail.com>
+Subject: Re: [PATCH] staging: octeon-usb: Fix 'should not end with '(''
+To: Joe Perches <joe@perches.com>
+Cc: David Laight <David.Laight@aculab.com>, 
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"gregkh@linuxfoundation.com" <gregkh@linuxfoundation.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello everyone,
+The hunk has two lines that end with '('. The hunk was rewritten but I
+believe the logic remains the same.
 
-I've noticed a couple of SAC bugs in r8188eu. Recently two of them have been 
-addressed by me and one by Michael Straube (sorry if I recall it wrongly).
+I agree they are longer than is 'nice', but they are still under 100 chars.
 
-Prof. Julia Lawall wrote with Others in a paper that "[] Code executing in 
-atomic context monopolizes a CPU core, and the progress of other threads that 
-need to concurrently access the same resources is delayed. Thus the code 
-execution in atomic context should complete as quickly as possible. Sleeping 
-in atomic context is forbidden, as it can block a CPU core for a long period 
-and may lead to a system hang. [] SAC bugs do not always cause problems in real 
-execution, and they are often hard to reproduce at runtime. Recent studies [] 
-have shown that SAC bugs have caused serious system hangs at runtime. Thus, 
-it is necessary to detect and fix SAC bugs in kernel modules.".
+Maybe I should submit 2 patches instead of one?
 
-Probably the phrase "SAC bugs do not always cause problems in real execution" 
-is the key to understand why very few people seems to care and fix them.
-
-While working on my last patch for this driver, I noticed that a Mutex is 
-acquired while holding a Spinlock and while bottom halves are disabled.
-
-In staging/r8188eu/core/rtw_ioctl_set.c, the function rtw_set_802_11_disassociate()
-calls spin_lock_bh(). While holding that Spinlock, it calls _rtw_pwr_wakeup()
-that, in turn, does a call to msleep().
-
-My first question is whether or not msleep() can be called in atomic context. If
-I understand its semantics and implementation it seems that it should be forbidden.
-What about changing it to mdelay()? Again, it seems that mdelay() spins without 
-sleeping so it should be safe. Isn't it?
-
-Furthermore, I noticed that _rtw_pwr_wakeup() calls ips_leave(). The latter 
-acquires the "pwrpriv->lock" Mutex. Aren't we forbidden to call Mutexes while 
-holding Spinlocks? That lock is used to protect struct "pwrctrl_priv". I didn't
-yet provide a patch because I'm pretty sure that I'm missing the good and 
-correct reasons that led the author(s) to use a Mutex in that context...
-
-My second question is: should we substitute that Mutex with a Spinlock and use 
-it everywhere else the struct "pwrctrl_priv" must be protected in the driver?
-
-Looking forward to reading what you all think about these two questions of mine.
-
-Regards,
-
-Fabio M. De Francesco
-
-
-
+On Mon, Feb 7, 2022 at 1:17 AM Joe Perches <joe@perches.com> wrote:
+>
+> On Sun, 2022-02-06 at 14:16 +0000, David Laight wrote:
+> > From: joelcchangg@gmail.com
+> > > Sent: 06 February 2022 07:46
+> > >
+> > > This patch fixes the checkpatch.pl check:
+> > >
+> > > CHECK: Line should not end with '('
+> []
+> > > diff --git a/drivers/staging/octeon-usb/octeon-hcd.c b/drivers/staging/octeon-usb/octeon-hcd.c
+> []
+> > > @@ -1792,23 +1792,18 @@ static void cvmx_usb_start_channel(struct octeon_hcd *usb, int channel,
+> > >     case CVMX_USB_TRANSFER_INTERRUPT:
+> > >             break;
+> > >     case CVMX_USB_TRANSFER_ISOCHRONOUS:
+> > > -           if (!cvmx_usb_pipe_needs_split(usb, pipe)) {
+> > > +           if (!cvmx_usb_pipe_needs_split(usb, pipe) &&
+> > > +               pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) {
+> > >                     /*
+> > >                      * ISO transactions require different PIDs depending on
+> > >                      * direction and how many packets are needed
+> > >                      */
+> > > -                   if (pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) {
+> > > -                           if (pipe->multi_count < 2) /* Need DATA0 */
+> > > -                                   USB_SET_FIELD32(
+> > > -                                           CVMX_USBCX_HCTSIZX(channel,
+> > > -                                                              usb->index),
+> > > +                   if (pipe->multi_count < 2) /* Need DATA0 */
+> > > +                           USB_SET_FIELD32(CVMX_USBCX_HCTSIZX(channel, usb->index),
+> > >                                             cvmx_usbcx_hctsizx, pid, 0);
+> > > -                           else /* Need MDATA */
+> > > -                                   USB_SET_FIELD32(
+> > > -                                           CVMX_USBCX_HCTSIZX(channel,
+> > > -                                                              usb->index),
+> > > +                   else /* Need MDATA */
+> > > +                           USB_SET_FIELD32(CVMX_USBCX_HCTSIZX(channel, usb->index),
+> > >                                             cvmx_usbcx_hctsizx, pid, 3);
+> > > -                   }
+> > >             }
+> > >             break;
+> > >     }
+> >
+> > What has that hunk got to do with the patch description?
+>
+> Nothing and this should be revisited or explained much more
+> as it seems to change the logic.
+>
+> > > @@ -2121,17 +2116,17 @@ static void cvmx_usb_complete(struct octeon_hcd *usb,
+> > >   *
+> > >   * Returns: Transaction or NULL on failure.
+> > >   */
+> > > -static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(
+> > > -                           struct octeon_hcd *usb,
+> > > -                           struct cvmx_usb_pipe *pipe,
+> > > -                           enum cvmx_usb_transfer type,
+> > > -                           u64 buffer,
+> > > -                           int buffer_length,
+> > > -                           u64 control_header,
+> > > -                           int iso_start_frame,
+> > > -                           int iso_number_packets,
+> > > -                           struct cvmx_usb_iso_packet *iso_packets,
+> > > -                           struct urb *urb)
+> > > +static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(struct octeon_hcd *usb,
+> > > +                                                           struct cvmx_usb_pipe *pipe,
+> > > +                                                           enum cvmx_usb_transfer type,
+> > > +                                                           u64 buffer,
+> > > +                                                           int buffer_length,
+> > > +                                                           u64 control_header,
+> > > +                                                           int iso_start_frame,
+> > > +                                                           int iso_number_packets,
+> > > +                                                           struct cvmx_usb_iso_packet
+> > > +                                                                   *iso_packets,
+> > > +                                                           struct urb *urb)
+> >
+> > Those lines are now far longer than is 'nice'.
+>
+> True.
+>
+> This _might_ be better with the return type on a separate line
+>
+> Something like:
+>
+> static struct cvmx_usb_transaction *
+> cvmx_usb_submit_transaction(struct octeon_hcd *usb, struct cvmx_usb_pipe *pipe,
+>                             enum cvmx_usb_transfer type,
+>                             u64 buffer, int buffer_length,
+>                             u64 control_header, int iso_start_frame,
+>                             int iso_number_packets,
+>                             struct cvmx_usb_iso_packet *iso_packets,
+>                             struct urb *urb)
+>
+>
