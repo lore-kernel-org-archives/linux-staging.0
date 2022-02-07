@@ -1,212 +1,78 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7892F24;
-	Mon,  7 Feb 2022 15:51:32 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54D34340;
-	Mon,  7 Feb 2022 16:51:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644249083;
-	bh=Kg8KkyXqodwxnkoOUnTFgILuDislMphNhCMp4Cyt3k0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d+p/yyLLVWoFHaQMa3PKOYne2f5NsLX/aSXsN5whwh5fbgyeQpYs8XdYey0+Cmdzm
-	 wzUhiqC1tH8lsKZPl6Eninn4/oSoKEz/NKHoSjt3wcCtb6Np67rcbw0PDyekIXy8+L
-	 kBpaesRvFQGudsLOVg3bNSdwSx4HeFms+1kyhIT4=
-Date: Mon, 7 Feb 2022 17:51:21 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 61/66] dt-bindings: media: Add Allwinner A31 ISP
- bindings documentation
-Message-ID: <YgE/+UmP4nJVxtRT@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-62-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801672C9C
+	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 16:01:06 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id r27so17478434oiw.4
+        for <linux-staging@lists.linux.dev>; Mon, 07 Feb 2022 08:01:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wOnglUl1uAYKVVD35GZiXd9FDxbCo7pVui2xMN5ng2k=;
+        b=LJseETUvhhlpjfqgNVx4CkEqAukgFRYI+4hAvQuyuTMG1aluYNFiioHHhHs4YS6orY
+         QvLKeQ/tPRb+MH5WMnOc5QQQ/GeQgikPY4Q95JRgpEcS1avO/RpiWsWIQqo0xJ2tG5G/
+         xYyiZuW2V2dWr1wbRRR6AUoZQiqyIj9fiGWW0oCilwBHaHdHboG+hfT4HnpZ89ayd494
+         EGyFj3a2IlfCrcZSZzq1I/6SQJgsojXE6/bXZyMFmEXPtl7yofVPS7I1QBLTxFA6jeUB
+         2X481JyOAL+HWXKP1WW+Vuf6yIwzREwCk9Onf4KbDjkT/oSlLC/pomSsIAvyz0Jli+bY
+         pwcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wOnglUl1uAYKVVD35GZiXd9FDxbCo7pVui2xMN5ng2k=;
+        b=5/t0cM7OAX+i1PA5i6TDj8DLt78xHSP0DvN4UlQkXF6UpNAKV8uDRJ25NhP39x+bnO
+         8XU2MmoUPd7YQiThbowDtlRUKNWB5jCE91m5HlJQa4lIiJEec6vfVJRDmu04IuNkIvf2
+         e63dUbsoN27vRae7ll5a86TGmHwzV62Dra2kzCcMPchdJj+UhKxgo2PL4BL3vCC770zl
+         7fyya6JBxuMVeod5tdz4jUlRrJ+xGA2ki2IKiYKCaLuWxrQmT48wbP8JzZ3mQhF1+L3V
+         g4Goz5E0LHR4dJnwQLENP+48/bLXeDkvyf0AbMrD9nSa/WBCXATvqQfXWLSNGCVK6awv
+         JlbQ==
+X-Gm-Message-State: AOAM533/IPiZfRJoSimq2HzYfwqiyMsHcAAv4BarSPwyu5OJfa0aooN0
+	aB376vsoGDtDHLoNNLq4EMw=
+X-Google-Smtp-Source: ABdhPJyD4UpToOvIQIFw9Irbe12rKVbwLrk8ws70xElXnFRMvNXDq7KX6BOTkKMWA9KfDBu0TUX8aA==
+X-Received: by 2002:aca:f06:: with SMTP id 6mr173415oip.70.1644249664127;
+        Mon, 07 Feb 2022 08:01:04 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:4cd8:12bf:4134:806a:5a4a:2a88])
+        by smtp.gmail.com with ESMTPSA id o144sm4157803ooo.25.2022.02.07.08.01.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Feb 2022 08:01:03 -0800 (PST)
+From: Leonardo Araujo <leonardo.aa88@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Leonardo Araujo <leonardo.aa88@gmail.com>
+Subject: [PATCH] Staging: wfx: CHECK: usleep_range is preferred over udelay
+Date: Mon,  7 Feb 2022 13:00:51 -0300
+Message-Id: <20220207160051.27829-1-leonardo.aa88@gmail.com>
+X-Mailer: git-send-email 2.29.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-62-paul.kocialkowski@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Paul,
+Fixes the checks reported by checkpatch.pl for usleep_range.
 
-Thank you for the patch.
+Signed-off-by: Leonardo Araujo <leonardo.aa88@gmail.com>
+---
+ drivers/staging/wfx/bh.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Sat, Feb 05, 2022 at 07:54:24PM +0100, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the Allwinner A31 Image
-> Signal Processor (ISP).
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
->  1 file changed, 117 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> new file mode 100644
-> index 000000000000..2d87022c43ce
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> @@ -0,0 +1,117 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
-> +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun6i-a31-isp
-> +      - allwinner,sun8i-v3s-isp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +      - description: DRAM Clock
-
-That's interesting, does the ISP have a dedicated DRAM ?
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +      - const: ram
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: CSI0 input port
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-
-If no other property than remote-endpoint are allowed, I'd write
-
-          endpoint:
-            $ref: video-interfaces.yaml#
-	    remote-endpoint: true
-            additionalProperties: false
-
-Same below.
-
-> +
-> +        additionalProperties: false
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: CSI1 input port
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-
-This should be 1.
-
-> +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +    anyOf:
-> +      - required:
-> +        - port@0
-> +      - required:
-> +        - port@1
-
-As ports are an intrinsic property of the ISP, both should be required,
-but they don't have to be connected.
-
-By the way, how do you select at runtime which CSI-2 RX the ISP gets its
-image stream from ? Is it configured through registers of the ISP ?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> +
-> +    isp: isp@1cb8000 {
-> +        compatible = "allwinner,sun8i-v3s-isp";
-> +        reg = <0x01cb8000 0x1000>;
-> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ccu CLK_BUS_CSI>,
-> +             <&ccu CLK_CSI1_SCLK>,
-> +             <&ccu CLK_DRAM_CSI>;
-> +        clock-names = "bus", "mod", "ram";
-> +        resets = <&ccu RST_BUS_CSI>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                isp_in_csi0: endpoint {
-> +                    remote-endpoint = <&csi0_out_isp>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-
+diff --git a/drivers/staging/wfx/bh.c b/drivers/staging/wfx/bh.c
+index a0f9d1b53019..ebc7eaf93ef0 100644
+--- a/drivers/staging/wfx/bh.c
++++ b/drivers/staging/wfx/bh.c
+@@ -312,7 +312,7 @@ void wfx_bh_poll_irq(struct wfx_dev *wdev)
+ 			dev_err(wdev->dev, "time out while polling control register\n");
+ 			return;
+ 		}
+-		udelay(200);
++		usleep_range(200, 200);
+ 	}
+ 	wfx_bh_request_rx(wdev);
+ }
 -- 
-Regards,
+2.29.0
 
-Laurent Pinchart
