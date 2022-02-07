@@ -1,225 +1,90 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982EE2F24;
-	Mon,  7 Feb 2022 16:09:21 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95CCC340;
-	Mon,  7 Feb 2022 17:09:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644250159;
-	bh=4a6oyH40Csn50dUhVk1KKkhWqQ+bT0AQuD8nF5SL40Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BjnDuSwJb7zSiLkq8jUPy87i86c/x8YPcQgITE7qtB6aMKmQkRGRJBy/mXUrT5wiS
-	 UFKmU9sVo1jhp1siSPFBNdhP5/+HTcmDw/ZJG72onGz6ggZMRoSmaOzYuUutBa/+5+
-	 TQPkXjgQ4skbl4oTC1mFEoZ3pUrC0BOs7fpCsuW8=
-Date: Mon, 7 Feb 2022 18:09:17 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 08/66] dt-bindings: media: Add Allwinner A31 MIPI
- CSI-2 bindings documentation
-Message-ID: <YgFELcVluEqr9LAH@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-9-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4608E2F24
+	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 16:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=QcrPZVnpOsUdir5hCyEdJWhJ7fNz0EgpSbs0nJV/69M=; b=sZ6xlv0oWX5uQyN2qe5dxEqoA+
+	sBKZK+18TRJkLd5JGh17gdQku0bee0OWY/Ui/3e5o7qTt9Ucjtz85S03Xl2ywRM9BjkhM5SLydjXI
+	97ymstDHBk9OMgToMrIr7m6wXrMmS81HLgCGoRm1IjChSxpVzmkrEq2ChCieDwTYFfkXYAIviIYp5
+	49UmoV3ga0nOm/kzRUyy26ZigReZe+0opEfyxGXd09xTbkx0UlfbixnQ0Q7c10tiJgwwJ2olauqrr
+	xhUuUHmwPhFAh9qro25vXNfJehdIHw++i6zCLF//fuRqDJp5eWzGs2dPKVsJHy3Vm7ytK4Ek2I1kM
+	uaffy2Cw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nH6dS-001Ri8-2z; Mon, 07 Feb 2022 16:13:02 +0000
+Message-ID: <46818f0c-e05b-c984-967b-12d723f04550@infradead.org>
+Date: Mon, 7 Feb 2022 08:12:58 -0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-9-paul.kocialkowski@bootlin.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] staging: qlge: Fix checkpatch errors in the module
+Content-Language: en-US
+To: Ayan Choudhary <ayanchoudhary1025@gmail.com>, manishc@marvell.com,
+ GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com, gregkh@linuxfoundation.org
+Cc: netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220207071500.2679-1-ayanchoudhary1025@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220207071500.2679-1-ayanchoudhary1025@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+Hi--
 
-Thank you for the patch.
+On 2/6/22 23:15, Ayan Choudhary wrote:
+> The qlge module had many checkpatch errors, this patch fixes most of them.
+> The errors which presently remain are either false positives or
+> introduce unncessary comments in the code.
 
-On Sat, Feb 05, 2022 at 07:53:31PM +0100, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the Allwinner A31 MIPI
-> CSI-2 controller.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+I guess that most of these are warnings and not errors, but since none of
+them are quoted here, I cannot tell that for sure.
+
+> Signed-off-by: Ayan Choudhary <ayanchoudhary1025@gmail.com>
 > ---
->  .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 142 ++++++++++++++++++
->  1 file changed, 142 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+>  drivers/staging/qlge/Kconfig     |  8 +++++---
+>  drivers/staging/qlge/TODO        |  1 -
+>  drivers/staging/qlge/qlge.h      | 24 ++++++++++++------------
+>  drivers/staging/qlge/qlge_main.c | 12 +++++++++---
+>  drivers/staging/qlge/qlge_mpi.c  | 11 +++++------
+>  5 files changed, 31 insertions(+), 25 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..09207904b6db
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
-> @@ -0,0 +1,142 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/drivers/staging/qlge/Kconfig b/drivers/staging/qlge/Kconfig
+> index 6d831ed67965..21fd3f6e33d6 100644
+> --- a/drivers/staging/qlge/Kconfig
+> +++ b/drivers/staging/qlge/Kconfig
+> @@ -5,7 +5,9 @@ config QLGE
+>  	depends on ETHERNET && PCI
+>  	select NET_DEVLINK
+>  	help
+> -	This driver supports QLogic ISP8XXX 10Gb Ethernet cards.
+> +		This driver supports QLogic ISP8XXX 10Gb Ethernet cards.
+>  
+> -	To compile this driver as a module, choose M here. The module will be
+> -	called qlge.
+> +		Say Y here to enable support for QLogic ISP8XXX 10Gb Ethernet cards.
 > +
-> +title: Allwinner A31 MIPI CSI-2 Device Tree Bindings
-> +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: allwinner,sun6i-a31-mipi-csi2
-> +      - items:
-> +          - const: allwinner,sun8i-v3s-mipi-csi2
-> +          - const: allwinner,sun6i-a31-mipi-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +
-> +  phys:
-> +    maxItems: 1
-> +    description: MIPI D-PHY
-> +
-> +  phy-names:
-> +    items:
-> +      - const: dphy
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: Input port, connect to a MIPI CSI-2 sensor
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +        additionalProperties: false
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: Output port, connect to a CSI controller
-> +
-> +        properties:
-> +          reg:
-> +            const: 1
-> +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +        additionalProperties: false
+> +		To compile this driver as a module, choose M here. The module will be
+> +		called qlge.
 
-The two ports should be required.
+Anyway, please follow coding-style for Kconfig files:
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - phys
-> +  - phy-names
+(from Documentation/process/coding-style.rst, section 10):
 
-And ports should be required here.
+For all of the Kconfig* configuration files throughout the source tree,
+the indentation is somewhat different.  Lines under a ``config`` definition
+are indented with one tab, while help text is indented an additional two
+spaces.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> +
-> +    mipi_csi2: csi@1cb1000 {
-> +        compatible = "allwinner,sun8i-v3s-mipi-csi2",
-> +                     "allwinner,sun6i-a31-mipi-csi2";
-> +        reg = <0x01cb1000 0x1000>;
-> +        interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ccu CLK_BUS_CSI>,
-> +                 <&ccu CLK_CSI1_SCLK>;
-> +        clock-names = "bus", "mod";
-> +        resets = <&ccu RST_BUS_CSI>;
-> +
-> +        phys = <&dphy>;
-> +        phy-names = "dphy";
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            mipi_csi2_in: port@0 {
-> +                reg = <0>;
-> +
-> +                mipi_csi2_in_ov5648: endpoint {
-> +                    data-lanes = <1 2 3 4>;
-> +
-> +                    remote-endpoint = <&ov5648_out_mipi_csi2>;
-> +                };
-> +            };
-> +
-> +            mipi_csi2_out: port@1 {
-> +                reg = <1>;
-> +
-> +                mipi_csi2_out_csi0: endpoint {
-> +                    remote-endpoint = <&csi0_in_mipi_csi2>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-
+thanks.
 -- 
-Regards,
-
-Laurent Pinchart
+~Randy
