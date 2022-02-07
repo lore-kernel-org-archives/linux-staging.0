@@ -1,172 +1,117 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD692F28
-	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 14:18:57 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id m4so42628338ejb.9
-        for <linux-staging@lists.linux.dev>; Mon, 07 Feb 2022 06:18:57 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E102E2F28
+	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 14:20:22 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id o2so1739622lfd.1
+        for <linux-staging@lists.linux.dev>; Mon, 07 Feb 2022 06:20:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tfB/zROpbDPZLG78pKHBRJBlB4fwx1ChfM+AdqDD0XQ=;
-        b=pZrIanIvKRIMLV+bqgMmQkAsSfEdQjqG63Ye9+OXXvUo5mqE8v11izZJtJda1PK7+y
-         7dUdLZHu7+ps05pzUgXXziVTx/B+C5SYTQy7Mtdl2bSh8S6hK8vYAOeoACg7C9BEjZVF
-         DDnRZOrPI/nBwGBoSNCPFlCoeGqebUkQ6hRVfs5yGr37QE1mx660jeZZZqXwcmjfzyO+
-         Zy1Lg6XyeY3KHwgRf7NTnkJqqjoqF9uh9gn0hDQQ5vIJliA3KdF7xBHzyemNwSPa205p
-         NWNwcYgRJFob+HF6mGY44iSeqxHn95L0ei8an5bBUSQFnzjneFsFg4copji/vtg//x/t
-         Eydw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h3tbiA/lTi3RceFrCX7kiLbJf35Q7/dK3vulX9P+oDY=;
+        b=JW2DmgktGCtA3lWb39uboPmJ/rAOmziMI7D4FBMRu/JiWFb9Bc6bLr5fOzz9rFUAfJ
+         NK6wb12oDKAPKRhNZ/njTuhqH3rm2S+jbCUPptrfVJvn8Bh9pXKBZfHMjXjl0p95S50K
+         NNrKCnwFhWW81SOC1w3GvYNo4nEXMD87p0mGxYnboB44dBiB0ByLSCj0GZgs77XcvzyP
+         aIzQ9pxln+8wLs9D+DjrTuU8IKmK5Bd/hsPHf/c3vdguyYDc36ezSmZhb8eJOVDJKwOT
+         RdYOqBYM09vlVdcUbPMcjQWFdH/F1KPo3xWR51ptcNMmjXgu0DUVdnyJjBb/pVNZByL/
+         Y4Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tfB/zROpbDPZLG78pKHBRJBlB4fwx1ChfM+AdqDD0XQ=;
-        b=aWqHoc478kEEaFZ1mkITqxzK6Q9ok/dW+1phtnLKDNCxm+LrdE8S0EDpSVxXISHc+c
-         oMNyjekuZkO/hopnG01AHmofN8yZG6Y082fYFFYKziuRzWhK9SrSEwGnA/JtD4/gk+jn
-         u5egd/AquuZRUN22fO7YlKgPdGPIBfxUbjh3F9cqmibPyEhgdBD5V5hJpRIqNW8s3bFo
-         WcU2oytaZhMiPnJulJPc97MD9RbbDM0LbPGlZlhKYppZvCTm0UdFh1yUWkK9k9peQg10
-         EgNTnIRfu+c1Js9K9e2+yT4CSfxoxTdYAt5uwMoaH9TcmaVh/88apXsc98zkeLtT12wm
-         +p/g==
-X-Gm-Message-State: AOAM532x1XkrN5D0AVBK3lxvm+0uenIi3xmzRkWabXivMLBxwo6mKBo0
-	Bj3Ewnvxl+LH27Tq01BhhRM=
-X-Google-Smtp-Source: ABdhPJwkSTlEuTXCOARVUrk633TbxK1cwiIaELgL69VZlxplrlhknCUA8PbZxadhJj5PxhPV5/OIJw==
-X-Received: by 2002:a17:907:9622:: with SMTP id gb34mr10458178ejc.422.1644243535576;
-        Mon, 07 Feb 2022 06:18:55 -0800 (PST)
-Received: from leap.localnet (host-95-245-2-16.retail.telecomitalia.it. [95.245.2.16])
-        by smtp.gmail.com with ESMTPSA id cb18sm2267625edb.25.2022.02.07.06.18.54
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h3tbiA/lTi3RceFrCX7kiLbJf35Q7/dK3vulX9P+oDY=;
+        b=LffFw/VRVHTYywHSv39VfF7m8bwHQbChID7Ou4WSamR9e5uqL6GdbTPOF7ybXUTPU3
+         /R2Oz9jXn7C6jNB3g+us2ByOsshMrvUDfNbGFr/8GuOVQbK+ELwtLf5A8wjgmZXraYFr
+         T1xZFtH5mYnNnqivbbQr5LUxxWocYAtIBvNsj9Vh7Nst0knXO0FnYAQqbrvkZ1lvga6C
+         Y8J011nDKRcTM7qPZZHvmCq3dkx45WToBucYmnfaDfd96lMjjz5D0wiNS5iSyZk8Qi8y
+         6TMcdHb4PoZ5O9aCiNWpDzEaOZgJxkd8cj2RqjcjwwmntNoutsWYW7NV0NDye6GusNjk
+         8iYw==
+X-Gm-Message-State: AOAM531e1ZBWTqbC4DlfgPx8Iv+Gz4MbbvjIIljjZHjQdjWcZUBrLhIr
+	mF53wZ5Nd4nH3XwmPGulp/g=
+X-Google-Smtp-Source: ABdhPJz2jRYtIQf+VDpFxEpPreJRl6beEed6w0QevCoUzi6YYmwUUYAO93liG/ahZTUzdPK/TXnA8Q==
+X-Received: by 2002:ac2:59ca:: with SMTP id x10mr8666478lfn.499.1644243620782;
+        Mon, 07 Feb 2022 06:20:20 -0800 (PST)
+Received: from localhost.localdomain (109-252-138-165.dynamic.spd-mgts.ru. [109.252.138.165])
+        by smtp.gmail.com with ESMTPSA id t13sm1515599lfl.94.2022.02.07.06.20.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Feb 2022 06:18:55 -0800 (PST)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, phil@philpotter.co.uk, larry.finger@lwfinger.net, julia.lawall@inria.fr, linux-kernel@vger.kernel.org, Michael Straube <michael.straube@stud.uni-goettingen.de>, martin@kaiser.cx
-Subject: Re: [RFC] staging: r8188eu: Sleeping in atomic context (SAC) bugs
-Date: Mon, 07 Feb 2022 15:18:52 +0100
-Message-ID: <23161490.ouqheUzb2q@leap>
-In-Reply-To: <20220207092133.GE1951@kadam>
-References: <2111927.Icojqenx9y@leap> <20220207092133.GE1951@kadam>
+        Mon, 07 Feb 2022 06:20:20 -0800 (PST)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] Add V4L stateless video decoder API support to NVIDIA Tegra driver
+Date: Mon,  7 Feb 2022 17:19:33 +0300
+Message-Id: <20220207141937.13089-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 07, 2022 10:21:33 CET Dan Carpenter wrote:
-> On Mon, Feb 07, 2022 at 01:02:17AM +0100, Fabio M. De Francesco wrote:
+Support V4L stateless video decoder API by NVIDIA Tegra decoder driver.
+Tested using GStreamer [1] and libvdpau-tegra [2][8].
 
-Hello Dan,
+[1] https://github.com/grate-driver/gstreamer/commit/b8509bdbb69b534e61419ea1798f32f9ad2f3597
+[2] https://github.com/grate-driver/libvdpau-tegra/commit/f822e95911e5e0c39f8ba19f843ddc1e0138d5ce
+[8] https://github.com/grate-driver/libvdpau-tegra/commit/80db4d02369f2a984ce3173d6bc305f32e9fdb97
 
-Thanks for your exhaustive reply.
+Changelog:
 
-> > My first question is whether or not msleep() can be called in atomic context.
-> 
-> You are not allowed to call msleep() in atomic context.
+v3: - Added new decode_params flags [7] instead of V4L2_BUF_FLAG_*FRAME flags,
+      as was suggested by Nicolas Dufresne.
 
-OK, well. You confirmed what I was suspecting.
+      [7] https://github.com/grate-driver/gstreamer/commit/c5cd847f9c26b7669720ae58f9058de2515f51a2
 
-> The Smatch
-> check for sleeping in atomic did not look for msleep so I will update
-> it.
+    - Added new patch that removes legacy UAPI.
 
-I'm glad that my observations suggested you that update to Smatch :)
+v2: - Made V4L2_BUF_FLAG_*FRAME flags mandatory [3] and dropped reading
+      of raw bitstream from the driver code, as was suggested by
+      Nicolas Dufresne.
 
-> > If
-> > I understand its semantics and implementation it seems that it should be forbidden.
+      [3] https://github.com/grate-driver/gstreamer/commit/aee292f0f2e84b7654a314dd7e63f916888ffaa5
 
-Said.
+    - Ran v4l2-compliance [4] and fluster [5][6] tests, like was suggested by
+      Nicolas Dufresne. Fixed minor v4l2-compliance errors that were related
+      to a partial initialization of the coded format and were harmless in
+      practice, but made compliance checker unhappy.
 
-> > What about changing it to mdelay()? Again, it seems that mdelay() spins without 
-> > sleeping so it should be safe. Isn't it?
-> 
-> mdelay() is does not sleep,
+      [4] https://gist.github.com/digetx/5d6bcdab633488f1dcc7c141ab90d30e
+      [5] https://gist.github.com/digetx/b06c5d779e9d25afa41d9f46946fe399
+      [6] https://gist.github.com/digetx/ac4198bc340e5065aa8ec3288bb21356
 
-OK, again. It seems that I've been able to understand the different implementations 
-and semantics of msleep() and mdelay().
+Dmitry Osipenko (4):
+  media: v4l2-ctrls: Add new V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags
+  media: staging: tegra-vde: Factor out H.264 code
+  media: staging: tegra-vde: Support V4L stateless video decoder API
+  media: staging: tegra-vde: Remove legacy UAPI support
 
-> but it's not necessarily a good idea to
-> delay for a long time while holding a spinlock.
+ .../media/v4l/ext-ctrls-codec-stateless.rst   |    6 +
+ drivers/staging/media/tegra-vde/Kconfig       |    7 +
+ drivers/staging/media/tegra-vde/Makefile      |    2 +-
+ .../staging/media/tegra-vde/dmabuf-cache.c    |    2 +-
+ drivers/staging/media/tegra-vde/h264.c        |  946 +++++++++++++++
+ drivers/staging/media/tegra-vde/iommu.c       |    2 +-
+ drivers/staging/media/tegra-vde/uapi.h        |   73 --
+ drivers/staging/media/tegra-vde/v4l2.c        | 1018 +++++++++++++++++
+ drivers/staging/media/tegra-vde/vde.c         |  945 ++-------------
+ drivers/staging/media/tegra-vde/vde.h         |  121 +-
+ include/uapi/linux/v4l2-controls.h            |    2 +
+ 11 files changed, 2170 insertions(+), 954 deletions(-)
+ create mode 100644 drivers/staging/media/tegra-vde/h264.c
+ delete mode 100644 drivers/staging/media/tegra-vde/uapi.h
+ create mode 100644 drivers/staging/media/tegra-vde/v4l2.c
 
-Yeah, I agree with you. If I recall it well, somewhere I read a suggestion which
-says that one should avoid mdelay() for more than 1 ms while under spinlocks.
-
-Thus it looks like here we have a problem...
-
-The disable of bottom halves and the acquire of a spinlock is performed in 
-rtw_set_802_11_disassociate(). If "if (check_fwstate(pmlmepriv, _FW_LINKED))" 
-evaluates true, rtw_pwr_wakeup() (that is a macro defined as _rtw_pwr_wakeup())
-is invoked. In the latter function I see two conditional calls to msleep(10).
-
-Thus it is 10 milliseconds and I suppose that it is a huge amount of time under 
-spinlocks. Nevertheless, I think that we should use mdelay(10), unless with 
-proper tests we find out that 10 ms can be reduced a bit.
-
-A couple of months ago I made an analysis of a report by Syzbot that led to a 
-patch in the tty line discipline. That ftrace analysis was necessary to prove 
-that that SAC bug could hang an IOCTL for more than 8000 ms. 
-
-Why am I saying this? Suppose that one of those msleep(10) cannot recover within
-acceptable time, that 10 ms argument would behave like 100 ms, 1000 ms, or 
-even hang the driver indefinitely.
-
-I trust your words (as usually): "[] it's not necessarily a good idea to delay 
-for a long time while holding a spinlock". But what are the alternatives?
-
-1) Leave the code as-is with those msleep(10) and risk to hang the driver (or 
-the whole kernel?).
-2) Change msleep(10) to mdelay(10). It's a huge amount of time, but we are 
-guaranteed that it is safe.
-3) Change to mdelay() and try to figure out what's the minimum amount of time 
-that suffice. I forgot to say that those msleep(10) are within "while" loops, 
-therefore they are called an unknown amount of times.
-
-If we choose the third option, how can we test the driver and see if shorter 
-delays may work? Can you suggest a methodical approach for figure out the 
-minimum amount of delay that can work? I have the hardware, therefore I can 
-test the changes, but I'm not sure about how to do this work.
-
-Any other solutions?
-
-> > 
-> > Furthermore, I noticed that _rtw_pwr_wakeup() calls ips_leave(). The latter 
-> > acquires the "pwrpriv->lock" Mutex. Aren't we forbidden to call Mutexes while 
-> > holding Spinlocks?
-> 
-> Correct.  You cannot take a mutex while holding a spinlock.
-
-Again, thanks for confirming.
-
-> Where is the spinlock in taken in the code you're talking about?  If
-> it's rtw_set_802_11_disassociate() then that's fine.  The check for
-> if (check_fwstate(pmlmepriv, _FW_LINKED)) { will prevent ips_leave()
-> from being called.
-
-You're right: "if (check_fwstate(pmlmepriv, _FW_LINKED))" in _rtw_pwr_wakeup() 
-will prevent a call to ips_leave(). Therefore, it seems that we have no problems
-with the mutex in ips_leave(). 
-
-I had not noticed the above-mentioned "if" test. Sorry :(
-So, let's leave the code as it is.
-
-Thank you very much.
-
-Regards,
-
-Fabio M. De Francesco 
-
-> 
-> > My second question is: should we substitute that Mutex with a Spinlock and use 
-> > it everywhere else the struct "pwrctrl_priv" must be protected in the driver?
-> 
-> Changing Mutexes to spinlocks is tricky.  I can't review your proposed
-> patch before you send it.
-> 
-> regards,
-> dan carpenter
-> 
-> 
-
-
-
+-- 
+2.34.1
 
