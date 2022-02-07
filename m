@@ -1,98 +1,217 @@
-Received: from relay.hostedemail.com (relay.hostedemail.com [64.99.140.25])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DA02F25
-	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 10:25:45 +0000 (UTC)
-Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay11.hostedemail.com (Postfix) with ESMTP id 6CB1080BF7;
-	Mon,  7 Feb 2022 10:15:49 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id 2436320032;
-	Mon,  7 Feb 2022 10:15:48 +0000 (UTC)
-Message-ID: <a630d8381cee0f543e0d77614052e1d04ab162a5.camel@perches.com>
-Subject: Re: [PATCH] staging: pi433: remove need to recompile code to debug
- fifo content
-From: Joe Perches <joe@perches.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, Paulo Miguel Almeida
-	 <paulo.miguel.almeida.rodenas@gmail.com>
-Cc: gregkh@linuxfoundation.org, realwakka@gmail.com, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Mon, 07 Feb 2022 02:15:47 -0800
-In-Reply-To: <20220207100601.GF1951@kadam>
-References: <YgCj2P59AbFFmnbA@mail.google.com> <20220207100601.GF1951@kadam>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976522F21
+	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 10:35:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1644230148; x=1675766148;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Xm+zj6goisuqCJN2ekKk7zV6UfCUht5ppayoqpY1lLo=;
+  b=TOVul1DDBBd2MCO69CZRt9h9bxhT9NSeU7KwTzucRmAoX7fdycwZFXpJ
+   Ydx+l7fsHgCbzZFhFRXEeubHEAnpltS06H5wfVMO0qFIfborHp1TSb0/g
+   pCp8G6jdqAFE74nj8PcOHj3G/gHDUIN3yJAsUtSHmi5AbqxY+vC6MzUNH
+   AdOgEh3uh5wYj6vBrupMlxIXqBTM++8tzy3jJWKkvoKAOL3OSSdI3MTkp
+   XAIKPVfzWpTANld1GoS9qTknsmsnez2y1PniTjZgDcabZT28zTtmeLDX8
+   tLhkSq8LfcNsKARA8K2fagi/rhOpmPgWqUhnnl67sgNLXj4vP8jGu5GJY
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
+   d="scan'208";a="21929419"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 07 Feb 2022 11:35:46 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 07 Feb 2022 11:35:46 +0100
+X-PGP-Universal: processed;
+	by tq-pgp-pr1.tq-net.de on Mon, 07 Feb 2022 11:35:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1644230146; x=1675766146;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Xm+zj6goisuqCJN2ekKk7zV6UfCUht5ppayoqpY1lLo=;
+  b=MmbSuvaegsMgPBJuepzfmivdIWkhZRna2n4Sqnjr58yzD+JhcLGtv8Da
+   ueAxG3BIZGHNXvzzAeTZ8QVH4WXn5cJjpjy4YUVIdQpwJ+uWgdAvzuXRh
+   s77PdtYuDJcdZ1qXZ+fqflP+SaMJfDHTVIDIwhuCktlW7wc3Y3xIWIxDC
+   Fw0JQLpC7FvCC7knWNrsuxtrI3Bb5WSWQVWMvN+LVuAKsrVnOEKEzE3+J
+   zgtoZdUei70cHA+trHpDLVTPEElSCXbxSHoV7Zxh0tkhtKVdfT6LM9Mmn
+   ykTNl0643snNyPSqBd0QTm4MUkqjQsMYkzRPi9LYGetXrcxWAf4S3DMpO
+   A==;
+X-IronPort-AV: E=Sophos;i="5.88,349,1635199200"; 
+   d="scan'208";a="21929418"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 07 Feb 2022 11:35:46 +0100
+Received: from steina-w.localnet (unknown [10.123.49.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DFB01280065;
+	Mon,  7 Feb 2022 11:35:45 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>, Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: (EXT) Re: [PATCH 7/8] media: imx: utils: Add more Bayer formats
+Date: Mon, 07 Feb 2022 11:35:45 +0100
+Message-ID: <822120126.0ifERbkFSE@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <Yf3vmMP6EfjyeXOb@pendragon.ideasonboard.com>
+References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com> <20220204121514.2762676-8-alexander.stein@ew.tq-group.com> <Yf3vmMP6EfjyeXOb@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: gdaiunhuo3cpojycaapn86b5yftu8f9m
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 2436320032
-X-Spam-Status: No, score=1.41
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19ZvojUN0p0AY+LywIizjHrx1ajHsjTdOc=
-X-HE-Tag: 1644228948-472664
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 2022-02-07 at 13:06 +0300, Dan Carpenter wrote:
-> On Mon, Feb 07, 2022 at 05:45:12PM +1300, Paulo Miguel Almeida wrote:
-> > Debugging content present in the FIFO register is tricky as when we read
-> > the FIFO register that changes the content of fifo struct which reduces
-> > number of possible ways of debugging it. Rf69 uC has the possibility of
-> > triggering certain IRQs depending on how many items are in the FIFO
-> > queue, so being able to know what's in there is an important way to
-> > troubleshoot certain problems.
+Hi Laurent,
+
+Am Samstag, 5. Februar 2022, 04:31:36 CET schrieb Laurent Pinchart:
+> Hi Alexander,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Feb 04, 2022 at 01:15:13PM +0100, Alexander Stein wrote:
+> > Without this the ioctl VIDIOC_ENUM_FMT will not list the 10/12/14-Bit
+> > Bayer formats. This in return results in
+> > "v4l2-ctl --set-fmt-video pixelformat='RG10'" failing to set the
+> > pixelformat as it is not enumerated as supported format.
 > > 
-> > This patch removes the requirement of having to compile pi433 driver
-> > with DEBUG_FIFO_ACCESS set and let that be driven by printk verbositity
-> > level and/or dynamic debug config instead.
-> > 
-> > Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> 
+> Do IPUv3-based SoCs support 10-, 12- and 14-bit formats ? If so,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I'm no expert regarding IPUv3. But according to i.MX6D/Q RM Rev4 apparently 
+there is difference between Bayer format or "Generic data" 
+(CSI0_SENS_DATA_FORMAT: b011). Data width is set independently in 
+CSI0_DATA_WIDTH where 10-, 12- and 14-bit is supported (even the odd ones in 
+bewteen).
+I don't know if I got the right place, but [1] seems to do the mapping for 
+IPUv3 what imx7_csi_configure() is doing for CSI on imx7/8. The 
+MEDIA_BUS_FMT_Sxxxx14_1X14 formats are not added to the list yet though, but 
+that is a different matter.
+Unless someone objects I'm going forwards with this patch.
+
+Regards,
+Alexander
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/
+drivers/gpu/ipu-v3/ipu-csi.c#n302
+
 > > ---
-> > Meta-comments:
+> > This adds the following formats to `v4l2-ctl --list-formats`
+> > [...]
 > > 
-> > #1
-> > In my mind, I didn't like the idea of having to change the code and then 
-> > echo "module pi433 +p" > <debugfs>/dynamic_debug/control to only then
-> > be able to read stuff being sent/retrieved from fifo. It felt somewhat
-> > redundant at a certain level. On the other hand, I understand that
-> > removing the conditional compilation will force a for-loop to iterate
-> > for no real reason most of the time (max 66 iterations)... so I made a 
-> > trade-off and in case anyone disagrees with that, just let me know and I
-> > will be happy to change to a different approach.
+> >         [18]: 'BG10' (10-bit Bayer BGBG/GRGR)
+> >         [19]: 'GB10' (10-bit Bayer GBGB/RGRG)
+> >         [20]: 'BA10' (10-bit Bayer GRGR/BGBG)
+> >         [21]: 'RG10' (10-bit Bayer RGRG/GBGB)
+> >         [22]: 'BG12' (12-bit Bayer BGBG/GRGR)
+> >         [23]: 'GB12' (12-bit Bayer GBGB/RGRG)
+> >         [24]: 'BA12' (12-bit Bayer GRGR/BGBG)
+> >         [25]: 'RG12' (12-bit Bayer RGRG/GBGB)
+> >         [26]: 'BG14' (14-bit Bayer BGBG/GRGR)
+> >         [27]: 'GB14' (14-bit Bayer GBGB/RGRG)
+> >         [28]: 'GR14' (14-bit Bayer GRGR/BGBG)
+> >         [29]: 'RG14' (14-bit Bayer RGRG/GBGB)
 > > 
-> 
-> This is fine.  It's useful information to you.  It's makes the code
-> nicer by removing ifdefs.  It's not going to show up in benchmarking.
-> 
-> > #2
-> > In the past, it's been pointed out to me during code review that I tend
-> > to add code comments which could be omitted. In this case, the for-loop
-> > seemed a bit odd without explaining why it's in there. Let me know if
-> > you think I should keep/remove it.
-> 
-> Remove.  Everyone knows what dev_dbg() does and the "read from fifo"
-> vs "written from[sic] fifo" is built into the function name.
-> 
-> >  int rf69_read_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
-> >  {
-[]
-> > @@ -851,10 +844,9 @@ int rf69_read_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
-> >  
-> >  	retval = spi_sync_transfer(spi, &transfer, 1);
-> >  
-> > -#ifdef DEBUG_FIFO_ACCESS
-> > +	/* print content read from fifo for debugging purposes */
-> >  	for (i = 0; i < size; i++)
-> >  		dev_dbg(&spi->dev, "%d - 0x%x\n", i, local_buffer[i + 1]);
-> > -#endif
+> > [...]
+> > 
+> >  drivers/staging/media/imx/imx-media-utils.c | 72 +++++++++++++++++++++
+> >  1 file changed, 72 insertions(+)
+> > 
+> > diff --git a/drivers/staging/media/imx/imx-media-utils.c
+> > b/drivers/staging/media/imx/imx-media-utils.c index
+> > e0a256a08c3b..ea56c82d3b32 100644
+> > --- a/drivers/staging/media/imx/imx-media-utils.c
+> > +++ b/drivers/staging/media/imx/imx-media-utils.c
+> > @@ -130,6 +130,78 @@ static const struct imx_media_pixfmt pixel_formats[]
+> > = {> 
+> >  		.cs     = IPUV3_COLORSPACE_RGB,
+> >  		.bpp    = 8,
+> >  		.bayer  = true,
+> > 
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SBGGR10,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR10_1X10),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 10,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGBRG10,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG10_1X10),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 10,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGRBG10,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG10_1X10),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 10,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SRGGB10,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB10_1X10),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 10,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SBGGR12,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR12_1X12),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 12,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGBRG12,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG12_1X12),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 12,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGRBG12,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG12_1X12),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 12,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SRGGB12,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB12_1X12),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 12,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SBGGR14,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR14_1X14),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 14,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGBRG14,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG14_1X14),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 14,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SGRBG14,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG14_1X14),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 14,
+> > +		.bayer  = true,
+> > +	}, {
+> > +		.fourcc = V4L2_PIX_FMT_SRGGB14,
+> > +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB14_1X14),
+> > +		.cs     = IPUV3_COLORSPACE_RGB,
+> > +		.bpp    = 14,
+> > +		.bayer  = true,
+> > 
+> >  	}, {
+> >  	
+> >  		.fourcc = V4L2_PIX_FMT_SBGGR16,
+> >  		.codes  = IMX_BUS_FMTS(
 
-If you use
 
-	print_hex_dump_debug
-
-perhaps the DEBUG_FIFO_ACCESS could be removed.
 
 
