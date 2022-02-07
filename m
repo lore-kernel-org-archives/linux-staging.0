@@ -1,170 +1,251 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EA92F27
-	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 07:20:32 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21752HvA011697;
-	Mon, 7 Feb 2022 07:20:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type :
- content-transfer-encoding : in-reply-to : mime-version; s=corp-2021-07-09;
- bh=JmNj+ZQZf4vAIfUzyv3cH7wFzzCbL5ULkRnpIZ4W58Y=;
- b=UdLOikwk6RQN7Ki0SPbwYUlFeq7qPlQQKPMSRLwzFmenorD9P0nVF2OYRCwLzetkks1D
- x9hAfFNWpFEPqygbMmrIyMf7hgOYvmgAhXWYhk7vxV9Vxyvh3tZfVBO+XHIX9Y/qWsYN
- 3RAGofcAagSMxEa9EiNUttSFf8NTNfrNi2oo1Ol+2f0xHyyYasgj2p1tAKlSnf5eCHFM
- KVXi1gMoHB8l7HXehwlqf1vrMbCz3JwFNEzM+S6juvGAqVb/QKEMiF26X4tzPvYGLB9t
- HAbQ/P1Vv5zwM7owTnDz9U4L/vQoGLp5obfLwHW9/O72Bo1DT7GuHHTfd8SuqyYyERkc CQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3e1hsu54y1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 07 Feb 2022 07:20:29 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2177G0ev131083;
-	Mon, 7 Feb 2022 07:20:28 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
-	by aserp3030.oracle.com with ESMTP id 3e1f9cybyg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 07 Feb 2022 07:20:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E/ML9toFzQcl8vB4wds1Aq4uBY+kBntWcOmoeABWZiFAju/NCaO2rmYhA1ysXa4Po39OWZFckG4GG9EHnYHGySsORk6GwSda4085Ic66hX10CNDxVeOte3xbzOXnSCComPnDNQkgQNX4DO22UDBshwSefVJK+SEvNQIC//e+LgbElk8srCBaXhv5PnM3kD6IQ8BcEzb/7aa9PB72khdvuzNzedTuijGB5gFl1jz72L7GYJk9dnvzdEndyh/u2lW2uK4lUUd5+pTLtZN/w/AqaQdovURPAYeXIwEwDFl9MrPc0kHMSDRAjvY7RIGwanzLs1Slm/8ZQXIgzYZl8kgOww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JmNj+ZQZf4vAIfUzyv3cH7wFzzCbL5ULkRnpIZ4W58Y=;
- b=Lq9iG3+pK8E5H/kbKx6sNKBC65pa1trcLf9PVzJUoDEuvkhzsM9CKChqfxUsY2r/ZMX2US99y8IM1U1XxXc0Y9dtn18mZNrJu6TzgF/3hEisd01s8KMs3vS1cRZO0ph4tKEnHK2qTEC1piUP43IVh2Fq+sOBr+EJFIPZpt0YsH7i33Yz08WNXKKWIWv2xrv/MwvfFjehhJN2DRnXe8om7OKhiafglFyGXod0GJJI081KD1KUVnfeAeUAsgLK48xwSP9poBsj9tQ+Gw6MG9eUE7YUxR6CJbceVRpupHhcUj5YB5EVtToI4PzPnlDh6RlskvcDkfVstIA59dZmzBbUqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JmNj+ZQZf4vAIfUzyv3cH7wFzzCbL5ULkRnpIZ4W58Y=;
- b=JrM0ueyzTZj+e0MGrHCpl9RmF2U2wN+N6pwgJlr3SxXrKC8PD28I8RSldU89j7oliZ7Bz6H8bNzbzWCKisbd32xQs5H0zAfwAekF1pRUmwczahWgeEN4wqTNGhA80Yoq66bYbvXQ4vLst/TO0PXvj3jAyLjRculBiIlOIwuhIZ8=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by SA2PR10MB4570.namprd10.prod.outlook.com
- (2603:10b6:806:11e::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Mon, 7 Feb
- 2022 07:20:26 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::e5a5:8f49:7ec4:b7b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::e5a5:8f49:7ec4:b7b8%5]) with mapi id 15.20.4951.018; Mon, 7 Feb 2022
- 07:20:25 +0000
-Date: Mon, 7 Feb 2022 10:20:08 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] staging: gdm724x: Replace one-element array with
- flexible-array member
-Message-ID: <20220207072008.GA1951@kadam>
-References: <20220204232944.GA454945@embeddedor>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220204232944.GA454945@embeddedor>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0029.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::22)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38892F27
+	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 07:30:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B97CFC340F2;
+	Mon,  7 Feb 2022 07:30:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1644219022;
+	bh=X5x54A97y8sC6EJ8vY4+xVcfKe5Kr8eIeAtgrOdb7PI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=xmtiPzq6woXbK1rKgj2OauivMavcBfXFmLJKvZSk5GIXG/I+SFrdHFDJILqRgL/W2
+	 rn7hwL2vy4trbcFOg1xApr0a+0ErzQvEB6VmDpZH5SeZ3W5TagTwVeZF+dcBk3u4t9
+	 C8nbAotCa56GvhudBiXqqnsRUkNltECxmT6n3dI0=
+Date: Mon, 7 Feb 2022 08:30:18 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ayan Choudhary <ayanchoudhary1025@gmail.com>
+Cc: manishc@marvell.com, GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
+	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: qlge: Fix checkpatch errors in the module
+Message-ID: <YgDKikJ27pCq0lfZ@kroah.com>
+References: <20220207071500.2679-1-ayanchoudhary1025@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4f54adef-2745-400e-3aea-08d9ea0a4f55
-X-MS-TrafficTypeDiagnostic: SA2PR10MB4570:EE_
-X-Microsoft-Antispam-PRVS: 
-	<SA2PR10MB4570CFF8C2AF09552984C2D48E2C9@SA2PR10MB4570.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	vATQdFMe3L8q4mJofiH2aGJ3J/z1nig72x6Zq27Ee+Y6ETHPe13utdpsJuxb0coFqaBsNIGZUrF8UY4EmNN8u01jiwJSd80MEqhLdVqzq8tCSEi4oow+C2GJltG9YKlI7SRcUyiRPgin4LQNW8kMLUjZJreFMG5Wfa7QnsMJMOhiQbekJJMEQG8DsWmiFeGLC73hkwyt30UpLvJoY3v9rJ2ruuyYUVTDp6m7s8z5af044fT4oy1tagjO8SXHExmadxa+LO9EOSI827dnURxJzm6yiZzjmD+7K+W/3b35bqxUUTXq90UEbhQP0dTeqZ6kUIIllGiWeeSdY+crSh/J9rDUeGPlGh5GnPfEo94sWgGNYXOkxN2hL5ck151SspS9WEM/+bmpSvKRPSbY9BF5kNZ2rUj8O4OE/1uSl5yi8KHw+fgagOrSSZJQcauivyaAZzvafK8bXE+Kd61lZyohF72TN1FqY04HNzZDPaP8zbw29u/jo2NrRdGi79csbGRlbBaOLkCql2+5PHCr2Uv+RdDDHMwJZOJaK15/5YIDTf47tlOJWTdGVlLdHq++xegTi3WMPB+o/MTkHV/ZkRrMWabQhsv6fPD+NE09t9KaJGScfRleL93AeM5fSI6IGZt8GblAxYTwTvagtUcV0YZkIPSnOIMhbVEQxi+OwmJ5w+psgVP8VeVARipCpWf0Tfe7Wp/tpi9KQP7Pe1nlPPHh9ACYK9eWJMCWQ6g1MkmAjh82FAYiKxyJ9nLtse8pf6/JWzJajegS7b3Q6KgJBlfhPHOyLQwfj1Z5tgGZPFqVo/8IZRzfC7guH/STRJ9VQt52
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(44832011)(33716001)(8936002)(4744005)(2906002)(38100700002)(38350700002)(5660300002)(83380400001)(26005)(8676002)(186003)(4326008)(316002)(86362001)(6916009)(66946007)(66556008)(6666004)(33656002)(66476007)(9686003)(6506007)(1076003)(508600001)(52116002)(966005)(6512007)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?a25oNVRLckM1L212RjloUGJUcVFSZU9LNmVBQmlwN3NEQy9VN2ZldjErdUdM?=
- =?utf-8?B?eXRmdHpNWWcwaHZIK0w0VUVSdldRUzU0VFNqVWhvdHhuOHVJQk9ZQVVSakZP?=
- =?utf-8?B?bU1rZVJhdy9uRmlZTWJXSE5ZdGhJVnY5WlBpU0ZQeTZZZTBJL2g1NEsrUDVZ?=
- =?utf-8?B?UiswM1UvS05LNTNpWCtDenBGRE1rY1FUbnkzWGJhRmRoZ0V0SHZBcENrdE9h?=
- =?utf-8?B?RkFIQzY5ZGxZL2lTaEhCV1JlSWx3WE1oTkZiRmpvTCtFVllwUUtYK05ES3Fz?=
- =?utf-8?B?WDczM0hCWTVnZHhDTHZYTzU5RXNVdHp2eStxNU9NaktrTjB5VlRWb1FSTm0v?=
- =?utf-8?B?ZG81WHpGV3Z5UUs3Tmk4OEwxdTA5b0JDWWJON1FxeEhXNUI4dDJjU2dlOWhW?=
- =?utf-8?B?cjZmMkFaUjdONzM0ZFRGR083ai95UldPWVNySkpON0Z6QmgzZk53MnRvSXpZ?=
- =?utf-8?B?NGpNK1I4aXFpeXBuMk9aa3k2ZW9SVmxMY0FlS3hoVzNOVGdwMHN0K1NPc2Yz?=
- =?utf-8?B?b2ZNcFhnRnZ0clNVaERybXY3SmQxZlBBdkpONkRqMk45MmxVRkJ6N2lhMUZQ?=
- =?utf-8?B?T0RxaWF2eTloRDZ0U04yczVJdlc3M2d4UUhKdnNEeG9BbTl6WUVaTUl5Tzh3?=
- =?utf-8?B?S1JOWW5rN1pxL3RMc1pwRnZmc2kyaU5oYWp2blg3M28vcERYR3NoUnJHZXlr?=
- =?utf-8?B?UlJqMVFaSkNOQUpGNlBkdFlDYkxHRlNxQjBqUjlqQ01XMnZabkMyc1h2M3lW?=
- =?utf-8?B?d3E1M2FmZnE1T3pPb0VySDBIdlFuOFlRay9RMXloTFA1Wks4RzJxNG4wc1BR?=
- =?utf-8?B?LzBNblVaRVFvcjhvNDJaazl1bXo5ejViNnhFS1U1aUYzMEllaHJ5U0hHU3Fv?=
- =?utf-8?B?ZllJVDdKL0hpeW1YaWpzVHdIZkVJTGxueFUvSXpmTk9BVUVJQmltUHIwbkND?=
- =?utf-8?B?aTVQY3grT1l6b2tqTXp0VnNNS0w5azJFakhnZkhkREVvTFdtditjbDBxK2ht?=
- =?utf-8?B?TmMxeWxGWUlkM0d4eDRGKzIyWUNucmJaaC9vSVNZUTJRUjFPL0FQUGV2akJ2?=
- =?utf-8?B?dXFtN24rcCtIUGRIOUQrRTNYUG9DUno2L05IQlltL1Y5S2RJcFpUQVJJdXM1?=
- =?utf-8?B?UFpBR0dRc1dXbDd3N0dCci92QnJudkhGbWovOThHVXRuRE1qZEpBU0xaQnJw?=
- =?utf-8?B?a2ZsQk1iWjZKUTNDdFkwZjUrWVlPVHRXNFB1YXRTV3pVYlVodDVHSFZyVVpu?=
- =?utf-8?B?QnBpR2NoUXNpdzRYR2hkTE54cHBXSEg5VHlHaWV4UzBFY3dIVGpQcGlTSkZS?=
- =?utf-8?B?Mjc2V2FMQ1MrZXVaWUhGTlZPOWtpdVhNNkluSWs0Kzd2TGU2Y3B2RFoyMktG?=
- =?utf-8?B?YUxOQkMwdDUwbE92TC9uWjgybGFPT2Uxc290MzN3MHNjbFdNS3pSUmJ3enBp?=
- =?utf-8?B?RlRFNXlrVkY4dlJ2dDR5bUlpTnk2NmhHTFlMWkMwMFNCMXY2V0x1T05pVUlS?=
- =?utf-8?B?c2lSektBOUovMmU4djNvU05iN1VUekhCMnBGcHdTWnRSV2NCWFZnWHA5VjVJ?=
- =?utf-8?B?SE9ZT0hTWmE0WkxRU0tuZDhSZmh6VmFUZFYxNEZ0WDlOS0dhMmdEZHcwTU13?=
- =?utf-8?B?TDBlUy9JbkkrZmlHVEdzZUZ6WHJqbHRuTmpCT2NGQ1FyVmh1aWJKanRIZkZE?=
- =?utf-8?B?ZmJqVWN0WmFKUi8zbFRqeFdzNDlzUW9MNzdGOVF0Y0NVYjVtNUQrM0huSzY1?=
- =?utf-8?B?NXpTZFlIemtlT0hCVlczTHdpNytQVkxXRi91YWZJRTM5elFjWUNrbFJjajlk?=
- =?utf-8?B?bHRJTnQ5RzlKQXpuRUJJbWJpeXcrbzFXZGxQeVlldFQrRE1hRVVPWTJldWo3?=
- =?utf-8?B?SHpzNUhNbEdjQ1h4NUJLRXpKL1JncHR4QXBlUkR2VUhDREQwaVRGYU1leVgz?=
- =?utf-8?B?ZUVxVjdEOE5yTjViTGJnZzd6d052WU9leUhsaG9oUk5mS0xiMXQ0S2s3V0M3?=
- =?utf-8?B?aSs4OUM1ZmhRZ0p4ZGFvTzhqYnArTGZWem1MUjNXY09nQnVSMU5aTGMxN29o?=
- =?utf-8?B?M21obldMRHllSVNDUnhIL3B1OG9YWFBNS1lJZ0ZTOEtRRHZGRmQ5QVhINXB4?=
- =?utf-8?B?c1NZbWl5N3Jrckh0c0NlTnNOOXpUQzdad2lGdXMvZjkxMWpCYnFDMzJ2Vmc1?=
- =?utf-8?B?MWFlRm1jbGZaYUFVcUJZVS9vYzFjYnNJczF2amRHeTU4Zk1PRDBhY3lQSk85?=
- =?utf-8?B?VXptblZlQ0t4aVJXMmIwQmM3aVpBPT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f54adef-2745-400e-3aea-08d9ea0a4f55
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 07:20:25.2600
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PkwW1ghO51e7WWysk9kMakiFH4re/Z+j0eNayMKLimxcI+uJS80WgRCOEgcx5r5ths8Jhnyw+IDCIOAm+uuEMEm4xe1bf68qzVCL4HigqkM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4570
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10250 signatures=673430
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 adultscore=0
- mlxlogscore=999 suspectscore=0 mlxscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202070048
-X-Proofpoint-ORIG-GUID: j54lMmDRCdJPK66Bn5QaKYzlNFyMCBln
-X-Proofpoint-GUID: j54lMmDRCdJPK66Bn5QaKYzlNFyMCBln
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220207071500.2679-1-ayanchoudhary1025@gmail.com>
 
-On Fri, Feb 04, 2022 at 05:29:44PM -0600, Gustavo A. R. Silva wrote:
-> There is a regular need in the kernel to provide a way to declare having
-> a dynamically sized set of trailing elements in a structure. Kernel code
-> should always use “flexible array members”[1] for these cases. The older
-> style of one-element or zero-length arrays should no longer be used[2].
+On Sun, Feb 06, 2022 at 11:15:00PM -0800, Ayan Choudhary wrote:
+> The qlge module had many checkpatch errors, this patch fixes most of them.
+> The errors which presently remain are either false positives or
+> introduce unncessary comments in the code.
 > 
-> This helps with the ongoing efforts to globally enable -Warray-bounds
-> and get us closer to being able to tighten the FORTIFY_SOURCE routines
-> on memcpy().
+> Signed-off-by: Ayan Choudhary <ayanchoudhary1025@gmail.com>
+> ---
+>  drivers/staging/qlge/Kconfig     |  8 +++++---
+>  drivers/staging/qlge/TODO        |  1 -
+>  drivers/staging/qlge/qlge.h      | 24 ++++++++++++------------
+>  drivers/staging/qlge/qlge_main.c | 12 +++++++++---
+>  drivers/staging/qlge/qlge_mpi.c  | 11 +++++------
+>  5 files changed, 31 insertions(+), 25 deletions(-)
 > 
-> This issue was found with the help of Coccinelle and audited and fixed,
-> manually.
+> diff --git a/drivers/staging/qlge/Kconfig b/drivers/staging/qlge/Kconfig
+> index 6d831ed67965..21fd3f6e33d6 100644
+> --- a/drivers/staging/qlge/Kconfig
+> +++ b/drivers/staging/qlge/Kconfig
+> @@ -5,7 +5,9 @@ config QLGE
+>  	depends on ETHERNET && PCI
+>  	select NET_DEVLINK
+>  	help
+> -	This driver supports QLogic ISP8XXX 10Gb Ethernet cards.
+> +		This driver supports QLogic ISP8XXX 10Gb Ethernet cards.
+>  
+> -	To compile this driver as a module, choose M here. The module will be
+> -	called qlge.
+> +		Say Y here to enable support for QLogic ISP8XXX 10Gb Ethernet cards.
+> +
+> +		To compile this driver as a module, choose M here. The module will be
+> +		called qlge.
+> diff --git a/drivers/staging/qlge/TODO b/drivers/staging/qlge/TODO
+> index c76394b9451b..3b57a36d867c 100644
+> --- a/drivers/staging/qlge/TODO
+> +++ b/drivers/staging/qlge/TODO
+> @@ -30,4 +30,3 @@
+>  * fix weird line wrapping (all over, ex. the ql_set_routing_reg() calls in
+>    qlge_set_multicast_list()).
+>  * fix weird indentation (all over, ex. the for loops in qlge_get_stats())
+> -* fix checkpatch issues
+> diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
+> index 55e0ad759250..7de71bcdb928 100644
+> --- a/drivers/staging/qlge/qlge.h
+> +++ b/drivers/staging/qlge/qlge.h
+> @@ -45,9 +45,8 @@
+>  /* Calculate the number of (4k) pages required to
+>   * contain a buffer queue of the given length.
+>   */
+> -#define MAX_DB_PAGES_PER_BQ(x) \
+> -		(((x * sizeof(u64)) / DB_PAGE_SIZE) + \
+> -		(((x * sizeof(u64)) % DB_PAGE_SIZE) ? 1 : 0))
+> +#define MAX_DB_PAGES_PER_BQ(x) ((((x) * sizeof(u64)) / DB_PAGE_SIZE) + \
+> +		((((x) * sizeof(u64)) % DB_PAGE_SIZE) ? 1 : 0))
+>  
+>  #define RX_RING_SHADOW_SPACE	(sizeof(u64) + \
+>  		MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN) * sizeof(u64) + \
+> @@ -1273,7 +1272,7 @@ struct qlge_net_req_iocb {
+>   */
+>  struct wqicb {
+>  	__le16 len;
+> -#define Q_LEN_V		(1 << 4)
+> +#define Q_LEN_V		BIT(4)
+>  #define Q_LEN_CPP_CONT	0x0000
+>  #define Q_LEN_CPP_16	0x0001
+>  #define Q_LEN_CPP_32	0x0002
+> @@ -1308,7 +1307,7 @@ struct cqicb {
+>  #define FLAGS_LI	0x40
+>  #define FLAGS_LC	0x80
+>  	__le16 len;
+> -#define LEN_V		(1 << 4)
+> +#define LEN_V		BIT(4)
+>  #define LEN_CPP_CONT	0x0000
+>  #define LEN_CPP_32	0x0001
+>  #define LEN_CPP_64	0x0002
+> @@ -1365,7 +1364,7 @@ struct tx_ring_desc {
+>  	struct tx_ring_desc *next;
+>  };
+>  
+> -#define QL_TXQ_IDX(qdev, skb) (smp_processor_id() % (qdev->tx_ring_count))
+> +#define QL_TXQ_IDX(qdev, skb) (smp_processor_id() % ((qdev)->tx_ring_count))
+>  
+>  struct tx_ring {
+>  	/*
+> @@ -2030,9 +2029,9 @@ enum {
+>  	STS_PAUSE_STD = 0x00000040,
+>  	STS_PAUSE_PRI = 0x00000080,
+>  	STS_SPEED_MASK = 0x00000038,
+> -	STS_SPEED_100Mb = 0x00000000,
+> -	STS_SPEED_1Gb = 0x00000008,
+> -	STS_SPEED_10Gb = 0x00000010,
+> +	STS_SPEED_100MB = 0x00000000,
+> +	STS_SPEED_1GB = 0x00000008,
+> +	STS_SPEED_10GB = 0x00000010,
+>  	STS_LINK_TYPE_MASK = 0x00000007,
+>  	STS_LINK_TYPE_XFI = 0x00000001,
+>  	STS_LINK_TYPE_XAUI = 0x00000002,
+> @@ -2072,6 +2071,7 @@ struct qlge_adapter *netdev_to_qdev(struct net_device *ndev)
+>  
+>  	return ndev_priv->qdev;
+>  }
+> +
+>  /*
+>   * The main Adapter structure definition.
+>   * This structure has all fields relevant to the hardware.
+> @@ -2097,8 +2097,8 @@ struct qlge_adapter {
+>  	u32 alt_func;		/* PCI function for alternate adapter */
+>  	u32 port;		/* Port number this adapter */
+>  
+> -	spinlock_t adapter_lock;
+> -	spinlock_t stats_lock;
+> +	spinlock_t adapter_lock; /* Spinlock for adapter */
+> +	spinlock_t stats_lock; /* Spinlock for stats */
+>  
+>  	/* PCI Bus Relative Register Addresses */
+>  	void __iomem *reg_base;
+> @@ -2116,7 +2116,7 @@ struct qlge_adapter {
+>  	u32 mailbox_in;
+>  	u32 mailbox_out;
+>  	struct mbox_params idc_mbc;
+> -	struct mutex	mpi_mutex;
+> +	struct mutex	mpi_mutex; /* Mutex for mpi */
+>  
+>  	int tx_ring_size;
+>  	int rx_ring_size;
+> diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+> index 9873bb2a9ee4..6e4639237334 100644
+> --- a/drivers/staging/qlge/qlge_main.c
+> +++ b/drivers/staging/qlge/qlge_main.c
+> @@ -3890,7 +3890,7 @@ static int qlge_close(struct net_device *ndev)
+>  	 * (Rarely happens, but possible.)
+>  	 */
+>  	while (!test_bit(QL_ADAPTER_UP, &qdev->flags))
+> -		msleep(1);
+> +		usleep_range(100, 1000);
+>  
+>  	/* Make sure refill_work doesn't re-enable napi */
+>  	for (i = 0; i < qdev->rss_ring_count; i++)
+> @@ -4085,7 +4085,11 @@ static struct net_device_stats *qlge_get_stats(struct net_device
+>  	int i;
+>  
+>  	/* Get RX stats. */
+> -	pkts = mcast = dropped = errors = bytes = 0;
+> +	pkts = 0;
+> +	mcast = 0;
+> +	dropped = 0;
+> +	errors = 0;
+> +	bytes = 0;
+>  	for (i = 0; i < qdev->rss_ring_count; i++, rx_ring++) {
+>  		pkts += rx_ring->rx_packets;
+>  		bytes += rx_ring->rx_bytes;
+> @@ -4100,7 +4104,9 @@ static struct net_device_stats *qlge_get_stats(struct net_device
+>  	ndev->stats.multicast = mcast;
+>  
+>  	/* Get TX stats. */
+> -	pkts = errors = bytes = 0;
+> +	pkts = 0;
+> +	errors = 0;
+> +	bytes = 0;
+>  	for (i = 0; i < qdev->tx_ring_count; i++, tx_ring++) {
+>  		pkts += tx_ring->tx_packets;
+>  		bytes += tx_ring->tx_bytes;
+> diff --git a/drivers/staging/qlge/qlge_mpi.c b/drivers/staging/qlge/qlge_mpi.c
+> index 96a4de6d2b34..6020e337fc0d 100644
+> --- a/drivers/staging/qlge/qlge_mpi.c
+> +++ b/drivers/staging/qlge/qlge_mpi.c
+> @@ -935,13 +935,12 @@ static int qlge_idc_wait(struct qlge_adapter *qdev)
+>  			netif_err(qdev, drv, qdev->ndev, "IDC Success.\n");
+>  			status = 0;
+>  			break;
+> -		} else {
+> -			netif_err(qdev, drv, qdev->ndev,
+> -				  "IDC: Invalid State 0x%.04x.\n",
+> -				  mbcp->mbox_out[0]);
+> -			status = -EIO;
+> -			break;
+>  		}
+> +		netif_err(qdev, drv, qdev->ndev,
+> +			  "IDC: Invalid State 0x%.04x.\n",
+> +			  mbcp->mbox_out[0]);
+> +		status = -EIO;
+> +		break;
+>  	}
+>  
+>  	return status;
+> -- 
+> 2.17.1
 > 
-> [1] https://en.wikipedia.org/wiki/Flexible_array_member
-> [2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-length-and-one-element-arrays
 > 
-> Link: https://github.com/KSPP/linux/issues/79
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+Hi,
 
-regards,
-dan carpenter
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
