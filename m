@@ -1,220 +1,173 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A342C80;
-	Mon,  7 Feb 2022 09:14:46 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 33CCD580162;
-	Mon,  7 Feb 2022 04:14:45 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 07 Feb 2022 04:14:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; bh=fRedpbJvF62LRmBCsc4UAgTChCDz35rCa9c3ci
-	2rzcE=; b=E3qLLFzZ7x27Y6LGYr9p5KyryCJBq0fTvrNw8LxbhkWgm7tWSOr5Wc
-	JbnbxsFuSUsPU3AMWGoXXkwVyYzsPpd7cKMxraS+vfBOsAP6RXX6VIAxE6T7K9GL
-	tch10X6ZnAE59xSqMoY1qbzvn0B6EbWLJyrbGQ/2MLZRp6tQikW8gCgm3Jd5Q1Na
-	SpU2MQFalf6xGxasAd4dASM241RuGZeLsOA5OmgA/u3y8UVxzYwIowmaFwju4phk
-	g25SMC1J+QSqQOhim6zIu7/GvlE94Pu0yc17hjRWbrcZn6DDmaesxNi3IZvGSx27
-	UP7+Iz5lBA1oCr6o61fS4vzkmD1FtNQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=fRedpbJvF62LRmBCs
-	c4UAgTChCDz35rCa9c3ci2rzcE=; b=QP8p8FYH3pvD7d5o73KBj4vhjRLiR+z9z
-	TRrN7+R3EANMTHy3iMoJMNC7TaEO9SRLNwbd4oD3WyehaIsrK3qPRbW738g6Qj4u
-	v0jkHQNQFJ0EyyGGnEcd8A9CkKtVRUDIzQQAxkj1uZ3QkunlEnPKJgSimILD9k3d
-	5GlvvDy3zSDfGQSR8WooaX9GvuckVe/r2+Y+llLHLftrxSxEvbxB++ifo57gXMBs
-	ErTLfM0lQ8nNwkPwXXzzQyeU7CS3Liz+ryqSQC+hT4zqQgIpmwWWdfi+YT5TMKAT
-	6LH46blhcSIhS8POJVIkcI0LJL+bWGEogY7QQBlxLTuIrEDyIy4uQ==
-X-ME-Sender: <xms:BOMAYof3azcAMomihQa81XeO9zKQSU-8KIHkUfBbEyybbkjMAd5aEw>
-    <xme:BOMAYqPKxSP612NB0OXpxSqHnFK0CizFjiKI7LR-8tqS0E9rVVKyW4fqNIiBBrx87
-    T0v0ERqN-yZ47h8D50>
-X-ME-Received: <xmr:BOMAYpgR6g7_ov9BmI-SHxq4Ybisztl25b3RuX-0aEACVGWdtOp4HBthtUMm0tpFIgUUpPYXseaykQMhFR5GAN0nJYtDZuasCRdSggA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehucetufdoteggodetrfdotffvucfrrh
-    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhi
-    phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnh
-    epleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieehgedunecu
-    vehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimh
-    gvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:BOMAYt95e_K_S2BJ39m6qk3bwJtnzmCnYmQakNATBSOYfQNFsOE00Q>
-    <xmx:BOMAYksC6SXMDwIp4SsPpfxLzLUKyOnUEDIYn_WB1qgqGKjjAXVPng>
-    <xmx:BOMAYkH4TyTnCiaOxgClyHSG7EGI69UQ6mn8MtCJKjN8CCV9Nzjd5A>
-    <xmx:BeMAYvmg5KmshTQre1NNgPJa3WL6YlgrtRHk_zHrWpDIsD7YlpNEiw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 04:14:44 -0500 (EST)
-Date: Mon, 7 Feb 2022 10:14:43 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 21/66] media: sun6i-csi: Always set exclusive module
- clock rate
-Message-ID: <20220207091443.cr5udv7fxx65ptty@houat>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-22-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06B92F25
+	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 09:22:19 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2177lSj5003588;
+	Mon, 7 Feb 2022 09:22:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=IVysGkHHqGOnIyhRzbyCbqePSQEOTLpdECc5Ws6ywd0=;
+ b=qVqqU3Tqi873vVwx3RejAxzAGEtIw/UaKf8lf4HBjSMth6TJ4Dzc+/edfiC2jne11YOj
+ +4mHj9tV2PjZp1AGi0HDv051Mnbh/yd8k6i572DI+ydagmgrraEkOuMZ07TbR3gGEtjX
+ BOm770PqkMivGf3S1byLKtdcR5dild4PcvgnWtK8edh0Ga8wieKNw13ZG/JB2bVus5m7
+ EqYRATUIs9+pZcMNQScm62OUb/EHkeIxetOD/qL0t3eH2LUXSM6zYCNssxVvahnhd387
+ LZ993g1qB8Y95dtOp9hciaXRVm73q+F8JY7/PKqxYLMB896Cpp7I4x1h7FZ3y6vqcj+u mg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3e1g13nn6q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 07 Feb 2022 09:22:05 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2179BUJD067773;
+	Mon, 7 Feb 2022 09:22:03 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44])
+	by aserp3020.oracle.com with ESMTP id 3e1h241rv9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 07 Feb 2022 09:22:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X8hpod0aDrGsEedyBgXuddjkbhSUj7wmlvVMDwu+KWVgGM5sQHFM94S67Wn7hrbEj004jZbkpqLO9A8303EXCnRDztqUUPp40VIfD5uKATLdMXd8rquw2Ts+iob/61rUsl4OkMZh9Df2KPVmrVGqc80R6CNC/8LB6fbzyK8/IGrz1dVbPb1kxW4mXR7lYC26UHreUx8UTgaD7t9PWGB34+wZfEMPT4CFQAj5p/P+/kC9/FxPCEeY4JzFuP3pNgyZjShVOHMdohYEbbDKXE4tEQZDvOCG98j0dm4xcvMFOGyEqsqs7izqL2EVw9XNO/o8QR9j3kmI52ARtj2Hf7rEqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IVysGkHHqGOnIyhRzbyCbqePSQEOTLpdECc5Ws6ywd0=;
+ b=DgG+kW4e+CJkxCoyJvFR3rWFRYE6RoanZkXIavXAB7SXM2xIQAd8YrOoYlLCKfOXdAtH7yg8zAQslbTMue2gRkbWcmz1Dj5E4IQOZNBxdT0/6BMmTK9WHrRYtAVbfXsSqR8M7DREvIjjPM/ct74yRypcAvpeUirqtrZseh3YyqWFpI3A2QtpUQ8lFjsvscMUwumSNHlgKp4fnMlA/qc6DYKiimVdzvmbNfadaTmcEYTuvgQF3I3J/GBnwkajtD6wfHxHVjk29I5g8Ft7/eaPfB940braJOUb9PSDldiG3J1kIcCMiJs4qrfgy9tzcRy7I3LrrUJwjJO9sOGH+oMnTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IVysGkHHqGOnIyhRzbyCbqePSQEOTLpdECc5Ws6ywd0=;
+ b=A+sfRiq8911H17oLxPDkv7UPNEAhxJWXWSFoqPgc3ZQNhq/fDkOMvUqWCQvuuB+SBAK0BHViiludkcpqoiMT4ZeGBLzPJwIJTdQmQMG3RsW8kVGDbCTVTnXPLzKz/e1fMv/Uz52Th73UHeOYb3+pgIpOnhDImRv6bw4Hq94mIkg=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by DS7PR10MB4976.namprd10.prod.outlook.com
+ (2603:10b6:5:3a5::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Mon, 7 Feb
+ 2022 09:22:01 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::e5a5:8f49:7ec4:b7b8%5]) with mapi id 15.20.4951.018; Mon, 7 Feb 2022
+ 09:22:01 +0000
+Date: Mon, 7 Feb 2022 12:21:33 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
+        phil@philpotter.co.uk, larry.finger@lwfinger.net,
+        julia.lawall@inria.fr, linux-kernel@vger.kernel.org,
+        Michael Straube <michael.straube@stud.uni-goettingen.de>,
+        martin@kaiser.cx
+Subject: Re: [RFC] staging: r8188eu: Sleeping in atomic context (SAC) bugs
+Message-ID: <20220207092133.GE1951@kadam>
+References: <2111927.Icojqenx9y@leap>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2111927.Icojqenx9y@leap>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0063.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::21)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="x7fslyfuomspr4ek"
-Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-22-paul.kocialkowski@bootlin.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4803fa54-6204-46e5-d1b3-08d9ea1b4bc3
+X-MS-TrafficTypeDiagnostic: DS7PR10MB4976:EE_
+X-Microsoft-Antispam-PRVS: 
+	<DS7PR10MB49764CC6D7006BF62B4F22A78E2C9@DS7PR10MB4976.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	8yXlB4NcvjJzbCDRxQ41NPGfJsKC+UJ/IC4R4T++Q5AWbRQYLCQ0Nxskd8mYIWWPrCMRGjMaHfdefceirkM+f758bb0kHKnrGpi40qHUdgfgkh1i72qT7KTQ4QslT/KmrS/Pv9fago2Rkk+m9npdd738matlVE7bNNkuov479KSDPTf3ZYsBBNs2wOSAJtO/E3my6mR/nvkkm1t0KtFtBB1W51jdZEdZXWJEdRmycOeWeZp/Y/2v2gns9cJFcDHSpflFOi0rVkFbV2+bipK/qA5Hrh4UvodNco4GKgHxGiXnnsk+zyE8UJqL49Fvxfae/gRvWxM8UCzs5qicVsFyfS8C4Wnu/sJ/rBK6BVIDbGK14Ve/YeDKqSMVw5mcgTajHt4w0NAi7THomvz0uf/gXVu0frfV7wwhjxHQMBmNF65Dur7dyJghTkcDFqvIBRpNLjheGznfGXKUNm0XK9dmDWtMEZlQFYob8GDqOWUyWeBG3K6xJGsQFtZmwHnbLkcLNzEw1yc0YhvSGtAipBsWwuZYDMl2DcLh7Yy/dKVpF3T0KNMneC+mbUTn7jVcqXLetJLhvsaCdVHeF8+FY4SvHQsVyx+o/dyWKklTTq8sGOTKW9cPPXYy9p9w4BuCjcFptPkFka0olWd1SdHsBe6l4VqPJ2EsDE24U3KYmSH4pnHJQ3E9aVGLuAgpF7IZuhVKZR/z2FK1ElYKvS3l0TSg5g==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(186003)(2906002)(38350700002)(86362001)(6486002)(44832011)(38100700002)(83380400001)(26005)(33716001)(1076003)(5660300002)(66946007)(4326008)(8936002)(8676002)(66556008)(66476007)(9686003)(52116002)(6506007)(6916009)(6666004)(6512007)(33656002)(316002)(508600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?eg4K3KfbPXu11Lrdz92VSGVBT5nV8/JSvPApZGZexlT/sb1hK6LrBemKIFRh?=
+ =?us-ascii?Q?v5D6Rq0a0L6vTU0VBfnL57JjR2h6EYHTnGoEaTbwWYJW5messtJzMdrMNwv8?=
+ =?us-ascii?Q?gQgKJeu3Lxf8AR/FEVbfnTufpze1lxIlARIeOCLv0VFl9cxncIFIT/lNt/v6?=
+ =?us-ascii?Q?Pd0D/e7c7S6Zkmr4iKosS+JVT4e0/QPwmRJKBN/n3axKBCljl5nuxn1WEgWM?=
+ =?us-ascii?Q?/83+ZuQWlIEHs/c39G8k4QLnu+N1HkKSaklb8jLHj0bmcwUXumbWvCrUNmte?=
+ =?us-ascii?Q?VEdFqDJ7rBvKiZ4ZGsTAzsIyj/ewzX1Il+7ukzuXMcJDSp/DzHEda3MXZOMP?=
+ =?us-ascii?Q?Q1Rw3UKfr8qmaVsS19GEiQrqxu7SfTPocaeaBeubx1N7nFHqJVRrD3LbnPNp?=
+ =?us-ascii?Q?stZt3LKn7kQOFfaXhrfo28MRSPoCObfqV1EtG62hyPHudLQkN3tDNS4OjWU7?=
+ =?us-ascii?Q?2h+yYO5uDkJR+r/10t5Q/BLM/8iLSh6tX6LO1+1NmBERWLg1TMo4G22S6mcc?=
+ =?us-ascii?Q?ko61zfFcW5VhU7vTByPRyEd1owhYtQLlDRWUE2SCePH8fOvDTLQLQq/wp5Nj?=
+ =?us-ascii?Q?0l2GqnS2nosqnQ9vVsjiWWNwyTDvoGpmGPKH1sm9xnqDvleJ9KSjFSjYNMYY?=
+ =?us-ascii?Q?yORfurWnK7Pabc528t878Lyrdl7jR0uQ+Dgr1h1xOd85VHW4Rh6rH6GFXByW?=
+ =?us-ascii?Q?6FL+94jw+EJGR5OJjMibBmekz8wV3YsY9um12xw2XrN5217bb4IX5tJfZ1u+?=
+ =?us-ascii?Q?0XgfK+6rXTPMY+qS3CbQmSw/xabdmFSc7Jm1/rwy6Z/U4oHDkJbqv7tC0Yn3?=
+ =?us-ascii?Q?p9bb+g4AnP9pEm1dKcb43ocWszsi46YHC+dNJ8bqBYiXpeBXBftM2Lmu07VG?=
+ =?us-ascii?Q?lWxReMbMyEF7Be/e0dH6aJf9EjPSZZpXwrC1iOvOQBaV5HWe/Bi9/ImOMLPB?=
+ =?us-ascii?Q?53jEWEQZhgYLuKVrHHPDk7xJx5SpqaVKEWWSo5nHkOwrS0ZZlESfUz0pnALA?=
+ =?us-ascii?Q?IKj1C2uZIFqD9HNtf3aOig+V20erYhS1kY2DRyeAAGV80+NQvWL5R4jO+0at?=
+ =?us-ascii?Q?JYYj2Eh08hhhS2kb/v5BoD+EjfaFiIYiIsSObBsIB7s2E/vevVpu0y3tY2R/?=
+ =?us-ascii?Q?UjKCl9UM//IoXITx8GzB8XlnLhxn+KsAC6Pmpt/n4NcwPjsJnFNHHXaixXlH?=
+ =?us-ascii?Q?iIGnhyLa6/iYdYmNo+ns6/AsRfFtmOdQ+FBSDEqm+oyj10CiUBqQnlmc1Ovq?=
+ =?us-ascii?Q?CFJj0L2ExoopzSH20noctREie9sNNywTG3Ncikdhh9wqAbQvWUetdgL4/ArT?=
+ =?us-ascii?Q?ZRQ/UJlZ3pmF5BJMab80QIsN/kzBW+NwBs/iJ5gpt3cjXqRa7BXD/7Ey12kD?=
+ =?us-ascii?Q?zLNkWLpXFZIeMN3wVXZeP/tRUp45/imGnkZcYF4Cx5L3KUcNYnfkW+pBL7nd?=
+ =?us-ascii?Q?HAvbYKZGQUC3ls4iaZCYKxc3sg2VAWkM/1tndwU4NnREXQ2Zwtme0SR5QRnQ?=
+ =?us-ascii?Q?3zz5veiFI+VErbnKTC1Jj3rd7cMhfBWD+AfWFRCgaXxLAdnEpYvrng/acBAg?=
+ =?us-ascii?Q?VJiLmwz+vHXXwiTjousj3cBsETqJaZySH8cWVrN3IRg6DvM9zjzkSlHe6Zmf?=
+ =?us-ascii?Q?uJ74PVtrqs1yUN63Ao2Dd60aaAnvez0M1vMDOcKFYOEKbl/mmokVhF35JJ0w?=
+ =?us-ascii?Q?KT+fNQ=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4803fa54-6204-46e5-d1b3-08d9ea1b4bc3
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2022 09:22:01.1713
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WEMYA5yai5n85YncPpHoq5nZXt0XOpx1lzFjArGDXzFuh5AxwUTGqUQgebqKfK6amZ6frjfsAsRgWMnxYgRBbra5CPOlPGRYtbacvxs9KsI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB4976
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10250 signatures=673430
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 bulkscore=0
+ phishscore=0 malwarescore=0 mlxlogscore=999 adultscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202070060
+X-Proofpoint-GUID: X4GxM2JmMfIaq1Qn53VrLv5ucJa66ff5
+X-Proofpoint-ORIG-GUID: X4GxM2JmMfIaq1Qn53VrLv5ucJa66ff5
 
+On Mon, Feb 07, 2022 at 01:02:17AM +0100, Fabio M. De Francesco wrote:
+> My first question is whether or not msleep() can be called in atomic context.
 
---x7fslyfuomspr4ek
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You are not allowed to call msleep() in atomic context.  The Smatch
+check for sleeping in atomic did not look for msleep so I will update
+it.
 
-On Sat, Feb 05, 2022 at 07:53:44PM +0100, Paul Kocialkowski wrote:
-> In some situations the default rate of the module clock is not the
-> required one for operation (for example when reconfiguring the clock
-> tree to use a different parent). As a result, always set the correct
-> rate for the clock (and take care of cleanup).
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 54 ++++++++++++++-----
->  1 file changed, 41 insertions(+), 13 deletions(-)
->=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers=
-/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> index 8155e9560164..2355088fdc37 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> @@ -154,9 +154,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_=
-dev, bool enable)
->  		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
-> =20
->  		clk_disable_unprepare(csi_dev->clk_ram);
-> -		if (of_device_is_compatible(dev->of_node,
-> -					    "allwinner,sun50i-a64-csi"))
-> -			clk_rate_exclusive_put(csi_dev->clk_mod);
->  		clk_disable_unprepare(csi_dev->clk_mod);
->  		reset_control_assert(csi_dev->reset);
->  		return 0;
-> @@ -168,9 +165,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_=
-dev, bool enable)
->  		return ret;
->  	}
-> =20
-> -	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
-> -		clk_set_rate_exclusive(csi_dev->clk_mod, 300000000);
-> -
->  	ret =3D clk_prepare_enable(csi_dev->clk_ram);
->  	if (ret) {
->  		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
-> @@ -190,8 +184,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_=
-dev, bool enable)
->  clk_ram_disable:
->  	clk_disable_unprepare(csi_dev->clk_ram);
->  clk_mod_disable:
-> -	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
-> -		clk_rate_exclusive_put(csi_dev->clk_mod);
->  	clk_disable_unprepare(csi_dev->clk_mod);
->  	return ret;
->  }
-> @@ -819,6 +811,7 @@ static int sun6i_csi_resources_setup(struct sun6i_csi=
-_device *csi_dev,
->  				     struct platform_device *platform_dev)
->  {
->  	struct device *dev =3D csi_dev->dev;
-> +	unsigned long clk_mod_rate;
->  	void __iomem *io_base;
->  	int ret;
->  	int irq;
-> @@ -856,28 +849,53 @@ static int sun6i_csi_resources_setup(struct sun6i_c=
-si_device *csi_dev,
->  		return PTR_ERR(csi_dev->clk_ram);
->  	}
-> =20
-> +	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
-> +		clk_mod_rate =3D 300000000;
-> +	else
-> +		clk_mod_rate =3D 297000000;
-> +
-> +	ret =3D clk_set_rate_exclusive(csi_dev->clk_mod, clk_mod_rate);
-> +	if (ret) {
-> +		dev_err(dev, "failed to set mod clock rate\n");
-> +		return ret;
-> +	}
-> +
->  	/* Reset */
-> =20
->  	csi_dev->reset =3D devm_reset_control_get_shared(dev, NULL);
->  	if (IS_ERR(csi_dev->reset)) {
->  		dev_err(dev, "failed to acquire reset\n");
-> -		return PTR_ERR(csi_dev->reset);
-> +		ret =3D PTR_ERR(csi_dev->reset);
-> +		goto error_clk_rate_exclusive;
->  	}
-> =20
->  	/* Interrupt */
-> =20
->  	irq =3D platform_get_irq(platform_dev, 0);
-> -	if (irq < 0)
-> -		return -ENXIO;
-> +	if (irq < 0) {
-> +		dev_err(dev, "failed to get interrupt\n");
-> +		ret =3D -ENXIO;
-> +		goto error_clk_rate_exclusive;
-> +	}
-> =20
->  	ret =3D devm_request_irq(dev, irq, sun6i_csi_isr, 0, SUN6I_CSI_NAME,
->  			       csi_dev);
->  	if (ret) {
->  		dev_err(dev, "failed to request interrupt\n");
-> -		return ret;
-> +		goto error_clk_rate_exclusive;
->  	}
-> =20
->  	return 0;
-> +
-> +error_clk_rate_exclusive:
-> +	clk_rate_exclusive_put(csi_dev->clk_mod);
-> +
-> +	return ret;
-> +}
-> +
-> +static void sun6i_csi_resources_cleanup(struct sun6i_csi_device *csi_dev)
-> +{
-> +	clk_rate_exclusive_put(csi_dev->clk_mod);
->  }
+> If
+> I understand its semantics and implementation it seems that it should be forbidden.
+> What about changing it to mdelay()? Again, it seems that mdelay() spins without 
+> sleeping so it should be safe. Isn't it?
 
-If you're going to have that function anyway, let's use
-devm_add_action_or_reset, it'll simplify the rest of the patch.
+mdelay() is does not sleep, but it's not necessarily a good idea to
+delay for a long time while holding a spinlock.
 
-Maxime
+> 
+> Furthermore, I noticed that _rtw_pwr_wakeup() calls ips_leave(). The latter 
+> acquires the "pwrpriv->lock" Mutex. Aren't we forbidden to call Mutexes while 
+> holding Spinlocks?
 
---x7fslyfuomspr4ek
-Content-Type: application/pgp-signature; name="signature.asc"
+Correct.  You cannot take a mutex while holding a spinlock.
 
------BEGIN PGP SIGNATURE-----
+Where is the spinlock in taken in the code you're talking about?  If
+it's rtw_set_802_11_disassociate() then that's fine.  The check for
+if (check_fwstate(pmlmepriv, _FW_LINKED)) { will prevent ips_leave()
+from being called.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgDjAwAKCRDj7w1vZxhR
-xSxCAP4jyX8jqgvGvO+h+wEMwjSChH7MxCJCEPSEVX9yx3zNIQD/ZClJPRAMyei5
-KPjrNG4XdUDp1/dtKp57fzt1Uh1v1Qg=
-=TZbY
------END PGP SIGNATURE-----
+> My second question is: should we substitute that Mutex with a Spinlock and use 
+> it everywhere else the struct "pwrctrl_priv" must be protected in the driver?
 
---x7fslyfuomspr4ek--
+Changing mutexes to spinlocks is tricky.  I can't review your proposed
+patch before you send it.
+
+regards,
+dan carpenter
+
