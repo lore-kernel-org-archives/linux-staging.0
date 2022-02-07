@@ -1,105 +1,83 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4322F28
-	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 12:32:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644237134; x=1675773134;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vhBTmSn8UkwEjJUl4ynGb5kIz8nOXSvEwd6JGQ6YNy8=;
-  b=nQj5f4zU2qvuH87V/k29DlrxBW4MIBjgMTiJupWdzuvYyBr81db0gBiO
-   YxRqCYZB8qL+HMGVDo07ZxrKBL687WNGLEA3m49QXR01TgOLjg3UOWp0f
-   XpgxK8bh69V+KE+CfiHmGVnHIEmXukTTr77Cm+j28xtrZ5Zuc+h4NpINq
-   0px+PjLVFKWZDovuIH4lQhvLbus+EKLcw+hQQbsA78jEtnYZWuSaSSEg1
-   KiygOQFVgICLdEYn4Q464TVSgZMg78sMlhHUBczzphQ14cM/iBRTJsR8Z
-   gcbsY4chaSl5eZAqTOIL8Oe+kIaYcJa8w4NPvkXpPUVTX1ERMEBUaN/YC
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="335108462"
-X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; 
-   d="scan'208";a="335108462"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 04:32:13 -0800
-X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; 
-   d="scan'208";a="621535538"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2022 04:32:11 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1nH3Al-001tq2-Md;
-	Mon, 07 Feb 2022 14:31:11 +0200
-Date: Mon, 7 Feb 2022 14:31:11 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-Cc: gregkh@linuxfoundation.org, joe@perches.com, kitakar@gmail.com,
-	laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	tomi.valkeinen@ideasonboard.com, dan.carpenter@oracle.com
-Subject: Re: [PATCH] staging: media: atomisp: Use GENMASK instead of manual
- masking
-Message-ID: <YgERD7JdlqdaNHuA@smile.fi.intel.com>
-References: <20220206185830.39360-1-mosescb.dev@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6C02F28
+	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 13:40:37 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id y5so12074658pfe.4
+        for <linux-staging@lists.linux.dev>; Mon, 07 Feb 2022 05:40:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=TGF9rxKbfLgE4yzeN1f8tbFRCeGks8IIW/eVpPUyeiU=;
+        b=ZyaZgt0719MVOEzqMhPX9YuwhOcvk4Tfgtci93hXXrWqzr0VZbI2hjq43PQTBQMuz8
+         nIGCqRdMsDziUzsgblBes1baEbn8xA5hGHAkNjFYWF3vQLkNzx3HsIWUhhHM4RPA+8le
+         tC51WGTcxkNfvVsF3DZfZ08jLbQ80xAuq+jnkAmSShFDCaPwuN+jkwkH9LYcJU7X4Zy6
+         3QgQpGfke4WWvrb564nfUnAhbGpAgKoptflj7l1MBWG3lqMg++4W5Ide+nPfY/qnc2Dk
+         L4t9PeoHicJ/YoBZK/SGm6Zl6qErkrGM88O1SL8CwidyADrMEJKKBtAxhpBzCJphZffh
+         JPvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=TGF9rxKbfLgE4yzeN1f8tbFRCeGks8IIW/eVpPUyeiU=;
+        b=5GPMwEGze5rpB8jDx/PIVlqVLro1wW0YlVPKBiGAYbAcLPqwFPX5+6x77tnZXu2MT9
+         6Q2WEB92z+Bxu2JWIjiQ9yQJur2YXtvGR91p9e/8cpK5l3BpEZJxyxqx467X/MMSHT1u
+         j7mq1cxI5VxXUPs4kaFHRqMNp6TlwtXnq7Cw2O0iUsVAX01dRZzhxrLi/CMDG3MP5HLE
+         LKHzXrC6vpdxloXzGZ48AYMQgzH4MO/teli6naOHcoQqQuFTtCTaQZTL3hiHF4QupFVv
+         5T7dG8eFNjAq5pfPVN3pY2qHC/OVXJQRu9p7cpGa95DsNoMei2v3gb3Sq+3Fms66lqag
+         l4kQ==
+X-Gm-Message-State: AOAM533nIFsM1Ogxhhht1v2o1Ag5BePdxboO5pd7A4RBzMsXfvPi/tgF
+	u3jbGvw1A7MUp9lVpzkMhJg=
+X-Google-Smtp-Source: ABdhPJzf4r4cyGazko/1XgNj0OygcynEqxH7DclCZ/kkCf8azez4RKIt62fonUr015Jjv6NO2Ylb/A==
+X-Received: by 2002:a05:6a00:2350:: with SMTP id j16mr15992959pfj.78.1644241236437;
+        Mon, 07 Feb 2022 05:40:36 -0800 (PST)
+Received: from localhost.localdomain ([103.37.201.178])
+        by smtp.gmail.com with ESMTPSA id u17sm8424156pgi.14.2022.02.07.05.40.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Feb 2022 05:40:36 -0800 (PST)
+From: Ayan Choudhary <ayanchoudhary1025@gmail.com>
+To: marvin24@gmx.de,
+	gregkh@linuxfoundation.org
+Cc: Ayan Choudhary <ayanchoudhary1025@gmail.com>,
+	ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Staging: nvec: Fix ending in '(' error
+Date: Mon,  7 Feb 2022 05:39:21 -0800
+Message-Id: <20220207133921.4287-1-ayanchoudhary1025@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220206185830.39360-1-mosescb.dev@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sun, Feb 06, 2022 at 07:58:30PM +0100, Moses Christopher Bollavarapu wrote:
-> There is a GENMASK macro available in linux/bits.h, for masking.
-> 
-> Example: GENMASK(3, 0) = 0b00001111 (same as (1 << 4) - 1)
+This patch fixes the checkpatch.pl warning:
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CHECK: Lines should not end with a '('
+386: FILE: drivers/staging/nvec/nvec.c:386:
++		err = wait_for_completion_interruptible_timeout(
 
-> Signed-off-by: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-> index 1173be0e72b0..a345fa1d7de9 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-> @@ -40,6 +40,7 @@
->  
->  #include <linux/io.h>
->  #include <linux/pm_runtime.h>
+Signed-off-by: Ayan Choudhary <ayanchoudhary1025@gmail.com>
+---
+ drivers/staging/nvec/nvec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +#include <linux/bits.h>
-
-Probably this can be still ordered.
-
->  /* Assume max number of ACC stages */
->  #define MAX_ACC_STAGES	20
-> @@ -1913,11 +1914,11 @@ void atomisp_css_input_set_mode(struct atomisp_sub_device *asd,
->  			    &asd->stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream_config;
->  		s_config->mode = IA_CSS_INPUT_MODE_TPG;
->  		s_config->source.tpg.mode = IA_CSS_TPG_MODE_CHECKERBOARD;
-> -		s_config->source.tpg.x_mask = (1 << 4) - 1;
-> +		s_config->source.tpg.x_mask = GENMASK(3, 0);
->  		s_config->source.tpg.x_delta = -2;
-> -		s_config->source.tpg.y_mask = (1 << 4) - 1;
-> +		s_config->source.tpg.y_mask = GENMASK(3, 0);
->  		s_config->source.tpg.y_delta = 3;
-> -		s_config->source.tpg.xy_mask = (1 << 8) - 1;
-> +		s_config->source.tpg.xy_mask = GENMASK(7, 0);
->  		return;
->  	}
->  
-> -- 
-> 2.30.2
-> 
-
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 990d15c31a13..b3f114cb00dc 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -383,8 +383,8 @@ static void nvec_request_master(struct work_struct *work)
+ 		msg = list_first_entry(&nvec->tx_data, struct nvec_msg, node);
+ 		spin_unlock_irqrestore(&nvec->tx_lock, flags);
+ 		nvec_gpio_set_value(nvec, 0);
+-		err = wait_for_completion_interruptible_timeout(
+-				&nvec->ec_transfer, msecs_to_jiffies(5000));
++		err = wait_for_completion_interruptible_timeout(&nvec->ec_transfer,
++								msecs_to_jiffies(5000));
+ 
+ 		if (err == 0) {
+ 			dev_warn(nvec->dev, "timeout waiting for ec transfer\n");
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.17.1
 
