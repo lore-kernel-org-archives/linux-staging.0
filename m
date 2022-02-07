@@ -1,144 +1,60 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1FB2F24;
-	Mon,  7 Feb 2022 16:16:08 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85524A50;
-	Mon,  7 Feb 2022 17:16:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644250566;
-	bh=aFkueRgWrJNvd3R2K1xflySlUNscsWztv2uokuEkh9I=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2883F2F27
+	for <linux-staging@lists.linux.dev>; Mon,  7 Feb 2022 16:46:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F65BC004E1;
+	Mon,  7 Feb 2022 16:46:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1644252380;
+	bh=XQGsi326UEPve0z/EdN0Sb8WFS/rHTPTPvFza9C3uAQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nZK1tUgx86ylAnUIWlj2XVGt9I3p8J0h+L4yS9X2FR2ac1TZVfsz+sqmw6q32FLt2
-	 XBqJkltHOP84U3EkM6TflyU7nJTEp9yKRVvxoTkwwTap+mD0HWlOmAPjAMPuXn4L/f
-	 ACf9R+pOSDDzhStzAqw8cmk9fwefENv7D+vHkZjY=
-Date: Mon, 7 Feb 2022 18:16:04 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 63/66] staging: media: Add support for the Allwinner
- A31 ISP
-Message-ID: <YgFFxMd2htKvX0K1@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-64-paul.kocialkowski@bootlin.com>
+	b=gZb+qvbEn0meMEbpwK8P+G3w6neBQZG6vSNVffopUfSGmsLmZDRGDLjyiQ/UFTGe7
+	 9b+EaH7RAU7yMhX+Oo9PwJGox9wozxu8NttKIR3EOMcfSDPqXygXuzulNd9Hui6oae
+	 r+FuXvVpQOhnBeOoa8LfP9k/ibtlvkv0PuyimiAk=
+Date: Mon, 7 Feb 2022 17:46:12 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Leonardo Araujo <leonardo.aa88@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] Staging: wfx: CHECK: usleep_range is preferred over
+ udelay
+Message-ID: <YgFM1HHs7rSqp/0Q@kroah.com>
+References: <20220207160051.27829-1-leonardo.aa88@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-64-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20220207160051.27829-1-leonardo.aa88@gmail.com>
 
-Hi Paul,
-
-Thank you for the patch.
-
-On Sat, Feb 05, 2022 at 07:54:26PM +0100, Paul Kocialkowski wrote:
-> Some Allwinner platforms come with an Image Signal Processor, which
-> supports various features in order to enhance and transform data
-> received by image sensors into good-looking pictures. In most cases,
-> the data is raw bayer, which gets internally converted to RGB and
-> finally YUV, which is what the hardware produces.
+On Mon, Feb 07, 2022 at 01:00:51PM -0300, Leonardo Araujo wrote:
+> Fixes the checks reported by checkpatch.pl for usleep_range.
 > 
-> This driver supports ISPs that are similar to the A31 ISP, which was
-> the first standalone ISP found in Allwinner platforms. Simpler ISP
-> blocks were found in the A10 and A20, where they are tied to a CSI
-> controller. Newer generations of Allwinner SoCs (starting with the
-> H6, H616, etc) come with a new camera subsystem and revised ISP.
-> Even though these previous and next-generation ISPs are somewhat
-> similar to the A31 ISP, they have enough significant differences to
-> be out of the scope of this driver.
-> 
-> While the ISP supports many features, including 3A and many
-> enhancement blocks, this implementation is limited to the following:
-> - V3s (V3/S3) platform support;
-> - Bayer media bus formats as input;
-
-Greyscale formats would also be nice to have, if the hardware can
-support that (it mostly just requires the ability to disable the CFA
-interpolation).
-
-> - Semi-planar YUV (NV12/NV21) as output;
-
-Packed YUV would also be useful if the hardware supports it.
-
-> - Debayering with per-component gain and offset configuration;
-> - 2D noise filtering with configurable coefficients.
-> 
-> Since many features are missing from the associated uAPI, the driver
-> is aimed to integrate staging until all features are properly
-> described.
-> 
-> On the technical side, it uses the v4l2 and media controller APIs,
-> with a video node for capture, a processor subdev and a video node
-> for parameters submission. A specific uAPI structure and associated
-> v4l2 meta format are used to configure parameters of the supported
-> modules.
-> 
-> One particular thing about the hardware is that configuration for
-> module registers needs to be stored in a DMA buffer and gets copied
-> to actual registers by the hardware at the next vsync, when instructed
-> by a flag. This is handled by the "state" mechanism in the driver.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Signed-off-by: Leonardo Araujo <leonardo.aa88@gmail.com>
 > ---
->  drivers/staging/media/sunxi/Kconfig           |   1 +
->  drivers/staging/media/sunxi/Makefile          |   1 +
->  drivers/staging/media/sunxi/sun6i-isp/Kconfig |  13 +
->  .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
->  .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 572 +++++++++++++
->  .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  86 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 751 ++++++++++++++++++
->  .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 573 +++++++++++++
->  .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 599 ++++++++++++++
->  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  61 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
->  .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
+>  drivers/staging/wfx/bh.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/wfx/bh.c b/drivers/staging/wfx/bh.c
+> index a0f9d1b53019..ebc7eaf93ef0 100644
+> --- a/drivers/staging/wfx/bh.c
+> +++ b/drivers/staging/wfx/bh.c
+> @@ -312,7 +312,7 @@ void wfx_bh_poll_irq(struct wfx_dev *wdev)
+>  			dev_err(wdev->dev, "time out while polling control register\n");
+>  			return;
+>  		}
+> -		udelay(200);
+> +		usleep_range(200, 200);
 
-Could you add a TODO file to list the issues that need to be fixed for
-the driver to move out of staging ? I'll already propose one entry:
+Do you have the hardware to verify that this is the correct fix for
+this?
 
-- Add support in libcamera
+You can not just blindly make this type of change here, sorry, otherwise
+we would have done so long ago with a simple search/replace :)
 
-This isn't required to merge the driver in staging as long as ABI
-compatibility doesn't need to be preserved until the driver is moved out
-of staging.
+thanks,
 
->  14 files changed, 3109 insertions(+)
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
-
-[snip]
-
--- 
-Regards,
-
-Laurent Pinchart
+greg k-h
