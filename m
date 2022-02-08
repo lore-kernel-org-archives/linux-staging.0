@@ -1,106 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF262F26
-	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 09:48:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 044BDC004E1;
-	Tue,  8 Feb 2022 09:48:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1644313723;
-	bh=Jr+sZHpsrK0CTn986hnaOkGXEBbNrbNjqqaLRgclFz0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CFlMNBOoX0IJ4AnR+xh58Q35hh38kR33v1i+6vHYOEdz2LeOUdWwkY1mZi+1DhGIx
-	 UJqwwK7nck0KMH0W1av45J37PQx1ANyhi7LIvH+x/uxJ05uvEkvH7/T6QqYp5o04A+
-	 MGQKexaEBmNNKg+BuvUCNsDTosMhK9Vi2TCkc7GI=
-Date: Tue, 8 Feb 2022 10:48:40 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Leonardo Araujo <leonardo.aa88@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] Staging : android: Struct file_operations should be const
-Message-ID: <YgI8eO4T+CAmcAlc@kroah.com>
-References: <20220207031711.13644-1-leonardo.aa88@gmail.com>
- <YgFCPbnqs40wS+j1@zeniv-ca.linux.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42BD2F26
+	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 10:22:44 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id n8so11789827wmk.3
+        for <linux-staging@lists.linux.dev>; Tue, 08 Feb 2022 02:22:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=BHauapHfF44an40hU7SptoMcYixp1Tdu/mmN+fWrOX0=;
+        b=Fk0BGpmrbwxjBQEgQt6uMphVKetXH9SZR9GoBX4W396NexTqeuikmBsDorlTwRT83A
+         7u5LVWQHFKkJjGj2yLzQtSmDATAshPb8r8tJlWfI/SODzqAOYrcBqkHR1b1ceQwAT8aJ
+         2/9Yzu3Fxj0LZqkcIMNsCuj6I38WvRCx6/I+3MLhm/82J1g1fdOtc0drcJJxqoMHjD61
+         +fIhGv5V/kMrDlauHejq0wPLTEQl3GuP8eM1nHVXb5imsAEmHho7mqIFhiiKR/2E97H0
+         1a8vj8NaH3f0YLEteHY1OepDpWc1t/qCqYndEPVTTBeOpcgjIe9rxZcgq5lleiuLaBhG
+         d5Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BHauapHfF44an40hU7SptoMcYixp1Tdu/mmN+fWrOX0=;
+        b=Bjo+Z5ncXmTcijKClNjvVQmNkCWNFqftFL/BGDLCBVaHVJzTGHpWEfBNfEI0CoJH/H
+         gI+daVTRLTP8g/fm2cHSPABXoZbDNDv7x+6yKEqIYahwXqLktlgiGtddi4dGEsQjRImU
+         w4gCJbnsEnr/BhNsccULnZSBTkgWRuR7m6zZtXgrmyGLN0Em+sJLl6+aCPWJuzT92dQ8
+         GuN/jT3vpkYJ0JZ5/ubzOJHEHsmI/mzRxIdxFNjLL9GL45yGv7Z+B2bzm7cc7yXa/PqH
+         fcuMDCdMCFTHnQ78ACkPXxYfz5MIsmFIM4mO9p3ZVO8T1HrGrUIFwoAAVdyqfaT+2OUl
+         7cTw==
+X-Gm-Message-State: AOAM531Jso/e4qTSb8S877sqNgLxS84R4nN9i/ifoXvix1WVhk8NUDDF
+	fKjsLvMfoVmDWFTHWNvJbTQ=
+X-Google-Smtp-Source: ABdhPJzwSTuri/Ot/vSuTWCPFQ+TtGdyyI9rLcI7XYBZKk7vGgftFQ9Qkzc099h6ucxaldt/+aTyFg==
+X-Received: by 2002:a05:600c:3d8c:: with SMTP id bi12mr491220wmb.109.1644315762857;
+        Tue, 08 Feb 2022 02:22:42 -0800 (PST)
+Received: from leap.localnet (host-95-245-2-16.retail.telecomitalia.it. [95.245.2.16])
+        by smtp.gmail.com with ESMTPSA id i9sm1359392wmq.2.2022.02.08.02.22.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 02:22:42 -0800 (PST)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: Use kzalloc() with GFP_ATOMIC in atomic context
+Date: Tue, 08 Feb 2022 11:22:40 +0100
+Message-ID: <2743885.88bMQJbFj6@leap>
+In-Reply-To: <YgI40Dm/ar+IubIA@kroah.com>
+References: <20220206225943.7848-1-fmdefrancesco@gmail.com> <YgI40Dm/ar+IubIA@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YgFCPbnqs40wS+j1@zeniv-ca.linux.org.uk>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Feb 07, 2022 at 04:01:01PM +0000, Al Viro wrote:
-> On Mon, Feb 07, 2022 at 12:17:11AM -0300, Leonardo Araujo wrote:
-> > From: "Leonardo Araujo" <leonardo.aa88@gmail.com>
+On marted? 8 febbraio 2022 10:33:04 CET Greg Kroah-Hartman wrote:
+> On Sun, Feb 06, 2022 at 11:59:43PM +0100, Fabio M. De Francesco wrote:
+> > Use the GFP_ATOMIC flag of kzalloc() with two memory allocation in
+> > rtw_set_key(). This function is called while holding spinlocks and with
+> > disabled bottom halves, therefore it is not allowed to sleep. With the
+> > GFP_ATOMIC type flag, the allocation is high priority and cannot sleep.
 > > 
-> > WARNING: struct file_operations should normally be const
+> > This issue is detected by Smatch which emits the following warning:
+> > drivers/staging/r8188eu/core/rtw_pwrctrl.c:79 ips_leave() warn: sleeping in atomic context
+> > drivers/staging/r8188eu/core/rtw_pwrctrl.c:81 ips_leave() warn: sleeping in atomic context
 > > 
-> > Signed-off-by: Leonardo Araujo <leonardo.aa88@gmail.com>
+> > The calls chain (in reverse order) is the following:
+> > 
+> > rtw_set_key()
+> > -> ips_leave()
+> > -> -> rtw_pwr_wakeup()
+> > -> -> -> rtw_set_802_11_disassociate()
+> > 
+> > The disable of bottom halves and the acquisition of a spinlock is in
+> > rtw_set_802_11_disassociate().
+> > 
+> > After the changes, the post-commit hook output the following messages:
+> > 
+> > CHECK: Prefer kzalloc(sizeof(*pcmd)...) over kzalloc(sizeof(struct cmd_obj)...)
+> > +       pcmd = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
+> > 
+> > CHECK: Prefer kzalloc(sizeof(*psetkeyparm)...) over kzalloc(sizeof(struct setkey_parm)...)
+> > +       psetkeyparm = kzalloc(sizeof(struct setkey_parm), GFP_ATOMIC).
+> > 
+> > According to the above "CHECK[S]", use the preferred style in the first
+> > kzalloc().
+> > 
+> > Fixes: 79f712ea994d ("staging: r8188eu: Remove wrappers for kalloc() and kzalloc()")
+> > Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > > ---
-> >  drivers/staging/android/ashmem.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  drivers/staging/r8188eu/core/rtw_mlme.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > > 
-> > diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
-> > index ddbde3f8430e..4c6b420fbf4d 100644
-> > --- a/drivers/staging/android/ashmem.c
-> > +++ b/drivers/staging/android/ashmem.c
-> > @@ -377,7 +377,7 @@ ashmem_vmfile_get_unmapped_area(struct file *file, unsigned long addr,
-> >  
-> >  static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
-> >  {
-> > -	static struct file_operations vmfile_fops;
-> > +	static const struct file_operations vmfile_fops;
-> >  	struct ashmem_area *asma = file->private_data;
-> >  	int ret = 0;
+> > [...]
 > 
-> Wait a minute.  Why the hell would it possibly want a private instance
-> of all-NULLs file_operations?  Odd...
-> <checks>
->                 if (!vmfile_fops.mmap) {
->                         vmfile_fops = *vmfile->f_op;
->                         vmfile_fops.mmap = ashmem_vmfile_mmap;
->                         vmfile_fops.get_unmapped_area =
->                                         ashmem_vmfile_get_unmapped_area;
->                 }
-> Er...  So it *is* modified down the road.  What, in your opinion, is signified
-> by the const you are adding?
-> 
-> Folks, could we please have the first "WARNING" in checkpatch.pl output replaced
-> with
-> "I'm a dumb script; this line looks like there might be something fishy in the
-> area.  Somebody smarter than me might want to take a look and figure out if
-> there's something wrong going on there.  From now on I'll mark all such places
-> with 'WARNING' (with the summary of heuristics that pointed to them), to avoid
-> repeating the above".
-> 
-> Pretty please?  This exact trap keeps snagging newbies - folks misinterpret
-> "this place might be worth looking into" for "great (s)tool says: this is
-> what's wrong there; must propitiate the great (s)tool!"
-> 
-> In this case the damage is minimal - the resulting change would be instantly
-> caught by compiler, so it's just a matter of mild embarrassment for poster.
-> In other cases results had been nowhere near as mild.
+> You are making two different changes here.  Please do the first patch to
+> change the sizeof() change to fix up checkpatch, and then the second one
+> for the GFP_ATOMIC change so that if there is a problem with either of
+> them we can only revert the offending change.
+>
+OK, thanks for your reply. I'm about to split this patch in two steps as 
+you require.
 
-It's a great "catch" for people who try to modify the kernel and then
-never actually test-build their changes.  So for that reason alone I
-like it as it does reinforce the need for drive-by people to at least
-build the kernel tree.
+In the while I've noticed that, after git-reset HARD^, Smatch now points directly 
+to the kzalloc() calls and emits a different output:
 
-> Incidentally, the place those heuristics had pointed too _DOES_ look fishy,
-> indeed.  What happens, AFAICS, is that the first time we hit that branch
-> (asma->file being NULL) we stash a copy of whatever file_operations we get
-> on file obtained by shmem_setup_file() (IOW, shmem_file_operations),
-> with ->mmap and ->get_unmapped_area replaced with local functions.
-> This is a bloody convoluted way to do things, not to mention being rather
-> brittle...
+"drivers/staging/r8188eu/core/rtw_mlme.c:1603 rtw_set_key() warn: sleeping in 
+atomic context
+  CHECK   drivers/staging/r8188eu/core/rtw_mlme_ext.c".
+
+So now it complains specifically about the first of the two kzalloc[s]() in 
+rtw_set_key(). Before sending v2, I'd like to check why when I made v1 it pointed 
+to the lines that call rtw_set_key(). You'll see that change in the commit message
+of v2.
+
+Thanks,
+
+Fabio
+>
+> thanks,
+> 
+> greg k-h
+> 
 > 
 
-Ashmem is horrid and is not used by the Android project anymore, except
-by really old userspace programs.  I think we could just delete it
-entirely now, I'll go ask the Android developers about it.
 
-thanks,
 
-greg k-h
+
