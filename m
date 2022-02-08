@@ -1,195 +1,217 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445892F23
-	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 12:31:12 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id p5so49233908ybd.13
-        for <linux-staging@lists.linux.dev>; Tue, 08 Feb 2022 04:31:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yfYLtbVg7Jphgpqo5l2mfLMwKt3fmTcNOyyPV835z9U=;
-        b=X73BVSASthoFh71ZUYqhPOBlmWD6VlnN6mtxlLeUi48uyVMU0ZaQsH/cmXLKhp1Jui
-         4usjsDrOE/K++FH8OeqG4WNNAOcG9B+4N4GSjY7QwCYxcbUEhBC2Y/nh2OUlwsgnjeox
-         eUtinaYsaItLRMZrGl5DhrtfLCm02TgJMPJqc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yfYLtbVg7Jphgpqo5l2mfLMwKt3fmTcNOyyPV835z9U=;
-        b=h1J5HbJKlzxlbt4H4vZV6Nw1zLzaXTaXjUlvMb1jqvt86hudl4Aq6oWD0R0sLk3llA
-         t6QCgnElcZnhMHmGvLmT36KJhzwSMy6T0ITZ7B6MdZY8ou9WjgE6FjWs2bpQUbNJ8HbK
-         4g22rSnX5yRp79fRIcNp4m1MlcRsgfDBfMxl8Yl5ujz8VMysLu9Ohp1RdvF1c8csBoc2
-         YjNrfM84/RUF9lNJwlw+rMEIdTrKpK8B5IjZ3/XQSVXE/Vk2VRVJj+5TP3d1qRnLqggN
-         spgYITERGng/rwaQTOFVShOqm8KaxsUM/c5g+tyFFXrRYgKtBvLQi0CGIw9atEZvxblq
-         iwUw==
-X-Gm-Message-State: AOAM5323ItRKVVJmQ1uQDTFpWQsnThBZu9eE9ihRidOgVfpll7VZElCR
-	9dtiEVamve6ade8IjX5DwehxEf1GupoHziWTYsYIMw==
-X-Google-Smtp-Source: ABdhPJyCCYOYwDckY357tk7CH1jqmHDW4BUZPjfdeuj7J3jv7vIaHKcjBTuE6IB72wx2P7IBnypp3hlrdAC/yjDoo7g=
-X-Received: by 2002:a81:1b4e:: with SMTP id b75mr4316368ywb.295.1644323471148;
- Tue, 08 Feb 2022 04:31:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF16F2F23
+	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 13:39:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67BA8C340E9;
+	Tue,  8 Feb 2022 13:39:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1644327596;
+	bh=arWyuKrgF6+HTy5MGGr9g1ZYG3YqGe+bpPoKBhwDtjY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iRcMxm2NinrxP0/dQodYfHh7RziJJ6SzP7mzdIkPqhMs3k5TCjS1XddxBIZiBLRWe
+	 fwsdHqkyllv+f+u1X7HW1pRH236O9WBWXThRFXUZ3DGcllJJyj+jpn8NGzuMduVmt2
+	 VH9+3pdfzFM+wiZ3119U215A3SNS6eM4zENnhzdV2JsEUAIyTv0hA+0xyYGATs+knD
+	 eiR0PPJyCdHewwzmyv7KEe+xE2Y45P468g1Y7LTuTiliKkMrJXkeMtFJ3bAd55MtPd
+	 phoE2FDW40WGRPJHyNd45b9VSjxZK9ZOanjsJLzazKAr+DS4Zf4rcVtyQzybCN9V04
+	 WOeQ8tXUTVsFw==
+Date: Tue, 8 Feb 2022 13:39:22 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Jarkko Sakkinen <jarkko@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Markuss Broks <markuss.broks@gmail.com>,
+	Emma Anholt <emma@anholt.net>, David Lechner <david@lechnology.com>,
+	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dan Robertson <dan@dlrobertson.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Charles-Antoine Couret <charles-antoine.couret@nexvision.fr>,
+	Antti Palosaari <crope@iki.fi>, Lee Jones <lee.jones@linaro.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Eric Piel <eric.piel@tremplin-utc.net>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Wolfgang Grandegger <wg@grandegger.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Thomas Kopp <thomas.kopp@microchip.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Woojung Huh <woojung.huh@microchip.com>,
+	UNGLinuxDriver@microchip.com,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	Harry Morris <h.morris@cascoda.com>,
+	Varka Bhadram <varkabhadram@gmail.com>,
+	Xue Liu <liuxuenetmail@gmail.com>, Alan Ott <alan@signal11.us>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Christian Lamparter <chunkeey@googlemail.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Ajay Singh <ajay.kathat@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Solomon Peachy <pizza@shaftnet.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Benson Leung <bleung@chromium.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mark Gross <markgross@kernel.org>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	=?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+	Jiri Slaby <jirislaby@kernel.org>, Felipe Balbi <balbi@kernel.org>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	James Schulman <james.schulman@cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Lucas Tanure <tanureal@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Daniel Mack <daniel@zonque.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Stephan Gerhold <stephan@gerhold.net>,
+	Alexandru Ardelean <ardeleanalex@gmail.com>,
+	Mike Looijmans <mike.looijmans@topic.nl>,
+	Gwendal Grignou <gwendal@chromium.org>,
+	Cai Huoqing <caihuoqing@baidu.com>,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Ronald =?iso-8859-1?Q?Tschal=E4r?= <ronald@innovation.ch>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+	Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Heiko Schocher <hs@denx.de>, Fabio Estevam <festevam@gmail.com>,
+	Colin Ian King <colin.king@intel.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Tudor Ambarus <tudor.ambarus@microchip.com>,
+	Matt Kline <matt@bitbashing.io>,
+	Torin Cooper-Bennun <torin@maxiluxsystems.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Stefan =?iso-8859-1?Q?M=E4tje?= <stefan.maetje@esd.eu>,
+	Frieder Schrempf <frieder.schrempf@kontron.de>,
+	Wei Yongjun <weiyongjun1@huawei.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Nanyong Sun <sunnanyong@huawei.com>,
+	Yang Shen <shenyang39@huawei.com>,
+	dingsenjie <dingsenjie@yulong.com>,
+	Aditya Srivastava <yashsri421@gmail.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Michael Walle <michael@walle.cc>,
+	Yang Li <yang.lee@linux.alibaba.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	wengjianfeng <wengjianfeng@yulong.com>,
+	Sidong Yang <realwakka@gmail.com>,
+	Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
+	Zhang Qilong <zhangqilong3@huawei.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Tomlinson <mark.tomlinson@alliedtelesis.co.nz>,
+	Davidlohr Bueso <dbueso@suse.de>, Claudius Heine <ch@denx.de>,
+	Jiri Prchal <jiri.prchal@aksignal.cz>, linux-kernel@vger.kernel.org,
+	linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-media@vger.kernel.org, patches@opensource.cirrus.com,
+	alsa-devel@alsa-project.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-can@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
+	linux-wireless@vger.kernel.org, libertas-dev@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-omap@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [PATCH 5/5] spi: make remove callback a void function
+Message-ID: <YgJyiiLqLu44MWF1@sirena.org.uk>
+References: <20220123175201.34839-1-u.kleine-koenig@pengutronix.de>
+ <20220123175201.34839-6-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220208105456.321294-1-wenst@chromium.org>
-In-Reply-To: <20220208105456.321294-1-wenst@chromium.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 8 Feb 2022 20:30:59 +0800
-Message-ID: <CAGXv+5HT84sEv9TFV1H=mMEO4oqz4OdwXQGMhwrOf5dtMrjOBQ@mail.gmail.com>
-Subject: Re: [PATCH RFC] media: hantro: Implement support for encoder commands
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-
-On Tue, Feb 8, 2022 at 6:55 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
->
-> The V4L2 stateful encoder uAPI specification requires that drivers
-> support the ENCODER_CMD ioctl to allow draining of buffers. This
-> however was not implemented, and causes issues for some userspace
-> applications.
->
-> Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
-> This is entirely based on existing code found in the vicodec test
-> driver.
->
-> Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
->
-> This is based on linux-next-20220207, and was tested on RK3399 with
-> Gstreamer running the JPEG encoder. It was also tested on ChromeOS
-> 5.10 on Kevin with the video encoder used in ChromeOS ARC, which
-> requires this.
->
-> Everything works OK, but since I'm not very familiar with the mem2mem
-> framework, I might be missing something, causing resource leaks.
-> Hence this patch is labeled RFC.
-
-And it seems I failed to handle the case where the last capture buffer
-is empty.
-
-Will rework and send a new version tomorrow.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ef2aNFzDYnZC/zcG"
+Content-Disposition: inline
+In-Reply-To: <20220123175201.34839-6-u.kleine-koenig@pengutronix.de>
+X-Cookie: You will forget that you ever knew me.
 
 
-ChenYu
+--ef2aNFzDYnZC/zcG
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  drivers/staging/media/hantro/hantro_drv.c  | 10 +++++
->  drivers/staging/media/hantro/hantro_v4l2.c | 44 ++++++++++++++++++++++
->  2 files changed, 54 insertions(+)
->
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index bc9bcb4eaf46..ccd47eee5c43 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
->         return hantro_get_dec_buf_addr(ctx, buf);
->  }
->
-> +static const struct v4l2_event hantro_eos_event = {
-> +       .type = V4L2_EVENT_EOS
-> +};
-> +
->  static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
->                                     struct hantro_ctx *ctx,
->                                     enum vb2_buffer_state result)
-> @@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
->         src->sequence = ctx->sequence_out++;
->         dst->sequence = ctx->sequence_cap++;
->
-> +       if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
-> +               dst->flags |= V4L2_BUF_FLAG_LAST;
-> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-> +               v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
-> +       }
-> +
->         v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
->                                          result);
->  }
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> index 67148ba346f5..8c6746637236 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> @@ -628,6 +628,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
->         return 0;
->  }
->
-> +static const struct v4l2_event hantro_eos_event = {
-> +       .type = V4L2_EVENT_EOS
-> +};
-> +
-> +static int vidioc_encoder_cmd(struct file *file, void *priv,
-> +                             struct v4l2_encoder_cmd *ec)
-> +{
-> +       struct hantro_ctx *ctx = fh_to_ctx(priv);
-> +       int ret;
-> +
-> +       ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
-> +           !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
-> +               return 0;
-> +
-> +       ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       if (ec->cmd == V4L2_ENC_CMD_STOP &&
-> +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-> +
-> +       if (ec->cmd == V4L2_ENC_CMD_START &&
-> +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-> +               vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
-> +
-> +       return 0;
-> +}
-> +
->  const struct v4l2_ioctl_ops hantro_ioctl_ops = {
->         .vidioc_querycap = vidioc_querycap,
->         .vidioc_enum_framesizes = vidioc_enum_framesizes,
-> @@ -657,6 +690,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
->
->         .vidioc_g_selection = vidioc_g_selection,
->         .vidioc_s_selection = vidioc_s_selection,
-> +
-> +       .vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-> +       .vidioc_encoder_cmd = vidioc_encoder_cmd,
->  };
->
->  static int
-> @@ -759,6 +795,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
->         struct hantro_ctx *ctx = vb2_get_drv_priv(q);
->         int ret = 0;
->
-> +       v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
-> +
->         if (V4L2_TYPE_IS_OUTPUT(q->type))
->                 ctx->sequence_out = 0;
->         else
-> @@ -831,6 +869,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
->                 hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
->         else
->                 hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
-> +
-> +       v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
-> +
-> +       if (V4L2_TYPE_IS_OUTPUT(q->type) &&
-> +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
->  }
->
->  static void hantro_buf_request_complete(struct vb2_buffer *vb)
-> --
-> 2.35.0.263.gb82422642f-goog
->
+On Sun, Jan 23, 2022 at 06:52:01PM +0100, Uwe Kleine-K=F6nig wrote:
+> The value returned by an spi driver's remove function is mostly ignored.
+> (Only an error message is printed if the value is non-zero that the
+> error is ignored.)
+>=20
+> So change the prototype of the remove function to return no value. This
+> way driver authors are not tempted to assume that passing an error to
+> the upper layer is a good idea. All drivers are adapted accordingly.
+> There is no intended change of behaviour, all callbacks were prepared to
+> return 0 before.
+
+I was going to apply this but it needs rebasing against current code
+unfortunately.
+
+--ef2aNFzDYnZC/zcG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmICcokACgkQJNaLcl1U
+h9DmcQf+LJZ969n1sCqmHKwy4lQ2Pxdy53x61CG2xi4rHMBDaahnhIqh6OONUbd+
+C69P1GRsp8evXqnMb8d4TH1pFPvi3X7mWWwRFhXalhZsYYw/b3jmnQNO7zN81ayi
+80hp04WF+UE2A+FJhiN9n9i47vM4FEBcuKxNp9AZNSxwiTfVHUoHAF3UddqF0oAo
+hThmCBaRZYCQ9dCX1glz8vfrfXVIqRVx30esuamogMGtZbM5bSDoPizzdk83trN4
+pfd594g2DUBkpQBHZvadCjp92MBULn5nNnlF5Ob5PAmP1T0NUVsTu7Ra/ZJTnUNb
+GfkUNfSvLNah+a6BUd3Jp6LazHu9Ew==
+=bpX2
+-----END PGP SIGNATURE-----
+
+--ef2aNFzDYnZC/zcG--
