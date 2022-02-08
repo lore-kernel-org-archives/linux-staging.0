@@ -1,27 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4EA2F26
-	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 09:33:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E60DC004E1;
-	Tue,  8 Feb 2022 09:33:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675B529CA
+	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 09:43:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8123CC340ED;
+	Tue,  8 Feb 2022 09:43:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1644312787;
-	bh=FhxF+wItARpZEpojfEM3m80n83PqP7keXml5yW7Krh8=;
+	s=korg; t=1644313438;
+	bh=MVQhg8NpG08aednBukcoUd9p2iT4HIpeS1hAaBzlgiY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jcVAU0JycApzdCpf3F+CSz4y7JYsNl4IY4HAVuudcq3QsQ7YSFwkO2iUK6AL5sy02
-	 7SjB+HEMp+BXorBndR6oyC1l611CmK8mf/PFWHZE2aLrvl9db5DMRVw+B5llmBoA59
-	 bNZg685EYovI5MtvZDxBmTXx80qsrDQipFm6IX54=
-Date: Tue, 8 Feb 2022 10:33:04 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Use kzalloc() with GFP_ATOMIC in
- atomic context
-Message-ID: <YgI40Dm/ar+IubIA@kroah.com>
-References: <20220206225943.7848-1-fmdefrancesco@gmail.com>
+	b=OgC3owl0d7PScJDX+10Dq6sHiMpDwqZv51bZf2cCbpj4GkVct6QyY4jLSFijPlMYJ
+	 0x7fh5DZeH2Kqms8VJfq8UUEyVpkIZIutidqwtH1eBU/ozMb16/KtYdNeuRQR9Evvk
+	 r0+geT57FuTxHegGAGWfGJ9S3scLcsQWPJRgmHak=
+Date: Tue, 8 Feb 2022 10:43:50 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Leonardo Araujo <leonardo.aa88@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] Staging: r8188eu: core: alignment should match open
+ parenthesis
+Message-ID: <YgI7VtmUtD0nJ2O0@kroah.com>
+References: <20220207234824.27893-1-leonardo.aa88@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,67 +29,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220206225943.7848-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20220207234824.27893-1-leonardo.aa88@gmail.com>
 
-On Sun, Feb 06, 2022 at 11:59:43PM +0100, Fabio M. De Francesco wrote:
-> Use the GFP_ATOMIC flag of kzalloc() with two memory allocation in
-> rtw_set_key(). This function is called while holding spinlocks and with
-> disabled bottom halves, therefore it is not allowed to sleep. With the
-> GFP_ATOMIC type flag, the allocation is high priority and cannot sleep.
+On Mon, Feb 07, 2022 at 08:48:24PM -0300, Leonardo Araujo wrote:
+> Fixed a coding style issue.
 > 
-> This issue is detected by Smatch which emits the following warning:
-> drivers/staging/r8188eu/core/rtw_pwrctrl.c:79 ips_leave() warn: sleeping in atomic context
-> drivers/staging/r8188eu/core/rtw_pwrctrl.c:81 ips_leave() warn: sleeping in atomic context
-> 
-> The calls chain (in reverse order) is the following:
-> 
-> rtw_set_key()
-> -> ips_leave()
-> -> -> rtw_pwr_wakeup()
-> -> -> -> rtw_set_802_11_disassociate()
-> 
-> The disabilitation of bottom halves and the acquisition of a spinlock is in
-> rtw_set_802_11_disassociate().
-> 
-> After the changes, the post-commit hook output the following messages:
-> 
-> CHECK: Prefer kzalloc(sizeof(*pcmd)...) over kzalloc(sizeof(struct cmd_obj)...)
-> +       pcmd = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> 
-> CHECK: Prefer kzalloc(sizeof(*psetkeyparm)...) over kzalloc(sizeof(struct setkey_parm)...)
-> +       psetkeyparm = kzalloc(sizeof(struct setkey_parm), GFP_ATOMIC).
-> 
-> According to the above "CHECK[S]", use the preferred style in the first
-> kzalloc().
-> 
-> Fixes: 79f712ea994d ("staging: r8188eu: Remove wrappers for kalloc() and kzalloc()")
-> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Signed-off-by: Leonardo Araujo <leonardo.aa88@gmail.com>
 > ---
->  drivers/staging/r8188eu/core/rtw_mlme.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/staging/r8188eu/core/rtw_ap.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-> index 038bddc361c3..860835e29b79 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-> @@ -1600,12 +1600,12 @@ int rtw_set_key(struct adapter *adapter, struct security_priv *psecuritypriv, in
->  	struct mlme_priv		*pmlmepriv = &adapter->mlmepriv;
->  	int	res = _SUCCESS;
+> diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+> index e02dd8e11c95..c7803144355a 100644
+> --- a/drivers/staging/r8188eu/core/rtw_ap.c
+> +++ b/drivers/staging/r8188eu/core/rtw_ap.c
+> @@ -942,8 +942,8 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+>  				pmlmepriv->num_sta_ht_no_gf++;
+>  			}
+>  			DBG_88E("%s STA %pM - no greenfield, num of non-gf stations %d\n",
+> -				   __func__, (psta->hwaddr),
+> -				   pmlmepriv->num_sta_ht_no_gf);
+> +				__func__, (psta->hwaddr),
+> +				pmlmepriv->num_sta_ht_no_gf);
+>  		}
 >  
-> -	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
-> +	pcmd = kzalloc(sizeof(*pcmd), GFP_ATOMIC);
->  	if (!pcmd) {
->  		res = _FAIL;  /* try again */
->  		goto exit;
->  	}
-> -	psetkeyparm = kzalloc(sizeof(struct setkey_parm), GFP_KERNEL);
-> +	psetkeyparm = kzalloc(sizeof(*psetkeyparm), GFP_ATOMIC);
+>  		if ((ht_capab & IEEE80211_HT_CAP_SUP_WIDTH_20_40) == 0) {
+> @@ -952,8 +952,8 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+>  				pmlmepriv->num_sta_ht_20mhz++;
+>  			}
+>  			DBG_88E("%s STA %pM - 20 MHz HT, num of 20MHz HT STAs %d\n",
+> -				   __func__, (psta->hwaddr),
+> -				   pmlmepriv->num_sta_ht_20mhz);
+> +				__func__, (psta->hwaddr),
+> +				pmlmepriv->num_sta_ht_20mhz);
+>  		}
+>  	} else {
+>  		if (!psta->no_ht_set) {
+> -- 
+> 2.29.0
+> 
+> 
 
-You are making two different changes here.  Please do the first patch to
-change the sizeof() change to fix up checkpatch, and then the second one
-for the GFP_ATOMIC change so that if there is a problem with either of
-them we can only revert the offending change.
+This patch does not apply to my tree at all.  What tree/branch did you
+make it against?
+
+Always work against linux-next at the very least, and the subsystem
+development branch usually, so that you do not duplicate work that
+others have already done.
 
 thanks,
 
