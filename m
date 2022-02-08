@@ -1,158 +1,148 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FA32F24
-	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 20:59:37 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id h6so515534wrb.9
-        for <linux-staging@lists.linux.dev>; Tue, 08 Feb 2022 12:59:37 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3113D2C80
+	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 21:09:00 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id v12so616734wrv.2
+        for <linux-staging@lists.linux.dev>; Tue, 08 Feb 2022 13:09:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
-        h=date:from:to:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LR/HqP2Q1P8BmgSmBhLwoCgWv4OeRLxaaKVnBHVz380=;
-        b=OClWzaHwfnKbU2ivv9C7fQtoAaSQhJdGklXpEzcFffm1SkumsQsTkr8ZOu//Qj3wMX
-         gEbDIlvZmGBGIRp32EXuJUt4pdkA+9hSevTsMS5kH+0eK7Qp5AnE8d5EBZDnA9LbvTcn
-         umgHa0cvz5UESKxYpoHkM5AGiSPrp+EXDnSms=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4RkUIVbtXWLMhEgVRprjRhLI7qLO2cMyCi+EhjvzZFw=;
+        b=hTk5ijDHDMgQxKkA9BUrH0F2len3i2uKxb473Xdpw5iK2wSxC9XmwvSbp7bYW0PLPk
+         QbKh5k1BSr/Tz0jA06DfQZya1UO90srY53nLsu9F38wakMDiTM36Bhv99fd2QZrbuYGF
+         DdQESgBxjgKfPc9w3F9JFaETCMViCRldl1gyk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=LR/HqP2Q1P8BmgSmBhLwoCgWv4OeRLxaaKVnBHVz380=;
-        b=awGrWcTVJC5MWNtdeeNii474JcsnReRATaX9KQShh/X0XJcLGjmyJTdid7lUQzun0L
-         seonpWIqqPw91KdaJ5BHPbVtN3k7quew6JTCiANWhEtxXIW5NNyJ1uaSOQ3BF4xh/+Wi
-         ykW5OFTDk5t7qR6Ezh3vqpoC7wxda5ENkL1zwNQbWjlc+4lUW1AmpUejzmvItTXvpNv5
-         6Bo6AWycS5UV9uMHQNO+pxvzNOmfyQpT9N3EdrT1uiqlg/VUdw5lcByhnCrZXfGSrsEe
-         XuDrPtdzAju8Ox1lxKfD152JJ0U05aEtMOdgHO9D8gNky+kD1MnNBZP664YRXW1flU6M
-         Lkxw==
-X-Gm-Message-State: AOAM5316MGzGPmbcF3ALPkHJYAVnfL4B/cV9nv57/Fi69xmOY7JbEmZH
-	n+bPVOeeWKaLgkBAGMjyjWvxBQ==
-X-Google-Smtp-Source: ABdhPJyoKyE7ZSiQIZzA82zoDzmj1UBV8TCrGt8kooKo8r1vgxpn3G6jb5XrdBUZcozMC7B14dmZJA==
-X-Received: by 2002:a5d:64c8:: with SMTP id f8mr5121045wri.337.1644353976273;
-        Tue, 08 Feb 2022 12:59:36 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4RkUIVbtXWLMhEgVRprjRhLI7qLO2cMyCi+EhjvzZFw=;
+        b=ec7098CNhtX2G0V4xIYrDNZzaZiC7cAaO4//p+fFTtpWCR+X7xt6yiY8MJq+GVTBSH
+         YdMLI8yTxhdWKfcNs9xInJR1CsODAAJDsoNaQK0LaEwGROQ5wBSRW5YOe5v5HdX2AgyP
+         jIe4E+rqSzfk4m80hsFXlw2RUIjZzqZtDz7d8sZ4yDLs9QiBVkihn9AUYXXoxCeZiAHq
+         oNYDZV8SgYy5fXw1YLjqZKE7X0yO7Juvq+w/jL5oI6uKJ4GPfTS/1STk4YK5DVKiNAUx
+         lHO1b+y/yKscUg5fetAry5UhbfoIRIStjb2jt8giBVOH7bdbO5Ymv9R0CsSTXrewweg+
+         y9Pw==
+X-Gm-Message-State: AOAM533SjquFprpiRLd54smNR+SaDUnn1oGjsfvj8PLtJWcRCJbzyliJ
+	PoYzVBZp+vL9cdwWaPid5d9bxQ==
+X-Google-Smtp-Source: ABdhPJyIfpRc7ZB9NjqbdIphlUwlwXNT2L6vdvwdr3OEGArxXf4a6YivXer2aDFvbp3CRI9pZL06XA==
+X-Received: by 2002:a5d:47af:: with SMTP id 15mr5049471wrb.88.1644354538519;
+        Tue, 08 Feb 2022 13:08:58 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id e3sm7852138wrr.94.2022.02.08.12.59.34
+        by smtp.gmail.com with ESMTPSA id o14sm3033561wmr.3.2022.02.08.13.08.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 12:59:35 -0800 (PST)
-Date: Tue, 8 Feb 2022 21:59:33 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        Tue, 08 Feb 2022 13:08:58 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+	linux-fbdev@vger.kernel.org,
 	LKML <linux-kernel@vger.kernel.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	kernel test robot <lkp@intel.com>,
 	Jens Frederich <jfrederich@gmail.com>,
 	Jon Nettleton <jon.nettleton@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	Daniel Vetter <daniel.vetter@intel.com>,
-	Helge Deller <deller@gmx.de>, Matthew Wilcox <willy@infradead.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Helge Deller <deller@gmx.de>,
+	Matthew Wilcox <willy@infradead.org>,
 	Sam Ravnborg <sam@ravnborg.org>,
 	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
 	Zhen Lei <thunder.leizhen@huawei.com>,
 	Alex Deucher <alexander.deucher@amd.com>,
-	Xiyu Yang <xiyuyang19@fudan.edu.cn>, Zheyu Ma <zheyuma97@gmail.com>,
+	Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+	Zheyu Ma <zheyuma97@gmail.com>,
 	Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH 21/21] fbdev: Make registered_fb[] private to fbmem.c
-Message-ID: <YgLZtbhMGlr/upqA@phenom.ffwll.local>
-Mail-Followup-To: Geert Uytterhoeven <geert@linux-m68k.org>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	Daniel Vetter <daniel.vetter@intel.com>,
-	Helge Deller <deller@gmx.de>, Matthew Wilcox <willy@infradead.org>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Zhen Lei <thunder.leizhen@huawei.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Xiyu Yang <xiyuyang19@fudan.edu.cn>, Zheyu Ma <zheyuma97@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>
-References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
- <20220131210552.482606-22-daniel.vetter@ffwll.ch>
- <CAMuHMdUm76tT6u+i=A50ffh=k8hX5kgoMqH=t_wfHqH95nVOPA@mail.gmail.com>
- <YgJ4g2BEaeUELmvF@phenom.ffwll.local>
+Subject: [PATCH v2 19/19] fbdev: Make registered_fb[] private to fbmem.c
+Date: Tue,  8 Feb 2022 22:08:24 +0100
+Message-Id: <20220208210824.2238981-20-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220208210824.2238981-1-daniel.vetter@ffwll.ch>
+References: <20220208210824.2238981-1-daniel.vetter@ffwll.ch>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YgJ4g2BEaeUELmvF@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 08, 2022 at 03:04:51PM +0100, Daniel Vetter wrote:
-> On Fri, Feb 04, 2022 at 09:30:56AM +0100, Geert Uytterhoeven wrote:
-> > Hi Daniel,
-> > 
-> > Thanks for your patch!
-> > 
-> > On Tue, Feb 1, 2022 at 9:50 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > Well except when the olpc dcon fbdev driver is enabled, that thing
-> > > digs around in there in rather unfixable ways.
-> > 
-> > Can't the actual frame buffer driver (which one?) used on olpc export
-> > a pointer to its fb_info?
-> 
-> Yeah that might be the right thing to do, I'll add that as a stagin TODO
-> in the next iteration.
+Well except when the olpc dcon fbdev driver is enabled, that thing
+digs around in there in rather unfixable ways.
 
-Well I tried to do that and noticed I've done that already in 2019:
+Cc oldc_dcon maintainers as fyi.
 
-commit af1440368837f19ac7d5dec05d929d91308f5a90
-Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Tue May 28 11:03:03 2019 +0200
+v2: I typoed the config name (0day)
 
-    staging/olpc_dcon: Add drm conversion to TODO
+Cc: kernel test robot <lkp@intel.com>
+Cc: Jens Frederich <jfrederich@gmail.com>
+Cc: Jon Nettleton <jon.nettleton@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+Cc: linux-fbdev@vger.kernel.org
+Cc: Zheyu Ma <zheyuma97@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+---
+ drivers/video/fbdev/core/fbmem.c | 8 ++++++--
+ include/linux/fb.h               | 7 +++----
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
-TODO already explains how this should be done correctly in drm. Well maybe
-we should add that stitching the drivers together should be done with
-component.c or something like that.
--Daniel
-
-> 
-> > 
-> > > --- a/drivers/video/fbdev/core/fbmem.c
-> > > +++ b/drivers/video/fbdev/core/fbmem.c
-> > > @@ -48,10 +48,14 @@
-> > >  static DEFINE_MUTEX(registration_lock);
-> > >
-> > >  struct fb_info *registered_fb[FB_MAX] __read_mostly;
-> > > -EXPORT_SYMBOL(registered_fb);
-> > > -
-> > >  int num_registered_fb __read_mostly;
-> > > +#if IS_ENABLED(CONFIG_OLPC_DCON)
-> > 
-> > CONFIG_FB_OLPC_DCON (everywhere), cfr. the build failure reported
-> > by the robot.
-> 
-> Yeah realized that too and fixed it locally.
-> 
-> Cheers, Daniel
-> 
-> > 
-> > Gr{oetje,eeting}s,
-> > 
-> >                         Geert
-> > 
-> > --
-> > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> > 
-> > In personal conversations with technical people, I call myself a hacker. But
-> > when I'm talking to journalists I just say "programmer" or something like that.
-> >                                 -- Linus Torvalds
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 6f6f7a763969..6f0eb596a2cd 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -49,10 +49,14 @@
+ static DEFINE_MUTEX(registration_lock);
+ 
+ struct fb_info *registered_fb[FB_MAX] __read_mostly;
+-EXPORT_SYMBOL(registered_fb);
+-
+ int num_registered_fb __read_mostly;
++#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
++EXPORT_SYMBOL(registered_fb);
+ EXPORT_SYMBOL(num_registered_fb);
++#endif
++#define for_each_registered_fb(i)		\
++	for (i = 0; i < FB_MAX; i++)		\
++		if (!registered_fb[i]) {} else
+ 
+ bool fb_center_logo __read_mostly;
+ 
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 23b19cf8bccd..afaa1474a283 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -623,16 +623,15 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
+ extern int fb_get_options(const char *name, char **option);
+ extern int fb_new_modelist(struct fb_info *info);
+ 
++#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
+ extern struct fb_info *registered_fb[FB_MAX];
++
+ extern int num_registered_fb;
++#endif
+ extern bool fb_center_logo;
+ extern int fb_logo_count;
+ extern struct class *fb_class;
+ 
+-#define for_each_registered_fb(i)		\
+-	for (i = 0; i < FB_MAX; i++)		\
+-		if (!registered_fb[i]) {} else
+-
+ static inline void lock_fb_info(struct fb_info *info)
+ {
+ 	mutex_lock(&info->lock);
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.34.1
+
