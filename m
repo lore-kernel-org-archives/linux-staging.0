@@ -1,135 +1,107 @@
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com [91.221.196.228])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7812F27
-	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 19:01:53 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
-	by mx2.smtp.larsendata.com (Halon) with ESMTPS
-	id 90d0ca10-8911-11ec-ac19-0050568cd888;
-	Tue, 08 Feb 2022 19:01:47 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: sam@ravnborg.org)
-	by mail01.mxhotel.dk (Postfix) with ESMTPSA id 3DFC3194B5C;
-	Tue,  8 Feb 2022 20:00:41 +0100 (CET)
-Date: Tue, 8 Feb 2022 20:00:38 +0100
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
-	linux-fbdev@vger.kernel.org, Zheyu Ma <zheyuma97@gmail.com>,
-	Xiyu Yang <xiyuyang19@fudan.edu.cn>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	linux-staging@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Zhen Lei <thunder.leizhen@huawei.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Daniel Vetter <daniel.vetter@intel.com>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
-	Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH 21/21] fbdev: Make registered_fb[] private to fbmem.c
-Message-ID: <YgK91i6zHWPBwYOq@ravnborg.org>
-References: <20220131210552.482606-1-daniel.vetter@ffwll.ch>
- <20220131210552.482606-22-daniel.vetter@ffwll.ch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559DE2F27
+	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 19:25:56 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id s24so117372oic.6
+        for <linux-staging@lists.linux.dev>; Tue, 08 Feb 2022 11:25:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o4fQscmZkT+if4EO2KKC4BHgRmaa2ZCGZYHdDINn6rg=;
+        b=PdWrfXkIjt3VIfc2e4P3VaMlTO+XvE8D+4A1D4ulpwJs9IBNLMMWxt6+uPc+oeTfYb
+         y108pvUNFvPJHS1PghA3SqZAxRa4XpmMNt4NMk6aefrv6XovDvjZEQ7TpcitL1lGJM/4
+         OEFNgjYVU2rP458YVct8kg44N9jwLgS3IDuEUah8NFdRmFmx7f2IUSUH/D/kLeGYRu3f
+         d5muvbwtnipYwVrA07PjIm2Vy0pG1QT6RTcfisVq/qoWJFisE29K8F8sjZAtvMs6TMFP
+         tWKmlMjY+XgaLzAPBLOiV6FeJMyhFnBZQi1sGb3asKOBxxQ8LvpYXa4uQWCBBzm7cr15
+         sGDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o4fQscmZkT+if4EO2KKC4BHgRmaa2ZCGZYHdDINn6rg=;
+        b=1bWN26PW2LqzLvRV/VjGlDYvAExhck7CfLyaaBeqWuXoVpT6onPk2R9FsfdDR4PISW
+         OxoJMDMKY5JzPNo/agOcXfoHeodHcjeAlFYak8UFJPMdzckp/SyCs+duWFi7GRbc3Xyr
+         ZT4HjrRZBgTNcDNpy8csrZN7hTvnKjr85oEoEW856/quYUPaRrTorNsEnXYbyWwVaqFp
+         80lEg1Ph/gY6u8D9Hp7GK/RPutW9Vxjl2B5XeIKp3KzK1dwdgCD8ILqsH7noPaFT3Nfy
+         7URTeI80mdeSys0c07oPj7PhuMwNtBP87hS97yW63UkgDnKGtpNCISuI0+MbMZffLK2f
+         9Tyg==
+X-Gm-Message-State: AOAM532dR1vI9mdSOAPvhWq+TuF61QLcrgthq+ZThInGdvZZrCize7w+
+	pjOM4ZLC5oC5KLneJ2Zfk5M=
+X-Google-Smtp-Source: ABdhPJwUhfUqWe+1ZtTYdnp1bQhJpEvnHbut3RIb8QPNR7nD0ROTEdtPAvr95qASDuj8bjX+HKwvJQ==
+X-Received: by 2002:a05:6808:481:: with SMTP id z1mr1214409oid.197.1644348355377;
+        Tue, 08 Feb 2022 11:25:55 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:4cd8:12bf:fde8:3cda:d976:7f4e])
+        by smtp.gmail.com with ESMTPSA id k10sm5772649oou.26.2022.02.08.11.25.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 11:25:54 -0800 (PST)
+From: Leonardo Araujo <leonardo.aa88@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Leonardo Araujo <leonardo.aa88@gmail.com>
+Subject: [PATCH] Staging: r8188eu: core: Blank lines aren't necessary before a close brace '}'
+Date: Tue,  8 Feb 2022 16:25:29 -0300
+Message-Id: <20220208192529.19774-1-leonardo.aa88@gmail.com>
+X-Mailer: git-send-email 2.29.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220131210552.482606-22-daniel.vetter@ffwll.ch>
+Content-Transfer-Encoding: 8bit
 
-Hi Daniel,
+Fixed a coding style issue.
 
-On Mon, Jan 31, 2022 at 10:05:52PM +0100, Daniel Vetter wrote:
-> Well except when the olpc dcon fbdev driver is enabled, that thing
-> digs around in there in rather unfixable ways.
-> 
-> Cc oldc_dcon maintainers as fyi.
-> 
-> Cc: Jens Frederich <jfrederich@gmail.com>
-> Cc: Jon Nettleton <jon.nettleton@gmail.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-staging@lists.linux.dev
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-> Cc: Zhen Lei <thunder.leizhen@huawei.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: Zheyu Ma <zheyuma97@gmail.com>
-> Cc: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Leonardo Araujo <leonardo.aa88@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_cmd.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-with the build thingy fixed:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index c7e8602d2097..5fdac6f8f717 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -1424,7 +1424,6 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+ 
+ 	/*  free cmd */
+ 	rtw_free_cmd_obj(pcmd);
+-
+ }
+ void rtw_disassoc_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ {
+@@ -1483,7 +1482,6 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ 
+ 		rtw_indicate_connect(padapter);
+ 	} else {
+-
+ 		pwlan = _rtw_alloc_network(pmlmepriv);
+ 		spin_lock_bh(&pmlmepriv->scanned_queue.lock);
+ 		if (!pwlan) {
+@@ -1513,7 +1511,6 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ 	spin_unlock_bh(&pmlmepriv->lock);
+ 
+ 	rtw_free_cmd_obj(pcmd);
+-
+ }
+ 
+ void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+@@ -1526,7 +1523,6 @@ void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pc
+ 		goto exit;
+ exit:
+ 	rtw_free_cmd_obj(pcmd);
+-
+ }
+ 
+ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+@@ -1553,5 +1549,4 @@ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *
+ 
+ exit:
+ 	rtw_free_cmd_obj(pcmd);
+-
+ }
+-- 
+2.29.0
 
-I do wonder if there is a more clean way to trigger a blank
-in the main fbdev driver from the olpc driver.
-
-The current hack is not nice and it would be good to see it gone.
-
-	Sam
-
-> ---
->  drivers/video/fbdev/core/fbmem.c | 8 ++++++--
->  include/linux/fb.h               | 7 +++----
->  2 files changed, 9 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 904ef1250677..dad6572942fa 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -48,10 +48,14 @@
->  static DEFINE_MUTEX(registration_lock);
->  
->  struct fb_info *registered_fb[FB_MAX] __read_mostly;
-> -EXPORT_SYMBOL(registered_fb);
-> -
->  int num_registered_fb __read_mostly;
-> +#if IS_ENABLED(CONFIG_OLPC_DCON)
-> +EXPORT_SYMBOL(registered_fb);
->  EXPORT_SYMBOL(num_registered_fb);
-> +#endif
-> +#define for_each_registered_fb(i)		\
-> +	for (i = 0; i < FB_MAX; i++)		\
-> +		if (!registered_fb[i]) {} else
->  
->  bool fb_center_logo __read_mostly;
->  
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index a8a00d2ba1f3..e236817502c2 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -622,16 +622,15 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
->  extern int fb_get_options(const char *name, char **option);
->  extern int fb_new_modelist(struct fb_info *info);
->  
-> +#if IS_ENABLED(CONFIG_OLPC_DCON)
->  extern struct fb_info *registered_fb[FB_MAX];
-> +
->  extern int num_registered_fb;
-> +#endif
->  extern bool fb_center_logo;
->  extern int fb_logo_count;
->  extern struct class *fb_class;
->  
-> -#define for_each_registered_fb(i)		\
-> -	for (i = 0; i < FB_MAX; i++)		\
-> -		if (!registered_fb[i]) {} else
-> -
->  static inline void lock_fb_info(struct fb_info *info)
->  {
->  	mutex_lock(&info->lock);
-> -- 
-> 2.33.0
