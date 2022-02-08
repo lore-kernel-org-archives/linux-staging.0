@@ -1,202 +1,100 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75822F23
-	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 01:26:35 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5874340;
-	Tue,  8 Feb 2022 02:26:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644283594;
-	bh=oUkDj8c1UVRf5J2PgXuhfFFpMQ4uUdWBAcW0Wnu7Ja8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k3nAqkYfMKaO3UUdSS67BOsRgslBgibdLkgpA+wioSPAClniwAk5Sf5CZokHZ0igS
-	 x/hhLZi9hKJ0reuBuO5EG2ik0ys8+UrCU1GLOo0no8AKinr2S/V9sVAr4dEuZeNZsp
-	 GmOGnKnZkOIIMePUjbr93NjngyMuqeDvJb4VniJ8=
-Date: Tue, 8 Feb 2022 03:26:31 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: (EXT) Re: [PATCH 1/8] media: imx: Store the type of hardware
- implementation
-Message-ID: <YgHGxzSOfTglmp+r@pendragon.ideasonboard.com>
-References: <20220204121514.2762676-1-alexander.stein@ew.tq-group.com>
- <20220204121514.2762676-2-alexander.stein@ew.tq-group.com>
- <Yf3tPuwbyz5UU6eC@pendragon.ideasonboard.com>
- <3650787.kQq0lBPeGt@steina-w>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438962F2E
+	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 03:54:10 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id v74so16642687pfc.1
+        for <linux-staging@lists.linux.dev>; Mon, 07 Feb 2022 19:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CrI21+GeUa9mDY1to6AwbsA2jAr/D2vzHzn49pGgXGE=;
+        b=K0rHE1yiOyGdFpo+TJrdid8OekFSu5VsJNQTBjNwo03OUwRRDY2ylwfZeW/HzWHGxU
+         EUIh8KOJGBjjFgffI4DFBSOLjoAtVWJVmZ67wg10Pf7pvDZBUyvlhTDLBIQCJ3GDEP+9
+         NmSA4or1ItZFOjgtaUvoRsxkhd2Z3/z72oNKRNVkdTuBVKZlo3YfQj+jCdJE2pbJYgfu
+         PxduBnFGbkT7zRpXyftW1Fgo1CuIyolVhUKIa4jEZ0QgRhWd49Ba+Miw4ka9xhGS2Dpk
+         vbXpkOnFxd9BNCtyTlfwGugPaeTJg0AwAE+Y6d4hozWeg8XVD/JLV075/h2XtXVFzVSn
+         GNuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CrI21+GeUa9mDY1to6AwbsA2jAr/D2vzHzn49pGgXGE=;
+        b=LweYJAbzNyOovbVWD5B7ylrUCS7qSV+rvMpBj58UYoaeXOZILj3aueXQzpFq0j0clr
+         GGsX19L6Bbyucifo4cuTJ5Rkb5JZhPmt0OVZ8xHKDn1p6ghJ6Iz0B1seyRdCrpngZk86
+         EsaG7Q16fNkbZGy96uUAhKf05TFHokVYgV+9LIp44nRAdVT4NaRolg5aXoClLgSe4FWJ
+         cGKze1RxLyxhEfyJV6qJwg6a6XB0qgqcdQ958RT5UoiANyC5d3AFwAFjRUQmUu4F1K56
+         UjkxUvqhI+Ud5tTIvEIKlInHv1XsrDARPuhh9Toh5jJb/pXaiqesViNa/CiJjfvRwCLY
+         YKSw==
+X-Gm-Message-State: AOAM532uzJFGSi3V4SFLWgiDpxSCvD0CLau6uDx9x8V8Du+XJquZiWSX
+	DF6WXxupTHNzlC2C6oYcm5w=
+X-Google-Smtp-Source: ABdhPJwQ0TBuhP0lUeWtWFlGeE2pQ5qCQ5dYfw5E4EauEyPfAmTzQXqzFDy6qw0t6Gd5dLPUbBLpDA==
+X-Received: by 2002:aa7:94a9:: with SMTP id a9mr2532139pfl.78.1644292449691;
+        Mon, 07 Feb 2022 19:54:09 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id p64sm9210078pga.13.2022.02.07.19.54.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Feb 2022 19:54:09 -0800 (PST)
+Date: Tue, 8 Feb 2022 16:54:02 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: Joe Perches <joe@perches.com>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, gregkh@linuxfoundation.org,
+	realwakka@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: pi433: remove need to recompile code to debug
+ fifo content
+Message-ID: <YgHpWpivQHcS+Eh1@mail.google.com>
+References: <YgCj2P59AbFFmnbA@mail.google.com>
+ <20220207100601.GF1951@kadam>
+ <a630d8381cee0f543e0d77614052e1d04ab162a5.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3650787.kQq0lBPeGt@steina-w>
+In-Reply-To: <a630d8381cee0f543e0d77614052e1d04ab162a5.camel@perches.com>
 
-Hi Alexander,
-
-On Mon, Feb 07, 2022 at 10:22:25AM +0100, Alexander Stein wrote:
-> Am Samstag, 5. Februar 2022, 04:21:34 CET schrieb Laurent Pinchart:
-> > On Fri, Feb 04, 2022 at 01:15:07PM +0100, Alexander Stein wrote:
-> > > From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > > 
-> > > The driver covers i.MX5/6, as well as i.MX7/8 hardware.
-> > > Those implementations differ, e.g. in the sizes of buffers they accept.
-> > > 
-> > > Some functionality should be abstracted, and storing type achieves that.
-> > 
-> > I think that longer term (which ideally shouldn't be too far in the
-> > future) we should decouple the i.MX5/6 and i.MX7/8 drivers (this naming
-> > is actually not quite correct, there are i.MX6 SoCs that have a CSI
-> > bridge, not an IPUv3). The platforms are completely different at the
-> > hardware level, they shouldn't share the same code. That would allow us
-> > to evolve the CSI bridge driver independently from the IPUv3 driver, and
-> > move it from staging to drivers/media/.
+On Mon, Feb 07, 2022 at 02:15:47AM -0800, Joe Perches wrote:
+> > > -#ifdef DEBUG_FIFO_ACCESS
+> > > +	/* print content read from fifo for debugging purposes */
+> > >  	for (i = 0; i < size; i++)
+> > >  		dev_dbg(&spi->dev, "%d - 0x%x\n", i, local_buffer[i + 1]);
+> > > -#endif
 > 
-> That sounds reasonable. Although I'm not sure where to start. Split it for 
-> i.MX6 in the first place (CSI bridge vs. IPUv3)? Or start splitting across 
-> i.MX generation? I've yet to have broad knowledge about the internals to be 
-> able to come up with a good decision.
-
-There are only two camera interfaces supported in this directory at this
-point, IPUv3 and CSI bridge (the latter implemented in imx7-media-csi).
-There's no need to split across i.MX generations.
-
-> > I'm not against merging this if it can help short term, but please also
-> > feel free to start decoupling the drivers, even if it results in some
-> > duplicated code.
+> If you use
 > 
-> Thanks for willing to accept this short term patches. I'm hesitating to 
-> decoupling for now as I haven't fully grasped all the details and small 
-> similarities and differences.
-
-I started giving it a try, but it will take some more work.
-
-> > > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > ---
-> > > Changes in comparison to original commit from Dorota:
-> > > * Applied the suggestion from Hans at [1].
-> > > 
-> > > [1] https://patchwork.linuxtv.org/project/linux-media/patch/20211104113631.206899-2-dorota.czaplejewicz@puri.sm/
-> > >  drivers/staging/media/imx/imx-ic-prpencvf.c   | 3 ++-
-> > >  drivers/staging/media/imx/imx-media-capture.c | 5 ++++-
-> > >  drivers/staging/media/imx/imx-media-csi.c     | 3 ++-
-> > >  drivers/staging/media/imx/imx-media.h         | 3 ++-
-> > >  drivers/staging/media/imx/imx7-media-csi.c    | 3 ++-
-> > >  5 files changed, 12 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
-> > > index 9b81cfbcd777..caaaac1a515a 100644
-> > > --- a/drivers/staging/media/imx/imx-ic-prpencvf.c
-> > > +++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
-> > > @@ -1266,7 +1266,8 @@ static int prp_registered(struct v4l2_subdev *sd)
-> > > 
-> > >  	priv->vdev = imx_media_capture_device_init(ic_priv->ipu_dev,
-> > >  						   &ic_priv->sd,
-> > > -						   PRPENCVF_SRC_PAD, true);
-> > > +						   PRPENCVF_SRC_PAD, true,
-> > > +						   true);
-> > >  	if (IS_ERR(priv->vdev))
-> > >  		return PTR_ERR(priv->vdev);
-> > > 
-> > > diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-> > > index 93ba09236010..b61bf9f8ddf8 100644
-> > > --- a/drivers/staging/media/imx/imx-media-capture.c
-> > > +++ b/drivers/staging/media/imx/imx-media-capture.c
-> > > @@ -47,6 +47,7 @@ struct capture_priv {
-> > > 
-> > >  	struct v4l2_ctrl_handler ctrl_hdlr;	/* Controls inherited from subdevs */
-> > >  	
-> > >  	bool legacy_api;			/* Use the legacy (pre-MC) API */
-> > > +	bool is_imx56;				/* Hardware is i.MX5/i.MX6 */
-> > 
-> > Can we create an enum type instead, to make the code more explicit ?
+> 	print_hex_dump_debug
 > 
-> I don't mind. So I will pick up the original patches from Dorota at [1] 
-> instead which already had an enum.
+> perhaps the DEBUG_FIFO_ACCESS could be removed.
 > 
-> [1] https://patchwork.kernel.org/project/linux-arm-kernel/patch/
-> 20211104113631.206899-2-dorota.czaplejewicz@puri.sm/
-> 
-> > >  };
-> > >  
-> > >  #define to_capture_priv(v) container_of(v, struct capture_priv, vdev)
-> > > @@ -957,7 +958,8 @@
-> > > EXPORT_SYMBOL_GPL(imx_media_capture_device_unregister);
-> > >  struct imx_media_video_dev *
-> > >  imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
-> > > -			      int pad, bool legacy_api)
-> > > +			      int pad, bool legacy_api,
-> > > +			      bool is_imx56)
-> > >  {
-> > >  	struct capture_priv *priv;
-> > >  	struct video_device *vfd;
-> > > @@ -972,6 +974,7 @@ imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
-> > >  	priv->src_sd_pad = pad;
-> > >  	priv->dev = dev;
-> > >  	priv->legacy_api = legacy_api;
-> > > +	priv->is_imx56 = is_imx56;
-> > > 
-> > >  	mutex_init(&priv->mutex);
-> > >  	INIT_LIST_HEAD(&priv->ready_q);
-> > > diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-> > > index bd7f156f2d52..c8f6add00dbb 100644
-> > > --- a/drivers/staging/media/imx/imx-media-csi.c
-> > > +++ b/drivers/staging/media/imx/imx-media-csi.c
-> > > @@ -1803,7 +1803,8 @@ static int csi_registered(struct v4l2_subdev *sd)
-> > >  	}
-> > >  	
-> > >  	priv->vdev = imx_media_capture_device_init(priv->sd.dev, &priv->sd,
-> > > -						   CSI_SRC_PAD_IDMAC, true);
-> > > +						   CSI_SRC_PAD_IDMAC, true,
-> > > +						   true);
-> > >  	if (IS_ERR(priv->vdev)) {
-> > >  		ret = PTR_ERR(priv->vdev);
-> > >  		goto free_fim;
-> > > diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-> > > index f263fc3adbb9..73e8e6e0d8e8 100644
-> > > --- a/drivers/staging/media/imx/imx-media.h
-> > > +++ b/drivers/staging/media/imx/imx-media.h
-> > > @@ -282,7 +282,8 @@ int imx_media_ic_unregister(struct v4l2_subdev *sd);
-> > >  /* imx-media-capture.c */
-> > >  struct imx_media_video_dev *
-> > >  imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
-> > > -			      int pad, bool legacy_api);
-> > > +			      int pad, bool legacy_api,
-> > > +			      bool is_imx56);
-> > >  void imx_media_capture_device_remove(struct imx_media_video_dev *vdev);
-> > >  int imx_media_capture_device_register(struct imx_media_video_dev *vdev,
-> > >  				      u32 link_flags);
-> > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > > index 32311fc0e2a4..158d2a736c6d 100644
-> > > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > > @@ -1039,7 +1039,8 @@ static int imx7_csi_registered(struct v4l2_subdev *sd)
-> > >  	}
-> > >  	
-> > >  	csi->vdev = imx_media_capture_device_init(csi->sd.dev, &csi->sd,
-> > > -						  IMX7_CSI_PAD_SRC, false);
-> > > +						  IMX7_CSI_PAD_SRC, false,
-> > > +						  false);
-> > >  	if (IS_ERR(csi->vdev))
-> > >  		return PTR_ERR(csi->vdev);
-> > > 
 
--- 
-Regards,
+Hi Joe, thanks for taking the time to review my patch.
 
-Laurent Pinchart
+print_hex_dump_debug is pretty convenient and straight to the point
+which I do like. The only thing that I "didn't like" is the fact that 
+when configuring dynamic debugging, print_hex_dump_debug only cares 
+about 'p' flag and ignores all of the other flags that can be helpful
+for tracking things down. 
+
+So essentially I lose track of which function and device instance 
+the message belongs to (users can have more than 1 at the same time).
+
+But, because of your suggestion, I came across hex_dump_to_buffer()
+which bridged the gap. thanks a lot :)
+
+Would you be comfortable with the following implementation? (Dan, feel
+free to chip in)
+
+	char linebuf[FIFO_SIZE * 3] = {0};
+	hex_dump_to_buffer(local_buffer + 1, size, 16, 1, linebuf,
+			   ARRAY_SIZE(linebuf), false);
+	dev_dbg(&spi->dev, "%s\n", linebuf);
+
+thanks,
+
+Paulo Almeida
+
