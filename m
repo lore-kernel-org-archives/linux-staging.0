@@ -1,59 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDF82F23
-	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 14:17:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CD37C004E1;
-	Tue,  8 Feb 2022 14:17:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1644329829;
-	bh=GK8zL7bCJXUu6YBd8ARaHTZaT8YLbCB64RKltU4JUTY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sJMlrQOu2pPNdZDw0l5vjkifH8fFo7/LATREK55pEiqV57421UXftgQ75PSt+uM09
-	 d5hR8nCqsrYtte6hbTosbbwTuSkerdGk5jDcFbBZwL00uZoQLGYm5WTPnbS5Uvk0WL
-	 gK3eFrlDIhPGl/6XXNiLwc3L6J002BpJqTkJr6gI=
-Date: Tue, 8 Feb 2022 15:17:06 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ankit Kumar Pandey <itsankitkp@gmail.com>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	martin@kaiser.cx, linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C212F2C
+	for <linux-staging@lists.linux.dev>; Tue,  8 Feb 2022 18:04:34 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id i15so9846271wrb.3
+        for <linux-staging@lists.linux.dev>; Tue, 08 Feb 2022 10:04:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=esaHoJx4QHm8kkodcqDserNTJ99eLynAuTTriRkvM1E=;
+        b=RwcAexFIpLprQCua5xnJFoSaNdoYU+MVkpsruPLL30E6yZFv1NNKJ+PjC6TbHMM7Yb
+         SC6SHogzn8WSQNai4UZeqLjqkLOkd5Uxv6TFoc9utacrbG+6ZXlkFQ8f3TE3IZcxRFaT
+         NOX0ZGFW9pOB2KtjQeHvhrUVSR8ks3pWAmDsXhKr4T5/Afz+SeHjzakL6I7+Xiq3gvmT
+         ZmclHZVIrDyHVZLcXFFYufx3KXJDo8WrEKlSHX+UA82a56qLINrQkP2Gkp/Mn9vaQnBF
+         2YQyLdMkY3N2aedfQmoOCK0s8/q882lcyHxdrmDfbXvXKIm/Jktd2Gq6OJODG23n6V6X
+         FFiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=esaHoJx4QHm8kkodcqDserNTJ99eLynAuTTriRkvM1E=;
+        b=ikOhNKwp7VRIluv3TMaZ7/k1NtdLV7RM3VdDjaD/rXTsbrJKQ9YfcT/Wj7tZw8p4MP
+         Y9T5UQtAlUbwDdu1RbP+DzAj8h2POwIMn2v68CeEfoMmLRULS2g8rFF8x46lzaN4zq+6
+         gz257n+vpMTuvI5hM2z9Sr6hcbukJhJlHwzSFUnotISF76eNndDDFun5IYMcupTfK+Nb
+         L+ZnacW8nMn9nA+CSW8zU41qFFB9UQCXyX007UaqvwgENx52RdaWXkgEctWOLP4370mU
+         +MQ9Zld/GRtgKeHpfTsFuaOiXQMHcCw1mwHn6uxsYBugqNNxpxDHmbkthVovgqb8X2qB
+         zTsw==
+X-Gm-Message-State: AOAM531+o+tpoLZgU5YiZf3BgRfFZyohmrTD81D5z9EicjBc90hXiOnp
+	3W6UrmR5y66Ih7Hn1MdOFNY=
+X-Google-Smtp-Source: ABdhPJwpLWEzuSHz7SS3Lyj8/PRvuGSF9l/ZPSaohSwLn3nPBg2LoIZqy+IfgxG012JNS1OBCWltPA==
+X-Received: by 2002:a5d:500c:: with SMTP id e12mr4375442wrt.193.1644343473212;
+        Tue, 08 Feb 2022 10:04:33 -0800 (PST)
+Received: from localhost.localdomain (host-95-245-2-16.retail.telecomitalia.it. [95.245.2.16])
+        by smtp.gmail.com with ESMTPSA id n26sm3176872wms.13.2022.02.08.10.04.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 10:04:32 -0800 (PST)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Fixed stylegude error in drivers/staging/rtl8712 by
- removing un-needed commented out lines
-Message-ID: <YgJ7YhsyPVpdBt2J@kroah.com>
-References: <YgJ5t1/Cn93qtBAE@ankit-vm>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v2 0/2] staging: r8188eu: Use kzalloc() with GFP_ATOMIC in atomic context
+Date: Tue,  8 Feb 2022 19:04:24 +0100
+Message-Id: <20220208180426.27455-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YgJ5t1/Cn93qtBAE@ankit-vm>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 08, 2022 at 07:39:59PM +0530, Ankit Kumar Pandey wrote:
-> Volatile keyword was left commented out as it was probably used during
-> development but was not needed in final build.
+Use the GFP_ATOMIC flag of kzalloc() in two memory allocation in rtw_set_key().
+This function is not allowed to sleep because it executes in atomic context. With
+the GFP_ATOMIC type flag, the allocation is high priority and cannot sleep.
 
-Are you sure?  Doesn't it convey some meaning here that needs to be
-verified before you remove it?
+This issue is detected by Smatch which emits the following warning:
+drivers/staging/r8188eu/core/rtw_mlme.c:1603 rtw_set_key() warn: sleeping in atomic context
 
-> And this was causing styleguide error, so I have removed this and there
-> for this patch reduces minor styleguide warnings to 0
+Before the above-mentioned changes, checkpatch.pl reports the following issues:
 
-You can not mix coding style fixes like my bot told you :(
+CHECK: Prefer kzalloc(sizeof(*pcmd)...) over kzalloc(sizeof(struct cmd_obj)...)
++       pcmd = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
 
-Also the subject line for this change is very odd, look at others for
-this same file to see examples of what to do:
+CHECK: Prefer kzalloc(sizeof(*psetkeyparm)...) over kzalloc(sizeof(struct setkey_parm)...)
++       psetkeyparm = kzalloc(sizeof(struct setkey_parm), GFP_ATOMIC).
 
-$ git log --oneline drivers/staging/rtl8712/rtl871x_pwrctrl.h | head -n 5
-9be550ee4391 staging: rtl8712: get rid of flush_scheduled_work
-c75afdaf2e53 staging: rtl8712: remove extra blank lines
-7c93fdf090df staging: rtl8712: r8712_register_cmd_alive(): Change return values
-e24c1f8658c9 staging: rtl8712: add SPDX identifiers
-b355da4c7cfb Staging: rtl8712: rtl871x_pwrctrl.h - style fix
+According to the above "CHECK[S]", use the preferred style in the two kzalloc().
 
-thanks,
+Changes from v1: Split one patch into two according to a requirement by
+Greg Kroah-Hartman.
 
-greg k-h
+Fabio M. De Francesco (2):
+  staging: r8188eu: Use size of dereferenced pointers in kzalloc()
+  staging: r8188eu: Use kzalloc() with GFP_ATOMIC in atomic context
+
+ drivers/staging/r8188eu/core/rtw_mlme.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.34.1
+
