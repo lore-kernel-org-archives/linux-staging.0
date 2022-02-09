@@ -1,128 +1,85 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A952F23
-	for <linux-staging@lists.linux.dev>; Wed,  9 Feb 2022 17:48:27 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id y18so2835945plb.11
-        for <linux-staging@lists.linux.dev>; Wed, 09 Feb 2022 09:48:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262552F21
+	for <linux-staging@lists.linux.dev>; Wed,  9 Feb 2022 18:33:54 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id q22so4675743ljh.7
+        for <linux-staging@lists.linux.dev>; Wed, 09 Feb 2022 10:33:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=F4NxIfE5pVavXfL1FvTbYlzlRXtKoW9v/Q8Zml6o1ow=;
-        b=FnHlQw2mxdJHKxT0xdfJqo6x7F6mCMHP+mESAoq+Oa4dV2IB/I7ZUOQUZOw1FLno89
-         9Dtdwba6ioD6tXAJAYWwXkBX5VQzA3nUPQnzMnFepNLmIiAGtgwsXirfDwNZiURC4XBE
-         NaZF0Np4P5GAp4XynEqfImAOUC551BywtCm6Jb1/Bt5Ih6EtrI/9w0B+3lfcEYt5liFI
-         wSMzY2wax+3G7vSc5A9QHVyf2tJU/Y8gqKtTWHfB2+InN/Giab3C36UCc39UBn3W6+ga
-         +A/1CwVifby6nYBItpT9UhgoZmHIru6GUGmnFB40CGSnCwzPzfoO1Jw0MLf9fN7Vi2Nl
-         hmRA==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=/VHbBhh1Q5BW0eHT7ODuGdUrQwpBM3ZeS/JzBlzS9jg=;
+        b=keJhsHcEm7hotnsbHxViXXol0pALn6nLuo0isXo7S9YQJwQgaJ+dOc46DYLg9W81MY
+         7JnC/TE9t/lDp8oUoJNnkHs6z9sCvhRMWJJyZ5kDtS8htfmpBWaVFwYi31IZLLck9pe9
+         KyxGtXlAM4bvJjDmdgl38SSajtMIvXGZooE///ovgxOFXLtZT3GlvjzVqMOCkcC0IaCV
+         gFJ9mIHg/89NDvwdM+vwb0OASB/94Lx8ladYZJ6DRYZOm0FDiELrnEfKGUtX2vyAf3jN
+         4V5QzUhEa1ccxg75bk2osR2BRZUS6eOJ+2sw61GkcFsXUv/dfWlZ8mLMgHNctZr+4b+C
+         mflA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=F4NxIfE5pVavXfL1FvTbYlzlRXtKoW9v/Q8Zml6o1ow=;
-        b=SChAfPXhmBKfxDP2TzK9bK4U0fRbxXUxVyB4nGXMJN4bBH5+YYlm7Kb/1I9Bx9iObu
-         NMvidxCwLZBCyhLK1NFi85DTLM0kprdhFkDGZ9tsmSz5ksewPnp8Bs9jhC1IqRS6waJ/
-         pm1eapKI/rxIIQuuF2NTGJ6imghI9jTvosd/bAqFRTnlqwOw38Zp3oLIQg7/u8yVV/r8
-         Hu3ZgI/99IyxKdTCyUqDOIqduYy7pSwuYtZqWErky+QFSS+vTpAcNRhH7AVCvqxognC9
-         QuBN1z5VWkkCdVuiPutz03U5vVyo/oWKayxMI6s8Mq3CEggJFUCFIY8TBPNVQvw8u6jF
-         R3GA==
-X-Gm-Message-State: AOAM533yRtyBM4zas3wd4++mRTbe8UPjX/lCv/Umi0JwMOMsFE63R0lz
-	z+CcFAYqMj8+IVwZ3TUaOr4=
-X-Google-Smtp-Source: ABdhPJwnlnoPjrXv/TYJhYQI1J991VOpPfXmw8K6wxRRZH6kwpEpihX53uyGeXjWIgW3By2YdnafPQ==
-X-Received: by 2002:a17:903:2083:: with SMTP id d3mr3235951plc.174.1644428907530;
-        Wed, 09 Feb 2022 09:48:27 -0800 (PST)
-Received: from localhost.localdomain ([103.81.93.149])
-        by smtp.gmail.com with ESMTPSA id mw14sm7462786pjb.6.2022.02.09.09.48.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Feb 2022 09:48:27 -0800 (PST)
-From: Vihas Makwana <makvihas@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	Martin Kaiser <martin@kaiser.cx>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH] staging: r8188eu: keep the success path and error path separate
-Date: Wed,  9 Feb 2022 23:18:19 +0530
-Message-Id: <20220209174819.5068-1-makvihas@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        bh=/VHbBhh1Q5BW0eHT7ODuGdUrQwpBM3ZeS/JzBlzS9jg=;
+        b=fCAi93l7MxXsYIdhplVQc/NGvYypa4xCacZXlQcB+gbHKfpqEoPr/r0/VCeN3HLNwg
+         US1OPSY13aN2/YW3raKqIZ2J4OUZAqtT+CFgmR/ohSzB3WM0WGp4l769nN6xUl+x+DZv
+         HNyQG8rn1OGtvHIzQqtKC/lL4rJJIPjeVyBGNfX3L6I+SmXWpZSOKl2GXOpa4X372So4
+         mCc5AMBRiPb8Wf+aDEy84kIgzFz+OvawxUP9gWjPnGRiyaIJS8bdYsIeIjHsOInXLCO5
+         YFVqIZ1bZTnzwZUgs0VO2vfFX279PB14+AIBc3Nwlp/VncttzfBDTDgNbPkV73jkGzA0
+         uFXw==
+X-Gm-Message-State: AOAM5316e4OfzIdq2p6Ax3CWQqd+xQIhnvdtilVYjFScf/ZFRmywZJdU
+	QavCAT+A8XscizZuQBSkZKE=
+X-Google-Smtp-Source: ABdhPJxh9nYl2aI5spHPNmfjqz/wXlDX3E9kOtM5a728QIC8T9TyOZy7Wzyxsh3VLJ0ATjuEK4fl5w==
+X-Received: by 2002:a2e:bc1c:: with SMTP id b28mr2337728ljf.40.1644431632033;
+        Wed, 09 Feb 2022 10:33:52 -0800 (PST)
+Received: from [192.168.1.11] ([217.117.245.154])
+        by smtp.gmail.com with ESMTPSA id u21sm2606127ljo.81.2022.02.09.10.33.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Feb 2022 10:33:51 -0800 (PST)
+Message-ID: <be19eaee-2b90-d0c3-c80c-d8fb379bdcf3@gmail.com>
+Date: Wed, 9 Feb 2022 21:33:50 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] staging: r8188eu: keep the success path and error path
+ separate
+Content-Language: en-US
+To: Vihas Makwana <makvihas@gmail.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220209174819.5068-1-makvihas@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20220209174819.5068-1-makvihas@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Keep the success path and error path separate in rtw_usb_if1_init() and
-drop the "status" variable.
-Also, remove do-nothing gotos.
+Hi Vihas,
 
-Signed-off-by: Vihas Makwana <makvihas@gmail.com>
----
- drivers/staging/r8188eu/os_dep/usb_intf.c | 29 ++++++++++-------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
+On 2/9/22 20:48, Vihas Makwana wrote:
+> -exit:
+> +	if (pnetdev)
+> +		rtw_free_netdev(pnetdev);
+> +	else if (padapter)
+> +		vfree(padapter);
+> +	padapter = NULL;
+> +
+>   	return padapter;
+>   }
 
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index 10c33e2ae..4ddf3a95a 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -336,13 +336,13 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- {
- 	struct adapter *padapter = NULL;
- 	struct net_device *pnetdev = NULL;
--	int status = _FAIL;
- 	struct io_priv *piopriv;
- 	struct intf_hdl *pintf;
- 
- 	padapter = vzalloc(sizeof(*padapter));
- 	if (!padapter)
--		goto exit;
-+		return NULL;
-+
- 	padapter->dvobj = dvobj;
- 	dvobj->if1 = padapter;
- 
-@@ -421,25 +421,20 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- 		, padapter->hw_init_completed
- 	);
- 
--	status = _SUCCESS;
-+	return padapter;
- 
- free_drv_sw:
--	if (status != _SUCCESS) {
--		rtw_cancel_all_timer(padapter);
--		rtw_free_drv_sw(padapter);
--	}
-+	rtw_cancel_all_timer(padapter);
-+	rtw_free_drv_sw(padapter);
- handle_dualmac:
--	if (status != _SUCCESS)
--		rtw_handle_dualmac(padapter, 0);
-+	rtw_handle_dualmac(padapter, 0);
- free_adapter:
--	if (status != _SUCCESS) {
--		if (pnetdev)
--			rtw_free_netdev(pnetdev);
--		else if (padapter)
--			vfree(padapter);
--		padapter = NULL;
--	}
--exit:
-+	if (pnetdev)
-+		rtw_free_netdev(pnetdev);
-+	else if (padapter)
-+		vfree(padapter);
-+	padapter = NULL;
-+
- 	return padapter;
- }
- 
--- 
-2.30.2
+Why just not `return NULL`?
 
+
+
+
+With regards,
+Pavel Skripkin
