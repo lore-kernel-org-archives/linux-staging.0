@@ -1,58 +1,57 @@
-Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF85F2C9C
-	for <linux-staging@lists.linux.dev>; Wed,  9 Feb 2022 03:27:43 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1644377262;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=x2Il0JhrH5EsFOuJtqhIRhFIoWPTf3W77jR9wKs31rI=;
-	b=MIeHlyZMMutX70dqI+O6N/jG+BC92D2SkQNXDJlIW739n5beUj/tcgyAadqp9ZvWKgY8aP
-	8tSl4OFpUmeR69s9H84qSRY6fVpyNKAG83N3HBbOR6rYMKyffEllbw81HWjx0CHyRh1916
-	q5ekMfe8dl/bpBhb+yNNq0FGazgzV3M=
-From: Cai Huoqing <cai.huoqing@linux.dev>
-To: cai.huoqing@linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Len Baker <len.baker@gmx.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: most: video: Make use of the helper macro LIST_HEAD()
-Date: Wed,  9 Feb 2022 11:27:13 +0800
-Message-Id: <20220209032715.38437-1-cai.huoqing@linux.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BB52F2E
+	for <linux-staging@lists.linux.dev>; Wed,  9 Feb 2022 07:10:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62131C340E7;
+	Wed,  9 Feb 2022 07:10:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1644390644;
+	bh=rxEgYRgCwh9LFZmjFE4yFU9bmXyedf1uJf5KWKZeimw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pF2VIo0xfzFKaABIHU07EfutScT1WHJ74mvcMYGyeh2ppZzaZuX2OUOFmeRK4vLS5
+	 tMGbYPMhqUpkntCw9DDn0LhzGO0hx28dhQ1RC85GvbyZ66meuWY4GN4oGikBi3SKu/
+	 i3lQ2D12D2M0o9EMxRfLM+u/PpzxTxvhQhsR0HdfUjF/42rkEbpu+rhCbkRmQ1uU3y
+	 0bVc/bkWyOSApdLAg5MlbghHHade1GTfBL8JMy93OCeXXSSTogyoWGLk6VWbWdt/md
+	 MifcnN7HRhbzKtyRTlWu2cVdLnx303IpkLU0mXARrqmLkTPIuZhNC5pUAw+o/bun7P
+	 PB7/SrSP9lpzA==
+Date: Wed, 9 Feb 2022 15:10:37 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Adam Ford <aford173@gmail.com>
+Cc: linux-media@vger.kernel.org, aford@beaconembedded.com,
+	cphealy@gmail.com, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH V4 01/11] arm64: dts: imx8mq-tqma8mq: Remove redundant
+ vpu reference
+Message-ID: <20220209071036.GB4909@dragon>
+References: <20220125171129.472775-1-aford173@gmail.com>
+ <20220125171129.472775-2-aford173@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220125171129.472775-2-aford173@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-Replace "struct list_head head = LIST_HEAD_INIT(head)" with
-"LIST_HEAD(head)" to simplify the code.
+On Tue, Jan 25, 2022 at 11:11:18AM -0600, Adam Ford wrote:
+> The vpu is enabled by default, so there is no need to manually
+> enable it.
+> 
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
-Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
----
- drivers/staging/most/video/video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index b7858e47145f..ffa97ef21ea5 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -52,7 +52,7 @@ struct comp_fh {
- 	u32 offs;
- };
- 
--static struct list_head video_devices = LIST_HEAD_INIT(video_devices);
-+static LIST_HEAD(video_devices);
- static DEFINE_SPINLOCK(list_lock);
- 
- static inline bool data_ready(struct most_video_dev *mdev)
--- 
-2.25.1
-
+Applied, thanks!
