@@ -1,25 +1,50 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3AE2F21
-	for <linux-staging@lists.linux.dev>; Wed,  9 Feb 2022 19:28:59 +0000 (UTC)
-Received: from dslb-188-096-136-245.188.096.pools.vodafone-ip.de ([188.96.136.245] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1nHse0-00049w-1Z; Wed, 09 Feb 2022 20:28:48 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C482F21
+	for <linux-staging@lists.linux.dev>; Wed,  9 Feb 2022 19:32:41 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id d18-20020a9d51d2000000b005a09728a8c2so2261445oth.3
+        for <linux-staging@lists.linux.dev>; Wed, 09 Feb 2022 11:32:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0IpGy20grOcd5vJjpM1uGLot1+fNqnNeUgBZOKzN3GE=;
+        b=EjJky+ALw6AJ6laDzAhpshF2DLSxDj4k8++q+GZ0VC99je6G7oC/AQWrtQCVMjK5xT
+         9S59hpSUn17L+XuMhORtvm9kJCWyaScDbyS/14zaqlaBbwiePd5VkVrpQd2N53kd76mx
+         bo+bNugiNa+w+48EDoRSGzVX1V6zhwkYGLNW8rQ6jkt7LWRFqm/Qs4RGQCSWVzY60pi+
+         cTrBkJwBcyG+/7NrVoKxw9/2522ms/OoLn7srlPyrfg9oxXtssM2lrlf6z4AzEWsjURo
+         At4B/z+b5nryn71IYYfaNw1bVdI0xdpS9Wm2Q85i+6/FofqHvc1BFDT+6W2p5i6YH81F
+         cKaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0IpGy20grOcd5vJjpM1uGLot1+fNqnNeUgBZOKzN3GE=;
+        b=kBJNWFYei+iO73NFbf67aA/67OA0kjS1+8wJXPdYOcoZD6aVwSJkFuIICzEGXXWkOb
+         +AleZ6qYQYiGo6xL/QQ/dgh77+4xl3GI6VFDZWgKQ5gaedBeAygdvODY5GOI2JEd2KjM
+         DwV+s4oM5Hjyrtfz7kE2Wsli0YMuVi6Mf//bnL/4eqj75JoDctu25gfw34CsONjO0SlN
+         OST9n3v+PUqyyJii0HmniBKyYosKZqf8Wv2/vwEjBbsI+AKEvgennI6udsVAo6srgT2a
+         y25oTwANbUgUPapE4TTX3S7b+8vLsf3yXR05yHhi6kO6En1mWEDzp+lLkEY0nxjWpGy9
+         g/ZQ==
+X-Gm-Message-State: AOAM530KzCLKBWB1nq7KRumVK7yh/4C3Jh9umxQiedWG8/AImnhdyllK
+	vDfEj+TDCLNOXiV4BvaAwOY=
+X-Google-Smtp-Source: ABdhPJxV1azGRFBKVpgbmq7a9Jfa0UljglBe26tdIR90GlY1fS3Ti5+MYtjWfrTdeglU6YROg2Kj6g==
+X-Received: by 2002:a9d:71c2:: with SMTP id z2mr1581359otj.188.1644435160401;
+        Wed, 09 Feb 2022 11:32:40 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:4cd8:12bf:758b:9a0d:6e95:934f])
+        by smtp.gmail.com with ESMTPSA id j6sm6885572otq.76.2022.02.09.11.32.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Feb 2022 11:32:39 -0800 (PST)
+From: Leonardo Araujo <leonardo.aa88@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH] staging: r8188eu: remove ishighspeed from dvobj_priv
-Date: Wed,  9 Feb 2022 20:28:42 +0100
-Message-Id: <20220209192842.99399-1-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
+	Leonardo Araujo <leonardo.aa88@gmail.com>
+Subject: [PATCH] Staging: r8188eu: core: Possible repeated word: 'the'
+Date: Wed,  9 Feb 2022 16:32:09 -0300
+Message-Id: <20220209193209.25934-1-leonardo.aa88@gmail.com>
+X-Mailer: git-send-email 2.29.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,113 +53,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There's no need to store the usb device speed in struct dvobj_priv.
-We can read the speed from struct usb_device. dvobj_priv has a pointer
-to the usb_device.
+This patch fixes the following checkpatch.pl warning:
 
-Reorder one if-statement to make the code clearer.
+WARNING: Possible repeated word: 'the'
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+Signed-off-by: Leonardo Araujo <leonardo.aa88@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_iol.c       | 4 +++-
- drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 2 +-
- drivers/staging/r8188eu/hal/usb_halinit.c    | 6 +++---
- drivers/staging/r8188eu/include/drv_types.h  | 1 -
- drivers/staging/r8188eu/include/usb_ops.h    | 2 +-
- drivers/staging/r8188eu/os_dep/usb_intf.c    | 8 --------
- 6 files changed, 8 insertions(+), 15 deletions(-)
+ drivers/staging/r8188eu/core/rtw_cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
-index 923da2a9f6ae..f5f03160759c 100644
---- a/drivers/staging/r8188eu/core/rtw_iol.c
-+++ b/drivers/staging/r8188eu/core/rtw_iol.c
-@@ -68,8 +68,10 @@ bool rtw_IOL_applied(struct adapter  *adapter)
- 	if (1 == adapter->registrypriv.fw_iol)
- 		return true;
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 8bfb01c2ebb5..bf15f224aee7 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -529,7 +529,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
  
--	if ((2 == adapter->registrypriv.fw_iol) && (!adapter_to_dvobj(adapter)->ishighspeed))
-+	if ((2 == adapter->registrypriv.fw_iol) &&
-+	    (adapter_to_dvobj(adapter)->pusbdev->speed != USB_SPEED_HIGH))
- 		return true;
-+
- 	return false;
- }
- 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-index 205a392a0ad3..f2555c97b0c4 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-@@ -403,7 +403,7 @@ s32 rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmitp
- 	/*  dump frame variable */
- 	u32 ff_hwaddr;
- 
--	if (pdvobjpriv->ishighspeed)
-+	if (pdvobjpriv->pusbdev->speed == USB_SPEED_HIGH)
- 		bulksize = USB_HIGH_SPEED_BULK_SIZE;
- 	else
- 		bulksize = USB_FULL_SPEED_BULK_SIZE;
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 659e0f26db29..1f2c736c3bc4 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -99,10 +99,10 @@ static void _InitInterrupt(struct adapter *Adapter)
- 	/*  1; Use bulk endpoint to upload interrupt pkt, */
- 	usb_opt = rtw_read8(Adapter, REG_USB_SPECIAL_OPTION);
- 
--	if (!adapter_to_dvobj(Adapter)->ishighspeed)
--		usb_opt = usb_opt & (~INT_BULK_SEL);
--	else
-+	if (adapter_to_dvobj(Adapter)->pusbdev->speed == USB_SPEED_HIGH)
- 		usb_opt = usb_opt | (INT_BULK_SEL);
-+	else
-+		usb_opt = usb_opt & (~INT_BULK_SEL);
- 
- 	rtw_write8(Adapter, REG_USB_SPECIAL_OPTION, usb_opt);
- }
-diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
-index 618a6529192b..894e70a0d506 100644
---- a/drivers/staging/r8188eu/include/drv_types.h
-+++ b/drivers/staging/r8188eu/include/drv_types.h
-@@ -137,7 +137,6 @@ struct dvobj_priv {
- 
- /*-------- below is for USB INTERFACE --------*/
- 
--	u8	ishighspeed;
- 	u8	RtNumOutPipes;
- 
- 	struct usb_interface *pusbintf;
-diff --git a/drivers/staging/r8188eu/include/usb_ops.h b/drivers/staging/r8188eu/include/usb_ops.h
-index 0a1155bbc7b8..62e4706c0497 100644
---- a/drivers/staging/r8188eu/include/usb_ops.h
-+++ b/drivers/staging/r8188eu/include/usb_ops.h
-@@ -55,7 +55,7 @@ static inline u8 rtw_usb_bulk_size_boundary(struct adapter *padapter,
- 	u8 rst = true;
- 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
- 
--	if (pdvobjpriv->ishighspeed)
-+	if (pdvobjpriv->pusbdev->speed == USB_SPEED_HIGH)
- 		rst = (0 == (buf_len) % USB_HIGH_SPEED_BULK_SIZE) ?
- 		      true : false;
- 	else
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index 10c33e2ae3bc..cd7f28d25c47 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -117,14 +117,6 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- 	if (rt_num_in_pipes != 1)
- 		goto err;
- 
--	if (pusbd->speed == USB_SPEED_HIGH) {
--		pdvobjpriv->ishighspeed = true;
--		DBG_88E("USB_SPEED_HIGH\n");
--	} else {
--		pdvobjpriv->ishighspeed = false;
--		DBG_88E("NON USB_SPEED_HIGH\n");
--	}
--
- 	/* 3 misc */
- 	rtw_reset_continual_urb_error(pdvobjpriv);
+ 	psecnetwork->IELength = 0;
+ 	/*  Added by Albert 2009/02/18 */
+-	/*  If the the driver wants to use the bssid to create the connection. */
++	/*  If the driver wants to use the bssid to create the connection. */
+ 	/*  If not,  we have to copy the connecting AP's MAC address to it so that */
+ 	/*  the driver just has the bssid information for PMKIDList searching. */
  
 -- 
-2.30.2
+2.29.0
 
