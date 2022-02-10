@@ -1,103 +1,80 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AFD2F21
-	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 11:43:52 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id a8so14575016ejc.8
-        for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 03:43:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:content-transfer-encoding:date:message-id:cc:subject
-         :from:to:references:in-reply-to;
-        bh=QCeTPktxYJJYpqPYNifcdFoiHu6/qXeJE2j2d8aAenI=;
-        b=GL1Cbh+/CgSAL4lkyOLwKOefU8vLz3nQuwMJBGYj4mM1R4XztOovNGryf1iPA7iQVW
-         IYKceiJLM4GOrm2mE7d388efnhqADBS13cq3+itEgsnhIY6xh+i2zh0QSH/+QrdSodx4
-         W7OJXxOpJoU/ga13bNfQTxrhrc+OE30EE6opusgub5o9laAkX1QPPLjIqFrrOA1KYLCK
-         vhjcL+il0M5n/asvPF/0+bd+dhpqn5lATZigFV+Mo1bg9tZU12m2gZTMXSOxxEBqFP18
-         HVF77tUtqaCvCyl12CgFI1CrBtPp7+66CCxTn4JGc+mkJE+QgNJ0CeO42mkBdozQN6+Q
-         g6mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:content-transfer-encoding:date
-         :message-id:cc:subject:from:to:references:in-reply-to;
-        bh=QCeTPktxYJJYpqPYNifcdFoiHu6/qXeJE2j2d8aAenI=;
-        b=w+FrBn4SVzF1eayQsObXYIpleuA7+KUl+9dhs///Ys+HhOl7VjFPI/wjE1DBYp03Cx
-         ErpDkJu4Auxhf/XzUA7MZ5344PdYRoJ8/Fl8d/WdD7XQcTzfTG0xw35F3dxIWQiV4tD6
-         pOVEdVZg2LyeysxBUw8sOuM9/xKQLK1JZQ28BKXx3+zrj9H6VunaYEAjcrBHvlNniPfQ
-         J7N/jjSv1RBbmMlb1qbHswPRD1WSXra97PKkPbwXCGRURhiSCALs8UllEtbdDx2nM/dE
-         oPM+Cd7jrzAnJcUE8sDzmSqcB2YHhjqyDV4VEq3ZBH48h52OKY1RP23THFZa2SX4HeI5
-         5cSg==
-X-Gm-Message-State: AOAM533W+8k/d3R2/U1y5weAd5Vhg01R0hLMy9HSm6nr8xPg9J+I0Ay0
-	LTAX0+5+stXSoxiW1zcY/pkMPN7+Kw0=
-X-Google-Smtp-Source: ABdhPJwn1ys3+LzoRmVn5YCRWkSIxHeN2Y4IO6ubZzgATn0CsloRfh34+fPlncqqFtMoyKx2cT2V7w==
-X-Received: by 2002:a17:906:43c9:: with SMTP id j9mr5941529ejn.652.1644493430745;
-        Thu, 10 Feb 2022 03:43:50 -0800 (PST)
-Received: from localhost (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
-        by smtp.gmail.com with ESMTPSA id j9sm3365630ejb.189.2022.02.10.03.43.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 03:43:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBADD2F24
+	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 14:11:21 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DD83C21114;
+	Thu, 10 Feb 2022 14:11:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1644502273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=NqZX/R1rW0u9OuXptlIh/Izf+d0bGZuqQpKWsBEQtWw=;
+	b=c7enywIuPfBT8b4t4bdZIJ6TZBGPg2H24iG6J8HVpgnWft3l6StNQJp3VkA80jFXngI8Ji
+	gpbTtHyUYG8DYKUv1uyiXzk4uY8skdFhyCiCQY0jTM14kEKp2AtHb21Eg1dBbRzHIam7In
+	9B7hlpojYPluhCWotyaf3E+P3VLhJpc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1644502273;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=NqZX/R1rW0u9OuXptlIh/Izf+d0bGZuqQpKWsBEQtWw=;
+	b=V5O0ngVfdN4/qyCuSxuQCTjLS7kbzLEWoGY0Pt5UP8AJ2EGuO8bwWtisApt9UkiyLH0Kyz
+	5o0eqnmJCRev7zDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9594C13B9E;
+	Thu, 10 Feb 2022 14:11:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id aIqKIwEdBWIPaQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 10 Feb 2022 14:11:13 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch,
+	javierm@redhat.com,
+	noralf@tronnes.org,
+	andriy.shevchenko@linux.intel.com,
+	deller@gmx.de,
+	bernie@plugable.com,
+	jayalk@intworks.biz
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/2] fbdev: Significantly improve performance of fbdefio mmap
+Date: Thu, 10 Feb 2022 15:11:09 +0100
+Message-Id: <20220210141111.5231-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 10 Feb 2022 11:43:48 +0000
-Message-Id: <CHSC9NU74XQV.2L2R0WCT1UZLA@arch-thunder>
-Cc: <johan@kernel.org>, <elder@kernel.org>, <gregkh@linuxfoundation.org>,
- <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, "Minghao Chi" <chi.minghao@zte.com.cn>,
- "Zeal Robot" <zealci@zte.com.cn>
-Subject: Re: [PATCH] staging: greybus: Remove redundant 'flush_workqueue()'
- calls
-From: "Rui Miguel Silva" <rmfrfs@gmail.com>
-To: <cgel.zte@gmail.com>
-References: <20220210060205.1607792-1-chi.minghao@zte.com.cn>
-In-Reply-To: <20220210060205.1607792-1-chi.minghao@zte.com.cn>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hey Minghao,
-Many thanks for the patch.
+Remove the bubble sort from fbdev defered I/O page tracking. Most
+drivers only want to know which pages have been written to. The exact
+order is not important.
 
-On Thu Feb 10, 2022 at 6:02 AM WET,  wrote:
+Tested on simpledrm.
 
-> From: Minghao Chi (CGEL ZTE) <chi.minghao@zte.com.cn>
->
-> 'destroy_workqueue()' already drains the queue before destroying it,
-> so there is no need to flush it explicitly.
->
-> Remove the redundant 'flush_workqueue()' calls.
->
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Minghao Chi (CGEL ZTE) <chi.minghao@zte.com.cn>
+Thomas Zimmermann (2):
+  fbdev/defio: Early-out if page is already enlisted
+  fbdev: Don't sorting deferred-I/O pages by default
 
-LGTM.
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+ drivers/staging/fbtft/fbtft-core.c  |  1 +
+ drivers/video/fbdev/broadsheetfb.c  |  1 +
+ drivers/video/fbdev/core/fb_defio.c | 38 +++++++++++++++++------------
+ drivers/video/fbdev/metronomefb.c   |  1 +
+ drivers/video/fbdev/udlfb.c         |  1 +
+ include/linux/fb.h                  |  1 +
+ 6 files changed, 28 insertions(+), 15 deletions(-)
 
-Cheers,
-     Rui
-
-> ---
->  drivers/staging/greybus/sdio.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/staging/greybus/sdio.c b/drivers/staging/greybus/sdi=
-o.c
-> index 37bf04c22dbc..25bee5335c70 100644
-> --- a/drivers/staging/greybus/sdio.c
-> +++ b/drivers/staging/greybus/sdio.c
-> @@ -858,7 +858,6 @@ static void gb_sdio_remove(struct gbphy_device *gbphy=
-_dev)
->  	gb_connection_set_data(connection, NULL);
->  	mutex_unlock(&host->lock);
-> =20
-> -	flush_workqueue(host->mrq_workqueue);
->  	destroy_workqueue(host->mrq_workqueue);
->  	gb_connection_disable_rx(connection);
->  	mmc_remove_host(mmc);
-> --=20
-> 2.25.1
-
-
+-- 
+2.34.1
 
