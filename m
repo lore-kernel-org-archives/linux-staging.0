@@ -1,41 +1,41 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C912C9E
-	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 10:05:29 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id e7so9893705ejn.13
-        for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 02:05:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0C529CA
+	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 10:16:31 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id a8so14021721ejc.8
+        for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 02:16:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=guBM8Thpvta//OnnwvBS2Yed9yNINr+uW6fG9LcJsBs=;
-        b=Tm/wv7cKv2FbBy0bMrFuaOlLuudZSDznlEvy8sBfc2zcokikXC9yhQzXRlJ/Y1lx5e
-         BHoSHZvOjU9H8VLpWnfdKs/94x964AaFKSThO8LwB087CMSOX8TelluBltkA0puNBjI8
-         nBW4zaBM+TDehPKP9YlJW3K4/sBnbCpGzbGzfxmX9ItKhiV6JZw7gjmcbzeUrUnr4wRf
-         G5q/hXG1ZxO8DZpfAkKy7abmwRAvBio993DejU9wbW7r8MwsgULhGjdYmf5gm43ydSri
-         nWfALiD/goJARQGd8BRgbU4Y/+dGwsBmTHol3oj8KHXKDZ5q3mdAwfbymAPPNnTOWMNN
-         bopQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cqd+nHAtyHPX1TFwEse8byzK8ys5i5RMjcpqTUGLpbY=;
+        b=ZzQq1zGYJdLFyrdECQKUokfzSmpV8AqALMPLO487lPqoVwtNE3ikjy6gqgwnwpJ+xU
+         dlmywpWlofAFYfYsu6oGnCUuSX/BKLw+aDeW8YK7gZqUfz8So29y1bznaQA4VtrNAZcA
+         9yXqneAa99/xv4+GK3e59lboF7swv/mALq4i91wXZqGS4itER6DavxIQG0VjOEYPGavD
+         peWfE52Wm4urJbKxbSk+M55S03CC/7ton5MYmIdQa0qFKwuety67toEnOLBCFD8ZdHHA
+         Py4jsMsW7Dqi7DJLvhPgOaAfbEksUOqlw2sCAgzSac852Mt888jxrXQwMe5dtjXA1uCz
+         VA7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=guBM8Thpvta//OnnwvBS2Yed9yNINr+uW6fG9LcJsBs=;
-        b=nspY2iNYYnW87dujFMz1OsrJyTXrylAyg74YHRfOgh4w+kV9QPHCmdIBGMyPhFyT6w
-         IGofic23BA6qNKvjoyi9mgEvpR610Fgi08HFCLPNrVBjP4BAgyobD3AKgghAa6K9zH6x
-         FlCLt1tV+d+TnSEwdbFdt7Zy7rdDkrTnbsuXlef6+baYglu0SyPpyEP9f0J78u4GWkzJ
-         tSa5ngihQqdlNdbKNFo0l731uMnECQtnVPz/XuI0vpRBFnaN79tSX/762Fc2dBblbcg6
-         kumZxV0lWg69fsNRUe0v9Pvx9KKydACaxVJzsnhVD7El9brRl2IQYDvLjUdVO31S9BSF
-         Qj2Q==
-X-Gm-Message-State: AOAM5311SGQIeOB2s63SVbu09QJuxJk+oHDmjwv0XtjeUZIU0Jrq3m3s
-	5JOepehuXmiXTW+tDgCbA/Y4RGnfYfE=
-X-Google-Smtp-Source: ABdhPJwbbIHoip3yuFrU9pvr4k+UNZWYzH+DXO5/8KmWMM4oA+hFgWn5MjsLYLkd1vS48VBkLIVsAg==
-X-Received: by 2002:a17:906:74c2:: with SMTP id z2mr5774479ejl.36.1644487527748;
-        Thu, 10 Feb 2022 02:05:27 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cqd+nHAtyHPX1TFwEse8byzK8ys5i5RMjcpqTUGLpbY=;
+        b=5CEIM/WjS91hp/MgakJ1yoAagpuKiThCQ+kQHvjyQLMa6EiMnqkllXWWk11Edli85h
+         cKFLPtyH3DCtKvTKRzDwiuN5oHnvDg8XlUIvGYjcV6Fg8h0Ju9fev9wees9qbpYg5MUE
+         HZUZ2rHtRO0ZujXiw6eARWvEqtrFlmNGLjP9sjpfFRm5gy8ZCyyGgq+Zk6l4RvcmppyN
+         xJpGVTni2cgZDlJs727FKpjHvax4APVLGXERbLDpBGFWHfG68lnv/G0XqU3ojdD6Zmsf
+         iUMkR58o211gUiENX3Kaey6EWq66zmYXJl3teuFmHmfETTIYXtbgh8mDbQ7BlpHbjo2c
+         NiWQ==
+X-Gm-Message-State: AOAM532lD6K/Bct/o/MWCmEj/13naoqJh1D86waFq931Zo1KccxoyP2T
+	bWN5THrN6JVnSLSgTWwbGfU=
+X-Google-Smtp-Source: ABdhPJw6GGKIy6Xla66jzDmfg+MfJVxsugVCLGL94ScZSCChCbM/0W0cOwAyiwMYiLv6ofnO+/QFcw==
+X-Received: by 2002:a17:907:d01:: with SMTP id gn1mr5853708ejc.507.1644488190439;
+        Thu, 10 Feb 2022 02:16:30 -0800 (PST)
 Received: from localhost.localdomain (ip5f5abb5a.dynamic.kabel-deutschland.de. [95.90.187.90])
-        by smtp.gmail.com with ESMTPSA id 5sm9729858edx.32.2022.02.10.02.05.27
+        by smtp.gmail.com with ESMTPSA id i9sm7994855eda.35.2022.02.10.02.16.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 02:05:27 -0800 (PST)
+        Thu, 10 Feb 2022 02:16:30 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,12 +43,10 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: remove unused enums from ieee80211.h
-Date: Thu, 10 Feb 2022 11:05:14 +0100
-Message-Id: <20220210100514.8506-3-straube.linux@gmail.com>
+Subject: [PATCH v2 0/2] staging: r8188eu: clean up ieee80211.h
+Date: Thu, 10 Feb 2022 11:16:21 +0100
+Message-Id: <20220210101623.13758-1-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220210100514.8506-1-straube.linux@gmail.com>
-References: <20220210100514.8506-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,104 +55,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are some unused enums in the ieee80211.h header. Remove them.
+This set removes unused structs and enums from the ieee80211.h header.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/include/ieee80211.h | 66 ---------------------
- 1 file changed, 66 deletions(-)
+v2:
+Fixed a typo in the commit message of patch 1/2.
+strutures -> structures
 
-diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
-index f3b20215ca94..1793b99feb9f 100644
---- a/drivers/staging/r8188eu/include/ieee80211.h
-+++ b/drivers/staging/r8188eu/include/ieee80211.h
-@@ -226,14 +226,6 @@ struct rtw_ieee80211_hdr_3addr_qos {
- 	u16     qc;
- }  __packed;
- 
--enum eap_type {
--	EAP_PACKET = 0,
--	EAPOL_START,
--	EAPOL_LOGOFF,
--	EAPOL_KEY,
--	EAPOL_ENCAP_ASF_ALERT
--};
--
- #define IEEE80211_3ADDR_LEN 24
- #define IEEE80211_4ADDR_LEN 30
- #define IEEE80211_FCS_LEN    4
-@@ -626,44 +618,6 @@ Total: 28-2340 bytes
- > 0: TID
- */
- 
--enum ieee80211_state {
--	/* the card is not linked at all */
--	IEEE80211_NOLINK = 0,
--
--	/* IEEE80211_ASSOCIATING* are for BSS client mode
--	 * the driver shall not perform RX filtering unless
--	 * the state is LINKED.
--	 * The driver shall just check for the state LINKED and
--	 * defaults to NOLINK for ALL the other states (including
--	 * LINKED_SCANNING)
--	 */
--
--	/* the association procedure will start (wq scheduling)*/
--	IEEE80211_ASSOCIATING,
--	IEEE80211_ASSOCIATING_RETRY,
--
--	/* the association procedure is sending AUTH request*/
--	IEEE80211_ASSOCIATING_AUTHENTICATING,
--
--	/* the association procedure has successfully authentcated
--	 * and is sending association request
--	 */
--	IEEE80211_ASSOCIATING_AUTHENTICATED,
--
--	/* the link is ok. the card associated to a BSS or linked
--	 * to a ibss cell or acting as an AP and creating the bss
--	 */
--	IEEE80211_LINKED,
--
--	/* same as LINKED, but the driver shall apply RX filter
--	 * rules as we are in NO_LINK mode. As the card is still
--	 * logically linked, but it is doing a syncro site survey
--	 * then it will be back to LINKED state.
--	 */
--	IEEE80211_LINKED_SCANNING,
--
--};
--
- #define DEFAULT_MAX_SCAN_AGE (15 * HZ)
- #define DEFAULT_FTS 2346
- 
-@@ -741,26 +695,6 @@ enum rtw_ieee80211_back_actioncode {
- 	RTW_WLAN_ACTION_DELBA = 2,
- };
- 
--/* HT features action code */
--enum rtw_ieee80211_ht_actioncode {
--	RTW_WLAN_ACTION_NOTIFY_CH_WIDTH = 0,
--	RTW_WLAN_ACTION_SM_PS = 1,
--	RTW_WLAN_ACTION_PSPM = 2,
--	RTW_WLAN_ACTION_PCO_PHASE = 3,
--	RTW_WLAN_ACTION_MIMO_CSI_MX = 4,
--	RTW_WLAN_ACTION_MIMO_NONCP_BF = 5,
--	RTW_WLAN_ACTION_MIMP_CP_BF = 6,
--	RTW_WLAN_ACTION_ASEL_INDICATES_FB = 7,
--	RTW_WLAN_ACTION_HI_INFO_EXCHG = 8,
--};
--
--/* BACK (block-ack) parties */
--enum rtw_ieee80211_back_parties {
--	RTW_WLAN_BACK_RECIPIENT = 0,
--	RTW_WLAN_BACK_INITIATOR = 1,
--	RTW_WLAN_BACK_TIMER = 2,
--};
--
- #define OUI_MICROSOFT 0x0050f2 /* Microsoft (also used in Wi-Fi specs)
- 				* 00:50:F2 */
- #define WME_OUI_TYPE 2
+Michael Straube (2):
+  staging: r8188eu: remove unused structs from ieee80211.h
+  staging: r8188eu: remove unused enums from ieee80211.h
+
+ drivers/staging/r8188eu/include/ieee80211.h | 266 --------------------
+ 1 file changed, 266 deletions(-)
+
 -- 
 2.35.1
 
