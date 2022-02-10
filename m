@@ -1,111 +1,101 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57712C80
-	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 22:14:16 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id x136so17840897ybe.11
-        for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 14:14:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828282C9C
+	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 00:06:55 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id w8so6685787qkw.8
+        for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 16:06:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HzTsCVg25jOEc/xpZYzmfEGfUf94ZVS3t/UZfGC+2lo=;
-        b=KWkHpDLtazxt6v2gNisdLxNCR3V4u9TjeT/TQyQaw1v8TcBCtydORV69sbjWvAIn3f
-         /3JNnbLrUOkgum+LUuQUAE24ojtws1LPibgwA+dDSVakatUgw0+PmHDgko8o/k4CH/jy
-         snaAoLir6VxboHWgMsFcW6ONHkX7Gf0FqzFKXT+/aVbd4ukFb+XM4vZifbBHNoWX0qGv
-         bQx+uHD3+XTqKDuIBk2rn2HEiq4XQOpbxKRdEOOKnIlNnm7jlNQVeeo1liiZuhmje+jo
-         Yd+qe3Z8G2VfzSGRoj7FBn/9jERXb6rtByUU/kCQ72f0c/B6kk1NTB27eJQAs/VWbzUs
-         w/zQ==
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=kIxNsx5t66aCekxGiYnzItzLDmvgCurjGzLHlKM8kmo=;
+        b=kUPI1caTAiBqAVK3q8DnKRacUz2Uib6Hme9P7gr7i8kQ+e8TDEJqGlFb9zgPToD7X4
+         N+9XO0XYP2mYbZz74uZ8ryyWvq1dnX9hrT17tCXcrSr4PANCJ/G0mRpk/gSmP6hwaIA4
+         tSW8lv3cVv4eh0Fc3r/J6QFoUcItqKb2tIQyxE/nf7iYijX6DS2RQXFJKqGgFPMhUCS9
+         Dqf5xuMhdzQRvnaBkiEGdwqac4utkIFoMdIFFiXveNwGxaUBDmRdbQNyiyVPpzaVTcFz
+         igRbWOfbP9PGIw7H/TiCmFN2ibo8AOWyYEUvfZNJ2d6hoCz97qFC1FNpcapXfbvgCC0D
+         Dc2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HzTsCVg25jOEc/xpZYzmfEGfUf94ZVS3t/UZfGC+2lo=;
-        b=mVeUNTaVejo+N5RljI7cmQsQ64qOyqfpL82Xt/Y9ldk1+xy1fAsmTiFgedx0WyBQgH
-         gS3HhURhdE0uM/eNU57sOY/sRB4Zp0d4Omf6YK7yvXsmJ+7ZJvlDqMbDKmUIbgCPGepL
-         F+4A44qeaPppfONOKjIlmEltUgD7Cs+yqZoGfc7dsrMSRqw3qc1Em6Uuau4BHVXb4nV+
-         G/d+8IiaWCubPkkNVAGdVKGqvv1ZpQjzfssmd3etprMzfNGii7Csl6ts4zWfawb13C4l
-         5xkTgGGo0rMZlOllJ8MHCKRrdGg6uADnZAnXJ/U1Ta0gXuJKl1SmGIlRXon84uzjikwU
-         YqgA==
-X-Gm-Message-State: AOAM530hTF0D6lZsUehJtHCfz+JPYh+bMN8OBQ4gHWENs5QOcaQLOfUS
-	9ioRl0ktfMYGssGL/Dq+AWue5p+EDccQdZlNY3s=
-X-Google-Smtp-Source: ABdhPJz4F7WbPEr0F2YLkQmxbw7f5LqRfio13kMy4Rw8WvaOeqmmqBPWmhAf8DxRWfraaMPqQx8z9M6X4zA1zs7UPfs=
-X-Received: by 2002:a81:bd12:: with SMTP id b18mr9687458ywi.136.1644531255734;
- Thu, 10 Feb 2022 14:14:15 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=kIxNsx5t66aCekxGiYnzItzLDmvgCurjGzLHlKM8kmo=;
+        b=EMfqB6JpXK3DVOCsTnlB5AFmqt2NK5FPCQR/YH7zSLYxwvfAsg960gtemipS+KnIh9
+         J3h6jyiNrUd1yEizU3vGVPgbBuENxnshZIvoJxdUHBa2fp/wD6H2CJBAXgsqPXa6XBnA
+         BTIokDEJ3H7Mbkq6koMb18fNGTpfx+2Ijvwkn1FhO4StnTZVRCW8d34Jh5x83yA4BUMR
+         Hs+z/EU9qSQ50FI3y194Noo9jUWAOlcVvrYUR/kgjNicrfIEOgSwWd90spEFOtqSYqWI
+         UKIqaCTx67lweIQZH4WalFCYo81M6KFtk4+z5DoslXTL+siMKjdWhspfVBSGUQMCMFx9
+         AmHQ==
+X-Gm-Message-State: AOAM531NIoXWlgVaFb8lRfr25d/PBuIr1zyP9jRSwPVR32C+hRwKTcm+
+	MrJncUzogDZOf3t1tFBeps0=
+X-Google-Smtp-Source: ABdhPJwXNB8AH9WzcydC3nOV4kHShzA6P4syYry2xqBz+Iro1F4pn0IXPMbEY20Ct9c0HLCgx/xhIg==
+X-Received: by 2002:a37:851:: with SMTP id 78mr5100598qki.617.1644538014344;
+        Thu, 10 Feb 2022 16:06:54 -0800 (PST)
+Received: from localhost ([12.28.44.171])
+        by smtp.gmail.com with ESMTPSA id v5sm11133965qkp.70.2022.02.10.16.06.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Feb 2022 16:06:53 -0800 (PST)
+From: Yury Norov <yury.norov@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	David Laight <David.Laight@aculab.com>,
+	Joe Perches <joe@perches.com>,
+	Dennis Zhou <dennis@kernel.org>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Alexey Klimov <aklimov@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 34/49] media: tegra-video: replace bitmap_weight with bitmap_weight_le
+Date: Thu, 10 Feb 2022 14:49:18 -0800
+Message-Id: <20220210224933.379149-35-yury.norov@gmail.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220210224933.379149-1-yury.norov@gmail.com>
+References: <20220210224933.379149-1-yury.norov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220209205740.9926-1-leonardo.aa88@gmail.com> <YgS2dAHofenuyVjg@kroah.com>
-In-Reply-To: <YgS2dAHofenuyVjg@kroah.com>
-From: Leonardo Araujo <leonardo.aa88@gmail.com>
-Date: Thu, 10 Feb 2022 19:14:04 -0300
-Message-ID: <CACytOSBrQQg6Zuy6jesmjrbqgTkEKcaCrp7aB+DEuAE917Ww2w@mail.gmail.com>
-Subject: Re: [PATCH] Staging: r8188eu: core: Avoid CamelCase: <bEnterPS>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Mr. Greg,
+tegra_channel_enum_format() calls bitmap_weight() to compare the weight
+of bitmap with a given number. We can do it more efficiently with
+bitmap_weight_le() because conditional bitmap_weight may stop traversing
+the bitmap earlier, as soon as condition is (or can't be) met.
 
-first of all, thank you for your time and review. I am learning a lot
-from your responses since I started contributing, after I came across
-a YouTube video of one of your presentations on how to contribute to
-the Linux kernel. I will study the documentation more in depth and
-send a proper patch series as you requested.
+Signed-off-by: Yury Norov <yury.norov@gmail.com>
+---
+ drivers/staging/media/tegra-video/vi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index d1f43f465c22..4e79a80e9307 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -436,7 +436,7 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
+ 	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+ 		fmts_bitmap = chan->fmts_bitmap;
+ 
+-	if (f->index >= bitmap_weight(fmts_bitmap, MAX_FORMAT_NUM))
++	if (bitmap_weight_le(fmts_bitmap, MAX_FORMAT_NUM, f->index))
+ 		return -EINVAL;
+ 
+ 	for (i = 0; i < f->index + 1; i++, index++)
+-- 
+2.32.0
 
-Leonardo Araujo
-
-Atenciosamente,
-
-Eng. M.Sc. Leonardo A. de Araujo
-
-
-On Thu, Feb 10, 2022 at 3:53 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Feb 09, 2022 at 05:57:40PM -0300, Leonardo Araujo wrote:
-> > Fixed a coding style issue.
->
-> Please read the kernel documentation for how to write better subject
-> lines and changelog texts.  These need a lot of work, you can't just put
-> the checkpatch message in the subject and then nothing in the changelog
-> body.
->
-> >
-> > Signed-off-by: Leonardo Araujo <leonardo.aa88@gmail.com>
-> > ---
-> >  drivers/staging/r8188eu/core/rtw_cmd.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-> > index e42119e16284..4ec4da6d3078 100644
-> > --- a/drivers/staging/r8188eu/core/rtw_cmd.c
-> > +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-> > @@ -880,7 +880,7 @@ u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan)
-> >
-> >  static void traffic_status_watchdog(struct adapter *padapter)
-> >  {
-> > -     u8      bEnterPS;
-> > +     u8      b_enter_ps;
->
-> No, think about what you are changing here.  Why keep the "b" at all?
-> What does this variable name?  Why was there a "b" to start with?
->
->
-> >       u8      bBusyTraffic = false, bTxBusyTraffic = false, bRxBusyTraffic = false;
->
->
-> What about all of these other variables, why ignore them and not send a
-> patch series to fix them all up?
->
-> Remember where the "b" comes from, this is "hungarian notation" and is
-> trying to describe the type of the variable, which makes no sense in
-> this century.  Please do not keep it around for no reason at all.
->
-> thanks,
->
-> greg k-h
