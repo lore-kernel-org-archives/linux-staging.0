@@ -1,138 +1,130 @@
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F9F2F28
-	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 09:53:04 +0000 (UTC)
-Received: by mail-vs1-f53.google.com with SMTP id m24so5694752vsp.7
-        for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 01:53:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=N/o/oEDK6yNA6KzQQ36RhfRwk2uRGWwiWLSILhdKP7k=;
-        b=kqbXjTNyeNaOJPTbZTaTkpLJJbJdJN35K23eEWCPQYQWK5f9EUQMZt1qygDTuXHANb
-         eKBBIx0YJ89trZZabVjK9YltMrTqVuvyv1Ylp3PodeckaKNlcTOeSL9yXkFxFSzGTgAh
-         H8pBwAUYO9ZtYNl+cDM+hoQF5+e7qPVCrP9m+ypCU6QSaM6aJhPPTbvI+q5VexvO8JB9
-         Zxcz/WkbFtMgjuFqe/fJ0OCRz/drMA/0I1Y1siddfF8ocT82IBe1+T2T5mAu60IRbBnc
-         O3Ga+/BrmxDaITxMs1ASPhH9RWURXvloUTyHTxHYO499G+vWQRQwR6pNpWfXdwBztLlZ
-         6VTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N/o/oEDK6yNA6KzQQ36RhfRwk2uRGWwiWLSILhdKP7k=;
-        b=WaDNxcOQ0R7lQ4AENHWwyzulqUSFS7AolrB0UoXTA1S/DFTt1LJ4ciPFMz0e7BuO68
-         ePHV23fAlYomCuchrXSYn7UlMVS3DNYFCGsq6ZpvFYgQOkhwliKMUAPQLcbMSt2X0H4z
-         xzLW6qPtzZ4LptCjHFf2dYjaVMvwi3Gqvd1TjcbhY628yZDar0EZ2OBhAJCpnvRj20nS
-         svhTGdjOO4krhF8adYKOuIsl4DSEiEQgzADTuHtNeRZM/N84BEuy0CCQS0qPVFHflr9u
-         Q6Q7stFtHsh/KTTBCw29Yn93BwGjBtoXFPCC3C98l6E8RHXjpHliGPbOwtftDIDvEzni
-         yBsw==
-X-Gm-Message-State: AOAM530lc3e1tjZMegMu0PyhF4LepMtnvBGwIJ91B09m1f85nRwdBq4i
-	dGIMJpEaK4GR4NSV1NnVAUTeQKi/063TpaYw9Yg=
-X-Google-Smtp-Source: ABdhPJy3BmfjGBsQ/1m6jTaEjOrRuG/WxuKfSjaUqL39oOImZUuIRENvrfMRIIwP14Pwy6n28CGijThXnVMbZNnA5hE=
-X-Received: by 2002:a67:f890:: with SMTP id h16mr2554081vso.43.1644486783621;
- Thu, 10 Feb 2022 01:53:03 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1BB29CA
+	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 10:04:07 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nI6Im-00011D-CV; Thu, 10 Feb 2022 11:03:48 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nI6Ii-00FgSL-CN; Thu, 10 Feb 2022 11:03:43 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nI6Ig-00EMKr-Tm; Thu, 10 Feb 2022 11:03:42 +0100
+Date: Thu, 10 Feb 2022 11:03:42 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Song Chen <chensong_2000@189.cn>
+Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
+	thierry.reding@gmail.com, lee.jones@linaro.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: introduce pwm_ops::apply
+Message-ID: <20220210100342.q2t4ykgyymjzr3fj@pengutronix.de>
+References: <1644483902-9200-1-git-send-email-chensong_2000@189.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220110114930.1406665-1-sergio.paracuellos@gmail.com>
- <YfE5MOkQRoHQV7Wf@kroah.com> <CAMhs-H8s0d=PswQDR86Tq-bQt634Z6rdFYHTE+DFepsthmKAYA@mail.gmail.com>
- <YfE7LNFuf79i3oAQ@kroah.com> <CAMhs-H9c8zF=v2tu5Y1OsFRP6esOi5zrUceqS_OUiJ=MSfCvRQ@mail.gmail.com>
- <20220205025548.AA1BBC004E1@smtp.kernel.org> <CAMhs-H82J5DC+m0V==tQKKYyqsu30kGLkdUbMRU+nsyLb8sL3Q@mail.gmail.com>
- <CAMhs-H9RSjgW1-dafqDqbfBaQ4iH6NFDLoRHqjt=f41zAEcC-g@mail.gmail.com> <YgS26WAtSkQbZam4@kroah.com>
-In-Reply-To: <YgS26WAtSkQbZam4@kroah.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Thu, 10 Feb 2022 10:52:52 +0100
-Message-ID: <CAMhs-H_x0My6ZfnZkyyEiSd+vT66ijf-fPzxxHohD_Yzko4h-Q@mail.gmail.com>
-Subject: Re: [PATCH v8 0/4] clk: ralink: make system controller a reset provider
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, John Crispin <john@phrozen.org>, 
-	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	Stephen Boyd <sboyd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="c2eicqlj24ajfowz"
+Content-Disposition: inline
+In-Reply-To: <1644483902-9200-1-git-send-email-chensong_2000@189.cn>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-On Thu, Feb 10, 2022 at 7:55 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Thu, Feb 10, 2022 at 07:44:33AM +0100, Sergio Paracuellos wrote:
-> > Hi Greg,
-> >
-> > On Sat, Feb 5, 2022 at 8:31 AM Sergio Paracuellos
-> > <sergio.paracuellos@gmail.com> wrote:
-> > >
-> > > On Sat, Feb 5, 2022 at 3:55 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > >
-> > > > Quoting Sergio Paracuellos (2022-01-26 04:45:31)
-> > > > > On Wed, Jan 26, 2022 at 1:14 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > > > >
-> > > > > > On Wed, Jan 26, 2022 at 01:08:52PM +0100, Sergio Paracuellos wrote:
-> > > > > > > On Wed, Jan 26, 2022 at 1:06 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > > > > > >
-> > > > > > > > On Mon, Jan 10, 2022 at 12:49:26PM +0100, Sergio Paracuellos wrote:
-> > > > > > > > > Hi all,
-> > > > > > > > >
-> > > > > > > > > This patch series add minimal change to provide mt7621 resets properly
-> > > > > > > > > defining them in the 'mediatek,mt7621-sysc' node which is the system
-> > > > > > > > > controller of the SoC and is already providing clocks to the rest of
-> > > > > > > > > the world.
-> > > > > > > > >
-> > > > > > > > > There is shared architecture code for all ralink platforms in 'reset.c'
-> > > > > > > > > file located in 'arch/mips/ralink' but the correct thing to do to align
-> > > > > > > > > hardware with software seems to define and add related reset code to the
-> > > > > > > > > already mainlined clock driver.
-> > > > > > > > >
-> > > > > > > > > After this changes, we can get rid of the useless reset controller node
-> > > > > > > > > in the device tree and use system controller node instead where the property
-> > > > > > > > > '#reset-cells' has been added. Binding documentation for this nodeq has
-> > > > > > > > > been updated with the new property accordly.
-> > > > > > > > >
-> > > > > > > > > This series also provide a bindings include header where all related
-> > > > > > > > > reset bits for the MT7621 SoC are defined.
-> > > > > > > > >
-> > > > > > > > > Also, please take a look to this review [0] to understand better motivation
-> > > > > > > > > for this series.
-> > > > > > > > >
-> > > > > > > > > Regarding the way of merging this:
-> > > > > > > > >  - I'd like patches 1 and 4 which are related going through staging tree.
-> > > > > > > >
-> > > > > > > > Patches 1 and 4 now in the staging tree, thanks.
-> > > > > > >
-> > > > > > > Stephen wanted all to go through the CLK tree since PATCH 3 and 1 were
-> > > > > > > also a dependency... Can we get all of them through the same tree,
-> > > > > > > then? I am ok with both CLK or staging trees.
-> > > > > >
-> > > > > > That's fine with me if they all go through the CLK tree, but there will
-> > > > > > be a merge issue that I already fixed up in my tree.  If you want me to
-> > > > > > drop them, just let me know.
-> > > > >
-> > > > > Stephen, what do you prefer? Is it better all going through staging-tree then?
-> > > > >
-> > > >
-> > > > Sure take them through staging tree.
-> > > >
-> > > > Acked-by: Stephen Boyd <sboyd@kernel.org>
-> > >
-> > > Thanks, Stephen.
-> > >
-> > > Greg, can you please take remaining patches 2 and 3 through your tree, then?
-> > >
-> > > Thanks in advance for your time.
-> >
-> > Please, let me know if you prefer me to resend the remaining two
-> > patches with tags added to make this easier for you.
->
-> Please do so, as I can't seem to dig up the remaining ones...
 
-Ok, done. Please check:
-https://lore.kernel.org/linux-staging/20220210094859.927868-1-sergio.paracuellos@gmail.com/T/#t
+--c2eicqlj24ajfowz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-    Sergio Paracuellos
+On Thu, Feb 10, 2022 at 05:05:02PM +0800, Song Chen wrote:
+> Introduce apply in pwm_ops to replace legacy operations,
+> like enable, disable, config and set_polarity.
+>=20
+> Signed-off-by: Song Chen <chensong_2000@189.cn>
+> ---
+>  drivers/staging/greybus/pwm.c | 46 +++++++++++++++--------------------
+>  1 file changed, 19 insertions(+), 27 deletions(-)
+>=20
+> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+> index 891a6a672378..e1889cf979b2 100644
+> --- a/drivers/staging/greybus/pwm.c
+> +++ b/drivers/staging/greybus/pwm.c
+> @@ -204,43 +204,35 @@ static void gb_pwm_free(struct pwm_chip *chip, stru=
+ct pwm_device *pwm)
+>  	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
+>  }
+> =20
+> -static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+> -			 int duty_ns, int period_ns)
+> -{
+> -	struct gb_pwm_chip *pwmc =3D pwm_chip_to_gb_pwm_chip(chip);
+> -
+> -	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
+> -};
+> -
+> -static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device =
+*pwm,
+> -			       enum pwm_polarity polarity)
+> +static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			const struct pwm_state *state)
+>  {
+> +	int ret;
+>  	struct gb_pwm_chip *pwmc =3D pwm_chip_to_gb_pwm_chip(chip);
+> =20
+> -	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
+> -};
+> -
+> -static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
+> -{
+> -	struct gb_pwm_chip *pwmc =3D pwm_chip_to_gb_pwm_chip(chip);
+> +	/* set period and duty cycle*/
+> +	ret =3D gb_pwm_config_operation(pwmc, pwm->hwpwm, state->duty_cycle, st=
+ate->period);
 
->
-> thanks,
->
-> greg k-h
+gb_pwm_config_operation's 3rd parameter is an u32, so you're loosing
+bits here as state->duty_cycle is a u64. Ditto for period.
+
+Also it would be nice if you go from
+
+	.duty_cycle =3D A, .period =3D B, .enabled =3D 1
+
+to
+
+	.duty_cycle =3D C, .period =3D D, .enabled =3D 0
+
+that C/D wasn't visible on the output pin. So please disable earlier
+(but keep enable at the end).
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--c2eicqlj24ajfowz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmIE4vsACgkQwfwUeK3K
+7AkEpgf+NdtDJKYavGime3N4rxugOTI4u9kbDL4z7GiAYjXWb3aqvB8ZsjirVc7i
+o5Iyf7fCb0IP/4Vc2N6ndkRlBlr8FGcsgC7MlRq3T89Z5eJvpbAlWzIxFovJclmE
+9TwGI0GHXH8It4I4p2hB0mtSwwyfuwB6vj+v8kEv+13niJA3MuIFaWWW5SayW0Ep
+HF4ovCusOjE7Q3L7r8ebGNUoLz3Ku0u8EPoqc5/gnqUz9lmGrwpPB/rGJerJyLuq
+RCDmQSB2+/ChdzV9Lb8adWrDv81fnxi7Va9wTwqFPXR/cAXkko9gGow/RioUL3g0
+df5QN/eWXnu0TUW5XBEv2l3NvffGAw==
+=MnRK
+-----END PGP SIGNATURE-----
+
+--c2eicqlj24ajfowz--
