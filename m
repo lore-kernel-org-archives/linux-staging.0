@@ -1,117 +1,108 @@
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12DFB2F28
-	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 09:03:35 +0000 (UTC)
-HMM_SOURCE_IP:10.64.8.43:38980.470878939
-HMM_ATTACHE_NUM:0000
-HMM_SOURCE_TYPE:SMTP
-Received: from clientip-123.150.8.43 (unknown [10.64.8.43])
-	by 189.cn (HERMES) with SMTP id 44247100211;
-	Thu, 10 Feb 2022 16:59:47 +0800 (CST)
-Received: from  ([172.27.8.53])
-	by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id 4bfb3f56604f41b0af19343159f75bff for johan@kernel.org;
-	Thu, 10 Feb 2022 16:59:50 CST
-X-Transaction-ID: 4bfb3f56604f41b0af19343159f75bff
-X-Real-From: chensong_2000@189.cn
-X-Receive-IP: 172.27.8.53
-X-MEDUSA-Status: 0
-Sender: chensong_2000@189.cn
-From: Song Chen <chensong_2000@189.cn>
-To: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	thierry.reding@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	lee.jones@linaro.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pwm@vger.kernel.org
-Cc: Song Chen <chensong_2000@189.cn>
-Subject: [PATCH] staging: greybus: introduce pwm_ops::apply
-Date: Thu, 10 Feb 2022 17:05:02 +0800
-Message-Id: <1644483902-9200-1-git-send-email-chensong_2000@189.cn>
-X-Mailer: git-send-email 2.7.4
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AE92F28
+	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 09:21:12 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-45-lEkQ6zw7PZWqGm8NVfJVHw-1; Thu, 10 Feb 2022 09:21:09 +0000
+X-MC-Unique: lEkQ6zw7PZWqGm8NVfJVHw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.28; Thu, 10 Feb 2022 09:21:08 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.028; Thu, 10 Feb 2022 09:21:08 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Dan Carpenter' <dan.carpenter@oracle.com>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>
+CC: 'Jiapeng Chong' <jiapeng.chong@linux.alibaba.com>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Abaci Robot
+	<abaci@linux.alibaba.com>
+Subject: RE: [PATCH] staging: pi433: using div64_u64() instead of do_div()
+Thread-Topic: [PATCH] staging: pi433: using div64_u64() instead of do_div()
+Thread-Index: AQHYDr0JeXBHu5JbA0ymi5sg9Q/cbqxteQpggB8TuXeAABPU4A==
+Date: Thu, 10 Feb 2022 09:21:08 +0000
+Message-ID: <eefeb019b58e4b1a814462c709d224b6@AcuMS.aculab.com>
+References: <20220121114955.96979-1-jiapeng.chong@linux.alibaba.com>
+ <03591933cc384d7e91ede82f0cdd76a8@AcuMS.aculab.com>
+ <9c563d78-f883-65ee-9e7b-cf44e3b238e8@wanadoo.fr>
+ <20220210080603.GJ1951@kadam>
+In-Reply-To: <20220210080603.GJ1951@kadam>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Introduce apply in pwm_ops to replace legacy operations,
-like enable, disable, config and set_polarity.
+From: Dan Carpenter
+> Sent: 10 February 2022 08:06
+>=20
+> On Wed, Feb 09, 2022 at 08:15:13PM +0100, Christophe JAILLET wrote:
+> > Le 21/01/2022 =C3=A0 14:34, David Laight a =C3=A9crit=C2=A0:
+> > > From: Jiapeng Chong
+> > > > Sent: 21 January 2022 11:50
+> > > > Subject: [PATCH] staging: pi433: using div64_u64() instead of do_di=
+v()
+> > > >
+> > > > Clean the following coccicheck warning:
+> > > >
+> > > > ./drivers/staging/pi433/rf69.c:286:1-7: WARNING: do_div() does a
+> > > > 64-by-32 division, please consider using div64_u64 instead.
+> > >
+> > > That is one of patchcheck's worse warnings.
+> > >
+> > > You need to check the domain of the divisor, not its type.
+> > >
+> > > do_div() exists to avoid expensive 64bit divides when the
+> > > divisor is small.
+> > >
+> > > =09David
+> > >
+> > > -
+> > > Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes,=
+ MK1 1PT, UK
+> > > Registration No: 1397386 (Wales)
+> > >
+> > >
+> >
+> > Moreover, the patch is broken by itself.
+> >
+> > See [1] were it was already reported that do_div() and div64_u64() don'=
+t
+> > have the same calling convention.
+> >
+> > Looks that div64_u64() and div64_ul() works the same way.
+>=20
+> We could mark those as __must_check functions.
 
-Signed-off-by: Song Chen <chensong_2000@189.cn>
----
- drivers/staging/greybus/pwm.c | 46 +++++++++++++++--------------------
- 1 file changed, 19 insertions(+), 27 deletions(-)
+That, and some kind of AI system to filter out untested patches
+from (presumably) students who think that the output from these
+tools 'must be right'.
 
-diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-index 891a6a672378..e1889cf979b2 100644
---- a/drivers/staging/greybus/pwm.c
-+++ b/drivers/staging/greybus/pwm.c
-@@ -204,43 +204,35 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
- 	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
- }
- 
--static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
--			 int duty_ns, int period_ns)
--{
--	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+Same for all the patches for using swap(), min() LIST_HEAD() etc.
+They are at best churn and make the code harder to read.
+
+=09David
+
 -
--	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
--};
--
--static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
--			       enum pwm_polarity polarity)
-+static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			const struct pwm_state *state)
- {
-+	int ret;
- 	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
- 
--	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
--};
--
--static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
--{
--	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
-+	/* set period and duty cycle*/
-+	ret = gb_pwm_config_operation(pwmc, pwm->hwpwm, state->duty_cycle, state->period);
-+	if (ret)
-+		return ret;
- 
--	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
--};
-+	/* set polarity */
-+	ret = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
-+	if (ret)
-+		return ret;
- 
--static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
--{
--	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
-+	/* enable/disable */
-+	if (state->enabled)
-+		ret = gb_pwm_enable_operation(pwmc, pwm->hwpwm);
-+	else
-+		ret = gb_pwm_disable_operation(pwmc, pwm->hwpwm);
- 
--	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
--};
-+	return ret;
-+}
- 
- static const struct pwm_ops gb_pwm_ops = {
- 	.request = gb_pwm_request,
- 	.free = gb_pwm_free,
--	.config = gb_pwm_config,
--	.set_polarity = gb_pwm_set_polarity,
--	.enable = gb_pwm_enable,
--	.disable = gb_pwm_disable,
-+	.apply = gb_pwm_apply,
- 	.owner = THIS_MODULE,
- };
- 
--- 
-2.25.1
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
