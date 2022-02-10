@@ -1,41 +1,41 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AC22C80
-	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 10:16:32 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id cz16so9976725edb.8
-        for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 02:16:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726882CA1
+	for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 10:16:33 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id ch26so9927620edb.12
+        for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 02:16:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UPxPPPAti7d13/u9fQwfjv6Hj3otqTrOPto3qpXlKkE=;
-        b=fdCai4crDArDiwtyki0sfUcROneMnYuPq+eJacmJdhSpsQbQvHPTk1JKYF2esXy21N
-         DkBfkK6yOGHBsz9sgrMM1Kxfo5VLuZCRN1J5T/gwgjsxUPDcQQ4pOsQeOMwkvm1+KwmO
-         ybH8QX5td1WAc7YyQ3w6QgoMAUf+tyUYrRfw4MNUk1yJ2L6MH/zC8/TL2yub42sy4hVX
-         c32zbjDPKA0s6JZy3hH43bdUeXEBVFwCvpqIWay1LUZWVcCxqJPlM4vcmUrA4usfnXMw
-         pmVOX3kNcjeVW0kH55ZbXt6KM6ODFSUxxHBYsm+pHNlgESUDYapBGVZ4kS1CSraNLi0Y
-         0QRA==
+        bh=guBM8Thpvta//OnnwvBS2Yed9yNINr+uW6fG9LcJsBs=;
+        b=gK6S0oodKqVWX8iXASBOGdbbRb7LpSeLn0enYqZ1fzVs+wPuCjEXP4t++Vwjpdfa5D
+         SpXkIm2wP8VJDblOuChUJOSRGnRDYB9VGJ8pj0+Go2n3lU3uC1X6Q53RniuSlcUc9Chc
+         XrrSHrXsf6qNe4/mIaFooQeJCvUaLWonBRf+yVD4iS5DzZeNWwcDZy5YfUTTXlfrgp9d
+         oGcnL1Upc4TQg+BUdwHyO8HCXhESBR9x6pz2yg91IydBJa2QaDe8ty6KMGViJTvZNRar
+         xCQLOgscbXxSLiByLKIxO1zHBe/2CyA2Cm0iZTbMyVK46D73c8TdJ7Ry8vCVF8FNAsUn
+         9OjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UPxPPPAti7d13/u9fQwfjv6Hj3otqTrOPto3qpXlKkE=;
-        b=NB3d36NKfaeHVtku6av5GSi+4HZ6YFMfOcIjy5a0y9ZQ1VY6b07/rKQOHwerq6z84/
-         VTybsojiEZpktWXdpMpiL7oMk25FhQypC/aMk1LY1I+07Uw6Sws0KCQMhZBI4VMVs567
-         O77xoG21bBpHV/CpgwOJGkX+am4nwcuAmuY9Ay2iwQT2HY1hcM0RtFxzdtBFxx16iir8
-         EHdgMuTY906hLMGaxZhmBaJrddWF9EGqDlbumxWFQDoV9/T0v2rCDKluoJAWVsIinq4i
-         z4mssnugaPHHYE5bxHvhBweZZQR3taDfatICD00oPosEbioLi3TOq25xsAnLLXQhJLt/
-         OU3g==
-X-Gm-Message-State: AOAM531sKP/nEIzZaqbl1QwSM2jE9Z7sizRt4Q5jZi8HovSHSdGa5oUW
-	bBUerBxFcSCUoXG3yQt6iOg=
-X-Google-Smtp-Source: ABdhPJyQRbJN0dsLU/m7FRxdhk7lB7BrsS+/zKbJcuYfUTnBUBXtb9eg+hcYuntLIxGX16sBXdr/JA==
-X-Received: by 2002:a05:6402:22f3:: with SMTP id dn19mr7671602edb.449.1644488191091;
+        bh=guBM8Thpvta//OnnwvBS2Yed9yNINr+uW6fG9LcJsBs=;
+        b=EbLNfvvlpsFAUYDO5c+TM+Nh5iF3QCYKRgmf2omfkZR3JkxG6XI1QLc8DFxcVnT8XB
+         2I8oE3SQoJMK/mrbFzaTldf6LkIAQ1smFSRaPCeQMNqg+Ma1KuT4uHlIozUzfCYLpskU
+         +QOFqnr+DuZwRWtTOJ3Ku0GTHLhQJyLKXmfuminc2+KWKE+F/DbJI+Z9dMSmCusDRYla
+         TogieLMP3MMJBengYQwoAhDTbSkD7A761Ri+Vh1aJCBgns6vUzxjmgxXF2lup/xI61MJ
+         1ZnnLSa8wW2Tbgk5W8A+kM3GccfeW+BPE/uYUezKK2Hyk5iBielU5RhcQoNEe4L7Wg3Q
+         GZQQ==
+X-Gm-Message-State: AOAM533LBWO8IFjIGsp7Jx+S+EzEL+PmcjIgB4l6p/oODo3c8lybYBDp
+	CWK61tLX9EnGpJk94nhd6OA=
+X-Google-Smtp-Source: ABdhPJx4qCMHtGUrwTjW8QwWNKukv2KD/kcQAO7oHoyDjVUG938pV92O+8rO7zcnLysK94YvDtGgDg==
+X-Received: by 2002:aa7:cc09:: with SMTP id q9mr7548019edt.101.1644488191880;
         Thu, 10 Feb 2022 02:16:31 -0800 (PST)
 Received: from localhost.localdomain (ip5f5abb5a.dynamic.kabel-deutschland.de. [95.90.187.90])
-        by smtp.gmail.com with ESMTPSA id i9sm7994855eda.35.2022.02.10.02.16.30
+        by smtp.gmail.com with ESMTPSA id i9sm7994855eda.35.2022.02.10.02.16.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 02:16:30 -0800 (PST)
+        Thu, 10 Feb 2022 02:16:31 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 1/2] staging: r8188eu: remove unused structs from ieee80211.h
-Date: Thu, 10 Feb 2022 11:16:22 +0100
-Message-Id: <20220210101623.13758-2-straube.linux@gmail.com>
+Subject: [PATCH v2 2/2] staging: r8188eu: remove unused enums from ieee80211.h
+Date: Thu, 10 Feb 2022 11:16:23 +0100
+Message-Id: <20220210101623.13758-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220210101623.13758-1-straube.linux@gmail.com>
 References: <20220210101623.13758-1-straube.linux@gmail.com>
@@ -57,294 +57,104 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are lots of unused structures in the ieee80211.h header.
-Remove them.
+There are some unused enums in the ieee80211.h header. Remove them.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/include/ieee80211.h | 200 --------------------
- 1 file changed, 200 deletions(-)
+ drivers/staging/r8188eu/include/ieee80211.h | 66 ---------------------
+ 1 file changed, 66 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
-index 3a23d5299314..f3b20215ca94 100644
+index f3b20215ca94..1793b99feb9f 100644
 --- a/drivers/staging/r8188eu/include/ieee80211.h
 +++ b/drivers/staging/r8188eu/include/ieee80211.h
-@@ -182,28 +182,6 @@ struct ieee_param {
- 	} u;
- };
- 
--struct ieee_param_ex {
--	u32 cmd;
--	u8 sta_addr[ETH_ALEN];
--	u8 data[0];
--};
--
--struct sta_data {
--	u16 aid;
--	u16 capability;
--	int flags;
--	u32 sta_set;
--	u8 tx_supp_rates[16];
--	u32 tx_supp_rates_len;
--	struct ieee80211_ht_cap ht_cap;
--	u64	rx_pkts;
--	u64	rx_bytes;
--	u64	rx_drops;
--	u64	tx_pkts;
--	u64	tx_bytes;
--	u64	tx_drops;
--};
--
- #define IEEE80211_DATA_LEN		2304
- /* Maximum size for the MA-UNITDATA primitive, 802.11 standard section
-    6.2.1.1.2.
-@@ -219,14 +197,6 @@ struct sta_data {
- /* this is stolen from ipw2200 driver */
- #define IEEE_IBSS_MAC_HASH_SIZE 31
- 
--struct ieee_ibss_seq {
--	u8 mac[ETH_ALEN];
--	u16 seq_num;
--	u16 frag_num;
--	unsigned long packet_time;
--	struct list_head list;
--};
--
- struct rtw_ieee80211_hdr {
- 	__le16 frame_ctl;
- 	__le16 duration_id;
-@@ -246,17 +216,6 @@ struct rtw_ieee80211_hdr_3addr {
- 	u16 seq_ctl;
- } __packed;
- 
--struct rtw_ieee80211_hdr_qos {
--	__le16 frame_ctl;
--	__le16 duration_id;
--	u8 addr1[ETH_ALEN];
--	u8 addr2[ETH_ALEN];
--	u8 addr3[ETH_ALEN];
--	u16 seq_ctl;
--	u8 addr4[ETH_ALEN];
--	u16	qc;
--}  __packed;
--
- struct rtw_ieee80211_hdr_3addr_qos {
- 	__le16 frame_ctl;
- 	__le16 duration_id;
-@@ -267,14 +226,6 @@ struct rtw_ieee80211_hdr_3addr_qos {
+@@ -226,14 +226,6 @@ struct rtw_ieee80211_hdr_3addr_qos {
  	u16     qc;
  }  __packed;
  
--struct eapol {
--	u8 snap[6];
--	u16 ethertype;
--	u8 version;
--	u8 type;
--	u16 length;
--} __packed;
--
- enum eap_type {
- 	EAP_PACKET = 0,
- 	EAPOL_START,
-@@ -557,83 +508,12 @@ struct ieee80211_snap_hdr {
- #define IEEE80211_NUM_CCK_RATES		4
- #define IEEE80211_OFDM_SHIFT_MASK_A	4
- 
--/* NOTE: This data is for statistical purposes; not all hardware provides this
-- *       information for frames received.  Not setting these will not cause
-- *       any adverse affects. */
--struct ieee80211_rx_stats {
--	/* u32 mac_time[2]; */
--	s8 rssi;
--	u8 signal;
--	u8 noise;
--	u8 received_channel;
--	u16 rate; /* in 100 kbps */
--	/* u8 control; */
--	u8 mask;
--	u8 freq;
--	u16 len;
+-enum eap_type {
+-	EAP_PACKET = 0,
+-	EAPOL_START,
+-	EAPOL_LOGOFF,
+-	EAPOL_KEY,
+-	EAPOL_ENCAP_ASF_ALERT
 -};
 -
- /* IEEE 802.11 requires that STA supports concurrent reception of at least
-  * three fragmented frames. This define can be increased to support more
-  * concurrent frames, but it should be noted that each entry can consume about
-  * 2 kB of RAM and increasing cache size will slow down frame reassembly. */
- #define IEEE80211_FRAG_CACHE_LEN 4
- 
--struct ieee80211_frag_entry {
--	u32 first_frag_time;
--	uint seq;
--	uint last_frag;
--	uint qos;   /* jackson */
--	uint tid;	/* jackson */
--	struct sk_buff *skb;
--	u8 src_addr[ETH_ALEN];
--	u8 dst_addr[ETH_ALEN];
--};
--
--struct ieee80211_stats {
--	uint tx_unicast_frames;
--	uint tx_multicast_frames;
--	uint tx_fragments;
--	uint tx_unicast_octets;
--	uint tx_multicast_octets;
--	uint tx_deferred_transmissions;
--	uint tx_single_retry_frames;
--	uint tx_multiple_retry_frames;
--	uint tx_retry_limit_exceeded;
--	uint tx_discards;
--	uint rx_unicast_frames;
--	uint rx_multicast_frames;
--	uint rx_fragments;
--	uint rx_unicast_octets;
--	uint rx_multicast_octets;
--	uint rx_fcs_errors;
--	uint rx_discards_no_buffer;
--	uint tx_discards_wrong_sa;
--	uint rx_discards_undecryptable;
--	uint rx_message_in_msg_fragments;
--	uint rx_message_in_bad_msg_fragments;
--};
--
--struct ieee80211_softmac_stats {
--	uint rx_ass_ok;
--	uint rx_ass_err;
--	uint rx_probe_rq;
--	uint tx_probe_rs;
--	uint tx_beacons;
--	uint rx_auth_rq;
--	uint rx_auth_rs_ok;
--	uint rx_auth_rs_err;
--	uint tx_auth_rq;
--	uint no_auth_rs;
--	uint no_ass_rs;
--	uint tx_ass_rq;
--	uint rx_ass_rq;
--	uint tx_probe_rq;
--	uint reassoc;
--	uint swtxstop;
--	uint swtxawake;
--};
--
- #define SEC_KEY_1	(1<<0)
- #define SEC_KEY_2	(1<<1)
- #define SEC_KEY_3	(1<<2)
-@@ -653,18 +533,6 @@ struct ieee80211_softmac_stats {
- #define WEP_KEYS 4
- #define WEP_KEY_LEN 13
- 
--struct ieee80211_security {
--	u16 active_key:2,
--	enabled:1,
--	auth_mode:2,
--	auth_algo:4,
--	unicast_uses_group:1;
--	u8 key_sizes[WEP_KEYS];
--	u8 keys[WEP_KEYS][WEP_KEY_LEN];
--	u8 level;
--	u16 flags;
--} __packed;
--
- /*
- 
-  802.11 data frame from AP
-@@ -680,15 +548,6 @@ Total: 28-2340 bytes
- 
+ #define IEEE80211_3ADDR_LEN 24
+ #define IEEE80211_4ADDR_LEN 30
+ #define IEEE80211_FCS_LEN    4
+@@ -626,44 +618,6 @@ Total: 28-2340 bytes
+ > 0: TID
  */
  
--struct ieee80211_header_data {
--	u16 frame_ctl;
--	u16 duration_id;
--	u8 addr1[6];
--	u8 addr2[6];
--	u8 addr3[6];
--	u16 seq_ctrl;
+-enum ieee80211_state {
+-	/* the card is not linked at all */
+-	IEEE80211_NOLINK = 0,
+-
+-	/* IEEE80211_ASSOCIATING* are for BSS client mode
+-	 * the driver shall not perform RX filtering unless
+-	 * the state is LINKED.
+-	 * The driver shall just check for the state LINKED and
+-	 * defaults to NOLINK for ALL the other states (including
+-	 * LINKED_SCANNING)
+-	 */
+-
+-	/* the association procedure will start (wq scheduling)*/
+-	IEEE80211_ASSOCIATING,
+-	IEEE80211_ASSOCIATING_RETRY,
+-
+-	/* the association procedure is sending AUTH request*/
+-	IEEE80211_ASSOCIATING_AUTHENTICATING,
+-
+-	/* the association procedure has successfully authentcated
+-	 * and is sending association request
+-	 */
+-	IEEE80211_ASSOCIATING_AUTHENTICATED,
+-
+-	/* the link is ok. the card associated to a BSS or linked
+-	 * to a ibss cell or acting as an AP and creating the bss
+-	 */
+-	IEEE80211_LINKED,
+-
+-	/* same as LINKED, but the driver shall apply RX filter
+-	 * rules as we are in NO_LINK mode. As the card is still
+-	 * logically linked, but it is doing a syncro site survey
+-	 * then it will be back to LINKED state.
+-	 */
+-	IEEE80211_LINKED_SCANNING,
+-
 -};
 -
- #define BEACON_PROBE_SSID_ID_POSITION 12
+ #define DEFAULT_MAX_SCAN_AGE (15 * HZ)
+ #define DEFAULT_FTS 2346
  
- /* Management Frame Information Element Types */
-@@ -705,17 +564,6 @@ struct ieee80211_header_data {
- #define MFIE_TYPE_RATES_EX	50
- #define MFIE_TYPE_GENERIC	221
+@@ -741,26 +695,6 @@ enum rtw_ieee80211_back_actioncode {
+ 	RTW_WLAN_ACTION_DELBA = 2,
+ };
  
--struct ieee80211_info_element_hdr {
--	u8 id;
--	u8 len;
--} __packed;
--
--struct ieee80211_info_element {
--	u8 id;
--	u8 len;
--	u8 data[0];
--} __packed;
--
- /*
-  * These are the data types that can make up management packets
-  *
-@@ -736,49 +584,6 @@ struct ieee80211_info_element {
- #define IEEE80211_DEFAULT_TX_ESSID "Penguin"
- #define IEEE80211_DEFAULT_BASIC_RATE 10
- 
--struct ieee80211_authentication {
--	struct ieee80211_header_data header;
--	u16 algorithm;
--	u16 transaction;
--	u16 status;
--	/* struct ieee80211_info_element_hdr info_element; */
--} __packed;
--
--struct ieee80211_probe_response {
--	struct ieee80211_header_data header;
--	u32 time_stamp[2];
--	u16 beacon_interval;
--	u16 capability;
--	struct ieee80211_info_element info_element;
--} __packed;
--
--struct ieee80211_probe_request {
--	struct ieee80211_header_data header;
--} __packed;
--
--struct ieee80211_assoc_request_frame {
--	struct rtw_ieee80211_hdr_3addr header;
--	u16 capability;
--	u16 listen_interval;
--	struct ieee80211_info_element_hdr info_element;
--} __packed;
--
--struct ieee80211_assoc_response_frame {
--	struct rtw_ieee80211_hdr_3addr header;
--	u16 capability;
--	u16 status;
--	u16 aid;
--} __packed;
--
--struct ieee80211_txb {
--	u8 nr_frags;
--	u8 encrypted;
--	u16 reserved;
--	u16 frag_size;
--	u16 payload_size;
--	struct sk_buff *fragments[0];
+-/* HT features action code */
+-enum rtw_ieee80211_ht_actioncode {
+-	RTW_WLAN_ACTION_NOTIFY_CH_WIDTH = 0,
+-	RTW_WLAN_ACTION_SM_PS = 1,
+-	RTW_WLAN_ACTION_PSPM = 2,
+-	RTW_WLAN_ACTION_PCO_PHASE = 3,
+-	RTW_WLAN_ACTION_MIMO_CSI_MX = 4,
+-	RTW_WLAN_ACTION_MIMO_NONCP_BF = 5,
+-	RTW_WLAN_ACTION_MIMP_CP_BF = 6,
+-	RTW_WLAN_ACTION_ASEL_INDICATES_FB = 7,
+-	RTW_WLAN_ACTION_HI_INFO_EXCHG = 8,
 -};
 -
- /* SWEEP TABLE ENTRIES NUMBER*/
- #define MAX_SWEEP_TAB_ENTRIES		  42
- #define MAX_SWEEP_TAB_ENTRIES_PER_PACKET  7
-@@ -876,11 +681,6 @@ static inline int is_broadcast_mac_addr(const u8 *addr)
- #define CFG_IEEE80211_RESERVE_FCS (1<<0)
- #define CFG_IEEE80211_COMPUTE_FCS (1<<1)
- 
--struct tx_pending {
--	int frag;
--	struct ieee80211_txb *txb;
+-/* BACK (block-ack) parties */
+-enum rtw_ieee80211_back_parties {
+-	RTW_WLAN_BACK_RECIPIENT = 0,
+-	RTW_WLAN_BACK_INITIATOR = 1,
+-	RTW_WLAN_BACK_TIMER = 2,
 -};
 -
- #define MAXTID	16
- 
- #define IEEE_A	    (1<<0)
+ #define OUI_MICROSOFT 0x0050f2 /* Microsoft (also used in Wi-Fi specs)
+ 				* 00:50:F2 */
+ #define WME_OUI_TYPE 2
 -- 
 2.35.1
 
