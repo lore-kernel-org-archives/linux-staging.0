@@ -1,98 +1,109 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B01C2F23;
-	Fri, 11 Feb 2022 15:16:49 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id k13-20020a4a948d000000b003172f2f6bdfso10658503ooi.1;
-        Fri, 11 Feb 2022 07:16:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1P3H5utZhmDvFsnAtwZyeK8JRztag6WByXWcE5q2Zyc=;
-        b=PZ9C3MDSQmVvXlnLCIENEpAsWBGtqqRfwFPNARWXRZT45vcF0mL9JmoWwuj7ZL2cvq
-         4zRW2bkzVc1pwkOpOqfP5OW0bFIjXrSHAtdK3lQIlRbx3hx2SeJIzN7c0B+YlBBM+oE5
-         Bi4EVMavsulDi4umv74sl7OGVJbLbKcdpxriFUxxCU+ZGz+b6uQFxKsh7qPCu0/2yUJR
-         0V2OowsFlBajwi3M85Rd14zO/oP+Uj+ZgfHAcXv5e1v023QRC/xjJKhbgGouP7v1QpAc
-         ApEMmYyg4tlTCFGDFuW86bh+7fLGPhuLTlSJYQd5C/6orzCOKfMyrvKQ+7ve2u9rOxz6
-         DmvQ==
-X-Gm-Message-State: AOAM5335RbSJ/r9Qhe8Kdypb7vZVMkU3JB5Cy5RC1ozHM3zxTvEbilqm
-	y0TgM5+ToP4PzLAVMAB+bw==
-X-Google-Smtp-Source: ABdhPJyjj0qRfHV+X2Or/x7i2b6yIL+QqHCBBRDSOpVutl1Fb19j9aZR3y+aSd0eIuMcJSEYP3cxig==
-X-Received: by 2002:a05:6870:87c2:: with SMTP id s2mr283788oam.123.1644592608577;
-        Fri, 11 Feb 2022 07:16:48 -0800 (PST)
-Received: from robh.at.kernel.org ([2607:fb90:20db:bd0f:3516:878e:18c1:cd1e])
-        by smtp.gmail.com with ESMTPSA id eh38sm5186127oab.36.2022.02.11.07.16.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 07:16:47 -0800 (PST)
-Received: (nullmailer pid 382654 invoked by uid 1000);
-	Fri, 11 Feb 2022 15:16:44 -0000
-Date: Fri, 11 Feb 2022 09:16:44 -0600
-From: Rob Herring <robh@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, linux-clk@vger.kernel.org, linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helen Koike <helen.koike@collabora.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 62/66] dt-bindings: media: sun6i-a31-csi: Add ISP
- output port
-Message-ID: <YgZ93JcVaeU6VUBq@robh.at.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4112F23;
+	Fri, 11 Feb 2022 15:17:34 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id E31931C0010;
+	Fri, 11 Feb 2022 15:17:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1644592646;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VXF0Q98TnY0VF6LJAgT1z6iuK0gMwIZwwneiqBq9XCk=;
+	b=G8KjfCt1YjfMmLzINgPygwXjdiDJuTBXGcWdih6FT3BH8KxHmLHoIySqIwrDwRTnJqFzrH
+	CI8LuS6bc5QZYy6LUti6DoVkMDbGujFz2h5EusKBgKQ8fdsJQd/CesNJIXQMkXP0sOSsMc
+	Gqk0pXSP1BufwkzJbeQlNiQSB9QGEjEd6i3c7x151zt8HSGGhlotI0wxsr2ZlCWArCjgRu
+	VcldH6O2ZkPYE47GF7YdHqeLsoQownp3RBGOPZkpCX/Yidwzj3adVOOiVhqBY+/xPGeW3s
+	rbK9hv/QMEfMZwR0u+MwX0ZefOVSbjnSmfKE/CgcmmvB8Y6JcGFBcvpw1S72lw==
+Date: Fri, 11 Feb 2022 16:17:22 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 33/66] media: sun6i-csi: Rework register definitions,
+ invert misleading fields
+Message-ID: <YgZ+AgGD4n1ELpcA@aptenodytes>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-63-paul.kocialkowski@bootlin.com>
- <YgFDI17Q3AlZxaOi@pendragon.ideasonboard.com>
+ <20220205185429.2278860-34-paul.kocialkowski@bootlin.com>
+ <20220209093945.uertj7wut72tximz@houat>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="nAZiK7IJGde0Oma+"
 Content-Disposition: inline
-In-Reply-To: <YgFDI17Q3AlZxaOi@pendragon.ideasonboard.com>
+In-Reply-To: <20220209093945.uertj7wut72tximz@houat>
 
-On Mon, Feb 07, 2022 at 06:04:51PM +0200, Laurent Pinchart wrote:
-> On Sat, Feb 05, 2022 at 07:54:25PM +0100, Paul Kocialkowski wrote:
-> > Some Allwinner devices come with an Image Signal Processor (ISP) that
-> > allows processing camera data to produce good-looking images,
-> > especially from raw bayer representations.
-> > 
-> > The ISP does not have a dedicated capture path: it is fed directly by
-> > one of the CSI controllers, which can be selected at run-time.
-> > 
-> > Represent this possibility as a graph connection between the CSI
-> > controller and the ISP in the device-tree bindings.
-> > 
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  .../bindings/media/allwinner,sun6i-a31-csi.yaml    | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > index 3cc61866ea89..7952413f98d8 100644
-> > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > @@ -83,6 +83,20 @@ properties:
-> >  
-> >          additionalProperties: false
-> >  
-> > +      port@2:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: ISP output port
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 2
-> > +
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> 
-> This could be
-> 
->             $ref: video-interfaces.yaml#
->             remote-endpoint: true
->             additionalProperties: false
-> 
-> to reject other properties.
 
-If that's what is desired, then video-interfaces.yaml shouldn't be 
-referenced and up above should be /properties/port.
+--nAZiK7IJGde0Oma+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rob
+Hi,
+
+On Wed 09 Feb 22, 10:39, Maxime Ripard wrote:
+> On Sat, Feb 05, 2022 at 07:53:56PM +0100, Paul Kocialkowski wrote:
+> > This cleans up the register definitions a bit, adds a prefix, remove ma=
+sks.
+> > Registers are now fully defined, some additional fields were added when
+> > needed. New format definitions are added for future use.
+> >=20
+> > Some fields are wrongly defined (inverted) in Allwinner litterature
+> > (e.g. field vs frame prefixes), which is quite misleading. They are
+> > now corrected to reflect their actual behavior.
+>=20
+> How was it tested?
+>=20
+> In particular, see
+> https://lore.kernel.org/all/20180305093535.11801-7-maxime.ripard@bootlin.=
+com/
+
+No oscilloscope testing on my side to investigate the matter in depth,
+so the polarities inversion is based on what you changed in the driver.
+
+The idea is to change the register definitions to match what the hardware
+appears to be doing (based on your good look at the oscilloscope) to avoid
+the confusion of setting register fields that look contradictory.
+It's just a rename and the behavior remains the same.
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--nAZiK7IJGde0Oma+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIGfgIACgkQ3cLmz3+f
+v9EnTAgAhApdzmVhN+9E++U4/kVhkozTecPPIQB7VC2eBNFFzHUCTDxUeNLba3bZ
+xSc4Hhkj5k1i34BXCJQr7fn4EJ65pEiT4cwzC66oPzS+xsEtguAiOPAWfRKPACdv
+PXhdORHKu5tYfhCHuUcT4OOe+Bq5ug0sERvnkpeMvxmVOHmheguf1USya8NKz0DS
+xKGn4Y8//yY1h3Ho2We4t9aTCG6W1MnpW5N45tb8vAK2y0+cOsObQvSRfEDkPvyA
+BfE7zj7LWmdXO3KPEqycnULT0NtLKYzH7Qqj4bMxZYnNxSCq8k8rXbNUd0d+A3AF
+NIXeKTJBhwrrsnAvBfNFkLSFfGS6tQ==
+=dcHQ
+-----END PGP SIGNATURE-----
+
+--nAZiK7IJGde0Oma+--
