@@ -1,206 +1,93 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAAB7D;
-	Fri, 11 Feb 2022 20:56:34 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44E5793;
-	Fri, 11 Feb 2022 21:56:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644612992;
-	bh=Mbj/JEWHnhuJ4egVN/7JMgXgTiAVpvT6Yrbb2y5h5y8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FKhdR2CXuHPyjSKKxXMecloiTMPp9yecKPLJ9U0Ct2G2yW16zr4yRusJCEv3SKAba
-	 MOZ1u608xioB0ReRpiLgcC3DrILH+EYESIv59Xy2ixgma8zgNmHOvBEn1obcn0hiJy
-	 tQPjILlJ3SFwbKcsAC8OwZugqaiUeSUHu6MLK3zs=
-Date: Fri, 11 Feb 2022 22:56:28 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 07/66] dt-bindings: media: sun6i-a31-csi: Add MIPI
- CSI-2 input port
-Message-ID: <YgbNfKiNkPmvaT1k@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
- <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
- <YgaKXvP3rLOLR9VR@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306447D
+	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 22:16:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644617775; x=1676153775;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=De4kpkwjAxf3Iw6joK4cg/rV1mv94Kpw+nSPSFmgfzM=;
+  b=NwfZ035SBPH9zhS/g/2l1IJNhLb+cK2M+VFsoKq5HcMNy47HWAIROW7R
+   HLwJnmuMAYFTM29623oa+daGJZw3S1dy+3Tsp3nz5GOlIaK54nEe+Bo87
+   CUh8ZWafXIGVeihPqRBE8SzPre+jXacoVhj0QSPQh3scUwcN5l7sQXI/n
+   JazRX+E14H7SI+acRbIHhlB7oEIlpQHluvHMsUhMOG/Q9mr+AKTPl26Od
+   Y15+7m0elCmqN08PoGVehhnZO61zVUg6ZI7kJNeyE524Ge71CqKGSgHdJ
+   sOOQIdSflTSCEFGH+OvJ2M7iYyZQvmXdVGCgmG1Bc+RvnPNoCnGz9k3X8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10255"; a="250026501"
+X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
+   d="scan'208";a="250026501"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 14:16:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
+   d="scan'208";a="623344971"
+Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Feb 2022 14:16:10 -0800
+Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1nIeD3-0005GC-K5; Fri, 11 Feb 2022 22:16:09 +0000
+Date: Sat, 12 Feb 2022 06:15:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jacopo Mondi <jacopo@jmondi.org>, slongerbeam@gmail.com,
+	p.zabel@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	festevam@gmail.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	laurent.pinchart@ideasonboard.com, martin.kepplinger@puri.sm,
+	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com
+Cc: kbuild-all@lists.01.org, kernel@pengutronix.de, linux-imx@nxp.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH 2/3] media: imx: Rename imx7-mipi-csis.c to
+ imx-mipi-csis.c
+Message-ID: <202202120641.u7xFAEMc-lkp@intel.com>
+References: <20220211180216.290133-3-jacopo@jmondi.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YgaKXvP3rLOLR9VR@aptenodytes>
+In-Reply-To: <20220211180216.290133-3-jacopo@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Fri, Feb 11, 2022 at 05:10:06PM +0100, Paul Kocialkowski wrote:
-> Hi Laurent,
-> 
-> Thanks for the review!
-> 
-> On Mon 07 Feb 22, 18:03, Laurent Pinchart wrote:
-> > Hi Paul,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Sat, Feb 05, 2022 at 07:53:30PM +0100, Paul Kocialkowski wrote:
-> > > The A31 CSI controller supports two distinct input interfaces:
-> > > parallel and an external MIPI CSI-2 bridge. The parallel interface
-> > > is often connected to a set of hardware pins while the MIPI CSI-2
-> > > bridge is an internal FIFO-ish link. As a result, these two inputs
-> > > are distinguished as two different ports.
-> > > 
-> > > Note that only one of the two may be present on a controller instance.
-> > > For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> > > dedicated to parallel.
-> > 
-> > Is it that only one of the two is present, or only one of the two is
-> > connected ? In the latter case I'd make both ports required, but with
-> > only one of them connected.
-> 
-> There are situations where the actual pins for parallel (port@0) are missing
-> and the controller is dedicated to its mipi csi-2 bridge (port@1), cases where
-> the two are present and cases where the mipi csi-2 bridge doesn't exist.
-> So all in all it's really legit that only one port may be defined.
+Hi Jacopo,
 
-The port could still exist internally in the IP core though. Of course
-that's hard to tell.
+I love your patch! Yet something to improve:
 
-> > > Update the binding with an explicit ports node that holds two distinct
-> > > port nodes: one for parallel input and one for MIPI CSI-2.
-> > > 
-> > > This is backward-compatible with the single-port approach that was
-> > > previously taken for representing the parallel interface port, which
-> > > stays enumerated as fwnode port 0.
-> > > 
-> > > Note that additional ports may be added in the future, especially to
-> > > support feeding the CSI controller's output to the ISP.
-> > > 
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > Acked-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  .../media/allwinner,sun6i-a31-csi.yaml        | 60 +++++++++++++++----
-> > >  1 file changed, 47 insertions(+), 13 deletions(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > index 8b568072a069..3cc61866ea89 100644
-> > > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > @@ -61,6 +61,34 @@ properties:
-> > >  
-> > >      additionalProperties: false
-> > >  
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: "#/properties/port"
-> > > +        unevaluatedProperties: false
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        description: MIPI CSI-2 bridge input port
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 1
-> > > +
-> > > +          endpoint:
-> > > +            $ref: video-interfaces.yaml#
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +        additionalProperties: false
-> > > +
-> > > +    anyOf:
-> > > +      - required:
-> > > +        - port@0
-> > > +      - required:
-> > > +        - port@1
-> > > +
-> > >  required:
-> > >    - compatible
-> > >    - reg
-> > 
-> > Shouldn't you specify that either port or ports is required, but not
-> > both ? I'd also add a comment in the port node to tell it's deprecated,
-> > and that ports should be used instead.
-> 
-> Yes I agree on both points. I guess that should be a:
-> 
-> oneOf:
->   - required:
->     - ports
->   - required:
->     - port
-> 
-> (but feel free to correct me).
-> 
-> > > @@ -89,19 +117,25 @@ examples:
-> > >                        "ram";
-> > >          resets = <&ccu RST_BUS_CSI>;
-> > >  
-> > > -        port {
-> > > -            /* Parallel bus endpoint */
-> > > -            csi1_ep: endpoint {
-> > > -                remote-endpoint = <&adv7611_ep>;
-> > > -                bus-width = <16>;
-> > > -
-> > > -                /*
-> > > -                 * If hsync-active/vsync-active are missing,
-> > > -                 * embedded BT.656 sync is used.
-> > > -                 */
-> > > -                 hsync-active = <0>; /* Active low */
-> > > -                 vsync-active = <0>; /* Active low */
-> > > -                 pclk-sample = <1>;  /* Rising */
-> > > +        ports {
-> > > +            #address-cells = <1>;
-> > > +            #size-cells = <0>;
-> > > +
-> > > +            port@0 {
-> > > +                reg = <0>;
-> > > +                /* Parallel bus endpoint */
-> > > +                csi1_ep: endpoint {
-> > > +                    remote-endpoint = <&adv7611_ep>;
-> > > +                    bus-width = <16>;
-> > > +
-> > > +                    /*
-> > > +                     * If hsync-active/vsync-active are missing,
-> > > +                     * embedded BT.656 sync is used.
-> > > +                     */
-> > > +                     hsync-active = <0>; /* Active low */
-> > > +                     vsync-active = <0>; /* Active low */
-> > > +                     pclk-sample = <1>;  /* Rising */
-> > 
-> > Wrong indentation.
-> 
-> The double-space before /* Rising */ or something with the heading indent?
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on shawnguo/for-next pza/reset/next linus/master v5.17-rc3 next-20220211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-The heading has one extra space for all three lines, they should be
-aligned to the / of /*, not to the *.
+url:    https://github.com/0day-ci/linux/commits/Jacopo-Mondi/media-De-stage-imx7-mipi-csis-c/20220212-020342
+base:   git://linuxtv.org/media_tree.git master
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20220212/202202120641.u7xFAEMc-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/18a307fb15879832a050d12ae32bd9d94a9e5c91
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Jacopo-Mondi/media-De-stage-imx7-mipi-csis-c/20220212-020342
+        git checkout 18a307fb15879832a050d12ae32bd9d94a9e5c91
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=sh SHELL=/bin/bash M=drivers/media
 
-> > > +                };
-> > >              };
-> > >          };
-> > >      };
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
--- 
-Regards,
+All errors (new ones prefixed by >>):
 
-Laurent Pinchart
+>> make[4]: *** No rule to make target 'drivers/media/platform/imx/imx7-mipi-csis.o', needed by 'drivers/media/platform/imx/imx7-mipi-csis.mod'.
+   make[4]: Target '__build' not remade because of errors.
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
