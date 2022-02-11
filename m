@@ -1,51 +1,51 @@
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB57F2F4D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B371F2F43
 	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 14:28:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
   t=1644589699; x=1676125699;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=VVwA5iF57xiLgmukQKD1z++wAGAZGsYpQ1hwH3ud7Uo=;
-  b=Ym3/4JgExwilLzG2pdwlswpcouRaxCKPhxqI3YPEKsLQjjsnas988vq6
-   FZg7Zx9G6ifnoSHLwjhwWz+ZD6ZaB0P53Uk4mw1DM60jingbyAEEuQKL4
-   +7IJAFzvC2wXtOH4xTbyl+qutv7P+HmDH6xh4W217uug+L0aiorpGQV3N
-   qSz+EYfWQ+Xx+/GsoTfF1Spj2FF4Hn3GsoIVHqz3lHIG3F245CYuHypjl
-   3mQDxp5y1DhB9fWF90IZziOB9KjvcTTV1iDyxRFEZRk5acuRS40xaxS8d
-   dzy+ulaP0rvP1mHRp/ZhZ0hcoAb5LI+AMEo7hOz6JwRkx247JPmzUuj6R
+  bh=2YbGiltNp/YE4sAiVmdcESfjGWWvEMo8y3ASodgdy24=;
+  b=Hw0jXknjSn6TH6hf4q7IwCs4csjWxLDqXTfS9WVIjQ4JOHe5HjQEJ8Vd
+   EsLRWsVEREjuf7xvCsUh7JXUDBjWcm7MUL90WGSJcha9jwJLX9/V1bvwu
+   1YUK6Zq+xxEHmrAOq8nk1beYkEV+li5zetsNTGtpi2OsbE8my8Y2BRQnS
+   b7VzlBwgHb46i31g1RINLn26/g3d2p6HE/CsrvOx3X399GCG6jIbtUNYr
+   MCiWZHagSUdKkCeJyRdqBMBq9/JBMjt0M0623Hkpn7QzdRBopm2wsmaB6
+   L7rjpnrRUpIH/3LVNoTZo9tKn0kQCRjgFfBz8oINotL1ErgaK16OuK7MK
    g==;
 X-IronPort-AV: E=Sophos;i="5.88,361,1635199200"; 
-   d="scan'208";a="22042293"
+   d="scan'208";a="22042291"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 11 Feb 2022 15:28:03 +0100
+  by mx1-pgp.tq-group.com with ESMTP; 11 Feb 2022 15:28:02 +0100
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 11 Feb 2022 15:28:03 +0100
+  Fri, 11 Feb 2022 15:28:02 +0100
 X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Fri, 11 Feb 2022 15:28:03 +0100
+	by tq-pgp-pr1.tq-net.de on Fri, 11 Feb 2022 15:28:02 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644589683; x=1676125683;
+  t=1644589682; x=1676125682;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=VVwA5iF57xiLgmukQKD1z++wAGAZGsYpQ1hwH3ud7Uo=;
-  b=bwilSwPasSRi2A0rXc1P3ecoRUbBlWFywWx/pFGJ1QJ6+ItLYiHz5jfE
-   a16799MGhdlDrWd9g+g/5Ry813AqSYuEz2Y2bnAc1mqCfrXWKzDlZK6ZI
-   b35CPt1Xlwe3nYKnRttbUGpeeW6qwdSbs5GII7L5wSUmnd+wERY2zUxAH
-   AFAlxucXUE1g9N5tDXtyXVn9+xE+Aqn0ozAoEpI8sfmQhWPv244tDyJ5u
-   KUGOJC/+G8Ii+eksOaC3odXKH2bM+L+vwX2UvNaWGJbxIqeXxszrBAmZd
-   j3sSIa2jyJsfjZAMK0lGbtKOxnHSlMewKdQ7AaEIs770C3JfhV2UvJFbB
-   A==;
+  bh=2YbGiltNp/YE4sAiVmdcESfjGWWvEMo8y3ASodgdy24=;
+  b=RVnyBrXpP49Mnw3iSjq5n36YBxv+AjKKAhB8lryGc/V9ZSEJRMZ6uGr5
+   HgS9tw/9Ax7nz9aSy+8c4PqHcooukytnpx3xl8/kHEZBWCAXYadSgwCGZ
+   pv+i/SP1S2w5575egc6DFYxZbpgdVPZy1MuCDZcAOJFKI+rerBCtTy5nX
+   9p1BbMAc1s3DgMGOr3v9hJZC9HVHQriaPLWiaQMjpKuA3eHYZHEnoCFBV
+   mbRbnQ7+I7Xkx6NTf84c/SkFyb04QZTkdtt6rQ3etc1hwHraZO7oL5ekg
+   bnZzDkROzk/ZspBfXpmOBE0j1ymFhbLHTHKeGRLbtZOAKkciEl+W33SBE
+   Q==;
 X-IronPort-AV: E=Sophos;i="5.88,361,1635199200"; 
-   d="scan'208";a="22042292"
+   d="scan'208";a="22042290"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
   by mx1.tq-group.com with ESMTP; 11 Feb 2022 15:28:02 +0100
 Received: from steina-w.tq-net.de (unknown [10.123.49.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id B14CF280084;
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6C212280082;
 	Fri, 11 Feb 2022 15:28:02 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Steve Longerbeam <slongerbeam@gmail.com>,
@@ -65,9 +65,9 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 8/9] media: imx: utils: initialize local variable
-Date: Fri, 11 Feb 2022 15:27:51 +0100
-Message-Id: <20220211142752.779952-9-alexander.stein@ew.tq-group.com>
+Subject: [PATCH v2 7/9] media: imx: utils: Add more Bayer formats
+Date: Fri, 11 Feb 2022 15:27:50 +0100
+Message-Id: <20220211142752.779952-8-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220211142752.779952-1-alexander.stein@ew.tq-group.com>
 References: <20220211142752.779952-1-alexander.stein@ew.tq-group.com>
@@ -79,31 +79,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-imx_media_enum_mbus_formats might not set code at all, this would result
-in imx_media_find_mbus_format using an uninitialized variable.
-Set code to 0 to avoid returning a wrong pixel format.
+Without this the ioctl VIDIOC_ENUM_FMT will not list the 10/12/14-Bit
+Bayer formats. This in return results in
+"v4l2-ctl --set-fmt-video pixelformat='RG10'" failing to set the
+pixelformat.
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
 Changes in v2:
-* New in v2
+* Added Reviewed-by: Laurent Pinchart
 
- drivers/staging/media/imx/imx-media-utils.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/imx/imx-media-utils.c | 72 +++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
 diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index 57eb1c5897c0..025c080c8c9f 100644
+index e59aaa77172a..57eb1c5897c0 100644
 --- a/drivers/staging/media/imx/imx-media-utils.c
 +++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -610,7 +610,7 @@ static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
- 	 * so until it does convert to a supported YUV format.
- 	 */
- 	if (cc->ipufmt && cc->cs == IPUV3_COLORSPACE_YUV) {
--		u32 code;
-+		u32 code = 0;
- 
- 		imx_media_enum_mbus_formats(&code, 0, PIXFMT_SEL_YUV);
- 		cc = imx_media_find_mbus_format(code, PIXFMT_SEL_YUV);
+@@ -130,6 +130,78 @@ static const struct imx_media_pixfmt pixel_formats[] = {
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 8,
+ 		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SBGGR10,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR10_1X10),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 10,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGBRG10,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG10_1X10),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 10,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGRBG10,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG10_1X10),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 10,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SRGGB10,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB10_1X10),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 10,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SBGGR12,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR12_1X12),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 12,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGBRG12,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG12_1X12),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 12,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGRBG12,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG12_1X12),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 12,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SRGGB12,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB12_1X12),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 12,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SBGGR14,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR14_1X14),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 14,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGBRG14,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG14_1X14),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 14,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGRBG14,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG14_1X14),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 14,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SRGGB14,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB14_1X14),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 14,
++		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_SBGGR16,
+ 		.codes  = IMX_BUS_FMTS(
 -- 
 2.25.1
 
