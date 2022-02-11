@@ -1,255 +1,170 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF8D2F26
-	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 11:06:26 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id h14-20020a17090a130e00b001b88991a305so11536437pja.3
-        for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 03:06:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fW7IuBQjL7ot5s2XNwOb0lPZCAyNMYMY9WGVkx7MplM=;
-        b=BBIeZ2kgtc/6SDJXIBQR58F+g1uEH7L8NY9TO/KeVX52BuUXHSn8zjoh5GCqghSp1c
-         Uh3BgcTANITBbkhSsYJEYocXBH4GuEakjrm2OZSlIINMTIhewoJRQD5GuY9/KWwi9Clm
-         lyuRcP7JqNLD3xoFCBZrlHIB+GnOvfrCX8g2Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fW7IuBQjL7ot5s2XNwOb0lPZCAyNMYMY9WGVkx7MplM=;
-        b=3hxxIN1AObqvB6s/aXm9ZxbG/xIn07U4Nf6iVN6rPTO98A3ty2b0tjzHILhOH0m7uy
-         X/W5Ft8uOfggaCCTM8oiWoxZdRciCVWsN7x9eBSGwBf3G7GvqWIkGjzoR4xjkWfaoW7u
-         bWRKnxlzgt5O5/tSWVhZG4ZKMsDGCsF2ZSzjxqdB358ORLlscbKq+5oiKfFMng3ENvOE
-         5PSJui12errrQ4803SA0EWsbOY0SH5zU3/0Il48gt40S6oOCTJvKZrZ0WsjBgzU937PZ
-         1rO+5B6SixgSCLCWe59ATo/+ajRhSAQcUW5fSZxSZnO/coMBSmpnjHCJTgH6mYFtvcfH
-         gAyg==
-X-Gm-Message-State: AOAM533pRI+oNuoGVvX5WWbn9OqDiMyHqdwBIj8hWLWejWpyAc4x7uAX
-	ge68IM8H5sZmqyIqxi2jQOXCrw==
-X-Google-Smtp-Source: ABdhPJxB3kHWd5L92viS8b4mkySdIs5+B3FyMFUnLaO6CG5CVT+YhqgVuy52zrEeUUbKylRNMLt1gw==
-X-Received: by 2002:a17:90a:1d:: with SMTP id 29mr1188822pja.140.1644577586017;
-        Fri, 11 Feb 2022 03:06:26 -0800 (PST)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:c4e0:c7ee:38f6:b6d])
-        by smtp.gmail.com with ESMTPSA id t14sm4410290pgo.19.2022.02.11.03.06.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 03:06:25 -0800 (PST)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B31232F26
+	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 11:57:15 +0000 (UTC)
+HMM_SOURCE_IP:10.64.8.31:58202.55775679
+HMM_ATTACHE_NUM:0000
+HMM_SOURCE_TYPE:SMTP
+Received: from clientip-123.150.8.43 (unknown [10.64.8.31])
+	by 189.cn (HERMES) with SMTP id A2F6C10013E;
+	Fri, 11 Feb 2022 19:57:10 +0800 (CST)
+Received: from  ([123.150.8.43])
+	by gateway-153622-dep-749df8664c-cv9r2 with ESMTP id 08b197ad565642579980e12aa57bf63f for johan@kernel.org;
+	Fri, 11 Feb 2022 19:57:12 CST
+X-Transaction-ID: 08b197ad565642579980e12aa57bf63f
+X-Real-From: chensong_2000@189.cn
+X-Receive-IP: 123.150.8.43
+X-MEDUSA-Status: 0
+Sender: chensong_2000@189.cn
+From: Song Chen <chensong_2000@189.cn>
+To: johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	thierry.reding@gmail.com,
+	u.kleine-koenig@pengutronix.de,
+	lee.jones@linaro.org,
+	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v2] media: hantro: Implement support for encoder commands
-Date: Fri, 11 Feb 2022 19:06:17 +0800
-Message-Id: <20220211110617.2202714-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.35.1.265.g69c8d7142f-goog
+	linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org
+Cc: Song Chen <chensong_2000@189.cn>
+Subject: [PATCH v2] staging: greybus: introduce pwm_ops::apply
+Date: Fri, 11 Feb 2022 20:02:27 +0800
+Message-Id: <1644580947-8529-1-git-send-email-chensong_2000@189.cn>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The V4L2 stateful encoder uAPI specification requires that drivers
-support the ENCODER_CMD ioctl to allow draining of buffers. This
-however was not implemented, and causes issues for some userspace
-applications.
+Introduce apply in pwm_ops to replace legacy operations,
+like enable, disable, config and set_polarity.
 
-Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
-This is entirely based on existing code found in the vicodec test
-driver.
-
-Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-
-Changes since v1:
-- Correctly handle last buffers that are empty
-- Correctly handle last buffers that just got queued
-- Disable (TRY_)ENCODER_CMD ioctls for hantro decoder
-
-This is based on linux-next-20220208, and was tested on RK3399 with
-Gstreamer running the JPEG encoder. It was also tested on ChromeOS
-5.10 on Kevin with the video encoder used in ChromeOS ARC, which
-requires this. For ChromeOS, both encoder and decoder tests were run
-to check for regressions.
-
-Everything really works OK now, but since I'm not very familiar with
-the mem2mem framework, I might be missing something, causing resource
-leaks. Hence this patch is labeled RFC.
-
-Last, I suppose we could also add support for (TRY_)DECODER_CMD now?
+Signed-off-by: Song Chen <chensong_2000@189.cn>
 
 ---
- drivers/staging/media/hantro/hantro_drv.c  | 17 +++++-
- drivers/staging/media/hantro/hantro_v4l2.c | 68 +++++++++++++++++++++-
- 2 files changed, 81 insertions(+), 4 deletions(-)
+V2:
+1, define duty_cycle and period as u64 in gb_pwm_config_operation.
+2, define duty and period as u64 in gb_pwm_config_request.
+3, disable before configuring duty and period if the eventual goal
+   is a disabled state.
+---
+ drivers/staging/greybus/pwm.c             | 61 ++++++++++++-----------
+ include/linux/greybus/greybus_protocols.h |  4 +-
+ 2 files changed, 34 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index bc9bcb4eaf46..99bc650a5a93 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
- 	return hantro_get_dec_buf_addr(ctx, buf);
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index 891a6a672378..03c69db5b9be 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -89,7 +89,7 @@ static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
  }
  
-+static const struct v4l2_event hantro_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
- static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
- 				    struct hantro_ctx *ctx,
- 				    enum vb2_buffer_state result)
-@@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
- 	src->sequence = ctx->sequence_out++;
- 	dst->sequence = ctx->sequence_cap++;
+ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
+-				   u8 which, u32 duty, u32 period)
++				   u8 which, u64 duty, u64 period)
+ {
+ 	struct gb_pwm_config_request request;
+ 	struct gbphy_device *gbphy_dev;
+@@ -99,8 +99,8 @@ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
+ 		return -EINVAL;
  
-+	if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
-+		dst->flags |= V4L2_BUF_FLAG_LAST;
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+		v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
+ 	request.which = which;
+-	request.duty = cpu_to_le32(duty);
+-	request.period = cpu_to_le32(period);
++	request.duty = duty;
++	request.period = period;
+ 
+ 	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
+ 	ret = gbphy_runtime_get_sync(gbphy_dev);
+@@ -204,43 +204,46 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+ 	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
+ }
+ 
+-static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+-			 int duty_ns, int period_ns)
++static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
++			const struct pwm_state *state)
+ {
++	int err;
++	bool enabled = pwm->state.enabled;
+ 	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 
+-	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
+-};
+-
+-static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
+-			       enum pwm_polarity polarity)
+-{
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+-
+-	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
+-};
++	/* set polarity */
++	if (state->polarity != pwm->state.polarity) {
++		if (enabled) {
++			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
++			enabled = false;
++		}
++		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
++		if (err)
++			return err;
 +	}
-+
- 	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
- 					 result);
- }
-@@ -807,10 +817,13 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
- 	snprintf(vfd->name, sizeof(vfd->name), "%s-%s", match->compatible,
- 		 funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER ? "enc" : "dec");
  
--	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER)
-+	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
- 		vpu->encoder = func;
--	else
-+	} else {
- 		vpu->decoder = func;
-+		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
-+		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
-+	}
- 
- 	video_set_drvdata(vfd, vpu);
- 
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index 67148ba346f5..777bd3dbd875 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -628,6 +628,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
- 	return 0;
- }
- 
-+static const struct v4l2_event hantro_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
-+static int vidioc_encoder_cmd(struct file *file, void *priv,
-+			      struct v4l2_encoder_cmd *ec)
-+{
-+	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	int ret;
-+
-+	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
-+	    !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
+-static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
+-{
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
++	if (!state->enabled) {
++		if (enabled)
++			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
 +		return 0;
-+
-+	ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ec->cmd == V4L2_ENC_CMD_STOP &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+
-+	if (ec->cmd == V4L2_ENC_CMD_START &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
-+
++	}
+ 
+-	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+-};
++	/* set period and duty cycle*/
++	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, state->duty_cycle, state->period);
++	if (err)
++		return err;
+ 
+-static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
+-{
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
++	/* enable/disable */
++	if (!enabled)
++		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+ 
+-	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+-};
 +	return 0;
 +}
-+
- const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_querycap = vidioc_querycap,
- 	.vidioc_enum_framesizes = vidioc_enum_framesizes,
-@@ -657,6 +690,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
  
- 	.vidioc_g_selection = vidioc_g_selection,
- 	.vidioc_s_selection = vidioc_s_selection,
-+
-+	.vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-+	.vidioc_encoder_cmd = vidioc_encoder_cmd,
+ static const struct pwm_ops gb_pwm_ops = {
+ 	.request = gb_pwm_request,
+ 	.free = gb_pwm_free,
+-	.config = gb_pwm_config,
+-	.set_polarity = gb_pwm_set_polarity,
+-	.enable = gb_pwm_enable,
+-	.disable = gb_pwm_disable,
++	.apply = gb_pwm_apply,
+ 	.owner = THIS_MODULE,
  };
  
- static int
-@@ -733,8 +769,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
- 	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
- 	 * it to buffer length).
- 	 */
--	if (V4L2_TYPE_IS_CAPTURE(vq->type))
--		vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-+	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
-+		if (ctx->is_encoder)
-+			vb2_set_plane_payload(vb, 0, 0);
-+		else
-+			vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-+	}
+diff --git a/include/linux/greybus/greybus_protocols.h b/include/linux/greybus/greybus_protocols.h
+index aeb8f9243545..81a6f16de098 100644
+--- a/include/linux/greybus/greybus_protocols.h
++++ b/include/linux/greybus/greybus_protocols.h
+@@ -812,8 +812,8 @@ struct gb_pwm_deactivate_request {
  
- 	return 0;
- }
-@@ -744,6 +784,22 @@ static void hantro_buf_queue(struct vb2_buffer *vb)
- 	struct hantro_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+ struct gb_pwm_config_request {
+ 	__u8	which;
+-	__le32	duty;
+-	__le32	period;
++	__u64	duty;
++	__u64	period;
+ } __packed;
  
-+	if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
-+	    vb2_is_streaming(vb->vb2_queue) &&
-+	    v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
-+		unsigned int i;
-+
-+		for (i = 0; i < vb->num_planes; i++)
-+			vb->planes[i].bytesused = 0;
-+
-+		vbuf->field = V4L2_FIELD_NONE;
-+		vbuf->sequence = ctx->sequence_cap++;
-+
-+		v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+		return;
-+	}
-+
- 	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
- }
- 
-@@ -759,6 +815,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct hantro_ctx *ctx = vb2_get_drv_priv(q);
- 	int ret = 0;
- 
-+	v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
-+
- 	if (V4L2_TYPE_IS_OUTPUT(q->type))
- 		ctx->sequence_out = 0;
- 	else
-@@ -831,6 +889,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
- 		hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
- 	else
- 		hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
-+
-+	v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
-+
-+	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
- }
- 
- static void hantro_buf_request_complete(struct vb2_buffer *vb)
+ struct gb_pwm_polarity_request {
 -- 
-2.35.1.265.g69c8d7142f-goog
+2.25.1
 
