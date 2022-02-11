@@ -1,30 +1,30 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEE17C
-	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 18:15:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A652C9D
+	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 18:15:23 +0000 (UTC)
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1644603314;
+	s=2020; t=1644603316;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eDKahmXSrj6aQh1onAroOtRd7AsYDNa9qC35JKClxqs=;
-	b=CYILQ0Dc2mFrwUzfRZlWoX/Fto5KkxILuys9OP+kveSZ9DGt7ih4yE4v/wmb4EglTWLSvT
-	XGA7ctOzQTFZfGWd4oD/cG7pAJ3s/fv/voITyQo2UZ0CpOePIEf+3CrGu2h0jxl50bcyJx
-	jpJrckncBh4BH/lqnJt5l+8To40UKGj2g5c66t6HPxId8u2Bli0VdnbK3ReZZIMaPX2GoL
-	8sKxSJQDtYTMrdyIdCieY2/GRg3plPMptUUp6+UH4snstQ3Dph032q6ztVNvVdytjBLWHQ
-	xkjoHAbHpW6oiPdMUBEYACq6ozIni9RApUXYV6rVVFXzpCEUzIXRzl3nRzChDw==
+	bh=xJWvr65dKavzLpT9wk8poZEoprQ5XoEoPP+pD1dTjoU=;
+	b=b8xcZVhynx0YzX1QkTuiSq4wf+LVdbR0mr6P/8fDoBklAuGc1vgwgTN475BwIjVSi5aFfX
+	2dGgw9xqMgsSf3UGlDOYhb/GPbv/CLAJ2Nzd6bGsuVOrS3pAEvKW6yes1GRHpjSFh5w3xG
+	CsYPS031tUpr0sPSDO/wdjHrWFO5M4vk1LXjZ50DxwXDaHjpsG8db94llYIq/fhW3wb9pJ
+	ekVk1lyaZmkvKuwMU2Mpbj6FAcJ0h6BJsXjqI4H1CfD6NOxhSkyW/laQLAmq1sjJxJVm9K
+	/z52zw8xUZkOLEROsRMDnFi1OCje9NQGt2tZcQWzN3Q0U+W2rJn5RuFzSkAA2g==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1644603314;
+	s=2020e; t=1644603316;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eDKahmXSrj6aQh1onAroOtRd7AsYDNa9qC35JKClxqs=;
-	b=hzVc1i3Xdv73qi2TpafVh6jujTpWtWZtn7vIeUk34KcCTt0NqgG7oaozl6joDyHw8ohf9h
-	m2qj/GNwfaMwJ7BQ==
+	bh=xJWvr65dKavzLpT9wk8poZEoprQ5XoEoPP+pD1dTjoU=;
+	b=Aderu7RgpRVmmkejmzwVyLsyAQo1/uRQHSS7ZjEu0gydYtCa95N+0dClOSogK5drdDOk3S
+	JyLoEGColsi1RRCw==
 To: greybus-dev@lists.linaro.org,
 	linux-i2c@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -44,12 +44,10 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	UNGLinuxDriver@microchip.com,
 	Wolfram Sang <wsa@kernel.org>,
 	Woojung Huh <woojung.huh@microchip.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Oleksandr Natalenko <oleksandr@natalenko.name>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v4 1/7] genirq: Provide generic_handle_irq_safe().
-Date: Fri, 11 Feb 2022 19:14:54 +0100
-Message-Id: <20220211181500.1856198-2-bigeasy@linutronix.de>
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH v4 4/7] misc: hi6421-spmi-pmic: Use generic_handle_irq_safe().
+Date: Fri, 11 Feb 2022 19:14:57 +0100
+Message-Id: <20220211181500.1856198-5-bigeasy@linutronix.de>
 In-Reply-To: <20220211181500.1856198-1-bigeasy@linutronix.de>
 References: <20220211181500.1856198-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -60,68 +58,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Provide generic_handle_irq_safe() which can used from any context.
+generic_handle_irq() is invoked from a regular interrupt service
+routine. This handler will become a forced-threaded handler on
+PREEMPT_RT and will be invoked with enabled interrupts. The
+generic_handle_irq() must be invoked with disabled interrupts in order
+to avoid deadlocks.
 
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+Instead of manually disabling interrupts before invoking use
+generic_handle_irq_safe() which can be invoked with enabled and disabled
+interrupts.
+
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Oleksandr Natalenko <oleksandr@natalenko.name>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- include/linux/irqdesc.h |  1 +
- kernel/irq/irqdesc.c    | 23 +++++++++++++++++++++++
- 2 files changed, 24 insertions(+)
+ drivers/misc/hi6421v600-irq.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/irqdesc.h b/include/linux/irqdesc.h
-index 93d270ca0c567..a77584593f7d1 100644
---- a/include/linux/irqdesc.h
-+++ b/include/linux/irqdesc.h
-@@ -160,6 +160,7 @@ static inline void generic_handle_irq_desc(struct irq_d=
-esc *desc)
+diff --git a/drivers/misc/hi6421v600-irq.c b/drivers/misc/hi6421v600-irq.c
+index 1c763796cf1fa..caa3de37698b0 100644
+--- a/drivers/misc/hi6421v600-irq.c
++++ b/drivers/misc/hi6421v600-irq.c
+@@ -117,8 +117,8 @@ static irqreturn_t hi6421v600_irq_handler(int irq, void=
+ *__priv)
+ 			 * If both powerkey down and up IRQs are received,
+ 			 * handle them at the right order
+ 			 */
+-			generic_handle_irq(priv->irqs[POWERKEY_DOWN]);
+-			generic_handle_irq(priv->irqs[POWERKEY_UP]);
++			generic_handle_irq_safe(priv->irqs[POWERKEY_DOWN]);
++			generic_handle_irq_safe(priv->irqs[POWERKEY_UP]);
+ 			pending &=3D ~HISI_IRQ_POWERKEY_UP_DOWN;
+ 		}
 =20
- int handle_irq_desc(struct irq_desc *desc);
- int generic_handle_irq(unsigned int irq);
-+int generic_handle_irq_safe(unsigned int irq);
+@@ -126,7 +126,7 @@ static irqreturn_t hi6421v600_irq_handler(int irq, void=
+ *__priv)
+ 			continue;
 =20
- #ifdef CONFIG_IRQ_DOMAIN
- /*
-diff --git a/kernel/irq/irqdesc.c b/kernel/irq/irqdesc.c
-index 2267e6527db3c..346d283d2da14 100644
---- a/kernel/irq/irqdesc.c
-+++ b/kernel/irq/irqdesc.c
-@@ -662,6 +662,29 @@ int generic_handle_irq(unsigned int irq)
- }
- EXPORT_SYMBOL_GPL(generic_handle_irq);
+ 		for_each_set_bit(offset, &pending, BITS_PER_BYTE) {
+-			generic_handle_irq(priv->irqs[offset + i * BITS_PER_BYTE]);
++			generic_handle_irq_safe(priv->irqs[offset + i * BITS_PER_BYTE]);
+ 		}
+ 	}
 =20
-+/**
-+ * generic_handle_irq_safe - Invoke the handler for a particular irq from =
-any
-+ *			     context.
-+ * @irq:	The irq number to handle
-+ *
-+ * Returns:	0 on success, a negative value on error.
-+ *
-+ * This function can be called from any context (IRQ or process context). =
-It
-+ * will report an error if not invoked from IRQ context and the irq has be=
-en
-+ * marked to enforce IRQ-context only.
-+ */
-+int generic_handle_irq_safe(unsigned int irq)
-+{
-+	unsigned long flags;
-+	int ret;
-+
-+	local_irq_save(flags);
-+	ret =3D handle_irq_desc(irq_to_desc(irq));
-+	local_irq_restore(flags);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(generic_handle_irq_safe);
-+
- #ifdef CONFIG_IRQ_DOMAIN
- /**
-  * generic_handle_domain_irq - Invoke the handler for a HW irq belonging
 --=20
 2.34.1
 
