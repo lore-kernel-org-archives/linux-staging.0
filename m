@@ -1,25 +1,25 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E22D2F23;
-	Fri, 11 Feb 2022 16:10:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3DA2F23;
+	Fri, 11 Feb 2022 16:29:41 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id BDB041BF20E;
-	Fri, 11 Feb 2022 16:10:06 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 7AAA9240009;
+	Fri, 11 Feb 2022 16:29:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1644595808;
+	t=1644596980;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RUSzj3TUbMF7TmKv+bJklm/0kDLCRAw90iHxpF7FAk4=;
-	b=oG0Nb1UueRz+/N3muogT9xtwBmkNo0QOCIq29+GWycUIpNnSFeefb4J/MbfnHYuTGx8NNK
-	jWvPNJ2WjFEI+sClRGGThmR8P5QGosuLIaQmDikc6BAuoUY32F7klJuNWQnfecNZXaxuop
-	8x3A9o9q0baiyhGQx7uxh2TQcR9C9a1i35V25YIjQvv3dHVrxCUjxIRx+KMesaOMmBHpyc
-	zxSrQN07BFiopT4jQZCMXyqVl8ulBmNkFWxTp1vpeuAc0CkfPw0Nms7pasztSEwq+TWOtG
-	nP+GDVcx5fVQCaw2EwJYMbg/vMEQe6ecyf9EByGBvOM8XVRX4tYJwclzHa7+1g==
-Date: Fri, 11 Feb 2022 17:10:06 +0100
+	bh=4kVSfBMlOpLVxwAYqmjgdSsjcSKy3f9ulmjYySBtivY=;
+	b=T4TSHYvfEdtrIdt54FMQc8fkxl6Sb+6Fb/eoGRfWYgAdoQJkHicqhpsEGSiJd0cHoyQsF0
+	Vfva/O33f9O65QrX1haPnlzjQ2sIPixy0kxvHp+MbuQfN91FPpawkqwPurQIRekmoMFTg5
+	qgKvKxWeNpHSODYhBMZuYE2WpvWAEd3JOjoRKSVqgBQcVuJ4n24mz4t3hrZpjVZ4hHSCFQ
+	bW4jOJBvKyEPdisxxKSIzqqzIB3HyKBI4ApuvsfblSRxCFUi3AWIy4ujaGUzzOyqQFbkTY
+	Lmw/3Fq/7PX7QEpH+8uAap60ARcPDWvaATeXcm8/9Fpz2Nh+MEA1tsWW9xauGA==
+Date: Fri, 11 Feb 2022 17:29:37 +0100
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
@@ -27,20 +27,19 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	Yong Deng <yong.deng@magewell.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 07/66] dt-bindings: media: sun6i-a31-csi: Add MIPI
- CSI-2 input port
-Message-ID: <YgaKXvP3rLOLR9VR@aptenodytes>
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 21/66] media: sun6i-csi: Always set exclusive module
+ clock rate
+Message-ID: <YgaO8bfP4gKW8BM0@aptenodytes>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
- <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
+ <20220205185429.2278860-22-paul.kocialkowski@bootlin.com>
+ <20220207091443.cr5udv7fxx65ptty@houat>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,193 +47,173 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="N1FE44kMl1ZRScRS"
+	protocol="application/pgp-signature"; boundary="Tv5rA21o/SqhzaB6"
 Content-Disposition: inline
-In-Reply-To: <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
+In-Reply-To: <20220207091443.cr5udv7fxx65ptty@houat>
 
 
---N1FE44kMl1ZRScRS
+--Tv5rA21o/SqhzaB6
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hi,
 
-Thanks for the review!
+Thanks for the review,
 
-On Mon 07 Feb 22, 18:03, Laurent Pinchart wrote:
-> Hi Paul,
->=20
-> Thank you for the patch.
->=20
-> On Sat, Feb 05, 2022 at 07:53:30PM +0100, Paul Kocialkowski wrote:
-> > The A31 CSI controller supports two distinct input interfaces:
-> > parallel and an external MIPI CSI-2 bridge. The parallel interface
-> > is often connected to a set of hardware pins while the MIPI CSI-2
-> > bridge is an internal FIFO-ish link. As a result, these two inputs
-> > are distinguished as two different ports.
-> >=20
-> > Note that only one of the two may be present on a controller instance.
-> > For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> > dedicated to parallel.
->=20
-> Is it that only one of the two is present, or only one of the two is
-> connected ? In the latter case I'd make both ports required, but with
-> only one of them connected.
-
-There are situations where the actual pins for parallel (port@0) are missing
-and the controller is dedicated to its mipi csi-2 bridge (port@1), cases wh=
-ere
-the two are present and cases where the mipi csi-2 bridge doesn't exist.
-So all in all it's really legit that only one port may be defined.
-
-> > Update the binding with an explicit ports node that holds two distinct
-> > port nodes: one for parallel input and one for MIPI CSI-2.
-> >=20
-> > This is backward-compatible with the single-port approach that was
-> > previously taken for representing the parallel interface port, which
-> > stays enumerated as fwnode port 0.
-> >=20
-> > Note that additional ports may be added in the future, especially to
-> > support feeding the CSI controller's output to the ISP.
+On Mon 07 Feb 22, 10:14, Maxime Ripard wrote:
+> On Sat, Feb 05, 2022 at 07:53:44PM +0100, Paul Kocialkowski wrote:
+> > In some situations the default rate of the module clock is not the
+> > required one for operation (for example when reconfiguring the clock
+> > tree to use a different parent). As a result, always set the correct
+> > rate for the clock (and take care of cleanup).
 > >=20
 > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Acked-by: Maxime Ripard <mripard@kernel.org>
 > > ---
-> >  .../media/allwinner,sun6i-a31-csi.yaml        | 60 +++++++++++++++----
-> >  1 file changed, 47 insertions(+), 13 deletions(-)
+> >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 54 ++++++++++++++-----
+> >  1 file changed, 41 insertions(+), 13 deletions(-)
 > >=20
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-cs=
-i.yaml
-> > index 8b568072a069..3cc61866ea89 100644
-> > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
-aml
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
-aml
-> > @@ -61,6 +61,34 @@ properties:
+> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drive=
+rs/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > index 8155e9560164..2355088fdc37 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > @@ -154,9 +154,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *cs=
+i_dev, bool enable)
+> >  		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
 > > =20
-> >      additionalProperties: false
+> >  		clk_disable_unprepare(csi_dev->clk_ram);
+> > -		if (of_device_is_compatible(dev->of_node,
+> > -					    "allwinner,sun50i-a64-csi"))
+> > -			clk_rate_exclusive_put(csi_dev->clk_mod);
+> >  		clk_disable_unprepare(csi_dev->clk_mod);
+> >  		reset_control_assert(csi_dev->reset);
+> >  		return 0;
+> > @@ -168,9 +165,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *cs=
+i_dev, bool enable)
+> >  		return ret;
+> >  	}
 > > =20
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: "#/properties/port"
-> > +        unevaluatedProperties: false
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: MIPI CSI-2 bridge input port
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 1
-> > +
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +        additionalProperties: false
-> > +
-> > +    anyOf:
-> > +      - required:
-> > +        - port@0
-> > +      - required:
-> > +        - port@1
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
->=20
-> Shouldn't you specify that either port or ports is required, but not
-> both ? I'd also add a comment in the port node to tell it's deprecated,
-> and that ports should be used instead.
-
-Yes I agree on both points. I guess that should be a:
-
-oneOf:
-  - required:
-    - ports
-  - required:
-    - port
-
-(but feel free to correct me).
-
-> > @@ -89,19 +117,25 @@ examples:
-> >                        "ram";
-> >          resets =3D <&ccu RST_BUS_CSI>;
-> > =20
-> > -        port {
-> > -            /* Parallel bus endpoint */
-> > -            csi1_ep: endpoint {
-> > -                remote-endpoint =3D <&adv7611_ep>;
-> > -                bus-width =3D <16>;
+> > -	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
+> > -		clk_set_rate_exclusive(csi_dev->clk_mod, 300000000);
 > > -
-> > -                /*
-> > -                 * If hsync-active/vsync-active are missing,
-> > -                 * embedded BT.656 sync is used.
-> > -                 */
-> > -                 hsync-active =3D <0>; /* Active low */
-> > -                 vsync-active =3D <0>; /* Active low */
-> > -                 pclk-sample =3D <1>;  /* Rising */
-> > +        ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
+> >  	ret =3D clk_prepare_enable(csi_dev->clk_ram);
+> >  	if (ret) {
+> >  		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
+> > @@ -190,8 +184,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *cs=
+i_dev, bool enable)
+> >  clk_ram_disable:
+> >  	clk_disable_unprepare(csi_dev->clk_ram);
+> >  clk_mod_disable:
+> > -	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
+> > -		clk_rate_exclusive_put(csi_dev->clk_mod);
+> >  	clk_disable_unprepare(csi_dev->clk_mod);
+> >  	return ret;
+> >  }
+> > @@ -819,6 +811,7 @@ static int sun6i_csi_resources_setup(struct sun6i_c=
+si_device *csi_dev,
+> >  				     struct platform_device *platform_dev)
+> >  {
+> >  	struct device *dev =3D csi_dev->dev;
+> > +	unsigned long clk_mod_rate;
+> >  	void __iomem *io_base;
+> >  	int ret;
+> >  	int irq;
+> > @@ -856,28 +849,53 @@ static int sun6i_csi_resources_setup(struct sun6i=
+_csi_device *csi_dev,
+> >  		return PTR_ERR(csi_dev->clk_ram);
+> >  	}
+> > =20
+> > +	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
+> > +		clk_mod_rate =3D 300000000;
+> > +	else
+> > +		clk_mod_rate =3D 297000000;
 > > +
-> > +            port@0 {
-> > +                reg =3D <0>;
-> > +                /* Parallel bus endpoint */
-> > +                csi1_ep: endpoint {
-> > +                    remote-endpoint =3D <&adv7611_ep>;
-> > +                    bus-width =3D <16>;
+> > +	ret =3D clk_set_rate_exclusive(csi_dev->clk_mod, clk_mod_rate);
+> > +	if (ret) {
+> > +		dev_err(dev, "failed to set mod clock rate\n");
+> > +		return ret;
+> > +	}
 > > +
-> > +                    /*
-> > +                     * If hsync-active/vsync-active are missing,
-> > +                     * embedded BT.656 sync is used.
-> > +                     */
-> > +                     hsync-active =3D <0>; /* Active low */
-> > +                     vsync-active =3D <0>; /* Active low */
-> > +                     pclk-sample =3D <1>;  /* Rising */
+> >  	/* Reset */
+> > =20
+> >  	csi_dev->reset =3D devm_reset_control_get_shared(dev, NULL);
+> >  	if (IS_ERR(csi_dev->reset)) {
+> >  		dev_err(dev, "failed to acquire reset\n");
+> > -		return PTR_ERR(csi_dev->reset);
+> > +		ret =3D PTR_ERR(csi_dev->reset);
+> > +		goto error_clk_rate_exclusive;
+> >  	}
+> > =20
+> >  	/* Interrupt */
+> > =20
+> >  	irq =3D platform_get_irq(platform_dev, 0);
+> > -	if (irq < 0)
+> > -		return -ENXIO;
+> > +	if (irq < 0) {
+> > +		dev_err(dev, "failed to get interrupt\n");
+> > +		ret =3D -ENXIO;
+> > +		goto error_clk_rate_exclusive;
+> > +	}
+> > =20
+> >  	ret =3D devm_request_irq(dev, irq, sun6i_csi_isr, 0, SUN6I_CSI_NAME,
+> >  			       csi_dev);
+> >  	if (ret) {
+> >  		dev_err(dev, "failed to request interrupt\n");
+> > -		return ret;
+> > +		goto error_clk_rate_exclusive;
+> >  	}
+> > =20
+> >  	return 0;
+> > +
+> > +error_clk_rate_exclusive:
+> > +	clk_rate_exclusive_put(csi_dev->clk_mod);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void sun6i_csi_resources_cleanup(struct sun6i_csi_device *csi_d=
+ev)
+> > +{
+> > +	clk_rate_exclusive_put(csi_dev->clk_mod);
+> >  }
 >=20
-> Wrong indentation.
+> If you're going to have that function anyway, let's use
+> devm_add_action_or_reset, it'll simplify the rest of the patch.
 
-The double-space before /* Rising */ or something with the heading indent?
+Well, this will cause issues later on when adding runtime pm support to
+sun6i_csi_resources_cleanup: then it will no longer be equivalent
+to the error case label.
 
-Thanks,
+Also I feel like making the resources_cleanup call a devm action would not
+help clarify the general flow of the driver, where the matching setup/clean=
+up
+calls are ordered in probe/remove. The driver is quite big with various par=
+ts
+and I'd rather have them behave in a coherent and similar way.
+
+What do you think?
 
 Paul
-
-> > +                };
-> >              };
-> >          };
-> >      };
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
 
 --=20
 Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---N1FE44kMl1ZRScRS
+--Tv5rA21o/SqhzaB6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIGil4ACgkQ3cLmz3+f
-v9E2OAf+M59HqYo3WH2kb71DPc2RBTe6OgFa2D6dEM/0E8JL5wiYWvOSJADrYUh3
-ym1oUzOSoUsA8YlBPzSQ3oXMtRN3Hzc9sVL8RDmHw1+JhEqFo0nasFjA3UvgFCMp
-frR0s8rvSu4r5bpPQheC1uMcfA0aSHT4W8w8oYJRdGK6nlkPJbQUbg+3jLDvd7pT
-HwJoBd0+0oMuqFg6FdGP/vKt89mqIyl6AmZYnTSeofyX7/x40i1Zdtbvd/pMdYtv
-C9kXGkP5WrXGVwKa3Mn9CMnOFPjNXmL2D56NHzwSagDzZLbscRablKBDBglxfuGa
-dlRvMsPlp7qvlnv9J8aKV9hj/aVIHw==
-=8dSa
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIGjvEACgkQ3cLmz3+f
+v9Eq7wf/aVHx73dljDp0YxBy+q2PMLd3CTowE7OvhhXXMz24VfzET01MwXfyxeo0
+IpqwMV0dz5U1iy/ofxtZPJW832v08EZXXCod4h3E+L0lRi/HSkJlW67Gt5z4uZmu
+4tWN4NXJ2hXJlUT717HxRvTD7sl3oGOODuemqyPwmVLp/FJ/8dZZcwz38cyHXdL7
+v1nT9o/Cdpz5Mj1IECQaqEovJ3zU6sTFfd3YAYc4qPYYXmok4mq4GoqChSlB2y4y
+9DxH3t/4vciCVCon1d4Z7gOZML2IdzZBx3NwV+TKVUOBNCsVqz/pl4XVG+ZJ+Lvs
+bQio4a8S1+h+txomzaXIBPr1XlOENg==
+=d+6J
 -----END PGP SIGNATURE-----
 
---N1FE44kMl1ZRScRS--
+--Tv5rA21o/SqhzaB6--
