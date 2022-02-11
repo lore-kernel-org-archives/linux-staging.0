@@ -1,144 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7A62C9C
-	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 08:14:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AA54C340E9;
-	Fri, 11 Feb 2022 08:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1644567283;
-	bh=WZCYqEtEdQI2nL3L1MblRCngBlk4UIBepJRNH61waVg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MmkL+HA4bOvs1dUxX3sg5pYeYehURdGNnx0nEiE/T3gnfonblMdhStg7GeCc6vtBU
-	 6Gv0rzP87mXkF5KqYPmo4SYXlP7QvnVZnKoI7UgxDTddAHEDe4F0r6E1NUQOFJ0iUW
-	 iYt5fd15CuLhHkdy5GFUyIqzroguaxSFIb4M/Xr4=
-Date: Fri, 11 Feb 2022 09:14:40 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc: realwakka@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: add rf69_dbg_hex function
-Message-ID: <YgYa8Pt77v6AAyjb@kroah.com>
-References: <YgYZRArwwF7Z1B4f@mail.google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112842C9C
+	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 08:19:05 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0V4890vr_1644566603;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0V4890vr_1644566603)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 11 Feb 2022 16:03:29 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH] staging: r8188eu: remove useless if else
+Date: Fri, 11 Feb 2022 16:03:22 +0800
+Message-Id: <20220211080322.80388-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YgYZRArwwF7Z1B4f@mail.google.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 11, 2022 at 09:07:32PM +1300, Paulo Miguel Almeida wrote:
-> dev_<level> functions don't support printing hex dumps and the
-> alternative available (print_hex_dump_debug) doesn't print the device
-> information such as device's driver name and device name. That type of
-> information which comes in handy for situations in which you can more
-> than 1 device attached at the same type.
-> 
-> this patch adds a utility function that can obtain the same result as
-> print_hex_dump_debug while being able to honour all possible flags that
-> one may be interested in when dynamic debug is used.
-> 
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> ---
-> Meta-comments:
-> 
-> the initial discussion to use print_hex_dump_debug started in this patch
-> but the original idea got merged into the brach.
-> 
-> https://lore.kernel.org/lkml/a630d8381cee0f543e0d77614052e1d04ab162a5.camel@perches.com/#t
-> 
-> ---
->  drivers/staging/pi433/rf69.c | 39 ++++++++++++++++++++++++++++--------
->  1 file changed, 31 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-> index 901f8db3e3ce..82d4ba24c35f 100644
-> --- a/drivers/staging/pi433/rf69.c
-> +++ b/drivers/staging/pi433/rf69.c
-> @@ -822,9 +822,37 @@ int rf69_set_dagc(struct spi_device *spi, enum dagc dagc)
->  
->  /*-------------------------------------------------------------------------*/
->  
-> +static void rf69_dbg_hex(struct spi_device *spi, u8 *buf, unsigned int size,
-> +			 const char *fmt, ...)
-> +{
-> +	va_list args;
-> +	char textbuf[512] = {};
-> +	char *text = textbuf;
-> +	int text_pos;
-> +
-> +	int rowsize = 16;
-> +	int i, linelen, remaining = size;
-> +
-> +	va_start(args, fmt);
-> +	text_pos = vscnprintf(text, sizeof(textbuf), fmt, args);
-> +	text += text_pos;
-> +	va_end(args);
-> +
-> +	for (i = 0; i < size; i += rowsize) {
-> +		linelen = min(remaining, rowsize);
-> +		remaining -= rowsize;
-> +
-> +		hex_dump_to_buffer(buf + i, linelen, rowsize, 1,
-> +				   text, sizeof(textbuf) - text_pos, false);
-> +
-> +		dev_dbg(&spi->dev, "%s\n", textbuf);
-> +
-> +		memset(text, 0, sizeof(textbuf) - text_pos);
-> +	}
-> +}
+Eliminate the follow coccicheck warning:
 
-This is a lot of additional complexity for almost no real benefit.
+./drivers/staging/r8188eu/hal/usb_halinit.c:1105:3-5: WARNING: possible
+condition with no effect (if == else).
 
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/staging/r8188eu/hal/usb_halinit.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-> +
->  int rf69_read_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
->  {
-> -	int i;
->  	struct spi_transfer transfer;
->  	u8 local_buffer[FIFO_SIZE + 1];
->  	int retval;
-> @@ -844,9 +872,7 @@ int rf69_read_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
->  
->  	retval = spi_sync_transfer(spi, &transfer, 1);
->  
-> -	/* print content read from fifo for debugging purposes */
-> -	for (i = 0; i < size; i++)
-> -		dev_dbg(&spi->dev, "%d - 0x%x\n", i, local_buffer[i + 1]);
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 659e0f26db29..9bcbc275f043 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -1102,11 +1102,7 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 				/* enable update TSF */
+ 				rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL) & (~BIT(4)));
+ 			}
+-			if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
+-				rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR) | RCR_CBSSID_BCN);
+-			} else {
+-				rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR) | RCR_CBSSID_BCN);
+-			}
++			rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR) | RCR_CBSSID_BCN);
+ 		}
+ 		break;
+ 	case HW_VAR_MLME_JOIN:
+-- 
+2.20.1.7.g153144c
 
-What is wrong with this simple line?
-
-> +	rf69_dbg_hex(spi, local_buffer + 1, size, "%s - ", __func__);
->  
->  	memcpy(buffer, &local_buffer[1], size);
->  
-> @@ -855,7 +881,6 @@ int rf69_read_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
->  
->  int rf69_write_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
->  {
-> -	int i;
->  	u8 local_buffer[FIFO_SIZE + 1];
->  
->  	if (size > FIFO_SIZE) {
-> @@ -867,9 +892,7 @@ int rf69_write_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
->  	local_buffer[0] = REG_FIFO | WRITE_BIT;
->  	memcpy(&local_buffer[1], buffer, size);
->  
-> -	/* print content written from fifo for debugging purposes */
-> -	for (i = 0; i < size; i++)
-> -		dev_dbg(&spi->dev, "0x%x\n", buffer[i]);
-> +	rf69_dbg_hex(spi, local_buffer + 1, size, "%s - ", __func__);
-
-Again, the original is fine here, why make this so complex?
-
-Also, you are using local_buffer here, not buffer, why?
-
-I think the original is just fine, no need to polish something as tiny
-as a hex dump for debugging only.
-
-thanks,
-
-greg k-h
