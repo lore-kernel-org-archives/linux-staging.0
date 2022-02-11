@@ -1,101 +1,151 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828282C9C
-	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 00:06:55 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id w8so6685787qkw.8
-        for <linux-staging@lists.linux.dev>; Thu, 10 Feb 2022 16:06:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=kIxNsx5t66aCekxGiYnzItzLDmvgCurjGzLHlKM8kmo=;
-        b=kUPI1caTAiBqAVK3q8DnKRacUz2Uib6Hme9P7gr7i8kQ+e8TDEJqGlFb9zgPToD7X4
-         N+9XO0XYP2mYbZz74uZ8ryyWvq1dnX9hrT17tCXcrSr4PANCJ/G0mRpk/gSmP6hwaIA4
-         tSW8lv3cVv4eh0Fc3r/J6QFoUcItqKb2tIQyxE/nf7iYijX6DS2RQXFJKqGgFPMhUCS9
-         Dqf5xuMhdzQRvnaBkiEGdwqac4utkIFoMdIFFiXveNwGxaUBDmRdbQNyiyVPpzaVTcFz
-         igRbWOfbP9PGIw7H/TiCmFN2ibo8AOWyYEUvfZNJ2d6hoCz97qFC1FNpcapXfbvgCC0D
-         Dc2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kIxNsx5t66aCekxGiYnzItzLDmvgCurjGzLHlKM8kmo=;
-        b=EMfqB6JpXK3DVOCsTnlB5AFmqt2NK5FPCQR/YH7zSLYxwvfAsg960gtemipS+KnIh9
-         J3h6jyiNrUd1yEizU3vGVPgbBuENxnshZIvoJxdUHBa2fp/wD6H2CJBAXgsqPXa6XBnA
-         BTIokDEJ3H7Mbkq6koMb18fNGTpfx+2Ijvwkn1FhO4StnTZVRCW8d34Jh5x83yA4BUMR
-         Hs+z/EU9qSQ50FI3y194Noo9jUWAOlcVvrYUR/kgjNicrfIEOgSwWd90spEFOtqSYqWI
-         UKIqaCTx67lweIQZH4WalFCYo81M6KFtk4+z5DoslXTL+siMKjdWhspfVBSGUQMCMFx9
-         AmHQ==
-X-Gm-Message-State: AOAM531NIoXWlgVaFb8lRfr25d/PBuIr1zyP9jRSwPVR32C+hRwKTcm+
-	MrJncUzogDZOf3t1tFBeps0=
-X-Google-Smtp-Source: ABdhPJwXNB8AH9WzcydC3nOV4kHShzA6P4syYry2xqBz+Iro1F4pn0IXPMbEY20Ct9c0HLCgx/xhIg==
-X-Received: by 2002:a37:851:: with SMTP id 78mr5100598qki.617.1644538014344;
-        Thu, 10 Feb 2022 16:06:54 -0800 (PST)
-Received: from localhost ([12.28.44.171])
-        by smtp.gmail.com with ESMTPSA id v5sm11133965qkp.70.2022.02.10.16.06.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Feb 2022 16:06:53 -0800 (PST)
-From: Yury Norov <yury.norov@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	David Laight <David.Laight@aculab.com>,
-	Joe Perches <joe@perches.com>,
-	Dennis Zhou <dennis@kernel.org>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Alexey Klimov <aklimov@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 34/49] media: tegra-video: replace bitmap_weight with bitmap_weight_le
-Date: Thu, 10 Feb 2022 14:49:18 -0800
-Message-Id: <20220210224933.379149-35-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220210224933.379149-1-yury.norov@gmail.com>
-References: <20220210224933.379149-1-yury.norov@gmail.com>
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4A962C9C
+	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 03:11:55 +0000 (UTC)
+HMM_SOURCE_IP:10.64.8.31:49220.1910361997
+HMM_ATTACHE_NUM:0000
+HMM_SOURCE_TYPE:SMTP
+Received: from clientip-123.150.8.42 (unknown [10.64.8.31])
+	by 189.cn (HERMES) with SMTP id 99CBF1002B4;
+	Fri, 11 Feb 2022 11:06:36 +0800 (CST)
+Received: from  ([123.150.8.42])
+	by gateway-153622-dep-749df8664c-cv9r2 with ESMTP id 4ae6a8bd32514b71bf2478f1bf333233 for u.kleine-koenig@pengutronix.de;
+	Fri, 11 Feb 2022 11:06:38 CST
+X-Transaction-ID: 4ae6a8bd32514b71bf2478f1bf333233
+X-Real-From: chensong_2000@189.cn
+X-Receive-IP: 123.150.8.42
+X-MEDUSA-Status: 0
+Sender: chensong_2000@189.cn
+Message-ID: <6acc4f74-31a1-75b2-f7e8-610aac7b0ec8@189.cn>
+Date: Fri, 11 Feb 2022 11:06:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] staging: greybus: introduce pwm_ops::apply
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
+ thierry.reding@gmail.com, lee.jones@linaro.org,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+References: <1644483902-9200-1-git-send-email-chensong_2000@189.cn>
+ <20220210100342.q2t4ykgyymjzr3fj@pengutronix.de>
+From: Song Chen <chensong_2000@189.cn>
+In-Reply-To: <20220210100342.q2t4ykgyymjzr3fj@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-tegra_channel_enum_format() calls bitmap_weight() to compare the weight
-of bitmap with a given number. We can do it more efficiently with
-bitmap_weight_le() because conditional bitmap_weight may stop traversing
-the bitmap earlier, as soon as condition is (or can't be) met.
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- drivers/staging/media/tegra-video/vi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index d1f43f465c22..4e79a80e9307 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -436,7 +436,7 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
- 	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
- 		fmts_bitmap = chan->fmts_bitmap;
- 
--	if (f->index >= bitmap_weight(fmts_bitmap, MAX_FORMAT_NUM))
-+	if (bitmap_weight_le(fmts_bitmap, MAX_FORMAT_NUM, f->index))
- 		return -EINVAL;
- 
- 	for (i = 0; i < f->index + 1; i++, index++)
--- 
-2.32.0
+在 2022/2/10 18:03, Uwe Kleine-König 写道:
+> On Thu, Feb 10, 2022 at 05:05:02PM +0800, Song Chen wrote:
+>> Introduce apply in pwm_ops to replace legacy operations,
+>> like enable, disable, config and set_polarity.
+>>
+>> Signed-off-by: Song Chen <chensong_2000@189.cn>
+>> ---
+>>   drivers/staging/greybus/pwm.c | 46 +++++++++++++++--------------------
+>>   1 file changed, 19 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+>> index 891a6a672378..e1889cf979b2 100644
+>> --- a/drivers/staging/greybus/pwm.c
+>> +++ b/drivers/staging/greybus/pwm.c
+>> @@ -204,43 +204,35 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+>>   	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
+>>   }
+>>   
+>> -static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+>> -			 int duty_ns, int period_ns)
+>> -{
+>> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>> -
+>> -	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
+>> -};
+>> -
+>> -static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
+>> -			       enum pwm_polarity polarity)
+>> +static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>> +			const struct pwm_state *state)
+>>   {
+>> +	int ret;
+>>   	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>>   
+>> -	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
+>> -};
+>> -
+>> -static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
+>> -{
+>> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>> +	/* set period and duty cycle*/
+>> +	ret = gb_pwm_config_operation(pwmc, pwm->hwpwm, state->duty_cycle, state->period);
+> 
+> gb_pwm_config_operation's 3rd parameter is an u32, so you're loosing
+> bits here as state->duty_cycle is a u64. Ditto for period.
 
+originally, pwm_apply_state --> pwm_apply_legacy --> gb_pwm_config --> 
+gb_pwm_config_operation is also loosing bits, does it mean greybus can 
+live with that?
+
+Or redefine gb_pwm_config_request, switch duty and period to __le64?
+
+> 
+> Also it would be nice if you go from
+> 
+> 	.duty_cycle = A, .period = B, .enabled = 1
+> 
+> to
+> 
+> 	.duty_cycle = C, .period = D, .enabled = 0
+> 
+> that C/D wasn't visible on the output pin. So please disable earlier
+> (but keep enable at the end).
+
+sorry, i don't quite understand this part, but is below code looking 
+good to you?
+
+static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+			const struct pwm_state *state)
+{
+	int err;
+	bool enabled = pwm->state.enabled;
+	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+
+	/* set polarity */
+	if (state->polarity != pwm->state.polarity) {
+		if (enabled) {
+			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+			enabled = false;
+		}
+		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
+		if (err)
+			return err;
+	}
+
+	if (!state->enabled) {
+		if (enabled)
+			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+		return 0;
+	}
+
+	/* set period and duty cycle*/
+	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, state->duty_cycle, 
+state->period);
+	if (err)
+		return err;
+
+	/* enable/disable */
+	if (!enabled)
+		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+
+	return 0;
+}
+
+> 
+> Best regards
+> Uwe
+> 
