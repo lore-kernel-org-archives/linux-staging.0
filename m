@@ -1,11 +1,11 @@
 Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1AA7A
-	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 18:01:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74B17A
+	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 18:01:38 +0000 (UTC)
 Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 1351F240002;
-	Fri, 11 Feb 2022 18:01:28 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 8023524000E;
+	Fri, 11 Feb 2022 18:01:33 +0000 (UTC)
 From: Jacopo Mondi <jacopo@jmondi.org>
 To: slongerbeam@gmail.com,
 	p.zabel@pengutronix.de,
@@ -24,9 +24,9 @@ Cc: kernel@pengutronix.de,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH 2/3] media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
-Date: Fri, 11 Feb 2022 19:02:15 +0100
-Message-Id: <20220211180216.290133-3-jacopo@jmondi.org>
+Subject: [PATCH 3/3] media: imx: Remove reference to i.MX7 from driver
+Date: Fri, 11 Feb 2022 19:02:16 +0100
+Message-Id: <20220211180216.290133-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220211180216.290133-1-jacopo@jmondi.org>
 References: <20220211180216.290133-1-jacopo@jmondi.org>
@@ -38,35 +38,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename the imx7-mipi-csis.c driver to remove the reference to i.MX7.
-
-The driver is for an IP core found on i.MX7 and i.MX8 SoC so do not
-specify a SoC version number in the driver name.
+Remove the references to the i.MX7 in the driver description and expand
+it with more information about the IP core the driver controls.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- MAINTAINERS                                                     | 2 +-
- .../media/platform/imx/{imx7-mipi-csis.c => imx-mipi-csis.c}    | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename drivers/media/platform/imx/{imx7-mipi-csis.c => imx-mipi-csis.c} (100%)
+ drivers/media/platform/imx/imx-mipi-csis.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5bdb8c881b0b..7def3b7d56bc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11891,7 +11891,7 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/admin-guide/media/imx7.rst
- F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
- F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
--F:	drivers/media/platform/imx/imx7-mipi-csis.c
-+F:	drivers/media/platform/imx/imx-mipi-csis.c
- F:	drivers/staging/media/imx/imx7-media-csi.c
+diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
+index a22d0e6b3d44..59f4485bbe70 100644
+--- a/drivers/media/platform/imx/imx-mipi-csis.c
++++ b/drivers/media/platform/imx/imx-mipi-csis.c
+@@ -1,6 +1,10 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Freescale i.MX7 SoC series MIPI-CSI V3.3 receiver driver
++ * CSIS MIPI CSI-2 receiver driver.
++ *
++ * CSIS is an IP core originating from Samsung found in NXP i.MX7 and i.MX8
++ * SoC series. i.MX7 features version 3.3 of the IP, while i.MX8 features
++ * version 3.6.3
+  *
+  * Copyright (C) 2019 Linaro Ltd
+  * Copyright (C) 2015-2016 Freescale Semiconductor, Inc. All Rights Reserved.
+@@ -31,7 +35,7 @@
+ #include <media/v4l2-mc.h>
+ #include <media/v4l2-subdev.h>
  
- MEDIA DRIVERS FOR HELENE
-diff --git a/drivers/media/platform/imx/imx7-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-similarity index 100%
-rename from drivers/media/platform/imx/imx7-mipi-csis.c
-rename to drivers/media/platform/imx/imx-mipi-csis.c
+-#define CSIS_DRIVER_NAME			"imx7-mipi-csis"
++#define CSIS_DRIVER_NAME			"imx-mipi-csis"
+ 
+ #define CSIS_PAD_SINK				0
+ #define CSIS_PAD_SOURCE				1
+@@ -1515,4 +1519,4 @@ module_platform_driver(mipi_csis_driver);
+ 
+ MODULE_DESCRIPTION("i.MX7 & i.MX8 MIPI CSI-2 receiver driver");
+ MODULE_LICENSE("GPL v2");
+-MODULE_ALIAS("platform:imx7-mipi-csi2");
++MODULE_ALIAS("platform:imx-mipi-csi2");
 -- 
 2.35.0
 
