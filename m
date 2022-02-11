@@ -1,35 +1,32 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79B12F23;
-	Fri, 11 Feb 2022 15:24:27 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 42776C25D0;
-	Fri, 11 Feb 2022 15:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26912F23;
+	Fri, 11 Feb 2022 15:41:00 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2B19E1BF209;
-	Fri, 11 Feb 2022 15:12:30 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 616F21BF204;
+	Fri, 11 Feb 2022 15:40:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1644592353;
+	t=1644594058;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UtWBObtE4IkrC6h1yUcZW77RKDqVsXLhy4QmmGFNKO4=;
-	b=ccsc7k/xzRCiUCIwcH++UiryHmcKwovXKWAbQ0BzGb8gXA7/c8bPP7QQpRxDTUfei/rYsO
-	d2zRJkIzW4z/xEJVPa3feg2jB8zwr9sqda3PLMZgq3VJLgdEk06z3RUHSwBXd/OXAxJ2eM
-	KlEVy+4ibDVuU1T0dMtE01z5jZ/TCudeLgPpcdB9swBmayu6bLsxSAGhcAxSZys48c74xl
-	nL/iFCoeQaOpaTEgxvEpNM3GZbRmrgM9Q8jFSds66zhUkcvuEyHjQFOFZO68n6Y7H9e+Gi
-	IAJig+PEZNDNOaCGhfhGel6U1f02I9kEIVUyRv9Rr7uxZ+Jw6iwN7Lvp1nKJ9A==
-Date: Fri, 11 Feb 2022 16:12:29 +0100
+	bh=Qp1uvSCll9e+XoqAo0K2+ZnWbyAAKcHSRy3v4H7ll4g=;
+	b=l8WQv/CAyMdPT6fSHDJ3FxJ6V8xVqjZxq7jsfX0VRcHye3b8E5WRDWp3ivSulUGKIdWp5k
+	x06WdR4HOSoPNhn/wo4DYc6FmnxRA9JR2hms7/1UpjETMSDN8yANV9aaiPY825ZPA/VGBf
+	dxC/tMApm6e+RjnAw2EQwCAu/nWicZz2nhlC6s4Elx1UZ4BhGjXs7XRPRg5W1stpj5DmR1
+	aMVIHtYA3tD2jmQ80mnbmW5U5ckKyivbTElJs49T+8IOwYdfneRn2vmR//B8H/qpxCwaM6
+	p3dIdpL+CUtFnwp1UO3IHXM7TDF7MBvr0fLJ/dG0D0Izof12iQvkPPh4CLX3+w==
+Date: Fri, 11 Feb 2022 16:40:55 +0100
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Rob Herring <robh@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
 	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
 	Yong Deng <yong.deng@magewell.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -37,12 +34,12 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	Helen Koike <helen.koike@collabora.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 05/66] dt-bindings: sun6i-a31-mipi-dphy: Add optional
- direction property
-Message-ID: <YgZ83To26Dgy+JD4@aptenodytes>
+Subject: Re: [PATCH v2 32/66] media: sun6i-csi: Add capture state using vsync
+ for page flip
+Message-ID: <YgaDhxYLciLUm5ks@aptenodytes>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-6-paul.kocialkowski@bootlin.com>
- <YgZ6qsdO+SfTemPZ@robh.at.kernel.org>
+ <20220205185429.2278860-33-paul.kocialkowski@bootlin.com>
+ <20220209092642.hhppmrrekj7zrorj@houat>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,72 +47,49 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="C0Hx0xaxCNYFUf5H"
+	protocol="application/pgp-signature"; boundary="EeBCw5B6aMoynUBc"
 Content-Disposition: inline
-In-Reply-To: <YgZ6qsdO+SfTemPZ@robh.at.kernel.org>
+In-Reply-To: <20220209092642.hhppmrrekj7zrorj@houat>
 
 
---C0Hx0xaxCNYFUf5H
+--EeBCw5B6aMoynUBc
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Rob,
+Hi,
 
-On Fri 11 Feb 22, 09:03, Rob Herring wrote:
-> On Sat, Feb 05, 2022 at 07:53:28PM +0100, Paul Kocialkowski wrote:
-> > The Allwinner A31 MIPI D-PHY block supports both tx and rx directions,
-> > although each instance of the block is meant to be used in one
-> > direction only. There will typically be one instance for MIPI DSI and
-> > one for MIPI CSI-2 (it seems unlikely to ever see a shared instance).
+On Wed 09 Feb 22, 10:26, Maxime Ripard wrote:
+> On Sat, Feb 05, 2022 at 07:53:55PM +0100, Paul Kocialkowski wrote:
+> > This introduces a new state structure and associated helpers for
+> > capture, which handles the buffer queue and state for each submitted
+> > buffer.
 > >=20
-> > Describe the direction with a new allwinner,direction property.
-> > For backwards compatibility, the property is optional and tx mode
-> > should be assumed by default.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml  | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-=
-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-=
-mipi-dphy.yaml
-> > index d0b541a461f3..22636c9fdab8 100644
-> > --- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dp=
-hy.yaml
-> > +++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dp=
-hy.yaml
-> > @@ -37,6 +37,18 @@ properties:
-> >    resets:
-> >      maxItems: 1
-> > =20
-> > +  allwinner,direction:
-> > +    $ref: '/schemas/types.yaml#/definitions/string'
-> > +    description: |
-> > +      Direction of the D-PHY:
-> > +      - "rx" for receiving (e.g. when used with MIPI CSI-2);
-> > +      - "tx" for transmitting (e.g. when used with MIPI DSI).
-> > +
-> > +    enum:
-> > +      - tx
-> > +      - rx
-> > +    default: tx
+> > Besides from the code refactoring, this changes the page flip point
+> > to vsync instead of frame done, which allows working with only
+> > two buffers without losing frames. This is apparently a more
+> > appropriate thing to do with this controller.
 >=20
-> Can you the phy mode to imply the direction?
+> Why? What issues were you seeing before, how does using a separate
+> interrupt addresses it, and what makes you think it's more appropriate?
 
-So there was a first attempt at this which introduced a PHY submode but
-it was concluded after discussions that the direction is not really a
-mode of operation choice, in the sense that the D-PHY cannot be reconfigured
-to behave in Rx or Tx mode: it is instead statically assigned to one role
-or the other. This is why it feels more appropriate to describe it in the
-device-tree.
+I'll try to update the commit log to address this, thanks.
 
-See this thread from the previous iteration:
-https://patchwork.linuxtv.org/project/linux-media/patch/20210115200141.1397=
-785-3-paul.kocialkowski@bootlin.com/#128800
+One of the main issues that the rework is trying to address is the way
+that double buffering is handled, which currently requires up to 3 buffers
+to work, due to how buffer configuration is implemented. In particular,
+it's synchronizing to the frame done interrupt which seems to hit after
+scanout of the next frame begins, so page flips are always delayed by one
+frame.
 
-Cheers,
+This is currently solved by setting two buffers when starting the stream:
+the first one is set before vcap is enabled and seems to be sampled when the
+first frame scan begins and the second one is set after and stays until the
+second vsync hits, at which point it becomes the current active buffer.
+This way no frame is lost but 3 frames are needed to start.
+
+This proposal changes the sync point to vsync which allows page flipping to
+happen for the next frame, thus only 2 buffers are required.
 
 Paul
 
@@ -124,19 +98,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---C0Hx0xaxCNYFUf5H
+--EeBCw5B6aMoynUBc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIGfN0ACgkQ3cLmz3+f
-v9E7MwgAgb6y0f+35BKNQMY0ApR9vBuccUbtMvfY5MRxfwFygHy+dHC03V+oFXWR
-oh9Mb6Wc3RKnI6nyWPgoFzbz7KDXpHf9rubsuw9dZYtytY7cAVla5GHfJxLSZVzj
-g7Em8TMkWD86KmX7jl2LtkUyjpuWZ2YWnZnS+s2fOHBMLbUAuc2I+lelXgKxLCTL
-gluqLgtLSxn/T6tGheE5exmUTWV5Wq17QWtx+ganNYMEQoG9d0Q2sf1kE1eOocHF
-8sSTdFPAzC/f6nhMYoXBiCIpTKtAMZ+1kTuBJDEEhPLTCQ/YKvxu4UfbV2W5EvLa
-zi3iRUd2SKPMnAblAuD9zINCfUPEMQ==
-=h8WY
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIGg4cACgkQ3cLmz3+f
+v9FBkgf/XeGRgZ1V/7sJ0ZcawpYN5TgUP8CYJqD7lrdYPo8dqJyKNln/wFou2iXQ
+vA2rfXQIumoeMEGStvu3RfXFHhEXF3zrScW/DYNfSlhSM0+fKWVhQrJfU8Lsvet2
+Zm5qqm5BM+8KjafzCLQWmJj8hXWB1J5goZprtlrlxbSNKFQhaeFE+mrLbYjoMMh0
+alNjgE5LeQC2/FmgS1bm9j+7+Zl5c0v5WZU7/QS/i/X7xSgN4oyj3rwhVD1cJ2c/
+tq7aNj4H6Bxmtu4U4EgDt4QOGiRqLS/LE7TzV0/w6LfVlj4h9vn5SS0TOPwNWFIL
+/t/fdcrPLRjJFc8zm7lRGew/xxd83g==
+=qgUb
 -----END PGP SIGNATURE-----
 
---C0Hx0xaxCNYFUf5H--
+--EeBCw5B6aMoynUBc--
