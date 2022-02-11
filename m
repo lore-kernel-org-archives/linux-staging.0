@@ -1,82 +1,78 @@
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74B17A
-	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 18:01:38 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8023524000E;
-	Fri, 11 Feb 2022 18:01:33 +0000 (UTC)
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	festevam@gmail.com,
-	mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	martin.kepplinger@puri.sm,
-	rmfrfs@gmail.com,
-	xavier.roumegue@oss.nxp.com
-Cc: kernel@pengutronix.de,
-	linux-imx@nxp.com,
-	linux-media@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7897A
+	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 18:15:22 +0000 (UTC)
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1644603314;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2Jch/i8uwHhLcWwzAXjXbpVM1d+fcbfplWSgVCHBbLA=;
+	b=4D/q+XgJSZYSQlhj03Sz02vFzH0GlhuNwlthKN6riQhMDD5++CNjRWRcUMnZgTF6IBP3g+
+	oVovZg1UiRbqNOfXL0Ug7sEEW4I3gnhSbXiXYVhaBj8SJYSe2JWU3L8TKTnBfBv8NavXia
+	PyE9hT1yki7U6ColR/pFgse4NAZ/XUCOOMQ9vWvtJ3Wf6CwrwuYA8smeI/TJiIi1F/bnNA
+	ICPcSYmM6pbexOSlIEOuzn25pRO4Bxmw6wAdc3bITdm6KueiS+ZXZavgXe1fqxcpMkZDPn
+	q8/SFFbpIkYrb4pOWN4iyRS8zM59QXHJ0V6VD/B2dZShpq1NX8pyPrf8htxzpQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1644603314;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2Jch/i8uwHhLcWwzAXjXbpVM1d+fcbfplWSgVCHBbLA=;
+	b=KXgaU3Wb016ElAJR2Uy5MlhgU1MfzTrdx0FxVToYcGImm6/t7L7V1ELxpOGiJMCXbJpX1K
+	HuuVJ5o6ZABaOlBA==
+To: greybus-dev@lists.linaro.org,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH 3/3] media: imx: Remove reference to i.MX7 from driver
-Date: Fri, 11 Feb 2022 19:02:16 +0100
-Message-Id: <20220211180216.290133-4-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220211180216.290133-1-jacopo@jmondi.org>
-References: <20220211180216.290133-1-jacopo@jmondi.org>
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Alex Elder <elder@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	UNGLinuxDriver@microchip.com,
+	Wolfram Sang <wsa@kernel.org>,
+	Woojung Huh <woojung.huh@microchip.com>
+Subject: [PATCH v4 0/7] Provide and use generic_handle_irq_safe() where appropriate.
+Date: Fri, 11 Feb 2022 19:14:53 +0100
+Message-Id: <20220211181500.1856198-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Remove the references to the i.MX7 in the driver description and expand
-it with more information about the IP core the driver controls.
+handler/ interrupt controller entry). It is low level code and the
+function expects that interrupts are disabled at entry point.
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/platform/imx/imx-mipi-csis.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+This isn't the case for invocations from tasklets, workqueues or the
+primary interrupt handler on PREEMPT_RT. Once this gets noticed a
+"local_irq_disable|safe()" is added. To avoid further confusion this
+series adds generic_handle_irq_safe() which can be used from any context
+and adds a few user.
 
-diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-index a22d0e6b3d44..59f4485bbe70 100644
---- a/drivers/media/platform/imx/imx-mipi-csis.c
-+++ b/drivers/media/platform/imx/imx-mipi-csis.c
-@@ -1,6 +1,10 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Freescale i.MX7 SoC series MIPI-CSI V3.3 receiver driver
-+ * CSIS MIPI CSI-2 receiver driver.
-+ *
-+ * CSIS is an IP core originating from Samsung found in NXP i.MX7 and i.MX8
-+ * SoC series. i.MX7 features version 3.3 of the IP, while i.MX8 features
-+ * version 3.6.3
-  *
-  * Copyright (C) 2019 Linaro Ltd
-  * Copyright (C) 2015-2016 Freescale Semiconductor, Inc. All Rights Reserved.
-@@ -31,7 +35,7 @@
- #include <media/v4l2-mc.h>
- #include <media/v4l2-subdev.h>
- 
--#define CSIS_DRIVER_NAME			"imx7-mipi-csis"
-+#define CSIS_DRIVER_NAME			"imx-mipi-csis"
- 
- #define CSIS_PAD_SINK				0
- #define CSIS_PAD_SOURCE				1
-@@ -1515,4 +1519,4 @@ module_platform_driver(mipi_csis_driver);
- 
- MODULE_DESCRIPTION("i.MX7 & i.MX8 MIPI CSI-2 receiver driver");
- MODULE_LICENSE("GPL v2");
--MODULE_ALIAS("platform:imx7-mipi-csi2");
-+MODULE_ALIAS("platform:imx-mipi-csi2");
--- 
-2.35.0
+v2=E2=80=A6v4:
+  - Correct kernel doc for generic_handle_irq_safe() as per Wolfram Sang.
+  - Use "misc" instead of "mfd" for the hi6421-spmi-pmic driver.
+
+v2=E2=80=A6v1:
+ https://lore.kernel.org/all/20220131123404.175438-1-bigeasy@linutronix.de/
+ - Redo kernel-doc for generic_handle_irq_safe() in #1.
+ - Use generic_handle_irq_safe() instead of generic_handle_irq() in the
+   patch description where I accidently used the wrong one.
+v1:
+ https://lore.kernel.org/all/20220127113303.3012207-1-bigeasy@linutronix.de/
+
 
