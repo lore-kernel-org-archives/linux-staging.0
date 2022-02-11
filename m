@@ -1,170 +1,113 @@
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B31232F26
-	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 11:57:15 +0000 (UTC)
-HMM_SOURCE_IP:10.64.8.31:58202.55775679
-HMM_ATTACHE_NUM:0000
-HMM_SOURCE_TYPE:SMTP
-Received: from clientip-123.150.8.43 (unknown [10.64.8.31])
-	by 189.cn (HERMES) with SMTP id A2F6C10013E;
-	Fri, 11 Feb 2022 19:57:10 +0800 (CST)
-Received: from  ([123.150.8.43])
-	by gateway-153622-dep-749df8664c-cv9r2 with ESMTP id 08b197ad565642579980e12aa57bf63f for johan@kernel.org;
-	Fri, 11 Feb 2022 19:57:12 CST
-X-Transaction-ID: 08b197ad565642579980e12aa57bf63f
-X-Real-From: chensong_2000@189.cn
-X-Receive-IP: 123.150.8.43
-X-MEDUSA-Status: 0
-Sender: chensong_2000@189.cn
-From: Song Chen <chensong_2000@189.cn>
-To: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	thierry.reding@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	lee.jones@linaro.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pwm@vger.kernel.org
-Cc: Song Chen <chensong_2000@189.cn>
-Subject: [PATCH v2] staging: greybus: introduce pwm_ops::apply
-Date: Fri, 11 Feb 2022 20:02:27 +0800
-Message-Id: <1644580947-8529-1-git-send-email-chensong_2000@189.cn>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A2B2F2A
+	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 13:29:36 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id o10so8297074qkg.0
+        for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 05:29:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=C8RcQS3Onc34aY4WsNPDQx96xSdhXMEMcF2iWP8p8/s=;
+        b=4GhGoUc/c11sseBRYQgnSGHSukX7xuuq//IPBzW+/F3ULsPiwfAXs/iPbJ2EpckRc6
+         mzAS19V+zo/+vlD/Ole7qsvK6uHUe5Vlddpkz20LDNIbKPchqKPErG445oXCSeUEJ3nR
+         Y93rF0TEX3mMjgsypXRO4FCc/MMX+bOfzy09qeAXdVv1ZGOMobYHWLpcQg3HYvO6/TMq
+         Xx9DPu5l8RnrOKl5oFNxmeie0IHYsXiQ6ePF8GCOi5Zubof5UemFP4bWtt2lRpngB7NN
+         3iqHa+dEEBnh9Pg/DFZ8iNRZC4bTy7fQ1A6ojRaT7PlRvaioiTe2YQdvZa2OFzCZswit
+         fv7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=C8RcQS3Onc34aY4WsNPDQx96xSdhXMEMcF2iWP8p8/s=;
+        b=G3v4dPad07WrjRZHLL1ExVtZMIqsgRT4Yg8WKp7Smuipl6Li0j/cOWD8FGaOjwPQFT
+         EAUkFhF4LIxvu7Bi+CnL+Seiob7XdHkNa/YYwjjRLjN3KUm9XGkyoJgPo9SVJG/ewg+1
+         vVcCuip6erOtwBPu5ljZ1dF9/DAEtCGmFFImFAwhEm+3fEZbf2eH+x1eVZq1eiTt1N4Z
+         e9AzLahDW3p7rLZuaRxC5GveZwM0pkA8cBtpTKmHDYigIF1Y31vwNqic73BLtn1TNwha
+         tQ9Zu1WI8rBbDoDFg2N/2kuv9jnAud5brUPIl0fCOvqIptVQgb/lpJwKpCNZjFM4l79b
+         ppzA==
+X-Gm-Message-State: AOAM531EUDwphYdc4Eat1uS9KuraELtVjm6lAz8AW5OGF0qvmFtSQPAf
+	6JpeFamPiuohCncHr1Vufy6P+Q==
+X-Google-Smtp-Source: ABdhPJx3tflCKvRAYZjABa3eTJaLgwV9YMRtRuFiWIDpJpG/kVVAP086Nrm+UHeTe0IgS1KD4BQHlw==
+X-Received: by 2002:a05:620a:ced:: with SMTP id c13mr693431qkj.636.1644586175987;
+        Fri, 11 Feb 2022 05:29:35 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id h6sm11294073qkk.14.2022.02.11.05.29.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Feb 2022 05:29:35 -0800 (PST)
+Message-ID: <d986ab76a7c52a9a2ce62c1edb07f520c9df51c4.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 1/4] media: v4l2-ctrls: Add new
+ V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Fri, 11 Feb 2022 08:29:33 -0500
+In-Reply-To: <20220207141937.13089-2-digetx@gmail.com>
+References: <20220207141937.13089-1-digetx@gmail.com>
+	 <20220207141937.13089-2-digetx@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Introduce apply in pwm_ops to replace legacy operations,
-like enable, disable, config and set_polarity.
+Le lundi 07 février 2022 à 17:19 +0300, Dmitry Osipenko a écrit :
+> Add new V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags that are needed by
+> NVIDIA Tegra video decoder. Userspace will have to set these flags in
+> accordance to the type of a decoded frame.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
 
-Signed-off-by: Song Chen <chensong_2000@189.cn>
+Can you share here (out of commit) a userland implementation that was used to
+demonstrate the new API ? It does not matter which project (GStreamer, FFMPEG,
+Chromium, your_test_progtram). Should be fairly straightforward. This is just to
+be transparent.
 
----
-V2:
-1, define duty_cycle and period as u64 in gb_pwm_config_operation.
-2, define duty and period as u64 in gb_pwm_config_request.
-3, disable before configuring duty and period if the eventual goal
-   is a disabled state.
----
- drivers/staging/greybus/pwm.c             | 61 ++++++++++++-----------
- include/linux/greybus/greybus_protocols.h |  4 +-
- 2 files changed, 34 insertions(+), 31 deletions(-)
+>  .../userspace-api/media/v4l/ext-ctrls-codec-stateless.rst   | 6 ++++++
+>  include/uapi/linux/v4l2-controls.h                          | 2 ++
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+> index cc080c4257d0..f87584ad90ba 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+> @@ -616,6 +616,12 @@ Stateless Codec Control ID
+>      * - ``V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD``
+>        - 0x00000004
+>        -
+> +    * - ``V4L2_H264_DECODE_PARAM_FLAG_PFRAME``
+> +      - 0x00000008
+> +      -
+> +    * - ``V4L2_H264_DECODE_PARAM_FLAG_BFRAME``
+> +      - 0x00000010
+> +      -
+>  
+>  .. raw:: latex
+>  
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index c8e0f84d204d..e3d48d571062 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1563,6 +1563,8 @@ struct v4l2_h264_dpb_entry {
+>  #define V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC		0x01
+>  #define V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC		0x02
+>  #define V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD	0x04
+> +#define V4L2_H264_DECODE_PARAM_FLAG_PFRAME		0x08
+> +#define V4L2_H264_DECODE_PARAM_FLAG_BFRAME		0x10
+>  
+>  #define V4L2_CID_STATELESS_H264_DECODE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 7)
+>  /**
 
-diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-index 891a6a672378..03c69db5b9be 100644
---- a/drivers/staging/greybus/pwm.c
-+++ b/drivers/staging/greybus/pwm.c
-@@ -89,7 +89,7 @@ static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
- }
- 
- static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
--				   u8 which, u32 duty, u32 period)
-+				   u8 which, u64 duty, u64 period)
- {
- 	struct gb_pwm_config_request request;
- 	struct gbphy_device *gbphy_dev;
-@@ -99,8 +99,8 @@ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
- 		return -EINVAL;
- 
- 	request.which = which;
--	request.duty = cpu_to_le32(duty);
--	request.period = cpu_to_le32(period);
-+	request.duty = duty;
-+	request.period = period;
- 
- 	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
- 	ret = gbphy_runtime_get_sync(gbphy_dev);
-@@ -204,43 +204,46 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
- 	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
- }
- 
--static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
--			 int duty_ns, int period_ns)
-+static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			const struct pwm_state *state)
- {
-+	int err;
-+	bool enabled = pwm->state.enabled;
- 	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
- 
--	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
--};
--
--static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
--			       enum pwm_polarity polarity)
--{
--	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
--
--	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
--};
-+	/* set polarity */
-+	if (state->polarity != pwm->state.polarity) {
-+		if (enabled) {
-+			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
-+			enabled = false;
-+		}
-+		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
-+		if (err)
-+			return err;
-+	}
- 
--static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
--{
--	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
-+	if (!state->enabled) {
-+		if (enabled)
-+			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
-+		return 0;
-+	}
- 
--	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
--};
-+	/* set period and duty cycle*/
-+	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, state->duty_cycle, state->period);
-+	if (err)
-+		return err;
- 
--static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
--{
--	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
-+	/* enable/disable */
-+	if (!enabled)
-+		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
- 
--	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
--};
-+	return 0;
-+}
- 
- static const struct pwm_ops gb_pwm_ops = {
- 	.request = gb_pwm_request,
- 	.free = gb_pwm_free,
--	.config = gb_pwm_config,
--	.set_polarity = gb_pwm_set_polarity,
--	.enable = gb_pwm_enable,
--	.disable = gb_pwm_disable,
-+	.apply = gb_pwm_apply,
- 	.owner = THIS_MODULE,
- };
- 
-diff --git a/include/linux/greybus/greybus_protocols.h b/include/linux/greybus/greybus_protocols.h
-index aeb8f9243545..81a6f16de098 100644
---- a/include/linux/greybus/greybus_protocols.h
-+++ b/include/linux/greybus/greybus_protocols.h
-@@ -812,8 +812,8 @@ struct gb_pwm_deactivate_request {
- 
- struct gb_pwm_config_request {
- 	__u8	which;
--	__le32	duty;
--	__le32	period;
-+	__u64	duty;
-+	__u64	period;
- } __packed;
- 
- struct gb_pwm_polarity_request {
--- 
-2.25.1
+Please update the doc too, see:
+  Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst:
 
