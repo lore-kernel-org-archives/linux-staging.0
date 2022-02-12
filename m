@@ -1,66 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816B57D
-	for <linux-staging@lists.linux.dev>; Sat, 12 Feb 2022 10:31:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EFBFC340E7;
-	Sat, 12 Feb 2022 10:31:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1644661892;
-	bh=W8C3px4Ho/2tSKsRI2O5MxXfZutbE8YDsLfIVKb3P3o=;
-	h=Date:From:To:Cc:Subject:From;
-	b=XGZQqpetQWZMdaGqP4pK+wxUO8dWF2JLo8nckcwv9wk4t4v5OAhChvTyD7A9uT5V/
-	 e4buUoAns3sbx6a0hMHoz0Yvrf8GbYhKkHONJiquxTbk8+RUG6NMHnl5h4jRiNfRu+
-	 1mo+Ize34gv4svOCwRw/FCmDHwpS6sWNnSLutskg=
-Date: Sat, 12 Feb 2022 11:31:29 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging driver changes for 5.17-rc4
-Message-ID: <YgeMgTqMg82ZC7hA@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD27257E
+	for <linux-staging@lists.linux.dev>; Sat, 12 Feb 2022 16:17:54 +0000 (UTC)
+Received: from dslb-188-097-215-215.188.097.pools.vodafone-ip.de ([188.97.215.215] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1nIv5k-0007YM-8o; Sat, 12 Feb 2022 17:17:44 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 00/10] remove rf register access for path b
+Date: Sat, 12 Feb 2022 17:17:27 +0100
+Message-Id: <20220212161737.381841-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit e783362eb54cd99b2cac8b3a9aeac942e6f6ac07:
+This patch set removes rf register access to the registers of rf path b.
 
-  Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
+The r8188eu driver seems to use only rf path a. The private ioctls were
+the only way to access rf path b registers. We limit these ioctls to rf
+path a and we can then remove the code to read and write path b registers.
 
-are available in the Git repository at:
+Martin Kaiser (10):
+  staging: r8188eu: set path a explicitly
+  staging: r8188eu: write only path a registers in rtw_dbg_port
+  staging: r8188eu: remove path parameter from rtl8188e_PHY_SetRFReg
+  staging: r8188eu: remove path parameter from phy_RFSerialWrite
+  staging: r8188eu: clarify that bb_reg_dump uses only path a
+  staging: r8188eu: limit rtw_wx_read_rf to path a
+  staging: r8188eu: limit rtw_dbg_port to path a
+  staging: r8188eu: remove path parameter from rtl8188e_PHY_QueryRFReg
+  staging: r8188eu: remove path parameter from phy_RFSerialRead
+  staging: r8188eu: we only need one struct bb_reg_def for path a
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.17-rc4
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  | 34 ++++----
+ drivers/staging/r8188eu/hal/odm.c             |  2 +-
+ .../staging/r8188eu/hal/odm_RegConfig8188E.c  |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 85 ++++++-------------
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  6 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  2 +-
+ .../staging/r8188eu/include/Hal8188EPhyCfg.h  |  6 +-
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  2 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 27 ++++--
+ 9 files changed, 72 insertions(+), 94 deletions(-)
 
-for you to fetch changes up to 426aca16e903b387a0b0001d62207a745c67cfd3:
+-- 
+2.30.2
 
-  staging: fbtft: Fix error path in fbtft_driver_module_init() (2022-01-25 16:36:49 +0100)
-
-----------------------------------------------------------------
-Staging driver fixes for 5.17-rc4
-
-Here are 2 staging driver fixes for 5.17-rc4.  These are:
-	- fbtft error path fix
-	- vc04_services rcu dereference fix
-
-Both of these have been in linux-next for a while with no reported
-issues
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Padmanabha Srinivasaiah (1):
-      staging: vc04_services: Fix RCU dereference check
-
-Uwe Kleine-König (1):
-      staging: fbtft: Fix error path in fbtft_driver_module_init()
-
- drivers/staging/fbtft/fbtft.h                        |  5 ++++-
- .../vc04_services/interface/vchiq_arm/vchiq_arm.c    | 20 ++++++++++++++++++--
- 2 files changed, 22 insertions(+), 3 deletions(-)
