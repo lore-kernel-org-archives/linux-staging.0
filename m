@@ -1,96 +1,66 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADCB7E;
-	Sat, 12 Feb 2022 07:42:47 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id p15so27108996ejc.7;
-        Fri, 11 Feb 2022 23:42:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EkWXkKewPoFhmQKCPIXY6OJ14gKmezWp3+CXE5li4HY=;
-        b=J57KOpvuDcRiVi6fAKqtJNgiUyt+KnQ5OMPQqtLdEIlei46C6IQUi83n5m38nQc+Vi
-         VpPe/5ClLJdFX0x6EZiNfd2W0a2vlvf26YHyNPcfHVH2CteBHl9BSkelXeH21NUZkmN/
-         Ce3AtGY+y3wZxFztDmdLnSl/Ncvcm5z1M/6p8ijl5GE3G38CMRGCQJiW0NZQEzgUjbSM
-         oQJmiwGBa/4mUdbhkz+nW8BOFyh+fUa91ww3RC56FgxcfZ7zJNhzWb/Rxaj1HoE9+66c
-         NK/Fnu0JZuL5nBBNZ0Rfsg4DIQJOomjYjiIWW789YwUwoUZOHEpLCvztvdPbVuCq4lA1
-         Gmwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EkWXkKewPoFhmQKCPIXY6OJ14gKmezWp3+CXE5li4HY=;
-        b=tipT8mGpgghK7SPEIYeS34oQ9AaXsGFhjNL0SHYJc50iS/NIIxDsC8WXoAwSv8cnTg
-         ki8pbCmJYBxYE+l2Ytxa42AbKHMlwPOPMy7Dd5cWtO3t8d48YLxXEcJcYkbDFVuNXY/D
-         tVRzNlMPIJOPn2zMMnx7wxsVmJcw3tXQPo0klPLkF7CkxCaQoNojKiP8fLngzPJD4nZ/
-         hOKE8TM/D60pZDzIATVgq++azyTn0emNLDoetB/ZkknMbbboqcPv7umd2AAz55RWV6tz
-         plxvRQDexKw5O8cWfa5LPqCL2+EWi12CDNSgRMtDOQSJiEsxTNcEEhlchkW5TzTlz+7T
-         T+WQ==
-X-Gm-Message-State: AOAM530qhXN2dloah8QmOAPtEyjruvTJ8y57QZknq9Y9fKYwm0EM37j2
-	eipYJD7DG/fSrRvKWc07PoM=
-X-Google-Smtp-Source: ABdhPJySJr/9z9/AK53BzSB0SjeMcNIW1fPYpoxDyi0pm3Rzd+rri0GsDsaXSbzRyZh/X9GaTr17RQ==
-X-Received: by 2002:a17:907:94cb:: with SMTP id dn11mr3974252ejc.81.1644651765489;
-        Fri, 11 Feb 2022 23:42:45 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id w20sm1383205edd.79.2022.02.11.23.42.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Feb 2022 23:42:45 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.or,
-	wens@csie.org,
-	gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] media: cedrus: H265: Fix neighbour info buffer size
-Date: Sat, 12 Feb 2022 08:42:41 +0100
-Message-Id: <20220212074241.43184-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816B57D
+	for <linux-staging@lists.linux.dev>; Sat, 12 Feb 2022 10:31:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EFBFC340E7;
+	Sat, 12 Feb 2022 10:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1644661892;
+	bh=W8C3px4Ho/2tSKsRI2O5MxXfZutbE8YDsLfIVKb3P3o=;
+	h=Date:From:To:Cc:Subject:From;
+	b=XGZQqpetQWZMdaGqP4pK+wxUO8dWF2JLo8nckcwv9wk4t4v5OAhChvTyD7A9uT5V/
+	 e4buUoAns3sbx6a0hMHoz0Yvrf8GbYhKkHONJiquxTbk8+RUG6NMHnl5h4jRiNfRu+
+	 1mo+Ize34gv4svOCwRw/FCmDHwpS6sWNnSLutskg=
+Date: Sat, 12 Feb 2022 11:31:29 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver changes for 5.17-rc4
+Message-ID: <YgeMgTqMg82ZC7hA@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-Neighbour info buffer size needs to be 794 kiB in H6. This is actually
-already indirectly mentioned in the comment, but smaller size is used
-nevertheless.
+The following changes since commit e783362eb54cd99b2cac8b3a9aeac942e6f6ac07:
 
-Increase buffer size to cover H6 needs. Since increase is not that big
-in absolute numbers, it doesn't make sense to complicate logic for older
-generations.
+  Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
 
-Bug was discovered using iommu, which reported access error when trying
-to play H265 video.
+are available in the Git repository at:
 
-Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.17-rc4
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 8ab2d9c6f048..44f385be9f6c 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -23,7 +23,7 @@
-  * Subsequent BSP implementations seem to double the neighbor info buffer size
-  * for the H6 SoC, which may be related to 10 bit H265 support.
-  */
--#define CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE	(397 * SZ_1K)
-+#define CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE	(794 * SZ_1K)
- #define CEDRUS_H265_ENTRY_POINTS_BUF_SIZE	(4 * SZ_1K)
- #define CEDRUS_H265_MV_COL_BUF_UNIT_CTB_SIZE	160
- 
--- 
-2.35.1
+for you to fetch changes up to 426aca16e903b387a0b0001d62207a745c67cfd3:
 
+  staging: fbtft: Fix error path in fbtft_driver_module_init() (2022-01-25 16:36:49 +0100)
+
+----------------------------------------------------------------
+Staging driver fixes for 5.17-rc4
+
+Here are 2 staging driver fixes for 5.17-rc4.  These are:
+	- fbtft error path fix
+	- vc04_services rcu dereference fix
+
+Both of these have been in linux-next for a while with no reported
+issues
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Padmanabha Srinivasaiah (1):
+      staging: vc04_services: Fix RCU dereference check
+
+Uwe Kleine-König (1):
+      staging: fbtft: Fix error path in fbtft_driver_module_init()
+
+ drivers/staging/fbtft/fbtft.h                        |  5 ++++-
+ .../vc04_services/interface/vchiq_arm/vchiq_arm.c    | 20 ++++++++++++++++++--
+ 2 files changed, 22 insertions(+), 3 deletions(-)
