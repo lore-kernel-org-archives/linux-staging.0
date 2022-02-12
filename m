@@ -1,93 +1,90 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from relay3.hostedemail.com (relay3.hostedemail.com [64.99.140.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DE97F
-	for <linux-staging@lists.linux.dev>; Fri, 11 Feb 2022 23:58:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644623900; x=1676159900;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/DO8dz5a+fECO1lF8HkYAWxQJzTmxnoMcSf/ITjLVKU=;
-  b=Goza0BOrsKAbYsJYnB8zwcaYQci0+ty7ayX1dukaaFKq4lMUrZcEHQp0
-   tf9AAJmpnIDYsW8OyMdq2e36xMGYH2ce8A3qHiwcTzRQUA/4O4dIJzHoF
-   HS/LJZfRIhrqZUnU/pd/MReMtS3EAxyOAWTFVdNL3RkgfFajPuAz3oLaq
-   GIWmZBxKMIBS2onO7+bEF15HanrsB7Y0DzFLU6ZvfFPXAH0gKAuzdUrTJ
-   eNwokCNPHbb7ZF8dQ9qgD37571vYpAYdHpHgABqIGsCcUOEFjASVtTdcG
-   bTVRU8moxPFvjsw9X7YyedXMLT3wCTc6eLk87+kiosY6033UmL2+x/ZeP
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10255"; a="247425111"
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
-   d="scan'208";a="247425111"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2022 15:58:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,361,1635231600"; 
-   d="scan'208";a="500937959"
-Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Feb 2022 15:58:14 -0800
-Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
-	(envelope-from <lkp@intel.com>)
-	id 1nIfnq-0005No-5A; Fri, 11 Feb 2022 23:58:14 +0000
-Date: Sat, 12 Feb 2022 07:57:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jacopo Mondi <jacopo@jmondi.org>, slongerbeam@gmail.com,
-	p.zabel@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	festevam@gmail.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-	laurent.pinchart@ideasonboard.com, martin.kepplinger@puri.sm,
-	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com
-Cc: kbuild-all@lists.01.org, kernel@pengutronix.de, linux-imx@nxp.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH 2/3] media: imx: Rename imx7-mipi-csis.c to
- imx-mipi-csis.c
-Message-ID: <202202120715.pWMiLjja-lkp@intel.com>
-References: <20220211180216.290133-3-jacopo@jmondi.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6957C
+	for <linux-staging@lists.linux.dev>; Sat, 12 Feb 2022 02:59:51 +0000 (UTC)
+Received: from omf04.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id 4CF5123E3E;
+	Sat, 12 Feb 2022 02:59:44 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf04.hostedemail.com (Postfix) with ESMTPA id 4CF092002A;
+	Sat, 12 Feb 2022 02:59:38 +0000 (UTC)
+Message-ID: <56b8e6cfc623d53ebba27ee8afbbec0ece58c816.camel@perches.com>
+Subject: Re: [PATCH] staging: pi433: add rf69_dbg_hex function
+From: Joe Perches <joe@perches.com>
+To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>, Greg KH
+	 <gregkh@linuxfoundation.org>
+Cc: realwakka@gmail.com, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Fri, 11 Feb 2022 18:59:37 -0800
+In-Reply-To: <Yga7cDO00Hmk9+BL@mail.google.com>
+References: <YgYZRArwwF7Z1B4f@mail.google.com> <YgYa8Pt77v6AAyjb@kroah.com>
+	 <Yga7cDO00Hmk9+BL@mail.google.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220211180216.290133-3-jacopo@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: 4CF092002A
+X-Spam-Status: No, score=-1.46
+X-Stat-Signature: o5mck5eb9tynau44aprb7px6fyuutmbk
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+H1REJnNkX344apKmkyt7wVWo6oYFGan8=
+X-HE-Tag: 1644634778-705267
 
-Hi Jacopo,
+On Sat, 2022-02-12 at 08:39 +1300, Paulo Miguel Almeida wrote:
+> On Fri, Feb 11, 2022 at 09:14:40AM +0100, Greg KH wrote:
+> > 
+> > This is a lot of additional complexity for almost no real benefit.
+> > 
+> 
+> you're right. I will no longer pursue this approach. 
+> 
+> > > -	/* print content read from fifo for debugging purposes */
+> > > -	for (i = 0; i < size; i++)
+> > > -		dev_dbg(&spi->dev, "%d - 0x%x\n", i, local_buffer[i + 1]);
+> > 
+> > What is wrong with this simple line?
+> > 
+> 
+> to be honest, I think that 1 register per line isn't the easiest way to
+> read them. Given that print_hex_dump_debug existed and had this
+> horizontal-style priting format, I thought that it would be a better
+> way of visualizing the fifo data.
+> 
+> the only problems with print_hex_dump_debug was the absense of device
+> name and string format... so I saw a couple of drivers implementing
+> alternative hex_dump-like functions and thought that pi433 would benefit
+> from similar approach.
+> 
+> > > -	/* print content written from fifo for debugging purposes */
+> > > -	for (i = 0; i < size; i++)
+> > > -		dev_dbg(&spi->dev, "0x%x\n", buffer[i]);
+> 
+> if we are keeping this format, I may need to add the register idx to
+> dev_dbg: 
+> 		dev_dbg(&spi->dev, "%d - 0x%x\n", i, buffer[i]);
 
-I love your patch! Yet something to improve:
+You could use %*ph with a buffer length up to 64 bytes.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on shawnguo/for-next pza/reset/next linus/master v5.17-rc3 next-20220211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Multiple times if necessary. 
 
-url:    https://github.com/0day-ci/linux/commits/Jacopo-Mondi/media-De-stage-imx7-mipi-csis-c/20220212-020342
-base:   git://linuxtv.org/media_tree.git master
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220212/202202120715.pWMiLjja-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/18a307fb15879832a050d12ae32bd9d94a9e5c91
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Jacopo-Mondi/media-De-stage-imx7-mipi-csis-c/20220212-020342
-        git checkout 18a307fb15879832a050d12ae32bd9d94a9e5c91
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=alpha SHELL=/bin/bash
+Something like:
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+	for (i = 0; i < size; i += 64)
+		dev_dbg(&spi->dev, "FIFO buffer: %d: %*ph\n",
+			i, min_t(int, 64, size - i), buffer + i);
 
-All errors (new ones prefixed by >>):
+Or for a more realistic length like 16
 
->> make[5]: *** No rule to make target 'drivers/media/platform/imx/imx7-mipi-csis.o', needed by 'drivers/media/platform/imx/built-in.a'.
-   make[5]: Target '__build' not remade because of errors.
+	for (i = 0; i < size; i += 16)
+		dev_dbg(&spi->dev, "FIFO buffer: %d: %*ph\n",
+			i, min_t(int, 16, size - i), buffer + i);
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+
+
