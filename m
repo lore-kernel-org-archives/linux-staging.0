@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA1F258D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581B9258B
 	for <linux-staging@lists.linux.dev>; Sat, 12 Feb 2022 16:17:56 +0000 (UTC)
 Received: from dslb-188-097-215-215.188.097.pools.vodafone-ip.de ([188.97.215.215] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nIv5t-0007YM-7U; Sat, 12 Feb 2022 17:17:53 +0100
+	id 1nIv5n-0007YM-9t; Sat, 12 Feb 2022 17:17:47 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 10/10] staging: r8188eu: we only need one struct bb_reg_def for path a
-Date: Sat, 12 Feb 2022 17:17:37 +0100
-Message-Id: <20220212161737.381841-11-martin@kaiser.cx>
+Subject: [PATCH 03/10] staging: r8188eu: remove path parameter from rtl8188e_PHY_SetRFReg
+Date: Sat, 12 Feb 2022 17:17:30 +0100
+Message-Id: <20220212161737.381841-4-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220212161737.381841-1-martin@kaiser.cx>
 References: <20220212161737.381841-1-martin@kaiser.cx>
@@ -30,162 +30,218 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The r8188eu driver does no longer access rf path b registers via
-PHYRegDef.
-
-Change the PHYRegDef array in struct hal_data_8188e to a single
-variable that holds the register addresses for rf path a. Remove
-the initialisation of path b register addresses.
+All callers of rtl8188e_PHY_SetRFReg set the eRFPath parameter
+to RF_PATH_A. Remove the parameter and use RF_PATH_A directly.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 58 +++++++------------
- drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  2 +-
- .../staging/r8188eu/include/rtl8188e_hal.h    |  2 +-
- 3 files changed, 22 insertions(+), 40 deletions(-)
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  | 28 +++++++++----------
+ drivers/staging/r8188eu/hal/odm.c             |  2 +-
+ .../staging/r8188eu/hal/odm_RegConfig8188E.c  |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  8 ++----
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  4 +--
+ .../staging/r8188eu/include/Hal8188EPhyCfg.h  |  3 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  4 +--
+ 7 files changed, 24 insertions(+), 27 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+index 8edae488d998..c7aed5ed5fa5 100644
+--- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
++++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+@@ -327,14 +327,14 @@ phy_PathA_RxIQK(struct adapter *adapt)
+ 	/* 1 Get TXIMR setting */
+ 	/* modify RXIQK mode table */
+ 	rtl8188e_PHY_SetBBReg(adapt, rFPGA0_IQK, bMaskDWord, 0x00000000);
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_WE_LUT, bRFRegOffsetMask, 0x800a0);
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_RCK_OS, bRFRegOffsetMask, 0x30000);
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_TXPA_G1, bRFRegOffsetMask, 0x0000f);
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_TXPA_G2, bRFRegOffsetMask, 0xf117B);
++	rtl8188e_PHY_SetRFReg(adapt, RF_WE_LUT, bRFRegOffsetMask, 0x800a0);
++	rtl8188e_PHY_SetRFReg(adapt, RF_RCK_OS, bRFRegOffsetMask, 0x30000);
++	rtl8188e_PHY_SetRFReg(adapt, RF_TXPA_G1, bRFRegOffsetMask, 0x0000f);
++	rtl8188e_PHY_SetRFReg(adapt, RF_TXPA_G2, bRFRegOffsetMask, 0xf117B);
+ 
+ 	/* PA,PAD off */
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, 0xdf, bRFRegOffsetMask, 0x980);
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, 0x56, bRFRegOffsetMask, 0x51000);
++	rtl8188e_PHY_SetRFReg(adapt, 0xdf, bRFRegOffsetMask, 0x980);
++	rtl8188e_PHY_SetRFReg(adapt, 0x56, bRFRegOffsetMask, 0x51000);
+ 
+ 	rtl8188e_PHY_SetBBReg(adapt, rFPGA0_IQK, bMaskDWord, 0x80800000);
+ 
+@@ -376,10 +376,10 @@ phy_PathA_RxIQK(struct adapter *adapt)
+ 	/* 1 RX IQK */
+ 	/* modify RXIQK mode table */
+ 	rtl8188e_PHY_SetBBReg(adapt, rFPGA0_IQK, bMaskDWord, 0x00000000);
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_WE_LUT, bRFRegOffsetMask, 0x800a0);
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_RCK_OS, bRFRegOffsetMask, 0x30000);
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_TXPA_G1, bRFRegOffsetMask, 0x0000f);
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_TXPA_G2, bRFRegOffsetMask, 0xf7ffa);
++	rtl8188e_PHY_SetRFReg(adapt, RF_WE_LUT, bRFRegOffsetMask, 0x800a0);
++	rtl8188e_PHY_SetRFReg(adapt, RF_RCK_OS, bRFRegOffsetMask, 0x30000);
++	rtl8188e_PHY_SetRFReg(adapt, RF_TXPA_G1, bRFRegOffsetMask, 0x0000f);
++	rtl8188e_PHY_SetRFReg(adapt, RF_TXPA_G2, bRFRegOffsetMask, 0xf7ffa);
+ 	rtl8188e_PHY_SetBBReg(adapt, rFPGA0_IQK, bMaskDWord, 0x80800000);
+ 
+ 	/* IQK setting */
+@@ -410,7 +410,7 @@ phy_PathA_RxIQK(struct adapter *adapt)
+ 
+ 	/* reload RF 0xdf */
+ 	rtl8188e_PHY_SetBBReg(adapt, rFPGA0_IQK, bMaskDWord, 0x00000000);
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, 0xdf, bRFRegOffsetMask, 0x180);
++	rtl8188e_PHY_SetRFReg(adapt, 0xdf, bRFRegOffsetMask, 0x180);
+ 
+ 	if (!(regeac & BIT(27)) &&		/* if Tx is OK, check whether Rx is OK */
+ 	    (((regEA4 & 0x03FF0000) >> 16) != 0x132) &&
+@@ -763,14 +763,14 @@ static void phy_LCCalibrate_8188E(struct adapter *adapt)
+ 
+ 		/* 2. Set RF mode = standby mode */
+ 		/* Path-A */
+-		rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_AC, bMask12Bits, (RF_Amode & 0x8FFFF) | 0x10000);
++		rtl8188e_PHY_SetRFReg(adapt, RF_AC, bMask12Bits, (RF_Amode & 0x8FFFF) | 0x10000);
+ 	}
+ 
+ 	/* 3. Read RF reg18 */
+ 	LC_Cal = rtl8188e_PHY_QueryRFReg(adapt, RF_PATH_A, RF_CHNLBW, bMask12Bits);
+ 
+ 	/* 4. Set LC calibration begin	bit15 */
+-	rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_CHNLBW, bMask12Bits, LC_Cal | 0x08000);
++	rtl8188e_PHY_SetRFReg(adapt, RF_CHNLBW, bMask12Bits, LC_Cal | 0x08000);
+ 
+ 	msleep(100);
+ 
+@@ -779,7 +779,7 @@ static void phy_LCCalibrate_8188E(struct adapter *adapt)
+ 		/* Deal with continuous TX case */
+ 		/* Path-A */
+ 		rtw_write8(adapt, 0xd03, tmpreg);
+-		rtl8188e_PHY_SetRFReg(adapt, RF_PATH_A, RF_AC, bMask12Bits, RF_Amode);
++		rtl8188e_PHY_SetRFReg(adapt, RF_AC, bMask12Bits, RF_Amode);
+ 	} else {
+ 		/*  Deal with Packet TX case */
+ 		rtw_write8(adapt, REG_TXPAUSE, 0x00);
+diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
+index a759c2fe5d66..b4be706545ff 100644
+--- a/drivers/staging/r8188eu/hal/odm.c
++++ b/drivers/staging/r8188eu/hal/odm.c
+@@ -896,7 +896,7 @@ void ODM_TXPowerTrackingCheck(struct odm_dm_struct *pDM_Odm)
+ 	struct adapter *Adapter = pDM_Odm->Adapter;
+ 
+ 	if (!pDM_Odm->RFCalibrateInfo.TM_Trigger) {		/* at least delay 1 sec */
+-		rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, RF_T_METER_88E, BIT(17) | BIT(16), 0x03);
++		rtl8188e_PHY_SetRFReg(Adapter, RF_T_METER_88E, BIT(17) | BIT(16), 0x03);
+ 
+ 		pDM_Odm->RFCalibrateInfo.TM_Trigger = 1;
+ 		return;
+diff --git a/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c b/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
+index 9059f2533b0b..0fa17a99f9e9 100644
+--- a/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
++++ b/drivers/staging/r8188eu/hal/odm_RegConfig8188E.c
+@@ -19,7 +19,7 @@ static void odm_ConfigRFReg_8188E(struct odm_dm_struct *pDM_Odm, u32 Addr,
+ 	} else if (Addr == 0xf9) {
+ 		udelay(1);
+ 	} else {
+-		rtl8188e_PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, RegAddr, bRFRegOffsetMask, Data);
++		rtl8188e_PHY_SetRFReg(pDM_Odm->Adapter, RegAddr, bRFRegOffsetMask, Data);
+ 		/*  Add 1us delay between BB/RF register setting. */
+ 		udelay(1);
+ 	}
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index e2e4443b7414..b0e5b9f6a005 100644
+index cd82452238e0..628cec40db5f 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -123,7 +123,7 @@ phy_RFSerialRead(
- {
- 	u32 retValue = 0;
- 	struct hal_data_8188e *pHalData = &Adapter->haldata;
--	struct bb_reg_def *pPhyReg = &pHalData->PHYRegDef[RF_PATH_A];
-+	struct bb_reg_def *pPhyReg = &pHalData->PHYRegDef;
- 	u32 NewOffset;
- 	u32 tmplong, tmplong2;
- 	u8 	RfPiEnable = 0;
-@@ -215,7 +215,7 @@ phy_RFSerialWrite(
- {
- 	u32 DataAndAddr = 0;
- 	struct hal_data_8188e *pHalData = &Adapter->haldata;
--	struct bb_reg_def *pPhyReg = &pHalData->PHYRegDef[RF_PATH_A];
-+	struct bb_reg_def *pPhyReg = &pHalData->PHYRegDef;
- 	u32 NewOffset;
+@@ -282,7 +282,6 @@ u32 rtl8188e_PHY_QueryRFReg(struct adapter *Adapter, enum rf_radio_path eRFPath,
+ *
+ * Input:
+ *			struct adapter *Adapter,
+-*			enum rf_radio_path eRFPath,	Radio path of A/B/C/D
+ *			u32			RegAddr,	The target address to be modified
+ *			u32			BitMask		The target bit position in the target address
+ *									to be modified
+@@ -296,7 +295,6 @@ u32 rtl8188e_PHY_QueryRFReg(struct adapter *Adapter, enum rf_radio_path eRFPath,
+ void
+ rtl8188e_PHY_SetRFReg(
+ 		struct adapter *Adapter,
+-		enum rf_radio_path eRFPath,
+ 		u32 RegAddr,
+ 		u32 BitMask,
+ 		u32 Data
+@@ -306,12 +304,12 @@ rtl8188e_PHY_SetRFReg(
  
- 	/*  2009/06/17 MH We can not execute IO for power save or other accident mode. */
-@@ -358,76 +358,58 @@ phy_InitBBRFRegisterDefinition(
- 	struct hal_data_8188e *pHalData = &Adapter->haldata;
+ 	/*  RF data is 12 bits only */
+ 	if (BitMask != bRFRegOffsetMask) {
+-		Original_Value = phy_RFSerialRead(Adapter, eRFPath, RegAddr);
++		Original_Value = phy_RFSerialRead(Adapter, RF_PATH_A, RegAddr);
+ 		BitShift =  phy_CalculateBitShift(BitMask);
+ 		Data = ((Original_Value & (~BitMask)) | (Data << BitShift));
+ 	}
  
- 	/*  RF Interface Sowrtware Control */
--	pHalData->PHYRegDef[RF_PATH_A].rfintfs = rFPGA0_XAB_RFInterfaceSW; /*  16 LSBs if read 32-bit from 0x870 */
--	pHalData->PHYRegDef[RF_PATH_B].rfintfs = rFPGA0_XAB_RFInterfaceSW; /*  16 MSBs if read 32-bit from 0x870 (16-bit for 0x872) */
-+	pHalData->PHYRegDef.rfintfs = rFPGA0_XAB_RFInterfaceSW; /*  16 LSBs if read 32-bit from 0x870 */
- 
- 	/*  RF Interface Readback Value */
--	pHalData->PHYRegDef[RF_PATH_A].rfintfi = rFPGA0_XAB_RFInterfaceRB; /*  16 LSBs if read 32-bit from 0x8E0 */
--	pHalData->PHYRegDef[RF_PATH_B].rfintfi = rFPGA0_XAB_RFInterfaceRB;/*  16 MSBs if read 32-bit from 0x8E0 (16-bit for 0x8E2) */
-+	pHalData->PHYRegDef.rfintfi = rFPGA0_XAB_RFInterfaceRB; /*  16 LSBs if read 32-bit from 0x8E0 */
- 
- 	/*  RF Interface Output (and Enable) */
--	pHalData->PHYRegDef[RF_PATH_A].rfintfo = rFPGA0_XA_RFInterfaceOE; /*  16 LSBs if read 32-bit from 0x860 */
--	pHalData->PHYRegDef[RF_PATH_B].rfintfo = rFPGA0_XB_RFInterfaceOE; /*  16 LSBs if read 32-bit from 0x864 */
-+	pHalData->PHYRegDef.rfintfo = rFPGA0_XA_RFInterfaceOE; /*  16 LSBs if read 32-bit from 0x860 */
- 
- 	/*  RF Interface (Output and)  Enable */
--	pHalData->PHYRegDef[RF_PATH_A].rfintfe = rFPGA0_XA_RFInterfaceOE; /*  16 MSBs if read 32-bit from 0x860 (16-bit for 0x862) */
--	pHalData->PHYRegDef[RF_PATH_B].rfintfe = rFPGA0_XB_RFInterfaceOE; /*  16 MSBs if read 32-bit from 0x864 (16-bit for 0x866) */
-+	pHalData->PHYRegDef.rfintfe = rFPGA0_XA_RFInterfaceOE; /*  16 MSBs if read 32-bit from 0x860 (16-bit for 0x862) */
- 
- 	/* Addr of LSSI. Wirte RF register by driver */
--	pHalData->PHYRegDef[RF_PATH_A].rf3wireOffset = rFPGA0_XA_LSSIParameter; /* LSSI Parameter */
--	pHalData->PHYRegDef[RF_PATH_B].rf3wireOffset = rFPGA0_XB_LSSIParameter;
-+	pHalData->PHYRegDef.rf3wireOffset = rFPGA0_XA_LSSIParameter; /* LSSI Parameter */
- 
- 	/*  RF parameter */
--	pHalData->PHYRegDef[RF_PATH_A].rfLSSI_Select = rFPGA0_XAB_RFParameter;  /* BB Band Select */
--	pHalData->PHYRegDef[RF_PATH_B].rfLSSI_Select = rFPGA0_XAB_RFParameter;
-+	pHalData->PHYRegDef.rfLSSI_Select = rFPGA0_XAB_RFParameter;  /* BB Band Select */
- 
- 	/*  Tx AGC Gain Stage (same for all path. Should we remove this?) */
--	pHalData->PHYRegDef[RF_PATH_A].rfTxGainStage = rFPGA0_TxGainStage; /* Tx gain stage */
--	pHalData->PHYRegDef[RF_PATH_B].rfTxGainStage = rFPGA0_TxGainStage; /* Tx gain stage */
-+	pHalData->PHYRegDef.rfTxGainStage = rFPGA0_TxGainStage; /* Tx gain stage */
- 
- 	/*  Tranceiver A~D HSSI Parameter-1 */
--	pHalData->PHYRegDef[RF_PATH_A].rfHSSIPara1 = rFPGA0_XA_HSSIParameter1;  /* wire control parameter1 */
--	pHalData->PHYRegDef[RF_PATH_B].rfHSSIPara1 = rFPGA0_XB_HSSIParameter1;  /* wire control parameter1 */
-+	pHalData->PHYRegDef.rfHSSIPara1 = rFPGA0_XA_HSSIParameter1;  /* wire control parameter1 */
- 
- 	/*  Tranceiver A~D HSSI Parameter-2 */
--	pHalData->PHYRegDef[RF_PATH_A].rfHSSIPara2 = rFPGA0_XA_HSSIParameter2;  /* wire control parameter2 */
--	pHalData->PHYRegDef[RF_PATH_B].rfHSSIPara2 = rFPGA0_XB_HSSIParameter2;  /* wire control parameter2 */
-+	pHalData->PHYRegDef.rfHSSIPara2 = rFPGA0_XA_HSSIParameter2;  /* wire control parameter2 */
- 
- 	/*  RF switch Control */
--	pHalData->PHYRegDef[RF_PATH_A].rfSwitchControl = rFPGA0_XAB_SwitchControl; /* TR/Ant switch control */
--	pHalData->PHYRegDef[RF_PATH_B].rfSwitchControl = rFPGA0_XAB_SwitchControl;
-+	pHalData->PHYRegDef.rfSwitchControl = rFPGA0_XAB_SwitchControl; /* TR/Ant switch control */
- 
- 	/*  AGC control 1 */
--	pHalData->PHYRegDef[RF_PATH_A].rfAGCControl1 = rOFDM0_XAAGCCore1;
--	pHalData->PHYRegDef[RF_PATH_B].rfAGCControl1 = rOFDM0_XBAGCCore1;
-+	pHalData->PHYRegDef.rfAGCControl1 = rOFDM0_XAAGCCore1;
- 
- 	/*  AGC control 2 */
--	pHalData->PHYRegDef[RF_PATH_A].rfAGCControl2 = rOFDM0_XAAGCCore2;
--	pHalData->PHYRegDef[RF_PATH_B].rfAGCControl2 = rOFDM0_XBAGCCore2;
-+	pHalData->PHYRegDef.rfAGCControl2 = rOFDM0_XAAGCCore2;
- 
- 	/*  RX AFE control 1 */
--	pHalData->PHYRegDef[RF_PATH_A].rfRxIQImbalance = rOFDM0_XARxIQImbalance;
--	pHalData->PHYRegDef[RF_PATH_B].rfRxIQImbalance = rOFDM0_XBRxIQImbalance;
-+	pHalData->PHYRegDef.rfRxIQImbalance = rOFDM0_XARxIQImbalance;
- 
- 	/*  RX AFE control 1 */
--	pHalData->PHYRegDef[RF_PATH_A].rfRxAFE = rOFDM0_XARxAFE;
--	pHalData->PHYRegDef[RF_PATH_B].rfRxAFE = rOFDM0_XBRxAFE;
-+	pHalData->PHYRegDef.rfRxAFE = rOFDM0_XARxAFE;
- 
- 	/*  Tx AFE control 1 */
--	pHalData->PHYRegDef[RF_PATH_A].rfTxIQImbalance = rOFDM0_XATxIQImbalance;
--	pHalData->PHYRegDef[RF_PATH_B].rfTxIQImbalance = rOFDM0_XBTxIQImbalance;
-+	pHalData->PHYRegDef.rfTxIQImbalance = rOFDM0_XATxIQImbalance;
- 
- 	/*  Tx AFE control 2 */
--	pHalData->PHYRegDef[RF_PATH_A].rfTxAFE = rOFDM0_XATxAFE;
--	pHalData->PHYRegDef[RF_PATH_B].rfTxAFE = rOFDM0_XBTxAFE;
-+	pHalData->PHYRegDef.rfTxAFE = rOFDM0_XATxAFE;
- 
- 	/*  Tranceiver LSSI Readback SI mode */
--	pHalData->PHYRegDef[RF_PATH_A].rfLSSIReadBack = rFPGA0_XA_LSSIReadBack;
--	pHalData->PHYRegDef[RF_PATH_B].rfLSSIReadBack = rFPGA0_XB_LSSIReadBack;
-+	pHalData->PHYRegDef.rfLSSIReadBack = rFPGA0_XA_LSSIReadBack;
- 
- 	/*  Tranceiver LSSI Readback PI mode */
--	pHalData->PHYRegDef[RF_PATH_A].rfLSSIReadBackPi = TransceiverA_HSPI_Readback;
--	pHalData->PHYRegDef[RF_PATH_B].rfLSSIReadBackPi = TransceiverB_HSPI_Readback;
-+	pHalData->PHYRegDef.rfLSSIReadBackPi = TransceiverA_HSPI_Readback;
+-	phy_RFSerialWrite(Adapter, eRFPath, RegAddr, Data);
++	phy_RFSerialWrite(Adapter, RF_PATH_A, RegAddr, Data);
  }
  
- void storePwrIndexDiffRateOffset(struct adapter *Adapter, u32 RegAddr, u32 BitMask, u32 Data)
+ /*  */
+@@ -725,7 +723,7 @@ static void _PHY_SwChnl8192C(struct adapter *Adapter, u8 channel)
+ 	param1 = RF_CHNLBW;
+ 	param2 = channel;
+ 	pHalData->RfRegChnlVal = ((pHalData->RfRegChnlVal & 0xfffffc00) | param2);
+-	rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, param1, bRFRegOffsetMask, pHalData->RfRegChnlVal);
++	rtl8188e_PHY_SetRFReg(Adapter, param1, bRFRegOffsetMask, pHalData->RfRegChnlVal);
+ }
+ 
+ void PHY_SwChnl8188E(struct adapter *Adapter, u8 channel)
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-index 4a7a877e4017..d043b7bc4142 100644
+index 2d5d04b384d1..4a7a877e4017 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-@@ -375,7 +375,7 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
+@@ -51,11 +51,11 @@ void rtl8188e_PHY_RF6052SetBandwidth(struct adapter *Adapter,
+ 	switch (Bandwidth) {
+ 	case HT_CHANNEL_WIDTH_20:
+ 		pHalData->RfRegChnlVal = ((pHalData->RfRegChnlVal & 0xfffff3ff) | BIT(10) | BIT(11));
+-		rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, RF_CHNLBW, bRFRegOffsetMask, pHalData->RfRegChnlVal);
++		rtl8188e_PHY_SetRFReg(Adapter, RF_CHNLBW, bRFRegOffsetMask, pHalData->RfRegChnlVal);
+ 		break;
+ 	case HT_CHANNEL_WIDTH_40:
+ 		pHalData->RfRegChnlVal = ((pHalData->RfRegChnlVal & 0xfffff3ff) | BIT(10));
+-		rtl8188e_PHY_SetRFReg(Adapter, RF_PATH_A, RF_CHNLBW, bRFRegOffsetMask, pHalData->RfRegChnlVal);
++		rtl8188e_PHY_SetRFReg(Adapter, RF_CHNLBW, bRFRegOffsetMask, pHalData->RfRegChnlVal);
+ 		break;
+ 	default:
+ 		break;
+diff --git a/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h b/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
+index 2517a08bc95a..e0dff772534d 100644
+--- a/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
++++ b/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
+@@ -75,8 +75,7 @@ void rtl8188e_PHY_SetBBReg(struct adapter *Adapter, u32 RegAddr,
+ 			   u32 mask, u32 data);
+ u32 rtl8188e_PHY_QueryRFReg(struct adapter *adapter, enum rf_radio_path rfpath,
+ 			    u32 regaddr, u32 mask);
+-void rtl8188e_PHY_SetRFReg(struct adapter *adapter, enum rf_radio_path rfpath,
+-			   u32 regaddr, u32 mask, u32 data);
++void rtl8188e_PHY_SetRFReg(struct adapter *adapter, u32 regaddr, u32 mask, u32 data);
  
- 	/* Initialize RF */
+ /*  Initialization related function */
+ /* MAC/BB/RF HAL config */
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 9d3488c28048..548ed6f965f8 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -2088,7 +2088,7 @@ static int rtw_wx_write_rf(struct net_device *dev,
  
--	pPhyReg = &pHalData->PHYRegDef[0];
-+	pPhyReg = &pHalData->PHYRegDef;
+ 	addr = *((u32 *)extra + 1);
+ 	data32 = *((u32 *)extra + 2);
+-	rtl8188e_PHY_SetRFReg(padapter, RF_PATH_A, addr, 0xFFFFF, data32);
++	rtl8188e_PHY_SetRFReg(padapter, addr, 0xFFFFF, data32);
  
- 	/*----Store original RFENV control type----*/
- 	u4RegValue = rtl8188e_PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV);
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 5b27bae97e91..44321a53a345 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -141,7 +141,7 @@ struct hal_data_8188e {
- 
- 	u32	AcParam_BE; /* Original parameter for BE, use for EDCA turbo. */
- 
--	struct bb_reg_def PHYRegDef[2];	/* Radio A/B */
-+	struct bb_reg_def PHYRegDef;
- 
- 	u32	RfRegChnlVal;
+ 	return 0;
+ }
+@@ -3625,7 +3625,7 @@ static int rtw_dbg_port(struct net_device *dev,
+ 			ret = -EINVAL;
+ 			break;
+ 		}
+-		rtl8188e_PHY_SetRFReg(padapter, RF_PATH_A, arg, 0xffffffff, extra_arg);
++		rtl8188e_PHY_SetRFReg(padapter, arg, 0xffffffff, extra_arg);
+ 		DBG_88E("write RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", minor_cmd, arg, rtl8188e_PHY_QueryRFReg(padapter, minor_cmd, arg, 0xffffffff));
+ 		break;
  
 -- 
 2.30.2
