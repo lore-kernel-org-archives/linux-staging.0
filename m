@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD5A2587
-	for <linux-staging@lists.linux.dev>; Sat, 12 Feb 2022 16:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E70258C
+	for <linux-staging@lists.linux.dev>; Sat, 12 Feb 2022 16:17:56 +0000 (UTC)
 Received: from dslb-188-097-215-215.188.097.pools.vodafone-ip.de ([188.97.215.215] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nIv5r-0007YM-CF; Sat, 12 Feb 2022 17:17:51 +0100
+	id 1nIv5o-0007YM-5i; Sat, 12 Feb 2022 17:17:48 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 08/10] staging: r8188eu: remove path parameter from rtl8188e_PHY_QueryRFReg
-Date: Sat, 12 Feb 2022 17:17:35 +0100
-Message-Id: <20220212161737.381841-9-martin@kaiser.cx>
+Subject: [PATCH 04/10] staging: r8188eu: remove path parameter from phy_RFSerialWrite
+Date: Sat, 12 Feb 2022 17:17:31 +0100
+Message-Id: <20220212161737.381841-5-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220212161737.381841-1-martin@kaiser.cx>
 References: <20220212161737.381841-1-martin@kaiser.cx>
@@ -30,143 +30,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All callers of rtl8188e_PHY_QueryRFReg set the eRFPath parameter
+The only caller of phy_RFSerialWrite sets the eRFPath parameter
 to RF_PATH_A. Remove the parameter and use RF_PATH_A directly.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c     | 6 +++---
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c    | 6 ++----
- drivers/staging/r8188eu/hal/usb_halinit.c        | 2 +-
- drivers/staging/r8188eu/include/Hal8188EPhyCfg.h | 3 +--
- drivers/staging/r8188eu/os_dep/ioctl_linux.c     | 8 ++++----
- 5 files changed, 11 insertions(+), 14 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index c7aed5ed5fa5..0fcf094ae594 100644
---- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-+++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -132,7 +132,7 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 	/*  <Kordan> RFCalibrateInfo.RegA24 will be initialized when ODM HW configuring, but MP configures with para files. */
- 	dm_odm->RFCalibrateInfo.RegA24 = 0x090e1317;
- 
--	ThermalValue = (u8)rtl8188e_PHY_QueryRFReg(Adapter, RF_PATH_A, RF_T_METER_88E, 0xfc00); /* 0x42: RF Reg[15:10] 88E */
-+	ThermalValue = (u8)rtl8188e_PHY_QueryRFReg(Adapter, RF_T_METER_88E, 0xfc00); /* 0x42: RF Reg[15:10] 88E */
- 
- 	if (ThermalValue) {
- 		/* Query OFDM path A default setting */
-@@ -759,7 +759,7 @@ static void phy_LCCalibrate_8188E(struct adapter *adapt)
- 	if ((tmpreg & 0x70) != 0) {
- 		/* 1. Read original RF mode */
- 		/* Path-A */
--		RF_Amode = rtl8188e_PHY_QueryRFReg(adapt, RF_PATH_A, RF_AC, bMask12Bits);
-+		RF_Amode = rtl8188e_PHY_QueryRFReg(adapt, RF_AC, bMask12Bits);
- 
- 		/* 2. Set RF mode = standby mode */
- 		/* Path-A */
-@@ -767,7 +767,7 @@ static void phy_LCCalibrate_8188E(struct adapter *adapt)
- 	}
- 
- 	/* 3. Read RF reg18 */
--	LC_Cal = rtl8188e_PHY_QueryRFReg(adapt, RF_PATH_A, RF_CHNLBW, bMask12Bits);
-+	LC_Cal = rtl8188e_PHY_QueryRFReg(adapt, RF_CHNLBW, bMask12Bits);
- 
- 	/* 4. Set LC calibration begin	bit15 */
- 	rtl8188e_PHY_SetRFReg(adapt, RF_CHNLBW, bMask12Bits, LC_Cal | 0x08000);
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index 9e02855c47b2..2dcd1df58aaa 100644
+index 628cec40db5f..9e02855c47b2 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -253,7 +253,6 @@ phy_RFSerialWrite(
- *
- * Input:
- *			struct adapter *Adapter,
--*			enum rf_radio_path eRFPath,	Radio path of A/B/C/D
- *			u32			RegAddr,	The target address to be read
- *			u32			BitMask		The target bit position in the target address
- *									to be read
-@@ -262,12 +261,11 @@ phy_RFSerialWrite(
- * Return:		u32			Readback value
- * Note:		This function is equal to "GetRFRegSetting" in PHY programming guide
- */
--u32 rtl8188e_PHY_QueryRFReg(struct adapter *Adapter, enum rf_radio_path eRFPath,
--			    u32 RegAddr, u32 BitMask)
-+u32 rtl8188e_PHY_QueryRFReg(struct adapter *Adapter, u32 RegAddr, u32 BitMask)
+@@ -217,14 +217,13 @@ phy_RFSerialRead(
+ static	void
+ phy_RFSerialWrite(
+ 		struct adapter *Adapter,
+-		enum rf_radio_path eRFPath,
+ 		u32 Offset,
+ 		u32 Data
+ 	)
  {
- 	u32 Original_Value, Readback_Value, BitShift;
+ 	u32 DataAndAddr = 0;
+ 	struct hal_data_8188e *pHalData = &Adapter->haldata;
+-	struct bb_reg_def *pPhyReg = &pHalData->PHYRegDef[eRFPath];
++	struct bb_reg_def *pPhyReg = &pHalData->PHYRegDef[RF_PATH_A];
+ 	u32 NewOffset;
  
--	Original_Value = phy_RFSerialRead(Adapter, eRFPath, RegAddr);
-+	Original_Value = phy_RFSerialRead(Adapter, RF_PATH_A, RegAddr);
+ 	/*  2009/06/17 MH We can not execute IO for power save or other accident mode. */
+@@ -309,7 +308,7 @@ rtl8188e_PHY_SetRFReg(
+ 		Data = ((Original_Value & (~BitMask)) | (Data << BitShift));
+ 	}
  
- 	BitShift =  phy_CalculateBitShift(BitMask);
- 	Readback_Value = (Original_Value & BitMask) >> BitShift;
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 1f2c736c3bc4..63e6337c2344 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -662,7 +662,7 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
- 	rtw_write16(Adapter, REG_PKT_BE_BK_LIFE_TIME, 0x0400);	/*  unit: 256us. 256ms */
+-	phy_RFSerialWrite(Adapter, RF_PATH_A, RegAddr, Data);
++	phy_RFSerialWrite(Adapter, RegAddr, Data);
+ }
  
- 	/* Keep RfRegChnlVal for later use. */
--	haldata->RfRegChnlVal = rtl8188e_PHY_QueryRFReg(Adapter, RF_PATH_A, RF_CHNLBW, bRFRegOffsetMask);
-+	haldata->RfRegChnlVal = rtl8188e_PHY_QueryRFReg(Adapter, RF_CHNLBW, bRFRegOffsetMask);
- 
- 	_BBTurnOnBlock(Adapter);
- 
-diff --git a/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h b/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
-index e0dff772534d..9e6f2361b090 100644
---- a/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
-+++ b/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
-@@ -73,8 +73,7 @@ struct bb_reg_def {
- u32 rtl8188e_PHY_QueryBBReg(struct adapter *adapter, u32 regaddr, u32 mask);
- void rtl8188e_PHY_SetBBReg(struct adapter *Adapter, u32 RegAddr,
- 			   u32 mask, u32 data);
--u32 rtl8188e_PHY_QueryRFReg(struct adapter *adapter, enum rf_radio_path rfpath,
--			    u32 regaddr, u32 mask);
-+u32 rtl8188e_PHY_QueryRFReg(struct adapter *adapter, u32 regaddr, u32 mask);
- void rtl8188e_PHY_SetRFReg(struct adapter *adapter, u32 regaddr, u32 mask, u32 data);
- 
- /*  Initialization related function */
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 4b3134aef917..f6a683cda614 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -2067,7 +2067,7 @@ static int rtw_wx_read_rf(struct net_device *dev,
- 		return -EINVAL;
- 
- 	addr = *((u32 *)extra + 1);
--	data32 = rtl8188e_PHY_QueryRFReg(padapter, RF_PATH_A, addr, 0xFFFFF);
-+	data32 = rtl8188e_PHY_QueryRFReg(padapter, addr, 0xFFFFF);
- 	/*
- 	 * IMPORTANT!!
- 	 * Only when wireless private ioctl is at odd order,
-@@ -3547,7 +3547,7 @@ static void rf_reg_dump(struct adapter *padapter)
- 	pr_info("\n ======= RF REG =======\n");
- 	pr_info("\nRF_Path(%x)\n", RF_PATH_A);
- 	for (i = 0; i < 0x100; i++) {
--		value = rtl8188e_PHY_QueryRFReg(padapter, RF_PATH_A, i, 0xffffffff);
-+		value = rtl8188e_PHY_QueryRFReg(padapter, i, 0xffffffff);
- 		if (j % 4 == 1)
- 			pr_info("0x%02x ", i);
- 		pr_info(" 0x%08x ", value);
-@@ -3625,7 +3625,7 @@ static int rtw_dbg_port(struct net_device *dev,
- 			ret = -EINVAL;
- 			break;
- 		}
--		DBG_88E("read RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", RF_PATH_A, arg, rtl8188e_PHY_QueryRFReg(padapter, RF_PATH_A, arg, 0xffffffff));
-+		DBG_88E("read RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", RF_PATH_A, arg, rtl8188e_PHY_QueryRFReg(padapter, arg, 0xffffffff));
- 		break;
- 	case 0x75:/* write_rf */
- 		if (minor_cmd != RF_PATH_A) {
-@@ -3633,7 +3633,7 @@ static int rtw_dbg_port(struct net_device *dev,
- 			break;
- 		}
- 		rtl8188e_PHY_SetRFReg(padapter, arg, 0xffffffff, extra_arg);
--		DBG_88E("write RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", RF_PATH_A, arg, rtl8188e_PHY_QueryRFReg(padapter, RF_PATH_A, arg, 0xffffffff));
-+		DBG_88E("write RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", RF_PATH_A, arg, rtl8188e_PHY_QueryRFReg(padapter, arg, 0xffffffff));
- 		break;
- 
- 	case 0x76:
+ /*  */
 -- 
 2.30.2
 
