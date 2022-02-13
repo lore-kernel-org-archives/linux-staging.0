@@ -1,118 +1,107 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B494D7D;
-	Sun, 13 Feb 2022 11:33:56 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id q7so22413918wrc.13;
-        Sun, 13 Feb 2022 03:33:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF767A
+	for <linux-staging@lists.linux.dev>; Sun, 13 Feb 2022 17:59:47 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id w20so8819841plq.12
+        for <linux-staging@lists.linux.dev>; Sun, 13 Feb 2022 09:59:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=02vp1JcshzGAmd266InAE4p0SMLcVM41XUbfgVtkk8w=;
-        b=OK0IROEtmVHSd6bnjgTZAXeNZrVBxdV791WH8w6dkmD8N9Rc4BOr1zMpPhM0oAZXUu
-         F5+8tdpFeHqnUYZviWCBWzlZ2ikr2llcEWe2hHPNQg6igNlyv09Bv68r6NlXQUNEZpz6
-         YcMc3pe37dtNU0ALFTxUqgVf86I1ffFURsf3MdcQndVytg90HmTZCJb756kytkkqTQtI
-         dcPT6EL5NDuYJd8o9tSAWNY3Li7cEkY/rZW0c0BS0vTv8hfMvTEwzXxpaDF3dnt7JW3f
-         UPvTSd+ff+mcbppFm0AnkM2BufIEg5BbEtHreOY8Qynr2HRYSjgO3THIXWe4xdJDVtF8
-         adUg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vIubIh4Wyz3tsOI6MEDUxASpEp1n/qqp0RW8fAkp5Is=;
+        b=chKJoCnSwiXQNcGxobfzewsPGvPFqJUpAT2ZrYWsolWYBwA+6W62D22Y8Qlu24bZHX
+         X0GZHtgvFuX70WlB6W00XcMg2/naTQ5YfyJh+MguS0Gy69ehw7GO2xes/BzxRQoW/KnI
+         /t2z4uazgmAR1VWgRCdLTpaZhFcksnFW1T6yfWfWcGKCYgAeUKxQ+n3pAO5PpL6KidKj
+         BxqlFpZ66CJzklIjEFyGZ+Z2b3VKx1sz/Mvg5k6rqkwS5P5yxYpMqxI2+gglsykXcEfd
+         GRIYekN5GnniOLY31Oebx59qgR5s9x7hykD6keUccMXY6/IyskYkxJv+d1ufqOpvH2ZZ
+         SKFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=02vp1JcshzGAmd266InAE4p0SMLcVM41XUbfgVtkk8w=;
-        b=6IHXDUToeid8NAhR2VEmCRh/uxRLpd9ozsA125aKn6uqJ2fs5S5zFN1U73ntzFAgqI
-         CZP76CY3xa4Uf9bNobaeV9SuGIyBe+dE6GACOL05KPUN+1msIhNtbwCxgH/wQA1xXeff
-         TQvAFC3mikpj2d0v4Xz67vPTjTuVDA9O/nQH1B7K1xUiAN8jTY16KoDgtUL9bUX2UKgf
-         gerj75EXK2SCtU/OoP2vFk9BQZe0149TVmp6LD6/QBoQ1GOS3YQXWZAaHFYuSnMX+MKW
-         nHzNLD0fjKmA09AntTJdprVWTR21IIfGOPvgAIrRq+b/lCgwMkSzZJxDEKpPYnOIf02I
-         NUkA==
-X-Gm-Message-State: AOAM531gAYeYRL0dkl4rtO4yxU0C73oCiu6YaNNnD1NT3JQBaB98fzZz
-	R6v0Sp9djmfxqLc0Nc9nVjU=
-X-Google-Smtp-Source: ABdhPJyTwqnXzmlapAqyauG6oyW/56U04p6xjFiix7W8KKn7b5P3uTYi4MmaqWyzQZ3BYqmtZlTA1A==
-X-Received: by 2002:a5d:4fc7:: with SMTP id h7mr7611085wrw.673.1644752034944;
-        Sun, 13 Feb 2022 03:33:54 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id p27sm9091564wms.39.2022.02.13.03.33.53
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vIubIh4Wyz3tsOI6MEDUxASpEp1n/qqp0RW8fAkp5Is=;
+        b=Wv54Gkc3GaaZB5KI5WYnfNLYdz//HyMTMMi+yt1cNYvXgHcjohTb5jhacnI0Xy9+7M
+         gqgxuKLbe9EL6j4Oa4odnSH/jVgMMlnwdoj7n+2kfnYGXCb98zoiP+FIS2fGOeDsoID1
+         WMNR3OO1XJwK3qsjdmLdWg4Y7mTujsBZLCnYukavab451M9Fjq1COnoDRYL1tnJQLFOy
+         DCQamNNwPBTQs6V/Cq+Rufk4bZuVL3u+OjfTVjAkr+6u8x9luSm3ML63EFM6mmb+ebTo
+         Wq0pj0atopQHQRVbEgCyAO92BqtHACDGydxilk/asLE8U8A7jJl44zm76H/RGpirkG26
+         YI2w==
+X-Gm-Message-State: AOAM532mKzzbU7n21vbdGQsOvtIOZ8N7OTcynSVby3IA+W89Zfsj/Q+W
+	DodXTowlkVQFm4uac5B4BPs=
+X-Google-Smtp-Source: ABdhPJyOObH9yXI4jZ3v/ZC0hv+bvvh9z8jtq9XqPQ8W6mQH9O0JMQWaoSvRIkaKjflfd/ycLnchmg==
+X-Received: by 2002:a17:902:ce81:: with SMTP id f1mr10614856plg.35.1644775187074;
+        Sun, 13 Feb 2022 09:59:47 -0800 (PST)
+Received: from localhost.localdomain ([103.85.9.185])
+        by smtp.gmail.com with ESMTPSA id me18sm8446066pjb.39.2022.02.13.09.59.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Feb 2022 03:33:54 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>, Alex Bee <knaerzche@gmail.com>, jc@kynesim.co.uk
-Subject: Re: [RFC] media: uapi: Move HEVC stateless controls out of staging
-Date: Sun, 13 Feb 2022 12:33:53 +0100
-Message-ID: <8038233.T7Z3S40VBb@kista>
-In-Reply-To: <20220201123439.353854-1-benjamin.gaignard@collabora.com>
-References: <20220201123439.353854-1-benjamin.gaignard@collabora.com>
+        Sun, 13 Feb 2022 09:59:46 -0800 (PST)
+From: Vihas Makwana <makvihas@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vihas Makwana <makvihas@gmail.com>
+Subject: [PATCH] staging: r8188eu: mark _rtw_free_sta_priv as void
+Date: Sun, 13 Feb 2022 23:04:26 +0530
+Message-Id: <20220213173424.39935-1-makvihas@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Hi Benjamin,
+_rtw_free_sta_priv() always returns _SUCCESS and it's return value
+isn't checked either.
+So it makes sense to mark it as void instead of u32.
 
-CC: Alex, John
+Signed-off-by: Vihas Makwana <makvihas@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c | 4 +---
+ drivers/staging/r8188eu/include/sta_info.h | 2 +-
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-Sorry for late response, but I've been very busy last week.
-
-First of all, thank you for doing this! It's about time that HEVC moves 
-forward.
-
-Dne torek, 01. februar 2022 ob 13:34:39 CET je Benjamin Gaignard napisal(a):
-> The HEVC stateless 'uAPI' was staging and marked explicitly in the
-> V4L2 specification that it will change and is unstable.
-> 
-> Note that these control IDs were never exported as a public API,
-> they were only defined in kernel-local headers (hevc-ctrls.h).
-> 
-> While moving the controls out of staging they are renamed and
-> control IDs get new numbers.
-> Drivers (Hantro, Cedrus) and Documentation are updated accordaly.
-
-accordaly -> accordingly
-
-> 
-> Additional structures fields has been added for RKVDEC driver usage.
-
-You should do separate patch for that, preceding this one. One patch should 
-only do one thing.
-
-I also suggest that you add additional patch for removing bit_size field in 
-struct v4l2_ctrl_hevc_slice_params. Similar fields were already removed from 
-MPEG2 and H264 structures. Bit size can be deduced from output buffer size and 
-it doesn't hurt if bit size in Cedrus is set to bigger value than actual slice 
-bit size.
-
-> Hantro dedicated control is moving to hantro-media.h
-> Since hevc-ctrls.h content has been dispatched in others file, remove it.
-> 
-> fluster tests results on IMX8MQ is 77/147 for HEVC codec.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-Note that Cedrus still needs additional information in order to decode some 
-HEVC videos. Missing info is num_entry_point_offsets and list of all 
-entry_point_offset_minus1 (obviously, num_entry_point_offsets in size).
-
-I suggest that this is represented in a new control, which would use dynamic 
-array feature, written by Hans. While Cedrus supports max. 256 entries, it can 
-be much bigger in theory, but in reality, it's much smaller (like 4-8 
-entries).
-
-Last but not least, data_bit_offset should be better defined. Currently it 
-points right after last header bit, just like Cedrus needs it. However, there 
-is padding after that, at least 1 bit and 8 bits at most, so slice data always 
-starts from byte aligned address. It probably make sense to rework that field 
-to be byte offset, not bit, just like in VA-API. Note that RPi HEVC driver also 
-uses byte aligned address directly. Cedrus would need some kind of workaround 
-and only one that works is this one:
-https://github.com/bootlin/libva-v4l2-request/blob/master/src/h265.c#L191-L209
-
-Best regards,
-Jernej
-
+diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+index de5406a58..79b49a13f 100644
+--- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+@@ -117,7 +117,7 @@ inline struct sta_info *rtw_get_stainfo_by_offset(struct sta_priv *stapriv, int
+ 	return (struct sta_info *)(stapriv->pstainfo_buf + offset * sizeof(struct sta_info));
+ }
+ 
+-u32	_rtw_free_sta_priv(struct	sta_priv *pstapriv)
++void _rtw_free_sta_priv(struct	sta_priv *pstapriv)
+ {
+ 	struct list_head *phead, *plist;
+ 	struct sta_info *psta = NULL;
+@@ -147,8 +147,6 @@ u32	_rtw_free_sta_priv(struct	sta_priv *pstapriv)
+ 
+ 		vfree(pstapriv->pallocated_stainfo_buf);
+ 	}
+-
+-	return _SUCCESS;
+ }
+ 
+ struct	sta_info *rtw_alloc_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
+diff --git a/drivers/staging/r8188eu/include/sta_info.h b/drivers/staging/r8188eu/include/sta_info.h
+index 24b125431..23f6a85bf 100644
+--- a/drivers/staging/r8188eu/include/sta_info.h
++++ b/drivers/staging/r8188eu/include/sta_info.h
+@@ -344,7 +344,7 @@ static inline u32 wifi_mac_hash(u8 *mac)
+ }
+ 
+ extern u32	_rtw_init_sta_priv(struct sta_priv *pstapriv);
+-extern u32	_rtw_free_sta_priv(struct sta_priv *pstapriv);
++extern void _rtw_free_sta_priv(struct sta_priv *pstapriv);
+ 
+ #define stainfo_offset_valid(offset) (offset < NUM_STA && offset >= 0)
+ int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta);
+-- 
+2.30.2
 
