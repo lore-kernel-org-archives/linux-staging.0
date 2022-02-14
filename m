@@ -1,81 +1,102 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C386E7E1;
-	Mon, 14 Feb 2022 18:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644863421; x=1676399421;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2SuiWkTsCmL0kmekpSa89GaVmY8ni1VlZC8DxtgnZ6g=;
-  b=ZPKVpU8Nwj+yMbEsnsCSCTplGrgi+VIJiml+ICx850FD0WA41OtBWndF
-   md4J4GGDajQ1K0tcByd8CJB88E/I8PvycbVfesXEiPBTehlE3JM2ByRc4
-   7LEq6kc7o5o78ZY4mrHXPJDny4wpq7rs+Yb/ruB0nQXILQueMtRNwVHfk
-   KAgNHl2WSSRjgUc+SbYibTeMKpx9nXs/xPB5RtB13HXu27zQLFXk9d8hU
-   CwT2X5YFBrjsZOTP681BpNsjO1nXYa3sE9yZXx+FXYgEsBvWyL6S8pOtb
-   Xu0+rUMiv88gyonyZXMWUAViq8M0T9E2D2bflUNuKGSlgKEzjzvsHbURo
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10258"; a="336582919"
-X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; 
-   d="scan'208";a="336582919"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2022 10:30:20 -0800
-X-IronPort-AV: E=Sophos;i="5.88,368,1635231600"; 
-   d="scan'208";a="624372837"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2022 10:30:15 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id 0993C202D5;
-	Mon, 14 Feb 2022 20:30:13 +0200 (EET)
-Date: Mon, 14 Feb 2022 20:30:13 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 37/66] media: sun6i-csi: Move power management to
- runtime pm in capture
-Message-ID: <YgqftcDgfrsZfTdF@paasikivi.fi.intel.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-38-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE38A35
+	for <linux-staging@lists.linux.dev>; Mon, 14 Feb 2022 18:42:21 +0000 (UTC)
+Received: (Authenticated sender: jacopo@jmondi.org)
+	by mail.gandi.net (Postfix) with ESMTPSA id AB65D1C0003;
+	Mon, 14 Feb 2022 18:42:15 +0000 (UTC)
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	festevam@gmail.com,
+	mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	martin.kepplinger@puri.sm,
+	rmfrfs@gmail.com,
+	xavier.roumegue@oss.nxp.com,
+	alexander.stein@ew.tq-group.com,
+	dorota.czaplejewicz@puri.sm
+Cc: kernel@pengutronix.de,
+	linux-imx@nxp.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Jacopo Mondi <jacopo@jmondi.org>
+Subject: [PATCH 0/8] media: imx: Destage imx7-mipi-csis with fixes on top
+Date: Mon, 14 Feb 2022 19:43:10 +0100
+Message-Id: <20220214184318.409208-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.35.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-38-paul.kocialkowski@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Paul,
+Hello,
+  this series includes patches from two series previously sent
+https://lore.kernel.org/linux-media/20220119112024.11339-1-jacopo@jmondi.org/
+https://lore.kernel.org/linux-media/20220211180216.290133-1-jacopo@jmondi.org/
 
-On Sat, Feb 05, 2022 at 07:54:00PM +0100, Paul Kocialkowski wrote:
-> Let's just enable the module when we start using it (at stream on)
-> and benefit from runtime pm instead of enabling it at first open.
-> 
-> Also reorder the call to v4l2_pipeline_pm_get.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Which can now be marked as superseded.
 
-Nice patch!
+The first 2 patches performs the de-staging of the imx7-mipi-csis driver and
+takes into account comments recevied there.
 
-Do you still need v4l2_pipeline_pm_put()? Removing it would be a separate
-patch of course.
+The rest of the series builds on top of the comment received on:
+https://lore.kernel.org/linux-media/20220119112024.11339-3-jacopo@jmondi.org/
 
--- 
-Kind regards,
+If DUAL pixel mode is used in the CSIS driver, then the CSI block of the IMX8MM
+SoC needs to be operated in dual mode as well. To do so, create per-SoC
+configurations in imx7-media-csi.c and only set dual mode for the MM model
+leaving the other ones untouched as they connect to a different CSI-2 receiver
+which instead operates in single mode.
 
-Sakari Ailus
+I've only tested on i.MX8MP which is not affected by these changes, so I
+hope I've not broke anything. Laurent could you test on MM to see if it works
+now ?
+
+On top two small patches I was carrying in my tree to add more formats to the
+CSIS driver.
+
+Series based on top of the most recent media master branch.
+
+Thanks
+  j
+
+Jacopo Mondi (9):
+  media: imx: De-stage imx7-mipi-csis
+  media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
+  staging: media: imx: Add more compatible strings
+  staging: media: imx: Define per-SoC info
+  staging: media: imx: Use DUAL pixel mode if available
+  media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+  media: imx: imx-mipi-csis: Add RGB565_1X16
+  media: imx: imx-mipi-csis: Add RGB/BGR888
+
+ Documentation/admin-guide/media/imx7.rst      |  2 +-
+ ...-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
+ .../bindings/media/nxp,imx7-csi.yaml          |  1 +
+ MAINTAINERS                                   |  4 +-
+ drivers/media/platform/Kconfig                |  1 +
+ drivers/media/platform/Makefile               |  1 +
+ drivers/media/platform/imx/Kconfig            | 24 +++++++++
+ drivers/media/platform/imx/Makefile           |  1 +
+ .../platform/imx/imx-mipi-csis.c}             | 44 ++++++++++++++--
+ drivers/staging/media/imx/Makefile            |  1 -
+ drivers/staging/media/imx/imx-media.h         | 44 ++++++++++++++++
+ drivers/staging/media/imx/imx7-media-csi.c    | 52 ++++++++++++++-----
+ 12 files changed, 153 insertions(+), 24 deletions(-)
+ rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
+ create mode 100644 drivers/media/platform/imx/Kconfig
+ create mode 100644 drivers/media/platform/imx/Makefile
+ rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (97%)
+
+--
+2.35.0
+
