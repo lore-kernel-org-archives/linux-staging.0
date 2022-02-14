@@ -1,70 +1,160 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD337C
-	for <linux-staging@lists.linux.dev>; Mon, 14 Feb 2022 11:40:48 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id f17so26599041edd.2
-        for <linux-staging@lists.linux.dev>; Mon, 14 Feb 2022 03:40:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=txrRRj64BfB1XGOlz/p2vUCAsDRsRQyDzH1ftwqQ6nA=;
-        b=ZIb9yZ0Y598ALLPAqm3u0e19ewvPYC9gpjN3o1C67Ey+fpOs/Od43NWY3z9T2AE43B
-         igZXc32/RCpCu8hBGawRNDQ2bRNXgRIqck36AimfzvN1HTVEvdtAndUIrJzvni/bwKYp
-         Yo4E5gijZhCQr/wEOh8EGe14H8Zxsb1pt28MiZr4lZh7GA1rkoCNGd15TnEQgS3M1JJg
-         5dgQLv0usAdamVM29Z6T9T/nOC8N/726yJTh4iztWl037DCxMHukXgFR8OrNnT6NcjF2
-         CD/8v79sujvrkHmkun/473gGfGeBiyVbjAUK5OiAbPI9Z1v2upUTLMfEai/VvsbMovi3
-         Be3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=txrRRj64BfB1XGOlz/p2vUCAsDRsRQyDzH1ftwqQ6nA=;
-        b=nQhLwgI3l+EV6sO8wQD2nhM4V0uJI2nA2i1w9/KhKgCSaDjH61KhMXAPNESFwcIUFC
-         mmhIerQHJRxv0oGtCjDGNDZCynwD7zVbCRiorrqmg5oBzz1J/gOevdIHWgGRyWUK9oMx
-         TiwY03M7OHO7ialXIZXzjAmz/2USaTgOOgia3ODYKqxgmKiSvxbNr1Fg0laB/pWj4VIk
-         fnfbL7MyYJSPP1kzGMommHCOU8iPJTt5EzzGrjY8X1U8+xVN4XsYw8C9PZd3OOZQ9cE+
-         7vue/7epZeeHYa0cXd8UjSgnEpmpWs6ZoDzUJcofoiBACqMPDqm2UbHDuUUQanL0d/Vc
-         JerA==
-X-Gm-Message-State: AOAM530O7EVzlQUjtBv4+tYyTuEW9+1KwEEZYsRtxvAcOHQRhN3uogwo
-	JF5EE5UE7ChWmYkpjIAWjOu4F0GSGrjgyHD5/dI=
-X-Google-Smtp-Source: ABdhPJyhI2L7COBYWrFKiT5hgDepOL5o4PrnmVyl3g1I4gJg9l0Tha1gReG8ZTCcVGVZC5KKs3DTfOFxXp6+FFjn1Y8=
-X-Received: by 2002:a05:6402:358e:: with SMTP id y14mr14956166edc.136.1644838846589;
- Mon, 14 Feb 2022 03:40:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCF3812
+	for <linux-staging@lists.linux.dev>; Mon, 14 Feb 2022 13:29:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2C13B1F38B;
+	Mon, 14 Feb 2022 13:29:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1644845387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dBYFKpfYPiq5qXDA4uSe9C+FEeYwTU0ApnNbJpDmu7U=;
+	b=vQIcyFZlRqNCiymSeRHK0mN+ozEkatEkESJ/IetNRGz+C2v0OUShJX9uDFaYG3elKooT+r
+	Go86x6ctYgsXc9Zd2ggVYd7N4qnuplPenbB8Yl2bocNm9pMiN2oAlHOa7s3UAXGM5JVxyF
+	ANnr0HEjqPceC6mt42UDur7aIMjXvuM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1644845387;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dBYFKpfYPiq5qXDA4uSe9C+FEeYwTU0ApnNbJpDmu7U=;
+	b=zglN0Cribnhsg7fGfo2i8rCHebd7Lyd0jg0YrAvprUZSrshrAlg3AItBKF+GVYp9/lHAKH
+	GMV8doFWJDSGotDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E520913B2B;
+	Mon, 14 Feb 2022 13:29:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id HclINkpZCmKcJwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 14 Feb 2022 13:29:46 +0000
+Message-ID: <4a0697de-52db-97e7-d528-c7e2fe000e66@suse.de>
+Date: Mon, 14 Feb 2022 14:29:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220211180216.290133-1-jacopo@jmondi.org> <20220211180216.290133-2-jacopo@jmondi.org>
- <CAOMZO5A09VWLGTbqggVJOh4LeLotty8s6VZB0Jq9SL2M0+P6rw@mail.gmail.com> <20220214092358.mu5vvfkzn2zfvokm@uno.localdomain>
-In-Reply-To: <20220214092358.mu5vvfkzn2zfvokm@uno.localdomain>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Mon, 14 Feb 2022 08:40:35 -0300
-Message-ID: <CAOMZO5Dfah7htxY6x3_ORccRnqcHTJ0K4Mn=FLKFQW-rLJN0Ww@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: imx: De-stage imx7-mipi-csis
-To: Jacopo Mondi <jacopo@jmondi.org>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Martin Kepplinger <martin.kepplinger@puri.sm>, Rui Miguel Silva <rmfrfs@gmail.com>, 
-	xavier.roumegue@oss.nxp.com, Sascha Hauer <kernel@pengutronix.de>, 
-	NXP Linux Team <linux-imx@nxp.com>, linux-media <linux-media@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-fbdev@vger.kernel.org, deller@gmx.de,
+ linux-staging@lists.linux.dev, bernie@plugable.com,
+ dri-devel@lists.freedesktop.org, javierm@redhat.com, noralf@tronnes.org,
+ andriy.shevchenko@linux.intel.com, jayalk@intworks.biz
+References: <20220210141111.5231-1-tzimmermann@suse.de>
+ <20220210141111.5231-3-tzimmermann@suse.de>
+ <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
+ <9b2e2649-1511-66a3-b346-60863de788fc@suse.de>
+ <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------cY83eb3xDQ46xO4efc8b4xec"
 
-Hi Jacopo,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------cY83eb3xDQ46xO4efc8b4xec
+Content-Type: multipart/mixed; boundary="------------7oyYbAfnymsn2oK8u0wDPWX0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-fbdev@vger.kernel.org, deller@gmx.de,
+ linux-staging@lists.linux.dev, bernie@plugable.com,
+ dri-devel@lists.freedesktop.org, javierm@redhat.com, noralf@tronnes.org,
+ andriy.shevchenko@linux.intel.com, jayalk@intworks.biz
+Message-ID: <4a0697de-52db-97e7-d528-c7e2fe000e66@suse.de>
+Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
+References: <20220210141111.5231-1-tzimmermann@suse.de>
+ <20220210141111.5231-3-tzimmermann@suse.de>
+ <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
+ <9b2e2649-1511-66a3-b346-60863de788fc@suse.de>
+ <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
 
-On Mon, Feb 14, 2022 at 6:22 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
+--------------7oyYbAfnymsn2oK8u0wDPWX0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> I found nothing there that applies to this driver.
-> Have I missed any point ?
+SGkNCg0KQW0gMTQuMDIuMjIgdW0gMTA6MDUgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIE1vbiwgRmViIDE0LCAyMDIyIGF0IDk6MjggQU0g
+VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4gQW0g
+MTQuMDIuMjIgdW0gMDk6MDUgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46DQo+Pj4gT24g
+VGh1LCBGZWIgMTAsIDIwMjIgYXQgNDoyNCBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pj4+IEZiZGV2J3MgZGVmZXJyZWQgSS9PIHNvcnRz
+IGFsbCBkaXJ0eSBwYWdlcyBieSBkZWZhdWx0LCB3aGljaCBpbmN1cnMgYQ0KPj4+PiBzaWdu
+aWZpY2FudCBvdmVyaGVhZC4gTWFrZSB0aGUgc29ydGluZyBzdGVwIG9wdGlvbmFsIGFuZCB1
+cGRhdGUgdGhlIGZldw0KPj4+PiBkcml2ZXJzIHRoYXQgcmVxdWlyZSBpdC4gVXNlIGEgRklG
+TyBsaXN0IGJ5IGRlZmF1bHQuDQo+Pj4+DQo+Pj4+IFNvcnRpbmcgcGFnZXMgYnkgbWVtb3J5
+IG9mZnNldCBmb3IgZGVmZXJyZWQgSS9PIHBlcmZvcm1zIGFuIGltcGxpY2l0DQo+Pj4+IGJ1
+YmJsZS1zb3J0IHN0ZXAgb24gdGhlIGxpc3Qgb2YgZGlydHkgcGFnZXMuIFRoZSBhbGdvcml0
+aG0gZ29lcyB0aHJvdWdoDQo+Pj4+IHRoZSBsaXN0IG9mIGRpcnR5IHBhZ2VzIGFuZCBpbnNl
+cnRzIGVhY2ggbmV3IHBhZ2UgYWNjb3JkaW5nIHRvIGl0cw0KPj4+PiBpbmRleCBmaWVsZC4g
+RXZlbiB3b3JzZSwgbGlzdCB0cmF2ZXJzYWwgYWx3YXlzIHN0YXJ0cyBhdCB0aGUgZmlyc3QN
+Cj4+Pj4gZW50cnkuIEFzIHZpZGVvIG1lbW9yeSBpcyBtb3N0IGxpa2VseSB1cGRhdGVkIHNj
+YW5saW5lIGJ5IHNjYW5saW5lLCB0aGUNCj4+Pj4gYWxnb3JpdGhtIHRyYXZlcnNlcyB0aHJv
+dWdoIHRoZSBjb21wbGV0ZSBsaXN0IGZvciBlYWNoIHVwZGF0ZWQgcGFnZS4NCj4+Pj4NCj4+
+Pj4gRm9yIGV4YW1wbGUsIHdpdGggMTAyNHg3Njh4MzJicHAgYSBwYWdlIGNvdmVycyBleGFj
+dGx5IG9uZSBzY2FubGluZS4NCj4+Pj4gV3JpdGluZyBhIHNpbmdsZSBzY3JlZW4gdXBkYXRl
+IGZyb20gdG9wIHRvIGJvdHRvbSByZXF1aXJlcyB1cGRhdGluZw0KPj4+PiA3NjggcGFnZXMu
+IFdpdGggYW4gYXZlcmFnZSBsaXN0IGxlbmd0aCBvZiAzODQgZW50cmllcywgYSBzY3JlZW4g
+dXBkYXRlDQo+Pj4+IGNyZWF0ZXMgKDc2OCAqIDM4NCA9KSAyOTQ5MTIgY29tcGFyZSBvcGVy
+YXRpb24uDQo+Pj4NCj4+PiBXaGF0IGFib3V0IHVzaW5nIGZvbGlvcz8NCj4+PiBJZiBjb25z
+ZWN1dGl2ZSBwYWdlcyBhcmUgbWVyZ2VkIGludG8gYSBzaW5nbGUgZW50cnksIHRoZXJlJ3Mg
+bXVjaCBsZXNzDQo+Pj4gKG9yIG5vdGhpbmcgaW4gdGhlIGV4YW1wbGUgYWJvdmUpIHRvIHNv
+cnQuDQo+Pg0KPj4gSG93IHdvdWxkIHRoZSBjb2RlIGtub3cgdGhhdD8gQ2FsbHMgdG8gcGFn
+ZV9ta3dyaXRlIGhhcHBlbg0KPj4gcGFnZWZhdWx0LWJ5LXBhZ2VmYXVsdCBpbiBhbnkgb3Jk
+ZXIgQUZBSUNULg0KPiANCj4gZmJfZGVmZXJyZWRfaW9fbWt3cml0ZSgpIHdvdWxkIHN0aWxs
+IGJlIGNhbGxlZCBmb3IgYSBwYWdlLCBidXQgYW4NCj4gYWRqYWNlbnQgcGFnZSBjYW4gYmUg
+bWVyZ2VkIHdpdGggYW4gZXhpc3RpbmcgZW50cnkgd2hpbGUgYWRkaW5nIGl0DQo+IHRvIHRo
+ZSBsaXN0Lg0KDQpJIHN0aWxsIGRvbid0IHVuZGVyc3RhbmQgaG93IHdlJ2QgdXNlIGl0IHRv
+IG91ciBhZHZhbnRhZ2UuIE1vc3QgZHJpdmVycyANCmRvbid0IG5lZWQgc29ydGVkIHBhZ2Vz
+IGF0IGFsbC4gQSBmb2xpbyBoYXMgc3Ryb25nIGFsaWdubWVudCANCnJlcXVpcmVtZW50cyBm
+b3Igc2l6ZSBhbmQgb2Zmc2V0IEFGQUlDVC4gV2UgbWlnaHQgZW5kIHVwIGZsdXNoaW5nIHdh
+eSANCnRvbyBtdWNoIG9mIHRoZSBkaXNwbGF5IG1lbW9yeS4NCg0KQmVzdCByZWdhcmRzDQpU
+aG9tYXMNCg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgR2VlcnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBU
+aGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5v
+cmcNCj4gDQo+IEluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVv
+cGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQNCj4gd2hlbiBJJ20gdGFsa2luZyB0
+byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlr
+ZSB0aGF0Lg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBU
+b3J2YWxkcw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
+ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
+dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
+ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-You are right. After reading the comments in the TODO I see it does
-not apply to this driver.
+--------------7oyYbAfnymsn2oK8u0wDPWX0--
 
-Sorry about the noise.
+--------------cY83eb3xDQ46xO4efc8b4xec
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIKWUoFAwAAAAAACgkQlh/E3EQov+Cn
+7g//VR4bJ50USTs3KzUagxwdNLJmbwe8qSF9xEomwcWVoxO3uiUsIJWcOCJ66IN4S1HD19dAyCtf
+ic0+6vSkUtbtQ4M+Nzowv/yOng+nwoPQzUbK1GvNs8EyK5FHY+DwdvDeUPYssLXNcHVadJNjsrZ4
+hYBfdV+IXPO85D8ZYTG5MSBlVoQxxTpC/X1eqvE5ZhUsRD8khn021DdIcaIxzNAkyraSFpE91zDD
+Pys1ScZ1N1FYo6qv5u3T0zEdGHZMVTJ6ZL2VWoCSNOFMovWjtbzQfXyJ/7f0HtECNfrw5umY8MZC
+tQFgFvl3wg5u3xAXvIU8nIQenaLZobj2xKFeVvFVhmAcJrRQ/beFQ5HzH6BPvazS9YuoMdE/Goi4
+jct6jRA2Exx23aZhsfdZ19p7Wooj1f/vKHIEdoXIPBvzZK+r8DgDewYMqHgDmCdDL9Rc0+lPE8Wb
+acfSOUco4r59dmYnMcrxm0J/3LKQGaaK7ZP8NWg/6mRUjVft7HUbJKIGIr8GuMz+8CqvUtCRUMfg
+thbXvdEirLOd8htcoK4s/98rIHYsZ5fKHcAbPZsVniIKl8FVCEdZ/1Dit6CEnOGjOZjOHxQ4Lhvy
+yi3dtSQZWlpRUZypPAorOvtgP48lspmnjmYMDV4rsmU/g13Y3RtTLH8420qQmV1k2r27AFZ9/zRN
+YkQ=
+=GcVp
+-----END PGP SIGNATURE-----
+
+--------------cY83eb3xDQ46xO4efc8b4xec--
