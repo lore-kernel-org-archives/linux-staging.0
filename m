@@ -1,96 +1,156 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8A6A35;
-	Mon, 14 Feb 2022 19:08:44 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id a8so39482648ejc.8;
-        Mon, 14 Feb 2022 11:08:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=99BahZfDqfQoln2rf6Bj3xU3QXecprDtHuHMCBkgrcQ=;
-        b=qhf19N3SLoLekl8nSgEbpHiFYk6ResBtkXfsJl63wafe0VQ0y5uwdcbx4dh7Api/cr
-         pq4kpVN3rz8ufkFRa9PQhw12DgU06aBBMlGjIZ82TXZkn5kbidmhueb3xMvAz8cyvLFK
-         23OCsQ5snWWXIQrfygum5Ml7tz1ev7oa/U9muYVV8pA1ru4b2uJnVoNiHqJAUlw6HTVD
-         4YwuEf7WP8XA/Rm/UEIkIOK+MRnmJTKW4dRGuT49tZEp3Adgnjs0GNTOr22NQe/Yb5r4
-         ZRdbMxoYgxE3NBz9Kcl1JoZpZ2VWWqZLEqmaXpiuwLy5eS4Rlf+vH+mqr6eGRoqwxN34
-         hTIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=99BahZfDqfQoln2rf6Bj3xU3QXecprDtHuHMCBkgrcQ=;
-        b=qdf6htQol0ZYbt2z2pq32Mj9/PojwZTV0PHP10iP858H8P8qBf0K8epAZ5bk8IXobP
-         sflmxWfazDYn7kOtpE1VciG/wVJp0jG6a6oZx4aYXqtnvFTJ7l5lMP9ifoIJ/+b9fogJ
-         RcL8+q2xfEHMdyDXMk6BiH5kTW6tm4yrccMzS7AgPRzaiZUrqa7suDnfO7nTgxzdeuNS
-         aW+iesECX894VRwmwN3p0ljchZ3RZ60Y2mdXXhiGhwrEM6iMjWnZ4Lwd85P5k/UoiGdZ
-         qYNDEpLVlQIbpys+4C8jiC2AqCG1idlF2DYXHQxk/k7lLCp4x/UAbU7mQyxYheepCsbS
-         t4Jw==
-X-Gm-Message-State: AOAM530aQBVkCOlxkZt8fY9xF4juRhJlb4r3sRl/1nJA3fGx8I1XHbPV
-	+2+RLFN3gSSn3KHOOWDBoIw=
-X-Google-Smtp-Source: ABdhPJwiFYCfncVtqTqjdVCBhQycol1aX209bItLXOycZar8UGc4dq3/BcvtHafFwyhS52svnZjIdA==
-X-Received: by 2002:a17:907:16aa:: with SMTP id hc42mr167762ejc.307.1644865723011;
-        Mon, 14 Feb 2022 11:08:43 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id m17sm2316338ejn.118.2022.02.14.11.08.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 11:08:42 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org,
-	wens@csie.org,
-	gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] media: cedrus: h264: Fix neighbour info buffer size
-Date: Mon, 14 Feb 2022 20:08:39 +0100
-Message-Id: <20220214190839.707889-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB208A3E
+	for <linux-staging@lists.linux.dev>; Mon, 14 Feb 2022 19:15:14 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED0D847F;
+	Mon, 14 Feb 2022 20:15:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1644866113;
+	bh=ec+4NwcTQuwHKvY1BIzHOsNHa67wec4LhWkzGhnFNM8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DNYUXsuS+IXsft+2jfTxWVC07Req4Gk/h/JAs5s6OewBaY68fL2Qc8ZnLA/JVwH00
+	 XCW+XsaqhbmL72PRGbDYNDETHl8+FcNOQ/F3t0ACDSUTZjHzj90mGJ13VLKQJLwo+4
+	 SnE8S2BJqX5A3Q0jOFYc+Jd6Vf4faj20yqenZ/Iw=
+Date: Mon, 14 Feb 2022 21:15:07 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo@jmondi.org>
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
+	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+	kernel@pengutronix.de, linux-imx@nxp.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 3/8] staging: media: imx: Add more compatible strings
+Message-ID: <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
+References: <20220214184318.409208-1-jacopo@jmondi.org>
+ <20220214184318.409208-4-jacopo@jmondi.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220214184318.409208-4-jacopo@jmondi.org>
 
-According to BSP library source, H264 neighbour info buffer size needs
-to be 32 kiB for H6. This is similar to H265 decoding, which also needs
-double buffer size in comparison to older Cedrus core generations.
+Hi Jacopo,
 
-Increase buffer size to cover H6 needs. Since increase is not that big
-in absolute numbers, it doesn't make sense to complicate logic for older
-generations.
+Thank you for the patch.
 
-Issue was discovered using iommu and cross checked with BSP library
-source.
+On Mon, Feb 14, 2022 at 07:43:13PM +0100, Jacopo Mondi wrote:
+> The imx7-media-csi driver controls the CSI (CMOS Sensor Interface)
+> peripheral available on several SoC of different generations.
+> 
+> The current situation when it comes to compatible strings is rather
+> confused:
+> - Bindings document imx6ul, imx7 and imx8mm
+> - Driver supports imx6ul, imx7 and imx8mq
+> - The IMX8MM and IMX8MQ DTS use the correct compatible strings with a
+>   fallback to the generic "imx7-csi" identifier:
+>   arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi",
+>   arch/arm64/boot/dts/freescale/imx8mm.dtsi: compatible = "fsl,imx8mm-csi",
+> 
+> Tidy-up the situation by adding the IMX8MQ compatible string to the
+> bindings documentation andathe IMX8MM identifier to the driver, to allow
+> to distinguish the SoC the CSI peripheral is integrated on in the
+> following patches.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml | 1 +
+>  drivers/staging/media/imx/imx7-media-csi.c                | 2 ++
 
-Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think Rob would prefer this being split in two patches, and I think it
+would make sense, as you're fixing two separate issues.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-index b4173a8926d6..d8fb93035470 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -38,7 +38,7 @@ struct cedrus_h264_sram_ref_pic {
- 
- #define CEDRUS_H264_FRAME_NUM		18
- 
--#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(16 * SZ_1K)
-+#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(32 * SZ_1K)
- #define CEDRUS_MIN_PIC_INFO_BUF_SIZE       (130 * SZ_1K)
- 
- static void cedrus_h264_write_sram(struct cedrus_dev *dev,
+>  2 files changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> index 4f7b78265336..0f1505d85111 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> @@ -21,6 +21,7 @@ properties:
+>            - fsl,imx7-csi
+>            - fsl,imx6ul-csi
+>        - items:
+> +          - const: fsl,imx8mq-csi
+>            - const: fsl,imx8mm-csi
+>            - const: fsl,imx7-csi
+
+I don't think you intended to require the following:
+
+	compatible = "fsl,imx8mq-csi", "fsl,imx8mm-csi", "fsl,imx7-csi";
+
+You probably want
+
+ properties:
+   compatible:
+     oneOf:
+       - enum:
++          - fsl,imx8mq-csi
+           - fsl,imx7-csi
+           - fsl,imx6ul-csi
+       - items:
+           - const: fsl,imx8mm-csi
+           - const: fsl,imx7-csi
+
+instead.
+
+> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> index 32311fc0e2a4..59100e409709 100644
+> --- a/drivers/staging/media/imx/imx7-media-csi.c
+> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> @@ -162,6 +162,7 @@
+>  enum imx_csi_model {
+>  	IMX7_CSI_IMX7 = 0,
+>  	IMX7_CSI_IMX8MQ,
+> +	IMX7_CSI_IMX8MM,
+>  };
+>  
+>  struct imx7_csi {
+> @@ -1277,6 +1278,7 @@ static int imx7_csi_remove(struct platform_device *pdev)
+>  
+>  static const struct of_device_id imx7_csi_of_match[] = {
+>  	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
+> +	{ .compatible = "fsl,imx8mm-csi", .data = (void *)IMX7_CSI_IMX8MM },
+
+This isn't needed, as the i.MX8MM CSI bridgge is considered fully
+backward-compatible with the i.MX7 version. I'd introduce this change in
+the patch where you start using IMX7_CSI_IMX8MM, and I would then add
+the following to the DT binding:
+
+ properties:
+   compatible:
+     oneOf:
+       - enum:
+           - fsl,imx8mq-csi
++          - fsl,imx8mm-csi
+           - fsl,imx7-csi
+           - fsl,imx6ul-csi
+       - items:
+           - const: fsl,imx8mm-csi
+           - const: fsl,imx7-csi
+
+to allow setting
+
+	compatible = "fsl,imx8mm-csi";
+
+without the imx7 fallback if we consider the i.MX8MM version different.
+If the driver can operate correctly on the i.MX8MM when using the i.MX7
+fallback code paths (possibly minor issues that are not considered
+fatal, such as missing features) then you could skip this binding
+change.
+
+>  	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
+>  	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
+>  	{ },
+
 -- 
-2.35.1
+Regards,
 
+Laurent Pinchart
