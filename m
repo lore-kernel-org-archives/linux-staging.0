@@ -1,160 +1,263 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCF3812
-	for <linux-staging@lists.linux.dev>; Mon, 14 Feb 2022 13:29:49 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2C13B1F38B;
-	Mon, 14 Feb 2022 13:29:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1644845387; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14DA7A;
+	Mon, 14 Feb 2022 16:10:17 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id F24851BF215;
+	Mon, 14 Feb 2022 16:10:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1644855010;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dBYFKpfYPiq5qXDA4uSe9C+FEeYwTU0ApnNbJpDmu7U=;
-	b=vQIcyFZlRqNCiymSeRHK0mN+ozEkatEkESJ/IetNRGz+C2v0OUShJX9uDFaYG3elKooT+r
-	Go86x6ctYgsXc9Zd2ggVYd7N4qnuplPenbB8Yl2bocNm9pMiN2oAlHOa7s3UAXGM5JVxyF
-	ANnr0HEjqPceC6mt42UDur7aIMjXvuM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1644845387;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dBYFKpfYPiq5qXDA4uSe9C+FEeYwTU0ApnNbJpDmu7U=;
-	b=zglN0Cribnhsg7fGfo2i8rCHebd7Lyd0jg0YrAvprUZSrshrAlg3AItBKF+GVYp9/lHAKH
-	GMV8doFWJDSGotDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E520913B2B;
-	Mon, 14 Feb 2022 13:29:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id HclINkpZCmKcJwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 14 Feb 2022 13:29:46 +0000
-Message-ID: <4a0697de-52db-97e7-d528-c7e2fe000e66@suse.de>
-Date: Mon, 14 Feb 2022 14:29:46 +0100
+	bh=b5eS9fguaP+pvzR5A1Vwu+pYHyCDBG8CctR4OI6MdrE=;
+	b=UCj7f71PmwliZ1ok8P9m8PXiwkU1fLCOpZZ3sk70BvhQuGXFhuBmONFAMuSbUi1XZZ5v6I
+	QVpMk7mSQJwKucLTkeer6lOa1TmqXGX7Fc8xvI5zZRCKgrfQO1bJTpwqiOEHuUOkA+FQtG
+	B77Afoe4dPbz7hemN4PheVD6azW/7wzrlBdV81+M+Au1E4SdQDIlUw2JI8q945X4WT3Uex
+	EzjsmO0+Gws4avZNcm5iT+YhbZCMG1BSYxeAztO1GF0BPVNy4DKCsKgUWKI9yKxNPYZJQW
+	4Ipo7H5vQB+UwL/Hry4QvOcnMj2k+7AbuSoEE7ZDWIIHjJL8YVdPDn8JYhE5cA==
+Date: Mon, 14 Feb 2022 17:10:05 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 07/66] dt-bindings: media: sun6i-a31-csi: Add MIPI
+ CSI-2 input port
+Message-ID: <Ygp+3URjxyvRBn/5@aptenodytes>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
+ <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
+ <YgaKXvP3rLOLR9VR@aptenodytes>
+ <YgbNfKiNkPmvaT1k@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fbdev@vger.kernel.org, deller@gmx.de,
- linux-staging@lists.linux.dev, bernie@plugable.com,
- dri-devel@lists.freedesktop.org, javierm@redhat.com, noralf@tronnes.org,
- andriy.shevchenko@linux.intel.com, jayalk@intworks.biz
-References: <20220210141111.5231-1-tzimmermann@suse.de>
- <20220210141111.5231-3-tzimmermann@suse.de>
- <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
- <9b2e2649-1511-66a3-b346-60863de788fc@suse.de>
- <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------cY83eb3xDQ46xO4efc8b4xec"
+	protocol="application/pgp-signature"; boundary="1K2ddbKyLBZHtd45"
+Content-Disposition: inline
+In-Reply-To: <YgbNfKiNkPmvaT1k@pendragon.ideasonboard.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------cY83eb3xDQ46xO4efc8b4xec
-Content-Type: multipart/mixed; boundary="------------7oyYbAfnymsn2oK8u0wDPWX0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fbdev@vger.kernel.org, deller@gmx.de,
- linux-staging@lists.linux.dev, bernie@plugable.com,
- dri-devel@lists.freedesktop.org, javierm@redhat.com, noralf@tronnes.org,
- andriy.shevchenko@linux.intel.com, jayalk@intworks.biz
-Message-ID: <4a0697de-52db-97e7-d528-c7e2fe000e66@suse.de>
-Subject: Re: [PATCH 2/2] fbdev: Don't sort deferred-I/O pages by default
-References: <20220210141111.5231-1-tzimmermann@suse.de>
- <20220210141111.5231-3-tzimmermann@suse.de>
- <CAMuHMdVb1JjZkEo-PM6DTXOywcmJDRr0a=Ci94DJCj7dXbbihw@mail.gmail.com>
- <9b2e2649-1511-66a3-b346-60863de788fc@suse.de>
- <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWPw8UcTVown3Zghxn11-WuqSBNCWKpP3T5NUxxZmntcA@mail.gmail.com>
 
---------------7oyYbAfnymsn2oK8u0wDPWX0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--1K2ddbKyLBZHtd45
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-SGkNCg0KQW0gMTQuMDIuMjIgdW0gMTA6MDUgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIE1vbiwgRmViIDE0LCAyMDIyIGF0IDk6MjggQU0g
-VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4gQW0g
-MTQuMDIuMjIgdW0gMDk6MDUgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46DQo+Pj4gT24g
-VGh1LCBGZWIgMTAsIDIwMjIgYXQgNDoyNCBQTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pj4+IEZiZGV2J3MgZGVmZXJyZWQgSS9PIHNvcnRz
-IGFsbCBkaXJ0eSBwYWdlcyBieSBkZWZhdWx0LCB3aGljaCBpbmN1cnMgYQ0KPj4+PiBzaWdu
-aWZpY2FudCBvdmVyaGVhZC4gTWFrZSB0aGUgc29ydGluZyBzdGVwIG9wdGlvbmFsIGFuZCB1
-cGRhdGUgdGhlIGZldw0KPj4+PiBkcml2ZXJzIHRoYXQgcmVxdWlyZSBpdC4gVXNlIGEgRklG
-TyBsaXN0IGJ5IGRlZmF1bHQuDQo+Pj4+DQo+Pj4+IFNvcnRpbmcgcGFnZXMgYnkgbWVtb3J5
-IG9mZnNldCBmb3IgZGVmZXJyZWQgSS9PIHBlcmZvcm1zIGFuIGltcGxpY2l0DQo+Pj4+IGJ1
-YmJsZS1zb3J0IHN0ZXAgb24gdGhlIGxpc3Qgb2YgZGlydHkgcGFnZXMuIFRoZSBhbGdvcml0
-aG0gZ29lcyB0aHJvdWdoDQo+Pj4+IHRoZSBsaXN0IG9mIGRpcnR5IHBhZ2VzIGFuZCBpbnNl
-cnRzIGVhY2ggbmV3IHBhZ2UgYWNjb3JkaW5nIHRvIGl0cw0KPj4+PiBpbmRleCBmaWVsZC4g
-RXZlbiB3b3JzZSwgbGlzdCB0cmF2ZXJzYWwgYWx3YXlzIHN0YXJ0cyBhdCB0aGUgZmlyc3QN
-Cj4+Pj4gZW50cnkuIEFzIHZpZGVvIG1lbW9yeSBpcyBtb3N0IGxpa2VseSB1cGRhdGVkIHNj
-YW5saW5lIGJ5IHNjYW5saW5lLCB0aGUNCj4+Pj4gYWxnb3JpdGhtIHRyYXZlcnNlcyB0aHJv
-dWdoIHRoZSBjb21wbGV0ZSBsaXN0IGZvciBlYWNoIHVwZGF0ZWQgcGFnZS4NCj4+Pj4NCj4+
-Pj4gRm9yIGV4YW1wbGUsIHdpdGggMTAyNHg3Njh4MzJicHAgYSBwYWdlIGNvdmVycyBleGFj
-dGx5IG9uZSBzY2FubGluZS4NCj4+Pj4gV3JpdGluZyBhIHNpbmdsZSBzY3JlZW4gdXBkYXRl
-IGZyb20gdG9wIHRvIGJvdHRvbSByZXF1aXJlcyB1cGRhdGluZw0KPj4+PiA3NjggcGFnZXMu
-IFdpdGggYW4gYXZlcmFnZSBsaXN0IGxlbmd0aCBvZiAzODQgZW50cmllcywgYSBzY3JlZW4g
-dXBkYXRlDQo+Pj4+IGNyZWF0ZXMgKDc2OCAqIDM4NCA9KSAyOTQ5MTIgY29tcGFyZSBvcGVy
-YXRpb24uDQo+Pj4NCj4+PiBXaGF0IGFib3V0IHVzaW5nIGZvbGlvcz8NCj4+PiBJZiBjb25z
-ZWN1dGl2ZSBwYWdlcyBhcmUgbWVyZ2VkIGludG8gYSBzaW5nbGUgZW50cnksIHRoZXJlJ3Mg
-bXVjaCBsZXNzDQo+Pj4gKG9yIG5vdGhpbmcgaW4gdGhlIGV4YW1wbGUgYWJvdmUpIHRvIHNv
-cnQuDQo+Pg0KPj4gSG93IHdvdWxkIHRoZSBjb2RlIGtub3cgdGhhdD8gQ2FsbHMgdG8gcGFn
-ZV9ta3dyaXRlIGhhcHBlbg0KPj4gcGFnZWZhdWx0LWJ5LXBhZ2VmYXVsdCBpbiBhbnkgb3Jk
-ZXIgQUZBSUNULg0KPiANCj4gZmJfZGVmZXJyZWRfaW9fbWt3cml0ZSgpIHdvdWxkIHN0aWxs
-IGJlIGNhbGxlZCBmb3IgYSBwYWdlLCBidXQgYW4NCj4gYWRqYWNlbnQgcGFnZSBjYW4gYmUg
-bWVyZ2VkIHdpdGggYW4gZXhpc3RpbmcgZW50cnkgd2hpbGUgYWRkaW5nIGl0DQo+IHRvIHRo
-ZSBsaXN0Lg0KDQpJIHN0aWxsIGRvbid0IHVuZGVyc3RhbmQgaG93IHdlJ2QgdXNlIGl0IHRv
-IG91ciBhZHZhbnRhZ2UuIE1vc3QgZHJpdmVycyANCmRvbid0IG5lZWQgc29ydGVkIHBhZ2Vz
-IGF0IGFsbC4gQSBmb2xpbyBoYXMgc3Ryb25nIGFsaWdubWVudCANCnJlcXVpcmVtZW50cyBm
-b3Igc2l6ZSBhbmQgb2Zmc2V0IEFGQUlDVC4gV2UgbWlnaHQgZW5kIHVwIGZsdXNoaW5nIHdh
-eSANCnRvbyBtdWNoIG9mIHRoZSBkaXNwbGF5IG1lbW9yeS4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgR2VlcnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBU
-aGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5v
-cmcNCj4gDQo+IEluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVv
-cGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQNCj4gd2hlbiBJJ20gdGFsa2luZyB0
-byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlr
-ZSB0aGF0Lg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBU
-b3J2YWxkcw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
-ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
-dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
-ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Hi,
 
---------------7oyYbAfnymsn2oK8u0wDPWX0--
+On Fri 11 Feb 22, 22:56, Laurent Pinchart wrote:
+> On Fri, Feb 11, 2022 at 05:10:06PM +0100, Paul Kocialkowski wrote:
+> > Hi Laurent,
+> >=20
+> > Thanks for the review!
+> >=20
+> > On Mon 07 Feb 22, 18:03, Laurent Pinchart wrote:
+> > > Hi Paul,
+> > >=20
+> > > Thank you for the patch.
+> > >=20
+> > > On Sat, Feb 05, 2022 at 07:53:30PM +0100, Paul Kocialkowski wrote:
+> > > > The A31 CSI controller supports two distinct input interfaces:
+> > > > parallel and an external MIPI CSI-2 bridge. The parallel interface
+> > > > is often connected to a set of hardware pins while the MIPI CSI-2
+> > > > bridge is an internal FIFO-ish link. As a result, these two inputs
+> > > > are distinguished as two different ports.
+> > > >=20
+> > > > Note that only one of the two may be present on a controller instan=
+ce.
+> > > > For example, the V3s has one controller dedicated to MIPI-CSI2 and =
+one
+> > > > dedicated to parallel.
+> > >=20
+> > > Is it that only one of the two is present, or only one of the two is
+> > > connected ? In the latter case I'd make both ports required, but with
+> > > only one of them connected.
+> >=20
+> > There are situations where the actual pins for parallel (port@0) are mi=
+ssing
+> > and the controller is dedicated to its mipi csi-2 bridge (port@1), case=
+s where
+> > the two are present and cases where the mipi csi-2 bridge doesn't exist.
+> > So all in all it's really legit that only one port may be defined.
+>=20
+> The port could still exist internally in the IP core though. Of course
+> that's hard to tell.
 
---------------cY83eb3xDQ46xO4efc8b4xec
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Yes that's true, the bit to switch input to mipi csi-2 is there in all cases
+but I don't think it makes sense to expose the port in situations where
+no controller is attached.
+
+> > > > Update the binding with an explicit ports node that holds two disti=
+nct
+> > > > port nodes: one for parallel input and one for MIPI CSI-2.
+> > > >=20
+> > > > This is backward-compatible with the single-port approach that was
+> > > > previously taken for representing the parallel interface port, which
+> > > > stays enumerated as fwnode port 0.
+> > > >=20
+> > > > Note that additional ports may be added in the future, especially to
+> > > > support feeding the CSI controller's output to the ISP.
+> > > >=20
+> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > > Acked-by: Maxime Ripard <mripard@kernel.org>
+> > > > ---
+> > > >  .../media/allwinner,sun6i-a31-csi.yaml        | 60 +++++++++++++++=
+----
+> > > >  1 file changed, 47 insertions(+), 13 deletions(-)
+> > > >=20
+> > > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6=
+i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
+1-csi.yaml
+> > > > index 8b568072a069..3cc61866ea89 100644
+> > > > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-c=
+si.yaml
+> > > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-c=
+si.yaml
+> > > > @@ -61,6 +61,34 @@ properties:
+> > > > =20
+> > > >      additionalProperties: false
+> > > > =20
+> > > > +  ports:
+> > > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > > +
+> > > > +    properties:
+> > > > +      port@0:
+> > > > +        $ref: "#/properties/port"
+> > > > +        unevaluatedProperties: false
+> > > > +
+> > > > +      port@1:
+> > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > > +        description: MIPI CSI-2 bridge input port
+> > > > +
+> > > > +        properties:
+> > > > +          reg:
+> > > > +            const: 1
+> > > > +
+> > > > +          endpoint:
+> > > > +            $ref: video-interfaces.yaml#
+> > > > +            unevaluatedProperties: false
+> > > > +
+> > > > +        additionalProperties: false
+> > > > +
+> > > > +    anyOf:
+> > > > +      - required:
+> > > > +        - port@0
+> > > > +      - required:
+> > > > +        - port@1
+> > > > +
+> > > >  required:
+> > > >    - compatible
+> > > >    - reg
+> > >=20
+> > > Shouldn't you specify that either port or ports is required, but not
+> > > both ? I'd also add a comment in the port node to tell it's deprecate=
+d,
+> > > and that ports should be used instead.
+> >=20
+> > Yes I agree on both points. I guess that should be a:
+> >=20
+> > oneOf:
+> >   - required:
+> >     - ports
+> >   - required:
+> >     - port
+> >=20
+> > (but feel free to correct me).
+> >=20
+> > > > @@ -89,19 +117,25 @@ examples:
+> > > >                        "ram";
+> > > >          resets =3D <&ccu RST_BUS_CSI>;
+> > > > =20
+> > > > -        port {
+> > > > -            /* Parallel bus endpoint */
+> > > > -            csi1_ep: endpoint {
+> > > > -                remote-endpoint =3D <&adv7611_ep>;
+> > > > -                bus-width =3D <16>;
+> > > > -
+> > > > -                /*
+> > > > -                 * If hsync-active/vsync-active are missing,
+> > > > -                 * embedded BT.656 sync is used.
+> > > > -                 */
+> > > > -                 hsync-active =3D <0>; /* Active low */
+> > > > -                 vsync-active =3D <0>; /* Active low */
+> > > > -                 pclk-sample =3D <1>;  /* Rising */
+> > > > +        ports {
+> > > > +            #address-cells =3D <1>;
+> > > > +            #size-cells =3D <0>;
+> > > > +
+> > > > +            port@0 {
+> > > > +                reg =3D <0>;
+> > > > +                /* Parallel bus endpoint */
+> > > > +                csi1_ep: endpoint {
+> > > > +                    remote-endpoint =3D <&adv7611_ep>;
+> > > > +                    bus-width =3D <16>;
+> > > > +
+> > > > +                    /*
+> > > > +                     * If hsync-active/vsync-active are missing,
+> > > > +                     * embedded BT.656 sync is used.
+> > > > +                     */
+> > > > +                     hsync-active =3D <0>; /* Active low */
+> > > > +                     vsync-active =3D <0>; /* Active low */
+> > > > +                     pclk-sample =3D <1>;  /* Rising */
+> > >=20
+> > > Wrong indentation.
+> >=20
+> > The double-space before /* Rising */ or something with the heading inde=
+nt?
+>=20
+> The heading has one extra space for all three lines, they should be
+> aligned to the / of /*, not to the *.
+
+Oh that's true, good catch thanks!
+
+Paul
+
+> > > > +                };
+> > > >              };
+> > > >          };
+> > > >      };
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--1K2ddbKyLBZHtd45
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmIKWUoFAwAAAAAACgkQlh/E3EQov+Cn
-7g//VR4bJ50USTs3KzUagxwdNLJmbwe8qSF9xEomwcWVoxO3uiUsIJWcOCJ66IN4S1HD19dAyCtf
-ic0+6vSkUtbtQ4M+Nzowv/yOng+nwoPQzUbK1GvNs8EyK5FHY+DwdvDeUPYssLXNcHVadJNjsrZ4
-hYBfdV+IXPO85D8ZYTG5MSBlVoQxxTpC/X1eqvE5ZhUsRD8khn021DdIcaIxzNAkyraSFpE91zDD
-Pys1ScZ1N1FYo6qv5u3T0zEdGHZMVTJ6ZL2VWoCSNOFMovWjtbzQfXyJ/7f0HtECNfrw5umY8MZC
-tQFgFvl3wg5u3xAXvIU8nIQenaLZobj2xKFeVvFVhmAcJrRQ/beFQ5HzH6BPvazS9YuoMdE/Goi4
-jct6jRA2Exx23aZhsfdZ19p7Wooj1f/vKHIEdoXIPBvzZK+r8DgDewYMqHgDmCdDL9Rc0+lPE8Wb
-acfSOUco4r59dmYnMcrxm0J/3LKQGaaK7ZP8NWg/6mRUjVft7HUbJKIGIr8GuMz+8CqvUtCRUMfg
-thbXvdEirLOd8htcoK4s/98rIHYsZ5fKHcAbPZsVniIKl8FVCEdZ/1Dit6CEnOGjOZjOHxQ4Lhvy
-yi3dtSQZWlpRUZypPAorOvtgP48lspmnjmYMDV4rsmU/g13Y3RtTLH8420qQmV1k2r27AFZ9/zRN
-YkQ=
-=GcVp
+iQEyBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIKft0ACgkQ3cLmz3+f
+v9GBzQf4ykgosl0x6xfMvLDDLl0cFnB2eK0Bdp9ZhcxVv+4V0W9kcIZ/NnN4FJ+5
+2NODVUSkvCLd8E5R/z8MT4ngVlKnvd26GV3Uiog3yhoQ1SpjkTQT2dZMXOMhPARi
+mzNpeUfkBY76pRMdDQzmOnwAAj4Iqlizkar0a3su1o/zKAwYJ1k//32QHc5RVF9X
+i9kE1FldlInxg0HNAuE0SOU0k0DYSbHI0xNugH8Wf5DszFeWTFdMUseOdB3iNaT3
+eQRBKtfrzjIrYFSE4LLZTtydLTDyxh1N4udg/t0DMQpjF5vFZWW/Im4iMXwD0IAI
+WbWJgCPQNoul4HI9EK2vEWjUyDsh
+=ShHP
 -----END PGP SIGNATURE-----
 
---------------cY83eb3xDQ46xO4efc8b4xec--
+--1K2ddbKyLBZHtd45--
