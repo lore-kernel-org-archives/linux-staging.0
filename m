@@ -1,239 +1,110 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665421186
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 09:16:09 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 114161C0016;
-	Tue, 15 Feb 2022 09:16:01 +0000 (UTC)
-Date: Tue, 15 Feb 2022 10:17:11 +0100
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
-	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-	kernel@pengutronix.de, linux-imx@nxp.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/8] staging: media: imx: Add more compatible strings
-Message-ID: <20220215091607.3whcxdkw5s3f7bqb@uno.localdomain>
-References: <20220214184318.409208-1-jacopo@jmondi.org>
- <20220214184318.409208-4-jacopo@jmondi.org>
- <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
- <20220215083631.iajmsywr5tmduupv@uno.localdomain>
- <YgtoNUR+vZ//tqv+@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC631376;
+	Tue, 15 Feb 2022 09:56:34 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 741E31BF20F;
+	Tue, 15 Feb 2022 09:56:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1644918992;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=K4eFwye/okRxi/68ri8yTsBWvX0g8mH2JLrxCqUzQBc=;
+	b=Pkgq0hGmhZqbfwp1twud8hwRV3Xuarr8FHjsMyWaqUwul9fbk3t4vO12uPMdpnKoqB3lXK
+	HQIbML8TtlXXedlVag+9NJlfaflzKTnv9pqzoZsTdj7Vnz9/ZJKYAJlFgbjKYqIaCA7Q0A
+	a3QcjuVTrAKiDj0s67KrOgfSKnGQP50Vb8qRoJhrmO22RHhav6FQJLFhEy53bVmhts29Lz
+	3sF7W6vwVVzjBAiw5HzgGZ42tvgIx1FCl9vQpEZvnQCQQucXS60ydZZcvDuKTUdP5RdFom
+	E/3L6/QjdSOJYb6Xv7FzfDMR5HejitXXdQKH0Qqao4ClUDYzlCWSNU4ysNQYVQ==
+Date: Tue, 15 Feb 2022 10:56:22 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 37/66] media: sun6i-csi: Move power management to
+ runtime pm in capture
+Message-ID: <Ygt4xh2Mq0qStyKs@aptenodytes>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-38-paul.kocialkowski@bootlin.com>
+ <YgqftcDgfrsZfTdF@paasikivi.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="tOB2i1/qfUMuc0i4"
+Content-Disposition: inline
+In-Reply-To: <YgqftcDgfrsZfTdF@paasikivi.fi.intel.com>
+
+
+--tOB2i1/qfUMuc0i4
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YgtoNUR+vZ//tqv+@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 15, 2022 at 10:45:41AM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> On Tue, Feb 15, 2022 at 09:36:31AM +0100, Jacopo Mondi wrote:
-> > On Mon, Feb 14, 2022 at 09:15:07PM +0200, Laurent Pinchart wrote:
-> > > On Mon, Feb 14, 2022 at 07:43:13PM +0100, Jacopo Mondi wrote:
-> > > > The imx7-media-csi driver controls the CSI (CMOS Sensor Interface)
-> > > > peripheral available on several SoC of different generations.
-> > > >
-> > > > The current situation when it comes to compatible strings is rather
-> > > > confused:
-> > > > - Bindings document imx6ul, imx7 and imx8mm
-> > > > - Driver supports imx6ul, imx7 and imx8mq
-> > > > - The IMX8MM and IMX8MQ DTS use the correct compatible strings with a
-> > > >   fallback to the generic "imx7-csi" identifier:
-> > > >   arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi",
-> > > >   arch/arm64/boot/dts/freescale/imx8mm.dtsi: compatible = "fsl,imx8mm-csi",
-> > > >
-> > > > Tidy-up the situation by adding the IMX8MQ compatible string to the
-> > > > bindings documentation andathe IMX8MM identifier to the driver, to allow
-> > > > to distinguish the SoC the CSI peripheral is integrated on in the
-> > > > following patches.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml | 1 +
-> > > >  drivers/staging/media/imx/imx7-media-csi.c                | 2 ++
-> > >
-> > > I think Rob would prefer this being split in two patches, and I think it
-> > > would make sense, as you're fixing two separate issues.
-> > >
-> > > >  2 files changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > > > index 4f7b78265336..0f1505d85111 100644
-> > > > --- a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > > > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > > > @@ -21,6 +21,7 @@ properties:
-> > > >            - fsl,imx7-csi
-> > > >            - fsl,imx6ul-csi
-> > > >        - items:
-> > > > +          - const: fsl,imx8mq-csi
-> > > >            - const: fsl,imx8mm-csi
-> > > >            - const: fsl,imx7-csi
-> > >
-> > > I don't think you intended to require the following:
-> > >
-> > > 	compatible = "fsl,imx8mq-csi", "fsl,imx8mm-csi", "fsl,imx7-csi";
-> >
-> > No, I kind of superficially added the mq version where the mm was
-> > already and went on :)
-> >
-> > Care to explain why currently we have two const for the "8mm" and the
-> > "imx7" versions ?
->
-> Because the imx8mm version was considered compatible with the imx7, so
->
->        - items:
->            - const: fsl,imx8mm-csi
->            - const: fsl,imx7-csi
->
-> will validate
->
-> 	compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
->
-> The first imx8mm compatible string is ignored by the driver, but
-> documented to support future drivers changes that would require
-> differentiating between the two versions.
->
+Hi Sakari,
 
-ah that's why the driver doesn't match on mm, yet
+On Mon 14 Feb 22, 20:30, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> On Sat, Feb 05, 2022 at 07:54:00PM +0100, Paul Kocialkowski wrote:
+> > Let's just enable the module when we start using it (at stream on)
+> > and benefit from runtime pm instead of enabling it at first open.
+> >=20
+> > Also reorder the call to v4l2_pipeline_pm_get.
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>=20
+> Nice patch!
 
-> > > You probably want
-> > >
-> > >  properties:
-> > >    compatible:
-> > >      oneOf:
-> > >        - enum:
-> > > +          - fsl,imx8mq-csi
-> > >            - fsl,imx7-csi
-> > >            - fsl,imx6ul-csi
-> > >        - items:
-> > >            - const: fsl,imx8mm-csi
-> > >            - const: fsl,imx7-csi
-> > >
-> > > instead.
-> >
-> > I'm not aware of how how many revisions of the imx7 and imx6 versions
-> > exists, nor how they differ, but the existing distinction feels a bit
-> > weird.
-> >
-> > The const items should be the compatible fallbacks, should them be
-> > generic, why is 8mm among them ? Shouldn't we specify the precise SoC
-> > version in the list of possible enum items only ?
->
-> No, the const items are not the compatible fallbacks. imx8mm isn't a
-> generic fallback. "items" requires *all* items to be present in order to
-> validate.
->
-> > Something like
-> >
-> >       oneOf:
-> >         - enum:
-> >           - fsl,imx8mq-csi
-> >           - fsl,imx8mm-csi
-> >           - fsl,imx6ul-csi
-> >         - const:
-> >           - fsl,imx7-csi
->
-> That's not a valid schema.
->
+Thanks!
 
-I meant
+> Do you still need v4l2_pipeline_pm_put()? Removing it would be a separate
+> patch of course.
 
-       oneOf:
-         - enum:
-           - fsl,imx8mq-csi
-           - fsl,imx8mm-csi
-           - fsl,imx6ul-csi
-         - items:
-           - const: fsl,imx7-csi
+My understanding is that this is still useful if there are drivers in the
+pipeline that rely on s_power instead of rpm (a typical case could be an
+old sensor driver). So that's why this is kept around, but all other compon=
+ents
+of the pipeline (isp/csi/mipi csi-2) are using rpm now.
 
-But I now understand why 8mm and imx7 were there.
+Cheers,
 
-And the oneOf indeed doesn't allow to use imx7 as a fallback but
-rather as an alternative to the precise SoC identifiers.
+Paul
 
-> >
-> > In example I see:
-> >
-> > arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-> >
-> > Where this should either be
-> >                                            compatible = "fsl,imx8mq-csi"
-> > or
-> >                                            compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
-> >
-> > ?
-> >
-> > > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > > > index 32311fc0e2a4..59100e409709 100644
-> > > > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > > > @@ -162,6 +162,7 @@
-> > > >  enum imx_csi_model {
-> > > >  	IMX7_CSI_IMX7 = 0,
-> > > >  	IMX7_CSI_IMX8MQ,
-> > > > +	IMX7_CSI_IMX8MM,
-> > > >  };
-> > > >
-> > > >  struct imx7_csi {
-> > > > @@ -1277,6 +1278,7 @@ static int imx7_csi_remove(struct platform_device *pdev)
-> > > >
-> > > >  static const struct of_device_id imx7_csi_of_match[] = {
-> > > >  	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
-> > > > +	{ .compatible = "fsl,imx8mm-csi", .data = (void *)IMX7_CSI_IMX8MM },
-> > >
-> > > This isn't needed, as the i.MX8MM CSI bridgge is considered fully
-> > > backward-compatible with the i.MX7 version. I'd introduce this change in
-> > > the patch where you start using IMX7_CSI_IMX8MM, and I would then add
-> > > the following to the DT binding:
-> > >
-> > >  properties:
-> > >    compatible:
-> > >      oneOf:
-> > >        - enum:
-> > >            - fsl,imx8mq-csi
-> > > +          - fsl,imx8mm-csi
-> > >            - fsl,imx7-csi
-> > >            - fsl,imx6ul-csi
-> > >        - items:
-> > >            - const: fsl,imx8mm-csi
-> > >            - const: fsl,imx7-csi
-> > >
-> > > to allow setting
-> > >
-> > > 	compatible = "fsl,imx8mm-csi";
-> > >
-> > > without the imx7 fallback if we consider the i.MX8MM version different.
-> > > If the driver can operate correctly on the i.MX8MM when using the i.MX7
-> > > fallback code paths (possibly minor issues that are not considered
-> > > fatal, such as missing features) then you could skip this binding
-> > > change.
-> >
-> > Sorry, but shouldn't:
-> >
-> >         compatible = "fsl,imx8mm-csi", fsl,imx7-csi"
-> >
-> > allow me to match on imx8mm already, without the above change.
-> >
-> > I think what I don't get is why imx8mm is a 'generic fallback' in
-> > first place.
->
-> See above.
->
-> > > >  	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
-> > > >  	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
-> > > >  	{ },
->
-> --
-> Regards,
->
-> Laurent Pinchart
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--tOB2i1/qfUMuc0i4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmILeMYACgkQ3cLmz3+f
+v9E5sAf/akvNvNPsCxPYxGv+fJr3ZwwX2cWQuFu6Am+wwNsKyXuxoMHRnyG1rANG
+OVaJVCgFR3vPnDKUsTC/grEH/PdeNUHy9DT+gnEnjsIepnMV5/VAG4YBgonHBDoC
+Nk1fMad5oTd+W+kpLqdQ7JEABUhW+TZL9TAv2C24Xg4DupIwH2HDcYCepM83ySy8
+q5Q6Jo8gYGAWzdWJLr5u3Xexgd2W7n4kQ7VBXVNesTQOgvihW8xTFcAft/Sf4Qig
+FHhb+EWRL6Pl9v74gev2rUQMWABOgVFHlcPmHQgrFIHC/u9fHP0auvZzS09i6A0C
+hcYntRVNBMGqmJTHoPZjIucw/JtAgw==
+=CYCh
+-----END PGP SIGNATURE-----
+
+--tOB2i1/qfUMuc0i4--
