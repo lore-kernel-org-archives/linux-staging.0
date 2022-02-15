@@ -1,134 +1,110 @@
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A93D1376;
-	Tue, 15 Feb 2022 10:21:20 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7C24D240006;
-	Tue, 15 Feb 2022 10:21:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1644920479;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LLuRTwKMKPpkSVGsT7HVqc5YDmNB2qRgXNbTQnh8ZQ8=;
-	b=T9eefH1khM1C9SPie7G6ia1yNtnvILoerbDmEcmSUNtl3vgx7ThQlv6pLqBpK7Ogfl4hN9
-	k6a7oSOyFGXRlVFmK8PuXZxsc+eFYyt4NQCVtadhr7Bt1BcRxnI6BKZ/6F37AOIAmS4I+4
-	G/ozpQgijSvt1Xcng0MJcRT0IMO82I12iVxX8++yvAr2wB7rmShDmWB7vBppSFWtKhHDUa
-	a/iBd+1Tgdew3Ho4c5u4NQVwd1HP0tzBTT50uAG13vi/LdntjO7dM8l+P+8NlzEN6ET2SW
-	vLM9FHJDG21EfrmdWDYmTNNVrVB4T26FKOgunJY0V/bSuhn7nfT352LHMNmzZA==
-Date: Tue, 15 Feb 2022 11:21:17 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 37/66] media: sun6i-csi: Move power management to
- runtime pm in capture
-Message-ID: <Ygt+nZJrZMNXV4Cl@aptenodytes>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-38-paul.kocialkowski@bootlin.com>
- <YgqftcDgfrsZfTdF@paasikivi.fi.intel.com>
- <Ygt4xh2Mq0qStyKs@aptenodytes>
- <Ygt6vwydxg9/WuDH@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C18D138A;
+	Tue, 15 Feb 2022 11:01:14 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:6d7b:ae43:289b:7e7c])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D2AEA1F444D0;
+	Tue, 15 Feb 2022 11:01:12 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1644922873;
+	bh=j2A4NMSFKaArnsLVO73dDEOpv7p5lUGniQuI/KRT0iU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=MIWd6bRq5QrtPVR9A0Zxw1KYRLSgRl9262dVOZdU3VNsOOY+nq4dMzxoeT2Sw7d4d
+	 Kn/WKgMc9OL4o3RmJTqNlXqn2TufiLROIKh9xkkjNq2oqu5RJBCOoZAesMUG0G7EXM
+	 8NuyZFj19Z+Qb9LNWEH37LE2w9/aBk/WKDtVOmD4Dde0SOhGfi//nyQLMEUP4yuGt/
+	 mW34vWyP7aO8ZhttR1YNZvpbTqtkXABw769Izo2PYeobAi+Pmd8SWXsKDgDu6bveTu
+	 JARwO8EFy4F1Ipwz9SksZtq8FjcKtP6dQvMnU8+OJTo5JfKIk8q0WL57dsjrcNmt6w
+	 No4D6omyiHWIQ==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	hverkuil-cisco@xs4all.nl,
+	jonas@kwiboo.se,
+	nicolas@ndufresne.ca
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	knaerzche@gmail.com,
+	jc@kynesim.co.uk
+Subject: [RFC v2 1/8] videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+Date: Tue, 15 Feb 2022 12:00:56 +0100
+Message-Id: <20220215110103.241297-2-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="x0S1xJjs6wRADgc6"
-Content-Disposition: inline
-In-Reply-To: <Ygt6vwydxg9/WuDH@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
---x0S1xJjs6wRADgc6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add a new flag that indicates that this control is a dynamically sized
+array. Also document this flag.
 
-Hi Laurent,
+Currently dynamically sized arrays are limited to one dimensional arrays,
+but that might change in the future if there is a need for it.
 
-On Tue 15 Feb 22, 12:04, Laurent Pinchart wrote:
-> Hi Paul,
->=20
-> On Tue, Feb 15, 2022 at 10:56:22AM +0100, Paul Kocialkowski wrote:
-> > On Mon 14 Feb 22, 20:30, Sakari Ailus wrote:
-> > > On Sat, Feb 05, 2022 at 07:54:00PM +0100, Paul Kocialkowski wrote:
-> > > > Let's just enable the module when we start using it (at stream on)
-> > > > and benefit from runtime pm instead of enabling it at first open.
-> > > >=20
-> > > > Also reorder the call to v4l2_pipeline_pm_get.
-> > > >=20
-> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > >=20
-> > > Nice patch!
-> >=20
-> > Thanks!
-> >=20
-> > > Do you still need v4l2_pipeline_pm_put()? Removing it would be a sepa=
-rate
-> > > patch of course.
-> >=20
-> > My understanding is that this is still useful if there are drivers in t=
-he
-> > pipeline that rely on s_power instead of rpm (a typical case could be an
-> > old sensor driver). So that's why this is kept around, but all other co=
-mponents
-> > of the pipeline (isp/csi/mipi csi-2) are using rpm now.
->=20
-> If that's not the case on your test platforms, I think it would be
-> better to drop support for this old API, and convert drivers that still
-> use .s_power() if someone needs to use one on an Allwinner platform.
+The initial use-case of dynamic arrays are stateless codecs. A frame
+can be divided in many slices, so you want to provide an array containing
+slice information for each slice. Typically the number of slices is small,
+but the standard allow for hundreds or thousands of slices. Dynamic arrays
+are a good solution since sizing the array for the worst case would waste
+substantial amounts of memory.
 
-I agree this is the path to follow but it feels like we're not quite there
-yet and a bunch of driver were not converted at this point, including some
-popular ones like ov5640, which I know for sure is used with Allwinner devi=
-ces.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ .../userspace-api/media/v4l/vidioc-queryctrl.rst          | 8 ++++++++
+ include/uapi/linux/videodev2.h                            | 1 +
+ 2 files changed, 9 insertions(+)
 
-Honestly I'd be happy to get rid of these legacy functions as soon as the
-transition is done, but doing it now would mean breaking a significant numb=
-er
-of use cases (which I'm trying to avoid here despite all the changes).
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+index 88f630252d98..a20dfa2a933b 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+@@ -625,6 +625,14 @@ See also the examples in :ref:`control`.
+ 	``V4L2_CTRL_FLAG_GRABBED`` flag when buffers are allocated or
+ 	streaming is in progress since most drivers do not support changing
+ 	the format in that case.
++    * - ``V4L2_CTRL_FLAG_DYNAMIC_ARRAY``
++      - 0x0800
++      - This control is a dynamically sized 1-dimensional array. It
++        behaves the same as a regular array, except that the number
++	of elements as reported by the ``elems`` field is between 1 and
++	``dims[0]``. So setting the control with a differently sized
++	array will change the ``elems`` field when the control is
++	queried afterwards.
+ 
+ Return Value
+ ============
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index df8b9c486ba1..e27c8eae78c9 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1884,6 +1884,7 @@ struct v4l2_querymenu {
+ #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
+ #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
+ #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
++#define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
+ 
+ /*  Query flags, to be ORed with the control ID */
+ #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
+-- 
+2.32.0
 
-I definitely wouldn't be confident making that transition here and it
-probably wouldn't be a good idea to make that a requirement to merge this
-(already quite big) series.
-
-What do you think?
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---x0S1xJjs6wRADgc6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmILfp0ACgkQ3cLmz3+f
-v9Gm2Qf/W/ZTXFzamMW7hvV8qcmAZpXwCKekASY4Lpa4JwvvhyI4DtfX2n+AvXQV
-w4y54EHfcIAFtOkEIOsj4zirpI4p4tgA/uvgLyHmEu9CcbzvuwYe9zd/Ozeo/AEG
-OlwSWF+MhD1kawGki9ikCPG5QwDLt/rzeJHUPh0aT5Oxae3NMBSgcCizJVoN2Inh
-4j5Zkj99rX2h2ed0e+TjPsB76WuSJaJVNoyAgD1w3PB7YueruHIkq+s7CTHtaQKj
-KtAoegyMomsRUSp20VUJiPdqouUox5HLU5cvxrh4enbYDqNaZelVFp2/R+wghUVi
-XwIhQQwXYZ2hmsCFJ/pjIAM4JgYblw==
-=tEm8
------END PGP SIGNATURE-----
-
---x0S1xJjs6wRADgc6--
