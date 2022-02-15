@@ -1,21 +1,33 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558501876
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 21:52:53 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B88F6FEA;
-	Tue, 15 Feb 2022 22:52:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644961970;
-	bh=6Q3NQIArbUuR6nYk2Ck4UQi3Eb+U5KRFa+PmxgQ3+f8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D6n0q/PXBskz/hmSn88WbdmSIfYypqFFhwBwQ4MHtaJz7ee30hpca/7lHxOevKsLu
-	 lRSI4HryJcQpEdz4O6l9Rsnjv3OArGnPW3z4nmyKSxby8TBWAdveHRTLvKfLHRXKeL
-	 tq8t/OOTFn3V7r0iQFdLIns9w7wVG7fxFQkw8O9s=
-Date: Tue, 15 Feb 2022 23:52:44 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846031B86
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 23:10:47 +0000 (UTC)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 94C962005B;
+	Wed, 16 Feb 2022 01:10:44 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1644966644;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kalXrgdH4Z1/dJTAkL+aVtcTsqGJ7O3l8hX6ZBpHuTI=;
+	b=oQRetbPe3a4xBReeMw4sJQKsq5JBAyP53Fh7osiJME+36W9cR/ekRJJsd1nSW12YgaEx71
+	AhmiXyyx6UhC1pl7t0mi26dsVaz03kX2cbqafEXNuliFZMeYE2Gm56H9B9yr4sZWBvDOmd
+	WgKCNMmcu5CC0BHyM91UkXbu6L+KHmY=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C6A91634C93;
+	Wed, 16 Feb 2022 01:10:43 +0200 (EET)
+Date: Wed, 16 Feb 2022 01:10:43 +0200
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Jacopo Mondi <jacopo@jmondi.org>, slongerbeam@gmail.com,
 	p.zabel@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
 	festevam@gmail.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
@@ -25,141 +37,168 @@ Cc: Jacopo Mondi <jacopo@jmondi.org>, slongerbeam@gmail.com,
 	linux-imx@nxp.com, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH 8/8] media: imx: imx-mipi-csis: Add RGB/BGR888
-Message-ID: <YgwgrMkyGJW61LtC@pendragon.ideasonboard.com>
+Message-ID: <Ygwy82RV/v9IpcOF@valkosipuli.retiisi.eu>
 References: <20220214184318.409208-1-jacopo@jmondi.org>
  <20220214184318.409208-9-jacopo@jmondi.org>
  <YgtaUsxBF69bZa92@pendragon.ideasonboard.com>
  <YgwWG4s3LeNxaHQ4@valkosipuli.retiisi.eu>
+ <YgwgrMkyGJW61LtC@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YgwWG4s3LeNxaHQ4@valkosipuli.retiisi.eu>
+In-Reply-To: <YgwgrMkyGJW61LtC@pendragon.ideasonboard.com>
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1644966644; a=rsa-sha256; cv=none;
+	b=wPB+swWSZlH+CXU6+H2s051E6Gv1mrtWjz5X/UXiUsld9QBEw6FXtZHOqDjZmgjr13Es48
+	34nIr5ibLKt1ck6hQPklqSFv6IC5s1PfphenWmmN7FpcAsf3bj0Ol/5xgmfoVeoIbK5y3m
+	rjaGvq2ER8avep/uXDWoNNkCruz7t8M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1644966644;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kalXrgdH4Z1/dJTAkL+aVtcTsqGJ7O3l8hX6ZBpHuTI=;
+	b=VLbH9ZrnZEvBw7/QwQdYgK06xaSwdSgtei9uROghb3iz2Kb1qVxB7qgh6mzNYoUS1PMU5q
+	s8yFkh2XsBT5aZwaPzYwItW8VD2SR/udabGSGM6i1drhqRtO+zV0DjjL2XKCsaPFcx4Gbn
+	Ju3+500smYZILHiiL0ZKQyDBfZjVWds=
 
-Hi Sakari,
+Hi Laurent,
 
-On Tue, Feb 15, 2022 at 11:07:39PM +0200, Sakari Ailus wrote:
-> On Tue, Feb 15, 2022 at 09:46:26AM +0200, Laurent Pinchart wrote:
-> > On Mon, Feb 14, 2022 at 07:43:18PM +0100, Jacopo Mondi wrote:
-> > > Add support for the RGB888_1X24 and BGR888_1X24 image formats.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  drivers/media/platform/imx/imx-mipi-csis.c | 10 ++++++++++
-> > >  1 file changed, 10 insertions(+)
+On Tue, Feb 15, 2022 at 11:52:44PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> On Tue, Feb 15, 2022 at 11:07:39PM +0200, Sakari Ailus wrote:
+> > On Tue, Feb 15, 2022 at 09:46:26AM +0200, Laurent Pinchart wrote:
+> > > On Mon, Feb 14, 2022 at 07:43:18PM +0100, Jacopo Mondi wrote:
+> > > > Add support for the RGB888_1X24 and BGR888_1X24 image formats.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > >  drivers/media/platform/imx/imx-mipi-csis.c | 10 ++++++++++
+> > > >  1 file changed, 10 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
+> > > > index 9e0a478dba75..0d5870b3010a 100644
+> > > > --- a/drivers/media/platform/imx/imx-mipi-csis.c
+> > > > +++ b/drivers/media/platform/imx/imx-mipi-csis.c
+> > > > @@ -366,6 +366,16 @@ static const struct csis_pix_format mipi_csis_formats[] = {
+> > > >  		.data_type = MIPI_CSI2_DATA_TYPE_RGB565,
+> > > >  		.width = 16,
+> > > >  	},
+> > > > +	{
 > > > 
-> > > diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-> > > index 9e0a478dba75..0d5870b3010a 100644
-> > > --- a/drivers/media/platform/imx/imx-mipi-csis.c
-> > > +++ b/drivers/media/platform/imx/imx-mipi-csis.c
-> > > @@ -366,6 +366,16 @@ static const struct csis_pix_format mipi_csis_formats[] = {
-> > >  		.data_type = MIPI_CSI2_DATA_TYPE_RGB565,
-> > >  		.width = 16,
-> > >  	},
-> > > +	{
+> > > 	}, {
+> > > 
+> > > to match the rest of the array. Same below.
+> > > 
+> > > > +		.code = MEDIA_BUS_FMT_RGB888_1X24,
+> > > > +		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
+> > > > +		.width = 24,
+> > > > +	},
+> > > > +	{
+> > > > +		.code = MEDIA_BUS_FMT_BGR888_1X24,
+> > > > +		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
+> > > > +		.width = 24,
+> > > > +	},
+> > > 
+> > > CSI-2 specifies the order of bits on the bus for RGB888, with data being
+> > > transmitted in the B, G, R order. The recommended format when stored in
+> > > memory is V4L2_PIX_FMT_BGR24 (B in byte 0, G in byte 1, R in byte 2).
+> > > There is no recommended deserialized bus format though.
+> > > 
+> > > On the output side of the CSIS, we have information. Given figure 13-23
+> > > ("Pixel alignment") in the i.MX8MP reference manual, and the definition
+> > > of RGB_SWAP in MIPI_CSI2_ISP_CONFIG_CH0 that reads
+> > > 
+> > >     Swapping RGB sequence
+> > > 
+> > >     0  MSB is R and LSB is B.
+> > >     1  MSB is B and LSB is R (swapped).
+> > > 
+> > > I think MEDIA_BUS_FMT_RGB888_1X24 is appropriate.
+> > > 
+> > > On the input side of the CSIS, however, it's a different story, similar
+> > > to YUV formats. For YUV 4:2:2 we have picked MEDIA_BUS_FMT_UYVY8_1X16
+> > > arbitrarily to represent the CSI-2 bus format. It doesn't correspond to
+> > > the physical reality, but it doesn't matter much. We thus need to do the
+> > > same for RGB888. If we follow the same convention as for YUV 4:2:2,
+> > > which transmits data in the U, Y, V, Y order, we should then pick
+> > > BGR888_1X24. However, the CSIS driver would then need to translate from
+> > > the input format BGR888_1X24 to the output format RGB888_1X24, which
+> > > adds a bit of complexity.
+> > > 
+> > > Picking RGB888_1X24 for the CSI-2 bus is thus tempting, but it's a
+> > > choice that will affect all drivers, so I wouldn't make this based
+> > > solely on ease of implementation in a particular driver. I'm thus
+> > > tempted to go for BGR888_1X24 to be consistent with YUV 4:2:2. Another
+> > > option would be to add a new RGB888_CSI2 media bus format. In retrospect
+> > > we should have done the same for YUV 4:2:2. Mistakes happen.
+> > > 
+> > > Sakari, what do you think ?
 > > 
-> > 	}, {
+> > We first started adding support for raw Bayer formats for CSI-2 so at the
+> > time there was little room for confusing the format with another one. Also
+> > few of these formats were eventually used on the parallel bus, making some
+> > of the formats look a little bit artificial.
 > > 
-> > to match the rest of the array. Same below.
+> > We've discussed separating the serial bus formats a few times since but
+> > always stuck using single-sample parallel bus format for the serial buses.
+> > As the existing formats will remain as-is, we'd have a mix of differently
+> > named formats returned from an enumeration from increasing number of
+> > drivers. That isn't pretty, but then 24 bit deep Bayer formats won't fit
+> > the mbus format table anyway.
 > > 
-> > > +		.code = MEDIA_BUS_FMT_RGB888_1X24,
-> > > +		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
-> > > +		.width = 24,
-> > > +	},
-> > > +	{
-> > > +		.code = MEDIA_BUS_FMT_BGR888_1X24,
-> > > +		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
-> > > +		.width = 24,
-> > > +	},
-> > 
-> > CSI-2 specifies the order of bits on the bus for RGB888, with data being
-> > transmitted in the B, G, R order. The recommended format when stored in
-> > memory is V4L2_PIX_FMT_BGR24 (B in byte 0, G in byte 1, R in byte 2).
-> > There is no recommended deserialized bus format though.
-> > 
-> > On the output side of the CSIS, we have information. Given figure 13-23
-> > ("Pixel alignment") in the i.MX8MP reference manual, and the definition
-> > of RGB_SWAP in MIPI_CSI2_ISP_CONFIG_CH0 that reads
-> > 
-> >     Swapping RGB sequence
-> > 
-> >     0  MSB is R and LSB is B.
-> >     1  MSB is B and LSB is R (swapped).
-> > 
-> > I think MEDIA_BUS_FMT_RGB888_1X24 is appropriate.
-> > 
-> > On the input side of the CSIS, however, it's a different story, similar
-> > to YUV formats. For YUV 4:2:2 we have picked MEDIA_BUS_FMT_UYVY8_1X16
-> > arbitrarily to represent the CSI-2 bus format. It doesn't correspond to
-> > the physical reality, but it doesn't matter much. We thus need to do the
-> > same for RGB888. If we follow the same convention as for YUV 4:2:2,
-> > which transmits data in the U, Y, V, Y order, we should then pick
-> > BGR888_1X24. However, the CSIS driver would then need to translate from
-> > the input format BGR888_1X24 to the output format RGB888_1X24, which
-> > adds a bit of complexity.
-> > 
-> > Picking RGB888_1X24 for the CSI-2 bus is thus tempting, but it's a
-> > choice that will affect all drivers, so I wouldn't make this based
-> > solely on ease of implementation in a particular driver. I'm thus
-> > tempted to go for BGR888_1X24 to be consistent with YUV 4:2:2. Another
-> > option would be to add a new RGB888_CSI2 media bus format. In retrospect
-> > we should have done the same for YUV 4:2:2. Mistakes happen.
-> > 
-> > Sakari, what do you think ?
+> > I don't have a strong opinion on this, apart from maintaining the pixel
+> > order. Maybe I'd still create a parallel single-sample format for this one.
 > 
-> We first started adding support for raw Bayer formats for CSI-2 so at the
-> time there was little room for confusing the format with another one. Also
-> few of these formats were eventually used on the parallel bus, making some
-> of the formats look a little bit artificial.
+> We have MEDIA_BUS_FMT_RGB888_1X24 and MEDIA_BUS_FMT_BGR888_1X24 already.
+> None of them are intrinsicly better, but I think
+> MEDIA_BUS_FMT_BGR888_1X24 would match the convention used by
+> MEDIA_BUS_FMT_UYVY8_1X16, so I would pick that one. Ack ?
+
+Agreed.
+
+> > If we'd differentiate the formats on CSI-2 bus, I'd just call them
+> > "serial", not "CSI-2".
 > 
-> We've discussed separating the serial bus formats a few times since but
-> always stuck using single-sample parallel bus format for the serial buses.
-> As the existing formats will remain as-is, we'd have a mix of differently
-> named formats returned from an enumeration from increasing number of
-> drivers. That isn't pretty, but then 24 bit deep Bayer formats won't fit
-> the mbus format table anyway.
+> Good point. We would have to figure out how to differentiate the two
+> ways to transfer YUV 4:2:0 (legacy and non-legacy) over CSI-2 though,
+> maybe the legacy way could be named using CSI-2, while the non-legacy
+> way would be named serial and shared with other buses. We don't have to
+> solve it now.
+
+Sounds good to me.
+
+> > > If we go for BGR888_1X24, the translation between BGR888_1X24 and
+> > > RGB888_1X24 may not be that hard to implement. You could add an output
+> > > field to the csis_pix_format structure to store the output media bus
+> > > code for a given input code, and I think the implementation would then
+> > > remain relatively simple.
+> > > 
+> > > Finally, we can also support the swapped RGB format (which is
+> > > non-standard in CSI-2 but is supported by some sensors, the same way as
+> > > YUV permutations are often supported too), but it will require setting
+> > > RGB_SWAP. You can add a rgb_swap field to csis_pix_format for this.
+> > > 
+> > > I'd split this patch in two, adding MEDIA_BUS_FMT_RGB888_1X24 first, and
+> > > then adding MEDIA_BUS_FMT_BGR888_1X24 with the new rgb_swap field. The
+> > > first patch should capture the above explanation.
+> > > 
+> > > >  	/* RAW (Bayer and greyscale) formats. */
+> > > >  	{
+> > > >  		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
 > 
-> I don't have a strong opinion on this, apart from maintaining the pixel
-> order. Maybe I'd still create a parallel single-sample format for this one.
-
-We have MEDIA_BUS_FMT_RGB888_1X24 and MEDIA_BUS_FMT_BGR888_1X24 already.
-None of them are intrinsicly better, but I think
-MEDIA_BUS_FMT_BGR888_1X24 would match the convention used by
-MEDIA_BUS_FMT_UYVY8_1X16, so I would pick that one. Ack ?
-
-> If we'd differentiate the formats on CSI-2 bus, I'd just call them
-> "serial", not "CSI-2".
-
-Good point. We would have to figure out how to differentiate the two
-ways to transfer YUV 4:2:0 (legacy and non-legacy) over CSI-2 though,
-maybe the legacy way could be named using CSI-2, while the non-legacy
-way would be named serial and shared with other buses. We don't have to
-solve it now.
-
-> > If we go for BGR888_1X24, the translation between BGR888_1X24 and
-> > RGB888_1X24 may not be that hard to implement. You could add an output
-> > field to the csis_pix_format structure to store the output media bus
-> > code for a given input code, and I think the implementation would then
-> > remain relatively simple.
-> > 
-> > Finally, we can also support the swapped RGB format (which is
-> > non-standard in CSI-2 but is supported by some sensors, the same way as
-> > YUV permutations are often supported too), but it will require setting
-> > RGB_SWAP. You can add a rgb_swap field to csis_pix_format for this.
-> > 
-> > I'd split this patch in two, adding MEDIA_BUS_FMT_RGB888_1X24 first, and
-> > then adding MEDIA_BUS_FMT_BGR888_1X24 with the new rgb_swap field. The
-> > first patch should capture the above explanation.
-> > 
-> > >  	/* RAW (Bayer and greyscale) formats. */
-> > >  	{
-> > >  		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
 -- 
-Regards,
-
-Laurent Pinchart
+Sakari Ailus
