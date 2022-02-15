@@ -1,212 +1,224 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from sonic301-57.consmr.mail.ne1.yahoo.com (sonic301-57.consmr.mail.ne1.yahoo.com [66.163.184.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2F1A3E;
-	Mon, 14 Feb 2022 19:26:39 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id p14so15320929ejf.11;
-        Mon, 14 Feb 2022 11:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wqUSZ1SFW0NVtpHilGjkTlF5P0e9ASySJ2SjHGW0nSw=;
-        b=YIAQ1zoMH5dWivilhSnkKSw0ctqFeyghOXilT5ojvzNBk2EnLfoQon/bgeqsc8Km3W
-         6jHN8k5Qeo7Fx15/trIUSKneHxu3rvCGNVAeQq65RusjDPnbBoETVPHcwtFvTIrA9oTL
-         W/1oHNmeG3qOagVgIrpPbpoOncfvapoLBbkUkYCbaV0AjaEoQ2WM90rJFgzIDkubPIXN
-         CY0rrLYo/vUGTjnHCd4JqzoYCfeLnKJHI13nGfqtGcEMuhWlSsv4iatlUtvk4K0c1cD0
-         BGzncRcWz/ZswZJ/H44Qfmhwy+7Vzhh9X9USEhblozjd6Z3Z9SQFikB/rS/bIqZX4gPU
-         N0qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wqUSZ1SFW0NVtpHilGjkTlF5P0e9ASySJ2SjHGW0nSw=;
-        b=HK5u+dvoSPkT6ku0T+W4BPJNe5OGM51HVNBFFxuFZguIOFo7WnvuTN+aG+9tiduUhw
-         9zc5C/3L40Sj2gvdfht73bSdLCnGSpns9svMEPEVSG+m/jf+FneVmZTaLPazd7PiapgQ
-         RpD6LspWVb3huoT5uhwMwUZOweKJm5/KlVR3/0Y0oEbMzRBz479wojiS7FsjJGu7+hPT
-         /Xf6CYiGsX2GWLXe4SlcioqJXtvW7pnWwQfi7XqmNz6Jn6kCsLFuXEjIrN5ix1PNhd9G
-         yWKNsHaYIosK/9cjh/eHK2rlyXrcxjr/IN8cJNNZ4huwPGS3tDUG2qY+cAUjL+2NPE6+
-         nn1w==
-X-Gm-Message-State: AOAM532VSo/VVyG8KdTHwQQy6cZQbl4Sfd+8StTWxSgWFPRSuADvl0LW
-	yqvchmUSkK8/6XbsH45Ouug=
-X-Google-Smtp-Source: ABdhPJwYjRppPFpB8UmNIkcxwOS9n2u16iELvDzGqpJ83lEytB+M9F4emEDKG8XNnA9Ps3JOsWEvHg==
-X-Received: by 2002:a17:907:c15:: with SMTP id ga21mr263554ejc.80.1644866797427;
-        Mon, 14 Feb 2022 11:26:37 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id 17sm2683352eja.57.2022.02.14.11.26.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 11:26:36 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Alex Bee <knaerzche@gmail.com>, jc@kynesim.co.uk
-Subject: Re: Re: [RFC] media: uapi: Move HEVC stateless controls out of staging
-Date: Mon, 14 Feb 2022 20:26:34 +0100
-Message-ID: <2302767.NG923GbCHz@kista>
-In-Reply-To: <903ca214-9576-33aa-8412-7c71c9d8ac09@collabora.com>
-References: <20220201123439.353854-1-benjamin.gaignard@collabora.com> <8038233.T7Z3S40VBb@kista> <903ca214-9576-33aa-8412-7c71c9d8ac09@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430267C
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 02:41:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1644892893; bh=cwlZyrxzndX/rf1BmsU10DtvJE31JIYmldJr7uTBP2I=; h=Date:From:To:Cc:Subject:References:From:Subject:Reply-To; b=YKbJZci5fDWArSh+Kyn6jCb9yPAE3ndp76E+4i08lN5i+LwIq7wSC5DjhWTpAcJoCU1rBqpK4eDXoNg0LdBc6m1pOEM8b6oSBYuZIxxCZENrQwG0n2dLvWC5xiJRveT4jlLlV6V+ebgeEKb7M7rvDPC5ygWK9NsIGY5ud12WGr8MdZ7b818HyL1Ic6UuIhSjPhJ0yLREtqzuHsxUjGOWLrqcf2XyfdEmHS8L9Qd4VYzx0I4UtwDaUuYoh5wcNp+MOWojFFXY+KRdBkya8bmYn5svRw200cBbfVTG3y1nw0q4k70ShHkiqMy9ahg7aQ/Ql6d3EezNswspsFG7nviYug==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1644892893; bh=QVfgZHb4UfdjjPM9Lhmi8YMeaV5fSTbihIVIou1DOl8=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=H/h7K5eI5TY+6ANSrtqzI52MHoODOLwuwwXtCmrn8ORCOCj18R5ldF5T1zfBgqKa3Q4NWMrtfkUUTUjJYwHU19cMXe0mvIuGpxX5AYcYPuhi1yZ/I9RgZfJmzJ1t8lW//tSRss5xPfGPgJuf9ECTRrUL7pu3c9pe/9ysivX6B7wqq0U5gIjuoVfavTRQNpxl0Z3fdRPQGw6U4666XRUfXpIogAaqqDAkkYD7dGeKYi6hycZ/V0mGcb7mZCU40raAUMx2VuKFW41jgfHxF5Q4T4+9O3SxJF+WmJfrSyFb5OdykZB6cVTRkQMDf4alSgTg8Q21VAKfPV8pZ0LtJTINHQ==
+X-YMail-OSG: BTNaKOUVM1ndshD.f1HSeq7iFloCTdP1lhMBf.hImdjd145NsOJMtlN1sNLH0NF
+ VqGIteGfnoPXHEVi6bGUILzOUfEkJ_R1VWnjDbhDSBUxLZYyqdb3EBSk_PRVwFiTMQ5uoLMhvl9O
+ jmsKZUyvjJq0vB2GCK9MbtlUDs8FGvoHWP7fmDVfwu6kuleTiOnuN75GbMwoQjEYU1zcZGiKbq7j
+ ofIZnpYqf_BGsEV3u8JMQdscZuxRkFpn8A9xQphHM4hW1oD3WS0m1Ntahfh6ZZAbHcphcMLSLAhe
+ 8pKrMzU3QFynJfEJtyku_6vvtNv.dNp3D.z4VxaukpbczVuwCfdTi1qtJj9vM7oeSQzuzlHBjVmN
+ 3bQrRKh0Fa5XmNEVNagAG0mI5dy_iMl4mLthEhvzmOIsza4NKsQWZtWx83zdlwqNNbqoIaxtMfqb
+ Uku.Vnd2uVbKFJxqsUii4v6eKXQGeIsy52k2UyQMfDnjSdH5h6sQyGr25hFZqcOm6jXNAr.COGbm
+ VTUn5233tRp99dgOON6mwmsfBd60_KrZD8PikFQaEAvbNUO11i_aKT3krfdaA7ZCkoNE9pE588S3
+ uV9oV9pA.XGAMMdCtx3brMa110fGZ_Ur5hsMxWthY.U3LRiuo8uFn04B2k2WcTkm8l7TWUUG1VCo
+ 9UXRILn0O2A2BivLevMjqv347GE6P5rvi8KRWTRJ1819pueHD4jm7.GzggGZF_bvoFnp0dXSkCdh
+ zx9GP3xUKiSfdzvhieIs5vejH2vDUM0ytL3wVCvhuwPzWKNVJoWloHDeiImcsOEVWWvrZMK_QiBo
+ 1Uh999uQy286jyyqQziqr9EYzdr.6DhcrBd.ARfxV2C6hcSzD_dNr5PLjgWWUVNQaVTfbOhuB0p2
+ RLEFJOKhdltCmAzSFPa8IoclOD2X.doUTuRHtgxzkX_85G81mljCFiYuAh.9o3rEsq9xmSzY2ur0
+ s1I8cTjKHH82FYbz9rBJO84k3W9ZY58WAu8JoG_SBCyd7zDPKOkyWzFx4s1.gxBvCRVYpE4BuN9p
+ 0XEJZuOUeG86VIyYcYRni_09CuvVqoixSidCo1nmlyjLZdcrVyT6Np56yBWpB5NL9pKKuk_PQWy4
+ 7DaZ_fMOcR0dKcXYf3PSidsRzd2OSVmZyFR1b2X9c7dE9kdE.bMtOs9ZXP_Xdy_eDjoP9NgO7xdC
+ M5GEi0uMAvMS.ra8wEcfLT75AXAxfiIVq4CAbDYsHzBoxN33QdwQLm5eVyANvhMai4SQHkYtEDKv
+ AcJs26quJAcV3gnyDgnfv69NTGPGYp3k4yyafdD4.iS3hASW4v4D3Z7bveNIi8j9b273qeHvhyYM
+ 8A8I0MjwFWJRyi_kM3rceJRJYWv.nOQ38x4jySlKjhkySwCsmo91g3.C5lOtE0uzikUNPsLXbY4E
+ OFUTwN28T8sClbP4zhKqiboXPP7SJLPWH4Unne3nQQIQdEZRseetdoIMbt9uf4JjUPFVES76Nz8p
+ Xy2rfDfAx.JGJQm7eyBlkxYA40JLKq0ujLXUJ8aDFCrifT5iZPIn8FeTHurgwmz5_vbcXEMkpx17
+ Fs.zKgsApWic0IRDT3M0.hXl2CVPBZbYTFXI813DIcKh7zL8xRecGgtgZ3Jba33osMPt7g7V3aWG
+ j8jJiQAwlkSIIk_O9lxZczY1dxtFi9RK1cj4.UiuJMwj7UdSEsKubttmEcwn85QdstNTK.JqhEi6
+ FXCiWaZ53qVnp18i..xiynOqAd455CaUVmAc38nQpiVdOSwkqPCAdU14eMfWCPj1rYfRxpFIjcpo
+ 4mx0pWfnGVd23HusIqnGKLFLITiZYa_ZTL6tR.43MF2rlq4TKUDGH.Yj6qCnVedmy_gbqjbZd.V.
+ OAyfSN3kHT1mtTAwi3jq0YNvrNrlDm0J16RWYJ_WK1qK5Ytjx2m6RnAtecQEp_D2eXNGz.ebg1TM
+ RsGBkRNooOa9TyN5i.JQolQaETuQfWlxRJO8CXg1nCeWwveC9qtsY9cgYoKyukGN5QT9YO5KFHOB
+ BYxk2sloLgvB3TkzFGojrjANCZ4zPU95_NPnoDg57z259dp07tdVeQlc_TXxmXihiE3vfpekXQle
+ oFsTzIrd1ohUjjECK7hmVxHm4iEjNLd7qSeR5uDU2MoxKpGSTKEoT6_Miq7ua8ZET1whke_z53XJ
+ QWIqV6IFmVbWYIMbeQ7ldEmKFGRFOHLgNFFooTdGBRd9l4kSOWnXG5OwH9rejY6QVqu8rG5wf.Uk
+ U
+X-Sonic-MF: <marcelo.as@aol.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ne1.yahoo.com with HTTP; Tue, 15 Feb 2022 02:41:33 +0000
+Received: by kubenode514.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID b7b91e8796b59d15c24591af310d5abf;
+          Tue, 15 Feb 2022 02:39:30 +0000 (UTC)
+Date: Mon, 14 Feb 2022 23:39:26 -0300
+From: Marcelo Aloisio da Silva <marcelo.as@aol.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: remove unconditional if statement
+Message-ID: <20220215023926.GA52339@snoopy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+References: <20220215023926.GA52339.ref@snoopy>
+X-Mailer: WebService/1.1.19724 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 
-Dne ponedeljek, 14. februar 2022 ob 18:25:01 CET je Benjamin Gaignard=20
-napisal(a):
->=20
-> Le 13/02/2022 =C3=A0 12:33, Jernej =C5=A0krabec a =C3=A9crit :
-> > Hi Benjamin,
-> >
-> > CC: Alex, John
-> >
-> > Sorry for late response, but I've been very busy last week.
-> >
-> > First of all, thank you for doing this! It's about time that HEVC moves
-> > forward.
-> >
-> > Dne torek, 01. februar 2022 ob 13:34:39 CET je Benjamin Gaignard=20
-napisal(a):
-> >> The HEVC stateless 'uAPI' was staging and marked explicitly in the
-> >> V4L2 specification that it will change and is unstable.
-> >>
-> >> Note that these control IDs were never exported as a public API,
-> >> they were only defined in kernel-local headers (hevc-ctrls.h).
-> >>
-> >> While moving the controls out of staging they are renamed and
-> >> control IDs get new numbers.
-> >> Drivers (Hantro, Cedrus) and Documentation are updated accordaly.
-> > accordaly -> accordingly
-> >
-> >> Additional structures fields has been added for RKVDEC driver usage.
-> > You should do separate patch for that, preceding this one. One patch=20
-should
-> > only do one thing.
->=20
-> I will do that in v2
->=20
-> >
-> > I also suggest that you add additional patch for removing bit_size fiel=
-d in
-> > struct v4l2_ctrl_hevc_slice_params. Similar fields were already removed=
-=20
-from
-> > MPEG2 and H264 structures. Bit size can be deduced from output buffer s=
-ize=20
-and
-> > it doesn't hurt if bit size in Cedrus is set to bigger value than actua=
-l=20
-slice
-> > bit size.
->=20
-> ok
->=20
-> >
-> >> Hantro dedicated control is moving to hantro-media.h
-> >> Since hevc-ctrls.h content has been dispatched in others file, remove =
-it.
-> >>
-> >> fluster tests results on IMX8MQ is 77/147 for HEVC codec.
-> >>
-> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > Note that Cedrus still needs additional information in order to decode=
-=20
-some
-> > HEVC videos. Missing info is num_entry_point_offsets and list of all
-> > entry_point_offset_minus1 (obviously, num_entry_point_offsets in size).
-> >
-> > I suggest that this is represented in a new control, which would use=20
-dynamic
-> > array feature, written by Hans. While Cedrus supports max. 256 entries,=
- it=20
-can
-> > be much bigger in theory, but in reality, it's much smaller (like 4-8
-> > entries).
->=20
-> I haven't seen yet any user for these fields but I will create a new cont=
-rol=20
-like
-> #define V4L2_CID_STATELESS_HEVC_ENTRY_POINT	(V4L2_CID_CODEC_STATELESS_BAS=
-E +=20
-407)
->=20
-> struct v4l2_ctrl_hevc_entry_point_offset {
-> 	__u32	entry_point_offset_minus1;
-> };
+Remove if condition that is always true. It is useless and
+makes the code less readable.
 
-Yeah, Cedrus is currently the only mainline driver that needs that in order=
- to=20
-fully work. I think John used num_entry_point_offsets in his (out of tree) =
-RPi=20
-HEVC decoding driver too.
+Signed-off-by: Marcelo Aloisio da Silva <marcelo.as@aol.com>
+---
+ drivers/staging/r8188eu/core/rtw_ap.c | 124 +++++++++++++-------------
+ 1 file changed, 62 insertions(+), 62 deletions(-)
 
-Wouldn't be easier to just use u32 directly? This is just array of numbers,=
- so=20
-nothing else will be added in that struct...
-
-Anyway, once you add this, I'll quickly update driver to take advantage of =
-it.
-
->=20
-> and add it in the documentation:
-> ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT (struct)``
->      Specifies the i-th entry point offset in bytes and is represented by
->      offset_len_minus1 plus 1 bits.
->      This control is a dynamically sized array. The number of entry point
->      offsets is reported by the ``elems`` field.
->      This bitstream parameter is defined according to :ref:`hevc`.
->      They are described in section 7.4.7.1 "General slice segment header
->      semantics" of the specification.
->=20
-> >
-> > Last but not least, data_bit_offset should be better defined. Currently=
- it
-> > points right after last header bit, just like Cedrus needs it. However,=
-=20
-there
-> > is padding after that, at least 1 bit and 8 bits at most, so slice data=
-=20
-always
-> > starts from byte aligned address. It probably make sense to rework that=
-=20
-field
-> > to be byte offset, not bit, just like in VA-API. Note that RPi HEVC dri=
-ver=20
-also
-> > uses byte aligned address directly. Cedrus would need some kind of=20
-workaround
-> > and only one that works is this one:
-> > https://github.com/bootlin/libva-v4l2-request/blob/master/src/h265.c#L1=
-91-L209
->=20
-> If Cedrus driver is happy with this definition I will keep it like that.
-> When providing offset in bit is more accurate and any driver can align th=
-e=20
-value
-> if needed, the reverse (byte -> bit) isn't possible.
-
-If I'm not mistaken, HEVC standard actually requires that slice data starts=
- at=20
-byte aligned address, so nothing would be lost for correctness of uAPI.
-
-I already had this discussion with John and IIRC conclusion was to have byt=
-e=20
-aligned value here. John, can you please confirm if my interpretation is=20
-correct?
-
-Best regards,
-Jernej
-
->=20
-> Regards,
-> Benjamin
->=20
-> >
-> > Best regards,
-> > Jernej
-> >
-> >
->=20
-
+diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+index 19d12dd9788e..5e22b1baf9a5 100644
+--- a/drivers/staging/r8188eu/core/rtw_ap.c
++++ b/drivers/staging/r8188eu/core/rtw_ap.c
+@@ -55,85 +55,85 @@ static void update_BCNTIM(struct adapter *padapter)
+ 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct wlan_bssid_ex *pnetwork_mlmeext = &pmlmeinfo->network;
+ 	unsigned char *pie = pnetwork_mlmeext->IEs;
++	u8 *p, *dst_ie, *premainder_ie = NULL;
++	u8 *pbackup_remainder_ie = NULL;
++	__le16 tim_bitmap_le;
++	uint offset, tmp_len, tim_ielen, tim_ie_offset, remainder_ielen;
+ 
+ 	/* update TIM IE */
+-	if (true) {
+-		u8 *p, *dst_ie, *premainder_ie = NULL;
+-		u8 *pbackup_remainder_ie = NULL;
+-		__le16 tim_bitmap_le;
+-		uint offset, tmp_len, tim_ielen, tim_ie_offset, remainder_ielen;
+-
+-		tim_bitmap_le = cpu_to_le16(pstapriv->tim_bitmap);
+-
+-		p = rtw_get_ie(pie + _FIXED_IE_LENGTH_, _TIM_IE_, &tim_ielen, pnetwork_mlmeext->IELength - _FIXED_IE_LENGTH_);
+-		if (p && tim_ielen > 0) {
+-			tim_ielen += 2;
+-			premainder_ie = p + tim_ielen;
+-			tim_ie_offset = (int)(p - pie);
+-			remainder_ielen = pnetwork_mlmeext->IELength - tim_ie_offset - tim_ielen;
+-			/* append TIM IE from dst_ie offset */
+-			dst_ie = p;
+-		} else {
+-			tim_ielen = 0;
+ 
+-			/* calculate head_len */
+-			offset = _FIXED_IE_LENGTH_;
+-			offset += pnetwork_mlmeext->Ssid.SsidLength + 2;
++	p = rtw_get_ie(pie + _FIXED_IE_LENGTH_, _TIM_IE_, &tim_ielen,
++		       pnetwork_mlmeext->IELength - _FIXED_IE_LENGTH_);
++	if (p && tim_ielen > 0) {
++		tim_ielen += 2;
++		premainder_ie = p + tim_ielen;
++		tim_ie_offset = (int)(p - pie);
++		remainder_ielen = pnetwork_mlmeext->IELength - tim_ie_offset - tim_ielen;
++		/* append TIM IE from dst_ie offset */
++		dst_ie = p;
++	} else {
++		tim_ielen = 0;
+ 
+-			/*  get supported rates len */
+-			p = rtw_get_ie(pie + _BEACON_IE_OFFSET_, _SUPPORTEDRATES_IE_, &tmp_len, (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_));
+-			if (p)
+-				offset += tmp_len + 2;
++		/* calculate head_len */
++		offset = _FIXED_IE_LENGTH_;
++		offset += pnetwork_mlmeext->Ssid.SsidLength + 2;
+ 
+-			/* DS Parameter Set IE, len = 3 */
+-			offset += 3;
++		/*  get supported rates len */
++		p = rtw_get_ie(pie + _BEACON_IE_OFFSET_, _SUPPORTEDRATES_IE_,
++			       &tmp_len, (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_));
++		if (p)
++			offset += tmp_len + 2;
+ 
+-			premainder_ie = pie + offset;
++		/* DS Parameter Set IE, len = 3 */
++		offset += 3;
+ 
+-			remainder_ielen = pnetwork_mlmeext->IELength - offset - tim_ielen;
++		premainder_ie = pie + offset;
+ 
+-			/* append TIM IE from offset */
+-			dst_ie = pie + offset;
+-		}
++		remainder_ielen = pnetwork_mlmeext->IELength - offset - tim_ielen;
+ 
+-		if (remainder_ielen > 0) {
+-			pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_ATOMIC);
+-			if (pbackup_remainder_ie && premainder_ie)
+-				memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
+-		}
+-		*dst_ie++ = _TIM_IE_;
++		/* append TIM IE from offset */
++		dst_ie = pie + offset;
++	}
+ 
+-		if ((pstapriv->tim_bitmap & 0xff00) && (pstapriv->tim_bitmap & 0x00fc))
+-			tim_ielen = 5;
+-		else
+-			tim_ielen = 4;
++	if (remainder_ielen > 0) {
++		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_ATOMIC);
++		if (pbackup_remainder_ie && premainder_ie)
++			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
++	}
++	*dst_ie++ = _TIM_IE_;
+ 
+-		*dst_ie++ = tim_ielen;
++	if ((pstapriv->tim_bitmap & 0xff00) && (pstapriv->tim_bitmap & 0x00fc))
++		tim_ielen = 5;
++	else
++		tim_ielen = 4;
+ 
+-		*dst_ie++ = 0;/* DTIM count */
+-		*dst_ie++ = 1;/* DTIM period */
++	*dst_ie++ = tim_ielen;
+ 
+-		if (pstapriv->tim_bitmap & BIT(0))/* for bc/mc frames */
+-			*dst_ie++ = BIT(0);/* bitmap ctrl */
+-		else
+-			*dst_ie++ = 0;
++	*dst_ie++ = 0;/* DTIM count */
++	*dst_ie++ = 1;/* DTIM period */
+ 
+-		if (tim_ielen == 4) {
+-			*dst_ie++ = *(u8 *)&tim_bitmap_le;
+-		} else if (tim_ielen == 5) {
+-			memcpy(dst_ie, &tim_bitmap_le, 2);
+-			dst_ie += 2;
+-		}
++	if (pstapriv->tim_bitmap & BIT(0))/* for bc/mc frames */
++		*dst_ie++ = BIT(0);/* bitmap ctrl */
++	else
++		*dst_ie++ = 0;
+ 
+-		/* copy remainder IE */
+-		if (pbackup_remainder_ie) {
+-			memcpy(dst_ie, pbackup_remainder_ie, remainder_ielen);
++	tim_bitmap_le = cpu_to_le16(pstapriv->tim_bitmap);
+ 
+-			kfree(pbackup_remainder_ie);
+-		}
+-		offset =  (uint)(dst_ie - pie);
+-		pnetwork_mlmeext->IELength = offset + remainder_ielen;
++	if (tim_ielen == 4) {
++		*dst_ie++ = *(u8 *)&tim_bitmap_le;
++	} else if (tim_ielen == 5) {
++		memcpy(dst_ie, &tim_bitmap_le, 2);
++		dst_ie += 2;
++	}
++
++	/* copy remainder IE */
++	if (pbackup_remainder_ie) {
++		memcpy(dst_ie, pbackup_remainder_ie, remainder_ielen);
++
++		kfree(pbackup_remainder_ie);
+ 	}
++	offset =  (uint)(dst_ie - pie);
++	pnetwork_mlmeext->IELength = offset + remainder_ielen;
+ 
+ 	set_tx_beacon_cmd(padapter);
+ }
+-- 
+2.25.1
 
