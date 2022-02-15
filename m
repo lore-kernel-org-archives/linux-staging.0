@@ -1,202 +1,136 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DF01365
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 07:29:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644910180; x=1676446180;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=CuEMJmA9h+m8AulyGOrOUYh21nJq6vCzLpq25JW9MGY=;
-  b=mxO3940yk8h6Q69AAHZ7RqECjHKIf9lU6xgxzCvL9SykSUav9QAMzT6e
-   3k0hQ3RseSXl3RLThbBhHfxp8QT48TOURD/1D5ha5FyIosdmWHZpbjf3X
-   kahjWrDqoW6qo9esEzcV9HTwFiE6QExrrMRn3RDZLnh2yOkcHCaNOZEa0
-   +diTwNzO79dxGTt6T1l0abzJ/NPpVxhPlHaKMm6geFQx34YrjAhBL1aOu
-   xcn1H+Wa3UZhxro5PdHSR5+ZWuotr1xrr5nTaXn9PeUw1mLM1UMSWZPNv
-   iITAm+3TSBhZi6I5v8Ey8pxB7s6lbsLUNZWUv+9nw8udutmYLQcFOs4Wg
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,370,1635199200"; 
-   d="scan'208";a="22084228"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 15 Feb 2022 08:29:36 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Tue, 15 Feb 2022 08:29:37 +0100
-X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Tue, 15 Feb 2022 08:29:37 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1644910177; x=1676446177;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=CuEMJmA9h+m8AulyGOrOUYh21nJq6vCzLpq25JW9MGY=;
-  b=NnEhC4bCVVDumb+pGTmdZRYWByzP/B27Mu1AMUUYsTc/5crugdps+lPy
-   4050OLmwNyYApFAJE4+QBybBwy4kamAUAs0om8v2DOKbY9Ru5c0QN34Tq
-   ej2laN9Dm6Eaf5vhvQMQPFFpcHnQ/7l6G/Ye5eznu899Sqi8MTgX3CEnp
-   4dJn8uMCZol6DA6VE+2qZHlyTw0Xegt2UUJHNEXpxY+lVXRDuK6VWq/gr
-   bd3Gwef0iRmPBxO30AUwzr4//i1E4qB9SpBEBjuIg5bN838cdne5KCYvS
-   GbK7p2c3Us2ADo+ynXsp7kQKEMQGy0yrUgWqG8chZe9+fv+ZnExrIxQkP
-   A==;
-X-IronPort-AV: E=Sophos;i="5.88,370,1635199200"; 
-   d="scan'208";a="22084227"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 15 Feb 2022 08:29:36 +0100
-Received: from steina-w.localnet (unknown [10.123.49.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 97C3B280065;
-	Tue, 15 Feb 2022 08:29:36 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Jacopo Mondi <jacopo@jmondi.org>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: (EXT) Re: [PATCH v2 3/9] media: imx: Use dedicated format handler for i.MX7/8
-Date: Tue, 15 Feb 2022 08:29:34 +0100
-Message-ID: <2319937.ElGaqSPkdT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20220214185115.y3rdxyvi7dmupeye@uno.localdomain>
-References: <20220211142752.779952-1-alexander.stein@ew.tq-group.com> <20220211142752.779952-4-alexander.stein@ew.tq-group.com> <20220214185115.y3rdxyvi7dmupeye@uno.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7760F1365
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 07:46:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DAF1315;
+	Tue, 15 Feb 2022 08:46:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1644911192;
+	bh=3/lC35RitvdJBNfH1zjCySTRPjfDuRUAGttAih7W9es=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qe4/HoIUkiT5aUSTSTDvmrN3B02OAxwznAgrb0wgTGdFJO96yn1nn4rw+kxTmByky
+	 X9Ii/k3VstDvixGlAtqqWz0mD2GlCswArHak7KFfGArt8S8n+b49a7IB219i4CXk9z
+	 meHt1zsQlDLf8jiYAvYekV250eWM6Ph7DWM9uyT4=
+Date: Tue, 15 Feb 2022 09:46:26 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@iki.fi>
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
+	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+	kernel@pengutronix.de, linux-imx@nxp.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 8/8] media: imx: imx-mipi-csis: Add RGB/BGR888
+Message-ID: <YgtaUsxBF69bZa92@pendragon.ideasonboard.com>
+References: <20220214184318.409208-1-jacopo@jmondi.org>
+ <20220214184318.409208-9-jacopo@jmondi.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220214184318.409208-9-jacopo@jmondi.org>
 
 Hi Jacopo,
 
-Am Montag, 14. Februar 2022, 19:51:15 CET schrieb Jacopo Mondi:
-> Hello
-> 
-> On Fri, Feb 11, 2022 at 03:27:46PM +0100, Alexander Stein wrote:
-> > From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > 
-> > This splits out a format handler which takes into account
-> > the capabilities of the i.MX7/8 video device,
-> > as opposed to the default handler compatible with both i.MX5/6 and
-> > i.MX7/8.
-> > 
-> > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> > Changes in v2:
-> > * Switch back to using enum
-> > * Get rid of an additional call to v4l2_fill_pixfmt()
-> > 
-> >  drivers/staging/media/imx/imx-media-utils.c | 60 +++++++++++++++++++--
-> >  1 file changed, 56 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/imx/imx-media-utils.c
-> > b/drivers/staging/media/imx/imx-media-utils.c index
-> > c42f3da8e3a8..02a4cb124d37 100644
-> > --- a/drivers/staging/media/imx/imx-media-utils.c
-> > +++ b/drivers/staging/media/imx/imx-media-utils.c
-> > @@ -516,10 +516,9 @@ void imx_media_try_colorimetry(struct
-> > v4l2_mbus_framefmt *tryfmt,> 
-> >  }
-> >  EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
-> > 
-> > -int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > -				  const struct v4l2_mbus_framefmt 
-*mbus,
-> > -				  const struct imx_media_pixfmt 
-*cc,
-> > -				  enum imx_media_device_type type)
-> > +static int imx56_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > +					   const struct 
-v4l2_mbus_framefmt *mbus,
-> > +					   const struct 
-imx_media_pixfmt *cc)
-> > 
-> >  {
-> >  
-> >  	u32 width;
-> >  	u32 stride;
-> > 
-> > @@ -568,6 +567,59 @@ int imx_media_mbus_fmt_to_pix_fmt(struct
-> > v4l2_pix_format *pix,> 
-> >  	return 0;
-> >  
-> >  }
-> > 
-> > +
-> > +static int imx78_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > +					   const struct 
-v4l2_mbus_framefmt *mbus,
-> > +					   const struct 
-imx_media_pixfmt *cc)
-> > +{
-> > +	u32 aligned_width;
-> > +	int ret;
-> > +
-> > +	if (!cc)
-> > +		cc = imx_media_find_mbus_format(mbus->code, 
-PIXFMT_SEL_ANY);
-> > +
-> > +	if (!cc)
-> > +		return -EINVAL;
-> > +	/*
-> > +	 * The hardware can handle line lengths divisible by 4 pixels
-> > +	 * as long as the whole buffer size ends up divisible by 8 bytes.
-> > +	 * If not, use the value of 8 pixels recommended in the datasheet.
-> > +	 * Only 8bits-per-pixel formats may need to get aligned to 8 
-pixels,
-> > +	 * because both 10-bit and 16-bit pixels occupy 2 bytes.
-> > +	 * In those, 4-pixel aligmnent is equal to 8-byte alignment.
-> > +	 */
-> > +	if (cc->bpp == 1)
-> 
-> Am I mistaken or in the format enumeration bpp is expressed in bits
-> and not bytes ?
+(Adding Sakari to the recipients)
 
-No, you are completely right. Thanks for find noticing that.
+Thank you for the patch.
 
+On Mon, Feb 14, 2022 at 07:43:18PM +0100, Jacopo Mondi wrote:
+> Add support for the RGB888_1X24 and BGR888_1X24 image formats.
+>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  drivers/media/platform/imx/imx-mipi-csis.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
+> index 9e0a478dba75..0d5870b3010a 100644
+> --- a/drivers/media/platform/imx/imx-mipi-csis.c
+> +++ b/drivers/media/platform/imx/imx-mipi-csis.c
+> @@ -366,6 +366,16 @@ static const struct csis_pix_format mipi_csis_formats[] = {
+>  		.data_type = MIPI_CSI2_DATA_TYPE_RGB565,
+>  		.width = 16,
+>  	},
+> +	{
+
+	}, {
+
+to match the rest of the array. Same below.
+
+> +		.code = MEDIA_BUS_FMT_RGB888_1X24,
+> +		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
+> +		.width = 24,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_BGR888_1X24,
+> +		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
+> +		.width = 24,
+> +	},
+
+CSI-2 specifies the order of bits on the bus for RGB888, with data being
+transmitted in the B, G, R order. The recommended format when stored in
+memory is V4L2_PIX_FMT_BGR24 (B in byte 0, G in byte 1, R in byte 2).
+There is no recommended deserialized bus format though.
+
+On the output side of the CSIS, we have information. Given figure 13-23
+("Pixel alignment") in the i.MX8MP reference manual, and the definition
+of RGB_SWAP in MIPI_CSI2_ISP_CONFIG_CH0 that reads
+
+    Swapping RGB sequence
+
+    0  MSB is R and LSB is B.
+    1  MSB is B and LSB is R (swapped).
+
+I think MEDIA_BUS_FMT_RGB888_1X24 is appropriate.
+
+On the input side of the CSIS, however, it's a different story, similar
+to YUV formats. For YUV 4:2:2 we have picked MEDIA_BUS_FMT_UYVY8_1X16
+arbitrarily to represent the CSI-2 bus format. It doesn't correspond to
+the physical reality, but it doesn't matter much. We thus need to do the
+same for RGB888. If we follow the same convention as for YUV 4:2:2,
+which transmits data in the U, Y, V, Y order, we should then pick
+BGR888_1X24. However, the CSIS driver would then need to translate from
+the input format BGR888_1X24 to the output format RGB888_1X24, which
+adds a bit of complexity.
+
+Picking RGB888_1X24 for the CSI-2 bus is thus tempting, but it's a
+choice that will affect all drivers, so I wouldn't make this based
+solely on ease of implementation in a particular driver. I'm thus
+tempted to go for BGR888_1X24 to be consistent with YUV 4:2:2. Another
+option would be to add a new RGB888_CSI2 media bus format. In retrospect
+we should have done the same for YUV 4:2:2. Mistakes happen.
+
+Sakari, what do you think ?
+
+If we go for BGR888_1X24, the translation between BGR888_1X24 and
+RGB888_1X24 may not be that hard to implement. You could add an output
+field to the csis_pix_format structure to store the output media bus
+code for a given input code, and I think the implementation would then
+remain relatively simple.
+
+Finally, we can also support the swapped RGB format (which is
+non-standard in CSI-2 but is supported by some sensors, the same way as
+YUV permutations are often supported too), but it will require setting
+RGB_SWAP. You can add a rgb_swap field to csis_pix_format for this.
+
+I'd split this patch in two, adding MEDIA_BUS_FMT_RGB888_1X24 first, and
+then adding MEDIA_BUS_FMT_BGR888_1X24 with the new rgb_swap field. The
+first patch should capture the above explanation.
+
+>  	/* RAW (Bayer and greyscale) formats. */
+>  	{
+>  		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+
+-- 
 Regards,
-Alexander
 
-> > +		aligned_width = round_up(mbus->width, 8);
-> > +	else
-> > +		aligned_width = round_up(mbus->width, 4);
-> > +
-> > +	ret = v4l2_fill_pixfmt(pix, cc->fourcc,
-> > +			       aligned_width, mbus->height);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	pix->colorspace = mbus->colorspace;
-> > +	pix->xfer_func = mbus->xfer_func;
-> > +	pix->ycbcr_enc = mbus->ycbcr_enc;
-> > +	pix->quantization = mbus->quantization;
-> > +	pix->field = mbus->field;
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > +				  const struct v4l2_mbus_framefmt 
-*mbus,
-> > +				  const struct imx_media_pixfmt 
-*cc,
-> > +				  enum imx_media_device_type type)
-> > +{
-> > +	switch (type) {
-> > +	case DEVICE_TYPE_IMX56:
-> > +		return imx56_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-> > +	case DEVICE_TYPE_IMX78:
-> > +		return imx78_media_mbus_fmt_to_pix_fmt(pix, mbus, cc);
-> > +	}
-> > +	return -EINVAL;
-> > +}
-> > 
-> >  EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
-> >  
-> >  void imx_media_free_dma_buf(struct device *dev,
-> > 
-> > --
-> > 2.25.1
-
-
-
-
+Laurent Pinchart
