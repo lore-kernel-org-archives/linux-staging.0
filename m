@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6038A1578
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 15:27:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC8D0C340ED;
-	Tue, 15 Feb 2022 15:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AF21578
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 15:28:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0FF8C340EB;
+	Tue, 15 Feb 2022 15:28:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1644938829;
-	bh=MdwLK2UIQOUxi6p575z+uN8iqZmVWfHrE1bzAHEJX8Y=;
+	s=k20201202; t=1644938921;
+	bh=Z9AP8sHVGnKeExOiFmw9xaQ/eAc+E0fki+qkJR1RQuw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e0sVDvS7eN3qIhln93yhNj/P9yGU6QO1GMQIonPVATv21SCdM53wN57aS+1KtR7GD
-	 aOFamKzHIzOPED9GQ/XWT+G/S05qw6SgCZmTAnIzngkfwAcqhaOxiv9Y1lpp67bLBP
-	 TsXmQV7sFhSBlTl8SxitkuSNNRwgd50vASbs+l29EfILgIyvqffCZwkfzJVc2dQIfl
-	 TPNRETBTiG0QIBqcpfOzSe8+eI/hP5gTcHqFdGDmFUAvriqQ75YmA1ii3Vfogs3pr4
-	 gWsu0mrqUbeBARemw/NkbjhsvFmCnaJdK4mfi7Wj8muOtO/Ufm57tgDT+/f4jsNGQ8
-	 JsXG7Etp6jkvw==
+	b=Lw6tfkGo6GSFHEaxB64U7kACjTZzL9A//zQvk9LN6I5vKJISzhumjlHudALbz5taa
+	 0iv8CkGwWRtVMcwLhPpgk+Onq3GC/Un7bb0XU0kS4jh1DBvAjgRwNZN7qtj66qo2As
+	 z65sdloJHBJVtiRtoGEE5Oo5ktBORXq5+9q5y6XsDB9Hcu3SUltNbnFamxUNpXs1rG
+	 COdj5wiY2VjlhcW0U/GJGzY+6zU7AiFE5rNSZ/B2boLShIhsXPD4sfn8HJBhl3S5bq
+	 BG1/Y6vMuJ5vSiPotjwxXnkxW15ZVw7v7hRjktzxgj5aOiXSX+QY6HrFBD6LQHt/XU
+	 vKrLX8+KdHfsA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -29,12 +29,12 @@ Cc: Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
 	linux-rpi-kernel@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.16 04/34] staging: vc04_services: Fix RCU dereference check
-Date: Tue, 15 Feb 2022 10:26:27 -0500
-Message-Id: <20220215152657.580200-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 04/33] staging: vc04_services: Fix RCU dereference check
+Date: Tue, 15 Feb 2022 10:28:02 -0500
+Message-Id: <20220215152831.580780-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220215152657.580200-1-sashal@kernel.org>
-References: <20220215152657.580200-1-sashal@kernel.org>
+In-Reply-To: <20220215152831.580780-1-sashal@kernel.org>
+References: <20220215152831.580780-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -94,10 +94,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 18 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index c650a32bcedff..b9505bb51f45c 100644
+index 967f10b9582a8..ea9a53bdb4174 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1058,15 +1058,27 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+@@ -1033,15 +1033,27 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
  
  	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
  
@@ -126,29 +126,30 @@ index c650a32bcedff..b9505bb51f45c 100644
 +	rcu_read_unlock();
  
  	vchiq_log_trace(vchiq_arm_log_level,
- 			"%s - service %lx(%d,%p), reason %d, header %lx, instance %lx, bulk_userdata %lx",
-@@ -1097,6 +1109,7 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
- 							bulk_userdata);
+ 		"%s - service %lx(%d,%p), reason %d, header %lx, instance %lx, bulk_userdata %lx",
+@@ -1074,6 +1086,7 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+ 					NULL, user_service, bulk_userdata);
  				if (status != VCHIQ_SUCCESS) {
  					DEBUG_TRACE(SERVICE_CALLBACK_LINE);
 +					vchiq_service_put(service);
  					return status;
  				}
  			}
-@@ -1105,10 +1118,12 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
- 			if (wait_for_completion_interruptible(&user_service->remove_event)) {
- 				vchiq_log_info(vchiq_arm_log_level, "%s interrupted", __func__);
+@@ -1084,11 +1097,13 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+ 				vchiq_log_info(vchiq_arm_log_level,
+ 					"%s interrupted", __func__);
  				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
 +				vchiq_service_put(service);
  				return VCHIQ_RETRY;
  			} else if (instance->closing) {
- 				vchiq_log_info(vchiq_arm_log_level, "%s closing", __func__);
+ 				vchiq_log_info(vchiq_arm_log_level,
+ 					"%s closing", __func__);
  				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
 +				vchiq_service_put(service);
  				return VCHIQ_ERROR;
  			}
  			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
-@@ -1137,6 +1152,7 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+@@ -1117,6 +1132,7 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
  		header = NULL;
  	}
  	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
