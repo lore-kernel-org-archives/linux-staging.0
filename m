@@ -1,187 +1,115 @@
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26EFC89
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 08:58:13 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 74B8B20000D;
-	Tue, 15 Feb 2022 08:58:08 +0000 (UTC)
-Date: Tue, 15 Feb 2022 09:59:18 +0100
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
-	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-	kernel@pengutronix.de, linux-imx@nxp.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 5/8] staging: media: imx: Use DUAL pixel mode if available
-Message-ID: <20220215085918.dxilh2sx2yx2l6c5@uno.localdomain>
-References: <20220214184318.409208-1-jacopo@jmondi.org>
- <20220214184318.409208-6-jacopo@jmondi.org>
- <YgtSbEjr9KID81eI@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF38AEB8
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 09:09:47 +0000 (UTC)
+Received: by mail-ua1-f43.google.com with SMTP id 103so9496955uag.4
+        for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 01:09:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=j6XJQT+caIH3mSxQb+BQmHR4ZADuzn1Rs9gRoDuheiI=;
+        b=ILtSvtf8L+AANntDNUK+6zulOvn0Cs/ZFLTxGor0wwT1sametpcpps4kAW3g9IFZQU
+         PHut0M7/7kRVh4Or/9ONNjWUnrlbbcrdZvERexgQSmwbQBXfNYMnM71whgzbe3bgzzgO
+         SnX10Wr+68xYX7MmqFmM6/2imFdvs2QKh89KgKw4IiV9P9TWTyOBwlawRkY/iR6iIXif
+         VjW/OUfXDf7f0FJnh0TcA38r6veeTeJefojG6CDH3dnzRgGfHFar5ROXCWhI20ibq45q
+         htJaDgmJ1EJFSOy1Spn9UBJqX+nE6Mn2Z2wPgHoVaRz8S2hXgw9zhe0Z3h7jAGBYjJiX
+         7B1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=j6XJQT+caIH3mSxQb+BQmHR4ZADuzn1Rs9gRoDuheiI=;
+        b=PtN/emFFd00k0IGtdvKoMU65ZIuaaBFdgNIH2+xyApqYiU0+VZoF8uxm3UPQoG3Sbw
+         KBb0bXNdQw+4Wf362K3LnGEZBBCeWxVS0y5vo5/JfQxeTh+Lm8CEKCE4duFL6gEPkw3H
+         E0JGg3g0jHEfSCa+/iBP/D/TbizXZzJOJHyeH4xA/FZoiwGjOR+TgqcyxIxoQe7sJZc+
+         eYpbcr0eAZ2Zw9GU6Rmh/IlPZEUqCYQ9NuOjeqfxZd98XsRimyhov3SSBaq5W1gBER3c
+         g/PUSebIN3MZynmg7fe1IxOVoXpIHZfzJNGbpN+zDcvAJXLwVEGVjfvtNy8ey1YLQ5KG
+         oqIQ==
+X-Gm-Message-State: AOAM532r+1Zbe3JKFO4k7bdJK72nc8B7krNbTnAdroec6+2z6MIQ7Yf8
+	5OiH55P9g4jXUlpxNGveR/2yRK5fCXNb9ICgaiQ=
+X-Google-Smtp-Source: ABdhPJwo+LIJ+lQMTH5mXHhQ7uoGTxskF5INXhwEtavh/S4UDO7dw7gCpq5iD6Yz7i3sOueLbmsjWfriLVsa3bPXvhQ=
+X-Received: by 2002:a05:6130:92:: with SMTP id x18mr1118083uaf.66.1644916186915;
+ Tue, 15 Feb 2022 01:09:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YgtSbEjr9KID81eI@pendragon.ideasonboard.com>
+References: <20220215081725.3463-1-arinc.unal@arinc9.com> <20220215081725.3463-2-arinc.unal@arinc9.com>
+ <CAMhs-H-74bK3m975Dtmg2zPrGjmqzSd+Tb_qdUV14yJBAWRQbw@mail.gmail.com> <d9240058-68b4-cbd6-54b0-18f41ee5a98a@arinc9.com>
+In-Reply-To: <d9240058-68b4-cbd6-54b0-18f41ee5a98a@arinc9.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Tue, 15 Feb 2022 10:09:35 +0100
+Message-ID: <CAMhs-H_MvXOOmUDq97YyW7uaSfeNWcKE7F+J4182=MwH7yaOaw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] staging: mt7621-dts: do not use rgmii2_pins for
+ ethernet on GB-PC1
+To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Sander Vanheule <sander@svanheule.net>, 
+	NeilBrown <neil@brown.name>, DENG Qingfang <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	erkin.bozoglu@xeront.com, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hi Arinc,
 
-On Tue, Feb 15, 2022 at 09:12:44AM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
+On Tue, Feb 15, 2022 at 9:50 AM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
+9.com> wrote:
 >
-> Thank you for the patch.
+> Hey Sergio,
 >
-> On Mon, Feb 14, 2022 at 07:43:15PM +0100, Jacopo Mondi wrote:
-> > The pixel sampling mode controls the size of data sampled from the CSI
-> > Rx queue. The supported sample size depends on the configuration of the
-> > preceding block in the capture pipeline and is then dependent on the SoC
-> > version the CSI peripheral is integrated on.
+> On 15/02/2022 11:35, Sergio Paracuellos wrote:
+> > Hi Arinc,
 > >
-> > When capturing YUV422 data if dual sample mode is available use it.
+> > On Tue, Feb 15, 2022 at 9:18 AM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@a=
+rinc9.com> wrote:
+> >>
+> >> GB-PC1 uses some of the rgmii2 pins (22 - 33) as GPIO. Therefore, the
+> >> rgmii2 bus cannot be used on this device.
+> >> Overwrite pinctrl-0 property under the ethernet node without rgmii2_pi=
+ns on
+> >> the GB-PC1 devicetree.
+> >>
+> >> Signed-off-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
+> >> ---
+> >>   drivers/staging/mt7621-dts/gbpc1.dts | 4 ++++
+> >>   1 file changed, 4 insertions(+)
 > >
-> > This change is particularly relevant for the IMX8MM SoC which uses the
-> > CSIS CSI-2 receiver which operates in dual pixel mode.
+> > No issues in GB-PC1. So:
 > >
-> > Other SoCs should be unaffected by this change and should continue to
-> > operate as before.
-> >
-> > Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  drivers/staging/media/imx/imx7-media-csi.c | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > index 112096774961..a8bdfb0bb0ee 100644
-> > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > @@ -426,6 +426,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
-> >  {
-> >  	struct imx_media_video_dev *vdev = csi->vdev;
-> >  	struct v4l2_pix_format *out_pix = &vdev->fmt;
-> > +	struct imx_media_dev *imxmd = csi->imxmd;
-> >  	int width = out_pix->width;
-> >  	u32 stride = 0;
-> >  	u32 cr3 = BIT_FRMCNT_RST;
-> > @@ -436,7 +437,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
-> >  	cr18 &= ~(BIT_CSI_HW_ENABLE | BIT_MIPI_DATA_FORMAT_MASK |
-> >  		  BIT_DATA_FROM_MIPI | BIT_BASEADDR_CHG_ERR_EN |
-> >  		  BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
-> > -		  BIT_DEINTERLACE_EN);
-> > +		  BIT_DEINTERLACE_EN | BIT_MIPI_DOUBLE_CMPNT);
-> >
-> >  	if (out_pix->field == V4L2_FIELD_INTERLACED) {
-> >  		cr18 |= BIT_DEINTERLACE_EN;
-> > @@ -500,6 +501,13 @@ static void imx7_csi_configure(struct imx7_csi *csi)
-> >  		case MEDIA_BUS_FMT_YUYV8_2X8:
-> >  		case MEDIA_BUS_FMT_YUYV8_1X16:
-> >  			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
-> > +
-> > +			/* If dual mode is supported use it. */
-> > +			if (imxmd->info->sample_modes & MODE_DUAL) {
-> > +				cr18 |= BIT_MIPI_DOUBLE_CMPNT;
-> > +				cr3 |= BIT_TWO_8BIT_SENSOR;
-> > +			}
+> > Tested-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 >
-> I would implement this differently:
+> Thanks for testing it so quickly!
 >
-> 		case MEDIA_BUS_FMT_UYVY8_2X8:
-> 		case MEDIA_BUS_FMT_YUYV8_2X8:
-> 			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
-> 			break;
+> I was wondering if you got pinctrl errors on the bootlog before applying
+> this patch series.
 >
-> 		case MEDIA_BUS_FMT_UYVY8_1X16:
-> 		case MEDIA_BUS_FMT_YUYV8_1X16:
-> 			cr3 |= BIT_TWO_8BIT_SENSOR;
-> 			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B
-> 			     |  BIT_MIPI_DOUBLE_CMPNT;
-> 			break;
+> rgmii2 pin group is given gpio function so calling it from ethernet node
+> would cause this on my TP-Link RE650 v1 which also uses the rgmii2_pins
+> as GPIO.
 >
-> This would support either option here. What you will then need to change
-> is imx7_csi_enum_mbus_code() and imx7_csi_try_fmt(), to allow/disallow
-> the 2X8 and 1X16 variants based on the SoC. This is important for the
+> [    1.177349] rt2880-pinmux pinctrl: pin io22 already requested by
+> pinctrl; cannot claim for 1e100000.ethernet
+> [    1.196966] rt2880-pinmux pinctrl: pin-22 (1e100000.ethernet) status -=
+22
+> [    1.210312] rt2880-pinmux pinctrl: could not request pin 22 (io22)
+> from group rgmii2  on device rt2880-pinmux
+> [    1.230058] mtk_soc_eth 1e100000.ethernet: Error applying setting,
+> reverse things back
+> [    1.245853] mtk_soc_eth: probe of 1e100000.ethernet failed with error =
+-22
 
-Exactly. And being the format list in the shared helper I decided it
-was really not worth adding any SoC specific code to those helpers
-which should ideally be nuked.
+No, I was not getting any kind of error since when I test your last
+patch series I was not experimenting any kind of regression. I don't
+have any issues now also with your new patch series. Your new changes
+make sense since as you have said "rgmii2" pins are requested as GPIO
+but it seems are not really being requested? I don't have time to
+check the datasheet now but will try to get time to see what is
+happening there.
 
-Should we decouple the helpers to get to a point where we can have
-SoC-specific formats list ? Then I would be more than happy to use the
-above construct.
-
-There is one quirk I'm not sure about: How does the CSI connect to the
-transmitter ? It is my undertanding that in i.MX8 connects to the the
-CSI-2 receiver (either CSIS or the Northwest tech one). Does in older
-SoC revisions connects directly to a parallel sensor ?
-
-I'm asking also because there is a comment that reports
-
-		/*
-		 * CSI-2 sources are supposed to use the 1X16 formats, but not
-		 * all of them comply. Support both variants.
-		 */
-
-But if the preceding block is the CSI-2 receiver, we control what
-formats it exposes and we can use both 2X8 or 1X16 depending on the
-SoC specificities and we don't care about the CSI-2 Tx supported
-formats. Does that comment make sense in your opinion ?
-
-Also be aware that, in example, if we expose from the CSIS source pad
-both 2X8 and 1X16 we create a condition where userspace could
-configure the pipeline uncorrectly.
-
-Let's draw a table (for i.MX8 only as I don't know about the 7)
-
-
-        8MM/CSI   8MQ/CSI  8MP/ISI
-CSIS    Dual              Dual
-NW              Single
-
-
-Each block would then support
-
-CSIS    Dual
-NW      Single
-CSI     Dual/Single
-ISI     Dual
-
-So we create a potential for a misconfiguration in 8MM with
-
-        CSIS = Dual
-        CSI = Single
-
-or for the 8MQ
-
-        NW = Single
-        CSI = Double
-
-If we don't create a list of SoC specific formats. Nothing bad, -EPIPE
-will be returned, but maybe we should avoid that ?
-
-
-> i.MX7, which has both a CSI-2 input and a parallel input. When using the
-> CSIS it can (and should) use double component mode, while when using the
-> parallel input it can work in 8-bit or 16-bit mode depending on how the
-> sensor is wired.
-
-I didn't know i.MX7 used the CSIS :/
-Ah wait, the driver was called imx7-mipi-csi2 :/
-
+Best regards,
+   Sergio Paracuellos
 >
-> > +
-> >  			break;
-> >  		}
-> >  	}
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> Ar=C4=B1n=C3=A7
