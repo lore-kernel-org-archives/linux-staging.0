@@ -1,126 +1,129 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167891561;
-	Tue, 15 Feb 2022 13:24:51 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:6d7b:ae43:289b:7e7c] (unknown [IPv6:2a01:e0a:120:3210:6d7b:ae43:289b:7e7c])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EB6CD1F449A4;
-	Tue, 15 Feb 2022 13:24:48 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1644931489;
-	bh=hF6RqNWPIf6kemqF5dvkZw9bQuC7lSX855MH4lfmnI8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ynv4ugpYO8nS/XAc1LO/PNI6/X8naU88NxgCSMuCMfcW5WhDUUNzk/s6NxUFUlYXS
-	 E2qAjk04bZxDB1IGwEX5xSi4s9CIJ+7LWrV40qpWnJoY9NlS8lpH2A0gBOfV4JHLXy
-	 EHFA2fQ2Slzl3EfMeUncZg3uXbi/IYmySyhIeHOmZUhhkQqPRM22FYYWSt1TXzutOY
-	 czQlq6DowoA5V96r/0qNlj0hl2XvGhhtlzLQNQNgTGoSQGHSyZ9Yewfsxf/Nwcla3+
-	 PvFFgZEiJJkC938tFysoeo/5gttb4+hIOnORwwcKMZFS02fyl9dwSPBKbZj7W48vu2
-	 ApMe2dfr+omnw==
-Message-ID: <d9f1923a-dfca-0b3a-bfd6-2d1144f9bcd1@collabora.com>
-Date: Tue, 15 Feb 2022 14:24:46 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3A21561
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 14:11:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1644934273; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=MuMqrlicxA4P7MbqkOrK99tAZnfya5ncXN1GocfVW2vbSw6mE5fZNazXxapPsVpzebfC9KeAvBMFB8We81nBYrV0RnUMPMvLutDTWTeXT8LKYdRJiRxzLn2P8pakzJsIQDylAWbLy/OUQ7xXP1A0OYSi8rxTDhbr3obTKfk1aeM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1644934273; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=8eXe6qTiDhWGw8cIAbkt0qjhk6AskvfddgIjxuqvJeM=; 
+	b=YAoHsbzu63ghKuvFHKH7neBvopzdnnhd6RIG12NeSQ/CZ1v2BqL0o2gnSwYM45HrJuJ+jQ7RpBu9V/js1oU4tCj5f0V8UfUo3aOPPrdb9O85czdAZ+cYANtxbCFvRGvkYbVdx8pS7p581+aUfwqmyj4ZWqasMp222FVtcESeir0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=arinc9.com;
+	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+	dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1644934273;
+	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=8eXe6qTiDhWGw8cIAbkt0qjhk6AskvfddgIjxuqvJeM=;
+	b=T9uI3ph1hWB3Pcutj4v8ZYoGz0ekpY1QMb/SJNO0kqSGnoxiPf07G+isbW3CeS8p
+	bkVATVY6HtQcKzPmO6KBJxjfupoHX4qixuo0HI/s8Xo75CQntT83f5GLd7G28RkVCmt
+	YP24/8lVyjw3RwdSQWugkI4cByYSCU8VelwjbaiU=
+Received: from [10.10.10.3] (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
+	with SMTPS id 1644934271575829.756525928824; Tue, 15 Feb 2022 06:11:11 -0800 (PST)
+Message-ID: <6902e0b3-5bd3-185b-26f8-eab2e37f29cb@arinc9.com>
+Date: Tue, 15 Feb 2022 17:11:06 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC v2 0/8] Move HEVC stateless controls out of staging
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 2/2] staging: mt7621-dts: do not use rgmii2_pins for
+ ethernet on GB-PC1
 Content-Language: en-US
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
- hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com,
- jc@kynesim.co.uk
-References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
- <20220215130121.4ekixb457ot6zaqi@basti-XPS-13-9310>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20220215130121.4ekixb457ot6zaqi@basti-XPS-13-9310>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Sander Vanheule <sander@svanheule.net>, NeilBrown <neil@brown.name>,
+ DENG Qingfang <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ erkin.bozoglu@xeront.com, linux-staging@lists.linux.dev
+References: <20220215081725.3463-1-arinc.unal@arinc9.com>
+ <20220215081725.3463-2-arinc.unal@arinc9.com>
+ <CAMhs-H-74bK3m975Dtmg2zPrGjmqzSd+Tb_qdUV14yJBAWRQbw@mail.gmail.com>
+ <d9240058-68b4-cbd6-54b0-18f41ee5a98a@arinc9.com>
+ <CAMhs-H_MvXOOmUDq97YyW7uaSfeNWcKE7F+J4182=MwH7yaOaw@mail.gmail.com>
+From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+In-Reply-To: <CAMhs-H_MvXOOmUDq97YyW7uaSfeNWcKE7F+J4182=MwH7yaOaw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
+On 15/02/2022 12:09, Sergio Paracuellos wrote:
+> Hi Arinc,
+> 
+> On Tue, Feb 15, 2022 at 9:50 AM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+>>
+>> Hey Sergio,
+>>
+>> On 15/02/2022 11:35, Sergio Paracuellos wrote:
+>>> Hi Arinc,
+>>>
+>>> On Tue, Feb 15, 2022 at 9:18 AM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+>>>>
+>>>> GB-PC1 uses some of the rgmii2 pins (22 - 33) as GPIO. Therefore, the
+>>>> rgmii2 bus cannot be used on this device.
+>>>> Overwrite pinctrl-0 property under the ethernet node without rgmii2_pins on
+>>>> the GB-PC1 devicetree.
+>>>>
+>>>> Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+>>>> ---
+>>>>    drivers/staging/mt7621-dts/gbpc1.dts | 4 ++++
+>>>>    1 file changed, 4 insertions(+)
+>>>
+>>> No issues in GB-PC1. So:
+>>>
+>>> Tested-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+>>
+>> Thanks for testing it so quickly!
+>>
+>> I was wondering if you got pinctrl errors on the bootlog before applying
+>> this patch series.
+>>
+>> rgmii2 pin group is given gpio function so calling it from ethernet node
+>> would cause this on my TP-Link RE650 v1 which also uses the rgmii2_pins
+>> as GPIO.
+>>
+>> [    1.177349] rt2880-pinmux pinctrl: pin io22 already requested by
+>> pinctrl; cannot claim for 1e100000.ethernet
+>> [    1.196966] rt2880-pinmux pinctrl: pin-22 (1e100000.ethernet) status -22
+>> [    1.210312] rt2880-pinmux pinctrl: could not request pin 22 (io22)
+>> from group rgmii2  on device rt2880-pinmux
+>> [    1.230058] mtk_soc_eth 1e100000.ethernet: Error applying setting,
+>> reverse things back
+>> [    1.245853] mtk_soc_eth: probe of 1e100000.ethernet failed with error -22
+> 
+> No, I was not getting any kind of error since when I test your last
+> patch series I was not experimenting any kind of regression. I don't
+> have any issues now also with your new patch series. Your new changes
+> make sense since as you have said "rgmii2" pins are requested as GPIO
+> but it seems are not really being requested? I don't have time to
+> check the datasheet now but will try to get time to see what is
+> happening there.
 
-Le 15/02/2022 à 14:01, Sebastian Fricke a écrit :
-> Hey Benjamin,
->
-> On 15.02.2022 12:00, Benjamin Gaignard wrote:
->> This series aims to make HEVC uapi stable and usable for hardware
->> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
->> and 2 out of the tree drivers (rkvdec and RPI).
->
-> Why is rkvdec out-of-tree? It is in the staging directory just like
-> hantro and cedrus? Am I missing something here?
+I think this must have something to do with pinctrl on newer kernels as 
+the TP-Link RE650 that I tested uses the OpenWrt master branch (Linux 5.10).
 
-I have made a shortcut here: HEVC part of rkvdec isn't in staging directory.
-I hope that this series will enough to add it after.
+I hacked together something to run 5.17-rc1 for RE650 on OpenWrt. Here's 
+what I found:
 
-Regards,
-Benjamin
+When I still have rgmii2_pins on the ethernet node, I don't get any of 
+the warnings above but this happens:
 
->
-> Greetings,
-> Sebastian
->
->>
->> The 3 first patches are from Hans to implement v4l2 dynamic control
->> feature which is need by patch 7 for 
->> V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET
->> definition.
->>
->> Patch 4 move the existing uapi to stable, including definitions renaming
->> and CID number change to fit with v4l2 naming.
->>
->> Patches 5 and 7 add fields needed for rkvdec and RPI decoders.
->>
->> Patches 6 is cleaning up the uapi of useless field.
->> Patches 8 change one field description and name to define offset by
->> bytes rather than by bits
->>
->> Benjamin
->>
->> Benjamin Gaignard (5):
->>  media: uapi: Move HEVC stateless controls out of staging
->>  media: uapi: Add fields needed for RKVDEC driver
->>  media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
->>  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
->>  media: uapi: Change data_bit_offset definition
->>
->> Hans Verkuil (3):
->>  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->>  v4l2-ctrls: add support for dynamically allocated arrays.
->>  vivid: add dynamic array test control
->>
->> .../userspace-api/media/drivers/hantro.rst    |   5 -
->> .../media/v4l/ext-ctrls-codec.rst             |  58 ++--
->> .../media/v4l/vidioc-queryctrl.rst            |   8 +
->> .../media/test-drivers/vivid/vivid-ctrls.c    |  15 ++
->> drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++++++--
->> drivers/media/v4l2-core/v4l2-ctrls-core.c     | 182 ++++++++++---
->> drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
->> drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->> drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->> drivers/staging/media/hantro/hantro_drv.c     |  27 +-
->> drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
->> drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
->> .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->> .../staging/media/sunxi/cedrus/cedrus_h265.c  |  13 +-
->> include/linux/hantro-media.h                  |  17 ++
->> include/media/hevc-ctrls.h                    | 250 ------------------
->> include/media/v4l2-ctrls.h                    |  48 +++-
->> include/uapi/linux/v4l2-controls.h            | 224 ++++++++++++++++
->> include/uapi/linux/videodev2.h                |   8 +
->> 19 files changed, 640 insertions(+), 408 deletions(-)
->> create mode 100644 include/linux/hantro-media.h
->> delete mode 100644 include/media/hevc-ctrls.h
->>
->> -- 
->> 2.32.0
->>
+- failsafe button lights_toggle was pressed -
+- failsafe -
+
+When I apply this patch and test again I don't get into failsafe anymore.
+
+The key for LIGHTS_TOGGLE is on GPIO 30 which is one of the rgmii2 pins.
+https://github.com/openwrt/openwrt/blob/master/target/linux/ramips/dts/mt7621_tplink_rexx0-v1.dtsi#L34
+
+What I make of this is, with newer kernels, pinctrl doesn't care and 
+just claims the pin group for ethernet anyway. This would explain why 
+the lights_toggle key GPIO goes from active low to high. So this patch 
+is still a necessity.
+
+Arınç
