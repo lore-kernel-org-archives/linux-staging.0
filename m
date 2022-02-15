@@ -1,178 +1,166 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12D51578;
-	Tue, 15 Feb 2022 14:57:45 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:6d7b:ae43:289b:7e7c] (unknown [IPv6:2a01:e0a:120:3210:6d7b:ae43:289b:7e7c])
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 737021F44B87;
-	Tue, 15 Feb 2022 14:57:43 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1644937064;
-	bh=7KL/E1roB+Tsjv5A9j7TgPU3P6wRIqjJyd0pX11Row0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W0nxo3O4UtsEQgAxjOIXGmT/eRA0jwW5mEMbT+VUmSvNj8xiq27pUa4KAFWyH7OPn
-	 4Daj5t94TsJZbmYOS1TF4d7gzjtDT3bY5JxdaY6RK0d5XtIHQKrW5EWnfoZ9ereITe
-	 Eh0w4js6g04jJdWKoCcIRw1zBBp4TRYL+izfixRDrTJeVI7mPw0tpW7imawps52ujF
-	 qcoIBYHRAuNGXFP0GGmYAljY8qV9Sl99kAut50r/Gj5aUf9IwZLhymdhySZmwqTGBt
-	 iajVR8j8kKb66KF449rW9ZjqjX82OhPJZJyTN8eMPU2vgW4xEwgyoJ3r4aK/YCwrXN
-	 +1ZRQTPpgCQ3A==
-Message-ID: <b498904f-8c0e-65e4-b35c-d03792820891@collabora.com>
-Date: Tue, 15 Feb 2022 15:57:41 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D761578
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 15:16:20 +0000 (UTC)
+Received: by mail-vs1-f52.google.com with SMTP id g21so10288490vsp.6
+        for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 07:16:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=6DuUgUuAADkU4oXGi/tM6KGgsSOIKVeZ/XvEc/blwmQ=;
+        b=ABmY/wT2dB+V/EWZ66S78zXChm+Ma/ce4qHqqPamMQp/v2UxLCOKA8k3BAwUdYVt48
+         KaSp6A2KhqpUg/FXz+drxhKPaJBlIZr9wXcrYW0XU2N14lbrpeZ3D9qLqLBgu/Elr20T
+         xcdh5Ohp4Z9H6K3oV3PgFp5bniINwmfQ1mU3x/VSud6F1TlJkrohrelN8Z8SmsCE3PTV
+         EpBtGhrALUIkTKLeMuUYRJ7AxSNXEtptozgdfwJ0vqcSz7zov4AopcOIDi9GuXbFExEF
+         RI9M6VdKWMZeNyQdbDN3ZqGIqfFtMko9SanPnNW16xw/AahW75YB5vTlEqb5GUi1mrtS
+         jWoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=6DuUgUuAADkU4oXGi/tM6KGgsSOIKVeZ/XvEc/blwmQ=;
+        b=uOfi7TAYnlN8kJTECLwbWr21a4Z7WNIc2/H+YZH15nETqnQdsFuAJuAOvOXdIpIZq7
+         qPkZIcTD+FhEsZ/22/+v5P7BARnYDse/LeBP57p+IlSHckRDMZ0A3CFjzZgite1U7eeF
+         ZrvDV+bcwUxUQZy2MCRfytN99wq45wHUD5RtdziGnH9ABXI1bqRbJdLNg70FavGL91zl
+         sCFqmaA+5+KRWsmnIwIbOT/Jz4wVLrF0bQjYAfSTESak7Elu3J8oTUg91JPIVPUezxLG
+         i0K8elwa47J1fUPlNgjEG4ncJsO2MtcwUehOelCudj/49l2/Wzz5YorEYBgo8gGUw8dk
+         zJ3Q==
+X-Gm-Message-State: AOAM533ongSdFZsTmp9yjItyd5LI/G9fHeqfNNR8Iq/Ek3uexeL+pmfK
+	X5Sf3phtMnSWcjPE4bi7FjrjaQHMMRxDahp4AP4=
+X-Google-Smtp-Source: ABdhPJxxEaiQ59xMWPvSztC9eVnWPZKVi7wrhVoINAGQO4JEmV4TxL8kYLNF19QUwUHnRklen0f48xMjV1I2NBRd1mU=
+X-Received: by 2002:a67:f890:: with SMTP id h16mr1688720vso.43.1644938179199;
+ Tue, 15 Feb 2022 07:16:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC v2 6/8] media: uapi: Remove bit_size field from
- v4l2_ctrl_hevc_slice_params
-Content-Language: en-US
-To: John Cox <jc@kynesim.co.uk>
-Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
- hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com
-References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
- <20220215110103.241297-7-benjamin.gaignard@collabora.com>
- <t2dn0hddgq22nt6a7sr6kl44irm3c2lj1j@4ax.com>
- <99062279-a3c4-96f7-4c4b-f39e7f812e68@collabora.com>
- <mqen0ht146rbtukbd47tbtbiqvsmfta8oa@4ax.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <mqen0ht146rbtukbd47tbtbiqvsmfta8oa@4ax.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220215081725.3463-1-arinc.unal@arinc9.com> <20220215081725.3463-2-arinc.unal@arinc9.com>
+ <CAMhs-H-74bK3m975Dtmg2zPrGjmqzSd+Tb_qdUV14yJBAWRQbw@mail.gmail.com>
+ <d9240058-68b4-cbd6-54b0-18f41ee5a98a@arinc9.com> <CAMhs-H_MvXOOmUDq97YyW7uaSfeNWcKE7F+J4182=MwH7yaOaw@mail.gmail.com>
+ <6902e0b3-5bd3-185b-26f8-eab2e37f29cb@arinc9.com>
+In-Reply-To: <6902e0b3-5bd3-185b-26f8-eab2e37f29cb@arinc9.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Tue, 15 Feb 2022 16:16:07 +0100
+Message-ID: <CAMhs-H-bMgsssuy-Rrygr0PCVkgDWDi=-=3vDVG_cnMX4L9vOA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] staging: mt7621-dts: do not use rgmii2_pins for
+ ethernet on GB-PC1
+To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Sander Vanheule <sander@svanheule.net>, 
+	NeilBrown <neil@brown.name>, DENG Qingfang <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	erkin.bozoglu@xeront.com, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Arinc,
 
-Le 15/02/2022 à 15:50, John Cox a écrit :
-> On Tue, 15 Feb 2022 15:35:12 +0100, you wrote:
+On Tue, Feb 15, 2022 at 3:11 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
+9.com> wrote:
 >
->> Le 15/02/2022 à 15:17, John Cox a écrit :
->>> Hi
->>>
->>>> The bit size of the slice could be deduced from the buffer payload
->>>> so remove bit_size field to avoid duplicated the information.
->>> I think this is a bad idea. In the future we are (I hope) going to want
->>> to have an array (variable) of slice headers all referring to the same
->>> bit buffer.  When we do that we will need this field.
->> I wonder if that could be considering like another decode mode and so
->> use an other control ?
-> I, personally, would be in favour of making the slice header control a
-> variable array just as it is.  If userland can't cope with multiple
-> entries then just send them one at a time and the code looks exactly
-> like it does at the moment and if the driver can't then set max array
-> entries to 1.
+> On 15/02/2022 12:09, Sergio Paracuellos wrote:
+> > Hi Arinc,
+> >
+> > On Tue, Feb 15, 2022 at 9:50 AM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@a=
+rinc9.com> wrote:
+> >>
+> >> Hey Sergio,
+> >>
+> >> On 15/02/2022 11:35, Sergio Paracuellos wrote:
+> >>> Hi Arinc,
+> >>>
+> >>> On Tue, Feb 15, 2022 at 9:18 AM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal=
+@arinc9.com> wrote:
+> >>>>
+> >>>> GB-PC1 uses some of the rgmii2 pins (22 - 33) as GPIO. Therefore, th=
+e
+> >>>> rgmii2 bus cannot be used on this device.
+> >>>> Overwrite pinctrl-0 property under the ethernet node without rgmii2_=
+pins on
+> >>>> the GB-PC1 devicetree.
+> >>>>
+> >>>> Signed-off-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
+> >>>> ---
+> >>>>    drivers/staging/mt7621-dts/gbpc1.dts | 4 ++++
+> >>>>    1 file changed, 4 insertions(+)
+> >>>
+> >>> No issues in GB-PC1. So:
+> >>>
+> >>> Tested-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> >>
+> >> Thanks for testing it so quickly!
+> >>
+> >> I was wondering if you got pinctrl errors on the bootlog before applyi=
+ng
+> >> this patch series.
+> >>
+> >> rgmii2 pin group is given gpio function so calling it from ethernet no=
+de
+> >> would cause this on my TP-Link RE650 v1 which also uses the rgmii2_pin=
+s
+> >> as GPIO.
+> >>
+> >> [    1.177349] rt2880-pinmux pinctrl: pin io22 already requested by
+> >> pinctrl; cannot claim for 1e100000.ethernet
+> >> [    1.196966] rt2880-pinmux pinctrl: pin-22 (1e100000.ethernet) statu=
+s -22
+> >> [    1.210312] rt2880-pinmux pinctrl: could not request pin 22 (io22)
+> >> from group rgmii2  on device rt2880-pinmux
+> >> [    1.230058] mtk_soc_eth 1e100000.ethernet: Error applying setting,
+> >> reverse things back
+> >> [    1.245853] mtk_soc_eth: probe of 1e100000.ethernet failed with err=
+or -22
+> >
+> > No, I was not getting any kind of error since when I test your last
+> > patch series I was not experimenting any kind of regression. I don't
+> > have any issues now also with your new patch series. Your new changes
+> > make sense since as you have said "rgmii2" pins are requested as GPIO
+> > but it seems are not really being requested? I don't have time to
+> > check the datasheet now but will try to get time to see what is
+> > happening there.
 >
-> Having implemented this in rpi port of ffmpeg and the RPi V4L2 driver I
-> can say with experience that the code and effort overhead is very low.
->
-> Either way having a multiple slice header control in the UAPI is
-> important for efficiency.
+> I think this must have something to do with pinctrl on newer kernels as
+> the TP-Link RE650 that I tested uses the OpenWrt master branch (Linux 5.1=
+0).
 
-Removing this field was one the Jernej's remarks.
-If he agree with you it won't be a big effort for me to remove this patch
-from v3.
+I think is this commit which I did according to a review after moving
+the driver from staging into 'drivers/pincrtl/ralink':
 
-Regards,
-Benjamin
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/d=
+rivers/pinctrl/ralink?h=3Dstaging-next&id=3D8a55d64c3336fc2ffd488a37d08ceab=
+154c7b56b
+
+You can also check other changes from where the driver was moved:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/log/driv=
+ers/pinctrl/ralink?h=3Dstaging-next
 
 >
-> Regards
+> I hacked together something to run 5.17-rc1 for RE650 on OpenWrt. Here's
+> what I found:
 >
-> John Cox
+> When I still have rgmii2_pins on the ethernet node, I don't get any of
+> the warnings above but this happens:
 >
->>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>> ---
->>>> .../userspace-api/media/v4l/ext-ctrls-codec.rst       |  3 ---
->>>> drivers/staging/media/sunxi/cedrus/cedrus_h265.c      | 11 ++++-------
->>>> include/uapi/linux/v4l2-controls.h                    |  3 +--
->>>> 3 files changed, 5 insertions(+), 12 deletions(-)
->>>>
->>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>> index 3296ac3b9fca..c3ae97657fa7 100644
->>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>> @@ -2965,9 +2965,6 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>>       :stub-columns: 0
->>>>       :widths:       1 1 2
->>>>
->>>> -    * - __u32
->>>> -      - ``bit_size``
->>>> -      - Size (in bits) of the current slice data.
->>>>       * - __u32
->>>>         - ``data_bit_offset``
->>>>         - Offset (in bits) to the video data in the current slice data.
->>>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->>>> index 8ab2d9c6f048..db8c7475eeb8 100644
->>>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->>>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->>>> @@ -312,8 +312,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
->>>> 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
->>>> 	unsigned int width_in_ctb_luma, ctb_size_luma;
->>>> 	unsigned int log2_max_luma_coding_block_size;
->>>> +	size_t slice_bytes;
->>>> 	dma_addr_t src_buf_addr;
->>>> -	dma_addr_t src_buf_end_addr;
->>>> 	u32 chroma_log2_weight_denom;
->>>> 	u32 output_pic_list_index;
->>>> 	u32 pic_order_cnt[2];
->>>> @@ -370,8 +370,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
->>>>
->>>> 	cedrus_write(dev, VE_DEC_H265_BITS_OFFSET, 0);
->>>>
->>>> -	reg = slice_params->bit_size;
->>>> -	cedrus_write(dev, VE_DEC_H265_BITS_LEN, reg);
->>>> +	slice_bytes = vb2_get_plane_payload(&run->src->vb2_buf, 0);
->>>> +	cedrus_write(dev, VE_DEC_H265_BITS_LEN, slice_bytes);
->>> I think one of these must be wrong. bit_size is in bits,
->>> vb2_get_plane_payload is in bytes?
->> You are right it should be vb2_get_plane_payload() * 8 to get the size in bits.
->>
->> I will change that in v3.
->>
->>> Regards
->>>
->>> John Cox
->>>    
->>>> 	/* Source beginning and end addresses. */
->>>>
->>>> @@ -384,10 +384,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
->>>>
->>>> 	cedrus_write(dev, VE_DEC_H265_BITS_ADDR, reg);
->>>>
->>>> -	src_buf_end_addr = src_buf_addr +
->>>> -			   DIV_ROUND_UP(slice_params->bit_size, 8);
->>>> -
->>>> -	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_end_addr);
->>>> +	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_addr + slice_bytes);
->>>> 	cedrus_write(dev, VE_DEC_H265_BITS_END_ADDR, reg);
->>>>
->>>> 	/* Coding tree block address */
->>>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->>>> index b1a3dc05f02f..27f5d272dc43 100644
->>>> --- a/include/uapi/linux/v4l2-controls.h
->>>> +++ b/include/uapi/linux/v4l2-controls.h
->>>> @@ -2457,7 +2457,6 @@ struct v4l2_hevc_pred_weight_table {
->>>> #define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
->>>>
->>>> struct v4l2_ctrl_hevc_slice_params {
->>>> -	__u32	bit_size;
->>>> 	__u32	data_bit_offset;
->>>>
->>>> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->>>> @@ -2484,7 +2483,7 @@ struct v4l2_ctrl_hevc_slice_params {
->>>> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
->>>> 	__u8	pic_struct;
->>>>
->>>> -	__u8	reserved;
->>>> +	__u8	reserved[5];
->>>>
->>>> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
->>>> 	__u32	slice_segment_addr;
+> - failsafe button lights_toggle was pressed -
+> - failsafe -
+>
+> When I apply this patch and test again I don't get into failsafe anymore.
+>
+> The key for LIGHTS_TOGGLE is on GPIO 30 which is one of the rgmii2 pins.
+> https://github.com/openwrt/openwrt/blob/master/target/linux/ramips/dts/mt=
+7621_tplink_rexx0-v1.dtsi#L34
+>
+> What I make of this is, with newer kernels, pinctrl doesn't care and
+> just claims the pin group for ethernet anyway. This would explain why
+> the lights_toggle key GPIO goes from active low to high. So this patch
+> is still a necessity.
+
+Agreed, applying this patch is the correct thing to do.
+
+Best regards,
+    Sergio Paracuellos
+>
+> Ar=C4=B1n=C3=A7
