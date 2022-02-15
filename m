@@ -1,1462 +1,1080 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52ADF158E
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 17:40:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6721C340EB;
-	Tue, 15 Feb 2022 17:40:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1644946809;
-	bh=DMett6vVXSj8wlqJaPBVitbC+1b/pFrWBdbwXSCqmvY=;
-	h=Date:From:To:Subject:From;
-	b=YHAhsK9b4ceo93O7cGMZkhAJtHRB9CQ+4MLg6VhoAXIqUZPNOt2f2z/RHYaJLxO76
-	 o1sCxEuNmr5hKqcrqdfi+pE1eKIsCJw9V851Cjnm9cHc2sRZx45hzEu6vQLDXrkmcu
-	 xKf2+PXhFhb8dbpeFBN+6vQWXHxPvhHISBgL9Fxux6eGzM+9JCAXaTGT3/3xrwLv7i
-	 m8KqkuUbReSbhvZRqSxYfdGT/EXjyAq6yFXtOj0CnyhrPV5rigOkg2Pp92zsFyGVAh
-	 1grvtuR4WfTMHEo/CBi7F8KvXPKqUpdwIOcsL3Pbwr2lQCgLUtbCpkZ3x6BdjDlhc3
-	 zFo6AQd/J/DOQ==
-Date: Tue, 15 Feb 2022 11:47:43 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: GR-QLogic-Storage-Upstream@marvell.com, linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	linux-xtensa@linux-xtensa.org, linux-crypto@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	bcm-kernel-feedback-list@broadcom.com, netdev@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org, mpi3mr-linuxdrv.pdl@broadcom.com,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	sparmaintainer@unisys.com, linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org, linux-ext4@vger.kernel.org,
-	linux-acpi@vger.kernel.org, devel@acpica.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	greybus-dev@lists.linaro.org, linux-i3c@lists.infradead.org,
-	linux-rdma@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH][next] treewide: Replace zero-length arrays with
- flexible-array members
-Message-ID: <20220215174743.GA878920@embeddedor>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25E1158E;
+	Tue, 15 Feb 2022 18:02:46 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a02:3030:c:4872:44aa:f680:5c21:4d9e])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E4DDA1F44661;
+	Tue, 15 Feb 2022 18:02:38 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1644948159;
+	bh=y1YTT+Gt7HE7QAfNpZSy9CmPruiAZ2IIB94aoWn2gwA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ddMfhltZKCVWravuyJPcp9ge4o2F01L/pOM4/jB4oTCzU/uiPKEpKQIpsFbPgvnP/
+	 rB/k0TQyRAmscfNDSez3kfGZocc/ONpMxnBHm71W0yPdYD6BjAZYi/7rRZtPZcbzD/
+	 W9S9imV+6EY7Mjs8uf1q9umjU5ig3IkfyQrsz+Lr9M3dfYeuQg2cjNNjCSoPduO0mc
+	 njbTlvwhOoD67uLCofT/dsgi5QasO7M2azTG0q7aChN5BdVLH9oKYrDOYgEZgUNdrg
+	 tbdQUE//OIua8UzEQCWW6oDTRWqHwWxSQ2RwuHiJdCbH7ekdvqzYFXqWB6o07689oC
+	 njlHacFeR+Xcg==
+Date: Tue, 15 Feb 2022 19:02:35 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+	mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+	jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se,
+	nicolas@ndufresne.ca, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk
+Subject: Re: [RFC v2 4/8] media: uapi: Move HEVC stateless controls out of
+ staging
+Message-ID: <20220215180235.gwjw6avqudjgoway@basti-XPS-13-9310>
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+ <20220215110103.241297-5-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220215110103.241297-5-benjamin.gaignard@collabora.com>
 
-There is a regular need in the kernel to provide a way to declare
-having a dynamically sized set of trailing elements in a structure.
-Kernel code should always use “flexible array members”[1] for these
-cases. The older style of one-element or zero-length arrays should
-no longer be used[2].
+Hey Benjamin,
 
-This code was transformed with the help of Coccinelle:
-(next-20220214$ spatch --jobs $(getconf _NPROCESSORS_ONLN) --sp-file script.cocci --include-headers --dir . > output.patch)
+On 15.02.2022 12:00, Benjamin Gaignard wrote:
+>The HEVC stateless 'uAPI' was staging and marked explicitly in the
 
-@@
-identifier S, member, array;
-type T1, T2;
-@@
+s/was staging/was in staging/
 
-struct S {
-  ...
-  T1 member;
-  T2 array[
-- 0
-  ];
-};
+>V4L2 specification that it will change and is unstable.
+>
+>Note that these control IDs were never exported as a public API,
+>they were only defined in kernel-local headers (hevc-ctrls.h).
+>
+>While moving the controls out of staging they are renamed and
+>control IDs get new numbers.
+>Drivers (Hantro, Cedrus) and Documentation are updated accordingly.
+>
+>Hantro dedicated control is moving to hantro-media.h
 
-UAPI and wireless changes were intentionally excluded from this patch
-and will be sent out separately.
+s/Hantro dedicated control is moving/Hantro dedicated controls are moved/
 
-[1] https://en.wikipedia.org/wiki/Flexible_array_member
-[2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-length-and-one-element-arrays
+>Since hevc-ctrls.h content has been dispatched in others file, remove it.
 
-Link: https://github.com/KSPP/linux/issues/78
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
-Hi all,
+s/in others file/in another file/
 
-I'm expecting to carry this patch in my tree, so it'd be great to
-get some Acks. And given the size of the patch, I'm only sending
-this to mailing lists.
+or
 
-Thanks!
+s/in others file/in other files/
 
- arch/alpha/include/asm/hwrpb.h                |  2 +-
- arch/ia64/include/asm/sal.h                   |  2 +-
- arch/s390/include/asm/ccwgroup.h              |  2 +-
- arch/s390/include/asm/chsc.h                  |  2 +-
- arch/s390/include/asm/eadm.h                  |  2 +-
- arch/s390/include/asm/fcx.h                   |  4 ++--
- arch/s390/include/asm/idals.h                 |  2 +-
- arch/s390/include/asm/sclp.h                  |  2 +-
- arch/s390/include/asm/sysinfo.h               |  6 +++---
- arch/sh/include/asm/thread_info.h             |  2 +-
- arch/sparc/include/asm/vio.h                  | 10 +++++-----
- arch/um/include/shared/net_kern.h             |  2 +-
- arch/x86/include/asm/microcode_amd.h          |  2 +-
- arch/x86/include/asm/microcode_intel.h        |  4 ++--
- arch/x86/include/asm/pci.h                    |  2 +-
- arch/x86/include/asm/pci_x86.h                |  2 +-
- arch/xtensa/include/asm/bootparam.h           |  2 +-
- drivers/crypto/caam/pdb.h                     |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  2 +-
- drivers/gpu/drm/nouveau/include/nvfw/hs.h     |  2 +-
- .../hwtracing/coresight/coresight-config.h    |  2 +-
- drivers/misc/bcm-vk/bcm_vk.h                  |  2 +-
- .../misc/habanalabs/include/common/cpucp_if.h |  6 +++---
- .../habanalabs/include/gaudi/gaudi_packets.h  |  4 ++--
- .../habanalabs/include/goya/goya_packets.h    |  4 ++--
- .../net/ethernet/freescale/enetc/enetc_hw.h   |  2 +-
- drivers/net/ethernet/i825xx/sun3_82586.h      |  2 +-
- .../net/ethernet/marvell/octeontx2/af/npc.h   |  6 +++---
- drivers/net/ethernet/qlogic/qed/qed_mfw_hsi.h |  2 +-
- drivers/net/ethernet/ti/davinci_mdio.c        |  2 +-
- drivers/scsi/dpt/dpti_i2o.h                   |  2 +-
- drivers/scsi/elx/libefc_sli/sli4.h            | 20 +++++++++----------
- drivers/scsi/mpi3mr/mpi3mr.h                  |  2 +-
- drivers/scsi/qla2xxx/qla_bsg.h                |  4 ++--
- drivers/scsi/qla2xxx/qla_def.h                |  2 +-
- drivers/scsi/qla2xxx/qla_edif_bsg.h           |  4 ++--
- drivers/scsi/qla2xxx/qla_fw.h                 |  2 +-
- drivers/scsi/qla4xxx/ql4_fw.h                 |  2 +-
- drivers/staging/r8188eu/include/ieee80211.h   |  6 +++---
- drivers/staging/r8188eu/include/rtw_cmd.h     | 10 +++++-----
- drivers/staging/rtl8712/rtl871x_cmd.h         |  8 ++++----
- drivers/staging/rtl8723bs/include/ieee80211.h |  2 +-
- drivers/staging/rtl8723bs/include/rtw_cmd.h   |  2 +-
- .../include/linux/raspberrypi/vchiq.h         |  2 +-
- drivers/visorbus/vbuschannel.h                |  2 +-
- fs/cifs/ntlmssp.h                             |  2 +-
- fs/ext4/fast_commit.h                         |  4 ++--
- fs/ksmbd/ksmbd_netlink.h                      |  2 +-
- fs/ksmbd/ntlmssp.h                            |  6 +++---
- fs/ksmbd/smb2pdu.h                            |  8 ++++----
- fs/ksmbd/transport_rdma.c                     |  2 +-
- fs/ksmbd/xattr.h                              |  2 +-
- fs/xfs/scrub/attr.h                           |  2 +-
- include/acpi/actbl2.h                         |  2 +-
- include/asm-generic/tlb.h                     |  4 ++--
- include/linux/greybus/greybus_manifest.h      |  4 ++--
- include/linux/greybus/hd.h                    |  2 +-
- include/linux/greybus/module.h                |  2 +-
- include/linux/i3c/ccc.h                       |  6 +++---
- include/linux/mlx5/mlx5_ifc_fpga.h            |  2 +-
- include/linux/platform_data/brcmfmac.h        |  2 +-
- .../linux/platform_data/cros_ec_commands.h    |  2 +-
- include/net/bluetooth/mgmt.h                  |  2 +-
- include/net/ioam6.h                           |  2 +-
- include/sound/sof/channel_map.h               |  4 ++--
- scripts/dtc/libfdt/fdt.h                      |  4 ++--
- sound/soc/intel/atom/sst-mfld-dsp.h           |  4 ++--
- sound/soc/intel/skylake/skl-topology.h        |  2 +-
- tools/lib/perf/include/perf/event.h           |  2 +-
- 69 files changed, 116 insertions(+), 116 deletions(-)
+Greetings,
+Sebastian
 
-diff --git a/arch/alpha/include/asm/hwrpb.h b/arch/alpha/include/asm/hwrpb.h
-index d8180e527a1e..fc76f36265ad 100644
---- a/arch/alpha/include/asm/hwrpb.h
-+++ b/arch/alpha/include/asm/hwrpb.h
-@@ -152,7 +152,7 @@ struct memdesc_struct {
- 	unsigned long chksum;
- 	unsigned long optional_pa;
- 	unsigned long numclusters;
--	struct memclust_struct cluster[0];
-+	struct memclust_struct cluster[];
- };
- 
- struct dsr_struct {
-diff --git a/arch/ia64/include/asm/sal.h b/arch/ia64/include/asm/sal.h
-index 78f4f7b40435..22749a201e92 100644
---- a/arch/ia64/include/asm/sal.h
-+++ b/arch/ia64/include/asm/sal.h
-@@ -420,7 +420,7 @@ typedef struct sal_log_processor_info {
- 	 * The rest of this structure consists of variable-length arrays, which can't be
- 	 * expressed in C.
- 	 */
--	sal_log_mod_error_info_t info[0];
-+	sal_log_mod_error_info_t info[];
- 	/*
- 	 * This is what the rest looked like if C supported variable-length arrays:
- 	 *
-diff --git a/arch/s390/include/asm/ccwgroup.h b/arch/s390/include/asm/ccwgroup.h
-index aa995d91cd1d..11d2fb3de4f5 100644
---- a/arch/s390/include/asm/ccwgroup.h
-+++ b/arch/s390/include/asm/ccwgroup.h
-@@ -25,7 +25,7 @@ struct ccwgroup_device {
- 	unsigned int count;
- 	struct device	dev;
- 	struct work_struct ungroup_work;
--	struct ccw_device *cdev[0];
-+	struct ccw_device *cdev[];
- };
- 
- /**
-diff --git a/arch/s390/include/asm/chsc.h b/arch/s390/include/asm/chsc.h
-index ae4d2549cd67..bb48ea380c0d 100644
---- a/arch/s390/include/asm/chsc.h
-+++ b/arch/s390/include/asm/chsc.h
-@@ -63,7 +63,7 @@ struct chsc_pnso_area {
- 	struct chsc_header response;
- 	u32:32;
- 	struct chsc_pnso_naihdr naihdr;
--	struct chsc_pnso_naid_l2 entries[0];
-+	struct chsc_pnso_naid_l2 entries[];
- } __packed __aligned(PAGE_SIZE);
- 
- #endif /* _ASM_S390_CHSC_H */
-diff --git a/arch/s390/include/asm/eadm.h b/arch/s390/include/asm/eadm.h
-index 445fe4c8184a..06f795855af7 100644
---- a/arch/s390/include/asm/eadm.h
-+++ b/arch/s390/include/asm/eadm.h
-@@ -78,7 +78,7 @@ struct aob {
- 
- struct aob_rq_header {
- 	struct scm_device *scmdev;
--	char data[0];
-+	char data[];
- };
- 
- struct scm_device {
-diff --git a/arch/s390/include/asm/fcx.h b/arch/s390/include/asm/fcx.h
-index cff0749e9657..b8a028a36173 100644
---- a/arch/s390/include/asm/fcx.h
-+++ b/arch/s390/include/asm/fcx.h
-@@ -214,7 +214,7 @@ struct dcw_intrg_data {
- 	u32 :32;
- 	u64 time;
- 	u64 prog_id;
--	u8  prog_data[0];
-+	u8  prog_data[];
- } __attribute__ ((packed));
- 
- #define DCW_FLAGS_CC		(1 << (7 - 1))
-@@ -241,7 +241,7 @@ struct dcw {
- 	u32 :8;
- 	u32 cd_count:8;
- 	u32 count;
--	u8 cd[0];
-+	u8 cd[];
- } __attribute__ ((packed));
- 
- #define TCCB_FORMAT_DEFAULT	0x7f
-diff --git a/arch/s390/include/asm/idals.h b/arch/s390/include/asm/idals.h
-index 6fb7aced104a..40eae2c08d61 100644
---- a/arch/s390/include/asm/idals.h
-+++ b/arch/s390/include/asm/idals.h
-@@ -108,7 +108,7 @@ clear_normalized_cda(struct ccw1 * ccw)
- struct idal_buffer {
- 	size_t size;
- 	size_t page_order;
--	void *data[0];
-+	void *data[];
- };
- 
- /*
-diff --git a/arch/s390/include/asm/sclp.h b/arch/s390/include/asm/sclp.h
-index c68ea35de498..22b3213c6c9d 100644
---- a/arch/s390/include/asm/sclp.h
-+++ b/arch/s390/include/asm/sclp.h
-@@ -112,7 +112,7 @@ struct zpci_report_error_header {
- 			 *	(OpenCrypto Successful Diagnostics Execution)
- 			 */
- 	u16 length;	/* Length of Subsequent Data (up to 4K – SCLP header */
--	u8 data[0];	/* Subsequent Data passed verbatim to SCLP ET 24 */
-+	u8 data[];	/* Subsequent Data passed verbatim to SCLP ET 24 */
- } __packed;
- 
- extern char *sclp_early_sccb;
-diff --git a/arch/s390/include/asm/sysinfo.h b/arch/s390/include/asm/sysinfo.h
-index fe7b3f8f0791..ab1c6316055c 100644
---- a/arch/s390/include/asm/sysinfo.h
-+++ b/arch/s390/include/asm/sysinfo.h
-@@ -67,12 +67,12 @@ struct sysinfo_1_2_2 {
- 	unsigned short cpus_configured;
- 	unsigned short cpus_standby;
- 	unsigned short cpus_reserved;
--	unsigned short adjustment[0];
-+	unsigned short adjustment[];
- };
- 
- struct sysinfo_1_2_2_extension {
- 	unsigned int alt_capability;
--	unsigned short alt_adjustment[0];
-+	unsigned short alt_adjustment[];
- };
- 
- struct sysinfo_2_2_1 {
-@@ -181,7 +181,7 @@ struct sysinfo_15_1_x {
- 	unsigned char reserved1;
- 	unsigned char mnest;
- 	unsigned char reserved2[4];
--	union topology_entry tle[0];
-+	union topology_entry tle[];
- };
- 
- int stsi(void *sysinfo, int fc, int sel1, int sel2);
-diff --git a/arch/sh/include/asm/thread_info.h b/arch/sh/include/asm/thread_info.h
-index 598d0184ffea..3a2d50d61fc9 100644
---- a/arch/sh/include/asm/thread_info.h
-+++ b/arch/sh/include/asm/thread_info.h
-@@ -33,7 +33,7 @@ struct thread_info {
- 	mm_segment_t		addr_limit;	/* thread address space */
- 	unsigned long		previous_sp;	/* sp of previous stack in case
- 						   of nested IRQ stacks */
--	__u8			supervisor_stack[0];
-+	__u8			supervisor_stack[];
- };
- 
- #endif
-diff --git a/arch/sparc/include/asm/vio.h b/arch/sparc/include/asm/vio.h
-index 8a1a83bbb6d5..2d7bdf665fd3 100644
---- a/arch/sparc/include/asm/vio.h
-+++ b/arch/sparc/include/asm/vio.h
-@@ -70,7 +70,7 @@ struct vio_dring_register {
- #define VIO_RX_DRING_DATA	0x0004
- 	u16			resv;
- 	u32			num_cookies;
--	struct ldc_trans_cookie	cookies[0];
-+	struct ldc_trans_cookie	cookies[];
- };
- 
- struct vio_dring_unregister {
-@@ -161,7 +161,7 @@ struct vio_disk_desc {
- 	u64			size;
- 	u32			ncookies;
- 	u32			resv2;
--	struct ldc_trans_cookie	cookies[0];
-+	struct ldc_trans_cookie	cookies[];
- };
- 
- #define VIO_DISK_VNAME_LEN	8
-@@ -200,13 +200,13 @@ struct vio_disk_devid {
- 	u16			resv;
- 	u16			type;
- 	u32			len;
--	char			id[0];
-+	char			id[];
- };
- 
- struct vio_disk_efi {
- 	u64			lba;
- 	u64			len;
--	char			data[0];
-+	char			data[];
- };
- 
- /* VIO net specific structures and defines */
-@@ -246,7 +246,7 @@ struct vio_net_desc {
- 	struct vio_dring_hdr	hdr;
- 	u32			size;
- 	u32			ncookies;
--	struct ldc_trans_cookie	cookies[0];
-+	struct ldc_trans_cookie	cookies[];
- };
- 
- struct vio_net_dext {
-diff --git a/arch/um/include/shared/net_kern.h b/arch/um/include/shared/net_kern.h
-index 441a8a309329..67b2e9a1f2e5 100644
---- a/arch/um/include/shared/net_kern.h
-+++ b/arch/um/include/shared/net_kern.h
-@@ -39,7 +39,7 @@ struct uml_net_private {
- 
- 	void (*add_address)(unsigned char *, unsigned char *, void *);
- 	void (*delete_address)(unsigned char *, unsigned char *, void *);
--	char user[0];
-+	char user[];
- };
- 
- struct net_kern_info {
-diff --git a/arch/x86/include/asm/microcode_amd.h b/arch/x86/include/asm/microcode_amd.h
-index 7063b5a43220..ac31f9140d07 100644
---- a/arch/x86/include/asm/microcode_amd.h
-+++ b/arch/x86/include/asm/microcode_amd.h
-@@ -38,7 +38,7 @@ struct microcode_header_amd {
- 
- struct microcode_amd {
- 	struct microcode_header_amd	hdr;
--	unsigned int			mpb[0];
-+	unsigned int			mpb[];
- };
- 
- #define PATCH_MAX_SIZE (3 * PAGE_SIZE)
-diff --git a/arch/x86/include/asm/microcode_intel.h b/arch/x86/include/asm/microcode_intel.h
-index d85a07d7154f..4c92cea7e4b5 100644
---- a/arch/x86/include/asm/microcode_intel.h
-+++ b/arch/x86/include/asm/microcode_intel.h
-@@ -19,7 +19,7 @@ struct microcode_header_intel {
- 
- struct microcode_intel {
- 	struct microcode_header_intel hdr;
--	unsigned int            bits[0];
-+	unsigned int            bits[];
- };
- 
- /* microcode format is extended from prescott processors */
-@@ -33,7 +33,7 @@ struct extended_sigtable {
- 	unsigned int            count;
- 	unsigned int            cksum;
- 	unsigned int            reserved[3];
--	struct extended_signature sigs[0];
-+	struct extended_signature sigs[];
- };
- 
- #define DEFAULT_UCODE_DATASIZE	(2000)
-diff --git a/arch/x86/include/asm/pci.h b/arch/x86/include/asm/pci.h
-index d2c76c8d8cfd..f3fd5928bcbb 100644
---- a/arch/x86/include/asm/pci.h
-+++ b/arch/x86/include/asm/pci.h
-@@ -135,7 +135,7 @@ struct pci_setup_rom {
- 	unsigned long bus;
- 	unsigned long device;
- 	unsigned long function;
--	uint8_t romdata[0];
-+	uint8_t romdata[];
- };
- 
- #endif /* _ASM_X86_PCI_H */
-diff --git a/arch/x86/include/asm/pci_x86.h b/arch/x86/include/asm/pci_x86.h
-index 490411dba438..3fb6fc596095 100644
---- a/arch/x86/include/asm/pci_x86.h
-+++ b/arch/x86/include/asm/pci_x86.h
-@@ -87,7 +87,7 @@ struct irq_routing_table {
- 	u32 miniport_data;		/* Crap */
- 	u8 rfu[11];
- 	u8 checksum;			/* Modulo 256 checksum must give 0 */
--	struct irq_info slots[0];
-+	struct irq_info slots[];
- } __attribute__((packed));
- 
- extern unsigned int pcibios_irq_mask;
-diff --git a/arch/xtensa/include/asm/bootparam.h b/arch/xtensa/include/asm/bootparam.h
-index 892aab399ac8..6333bd1eb9d2 100644
---- a/arch/xtensa/include/asm/bootparam.h
-+++ b/arch/xtensa/include/asm/bootparam.h
-@@ -34,7 +34,7 @@
- typedef struct bp_tag {
- 	unsigned short id;	/* tag id */
- 	unsigned short size;	/* size of this record excluding the structure*/
--	unsigned long data[0];	/* data */
-+	unsigned long data[];	/* data */
- } bp_tag_t;
- 
- struct bp_meminfo {
-diff --git a/drivers/crypto/caam/pdb.h b/drivers/crypto/caam/pdb.h
-index 8ccc22075043..4b1bcf53f7ac 100644
---- a/drivers/crypto/caam/pdb.h
-+++ b/drivers/crypto/caam/pdb.h
-@@ -144,7 +144,7 @@ struct ipsec_encap_pdb {
- 	};
- 	u32 spi;
- 	u32 ip_hdr_len;
--	u32 ip_hdr[0];
-+	u32 ip_hdr[];
- };
- 
- /**
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-index 1a1edae67e4e..3acee0060e23 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-@@ -51,7 +51,7 @@ struct __guc_ads_blob {
- 	struct guc_gt_system_info system_info;
- 	struct guc_engine_usage engine_usage;
- 	/* From here on, location is dynamic! Refer to above diagram. */
--	struct guc_mmio_reg regset[0];
-+	struct guc_mmio_reg regset[];
- } __packed;
- 
- static u32 guc_ads_regset_size(struct intel_guc *guc)
-diff --git a/drivers/gpu/drm/nouveau/include/nvfw/hs.h b/drivers/gpu/drm/nouveau/include/nvfw/hs.h
-index 64d0d32200c2..b53bbc4cd130 100644
---- a/drivers/gpu/drm/nouveau/include/nvfw/hs.h
-+++ b/drivers/gpu/drm/nouveau/include/nvfw/hs.h
-@@ -23,7 +23,7 @@ struct nvfw_hs_load_header {
- 	u32 data_dma_base;
- 	u32 data_size;
- 	u32 num_apps;
--	u32 apps[0];
-+	u32 apps[];
- };
- 
- const struct nvfw_hs_load_header *
-diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
-index 9bd44b940add..2e1670523461 100644
---- a/drivers/hwtracing/coresight/coresight-config.h
-+++ b/drivers/hwtracing/coresight/coresight-config.h
-@@ -231,7 +231,7 @@ struct cscfg_config_csdev {
- 	bool enabled;
- 	struct list_head node;
- 	int nr_feat;
--	struct cscfg_feature_csdev *feats_csdev[0];
-+	struct cscfg_feature_csdev *feats_csdev[];
- };
- 
- /**
-diff --git a/drivers/misc/bcm-vk/bcm_vk.h b/drivers/misc/bcm-vk/bcm_vk.h
-index a1338f375589..25d51222eedf 100644
---- a/drivers/misc/bcm-vk/bcm_vk.h
-+++ b/drivers/misc/bcm-vk/bcm_vk.h
-@@ -311,7 +311,7 @@ struct bcm_vk_peer_log {
- 	u32 wr_idx;
- 	u32 buf_size;
- 	u32 mask;
--	char data[0];
-+	char data[];
- };
- 
- /* max buf size allowed */
-diff --git a/drivers/misc/habanalabs/include/common/cpucp_if.h b/drivers/misc/habanalabs/include/common/cpucp_if.h
-index 737c39f33f05..f9c4acc9bf5a 100644
---- a/drivers/misc/habanalabs/include/common/cpucp_if.h
-+++ b/drivers/misc/habanalabs/include/common/cpucp_if.h
-@@ -540,19 +540,19 @@ struct cpucp_packet {
- struct cpucp_unmask_irq_arr_packet {
- 	struct cpucp_packet cpucp_pkt;
- 	__le32 length;
--	__le32 irqs[0];
-+	__le32 irqs[];
- };
- 
- struct cpucp_nic_status_packet {
- 	struct cpucp_packet cpucp_pkt;
- 	__le32 length;
--	__le32 data[0];
-+	__le32 data[];
- };
- 
- struct cpucp_array_data_packet {
- 	struct cpucp_packet cpucp_pkt;
- 	__le32 length;
--	__le32 data[0];
-+	__le32 data[];
- };
- 
- enum cpucp_packet_rc {
-diff --git a/drivers/misc/habanalabs/include/gaudi/gaudi_packets.h b/drivers/misc/habanalabs/include/gaudi/gaudi_packets.h
-index 6e097ace2e96..66fc083a7c6a 100644
---- a/drivers/misc/habanalabs/include/gaudi/gaudi_packets.h
-+++ b/drivers/misc/habanalabs/include/gaudi/gaudi_packets.h
-@@ -54,7 +54,7 @@ struct gaudi_packet {
- 	/* The rest of the packet data follows. Use the corresponding
- 	 * packet_XXX struct to deference the data, based on packet type
- 	 */
--	u8 contents[0];
-+	u8 contents[];
- };
- 
- struct packet_nop {
-@@ -75,7 +75,7 @@ struct packet_wreg32 {
- struct packet_wreg_bulk {
- 	__le32 size64;
- 	__le32 ctl;
--	__le64 values[0]; /* data starts here */
-+	__le64 values[]; /* data starts here */
- };
- 
- #define GAUDI_PKT_LONG_CTL_OP_SHIFT		20
-diff --git a/drivers/misc/habanalabs/include/goya/goya_packets.h b/drivers/misc/habanalabs/include/goya/goya_packets.h
-index ef54bad20509..50ce5175b63a 100644
---- a/drivers/misc/habanalabs/include/goya/goya_packets.h
-+++ b/drivers/misc/habanalabs/include/goya/goya_packets.h
-@@ -62,7 +62,7 @@ struct goya_packet {
- 	/* The rest of the packet data follows. Use the corresponding
- 	 * packet_XXX struct to deference the data, based on packet type
- 	 */
--	u8 contents[0];
-+	u8 contents[];
- };
- 
- struct packet_nop {
-@@ -86,7 +86,7 @@ struct packet_wreg32 {
- struct packet_wreg_bulk {
- 	__le32 size64;
- 	__le32 ctl;
--	__le64 values[0]; /* data starts here */
-+	__le64 values[]; /* data starts here */
- };
- 
- struct packet_msg_long {
-diff --git a/drivers/net/ethernet/freescale/enetc/enetc_hw.h b/drivers/net/ethernet/freescale/enetc/enetc_hw.h
-index 1514e6a4a3ff..ce5b677e8c2f 100644
---- a/drivers/net/ethernet/freescale/enetc/enetc_hw.h
-+++ b/drivers/net/ethernet/freescale/enetc/enetc_hw.h
-@@ -881,7 +881,7 @@ struct sgcl_data {
- 	u32		bth;
- 	u32		ct;
- 	u32		cte;
--	struct sgce	sgcl[0];
-+	struct sgce	sgcl[];
- };
- 
- #define ENETC_CBDR_FMI_MR	BIT(0)
-diff --git a/drivers/net/ethernet/i825xx/sun3_82586.h b/drivers/net/ethernet/i825xx/sun3_82586.h
-index 79aef681ac85..451cb3d26cb5 100644
---- a/drivers/net/ethernet/i825xx/sun3_82586.h
-+++ b/drivers/net/ethernet/i825xx/sun3_82586.h
-@@ -250,7 +250,7 @@ struct mcsetup_cmd_struct
-   unsigned short cmd_cmd;
-   unsigned short cmd_link;
-   unsigned short mc_cnt;		/* number of bytes in the MC-List */
--  unsigned char  mc_list[0][6];  	/* pointer to 6 bytes entries */
-+  unsigned char  mc_list[][6];  	/* pointer to 6 bytes entries */
- };
- 
- /*
-diff --git a/drivers/net/ethernet/marvell/octeontx2/af/npc.h b/drivers/net/ethernet/marvell/octeontx2/af/npc.h
-index 77fd39e2c8db..9b6e587e78b4 100644
---- a/drivers/net/ethernet/marvell/octeontx2/af/npc.h
-+++ b/drivers/net/ethernet/marvell/octeontx2/af/npc.h
-@@ -455,7 +455,7 @@ struct npc_coalesced_kpu_prfl {
- 	u8 name[NPC_NAME_LEN]; /* KPU Profile name */
- 	u64 version; /* KPU firmware/profile version */
- 	u8 num_prfl; /* No of NPC profiles. */
--	u16 prfl_sz[0];
-+	u16 prfl_sz[];
- };
- 
- struct npc_mcam_kex {
-@@ -482,7 +482,7 @@ struct npc_kpu_fwdata {
- 	 * struct npc_kpu_profile_cam[entries];
- 	 * struct npc_kpu_profile_action[entries];
- 	 */
--	u8	data[0];
-+	u8	data[];
- } __packed;
- 
- struct npc_lt_def {
-@@ -572,7 +572,7 @@ struct npc_kpu_profile_fwdata {
- 	 *  Custom KPU CAM and ACTION configuration entries.
- 	 * struct npc_kpu_fwdata kpu[kpus];
- 	 */
--	u8	data[0];
-+	u8	data[];
- } __packed;
- 
- struct rvu_npc_mcam_rule {
-diff --git a/drivers/net/ethernet/qlogic/qed/qed_mfw_hsi.h b/drivers/net/ethernet/qlogic/qed/qed_mfw_hsi.h
-index b70ee8200e15..6459dd3feb37 100644
---- a/drivers/net/ethernet/qlogic/qed/qed_mfw_hsi.h
-+++ b/drivers/net/ethernet/qlogic/qed/qed_mfw_hsi.h
-@@ -2470,6 +2470,6 @@ struct nvm_meta_bin_t {
- 	u32 version;
- #define NVM_META_BIN_VERSION 1
- 	u32 num_options;
--	u32 options[0];
-+	u32 options[];
- };
- #endif
-diff --git a/drivers/net/ethernet/ti/davinci_mdio.c b/drivers/net/ethernet/ti/davinci_mdio.c
-index a4efd5e35158..fce2626e34fa 100644
---- a/drivers/net/ethernet/ti/davinci_mdio.c
-+++ b/drivers/net/ethernet/ti/davinci_mdio.c
-@@ -70,7 +70,7 @@ struct davinci_mdio_regs {
- #define USERACCESS_DATA		(0xffff)
- 
- 		u32	physel;
--	}	user[0];
-+	}	user[];
- };
- 
- static const struct mdio_platform_data default_pdata = {
-diff --git a/drivers/scsi/dpt/dpti_i2o.h b/drivers/scsi/dpt/dpti_i2o.h
-index bf0daeeb50a9..e1fbbf55c09d 100644
---- a/drivers/scsi/dpt/dpti_i2o.h
-+++ b/drivers/scsi/dpt/dpti_i2o.h
-@@ -123,7 +123,7 @@ struct i2o_sys_tbl
- 	u32	change_ind;
- 	u32	reserved2;
- 	u32	reserved3;
--	struct i2o_sys_tbl_entry iops[0];
-+	struct i2o_sys_tbl_entry iops[];
- };
- 
- /*
-diff --git a/drivers/scsi/elx/libefc_sli/sli4.h b/drivers/scsi/elx/libefc_sli/sli4.h
-index ee2a9e65a88d..38af166cc786 100644
---- a/drivers/scsi/elx/libefc_sli/sli4.h
-+++ b/drivers/scsi/elx/libefc_sli/sli4.h
-@@ -609,7 +609,7 @@ struct sli4_rqst_cmn_create_cq_v2 {
- 	__le16			cqe_count;
- 	__le16			rsvd30;
- 	__le32			rsvd32;
--	struct sli4_dmaaddr	page_phys_addr[0];
-+	struct sli4_dmaaddr	page_phys_addr[];
- };
- 
- enum sli4_create_cqset_e {
-@@ -634,7 +634,7 @@ struct sli4_rqst_cmn_create_cq_set_v0 {
- 	__le16			num_cq_req;
- 	__le16			dw6w1_flags;
- 	__le16			eq_id[16];
--	struct sli4_dmaaddr	page_phys_addr[0];
-+	struct sli4_dmaaddr	page_phys_addr[];
- };
- 
- /* CQE count */
-@@ -764,7 +764,7 @@ struct sli4_rqst_cmn_create_mq_ext {
- 	__le32			dw7_val;
- 	__le32			dw8_flags;
- 	__le32			rsvd36;
--	struct sli4_dmaaddr	page_phys_addr[0];
-+	struct sli4_dmaaddr	page_phys_addr[];
- };
- 
- struct sli4_rsp_cmn_create_mq_ext {
-@@ -802,7 +802,7 @@ struct sli4_rqst_cmn_create_cq_v0 {
- 	__le32			dw6_flags;
- 	__le32			rsvd28;
- 	__le32			rsvd32;
--	struct sli4_dmaaddr	page_phys_addr[0];
-+	struct sli4_dmaaddr	page_phys_addr[];
- };
- 
- enum sli4_create_rq_e {
-@@ -887,7 +887,7 @@ struct sli4_rqst_rq_create_v2 {
- 	__le16			base_cq_id;
- 	__le16			rsvd26;
- 	__le32			rsvd42;
--	struct sli4_dmaaddr	page_phys_addr[0];
-+	struct sli4_dmaaddr	page_phys_addr[];
- };
- 
- struct sli4_rsp_rq_create_v2 {
-@@ -3168,7 +3168,7 @@ struct sli4_rqst_cmn_read_object {
- 	__le32			read_offset;
- 	u8			object_name[104];
- 	__le32			host_buffer_descriptor_count;
--	struct sli4_bde		host_buffer_descriptor[0];
-+	struct sli4_bde		host_buffer_descriptor[];
- };
- 
- #define RSP_COM_READ_OBJ_EOF		0x80000000
-@@ -3191,7 +3191,7 @@ struct sli4_rqst_cmn_write_object {
- 	__le32			write_offset;
- 	u8			object_name[104];
- 	__le32			host_buffer_descriptor_count;
--	struct sli4_bde		host_buffer_descriptor[0];
-+	struct sli4_bde		host_buffer_descriptor[];
- };
- 
- #define	RSP_CHANGE_STATUS		0xff
-@@ -3217,7 +3217,7 @@ struct sli4_rqst_cmn_read_object_list {
- 	__le32			read_offset;
- 	u8			object_name[104];
- 	__le32			host_buffer_descriptor_count;
--	struct sli4_bde		host_buffer_descriptor[0];
-+	struct sli4_bde		host_buffer_descriptor[];
- };
- 
- enum sli4_rqst_set_dump_flags {
-@@ -3342,7 +3342,7 @@ struct sli4_rspource_descriptor_v1 {
- 	u8		descriptor_type;
- 	u8		descriptor_length;
- 	__le16		rsvd16;
--	__le32		type_specific[0];
-+	__le32		type_specific[];
- };
- 
- enum sli4_pcie_desc_flags {
-@@ -3474,7 +3474,7 @@ struct sli4_rqst_post_hdr_templates {
- 	struct sli4_rqst_hdr	hdr;
- 	__le16			rpi_offset;
- 	__le16			page_count;
--	struct sli4_dmaaddr	page_descriptor[0];
-+	struct sli4_dmaaddr	page_descriptor[];
- };
- 
- #define SLI4_HDR_TEMPLATE_SIZE		64
-diff --git a/drivers/scsi/mpi3mr/mpi3mr.h b/drivers/scsi/mpi3mr/mpi3mr.h
-index fc4eaf6d1e47..fb7d8775c9f7 100644
---- a/drivers/scsi/mpi3mr/mpi3mr.h
-+++ b/drivers/scsi/mpi3mr/mpi3mr.h
-@@ -878,7 +878,7 @@ struct mpi3mr_fwevt {
- 	bool process_evt;
- 	u32 evt_ctx;
- 	struct kref ref_count;
--	char event_data[0] __aligned(4);
-+	char event_data[] __aligned(4);
- };
- 
- 
-diff --git a/drivers/scsi/qla2xxx/qla_bsg.h b/drivers/scsi/qla2xxx/qla_bsg.h
-index 0f8a4c7e52a2..6d2b0a7436c1 100644
---- a/drivers/scsi/qla2xxx/qla_bsg.h
-+++ b/drivers/scsi/qla2xxx/qla_bsg.h
-@@ -157,7 +157,7 @@ struct qla84_msg_mgmt {
- 	uint16_t rsrvd;
- 	struct qla84_mgmt_param mgmtp;/* parameters for cmd */
- 	uint32_t len; /* bytes in payload following this struct */
--	uint8_t payload[0]; /* payload for cmd */
-+	uint8_t payload[]; /* payload for cmd */
- };
- 
- struct qla_bsg_a84_mgmt {
-@@ -216,7 +216,7 @@ struct qla_image_version {
- 
- struct qla_image_version_list {
- 	uint32_t count;
--	struct qla_image_version version[0];
-+	struct qla_image_version version[];
- } __packed;
- 
- struct qla_status_reg {
-diff --git a/drivers/scsi/qla2xxx/qla_def.h b/drivers/scsi/qla2xxx/qla_def.h
-index 9ebf4a234d9a..b6434c72dee3 100644
---- a/drivers/scsi/qla2xxx/qla_def.h
-+++ b/drivers/scsi/qla2xxx/qla_def.h
-@@ -5410,7 +5410,7 @@ struct ql_vnd_stat_entry {
- struct ql_vnd_stats {
- 	u64 entry_count; /* Num of entries */
- 	u64 rservd;
--	struct ql_vnd_stat_entry entry[0]; /* Place holder of entries */
-+	struct ql_vnd_stat_entry entry[]; /* Place holder of entries */
- } __packed;
- 
- struct ql_vnd_host_stats_resp {
-diff --git a/drivers/scsi/qla2xxx/qla_edif_bsg.h b/drivers/scsi/qla2xxx/qla_edif_bsg.h
-index 53026d82ebff..5a26c77157da 100644
---- a/drivers/scsi/qla2xxx/qla_edif_bsg.h
-+++ b/drivers/scsi/qla2xxx/qla_edif_bsg.h
-@@ -121,7 +121,7 @@ struct app_pinfo {
- struct app_pinfo_reply {
- 	uint8_t		port_count;
- 	uint8_t		reserved[VND_CMD_APP_RESERVED_SIZE];
--	struct app_pinfo ports[0];
-+	struct app_pinfo ports[];
- } __packed;
- 
- struct app_sinfo_req {
-@@ -140,7 +140,7 @@ struct app_sinfo {
- 
- struct app_stats_reply {
- 	uint8_t		elem_count;
--	struct app_sinfo elem[0];
-+	struct app_sinfo elem[];
- } __packed;
- 
- struct qla_sa_update_frame {
-diff --git a/drivers/scsi/qla2xxx/qla_fw.h b/drivers/scsi/qla2xxx/qla_fw.h
-index 073d06e88c58..0bb1d562f0bf 100644
---- a/drivers/scsi/qla2xxx/qla_fw.h
-+++ b/drivers/scsi/qla2xxx/qla_fw.h
-@@ -1706,7 +1706,7 @@ struct qla_flt_header {
- 	__le16	length;
- 	__le16	checksum;
- 	__le16	unused;
--	struct qla_flt_region region[0];
-+	struct qla_flt_region region[];
- };
- 
- #define FLT_REGION_SIZE		16
-diff --git a/drivers/scsi/qla4xxx/ql4_fw.h b/drivers/scsi/qla4xxx/ql4_fw.h
-index 4e1764df0a73..860ec61b51b9 100644
---- a/drivers/scsi/qla4xxx/ql4_fw.h
-+++ b/drivers/scsi/qla4xxx/ql4_fw.h
-@@ -1028,7 +1028,7 @@ struct crash_record {
- 
- 	uint8_t out_RISC_reg_dump[256]; /* 80 -17F */
- 	uint8_t in_RISC_reg_dump[256];	/*180 -27F */
--	uint8_t in_out_RISC_stack_dump[0];	/*280 - ??? */
-+	uint8_t in_out_RISC_stack_dump[];	/*280 - ??? */
- };
- 
- struct conn_event_log_entry {
-diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
-index 3a23d5299314..5e7de631b8ef 100644
---- a/drivers/staging/r8188eu/include/ieee80211.h
-+++ b/drivers/staging/r8188eu/include/ieee80211.h
-@@ -185,7 +185,7 @@ struct ieee_param {
- struct ieee_param_ex {
- 	u32 cmd;
- 	u8 sta_addr[ETH_ALEN];
--	u8 data[0];
-+	u8 data[];
- };
- 
- struct sta_data {
-@@ -713,7 +713,7 @@ struct ieee80211_info_element_hdr {
- struct ieee80211_info_element {
- 	u8 id;
- 	u8 len;
--	u8 data[0];
-+	u8 data[];
- } __packed;
- 
- /*
-@@ -776,7 +776,7 @@ struct ieee80211_txb {
- 	u16 reserved;
- 	u16 frag_size;
- 	u16 payload_size;
--	struct sk_buff *fragments[0];
-+	struct sk_buff *fragments[];
- };
- 
- /* SWEEP TABLE ENTRIES NUMBER*/
-diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
-index cf0945ae11c1..f8991a0493d0 100644
---- a/drivers/staging/r8188eu/include/rtw_cmd.h
-+++ b/drivers/staging/r8188eu/include/rtw_cmd.h
-@@ -73,7 +73,7 @@ struct c2h_evt_hdr {
- 	u8 id:4;
- 	u8 plen:4;
- 	u8 seq;
--	u8 payload[0];
-+	u8 payload[];
- };
- 
- #define c2h_evt_exist(c2h_evt) ((c2h_evt)->id || (c2h_evt)->plen)
-@@ -662,25 +662,25 @@ struct getcurtxpwrlevel_rspi {
- struct setprobereqextraie_parm {
- 	unsigned char e_id;
- 	unsigned char ie_len;
--	unsigned char ie[0];
-+	unsigned char ie[];
- };
- 
- struct setassocreqextraie_parm {
- 	unsigned char e_id;
- 	unsigned char ie_len;
--	unsigned char ie[0];
-+	unsigned char ie[];
- };
- 
- struct setproberspextraie_parm {
- 	unsigned char e_id;
- 	unsigned char ie_len;
--	unsigned char ie[0];
-+	unsigned char ie[];
- };
- 
- struct setassocrspextraie_parm {
- 	unsigned char e_id;
- 	unsigned char ie_len;
--	unsigned char ie[0];
-+	unsigned char ie[];
- };
- 
- struct addBaReq_parm {
-diff --git a/drivers/staging/rtl8712/rtl871x_cmd.h b/drivers/staging/rtl8712/rtl871x_cmd.h
-index ddd69c4ae208..95e9ea5b2d98 100644
---- a/drivers/staging/rtl8712/rtl871x_cmd.h
-+++ b/drivers/staging/rtl8712/rtl871x_cmd.h
-@@ -657,25 +657,25 @@ struct setra_parm {
- struct setprobereqextraie_parm {
- 	unsigned char e_id;
- 	unsigned char ie_len;
--	unsigned char ie[0];
-+	unsigned char ie[];
- };
- 
- struct setassocreqextraie_parm {
- 	unsigned char e_id;
- 	unsigned char ie_len;
--	unsigned char ie[0];
-+	unsigned char ie[];
- };
- 
- struct setproberspextraie_parm {
- 	unsigned char e_id;
- 	unsigned char ie_len;
--	unsigned char ie[0];
-+	unsigned char ie[];
- };
- 
- struct setassocrspextraie_parm {
- 	unsigned char e_id;
- 	unsigned char ie_len;
--	unsigned char ie[0];
-+	unsigned char ie[];
- };
- 
- struct addBaReq_parm {
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index c11d7e2d2347..1e627dc0044d 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -204,7 +204,7 @@ struct ieee_param {
- struct ieee_param_ex {
- 	u32 cmd;
- 	u8 sta_addr[ETH_ALEN];
--	u8 data[0];
-+	u8 data[];
- };
- 
- struct sta_data {
-diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
-index 28d2d2732374..1bf030cbbbbe 100644
---- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
-@@ -94,7 +94,7 @@ struct c2h_evt_hdr {
- 	u8 id:4;
- 	u8 plen:4;
- 	u8 seq;
--	u8 payload[0];
-+	u8 payload[];
- };
- 
- struct c2h_evt_hdr_88xx {
-diff --git a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-index 81db7fb76d6d..c93f2f3e87bb 100644
---- a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-+++ b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
-@@ -45,7 +45,7 @@ struct vchiq_header {
- 	/* Size of message data. */
- 	unsigned int size;
- 
--	char data[0];           /* message */
-+	char data[];           /* message */
- };
- 
- struct vchiq_element {
-diff --git a/drivers/visorbus/vbuschannel.h b/drivers/visorbus/vbuschannel.h
-index 4aaf6564eb9f..98711fb6d66e 100644
---- a/drivers/visorbus/vbuschannel.h
-+++ b/drivers/visorbus/vbuschannel.h
-@@ -89,7 +89,7 @@ struct visor_vbus_channel {
- 	struct visor_vbus_headerinfo hdr_info;
- 	struct visor_vbus_deviceinfo chp_info;
- 	struct visor_vbus_deviceinfo bus_info;
--	struct visor_vbus_deviceinfo dev_info[0];
-+	struct visor_vbus_deviceinfo dev_info[];
- } __packed;
- 
- #endif
-diff --git a/fs/cifs/ntlmssp.h b/fs/cifs/ntlmssp.h
-index 298458404252..55758b9ec877 100644
---- a/fs/cifs/ntlmssp.h
-+++ b/fs/cifs/ntlmssp.h
-@@ -107,7 +107,7 @@ struct negotiate_message {
- 	SECURITY_BUFFER WorkstationName;	/* RFC 1001 and ASCII */
- 	struct	ntlmssp_version Version;
- 	/* SECURITY_BUFFER */
--	char DomainString[0];
-+	char DomainString[];
- 	/* followed by WorkstationString */
- } __packed;
- 
-diff --git a/fs/ext4/fast_commit.h b/fs/ext4/fast_commit.h
-index 083ad1cb705a..07e8b734c4fd 100644
---- a/fs/ext4/fast_commit.h
-+++ b/fs/ext4/fast_commit.h
-@@ -55,13 +55,13 @@ struct ext4_fc_del_range {
- struct ext4_fc_dentry_info {
- 	__le32 fc_parent_ino;
- 	__le32 fc_ino;
--	__u8 fc_dname[0];
-+	__u8 fc_dname[];
- };
- 
- /* Value structure for EXT4_FC_TAG_INODE and EXT4_FC_TAG_INODE_PARTIAL. */
- struct ext4_fc_inode {
- 	__le32 fc_ino;
--	__u8 fc_raw_inode[0];
-+	__u8 fc_raw_inode[];
- };
- 
- /* Value structure for tag EXT4_FC_TAG_TAIL. */
-diff --git a/fs/ksmbd/ksmbd_netlink.h b/fs/ksmbd/ksmbd_netlink.h
-index 71bfb7de4472..ebe6ca08467a 100644
---- a/fs/ksmbd/ksmbd_netlink.h
-+++ b/fs/ksmbd/ksmbd_netlink.h
-@@ -241,7 +241,7 @@ struct ksmbd_rpc_command {
- struct ksmbd_spnego_authen_request {
- 	__u32	handle;
- 	__u16	spnego_blob_len;	/* the length of spnego_blob */
--	__u8	spnego_blob[0];		/*
-+	__u8	spnego_blob[];		/*
- 					 * the GSS token from SecurityBuffer of
- 					 * SMB2 SESSION SETUP request
- 					 */
-diff --git a/fs/ksmbd/ntlmssp.h b/fs/ksmbd/ntlmssp.h
-index adaf4c0cbe8f..f13153c18b4e 100644
---- a/fs/ksmbd/ntlmssp.h
-+++ b/fs/ksmbd/ntlmssp.h
-@@ -95,7 +95,7 @@ struct security_buffer {
- struct target_info {
- 	__le16 Type;
- 	__le16 Length;
--	__u8 Content[0];
-+	__u8 Content[];
- } __packed;
- 
- struct negotiate_message {
-@@ -108,7 +108,7 @@ struct negotiate_message {
- 	 * struct security_buffer for version info not present since we
- 	 * do not set the version is present flag
- 	 */
--	char DomainString[0];
-+	char DomainString[];
- 	/* followed by WorkstationString */
- } __packed;
- 
-@@ -140,7 +140,7 @@ struct authenticate_message {
- 	 * struct security_buffer for version info not present since we
- 	 * do not set the version is present flag
- 	 */
--	char UserString[0];
-+	char UserString[];
- } __packed;
- 
- struct ntlmv2_resp {
-diff --git a/fs/ksmbd/smb2pdu.h b/fs/ksmbd/smb2pdu.h
-index 725b800c29c8..d49468426576 100644
---- a/fs/ksmbd/smb2pdu.h
-+++ b/fs/ksmbd/smb2pdu.h
-@@ -759,7 +759,7 @@ struct smb2_file_rename_info { /* encoding of request for level 10 */
- 	__u8   Reserved[7];
- 	__u64  RootDirectory;  /* MBZ for network operations (why says spec?) */
- 	__le32 FileNameLength;
--	char   FileName[0];     /* New name to be assigned */
-+	char   FileName[];     /* New name to be assigned */
- } __packed; /* level 10 Set */
- 
- struct smb2_file_link_info { /* encoding of request for level 11 */
-@@ -768,7 +768,7 @@ struct smb2_file_link_info { /* encoding of request for level 11 */
- 	__u8   Reserved[7];
- 	__u64  RootDirectory;  /* MBZ for network operations (why says spec?) */
- 	__le32 FileNameLength;
--	char   FileName[0];     /* Name to be assigned to new link */
-+	char   FileName[];     /* Name to be assigned to new link */
- } __packed; /* level 11 Set */
- 
- /*
-@@ -810,7 +810,7 @@ struct smb2_file_basic_info { /* data block encoding of response to level 18 */
- 
- struct smb2_file_alt_name_info {
- 	__le32 FileNameLength;
--	char FileName[0];
-+	char FileName[];
- } __packed;
- 
- struct smb2_file_stream_info {
-@@ -818,7 +818,7 @@ struct smb2_file_stream_info {
- 	__le32  StreamNameLength;
- 	__le64 StreamSize;
- 	__le64 StreamAllocationSize;
--	char   StreamName[0];
-+	char   StreamName[];
- } __packed;
- 
- struct smb2_file_eof_info { /* encoding of request for level 10 */
-diff --git a/fs/ksmbd/transport_rdma.c b/fs/ksmbd/transport_rdma.c
-index 3c1ec1ac0b27..9976d39c6ed8 100644
---- a/fs/ksmbd/transport_rdma.c
-+++ b/fs/ksmbd/transport_rdma.c
-@@ -211,7 +211,7 @@ struct smb_direct_rdma_rw_msg {
- 	struct completion	*completion;
- 	struct rdma_rw_ctx	rw_ctx;
- 	struct sg_table		sgt;
--	struct scatterlist	sg_list[0];
-+	struct scatterlist	sg_list[];
- };
- 
- static inline int get_buf_page_count(void *buf, int size)
-diff --git a/fs/ksmbd/xattr.h b/fs/ksmbd/xattr.h
-index 8857c01093d9..16499ca5c82d 100644
---- a/fs/ksmbd/xattr.h
-+++ b/fs/ksmbd/xattr.h
-@@ -76,7 +76,7 @@ struct xattr_acl_entry {
- struct xattr_smb_acl {
- 	int count;
- 	int next;
--	struct xattr_acl_entry entries[0];
-+	struct xattr_acl_entry entries[];
- };
- 
- /* 64bytes hash in xattr_ntacl is computed with sha256 */
-diff --git a/fs/xfs/scrub/attr.h b/fs/xfs/scrub/attr.h
-index 1719e1c4da59..3590e10e3e62 100644
---- a/fs/xfs/scrub/attr.h
-+++ b/fs/xfs/scrub/attr.h
-@@ -24,7 +24,7 @@ struct xchk_xattr_buf {
- 	 * space bitmap follows immediately after; and we have a third buffer
- 	 * for storing intermediate bitmap results.
- 	 */
--	uint8_t			buf[0];
-+	uint8_t			buf[];
- };
- 
- /* A place to store attribute values. */
-diff --git a/include/acpi/actbl2.h b/include/acpi/actbl2.h
-index 16847c8d9d5f..9ee4d1b39125 100644
---- a/include/acpi/actbl2.h
-+++ b/include/acpi/actbl2.h
-@@ -2319,7 +2319,7 @@ struct acpi_table_rgrt {
- 	u16 version;
- 	u8 image_type;
- 	u8 reserved;
--	u8 image[0];
-+	u8 image[];
- };
- 
- /* image_type values */
-diff --git a/include/asm-generic/tlb.h b/include/asm-generic/tlb.h
-index 2c68a545ffa7..fd7feb5c7894 100644
---- a/include/asm-generic/tlb.h
-+++ b/include/asm-generic/tlb.h
-@@ -180,7 +180,7 @@ struct mmu_table_batch {
- 	struct rcu_head		rcu;
- #endif
- 	unsigned int		nr;
--	void			*tables[0];
-+	void			*tables[];
- };
- 
- #define MAX_TABLE_BATCH		\
-@@ -227,7 +227,7 @@ struct mmu_gather_batch {
- 	struct mmu_gather_batch	*next;
- 	unsigned int		nr;
- 	unsigned int		max;
--	struct page		*pages[0];
-+	struct page		*pages[];
- };
- 
- #define MAX_GATHER_BATCH	\
-diff --git a/include/linux/greybus/greybus_manifest.h b/include/linux/greybus/greybus_manifest.h
-index 6e62fe478712..bef9eb2093e9 100644
---- a/include/linux/greybus/greybus_manifest.h
-+++ b/include/linux/greybus/greybus_manifest.h
-@@ -100,7 +100,7 @@ enum {
- struct greybus_descriptor_string {
- 	__u8	length;
- 	__u8	id;
--	__u8	string[0];
-+	__u8	string[];
- } __packed;
- 
- /*
-@@ -175,7 +175,7 @@ struct greybus_manifest_header {
- 
- struct greybus_manifest {
- 	struct greybus_manifest_header		header;
--	struct greybus_descriptor		descriptors[0];
-+	struct greybus_descriptor		descriptors[];
- } __packed;
- 
- #endif /* __GREYBUS_MANIFEST_H */
-diff --git a/include/linux/greybus/hd.h b/include/linux/greybus/hd.h
-index d3faf0c1a569..718e2857054e 100644
---- a/include/linux/greybus/hd.h
-+++ b/include/linux/greybus/hd.h
-@@ -58,7 +58,7 @@ struct gb_host_device {
- 
- 	struct gb_svc *svc;
- 	/* Private data for the host driver */
--	unsigned long hd_priv[0] __aligned(sizeof(s64));
-+	unsigned long hd_priv[] __aligned(sizeof(s64));
- };
- #define to_gb_host_device(d) container_of(d, struct gb_host_device, dev)
- 
-diff --git a/include/linux/greybus/module.h b/include/linux/greybus/module.h
-index 47b839af145d..3efe2133acfd 100644
---- a/include/linux/greybus/module.h
-+++ b/include/linux/greybus/module.h
-@@ -23,7 +23,7 @@ struct gb_module {
- 
- 	bool disconnected;
- 
--	struct gb_interface *interfaces[0];
-+	struct gb_interface *interfaces[];
- };
- #define to_gb_module(d) container_of(d, struct gb_module, dev)
- 
-diff --git a/include/linux/i3c/ccc.h b/include/linux/i3c/ccc.h
-index 73b0982cc519..ad59a4ae60d1 100644
---- a/include/linux/i3c/ccc.h
-+++ b/include/linux/i3c/ccc.h
-@@ -132,7 +132,7 @@ struct i3c_ccc_dev_desc {
- struct i3c_ccc_defslvs {
- 	u8 count;
- 	struct i3c_ccc_dev_desc master;
--	struct i3c_ccc_dev_desc slaves[0];
-+	struct i3c_ccc_dev_desc slaves[];
- } __packed;
- 
- /**
-@@ -240,7 +240,7 @@ struct i3c_ccc_bridged_slave_desc {
-  */
- struct i3c_ccc_setbrgtgt {
- 	u8 count;
--	struct i3c_ccc_bridged_slave_desc bslaves[0];
-+	struct i3c_ccc_bridged_slave_desc bslaves[];
- } __packed;
- 
- /**
-@@ -318,7 +318,7 @@ enum i3c_ccc_setxtime_subcmd {
-  */
- struct i3c_ccc_setxtime {
- 	u8 subcmd;
--	u8 data[0];
-+	u8 data[];
- } __packed;
- 
- #define I3C_CCC_GETXTIME_SYNC_MODE	BIT(0)
-diff --git a/include/linux/mlx5/mlx5_ifc_fpga.h b/include/linux/mlx5/mlx5_ifc_fpga.h
-index 07d77323f78a..cac4e94abd3a 100644
---- a/include/linux/mlx5/mlx5_ifc_fpga.h
-+++ b/include/linux/mlx5/mlx5_ifc_fpga.h
-@@ -185,7 +185,7 @@ struct mlx5_ifc_fpga_access_reg_bits {
- 
- 	u8         address[0x40];
- 
--	u8         data[0][0x8];
-+	u8         data[][0x8];
- };
- 
- enum mlx5_ifc_fpga_qp_state {
-diff --git a/include/linux/platform_data/brcmfmac.h b/include/linux/platform_data/brcmfmac.h
-index 2b5676ff35be..f922a192fe58 100644
---- a/include/linux/platform_data/brcmfmac.h
-+++ b/include/linux/platform_data/brcmfmac.h
-@@ -178,7 +178,7 @@ struct brcmfmac_platform_data {
- 	void	(*power_off)(void);
- 	char	*fw_alternative_path;
- 	int	device_count;
--	struct brcmfmac_pd_device devices[0];
-+	struct brcmfmac_pd_device devices[];
- };
- 
- 
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index 271bd87bff0a..728735aed980 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -5644,7 +5644,7 @@ struct ec_response_typec_discovery {
- 	uint8_t svid_count;	   /* Number of SVIDs partner sent */
- 	uint16_t reserved;
- 	uint32_t discovery_vdo[6]; /* Max VDOs allowed after VDM header is 6 */
--	struct svid_mode_info svids[0];
-+	struct svid_mode_info svids[];
- } __ec_align1;
- 
- /* USB Type-C commands for AP-controlled device policy. */
-diff --git a/include/net/bluetooth/mgmt.h b/include/net/bluetooth/mgmt.h
-index 107b25deae68..9607ec289fd0 100644
---- a/include/net/bluetooth/mgmt.h
-+++ b/include/net/bluetooth/mgmt.h
-@@ -696,7 +696,7 @@ struct mgmt_cp_set_blocked_keys {
- #define MGMT_READ_CONTROLLER_CAP_SIZE	0
- struct mgmt_rp_read_controller_cap {
- 	__le16   cap_len;
--	__u8     cap[0];
-+	__u8     cap[];
- } __packed;
- 
- #define MGMT_OP_READ_EXP_FEATURES_INFO	0x0049
-diff --git a/include/net/ioam6.h b/include/net/ioam6.h
-index 3f45ba37a2c6..781d2d8b2f29 100644
---- a/include/net/ioam6.h
-+++ b/include/net/ioam6.h
-@@ -35,7 +35,7 @@ struct ioam6_schema {
- 	int len;
- 	__be32 hdr;
- 
--	u8 data[0];
-+	u8 data[];
- };
- 
- struct ioam6_pernet_data {
-diff --git a/include/sound/sof/channel_map.h b/include/sound/sof/channel_map.h
-index fd3a30fcf756..d363f0ca6979 100644
---- a/include/sound/sof/channel_map.h
-+++ b/include/sound/sof/channel_map.h
-@@ -39,7 +39,7 @@ struct sof_ipc_channel_map {
- 	uint32_t ext_id;
- 	uint32_t ch_mask;
- 	uint32_t reserved;
--	int32_t ch_coeffs[0];
-+	int32_t ch_coeffs[];
- } __packed;
- 
- /**
-@@ -55,7 +55,7 @@ struct sof_ipc_stream_map {
- 	struct sof_ipc_cmd_hdr hdr;
- 	uint32_t num_ch_map;
- 	uint32_t reserved[3];
--	struct sof_ipc_channel_map ch_map[0];
-+	struct sof_ipc_channel_map ch_map[];
- } __packed;
- 
- #endif /* __IPC_CHANNEL_MAP_H__ */
-diff --git a/scripts/dtc/libfdt/fdt.h b/scripts/dtc/libfdt/fdt.h
-index f2e68807f277..0c91aa7f67b5 100644
---- a/scripts/dtc/libfdt/fdt.h
-+++ b/scripts/dtc/libfdt/fdt.h
-@@ -35,14 +35,14 @@ struct fdt_reserve_entry {
- 
- struct fdt_node_header {
- 	fdt32_t tag;
--	char name[0];
-+	char name[];
- };
- 
- struct fdt_property {
- 	fdt32_t tag;
- 	fdt32_t len;
- 	fdt32_t nameoff;
--	char data[0];
-+	char data[];
- };
- 
- #endif /* !__ASSEMBLY */
-diff --git a/sound/soc/intel/atom/sst-mfld-dsp.h b/sound/soc/intel/atom/sst-mfld-dsp.h
-index 8d9e29b16e57..c8f0816edb53 100644
---- a/sound/soc/intel/atom/sst-mfld-dsp.h
-+++ b/sound/soc/intel/atom/sst-mfld-dsp.h
-@@ -427,7 +427,7 @@ struct snd_sst_drop_response {
- 
- struct snd_sst_async_msg {
- 	u32 msg_id; /* Async msg id */
--	u32 payload[0];
-+	u32 payload[];
- };
- 
- struct snd_sst_async_err_msg {
-@@ -514,7 +514,7 @@ struct snd_sst_bytes_v2 {
- 	u8 pipe_id;
- 	u8 rsvd;
- 	u16 len;
--	char bytes[0];
-+	char bytes[];
- };
- 
- #define MAX_VTSV_FILES 2
-diff --git a/sound/soc/intel/skylake/skl-topology.h b/sound/soc/intel/skylake/skl-topology.h
-index 22963634fbea..a5bccf2fcd88 100644
---- a/sound/soc/intel/skylake/skl-topology.h
-+++ b/sound/soc/intel/skylake/skl-topology.h
-@@ -164,7 +164,7 @@ struct skl_base_cfg_ext {
- 	u8 reserved[8];
- 	u32 priv_param_length;
- 	/* Input pin formats followed by output ones. */
--	struct skl_pin_format pins_fmt[0];
-+	struct skl_pin_format pins_fmt[];
- } __packed;
- 
- struct skl_algo_cfg {
-diff --git a/tools/lib/perf/include/perf/event.h b/tools/lib/perf/include/perf/event.h
-index 75ee385fb078..e7758707cadd 100644
---- a/tools/lib/perf/include/perf/event.h
-+++ b/tools/lib/perf/include/perf/event.h
-@@ -240,7 +240,7 @@ struct id_index_entry {
- struct perf_record_id_index {
- 	struct perf_event_header header;
- 	__u64			 nr;
--	struct id_index_entry	 entries[0];
-+	struct id_index_entry	 entries[];
- };
- 
- struct perf_record_auxtrace_info {
--- 
-2.27.0
-
+>
+>fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>
+>Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>---
+>version 2 :
+>- Do not include rkvdec needed fields in this patch
+>- Remove 'non-public' notice in hantro.rst
+>- Take care of cache-line boundary
+>
+> .../userspace-api/media/drivers/hantro.rst    |   5 -
+> .../media/v4l/ext-ctrls-codec.rst             |  26 +-
+> drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
+> drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+> drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+> drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+> .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+> include/linux/hantro-media.h                  |  17 ++
+> include/media/hevc-ctrls.h                    | 250 ------------------
+> include/media/v4l2-ctrls.h                    |   6 -
+> include/uapi/linux/v4l2-controls.h            | 219 +++++++++++++++
+> include/uapi/linux/videodev2.h                |   7 +
+> 12 files changed, 307 insertions(+), 324 deletions(-)
+> create mode 100644 include/linux/hantro-media.h
+> delete mode 100644 include/media/hevc-ctrls.h
+>
+>diff --git a/Documentation/userspace-api/media/drivers/hantro.rst b/Documentation/userspace-api/media/drivers/hantro.rst
+>index cd9754b4e005..78dcd2a44a03 100644
+>--- a/Documentation/userspace-api/media/drivers/hantro.rst
+>+++ b/Documentation/userspace-api/media/drivers/hantro.rst
+>@@ -12,8 +12,3 @@ The Hantro video decoder driver implements the following driver-specific control
+>     to before syntax element "slice_temporal_mvp_enabled_flag".
+>     If IDR, the skipped bits are just "pic_output_flag"
+>     (separate_colour_plane_flag is not supported).
+>-
+>-.. note::
+>-
+>-        This control is not yet part of the public kernel API and
+>-        it is expected to change.
+>diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>index 4cd7c541fc30..4f3b3ba8319f 100644
+>--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>@@ -2639,7 +2639,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>
+> .. _v4l2-mpeg-hevc:
+>
+>-``V4L2_CID_MPEG_VIDEO_HEVC_SPS (struct)``
+>+``V4L2_CID_STATELESS_HEVC_SPS (struct)``
+>     Specifies the Sequence Parameter Set fields (as extracted from the
+>     bitstream) for the associated HEVC slice data.
+>     These bitstream parameters are defined according to :ref:`hevc`.
+>@@ -2782,7 +2782,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>
+>     \normalsize
+>
+>-``V4L2_CID_MPEG_VIDEO_HEVC_PPS (struct)``
+>+``V4L2_CID_STATELESS_HEVC_PPS (struct)``
+>     Specifies the Picture Parameter Set fields (as extracted from the
+>     bitstream) for the associated HEVC slice data.
+>     These bitstream parameters are defined according to :ref:`hevc`.
+>@@ -2932,7 +2932,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>
+>     \normalsize
+>
+>-``V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS (struct)``
+>+``V4L2_CID_STATELESS_HEVC_SLICE_PARAMS (struct)``
+>     Specifies various slice-specific parameters, especially from the NAL unit
+>     header, general slice segment header and weighted prediction parameter
+>     parts of the bitstream.
+>@@ -3088,7 +3088,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>
+>     \normalsize
+>
+>-``V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX (struct)``
+>+``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>     Specifies the HEVC scaling matrix parameters used for the scaling process
+>     for transform coefficients.
+>     These matrix and parameters are defined according to :ref:`hevc`.
+>@@ -3238,7 +3238,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>
+>     \normalsize
+>
+>-``V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE (enum)``
+>+``V4L2_CID_STATELESS_HEVC_DECODE_MODE (enum)``
+>     Specifies the decoding mode to use. Currently exposes slice-based and
+>     frame-based decoding but new modes might be added later on.
+>     This control is used as a modifier for V4L2_PIX_FMT_HEVC_SLICE
+>@@ -3253,7 +3253,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>        This menu control is not yet part of the public kernel API and
+>        it is expected to change.
+>
+>-.. c:type:: v4l2_mpeg_video_hevc_decode_mode
+>+.. c:type:: v4l2_stateless_hevc_decode_mode
+>
+> .. raw:: latex
+>
+>@@ -3266,11 +3266,11 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>     :stub-columns: 0
+>     :widths:       1 1 2
+>
+>-    * - ``V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_SLICE_BASED``
+>+    * - ``V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED``
+>       - 0
+>       - Decoding is done at the slice granularity.
+>         The OUTPUT buffer must contain a single slice.
+>-    * - ``V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_FRAME_BASED``
+>+    * - ``V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED``
+>       - 1
+>       - Decoding is done at the frame granularity.
+>         The OUTPUT buffer must contain all slices needed to decode the
+>@@ -3280,7 +3280,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>
+>     \normalsize
+>
+>-``V4L2_CID_MPEG_VIDEO_HEVC_START_CODE (enum)``
+>+``V4L2_CID_STATELESS_HEVC_START_CODE (enum)``
+>     Specifies the HEVC slice start code expected for each slice.
+>     This control is used as a modifier for V4L2_PIX_FMT_HEVC_SLICE
+>     pixel format. Applications that support V4L2_PIX_FMT_HEVC_SLICE
+>@@ -3294,7 +3294,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>        This menu control is not yet part of the public kernel API and
+>        it is expected to change.
+>
+>-.. c:type:: v4l2_mpeg_video_hevc_start_code
+>+.. c:type:: v4l2_stateless_hevc_start_code
+>
+> .. tabularcolumns:: |p{9.2cm}|p{0.6cm}|p{7.5cm}|
+>
+>@@ -3303,13 +3303,13 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>     :stub-columns: 0
+>     :widths:       1 1 2
+>
+>-    * - ``V4L2_MPEG_VIDEO_HEVC_START_CODE_NONE``
+>+    * - ``V4L2_STATELESS_HEVC_START_CODE_NONE``
+>       - 0
+>       - Selecting this value specifies that HEVC slices are passed
+>         to the driver without any start code. The bitstream data should be
+>         according to :ref:`hevc` 7.3.1.1 General NAL unit syntax, hence
+>         contains emulation prevention bytes when required.
+>-    * - ``V4L2_MPEG_VIDEO_HEVC_START_CODE_ANNEX_B``
+>+    * - ``V4L2_STATELESS_HEVC_START_CODE_ANNEX_B``
+>       - 1
+>       - Selecting this value specifies that HEVC slices are expected
+>         to be prefixed by Annex B start codes. According to :ref:`hevc`
+>@@ -3342,7 +3342,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>     This provides a bitmask which consists of bits [0, LTR_COUNT-1].
+>     This is applicable to the H264 and HEVC encoders.
+>
+>-``V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS (struct)``
+>+``V4L2_CID_STATELESS_HEVC_DECODE_PARAMS (struct)``
+>     Specifies various decode parameters, especially the references picture order
+>     count (POC) for all the lists (short, long, before, current, after) and the
+>     number of entries for each of them.
+>diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>index 54ca4e6b820b..4b68cbe23309 100644
+>--- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>@@ -699,9 +699,9 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+> 		return hevc_tier;
+> 	case V4L2_CID_MPEG_VIDEO_HEVC_LOOP_FILTER_MODE:
+> 		return hevc_loop_filter_mode;
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:
+>+	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:
+> 		return hevc_decode_mode;
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:
+>+	case V4L2_CID_STATELESS_HEVC_START_CODE:
+> 		return hevc_start_code;
+> 	case V4L2_CID_CAMERA_ORIENTATION:
+> 		return camera_orientation;
+>@@ -995,13 +995,6 @@ const char *v4l2_ctrl_get_name(u32 id)
+> 	case V4L2_CID_MPEG_VIDEO_HEVC_SIZE_OF_LENGTH_FIELD:	return "HEVC Size of Length Field";
+> 	case V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES:	return "Reference Frames for a P-Frame";
+> 	case V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR:		return "Prepend SPS and PPS to IDR";
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_SPS:			return "HEVC Sequence Parameter Set";
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_PPS:			return "HEVC Picture Parameter Set";
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:		return "HEVC Scaling Matrix";
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:		return "HEVC Decode Parameters";
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
+>
+> 	/* CAMERA controls */
+> 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+>@@ -1180,6 +1173,13 @@ const char *v4l2_ctrl_get_name(u32 id)
+> 	case V4L2_CID_STATELESS_MPEG2_QUANTISATION:		return "MPEG-2 Quantisation Matrices";
+> 	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:	return "VP9 Probabilities Updates";
+> 	case V4L2_CID_STATELESS_VP9_FRAME:			return "VP9 Frame Decode Parameters";
+>+	case V4L2_CID_STATELESS_HEVC_SPS:			return "HEVC Sequence Parameter Set";
+>+	case V4L2_CID_STATELESS_HEVC_PPS:			return "HEVC Picture Parameter Set";
+>+	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
+>+	case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:		return "HEVC Scaling Matrix";
+>+	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return "HEVC Decode Parameters";
+>+	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+>+	case V4L2_CID_STATELESS_HEVC_START_CODE:		return "HEVC Start Code";
+>
+> 	/* Colorimetry controls */
+> 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+>@@ -1355,8 +1355,8 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> 	case V4L2_CID_MPEG_VIDEO_HEVC_SIZE_OF_LENGTH_FIELD:
+> 	case V4L2_CID_MPEG_VIDEO_HEVC_TIER:
+> 	case V4L2_CID_MPEG_VIDEO_HEVC_LOOP_FILTER_MODE:
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:
+>+	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:
+>+	case V4L2_CID_STATELESS_HEVC_START_CODE:
+> 	case V4L2_CID_STATELESS_H264_DECODE_MODE:
+> 	case V4L2_CID_STATELESS_H264_START_CODE:
+> 	case V4L2_CID_CAMERA_ORIENTATION:
+>@@ -1493,19 +1493,19 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> 	case V4L2_CID_STATELESS_VP8_FRAME:
+> 		*type = V4L2_CTRL_TYPE_VP8_FRAME;
+> 		break;
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_SPS:
+>+	case V4L2_CID_STATELESS_HEVC_SPS:
+> 		*type = V4L2_CTRL_TYPE_HEVC_SPS;
+> 		break;
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_PPS:
+>+	case V4L2_CID_STATELESS_HEVC_PPS:
+> 		*type = V4L2_CTRL_TYPE_HEVC_PPS;
+> 		break;
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
+>+	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
+> 		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
+> 		break;
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX:
+>+	case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
+> 		*type = V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
+> 		break;
+>-	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS:
+>+	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+> 		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+> 		break;
+> 	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+>index dc768884cb79..783a92a38c8e 100644
+>--- a/drivers/staging/media/hantro/hantro_drv.c
+>+++ b/drivers/staging/media/hantro/hantro_drv.c
+>@@ -11,6 +11,7 @@
+>  */
+>
+> #include <linux/clk.h>
+>+#include <linux/hantro-media.h>
+> #include <linux/module.h>
+> #include <linux/of.h>
+> #include <linux/platform_device.h>
+>@@ -255,7 +256,7 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+> 		if (sps->bit_depth_luma_minus8 != 0)
+> 			/* Only 8-bit is supported */
+> 			return -EINVAL;
+>-	} else if (ctrl->id == V4L2_CID_MPEG_VIDEO_HEVC_SPS) {
+>+	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
+> 		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+>
+> 		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+>@@ -428,18 +429,18 @@ static const struct hantro_ctrl controls[] = {
+> 	}, {
+> 		.codec = HANTRO_HEVC_DECODER,
+> 		.cfg = {
+>-			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE,
+>-			.min = V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_FRAME_BASED,
+>-			.max = V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_FRAME_BASED,
+>-			.def = V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_FRAME_BASED,
+>+			.id = V4L2_CID_STATELESS_HEVC_DECODE_MODE,
+>+			.min = V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
+>+			.max = V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
+>+			.def = V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
+> 		},
+> 	}, {
+> 		.codec = HANTRO_HEVC_DECODER,
+> 		.cfg = {
+>-			.id = V4L2_CID_MPEG_VIDEO_HEVC_START_CODE,
+>-			.min = V4L2_MPEG_VIDEO_HEVC_START_CODE_ANNEX_B,
+>-			.max = V4L2_MPEG_VIDEO_HEVC_START_CODE_ANNEX_B,
+>-			.def = V4L2_MPEG_VIDEO_HEVC_START_CODE_ANNEX_B,
+>+			.id = V4L2_CID_STATELESS_HEVC_START_CODE,
+>+			.min = V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
+>+			.max = V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
+>+			.def = V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
+> 		},
+> 	}, {
+> 		.codec = HANTRO_HEVC_DECODER,
+>@@ -459,23 +460,23 @@ static const struct hantro_ctrl controls[] = {
+> 	}, {
+> 		.codec = HANTRO_HEVC_DECODER,
+> 		.cfg = {
+>-			.id = V4L2_CID_MPEG_VIDEO_HEVC_SPS,
+>+			.id = V4L2_CID_STATELESS_HEVC_SPS,
+> 			.ops = &hantro_ctrl_ops,
+> 		},
+> 	}, {
+> 		.codec = HANTRO_HEVC_DECODER,
+> 		.cfg = {
+>-			.id = V4L2_CID_MPEG_VIDEO_HEVC_PPS,
+>+			.id = V4L2_CID_STATELESS_HEVC_PPS,
+> 		},
+> 	}, {
+> 		.codec = HANTRO_HEVC_DECODER,
+> 		.cfg = {
+>-			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
+>+			.id = V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
+> 		},
+> 	}, {
+> 		.codec = HANTRO_HEVC_DECODER,
+> 		.cfg = {
+>-			.id = V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
+>+			.id = V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
+> 		},
+> 	}, {
+> 		.codec = HANTRO_HEVC_DECODER,
+>diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+>index b49a41d7ae91..b6ec86d03d91 100644
+>--- a/drivers/staging/media/hantro/hantro_hevc.c
+>+++ b/drivers/staging/media/hantro/hantro_hevc.c
+>@@ -201,22 +201,22 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
+> 	hantro_start_prepare_run(ctx);
+>
+> 	ctrls->decode_params =
+>-		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS);
+>+		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_HEVC_DECODE_PARAMS);
+> 	if (WARN_ON(!ctrls->decode_params))
+> 		return -EINVAL;
+>
+> 	ctrls->scaling =
+>-		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
+>+		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_HEVC_SCALING_MATRIX);
+> 	if (WARN_ON(!ctrls->scaling))
+> 		return -EINVAL;
+>
+> 	ctrls->sps =
+>-		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_SPS);
+>+		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_HEVC_SPS);
+> 	if (WARN_ON(!ctrls->sps))
+> 		return -EINVAL;
+>
+> 	ctrls->pps =
+>-		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_HEVC_PPS);
+>+		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_HEVC_PPS);
+> 	if (WARN_ON(!ctrls->pps))
+> 		return -EINVAL;
+>
+>diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+>index 4a4b714b0f26..e0428163f82c 100644
+>--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+>+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+>@@ -42,7 +42,7 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+> 		if (sps->bit_depth_luma_minus8 != 0)
+> 			/* Only 8-bit is supported */
+> 			return -EINVAL;
+>-	} else if (ctrl->id == V4L2_CID_MPEG_VIDEO_HEVC_SPS) {
+>+	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
+> 		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+> 		struct cedrus_ctx *ctx = container_of(ctrl->handler, struct cedrus_ctx, hdl);
+>
+>@@ -164,42 +164,42 @@ static const struct cedrus_control cedrus_controls[] = {
+> 	},
+> 	{
+> 		.cfg = {
+>-			.id	= V4L2_CID_MPEG_VIDEO_HEVC_SPS,
+>+			.id	= V4L2_CID_STATELESS_HEVC_SPS,
+> 			.ops	= &cedrus_ctrl_ops,
+> 		},
+> 		.codec		= CEDRUS_CODEC_H265,
+> 	},
+> 	{
+> 		.cfg = {
+>-			.id	= V4L2_CID_MPEG_VIDEO_HEVC_PPS,
+>+			.id	= V4L2_CID_STATELESS_HEVC_PPS,
+> 		},
+> 		.codec		= CEDRUS_CODEC_H265,
+> 	},
+> 	{
+> 		.cfg = {
+>-			.id	= V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS,
+>+			.id	= V4L2_CID_STATELESS_HEVC_SLICE_PARAMS,
+> 		},
+> 		.codec		= CEDRUS_CODEC_H265,
+> 	},
+> 	{
+> 		.cfg = {
+>-			.id	= V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
+>+			.id	= V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
+> 		},
+> 		.codec		= CEDRUS_CODEC_H265,
+> 	},
+> 	{
+> 		.cfg = {
+>-			.id	= V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE,
+>-			.max	= V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_SLICE_BASED,
+>-			.def	= V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_SLICE_BASED,
+>+			.id	= V4L2_CID_STATELESS_HEVC_DECODE_MODE,
+>+			.max	= V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
+>+			.def	= V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
+> 		},
+> 		.codec		= CEDRUS_CODEC_H265,
+> 	},
+> 	{
+> 		.cfg = {
+>-			.id	= V4L2_CID_MPEG_VIDEO_HEVC_START_CODE,
+>-			.max	= V4L2_MPEG_VIDEO_HEVC_START_CODE_NONE,
+>-			.def	= V4L2_MPEG_VIDEO_HEVC_START_CODE_NONE,
+>+			.id	= V4L2_CID_STATELESS_HEVC_START_CODE,
+>+			.max	= V4L2_STATELESS_HEVC_START_CODE_NONE,
+>+			.def	= V4L2_STATELESS_HEVC_START_CODE_NONE,
+> 		},
+> 		.codec		= CEDRUS_CODEC_H265,
+> 	},
+>@@ -211,7 +211,7 @@ static const struct cedrus_control cedrus_controls[] = {
+> 	},
+> 	{
+> 		.cfg = {
+>-			.id = V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS,
+>+			.id = V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
+> 		},
+> 		.codec		= CEDRUS_CODEC_H265,
+> 	},
+>diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+>index a16c1422558f..f6be4ae72ee2 100644
+>--- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+>+++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+>@@ -65,15 +65,15 @@ void cedrus_device_run(void *priv)
+>
+> 	case V4L2_PIX_FMT_HEVC_SLICE:
+> 		run.h265.sps = cedrus_find_control_data(ctx,
+>-			V4L2_CID_MPEG_VIDEO_HEVC_SPS);
+>+			V4L2_CID_STATELESS_HEVC_SPS);
+> 		run.h265.pps = cedrus_find_control_data(ctx,
+>-			V4L2_CID_MPEG_VIDEO_HEVC_PPS);
+>+			V4L2_CID_STATELESS_HEVC_PPS);
+> 		run.h265.slice_params = cedrus_find_control_data(ctx,
+>-			V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS);
+>+			V4L2_CID_STATELESS_HEVC_SLICE_PARAMS);
+> 		run.h265.decode_params = cedrus_find_control_data(ctx,
+>-			V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS);
+>+			V4L2_CID_STATELESS_HEVC_DECODE_PARAMS);
+> 		run.h265.scaling_matrix = cedrus_find_control_data(ctx,
+>-			V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
+>+			V4L2_CID_STATELESS_HEVC_SCALING_MATRIX);
+> 		break;
+>
+> 	case V4L2_PIX_FMT_VP8_FRAME:
+>diff --git a/include/linux/hantro-media.h b/include/linux/hantro-media.h
+>new file mode 100644
+>index 000000000000..db2791ab7c3b
+>--- /dev/null
+>+++ b/include/linux/hantro-media.h
+>@@ -0,0 +1,17 @@
+>+/* SPDX-License-Identifier: GPL-2.0-or-later */
+>+
+>+#ifndef __LINUX_HANTRO_MEDIA_H__
+>+#define __LINUX_HANTRO_MEDIA_H__
+>+
+>+/*
+>+ * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
+>+ * the number of data (in bits) to skip in the
+>+ * slice segment header.
+>+ * If non-IDR, the bits to be skipped go from syntax element "pic_output_flag"
+>+ * to before syntax element "slice_temporal_mvp_enabled_flag".
+>+ * If IDR, the skipped bits are just "pic_output_flag"
+>+ * (separate_colour_plane_flag is not supported).
+>+ */
+>+#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	(V4L2_CID_USER_HANTRO_BASE + 0)
+>+
+>+#endif
+>diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>deleted file mode 100644
+>index 01ccda48d8c5..000000000000
+>--- a/include/media/hevc-ctrls.h
+>+++ /dev/null
+>@@ -1,250 +0,0 @@
+>-/* SPDX-License-Identifier: GPL-2.0 */
+>-/*
+>- * These are the HEVC state controls for use with stateless HEVC
+>- * codec drivers.
+>- *
+>- * It turns out that these structs are not stable yet and will undergo
+>- * more changes. So keep them private until they are stable and ready to
+>- * become part of the official public API.
+>- */
+>-
+>-#ifndef _HEVC_CTRLS_H_
+>-#define _HEVC_CTRLS_H_
+>-
+>-#include <linux/videodev2.h>
+>-
+>-/* The pixel format isn't stable at the moment and will likely be renamed. */
+>-#define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC parsed slices */
+>-
+>-#define V4L2_CID_MPEG_VIDEO_HEVC_SPS		(V4L2_CID_CODEC_BASE + 1008)
+>-#define V4L2_CID_MPEG_VIDEO_HEVC_PPS		(V4L2_CID_CODEC_BASE + 1009)
+>-#define V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS	(V4L2_CID_CODEC_BASE + 1010)
+>-#define V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX	(V4L2_CID_CODEC_BASE + 1011)
+>-#define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE + 1012)
+>-#define V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
+>-#define V4L2_CID_MPEG_VIDEO_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+>-
+>-/* enum v4l2_ctrl_type type values */
+>-#define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+>-#define V4L2_CTRL_TYPE_HEVC_PPS 0x0121
+>-#define V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS 0x0122
+>-#define V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX 0x0123
+>-#define V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS 0x0124
+>-
+>-enum v4l2_mpeg_video_hevc_decode_mode {
+>-	V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_SLICE_BASED,
+>-	V4L2_MPEG_VIDEO_HEVC_DECODE_MODE_FRAME_BASED,
+>-};
+>-
+>-enum v4l2_mpeg_video_hevc_start_code {
+>-	V4L2_MPEG_VIDEO_HEVC_START_CODE_NONE,
+>-	V4L2_MPEG_VIDEO_HEVC_START_CODE_ANNEX_B,
+>-};
+>-
+>-#define V4L2_HEVC_SLICE_TYPE_B	0
+>-#define V4L2_HEVC_SLICE_TYPE_P	1
+>-#define V4L2_HEVC_SLICE_TYPE_I	2
+>-
+>-#define V4L2_HEVC_SPS_FLAG_SEPARATE_COLOUR_PLANE		(1ULL << 0)
+>-#define V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED			(1ULL << 1)
+>-#define V4L2_HEVC_SPS_FLAG_AMP_ENABLED				(1ULL << 2)
+>-#define V4L2_HEVC_SPS_FLAG_SAMPLE_ADAPTIVE_OFFSET		(1ULL << 3)
+>-#define V4L2_HEVC_SPS_FLAG_PCM_ENABLED				(1ULL << 4)
+>-#define V4L2_HEVC_SPS_FLAG_PCM_LOOP_FILTER_DISABLED		(1ULL << 5)
+>-#define V4L2_HEVC_SPS_FLAG_LONG_TERM_REF_PICS_PRESENT		(1ULL << 6)
+>-#define V4L2_HEVC_SPS_FLAG_SPS_TEMPORAL_MVP_ENABLED		(1ULL << 7)
+>-#define V4L2_HEVC_SPS_FLAG_STRONG_INTRA_SMOOTHING_ENABLED	(1ULL << 8)
+>-
+>-/* The controls are not stable at the moment and will likely be reworked. */
+>-struct v4l2_ctrl_hevc_sps {
+>-	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
+>-	__u16	pic_width_in_luma_samples;
+>-	__u16	pic_height_in_luma_samples;
+>-	__u8	bit_depth_luma_minus8;
+>-	__u8	bit_depth_chroma_minus8;
+>-	__u8	log2_max_pic_order_cnt_lsb_minus4;
+>-	__u8	sps_max_dec_pic_buffering_minus1;
+>-	__u8	sps_max_num_reorder_pics;
+>-	__u8	sps_max_latency_increase_plus1;
+>-	__u8	log2_min_luma_coding_block_size_minus3;
+>-	__u8	log2_diff_max_min_luma_coding_block_size;
+>-	__u8	log2_min_luma_transform_block_size_minus2;
+>-	__u8	log2_diff_max_min_luma_transform_block_size;
+>-	__u8	max_transform_hierarchy_depth_inter;
+>-	__u8	max_transform_hierarchy_depth_intra;
+>-	__u8	pcm_sample_bit_depth_luma_minus1;
+>-	__u8	pcm_sample_bit_depth_chroma_minus1;
+>-	__u8	log2_min_pcm_luma_coding_block_size_minus3;
+>-	__u8	log2_diff_max_min_pcm_luma_coding_block_size;
+>-	__u8	num_short_term_ref_pic_sets;
+>-	__u8	num_long_term_ref_pics_sps;
+>-	__u8	chroma_format_idc;
+>-	__u8	sps_max_sub_layers_minus1;
+>-
+>-	__u64	flags;
+>-};
+>-
+>-#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
+>-#define V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT			(1ULL << 1)
+>-#define V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED		(1ULL << 2)
+>-#define V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT			(1ULL << 3)
+>-#define V4L2_HEVC_PPS_FLAG_CONSTRAINED_INTRA_PRED		(1ULL << 4)
+>-#define V4L2_HEVC_PPS_FLAG_TRANSFORM_SKIP_ENABLED		(1ULL << 5)
+>-#define V4L2_HEVC_PPS_FLAG_CU_QP_DELTA_ENABLED			(1ULL << 6)
+>-#define V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT	(1ULL << 7)
+>-#define V4L2_HEVC_PPS_FLAG_WEIGHTED_PRED			(1ULL << 8)
+>-#define V4L2_HEVC_PPS_FLAG_WEIGHTED_BIPRED			(1ULL << 9)
+>-#define V4L2_HEVC_PPS_FLAG_TRANSQUANT_BYPASS_ENABLED		(1ULL << 10)
+>-#define V4L2_HEVC_PPS_FLAG_TILES_ENABLED			(1ULL << 11)
+>-#define V4L2_HEVC_PPS_FLAG_ENTROPY_CODING_SYNC_ENABLED		(1ULL << 12)
+>-#define V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED	(1ULL << 13)
+>-#define V4L2_HEVC_PPS_FLAG_PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED (1ULL << 14)
+>-#define V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_OVERRIDE_ENABLED	(1ULL << 15)
+>-#define V4L2_HEVC_PPS_FLAG_PPS_DISABLE_DEBLOCKING_FILTER	(1ULL << 16)
+>-#define V4L2_HEVC_PPS_FLAG_LISTS_MODIFICATION_PRESENT		(1ULL << 17)
+>-#define V4L2_HEVC_PPS_FLAG_SLICE_SEGMENT_HEADER_EXTENSION_PRESENT (1ULL << 18)
+>-#define V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_CONTROL_PRESENT	(1ULL << 19)
+>-#define V4L2_HEVC_PPS_FLAG_UNIFORM_SPACING			(1ULL << 20)
+>-
+>-struct v4l2_ctrl_hevc_pps {
+>-	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
+>-	__u8	num_extra_slice_header_bits;
+>-	__u8	num_ref_idx_l0_default_active_minus1;
+>-	__u8	num_ref_idx_l1_default_active_minus1;
+>-	__s8	init_qp_minus26;
+>-	__u8	diff_cu_qp_delta_depth;
+>-	__s8	pps_cb_qp_offset;
+>-	__s8	pps_cr_qp_offset;
+>-	__u8	num_tile_columns_minus1;
+>-	__u8	num_tile_rows_minus1;
+>-	__u8	column_width_minus1[20];
+>-	__u8	row_height_minus1[22];
+>-	__s8	pps_beta_offset_div2;
+>-	__s8	pps_tc_offset_div2;
+>-	__u8	log2_parallel_merge_level_minus2;
+>-
+>-	__u8	padding[4];
+>-	__u64	flags;
+>-};
+>-
+>-#define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
+>-
+>-#define V4L2_HEVC_DPB_ENTRIES_NUM_MAX		16
+>-
+>-struct v4l2_hevc_dpb_entry {
+>-	__u64	timestamp;
+>-	__u8	flags;
+>-	__u8	field_pic;
+>-	__u16	pic_order_cnt[2];
+>-	__u8	padding[2];
+>-};
+>-
+>-struct v4l2_hevc_pred_weight_table {
+>-	__s8	delta_luma_weight_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-	__s8	luma_offset_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-	__s8	delta_chroma_weight_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
+>-	__s8	chroma_offset_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
+>-
+>-	__s8	delta_luma_weight_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-	__s8	luma_offset_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-	__s8	delta_chroma_weight_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
+>-	__s8	chroma_offset_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
+>-
+>-	__u8	padding[6];
+>-
+>-	__u8	luma_log2_weight_denom;
+>-	__s8	delta_chroma_log2_weight_denom;
+>-};
+>-
+>-#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_SAO_LUMA		(1ULL << 0)
+>-#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_SAO_CHROMA		(1ULL << 1)
+>-#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_TEMPORAL_MVP_ENABLED	(1ULL << 2)
+>-#define V4L2_HEVC_SLICE_PARAMS_FLAG_MVD_L1_ZERO			(1ULL << 3)
+>-#define V4L2_HEVC_SLICE_PARAMS_FLAG_CABAC_INIT			(1ULL << 4)
+>-#define V4L2_HEVC_SLICE_PARAMS_FLAG_COLLOCATED_FROM_L0		(1ULL << 5)
+>-#define V4L2_HEVC_SLICE_PARAMS_FLAG_USE_INTEGER_MV		(1ULL << 6)
+>-#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED (1ULL << 7)
+>-#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED (1ULL << 8)
+>-#define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
+>-
+>-struct v4l2_ctrl_hevc_slice_params {
+>-	__u32	bit_size;
+>-	__u32	data_bit_offset;
+>-
+>-	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>-	__u8	nal_unit_type;
+>-	__u8	nuh_temporal_id_plus1;
+>-
+>-	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
+>-	__u8	slice_type;
+>-	__u8	colour_plane_id;
+>-	__u16	slice_pic_order_cnt;
+>-	__u8	num_ref_idx_l0_active_minus1;
+>-	__u8	num_ref_idx_l1_active_minus1;
+>-	__u8	collocated_ref_idx;
+>-	__u8	five_minus_max_num_merge_cand;
+>-	__s8	slice_qp_delta;
+>-	__s8	slice_cb_qp_offset;
+>-	__s8	slice_cr_qp_offset;
+>-	__s8	slice_act_y_qp_offset;
+>-	__s8	slice_act_cb_qp_offset;
+>-	__s8	slice_act_cr_qp_offset;
+>-	__s8	slice_beta_offset_div2;
+>-	__s8	slice_tc_offset_div2;
+>-
+>-	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
+>-	__u8	pic_struct;
+>-
+>-	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
+>-	__u32	slice_segment_addr;
+>-	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-
+>-	__u8	padding;
+>-
+>-	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+>-	struct v4l2_hevc_pred_weight_table pred_weight_table;
+>-
+>-	__u64	flags;
+>-};
+>-
+>-#define V4L2_HEVC_DECODE_PARAM_FLAG_IRAP_PIC		0x1
+>-#define V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC		0x2
+>-#define V4L2_HEVC_DECODE_PARAM_FLAG_NO_OUTPUT_OF_PRIOR  0x4
+>-
+>-struct v4l2_ctrl_hevc_decode_params {
+>-	__s32	pic_order_cnt_val;
+>-	__u8	num_active_dpb_entries;
+>-	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-	__u8	num_poc_st_curr_before;
+>-	__u8	num_poc_st_curr_after;
+>-	__u8	num_poc_lt_curr;
+>-	__u8	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-	__u8	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-	__u8	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-	__u64	flags;
+>-};
+>-
+>-struct v4l2_ctrl_hevc_scaling_matrix {
+>-	__u8	scaling_list_4x4[6][16];
+>-	__u8	scaling_list_8x8[6][64];
+>-	__u8	scaling_list_16x16[6][64];
+>-	__u8	scaling_list_32x32[2][64];
+>-	__u8	scaling_list_dc_coef_16x16[6];
+>-	__u8	scaling_list_dc_coef_32x32[2];
+>-};
+>-
+>-/*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 */
+>-#define V4L2_CID_CODEC_HANTRO_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1200)
+>-/*
+>- * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
+>- * the number of data (in bits) to skip in the
+>- * slice segment header.
+>- * If non-IDR, the bits to be skipped go from syntax element "pic_output_flag"
+>- * to before syntax element "slice_temporal_mvp_enabled_flag".
+>- * If IDR, the skipped bits are just "pic_output_flag"
+>- * (separate_colour_plane_flag is not supported).
+>- */
+>-#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	(V4L2_CID_CODEC_HANTRO_BASE + 0)
+>-
+>-#endif
+>diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+>index f4105de8a8d2..00828a4f9404 100644
+>--- a/include/media/v4l2-ctrls.h
+>+++ b/include/media/v4l2-ctrls.h
+>@@ -13,12 +13,6 @@
+> #include <linux/videodev2.h>
+> #include <media/media-request.h>
+>
+>-/*
+>- * Include the stateless codec compound control definitions.
+>- * This will move to the public headers once this API is fully stable.
+>- */
+>-#include <media/hevc-ctrls.h>
+>-
+> /* forward references */
+> struct file;
+> struct poll_table_struct;
+>diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>index c8e0f84d204d..0e0ec2c61b80 100644
+>--- a/include/uapi/linux/v4l2-controls.h
+>+++ b/include/uapi/linux/v4l2-controls.h
+>@@ -218,6 +218,11 @@ enum v4l2_colorfx {
+>  * We reserve 16 controls for this driver.
+>  */
+> #define V4L2_CID_USER_ALLEGRO_BASE		(V4L2_CID_USER_BASE + 0x1170)
+>+/*
+>+ * The base for Hantro driver controls.
+>+ * We reserve 128 controls for this driver.
+>+ */
+>+#define V4L2_CID_USER_HANTRO_BASE		(V4L2_CID_USER_BASE + 0x1180)
+>
+> /* MPEG-class control IDs */
+> /* The MPEG controls are applicable to all codec controls
+>@@ -2302,6 +2307,220 @@ struct v4l2_ctrl_vp9_compressed_hdr {
+> 	struct v4l2_vp9_mv_probs mv;
+> };
+>
+>+#define V4L2_CID_STATELESS_HEVC_SPS		(V4L2_CID_CODEC_STATELESS_BASE + 400)
+>+#define V4L2_CID_STATELESS_HEVC_PPS		(V4L2_CID_CODEC_STATELESS_BASE + 401)
+>+#define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 402)
+>+#define V4L2_CID_STATELESS_HEVC_SCALING_MATRIX	(V4L2_CID_CODEC_STATELESS_BASE + 403)
+>+#define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 404)
+>+#define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_STATELESS_BASE + 405)
+>+#define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_STATELESS_BASE + 406)
+>+
+>+enum v4l2_stateless_hevc_decode_mode {
+>+	V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
+>+	V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
+>+};
+>+
+>+enum v4l2_stateless_hevc_start_code {
+>+	V4L2_STATELESS_HEVC_START_CODE_NONE,
+>+	V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
+>+};
+>+
+>+#define V4L2_HEVC_SLICE_TYPE_B	0
+>+#define V4L2_HEVC_SLICE_TYPE_P	1
+>+#define V4L2_HEVC_SLICE_TYPE_I	2
+>+
+>+#define V4L2_HEVC_SPS_FLAG_SEPARATE_COLOUR_PLANE		(1ULL << 0)
+>+#define V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED			(1ULL << 1)
+>+#define V4L2_HEVC_SPS_FLAG_AMP_ENABLED				(1ULL << 2)
+>+#define V4L2_HEVC_SPS_FLAG_SAMPLE_ADAPTIVE_OFFSET		(1ULL << 3)
+>+#define V4L2_HEVC_SPS_FLAG_PCM_ENABLED				(1ULL << 4)
+>+#define V4L2_HEVC_SPS_FLAG_PCM_LOOP_FILTER_DISABLED		(1ULL << 5)
+>+#define V4L2_HEVC_SPS_FLAG_LONG_TERM_REF_PICS_PRESENT		(1ULL << 6)
+>+#define V4L2_HEVC_SPS_FLAG_SPS_TEMPORAL_MVP_ENABLED		(1ULL << 7)
+>+#define V4L2_HEVC_SPS_FLAG_STRONG_INTRA_SMOOTHING_ENABLED	(1ULL << 8)
+>+
+>+struct v4l2_ctrl_hevc_sps {
+>+	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
+>+	__u16	pic_width_in_luma_samples;
+>+	__u16	pic_height_in_luma_samples;
+>+	__u8	bit_depth_luma_minus8;
+>+	__u8	bit_depth_chroma_minus8;
+>+	__u8	log2_max_pic_order_cnt_lsb_minus4;
+>+	__u8	sps_max_dec_pic_buffering_minus1;
+>+	__u8	sps_max_num_reorder_pics;
+>+	__u8	sps_max_latency_increase_plus1;
+>+	__u8	log2_min_luma_coding_block_size_minus3;
+>+	__u8	log2_diff_max_min_luma_coding_block_size;
+>+	__u8	log2_min_luma_transform_block_size_minus2;
+>+	__u8	log2_diff_max_min_luma_transform_block_size;
+>+	__u8	max_transform_hierarchy_depth_inter;
+>+	__u8	max_transform_hierarchy_depth_intra;
+>+	__u8	pcm_sample_bit_depth_luma_minus1;
+>+	__u8	pcm_sample_bit_depth_chroma_minus1;
+>+	__u8	log2_min_pcm_luma_coding_block_size_minus3;
+>+	__u8	log2_diff_max_min_pcm_luma_coding_block_size;
+>+	__u8	num_short_term_ref_pic_sets;
+>+	__u8	num_long_term_ref_pics_sps;
+>+	__u8	chroma_format_idc;
+>+	__u8	sps_max_sub_layers_minus1;
+>+
+>+	__u8	padding[6];
+>+	__u64	flags;
+>+	__u8	reserved[24];
+>+};
+>+
+>+#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
+>+#define V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT			(1ULL << 1)
+>+#define V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED		(1ULL << 2)
+>+#define V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT			(1ULL << 3)
+>+#define V4L2_HEVC_PPS_FLAG_CONSTRAINED_INTRA_PRED		(1ULL << 4)
+>+#define V4L2_HEVC_PPS_FLAG_TRANSFORM_SKIP_ENABLED		(1ULL << 5)
+>+#define V4L2_HEVC_PPS_FLAG_CU_QP_DELTA_ENABLED			(1ULL << 6)
+>+#define V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT	(1ULL << 7)
+>+#define V4L2_HEVC_PPS_FLAG_WEIGHTED_PRED			(1ULL << 8)
+>+#define V4L2_HEVC_PPS_FLAG_WEIGHTED_BIPRED			(1ULL << 9)
+>+#define V4L2_HEVC_PPS_FLAG_TRANSQUANT_BYPASS_ENABLED		(1ULL << 10)
+>+#define V4L2_HEVC_PPS_FLAG_TILES_ENABLED			(1ULL << 11)
+>+#define V4L2_HEVC_PPS_FLAG_ENTROPY_CODING_SYNC_ENABLED		(1ULL << 12)
+>+#define V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED	(1ULL << 13)
+>+#define V4L2_HEVC_PPS_FLAG_PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED (1ULL << 14)
+>+#define V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_OVERRIDE_ENABLED	(1ULL << 15)
+>+#define V4L2_HEVC_PPS_FLAG_PPS_DISABLE_DEBLOCKING_FILTER	(1ULL << 16)
+>+#define V4L2_HEVC_PPS_FLAG_LISTS_MODIFICATION_PRESENT		(1ULL << 17)
+>+#define V4L2_HEVC_PPS_FLAG_SLICE_SEGMENT_HEADER_EXTENSION_PRESENT (1ULL << 18)
+>+#define V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_CONTROL_PRESENT	(1ULL << 19)
+>+#define V4L2_HEVC_PPS_FLAG_UNIFORM_SPACING			(1ULL << 20)
+>+
+>+struct v4l2_ctrl_hevc_pps {
+>+	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
+>+	__u8	num_extra_slice_header_bits;
+>+	__u8	num_ref_idx_l0_default_active_minus1;
+>+	__u8	num_ref_idx_l1_default_active_minus1;
+>+	__s8	init_qp_minus26;
+>+	__u8	diff_cu_qp_delta_depth;
+>+	__s8	pps_cb_qp_offset;
+>+	__s8	pps_cr_qp_offset;
+>+	__u8	num_tile_columns_minus1;
+>+	__u8	num_tile_rows_minus1;
+>+	__u8	column_width_minus1[20];
+>+	__u8	row_height_minus1[22];
+>+	__s8	pps_beta_offset_div2;
+>+	__s8	pps_tc_offset_div2;
+>+	__u8	log2_parallel_merge_level_minus2;
+>+	__u8	padding[9];
+>+
+>+	__u64	flags;
+>+	__u8	reserved[56];
+>+};
+>+
+>+#define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
+>+
+>+#define V4L2_HEVC_DPB_ENTRIES_NUM_MAX		16
+>+
+>+struct v4l2_hevc_dpb_entry {
+>+	__u64	timestamp;
+>+	__u8	flags;
+>+	__u8	field_pic;
+>+	__u16	pic_order_cnt[2];
+>+	__u8	padding[2];
+>+};
+>+
+>+struct v4l2_hevc_pred_weight_table {
+>+	__s8	delta_luma_weight_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>+	__s8	luma_offset_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>+	__s8	delta_chroma_weight_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
+>+	__s8	chroma_offset_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
+>+
+>+	__s8	delta_luma_weight_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>+	__s8	luma_offset_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>+	__s8	delta_chroma_weight_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
+>+	__s8	chroma_offset_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX][2];
+>+
+>+	__u8	padding[6];
+>+
+>+	__u8	luma_log2_weight_denom;
+>+	__s8	delta_chroma_log2_weight_denom;
+>+};
+>+
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_SAO_LUMA		(1ULL << 0)
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_SAO_CHROMA		(1ULL << 1)
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_TEMPORAL_MVP_ENABLED	(1ULL << 2)
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_MVD_L1_ZERO			(1ULL << 3)
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_CABAC_INIT			(1ULL << 4)
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_COLLOCATED_FROM_L0		(1ULL << 5)
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_USE_INTEGER_MV		(1ULL << 6)
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED (1ULL << 7)
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED (1ULL << 8)
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
+>+
+>+struct v4l2_ctrl_hevc_slice_params {
+>+	__u32	bit_size;
+>+	__u32	data_bit_offset;
+>+
+>+	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>+	__u8	nal_unit_type;
+>+	__u8	nuh_temporal_id_plus1;
+>+
+>+	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
+>+	__u8	slice_type;
+>+	__u8	colour_plane_id;
+>+	__u16	slice_pic_order_cnt;
+>+	__u8	num_ref_idx_l0_active_minus1;
+>+	__u8	num_ref_idx_l1_active_minus1;
+>+	__u8	collocated_ref_idx;
+>+	__u8	five_minus_max_num_merge_cand;
+>+	__s8	slice_qp_delta;
+>+	__s8	slice_cb_qp_offset;
+>+	__s8	slice_cr_qp_offset;
+>+	__s8	slice_act_y_qp_offset;
+>+	__s8	slice_act_cb_qp_offset;
+>+	__s8	slice_act_cr_qp_offset;
+>+	__s8	slice_beta_offset_div2;
+>+	__s8	slice_tc_offset_div2;
+>+
+>+	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
+>+	__u8	pic_struct;
+>+
+>+	__u8	reserved;
+>+
+>+	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
+>+	__u32	slice_segment_addr;
+>+	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>+	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>+
+>+	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+>+	struct v4l2_hevc_pred_weight_table pred_weight_table;
+>+
+>+	__u64	flags;
+>+	__u8	padding[48];
+>+};
+>+
+>+#define V4L2_HEVC_DECODE_PARAM_FLAG_IRAP_PIC		0x1
+>+#define V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC		0x2
+>+#define V4L2_HEVC_DECODE_PARAM_FLAG_NO_OUTPUT_OF_PRIOR  0x4
+>+
+>+struct v4l2_ctrl_hevc_decode_params {
+>+	__s32	pic_order_cnt_val;
+>+	__u8	num_active_dpb_entries;
+>+	__u8	num_poc_st_curr_before;
+>+	__u8	num_poc_st_curr_after;
+>+	__u8	num_poc_lt_curr;
+>+	__u8	poc_st_curr_before[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>+	__u8	poc_st_curr_after[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>+	__u8	poc_lt_curr[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>+	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>+	__u64	flags;
+>+};
+>+
+>+struct v4l2_ctrl_hevc_scaling_matrix {
+>+	__u8	scaling_list_4x4[6][16];
+>+	__u8	scaling_list_8x8[6][64];
+>+	__u8	scaling_list_16x16[6][64];
+>+	__u8	scaling_list_32x32[2][64];
+>+	__u8	scaling_list_dc_coef_16x16[6];
+>+	__u8	scaling_list_dc_coef_32x32[2];
+>+};
+>+
+> /* MPEG-compression definitions kept for backwards compatibility */
+> #ifndef __KERNEL__
+> #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
+>diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>index e27c8eae78c9..9af1c2460148 100644
+>--- a/include/uapi/linux/videodev2.h
+>+++ b/include/uapi/linux/videodev2.h
+>@@ -708,6 +708,7 @@ struct v4l2_pix_format {
+> #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
+> #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
+> #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
+>+#define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC parsed slices */
+>
+> /*  Vendor-specific formats   */
+> #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
+>@@ -1829,6 +1830,12 @@ enum v4l2_ctrl_type {
+>
+> 	V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR	= 0x0260,
+> 	V4L2_CTRL_TYPE_VP9_FRAME		= 0x0261,
+>+
+>+	V4L2_CTRL_TYPE_HEVC_SPS			= 0x0270,
+>+	V4L2_CTRL_TYPE_HEVC_PPS			= 0x0271,
+>+	V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS	= 0x0272,
+>+	V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX	= 0x0273,
+>+	V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS	= 0x0274,
+> };
+>
+> /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
+>-- 
+>2.32.0
+>
