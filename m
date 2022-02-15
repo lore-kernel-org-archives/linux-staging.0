@@ -1,124 +1,165 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05873186C;
-	Tue, 15 Feb 2022 21:21:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644960076; x=1676496076;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D3mH1ZQYnUmDyHebTFiaM1aX+zULtvkheCq0LawoiFk=;
-  b=nbghmcmdjN1meaD/DF6yNAjdADShA7w/EHfG/nlaAxadAFxz55VRIUOD
-   FO8y21TrRnna0MTajlVv2c5RB8U4iCGqCDsilh1f7pvX5joi9UOLikL5a
-   UQDfZNKtVD7RcxpG3RpKIVwCgxzQOn5yvpki+i6yD9gqzRL5d+PY2Os/2
-   nA+joW1Ft85MALKSOKfMm4Yjku3E5h8u6NFhUjZevdoGnpd8mqu9dcVvW
-   KpUKVanY97klpCJQSZgWC/3EsKd74k90YR76SS3dBzGEgISpcOya6AnG1
-   oWPlPZjH3yjpJty6jzahDRW5BIRfoIn3AzRBsdFMrcc+XAruwesw7O6qF
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="250197094"
-X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
-   d="scan'208";a="250197094"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 13:21:10 -0800
-X-IronPort-AV: E=Sophos;i="5.88,371,1635231600"; 
-   d="scan'208";a="625027203"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 13:21:05 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id 723FA200F1;
-	Tue, 15 Feb 2022 23:21:03 +0200 (EET)
-Date: Tue, 15 Feb 2022 23:21:03 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 37/66] media: sun6i-csi: Move power management to
- runtime pm in capture
-Message-ID: <YgwZP4CS26FCOOqc@paasikivi.fi.intel.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-38-paul.kocialkowski@bootlin.com>
- <YgqftcDgfrsZfTdF@paasikivi.fi.intel.com>
- <Ygt4xh2Mq0qStyKs@aptenodytes>
- <Ygt6vwydxg9/WuDH@pendragon.ideasonboard.com>
- <Ygt+nZJrZMNXV4Cl@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558501876
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 21:52:53 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B88F6FEA;
+	Tue, 15 Feb 2022 22:52:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1644961970;
+	bh=6Q3NQIArbUuR6nYk2Ck4UQi3Eb+U5KRFa+PmxgQ3+f8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D6n0q/PXBskz/hmSn88WbdmSIfYypqFFhwBwQ4MHtaJz7ee30hpca/7lHxOevKsLu
+	 lRSI4HryJcQpEdz4O6l9Rsnjv3OArGnPW3z4nmyKSxby8TBWAdveHRTLvKfLHRXKeL
+	 tq8t/OOTFn3V7r0iQFdLIns9w7wVG7fxFQkw8O9s=
+Date: Tue, 15 Feb 2022 23:52:44 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Jacopo Mondi <jacopo@jmondi.org>, slongerbeam@gmail.com,
+	p.zabel@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	festevam@gmail.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	martin.kepplinger@puri.sm, rmfrfs@gmail.com,
+	xavier.roumegue@oss.nxp.com, alexander.stein@ew.tq-group.com,
+	dorota.czaplejewicz@puri.sm, kernel@pengutronix.de,
+	linux-imx@nxp.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 8/8] media: imx: imx-mipi-csis: Add RGB/BGR888
+Message-ID: <YgwgrMkyGJW61LtC@pendragon.ideasonboard.com>
+References: <20220214184318.409208-1-jacopo@jmondi.org>
+ <20220214184318.409208-9-jacopo@jmondi.org>
+ <YgtaUsxBF69bZa92@pendragon.ideasonboard.com>
+ <YgwWG4s3LeNxaHQ4@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Ygt+nZJrZMNXV4Cl@aptenodytes>
+In-Reply-To: <YgwWG4s3LeNxaHQ4@valkosipuli.retiisi.eu>
 
-Hi Paul,
+Hi Sakari,
 
-On Tue, Feb 15, 2022 at 11:21:17AM +0100, Paul Kocialkowski wrote:
-> Hi Laurent,
-> 
-> On Tue 15 Feb 22, 12:04, Laurent Pinchart wrote:
-> > Hi Paul,
+On Tue, Feb 15, 2022 at 11:07:39PM +0200, Sakari Ailus wrote:
+> On Tue, Feb 15, 2022 at 09:46:26AM +0200, Laurent Pinchart wrote:
+> > On Mon, Feb 14, 2022 at 07:43:18PM +0100, Jacopo Mondi wrote:
+> > > Add support for the RGB888_1X24 and BGR888_1X24 image formats.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > ---
+> > >  drivers/media/platform/imx/imx-mipi-csis.c | 10 ++++++++++
+> > >  1 file changed, 10 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
+> > > index 9e0a478dba75..0d5870b3010a 100644
+> > > --- a/drivers/media/platform/imx/imx-mipi-csis.c
+> > > +++ b/drivers/media/platform/imx/imx-mipi-csis.c
+> > > @@ -366,6 +366,16 @@ static const struct csis_pix_format mipi_csis_formats[] = {
+> > >  		.data_type = MIPI_CSI2_DATA_TYPE_RGB565,
+> > >  		.width = 16,
+> > >  	},
+> > > +	{
 > > 
-> > On Tue, Feb 15, 2022 at 10:56:22AM +0100, Paul Kocialkowski wrote:
-> > > On Mon 14 Feb 22, 20:30, Sakari Ailus wrote:
-> > > > On Sat, Feb 05, 2022 at 07:54:00PM +0100, Paul Kocialkowski wrote:
-> > > > > Let's just enable the module when we start using it (at stream on)
-> > > > > and benefit from runtime pm instead of enabling it at first open.
-> > > > > 
-> > > > > Also reorder the call to v4l2_pipeline_pm_get.
-> > > > > 
-> > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > 
-> > > > Nice patch!
-> > > 
-> > > Thanks!
-> > > 
-> > > > Do you still need v4l2_pipeline_pm_put()? Removing it would be a separate
-> > > > patch of course.
-> > > 
-> > > My understanding is that this is still useful if there are drivers in the
-> > > pipeline that rely on s_power instead of rpm (a typical case could be an
-> > > old sensor driver). So that's why this is kept around, but all other components
-> > > of the pipeline (isp/csi/mipi csi-2) are using rpm now.
+> > 	}, {
 > > 
-> > If that's not the case on your test platforms, I think it would be
-> > better to drop support for this old API, and convert drivers that still
-> > use .s_power() if someone needs to use one on an Allwinner platform.
+> > to match the rest of the array. Same below.
+> > 
+> > > +		.code = MEDIA_BUS_FMT_RGB888_1X24,
+> > > +		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
+> > > +		.width = 24,
+> > > +	},
+> > > +	{
+> > > +		.code = MEDIA_BUS_FMT_BGR888_1X24,
+> > > +		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
+> > > +		.width = 24,
+> > > +	},
+> > 
+> > CSI-2 specifies the order of bits on the bus for RGB888, with data being
+> > transmitted in the B, G, R order. The recommended format when stored in
+> > memory is V4L2_PIX_FMT_BGR24 (B in byte 0, G in byte 1, R in byte 2).
+> > There is no recommended deserialized bus format though.
+> > 
+> > On the output side of the CSIS, we have information. Given figure 13-23
+> > ("Pixel alignment") in the i.MX8MP reference manual, and the definition
+> > of RGB_SWAP in MIPI_CSI2_ISP_CONFIG_CH0 that reads
+> > 
+> >     Swapping RGB sequence
+> > 
+> >     0  MSB is R and LSB is B.
+> >     1  MSB is B and LSB is R (swapped).
+> > 
+> > I think MEDIA_BUS_FMT_RGB888_1X24 is appropriate.
+> > 
+> > On the input side of the CSIS, however, it's a different story, similar
+> > to YUV formats. For YUV 4:2:2 we have picked MEDIA_BUS_FMT_UYVY8_1X16
+> > arbitrarily to represent the CSI-2 bus format. It doesn't correspond to
+> > the physical reality, but it doesn't matter much. We thus need to do the
+> > same for RGB888. If we follow the same convention as for YUV 4:2:2,
+> > which transmits data in the U, Y, V, Y order, we should then pick
+> > BGR888_1X24. However, the CSIS driver would then need to translate from
+> > the input format BGR888_1X24 to the output format RGB888_1X24, which
+> > adds a bit of complexity.
+> > 
+> > Picking RGB888_1X24 for the CSI-2 bus is thus tempting, but it's a
+> > choice that will affect all drivers, so I wouldn't make this based
+> > solely on ease of implementation in a particular driver. I'm thus
+> > tempted to go for BGR888_1X24 to be consistent with YUV 4:2:2. Another
+> > option would be to add a new RGB888_CSI2 media bus format. In retrospect
+> > we should have done the same for YUV 4:2:2. Mistakes happen.
+> > 
+> > Sakari, what do you think ?
 > 
-> I agree this is the path to follow but it feels like we're not quite there
-> yet and a bunch of driver were not converted at this point, including some
-> popular ones like ov5640, which I know for sure is used with Allwinner devices.
+> We first started adding support for raw Bayer formats for CSI-2 so at the
+> time there was little room for confusing the format with another one. Also
+> few of these formats were eventually used on the parallel bus, making some
+> of the formats look a little bit artificial.
 > 
-> Honestly I'd be happy to get rid of these legacy functions as soon as the
-> transition is done, but doing it now would mean breaking a significant number
-> of use cases (which I'm trying to avoid here despite all the changes).
+> We've discussed separating the serial bus formats a few times since but
+> always stuck using single-sample parallel bus format for the serial buses.
+> As the existing formats will remain as-is, we'd have a mix of differently
+> named formats returned from an enumeration from increasing number of
+> drivers. That isn't pretty, but then 24 bit deep Bayer formats won't fit
+> the mbus format table anyway.
 > 
-> I definitely wouldn't be confident making that transition here and it
-> probably wouldn't be a good idea to make that a requirement to merge this
-> (already quite big) series.
-> 
-> What do you think?
+> I don't have a strong opinion on this, apart from maintaining the pixel
+> order. Maybe I'd still create a parallel single-sample format for this one.
 
-Feel free to keep it if you prefer that.
+We have MEDIA_BUS_FMT_RGB888_1X24 and MEDIA_BUS_FMT_BGR888_1X24 already.
+None of them are intrinsicly better, but I think
+MEDIA_BUS_FMT_BGR888_1X24 would match the convention used by
+MEDIA_BUS_FMT_UYVY8_1X16, so I would pick that one. Ack ?
 
-All sensor drivers that implement s_power are old but there are quite a few
-of them. Converting them isn't trivial so best done by someone who has
-access to the hardware.
+> If we'd differentiate the formats on CSI-2 bus, I'd just call them
+> "serial", not "CSI-2".
+
+Good point. We would have to figure out how to differentiate the two
+ways to transfer YUV 4:2:0 (legacy and non-legacy) over CSI-2 though,
+maybe the legacy way could be named using CSI-2, while the non-legacy
+way would be named serial and shared with other buses. We don't have to
+solve it now.
+
+> > If we go for BGR888_1X24, the translation between BGR888_1X24 and
+> > RGB888_1X24 may not be that hard to implement. You could add an output
+> > field to the csis_pix_format structure to store the output media bus
+> > code for a given input code, and I think the implementation would then
+> > remain relatively simple.
+> > 
+> > Finally, we can also support the swapped RGB format (which is
+> > non-standard in CSI-2 but is supported by some sensors, the same way as
+> > YUV permutations are often supported too), but it will require setting
+> > RGB_SWAP. You can add a rgb_swap field to csis_pix_format for this.
+> > 
+> > I'd split this patch in two, adding MEDIA_BUS_FMT_RGB888_1X24 first, and
+> > then adding MEDIA_BUS_FMT_BGR888_1X24 with the new rgb_swap field. The
+> > first patch should capture the above explanation.
+> > 
+> > >  	/* RAW (Bayer and greyscale) formats. */
+> > >  	{
+> > >  		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
 
 -- 
 Regards,
 
-Sakari Ailus
+Laurent Pinchart
