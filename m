@@ -1,224 +1,164 @@
-Received: from sonic301-57.consmr.mail.ne1.yahoo.com (sonic301-57.consmr.mail.ne1.yahoo.com [66.163.184.226])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430267C
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 02:41:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1644892893; bh=cwlZyrxzndX/rf1BmsU10DtvJE31JIYmldJr7uTBP2I=; h=Date:From:To:Cc:Subject:References:From:Subject:Reply-To; b=YKbJZci5fDWArSh+Kyn6jCb9yPAE3ndp76E+4i08lN5i+LwIq7wSC5DjhWTpAcJoCU1rBqpK4eDXoNg0LdBc6m1pOEM8b6oSBYuZIxxCZENrQwG0n2dLvWC5xiJRveT4jlLlV6V+ebgeEKb7M7rvDPC5ygWK9NsIGY5ud12WGr8MdZ7b818HyL1Ic6UuIhSjPhJ0yLREtqzuHsxUjGOWLrqcf2XyfdEmHS8L9Qd4VYzx0I4UtwDaUuYoh5wcNp+MOWojFFXY+KRdBkya8bmYn5svRw200cBbfVTG3y1nw0q4k70ShHkiqMy9ahg7aQ/Ql6d3EezNswspsFG7nviYug==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1644892893; bh=QVfgZHb4UfdjjPM9Lhmi8YMeaV5fSTbihIVIou1DOl8=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=H/h7K5eI5TY+6ANSrtqzI52MHoODOLwuwwXtCmrn8ORCOCj18R5ldF5T1zfBgqKa3Q4NWMrtfkUUTUjJYwHU19cMXe0mvIuGpxX5AYcYPuhi1yZ/I9RgZfJmzJ1t8lW//tSRss5xPfGPgJuf9ECTRrUL7pu3c9pe/9ysivX6B7wqq0U5gIjuoVfavTRQNpxl0Z3fdRPQGw6U4666XRUfXpIogAaqqDAkkYD7dGeKYi6hycZ/V0mGcb7mZCU40raAUMx2VuKFW41jgfHxF5Q4T4+9O3SxJF+WmJfrSyFb5OdykZB6cVTRkQMDf4alSgTg8Q21VAKfPV8pZ0LtJTINHQ==
-X-YMail-OSG: BTNaKOUVM1ndshD.f1HSeq7iFloCTdP1lhMBf.hImdjd145NsOJMtlN1sNLH0NF
- VqGIteGfnoPXHEVi6bGUILzOUfEkJ_R1VWnjDbhDSBUxLZYyqdb3EBSk_PRVwFiTMQ5uoLMhvl9O
- jmsKZUyvjJq0vB2GCK9MbtlUDs8FGvoHWP7fmDVfwu6kuleTiOnuN75GbMwoQjEYU1zcZGiKbq7j
- ofIZnpYqf_BGsEV3u8JMQdscZuxRkFpn8A9xQphHM4hW1oD3WS0m1Ntahfh6ZZAbHcphcMLSLAhe
- 8pKrMzU3QFynJfEJtyku_6vvtNv.dNp3D.z4VxaukpbczVuwCfdTi1qtJj9vM7oeSQzuzlHBjVmN
- 3bQrRKh0Fa5XmNEVNagAG0mI5dy_iMl4mLthEhvzmOIsza4NKsQWZtWx83zdlwqNNbqoIaxtMfqb
- Uku.Vnd2uVbKFJxqsUii4v6eKXQGeIsy52k2UyQMfDnjSdH5h6sQyGr25hFZqcOm6jXNAr.COGbm
- VTUn5233tRp99dgOON6mwmsfBd60_KrZD8PikFQaEAvbNUO11i_aKT3krfdaA7ZCkoNE9pE588S3
- uV9oV9pA.XGAMMdCtx3brMa110fGZ_Ur5hsMxWthY.U3LRiuo8uFn04B2k2WcTkm8l7TWUUG1VCo
- 9UXRILn0O2A2BivLevMjqv347GE6P5rvi8KRWTRJ1819pueHD4jm7.GzggGZF_bvoFnp0dXSkCdh
- zx9GP3xUKiSfdzvhieIs5vejH2vDUM0ytL3wVCvhuwPzWKNVJoWloHDeiImcsOEVWWvrZMK_QiBo
- 1Uh999uQy286jyyqQziqr9EYzdr.6DhcrBd.ARfxV2C6hcSzD_dNr5PLjgWWUVNQaVTfbOhuB0p2
- RLEFJOKhdltCmAzSFPa8IoclOD2X.doUTuRHtgxzkX_85G81mljCFiYuAh.9o3rEsq9xmSzY2ur0
- s1I8cTjKHH82FYbz9rBJO84k3W9ZY58WAu8JoG_SBCyd7zDPKOkyWzFx4s1.gxBvCRVYpE4BuN9p
- 0XEJZuOUeG86VIyYcYRni_09CuvVqoixSidCo1nmlyjLZdcrVyT6Np56yBWpB5NL9pKKuk_PQWy4
- 7DaZ_fMOcR0dKcXYf3PSidsRzd2OSVmZyFR1b2X9c7dE9kdE.bMtOs9ZXP_Xdy_eDjoP9NgO7xdC
- M5GEi0uMAvMS.ra8wEcfLT75AXAxfiIVq4CAbDYsHzBoxN33QdwQLm5eVyANvhMai4SQHkYtEDKv
- AcJs26quJAcV3gnyDgnfv69NTGPGYp3k4yyafdD4.iS3hASW4v4D3Z7bveNIi8j9b273qeHvhyYM
- 8A8I0MjwFWJRyi_kM3rceJRJYWv.nOQ38x4jySlKjhkySwCsmo91g3.C5lOtE0uzikUNPsLXbY4E
- OFUTwN28T8sClbP4zhKqiboXPP7SJLPWH4Unne3nQQIQdEZRseetdoIMbt9uf4JjUPFVES76Nz8p
- Xy2rfDfAx.JGJQm7eyBlkxYA40JLKq0ujLXUJ8aDFCrifT5iZPIn8FeTHurgwmz5_vbcXEMkpx17
- Fs.zKgsApWic0IRDT3M0.hXl2CVPBZbYTFXI813DIcKh7zL8xRecGgtgZ3Jba33osMPt7g7V3aWG
- j8jJiQAwlkSIIk_O9lxZczY1dxtFi9RK1cj4.UiuJMwj7UdSEsKubttmEcwn85QdstNTK.JqhEi6
- FXCiWaZ53qVnp18i..xiynOqAd455CaUVmAc38nQpiVdOSwkqPCAdU14eMfWCPj1rYfRxpFIjcpo
- 4mx0pWfnGVd23HusIqnGKLFLITiZYa_ZTL6tR.43MF2rlq4TKUDGH.Yj6qCnVedmy_gbqjbZd.V.
- OAyfSN3kHT1mtTAwi3jq0YNvrNrlDm0J16RWYJ_WK1qK5Ytjx2m6RnAtecQEp_D2eXNGz.ebg1TM
- RsGBkRNooOa9TyN5i.JQolQaETuQfWlxRJO8CXg1nCeWwveC9qtsY9cgYoKyukGN5QT9YO5KFHOB
- BYxk2sloLgvB3TkzFGojrjANCZ4zPU95_NPnoDg57z259dp07tdVeQlc_TXxmXihiE3vfpekXQle
- oFsTzIrd1ohUjjECK7hmVxHm4iEjNLd7qSeR5uDU2MoxKpGSTKEoT6_Miq7ua8ZET1whke_z53XJ
- QWIqV6IFmVbWYIMbeQ7ldEmKFGRFOHLgNFFooTdGBRd9l4kSOWnXG5OwH9rejY6QVqu8rG5wf.Uk
- U
-X-Sonic-MF: <marcelo.as@aol.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ne1.yahoo.com with HTTP; Tue, 15 Feb 2022 02:41:33 +0000
-Received: by kubenode514.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID b7b91e8796b59d15c24591af310d5abf;
-          Tue, 15 Feb 2022 02:39:30 +0000 (UTC)
-Date: Mon, 14 Feb 2022 23:39:26 -0300
-From: Marcelo Aloisio da Silva <marcelo.as@aol.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: remove unconditional if statement
-Message-ID: <20220215023926.GA52339@snoopy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAEDA28
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 06:58:12 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 591D2315;
+	Tue, 15 Feb 2022 07:58:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1644908290;
+	bh=kEeUzYRTuwAhdByfTg0GYnZJ/+/eScWDfkW7cm5xZkg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZN8A5g9dNx3uXN/t91rWyWzhuMhn9bKbjGK0qWHD19Wnq5W87luPdkiRxoQHvNl9b
+	 jUzbMuv3e9eec8tLF3MVnxL0IGJdAtiuu4pYCNrl2Bn5HI3jnMKu0T8yQz15qYN5u3
+	 4DMTLPGCPS0mmQhcQdNtZmSOIRgicBb5sVtdc9XA=
+Date: Tue, 15 Feb 2022 08:58:04 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo@jmondi.org>
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
+	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+	kernel@pengutronix.de, linux-imx@nxp.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/8] media: imx: Rename imx7-mipi-csis.c to
+ imx-mipi-csis.c
+Message-ID: <YgtO/Bhi7nwJJ5Kr@pendragon.ideasonboard.com>
+References: <20220214184318.409208-1-jacopo@jmondi.org>
+ <20220214184318.409208-3-jacopo@jmondi.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-References: <20220215023926.GA52339.ref@snoopy>
-X-Mailer: WebService/1.1.19724 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+In-Reply-To: <20220214184318.409208-3-jacopo@jmondi.org>
 
-Remove if condition that is always true. It is useless and
-makes the code less readable.
+Hi Jacopo,
 
-Signed-off-by: Marcelo Aloisio da Silva <marcelo.as@aol.com>
----
- drivers/staging/r8188eu/core/rtw_ap.c | 124 +++++++++++++-------------
- 1 file changed, 62 insertions(+), 62 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index 19d12dd9788e..5e22b1baf9a5 100644
---- a/drivers/staging/r8188eu/core/rtw_ap.c
-+++ b/drivers/staging/r8188eu/core/rtw_ap.c
-@@ -55,85 +55,85 @@ static void update_BCNTIM(struct adapter *padapter)
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct wlan_bssid_ex *pnetwork_mlmeext = &pmlmeinfo->network;
- 	unsigned char *pie = pnetwork_mlmeext->IEs;
-+	u8 *p, *dst_ie, *premainder_ie = NULL;
-+	u8 *pbackup_remainder_ie = NULL;
-+	__le16 tim_bitmap_le;
-+	uint offset, tmp_len, tim_ielen, tim_ie_offset, remainder_ielen;
- 
- 	/* update TIM IE */
--	if (true) {
--		u8 *p, *dst_ie, *premainder_ie = NULL;
--		u8 *pbackup_remainder_ie = NULL;
--		__le16 tim_bitmap_le;
--		uint offset, tmp_len, tim_ielen, tim_ie_offset, remainder_ielen;
--
--		tim_bitmap_le = cpu_to_le16(pstapriv->tim_bitmap);
--
--		p = rtw_get_ie(pie + _FIXED_IE_LENGTH_, _TIM_IE_, &tim_ielen, pnetwork_mlmeext->IELength - _FIXED_IE_LENGTH_);
--		if (p && tim_ielen > 0) {
--			tim_ielen += 2;
--			premainder_ie = p + tim_ielen;
--			tim_ie_offset = (int)(p - pie);
--			remainder_ielen = pnetwork_mlmeext->IELength - tim_ie_offset - tim_ielen;
--			/* append TIM IE from dst_ie offset */
--			dst_ie = p;
--		} else {
--			tim_ielen = 0;
- 
--			/* calculate head_len */
--			offset = _FIXED_IE_LENGTH_;
--			offset += pnetwork_mlmeext->Ssid.SsidLength + 2;
-+	p = rtw_get_ie(pie + _FIXED_IE_LENGTH_, _TIM_IE_, &tim_ielen,
-+		       pnetwork_mlmeext->IELength - _FIXED_IE_LENGTH_);
-+	if (p && tim_ielen > 0) {
-+		tim_ielen += 2;
-+		premainder_ie = p + tim_ielen;
-+		tim_ie_offset = (int)(p - pie);
-+		remainder_ielen = pnetwork_mlmeext->IELength - tim_ie_offset - tim_ielen;
-+		/* append TIM IE from dst_ie offset */
-+		dst_ie = p;
-+	} else {
-+		tim_ielen = 0;
- 
--			/*  get supported rates len */
--			p = rtw_get_ie(pie + _BEACON_IE_OFFSET_, _SUPPORTEDRATES_IE_, &tmp_len, (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_));
--			if (p)
--				offset += tmp_len + 2;
-+		/* calculate head_len */
-+		offset = _FIXED_IE_LENGTH_;
-+		offset += pnetwork_mlmeext->Ssid.SsidLength + 2;
- 
--			/* DS Parameter Set IE, len = 3 */
--			offset += 3;
-+		/*  get supported rates len */
-+		p = rtw_get_ie(pie + _BEACON_IE_OFFSET_, _SUPPORTEDRATES_IE_,
-+			       &tmp_len, (pnetwork_mlmeext->IELength - _BEACON_IE_OFFSET_));
-+		if (p)
-+			offset += tmp_len + 2;
- 
--			premainder_ie = pie + offset;
-+		/* DS Parameter Set IE, len = 3 */
-+		offset += 3;
- 
--			remainder_ielen = pnetwork_mlmeext->IELength - offset - tim_ielen;
-+		premainder_ie = pie + offset;
- 
--			/* append TIM IE from offset */
--			dst_ie = pie + offset;
--		}
-+		remainder_ielen = pnetwork_mlmeext->IELength - offset - tim_ielen;
- 
--		if (remainder_ielen > 0) {
--			pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_ATOMIC);
--			if (pbackup_remainder_ie && premainder_ie)
--				memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
--		}
--		*dst_ie++ = _TIM_IE_;
-+		/* append TIM IE from offset */
-+		dst_ie = pie + offset;
-+	}
- 
--		if ((pstapriv->tim_bitmap & 0xff00) && (pstapriv->tim_bitmap & 0x00fc))
--			tim_ielen = 5;
--		else
--			tim_ielen = 4;
-+	if (remainder_ielen > 0) {
-+		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_ATOMIC);
-+		if (pbackup_remainder_ie && premainder_ie)
-+			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
-+	}
-+	*dst_ie++ = _TIM_IE_;
- 
--		*dst_ie++ = tim_ielen;
-+	if ((pstapriv->tim_bitmap & 0xff00) && (pstapriv->tim_bitmap & 0x00fc))
-+		tim_ielen = 5;
-+	else
-+		tim_ielen = 4;
- 
--		*dst_ie++ = 0;/* DTIM count */
--		*dst_ie++ = 1;/* DTIM period */
-+	*dst_ie++ = tim_ielen;
- 
--		if (pstapriv->tim_bitmap & BIT(0))/* for bc/mc frames */
--			*dst_ie++ = BIT(0);/* bitmap ctrl */
--		else
--			*dst_ie++ = 0;
-+	*dst_ie++ = 0;/* DTIM count */
-+	*dst_ie++ = 1;/* DTIM period */
- 
--		if (tim_ielen == 4) {
--			*dst_ie++ = *(u8 *)&tim_bitmap_le;
--		} else if (tim_ielen == 5) {
--			memcpy(dst_ie, &tim_bitmap_le, 2);
--			dst_ie += 2;
--		}
-+	if (pstapriv->tim_bitmap & BIT(0))/* for bc/mc frames */
-+		*dst_ie++ = BIT(0);/* bitmap ctrl */
-+	else
-+		*dst_ie++ = 0;
- 
--		/* copy remainder IE */
--		if (pbackup_remainder_ie) {
--			memcpy(dst_ie, pbackup_remainder_ie, remainder_ielen);
-+	tim_bitmap_le = cpu_to_le16(pstapriv->tim_bitmap);
- 
--			kfree(pbackup_remainder_ie);
--		}
--		offset =  (uint)(dst_ie - pie);
--		pnetwork_mlmeext->IELength = offset + remainder_ielen;
-+	if (tim_ielen == 4) {
-+		*dst_ie++ = *(u8 *)&tim_bitmap_le;
-+	} else if (tim_ielen == 5) {
-+		memcpy(dst_ie, &tim_bitmap_le, 2);
-+		dst_ie += 2;
-+	}
-+
-+	/* copy remainder IE */
-+	if (pbackup_remainder_ie) {
-+		memcpy(dst_ie, pbackup_remainder_ie, remainder_ielen);
-+
-+		kfree(pbackup_remainder_ie);
- 	}
-+	offset =  (uint)(dst_ie - pie);
-+	pnetwork_mlmeext->IELength = offset + remainder_ielen;
- 
- 	set_tx_beacon_cmd(padapter);
- }
+On Mon, Feb 14, 2022 at 07:43:12PM +0100, Jacopo Mondi wrote:
+> Rename the imx7-mipi-csis.c driver to remove the reference to i.MX7.
+> 
+> The driver is for an IP core found on i.MX7 and i.MX8 SoC, so do not
+> specify a SoC version number in the driver name.
+> 
+> Remove the references to the i.MX7 SoC in the driver symbols and expand
+> the driver's header with more information about the IP core the driver
+> controls.
+> 
+> Also rename the associated bindings documentation.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  Documentation/admin-guide/media/imx7.rst               |  2 +-
+>  ...{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
+>  MAINTAINERS                                            |  4 ++--
+>  drivers/media/platform/imx/Makefile                    |  2 +-
+>  .../platform/imx/{imx7-mipi-csis.c => imx-mipi-csis.c} | 10 +++++++---
+>  5 files changed, 12 insertions(+), 8 deletions(-)
+>  rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
+>  rename drivers/media/platform/imx/{imx7-mipi-csis.c => imx-mipi-csis.c} (99%)
+> 
+> diff --git a/Documentation/admin-guide/media/imx7.rst b/Documentation/admin-guide/media/imx7.rst
+> index 4785ae8ac978..2fa27718f52a 100644
+> --- a/Documentation/admin-guide/media/imx7.rst
+> +++ b/Documentation/admin-guide/media/imx7.rst
+> @@ -33,7 +33,7 @@ reference manual [#f1]_.
+>  Entities
+>  --------
+>  
+> -imx7-mipi-csi2
+> +imx-mipi-csi2
+>  --------------
+>  
+>  This is the MIPI CSI-2 receiver entity. It has one sink pad to receive the pixel
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+> similarity index 98%
+> rename from Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> rename to Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+> index e2e6e9aa0fe6..36b135bf9f2a 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: http://devicetree.org/schemas/media/nxp,imx7-mipi-csi2.yaml#
+> +$id: http://devicetree.org/schemas/media/nxp,imx-mipi-csi2.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+>  title: NXP i.MX7 and i.MX8 MIPI CSI-2 receiver
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5bdb8c881b0b..d919ea3ed250 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11889,9 +11889,9 @@ L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/admin-guide/media/imx7.rst
+> +F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+>  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> -F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> -F:	drivers/media/platform/imx/imx7-mipi-csis.c
+> +F:	drivers/media/platform/imx/imx-mipi-csis.c
+>  F:	drivers/staging/media/imx/imx7-media-csi.c
+>  
+>  MEDIA DRIVERS FOR HELENE
+> diff --git a/drivers/media/platform/imx/Makefile b/drivers/media/platform/imx/Makefile
+> index ee272234c8d7..f72bdbe8e6ef 100644
+> --- a/drivers/media/platform/imx/Makefile
+> +++ b/drivers/media/platform/imx/Makefile
+> @@ -1 +1 @@
+> -obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx7-mipi-csis.o
+> +obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
+> diff --git a/drivers/media/platform/imx/imx7-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
+> similarity index 99%
+> rename from drivers/media/platform/imx/imx7-mipi-csis.c
+> rename to drivers/media/platform/imx/imx-mipi-csis.c
+> index a22d0e6b3d44..f433758c8935 100644
+> --- a/drivers/media/platform/imx/imx7-mipi-csis.c
+> +++ b/drivers/media/platform/imx/imx-mipi-csis.c
+> @@ -1,6 +1,10 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - * Freescale i.MX7 SoC series MIPI-CSI V3.3 receiver driver
+> + * Samsung CSIS MIPI CSI-2 receiver driver.
+> + *
+> + * The Samsung CSIS IP is a MIPI CSI-2 receiver found in various NXP i.MX7 and
+> + * i.MX8 SoCs. The i.MX7 features version 3.3 of the IP, while i.MX8 features
+> + * version 3.6.3
+
+s/$/./
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>   *
+>   * Copyright (C) 2019 Linaro Ltd
+>   * Copyright (C) 2015-2016 Freescale Semiconductor, Inc. All Rights Reserved.
+> @@ -31,7 +35,7 @@
+>  #include <media/v4l2-mc.h>
+>  #include <media/v4l2-subdev.h>
+>  
+> -#define CSIS_DRIVER_NAME			"imx7-mipi-csis"
+> +#define CSIS_DRIVER_NAME			"imx-mipi-csis"
+>  
+>  #define CSIS_PAD_SINK				0
+>  #define CSIS_PAD_SOURCE				1
+> @@ -1515,4 +1519,4 @@ module_platform_driver(mipi_csis_driver);
+>  
+>  MODULE_DESCRIPTION("i.MX7 & i.MX8 MIPI CSI-2 receiver driver");
+>  MODULE_LICENSE("GPL v2");
+> -MODULE_ALIAS("platform:imx7-mipi-csi2");
+> +MODULE_ALIAS("platform:imx-mipi-csi2");
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
