@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E6FA28
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 07:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153B91365
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 07:25:26 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BDF68315;
-	Tue, 15 Feb 2022 08:12:50 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F109315;
+	Tue, 15 Feb 2022 08:25:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644909171;
-	bh=4kFMB/5UvwoYw/mOv1FDH9t4bxS/bNvj7bYI2KQR6NU=;
+	s=mail; t=1644909925;
+	bh=rX+ey5WeSDvMjiqbc0P60X6rJc5QWO0fTH8724NAYBg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vs+OO9DncyuX6BGPzAnh14JwBsCWfY3+TKsAtWaKSZcuceQUWdLxvuHGtVkuqI/lp
-	 f3Frzvp3JLRI326LOrGz6PyeAOvf8AajeH0b5YX5aymwjfj2bgBsFrqBx51nhDDwQ5
-	 0pkNFq8hThcLcOqmcUDK8UfBQyxcOj5fongrcruI=
-Date: Tue, 15 Feb 2022 09:12:44 +0200
+	b=cqEwBOeG0HKqloF68eUqggVi92BEwhbjayMLUrxNKM/VSuGIA8OS9FRTHrYnL4/pm
+	 /0OclVlcLfGYcCBC+qe2AlIR7u8eOtdjexJoTaGgH6p/EHJa3/2JQbZzgVjTT2J4TW
+	 7svnwypIo8JLGU/tJDXjUXzpaBeepkjHiw1HBPEA=
+Date: Tue, 15 Feb 2022 09:25:18 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jacopo Mondi <jacopo@jmondi.org>
 Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
@@ -24,10 +24,10 @@ Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
 	kernel@pengutronix.de, linux-imx@nxp.com,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 5/8] staging: media: imx: Use DUAL pixel mode if available
-Message-ID: <YgtSbEjr9KID81eI@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 6/8] media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+Message-ID: <YgtVXkc8lcBSTLHy@pendragon.ideasonboard.com>
 References: <20220214184318.409208-1-jacopo@jmondi.org>
- <20220214184318.409208-6-jacopo@jmondi.org>
+ <20220214184318.409208-7-jacopo@jmondi.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,90 +36,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220214184318.409208-6-jacopo@jmondi.org>
+In-Reply-To: <20220214184318.409208-7-jacopo@jmondi.org>
 
 Hi Jacopo,
 
 Thank you for the patch.
 
-On Mon, Feb 14, 2022 at 07:43:15PM +0100, Jacopo Mondi wrote:
-> The pixel sampling mode controls the size of data sampled from the CSI
-> Rx queue. The supported sample size depends on the configuration of the
-> preceding block in the capture pipeline and is then dependent on the SoC
-> version the CSI peripheral is integrated on.
+On Mon, Feb 14, 2022 at 07:43:16PM +0100, Jacopo Mondi wrote:
+> Bits 13 and 12 of the ISP_CONFIGn register configure the PIXEL_MODE
+> which specifies the sampling size, in pixel component units, on the
+> CSI-2 output data interface when data are transferred to memory.
 > 
-> When capturing YUV422 data if dual sample mode is available use it.
+> The register description in the chip manual specifies that DUAL mode
+> should be used for YUV422 data but does not clarify the reason.
 > 
-> This change is particularly relevant for the IMX8MM SoC which uses the
-> CSIS CSI-2 receiver which operates in dual pixel mode.
-> 
-> Other SoCs should be unaffected by this change and should continue to
-> operate as before.
-> 
-> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+> Verify if other YUV formats require the same setting and what is the
+> appropriate setting for RAW and sRGB formats.
+
+If it's an action item, shouldn't it be in a TODO comment in the code
+instead ?
+
+While it shouldn't be difficult to test this in RAW8 mode, I'd leave it
+for later, as I don't want to get into the rabbit hole of adding
+S[RGB]{4}8_0_5X16 or S[RGB]{4}10_0_5X20 formats now :-)
+
 > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
 > ---
->  drivers/staging/media/imx/imx7-media-csi.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>  drivers/media/platform/imx/imx-mipi-csis.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index 112096774961..a8bdfb0bb0ee 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -426,6 +426,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
->  {
->  	struct imx_media_video_dev *vdev = csi->vdev;
->  	struct v4l2_pix_format *out_pix = &vdev->fmt;
-> +	struct imx_media_dev *imxmd = csi->imxmd;
->  	int width = out_pix->width;
->  	u32 stride = 0;
->  	u32 cr3 = BIT_FRMCNT_RST;
-> @@ -436,7 +437,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
->  	cr18 &= ~(BIT_CSI_HW_ENABLE | BIT_MIPI_DATA_FORMAT_MASK |
->  		  BIT_DATA_FROM_MIPI | BIT_BASEADDR_CHG_ERR_EN |
->  		  BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
-> -		  BIT_DEINTERLACE_EN);
-> +		  BIT_DEINTERLACE_EN | BIT_MIPI_DOUBLE_CMPNT);
->  
->  	if (out_pix->field == V4L2_FIELD_INTERLACED) {
->  		cr18 |= BIT_DEINTERLACE_EN;
-> @@ -500,6 +501,13 @@ static void imx7_csi_configure(struct imx7_csi *csi)
->  		case MEDIA_BUS_FMT_YUYV8_2X8:
->  		case MEDIA_BUS_FMT_YUYV8_1X16:
->  			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
+> diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
+> index f433758c8935..98a7538a6ce3 100644
+> --- a/drivers/media/platform/imx/imx-mipi-csis.c
+> +++ b/drivers/media/platform/imx/imx-mipi-csis.c
+> @@ -173,6 +173,7 @@
+>  #define MIPI_CSIS_ISPCFG_PIXEL_MODE_SINGLE	(0 << 12)
+>  #define MIPI_CSIS_ISPCFG_PIXEL_MODE_DUAL	(1 << 12)
+>  #define MIPI_CSIS_ISPCFG_PIXEL_MODE_QUAD	(2 << 12)	/* i.MX8M[MNP] only */
+> +#define MIPI_CSIS_ISPCFG_PIXEL_MASK		(3 << 12)
+>  #define MIPI_CSIS_ISPCFG_ALIGN_32BIT		BIT(11)
+>  #define MIPI_CSIS_ISPCFG_FMT(fmt)		((fmt) << 2)
+>  #define MIPI_CSIS_ISPCFG_FMT_MASK		(0x3f << 2)
+> @@ -506,7 +507,12 @@ static void __mipi_csis_set_format(struct csi_state *state)
+> 
+>  	/* Color format */
+>  	val = mipi_csis_read(state, MIPI_CSIS_ISP_CONFIG_CH(0));
+> -	val &= ~(MIPI_CSIS_ISPCFG_ALIGN_32BIT | MIPI_CSIS_ISPCFG_FMT_MASK);
+> +	val &= ~(MIPI_CSIS_ISPCFG_ALIGN_32BIT | MIPI_CSIS_ISPCFG_FMT_MASK
+> +		| MIPI_CSIS_ISPCFG_PIXEL_MASK);
 > +
-> +			/* If dual mode is supported use it. */
-> +			if (imxmd->info->sample_modes & MODE_DUAL) {
-> +				cr18 |= BIT_MIPI_DOUBLE_CMPNT;
-> +				cr3 |= BIT_TWO_8BIT_SENSOR;
-> +			}
-
-I would implement this differently:
-
-		case MEDIA_BUS_FMT_UYVY8_2X8:
-		case MEDIA_BUS_FMT_YUYV8_2X8:
-			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
-			break;
-
-		case MEDIA_BUS_FMT_UYVY8_1X16:
-		case MEDIA_BUS_FMT_YUYV8_1X16:
-			cr3 |= BIT_TWO_8BIT_SENSOR;
-			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B
-			     |  BIT_MIPI_DOUBLE_CMPNT;
-			break;
-
-This would support either option here. What you will then need to change
-is imx7_csi_enum_mbus_code() and imx7_csi_try_fmt(), to allow/disallow
-the 2X8 and 1X16 variants based on the SoC. This is important for the
-i.MX7, which has both a CSI-2 input and a parallel input. When using the
-CSIS it can (and should) use double component mode, while when using the
-parallel input it can work in 8-bit or 16-bit mode depending on how the
-sensor is wired.
-
+> +	if (state->csis_fmt->data_type == MIPI_CSI2_DATA_TYPE_YUV422_8)
+> +		val |= MIPI_CSIS_ISPCFG_PIXEL_MODE_DUAL;
 > +
->  			break;
->  		}
->  	}
+>  	val |= MIPI_CSIS_ISPCFG_FMT(state->csis_fmt->data_type);
+>  	mipi_csis_write(state, MIPI_CSIS_ISP_CONFIG_CH(0), val);
+> 
 
 -- 
 Regards,
