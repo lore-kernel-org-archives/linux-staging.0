@@ -1,225 +1,92 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D62C89
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 08:45:50 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D394315;
-	Tue, 15 Feb 2022 09:45:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644914748;
-	bh=o+iFAqqx/j21WiFPZf3qrfSOJKdcgMM815TkAZyz+BU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H6fTy2WaHQL25JA+f6HEDgg8zo0/6k+zht32T9pTL+9EFo4ki7Ov1jaJ3aiLUknc4
-	 PAULphmN2uncmApXdkj7eRuspyN2Yz6ZViJV0koEgPUOtjJGg8ex8LngMGQ/zsHoC0
-	 6uwKzzZYN2I/uH/IaMR0UinoVvf/f+65VBv8q/BA=
-Date: Tue, 15 Feb 2022 10:45:41 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo@jmondi.org>
-Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
-	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-	kernel@pengutronix.de, linux-imx@nxp.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/8] staging: media: imx: Add more compatible strings
-Message-ID: <YgtoNUR+vZ//tqv+@pendragon.ideasonboard.com>
-References: <20220214184318.409208-1-jacopo@jmondi.org>
- <20220214184318.409208-4-jacopo@jmondi.org>
- <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
- <20220215083631.iajmsywr5tmduupv@uno.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E501C89
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 08:50:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1644914992; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ixtAlUE0bwbwsyxLrrYhbUagRd2pesDXIS0h5ijxE4AfGfeX4VgqWwLuAmWZq+a7lf1rn+8c28QCfvEfqrS5hQUwTCHHTmlhirrUSYd8SRTC5qhKvNCpAEdPE8qRpi3bWdrmAFT64FRSam0Rj7t/o60lVM2BZzC/IQtsV1dMLws=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1644914992; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=UWN8r7YG3GxC+gL7Rb8jBzBDypf7DDePH+hxIx8sems=; 
+	b=guZXmuQEeMXmV7jQ7RUBqRMxBSyf8/2ZzVktlsYh1HffSwK7x0comWBJ1CDmoUQU4xlZeqS2jPvBS2/X85/G5p8xZe/GpWSDXZpCl/rkO5FGYByM+ZByXgRxN262b4eFuF5G60EXaR1ctNzwhkrmIU3gCHdAiLYnMJ5LMGMHbus=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=arinc9.com;
+	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+	dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1644914992;
+	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=UWN8r7YG3GxC+gL7Rb8jBzBDypf7DDePH+hxIx8sems=;
+	b=ZAumvDo493izSBPxBn5iHChMIjSCrEXd/VPKI5ZMt0ygsH/RsTx74AoHNKNNsmpT
+	BtInCAvLiVRvqsavzg6q4+2iCQsyGnIGCRnmrACs701Iyus8lI9aNl/Hz5FoZWdJrUb
+	W5T/FxIP84s1lFM3alWM9PYPOv5r8mY5JmapMqmM=
+Received: from [10.10.10.3] (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
+	with SMTPS id 1644914989516543.9506762113273; Tue, 15 Feb 2022 00:49:49 -0800 (PST)
+Message-ID: <d9240058-68b4-cbd6-54b0-18f41ee5a98a@arinc9.com>
+Date: Tue, 15 Feb 2022 11:49:45 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220215083631.iajmsywr5tmduupv@uno.localdomain>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 2/2] staging: mt7621-dts: do not use rgmii2_pins for
+ ethernet on GB-PC1
+Content-Language: en-US
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Sander Vanheule <sander@svanheule.net>, NeilBrown <neil@brown.name>,
+ DENG Qingfang <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ erkin.bozoglu@xeront.com, linux-staging@lists.linux.dev
+References: <20220215081725.3463-1-arinc.unal@arinc9.com>
+ <20220215081725.3463-2-arinc.unal@arinc9.com>
+ <CAMhs-H-74bK3m975Dtmg2zPrGjmqzSd+Tb_qdUV14yJBAWRQbw@mail.gmail.com>
+From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+In-Reply-To: <CAMhs-H-74bK3m975Dtmg2zPrGjmqzSd+Tb_qdUV14yJBAWRQbw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Hi Jacopo,
+Hey Sergio,
 
-On Tue, Feb 15, 2022 at 09:36:31AM +0100, Jacopo Mondi wrote:
-> On Mon, Feb 14, 2022 at 09:15:07PM +0200, Laurent Pinchart wrote:
-> > On Mon, Feb 14, 2022 at 07:43:13PM +0100, Jacopo Mondi wrote:
-> > > The imx7-media-csi driver controls the CSI (CMOS Sensor Interface)
-> > > peripheral available on several SoC of different generations.
-> > >
-> > > The current situation when it comes to compatible strings is rather
-> > > confused:
-> > > - Bindings document imx6ul, imx7 and imx8mm
-> > > - Driver supports imx6ul, imx7 and imx8mq
-> > > - The IMX8MM and IMX8MQ DTS use the correct compatible strings with a
-> > >   fallback to the generic "imx7-csi" identifier:
-> > >   arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi",
-> > >   arch/arm64/boot/dts/freescale/imx8mm.dtsi: compatible = "fsl,imx8mm-csi",
-> > >
-> > > Tidy-up the situation by adding the IMX8MQ compatible string to the
-> > > bindings documentation andathe IMX8MM identifier to the driver, to allow
-> > > to distinguish the SoC the CSI peripheral is integrated on in the
-> > > following patches.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml | 1 +
-> > >  drivers/staging/media/imx/imx7-media-csi.c                | 2 ++
-> >
-> > I think Rob would prefer this being split in two patches, and I think it
-> > would make sense, as you're fixing two separate issues.
-> >
-> > >  2 files changed, 3 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > > index 4f7b78265336..0f1505d85111 100644
-> > > --- a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > > @@ -21,6 +21,7 @@ properties:
-> > >            - fsl,imx7-csi
-> > >            - fsl,imx6ul-csi
-> > >        - items:
-> > > +          - const: fsl,imx8mq-csi
-> > >            - const: fsl,imx8mm-csi
-> > >            - const: fsl,imx7-csi
-> >
-> > I don't think you intended to require the following:
-> >
-> > 	compatible = "fsl,imx8mq-csi", "fsl,imx8mm-csi", "fsl,imx7-csi";
+On 15/02/2022 11:35, Sergio Paracuellos wrote:
+> Hi Arinc,
 > 
-> No, I kind of superficially added the mq version where the mm was
-> already and went on :)
+> On Tue, Feb 15, 2022 at 9:18 AM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+>>
+>> GB-PC1 uses some of the rgmii2 pins (22 - 33) as GPIO. Therefore, the
+>> rgmii2 bus cannot be used on this device.
+>> Overwrite pinctrl-0 property under the ethernet node without rgmii2_pins on
+>> the GB-PC1 devicetree.
+>>
+>> Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+>> ---
+>>   drivers/staging/mt7621-dts/gbpc1.dts | 4 ++++
+>>   1 file changed, 4 insertions(+)
 > 
-> Care to explain why currently we have two const for the "8mm" and the
-> "imx7" versions ?
-
-Because the imx8mm version was considered compatible with the imx7, so
-
-       - items:
-           - const: fsl,imx8mm-csi
-           - const: fsl,imx7-csi
-
-will validate
-
-	compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
-
-The first imx8mm compatible string is ignored by the driver, but
-documented to support future drivers changes that would require
-differentiating between the two versions.
-
-> > You probably want
-> >
-> >  properties:
-> >    compatible:
-> >      oneOf:
-> >        - enum:
-> > +          - fsl,imx8mq-csi
-> >            - fsl,imx7-csi
-> >            - fsl,imx6ul-csi
-> >        - items:
-> >            - const: fsl,imx8mm-csi
-> >            - const: fsl,imx7-csi
-> >
-> > instead.
+> No issues in GB-PC1. So:
 > 
-> I'm not aware of how how many revisions of the imx7 and imx6 versions
-> exists, nor how they differ, but the existing distinction feels a bit
-> weird.
-> 
-> The const items should be the compatible fallbacks, should them be
-> generic, why is 8mm among them ? Shouldn't we specify the precise SoC
-> version in the list of possible enum items only ?
+> Tested-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
-No, the const items are not the compatible fallbacks. imx8mm isn't a
-generic fallback. "items" requires *all* items to be present in order to
-validate.
+Thanks for testing it so quickly!
 
-> Something like
-> 
->       oneOf:
->         - enum:
->           - fsl,imx8mq-csi
->           - fsl,imx8mm-csi
->           - fsl,imx6ul-csi
->         - const:
->           - fsl,imx7-csi
+I was wondering if you got pinctrl errors on the bootlog before applying 
+this patch series.
 
-That's not a valid schema.
+rgmii2 pin group is given gpio function so calling it from ethernet node 
+would cause this on my TP-Link RE650 v1 which also uses the rgmii2_pins 
+as GPIO.
 
-> 
-> In example I see:
-> 
-> arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
-> 
-> Where this should either be
->                                            compatible = "fsl,imx8mq-csi"
-> or
->                                            compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
-> 
-> ?
-> 
-> > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > > index 32311fc0e2a4..59100e409709 100644
-> > > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > > @@ -162,6 +162,7 @@
-> > >  enum imx_csi_model {
-> > >  	IMX7_CSI_IMX7 = 0,
-> > >  	IMX7_CSI_IMX8MQ,
-> > > +	IMX7_CSI_IMX8MM,
-> > >  };
-> > >
-> > >  struct imx7_csi {
-> > > @@ -1277,6 +1278,7 @@ static int imx7_csi_remove(struct platform_device *pdev)
-> > >
-> > >  static const struct of_device_id imx7_csi_of_match[] = {
-> > >  	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
-> > > +	{ .compatible = "fsl,imx8mm-csi", .data = (void *)IMX7_CSI_IMX8MM },
-> >
-> > This isn't needed, as the i.MX8MM CSI bridgge is considered fully
-> > backward-compatible with the i.MX7 version. I'd introduce this change in
-> > the patch where you start using IMX7_CSI_IMX8MM, and I would then add
-> > the following to the DT binding:
-> >
-> >  properties:
-> >    compatible:
-> >      oneOf:
-> >        - enum:
-> >            - fsl,imx8mq-csi
-> > +          - fsl,imx8mm-csi
-> >            - fsl,imx7-csi
-> >            - fsl,imx6ul-csi
-> >        - items:
-> >            - const: fsl,imx8mm-csi
-> >            - const: fsl,imx7-csi
-> >
-> > to allow setting
-> >
-> > 	compatible = "fsl,imx8mm-csi";
-> >
-> > without the imx7 fallback if we consider the i.MX8MM version different.
-> > If the driver can operate correctly on the i.MX8MM when using the i.MX7
-> > fallback code paths (possibly minor issues that are not considered
-> > fatal, such as missing features) then you could skip this binding
-> > change.
-> 
-> Sorry, but shouldn't:
-> 
->         compatible = "fsl,imx8mm-csi", fsl,imx7-csi"
-> 
-> allow me to match on imx8mm already, without the above change.
-> 
-> I think what I don't get is why imx8mm is a 'generic fallback' in
-> first place.
+[    1.177349] rt2880-pinmux pinctrl: pin io22 already requested by 
+pinctrl; cannot claim for 1e100000.ethernet
+[    1.196966] rt2880-pinmux pinctrl: pin-22 (1e100000.ethernet) status -22
+[    1.210312] rt2880-pinmux pinctrl: could not request pin 22 (io22) 
+from group rgmii2  on device rt2880-pinmux
+[    1.230058] mtk_soc_eth 1e100000.ethernet: Error applying setting, 
+reverse things back
+[    1.245853] mtk_soc_eth: probe of 1e100000.ethernet failed with error -22
 
-See above.
-
-> > >  	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
-> > >  	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
-> > >  	{ },
-
--- 
-Regards,
-
-Laurent Pinchart
+Arınç
