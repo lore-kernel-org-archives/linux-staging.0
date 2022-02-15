@@ -1,42 +1,23 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1A11842
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 18:17:42 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id n19-20020a17090ade9300b001b9892a7bf9so3832916pjv.5
-        for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 10:17:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=rU/cr+2YS83r8ZzfG0ihHyfke5lY7dzNO33vRqwTRo0=;
-        b=BbY3zUMbpsKVLuD6QiFaFpnxej58wpxQPVVGisDcf+K+2coTsFmZNXGoWqBeKoLb1x
-         3ZptFg7el6LpqeSuHR1QjwuSCHfpkEX/T+XcjAHpaQzkvx2kHT7d0+kYGoaayuMfQhPV
-         CAs5kcpK7DDzn/NDlTFukbq1xe316LjUYcWLM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=rU/cr+2YS83r8ZzfG0ihHyfke5lY7dzNO33vRqwTRo0=;
-        b=IWXgQ9BBP5QiGnPFgP4zVkXqHUXx7uMVNt6qxkXjgmdx3pIgiGpz3iE53AvT3JbwQ1
-         tCpoaNPexZ7YbhRqkvVHAV/wR9HfQrwEOeB69EOg1pzICGwqD8307sKBnE25Z29kVhfX
-         u12nooRZGvxrIQ64oMVQDNpfGoJcJHviM3YbL0BtMBd8Mk3CcLHcp043v13E1QXwbb1O
-         nQcUYajFKk68NdRRwpbFcimyYlO23zJBI4CGz4mx3EKlvE4XLLL9J9Flnv14GiS/bQoU
-         zgYptwGiZn2Sl/fzs7F4JThpFIgGcw+igudFcMOWahpEibzdLXOk12qy3CoYtzbAVrKe
-         sMoQ==
-X-Gm-Message-State: AOAM532saq4qoFgpd8Kdh8mgH0zWTtPoEYLaXHnX2GKOfSBNJ115pIxD
-	eoKyVnpyHDnUKKTM/ThDTyptZw==
-X-Google-Smtp-Source: ABdhPJwjJJkj0fC2gO+FdGjnaisWCk9FKkCf0qazg7PUuY4rrjoW+egyeLOWB+yCEr/MI5qa+9+dbA==
-X-Received: by 2002:a17:902:eb8f:: with SMTP id q15mr235036plg.67.1644949062021;
-        Tue, 15 Feb 2022 10:17:42 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a186sm3157627pgc.70.2022.02.15.10.17.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 10:17:41 -0800 (PST)
-Date: Tue, 15 Feb 2022 10:17:40 -0800
-From: Kees Cook <keescook@chromium.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4117C
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 19:13:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA149C340EB;
+	Tue, 15 Feb 2022 19:13:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1644952415;
+	bh=aWKfLj+OcuQ7ORm2NzKcSLdWPXwTMvCyCCSlhItZJdc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pb9b+lIl3czsbILZx4JGaHKfxai5nhmkbafSdXIePkm1+42+PtZWRvtnxsIxieHjT
+	 9ekyHuwvisvcr9fVX07+lClUNa2p0vhktIvKZSAjwuXs2gg0KwuzJxVI1eJwsCEsx9
+	 QAqj6xuEKLMkpaRxHB9Jbh5UZNn3lhP/U/32rVpI9FJi1e5LJ0Z2HLVW0p7KctTIZB
+	 uH0ohVDX/Qm561zC5FzYDM+alYJWObfXnSGwWXg348TFcT9AqtFzE3U54RAksJmBj5
+	 t03G17WjapCI9e95mge26r6O7cubp0cNepLCQdTnroGWEV76h8vqtZwzBmUYMX3S66
+	 UcWCeciahTo0A==
+Date: Tue, 15 Feb 2022 13:21:10 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Kees Cook <keescook@chromium.org>
 Cc: GR-QLogic-Storage-Upstream@marvell.com, linux-alpha@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org,
 	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
@@ -59,8 +40,9 @@ Cc: GR-QLogic-Storage-Upstream@marvell.com, linux-alpha@vger.kernel.org,
 	linux-perf-users@vger.kernel.org, linux-hardening@vger.kernel.org
 Subject: Re: [PATCH][next] treewide: Replace zero-length arrays with
  flexible-array members
-Message-ID: <202202151016.C0471D6E@keescook>
+Message-ID: <20220215192110.GA883653@embeddedor>
 References: <20220215174743.GA878920@embeddedor>
+ <202202151016.C0471D6E@keescook>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,36 +52,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220215174743.GA878920@embeddedor>
+In-Reply-To: <202202151016.C0471D6E@keescook>
 
-On Tue, Feb 15, 2022 at 11:47:43AM -0600, Gustavo A. R. Silva wrote:
-> There is a regular need in the kernel to provide a way to declare
-> having a dynamically sized set of trailing elements in a structure.
-> Kernel code should always use “flexible array members”[1] for these
-> cases. The older style of one-element or zero-length arrays should
-> no longer be used[2].
+On Tue, Feb 15, 2022 at 10:17:40AM -0800, Kees Cook wrote:
+> On Tue, Feb 15, 2022 at 11:47:43AM -0600, Gustavo A. R. Silva wrote:
+> > There is a regular need in the kernel to provide a way to declare
+> > having a dynamically sized set of trailing elements in a structure.
+> > Kernel code should always use “flexible array members”[1] for these
+> > cases. The older style of one-element or zero-length arrays should
+> > no longer be used[2].
+> > 
+> > This code was transformed with the help of Coccinelle:
+> > (next-20220214$ spatch --jobs $(getconf _NPROCESSORS_ONLN) --sp-file script.cocci --include-headers --dir . > output.patch)
+> > 
+> > @@
+> > identifier S, member, array;
+> > type T1, T2;
+> > @@
+> > 
+> > struct S {
+> >   ...
+> >   T1 member;
+> >   T2 array[
+> > - 0
+> >   ];
+> > };
 > 
-> This code was transformed with the help of Coccinelle:
-> (next-20220214$ spatch --jobs $(getconf _NPROCESSORS_ONLN) --sp-file script.cocci --include-headers --dir . > output.patch)
+> These all look trivially correct to me. Only two didn't have the end of
+> the struct visible in the patch, and checking those showed them to be
+> trailing members as well, so:
 > 
-> @@
-> identifier S, member, array;
-> type T1, T2;
-> @@
-> 
-> struct S {
->   ...
->   T1 member;
->   T2 array[
-> - 0
->   ];
-> };
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-These all look trivially correct to me. Only two didn't have the end of
-the struct visible in the patch, and checking those showed them to be
-trailing members as well, so:
+I'll add this to my -next tree.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--- 
-Kees Cook
+Thanks!
+--
+Gustavo
