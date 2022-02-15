@@ -1,129 +1,157 @@
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3A21561
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 14:11:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1644934273; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=MuMqrlicxA4P7MbqkOrK99tAZnfya5ncXN1GocfVW2vbSw6mE5fZNazXxapPsVpzebfC9KeAvBMFB8We81nBYrV0RnUMPMvLutDTWTeXT8LKYdRJiRxzLn2P8pakzJsIQDylAWbLy/OUQ7xXP1A0OYSi8rxTDhbr3obTKfk1aeM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1644934273; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=8eXe6qTiDhWGw8cIAbkt0qjhk6AskvfddgIjxuqvJeM=; 
-	b=YAoHsbzu63ghKuvFHKH7neBvopzdnnhd6RIG12NeSQ/CZ1v2BqL0o2gnSwYM45HrJuJ+jQ7RpBu9V/js1oU4tCj5f0V8UfUo3aOPPrdb9O85czdAZ+cYANtxbCFvRGvkYbVdx8pS7p581+aUfwqmyj4ZWqasMp222FVtcESeir0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=arinc9.com;
-	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
-	dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1644934273;
-	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=8eXe6qTiDhWGw8cIAbkt0qjhk6AskvfddgIjxuqvJeM=;
-	b=T9uI3ph1hWB3Pcutj4v8ZYoGz0ekpY1QMb/SJNO0kqSGnoxiPf07G+isbW3CeS8p
-	bkVATVY6HtQcKzPmO6KBJxjfupoHX4qixuo0HI/s8Xo75CQntT83f5GLd7G28RkVCmt
-	YP24/8lVyjw3RwdSQWugkI4cByYSCU8VelwjbaiU=
-Received: from [10.10.10.3] (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
-	with SMTPS id 1644934271575829.756525928824; Tue, 15 Feb 2022 06:11:11 -0800 (PST)
-Message-ID: <6902e0b3-5bd3-185b-26f8-eab2e37f29cb@arinc9.com>
-Date: Tue, 15 Feb 2022 17:11:06 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B041561
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 14:18:01 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id q198-20020a1ca7cf000000b0037bb52545c6so1581875wme.1
+        for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 06:18:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:references:in-reply-to
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=CG3P56xlFsoBU79QJPpFdYrXPhtp38683i1XknICllQ=;
+        b=B4qU0nqAzx/qiAZj1y+v9vFn/1D1VF+7O5sDkagPNYxDPi0kKEDrxFZs59OTl0Q0wY
+         +gZeTMkypecV6C9sbnkn/iWF4WBmLGQVjJ86A/QxUaiuPJdegV/WiPXQeKegfhW4YYQf
+         ZiP33FZa+o14B2hlB+rkDBhQDgsgAzXFfQJwEmUOQUX5ocXMvBD1rBKTg+usfVBT3eXk
+         W3snXxRd0TjHDF3iuZxPAoRxuBfBYv0DL+/HYH0oqE7X7/To4U7FjrQLRggIcqjxV6U0
+         BX477H1cBINxU2jers608Krj60f/PiKnpjkqR2utsR4s5n/fTMF9ZTHgMUXl3OzsmG1u
+         T4oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
+         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
+        bh=CG3P56xlFsoBU79QJPpFdYrXPhtp38683i1XknICllQ=;
+        b=fOM37uwH3yS/FxoRMfK7rPrUsxtsGQMpz2MDIh9axyYVH7RojpUrq6NwKsr/ttSC71
+         v+tqBaaO1AFtgWNwb1QRXcO0+Gv2kBqtwziziUtUbdiCLWMK1m7BcFrVX/LGU715NRTE
+         3mxdPiVQ0NQVKObbUyUVFceNe694i+/t+lBhGTQwZhiNhDeZj4QBzXCwvMXjPDNDHUX+
+         jOEdEehHWas8dPWuX2Tdx5R2Jz76P2grtnikkwAOcBrIguqZRNKjD8obSVSzMjv4CCV9
+         46VyVzN0E7BMDapER+QiS/w4XVSPwnnw28zucvrBnWeJzL+RsFMM6Gl9MalLf6sSLN4I
+         Xb1w==
+X-Gm-Message-State: AOAM532UefrhivZYyCEyHVA89CuakUQVSOgMqN6tNjILoGdKxBPQQxOY
+	zOof6SDa7luAP+RkWGtWem65Bg==
+X-Google-Smtp-Source: ABdhPJwXgJ7HnZxlPFUESAzSmrFq3Y5J8UCvZ0uCcLzfXnoYTam1CrM5dvh2jkgKvzQJEZNfaKqtxg==
+X-Received: by 2002:a05:600c:4e0a:b0:37b:c548:622a with SMTP id b10-20020a05600c4e0a00b0037bc548622amr3398548wmq.55.1644934679483;
+        Tue, 15 Feb 2022 06:17:59 -0800 (PST)
+Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id o20sm14929542wmq.21.2022.02.15.06.17.57
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Tue, 15 Feb 2022 06:17:58 -0800 (PST)
+From: John Cox <jc@kynesim.co.uk>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [RFC v2 6/8] media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
+Date: Tue, 15 Feb 2022 14:17:57 +0000
+Message-ID: <t2dn0hddgq22nt6a7sr6kl44irm3c2lj1j@4ax.com>
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com> <20220215110103.241297-7-benjamin.gaignard@collabora.com>
+In-Reply-To: <20220215110103.241297-7-benjamin.gaignard@collabora.com>
+User-Agent: ForteAgent/8.00.32.1272
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 2/2] staging: mt7621-dts: do not use rgmii2_pins for
- ethernet on GB-PC1
-Content-Language: en-US
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Sander Vanheule <sander@svanheule.net>, NeilBrown <neil@brown.name>,
- DENG Qingfang <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- erkin.bozoglu@xeront.com, linux-staging@lists.linux.dev
-References: <20220215081725.3463-1-arinc.unal@arinc9.com>
- <20220215081725.3463-2-arinc.unal@arinc9.com>
- <CAMhs-H-74bK3m975Dtmg2zPrGjmqzSd+Tb_qdUV14yJBAWRQbw@mail.gmail.com>
- <d9240058-68b4-cbd6-54b0-18f41ee5a98a@arinc9.com>
- <CAMhs-H_MvXOOmUDq97YyW7uaSfeNWcKE7F+J4182=MwH7yaOaw@mail.gmail.com>
-From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <CAMhs-H_MvXOOmUDq97YyW7uaSfeNWcKE7F+J4182=MwH7yaOaw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 15/02/2022 12:09, Sergio Paracuellos wrote:
-> Hi Arinc,
-> 
-> On Tue, Feb 15, 2022 at 9:50 AM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
->>
->> Hey Sergio,
->>
->> On 15/02/2022 11:35, Sergio Paracuellos wrote:
->>> Hi Arinc,
->>>
->>> On Tue, Feb 15, 2022 at 9:18 AM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
->>>>
->>>> GB-PC1 uses some of the rgmii2 pins (22 - 33) as GPIO. Therefore, the
->>>> rgmii2 bus cannot be used on this device.
->>>> Overwrite pinctrl-0 property under the ethernet node without rgmii2_pins on
->>>> the GB-PC1 devicetree.
->>>>
->>>> Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
->>>> ---
->>>>    drivers/staging/mt7621-dts/gbpc1.dts | 4 ++++
->>>>    1 file changed, 4 insertions(+)
->>>
->>> No issues in GB-PC1. So:
->>>
->>> Tested-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
->>
->> Thanks for testing it so quickly!
->>
->> I was wondering if you got pinctrl errors on the bootlog before applying
->> this patch series.
->>
->> rgmii2 pin group is given gpio function so calling it from ethernet node
->> would cause this on my TP-Link RE650 v1 which also uses the rgmii2_pins
->> as GPIO.
->>
->> [    1.177349] rt2880-pinmux pinctrl: pin io22 already requested by
->> pinctrl; cannot claim for 1e100000.ethernet
->> [    1.196966] rt2880-pinmux pinctrl: pin-22 (1e100000.ethernet) status -22
->> [    1.210312] rt2880-pinmux pinctrl: could not request pin 22 (io22)
->> from group rgmii2  on device rt2880-pinmux
->> [    1.230058] mtk_soc_eth 1e100000.ethernet: Error applying setting,
->> reverse things back
->> [    1.245853] mtk_soc_eth: probe of 1e100000.ethernet failed with error -22
-> 
-> No, I was not getting any kind of error since when I test your last
-> patch series I was not experimenting any kind of regression. I don't
-> have any issues now also with your new patch series. Your new changes
-> make sense since as you have said "rgmii2" pins are requested as GPIO
-> but it seems are not really being requested? I don't have time to
-> check the datasheet now but will try to get time to see what is
-> happening there.
+Hi
 
-I think this must have something to do with pinctrl on newer kernels as 
-the TP-Link RE650 that I tested uses the OpenWrt master branch (Linux 5.10).
+>The bit size of the slice could be deduced from the buffer payload
+>so remove bit_size field to avoid duplicated the information.
 
-I hacked together something to run 5.17-rc1 for RE650 on OpenWrt. Here's 
-what I found:
+I think this is a bad idea. In the future we are (I hope) going to want
+to have an array (variable) of slice headers all referring to the same
+bit buffer.  When we do that we will need this field.
 
-When I still have rgmii2_pins on the ethernet node, I don't get any of 
-the warnings above but this happens:
+>Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>---
+> .../userspace-api/media/v4l/ext-ctrls-codec.rst       |  3 ---
+> drivers/staging/media/sunxi/cedrus/cedrus_h265.c      | 11 ++++-------
+> include/uapi/linux/v4l2-controls.h                    |  3 +--
+> 3 files changed, 5 insertions(+), 12 deletions(-)
+>
+>diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
+b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>index 3296ac3b9fca..c3ae97657fa7 100644
+>--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>@@ -2965,9 +2965,6 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>     :stub-columns: 0
+>     :widths:       1 1 2
+>=20
+>-    * - __u32
+>-      - ``bit_size``
+>-      - Size (in bits) of the current slice data.
+>     * - __u32
+>       - ``data_bit_offset``
+>       - Offset (in bits) to the video data in the current slice data.
+>diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c =
+b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>index 8ab2d9c6f048..db8c7475eeb8 100644
+>--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>@@ -312,8 +312,8 @@ static void cedrus_h265_setup(struct cedrus_ctx =
+*ctx,
+> 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
+> 	unsigned int width_in_ctb_luma, ctb_size_luma;
+> 	unsigned int log2_max_luma_coding_block_size;
+>+	size_t slice_bytes;
+> 	dma_addr_t src_buf_addr;
+>-	dma_addr_t src_buf_end_addr;
+> 	u32 chroma_log2_weight_denom;
+> 	u32 output_pic_list_index;
+> 	u32 pic_order_cnt[2];
+>@@ -370,8 +370,8 @@ static void cedrus_h265_setup(struct cedrus_ctx =
+*ctx,
+>=20
+> 	cedrus_write(dev, VE_DEC_H265_BITS_OFFSET, 0);
+>=20
+>-	reg =3D slice_params->bit_size;
+>-	cedrus_write(dev, VE_DEC_H265_BITS_LEN, reg);
+>+	slice_bytes =3D vb2_get_plane_payload(&run->src->vb2_buf, 0);
+>+	cedrus_write(dev, VE_DEC_H265_BITS_LEN, slice_bytes);
 
-- failsafe button lights_toggle was pressed -
-- failsafe -
+I think one of these must be wrong. bit_size is in bits,
+vb2_get_plane_payload is in bytes?
 
-When I apply this patch and test again I don't get into failsafe anymore.
+Regards
 
-The key for LIGHTS_TOGGLE is on GPIO 30 which is one of the rgmii2 pins.
-https://github.com/openwrt/openwrt/blob/master/target/linux/ramips/dts/mt7621_tplink_rexx0-v1.dtsi#L34
-
-What I make of this is, with newer kernels, pinctrl doesn't care and 
-just claims the pin group for ethernet anyway. This would explain why 
-the lights_toggle key GPIO goes from active low to high. So this patch 
-is still a necessity.
-
-Arınç
+John Cox
+=20
+> 	/* Source beginning and end addresses. */
+>=20
+>@@ -384,10 +384,7 @@ static void cedrus_h265_setup(struct cedrus_ctx =
+*ctx,
+>=20
+> 	cedrus_write(dev, VE_DEC_H265_BITS_ADDR, reg);
+>=20
+>-	src_buf_end_addr =3D src_buf_addr +
+>-			   DIV_ROUND_UP(slice_params->bit_size, 8);
+>-
+>-	reg =3D VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_end_addr);
+>+	reg =3D VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_addr + slice_bytes);
+> 	cedrus_write(dev, VE_DEC_H265_BITS_END_ADDR, reg);
+>=20
+> 	/* Coding tree block address */
+>diff --git a/include/uapi/linux/v4l2-controls.h =
+b/include/uapi/linux/v4l2-controls.h
+>index b1a3dc05f02f..27f5d272dc43 100644
+>--- a/include/uapi/linux/v4l2-controls.h
+>+++ b/include/uapi/linux/v4l2-controls.h
+>@@ -2457,7 +2457,6 @@ struct v4l2_hevc_pred_weight_table {
+> #define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
+>=20
+> struct v4l2_ctrl_hevc_slice_params {
+>-	__u32	bit_size;
+> 	__u32	data_bit_offset;
+>=20
+> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>@@ -2484,7 +2483,7 @@ struct v4l2_ctrl_hevc_slice_params {
+> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
+> 	__u8	pic_struct;
+>=20
+>-	__u8	reserved;
+>+	__u8	reserved[5];
+>=20
+> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
+> 	__u32	slice_segment_addr;
