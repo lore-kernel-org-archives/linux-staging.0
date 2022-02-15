@@ -1,157 +1,154 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCF2A3F;
+	Tue, 15 Feb 2022 14:35:17 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:6d7b:ae43:289b:7e7c] (unknown [IPv6:2a01:e0a:120:3210:6d7b:ae43:289b:7e7c])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B041561
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 14:18:01 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id q198-20020a1ca7cf000000b0037bb52545c6so1581875wme.1
-        for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 06:18:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=CG3P56xlFsoBU79QJPpFdYrXPhtp38683i1XknICllQ=;
-        b=B4qU0nqAzx/qiAZj1y+v9vFn/1D1VF+7O5sDkagPNYxDPi0kKEDrxFZs59OTl0Q0wY
-         +gZeTMkypecV6C9sbnkn/iWF4WBmLGQVjJ86A/QxUaiuPJdegV/WiPXQeKegfhW4YYQf
-         ZiP33FZa+o14B2hlB+rkDBhQDgsgAzXFfQJwEmUOQUX5ocXMvBD1rBKTg+usfVBT3eXk
-         W3snXxRd0TjHDF3iuZxPAoRxuBfBYv0DL+/HYH0oqE7X7/To4U7FjrQLRggIcqjxV6U0
-         BX477H1cBINxU2jers608Krj60f/PiKnpjkqR2utsR4s5n/fTMF9ZTHgMUXl3OzsmG1u
-         T4oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=CG3P56xlFsoBU79QJPpFdYrXPhtp38683i1XknICllQ=;
-        b=fOM37uwH3yS/FxoRMfK7rPrUsxtsGQMpz2MDIh9axyYVH7RojpUrq6NwKsr/ttSC71
-         v+tqBaaO1AFtgWNwb1QRXcO0+Gv2kBqtwziziUtUbdiCLWMK1m7BcFrVX/LGU715NRTE
-         3mxdPiVQ0NQVKObbUyUVFceNe694i+/t+lBhGTQwZhiNhDeZj4QBzXCwvMXjPDNDHUX+
-         jOEdEehHWas8dPWuX2Tdx5R2Jz76P2grtnikkwAOcBrIguqZRNKjD8obSVSzMjv4CCV9
-         46VyVzN0E7BMDapER+QiS/w4XVSPwnnw28zucvrBnWeJzL+RsFMM6Gl9MalLf6sSLN4I
-         Xb1w==
-X-Gm-Message-State: AOAM532UefrhivZYyCEyHVA89CuakUQVSOgMqN6tNjILoGdKxBPQQxOY
-	zOof6SDa7luAP+RkWGtWem65Bg==
-X-Google-Smtp-Source: ABdhPJwXgJ7HnZxlPFUESAzSmrFq3Y5J8UCvZ0uCcLzfXnoYTam1CrM5dvh2jkgKvzQJEZNfaKqtxg==
-X-Received: by 2002:a05:600c:4e0a:b0:37b:c548:622a with SMTP id b10-20020a05600c4e0a00b0037bc548622amr3398548wmq.55.1644934679483;
-        Tue, 15 Feb 2022 06:17:59 -0800 (PST)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id o20sm14929542wmq.21.2022.02.15.06.17.57
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Tue, 15 Feb 2022 06:17:58 -0800 (PST)
-From: John Cox <jc@kynesim.co.uk>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [RFC v2 6/8] media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
-Date: Tue, 15 Feb 2022 14:17:57 +0000
-Message-ID: <t2dn0hddgq22nt6a7sr6kl44irm3c2lj1j@4ax.com>
-References: <20220215110103.241297-1-benjamin.gaignard@collabora.com> <20220215110103.241297-7-benjamin.gaignard@collabora.com>
-In-Reply-To: <20220215110103.241297-7-benjamin.gaignard@collabora.com>
-User-Agent: ForteAgent/8.00.32.1272
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 043A01F44AD7;
+	Tue, 15 Feb 2022 14:35:14 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1644935715;
+	bh=dl6hh/l2mWUPuGmafkZGaL7Spv4+jTER1VoaGqQ9F+g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SXLAJI1NO8CaeSVO7X9Db934N7O3Na5ZzfgqeS6gp1nuZ1W4SksT4FYS0VYHdcXoY
+	 tBucCY3lSRZMkfGfv4P0BImXKNy/0nUJTcUM1hDJLfEB95gX+3CRQxfInYWb+/on2y
+	 Hp/CGrkePE7ZezFcfPIY4ZlnyokhTHZhZIMHdyZWc46ABcKjQwrSLEwU5BccMbe6UZ
+	 vvYHPMcxvLHYhdXe0E0FqhNssh3XFQZOMZdey5Jd3485OPgvA05egRAX752LGjaNaW
+	 xzz7KS0E7HsGBBSJL3TWu7uUp1RRie6QQp/dvJQjjB5IDbF7liYizzg6QdWZXv2rr/
+	 TUAplqRrc5VOQ==
+Message-ID: <99062279-a3c4-96f7-4c4b-f39e7f812e68@collabora.com>
+Date: Tue, 15 Feb 2022 15:35:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC v2 6/8] media: uapi: Remove bit_size field from
+ v4l2_ctrl_hevc_slice_params
+Content-Language: en-US
+To: John Cox <jc@kynesim.co.uk>
+Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+ <20220215110103.241297-7-benjamin.gaignard@collabora.com>
+ <t2dn0hddgq22nt6a7sr6kl44irm3c2lj1j@4ax.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <t2dn0hddgq22nt6a7sr6kl44irm3c2lj1j@4ax.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi
 
->The bit size of the slice could be deduced from the buffer payload
->so remove bit_size field to avoid duplicated the information.
-
-I think this is a bad idea. In the future we are (I hope) going to want
-to have an array (variable) of slice headers all referring to the same
-bit buffer.  When we do that we will need this field.
-
->Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->---
-> .../userspace-api/media/v4l/ext-ctrls-codec.rst       |  3 ---
-> drivers/staging/media/sunxi/cedrus/cedrus_h265.c      | 11 ++++-------
-> include/uapi/linux/v4l2-controls.h                    |  3 +--
-> 3 files changed, 5 insertions(+), 12 deletions(-)
+Le 15/02/2022 à 15:17, John Cox a écrit :
+> Hi
 >
->diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
-b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->index 3296ac3b9fca..c3ae97657fa7 100644
->--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->@@ -2965,9 +2965,6 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->     :stub-columns: 0
->     :widths:       1 1 2
->=20
->-    * - __u32
->-      - ``bit_size``
->-      - Size (in bits) of the current slice data.
->     * - __u32
->       - ``data_bit_offset``
->       - Offset (in bits) to the video data in the current slice data.
->diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c =
-b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->index 8ab2d9c6f048..db8c7475eeb8 100644
->--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->@@ -312,8 +312,8 @@ static void cedrus_h265_setup(struct cedrus_ctx =
-*ctx,
-> 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
-> 	unsigned int width_in_ctb_luma, ctb_size_luma;
-> 	unsigned int log2_max_luma_coding_block_size;
->+	size_t slice_bytes;
-> 	dma_addr_t src_buf_addr;
->-	dma_addr_t src_buf_end_addr;
-> 	u32 chroma_log2_weight_denom;
-> 	u32 output_pic_list_index;
-> 	u32 pic_order_cnt[2];
->@@ -370,8 +370,8 @@ static void cedrus_h265_setup(struct cedrus_ctx =
-*ctx,
->=20
-> 	cedrus_write(dev, VE_DEC_H265_BITS_OFFSET, 0);
->=20
->-	reg =3D slice_params->bit_size;
->-	cedrus_write(dev, VE_DEC_H265_BITS_LEN, reg);
->+	slice_bytes =3D vb2_get_plane_payload(&run->src->vb2_buf, 0);
->+	cedrus_write(dev, VE_DEC_H265_BITS_LEN, slice_bytes);
+>> The bit size of the slice could be deduced from the buffer payload
+>> so remove bit_size field to avoid duplicated the information.
+> I think this is a bad idea. In the future we are (I hope) going to want
+> to have an array (variable) of slice headers all referring to the same
+> bit buffer.  When we do that we will need this field.
 
-I think one of these must be wrong. bit_size is in bits,
-vb2_get_plane_payload is in bytes?
+I wonder if that could be considering like another decode mode and so
+use an other control ?
 
-Regards
+>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> .../userspace-api/media/v4l/ext-ctrls-codec.rst       |  3 ---
+>> drivers/staging/media/sunxi/cedrus/cedrus_h265.c      | 11 ++++-------
+>> include/uapi/linux/v4l2-controls.h                    |  3 +--
+>> 3 files changed, 5 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index 3296ac3b9fca..c3ae97657fa7 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -2965,9 +2965,6 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>      :stub-columns: 0
+>>      :widths:       1 1 2
+>>
+>> -    * - __u32
+>> -      - ``bit_size``
+>> -      - Size (in bits) of the current slice data.
+>>      * - __u32
+>>        - ``data_bit_offset``
+>>        - Offset (in bits) to the video data in the current slice data.
+>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> index 8ab2d9c6f048..db8c7475eeb8 100644
+>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> @@ -312,8 +312,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>> 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
+>> 	unsigned int width_in_ctb_luma, ctb_size_luma;
+>> 	unsigned int log2_max_luma_coding_block_size;
+>> +	size_t slice_bytes;
+>> 	dma_addr_t src_buf_addr;
+>> -	dma_addr_t src_buf_end_addr;
+>> 	u32 chroma_log2_weight_denom;
+>> 	u32 output_pic_list_index;
+>> 	u32 pic_order_cnt[2];
+>> @@ -370,8 +370,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>>
+>> 	cedrus_write(dev, VE_DEC_H265_BITS_OFFSET, 0);
+>>
+>> -	reg = slice_params->bit_size;
+>> -	cedrus_write(dev, VE_DEC_H265_BITS_LEN, reg);
+>> +	slice_bytes = vb2_get_plane_payload(&run->src->vb2_buf, 0);
+>> +	cedrus_write(dev, VE_DEC_H265_BITS_LEN, slice_bytes);
+> I think one of these must be wrong. bit_size is in bits,
+> vb2_get_plane_payload is in bytes?
 
-John Cox
-=20
-> 	/* Source beginning and end addresses. */
->=20
->@@ -384,10 +384,7 @@ static void cedrus_h265_setup(struct cedrus_ctx =
-*ctx,
->=20
-> 	cedrus_write(dev, VE_DEC_H265_BITS_ADDR, reg);
->=20
->-	src_buf_end_addr =3D src_buf_addr +
->-			   DIV_ROUND_UP(slice_params->bit_size, 8);
->-
->-	reg =3D VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_end_addr);
->+	reg =3D VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_addr + slice_bytes);
-> 	cedrus_write(dev, VE_DEC_H265_BITS_END_ADDR, reg);
->=20
-> 	/* Coding tree block address */
->diff --git a/include/uapi/linux/v4l2-controls.h =
-b/include/uapi/linux/v4l2-controls.h
->index b1a3dc05f02f..27f5d272dc43 100644
->--- a/include/uapi/linux/v4l2-controls.h
->+++ b/include/uapi/linux/v4l2-controls.h
->@@ -2457,7 +2457,6 @@ struct v4l2_hevc_pred_weight_table {
-> #define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
->=20
-> struct v4l2_ctrl_hevc_slice_params {
->-	__u32	bit_size;
-> 	__u32	data_bit_offset;
->=20
-> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->@@ -2484,7 +2483,7 @@ struct v4l2_ctrl_hevc_slice_params {
-> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
-> 	__u8	pic_struct;
->=20
->-	__u8	reserved;
->+	__u8	reserved[5];
->=20
-> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
-> 	__u32	slice_segment_addr;
+You are right it should be vb2_get_plane_payload() * 8 to get the size in bits.
+
+I will change that in v3.
+
+>
+> Regards
+>
+> John Cox
+>   
+>> 	/* Source beginning and end addresses. */
+>>
+>> @@ -384,10 +384,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>>
+>> 	cedrus_write(dev, VE_DEC_H265_BITS_ADDR, reg);
+>>
+>> -	src_buf_end_addr = src_buf_addr +
+>> -			   DIV_ROUND_UP(slice_params->bit_size, 8);
+>> -
+>> -	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_end_addr);
+>> +	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_addr + slice_bytes);
+>> 	cedrus_write(dev, VE_DEC_H265_BITS_END_ADDR, reg);
+>>
+>> 	/* Coding tree block address */
+>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>> index b1a3dc05f02f..27f5d272dc43 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -2457,7 +2457,6 @@ struct v4l2_hevc_pred_weight_table {
+>> #define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
+>>
+>> struct v4l2_ctrl_hevc_slice_params {
+>> -	__u32	bit_size;
+>> 	__u32	data_bit_offset;
+>>
+>> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>> @@ -2484,7 +2483,7 @@ struct v4l2_ctrl_hevc_slice_params {
+>> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
+>> 	__u8	pic_struct;
+>>
+>> -	__u8	reserved;
+>> +	__u8	reserved[5];
+>>
+>> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
+>> 	__u32	slice_segment_addr;
