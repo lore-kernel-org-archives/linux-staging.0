@@ -1,14 +1,21 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077FFA2C
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 08:39:04 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 3884AE0010;
-	Tue, 15 Feb 2022 08:38:58 +0000 (UTC)
-Date: Tue, 15 Feb 2022 09:40:08 +0100
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D62C89
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 08:45:50 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D394315;
+	Tue, 15 Feb 2022 09:45:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1644914748;
+	bh=o+iFAqqx/j21WiFPZf3qrfSOJKdcgMM815TkAZyz+BU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H6fTy2WaHQL25JA+f6HEDgg8zo0/6k+zht32T9pTL+9EFo4ki7Ov1jaJ3aiLUknc4
+	 PAULphmN2uncmApXdkj7eRuspyN2Yz6ZViJV0koEgPUOtjJGg8ex8LngMGQ/zsHoC0
+	 6uwKzzZYN2I/uH/IaMR0UinoVvf/f+65VBv8q/BA=
+Date: Tue, 15 Feb 2022 10:45:41 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo@jmondi.org>
 Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
 	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
 	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
@@ -17,11 +24,12 @@ Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
 	kernel@pengutronix.de, linux-imx@nxp.com,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 4/8] staging: media: imx: Define per-SoC info
-Message-ID: <20220215084008.qltyitaevvyeblnl@uno.localdomain>
+Subject: Re: [PATCH 3/8] staging: media: imx: Add more compatible strings
+Message-ID: <YgtoNUR+vZ//tqv+@pendragon.ideasonboard.com>
 References: <20220214184318.409208-1-jacopo@jmondi.org>
- <20220214184318.409208-5-jacopo@jmondi.org>
- <YgqriZJsq9faa6gQ@pendragon.ideasonboard.com>
+ <20220214184318.409208-4-jacopo@jmondi.org>
+ <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
+ <20220215083631.iajmsywr5tmduupv@uno.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,235 +38,188 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YgqriZJsq9faa6gQ@pendragon.ideasonboard.com>
+In-Reply-To: <20220215083631.iajmsywr5tmduupv@uno.localdomain>
 
-Hi Laurent
+Hi Jacopo,
 
-On Mon, Feb 14, 2022 at 09:20:41PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Mon, Feb 14, 2022 at 07:43:14PM +0100, Jacopo Mondi wrote:
-> > Define the imx-media-info structure which contains CSI configuration
-> > parameter that depend on the SoC version the peripheral is integrated
-> > in.
+On Tue, Feb 15, 2022 at 09:36:31AM +0100, Jacopo Mondi wrote:
+> On Mon, Feb 14, 2022 at 09:15:07PM +0200, Laurent Pinchart wrote:
+> > On Mon, Feb 14, 2022 at 07:43:13PM +0100, Jacopo Mondi wrote:
+> > > The imx7-media-csi driver controls the CSI (CMOS Sensor Interface)
+> > > peripheral available on several SoC of different generations.
+> > >
+> > > The current situation when it comes to compatible strings is rather
+> > > confused:
+> > > - Bindings document imx6ul, imx7 and imx8mm
+> > > - Driver supports imx6ul, imx7 and imx8mq
+> > > - The IMX8MM and IMX8MQ DTS use the correct compatible strings with a
+> > >   fallback to the generic "imx7-csi" identifier:
+> > >   arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi",
+> > >   arch/arm64/boot/dts/freescale/imx8mm.dtsi: compatible = "fsl,imx8mm-csi",
+> > >
+> > > Tidy-up the situation by adding the IMX8MQ compatible string to the
+> > > bindings documentation andathe IMX8MM identifier to the driver, to allow
+> > > to distinguish the SoC the CSI peripheral is integrated on in the
+> > > following patches.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > ---
+> > >  Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml | 1 +
+> > >  drivers/staging/media/imx/imx7-media-csi.c                | 2 ++
 > >
-> > Replace the existing 'model' field with the newly defined structure.
+> > I think Rob would prefer this being split in two patches, and I think it
+> > would make sense, as you're fixing two separate issues.
 > >
-> > Only define the SoC id and the supported pixel sampling modes for the
-> > moment.
+> > >  2 files changed, 3 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > > index 4f7b78265336..0f1505d85111 100644
+> > > --- a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > > @@ -21,6 +21,7 @@ properties:
+> > >            - fsl,imx7-csi
+> > >            - fsl,imx6ul-csi
+> > >        - items:
+> > > +          - const: fsl,imx8mq-csi
+> > >            - const: fsl,imx8mm-csi
+> > >            - const: fsl,imx7-csi
 > >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  drivers/staging/media/imx/imx-media.h      | 44 ++++++++++++++++++++++
-> >  drivers/staging/media/imx/imx7-media-csi.c | 44 ++++++++++++++--------
-> >  2 files changed, 73 insertions(+), 15 deletions(-)
+> > I don't think you intended to require the following:
 > >
-> > diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-> > index f263fc3adbb9..1b0b660413cb 100644
-> > --- a/drivers/staging/media/imx/imx-media.h
-> > +++ b/drivers/staging/media/imx/imx-media.h
-> > @@ -18,6 +18,16 @@
-> >  #define IMX_MEDIA_DEF_PIX_WIDTH		640
-> >  #define IMX_MEDIA_DEF_PIX_HEIGHT	480
-> >
-> > +/*
-> > + * Enumeration of the SoC models the peripheral is integrated in.
-> > + */
-> > +enum soc_id {
-> > +	IMX6UL,
-> > +	IMX7,
-> > +	IMX8MM,
-> > +	IMX8MQ,
->
-> Those names are too generic.
->
+> > 	compatible = "fsl,imx8mq-csi", "fsl,imx8mm-csi", "fsl,imx7-csi";
+> 
+> No, I kind of superficially added the mq version where the mm was
+> already and went on :)
+> 
+> Care to explain why currently we have two const for the "8mm" and the
+> "imx7" versions ?
 
-C++ scoped enums got me used to shorten the single enum items :)
-Of course this should be made specific.
+Because the imx8mm version was considered compatible with the imx7, so
 
-> > +};
-> > +
-> >  /*
-> >   * Enumeration of the IPU internal sub-devices
-> >   */
-> > @@ -141,10 +151,44 @@ struct imx_media_pad_vdev {
-> >  	struct list_head list;
-> >  };
-> >
-> > +/*
-> > + * enum sample_mode_id - Define the CSI Rx queue sample size
-> > + *
-> > + * The pixel sampling mode defines the possible sampling methods from the
-> > + * CSI Rx queue to the next processing block of the capture pipeline.
-> > + *
-> > + * The supported methods depends on the SoC model and on synthesis time
-> > + * configurations.
-> > + *
-> > + * @MODE_SINGLE: Single pixel mode sampling
-> > + * @MODE_DUAL: Double pixel mode sampling
-> > + * @MODE_QUAD: Quad pixel mode sampling
-> > + */
-> > +enum sample_mode_id {
-> > +	MODE_SINGLE = BIT(0),
-> > +	MODE_DUAL = BIT(1),
-> > +	MODE_QUAD = BIT(2),
->
-> Here too.
->
-> > +};
->
-> Let's limit this to the imx7-media-csi driver, it's unrelated to the
-> i.MX6 IPUv3 and should not be part of common helpers. It doesn't seem
+       - items:
+           - const: fsl,imx8mm-csi
+           - const: fsl,imx7-csi
 
-Ok, I had no idea this header was used by i.MX6 too. What a mess.
+will validate
 
-> like any subsequent patch in this series use the sample mode or the
-> soc_id in common helpers, so it should hopefully not be a bit issue.
->
+	compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
 
-No it would not.
+The first imx8mm compatible string is ignored by the driver, but
+documented to support future drivers changes that would require
+differentiating between the two versions.
 
-> I would also like to see a comment somewhere (in this patch or one of
-> the subsequent ones) that explains in more details how the CSIS and CSI
-> bridge are connected, and how various bits affect data signal routing
-> between the two. I can help if necessary.
->
+> > You probably want
+> >
+> >  properties:
+> >    compatible:
+> >      oneOf:
+> >        - enum:
+> > +          - fsl,imx8mq-csi
+> >            - fsl,imx7-csi
+> >            - fsl,imx6ul-csi
+> >        - items:
+> >            - const: fsl,imx8mm-csi
+> >            - const: fsl,imx7-csi
+> >
+> > instead.
+> 
+> I'm not aware of how how many revisions of the imx7 and imx6 versions
+> exists, nor how they differ, but the existing distinction feels a bit
+> weird.
+> 
+> The const items should be the compatible fallbacks, should them be
+> generic, why is 8mm among them ? Shouldn't we specify the precise SoC
+> version in the list of possible enum items only ?
 
-I can try but I'm not sure I have the full picture in mind.
+No, the const items are not the compatible fallbacks. imx8mm isn't a
+generic fallback. "items" requires *all* items to be present in order to
+validate.
 
-> > +/*
-> > + * Information and configurations dependent on the SoC the peripheral is
-> > + * integrated in.
-> > + *
-> > + * @soc_id: The SoC identifier. See &enum soc_id.
-> > + * @sample_modes: Mask of supported pixel modes. See &enum sample_mode_id.
-> > + */
-> > +struct imx_media_info {
-> > +	enum soc_id soc_id;
-> > +	u8 sample_modes;
-> > +};
-> > +
-> >  struct imx_media_dev {
-> >  	struct media_device md;
-> >  	struct v4l2_device  v4l2_dev;
-> >
-> > +	/* Per-model information. */
-> > +	const struct imx_media_info *info;
-> > +
-> >  	/* the pipeline object */
-> >  	struct media_pipeline pipe;
-> >
-> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > index 59100e409709..112096774961 100644
-> > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > @@ -159,12 +159,6 @@
-> >  #define CSI_CSICR18			0x48
-> >  #define CSI_CSICR19			0x4c
-> >
-> > -enum imx_csi_model {
-> > -	IMX7_CSI_IMX7 = 0,
-> > -	IMX7_CSI_IMX8MQ,
-> > -	IMX7_CSI_IMX8MM,
-> > -};
->
-> I think you can keep this instead of soc_id.
->
+> Something like
+> 
+>       oneOf:
+>         - enum:
+>           - fsl,imx8mq-csi
+>           - fsl,imx8mm-csi
+>           - fsl,imx6ul-csi
+>         - const:
+>           - fsl,imx7-csi
 
-Ahem. I develed this patches on a downstream where I could test and
-where these where not there yet. When I rebased on media-master I
-found out about these ones, and I replaced them without too much
-thinking.
+That's not a valid schema.
 
-> > -
-> >  struct imx7_csi {
-> >  	struct device *dev;
-> >  	struct v4l2_subdev sd;
-> > @@ -200,8 +194,6 @@ struct imx7_csi {
-> >  	bool is_csi2;
+> 
+> In example I see:
+> 
+> arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
+> 
+> Where this should either be
+>                                            compatible = "fsl,imx8mq-csi"
+> or
+>                                            compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
+> 
+> ?
+> 
+> > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > > index 32311fc0e2a4..59100e409709 100644
+> > > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > > @@ -162,6 +162,7 @@
+> > >  enum imx_csi_model {
+> > >  	IMX7_CSI_IMX7 = 0,
+> > >  	IMX7_CSI_IMX8MQ,
+> > > +	IMX7_CSI_IMX8MM,
+> > >  };
+> > >
+> > >  struct imx7_csi {
+> > > @@ -1277,6 +1278,7 @@ static int imx7_csi_remove(struct platform_device *pdev)
+> > >
+> > >  static const struct of_device_id imx7_csi_of_match[] = {
+> > >  	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
+> > > +	{ .compatible = "fsl,imx8mm-csi", .data = (void *)IMX7_CSI_IMX8MM },
 > >
-> >  	struct completion last_eof_completion;
-> > -
-> > -	enum imx_csi_model model;
-> >  };
+> > This isn't needed, as the i.MX8MM CSI bridgge is considered fully
+> > backward-compatible with the i.MX7 version. I'd introduce this change in
+> > the patch where you start using IMX7_CSI_IMX8MM, and I would then add
+> > the following to the DT binding:
 > >
-> >  static struct imx7_csi *
-> > @@ -562,6 +554,8 @@ static void imx7_csi_baseaddr_switch_on_second_frame(struct imx7_csi *csi)
+> >  properties:
+> >    compatible:
+> >      oneOf:
+> >        - enum:
+> >            - fsl,imx8mq-csi
+> > +          - fsl,imx8mm-csi
+> >            - fsl,imx7-csi
+> >            - fsl,imx6ul-csi
+> >        - items:
+> >            - const: fsl,imx8mm-csi
+> >            - const: fsl,imx7-csi
 > >
-> >  static void imx7_csi_enable(struct imx7_csi *csi)
-> >  {
-> > +	struct imx_media_dev *imxmd = csi->imxmd;
-> > +
-> >  	/* Clear the Rx FIFO and reflash the DMA controller. */
-> >  	imx7_csi_rx_fifo_clear(csi);
-> >  	imx7_csi_dma_reflash(csi);
-> > @@ -576,7 +570,7 @@ static void imx7_csi_enable(struct imx7_csi *csi)
-> >  	imx7_csi_dmareq_rff_enable(csi);
-> >  	imx7_csi_hw_enable(csi);
+> > to allow setting
 > >
-> > -	if (csi->model == IMX7_CSI_IMX8MQ)
-> > +	if (imxmd->info->soc_id == IMX8MQ)
-> >  		imx7_csi_baseaddr_switch_on_second_frame(csi);
-> >  }
+> > 	compatible = "fsl,imx8mm-csi";
 > >
-> > @@ -1181,8 +1175,6 @@ static int imx7_csi_probe(struct platform_device *pdev)
-> >  	if (IS_ERR(csi->regbase))
-> >  		return PTR_ERR(csi->regbase);
-> >
-> > -	csi->model = (enum imx_csi_model)(uintptr_t)of_device_get_match_data(&pdev->dev);
-> > -
-> >  	spin_lock_init(&csi->irqlock);
-> >  	mutex_init(&csi->lock);
-> >
-> > @@ -1202,6 +1194,8 @@ static int imx7_csi_probe(struct platform_device *pdev)
-> >  	}
-> >  	platform_set_drvdata(pdev, &csi->sd);
-> >
-> > +	imxmd->info = of_device_get_match_data(dev);
-> > +
-> >  	ret = imx_media_of_add_csi(imxmd, node);
-> >  	if (ret < 0 && ret != -ENODEV && ret != -EEXIST)
-> >  		goto cleanup;
-> > @@ -1276,11 +1270,31 @@ static int imx7_csi_remove(struct platform_device *pdev)
-> >  	return 0;
-> >  }
-> >
-> > +static const struct imx_media_info imx8mq_info = {
-> > +	.soc_id = IMX8MQ,
-> > +	.sample_modes = MODE_SINGLE,
-> > +};
-> > +
-> > +static const struct imx_media_info imx8mm_info = {
-> > +	.soc_id = IMX8MM,
-> > +	.sample_modes = MODE_SINGLE | MODE_DUAL,
-> > +};
-> > +
-> > +static const struct imx_media_info imx7_info = {
-> > +	.soc_id = IMX7,
-> > +	.sample_modes = MODE_SINGLE,
-> > +};
-> > +
-> > +static const struct imx_media_info imx6ul_info = {
-> > +	.soc_id = IMX6UL,
-> > +	.sample_modes = MODE_SINGLE,
-> > +};
-> > +
-> >  static const struct of_device_id imx7_csi_of_match[] = {
-> > -	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
-> > -	{ .compatible = "fsl,imx8mm-csi", .data = (void *)IMX7_CSI_IMX8MM },
-> > -	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
-> > -	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
-> > +	{ .compatible = "fsl,imx8mq-csi", .data = &imx8mq_info },
-> > +	{ .compatible = "fsl,imx8mm-csi", .data = &imx8mm_info },
-> > +	{ .compatible = "fsl,imx7-csi", .data = &imx7_info },
-> > +	{ .compatible = "fsl,imx6ul-csi", .data = &imx6ul_info },
-> >  	{ },
-> >  };
-> >  MODULE_DEVICE_TABLE(of, imx7_csi_of_match);
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> > without the imx7 fallback if we consider the i.MX8MM version different.
+> > If the driver can operate correctly on the i.MX8MM when using the i.MX7
+> > fallback code paths (possibly minor issues that are not considered
+> > fatal, such as missing features) then you could skip this binding
+> > change.
+> 
+> Sorry, but shouldn't:
+> 
+>         compatible = "fsl,imx8mm-csi", fsl,imx7-csi"
+> 
+> allow me to match on imx8mm already, without the above change.
+> 
+> I think what I don't get is why imx8mm is a 'generic fallback' in
+> first place.
+
+See above.
+
+> > >  	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
+> > >  	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
+> > >  	{ },
+
+-- 
+Regards,
+
+Laurent Pinchart
