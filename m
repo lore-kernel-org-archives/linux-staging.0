@@ -1,24 +1,24 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C18D138A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A481388;
 	Tue, 15 Feb 2022 11:01:14 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:6d7b:ae43:289b:7e7c])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D2AEA1F444D0;
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 31C8E1F444CE;
 	Tue, 15 Feb 2022 11:01:12 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1644922873;
-	bh=j2A4NMSFKaArnsLVO73dDEOpv7p5lUGniQuI/KRT0iU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MIWd6bRq5QrtPVR9A0Zxw1KYRLSgRl9262dVOZdU3VNsOOY+nq4dMzxoeT2Sw7d4d
-	 Kn/WKgMc9OL4o3RmJTqNlXqn2TufiLROIKh9xkkjNq2oqu5RJBCOoZAesMUG0G7EXM
-	 8NuyZFj19Z+Qb9LNWEH37LE2w9/aBk/WKDtVOmD4Dde0SOhGfi//nyQLMEUP4yuGt/
-	 mW34vWyP7aO8ZhttR1YNZvpbTqtkXABw769Izo2PYeobAi+Pmd8SWXsKDgDu6bveTu
-	 JARwO8EFy4F1Ipwz9SksZtq8FjcKtP6dQvMnU8+OJTo5JfKIk8q0WL57dsjrcNmt6w
-	 No4D6omyiHWIQ==
+	s=mail; t=1644922872;
+	bh=gsNBuzdzzks7myB40+JYRtDgIY/SWyjCVVU2wOm0oU8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=X4q/A1JquTkGBwGJh+GJwt0ouraY9iqgypV3DEBEMYfsDUltHT97Ws2nH9Bi/iFCX
+	 cQ0dHTJo+H1uAbXmbhsO2H9eqw+rs+FJsarFyo6TS3Q6VUjucae2B2LDMmTge5bouv
+	 kO3Tdue04FlGSGP4TV+na5bhCntlEkSr2pATtHHdBtXNgPYjq5NKvdT3JHNMztTzEY
+	 ivTJL6dfBCGBMl9OvQW4WgPxd/vw5u5yAxL5YOgxl61qyB155R5taqCW42RqVZwXYY
+	 dWkNE+2coTh4EHvIGzIT5HW4erFZMhUP1k4juRVm+ym9048QKDg/aAc2A9P8rwZhxs
+	 ep66xzCq+Ph5A==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	ezequiel@vanguardiasur.com.ar,
@@ -38,13 +38,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	kernel@collabora.com,
 	knaerzche@gmail.com,
-	jc@kynesim.co.uk
-Subject: [RFC v2 1/8] videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
-Date: Tue, 15 Feb 2022 12:00:56 +0100
-Message-Id: <20220215110103.241297-2-benjamin.gaignard@collabora.com>
+	jc@kynesim.co.uk,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [RFC v2 0/8] Move HEVC stateless controls out of staging
+Date: Tue, 15 Feb 2022 12:00:55 +0100
+Message-Id: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
-References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,58 +52,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+This series aims to make HEVC uapi stable and usable for hardware
+decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+and 2 out of the tree drivers (rkvdec and RPI).
 
-Add a new flag that indicates that this control is a dynamically sized
-array. Also document this flag.
+The 3 first patches are from Hans to implement v4l2 dynamic control
+feature which is need by patch 7 for V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET
+definition.
 
-Currently dynamically sized arrays are limited to one dimensional arrays,
-but that might change in the future if there is a need for it.
+Patch 4 move the existing uapi to stable, including definitions renaming 
+and CID number change to fit with v4l2 naming.
 
-The initial use-case of dynamic arrays are stateless codecs. A frame
-can be divided in many slices, so you want to provide an array containing
-slice information for each slice. Typically the number of slices is small,
-but the standard allow for hundreds or thousands of slices. Dynamic arrays
-are a good solution since sizing the array for the worst case would waste
-substantial amounts of memory.
+Patches 5 and 7 add fields needed for rkvdec and RPI decoders.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- .../userspace-api/media/v4l/vidioc-queryctrl.rst          | 8 ++++++++
- include/uapi/linux/videodev2.h                            | 1 +
- 2 files changed, 9 insertions(+)
+Patches 6 is cleaning up the uapi of useless field.
+Patches 8 change one field description and name to define offset by
+bytes rather than by bits
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index 88f630252d98..a20dfa2a933b 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -625,6 +625,14 @@ See also the examples in :ref:`control`.
- 	``V4L2_CTRL_FLAG_GRABBED`` flag when buffers are allocated or
- 	streaming is in progress since most drivers do not support changing
- 	the format in that case.
-+    * - ``V4L2_CTRL_FLAG_DYNAMIC_ARRAY``
-+      - 0x0800
-+      - This control is a dynamically sized 1-dimensional array. It
-+        behaves the same as a regular array, except that the number
-+	of elements as reported by the ``elems`` field is between 1 and
-+	``dims[0]``. So setting the control with a differently sized
-+	array will change the ``elems`` field when the control is
-+	queried afterwards.
- 
- Return Value
- ============
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index df8b9c486ba1..e27c8eae78c9 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1884,6 +1884,7 @@ struct v4l2_querymenu {
- #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
- #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
- #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
-+#define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
- 
- /*  Query flags, to be ORed with the control ID */
- #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
+Benjamin
+
+Benjamin Gaignard (5):
+  media: uapi: Move HEVC stateless controls out of staging
+  media: uapi: Add fields needed for RKVDEC driver
+  media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
+  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+  media: uapi: Change data_bit_offset definition
+
+Hans Verkuil (3):
+  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+  v4l2-ctrls: add support for dynamically allocated arrays.
+  vivid: add dynamic array test control
+
+ .../userspace-api/media/drivers/hantro.rst    |   5 -
+ .../media/v4l/ext-ctrls-codec.rst             |  58 ++--
+ .../media/v4l/vidioc-queryctrl.rst            |   8 +
+ .../media/test-drivers/vivid/vivid-ctrls.c    |  15 ++
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++++++--
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 182 ++++++++++---
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+ drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+ drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  13 +-
+ include/linux/hantro-media.h                  |  17 ++
+ include/media/hevc-ctrls.h                    | 250 ------------------
+ include/media/v4l2-ctrls.h                    |  48 +++-
+ include/uapi/linux/v4l2-controls.h            | 224 ++++++++++++++++
+ include/uapi/linux/videodev2.h                |   8 +
+ 19 files changed, 640 insertions(+), 408 deletions(-)
+ create mode 100644 include/linux/hantro-media.h
+ delete mode 100644 include/media/hevc-ctrls.h
+
 -- 
 2.32.0
 
