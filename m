@@ -1,50 +1,37 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E801388;
-	Tue, 15 Feb 2022 11:01:18 +0000 (UTC)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:6d7b:ae43:289b:7e7c])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E431F1561;
+	Tue, 15 Feb 2022 13:01:26 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a02:3030:c:4872:44aa:f680:5c21:4d9e])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 239561F444E4;
-	Tue, 15 Feb 2022 11:01:16 +0000 (GMT)
+	(Authenticated sender: sebastianfricke)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B8E621F4478F;
+	Tue, 15 Feb 2022 13:01:24 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1644922876;
-	bh=RIHgRR/y4Gj0Ju5HMmg8MeO2eKGIydoWDH9lUH21XZ4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=P+xc9sPG288GPLGKGCVNRbUtzEFNdiXHK8+VyTMJGmDl9s3r6PKCkwKj0Xau1gmn2
-	 oYZ7owMH62DIVVrkoaEAcxrnEUsCpWJ50kMXjrZ18fqSFpA0NpCdXLBlnSf7lFSOA+
-	 XMgVHix02uA8aPPfEn+6sFtRzcQVf027wK3BE3zpKkLE2AX57ggPytvxfrPF7xumQ5
-	 /4rjkuWA7GcR9782mFxcAaFzPZY0OZiZgchQVr0dVv48lJCrw+/Qoa9WvPv32tivvW
-	 p5N3lhaCeoEw6GMTXK3XuAkCEDo9k+bUy64DPZ0KauqNsxU7EBSdYdDSb4qwOPYoQA
-	 Rws1u/T8BBLog==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org,
-	mripard@kernel.org,
-	paul.kocialkowski@bootlin.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	hverkuil-cisco@xs4all.nl,
-	jonas@kwiboo.se,
-	nicolas@ndufresne.ca
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	kernel@collabora.com,
-	knaerzche@gmail.com,
-	jc@kynesim.co.uk,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [RFC v2 6/8] media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
-Date: Tue, 15 Feb 2022 12:01:01 +0100
-Message-Id: <20220215110103.241297-7-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+	s=mail; t=1644930085;
+	bh=oP5LmZQ2v+ynwHP2YgQ3HzLx8VbZLLfieXayaQwh2AY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y5MoHVAz6qUMJA0Axj1VeVkWWxHnce4wEZF13y6m1OMe0Gu/zvbtcbO+ElYkP88S0
+	 /+inE+Oza/Uq7aOpRyuMaYaIkAJGh2MA245Cpx3I46/BzzzlD6Y9tOO+pQtkZRXHiQ
+	 soWQ9A3CYUTDUHHWi61eRhbL990SjcdDZEjuQuzoN/2ShXmqXkRVHtjS7f8N92qzFH
+	 Nv07t2WrKMjjtIfe4+61ra4DAgj40VMU/ufS/Nv+Z9dWRrsluR6o959YKyDI0/lUYo
+	 vLt8aB65utTeu/ZF2iyiIl4eXO5CHXeuq0tA1MXF7PcGrUHf0RD7l35c0C6Dec1X3/
+	 6A5ThyXzJq33g==
+Date: Tue, 15 Feb 2022 14:01:21 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+	mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+	jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se,
+	nicolas@ndufresne.ca, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk
+Subject: Re: [RFC v2 0/8] Move HEVC stateless controls out of staging
+Message-ID: <20220215130121.4ekixb457ot6zaqi@basti-XPS-13-9310>
 References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -52,90 +39,74 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
 
-The bit size of the slice could be deduced from the buffer payload
-so remove bit_size field to avoid duplicated the information.
+Hey Benjamin,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- .../userspace-api/media/v4l/ext-ctrls-codec.rst       |  3 ---
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c      | 11 ++++-------
- include/uapi/linux/v4l2-controls.h                    |  3 +--
- 3 files changed, 5 insertions(+), 12 deletions(-)
+On 15.02.2022 12:00, Benjamin Gaignard wrote:
+>This series aims to make HEVC uapi stable and usable for hardware
+>decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>and 2 out of the tree drivers (rkvdec and RPI).
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 3296ac3b9fca..c3ae97657fa7 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -2965,9 +2965,6 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     :stub-columns: 0
-     :widths:       1 1 2
- 
--    * - __u32
--      - ``bit_size``
--      - Size (in bits) of the current slice data.
-     * - __u32
-       - ``data_bit_offset``
-       - Offset (in bits) to the video data in the current slice data.
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 8ab2d9c6f048..db8c7475eeb8 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -312,8 +312,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
- 	unsigned int width_in_ctb_luma, ctb_size_luma;
- 	unsigned int log2_max_luma_coding_block_size;
-+	size_t slice_bytes;
- 	dma_addr_t src_buf_addr;
--	dma_addr_t src_buf_end_addr;
- 	u32 chroma_log2_weight_denom;
- 	u32 output_pic_list_index;
- 	u32 pic_order_cnt[2];
-@@ -370,8 +370,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 
- 	cedrus_write(dev, VE_DEC_H265_BITS_OFFSET, 0);
- 
--	reg = slice_params->bit_size;
--	cedrus_write(dev, VE_DEC_H265_BITS_LEN, reg);
-+	slice_bytes = vb2_get_plane_payload(&run->src->vb2_buf, 0);
-+	cedrus_write(dev, VE_DEC_H265_BITS_LEN, slice_bytes);
- 
- 	/* Source beginning and end addresses. */
- 
-@@ -384,10 +384,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 
- 	cedrus_write(dev, VE_DEC_H265_BITS_ADDR, reg);
- 
--	src_buf_end_addr = src_buf_addr +
--			   DIV_ROUND_UP(slice_params->bit_size, 8);
--
--	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_end_addr);
-+	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_addr + slice_bytes);
- 	cedrus_write(dev, VE_DEC_H265_BITS_END_ADDR, reg);
- 
- 	/* Coding tree block address */
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index b1a3dc05f02f..27f5d272dc43 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -2457,7 +2457,6 @@ struct v4l2_hevc_pred_weight_table {
- #define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
- 
- struct v4l2_ctrl_hevc_slice_params {
--	__u32	bit_size;
- 	__u32	data_bit_offset;
- 
- 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
-@@ -2484,7 +2483,7 @@ struct v4l2_ctrl_hevc_slice_params {
- 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
- 	__u8	pic_struct;
- 
--	__u8	reserved;
-+	__u8	reserved[5];
- 
- 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
- 	__u32	slice_segment_addr;
--- 
-2.32.0
+Why is rkvdec out-of-tree? It is in the staging directory just like
+hantro and cedrus? Am I missing something here?
 
+Greetings,
+Sebastian
+
+>
+>The 3 first patches are from Hans to implement v4l2 dynamic control
+>feature which is need by patch 7 for V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET
+>definition.
+>
+>Patch 4 move the existing uapi to stable, including definitions renaming
+>and CID number change to fit with v4l2 naming.
+>
+>Patches 5 and 7 add fields needed for rkvdec and RPI decoders.
+>
+>Patches 6 is cleaning up the uapi of useless field.
+>Patches 8 change one field description and name to define offset by
+>bytes rather than by bits
+>
+>Benjamin
+>
+>Benjamin Gaignard (5):
+>  media: uapi: Move HEVC stateless controls out of staging
+>  media: uapi: Add fields needed for RKVDEC driver
+>  media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
+>  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+>  media: uapi: Change data_bit_offset definition
+>
+>Hans Verkuil (3):
+>  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>  v4l2-ctrls: add support for dynamically allocated arrays.
+>  vivid: add dynamic array test control
+>
+> .../userspace-api/media/drivers/hantro.rst    |   5 -
+> .../media/v4l/ext-ctrls-codec.rst             |  58 ++--
+> .../media/v4l/vidioc-queryctrl.rst            |   8 +
+> .../media/test-drivers/vivid/vivid-ctrls.c    |  15 ++
+> drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++++++--
+> drivers/media/v4l2-core/v4l2-ctrls-core.c     | 182 ++++++++++---
+> drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
+> drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+> drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+> drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+> drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+> drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+> .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+> .../staging/media/sunxi/cedrus/cedrus_h265.c  |  13 +-
+> include/linux/hantro-media.h                  |  17 ++
+> include/media/hevc-ctrls.h                    | 250 ------------------
+> include/media/v4l2-ctrls.h                    |  48 +++-
+> include/uapi/linux/v4l2-controls.h            | 224 ++++++++++++++++
+> include/uapi/linux/videodev2.h                |   8 +
+> 19 files changed, 640 insertions(+), 408 deletions(-)
+> create mode 100644 include/linux/hantro-media.h
+> delete mode 100644 include/media/hevc-ctrls.h
+>
+>-- 
+>2.32.0
+>
