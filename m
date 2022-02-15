@@ -1,217 +1,79 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEA31580
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 15:28:58 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id b35so17575495qkp.6
-        for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 07:28:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=f9H0svHPKw+hnD0cD7XsmllGNTwpLTUKEtyrj/3wtLI=;
-        b=GPOZKgDSA400flay/HIWB7L3DGdLyz5YurXxhd5n383IxxkViAXaPF9S3uWIAdFmIT
-         L8sUT0U2DP3df0GsPLmQh9YpfZ/mTE8mMUuAAvDiqitaRoMSsOpX/XTqUg20DiHP7CLI
-         ZWlxLv3w2ee1YqFexfbH/9byVSl68ivYuCsAWhO/cfzxz/UY3QMV0lja5x/Qn5qiq5mz
-         hcpZrnM5nxD7ZmZl7P+YoQwjI4Jobo9HF3sq5MqMWbnOVIHCe8m06Q4DBnkWMNWoNG1I
-         b43fy1yoAgi9p9hh+91tztEq+1XvD++H0aWpCsU91eoYbV20tT2oebqTnCo30xCmiTmA
-         hyrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=f9H0svHPKw+hnD0cD7XsmllGNTwpLTUKEtyrj/3wtLI=;
-        b=pNk79b7mvApjiMfY44v4HvndT6/gfsQvWqxtYVO5EWBlBD9Zo5t5HULyAa6iypz6RA
-         BUWRE4fjTmT+oz5aaNuEWu406bThTV+aE0X1dqjuAflhkC/ybBm0StUg4g9zSc/nI88l
-         cq5M6do6MCr8oFsmxJOBT8Tpg8FWKUUtSj/tmhnfu8hBQc9AZLmppj4svDONM2hwrQSa
-         6/WnUtzTuLfceIQSriXTevwc0QQkiHfXeYpZDjR7E4WJcuQdjSxHr+ZqHSgoGt0SU/FP
-         gLdwzAwI8UtS2kcEzm2N4YnRNx8kjnFceZhgxxG0+ql84GM8esbA83dV1MqGPOw8Qove
-         KJTQ==
-X-Gm-Message-State: AOAM533AnGOP7BMf0nAm8aeMAqsiJklC2xWO7qMaR3od/YVH2hzoHPMo
-	YRbO6TgbiXAoB5rcu/P5BGg7RA==
-X-Google-Smtp-Source: ABdhPJz6JEvNWkFwG2hdwgsJcBSXvUwEUXwIn5fmdW14e1k3pg4RbrhlPyT+Awb/d4Oe/D1m7S9+jg==
-X-Received: by 2002:a05:620a:782:: with SMTP id 2mr2197511qka.523.1644938937515;
-        Tue, 15 Feb 2022 07:28:57 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id y15sm17470991qko.133.2022.02.15.07.28.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 07:28:56 -0800 (PST)
-Message-ID: <9a78eb88f8690d43d34d8140420dae3f5f043637.camel@ndufresne.ca>
-Subject: Re: [RFC v2 6/8] media: uapi: Remove bit_size field from
- v4l2_ctrl_hevc_slice_params
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: John Cox <jc@kynesim.co.uk>, Benjamin Gaignard
-	 <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de,  gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
- hverkuil-cisco@xs4all.nl, jonas@kwiboo.se,  linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev,
- kernel@collabora.com, knaerzche@gmail.com
-Date: Tue, 15 Feb 2022 10:28:55 -0500
-In-Reply-To: <mqen0ht146rbtukbd47tbtbiqvsmfta8oa@4ax.com>
-References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
-	 <20220215110103.241297-7-benjamin.gaignard@collabora.com>
-	 <t2dn0hddgq22nt6a7sr6kl44irm3c2lj1j@4ax.com>
-	 <99062279-a3c4-96f7-4c4b-f39e7f812e68@collabora.com>
-	 <mqen0ht146rbtukbd47tbtbiqvsmfta8oa@4ax.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A271578
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 15:33:56 +0000 (UTC)
+Date: Tue, 15 Feb 2022 16:33:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1644939235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fo3G255rStH8Du8K9gC/4Oh74dENohOh6rR9zxNrm7k=;
+	b=XUlLU3y8E7KMImLqhqzV4hl9D+jJ9rjIrS+mUfV5bV0v5J2CRECN+P3KG/vjZD7sSoaYsk
+	GY5LSWdSZjpGWh76k4nF1Onmv9A6XCGLbQL0QYJVeDRjTonCcIOUPninA0ulfxFM/hVNSg
+	ENch2bFq2JnUN5XMpsY2wU+SQMfqJhD+a7PLZB/+cnLDxhXwsnZY1ioGfrcoq5hoJoFmnU
+	MRS9p+efKSnsj73i2n2cTObxd3+PNgnL3f5SJe/USqyKkjbGLL/E12Rupg15tkLrPoWeVa
+	gtf8ingSKcqdI3Evhjdj6dR6MeZKGsoyWRe11dtBSMAouuG+26XXfOS6Nvn2+w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1644939235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fo3G255rStH8Du8K9gC/4Oh74dENohOh6rR9zxNrm7k=;
+	b=UIMOEVLl4BOgnwWtzIvKmG/pUXYmNgTYSRB16jg5vzp7F8ph7KiVCrzNBEaPZ7fz/HkQpN
+	ai9g52CGNZvW22CA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Lee Jones <lee.jones@linaro.org>
+Cc: greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>, UNGLinuxDriver@microchip.com,
+	Wolfram Sang <wsa@kernel.org>,
+	Woojung Huh <woojung.huh@microchip.com>
+Subject: Re: [PATCH v4 0/7] Provide and use generic_handle_irq_safe() where
+ appropriate.
+Message-ID: <YgvH4ROUQVgusBdA@linutronix.de>
+References: <20220211181500.1856198-1-bigeasy@linutronix.de>
+ <Ygu6UewoPbYC9yPa@google.com>
+ <Ygu9xtrMxxq36FRH@linutronix.de>
+ <YgvD1HpN2oyalDmj@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YgvD1HpN2oyalDmj@google.com>
 
-Le mardi 15 février 2022 à 14:50 +0000, John Cox a écrit :
-> On Tue, 15 Feb 2022 15:35:12 +0100, you wrote:
+On 2022-02-15 15:16:36 [+0000], Lee Jones wrote:
+> On Tue, 15 Feb 2022, Sebastian Andrzej Siewior wrote:
 > 
+> > On 2022-02-15 14:36:01 [+0000], Lee Jones wrote:
+> > > Do we really need to coordinate this series cross-subsystem?
 > > 
-> > Le 15/02/2022 à 15:17, John Cox a écrit :
-> > > Hi
-> > > 
-> > > > The bit size of the slice could be deduced from the buffer payload
-> > > > so remove bit_size field to avoid duplicated the information.
-> > > I think this is a bad idea. In the future we are (I hope) going to want
-> > > to have an array (variable) of slice headers all referring to the same
-> > > bit buffer.  When we do that we will need this field.
-> > 
-> > I wonder if that could be considering like another decode mode and so
-> > use an other control ?
+> > I would suggest to merge it via irq subsystem but I leave the logistics
+> > to tglx.
 > 
-> I, personally, would be in favour of making the slice header control a
-> variable array just as it is.  If userland can't cope with multiple
-> entries then just send them one at a time and the code looks exactly
-> like it does at the moment and if the driver can't then set max array
-> entries to 1.
-> 
-> Having implemented this in rpi port of ffmpeg and the RPi V4L2 driver I
-> can say with experience that the code and effort overhead is very low.
-> 
-> Either way having a multiple slice header control in the UAPI is
-> important for efficiency.
+> Could you answer by other questions too please?
 
-Just to clarify the idea, we would have a single slice controls, always dynamic:
+I don't think that I can answer them. I said I leave the logistics to
+tglx.
 
-1. For sliced based decoder
+This can go via one merge via irq. This can also go differently i.e.
+feature branch on top of 5.17-rc1 (with 1/7) which is merge into each
+subsystem and then the "feature" on top.
 
-The dynamic array slice control is implemented by the driver and its size must
-be 1.
+Either way it remains bisect-able since each driver is changed
+individually. There is no need to merge them in one go but since it is
+that small it probably makes sense. But I don't do the logistics here.
 
-2. For frame based decoder that don't care for slices
-
-The dynamic array slice controls is not implement. Userland detects that at
-runtime, similar to the VP9 compressed headers.
-
-3. For frame based decoders that needs slices (or driver that supports offset
-and can gain performance with such mode)
-
-The dynamic array slice controls is implemented, and should contain all the
-slices found in the OUTPUT buffer.
-
-So the reason for this bit_size (not sure why its bits though, perhaps someone
-can educate me ?) Would be to let the driver offset inside the the single
-OUTPUT/bitstream buffer in case this is not automatically found by the driver
-(or that no start-code is needed). Is that last bit correct ? If so, should we
-change it to an offset rather then a size ? Shall we allow using offesets inside
-larger buffer (e.g. to avoid some memory copies) for the Sliced Base cases ?
-
-> 
-> Regards
-> 
-> John Cox
-> 
-> > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > > ---
-> > > > .../userspace-api/media/v4l/ext-ctrls-codec.rst       |  3 ---
-> > > > drivers/staging/media/sunxi/cedrus/cedrus_h265.c      | 11 ++++-------
-> > > > include/uapi/linux/v4l2-controls.h                    |  3 +--
-> > > > 3 files changed, 5 insertions(+), 12 deletions(-)
-> > > > 
-> > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > index 3296ac3b9fca..c3ae97657fa7 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > > > @@ -2965,9 +2965,6 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-> > > >      :stub-columns: 0
-> > > >      :widths:       1 1 2
-> > > > 
-> > > > -    * - __u32
-> > > > -      - ``bit_size``
-> > > > -      - Size (in bits) of the current slice data.
-> > > >      * - __u32
-> > > >        - ``data_bit_offset``
-> > > >        - Offset (in bits) to the video data in the current slice data.
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > index 8ab2d9c6f048..db8c7475eeb8 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > @@ -312,8 +312,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
-> > > > 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
-> > > > 	unsigned int width_in_ctb_luma, ctb_size_luma;
-> > > > 	unsigned int log2_max_luma_coding_block_size;
-> > > > +	size_t slice_bytes;
-> > > > 	dma_addr_t src_buf_addr;
-> > > > -	dma_addr_t src_buf_end_addr;
-> > > > 	u32 chroma_log2_weight_denom;
-> > > > 	u32 output_pic_list_index;
-> > > > 	u32 pic_order_cnt[2];
-> > > > @@ -370,8 +370,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
-> > > > 
-> > > > 	cedrus_write(dev, VE_DEC_H265_BITS_OFFSET, 0);
-> > > > 
-> > > > -	reg = slice_params->bit_size;
-> > > > -	cedrus_write(dev, VE_DEC_H265_BITS_LEN, reg);
-> > > > +	slice_bytes = vb2_get_plane_payload(&run->src->vb2_buf, 0);
-> > > > +	cedrus_write(dev, VE_DEC_H265_BITS_LEN, slice_bytes);
-> > > I think one of these must be wrong. bit_size is in bits,
-> > > vb2_get_plane_payload is in bytes?
-> > 
-> > You are right it should be vb2_get_plane_payload() * 8 to get the size in bits.
-> > 
-> > I will change that in v3.
-> > 
-> > > 
-> > > Regards
-> > > 
-> > > John Cox
-> > >   
-> > > > 	/* Source beginning and end addresses. */
-> > > > 
-> > > > @@ -384,10 +384,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
-> > > > 
-> > > > 	cedrus_write(dev, VE_DEC_H265_BITS_ADDR, reg);
-> > > > 
-> > > > -	src_buf_end_addr = src_buf_addr +
-> > > > -			   DIV_ROUND_UP(slice_params->bit_size, 8);
-> > > > -
-> > > > -	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_end_addr);
-> > > > +	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_addr + slice_bytes);
-> > > > 	cedrus_write(dev, VE_DEC_H265_BITS_END_ADDR, reg);
-> > > > 
-> > > > 	/* Coding tree block address */
-> > > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> > > > index b1a3dc05f02f..27f5d272dc43 100644
-> > > > --- a/include/uapi/linux/v4l2-controls.h
-> > > > +++ b/include/uapi/linux/v4l2-controls.h
-> > > > @@ -2457,7 +2457,6 @@ struct v4l2_hevc_pred_weight_table {
-> > > > #define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
-> > > > 
-> > > > struct v4l2_ctrl_hevc_slice_params {
-> > > > -	__u32	bit_size;
-> > > > 	__u32	data_bit_offset;
-> > > > 
-> > > > 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
-> > > > @@ -2484,7 +2483,7 @@ struct v4l2_ctrl_hevc_slice_params {
-> > > > 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture timing SEI message */
-> > > > 	__u8	pic_struct;
-> > > > 
-> > > > -	__u8	reserved;
-> > > > +	__u8	reserved[5];
-> > > > 
-> > > > 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
-> > > > 	__u32	slice_segment_addr;
-
+Sebastian
