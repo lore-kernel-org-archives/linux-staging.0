@@ -1,75 +1,201 @@
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCC71372
-	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 08:18:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1644913095; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=OqWgTOYL6gjJCYpJWajf3P+F9gFxT+PhPTwkERMsD3RmhjSDBERGwuKHoUD1ZERMzxPdmdIuPAxnfixtBr2D9WK15GW4Mhpl4RYIJKmkeQYVivZuM7Q/W1G5PtXMvP7J3S3iOCse7gHiO3EH2aMDU+jtUduvElPS+arEqN/kDUo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1644913095; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
-	bh=EXfsaTxvlzBYK5huY7lR8lxgWwGdugQl+DwEt6BrShw=; 
-	b=fiiC/RbbWHQQVzYMiWkNYJ5DY6VuIX+1GsK5I9xSG1g6PqbfDdxMyrOA1y0csqcqy9ukPVltQD0WiPm13waHSGHekzDB3/dhsHguqO9cPAENTzzNffOm7fw3y28RdEPWD015tozCKoDte2zHETyQQFRyw5cadhJVixIw9cO15J8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=arinc9.com;
-	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
-	dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1644913095;
-	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=EXfsaTxvlzBYK5huY7lR8lxgWwGdugQl+DwEt6BrShw=;
-	b=V2Uv8r1bqKzyVZSJn1JfEJjTTtHdNTgtGg4LLxI/uCTyyQ3VZL1cSid/hq5fX99h
-	RMUdTDcC5S942I+2+ZQH0YtHZIf4wehx3hh2oCpjNA+R1icgcH5Vkaidr7viiTV5+TH
-	YhgbbE8c4CXS8jZlDZPxz49MvQ+MxSFnkz3sjmuw=
-Received: from arinc9-PC.localdomain (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
-	with SMTPS id 164491309394184.82283084814128; Tue, 15 Feb 2022 00:18:13 -0800 (PST)
-From: =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-To: Greg KH <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	Sander Vanheule <sander@svanheule.net>,
-	NeilBrown <neil@brown.name>,
-	DENG Qingfang <dqfext@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	erkin.bozoglu@xeront.com
-Cc: linux-staging@lists.linux.dev,
-	=?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-Subject: [PATCH 1/2] staging: mt7621-dts: fix pinctrl-0 items to be size-1 items on ethernet
-Date: Tue, 15 Feb 2022 11:17:24 +0300
-Message-Id: <20220215081725.3463-1-arinc.unal@arinc9.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D80A2C
+	for <linux-staging@lists.linux.dev>; Tue, 15 Feb 2022 08:35:34 +0000 (UTC)
+Received: (Authenticated sender: jacopo@jmondi.org)
+	by mail.gandi.net (Postfix) with ESMTPSA id ABF41C000C;
+	Tue, 15 Feb 2022 08:35:22 +0000 (UTC)
+Date: Tue, 15 Feb 2022 09:36:31 +0100
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
+	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+	kernel@pengutronix.de, linux-imx@nxp.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 3/8] staging: media: imx: Add more compatible strings
+Message-ID: <20220215083631.iajmsywr5tmduupv@uno.localdomain>
+References: <20220214184318.409208-1-jacopo@jmondi.org>
+ <20220214184318.409208-4-jacopo@jmondi.org>
+ <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YgqqO+6FHIVocnW9@pendragon.ideasonboard.com>
 
-Fix pinctrl-0 items under the ethernet node to be size-1 items.
-Current notation would be used on specifications with non-zero cells.
+Hi Laurent
 
-Fixes: 0a93c0d75809 ("staging: mt7621-dts: fix pinctrl properties for ethernet")
-Reported-by: Sander Vanheule <sander@svanheule.net>
-Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
----
- drivers/staging/mt7621-dts/mt7621.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Feb 14, 2022 at 09:15:07PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Mon, Feb 14, 2022 at 07:43:13PM +0100, Jacopo Mondi wrote:
+> > The imx7-media-csi driver controls the CSI (CMOS Sensor Interface)
+> > peripheral available on several SoC of different generations.
+> >
+> > The current situation when it comes to compatible strings is rather
+> > confused:
+> > - Bindings document imx6ul, imx7 and imx8mm
+> > - Driver supports imx6ul, imx7 and imx8mq
+> > - The IMX8MM and IMX8MQ DTS use the correct compatible strings with a
+> >   fallback to the generic "imx7-csi" identifier:
+> >   arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi",
+> >   arch/arm64/boot/dts/freescale/imx8mm.dtsi: compatible = "fsl,imx8mm-csi",
+> >
+> > Tidy-up the situation by adding the IMX8MQ compatible string to the
+> > bindings documentation andathe IMX8MM identifier to the driver, to allow
+> > to distinguish the SoC the CSI peripheral is integrated on in the
+> > following patches.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml | 1 +
+> >  drivers/staging/media/imx/imx7-media-csi.c                | 2 ++
+>
+> I think Rob would prefer this being split in two patches, and I think it
+> would make sense, as you're fixing two separate issues.
+>
+> >  2 files changed, 3 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > index 4f7b78265336..0f1505d85111 100644
+> > --- a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > @@ -21,6 +21,7 @@ properties:
+> >            - fsl,imx7-csi
+> >            - fsl,imx6ul-csi
+> >        - items:
+> > +          - const: fsl,imx8mq-csi
+> >            - const: fsl,imx8mm-csi
+> >            - const: fsl,imx7-csi
+>
+> I don't think you intended to require the following:
+>
+> 	compatible = "fsl,imx8mq-csi", "fsl,imx8mm-csi", "fsl,imx7-csi";
 
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 4ae744b96464..4da20da243e6 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -323,7 +323,7 @@ ethernet: ethernet@1e100000 {
- 		mediatek,ethsys = <&sysc>;
- 
- 		pinctrl-names = "default";
--		pinctrl-0 = <&rgmii1_pins &rgmii2_pins &mdio_pins>;
-+		pinctrl-0 = <&mdio_pins>, <&rgmii1_pins>, <&rgmii2_pins>;
- 
- 		gmac0: mac@0 {
- 			compatible = "mediatek,eth-mac";
--- 
-2.25.1
+No, I kind of superficially added the mq version where the mm was
+already and went on :)
 
+Care to explain why currently we have two const for the "8mm" and the
+"imx7" versions ?
+
+>
+> You probably want
+>
+>  properties:
+>    compatible:
+>      oneOf:
+>        - enum:
+> +          - fsl,imx8mq-csi
+>            - fsl,imx7-csi
+>            - fsl,imx6ul-csi
+>        - items:
+>            - const: fsl,imx8mm-csi
+>            - const: fsl,imx7-csi
+>
+> instead.
+
+I'm not aware of how how many revisions of the imx7 and imx6 versions
+exists, nor how they differ, but the existing distinction feels a bit
+weird.
+
+The const items should be the compatible fallbacks, should them be
+generic, why is 8mm among them ? Shouldn't we specify the precise SoC
+version in the list of possible enum items only ?
+
+Something like
+
+      oneOf:
+        - enum:
+          - fsl,imx8mq-csi
+          - fsl,imx8mm-csi
+          - fsl,imx6ul-csi
+        - const:
+          - fsl,imx7-csi
+
+In example I see:
+
+arch/arm64/boot/dts/freescale/imx8mq.dtsi: compatible = "fsl,imx8mq-csi", "fsl,imx7-csi";
+
+Where this should either be
+                                           compatible = "fsl,imx8mq-csi"
+or
+                                           compatible = "fsl,imx8mm-csi", "fsl,imx7-csi";
+
+?
+
+
+>
+> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > index 32311fc0e2a4..59100e409709 100644
+> > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > @@ -162,6 +162,7 @@
+> >  enum imx_csi_model {
+> >  	IMX7_CSI_IMX7 = 0,
+> >  	IMX7_CSI_IMX8MQ,
+> > +	IMX7_CSI_IMX8MM,
+> >  };
+> >
+> >  struct imx7_csi {
+> > @@ -1277,6 +1278,7 @@ static int imx7_csi_remove(struct platform_device *pdev)
+> >
+> >  static const struct of_device_id imx7_csi_of_match[] = {
+> >  	{ .compatible = "fsl,imx8mq-csi", .data = (void *)IMX7_CSI_IMX8MQ },
+> > +	{ .compatible = "fsl,imx8mm-csi", .data = (void *)IMX7_CSI_IMX8MM },
+>
+> This isn't needed, as the i.MX8MM CSI bridgge is considered fully
+> backward-compatible with the i.MX7 version. I'd introduce this change in
+> the patch where you start using IMX7_CSI_IMX8MM, and I would then add
+> the following to the DT binding:
+>
+>  properties:
+>    compatible:
+>      oneOf:
+>        - enum:
+>            - fsl,imx8mq-csi
+> +          - fsl,imx8mm-csi
+>            - fsl,imx7-csi
+>            - fsl,imx6ul-csi
+>        - items:
+>            - const: fsl,imx8mm-csi
+>            - const: fsl,imx7-csi
+>
+> to allow setting
+>
+> 	compatible = "fsl,imx8mm-csi";
+>
+> without the imx7 fallback if we consider the i.MX8MM version different.
+> If the driver can operate correctly on the i.MX8MM when using the i.MX7
+> fallback code paths (possibly minor issues that are not considered
+> fatal, such as missing features) then you could skip this binding
+> change.
+
+Sorry, but shouldn't:
+
+        compatible = "fsl,imx8mm-csi", fsl,imx7-csi"
+
+allow me to match on imx8mm already, without the above change.
+
+I think what I don't get is why imx8mm is a 'generic fallback' in
+first place.
+
+>
+> >  	{ .compatible = "fsl,imx7-csi", .data = (void *)IMX7_CSI_IMX7 },
+> >  	{ .compatible = "fsl,imx6ul-csi", .data = (void *)IMX7_CSI_IMX7 },
+> >  	{ },
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
