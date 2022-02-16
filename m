@@ -1,45 +1,58 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A51A369A;
-	Wed, 16 Feb 2022 21:36:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645047365; x=1676583365;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QRJWsN67I0MagKQyC+abvYxSy/SjgNmkZ4CnqMtZUZY=;
-  b=KWNrCLRJCZG4E2eG9UWCbeaOHStyoeeJ8r2wqWWQ+CF2pkYjWE7Bp5AP
-   BFQOLhADRup1F2G/YTS37jKry6sOoifszcfSOsTlmmKKvmj9vmVzlOxsW
-   RukHLyYvJDwjFe0HHvxo7b7yXBxImwb5JHCxlhLpWyFTGqFVO+cjKrSYf
-   sXVx4o9srgSEiCG2TXeFQ35xR1SmeT4H1qkAIkyexxCMbMKW/xTp4DvJc
-   1U2Cxz7SvFDN0neGz3X7gI/MCF8W21fjdj+bdt2lQgjhSwCuoNbBJN/Q8
-   HxIfWlgQtxECzX4hoWFkfyLyWy5/UuZQz7fr3E3ej/KPMbsDWU6FsCdiP
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="248327931"
-X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
-   d="scan'208";a="248327931"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2022 13:35:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
-   d="scan'208";a="503215036"
-Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 16 Feb 2022 13:35:50 -0800
-Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
-	(envelope-from <lkp@intel.com>)
-	id 1nKRxl-000B8b-Q8; Wed, 16 Feb 2022 21:35:49 +0000
-Date: Thu, 17 Feb 2022 05:35:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org, dan.carpenter@oracle.com,
-	Larry.Finger@lwfinger.net, straube.linux@gmail.com,
-	martin@kaiser.cx, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, paskripkin@gmail.com
-Subject: Re: [PATCH v2 05/15] staging: r8188eu: remove DBG_88E calls from hal
- subdir
-Message-ID: <202202170549.Ns7hoYfn-lkp@intel.com>
-References: <20220216010709.791-6-phil@philpotter.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E2238C9
+	for <linux-staging@lists.linux.dev>; Wed, 16 Feb 2022 23:45:33 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id j9-20020a05600c190900b0037bff8a24ebso4850630wmq.4
+        for <linux-staging@lists.linux.dev>; Wed, 16 Feb 2022 15:45:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=t0vNVKKYYCD2yT2Dy6f7J2Ql/gR8DYPpcEVuccfK2uU=;
+        b=jX+QCI28dkeRL1yxzvM2i9T21YZmqXlAkK7p3SG42POwEcgWJEsGXOtPGKcT4s5dTi
+         46D3LUkJgTUZd+6MkJajchePlaZEnLanbpO9reP8KY0o2bSkUZoI19ERP6lWEYEsqzXs
+         mZAjJ3ul8buVuWQ7NTNV9w3O0oVtSwTry935YgEfSzQkpjGSK5Y6QvC6nVnUY3MaPF7m
+         TAekftC4r4H1jucpHjWQ5LXoGLZfiNqrz/BTvUNmFKGWA/mNbUOPWSqjLSJORbOsNeDX
+         pCe1exd1uLop9SLKQ3s/OZdvI+uziINM3MgWxh9Vb31Pg6Aat5DgehFLprOu1/5DPK+Y
+         yi7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=t0vNVKKYYCD2yT2Dy6f7J2Ql/gR8DYPpcEVuccfK2uU=;
+        b=TSLSZHFH8FqoyoLD9jW7iHIbrF+GvAx5TLc+brF/7gf+np3wSB/cCUkUJCNfA9brd6
+         XW/tLS38RcldVgVH5nFwzWvcdUULXCdtT1KjGVJ155YooNfMTNRMIyEJGlmoCpCMkeRW
+         NLjub++Xoe3HxzYRT37OtcIVLAdVSTibv2oX3RldYj7bvYxtQ2RLWsXPlqHgcpuTNGXm
+         43KuOXI6rK1dtrWkiWw2F9c7ZrsRkBQbU9PXsEj9Xd3l1WihUWuhGIu6l/nlghymF7Pn
+         RUfCEG7esuh7EAB4kNc+i/PjI/Rwu7cdwuBek4nl01/5+tEvA0K0qToDc6KUawwdmd+/
+         lYAA==
+X-Gm-Message-State: AOAM532cHb1LCrzESM+h88Ol0aWCmlsDQ22wzz1Ak9LLcRuaEE2C50ky
+	Bd1hPvA0ZqPTlLkz+N9WaUofew==
+X-Google-Smtp-Source: ABdhPJyxAyLejiTSI1TIw2ZJt62HtMSE9qOwSX+WHfM8OZS3eG2K8WAT5bzPFk2pp9riJwPoTL0IqA==
+X-Received: by 2002:a1c:4454:0:b0:37c:9355:2910 with SMTP id r81-20020a1c4454000000b0037c93552910mr3714736wma.150.1645055131741;
+        Wed, 16 Feb 2022 15:45:31 -0800 (PST)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id b15sm34944052wri.96.2022.02.16.15.45.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Feb 2022 15:45:31 -0800 (PST)
+Date: Wed, 16 Feb 2022 23:45:29 +0000
+From: Phillip Potter <phil@philpotter.co.uk>
+To: David Laight <David.Laight@aculab.com>
+Cc: "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
+	"Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
+	"straube.linux@gmail.com" <straube.linux@gmail.com>,
+	"martin@kaiser.cx" <martin@kaiser.cx>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"paskripkin@gmail.com" <paskripkin@gmail.com>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 15/15] staging: r8188eu: correct long line warnings
+ near prior DBG_88E calls
+Message-ID: <Yg2MmeJe1VGOQd4h@equinox>
+References: <20220216010709.791-1-phil@philpotter.co.uk>
+ <20220216010709.791-16-phil@philpotter.co.uk>
+ <84f4a761263444c2940165dc403afb33@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,125 +61,84 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220216010709.791-6-phil@philpotter.co.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <84f4a761263444c2940165dc403afb33@AcuMS.aculab.com>
 
-Hi Phillip,
+On Wed, Feb 16, 2022 at 10:01:18AM +0000, David Laight wrote:
+> From: Phillip Potter
+> > Sent: 16 February 2022 01:07
+> > 
+> > Where it is possible (without out-of-patch-series-scope large scale
+> > refactoring), correct code to remove checkpatch warnings about lines
+> > that are too long, also correcting operator spacing where appropriate
+> > for these lines as well. These warnings occur mostly due to so many
+> > DBG_88E removals and parentheses tweaks etc. being adjacent to such
+> > long lines, which are therefore included in the resultant diff.
+> ...
+> 
+> Somewhere my copy of this seems to have got its tabs deleted.
+> I blame outlook :-)
+> 
+> > diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> > index ddc3a2c8aaca..d68611ef22f8 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> > @@ -382,7 +382,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+> >  if (protocol == ETH_P_IP) {
+> >  struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
+> > 
+> > -if (((unsigned char *)(iph) + (iph->ihl<<2)) >= (skb->data + ETH_HLEN + skb->len))
+> > +if (((unsigned char *)(iph) + (iph->ihl << 2)) >= (skb->data + ETH_HLEN + skb->len))
+> 
+> You can delete at least three sets of () from that line.
+> 
+> >  return -1;
+> > 
+> >  switch (method) {
+> > @@ -451,7 +451,11 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+> >  pOldTag = (struct pppoe_tag *)__nat25_find_pppoe_tag(ph, ntohs(PTT_RELAY_SID));
+> >  if (pOldTag) { /*  if SID existed, copy old value and delete it */
+> >  old_tag_len = ntohs(pOldTag->tag_len);
+> > -if (old_tag_len+TAG_HDR_LEN+MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN > sizeof(tag_buf))
+> > +if (old_tag_len +
+> > +    TAG_HDR_LEN +
+> > +    MAGIC_CODE_LEN +
+> > +    RTL_RELAY_TAG_LEN >
+> > +    sizeof(tag_buf))
+> >  return -1;
+> 
+> That change really doesn't help readability at all.
+> There isn't much point shortening it that much like that, especially
+> since the here is a line that is nearly as long just above.
+> 
+> The real fix is to reduce the number of levels of indentation
+> to something sane.
+> I suspect that use of continue, break and return will help.
+> 
+> The other line length changes have much the same problem
+> but not as sever.
+> 
+> 	David
+> 
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
+> 
 
-I love your patch! Perhaps something to improve:
+Dear David,
 
-[auto build test WARNING on staging/staging-testing]
+Thank you for your feedback, and yes I totally agree - this patch was
+more for procedure's sake to quieten the checkpatch warnings, but I was
+in two minds about whether I should include it.
 
-url:    https://github.com/0day-ci/linux/commits/Phillip-Potter/staging-r8188eu-Cleanup-and-removal-of-DBG_88E-macro/20220216-090900
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git e9685834b1db754cbd07e31ad1a091f5d366dacf
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220217/202202170549.Ns7hoYfn-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0e628a783b935c70c80815db6c061ec84f884af5)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/b481114992de793aca50ace1616b6b3947fde0a0
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Phillip-Potter/staging-r8188eu-Cleanup-and-removal-of-DBG_88E-macro/20220216-090900
-        git checkout b481114992de793aca50ace1616b6b3947fde0a0
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/leds/ drivers/net/ethernet/mellanox/mlxsw/ drivers/platform/chrome/ drivers/staging/r8188eu/ mm/damon/
+The indentation level is absolutely what is the problem here, but it is
+arguably not in scope for this particular patch set given these are
+pre-existing lines that have the issue. Certainly needs fixing though
+for sure - just that this is more substantial and worthy of a separate
+patch set in my opinion.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Looks like I need to do V3 anyway as I missed an unused-but-set warning
+in patch 5 of the series. I may therefore drop this patch in V3 and
+perhaps work on the indentation problem more generally.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/r8188eu/hal/usb_halinit.c:1546:6: warning: variable 'arg' set but not used [-Wunused-but-set-variable]
-                   u8 arg;
-                      ^
-   1 warning generated.
-
-
-vim +/arg +1546 drivers/staging/r8188eu/hal/usb_halinit.c
-
-8cd574e6af5463a Phillip Potter  2021-07-28  1490  
-b561d2f0dc01ab0 Michael Straube 2021-09-06  1491  void UpdateHalRAMask8188EUsb(struct adapter *adapt, u32 mac_id, u8 rssi_level)
-8cd574e6af5463a Phillip Potter  2021-07-28  1492  {
-8cd574e6af5463a Phillip Potter  2021-07-28  1493  	u8 init_rate = 0;
-8cd574e6af5463a Phillip Potter  2021-07-28  1494  	u8 networkType, raid;
-8cd574e6af5463a Phillip Potter  2021-07-28  1495  	u32 mask, rate_bitmap;
-8cd574e6af5463a Phillip Potter  2021-07-28  1496  	u8 shortGIrate = false;
-8cd574e6af5463a Phillip Potter  2021-07-28  1497  	int	supportRateNum = 0;
-8cd574e6af5463a Phillip Potter  2021-07-28  1498  	struct sta_info	*psta;
-d904512db6f3727 Michael Straube 2021-12-07  1499  	struct hal_data_8188e *haldata = &adapt->haldata;
-8cd574e6af5463a Phillip Potter  2021-07-28  1500  	struct mlme_ext_priv	*pmlmeext = &adapt->mlmeextpriv;
-6839ff57baa4a60 Michael Straube 2021-08-09  1501  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
-6839ff57baa4a60 Michael Straube 2021-08-09  1502  	struct wlan_bssid_ex	*cur_network = &pmlmeinfo->network;
-8cd574e6af5463a Phillip Potter  2021-07-28  1503  
-8cd574e6af5463a Phillip Potter  2021-07-28  1504  	if (mac_id >= NUM_STA) /* CAM_SIZE */
-8cd574e6af5463a Phillip Potter  2021-07-28  1505  		return;
-8cd574e6af5463a Phillip Potter  2021-07-28  1506  	psta = pmlmeinfo->FW_sta_info[mac_id].psta;
-725a3f1c4d56b73 Michael Straube 2021-08-01  1507  	if (!psta)
-8cd574e6af5463a Phillip Potter  2021-07-28  1508  		return;
-8cd574e6af5463a Phillip Potter  2021-07-28  1509  	switch (mac_id) {
-8cd574e6af5463a Phillip Potter  2021-07-28  1510  	case 0:/*  for infra mode */
-8cd574e6af5463a Phillip Potter  2021-07-28  1511  		supportRateNum = rtw_get_rateset_len(cur_network->SupportedRates);
-8cd574e6af5463a Phillip Potter  2021-07-28  1512  		networkType = judge_network_type(adapt, cur_network->SupportedRates, supportRateNum) & 0xf;
-8cd574e6af5463a Phillip Potter  2021-07-28  1513  		raid = networktype_to_raid(networkType);
-8cd574e6af5463a Phillip Potter  2021-07-28  1514  		mask = update_supported_rate(cur_network->SupportedRates, supportRateNum);
-6839ff57baa4a60 Michael Straube 2021-08-09  1515  		mask |= (pmlmeinfo->HT_enable) ? update_MSC_rate(&pmlmeinfo->HT_caps) : 0;
-6839ff57baa4a60 Michael Straube 2021-08-09  1516  		if (support_short_GI(adapt, &pmlmeinfo->HT_caps))
-8cd574e6af5463a Phillip Potter  2021-07-28  1517  			shortGIrate = true;
-8cd574e6af5463a Phillip Potter  2021-07-28  1518  		break;
-8cd574e6af5463a Phillip Potter  2021-07-28  1519  	case 1:/* for broadcast/multicast */
-8cd574e6af5463a Phillip Potter  2021-07-28  1520  		supportRateNum = rtw_get_rateset_len(pmlmeinfo->FW_sta_info[mac_id].SupportedRates);
-8cd574e6af5463a Phillip Potter  2021-07-28  1521  		if (pmlmeext->cur_wireless_mode & WIRELESS_11B)
-8cd574e6af5463a Phillip Potter  2021-07-28  1522  			networkType = WIRELESS_11B;
-8cd574e6af5463a Phillip Potter  2021-07-28  1523  		else
-8cd574e6af5463a Phillip Potter  2021-07-28  1524  			networkType = WIRELESS_11G;
-8cd574e6af5463a Phillip Potter  2021-07-28  1525  		raid = networktype_to_raid(networkType);
-8cd574e6af5463a Phillip Potter  2021-07-28  1526  		mask = update_basic_rate(cur_network->SupportedRates, supportRateNum);
-8cd574e6af5463a Phillip Potter  2021-07-28  1527  		break;
-8cd574e6af5463a Phillip Potter  2021-07-28  1528  	default: /* for each sta in IBSS */
-8cd574e6af5463a Phillip Potter  2021-07-28  1529  		supportRateNum = rtw_get_rateset_len(pmlmeinfo->FW_sta_info[mac_id].SupportedRates);
-8cd574e6af5463a Phillip Potter  2021-07-28  1530  		networkType = judge_network_type(adapt, pmlmeinfo->FW_sta_info[mac_id].SupportedRates, supportRateNum) & 0xf;
-8cd574e6af5463a Phillip Potter  2021-07-28  1531  		raid = networktype_to_raid(networkType);
-8cd574e6af5463a Phillip Potter  2021-07-28  1532  		mask = update_supported_rate(cur_network->SupportedRates, supportRateNum);
-8cd574e6af5463a Phillip Potter  2021-07-28  1533  
-8cd574e6af5463a Phillip Potter  2021-07-28  1534  		/* todo: support HT in IBSS */
-8cd574e6af5463a Phillip Potter  2021-07-28  1535  		break;
-8cd574e6af5463a Phillip Potter  2021-07-28  1536  	}
-8cd574e6af5463a Phillip Potter  2021-07-28  1537  
-8cd574e6af5463a Phillip Potter  2021-07-28  1538  	rate_bitmap = 0x0fffffff;
-8cd574e6af5463a Phillip Potter  2021-07-28  1539  	rate_bitmap = ODM_Get_Rate_Bitmap(&haldata->odmpriv, mac_id, mask, rssi_level);
-8cd574e6af5463a Phillip Potter  2021-07-28  1540  
-8cd574e6af5463a Phillip Potter  2021-07-28  1541  	mask &= rate_bitmap;
-8cd574e6af5463a Phillip Potter  2021-07-28  1542  
-8cd574e6af5463a Phillip Potter  2021-07-28  1543  	init_rate = get_highest_rate_idx(mask) & 0x3f;
-8cd574e6af5463a Phillip Potter  2021-07-28  1544  
-8cd574e6af5463a Phillip Potter  2021-07-28  1545  	if (haldata->fw_ractrl) {
-8cd574e6af5463a Phillip Potter  2021-07-28 @1546  		u8 arg;
-8cd574e6af5463a Phillip Potter  2021-07-28  1547  
-8cd574e6af5463a Phillip Potter  2021-07-28  1548  		arg = mac_id & 0x1f;/* MACID */
-8cd574e6af5463a Phillip Potter  2021-07-28  1549  		arg |= BIT(7);
-8cd574e6af5463a Phillip Potter  2021-07-28  1550  		if (shortGIrate)
-8cd574e6af5463a Phillip Potter  2021-07-28  1551  			arg |= BIT(5);
-8cd574e6af5463a Phillip Potter  2021-07-28  1552  		mask |= ((raid << 28) & 0xf0000000);
-8cd574e6af5463a Phillip Potter  2021-07-28  1553  		psta->ra_mask = mask;
-8cd574e6af5463a Phillip Potter  2021-07-28  1554  		mask |= ((raid << 28) & 0xf0000000);
-8cd574e6af5463a Phillip Potter  2021-07-28  1555  
-8cd574e6af5463a Phillip Potter  2021-07-28  1556  		/* to do ,for 8188E-SMIC */
-8cd574e6af5463a Phillip Potter  2021-07-28  1557  		rtl8188e_set_raid_cmd(adapt, mask);
-8cd574e6af5463a Phillip Potter  2021-07-28  1558  	} else {
-6839ff57baa4a60 Michael Straube 2021-08-09  1559  		ODM_RA_UpdateRateInfo_8188E(&haldata->odmpriv,
-8cd574e6af5463a Phillip Potter  2021-07-28  1560  				mac_id,
-8cd574e6af5463a Phillip Potter  2021-07-28  1561  				raid,
-8cd574e6af5463a Phillip Potter  2021-07-28  1562  				mask,
-8cd574e6af5463a Phillip Potter  2021-07-28  1563  				shortGIrate
-8cd574e6af5463a Phillip Potter  2021-07-28  1564  				);
-8cd574e6af5463a Phillip Potter  2021-07-28  1565  	}
-8cd574e6af5463a Phillip Potter  2021-07-28  1566  	/* set ra_id */
-8cd574e6af5463a Phillip Potter  2021-07-28  1567  	psta->raid = raid;
-8cd574e6af5463a Phillip Potter  2021-07-28  1568  	psta->init_rate = init_rate;
-8cd574e6af5463a Phillip Potter  2021-07-28  1569  }
-8cd574e6af5463a Phillip Potter  2021-07-28  1570  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Regards,
+Phil
