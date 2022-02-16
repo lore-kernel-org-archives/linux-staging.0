@@ -1,107 +1,121 @@
-Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF6C28EA
-	for <linux-staging@lists.linux.dev>; Wed, 16 Feb 2022 12:30:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1645014603;
-	bh=9JU/7J0kbeMSD+qpS/qZQu81EhTBuGTtEd6JH+Xwt2A=;
-	h=From:To:Cc:Subject:Date;
-	b=Y6lClbH+b6nl7GFyk7SdmZjTBhaPUCzNXQUAJKl/0yy32k0QtJmCu+MSQJpuGwhHK
-	 m21Q3nOh67gaNo/pmGBUiOT+aom6rr2Lrfnry9yHoni026q+Bv9gbMwOu6jnhzlHjx
-	 czuLrfZZf0SGB/oVBE9v9ygc3h8WxrFgSjNX2cME=
-Received: from localhost.localdomain ([218.197.153.188])
-	by newxmesmtplogicsvrsza8.qq.com (NewEsmtp) with SMTP
-	id 6A83DAED; Wed, 16 Feb 2022 20:26:40 +0800
-X-QQ-mid: xmsmtpt1645014400tukomum8s
-Message-ID: <tencent_437C4189E07F1CC482B923779E839DA23005@qq.com>
-X-QQ-XMAILINFO: MMnP0fEUKo/hcd9hvtysc5OMCNpMZGfavEFS8FaH0AWxwAjiD4Q7uySjpiFk4O
-	 oSfonpIvzkHLbPn4xO7woaTDI9Xw4qUnribz74vmpXs5PwbzpG+lwryzf0nxyaAyMpuMKLrhJdQH
-	 AHqeT5nkIGLKdKhDxFeXxVof9bn190NMSCgQY33VqEkE1xOYkp3Did9+qX5lN8V0oCl8VtxhXfzQ
-	 mTh1DKJIDYtoulLqdXvOMzbN4b8onBkiGqnTa/lUTwVgrsO0NJwaK09+1s/uSSy7n5ev6i9BhqcM
-	 qIcl9R5erW0eF8YURM/v2zOEsSzb8dNIFC2zplJq5srXiireBqIvwOcPWhndwMNT0J1RyUcuheGK
-	 gR7LAenx+pgsQo5woayeLJs4QhUg/Mf6g8tSHF4jy/O+QSUXz11z1439qOpWv4ow7pnQg+P93Uc0
-	 aM281e45cXx0L/49T/5lBm+w7WFoeMxhf4puj3KaL2KUsW4ZpJZjiLgTz+mQvuVniZ3jciR1OxIY
-	 kwidOLiiiitBlGKvLHFDdVeQeJAkgQRbvEZxQnoPytWcp5DOEf0LL5iFCxyVHmQJgGjm/0LN6cBR
-	 8/7vKeETIrc1+nj82/CF683xMo5/qSwqxiGO2VeudFuHiamvQ2f4yNKSESBJCy4oq4guKd9St/wg
-	 3zxogTcy5tikjXlqyyWRsOwmKCiRomDiqpuTlPGgPPQtaM9Zld3f4wcYOERzVoHnu9N9AzxlWiSV
-	 FVeo7B+m6eVxOA+yB9HddaGUsLlnoMSYaZOf4TEWK9Kl2LrBX0UDlvfcj3ut4ooZ2Gi99MbxP6qL
-	 BARZRea4Vl5oDCx1HjI4u4Qjr+ewAhFpupe1bT0Sl8NZ738/VeZgnnVU5RkVvd+nFVcgbhu6GgA9
-	 YyjE13fVX8fxSZB6XJq6VJRvksrF/VkQ==
-From: xkernel.wang@foxmail.com
-To: jerome.pouiller@silabs.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH v2] staging: wfx: check the return value of devm_kmalloc()
-Date: Wed, 16 Feb 2022 20:25:20 +0800
-X-OQ-MSGID: <20220216122520.753-1-xkernel.wang@foxmail.com>
-X-Mailer: git-send-email 2.33.0.windows.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BF023D2;
+	Wed, 16 Feb 2022 17:19:15 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:fdd4:c171:8e0a:65c9] (unknown [IPv6:2a01:e0a:120:3210:fdd4:c171:8e0a:65c9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C29C41F45037;
+	Wed, 16 Feb 2022 17:19:11 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1645031952;
+	bh=dzkulLdCFvxMIGqB0cCUzdXbRStr5SMvEoD5ovPIHCw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ponvm8a/9gskHDy3/EClyJ6uwXSBDpglsnUBVIr09VOEiwq15KG7KcwaSTGjFHbou
+	 TTa1TCK88youuVYdt6m2AHeAZzuTNXn0qo1QeE3V9Y7i9Z5dBd5nKBbjMVaLkEZHYS
+	 RZMq8CJ71++B28hHKPw6sglKFeJi6JeJMgg+K+tUcatIoG+Or4g4PCXymdHvs07Tin
+	 UsPxO5V7/CtLy1m6aKTkAT6cm5L68gPKpF95UfEF6h/Lb3LJ1nIgpXuICq+k939OH+
+	 qEQ5eNP+WAN22k5Mwqj8CVz2WjgduozZyUjZvKYosNJTG4qL7W1c9aECWC6vFvdecs
+	 SF0SjBEUoM7+A==
+Message-ID: <846370ec-5c9e-e4cb-eccf-0b0c6bdbc847@collabora.com>
+Date: Wed, 16 Feb 2022 18:19:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC v2 7/8] media: uapi: Add
+ V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+Content-Language: en-US
+To: John Cox <jc@kynesim.co.uk>
+Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+ <20220215110103.241297-8-benjamin.gaignard@collabora.com>
+ <a8lp0h15oaibdu1pqrkhsu8nh32v423tur@4ax.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <a8lp0h15oaibdu1pqrkhsu8nh32v423tur@4ax.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-devm_kmalloc() returns a pointer to allocated memory on success, NULL
-on failure. While there is a memory allocation of devm_kmalloc()
-without proper check. It is better to check the return value of it to
-prevent wrong memory access.
-By the way, all the error handlers of this function return without
-calling ieee80211_free_hw(hw), which may result in memory leak. So I
-add one err label to unify the error handler.
+Le 16/02/2022 à 11:54, John Cox a écrit :
+> On Tue, 15 Feb 2022 12:01:02 +0100, you wrote:
+>
+>> The number of 'entry point offset' could be very variable.
+>> Rather than use a large static array define a v4l2 dynamic array
+>> of integer control.
+>> The number of entry point offsets is reported by the elems field.
+> If we are going to support multiple slice headers in a single control
+> then we are going to need to know how to split these entries between
+> them as I assume that the entry point offset entries for all slice
+> headers would just be catenated here.  You could add extra elements here
+> or generate a completely new control but I think it would be easier to
+> reinstate the num_entry_point_offsets field in the slice_params
+> structure (its a field that userpace has in its hand anyway so its no
+> effort for it to fill in).  num_entry_point_offsets is a field that RPi
+> wants (without needing the entry points themselves) so that would help
+> me.
 
-Suggested-by: Jérôme Pouiller <jerome.pouiller@silabs.com>
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
-Changelog
-v1->v2: add ieee80211_free_hw(hw) on error path.
- drivers/staging/wfx/main.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+Would that means num_entry_point_offsets field in slice parameter control
++ one control for the entry points themselves ?
+or the both on slice parameter control (like now) ?
 
-diff --git a/drivers/staging/wfx/main.c b/drivers/staging/wfx/main.c
-index 4b9fdf9..5d4fcc3 100644
---- a/drivers/staging/wfx/main.c
-+++ b/drivers/staging/wfx/main.c
-@@ -294,6 +294,9 @@ struct wfx_dev *wfx_init_common(struct device *dev,
- 	hw->wiphy->n_iface_combinations = ARRAY_SIZE(wfx_iface_combinations);
- 	hw->wiphy->iface_combinations = wfx_iface_combinations;
- 	hw->wiphy->bands[NL80211_BAND_2GHZ] = devm_kmalloc(dev, sizeof(wfx_band_2ghz), GFP_KERNEL);
-+	if (!hw->wiphy->bands[NL80211_BAND_2GHZ])
-+		goto err;
-+
- 	// FIXME: also copy wfx_rates and wfx_2ghz_chantable
- 	memcpy(hw->wiphy->bands[NL80211_BAND_2GHZ], &wfx_band_2ghz,
- 	       sizeof(wfx_band_2ghz));
-@@ -309,7 +312,8 @@ struct wfx_dev *wfx_init_common(struct device *dev,
- 	wdev->pdata.gpio_wakeup = devm_gpiod_get_optional(dev, "wakeup",
- 							  GPIOD_OUT_LOW);
- 	if (IS_ERR(wdev->pdata.gpio_wakeup))
--		return NULL;
-+		goto err;
-+
- 	if (wdev->pdata.gpio_wakeup)
- 		gpiod_set_consumer_name(wdev->pdata.gpio_wakeup, "wfx wakeup");
- 
-@@ -325,9 +329,13 @@ struct wfx_dev *wfx_init_common(struct device *dev,
- 	wdev->force_ps_timeout = -1;
- 
- 	if (devm_add_action_or_reset(dev, wfx_free_common, wdev))
--		return NULL;
-+		goto err;
- 
- 	return wdev;
-+
-+err:
-+	ieee80211_free_hw(hw);
-+	return NULL;
- }
- 
- int wfx_probe(struct wfx_dev *wdev)
--- 
+Regards
+Benjamin
+
+>
+> Regards
+>
+> John Cox
+>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> version 2:
+>> - Define a new CID for entry point offsets parameters
+>> .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++++
+>> include/uapi/linux/v4l2-controls.h                       | 1 +
+>> 2 files changed, 10 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index c3ae97657fa7..679595e94643 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -3101,6 +3101,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>
+>>      \normalsize
+>>
+>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>> +    Specifies the i-th entry point offset in bytes and is represented by
+>> +    offset_len_minus1 plus 1 bits.
+>> +    This control is a dynamically sized array. The number of entry point
+>> +    offsets is reported by the ``elems`` field.
+>> +    This bitstream parameter is defined according to :ref:`hevc`.
+>> +    They are described in section 7.4.7.1 "General slice segment header
+>> +    semantics" of the specification.
+>> +
+>> ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>>      Specifies the HEVC scaling matrix parameters used for the scaling process
+>>      for transform coefficients.
+>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>> index 27f5d272dc43..700e6cce958c 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -2314,6 +2314,7 @@ struct v4l2_ctrl_vp9_compressed_hdr {
+>> #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 404)
+>> #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_STATELESS_BASE + 405)
+>> #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_STATELESS_BASE + 406)
+>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET	(V4L2_CID_CODEC_STATELESS_BASE + 407)
+>>
+>> enum v4l2_stateless_hevc_decode_mode {
+>> 	V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
