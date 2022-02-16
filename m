@@ -1,111 +1,172 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E757C28E4
-	for <linux-staging@lists.linux.dev>; Wed, 16 Feb 2022 19:40:49 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id b13so5832830edn.0
-        for <linux-staging@lists.linux.dev>; Wed, 16 Feb 2022 11:40:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xbXARzhtH3QOWgRRPGrSYM+TBaIkAjRMKIK2lUHXdUQ=;
-        b=aeTblRuGs8dcHA4wMchgTThkGnuq2fTSdlxzklbCIvmLwUpS8ShDhEX4p/EYZAM17D
-         eebmW4UELfnrywrhWpQjXPLCdKWDjQ0ixHOAIlLZ74M5E32t4Ox5H4/1FWK30j8JSY+C
-         33pr6j3UbrgWDKfShPn/akSE9u0yxoEmVGdLj9QRSIYZCFekUG85m899lHeqrgTd/OGo
-         n+DGOhlT452avHjCPGgGU195WSj7OW4kMXN0o3zNT+JTuDhQ/SddXuz7Bk4XxsT3oe58
-         nchO5Ofvoqh9tUYYPxSsU3TcaQLAX7FYQbEGG7SeHFap4R71jcaA3001iW0/gvO+T3w7
-         b0OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xbXARzhtH3QOWgRRPGrSYM+TBaIkAjRMKIK2lUHXdUQ=;
-        b=Dv9pUVmyvqVvCBOPlNRz+kEpPh6dUEWawMJ/H7e0wsAGkyHe+A/+61E8fDvyWsvM0q
-         W0f8LIVkIebplkBrKzKn91R+AMRg4Yn6ZrqqBe3yaX2b2khVWSbl1spRHYWtUC8G4hHA
-         RziPP1I0XOVwGzzUmE+Sbuf2aiPcd7JBS4l+/1yp+AFcto5PSZHyemOCufwa4zZ+EsUm
-         EsPKTf/satGnMjbb7ZuepMxouMA0rzqYZyvozQy3J8trF+X0jid8NQVi+Wmw7TX0ZFgn
-         o9vfSqLrVWOb/U2F4h/yitz3A+OFYIGWrx3/BoA6FZQvX5t3FB7OYmIn59c0akr3FnnN
-         yukw==
-X-Gm-Message-State: AOAM531HcpH5m9cHlrvm1UY3pgkmb6eb+SWWDWlT/JjoMYbvhwEgTdSq
-	A1HBokhgYyqqMjpDOZMEgeYZ3g1Rpmc=
-X-Google-Smtp-Source: ABdhPJyRNIU/fXJS6CqwzSVFThzW41KIIFGEku02f0WfTQmRjhAulbs7ExESaR8z0IzNwYlowEcKow==
-X-Received: by 2002:a05:6402:4c6:b0:406:d579:2c4 with SMTP id n6-20020a05640204c600b00406d57902c4mr4769016edw.52.1645040448391;
-        Wed, 16 Feb 2022 11:40:48 -0800 (PST)
-Received: from localhost.localdomain (ip5f5abb8c.dynamic.kabel-deutschland.de. [95.90.187.140])
-        by smtp.gmail.com with ESMTPSA id z18sm276910ejl.78.2022.02.16.11.40.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Feb 2022 11:40:48 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/3] staging: r8188eu: rename CCKSwingTable_Ch1_Ch13
-Date: Wed, 16 Feb 2022 20:40:38 +0100
-Message-Id: <20220216194038.6762-4-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220216194038.6762-1-straube.linux@gmail.com>
-References: <20220216194038.6762-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A51A369A;
+	Wed, 16 Feb 2022 21:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645047365; x=1676583365;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QRJWsN67I0MagKQyC+abvYxSy/SjgNmkZ4CnqMtZUZY=;
+  b=KWNrCLRJCZG4E2eG9UWCbeaOHStyoeeJ8r2wqWWQ+CF2pkYjWE7Bp5AP
+   BFQOLhADRup1F2G/YTS37jKry6sOoifszcfSOsTlmmKKvmj9vmVzlOxsW
+   RukHLyYvJDwjFe0HHvxo7b7yXBxImwb5JHCxlhLpWyFTGqFVO+cjKrSYf
+   sXVx4o9srgSEiCG2TXeFQ35xR1SmeT4H1qkAIkyexxCMbMKW/xTp4DvJc
+   1U2Cxz7SvFDN0neGz3X7gI/MCF8W21fjdj+bdt2lQgjhSwCuoNbBJN/Q8
+   HxIfWlgQtxECzX4hoWFkfyLyWy5/UuZQz7fr3E3ej/KPMbsDWU6FsCdiP
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10260"; a="248327931"
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
+   d="scan'208";a="248327931"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2022 13:35:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,374,1635231600"; 
+   d="scan'208";a="503215036"
+Received: from lkp-server01.sh.intel.com (HELO d95dc2dabeb1) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 16 Feb 2022 13:35:50 -0800
+Received: from kbuild by d95dc2dabeb1 with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1nKRxl-000B8b-Q8; Wed, 16 Feb 2022 21:35:49 +0000
+Date: Thu, 17 Feb 2022 05:35:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org, dan.carpenter@oracle.com,
+	Larry.Finger@lwfinger.net, straube.linux@gmail.com,
+	martin@kaiser.cx, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, paskripkin@gmail.com
+Subject: Re: [PATCH v2 05/15] staging: r8188eu: remove DBG_88E calls from hal
+ subdir
+Message-ID: <202202170549.Ns7hoYfn-lkp@intel.com>
+References: <20220216010709.791-6-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220216010709.791-6-phil@philpotter.co.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-After removing CCKSwingTable_Ch14 there is only one table left and we
-can rename CCKSwingTable_Ch1_Ch13 to simply cck_swing_table.
+Hi Phillip,
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/0day-ci/linux/commits/Phillip-Potter/staging-r8188eu-Cleanup-and-removal-of-DBG_88E-macro/20220216-090900
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git e9685834b1db754cbd07e31ad1a091f5d366dacf
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220217/202202170549.Ns7hoYfn-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0e628a783b935c70c80815db6c061ec84f884af5)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/b481114992de793aca50ace1616b6b3947fde0a0
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Phillip-Potter/staging-r8188eu-Cleanup-and-removal-of-DBG_88E-macro/20220216-090900
+        git checkout b481114992de793aca50ace1616b6b3947fde0a0
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/leds/ drivers/net/ethernet/mellanox/mlxsw/ drivers/platform/chrome/ drivers/staging/r8188eu/ mm/damon/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/r8188eu/hal/usb_halinit.c:1546:6: warning: variable 'arg' set but not used [-Wunused-but-set-variable]
+                   u8 arg;
+                      ^
+   1 warning generated.
+
+
+vim +/arg +1546 drivers/staging/r8188eu/hal/usb_halinit.c
+
+8cd574e6af5463a Phillip Potter  2021-07-28  1490  
+b561d2f0dc01ab0 Michael Straube 2021-09-06  1491  void UpdateHalRAMask8188EUsb(struct adapter *adapt, u32 mac_id, u8 rssi_level)
+8cd574e6af5463a Phillip Potter  2021-07-28  1492  {
+8cd574e6af5463a Phillip Potter  2021-07-28  1493  	u8 init_rate = 0;
+8cd574e6af5463a Phillip Potter  2021-07-28  1494  	u8 networkType, raid;
+8cd574e6af5463a Phillip Potter  2021-07-28  1495  	u32 mask, rate_bitmap;
+8cd574e6af5463a Phillip Potter  2021-07-28  1496  	u8 shortGIrate = false;
+8cd574e6af5463a Phillip Potter  2021-07-28  1497  	int	supportRateNum = 0;
+8cd574e6af5463a Phillip Potter  2021-07-28  1498  	struct sta_info	*psta;
+d904512db6f3727 Michael Straube 2021-12-07  1499  	struct hal_data_8188e *haldata = &adapt->haldata;
+8cd574e6af5463a Phillip Potter  2021-07-28  1500  	struct mlme_ext_priv	*pmlmeext = &adapt->mlmeextpriv;
+6839ff57baa4a60 Michael Straube 2021-08-09  1501  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+6839ff57baa4a60 Michael Straube 2021-08-09  1502  	struct wlan_bssid_ex	*cur_network = &pmlmeinfo->network;
+8cd574e6af5463a Phillip Potter  2021-07-28  1503  
+8cd574e6af5463a Phillip Potter  2021-07-28  1504  	if (mac_id >= NUM_STA) /* CAM_SIZE */
+8cd574e6af5463a Phillip Potter  2021-07-28  1505  		return;
+8cd574e6af5463a Phillip Potter  2021-07-28  1506  	psta = pmlmeinfo->FW_sta_info[mac_id].psta;
+725a3f1c4d56b73 Michael Straube 2021-08-01  1507  	if (!psta)
+8cd574e6af5463a Phillip Potter  2021-07-28  1508  		return;
+8cd574e6af5463a Phillip Potter  2021-07-28  1509  	switch (mac_id) {
+8cd574e6af5463a Phillip Potter  2021-07-28  1510  	case 0:/*  for infra mode */
+8cd574e6af5463a Phillip Potter  2021-07-28  1511  		supportRateNum = rtw_get_rateset_len(cur_network->SupportedRates);
+8cd574e6af5463a Phillip Potter  2021-07-28  1512  		networkType = judge_network_type(adapt, cur_network->SupportedRates, supportRateNum) & 0xf;
+8cd574e6af5463a Phillip Potter  2021-07-28  1513  		raid = networktype_to_raid(networkType);
+8cd574e6af5463a Phillip Potter  2021-07-28  1514  		mask = update_supported_rate(cur_network->SupportedRates, supportRateNum);
+6839ff57baa4a60 Michael Straube 2021-08-09  1515  		mask |= (pmlmeinfo->HT_enable) ? update_MSC_rate(&pmlmeinfo->HT_caps) : 0;
+6839ff57baa4a60 Michael Straube 2021-08-09  1516  		if (support_short_GI(adapt, &pmlmeinfo->HT_caps))
+8cd574e6af5463a Phillip Potter  2021-07-28  1517  			shortGIrate = true;
+8cd574e6af5463a Phillip Potter  2021-07-28  1518  		break;
+8cd574e6af5463a Phillip Potter  2021-07-28  1519  	case 1:/* for broadcast/multicast */
+8cd574e6af5463a Phillip Potter  2021-07-28  1520  		supportRateNum = rtw_get_rateset_len(pmlmeinfo->FW_sta_info[mac_id].SupportedRates);
+8cd574e6af5463a Phillip Potter  2021-07-28  1521  		if (pmlmeext->cur_wireless_mode & WIRELESS_11B)
+8cd574e6af5463a Phillip Potter  2021-07-28  1522  			networkType = WIRELESS_11B;
+8cd574e6af5463a Phillip Potter  2021-07-28  1523  		else
+8cd574e6af5463a Phillip Potter  2021-07-28  1524  			networkType = WIRELESS_11G;
+8cd574e6af5463a Phillip Potter  2021-07-28  1525  		raid = networktype_to_raid(networkType);
+8cd574e6af5463a Phillip Potter  2021-07-28  1526  		mask = update_basic_rate(cur_network->SupportedRates, supportRateNum);
+8cd574e6af5463a Phillip Potter  2021-07-28  1527  		break;
+8cd574e6af5463a Phillip Potter  2021-07-28  1528  	default: /* for each sta in IBSS */
+8cd574e6af5463a Phillip Potter  2021-07-28  1529  		supportRateNum = rtw_get_rateset_len(pmlmeinfo->FW_sta_info[mac_id].SupportedRates);
+8cd574e6af5463a Phillip Potter  2021-07-28  1530  		networkType = judge_network_type(adapt, pmlmeinfo->FW_sta_info[mac_id].SupportedRates, supportRateNum) & 0xf;
+8cd574e6af5463a Phillip Potter  2021-07-28  1531  		raid = networktype_to_raid(networkType);
+8cd574e6af5463a Phillip Potter  2021-07-28  1532  		mask = update_supported_rate(cur_network->SupportedRates, supportRateNum);
+8cd574e6af5463a Phillip Potter  2021-07-28  1533  
+8cd574e6af5463a Phillip Potter  2021-07-28  1534  		/* todo: support HT in IBSS */
+8cd574e6af5463a Phillip Potter  2021-07-28  1535  		break;
+8cd574e6af5463a Phillip Potter  2021-07-28  1536  	}
+8cd574e6af5463a Phillip Potter  2021-07-28  1537  
+8cd574e6af5463a Phillip Potter  2021-07-28  1538  	rate_bitmap = 0x0fffffff;
+8cd574e6af5463a Phillip Potter  2021-07-28  1539  	rate_bitmap = ODM_Get_Rate_Bitmap(&haldata->odmpriv, mac_id, mask, rssi_level);
+8cd574e6af5463a Phillip Potter  2021-07-28  1540  
+8cd574e6af5463a Phillip Potter  2021-07-28  1541  	mask &= rate_bitmap;
+8cd574e6af5463a Phillip Potter  2021-07-28  1542  
+8cd574e6af5463a Phillip Potter  2021-07-28  1543  	init_rate = get_highest_rate_idx(mask) & 0x3f;
+8cd574e6af5463a Phillip Potter  2021-07-28  1544  
+8cd574e6af5463a Phillip Potter  2021-07-28  1545  	if (haldata->fw_ractrl) {
+8cd574e6af5463a Phillip Potter  2021-07-28 @1546  		u8 arg;
+8cd574e6af5463a Phillip Potter  2021-07-28  1547  
+8cd574e6af5463a Phillip Potter  2021-07-28  1548  		arg = mac_id & 0x1f;/* MACID */
+8cd574e6af5463a Phillip Potter  2021-07-28  1549  		arg |= BIT(7);
+8cd574e6af5463a Phillip Potter  2021-07-28  1550  		if (shortGIrate)
+8cd574e6af5463a Phillip Potter  2021-07-28  1551  			arg |= BIT(5);
+8cd574e6af5463a Phillip Potter  2021-07-28  1552  		mask |= ((raid << 28) & 0xf0000000);
+8cd574e6af5463a Phillip Potter  2021-07-28  1553  		psta->ra_mask = mask;
+8cd574e6af5463a Phillip Potter  2021-07-28  1554  		mask |= ((raid << 28) & 0xf0000000);
+8cd574e6af5463a Phillip Potter  2021-07-28  1555  
+8cd574e6af5463a Phillip Potter  2021-07-28  1556  		/* to do ,for 8188E-SMIC */
+8cd574e6af5463a Phillip Potter  2021-07-28  1557  		rtl8188e_set_raid_cmd(adapt, mask);
+8cd574e6af5463a Phillip Potter  2021-07-28  1558  	} else {
+6839ff57baa4a60 Michael Straube 2021-08-09  1559  		ODM_RA_UpdateRateInfo_8188E(&haldata->odmpriv,
+8cd574e6af5463a Phillip Potter  2021-07-28  1560  				mac_id,
+8cd574e6af5463a Phillip Potter  2021-07-28  1561  				raid,
+8cd574e6af5463a Phillip Potter  2021-07-28  1562  				mask,
+8cd574e6af5463a Phillip Potter  2021-07-28  1563  				shortGIrate
+8cd574e6af5463a Phillip Potter  2021-07-28  1564  				);
+8cd574e6af5463a Phillip Potter  2021-07-28  1565  	}
+8cd574e6af5463a Phillip Potter  2021-07-28  1566  	/* set ra_id */
+8cd574e6af5463a Phillip Potter  2021-07-28  1567  	psta->raid = raid;
+8cd574e6af5463a Phillip Potter  2021-07-28  1568  	psta->init_rate = init_rate;
+8cd574e6af5463a Phillip Potter  2021-07-28  1569  }
+8cd574e6af5463a Phillip Potter  2021-07-28  1570  
+
 ---
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 2 +-
- drivers/staging/r8188eu/hal/odm.c            | 2 +-
- drivers/staging/r8188eu/include/odm.h        | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index 523d4fedb3cc..b944c8071a3b 100644
---- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-+++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -149,7 +149,7 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 		TempCCk = dm_odm->RFCalibrateInfo.RegA24;
- 
- 		for (i = 0; i < CCK_TABLE_SIZE; i++) {
--			if (memcmp((void *)&TempCCk, (void *)&CCKSwingTable_Ch1_Ch13[i][2], 4)) {
-+			if (memcmp((void *)&TempCCk, (void *)&cck_swing_table[i][2], 4)) {
- 				CCK_index_old = (u8)i;
- 				dm_odm->BbSwingIdxCckBase = (u8)i;
- 				break;
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 24a884bcea3b..e0824eefd83a 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -65,7 +65,7 @@ u32 OFDMSwingTable[OFDM_TABLE_SIZE_92D] = {
- 	0x0b40002d,/*  42, -15.0dB */
- };
- 
--u8 CCKSwingTable_Ch1_Ch13[CCK_TABLE_SIZE][8] = {
-+u8 cck_swing_table[CCK_TABLE_SIZE][8] = {
- 	{0x36, 0x35, 0x2e, 0x25, 0x1c, 0x12, 0x09, 0x04}, /*  0, +0dB */
- 	{0x33, 0x32, 0x2b, 0x23, 0x1a, 0x11, 0x08, 0x04}, /*  1, -0.5dB */
- 	{0x30, 0x2f, 0x29, 0x21, 0x19, 0x10, 0x08, 0x03}, /*  2, -1.0dB */
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index f17c707f2cde..9fb09e0a0df9 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -447,7 +447,7 @@ enum dm_swas {
- #define	CCK_TABLE_SIZE		33
- 
- extern	u32 OFDMSwingTable[OFDM_TABLE_SIZE_92D];
--extern	u8 CCKSwingTable_Ch1_Ch13[CCK_TABLE_SIZE][8];
-+extern u8 cck_swing_table[CCK_TABLE_SIZE][8];
- 
- /*  check Sta pointer valid or not */
- #define IS_STA_VALID(pSta)		(pSta)
--- 
-2.35.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
