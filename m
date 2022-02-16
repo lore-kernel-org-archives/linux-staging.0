@@ -1,83 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83343685
-	for <linux-staging@lists.linux.dev>; Wed, 16 Feb 2022 19:38:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28A69C004E1;
-	Wed, 16 Feb 2022 19:38:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1645040312;
-	bh=YUNeMwnffWU/vzA+11lFMuMWe0+JjFTHVyeqME5xzxw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RvhRgyEjawXUAql0FqCTCcTpqR6GYBvsqNC9EZPqI5ZukTe3YMkyAiJ+1YKBf+Rlr
-	 sxewfhO7AtNd8GwQy/RQGGJ/AXgX1LgrWMnZTpDKZCiIl4MoI0X8P3b4yUkf4X3JeP
-	 l7bOM+By1/829q8HEUDp0joAEckiMlN1bSJeEtmm9DT0v1cg0aKN9haMO+KRTEXTKx
-	 BIawC1huC6S2hOqZ/gswPro0qF/Bzg0858Vu6QjTMbuvQTz7D1gR8uQt+HV6mEdhmv
-	 BV4TgmRvjAQDxRzfAaigAGsmsMmR8Yj0ESiy1ZrH3LP0qLNGtaqg4OazRGKQ9Qu6L7
-	 d13KOv1rLre5w==
-Date: Wed, 16 Feb 2022 13:46:09 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Leon Romanovsky <leon@kernel.org>, Kees Cook <keescook@chromium.org>,
-	GR-QLogic-Storage-Upstream@marvell.com, linux-alpha@vger.kernel.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-ia64@vger.kernel.org, linux-s390@vger.kernel.org,
-	Linux-sh list <linux-sh@vger.kernel.org>,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	linux-xtensa@linux-xtensa.org,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-	intel-gfx <intel-gfx@lists.freedesktop.org>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	nouveau <nouveau@lists.freedesktop.org>, coresight@lists.linaro.org,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-	netdev <netdev@vger.kernel.org>,
-	Linux OMAP Mailing List <linux-omap@vger.kernel.org>,
-	"open list:TARGET SUBSYSTEM" <linux-scsi@vger.kernel.org>,
-	target-devel@vger.kernel.org, mpi3mr-linuxdrv.pdl@broadcom.com,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	sparmaintainer@unisys.com, linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	Ext4 Developers List <linux-ext4@vger.kernel.org>,
-	ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-	"open list:ACPI COMPONENT ARCHITECTURE (ACPICA)" <devel@acpica.org>,
-	linux-arch <linux-arch@vger.kernel.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	greybus-dev@lists.linaro.org, linux-i3c@lists.infradead.org,
-	linux-rdma@vger.kernel.org,
-	"open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>,
-	"moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <alsa-devel@alsa-project.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	linux-perf-users@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] treewide: Replace zero-length arrays with
- flexible-array members
-Message-ID: <20220216194609.GA903947@embeddedor>
-References: <20220215174743.GA878920@embeddedor>
- <202202151016.C0471D6E@keescook>
- <20220215192110.GA883653@embeddedor>
- <Ygv8wY75hNqS7zO6@unreal>
- <20220215193221.GA884407@embeddedor>
- <CAJZ5v0jpAnQk+Hub6ue6t712RW+W0YBjb_gAcZZbUeuYMGv7mg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DA1187C
+	for <linux-staging@lists.linux.dev>; Wed, 16 Feb 2022 19:40:47 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id m17so5657786edc.13
+        for <linux-staging@lists.linux.dev>; Wed, 16 Feb 2022 11:40:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qkw5lRjf3nabe8ZscLlo0xJJCuvMix/6SLYQZbaisbw=;
+        b=NiEcxFmqrBNp3AKMfYTqWtWbl4/TxXVVBB64QLSnBna2+TOy0BnFV3jwVfmVAzom5n
+         XivpXV1UjX4mTALjoyfPANAIQBWWFNZw/Mr2zGQJhxJs/qbtZFYKQVL8DvqEtDlOuqpz
+         3l+W6pzYjfOtSwaYpDJN3pkdu52qivLGD7+4iOtp4nBjyOqB9ILlDgo2VgFgwSpApY/L
+         WPa0rQFGNMT+vaBhYsGe/reLWvqR0DznZAyP2hTg0nfBaVKhLqyHdhQ/I78Ku6Ars9S3
+         lCZj4Ln2pBEkCxFFBRVr22t0q46RxOjkHRAuvr7MqD/6EEAlVT1JkJXvdCHhqWLXkrky
+         1e4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qkw5lRjf3nabe8ZscLlo0xJJCuvMix/6SLYQZbaisbw=;
+        b=15dmGhtYqZHMddm+FxbIm8P5DVxbkH/sDuV9eis66RV+x9UNUAba8CJB2n+s1n86Se
+         A9vs9SNEt4m/Tco5GQiJiwg8gEwyh1BK6tax+bNawv4hD4d7z2FW23YUZwtpoBfFoHIm
+         9kme5xbONf0wt8f46ckaJDJOVGNBhOfcvLu9dA25UPVLNIOaJUS/w8lVDbxFet6VvrQL
+         mGlrHDFp0mvliBKO6qlgpRr1qsHkeVE0a+IxIW+fDik2JFXMhkvxsCsNrHQ1GCfaTbiK
+         PQ1dR2xf9Js3aqHIX9vSYUqa8/xqwOg8rnYIxQ3ZuSs+8PU+wvaKyWQ1ORAGdaS+E3I9
+         MULw==
+X-Gm-Message-State: AOAM531yYmTS8c/5H8ZqLIUv++tDqReAkNU8Kmx04NeL4P8OcmqYeKtt
+	ZY7KoqP0psV+QRW599nHwbc=
+X-Google-Smtp-Source: ABdhPJzSroogHTpd71ByMH/Z0a220F9XaYcVaZVAW+hYrmU3kuou/Ilv3IoLJMhPsJiZdTOFxxsP5Q==
+X-Received: by 2002:a05:6402:2065:b0:407:eb07:740 with SMTP id bd5-20020a056402206500b00407eb070740mr4615493edb.406.1645040446340;
+        Wed, 16 Feb 2022 11:40:46 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb8c.dynamic.kabel-deutschland.de. [95.90.187.140])
+        by smtp.gmail.com with ESMTPSA id z18sm276910ejl.78.2022.02.16.11.40.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Feb 2022 11:40:45 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/3] staging: r8188eu: remove dead code
+Date: Wed, 16 Feb 2022 20:40:35 +0100
+Message-Id: <20220216194038.6762-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0jpAnQk+Hub6ue6t712RW+W0YBjb_gAcZZbUeuYMGv7mg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 16, 2022 at 08:05:47PM +0100, Rafael J. Wysocki wrote:
-> On Tue, Feb 15, 2022 at 8:24 PM Gustavo A. R. Silva
-> <gustavoars@kernel.org> wrote:
-> 
-> Can you also send the ACPI patch separately, please?
-> 
-> We would like to route it through the upstream ACPICA code base.
+This series removes an unused enum and some dead code related to a
+variable that is always zero.
 
-Yeah; no problem.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Thanks
---
-Gustavo
+Michael Straube (3):
+  staging: r8188eu: remove unused enum
+  staging: r8188eu: bCCKinCH14 is read-only
+  staging: r8188eu: rename CCKSwingTable_Ch1_Ch13
+
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 16 +++------
+ drivers/staging/r8188eu/hal/odm.c            | 38 +-------------------
+ drivers/staging/r8188eu/hal/usb_halinit.c    |  5 ---
+ drivers/staging/r8188eu/include/odm.h        |  4 +--
+ 4 files changed, 6 insertions(+), 57 deletions(-)
+
+-- 
+2.35.1
+
