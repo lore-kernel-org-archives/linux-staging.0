@@ -1,50 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48F64341
-	for <linux-staging@lists.linux.dev>; Thu, 17 Feb 2022 14:57:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B496CC340E8;
-	Thu, 17 Feb 2022 14:57:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA764347
+	for <linux-staging@lists.linux.dev>; Thu, 17 Feb 2022 15:36:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94420C340E8;
+	Thu, 17 Feb 2022 15:36:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1645109873;
-	bh=HrzRuGxXxj1uEEHmrmqfEzcWIpxaXqGuQjxOWM2QryU=;
+	s=korg; t=1645112166;
+	bh=Zx+rgR2hkDkUpjC2HrW0GPCmiJR+q3mTUymGonHF0Kg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1pgJkTcXnFqBwDNMQdVH3Mpe+y2kNs8JCs6DdvQtXQVe9bm2H39LhTmnYZht6mril
-	 9zHNb3FqdSBlLkAiXH4/2mRmTkMoRDdDMP0xfafCZ00qoSaBT23lO9vDMA4oQ8NJIj
-	 Hkq1wJVXJQZyzkMAQVF1izWUtjH7Tfi04cY4Yyek=
-Date: Thu, 17 Feb 2022 15:57:50 +0100
+	b=yJOBxsu+z07yoINNUn7hTlhwrQx5S2OlmjLojEN1iNHSjTvb1OedtTRc/vf/JKU2a
+	 fybEj/ZyQodudhdIEAXMOH9ilkmqHFoYKXblPRC3ZUhOwUk+Sbd3RGXuDKa61e1aaJ
+	 0LsjrY/87AevrE2eakIbiGMMcKoZQzCoD1OWqUtM=
+Date: Thu, 17 Feb 2022 16:36:03 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: xkernel.wang@foxmail.com
 Cc: jerome.pouiller@silabs.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: wfx: check the return value of devm_kmalloc()
-Message-ID: <Yg5ibnScTz37yfCw@kroah.com>
-References: <tencent_437C4189E07F1CC482B923779E839DA23005@qq.com>
+Subject: Re: [PATCH] staging: wfx: fix the error handling in wfx_init_common()
+Message-ID: <Yg5rY3Qo7dPHbLI0@kroah.com>
+References: <tencent_A552D77F0E081BB36EAE11C720455D78BD06@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <tencent_437C4189E07F1CC482B923779E839DA23005@qq.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <tencent_A552D77F0E081BB36EAE11C720455D78BD06@qq.com>
 
-On Wed, Feb 16, 2022 at 08:25:20PM +0800, xkernel.wang@foxmail.com wrote:
+On Thu, Feb 17, 2022 at 11:29:06PM +0800, xkernel.wang@foxmail.com wrote:
 > From: Xiaoke Wang <xkernel.wang@foxmail.com>
 > 
-> devm_kmalloc() returns a pointer to allocated memory on success, NULL
-> on failure. While there is a memory allocation of devm_kmalloc()
-> without proper check. It is better to check the return value of it to
-> prevent wrong memory access.
-> By the way, all the error handlers of this function return without
-> calling ieee80211_free_hw(hw), which may result in memory leak. So I
-> add one err label to unify the error handler.
+> All the error handlers of wfx_init_common() return without calling
+> ieee80211_free_hw(hw), which may result in memory leak. So I add
+> one err label to unify the error handlers.
+> 
+> Suggested-by: Jérôme Pouiller <jerome.pouiller@silabs.com>
+> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+> ---
+>  drivers/staging/wfx/main.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/wfx/main.c b/drivers/staging/wfx/main.c
+> index 4b9fdf9..f83df9f 100644
+> --- a/drivers/staging/wfx/main.c
+> +++ b/drivers/staging/wfx/main.c
+> @@ -309,7 +309,8 @@ struct wfx_dev *wfx_init_common(struct device *dev,
+>  	wdev->pdata.gpio_wakeup = devm_gpiod_get_optional(dev, "wakeup",
+>  							  GPIOD_OUT_LOW);
+>  	if (IS_ERR(wdev->pdata.gpio_wakeup))
+> -		return NULL;
+> +		goto err;
+> +
+>  	if (wdev->pdata.gpio_wakeup)
+>  		gpiod_set_consumer_name(wdev->pdata.gpio_wakeup, "wfx wakeup");
+>  
+> @@ -325,9 +326,13 @@ struct wfx_dev *wfx_init_common(struct device *dev,
+>  	wdev->force_ps_timeout = -1;
+>  
+>  	if (devm_add_action_or_reset(dev, wfx_free_common, wdev))
+> -		return NULL;
+> +		goto err;
+>  
+>  	return wdev;
+> +
+> +err:
+> +	ieee80211_free_hw(hw);
+> +	return NULL;
+>  }
+>  
+>  int wfx_probe(struct wfx_dev *wdev)
+> -- 
 
-This is doing 2 different things in one patch.  Please submit this as 2
-different patches, the first one doing the error handling for the
-existing "return" statements, and then the second one for the
-devm_kmalloc() test.
+Please make this a patch series, properly numbered, and not 2 individual
+and separate patches as the second one relies on this one, yet that it
+not conveyed to anyone at all :(
 
 thanks,
 
