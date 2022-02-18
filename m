@@ -1,74 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABDE3234
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 07:10:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C81C340E9;
-	Fri, 18 Feb 2022 07:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1645168247;
-	bh=d+hIdbP4FcjzoABr76JeTKbmnhBBCfqZICtBBkTZUKQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u+JysrmpF0/EDrB5xHfEaEQ6p9cdUqaBWI3XOenDKrL3YPKrprayM0DrAhAMyHm72
-	 xhUPRFlZ0XpJ3ImhtOCNfALdfoGePbAZA7axG/E4Gk6OPilGgS6D60yTbsn++jGpZK
-	 m37+jsURk0HWwEul1S4mfx94va1vtToF+WAZmr9s=
-Date: Fri, 18 Feb 2022 08:10:40 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ahamed Husni <ahamedhusni73@gmail.com>
-Cc: Bryan O'Donoghue <pure.logic@nexus-software.ie>, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: loopback: Fix Coding Style Error
-Message-ID: <Yg9GcPtAOeVtmTyg@kroah.com>
-References: <20220217190722.44894-1-ahamedhusni73@gmail.com>
- <Yg6hcX6XK4Eu0KOR@kroah.com>
- <CAFjpAKqy908scQTRJPkMhEz8OyNiR3-N8XD2hiGa+VBLhUf0VA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BAC323F
+	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 08:11:42 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id i10so6602639plr.2
+        for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 00:11:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4tyuVDt8konpruvFZLheBo0477RzkXZvUE1/xQIQQzU=;
+        b=HGxw+cT80fKVAuFta3cCBeLL2b3yRUW4hCLbJ2St0WM6ijqZZ41IvyiizVcSr/bqL0
+         7GQoGde/lTLLFvZf5RXAu44mpBNxaYjiFE+ah3cPxMwb59NyI4gG1pazf2+OyVrfB1tQ
+         NOyeWna96ckGtA+bPNeAFOPqajoNvpB1LEjj6sRdzXnyVvlrOzdOw9oeWuOhSvBhVwOP
+         4Aj3WAyj2s09kvwuVgAnYx1CCTiPBd+7Jxok0aL2n/e4KT3816iH37IADV81aPwdsMmc
+         sbgk0kCwqj5g5ZCL1qKVYcZhc9f3VFrYOWshUVKwWLLzOv4fBMTNKR7rUA0RdPvJlfPc
+         37RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4tyuVDt8konpruvFZLheBo0477RzkXZvUE1/xQIQQzU=;
+        b=KVitGGuP/D8xZra+H29857dktbbKeOWFXV1+xRGLekTajMgN7RWrAn4R1qlTy2K/vN
+         4y9rQ+dZfHAGxb2zBiU0/VgxZJe275PjmzRQMAHQQagpE23dc6QyXp3YZwph5AFVjnPh
+         PwM9z2Bhw6I/Xfs8C4jILkXRIGhQ4NjMFcktmOfutadypRJSL/P8rI4bezezaDQeHkrR
+         l6TH10LgxsOXMOCfbj1z99SlnKaJv2I+Vk58Md1UoXWapbTeH3y5YB8HXfBofbdR9gFP
+         dWJa89LbROXdczeQyLoS05zGbqvuaoE7LeiyOh+WRJX632GeQ7hLvW9GqoDoNgxNH/jW
+         HMZw==
+X-Gm-Message-State: AOAM531bItX6XHbcZebrmhqTIJ7N6Oa2YpxmlyEBHOv7ExXtctIxBpLs
+	KQMMyTnsNoVIQdm3DRrXZQaBADLiRSFiDZp1
+X-Google-Smtp-Source: ABdhPJy6dTgjTfwO+xBjsRnrzDVHxDWbcM2O1ZHCcdZ0hKvPfLXE8LTO96lZXLmUSDJ8THT3vpCP2w==
+X-Received: by 2002:a17:90a:1202:b0:1b9:b7e7:1652 with SMTP id f2-20020a17090a120200b001b9b7e71652mr7282313pja.1.1645171901988;
+        Fri, 18 Feb 2022 00:11:41 -0800 (PST)
+Received: from slim.das-security.cn ([103.84.139.54])
+        by smtp.gmail.com with ESMTPSA id g21sm2004515pfc.167.2022.02.18.00.11.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Feb 2022 00:11:41 -0800 (PST)
+From: Hangyu Hua <hbh25y@gmail.com>
+To: manishc@marvell.com,
+	GR-Linux-NIC-Dev@marvell.com,
+	coiby.xu@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hangyu Hua <hbh25y@gmail.com>
+Subject: [PATCH] staging: qlge: add unregister_netdev in qlge_probe
+Date: Fri, 18 Feb 2022 16:11:30 +0800
+Message-Id: <20220218081130.45670-1-hbh25y@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFjpAKqy908scQTRJPkMhEz8OyNiR3-N8XD2hiGa+VBLhUf0VA@mail.gmail.com>
 
-On Fri, Feb 18, 2022 at 10:22:28AM +0530, Ahamed Husni wrote:
-> Hi Greg,
-> 
-> On Fri, Feb 18, 2022 at 12:56 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > Did you try to build this change?
-> 
-> I am a newbie kernel dev and trying to understand how things work.
-> I did not build this change by the time I sent you this, thinking this
-> is just a style change.
-> I should have tested the build. I am sorry.
+unregister_netdev need to be called when register_netdev succeeds
+qlge_health_create_reporters fails.
 
-You always have to build-test your changes, as you have found out.
+Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+---
+ drivers/staging/qlge/qlge_main.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> Now I built the changes by setting the following configurations.
-> CONFIG_GREYBUS
-> CONFIG_STAGING
-> CONFIG_GREYBUS_LOOPBACK
-> 
-> My change introduces the following error.
-> ''''
-> drivers/staging/greybus/loopback.c:166:2: error: expected identifier
-> or ‘(’ before ‘do’
->   166 |  do {            \
->       |  ^~
-> ''''
-> I could not fix or find the reason for this error. Please guide me in
-> this regard.
+diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+index 9873bb2a9ee4..0a199c6d77a1 100644
+--- a/drivers/staging/qlge/qlge_main.c
++++ b/drivers/staging/qlge/qlge_main.c
+@@ -4611,8 +4611,10 @@ static int qlge_probe(struct pci_dev *pdev,
+ 	}
+ 
+ 	err = qlge_health_create_reporters(qdev);
+-	if (err)
++	if (err) {
++		unregister_netdev(ndev);
+ 		goto netdev_free;
++	}
+ 
+ 	/* Start up the timer to trigger EEH if
+ 	 * the bus goes dead
+-- 
+2.25.1
 
-There is nothing wrong with the original code here.  Remember that
-checkpatch is a perl script that gives good advice, but it is not always
-correct.  You must always manually check it based on your knowledge of
-the C language.
-
-I recommend learning a bit more C before working on kernel code.
-
-Best of luck!
-
-greg k-h
