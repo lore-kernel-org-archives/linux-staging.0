@@ -1,103 +1,82 @@
-Received: from sonic301-30.consmr.mail.ne1.yahoo.com (sonic301-30.consmr.mail.ne1.yahoo.com [66.163.184.199])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F903212
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 04:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1645159035; bh=sq5a4qdWbjU1/KzArFpEWfOPpCNEvaRb1x9G1u9L7jo=; h=Date:From:To:Cc:Subject:References:From:Subject:Reply-To; b=lMeULXNGSJ6a4cP6zjur8NgKgfrZsseaVDi0PgHBGfG4FyedkHU6LDG/kW7SKGUJcwpROxd8tscvAaYPfFz/qqgxWK9cFrnfwRh6nwLaTGk6UNgLBQmlU212R7wl9pNKCotDAbNDWY31SlYd+XC5MBsp60H1DkQPaw3CNKaoscfqzYLkNCDG/XR18grtheDJ8oHKMAxyrYxwlmlmRRj1niP+s1Qobefz+UT4GykoLoHjZVrVfDijaGIIv7zqdZVGctNV/92k8P/T2c78Lwi8bK4m9+aufqeuPscpwci9aFrxfzvpf78KE9GfEk8tBvvjrjZHYcNP9xWLGIA8s4WVEQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1645159035; bh=ZqZ2xTyAWAC4T7MoC1h4OxfSeW4WU0GNsmFcSIy5WeE=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=BJqaWVD3YKxrQFFq0AraCBZV8IhxzI5fF6WPeonn+/c6NIGvfSDnk5BIvBuakAnU9mE4alWUc//GPB2MsMDalQLkd1UHi95VNLTP3HjN/pUEHL3ACOukXk41oyXUlBhJopOyaO7ICE4EJ0v++pOoZkGqBw/QU01OWKt2AEbLp11xBNFtYhGb5CH4O72rWkm8PKqLvQSFE5Z2GxuVW9W2A70NNg5hK+ucHVLfJh2nYBDV7PkbejqFNHiT2waCGY2f6Dds0yxviSCZ/QyLIp7s89r3Qg+jwJlFFSdI69780otk+gGdYJZPwTMo9P69H+YimhMIs2U6DnopmR78CNUkzQ==
-X-YMail-OSG: v3QVpCQVM1mG1uhLMz.HGTU4Z09Mwz2gOk4SBy8IvbCVN9aXVmNpsPNFa3fagac
- mp7GO0502rMZ99e78Wn_J46wNWtYLhN_Zu9je3QeuKu3CNs8hWMXST.Zr97AFDUUkY3mUiVoW2ms
- 1RVSCvHHlPnSUYmb7OFoDx8JCijEWfWOO2vzE4DPXnN7kJPY59014tX_TicXJFdXgfPcQu2niDNt
- M_cmZ0zcvHpk0sY7gGrrq.z_csVHQPcQjQ6eJr5oPPoZWkXFzKalLAOJtHc1D2MaH.F4rKyOabaY
- IioCP4pjMC7SPFJlp3WuYEcpyb3gTxQNXlIKxQS4s8kPZiYORtA1aNKrl4Azv.KgPdNYng_Xoffl
- 6ZzyEvci6UG21f9QrWa0z9wPnHeoGOcnUL7h5sysPHjVKpBlz6C1ZtJy4ZCwmaBdphLOMXsPcCJ0
- W9rJ6OtsS28NiKbLbU1qTdE2mEl4n8dkCPipoDgfwiT7quEq43E_0bc2xkUgDKYQg_bh1hb4dHyB
- .oQ7V9.d5Sph4AXTCuu.imX.L7igIq29TMmgav3GwM1l9WiK6wfWq2zJhwtk3OZlJsldAtfgTxLE
- jPXjYfoMeH5ZTN4YjZwCQlabzqHGKwf0EF6PTQpPmPmpdIxU8oRBw2myzw8mcGM6t6UziP7Gp5si
- LBvnOIzoPM0oa5EqurG7dX7tiVRR2z8sARgsR75Rs2IHzXhaEEfa1iEoCbrSc1n5P8ALFrUrVgUL
- QPA.TchVQJxkawwx5RDQ5Yxncop91f3.F7R_IfE1hn2Gm3wiQTeD9hgz8Iz6JVGF_InPPX0ywjUF
- Vp8Z9pTcEP_W2N1QgRanukPSYkJY7A8YPewvK_j_QZFkCBbWC3APChJOCY_3GnJECpZsDGr10KIu
- 4VZtQ6kxlViV6ssYMeSgpuFaoPMugiZibKUV3WIamUgT8NYhoiCzdYlh_WAQSj6IlQfASmlR4qX2
- v_Yy0nVvauyl9GLXG3SmjLKYacVsO78tq88KRNGqs4TS0s5hMMPuJ6xwCYyczBr9NkMtTPFmTbK6
- xbNCVf0BsEIZkNsBiaCtEvW9YLusd_XE7LAI6aRHx7GR28Jl_lKIHGMHPOBkhV.azQ2_Ikzt6Y8E
- Vr6.M2nSCieW03SJwYQdLQzb10cFTtAFFWTd638G3vLSBeqxmtvGibujXFLB7GmvftuXIjhR6Dvi
- 29zCih5Hf9VbkDPF9FKcLMT1eu_n2bl7hJxQq6v_8MrJ3TYr1gZK_RcBSDG5G5oTqf0en.4AuW1u
- Nxcj6WIxWMigQvWr8og99fDVa82rRlrnNDnpmk5S9Vs8UkDONWjfR_Nhm3CieeScOTK7BcQgW8sl
- mcyBdfyFJPHJnSGHyUaB1oWR2ZNCs.PUAbX5eNAfAsZt9pdBqQXtoebTL2m_PXqyZr3rcdMiuWpS
- IbCT32cpy5GaA16_k1vUrAw5.6AC04OelLQzt2Mx8UvAC0PdVOvjTKD.fw2M_l95kVIoFNwZA6VC
- TxJOc8cfjZbLowDvhgWiO4xj1F3zWMTbiXu71QQs3zL6QoR9r1w7Vv9OA8ccfgvarX3elGJjFJEK
- q_jwOYbQZvMXuYTzGPetPr.vxUU3lKkwb_fMPA6UyfgMQaBvm50W8Tc4nVFHcvVSww72sSiwXaO.
- J8CEFCESynQYZxs2XxHeqidSCpu8OigAt5SXqLSLwz41wnbWgknwSasO3fQUz0u1Vy7CvzdyjvYl
- q9AG6Aw3_hbswFrAzIw94bmrk827DQkpe0ToVbMgr3xItWh3k8UO9l..dOnpxNMzLnv03_JOPom0
- Rg5I7adg7bnL8mCH2DqqKHBym_Eom0mzP92lRfYYUq0wUiGmwWa16pFzFtI_UeqOM8ELLgWrWYh4
- R_D6LEGRb2RJL_KD5fhcIBv39DXcd4WVfEalHr3Dr8Jl1Bi.rksQpUmvW.4XSAxSr5IbkQm7MMSg
- x9uUqhdjffkGz3PvP92M3wK6sQ6sBw1ANh.ldh5iUAofziGkBki6JOzCMUh5g.7Z5z8k4_KaTd1f
- ji3p16415jaOJDLtF4rpCrfwTsa8mR2bGZM1vXRij4oql_zadLYYXipWPeA4EvYlSFUBd_dVYTzR
- vv0yfps7BImuJr5K7PWkwRj3w7muti.pPgKVwrky0CUqVZ5Wj.M0U7mdRYNnPJiHKwZUr6wY0UKg
- PghFwNy5NuQE0bjKOdEc1KPVnvi.w3A.4ARXp56lTqrtqUKj9RYnV2cnOURB9nrjzAPKVl.OOVkE
- teg--
-X-Sonic-MF: <marcelo.as@aol.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ne1.yahoo.com with HTTP; Fri, 18 Feb 2022 04:37:15 +0000
-Received: by kubenode505.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID b8353986cbe4cb8f8f5c96fe3d5a36a4;
-          Fri, 18 Feb 2022 04:37:09 +0000 (UTC)
-Date: Fri, 18 Feb 2022 01:37:05 -0300
-From: Marcelo Aloisio da Silva <marcelo.as@aol.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: remove unnecessary braces in if statements
-Message-ID: <20220218043705.GA23783@snoopy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056AE321B
+	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 04:52:41 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id i11so11721187eda.9
+        for <linux-staging@lists.linux.dev>; Thu, 17 Feb 2022 20:52:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Oq0pHI88XRcgmRgUmJQw3hpIZLFUj9jjieH+c9ZOuP0=;
+        b=RzCo/jKO4PKJ1Xk8wAmQuvTbeXLkca1zPO6952Z2oOxjLha+Vm8zCp38s1hRCiq5uX
+         OyeP7XEoQ3yiNpXR2Y6m5VCWzzZhGh7eK/uaKX7/uTgATffvAXjsEQnAOxR2q0pq8wmH
+         xPVFaHAA2gM3IANGWSHLPxZz7t/C0o7aTC1gVOMrDwKpsGQ1Y/ulI4QOpfFb9xc4ALB6
+         Vv5vpgQxmxZnj78+drvX2+X0VR6Yf59zJUAQ+SI/+2NEiZ1tWTS0EoCXaUe7nhqG4oO1
+         XVnkApELTIkiV6YNg42P3X+n20i37YTBjfsgabu7HpiRSoX4TmOE0ckn9daVlTjYGbTA
+         pgHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Oq0pHI88XRcgmRgUmJQw3hpIZLFUj9jjieH+c9ZOuP0=;
+        b=ycW4VA5QR2fPMMMAIboDHGu51HRBv5Bf95bj73ISn7kiBYNloxPiulBovX5Bmcu/SV
+         OwCyU9WkuJsWHkZ31dhsKW+aBpbJrbZSxQqya/mElP3yf+Raj9afjQIlv+uBwUey06+B
+         f9UBD9CWCXev7eugNZQ+i9KWFnx6WNcGjXxNS6HzJVGVSH5vslgEWpaGRqXfZACm+87p
+         ADl8LicXSopc0VMvgXzcAOoimsq2+rQ5Ae0zod5SFiCseD068IgH8ADX8umFFsWkcu/d
+         r2r18mpbQ7NVVKc3kRz5Vg9JUN81eg5ugi9yIXgCqvGuDFfCLKN3QhdRtpWxF8oP5494
+         ByYQ==
+X-Gm-Message-State: AOAM5328mr35x6pj9I8RpT4uESSSiyP0r7mZrz4N1QA/2zLLhNTwyhUE
+	K/TOPTIZgedcBy8O1m6Su5gYXWa+1eVYMGSdle8=
+X-Google-Smtp-Source: ABdhPJxxyobdGRxK8+05/itVXLz+PQK+3ZCQRM16d0rQt8CTvvdfF2KGK3dPDZJHlWi6RGCoUS5i4pwRQ/xShj/pqUc=
+X-Received: by 2002:a05:6402:34d4:b0:412:b228:868b with SMTP id
+ w20-20020a05640234d400b00412b228868bmr4372649edc.444.1645159960189; Thu, 17
+ Feb 2022 20:52:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-References: <20220218043705.GA23783.ref@snoopy>
-X-Mailer: WebService/1.1.19797 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+References: <20220217190722.44894-1-ahamedhusni73@gmail.com> <Yg6hcX6XK4Eu0KOR@kroah.com>
+In-Reply-To: <Yg6hcX6XK4Eu0KOR@kroah.com>
+From: Ahamed Husni <ahamedhusni73@gmail.com>
+Date: Fri, 18 Feb 2022 10:22:28 +0530
+Message-ID: <CAFjpAKqy908scQTRJPkMhEz8OyNiR3-N8XD2hiGa+VBLhUf0VA@mail.gmail.com>
+Subject: Re: [PATCH] staging: greybus: loopback: Fix Coding Style Error
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: "Bryan O'Donoghue" <pure.logic@nexus-software.ie>, elder@kernel.org, 
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Braces are not necessary for single statement blocks.
+Hi Greg,
 
-Signed-off-by: Marcelo Aloisio da Silva <marcelo.as@aol.com>
----
- drivers/staging/r8188eu/core/rtw_mlme.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+On Fri, Feb 18, 2022 at 12:56 AM Greg KH <gregkh@linuxfoundation.org> wrote=
+:
+> Did you try to build this change?
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 45eff3018d73..ad1d73a27548 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1379,10 +1379,8 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
- 	if (pregistrypriv->wifi_spec == 1) {
- 		struct wifidirect_info *pwdinfo = &adapter->wdinfo;
- 		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE))
--		{
- 			/* auto site survey */
- 			rtw_auto_scan_handler(adapter);
--		}
- 	}
- 
- 	rcu_read_lock();
-@@ -1392,14 +1390,12 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
- 		/*  expire NAT2.5 entry */
- 		nat25_db_expire(adapter);
- 
--		if (adapter->pppoe_connection_in_progress > 0) {
-+		if (adapter->pppoe_connection_in_progress > 0)
- 			adapter->pppoe_connection_in_progress--;
--		}
- 
- 		/*  due to rtw_dynamic_check_timer_handlder() is called every 2 seconds */
--		if (adapter->pppoe_connection_in_progress > 0) {
-+		if (adapter->pppoe_connection_in_progress > 0)
- 			adapter->pppoe_connection_in_progress--;
--		}
- 	}
- 
- 	rcu_read_unlock();
--- 
-2.25.1
+I am a newbie kernel dev and trying to understand how things work.
+I did not build this change by the time I sent you this, thinking this
+is just a style change.
+I should have tested the build. I am sorry.
 
+Now I built the changes by setting the following configurations.
+CONFIG_GREYBUS
+CONFIG_STAGING
+CONFIG_GREYBUS_LOOPBACK
+
+My change introduces the following error.
+''''
+drivers/staging/greybus/loopback.c:166:2: error: expected identifier
+or =E2=80=98(=E2=80=99 before =E2=80=98do=E2=80=99
+  166 |  do {            \
+      |  ^~
+''''
+I could not fix or find the reason for this error. Please guide me in
+this regard.
+
+Thanks,
+Husni.
