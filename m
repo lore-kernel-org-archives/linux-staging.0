@@ -1,257 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727EF48DA
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 12:38:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38114C340E9;
-	Fri, 18 Feb 2022 12:37:52 +0000 (UTC)
-Message-ID: <c70113dc-d017-b5bc-1466-02530f4707e2@xs4all.nl>
-Date: Fri, 18 Feb 2022 13:37:50 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF8848DC
+	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 12:51:22 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21IAPkRc021769;
+	Fri, 18 Feb 2022 12:51:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=AO9I93mm3GnKzfpQ4jfEeEvtRhBbY+nlrzg/UI497/E=;
+ b=XhLj7DBn3Of76yJnEEDeVHxXIXukc/zzsduTZWUfw8rgQqOzyL6cyjjydvzvYImQ1uST
+ 3ArxU+5n5F6BsAPq8Gr5iejUewMpd0BAZUVn0BV1JeXBNXEuQT1I6VaVEKnM94NA3kCx
+ djrsHsV+06EmGiopd3/s7bxlh8fo11tGpz8xAEZgd5345zuWPaBlYe/mlTkP8zgNGoZY
+ 88zfcGT+iBRLabjF4/MMzNumySb0D/vgHjEbUOs7ZIVbatyNl+/GEeTlPeod3OE6v7yg
+ fqrehwuqyL0tH+wOFZJJgjvLCThCBN52Emme3wWGtMl+m9DJH+Wp3aZJ6GlCnpeO+jUq UA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3e8n3fgp9n-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 18 Feb 2022 12:51:20 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21ICoCCA196167;
+	Fri, 18 Feb 2022 12:51:19 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2048.outbound.protection.outlook.com [104.47.74.48])
+	by aserp3020.oracle.com with ESMTP id 3e8nvv8dtp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 18 Feb 2022 12:51:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CMGUe53a6jp6f3HC3f1gxpP1AWEsa3/bNDsxzu06Okn1ylcfPuPVqep2OqQzRVfsVXYOFuo0yYJHJCSjWzcvxeAKs+zcsz9Q0gYPR26vjkNZvnIM/Mg8rlEy/iWGevBwGePAfEeKDwo+ag+5prCwHtNYg5LxIX4wvaTDuGC1xgpElJmxfdjWf52uodTObiGUH6Q3C/qyiMnffnYaHEwUmhmLvmnn4plbNhaqPJoPpwlrkeaUSDaQ2wH4Qm7TKEz8Bx31y4hhuZZqOOloKy+WcVMh48lYhgCqYye21XX7EM0EO2hA3iWOIT+5mVcoJl6pBhOMVWf6p21/p9wUllIgGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AO9I93mm3GnKzfpQ4jfEeEvtRhBbY+nlrzg/UI497/E=;
+ b=mv91Y7Ww7rvJp1iYQpmUzBWHMPIkEdr3Rqn1EhEc7MuzoTr31wu4o7R4KQkFsod2aDB0CAtRCcVsBpLyrHS7bbj44uHSTkOdXE/Pd0ETIfU2RxT/umDvJrCP4Bz0IrOt4PXjCqf2eBnci/nIhwk2zDuNNKFqPPf1dnTV6GUERU59YZ8n5byHGxNa0sCc79+jqT5cAhJi6gt1FcmT5ynyluAYcHjgl993KS/mOm7fcTN635EeIvrI2laIoEJ0B7a8euOAkV2YMN2Fkk16IzeaFhuzctaJsYaY429Rlx95eNjFyXWiejFVUAwTGBWn4NKMtN+agAbDEwrobCzAvK1mzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AO9I93mm3GnKzfpQ4jfEeEvtRhBbY+nlrzg/UI497/E=;
+ b=v81Bagxopi5PBEVdUJAmzS1Zng4Id9QDnBloGMqL8qEouSTgKXrvP5TFCG7tgu+//YPk9B95vOL6ReKfO4t5xPj2IyXk+snvOLv5e/qVagzJALvdy5GeDqg1NVDEcDx2ev8EK5y8BFlA9B6Hfb3AEIZXwr3uy4HIbyJWwHkpk+U=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CY4PR10MB1671.namprd10.prod.outlook.com
+ (2603:10b6:910:8::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.22; Fri, 18 Feb
+ 2022 12:51:17 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::2c3d:92b5:42b3:c1c5%3]) with mapi id 15.20.4975.019; Fri, 18 Feb 2022
+ 12:51:16 +0000
+Date: Fri, 18 Feb 2022 15:50:58 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Marcelo Aloisio da Silva <marcelo.as@aol.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+        Phillip Potter <phil@philpotter.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: remove unnecessary braces in if
+ statements
+Message-ID: <20220218125058.GE2467@kadam>
+References: <20220218043705.GA23783.ref@snoopy>
+ <20220218043705.GA23783@snoopy>
+ <20220218114455.GG2407@kadam>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220218114455.GG2407@kadam>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0052.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::15)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [PATCH 5/5] spi: make remove callback a void function
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Mark Brown <broonie@kernel.org>
-Cc: =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
- Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Markuss Broks <markuss.broks@gmail.com>, Emma Anholt <emma@anholt.net>,
- David Lechner <david@lechnology.com>,
- Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Dan Robertson <dan@dlrobertson.com>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Marcus Folkesson <marcus.folkesson@gmail.com>,
- Kent Gustavsson <kent@minoris.se>, Rui Miguel Silva <rmfrfs@gmail.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Charles-Antoine Couret <charles-antoine.couret@nexvision.fr>,
- Antti Palosaari <crope@iki.fi>, Lee Jones <lee.jones@linaro.org>,
- Support Opensource <support.opensource@diasemi.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Eric Piel <eric.piel@tremplin-utc.net>, Ulf Hansson
- <ulf.hansson@linaro.org>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Wolfgang Grandegger <wg@grandegger.com>,
- Marc Kleine-Budde <mkl@pengutronix.de>, "David S. Miller"
- <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Thomas Kopp <thomas.kopp@microchip.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Vivien Didelot <vivien.didelot@gmail.com>,
- Vladimir Oltean <olteanv@gmail.com>, Woojung Huh
- <woojung.huh@microchip.com>, UNGLinuxDriver@microchip.com,
- =?UTF-8?Q?=c5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
- Alexander Aring <alex.aring@gmail.com>,
- Stefan Schmidt <stefan@datenfreihafen.org>,
- Harry Morris <h.morris@cascoda.com>, Varka Bhadram <varkabhadram@gmail.com>,
- Xue Liu <liuxuenetmail@gmail.com>, Alan Ott <alan@signal11.us>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Christian Lamparter <chunkeey@googlemail.com>,
- Kalle Valo <kvalo@kernel.org>, Ajay Singh <ajay.kathat@microchip.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Solomon Peachy <pizza@shaftnet.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Mark Greer <mgreer@animalcreek.com>, Benson Leung <bleung@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
- Jiri Slaby <jirislaby@kernel.org>, Felipe Balbi <balbi@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- James Schulman <james.schulman@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Lucas Tanure <tanureal@opensource.cirrus.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Daniel Mack <daniel@zonque.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Stephan Gerhold <stephan@gerhold.net>,
- Alexandru Ardelean <ardeleanalex@gmail.com>,
- Mike Looijmans <mike.looijmans@topic.nl>,
- Gwendal Grignou <gwendal@chromium.org>, Cai Huoqing <caihuoqing@baidu.com>,
- Minghao Chi <chi.minghao@zte.com.cn>,
- Antoniu Miclaus <antoniu.miclaus@analog.com>,
- Julia Lawall <Julia.Lawall@inria.fr>, =?UTF-8?Q?Ronald_Tschal=c3=a4r?=
- <ronald@innovation.ch>, Marco Felsch <m.felsch@pengutronix.de>,
- =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
- Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
- Jon Hunter <jonathanh@nvidia.com>, Andrew Morton
- <akpm@linux-foundation.org>, Heiko Schocher <hs@denx.de>,
- Fabio Estevam <festevam@gmail.com>, Colin Ian King <colin.king@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Tudor Ambarus <tudor.ambarus@microchip.com>, Matt Kline
- <matt@bitbashing.io>, Torin Cooper-Bennun <torin@maxiluxsystems.com>,
- Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
- =?UTF-8?Q?Stefan_M=c3=a4tje?= <stefan.maetje@esd.eu>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Wei Yongjun <weiyongjun1@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
- Nanyong Sun <sunnanyong@huawei.com>, Yang Shen <shenyang39@huawei.com>,
- dingsenjie <dingsenjie@yulong.com>, Aditya Srivastava
- <yashsri421@gmail.com>, Stefan Wahren <stefan.wahren@i2se.com>,
- Peter Zijlstra <peterz@infradead.org>, Michael Walle <michael@walle.cc>,
- Yang Li <yang.lee@linux.alibaba.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- wengjianfeng <wengjianfeng@yulong.com>, Sidong Yang <realwakka@gmail.com>,
- Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>,
- Zhang Qilong <zhangqilong3@huawei.com>, Will Deacon <will@kernel.org>,
- Mark Tomlinson <mark.tomlinson@alliedtelesis.co.nz>,
- Davidlohr Bueso <dbueso@suse.de>, Claudius Heine <ch@denx.de>,
- Jiri Prchal <jiri.prchal@aksignal.cz>, linux-kernel@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-media@vger.kernel.org, patches@opensource.cirrus.com,
- alsa-devel@alsa-project.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mmc@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-can@vger.kernel.org,
- netdev@vger.kernel.org, linux-wpan@vger.kernel.org,
- linux-wireless@vger.kernel.org, libertas-dev@lists.infradead.org,
- platform-driver-x86@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-omap@vger.kernel.org, kernel@pengutronix.de
-References: <20220123175201.34839-1-u.kleine-koenig@pengutronix.de>
- <20220123175201.34839-6-u.kleine-koenig@pengutronix.de>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220123175201.34839-6-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 78e6a7cd-2a05-4ca0-b7b0-08d9f2dd59e6
+X-MS-TrafficTypeDiagnostic: CY4PR10MB1671:EE_
+X-Microsoft-Antispam-PRVS: 
+	<CY4PR10MB1671A84366CA006D9BE28FBA8E379@CY4PR10MB1671.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2201;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	w3g6ABZbrO+GNgGCSph7TR/Mf3/QhQ+wF4OY9haUcrhB7g7l6YuwiXDft1ZMUxeWecE1iEZnWo4mVqAnfHoqTrJJo4SeYC2N1tnGeq2lMVzLRJh1XFJIYqKZYwLwzQvUCKBfxOZNYRzpDcnA7ddiAA69SZftqGxlZmBdXjdGXfvw0uInLqF8zengD2jXfsuT6yJC5Md0Rt+7MdFepm6xOCLVtFlWBH+VIcNDiMpcAK6vuQIZkyjjooDmBL+Zr3oZ+R2ePNbaqi/J+6/72Ei1xFvvTwdfiR0K/2I4Wa5nKHXF3OGI7TfUx0vlTNJmJit5pVa7dQjYJZp/G2LMk7EbfOcE/Wp6QEIGXd9tN4fmrC+ePj67PWQgB8XI/M8QsjoLSRY8LJjykDDc6eN8Zy756jkG8FN78b8LZjcCDJebtc+TOc6BqejaNHDAvOF+HhRLtwN3HSowOcHzkOtHbiM3WQev6xbOQYwiM4O5+yrqUOJs2w997Jpmve/wF1pyU6SCjUGX0YNCvHLaGeKpodn63HVE1BpCyqJmmBgKkbayMZftgCBmw6vgPqFAeJ60z/cA2MrXGFJ4LREdfkjADsT4G44Hia1Q4IjOayks4/qfYXLX0v2Cor7ulPGNjvaJnbv4z67f+n+IekIywZaXAy63Clru50HFhrOZab4EJT7YzWlooXZDh66FDzcrih4AOp0KbTbniW2fK3FlzIJCuv1eiw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(38100700002)(6486002)(508600001)(38350700002)(8936002)(316002)(26005)(9686003)(186003)(83380400001)(54906003)(6666004)(6512007)(33716001)(5660300002)(52116002)(6916009)(2906002)(1076003)(8676002)(86362001)(66946007)(44832011)(66556008)(66476007)(6506007)(33656002)(4326008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?hupzRKIIk9H1aFUJXj7GDpo7EikCF9NsVqVEIOp+3ktecQ2UOx9IVW5GTLh3?=
+ =?us-ascii?Q?XEtdjNeDHSSGAZ2P3juhYUBYO/k4E+XB6UZ2fm7B649QdDQgTFa6lEs7yuvO?=
+ =?us-ascii?Q?NEZbQDwPzmpYkXlsDdmLyMe4RQA5gaRBDOp/TL2ETj9V3a8KeuCN32F8CfPY?=
+ =?us-ascii?Q?SpocO0tUG5XneRI/JLNeqpNN2RE0qqiZ6xJ/MZ1wvOj1fbBAuClfnj4gaKZF?=
+ =?us-ascii?Q?ar2xWpub6hcRMUAwM+dsFySCr9k8dNy5gd4wQ0O3WulqVO36cdmMii5NL25H?=
+ =?us-ascii?Q?NdKCm3LDz7Us832npuh0fzyfcnG9dDraRDQZUozrqXGEJBwAPc+jfSqB58bM?=
+ =?us-ascii?Q?ZR2wV6LMX5iu6Bgh8U+mQ9lviPO1yQqqIgU+ADZCYIK+2Zm2Pn2SHQ5shN+s?=
+ =?us-ascii?Q?Q9sWvSvFkIIHDqy0vsqhvCNIn58RkWkC8LTbdqeujDMyjVrdXJvqILXICr+o?=
+ =?us-ascii?Q?ZEGTlfshfEQGH2CUnrtryohhQOk3FxsZM+gmnzzyMDeLlNWJrkV1xtqCx4CD?=
+ =?us-ascii?Q?SVwuD1bHIXCproEM8RTG0OLx8OnrahSxHQ+9o3AtTn0vadsJ5eYPkQOXd9rj?=
+ =?us-ascii?Q?nbiNBntefwjFEl5YVCR4UWzCanqI3QzcN1xm0bdlyWjIV8rq1g90IoTejdfu?=
+ =?us-ascii?Q?KE22kGsGxZkUnbj3RTGdPxeJu+IvGKa/SozTtBiqHUGv6I1PuCPWQfqJLBr+?=
+ =?us-ascii?Q?0SUbQ/M+A/MZBbhj5uSnDcaH4H3dIyNSQy/LBHBh6/y69JCUd6MADWCFezg2?=
+ =?us-ascii?Q?H/i5K6VnJNzvMAf8doRVqeXKjCsSiKweejkZeZrB8vptw2FyKCevDP36rUZr?=
+ =?us-ascii?Q?xDWaTra7Mt/ZP9LvRBCpIX8u8oO/pMJCsHCTLfTRdYAB9Od8sgWUthEiUvb3?=
+ =?us-ascii?Q?lBWyoV+7Hwx4/HCPgjKhwiiV974mB1ppHU4sDbexyzx4UZ7ngTemPw34E/E4?=
+ =?us-ascii?Q?l0nB8rIOr3J95vbP6TsDTSnyK6cQQsiFywbPBF3GlJpST7Ox5GRXA1/0XmsM?=
+ =?us-ascii?Q?kNOigc571OHgy+8GK6PveVJX6LJd5/nHWhzZUs6jtv/ADFbva0EydMNnXGq7?=
+ =?us-ascii?Q?M4gHiNHzBp+oUpZTJdAX0fjefmkhs+fLmVGuP0R8j4MHhVEtMzyhBD6mzaj5?=
+ =?us-ascii?Q?s5z47rlpKwE1P4ImanHA8DImFzHA5UFIHsDSwheqEIyzyVz0gPLWxS0nqBXC?=
+ =?us-ascii?Q?kSz4mh4vq/9h61E0rWim5ihth9lla2HQw9d4iixZ2SIuvq2AMHXrkEan9vOd?=
+ =?us-ascii?Q?sGiO60HtKcc3OoMTqzuOIuBcJvL/Rao+aGsbEtOxjQ/7eAThAcaJudvJW/Ir?=
+ =?us-ascii?Q?c1+T8aqQH+6WwQ6rlCX92ED43aw+fPIRSWTsuvsFwUA9bDmCwZdkW3mKwxGa?=
+ =?us-ascii?Q?ha8ju+5vH3NREUofSjWiO+w6bBLre/IzC2ZyA+iBlRA6aCg44uW608fMuzS4?=
+ =?us-ascii?Q?5NalDU7yfZiPDi1cvyxl4mICfe7EpHTw7JHqUXyVmx9+PA8i3GqGDVSgCXLD?=
+ =?us-ascii?Q?ICVvPH6hh0gy9b2N+ekSvl4zfFhSAkUoVK+Wfjp0XLG3dUPAKLzkJzmrOYkI?=
+ =?us-ascii?Q?QQFpsedyCbNBG31qLr079wiikMX/CoT6OlDGoAOnA5S/wV4Tt7cVDF61Csgm?=
+ =?us-ascii?Q?xWb/8xgV0ri5RZLGk/rngX+DMqm6SCgo3mYJYn/KuJiM736JHteASEnWyxCv?=
+ =?us-ascii?Q?himS2w=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78e6a7cd-2a05-4ca0-b7b0-08d9f2dd59e6
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 12:51:16.5247
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rrKJiW1Z9xNYUNkkTfl2rE6a11pYLcPMSE0IG+X6akTUbRcqG4sziRsdJGSfSGqz2Z56cdczqHcdjBMhQ1kFQwFBJSdVAGLUup/6r5WrBuU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1671
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10261 signatures=677564
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0
+ phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202180083
+X-Proofpoint-GUID: 8l7V16HJysBoh74aGVkafZMBEr_mVTYu
+X-Proofpoint-ORIG-GUID: 8l7V16HJysBoh74aGVkafZMBEr_mVTYu
 
-On 23/01/2022 18:52, Uwe Kleine-König wrote:
-> The value returned by an spi driver's remove function is mostly ignored.
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
+On Fri, Feb 18, 2022 at 02:44:55PM +0300, Dan Carpenter wrote:
+> On Fri, Feb 18, 2022 at 01:37:05AM -0300, Marcelo Aloisio da Silva wrote:
+> > Braces are not necessary for single statement blocks.
+> > 
+> > Signed-off-by: Marcelo Aloisio da Silva <marcelo.as@aol.com>
+> > ---
+> >  drivers/staging/r8188eu/core/rtw_mlme.c | 8 ++------
+> >  1 file changed, 2 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+> > index 45eff3018d73..ad1d73a27548 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> > @@ -1379,10 +1379,8 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
+> >  	if (pregistrypriv->wifi_spec == 1) {
+> >  		struct wifidirect_info *pwdinfo = &adapter->wdinfo;
+> >  		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE))
+> > -		{
+> >  			/* auto site survey */
+> >  			rtw_auto_scan_handler(adapter);
+> > -		}
 > 
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared to
-> return 0 before.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/bus/moxtet.c                                  |  4 +---
->  drivers/char/tpm/st33zp24/spi.c                       |  4 +---
->  drivers/char/tpm/tpm_tis_spi_main.c                   |  3 +--
->  drivers/clk/clk-lmk04832.c                            |  4 +---
->  drivers/gpio/gpio-74x164.c                            |  4 +---
->  drivers/gpio/gpio-max3191x.c                          |  4 +---
->  drivers/gpio/gpio-max7301.c                           |  4 +---
->  drivers/gpio/gpio-mc33880.c                           |  4 +---
->  drivers/gpio/gpio-pisosr.c                            |  4 +---
->  drivers/gpu/drm/panel/panel-abt-y030xx067a.c          |  4 +---
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c          |  4 +---
->  drivers/gpu/drm/panel/panel-ilitek-ili9341.c          |  3 +--
->  drivers/gpu/drm/panel/panel-innolux-ej030na.c         |  4 +---
->  drivers/gpu/drm/panel/panel-lg-lb035q02.c             |  4 +---
->  drivers/gpu/drm/panel/panel-lg-lg4573.c               |  4 +---
->  drivers/gpu/drm/panel/panel-nec-nl8048hl11.c          |  4 +---
->  drivers/gpu/drm/panel/panel-novatek-nt39016.c         |  4 +---
->  drivers/gpu/drm/panel/panel-samsung-db7430.c          |  3 +--
->  drivers/gpu/drm/panel/panel-samsung-ld9040.c          |  4 +---
->  drivers/gpu/drm/panel/panel-samsung-s6d27a1.c         |  3 +--
->  drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c     |  3 +--
->  drivers/gpu/drm/panel/panel-sitronix-st7789v.c        |  4 +---
->  drivers/gpu/drm/panel/panel-sony-acx565akm.c          |  4 +---
->  drivers/gpu/drm/panel/panel-tpo-td028ttec1.c          |  4 +---
->  drivers/gpu/drm/panel/panel-tpo-td043mtea1.c          |  4 +---
->  drivers/gpu/drm/panel/panel-tpo-tpg110.c              |  3 +--
->  drivers/gpu/drm/panel/panel-widechips-ws2401.c        |  3 +--
->  drivers/gpu/drm/tiny/hx8357d.c                        |  4 +---
->  drivers/gpu/drm/tiny/ili9163.c                        |  4 +---
->  drivers/gpu/drm/tiny/ili9225.c                        |  4 +---
->  drivers/gpu/drm/tiny/ili9341.c                        |  4 +---
->  drivers/gpu/drm/tiny/ili9486.c                        |  4 +---
->  drivers/gpu/drm/tiny/mi0283qt.c                       |  4 +---
->  drivers/gpu/drm/tiny/repaper.c                        |  4 +---
->  drivers/gpu/drm/tiny/st7586.c                         |  4 +---
->  drivers/gpu/drm/tiny/st7735r.c                        |  4 +---
->  drivers/hwmon/adcxx.c                                 |  4 +---
->  drivers/hwmon/adt7310.c                               |  3 +--
->  drivers/hwmon/max1111.c                               |  3 +--
->  drivers/hwmon/max31722.c                              |  4 +---
->  drivers/iio/accel/bma400_spi.c                        |  4 +---
->  drivers/iio/accel/bmc150-accel-spi.c                  |  4 +---
->  drivers/iio/accel/bmi088-accel-spi.c                  |  4 +---
->  drivers/iio/accel/kxsd9-spi.c                         |  4 +---
->  drivers/iio/accel/mma7455_spi.c                       |  4 +---
->  drivers/iio/accel/sca3000.c                           |  4 +---
->  drivers/iio/adc/ad7266.c                              |  4 +---
->  drivers/iio/adc/ltc2496.c                             |  4 +---
->  drivers/iio/adc/mcp320x.c                             |  4 +---
->  drivers/iio/adc/mcp3911.c                             |  4 +---
->  drivers/iio/adc/ti-adc12138.c                         |  4 +---
->  drivers/iio/adc/ti-ads7950.c                          |  4 +---
->  drivers/iio/adc/ti-ads8688.c                          |  4 +---
->  drivers/iio/adc/ti-tlc4541.c                          |  4 +---
->  drivers/iio/amplifiers/ad8366.c                       |  4 +---
->  drivers/iio/common/ssp_sensors/ssp_dev.c              |  4 +---
->  drivers/iio/dac/ad5360.c                              |  4 +---
->  drivers/iio/dac/ad5380.c                              |  4 +---
->  drivers/iio/dac/ad5446.c                              |  4 +---
->  drivers/iio/dac/ad5449.c                              |  4 +---
->  drivers/iio/dac/ad5504.c                              |  4 +---
->  drivers/iio/dac/ad5592r.c                             |  4 +---
->  drivers/iio/dac/ad5624r_spi.c                         |  4 +---
->  drivers/iio/dac/ad5686-spi.c                          |  4 +---
->  drivers/iio/dac/ad5761.c                              |  4 +---
->  drivers/iio/dac/ad5764.c                              |  4 +---
->  drivers/iio/dac/ad5791.c                              |  4 +---
->  drivers/iio/dac/ad8801.c                              |  4 +---
->  drivers/iio/dac/ltc1660.c                             |  4 +---
->  drivers/iio/dac/ltc2632.c                             |  4 +---
->  drivers/iio/dac/mcp4922.c                             |  4 +---
->  drivers/iio/dac/ti-dac082s085.c                       |  4 +---
->  drivers/iio/dac/ti-dac7311.c                          |  3 +--
->  drivers/iio/frequency/adf4350.c                       |  4 +---
->  drivers/iio/gyro/bmg160_spi.c                         |  4 +---
->  drivers/iio/gyro/fxas21002c_spi.c                     |  4 +---
->  drivers/iio/health/afe4403.c                          |  4 +---
->  drivers/iio/magnetometer/bmc150_magn_spi.c            |  4 +---
->  drivers/iio/magnetometer/hmc5843_spi.c                |  4 +---
->  drivers/iio/potentiometer/max5487.c                   |  4 +---
->  drivers/iio/pressure/ms5611_spi.c                     |  4 +---
->  drivers/iio/pressure/zpa2326_spi.c                    |  4 +---
->  drivers/input/keyboard/applespi.c                     |  4 +---
->  drivers/input/misc/adxl34x-spi.c                      |  4 +---
->  drivers/input/touchscreen/ads7846.c                   |  4 +---
->  drivers/input/touchscreen/cyttsp4_spi.c               |  4 +---
->  drivers/input/touchscreen/tsc2005.c                   |  4 +---
->  drivers/leds/leds-cr0014114.c                         |  4 +---
->  drivers/leds/leds-dac124s085.c                        |  4 +---
->  drivers/leds/leds-el15203000.c                        |  4 +---
->  drivers/leds/leds-spi-byte.c                          |  4 +---
->  drivers/media/spi/cxd2880-spi.c                       |  4 +---
->  drivers/media/spi/gs1662.c                            |  4 +---
->  drivers/media/tuners/msi001.c                         |  3 +--
+> Generally we prefer if statements around multi-line indents.  It helps
 
-A bit late, but for drivers/media:
+I meant "prefer curly braces around multi-line indents".
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+regards,
+dan carpenter
 
-Thanks!
-
-	Hans
