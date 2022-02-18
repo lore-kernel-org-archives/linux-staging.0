@@ -1,197 +1,156 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2C848D2
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 12:04:10 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21IAR9pA012876;
-	Fri, 18 Feb 2022 12:04:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=VORmXRm/C/bHZNSgGTho6cWg3rhX086W+oYQTjaKFfg=;
- b=BaO+w0WQ2TV2k6wcBCzQnpS+im1vx+3KbENoZSgeUmGJuaOVGrJkMcrahUoItsNm26mt
- Y7tr07/24YabwvAZHRbw7+GLSpW4vJfQeW6i4A1rkTO05sJOtTAaIaawjhU2PvvzBKiD
- F6yzCsgX4FW7Wn18gaeq8Xbrdbr4EUBP4zkmNaM7HGfeLucanshUaoApvONQbtpnKh9I
- b8yvZTebCUuqiw/oaV06ulWLVEyaAydA168zy6URzajrNgIhD9DHjLJGZisHliZrMhdd
- tiWO+JbabqOFHu/VKloUrgnItN1GDzSipk9CbTuU8vFFCEFctR5Lh8oepcL5KHxy336K 7A== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3e8nb3rtgb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 18 Feb 2022 12:04:08 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21IC0GYO052249;
-	Fri, 18 Feb 2022 12:04:07 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2046.outbound.protection.outlook.com [104.47.66.46])
-	by aserp3020.oracle.com with ESMTP id 3e8nvv6a1n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 18 Feb 2022 12:04:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CEK8Q/LMBdmuPlEfuRw6i3YDmFT62efFdtkT2MHY+Oci2Z4wK34SLA77vgUh/0dCIJTqmEK/F+ml6JEROo2SXkaXofGfqkvFF6s3Bzu+CtYpU6srnGbrV/4cV+PSZrLbRK+NUhufDwvNuCp8Df0LjMQPlH5ZzFYe+tQoTwZblRtiGUzzMvJ7kuEPo3TrNeYYO9hi15HtszfwRuJSz9jCdNBP+NZGkcFUU0pYzj2kBZ+Ht9ZTYZM4OAeYo98OcbgdKRzCMg+adPobevMj/Z99tZjWijgk9vXAofQNC7dzoE0Ve6pv9I36WS6lgr1TfUMbwbHjjv/5IcL1dSBSNL0CEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VORmXRm/C/bHZNSgGTho6cWg3rhX086W+oYQTjaKFfg=;
- b=E9swgtmUNn9IYX2PqlrkKZ9PARAfwQUykHE4dSG24JbveWSkNiRuH2NLd8Ts2aLJTXcy+Tpaj4MeB4stPEcuXP4PYp/EhAlXsm6R9qa3gtvP+wr+OidXlpLPJfj37wiIFd8IxcWkojGQpKb3elt51jk2lD+LBg18u0lEjYqnR/ziFDSHp41rVlUt58/P/9osFjr6sX+NWXiX9yrS2q3/m9MELObFtqSdeyHEBAbT/SGgbLf8FBJd3NOYw3kXgKhE7R1LLu+MSzG0TqyDbuUFk2oowDUkg/nLV9pqwR8E2AT9GvB54O5G8K+hctQKI3KCbG1XrA7WKQexX5in+fBY2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VORmXRm/C/bHZNSgGTho6cWg3rhX086W+oYQTjaKFfg=;
- b=Ngk53lFpLJkbjdKmA/17euiIcHsAXiUX0zkJ1Iqchwgzf6ukPFEAWjdAXVI8QCCxepabWhcR+wN0lOoqTHwDBmDIikmmbkjmsils1inuEdfJU1GKrc8jQrNmuSkkAm0yeqblm322Fd9Nhy9BWtORuBtQZUOmO8H4TmZ+xJRdC8Q=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BN0PR10MB4824.namprd10.prod.outlook.com
- (2603:10b6:408:121::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.14; Fri, 18 Feb
- 2022 12:04:05 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5%3]) with mapi id 15.20.4975.019; Fri, 18 Feb 2022
- 12:04:05 +0000
-Date: Fri, 18 Feb 2022 15:03:44 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Hangyu Hua <hbh25y@gmail.com>
-Cc: manishc@marvell.com, GR-Linux-NIC-Dev@marvell.com, coiby.xu@gmail.com,
-        gregkh@linuxfoundation.org, netdev@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: qlge: add unregister_netdev in qlge_probe
-Message-ID: <20220218120344.GH2407@kadam>
-References: <20220218081130.45670-1-hbh25y@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220218081130.45670-1-hbh25y@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0045.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::33)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BC648D4;
+	Fri, 18 Feb 2022 12:19:39 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:b17a:7c93:c01d:b57a] (unknown [IPv6:2a01:e0a:120:3210:b17a:7c93:c01d:b57a])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 01A1C1F468BD;
+	Fri, 18 Feb 2022 12:19:36 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1645186777;
+	bh=oQyevUz08WI95+K4g5qmVatyjEIjKI5BEw7lmuOeMdU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SjDdw/8O/cO4zHE4UPCzx3HScQjbtplasdXTKfhbrfSDaaUBsySf1lrlDYIsbhiic
+	 4ohoT9/78JGIJmuQgzWe4knsvmUrdtTTKSvoqz/jp6QnaVjj+y7s2qEIy4b/AFs5lG
+	 TY7ElHUXOQRLvGGpurd7etduSAeZevTMxrxmb55JU8Jph6Ijakwyn+HlrzIP9dx3RN
+	 JkxXrLB3+LBaJPjbuINc1xxRQsu2xCThtcfokjU9cGl4jIdKWMkTdxB0D01HjohuaD
+	 Swmar36E5Obs4JkmrsdH7D5I7VrQbHZLgTZfwe5D5+fUFcZD65eDPKJ373QWYIPkwI
+	 i4yAThCOVoiyg==
+Message-ID: <3973e1f8-665a-c2d1-d493-19f66d307b88@collabora.com>
+Date: Fri, 18 Feb 2022 13:19:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 340cb458-5946-42b3-c3cb-08d9f2d6c269
-X-MS-TrafficTypeDiagnostic: BN0PR10MB4824:EE_
-X-Microsoft-Antispam-PRVS: 
-	<BN0PR10MB4824415610B367BC8B85B1FD8E379@BN0PR10MB4824.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	F4CqLQg5E0AUFVU8zCsugh2QuC+ItNbyCs9+nFMPhYRJTTL+GdusfA2cUMWdbmm6Rxmv0w9z6J9OrMMMYSUTJgHEXpWDZO4DbKQ8weJwh4LkpUq3VtlOh6IH6ICOZaJB6Cr0uuqTF8Mbi+SxZrRKnFkZuwZ9BTMoN4lJIEda2ynEcVYGRIYNSfLtfBEnq7+SizkySF1YBgug3vjRMBFVfgSiZod+dfGaCqNE95OgcHtu0AT/OTrhuXfcSSIAKXnQw2oNvyCvfJLjVR9nVsJl4ggjUIaPC0bqBUB7wZZW3+LXjaTAAIDy+aGlmWBmmQnLNAT+K3v81bJjjRdCjmZVHtF7MW1Zy42k7K7OaxvCBLHwjKoHTJhbTssw/uYde9PNC+ikvgQftXj+C/8bD9GA/RsquzLgX++Eg7n2ijZehKmdostO020O0WDLHQS4qBHxGu4/RHi1jL7M2CvueoD6nm/nuofSMK5v+2hz45R8DdxdaOUXmhEOqFGVUR0LWu06ydKg24ByJ/a7mVTQyMfHlsMqHr4AHHSou8m6wsMSlCjPP0KRST/N/TsrBsmAsmGasaNxcSWZaXcxVXhyZhjPZvwr0GRvANR5bDJs7jUdFYgUJB+IOjrOxsIowOIHyEFRQZeq7pjuDU93Ro39T7aZgUfjT2vHebcATS5Bclhiy6/kDLWPpgGuuR/+BTtca5olUm93eh2ZdCriEb06vbIOCg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(1076003)(33656002)(66476007)(66946007)(83380400001)(44832011)(4326008)(38100700002)(38350700002)(8936002)(86362001)(8676002)(5660300002)(66556008)(2906002)(316002)(508600001)(52116002)(6506007)(6916009)(33716001)(9686003)(6512007)(6666004)(6486002)(186003)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?hBkfix7/YPdCU9dgNzjhThCJgC2NLHD445bfzYXXalSzBFQMWlQw7fBInVu6?=
- =?us-ascii?Q?PUM63AHLtsvZzpNtLRxENlEGl0l7qCDk2Dz5LnNExF8JlTAiFh7o59XvBHu1?=
- =?us-ascii?Q?lIDinw8517lqC7X7I5BSZ+2sZGtdZPp3/QnH3DD6B/FbsL94UkXGTJ4p9BoK?=
- =?us-ascii?Q?97KoahWmn4xHyENgoazb0RgbSSgrtFtAnLd8c8q4OfEobGu5+dZRMtDSIRik?=
- =?us-ascii?Q?aHhatoWIwZkvehnMkfaL8iztd7FT3iu041f+RdgLe9qjFizf1VA8kvUkM7mO?=
- =?us-ascii?Q?kVvm4qcyw+c/hWPctVU5kbZVMXd7YffSYo8C3MRwIihRXR253rqdDFTEsv6V?=
- =?us-ascii?Q?nLKU5kXWDffint1OM8kZjqePPnlYJ4aR+VtH1AiIxxHml+srb/L8jr08aOPV?=
- =?us-ascii?Q?LA8xXt40zx8CFUCirjPH2p0SXygq9sfpLyjLmnlrvXzd1YqeC6mwi0xhT42y?=
- =?us-ascii?Q?3SSaHNNlgVhP4VX0xlyYRFSoFcuFTm8d4gtdwCWi2SKt+Lz4doxVJjGajSyK?=
- =?us-ascii?Q?iBAnnEx6vNAxqwtswNIcNbGC8dufVrsVpAjeorFN42Nd9RKiOq7HAjzkmoWb?=
- =?us-ascii?Q?4c89RxeNz/3s/nZ1j7Z58R8Icn2a8Fs9udy3roXCsc6DcOqfh5wkM6iINSzg?=
- =?us-ascii?Q?C3zj5J0Jf1rHAwrVvQQTZw9EUklcU36IkOjI7mNvQ65U2tIHafCf7G/EBfj9?=
- =?us-ascii?Q?PjRkzo/XY5cZgJ3tcAsUrxh0Q1F7Hw08sF+TN4piyDvFb3pyxNRxHFT/F1mW?=
- =?us-ascii?Q?S5O0QM0o2E8rqb1BHgtF+2Q5R6+FrwFvQqN0IxUxwbvTNVEtgyxqy6LkemNJ?=
- =?us-ascii?Q?hhnXCWV8kiSVtQvV6AcLU4Qcx56g24f4+tSkVBGDoQAz0dHEknjM4qkEkB3q?=
- =?us-ascii?Q?S7ZtdHPn/Af0wgvw3hqrvgO/4g1mbLKXV22csBRPBKHNx/ijCRDwZ+xicXvh?=
- =?us-ascii?Q?FT7wv2REhsBCJItb9ks+thMZj+Ekz3RMf6s9B1Nyxa5PIs2RFLj0BhYodaBI?=
- =?us-ascii?Q?o/w2OX362ZJxwShfTFj5PkQSrcs1/Ur2cCa8LcKDAnTJcDSMtdQ73U+7dO4k?=
- =?us-ascii?Q?N5aPrWfjAcocrR6JX5KC8af1MZ/lTKNBaSYTJtZRFSzMrgQmhA/hQk07gqfV?=
- =?us-ascii?Q?kKL5oUQTp987NTQ7LVL9UN/tBtVDKnOKN+gamdOwCWHXJlNIBNsV+dfr6Y/R?=
- =?us-ascii?Q?dMK3OMO3iQ2OWRr4E6WZTR+1OQUkhsH+yT78cnZ+gRBcvnQtyz9zOxn66TRB?=
- =?us-ascii?Q?IzjuCuHAZAKKQd8EbwESMGGny72nCSJg6aJbOJ66osxuc3tvbJlaWMQuCTiD?=
- =?us-ascii?Q?q7C2KXiFPd1Y/Gp8R0QsPOZnTMCu1Bn0n9LZ7Nd+2C4HZlp25lmLa+8/2YBL?=
- =?us-ascii?Q?dsQssXzGd+GSIEc6f3+CdXRV1bsRVD6oY0pBoZStyY44NiFXie7+1b9jIhay?=
- =?us-ascii?Q?FwcQMquHFBy8UizbsRffFk5bQAuVkiaq+ZeWxrC4nl9m6DS14c6LLyuN0Gvc?=
- =?us-ascii?Q?7o8KUJ/0iEntw+w6arIy9wXxU7pUS8nDRVOERGPv9X66ADx3Y8TSVvZtryQn?=
- =?us-ascii?Q?h1F6o0P8gGiqRotxPk8pBNiePJpgKSD1s+pg7dN7WDwTziwbmX5EEOP1EbeB?=
- =?us-ascii?Q?nb03a1WIpuYomzCfMpuG2QxuLMvWm6nLdhnFV9tNknw1BflZZoN4GNjRUkEU?=
- =?us-ascii?Q?2MDIaw=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 340cb458-5946-42b3-c3cb-08d9f2d6c269
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 12:04:05.0926
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XU9w+v1Xjx17XeEJ87xE2EPrBHrnJywbQ/OFm8Jx4nIIwBXwm23iwpD10q2mp+7EnkMnE8zTDEtmkv69tCG3DDOAg5QwUTA1wpwZEPQ+poY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4824
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10261 signatures=677564
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0
- phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202180078
-X-Proofpoint-GUID: 9HEm23XwEcT85uKrV-kFtuNQPdL4ickS
-X-Proofpoint-ORIG-GUID: 9HEm23XwEcT85uKrV-kFtuNQPdL4ickS
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC v2 5/8] media: uapi: Add fields needed for RKVDEC driver
+Content-Language: en-US
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ jonas@kwiboo.se, nicolas@ndufresne.ca
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com,
+ jc@kynesim.co.uk
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+ <20220215110103.241297-6-benjamin.gaignard@collabora.com>
+ <b41ea0ec-b5c0-4ea5-9866-35a952c6a8b9@xs4all.nl>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <b41ea0ec-b5c0-4ea5-9866-35a952c6a8b9@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 18, 2022 at 04:11:30PM +0800, Hangyu Hua wrote:
-> unregister_netdev need to be called when register_netdev succeeds
-> qlge_health_create_reporters fails.
-> 
 
-1) Add a Fixes tag:
+Le 18/02/2022 à 12:32, Hans Verkuil a écrit :
+> On 15/02/2022 12:01, Benjamin Gaignard wrote:
+>> RKVDEC driver requires additional fields to perform HEVC decoding.
+>> Even if the driver isn't mainlined yet WIP patches could be find here:
+>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
+>>
+>> This patch only include the change in HEVC uAPI.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   .../userspace-api/media/v4l/ext-ctrls-codec.rst  | 16 ++++++++++++++++
+>>   include/uapi/linux/v4l2-controls.h               |  5 +++++
+>>   2 files changed, 21 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index 4f3b3ba8319f..3296ac3b9fca 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -2661,6 +2661,13 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>       :stub-columns: 0
+>>       :widths:       1 1 2
+>>   
+>> +    * - __u8
+>> +      - ``video_parameter_set_id``
+>> +      - Identifies the VPS for reference by other syntax elements.
+>> +    * - __u8
+>> +      - ``seq_parameter_set_id``
+>> +      - Provides an identifier for the SPS for reference by other syntax
+>> +        elements.
+>>       * - __u16
+>>         - ``pic_width_in_luma_samples``
+>>         -
+>> @@ -2800,6 +2807,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>       :stub-columns: 0
+>>       :widths:       1 1 2
+>>   
+>> +    * - __u8
+>> +      - ``pic_parameter_set_id``
+>> +      - Identifies the PPS for reference by other syntax elements.
+>>       * - __u8
+>>         - ``num_extra_slice_header_bits``
+>>         -
+>> @@ -3026,6 +3036,12 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>       * - __u8
+>>         - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>>         - The list of L1 reference elements as indices in the DPB.
+>> +    * - __u16
+>> +      - ``short_term_ref_pic_set_size``
+>> +      -
+>> +    * - __u16
+>> +      - ``long_term_ref_pic_set_size``
+>> +      -
+>>       * - __u8
+>>         - ``padding``
+>>         - Applications and drivers must set this to zero.
+> Just to confirm: these additional fields are all from the H.265 spec, right?
+> They are not rkvdec specific.
 
-Fixes: d8827ae8e22b ("staging: qlge: deal with the case that devlink_health_reporter_create fails")
+They are in H.265 spec section "7.4.3.2.2 Sequence parameter set range extension semantics":
+- num_short_term_ref_pic_sets specifies the number of st_ref_pic_set( ) syntax structures included in the SPS. The value
+of num_short_term_ref_pic_sets shall be in the range of 0 to 64, inclusive.
 
-> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
-> ---
->  drivers/staging/qlge/qlge_main.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-> index 9873bb2a9ee4..0a199c6d77a1 100644
-> --- a/drivers/staging/qlge/qlge_main.c
-> +++ b/drivers/staging/qlge/qlge_main.c
-> @@ -4611,8 +4611,10 @@ static int qlge_probe(struct pci_dev *pdev,
->  	}
->  
->  	err = qlge_health_create_reporters(qdev);
-> -	if (err)
-> +	if (err) {
-> +		unregister_netdev(ndev);
->  		goto netdev_free;
-> +	}
+- num_long_term_ref_pics_sps specifies the number of candidate long-term reference pictures that are specified in the
+SPS. The value of num_long_term_ref_pics_sps shall be in the range of 0 to 32, inclusive.
 
-2) Use a goto to unwind.  3) Release the other pdev stuff as well.
-4)  Clean up the error handling for register_netdev() by using a goto
-as well.
+I mention rkvdec because that it is the only driver to use they (as far I knows)
 
-	err = register_netdev(ndev);
-	if (err) {
-		dev_err(&pdev->dev, "net device registration failed.\n");
-		goto cleanup_pdev;
-	}
+Regards,
+Benjamin
 
-	err = qlge_health_create_reporters(qdev);
-	if (err)
-		goto unregister_netdev;
-
-	...
-
-	return 0;
-
-unregister_netdev:
-	unregister_netdev(ndev);
-cleanup_pdev:
-	qlge_release_all(pdev);
-	pci_disable_device(pdev);
-netdev_free:
-	free_netdev(ndev);
-devlink_free:
-	devlink_free(devlink);
-
-	return ret;
-
-regards,
-dan carpenter
-
+>
+> Regards,
+>
+> 	Hans
+>
+>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>> index 0e0ec2c61b80..b1a3dc05f02f 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -2341,6 +2341,8 @@ enum v4l2_stateless_hevc_start_code {
+>>   
+>>   struct v4l2_ctrl_hevc_sps {
+>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
+>> +	__u8	video_parameter_set_id;
+>> +	__u8	seq_parameter_set_id;
+>>   	__u16	pic_width_in_luma_samples;
+>>   	__u16	pic_height_in_luma_samples;
+>>   	__u8	bit_depth_luma_minus8;
+>> @@ -2393,6 +2395,7 @@ struct v4l2_ctrl_hevc_sps {
+>>   
+>>   struct v4l2_ctrl_hevc_pps {
+>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
+>> +	__u8	pic_parameter_set_id;
+>>   	__u8	num_extra_slice_header_bits;
+>>   	__u8	num_ref_idx_l0_default_active_minus1;
+>>   	__u8	num_ref_idx_l1_default_active_minus1;
+>> @@ -2487,6 +2490,8 @@ struct v4l2_ctrl_hevc_slice_params {
+>>   	__u32	slice_segment_addr;
+>>   	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>>   	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>> +	__u16	short_term_ref_pic_set_size;
+>> +	__u16	long_term_ref_pic_set_size;
+>>   
+>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+>>   	struct v4l2_hevc_pred_weight_table pred_weight_table;
