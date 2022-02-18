@@ -1,55 +1,53 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D388E4A93
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 14:53:13 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id t21so1790399qkg.6
-        for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 06:53:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD8428E2
+	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 14:54:00 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id f19so15173677qvb.6
+        for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 06:54:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=XCJgFl0zb6Np3SwMPpLvvP3l3nq1MdfLV+ikmQDUG3s=;
-        b=AUPu13zo54l+idCIL+fH26rteHJK42TpmEDpDH/cjEYqJBmuqqTINgGSIP4WKKUs9B
-         HomsZELFx2heoftLLvSzvUeXyxO5PmLsXZzFzfrS9k/QACvzHyzB5NcbphcDuFmb33ZG
-         pg3zOvN9r/Jw5/V2Jtv7pZd/slHYzRvl8L5XTARxXKrOBHbrUYRlkhmmvmrTcOdFHm1A
-         29QFqcKACAcGricMQ5Ey3GZKQbC2yfbaFvPRf6l4+b2YsPKSXGMUeXgIuNzQE3rDxK0A
-         LNFBl/Ipx4zoGpucjh6jlD8cLZSxSwRgkXS8z8FsfC2UazNrpTunlXOdHMpnKZAN2DTg
-         S2oA==
+        bh=AMxb1/snu2ldA/ubJJEAYt1WVb3/09SyAfGJTEa/UKQ=;
+        b=Fgz90lidrUWx8l9/L+dip/BnxqYGQh6NwgzlB66sPD48dp7ZS+wyGTykM1quRiiwCK
+         Q3ZYwz1Z+E/dKHgKgkNkOw0THEQ70be8BD6HxmlwRbAQlf/Onle4QuK2Q1X2YjYScZb1
+         Rw+h/B+ErAD0GMCl5cJJyNZSzInCV/TPEJh+2OF6EcmPGOAH0+D/XJrnjLwiFuqvI+AT
+         ajOSwwvowFnB2e96OcEIECaDhyGL1UKz4wywrx6dF4/u9aDNUvMTOsfycj5W9XEs5k27
+         +C525sy9IXwMGSiYSUKd2oll0mJXowpW7I1TzH1F+KEDgv9OX9e3VzgU0PktJjfavLI9
+         fS1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=XCJgFl0zb6Np3SwMPpLvvP3l3nq1MdfLV+ikmQDUG3s=;
-        b=H4nG2wZSxdbuozPp5vlSVBHCxYzmq+Bk9906jAv3r2O0/SWYBaax1nLujauDI4HMRU
-         BaMIHI3XCryTSs3jeUnLZpv0uocXwwije/alnlX39K5gXT8QPcI5nsRJ+7LK5zgbx8CS
-         VR14T/eQnHRHHY9FuRwd8lLLOlHcvmo0hyopylg5jKjb2TIzDivvzR3olDIjPMvM4Fm+
-         FqZ2kq10rlQxb8wql0gjTfVptXhIildAT4v2fGQq2tr9aYXj/qXHQgmZCRXjX0Fr7Z3f
-         qM1e8UauRr2WGooJt9c6Ozcay4p6Jwlqj9Rc34/1QU59QxrACioEvaSjlm6a3l4DLk+9
-         Un+w==
-X-Gm-Message-State: AOAM531hby/7+EA2sq3nuQiZZ7gC6RyntqWoEIIni0XIWOzpkhNwgTmm
-	24Zd2M3eXqfDe9t98a8BA8f6ZQ==
-X-Google-Smtp-Source: ABdhPJwXH1h/po2pdL5t6lLulOVmk5rA2cO/TnGOOCjAdQ1pevbQSrVjLH/1u3+wQIHPgXNBctDZdg==
-X-Received: by 2002:a37:bdc6:0:b0:47d:4c1f:817b with SMTP id n189-20020a37bdc6000000b0047d4c1f817bmr4699996qkf.154.1645195992776;
-        Fri, 18 Feb 2022 06:53:12 -0800 (PST)
+        bh=AMxb1/snu2ldA/ubJJEAYt1WVb3/09SyAfGJTEa/UKQ=;
+        b=qJNnxAejMVOtlNkfH2uFbxeYCwxpaLxr2nI7AfxyY9hgLyxJEHMJXWC4PY02oChyYb
+         yzr4WcTVKZQcGCrR5oUpAgii6lMRVHvoIfVyXnHSKQGHDmxAwLTMGzcTUFmhwQwpK8JW
+         kTLaINlbxN7niH2fCzPTswd8/xQ5wKtp+fJOooClxFC1bddiJKgCjCXTWpZdh72jPVwt
+         6DcElIgQM9RClaOFJRjhO5oi4z4G+LFAHueXqsW/AjII4eC2pA03Dus6fyCQm/Adex++
+         foXJKLOOBkLvHx3f8wgwdWpV6+Pa1UN4AsV9aeMGFc0JsWM+efnqK/STM16yE+jSLzEM
+         ZpPQ==
+X-Gm-Message-State: AOAM530Hf4CMNkhWZucmHQqkJc865yP/QsKPKKe2HBBvkjxLwFjPNtdb
+	77ZVIOHJofIFuGqU6epKqYae+m2xVeVfUEmN
+X-Google-Smtp-Source: ABdhPJwhFNB8fLdh0ym9XWrA9EZ9+ejd6mCNse+81XslSzMhPYs9F3LauZqXUMfLhfpDArU2+f7pUA==
+X-Received: by 2002:a05:6214:d03:b0:42c:ce43:9f8b with SMTP id 3-20020a0562140d0300b0042cce439f8bmr5926290qvh.102.1645196039402;
+        Fri, 18 Feb 2022 06:53:59 -0800 (PST)
 Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id bl34sm19728766qkb.15.2022.02.18.06.53.11
+        by smtp.gmail.com with ESMTPSA id a188sm876860qkf.27.2022.02.18.06.53.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 06:53:12 -0800 (PST)
-Message-ID: <d2a039f25b5e359c4df1eb55d9f4ebcf66234d93.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 1/4] media: v4l2-ctrls: Add new
- V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags
+        Fri, 18 Feb 2022 06:53:59 -0800 (PST)
+Message-ID: <419d47d2dfac0b31d48e2ce3b4128c421f808038.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: cedrus: h264: Fix neighbour info buffer size
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 18 Feb 2022 09:53:11 -0500
-In-Reply-To: <20220207141937.13089-2-digetx@gmail.com>
-References: <20220207141937.13089-1-digetx@gmail.com>
-	 <20220207141937.13089-2-digetx@gmail.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org, 
+	paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org, wens@csie.org, gregkh@linuxfoundation.org, 
+	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Fri, 18 Feb 2022 09:53:57 -0500
+In-Reply-To: <20220214190839.707889-1-jernej.skrabec@gmail.com>
+References: <20220214190839.707889-1-jernej.skrabec@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 Precedence: bulk
@@ -60,48 +58,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Le lundi 07 février 2022 à 17:19 +0300, Dmitry Osipenko a écrit :
-> Add new V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags that are needed by
-> NVIDIA Tegra video decoder. Userspace will have to set these flags in
-> accordance to the type of a decoded frame.
+Le lundi 14 février 2022 à 20:08 +0100, Jernej Skrabec a écrit :
+> According to BSP library source, H264 neighbour info buffer size needs
+> to be 32 kiB for H6. This is similar to H265 decoding, which also needs
+> double buffer size in comparison to older Cedrus core generations.
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> Increase buffer size to cover H6 needs. Since increase is not that big
+> in absolute numbers, it doesn't make sense to complicate logic for older
+> generations.
+> 
+> Issue was discovered using iommu and cross checked with BSP library
+> source.
+> 
+> Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Reviewed-by: Nicolas Dufresne <nicolas@collabora.com>
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 > ---
->  .../userspace-api/media/v4l/ext-ctrls-codec-stateless.rst   | 6 ++++++
->  include/uapi/linux/v4l2-controls.h                          | 2 ++
->  2 files changed, 8 insertions(+)
+>  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> index cc080c4257d0..f87584ad90ba 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> @@ -616,6 +616,12 @@ Stateless Codec Control ID
->      * - ``V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD``
->        - 0x00000004
->        -
-> +    * - ``V4L2_H264_DECODE_PARAM_FLAG_PFRAME``
-> +      - 0x00000008
-> +      -
-> +    * - ``V4L2_H264_DECODE_PARAM_FLAG_BFRAME``
-> +      - 0x00000010
-> +      -
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> index b4173a8926d6..d8fb93035470 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -38,7 +38,7 @@ struct cedrus_h264_sram_ref_pic {
 >  
->  .. raw:: latex
+>  #define CEDRUS_H264_FRAME_NUM		18
 >  
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index c8e0f84d204d..e3d48d571062 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1563,6 +1563,8 @@ struct v4l2_h264_dpb_entry {
->  #define V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC		0x01
->  #define V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC		0x02
->  #define V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD	0x04
-> +#define V4L2_H264_DECODE_PARAM_FLAG_PFRAME		0x08
-> +#define V4L2_H264_DECODE_PARAM_FLAG_BFRAME		0x10
+> -#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(16 * SZ_1K)
+> +#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(32 * SZ_1K)
+>  #define CEDRUS_MIN_PIC_INFO_BUF_SIZE       (130 * SZ_1K)
 >  
->  #define V4L2_CID_STATELESS_H264_DECODE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 7)
->  /**
+>  static void cedrus_h264_write_sram(struct cedrus_dev *dev,
 
