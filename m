@@ -1,48 +1,47 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3814A9A
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 15:29:12 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id u1so15171117wrg.11
-        for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 07:29:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C6148A1
+	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 15:32:16 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id x5so10360310wrg.13
+        for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 07:32:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:organization:mime-version
+        h=date:from:to:subject:message-id:organization:mime-version
          :content-transfer-encoding;
         bh=P9lErvfRMqsjzgJyU2joQv+jFfLJva7YZtX9uTuJR7M=;
-        b=UkUtl4UV5WrrI2nm5Z2LAL8NairQw6NpqkNwe0VAuBGw5I0EacbdoxqFOI+jBH0Q+P
-         t6dn19T7v4umVJHyMAniHCs8ttvxmTR6hxHg9TjuZsHVU0Zha3LJVRjEx3nqhx0rcNgB
-         N6t64JjDDg0Q/fjuk9oqekAiZCu3DEQs4eOcr4AnA9arbFD+4Bhhy4cI6j/FA55OklpJ
-         AM+OqFm9ikFSWUDLPiXBCPtCQRCusWigNpPYQS0D1uk6ajGeGAnMoYZ+WzHgKRVrRUv2
-         Phxhk/qzZTpSUxgSl36mfvwgbd5blTnEz/DwHixhWXX/AyNo8c1AbAkgtYOaNYazLJJ9
-         CkFQ==
+        b=ebZuG8D5P3OEszEFCfbCbZGDW+kppNGFDCBlkBEhZYwPJno/AvmSK7qAk6CM3B8+2C
+         /uXN0pvQoJ1W9Uc288SpKpEybfN4CwWliquyLP1FFOB7SgH+710Sk+TmjAooi6F4tlyM
+         3dMgqnue9kbn95JdSl0P+9oixbaHIWvJGXr5qsgSEDUhBkanwo6HeXjer66x2oswLQMB
+         XJq5o5PvNCeDwCpFr6kB3TkUgSNWlc0YyRUkulOoBAkM2/ulbT5XVcLY+9jfq/mPJa/E
+         /IvgP23hyEi22RDQIKR8ebEI6FKlqpAxSVffvNL661wt10frFz7w+HSOjgvpQX/HTtbI
+         LS7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:organization
+        h=x-gm-message-state:date:from:to:subject:message-id:organization
          :mime-version:content-transfer-encoding;
         bh=P9lErvfRMqsjzgJyU2joQv+jFfLJva7YZtX9uTuJR7M=;
-        b=0Gh+7D3eDuaJJDRB8GZ6yn9qQMGPaaNWCmgwdrJ12G0F+M4CXRDorrAA91vb5hWk79
-         zp/Zd4+NAhcLqSAQ7Sqz1ZOqBr94F4Rm9qk9IhG/DNb3+9aqGXxyfZ8zeYNW9hklw1J7
-         XxoRusckgbwCi+fG2n6xvfUguacxXneovZrG5sblTNfQAs8kKArRicyX+/8agpd1NhjP
-         OmY8fKCpAgXabyPKYtu8CGmVGGe8VSwAOUdXxhlySqhi8KEz6qACeOZFkJ7ws4vrc01F
-         czgEu6K3+zHyXyDcmMOWf+7gSpRMXEyWSEHMCV/77fgVUrP46SjVAxuP0tVjnfhpxwQ9
-         0hkA==
-X-Gm-Message-State: AOAM530TmGWN6E2MHv0UyYVOUaoFmTq+GHIrUUfCv+exbDvavt5yZGHw
-	E64t7CmMGVQEEcNhLXGP7Ek=
-X-Google-Smtp-Source: ABdhPJy+AYDhw+w7/RVR9bei/tvkkk7tAtzsvF+8SKamp/DgBjOzkN0qbogg3ajZNC/E7TFnTaJl/w==
-X-Received: by 2002:adf:e70d:0:b0:1e6:7e44:d986 with SMTP id c13-20020adfe70d000000b001e67e44d986mr6526144wrm.418.1645198150953;
-        Fri, 18 Feb 2022 07:29:10 -0800 (PST)
+        b=mDq3wxkd7mkvDdgH37ArmxHxqC3oWZIUhgNIM+nRPlFn1O4cRC457AKOfyGcXK29zP
+         N6i45qMVqG0S1n7TZzRCqzeCaQ2b4wuRdSvfoNrvgqvwyOfVjhKLqqsn+BuazeA0VM3Y
+         qtmT4LV8vs7R5wE7m2zrT4quK145u5IqwH4yMn7YygspdzPXqPB+MEHEAL3FzEnWQ+th
+         urqmKcDq2bAgrBo7auNZYtCvOFJ1Ydij9CLh/djL6f0T7yXhcPLJ8+CZLNXwfvdeZD8n
+         bdXy5M6uj6Qkwc5MiDPTDrUwZJH9WoNdBF0F3rg8Gxt/6D9+SYA4aCMKv1Gif9gX6Zkn
+         6TqA==
+X-Gm-Message-State: AOAM532wxndal63MbmiJGfncasWI90PGuvjNlYstpNYYCJQtKKRj4Sxd
+	Bc2zZKrL82hTD/vTafpoVEk=
+X-Google-Smtp-Source: ABdhPJxm/zhJBHUkbsbn14NAHTYAGdXha+JUaqzF+paU4ihLIPernc78JLScteZRW75/1WuLpm96pQ==
+X-Received: by 2002:adf:82cf:0:b0:1d4:2f04:8c23 with SMTP id 73-20020adf82cf000000b001d42f048c23mr6402136wrc.375.1645198335333;
+        Fri, 18 Feb 2022 07:32:15 -0800 (PST)
 Received: from cpi ([141.72.243.13])
-        by smtp.gmail.com with ESMTPSA id 20sm4469952wmk.26.2022.02.18.07.29.10
+        by smtp.gmail.com with ESMTPSA id y10sm4445426wmi.47.2022.02.18.07.32.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 07:29:10 -0800 (PST)
-Date: Fri, 18 Feb 2022 16:29:08 +0100
+        Fri, 18 Feb 2022 07:32:14 -0800 (PST)
+Date: Fri, 18 Feb 2022 16:32:12 +0100
 From: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
 To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Cc: mosescb.dev@gmail.com
 Subject: rtl8192e: use BIT macro instead of left shifting
-Message-ID: <20220218162908.48f83564@cpi>
+Message-ID: <20220218163212.7103e9e6@cpi>
 Organization: CarrtotPi
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
