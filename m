@@ -1,26 +1,12 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50EA448A3;
-	Fri, 18 Feb 2022 10:54:32 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:b17a:7c93:c01d:b57a] (unknown [IPv6:2a01:e0a:120:3210:b17a:7c93:c01d:b57a])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 914981F46707;
-	Fri, 18 Feb 2022 10:54:29 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1645181670;
-	bh=mDKgd+Q2AHRC4xAge6dnVi0CH3nxoQVlAGei2HcyOQg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TDu6sVCPrAY0o8/Q/YqZdiINsKgsQ9aBOAHrLbjWG6lDHh6LP5+wUAoVaHpKm72GK
-	 hN0Tx8+ZFIjAdsm5juPRKOsdTZC/8HF4+nRkE6inLRXiTSY27pSAKL8CjB7zPYi+kY
-	 aqQyDfCda2CrYeokplNn9ZN/lhdCOhoGYaR3U8W7xDmaXx1vBGW+sOE2WYPLjjsQHu
-	 ZFBoZU00zEF43GIRvf5paKh5cEvE2dBX2rDofpHqxpe4D01+kX5AWUtYrwwvF5M0TK
-	 ZyQnkZo/lYJ3RuazpgvcpTLaUWvFio0a8uwj26HdUAbAcOvXnQQzRa8kizIbSlv6f/
-	 rrgmvoYawds6g==
-Message-ID: <8ea4b561-2d46-3d40-73a1-2fe4d92c095d@collabora.com>
-Date: Fri, 18 Feb 2022 11:54:27 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A17648C6;
+	Fri, 18 Feb 2022 11:05:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E038BC340E9;
+	Fri, 18 Feb 2022 11:05:52 +0000 (UTC)
+Message-ID: <8fc62c9a-4c36-41ab-2551-998962fdfa04@xs4all.nl>
+Date: Fri, 18 Feb 2022 12:05:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,10 +14,10 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
+ Thunderbird/91.5.1
 Subject: Re: [RFC v2 0/8] Move HEVC stateless controls out of staging
 Content-Language: en-US
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
  ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
  gregkh@linuxfoundation.org, mripard@kernel.org,
  paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
@@ -42,109 +28,134 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  jc@kynesim.co.uk
 References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
  <d33e96db-8cd0-08a5-7e73-742187ea6de5@xs4all.nl>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <d33e96db-8cd0-08a5-7e73-742187ea6de5@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <8ea4b561-2d46-3d40-73a1-2fe4d92c095d@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <8ea4b561-2d46-3d40-73a1-2fe4d92c095d@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-
-Le 18/02/2022 à 10:59, Hans Verkuil a écrit :
-> Hi Benjamin,
->
-> On 15/02/2022 12:00, Benjamin Gaignard wrote:
->> This series aims to make HEVC uapi stable and usable for hardware
->> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
->> and 2 out of the tree drivers (rkvdec and RPI).
+On 18/02/2022 11:54, Benjamin Gaignard wrote:
+> 
+> Le 18/02/2022 à 10:59, Hans Verkuil a écrit :
+>> Hi Benjamin,
 >>
->> The 3 first patches are from Hans to implement v4l2 dynamic control
->> feature which is need by patch 7 for V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET
->> definition.
+>> On 15/02/2022 12:00, Benjamin Gaignard wrote:
+>>> This series aims to make HEVC uapi stable and usable for hardware
+>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>>> and 2 out of the tree drivers (rkvdec and RPI).
+>>>
+>>> The 3 first patches are from Hans to implement v4l2 dynamic control
+>>> feature which is need by patch 7 for V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET
+>>> definition.
+>>>
+>>> Patch 4 move the existing uapi to stable, including definitions renaming
+>>> and CID number change to fit with v4l2 naming.
+>>>
+>>> Patches 5 and 7 add fields needed for rkvdec and RPI decoders.
+>>>
+>>> Patches 6 is cleaning up the uapi of useless field.
+>>> Patches 8 change one field description and name to define offset by
+>>> bytes rather than by bits
+>> I have some housekeeping questions:
 >>
->> Patch 4 move the existing uapi to stable, including definitions renaming
->> and CID number change to fit with v4l2 naming.
+>> I have several older HEVC-related patches from you, which of those are still
+>> valid?
 >>
->> Patches 5 and 7 add fields needed for rkvdec and RPI decoders.
+>> "[v4,0/9] Additional features for Hantro HEVC":
+>> https://patchwork.linuxtv.org/project/linux-media/cover/20210625141143.577998-1-benjamin.gaignard@collabora.com/
 >>
->> Patches 6 is cleaning up the uapi of useless field.
->> Patches 8 change one field description and name to define offset by
->> bytes rather than by bits
-> I have some housekeeping questions:
->
-> I have several older HEVC-related patches from you, which of those are still
-> valid?
->
-> "[v4,0/9] Additional features for Hantro HEVC":
-> https://patchwork.linuxtv.org/project/linux-media/cover/20210625141143.577998-1-benjamin.gaignard@collabora.com/
->
-> "media: hevc: fix pictures lists type":
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210823082949.237716-1-benjamin.gaignard@collabora.com/
->
-> "media: hantro: Trace hevc hw cycles performance register":
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210823135606.633052-1-benjamin.gaignard@collabora.com/
->
-> "media: hantro: Add support of compressed reference buffers"
-> https://patchwork.linuxtv.org/project/linux-media/patch/20210823162916.824336-1-benjamin.gaignard@collabora.com/
->
-> Before moving the HEVC API out of staging I would prefer to have any remaining
-> issues fixed. So one series that adds any remaining fixes (i.e. from the older patches
-> mentioned above), and a second series on top that moves it out of staging.
+>> "media: hevc: fix pictures lists type":
+>> https://patchwork.linuxtv.org/project/linux-media/patch/20210823082949.237716-1-benjamin.gaignard@collabora.com/
+>>
+>> "media: hantro: Trace hevc hw cycles performance register":
+>> https://patchwork.linuxtv.org/project/linux-media/patch/20210823135606.633052-1-benjamin.gaignard@collabora.com/
+>>
+>> "media: hantro: Add support of compressed reference buffers"
+>> https://patchwork.linuxtv.org/project/linux-media/patch/20210823162916.824336-1-benjamin.gaignard@collabora.com/
+>>
+>> Before moving the HEVC API out of staging I would prefer to have any remaining
+>> issues fixed. So one series that adds any remaining fixes (i.e. from the older patches
+>> mentioned above), and a second series on top that moves it out of staging.
+> 
+> Hi Hans,
+> 
+> They are all related to Hantro diver and, after post-proc patches, the internal driver design
+> has change so they won't apply anymore. You can discard them.
 
-Hi Hans,
+OK, I'll mark them as Obsoleted.
 
-They are all related to Hantro diver and, after post-proc patches, the internal driver design
-has change so they won't apply anymore. You can discard them.
-HEVC UAPI migration isn't not impacted by these patches.
-My plan is a finish the HEVC UAPI first, send patches to add features (compression, 10bits, scaling)
-to Hantro driver and finally move it out of staging too.
-If possible I would like to not make HEVC UAPI topic depends of Hantro features.
+> HEVC UAPI migration isn't not impacted by these patches.
+> My plan is a finish the HEVC UAPI first, send patches to add features (compression, 10bits, scaling)
+> to Hantro driver and finally move it out of staging too.
+> If possible I would like to not make HEVC UAPI topic depends of Hantro features.
+> 
+> Does that makes sense for you ?
 
-Does that makes sense for you ?
+Well, only if you are absolutely certain that those features won't impact the uAPI.
+The easiest way to do that is to implement them and show that it doesn't :-)
+
+That's really my main concern: that those additions require uAPI changes.
+
+Looking over those patches it appears that this is the only one touching on
+the uAPI:
+
+"media: hevc: fix pictures lists type":
+https://patchwork.linuxtv.org/project/linux-media/patch/20210823082949.237716-1-benjamin.gaignard@collabora.com/
+
+I haven't read all the comments in details, but it is something that needs to
+be clarified.
 
 Regards,
-Benjamin
 
->
-> That way I can mark the older patches as Superseded, and we have a
-> fresh series that we can discuss.
->
+	Hans
+
+> 
 > Regards,
->
-> 	Hans
->
->> Benjamin
+> Benjamin
+> 
 >>
->> Benjamin Gaignard (5):
->>    media: uapi: Move HEVC stateless controls out of staging
->>    media: uapi: Add fields needed for RKVDEC driver
->>    media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
->>    media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
->>    media: uapi: Change data_bit_offset definition
+>> That way I can mark the older patches as Superseded, and we have a
+>> fresh series that we can discuss.
 >>
->> Hans Verkuil (3):
->>    videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->>    v4l2-ctrls: add support for dynamically allocated arrays.
->>    vivid: add dynamic array test control
+>> Regards,
 >>
->>   .../userspace-api/media/drivers/hantro.rst    |   5 -
->>   .../media/v4l/ext-ctrls-codec.rst             |  58 ++--
->>   .../media/v4l/vidioc-queryctrl.rst            |   8 +
->>   .../media/test-drivers/vivid/vivid-ctrls.c    |  15 ++
->>   drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++++++--
->>   drivers/media/v4l2-core/v4l2-ctrls-core.c     | 182 ++++++++++---
->>   drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
->>   drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->>   drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->>   drivers/staging/media/hantro/hantro_drv.c     |  27 +-
->>   drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
->>   drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
->>   .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  13 +-
->>   include/linux/hantro-media.h                  |  17 ++
->>   include/media/hevc-ctrls.h                    | 250 ------------------
->>   include/media/v4l2-ctrls.h                    |  48 +++-
->>   include/uapi/linux/v4l2-controls.h            | 224 ++++++++++++++++
->>   include/uapi/linux/videodev2.h                |   8 +
->>   19 files changed, 640 insertions(+), 408 deletions(-)
->>   create mode 100644 include/linux/hantro-media.h
->>   delete mode 100644 include/media/hevc-ctrls.h
+>>     Hans
 >>
+>>> Benjamin
+>>>
+>>> Benjamin Gaignard (5):
+>>>    media: uapi: Move HEVC stateless controls out of staging
+>>>    media: uapi: Add fields needed for RKVDEC driver
+>>>    media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
+>>>    media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+>>>    media: uapi: Change data_bit_offset definition
+>>>
+>>> Hans Verkuil (3):
+>>>    videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>>>    v4l2-ctrls: add support for dynamically allocated arrays.
+>>>    vivid: add dynamic array test control
+>>>
+>>>   .../userspace-api/media/drivers/hantro.rst    |   5 -
+>>>   .../media/v4l/ext-ctrls-codec.rst             |  58 ++--
+>>>   .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>>>   .../media/test-drivers/vivid/vivid-ctrls.c    |  15 ++
+>>>   drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++++++--
+>>>   drivers/media/v4l2-core/v4l2-ctrls-core.c     | 182 ++++++++++---
+>>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
+>>>   drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>>>   drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>>>   drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>>>   drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>>>   drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>>>   .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>>>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  13 +-
+>>>   include/linux/hantro-media.h                  |  17 ++
+>>>   include/media/hevc-ctrls.h                    | 250 ------------------
+>>>   include/media/v4l2-ctrls.h                    |  48 +++-
+>>>   include/uapi/linux/v4l2-controls.h            | 224 ++++++++++++++++
+>>>   include/uapi/linux/videodev2.h                |   8 +
+>>>   19 files changed, 640 insertions(+), 408 deletions(-)
+>>>   create mode 100644 include/linux/hantro-media.h
+>>>   delete mode 100644 include/media/hevc-ctrls.h
+>>>
+
