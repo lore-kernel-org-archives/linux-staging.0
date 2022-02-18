@@ -1,11 +1,14 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437A34A88
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 18:35:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C1948A5
+	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 18:51:10 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id C3E32CB892
+	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 18:34:39 +0000 (UTC)
 Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id 0106540002;
-	Fri, 18 Feb 2022 18:35:54 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 70A3040004;
+	Fri, 18 Feb 2022 18:34:28 +0000 (UTC)
 From: Jacopo Mondi <jacopo@jmondi.org>
 To: slongerbeam@gmail.com,
 	p.zabel@pengutronix.de,
@@ -26,12 +29,10 @@ Cc: kernel@pengutronix.de,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH v2 7/7] media: imx: imx-mipi-csis: Add output format
-Date: Fri, 18 Feb 2022 19:34:21 +0100
-Message-Id: <20220218183421.583874-8-jacopo@jmondi.org>
+Subject: [PATCH v2 0/7] media: imx: Destage imx7-mipi-csis
+Date: Fri, 18 Feb 2022 19:34:14 +0100
+Message-Id: <20220218183421.583874-1-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
-In-Reply-To: <20220218183421.583874-1-jacopo@jmondi.org>
-References: <20220218183421.583874-1-jacopo@jmondi.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,170 +41,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Due to how pixel components are transmitted on the CSI-2 serial bus
-and how they are stored in memory by the CSI-2 receiver, the component
-ordering might change and the image formats on the sink and source pads
-of the receiver should reflect it.
+Hello
+  this series includes patches from two series previously sent:
+https://lore.kernel.org/linux-media/20220119112024.11339-1-jacopo@jmondi.org/
+https://lore.kernel.org/linux-media/20220211180216.290133-1-jacopo@jmondi.org/
+v1:
+https://lore.kernel.org/linux-media/20220214184318.409208-1-jacopo@jmondi.org/T/#t
 
-For RGB24, in example, the component ordering on the wire as described by
-the CSI-2 specification matches the BGR888 format, while once stored in
-in memory by the CSIS receiver they match the RGB888 format.
+Which can now be marked as superseded.
 
-Add an additional .output field to struct csis_pix_format to allow
-propagating the correct format to the source pad after a format
-configuration on the sink.
+The first 2 patches performs the de-staging of the imx7-mipi-csis driver and
+are now reviewed.
 
-The change is only relevant for RGB24 but paves the way for further
-format translations in future.
+The rest of the series builds on top of the comment received on:
+https://lore.kernel.org/linux-media/20220119112024.11339-3-jacopo@jmondi.org/
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/platform/imx/imx-mipi-csis.c | 29 +++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+If DUAL pixel mode is used in the CSIS driver, then the CSI block of the IMX8MM
+SoC needs to be operated in dual mode as well. To do so, use the image format
+sample size to determine in the CSI bridge if dual or single mode should be
+used.
 
-diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-index fdf133f81c5b..128f4180d1e9 100644
---- a/drivers/media/platform/imx/imx-mipi-csis.c
-+++ b/drivers/media/platform/imx/imx-mipi-csis.c
-@@ -351,6 +351,7 @@ struct csis_pix_format {
- 	u32 code;
- 	u32 data_type;
- 	u8 width;
-+	u32 output;
- };
- 
- static const struct csis_pix_format mipi_csis_formats[] = {
-@@ -359,95 +360,117 @@ static const struct csis_pix_format mipi_csis_formats[] = {
- 		.code = MEDIA_BUS_FMT_UYVY8_1X16,
- 		.data_type = MIPI_CSI2_DATA_TYPE_YUV422_8,
- 		.width = 16,
-+		.output = MEDIA_BUS_FMT_UYVY8_1X16,
- 	},
- 	/* RGB formats. */
- 	{
- 		.code = MEDIA_BUS_FMT_RGB565_1X16,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RGB565,
- 		.width = 16,
-+		.output = MEDIA_BUS_FMT_RGB565_1X16,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_BGR888_1X24,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
- 		.width = 24,
-+		.output = MEDIA_BUS_FMT_RGB888_1X24,
- 	},
- 	/* RAW (Bayer and greyscale) formats. */
- 	{
- 		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW8,
- 		.width = 8,
-+		.output = MEDIA_BUS_FMT_SBGGR8_1X8,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW8,
- 		.width = 8,
-+		.output = MEDIA_BUS_FMT_SGBRG8_1X8,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW8,
- 		.width = 8,
-+		.output = MEDIA_BUS_FMT_SGRBG8_1X8,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW8,
- 		.width = 8,
-+		.output = MEDIA_BUS_FMT_SRGGB8_1X8,
- 	}, {
- 		.code = MEDIA_BUS_FMT_Y8_1X8,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW8,
- 		.width = 8,
-+		.output = MEDIA_BUS_FMT_Y8_1X8,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW10,
- 		.width = 10,
-+		.output = MEDIA_BUS_FMT_SBGGR10_1X10,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW10,
- 		.width = 10,
-+		.output = MEDIA_BUS_FMT_SGBRG10_1X10,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW10,
- 		.width = 10,
-+		.output = MEDIA_BUS_FMT_SGRBG10_1X10,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW10,
- 		.width = 10,
-+		.output = MEDIA_BUS_FMT_SRGGB10_1X10,
- 	}, {
- 		.code = MEDIA_BUS_FMT_Y10_1X10,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW10,
- 		.width = 10,
-+		.output = MEDIA_BUS_FMT_Y10_1X10,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW12,
- 		.width = 12,
-+		.output = MEDIA_BUS_FMT_SBGGR12_1X12,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW12,
- 		.width = 12,
-+		.output = MEDIA_BUS_FMT_SGBRG12_1X12,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW12,
- 		.width = 12,
-+		.output = MEDIA_BUS_FMT_SGRBG12_1X12,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW12,
- 		.width = 12,
-+		.output = MEDIA_BUS_FMT_SRGGB12_1X12,
- 	}, {
- 		.code = MEDIA_BUS_FMT_Y12_1X12,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW12,
- 		.width = 12,
-+		.output = MEDIA_BUS_FMT_Y12_1X12,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SBGGR14_1X14,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW14,
- 		.width = 14,
-+		.output = MEDIA_BUS_FMT_SBGGR14_1X14,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SGBRG14_1X14,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW14,
- 		.width = 14,
-+		.output = MEDIA_BUS_FMT_SGBRG14_1X14,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SGRBG14_1X14,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW14,
- 		.width = 14,
-+		.output = MEDIA_BUS_FMT_SGRBG14_1X14,
- 	}, {
- 		.code = MEDIA_BUS_FMT_SRGGB14_1X14,
- 		.data_type = MIPI_CSI2_DATA_TYPE_RAW14,
- 		.width = 14,
-+		.output = MEDIA_BUS_FMT_SRGGB14_1X14,
- 	}
- };
- 
-@@ -1090,7 +1113,11 @@ static int mipi_csis_set_fmt(struct v4l2_subdev *sd,
- 	/* Propagate the format from sink to source. */
- 	fmt = mipi_csis_get_format(state, sd_state, sdformat->which,
- 				   CSIS_PAD_SOURCE);
--	*fmt = sdformat->format;
-+
-+	/* The format on the source pad might change due to unpacking. */
-+	fmt->code = csis_fmt->output;
-+	fmt->width = sdformat->format.width;
-+	fmt->height = sdformat->format.height;
- 
- 	/* Store the CSIS format descriptor for active formats. */
- 	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
--- 
+Laurent could you test on MM to see if it works now ?
+
+On top two small patches I was carrying in my tree to add more formats to the
+CSIS driver, the last one with the caveat that RGB24 is transmitted on the wire
+with one format and stored in memory with a different one.
+
+Series based on top of the most recent media master branch.
+
+Thanks
+  j
+
+v1->v2:
+- Remove per-SoC handling in CSI bridge and only use image formats
+- Add TODO note to the staging driver
+- Fix PIXEL_DUAL mode comments for imx-mipi-csis
+- Add output format translation to imx-mipi-csis to handle RGB24
+
+Jacopo Mondi (7):
+  media: imx: De-stage imx7-mipi-csis
+  media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
+  media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
+  media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+  media: imx: imx-mipi-csis: Add RGB565_1X16
+  media: imx: imx-mipi-csis: Add BGR888
+  media: imx: imx-mipi-csis: Add output format
+
+ Documentation/admin-guide/media/imx7.rst      |  2 +-
+ ...-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
+ MAINTAINERS                                   |  4 +-
+ drivers/media/platform/Kconfig                |  1 +
+ drivers/media/platform/Makefile               |  1 +
+ drivers/media/platform/imx/Kconfig            | 24 ++++++++
+ drivers/media/platform/imx/Makefile           |  1 +
+ .../platform/imx/imx-mipi-csis.c}             | 59 +++++++++++++++++--
+ drivers/staging/media/imx/Makefile            |  1 -
+ drivers/staging/media/imx/TODO                | 26 ++++++++
+ drivers/staging/media/imx/imx7-media-csi.c    |  8 ++-
+ 11 files changed, 117 insertions(+), 12 deletions(-)
+ rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
+ create mode 100644 drivers/media/platform/imx/Kconfig
+ create mode 100644 drivers/media/platform/imx/Makefile
+ rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (95%)
+
+--
 2.35.0
 
