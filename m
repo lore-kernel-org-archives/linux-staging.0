@@ -1,152 +1,99 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CF84A9E
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 15:38:04 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21IF62Xf017318;
-	Fri, 18 Feb 2022 15:37:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=JfCiWhO+XcDjbEfJHY2uBAlaaKqhg9h4vdzCplg2f+I=;
- b=BaBzleA4hDRVwmAUpw76WSRwvxWEPovYWH3pfrTpjO52VTthU3VgjQROf89RzOj7NGil
- YqWoSOGC4485LISJtKFfBWmIrOkoAFdoy9mU9I4I4H9HermaM7YKAmvzj9HrLht24DMd
- xq6B81/+Mew726z/e/POcLqD+UBs3M+mfSUiH3e9cYg2onS967xtqmbCSODlFqvUpA0G
- 6AsBlrYH0RZ2Gzxh2FSvS2NpisSUJQ0P5NxSnrMNu6jlQNCaYReV5/nIwtGv+8wMvf5e
- NDfhcWZ/lbivIDZjOMvkJpbYURzyjlA99xZ87+mV84YdLy71/CmMQ40sYSBhyoQqLbmf iQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3e8ncb1w9c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 18 Feb 2022 15:37:57 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21IFUexn081892;
-	Fri, 18 Feb 2022 15:37:57 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
-	by aserp3030.oracle.com with ESMTP id 3e9bre12t5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 18 Feb 2022 15:37:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KWg/Pwz2OU7kXlN7fhV+S1CC3Rp5ro3GpqnPUx+Ky394M5eGUNH4ZPKbjkC5K8bjLsYcf/cNTaAh78bcaFBviXv3qxLcf6aHbjuy7LCdgYUmECLkci2ckhFC2mD2Xxd0UZimFvQZAw/OhYvQuaRUbAbUp8GjLMcI9oVxEKGfQ+NInGdmLd726cnfjSLQfYf/yyh8CgFI5aMJvGiyiKpms70nzzIMyNjuCFzXmN1hs6kyeaHHOXWi49S6aS1M8ExQW6pEkBeT6KEp0GQB4ZVyV372oCkgi/loZ8ZHpzaVr9A/I1urrqn8Sup3xLRgNP9gxobXBSF4A8r020epJTtk5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JfCiWhO+XcDjbEfJHY2uBAlaaKqhg9h4vdzCplg2f+I=;
- b=VSRgVMCSYtZed8ZQcWdu1UH0AFnP84Kz1Ph4ezSIP860GHhHYt/pkSvwfhjvSC6iZpQhSdxUHJMUYyR6kLDN9pUuTEMk5ycMhceDGvvug0CyeIn20Mey2BD8Z7akqnjOpZHFXrJALLU376CUpx6xL0IvQk+pt/pHB+LS/yl68zE+Ba3ttdN5eshdpz/dy9IQM8wv6UMa9GueilNt103gRD9FJoVlO+S29ADQppD44LT+0YrmAw+lDuNjXIx3FHiAhUwH1MyBM9j7gAtDjC+Rz4XCYr9/eGyVLZyNR9J9SQS15cUjc4RrVBWYxdGUszYXST+kr2qA46gSEy2rbfOvvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E071C4AB6
+	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 17:45:34 +0000 (UTC)
+Received: by mail-oo1-f43.google.com with SMTP id 189-20020a4a03c6000000b003179d7b30d8so4366217ooi.2
+        for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 09:45:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JfCiWhO+XcDjbEfJHY2uBAlaaKqhg9h4vdzCplg2f+I=;
- b=ZU2Qg3cWylOquT7XEcizR/W5GY+a32VFqMfvHcghLsRmq7i85fSLdUJ1SLvQ2VHWP/YbFANHpdhA/Ks0KaGgDyLY8MCLJkmZ7btJg6Ta54Wb2zm0Ns8pnZ+PAaovmdo54RDQ28KVhtqfDoD/EYopW2E9ShGBxNZWWVbV7tm85Zs=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1359.namprd10.prod.outlook.com
- (2603:10b6:300:1f::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.22; Fri, 18 Feb
- 2022 15:37:55 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5%3]) with mapi id 15.20.4975.019; Fri, 18 Feb 2022
- 15:37:55 +0000
-Date: Fri, 18 Feb 2022 18:37:37 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: rtl8192e: use BIT macro instead of left shifting
-Message-ID: <20220218153737.GJ2407@kadam>
-References: <20220218162908.48f83564@cpi>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220218162908.48f83564@cpi>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNXP275CA0003.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::15)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=afcM4DQupixAxH0kc1FcSrJ62dkTTraEAu7alpgcE5k=;
+        b=T2FTHtJlw2tz58RdWq5RP/pXsvqUojg0GbRxPQDEAZsbI5S3XxD3nc+uWjVc5kMo46
+         EVoPJlz3ZiGLQ97OD+P8Mz+CPb/quyO5wYs8zjn8cO9huLAmun9brZQb+K5PdUJfwhCa
+         Gv9KcPoWfBCHCe4jeVU+iqa+belCW2JP35GX2LQzk0synQTcnKE22hM41CFe7yGJl15T
+         PQJMoJYfZ5ITi3OuEmNpqyyc9avf4BlkQ8ie5Q0S506dpdzkwIoW2fYHQsaedQJLMS6U
+         s3nb0vmjJ31wQMNN0x6J2Vc46Bw6y0DPLb03A/vYhscgM8HKBZKA/weNIbTO9DIHkyQi
+         dT8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=afcM4DQupixAxH0kc1FcSrJ62dkTTraEAu7alpgcE5k=;
+        b=a6K0W7U5isRCasxOTMC1Y8mPayzHLnObef2AZdpTwF3Bx4B7s99JnKHriDW1lzChoc
+         5tUB5IkcJ+nfW9FtB/laithFjYAw3OJguFJ1b/VKRc5aAx71kVLX3mxQ5Ug+9GW6lt52
+         MqBy2i/CVwNV/uKBfeB7xIYHAM4SgL9Pn9aOemQ+YSBT9VGMYob3QVJxiZTEZbPhjDOZ
+         S5NgJUXiJ/ip08KBB3OeMrkRKSs/zAjNBp7rX/ZJ8tchnpL3gqFDTseBi/Q04dhdJKnQ
+         Vq9MIPRZv/7RxyVP8BkQ68TOJAjWnGM7Sw7hIl5MP/m41cD0bWL4v8Ar58OQnPgCtKJ0
+         OPMg==
+X-Gm-Message-State: AOAM53042+YrDNqafUMGzduR2lC4iNph9w6WJhc63+Zyli2DUArebJTa
+	2o4mNOHFQgG020rdQTOdLEr/IQgJ1tM=
+X-Google-Smtp-Source: ABdhPJyId5/JaldGbob8T9AXgeuwzjHaMaeS4RXNFfR3wDk9nqVeHI5Geg7g8vUf9Ox7DP8Cs8Hm1w==
+X-Received: by 2002:a05:6870:75c6:b0:d3:5241:d4c0 with SMTP id de6-20020a05687075c600b000d35241d4c0mr3168966oab.19.1645206334092;
+        Fri, 18 Feb 2022 09:45:34 -0800 (PST)
+Received: from [192.168.1.103] (cpe-24-31-246-181.kc.res.rr.com. [24.31.246.181])
+        by smtp.gmail.com with ESMTPSA id p22sm22691187oae.33.2022.02.18.09.45.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Feb 2022 09:45:33 -0800 (PST)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <fb51e801-d1b9-a436-8fd2-e05a69f0c24b@lwfinger.net>
+Date: Fri, 18 Feb 2022 11:45:31 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c2c61056-89c3-4a0d-f9c0-08d9f2f4a18b
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1359:EE_
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR10MB1359092E1819F1D95096DDED8E379@MWHPR10MB1359.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	BFSgrlEN0pIlEfT/XiGWqxG9zKFqviKHrs8f5JlC/SrTqu/Mn00YLufyDh/gcR1tEhSEEXbcxj5+vt7AS4/gdoUf8EMkwoT1vTPQNa2pFfRKUxeoq18cB1Ol68Jt0K1IjBj7yWVqcqCKhpnivo0KmInNruSJkt6ygIWBc1tt8RaRzWFs9lA7n4cxViNnOHglJ7MBgoAsHCF8ArbQ4W8IV7OQwz6nIPfHDsV8qf8GyA91OxAROmM1kLI8CKlF3U46bu5sqrfPxAetzZ/aimiCzBslq5KoP4H0u9Ku/m/aGk8bo8H8LuWECrC1chUlfe8Gg+ARdMvC2Z376OHWpxxEhpTLDLQMdKFpja9XoxrKIoQz8Poa+Ui6/NLDSs89fXH9XBK/XGHhaAh2OVelgSvWZpRXRCdmlSRPUqFgYScN1GWgD/5WI+9dJviWZC0RPshWw88b7ihf5tRnajM4iLvNKk8hYXscXilo1gY4kjrUhvN5MFQebs8/0CD2XR1I0mdbisW6XfT74NyOVjSgkWj0Jx8tlqIaMw/y6CD1MgtE3sdTf3rk7EVMNY3Hzh0Sx1FSad/yGy1TkbKzvOMhC/yjhbVSFuOXDSNFn/Lx8Zluw+n/me0GcbjgNU7t62hmn2PR+F3W9m5Ez0zbGG/5X9zbiksJv+yc6s6CSIO/De02XiQ1Ya18S513UbHUGG+4zC6Dq+3ozyl0CsbSaGQ9E9sZcA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(316002)(6916009)(53546011)(52116002)(9686003)(6666004)(6506007)(6512007)(38350700002)(38100700002)(508600001)(6486002)(2906002)(4744005)(86362001)(8676002)(66476007)(4326008)(66556008)(66946007)(5660300002)(33716001)(44832011)(33656002)(1076003)(26005)(186003)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?bYTFycLt2tcqTZ/b/GPQdx/DFbkfa1YCwAX6cUZbzJsYsVXQ8QUd0aWLxJ7M?=
- =?us-ascii?Q?kuJny06pcZjKWlLcNt0gfqP0wwsuLu18gRzVUtInEEPKObZs5jZ9E8Rzq2S+?=
- =?us-ascii?Q?kFNT1+553kGGHW49AM4EJDKX2vIoiY6j8x/OUeM2ARrsD69Acwx1R2PsUmci?=
- =?us-ascii?Q?tfS44voDr9KygWl55xTrqiwgkXXz+e53sw9KZ7B1mfD/HtRRuP8qBPfQq9eY?=
- =?us-ascii?Q?vjKT0PBUZT7UXojRMjC4vulYvjb3h685+FJPOdkq/Y9bsgkYZodsmn4nXyIG?=
- =?us-ascii?Q?K9n/kdSVhvgdxMJfzae8Z+SlCRVWhKA4xxqUc22e0CkAt2THLy9yWdOIiUK+?=
- =?us-ascii?Q?V83im1j9Z51qG3cWk7i+cQLfkD03pWUwDkn2o+Cc9uwVYnPz2EG5t0xtRYaH?=
- =?us-ascii?Q?OBLs7riqlhK9EDjdAngHzn4pHg0sGerUrcmDfqdDnzRvwv6/RsaWd90J/suK?=
- =?us-ascii?Q?8blzIUmgp8+f8+F7U2vVCxOgKcCe1tKCd7a+aFVCbvCr/INcnxGYmBsoBw5P?=
- =?us-ascii?Q?qzASdmtPeKJ6y9nIyN6lAB4ER7XQfdXYSrVsch+Rh4Rp9ZOz6Eolc3BrI9J7?=
- =?us-ascii?Q?Tw8+Lrj+NAznxwpQFSLtaBAZV/slCNfCN9gExNLC71vc5ORrF4rDXX85ojtp?=
- =?us-ascii?Q?RWItIftv5eFwv9e15F65IAsZN5Mx67FkDOgQQzv9a2AID1GKd/5kv4kwHkKg?=
- =?us-ascii?Q?Stfnscbs/PsSZuAeuU57ujUtAvMi5JlBUhoe1kQYNogAxWHKzNVX0X8d/9Fh?=
- =?us-ascii?Q?QWHWByz+OA87JoKGuL0YfYgATO2OGdS82ki4hu0R6Ojj/xNC4imxIhazTD5c?=
- =?us-ascii?Q?xkh7rDZaS9kX8SLYFg9Uvdw+Xv8poj7jEN/ddPIVLIUaODpnAdH70xhufJmk?=
- =?us-ascii?Q?awxy38fgYlrHXhQjpiRoNEMDfC/Z4PSGYj1u0CbqyvXfTZI8UhX64Uyf9u+1?=
- =?us-ascii?Q?wrl3enYx9W0D7/BnLxHHi1JHHjQCo1DXHmOzbcIuatOKGN/PGbpa+F9OuHnr?=
- =?us-ascii?Q?knb9Js9/7yek8iAPhqJXxT1fUnaIAHXmPktMWYTqRJHNFlHaf1z337TWvVNM?=
- =?us-ascii?Q?CvN8MoogrNQjLiiCEXTLRG/yZ5A5C7t3ivZyqPRTGl63WnxRSfeELcUHu+HV?=
- =?us-ascii?Q?NgpAoW0IMuuoNBMvdAJX9fUiVWdIT76jbGsBT7X8ndHDZW15ca0CGlviHywi?=
- =?us-ascii?Q?CC/qamOBFsDUFAkY4q8Tutw5/gNB8CGumSfNz++0WSEJkFdImlnIZIEpGlbQ?=
- =?us-ascii?Q?jknVwmPQMBceCN8HRF1E9NUKg1b2cOhDCruPOXEf2cwsSI09rwS5tHDKoukI?=
- =?us-ascii?Q?etSg0ppJQMwO/aRAHdkBjaiF8oMyRK+S75mtXd6luPAMhLSNqmfNSshlYX6U?=
- =?us-ascii?Q?c6UnRzqPvCi/wPZCm0wkfmq9va41jUh8ehWmJoIIsF8DHjL7jPKn+1Gy3kZD?=
- =?us-ascii?Q?IXNjonJ3hXp38x7RaEtfmlonkvHcBqgjkohMItL4gkD+uXyxpRK+nEHJsMCr?=
- =?us-ascii?Q?uUcgqisGJD0VR1XwyL6k1ZWUTI/lp2GSwULQxbx+gw7Vp5EflRDis15ASQRV?=
- =?us-ascii?Q?T4xpB9Tn3W+iG8YAIPBgAZGJB+Y1pqgP6CfYMo1Fd2MF7Bnrv4Eh5F3X+FK8?=
- =?us-ascii?Q?Se6P41rP85uSHSf9BCyclROhj7bdheqx1trAr8ErxytIoxT1TQmuft4UWhDI?=
- =?us-ascii?Q?bkh39w=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2c61056-89c3-4a0d-f9c0-08d9f2f4a18b
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 15:37:55.1038
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rsStKIy3mBHEvwz2mmc4ePxnwKpubSwheQdNzPGg8JJChJLp9SWXvOoSwURi8QJrbg3MIixMk4l3OF5VMFLQbXtJLg2WlLEEFuH/xmw7tjA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1359
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10261 signatures=677564
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 phishscore=0
- suspectscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202180100
-X-Proofpoint-ORIG-GUID: 8i8ETt7QvX9BKVCW0al7n_M1n1VBonhL
-X-Proofpoint-GUID: 8i8ETt7QvX9BKVCW0al7n_M1n1VBonhL
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH RFC] staging: r8188eu: comment about the chip's packet
+ format
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>, Martin Kaiser <martin@kaiser.cx>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220218092252.853807-1-martin@kaiser.cx>
+ <20220218102227.GE2407@kadam>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <20220218102227.GE2407@kadam>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The subject needs to say "[PATCH] staging: rtl8192e:"
-
-On Fri, Feb 18, 2022 at 04:29:08PM +0100, Moses Christopher Bollavarapu wrote:
-> From eaca0dd8fcbe3ff6daf14ea7a532e53acf840790 Mon Sep 17 00:00:00 2001
-> From: Moses Christopher Bollavarapu <mosescb.dev@gmail.com>
-> Date: Fri, 18 Feb 2022 16:08:16 +0100
-> Subject: [PATCH] drivers: staging: rtl8192e: use BIT macro instead of left shifting
-                   ^^^^^^^^
-Leave out the drivers:
-
+On 2/18/22 04:22, Dan Carpenter wrote:
+> On Fri, Feb 18, 2022 at 10:22:53AM +0100, Martin Kaiser wrote:
+>> The structs phy_rx_agc_info and phy_status_rpt define parts of the
+>> header data that the r8188eu chipset sends to this driver via usb.
+>>
+>> Add a comment to clarify that we cannot modify the content of these
+>> structures and remove seemingly unused fields.
+>>
+>> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+>> ---
+>>
+>> Dear all,
+>>
+>> I experimented with "cleaning up" these structures and related code before
+>> discovering that their content comes from usb packets we receive from the
+>> r8188eu chipset.
+>>
+>> Would it make sense to add a word of warning to prevent others from
+>> repeating this exercise?
 > 
+> Just the fact that these structs are endian means they're from the
+> firmware or the network.
+> 
+> If a struct has a pointer in it, then it's rarely part of the UAPI but
+> if it has endian data then it probably is.
 
-The patch looks okay but these headers do not belong.
+Additionally, do not change any struct with the __packed attribute. Most will 
+have endian variables as well, but not all will.
 
-regards,
-dan carpenter
+Testing after modifying any struct is a necessity.
+
+Larry
 
