@@ -1,23 +1,12 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EBE48C8
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 11:08:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: usama.anjum)
-	with ESMTPSA id B2A481F46751
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1645182488;
-	bh=MWH+/EKkY4LjLqgJrcKLJ7r78Z4lhuUmpr0kon7qvkg=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=Wj0tW+9GkMa6s8+StqasaD8bQ8GVceX1XiW5s2yWmvR2d1+xqNFU2ZcOa0w0tvhqW
-	 v7Z1Do5WOb6zUvAs8pgH9XXkRymc3slhIvm6juwFLlJVhInMN81yyJ6Y9dudvZm14G
-	 nYceNqcWFNOWBtQKNOcgter2/OJEdb5wIYZ0wgM9TXTNGznBCcPOmiUEuwb2p4hPJr
-	 CbyqbQdgJJ8MAchJj9Q3bnkKEbMITkSnJYFFnoeU54yWOtPtlFZQC6vleB2HrD422L
-	 4sS2ZIT5rRK67K8c7z1Ygh5Yury9IVnEVo1D53+PwEzBuDMTsOFH+Ll2YjRBA74Zse
-	 F47n4UsVbNI4w==
-Message-ID: <cb4db484-c4e6-9cf9-baa5-0be454947ed5@collabora.com>
-Date: Fri, 18 Feb 2022 16:08:00 +0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C82A48CD;
+	Fri, 18 Feb 2022 11:32:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4678AC340E9;
+	Fri, 18 Feb 2022 11:32:03 +0000 (UTC)
+Message-ID: <b41ea0ec-b5c0-4ea5-9866-35a952c6a8b9@xs4all.nl>
+Date: Fri, 18 Feb 2022 12:32:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -25,96 +14,115 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Cc: usama.anjum@collabora.com, kernel@collabora.com,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH V2] media: imx: imx8mq-mipi_csi2: Remove unneeded code
+ Thunderbird/91.5.1
+Subject: Re: [RFC v2 5/8] media: uapi: Add fields needed for RKVDEC driver
 Content-Language: en-US
-To: Steve Longerbeam <slongerbeam@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- "open list:MEDIA DRIVERS FOR FREESCALE IMX" <linux-media@vger.kernel.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>, mkl@pengutronix.de
-References: <20220128170722.1624767-1-usama.anjum@collabora.com>
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <20220128170722.1624767-1-usama.anjum@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ jonas@kwiboo.se, nicolas@ndufresne.ca
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com,
+ jc@kynesim.co.uk
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+ <20220215110103.241297-6-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220215110103.241297-6-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Reminder.
+On 15/02/2022 12:01, Benjamin Gaignard wrote:
+> RKVDEC driver requires additional fields to perform HEVC decoding.
+> Even if the driver isn't mainlined yet WIP patches could be find here:
+> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
+> 
+> This patch only include the change in HEVC uAPI.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst  | 16 ++++++++++++++++
+>  include/uapi/linux/v4l2-controls.h               |  5 +++++
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 4f3b3ba8319f..3296ac3b9fca 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2661,6 +2661,13 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      :stub-columns: 0
+>      :widths:       1 1 2
+>  
+> +    * - __u8
+> +      - ``video_parameter_set_id``
+> +      - Identifies the VPS for reference by other syntax elements.
+> +    * - __u8
+> +      - ``seq_parameter_set_id``
+> +      - Provides an identifier for the SPS for reference by other syntax
+> +        elements.
+>      * - __u16
+>        - ``pic_width_in_luma_samples``
+>        -
+> @@ -2800,6 +2807,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      :stub-columns: 0
+>      :widths:       1 1 2
+>  
+> +    * - __u8
+> +      - ``pic_parameter_set_id``
+> +      - Identifies the PPS for reference by other syntax elements.
+>      * - __u8
+>        - ``num_extra_slice_header_bits``
+>        -
+> @@ -3026,6 +3036,12 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      * - __u8
+>        - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>        - The list of L1 reference elements as indices in the DPB.
+> +    * - __u16
+> +      - ``short_term_ref_pic_set_size``
+> +      -
+> +    * - __u16
+> +      - ``long_term_ref_pic_set_size``
+> +      -
+>      * - __u8
+>        - ``padding``
+>        - Applications and drivers must set this to zero.
 
-On 1/28/22 10:07 PM, Muhammad Usama Anjum wrote:
-> ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
-> return error. Remove the return variable. Simplify other functions which
-> are using this function.
-> 
-> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> ---
-> Changes in V2:
-> Removed fixes tag
-> ---
->  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 16 ++++------------
->  1 file changed, 4 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> index 3b9fa75efac6b..c992b845e63d1 100644
-> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> @@ -693,11 +693,10 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
->   * Suspend/resume
->   */
+Just to confirm: these additional fields are all from the H.265 spec, right?
+They are not rkvdec specific.
+
+Regards,
+
+	Hans
+
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 0e0ec2c61b80..b1a3dc05f02f 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -2341,6 +2341,8 @@ enum v4l2_stateless_hevc_start_code {
 >  
-> -static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
-> +static void imx8mq_mipi_csi_pm_suspend(struct device *dev)
->  {
->  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> -	int ret = 0;
+>  struct v4l2_ctrl_hevc_sps {
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
+> +	__u8	video_parameter_set_id;
+> +	__u8	seq_parameter_set_id;
+>  	__u16	pic_width_in_luma_samples;
+>  	__u16	pic_height_in_luma_samples;
+>  	__u8	bit_depth_luma_minus8;
+> @@ -2393,6 +2395,7 @@ struct v4l2_ctrl_hevc_sps {
 >  
->  	mutex_lock(&state->lock);
+>  struct v4l2_ctrl_hevc_pps {
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
+> +	__u8	pic_parameter_set_id;
+>  	__u8	num_extra_slice_header_bits;
+>  	__u8	num_ref_idx_l0_default_active_minus1;
+>  	__u8	num_ref_idx_l1_default_active_minus1;
+> @@ -2487,6 +2490,8 @@ struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	slice_segment_addr;
+>  	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>  	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+> +	__u16	short_term_ref_pic_set_size;
+> +	__u16	long_term_ref_pic_set_size;
 >  
-> @@ -708,8 +707,6 @@ static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
->  	}
->  
->  	mutex_unlock(&state->lock);
-> -
-> -	return ret ? -EAGAIN : 0;
->  }
->  
->  static int imx8mq_mipi_csi_pm_resume(struct device *dev)
-> @@ -742,15 +739,12 @@ static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
->  {
->  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
-> -	int ret;
->  
-> -	ret = imx8mq_mipi_csi_pm_suspend(dev);
-> -	if (ret)
-> -		return ret;
-> +	imx8mq_mipi_csi_pm_suspend(dev);
->  
->  	state->state |= ST_SUSPENDED;
->  
-> -	return ret;
-> +	return 0;
->  }
->  
->  static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
-> @@ -770,9 +764,7 @@ static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
->  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
->  	int ret;
->  
-> -	ret = imx8mq_mipi_csi_pm_suspend(dev);
-> -	if (ret)
-> -		return ret;
-> +	imx8mq_mipi_csi_pm_suspend(dev);
->  
->  	ret = icc_set_bw(state->icc_path, 0, 0);
->  	if (ret)
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+>  	struct v4l2_hevc_pred_weight_table pred_weight_table;
+
