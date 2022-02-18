@@ -1,69 +1,121 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB1A320F
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 09:30:47 +0000 (UTC)
-Received: from dslb-178-004-174-047.178.004.pools.vodafone-ip.de ([178.4.174.47] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1nKzbA-0005VT-3F; Fri, 18 Feb 2022 10:30:44 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 4/4] staging: r8188eu: NumQryPhyStatusOFDM is set but not used
-Date: Fri, 18 Feb 2022 10:30:34 +0100
-Message-Id: <20220218093034.854049-5-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220218093034.854049-1-martin@kaiser.cx>
-References: <20220218093034.854049-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D2C48B7;
+	Fri, 18 Feb 2022 09:59:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F5D2C340E9;
+	Fri, 18 Feb 2022 09:59:42 +0000 (UTC)
+Message-ID: <d33e96db-8cd0-08a5-7e73-742187ea6de5@xs4all.nl>
+Date: Fri, 18 Feb 2022 10:59:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
+Subject: Re: [RFC v2 0/8] Move HEVC stateless controls out of staging
+Content-Language: en-US
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ jonas@kwiboo.se, nicolas@ndufresne.ca
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com,
+ jc@kynesim.co.uk
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-NumQryPhyStatusOFDM in struct odm_phy_dbg_info is set but not used.
-Remove it.
+Hi Benjamin,
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/hal/odm_HWConfig.c | 2 --
- drivers/staging/r8188eu/include/odm.h      | 1 -
- 2 files changed, 3 deletions(-)
+On 15/02/2022 12:00, Benjamin Gaignard wrote:
+> This series aims to make HEVC uapi stable and usable for hardware
+> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+> and 2 out of the tree drivers (rkvdec and RPI).
+> 
+> The 3 first patches are from Hans to implement v4l2 dynamic control
+> feature which is need by patch 7 for V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET
+> definition.
+> 
+> Patch 4 move the existing uapi to stable, including definitions renaming 
+> and CID number change to fit with v4l2 naming.
+> 
+> Patches 5 and 7 add fields needed for rkvdec and RPI decoders.
+> 
+> Patches 6 is cleaning up the uapi of useless field.
+> Patches 8 change one field description and name to define offset by
+> bytes rather than by bits
 
-diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index 833c8fd7fb0c..87e9a5270be0 100644
---- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
-+++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -148,8 +148,6 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
- 			pPhyInfo->SignalQuality = SQ;
- 		}
- 	} else { /* is OFDM rate */
--		dm_odm->PhyDbgInfo.NumQryPhyStatusOFDM++;
--
- 		/*  (1)Get RSSI for HT rate */
- 
- 		for (i = RF_PATH_A; i < RF_PATH_MAX; i++) {
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index 66b5413b6846..4c97f222987a 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -86,7 +86,6 @@ struct odm_phy_dbg_info {
- 	/* ODM Write,debug info */
- 	s8	RxSNRdB[MAX_PATH_NUM_92CS];
- 	u64	NumQryPhyStatus;
--	u64	NumQryPhyStatusOFDM;
- 	/* Others */
- 	s32	RxEVM[MAX_PATH_NUM_92CS];
- };
--- 
-2.30.2
+I have some housekeeping questions:
+
+I have several older HEVC-related patches from you, which of those are still
+valid?
+
+"[v4,0/9] Additional features for Hantro HEVC":
+https://patchwork.linuxtv.org/project/linux-media/cover/20210625141143.577998-1-benjamin.gaignard@collabora.com/
+
+"media: hevc: fix pictures lists type":
+https://patchwork.linuxtv.org/project/linux-media/patch/20210823082949.237716-1-benjamin.gaignard@collabora.com/
+
+"media: hantro: Trace hevc hw cycles performance register":
+https://patchwork.linuxtv.org/project/linux-media/patch/20210823135606.633052-1-benjamin.gaignard@collabora.com/
+
+"media: hantro: Add support of compressed reference buffers"
+https://patchwork.linuxtv.org/project/linux-media/patch/20210823162916.824336-1-benjamin.gaignard@collabora.com/
+
+Before moving the HEVC API out of staging I would prefer to have any remaining
+issues fixed. So one series that adds any remaining fixes (i.e. from the older patches
+mentioned above), and a second series on top that moves it out of staging.
+
+That way I can mark the older patches as Superseded, and we have a
+fresh series that we can discuss.
+
+Regards,
+
+	Hans
+
+> 
+> Benjamin
+> 
+> Benjamin Gaignard (5):
+>   media: uapi: Move HEVC stateless controls out of staging
+>   media: uapi: Add fields needed for RKVDEC driver
+>   media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
+>   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+>   media: uapi: Change data_bit_offset definition
+> 
+> Hans Verkuil (3):
+>   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>   v4l2-ctrls: add support for dynamically allocated arrays.
+>   vivid: add dynamic array test control
+> 
+>  .../userspace-api/media/drivers/hantro.rst    |   5 -
+>  .../media/v4l/ext-ctrls-codec.rst             |  58 ++--
+>  .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 ++
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++++++--
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 182 ++++++++++---
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
+>  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>  drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>  drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  13 +-
+>  include/linux/hantro-media.h                  |  17 ++
+>  include/media/hevc-ctrls.h                    | 250 ------------------
+>  include/media/v4l2-ctrls.h                    |  48 +++-
+>  include/uapi/linux/v4l2-controls.h            | 224 ++++++++++++++++
+>  include/uapi/linux/videodev2.h                |   8 +
+>  19 files changed, 640 insertions(+), 408 deletions(-)
+>  create mode 100644 include/linux/hantro-media.h
+>  delete mode 100644 include/media/hevc-ctrls.h
+> 
 
