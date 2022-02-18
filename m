@@ -1,54 +1,25 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BAC323F
-	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 08:11:42 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id i10so6602639plr.2
-        for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 00:11:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4tyuVDt8konpruvFZLheBo0477RzkXZvUE1/xQIQQzU=;
-        b=HGxw+cT80fKVAuFta3cCBeLL2b3yRUW4hCLbJ2St0WM6ijqZZ41IvyiizVcSr/bqL0
-         7GQoGde/lTLLFvZf5RXAu44mpBNxaYjiFE+ah3cPxMwb59NyI4gG1pazf2+OyVrfB1tQ
-         NOyeWna96ckGtA+bPNeAFOPqajoNvpB1LEjj6sRdzXnyVvlrOzdOw9oeWuOhSvBhVwOP
-         4Aj3WAyj2s09kvwuVgAnYx1CCTiPBd+7Jxok0aL2n/e4KT3816iH37IADV81aPwdsMmc
-         sbgk0kCwqj5g5ZCL1qKVYcZhc9f3VFrYOWshUVKwWLLzOv4fBMTNKR7rUA0RdPvJlfPc
-         37RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4tyuVDt8konpruvFZLheBo0477RzkXZvUE1/xQIQQzU=;
-        b=KVitGGuP/D8xZra+H29857dktbbKeOWFXV1+xRGLekTajMgN7RWrAn4R1qlTy2K/vN
-         4y9rQ+dZfHAGxb2zBiU0/VgxZJe275PjmzRQMAHQQagpE23dc6QyXp3YZwph5AFVjnPh
-         PwM9z2Bhw6I/Xfs8C4jILkXRIGhQ4NjMFcktmOfutadypRJSL/P8rI4bezezaDQeHkrR
-         l6TH10LgxsOXMOCfbj1z99SlnKaJv2I+Vk58Md1UoXWapbTeH3y5YB8HXfBofbdR9gFP
-         dWJa89LbROXdczeQyLoS05zGbqvuaoE7LeiyOh+WRJX632GeQ7hLvW9GqoDoNgxNH/jW
-         HMZw==
-X-Gm-Message-State: AOAM531bItX6XHbcZebrmhqTIJ7N6Oa2YpxmlyEBHOv7ExXtctIxBpLs
-	KQMMyTnsNoVIQdm3DRrXZQaBADLiRSFiDZp1
-X-Google-Smtp-Source: ABdhPJy6dTgjTfwO+xBjsRnrzDVHxDWbcM2O1ZHCcdZ0hKvPfLXE8LTO96lZXLmUSDJ8THT3vpCP2w==
-X-Received: by 2002:a17:90a:1202:b0:1b9:b7e7:1652 with SMTP id f2-20020a17090a120200b001b9b7e71652mr7282313pja.1.1645171901988;
-        Fri, 18 Feb 2022 00:11:41 -0800 (PST)
-Received: from slim.das-security.cn ([103.84.139.54])
-        by smtp.gmail.com with ESMTPSA id g21sm2004515pfc.167.2022.02.18.00.11.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 00:11:41 -0800 (PST)
-From: Hangyu Hua <hbh25y@gmail.com>
-To: manishc@marvell.com,
-	GR-Linux-NIC-Dev@marvell.com,
-	coiby.xu@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: netdev@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A27548B0
+	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 09:23:20 +0000 (UTC)
+Received: from dslb-178-004-174-047.178.004.pools.vodafone-ip.de ([178.4.174.47] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1nKzTo-0005Qj-Nr; Fri, 18 Feb 2022 10:23:08 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Hangyu Hua <hbh25y@gmail.com>
-Subject: [PATCH] staging: qlge: add unregister_netdev in qlge_probe
-Date: Fri, 18 Feb 2022 16:11:30 +0800
-Message-Id: <20220218081130.45670-1-hbh25y@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH RFC] staging: r8188eu: comment about the chip's packet format
+Date: Fri, 18 Feb 2022 10:22:53 +0100
+Message-Id: <20220218092252.853807-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,30 +28,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-unregister_netdev need to be called when register_netdev succeeds
-qlge_health_create_reporters fails.
+The structs phy_rx_agc_info and phy_status_rpt define parts of the
+header data that the r8188eu chipset sends to this driver via usb.
 
-Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+Add a comment to clarify that we cannot modify the content of these
+structures and remove seemingly unused fields.
+
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/qlge/qlge_main.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-index 9873bb2a9ee4..0a199c6d77a1 100644
---- a/drivers/staging/qlge/qlge_main.c
-+++ b/drivers/staging/qlge/qlge_main.c
-@@ -4611,8 +4611,10 @@ static int qlge_probe(struct pci_dev *pdev,
- 	}
+Dear all,
+
+I experimented with "cleaning up" these structures and related code before
+discovering that their content comes from usb packets we receive from the
+r8188eu chipset.
+
+Would it make sense to add a word of warning to prevent others from
+repeating this exercise?
+
+Thanks,
+Martin
+
+ drivers/staging/r8188eu/include/odm_HWConfig.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/staging/r8188eu/include/odm_HWConfig.h b/drivers/staging/r8188eu/include/odm_HWConfig.h
+index b37962edb2ed..35a562372a1a 100644
+--- a/drivers/staging/r8188eu/include/odm_HWConfig.h
++++ b/drivers/staging/r8188eu/include/odm_HWConfig.h
+@@ -14,6 +14,13 @@
  
- 	err = qlge_health_create_reporters(qdev);
--	if (err)
-+	if (err) {
-+		unregister_netdev(ndev);
- 		goto netdev_free;
-+	}
+ /*  structure and define */
  
- 	/* Start up the timer to trigger EEH if
- 	 * the bus goes dead
++/*
++ * Attention: struct phy_status_rpt and struct phy_rx_agc_info describe
++ * data structures that this driver receives from the r8188eu chip via usb.
++ * Do not change the content of these structures, do not remove seemingly
++ * unused entries.
++ */
++
+ struct phy_rx_agc_info {
+ 	#ifdef __LITTLE_ENDIAN
+ 		u8	gain:7, trsw:1;
 -- 
-2.25.1
+2.30.2
 
