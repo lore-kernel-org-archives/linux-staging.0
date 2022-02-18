@@ -1,121 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D2C48B7;
-	Fri, 18 Feb 2022 09:59:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F5D2C340E9;
-	Fri, 18 Feb 2022 09:59:42 +0000 (UTC)
-Message-ID: <d33e96db-8cd0-08a5-7e73-742187ea6de5@xs4all.nl>
-Date: Fri, 18 Feb 2022 10:59:41 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAF748BD
+	for <linux-staging@lists.linux.dev>; Fri, 18 Feb 2022 10:22:47 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21I7q3k1021769;
+	Fri, 18 Feb 2022 10:22:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=W2s3Pqit2+GxHnAR+JhGmYN2lIAR+Hr3rQiM6QlnBkk=;
+ b=fNQYKAVknWx6RJj54GB4/KjO3/Jaut/+gL5GqK15OzWBQDbXvR4VL1ohMAWyHAL/YTrK
+ BqqXYoTf+wWwjLHSiOg5+vHNiLI1OMlbXvTu0wYJ/jnnNaklpDcXrJaUEV3NiRWAeSRm
+ m6nhvslLz44D/49dAae7lUzSDoCFxb8HtfOWzZQOexRs/xHOHEGlKcwhj2J+tI1+ZkMY
+ rpqDte72Rfn5l5xQOqweGEssAXU0aiPz/V4GqjQFeLL+8Vn33edn4VT/kU8rw1nDSDBK
+ OmS91m+gPcB7xN3ugYV7JcWbT2ZtnG3GwKHXUd3jqzv1QJyfE3dM1i5iN1Ar0gggpg2w xw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3e8n3fgbpj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 18 Feb 2022 10:22:40 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21IAAdoB027572;
+	Fri, 18 Feb 2022 10:22:39 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2170.outbound.protection.outlook.com [104.47.58.170])
+	by aserp3030.oracle.com with ESMTP id 3e9brdjgk1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 18 Feb 2022 10:22:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kjvF0L78mLPI2jYXx/mapr6HXTBwKlR2O//MsVshpd1J1T/mg9RyEF/GZbeMhHcrRqwWabrpm0eCBkjgrtHNX+IxPSSdkw2g3b+MbYM+couYVpw78aNhuntgdrVLAm/mnv78Q2WaLrB6lLzVGXpb3VD/pJ83oEWuaml1gUrB2T48poRelqMAnavZoUNPkk4+tRBVZ/L2aywmv7cIuNkKhxWRzELaqqm5PHIcJEEs+sDyzr81PzZsnBggTiu6dsroWq89qMI2os2TkBVs89RbnAyrxQHglGCuO6QfHKFCEn+mODqtrrEDMJLR4EM+Viz3s8j0xTRezh2jnXB3pbPKrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W2s3Pqit2+GxHnAR+JhGmYN2lIAR+Hr3rQiM6QlnBkk=;
+ b=g5MnLWOPJljd0Sh7Watdv9xOuyK+s8pXae+g1b+3eKq8OdFsZOD//uCKxK6CLL7qB5VQuPWUGD0Csr80vSC3VNMt8/TkIR56zY+Ln6itYpjITqtZ6Vabv9xi+iPTCNZ/4GvBbV2WGTW4yVReIWbVY5OdKGmR3zQyfseIWiP5AiDEp1nrK+NV6ZeLedKC5bAmPofHL/18ZOpS2K4neBGzL6arMGuoQVkr9Tlru/rxVeUPqiZ9mH8+GMWtaDq7b7e/gptDfspK0FgcH+xlhUIbMGXS958Uldh8KDB5vbxU/0coAw50ZiRXd3s/51E9/HSfhTPOgKIYaDIh6/9WYLCdYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W2s3Pqit2+GxHnAR+JhGmYN2lIAR+Hr3rQiM6QlnBkk=;
+ b=bi3HQPTt8KWH1VYmGEhwVswoI/j1E62djadXbyje6Wau6d1OkZ78QHrFDpAmGd7PWk3tiKm7m323XdJCutNR0BD37N+hgwcZe41XQ9+yToAhEyYjmE8mxsxEEniZl6mlS3eCefmZRwXEO8zUAm3WoDOx5joQJb9y8f7qtLztcjQ=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BYAPR10MB3670.namprd10.prod.outlook.com
+ (2603:10b6:a03:124::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Fri, 18 Feb
+ 2022 10:22:37 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::2c3d:92b5:42b3:c1c5%3]) with mapi id 15.20.4975.019; Fri, 18 Feb 2022
+ 10:22:37 +0000
+Date: Fri, 18 Feb 2022 13:22:27 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Larry Finger <Larry.Finger@lwfinger.net>,
+        Phillip Potter <phil@philpotter.co.uk>,
+        Michael Straube <straube.linux@gmail.com>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC] staging: r8188eu: comment about the chip's packet
+ format
+Message-ID: <20220218102227.GE2407@kadam>
+References: <20220218092252.853807-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220218092252.853807-1-martin@kaiser.cx>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MR1P264CA0024.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:2f::11) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [RFC v2 0/8] Move HEVC stateless controls out of staging
-Content-Language: en-US
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
- jonas@kwiboo.se, nicolas@ndufresne.ca
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com,
- jc@kynesim.co.uk
-References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 194f958e-b847-46d1-b190-08d9f2c895a7
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3670:EE_
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR10MB36709891BD0B5B6CE1E7E1DF8E379@BYAPR10MB3670.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	zcvFw6WDPN2uniiRUWzwiP2UNJpMHlhrnnBuh1mhRjXGBfXo/UtNB8uCwfleTIXILCNd3Roqcf592Rdekl81TTISy+hBbLIPROKnBwjczR1vITd1GUe1Ws4ecgG7QP+K0n+SKQ+6g32bdSr9machCIvMZQurVVZbzaINEXDQXNtVTRB0LqMAe6eQAnA2GaG40Jks6hSpmY3imCja3Pf4s0yGDEjQQhzOLvMINyWc4/rpHaE5cIbahDiu7GMAnas7jhM0QxdXxkxb4eBvLOLNV1sna3I6P3WUi0/7F3HBL5rfy1U49W0cippFmviLZtnMeMX0ABhe/F7pp1WPCV92zl0TZq7ch3WFiKNvZlAIikiVu3qWp3Cbo3+xFfA3EWOVr9raMP8BXDWmmRwgTj3cSm4vDUaqAl6HMBDUb2ZEYsm1RZMOkvNAVzESL1sHpKBDjxMjWar3vo5DIH/ApsSOk6qqgf2f6aHeV7h+CyjVaF/n8cxUqWS4SidtpAH4O6k5phfUOpiCR5M6KVGDvfSnsY9qHaVVogwAgCBlFRBPiRXcHQ1RAz1cCrBZSaV3J87m46BYKRgqPeGlFDsdPFiTVwEXyAVmAH3LYPuSXu4q5sUHRUKA9KASo3995Dm47pHSN31u9WYhD39mJvYpWYAbGgO4t7256y3ZaYgMndIbu4u4wvuxU78JuRMR0javc/r9
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(52116002)(508600001)(6506007)(6666004)(6486002)(2906002)(86362001)(33716001)(54906003)(8936002)(6916009)(4326008)(316002)(66476007)(66556008)(66946007)(38350700002)(38100700002)(4744005)(44832011)(5660300002)(186003)(26005)(33656002)(1076003)(83380400001)(9686003)(6512007)(8676002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?4m02FVQL1U752QA+g79i404b/1mUHFessyqRvBVqDZfiROz2As/OTneZgse8?=
+ =?us-ascii?Q?bBdPGZ+yEZ1ePnkij8SAXJGV785MRcSRikOBzc92GnQDV5MUbSuqd/b6vBVW?=
+ =?us-ascii?Q?B1HmbiPG23atDhtAdFgyvTXjckoopJOr5wOjJutf21wQI04W5wZOcX+UYOw3?=
+ =?us-ascii?Q?xBqU5vytA5kgx5xnrhkBcdfhRX42C4TSFHv4xwKq0R7b56Y6rvFEAx9Ymyv7?=
+ =?us-ascii?Q?DNgnu6gybmY+x1nXRKNYBjxqqzF81AFS1DjMO0IF6IdHm+PlHvoQth+9uN66?=
+ =?us-ascii?Q?tuBXwPlrUPkEsFM+7o+1gf28HXjcqSUmS1qyeTbdH67MKDX2S3D08EmFHspm?=
+ =?us-ascii?Q?SneNiWBEhmyuyIU8b2bB8EQorJtBIIbHQ/dX9Kla6J2y+DwQOsjZslHU1hAZ?=
+ =?us-ascii?Q?Ty0tLCnC1uWXTtDmMcb29NcY5kkvu6QoyiAegbvaNqmndbLtUN/aCDbu9Jra?=
+ =?us-ascii?Q?gpaLzd6boClY/ly7Nb2jVc/MNOd70NhtX5SY4Hso+v9WmnGNCBIMstDm71Us?=
+ =?us-ascii?Q?0ChmfQQAGOtOGrt1CmtlgMBbIFlObuBqZ89MmypEfsAX68oScwBjL4Xmuhhi?=
+ =?us-ascii?Q?4mry9ZPIlusEn7p+sOejcELm9i2kdmu4ruhsw9yIDjxDQ39ueKdMcrZ4USJ1?=
+ =?us-ascii?Q?AZtzlUSuSkXpNdAGlna6g4EbwN+gVPCeOB7g/Jm9fuhWtJghDazpLtMQPzLQ?=
+ =?us-ascii?Q?HQxZpvx+GCDvMvbgG4FyTzcjOpglb7Rl+oFiORMEuADsN6QmlZphSDxdCj+C?=
+ =?us-ascii?Q?VA0l1gAV0kKHQsAHBLmFr6YzedJPsWTlcDUEQ3GxGwRpNUvZu09BCajX4b8m?=
+ =?us-ascii?Q?BRPGUNOefd3yAFOJMU1i/nT9+/WC8Apf01lb5jyj+j1FeYPHvp2whTwiCOAI?=
+ =?us-ascii?Q?5HzBFEElT0hZ2m/2xhTATu/OODWgbANJr4tVTcKLWORvktU5ZO2WG2j6cDKo?=
+ =?us-ascii?Q?ko9rdwZ4j0KsIQSS3LUlTLoJ9VczJZkwYUL4fPihFGNmMK99okP5zfKbb/J/?=
+ =?us-ascii?Q?OGDK0umQbNLMtI04QAWxYAv98Qe3CtMmxPVbKcg5VDabKkvHtprurw6IoqZp?=
+ =?us-ascii?Q?cLFohVmUP9viaqBhctmqUbQNTUFNPqbhvQhPXxFMVJir/3IMH4LKT+/f2m4J?=
+ =?us-ascii?Q?br1Cbe12G0B3PEyaQfS8o3wxuQRRn0KsK1qfIHxC0cDKkFP+MBYqLjZm1yF6?=
+ =?us-ascii?Q?Tihl43DtTEfKKkMwbd6QVBZwFlbhpab/IeZIW84v6v6v3O7riZqdRIBlSPJy?=
+ =?us-ascii?Q?ZQZnCZ7ITChVa0fqNHzHXhLC4WgsQNMqLnmfFTlyTy0GNm6BzMu3kDE9Xdzr?=
+ =?us-ascii?Q?wjAQXDXpwnj/y1Y2zX8jmiz4dlBulO5lcWbOCmhejBiQ/P708wwc+be8ECc1?=
+ =?us-ascii?Q?yruQMwubphLmjsPRb0YMeZpEefE8ic6m4kdIF69DfA6tntfnltMMOG0kU8w+?=
+ =?us-ascii?Q?Ej1v1mhfXspZ4ov2ufTXGSPtRvvihjDivqOOeCRfabzH9gUjToEaXZMpb3Yz?=
+ =?us-ascii?Q?8fb+kXPnAd/avV5smtPykRgfAsuCcurbr58VLfxpasM0ZLMqj55wukRgLhDR?=
+ =?us-ascii?Q?kk8v4akdj44NParC19LTegGIDiXH+Nt1uShFEJscclS7CYTD4BBdOWi/bMlz?=
+ =?us-ascii?Q?/baMLg72AqYrbVPoIfvFxt5bUSpxqtuHtZFTMHipW6MDs448P3wVCq56x5H9?=
+ =?us-ascii?Q?yJ7Hog=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 194f958e-b847-46d1-b190-08d9f2c895a7
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2022 10:22:37.1249
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: igyPKz+fR34MJUw/vAUU7hSW2yQc2BzuMzadeYCgx6DOVE86Qv3gY+2wIxpCD1QNFV1TWcpByb/8gI67HYVZjKXMBmuTwlPbQ5MUBuPS6DI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3670
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10261 signatures=677564
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 phishscore=0
+ suspectscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202180066
+X-Proofpoint-GUID: KbI8JelOPDW6kWOEsv6pz7YSVjOpdHVw
+X-Proofpoint-ORIG-GUID: KbI8JelOPDW6kWOEsv6pz7YSVjOpdHVw
 
-Hi Benjamin,
-
-On 15/02/2022 12:00, Benjamin Gaignard wrote:
-> This series aims to make HEVC uapi stable and usable for hardware
-> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
-> and 2 out of the tree drivers (rkvdec and RPI).
+On Fri, Feb 18, 2022 at 10:22:53AM +0100, Martin Kaiser wrote:
+> The structs phy_rx_agc_info and phy_status_rpt define parts of the
+> header data that the r8188eu chipset sends to this driver via usb.
 > 
-> The 3 first patches are from Hans to implement v4l2 dynamic control
-> feature which is need by patch 7 for V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET
-> definition.
+> Add a comment to clarify that we cannot modify the content of these
+> structures and remove seemingly unused fields.
 > 
-> Patch 4 move the existing uapi to stable, including definitions renaming 
-> and CID number change to fit with v4l2 naming.
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
 > 
-> Patches 5 and 7 add fields needed for rkvdec and RPI decoders.
+> Dear all,
 > 
-> Patches 6 is cleaning up the uapi of useless field.
-> Patches 8 change one field description and name to define offset by
-> bytes rather than by bits
-
-I have some housekeeping questions:
-
-I have several older HEVC-related patches from you, which of those are still
-valid?
-
-"[v4,0/9] Additional features for Hantro HEVC":
-https://patchwork.linuxtv.org/project/linux-media/cover/20210625141143.577998-1-benjamin.gaignard@collabora.com/
-
-"media: hevc: fix pictures lists type":
-https://patchwork.linuxtv.org/project/linux-media/patch/20210823082949.237716-1-benjamin.gaignard@collabora.com/
-
-"media: hantro: Trace hevc hw cycles performance register":
-https://patchwork.linuxtv.org/project/linux-media/patch/20210823135606.633052-1-benjamin.gaignard@collabora.com/
-
-"media: hantro: Add support of compressed reference buffers"
-https://patchwork.linuxtv.org/project/linux-media/patch/20210823162916.824336-1-benjamin.gaignard@collabora.com/
-
-Before moving the HEVC API out of staging I would prefer to have any remaining
-issues fixed. So one series that adds any remaining fixes (i.e. from the older patches
-mentioned above), and a second series on top that moves it out of staging.
-
-That way I can mark the older patches as Superseded, and we have a
-fresh series that we can discuss.
-
-Regards,
-
-	Hans
-
+> I experimented with "cleaning up" these structures and related code before
+> discovering that their content comes from usb packets we receive from the
+> r8188eu chipset.
 > 
-> Benjamin
-> 
-> Benjamin Gaignard (5):
->   media: uapi: Move HEVC stateless controls out of staging
->   media: uapi: Add fields needed for RKVDEC driver
->   media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
->   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
->   media: uapi: Change data_bit_offset definition
-> 
-> Hans Verkuil (3):
->   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->   v4l2-ctrls: add support for dynamically allocated arrays.
->   vivid: add dynamic array test control
-> 
->  .../userspace-api/media/drivers/hantro.rst    |   5 -
->  .../media/v4l/ext-ctrls-codec.rst             |  58 ++--
->  .../media/v4l/vidioc-queryctrl.rst            |   8 +
->  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 ++
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++++++--
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 182 ++++++++++---
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
->  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->  drivers/staging/media/hantro/hantro_drv.c     |  27 +-
->  drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  13 +-
->  include/linux/hantro-media.h                  |  17 ++
->  include/media/hevc-ctrls.h                    | 250 ------------------
->  include/media/v4l2-ctrls.h                    |  48 +++-
->  include/uapi/linux/v4l2-controls.h            | 224 ++++++++++++++++
->  include/uapi/linux/videodev2.h                |   8 +
->  19 files changed, 640 insertions(+), 408 deletions(-)
->  create mode 100644 include/linux/hantro-media.h
->  delete mode 100644 include/media/hevc-ctrls.h
-> 
+> Would it make sense to add a word of warning to prevent others from
+> repeating this exercise?
+
+Just the fact that these structs are endian means they're from the
+firmware or the network.
+
+If a struct has a pointer in it, then it's rarely part of the UAPI but
+if it has endian data then it probably is.
+
+regards,
+dan carpenter
 
