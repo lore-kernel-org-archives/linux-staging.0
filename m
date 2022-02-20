@@ -1,101 +1,102 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from sonic301-32.consmr.mail.ne1.yahoo.com (sonic301-32.consmr.mail.ne1.yahoo.com [66.163.184.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6686D181
-	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 16:30:11 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id a8so27127255ejc.8
-        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 08:30:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=OWLpcBVa2M4tskUxAekykJf3XE4zqcHsbnkNsOcSIRk=;
-        b=OExUL0nKv5AWNW77ihPgtZ0duZyFBCSH7B0XGHkXHeRORnzb5LfNn1CBEX3OMY08vb
-         mtEdoxwa8GxbLD+QjdcavbJ24ggBqFpQnJVR081KF6hK8A3+cLe+ARKl2Mk2XX2azVeB
-         Ite7Nt5XXgTANrkk+cmarOTwAGId4tsprSx0+yNqQXwoDxfAffi/tS1ojzzaImtUx+iG
-         jgTAg2NylQ3+yEJj3hVXM9qfap6S+T5Yccfa+JLlsEhoBalqLJdn13jLxhitd3KzFEFA
-         IpkwADNrtm37awybkEyKuRQp/yS6OyLWUoTAU4dH7rm0AC+6k9CH26tK3vlZhSWg5eKr
-         9v0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=OWLpcBVa2M4tskUxAekykJf3XE4zqcHsbnkNsOcSIRk=;
-        b=WnPnhrKAp3ZB69PGCLmk/32CX5Jwg7vgL8O3DDTD0QrurRcFlruP7uCqpuW2bpUrh0
-         Tti7ZL2o2glBAhbxR2MXm6MiYdfQifiqyY7gEfKRL8nimFXHTGqsqHE2dzMQ+lwQ6MDy
-         z2QuEt41uCoR3RgEFS1NBcG4oveNHdxvweljKCRwAtu5HC+wqByE3pia2VayCmruQYmt
-         0GM33XYsXq9Fn+f94kfmVYY4YCGbwg4g7o3gtWbk5/81gL27XWI1YkyeIfoNYBp+GxGn
-         U0V2M7JjoNDB4MaghrNFp5XWBrcGOaZHgek3nxh9uCUMdzxVbTxhQXGo4a/1lvAxxQiD
-         e9Og==
-X-Gm-Message-State: AOAM531IFMRjdRhbQlnqlX0OVzByuFvP5pp4lgKzlgFXjXxoiupa5SvK
-	+ytaprxrQksmI+Q5HQQej68=
-X-Google-Smtp-Source: ABdhPJyd2RU/junM5/4SP6yca5whc9aoFfekgEyHnrTAndRTVOAuYulMS96VkhBSpJH9QAWYDA21sg==
-X-Received: by 2002:a17:906:4ad9:b0:6cf:93f:f77e with SMTP id u25-20020a1709064ad900b006cf093ff77emr13244335ejt.558.1645374609631;
-        Sun, 20 Feb 2022 08:30:09 -0800 (PST)
-Received: from [192.168.0.151] (ip5f5abb8f.dynamic.kabel-deutschland.de. [95.90.187.143])
-        by smtp.gmail.com with ESMTPSA id l24sm7606251edv.88.2022.02.20.08.30.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Feb 2022 08:30:09 -0800 (PST)
-Message-ID: <94160654-ec16-cad2-3cc2-46628caaa17e@gmail.com>
-Date: Sun, 20 Feb 2022 17:30:08 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF365EA4
+	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 17:31:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1645378274; bh=stLzmJif3JsDPnLrx1c01Iyxz59e3vU+zR7HdCG4h/Y=; h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject:Reply-To; b=DHoSSndxNFKxGnzeb+j0YgYbveQtYOTDWrDloM30Xq1nVYcPDx9AehnaUcHxY0o13ZZkTm6zAjOzPOGkrspw18y0O9Eo6n1VytpS0a8L+0Jsj9BLXozS6tXEfVX1qrj5+JyBaaHOaTBvi28eurbYemDZrJF4PmSZl4wCjAL1u6Eee94yAW84EkQ83pJf5F/YPe2K+8d9wDp/Pgq1LjScWUPOMLOTOI22857dDa6oFmIzJ4uAOdnUUk8mkBUgY4NggcnhYJ4cmVoRy1uSlIu74W61ay0yAqzSYXe4QKEyUyZEf0lEWNH3mlekFUq5/6it+S9/QszYOmhj6GOQm9G/lg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1645378274; bh=uSb43o6K9HvrzctQhzcqRf/sRuLcezeK3yQkILhgndZ=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=U6p2cb9THs8M4libf1xmLr9JnS4HPepbzIrwb20S86V8FSFrsm5Feu7IgWZWu0kJIaUj6i/wfPtkJDnTR7azFa5g16o/gFy2b5hrkGG2UMrylPRYutE+kdpFcP5BPtJ1Uyl1x5Smf1roKdV1QrMD1vzv13H4Iq+SMOjRrLFbjeDwe5pQvOIms7M+JydeT0RJz4pwNhUDAniYDmYSgaDt59kINtCGoO4Dbfa5xXbjl8Y5VrSPG2Ai1jV34puDyouc5QPWhAPpJKPM8b+BvB1nJr80aFhcZ6rHFx8IhmhM6TDWA65/Sknm8YO6yCF3zUAeJjSI36HOlmGygvxNeMO6MA==
+X-YMail-OSG: 8FyqS9EVM1mbaqc7XPjb25YYbmSVXBA4MR2V2D18YaaZLnD.6bfZn0juFJessY5
+ nEiWeVBLob_0IfIziwAVzjq1CEVrZ4LWas3HPUP_rVsDhMtPZYMeSXbWopx1j7aY7Xnmnj_R7mkM
+ .8we2oqe9Hp5A48pXRGrFy5kZreHw58qxVUN8QuWG4dN4B7b2vOYuYei3as0d4zv7lOhkBgauz6u
+ Dt9PXK9M4rKGse.smJFtyVYBZx0WEFHxSNmCU1xfOShJ1ma8g0D.0iRkwpLt7HHiWTFhYj88hdzO
+ 2ZL7Ikl1kaZlyL.JJfptC2FkDDSV50ZjjZCRZ93JFcqbZHymGHmA0ffGPls_jk9cm1goO7Q1Y3j2
+ 0s7x1mvcUEzR8pI8oOd6VDV6PqvliCcLU.2dxV8kQJPZsiBM2Cpk1SxfTQqT9UY7Su4qBIayjgzc
+ 85oJ7nZ63SscKlcNUs2XXjM7kt7Eig89i3dfU2r.5EdM9cxlRUfvYMD_wX0Zw3JeH2mey9rWhPop
+ metQBopxJC2XqeY2ZGd_aRvcAuKzq.j.agalAoF5BccY.la7Q9fR8NifTcSbi08aDzPpwYx3xF8J
+ hWQTqUmF4ZvSaNjicGyfUdRDO3NaTrlBg9gbzwxDDAxo9clKt9g4a65ZDbPYcbSh.pyqubjxlWnm
+ eNK6toxEH7vML2P6EjhAR8aka_qWv.khCks6cHdFy1Xu8HfF_0b.YKPXNsIj_..nvDEkaTJMmsvG
+ SpWlXFVA.dGAQZuIPB8Ah8SikvADm4xKjnpzc3RAMlPUnxDxNRGyL467O3VoVvW6Zo9itF3zefj4
+ 2KcIYpPbCuBrDzlp2UGxDpYrCxh21PtriYYdSR89lVKsb1bsSYBt1ZQNaMaQiNviDCBqFHmcQS2R
+ VJX10hLX8pzE_CWQ._Is71i_i5jPEtWHvjzNkFYHfcsDTQThnWvWZlVNUhNu53myFSpqH.j6dTNh
+ 7NfvsG_LGIUw6P38MaSGHOiMetiIQWuKLVqPPgilo0KMgywD6qRshCpWYNRSzeFF9K0qOFV.QST_
+ GQuuWQRyGr8lQNjN1dser8SusC7Jsaqi8ZSJfuQxzEug5QdyilztYW46KugoAhUvJGwrCI0xMp9o
+ Isw59j7ev90A4okYwgq_ZlK0eYA3dLwQ9jdZA8BiIgmPkoaf1VthNTMk.phJTeCC24FfjY0u47FA
+ DxEnFZgBw8Tbsv148cxZOLp8hMw7zVJR2IQZqPVwTWW5xiDBNewue2rpJYqt8CeBCmgzjYxjKuyY
+ FvUEheoE_Tc.cOB3WDtFOOg5ZZnBeOzy_.Viy.QHnZhFu2fbpNpNFpguHKl_pks5WcXGJC9KtVKY
+ ZYpSV4S7MIf1697leBq99Ef_oTNAqGVud8XqfFg3hymVK_ZM5LcHYsRx2j.2aG8nfySgV5ilGI.r
+ RdtBS_QxqmGKNB36.olLgNAn9Iu8Pe9SDRW6HyKICQEswfUJo9r_ZoVOhfSU1it6dOGdTxJBnntV
+ H0kXbqSxKhdrY8A9EEmxtZMtvh9pEz3A_ft8sdwVTn_Iq8aytrKsZvE8jh9kM0k8ZXPY1x2iCXKn
+ 6O.Nfi5ZQf5I.uvKgnoYHcl3gGLm5MJ2H5VswQN2TlTY67NQlMICRygnju4AIjD8PyibJm9PPf9e
+ 4rGtGTaAoOnnaIkDoJRRAhY5A.OnPAmmmjWgiPnr8aCAykX9PALdY_gQ9fnFP.jdM6kAR4CZqGEP
+ TATQBbERmN4zr.ImR9YMIbrRYeD32f_Eo5DBxgcQs3iPxspHz_Q1LI_F1A_hlqXi9t2g.CpA14pF
+ zyuGA2ow4485pfir0iAxEAONlydAu3dQBkQGw5FHXxlXf7u5pSUyaCDCaRX4hpTuM7X6YZEICIVf
+ 2TYGKRUiVjGgMC4DO796O.M3NsTCC2g6yPISkDbMED0Sp4_Dg8hPycaU0l3quOKEyveBdeOG1lsk
+ ndb3zQq0uJw_clicnf_52GjDx_6nZbM_QQ.H4wE19DXrGiMJZbU8GFMZdOX4XFH6MLP0L0SObFIh
+ Yi.AkCSRaRueJmkV8ceNNH5ZcJBbc2bFmsTIih2p3lM_WqW7o.5Os07HPAFeAjQR.XZkwOvqR8Pp
+ 3.bxVakZ4y470O0.dRB.a1iGLisDeEUKwTsXYicg94DgRwO18LENBTlSRgmDin0eKb1vYjFMbtM8
+ NWXG_TYDJK0i8D1EATd4rayzhYfoGi98LydBsvoNFDUbFGwo835wUgYKRiozskRz8vTouGdTtdU_
+ x
+X-Sonic-MF: <marcelo.as@aol.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ne1.yahoo.com with HTTP; Sun, 20 Feb 2022 17:31:14 +0000
+Received: by kubenode522.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 8a2dcc81a07db2dcf1be2b4f9b04191b;
+          Sun, 20 Feb 2022 17:31:09 +0000 (UTC)
+Date: Sun, 20 Feb 2022 14:31:05 -0300
+From: Marcelo Aloisio da Silva <marcelo.as@aol.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: remove unnecessary braces in if
+ statements
+Message-ID: <20220220173105.GA11223@snoopy>
+References: <20220218043705.GA23783.ref@snoopy>
+ <20220218043705.GA23783@snoopy>
+ <20220218114455.GG2407@kadam>
+ <20220218125058.GE2467@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 2/3] staging: r8188eu: refactor rtw_ch2freq()
-Content-Language: en-US
-To: Pavel Skripkin <paskripkin@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220220154847.7521-1-straube.linux@gmail.com>
- <20220220154847.7521-3-straube.linux@gmail.com>
- <cb7db1ac-8e7e-d549-a5c0-fcd072ae815e@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <cb7db1ac-8e7e-d549-a5c0-fcd072ae815e@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220218125058.GE2467@kadam>
+X-Mailer: WebService/1.1.19797 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 
-On 2/20/22 17:20, Pavel Skripkin wrote:
-> Hi Michael,
+On Fri, Feb 18, 2022 at 03:50:58PM +0300, Dan Carpenter wrote:
+> On Fri, Feb 18, 2022 at 02:44:55PM +0300, Dan Carpenter wrote:
+> > On Fri, Feb 18, 2022 at 01:37:05AM -0300, Marcelo Aloisio da Silva wrote:
+> > > Braces are not necessary for single statement blocks.
+> > > 
+> > > Signed-off-by: Marcelo Aloisio da Silva <marcelo.as@aol.com>
+> > > ---
+> > >  drivers/staging/r8188eu/core/rtw_mlme.c | 8 ++------
+> > >  1 file changed, 2 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+> > > index 45eff3018d73..ad1d73a27548 100644
+> > > --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> > > +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> > > @@ -1379,10 +1379,8 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
+> > >  	if (pregistrypriv->wifi_spec == 1) {
+> > >  		struct wifidirect_info *pwdinfo = &adapter->wdinfo;
+> > >  		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE))
+> > > -		{
+> > >  			/* auto site survey */
+> > >  			rtw_auto_scan_handler(adapter);
+> > > -		}
+> > 
+> > Generally we prefer if statements around multi-line indents.  It helps
 > 
-> On 2/20/22 18:48, Michael Straube wrote:
->> -static int ch_freq_map_num = ARRAY_SIZE(ch_freq_map);
->> -
->>   u32 rtw_ch2freq(u32 channel)
->>   {
->> -    u8    i;
->> -    u32    freq = 0;
->> -
->> -    for (i = 0; i < ch_freq_map_num; i++) {
->> -        if (channel == ch_freq_map[i].channel) {
->> -            freq = ch_freq_map[i].frequency;
->> -                break;
->> -        }
->> -    }
->> -    if (i == ch_freq_map_num)
->> -        freq = 2412;
->> -
->> -    return freq;
->> +    return ch_freq_map[channel - 1];
->>   }
+> I meant "prefer curly braces around multi-line indents".
 > 
-> What if channel has wrong value? The old code returned some default 
-> value, but with new one we will hit OOB.
+> regards,
+> dan carpenter
 > 
+Thanks Dan for the feedback.
+I'll fix the brace for this if statement in another patch.
 
-Hi Pavel,
-
-thanks for reviewing. Yeah, I thought about adding a check for channel
-value between 1 and 14. But I did not add it because I think if this
-function will ever be called with channel < 1 or channel > 14, then the
-calling code must be wrong.
-
-Would be nice to see what others think about this.
-
-Thanks,
-Michael
+Regards,
+Marcelo
