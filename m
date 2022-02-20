@@ -1,137 +1,73 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BB45EA4
-	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 18:19:44 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id m17so24877966edc.13
-        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 10:19:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FE55EC8
+	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 19:53:08 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id cm8so15596619edb.3
+        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 11:53:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=benWcURYgGK+uAiYHNdB8VXxJ8t300zl1DIDLlznLsQ=;
-        b=Ert31gFzb8VTlobnNs1vwF57jnx93vMlznupDkEG4c13sDwkjbkROJXgtzzDvrSloF
-         Vy0Q8YKYfUlHGWdMc6F1O62EXfZiSKkKbkGItz5MUyiOnj9PP9JJGC4RL7cUtfud1ErA
-         ZUWZUsGHYxdMQGikpuVeP2Xn6YUQwygLwDe9uujAGQM+Y2tubq18Z1jr/fxWP5jvCRCz
-         jEa6nj+F/dMAIE+j3hMNyYySmOnvXihpYIrE0MOWfTlhDrvM3Uu6BRluGBQcjIHC+2sm
-         M/ErUYXTOtfwdUOGcoH9dVNcV4TGkdP7IYeUwqEehl7Re8INQ4c5PEJuAFli28rOt5D8
-         UUAg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sbg/+DLQOR79p6+0YNOkKyiycWb1remk9bmGUAMrS88=;
+        b=nB6eDpubZekSnWEMZoKwxePhhcG9rMs3SAxMmF3ISlJI75CHUF/6uf0lLL/mWsDYHk
+         YVmGREQa6Estabu/cdARskm3SK33BooecldvQ06A/ebqwMwB/RwJm8twzp8Y0aVkhpvb
+         s/scUze/CUwY+bioMTTDdBdSfiDCkV4kNf9bS/sLkhIRtZBa3/K8NXWoY97Hwu3z/8cQ
+         JMoRTGmNltL3W9eP/eUmrHV0FGNGUdx61xJCSbKNcRkr5Iq8auzltT28nzL1voYRC7b1
+         mk/QqcYBuaH/Ker7sD9BlHUSNAODxKavJukcuQHOzKdu484saLd7rDJwG7y3PAYO0ovI
+         ta1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=benWcURYgGK+uAiYHNdB8VXxJ8t300zl1DIDLlznLsQ=;
-        b=sOnQgAgysRcY/b+496Q+LxTexN+S6vQUadLUKiS8wKBqkuWUUYltdVGb0m6rhJkH4v
-         djsSf8yAtjSz1f6YJQpncaAKRoj8nnQ/3d0mK+WC549CGwD47uZdFMt1plWs8ghTrniC
-         NgZnRuYZ94RAzoMtHDjl2sdFB20q1hKQT8COBpe0cx68SRjxtoRwbp2BX/f0Mfin16Zn
-         GGo0viTBh56jKaHkfupHld3ng/TIWZj1gltrUpaooo1swDAJ60WE3WUas3TBIP+UKW1y
-         +6ovehtRUM+aveVvRBLzLkFt7qKf3Q3iYaj259p4/2k/thfK/mnn2h97n47zxwXZVG+i
-         qogg==
-X-Gm-Message-State: AOAM533Aq5jQ8R04MFTwS9Qj9Jk9FDqdXoAdD+445blQR5HF4eB5kE4f
-	Oh9y93Eu1JhpCcdWrUebakNXxM17mOfP2NofkWA=
-X-Google-Smtp-Source: ABdhPJwiJkhS1p3i4WFuARwlpZWTIFoZp10y/I2/1aFGjDT2dQlpg4tPMK+6DGjm0IEFl2mlLHt8yzNy62zCuklNblw=
-X-Received: by 2002:a05:6402:18:b0:410:86cd:9dce with SMTP id
- d24-20020a056402001800b0041086cd9dcemr17780927edu.70.1645381182179; Sun, 20
- Feb 2022 10:19:42 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sbg/+DLQOR79p6+0YNOkKyiycWb1remk9bmGUAMrS88=;
+        b=LXC40oKEwAC8ipo8VWHGeGAsLDJIh/0+nZQfm9RWxA5VafKbDmS3MFeZVDDvqfx5jp
+         mqcZUCryQ/CGeTLHgMuQ6ZL9DQqWbhG5xa8cCvBWaOPhrFNWqG2iMkdpBO+AVe3RwdT7
+         S+egts63KBqh+F/KuJa9pO9muPD84SEY0XTYcqtRrbc2NzSH1SbwU+i3pdVvLJvdW6fy
+         aViKD5xfzRaQ+Hz+bHktnS8nv4Na2NzI3DdjKjJlP0bID9omgjroHbkV/j8aYWTuLe+r
+         f0LjO9f2x9Lay3Fvb+OWZixXYVWwSYTf1BzfGqv2kATemAJAuT3Czfl306ynbeIjD20l
+         BKwg==
+X-Gm-Message-State: AOAM531ZHqXx1Q4m8DCaQRTfmmO0jya6F5H6ny+yy6Goo/qvgGDtTR3n
+	nCl9vM65XyU9sRhPIQ1lRW8=
+X-Google-Smtp-Source: ABdhPJzFMIej0zmTKKZnEBObUvSWAGC3nQXLGbfIW7RfGr27tjZJrKBSJicYHuowtwePhpk8M+zQUg==
+X-Received: by 2002:a05:6402:c10:b0:40f:33cd:a39 with SMTP id co16-20020a0564020c1000b0040f33cd0a39mr18100681edb.234.1645386786554;
+        Sun, 20 Feb 2022 11:53:06 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb8f.dynamic.kabel-deutschland.de. [95.90.187.143])
+        by smtp.gmail.com with ESMTPSA id l6sm4354376ejz.189.2022.02.20.11.53.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Feb 2022 11:53:05 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/2] staging: r8188eu: clean up rtw_security
+Date: Sun, 20 Feb 2022 20:52:52 +0100
+Message-Id: <20220220195254.11759-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220218183421.583874-1-jacopo@jmondi.org>
-In-Reply-To: <20220218183421.583874-1-jacopo@jmondi.org>
-From: Adam Ford <aford173@gmail.com>
-Date: Sun, 20 Feb 2022 12:19:30 -0600
-Message-ID: <CAHCN7xKXoBB4AiJY=wEhZ-8YT=QW4CANe7bapGpjFGnWKm3xmQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] media: imx: Destage imx7-mipi-csis
-To: Jacopo Mondi <jacopo@jmondi.org>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, martin.kepplinger@puri.sm, 
-	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com, 
-	Alexander Stein <alexander.stein@ew.tq-group.com>, dorota.czaplejewicz@puri.sm, 
-	Sascha Hauer <kernel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>, 
-	linux-media <linux-media@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	arm-soc <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, Feb 20, 2022 at 8:56 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
->
-> Hello
->   this series includes patches from two series previously sent:
-> https://lore.kernel.org/linux-media/20220119112024.11339-1-jacopo@jmondi.org/
-> https://lore.kernel.org/linux-media/20220211180216.290133-1-jacopo@jmondi.org/
-> v1:
-> https://lore.kernel.org/linux-media/20220214184318.409208-1-jacopo@jmondi.org/T/#t
->
-> Which can now be marked as superseded.
->
-> The first 2 patches performs the de-staging of the imx7-mipi-csis driver and
-> are now reviewed.
->
-> The rest of the series builds on top of the comment received on:
-> https://lore.kernel.org/linux-media/20220119112024.11339-3-jacopo@jmondi.org/
->
-> If DUAL pixel mode is used in the CSIS driver, then the CSI block of the IMX8MM
-> SoC needs to be operated in dual mode as well. To do so, use the image format
-> sample size to determine in the CSI bridge if dual or single mode should be
-> used.
->
-> Laurent could you test on MM to see if it works now ?
+This set removes unused macros and aes tables from rtw_security.h and
+rtw_security.c.
 
-Jacopo,
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Do you have a repo I can clone?  If not, I need to know which branch
-to apply to the series. I have an 8MM with an OV5640, and I'm willing
-to test if Laurent can't.
+Michael Straube (2):
+  staging: r8188eu: remove unused macros from rtw_security.h
+  staging: r8188eu: remove unused aes tables from rtw_security.c
 
-adam
->
-> On top two small patches I was carrying in my tree to add more formats to the
-> CSIS driver, the last one with the caveat that RGB24 is transmitted on the wire
-> with one format and stored in memory with a different one.
->
-> Series based on top of the most recent media master branch.
->
-> Thanks
->   j
->
-> v1->v2:
-> - Remove per-SoC handling in CSI bridge and only use image formats
-> - Add TODO note to the staging driver
-> - Fix PIXEL_DUAL mode comments for imx-mipi-csis
-> - Add output format translation to imx-mipi-csis to handle RGB24
->
-> Jacopo Mondi (7):
->   media: imx: De-stage imx7-mipi-csis
->   media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
->   media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
->   media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
->   media: imx: imx-mipi-csis: Add RGB565_1X16
->   media: imx: imx-mipi-csis: Add BGR888
->   media: imx: imx-mipi-csis: Add output format
->
->  Documentation/admin-guide/media/imx7.rst      |  2 +-
->  ...-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
->  MAINTAINERS                                   |  4 +-
->  drivers/media/platform/Kconfig                |  1 +
->  drivers/media/platform/Makefile               |  1 +
->  drivers/media/platform/imx/Kconfig            | 24 ++++++++
->  drivers/media/platform/imx/Makefile           |  1 +
->  .../platform/imx/imx-mipi-csis.c}             | 59 +++++++++++++++++--
->  drivers/staging/media/imx/Makefile            |  1 -
->  drivers/staging/media/imx/TODO                | 26 ++++++++
->  drivers/staging/media/imx/imx7-media-csi.c    |  8 ++-
->  11 files changed, 117 insertions(+), 12 deletions(-)
->  rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
->  create mode 100644 drivers/media/platform/imx/Kconfig
->  create mode 100644 drivers/media/platform/imx/Makefile
->  rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (95%)
->
-> --
-> 2.35.0
->
+ drivers/staging/r8188eu/core/rtw_security.c   | 174 ------------------
+ .../staging/r8188eu/include/rtw_security.h    | 112 -----------
+ 2 files changed, 286 deletions(-)
+
+-- 
+2.35.1
+
