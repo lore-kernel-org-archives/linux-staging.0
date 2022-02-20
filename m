@@ -1,102 +1,152 @@
-Received: from sonic301-32.consmr.mail.ne1.yahoo.com (sonic301-32.consmr.mail.ne1.yahoo.com [66.163.184.201])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF365EA4
-	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 17:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1645378274; bh=stLzmJif3JsDPnLrx1c01Iyxz59e3vU+zR7HdCG4h/Y=; h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject:Reply-To; b=DHoSSndxNFKxGnzeb+j0YgYbveQtYOTDWrDloM30Xq1nVYcPDx9AehnaUcHxY0o13ZZkTm6zAjOzPOGkrspw18y0O9Eo6n1VytpS0a8L+0Jsj9BLXozS6tXEfVX1qrj5+JyBaaHOaTBvi28eurbYemDZrJF4PmSZl4wCjAL1u6Eee94yAW84EkQ83pJf5F/YPe2K+8d9wDp/Pgq1LjScWUPOMLOTOI22857dDa6oFmIzJ4uAOdnUUk8mkBUgY4NggcnhYJ4cmVoRy1uSlIu74W61ay0yAqzSYXe4QKEyUyZEf0lEWNH3mlekFUq5/6it+S9/QszYOmhj6GOQm9G/lg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1645378274; bh=uSb43o6K9HvrzctQhzcqRf/sRuLcezeK3yQkILhgndZ=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=U6p2cb9THs8M4libf1xmLr9JnS4HPepbzIrwb20S86V8FSFrsm5Feu7IgWZWu0kJIaUj6i/wfPtkJDnTR7azFa5g16o/gFy2b5hrkGG2UMrylPRYutE+kdpFcP5BPtJ1Uyl1x5Smf1roKdV1QrMD1vzv13H4Iq+SMOjRrLFbjeDwe5pQvOIms7M+JydeT0RJz4pwNhUDAniYDmYSgaDt59kINtCGoO4Dbfa5xXbjl8Y5VrSPG2Ai1jV34puDyouc5QPWhAPpJKPM8b+BvB1nJr80aFhcZ6rHFx8IhmhM6TDWA65/Sknm8YO6yCF3zUAeJjSI36HOlmGygvxNeMO6MA==
-X-YMail-OSG: 8FyqS9EVM1mbaqc7XPjb25YYbmSVXBA4MR2V2D18YaaZLnD.6bfZn0juFJessY5
- nEiWeVBLob_0IfIziwAVzjq1CEVrZ4LWas3HPUP_rVsDhMtPZYMeSXbWopx1j7aY7Xnmnj_R7mkM
- .8we2oqe9Hp5A48pXRGrFy5kZreHw58qxVUN8QuWG4dN4B7b2vOYuYei3as0d4zv7lOhkBgauz6u
- Dt9PXK9M4rKGse.smJFtyVYBZx0WEFHxSNmCU1xfOShJ1ma8g0D.0iRkwpLt7HHiWTFhYj88hdzO
- 2ZL7Ikl1kaZlyL.JJfptC2FkDDSV50ZjjZCRZ93JFcqbZHymGHmA0ffGPls_jk9cm1goO7Q1Y3j2
- 0s7x1mvcUEzR8pI8oOd6VDV6PqvliCcLU.2dxV8kQJPZsiBM2Cpk1SxfTQqT9UY7Su4qBIayjgzc
- 85oJ7nZ63SscKlcNUs2XXjM7kt7Eig89i3dfU2r.5EdM9cxlRUfvYMD_wX0Zw3JeH2mey9rWhPop
- metQBopxJC2XqeY2ZGd_aRvcAuKzq.j.agalAoF5BccY.la7Q9fR8NifTcSbi08aDzPpwYx3xF8J
- hWQTqUmF4ZvSaNjicGyfUdRDO3NaTrlBg9gbzwxDDAxo9clKt9g4a65ZDbPYcbSh.pyqubjxlWnm
- eNK6toxEH7vML2P6EjhAR8aka_qWv.khCks6cHdFy1Xu8HfF_0b.YKPXNsIj_..nvDEkaTJMmsvG
- SpWlXFVA.dGAQZuIPB8Ah8SikvADm4xKjnpzc3RAMlPUnxDxNRGyL467O3VoVvW6Zo9itF3zefj4
- 2KcIYpPbCuBrDzlp2UGxDpYrCxh21PtriYYdSR89lVKsb1bsSYBt1ZQNaMaQiNviDCBqFHmcQS2R
- VJX10hLX8pzE_CWQ._Is71i_i5jPEtWHvjzNkFYHfcsDTQThnWvWZlVNUhNu53myFSpqH.j6dTNh
- 7NfvsG_LGIUw6P38MaSGHOiMetiIQWuKLVqPPgilo0KMgywD6qRshCpWYNRSzeFF9K0qOFV.QST_
- GQuuWQRyGr8lQNjN1dser8SusC7Jsaqi8ZSJfuQxzEug5QdyilztYW46KugoAhUvJGwrCI0xMp9o
- Isw59j7ev90A4okYwgq_ZlK0eYA3dLwQ9jdZA8BiIgmPkoaf1VthNTMk.phJTeCC24FfjY0u47FA
- DxEnFZgBw8Tbsv148cxZOLp8hMw7zVJR2IQZqPVwTWW5xiDBNewue2rpJYqt8CeBCmgzjYxjKuyY
- FvUEheoE_Tc.cOB3WDtFOOg5ZZnBeOzy_.Viy.QHnZhFu2fbpNpNFpguHKl_pks5WcXGJC9KtVKY
- ZYpSV4S7MIf1697leBq99Ef_oTNAqGVud8XqfFg3hymVK_ZM5LcHYsRx2j.2aG8nfySgV5ilGI.r
- RdtBS_QxqmGKNB36.olLgNAn9Iu8Pe9SDRW6HyKICQEswfUJo9r_ZoVOhfSU1it6dOGdTxJBnntV
- H0kXbqSxKhdrY8A9EEmxtZMtvh9pEz3A_ft8sdwVTn_Iq8aytrKsZvE8jh9kM0k8ZXPY1x2iCXKn
- 6O.Nfi5ZQf5I.uvKgnoYHcl3gGLm5MJ2H5VswQN2TlTY67NQlMICRygnju4AIjD8PyibJm9PPf9e
- 4rGtGTaAoOnnaIkDoJRRAhY5A.OnPAmmmjWgiPnr8aCAykX9PALdY_gQ9fnFP.jdM6kAR4CZqGEP
- TATQBbERmN4zr.ImR9YMIbrRYeD32f_Eo5DBxgcQs3iPxspHz_Q1LI_F1A_hlqXi9t2g.CpA14pF
- zyuGA2ow4485pfir0iAxEAONlydAu3dQBkQGw5FHXxlXf7u5pSUyaCDCaRX4hpTuM7X6YZEICIVf
- 2TYGKRUiVjGgMC4DO796O.M3NsTCC2g6yPISkDbMED0Sp4_Dg8hPycaU0l3quOKEyveBdeOG1lsk
- ndb3zQq0uJw_clicnf_52GjDx_6nZbM_QQ.H4wE19DXrGiMJZbU8GFMZdOX4XFH6MLP0L0SObFIh
- Yi.AkCSRaRueJmkV8ceNNH5ZcJBbc2bFmsTIih2p3lM_WqW7o.5Os07HPAFeAjQR.XZkwOvqR8Pp
- 3.bxVakZ4y470O0.dRB.a1iGLisDeEUKwTsXYicg94DgRwO18LENBTlSRgmDin0eKb1vYjFMbtM8
- NWXG_TYDJK0i8D1EATd4rayzhYfoGi98LydBsvoNFDUbFGwo835wUgYKRiozskRz8vTouGdTtdU_
- x
-X-Sonic-MF: <marcelo.as@aol.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ne1.yahoo.com with HTTP; Sun, 20 Feb 2022 17:31:14 +0000
-Received: by kubenode522.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 8a2dcc81a07db2dcf1be2b4f9b04191b;
-          Sun, 20 Feb 2022 17:31:09 +0000 (UTC)
-Date: Sun, 20 Feb 2022 14:31:05 -0300
-From: Marcelo Aloisio da Silva <marcelo.as@aol.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: remove unnecessary braces in if
- statements
-Message-ID: <20220220173105.GA11223@snoopy>
-References: <20220218043705.GA23783.ref@snoopy>
- <20220218043705.GA23783@snoopy>
- <20220218114455.GG2407@kadam>
- <20220218125058.GE2467@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4076A5EA4
+	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 17:32:05 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id b11so14478763lfb.12
+        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 09:32:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+Q3n0Y+E0iTibxw2SrDvuKXdCqveJjmzvnX1uL9SsFk=;
+        b=cKMVnhdlUwCAtAKS5QVRJrtD4kMH3k8LViPPur+Ewnfz94uTlcu12C4nQR5YCCtw/O
+         aOcoKT43DUlCEthXvDSkg4K5tDIvFneswEn9i42xd82/iB4IgMHaT9uVfdd0zRAhEGLn
+         N7h4Y1a4CJnvVUxSdUL6ev2/EB8if9KoGEm046+AGj8rVf2nABLYFZcsZuk1VeQQfXUL
+         R8jHQxDM8JZKXsXMue09HzX5ojJbulLCpg+YEBJzNuBTwUXxInFDHN8NEla6YtISj+pX
+         MfFQ7/CLNvb2gVtHbHiAyL9c3FWEpM8rIZB0wejDHAbU/xmv1qlFK3MSSIt5/7mFA1U1
+         CJEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+Q3n0Y+E0iTibxw2SrDvuKXdCqveJjmzvnX1uL9SsFk=;
+        b=Xy2DAPnun2XkqDA/HBk1WC6OwgmHA9FEZNCKzr19fznOU5Hh+lUpA24gZLfaFxLONm
+         0rZ9Ii02E7ZyDLxng+3Oyv8Lh17ymOpwnRCh8SBpa+oLXqTloLnGgJkLBHyek400x8/J
+         4bXjMkE2ymIv4rIuhMM63RtTkLxiGcraizQyvpTDUo5a/peamSZ1wgf23O7rqCS6kr80
+         IySgX0DROt3lMzwlvtDyDQWfBi09KFaWCUbjPjeKfOOi3RAfwtoCYGLUY5ivQzXAvKdO
+         jemBvrW+Vp3FdjECJQHNERbAzmN/8DPw3dKab4vogsj5TsuTAS9qfHSbXwphzsa0sQ7A
+         AQEw==
+X-Gm-Message-State: AOAM533lBxfJX122LQ0VT6kQ3L8p78DytN5nJ2Jq25+8ZSxDicvwuuZ7
+	jZ0gniDGnh4QBg77WhjHkIM=
+X-Google-Smtp-Source: ABdhPJz4DtWFGHyllZUkWLV5wC0O4UDqNaJILkd8FJqwAd32gi5qrzWvQXMmgGn1W6Xkk1zyh7fYvw==
+X-Received: by 2002:a19:761a:0:b0:43c:79ae:6aef with SMTP id c26-20020a19761a000000b0043c79ae6aefmr11883967lff.630.1645378323194;
+        Sun, 20 Feb 2022 09:32:03 -0800 (PST)
+Received: from localhost.localdomain (109-252-138-165.dynamic.spd-mgts.ru. [109.252.138.165])
+        by smtp.gmail.com with ESMTPSA id f8sm880490ljk.97.2022.02.20.09.32.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Feb 2022 09:32:02 -0800 (PST)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/8] Add V4L stateless video decoder API support to NVIDIA Tegra driver
+Date: Sun, 20 Feb 2022 20:29:42 +0300
+Message-Id: <20220220172950.3401-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220218125058.GE2467@kadam>
-X-Mailer: WebService/1.1.19797 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 18, 2022 at 03:50:58PM +0300, Dan Carpenter wrote:
-> On Fri, Feb 18, 2022 at 02:44:55PM +0300, Dan Carpenter wrote:
-> > On Fri, Feb 18, 2022 at 01:37:05AM -0300, Marcelo Aloisio da Silva wrote:
-> > > Braces are not necessary for single statement blocks.
-> > > 
-> > > Signed-off-by: Marcelo Aloisio da Silva <marcelo.as@aol.com>
-> > > ---
-> > >  drivers/staging/r8188eu/core/rtw_mlme.c | 8 ++------
-> > >  1 file changed, 2 insertions(+), 6 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-> > > index 45eff3018d73..ad1d73a27548 100644
-> > > --- a/drivers/staging/r8188eu/core/rtw_mlme.c
-> > > +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-> > > @@ -1379,10 +1379,8 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
-> > >  	if (pregistrypriv->wifi_spec == 1) {
-> > >  		struct wifidirect_info *pwdinfo = &adapter->wdinfo;
-> > >  		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE))
-> > > -		{
-> > >  			/* auto site survey */
-> > >  			rtw_auto_scan_handler(adapter);
-> > > -		}
-> > 
-> > Generally we prefer if statements around multi-line indents.  It helps
-> 
-> I meant "prefer curly braces around multi-line indents".
-> 
-> regards,
-> dan carpenter
-> 
-Thanks Dan for the feedback.
-I'll fix the brace for this if statement in another patch.
+Support V4L stateless video decoder API by NVIDIA Tegra decoder driver.
+Tested using GStreamer [1] and libvdpau-tegra [2][8].
 
-Regards,
-Marcelo
+[1] https://github.com/grate-driver/gstreamer/commit/b8509bdbb69b534e61419ea1798f32f9ad2f3597
+[2] https://github.com/grate-driver/libvdpau-tegra/commit/f822e95911e5e0c39f8ba19f843ddc1e0138d5ce
+[8] https://github.com/grate-driver/libvdpau-tegra/commit/80db4d02369f2a984ce3173d6bc305f32e9fdb97
+
+Changelog:
+
+v4: - Added r-b from Nicolas Dufresne to the
+      "V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags" patch.
+
+    - Added patches to de-stage driver, like was suggested by Hans Verkuil.
+
+    - Added patch to enable driver in ARM's multi-platform defconfig.
+
+v3: - Added new decode_params flags [7] instead of V4L2_BUF_FLAG_*FRAME flags,
+      as was suggested by Nicolas Dufresne.
+
+      [7] https://github.com/grate-driver/gstreamer/commit/c5cd847f9c26b7669720ae58f9058de2515f51a2
+
+    - Added new patch that removes legacy UAPI.
+
+v2: - Made V4L2_BUF_FLAG_*FRAME flags mandatory [3] and dropped reading
+      of raw bitstream from the driver code, as was suggested by
+      Nicolas Dufresne.
+
+      [3] https://github.com/grate-driver/gstreamer/commit/aee292f0f2e84b7654a314dd7e63f916888ffaa5
+
+    - Ran v4l2-compliance [4] and fluster [5][6] tests, like was suggested by
+      Nicolas Dufresne. Fixed minor v4l2-compliance errors that were related
+      to a partial initialization of the coded format and were harmless in
+      practice, but made compliance checker unhappy.
+
+      [4] https://gist.github.com/digetx/5d6bcdab633488f1dcc7c141ab90d30e
+      [5] https://gist.github.com/digetx/b06c5d779e9d25afa41d9f46946fe399
+      [6] https://gist.github.com/digetx/ac4198bc340e5065aa8ec3288bb21356
+
+Dmitry Osipenko (8):
+  media: v4l2-ctrls: Add new V4L2_H264_DECODE_PARAM_FLAG_P/BFRAME flags
+  media: staging: tegra-vde: Factor out H.264 code
+  media: staging: tegra-vde: Support V4L stateless video decoder API
+  media: staging: tegra-vde: Remove legacy UAPI support
+  media: staging: tegra-vde: Bump BSEV DMA timeout
+  media: staging: tegra-vde: De-stage driver
+  ARM: tegra_defconfig: Update CONFIG_TEGRA_VDE option
+  ARM: config: multi v7: Enable NVIDIA Tegra video decoder driver
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   |    6 +
+ MAINTAINERS                                   |    2 +-
+ arch/arm/configs/multi_v7_defconfig           |    1 +
+ arch/arm/configs/tegra_defconfig              |    3 +-
+ drivers/media/platform/Kconfig                |   17 +
+ drivers/media/platform/Makefile               |    2 +
+ drivers/media/platform/tegra/vde/Makefile     |    3 +
+ .../platform/tegra/vde}/dmabuf-cache.c        |    2 +-
+ drivers/media/platform/tegra/vde/h264.c       |  946 ++++++++++++
+ .../platform/tegra/vde}/iommu.c               |    2 +-
+ .../platform/tegra/vde}/trace.h               |    2 +-
+ drivers/media/platform/tegra/vde/v4l2.c       | 1018 ++++++++++++
+ drivers/media/platform/tegra/vde/vde.c        |  551 +++++++
+ drivers/media/platform/tegra/vde/vde.h        |  242 +++
+ drivers/staging/media/Kconfig                 |    2 -
+ drivers/staging/media/Makefile                |    1 -
+ drivers/staging/media/tegra-vde/Kconfig       |   10 -
+ drivers/staging/media/tegra-vde/Makefile      |    3 -
+ drivers/staging/media/tegra-vde/TODO          |    4 -
+ drivers/staging/media/tegra-vde/uapi.h        |   73 -
+ drivers/staging/media/tegra-vde/vde.c         | 1358 -----------------
+ drivers/staging/media/tegra-vde/vde.h         |  125 --
+ include/uapi/linux/v4l2-controls.h            |    2 +
+ 23 files changed, 2794 insertions(+), 1581 deletions(-)
+ create mode 100644 drivers/media/platform/tegra/vde/Makefile
+ rename drivers/{staging/media/tegra-vde => media/platform/tegra/vde}/dmabuf-cache.c (99%)
+ create mode 100644 drivers/media/platform/tegra/vde/h264.c
+ rename drivers/{staging/media/tegra-vde => media/platform/tegra/vde}/iommu.c (98%)
+ rename drivers/{staging/media/tegra-vde => media/platform/tegra/vde}/trace.h (97%)
+ create mode 100644 drivers/media/platform/tegra/vde/v4l2.c
+ create mode 100644 drivers/media/platform/tegra/vde/vde.c
+ create mode 100644 drivers/media/platform/tegra/vde/vde.h
+ delete mode 100644 drivers/staging/media/tegra-vde/Kconfig
+ delete mode 100644 drivers/staging/media/tegra-vde/Makefile
+ delete mode 100644 drivers/staging/media/tegra-vde/TODO
+ delete mode 100644 drivers/staging/media/tegra-vde/uapi.h
+ delete mode 100644 drivers/staging/media/tegra-vde/vde.c
+ delete mode 100644 drivers/staging/media/tegra-vde/vde.h
+
+-- 
+2.34.1
+
