@@ -1,164 +1,115 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C4C5A22
-	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 10:02:24 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id qx21so25553373ejb.13
-        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 02:02:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+FtVTON5NgIkD0WmM1NUxGxYzj2A7X0c0C9dZIEX6+k=;
-        b=CVX7xlP8KQUUXAWtHkmsQfk+3plBV19i057kKwZjO+yD0rIEWp4z9jTPPS3f8BBRi9
-         I8KMKn8rRtLOGgI3S+ikTvwjoJA2bkjFWZ1FRdmMUcbDo0sc+fPsbVXR6sjSArIYrME8
-         8yw0J75lJrf8sBocttSH9DotVycoEtoWXX9TIQvBnWRLwf+y+7J4l6CwbWfGfjmyD6ot
-         i2zZ5Rgv3hqlYpd/FmQphXXmmsUMPVC3fYIw1rd33GFDZJQ3OcLyIVrB0TL4imjlWeFb
-         8gRd1DWGNRb2Vr6UIGlQij1srYBgJKthnRsahrWBfoXcYzI8PxReVFjcoFGTHb1frCQu
-         gwOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+FtVTON5NgIkD0WmM1NUxGxYzj2A7X0c0C9dZIEX6+k=;
-        b=8FRF7/NlCumBYRlCE7zYodR9dijq2cXO/KJGkhIQUg6v+gSBvRK7SxqfZmIXOdvtpu
-         5Ctma6noxDVO4zKyWeVHMLLSDRl279l1Tt9bHcoKfMThTF2Pg+0el78Wv/BNAsT5vG1r
-         CB/wFx71RtaC9Kgu3SLzPyesRVrKn9FIw10aIRyco2dETBsNrpFYctSZLEhodTCqX5Mh
-         o8PWbm84t0zYN0HjPsHV0Ld3ouQ9H64RjgujZmk8fSf1Cx52+yoVv0xFKuQCLMK9+oEr
-         vUFXmYVm00fstBXFPtrpn20LS53LzbvpL1g1TKVAzG+qA7S/Z4yxhcmAdi6yDM/4kpQg
-         zYRA==
-X-Gm-Message-State: AOAM531BQ9PwO1U+6+5D78dqq37DI2RXzmIa+H/nOKFbEuiD2AZT3idq
-	klqFvznn1Dz3BGWVLt57F3JSstVlcWw=
-X-Google-Smtp-Source: ABdhPJziPjk3j9hUjH4ORe5Jq2hFDIhoHtCHQwiA9LAapRpxIUs3Str3j3PqVBOaU5WsZo6x65wYbQ==
-X-Received: by 2002:a17:906:d935:b0:6cc:fcfc:c286 with SMTP id rn21-20020a170906d93500b006ccfcfcc286mr12151046ejb.423.1645351343160;
-        Sun, 20 Feb 2022 02:02:23 -0800 (PST)
-Received: from localhost.localdomain (ip5f5abb8f.dynamic.kabel-deutschland.de. [95.90.187.143])
-        by smtp.gmail.com with ESMTPSA id dx7sm3265223ejb.23.2022.02.20.02.02.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 02:02:22 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/5] staging: r8188eu: remove ODM_CmnInfoUpdate()
-Date: Sun, 20 Feb 2022 11:02:12 +0100
-Message-Id: <20220220100212.7466-6-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220220100212.7466-1-straube.linux@gmail.com>
-References: <20220220100212.7466-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439E75A22
+	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 10:06:43 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE42625B;
+	Sun, 20 Feb 2022 11:06:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1645351600;
+	bh=cuaCCpZ+uDlWEVaoZ8rU9otl6y4kQqf9jzr/WjIeg1k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cio6GrxKUBDvSR/pqrzGS5HjlViHNMbcbPywvrV79QZn2NqQo1ZaWzmbwLZ1urbiW
+	 fBD/9VAE7AWkVfL2KNmhCZSrjqVyjLCOO8WxCwnQtIZm04AxPZzpAhM+DlxMIHTxT5
+	 qksF9lk0Q4SIuAoD6RDDqykUg2iyuWCAjj2SEkkU=
+Date: Sun, 20 Feb 2022 12:06:31 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo@jmondi.org>
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
+	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+	kernel@pengutronix.de, linux-imx@nxp.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 0/7] media: imx: Destage imx7-mipi-csis
+Message-ID: <YhISpwrs8tdTeqGA@pendragon.ideasonboard.com>
+References: <20220218183421.583874-1-jacopo@jmondi.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220218183421.583874-1-jacopo@jmondi.org>
 
-Each case in ODM_CmnInfoUpdate() just sets a single variable. Set the
-variables directly and remove ODM_CmnInfoUpdate().
+Hi Jacopo,
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/odm.c         | 21 +--------------------
- drivers/staging/r8188eu/hal/rtl8188e_dm.c |  4 ++--
- drivers/staging/r8188eu/include/odm.h     |  7 -------
- 3 files changed, 3 insertions(+), 29 deletions(-)
+On Fri, Feb 18, 2022 at 07:34:14PM +0100, Jacopo Mondi wrote:
+> Hello
+>   this series includes patches from two series previously sent:
+> https://lore.kernel.org/linux-media/20220119112024.11339-1-jacopo@jmondi.org/
+> https://lore.kernel.org/linux-media/20220211180216.290133-1-jacopo@jmondi.org/
+> v1:
+> https://lore.kernel.org/linux-media/20220214184318.409208-1-jacopo@jmondi.org/T/#t
+> 
+> Which can now be marked as superseded.
+> 
+> The first 2 patches performs the de-staging of the imx7-mipi-csis driver and
+> are now reviewed.
+> 
+> The rest of the series builds on top of the comment received on:
+> https://lore.kernel.org/linux-media/20220119112024.11339-3-jacopo@jmondi.org/
+> 
+> If DUAL pixel mode is used in the CSIS driver, then the CSI block of the IMX8MM
+> SoC needs to be operated in dual mode as well. To do so, use the image format
+> sample size to determine in the CSI bridge if dual or single mode should be
+> used.
+> 
+> Laurent could you test on MM to see if it works now ?
 
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 5d2f934d78ae..94f9b125d860 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -464,7 +464,7 @@ static void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
- 		pdmpriv->EntryMinUndecoratedSmoothedPWDB = 0;
- 
- 	FindMinimumRSSI(Adapter);
--	ODM_CmnInfoUpdate(&pHalData->odmpriv, ODM_CMNINFO_RSSI_MIN, pdmpriv->MinUndecoratedPWDBForDM);
-+	pHalData->odmpriv.RSSI_Min = pdmpriv->MinUndecoratedPWDBForDM;
- }
- 
- static void odm_TXPowerTrackingThermalMeterInit(struct odm_dm_struct *pDM_Odm)
-@@ -639,25 +639,6 @@ void ODM_CmnInfoInit(struct odm_dm_struct *pDM_Odm, enum odm_common_info_def Cmn
- 	pDM_Odm->BbSwingFlagOfdm		= false;
- }
- 
--/*  Update Band/CHannel/.. The values are dynamic but non-per-packet. */
--void ODM_CmnInfoUpdate(struct odm_dm_struct *pDM_Odm, u32 CmnInfo, u64 Value)
--{
--	/*  */
--	/*  This init variable may be changed in run time. */
--	/*  */
--	switch	(CmnInfo) {
--	case	ODM_CMNINFO_ABILITY:
--		pDM_Odm->SupportAbility = (u32)Value;
--		break;
--	case	ODM_CMNINFO_LINK:
--		pDM_Odm->bLinked = (bool)Value;
--		break;
--	case	ODM_CMNINFO_RSSI_MIN:
--		pDM_Odm->RSSI_Min = (u8)Value;
--		break;
--	}
--}
--
- void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
- {
- 	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-index df0b412c52eb..6d28e3dc0d26 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-@@ -36,7 +36,7 @@ static void Update_ODM_ComInfo_88E(struct adapter *Adapter)
- 	if (hal_data->AntDivCfg)
- 		pdmpriv->InitODMFlag |= ODM_BB_ANT_DIV;
- 
--	ODM_CmnInfoUpdate(dm_odm, ODM_CMNINFO_ABILITY, pdmpriv->InitODMFlag);
-+	dm_odm->SupportAbility = pdmpriv->InitODMFlag;
- 
- 	dm_odm->pWirelessMode = &pmlmeext->cur_wireless_mode;
- 	dm_odm->pSecChOffset = &hal_data->nCur40MhzPrimeSC;
-@@ -80,7 +80,7 @@ void rtl8188e_HalDmWatchDog(struct adapter *Adapter)
- 			bLinked = true;
- 	}
- 
--	ODM_CmnInfoUpdate(&hal_data->odmpriv, ODM_CMNINFO_LINK, bLinked);
-+	hal_data->odmpriv.bLinked = bLinked;
- 	ODM_DMWatchdog(&hal_data->odmpriv);
- }
- 
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index 7a10f57b9bd3..b88b3f3d08ee 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -122,19 +122,14 @@ enum odm_common_info_def {
- 	/*  Fixed value: */
- 
- 	/* HOOK BEFORE REG INIT----------- */
--	ODM_CMNINFO_ABILITY,		/* ODM_ABILITY_E */
- 	ODM_CMNINFO_MP_TEST_CHIP,
- 	/* HOOK BEFORE REG INIT-----------  */
- 
- /* CALL BY VALUE------------- */
--	ODM_CMNINFO_LINK,
--	ODM_CMNINFO_RSSI_MIN,
- 	ODM_CMNINFO_RF_ANTENNA_TYPE,		/*  u8 */
- /* CALL BY VALUE-------------*/
- };
- 
--/*  2011/10/20 MH Define ODM support ability.  ODM_CMNINFO_ABILITY */
--
- enum odm_ability_def {
- 	/*  BB ODM section BIT 0-15 */
- 	ODM_BB_RSSI_MONITOR		= BIT(4),
-@@ -455,6 +450,4 @@ void ODM_DMWatchdog(struct odm_dm_struct *pDM_Odm);
- void ODM_CmnInfoInit(struct odm_dm_struct *pDM_Odm,
- 		     enum odm_common_info_def CmnInfo, u32 Value);
- 
--void ODM_CmnInfoUpdate(struct odm_dm_struct *pDM_Odm, u32 CmnInfo, u64 Value);
--
- #endif
+Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com> # On i.MX8MM
+
+with and without the changes I've proposed in the reviews.
+
+Have you tested 3/7 on an i.MX8MQ ?
+
+> On top two small patches I was carrying in my tree to add more formats to the
+> CSIS driver, the last one with the caveat that RGB24 is transmitted on the wire
+> with one format and stored in memory with a different one.
+> 
+> Series based on top of the most recent media master branch.
+> 
+> Thanks
+>   j
+> 
+> v1->v2:
+> - Remove per-SoC handling in CSI bridge and only use image formats
+> - Add TODO note to the staging driver
+> - Fix PIXEL_DUAL mode comments for imx-mipi-csis
+> - Add output format translation to imx-mipi-csis to handle RGB24
+> 
+> Jacopo Mondi (7):
+>   media: imx: De-stage imx7-mipi-csis
+>   media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
+>   media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
+>   media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+>   media: imx: imx-mipi-csis: Add RGB565_1X16
+>   media: imx: imx-mipi-csis: Add BGR888
+>   media: imx: imx-mipi-csis: Add output format
+> 
+>  Documentation/admin-guide/media/imx7.rst      |  2 +-
+>  ...-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
+>  MAINTAINERS                                   |  4 +-
+>  drivers/media/platform/Kconfig                |  1 +
+>  drivers/media/platform/Makefile               |  1 +
+>  drivers/media/platform/imx/Kconfig            | 24 ++++++++
+>  drivers/media/platform/imx/Makefile           |  1 +
+>  .../platform/imx/imx-mipi-csis.c}             | 59 +++++++++++++++++--
+>  drivers/staging/media/imx/Makefile            |  1 -
+>  drivers/staging/media/imx/TODO                | 26 ++++++++
+>  drivers/staging/media/imx/imx7-media-csi.c    |  8 ++-
+>  11 files changed, 117 insertions(+), 12 deletions(-)
+>  rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
+>  create mode 100644 drivers/media/platform/imx/Kconfig
+>  create mode 100644 drivers/media/platform/imx/Makefile
+>  rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (95%)
+
 -- 
-2.35.1
+Regards,
 
+Laurent Pinchart
