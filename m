@@ -1,54 +1,53 @@
-Received: from sonic317-32.consmr.mail.ne1.yahoo.com (sonic317-32.consmr.mail.ne1.yahoo.com [66.163.184.43])
+Received: from sonic303-22.consmr.mail.ne1.yahoo.com (sonic303-22.consmr.mail.ne1.yahoo.com [66.163.188.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85C95EA4
-	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 17:42:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1645378922; bh=5i7B4UP6i0xOh6BEGhXP90aB1q+OzqFXQ9IFJRSWCgo=; h=Date:From:To:Cc:Subject:References:From:Subject:Reply-To; b=FnH757QLquYfc1IWozZdoMANUi7PhPuxCwGltXLABpxdmUUwv9aypICKlt95pV4cky7gQrsT/dQOzuPzPl4H4Uh4xgW7RCIERYvj1YsRxRylBOyyKW+eY4K0/raiv9XKq/gDGIimorP4iXx7iiH42mlhKV0L0dW6zXohPd/i3DSKAaC4jXYRZL3oZViGeLB0Kg0NbBEyV3NYvCAtLuqF6uzWqYg2ZEf/Ww/TM+o7Shy3S8s+S/Gc5YV/vPn5WzAmyopUm8OLUbkNf48mQ+lvaP+u8rKyy45jiYWro2zw0MlCYX/cuHewIA2ftQOMflZZfTpP5uqWxonFsW7x7IidqA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1645378922; bh=mJvVav5IUmbUUXlDBej+0nUbu4HFqpBiTsqHxcGa1rq=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=Bz+GhXTWrzSFZimiA4geOwhteKImYLf/XVS7SzmH1xLYpHIgVn7ZGgS33qpRJ5k+USHq92+qehuRpjGs0Aq/0THDeGst/rR0+SgXtB0bLC8HVZI1hedJq5i+aGw7u+0NISqzV0UEuWE853G9zxoQEGMBeH+vxEU2QjqWZxDnKeQBe5Tg73K2T9TPYB+apMyN+j4i14Li1h7of2hlHraLF5r+e0h1kriBIA8WmIpUlRQ1KxXXl3KppkcGpvt+pdgafbK/oD84opxA1UWPVxrtM6FlYQLet/nKY4K62Gzl55ioKhK3Nb5OBGe7n3RsGiroMyGEZTdiKjowtVNE+juEIA==
-X-YMail-OSG: LvXfeYgVM1mEB9uzn_AVpnyxtYlpeI598xjD5FBfI8VOt203pM52W_wps_bNlSp
- am8ghsM1H7RurTO43jvIMRZ1pKmLG6RqO2I12QitTOyJImQ0Q.Aiag1hTg5ViiJKWU4aoNeEvZwS
- 1YGYD1Ja8V49qHqW9ED5zPZG2UD14XBPluGE1HA3hS0LCWHeScu0r0P3Zbn78vFa9VraoxWPG8Ti
- 5loMQaO0S8eZu18WIbFmdT1viN7QzhxZA5ximiQAfFfuWRWvHEA22jaxOQK_W0rEUM5xgWRTbnrn
- Uy2eJ.ss.R5MEzZ1Sot3QeEbW0NH0cuhh72dejI1jJrYgwD21pjQ8O_qwIU2KM6IccCcPqYvelbz
- IgXjDBcgNXVm8ju4w7y4Mf_6dMBO1pfbcZGIcvAKSghOvNm0rcOMmsIN0SRdyAVQAeres.yFYSrE
- FOUr1PooqCUdfD5sGf2aRq0tkppwvf8MaVFxMp3.0vDjddFFmGIGPL7ZRANiehoUi77wGtFAzGTt
- SOOi2RQR0RLl93EB6xORxj_3wSKqbwITvSaa2o8Nz7j09jriDbMradi2nEkfL.oNRg0KQ9rW342y
- YAwgIeYd6jkpYYD_clMdLTY066GEOht6LCU2vx8BucSa1e2bN5MU1dJQ4DOGfwhgM47I9.ODosY_
- jiwWRyiK2dUImzHTkVbMOUmg6M.V3qRZ7_Z3tfN03i1l_o5pBdW49kGz4rk8z1Nt9AvFvVavG.EB
- ShT.4DR_MzQCAjAAa0.g0m0xD8s9DpmRXC8287eeC_3PtoZq3qowEQKSWd5gcUxQK_Aam7H3JzLT
- KR46bi0evVaUQWpXWbu3Fm5TMfdrTTpi.43cLTyozk3bCPqDUFg2lFd_AKSiUvGmmnxRnkbGCxvZ
- FLXkMcRzhTLWXhD1WK58u1V0CaZWtF4AFTjYxdtvliKEP4ejfzG8MYMtdGYRBV9Nh0g4Va9RuZQ7
- PflYeFIZgzYlJq853YkGG1U5t9w9YaEYufCC29v1LoYSGLNxAr3BEi32w1DvhhbW2ArSROzW4V9O
- btHNqjiAgM3aDWx7eRaNY1YUIXvPg63AvfnzDbT3YAk4zz9QpWaBz4vFUDEDwvgRf7v3YRuceyB6
- oPwxBr2f0C90cm812f4y7rvKnTciyCx0MdXHOh6mP6NHSuvTahwfEgPYdT5xrH6TY679STgbtNG9
- G0P_6lP_stBMBeSS5bGL3UZ640CnmsEnT9a4YmwfEu02m3UtfY97DhTjKrdY0AwtlnwdhjUTFIAy
- OyZhB30bm5oJgVQ6M9kBtigPcjHFt6sYX4GHRjwuVOYlZ4ZDQ9MVSPOQrZP3fG6pjDPAvyc0KsXD
- hPlEgcziaDXV6EbYt5hr3mWhqlYq.z0.SQAP8Ldcdpkh.rNvNHmNa6EUnhsN9l6wTlWDzkdYm__w
- _oZUXnVAMDU0UckG1ce6toDx.PWWlAH7SmxuSiA32yR1yvzzW22rx9.dtl7pA4aG7sTkBcnGKRug
- 1ZX70tG4xqml20gV96zhK0w_BA0mpP7gWxD.hJy0EnspMRW7OHL4KpbGJb.iimSq_OwnWyLVO0Bt
- YSkxa8Udw02o8FD3C2GwWSXNL4akobuzXQIrkf0JzpbfZ5oklCqFSFY_u6aajp9obSIUfJYRonL1
- tdMJ4B866_vH8OtSz1zTYUfqX26YRygXk5DfhsxOteDxV_GUnQC4cq8dZyZ8XY16fRnnWWOAmscB
- ecgTRuSkcZDXAA5QvIlOK3GGcm3E4354dSmE9VE4Jn70UjdcgH5kgfGp9Iu3XtBSIq1SHqQDNGOc
- 9Dd06MKUc2QsCOwvi.PYjCG7UwyoxXEQoFPm7frp1XEYB8P9rps.GVSGXS8SWdIvX2upv4VK39cI
- Mc0HyBbkUEErLNa1V.45tlIcMDkU7bwjtKjkolFlY2rsHJoVBUAShh6sG27EQTQ27Gp3IjLRajko
- tVshO6m85ajQozRVd1GLQ2BSb2cBgTn6tpHer.YbwX6Vaby8wDGfwBFCgnxUNjzJNvFUY4SF442t
- UUk.OZz32G9SOTGUlfkafNn1cBmNpUV_V7oVJi3bY2G9wHGFt08T50xALE_lzRgcbPhV13a76HSc
- uKK7x3UFy_jRZ.nKZIbXTbkAEzPIaY1jTxpX3FEGYdxq.90WglJR4HDDPFkNOS4pTolkVlPC0CnH
- SqSBK3PYoLyR.iZNy6Afd5RnkTXKil58FP7h7SXQ_TKTxy.PgDFXNY5WrTobUFLcw0DProjNk1qU
- WqY.Wyg--
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD175EA4
+	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 18:04:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1645380281; bh=kQk9EXbzrRW3Ifji/73BDGZNCWFj+2QsTUPnJDEexYY=; h=Date:From:To:Cc:Subject:References:From:Subject:Reply-To; b=dGVodEF5+eAMpwQNEcQxrCfKn1b/Ppxl9qGog5f3PI/iZLqjQl2fCk8QNOntoQCo+YxLAiVy0c1pgs7cM7znf50jzijuW7dCLukXxbjTPJxemWcXZoXtgUwiMv4V4gmpujhuU+DymgEpNze82ZnuwXq3/SuQu4xfz7VHd1kLS9H9OyDtcOA+FJ2EXuandMbikk5F61MmjuQ9WcSKZlJNbCQsSZ4kTdZPgucFx8Eex9saFX304l888ejs8DXgpUhjTeo3feAWwf5wbWg/h4yUABZhuFa1HcXz+Y5eWmnVyijd3O3PrtYfcpvDl5v3FxG0hRC6IZW5xhi6ai2mpMVUug==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1645380281; bh=jbzGlOv9+tU3ZG3IhCPab2G+KqdnPqnZienP9coskGf=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=fF4jfjy6QEXqvWl95tSPOTVOCWte0sPjisNtKtUniGgypTiec5WWIyvQ3FOj1+eA7Qv/43CrGgdllipU9QrrL19Siq8coFSjaR/+t5t06WGw6s6doj1yrcT8YC3hZr8zpv6j3IlMcbQT8L2dulL+SL+FjWOAJA9aLdME2+4o/jq/b2CefQY7x5WuRtANGao7dyI8/i6W9/g6d7XurVadHewIxM/1XaHTf/r3vpqz2W0KCE9rauBH1DEJgp2/rDNC2T7tk8cVAgYh7IrYToGelvXQor6pZ2zoIkfDt56Ewo+gHEXVCr7vG6vpkQEe5p69nlhkZbognWk5rJmDHwdfxw==
+X-YMail-OSG: LsefwwUVM1kZ1t4heRfRTRFb8ZWUU3eCl5uDylvvoQX9DL5aNMge6EqfbySjoM5
+ IOvroQLT2NWUgkKM6LoOZ9lMibIiIkZkjign6m_WZx.c7mDqohFzcnib9ApKYo5o2N30WTXpxKMT
+ bZScdxCLe7r2kea9DoQN4r9D20FInak00qfiYEg6e22nM54jWAnHxamZVkN_SMO9FLYznLYaJdKn
+ dl9yf7fs27ZVJEz9APtY9sA0AlrqUKSlK9kb9WQgXnxnLaZ7shfiXvx9yuGbSwD7Ic4SsN0NBoYi
+ 4pD.G6bGbPKIJRO6lQs4zZEOj5Dht8f9FBRukzQ8xCrU.4fN5BS6S29IvyMzjfJbGLX4WFN7q1f5
+ 4qmcirzIeM6PTMqTm9dAhfwAlI7sOV4sZbUTEX6Ay.NE8EmmhGnmWV9GGGlCUeOukh.3yQH1B8xf
+ UK4y2D6gmylDoRIhzHGOdT4IRa.TNnAtotcyqMLDwQYroBK4fV_ISzGWRyptot7Cw7kVyb4lNzsO
+ XQVae.UWceJF.40dPjvB82MHF65EZjse5x2SmwQoFO92kcVGbcpNR.tiy1EI4x0SApBH0YaPa.Hv
+ aQ5BrSPTTazn5WbgvOjT1u5OrxCDzjPkGIl80Hxyc_tMIWW3YAhJKPzTKgEvPQbH_cESrCZzfJ5M
+ .kz9hkEUdgRyBHpvDxkDEUFhZfJLTHb.l508l1MhkNdP4u1gUn1h8a3HkYYnEFMpP1xQe9X6Sf1t
+ mjQKj3TNbMwfH4Z6daP4f_Fks2zYvqV48gBSoryJSn92yd6fkfv6_TbUJXpps3wXKdpNCREiLb4p
+ ZE.AzX5A2h1NHF1dINjskQiKZGmcarYViW1m_inoaCreag9PepkyDLBD9RcrCl5..J.TYGYvi.qQ
+ iXPYPdpQ7NZrCkYRxwfdWS_bS1KGcNlFvfdPKpwp_HD8CObLKl4ActtFM8qVZVXAft9fqTJSYOfk
+ ykO9vRcoaupd26fU_EcwEgpoG11OY4vclH3yDau1N0Wdxx9iDTAUVujOMyNy88XE.vXxUpCg8hAM
+ TOdIXWntf8BDVUSvX0YWz5jMMIgNPJxz4x9flhwF4X5YdvDzoGCsc1FH8MMqQqDHb4UukC9kxlMi
+ 00HL2Uuvx0jrt0h__EI2CKNzcLluNvI6g6pK7UgT4enfd31w8wEE8sG_pUGbRB4dgk95KUdsgXQT
+ nr4xE.6128rQQTPpDdvkakUWlxY_crhc8cig.Sb9yuaTWo087WptylqI91sHpyCKdUgGqcxc9MMR
+ uAS0zk9RhBIa0wfI3rgiC_hpUDdsH.S7mAdUwZQ52QCYE.2iq.fDHfMXv3IR0SKvmFOyqVHHFTpT
+ VQrBzdhBn.4OH.vphmcshRcnawd.HF70e8iQQY7s7SJjGvG82uSzf0cSSgLUUPw4fyZJ6KJuRB2j
+ KFZsGHBH7fHy7mRdsTlJ6.Wc5twoqN2DkDUK.sK0N000oM2ClxiwjY5SoMnklzflGp9Z_GRh5F_.
+ HqVjKwHK_smbFtQaX4.r37q.ki1Gwy3gUIM6WUeaGp7LPLGsKx6LU1FI.fGwk62IjRWfmlyhZW8G
+ huhyP4QSINA0ZeIg8qwYCjPBAPHm2IGnK8PpeRjlNlhaONkuCd7W.F03C7GE03HE86eVsvpl6b4b
+ of6yv_lKBE92XTbPBeqM.UIGL8k7.YpOtyyT4duGMOMlsIFPzzpr.IzM4NzuoHQ8nvbT5eptFtiR
+ L0lSJsvF.VyUTyR8adgy1N.wCSD.jKLW1BKEv_M8016OiCbOgCoiIe_DViFEBZtY3uV0U5PisCW4
+ ecUorYudVyVr14eC6N9e2UpnxRqaGEQ0Y05lRq9.wzFgQQDyYpGfZhZc2jdTnl.XPdsgEVgmvx9y
+ pZQ4KspZicQ2JuvkENSkZPwgqTyh2vly8lfbo0UI22fWUFg5.BYT4C8_M35PMZkDaqjsTMrsx8eX
+ Advs_SjMg9EjlOMSz5nV4OGfu2ieWSmKu1rlGu5CO3HfWEtCE_RvbdYLMgtSthYcQAa4WpaA_.g6
+ OKAvXGXm2v1.I7cb8lAgP7SFmecNTSlEbiLeEWSABVUpBNErvtbNefU33JpyCX4QSoN9Y77oq0KL
+ Tkikx2tDmuFCV0Tw7ct8yux1SXHUxf3rC2JsBcLbeQOlnLWRTIO87Ooei1sgu214w1oyyFt5n07b
+ uRXCg.vvCL.YNGCDGoblhO5yrbE4tTCttSZLGRRM72Mjb254gNZw345iRey65p_FBEi5DOEv1qhi
+ iibROEK7i3z4-
 X-Sonic-MF: <marcelo.as@aol.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.ne1.yahoo.com with HTTP; Sun, 20 Feb 2022 17:42:02 +0000
-Received: by kubenode550.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 1d00f9055099d6db87fd586831b218f1;
-          Sun, 20 Feb 2022 17:41:59 +0000 (UTC)
-Date: Sun, 20 Feb 2022 14:41:50 -0300
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ne1.yahoo.com with HTTP; Sun, 20 Feb 2022 18:04:41 +0000
+Received: by kubenode514.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 034d5a13fc09754f0eccafe7fd5ff5ed;
+          Sun, 20 Feb 2022 18:04:39 +0000 (UTC)
+Date: Sun, 20 Feb 2022 15:04:34 -0300
 From: Marcelo Aloisio da Silva <marcelo.as@aol.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: r8188eu: remove unnecessary braces in if
- statements
-Message-ID: <20220220174150.GA11496@snoopy>
+Subject: [PATCH] staging: r8188eu: move open brace to the previous line
+Message-ID: <20220220180434.GA12386@snoopy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,40 +56,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-References: <20220220174150.GA11496.ref@snoopy>
+References: <20220220180434.GA12386.ref@snoopy>
 X-Mailer: WebService/1.1.19797 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 
-Braces are not necessary for single statement blocks.
+Fix the following error reported by checkpatch.pl:
+
+ERROR: that open brace { should be on the previous line
++		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE))
++		{
 
 Signed-off-by: Marcelo Aloisio da Silva <marcelo.as@aol.com>
 ---
-Changes in v2:
- - Only remove braces for the if statements below.
-
- drivers/staging/r8188eu/core/rtw_mlme.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 45eff3018d73..3a438f917904 100644
+index 45eff3018d73..3abc7e21bc0d 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1392,14 +1392,12 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
- 		/*  expire NAT2.5 entry */
- 		nat25_db_expire(adapter);
+@@ -1378,8 +1378,7 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
  
--		if (adapter->pppoe_connection_in_progress > 0) {
-+		if (adapter->pppoe_connection_in_progress > 0)
- 			adapter->pppoe_connection_in_progress--;
--		}
- 
- 		/*  due to rtw_dynamic_check_timer_handlder() is called every 2 seconds */
--		if (adapter->pppoe_connection_in_progress > 0) {
-+		if (adapter->pppoe_connection_in_progress > 0)
- 			adapter->pppoe_connection_in_progress--;
--		}
- 	}
- 
- 	rcu_read_unlock();
+ 	if (pregistrypriv->wifi_spec == 1) {
+ 		struct wifidirect_info *pwdinfo = &adapter->wdinfo;
+-		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE))
+-		{
++		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE)) {
+ 			/* auto site survey */
+ 			rtw_auto_scan_handler(adapter);
+ 		}
 -- 
 2.25.1
 
