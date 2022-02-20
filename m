@@ -1,209 +1,73 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DCB160
-	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 13:35:07 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1240E25B;
-	Sun, 20 Feb 2022 14:35:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1645364105;
-	bh=0ymc4nhOToJLaeevubO3Hwei82MBSqdI66KaNXgGV/U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EAkFA3n3vgaTcLjJKQ3OK1NZrt22xmFFkV/iwyHFFmQZpkK+RmtTok7xNDaKpEXGZ
-	 qGm10BS6Sp9oYi6+bUmM4TMPau7/7KYdDxjd1dHSZLM1AuwDzCLDmfe+MrgjmSg+dq
-	 O5dSt2pcQn3riOWgii+oCgwSx7wGD2TfqGVISIes=
-Date: Sun, 20 Feb 2022 15:34:55 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo@jmondi.org>
-Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
-	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-	kernel@pengutronix.de, linux-imx@nxp.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 5/8] staging: media: imx: Use DUAL pixel mode if available
-Message-ID: <YhJDf1WVQTIteE30@pendragon.ideasonboard.com>
-References: <20220214184318.409208-1-jacopo@jmondi.org>
- <20220214184318.409208-6-jacopo@jmondi.org>
- <YgtSbEjr9KID81eI@pendragon.ideasonboard.com>
- <20220215085918.dxilh2sx2yx2l6c5@uno.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3296C7B
+	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 15:49:05 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id hw13so26841118ejc.9
+        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 07:49:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dARIPsQFLgerpwn1kQ2g+irfqGZDCER4zOvKgssyNuo=;
+        b=fFzb5I+Xrzyb7TNUivKHhlRdkvfeCmNWBLCRAGxwGGTi4Hlc2FRsX0syDEtgC2GkDY
+         NOIXYpBQZiY/9N+FiDnO4cwrSx5FLXjkzvuKEByuGT3fa7kfg6wpiZhckWom4veyzVlu
+         7iXKZBQW3FIkDPCCwx3XSqEtsqSzglp8VPA+SGxVFq4z5peIwd+4W5DUfOkwWQaFguGo
+         iGen3s0GReq9iMuH1OOYBQ2kWmzWRDalj8Hw+ZWj4eP9NiAjxFlNXksl9/jX7gn6KCQH
+         ljF6/AFu8u5bpMoO1rW1fOadtp8JvVXsPg999ucvYZH+Kx9Djv3M7qhxVmDlkPTJPZfC
+         4p3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dARIPsQFLgerpwn1kQ2g+irfqGZDCER4zOvKgssyNuo=;
+        b=cpAseIUjmJKnSJ4+QuTcBsmtBCiumi4rjLvhMpVoAP/SE5AfhHvOS1ocWduw2S8hfK
+         Y/nTMMEnS6syQcRN1Ychjr/uuP1SB8ylAP/563r5P0GqvDYU3qmdeMziTbJI6LEULLw4
+         nt3D/wiEfuMWBOPXzAZhXyFP9AXVtiOiX8IXNr9TbzD9K3OKLiAjmm3ZF9tH49IgLxMt
+         izNTlXiaxSVQn/tvXhEwol6ZCAepfn4/Ph+7WCL1/EkdTWpvUsr1oaLMsBxKIzf3Y9LV
+         bQfN9rYsH6O3dlcD7v8WtfmOoKdPTNDgoj4zqgMvGTTWuTl4MhBlBjjcmNCgqhX9LRTY
+         d0Og==
+X-Gm-Message-State: AOAM531Nms04oynpr5VWMOCAV26Y3Mb+3YpD+VDwKtGiqWz+vdGxcBcj
+	Itx/EGDULCaInoV/LEEuPio=
+X-Google-Smtp-Source: ABdhPJzOfIaCWcddsfGqtsIX6dBfFI29GRWro4vBxYgh/w8mpHKlXKl8UazYmXPZQtv+xJRoQ6poEw==
+X-Received: by 2002:a17:907:1dc4:b0:6ce:f3a8:49b7 with SMTP id og4-20020a1709071dc400b006cef3a849b7mr12425908ejc.121.1645372143489;
+        Sun, 20 Feb 2022 07:49:03 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb8f.dynamic.kabel-deutschland.de. [95.90.187.143])
+        by smtp.gmail.com with ESMTPSA id ew6sm4178979ejc.217.2022.02.20.07.49.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Feb 2022 07:49:03 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/3] staging: r8188eu: clean up rtw_rf.c
+Date: Sun, 20 Feb 2022 16:48:44 +0100
+Message-Id: <20220220154847.7521-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220215085918.dxilh2sx2yx2l6c5@uno.localdomain>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+This set removes 5 GHz frequencies from the channel-frequency map in
+rtw_rf.c and simplifies the rtw_ch2freq() function.
 
-On Tue, Feb 15, 2022 at 09:59:18AM +0100, Jacopo Mondi wrote:
-> On Tue, Feb 15, 2022 at 09:12:44AM +0200, Laurent Pinchart wrote:
-> > On Mon, Feb 14, 2022 at 07:43:15PM +0100, Jacopo Mondi wrote:
-> > > The pixel sampling mode controls the size of data sampled from the CSI
-> > > Rx queue. The supported sample size depends on the configuration of the
-> > > preceding block in the capture pipeline and is then dependent on the SoC
-> > > version the CSI peripheral is integrated on.
-> > >
-> > > When capturing YUV422 data if dual sample mode is available use it.
-> > >
-> > > This change is particularly relevant for the IMX8MM SoC which uses the
-> > > CSIS CSI-2 receiver which operates in dual pixel mode.
-> > >
-> > > Other SoCs should be unaffected by this change and should continue to
-> > > operate as before.
-> > >
-> > > Signed-off-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  drivers/staging/media/imx/imx7-media-csi.c | 10 +++++++++-
-> > >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > > index 112096774961..a8bdfb0bb0ee 100644
-> > > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > > @@ -426,6 +426,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
-> > >  {
-> > >  	struct imx_media_video_dev *vdev = csi->vdev;
-> > >  	struct v4l2_pix_format *out_pix = &vdev->fmt;
-> > > +	struct imx_media_dev *imxmd = csi->imxmd;
-> > >  	int width = out_pix->width;
-> > >  	u32 stride = 0;
-> > >  	u32 cr3 = BIT_FRMCNT_RST;
-> > > @@ -436,7 +437,7 @@ static void imx7_csi_configure(struct imx7_csi *csi)
-> > >  	cr18 &= ~(BIT_CSI_HW_ENABLE | BIT_MIPI_DATA_FORMAT_MASK |
-> > >  		  BIT_DATA_FROM_MIPI | BIT_BASEADDR_CHG_ERR_EN |
-> > >  		  BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
-> > > -		  BIT_DEINTERLACE_EN);
-> > > +		  BIT_DEINTERLACE_EN | BIT_MIPI_DOUBLE_CMPNT);
-> > >
-> > >  	if (out_pix->field == V4L2_FIELD_INTERLACED) {
-> > >  		cr18 |= BIT_DEINTERLACE_EN;
-> > > @@ -500,6 +501,13 @@ static void imx7_csi_configure(struct imx7_csi *csi)
-> > >  		case MEDIA_BUS_FMT_YUYV8_2X8:
-> > >  		case MEDIA_BUS_FMT_YUYV8_1X16:
-> > >  			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
-> > > +
-> > > +			/* If dual mode is supported use it. */
-> > > +			if (imxmd->info->sample_modes & MODE_DUAL) {
-> > > +				cr18 |= BIT_MIPI_DOUBLE_CMPNT;
-> > > +				cr3 |= BIT_TWO_8BIT_SENSOR;
-> > > +			}
-> >
-> > I would implement this differently:
-> >
-> > 		case MEDIA_BUS_FMT_UYVY8_2X8:
-> > 		case MEDIA_BUS_FMT_YUYV8_2X8:
-> > 			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
-> > 			break;
-> >
-> > 		case MEDIA_BUS_FMT_UYVY8_1X16:
-> > 		case MEDIA_BUS_FMT_YUYV8_1X16:
-> > 			cr3 |= BIT_TWO_8BIT_SENSOR;
-> > 			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B
-> > 			     |  BIT_MIPI_DOUBLE_CMPNT;
-> > 			break;
-> >
-> > This would support either option here. What you will then need to change
-> > is imx7_csi_enum_mbus_code() and imx7_csi_try_fmt(), to allow/disallow
-> > the 2X8 and 1X16 variants based on the SoC. This is important for the
-> 
-> Exactly. And being the format list in the shared helper I decided it
-> was really not worth adding any SoC specific code to those helpers
-> which should ideally be nuked.
-> 
-> Should we decouple the helpers to get to a point where we can have
-> SoC-specific formats list ? Then I would be more than happy to use the
-> above construct.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Yes, we should. I have started working on this, but haven't had time to
-complete the work yet.
+Michael Straube (3):
+  staging: r8188eu: remove 5 GHz channels from ch_freq_map
+  staging: r8188eu: refactor rtw_ch2freq()
+  staging: r8188eu: clean up rtw_rf.c
 
-> There is one quirk I'm not sure about: How does the CSI connect to the
-> transmitter ? It is my undertanding that in i.MX8 connects to the the
-> CSI-2 receiver (either CSIS or the Northwest tech one). Does in older
-> SoC revisions connects directly to a parallel sensor ?
-
-On i.MX7 there's a mux that allows selecting the CSI-2 receiver or the
-parallel input. It's implemented using the video-mux driver, see
-imx7s.dtsi for details.
-
-> I'm asking also because there is a comment that reports
-> 
-> 		/*
-> 		 * CSI-2 sources are supposed to use the 1X16 formats, but not
-> 		 * all of them comply. Support both variants.
-> 		 */
-> 
-> But if the preceding block is the CSI-2 receiver, we control what
-> formats it exposes and we can use both 2X8 or 1X16 depending on the
-> SoC specificities and we don't care about the CSI-2 Tx supported
-> formats. Does that comment make sense in your opinion ?
-
-I think the comment should be dropped. There are CSI-2 sensor drivers
-that incorrectly use the 2X8 formats instead of 1X16, but I don't think
-we should work around that here, the sensor drivers should be fixed
-instead.
-
-> Also be aware that, in example, if we expose from the CSIS source pad
-> both 2X8 and 1X16 we create a condition where userspace could
-> configure the pipeline uncorrectly.
-> 
-> Let's draw a table (for i.MX8 only as I don't know about the 7)
-> 
-> 
->         8MM/CSI   8MQ/CSI  8MP/ISI
-> CSIS    Dual              Dual
-> NW              Single
-> 
-> 
-> Each block would then support
-> 
-> CSIS    Dual
-> NW      Single
-> CSI     Dual/Single
-> ISI     Dual
-> 
-> So we create a potential for a misconfiguration in 8MM with
-> 
->         CSIS = Dual
->         CSI = Single
-> 
-> or for the 8MQ
-> 
->         NW = Single
->         CSI = Double
-> 
-> If we don't create a list of SoC specific formats. Nothing bad, -EPIPE
-> will be returned, but maybe we should avoid that ?
-
-Format propagation is typically done from source to sink in userspace,
-so the risk of picking an incorrect format is very low (and it would be
-a userspace bug in any case). Nonetheless, it would be nice to avoid
-exposing formats that can't be used, but that can be done later.
-
-> > i.MX7, which has both a CSI-2 input and a parallel input. When using the
-> > CSIS it can (and should) use double component mode, while when using the
-> > parallel input it can work in 8-bit or 16-bit mode depending on how the
-> > sensor is wired.
-> 
-> I didn't know i.MX7 used the CSIS :/
-> Ah wait, the driver was called imx7-mipi-csi2 :/
-
-:-)
-
-> > > +
-> > >  			break;
-> > >  		}
-> > >  	}
+ drivers/staging/r8188eu/core/rtw_rf.c | 61 +++++++--------------------
+ 1 file changed, 16 insertions(+), 45 deletions(-)
 
 -- 
-Regards,
+2.35.1
 
-Laurent Pinchart
