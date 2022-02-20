@@ -1,93 +1,97 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075856130
-	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 22:53:54 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id p22so15374825lfu.5
-        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 14:53:54 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77035EA4
+	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 23:16:13 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id l73so12730976pge.11
+        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 15:16:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language
-         :from:to:cc:references:in-reply-to:content-transfer-encoding;
-        bh=lrJ1JybLeaLsFNVAmzwjpCp9vU3YBmIsvmQRFGbIsFo=;
-        b=K13PlyzB7OWjeZ1pDRkI8crdU86abyRnUW6hPGgC2JK72tjnpVHjOZo6oQBOspHhTp
-         on5rN1S+b7f9uTRLps8OCDZQcZbIWD/D9Rm7D2ST5V6NZGUCvKGr91dojV5qbTORPM4W
-         nVQ/SB4aqFAu/OcJShGjOI39CMePM0f5WGHaPlT3ZDvjUKtEqU3ZOM4aNhw0QXne9JD9
-         dVqCsXfQDIa5CLugvFuIygnV03cLgkCEhJD25pdknUVB5atFevyTVMdzchdcpKqX+OSL
-         N4F69eilarFOD4qBLNerLx2mRcW/BcMiuw1GcSQ7JSDeMqLJot2VlSSh7vykULMuBgYg
-         WlOA==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v+5D+f5AfXBOIxZqw3DuNGRZ2y8wgJVOd1esBx4G8SU=;
+        b=L2f5+v1ifU3oarN26hOPJsm1Z2PpZlfWx9qdGUlh7o2u97XDcRAJXok2D5loBIB6oH
+         GEgNgK3QaA5Ujst0njEzerhPqydz4ZMG8fGUAOiIdKsBPIvrUNg0+hX09d/uHePLBt9w
+         1sx335FK3IyUsNYEH6dbNZ8VidQyFZea7X13qty8OA4z2fJ5ggXwO9vifBEXtyC5BL7u
+         +Nh6jSt8xzGrHdDqMPQm/07Hyw5fKFcn/yVZNZ7+WrJx2toA/2uOLfj+uDKCKBtQiODL
+         xKUlau8UGS4wEOq6WiqHzLB+3IPuQf/Aj7zC354c1QAAL1nIj98NVT1NazV9d/88V3FI
+         y4pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:from:to:cc:references:in-reply-to
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=lrJ1JybLeaLsFNVAmzwjpCp9vU3YBmIsvmQRFGbIsFo=;
-        b=I4t2enxEwaIlTsAKe4rZ7V2g0zxdGu8yYmCIyWHT4wJ6pV+b/2LZ/WHzFq6CueTv7i
-         M4lcz/UiZgeGSBmaiVZ45JYIeFxNGlMNxPnb/ecwRSWTj8I1ZYp3rrIVhChfxN7U9iDY
-         qbvcj6jgnTKfpdVpK9MldahH4DAqArOGeqhpW8qKOA71z9j+fZskS7+U49QPKE/MyBap
-         NL5ZcMlrWAonDS23AYfVtZV9zE+m5IZ+nvrzdBvQ3i8x8zeY9oQEhQwS3IwV9yvPlf2F
-         /NDGEWCKqvVN5wXj72V2alFOY06chVLGgj5MR7zCSu4lKJmT7BshNsQmE1nKdn6mNcXz
-         mMeA==
-X-Gm-Message-State: AOAM533y/Jxecc+EqNms9WM8ljq2Movz7QCRFm/Ez63gHEiRWOFJuZeH
-	psb81PCPAPqkweQi+voEGx0=
-X-Google-Smtp-Source: ABdhPJxMnh4SIB/X6gO4KKootcvFEKV5OuRHvzCbdfRNqOg9mqOIK4qbxcOhs4DpmlS+ICFEpfL5CQ==
-X-Received: by 2002:ac2:5e69:0:b0:443:eaad:2284 with SMTP id a9-20020ac25e69000000b00443eaad2284mr2221624lfr.597.1645397633012;
-        Sun, 20 Feb 2022 14:53:53 -0800 (PST)
-Received: from [192.168.2.145] (109-252-138-165.dynamic.spd-mgts.ru. [109.252.138.165])
-        by smtp.googlemail.com with ESMTPSA id i28sm939540lfv.78.2022.02.20.14.53.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Feb 2022 14:53:52 -0800 (PST)
-Message-ID: <92f821cd-5fff-9dca-7e63-e33dfc7b391a@gmail.com>
-Date: Mon, 21 Feb 2022 01:53:51 +0300
+        bh=v+5D+f5AfXBOIxZqw3DuNGRZ2y8wgJVOd1esBx4G8SU=;
+        b=TVxatlcL5FY9mx6cJLdpznSIn1WU8XqSRI6s/DrY6azIN/cwQChZDtyqXG/siZCBQw
+         F0EotkdIHPFtT+U2ZWglk2KlnUGUUhrtmDR7Tw6l72H0CU7lQnvqpfmi22HUbdcYDFAO
+         shxKU+/ecQFTifgytozABFPsj0g0QnIp5oyIovHU38GdbsPc+9SCKjKG4uqX3A2aCEva
+         PXW6jhs6qEIKGmK0Jky35BbJpR8JNBkUHXAtzbhn3o1YyEVFsqKBTtf8Cs+fPY40QjLO
+         orQ6vVfOMqwz7gMv79rsFfx/1Ur+os3NRB9KjYcwnpd56AclvG8Yqu+goehzm9KDgYUg
+         1H+w==
+X-Gm-Message-State: AOAM531zEa0q6lsh4RL5Dszw//LJT5/eGotneTK0lk8hMjupK7zP0bgb
+	wfg7EdIPJ60nEqlXErpIXb0=
+X-Google-Smtp-Source: ABdhPJzXK6lO+JuFiE+zOSXtibF/o69FEKgc7NC+abAX4mpznSrgITRs+qeSwdvviBiO6qX7se/MCg==
+X-Received: by 2002:a05:6a00:1354:b0:4c9:1e96:d15c with SMTP id k20-20020a056a00135400b004c91e96d15cmr17446602pfu.30.1645398972881;
+        Sun, 20 Feb 2022 15:16:12 -0800 (PST)
+Received: from tong-desktop.local ([2600:1700:3ec7:421f:4bcb:4067:79cf:393f])
+        by smtp.googlemail.com with ESMTPSA id j4sm3092087pfj.218.2022.02.20.15.16.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Feb 2022 15:16:12 -0800 (PST)
+From: Tong Zhang <ztong0001@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Colin Ian King <colin.i.king@googlemail.com>,
+	Saurav Girepunje <saurav.girepunje@gmail.com>,
+	Johan Hovold <johan@kernel.org>,
+	Tong Zhang <ztong0001@gmail.com>,
+	=?UTF-8?q?Cl=C3=A1udio=20Maia?= <clrrm@isep.ipp.pt>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192u: cleanup proc fs entries upon exit
+Date: Sun, 20 Feb 2022 15:15:53 -0800
+Message-Id: <20220220231554.2510567-1-ztong0001@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 5/8] media: staging: tegra-vde: Bump BSEV DMA timeout
-Content-Language: en-US
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Nicolas Dufresne <nicolas@ndufresne.ca>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220220204623.30107-1-digetx@gmail.com>
- <20220220204623.30107-6-digetx@gmail.com>
-In-Reply-To: <20220220204623.30107-6-digetx@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-20.02.2022 23:46, Dmitry Osipenko пишет:
-> BSEV DMA timeouts if VDE is downclocked by x10. Bump the timeout to allow
-> DMA to complete. We don't support freq scaling yet, this is just a minor
-> improvement which may become useful sometime later.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/staging/media/tegra-vde/h264.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/tegra-vde/h264.c b/drivers/staging/media/tegra-vde/h264.c
-> index a46c648a26c6..d8e5534e80c8 100644
-> --- a/drivers/staging/media/tegra-vde/h264.c
-> +++ b/drivers/staging/media/tegra-vde/h264.c
-> @@ -135,7 +135,7 @@ static int tegra_vde_wait_bsev(struct tegra_vde *vde, bool wait_dma)
->  		return 0;
->  
->  	err = readl_relaxed_poll_timeout(vde->bsev + INTR_STATUS, value,
-> -					 !(value & BSE_DMA_BUSY), 1, 100);
-> +					 !(value & BSE_DMA_BUSY), 1, 1000);
->  	if (err) {
->  		dev_err(dev, "BSEV DMA timeout\n");
->  		return err;
+proc fs entries need to be removed when module is removed, otherwise
+when we try to insert the module again, kernel will complain
 
-For the reference: This is a new patch in v4/v5 and I didn't intend to
-include it into this patchset, it happened by accident. On the other
-hand, this patch is harmless, so it's okay to keep it.
+[  493.068012] proc_dir_entry 'net/ieee80211' already registered
+[  493.271973]  proc_mkdir+0x18/0x20
+[  493.272136]  ieee80211_debug_init+0x28/0xde8 [r8192u_usb]
+[  493.272404]  rtl8192_usb_module_init+0x10/0x161 [r8192u_usb]
+
+[   13.910616] proc_dir_entry 'net/rtl819xU' already registered
+[   13.918931]  proc_mkdir+0x18/0x20
+[   13.919098]  rtl8192_usb_module_init+0x142/0x16d [r8192u_usb]
+
+Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+---
+ drivers/staging/rtl8192u/r8192U_core.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
+index 364e1ca94f70..683afdc667bc 100644
+--- a/drivers/staging/rtl8192u/r8192U_core.c
++++ b/drivers/staging/rtl8192u/r8192U_core.c
+@@ -4825,6 +4825,11 @@ static int __init rtl8192_usb_module_init(void)
+ static void __exit rtl8192_usb_module_exit(void)
+ {
+ 	usb_deregister(&rtl8192_usb_driver);
++	remove_proc_entry(RTL819XU_MODULE_NAME, init_net.proc_net);
++
++#ifdef CONFIG_IEEE80211_DEBUG
++	ieee80211_debug_exit();
++#endif
+ 
+ 	RT_TRACE(COMP_DOWN, "Exiting");
+ }
+-- 
+2.25.1
+
