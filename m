@@ -1,41 +1,41 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FE55EC8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB085ED1
 	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 19:53:08 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id cm8so15596619edb.3
+Received: by mail-ej1-f48.google.com with SMTP id bg10so27820094ejb.4
         for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 11:53:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sbg/+DLQOR79p6+0YNOkKyiycWb1remk9bmGUAMrS88=;
-        b=nB6eDpubZekSnWEMZoKwxePhhcG9rMs3SAxMmF3ISlJI75CHUF/6uf0lLL/mWsDYHk
-         YVmGREQa6Estabu/cdARskm3SK33BooecldvQ06A/ebqwMwB/RwJm8twzp8Y0aVkhpvb
-         s/scUze/CUwY+bioMTTDdBdSfiDCkV4kNf9bS/sLkhIRtZBa3/K8NXWoY97Hwu3z/8cQ
-         JMoRTGmNltL3W9eP/eUmrHV0FGNGUdx61xJCSbKNcRkr5Iq8auzltT28nzL1voYRC7b1
-         mk/QqcYBuaH/Ker7sD9BlHUSNAODxKavJukcuQHOzKdu484saLd7rDJwG7y3PAYO0ovI
-         ta1g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Yl57BXl7orHCcHPv9ogsAWm6LF/HEJi7j880PG+4sRA=;
+        b=bfaxEUhyUjiEXwLtFX6OYBBIcsUExu30bTZ5cppw6/j93GmqIksSbMNV4KQTEI2ui0
+         1Vpu/bYBiNzSucxeUIK5AWf/GJVjYzBZ3j/lEK3WMv8SmGcqykYKWQ0tlt+kzkA5MRi3
+         9dFieMEgmD7c9jnHq6MKnr99hCZtJikTFvpDdnGEVm4Q2MQXd6g02mGV3DQaPsJ05q+p
+         d6BS12K7JB+3vpXUEDzxEvkr8VpQSjKNI+MALf3EubkynCg6RQMf7qFZgQzDg9VXRMyN
+         V1hdjSDza7aGw+Mr/khEmafxL4EKQM9Da5USY5X2RA7iptDfEU306kwTQ9fygdrkCX+w
+         uMng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sbg/+DLQOR79p6+0YNOkKyiycWb1remk9bmGUAMrS88=;
-        b=LXC40oKEwAC8ipo8VWHGeGAsLDJIh/0+nZQfm9RWxA5VafKbDmS3MFeZVDDvqfx5jp
-         mqcZUCryQ/CGeTLHgMuQ6ZL9DQqWbhG5xa8cCvBWaOPhrFNWqG2iMkdpBO+AVe3RwdT7
-         S+egts63KBqh+F/KuJa9pO9muPD84SEY0XTYcqtRrbc2NzSH1SbwU+i3pdVvLJvdW6fy
-         aViKD5xfzRaQ+Hz+bHktnS8nv4Na2NzI3DdjKjJlP0bID9omgjroHbkV/j8aYWTuLe+r
-         f0LjO9f2x9Lay3Fvb+OWZixXYVWwSYTf1BzfGqv2kATemAJAuT3Czfl306ynbeIjD20l
-         BKwg==
-X-Gm-Message-State: AOAM531ZHqXx1Q4m8DCaQRTfmmO0jya6F5H6ny+yy6Goo/qvgGDtTR3n
-	nCl9vM65XyU9sRhPIQ1lRW8=
-X-Google-Smtp-Source: ABdhPJzFMIej0zmTKKZnEBObUvSWAGC3nQXLGbfIW7RfGr27tjZJrKBSJicYHuowtwePhpk8M+zQUg==
-X-Received: by 2002:a05:6402:c10:b0:40f:33cd:a39 with SMTP id co16-20020a0564020c1000b0040f33cd0a39mr18100681edb.234.1645386786554;
-        Sun, 20 Feb 2022 11:53:06 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Yl57BXl7orHCcHPv9ogsAWm6LF/HEJi7j880PG+4sRA=;
+        b=B+j6Ri2GnWm5n9QNwyMGgI/Z0VpVJPrLBZL2L2krE38xQ+/13E3XFuS6ALZ8fhCjEI
+         zYVyUmiixjckio37vVKQ4QKgROz91ScEvQO5et1b029M0txcpmSEfucCcsm48OLWtsHL
+         7y2eCSHZM90PCRTvTC4kzeudgVNN44C98edCwR4m3AqjGReJRHPVXKu0bF+N8KedkK6y
+         mE15kBjUwroBz5jSb/ZIDNuADYpVEFJw3i/tjG/8ilKwBV6Hos2YyvTvDRjIHj6Vlo+E
+         zBaMkpyxCn5iLsjs+gmCW+1ipcBjCiYsj6+8MATbAam50jjE1rT/DXUKHhr+kwBoKLUd
+         KSbg==
+X-Gm-Message-State: AOAM532LN829R9fbyetsskIbo8ZvHh+io6QUv9qYax06Qy0X/0SAQ8ln
+	YJeUfKajbHoZrwnJVX6JoJM=
+X-Google-Smtp-Source: ABdhPJzFhizMQQa+ftBaImnNARM3MJ5TOfkJTUFMQ/5KsYucLYQiKXk1Eykp3WLXB7Q3jIBRNJdrSg==
+X-Received: by 2002:a17:906:a4b:b0:6d0:fbdd:7cb5 with SMTP id x11-20020a1709060a4b00b006d0fbdd7cb5mr6000655ejf.152.1645386787233;
+        Sun, 20 Feb 2022 11:53:07 -0800 (PST)
 Received: from localhost.localdomain (ip5f5abb8f.dynamic.kabel-deutschland.de. [95.90.187.143])
-        by smtp.gmail.com with ESMTPSA id l6sm4354376ejz.189.2022.02.20.11.53.05
+        by smtp.gmail.com with ESMTPSA id l6sm4354376ejz.189.2022.02.20.11.53.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 11:53:05 -0800 (PST)
+        Sun, 20 Feb 2022 11:53:06 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/2] staging: r8188eu: clean up rtw_security
-Date: Sun, 20 Feb 2022 20:52:52 +0100
-Message-Id: <20220220195254.11759-1-straube.linux@gmail.com>
+Subject: [PATCH 1/2] staging: r8188eu: remove unused macros from rtw_security.h
+Date: Sun, 20 Feb 2022 20:52:53 +0100
+Message-Id: <20220220195254.11759-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220220195254.11759-1-straube.linux@gmail.com>
+References: <20220220195254.11759-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,19 +57,135 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This set removes unused macros and aes tables from rtw_security.h and
-rtw_security.c.
+There are lots of unused macros in the rtw_security.h header.
+Remove them.
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ .../staging/r8188eu/include/rtw_security.h    | 98 -------------------
+ 1 file changed, 98 deletions(-)
 
-Michael Straube (2):
-  staging: r8188eu: remove unused macros from rtw_security.h
-  staging: r8188eu: remove unused aes tables from rtw_security.c
-
- drivers/staging/r8188eu/core/rtw_security.c   | 174 ------------------
- .../staging/r8188eu/include/rtw_security.h    | 112 -----------
- 2 files changed, 286 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/include/rtw_security.h b/drivers/staging/r8188eu/include/rtw_security.h
+index 9231201f1009..94729ff2daac 100644
+--- a/drivers/staging/r8188eu/include/rtw_security.h
++++ b/drivers/staging/r8188eu/include/rtw_security.h
+@@ -14,18 +14,11 @@
+ #define _TKIP_WTMIC_			0x3
+ #define _AES_				0x4
+ #define _WEP104_			0x5
+-#define _WEP_WPA_MIXED_			0x07  /*  WEP + WPA */
+ #define _SMS4_				0x06
+ 
+-#define is_wep_enc(alg) (((alg) == _WEP40_) || ((alg) == _WEP104_))
+-
+ #define _WPA_IE_ID_	0xdd
+ #define _WPA2_IE_ID_	0x30
+ 
+-#define SHA256_MAC_LEN 32
+-#define AES_BLOCK_SIZE 16
+-#define AES_PRIV_SIZE (4 * 44)
+-
+ enum {
+ 	ENCRYP_PROTOCOL_OPENSYS,   /* open system */
+ 	ENCRYP_PROTOCOL_WEP,       /* WEP */
+@@ -236,97 +229,6 @@ extern const u32 rcon[10];
+ extern const u8 Td4s[256];
+ extern const u8 rcons[10];
+ 
+-#define RCON(i) (rcons[(i)] << 24)
+-
+-static inline u32 rotr(u32 val, int bits)
+-{
+-	return (val >> bits) | (val << (32 - bits));
+-}
+-
+-#define TE0(i) Te0[((i) >> 24) & 0xff]
+-#define TE1(i) rotr(Te0[((i) >> 16) & 0xff], 8)
+-#define TE2(i) rotr(Te0[((i) >> 8) & 0xff], 16)
+-#define TE3(i) rotr(Te0[(i) & 0xff], 24)
+-#define TE41(i) ((Te0[((i) >> 24) & 0xff] << 8) & 0xff000000)
+-#define TE42(i) (Te0[((i) >> 16) & 0xff] & 0x00ff0000)
+-#define TE43(i) (Te0[((i) >> 8) & 0xff] & 0x0000ff00)
+-#define TE44(i) ((Te0[(i) & 0xff] >> 8) & 0x000000ff)
+-#define TE421(i) ((Te0[((i) >> 16) & 0xff] << 8) & 0xff000000)
+-#define TE432(i) (Te0[((i) >> 8) & 0xff] & 0x00ff0000)
+-#define TE443(i) (Te0[(i) & 0xff] & 0x0000ff00)
+-#define TE414(i) ((Te0[((i) >> 24) & 0xff] >> 8) & 0x000000ff)
+-#define TE4(i) ((Te0[(i)] >> 8) & 0x000000ff)
+-
+-#define TD0(i) Td0[((i) >> 24) & 0xff]
+-#define TD1(i) rotr(Td0[((i) >> 16) & 0xff], 8)
+-#define TD2(i) rotr(Td0[((i) >> 8) & 0xff], 16)
+-#define TD3(i) rotr(Td0[(i) & 0xff], 24)
+-#define TD41(i) (Td4s[((i) >> 24) & 0xff] << 24)
+-#define TD42(i) (Td4s[((i) >> 16) & 0xff] << 16)
+-#define TD43(i) (Td4s[((i) >> 8) & 0xff] << 8)
+-#define TD44(i) (Td4s[(i) & 0xff])
+-#define TD0_(i) Td0[(i) & 0xff]
+-#define TD1_(i) rotr(Td0[(i) & 0xff], 8)
+-#define TD2_(i) rotr(Td0[(i) & 0xff], 16)
+-#define TD3_(i) rotr(Td0[(i) & 0xff], 24)
+-
+-#define GETU32(pt) (((u32)(pt)[0] << 24) ^ ((u32)(pt)[1] << 16) ^ \
+-			((u32)(pt)[2] <<  8) ^ ((u32)(pt)[3]))
+-
+-#define PUTU32(ct, st) { \
+-(ct)[0] = (u8)((st) >> 24); (ct)[1] = (u8)((st) >> 16); \
+-(ct)[2] = (u8)((st) >>  8); (ct)[3] = (u8)(st); }
+-
+-#define WPA_GET_BE32(a) ((((u32)(a)[0]) << 24) | (((u32)(a)[1]) << 16) | \
+-			 (((u32)(a)[2]) << 8) | ((u32)(a)[3]))
+-
+-#define WPA_PUT_LE16(a, val)			\
+-	do {					\
+-		(a)[1] = ((u16)(val)) >> 8;	\
+-		(a)[0] = ((u16)(val)) & 0xff;	\
+-	} while (0)
+-
+-#define WPA_PUT_BE32(a, val)					\
+-	do {							\
+-		(a)[0] = (u8)((((u32)(val)) >> 24) & 0xff);	\
+-		(a)[1] = (u8)((((u32)(val)) >> 16) & 0xff);	\
+-		(a)[2] = (u8)((((u32)(val)) >> 8) & 0xff);	\
+-		(a)[3] = (u8)(((u32)(val)) & 0xff);		\
+-	} while (0)
+-
+-#define WPA_PUT_BE64(a, val)				\
+-	do {						\
+-		(a)[0] = (u8)(((u64)(val)) >> 56);	\
+-		(a)[1] = (u8)(((u64)(val)) >> 48);	\
+-		(a)[2] = (u8)(((u64)(val)) >> 40);	\
+-		(a)[3] = (u8)(((u64)(val)) >> 32);	\
+-		(a)[4] = (u8)(((u64)(val)) >> 24);	\
+-		(a)[5] = (u8)(((u64)(val)) >> 16);	\
+-		(a)[6] = (u8)(((u64)(val)) >> 8);	\
+-		(a)[7] = (u8)(((u64)(val)) & 0xff);	\
+-	} while (0)
+-
+-/* ===== start - public domain SHA256 implementation ===== */
+-
+-/* This is based on SHA256 implementation in LibTomCrypt that was released into
+- * public domain by Tom St Denis. */
+-
+-/* Various logical functions */
+-#define RORc(x, y) \
+-	(((((unsigned long)(x) & 0xFFFFFFFFUL) >> (unsigned long)((y)&31)) | \
+-	 ((unsigned long)(x) << (unsigned long)(32-((y)&31)))) & 0xFFFFFFFFUL)
+-#define Ch(x, y ,z)       (z ^ (x & (y ^ z)))
+-#define Maj(x, y, z)      (((x | y) & z) | (x & y))
+-#define S(x, n)         RORc((x), (n))
+-#define R(x, n)         (((x)&0xFFFFFFFFUL)>>(n))
+-#define Sigma0(x)       (S(x, 2) ^ S(x, 13) ^ S(x, 22))
+-#define Sigma1(x)       (S(x, 6) ^ S(x, 11) ^ S(x, 25))
+-#define Gamma0(x)       (S(x, 7) ^ S(x, 18) ^ R(x, 3))
+-#define Gamma1(x)       (S(x, 17) ^ S(x, 19) ^ R(x, 10))
+-#ifndef MIN
+-#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+-#endif
+-
+ void rtw_secmicsetkey(struct mic_data *pmicdata, u8 *key);
+ void rtw_secmicappendbyte(struct mic_data *pmicdata, u8 b);
+ void rtw_secmicappend(struct mic_data *pmicdata, u8 *src, u32 nBytes);
 -- 
 2.35.1
 
