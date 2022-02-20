@@ -1,89 +1,137 @@
-Received: from sonic303-22.consmr.mail.ne1.yahoo.com (sonic303-22.consmr.mail.ne1.yahoo.com [66.163.188.148])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD175EA4
-	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 18:04:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1645380281; bh=kQk9EXbzrRW3Ifji/73BDGZNCWFj+2QsTUPnJDEexYY=; h=Date:From:To:Cc:Subject:References:From:Subject:Reply-To; b=dGVodEF5+eAMpwQNEcQxrCfKn1b/Ppxl9qGog5f3PI/iZLqjQl2fCk8QNOntoQCo+YxLAiVy0c1pgs7cM7znf50jzijuW7dCLukXxbjTPJxemWcXZoXtgUwiMv4V4gmpujhuU+DymgEpNze82ZnuwXq3/SuQu4xfz7VHd1kLS9H9OyDtcOA+FJ2EXuandMbikk5F61MmjuQ9WcSKZlJNbCQsSZ4kTdZPgucFx8Eex9saFX304l888ejs8DXgpUhjTeo3feAWwf5wbWg/h4yUABZhuFa1HcXz+Y5eWmnVyijd3O3PrtYfcpvDl5v3FxG0hRC6IZW5xhi6ai2mpMVUug==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1645380281; bh=jbzGlOv9+tU3ZG3IhCPab2G+KqdnPqnZienP9coskGf=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=fF4jfjy6QEXqvWl95tSPOTVOCWte0sPjisNtKtUniGgypTiec5WWIyvQ3FOj1+eA7Qv/43CrGgdllipU9QrrL19Siq8coFSjaR/+t5t06WGw6s6doj1yrcT8YC3hZr8zpv6j3IlMcbQT8L2dulL+SL+FjWOAJA9aLdME2+4o/jq/b2CefQY7x5WuRtANGao7dyI8/i6W9/g6d7XurVadHewIxM/1XaHTf/r3vpqz2W0KCE9rauBH1DEJgp2/rDNC2T7tk8cVAgYh7IrYToGelvXQor6pZ2zoIkfDt56Ewo+gHEXVCr7vG6vpkQEe5p69nlhkZbognWk5rJmDHwdfxw==
-X-YMail-OSG: LsefwwUVM1kZ1t4heRfRTRFb8ZWUU3eCl5uDylvvoQX9DL5aNMge6EqfbySjoM5
- IOvroQLT2NWUgkKM6LoOZ9lMibIiIkZkjign6m_WZx.c7mDqohFzcnib9ApKYo5o2N30WTXpxKMT
- bZScdxCLe7r2kea9DoQN4r9D20FInak00qfiYEg6e22nM54jWAnHxamZVkN_SMO9FLYznLYaJdKn
- dl9yf7fs27ZVJEz9APtY9sA0AlrqUKSlK9kb9WQgXnxnLaZ7shfiXvx9yuGbSwD7Ic4SsN0NBoYi
- 4pD.G6bGbPKIJRO6lQs4zZEOj5Dht8f9FBRukzQ8xCrU.4fN5BS6S29IvyMzjfJbGLX4WFN7q1f5
- 4qmcirzIeM6PTMqTm9dAhfwAlI7sOV4sZbUTEX6Ay.NE8EmmhGnmWV9GGGlCUeOukh.3yQH1B8xf
- UK4y2D6gmylDoRIhzHGOdT4IRa.TNnAtotcyqMLDwQYroBK4fV_ISzGWRyptot7Cw7kVyb4lNzsO
- XQVae.UWceJF.40dPjvB82MHF65EZjse5x2SmwQoFO92kcVGbcpNR.tiy1EI4x0SApBH0YaPa.Hv
- aQ5BrSPTTazn5WbgvOjT1u5OrxCDzjPkGIl80Hxyc_tMIWW3YAhJKPzTKgEvPQbH_cESrCZzfJ5M
- .kz9hkEUdgRyBHpvDxkDEUFhZfJLTHb.l508l1MhkNdP4u1gUn1h8a3HkYYnEFMpP1xQe9X6Sf1t
- mjQKj3TNbMwfH4Z6daP4f_Fks2zYvqV48gBSoryJSn92yd6fkfv6_TbUJXpps3wXKdpNCREiLb4p
- ZE.AzX5A2h1NHF1dINjskQiKZGmcarYViW1m_inoaCreag9PepkyDLBD9RcrCl5..J.TYGYvi.qQ
- iXPYPdpQ7NZrCkYRxwfdWS_bS1KGcNlFvfdPKpwp_HD8CObLKl4ActtFM8qVZVXAft9fqTJSYOfk
- ykO9vRcoaupd26fU_EcwEgpoG11OY4vclH3yDau1N0Wdxx9iDTAUVujOMyNy88XE.vXxUpCg8hAM
- TOdIXWntf8BDVUSvX0YWz5jMMIgNPJxz4x9flhwF4X5YdvDzoGCsc1FH8MMqQqDHb4UukC9kxlMi
- 00HL2Uuvx0jrt0h__EI2CKNzcLluNvI6g6pK7UgT4enfd31w8wEE8sG_pUGbRB4dgk95KUdsgXQT
- nr4xE.6128rQQTPpDdvkakUWlxY_crhc8cig.Sb9yuaTWo087WptylqI91sHpyCKdUgGqcxc9MMR
- uAS0zk9RhBIa0wfI3rgiC_hpUDdsH.S7mAdUwZQ52QCYE.2iq.fDHfMXv3IR0SKvmFOyqVHHFTpT
- VQrBzdhBn.4OH.vphmcshRcnawd.HF70e8iQQY7s7SJjGvG82uSzf0cSSgLUUPw4fyZJ6KJuRB2j
- KFZsGHBH7fHy7mRdsTlJ6.Wc5twoqN2DkDUK.sK0N000oM2ClxiwjY5SoMnklzflGp9Z_GRh5F_.
- HqVjKwHK_smbFtQaX4.r37q.ki1Gwy3gUIM6WUeaGp7LPLGsKx6LU1FI.fGwk62IjRWfmlyhZW8G
- huhyP4QSINA0ZeIg8qwYCjPBAPHm2IGnK8PpeRjlNlhaONkuCd7W.F03C7GE03HE86eVsvpl6b4b
- of6yv_lKBE92XTbPBeqM.UIGL8k7.YpOtyyT4duGMOMlsIFPzzpr.IzM4NzuoHQ8nvbT5eptFtiR
- L0lSJsvF.VyUTyR8adgy1N.wCSD.jKLW1BKEv_M8016OiCbOgCoiIe_DViFEBZtY3uV0U5PisCW4
- ecUorYudVyVr14eC6N9e2UpnxRqaGEQ0Y05lRq9.wzFgQQDyYpGfZhZc2jdTnl.XPdsgEVgmvx9y
- pZQ4KspZicQ2JuvkENSkZPwgqTyh2vly8lfbo0UI22fWUFg5.BYT4C8_M35PMZkDaqjsTMrsx8eX
- Advs_SjMg9EjlOMSz5nV4OGfu2ieWSmKu1rlGu5CO3HfWEtCE_RvbdYLMgtSthYcQAa4WpaA_.g6
- OKAvXGXm2v1.I7cb8lAgP7SFmecNTSlEbiLeEWSABVUpBNErvtbNefU33JpyCX4QSoN9Y77oq0KL
- Tkikx2tDmuFCV0Tw7ct8yux1SXHUxf3rC2JsBcLbeQOlnLWRTIO87Ooei1sgu214w1oyyFt5n07b
- uRXCg.vvCL.YNGCDGoblhO5yrbE4tTCttSZLGRRM72Mjb254gNZw345iRey65p_FBEi5DOEv1qhi
- iibROEK7i3z4-
-X-Sonic-MF: <marcelo.as@aol.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ne1.yahoo.com with HTTP; Sun, 20 Feb 2022 18:04:41 +0000
-Received: by kubenode514.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 034d5a13fc09754f0eccafe7fd5ff5ed;
-          Sun, 20 Feb 2022 18:04:39 +0000 (UTC)
-Date: Sun, 20 Feb 2022 15:04:34 -0300
-From: Marcelo Aloisio da Silva <marcelo.as@aol.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: move open brace to the previous line
-Message-ID: <20220220180434.GA12386@snoopy>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BB45EA4
+	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 18:19:44 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id m17so24877966edc.13
+        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 10:19:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=benWcURYgGK+uAiYHNdB8VXxJ8t300zl1DIDLlznLsQ=;
+        b=Ert31gFzb8VTlobnNs1vwF57jnx93vMlznupDkEG4c13sDwkjbkROJXgtzzDvrSloF
+         Vy0Q8YKYfUlHGWdMc6F1O62EXfZiSKkKbkGItz5MUyiOnj9PP9JJGC4RL7cUtfud1ErA
+         ZUWZUsGHYxdMQGikpuVeP2Xn6YUQwygLwDe9uujAGQM+Y2tubq18Z1jr/fxWP5jvCRCz
+         jEa6nj+F/dMAIE+j3hMNyYySmOnvXihpYIrE0MOWfTlhDrvM3Uu6BRluGBQcjIHC+2sm
+         M/ErUYXTOtfwdUOGcoH9dVNcV4TGkdP7IYeUwqEehl7Re8INQ4c5PEJuAFli28rOt5D8
+         UUAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=benWcURYgGK+uAiYHNdB8VXxJ8t300zl1DIDLlznLsQ=;
+        b=sOnQgAgysRcY/b+496Q+LxTexN+S6vQUadLUKiS8wKBqkuWUUYltdVGb0m6rhJkH4v
+         djsSf8yAtjSz1f6YJQpncaAKRoj8nnQ/3d0mK+WC549CGwD47uZdFMt1plWs8ghTrniC
+         NgZnRuYZ94RAzoMtHDjl2sdFB20q1hKQT8COBpe0cx68SRjxtoRwbp2BX/f0Mfin16Zn
+         GGo0viTBh56jKaHkfupHld3ng/TIWZj1gltrUpaooo1swDAJ60WE3WUas3TBIP+UKW1y
+         +6ovehtRUM+aveVvRBLzLkFt7qKf3Q3iYaj259p4/2k/thfK/mnn2h97n47zxwXZVG+i
+         qogg==
+X-Gm-Message-State: AOAM533Aq5jQ8R04MFTwS9Qj9Jk9FDqdXoAdD+445blQR5HF4eB5kE4f
+	Oh9y93Eu1JhpCcdWrUebakNXxM17mOfP2NofkWA=
+X-Google-Smtp-Source: ABdhPJwiJkhS1p3i4WFuARwlpZWTIFoZp10y/I2/1aFGjDT2dQlpg4tPMK+6DGjm0IEFl2mlLHt8yzNy62zCuklNblw=
+X-Received: by 2002:a05:6402:18:b0:410:86cd:9dce with SMTP id
+ d24-20020a056402001800b0041086cd9dcemr17780927edu.70.1645381182179; Sun, 20
+ Feb 2022 10:19:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-References: <20220220180434.GA12386.ref@snoopy>
-X-Mailer: WebService/1.1.19797 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+References: <20220218183421.583874-1-jacopo@jmondi.org>
+In-Reply-To: <20220218183421.583874-1-jacopo@jmondi.org>
+From: Adam Ford <aford173@gmail.com>
+Date: Sun, 20 Feb 2022 12:19:30 -0600
+Message-ID: <CAHCN7xKXoBB4AiJY=wEhZ-8YT=QW4CANe7bapGpjFGnWKm3xmQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] media: imx: Destage imx7-mipi-csis
+To: Jacopo Mondi <jacopo@jmondi.org>
+Cc: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, martin.kepplinger@puri.sm, 
+	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, dorota.czaplejewicz@puri.sm, 
+	Sascha Hauer <kernel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>, 
+	linux-media <linux-media@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	arm-soc <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Fix the following error reported by checkpatch.pl:
+On Sun, Feb 20, 2022 at 8:56 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
+>
+> Hello
+>   this series includes patches from two series previously sent:
+> https://lore.kernel.org/linux-media/20220119112024.11339-1-jacopo@jmondi.org/
+> https://lore.kernel.org/linux-media/20220211180216.290133-1-jacopo@jmondi.org/
+> v1:
+> https://lore.kernel.org/linux-media/20220214184318.409208-1-jacopo@jmondi.org/T/#t
+>
+> Which can now be marked as superseded.
+>
+> The first 2 patches performs the de-staging of the imx7-mipi-csis driver and
+> are now reviewed.
+>
+> The rest of the series builds on top of the comment received on:
+> https://lore.kernel.org/linux-media/20220119112024.11339-3-jacopo@jmondi.org/
+>
+> If DUAL pixel mode is used in the CSIS driver, then the CSI block of the IMX8MM
+> SoC needs to be operated in dual mode as well. To do so, use the image format
+> sample size to determine in the CSI bridge if dual or single mode should be
+> used.
+>
+> Laurent could you test on MM to see if it works now ?
 
-ERROR: that open brace { should be on the previous line
-+		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE))
-+		{
+Jacopo,
 
-Signed-off-by: Marcelo Aloisio da Silva <marcelo.as@aol.com>
----
- drivers/staging/r8188eu/core/rtw_mlme.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Do you have a repo I can clone?  If not, I need to know which branch
+to apply to the series. I have an 8MM with an OV5640, and I'm willing
+to test if Laurent can't.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 45eff3018d73..3abc7e21bc0d 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1378,8 +1378,7 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
- 
- 	if (pregistrypriv->wifi_spec == 1) {
- 		struct wifidirect_info *pwdinfo = &adapter->wdinfo;
--		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE))
--		{
-+		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE)) {
- 			/* auto site survey */
- 			rtw_auto_scan_handler(adapter);
- 		}
--- 
-2.25.1
-
+adam
+>
+> On top two small patches I was carrying in my tree to add more formats to the
+> CSIS driver, the last one with the caveat that RGB24 is transmitted on the wire
+> with one format and stored in memory with a different one.
+>
+> Series based on top of the most recent media master branch.
+>
+> Thanks
+>   j
+>
+> v1->v2:
+> - Remove per-SoC handling in CSI bridge and only use image formats
+> - Add TODO note to the staging driver
+> - Fix PIXEL_DUAL mode comments for imx-mipi-csis
+> - Add output format translation to imx-mipi-csis to handle RGB24
+>
+> Jacopo Mondi (7):
+>   media: imx: De-stage imx7-mipi-csis
+>   media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
+>   media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
+>   media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+>   media: imx: imx-mipi-csis: Add RGB565_1X16
+>   media: imx: imx-mipi-csis: Add BGR888
+>   media: imx: imx-mipi-csis: Add output format
+>
+>  Documentation/admin-guide/media/imx7.rst      |  2 +-
+>  ...-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
+>  MAINTAINERS                                   |  4 +-
+>  drivers/media/platform/Kconfig                |  1 +
+>  drivers/media/platform/Makefile               |  1 +
+>  drivers/media/platform/imx/Kconfig            | 24 ++++++++
+>  drivers/media/platform/imx/Makefile           |  1 +
+>  .../platform/imx/imx-mipi-csis.c}             | 59 +++++++++++++++++--
+>  drivers/staging/media/imx/Makefile            |  1 -
+>  drivers/staging/media/imx/TODO                | 26 ++++++++
+>  drivers/staging/media/imx/imx7-media-csi.c    |  8 ++-
+>  11 files changed, 117 insertions(+), 12 deletions(-)
+>  rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
+>  create mode 100644 drivers/media/platform/imx/Kconfig
+>  create mode 100644 drivers/media/platform/imx/Makefile
+>  rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (95%)
+>
+> --
+> 2.35.0
+>
