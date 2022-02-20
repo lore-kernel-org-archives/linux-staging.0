@@ -1,230 +1,77 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF28B5A09
-	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 08:33:13 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62B6725B;
-	Sun, 20 Feb 2022 09:33:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1645345992;
-	bh=SSzti+MYr0t/j5M/vov4iLoAGcUFZ09VWqVqvZvlJXg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W5DWM0wJpoGWqweVrrZ0Wc6rjkvqYK/+AVIVjx7cE60WkEbwyi62yP5p0Yp81282T
-	 WalR8y8boBLAtRow3VfMf0HDSR/wCS6HN77Px9q059PVINyH6dHXjutmdNLWQApGWA
-	 jHcUMXpIBZykQHHwD4GFR6AeuJyQSngnm/BIK7GA=
-Date: Sun, 20 Feb 2022 10:33:01 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo@jmondi.org>
-Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
-	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-	kernel@pengutronix.de, linux-imx@nxp.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 7/7] media: imx: imx-mipi-csis: Add output format
-Message-ID: <YhH8vTlAJa6R+mTl@pendragon.ideasonboard.com>
-References: <20220218183421.583874-1-jacopo@jmondi.org>
- <20220218183421.583874-8-jacopo@jmondi.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7605A22
+	for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 10:02:20 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id s14so6047624edw.0
+        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 02:02:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7u3lC5A2Ox2Mr0XkcLY5xCuAMwekJnyBOdtA3+n9Nrs=;
+        b=CLcJpQBwvjWPPUvYDqUmCeXK/yN8NCRHwbt4hHPSm2K0LrM9x+Xda8zRnnft5jBZYx
+         yLOK2mBBI+UOMc7bYe/S5vtztVS+5JUkJnKMH5uHqXz3z7djcraQJGtfN7C6yAEta7Bg
+         8P/M7qLF0/xeeHBYSmMw2G5CwVRw0HLNxILBNrsEs2ZtXuXGyj9Uw19vE9Xtk2xT07pU
+         bwjFUovB+0MMqvzVq3POXwEbqi1n0EG0b+BEa3kM4zV2VCSuanBWHEpBraLO0O5F40i3
+         HVuaqJtTZZ15RFt2bYG+7KvBROFC5Ay09pwcRVCLM4K2wxleA1mPSrVC1A34BPzmUKwa
+         YDTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7u3lC5A2Ox2Mr0XkcLY5xCuAMwekJnyBOdtA3+n9Nrs=;
+        b=vWyjp5Syf0gYyeJ004zf4lFXj2YqJpLmTTscW6rncQfJXD9udOIMY4GHX2bz6ApuVc
+         /+LC1i7cOEYEX7lAlHad8sK585VifZtP+aSpsaoas1Ai1A4NxUxuSysR0HcycCHpnvdI
+         pGsefcfRYiUZ7U7jCMkPuu1xm8JWOg2ymKH3hZtF47CSCzouEcx72G0Z5jJCFa3r5URL
+         2yJJL+H/6ZyQ0L73l7KNnF2q2lsmjBq9/6RRYv8jtI/ZZoSJLTGzwfjNXjGrkqlXtCiu
+         O0VSXq6VK24gmFNbXqPdZR7kHRdqUD5DSrFnwxOQlYLlS3+vXSLYIc3HPjWZp0xOwf9T
+         O6PA==
+X-Gm-Message-State: AOAM530tJGQmmEzRM6wYYLiWvU3oRmKRygnXpz59dKxZbFGM4fk+k45d
+	1y4p9LosLg3LKfXHo3WkRhA=
+X-Google-Smtp-Source: ABdhPJzlyMoULzYQRR9uz3KXhH8EN18wzCpoahZ0LuyUKES2HSE5aA6HlpEVMNLye/dJQAp4CTWcgQ==
+X-Received: by 2002:a50:9d89:0:b0:410:ff04:5a98 with SMTP id w9-20020a509d89000000b00410ff045a98mr16559884ede.404.1645351338920;
+        Sun, 20 Feb 2022 02:02:18 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb8f.dynamic.kabel-deutschland.de. [95.90.187.143])
+        by smtp.gmail.com with ESMTPSA id dx7sm3265223ejb.23.2022.02.20.02.02.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Feb 2022 02:02:18 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: odm cleanups
+Date: Sun, 20 Feb 2022 11:02:07 +0100
+Message-Id: <20220220100212.7466-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220218183421.583874-8-jacopo@jmondi.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+This set removes two more functions from the unwanted hal/odm layer.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Thank you for the patch.
+Michael Straube (5):
+  staging: r8188eu: remove ODM_CmnInfoHook()
+  staging: r8188eu: convert two u8 variables to bool
+  staging: r8188eu: remove enum odm_bw
+  staging: r8188eu: convert type of pBandWidth in odm_dm_struct
+  staging: r8188eu: remove ODM_CmnInfoUpdate()
 
-On Fri, Feb 18, 2022 at 07:34:21PM +0100, Jacopo Mondi wrote:
-> Due to how pixel components are transmitted on the CSI-2 serial bus
-> and how they are stored in memory by the CSI-2 receiver, the component
-> ordering might change and the image formats on the sink and source pads
-> of the receiver should reflect it.
-> 
-> For RGB24, in example, the component ordering on the wire as described by
-> the CSI-2 specification matches the BGR888 format, while once stored in
-> in memory by the CSIS receiver they match the RGB888 format.
-
-The CSI-2 receiver doesn't store data in memory. The issue this patch
-fixes is that the CSI-2 receiver deserializes data and outputs it on a
-parallel bus, with a bit order that is specific to the receiver and may
-not match the media bus code used to described the format on the CSI-2
-bus.
-
-> Add an additional .output field to struct csis_pix_format to allow
-> propagating the correct format to the source pad after a format
-> configuration on the sink.
-> 
-> The change is only relevant for RGB24 but paves the way for further
-> format translations in future.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/platform/imx/imx-mipi-csis.c | 29 +++++++++++++++++++++-
->  1 file changed, 28 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/imx/imx-mipi-csis.c b/drivers/media/platform/imx/imx-mipi-csis.c
-> index fdf133f81c5b..128f4180d1e9 100644
-> --- a/drivers/media/platform/imx/imx-mipi-csis.c
-> +++ b/drivers/media/platform/imx/imx-mipi-csis.c
-> @@ -351,6 +351,7 @@ struct csis_pix_format {
->  	u32 code;
->  	u32 data_type;
->  	u8 width;
-> +	u32 output;
-
-I'd move this right after code, as they're related.
-
->  };
->  
->  static const struct csis_pix_format mipi_csis_formats[] = {
-> @@ -359,95 +360,117 @@ static const struct csis_pix_format mipi_csis_formats[] = {
->  		.code = MEDIA_BUS_FMT_UYVY8_1X16,
->  		.data_type = MIPI_CSI2_DATA_TYPE_YUV422_8,
->  		.width = 16,
-> +		.output = MEDIA_BUS_FMT_UYVY8_1X16,
->  	},
->  	/* RGB formats. */
->  	{
->  		.code = MEDIA_BUS_FMT_RGB565_1X16,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RGB565,
->  		.width = 16,
-> +		.output = MEDIA_BUS_FMT_RGB565_1X16,
->  	},
->  	{
->  		.code = MEDIA_BUS_FMT_BGR888_1X24,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RGB888,
->  		.width = 24,
-> +		.output = MEDIA_BUS_FMT_RGB888_1X24,
->  	},
->  	/* RAW (Bayer and greyscale) formats. */
->  	{
->  		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW8,
->  		.width = 8,
-> +		.output = MEDIA_BUS_FMT_SBGGR8_1X8,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW8,
->  		.width = 8,
-> +		.output = MEDIA_BUS_FMT_SGBRG8_1X8,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW8,
->  		.width = 8,
-> +		.output = MEDIA_BUS_FMT_SGRBG8_1X8,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW8,
->  		.width = 8,
-> +		.output = MEDIA_BUS_FMT_SRGGB8_1X8,
->  	}, {
->  		.code = MEDIA_BUS_FMT_Y8_1X8,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW8,
->  		.width = 8,
-> +		.output = MEDIA_BUS_FMT_Y8_1X8,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW10,
->  		.width = 10,
-> +		.output = MEDIA_BUS_FMT_SBGGR10_1X10,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW10,
->  		.width = 10,
-> +		.output = MEDIA_BUS_FMT_SGBRG10_1X10,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW10,
->  		.width = 10,
-> +		.output = MEDIA_BUS_FMT_SGRBG10_1X10,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW10,
->  		.width = 10,
-> +		.output = MEDIA_BUS_FMT_SRGGB10_1X10,
->  	}, {
->  		.code = MEDIA_BUS_FMT_Y10_1X10,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW10,
->  		.width = 10,
-> +		.output = MEDIA_BUS_FMT_Y10_1X10,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW12,
->  		.width = 12,
-> +		.output = MEDIA_BUS_FMT_SBGGR12_1X12,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW12,
->  		.width = 12,
-> +		.output = MEDIA_BUS_FMT_SGBRG12_1X12,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW12,
->  		.width = 12,
-> +		.output = MEDIA_BUS_FMT_SGRBG12_1X12,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW12,
->  		.width = 12,
-> +		.output = MEDIA_BUS_FMT_SRGGB12_1X12,
->  	}, {
->  		.code = MEDIA_BUS_FMT_Y12_1X12,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW12,
->  		.width = 12,
-> +		.output = MEDIA_BUS_FMT_Y12_1X12,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SBGGR14_1X14,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW14,
->  		.width = 14,
-> +		.output = MEDIA_BUS_FMT_SBGGR14_1X14,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SGBRG14_1X14,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW14,
->  		.width = 14,
-> +		.output = MEDIA_BUS_FMT_SGBRG14_1X14,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SGRBG14_1X14,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW14,
->  		.width = 14,
-> +		.output = MEDIA_BUS_FMT_SGRBG14_1X14,
->  	}, {
->  		.code = MEDIA_BUS_FMT_SRGGB14_1X14,
->  		.data_type = MIPI_CSI2_DATA_TYPE_RAW14,
->  		.width = 14,
-> +		.output = MEDIA_BUS_FMT_SRGGB14_1X14,
->  	}
->  };
->  
-> @@ -1090,7 +1113,11 @@ static int mipi_csis_set_fmt(struct v4l2_subdev *sd,
->  	/* Propagate the format from sink to source. */
->  	fmt = mipi_csis_get_format(state, sd_state, sdformat->which,
->  				   CSIS_PAD_SOURCE);
-> -	*fmt = sdformat->format;
-> +
-> +	/* The format on the source pad might change due to unpacking. */
-> +	fmt->code = csis_fmt->output;
-> +	fmt->width = sdformat->format.width;
-> +	fmt->height = sdformat->format.height;
-
-You need to also propagate colorspace. The simplest solution is
-
-	*fmt = sdformat->format;
-
-	/* The format on the source pad might change due to unpacking. */
-	fmt->code = csis_fmt->output;
-
->  	/* Store the CSIS format descriptor for active formats. */
->  	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+ drivers/staging/r8188eu/hal/odm.c             | 56 +------------------
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     | 19 ++++---
+ drivers/staging/r8188eu/include/odm.h         | 29 +---------
+ drivers/staging/r8188eu/include/rtw_mlme.h    |  2 +-
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h |  2 +-
+ 5 files changed, 16 insertions(+), 92 deletions(-)
 
 -- 
-Regards,
+2.35.1
 
-Laurent Pinchart
