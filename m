@@ -1,91 +1,79 @@
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961702581
-	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 11:29:21 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id DC409200003;
-	Mon, 21 Feb 2022 11:29:16 +0000 (UTC)
-Date: Mon, 21 Feb 2022 12:29:15 +0100
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: aford173@gmail.com, slongerbeam@gmail.com, p.zabel@pengutronix.de,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-	mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-	martin.kepplinger@puri.sm, rmfrfs@gmail.com,
-	xavier.roumegue@oss.nxp.com, alexander.stein@ew.tq-group.com,
-	dorota.czaplejewicz@puri.sm, kernel@pengutronix.de,
-	linux-imx@nxp.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] media: imx: imx8mp-mipi-csi2: Remove YUV422 2X8
-Message-ID: <20220221112915.44zmds5mxolj2rkv@uno.localdomain>
-References: <20220221111611.52905-1-jacopo@jmondi.org>
- <YhN29Tat/GMl+2eS@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27032581
+	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 11:33:05 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1645443182;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DDK33/3302m/AxEjlqU7JR5WuOZd5Q+b5EdJBto11HM=;
+	b=4YWj9EREiqE/4z9lRjzJiDCe2ileZomSn6vZTDKEA8y5hupG1tPoR9ME40N7lwiDuHKnd6
+	bcQu7W7k5DaojT3yK5NmzHCUrcF1n8VlVruftElI4NfwOO8ZQPS3UnAfpZb8xa/xHf/iqP
+	i5I/K0uVgBgff9mnMZa0DYj/Kapi0TG3lgoiu+44QmimuDoQM3430lXOiok7/pUQia5GpH
+	Ylj14nB7AMUylwdSAC/roiPE0FO9S6u7A7esTSu4jHDP9twbIL+yA6N2rmuvblNGmoKJTQ
+	ZVXctRztuqb5og+i/uU7LPW3OfyMcFO7dLcu04vjiF2XKZMsKMpzgB5Ud+K9Fw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1645443182;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DDK33/3302m/AxEjlqU7JR5WuOZd5Q+b5EdJBto11HM=;
+	b=DzX8bC47wbA5MEoCl2FNLvxhuTBdRP0FKtqmoDsNab1UVrwMOS5/w3bVrPlaMJTRrjXqJy
+	jWEr89tMGCNNl/DA==
+To: Lee Jones <lee.jones@linaro.org>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>
+Cc: greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org, "David S. Miller"
+ <davem@davemloft.net>, Alex Elder <elder@kernel.org>, Arnd Bergmann
+ <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de
+ Goede <hdegoede@redhat.com>, Jakub Kicinski <kuba@kernel.org>, Johan
+ Hovold <johan@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ UNGLinuxDriver@microchip.com, Wolfram Sang <wsa@kernel.org>, Woojung Huh
+ <woojung.huh@microchip.com>
+Subject: Re: [PATCH v4 0/7] Provide and use generic_handle_irq_safe() where
+ appropriate.
+In-Reply-To: <87a6ekleye.ffs@tglx>
+References: <20220211181500.1856198-1-bigeasy@linutronix.de>
+ <Ygu6UewoPbYC9yPa@google.com> <Ygu9xtrMxxq36FRH@linutronix.de>
+ <YgvD1HpN2oyalDmj@google.com> <YgvH4ROUQVgusBdA@linutronix.de>
+ <YgvJ1fCUYmaV0Mbx@google.com> <87a6ekleye.ffs@tglx>
+Date: Mon, 21 Feb 2022 12:33:02 +0100
+Message-ID: <875yp8laj5.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YhN29Tat/GMl+2eS@pendragon.ideasonboard.com>
+Content-Type: text/plain
 
-Hi Laurent
+Lee & al!
 
-On Mon, Feb 21, 2022 at 01:26:45PM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
+On Mon, Feb 21 2022 at 10:57, Thomas Gleixner wrote:
+> On Tue, Feb 15 2022 at 15:42, Lee Jones wrote:
+>> What is your preference Thomas?
 >
-> Thank you for the patch.
+> I suggest doing it the following way:
 >
-> On Mon, Feb 21, 2022 at 12:16:11PM +0100, Jacopo Mondi wrote:
-> > The 2X8 variants of MEDIA_BUS_FMT_YUYV8_2X8 does not apply to serial
->
-> Maybe s/serial/CSI-2/
->
-> > busses.
-> >
-> > Drop it and while at it beautify the formats declaration list a little
-> > by putting the opening curly brace after the comment.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 6 ++----
-> >  1 file changed, 2 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > index 56ef3b3b2906..a3e33ce83c1f 100644
-> > --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-> > @@ -200,11 +200,9 @@ static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
-> >  	}, {
-> >  		.code = MEDIA_BUS_FMT_SRGGB14_1X14,
-> >  		.width = 14,
-> > -	}, {
-> > +	},
-> >  	/* YUV formats */
-> > -		.code = MEDIA_BUS_FMT_YUYV8_2X8,
-> > -		.width = 16,
-> > -	}, {
-> > +	{
-> >  		.code = MEDIA_BUS_FMT_YUYV8_1X16,
->
-> While at it, should we also switch this to MEDIA_BUS_FMT_UYVY8_1X16,
-> which is the canonical format for YUV422 8-bit on CSI-2 ?
->
+>  1) I apply 1/7 on top of -rc5 and tag it
 
-Should I ?
-I forgot why UYVY is preferred over YUYV.
+That's what I did now. The tag to pull from is:
 
-Also this will break quite some scripts for many users :)
-Should I rather add it instead ?
+   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq-api-2022-02-21
 
-No problem for me in either cases
-
-> >  		.width = 16,
-> >  	}
+>  2) Driver maintainers who want to merge via their trees pull that tag
+>     apply the relevant driver changes
 >
-> --
-> Regards,
->
-> Laurent Pinchart
+>  3) I collect the leftovers and merge them via irq/core
+
+So everyone who wants to merge the relevant driver changes, please pull
+and let me know which driver patch(es) you merged. I'll pick up the
+leftovers after -rc6.
+
+Thanks,
+
+        tglx
