@@ -1,11 +1,11 @@
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5EC33C1
-	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 17:47:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4F833C1
+	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 17:47:53 +0000 (UTC)
 Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id C9DD61C0005;
-	Mon, 21 Feb 2022 17:47:38 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id CC8E31C0006;
+	Mon, 21 Feb 2022 17:47:47 +0000 (UTC)
 From: Jacopo Mondi <jacopo@jmondi.org>
 To: aford173@gmail.com,
 	slongerbeam@gmail.com,
@@ -27,9 +27,9 @@ Cc: kernel@pengutronix.de,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH v4 1/7] media: imx: De-stage imx7-mipi-csis
-Date: Mon, 21 Feb 2022 18:47:21 +0100
-Message-Id: <20220221174727.320320-2-jacopo@jmondi.org>
+Subject: [PATCH v4 3/7] media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
+Date: Mon, 21 Feb 2022 18:47:23 +0100
+Message-Id: <20220221174727.320320-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.35.0
 In-Reply-To: <20220221174727.320320-1-jacopo@jmondi.org>
 References: <20220221174727.320320-1-jacopo@jmondi.org>
@@ -41,116 +41,106 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The imx7-mipi-csis driver is in a good state and can be destaged.
+The CSI bridge should operate in dual components mode when it is
+connected to a pixel transmitter that transfers two components at a time
+in YUV 422 formats (16 bits, Y + U/V).
 
-Move the imx7-mipi-csis.c driver to the newly created
-drivers/media/platform/imx directory and plumb the related
-options in Kconfig and in Makefile.
+Use the image format variants to determine if single or dual component mode
+should be used.
+
+Add a note to the TODO file to record that the list of supported formats
+should be restricted to the SoC model the CSI bridge is integrated on
+to avoid potential pipeline mis-configurations.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- MAINTAINERS                                   |  2 +-
- drivers/media/platform/Kconfig                |  1 +
- drivers/media/platform/Makefile               |  1 +
- drivers/media/platform/imx/Kconfig            | 24 +++++++++++++++++++
- drivers/media/platform/imx/Makefile           |  1 +
- .../platform}/imx/imx7-mipi-csis.c            |  0
- drivers/staging/media/imx/Makefile            |  1 -
- 7 files changed, 28 insertions(+), 2 deletions(-)
- create mode 100644 drivers/media/platform/imx/Kconfig
- create mode 100644 drivers/media/platform/imx/Makefile
- rename drivers/{staging/media => media/platform}/imx/imx7-mipi-csis.c (100%)
+ drivers/staging/media/imx/TODO             | 25 +++++++++++++++++
+ drivers/staging/media/imx/imx7-media-csi.c | 32 +++++++++++++++++++---
+ 2 files changed, 53 insertions(+), 4 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 83d27b57016f..5bdb8c881b0b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11891,8 +11891,8 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/admin-guide/media/imx7.rst
- F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
- F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-+F:	drivers/media/platform/imx/imx7-mipi-csis.c
- F:	drivers/staging/media/imx/imx7-media-csi.c
--F:	drivers/staging/media/imx/imx7-mipi-csis.c
+diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
+index 06c94f20ecf8..5d3a337c8702 100644
+--- a/drivers/staging/media/imx/TODO
++++ b/drivers/staging/media/imx/TODO
+@@ -27,3 +27,28 @@
+ - i.MX7: all of the above, since it uses the imx media core
  
- MEDIA DRIVERS FOR HELENE
- M:	Abylay Ospan <aospan@netup.ru>
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index 9fbdba0fd1e7..d9eeccffea69 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -171,6 +171,7 @@ source "drivers/media/platform/xilinx/Kconfig"
- source "drivers/media/platform/rcar-vin/Kconfig"
- source "drivers/media/platform/atmel/Kconfig"
- source "drivers/media/platform/sunxi/Kconfig"
-+source "drivers/media/platform/imx/Kconfig"
- 
- config VIDEO_TI_CAL
- 	tristate "TI CAL (Camera Adaptation Layer) driver"
-diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-index 28eb4aadbf45..a9466c854610 100644
---- a/drivers/media/platform/Makefile
-+++ b/drivers/media/platform/Makefile
-@@ -20,6 +20,7 @@ obj-y	+= ti-vpe/
- obj-$(CONFIG_VIDEO_MX2_EMMAPRP)		+= mx2_emmaprp.o
- obj-$(CONFIG_VIDEO_CODA)		+= coda/
- 
-+obj-$(CONFIG_VIDEO_IMX)			+= imx/
- obj-$(CONFIG_VIDEO_IMX_PXP)		+= imx-pxp.o
- obj-$(CONFIG_VIDEO_IMX8_JPEG)		+= imx-jpeg/
- 
-diff --git a/drivers/media/platform/imx/Kconfig b/drivers/media/platform/imx/Kconfig
-new file mode 100644
-index 000000000000..683863572c20
---- /dev/null
-+++ b/drivers/media/platform/imx/Kconfig
-@@ -0,0 +1,24 @@
-+# SPDX-License-Identifier: GPL-2.0-only
+ - i.MX7: use Frame Interval Monitor
 +
-+menuconfig VIDEO_IMX
-+	bool "V4L2 capture drivers for NXP i.MX devices"
-+	depends on ARCH_MXC || COMPILE_TEST
-+	depends on VIDEO_DEV && VIDEO_V4L2
-+	help
-+	  Say yes here to enable support for capture drivers on i.MX SoCs.
-+	  Support for the single SoC features are selectable in the sub-menu
-+	  options.
++- imx7-media-csi: Restrict the supported formats list to the SoC version.
 +
-+if VIDEO_IMX
++  The imx7 CSI bridge can be configured to sample pixel components from the Rx
++  queue in single (8bpp) or double (16bpp) component modes. Image format
++  variants with different sample sizes (ie YUYV_2X8 vs YUYV_1X16) determine the
++  pixel components sampling size per each clock cycle and their packing mode
++  (see imx7_csi_configure() for details).
 +
-+config VIDEO_IMX_MIPI_CSIS
-+	tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
-+	select MEDIA_CONTROLLER
-+	select V4L2_FWNODE
-+	select VIDEO_V4L2_SUBDEV_API
-+	default n
-+	help
-+	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
-+	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
++  As the imx7 CSI bridge can be interfaced with different IP blocks depending on
++  the SoC model it is integrated on, the Rx queue sampling size should match
++  the size of the samples transferred by the transmitting IP block.
 +
-+endif # VIDEO_IMX
-diff --git a/drivers/media/platform/imx/Makefile b/drivers/media/platform/imx/Makefile
-new file mode 100644
-index 000000000000..ee272234c8d7
---- /dev/null
-+++ b/drivers/media/platform/imx/Makefile
-@@ -0,0 +1 @@
-+obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx7-mipi-csis.o
-diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/media/platform/imx/imx7-mipi-csis.c
-similarity index 100%
-rename from drivers/staging/media/imx/imx7-mipi-csis.c
-rename to drivers/media/platform/imx/imx7-mipi-csis.c
-diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-index 19c2fc54d424..d82be898145b 100644
---- a/drivers/staging/media/imx/Makefile
-+++ b/drivers/staging/media/imx/Makefile
-@@ -15,5 +15,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
- obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
++  To avoid mis-configurations of the capture pipeline, the enumeration of the
++  supported formats should be restricted to match the pixel source transmitting
++  mode.
++
++  Example: i.MX8MM SoC integrates the CSI bridge with the Samsung CSIS CSI-2
++  receiver which operates in dual pixel sampling mode. The CSI bridge should
++  only expose the 1X16 formats variant which instructs it to operate in dual
++  pixel sampling mode. When the CSI bridge is instead integrated on an i.MX7,
++  which supports both serial and parallel input, it should expose both variants.
++
++  This currently only applies to YUYV formats, but other formats might need
++  to be handled in the same way.
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index 32311fc0e2a4..8467a1491048 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -498,16 +498,40 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+ 			cr3 |= BIT_TWO_8BIT_SENSOR;
+ 			cr18 |= BIT_MIPI_DATA_FORMAT_RAW14;
+ 			break;
++
+ 		/*
+-		 * CSI-2 sources are supposed to use the 1X16 formats, but not
+-		 * all of them comply. Support both variants.
++		 * The CSI bridge has a 16-bit input bus. Depending on the
++		 * connected source, data may be transmitted with 8 or 10 bits
++		 * per clock sample (in bits [9:2] or [9:0] respectively) or
++		 * with 16 bits per clock sample (in bits [15:0]). The data is
++		 * then packed into a 32-bit FIFO (as shown in figure 13-11 of
++		 * the i.MX8MM reference manual rev. 3).
++		 *
++		 * The data packing in a 32-bit FIFO input word is controlled by
++		 * the CR3 TWO_8BIT_SENSOR field (also known as SENSOR_16BITS in
++		 * the i.MX8MM reference manual). When set to 0, data packing
++		 * groups four 8-bit input samples (bits [9:2]). When set to 1,
++		 * data packing groups two 16-bit input samples (bits [15:0]).
++		 *
++		 * The register field CR18 MIPI_DOUBLE_CMPNT also needs to be
++		 * configured according to the input format for YUV 4:2:2 data.
++		 * The field controls the gasket between the CSI-2 receiver and
++		 * the CSI bridge. On i.MX7 and i.MX8MM, the field must be set
++		 * to 1 when the CSIS outputs 16-bit samples. On i.MX8MQ, the
++		 * gasket ignores the MIPI_DOUBLE_CMPNT bit and YUV 4:2:2 always
++		 * uses 16-bit samples. Setting MIPI_DOUBLE_CMPNT in that case
++		 * has no effect, but doesn't cause any issue.
+ 		 */
+ 		case MEDIA_BUS_FMT_UYVY8_2X8:
+-		case MEDIA_BUS_FMT_UYVY8_1X16:
+ 		case MEDIA_BUS_FMT_YUYV8_2X8:
+-		case MEDIA_BUS_FMT_YUYV8_1X16:
+ 			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
+ 			break;
++		case MEDIA_BUS_FMT_UYVY8_1X16:
++		case MEDIA_BUS_FMT_YUYV8_1X16:
++			cr3 |= BIT_TWO_8BIT_SENSOR;
++			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B |
++				BIT_MIPI_DOUBLE_CMPNT;
++			break;
+ 		}
+ 	}
  
- obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
--obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
- obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
 -- 
 2.35.0
 
