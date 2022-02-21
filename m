@@ -1,88 +1,102 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C7F33C1
-	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 18:17:22 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id BF3561BF206;
-	Mon, 21 Feb 2022 18:17:16 +0000 (UTC)
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: aford173@gmail.com,
-	slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	festevam@gmail.com,
-	mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	martin.kepplinger@puri.sm,
-	rmfrfs@gmail.com,
-	xavier.roumegue@oss.nxp.com,
-	alexander.stein@ew.tq-group.com,
-	dorota.czaplejewicz@puri.sm
-Cc: kernel@pengutronix.de,
-	linux-imx@nxp.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH v3] media: imx: imx8mq-mipi-csi2: Remove YUV422 2X8
-Date: Mon, 21 Feb 2022 19:17:08 +0100
-Message-Id: <20220221181708.378032-1-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.35.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9092433CE
+	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 18:48:25 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id qk11so35607314ejb.2
+        for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 10:48:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=vrA7knS+1mH335VFNHAwLVaOZ0ABUiEx8O7DVSOsX/s=;
+        b=nXiGzwnFJcabMOTlYk5USDFPUydtGqYwR8cUqnO2d/7zYnhGtWg8xS8uaxL88YCk9+
+         egKGQUy+wqdntUqlnOiJxAvSIVvufLAY+c+B0n0EZx1+BQ5mMlHL3GBM8Pu7c9D9v1RI
+         e29ubqi7say0HZM7Qc4TmbBfXT4kN/lz0GidnZmIhIjLWCerpvwjoL2jmmMCzvCwMnGh
+         7I4BDdTso5G1XLz1/I5RGiDMNxzl0m45PnGuxeTN/ypUmDsa1CHYJFi4UePPgbYOGhnk
+         +WoMkMBuK0gLtGlyYgx4YEHagOaAgkctLL1hwY9rMIPYwKxFvmFbq+Nh1142sgcJgmTc
+         gjJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=vrA7knS+1mH335VFNHAwLVaOZ0ABUiEx8O7DVSOsX/s=;
+        b=hIiWkVjeXEbrypt6KVx70WxAda//944ylNkJzuRN8IMPgAmU4BcXlQ53gx9evmLC4g
+         AUfdwXcFu/QH8jEGjNWGVAUpohjOIZjmB94VJtgFx1Gwme7lLBXCVKglX1oT2oYctEtQ
+         uy3yzi1VuNotH/X6A7LzZAMXObBE/KJvzyNHbFvEwSdBlwsHY6y/W3xSwxUJtG+oeyQX
+         9Xj/4ZVpNe7Vt0hDGtIiq3Y/UtR216WtHzdC2aKe+CxGwmF05KDVrwABJ1dXLMa2p0m/
+         0Q/OHMmz0l1Y3qQDLTa1mVy12ENSPpNE3wyrZUQdwBJKmS8FA2YoSvyyHhJYCnXLvdW0
+         KYxQ==
+X-Gm-Message-State: AOAM5301mqmiUKh+nsLOXc8SoZMbqzz2BzfQAzJI/L5gRo2oK7kLAGkX
+	3KRCRm3xSGyOa8QSCJ50RAM=
+X-Google-Smtp-Source: ABdhPJzwj+WUqtLBnZx/7AVxQv1trxO08byXV7PaSlvqNfgaiXgyKzDN/XWpOU4TziEy1iaC3bPmCQ==
+X-Received: by 2002:a17:906:4ad6:b0:6b8:33e5:c3a1 with SMTP id u22-20020a1709064ad600b006b833e5c3a1mr16916742ejt.472.1645469303934;
+        Mon, 21 Feb 2022 10:48:23 -0800 (PST)
+Received: from [192.168.0.253] (ip5f5abb8f.dynamic.kabel-deutschland.de. [95.90.187.143])
+        by smtp.gmail.com with ESMTPSA id p4sm5431949ejm.47.2022.02.21.10.48.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Feb 2022 10:48:23 -0800 (PST)
+Message-ID: <fc8e4d44-fa64-f8bf-a442-87c1437978fa@gmail.com>
+Date: Mon, 21 Feb 2022 19:48:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v2 0/5] staging: r8188eu: odm cleanups
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220221073306.16636-1-straube.linux@gmail.com>
+ <YhPIOp/k/u9GUv73@kroah.com>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <YhPIOp/k/u9GUv73@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The 2X8 variants of MEDIA_BUS_FMT_YUYV8_2X8 does not apply to serial
-busses.
+On 2/21/22 18:13, Greg KH wrote:
+> On Mon, Feb 21, 2022 at 08:33:01AM +0100, Michael Straube wrote:
+>> This set removes two more functions from the unwanted hal/odm layer.
+>> Tested on x86_64 with Inter-Tech DMG-02.
+>>
+>> v2:
+>> Fixed a typo in the commit message of patch 2/5.
+>> unsed -> used
+>>
+>> Michael Straube (5):
+>>    staging: r8188eu: remove ODM_CmnInfoHook()
+>>    staging: r8188eu: convert two u8 variables to bool
+>>    staging: r8188eu: remove enum odm_bw
+>>    staging: r8188eu: convert type of pBandWidth in odm_dm_struct
+>>    staging: r8188eu: remove ODM_CmnInfoUpdate()
+>>
+>>   drivers/staging/r8188eu/hal/odm.c             | 56 +------------------
+>>   drivers/staging/r8188eu/hal/rtl8188e_dm.c     | 19 ++++---
+>>   drivers/staging/r8188eu/include/odm.h         | 29 +---------
+>>   drivers/staging/r8188eu/include/rtw_mlme.h    |  2 +-
+>>   drivers/staging/r8188eu/include/rtw_pwrctrl.h |  2 +-
+>>   5 files changed, 16 insertions(+), 92 deletions(-)
+>>
+>> -- 
+>> 2.35.1
+>>
+>>
+> 
+> This patch series does not apply to my tree.  Please rebase and resend.
+> 
 
-Drop it and while at it also add the canonical UYVY wire format for
-packed YUV422 when transmitted on the CSI-2 serial bus.
+Hi Greg,
 
-Also beautify a little the formats declaration list by putting the
-opening curly brace after the comment.
+looks like you already applied v1 of this series.
+The only change in v2 was fixing a typo in a commit message..
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-v1->v2:
-- Fix subject (s/mp/mq) as reported by Adam
-- Add UYVY_1X16 as suggested by Laurent
+regards,
 
-v2->v3:
-- Add a missing comma
-- Align the entries declaration style to the rest of the list
+Michael
 
- drivers/staging/media/imx/imx8mq-mipi-csi2.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-index 56ef3b3b2906..449796a0b942 100644
---- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
-@@ -200,12 +200,13 @@ static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
- 	}, {
- 		.code = MEDIA_BUS_FMT_SRGGB14_1X14,
- 		.width = 14,
--	}, {
-+	},
- 	/* YUV formats */
--		.code = MEDIA_BUS_FMT_YUYV8_2X8,
-+	{
-+		.code = MEDIA_BUS_FMT_YUYV8_1X16,
- 		.width = 16,
- 	}, {
--		.code = MEDIA_BUS_FMT_YUYV8_1X16,
-+		.code = MEDIA_BUS_FMT_UYVY8_1X16,
- 		.width = 16,
- 	}
- };
---
-2.35.0
 
