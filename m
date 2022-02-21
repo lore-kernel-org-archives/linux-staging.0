@@ -1,169 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33222569
-	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 17:06:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4524C340F1;
-	Mon, 21 Feb 2022 17:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8CB2569
+	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 17:08:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B9EDC340E9;
+	Mon, 21 Feb 2022 17:08:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1645463213;
-	bh=/gW2nJhgpy7aHUQASMQy4APDC2IBYUJZ/lqp5fmORtE=;
+	s=korg; t=1645463290;
+	bh=Cqf3AC3eSmksXRrgwQuVSn+GrWz4xbmD0KUGWZu8Z1Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B7ghdKBKguX2VhhjBq1XzqNFqubSpftc4citLp9zEHxF0rg9y32+glEDXf1CCtJ5f
-	 013h3jOlIH7XDBSUoJSrT1DLUaD4kgDiwpTg0iJ5071pp5edcRQO0NXgzFX7P3IVzh
-	 kt8g/HzEe7pjlfC0DM+yIXuvaqQ0etaGhx8B0mL8=
-Date: Mon, 21 Feb 2022 18:06:50 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Song Chen <chensong_2000@189.cn>
-Cc: johan@kernel.org, elder@kernel.org, thierry.reding@gmail.com,
-	u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2] staging: greybus: introduce pwm_ops::apply
-Message-ID: <YhPGqg2BydlAFiM1@kroah.com>
-References: <1644580947-8529-1-git-send-email-chensong_2000@189.cn>
+	b=Ck1dHcXUtX30MIGN5IAkKx9/xsoxV2QAOjoG8sIaVxm+vMf3Cp6YkRy5qLy9PCUS4
+	 41K87X/Ol7uq5cIY7/t+3WWyza/RpFPolEi7djRUT8ReqYG03j1banIcg3GFgSWhFB
+	 Wpr/Yrqc02FS2rO0znl5PbmPL3QyNpQKEYEGlfh4=
+Date: Mon, 21 Feb 2022 18:08:08 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Samuel =?iso-8859-1?Q?Sj=F6berg?= <info@samuelsjoberg.se>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] CHECK: Lines should not end with a '(' + retval =
+ ms_transfer_tpc(
+Message-ID: <YhPG+CwuWtm4sPgo@kroah.com>
+References: <20220219003323.257781-1-info@samuelsjoberg.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1644580947-8529-1-git-send-email-chensong_2000@189.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220219003323.257781-1-info@samuelsjoberg.se>
 
-On Fri, Feb 11, 2022 at 08:02:27PM +0800, Song Chen wrote:
-> Introduce apply in pwm_ops to replace legacy operations,
-> like enable, disable, config and set_polarity.
-> 
-> Signed-off-by: Song Chen <chensong_2000@189.cn>
-> 
+On Sat, Feb 19, 2022 at 01:33:23AM +0100, Samuel Sjöberg wrote:
+> Signed-off-by: Samuel Sjöberg <info@samuelsjoberg.se>
 > ---
-> V2:
-> 1, define duty_cycle and period as u64 in gb_pwm_config_operation.
-> 2, define duty and period as u64 in gb_pwm_config_request.
-> 3, disable before configuring duty and period if the eventual goal
->    is a disabled state.
-> ---
->  drivers/staging/greybus/pwm.c             | 61 ++++++++++++-----------
->  include/linux/greybus/greybus_protocols.h |  4 +-
->  2 files changed, 34 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-> index 891a6a672378..03c69db5b9be 100644
-> --- a/drivers/staging/greybus/pwm.c
-> +++ b/drivers/staging/greybus/pwm.c
-> @@ -89,7 +89,7 @@ static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
->  }
->  
->  static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
-> -				   u8 which, u32 duty, u32 period)
-> +				   u8 which, u64 duty, u64 period)
->  {
->  	struct gb_pwm_config_request request;
->  	struct gbphy_device *gbphy_dev;
-> @@ -99,8 +99,8 @@ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
->  		return -EINVAL;
->  
->  	request.which = which;
-> -	request.duty = cpu_to_le32(duty);
-> -	request.period = cpu_to_le32(period);
-> +	request.duty = duty;
-> +	request.period = period;
->  
->  	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
->  	ret = gbphy_runtime_get_sync(gbphy_dev);
-> @@ -204,43 +204,46 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
->  	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
->  }
->  
-> -static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
-> -			 int duty_ns, int period_ns)
-> +static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> +			const struct pwm_state *state)
->  {
-> +	int err;
-> +	bool enabled = pwm->state.enabled;
->  	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->  
-> -	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
-> -};
-> -
-> -static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
-> -			       enum pwm_polarity polarity)
-> -{
-> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
-> -
-> -	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
-> -};
-> +	/* set polarity */
-> +	if (state->polarity != pwm->state.polarity) {
-> +		if (enabled) {
-> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
-> +			enabled = false;
-> +		}
-> +		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
-> +		if (err)
-> +			return err;
-> +	}
->  
-> -static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
-> -{
-> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
-> +	if (!state->enabled) {
-> +		if (enabled)
-> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
-> +		return 0;
-> +	}
->  
-> -	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
-> -};
-> +	/* set period and duty cycle*/
-> +	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, state->duty_cycle, state->period);
-> +	if (err)
-> +		return err;
->  
-> -static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
-> -{
-> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
-> +	/* enable/disable */
-> +	if (!enabled)
-> +		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
->  
-> -	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
-> -};
-> +	return 0;
-> +}
->  
->  static const struct pwm_ops gb_pwm_ops = {
->  	.request = gb_pwm_request,
->  	.free = gb_pwm_free,
-> -	.config = gb_pwm_config,
-> -	.set_polarity = gb_pwm_set_polarity,
-> -	.enable = gb_pwm_enable,
-> -	.disable = gb_pwm_disable,
-> +	.apply = gb_pwm_apply,
->  	.owner = THIS_MODULE,
->  };
->  
-> diff --git a/include/linux/greybus/greybus_protocols.h b/include/linux/greybus/greybus_protocols.h
-> index aeb8f9243545..81a6f16de098 100644
-> --- a/include/linux/greybus/greybus_protocols.h
-> +++ b/include/linux/greybus/greybus_protocols.h
-> @@ -812,8 +812,8 @@ struct gb_pwm_deactivate_request {
->  
->  struct gb_pwm_config_request {
->  	__u8	which;
-> -	__le32	duty;
-> -	__le32	period;
-> +	__u64	duty;
-> +	__u64	period;
->  } __packed;
+>  drivers/staging/rts5208/ms.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 
-Did you just change a greybus protocol message that is sent over the
-wire?  Why?  And why drop the endian marking of it?
+Your subject line is very odd :(
 
-Are you sure this is ok?
+Please fix up and also provide a real changelog text as the
+documentation asks for.
 
 thanks,
 
