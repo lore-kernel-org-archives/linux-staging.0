@@ -1,55 +1,52 @@
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6441020E6
-	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 02:23:27 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id v8-20020a17090a634800b001bb78857ccdso15247148pjs.1
-        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 18:23:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA8C7B
+	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 07:33:16 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id p15so30763655ejc.7
+        for <linux-staging@lists.linux.dev>; Sun, 20 Feb 2022 23:33:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3TqDnGbE814aL5zFFBqZwwXe27yQRSxYJoayRFzKY5I=;
-        b=OkZPsDsK+7Hmprv8mVquc5+qvIyMxDGyDnVRtXZR3MFks2a+5Hfvzs6YBrH3HiDmbj
-         C1V+lupxb6cPETcoHqxlYfCsiCW4/A/LDYQJ5sI8zSH+dcpiPArkucuwdTbkcQt4LMNy
-         eE5tgL1f3w69vURTbL0vZzoxmEkRSCNuOEzFoVjHnYoSUPisp/dGcGeqL/BK8Nus0jJS
-         4lurtAz9PrmzWxIVDSmS/hVPXPDBTdhHDNxIUh4Rp18f1tBVmEq5GjEvfsT/SOgl+p8C
-         VwqG/Kt6nIQEIKbk15vDmKBHu6fyVPy1w2Mi42gwt5MCJ4wj9ye3a1uccMhXfPZvqgaC
-         PqCQ==
+        bh=nBWIzB83ChA6R4uLvAqJmKdkFkztNJhor8Vdyj0pogA=;
+        b=ZI+Kz0SbhCsPzeMhpPmG8qaA5tpUtDXsMJyAj9DbKH/Z9O7UuarhQco+1QBVYE/bTi
+         7JvzN7tBILLy+YcUFpJQX+SL4RtRnqH124fq48x+Da5+WH6Xgc1IiZY2Jm/G3P8+EQrc
+         e8/YgEkbIyWPs9yDHP4sHeql18vlkiRFuFKxAPAED1FNlSxNzuvFff109yY0w/k/o+vf
+         wlDDG/Jqz8st07SDeaz3We4gyO9y8pyGw4+2htiYh/1ySsEmhWvhjLnmxE6DY15udxTN
+         6w/rNOUQbXQMdy4qmCXy7E0PGHuOm06lbr5DyA58kCTJvDuWmvNSu9M3JbocmoMSWPiF
+         WhGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=3TqDnGbE814aL5zFFBqZwwXe27yQRSxYJoayRFzKY5I=;
-        b=zM+vDbL3HoliMrtjky4gf8CCYJaehT6rwrbH/1IUhap1pM2fhn6841xpwNhRuVYEvE
-         hucJi77EH4sPB5CREa/aH6l3YnROHPXpDXpKc2mBLOO4rs9TNj77qL8Q0aeU80+9hLgB
-         Mp6NBmkCPTjV01ZZru9hp8Fxn19vFdXoI48pmZ1zaC1HIW6zvBa9v8P6qH+0rZmCON9y
-         0voO8V/5yLyna6QjMxTwnDo50VgzCA0AC44zhzWwhKuojIQr1IqZZ2fzFgK9qmsXxOoP
-         28lE0Zc/OvQedj+coYFvEejc8IWhXbeDdQJ74jSKd5l0UmiBBcIzg2or4F9TAuKsnDF9
-         cRPA==
-X-Gm-Message-State: AOAM533qMjcy+sTtmy/3FBFlZejAK15uNLkjjgYq93LWcMpuqeQVFmwz
-	AHIedO7p+bZOPMMeR53tt7s=
-X-Google-Smtp-Source: ABdhPJwyUcNeyLtpe6R0/FHsc1Zv0QeGXVq8gnX6O/nlyYNbQNIf7OtUpJ4i63+eNEIYSgqWJD5gUA==
-X-Received: by 2002:a17:90b:1642:b0:1b9:6b34:b68 with SMTP id il2-20020a17090b164200b001b96b340b68mr23490123pjb.99.1645410206903;
-        Sun, 20 Feb 2022 18:23:26 -0800 (PST)
-Received: from slim.das-security.cn ([103.84.139.52])
-        by smtp.gmail.com with ESMTPSA id e28sm16603548pgm.23.2022.02.20.18.23.23
+        bh=nBWIzB83ChA6R4uLvAqJmKdkFkztNJhor8Vdyj0pogA=;
+        b=OPfpB6vZqoMKYqmAcyvVIE6DTKSmDmDpgzU2lOu67rHwKiMHO+nn8yDvH7GTpzvGc3
+         EFlrE2XgPvild9PTgL1dP9W2cCJEOAMtrTKkj8TLCJQxs+iRQk8e/YbIwJyVdYsRpxDq
+         3Jrkc6tTdTT8rMmgRbavCJBQaP+MlwX/VH3DHjcNXkNV+O8qQnhsy9KnsHG7uRsSC9dA
+         1pdUP1isGXYS9+f2XRmqevqUsk5xJsqdzqmnadx/3OnB5JniHtgZIvfrqTG1bqE9qdut
+         k2aQ4mJsVV0uvg58fNSz2ecxJalenL4n1K8uAzjk85gj7IlxiKIQDyM6yj0Wiv6zL5w1
+         P0lw==
+X-Gm-Message-State: AOAM533YQBVWe0hesD37N4zLIcHtO/WyiskahOnXTLggftTvrWo2gjAI
+	kkjg1RyHZBWxYYgQ8g9UwG8=
+X-Google-Smtp-Source: ABdhPJzy2+WzOcUV/3YBjZdYT9fVpStRUIC1brwW2M3PmY7gn+FOk2CLectYcD3rflRnUaDX5m+sXA==
+X-Received: by 2002:a17:906:714c:b0:6cf:4850:52cc with SMTP id z12-20020a170906714c00b006cf485052ccmr14907208ejj.319.1645428795434;
+        Sun, 20 Feb 2022 23:33:15 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb8f.dynamic.kabel-deutschland.de. [95.90.187.143])
+        by smtp.gmail.com with ESMTPSA id c11sm8673128edx.42.2022.02.20.23.33.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 18:23:26 -0800 (PST)
-From: Hangyu Hua <hbh25y@gmail.com>
-To: manishc@marvell.com,
-	GR-Linux-NIC-Dev@marvell.com,
-	coiby.xu@gmail.com,
-	gregkh@linuxfoundation.org,
-	dan.carpenter@oracle.com
-Cc: netdev@vger.kernel.org,
+        Sun, 20 Feb 2022 23:33:15 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Hangyu Hua <hbh25y@gmail.com>
-Subject: [PATCH v2] staging: qlge: add unregister_netdev in qlge_probe
-Date: Mon, 21 Feb 2022 10:23:12 +0800
-Message-Id: <20220221022312.9101-1-hbh25y@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH v2 0/5] staging: r8188eu: odm cleanups
+Date: Mon, 21 Feb 2022 08:33:01 +0100
+Message-Id: <20220221073306.16636-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,50 +55,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-unregister_netdev need to be called when register_netdev succeeds
-qlge_health_create_reporters fails.
+This set removes two more functions from the unwanted hal/odm layer.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
----
+v2:
+Fixed a typo in the commit message of patch 2/5.
+unsed -> used
 
-v2: use goto to fix this bug
+Michael Straube (5):
+  staging: r8188eu: remove ODM_CmnInfoHook()
+  staging: r8188eu: convert two u8 variables to bool
+  staging: r8188eu: remove enum odm_bw
+  staging: r8188eu: convert type of pBandWidth in odm_dm_struct
+  staging: r8188eu: remove ODM_CmnInfoUpdate()
 
- drivers/staging/qlge/qlge_main.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/hal/odm.c             | 56 +------------------
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     | 19 ++++---
+ drivers/staging/r8188eu/include/odm.h         | 29 +---------
+ drivers/staging/r8188eu/include/rtw_mlme.h    |  2 +-
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h |  2 +-
+ 5 files changed, 16 insertions(+), 92 deletions(-)
 
-diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-index 9873bb2a9ee4..113a3efd12e9 100644
---- a/drivers/staging/qlge/qlge_main.c
-+++ b/drivers/staging/qlge/qlge_main.c
-@@ -4605,14 +4605,12 @@ static int qlge_probe(struct pci_dev *pdev,
- 	err = register_netdev(ndev);
- 	if (err) {
- 		dev_err(&pdev->dev, "net device registration failed.\n");
--		qlge_release_all(pdev);
--		pci_disable_device(pdev);
--		goto netdev_free;
-+		goto cleanup_pdev;
- 	}
- 
- 	err = qlge_health_create_reporters(qdev);
- 	if (err)
--		goto netdev_free;
-+		goto unregister_netdev;
- 
- 	/* Start up the timer to trigger EEH if
- 	 * the bus goes dead
-@@ -4626,6 +4624,11 @@ static int qlge_probe(struct pci_dev *pdev,
- 	devlink_register(devlink);
- 	return 0;
- 
-+unregister_netdev:
-+	unregister_netdev(ndev);
-+cleanup_pdev:
-+	qlge_release_all(pdev);
-+	pci_disable_device(pdev);
- netdev_free:
- 	free_netdev(ndev);
- devlink_free:
 -- 
-2.25.1
+2.35.1
 
