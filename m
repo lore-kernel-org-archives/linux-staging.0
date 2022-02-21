@@ -1,177 +1,176 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F003129A3
-	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 13:06:21 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21LCr59l002355;
-	Mon, 21 Feb 2022 13:06:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=kILDo2zF8qjFH54gRd2yie0Oy+RloJn30X9ouKV71P0=;
- b=f6IJYfllGJduChVTtI6oPnTt1PbJqhfWNrRtyrObGIx24tEUj0I5nSvk5gKC438dall0
- k3bXVbYl+EWznWTMTBan1szdZpq9/YdNywTxVctBjSsL/9/lcA+mlPaLoQ1KI7fYJpyN
- sKRAdzVvnsDQhhxGtE+FG4wDMVOSVMt/1PsZpMYjM8kTJgKUuGhIuqmpnjdyGlB7sejt
- EuE5wfFly0FYJP1lQ9YQAEVA0rHS40nv0wpSsXWAsJIMvAvoMMnmE1Ckkxc6araOnI5I
- ColxQ1ycXdIudmilZaUB4OD5YQxm+grtubpCBakY0JtFJiLxjFA+NKmSwPXQk4LHVQ5e WQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3ear5t42rj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 21 Feb 2022 13:06:13 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21LD0n4Z136657;
-	Mon, 21 Feb 2022 13:06:13 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2172.outbound.protection.outlook.com [104.47.57.172])
-	by aserp3030.oracle.com with ESMTP id 3eapkep7cx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 21 Feb 2022 13:06:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LDCL++LYrGZ1GCmucxeejY0bTBOV/j/JC9c39CJmp6KGY8CMI16DuFL5seQOOTjnhsufoYzUY/P/uOKA6faSKjnFNB8SvCQKGoqU8PUuHsT2XZyv081Hw5riY2Ru1GTZw+2/188T4Qr1j4JiG4CbvoruQ6h4Cdt1h0gJsxVvJygHb1D5VZlnGjQ3dGZ1vdZx6vTR9w7Bwn04tiLyuobMmE4JQf7L0AwE/TyRAti1nLOkG5iiLnq1AZGD8orxFUiY7i3opVWRLM7skyuo6CMGGgRGk6TVmRANbcWQJZuVSELGyCFRLNPITa7xksCn7LnDGIAbb4cSHgTmNLmOY9ogJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kILDo2zF8qjFH54gRd2yie0Oy+RloJn30X9ouKV71P0=;
- b=CUcgvpTPYCDd/J48ENNtQHS6pOP5LML5HPanTqxZwmwuHVGfOUkionHbgTN6U2y3hwPzdreUEEyhdjp4/ZGCYWRF/cXQBfPZr591qG+mZUN2GafyMfIuhKlY1B5LtaY0PON3eliDPHzFSJerxiUEjIHmXi08iIfiD8kLYH+DAGtRIkgJmpy2bVMZgqNZvnRp90VOHISjLL5ZbcB2g7Gf+afp/naTgAO673zbxIVCMa6eEW/BwCz2WHsP7tfB6Im8OR2JSdFgLLNOQY9NTkAKNMY6HvVJJZBVmfGk81MbxKAySHN7Vl63hKUWb7KpVIHD2bfA9I4IWr16GfnroSxywQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A2629A3
+	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 13:36:59 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id p14so33261997ejf.11
+        for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 05:36:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kILDo2zF8qjFH54gRd2yie0Oy+RloJn30X9ouKV71P0=;
- b=J4Fgj599+nW0YSZD6tHcOrTEOQJpLinu4k8IQ7Fcm/FsKXQb6OrLOInk15wccqT3Ny3vnvnR7Nq9/5Qmc2c48dc2ymHXnxAug/hoiH40wYpmr6C6GjbezF7Q76YhU/4BYVsemwZ1Wn9yvOkRjDJmXzzHHT3wPtd/hPrHJH1Fsyc=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BN0PR10MB5367.namprd10.prod.outlook.com
- (2603:10b6:408:125::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16; Mon, 21 Feb
- 2022 13:06:11 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5%4]) with mapi id 15.20.4995.027; Mon, 21 Feb 2022
- 13:06:11 +0000
-Date: Mon, 21 Feb 2022 16:05:48 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Tong Zhang <ztong0001@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jakub Kicinski <kuba@kernel.org>, Lee Jones <lee.jones@linaro.org>,
-        Colin Ian King <colin.i.king@googlemail.com>,
-        Saurav Girepunje <saurav.girepunje@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        =?iso-8859-1?Q?Cl=E1udio?= Maia <clrrm@isep.ipp.pt>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192u: cleanup proc fs entries upon exit
-Message-ID: <20220221130548.GK3965@kadam>
-References: <20220220231554.2510567-1-ztong0001@gmail.com>
- <20220221130006.GJ3965@kadam>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220221130006.GJ3965@kadam>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0026.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::10)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hVsxXa9zfJzDSONzhFmUt2n45g2Tl+QAXT1aliotVqU=;
+        b=XmTAslYxp5GDy/Vljfy2unr/xoU7gzU3HEjXxhmZ4thZ5TR7G2L0bE47eJF3ebQlbw
+         QxzN5HViSUiWkQIDn9p5oVRlfFaJYqvfvfKo6WGh54M4BJiR95utbGShS7OVeaT1iEYg
+         vcB4jz3DnGm7gh4eAJazlvVoj8Nb0zHVQTcMu1rAzYJCUcHNVgysTFEE/nMzdDadIOp1
+         dQjcLfxZrlApQjxJQlUR+q0M6PgNYQAYYpYa4Kngk4GHTpB/wzPqeQCXhAEdIijKK8KT
+         rivlHUC9xLh00Wnc/QdwtCKV+MR69Y8TVx+B0uzytjAVQvH1TSokvM2VDqM6ybQh+0UL
+         jcGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hVsxXa9zfJzDSONzhFmUt2n45g2Tl+QAXT1aliotVqU=;
+        b=cgOwrtsLDMeSFTfq0sWp5+DnUCbDFV+2IGtgD9GOgu9nV+gA77WaX4oD+F/7pWViFm
+         yXlEAT3gqaHHwXVIuXJuIZiL4kT9Fw2p22f9tT0rw4V2xhq1klpo2mktMAgLnNKpMTWZ
+         vM6dTYgbKMKVPje1BqoKLTSd3ScqkNyc72yfuWrPoSSrIu9NT+ZjQ4+7sfLfWrhvgbQL
+         njkk3pUhLHudjcrhtoamvJJRJnAGg639yl+MDp/ZDAMFtiYzaVAtBrhHJyNmxeaNqGXP
+         I5j4HE0niH7+kxL0cEIxBllpagaGPLB/5HV48FeRPUNNioTpLsMacu86NcjMUlLig1az
+         KUMA==
+X-Gm-Message-State: AOAM532D7x3NfKqtOsk7fb3xodNomw7x4iGsQeKCeX3oJ2FQEkkOM/Dw
+	//6dpubT0d+4Q73XErtAaWsvX1AKde9xDaO+nEY=
+X-Google-Smtp-Source: ABdhPJyEZ/gU5SCeWCcTzpOSzUXpy+j4gBmV01rVq1YoY/L4n7+iMS5I7aLybc0v/YOKIwqJBvvfGM5l8u8ISI4J1mE=
+X-Received: by 2002:a17:906:364d:b0:6cd:9109:cfd4 with SMTP id
+ r13-20020a170906364d00b006cd9109cfd4mr15717127ejb.198.1645450617442; Mon, 21
+ Feb 2022 05:36:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ada2be97-f593-46f4-923d-08d9f53aee57
-X-MS-TrafficTypeDiagnostic: BN0PR10MB5367:EE_
-X-Microsoft-Antispam-PRVS: 
-	<BN0PR10MB536797FCDE7B92720D3B554D8E3A9@BN0PR10MB5367.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	16sOwywh2VFCyajAEvgDPNTUeCgVGVZZOKfuyHfIMV8oSC2J0DojDLGM5m2qCZTtS5Wh3pvjd8ql0NWlOHXvgwgJAZcjl40R0VnI/pk7/XP1D7TiqXVj/Q5kD4RG/UUNkhdvGM0SmTs46FJQOULgqGr9A66Jyq1EV56J5CzWYubTvcXIakCcSCcbHsrIeOUZpomPhQBJECJ2oK5wM9MxP4FYLUSqdIaKV/ejpPQwrZDek9QXS04VBMoDLJLlmZOagHOW23F9PEgQPN5ex3Uhe6ruz2ok5xVNge5jtnvm04SifrgQ3Oe3a+ZU+ezc27Q6u2Kf1oSddvrbHsMj3ktyvVaKeStBpJxBoBjqT3pppVm6fSfCXbsdrUVKrM7EvuKmM3dDXv7xuXbaBGzu9x/z+soPu0Ixuu0drjU99iP3DDjvsTNom4CmpGA5PDnLUl9K7TuYVjRO1FQQxMW9eEnO+FrHH7++pMlFgrBEKN/ql198P+hJcHg8JGi+nBRu2kQvHP6iqy/n7sUb3JM3/Y4DGvgj2JwmxHkMvvkklOhJpDL65ljTnGYKvRhvdkzUi+i78wHXHj9thZJxiPXeTZr30hgBvkugONqtMusjACyqatd6UD2Nr3TeCdRYSFsBxLphZU2Ft+cK9uG9M5KOsRdPR1KRXzOdGLhZk2yvLtdobSJuBoNnMCoaPB7WDEJXJ9PRVC/NtWoHN00G/Pm5f1C8EQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(8936002)(52116002)(38100700002)(26005)(508600001)(6486002)(186003)(38350700002)(7416002)(33656002)(5660300002)(6506007)(86362001)(6666004)(1076003)(66946007)(66556008)(66476007)(8676002)(4326008)(33716001)(2906002)(54906003)(6916009)(83380400001)(9686003)(6512007)(316002)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?teJgnLC4vdlyUK9dekborg4EAMcpa8tpYOiY2FYiG+mLEnRJFYZliaZF1ipK?=
- =?us-ascii?Q?K3KHVAJjvsdMhWqc6EHT0xwNjbRiQSCM+vldFbwJ9mqXK27JZLfpht2iVJ2I?=
- =?us-ascii?Q?k3/6WlmFZMuFqaR7EainUSuhSk07d3IxmlwUq+PsiphNt5A8mSs3a4NEem1a?=
- =?us-ascii?Q?/ewp67p0OkW7K0000BBuwgduUzpAniULixgMoElGC4vWP96+BMMhZ0twTyxO?=
- =?us-ascii?Q?i4jazrbp9tC2pZwlNFd6pdNYxJpega3VoFQxog3u7uk9LTTc0BOWFHwpqK65?=
- =?us-ascii?Q?t2VY6IZbRhZayb4GjU+4tqiHgqVJCR9DwHsaT3q2wmTtNKxBQ7UuznnLPruA?=
- =?us-ascii?Q?1ChlXA/MGdcZPMVf6IgglFLt3HKiS3h6ZfvF14nDkWMJHkIxnMaTUJYEKo9E?=
- =?us-ascii?Q?Y6Xe0D4z2oMvDx+aZnSsHrF0S4yTuMvDirRPNqXqCPWXDW+t3eX2f+nPdQO/?=
- =?us-ascii?Q?Oh4extP8MNjrrJdxBFwYfRQpwCNgxq58iMMJNuEhxwvTvFwDyD5V64Tlhy7Z?=
- =?us-ascii?Q?5yloymYlM7JKgALPqreYZVyT+c1MxoTWbHNI8YT6rk6/fLogDAsrmSu3C5xB?=
- =?us-ascii?Q?MGyoubNriGLuZ3De3qdImqWaQbNpJ52+HFBxHo774DCsihHL1uAcno5PyZMD?=
- =?us-ascii?Q?VqIJvddpM1/AdQPIbpROTDAMW+tAHe01Spv0891hRyy/JENM3AWwH1/CL33J?=
- =?us-ascii?Q?Sq1N/Zaj1qHTZ82kJ8d3R7uoIAFKKT9c8OW1jg7Ez7EUKQlOs4599XV2CDS4?=
- =?us-ascii?Q?4+sczDDK5vOrgoZiIVoMxE+yIZW9lBxA2EoBQIotgpGBR/e1qSWt1aKYEm+g?=
- =?us-ascii?Q?qZhnk95eJw01oUcP0jFQONwzKxml/ppCEtabOLmVHioHrCq2luYvjAGgIAAC?=
- =?us-ascii?Q?Q5dUTHfAFZ9yInyc432J07WA929uSbWTlSoBozhZSEdwmNBBRyb0CESOrz1A?=
- =?us-ascii?Q?6uMeEKtmOeYIPNDsX1s704v4oBOxToF4KfuRbgOz5g7JQqSvuRImQvC67DCs?=
- =?us-ascii?Q?8/sJ80wx5YPMkvBD44TXT6oeBLdEQVAbh3HYvXTSyDMVlGXuVLcP+U07hovN?=
- =?us-ascii?Q?Xlpuma+b6VN7RerYb7Lp6UHE0wDFR+Va0AA7bRiUzpMQqpZGlBeE8TNFMIv4?=
- =?us-ascii?Q?q6kCwxYcfIy/aYWYnOcYZqGtlLjIRZMfH4noK4DywqluJRJEF251cmRbKc/P?=
- =?us-ascii?Q?Tpg9lQ76UBWuwITJnhW0VSmeNbNfehpYrhtar3mXuic+xdGuE8NI0bhJrtWZ?=
- =?us-ascii?Q?PsL6LCHpEqWwtvyVCOQD3QFm4uQ2XyIiMHX3nbBU81BGQB8v+7JUQdTLhNC5?=
- =?us-ascii?Q?LOn3jqvgBHdK71Ii2yE7y8os26JMIaEcqP7rJQmzwF5V6ElXlXXVawLF2uO9?=
- =?us-ascii?Q?TBGxF2abrYphEOdA7tCwO7clD2miAedeuKuU5F8rGUnw4/k2kgcpP181PDKm?=
- =?us-ascii?Q?YNeh/LA9ld8OBozMm3fLENcRn/+RLvNSGqThuuNMlJTxFqYxMv5zHTDJuN0+?=
- =?us-ascii?Q?qiBiUn+CucvMsIw1rQlIfhkfMpzWP6V1xHhrpp+0E2b2G53/EjspV5S/T67y?=
- =?us-ascii?Q?+lRO5V0J3FohTo3W2QmYwzsEs80NmAb/W9EN35Tg5FZmUE3XuxCzpFiUjn8p?=
- =?us-ascii?Q?thhYfnYjeQMUd43m37iKyAPLzvRabKcO8iQq+Jg7fft1PZtdIi5jgjUj/md8?=
- =?us-ascii?Q?eBQ2kg=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ada2be97-f593-46f4-923d-08d9f53aee57
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2022 13:06:10.9791
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oG2mBKLdbSCa5zh+5GYWdtkXfMoQRRhaiZWzAgEmhDAmQNfGLEh/XpwAO1m2QntPUX4Ab+aqHLaumIxJp5caxbNX8xOMlbWYlf9/HWxDnF0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5367
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10264 signatures=677614
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 mlxscore=0
- spamscore=0 mlxlogscore=950 adultscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2202210078
-X-Proofpoint-GUID: Q_7vto0Mhk4wW5wZrLgz_hE9lhk3u48v
-X-Proofpoint-ORIG-GUID: Q_7vto0Mhk4wW5wZrLgz_hE9lhk3u48v
+References: <20220218183421.583874-1-jacopo@jmondi.org> <CAHCN7xKXoBB4AiJY=wEhZ-8YT=QW4CANe7bapGpjFGnWKm3xmQ@mail.gmail.com>
+ <YhLDqUPRe84/JylR@pendragon.ideasonboard.com> <20220221075859.xtilbojle5ghnfru@uno.localdomain>
+ <YhNMQGpZ8oRTOxB8@pendragon.ideasonboard.com>
+In-Reply-To: <YhNMQGpZ8oRTOxB8@pendragon.ideasonboard.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 21 Feb 2022 07:36:46 -0600
+Message-ID: <CAHCN7x+gk9xXOCNB4PWFRSkY=haA1kAnAYB8WFjUDDA4imzj4w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] media: imx: Destage imx7-mipi-csis
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo@jmondi.org>, Steve Longerbeam <slongerbeam@gmail.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, martin.kepplinger@puri.sm, 
+	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, dorota.czaplejewicz@puri.sm, 
+	Sascha Hauer <kernel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>, 
+	linux-media <linux-media@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	arm-soc <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 21, 2022 at 04:00:06PM +0300, Dan Carpenter wrote:
-> On Sun, Feb 20, 2022 at 03:15:53PM -0800, Tong Zhang wrote:
-> > proc fs entries need to be removed when module is removed, otherwise
-> > when we try to insert the module again, kernel will complain
-> > 
-> > [  493.068012] proc_dir_entry 'net/ieee80211' already registered
-> > [  493.271973]  proc_mkdir+0x18/0x20
-> > [  493.272136]  ieee80211_debug_init+0x28/0xde8 [r8192u_usb]
-> > [  493.272404]  rtl8192_usb_module_init+0x10/0x161 [r8192u_usb]
-> > 
-> > [   13.910616] proc_dir_entry 'net/rtl819xU' already registered
-> > [   13.918931]  proc_mkdir+0x18/0x20
-> > [   13.919098]  rtl8192_usb_module_init+0x142/0x16d [r8192u_usb]
-> > 
-> > Signed-off-by: Tong Zhang <ztong0001@gmail.com>
-> > ---
-> 
-> This is a partial fix but there is a lot wrong with both the init() and
-> exit() function.  It's not hard to just fix everything and it saves
-> time.
-> 
-> Here is how to write Free the Last thing style error handling for init()
-> and when you finish writing the error handling code then the exit()
-> function is just a matter of cut and paste.
-> 
-> The rules are: 1) Free the last successful allocation.  2) Every
-> function must have a matching release function. 3) Every function must
-> clean up after itself.  No partial allocations.  4) Name your labels
-> with descriptive names to say what the goto does.
+On Mon, Feb 21, 2022 at 2:24 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Jacopo,
+>
+> On Mon, Feb 21, 2022 at 08:58:59AM +0100, Jacopo Mondi wrote:
+> > On Mon, Feb 21, 2022 at 12:41:45AM +0200, Laurent Pinchart wrote:
+> > > On Sun, Feb 20, 2022 at 12:19:30PM -0600, Adam Ford wrote:
+> > > > On Sun, Feb 20, 2022 at 8:56 AM Jacopo Mondi wrote:
+> > > > >
+> > > > > Hello
+> > > > >   this series includes patches from two series previously sent:
+> > > > > https://lore.kernel.org/linux-media/20220119112024.11339-1-jacopo@jmondi.org/
+> > > > > https://lore.kernel.org/linux-media/20220211180216.290133-1-jacopo@jmondi.org/
+> > > > > v1:
+> > > > > https://lore.kernel.org/linux-media/20220214184318.409208-1-jacopo@jmondi.org/T/#t
+> > > > >
+> > > > > Which can now be marked as superseded.
+> > > > >
+> > > > > The first 2 patches performs the de-staging of the imx7-mipi-csis driver and
+> > > > > are now reviewed.
+> > > > >
+> > > > > The rest of the series builds on top of the comment received on:
+> > > > > https://lore.kernel.org/linux-media/20220119112024.11339-3-jacopo@jmondi.org/
+> > > > >
+> > > > > If DUAL pixel mode is used in the CSIS driver, then the CSI block of the IMX8MM
+> > > > > SoC needs to be operated in dual mode as well. To do so, use the image format
+> > > > > sample size to determine in the CSI bridge if dual or single mode should be
+> > > > > used.
+> > > > >
+> > > > > Laurent could you test on MM to see if it works now ?
+> > > >
+> > > > Jacopo,
+> > > >
+> > > > Do you have a repo I can clone?  If not, I need to know which branch
+> > > > to apply to the series. I have an 8MM with an OV5640, and I'm willing
+> > > > to test if Laurent can't.
+> > >
+> > > I've applied the patches on top of v5.17-rc4 plus a few backports, and
+> > > pushed the result to
+> > > https://gitlab.com/ideasonboard/nxp/linux/-/tree/pinchartl/v5.17/csis.
+> > >
+> >
+> > Oh, you've been slightly quicker then me :p
+> >
+> > I was about to ask Adam if he was interested in a branch which also
+> > contains
+> > https://patchwork.linuxtv.org/project/linux-media/list/?series=7311
+> >
+> > As he has an ov5640 :)
+>
+> Do you mean
+> https://gitlab.com/ideasonboard/nxp/linux/-/tree/pinchartl/v5.17/sensors/ov5640/v2
+> ? :-)
+>
+> > Adam, if you get here faster than me, please try Laurent's branch and
+> > let me know. Otherwise I will provide a branch with a v3 of this
+> > series and the ov5640 changes as well, if you're interested in testing
+> > them.
 
-I meant to add:
+I should be able to get to this today.  Are there specific resolutions
+or formats you want me to test?  I assume I should test the new ones,
+but I wasn't if there were some that were less confident.
 
-5)  Free things in reverse order from how they were allocated.
-
-regards,
-dan carpenter
-
+adam
+> >
+> > Thanks
+> >   j
+> >
+> > > > > On top two small patches I was carrying in my tree to add more formats to the
+> > > > > CSIS driver, the last one with the caveat that RGB24 is transmitted on the wire
+> > > > > with one format and stored in memory with a different one.
+> > > > >
+> > > > > Series based on top of the most recent media master branch.
+> > > > >
+> > > > > Thanks
+> > > > >   j
+> > > > >
+> > > > > v1->v2:
+> > > > > - Remove per-SoC handling in CSI bridge and only use image formats
+> > > > > - Add TODO note to the staging driver
+> > > > > - Fix PIXEL_DUAL mode comments for imx-mipi-csis
+> > > > > - Add output format translation to imx-mipi-csis to handle RGB24
+> > > > >
+> > > > > Jacopo Mondi (7):
+> > > > >   media: imx: De-stage imx7-mipi-csis
+> > > > >   media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
+> > > > >   media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
+> > > > >   media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
+> > > > >   media: imx: imx-mipi-csis: Add RGB565_1X16
+> > > > >   media: imx: imx-mipi-csis: Add BGR888
+> > > > >   media: imx: imx-mipi-csis: Add output format
+> > > > >
+> > > > >  Documentation/admin-guide/media/imx7.rst      |  2 +-
+> > > > >  ...-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} |  2 +-
+> > > > >  MAINTAINERS                                   |  4 +-
+> > > > >  drivers/media/platform/Kconfig                |  1 +
+> > > > >  drivers/media/platform/Makefile               |  1 +
+> > > > >  drivers/media/platform/imx/Kconfig            | 24 ++++++++
+> > > > >  drivers/media/platform/imx/Makefile           |  1 +
+> > > > >  .../platform/imx/imx-mipi-csis.c}             | 59 +++++++++++++++++--
+> > > > >  drivers/staging/media/imx/Makefile            |  1 -
+> > > > >  drivers/staging/media/imx/TODO                | 26 ++++++++
+> > > > >  drivers/staging/media/imx/imx7-media-csi.c    |  8 ++-
+> > > > >  11 files changed, 117 insertions(+), 12 deletions(-)
+> > > > >  rename Documentation/devicetree/bindings/media/{nxp,imx7-mipi-csi2.yaml => nxp,imx-mipi-csi2.yaml} (98%)
+> > > > >  create mode 100644 drivers/media/platform/imx/Kconfig
+> > > > >  create mode 100644 drivers/media/platform/imx/Makefile
+> > > > >  rename drivers/{staging/media/imx/imx7-mipi-csis.c => media/platform/imx/imx-mipi-csis.c} (95%)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
