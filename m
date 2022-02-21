@@ -1,46 +1,44 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E5220E7
-	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 19:41:25 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id p15so12027960oip.3
-        for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 11:41:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD5333ED
+	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 20:54:54 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id b9so20838212lfv.7
+        for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 12:54:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=WCBQPRAXNKEOqzap7VzxRpf2OcOGWxCXupmF+QqH0S4=;
-        b=O1R9sTehWUO2FhfEhPLXFpuRRGqs/4WmmT9xIlNb2dZMdG7/haGYG3VL2aLpjbZsVZ
-         scnGpQJ9Fk7D+AWCZ+w6mqepFjaGSHRSRXJHO5+atd3kI9ipJdSTnC5aEHjC7+XVV/WM
-         qQKeVkCM66N+2oi9vJoEw1aBldeGQ1z/p+JaGHGxuvBqhdhoWpRpvMbJaTMHhOAruoFF
-         tvnW0MvTycN2WYoeqtj3I09TAOU489NJ1JmMqmSXEyWIg4rVCxaV0OqtwsVKx76q9vQv
-         KcHRPMDuPaCiz4Gjc0DT+mmxtG8UxlpFJlHcJrl5ZVDTp5R75gRZ4+aN5cltMIUvY0mK
-         qLuw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=9O3/P6nDT9vew0ys+NqmJ/EyY8z22EgOFRFm9Et7xg4=;
+        b=kG9GzAkheiHFSYStMre7Sbd4nDnyVbI9S6lYxgznlRwabVMFV+6NYKe5C1y19RzNhi
+         9pYuMftc9tFm2b5WlMsD4f8nnNP3hCIFLYPKTztX1q8uodWNn07Th0yoPcl9CBixLcQi
+         9/CvZhL3Y0LcxON1qET6MGSGMSaDfzm6nGZA/DURDrvSbexXEjRxrpE2zkindlxpqUrE
+         XBbUazcyXadWAo9tQuaGN5OPZc7XVPhYxNDW2u2eDcng08fSVvay5rZ7H9un2Yj1VE6g
+         TIai1GiBhMuT2rCcT/CxuJe25C9YaToNXd5HL623gkQ0b0nmjgWMxw8G/u3ldHUYGp7f
+         HqLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=WCBQPRAXNKEOqzap7VzxRpf2OcOGWxCXupmF+QqH0S4=;
-        b=LFf99PzUGYXlc/W195inF7Ge7YHa8ajTluOeS9G/VDZha8xSAmQvDCo6n2hJMDtuvb
-         rSVll59YgiUmWI0TrP/J2a9Pqg/rAzfvF3MT5sgZHgnqf9/LjOw9DHFH3Dbb/59L7C58
-         YngpH50qAyP4jJQt1Y2YNrxKSP8MQi14uYKJzzaHbO++j6vvn/E5QBvJZVfV57E0BUko
-         NJYOxqcnJOZgt7Yg2arOv6afs6TveNrFHlD8qrXPA59XAOwjqzgQ1cWLyc6k6u21TF0w
-         Y6Ds6PJ2741O0DecyWhupZA7oLUPOVhnMj7PqPJ5OzRVkn85vAdcEXvxzJ9ULdJfS1/v
-         8KBA==
-X-Gm-Message-State: AOAM531KE0AlbaL155CMRQAC7WW/kw/4GHFRRgmte4bsDIlc/dVyzM27
-	qNkHCB/wm0kV2+uGUM/Jums=
-X-Google-Smtp-Source: ABdhPJyY3RwwLjtVarsQbG1GDAZuK+UWddBx+8ANkuGv/PX2m0IBeVPkij3YJ16Z2iJ3BHsdQ/JWAg==
-X-Received: by 2002:a05:6808:30a7:b0:2d5:2957:f98e with SMTP id bl39-20020a05680830a700b002d52957f98emr283339oib.183.1645472484838;
-        Mon, 21 Feb 2022 11:41:24 -0800 (PST)
-Received: from [192.168.1.103] (cpe-24-31-246-181.kc.res.rr.com. [24.31.246.181])
-        by smtp.gmail.com with ESMTPSA id b16sm4801662oti.69.2022.02.21.11.41.23
+        bh=9O3/P6nDT9vew0ys+NqmJ/EyY8z22EgOFRFm9Et7xg4=;
+        b=SK2S40YhJje+6mqV2Z4PqNutYzioZx7Ci8jV22r2Gny5q6eDbkUrTi9jBbOvyoGKwp
+         XA1QHZCIPzkJOhSuD38iVPp7HHdaMCa6YYBpZS2uXmxHQ7bW902oz4hCI5wcRy7WhoVR
+         8IG9kKNALFU2KgvJBXmgQcOH8sr6Jtq4boc+IPdRQgxjx7Rz5/WYs7XfxxPVlQ8Csoq1
+         xbSg080ED4dTUZn6SpQ5whOAZH6QPVoncsOlYzV0XcgNbGaouOKWPLMiqIOUlAhpgkXc
+         /k7PUsbFBpX/pXj2zmlJ06wlmNRlQkC9YFXOSxt8IXKcEeDr27wnnjbAlqmEFwyjk7U2
+         G8Cg==
+X-Gm-Message-State: AOAM530FVkQyAgouGWj0WnUjT9ZosMNi1dqrKchBeYsq2bi+oLIlufkW
+	m/gY+zxlW+oZ2TZhzWvD7Go=
+X-Google-Smtp-Source: ABdhPJxqC+dfNhYkr89kIWaeS6hp2VDMz4tsyJMXGQ0VMknz69H/1Zu07idN9LJ40JYAy7NH2Jru0w==
+X-Received: by 2002:ac2:5e2f:0:b0:438:a4b5:4c72 with SMTP id o15-20020ac25e2f000000b00438a4b54c72mr15526215lfg.304.1645476892223;
+        Mon, 21 Feb 2022 12:54:52 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.229.64])
+        by smtp.gmail.com with ESMTPSA id o1sm1203816lfk.62.2022.02.21.12.54.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Feb 2022 11:41:23 -0800 (PST)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <636080dd-ab8d-a572-0f81-5f72b14ec1e4@lwfinger.net>
-Date: Mon, 21 Feb 2022 13:41:22 -0600
+        Mon, 21 Feb 2022 12:54:51 -0800 (PST)
+Message-ID: <8d5cf235-27f0-9c7a-3659-d2b1fe7a02dd@gmail.com>
+Date: Mon, 21 Feb 2022 23:54:50 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,42 +46,50 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 1/3] staging: r8188eu: remove 5 GHz channels from
- ch_freq_map
+ Thunderbird/91.5.1
+Subject: Re: [PATCH 2/3] staging: r8188eu: refactor rtw_ch2freq()
 Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>,
- Michael Straube <straube.linux@gmail.com>
-Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+To: Michael Straube <straube.linux@gmail.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20220220154847.7521-1-straube.linux@gmail.com>
- <20220220154847.7521-2-straube.linux@gmail.com> <YhPIVFmStJOMI0QZ@kroah.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <YhPIVFmStJOMI0QZ@kroah.com>
+ <20220220154847.7521-3-straube.linux@gmail.com>
+ <cb7db1ac-8e7e-d549-a5c0-fcd072ae815e@gmail.com>
+ <94160654-ec16-cad2-3cc2-46628caaa17e@gmail.com>
+ <20220221122250.GE3965@kadam>
+ <32a2b74b-f541-ddf6-d8c9-6bd6ca0ad07b@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <32a2b74b-f541-ddf6-d8c9-6bd6ca0ad07b@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2/21/22 11:13, Greg KH wrote:
-> On Sun, Feb 20, 2022 at 04:48:45PM +0100, Michael Straube wrote:
->> This driver is for chips that operate only in the 2.4 GHz band.
+Hi Michael,
+
+On 2/21/22 22:20, Michael Straube wrote:
+>> I'm glad that Pavel noticed this change.  This is a risky thing and
+>> should have been noted in the commit message.
+>> 
+>> Just from a review stand point it would be best to leave the original
+>> behavior.
+>>
 > 
-> How do we know that?
+> Do you mean to leave the whole original code including the 5 GHz
+> frequencies? Or returning a default value if we have a channel value < 1
+> or > 14?
 > 
-> thanks,
-Realtek 
-(https://www.realtek.com/en/products/communications-network-ics/item/rtl8188eus) 
-states the following:
 
-"The Realtek RTL8188EUS is an 802.11bgn 2.4G single-chip that integrates 
-Wireless LAN (WLAN) and a network USB interface (USB 1.0/1.1/2.0 compatible) 
-controller. It combines a WLAN MAC, a 1T1R capable WLAN baseband, and WLAN RF in 
-a single chip. The RTL8188EUS provides a complete solution for high-throughput 
-performance and low power consumption integrated wireless LAN devices."
+IMO, your version is much cleaner than previous one. This table walk 
+seems really unreasonable, since 5 GHz support is really redundant (I 
+saw it in other thread)
 
-The reason there are 5G snippets in the driver is because Realtek uses the base 
-code to generate drivers for other chip families such as RTL8192DU that have 
-radios for both 2.4 and 5G bands. The RTL81288EU and variants have only a single 
-radio.
+I'd put just sanity check and return the default value from previous 
+version. Maybe even wrapped with unlikely() if we sure, that in normal 
+state we won't hit it ;)
 
-Larry
 
+
+
+With regards,
+Pavel Skripkin
