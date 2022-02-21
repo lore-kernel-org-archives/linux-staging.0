@@ -1,73 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F9533D7
-	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 18:53:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1D07C340E9;
-	Mon, 21 Feb 2022 18:53:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1645469597;
-	bh=4gzlRRMq6XhlfZGzpOExTVP9X+cX8RqM5SLF621F3vU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kO/Tpt1W3aTRvibUYuWGJWSDL+IPziq6HpgBaVheBS2JwifIYL5wnP6J/gLJODFvT
-	 aPvvBqaEZuFUF0tJFRMn2XCQ+InAqgTYWQ/hPOxyXxW/DLeGu6Ee0XimrGz2zR+5kX
-	 fvH1mfp9wryRU3x9x/rCUVwh59Wet618s4BIj+n0=
-Date: Mon, 21 Feb 2022 19:53:14 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] staging: r8188eu: odm cleanups
-Message-ID: <YhPfmkMORaBraQNr@kroah.com>
-References: <20220221073306.16636-1-straube.linux@gmail.com>
- <YhPIOp/k/u9GUv73@kroah.com>
- <fc8e4d44-fa64-f8bf-a442-87c1437978fa@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118E733D8
+	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 19:07:41 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id d10so35615032eje.10
+        for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 11:07:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=RB+KnGP4vjA0xEYG3QLBV10Oe0XhSXLPzGOpTKcC0fY=;
+        b=K4a5HCHQ7nMPlxRuuLiM+TEcOdIH2u4Ivlw02dABkJWLEtElRDBMXHD3RESCh/OdSt
+         Bnoei2Jrw75XrR4m2W+CgqK6BV9c1M7NKPCk3cC+SU8KngQv+S39l8TPMUqldOaPA+o4
+         a0QngcOYe4VzptVwY6+Tg5WqerVbT/J1+zbAjdKb6t9L9CDz7igCjUh63mByyT6GTtIu
+         ghiOzW0aS/tegRFhNpYMDDVDsvm3f8Ne3lyWnyBHru+O3Bza+d9+UsMi2poWspKQ/0Ry
+         kkAcIGeJAHOQLpj+xH0iKjdgjOy+sGjnXs/2WxbCpPCApGSNdS9xSgI3lKqpbEpPtumI
+         FhnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=RB+KnGP4vjA0xEYG3QLBV10Oe0XhSXLPzGOpTKcC0fY=;
+        b=iZvehpwoct3ic01z+zu4+3FMSXsz8G27rstGOgEO5MMa653k3Hiujxr4cGmpHu47+e
+         4EgZ2Zc4c7QMTDMp4Ddu++XA4d6yUuMZQHBmW4tLRetFC5QloiDqGYd2Am+6vTKps0Tx
+         BoGwm+/m1GHTxHrSyWWaipZEUBZkmqdgpg5kTMyAEUn0fVGROUbbVwq1euqOuFgRlu+O
+         MV9RK45bOd2wkDyqiF4yNj0hQ5L7Phz7Zt5N79iCsOIdOGIPI2kJp4Mh7yNQG211ggtG
+         VBTdjpnReigPUXugaJRBv6Yqx6wFkJHWK4P03Fxe4MRT95gqVB3ehwaIVrAbMc3hT8Um
+         YgQA==
+X-Gm-Message-State: AOAM533tF947A0TGC40LiRP5kvyVhEMbrNwSl35aFfsAcMIOAACzYv3l
+	oZaNUiXcLHbvGC6zdxlW16s=
+X-Google-Smtp-Source: ABdhPJzsNn3FN3IHD5Uiz1ak9lTE+NTulWsnCooaEKsILTt0Ty1qKTletT1JXuKhptwRDKjeaguxzw==
+X-Received: by 2002:a17:906:a384:b0:6ce:c3f4:c59a with SMTP id k4-20020a170906a38400b006cec3f4c59amr16279290ejz.580.1645470460317;
+        Mon, 21 Feb 2022 11:07:40 -0800 (PST)
+Received: from [192.168.0.253] (ip5f5abb8f.dynamic.kabel-deutschland.de. [95.90.187.143])
+        by smtp.gmail.com with ESMTPSA id q5sm5357733ejc.115.2022.02.21.11.07.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Feb 2022 11:07:39 -0800 (PST)
+Message-ID: <28f888c4-e77e-3b2d-a65f-9596ff70c519@gmail.com>
+Date: Mon, 21 Feb 2022 20:07:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fc8e4d44-fa64-f8bf-a442-87c1437978fa@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 1/3] staging: r8188eu: remove 5 GHz channels from
+ ch_freq_map
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220220154847.7521-1-straube.linux@gmail.com>
+ <20220220154847.7521-2-straube.linux@gmail.com> <YhPIVFmStJOMI0QZ@kroah.com>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <YhPIVFmStJOMI0QZ@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 21, 2022 at 07:48:22PM +0100, Michael Straube wrote:
-> On 2/21/22 18:13, Greg KH wrote:
-> > On Mon, Feb 21, 2022 at 08:33:01AM +0100, Michael Straube wrote:
-> > > This set removes two more functions from the unwanted hal/odm layer.
-> > > Tested on x86_64 with Inter-Tech DMG-02.
-> > > 
-> > > v2:
-> > > Fixed a typo in the commit message of patch 2/5.
-> > > unsed -> used
-> > > 
-> > > Michael Straube (5):
-> > >    staging: r8188eu: remove ODM_CmnInfoHook()
-> > >    staging: r8188eu: convert two u8 variables to bool
-> > >    staging: r8188eu: remove enum odm_bw
-> > >    staging: r8188eu: convert type of pBandWidth in odm_dm_struct
-> > >    staging: r8188eu: remove ODM_CmnInfoUpdate()
-> > > 
-> > >   drivers/staging/r8188eu/hal/odm.c             | 56 +------------------
-> > >   drivers/staging/r8188eu/hal/rtl8188e_dm.c     | 19 ++++---
-> > >   drivers/staging/r8188eu/include/odm.h         | 29 +---------
-> > >   drivers/staging/r8188eu/include/rtw_mlme.h    |  2 +-
-> > >   drivers/staging/r8188eu/include/rtw_pwrctrl.h |  2 +-
-> > >   5 files changed, 16 insertions(+), 92 deletions(-)
-> > > 
-> > > -- 
-> > > 2.35.1
-> > > 
-> > > 
-> > 
-> > This patch series does not apply to my tree.  Please rebase and resend.
-> > 
+On 2/21/22 18:13, Greg KH wrote:
+> On Sun, Feb 20, 2022 at 04:48:45PM +0100, Michael Straube wrote:
+>> This driver is for chips that operate only in the 2.4 GHz band.
 > 
-> Hi Greg,
+> How do we know that?
 > 
-> looks like you already applied v1 of this series.
-> The only change in v2 was fixing a typo in a commit message..
 
-Ah, that makes more sense, sorry I missed that, my fault.  We can live
-with the typo :)
+The documentation that I've found for RTL8188EU and RTL8188ETV says
+that both are 2.4 Ghz only chips.
+
+Also the old rtl8188eu driver had a TODO item to remove code that is
+only valid for 5 GHz.
+
+So I thought this can be removed. Did I miss something?
+
+regards,
+
+Michael
