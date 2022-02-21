@@ -1,110 +1,238 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DEC2568
-	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 08:56:08 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id 75so13723223pgb.4
-        for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 00:56:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WZXrnKErNeL5lMaOc5mdXm+VKeICKiYhtwQ5xG170Xw=;
-        b=jU/OVWCH/lwwVb3C6Bp5ADGr8MXWoiP7i+0Kij0V0hacdaZZ8tK00cVt6iZ/1oDgSf
-         zLCNBR+499VDg1KPetHCo+UMwdstxG/Wtb/cojSBn4CxSEJ6+B6Kn2sSEKMLa1FhpnkO
-         gOfg/cTYpGSln1Uw29rXocHi3cBKSe7DPv5ozIhOeUHwEN6CIvYt5Ra3Si/aWrc6nHOh
-         7aJAYpciUQhPZ4GngXgspMO/udtUSVPy9FfWweOkXFjyWaxJte3XNAcV5wQbDu9Bgw6B
-         LWwBJa1AeaH1H8LyWa/xijViaL4QCRQOZGKSBn+6X/iN/DMs7UCUWh/T95iDkQZ2eXiU
-         6NYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WZXrnKErNeL5lMaOc5mdXm+VKeICKiYhtwQ5xG170Xw=;
-        b=uAF9GppLfAVP4sRJrQxo7Q+AzGMr/USNfOhbNSfqg/KXPbBl8irwQ48Q9cf06NrVrp
-         dNaXv9s3gDRuQsFL3u7yCMM6r7BUh3rEuN3DvyGlF2RfxYR8czCwmWFd4uKE7hrFLPXy
-         43DH33scUgYDix2pzi/epWljAxshP8tUltXE2FjEh1KygqZCWCfveeHEU0Hs2pQkBrpc
-         XHyAqiuvUZ0t01yNrIvou6yysLJj9c+fTPbzOxjYPZN+OeL+0SRsQYuAe0ZiPKe7P1mt
-         4fR7X4BnhMb2AYHnm4gB1s1lfKVN0RkgyoPD+tWJmr5s61ZCcfxZtAKorZ8kYBHtv9rK
-         XjoQ==
-X-Gm-Message-State: AOAM533cXgqC6rN3TVPthLBopghsmEQHAyWKBF5gvIYR7cbWNRzDcwju
-	SwlEjPXXMuu8YFmgZc+KE+Q=
-X-Google-Smtp-Source: ABdhPJxQFKuAvx0FRc1MFgpz68m7KDduM6CKW3pDZQEtnNhhGZJ/kLVbzQcknaO+Ju1xitzuqiXzYg==
-X-Received: by 2002:aa7:8d54:0:b0:4e0:bd6:cfb9 with SMTP id s20-20020aa78d54000000b004e00bd6cfb9mr19221126pfe.60.1645433768449;
-        Mon, 21 Feb 2022 00:56:08 -0800 (PST)
-Received: from slim.das-security.cn ([103.84.139.54])
-        by smtp.gmail.com with ESMTPSA id h5sm11488325pfc.118.2022.02.21.00.56.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 00:56:08 -0800 (PST)
-From: Hangyu Hua <hbh25y@gmail.com>
-To: manishc@marvell.com,
-	GR-Linux-NIC-Dev@marvell.com,
-	coiby.xu@gmail.com,
-	gregkh@linuxfoundation.org,
-	dan.carpenter@oracle.com
-Cc: netdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hangyu Hua <hbh25y@gmail.com>
-Subject: [PATCH v3] staging: qlge: add unregister_netdev in qlge_probe
-Date: Mon, 21 Feb 2022 16:55:52 +0800
-Message-Id: <20220221085552.93561-1-hbh25y@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263182568
+	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 08:56:17 +0000 (UTC)
+Received: (Authenticated sender: jacopo@jmondi.org)
+	by mail.gandi.net (Postfix) with ESMTPSA id 350E4200002;
+	Mon, 21 Feb 2022 08:56:11 +0000 (UTC)
+Date: Mon, 21 Feb 2022 09:56:10 +0100
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, festevam@gmail.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, martin.kepplinger@puri.sm,
+	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
+	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
+	kernel@pengutronix.de, linux-imx@nxp.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 3/7] media: imx: imx7-media-csi: Use dual sampling for
+ YUV 1X16
+Message-ID: <20220221085610.cpasrvnr4lj3n2xr@uno.localdomain>
+References: <20220218183421.583874-1-jacopo@jmondi.org>
+ <20220218183421.583874-4-jacopo@jmondi.org>
+ <YhH4z/CAltKGt6HF@pendragon.ideasonboard.com>
+ <20220221084307.kbv43pn5j2d7ieya@uno.localdomain>
+ <YhNSC6TVX5ol3do3@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YhNSC6TVX5ol3do3@pendragon.ideasonboard.com>
 
-unregister_netdev need to be called when register_netdev succeeds
-qlge_health_create_reporters fails.
+On Mon, Feb 21, 2022 at 10:49:15AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Mon, Feb 21, 2022 at 09:43:07AM +0100, Jacopo Mondi wrote:
+> > On Sun, Feb 20, 2022 at 10:16:15AM +0200, Laurent Pinchart wrote:
+> > > On Fri, Feb 18, 2022 at 07:34:17PM +0100, Jacopo Mondi wrote:
+> > > > The CSI bridge should operate in dual pixel sampling mode when it is
+> > >
+> > > s/dual pixel sampling mode/dual component mode/
+> > >
+> > > > connected to a pixel transmitter that transfers two pixel samples (16
+> > > > bits) at the time in YUYV formats.
+> > >
+> > > It's actually one pixel per clock. Without BIT_TWO_8BIT_SENSOR and
+> > > BIT_MIPI_DOUBLE_CMPNT, the CSI bridge expects 8-bit data, which requires
+> > > two clock cycles to transfer one pixel. When setting those bits, it
+> > > expects 16-bit data, with one clock cycle per pixel. The
+> > > MIPI_DOUBLE_CMPNT documentation states this clearly:
+> >
+> > Indeed, that's why I said two pixels -samples-.
+> >
+> > Maybe the usage of 'sample' is not right ? Two pixel samples in YUYV
+> > mode to me means two bytes which form 1 pixel.
+>
+> I think it's a bit unclear. Maybe you could write
+>
+> The CSI bridge should operate in dual component mode when it is
+> connected to a pixel transmitter that transfers two components at a time
+> in YUV 422 formats (16 bits, Y + U/V).
+>
+> > > 20 MIPI_DOUBLE_CMPNT
+> > > Double component per clock cycle in YUV422 formats.
+> > > 0 Single component per clock cycle
+> > > (half pixel per clock cycle)
+> > > 1 Double component per clock cycle
+> > > (a pixel per clock cycle)
+> > >
+> > > > Use the image format variants to determine if single or dual pixel mode
+> > >
+> > > "dual pixel" is a concept of the CSIS, not the CSI bridge. This should
+> > > mention single or double component mode.
+> >
+> > Ack
+> >
+> > > > should be used.
+> > > >
+> > > > Add a note to the TODO file to record that the list of supported formats
+> > > > should be restricted to the SoC model the CSI bridge is integrated on
+> > > > to avoid potential pipeline mis-configurations.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > >  drivers/staging/media/imx/TODO             | 26 ++++++++++++++++++++++
+> > > >  drivers/staging/media/imx/imx7-media-csi.c |  8 +++++--
+> > > >  2 files changed, 32 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
+> > > > index 06c94f20ecf8..e15eba32cc94 100644
+> > > > --- a/drivers/staging/media/imx/TODO
+> > > > +++ b/drivers/staging/media/imx/TODO
+> > > > @@ -27,3 +27,29 @@
+> > > >  - i.MX7: all of the above, since it uses the imx media core
+> > > >
+> > > >  - i.MX7: use Frame Interval Monitor
+> > > > +
+> > > > +- imx7-media-csi: Restrict the supported formats list to the SoC version.
+> > > > +
+> > > > +  The imx7 CSI bridge can be configured to sample pixel components from the Rx
+> > > > +  queue in single  (8bpp) or double (16bpp) modes. Image format variations with
+> > > > +  different sample sizes (ie YUYV_2X8 vs YUYV_1X16) determine the sampling size
+> > > > +  (see imx7_csi_configure()).
+> > > > +
+> > > > +  As the imx7 CSI bridge can be interfaced with different IP blocks depending on
+> > > > +  the SoC model it is integrated on, the Rx queue sampling size should match
+> > > > +  the size of samples transferred by the transmitting IP block.
+> > > > +
+> > > > +  To avoid mis-configurations of the capture pipeline, the enumeration of the
+> > > > +  supported formats should be restricted to match the pixel source
+> > > > +  transmitting mode.
+> > > > +
+> > > > +  Examples: i.MX8MM SoC integrates the CSI bridge with the Samsung CSIS CSI-2
+> > > > +  receiver which operates in dual pixel sampling mode. The CSI bridge should
+> > > > +  only expose the 1X16 formats variant which instructs it to operate in dual
+> > > > +  pixel sampling mode. When the CSI bridge is instead integrated on an i.MX8MQ
+> > > > +  SoC, which features a CSI-2 receiver that operates in single sampling mode, it
+> > > > +  should only expose the 2X8 formats variant which instruct it to operate in
+> > > > +  single sampling mode.
+> > > > +
+> > > > +  This currently only applies to YUYV formats, but other formats might need
+> > > > +  to be treated in the same way.
+> > > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > > > index 32311fc0e2a4..108360ae3710 100644
+> > > > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > > > @@ -503,11 +503,15 @@ static void imx7_csi_configure(struct imx7_csi *csi)
+> > > >  		 * all of them comply. Support both variants.
+> > > >  		 */
+> > >
+> > > You can drop this comment, as the two variants are not related to the
+> > > CSI-2 bus format (which should always be UYVY8_1X16) but to the format
+> > > output by the CSI-2 RX.
+> > >
+> > > I would add another comment to explain this clearly:
+> > >
+> > > 		/*
+> > > 		 * The CSI bridge has a 16-bit input bus. Depending on
+> > > 		 * the connected source, data may be transmitted with 8
+> > > 		 * or 10 bits per clock sample (in bits [9:2] or [9:0]
+> > > 		 * respectively) or with 16 bits per clock sample (in
+> > > 		 * bits [15:0]). The data is then packed into a 32-bit
+> > > 		 * FIFO (as shown in figure 13-11 of the i.MX8MM
+> > > 		 * reference manual rev. 3).
+> > > 		 *
+> > > 		 * The data packing in a 32-bit FIFO input workd is
+> >
+> > s/workd/word
+> >
+> > > 		 * controlled by the CR3 TWO_8BIT_SENSOR field (also
+> > > 		 * known as SENSOR_16BITS in the i.MX8MM reference
+> > > 		 * manual). When set to 0, data packing groups four
+> > > 		 * 8-bit input samples (bits [9:2]). When set to 1, data
+> > > 		 * packing groups two 16-bit input samples (bits
+> > > 		 * [15:0]).
+> > > 		 *
+> > > 		 * The register field CR18 MIPI_DOUBLE_CMPNT also needs
+> > > 		 * to be configured according to the input format for
+> > > 		 * YUV 4:2:2 data. The field controls the gasket between
+> > > 		 * the CSI-2 receiver and the CSI bridge. On i.MX7 and
+> > > 		 * i.MX8MM, the field must be set to 1 when the CSIS
+> > > 		 * outputs 16-bit samples. On i.MX8MQ, the gasket
+> > > 		 * ignores the MIPI_DOUBLE_CMPNT bit and YUV 4:2:2
+> > > 		 * always uses 16-bit samples. Setting MIPI_DOUBLE_CMPNT
+> > > 		 * in that case has no effect, but doesn't cause any
+> > > 		 * issue.
+> > > 		 */
+> > >
+> > > With this, someone trying to figure out what those bits do will
+> > > hopefully be able to get it right :-)
+> >
+> > Thanks, very clear. I didn't get the last part about the MQ. I thought
+> > the NW csi-2 receiver worked with 8-bit samples that's why we need to
+> > maintain the CSI bridge compatible with the 2X8 format variant (this
+> > and also for imx7 + parallel).
+> >
+> > Actually, looking at the MQ reference manual
+> >
+> > "15.2.1.3.5 CSI-2 Controller Core Configurations"  reports:
+> > The CSI-2 RX Controller Core User Interface supports either a single,
+> > double, or quad pixel wide data path. The double and quad wide pixel
+> > modes can help reduce the frequency the user interface must run at
+> > while the single pixel wide mode can be easier to interface to for
+> > some applications.
+> >
+> > This chip supports the following:
+> > • Single Pixel Configuration
+> >
+> > It seems the csi-2 receiver on the MQ works in single pixel mode only.
+> > It should then expose the 2X8 format variant only, which is
+> > technically incorrect for a serial transmitter. Cul de sac ?
+>
+> It's a different CSI-2 receiver, and uses a different terminology.
+> "Single pixel mode" there refers to one pixel per clock cycle, which
+> means, for YUV422 8-bit, 16 bits per cycle. The MIPI_DOUBLE_CMPNT bit is
+> ignored by the gasket on i.MX8MQ.
 
-Fixes: d8827ae8e22b ("staging: qlge: deal with the case that devlink_health_reporter_create fails")
-Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
----
+   -Lovely-
 
-v3: add a Fixed tag
+I'll send patch to drop 2X8 variant from the mq csi-2 receiver.
 
-v2: use goto to fix this bug
+Thanks
+  j
 
- drivers/staging/qlge/qlge_main.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-index 9873bb2a9ee4..113a3efd12e9 100644
---- a/drivers/staging/qlge/qlge_main.c
-+++ b/drivers/staging/qlge/qlge_main.c
-@@ -4605,14 +4605,12 @@ static int qlge_probe(struct pci_dev *pdev,
- 	err = register_netdev(ndev);
- 	if (err) {
- 		dev_err(&pdev->dev, "net device registration failed.\n");
--		qlge_release_all(pdev);
--		pci_disable_device(pdev);
--		goto netdev_free;
-+		goto cleanup_pdev;
- 	}
- 
- 	err = qlge_health_create_reporters(qdev);
- 	if (err)
--		goto netdev_free;
-+		goto unregister_netdev;
- 
- 	/* Start up the timer to trigger EEH if
- 	 * the bus goes dead
-@@ -4626,6 +4624,11 @@ static int qlge_probe(struct pci_dev *pdev,
- 	devlink_register(devlink);
- 	return 0;
- 
-+unregister_netdev:
-+	unregister_netdev(ndev);
-+cleanup_pdev:
-+	qlge_release_all(pdev);
-+	pci_disable_device(pdev);
- netdev_free:
- 	free_netdev(ndev);
- devlink_free:
--- 
-2.25.1
-
+>
+> > > With these changes,
+> > >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > Thanks
+> >    j
+> >
+> > > >  		case MEDIA_BUS_FMT_UYVY8_2X8:
+> > > > -		case MEDIA_BUS_FMT_UYVY8_1X16:
+> > > >  		case MEDIA_BUS_FMT_YUYV8_2X8:
+> > > > -		case MEDIA_BUS_FMT_YUYV8_1X16:
+> > > >  			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
+> > > >  			break;
+> > > > +		case MEDIA_BUS_FMT_UYVY8_1X16:
+> > > > +		case MEDIA_BUS_FMT_YUYV8_1X16:
+> > > > +			cr3 |= BIT_TWO_8BIT_SENSOR;
+> > > > +			cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B |
+> > > > +				BIT_MIPI_DOUBLE_CMPNT;
+> > > > +			break;
+> > > >  		}
+> > > >  	}
+> > > >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
