@@ -1,87 +1,160 @@
-Received: from out203-205-221-153.mail.qq.com (out203-205-221-153.mail.qq.com [203.205.221.153])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623837B
-	for <linux-staging@lists.linux.dev>; Tue, 22 Feb 2022 02:06:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1645495584;
-	bh=uGSXRskyGSjCdegTSUAsPooBnCz/sf0teMn+TYg1BzM=;
-	h=From:To:Cc:Subject:Date;
-	b=inMSIudDGEc/UQfadcjArDoIN3pYkQLH15wc6CjL6J10Zac+KTRZT+ppRcOKLT0jk
-	 S/GZwgNg4b/5uhaqobP/+tRzAMhRfN96xcVk0cFUCUt/GHFpicTfxxUEQCBUZrqlPe
-	 v45VUq4s8zrmFRI9hYjzxPKVn8gOMV9ZVnr2FBxI=
-Received: from localhost.localdomain ([218.197.153.188])
-	by newxmesmtplogicsvrszc11.qq.com (NewEsmtp) with SMTP
-	id 89BF689; Tue, 22 Feb 2022 10:02:09 +0800
-X-QQ-mid: xmsmtpt1645495329twjjodjhi
-Message-ID: <tencent_D9887936F780A393C232DC48C9EC3F1D4405@qq.com>
-X-QQ-XMAILINFO: NIbHSc2ysKlDIVpcczwrsD6Mk3E7W3mD0aSsBerJF+SdT1oIkxVMzSQMrWwRhg
-	 hoOwvP10MXXW/nsY0PXGEL8AKPsvXxqA9p/IUU/0kKMvz9UJiUoW5CJRCSn1DwfDCvaX+070h4aG
-	 9kCmmAfHtDvLcaWgkfetTwxSiuOxAUeQco0OPPf2fQgbXbkiyJ1ljZZpyIC3I5z440xmmOKjf3ql
-	 Jdlu8qJQJuyWkOk4n6QuRDaX8f77cauGW6YRi1tlJkbEfk+jOeoedaUPR5RJP/eKK3ejiD4r6xcd
-	 kEOSUDdwQ6njieO4GOkXOnDVzUnG7cDaBTRDGJbLcXYJgq/6mXKRsjPuz+cSxNzDscsk/t0FiYIh
-	 cc172OQBwxLI3vwMYdIGY5a6MP+mIQshXjFFJJA/nvF6He7U1an4eO+o4BaUoxHM/HHwa9AW76nF
-	 24/kUUAtUT1hm6MAqar58ORv7ThXbRSYX2jVhkw28DEAFgJY4EYXWv7h9AgLWMpcwy3rnMMsPIqJ
-	 awSVKhckn5FHPuHe26vw3Mv+olvHQJ+kKiHKfAp3AWMEgAaKAjLOFSr1gu1iEcrgTXJv/EyRvasT
-	 fi1Ljrg6vRnrIZ2fHqot9qZXKkZw4AFp08MCboyd7GDcHW9A5NbWhc9eeGYBMtX75vTc1eKmLzSX
-	 G+Fe/SPNW0BBlq1ip4H6FVnX2zqhwEzigzuEhOLhNsIa0f3vYfvgcLftbGG33pMZcAsVs/plONZG
-	 1IPp7GScdU41+WOGa9fJ536nqx9C6qZ2LbTQ7c8Hu2iNBE2tqX2iFovX40f+bfGw7OgxE1+cEZRN
-	 LZfiVcpqThcJ82mAtzCyw9fBsaBH53JKTwvdH1FoGR6zOuMbfhwKTSi1AP8IKJv/GAqauk6Bo8EE
-	 hVr7FCSv8h+l6OXlKj7OM=
-From: xkernel.wang@foxmail.com
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@oracle.com,
-	jerome.pouiller@silabs.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH v3 2/2] staging: wfx: check the return value of devm_kmalloc()
-Date: Tue, 22 Feb 2022 10:00:24 +0800
-X-OQ-MSGID: <20220222020024.3620-1-xkernel.wang@foxmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72FD3364
+	for <linux-staging@lists.linux.dev>; Tue, 22 Feb 2022 05:27:17 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21M2CsPF012145;
+	Tue, 22 Feb 2022 05:27:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=EEDShSA49WOROdAwWrMj0psuu/GOsoVXc//GtADfpBY=;
+ b=zRy7swMyeR4MJrYpPEXhwhFKLI3hKnGXU10qf728ZKiB5CqNipPfE0mxxNc9fHykhZ7N
+ XpWai9hJusWmO3XWpdiqlQOk/4yAlsH+71WeIpxN3V8e6SkQnwdtWqHiOmkfAW1pWllQ
+ xXxy8Te2lY8hXYP0l90QY2M6NjKR2vKO4SzXNpsbCXcCCeDgAbmVWl4N2e1Tkkmk7298
+ JDudwHFwhUJXWn0sMJnFL32dKMb9uAImSyyd2HSx0WfELJodlZdMDHdb5OsuLa3Gztq2
+ sd4iOo+C+bbKmEZkwLPCnTFNm+KGbOWo+5V6qIPei7H5PI7mbN43XACpdc9CKvlDKHMs ew== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3ear5t5ymm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 22 Feb 2022 05:27:14 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21M5Go9X109398;
+	Tue, 22 Feb 2022 05:27:14 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2173.outbound.protection.outlook.com [104.47.55.173])
+	by aserp3030.oracle.com with ESMTP id 3eapkfcqk2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 22 Feb 2022 05:27:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OOB+vs/YvqvRSocXswoIhwe3aw2vKraxQEBLj7+KokEwnLQ5QugH4tJ7ulTLP7FF3m+Cv6HLpu/HutBukQphWIc1PS/9d9NmakS9OuIdXQFsnGPCPUUWjZK8TvsXxRCRPan9qPFIWnC5DfBjPYkoMrf0oiDQBJj/EAIaNBGALshwU9dEU2gkWQs1Ie9SXy0YAuvQW0Jd0vcrqhAu25c9vxhpkURD064De6Fj8Dz/iXJHH1tApHXgfBDt7tR49QmPp+e3StMTroDvlqFPaieQvktHAAh538QmFLXrYscjMsIEWr9Va9v4V5Dn2Z0xL4HCqw35Y3dVJtg1HIbSfUw6Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EEDShSA49WOROdAwWrMj0psuu/GOsoVXc//GtADfpBY=;
+ b=Bpaff9FO1Y+63FDBQ9MWqA5LTn2cBaq3IiEPPhDl5oGXAz8dQKpsNiFnIjg3KIhklSQBgxxTG4Cper19x6dum9E+t05dRGAwfb/wsqnEcEy0wokjgXeX6icUH+d2WC8fsXvy6DUI0Zxw9Eh7b96VN9s2UlBgZLp8O3LumEm7/jD+mUHV8LAWLGoskjjnhyhM/cgJUL52/121JCzwkOnmUsiQMwNzHHDMg/+ydcen7DZT2nFYqiVWTtnpVoPj10Gtzi9btFYDmoiJLLiyMBZerdkyXfz3K9IKzfaA2F6ZZn6rMW04loWCzMA0A2yZD5/5KQkrv247/h473HDPmd8oSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EEDShSA49WOROdAwWrMj0psuu/GOsoVXc//GtADfpBY=;
+ b=XLjdQvZEAHL4xp/fcMOK6LzJ+RbOG3JkIvCMIfHnxW1W8ob9JItL+l4IlUvadMvdm9ahAzriddN8yy9akHlrtCrLmbitzFc1ZrqNHxmu8e7nq9vGoN3bfz84t0joKXBdiTrIPLGXOXs6piS8Zns8MVRAUFchVFerhg32BwFYEHo=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MN2PR10MB3759.namprd10.prod.outlook.com
+ (2603:10b6:208:185::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.17; Tue, 22 Feb
+ 2022 05:27:12 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::2c3d:92b5:42b3:c1c5%4]) with mapi id 15.20.4995.027; Tue, 22 Feb 2022
+ 05:27:12 +0000
+Date: Tue, 22 Feb 2022 08:26:55 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] staging: vt6656: Fix CamelCase, add comments,
+ change macro to function
+Message-ID: <20220222052654.GL3965@kadam>
+References: <cover.1645477326.git.philipp.g.hortmann@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1645477326.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0068.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::16)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8e097fee-1a04-4ed1-7aae-08d9f5c3fa21
+X-MS-TrafficTypeDiagnostic: MN2PR10MB3759:EE_
+X-Microsoft-Antispam-PRVS: 
+	<MN2PR10MB3759B0DA19DFF0CCA053E48C8E3B9@MN2PR10MB3759.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	6Pgv9l+kNVWSm7BMjLluHUHDd4r2NuicpBI/n9vXlwLALGTFDyGXLMw4/9BTZ8g4K1XECHYo+VgSLqlOy0cENiAaUN/jqJfAAzu9e56h6ymSkclxzZwK/pqJsTPFui8/YotTMGPyuOh14pI+ZTjphIeeRX4OPXLCvZq0a+Uay+4fjDv3H75JuINutvm35vPgEvlSg1iEWqag21aXJEcNqrofMAS7TMRyd8cyZRX7K111hYj8rgPPRXizVQgC67/JoIXZBD7e6mzYDCHuN/UFZ4H638XVoBsB2z32MdGDulcFHmria/d1aaRewJPOR44xICIZJbOqEF97Hk35zZuYtr44FOOntEz9gi6UKzBDXQI4rwP21LHc2Be/CdfJc28Pa0HniOLLXND2seebVKgwoDJy6RM3NUvpPKwM4yVSZj9vTzaRkp0aSTl1Kx9Qfng48nF/ikidsZUo0xXsQIiqmYFHjN7ttNF0cxuWyjbtOL9YatZSfKRLdHlMoXJuaIMIgmbzdPBehflYC1sE5Gl/JADbMfzCLIYtyWAhTzDywPZacSwn+7/O/OoJoezHroCId550TtdEv/48EXOz78EjTKyoUBHnwMU9JDWiyHFRZSg2QLH7ght1EZ3AW5snctfdCar5zVRDeGBOHA1aRY9gCV9Z2cwUPrMcrbFz6FVrGhSN2VAN4lN62dk4vslqGfaRZK4NybWChL7Hyck0p3878Q==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(6666004)(9686003)(6512007)(6506007)(52116002)(508600001)(5660300002)(38350700002)(38100700002)(8936002)(44832011)(4744005)(2906002)(54906003)(33716001)(4326008)(8676002)(6486002)(186003)(26005)(86362001)(316002)(33656002)(6916009)(66946007)(1076003)(66556008)(66476007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?r75uyK4TMoaK9akjPU1eFfQH6eDba2x8Rqah6aeAmoqHIFx58fMSbHi+5SUN?=
+ =?us-ascii?Q?Q9oR/dddfXxyRZsxRdwL/F2pBidOJtxwnB2/C+qSQ67CgKZcjgh8mVTN1UIP?=
+ =?us-ascii?Q?IAv1qbZgpnAHkXc7lM6JnYfU0lgcax6yrTtxtvv0ur7ishzAVQ45Vwt4ukg2?=
+ =?us-ascii?Q?ZoQfLK2K08tBeWf9+RGWsJVwZCe5bfG3l8z996ozZJPoaNrcDegVKqnZ2BF/?=
+ =?us-ascii?Q?Uql9pBPGrbu+2RrfT5g2zoh956qLwZhxxckSPY/gUZCy2iIRiYeAGmH4vN2h?=
+ =?us-ascii?Q?PVunzYndD9f+sge3h+QV0SFu0Sj02Zy4BhchjUse5FBwgWuKLn9HfvW/uKoE?=
+ =?us-ascii?Q?WUlRp624Hq6ZRr+Gv0f+jEcPKloZyyOUGcdeajLIfoRTbTCravxWTiJ2g1g2?=
+ =?us-ascii?Q?EoTOTYLQCf6Qqx5zzRv+vtfku2G6Jk7kGU7kqe9aTiNLTec24q1flou0WmrN?=
+ =?us-ascii?Q?/Mdu/SjOSZ1fyLNZ5VJ1XpA46d6/MO68InPDX2Gf2MzAeZFur+kYEY31XOR6?=
+ =?us-ascii?Q?rNPDwORCgxuU8OgTHn6gf/XoS3LARV2qD9Uskj8P9z/Pnib+1sYAs2GeNQEk?=
+ =?us-ascii?Q?wjotY6TLA3KwP668oMJ2md/OwiHYLbDwhNSHilc0GeC83rmnWv9frAAYAj3y?=
+ =?us-ascii?Q?BQEU8vk5vCRsx5x8glzr4MwfbEwClsG4e6t5ObQIiKKkkLnWDPTVsPXy56MI?=
+ =?us-ascii?Q?O6xMzbF/pu0A9qTwzetNkhDLLjNa5NZypvmQBaN0Akjq3pr+wERrVurNOuUl?=
+ =?us-ascii?Q?0N/vp1PTSXz5ByrwZ8kZgPPFogt+WMNzAtN6xoQAKWeaIZ6DnXXQzM0S/PKp?=
+ =?us-ascii?Q?qZMtPLBTZexuCboM/lMLsNIXvzbE51uzpeULyt7yVkdPnp6ulnx/GnwlHti/?=
+ =?us-ascii?Q?ku1wV4y91qOHc2GY7xzConDIKlJDooCwa7SG59pQgB59+3WgR/pQLtqcPKdW?=
+ =?us-ascii?Q?lr6Aa3Rj0O3/iZtbzIMKHndip86tWnU3/KKAVrCkB8MmjTQZQds3+tjnIF1T?=
+ =?us-ascii?Q?5AAITy3sJIAScYLAAqgUYep9xfhaJ4eiQpyMI7JMRUp3Pt58jtC6fSt2W2/c?=
+ =?us-ascii?Q?LYfh2i3PL509wiinhf6998Ibci2p0b/m3Z8/81NkzCa6vOZZ6xJFSV2Uf+hl?=
+ =?us-ascii?Q?g9rKcYr7Q2aewX5TnRBADAK8m9NoI9J+Fh4pp6OOlPpn+Scmu5p34IvZb+cy?=
+ =?us-ascii?Q?qnkB0do8UafnwlInT6j8lO9Jal6Of1KzICKwT9QREdOEffXDn47WlY/Uoljh?=
+ =?us-ascii?Q?G52DVfrnIkw/qtZGSfud+1Z+nHhBzZDiVvCh13KVVBzVXkB21Re0tEbRh+aN?=
+ =?us-ascii?Q?cetNjImjVc6VuCz6+PfmTwqC5HDxjAFUgFOWieCmM5TE8krYs+wS2HZeNGF2?=
+ =?us-ascii?Q?bbIGORPMcikfzr3W/tb9LY/nPH+AmTbp+QtkCzEgc1LwIcmoZeSjPxw8UDvt?=
+ =?us-ascii?Q?VocsqBEPx13On6iVApJLuKYfA/oocyGfhRWQnEpy5jMW4fLkU+3EZCABetP/?=
+ =?us-ascii?Q?FlcNOjWX6wm9rKsxVYg3DCxZz01uOhvGiGzEYmaWC8MY/GQleWPWvN9xPr3t?=
+ =?us-ascii?Q?FDA4dAexIa796czPyd1aU2HOlh5lj+yR8W8IURDG1DhJ+xSM3SYeQ5PRp4Zz?=
+ =?us-ascii?Q?0w+pWkPqZfBWiU7PmXR3Xy8GRl8YgmjuuqQXUjQg2rLRAuGyDYhMY6ThIhuZ?=
+ =?us-ascii?Q?4haqdw=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e097fee-1a04-4ed1-7aae-08d9f5c3fa21
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2022 05:27:11.7155
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p6rUJBEHGG7HhS6/EaIGo29rFkpZvb/Vg1TI6uYH9TZTlRHfjgAL+rDVsvQSfPgNscUfpuLkD8fM9RBIKRowSCK3udGyKjNKkJbxEL9VEPo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3759
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10265 signatures=677614
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 adultscore=0 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2202220032
+X-Proofpoint-GUID: R026_dtuqNEqNkrOfA4QiL9lKVG3SJli
+X-Proofpoint-ORIG-GUID: R026_dtuqNEqNkrOfA4QiL9lKVG3SJli
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+On Mon, Feb 21, 2022 at 10:24:52PM +0100, Philipp Hortmann wrote:
+> Various checkpatch.pl fixes as liste below
+> Tested with device VNT6656G6A40
+> Transferred this patches over VNT6656G6A40
+> 
+> v2: Patch #1
+>     Changed EN_CFG_PKT_BURST_MO to EN_CFG_PKT_BURST_MD
+>     Patch #2
+>     Devided into three patches
+>     Patch #3
+>     Devided into two patches
 
-devm_kmalloc() returns a pointer to allocated memory on success, NULL
-on failure. While there is a memory allocation of devm_kmalloc()
-without proper check. It is better to check the return value of it to
-prevent wrong memory access.
-And I use the err label which is introduced by the previous patch to
-handle the error.
+Thanks!
 
-Link: https://lore.kernel.org/r/tencent_24A24A3EFF61206ECCC4B94B1C5C1454E108@qq.com
 Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-Reviewed-by: Jérôme Pouiller <jerome.pouiller@silabs.com>
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
-Note:
-I only send this one as the another patch had been applied.
-And I put the Link of the applied patch as a reference.
-Changelog:
-v1->v2 update the description.
-v2->v3 resolve a conflict with the staging-testing tree.
- drivers/staging/wfx/main.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/wfx/main.c b/drivers/staging/wfx/main.c
-index c4b062b..23ae7d4 100644
---- a/drivers/staging/wfx/main.c
-+++ b/drivers/staging/wfx/main.c
-@@ -293,6 +293,9 @@ struct wfx_dev *wfx_init_common(struct device *dev, const struct wfx_platform_da
- 	hw->wiphy->n_iface_combinations = ARRAY_SIZE(wfx_iface_combinations);
- 	hw->wiphy->iface_combinations = wfx_iface_combinations;
- 	hw->wiphy->bands[NL80211_BAND_2GHZ] = devm_kmalloc(dev, sizeof(wfx_band_2ghz), GFP_KERNEL);
-+	if (!hw->wiphy->bands[NL80211_BAND_2GHZ])
-+		goto err;
-+
- 	/* FIXME: also copy wfx_rates and wfx_2ghz_chantable */
- 	memcpy(hw->wiphy->bands[NL80211_BAND_2GHZ], &wfx_band_2ghz, sizeof(wfx_band_2ghz));
- 
--- 
+The one thing per patch rule is slightly complicated and different
+maintainers have slightly different lines that they draw.  You could
+have merged patches 3 and 4 together and it would have been fine.  But
+what you sent is also fine.
+
+regards,
+dan carpenter
+
