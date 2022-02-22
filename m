@@ -1,86 +1,87 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-153.mail.qq.com (out203-205-221-153.mail.qq.com [203.205.221.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405A22568
-	for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 21:25:33 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id lw4so36432033ejb.12
-        for <linux-staging@lists.linux.dev>; Mon, 21 Feb 2022 13:25:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=I80ySfiXhu5cxVRWbKi4neSx3+uPEnbFkKrvK2nAmUk=;
-        b=WwQ8r86FA3/GDA8Kgxf9cwrsnzEZ46xyJ/oY0OkCh0pFbs1ClcKC89/dpog+m/sDNt
-         j7tdCQChDDBEXCglyTmMdL/BeBMTWo2EgmMc2BN4TgbxdIGZD+c4OfzlDkPTygaOfqCb
-         MOMyBLp3D+W1ld2YzWlcGXntMWsmnqV81vG7VjSRMtDIW0am5o6GY0eny7g+uAKcW+Jm
-         aCyZiJJe2yRb83i6OLbdVo/sf53d+Mm7j+phdvnO0C1gGZtcjlfasXtimww/omE2mgxL
-         9l4hLdBVVRdin8jq5zGeHp2sM9Dk/aGX8rzQtRyD3ivFftMyN7UQv1oUuLUvd/3k1uCq
-         i84g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=I80ySfiXhu5cxVRWbKi4neSx3+uPEnbFkKrvK2nAmUk=;
-        b=F3w8zTEpW9WtMbRJxnNArWNkkcbyMu/jwMANmZ14gAKuXQTWQqN24QY6SqVonkDejZ
-         SMQKM+AGZerWtN/45uQkUhf+MYHDFGh0CcZrqPDw8HcIraYAkA5frW52eqAjFJcWBswC
-         rbHWRwGS6oJghVxX4JS9YMRWapFG/KEkYPIAOj9BqvDpWNQzE5UJ2n/jqPXo6u8K1PcP
-         rOc+1nDfx9a+nweZcHv8vbDZG+3+ZC+i/Udg3X/jvzOFQXCP3I6FAhyAnStegBS8Jc0G
-         BTEU52jLaWbY7TupwNKPcxyUBTwj9T25sw56iUyRTEd24/TsCRp0msLDE9OmYx3DslG0
-         IB9A==
-X-Gm-Message-State: AOAM533ZC7mctOr/Zi1tiDGfWUGl+2ueJJW7iRwuxLxIygsHigGu3aBc
-	MXNxnbEA5rDzU6d+UxclxgyqSuc9aUg=
-X-Google-Smtp-Source: ABdhPJwHCYxW9Ia4ML0WjlgOFGuyUKpOSBtrvpuVVl3B7xYPpYxN8PM3EIOqKQde1vWpMQZVnFT18A==
-X-Received: by 2002:a17:906:c211:b0:6ce:e221:4c21 with SMTP id d17-20020a170906c21100b006cee2214c21mr16927813ejz.691.1645478731537;
-        Mon, 21 Feb 2022 13:25:31 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p57935aa6.dip0.t-ipconnect.de. [87.147.90.166])
-        by smtp.gmail.com with ESMTPSA id d10sm5472313ejo.207.2022.02.21.13.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 13:25:31 -0800 (PST)
-Date: Mon, 21 Feb 2022 22:25:29 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/6] staging: vt6656: Remove unnecessary line breaks
-Message-ID: <e0d6d3d787051e3aef56fdba1aee8c2bbbe14e89.1645477326.git.philipp.g.hortmann@gmail.com>
-References: <cover.1645477326.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623837B
+	for <linux-staging@lists.linux.dev>; Tue, 22 Feb 2022 02:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1645495584;
+	bh=uGSXRskyGSjCdegTSUAsPooBnCz/sf0teMn+TYg1BzM=;
+	h=From:To:Cc:Subject:Date;
+	b=inMSIudDGEc/UQfadcjArDoIN3pYkQLH15wc6CjL6J10Zac+KTRZT+ppRcOKLT0jk
+	 S/GZwgNg4b/5uhaqobP/+tRzAMhRfN96xcVk0cFUCUt/GHFpicTfxxUEQCBUZrqlPe
+	 v45VUq4s8zrmFRI9hYjzxPKVn8gOMV9ZVnr2FBxI=
+Received: from localhost.localdomain ([218.197.153.188])
+	by newxmesmtplogicsvrszc11.qq.com (NewEsmtp) with SMTP
+	id 89BF689; Tue, 22 Feb 2022 10:02:09 +0800
+X-QQ-mid: xmsmtpt1645495329twjjodjhi
+Message-ID: <tencent_D9887936F780A393C232DC48C9EC3F1D4405@qq.com>
+X-QQ-XMAILINFO: NIbHSc2ysKlDIVpcczwrsD6Mk3E7W3mD0aSsBerJF+SdT1oIkxVMzSQMrWwRhg
+	 hoOwvP10MXXW/nsY0PXGEL8AKPsvXxqA9p/IUU/0kKMvz9UJiUoW5CJRCSn1DwfDCvaX+070h4aG
+	 9kCmmAfHtDvLcaWgkfetTwxSiuOxAUeQco0OPPf2fQgbXbkiyJ1ljZZpyIC3I5z440xmmOKjf3ql
+	 Jdlu8qJQJuyWkOk4n6QuRDaX8f77cauGW6YRi1tlJkbEfk+jOeoedaUPR5RJP/eKK3ejiD4r6xcd
+	 kEOSUDdwQ6njieO4GOkXOnDVzUnG7cDaBTRDGJbLcXYJgq/6mXKRsjPuz+cSxNzDscsk/t0FiYIh
+	 cc172OQBwxLI3vwMYdIGY5a6MP+mIQshXjFFJJA/nvF6He7U1an4eO+o4BaUoxHM/HHwa9AW76nF
+	 24/kUUAtUT1hm6MAqar58ORv7ThXbRSYX2jVhkw28DEAFgJY4EYXWv7h9AgLWMpcwy3rnMMsPIqJ
+	 awSVKhckn5FHPuHe26vw3Mv+olvHQJ+kKiHKfAp3AWMEgAaKAjLOFSr1gu1iEcrgTXJv/EyRvasT
+	 fi1Ljrg6vRnrIZ2fHqot9qZXKkZw4AFp08MCboyd7GDcHW9A5NbWhc9eeGYBMtX75vTc1eKmLzSX
+	 G+Fe/SPNW0BBlq1ip4H6FVnX2zqhwEzigzuEhOLhNsIa0f3vYfvgcLftbGG33pMZcAsVs/plONZG
+	 1IPp7GScdU41+WOGa9fJ536nqx9C6qZ2LbTQ7c8Hu2iNBE2tqX2iFovX40f+bfGw7OgxE1+cEZRN
+	 LZfiVcpqThcJ82mAtzCyw9fBsaBH53JKTwvdH1FoGR6zOuMbfhwKTSi1AP8IKJv/GAqauk6Bo8EE
+	 hVr7FCSv8h+l6OXlKj7OM=
+From: xkernel.wang@foxmail.com
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@oracle.com,
+	jerome.pouiller@silabs.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Xiaoke Wang <xkernel.wang@foxmail.com>
+Subject: [PATCH v3 2/2] staging: wfx: check the return value of devm_kmalloc()
+Date: Tue, 22 Feb 2022 10:00:24 +0800
+X-OQ-MSGID: <20220222020024.3620-1-xkernel.wang@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1645477326.git.philipp.g.hortmann@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This patch fixes the checkpatch.pl warning like:
-CHECK: Lines should not end with a '('
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+devm_kmalloc() returns a pointer to allocated memory on success, NULL
+on failure. While there is a memory allocation of devm_kmalloc()
+without proper check. It is better to check the return value of it to
+prevent wrong memory access.
+And I use the err label which is introduced by the previous patch to
+handle the error.
+
+Link: https://lore.kernel.org/r/tencent_24A24A3EFF61206ECCC4B94B1C5C1454E108@qq.com
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reviewed-by: Jérôme Pouiller <jerome.pouiller@silabs.com>
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 ---
-V1 -> V2: Devided patch into two
----
- drivers/staging/vt6656/rxtx.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Note:
+I only send this one as the another patch had been applied.
+And I put the Link of the applied patch as a reference.
+Changelog:
+v1->v2 update the description.
+v2->v3 resolve a conflict with the staging-testing tree.
+ drivers/staging/wfx/main.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/vt6656/rxtx.c b/drivers/staging/vt6656/rxtx.c
-index 5839b34b2e93..4d29f8ebb393 100644
---- a/drivers/staging/vt6656/rxtx.c
-+++ b/drivers/staging/vt6656/rxtx.c
-@@ -353,10 +353,8 @@ static bool vnt_fill_txkey(struct vnt_tx_buffer *tx_buffer, struct sk_buff *skb)
- 		ether_addr_copy(mic_hdr->addr2, hdr->addr2);
- 		ether_addr_copy(mic_hdr->addr3, hdr->addr3);
+diff --git a/drivers/staging/wfx/main.c b/drivers/staging/wfx/main.c
+index c4b062b..23ae7d4 100644
+--- a/drivers/staging/wfx/main.c
++++ b/drivers/staging/wfx/main.c
+@@ -293,6 +293,9 @@ struct wfx_dev *wfx_init_common(struct device *dev, const struct wfx_platform_da
+ 	hw->wiphy->n_iface_combinations = ARRAY_SIZE(wfx_iface_combinations);
+ 	hw->wiphy->iface_combinations = wfx_iface_combinations;
+ 	hw->wiphy->bands[NL80211_BAND_2GHZ] = devm_kmalloc(dev, sizeof(wfx_band_2ghz), GFP_KERNEL);
++	if (!hw->wiphy->bands[NL80211_BAND_2GHZ])
++		goto err;
++
+ 	/* FIXME: also copy wfx_rates and wfx_2ghz_chantable */
+ 	memcpy(hw->wiphy->bands[NL80211_BAND_2GHZ], &wfx_band_2ghz, sizeof(wfx_band_2ghz));
  
--		mic_hdr->frame_control = cpu_to_le16(
--			le16_to_cpu(hdr->frame_control) & 0xc78f);
--		mic_hdr->seq_ctrl = cpu_to_le16(
--				le16_to_cpu(hdr->seq_ctrl) & 0xf);
-+		mic_hdr->frame_control = cpu_to_le16(le16_to_cpu(hdr->frame_control) & 0xc78f);
-+		mic_hdr->seq_ctrl = cpu_to_le16(le16_to_cpu(hdr->seq_ctrl) & 0xf);
- 
- 		if (ieee80211_has_a4(hdr->frame_control))
- 			ether_addr_copy(mic_hdr->addr4, hdr->addr4);
 -- 
-2.25.1
-
