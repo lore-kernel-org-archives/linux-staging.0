@@ -1,199 +1,77 @@
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CA22625
-	for <linux-staging@lists.linux.dev>; Tue, 22 Feb 2022 06:23:35 +0000 (UTC)
-HMM_SOURCE_IP:10.64.8.41:48930.1246802973
-HMM_ATTACHE_NUM:0000
-HMM_SOURCE_TYPE:SMTP
-Received: from clientip-123.150.8.42 (unknown [10.64.8.41])
-	by 189.cn (HERMES) with SMTP id 37FD110029B;
-	Tue, 22 Feb 2022 14:19:13 +0800 (CST)
-Received: from  ([123.150.8.42])
-	by gateway-153622-dep-749df8664c-mvcg4 with ESMTP id c91b0e0e5db24317b915d9bb4d3e7f4d for gregkh@linuxfoundation.org;
-	Tue, 22 Feb 2022 14:19:14 CST
-X-Transaction-ID: c91b0e0e5db24317b915d9bb4d3e7f4d
-X-Real-From: chensong_2000@189.cn
-X-Receive-IP: 123.150.8.42
-X-MEDUSA-Status: 0
-Sender: chensong_2000@189.cn
-Message-ID: <ccbddd00-a2d6-c613-bc7b-e08d7fa2306b@189.cn>
-Date: Tue, 22 Feb 2022 14:19:12 +0800
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB597E
+	for <linux-staging@lists.linux.dev>; Tue, 22 Feb 2022 08:28:58 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id w3so35036808edu.8
+        for <linux-staging@lists.linux.dev>; Tue, 22 Feb 2022 00:28:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BrVa7cPF9wijuktD07w20oweh+VJHhnda+u1Tia5Q9g=;
+        b=FLFhyccSMFOrGRWGIXbKI+zJfnddI8tO6JPCoSiPS3qH4PO05muN4/V4i1GQwFc9bu
+         FzlN2qWBP/exaq5IzvSOW/Hf68jIn0/cvqns6cNyXKC9wxSuqp/9cMfDOyMpAEAS+X9j
+         G49OaC/4mJqo4/SYkXBQEtYiXoqaRTfll71uZyqGddNMypYSzfGan2wTIzaoVftFoCDi
+         RmFnkaBcp2KJNrz2RO6N3kbkAAMWSGWZgMPIyHG+jAUTUrFcXQcCPlYFs5sU72zr7wIZ
+         6xEv1Zo/sDY62dMRNgyKmWlRMXoNSlPSaEx0TPiy1xz0gONi4KzNhAJUZqB7tmrwcbbB
+         jGNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BrVa7cPF9wijuktD07w20oweh+VJHhnda+u1Tia5Q9g=;
+        b=R8OBu946bsB/0WkoJNkvQwdB0DwtD+y0SkyrOYmf3L7HEmEDBgdNmtbbAv7/UjCs++
+         7+nwOhJHgvpugh1Zi0sMpp3aZ4URYWO8Pe/nf2hfVqnQTnUe/egd2lQT/T7l2JTu9xgV
+         85YWKYLhx8Lr5yHMWyj+ooVg76p9AUutd1DJRuNr9QzN3/yn8dgFISmxJXVoeYYP8TGi
+         2Imt/Fy3VFIWsprNlkD+g8BJtkHstujZh8euWp19oqgGTRLVB2Y1smoNOwWj4XRmZMD/
+         w/bZr7+6TTVUqswB4CGkqDQz8fGPkMbfxY4+9ujy6HlZElcM/ZHkZ21V2RPyZ1+kySJ1
+         PN/A==
+X-Gm-Message-State: AOAM5336UK+e5+48a33Fx+aDNEOhp48ZyoLN1tnawzim72KbmC++LBFg
+	pIiN/FoMp4C9DJK/DQ3QdSk=
+X-Google-Smtp-Source: ABdhPJyZCYCb57qQLcloyT6zXAZ1LdCFSUeTKDT8jl8qwZZLjowEnS/zZtXl/OHJQQm1EP2KmYfNzw==
+X-Received: by 2002:a05:6402:2790:b0:412:8379:f248 with SMTP id b16-20020a056402279000b004128379f248mr25227566ede.285.1645518536853;
+        Tue, 22 Feb 2022 00:28:56 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb8f.dynamic.kabel-deutschland.de. [95.90.187.143])
+        by smtp.gmail.com with ESMTPSA id v12sm9831926edr.8.2022.02.22.00.28.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Feb 2022 00:28:56 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH v2 0/3] staging: r8188eu: clean up rtw_rf.c
+Date: Tue, 22 Feb 2022 09:28:44 +0100
+Message-Id: <20220222082847.6687-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2] staging: greybus: introduce pwm_ops::apply
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: johan@kernel.org, elder@kernel.org, thierry.reding@gmail.com,
- u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-References: <1644580947-8529-1-git-send-email-chensong_2000@189.cn>
- <YhPGqg2BydlAFiM1@kroah.com>
-From: Song Chen <chensong_2000@189.cn>
-In-Reply-To: <YhPGqg2BydlAFiM1@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+This set removes 5 GHz frequencies from the channel-frequency map in
+rtw_rf.c and simplifies the rtw_ch2freq() function.
 
-在 2022/2/22 01:06, Greg KH 写道:
-> On Fri, Feb 11, 2022 at 08:02:27PM +0800, Song Chen wrote:
->> Introduce apply in pwm_ops to replace legacy operations,
->> like enable, disable, config and set_polarity.
->>
->> Signed-off-by: Song Chen <chensong_2000@189.cn>
->>
->> ---
->> V2:
->> 1, define duty_cycle and period as u64 in gb_pwm_config_operation.
->> 2, define duty and period as u64 in gb_pwm_config_request.
->> 3, disable before configuring duty and period if the eventual goal
->>     is a disabled state.
->> ---
->>   drivers/staging/greybus/pwm.c             | 61 ++++++++++++-----------
->>   include/linux/greybus/greybus_protocols.h |  4 +-
->>   2 files changed, 34 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
->> index 891a6a672378..03c69db5b9be 100644
->> --- a/drivers/staging/greybus/pwm.c
->> +++ b/drivers/staging/greybus/pwm.c
->> @@ -89,7 +89,7 @@ static int gb_pwm_deactivate_operation(struct gb_pwm_chip *pwmc,
->>   }
->>   
->>   static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
->> -				   u8 which, u32 duty, u32 period)
->> +				   u8 which, u64 duty, u64 period)
->>   {
->>   	struct gb_pwm_config_request request;
->>   	struct gbphy_device *gbphy_dev;
->> @@ -99,8 +99,8 @@ static int gb_pwm_config_operation(struct gb_pwm_chip *pwmc,
->>   		return -EINVAL;
->>   
->>   	request.which = which;
->> -	request.duty = cpu_to_le32(duty);
->> -	request.period = cpu_to_le32(period);
->> +	request.duty = duty;
->> +	request.period = period;
->>   
->>   	gbphy_dev = to_gbphy_dev(pwmc->chip.dev);
->>   	ret = gbphy_runtime_get_sync(gbphy_dev);
->> @@ -204,43 +204,46 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
->>   	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
->>   }
->>   
->> -static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
->> -			 int duty_ns, int period_ns)
->> +static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
->> +			const struct pwm_state *state)
->>   {
->> +	int err;
->> +	bool enabled = pwm->state.enabled;
->>   	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->>   
->> -	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
->> -};
->> -
->> -static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
->> -			       enum pwm_polarity polarity)
->> -{
->> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->> -
->> -	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
->> -};
->> +	/* set polarity */
->> +	if (state->polarity != pwm->state.polarity) {
->> +		if (enabled) {
->> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
->> +			enabled = false;
->> +		}
->> +		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
->> +		if (err)
->> +			return err;
->> +	}
->>   
->> -static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
->> -{
->> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->> +	if (!state->enabled) {
->> +		if (enabled)
->> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
->> +		return 0;
->> +	}
->>   
->> -	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
->> -};
->> +	/* set period and duty cycle*/
->> +	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, state->duty_cycle, state->period);
->> +	if (err)
->> +		return err;
->>   
->> -static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
->> -{
->> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->> +	/* enable/disable */
->> +	if (!enabled)
->> +		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
->>   
->> -	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
->> -};
->> +	return 0;
->> +}
->>   
->>   static const struct pwm_ops gb_pwm_ops = {
->>   	.request = gb_pwm_request,
->>   	.free = gb_pwm_free,
->> -	.config = gb_pwm_config,
->> -	.set_polarity = gb_pwm_set_polarity,
->> -	.enable = gb_pwm_enable,
->> -	.disable = gb_pwm_disable,
->> +	.apply = gb_pwm_apply,
->>   	.owner = THIS_MODULE,
->>   };
->>   
->> diff --git a/include/linux/greybus/greybus_protocols.h b/include/linux/greybus/greybus_protocols.h
->> index aeb8f9243545..81a6f16de098 100644
->> --- a/include/linux/greybus/greybus_protocols.h
->> +++ b/include/linux/greybus/greybus_protocols.h
->> @@ -812,8 +812,8 @@ struct gb_pwm_deactivate_request {
->>   
->>   struct gb_pwm_config_request {
->>   	__u8	which;
->> -	__le32	duty;
->> -	__le32	period;
->> +	__u64	duty;
->> +	__u64	period;
->>   } __packed;
-> 
-> Did you just change a greybus protocol message that is sent over the
-> wire?  Why?  And why drop the endian marking of it?
+Tested on x86_64 with Inter-Tech DMG-02.
 
-I discussed with Uwe about losing bit and found there is no perfect way 
-to avoid, even in Uwe's patch[1], as a result, we decided to widen duty 
-and period in gb_pwm_config_request, the other side of the wire is 
-supposed to change accordingly to support 64bit duty and period too(this 
-will introduce compatibility problem and there is no variable like 
-version to address it), similar with ktime_t in y2038, below is the 
-detail [2]
+v2:
+Changed the commit message of patch 1/3.
+Added a check to avoid out of bounds array access in patch 2/3.
 
-[1]:https://lore.kernel.org/all/20210312212119.1342666-1-u.kleine-koenig@pengutronix.de/
-[2]:https://lore.kernel.org/all/20220211071601.4rpfbkit6c6dre2o@pengutronix.de/
+Michael Straube (3):
+  staging: r8188eu: remove 5 GHz channels from ch_freq_map
+  staging: r8188eu: refactor rtw_ch2freq()
+  staging: r8188eu: clean up rtw_rf.c
 
-endian is a problem, i shouldn't drop it.
+ drivers/staging/r8188eu/core/rtw_rf.c | 62 ++++++++-------------------
+ 1 file changed, 18 insertions(+), 44 deletions(-)
 
-BR
+-- 
+2.35.1
 
-Song
-
-> 
-> Are you sure this is ok?
-> 
-> thanks,
-> 
-> greg k-h
-> 
