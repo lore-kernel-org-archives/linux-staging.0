@@ -1,96 +1,94 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823A52F4E
-	for <linux-staging@lists.linux.dev>; Tue, 22 Feb 2022 13:50:36 +0000 (UTC)
-Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id B8D0E1B001CF;
-	Tue, 22 Feb 2022 15:43:51 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1645537431;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fK94qH8PbH8TMSl+Kin7HAg5J4JoE9osb9VB5BOh5G8=;
-	b=giDopx3XT0Imk5qSIHPHUzFtCza4yHIPc5WXto6zVLetJvi4qRCNZtVhvUiy3dffkEuT5Q
-	3eBvAZOLfuoOX+lpPzxMuxDSGW9fKqcbt1ZuuBdWGe7Q3Y699th0NC8SMCQBmWJdGghapj
-	dY75tE2gTViDHCvcpR7NjK8/1tY/xpc5ZxRUTDME4+eZWDTmHVt8uadptVIx9E6DGIoQzA
-	RlbNmeoKEA2pKJuIpi1M6lpe65yOsL27uVYdWD2HhUR/DE14ysG2XcMlsTKdZjHwlrhr0x
-	Vad+amuOUzq1JW/IgqH3IheIVSHkAKa+ge/35J5GHTUhsFgLkwl3pJBpfNYEgA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 18047634C90;
-	Tue, 22 Feb 2022 15:43:51 +0200 (EET)
-Date: Tue, 22 Feb 2022 15:43:50 +0200
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Jacopo Mondi <jacopo@jmondi.org>
-Cc: aford173@gmail.com, slongerbeam@gmail.com, p.zabel@pengutronix.de,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
-	mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-	laurent.pinchart@ideasonboard.com, martin.kepplinger@puri.sm,
-	rmfrfs@gmail.com, xavier.roumegue@oss.nxp.com,
-	alexander.stein@ew.tq-group.com, dorota.czaplejewicz@puri.sm,
-	kernel@pengutronix.de, linux-imx@nxp.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 0/7] media: imx: Destage imx7-mipi-csis
-Message-ID: <YhTollrt4S+3qBAR@valkosipuli.retiisi.eu>
-References: <20220221174727.320320-1-jacopo@jmondi.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFC77B;
+	Tue, 22 Feb 2022 18:03:33 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id f17so10097143wrh.7;
+        Tue, 22 Feb 2022 10:03:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZA1AEF6WYe53I9xc29Ywox25Ld05hhSuOKpOWRLCD0Q=;
+        b=ga5HhF1kzBzWTvKfcvvy2G6pPpg6ZSlIrxkAJbJ6v+ZHmwIpqeVSDShxafKYqADvsD
+         yq8c5Vm8FrreBj0AuOhaGzsvaQHpvpXH09xRLPmTecId0D7mR5b0Q5QfjE6jrErigbjv
+         VVVTT5kSvy5xYfdJGr4uWS6OtpC7cbb5DXOXTCjiDAybnm4+pJTkZvZjCrRdNONlHgEa
+         P+AQ7H9H0+OXErltcVA5VO9AQiJ8YsKgPkoPLwkvqXwMdvToUIr1Idi1wzfR6Yrs5P2N
+         VTp+munJbWJ8b9j+H0C8zrdeOKVysbJVHxCtezfJWdAa9UuZS36msAUUHMT1jz2ov/XA
+         G2Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZA1AEF6WYe53I9xc29Ywox25Ld05hhSuOKpOWRLCD0Q=;
+        b=F3YkQX6QWc60eA7FMBpABHyrBPYhsElKCwNHVEDtza14J63wa+ekx7ItgtOh47jySd
+         rx0v+6mpZw752Cpakhgv9twUhpqAyVTKJGj/DksIHHKm1WigLGp+h3QC1D6swHxZhM8E
+         J9rrsLSZfu2ulqeujZiie0hshgTkbCi+7+VIoFR1FNS4ru4r4AEIQ334DDKH8qf1d3Op
+         HK9x7UszOW3MDRdnNjnsPl3YRPoUiuA25mWtf/JETDaeFsuXSv329Fi2LeDcgIbj9bi3
+         VGS5OgWyOuHzSMlO7JgR4jmv7roAIU+6TQbdGuhewpVeH3SVoapBomBFzrN8Bj5dnMK6
+         GUtg==
+X-Gm-Message-State: AOAM531d0xeMWdyyspxOfxlZq7GRN5RW6+BYeau2wqZJFOt2VzudBPJC
+	4PqzQ3PobKVJp9X5bYGKEik=
+X-Google-Smtp-Source: ABdhPJzNFYx5oAjf3+Rk5ssr7+hioPDrHat9vTUipqzp/XT0YyvI9V4d7cbaImdepV5Gxc87H7QYTw==
+X-Received: by 2002:adf:8122:0:b0:1e7:b111:3b92 with SMTP id 31-20020adf8122000000b001e7b1113b92mr21076844wrm.695.1645553011872;
+        Tue, 22 Feb 2022 10:03:31 -0800 (PST)
+Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id w8sm54251377wre.83.2022.02.22.10.03.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Feb 2022 10:03:31 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	wens@csie.org,
+	hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] media: hantro: sunxi: Fix VP9 steps
+Date: Tue, 22 Feb 2022 19:03:28 +0100
+Message-Id: <20220222180328.2097103-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220221174727.320320-1-jacopo@jmondi.org>
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1645537431; a=rsa-sha256;
-	cv=none;
-	b=LaRmXEho9daIUkstILlb06jldQ2ccmoHDSxE1pj7/o3L0mKPeRfDf6Qg9FmMbQddd883OF
-	YgOsmCxc24H6SVAmZStIcr/a1q7rJHLyTyXlNrdqwHmNlyJ0J5qHPp4VOwL7c9Zp39dR2a
-	jjmqyY7iHbTa9cVnvvGXHRYg/V872FbNw4dhSk6ifUQiKa9dS4Sry37BbBPKt17Za1GqBv
-	3cbwlUfGsNh/kJdVwv01dkHcHMmT1bznhn8TLOWl1c0o66FLNy08ZR+vHjaQqROvkJgYbu
-	wZAlLBLIbcW/Ejw+s8vk5thFeRgBM7enwWC9et/wGv3xwyPzfcUwzRRoqEKKyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1645537431;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fK94qH8PbH8TMSl+Kin7HAg5J4JoE9osb9VB5BOh5G8=;
-	b=s3DxnXhwQpa7ZvTQi4cacTwjeuQp+pwmqHK8vDA1eiM59VYLhDGhveUUzQSGEPJXHiFvv5
-	7T2sRREJYJVHyHe24LfhhxWV84F2OiPIqpy7+Oo9VAtWN6dWRS4VOgu/21LaxKMGAZOgC8
-	tbCS0cT7G99qcb7jI2jaeN+02tj3J4Rz8H+XD+w8/aWF+ju8QvC0fiyH7p2I63b2PUDFJy
-	Lyabw5EYhz8nZI/W8kW65EBtn6VEeeuNevmV0DlgDpwrd0vNEf6VR8jnfdTzuUGdNAAyAy
-	Hr1w1+En/qXrT12sxppR4YcKwMfmxhEzqiDOwaOBt/A1o3pETkmUDtpKUjtZ6w==
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+It turns out that postproc on Allwinner H6 needs width and height to be
+multiple of 32.
 
-On Mon, Feb 21, 2022 at 06:47:20PM +0100, Jacopo Mondi wrote:
-> Very few variations from the recent v3, just reflowed some text and dropped
-> a plural name in 6/7 commit message.
-> 
-> Jacopo Mondi (7):
->   media: imx: De-stage imx7-mipi-csis
->   media: imx: Rename imx7-mipi-csis.c to imx-mipi-csis.c
->   media: imx: imx7-media-csi: Use dual sampling for YUV 1X16
->   media: imx: imx-mipi-csis: Set PIXEL_MODE for YUV422
->   media: imx: imx-mipi-csis: Add RGB565_1X16
->   media: imx: imx-mipi-csis: Add BGR888
->   media: imx: imx-mipi-csis: Add output format
+Fixes: 86790a4fdf4b ("media: hantro: Add support for Allwinner H6")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/hantro/sunxi_vpu_hw.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks for the set.
-
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
+diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
+index 90633406c4eb..c0edd5856a0c 100644
+--- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
++++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
+@@ -29,10 +29,10 @@ static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
+ 		.frmsize = {
+ 			.min_width = 48,
+ 			.max_width = 3840,
+-			.step_width = MB_DIM,
++			.step_width = 32,
+ 			.min_height = 48,
+ 			.max_height = 2160,
+-			.step_height = MB_DIM,
++			.step_height = 32,
+ 		},
+ 	},
+ };
 -- 
-Sakari Ailus
+2.35.1
+
