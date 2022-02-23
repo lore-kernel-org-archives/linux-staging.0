@@ -1,86 +1,57 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDC56946
-	for <linux-staging@lists.linux.dev>; Tue, 22 Feb 2022 23:35:09 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id j22so10305340wrb.13
-        for <linux-staging@lists.linux.dev>; Tue, 22 Feb 2022 15:35:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F25800
+	for <linux-staging@lists.linux.dev>; Wed, 23 Feb 2022 05:43:59 +0000 (UTC)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-2d07c4a0d06so198562287b3.13
+        for <linux-staging@lists.linux.dev>; Tue, 22 Feb 2022 21:43:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=owMM0MyODP9S0fBThXOMsfsqzmiy6hi7ZMz5dzGpfrQ=;
-        b=xaaS1XUGcRe5wBuR2EjG/YYJL7aRWre/dZK5/1zvdjYcvp4SEqLVhJeef9dIqE5X/K
-         jcL65pSWpn5jyzxAsQ3up4qrEMFn+JxIMUvjDsf33IR8azog7h9jCLu74PqqqyNOY4od
-         G7rzDQEelHmLIGqf3KicPgyR3zGfDLnuK6zhNzJk83dKSv3qH7vYUxDuZqAILbNWrFV9
-         B2vZFbe7nAvHAFkZPlTXGK8odlgoPXw5ndraZNY21d1LCZ20tmXBMinRZEivkznk6HBL
-         OhYbEzDB17g6xj++OT/E7Am/baxgwp1939p1Qm864U1tpmsWKa9MK4BIQmSw7kQHKxUQ
-         Vp+A==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eodUpTPWhYKf4AxltKUgxmHbO5CaYYvg7LhtDPIsTcM=;
+        b=cAX+Ddp7L2gX4YZhVvsBdwNsjk4mRAEW+Ul3CnDPoWjqFYDSD0jpmzh/BfNxLg1nsQ
+         3CSJQucaZiq63aNGjh2MQRKIFe31NNIdOehrK67t+suwDsL1gh+zwIkXl+87vRM3f9ou
+         jVUHjXZZjmOwuGbAvagKZqt1ghx2+y3dR9WtIQSxKVOmFsgzpWryzQQc3vbk8XIYoCuV
+         LQ1VTWrV8Wb+q/ou5zKqm/UoEMlDyLbzEjOq/xQjYu8x3rrTdzDcuUBa0I6h9+O1Ulj2
+         cAHMcYua7+LUVIsUPUX4XIWAwqm29Kah5DEQC+BJ+Hmb0dVi0IBzZEfW8aHux+f9kw6N
+         UOXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=owMM0MyODP9S0fBThXOMsfsqzmiy6hi7ZMz5dzGpfrQ=;
-        b=4B+qxHLdwSXJimE0ww3nJLuGye7uuons3akVbGa7gFkz8lIhgg0E62y5tvfyK294HO
-         U+ElGZ30kdbp8XN4PFVmirpaIRPKirV2nhKhRQSR7xZNAsp4QUZVIkSxlJsbujMgeTMv
-         0Vtpk/24SIBa/DZJIxFX0/d4CBBCuucn910ROCmK9GUyI49hDvPtWeYdyIu5kCp9qKu7
-         xSV7EQOyu9APqrMR9CS5NtNCRa16DGXG3gismmP8spUdqt1krA46rxv4i8m4qquAMuZd
-         BD+MgnVBhfS3XRlhr6O+7HRKFX2dCSQ2BSMa+dEDLMQgJCYN66WEzV/TQIWvAGitBkmy
-         NJVg==
-X-Gm-Message-State: AOAM533HFTKrqWEtw01z8JwzKboJOXU+4O5oStRWoJbC6sjEfOfDCc5J
-	LAO0JVz15fImOc0pvdrADqeHfQ==
-X-Google-Smtp-Source: ABdhPJz2ov7OFX6GiQnn5S+SlBfODGaH6/54lyEGQ/ZUYKAI6+txY3GKGWUyHcKVDgOXELiv67sDyQ==
-X-Received: by 2002:adf:fd03:0:b0:1e4:a106:8fae with SMTP id e3-20020adffd03000000b001e4a1068faemr20586447wrr.336.1645572907597;
-        Tue, 22 Feb 2022 15:35:07 -0800 (PST)
-Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id f3sm21563638wri.6.2022.02.22.15.35.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 15:35:07 -0800 (PST)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: remove unused variable from UpdateHalRAMask8188EUsb
-Date: Tue, 22 Feb 2022 23:35:06 +0000
-Message-Id: <20220222233506.72778-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.34.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eodUpTPWhYKf4AxltKUgxmHbO5CaYYvg7LhtDPIsTcM=;
+        b=u89YDilCU1fnVG5AsXgkNMN3A86tUg6auVWxNPWW21l+XJ+YLls9KUw2qUJinuRolN
+         H6JM2TG5g98i3hJqBzRWrs8YYzNrdod7JKka3V+qFCMbBpYHmDq7g4lQ30s0/XZAHU6o
+         UWq27kRWiusYO/clxcgBa+sy8mTSE3QEdkBkK/xmMa7YgbqteIarsHniRQ1ntlkfMWE3
+         ak+RrgPyLzb2m04RyuEVFRxfzkzB6C/ntvelSJz84Om7lIjCxFPxxENX8JloT4ypgTbx
+         SCR6Zfmkt2gQ/Bii1/VkOfKIPCPL0e/q0EZIFluS+DDFk1ZjgVadxOq8fH8nhpq8l+8U
+         fVGg==
+X-Gm-Message-State: AOAM531xnctmq1o6enhKR8nhDrj8Bi55hsMS88w/eC9nZ4qTbdhUp5Z4
+	s/AZdLWBummmplX+ew4rzkg7+W7w+Ok06B2kJLo=
+X-Google-Smtp-Source: ABdhPJxxOtgK+SZTJRU6dGf+rHY9WUQ3DO3u300cyAZRwwurIdJg6iBLfNhGBEVYEEtiqtZhaAqOpDgdAxzV2JBbK6w=
+X-Received: by 2002:a0d:fcc5:0:b0:2d6:8eec:b2f7 with SMTP id
+ m188-20020a0dfcc5000000b002d68eecb2f7mr27223356ywf.439.1645595038400; Tue, 22
+ Feb 2022 21:43:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220220231554.2510567-1-ztong0001@gmail.com> <YhPI5iDRUpzYWDyY@kroah.com>
+In-Reply-To: <YhPI5iDRUpzYWDyY@kroah.com>
+From: Tong Zhang <ztong0001@gmail.com>
+Date: Tue, 22 Feb 2022 21:43:47 -0800
+Message-ID: <CAA5qM4B40s7qPY2kipffK+zCZrovA9Z3k0Cvq6EUYGABcdq91Q@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8192u: cleanup proc fs entries upon exit
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
+	Colin Ian King <colin.i.king@googlemail.com>, Saurav Girepunje <saurav.girepunje@gmail.com>, 
+	Johan Hovold <johan@kernel.org>, =?UTF-8?Q?Cl=C3=A1udio_Maia?= <clrrm@isep.ipp.pt>, 
+	linux-staging@lists.linux.dev, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Remove the 'arg' variable from the block inside the if statement in the
-UpdateHalRAMask8188EUsb function in hal/usb_halinit.c, as due to the
-recent DBG_88E cleanup series, this is now set but not used. Also remove
-the rest of the lines in this block that further modify 'arg' as they
-are superfluous, due to it never being used afterwards.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/r8188eu/hal/usb_halinit.c | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 0704fa3156af..d7dcef3ece3d 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1528,12 +1528,6 @@ void UpdateHalRAMask8188EUsb(struct adapter *adapt, u32 mac_id, u8 rssi_level)
- 	init_rate = get_highest_rate_idx(mask) & 0x3f;
- 
- 	if (haldata->fw_ractrl) {
--		u8 arg;
--
--		arg = mac_id & 0x1f;/* MACID */
--		arg |= BIT(7);
--		if (shortGIrate)
--			arg |= BIT(5);
- 		mask |= ((raid << 28) & 0xf0000000);
- 		psta->ra_mask = mask;
- 		mask |= ((raid << 28) & 0xf0000000);
--- 
-2.34.1
-
+Thank you, Dan and Greg!
+I will revise as suggested and send v2.
+- Tong
