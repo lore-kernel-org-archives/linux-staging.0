@@ -1,100 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13029C6A
-	for <linux-staging@lists.linux.dev>; Wed, 23 Feb 2022 13:21:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46E9CC340F1;
-	Wed, 23 Feb 2022 13:21:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1645622505;
-	bh=J891fPbxn9Gpp05VyPJjZBwUp+b4P9oUiL8KTTGPsAY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t7jQsuKZ/QzakEguwoidh6RwtgJW+7gV4yBiNTHmCzuLqQNcfgMAOpR3bHYUfwpud
-	 iby/hY+HNQ6KYZU2OgXhKa6VUfIzugD3k+ZzovH6vPzAvXOw5XxjXAJFBCrhxLqEJz
-	 R1xBfJCOcVKMcPjl0JGGZwSRZjuSae8sgvZHCX7i0W7kw5LeRVS4GhPCCoyZUvKBVj
-	 +SJlH73idykERSltJQ56jIAHVuhJSv2xQVUobY784Z7/Nqx5r8ZXhbZWN6E/w42oL7
-	 uMLOsi51sI6Apc35Htuz/YTU3VWyYt28UpLFNlyDjYi00eo1PHfjUp/qyi/Npgvb/J
-	 NgeYJ5/fQN1JQ==
-Date: Wed, 23 Feb 2022 14:21:42 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>, UNGLinuxDriver@microchip.com,
-	Woojung Huh <woojung.huh@microchip.com>
-Subject: Re: [PATCH v4 3/7] i2c: cht-wc: Use generic_handle_irq_safe().
-Message-ID: <YhY05uyl5dSVZH2W@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>, UNGLinuxDriver@microchip.com,
-	Woojung Huh <woojung.huh@microchip.com>
-References: <20220211181500.1856198-1-bigeasy@linutronix.de>
- <20220211181500.1856198-4-bigeasy@linutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369ECC8A
+	for <linux-staging@lists.linux.dev>; Wed, 23 Feb 2022 15:20:07 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id w13so13476985wmi.2
+        for <linux-staging@lists.linux.dev>; Wed, 23 Feb 2022 07:20:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cerclemallorca-org.20210112.gappssmtp.com; s=20210112;
+        h=from:reply-to:mime-version:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=lKRRsPk3pv+7ZPA9X5qnd2GeJIvJDViiHg/Lid3qLRc=;
+        b=aOr7qFbD6pYg4Lv+sSzAs+ZkH6MmbQ9qd2gxmHl93LQtIIm4D2e9ce2BVjQZ6hjBrL
+         EhgNSM5g2vXrNbhV+OpwaLLvyusgiJYQmgdEqEqNghGbUoREGhOHXAPMzbKa5dUnEqGI
+         5haBk8qlUTiBTF+gDz112I8/H6Yf8fVOUdhFq4BqwD33Do9v7wLh+AcaAEcowfXkQc8b
+         ToQj5USj5ltiS8O7bvfNu3PWU9vvgSMPLl91BPuQu3SpNIR4U5ptwE3YSKpdqhSWHAkH
+         lzM40YUx2JoM7GNHc54z83qQjaHCoMSmwS5Hr5nH/k5t31Znz1jwGVmdQ+VTISMUmRFU
+         neow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:reply-to:mime-version:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=lKRRsPk3pv+7ZPA9X5qnd2GeJIvJDViiHg/Lid3qLRc=;
+        b=oBBxm4z9GC236XUaSh58ywixUXdy7Mi+4Q4K742mRozEmIJqA8NePhFp9ShCB0cJNS
+         GRRQ7LM5x4iRmd2cwRPPZaHbxs0xRWwuJChCb6TA968ODaQcb6ZXCxL0MrfH3WFRSWIf
+         e5fHO+lWfTd5qkIdfOSjmJcKSFowRye7yIQI7IBi4us+IW4F1iKabPBjYW/FfBVBTNb/
+         qAniAWGuRpTRx6TdsiS1b/ckWyQTNjN7aswBJV754r3M56U1HXu3KLkudyaxGc3bTQPY
+         /IrtSapkq8raX4o+B9OatNN3cFsCtTnCd9cDMD9aVNpecwz6TKAqNZTx1VGq7ML5cn5x
+         SjdA==
+X-Gm-Message-State: AOAM531zz4QvsLGt1u5Jx1UJTeUA6N1tyJkI1uXjFO/gCuf4Yg16udhY
+	gTiH61HvDiqdXwPLS9xgR7TE5wtvhQeZGYsOumrFTbogbvm0Jw==
+X-Google-Smtp-Source: ABdhPJyyagT6pImVm3Q9vgEEqOfoqcl2XsdBogbrVuN4LV7Kjp4yDP/y+P92DYcDM3X11jCoOo8IdayI9dauFIgFm34=
+X-Received: by 2002:a05:600c:1d9c:b0:37b:c7fa:ea70 with SMTP id
+ p28-20020a05600c1d9c00b0037bc7faea70mr157185wms.24.1645629605506; Wed, 23 Feb
+ 2022 07:20:05 -0800 (PST)
+Received: from 729955949434 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 23 Feb 2022 07:20:04 -0800
+From: =?UTF-8?Q?Cercle_d=E2=80=99Economia_de_Mallorca?= <tic@cerclemallorca.org>
+Reply-To: cercle@cerclemallorca.es
+X-Mailer: WPMailSMTP/Mailer/gmail 3.3.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="VtRlwyjbGA4QWudU"
-Content-Disposition: inline
-In-Reply-To: <20220211181500.1856198-4-bigeasy@linutronix.de>
-
-
---VtRlwyjbGA4QWudU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date: Wed, 23 Feb 2022 07:20:04 -0800
+Message-ID: <CAN_rQh6B3zEis00911g+KLC48CU2D4-pJZr+3zFteSLau9Exkg@mail.gmail.com>
+Subject: Solicitud de socio
+To: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 11, 2022 at 07:14:56PM +0100, Sebastian Andrzej Siewior wrote:
-> Instead of manually disabling interrupts before invoking use
-> generic_handle_irq_safe() which can be invoked with enabled and disabled
-> interrupts.
->=20
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> Acked-by: Wolfram Sang <wsa@kernel.org>
+Buen d=C3=ADa =E2=9D=A4=EF=B8=8F Rose want to meet you! Click Here:
+https://clck.ru/byRHb?omt =E2=9D=A4=EF=B8=8F rsyjq9:
 
-Applied to for-next, thanks!
+Hemos recibido su solicitud para ser miembro del Cercle de Mallorca
+Si tiene alguna duda puede contactar:
 
-
---VtRlwyjbGA4QWudU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIWNOYACgkQFA3kzBSg
-KbY3wA//TjamDoM1RYB5FcX0sief36XT8hx1zX6EhhcmIdo2C581BZatcwCpXiRv
-1FVIsWELccefkU4PfbjshEYUUcFw4c20vfK4XONM2KFJNC1+QQjo3jvX+WwLpZTG
-r2Ir/RIwjUaLplFnqwA47P0pUXr4HBSoyNj51C8p1sih43BNFiiFC9H3/f9WeqyI
-XK4qrW+VLToDZJ1HNDH3xdETdk6b5WoVOWBI4Pj91GipVx5kyyIfmk5Da18MeYeR
-4cxyolwSQqSf6Uwsbt1g6ImmeoIThAWlw4MLGxwYo7vc7S6HMYgzhb0wYUNT0fbL
-Kp98y7x1iXiQ+8m9uKiYHmmTZh3Tu2C/ahzzCCbFo7GHsoHHZoHPKFBqZee7imdc
-xuUFyZ1u0fbx9wcjnDDGskeyVSz4RYx4CH9a5eS/fAxIEYYws70X+2OJX4YdmgI1
-wy4WLxrTzYJWFe2XjVIS8R7aR6xrdiUukOVgOpqQRMkraCkxes9BEkcRCsmCaUY1
-jxUoFqxts8j8VlBUgJ90liczQuB4FF+TNAwfFMhpB4G4aDgFllv8tVBa+b+UPuAn
-c0JqbleZ0LohYl3mr570y2iB/uS6c+V+XBITmC92J1QYrfbJ9ee8KJwA6c2muViM
-3ax/oU6oaEc/YpV+t9XReEvEfh/DhjFWuLytG6vUI8K4vS6KXSw=
-=p68w
------END PGP SIGNATURE-----
-
---VtRlwyjbGA4QWudU--
+971 71 71 67
+cercle@cerclemallorca.org
