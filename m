@@ -1,61 +1,255 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369ECC8A
-	for <linux-staging@lists.linux.dev>; Wed, 23 Feb 2022 15:20:07 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id w13so13476985wmi.2
-        for <linux-staging@lists.linux.dev>; Wed, 23 Feb 2022 07:20:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E18CED6
+	for <linux-staging@lists.linux.dev>; Thu, 24 Feb 2022 03:08:13 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id b35so1170840ybi.13
+        for <linux-staging@lists.linux.dev>; Wed, 23 Feb 2022 19:08:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cerclemallorca-org.20210112.gappssmtp.com; s=20210112;
-        h=from:reply-to:mime-version:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=lKRRsPk3pv+7ZPA9X5qnd2GeJIvJDViiHg/Lid3qLRc=;
-        b=aOr7qFbD6pYg4Lv+sSzAs+ZkH6MmbQ9qd2gxmHl93LQtIIm4D2e9ce2BVjQZ6hjBrL
-         EhgNSM5g2vXrNbhV+OpwaLLvyusgiJYQmgdEqEqNghGbUoREGhOHXAPMzbKa5dUnEqGI
-         5haBk8qlUTiBTF+gDz112I8/H6Yf8fVOUdhFq4BqwD33Do9v7wLh+AcaAEcowfXkQc8b
-         ToQj5USj5ltiS8O7bvfNu3PWU9vvgSMPLl91BPuQu3SpNIR4U5ptwE3YSKpdqhSWHAkH
-         lzM40YUx2JoM7GNHc54z83qQjaHCoMSmwS5Hr5nH/k5t31Znz1jwGVmdQ+VTISMUmRFU
-         neow==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/q6Deaa5uqZuGAWoUP6lea3xGvCdALyWAfkFdodfDos=;
+        b=cRO+oLUbuMcoFQFDRxl+dVhXOKmKqDBMvmPCdgQuT9dsoWb7IrsglYQuSlh3X8FGkD
+         v1N87TBaS54hqubuz95YT6J18JcxOsF0cTlV/tWJEsbT4OL/kYcOTafKu25nGC935hZK
+         FQ1Bc59c+GAnC95piAy7qcja8E+uZzpz+lsJM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:reply-to:mime-version:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=lKRRsPk3pv+7ZPA9X5qnd2GeJIvJDViiHg/Lid3qLRc=;
-        b=oBBxm4z9GC236XUaSh58ywixUXdy7Mi+4Q4K742mRozEmIJqA8NePhFp9ShCB0cJNS
-         GRRQ7LM5x4iRmd2cwRPPZaHbxs0xRWwuJChCb6TA968ODaQcb6ZXCxL0MrfH3WFRSWIf
-         e5fHO+lWfTd5qkIdfOSjmJcKSFowRye7yIQI7IBi4us+IW4F1iKabPBjYW/FfBVBTNb/
-         qAniAWGuRpTRx6TdsiS1b/ckWyQTNjN7aswBJV754r3M56U1HXu3KLkudyaxGc3bTQPY
-         /IrtSapkq8raX4o+B9OatNN3cFsCtTnCd9cDMD9aVNpecwz6TKAqNZTx1VGq7ML5cn5x
-         SjdA==
-X-Gm-Message-State: AOAM531zz4QvsLGt1u5Jx1UJTeUA6N1tyJkI1uXjFO/gCuf4Yg16udhY
-	gTiH61HvDiqdXwPLS9xgR7TE5wtvhQeZGYsOumrFTbogbvm0Jw==
-X-Google-Smtp-Source: ABdhPJyyagT6pImVm3Q9vgEEqOfoqcl2XsdBogbrVuN4LV7Kjp4yDP/y+P92DYcDM3X11jCoOo8IdayI9dauFIgFm34=
-X-Received: by 2002:a05:600c:1d9c:b0:37b:c7fa:ea70 with SMTP id
- p28-20020a05600c1d9c00b0037bc7faea70mr157185wms.24.1645629605506; Wed, 23 Feb
- 2022 07:20:05 -0800 (PST)
-Received: from 729955949434 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 23 Feb 2022 07:20:04 -0800
-From: =?UTF-8?Q?Cercle_d=E2=80=99Economia_de_Mallorca?= <tic@cerclemallorca.org>
-Reply-To: cercle@cerclemallorca.es
-X-Mailer: WPMailSMTP/Mailer/gmail 3.3.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/q6Deaa5uqZuGAWoUP6lea3xGvCdALyWAfkFdodfDos=;
+        b=qM0ieTRySrzEOUF1SkPXsYKTSkrG5KO4n96FHcbnhQ0iI67zI7y0mXHp7eo8t2YllD
+         cJsDcexNT8233xVR1HCPxAu9jbyorPH5SRIQni+d3LVvVVG+nguwbPlr5/d5LyomOVPV
+         VhQGC01QBpGEUj16xgpCiMLfb0VM1o9V5wRc3YmKqUmQOcwXdkwtdXe1S92TMNXHFQWf
+         8mqik2aBxqEWVof6+R2rs9o8QiR0KLiRyIwS3eflUzwqVsINklmtIvy6H5/ZhA+W35SP
+         QPe+Ts+vz7y8WkR1mFOtt8aJ0gn6hwqfHJZrE9ycl1AP+T+YoUfe3O5VfcL2+mAbeFR7
+         LS/Q==
+X-Gm-Message-State: AOAM533DtOW17h4kPl1nCeKzj9fZtnCbxigAn1BmTLEp35PDpnJPPOno
+	iyF2PTvOTuBosBzRXYB0H8ugZ8CN02HrnYpXbCT6wA==
+X-Google-Smtp-Source: ABdhPJwfo+xTG3B4wQ1YRHZ1K6lChEnGUdnDsbfMdGY87BoSQaXWFXbrihuGh318BbM0NxlRgLRFyzonQxSZhzFdjrs=
+X-Received: by 2002:a25:d314:0:b0:624:6c1a:6f2d with SMTP id
+ e20-20020a25d314000000b006246c1a6f2dmr693752ybf.189.1645672092353; Wed, 23
+ Feb 2022 19:08:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Wed, 23 Feb 2022 07:20:04 -0800
-Message-ID: <CAN_rQh6B3zEis00911g+KLC48CU2D4-pJZr+3zFteSLau9Exkg@mail.gmail.com>
-Subject: Solicitud de socio
-To: linux-staging@lists.linux.dev
+References: <20220211110617.2202714-1-wenst@chromium.org>
+In-Reply-To: <20220211110617.2202714-1-wenst@chromium.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 24 Feb 2022 11:08:01 +0800
+Message-ID: <CAGXv+5H+NC-Co2bkc4TH5Kc7qQjYz98wH5WFFNXjbnLA_J50fg@mail.gmail.com>
+Subject: Re: [PATCH RFC v2] media: hantro: Implement support for encoder commands
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Buen d=C3=ADa =E2=9D=A4=EF=B8=8F Rose want to meet you! Click Here:
-https://clck.ru/byRHb?omt =E2=9D=A4=EF=B8=8F rsyjq9:
+Hi,
 
-Hemos recibido su solicitud para ser miembro del Cercle de Mallorca
-Si tiene alguna duda puede contactar:
+On Fri, Feb 11, 2022 at 7:06 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> The V4L2 stateful encoder uAPI specification requires that drivers
+> support the ENCODER_CMD ioctl to allow draining of buffers. This
+> however was not implemented, and causes issues for some userspace
+> applications.
+>
+> Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
+> This is entirely based on existing code found in the vicodec test
+> driver.
+>
+> Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>
+> Changes since v1:
+> - Correctly handle last buffers that are empty
+> - Correctly handle last buffers that just got queued
+> - Disable (TRY_)ENCODER_CMD ioctls for hantro decoder
+>
+> This is based on linux-next-20220208, and was tested on RK3399 with
+> Gstreamer running the JPEG encoder. It was also tested on ChromeOS
+> 5.10 on Kevin with the video encoder used in ChromeOS ARC, which
+> requires this. For ChromeOS, both encoder and decoder tests were run
+> to check for regressions.
+>
+> Everything really works OK now, but since I'm not very familiar with
+> the mem2mem framework, I might be missing something, causing resource
+> leaks. Hence this patch is labeled RFC.
+>
+> Last, I suppose we could also add support for (TRY_)DECODER_CMD now?
 
-971 71 71 67
-cercle@cerclemallorca.org
+Gentle ping on this patch?
+
+ChenYu
+
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c  | 17 +++++-
+>  drivers/staging/media/hantro/hantro_v4l2.c | 68 +++++++++++++++++++++-
+>  2 files changed, 81 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index bc9bcb4eaf46..99bc650a5a93 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
+>         return hantro_get_dec_buf_addr(ctx, buf);
+>  }
+>
+> +static const struct v4l2_event hantro_eos_event = {
+> +       .type = V4L2_EVENT_EOS
+> +};
+> +
+>  static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+>                                     struct hantro_ctx *ctx,
+>                                     enum vb2_buffer_state result)
+> @@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+>         src->sequence = ctx->sequence_out++;
+>         dst->sequence = ctx->sequence_cap++;
+>
+> +       if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
+> +               dst->flags |= V4L2_BUF_FLAG_LAST;
+> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> +               v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
+> +       }
+> +
+>         v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
+>                                          result);
+>  }
+> @@ -807,10 +817,13 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
+>         snprintf(vfd->name, sizeof(vfd->name), "%s-%s", match->compatible,
+>                  funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER ? "enc" : "dec");
+>
+> -       if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER)
+> +       if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
+>                 vpu->encoder = func;
+> -       else
+> +       } else {
+>                 vpu->decoder = func;
+> +               v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+> +               v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
+> +       }
+>
+>         video_set_drvdata(vfd, vpu);
+>
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> index 67148ba346f5..777bd3dbd875 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> @@ -628,6 +628,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
+>         return 0;
+>  }
+>
+> +static const struct v4l2_event hantro_eos_event = {
+> +       .type = V4L2_EVENT_EOS
+> +};
+> +
+> +static int vidioc_encoder_cmd(struct file *file, void *priv,
+> +                             struct v4l2_encoder_cmd *ec)
+> +{
+> +       struct hantro_ctx *ctx = fh_to_ctx(priv);
+> +       int ret;
+> +
+> +       ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
+> +           !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
+> +               return 0;
+> +
+> +       ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       if (ec->cmd == V4L2_ENC_CMD_STOP &&
+> +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> +
+> +       if (ec->cmd == V4L2_ENC_CMD_START &&
+> +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> +               vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
+> +
+> +       return 0;
+> +}
+> +
+>  const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+>         .vidioc_querycap = vidioc_querycap,
+>         .vidioc_enum_framesizes = vidioc_enum_framesizes,
+> @@ -657,6 +690,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+>
+>         .vidioc_g_selection = vidioc_g_selection,
+>         .vidioc_s_selection = vidioc_s_selection,
+> +
+> +       .vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
+> +       .vidioc_encoder_cmd = vidioc_encoder_cmd,
+>  };
+>
+>  static int
+> @@ -733,8 +769,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
+>          * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
+>          * it to buffer length).
+>          */
+> -       if (V4L2_TYPE_IS_CAPTURE(vq->type))
+> -               vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
+> +       if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
+> +               if (ctx->is_encoder)
+> +                       vb2_set_plane_payload(vb, 0, 0);
+> +               else
+> +                       vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
+> +       }
+>
+>         return 0;
+>  }
+> @@ -744,6 +784,22 @@ static void hantro_buf_queue(struct vb2_buffer *vb)
+>         struct hantro_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+>         struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>
+> +       if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
+> +           vb2_is_streaming(vb->vb2_queue) &&
+> +           v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
+> +               unsigned int i;
+> +
+> +               for (i = 0; i < vb->num_planes; i++)
+> +                       vb->planes[i].bytesused = 0;
+> +
+> +               vbuf->field = V4L2_FIELD_NONE;
+> +               vbuf->sequence = ctx->sequence_cap++;
+> +
+> +               v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
+> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> +               return;
+> +       }
+> +
+>         v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
+>  }
+>
+> @@ -759,6 +815,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
+>         struct hantro_ctx *ctx = vb2_get_drv_priv(q);
+>         int ret = 0;
+>
+> +       v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
+> +
+>         if (V4L2_TYPE_IS_OUTPUT(q->type))
+>                 ctx->sequence_out = 0;
+>         else
+> @@ -831,6 +889,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
+>                 hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
+>         else
+>                 hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
+> +
+> +       v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
+> +
+> +       if (V4L2_TYPE_IS_OUTPUT(q->type) &&
+> +           v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> +               v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+>  }
+>
+>  static void hantro_buf_request_complete(struct vb2_buffer *vb)
+> --
+> 2.35.1.265.g69c8d7142f-goog
+>
