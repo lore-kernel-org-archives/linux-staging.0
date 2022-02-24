@@ -1,181 +1,91 @@
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57191360
-	for <linux-staging@lists.linux.dev>; Thu, 24 Feb 2022 18:54:59 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-	by mail.gandi.net (Postfix) with ESMTPSA id F3B36200006;
-	Thu, 24 Feb 2022 18:54:48 +0000 (UTC)
-Date: Thu, 24 Feb 2022 19:54:47 +0100
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Adam Ford <aford173@gmail.com>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	martin.kepplinger@puri.sm, rmfrfs@gmail.com,
-	xavier.roumegue@oss.nxp.com,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	dorota.czaplejewicz@puri.sm, Sascha Hauer <kernel@pengutronix.de>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	linux-media <linux-media@vger.kernel.org>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	arm-soc <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v2 1/7] media: imx: De-stage imx7-mipi-csis
-Message-ID: <20220224185447.yr2452dbxegkjoqq@uno.localdomain>
-References: <20220218183421.583874-1-jacopo@jmondi.org>
- <20220218183421.583874-2-jacopo@jmondi.org>
- <CAHCN7xLmcjKpW_UX2qHEx+s8bqik7OfXmQDgnq0JjKzjaqxNdQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABBE6ABC
+	for <linux-staging@lists.linux.dev>; Thu, 24 Feb 2022 23:07:00 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id i19so694582wmq.5
+        for <linux-staging@lists.linux.dev>; Thu, 24 Feb 2022 15:07:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wbra4FEQu0N4mKrIa+OeGATLAQAZRowiOgXpL7J/xdw=;
+        b=LsHQmedqI0UuvSsT/Sa28pwoSgDdgSdH3VFHn5qorZTLNoeeyCK4We76nwt9cag6J0
+         SxXuQ4jfmAzcVD8dl9JkwpGCsjp6IVOz0rj1zGzcXRjuJAsGYm4xQRTi94dsKIKT9SkE
+         P5dcflfhbRgfIg1D991mL/pDK++aP/95GT8gweqXqTByr5ZcWL9cN4dZRFj32d98t8TY
+         5hAfnK+kztK19VM1nvYQiBZ9jLzrkRHmLArDHQHx3cuZ98n5Ak+C+KH1klJdIeG9BUA0
+         oBODIgyzlf0aL8GjfgX+LuERKe5l6VeAr62qhgMAT1xIYm5xdpV3OYWrfn3pAfELos7Y
+         pAbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wbra4FEQu0N4mKrIa+OeGATLAQAZRowiOgXpL7J/xdw=;
+        b=OPftBhTOyUWkFfFD8hWxV+SdvzqhOO2fzUBbx3B+GLHkYJ95D/eGLhRM9XYkVHMQwk
+         JkOnmC5ai9pfQ0alg5zUfeNiJy8Tpt4LE8HNv0sR+GpLUtCdaDlJ1rr9WJDQfn33VDPe
+         wzm69hslXCI5EOA2AsVawKP8bQ8Wv7adaeXpuaDLl+iCEOq9CQOgXgxXbYZx2JXlb4kz
+         isxHlZlawY/uzAIo2IHPxyUQl3ygkJjWJni2098RKt3M9WhKkTXy/uKD39et/bytYO6U
+         3aXlWMwvROgj478hGIquX0dOWvKCklQh8kPyXPn0JiKtOGnNduMQiOqmQ1n0b9HIRqEZ
+         cZAg==
+X-Gm-Message-State: AOAM531/uDo9WPAryui87x6rkaQj47g0TNbVu3kom/iyUAkXbQeEfuqb
+	VqKAU3abca5J3aG/YXIA/EM=
+X-Google-Smtp-Source: ABdhPJxZaMBZe4P0qOe+ykgYjJYjNIWkvfk4T8H5ECaKz8j0I8xOAgTO42Ecmlg6mvTcu9izMXSlSg==
+X-Received: by 2002:a1c:f705:0:b0:37d:f2e5:d8ec with SMTP id v5-20020a1cf705000000b0037df2e5d8ecmr268682wmh.21.1645744019245;
+        Thu, 24 Feb 2022 15:06:59 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id q11-20020adfcd8b000000b001e320028660sm521461wrj.92.2022.02.24.15.06.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Feb 2022 15:06:58 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] staging: r8188eu: remove redundant variable reg_0x143
+Date: Thu, 24 Feb 2022 23:06:58 +0000
+Message-Id: <20220224230658.151338-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHCN7xLmcjKpW_UX2qHEx+s8bqik7OfXmQDgnq0JjKzjaqxNdQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Adam,
+Variable reg_0x143 is being assigned a value, however is not being
+read. The variable is redundant and can be removed.
 
-On Thu, Feb 24, 2022 at 10:49:13AM -0600, Adam Ford wrote:
-> On Mon, Feb 21, 2022 at 3:16 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> >
-> > The imx7-mipi-csis driver is in a good state and can be destaged.
-> >
-> > Move the imx7-mipi-csis.c driver to the newly created
-> > drivers/media/platform/imx directory and plumb the related
-> > options in Kconfig and in Makefile.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  MAINTAINERS                                   |  2 +-
-> >  drivers/media/platform/Kconfig                |  1 +
-> >  drivers/media/platform/Makefile               |  1 +
-> >  drivers/media/platform/imx/Kconfig            | 24 +++++++++++++++++++
-> >  drivers/media/platform/imx/Makefile           |  1 +
-> >  .../platform}/imx/imx7-mipi-csis.c            |  0
-> >  drivers/staging/media/imx/Makefile            |  1 -
-> >  7 files changed, 28 insertions(+), 2 deletions(-)
-> >  create mode 100644 drivers/media/platform/imx/Kconfig
-> >  create mode 100644 drivers/media/platform/imx/Makefile
-> >  rename drivers/{staging/media => media/platform}/imx/imx7-mipi-csis.c (100%)
-> >
->
-> Jacopo,
->
-> Will there be a subsequent patch to modify the arch64 defconfig to
-> enable these modules by default?  With these changes, neither the CSI
-> nor CSIS appear to be enabled as modules any more, and I thought they
-> used to be enabled as modules by default.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-I don't see the VIDEO_IMX7_CSI selected in v5.17-rc5 arch/arm64/configs/defconfig
-What am I missing ? :)
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index cf58dfc3ff4d..53ebea311723 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -189,7 +189,6 @@ static void efuse_read_phymap_from_txpktbuf(
+ {
+ 	u16 dbg_addr = 0;
+ 	u32 start  = 0, passing_time = 0;
+-	u8 reg_0x143 = 0;
+ 	__le32 lo32 = 0, hi32 = 0;
+ 	u16 len = 0, count = 0;
+ 	int i = 0;
+@@ -209,7 +208,7 @@ static void efuse_read_phymap_from_txpktbuf(
+ 
+ 		rtw_write8(adapter, REG_TXPKTBUF_DBG, 0);
+ 		start = jiffies;
+-		while (!(reg_0x143 = rtw_read8(adapter, REG_TXPKTBUF_DBG)) &&
++		while (!rtw_read8(adapter, REG_TXPKTBUF_DBG) &&
+ 		       (passing_time = rtw_get_passing_time_ms(start)) < 1000)
+ 			rtw_usleep_os(100);
+ 
+-- 
+2.34.1
 
-I'm not aware of what are the policies to add a new symbol to the
-arch64 defconfig, but if appropriate I would be happy to send a patch
-to enable it.
-
-Thanks
-  j
-
-
->
-> adam
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 83d27b57016f..5bdb8c881b0b 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11891,8 +11891,8 @@ T:      git git://linuxtv.org/media_tree.git
-> >  F:     Documentation/admin-guide/media/imx7.rst
-> >  F:     Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> >  F:     Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-> > +F:     drivers/media/platform/imx/imx7-mipi-csis.c
-> >  F:     drivers/staging/media/imx/imx7-media-csi.c
-> > -F:     drivers/staging/media/imx/imx7-mipi-csis.c
-> >
-> >  MEDIA DRIVERS FOR HELENE
-> >  M:     Abylay Ospan <aospan@netup.ru>
-> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> > index 9fbdba0fd1e7..d9eeccffea69 100644
-> > --- a/drivers/media/platform/Kconfig
-> > +++ b/drivers/media/platform/Kconfig
-> > @@ -171,6 +171,7 @@ source "drivers/media/platform/xilinx/Kconfig"
-> >  source "drivers/media/platform/rcar-vin/Kconfig"
-> >  source "drivers/media/platform/atmel/Kconfig"
-> >  source "drivers/media/platform/sunxi/Kconfig"
-> > +source "drivers/media/platform/imx/Kconfig"
-> >
-> >  config VIDEO_TI_CAL
-> >         tristate "TI CAL (Camera Adaptation Layer) driver"
-> > diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> > index 28eb4aadbf45..a9466c854610 100644
-> > --- a/drivers/media/platform/Makefile
-> > +++ b/drivers/media/platform/Makefile
-> > @@ -20,6 +20,7 @@ obj-y += ti-vpe/
-> >  obj-$(CONFIG_VIDEO_MX2_EMMAPRP)                += mx2_emmaprp.o
-> >  obj-$(CONFIG_VIDEO_CODA)               += coda/
-> >
-> > +obj-$(CONFIG_VIDEO_IMX)                        += imx/
-> >  obj-$(CONFIG_VIDEO_IMX_PXP)            += imx-pxp.o
-> >  obj-$(CONFIG_VIDEO_IMX8_JPEG)          += imx-jpeg/
-> >
-> > diff --git a/drivers/media/platform/imx/Kconfig b/drivers/media/platform/imx/Kconfig
-> > new file mode 100644
-> > index 000000000000..683863572c20
-> > --- /dev/null
-> > +++ b/drivers/media/platform/imx/Kconfig
-> > @@ -0,0 +1,24 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +menuconfig VIDEO_IMX
-> > +       bool "V4L2 capture drivers for NXP i.MX devices"
-> > +       depends on ARCH_MXC || COMPILE_TEST
-> > +       depends on VIDEO_DEV && VIDEO_V4L2
-> > +       help
-> > +         Say yes here to enable support for capture drivers on i.MX SoCs.
-> > +         Support for the single SoC features are selectable in the sub-menu
-> > +         options.
-> > +
-> > +if VIDEO_IMX
-> > +
-> > +config VIDEO_IMX_MIPI_CSIS
-> > +       tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
-> > +       select MEDIA_CONTROLLER
-> > +       select V4L2_FWNODE
-> > +       select VIDEO_V4L2_SUBDEV_API
-> > +       default n
-> > +       help
-> > +         Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
-> > +         v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
-> > +
-> > +endif # VIDEO_IMX
-> > diff --git a/drivers/media/platform/imx/Makefile b/drivers/media/platform/imx/Makefile
-> > new file mode 100644
-> > index 000000000000..ee272234c8d7
-> > --- /dev/null
-> > +++ b/drivers/media/platform/imx/Makefile
-> > @@ -0,0 +1 @@
-> > +obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx7-mipi-csis.o
-> > diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/media/platform/imx/imx7-mipi-csis.c
-> > similarity index 100%
-> > rename from drivers/staging/media/imx/imx7-mipi-csis.c
-> > rename to drivers/media/platform/imx/imx7-mipi-csis.c
-> > diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-> > index 19c2fc54d424..d82be898145b 100644
-> > --- a/drivers/staging/media/imx/Makefile
-> > +++ b/drivers/staging/media/imx/Makefile
-> > @@ -15,5 +15,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
-> >  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
-> >
-> >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
-> > -obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-mipi-csis.o
-> >  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
-> > --
-> > 2.35.0
-> >
