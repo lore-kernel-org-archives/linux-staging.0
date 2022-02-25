@@ -1,47 +1,82 @@
-Received: from mail.powerangels.com.pl (mail.powerangels.com.pl [45.86.209.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458157B
-	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 07:53:24 +0000 (UTC)
-Received: by mail.powerangels.com.pl (Postfix, from userid 1001)
-	id 70D8683367; Fri, 25 Feb 2022 02:45:42 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=powerangels.com.pl;
-	s=mail; t=1645775174;
-	bh=07NAgW1e0WiNB9zqagiM2BnwZfWBCpNa2E4+ccxBPgw=;
-	h=Date:From:To:Subject:From;
-	b=RU1glqRVbndQAEyulE17QPGzPx8AhcBjWC0NY7v1o2+7MWTogbCQIIBoamHJmQchC
-	 VbcFOQ2ZK7Qp0JPRE0GRIUf7V8afUYW185f3KaaeJhuQAT4HDr1L7VbLmvY1UIc/fV
-	 7QSRkTHFwJg1l3/jcxopPegOxH5/CxoNieslHW50Lu3RGM3mW5QiH2sxuzGH45Itka
-	 FwC633PYKmAGXrXGWEN6CPhEejOdnyyS1iAkuvbnYcpmfTPiBXGpj55NGkmkYqdJWq
-	 NroYc19vEFWLzLBvC9n8cSr/RlhfIDotzY2Yz74unV/XS1pZf3OhaGl973odhrdsCt
-	 /neUauaILzyvw==
-Received: by mail.powerangels.com.pl for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 07:45:40 GMT
-Message-ID: <20220225024500-0.1.j.21a5.0.2l391s3330@powerangels.com.pl>
-Date: Fri, 25 Feb 2022 07:45:40 GMT
-From: "Jakub Daroch" <jakub.daroch@powerangels.com.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: Wycena paneli fotowoltaicznych
-X-Mailer: mail.powerangels.com.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C007B
+	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 08:03:23 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id x18so4056764pfh.5
+        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 00:03:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=pATmZROrWiuG5CWs1kSYk2Oan3U4G8+HjVhDW4324ys=;
+        b=kkM689EQ5WPDqsWwfkb20CAFFR7mEU5TXmtqcIiDCShdf1rtfcQLvVcG3s7ptn/yVB
+         rDuOOIxMg36Cv17J+jZYMN/C3iYh3wQj35fIXYWGT3ypRMLkXfyV0n8fbADG3ZSsfO1G
+         1MAzDGivTrXdBtoJZFsJUxLNH5Ype3qFWIw4M6dcqNg74qhcAvLbDPJyq112nWj4RWZm
+         0XdJRWbyZoMJiaPGVRZvs/YTzjNfCcYmv9kmt4lh6jwgw4iC2J2bLn/hBywQmoVZ1cQ8
+         9kvpm3aP68/sOWXFJ2V8dAYTZ2fr5fKfd8whpbkfFnei0oAFmYd6bfOpp0iekoatApdX
+         HOSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=pATmZROrWiuG5CWs1kSYk2Oan3U4G8+HjVhDW4324ys=;
+        b=ILCdfxewbjzgTabuRV0KtON9eb4k8czoewiN974JoNlqFwpVj0Fk3wnQ00Xpj9HDdm
+         0J9e4KgCiUWYYMvl1u8sh/jjjU+D9Xhl2/CuyUXQPc/5sSlL3tQwkhzW0+ee23sXCEVm
+         MD+aZNfxUGgIKJSPINS22Cktpp3II7qt5sw7ClqezAVDYKg2MUVSvOnN58GxKhBEsEdW
+         FOKriAHsNgBFiOf8BuyHs1SrbvzWrTuwjoabVmhHrGUqQKFvhOYGHZQqaIMWJzn4ZG+B
+         uVy9r/uVacy52eEoSK4Pmzk0RE68rCGiWI0fONA4PW0n6Q1Gc2RoK8PFDcs8cLa9SWbM
+         wCdg==
+X-Gm-Message-State: AOAM530FP1gc49bQ1QdOzqR90F1THEkeMw/Eu81wb5e55/FnBsGdyBPt
+	c3CiI3+ZNBXiMgp/TJYIap8=
+X-Google-Smtp-Source: ABdhPJy0gMwqLyE0+7tN6+q2loHkORGpgvzfluL2SdR/pNhk48Qm3AJK2kn2ZtRPDQSvKhAHivNk1w==
+X-Received: by 2002:a05:6a00:24c5:b0:4d1:65bf:1fe0 with SMTP id d5-20020a056a0024c500b004d165bf1fe0mr6561632pfv.0.1645776203359;
+        Fri, 25 Feb 2022 00:03:23 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id nn17-20020a17090b38d100b001bc5a705fb2sm1557900pjb.26.2022.02.25.00.03.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Feb 2022 00:03:22 -0800 (PST)
+Date: Fri, 25 Feb 2022 21:03:17 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
+	realwakka@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: pi433: add index value to write dev_dbg statement
+Message-ID: <YhiNRSi7jijxJWCL@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dzie=C5=84 dobry,
+Add index value to the string that will be printed by dev_dbg for better
+easier visualisation when debugging. For instance, if I have a big
+message payload that will inevitably get split into chunks, it would be
+a hassle trying to debug if the offset of the original payload that got
+sent at that time.
 
-dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
-irm=C4=85.
+This patch adds index value to write dev_dbg statement.
 
-=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
-ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+---
+ drivers/staging/pi433/rf69.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
-ropozycji?
+diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
+index 901f8db3e3ce..1a0081ebf63c 100644
+--- a/drivers/staging/pi433/rf69.c
++++ b/drivers/staging/pi433/rf69.c
+@@ -869,7 +869,7 @@ int rf69_write_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
+ 
+ 	/* print content written from fifo for debugging purposes */
+ 	for (i = 0; i < size; i++)
+-		dev_dbg(&spi->dev, "0x%x\n", buffer[i]);
++		dev_dbg(&spi->dev, "%d - 0x%x\n", i, buffer[i]);
+ 
+ 	return spi_write(spi, local_buffer, size + 1);
+ }
+-- 
+2.34.1
 
-
-Pozdrawiam,
-Jakub Daroch
