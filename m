@@ -1,168 +1,191 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E63023D9
-	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 17:48:38 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id gb39so12342942ejc.1
-        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 09:48:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2C628FB;
+	Fri, 25 Feb 2022 19:16:42 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id j22so5869508wrb.13;
+        Fri, 25 Feb 2022 11:16:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wpJrU2b7v7CL9UCI2QuiW9U5b87AMAnh8NHOnYuVjcs=;
-        b=EttKkSdEAUvjuAqk58bkrPK6Q8Bva7vriJJl5l2/m9c1DBl63QAI+OS0UbpRLrm0Gp
-         2YdptCK1j51Do8vGjvQjTKZUtkhUYXV5Ob4tNC+oe/p60bVu/asSSVmEqMfgna1EVWrJ
-         cDFxrLN+zGNIG6FKOMSXoDw/bf2+C7arf8HXvI5QBHP9FOEfFxZsM+gPa3NzR1G2jfSY
-         RSLs7pf+BKFWYQg/rw7+zJhIQQ0uPEmzM1tTbfb0N8oV2WYFYdKfaVTjbF0cccOam4Rl
-         TuCNNHfG0MV8FtpSpEqWhttf/h44CL7iWTdrAyS2KFmkQmXv/xPh0O/ufQdMBeYzOaPE
-         0H4w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/Vvd7tKZQOnediXpXRzDG+ltIVQnv7bxEtfZI2RY0JA=;
+        b=GFvpyfhpP4lZ6/NkJU6ikofdfk7gpO2WU29fa6dqlyWnlNJ6s6EOI/cQQuQqkYaXuK
+         j2IksD5n5REA85yMe1g9chdlHAaeWZbXxgxt+54+LCtVNGKKR77r4KOleYJs3TUrMzgS
+         KStr09G77anCiNEoGlM2AIwtaDMW1jBac/9QGQxNb9QILFZLEOVmkWJQiez98LKtIbQf
+         vXc9+QOTTGnnGtkLJ5sIvaXWvaDR2Z1WwEP+nC4FjQ7CbPCm9VCQj4gBtZjISUfivUgT
+         8VFh9SaYPLDC0nfkkeCpCgTwt9v/2HOjEihb6hPhp7HAT1dQrTHe+bKRU4msjSLzLxqa
+         dPGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wpJrU2b7v7CL9UCI2QuiW9U5b87AMAnh8NHOnYuVjcs=;
-        b=6NCKGTqfXBCVqXbsWHxG9vY4WhmWbzd/4FUJFUxC7Y1vHPmLrcYhmvd8i+dnJueHyO
-         j6XYmzaiGSbhOSXfaOhVYxGBO8kqWeLs5mQyYcqfXAkYr9qiNcEiOlbpwLzJUFkjpmPw
-         gBx0orM6/3ncEgUivlTJFF2of1jAliRofenSpMQgvRnOD0H9BkIIOO+fzASY/kbfyV9j
-         dcn43uJ5uSWVmbUPb2aY0qPsq06XJ5Kz+ipLoSRbccx4XKmadtaQgzLzITgNzTAED6Pi
-         9YevxH9BHM+GkMUfZN/CWNRRuMZtRdgY22eA2Lmux5T9ubnm00q2t2rqOmGdXtOxbUuu
-         JQ8Q==
-X-Gm-Message-State: AOAM5311Imr0+Hea+iDh8hop9PA659dD+Cca09y4VPSgan0T4kNU+Px5
-	zZ9XB59zhChnUIbQmLYqyiA=
-X-Google-Smtp-Source: ABdhPJyMO37YdwtPW7XsnYf4MD3Qobx/aSE2sXhM+7mesYI3uEc88vPohW68b5qPAjbEmiyI2xf8jw==
-X-Received: by 2002:a17:906:a213:b0:6b5:b0f9:7567 with SMTP id r19-20020a170906a21300b006b5b0f97567mr7091278ejy.129.1645811316879;
-        Fri, 25 Feb 2022 09:48:36 -0800 (PST)
-Received: from localhost.localdomain (ip5f5abb8d.dynamic.kabel-deutschland.de. [95.90.187.141])
-        by smtp.gmail.com with ESMTPSA id v5-20020a056402184500b00412e1a73c7bsm1603571edy.61.2022.02.25.09.48.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/Vvd7tKZQOnediXpXRzDG+ltIVQnv7bxEtfZI2RY0JA=;
+        b=bpI9Xt2UhnEgaCxw1/w1n9GaTs2fruLkSV2CkTOmDG1TlbdvZCx4ZowZbWKxwvYHwy
+         1pVGaURhS+pJRuGx0S2jYorpEMt9huS5+tQ3u/6KCI8SWE6xrpA9uVmCQVFIti1+WV4k
+         WvgVN0RTGHoeJDgDmq+ZYzhFcqyAAd/PSNfvpMgaWn8WpwFDiDCKizDRaJnsp3GrZZcu
+         5q+5W3m2JLkk91jMu4zCqO3liK94D8h2SZC27hLIDNu2P/EkWO23dgdJaNMuiGz55rTA
+         9oJcoi1EWSiBifnLL97Pu++3d0RtXpwhhnlmuE7BN4ncrW86LG45UmSoVgNPPtVIjhtf
+         7MyA==
+X-Gm-Message-State: AOAM530t332OU2YAmDF5DJskJHbqiGcfwNonHT6uiDEX1Rt0Z3t6ACy8
+	zF2Fxpnd3ghJWBT8ZqrGUhQ=
+X-Google-Smtp-Source: ABdhPJxZCUqPbir6SAi1fciYqMtPVQYBtApd/DUlx8j4DWD/xaEIUpojUNBQbHf+CMMYpq1j3zcvaw==
+X-Received: by 2002:a5d:6da6:0:b0:1ea:75c7:77f0 with SMTP id u6-20020a5d6da6000000b001ea75c777f0mr7206509wrs.566.1645816600684;
+        Fri, 25 Feb 2022 11:16:40 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id c4-20020adfed84000000b001e5b8d5b8dasm4430781wro.36.2022.02.25.11.16.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Feb 2022 09:48:36 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove _linked_rx_signal_strength_display()
-Date: Fri, 25 Feb 2022 18:48:27 +0100
-Message-Id: <20220225174827.15927-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Fri, 25 Feb 2022 11:16:40 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v3 12/14] media: uapi: Create a dedicated header for Hantro control
+Date: Fri, 25 Feb 2022 20:16:38 +0100
+Message-ID: <2617680.mvXUDI8C0e@kista>
+In-Reply-To: <20220225164600.1044663-13-benjamin.gaignard@collabora.com>
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <20220225164600.1044663-13-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The function _linked_rx_signal_strength_display() only sets two local
-variables that are not used after setting. Remove the function and
-remove resulting dead code.
+Hi!
 
-The HW_DEF_RA_INFO_DUMP case in GetHalDefVar8188EUsb() does not set
-the passed variable. It just calls check_fwstate() which does nothing
-than return true or false. So it is safe to remove this call to
-GetHalDefVar8188EUsb().
+Dne petek, 25. februar 2022 ob 17:45:58 CET je Benjamin Gaignard napisal(a):
+> Hantro hardware needs a dedicated v4l2 control to perform HEVC
+> decoding. Move it to a dedicated header file to prepare HEVC
+> uAPI un-staging.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  .../userspace-api/media/drivers/hantro.rst    |  5 -----
+>  drivers/staging/media/hantro/hantro_drv.c     |  1 +
+>  include/media/hevc-ctrls.h                    | 13 -------------
+>  include/uapi/linux/hantro-media.h             | 19 +++++++++++++++++++
+>  include/uapi/linux/v4l2-controls.h            |  5 +++++
+>  5 files changed, 25 insertions(+), 18 deletions(-)
+>  create mode 100644 include/uapi/linux/hantro-media.h
+> 
+> diff --git a/Documentation/userspace-api/media/drivers/hantro.rst b/
+Documentation/userspace-api/media/drivers/hantro.rst
+> index cd9754b4e005..78dcd2a44a03 100644
+> --- a/Documentation/userspace-api/media/drivers/hantro.rst
+> +++ b/Documentation/userspace-api/media/drivers/hantro.rst
+> @@ -12,8 +12,3 @@ The Hantro video decoder driver implements the following 
+driver-specific control
+>      to before syntax element "slice_temporal_mvp_enabled_flag".
+>      If IDR, the skipped bits are just "pic_output_flag"
+>      (separate_colour_plane_flag is not supported).
+> -
+> -.. note::
+> -
+> -        This control is not yet part of the public kernel API and
+> -        it is expected to change.
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/
+media/hantro/hantro_drv.c
+> index 6f58c259d8fc..783a92a38c8e 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -11,6 +11,7 @@
+>   */
+>  
+>  #include <linux/clk.h>
+> +#include <linux/hantro-media.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index cbf41d180fe9..f29298c8c2f8 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -443,17 +443,4 @@ struct v4l2_ctrl_hevc_scaling_matrix {
+>  	__u8	scaling_list_dc_coef_32x32[2];
+>  };
+>  
+> -/*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 
+*/
+> -#define V4L2_CID_CODEC_HANTRO_BASE				
+(V4L2_CTRL_CLASS_CODEC | 0x1200)
+> -/*
+> - * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
+> - * the number of data (in bits) to skip in the
+> - * slice segment header.
+> - * If non-IDR, the bits to be skipped go from syntax element 
+"pic_output_flag"
+> - * to before syntax element "slice_temporal_mvp_enabled_flag".
+> - * If IDR, the skipped bits are just "pic_output_flag"
+> - * (separate_colour_plane_flag is not supported).
+> - */
+> -#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	
+(V4L2_CID_CODEC_HANTRO_BASE + 0)
+> -
+>  #endif
+> diff --git a/include/uapi/linux/hantro-media.h b/include/uapi/linux/hantro-
+media.h
+> new file mode 100644
+> index 000000000000..b4e7ab7e6452
+> --- /dev/null
+> +++ b/include/uapi/linux/hantro-media.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
 
-The HAL_DEF_UNDERCORATEDSMOOTHEDPWDB case in GetHalDefVar8188EUsb()
-does nothing than set the passed variable and it is safe to remove
-this call to GetHalDefVar8188EUsb() as well.
+I get
+error: include/uapi/linux/hantro-media.h: missing "WITH Linux-syscall-note" 
+for SPDX-License-Identifier
+make[1]: *** [scripts/Makefile.headersinst:63: usr/include/linux/hantro-
+media.h] Error 1
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
-Tested on x86_64 with Inter-Tech DMG-02.
+when installing headers.
 
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 20 --------------------
- drivers/staging/r8188eu/hal/usb_halinit.c   | 13 -------------
- drivers/staging/r8188eu/include/hal_intf.h  |  2 --
- 3 files changed, 35 deletions(-)
+Best regards,
+Jernej
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 0b77ddde6ce2..580d0c15b958 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -6834,23 +6834,6 @@ void mlmeext_sta_del_event_callback(struct adapter *padapter)
- Following are the functions for the timer handlers
- 
- *****************************************************************************/
--static void _linked_rx_signal_strength_display(struct adapter *padapter)
--{
--	struct mlme_ext_priv    *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info    *pmlmeinfo = &pmlmeext->mlmext_info;
--	u8 mac_id;
--	int UndecoratedSmoothedPWDB;
--
--	if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
--		mac_id = 0;
--	else if ((pmlmeinfo->state & 0x03) == _HW_STATE_AP_)
--		mac_id = 2;
--
--	GetHalDefVar8188EUsb(padapter, HW_DEF_RA_INFO_DUMP, &mac_id);
--
--	GetHalDefVar8188EUsb(padapter, HAL_DEF_UNDERCORATEDSMOOTHEDPWDB, &UndecoratedSmoothedPWDB);
--}
--
- static u8 chk_ap_is_alive(struct sta_info *psta)
- {
- 	u8 ret = false;
-@@ -6886,9 +6869,6 @@ void linked_status_chk(struct adapter *padapter)
- 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct sta_priv		*pstapriv = &padapter->stapriv;
- 
--	if (padapter->bRxRSSIDisplay)
--		_linked_rx_signal_strength_display(padapter);
--
- 	rtl8188e_sreset_linked_status_check(padapter);
- 
- 	if (is_client_associated_to_ap(padapter)) {
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 0704fa3156af..3eafc298f3e1 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1399,16 +1399,6 @@ void GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariab
- 	struct hal_data_8188e *haldata = &Adapter->haldata;
- 
- 	switch (eVariable) {
--	case HAL_DEF_UNDERCORATEDSMOOTHEDPWDB:
--		{
--			struct mlme_priv *pmlmepriv = &Adapter->mlmepriv;
--			struct sta_priv *pstapriv = &Adapter->stapriv;
--			struct sta_info *psta;
--			psta = rtw_get_stainfo(pstapriv, pmlmepriv->cur_network.network.MacAddress);
--			if (psta)
--				*((int *)pValue) = psta->rssi_stat.UndecoratedSmoothedPWDB;
--		}
--		break;
- 	case HAL_DEF_IS_SUPPORT_ANT_DIV:
- 		*((u8 *)pValue) = (haldata->AntDivCfg == 0) ? false : true;
- 		break;
-@@ -1418,9 +1408,6 @@ void GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariab
- 	case HAL_DEF_DBG_DM_FUNC:
- 		*((u32 *)pValue) = haldata->odmpriv.SupportAbility;
- 		break;
--	case HW_DEF_RA_INFO_DUMP:
--		check_fwstate(&Adapter->mlmepriv, _FW_LINKED);
--		break;
- 	case HAL_DEF_DBG_DUMP_RXPKT:
- 		*((u8 *)pValue) = haldata->bDumpRxPkt;
- 		break;
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 8e204d61cc53..3cededa4dcfc 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -43,12 +43,10 @@ enum hw_variables {
- };
- 
- enum hal_def_variable {
--	HAL_DEF_UNDERCORATEDSMOOTHEDPWDB,
- 	HAL_DEF_IS_SUPPORT_ANT_DIV,
- 	HAL_DEF_CURRENT_ANTENNA,
- 	HAL_DEF_DBG_DUMP_RXPKT,/* for dbg */
- 	HAL_DEF_DBG_DM_FUNC,/* for dbg */
--	HW_DEF_RA_INFO_DUMP,
- 	HAL_DEF_DBG_DUMP_TXPKT,
- };
- 
--- 
-2.35.1
+> +
+> +#ifndef __UAPI_HANTRO_MEDIA_H__
+> +#define __UAPI_HANTRO_MEDIA_H__
+> +
+> +#include <linux/v4l2-controls.h>
+> +
+> +/*
+> + * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
+> + * the number of data (in bits) to skip in the
+> + * slice segment header.
+> + * If non-IDR, the bits to be skipped go from syntax element 
+"pic_output_flag"
+> + * to before syntax element "slice_temporal_mvp_enabled_flag".
+> + * If IDR, the skipped bits are just "pic_output_flag"
+> + * (separate_colour_plane_flag is not supported).
+> + */
+> +#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	
+(V4L2_CID_USER_HANTRO_BASE + 0)
+> +
+> +#endif /* __UAPI_HANTRO_MEDIA_H__ */
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-
+controls.h
+> index c8e0f84d204d..d56a1c7fb91d 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -218,6 +218,11 @@ enum v4l2_colorfx {
+>   * We reserve 16 controls for this driver.
+>   */
+>  #define V4L2_CID_USER_ALLEGRO_BASE		(V4L2_CID_USER_BASE + 
+0x1170)
+> +/*
+> + * The base for Hantro driver controls.
+> + * We reserve 128 controls for this driver.
+> + */
+> +#define V4L2_CID_USER_HANTRO_BASE		(V4L2_CID_USER_BASE + 
+0x1180)
+>  
+>  /* MPEG-class control IDs */
+>  /* The MPEG controls are applicable to all codec controls
+> -- 
+> 2.32.0
+> 
+> 
+
 
