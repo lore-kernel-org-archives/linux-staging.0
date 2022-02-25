@@ -1,39 +1,39 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243191FBD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3801FD0
 	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 12:09:03 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id p9so10446823ejd.6
-        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 04:09:02 -0800 (PST)
+Received: by mail-ej1-f51.google.com with SMTP id vz16so10552483ejb.0
+        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 04:09:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X01b0npE0g+H3NBwvWgXa+/pm4dhDaG2cD6CkeGqTNw=;
-        b=CjMH3Qps1rz/CRFPosO3PcU5VcJkFJwriblFFxrCqQ0zxWnUJasp0FbjqTeSEOGs1B
-         qeAziIRyG7NOaFRhstdQPnpexaWuYfZJFxdV0PfjznTnE59dmtkmUvZcYlil/OewrOwk
-         ocT8S7bpAGGD3sBekuUpDI+66tuUcIF3G7AKwk37hiUlZyYQDa6LCYf8qdtYZIfSKqJ2
-         iy5+YTlmb09fMk6bMzCvcMx8fVuS+MEPYqRNoV6NBnDFLJN4RenaaDQcy3/BRLicIT5/
-         6hVTSgbUh9hhQ+n/kaD82m1yKEto+Nx9wuyt5uQK4Z2Qnc4LmyGySmsssMZfW3Q5nAMO
-         cIDw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=F/0Tpma1+c58CxkGgoTiooSWiLa2l3OoqAh72W5S0p0=;
+        b=lc5tHjGwjczL0DtyLw4mzRM9otfPXURnRevfnnvFl2gbYXktOiWtqHMeoKm/OdIE7O
+         qLRQ/GWAByfkZEt17l7xAKhDuYnCVjOZdpZAGB0JqhSRgVuaE/6z5BjzPeeAAep47Mno
+         QXurTwms1fRtJEi0feymKflRJ977eRKWy7MKYIJqjxnrePRuhCk95lOCRx74hzgyBOFi
+         krkx/C+OLd61C8LA3p2ibu2VlyRBymYDh+HI6EzzMgzYs9qjwc7YfbKEc1FiTwHGRHBp
+         kSJZ7wsV4bbyAqQsPWR3BWLXLNmcWruMYD0k4U70GFpLPEKqIbqegadfb9xGTGtBCeLo
+         Vgbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X01b0npE0g+H3NBwvWgXa+/pm4dhDaG2cD6CkeGqTNw=;
-        b=J8omxsofS7cYxbkl/ltl6nEpm/BnvtY7srQL2LAR39O5Rcug3t12KutQl6UJ2JfHUd
-         88Ng6dCxN/jTd4AzCm24XwEpfqX6HHhDonI3JQI45Zx+pnAlGqwgLn8GS3TfP21aiMFc
-         9kcsUjZeDkR7wfgXTq+imfZ9Mlp6P/sXIk4afhFu1tflqfUN2G4V9PrDxJSj+vG6DK5P
-         s7Ynw5RZQJqrN20jG3SCZWddpeau5hzKndVnE4PkmvpbKMqdpd1UKzDRUjZ0g++V2jFr
-         0Hn2CPfzXOFK7pa0/z3crsihOxeoLfAw1ukpV34G/+knFnnnyBGoFH71fVzDzkjjCWaL
-         ygpw==
-X-Gm-Message-State: AOAM531n2NgLyVRlhCKWCrlggnGH6jIxAl28usQiMR7j1sLuw8GTtGLB
-	1AeOfzxgVdui/HqYGxa3PLYhs6jRpkw=
-X-Google-Smtp-Source: ABdhPJyrS+9uMgAuqc88GQ/Pbftfx5agFbjvTEh1+94I4w9oz959xik5bPykI9Grzh1Os8+Tw2OFoQ==
-X-Received: by 2002:a17:906:b348:b0:6cf:5b66:2f80 with SMTP id cd8-20020a170906b34800b006cf5b662f80mr5712628ejb.638.1645790941517;
-        Fri, 25 Feb 2022 04:09:01 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=F/0Tpma1+c58CxkGgoTiooSWiLa2l3OoqAh72W5S0p0=;
+        b=nJLfh+ERXem9X5f0EIf07Pu4CQ5RRhAwyP3pSSiN7wwGHCemUYDRnAmsvjhBPbgoU9
+         rAUT0oRohRGOodqmvog2rkRVKRRDe2XJyBIBtw3GL2sK2nimmrhxUn4EkGnq/C88IFe1
+         /34GCegemMDjhoerdku0HTw3F7iUDgS7L5JRYpYVGqOpdz0uuCMckd9rTxHzLvU517bD
+         brDrK//dNVmT4hbe0oI9KCyR8iF9enY6xPMDtSsJOjM8nBUZ6CC0ju+eNRxa3s0P+RuV
+         OOheTvb1lY09g3rRKSO5chGCwLCC/56OWXzuY/JSSljORM9Xb6n+bnsnuEQeC/4a44px
+         /nmA==
+X-Gm-Message-State: AOAM533oFxBGXnv1JsvB1SI6OQd+ZEJQ/OkPe7p2W6vRLLBlrEszc2O5
+	zmEASo5YDu9bJT1DvCqLkmE=
+X-Google-Smtp-Source: ABdhPJwsOET7ecJJ2Nk8Dz000sAe1IOPZ/EgNTd3A/3kk09FC2FdxWVZgIundK91V+E6tRAu+OwzPQ==
+X-Received: by 2002:a17:907:3f95:b0:6d3:feb2:ef88 with SMTP id hr21-20020a1709073f9500b006d3feb2ef88mr5861463ejc.480.1645790942264;
+        Fri, 25 Feb 2022 04:09:02 -0800 (PST)
 Received: from localhost.localdomain (ip5f5abb8d.dynamic.kabel-deutschland.de. [95.90.187.141])
-        by smtp.gmail.com with ESMTPSA id y14-20020a50eb8e000000b00410a2e7798dsm1229418edr.38.2022.02.25.04.09.00
+        by smtp.gmail.com with ESMTPSA id y14-20020a50eb8e000000b00410a2e7798dsm1229418edr.38.2022.02.25.04.09.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 25 Feb 2022 04:09:01 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/4] staging: r8188eu: some simple cleanups
-Date: Fri, 25 Feb 2022 13:08:39 +0100
-Message-Id: <20220225120843.10674-1-straube.linux@gmail.com>
+Subject: [PATCH 1/4] staging: r8188eu: EepromAddressSize is set but not used
+Date: Fri, 25 Feb 2022 13:08:40 +0100
+Message-Id: <20220225120843.10674-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220225120843.10674-1-straube.linux@gmail.com>
+References: <20220225120843.10674-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,26 +57,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series contains some simple cleanups in different areas of the
-driver.
+EepromAddressSize in struct adapter is set but not used. Remove it and
+remove the now unused function GetEEPROMSize8188E().
 
-Tested on x86_64 with Inter-Tech DMG-02.
-
-Michael Straube (4):
-  staging: r8188eu: EepromAddressSize is set but not used
-  staging: r8188eu: remove unused function prototype
-  staging: r8188eu: remove update_bcn_p2p_ie()
-  staging: r8188eu: remove ETH_ALEN from ieee80211.h
-
- drivers/staging/r8188eu/core/rtw_ap.c           |  6 ------
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
  drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 15 ---------------
  drivers/staging/r8188eu/hal/usb_halinit.c       |  3 ---
  drivers/staging/r8188eu/include/drv_types.h     |  1 -
- drivers/staging/r8188eu/include/ieee80211.h     |  1 -
  drivers/staging/r8188eu/include/rtl8188e_hal.h  |  1 -
- drivers/staging/r8188eu/include/rtl8188e_recv.h |  1 -
- 7 files changed, 28 deletions(-)
+ 4 files changed, 20 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index cf58dfc3ff4d..fc47f1b596cc 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -535,21 +535,6 @@ void hal_notch_filter_8188e(struct adapter *adapter, bool enable)
+ 		rtw_write8(adapter, rOFDM0_RxDSP + 1, rtw_read8(adapter, rOFDM0_RxDSP + 1) & ~BIT(1));
+ }
+ 
+-u8 GetEEPROMSize8188E(struct adapter *padapter)
+-{
+-	u8 size = 0;
+-	u32	cr;
+-
+-	cr = rtw_read16(padapter, REG_9346CR);
+-	/*  6: EEPROM used is 93C46, 4: boot from E-Fuse. */
+-	size = (cr & BOOT_FROM_EEPROM) ? 6 : 4;
+-
+-	netdev_dbg(padapter->pnetdev, "EEPROM type is %s\n",
+-		   size == 4 ? "E-FUSE" : "93C46");
+-
+-	return size;
+-}
+-
+ /*  */
+ /*  */
+ /*  LLT R/W/Init function */
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 0704fa3156af..0a720fa7ca78 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -835,9 +835,6 @@ void ReadAdapterInfo8188EU(struct adapter *Adapter)
+ 	struct led_priv *ledpriv = &Adapter->ledpriv;
+ 	u8 eeValue;
+ 
+-	/*  Read EEPROM size before call any EEPROM function */
+-	Adapter->EepromAddressSize = GetEEPROMSize8188E(Adapter);
+-
+ 	/* check system boot selection */
+ 	eeValue = rtw_read8(Adapter, REG_9346CR);
+ 	eeprom->EepromOrEfuse		= (eeValue & BOOT_FROM_EEPROM);
+diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
+index 894e70a0d506..09fc27082f7c 100644
+--- a/drivers/staging/r8188eu/include/drv_types.h
++++ b/drivers/staging/r8188eu/include/drv_types.h
+@@ -177,7 +177,6 @@ struct adapter {
+ 	s32	bSurpriseRemoved;
+ 	s32	bCardDisableWOHSM;
+ 
+-	u8	EepromAddressSize;
+ 	u8	hw_init_completed;
+ 	s8	signal_strength;
+ 
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
+index 44321a53a345..82cb4f7f4d3e 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
+@@ -176,7 +176,6 @@ struct hal_data_8188e {
+ s32 InitLLTTable(struct adapter *padapter, u8 txpktbuf_bndy);
+ 
+ /*  EFuse */
+-u8 GetEEPROMSize8188E(struct adapter *padapter);
+ void Hal_EfuseParseIDCode88E(struct adapter *padapter, u8 *hwinfo);
+ void Hal_ReadTxPowerInfo88E(struct adapter *padapter, u8 *hwinfo,
+ 			    bool AutoLoadFail);
 -- 
 2.35.1
 
