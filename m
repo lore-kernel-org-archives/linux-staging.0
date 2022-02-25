@@ -1,136 +1,69 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E5028FB;
-	Fri, 25 Feb 2022 19:33:15 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id p9so5943697wra.12;
-        Fri, 25 Feb 2022 11:33:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5579628FB
+	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 19:58:03 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id u20so11201726lff.2
+        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 11:58:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mTabVBpdhiK8UZ6gYY0q0CbgdkcTzXpvDDahteadHtk=;
-        b=KqEfD0QFY48L5w9MBf4PJotkLP+NQN3xHmZQkR/HYQfcDqhuBk/QSn0Zyc4vZOsRvd
-         XqkzUYrkLvkyTkQPBAmA5aT28iuddvEajLv8Bcw38sfLscC4/I3Q90AWOWIyC6E2csW9
-         VqsIJausYk4BR8HMZgPd7G9EVuEPOBoMegz1lEfLVsFTbgs6TPFUJAt+zWcu6vsc2+Ab
-         mYU+UPAVgzwb5ki5lfDIkSUglJZQpsUBeKI0F1qKYqB8rXHdmt+8NtHC4OHT1dSKQfz6
-         z9JHi+2Kpm+ZbbCzq3U4aby39rvc8qSdwtkd1QfaZD65Uumb9VMs4+nFjxihf43YmPIL
-         MOLQ==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cAcXT0JlYVeeRaWrb0GIE0XjHyI4xXDoEv72/weIX30=;
+        b=LH+IMXBEpsz75K8Oz0kWwz6C9NxUKaqDAg6XsphPoRmwkOmiX9Qr8n+GvOZiLNLdW1
+         C5swddkKcacUYlgaDanpKOHq4x47GxVhn1kFmjnf1AnBRQutXga06dDFQm6BskN9lI14
+         5SMxe+bN4ppyQbNcjAidPMIfNm0ooCFU0Pvs0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mTabVBpdhiK8UZ6gYY0q0CbgdkcTzXpvDDahteadHtk=;
-        b=aCfpo876JgDkic/sQ/ztac+KEilEELODCUUyZyZLHCPo3hYehnFLSyl5UFadQamPcr
-         yP/wIIX1XWaLA2ilhS8HTAVX9r4uocoNRDnxkEDHIPPNxb3e9TMZA698us9DGVuiMZqa
-         I1QK57XNEh2I8YdX8YgpvgGnWZdkZzXbWD5awOHgJGu0ZgUQWbKlX4dMlg0hqFocUMP/
-         Xza1eBWwRYuC7oAT2z/yuLqYUxGd1Kw3ncEd/bCE+YlaRkLE5K5aTGriwIRgaKud5Itv
-         0QHEwTCclZHsrS0pYTwtf1erzXF2Xau+V8qc3DdSXIZrr8YdpDVsNzy7pNvrOt1C4I32
-         pnuw==
-X-Gm-Message-State: AOAM533ZqvQmbhyumPN7L/EukCHVz8dkL9JPcfvC8vKHTSUXZH8tpV5g
-	RAJOX2s0iZPgATN1ZuCbuPA=
-X-Google-Smtp-Source: ABdhPJyGFJ0ColLkne3T6BJpK+32d8j6YcS3hAhC7NRH0q1U0DWrDs5cqK3liozxoNnjPv3lwXBTMA==
-X-Received: by 2002:a5d:4d4a:0:b0:1ec:fab3:61bb with SMTP id a10-20020a5d4d4a000000b001ecfab361bbmr5128965wru.50.1645817593652;
-        Fri, 25 Feb 2022 11:33:13 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id w26-20020a7bc11a000000b0037bf8fa8c02sm3240281wmi.13.2022.02.25.11.33.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Feb 2022 11:33:13 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v3 00/14] Move HEVC stateless controls out of staging
-Date: Fri, 25 Feb 2022 20:33:12 +0100
-Message-ID: <1807725.tdWV9SEqCh@kista>
-In-Reply-To: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
-References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cAcXT0JlYVeeRaWrb0GIE0XjHyI4xXDoEv72/weIX30=;
+        b=B2kc+pC3VOkplbcU5qRb3bJle2df8Pxjm3b1XKX2MTdpWHOPBMGuWbsR8cnBRRnzMR
+         POfG9Dp/5mESQMwsLtPCcCJnQV+EilFZSkWxN8E7nGEU0x/XFYiZmPHTKy86b4HpVtkV
+         740wTjHxDXbcL6kJOJxA+6aVYFfQqFCGx+LECMSPNJBEfJf+iqJ7zUKAx8nCIjTHwvFi
+         mramI/OjGEf1RtRTfhTflznWeqLo7LgVzgGSu9Pjq5hPIwbRkATDiHgp+pAA/j+lRKSh
+         ynNpeBofA7y4PoYVlLQ179abKU1F/cbAqPjivkCKzj9H7vIIJ2GI2NhF4fHPRZZU0MXD
+         oFBQ==
+X-Gm-Message-State: AOAM530nwmcgV2Bp1MvIT02gv45kn23rfgZzbML7C5EJr44H3o0ZJ95D
+	pBkVWEg1eduptcNJBGldlYwsIq6FDaMvYsH5
+X-Google-Smtp-Source: ABdhPJyuLT0TVBTYGFBTcfP53vdOfWNDjpgzSy0XJFusVKQHv48qDkNsumre0g3VggayhXLxycawfg==
+X-Received: by 2002:a05:6512:23a8:b0:438:ebcc:e742 with SMTP id c40-20020a05651223a800b00438ebcce742mr5861347lfv.505.1645819080914;
+        Fri, 25 Feb 2022 11:58:00 -0800 (PST)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com. [209.85.208.179])
+        by smtp.gmail.com with ESMTPSA id m15-20020a056512014f00b00443cd5b013fsm279552lfo.244.2022.02.25.11.57.59
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Feb 2022 11:58:00 -0800 (PST)
+Received: by mail-lj1-f179.google.com with SMTP id v22so8842313ljh.7
+        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 11:57:59 -0800 (PST)
+X-Received: by 2002:a2e:aa1f:0:b0:244:c2ea:7f20 with SMTP id
+ bf31-20020a2eaa1f000000b00244c2ea7f20mr6253961ljb.164.1645819079606; Fri, 25
+ Feb 2022 11:57:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <YhjYPIRvDnV7XAzV@kroah.com>
+In-Reply-To: <YhjYPIRvDnV7XAzV@kroah.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 25 Feb 2022 11:57:43 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjLvye-_qj-J=dVWhFf7S8noL6d-szRtFYq_hoOk6J1Eg@mail.gmail.com>
+Message-ID: <CAHk-=wjLvye-_qj-J=dVWhFf7S8noL6d-szRtFYq_hoOk6J1Eg@mail.gmail.com>
+Subject: Re: [GIT PULL] Staging driver fix for 5.17-rc6
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Benjamin!
+On Fri, Feb 25, 2022 at 5:23 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> It resolves a reported problem in the fbtft fb_st7789v.c driver that
+> could cause the display to be flipped in cold weather.
 
-Dne petek, 25. februar 2022 ob 17:45:46 CET je Benjamin Gaignard napisal(a):
-> This series aims to make HEVC uapi stable and usable for hardware
-> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
-> and 2 out of the tree drivers (rkvdec and RPI).
-> 
-> After the remarks done on version 2, I have completely reworked to patches 
-> split so changelogs are meaningless. I have also drop "RFC" from the
-> titles.
-> 
-> In this v3 I do all the changes (new controls, documentation, etc..)
-> in the staging directory before moving the HEVC uAPI to stable 
-> steps by steps (unlike the big one patch in v2).
-> 
-> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+LOL. WTF?
 
-I'm working on PoC code for V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET on 
-Cedrus, which should be finished over weekend.
+I just had to read the commit message for that odd thing.
 
-Note: git am complained about trailing spaces. Run scripts/checkpatch.pl --
-strict on patches before sending next round.
-
-Best regards,
-Jernej
-
-> 
-> Benjamin
-> 
-> Benjamin Gaignard (11):
->   media: uapi: HEVC: Add missing fields in HEVC controls
->   media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
->     prefix
->   media: uapi: HEVC: Add document uAPI structure
->   media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
->     dynamic array
->   media: uapi: Move parsed HEVC pixel format out of staging
->   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
->   media: uapi: Move the HEVC stateless control type out of staging
->   media: controls: Log HEVC stateless control in .std_log
->   media: uapi: Create a dedicated header for Hantro control
->   media: uapi: HEVC: fix padding in v4l2 control structures
->   media: uapi: move HEVC stateless controls out of staging
-> 
-> Hans Verkuil (3):
->   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->   v4l2-ctrls: add support for dynamically allocated arrays.
->   vivid: add dynamic array test control
-> 
->  .../userspace-api/media/drivers/hantro.rst    |   5 -
->  .../media/v4l/ext-ctrls-codec-stateless.rst   | 831 ++++++++++++++++++
->  .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
->  .../media/v4l/pixfmt-compressed.rst           |   7 +-
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
->  .../media/v4l/vidioc-queryctrl.rst            |   8 +
->  .../media/videodev2.h.rst.exceptions          |   5 +
->  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +-
->  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->  drivers/staging/media/hantro/hantro_drv.c     |  27 +-
->  drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->  include/media/hevc-ctrls.h                    | 250 ------
->  include/media/v4l2-ctrls.h                    |  48 +-
->  include/uapi/linux/hantro-media.h             |  19 +
->  include/uapi/linux/v4l2-controls.h            | 436 +++++++++
->  include/uapi/linux/videodev2.h                |  13 +
->  22 files changed, 1686 insertions(+), 1169 deletions(-)
->  delete mode 100644 include/media/hevc-ctrls.h
->  create mode 100644 include/uapi/linux/hantro-media.h
-> 
-> -- 
-> 2.32.0
-> 
-> 
-
-
+             Linus
