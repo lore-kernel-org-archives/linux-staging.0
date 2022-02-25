@@ -1,101 +1,47 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.powerangels.com.pl (mail.powerangels.com.pl [45.86.209.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F136ABC
-	for <linux-staging@lists.linux.dev>; Thu, 24 Feb 2022 23:17:44 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id o62-20020a1ca541000000b00380e3cc26b7so728175wme.0
-        for <linux-staging@lists.linux.dev>; Thu, 24 Feb 2022 15:17:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8/1Ko41seG/Gcm0WMFG2nw3d5RUz09+SdFfLxzqmI+Y=;
-        b=3KjdLrszxDrpmXCBbrp8XDykgWJnHxMG4vGZnwF3Upt8qOUzgB1gxI4RelXYRvEYpk
-         rnZkYzC09Obn0wsG6q4clYgu6Gp3ZZs0tAcfZ2RdalJ/EDE4TD8Oxg68XLdpSKVESjE1
-         N44ZN7jWLfPpHwDq7Ux4HxISj/Y++/fKtqZNF6+vsNi2cQHYXU7TyP6XVrlgkVJy1IG6
-         f8WDxtTncheEKCF0O5DIGgLUITyURTLKWlA5WzYthQBCi3ey/kC2ojlgwLys1oC0qS7z
-         tNRgSxkw6k95uZCU7rhdFeGBqC4arUXaN0ybpNHt4nrQLaAx/xUCpfuZFSzx+tngDtDZ
-         BDvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8/1Ko41seG/Gcm0WMFG2nw3d5RUz09+SdFfLxzqmI+Y=;
-        b=WzTwHvqtVDaUkoPdXVdUESfdZY6Jql8Z3a8fJhRdxLGAa8O2tNxfhnzfYKKRNqBHRR
-         AE1k3R5xRgmSqeDhEyJoqGDElY1BCO24qT44VSIS/4mtEorZWjPjhUft4+Ms9PodjTfo
-         MhdXnrQsau7rSKpa1Jky1iH61HPRkEipmo4xBLLNXtjkrcI5iOOnoVVvjVrHyOUm0Pmr
-         NpUHpY9Foh2gAgOzNloMQa6jK0hGcNZTIJDaTBK/RsSav1xNXZTaNCwZFSY6rLPmqiW9
-         H+w4Iwei3HULKC26Vqa4/JM4a8dSjMCmN2ZZiOIhXAt4XbSgDl2xNv0cRRSjXznwej56
-         wk3g==
-X-Gm-Message-State: AOAM5317D97gL1zM3DtwKaSmy9HhgNoOXe38NCsEyb5FoJEXeiXBvbtu
-	Yf1x/yVgvfJSVEdVbCyzgPr12g==
-X-Google-Smtp-Source: ABdhPJylRiAk8xI22jOcrIqwiVi33vbve6UeNUFi91annFZKh3Uzb8qARzjZWowIh8iJLzYTHFumMQ==
-X-Received: by 2002:a1c:2544:0:b0:381:18a:a46d with SMTP id l65-20020a1c2544000000b00381018aa46dmr294751wml.26.1645744663219;
-        Thu, 24 Feb 2022 15:17:43 -0800 (PST)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id e33-20020a05600c4ba100b003810c690ba2sm3136456wmp.3.2022.02.24.15.17.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Feb 2022 15:17:42 -0800 (PST)
-Date: Thu, 24 Feb 2022 23:17:40 +0000
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] staging: r8188eu: remove redundant variable
- reg_0x143
-Message-ID: <YhgSFC0VDvdfsryB@equinox>
-References: <20220224230658.151338-1-colin.i.king@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458157B
+	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 07:53:24 +0000 (UTC)
+Received: by mail.powerangels.com.pl (Postfix, from userid 1001)
+	id 70D8683367; Fri, 25 Feb 2022 02:45:42 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=powerangels.com.pl;
+	s=mail; t=1645775174;
+	bh=07NAgW1e0WiNB9zqagiM2BnwZfWBCpNa2E4+ccxBPgw=;
+	h=Date:From:To:Subject:From;
+	b=RU1glqRVbndQAEyulE17QPGzPx8AhcBjWC0NY7v1o2+7MWTogbCQIIBoamHJmQchC
+	 VbcFOQ2ZK7Qp0JPRE0GRIUf7V8afUYW185f3KaaeJhuQAT4HDr1L7VbLmvY1UIc/fV
+	 7QSRkTHFwJg1l3/jcxopPegOxH5/CxoNieslHW50Lu3RGM3mW5QiH2sxuzGH45Itka
+	 FwC633PYKmAGXrXGWEN6CPhEejOdnyyS1iAkuvbnYcpmfTPiBXGpj55NGkmkYqdJWq
+	 NroYc19vEFWLzLBvC9n8cSr/RlhfIDotzY2Yz74unV/XS1pZf3OhaGl973odhrdsCt
+	 /neUauaILzyvw==
+Received: by mail.powerangels.com.pl for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 07:45:40 GMT
+Message-ID: <20220225024500-0.1.j.21a5.0.2l391s3330@powerangels.com.pl>
+Date: Fri, 25 Feb 2022 07:45:40 GMT
+From: "Jakub Daroch" <jakub.daroch@powerangels.com.pl>
+To: <linux-staging@lists.linux.dev>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.powerangels.com.pl
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220224230658.151338-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 24, 2022 at 11:06:58PM +0000, Colin Ian King wrote:
-> Variable reg_0x143 is being assigned a value, however is not being
-> read. The variable is redundant and can be removed.
-> 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
->  drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> index cf58dfc3ff4d..53ebea311723 100644
-> --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> @@ -189,7 +189,6 @@ static void efuse_read_phymap_from_txpktbuf(
->  {
->  	u16 dbg_addr = 0;
->  	u32 start  = 0, passing_time = 0;
-> -	u8 reg_0x143 = 0;
->  	__le32 lo32 = 0, hi32 = 0;
->  	u16 len = 0, count = 0;
->  	int i = 0;
-> @@ -209,7 +208,7 @@ static void efuse_read_phymap_from_txpktbuf(
->  
->  		rtw_write8(adapter, REG_TXPKTBUF_DBG, 0);
->  		start = jiffies;
-> -		while (!(reg_0x143 = rtw_read8(adapter, REG_TXPKTBUF_DBG)) &&
-> +		while (!rtw_read8(adapter, REG_TXPKTBUF_DBG) &&
->  		       (passing_time = rtw_get_passing_time_ms(start)) < 1000)
->  			rtw_usleep_os(100);
->  
-> -- 
-> 2.34.1
-> 
+Dzie=C5=84 dobry,
 
-Looks good to me, thanks Colin.
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-Reviewed-by: Phillip Potter <phil@philpotter.co.uk>
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-Regards,
-Phil
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
+
+
+Pozdrawiam,
+Jakub Daroch
