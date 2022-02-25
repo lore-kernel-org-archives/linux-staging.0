@@ -1,49 +1,49 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2C628FB;
-	Fri, 25 Feb 2022 19:16:42 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id j22so5869508wrb.13;
-        Fri, 25 Feb 2022 11:16:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B65928FB;
+	Fri, 25 Feb 2022 19:30:23 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id r10so5988410wrp.3;
+        Fri, 25 Feb 2022 11:30:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/Vvd7tKZQOnediXpXRzDG+ltIVQnv7bxEtfZI2RY0JA=;
-        b=GFvpyfhpP4lZ6/NkJU6ikofdfk7gpO2WU29fa6dqlyWnlNJ6s6EOI/cQQuQqkYaXuK
-         j2IksD5n5REA85yMe1g9chdlHAaeWZbXxgxt+54+LCtVNGKKR77r4KOleYJs3TUrMzgS
-         KStr09G77anCiNEoGlM2AIwtaDMW1jBac/9QGQxNb9QILFZLEOVmkWJQiez98LKtIbQf
-         vXc9+QOTTGnnGtkLJ5sIvaXWvaDR2Z1WwEP+nC4FjQ7CbPCm9VCQj4gBtZjISUfivUgT
-         8VFh9SaYPLDC0nfkkeCpCgTwt9v/2HOjEihb6hPhp7HAT1dQrTHe+bKRU4msjSLzLxqa
-         dPGg==
+        bh=R8shBGs0xvbEf4vx5NZReydgFypsbc3de/+ZCzaiR2E=;
+        b=VVM/8a75ABhkKmRJJIwhaXEvArZfMt3dvbS7CqOdKCBVVBt1qzeWi55V4ss0vRqr14
+         aN2ImDbOdmMiXQvl4ARuc0DFlCWkS4tiFSWRTtFRCTDxZEj3+axfRiDLrurte3bpA79S
+         hdTJxjaeQe/nZj9J559sPvQO/w3inwrDv9WV3hKmCkdyJ101fMXUJ/epCyMD7BeJCyAv
+         zPC8KZVX5kmad7qLe1ovmClvmeqK/TtA+VIahV6l8wAEXdRKB6PIc9FvgBfF7AlELkBf
+         OXs8mmok8IgvZKdlrNKXHu/l8wjxETL45m+Qqy+9JWkV5RNiI0YdjYE019N4DJRewquA
+         kDLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/Vvd7tKZQOnediXpXRzDG+ltIVQnv7bxEtfZI2RY0JA=;
-        b=bpI9Xt2UhnEgaCxw1/w1n9GaTs2fruLkSV2CkTOmDG1TlbdvZCx4ZowZbWKxwvYHwy
-         1pVGaURhS+pJRuGx0S2jYorpEMt9huS5+tQ3u/6KCI8SWE6xrpA9uVmCQVFIti1+WV4k
-         WvgVN0RTGHoeJDgDmq+ZYzhFcqyAAd/PSNfvpMgaWn8WpwFDiDCKizDRaJnsp3GrZZcu
-         5q+5W3m2JLkk91jMu4zCqO3liK94D8h2SZC27hLIDNu2P/EkWO23dgdJaNMuiGz55rTA
-         9oJcoi1EWSiBifnLL97Pu++3d0RtXpwhhnlmuE7BN4ncrW86LG45UmSoVgNPPtVIjhtf
-         7MyA==
-X-Gm-Message-State: AOAM530t332OU2YAmDF5DJskJHbqiGcfwNonHT6uiDEX1Rt0Z3t6ACy8
-	zF2Fxpnd3ghJWBT8ZqrGUhQ=
-X-Google-Smtp-Source: ABdhPJxZCUqPbir6SAi1fciYqMtPVQYBtApd/DUlx8j4DWD/xaEIUpojUNBQbHf+CMMYpq1j3zcvaw==
-X-Received: by 2002:a5d:6da6:0:b0:1ea:75c7:77f0 with SMTP id u6-20020a5d6da6000000b001ea75c777f0mr7206509wrs.566.1645816600684;
-        Fri, 25 Feb 2022 11:16:40 -0800 (PST)
+        bh=R8shBGs0xvbEf4vx5NZReydgFypsbc3de/+ZCzaiR2E=;
+        b=vkyChfOG/MdZW3I6K/KKoC6S8ShzJChtKJHXI+pw0nZ3K0rMQQcR05h3VbOaAFXQTC
+         f+/mecw+2jpaMqmP6zfKciuP60rI1i1pNWKAbQlH0Dze3Rb6yLRSRf1PWYX8/mg81H13
+         DqKvnpNohJfYW63Lh1TaWtxDCbcRWzGiq+yb6ypEUx+0B1LpDo5GlWFZrYcTitANF2NF
+         4Mb/PFM/E2n7kG85j71rjn2/FB8tMFRFLKE60oWbFLFHB/Ml0gFMHmMA2P33DxGWwgHB
+         c3vdYHy1bdGoGbEp8vDpRyJCYzBBnncJ4RksFw3wpITeVEbi0ofOnIOjULtzSI+WHsGJ
+         sHNg==
+X-Gm-Message-State: AOAM5322TElP0HSuaAZF/v/JxafasszsO8W8wmhK39YXvNmF0rIm7LCg
+	xbsh/YUToXgHGNGrtkqiVw0=
+X-Google-Smtp-Source: ABdhPJzBJzujrOY+0fy4FstovGsWmv/slnYe1nePTYS/NXxZTWP+cPUiFaU7gMm22CSae8z2/Eet+g==
+X-Received: by 2002:a5d:6241:0:b0:1ed:b534:e04e with SMTP id m1-20020a5d6241000000b001edb534e04emr7505916wrv.68.1645817422236;
+        Fri, 25 Feb 2022 11:30:22 -0800 (PST)
 Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id c4-20020adfed84000000b001e5b8d5b8dasm4430781wro.36.2022.02.25.11.16.39
+        by smtp.gmail.com with ESMTPSA id j5-20020a05600c410500b0037bc3e4b526sm6591199wmi.7.2022.02.25.11.30.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Feb 2022 11:16:40 -0800 (PST)
+        Fri, 25 Feb 2022 11:30:21 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v3 12/14] media: uapi: Create a dedicated header for Hantro control
-Date: Fri, 25 Feb 2022 20:16:38 +0100
-Message-ID: <2617680.mvXUDI8C0e@kista>
-In-Reply-To: <20220225164600.1044663-13-benjamin.gaignard@collabora.com>
-References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <20220225164600.1044663-13-benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v3 09/14] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+Date: Fri, 25 Feb 2022 20:30:20 +0100
+Message-ID: <4378293.LvFx2qVVIh@kista>
+In-Reply-To: <20220225164600.1044663-10-benjamin.gaignard@collabora.com>
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <20220225164600.1044663-10-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,134 +55,77 @@ Content-Type: text/plain; charset="us-ascii"
 
 Hi!
 
-Dne petek, 25. februar 2022 ob 17:45:58 CET je Benjamin Gaignard napisal(a):
-> Hantro hardware needs a dedicated v4l2 control to perform HEVC
-> decoding. Move it to a dedicated header file to prepare HEVC
-> uAPI un-staging.
+Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard napisal(a):
+> The number of 'entry point offset' could be very variable.
+> Rather than use a large static array define a v4l2 dynamic array
+> of integer control.
+
+I suggest we should be more specific and say U32 (V4L2_CTRL_TYPE_U32).
+
+> The number of entry point offsets is reported by the elems field.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
->  .../userspace-api/media/drivers/hantro.rst    |  5 -----
->  drivers/staging/media/hantro/hantro_drv.c     |  1 +
->  include/media/hevc-ctrls.h                    | 13 -------------
->  include/uapi/linux/hantro-media.h             | 19 +++++++++++++++++++
->  include/uapi/linux/v4l2-controls.h            |  5 +++++
->  5 files changed, 25 insertions(+), 18 deletions(-)
->  create mode 100644 include/uapi/linux/hantro-media.h
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++++
+>  include/media/hevc-ctrls.h                               | 1 +
+>  2 files changed, 10 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/drivers/hantro.rst b/
-Documentation/userspace-api/media/drivers/hantro.rst
-> index cd9754b4e005..78dcd2a44a03 100644
-> --- a/Documentation/userspace-api/media/drivers/hantro.rst
-> +++ b/Documentation/userspace-api/media/drivers/hantro.rst
-> @@ -12,8 +12,3 @@ The Hantro video decoder driver implements the following 
-driver-specific control
->      to before syntax element "slice_temporal_mvp_enabled_flag".
->      If IDR, the skipped bits are just "pic_output_flag"
->      (separate_colour_plane_flag is not supported).
-> -
-> -.. note::
-> -
-> -        This control is not yet part of the public kernel API and
-> -        it is expected to change.
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/
-media/hantro/hantro_drv.c
-> index 6f58c259d8fc..783a92a38c8e 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -11,6 +11,7 @@
->   */
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 44a268a948c0..71f7dc1c1ccd 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -3128,6 +3128,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
 >  
->  #include <linux/clk.h>
-> +#include <linux/hantro-media.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
+>      \normalsize
+>  
+> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+
+Here you have OFFSETS (plural) ...
+
+> +    Specifies the i-th entry point offset in bytes and is represented by
+> +    offset_len_minus1 plus 1 bits.
+
+You probably mean entry_point_offset_minus1? offset_len_minus1 just tells how 
+much bits need to be read for each element and it's not important for actual 
+decoding.
+
+> +    This control is a dynamically sized array. The number of entry point
+> +    offsets is reported by the ``elems`` field.
+> +    This bitstream parameter is defined according to :ref:`hevc`.
+> +    They are described in section 7.4.7.1 "General slice segment header
+> +    semantics" of the specification.
+> +
+>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>      Specifies the HEVC scaling matrix parameters used for the scaling 
+process
+>      for transform coefficients.
 > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index cbf41d180fe9..f29298c8c2f8 100644
+> index 3016c1abb1d0..3f8a67924df3 100644
 > --- a/include/media/hevc-ctrls.h
 > +++ b/include/media/hevc-ctrls.h
-> @@ -443,17 +443,4 @@ struct v4l2_ctrl_hevc_scaling_matrix {
->  	__u8	scaling_list_dc_coef_32x32[2];
->  };
->  
-> -/*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 
-*/
-> -#define V4L2_CID_CODEC_HANTRO_BASE				
-(V4L2_CTRL_CLASS_CODEC | 0x1200)
-> -/*
-> - * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
-> - * the number of data (in bits) to skip in the
-> - * slice segment header.
-> - * If non-IDR, the bits to be skipped go from syntax element 
-"pic_output_flag"
-> - * to before syntax element "slice_temporal_mvp_enabled_flag".
-> - * If IDR, the skipped bits are just "pic_output_flag"
-> - * (separate_colour_plane_flag is not supported).
-> - */
-> -#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	
-(V4L2_CID_CODEC_HANTRO_BASE + 0)
-> -
->  #endif
-> diff --git a/include/uapi/linux/hantro-media.h b/include/uapi/linux/hantro-
-media.h
-> new file mode 100644
-> index 000000000000..b4e7ab7e6452
-> --- /dev/null
-> +++ b/include/uapi/linux/hantro-media.h
-> @@ -0,0 +1,19 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> @@ -20,6 +20,7 @@
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE + 
+1012)
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 
+1015)
+>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET (V4L2_CID_CODEC_BASE + 
+1017)
 
-I get
-error: include/uapi/linux/hantro-media.h: missing "WITH Linux-syscall-note" 
-for SPDX-License-Identifier
-make[1]: *** [scripts/Makefile.headersinst:63: usr/include/linux/hantro-
-media.h] Error 1
+... and here you have OFFSET (singlular). I suggest plural form to be used in 
+all places, including subject line of this commit.
 
-when installing headers.
+Additionally, it would be nice if control is initialized, like so:
+https://github.com/jernejsk/linux-1/commit/
+f938e162cd8dd77c9f6f1b248d80144840a37bce
 
 Best regards,
 Jernej
 
-> +
-> +#ifndef __UAPI_HANTRO_MEDIA_H__
-> +#define __UAPI_HANTRO_MEDIA_H__
-> +
-> +#include <linux/v4l2-controls.h>
-> +
-> +/*
-> + * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
-> + * the number of data (in bits) to skip in the
-> + * slice segment header.
-> + * If non-IDR, the bits to be skipped go from syntax element 
-"pic_output_flag"
-> + * to before syntax element "slice_temporal_mvp_enabled_flag".
-> + * If IDR, the skipped bits are just "pic_output_flag"
-> + * (separate_colour_plane_flag is not supported).
-> + */
-> +#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	
-(V4L2_CID_USER_HANTRO_BASE + 0)
-> +
-> +#endif /* __UAPI_HANTRO_MEDIA_H__ */
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-
-controls.h
-> index c8e0f84d204d..d56a1c7fb91d 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -218,6 +218,11 @@ enum v4l2_colorfx {
->   * We reserve 16 controls for this driver.
->   */
->  #define V4L2_CID_USER_ALLEGRO_BASE		(V4L2_CID_USER_BASE + 
-0x1170)
-> +/*
-> + * The base for Hantro driver controls.
-> + * We reserve 128 controls for this driver.
-> + */
-> +#define V4L2_CID_USER_HANTRO_BASE		(V4L2_CID_USER_BASE + 
-0x1180)
 >  
->  /* MPEG-class control IDs */
->  /* The MPEG controls are applicable to all codec controls
+>  /* enum v4l2_ctrl_type type values */
+>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
 > -- 
 > 2.32.0
 > 
