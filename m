@@ -1,129 +1,168 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E754F23CE
-	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 17:41:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: usama.anjum)
-	with ESMTPSA id B90521F46598
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1645810882;
-	bh=g0A6Uimeahydl9ph1AOCmp+Nlt9LsBikz3PaHAbqQik=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=XSq27hNWEmg+dff4RWcqF8uRjKG41+rebGEt6dY+bVLIfhgB+/s8dF0ew02+wVCdk
-	 ImnWiIpzlCJ2dwbhkJdxIVhdOijT52QuSb0hQJi8SKJ5CN+WUN453G3UGp+tGrPfyp
-	 KKJbcfr6e/bm5/DN4G7Y2UhloQAFDkuHGRT9+N7HQL1EdvBvfXIB5nz2WcC57NZG1r
-	 eIRkDZpyCmBVQeSR1lRZff/YAu8P35X3CZAa7P4t1TW91vN0F6512w52raITKS7uoY
-	 0Iz3cf7kzwuuAfx4xe2DOoYXIfQ3mge13nLFrPSsrc+/boy69ArNkgOCz1V7iMWFmF
-	 O5BFwY9hygLXg==
-Message-ID: <98ef3e84-e17e-d1b9-5109-ec631d77905e@collabora.com>
-Date: Fri, 25 Feb 2022 22:41:14 +0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E63023D9
+	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 17:48:38 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id gb39so12342942ejc.1
+        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 09:48:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wpJrU2b7v7CL9UCI2QuiW9U5b87AMAnh8NHOnYuVjcs=;
+        b=EttKkSdEAUvjuAqk58bkrPK6Q8Bva7vriJJl5l2/m9c1DBl63QAI+OS0UbpRLrm0Gp
+         2YdptCK1j51Do8vGjvQjTKZUtkhUYXV5Ob4tNC+oe/p60bVu/asSSVmEqMfgna1EVWrJ
+         cDFxrLN+zGNIG6FKOMSXoDw/bf2+C7arf8HXvI5QBHP9FOEfFxZsM+gPa3NzR1G2jfSY
+         RSLs7pf+BKFWYQg/rw7+zJhIQQ0uPEmzM1tTbfb0N8oV2WYFYdKfaVTjbF0cccOam4Rl
+         TuCNNHfG0MV8FtpSpEqWhttf/h44CL7iWTdrAyS2KFmkQmXv/xPh0O/ufQdMBeYzOaPE
+         0H4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wpJrU2b7v7CL9UCI2QuiW9U5b87AMAnh8NHOnYuVjcs=;
+        b=6NCKGTqfXBCVqXbsWHxG9vY4WhmWbzd/4FUJFUxC7Y1vHPmLrcYhmvd8i+dnJueHyO
+         j6XYmzaiGSbhOSXfaOhVYxGBO8kqWeLs5mQyYcqfXAkYr9qiNcEiOlbpwLzJUFkjpmPw
+         gBx0orM6/3ncEgUivlTJFF2of1jAliRofenSpMQgvRnOD0H9BkIIOO+fzASY/kbfyV9j
+         dcn43uJ5uSWVmbUPb2aY0qPsq06XJ5Kz+ipLoSRbccx4XKmadtaQgzLzITgNzTAED6Pi
+         9YevxH9BHM+GkMUfZN/CWNRRuMZtRdgY22eA2Lmux5T9ubnm00q2t2rqOmGdXtOxbUuu
+         JQ8Q==
+X-Gm-Message-State: AOAM5311Imr0+Hea+iDh8hop9PA659dD+Cca09y4VPSgan0T4kNU+Px5
+	zZ9XB59zhChnUIbQmLYqyiA=
+X-Google-Smtp-Source: ABdhPJyMO37YdwtPW7XsnYf4MD3Qobx/aSE2sXhM+7mesYI3uEc88vPohW68b5qPAjbEmiyI2xf8jw==
+X-Received: by 2002:a17:906:a213:b0:6b5:b0f9:7567 with SMTP id r19-20020a170906a21300b006b5b0f97567mr7091278ejy.129.1645811316879;
+        Fri, 25 Feb 2022 09:48:36 -0800 (PST)
+Received: from localhost.localdomain (ip5f5abb8d.dynamic.kabel-deutschland.de. [95.90.187.141])
+        by smtp.gmail.com with ESMTPSA id v5-20020a056402184500b00412e1a73c7bsm1603571edy.61.2022.02.25.09.48.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Feb 2022 09:48:36 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove _linked_rx_signal_strength_display()
+Date: Fri, 25 Feb 2022 18:48:27 +0100
+Message-Id: <20220225174827.15927-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Cc: usama.anjum@collabora.com, kernel@collabora.com,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH V2] media: imx: imx8mq-mipi_csi2: Remove unneeded code
-Content-Language: en-US
-To: Steve Longerbeam <slongerbeam@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- "open list:MEDIA DRIVERS FOR FREESCALE IMX" <linux-media@vger.kernel.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>, mkl@pengutronix.de,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20220128170722.1624767-1-usama.anjum@collabora.com>
- <cb4db484-c4e6-9cf9-baa5-0be454947ed5@collabora.com>
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <cb4db484-c4e6-9cf9-baa5-0be454947ed5@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-From:
-https://patchwork.linuxtv.org/project/linux-media/patch/20220128170722.1624767-1-usama.anjum@collabora.com/
+The function _linked_rx_signal_strength_display() only sets two local
+variables that are not used after setting. Remove the function and
+remove resulting dead code.
 
-State	Under Review
-Delegated to:	Hans Verkuil
+The HW_DEF_RA_INFO_DUMP case in GetHalDefVar8188EUsb() does not set
+the passed variable. It just calls check_fwstate() which does nothing
+than return true or false. So it is safe to remove this call to
+GetHalDefVar8188EUsb().
 
-On 2/18/22 4:08 PM, Muhammad Usama Anjum wrote:
-> Reminder.
-> 
-> On 1/28/22 10:07 PM, Muhammad Usama Anjum wrote:
->> ret is constant in imx8mq_mipi_csi_pm_suspend(). This function cannot
->> return error. Remove the return variable. Simplify other functions which
->> are using this function.
->>
->> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
->> ---
->> Changes in V2:
->> Removed fixes tag
->> ---
->>  drivers/staging/media/imx/imx8mq-mipi-csi2.c | 16 ++++------------
->>  1 file changed, 4 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
->> index 3b9fa75efac6b..c992b845e63d1 100644
->> --- a/drivers/staging/media/imx/imx8mq-mipi-csi2.c
->> +++ b/drivers/staging/media/imx/imx8mq-mipi-csi2.c
->> @@ -693,11 +693,10 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
->>   * Suspend/resume
->>   */
->>  
->> -static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
->> +static void imx8mq_mipi_csi_pm_suspend(struct device *dev)
->>  {
->>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->>  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
->> -	int ret = 0;
->>  
->>  	mutex_lock(&state->lock);
->>  
->> @@ -708,8 +707,6 @@ static int imx8mq_mipi_csi_pm_suspend(struct device *dev)
->>  	}
->>  
->>  	mutex_unlock(&state->lock);
->> -
->> -	return ret ? -EAGAIN : 0;
->>  }
->>  
->>  static int imx8mq_mipi_csi_pm_resume(struct device *dev)
->> @@ -742,15 +739,12 @@ static int __maybe_unused imx8mq_mipi_csi_suspend(struct device *dev)
->>  {
->>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->>  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
->> -	int ret;
->>  
->> -	ret = imx8mq_mipi_csi_pm_suspend(dev);
->> -	if (ret)
->> -		return ret;
->> +	imx8mq_mipi_csi_pm_suspend(dev);
->>  
->>  	state->state |= ST_SUSPENDED;
->>  
->> -	return ret;
->> +	return 0;
->>  }
->>  
->>  static int __maybe_unused imx8mq_mipi_csi_resume(struct device *dev)
->> @@ -770,9 +764,7 @@ static int __maybe_unused imx8mq_mipi_csi_runtime_suspend(struct device *dev)
->>  	struct csi_state *state = mipi_sd_to_csi2_state(sd);
->>  	int ret;
->>  
->> -	ret = imx8mq_mipi_csi_pm_suspend(dev);
->> -	if (ret)
->> -		return ret;
->> +	imx8mq_mipi_csi_pm_suspend(dev);
->>  
->>  	ret = icc_set_bw(state->icc_path, 0, 0);
->>  	if (ret)
+The HAL_DEF_UNDERCORATEDSMOOTHEDPWDB case in GetHalDefVar8188EUsb()
+does nothing than set the passed variable and it is safe to remove
+this call to GetHalDefVar8188EUsb() as well.
+
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+Tested on x86_64 with Inter-Tech DMG-02.
+
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 20 --------------------
+ drivers/staging/r8188eu/hal/usb_halinit.c   | 13 -------------
+ drivers/staging/r8188eu/include/hal_intf.h  |  2 --
+ 3 files changed, 35 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 0b77ddde6ce2..580d0c15b958 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -6834,23 +6834,6 @@ void mlmeext_sta_del_event_callback(struct adapter *padapter)
+ Following are the functions for the timer handlers
+ 
+ *****************************************************************************/
+-static void _linked_rx_signal_strength_display(struct adapter *padapter)
+-{
+-	struct mlme_ext_priv    *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info    *pmlmeinfo = &pmlmeext->mlmext_info;
+-	u8 mac_id;
+-	int UndecoratedSmoothedPWDB;
+-
+-	if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
+-		mac_id = 0;
+-	else if ((pmlmeinfo->state & 0x03) == _HW_STATE_AP_)
+-		mac_id = 2;
+-
+-	GetHalDefVar8188EUsb(padapter, HW_DEF_RA_INFO_DUMP, &mac_id);
+-
+-	GetHalDefVar8188EUsb(padapter, HAL_DEF_UNDERCORATEDSMOOTHEDPWDB, &UndecoratedSmoothedPWDB);
+-}
+-
+ static u8 chk_ap_is_alive(struct sta_info *psta)
+ {
+ 	u8 ret = false;
+@@ -6886,9 +6869,6 @@ void linked_status_chk(struct adapter *padapter)
+ 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct sta_priv		*pstapriv = &padapter->stapriv;
+ 
+-	if (padapter->bRxRSSIDisplay)
+-		_linked_rx_signal_strength_display(padapter);
+-
+ 	rtl8188e_sreset_linked_status_check(padapter);
+ 
+ 	if (is_client_associated_to_ap(padapter)) {
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 0704fa3156af..3eafc298f3e1 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -1399,16 +1399,6 @@ void GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariab
+ 	struct hal_data_8188e *haldata = &Adapter->haldata;
+ 
+ 	switch (eVariable) {
+-	case HAL_DEF_UNDERCORATEDSMOOTHEDPWDB:
+-		{
+-			struct mlme_priv *pmlmepriv = &Adapter->mlmepriv;
+-			struct sta_priv *pstapriv = &Adapter->stapriv;
+-			struct sta_info *psta;
+-			psta = rtw_get_stainfo(pstapriv, pmlmepriv->cur_network.network.MacAddress);
+-			if (psta)
+-				*((int *)pValue) = psta->rssi_stat.UndecoratedSmoothedPWDB;
+-		}
+-		break;
+ 	case HAL_DEF_IS_SUPPORT_ANT_DIV:
+ 		*((u8 *)pValue) = (haldata->AntDivCfg == 0) ? false : true;
+ 		break;
+@@ -1418,9 +1408,6 @@ void GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariab
+ 	case HAL_DEF_DBG_DM_FUNC:
+ 		*((u32 *)pValue) = haldata->odmpriv.SupportAbility;
+ 		break;
+-	case HW_DEF_RA_INFO_DUMP:
+-		check_fwstate(&Adapter->mlmepriv, _FW_LINKED);
+-		break;
+ 	case HAL_DEF_DBG_DUMP_RXPKT:
+ 		*((u8 *)pValue) = haldata->bDumpRxPkt;
+ 		break;
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index 8e204d61cc53..3cededa4dcfc 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -43,12 +43,10 @@ enum hw_variables {
+ };
+ 
+ enum hal_def_variable {
+-	HAL_DEF_UNDERCORATEDSMOOTHEDPWDB,
+ 	HAL_DEF_IS_SUPPORT_ANT_DIV,
+ 	HAL_DEF_CURRENT_ANTENNA,
+ 	HAL_DEF_DBG_DUMP_RXPKT,/* for dbg */
+ 	HAL_DEF_DBG_DM_FUNC,/* for dbg */
+-	HW_DEF_RA_INFO_DUMP,
+ 	HAL_DEF_DBG_DUMP_TXPKT,
+ };
+ 
+-- 
+2.35.1
+
