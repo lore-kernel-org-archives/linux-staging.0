@@ -1,66 +1,211 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0AA3667
-	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 22:26:55 +0000 (UTC)
-Date: Fri, 25 Feb 2022 23:26:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1645828008;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TM69ukIcc+sQinY2YKTwfd9oNIY8JhhXQnOxkl9m0Q0=;
-	b=apYRTZGkUwhJQy3iK89Ex8zi2TeQOYZaPphwXG6+B63KrUIE4UwUFOLSXKQGEF3dy50lO8
-	hUX4KM7ty/jq+p1Zz1dkGlTg3PRIqnwmWC8ZVGtBZSmQy89fNfbGEnHbWs62aR6XyklSa9
-	G78mAT+qCNqrJcCY/khaaSDj2Ua4dJwAFRvziyVAx/C+P8Wyk6GD64iRkYMGrb5v6UphCv
-	+JBOZbxm6a8/H/Y5LJoCJQrlE2xadnlPEE2ciaduYFIR2yosk348vdCA48vs3p5me5PExC
-	Piwl9BDIwBizU8+d3jvHWCxDE1YvQVdp9Ugde7bjNCYeCs11W4MvvIRh/MnRYg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1645828008;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TM69ukIcc+sQinY2YKTwfd9oNIY8JhhXQnOxkl9m0Q0=;
-	b=mHdIRy9t2j/YWSKES/TqV4YAvKAkxwqSgmtH0o0I0fco2UbTTdoVmaqGrvK14FfDWL8XUd
-	SD+7/A6T+35pVYAQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Wolfram Sang <wsa@kernel.org>
-Cc: greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>, UNGLinuxDriver@microchip.com,
-	Woojung Huh <woojung.huh@microchip.com>,
-	Michael Below <below@judiz.de>,
-	Salvatore Bonaccorso <carnil@debian.org>,
-	Oleksandr Natalenko <oleksandr@natalenko.name>
-Subject: Re: [PATCH v4 2/7] i2c: core: Use generic_handle_irq_safe() in
- i2c_handle_smbus_host_notify().
-Message-ID: <YhlXplZCkflfkg1W@linutronix.de>
-References: <20220211181500.1856198-1-bigeasy@linutronix.de>
- <20220211181500.1856198-3-bigeasy@linutronix.de>
- <YhY03EojmT3eaIcR@ninjato>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2E47B
+	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 22:40:39 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id i1so5966399plr.2
+        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 14:40:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=LN5HwDIZ+3LUm5kG7dgd32Ez9v++QZy+tfNeqMDGJv8=;
+        b=eUAu0Se28SlrSFg8qZHvkx8k91SRUHyCzorXCuOcUwlJhshPRxT864BLWtJCwINnbK
+         xsJjzGaaUPmcqAHW3XD2cMIfFrBQfhyr2vyLdl/7uq+JGLm3YklMnF2qhBcrqdPgmfUt
+         asChdmTuOxil5utgpZl/n7V5q5v9hZO4srpXJccXi6hox8k6uz7agqihCu5AnFuZNBid
+         hPsQpxNiz4gOP6TlG3UpQeEMUEV66rjoytIE0Hky4FeovnHdKII5Fph+5TMJuqy+6Hzo
+         MjeA4pvLN41CR4hZjJZj6LJlMrepZgvkIkCtDfxiQNPYVMRsW2L5/UVYpE7MzATLSvbs
+         dPSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=LN5HwDIZ+3LUm5kG7dgd32Ez9v++QZy+tfNeqMDGJv8=;
+        b=4cvVHQUc9rpmA7x3flMGNKgajatIEB7oHv4j77xt4KM0ynqes7Tu2i91g+KfYrYCid
+         6JTZeJUeY9ZqKrHnejl5nZkbcfRZlVDrioRD1miqSztw66GYHznIMh+nscabtVJMBdRZ
+         HjcSA/5iegD+0ufcDAO6WYDRO6twgr2NY/6sd/PUCb0SCwYRbYwk9fLcpy+vc+CflWK0
+         HPs70qgRSaB12py8TvheMhQ0MHu1yQ60/byG+Fy3TmT0Zn0zVKuzRijGFnZCsFVP3JAQ
+         EhF6YvkPYGQgty/d81x0iiHZTqG2R6kDuLqiNhjxbzP5OCguw3FWAjO8vTzCUViviX9q
+         ceOQ==
+X-Gm-Message-State: AOAM533ZOWI7r6cNqPoBcEc2rWCosah+FQ+W56lz42wQpfJk6tPTvrsc
+	NK+M0CsEzpacrf6nYow9wKA=
+X-Google-Smtp-Source: ABdhPJw5Y9CFyi/4pWhgSzyLVP+DPz23Hd14KRbb8GxfQZziRCkmSIljFjCInHsFxQ3G/jaqcK+cxw==
+X-Received: by 2002:a17:902:7002:b0:14d:76b9:2303 with SMTP id y2-20020a170902700200b0014d76b92303mr9727691plk.155.1645828839252;
+        Fri, 25 Feb 2022 14:40:39 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id t5-20020a654b85000000b00373cbfbf965sm3684551pgq.46.2022.02.25.14.40.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Feb 2022 14:40:38 -0800 (PST)
+Date: Sat, 26 Feb 2022 11:40:33 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
+	realwakka@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: pi433: remove rf69_get_flag function resolving enum
+ conflict
+Message-ID: <Yhla4a1Clpguoo2h@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YhY03EojmT3eaIcR@ninjato>
 
-On 2022-02-23 14:21:32 [+0100], Wolfram Sang wrote:
-> Is this 5.17 material? Or is 5.18 fine, too?
+The reason why rf69_get_flag() existed was to provide a high-level way
+to obtain values out of 1 (of 2) flags registers using bit masking. The
+idea was to map the possible flag values found in the data sheet like
+shown in page 70 of the RFM69HCW datasheet.
 
-5.18 is fine. I intend to push into the RT-stable trees and this can't
-be backported without 1/7 and it does not affect !RT so I wouldn't
-bother.
+However, due to the fact that enums values in C must be unique, there
+was a naming conflict on 'fifo_not_empty' which is used by the
+tx_start_condition enum. So the author decided to create a 'fifo_empty'
+one which would negate the value that comes from the flag register as
+the solution to that conflict (which is very confusing).
 
-Sebastian
+this patch removes rf69_get_flag function which subsequently solves the
+enum redeclaration problem so kernel developers can follow the data
+sheet more easily.
+
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+---
+ drivers/staging/pi433/pi433_if.c  |  8 +++---
+ drivers/staging/pi433/rf69.c      | 44 -------------------------------
+ drivers/staging/pi433/rf69.h      |  1 -
+ drivers/staging/pi433/rf69_enum.h | 20 --------------
+ 4 files changed, 4 insertions(+), 69 deletions(-)
+
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 069255f023c8..3f3e863e6cc8 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -434,7 +434,7 @@ static int pi433_receive(void *data)
+ 		return retval;
+ 
+ 	/* now check RSSI, if low wait for getting high (RSSI interrupt) */
+-	while (!rf69_get_flag(dev->spi, rssi_exceeded_threshold)) {
++	while (!(rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_RSSI)) {
+ 		/* allow tx to interrupt us while waiting for high RSSI */
+ 		dev->interrupt_rx_allowed = true;
+ 		wake_up_interruptible(&dev->tx_wait_queue);
+@@ -442,8 +442,8 @@ static int pi433_receive(void *data)
+ 		/* wait for RSSI level to become high */
+ 		dev_dbg(dev->dev, "rx: going to wait for high RSSI level\n");
+ 		retval = wait_event_interruptible(dev->rx_wait_queue,
+-						  rf69_get_flag(dev->spi,
+-								rssi_exceeded_threshold));
++						  rf69_read_reg(spi, REG_IRQFLAGS1)
++						  & MASK_IRQFLAGS1_RSSI);
+ 		if (retval) /* wait was interrupted */
+ 			goto abort;
+ 		dev->interrupt_rx_allowed = false;
+@@ -510,7 +510,7 @@ static int pi433_receive(void *data)
+ 
+ 	/* get payload */
+ 	while (dev->rx_position < bytes_total) {
+-		if (!rf69_get_flag(dev->spi, payload_ready)) {
++		if (!(rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_PAYLOAD_READY)) {
+ 			retval = wait_event_interruptible(dev->fifo_wait_queue,
+ 							  dev->free_in_fifo < FIFO_SIZE);
+ 			if (retval) /* wait was interrupted */
+diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
+index 1a0081ebf63c..e5b23ab39c69 100644
+--- a/drivers/staging/pi433/rf69.c
++++ b/drivers/staging/pi433/rf69.c
+@@ -578,50 +578,6 @@ int rf69_set_dio_mapping(struct spi_device *spi, u8 dio_number, u8 value)
+ 	return rf69_write_reg(spi, dio_addr, dio_value);
+ }
+ 
+-bool rf69_get_flag(struct spi_device *spi, enum flag flag)
+-{
+-	switch (flag) {
+-	case mode_switch_completed:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_MODE_READY);
+-	case ready_to_receive:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_RX_READY);
+-	case ready_to_send:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_TX_READY);
+-	case pll_locked:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_PLL_LOCK);
+-	case rssi_exceeded_threshold:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_RSSI);
+-	case timeout:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_TIMEOUT);
+-	case automode:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_AUTOMODE);
+-	case sync_address_match:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_SYNC_ADDRESS_MATCH);
+-	case fifo_full:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_FIFO_FULL);
+-/*
+- *	case fifo_not_empty:
+- *		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_FIFO_NOT_EMPTY);
+- */
+-	case fifo_empty:
+-		return !(rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_FIFO_NOT_EMPTY);
+-	case fifo_level_below_threshold:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_FIFO_LEVEL);
+-	case fifo_overrun:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_FIFO_OVERRUN);
+-	case packet_sent:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_PACKET_SENT);
+-	case payload_ready:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_PAYLOAD_READY);
+-	case crc_ok:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_CRC_OK);
+-	case battery_low:
+-		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_LOW_BAT);
+-	default:
+-		return false;
+-	}
+-}
+-
+ int rf69_set_rssi_threshold(struct spi_device *spi, u8 threshold)
+ {
+ 	/* no value check needed - u8 exactly matches register size */
+diff --git a/drivers/staging/pi433/rf69.h b/drivers/staging/pi433/rf69.h
+index 3ff5609ecf2e..78fa0b8bab8b 100644
+--- a/drivers/staging/pi433/rf69.h
++++ b/drivers/staging/pi433/rf69.h
+@@ -42,7 +42,6 @@ int rf69_set_bandwidth_during_afc(struct spi_device *spi,
+ int rf69_set_ook_threshold_dec(struct spi_device *spi,
+ 			       enum threshold_decrement threshold_decrement);
+ int rf69_set_dio_mapping(struct spi_device *spi, u8 dio_number, u8 value);
+-bool rf69_get_flag(struct spi_device *spi, enum flag flag);
+ int rf69_set_rssi_threshold(struct spi_device *spi, u8 threshold);
+ int rf69_set_preamble_length(struct spi_device *spi, u16 preamble_length);
+ int rf69_enable_sync(struct spi_device *spi);
+diff --git a/drivers/staging/pi433/rf69_enum.h b/drivers/staging/pi433/rf69_enum.h
+index b33a33a85d3b..9dc906124e98 100644
+--- a/drivers/staging/pi433/rf69_enum.h
++++ b/drivers/staging/pi433/rf69_enum.h
+@@ -84,26 +84,6 @@ enum threshold_decrement {
+ 	dec_16times
+ };
+ 
+-enum flag {
+-	mode_switch_completed,
+-	ready_to_receive,
+-	ready_to_send,
+-	pll_locked,
+-	rssi_exceeded_threshold,
+-	timeout,
+-	automode,
+-	sync_address_match,
+-	fifo_full,
+-//	fifo_not_empty, collision with next enum; replaced by following enum...
+-	fifo_empty,
+-	fifo_level_below_threshold,
+-	fifo_overrun,
+-	packet_sent,
+-	payload_ready,
+-	crc_ok,
+-	battery_low
+-};
+-
+ enum fifo_fill_condition {
+ 	after_sync_interrupt,
+ 	always
+-- 
+2.34.1
+
