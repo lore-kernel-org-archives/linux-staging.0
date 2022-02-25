@@ -1,64 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A637A
-	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 08:57:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4F44C340E7;
-	Fri, 25 Feb 2022 08:57:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FF27A
+	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 09:01:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92021C340F1;
+	Fri, 25 Feb 2022 09:01:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1645779445;
-	bh=xR6IqDOjKYE1cb2LadcxTdEisTybojj0Kg0Fi83FOS8=;
+	s=korg; t=1645779668;
+	bh=vrv1RPmPuA5wxi40zAhhHwbfUznT5MJ6l1l1typKQu4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uYj52SKM3qMuwgA4qUyGogw0Q135TmkkXbishFqaX5sz/+HvLd9HREBl9WreqAknY
-	 0QIdhTkYGMUDyQWJ/mGL3108WDezZFKDuOjgwP/fh3g9y8jgmKukl7dkgdziDDVbeR
-	 fUjLrqK8xDVna/yY7b4mo/KEuqyGRS3o85IBVCeI=
-Date: Fri, 25 Feb 2022 09:57:22 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Michael Straube <straube.linux@gmail.com>, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] staging: r8188eu: remove 5 GHz channels from
- ch_freq_map
-Message-ID: <YhiZ8lCkQluFeNv8@kroah.com>
-References: <20220220154847.7521-1-straube.linux@gmail.com>
- <20220220154847.7521-2-straube.linux@gmail.com>
- <YhPIVFmStJOMI0QZ@kroah.com>
- <636080dd-ab8d-a572-0f81-5f72b14ec1e4@lwfinger.net>
+	b=zOEUJEUmPDu7A1MsA3kCOzeMMpoOVwnsRMt7OxAqs8lhU/bnIbSYoR9hSmHBTn3L1
+	 FEI395tCBA7NTkcOi4YMSneGRckQ3fgD/DWaI2khsDIxM1C68hOtVmlDPm1txyBw7r
+	 ENCyyMUifSPGoO4e6CPRbRI1fodhXzfynHqxxpQk=
+Date: Fri, 25 Feb 2022 10:01:05 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Samuel =?iso-8859-1?Q?Sj=F6berg?= <info@samuelsjoberg.se>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2] staging: rts5208: fix Lines should not end with a '('.
+Message-ID: <Yhia0QoJTT9IB2UW@kroah.com>
+References: <20220221214344.5895-1-info@samuelsjoberg.se>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <636080dd-ab8d-a572-0f81-5f72b14ec1e4@lwfinger.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220221214344.5895-1-info@samuelsjoberg.se>
 
-On Mon, Feb 21, 2022 at 01:41:22PM -0600, Larry Finger wrote:
-> On 2/21/22 11:13, Greg KH wrote:
-> > On Sun, Feb 20, 2022 at 04:48:45PM +0100, Michael Straube wrote:
-> > > This driver is for chips that operate only in the 2.4 GHz band.
-> > 
-> > How do we know that?
-> > 
-> > thanks,
-> Realtek (https://www.realtek.com/en/products/communications-network-ics/item/rtl8188eus)
-> states the following:
+On Mon, Feb 21, 2022 at 10:43:44PM +0100, Samuel Sjöberg wrote:
+> Fix the following error reported by checkpatch.pl:
 > 
-> "The Realtek RTL8188EUS is an 802.11bgn 2.4G single-chip that integrates
-> Wireless LAN (WLAN) and a network USB interface (USB 1.0/1.1/2.0 compatible)
-> controller. It combines a WLAN MAC, a 1T1R capable WLAN baseband, and WLAN
-> RF in a single chip. The RTL8188EUS provides a complete solution for
-> high-throughput performance and low power consumption integrated wireless
-> LAN devices."
+> CHECK: Lines should not end with a '('
+> +                                       retval = ms_transfer_tpc(
 > 
-> The reason there are 5G snippets in the driver is because Realtek uses the
-> base code to generate drivers for other chip families such as RTL8192DU that
-> have radios for both 2.4 and 5G bands. The RTL81288EU and variants have only
-> a single radio.
+> Signed-off-by: Samuel Sjöberg <info@samuelsjoberg.se>
+> ---
+> Changes in v2:
+>   - Fixed subject line and commit message.
+> 
+>  drivers/staging/rts5208/ms.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/rts5208/ms.c b/drivers/staging/rts5208/ms.c
+> index 2a6fab5c117a..14449f8afad5 100644
+> --- a/drivers/staging/rts5208/ms.c
+> +++ b/drivers/staging/rts5208/ms.c
+> @@ -1749,11 +1749,10 @@ static int ms_copy_page(struct rtsx_chip *chip, u16 old_blk, u16 new_blk,
+>  
+>  				for (rty_cnt = 0; rty_cnt < MS_MAX_RETRY_COUNT;
+>  				     rty_cnt++) {
+> -					retval = ms_transfer_tpc(
+> -						chip,
+> -						MS_TM_NORMAL_WRITE,
+> -						WRITE_PAGE_DATA,
+> -						0, NO_WAIT_INT);
+> +					retval = ms_transfer_tpc(chip,
+> +								 MS_TM_NORMAL_WRITE,
+> +								 WRITE_PAGE_DATA,
+> +								 0, NO_WAIT_INT);
+>  					if (retval == STATUS_SUCCESS)
+>  						break;
+>  				}
+> -- 
+> 2.35.1
+> 
 
-Ah, ok, that's good to know.  And should belong in the changelog text so
-that we are not confused :)
+This change never ended up on the mailing list for some reason :(
+
+Please fix up and resend.
 
 thanks,
 
