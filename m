@@ -1,24 +1,24 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7C523CE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0B923CF;
 	Fri, 25 Feb 2022 16:46:16 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:947c:7c9e:f96:1bc])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2E3C51F4637E;
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DAA0F1F4246B;
 	Fri, 25 Feb 2022 16:46:14 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1645807574;
-	bh=1efQRsTSb/TbonDTR62JGVtaxw0xtZBRD5WqCbjWseg=;
+	s=mail; t=1645807575;
+	bh=oFccLWurMTsZUu1f4uLtdwMOdaKthdy/h2QbxBJ2ZvQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Pj1k7u0abLDHj8d5XPrhXdVJGprxQF3eaExfkjtkF4ClxevhwXqrc+mLtoxwmzYf4
-	 zamxrXOkP9z/HyKotEYxmia0WuOWKfNfVqvlNPMKeXW9g6ioDhracecmA727kRnlH1
-	 MM67xCc3YOGGeSmojkQ+yWBCcDtCA2owPsCQuBkEmE6o3rwdy6W7cR4CnK3w8WW4I8
-	 SefYpK6Kc3KeadSCrYFN+UV533GdzoA4ka11aS0W0p1Af6IjRNg+FoKEVzPOFWXog3
-	 INApZ+E4vURPS5STj+zz35sy0HX5mmnM3jq9PIurXLOtgQhQeyzM5sQRYnCNQ7hvkW
-	 AKz/73eHHxLTw==
+	b=hDPEnCLRZtcghKzAC/6pAGAlyjc8sb+FgaOuOsHIl7mMRKZrPQj0TyinWGVEDKqkV
+	 T0VBXBLe/q4qLKBsGIF5DkjWuwpkbbdLeQBersg7bQgSBYMn8JUSzkpdXxoPff1cLb
+	 Fio2vbqoCw/Kps7ygdaCZ2Swchs8O+SPyeD7ub+wJZ9oY5YgtqvC7Y197Lo0p9eUVv
+	 TwyBG7bpnyKqnhOR9HLdbVZGJSjR1Px+EninQHQOiYmThQToGXrlWSyqxvD6Fwt1fF
+	 me1/AD62cukp8T5u8TtYjd6Tymuos5r+sF5m2357vHINbyr48rjMxZq2DY60fAYEO6
+	 xsZKU1LT5SxNQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	ezequiel@vanguardiasur.com.ar,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	knaerzche@gmail.com,
 	jc@kynesim.co.uk,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3 07/14] media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a dynamic array
-Date: Fri, 25 Feb 2022 17:45:53 +0100
-Message-Id: <20220225164600.1044663-8-benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 08/14] media: uapi: Move parsed HEVC pixel format out of staging
+Date: Fri, 25 Feb 2022 17:45:54 +0100
+Message-Id: <20220225164600.1044663-9-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
 References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
@@ -53,44 +53,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make explicit that V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control is
-a dynamic array control type.
-Some drivers may be able to receive multiple slices in one control
-to improve decoding performance.
+Move HEVC pixel format since we are ready to stabilize the uAPI
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
- include/media/hevc-ctrls.h                                | 3 +++
- 2 files changed, 5 insertions(+)
+ Documentation/userspace-api/media/v4l/pixfmt-compressed.rst | 5 -----
+ include/media/hevc-ctrls.h                                  | 3 ---
+ include/uapi/linux/videodev2.h                              | 1 +
+ 3 files changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 18625d18ddf3..44a268a948c0 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -2964,6 +2964,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     These bitstream parameters are defined according to :ref:`hevc`.
-     They are described in section 7.4.7 "General slice segment header
-     semantics" of the specification.
-+    This control is a dynamically sized 1-dimensional array,
-+    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+index 967fc803ef94..c352d91a73d8 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+@@ -215,11 +215,6 @@ Compressed Formats
+ 	See the :ref:`associated Codec Control IDs <v4l2-mpeg-hevc>`.
+ 	Buffers associated with this pixel format must contain the appropriate
+ 	number of macroblocks to decode a full corresponding frame.
+-
+-	.. note::
+-
+-	   This format is not yet part of the public kernel API and it
+-	   is expected to change.
+     * .. _V4L2-PIX-FMT-FWHT:
  
- .. c:type:: v4l2_ctrl_hevc_slice_params
- 
+       - ``V4L2_PIX_FMT_FWHT``
 diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-index 1c86566cd7cb..057b5032453b 100644
+index 057b5032453b..3016c1abb1d0 100644
 --- a/include/media/hevc-ctrls.h
 +++ b/include/media/hevc-ctrls.h
-@@ -300,6 +300,9 @@ struct v4l2_hevc_pred_weight_table {
- /**
-  * v4l2_ctrl_hevc_slice_params - HEVC slice parameters
-  *
-+ * This control is a dynamically sized 1-dimensional array,
-+ * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
-+ *
-  * @bit_size: size (in bits) of the current slice data
-  * @data_bit_offset: offset (in bits) to the video data in the current slice data
-  * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+@@ -13,9 +13,6 @@
+ 
+ #include <linux/videodev2.h>
+ 
+-/* The pixel format isn't stable at the moment and will likely be renamed. */
+-#define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC parsed slices */
+-
+ #define V4L2_CID_STATELESS_HEVC_SPS		(V4L2_CID_CODEC_BASE + 1008)
+ #define V4L2_CID_STATELESS_HEVC_PPS		(V4L2_CID_CODEC_BASE + 1009)
+ #define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS	(V4L2_CID_CODEC_BASE + 1010)
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index e27c8eae78c9..959a849388f5 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -708,6 +708,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
+ #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
+ #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
++#define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC parsed slices */
+ 
+ /*  Vendor-specific formats   */
+ #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
 -- 
 2.32.0
 
