@@ -1,48 +1,48 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2E47B
-	for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 22:40:39 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id i1so5966399plr.2
-        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 14:40:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417DC3686
+	for <linux-staging@lists.linux.dev>; Sat, 26 Feb 2022 04:25:38 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id e6so5012474pgn.2
+        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 20:25:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=LN5HwDIZ+3LUm5kG7dgd32Ez9v++QZy+tfNeqMDGJv8=;
-        b=eUAu0Se28SlrSFg8qZHvkx8k91SRUHyCzorXCuOcUwlJhshPRxT864BLWtJCwINnbK
-         xsJjzGaaUPmcqAHW3XD2cMIfFrBQfhyr2vyLdl/7uq+JGLm3YklMnF2qhBcrqdPgmfUt
-         asChdmTuOxil5utgpZl/n7V5q5v9hZO4srpXJccXi6hox8k6uz7agqihCu5AnFuZNBid
-         hPsQpxNiz4gOP6TlG3UpQeEMUEV66rjoytIE0Hky4FeovnHdKII5Fph+5TMJuqy+6Hzo
-         MjeA4pvLN41CR4hZjJZj6LJlMrepZgvkIkCtDfxiQNPYVMRsW2L5/UVYpE7MzATLSvbs
-         dPSA==
+        bh=Fp8tS9Tv9uCsWH6vrg9RydV37obfExfUsNqz1M7URQw=;
+        b=gAwNByTQb9WAk7MPfXqU6n8mq0gTMsBg0s07UhnpFy7iVZ7BGyO+fcZMiq1ckGgeST
+         SPtN9ABVZSGJUMpwJiBgmjb+llU2FOqn0orQ/CM2hYu0upRAEc2AskxGiAkuDR4dueZ6
+         GJuPYwt12mV9VHyCAbc8ZEANweruJ4SFj+zHNZm9O4vugdXzlJxPh4sr/NbtEfZ7P33y
+         T7VPH9en9aAAkmXGot0rJkeLIZVA+jiz6x6dR5mZG8Vp0iPTcO01F70AHcHv1i3H8x2w
+         Ht6uKu3tQ3anzoNnJ4B7D+yHxVA7G6VItDpJ+RYNo81rSW6HsGDolLaQIgap2L21yttM
+         qy/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition;
-        bh=LN5HwDIZ+3LUm5kG7dgd32Ez9v++QZy+tfNeqMDGJv8=;
-        b=4cvVHQUc9rpmA7x3flMGNKgajatIEB7oHv4j77xt4KM0ynqes7Tu2i91g+KfYrYCid
-         6JTZeJUeY9ZqKrHnejl5nZkbcfRZlVDrioRD1miqSztw66GYHznIMh+nscabtVJMBdRZ
-         HjcSA/5iegD+0ufcDAO6WYDRO6twgr2NY/6sd/PUCb0SCwYRbYwk9fLcpy+vc+CflWK0
-         HPs70qgRSaB12py8TvheMhQ0MHu1yQ60/byG+Fy3TmT0Zn0zVKuzRijGFnZCsFVP3JAQ
-         EhF6YvkPYGQgty/d81x0iiHZTqG2R6kDuLqiNhjxbzP5OCguw3FWAjO8vTzCUViviX9q
-         ceOQ==
-X-Gm-Message-State: AOAM533ZOWI7r6cNqPoBcEc2rWCosah+FQ+W56lz42wQpfJk6tPTvrsc
-	NK+M0CsEzpacrf6nYow9wKA=
-X-Google-Smtp-Source: ABdhPJw5Y9CFyi/4pWhgSzyLVP+DPz23Hd14KRbb8GxfQZziRCkmSIljFjCInHsFxQ3G/jaqcK+cxw==
-X-Received: by 2002:a17:902:7002:b0:14d:76b9:2303 with SMTP id y2-20020a170902700200b0014d76b92303mr9727691plk.155.1645828839252;
-        Fri, 25 Feb 2022 14:40:39 -0800 (PST)
+        bh=Fp8tS9Tv9uCsWH6vrg9RydV37obfExfUsNqz1M7URQw=;
+        b=yBnRZgxXRSL5He6wXTqDMoeWTt2NzsUgyt0dygZB+zxo4+qUJEpcFyrWUYbZ3eUCIR
+         lt8ZxRiSkBpbkRftk3MpvVjmfLr8f7h+CNHFKx5NU47bygPz3xBaU6OxCr5pXtTPYyxW
+         27GfX4HjsQuVJG+9BkLQYMMdqP3IX4wlz9ALCchQjuP6T2p51O5sJIKT8DXzl1kKh4mW
+         +ae6PUmw98yX/QVkJToUkCrDhCnohHQDwqO0NZ+uQxrNIIUe4zBZMK+Zwn0UqzxO4xB6
+         bkjF8i3NNOfhEfoEWme9hhHhCkckO52HOvX8qpD+FtppfmsTJ4vzI9Vm+w5wy9LeUxFx
+         R04g==
+X-Gm-Message-State: AOAM530euIklqBIsEIOVznoQZv+PEFMCbcEbjM5kCQ70QLmKKdRRIB16
+	Xp3w2cPEk+ulvZ8MlotVsDk=
+X-Google-Smtp-Source: ABdhPJzHQLmT4p//evrcfBLw6x6Xobkv89wYpaBw12Jpf3R4cHoxj+UYFlNw9jxJJ4iXYg8goHDYUA==
+X-Received: by 2002:a63:2d05:0:b0:34b:3f1d:2fa8 with SMTP id t5-20020a632d05000000b0034b3f1d2fa8mr8844216pgt.447.1645849537593;
+        Fri, 25 Feb 2022 20:25:37 -0800 (PST)
 Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id t5-20020a654b85000000b00373cbfbf965sm3684551pgq.46.2022.02.25.14.40.36
+        by smtp.gmail.com with ESMTPSA id z8-20020aa79588000000b004e1dc67ead3sm4783050pfj.126.2022.02.25.20.25.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Feb 2022 14:40:38 -0800 (PST)
-Date: Sat, 26 Feb 2022 11:40:33 +1300
+        Fri, 25 Feb 2022 20:25:37 -0800 (PST)
+Date: Sat, 26 Feb 2022 17:25:31 +1300
 From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
 	realwakka@gmail.com
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: pi433: remove rf69_get_flag function resolving enum
- conflict
-Message-ID: <Yhla4a1Clpguoo2h@mail.google.com>
+Subject: [PATCH] staging: pi433: prevent uninitialized data from being
+ printed out
+Message-ID: <Yhmruyr2BUn0+3O3@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,160 +52,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-The reason why rf69_get_flag() existed was to provide a high-level way
-to obtain values out of 1 (of 2) flags registers using bit masking. The
-idea was to map the possible flag values found in the data sheet like
-shown in page 70 of the RFM69HCW datasheet.
+local_buffer is not initialised before data is passed to
+spi_sync_transfer. In case spi* function fails then the dev_dbg
+statement after that can potentially print out uninitialised data
 
-However, due to the fact that enums values in C must be unique, there
-was a naming conflict on 'fifo_not_empty' which is used by the
-tx_start_condition enum. So the author decided to create a 'fifo_empty'
-one which would negate the value that comes from the flag register as
-the solution to that conflict (which is very confusing).
-
-this patch removes rf69_get_flag function which subsequently solves the
-enum redeclaration problem so kernel developers can follow the data
-sheet more easily.
+this patch initialises local_buffer array.
 
 Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 ---
- drivers/staging/pi433/pi433_if.c  |  8 +++---
- drivers/staging/pi433/rf69.c      | 44 -------------------------------
- drivers/staging/pi433/rf69.h      |  1 -
- drivers/staging/pi433/rf69_enum.h | 20 --------------
- 4 files changed, 4 insertions(+), 69 deletions(-)
+Meta-comments:
 
-diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
-index 069255f023c8..3f3e863e6cc8 100644
---- a/drivers/staging/pi433/pi433_if.c
-+++ b/drivers/staging/pi433/pi433_if.c
-@@ -434,7 +434,7 @@ static int pi433_receive(void *data)
- 		return retval;
- 
- 	/* now check RSSI, if low wait for getting high (RSSI interrupt) */
--	while (!rf69_get_flag(dev->spi, rssi_exceeded_threshold)) {
-+	while (!(rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_RSSI)) {
- 		/* allow tx to interrupt us while waiting for high RSSI */
- 		dev->interrupt_rx_allowed = true;
- 		wake_up_interruptible(&dev->tx_wait_queue);
-@@ -442,8 +442,8 @@ static int pi433_receive(void *data)
- 		/* wait for RSSI level to become high */
- 		dev_dbg(dev->dev, "rx: going to wait for high RSSI level\n");
- 		retval = wait_event_interruptible(dev->rx_wait_queue,
--						  rf69_get_flag(dev->spi,
--								rssi_exceeded_threshold));
-+						  rf69_read_reg(spi, REG_IRQFLAGS1)
-+						  & MASK_IRQFLAGS1_RSSI);
- 		if (retval) /* wait was interrupted */
- 			goto abort;
- 		dev->interrupt_rx_allowed = false;
-@@ -510,7 +510,7 @@ static int pi433_receive(void *data)
- 
- 	/* get payload */
- 	while (dev->rx_position < bytes_total) {
--		if (!rf69_get_flag(dev->spi, payload_ready)) {
-+		if (!(rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_PAYLOAD_READY)) {
- 			retval = wait_event_interruptible(dev->fifo_wait_queue,
- 							  dev->free_in_fifo < FIFO_SIZE);
- 			if (retval) /* wait was interrupted */
+- this change was requested by Dan Carpenter in a different thread:
+https://lore.kernel.org/lkml/20220207100601.GF1951@kadam/
+
+Patch dependency:
+
+- this patch depends on the following patch to be applied first as
+both of them change the same file:
+https://lore.kernel.org/lkml/Yhla4a1Clpguoo2h@mail.google.com/
+---
+ drivers/staging/pi433/rf69.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-index 1a0081ebf63c..e5b23ab39c69 100644
+index e5b23ab39c69..3028018f0b45 100644
 --- a/drivers/staging/pi433/rf69.c
 +++ b/drivers/staging/pi433/rf69.c
-@@ -578,50 +578,6 @@ int rf69_set_dio_mapping(struct spi_device *spi, u8 dio_number, u8 value)
- 	return rf69_write_reg(spi, dio_addr, dio_value);
- }
- 
--bool rf69_get_flag(struct spi_device *spi, enum flag flag)
--{
--	switch (flag) {
--	case mode_switch_completed:
--		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_MODE_READY);
--	case ready_to_receive:
--		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_RX_READY);
--	case ready_to_send:
--		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_TX_READY);
--	case pll_locked:
--		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_PLL_LOCK);
--	case rssi_exceeded_threshold:
--		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_RSSI);
--	case timeout:
--		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_TIMEOUT);
--	case automode:
--		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_AUTOMODE);
--	case sync_address_match:
--		return (rf69_read_reg(spi, REG_IRQFLAGS1) & MASK_IRQFLAGS1_SYNC_ADDRESS_MATCH);
--	case fifo_full:
--		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_FIFO_FULL);
--/*
-- *	case fifo_not_empty:
-- *		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_FIFO_NOT_EMPTY);
-- */
--	case fifo_empty:
--		return !(rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_FIFO_NOT_EMPTY);
--	case fifo_level_below_threshold:
--		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_FIFO_LEVEL);
--	case fifo_overrun:
--		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_FIFO_OVERRUN);
--	case packet_sent:
--		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_PACKET_SENT);
--	case payload_ready:
--		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_PAYLOAD_READY);
--	case crc_ok:
--		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_CRC_OK);
--	case battery_low:
--		return (rf69_read_reg(spi, REG_IRQFLAGS2) & MASK_IRQFLAGS2_LOW_BAT);
--	default:
--		return false;
--	}
--}
--
- int rf69_set_rssi_threshold(struct spi_device *spi, u8 threshold)
+@@ -782,7 +782,7 @@ int rf69_read_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
  {
- 	/* no value check needed - u8 exactly matches register size */
-diff --git a/drivers/staging/pi433/rf69.h b/drivers/staging/pi433/rf69.h
-index 3ff5609ecf2e..78fa0b8bab8b 100644
---- a/drivers/staging/pi433/rf69.h
-+++ b/drivers/staging/pi433/rf69.h
-@@ -42,7 +42,6 @@ int rf69_set_bandwidth_during_afc(struct spi_device *spi,
- int rf69_set_ook_threshold_dec(struct spi_device *spi,
- 			       enum threshold_decrement threshold_decrement);
- int rf69_set_dio_mapping(struct spi_device *spi, u8 dio_number, u8 value);
--bool rf69_get_flag(struct spi_device *spi, enum flag flag);
- int rf69_set_rssi_threshold(struct spi_device *spi, u8 threshold);
- int rf69_set_preamble_length(struct spi_device *spi, u16 preamble_length);
- int rf69_enable_sync(struct spi_device *spi);
-diff --git a/drivers/staging/pi433/rf69_enum.h b/drivers/staging/pi433/rf69_enum.h
-index b33a33a85d3b..9dc906124e98 100644
---- a/drivers/staging/pi433/rf69_enum.h
-+++ b/drivers/staging/pi433/rf69_enum.h
-@@ -84,26 +84,6 @@ enum threshold_decrement {
- 	dec_16times
- };
+ 	int i;
+ 	struct spi_transfer transfer;
+-	u8 local_buffer[FIFO_SIZE + 1];
++	u8 local_buffer[FIFO_SIZE + 1] = {};
+ 	int retval;
  
--enum flag {
--	mode_switch_completed,
--	ready_to_receive,
--	ready_to_send,
--	pll_locked,
--	rssi_exceeded_threshold,
--	timeout,
--	automode,
--	sync_address_match,
--	fifo_full,
--//	fifo_not_empty, collision with next enum; replaced by following enum...
--	fifo_empty,
--	fifo_level_below_threshold,
--	fifo_overrun,
--	packet_sent,
--	payload_ready,
--	crc_ok,
--	battery_low
--};
--
- enum fifo_fill_condition {
- 	after_sync_interrupt,
- 	always
+ 	if (size > FIFO_SIZE) {
 -- 
 2.34.1
 
