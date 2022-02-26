@@ -1,48 +1,47 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417DC3686
-	for <linux-staging@lists.linux.dev>; Sat, 26 Feb 2022 04:25:38 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id e6so5012474pgn.2
-        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 20:25:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABDD23A1
+	for <linux-staging@lists.linux.dev>; Sat, 26 Feb 2022 04:53:06 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id y11so6457562pfa.6
+        for <linux-staging@lists.linux.dev>; Fri, 25 Feb 2022 20:53:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=Fp8tS9Tv9uCsWH6vrg9RydV37obfExfUsNqz1M7URQw=;
-        b=gAwNByTQb9WAk7MPfXqU6n8mq0gTMsBg0s07UhnpFy7iVZ7BGyO+fcZMiq1ckGgeST
-         SPtN9ABVZSGJUMpwJiBgmjb+llU2FOqn0orQ/CM2hYu0upRAEc2AskxGiAkuDR4dueZ6
-         GJuPYwt12mV9VHyCAbc8ZEANweruJ4SFj+zHNZm9O4vugdXzlJxPh4sr/NbtEfZ7P33y
-         T7VPH9en9aAAkmXGot0rJkeLIZVA+jiz6x6dR5mZG8Vp0iPTcO01F70AHcHv1i3H8x2w
-         Ht6uKu3tQ3anzoNnJ4B7D+yHxVA7G6VItDpJ+RYNo81rSW6HsGDolLaQIgap2L21yttM
-         qy/A==
+        bh=Haj9SValrZqKZTYGpSt6kXipjXiAfqsH/MloLX0cnlY=;
+        b=P4qlojskJ+gKddnWPYaLdP/TK1bWGcNJynSFXhzApIM9pH2o6WCVVeT1bfGDUmvyxS
+         WdoQII6GbdXOBSm8VXEVRMOXQ82A53p6Vw2EhmP4FziOIqmI8aHotrHH2OtNwSjnECFU
+         GxBWaRodBrZeCUKZa2Qf7JOQiQ2RulEXpITqOKfzx3zS2ZCzxRsanuUCoZ/2ftMaHWus
+         zgrFageCVZt0B8/CJX00S/KDEJLw3DDVRIDPtIqOAK86/zml6fAzh5pl/h8LY85928G3
+         J4np+fcOfvH6AcVVnb2SzXzKakLBg+H5icNikWNTCZ56ekOTcxsH01HTBzv7siFV7hqv
+         bvGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition;
-        bh=Fp8tS9Tv9uCsWH6vrg9RydV37obfExfUsNqz1M7URQw=;
-        b=yBnRZgxXRSL5He6wXTqDMoeWTt2NzsUgyt0dygZB+zxo4+qUJEpcFyrWUYbZ3eUCIR
-         lt8ZxRiSkBpbkRftk3MpvVjmfLr8f7h+CNHFKx5NU47bygPz3xBaU6OxCr5pXtTPYyxW
-         27GfX4HjsQuVJG+9BkLQYMMdqP3IX4wlz9ALCchQjuP6T2p51O5sJIKT8DXzl1kKh4mW
-         +ae6PUmw98yX/QVkJToUkCrDhCnohHQDwqO0NZ+uQxrNIIUe4zBZMK+Zwn0UqzxO4xB6
-         bkjF8i3NNOfhEfoEWme9hhHhCkckO52HOvX8qpD+FtppfmsTJ4vzI9Vm+w5wy9LeUxFx
-         R04g==
-X-Gm-Message-State: AOAM530euIklqBIsEIOVznoQZv+PEFMCbcEbjM5kCQ70QLmKKdRRIB16
-	Xp3w2cPEk+ulvZ8MlotVsDk=
-X-Google-Smtp-Source: ABdhPJzHQLmT4p//evrcfBLw6x6Xobkv89wYpaBw12Jpf3R4cHoxj+UYFlNw9jxJJ4iXYg8goHDYUA==
-X-Received: by 2002:a63:2d05:0:b0:34b:3f1d:2fa8 with SMTP id t5-20020a632d05000000b0034b3f1d2fa8mr8844216pgt.447.1645849537593;
-        Fri, 25 Feb 2022 20:25:37 -0800 (PST)
+        bh=Haj9SValrZqKZTYGpSt6kXipjXiAfqsH/MloLX0cnlY=;
+        b=Mff1NEaOTxIDtCkxcr0EfnUoGGV5UI+4UPvi071uNpdJmo7CPhtpBme8u5BsiBhOxh
+         wUVwX1peyRPUUAbMPUUz7TzQ3ma6RoNDPZbvXWlpx2n3ajw8YGey+x1iEoLsiGkuqO4Y
+         QL73HAfoTVla4ERFTP30Qey8yv85CkkidMZqOxCs0at9g0L3bCyNet8ZqzjnZecKFxBP
+         C9AmlhFNCKVO63RDJ1qnnSmcqRTJ8qQdNMQAf0s/eRfu9CpXpSZrCheiJRzgb0mVJFHg
+         CMp6/KISjrcIcrQ2Xr9A6esW+J3cdIy89A2zxRV7KscfsPVFA+ermp4E4x8r8i/qPFxP
+         Pmcg==
+X-Gm-Message-State: AOAM53008JkuwrO+NNVK9WWqvadY53cSOefXXh0vum2laW1OdFYUJ9V4
+	hrWhKQ/4Byop1vbyUiyBS0WJdjUeIkVSs/2M
+X-Google-Smtp-Source: ABdhPJzFpupRE/Yxz7PFJ7G+ivCNnYrGJWxbqXPGVsGvL6oFoV6op9CXK4j5yRdz69RT/25tH2cSPg==
+X-Received: by 2002:a63:5f47:0:b0:373:cf6c:c9d2 with SMTP id t68-20020a635f47000000b00373cf6cc9d2mr8763272pgb.85.1645851186000;
+        Fri, 25 Feb 2022 20:53:06 -0800 (PST)
 Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id z8-20020aa79588000000b004e1dc67ead3sm4783050pfj.126.2022.02.25.20.25.34
+        by smtp.gmail.com with ESMTPSA id c18-20020a056a00249200b004df81f5ab5dsm5291196pfv.173.2022.02.25.20.53.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Feb 2022 20:25:37 -0800 (PST)
-Date: Sat, 26 Feb 2022 17:25:31 +1300
+        Fri, 25 Feb 2022 20:53:05 -0800 (PST)
+Date: Sat, 26 Feb 2022 17:52:59 +1300
 From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 To: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com,
 	realwakka@gmail.com
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: pi433: prevent uninitialized data from being
- printed out
-Message-ID: <Yhmruyr2BUn0+3O3@mail.google.com>
+Subject: [PATCH] staging: pi433: remove TODOs-related item from the TODO file
+Message-ID: <YhmyK1Utaoj924im@mail.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,41 +51,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-local_buffer is not initialised before data is passed to
-spi_sync_transfer. In case spi* function fails then the dev_dbg
-statement after that can potentially print out uninitialised data
+All occurences of code annotated with TODO in this driver have been
+addressed in the last couple of years by the community. The last
+occurrence of the word "TODO" was in the form of a multi-line comment in
+the header file intended to be exposed to userspace once this driver
+moves away from the staging folder.
 
-this patch initialises local_buffer array.
+This patch removes that TODO as well as the TODO-related item from the
+driver's TODO file
 
 Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 ---
 Meta-comments:
+- in the include/linux folder I've seen many standards such as:
+  -> Just the explanation of that that file is used for (I choose that)
+  -> name_of_file.h - brief explanation
+  -> include/linux/name_of_file.h - brief explanation
 
-- this change was requested by Dan Carpenter in a different thread:
-https://lore.kernel.org/lkml/20220207100601.GF1951@kadam/
+  Since there was not clear pattern I chose the first one. Let me know
+  if anyone favours any other approach.
 
-Patch dependency:
-
-- this patch depends on the following patch to be applied first as
-both of them change the same file:
-https://lore.kernel.org/lkml/Yhla4a1Clpguoo2h@mail.google.com/
 ---
- drivers/staging/pi433/rf69.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/pi433/TODO       | 1 -
+ drivers/staging/pi433/pi433_if.h | 2 --
+ 2 files changed, 3 deletions(-)
 
-diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-index e5b23ab39c69..3028018f0b45 100644
---- a/drivers/staging/pi433/rf69.c
-+++ b/drivers/staging/pi433/rf69.c
-@@ -782,7 +782,7 @@ int rf69_read_fifo(struct spi_device *spi, u8 *buffer, unsigned int size)
- {
- 	int i;
- 	struct spi_transfer transfer;
--	u8 local_buffer[FIFO_SIZE + 1];
-+	u8 local_buffer[FIFO_SIZE + 1] = {};
- 	int retval;
- 
- 	if (size > FIFO_SIZE) {
+diff --git a/drivers/staging/pi433/TODO b/drivers/staging/pi433/TODO
+index 8d0f1b57961a..5cf3fd99d521 100644
+--- a/drivers/staging/pi433/TODO
++++ b/drivers/staging/pi433/TODO
+@@ -1,4 +1,3 @@
+-* still TODOs, annotated in the code
+ * currently the code introduces new IOCTLs. I'm afraid this is a bad idea.
+   -> Replace this with another interface, hints are welcome!
+ * Some missing data (marked with ###) needs to be added in the documentation
+diff --git a/drivers/staging/pi433/pi433_if.h b/drivers/staging/pi433/pi433_if.h
+index 855f0bebdc1c..25ee0b77a32c 100644
+--- a/drivers/staging/pi433/pi433_if.h
++++ b/drivers/staging/pi433/pi433_if.h
+@@ -1,7 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * include/linux/TODO
+- *
+  * userspace interface for pi433 radio module
+  *
+  * Pi433 is a 433MHz radio module for the Raspberry Pi.
 -- 
 2.34.1
 
