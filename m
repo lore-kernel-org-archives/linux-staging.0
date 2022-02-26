@@ -1,153 +1,176 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2066.outbound.protection.outlook.com [40.107.243.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDC23D70
-	for <linux-staging@lists.linux.dev>; Sat, 26 Feb 2022 17:53:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DRxJhaTt2SwaTQsxse4E8NequBoCD6ys45QgPdNeiqW0uWvfWlnypLfegV/5Zpfi8Ac6BhI122lDdJZH5NOLfwNtUlBmnhDvZEurDaTb1rFiJ3sFtuksu/DwGrxLHPt75sh+jwBUJQXUj5DOy+WIo9uw9470h3aSkpFwy0l8I34WfXIoW8nEA594erykZNbPwexjQFg46+0yf/lRoYtsgq2by+jpj5MzwCVdbPJx9Wq1Q3TjSBVjv8C7V6PUkNi+HTRnkbfehXbq/TeZrDxMeJL28oNb76xwCJU3rah0d0cNSUQ6JkQPGHCyj0u9VedefXSy2T153rrl8n4BriRMKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iUdFrwh/rud9irOje8p2dGcwE2EaH0Kr4cb5NcynRIk=;
- b=ZI4t2J9SAKpw3JzTkruY0oTq2tmcFkaOuZGXNUrZgmHCRxJ3uz6Ejl76OJ2iiXB4g3kfrHAyVkPu/64a8LrrKRUX1qYbKue7HK91FhRGfxmaCVWCq7vYP4nsBXTNehvHf2hxrdF9kZOYyP7gVPbR6OmimKH/vwJ3FAFTSGQNvDSjURnX9iSRwBlz+PfJGpTLS0qCGjxVZRM/uaRzgaUg/RVzgGTaZdup5cYXxJNxLJr3ZTSHpakaK2O95wvlBRKOLluBmR7YLlnRpRbh1vzlpHP+WjyoWZ01EYHqWk7u5EHDZ83cPvBVTYib+9BR2v6YcaDRRHHpG9R7Iw9njdO7sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
- dkim=pass header.d=silabs.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683023D70;
+	Sat, 26 Feb 2022 17:59:22 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id n25-20020a05600c3b9900b00380f41e51e6so3593771wms.2;
+        Sat, 26 Feb 2022 09:59:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iUdFrwh/rud9irOje8p2dGcwE2EaH0Kr4cb5NcynRIk=;
- b=lchslBsVg/4YAkt61pITpBgzX7g/ge9/jZ70CoPA1KbLY+u7ewSc2MgjwCGT5eFq+Rtk9rTj9rXm5K3Sw143xxRCXqY6UAccsN58t5AS5legpwSocdWGAb0r/irqd5LggcjGtYU/SyGA3PzvLPkT2yI6yNVf/Ra91WBDEoDU6pg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=silabs.com;
-Received: from PH0PR11MB5657.namprd11.prod.outlook.com (2603:10b6:510:ee::19)
- by MWHPR11MB1869.namprd11.prod.outlook.com (2603:10b6:300:108::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.24; Sat, 26 Feb
- 2022 17:53:33 +0000
-Received: from PH0PR11MB5657.namprd11.prod.outlook.com
- ([fe80::dd2e:8a4e:fc77:1e66]) by PH0PR11MB5657.namprd11.prod.outlook.com
- ([fe80::dd2e:8a4e:fc77:1e66%5]) with mapi id 15.20.5017.026; Sat, 26 Feb 2022
- 17:53:32 +0000
-From: =?ISO-8859-1?Q?J=E9r=F4me?= Pouiller <jerome.pouiller@silabs.com>
-To: gregkh@linuxfoundation.org, dan.carpenter@oracle.com, xkernel.wang@foxmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: Re: [PATCH v2 2/2] staging: wfx: check the return value of devm_kmalloc()
-Date: Fri, 18 Feb 2022 15:12:56 +0100
-Message-ID: <2337500.Vxl4yIHFln@pc-42>
-Organization: Silicon Labs
-In-Reply-To: <tencent_3CB9DC1C721449E14B4AD3FF65201CCC4C08@qq.com>
-References: <tencent_24A24A3EFF61206ECCC4B94B1C5C1454E108@qq.com> <tencent_3CB9DC1C721449E14B4AD3FF65201CCC4C08@qq.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-ClientProxiedBy: PR3PR09CA0018.eurprd09.prod.outlook.com
- (2603:10a6:102:b7::23) To PH0PR11MB5657.namprd11.prod.outlook.com
- (2603:10b6:510:ee::19)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9V9Jct16AZTz4K2DeDR/xCDxmdE9Vl1rLYHKFySR8Q8=;
+        b=OS5rKUhE7WXuiZzAYW7cwzYiV8SBfaes2cbt2tE8S+TsEw1AJJ/EtauXm86t/sGGOk
+         6Gtznw8XzXomN2E/jJX1Ab/F4luPeUHfombr9N4K93wAUclK1Q5xLFFAlq8pEUfN/85P
+         nPPov3wToi44wYltDMShEha7ixTIYA0kQadq5sw8EiEUEo5T+zhVbzoouPd8RuNibsNc
+         vjFiFWeAb1mlzc9ubE77Lg4FPwakw78ykg0kXAEL06cUaWCdknrUlqstev+v2hqB4Zvb
+         eZG3EyajjZ2e4Y+1Akl3IqfS7qbDc7pvcencVFz3EUr+Kn+9K/kb4i0buxEI2YwpKCR9
+         ZWzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9V9Jct16AZTz4K2DeDR/xCDxmdE9Vl1rLYHKFySR8Q8=;
+        b=v8+Xg1N3yUdtky1DA+vjrfTDfO19hVue66aqdtWt4Hnf6sT571jsfn3q7pmKv1AMDN
+         N1sfKHyLcf/nrrBHwlIFL+XR51hXxxzVGivU4Is9zz7ZraBUDx7temkBd/2wgEk0rYOa
+         U3VwXhw/84uxuBAHAyUC2PuOyOHink8UAUgHsI48X1+0/gyhN3Qo7N/P0U1JSlHm1odr
+         e6mluewgWytQJKLLro5inyqYxnY2W7rJfuqlKzfD3BtUPKqtPsjZupsKkCHDmMklUXzy
+         uhhVittNMzV2Gty4vyk09anVOgQFquOxnaoF1UwW5kd4CbY/SS101J4O9A5OgB8nOqq0
+         sE7g==
+X-Gm-Message-State: AOAM531xcYYChhhRJ1iA/kAepmtN+3dqSfUb4eBqRHZHbWloefka06Tm
+	Y0pypqqMUAtPbGaGiHe/f9c=
+X-Google-Smtp-Source: ABdhPJyTvdvsVl/KFu4YEwlfjU6HwwCb17kFxKDf8UAE6YUZfvMzy4E+dNh/VU3uZpPV3DhazFtIAw==
+X-Received: by 2002:a05:600c:4281:b0:381:40e5:6cea with SMTP id v1-20020a05600c428100b0038140e56ceamr5143482wmc.151.1645898360547;
+        Sat, 26 Feb 2022 09:59:20 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id e15-20020a5d6d0f000000b001ef7dca67fasm3741211wrq.114.2022.02.26.09.59.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Feb 2022 09:59:20 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: Re: [PATCH v3 09/14] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+Date: Sat, 26 Feb 2022 18:59:18 +0100
+Message-ID: <1884298.PYKUYFuaPT@kista>
+In-Reply-To: <4378293.LvFx2qVVIh@kista>
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <20220225164600.1044663-10-benjamin.gaignard@collabora.com> <4378293.LvFx2qVVIh@kista>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 186bbfe7-4101-411a-32b5-08d9f950e72d
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1869:EE_
-X-Microsoft-Antispam-PRVS:
-	<MWHPR11MB1869C92A291B35DC736824CC933F9@MWHPR11MB1869.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	jTtkFjPY6KZkKw0cqUoIy23IuBuzY5ctzzuoruF60Z/WvafA7SqC7wcrWZ2wxBTpdlnEvXH//d8pxWlPtQ9Uhz+ylY9olr7uTYshIUnBYbB0RBLWQinsr6uRi5zB2XrMNdkITzyFfQ31yzH2qAjhENhNjT4d9NunDyClKfVhCAzRMbxxX1l/xP1ojgNar0D3fOy0FHAFFJPcUZKU8+6ccAPFBqWIXy2qcPAXHliSeOOYNOkjTB8Y0z6qFzB10tynTR0DUc5M/KRj6PuJLJqpvUoKqp+Dg9+od9ljMVSOBY92mBzBsuoxUv2QNU+8VfX/xBndcd7fUqfrW9klYjpK2g8JxOf1vF5xlYNLjQOYcINzuCcEyxdK47DkJemtrm1vOiXTG3syJBZd6r0R9+DTH0+ic0hsNnIlky//YQ6HHW+Ern989NDw/oWeg86cgxndw1SpCZ2uCkXMx+yPIqhg8MwaCEO+ugZeyy5W2uWO0xmIA5MKDTv/HCg7mm9ZeQybKj8O0juHfSYzBIrF3g3p5/UFQR2Q0mvW3cszjHDDSZRUlo3259DftwnEyQfCAvKDvEzUCH0U+AZyreolgLUVRnhPph4o2nfhRA3PZwLNQ0u4w6qz0DIjv2NyO/bQd6iSxUXUj5Ss4vmx8XytAF2f+51hj4LviFU3vOO1AV87P6d8LRTtPSuB+oSqHzOJTgfzsrFvCfI+y960sEznjWAkFUWageGB7yh/bdqX0w3/sZE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(86362001)(66574015)(38100700002)(66556008)(8676002)(66476007)(66946007)(5660300002)(4326008)(316002)(33716001)(8936002)(186003)(2906002)(52116002)(83380400001)(508600001)(6486002)(6506007)(36916002)(6666004)(9686003)(6512007)(39026012)(48020200001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?cTXVBZ9Z7leOG59VCnkAP/MkRwABdzu93PA0MuigzyEvRcJZZ/AU89aQv7?=
- =?iso-8859-1?Q?yadt35ZFf793dbN3k6Z64sMSDg8pptWH/EsiVkiqELUPmvbiCbppBW89KV?=
- =?iso-8859-1?Q?GQk8q0hZYEWaMZFwTzdc8IA8ZrZYWSA14UICLo3gRqEtvDUtVnGOuUVdFE?=
- =?iso-8859-1?Q?ogM3Vv50oGu06yj2m7FDoIdjoqCd0/0P229IbqyJU6O0u7mGECSo5CEYbZ?=
- =?iso-8859-1?Q?MsvUdenM+4JOX4lpUc0RjphY29Dhb7iQgy7EgVFjprmKG0DWiqiuhWE1kf?=
- =?iso-8859-1?Q?4hNgl15r1bgVEk44MWEWfqUkatIWq1VoxEDCzeYhJME9BlKLQIiDb/Sh8I?=
- =?iso-8859-1?Q?NTjRdGN6utwBuhd2aV8CQIWbAA69jLwm1/tOEJbp/F+qk4f04V/gsZtHmK?=
- =?iso-8859-1?Q?NdGVWO/tXpi0WVdxs4wRFAxLMn63PrNIkUkf9+x8ss5+cc00ebaE2SZdia?=
- =?iso-8859-1?Q?LWU/t7BvJk0JZAxPmIVEhQyoff17okw3vx3D7CErjGE8Uxfy9BbHuD9hb8?=
- =?iso-8859-1?Q?E1ajOszf/bvyN8a+g19xbNrFDEYHIuc4a/TsrvpjB+JBda2gQlCyL3FPTe?=
- =?iso-8859-1?Q?DXkOe+v7kJvzalQoXhv82dK5pjOLD+V1jJaNbQoikXo6xPa/KIKvJtKk0j?=
- =?iso-8859-1?Q?CEMdVQs5ON50TgBU+/lXz/f0Oj/jmZXyKs7LeeQNJywEBfWfP9G87mM2v/?=
- =?iso-8859-1?Q?4mmtpaLXBrJJPOFPV0Wwq3XzshhtFryjcNS+lDZMRLlZhy4Xko1hF2eEpN?=
- =?iso-8859-1?Q?yiSLjs4ZB90lCI1o+3VTwC9A2OU4vZnrBNZdIfRgW09kuGTKq2E47kTL2K?=
- =?iso-8859-1?Q?39dYa6tnhbcahMbwdkBc8sy6DiaQLwwOncTy2ZiLkZjScSBMmu0OQtPykO?=
- =?iso-8859-1?Q?6H5aj6P0N5NTUrlOud3iasY9vASxCgt/PTMcILUBNc/8AxL6bE+zjYdJLH?=
- =?iso-8859-1?Q?k6e7j4xPYjdGv4B3YfFvRGpPoCaIus7KBGwM4Xp1fv85HTFADptPHYCoMu?=
- =?iso-8859-1?Q?5wNTZJu9d1n8pqJIEtxC8oDyGgcwsKkninl5D/z/keXh7HSUphJcmBLctN?=
- =?iso-8859-1?Q?PuynyRY9zyDSgtSmSTBdZoUU9HFZNyVBzgLN0p1ccJK3PfGXuNb2eVtj+q?=
- =?iso-8859-1?Q?INaL7OksZjKusrVPWsgWp57Bujlr3p/ybPjy2bfC7vQ44+REpqBf2XBM1H?=
- =?iso-8859-1?Q?ugYXtI+1sajX3hTisJK9XK0SIa73zzPAYcLAtO/DBwKAXarBMxYCZd+aYH?=
- =?iso-8859-1?Q?AW+pVWuJTpQS/PKhATg58+p3K7bKLjivcBPsjJd8ltvkvkl11wdXeGNEDz?=
- =?iso-8859-1?Q?nsOL8O4i8dzEs0fDyLEalsd+hj77bp+IqcOghEU5kCd1QoGXtB350trnjp?=
- =?iso-8859-1?Q?4kSc4/cRfdjfRjLn6O2MPxcrvfilT1VxSl8xuZExYfq9GnkLrJaEGRw//B?=
- =?iso-8859-1?Q?pT9NLrw6BIiVPanBZIu+kp929hp1qEdkw3CLoPcLxUk6yVOA8cztYGbjke?=
- =?iso-8859-1?Q?BTmAduBv/4kvPNTaOea++4jW9ETL8Y4Hqs74QVeykbgvNcA+FnxAxPWsII?=
- =?iso-8859-1?Q?uZLMqhXDqKoNaIVIOmKy13A9WhVDtgX/eSB7xL13+Mi7MFM0p5f4RSqvDA?=
- =?iso-8859-1?Q?SlzqhcaqmjyMjzuMYUPss5LsL4lCBCjv9mKlZQWUTq0jIo6C0iUFUV0e/G?=
- =?iso-8859-1?Q?PwLALA7wtFCC6xgAmh9ye0oAfhSNi2w1LwME23AV9QWdEk3NJekkiCkXU5?=
- =?iso-8859-1?Q?zllk1sCTvDqcUP2RUlsGRwD94=3D?=
-X-OriginatorOrg: silabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 186bbfe7-4101-411a-32b5-08d9f950e72d
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5657.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2022 17:53:32.3348
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 54dbd822-5231-4b20-944d-6f4abcd541fb
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jwx78NVgvBCTQAjab+O/R1+8v7jXW4YaQZLiVdOueixqrNJBsC819u5e/TsKEQ66L6GjIExPdgG6I8XsiPhUvg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1869
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Friday 18 February 2022 15:04:02 CET xkernel.wang@foxmail.com wrote:
->=20
-> From: Xiaoke Wang <xkernel.wang@foxmail.com>
->=20
-> devm_kmalloc() returns a pointer to allocated memory on success, NULL
-> on failure. While there is a memory allocation of devm_kmalloc()
-> without proper check. It is better to check the return value of it to
-> prevent wrong memory access.
-> And I use the err label which is introduced by the previous patch to
-> handle the error.
-This last sentence is not very useful, but it is not a big deal.
+Hi!
 
-Reviewed-by: J=E9r=F4me Pouiller <jerome.pouiller@silabs.com>
-
-
+Dne petek, 25. februar 2022 ob 20:30:20 CET je Jernej =C5=A0krabec napisal(=
+a):
+> Hi!
 >=20
-> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
-> ---
-> Changelog
-> v1->v2 update the description.
->  drivers/staging/wfx/main.c | 3 +++
->  1 file changed, 3 insertions(+)
+> Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard napisal(=
+a):
+> > The number of 'entry point offset' could be very variable.
+> > Rather than use a large static array define a v4l2 dynamic array
+> > of integer control.
 >=20
-> diff --git a/drivers/staging/wfx/main.c b/drivers/staging/wfx/main.c
-> index 9ff69c5..85fcdc3 100644
-> --- a/drivers/staging/wfx/main.c
-> +++ b/drivers/staging/wfx/main.c
-> @@ -294,6 +294,9 @@ struct wfx_dev *wfx_init_common(struct device *dev,
->         hw->wiphy->n_iface_combinations =3D ARRAY_SIZE(wfx_iface_combinat=
-ions);
->         hw->wiphy->iface_combinations =3D wfx_iface_combinations;
->         hw->wiphy->bands[NL80211_BAND_2GHZ] =3D devm_kmalloc(dev, sizeof(=
-wfx_band_2ghz), GFP_KERNEL);
-> +       if (!hw->wiphy->bands[NL80211_BAND_2GHZ])
-> +               goto err;
-> +
->         // FIXME: also copy wfx_rates and wfx_2ghz_chantable
->         memcpy(hw->wiphy->bands[NL80211_BAND_2GHZ], &wfx_band_2ghz,
->                sizeof(wfx_band_2ghz));
-> --
+> I suggest we should be more specific and say U32 (V4L2_CTRL_TYPE_U32).
 >=20
+> > The number of entry point offsets is reported by the elems field.
 
---=20
-J=E9r=F4me Pouiller
+I did few more tests and these are my findings:
+1. dynamic array can't be set over size, specified in .dims array
+2. entry point offsets are per slice, so if we make slices dynamic array, t=
+hen=20
+entry points would become two dimensional dynamic array
+3. num_entry_point_offsets must be part of slice control, because it can be=
+=20
+zero, but size of array can't be
+4. fortunately, not setting entry points doesn't impact decoding correctnes=
+s.=20
+This is in line what John told me about them.
+
+Hans, can you comment points 1-3? I might misunderstand point 1.
+
+In short, it seems like we don't really need entry points, even if they are=
+=20
+used in BSP library. In both cases, I got fluster score 119/138 (10-bit=20
+excluded), so we can just drop this patch, although I'm a bit uneasy not=20
+setting entry points...
+
+Best regards,
+Jernej
+
+> >=20
+> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > ---
+> >  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++++
+> >  include/media/hevc-ctrls.h                               | 1 +
+> >  2 files changed, 10 insertions(+)
+> >=20
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
+b/
+> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > index 44a268a948c0..71f7dc1c1ccd 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > @@ -3128,6 +3128,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> > =20
+> >      \normalsize
+> > =20
+> > +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>=20
+> Here you have OFFSETS (plural) ...
+>=20
+> > +    Specifies the i-th entry point offset in bytes and is represented =
+by
+> > +    offset_len_minus1 plus 1 bits.
+>=20
+> You probably mean entry_point_offset_minus1? offset_len_minus1 just tells=
+ how=20
+> much bits need to be read for each element and it's not important for act=
+ual=20
+> decoding.
+>=20
+> > +    This control is a dynamically sized array. The number of entry poi=
+nt
+> > +    offsets is reported by the ``elems`` field.
+> > +    This bitstream parameter is defined according to :ref:`hevc`.
+> > +    They are described in section 7.4.7.1 "General slice segment header
+> > +    semantics" of the specification.
+> > +
+> >  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+> >      Specifies the HEVC scaling matrix parameters used for the scaling=
+=20
+> process
+> >      for transform coefficients.
+> > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> > index 3016c1abb1d0..3f8a67924df3 100644
+> > --- a/include/media/hevc-ctrls.h
+> > +++ b/include/media/hevc-ctrls.h
+> > @@ -20,6 +20,7 @@
+> >  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE +=20
+> 1012)
+> >  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE +=20
+> 1015)
+> >  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE +=20
+1016)
+> > +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET (V4L2_CID_CODEC_BAS=
+E +=20
+> 1017)
+>=20
+> ... and here you have OFFSET (singlular). I suggest plural form to be use=
+d=20
+in=20
+> all places, including subject line of this commit.
+>=20
+> Additionally, it would be nice if control is initialized, like so:
+> https://github.com/jernejsk/linux-1/commit/
+> f938e162cd8dd77c9f6f1b248d80144840a37bce
+>=20
+> Best regards,
+> Jernej
+>=20
+> > =20
+> >  /* enum v4l2_ctrl_type type values */
+> >  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> > --=20
+> > 2.32.0
+> >=20
+> >=20
+>=20
+>=20
+>=20
 
 
