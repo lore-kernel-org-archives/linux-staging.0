@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5524A91
-	for <linux-staging@lists.linux.dev>; Sun, 27 Feb 2022 16:42:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1534A93
+	for <linux-staging@lists.linux.dev>; Sun, 27 Feb 2022 16:42:18 +0000 (UTC)
 Received: from ipservice-092-217-088-081.092.217.pools.vodafone-ip.de ([92.217.88.81] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nOMcf-0005Z9-M5; Sun, 27 Feb 2022 17:42:13 +0100
+	id 1nOMcb-0005Z9-0A; Sun, 27 Feb 2022 17:42:09 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-kernel@vger.kernel.org,
 	Pavel Skripkin <paskripkin@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 8/8] staging: r8188eu: use ieee80211 helper to read the "order" bit
-Date: Sun, 27 Feb 2022 17:41:47 +0100
-Message-Id: <20220227164147.1168847-9-martin@kaiser.cx>
+Subject: [PATCH v2 2/8] staging: r8188eu: use ieee80211 helpers to check the frame type
+Date: Sun, 27 Feb 2022 17:41:41 +0100
+Message-Id: <20220227164147.1168847-3-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220227164147.1168847-1-martin@kaiser.cx>
 References: <20220218135038.908307-1-martin@kaiser.cx>
@@ -32,41 +32,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the ieee80211 helper to read the "order" bit. The driver-specific
-macro GetOrder can be removed.
+Use the ieee80211_is_... helper functions to check the frame type in
+the validate_recv_frame function. Add a temporary variable for the
+16-bit frame control field.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 2 +-
- drivers/staging/r8188eu/include/wifi.h  | 3 ---
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_recv.c | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index b245b0d54973..d77d983510a0 100644
+index 1133239f29bc..e95c9a47dcac 100644
 --- a/drivers/staging/r8188eu/core/rtw_recv.c
 +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -1084,7 +1084,7 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 	pattrib->mfrag = ieee80211_has_morefrags(fc);
- 	pattrib->mdata = ieee80211_has_moredata(fc);
- 	pattrib->privacy = ieee80211_has_protected(fc);
--	pattrib->order = GetOrder(ptr);
-+	pattrib->order = ieee80211_has_order(fc);
+@@ -3,6 +3,7 @@
+ 
+ #define _RTW_RECV_C_
+ 
++#include <linux/ieee80211.h>
+ #include "../include/osdep_service.h"
+ #include "../include/drv_types.h"
+ #include "../include/recv_osdep.h"
+@@ -1056,12 +1057,12 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
+ 
+ 	/* then call check if rx seq/frag. duplicated. */
+ 
+-	u8 type;
+ 	u8 subtype;
+ 	int retval = _SUCCESS;
+ 	u8 bDumpRxPkt;
+ 	struct rx_pkt_attrib *pattrib = &precv_frame->attrib;
+ 	u8 *ptr = precv_frame->rx_data;
++	__le16 fc = *(__le16 *)ptr;
+ 	u8  ver = (unsigned char)(*ptr) & 0x3;
+ 	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
+ 
+@@ -1077,7 +1078,6 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
+ 		goto exit;
+ 	}
+ 
+-	type =  GetFrameType(ptr);
+ 	subtype = GetFrameSubType(ptr); /* bit(7)~bit(2) */
+ 
+ 	pattrib->to_fr_ds = get_tofr_ds(ptr);
+@@ -1093,16 +1093,14 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
  
  	/* Dump rx packets */
  	GetHalDefVar8188EUsb(adapter, HAL_DEF_DBG_DUMP_RXPKT, &bDumpRxPkt);
-diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index 336c32470150..39b7a596e4c1 100644
---- a/drivers/staging/r8188eu/include/wifi.h
-+++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -217,9 +217,6 @@ enum WIFI_REG_DOMAIN {
- #define ClearPrivacy(pbuf)	\
- 	*(__le16 *)(pbuf) &= (~cpu_to_le16(_PRIVACY_))
+-	switch (type) {
+-	case IEEE80211_FTYPE_MGMT:
++
++	if (ieee80211_is_mgmt(fc)) {
+ 		validate_recv_mgnt_frame(adapter, precv_frame);
+ 		retval = _FAIL; /*  only data frame return _SUCCESS */
+-		break;
+-	case WIFI_CTRL_TYPE: /* ctrl */
++	} else if (ieee80211_is_ctl(fc)) {
+ 		validate_recv_ctrl_frame(adapter, precv_frame);
+ 		retval = _FAIL; /*  only data frame return _SUCCESS */
+-		break;
+-	case WIFI_DATA_TYPE: /* data */
++	} else if (ieee80211_is_data(fc)) {
+ 		rtw_led_control(adapter, LED_CTL_RX);
+ 		pattrib->qos = (subtype & BIT(7)) ? 1 : 0;
+ 		retval = validate_recv_data_frame(adapter, precv_frame);
+@@ -1110,11 +1108,8 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
+ 			struct recv_priv *precvpriv = &adapter->recvpriv;
+ 			precvpriv->rx_drop++;
+ 		}
+-		break;
+-	default:
++	} else
+ 		retval = _FAIL;
+-		break;
+-	}
  
--#define GetOrder(pbuf)					\
--	(((*(__le16 *)(pbuf)) & cpu_to_le16(_ORDER_)) != 0)
--
- #define GetFrameType(pbuf)				\
- 	(le16_to_cpu(*(__le16 *)(pbuf)) & (BIT(3) | BIT(2)))
+ exit:
  
 -- 
 2.30.2
