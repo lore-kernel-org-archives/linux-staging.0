@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F894A91
-	for <linux-staging@lists.linux.dev>; Sun, 27 Feb 2022 16:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4E64A94
+	for <linux-staging@lists.linux.dev>; Sun, 27 Feb 2022 16:42:18 +0000 (UTC)
 Received: from ipservice-092-217-088-081.092.217.pools.vodafone-ip.de ([92.217.88.81] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nOMcb-0005Z9-Py; Sun, 27 Feb 2022 17:42:09 +0100
+	id 1nOMca-0005Z9-36; Sun, 27 Feb 2022 17:42:08 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-kernel@vger.kernel.org,
 	Pavel Skripkin <paskripkin@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 3/8] staging: r8188eu: refactor validate_recv_frame's error handling
-Date: Sun, 27 Feb 2022 17:41:42 +0100
-Message-Id: <20220227164147.1168847-4-martin@kaiser.cx>
+Subject: [PATCH v2 1/8] staging: r8188eu: use ieee80211 define for management frame type
+Date: Sun, 27 Feb 2022 17:41:40 +0100
+Message-Id: <20220227164147.1168847-2-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220227164147.1168847-1-martin@kaiser.cx>
 References: <20220218135038.908307-1-martin@kaiser.cx>
@@ -32,70 +32,93 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor the error handling of validate_recv_frame. It's simpler to
-default to _FAIL.
+Replace the driver-internal define for management frame type with
+IEEE80211_FTYPE_MGMT.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c |  3 ++-
+ drivers/staging/r8188eu/core/rtw_recv.c     |  2 +-
+ drivers/staging/r8188eu/include/wifi.h      | 25 ++++++++++-----------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 0b77ddde6ce2..f49641abc8b8 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -3,6 +3,7 @@
+ 
+ #define _RTW_MLME_EXT_C_
+ 
++#include <linux/ieee80211.h>
+ #include "../include/osdep_service.h"
+ #include "../include/drv_types.h"
+ #include "../include/wifi.h"
+@@ -414,7 +415,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+ 	u8 *pframe = precv_frame->rx_data;
+ 	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(pframe));
+ 
+-	if (GetFrameType(pframe) != WIFI_MGT_TYPE)
++	if (GetFrameType(pframe) != IEEE80211_FTYPE_MGMT)
+ 		return;
+ 
+ 	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
 diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index e95c9a47dcac..364bf78c36e9 100644
+index 6dacb2687034..1133239f29bc 100644
 --- a/drivers/staging/r8188eu/core/rtw_recv.c
 +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -1058,7 +1058,7 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 	/* then call check if rx seq/frag. duplicated. */
- 
- 	u8 subtype;
--	int retval = _SUCCESS;
-+	int retval = _FAIL;
- 	u8 bDumpRxPkt;
- 	struct rx_pkt_attrib *pattrib = &precv_frame->attrib;
- 	u8 *ptr = precv_frame->rx_data;
-@@ -1073,10 +1073,8 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 	}
- 
- 	/* add version chk */
--	if (ver != 0) {
--		retval = _FAIL;
--		goto exit;
--	}
-+	if (ver != 0)
-+		return _FAIL;
- 
- 	subtype = GetFrameSubType(ptr); /* bit(7)~bit(2) */
- 
-@@ -1094,13 +1092,12 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
+@@ -1094,7 +1094,7 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
  	/* Dump rx packets */
  	GetHalDefVar8188EUsb(adapter, HAL_DEF_DBG_DUMP_RXPKT, &bDumpRxPkt);
- 
--	if (ieee80211_is_mgmt(fc)) {
-+	/* We return _SUCCESS only for data frames. */
-+	if (ieee80211_is_mgmt(fc))
+ 	switch (type) {
+-	case WIFI_MGT_TYPE: /* mgnt */
++	case IEEE80211_FTYPE_MGMT:
  		validate_recv_mgnt_frame(adapter, precv_frame);
--		retval = _FAIL; /*  only data frame return _SUCCESS */
--	} else if (ieee80211_is_ctl(fc)) {
-+	else if (ieee80211_is_ctl(fc))
- 		validate_recv_ctrl_frame(adapter, precv_frame);
--		retval = _FAIL; /*  only data frame return _SUCCESS */
--	} else if (ieee80211_is_data(fc)) {
-+	else if (ieee80211_is_data(fc)) {
- 		rtw_led_control(adapter, LED_CTL_RX);
- 		pattrib->qos = (subtype & BIT(7)) ? 1 : 0;
- 		retval = validate_recv_data_frame(adapter, precv_frame);
-@@ -1108,10 +1105,7 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 			struct recv_priv *precvpriv = &adapter->recvpriv;
- 			precvpriv->rx_drop++;
- 		}
--	} else
--		retval = _FAIL;
--
--exit:
-+	}
+ 		retval = _FAIL; /*  only data frame return _SUCCESS */
+ 		break;
+diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
+index e7083d721dae..5b383c2e9880 100644
+--- a/drivers/staging/r8188eu/include/wifi.h
++++ b/drivers/staging/r8188eu/include/wifi.h
+@@ -18,7 +18,6 @@
+ #define WLAN_SSID_MAXLEN	32
  
- 	return retval;
- }
+ enum WIFI_FRAME_TYPE {
+-	WIFI_MGT_TYPE  =	(0),
+ 	WIFI_CTRL_TYPE =	(BIT(2)),
+ 	WIFI_DATA_TYPE =	(BIT(3)),
+ 	WIFI_QOS_DATA_TYPE	= (BIT(7)|BIT(3)),	/*  QoS Data */
+@@ -26,18 +25,18 @@ enum WIFI_FRAME_TYPE {
+ 
+ enum WIFI_FRAME_SUBTYPE {
+ 	/*  below is for mgt frame */
+-	WIFI_ASSOCREQ       = (0 | WIFI_MGT_TYPE),
+-	WIFI_ASSOCRSP       = (BIT(4) | WIFI_MGT_TYPE),
+-	WIFI_REASSOCREQ     = (BIT(5) | WIFI_MGT_TYPE),
+-	WIFI_REASSOCRSP     = (BIT(5) | BIT(4) | WIFI_MGT_TYPE),
+-	WIFI_PROBEREQ       = (BIT(6) | WIFI_MGT_TYPE),
+-	WIFI_PROBERSP       = (BIT(6) | BIT(4) | WIFI_MGT_TYPE),
+-	WIFI_BEACON         = (BIT(7) | WIFI_MGT_TYPE),
+-	WIFI_ATIM           = (BIT(7) | BIT(4) | WIFI_MGT_TYPE),
+-	WIFI_DISASSOC       = (BIT(7) | BIT(5) | WIFI_MGT_TYPE),
+-	WIFI_AUTH           = (BIT(7) | BIT(5) | BIT(4) | WIFI_MGT_TYPE),
+-	WIFI_DEAUTH         = (BIT(7) | BIT(6) | WIFI_MGT_TYPE),
+-	WIFI_ACTION         = (BIT(7) | BIT(6) | BIT(4) | WIFI_MGT_TYPE),
++	WIFI_ASSOCREQ       = (0 | IEEE80211_FTYPE_MGMT),
++	WIFI_ASSOCRSP       = (BIT(4) | IEEE80211_FTYPE_MGMT),
++	WIFI_REASSOCREQ     = (BIT(5) | IEEE80211_FTYPE_MGMT),
++	WIFI_REASSOCRSP     = (BIT(5) | BIT(4) | IEEE80211_FTYPE_MGMT),
++	WIFI_PROBEREQ       = (BIT(6) | IEEE80211_FTYPE_MGMT),
++	WIFI_PROBERSP       = (BIT(6) | BIT(4) | IEEE80211_FTYPE_MGMT),
++	WIFI_BEACON         = (BIT(7) | IEEE80211_FTYPE_MGMT),
++	WIFI_ATIM           = (BIT(7) | BIT(4) | IEEE80211_FTYPE_MGMT),
++	WIFI_DISASSOC       = (BIT(7) | BIT(5) | IEEE80211_FTYPE_MGMT),
++	WIFI_AUTH           = (BIT(7) | BIT(5) | BIT(4) | IEEE80211_FTYPE_MGMT),
++	WIFI_DEAUTH         = (BIT(7) | BIT(6) | IEEE80211_FTYPE_MGMT),
++	WIFI_ACTION         = (BIT(7) | BIT(6) | BIT(4) | IEEE80211_FTYPE_MGMT),
+ 
+ 	/*  below is for control frame */
+ 	WIFI_PSPOLL         = (BIT(7) | BIT(5) | WIFI_CTRL_TYPE),
 -- 
 2.30.2
 
