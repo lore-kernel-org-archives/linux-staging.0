@@ -1,41 +1,41 @@
 Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62D12F27;
-	Sun, 27 Feb 2022 14:50:30 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id w3so14044888edu.8;
-        Sun, 27 Feb 2022 06:50:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F163548D9;
+	Sun, 27 Feb 2022 14:50:31 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id cm8so14091240edb.3;
+        Sun, 27 Feb 2022 06:50:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CrbuTWBGQGF1wKlq0XiQG6lHRZW77tNfdMa5Cg7nAoQ=;
-        b=UnUTFbikRlKsnmxTJl1qYMTnJhUdXo2Mw6/A2h8+Dd22/WCwk7gDYe4mX3ebjCslBf
-         n81T74uLYvpybl/0eQD8efsoQhMREqDZd7dXlJ6hovOgqBEk1WRc+GnACSxZxreZ26Ul
-         BQALOopIr+d1bVjGIdzRBfKZyxmvG3vmDvkDeABERmoo0ejF+J7xP7X0XtvQyF8bmf8R
-         eEv8a2wbdvnOLCZ2xd6xTwn07uPX1Me1uS5aFz8Mq/KIjdvDzhDvzhw7DOXTMbRL3Vft
-         UEhAiRAZPjFH36OMoEZ7eS8QJTyEX+OBdfxuAFC002Hjmq4U+QmbXMW+txvUqAE8hleD
-         SnbQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=OfaQxvNgMBgVBVbh1U+wBEbHSjlkePlNsaFk++CJO/A=;
+        b=jWJnE1IxsQxmFtj/7wUA06044ZoLdn+WoSI4PhuUZYB7xEl2X3Y1efVw/ceQ8D5YFA
+         0taHOo8EXyDrXtx2bbqvX2BDCgttbT29hBufa5lc5u9QQLNhrz5OoqNc9mEwkfwGFiRD
+         1OcpyD/V/MJFC4/AG0c0RGHR3NnW+D0a7m4mPE0tFC31bOjCUTTsmDJaMSjBEjgMN7As
+         UElRUevIIjC5PI3amBRmQ5nSK1FmXP/IzxtcabZkH7qsdWBGhO/WM61SgCzhql6jT9UM
+         0dcO76SUrRR2yZSb0oyzHonzY6Y33mCrpy5xGrmNIQCo2kStUwo8EDst8caAH5o/bU8U
+         TaUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CrbuTWBGQGF1wKlq0XiQG6lHRZW77tNfdMa5Cg7nAoQ=;
-        b=xuXM0UUqxr6xSywZi+2kyyXnUkl2jVKYN6FaT+ug1+GW3CobppoQwi1IRxDMTjI/4z
-         KZrwik2SZ64lLx9fH3aVlnPNtE71KfabLtLZJECz0E59R9fjC7MjBol1F9XU/RBdFrUM
-         ariwtkHHRozTdJ2mRHclHQowJKT8Cpq+i5hRDYIZxzZRT/LjBPUlkhp6MF5OWofsiT0f
-         xSmjUvGpS+ZikVg32yFO1xq5PiwPRTmeM7XSWoouODu7WLCt1u13Zf2r9lrJU3G+FqXt
-         vqq7uoMWac27RCbk2AxZlWGjhT6dUGv5FvZzm+t610+KlOxOkMO700Ifih+B0k3eKUqz
-         ptLg==
-X-Gm-Message-State: AOAM530i8zOB47/6mvLomialAa8d5NA+Ej6f0kXf9zjX9FOqopzlYjPT
-	Qq0FcrlNGrt7wq8nDxXp/+w=
-X-Google-Smtp-Source: ABdhPJx9vkMDAjlbJa6ZoafcNpXzzrgRLL6r//RkTA9DQ26x/9ZskSxSIwV77psWiiCzvNT1ZYH34g==
-X-Received: by 2002:a05:6402:50d2:b0:413:1cd8:e08e with SMTP id h18-20020a05640250d200b004131cd8e08emr15521864edb.276.1645973429011;
-        Sun, 27 Feb 2022 06:50:29 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=OfaQxvNgMBgVBVbh1U+wBEbHSjlkePlNsaFk++CJO/A=;
+        b=MB8UnQEbuoTeu16VD+wiTVFJGdKC9KWE3TyoE5SyPOKfy+mYj6nBq6lQnS51HuqMss
+         R2LJgeuBWtWM4zQpXqWJHhT38tjPi6/49zM2BS/155c5ATY41rADHnKjiVZa6fCJpBt2
+         pZM1qW6LCOPJR2X0PNcnx4DA5qxb3FLNruDYsSdA3oHbwGX42YaVWB8oEFU8CdYBxeEV
+         DKX13Y4v4OnEKvQO3tKiCNLb4+HQKKBFsQNuqya8ee0Ba1PjlOHQZz9gzInRDw4p7F+P
+         M2bZ0zS2txNUBZJJma732iAIW0BwyXP2w0bccAjf9XarfJp5LUXxdBVBdFaizsKm8VQh
+         JmgQ==
+X-Gm-Message-State: AOAM5319xWDeu14ueN+rDcc+NnfC7iVaFf46hMjTNW/G+0uNJf5A0VVJ
+	+21siyMX8PE4FMwz7CYpp9I=
+X-Google-Smtp-Source: ABdhPJyDSwZ5SFyTYb4xCunkFA4mylMDYXcPzpygzBsB+uEoEDogghqGdrYYbzUneMXJcGR0SRselA==
+X-Received: by 2002:aa7:d7c8:0:b0:3f9:3b65:f2b3 with SMTP id e8-20020aa7d7c8000000b003f93b65f2b3mr15310530eds.389.1645973430285;
+        Sun, 27 Feb 2022 06:50:30 -0800 (PST)
 Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id a1-20020a1709063e8100b006ce06ed8aa7sm3501887ejj.142.2022.02.27.06.50.27
+        by smtp.gmail.com with ESMTPSA id a1-20020a1709063e8100b006ce06ed8aa7sm3501887ejj.142.2022.02.27.06.50.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Feb 2022 06:50:28 -0800 (PST)
+        Sun, 27 Feb 2022 06:50:29 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: ezequiel@vanguardiasur.com.ar,
 	p.zabel@pengutronix.de
@@ -52,10 +52,12 @@ Cc: mchehab@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [RFC PATCH 0/8] media: hantro: Add 10-bit support
-Date: Sun, 27 Feb 2022 15:49:18 +0100
-Message-Id: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+Subject: [RFC PATCH 1/8] media: Add P010 tiled format
+Date: Sun, 27 Feb 2022 15:49:19 +0100
+Message-Id: <20220227144926.3006585-2-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,48 +66,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-First two patches add 10-bit formats to UAPI, third extends filtering
-mechanism, fourth fixes incorrect assumption, fifth moves register
-configuration code to proper place, sixth and seventh enable 10-bit
-VP9 decoding on Allwinner H6 and last increases core frequency on
-Allwinner H6.
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-I'm sending this as RFC to get some comments:
-1. format definitions - are fourcc's ok? are comments/descriptions ok?
-2. is extended filtering mechanism ok?
+Add P010 tiled format
 
-I would also like if these patches are tested on some more HW.
-Additionally, can someone test tiled P010?
+Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+[rebased and updated pixel format name]
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/media/v4l2-core/v4l2-common.c | 1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c  | 1 +
+ include/uapi/linux/videodev2.h        | 1 +
+ 3 files changed, 3 insertions(+)
 
-Please take a look.
-
-Best regards,
-Jernej
-
-Ezequiel Garcia (1):
-  media: Add P010 tiled format
-
-Jernej Skrabec (7):
-  media: Add P010 format
-  media: hantro: Support format filtering by depth
-  media: hantro: postproc: Fix buffer size calculation
-  media: hantro: postproc: Fix legacy regs configuration
-  media: hantro: Store VP9 bit depth in context
-  media: hantro: sunxi: Enable 10-bit decoding
-  media: hantro: sunxi: Increase frequency
-
- drivers/media/v4l2-core/v4l2-common.c         |  3 ++
- drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
- drivers/staging/media/hantro/hantro.h         |  4 ++
- drivers/staging/media/hantro/hantro_drv.c     | 23 +++++++++
- .../staging/media/hantro/hantro_g2_vp9_dec.c  |  8 ---
- .../staging/media/hantro/hantro_postproc.c    | 34 ++++++++++---
- drivers/staging/media/hantro/hantro_v4l2.c    | 50 +++++++++++++++++--
- drivers/staging/media/hantro/hantro_v4l2.h    |  3 ++
- drivers/staging/media/hantro/sunxi_vpu_hw.c   | 13 ++++-
- include/uapi/linux/videodev2.h                |  2 +
- 10 files changed, 122 insertions(+), 20 deletions(-)
-
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index df34b2a283bc..1db0020e08c0 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -277,6 +277,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+ 
+ 		/* Tiled YUV formats */
+ 		{ .format = V4L2_PIX_FMT_NV12_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
++		{ .format = V4L2_PIX_FMT_P010_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+ 
+ 		/* YUV planar formats, non contiguous variant */
+ 		{ .format = V4L2_PIX_FMT_YUV420M, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 3, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 2 },
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 9ac557b8e146..048f326c57b9 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1302,6 +1302,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_NV12_4L4:	descr = "Y/CbCr 4:2:0 (4x4 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
++	case V4L2_PIX_FMT_P010_4L4:	descr = "P010 tiled"; break;
+ 	case V4L2_PIX_FMT_NV12M:	descr = "Y/CbCr 4:2:0 (N-C)"; break;
+ 	case V4L2_PIX_FMT_NV21M:	descr = "Y/CrCb 4:2:0 (N-C)"; break;
+ 	case V4L2_PIX_FMT_NV16M:	descr = "Y/CbCr 4:2:2 (N-C)"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index df8b9c486ba1..772dbadd1a24 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -628,6 +628,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_NV12_4L4 v4l2_fourcc('V', 'T', '1', '2')   /* 12  Y/CbCr 4:2:0  4x4 tiles */
+ #define V4L2_PIX_FMT_NV12_16L16 v4l2_fourcc('H', 'M', '1', '2') /* 12  Y/CbCr 4:2:0 16x16 tiles */
+ #define V4L2_PIX_FMT_NV12_32L32 v4l2_fourcc('S', 'T', '1', '2') /* 12  Y/CbCr 4:2:0 32x32 tiles */
++#define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* 12  Y/CbCr 4:2:0 10-bit 4x4 macroblocks */
+ 
+ /* Tiled YUV formats, non contiguous planes */
+ #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* 12  Y/CbCr 4:2:0 64x32 tiles */
 -- 
 2.35.1
 
