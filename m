@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4E64A94
-	for <linux-staging@lists.linux.dev>; Sun, 27 Feb 2022 16:42:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23074A97
+	for <linux-staging@lists.linux.dev>; Sun, 27 Feb 2022 16:42:19 +0000 (UTC)
 Received: from ipservice-092-217-088-081.092.217.pools.vodafone-ip.de ([92.217.88.81] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nOMca-0005Z9-36; Sun, 27 Feb 2022 17:42:08 +0100
+	id 1nOMcc-0005Z9-IH; Sun, 27 Feb 2022 17:42:10 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-kernel@vger.kernel.org,
 	Pavel Skripkin <paskripkin@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 1/8] staging: r8188eu: use ieee80211 define for management frame type
-Date: Sun, 27 Feb 2022 17:41:40 +0100
-Message-Id: <20220227164147.1168847-2-martin@kaiser.cx>
+Subject: [PATCH v2 4/8] staging: r8188eu: use ieee80211 helper for qos bit
+Date: Sun, 27 Feb 2022 17:41:43 +0100
+Message-Id: <20220227164147.1168847-5-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220227164147.1168847-1-martin@kaiser.cx>
 References: <20220218135038.908307-1-martin@kaiser.cx>
@@ -32,93 +32,93 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the driver-internal define for management frame type with
-IEEE80211_FTYPE_MGMT.
+Use the ieee80211_is_data_qos helper function to read the qos bit.
+
+This helper function returns a bool. Change the qos field in struct
+rx_pkt_attrib from u8 to bool and fix up the other places where it
+is used.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c |  3 ++-
- drivers/staging/r8188eu/core/rtw_recv.c     |  2 +-
- drivers/staging/r8188eu/include/wifi.h      | 25 ++++++++++-----------
- 3 files changed, 15 insertions(+), 15 deletions(-)
+ drivers/staging/r8188eu/core/rtw_recv.c       | 9 +++------
+ drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c | 2 +-
+ drivers/staging/r8188eu/include/rtw_recv.h    | 2 +-
+ 3 files changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 0b77ddde6ce2..f49641abc8b8 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -3,6 +3,7 @@
- 
- #define _RTW_MLME_EXT_C_
- 
-+#include <linux/ieee80211.h>
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/wifi.h"
-@@ -414,7 +415,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
- 	u8 *pframe = precv_frame->rx_data;
- 	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(pframe));
- 
--	if (GetFrameType(pframe) != WIFI_MGT_TYPE)
-+	if (GetFrameType(pframe) != IEEE80211_FTYPE_MGMT)
- 		return;
- 
- 	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
 diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 6dacb2687034..1133239f29bc 100644
+index 364bf78c36e9..3a92d261f7c3 100644
 --- a/drivers/staging/r8188eu/core/rtw_recv.c
 +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -1094,7 +1094,7 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 	/* Dump rx packets */
- 	GetHalDefVar8188EUsb(adapter, HAL_DEF_DBG_DUMP_RXPKT, &bDumpRxPkt);
- 	switch (type) {
--	case WIFI_MGT_TYPE: /* mgnt */
-+	case IEEE80211_FTYPE_MGMT:
- 		validate_recv_mgnt_frame(adapter, precv_frame);
- 		retval = _FAIL; /*  only data frame return _SUCCESS */
- 		break;
-diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index e7083d721dae..5b383c2e9880 100644
---- a/drivers/staging/r8188eu/include/wifi.h
-+++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -18,7 +18,6 @@
- #define WLAN_SSID_MAXLEN	32
+@@ -1012,7 +1012,7 @@ static int validate_recv_data_frame(struct adapter *adapter,
+ 	pattrib->amsdu = 0;
+ 	pattrib->ack_policy = 0;
+ 	/* parsing QC field */
+-	if (pattrib->qos == 1) {
++	if (pattrib->qos) {
+ 		pattrib->priority = GetPriority((ptr + 24));
+ 		pattrib->ack_policy = GetAckpolicy((ptr + 24));
+ 		pattrib->amsdu = GetAMsdu((ptr + 24));
+@@ -1057,7 +1057,6 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
  
- enum WIFI_FRAME_TYPE {
--	WIFI_MGT_TYPE  =	(0),
- 	WIFI_CTRL_TYPE =	(BIT(2)),
- 	WIFI_DATA_TYPE =	(BIT(3)),
- 	WIFI_QOS_DATA_TYPE	= (BIT(7)|BIT(3)),	/*  QoS Data */
-@@ -26,18 +25,18 @@ enum WIFI_FRAME_TYPE {
+ 	/* then call check if rx seq/frag. duplicated. */
  
- enum WIFI_FRAME_SUBTYPE {
- 	/*  below is for mgt frame */
--	WIFI_ASSOCREQ       = (0 | WIFI_MGT_TYPE),
--	WIFI_ASSOCRSP       = (BIT(4) | WIFI_MGT_TYPE),
--	WIFI_REASSOCREQ     = (BIT(5) | WIFI_MGT_TYPE),
--	WIFI_REASSOCRSP     = (BIT(5) | BIT(4) | WIFI_MGT_TYPE),
--	WIFI_PROBEREQ       = (BIT(6) | WIFI_MGT_TYPE),
--	WIFI_PROBERSP       = (BIT(6) | BIT(4) | WIFI_MGT_TYPE),
--	WIFI_BEACON         = (BIT(7) | WIFI_MGT_TYPE),
--	WIFI_ATIM           = (BIT(7) | BIT(4) | WIFI_MGT_TYPE),
--	WIFI_DISASSOC       = (BIT(7) | BIT(5) | WIFI_MGT_TYPE),
--	WIFI_AUTH           = (BIT(7) | BIT(5) | BIT(4) | WIFI_MGT_TYPE),
--	WIFI_DEAUTH         = (BIT(7) | BIT(6) | WIFI_MGT_TYPE),
--	WIFI_ACTION         = (BIT(7) | BIT(6) | BIT(4) | WIFI_MGT_TYPE),
-+	WIFI_ASSOCREQ       = (0 | IEEE80211_FTYPE_MGMT),
-+	WIFI_ASSOCRSP       = (BIT(4) | IEEE80211_FTYPE_MGMT),
-+	WIFI_REASSOCREQ     = (BIT(5) | IEEE80211_FTYPE_MGMT),
-+	WIFI_REASSOCRSP     = (BIT(5) | BIT(4) | IEEE80211_FTYPE_MGMT),
-+	WIFI_PROBEREQ       = (BIT(6) | IEEE80211_FTYPE_MGMT),
-+	WIFI_PROBERSP       = (BIT(6) | BIT(4) | IEEE80211_FTYPE_MGMT),
-+	WIFI_BEACON         = (BIT(7) | IEEE80211_FTYPE_MGMT),
-+	WIFI_ATIM           = (BIT(7) | BIT(4) | IEEE80211_FTYPE_MGMT),
-+	WIFI_DISASSOC       = (BIT(7) | BIT(5) | IEEE80211_FTYPE_MGMT),
-+	WIFI_AUTH           = (BIT(7) | BIT(5) | BIT(4) | IEEE80211_FTYPE_MGMT),
-+	WIFI_DEAUTH         = (BIT(7) | BIT(6) | IEEE80211_FTYPE_MGMT),
-+	WIFI_ACTION         = (BIT(7) | BIT(6) | BIT(4) | IEEE80211_FTYPE_MGMT),
+-	u8 subtype;
+ 	int retval = _FAIL;
+ 	u8 bDumpRxPkt;
+ 	struct rx_pkt_attrib *pattrib = &precv_frame->attrib;
+@@ -1076,8 +1075,6 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
+ 	if (ver != 0)
+ 		return _FAIL;
  
- 	/*  below is for control frame */
- 	WIFI_PSPOLL         = (BIT(7) | BIT(5) | WIFI_CTRL_TYPE),
+-	subtype = GetFrameSubType(ptr); /* bit(7)~bit(2) */
+-
+ 	pattrib->to_fr_ds = get_tofr_ds(ptr);
+ 
+ 	pattrib->frag_num = GetFragNum(ptr);
+@@ -1099,7 +1096,7 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
+ 		validate_recv_ctrl_frame(adapter, precv_frame);
+ 	else if (ieee80211_is_data(fc)) {
+ 		rtw_led_control(adapter, LED_CTL_RX);
+-		pattrib->qos = (subtype & BIT(7)) ? 1 : 0;
++		pattrib->qos = ieee80211_is_data_qos(fc);
+ 		retval = validate_recv_data_frame(adapter, precv_frame);
+ 		if (retval == _FAIL) {
+ 			struct recv_priv *precvpriv = &adapter->recvpriv;
+@@ -1599,7 +1596,7 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, struct recv_frame
+ 		/* s1. */
+ 		wlanhdr_to_ethhdr(prframe);
+ 
+-		if (pattrib->qos != 1) {
++		if (!pattrib->qos) {
+ 			if (!padapter->bDriverStopped &&
+ 			    !padapter->bSurpriseRemoved) {
+ 				rtw_recv_indicatepkt(padapter, prframe);
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c b/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
+index bf93ff3af140..101091342e4e 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
+@@ -84,7 +84,7 @@ void update_recvframe_attrib_88e(struct recv_frame *precvframe, struct recv_stat
+ 		pattrib->bdecrypted = (le32_to_cpu(report.rxdw0) & BIT(27)) ? 0 : 1;/* u8)(prxreport->swdec ? 0 : 1); */
+ 		pattrib->encrypt = (u8)((le32_to_cpu(report.rxdw0) >> 20) & 0x7);/* u8)prxreport->security; */
+ 
+-		pattrib->qos = (u8)((le32_to_cpu(report.rxdw0) >> 23) & 0x1);/* u8)prxreport->qos; */
++		pattrib->qos = (le32_to_cpu(report.rxdw0) >> 23) & 0x1;/* prxreport->qos; */
+ 		pattrib->priority = (u8)((le32_to_cpu(report.rxdw1) >> 8) & 0xf);/* u8)prxreport->tid; */
+ 
+ 		pattrib->amsdu = (u8)((le32_to_cpu(report.rxdw1) >> 13) & 0x1);/* u8)prxreport->amsdu; */
+diff --git a/drivers/staging/r8188eu/include/rtw_recv.h b/drivers/staging/r8188eu/include/rtw_recv.h
+index 6a6f6373467b..d2f1c71f2262 100644
+--- a/drivers/staging/r8188eu/include/rtw_recv.h
++++ b/drivers/staging/r8188eu/include/rtw_recv.h
+@@ -82,7 +82,7 @@ struct rx_pkt_attrib {
+ 	u8	hdrlen; /* the WLAN Header Len */
+ 	u8	to_fr_ds;
+ 	u8	amsdu;
+-	u8	qos;
++	bool	qos;
+ 	u8	priority;
+ 	u8	pw_save;
+ 	u8	mdata;
 -- 
 2.30.2
 
