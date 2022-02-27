@@ -1,41 +1,41 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA0D48DA;
-	Sun, 27 Feb 2022 14:50:36 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id lw4so20005910ejb.12;
-        Sun, 27 Feb 2022 06:50:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1231448DA;
+	Sun, 27 Feb 2022 14:50:37 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id bg10so20082339ejb.4;
+        Sun, 27 Feb 2022 06:50:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=h0hl126aUwxb4PSQYFJBWdIRBbMkxmpBsFtc/sUEmus=;
-        b=ZqYYVei1mzsAvqBzrob99pzoGKGY7zVJUtRC5+0Y/kSWlDJ8cA6r/aoConZ2+E9Mn2
-         T/lJcDV98ANrQE2I6qShTK9wY5dg8Kj8/qijqBA7vORA4fkkjI/Jf4YDz5crOvMb2A2X
-         leslwNk37O2t98qAAuzt6V70Kdu318CbR+ub8MHBLVvis2kphZBOCYnnJRHZyAotmdqp
-         1iEy/li/k5o7ao5fzgCkMyV5qCAsVacdexk2X661I+YzRvF2TVJdgxvs5xFPOF6exJd/
-         UBwXMkmSrtvVq3oPGadlQSEPaWMECzlkAeqo507Z6vwf1nkexU0qeqsNfgsb5hnp/YsL
-         woYw==
+        bh=f4pmLOZiHwkHk74rBhVutCXZ7DM+WmiqJLeo0YFOJ70=;
+        b=FXv4REFbBkfc0m5qyfEujO0JGMnojRG5hR4dsvRLsEJ75GA57elwyolO200jUPuS3X
+         +495TTzbW3fGbTIOJzY3U5eB5rtPwRfeOQtDykJrzjgIDBUgB4Z6Yw6a4hXd7GthWnVa
+         C9iH7oo9SoPsvNhSMNyNuZJe8cypIDbbNepqYxpRrKnDu5MfAZibZZprlc/H281eDHTa
+         9v2DbSDvhJpZQrHnHWrw/r9PGJEDF0fq8+6IrTNNuJp7VYapzL5IiIgYGUGcpgyGops6
+         3eSgUoMqzBSuna7WlR2TkDB5tFMfUOhazQ6AQPWEl/gp6D4xdSsqyUMjlAvLF+Nm/hPF
+         0M2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=h0hl126aUwxb4PSQYFJBWdIRBbMkxmpBsFtc/sUEmus=;
-        b=xW+SeskIIkKJ02lbG5oOSr5MMBj0Afksc0eYRxvBUrtIf0kUR30Us5bgDp2f0tEejP
-         /A8mDvfqPJO7HXyY9ItWrOOqLmg6D+I04JIzUXeqw2ZNXTQWNm8oEJWh/2/sAUbGokRP
-         Lpn8SNI8NxrOktyH8PrsZxXAqqHSKrVaklpAflvA5taAPmsd+AspaP4w6gNupIf0lDnX
-         D3HW6JAteaUqigNLLKizrD+AnmrkuH0LRDEUcBD4uW4MgHJ1adPqPB3wVD344UESE/g+
-         UolamYXuAV/Y/La5n8cN6sUODCx0vjLmZ5Nt7roV1861z+JfC5Zq1s0NGQNkktrPcjCI
-         cZ0w==
-X-Gm-Message-State: AOAM532nk+aTHZldK7guQEfN0RSFj0MGtzEpiJGwcw6K48BBBLqwQrgr
-	LM1f8e6X170LoJCndaMuOiY=
-X-Google-Smtp-Source: ABdhPJwC9BrQTMCj9U3aIxaUX5zC0VOt6dPWeDEEWUeu9vfRSKOAjGywKeocjVU11912bQjFNxCQcA==
-X-Received: by 2002:a17:906:85b:b0:69d:eb3:8a7c with SMTP id f27-20020a170906085b00b0069d0eb38a7cmr12318500ejd.427.1645973435045;
-        Sun, 27 Feb 2022 06:50:35 -0800 (PST)
+        bh=f4pmLOZiHwkHk74rBhVutCXZ7DM+WmiqJLeo0YFOJ70=;
+        b=feLTmUrw+7YNvrl468ESQ2ou598wuaBuT7lcTi9esq16d+Tnh/0q82DyUp+jntXtL9
+         tRnrksmN9kRJukFyRpU/YJNcOPUnJtw9IUH4l3dq8CP5Glw5HPsD5OaQfsEdM4t2ikgH
+         ETfxo9t1rxCYvtPaPpgBIISxXBlBQMyYgDNYK42xArYVEvXQHXhohKRRfP0yqlskxlgR
+         +r0e965dPFyl3nynaAJCC1F4icSKv9rk4EOgFRbio83Vo8YoCY0LUAwzZlqF0HGTpNOo
+         DKmwb9Kxqa9IehlaVr58d8g8OQXoIKFSMT9h+Csp//mxGSfLazA/2yEVu1K+4TYTU7BD
+         mNmA==
+X-Gm-Message-State: AOAM533vkU8KA6z/EEbM9QGSqCd31hYYBCRAbkUc6HpWehIta0j/v9EZ
+	piTOoCHMuPhTz1b6RQJ7pTU=
+X-Google-Smtp-Source: ABdhPJz7b0SKhTXBjs0rS08oJaEy68HRnT3gkOVNb9lfTI0Os0GoXnzvKwvmvEfx3CIQyLG6wudkcQ==
+X-Received: by 2002:a17:906:fb8a:b0:6b5:d269:bb48 with SMTP id lr10-20020a170906fb8a00b006b5d269bb48mr12677338ejb.91.1645973436442;
+        Sun, 27 Feb 2022 06:50:36 -0800 (PST)
 Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id a1-20020a1709063e8100b006ce06ed8aa7sm3501887ejj.142.2022.02.27.06.50.33
+        by smtp.gmail.com with ESMTPSA id a1-20020a1709063e8100b006ce06ed8aa7sm3501887ejj.142.2022.02.27.06.50.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Feb 2022 06:50:34 -0800 (PST)
+        Sun, 27 Feb 2022 06:50:36 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: ezequiel@vanguardiasur.com.ar,
 	p.zabel@pengutronix.de
@@ -52,9 +52,9 @@ Cc: mchehab@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [RFC PATCH 5/8] media: hantro: postproc: Fix legacy regs configuration
-Date: Sun, 27 Feb 2022 15:49:23 +0100
-Message-Id: <20220227144926.3006585-6-jernej.skrabec@gmail.com>
+Subject: [RFC PATCH 6/8] media: hantro: Store VP9 bit depth in context
+Date: Sun, 27 Feb 2022 15:49:24 +0100
+Message-Id: <20220227144926.3006585-7-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
 References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
@@ -66,57 +66,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some postproc legacy registers were set in VP9 code. Move them to
-postproc and fix their value.
+Now that we have proper infrastructure for postprocessing 10-bit
+formats, store VP9 bit depth in context.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/hantro/hantro_g2_vp9_dec.c |  8 --------
- drivers/staging/media/hantro/hantro_postproc.c   | 10 ++++++++++
- 2 files changed, 10 insertions(+), 8 deletions(-)
+ drivers/staging/media/hantro/hantro_drv.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-index 91c21b634fab..c9cb11fd95af 100644
---- a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-@@ -515,16 +515,8 @@ static void
- config_bit_depth(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_params)
- {
- 	if (ctx->dev->variant->legacy_regs) {
--		u8 pp_shift = 0;
--
- 		hantro_reg_write(ctx->dev, &g2_bit_depth_y, dec_params->bit_depth);
- 		hantro_reg_write(ctx->dev, &g2_bit_depth_c, dec_params->bit_depth);
--		hantro_reg_write(ctx->dev, &g2_rs_out_bit_depth, dec_params->bit_depth);
--
--		if (dec_params->bit_depth > 8)
--			pp_shift = 16 - dec_params->bit_depth;
--
--		hantro_reg_write(ctx->dev, &g2_pp_pix_shift, pp_shift);
- 		hantro_reg_write(ctx->dev, &g2_pix_shift, 0);
- 	} else {
- 		hantro_reg_write(ctx->dev, &g2_bit_depth_y_minus8, dec_params->bit_depth - 8);
-diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-index 1a76628d5754..11ae663f11b7 100644
---- a/drivers/staging/media/hantro/hantro_postproc.c
-+++ b/drivers/staging/media/hantro/hantro_postproc.c
-@@ -113,6 +113,16 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
- 
- 	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
- 	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + chroma_offset);
-+	if (ctx->dev->variant->legacy_regs) {
-+		int out_depth = hantro_get_formath_depth(ctx->dst_fmt.pixelformat);
-+		u8 pp_shift = 0;
-+
-+		if (out_depth > 8)
-+			pp_shift = 16 - out_depth;
-+
-+		hantro_reg_write(ctx->dev, &g2_rs_out_bit_depth, out_depth);
-+		hantro_reg_write(ctx->dev, &g2_pp_pix_shift, pp_shift);
-+	}
- 	hantro_reg_write(vpu, &g2_out_rs_e, 1);
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 6a51f39dde56..305090365e74 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -320,6 +320,24 @@ static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	return 0;
  }
  
++static int hantro_vp9_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct hantro_ctx *ctx;
++
++	ctx = container_of(ctrl->handler,
++			   struct hantro_ctx, ctrl_handler);
++
++	switch (ctrl->id) {
++	case V4L2_CID_STATELESS_VP9_FRAME:
++		ctx->bit_depth = ctrl->p_new.p_vp9_frame->bit_depth;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+ 	.try_ctrl = hantro_try_ctrl,
+ };
+@@ -332,6 +350,10 @@ static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
+ 	.s_ctrl = hantro_hevc_s_ctrl,
+ };
+ 
++static const struct v4l2_ctrl_ops hantro_vp9_ctrl_ops = {
++	.s_ctrl = hantro_vp9_s_ctrl,
++};
++
+ static const struct hantro_ctrl controls[] = {
+ 	{
+ 		.codec = HANTRO_JPEG_ENCODER,
+@@ -478,6 +500,7 @@ static const struct hantro_ctrl controls[] = {
+ 		.codec = HANTRO_VP9_DECODER,
+ 		.cfg = {
+ 			.id = V4L2_CID_STATELESS_VP9_FRAME,
++			.ops = &hantro_vp9_ctrl_ops,
+ 		},
+ 	}, {
+ 		.codec = HANTRO_VP9_DECODER,
 -- 
 2.35.1
 
