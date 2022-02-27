@@ -1,41 +1,41 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F163548D9;
-	Sun, 27 Feb 2022 14:50:31 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id cm8so14091240edb.3;
-        Sun, 27 Feb 2022 06:50:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC762F27;
+	Sun, 27 Feb 2022 14:50:33 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id i11so14041437eda.9;
+        Sun, 27 Feb 2022 06:50:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OfaQxvNgMBgVBVbh1U+wBEbHSjlkePlNsaFk++CJO/A=;
-        b=jWJnE1IxsQxmFtj/7wUA06044ZoLdn+WoSI4PhuUZYB7xEl2X3Y1efVw/ceQ8D5YFA
-         0taHOo8EXyDrXtx2bbqvX2BDCgttbT29hBufa5lc5u9QQLNhrz5OoqNc9mEwkfwGFiRD
-         1OcpyD/V/MJFC4/AG0c0RGHR3NnW+D0a7m4mPE0tFC31bOjCUTTsmDJaMSjBEjgMN7As
-         UElRUevIIjC5PI3amBRmQ5nSK1FmXP/IzxtcabZkH7qsdWBGhO/WM61SgCzhql6jT9UM
-         0dcO76SUrRR2yZSb0oyzHonzY6Y33mCrpy5xGrmNIQCo2kStUwo8EDst8caAH5o/bU8U
-         TaUQ==
+        bh=fGi7V8f/8PCG3FpLnmowzHOV4cFkD8Gq/ByZ6la1IPg=;
+        b=hzPWe+jX/7+e9H8NqkS/+4rfUfunau4bHR/8ykqfml8K0ruAFohKPfLS+fwopvLj85
+         89MBU3SIKprZGEMAv6O8Hr1cnUSMn4DK3/iSXFRwU50ZaQDnvxHk/TaEZ69uYk326rLN
+         6tP6sTj2B80ssDDltzpJyVYnM/gtzCSLIiRDNlLrRTVAD4HtJYANiP4ZqAs9IxrffFUK
+         Byhh8YX9H9CbUXoNTbGwM5bX0JyfX4pSNFSmItJonpRM8Fpb79O8KkkJv0VAqkeUtiL4
+         zGldlts3dFqOCSuDpeA6H8t9TC5YJdg40yiSQ8ogR4Imkf3B1u554POVWa9Fmm7EzC4B
+         dmGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OfaQxvNgMBgVBVbh1U+wBEbHSjlkePlNsaFk++CJO/A=;
-        b=MB8UnQEbuoTeu16VD+wiTVFJGdKC9KWE3TyoE5SyPOKfy+mYj6nBq6lQnS51HuqMss
-         R2LJgeuBWtWM4zQpXqWJHhT38tjPi6/49zM2BS/155c5ATY41rADHnKjiVZa6fCJpBt2
-         pZM1qW6LCOPJR2X0PNcnx4DA5qxb3FLNruDYsSdA3oHbwGX42YaVWB8oEFU8CdYBxeEV
-         DKX13Y4v4OnEKvQO3tKiCNLb4+HQKKBFsQNuqya8ee0Ba1PjlOHQZz9gzInRDw4p7F+P
-         M2bZ0zS2txNUBZJJma732iAIW0BwyXP2w0bccAjf9XarfJp5LUXxdBVBdFaizsKm8VQh
-         JmgQ==
-X-Gm-Message-State: AOAM5319xWDeu14ueN+rDcc+NnfC7iVaFf46hMjTNW/G+0uNJf5A0VVJ
-	+21siyMX8PE4FMwz7CYpp9I=
-X-Google-Smtp-Source: ABdhPJyDSwZ5SFyTYb4xCunkFA4mylMDYXcPzpygzBsB+uEoEDogghqGdrYYbzUneMXJcGR0SRselA==
-X-Received: by 2002:aa7:d7c8:0:b0:3f9:3b65:f2b3 with SMTP id e8-20020aa7d7c8000000b003f93b65f2b3mr15310530eds.389.1645973430285;
-        Sun, 27 Feb 2022 06:50:30 -0800 (PST)
+        bh=fGi7V8f/8PCG3FpLnmowzHOV4cFkD8Gq/ByZ6la1IPg=;
+        b=WW8f2eL5LoAsoEJTzdzPBERAfbmJxEFj8CJpAXAgSwpfHquV19tf0OcxMUkr9hRhuj
+         mqdIur1H8ck/IXgf4h7QUBshcmxOqcer0wTn59nw/Jdp3LuXlahNGMNmm1EwIWSSxFKp
+         UoXpe2XTbLJlw5+ElNKTCuDERpC4DwwylOuiJFrsDBwd/sEyOz0hwHQbydd9+NFh8+bL
+         ptbO18v3qdxZkZm4sYkqY7MRa6C8PhJPw+Rx5snavWhoWGjgZkh9FfIAcsmZ+R6yw6VS
+         MLNGKsmlpvEJhYv3iB/bXAp+n1hLPelXOEIR53WF4QZ08uQy4zmjIJz0W2UFrkzVG4sf
+         cCxA==
+X-Gm-Message-State: AOAM532Arr2ucrAhxi+KYBP4ZU09KLb9qPE/OsWe/VY4cQQDgb+zzHZJ
+	/gaYKw9WnGvlgq/P6b6fz00=
+X-Google-Smtp-Source: ABdhPJyr6HTKorqbTa0EK/G4pBDfhQMVAgAD+XKw3QGDBOcDvTWfJd57g+f/QPZy6xOyUFjJd48viw==
+X-Received: by 2002:a05:6402:4415:b0:410:d28b:1e14 with SMTP id y21-20020a056402441500b00410d28b1e14mr15428586eda.211.1645973431450;
+        Sun, 27 Feb 2022 06:50:31 -0800 (PST)
 Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id a1-20020a1709063e8100b006ce06ed8aa7sm3501887ejj.142.2022.02.27.06.50.29
+        by smtp.gmail.com with ESMTPSA id a1-20020a1709063e8100b006ce06ed8aa7sm3501887ejj.142.2022.02.27.06.50.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Feb 2022 06:50:29 -0800 (PST)
+        Sun, 27 Feb 2022 06:50:31 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: ezequiel@vanguardiasur.com.ar,
 	p.zabel@pengutronix.de
@@ -52,9 +52,9 @@ Cc: mchehab@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [RFC PATCH 1/8] media: Add P010 tiled format
-Date: Sun, 27 Feb 2022 15:49:19 +0100
-Message-Id: <20220227144926.3006585-2-jernej.skrabec@gmail.com>
+Subject: [RFC PATCH 2/8] media: Add P010 format
+Date: Sun, 27 Feb 2022 15:49:20 +0100
+Message-Id: <20220227144926.3006585-3-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
 References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
@@ -66,55 +66,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Add P010 format, which is commonly used for 10-bit videos.
 
-Add P010 tiled format
-
-Signed-off-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-[rebased and updated pixel format name]
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/media/v4l2-core/v4l2-common.c | 1 +
+ drivers/media/v4l2-core/v4l2-common.c | 2 ++
  drivers/media/v4l2-core/v4l2-ioctl.c  | 1 +
  include/uapi/linux/videodev2.h        | 1 +
- 3 files changed, 3 insertions(+)
+ 3 files changed, 4 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index df34b2a283bc..1db0020e08c0 100644
+index 1db0020e08c0..4ede36546e9c 100644
 --- a/drivers/media/v4l2-core/v4l2-common.c
 +++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -277,6 +277,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+@@ -275,6 +275,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+ 		{ .format = V4L2_PIX_FMT_YUV422P, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
  
++		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .hdiv = 2, .vdiv = 2 },
++
  		/* Tiled YUV formats */
  		{ .format = V4L2_PIX_FMT_NV12_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
-+		{ .format = V4L2_PIX_FMT_P010_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .hdiv = 2, .vdiv = 2 },
- 
- 		/* YUV planar formats, non contiguous variant */
- 		{ .format = V4L2_PIX_FMT_YUV420M, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 3, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 2 },
+ 		{ .format = V4L2_PIX_FMT_P010_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .hdiv = 2, .vdiv = 2 },
 diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 9ac557b8e146..048f326c57b9 100644
+index 048f326c57b9..a8d999e23e5b 100644
 --- a/drivers/media/v4l2-core/v4l2-ioctl.c
 +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1302,6 +1302,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_NV12_4L4:	descr = "Y/CbCr 4:2:0 (4x4 Linear)"; break;
- 	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
- 	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
-+	case V4L2_PIX_FMT_P010_4L4:	descr = "P010 tiled"; break;
- 	case V4L2_PIX_FMT_NV12M:	descr = "Y/CbCr 4:2:0 (N-C)"; break;
- 	case V4L2_PIX_FMT_NV21M:	descr = "Y/CrCb 4:2:0 (N-C)"; break;
- 	case V4L2_PIX_FMT_NV16M:	descr = "Y/CbCr 4:2:2 (N-C)"; break;
+@@ -1295,6 +1295,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_M420:		descr = "YUV 4:2:0 (M420)"; break;
+ 	case V4L2_PIX_FMT_NV12:		descr = "Y/CbCr 4:2:0"; break;
+ 	case V4L2_PIX_FMT_NV21:		descr = "Y/CrCb 4:2:0"; break;
++	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CbCr 4:2:0"; break;
+ 	case V4L2_PIX_FMT_NV16:		descr = "Y/CbCr 4:2:2"; break;
+ 	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
+ 	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index df8b9c486ba1..772dbadd1a24 100644
+index 772dbadd1a24..211bc11a48cb 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -628,6 +628,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_NV12_4L4 v4l2_fourcc('V', 'T', '1', '2')   /* 12  Y/CbCr 4:2:0  4x4 tiles */
- #define V4L2_PIX_FMT_NV12_16L16 v4l2_fourcc('H', 'M', '1', '2') /* 12  Y/CbCr 4:2:0 16x16 tiles */
- #define V4L2_PIX_FMT_NV12_32L32 v4l2_fourcc('S', 'T', '1', '2') /* 12  Y/CbCr 4:2:0 32x32 tiles */
-+#define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* 12  Y/CbCr 4:2:0 10-bit 4x4 macroblocks */
- 
- /* Tiled YUV formats, non contiguous planes */
- #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* 12  Y/CbCr 4:2:0 64x32 tiles */
+@@ -597,6 +597,7 @@ struct v4l2_pix_format {
+ /* two planes -- one Y, one Cr + Cb interleaved  */
+ #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
+ #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/CrCb 4:2:0  */
++#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 24  Y/CbCr 4:2:0 10-bit */
+ #define V4L2_PIX_FMT_NV16    v4l2_fourcc('N', 'V', '1', '6') /* 16  Y/CbCr 4:2:2  */
+ #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
+ #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
 -- 
 2.35.1
 
