@@ -1,81 +1,223 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A264B48CD
-	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 09:34:28 +0000 (UTC)
-Received: by mail-vs1-f47.google.com with SMTP id e5so12243894vsg.12
-        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 01:34:28 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BB248CD
+	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 09:47:21 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id b5so14491916wrr.2
+        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 01:47:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:references:in-reply-to
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=WOsjPChuIl+kUePfrAPa71neh0lHex3RttBKXvPfdoQ=;
+        b=TLq5hpkPHku3PLxi7HJbuJQsDP5Wa7qmaxuH26hMsQgWK2StXMrHE79lPn12BYrQyn
+         36Ckju9r6Hg7T6NbCnE8YfIgER8Ni5YGmcs9hOo7u4MwKQBxmrAK257ZQkgoawpWdRwJ
+         DlGl1bAHqToyAi3tVc+kngINC02Nv/oewNYInyNN/iFxs5sVEWMcYJeJSidWEPmgMgJW
+         VRhhtweBy8BSnG5qDSak01L4h4ZAhijRKIluKCCOY4NsVuvOIqxQS//H6BAqX97/OOuf
+         AK4MvT1gl3aaMEO01QZM4uV+WrNRAVoZaAcp234fHj7KPR8tQVTl/oUXvpvPoEQvLCNk
+         qD4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fsIvmUNCo/5VWlA0/Y4MVhiq1d6Mv6B/6S6hygEcBfA=;
-        b=YAt0EgmI8iZw4cPhhsCqF+z91XeL24K4Dr2v/3xGGiXzjC0ph7x6UdEOUT72YkQlA2
-         faPq0wWtadDCYi43pb3UNeAWlig2QS1TMqp91SvN4mmh94PLZrI2G09eCO6EIfqevZ6d
-         ZRYf5QPIt1r1MeuP+zLnsz6r+l2E5u67rvl7B8hqrXXlFYr1rZPg12kFae5wcUJtZEB0
-         r6l7zbHP/iLKSZ5R8NmNCj1tOSHyIypF2Ymh/uBXAoyCfssDwEOOUc+iKvhrECfXWqTz
-         Mxw+vKxt8MEx47k1opxNjxRymPPt1FePseSAOS4bPUwblPtPaGaU5R6fkcDv22kzBKwG
-         9frA==
-X-Gm-Message-State: AOAM531Jyzu0VTD33OkM+/AVdwHq49ulbfasxHJ6gDP3MCOIUjAEhy5H
-	LcAemjcWPvddnjvLS1djxhpPkF2NWQlxFQ==
-X-Google-Smtp-Source: ABdhPJw3iDRRYvi9widngE+CWbJFv4fJHH9PkQCEt2rbGvSh2kqPqs37LqMlDiQsg/h7K28dBF5UYA==
-X-Received: by 2002:a67:1dc1:0:b0:31e:650d:a7ad with SMTP id d184-20020a671dc1000000b0031e650da7admr5273207vsd.85.1646040867245;
-        Mon, 28 Feb 2022 01:34:27 -0800 (PST)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
-        by smtp.gmail.com with ESMTPSA id v123-20020a1fde81000000b0032d8170fd77sm1743541vkg.27.2022.02.28.01.34.26
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Feb 2022 01:34:26 -0800 (PST)
-Received: by mail-vs1-f46.google.com with SMTP id e26so12304918vso.3
-        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 01:34:26 -0800 (PST)
-X-Received: by 2002:a67:e113:0:b0:30e:303d:d1d6 with SMTP id
- d19-20020a67e113000000b0030e303dd1d6mr6829157vsl.38.1646040866438; Mon, 28
- Feb 2022 01:34:26 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
+         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
+        bh=WOsjPChuIl+kUePfrAPa71neh0lHex3RttBKXvPfdoQ=;
+        b=R3DGfl5dVD0VegaPtVDblRwcCGKVhl4/VUqXASxUk5FKYlZbGrS8482hCWCexbDaGK
+         qJaKZagRWJoYnsg3a/482MzoLoMT949tosTM/WMjLOZMUZwDLTsINLlxSRevHX9IlSbm
+         DyCUaWmY0Fntxa7aJolaFPzd363bNfZ9cMYTjU8stYBobzBdbXo7acvq0MGl/t+lp8W6
+         XgqZX/zJVtK9v24EajGo+2JECDvQIZY0pGgSFFXE1JDqomRCLxWKa+uCX8YVRl2qaSZU
+         US9vdv761GAfwcRzMak8U6TnHvyt9fDx2rj7ruek1N80PdkS1ITYriwiIgzbeKPIwrHT
+         +AEQ==
+X-Gm-Message-State: AOAM533160hlIMEsN4TXJ2Ydt4JDG+Y5FTDzZdSdXj70M7YO8uuY2PuQ
+	8Z7FXJ3mpy9B/JwBqkaC9vKxow==
+X-Google-Smtp-Source: ABdhPJzp3i6tmpmN3z5O/ACtJUvC9C0191qzOsrE2xxczwXXbQmhrl6UAPBNDXyzNtGo0jFeNgtLww==
+X-Received: by 2002:adf:e0ce:0:b0:1ef:706d:d6b9 with SMTP id m14-20020adfe0ce000000b001ef706dd6b9mr11022135wri.71.1646041640166;
+        Mon, 28 Feb 2022 01:47:20 -0800 (PST)
+Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id f21-20020a7bcd15000000b0034efd01ee16sm10388339wmj.42.2022.02.28.01.47.19
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Mon, 28 Feb 2022 01:47:19 -0800 (PST)
+From: John Cox <jc@kynesim.co.uk>
+To: =?utf-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com
+Subject: Re: [PATCH v3 09/14] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+Date: Mon, 28 Feb 2022 09:47:18 +0000
+Message-ID: <me5p1hpnrarnqqaefoofrtqb898afl0rsn@4ax.com>
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <4378293.LvFx2qVVIh@kista> <1884298.PYKUYFuaPT@kista> <7348885.EvYhyI6sBW@kista>
+In-Reply-To: <7348885.EvYhyI6sBW@kista>
+User-Agent: ForteAgent/8.00.32.1272
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YhjYPIRvDnV7XAzV@kroah.com> <CAHk-=wjLvye-_qj-J=dVWhFf7S8noL6d-szRtFYq_hoOk6J1Eg@mail.gmail.com>
- <Yhndy5cTzhJh7abq@kroah.com>
-In-Reply-To: <Yhndy5cTzhJh7abq@kroah.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 28 Feb 2022 10:34:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX35YGpACUsk3iUhk3KF96PB3fxs1jfQ75g6_ddFS=rXQ@mail.gmail.com>
-Message-ID: <CAMuHMdX35YGpACUsk3iUhk3KF96PB3fxs1jfQ75g6_ddFS=rXQ@mail.gmail.com>
-Subject: Re: [GIT PULL] Staging driver fix for 5.17-rc6
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 26, 2022 at 9:08 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> On Fri, Feb 25, 2022 at 11:57:43AM -0800, Linus Torvalds wrote:
-> > On Fri, Feb 25, 2022 at 5:23 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > It resolves a reported problem in the fbtft fb_st7789v.c driver that
-> > > could cause the display to be flipped in cold weather.
-> >
-> > LOL. WTF?
-> >
-> > I just had to read the commit message for that odd thing.
+On Sat, 26 Feb 2022 19:17:46 +0100, you wrote:
+
+>Dne sobota, 26. februar 2022 ob 18:59:18 CET je Jernej =C5=A0krabec =
+napisal(a):
+>> Hi!
+>>=20
+>> Dne petek, 25. februar 2022 ob 20:30:20 CET je Jernej =C5=A0krabec =
+napisal(a):
+>> > Hi!
+>> >=20
+>> > Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard=20
+>napisal(a):
+>> > > The number of 'entry point offset' could be very variable.
+>> > > Rather than use a large static array define a v4l2 dynamic array
+>> > > of integer control.
+>> >=20
+>> > I suggest we should be more specific and say U32 =
+(V4L2_CTRL_TYPE_U32).
+>> >=20
+>> > > The number of entry point offsets is reported by the elems field.
+>>=20
+>> I did few more tests and these are my findings:
+>> 1. dynamic array can't be set over size, specified in .dims array
+>> 2. entry point offsets are per slice, so if we make slices dynamic =
+array,=20
+>then=20
+>> entry points would become two dimensional dynamic array
+>> 3. num_entry_point_offsets must be part of slice control, because it =
+can be=20
+>> zero, but size of array can't be
 >
-> Here it is in the real world, I should have added this to the changelog,
-> but I figured the url might not be permanent:
->         https://www.core77.com/posts/111994/Hyundais-Strange-Cold-Weather-UI-Bug-Digital-Dashboard-Rotates-Flips-Display
+>Clarification: num_entry_point_offsets is needed in any case, even =
+without entry=20
+>point list.
 
-Don't keep your production drivers too long in staging?
+I thought that at least one decoder wanted the entry points or have we
+decided that we don't? Whilst they aren't required for decode, what they
+give you, if your h/w supports it, is the ability to decode multiple
+lines of CTBs in parallel (with a 2 CTB offset between lines), so they
+aren't useless.
 
-(sorry, couldn't resist :-)
+If we do decided we want the entry point offset control, now or later,
+then num_entry_points in the slice_param allows you to determine which
+offsets apply to which slices without the complexity of a variable array
+of variable arrays.
 
-Gr{oetje,eeting}s,
+But whether or not we end up supporting entry point offsets, the Pi h/w
+requires me to generate 1 table entry for each CTB line and
+num_entry_points is the parameter I need for that, so I really want it
+in the slice_params.
 
-                        Geert
+Regards
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+John Cox
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>> 4. fortunately, not setting entry points doesn't impact decoding=20
+>correctness.=20
+>> This is in line what John told me about them.
+>>=20
+>> Hans, can you comment points 1-3? I might misunderstand point 1.
+>>=20
+>> In short, it seems like we don't really need entry points, even if =
+they are=20
+>> used in BSP library. In both cases, I got fluster score 119/138 =
+(10-bit=20
+>> excluded), so we can just drop this patch, although I'm a bit uneasy =
+not=20
+>> setting entry points...
+>>=20
+>> Best regards,
+>> Jernej
+>>=20
+>> > >=20
+>> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> > > ---
+>> > >  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 =
++++++++++
+>> > >  include/media/hevc-ctrls.h                               | 1 +
+>> > >  2 files changed, 10 insertions(+)
+>> > >=20
+>> > > diff --git =
+a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
+>> > Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> > > index 44a268a948c0..71f7dc1c1ccd 100644
+>> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> > > @@ -3128,6 +3128,15 @@ enum =
+v4l2_mpeg_video_hevc_size_of_length_field -
+>> > > =20
+>> > >      \normalsize
+>> > > =20
+>> > > +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>> >=20
+>> > Here you have OFFSETS (plural) ...
+>> >=20
+>> > > +    Specifies the i-th entry point offset in bytes and is =
+represented by
+>> > > +    offset_len_minus1 plus 1 bits.
+>> >=20
+>> > You probably mean entry_point_offset_minus1? offset_len_minus1 just =
+tells=20
+>how=20
+>> > much bits need to be read for each element and it's not important =
+for=20
+>actual=20
+>> > decoding.
+>> >=20
+>> > > +    This control is a dynamically sized array. The number of =
+entry=20
+>point
+>> > > +    offsets is reported by the ``elems`` field.
+>> > > +    This bitstream parameter is defined according to :ref:`hevc`.
+>> > > +    They are described in section 7.4.7.1 "General slice segment =
+header
+>> > > +    semantics" of the specification.
+>> > > +
+>> > >  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>> > >      Specifies the HEVC scaling matrix parameters used for the =
+scaling=20
+>> > process
+>> > >      for transform coefficients.
+>> > > diff --git a/include/media/hevc-ctrls.h =
+b/include/media/hevc-ctrls.h
+>> > > index 3016c1abb1d0..3f8a67924df3 100644
+>> > > --- a/include/media/hevc-ctrls.h
+>> > > +++ b/include/media/hevc-ctrls.h
+>> > > @@ -20,6 +20,7 @@
+>> > >  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	=
+(V4L2_CID_CODEC_BASE +=20
+>> > 1012)
+>> > >  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE =
++=20
+>> > 1015)
+>> > >  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE=20
+>+=20
+>> 1016)
+>> > > +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET =
+(V4L2_CID_CODEC_BASE=20
+>+=20
+>> > 1017)
+>> >=20
+>> > ... and here you have OFFSET (singlular). I suggest plural form to =
+be used=20
+>> in=20
+>> > all places, including subject line of this commit.
+>> >=20
+>> > Additionally, it would be nice if control is initialized, like so:
+>> > https://github.com/jernejsk/linux-1/commit/
+>> > f938e162cd8dd77c9f6f1b248d80144840a37bce
+>> >=20
+>> > Best regards,
+>> > Jernej
+>> >=20
+>> > > =20
+>> > >  /* enum v4l2_ctrl_type type values */
+>> > >  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+>> > > --=20
+>> > > 2.32.0
+>> > >=20
+>> > >=20
+>> >=20
+>> >=20
+>> >=20
+>>=20
+>>=20
+>>=20
+>
