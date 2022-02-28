@@ -1,123 +1,126 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7812559D;
+	Mon, 28 Feb 2022 14:08:47 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:82d4:230a:70ff:cde0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A26559D;
-	Mon, 28 Feb 2022 13:23:04 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 2BDED2113A;
-	Mon, 28 Feb 2022 13:23:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1646054583;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oNvLdI+iZsXcVPiWs0ldraacfaGBUEaJwBk4ZA2v124=;
-	b=rWm36XAZ+Llc9U2KXh2MPBcdn+RT/qlvq2rSEOELa7CXgyIbCnSv3eYuDAtuPoL2SvdM58
-	lh4PAaind+isGMTnTBPbFB9f6c6VikkIJrmmVYoyhA4rLWPCvoPkmVAF3Xp5EU0w3AcUnQ
-	A79o4qcmmjPCwQH/x+MN0LKM2sKO4Xw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1646054583;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oNvLdI+iZsXcVPiWs0ldraacfaGBUEaJwBk4ZA2v124=;
-	b=NTy2NkO24rhwN3/jLw4GQXPDL/VZeLSdeIm58qi61G+/SIy2JEKcfSCmGpKt/FLfgZhQ7D
-	CyLReitTHv7C/uAg==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
-	by relay2.suse.de (Postfix) with ESMTP id 84B2CA3B85;
-	Mon, 28 Feb 2022 13:23:02 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-	id A0D17DA823; Mon, 28 Feb 2022 14:19:11 +0100 (CET)
-Date: Mon, 28 Feb 2022 14:19:11 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
-	Jonathan Corbet <corbet@lwn.net>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
-	Michal Marek <michal.lkml@markovi.net>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-doc-tw-discuss@lists.sourceforge.net,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Intel Graphics <intel-gfx@lists.freedesktop.org>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-btrfs <linux-btrfs@vger.kernel.org>
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-Message-ID: <20220228131911.GH12643@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Arnd Bergmann <arnd@kernel.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
-	Jonathan Corbet <corbet@lwn.net>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
-	Michal Marek <michal.lkml@markovi.net>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-doc-tw-discuss@lists.sourceforge.net,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Intel Graphics <intel-gfx@lists.freedesktop.org>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-btrfs <linux-btrfs@vger.kernel.org>
-References: <20220228103142.3301082-1-arnd@kernel.org>
- <87v8wz5frv.fsf@intel.com>
- <CAK8P3a1YUR4BNu8Nrc5XW+sFjL7-hWTHh7kstV27wmj1aqc4vA@mail.gmail.com>
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6EEE31F43A52;
+	Mon, 28 Feb 2022 14:08:45 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1646057326;
+	bh=WTuPMuME//gRX6TZ6aBYg+Ro0UbizW8dVX80/GWcuRs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eiptqc56qthYKXkKPy/Yw6DLYhnKhfT6aD6sovHQepxTrdeLyzHzZ7HWjuGGnEXRW
+	 sodMwMiMv0M5hTz+UcUJ/Tp7cYXnSIZ4vc5aV0V9PKXSDTPW6fNlSdNobF8zPd6k5C
+	 Mbh+/9uIpgjOZaYGCA9zGR79n06XEvqFjOa8beORic71KXz++guWbGsbve5NchFdSX
+	 +djOFdFP1afM0iCzxGXmdWDV3F6EHeWjHhwkZhDlwB1DNdqvGUDaXRGYU9GHwpHtN3
+	 5U434Tk/2PGNSSoNJMozF6BmPPvw0epoY0N+Jg5GNHs/oPCVFtUgnsmdeBg+Qfz8y4
+	 RZA8ZdO6eBtzA==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	jonas@kwiboo.se,
+	nicolas@ndufresne.ca
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	knaerzche@gmail.com,
+	jc@kynesim.co.uk,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v4 00/15] Move HEVC stateless controls out of staging
+Date: Mon, 28 Feb 2022 15:08:23 +0100
+Message-Id: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a1YUR4BNu8Nrc5XW+sFjL7-hWTHh7kstV27wmj1aqc4vA@mail.gmail.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 28, 2022 at 02:01:06PM +0100, Arnd Bergmann wrote:
-> On Mon, Feb 28, 2022 at 1:36 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> > >
-> > > One minor issue that remains is an added gcc warning for shifts of
-> > > negative integers when building with -Werror, which happens with the
-> > > 'make W=1' option, as well as for three drivers in the kernel that always
-> > > enable -Werror, but it was only observed with the i915 driver so far.
-> > > To be on the safe side, add -Wno-shift-negative-value to any -Wextra
-> > > in a Makefile.
-> >
-> > Do you mean always enable -Wall and/or -Wextra instead of -Werror?
-> >
-> > We do use -Werror for our CI and development too, but it's hidden behind
-> > a config option that depends on COMPILE_TEST=n to avoid any problems
-> > with allmodconfig/allyesconfig.
-> 
-> What I meant here is that I'm adding -Wno-shift-negative-value to all
-> four places in the kernel that already use -Wextra.
-> 
-> > For the future, makes me wonder if we couldn't have a way for drivers to
-> > locally enable -Wall/-Wextra in a way that incorporates the exceptions
-> > from kbuild instead of having to duplicate them.
-> 
-> I have an older patch series that does this, but it also does a few other
-> things that I couldn't quite get right in the end with all combinations of
-> compiler versions and warning levels, so I did not submit that.
-> 
-> What this allows is to have per-directory statements like
-> 
-> KBUILD_WARN1=1
+This series aims to make HEVC uapi stable and usable for hardware
+decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+and 2 out of the tree drivers (rkvdec and RPI).
 
-We've added the individual warnings to the per-directory flags so it's a
-bit more flexible than just enabling W=1. The idea is to add possibly
-stricter warnings once we make sure it builds fine and does not
-produce false reports. Extending W=1 in the same way would affect
-everybody.
+After the remarks done on version 2, I have completely reworked to patches 
+split so changelogs are meaningless. I have also drop "RFC" from the
+titles.
+
+Version 4:
+- Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+- Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+- Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+- Fix space/tab issue in kernel-doc
+- Add patch to change data_bit_offset definition
+- Fix hantro-media SPDX license
+- put controls under stateless section in v4l2-ctrls-defs.c
+
+At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+
+Benjamin
+
+
+Benjamin Gaignard (12):
+  media: uapi: HEVC: Add missing fields in HEVC controls
+  media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+    prefix
+  media: uapi: HEVC: Add document uAPI structure
+  media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+    dynamic array
+  media: uapi: Move parsed HEVC pixel format out of staging
+  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+  media: uapi: Move the HEVC stateless control type out of staging
+  media: controls: Log HEVC stateless control in .std_log
+  media: uapi: Create a dedicated header for Hantro control
+  media: uapi: HEVC: fix padding in v4l2 control structures
+  media: uapi: Change data_bit_offset definition
+  media: uapi: move HEVC stateless controls out of staging
+
+Hans Verkuil (3):
+  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+  v4l2-ctrls: add support for dynamically allocated arrays.
+  vivid: add dynamic array test control
+
+ .../userspace-api/media/drivers/hantro.rst    |   5 -
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 833 ++++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
+ .../media/v4l/pixfmt-compressed.rst           |   7 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+ .../media/v4l/vidioc-queryctrl.rst            |   8 +
+ .../media/videodev2.h.rst.exceptions          |   5 +
+ .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+ drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+ drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
+ include/media/hevc-ctrls.h                    | 250 ------
+ include/media/v4l2-ctrls.h                    |  48 +-
+ include/uapi/linux/hantro-media.h             |  19 +
+ include/uapi/linux/v4l2-controls.h            | 439 +++++++++
+ include/uapi/linux/videodev2.h                |  13 +
+ 23 files changed, 1697 insertions(+), 1170 deletions(-)
+ delete mode 100644 include/media/hevc-ctrls.h
+ create mode 100644 include/uapi/linux/hantro-media.h
+
+-- 
+2.32.0
+
