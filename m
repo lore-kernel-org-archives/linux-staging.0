@@ -1,158 +1,176 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E995382
-	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 21:41:51 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id s11so1890773pfu.13
-        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 13:41:51 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A855382
+	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 21:47:05 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id cm8so19513960edb.3
+        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 13:47:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=SDEQwyNhO1YP2PlPCVZv2QT+trnELH3tuuISdUJhH/A=;
-        b=d9xMn/X4LpBqF7CCmU2zh6/QLyVNBTRuNZU+e7jV9ejFO0/bkIPnXV0yhaKjw6dJm8
-         FJS3J2mi6lbO85oN/dNF+rqWxtAJUijNlNeALlXJL+eaCxB0tcq950US1kKVvr8mqukF
-         e0ToSOH4Si3JfzpFzCogjXNl1DMde6d8MLn9SuHccOTRwzid1E81/cSQ/4tTUtiOrMCh
-         9TojhlCRrVYJxHlgtGOmRoGhypN9RiWcKC8aFAkMrBK4RGw8XoilLoTMd70dGA9hdZYh
-         n+kv4MVL49Db4WfNBmaeThQEFLAURei7cyQEoj8G+S/4PT3zkCcTFjR/aTe5mw8oJWud
-         4tvQ==
+        d=gmail.com; s=20210112;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=U6qUODqKVLrC7qZqs553HfNOTdovwKFxE93drAu/Dlk=;
+        b=DcAOXNn/ViLnmA/Pl4xJfWkhBybquVghVb27ULjvzphMd1cBlP8EnT2avc3nlq8Ncp
+         XU0OlwqVPcxmpQGfXIX8cDSYeDqzQFDIjUJw6vYkNcJJHsbpQaotozEaUyIGD250VuoD
+         60I5wOFshLHgsaHS54p/JatmHLrrllGTo/egDJjxoeGmck3vK6ZaE0ldZN4szqLK845U
+         BQNwjpOC8zhohOQR/VOEr6j/DtNOqZN6I6F48XJrq+10cNhH40s7WdjZ8f4gJpCeR9JY
+         suF4D0bui+heOiMd0XjHUkKuJX/fj0a+j8l22tTUgDxT9LwW7gkDbHU26uOV2JCB+l1v
+         aZYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=SDEQwyNhO1YP2PlPCVZv2QT+trnELH3tuuISdUJhH/A=;
-        b=rlJk6lpHh0QEXJz2ssZzGpXNAwJiS4tVQpoB7WSCyI4Sqtx707UpMt6xT7NBGvvhh+
-         mSJL49g6ie7Y0wzioEKFwLwVy9swSnRn2+nrMxGYgpfdGesagxcwplQvNpkor1PAY0Cj
-         htoZlzE1x99ToCCEM8O8vSG/1lMf3xCJIWdraHRZ9ie/LyFeUf3TZXVQcKmHX+Id4GqI
-         sJ7X/ngSQfzYH6h7AvZoD7yaG1FrCDxvv9pcb71QJptSIhx/Oj6GuGQd8eJ6ooVWp2fV
-         32g4PRFoCqIzMHJamrRGyotHMTT/opmnW6IJGUZu5Osbiqht4foFTVn2pxeg83iedPkE
-         Uw+A==
-X-Gm-Message-State: AOAM530tPyR/+gfAS1XT+68iGEhZpzy0bl4FrVXbUFyDX1IyWdNuLtiG
-	ff/9xuiAw7toH9T17BIoUGONrA==
-X-Google-Smtp-Source: ABdhPJysQYIb7FAhRgqLT3HifNDIOw9MY3JP0SvCbCIF1CiA1nyX5JMrxTKRUKNjLMnj4tBxx48g9A==
-X-Received: by 2002:a05:6a00:26e0:b0:4e1:7131:de2b with SMTP id p32-20020a056a0026e000b004e17131de2bmr23819114pfw.20.1646084510471;
-        Mon, 28 Feb 2022 13:41:50 -0800 (PST)
-Received: from google.com ([2620:15c:2ce:200:777f:ae46:e31e:b07e])
-        by smtp.gmail.com with ESMTPSA id 23-20020a17090a0b9700b001b8f602eaeasm259006pjr.53.2022.02.28.13.41.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 13:41:50 -0800 (PST)
-Date: Mon, 28 Feb 2022 13:41:45 -0800
-From: Fangrui Song <maskray@google.com>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
-	Jonathan Corbet <corbet@lwn.net>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
-	Michal Marek <michal.lkml@markovi.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc-tw-discuss@lists.sourceforge.net,
-	linux-arm-kernel@lists.infradead.org,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-Message-ID: <20220228214145.o37bgp3zl3rxpeo4@google.com>
-References: <20220228103142.3301082-1-arnd@kernel.org>
- <CAKwvOdkLUx1td+qgUYy3w2ojtBG-mJTzpJg3BV8Xv56YHTxHCw@mail.gmail.com>
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=U6qUODqKVLrC7qZqs553HfNOTdovwKFxE93drAu/Dlk=;
+        b=JmbxTdOEJTllt7vkJya7ZQk6ueRO1+By2NSwOWZyqJeSvPaHd8NKisun8TWrH3v98s
+         nkWXIGWu8SOxrIR5qu+qlgPJw1ozuMsd88mKGhSHYKOCjafPPrvRdYAr2vtWotPFyVQ7
+         WOLyPzGWCu1LIcY0gCt7HtflzJwgWSYnJOQSM1VDapOv2UTaOJxfuy4/LqYRlX7p+q8A
+         0eLKMC5Adlbp2UKX4A/8TEtG6oSDdH9PEptwWHn3gjd7jeWnghMk7ZIbLUUXhmQbQ4va
+         kjvdPWh+RqTUequPaBq9DUoCOsiHZrd/u9Xy0WowOwl8Hff/lcO5FZ3ECojV9Mc8hyIl
+         yAsw==
+X-Gm-Message-State: AOAM533zMGn5JHG63eEMxb9DuaOhdhC8Anj8jK7HQOkhTYCHaHUjCCl9
+	DPAUiE3DRKv7GlA5aqCHZtM=
+X-Google-Smtp-Source: ABdhPJxKG2ff16tCWsK6Ck3Y2a57p3q44AgnQUgUMRZ3ajKrFkwS/Wlp6PHXO9g9MP9OhOujc97TPw==
+X-Received: by 2002:a05:6402:40d0:b0:412:f86a:efd1 with SMTP id z16-20020a05640240d000b00412f86aefd1mr21791110edb.194.1646084823834;
+        Mon, 28 Feb 2022 13:47:03 -0800 (PST)
+Received: from smtpclient.apple ([2a02:8109:9d80:3f6c:957a:1d13:c949:d1f3])
+        by smtp.gmail.com with ESMTPSA id ce7-20020a170906b24700b006cf095c2f5bsm4701847ejb.83.2022.02.28.13.47.01
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 28 Feb 2022 13:47:03 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdkLUx1td+qgUYy3w2ojtBG-mJTzpJg3BV8Xv56YHTxHCw@mail.gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+From: Jakob Koschel <jakobkoschel@gmail.com>
+In-Reply-To: <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+Date: Mon, 28 Feb 2022 22:47:00 +0100
+Cc: =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ alsa-devel@alsa-project.org,
+ linux-aspeed@lists.ozlabs.org,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ linux-iio@vger.kernel.org,
+ nouveau@lists.freedesktop.org,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ samba-technical@lists.samba.org,
+ linux1394-devel@lists.sourceforge.net,
+ drbd-dev@lists.linbit.com,
+ linux-arch <linux-arch@vger.kernel.org>,
+ CIFS <linux-cifs@vger.kernel.org>,
+ KVM list <kvm@vger.kernel.org>,
+ linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ linux-staging@lists.linux.dev,
+ "Bos, H.J." <h.j.bos@vu.nl>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ intel-wired-lan@lists.osuosl.org,
+ kgdb-bugreport@lists.sourceforge.net,
+ bcm-kernel-feedback-list@broadcom.com,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>,
+ Arnd Bergman <arnd@arndb.de>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ v9fs-developer@lists.sourceforge.net,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-sgx@vger.kernel.org,
+ linux-block <linux-block@vger.kernel.org>,
+ Netdev <netdev@vger.kernel.org>,
+ linux-usb@vger.kernel.org,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ tipc-discussion@lists.sourceforge.net,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ dma <dmaengine@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Mike Rapoport <rppt@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+ <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+X-Mailer: Apple Mail (2.3693.60.0.1.1)
 
-Thanks for the patch!
 
-(Was always wondering which of binutils and kernel would migrate to C99+
-earlier... binutils won)
 
-On 2022-02-28, Nick Desaulniers wrote:
->On Mon, Feb 28, 2022 at 2:32 AM Arnd Bergmann <arnd@kernel.org> wrote:
->>
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> During a patch discussion, Linus brought up the option of changing
->> the C standard version from gnu89 to gnu99, which allows using variable
->> declaration inside of a for() loop. While the C99, C11 and later standards
->> introduce many other features, most of these are already available in
->> gnu89 as GNU extensions as well.
->>
->> An earlier attempt to do this when gcc-5 started defaulting to
->> -std=gnu11 failed because at the time that caused warnings about
->> designated initializers with older compilers. Now that gcc-5.1 is the
->> minimum compiler version used for building kernels, that is no longer a
->> concern. Similarly, the behavior of 'inline' functions changes between
->
->More precisely, the semantics of "extern inline" functions changed
->between ISO C90 and ISO C99.
+> On 28. Feb 2022, at 21:10, Linus Torvalds =
+<torvalds@linux-foundation.org> wrote:
+>=20
+> On Mon, Feb 28, 2022 at 12:03 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+>>=20
+>> Side note: we do need *some* way to do it.
+>=20
+> Ooh.
+>=20
+> This patch is a work of art.
+>=20
+> And I mean that in the worst possible way.
+>=20
+> We can do
+>=20
+>        typeof(pos) pos
+>=20
+> in the 'for ()' loop, and never use __iter at all.
+>=20
+> That means that inside the for-loop, we use a _different_ 'pos' than =
+outside.
+>=20
+> And then the compiler will not see some "might be uninitialized", but
+> the outer 'pos' *will* be uninitialized.
+>=20
+> Unless, of course, the outer 'pos' had that pointless explicit =
+initializer.
 
-Perhaps a clearer explanation to readers is: "extern inline" and "inline" swap
-semantics with gnu_inline (-fgnu89-inline or __attribute__((__gnu_inline__))).
+The goal of this is to get compiler warnings right? This would indeed be =
+great.
 
->That's the only concern I have, which I doubt is an issue. The kernel
->is already covered by the function attribute as you note.
->
->Just to have some measure:
->$ git grep -rn "extern inline" | wc -l
->116
+Changing the list_for_each_entry() macro first will break all of those =
+cases
+(e.g. the ones using 'list_entry_is_head()).
+I assumed it is better to fix those cases first and then have a simple
+coccinelle script changing the macro + moving the iterator into the =
+scope
+of the macro.
 
-"^inline" behaves like C99+ "extern inline"
+>=20
+> Here - can somebody poke holes in this "work of art" patch?
 
-Agree this is handled by
+With this you are no longer able to set the 'outer' pos within the list
+iterator loop body or am I missing something? Like this it stays
+uninitialized but you'll probably want to set it from within the loop.
 
-     #define inline inline __gnu_inline __inline_maybe_unused notrace
+You would then yet again need a variable with another name to use
+after the loop.
 
->Most of those are in arch/alpha/ which is curious; I wonder if those
->were intentional.
->
->(I do worry about Makefiles that completely reset KBUILD_CFLAGS
->though; the function attributes still take precedence).
->
->> gnu89 and gnu11, but this was taken care of by defining 'inline' to
->> include __attribute__((gnu_inline)) in order to allow building with
->> clang a while ago.
->>
->> One minor issue that remains is an added gcc warning for shifts of
->> negative integers when building with -Werror, which happens with the
->> 'make W=1' option, as well as for three drivers in the kernel that always
->> enable -Werror, but it was only observed with the i915 driver so far.
->> To be on the safe side, add -Wno-shift-negative-value to any -Wextra
->> in a Makefile.
->>
->> Nathan Chancellor reported an additional -Wdeclaration-after-statement
->> warning that appears in a system header on arm, this still needs a
->> workaround.
->
->Ack; I think we can just fix this in clang.
->
->>
->> The differences between gnu99, gnu11, gnu1x and gnu17 are fairly
->> minimal and mainly impact warnings at the -Wpedantic level that the
->> kernel never enables. Between these, gnu11 is the newest version
->> that is supported by all supported compiler versions, though it is
->> only the default on gcc-5, while all other supported versions of
->> gcc or clang default to gnu1x/gnu17.
->
->I agree. With the fixup to s/Werror/Wextra.
->
->Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
->>
->> Link: https://lore.kernel.org/lkml/CAHk-=wiyCH7xeHcmiFJ-YgXUy2Jaj7pnkdKpcovt8fYbVFW3TA@mail.gmail.com/
->> Link: https://github.com/ClangBuiltLinux/linux/issues/1603
->> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
->> Cc: Masahiro Yamada <masahiroy@kernel.org>
->> Cc: linux-kbuild@vger.kernel.org
->> Cc: llvm@lists.linux.dev
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->
->-- 
->Thanks,
->~Nick Desaulniers
->
+I fail to see how this will make most of the changes in this
+patch obsolete (if that was the intention).
+
+>=20
+>                     Linus
+> <patch.diff>
+
+- Jakob
+
