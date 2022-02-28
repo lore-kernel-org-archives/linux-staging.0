@@ -1,214 +1,168 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BF7320F
-	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 07:02:03 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id z66so9642649qke.10
-        for <linux-staging@lists.linux.dev>; Sun, 27 Feb 2022 23:02:03 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F7E320F
+	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 07:43:47 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21S6C2mj008247;
+	Mon, 28 Feb 2022 07:43:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=je/DKA2oFxa7SvcTjM/bcuPFdNH8UzfKN6EKgKP1R7Q=;
+ b=YnsX6nsKr+fvOYYyj4fOW9AzMEccqafZMdmUkGXetqgwzWKBBJFsQXsPe0KTYuqJ0itz
+ YEgfJu+Xi9oBsjH6fehtBv9q0wPOry8dazSEQJo5gQt6FlwIzwfm5omIWodASy4WaShX
+ LXBfPsr0UIhL010xxOLbLQP8r+xLxT57cyNZ9gvoAUFa6OiIsLPYhUm3H3NBxYbyeh2O
+ 6PAZvVp37Wws0UvIKnViXTRytEFbd/TGqSqJfRxddytWgXDjS5Ct3Pp90S8mCxHqFxOK
+ 78DRGrH6IksGeW1O0td5MOlUn39SmIzlHu/NshBandgbBCU5vMkkSfxnIi3mZ6iXOo9M WQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3efb02kdsy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Feb 2022 07:43:45 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21S7ZK6q195023;
+	Mon, 28 Feb 2022 07:43:44 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+	by userp3020.oracle.com with ESMTP id 3efdnjf41u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Feb 2022 07:43:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZlPWyTg72b52J5dna9xejuP5wy0x64IWrU3VZ1kNT25OeLWMJyCJDKyiI01D8dkLCmLsps6yFIxB6BZz7XV7gpOxNGkOY4t9bRdq1Bqv/7tfzJHfseekDFj9BbEt9ysUy9osetfbvuzlWQaaOhAHJLnL6NYgL9eLYN1siI84xW6N00sPsBYV4z92Jg6RggndzdgS6i6Atkh+L8+Z/iNTJLASwWP4EWZkZ3FAGumTXOsyQP/DKO5njoSlGsJZhrYWcw6WIlG5DJrFMHZ9+x5hfOhY0t+dvOxdHxb5JOVjJ9UF9B48rFd8HtC2QJKqKrp94TOxHvlhIpLkc5oO0A+pnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=je/DKA2oFxa7SvcTjM/bcuPFdNH8UzfKN6EKgKP1R7Q=;
+ b=kg3CEgnbrMZACThP5ic8tlrlxj2WKYFRRlRCk7R0fUFhWGysMest/WXrPBpuBN1pLQ4hGVngiDJ1tN/GsmAm65dHrewN1hoiHnI3xopo7IYFnC5yt/QefBfEZ9NdF/zhIzxneYtVv6EC1T1gcpm08aDQgAi4nG2rx43BMnrqG725BPRhP4+OrHGlqT8fWhpK8ogUa+hw9rTahYhhSuiJq2uVnIJQ45VK77a0nS9mKnsa7x9BGlRWYIpRw2uHN4NhiTV+9g2FvUizobKwvfeXrTD5sG+xTrlpIqaMu/vSdgadB653HIRJBcJ/iyollLlRJkdPV0HWbkyI1OeszcsiBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=H65AQ6f47kbD1KCrrOsvYJm+0aXgSzNol0DY3REsG7I=;
-        b=AViFaHbYaxyJXYwNGaOAW+mN0pR3+Ygtn+x86w7pop8YJXdTTb8CfRYMqcFeJw22ay
-         hJPO9eqsthcOgHrpJ28kXwr1gQe5YlN4+6a33XQL6+n3FvOdC/4/wW2OKFVtn64o8v5H
-         F39EyshJC+qcpqQG4ZOZz79W1KyHdwgDdTQg7qZSL7brSeKuqnkLbvfB3lpKrLxpZpdG
-         reltrIHypJmCb92gfj09KuLj1GOkl6NfQX25lMWnof/jnneRUDUQY9x+3uL2q+UJh/tD
-         WfFqt74B7WM22iXckSxomHjTXFr2B/vcx4K8OGtZEeX7hJnKYStIcfgwmacleJETvfku
-         gVZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=H65AQ6f47kbD1KCrrOsvYJm+0aXgSzNol0DY3REsG7I=;
-        b=ACdi7veixc/rltCNuL1PGQIJlu8uHvG5PFvHXNEGL6Bepih7mJ1+osCll5q5B2h8lN
-         fVeWmUxiyxeUqcvro2aPgQFwRZ4/kdZdsIHHKRopB/UobuNdIkrZO7Nktex8XTwUh8IW
-         04Dw3kPoIlPZKIbyHsgeQP88RtKho9cIHGyu9eTLC9gG4vw/iHxJjfCMaL99bEFZklea
-         kQervzWAvcndy/wl7mJofnDODK95rehkddrgoDluwfK2ePa8e4PTD767VzLSjOU0WWG8
-         eE9znX05UDslrkaGLg3M1E4K0xC1kQoHrxltrlb8JDXGXfts7IxQ0YZ0xuODggIuxhb+
-         vqng==
-X-Gm-Message-State: AOAM530Tw0N+DTdXRM7pvjDAGZbymU5REhOnCsHoeHyURMU4amhtvRXy
-	TrLZ534nlcKaHjL+NZiDJTyEQBEx59whZLW/rBPgiBcIikk=
-X-Google-Smtp-Source: ABdhPJwLYd2feO52t2xqjHeCbcvUKvZ7YSE4ZnC5Ray4TKyDyWDztl+x28zNde731IOpI7XbAtRq4/oM0aZkkSQvcJE=
-X-Received: by 2002:a05:620a:1206:b0:662:d04d:4512 with SMTP id
- u6-20020a05620a120600b00662d04d4512mr3780162qkj.696.1646031722144; Sun, 27
- Feb 2022 23:02:02 -0800 (PST)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=je/DKA2oFxa7SvcTjM/bcuPFdNH8UzfKN6EKgKP1R7Q=;
+ b=oIHgj3sNmD7pUcXrI/UY4nf86L49XP2bf61RIppehgv/6cL+hc5x+R4MMX87zVzJVPQDnzVYqlFkuubjk8Qz6vU5xU7Z3zloJlBFi7hNbwtOrSXOvX6s1Y93wkDOqULaNPtAFdGiGIfQvLDNQA0E+FZHaarVPXH/lc/TwA5MW2Y=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by SJ0PR10MB5645.namprd10.prod.outlook.com
+ (2603:10b6:a03:3e2::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Mon, 28 Feb
+ 2022 07:43:42 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::2c3d:92b5:42b3:c1c5%4]) with mapi id 15.20.5017.026; Mon, 28 Feb 2022
+ 07:43:42 +0000
+Date: Mon, 28 Feb 2022 10:43:31 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Won Kang <wkang77@gmail.com>, linux-staging@lists.linux.dev,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] staging: gdm724x: fix use after free in gdm_lte_rx()
+Message-ID: <20220228074331.GA13685@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: ZRAP278CA0007.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::17) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220215081725.3463-1-arinc.unal@arinc9.com> <20220215081725.3463-2-arinc.unal@arinc9.com>
- <CAMhs-H-74bK3m975Dtmg2zPrGjmqzSd+Tb_qdUV14yJBAWRQbw@mail.gmail.com>
- <d9240058-68b4-cbd6-54b0-18f41ee5a98a@arinc9.com> <CAMhs-H_MvXOOmUDq97YyW7uaSfeNWcKE7F+J4182=MwH7yaOaw@mail.gmail.com>
- <6902e0b3-5bd3-185b-26f8-eab2e37f29cb@arinc9.com> <CAMhs-H-bMgsssuy-Rrygr0PCVkgDWDi=-=3vDVG_cnMX4L9vOA@mail.gmail.com>
- <bffc9641-ec69-f88e-b877-65d12305b928@arinc9.com>
-In-Reply-To: <bffc9641-ec69-f88e-b877-65d12305b928@arinc9.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Mon, 28 Feb 2022 08:01:50 +0100
-Message-ID: <CAMhs-H-dHY_+gTOmGXYFyVLK69D7y0bw5s2=e6gDh5yFtp6HzQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] staging: mt7621-dts: do not use rgmii2_pins for
- ethernet on GB-PC1
-To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Sander Vanheule <sander@svanheule.net>, 
-	NeilBrown <neil@brown.name>, DENG Qingfang <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	erkin.bozoglu@xeront.com, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7fc4566e-67cc-47ef-f5c4-08d9fa8e0a88
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5645:EE_
+X-Microsoft-Antispam-PRVS: 
+	<SJ0PR10MB56454107AB77778538A155EF8E019@SJ0PR10MB5645.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	/rOEv2QAgpf7soSCvHWqkjKddy9DcDTtlSOKM1cNpT+22XYwQpO5PAPJFpd+jrb+fK7onJMAcmnxhAUCXCe16RUtpC0M6ZgqATKdocybtSNHghn4lxIBVUFTZDlYQVXCR2aYPEReAGFSTVvSnAOn3wnEAy2zlNvV1I2mfEjc0HCxN0/tWigNNXPrdfBRL2KOIl6CV5/eyS/aTKUq3dQXnc7qZwYiwqvbJSsfZWf3h+47G32mkdKhaENNPC1A6FfpMx/DXKgVSHqiydodyh/FoqlRafsAf3smxczCwKOYA76hSOqcuq9iW+AHyXrN8dAYpKKquudse0Utg6xmuPqUmKmC7fZR6WQZ5pmi7JD2ZsnZG8oZcV3AaFGTKq54UtoR72svHPVjlhBDzMc0rmoL5Xx4zvEm9H7NBrqFA/ob5g4XgIK9a1SRkH/wT1d3EuBENIsQa6U19MUrlUCvn3zaffaHwnTGLi1yo7Wyr9QKs2vB3XeZ3Ex20Lvsv5I1oJZI1/wDrbs/ys2lSwxh+tT8vovF+7aD1r026N+DtHqtk1Stfdh0dYPXQGTeCa4m9/FRDXtS14IR0ELPQLAXn5QQgaASHdJSuUEHCuqr96a+1mLcHg+CNqn4D54rM3FnfBj3szrl1RyGTNkUKnG0zexRI6MNRB0+hiTQ+G8p0Hc2cz0C0J9n8+qupQ0XYFju5PW1PE/rQ/VWZ9HuKtW3IbCf9Q==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(83380400001)(4744005)(52116002)(508600001)(6486002)(1076003)(44832011)(316002)(8936002)(6916009)(86362001)(66946007)(26005)(186003)(4326008)(2906002)(9686003)(33656002)(6512007)(6506007)(5660300002)(66556008)(8676002)(66476007)(6666004)(38350700002)(33716001)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?5VoRCnGVr5F6CrwwoRfrw9+wSA7V367IvzK/bIncI5WxqnXmnxY82+tzwqcM?=
+ =?us-ascii?Q?qqTZLawsw/J7DANJXDnBW3vch1JnrAlOiMtcesLalriq3uzUor5+0YVNMYLg?=
+ =?us-ascii?Q?PwjDtMLKGFyWkMOn8yEBXZYzY42t7c4WpBZQK0BU7RviIGEZyeeISjW0YmtU?=
+ =?us-ascii?Q?pH2Ah7Z8XTQaLEZsyBVGlctqC6zKVmb+9M5Cdz0V26dRBIrfqSHuDTQpAleS?=
+ =?us-ascii?Q?h+QMWvbjz7uxMBeor9Uy6FOEGQG+62vWqZv3/c3OG1Wi/6hLPY1LgaPjooij?=
+ =?us-ascii?Q?UEObQcCvljTj1AsgWRAX4xKlxcoe9h5LSrV8D4V9LQEtKPEoCxy2CHLKn1xr?=
+ =?us-ascii?Q?0sRwEzkw7YfDe8F4GcYIhu33u9xDStnNKqWuH1dVWzVcFWQvmkhni5Y4qubb?=
+ =?us-ascii?Q?sQhBGZ3H6/PrsmfsMmzlTlJzNBi3vfjHi9jVizzDY181Y1aYVk8+P0UGgFwg?=
+ =?us-ascii?Q?toBRwKmdL6mw0Pl/tQI8Th72qeatEs4jDQXFI471DgZPXI4aEvSv5vHjqFmG?=
+ =?us-ascii?Q?DY6vDwA/C1x1mMnO/8xz7nTvLz3FBbK5EK7W12R2aqtqgvEcqWQC2Y+f1odE?=
+ =?us-ascii?Q?+tHSj2B6/MsVKt8Z5ti5CNta/NXn+v5fAMEgw+zfDAV/HKn8yKViCxh7Y66C?=
+ =?us-ascii?Q?5tZ9vt1GSh1Vkm4IR0iPMsn7LV3SQe1pTpkIUDcjHjMf40hXwOzh2Y+ew2T3?=
+ =?us-ascii?Q?FhL8YFyVR1ukmyVouo5MT/OQAbN0VxZsoonm49skGBEwP0xdm7bKYAq6gMLS?=
+ =?us-ascii?Q?ZOZLYJS2nA12Ke6cI9l14PN5GR2NN7P/ZIlNj6eCnuypwEiCnwH7iVgFVX2m?=
+ =?us-ascii?Q?tNRemuQu3uCKHUlRwWDEsU/x+bEbLiib70eSkKWvgDvLW38hsIAJr0QS5zvL?=
+ =?us-ascii?Q?25/zBgRMSea6EEkzbX/8azNZkilaTTFTjGeDPsfKs5zTH5mKj17hR7GCoosU?=
+ =?us-ascii?Q?97C8MdnufliUF8q+RVvsBKP8rGnG648GJkpkq+YQ7+Q5kIbQ6pO3xu4rSSqb?=
+ =?us-ascii?Q?lhWGGdeQf61w5tkLZVar8tk2+WlxwZ3V6sxFCWWa9y8lxoOCfFGBO7mQuFpj?=
+ =?us-ascii?Q?XKUHRJI/E7DXay3jamzMO/WsG/2eidD7TaIgJsAsgWYjWbXhnujHYfVllrm4?=
+ =?us-ascii?Q?EC6OttrNQ4/z6V6JsWktPyptfEnfItgAObDj3nEke7ozVOef5R8x1i4KRaSP?=
+ =?us-ascii?Q?7/HD3s6o2e3+CdI7VHxmnL8jdpuaBCmcYz5sga9buYUmlpsgK8oH2FxY+FOm?=
+ =?us-ascii?Q?+4egJnFXrMgmLEQXGqcLQCQORxcATQumthyX8tvQ8G67FW3/dqm92VGgbt6z?=
+ =?us-ascii?Q?6lhtQ2KaJnyAx6GPtzuClAYzpFp2e4Meo/38NncTuMG0HTTFmCubTYzCNQA+?=
+ =?us-ascii?Q?qPIugX4ySHZyzfIGSl8FchA1ZgoKayNAMFcUtYb/xcmn3EZOgfUDEVzmpKZw?=
+ =?us-ascii?Q?RL2Wq/ZfDbm/jw9GExm1wIzYKKdtxmjWcZ9TtZ+6/gXdcH7V/+DV77hGQaO/?=
+ =?us-ascii?Q?mCYbAfMhuQhkorkQ0iFORfzuAs8ZNs/Vqw/j9Vl+dr0QBh+aUWzY7YV4MRLf?=
+ =?us-ascii?Q?vmRKI9Ejsq++UzVwb9vXCb54tMyYrOKNmb6C1XYrwYD1dvzI0ud4ErdduHBe?=
+ =?us-ascii?Q?FyBiCiv9b8vKu7+tenRzRjClNkzeFRDvxyTR95FhQR2RdbW5r1OxdjRWgRk8?=
+ =?us-ascii?Q?l/RI2w=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fc4566e-67cc-47ef-f5c4-08d9fa8e0a88
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 07:43:42.3370
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qBrtV8RQD5gUfnJoMF+sIFBRfi6UmVw9SfN5TxIWiaavlT7H8bQcfrn/QXDYFD8JtsURBmGZJzAONF9jvqt/xlBQdeDjn8pUewZL49kqpro=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5645
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10271 signatures=684655
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=972 bulkscore=0
+ adultscore=0 phishscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2202280043
+X-Proofpoint-GUID: biU3pCSN_2Pc6YD9_tRt3-nmcaOG_Ke9
+X-Proofpoint-ORIG-GUID: biU3pCSN_2Pc6YD9_tRt3-nmcaOG_Ke9
 
-Hi Arinc,
+The netif_rx_ni() function frees the skb so we can't dereference it to
+save the skb->len.
 
-On Sun, Feb 27, 2022 at 4:12 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
-9.com> wrote:
->
-> On 15/02/2022 18:16, Sergio Paracuellos wrote:
-> > Hi Arinc,
-> >
-> > On Tue, Feb 15, 2022 at 3:11 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@a=
-rinc9.com> wrote:
-> >>
-> >> On 15/02/2022 12:09, Sergio Paracuellos wrote:
-> >>> Hi Arinc,
-> >>>
-> >>> On Tue, Feb 15, 2022 at 9:50 AM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal=
-@arinc9.com> wrote:
-> >>>>
-> >>>> Hey Sergio,
-> >>>>
-> >>>> On 15/02/2022 11:35, Sergio Paracuellos wrote:
-> >>>>> Hi Arinc,
-> >>>>>
-> >>>>> On Tue, Feb 15, 2022 at 9:18 AM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.un=
-al@arinc9.com> wrote:
-> >>>>>>
-> >>>>>> GB-PC1 uses some of the rgmii2 pins (22 - 33) as GPIO. Therefore, =
-the
-> >>>>>> rgmii2 bus cannot be used on this device.
-> >>>>>> Overwrite pinctrl-0 property under the ethernet node without rgmii=
-2_pins on
-> >>>>>> the GB-PC1 devicetree.
-> >>>>>>
-> >>>>>> Signed-off-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
-> >>>>>> ---
-> >>>>>>     drivers/staging/mt7621-dts/gbpc1.dts | 4 ++++
-> >>>>>>     1 file changed, 4 insertions(+)
-> >>>>>
-> >>>>> No issues in GB-PC1. So:
-> >>>>>
-> >>>>> Tested-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> >>>>
-> >>>> Thanks for testing it so quickly!
-> >>>>
-> >>>> I was wondering if you got pinctrl errors on the bootlog before appl=
-ying
-> >>>> this patch series.
-> >>>>
-> >>>> rgmii2 pin group is given gpio function so calling it from ethernet =
-node
-> >>>> would cause this on my TP-Link RE650 v1 which also uses the rgmii2_p=
-ins
-> >>>> as GPIO.
-> >>>>
-> >>>> [    1.177349] rt2880-pinmux pinctrl: pin io22 already requested by
-> >>>> pinctrl; cannot claim for 1e100000.ethernet
-> >>>> [    1.196966] rt2880-pinmux pinctrl: pin-22 (1e100000.ethernet) sta=
-tus -22
-> >>>> [    1.210312] rt2880-pinmux pinctrl: could not request pin 22 (io22=
-)
-> >>>> from group rgmii2  on device rt2880-pinmux
-> >>>> [    1.230058] mtk_soc_eth 1e100000.ethernet: Error applying setting=
-,
-> >>>> reverse things back
-> >>>> [    1.245853] mtk_soc_eth: probe of 1e100000.ethernet failed with e=
-rror -22
-> >>>
-> >>> No, I was not getting any kind of error since when I test your last
-> >>> patch series I was not experimenting any kind of regression. I don't
-> >>> have any issues now also with your new patch series. Your new changes
-> >>> make sense since as you have said "rgmii2" pins are requested as GPIO
-> >>> but it seems are not really being requested? I don't have time to
-> >>> check the datasheet now but will try to get time to see what is
-> >>> happening there.
-> >>
-> >> I think this must have something to do with pinctrl on newer kernels a=
-s
-> >> the TP-Link RE650 that I tested uses the OpenWrt master branch (Linux =
-5.10).
-> >
-> > I think is this commit which I did according to a review after moving
-> > the driver from staging into 'drivers/pincrtl/ralink':
-> >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/comm=
-it/drivers/pinctrl/ralink?h=3Dstaging-next&id=3D8a55d64c3336fc2ffd488a37d08=
-ceab154c7b56b
-> >
-> > You can also check other changes from where the driver was moved:
-> >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/log/=
-drivers/pinctrl/ralink?h=3Dstaging-next
->
-> I realised current mt7621.dtsi does not apply the functions we specify
-> for the pin groups on device-specific devicetrees. I believe we need to
-> add this like on OpenWrt's mt7621.dtsi.
->
-> https://github.com/openwrt/openwrt/blob/master/target/linux/ramips/dts/mt=
-7621.dtsi#L249-L253
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/tree/d=
-rivers/staging/mt7621-dts/mt7621.dtsi?h=3Dstaging-testing#n153
->
-> Can you apply the patch below to see if you get the error like above?
-> I also put it in attachments in case of space characters replacing tab
-> on the mail.
->
-> Ar=C4=B1n=C3=A7
->
-> ---
-> diff --git a/drivers/staging/mt7621-dts/gbpc1.dts
-> b/drivers/staging/mt7621-dts/gbpc1.dts
-> index 1b5175e6ccf3..e38a083811e5 100644
-> --- a/drivers/staging/mt7621-dts/gbpc1.dts
-> +++ b/drivers/staging/mt7621-dts/gbpc1.dts
-> @@ -114,10 +114,6 @@ default_gpio: gpio {
->         };
->   };
->
-> -&ethernet {
-> -       pinctrl-0 =3D <&mdio_pins>, <&rgmii1_pins>;
-> -};
-> -
->   &switch0 {
->         ports {
->                 port@0 {
-> diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi
-> b/drivers/staging/mt7621-dts/mt7621.dtsi
-> index 4da20da243e6..8e181d6f70ae 100644
-> --- a/drivers/staging/mt7621-dts/mt7621.dtsi
-> +++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-> @@ -152,6 +152,11 @@ spi0: spi@b00 {
->
->         pinctrl: pinctrl {
->                 compatible =3D "ralink,rt2880-pinmux";
-> +               pinctrl-names =3D "default";
-> +               pinctrl-0 =3D <&state_default>;
-> +
-> +               state_default: pinctrl0 {
-> +               };
+Fixes: 61e121047645 ("staging: gdm7240: adding LTE USB driver")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/staging/gdm724x/gdm_lte.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-This should not be in the pinctrl node. I was told to remove it when
-bindings were reviewed since these properties must be in consumer
-nodes [0]. See binding documentation [1]:
+diff --git a/drivers/staging/gdm724x/gdm_lte.c b/drivers/staging/gdm724x/gdm_lte.c
+index 493ed4821515..0d8d8fed283d 100644
+--- a/drivers/staging/gdm724x/gdm_lte.c
++++ b/drivers/staging/gdm724x/gdm_lte.c
+@@ -76,14 +76,15 @@ static void tx_complete(void *arg)
+ 
+ static int gdm_lte_rx(struct sk_buff *skb, struct nic *nic, int nic_type)
+ {
+-	int ret;
++	int ret, len;
+ 
++	len = skb->len + ETH_HLEN;
+ 	ret = netif_rx_ni(skb);
+ 	if (ret == NET_RX_DROP) {
+ 		nic->stats.rx_dropped++;
+ 	} else {
+ 		nic->stats.rx_packets++;
+-		nic->stats.rx_bytes += skb->len + ETH_HLEN;
++		nic->stats.rx_bytes += len;
+ 	}
+ 
+ 	return 0;
+-- 
+2.20.1
 
-[0]: https://www.mail-archive.com/driverdev-devel@linuxdriverproject.org/ms=
-g102634.html
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/tre=
-e/Documentation/devicetree/bindings/pinctrl/ralink,rt2880-pinmux.yaml?h=3Ds=
-taging-linus&id=3Db6821b0d9b56386d2bf14806f90ec401468c799f
-
-Best regards,
-    Sergio Paracuellos
-
->
->                 i2c_pins: i2c0-pins {
->                         pinmux {
