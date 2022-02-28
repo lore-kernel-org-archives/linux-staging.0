@@ -1,168 +1,93 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F7E320F
-	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 07:43:47 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21S6C2mj008247;
-	Mon, 28 Feb 2022 07:43:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=je/DKA2oFxa7SvcTjM/bcuPFdNH8UzfKN6EKgKP1R7Q=;
- b=YnsX6nsKr+fvOYYyj4fOW9AzMEccqafZMdmUkGXetqgwzWKBBJFsQXsPe0KTYuqJ0itz
- YEgfJu+Xi9oBsjH6fehtBv9q0wPOry8dazSEQJo5gQt6FlwIzwfm5omIWodASy4WaShX
- LXBfPsr0UIhL010xxOLbLQP8r+xLxT57cyNZ9gvoAUFa6OiIsLPYhUm3H3NBxYbyeh2O
- 6PAZvVp37Wws0UvIKnViXTRytEFbd/TGqSqJfRxddytWgXDjS5Ct3Pp90S8mCxHqFxOK
- 78DRGrH6IksGeW1O0td5MOlUn39SmIzlHu/NshBandgbBCU5vMkkSfxnIi3mZ6iXOo9M WQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3efb02kdsy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Feb 2022 07:43:45 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 21S7ZK6q195023;
-	Mon, 28 Feb 2022 07:43:44 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by userp3020.oracle.com with ESMTP id 3efdnjf41u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Feb 2022 07:43:44 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZlPWyTg72b52J5dna9xejuP5wy0x64IWrU3VZ1kNT25OeLWMJyCJDKyiI01D8dkLCmLsps6yFIxB6BZz7XV7gpOxNGkOY4t9bRdq1Bqv/7tfzJHfseekDFj9BbEt9ysUy9osetfbvuzlWQaaOhAHJLnL6NYgL9eLYN1siI84xW6N00sPsBYV4z92Jg6RggndzdgS6i6Atkh+L8+Z/iNTJLASwWP4EWZkZ3FAGumTXOsyQP/DKO5njoSlGsJZhrYWcw6WIlG5DJrFMHZ9+x5hfOhY0t+dvOxdHxb5JOVjJ9UF9B48rFd8HtC2QJKqKrp94TOxHvlhIpLkc5oO0A+pnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=je/DKA2oFxa7SvcTjM/bcuPFdNH8UzfKN6EKgKP1R7Q=;
- b=kg3CEgnbrMZACThP5ic8tlrlxj2WKYFRRlRCk7R0fUFhWGysMest/WXrPBpuBN1pLQ4hGVngiDJ1tN/GsmAm65dHrewN1hoiHnI3xopo7IYFnC5yt/QefBfEZ9NdF/zhIzxneYtVv6EC1T1gcpm08aDQgAi4nG2rx43BMnrqG725BPRhP4+OrHGlqT8fWhpK8ogUa+hw9rTahYhhSuiJq2uVnIJQ45VK77a0nS9mKnsa7x9BGlRWYIpRw2uHN4NhiTV+9g2FvUizobKwvfeXrTD5sG+xTrlpIqaMu/vSdgadB653HIRJBcJ/iyollLlRJkdPV0HWbkyI1OeszcsiBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=je/DKA2oFxa7SvcTjM/bcuPFdNH8UzfKN6EKgKP1R7Q=;
- b=oIHgj3sNmD7pUcXrI/UY4nf86L49XP2bf61RIppehgv/6cL+hc5x+R4MMX87zVzJVPQDnzVYqlFkuubjk8Qz6vU5xU7Z3zloJlBFi7hNbwtOrSXOvX6s1Y93wkDOqULaNPtAFdGiGIfQvLDNQA0E+FZHaarVPXH/lc/TwA5MW2Y=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by SJ0PR10MB5645.namprd10.prod.outlook.com
- (2603:10b6:a03:3e2::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.25; Mon, 28 Feb
- 2022 07:43:42 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5%4]) with mapi id 15.20.5017.026; Mon, 28 Feb 2022
- 07:43:42 +0000
-Date: Mon, 28 Feb 2022 10:43:31 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Won Kang <wkang77@gmail.com>, linux-staging@lists.linux.dev,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] staging: gdm724x: fix use after free in gdm_lte_rx()
-Message-ID: <20220228074331.GA13685@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZRAP278CA0007.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:10::17) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B542F320F;
+	Mon, 28 Feb 2022 08:07:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64C19C340F1;
+	Mon, 28 Feb 2022 08:07:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1646035641;
+	bh=ZIThCTjaypYDGsg6PqLBGFPVK72nb1FskfDKUMQoQFo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=aD1Bq94lyoSrU2rCMMALEIwxpVEUCGPfDF3dSAY04qYShfUHRGnHnfOLK00oUyW0n
+	 ZqsMF2iFDnWnNQU4y+SGtYOAu5Ni1fTK3qmdoXezKrSqgWCYwRDMEoKeNDdb+Nkuz3
+	 qCcOiJz8mrsH9PbnU9Uy6ClGyXORbh7pBctQV46m71jB+a9PCxnWvZ62vTMJBnf1Xx
+	 q8KNT0ei+VPVQMCRbzemricf9saJwYLDd4YpN1D4EvBQKNGAbl0BWqTlhRM3X0vYXD
+	 MHWCP9V/paczpqcSPuXqjoBZyne5r0/hJDs5BnKQTtpBr0XDpT3ldBKKSTwvH5O2Xk
+	 UqCo5U8NmR1hw==
+Received: by mail-wm1-f52.google.com with SMTP id o62-20020a1ca541000000b00380e3cc26b7so5499799wme.0;
+        Mon, 28 Feb 2022 00:07:21 -0800 (PST)
+X-Gm-Message-State: AOAM5328iderCE26T1ta0GhQtkLo+h//98CVV0BZtvvN2IsrKD7LsrMr
+	3uhFaYIcFzJWjelveTxs7Gc5UTAaoGrtfBBDj3w=
+X-Google-Smtp-Source: ABdhPJzpcZ5s+5KOBMUi70sNCMSXIqY3vXEepsFRSDE8fekaJ/SUkhm+3dpDI9J9lgxQZ0OAu6bPJpVx/Y8rip86Cms=
+X-Received: by 2002:a05:600c:4f8e:b0:381:6de4:fccc with SMTP id
+ n14-20020a05600c4f8e00b003816de4fcccmr1697739wmq.82.1646035639695; Mon, 28
+ Feb 2022 00:07:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7fc4566e-67cc-47ef-f5c4-08d9fa8e0a88
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5645:EE_
-X-Microsoft-Antispam-PRVS: 
-	<SJ0PR10MB56454107AB77778538A155EF8E019@SJ0PR10MB5645.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	/rOEv2QAgpf7soSCvHWqkjKddy9DcDTtlSOKM1cNpT+22XYwQpO5PAPJFpd+jrb+fK7onJMAcmnxhAUCXCe16RUtpC0M6ZgqATKdocybtSNHghn4lxIBVUFTZDlYQVXCR2aYPEReAGFSTVvSnAOn3wnEAy2zlNvV1I2mfEjc0HCxN0/tWigNNXPrdfBRL2KOIl6CV5/eyS/aTKUq3dQXnc7qZwYiwqvbJSsfZWf3h+47G32mkdKhaENNPC1A6FfpMx/DXKgVSHqiydodyh/FoqlRafsAf3smxczCwKOYA76hSOqcuq9iW+AHyXrN8dAYpKKquudse0Utg6xmuPqUmKmC7fZR6WQZ5pmi7JD2ZsnZG8oZcV3AaFGTKq54UtoR72svHPVjlhBDzMc0rmoL5Xx4zvEm9H7NBrqFA/ob5g4XgIK9a1SRkH/wT1d3EuBENIsQa6U19MUrlUCvn3zaffaHwnTGLi1yo7Wyr9QKs2vB3XeZ3Ex20Lvsv5I1oJZI1/wDrbs/ys2lSwxh+tT8vovF+7aD1r026N+DtHqtk1Stfdh0dYPXQGTeCa4m9/FRDXtS14IR0ELPQLAXn5QQgaASHdJSuUEHCuqr96a+1mLcHg+CNqn4D54rM3FnfBj3szrl1RyGTNkUKnG0zexRI6MNRB0+hiTQ+G8p0Hc2cz0C0J9n8+qupQ0XYFju5PW1PE/rQ/VWZ9HuKtW3IbCf9Q==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(83380400001)(4744005)(52116002)(508600001)(6486002)(1076003)(44832011)(316002)(8936002)(6916009)(86362001)(66946007)(26005)(186003)(4326008)(2906002)(9686003)(33656002)(6512007)(6506007)(5660300002)(66556008)(8676002)(66476007)(6666004)(38350700002)(33716001)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?5VoRCnGVr5F6CrwwoRfrw9+wSA7V367IvzK/bIncI5WxqnXmnxY82+tzwqcM?=
- =?us-ascii?Q?qqTZLawsw/J7DANJXDnBW3vch1JnrAlOiMtcesLalriq3uzUor5+0YVNMYLg?=
- =?us-ascii?Q?PwjDtMLKGFyWkMOn8yEBXZYzY42t7c4WpBZQK0BU7RviIGEZyeeISjW0YmtU?=
- =?us-ascii?Q?pH2Ah7Z8XTQaLEZsyBVGlctqC6zKVmb+9M5Cdz0V26dRBIrfqSHuDTQpAleS?=
- =?us-ascii?Q?h+QMWvbjz7uxMBeor9Uy6FOEGQG+62vWqZv3/c3OG1Wi/6hLPY1LgaPjooij?=
- =?us-ascii?Q?UEObQcCvljTj1AsgWRAX4xKlxcoe9h5LSrV8D4V9LQEtKPEoCxy2CHLKn1xr?=
- =?us-ascii?Q?0sRwEzkw7YfDe8F4GcYIhu33u9xDStnNKqWuH1dVWzVcFWQvmkhni5Y4qubb?=
- =?us-ascii?Q?sQhBGZ3H6/PrsmfsMmzlTlJzNBi3vfjHi9jVizzDY181Y1aYVk8+P0UGgFwg?=
- =?us-ascii?Q?toBRwKmdL6mw0Pl/tQI8Th72qeatEs4jDQXFI471DgZPXI4aEvSv5vHjqFmG?=
- =?us-ascii?Q?DY6vDwA/C1x1mMnO/8xz7nTvLz3FBbK5EK7W12R2aqtqgvEcqWQC2Y+f1odE?=
- =?us-ascii?Q?+tHSj2B6/MsVKt8Z5ti5CNta/NXn+v5fAMEgw+zfDAV/HKn8yKViCxh7Y66C?=
- =?us-ascii?Q?5tZ9vt1GSh1Vkm4IR0iPMsn7LV3SQe1pTpkIUDcjHjMf40hXwOzh2Y+ew2T3?=
- =?us-ascii?Q?FhL8YFyVR1ukmyVouo5MT/OQAbN0VxZsoonm49skGBEwP0xdm7bKYAq6gMLS?=
- =?us-ascii?Q?ZOZLYJS2nA12Ke6cI9l14PN5GR2NN7P/ZIlNj6eCnuypwEiCnwH7iVgFVX2m?=
- =?us-ascii?Q?tNRemuQu3uCKHUlRwWDEsU/x+bEbLiib70eSkKWvgDvLW38hsIAJr0QS5zvL?=
- =?us-ascii?Q?25/zBgRMSea6EEkzbX/8azNZkilaTTFTjGeDPsfKs5zTH5mKj17hR7GCoosU?=
- =?us-ascii?Q?97C8MdnufliUF8q+RVvsBKP8rGnG648GJkpkq+YQ7+Q5kIbQ6pO3xu4rSSqb?=
- =?us-ascii?Q?lhWGGdeQf61w5tkLZVar8tk2+WlxwZ3V6sxFCWWa9y8lxoOCfFGBO7mQuFpj?=
- =?us-ascii?Q?XKUHRJI/E7DXay3jamzMO/WsG/2eidD7TaIgJsAsgWYjWbXhnujHYfVllrm4?=
- =?us-ascii?Q?EC6OttrNQ4/z6V6JsWktPyptfEnfItgAObDj3nEke7ozVOef5R8x1i4KRaSP?=
- =?us-ascii?Q?7/HD3s6o2e3+CdI7VHxmnL8jdpuaBCmcYz5sga9buYUmlpsgK8oH2FxY+FOm?=
- =?us-ascii?Q?+4egJnFXrMgmLEQXGqcLQCQORxcATQumthyX8tvQ8G67FW3/dqm92VGgbt6z?=
- =?us-ascii?Q?6lhtQ2KaJnyAx6GPtzuClAYzpFp2e4Meo/38NncTuMG0HTTFmCubTYzCNQA+?=
- =?us-ascii?Q?qPIugX4ySHZyzfIGSl8FchA1ZgoKayNAMFcUtYb/xcmn3EZOgfUDEVzmpKZw?=
- =?us-ascii?Q?RL2Wq/ZfDbm/jw9GExm1wIzYKKdtxmjWcZ9TtZ+6/gXdcH7V/+DV77hGQaO/?=
- =?us-ascii?Q?mCYbAfMhuQhkorkQ0iFORfzuAs8ZNs/Vqw/j9Vl+dr0QBh+aUWzY7YV4MRLf?=
- =?us-ascii?Q?vmRKI9Ejsq++UzVwb9vXCb54tMyYrOKNmb6C1XYrwYD1dvzI0ud4ErdduHBe?=
- =?us-ascii?Q?FyBiCiv9b8vKu7+tenRzRjClNkzeFRDvxyTR95FhQR2RdbW5r1OxdjRWgRk8?=
- =?us-ascii?Q?l/RI2w=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fc4566e-67cc-47ef-f5c4-08d9fa8e0a88
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2022 07:43:42.3370
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qBrtV8RQD5gUfnJoMF+sIFBRfi6UmVw9SfN5TxIWiaavlT7H8bQcfrn/QXDYFD8JtsURBmGZJzAONF9jvqt/xlBQdeDjn8pUewZL49kqpro=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5645
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10271 signatures=684655
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=972 bulkscore=0
- adultscore=0 phishscore=0 spamscore=0 suspectscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202280043
-X-Proofpoint-GUID: biU3pCSN_2Pc6YD9_tRt3-nmcaOG_Ke9
-X-Proofpoint-ORIG-GUID: biU3pCSN_2Pc6YD9_tRt3-nmcaOG_Ke9
+References: <20220227215408.3180023-1-arnd@kernel.org> <CAHk-=whWbENRz-vLY6vpESDLj6kGUTKO3khGtVfipHqwewh2HQ@mail.gmail.com>
+In-Reply-To: <CAHk-=whWbENRz-vLY6vpESDLj6kGUTKO3khGtVfipHqwewh2HQ@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Mon, 28 Feb 2022 09:07:03 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3Lv_uSXt9yf-9iOV3hZgV7KvwZjL-gbLTLRgo0UOQguw@mail.gmail.com>
+Message-ID: <CAK8P3a3Lv_uSXt9yf-9iOV3hZgV7KvwZjL-gbLTLRgo0UOQguw@mail.gmail.com>
+Subject: Re: [PATCH] Kbuild: remove -std=gnu89 from compiler arguments
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev, 
+	Jonathan Corbet <corbet@lwn.net>, Federico Vaga <federico.vaga@vaga.pv.it>, Alex Shi <alexs@kernel.org>, 
+	Hu Haowen <src.res@email.cn>, Michal Marek <michal.lkml@markovi.net>, 
+	Nick Desaulniers <ndesaulniers@google.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc-tw-discuss@lists.sourceforge.net, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	intel-gfx <intel-gfx@lists.freedesktop.org>, 
+	dri-devel <dri-devel@lists.freedesktop.org>, greybus-dev@lists.linaro.org, 
+	linux-staging@lists.linux.dev, linux-btrfs <linux-btrfs@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The netif_rx_ni() function frees the skb so we can't dereference it to
-save the skb->len.
+On Sun, Feb 27, 2022 at 11:36 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> And I don't want somebody with a newer compiler version to not notice
+> that he or she ended up using a c17 feature, just because _that_
+> compiler supported it, and then other people get build errors because
+> their compilers use gnu11 instead by default.
+>
+> Put another way: I see absolutely no upside to allowing different
+> users using higher/lower versions of the standard. There are only
+> downsides.
+>
+> If gnu11 is supported by gcc-5.1 and up, and all the relevant clang
+> versions, then let's just pick that.
 
-Fixes: 61e121047645 ("staging: gdm7240: adding LTE USB driver")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/staging/gdm724x/gdm_lte.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Ok, changed my patch to -gnu11 now.
 
-diff --git a/drivers/staging/gdm724x/gdm_lte.c b/drivers/staging/gdm724x/gdm_lte.c
-index 493ed4821515..0d8d8fed283d 100644
---- a/drivers/staging/gdm724x/gdm_lte.c
-+++ b/drivers/staging/gdm724x/gdm_lte.c
-@@ -76,14 +76,15 @@ static void tx_complete(void *arg)
- 
- static int gdm_lte_rx(struct sk_buff *skb, struct nic *nic, int nic_type)
- {
--	int ret;
-+	int ret, len;
- 
-+	len = skb->len + ETH_HLEN;
- 	ret = netif_rx_ni(skb);
- 	if (ret == NET_RX_DROP) {
- 		nic->stats.rx_dropped++;
- 	} else {
- 		nic->stats.rx_packets++;
--		nic->stats.rx_bytes += skb->len + ETH_HLEN;
-+		nic->stats.rx_bytes += len;
- 	}
- 
- 	return 0;
--- 
-2.20.1
+> And if there are any possible future advantages to gnu17 (or eventual
+> gnu2x versions), let's document those, so that we can say "once our
+> compiler version requirements go up sufficiently, we'll move to gnuXX
+> because we want to take advantage of YY".
+>
+> Please?
 
+I think all of the options here are equally bad: picking gnu11 means
+we use a non-standard default for anything other than gcc-5 and
+may get surprised again in the future when we want to change to
+a newer version; -std=gnu1x would work as an alias for gnu17 in
+all versions including gcc-5 but is already marked as 'deprecated'
+in the gcc documentation; and using -std=gnu17 for modern compilers
+requires a workaround for gcc-7 and earlier.
+
+Regarding new features from gcc-2x, I think we already use
+most of what is listed in https://en.wikipedia.org/wiki/C2x, as
+those are all GNU extensions that are valid in modern gnu89 as
+well. Newly added features seem to only depend on the compiler
+version, e.g. #elifdef works in both clang-13 and gcc-12 with
+any -std=gnu?? argument, so picking an earlier standard won't
+stop people from breaking the build with older compilers.
+
+         Arnd
