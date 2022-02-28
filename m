@@ -1,107 +1,75 @@
-Received: from nautica.notk.org (nautica.notk.org [91.121.71.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD06C53A4
-	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 11:31:16 +0000 (UTC)
-Received: by nautica.notk.org (Postfix, from userid 108)
-	id D716BC024; Mon, 28 Feb 2022 12:22:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
-	t=1646047354; bh=nbIjFrzgDVTmB4SrJnZGd7fIFmdwChwe2lL83Uag4us=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KzQ5VK5bfQJ50dqk23dxDjUwDDK7TA/irQD0Z9CNQKb+g550mz4220rMxu0PuRkB0
-	 zSH1KEphDNBJ7hKNULh8KlQjyIdBHOs8MI/nUYoPBmpLppCasulnFAsrKdaEXzwMTJ
-	 IwpM9+gWlHHqb/G70sMsoon8bZGjqe3igvlHvXWdB+dQG/WEtTlWyekznVAIp4LN7e
-	 b5pg6TDJ9pKPwGgBdsioef4sXDvyaKtcCCYy35g3YAfKpCdoJctnMsERag3cdTSjTi
-	 8bbBH2/ntqNttGvGikrePwX+5MLUaZ7SwFWR8e1TQHG1akbelVXWBNaL48rZXDJvyO
-	 7HTqyJ/PLNd5Q==
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on nautica.notk.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.0 required=5.0 tests=UNPARSEABLE_RELAY
-	autolearn=unavailable version=3.3.2
-Received: from odin.codewreck.org (localhost [127.0.0.1])
-	by nautica.notk.org (Postfix) with ESMTPS id 6162EC009;
-	Mon, 28 Feb 2022 12:22:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
-	t=1646047353; bh=nbIjFrzgDVTmB4SrJnZGd7fIFmdwChwe2lL83Uag4us=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E7ShsxTdVoGEbpDYFF27HXnsiskOzo+90fWYK/YK/pcgewcio/aI2ukKBbk8Ggf8c
-	 PSXNNRohBAnroHDgJmzD26WOCBS51v3CgaeWJoVRlz3gzi1Wk2c722FgVeG9ZC8Gq1
-	 VxeMBZJsJJ2s49Z0zkRuzCFT0FdEMmJ4Jlg8so5xUNkI1Pmhr9T77hNpqbhc5MUSIm
-	 Vf9CZqLUP+U5LMthWxqmxcIfa+qcI6C/HHTtBGWVbD6UPJLDQeI2MK30nqaJN3mP3G
-	 MxeZ4iTWnejwYcukxHfaPz9ZlYf9Zxp1r7k3O+mRBYZR8EPZsNImCl3hToWu78+1r5
-	 3QpJ5t/64l3TQ==
-Received: from localhost (odin.codewreck.org [local])
-	by odin.codewreck.org (OpenSMTPD) with ESMTPA id 8186bc45;
-	Mon, 28 Feb 2022 11:22:16 +0000 (UTC)
-Date: Mon, 28 Feb 2022 20:22:01 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Jakob Koschel <jakobkoschel@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-arch <linux-arch@vger.kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Arnd Bergman <arnd@arndb.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>, Mike Rapoport <rppt@kernel.org>,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
-	Cristiano Giuffrida <c.giuffrida@vu.nl>,
-	"Bos, H.J." <h.j.bos@vu.nl>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Nathan Chancellor <nathan@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-sgx@vger.kernel.org,
-	drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-crypto@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-	bcm-kernel-feedback-list@broadcom.com, linux-tegra@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, kvm@vger.kernel.org,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org, kgdb-bugreport@lists.sourceforge.net,
-	v9fs-developer@lists.sourceforge.net,
-	tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 6/6] treewide: remove check of list iterator against head
- past the loop body
-Message-ID: <YhywWTEIY7UnCYtL@codewreck.org>
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-7-jakobkoschel@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB4553A4;
+	Mon, 28 Feb 2022 11:37:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D86BBC340FC;
+	Mon, 28 Feb 2022 11:37:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1646048274;
+	bh=NMuZjdNCVeQj2VoQ5jMSwA/dHUHPZ7Mhms+WmvHKcaw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=puCfv4I80mTbhnHyUqTc9LSw3FPxPIOJ/vkuheGKL8juHQ+7OafzFbeIoOUiNrCzk
+	 gMcRYr5uV1QgmlA2AVn6fH3BtT9wmOgIs9iNnH1so1jgptzNGXyJSNUNB+mD3GKWqs
+	 E2XJQclA3FD72633y5W3VT8t4EU62kfI9ObJFzphTP1SAs7YsrIBe3/G3kytn/9qqP
+	 5AHT3io7WPI82HCHJY9xunwb0bTqn6d4f/32za5KRCjqEkKdRHTt21XpXMpLeN/tBN
+	 BbNvU8hEz/6Lp8OapNZxReFBxhZ7uLVFNvhFYK1wsIb1vZ8/L7F83N5gNIw77oSuFB
+	 0hR/PLkKQ9mRw==
+Received: by mail-wr1-f46.google.com with SMTP id v21so14937945wrv.5;
+        Mon, 28 Feb 2022 03:37:54 -0800 (PST)
+X-Gm-Message-State: AOAM530tH2lQYXBiPbBGfL/WkF4xKQVqEMMZlw1pHf6js61C4UO6xDoy
+	ygAIYdXz0dgFwtI7646sDvda/JYYcu1SEgjRFiE=
+X-Google-Smtp-Source: ABdhPJxtXB6efD/LJ+kcWSKRCDN7bVXv1mCQCSSOtPPswSnZe/jnGK76a+5LOiLNukj3ERUK1wRtMZW5JaW1kqm9z5k=
+X-Received: by 2002:a05:6000:1866:b0:1ef:8a14:ab6a with SMTP id
+ d6-20020a056000186600b001ef8a14ab6amr7567987wri.12.1646048273093; Mon, 28 Feb
+ 2022 03:37:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220228110822.491923-7-jakobkoschel@gmail.com>
+References: <20220228103142.3301082-1-arnd@kernel.org> <YhyxML05rjJ/57Vk@FVFF77S0Q05N>
+In-Reply-To: <YhyxML05rjJ/57Vk@FVFF77S0Q05N>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Mon, 28 Feb 2022 12:37:37 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0CTmtUq+Uba2S3D7wjSstew2M+LfzZoOcKdKK9cfXO9A@mail.gmail.com>
+Message-ID: <CAK8P3a0CTmtUq+Uba2S3D7wjSstew2M+LfzZoOcKdKK9cfXO9A@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>, 
+	Federico Vaga <federico.vaga@vaga.pv.it>, Alex Shi <alexs@kernel.org>, 
+	Hu Haowen <src.res@email.cn>, Michal Marek <michal.lkml@markovi.net>, 
+	Nick Desaulniers <ndesaulniers@google.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc-tw-discuss@lists.sourceforge.net, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Intel Graphics <intel-gfx@lists.freedesktop.org>, 
+	dri-devel <dri-devel@lists.freedesktop.org>, greybus-dev@lists.linaro.org, 
+	linux-staging@lists.linux.dev, linux-btrfs <linux-btrfs@vger.kernel.org>, 
+	Marco Elver <elver@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-This is a bit more work (and a lot more noise), but I'd prefer if
-this were split into as many patches as there are components.
+On Mon, Feb 28, 2022 at 12:25 PM Mark Rutland <mark.rutland@arm.com> wrote:
+> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
+> >
+> > Nathan Chancellor reported an additional -Wdeclaration-after-statement
+> > warning that appears in a system header on arm, this still needs a
+> > workaround.
+>
+> FWIW, I had a go at moving to c99 a few weeks ago (to be able to use
+> for-loop-declarations in some concurrency primitives), and when I tried, I also
+> saw declaration-after-statement warnings when building modpost.c, which is easy
+> enough to fix:
+>
+>   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=treewide/gnu99&id=505775bd6fd0bc1883f3271f826963066bbdc194
 
-I'm not going to review the parts of the patches that don't concern me,
-and if something turns out to be a problem later one (it shouldn't but
-one never knows) it'll be much easier to revert or put the blame on an
-individual smaller commit than on this...
+I think the KBUILD_USERCFLAGS portion and the modpost.c fix for it
+make sense regardless of the -std=gnu11 change, but your change
+to KBUILD_CFLAGS is not actually needed because the warning is
+already enabled there -- gnu89 allows intermingled declarations since
+gcc-3.4, so the warning flag was added during early 2.6.x kernels.
 
-With that being said, ultimately I don't care that much and will leave
-that to people who do :)
-
-Jakob Koschel wrote on Mon, Feb 28, 2022 at 12:08:22PM +0100:
->  net/9p/trans_xen.c                            | 11 +++--
-
-This 9p change looks good to me.
-
-Reviewed-by: Dominique Martinet <asmadeus@codewreck.org> # 9p
-
--- 
-Dominique
+       Arnd
