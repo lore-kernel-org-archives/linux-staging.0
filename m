@@ -1,119 +1,100 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323D015C1
-	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 20:15:07 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id t13so11326534lfd.9
-        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 12:15:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Rhevy6fb5H45VxDHjLDNCxtPhjJ0u7uFLdfSx9pxlIs=;
-        b=SFiiDaskyFzzbW4jCoUqiJYglpNWscp1lwtLHE93w8dRI3h8eXZkrLgebAKqQfA9oZ
-         haXikdZXvfEB810zRURGwChdn/CvMC8Q7Pab3hpE0iVI/nf3FVJvcryQMcC1uZhcoZUU
-         P6IZH9h2w6s9V+B5fc5q6pR5l/tJkcQrm5JJ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rhevy6fb5H45VxDHjLDNCxtPhjJ0u7uFLdfSx9pxlIs=;
-        b=d4O8QGZdzbitVnuZ0FWyJU6WBF0zzhaUR8L4icnX2U8qTh04mqe3Uw8mbeBZ9JR9vB
-         lwyucScGELqbsWEGAv5B7L4ETa4cnOBQ+3mWTW8m2p1RzL7ktxliNZQxb2s90c2oBYwv
-         e7Vx2KlFNeO3T8KozbOIKxwx2a0zHbzkUcLfgLMvvHwJaxRzEOXhc/4Ol4l/AYmkLyEe
-         QAbPPiEweO1QUhAVL2pwSqv5Hz6WGWqpFaJ8wtXlSM7HCeGW4lXQVKA19L1B1Z60s0qd
-         LQs1pC3idNruz4n6m0zRjkMB0NZ2WGGr+6gdtI8kKyzd1PrujxvPoN099OEtV6/8Q92L
-         3pEA==
-X-Gm-Message-State: AOAM530pRszwZFAtrQZCa5r/eSB24+pB8L5faRRGLHTWCg1lCJf5jfd8
-	6GnprHsmCaGh6sDx7isRDOU0XOnlJhhVBmqeZGU=
-X-Google-Smtp-Source: ABdhPJx43tOsYZQIYXIZoGwtxuPmSGjvY0Hgs/pbVEhIlZ6i9BJQY/4tJuIC9ChkqttW6EnH+bss1A==
-X-Received: by 2002:ac2:4423:0:b0:438:cc25:81ae with SMTP id w3-20020ac24423000000b00438cc2581aemr13270395lfl.212.1646079304953;
-        Mon, 28 Feb 2022 12:15:04 -0800 (PST)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id v21-20020a2e9915000000b002452577587esm1507026lji.16.2022.02.28.12.15.01
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Feb 2022 12:15:02 -0800 (PST)
-Received: by mail-lj1-f170.google.com with SMTP id u7so18971495ljk.13
-        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 12:15:01 -0800 (PST)
-X-Received: by 2002:a2e:924d:0:b0:246:370c:5618 with SMTP id
- v13-20020a2e924d000000b00246370c5618mr15110351ljg.358.1646079300900; Mon, 28
- Feb 2022 12:15:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3441515C1
+	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 20:17:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Gzmb9gGTyCSEGFZjR7TUOSRZ1bWW/G5bAVEV+T9ChYA=; b=HMc4MBy8Vzw7Zw6bzwiCq0vper
+	wGe8MnGgfy3P9tw37992OGwcjtB/nFZdz8dqNima3vpVALFvZyXZ3FLoo4RUIh3Ab9CrQCeBzKMqY
+	Ctk97R68KJQlQYl84mgCzKSPEBlsm5unT7lh2/ssDfpaJ9kijdyJZ7M9Gq/AZ9YISpkY4qwyvfd22
+	UNXuHqD0QUEzQlXJX3VELz7E5j90JJI15fiDqKM4f3XzpVoGyrKZNwsue1ODaw91KQCRdaBoqAoRS
+	K+CsuK7iyfWO24fTeFRAPdlXgnD6RcCDMvrfP15+eL0CkbNFD8MwWSyqHmDh8nTOhNkj6bmyxGR8R
+	ZvPOqL+g==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nOmRT-008sRP-GZ; Mon, 28 Feb 2022 20:16:23 +0000
+Date: Mon, 28 Feb 2022 20:16:23 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jakob Koschel <jakobkoschel@gmail.com>, alsa-devel@alsa-project.org,
+	linux-aspeed@lists.ozlabs.org,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	dri-devel <dri-devel@lists.freedesktop.org>,
+	Cristiano Giuffrida <c.giuffrida@vu.nl>,
+	amd-gfx list <amd-gfx@lists.freedesktop.org>,
+	samba-technical@lists.samba.org,
+	linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+	linux-arch <linux-arch@vger.kernel.org>,
+	CIFS <linux-cifs@vger.kernel.org>, KVM list <kvm@vger.kernel.org>,
+	linux-scsi <linux-scsi@vger.kernel.org>,
+	linux-rdma <linux-rdma@vger.kernel.org>,
+	linux-staging@lists.linux.dev, "Bos, H.J." <h.j.bos@vu.nl>,
+	Jason Gunthorpe <jgg@ziepe.ca>, intel-wired-lan@lists.osuosl.org,
+	kgdb-bugreport@lists.sourceforge.net,
+	bcm-kernel-feedback-list@broadcom.com,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+	Linux PM <linux-pm@vger.kernel.org>,
+	intel-gfx <intel-gfx@lists.freedesktop.org>,
+	Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	v9fs-developer@lists.sourceforge.net,
+	linux-tegra <linux-tegra@vger.kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	linux-sgx@vger.kernel.org,
+	linux-block <linux-block@vger.kernel.org>,
+	Netdev <netdev@vger.kernel.org>, linux-usb@vger.kernel.org,
+	linux-wireless <linux-wireless@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+	tipc-discussion@lists.sourceforge.net,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+	dma <dmaengine@vger.kernel.org>, linux-mediatek@lists.infradead.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+	Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Message-ID: <Yh0tl3Lni4weIMkl@casper.infradead.org>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+ <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-3-jakobkoschel@gmail.com> <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
- <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com> <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 28 Feb 2022 12:14:44 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wj27SZQ3kPTesBzkiGhe-mA3gOQqr_adt_bMFzmg1VNaA@mail.gmail.com>
-Message-ID: <CAHk-=wj27SZQ3kPTesBzkiGhe-mA3gOQqr_adt_bMFzmg1VNaA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jakob Koschel <jakobkoschel@gmail.com>, alsa-devel@alsa-project.org, 
-	linux-aspeed@lists.ozlabs.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, 
-	linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	Cristiano Giuffrida <c.giuffrida@vu.nl>, amd-gfx list <amd-gfx@lists.freedesktop.org>, 
-	samba-technical@lists.samba.org, linux1394-devel@lists.sourceforge.net, 
-	drbd-dev@lists.linbit.com, linux-arch <linux-arch@vger.kernel.org>, 
-	CIFS <linux-cifs@vger.kernel.org>, KVM list <kvm@vger.kernel.org>, 
-	linux-scsi <linux-scsi@vger.kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, "Bos, H.J." <h.j.bos@vu.nl>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, intel-wired-lan@lists.osuosl.org, 
-	kgdb-bugreport@lists.sourceforge.net, bcm-kernel-feedback-list@broadcom.com, 
-	Dan Carpenter <dan.carpenter@oracle.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Kees Cook <keescook@chromium.org>, 
-	Arnd Bergman <arnd@arndb.de>, Linux PM <linux-pm@vger.kernel.org>, 
-	intel-gfx <intel-gfx@lists.freedesktop.org>, 
-	Brian Johannesmeyer <bjohannesmeyer@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, v9fs-developer@lists.sourceforge.net, 
-	linux-tegra <linux-tegra@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org, 
-	linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>, 
-	linux-usb@vger.kernel.org, linux-wireless <linux-wireless@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>, 
-	tipc-discussion@lists.sourceforge.net, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, dma <dmaengine@vger.kernel.org>, 
-	linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>, 
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, Mike Rapoport <rppt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 28, 2022 at 12:10 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
+On Mon, Feb 28, 2022 at 12:10:24PM -0800, Linus Torvalds wrote:
 > We can do
->
+> 
 >         typeof(pos) pos
->
+> 
 > in the 'for ()' loop, and never use __iter at all.
->
+> 
 > That means that inside the for-loop, we use a _different_ 'pos' than outside.
 
-The thing that makes me throw up in my mouth a bit is that in that
+Then we can never use -Wshadow ;-(  I'd love to be able to turn it on;
+it catches real bugs.
 
-        typeof(pos) pos
-
-the first 'pos' (that we use for just the typeof) is that outer-level
-'pos', IOW it's a *different* 'pos' than the second 'pos' in that same
-declaration that declares the inner level shadowing new 'pos'
-variable.
-
-If I was a compiler person, I would say "Linus, that thing is too ugly
-to live", and I would hate it. I'm just hoping that even compiler
-people say "that's *so* ugly it's almost beautiful".
-
-Because it does seem to work. It's not pretty, but hey, it's not like
-our headers are really ever be winning any beauty contests...
-
-                Linus
+> +#define list_for_each_entry(pos, head, member)					\
+> +	for (typeof(pos) pos = list_first_entry(head, typeof(*pos), member);	\
+> +	     !list_entry_is_head(pos, head, member);	\
+>  	     pos = list_next_entry(pos, member))
