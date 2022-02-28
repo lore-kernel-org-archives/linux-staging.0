@@ -1,77 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE41B513F;
-	Mon, 28 Feb 2022 08:11:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 730B7C36AEC;
-	Mon, 28 Feb 2022 08:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1646035915;
-	bh=zMDLEB8toWf2EIp4Gbj5PSCBFzWdzLn4mVbcpqFSMxs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=G5/HKt1YcKrybKD+1q8UgQW8r6UniPBg+HgJCRHDiawTCCJy2G9uMVmVMIrAH+MIY
-	 uUZuQAmqf+UgQqG4LSwOUKjuA8mlT2hPXWXAetE6/wffM3OsZ6cQuw+SmzDdC9fizY
-	 tnKAD3prEcX2CmRCAP5e0Sp4+MmIaoIy7bEgoECFMmrlcDv1M29iegogMcMJXx4EzC
-	 Ww6E2vE2Ei6Ccl+33CFLA3ixlnEAH6a8FHRWu+p6u8hOq0ib6UliPV2J7DZbNT/orL
-	 Z5vh8VINzIAjIFdahYuMGIJkpIkpdyHyDhOYN0mcWcjSY+6pRXFj43dgIYPqjgmCqP
-	 vBf0o1GuFv9eA==
-Received: by mail-wm1-f44.google.com with SMTP id bg16-20020a05600c3c9000b00380f6f473b0so5239875wmb.1;
-        Mon, 28 Feb 2022 00:11:55 -0800 (PST)
-X-Gm-Message-State: AOAM5326gkaP9J9IbS16cgunRRJMCZZOHQmWr2ev0OCtG84K+ekBdOMJ
-	lyGmgh9Id/vK42lx9ZzLQ19G4L0yQ68cowGA3kM=
-X-Google-Smtp-Source: ABdhPJx0yttNosgz0Dhhih9aIMEkkBewvoulgcXNOZok4rXBWTX7Xo99SrIvGnmvPy9Xsi9me/xpLhkH8sj6MYMy+yQ=
-X-Received: by 2002:a05:600c:4802:b0:381:3b27:89b7 with SMTP id
- i2-20020a05600c480200b003813b2789b7mr11349875wmo.173.1646035913752; Mon, 28
- Feb 2022 00:11:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A264B48CD
+	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 09:34:28 +0000 (UTC)
+Received: by mail-vs1-f47.google.com with SMTP id e5so12243894vsg.12
+        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 01:34:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fsIvmUNCo/5VWlA0/Y4MVhiq1d6Mv6B/6S6hygEcBfA=;
+        b=YAt0EgmI8iZw4cPhhsCqF+z91XeL24K4Dr2v/3xGGiXzjC0ph7x6UdEOUT72YkQlA2
+         faPq0wWtadDCYi43pb3UNeAWlig2QS1TMqp91SvN4mmh94PLZrI2G09eCO6EIfqevZ6d
+         ZRYf5QPIt1r1MeuP+zLnsz6r+l2E5u67rvl7B8hqrXXlFYr1rZPg12kFae5wcUJtZEB0
+         r6l7zbHP/iLKSZ5R8NmNCj1tOSHyIypF2Ymh/uBXAoyCfssDwEOOUc+iKvhrECfXWqTz
+         Mxw+vKxt8MEx47k1opxNjxRymPPt1FePseSAOS4bPUwblPtPaGaU5R6fkcDv22kzBKwG
+         9frA==
+X-Gm-Message-State: AOAM531Jyzu0VTD33OkM+/AVdwHq49ulbfasxHJ6gDP3MCOIUjAEhy5H
+	LcAemjcWPvddnjvLS1djxhpPkF2NWQlxFQ==
+X-Google-Smtp-Source: ABdhPJw3iDRRYvi9widngE+CWbJFv4fJHH9PkQCEt2rbGvSh2kqPqs37LqMlDiQsg/h7K28dBF5UYA==
+X-Received: by 2002:a67:1dc1:0:b0:31e:650d:a7ad with SMTP id d184-20020a671dc1000000b0031e650da7admr5273207vsd.85.1646040867245;
+        Mon, 28 Feb 2022 01:34:27 -0800 (PST)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
+        by smtp.gmail.com with ESMTPSA id v123-20020a1fde81000000b0032d8170fd77sm1743541vkg.27.2022.02.28.01.34.26
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Feb 2022 01:34:26 -0800 (PST)
+Received: by mail-vs1-f46.google.com with SMTP id e26so12304918vso.3
+        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 01:34:26 -0800 (PST)
+X-Received: by 2002:a67:e113:0:b0:30e:303d:d1d6 with SMTP id
+ d19-20020a67e113000000b0030e303dd1d6mr6829157vsl.38.1646040866438; Mon, 28
+ Feb 2022 01:34:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220227215408.3180023-1-arnd@kernel.org> <YhwT2Gw8vsQHPxAB@quad.stoffel.home>
-In-Reply-To: <YhwT2Gw8vsQHPxAB@quad.stoffel.home>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 28 Feb 2022 09:11:37 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1A8Y3F93FzbWum9U=_Mc8zR9T5p=tTkQK90ARan41EbA@mail.gmail.com>
-Message-ID: <CAK8P3a1A8Y3F93FzbWum9U=_Mc8zR9T5p=tTkQK90ARan41EbA@mail.gmail.com>
-Subject: Re: [PATCH] Kbuild: remove -std=gnu89 from compiler arguments
-To: john@quad.stoffel.home
-Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>, 
-	Federico Vaga <federico.vaga@vaga.pv.it>, Alex Shi <alexs@kernel.org>, 
-	Hu Haowen <src.res@email.cn>, Michal Marek <michal.lkml@markovi.net>, 
-	Nick Desaulniers <ndesaulniers@google.com>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc-tw-discuss@lists.sourceforge.net, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Intel Graphics <intel-gfx@lists.freedesktop.org>, 
-	dri-devel <dri-devel@lists.freedesktop.org>, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-btrfs <linux-btrfs@vger.kernel.org>
+References: <YhjYPIRvDnV7XAzV@kroah.com> <CAHk-=wjLvye-_qj-J=dVWhFf7S8noL6d-szRtFYq_hoOk6J1Eg@mail.gmail.com>
+ <Yhndy5cTzhJh7abq@kroah.com>
+In-Reply-To: <Yhndy5cTzhJh7abq@kroah.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 28 Feb 2022 10:34:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX35YGpACUsk3iUhk3KF96PB3fxs1jfQ75g6_ddFS=rXQ@mail.gmail.com>
+Message-ID: <CAMuHMdX35YGpACUsk3iUhk3KF96PB3fxs1jfQ75g6_ddFS=rXQ@mail.gmail.com>
+Subject: Re: [GIT PULL] Staging driver fix for 5.17-rc6
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 28, 2022 at 1:14 AM John Stoffel <john@quad.stoffel.home> wrote:
->
-> On Sun, Feb 27, 2022 at 10:52:43PM +0100, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
+On Sat, Feb 26, 2022 at 9:08 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> On Fri, Feb 25, 2022 at 11:57:43AM -0800, Linus Torvalds wrote:
+> > On Fri, Feb 25, 2022 at 5:23 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > It resolves a reported problem in the fbtft fb_st7789v.c driver that
+> > > could cause the display to be flipped in cold weather.
 > >
-> > During a patch discussion, Linus brought up the option of changing
-> > the C standard version from gnu89 to gnu99, which allows using variable
-> > declaration inside of a for() loop. While the C99, C11 and later standards
-> > introduce many other features, most of these are already available in
-> > gnu89 as GNU extensions as well.
+> > LOL. WTF?
 > >
-> > An earlier attempt to do this when gcc-5 started defaulting to
-> > -std=gnu11 failed because at the time that caused warnings about
-> > designated initializers with older compilers. Now that gcc-5.1 is the
-> > minimum compiler version used for building kernels, that is no longer a
-> > concern. Similarly, the behavior of 'inline' functions changes between
-> > gnu89 and gnu89, but this was taken care of by defining 'inline' to
+> > I just had to read the commit message for that odd thing.
 >
-> Typo here?  Second one should be gnu99 right?
+> Here it is in the real world, I should have added this to the changelog,
+> but I figured the url might not be permanent:
+>         https://www.core77.com/posts/111994/Hyundais-Strange-Cold-Weather-UI-Bug-Digital-Dashboard-Rotates-Flips-Display
 
+Don't keep your production drivers too long in staging?
 
-Fixed, thanks!
+(sorry, couldn't resist :-)
 
-        Arnd
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
