@@ -1,274 +1,237 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFEB53A4;
-	Mon, 28 Feb 2022 12:02:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=ohRWO5aJ73mE5bdhThGrtXZmC0cnKiaheTPJQAfRtqs=; b=OX2WXj2Qdb3r9Hs5mYvEmYlMQo
-	5/NLyLto2hS8OKESxkG4qbqv/RjzBEO0rTb/1YpYP/XXzx7GUaG/hv0hwwLSJ2QleyGFyk/zKuTpx
-	ZfrtJ6HbRg3Tzw7mw9OmSlz2Z+MFapuGuc+HLHWcp7ZR15Ef16JGHBO5wDAnE7l2ZQ7te2YL4W6jz
-	EzRnHrtGjUeS5a004tiavodglH4uDGLCgEpTQbjRuXQgWz4YX7DdOQNGq5Q6fENlx+XGRmWArMgGd
-	IDS+xIGVIP6haBqSErjKn5CfQufc5YRAylofNPiAvbf3s+QeolvnQ0+8agUaj7KYiOCOkUu6AQxZ6
-	WPvpDP0Q==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nOejq-00C3H0-8u; Mon, 28 Feb 2022 12:02:50 +0000
-Date: Mon, 28 Feb 2022 04:02:50 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
-	Jonathan Corbet <corbet@lwn.net>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
-	Michal Marek <michal.lkml@markovi.net>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc-tw-discuss@lists.sourceforge.net,
-	linux-arm-kernel@lists.infradead.org,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-btrfs@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH] Kbuild: remove -std=gnu89 from compiler arguments
-Message-ID: <Yhy56l0fHPsPxYce@infradead.org>
-References: <20220227215408.3180023-1-arnd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F410353A4
+	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 12:03:41 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id hw13so24235023ejc.9
+        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 04:03:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=m/mYa1XqvvHLfnL3BOoOqYDa1ViNV7MB47waZKIycw0=;
+        b=puET9FaE+iPLWSLHaH0Jc15P7LML3ILv/CtQc1xDRlDOvchBnePGr3CpZ8iNTFg26S
+         MvdmzyKLao5C/5rXrSzR7jzTPZ0Yuj+7M+cqDE4eOMJCgAt9uraXgTEJwynFkzni1Fvy
+         Vjo1HNa/jUOUFI/CmrkLVTegwpA5o7Cf0wR8qBn5y2xARegC4rz7JN5F70qSFE936vyK
+         a6/WQ787WIaZ7lFx0I/tSaiXwe3z6FIrVBWdIQkzq0oVXXDZs7cCv56cl8qPmZ4RxzRI
+         sP+DHiZk3rxPTft7o6PkfUdJMVZiSNaECaj+ljhYu978P5TkgTkfoRd54h/EuhklkuKS
+         esTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=m/mYa1XqvvHLfnL3BOoOqYDa1ViNV7MB47waZKIycw0=;
+        b=28InPwV2kF/mfG9xXfVagLQf0fC41zCY8AmKdTv1hwmeuH57gYctL3Tt2Maxdu8HFd
+         lxRasXruBxvvkh6IWYLzgNDCCfvgPUjyPwiAFPNvRF7aRVB7En5YvCNiL0dft1ILNVRZ
+         lFKncl1OtaUcvyRt5W9VsEGieaLElY4OGgxYY95NX2qVoYJEdJF797ulczEIPSDpr/Ct
+         R9oAxLM8XzdHooHWI5CUGEyrEMpaisd/cegzsTMxvCpoO1YMkV91jclbZg06AgU+RIR0
+         lLZSHTI3FUsgrWw6TvVEZ/qh+epdmywIIw3yppQBpvWLrE84hg5bPQWf1ih5wtklHEot
+         CjGw==
+X-Gm-Message-State: AOAM530Wx5J2F4TUWGW1BA0jAAY1oysUyrSPQQfykX4XiCoznQySQIbf
+	yBFT1gbAnM+bvzLGGJYdwTI=
+X-Google-Smtp-Source: ABdhPJyPihjoYwx+e9NKg98XvxKCbWi7t13guT1EBLKeJ6QGdK72cKHCeJpX8hRszpc83uJxZ+jQ9w==
+X-Received: by 2002:a17:906:d14e:b0:6cd:8d7e:eec9 with SMTP id br14-20020a170906d14e00b006cd8d7eeec9mr14944415ejb.28.1646049820086;
+        Mon, 28 Feb 2022 04:03:40 -0800 (PST)
+Received: from smtpclient.apple ([2a02:8109:9d80:3f6c:957a:1d13:c949:d1f3])
+        by smtp.gmail.com with ESMTPSA id l9-20020a1709060cc900b006ce04bb8668sm4257528ejh.184.2022.02.28.04.03.37
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 28 Feb 2022 04:03:39 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220227215408.3180023-1-arnd@kernel.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
+Subject: Re: [PATCH 1/6] drivers: usb: remove usage of list iterator past the
+ loop body
+From: Jakob Koschel <jakobkoschel@gmail.com>
+In-Reply-To: <20220228112413.GA2812@kadam>
+Date: Mon, 28 Feb 2022 13:03:36 +0100
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-arch <linux-arch@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Arnd Bergman <arnd@arndb.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Kees Cook <keescook@chromium.org>,
+ Mike Rapoport <rppt@kernel.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>,
+ "Bos, H.J." <h.j.bos@vu.nl>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Nathan Chancellor <nathan@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-sgx@vger.kernel.org,
+ drbd-dev@lists.linbit.com,
+ linux-block@vger.kernel.org,
+ linux-iio@vger.kernel.org,
+ linux-crypto@vger.kernel.org,
+ dmaengine@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net,
+ amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org,
+ linux-media@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org,
+ netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ linux-scsi@vger.kernel.org,
+ linux-staging@lists.linux.dev,
+ linux-usb@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org,
+ bcm-kernel-feedback-list@broadcom.com,
+ linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org,
+ kvm@vger.kernel.org,
+ linux-cifs@vger.kernel.org,
+ samba-technical@lists.samba.org,
+ linux-f2fs-devel@lists.sourceforge.net,
+ linux-fsdevel@vger.kernel.org,
+ kgdb-bugreport@lists.sourceforge.net,
+ v9fs-developer@lists.sourceforge.net,
+ tipc-discussion@lists.sourceforge.net,
+ alsa-devel@alsa-project.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E31E215E-C409-40B8-8452-57E70C91484C@gmail.com>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-2-jakobkoschel@gmail.com>
+ <20220228112413.GA2812@kadam>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+X-Mailer: Apple Mail (2.3693.60.0.1.1)
 
-Mark actually has a tree that switches to gnu99 with a lot of the
-issues already sortd out and keeping sane default for things like the
-absolutely horrible declarations in the middle of code here:
 
-https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git/commit/?h=treewide/gnu99&id=697e436ae0216aef4a37e69e85042c225492d6ff
 
-On Sun, Feb 27, 2022 at 10:52:43PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> During a patch discussion, Linus brought up the option of changing
-> the C standard version from gnu89 to gnu99, which allows using variable
-> declaration inside of a for() loop. While the C99, C11 and later standards
-> introduce many other features, most of these are already available in
-> gnu89 as GNU extensions as well.
-> 
-> An earlier attempt to do this when gcc-5 started defaulting to
-> -std=gnu11 failed because at the time that caused warnings about
-> designated initializers with older compilers. Now that gcc-5.1 is the
-> minimum compiler version used for building kernels, that is no longer a
-> concern. Similarly, the behavior of 'inline' functions changes between
-> gnu89 and gnu89, but this was taken care of by defining 'inline' to
-> include __attribute__((gnu_inline)) in order to allow building with
-> clang a while ago.
-> 
-> One minor issue that remains is an added gcc warning for shifts of
-> negative integers when building with -Werror, which happens with the
-> 'make W=1' option, as well as for three drivers in the kernel that always
-> enable -Werror, but it was only observed with the i915 driver so far.
-> 
-> Nathan Chancellor reported an additional -Wdeclaration-after-statement
-> warning that appears in a system header on arm, this still needs a
-> workaround.
-> 
-> Since the differences between gnu99, gnu11 and gnu17 are fairly minimal
-> and mainly impact warnings at the -Wpedantic level that the kernel
-> never enables, the easiest way is to just leave out the -std=gnu89
-> argument entirely, and rely on the compiler default language setting,
-> which is gnu11 for gcc-5, and gnu1x/gnu17 for all other supported
-> versions of gcc or clang.
-> 
-> Link: https://lore.kernel.org/lkml/CAHk-=wiyCH7xeHcmiFJ-YgXUy2Jaj7pnkdKpcovt8fYbVFW3TA@mail.gmail.com/
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1603
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: llvm@lists.linux.dev
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> I put the suggestion into patch form, based on what we discussed
-> in the thread.  I only gave it minimal testing, but it would
-> be good to have it in linux-next if we want to do this in the
-> merge window.
-> ---
->  Documentation/process/programming-language.rst             | 4 ++--
->  .../translations/it_IT/process/programming-language.rst    | 4 ++--
->  .../translations/zh_CN/process/programming-language.rst    | 4 ++--
->  .../translations/zh_TW/process/programming-language.rst    | 4 ++--
->  Makefile                                                   | 7 +++----
->  arch/arm64/kernel/vdso32/Makefile                          | 3 +--
->  drivers/gpu/drm/i915/Makefile                              | 1 +
->  drivers/staging/greybus/tools/Makefile                     | 3 ++-
->  fs/btrfs/Makefile                                          | 1 +
->  scripts/Makefile.extrawarn                                 | 1 +
->  10 files changed, 17 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
-> index ec474a70a02f..894f2a6eb9db 100644
-> --- a/Documentation/process/programming-language.rst
-> +++ b/Documentation/process/programming-language.rst
-> @@ -5,8 +5,8 @@ Programming Language
->  
->  The kernel is written in the C programming language [c-language]_.
->  More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
-> -under ``-std=gnu89`` [gcc-c-dialect-options]_: the GNU dialect of ISO C90
-> -(including some C99 features). ``clang`` [clang]_ is also supported, see
-> +under ``-std=gnu11`` [gcc-c-dialect-options]_: the GNU dialect of ISO C11
-> +(including some C17 features). ``clang`` [clang]_ is also supported, see
->  docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
->  
->  This dialect contains many extensions to the language [gnu-extensions]_,
-> diff --git a/Documentation/translations/it_IT/process/programming-language.rst b/Documentation/translations/it_IT/process/programming-language.rst
-> index 41db2598ce11..aa21097737ae 100644
-> --- a/Documentation/translations/it_IT/process/programming-language.rst
-> +++ b/Documentation/translations/it_IT/process/programming-language.rst
-> @@ -10,8 +10,8 @@ Linguaggio di programmazione
->  
->  Il kernel è scritto nel linguaggio di programmazione C [it-c-language]_.
->  Più precisamente, il kernel viene compilato con ``gcc`` [it-gcc]_ usando
-> -l'opzione ``-std=gnu89`` [it-gcc-c-dialect-options]_: il dialetto GNU
-> -dello standard ISO C90 (con l'aggiunta di alcune funzionalità da C99).
-> +l'opzione ``-std=gnu11`` [it-gcc-c-dialect-options]_: il dialetto GNU
-> +dello standard ISO C11 (con l'aggiunta di alcune funzionalità da C17).
->  Linux supporta anche ``clang`` [it-clang]_, leggete la documentazione
->  :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
->  
-> diff --git a/Documentation/translations/zh_CN/process/programming-language.rst b/Documentation/translations/zh_CN/process/programming-language.rst
-> index 2a47a1d2ec20..58d2b3bd2d85 100644
-> --- a/Documentation/translations/zh_CN/process/programming-language.rst
-> +++ b/Documentation/translations/zh_CN/process/programming-language.rst
-> @@ -9,8 +9,8 @@
->  ============
->  
->  内核是用C语言 :ref:`c-language <cn_c-language>` 编写的。更准确地说，内核通常是用 :ref:`gcc <cn_gcc>`
-> -在 ``-std=gnu89`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-options>` 下编译的：ISO C90的 GNU 方言（
-> -包括一些C99特性）
-> +在 ``-std=gnu11`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-options>` 下编译的：ISO C11的 GNU 方言（
-> +包括一些C17特性）
->  
->  这种方言包含对语言 :ref:`gnu-extensions <cn_gnu-extensions>` 的许多扩展，当然，它们许多都在内核中使用。
->  
-> diff --git a/Documentation/translations/zh_TW/process/programming-language.rst b/Documentation/translations/zh_TW/process/programming-language.rst
-> index 54e3699eadf8..235de05f7e2c 100644
-> --- a/Documentation/translations/zh_TW/process/programming-language.rst
-> +++ b/Documentation/translations/zh_TW/process/programming-language.rst
-> @@ -12,8 +12,8 @@
->  ============
->  
->  內核是用C語言 :ref:`c-language <tw_c-language>` 編寫的。更準確地說，內核通常是用 :ref:`gcc <tw_gcc>`
-> -在 ``-std=gnu89`` :ref:`gcc-c-dialect-options <tw_gcc-c-dialect-options>` 下編譯的：ISO C90的 GNU 方言（
-> -包括一些C99特性）
-> +在 ``-std=gnu11`` :ref:`gcc-c-dialect-options <tw_gcc-c-dialect-options>` 下編譯的：ISO C11的 GNU 方言（
-> +包括一些C17特性）
->  
->  這種方言包含對語言 :ref:`gnu-extensions <tw_gnu-extensions>` 的許多擴展，當然，它們許多都在內核中使用。
->  
-> diff --git a/Makefile b/Makefile
-> index 289ce2be8032..3ff6ba766f02 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -432,7 +432,7 @@ HOSTCXX	= g++
->  endif
->  
->  export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
-> -			      -O2 -fomit-frame-pointer -std=gnu89
-> +			      -O2 -fomit-frame-pointer
->  export KBUILD_USERLDFLAGS :=
->  
->  KBUILD_HOSTCFLAGS   := $(KBUILD_USERCFLAGS) $(HOST_LFS_CFLAGS) $(HOSTCFLAGS)
-> @@ -514,8 +514,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
->  KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
->  		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
->  		   -Werror=implicit-function-declaration -Werror=implicit-int \
-> -		   -Werror=return-type -Wno-format-security \
-> -		   -std=gnu89
-> +		   -Werror=return-type -Wno-format-security
->  KBUILD_CPPFLAGS := -D__KERNEL__
->  KBUILD_AFLAGS_KERNEL :=
->  KBUILD_CFLAGS_KERNEL :=
-> @@ -782,7 +781,7 @@ KBUILD_CFLAGS += $(KBUILD_CFLAGS-y) $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
->  
->  ifdef CONFIG_CC_IS_CLANG
->  KBUILD_CPPFLAGS += -Qunused-arguments
-> -# The kernel builds with '-std=gnu89' so use of GNU extensions is acceptable.
-> +# The kernel builds with '-std=gnu11' so use of GNU extensions is acceptable.
->  KBUILD_CFLAGS += -Wno-gnu
->  # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
->  # source of a reference will be _MergedGlobals and not on of the whitelisted names.
-> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
-> index 6c01b63ff56d..3250d0e25782 100644
-> --- a/arch/arm64/kernel/vdso32/Makefile
-> +++ b/arch/arm64/kernel/vdso32/Makefile
-> @@ -67,8 +67,7 @@ VDSO_CFLAGS += -DENABLE_COMPAT_VDSO=1
->  VDSO_CFLAGS += -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
->                 -fno-strict-aliasing -fno-common \
->                 -Werror-implicit-function-declaration \
-> -               -Wno-format-security \
-> -               -std=gnu89
-> +               -Wno-format-security
->  VDSO_CFLAGS  += -O2
->  # Some useful compiler-dependent flags from top-level Makefile
->  VDSO_CFLAGS += $(call cc32-option,-Wdeclaration-after-statement,)
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 1b62b9f65196..1618a6e0af4e 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -17,6 +17,7 @@ subdir-ccflags-y += -Wno-unused-parameter
->  subdir-ccflags-y += -Wno-type-limits
->  subdir-ccflags-y += -Wno-missing-field-initializers
->  subdir-ccflags-y += -Wno-sign-compare
-> +subdir-ccflags-y += -Wno-shift-negative-value
->  subdir-ccflags-y += $(call cc-disable-warning, unused-but-set-variable)
->  subdir-ccflags-y += $(call cc-disable-warning, frame-address)
->  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
-> diff --git a/drivers/staging/greybus/tools/Makefile b/drivers/staging/greybus/tools/Makefile
-> index ad0ae8053b79..a3bbd73171f2 100644
-> --- a/drivers/staging/greybus/tools/Makefile
-> +++ b/drivers/staging/greybus/tools/Makefile
-> @@ -12,7 +12,8 @@ CFLAGS	+= -std=gnu99 -Wall -Wextra -g \
->  	    -Wredundant-decls \
->  	    -Wcast-align \
->  	    -Wsign-compare \
-> -	    -Wno-missing-field-initializers
-> +	    -Wno-missing-field-initializers \
-> +	    -Wno-shift-negative-value
->  
->  CC	:= $(CROSS_COMPILE)gcc
->  
-> diff --git a/fs/btrfs/Makefile b/fs/btrfs/Makefile
-> index 4188ba3fd8c3..99f9995670ea 100644
-> --- a/fs/btrfs/Makefile
-> +++ b/fs/btrfs/Makefile
-> @@ -17,6 +17,7 @@ subdir-ccflags-y += $(condflags)
->  subdir-ccflags-y += -Wno-missing-field-initializers
->  subdir-ccflags-y += -Wno-sign-compare
->  subdir-ccflags-y += -Wno-type-limits
-> +subdir-ccflags-y += -Wno-shift-negative-value
->  
->  obj-$(CONFIG_BTRFS_FS) := btrfs.o
->  
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 8be892887d71..650d0b8ceec3 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -36,6 +36,7 @@ KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
->  KBUILD_CFLAGS += -Wno-missing-field-initializers
->  KBUILD_CFLAGS += -Wno-sign-compare
->  KBUILD_CFLAGS += -Wno-type-limits
-> +KBUILD_CFLAGS += -Wno-shift-negative-value
->  
->  KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN1
->  
-> -- 
-> 2.29.2
-> 
----end quoted text---
+> On 28. Feb 2022, at 12:24, Dan Carpenter <dan.carpenter@oracle.com> =
+wrote:
+>=20
+> On Mon, Feb 28, 2022 at 12:08:17PM +0100, Jakob Koschel wrote:
+>> diff --git a/drivers/usb/gadget/udc/at91_udc.c =
+b/drivers/usb/gadget/udc/at91_udc.c
+>> index 9040a0561466..0fd0307bc07b 100644
+>> --- a/drivers/usb/gadget/udc/at91_udc.c
+>> +++ b/drivers/usb/gadget/udc/at91_udc.c
+>> @@ -150,13 +150,14 @@ static void proc_ep_show(struct seq_file *s, =
+struct at91_ep *ep)
+>> 	if (list_empty (&ep->queue))
+>> 		seq_printf(s, "\t(queue empty)\n");
+>>=20
+>> -	else list_for_each_entry (req, &ep->queue, queue) {
+>> -		unsigned	length =3D req->req.actual;
+>> +	else
+>> +		list_for_each_entry(req, &ep->queue, queue) {
+>> +			unsigned int	length =3D req->req.actual;
+>>=20
+>> -		seq_printf(s, "\treq %p len %d/%d buf %p\n",
+>> -				&req->req, length,
+>> -				req->req.length, req->req.buf);
+>> -	}
+>> +			seq_printf(s, "\treq %p len %d/%d buf %p\n",
+>> +					&req->req, length,
+>> +					req->req.length, req->req.buf);
+>> +		}
+>=20
+> Don't make unrelated white space changes.  It just makes the patch
+> harder to review.  As you're writing the patch make note of any
+> additional changes and do them later in a separate patch.
+>=20
+> Also a multi-line indent gets curly braces for readability even though
+> it's not required by C.  And then both sides would get curly braces.
+>=20
+>> 	spin_unlock_irqrestore(&udc->lock, flags);
+>> }
+>>=20
+>> @@ -226,7 +227,7 @@ static int proc_udc_show(struct seq_file *s, void =
+*unused)
+>>=20
+>> 	if (udc->enabled && udc->vbus) {
+>> 		proc_ep_show(s, &udc->ep[0]);
+>> -		list_for_each_entry (ep, &udc->gadget.ep_list, =
+ep.ep_list) {
+>> +		list_for_each_entry(ep, &udc->gadget.ep_list, =
+ep.ep_list) {
+>=20
+> Another unrelated change.
+>=20
+>> 			if (ep->ep.desc)
+>> 				proc_ep_show(s, ep);
+>> 		}
+>=20
+>=20
+> [ snip ]
+
+Thanks for pointing out, I'll remove the changes here and note them down
+to send them separately.
+
+>=20
+>> diff --git a/drivers/usb/gadget/udc/net2272.c =
+b/drivers/usb/gadget/udc/net2272.c
+>> index 7c38057dcb4a..bb59200f1596 100644
+>> --- a/drivers/usb/gadget/udc/net2272.c
+>> +++ b/drivers/usb/gadget/udc/net2272.c
+>> @@ -926,7 +926,8 @@ static int
+>> net2272_dequeue(struct usb_ep *_ep, struct usb_request *_req)
+>> {
+>> 	struct net2272_ep *ep;
+>> -	struct net2272_request *req;
+>> +	struct net2272_request *req =3D NULL;
+>> +	struct net2272_request *tmp;
+>> 	unsigned long flags;
+>> 	int stopped;
+>>=20
+>> @@ -939,11 +940,13 @@ net2272_dequeue(struct usb_ep *_ep, struct =
+usb_request *_req)
+>> 	ep->stopped =3D 1;
+>>=20
+>> 	/* make sure it's still queued on this endpoint */
+>> -	list_for_each_entry(req, &ep->queue, queue) {
+>> -		if (&req->req =3D=3D _req)
+>> +	list_for_each_entry(tmp, &ep->queue, queue) {
+>> +		if (&tmp->req =3D=3D _req) {
+>> +			req =3D tmp;
+>> 			break;
+>> +		}
+>> 	}
+>> -	if (&req->req !=3D _req) {
+>> +	if (!req) {
+>> 		ep->stopped =3D stopped;
+>> 		spin_unlock_irqrestore(&ep->dev->lock, flags);
+>> 		return -EINVAL;
+>> @@ -954,7 +957,6 @@ net2272_dequeue(struct usb_ep *_ep, struct =
+usb_request *_req)
+>> 		dev_dbg(ep->dev->dev, "unlink (%s) pio\n", _ep->name);
+>> 		net2272_done(ep, req, -ECONNRESET);
+>> 	}
+>> -	req =3D NULL;
+>=20
+> Another unrelated change.  These are all good changes but send them as
+> separate patches.
+
+You are referring to the req =3D NULL, right?
+
+I've changed the use of 'req' in the same function and assumed that I =
+can
+just remove the unnecessary statement. But if it's better to do =
+separately
+I'll do that.
+
+>=20
+>> 	ep->stopped =3D stopped;
+>>=20
+>> 	spin_unlock_irqrestore(&ep->dev->lock, flags);
+>=20
+> regards,
+> dan carpenter
+
+thanks,
+Jakob Koschel
+
