@@ -1,138 +1,208 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ABC7A;
-	Mon, 28 Feb 2022 16:56:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A46A1C340E7;
-	Mon, 28 Feb 2022 16:56:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1646067380;
-	bh=523gBdVPJChXozDXmy5Cb2pK2i/xRfAcGRZVUQAHjNc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BCC7A;
+	Mon, 28 Feb 2022 16:58:02 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a02:3030:d:c6d6:6038:4205:518a:e601])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id BF26D1F434C8;
+	Mon, 28 Feb 2022 16:58:00 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1646067481;
+	bh=eOnO+F0pkrYqrHAPOaocB5MRt2wL2To09bEpPfIIIqE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LgVJuH4da0tpuW1nX+TSzWKpqT1/5OI3uq9Url+IKydIaNvJrwxxCJ02pDsUamp0J
-	 BXgyENWeP0ucoramTVXNaT23Z6w+IPOpRsVnisqnZwdBL4ARuBusSY6JLdz3305OfE
-	 YtZvql2BfkwdTq2LxRIJRizjGmx3hngX5RBUDcSxgf2mLkssqkaZFIqarTisHboNdy
-	 Xy986yF0zeYZbw6HX61O+ecCg/MIlsoP4bKonolKYJ+91DSdYuEy6Ckl7v583fSXhJ
-	 fxInQ5iK44jGAKr2Pvl9ywk4psfT+Vv0H/AbdegLc3kV5x8iLrYBvahTmACsIjfZ5u
-	 Ol9BFIfpBb+FA==
-Date: Mon, 28 Feb 2022 09:56:13 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Marco Elver <elver@google.com>,
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
-	Jonathan Corbet <corbet@lwn.net>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
-	Michal Marek <michal.lkml@markovi.net>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-doc-tw-discuss@lists.sourceforge.net,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Intel Graphics <intel-gfx@lists.freedesktop.org>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-btrfs <linux-btrfs@vger.kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-Message-ID: <Yhz+rfcdp9jxgr+P@archlinux-ax161>
-References: <20220228103142.3301082-1-arnd@kernel.org>
- <CANpmjNP6VE9G8Yng4W7Mayk-0QsqUtAXkrMUSvL5pAP5DpXSmA@mail.gmail.com>
- <CAK8P3a3cRa1piP2BSmN2dTW4QErhSP7AMO9xqAm=_FFYprAkOA@mail.gmail.com>
+	b=RQiWvbw0MlPn0BzkxylKr+PL3C54L8qRHuDeuFdbq/Ho4SvYUONa7jcxx0tZtEaqZ
+	 W6JUboVE/vSQTB/eBa0YjVZOR2g96vS9Jqe3uXjThU78yxrhbxw+Gld93wocjrZpvU
+	 +QwAb76qfJQw+pCZ4l+3MMZ2HxxRZMUmxFm/Zp4zT4rGituXBNxcuEhG8Ox6cQfTYj
+	 Xb9AXlGHXueWlEl9De7wvhYd/HMcYUmFvsUkl3oQ1H8g9ZROIGvY2OgQ9U5RPv/mgM
+	 nkKzVSofLEGfl2Dm0eP28GLPFFnr9QYPh5e7XJInTwdjfrZyspMNXXVmucF8Ii65Rf
+	 0DjgTx3KhESBg==
+Date: Mon, 28 Feb 2022 17:57:57 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+	mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+	jernej.skrabec@gmail.com, jonas@kwiboo.se, nicolas@ndufresne.ca,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, kernel@collabora.com,
+	knaerzche@gmail.com, jc@kynesim.co.uk
+Subject: Re: [PATCH v4 04/15] media: uapi: HEVC: Add missing fields in HEVC
+ controls
+Message-ID: <20220228165757.sjqxdxb3toxkcasl@basti-XPS-13-9310>
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+ <20220228140838.622021-5-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a3cRa1piP2BSmN2dTW4QErhSP7AMO9xqAm=_FFYprAkOA@mail.gmail.com>
+In-Reply-To: <20220228140838.622021-5-benjamin.gaignard@collabora.com>
 
-On Mon, Feb 28, 2022 at 12:57:55PM +0100, Arnd Bergmann wrote:
-> On Mon, Feb 28, 2022 at 12:47 PM Marco Elver <elver@google.com> wrote:
-> > On Mon, 28 Feb 2022 at 11:32, Arnd Bergmann <arnd@kernel.org> wrote:
-> >
-> > > Nathan Chancellor reported an additional -Wdeclaration-after-statement
-> > > warning that appears in a system header on arm, this still needs a
-> > > workaround.
-> >
-> > On the topic of Wdeclaration-after-statement, Clang only respects this
-> > warning with C99 and later starting with Clang 14:
-> > https://github.com/llvm/llvm-project/commit/c65186c89f35#diff-ec770381d76c859f5f572db789175fe44410a72608f58ad5dbb14335ba56eb97R61
-> >
-> > Until Clang 14, -Wdeclaration-after-statement is ignored by Clang in
-> > newer standards. If this is a big problem, we can probably convince
-> > the Clang stable folks to backport the fixes. However, the build won't
-> > fail, folks might just miss the warning if they don't also test with
-> > GCC.
+Hey Benjamin,
 
-Unfortunately, none of the branches prior to release/14.x are going to
-see any more updates (at least as far as I am aware, as the LLVM
-community only supports one release branch at a time) but as Arnd
-mentioned below, I do not really see that as a problem, as newer
-versions of clang and GCC will catch these warnings.
+On 28.02.2022 15:08, Benjamin Gaignard wrote:
+>Complete the HEVC controls with missing fields from H.265 specifications.
+>Even if these fields aren't used by the current mainlined drivers
+>they will be need for (at least) rkvdec driver.
+>
+>Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>---
+> .../media/v4l/ext-ctrls-codec.rst             | 22 +++++++++++++++++++
+> include/media/hevc-ctrls.h                    |  6 ++++-
+> 2 files changed, 27 insertions(+), 1 deletion(-)
+>
+>diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>index 4cd7c541fc30..d096cb75993a 100644
+>--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>@@ -2661,6 +2661,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>     :stub-columns: 0
+>     :widths:       1 1 2
+>
+>+    * - __u8
+>+      - ``video_parameter_set_id``
+>+      - Specifies the value of the vps_video_parameter_set_id of the active VPS
+>+        as descibed in section "7.4.3.2.1 General sequence parameter set RBSP semantics"
+>+        of H.265 specifications.
+>+    * - __u8
+>+      - ``seq_parameter_set_id``
+>+      - Provides an identifier for the SPS for reference by other syntax elements
+>+        as descibed in section "7.4.3.2.1 General sequence parameter set RBSP semantics"
+>+        of H.265 specifications.
+>     * - __u16
+>       - ``pic_width_in_luma_samples``
+>       -
+>@@ -2800,6 +2810,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>     :stub-columns: 0
+>     :widths:       1 1 2
+>
+>+    * - __u8
+>+      - ``pic_parameter_set_id``
+>+      - Identifies the PPS for reference by other syntax elements.
+>     * - __u8
+>       - ``num_extra_slice_header_bits``
+>       -
+>@@ -3026,6 +3039,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>     * - __u8
+>       - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>       - The list of L1 reference elements as indices in the DPB.
+>+    * - __u16
+>+      - ``short_term_ref_pic_set_size``
+>+      - Specifies the number of st_ref_pic_set( ) syntax structures included in the SPS.
+>+        The value of num_short_term_ref_pic_sets shall be in the range of 0 to 64, inclusive.
+>+    * - __u16
+>+      - ``long_term_ref_pic_set_size``
+>+      - Specifies the number of candidate long-term reference pictures that are specified
+>+        in the SPS. The value of num_long_term_ref_pics_sps shall be in the range
+>+        of 0 to 32, inclusive.
+>     * - __u8
 
-> I don't expect this is to be a big issue, as long as the latest clang behaves
-> as expected. There are many warnings that are only produced by one of the
-> two compilers, so this is something we already deal with.
-> 
-> I think it's more important to address the extra warning that Nathan
-> reported, where clang now complains about the intermingled declaration
-> in a system header when previously neither gcc nor clang noticed this.
+I would like to argue that the names for these fields are not optimal.
 
-Right. Based on the upstream LLVM bug, I think we should just fix
-arm_neon.h to avoid triggering -Wdeclaration-after-statement to have
-something that is (hopefully) relatively low risk for a clang-14
-backport, rather than addressing the root cause of clang warning in
-system macros, as it sounds like fixing that has some risks that are not
-fully understood at this point. The kernel only uses very specific
-system headers after commit 04e85bbf71c9 ("isystem: delete global
--isystem compile option"), so I don't think that my suggested approach
-will have many downsides.
+The are quite similar to the ones from the specification:
+`num_short_term_ref_pic_sets` & `num_long_term_ref_pics_sps`, while
+they actually do something different. (Which means that descriptions for
+the fields are sadly incorrect as well)
 
-I think I see how to potentially fix arm_neon.h in
-clang/utils/TableGen/NeonEmitter.cpp, I just have to think about it a
-little more.
+Looking at the code from the H265 parser in GStreamer:
+```
+       READ_UINT8 (&nr, slice->short_term_ref_pic_set_sps_flag, 1);
+       if (!slice->short_term_ref_pic_set_sps_flag) {
+         guint pos = nal_reader_get_pos (&nr);
+         if (!gst_h265_parser_parse_short_term_ref_pic_sets
+             (&slice->short_term_ref_pic_sets, &nr,
+                 sps->num_short_term_ref_pic_sets, sps))
+           goto error;
 
-Realistically, I don't think special casing this in lib/raid6 is the end
-of the world:
+         slice->short_term_ref_pic_set_size = nal_reader_get_pos (&nr) - pos;
+```
 
-diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
-index 45e17619422b..a41ff71b90af 100644
---- a/lib/raid6/Makefile
-+++ b/lib/raid6/Makefile
-@@ -38,6 +38,10 @@ ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
- NEON_FLAGS := -ffreestanding
- # Enable <arm_neon.h>
- NEON_FLAGS += -isystem $(shell $(CC) -print-file-name=include)
-+# https://github.com/ClangBuiltLinux/linux/issues/1603
-+ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_CPU_BIG_ENDIAN),yy)
-+NEON_FLAGS += -Wno-declaration-after-statement
-+endif
- ifeq ($(ARCH),arm)
- NEON_FLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon
- endif
+We can see that the `short_term_ref_pic_set_size` is calculated by
+gettting the difference between the nal_reader position before calling
+`gst_h265_parser_parse_short_term_ref_pic_sets` and the position of the
+nal reader afterwards.
+The variable `num_short_term_ref_pic_sets` is used as part of the short
+term reference picture set parsing process, but it is not directly
+related to `short_term_ref_pic_set_size` (otherwise a direct
+transformation of `num_short_term_ref_pic_sets` ->
+`short_term_ref_pic_set_size` would have been way easier)
 
-> > > The differences between gnu99, gnu11, gnu1x and gnu17 are fairly
-> > > minimal and mainly impact warnings at the -Wpedantic level that the
-> > > kernel never enables. Between these, gnu11 is the newest version
-> > > that is supported by all supported compiler versions, though it is
-> > > only the default on gcc-5, while all other supported versions of
-> > > gcc or clang default to gnu1x/gnu17.
-> > >
-> > > Link: https://lore.kernel.org/lkml/CAHk-=wiyCH7xeHcmiFJ-YgXUy2Jaj7pnkdKpcovt8fYbVFW3TA@mail.gmail.com/
-> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1603
-> > > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > > Cc: linux-kbuild@vger.kernel.org
-> > > Cc: llvm@lists.linux.dev
-> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >
-> > Acked-by: Marco Elver <elver@google.com>
+Further when I look at a patch from Alex Bee for RKVDEC that uses these
+fields (actually the only user) (https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch#L3007)
+I can see that he describes them as bit offsets.
 
-Cheers,
-Nathan
+So, to avoid confusion, I would argue that we should rename these
+(They are not part of the specification anyway)
+
+s/short_term_ref_pic_set_size/short_term_ref_pic_set_bit_offset/
+s/long_term_ref_pic_set_size/long_term_ref_pic_set_bit_offset/
+
+These names describe the purpose and the content a bit better and avoid
+confusion with existing values.
+
+Additonally, I noticed that calculating the bit offset for the long term
+is a bit tricky. I wasn't able to find a direct reference in
+'non-vendor' code.
+
+The process for parsing the short term reference picture set is depicted with a lot of detail in
+the specification, but I wasn't able to find the something equivalent for the long term
+reference picture set.
+
+Having a switft look into mpp, I can see at:
+https://github.com/JeffyCN/rockchip_mirrors/blob/mpp/mpp/hal/rkdec/h265d/hal_h265d_com.c#L512
+
+That they do roughly the same short term is simply the read bits by the
+BitReader - the read bits before the operation on the short term
+reference picture set. (so very similar to what the h265 parser does in
+GStreamer)
+The bit offset for long term is equal to short term unless the
+`long_term_ref_pics_present_flag` is set. In which case, we perform some
+operations on the long term reference picture set and add the amount of
+used bits to the bit offset.
+
+Greetings,
+Sebastian
+
+>       - ``padding``
+>       - Applications and drivers must set this to zero.
+>diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>index 01ccda48d8c5..a329e086a89a 100644
+>--- a/include/media/hevc-ctrls.h
+>+++ b/include/media/hevc-ctrls.h
+>@@ -58,6 +58,8 @@ enum v4l2_mpeg_video_hevc_start_code {
+> /* The controls are not stable at the moment and will likely be reworked. */
+> struct v4l2_ctrl_hevc_sps {
+> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
+>+	__u8	video_parameter_set_id;
+>+	__u8	seq_parameter_set_id;
+> 	__u16	pic_width_in_luma_samples;
+> 	__u16	pic_height_in_luma_samples;
+> 	__u8	bit_depth_luma_minus8;
+>@@ -108,6 +110,7 @@ struct v4l2_ctrl_hevc_sps {
+>
+> struct v4l2_ctrl_hevc_pps {
+> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
+>+	__u8	pic_parameter_set_id;
+> 	__u8	num_extra_slice_header_bits;
+> 	__u8	num_ref_idx_l0_default_active_minus1;
+> 	__u8	num_ref_idx_l1_default_active_minus1;
+>@@ -199,7 +202,8 @@ struct v4l2_ctrl_hevc_slice_params {
+> 	__u32	slice_segment_addr;
+> 	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+> 	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>-
+>+	__u16	short_term_ref_pic_set_size;
+>+	__u16	long_term_ref_pic_set_size;
+> 	__u8	padding;
+>
+> 	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+>-- 
+>2.32.0
+>
