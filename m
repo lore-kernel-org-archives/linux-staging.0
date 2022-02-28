@@ -1,167 +1,123 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from condef-10.nifty.com (condef-10.nifty.com [202.248.20.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2315415A8
-	for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 17:02:07 +0000 (UTC)
-Received: by mail-qv1-f48.google.com with SMTP id x3so13532119qvd.8
-        for <linux-staging@lists.linux.dev>; Mon, 28 Feb 2022 09:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Y9cZVaut3aLdlKX+slS0PsytKlmPKaShOXQetxBEnLs=;
-        b=RWahVHidsmUKk3zmU4u+GXNAQsPIO4fG+FWWtFLwh/nIJSVim2DRTMT+dtX8WkXnNw
-         IhLL4C1HcJ9ZDzbcAYB1aCCOT3FAMdOlWQIR3BBfX/MfsCGxMk4tisEiRuqi6TuyNCSf
-         fBYFIesGaDPEnn1TYpMJJTswWKjm+RtORcQOwTZFeT3QdpqpLHMeudiuIWfQsTYU0437
-         Pi1+oFeFvCH2Diy8u1i22uQajV/YXRjXV3bwVdIFb+oScDEvFIPnjxKdB4/90MLk1imj
-         iHRrkReVr4m6Z/SLB/qIhO18kTkqzsJx7zFvyvWA3udBE+sywy8GuIo2uGsBc3yBFJ0w
-         4lMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Y9cZVaut3aLdlKX+slS0PsytKlmPKaShOXQetxBEnLs=;
-        b=lSmPuep1O1Dwu6YgIn1+9gBZiMH6sNoRwyVc/f9plWU8HcWwo6b6SKKRRh9kkL5ycZ
-         mHUeM10X5ZpKVAfoxpK+XfnIsF75+VPYIHWKu2q6aGqhfinYQpajUiIq3t3lcpVVOCLH
-         HGm3o4JIN5YKwKftLlAMzj2OK/W1PvLzxpZWxs4bezd4z4Ka3PB3mO/Wpb97hB98/IEO
-         gr2SKHiQvaCvoD9Ggf7sxnve5RRbPPSiSMfJA/4EW+HgyPsNUvE6SG9tU6+oCjG6z1hO
-         0RZURdZOp3zN1zhc6PLsm/M2H3p+SstJ93cMNURxrZcbgPcFV2o1xF7qpnHmZ8i73WMP
-         B/pQ==
-X-Gm-Message-State: AOAM531k1elCJXiHQM1TeSLxI4yGJ0iz87nRXCfgyRJwDNyh+Fy7v+L1
-	fZ10q6gXpRbpE3/26KoSJw4MDQ==
-X-Google-Smtp-Source: ABdhPJwnakSt4EAfE7IsVjU7wlxEV+JgWuYIQRAupe57mnq3QS7Jav+/osBrc1CyPEkT1Hqcy4qtRw==
-X-Received: by 2002:ad4:5605:0:b0:432:e77e:8023 with SMTP id ca5-20020ad45605000000b00432e77e8023mr7904254qvb.8.1646067726011;
-        Mon, 28 Feb 2022 09:02:06 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id 20-20020ac84e94000000b002de8f564305sm7506949qtp.1.2022.02.28.09.02.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 09:02:05 -0800 (PST)
-Message-ID: <73f460d843cee2781c9d08cdc421f0fd64f9ccc7.camel@ndufresne.ca>
-Subject: Re: Re: [RFC PATCH 2/8] media: Add P010 format
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- gregkh@linuxfoundation.org,  wens@csie.org, samuel@sholland.org,
- linux-media@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org,  linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev
-Date: Mon, 28 Feb 2022 12:02:04 -0500
-In-Reply-To: <5696849.MhkbZ0Pkbq@kista>
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
-	 <20220227144926.3006585-3-jernej.skrabec@gmail.com>
-	 <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
-	 <5696849.MhkbZ0Pkbq@kista>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572DF7A;
+	Mon, 28 Feb 2022 17:11:04 +0000 (UTC)
+Received: from conssluserg-03.nifty.com ([10.126.8.82])by condef-10.nifty.com with ESMTP id 21SH41Qj031741;
+	Tue, 1 Mar 2022 02:04:01 +0900
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171]) (authenticated)
+	by conssluserg-03.nifty.com with ESMTP id 21SH3bt4021028;
+	Tue, 1 Mar 2022 02:03:38 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 21SH3bt4021028
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+	s=dec2015msa; t=1646067818;
+	bh=sryAZLDXD/t7zVmI+J82zVk8l2yloq/oD0nvYGiN984=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=DFAl9D3d5SV7l8OlblFtkdudyppXM87TTXLJkKaFiDrnHYA5wFLCqpf/bi6XW+/lL
+	 Wxcxf4DRuPeQzgRVRD0ZLZqGJVyV92OkIiBQSKCRD0fkbmGaM77V1X8/io54DfJJE1
+	 WHjVeTmICFjHCNQFMP84l0KM6p9KeusZdxBvunEoZ/3O0KaCmfcm9xJcBOxDBliQLy
+	 v2hLNwthpmWXp3NyaQ3wZjDjgPQxfdr5sC/vbH+pTH2mOrDULVuZBpmLb5vfOGA989
+	 Xl28AGykKx2Snuz0kqy9XcABSVfqA/+0wAkzfvVhA8SShTSlLQBtapcr4hUau+8ujK
+	 GQtrmak7eUByg==
+X-Nifty-SrcIP: [209.85.210.171]
+Received: by mail-pf1-f171.google.com with SMTP id g21so5203344pfj.11;
+        Mon, 28 Feb 2022 09:03:37 -0800 (PST)
+X-Gm-Message-State: AOAM530Me8uysKbii9FolO/LN644IIbiuW2SV5X+oMI8RmcsAvRtMXcR
+	FTWMTOx65RiLi916MmZQJCBwvnN/9hY+eY0j988=
+X-Google-Smtp-Source: ABdhPJxISxDkNdxsVTKDDV2g7ZIxBL9oz/LlNlGrxEOGwup5cilO+xLo89K+cDWbGEDhDHUjyYzEiShtkCuCLkVGAaU=
+X-Received: by 2002:a05:6a02:182:b0:374:5a57:cbf9 with SMTP id
+ bj2-20020a056a02018200b003745a57cbf9mr18072494pgb.616.1646067817034; Mon, 28
+ Feb 2022 09:03:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220228103142.3301082-1-arnd@kernel.org>
+In-Reply-To: <20220228103142.3301082-1-arnd@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 1 Mar 2022 02:02:53 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATVs-yRX4PnURkLv3fz3gAnuzG2GxZ2gdvmJX2g+0P-_w@mail.gmail.com>
+Message-ID: <CAK7LNATVs-yRX4PnURkLv3fz3gAnuzG2GxZ2gdvmJX2g+0P-_w@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>, llvm@lists.linux.dev,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>, Alex Shi <alexs@kernel.org>,
+        Hu Haowen <src.res@email.cn>, Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Le lundi 28 février 2022 à 17:32 +0100, Jernej Škrabec a écrit :
-> Dne ponedeljek, 28. februar 2022 ob 13:48:53 CET je Nicolas Dufresne 
-> napisal(a):
-> > Le dimanche 27 février 2022 à 15:49 +0100, Jernej Skrabec a écrit :
-> > > Add P010 format, which is commonly used for 10-bit videos.
-> > 
-> > There is a much more complete patch that was sent previously (with 
-> documentation
-> > and all):
-> > 
-> > https://patchwork.kernel.org/project/linux-rockchip/patch/
-> 20210618131526.566762-5-benjamin.gaignard@collabora.com/
-> 
-> Great, I'll take it for next revision. Although I'm not sure what "much more 
-> complete" means. Only additional thing is documentation.
+On Mon, Feb 28, 2022 at 7:32 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> During a patch discussion, Linus brought up the option of changing
+> the C standard version from gnu89 to gnu99, which allows using variable
+> declaration inside of a for() loop. While the C99, C11 and later standards
+> introduce many other features, most of these are already available in
+> gnu89 as GNU extensions as well.
+>
+> An earlier attempt to do this when gcc-5 started defaulting to
+> -std=gnu11 failed because at the time that caused warnings about
+> designated initializers with older compilers. Now that gcc-5.1 is the
+> minimum compiler version used for building kernels, that is no longer a
+> concern. Similarly, the behavior of 'inline' functions changes between
+> gnu89 and gnu11, but this was taken care of by defining 'inline' to
+> include __attribute__((gnu_inline)) in order to allow building with
+> clang a while ago.
+>
+> One minor issue that remains is an added gcc warning for shifts of
+> negative integers when building with -Werror, which happens with the
 
-When adding uAPI, doc is really important, so having the format documented means
-the other patch is "much more" ready to be merged.
+Is this a typo?
 
-cheers,
-Nicolas
+   building with -Werror, ...
+->
+   building with -Wextra, ...
 
-> 
-> Best regards,
-> Jernej
-> 
-> > 
-> > regards,
-> > Nicolas
-> > 
-> > > 
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-common.c | 2 ++
-> > >  drivers/media/v4l2-core/v4l2-ioctl.c  | 1 +
-> > >  include/uapi/linux/videodev2.h        | 1 +
-> > >  3 files changed, 4 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-
-> core/v4l2-common.c
-> > > index 1db0020e08c0..4ede36546e9c 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > @@ -275,6 +275,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 
-> format)
-> > >  		{ .format = V4L2_PIX_FMT_YUV422P, .pixel_enc = 
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, 
-> .hdiv = 2, .vdiv = 1 },
-> > >  		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = 
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, 
-> .hdiv = 1, .vdiv = 1 },
-> > >  
-> > > +		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = 
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, 
-> .hdiv = 2, .vdiv = 2 },
-> > > +
-> > >  		/* Tiled YUV formats */
-> > >  		{ .format = V4L2_PIX_FMT_NV12_4L4, .pixel_enc = 
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, 
-> .hdiv = 2, .vdiv = 2 },
-> > >  		{ .format = V4L2_PIX_FMT_P010_4L4, .pixel_enc = 
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, 
-> .hdiv = 2, .vdiv = 2 },
-> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-
-> core/v4l2-ioctl.c
-> > > index 048f326c57b9..a8d999e23e5b 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > @@ -1295,6 +1295,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc 
-> *fmt)
-> > >  	case V4L2_PIX_FMT_M420:		descr = "YUV 4:2:0 
-> (M420)"; break;
-> > >  	case V4L2_PIX_FMT_NV12:		descr = "Y/CbCr 4:2:0"; break;
-> > >  	case V4L2_PIX_FMT_NV21:		descr = "Y/CrCb 4:2:0"; break;
-> > > +	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CbCr 4:2:0"; 
-> break;
-> > >  	case V4L2_PIX_FMT_NV16:		descr = "Y/CbCr 4:2:2"; break;
-> > >  	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
-> > >  	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
-> > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/
-> videodev2.h
-> > > index 772dbadd1a24..211bc11a48cb 100644
-> > > --- a/include/uapi/linux/videodev2.h
-> > > +++ b/include/uapi/linux/videodev2.h
-> > > @@ -597,6 +597,7 @@ struct v4l2_pix_format {
-> > >  /* two planes -- one Y, one Cr + Cb interleaved  */
-> > >  #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 
-> 4:2:0  */
-> > >  #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/CrCb 
-> 4:2:0  */
-> > > +#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 24  Y/CbCr 
-> 4:2:0 10-bit */
-> > >  #define V4L2_PIX_FMT_NV16    v4l2_fourcc('N', 'V', '1', '6') /* 16  Y/CbCr 
-> 4:2:2  */
-> > >  #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 
-> 4:2:2  */
-> > >  #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 
-> 4:4:4  */
-> > 
-> > 
-> 
-> 
 
+
+
+> 'make W=1' option, as well as for three drivers in the kernel that always
+> enable -Werror, but it was only observed with the i915 driver so far.
+
+Same here.
+
+   enable -Werror, but ...
+->
+  enable -Wextra, but ...
+
+
+
+
+Otherwise,
+
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+Please let me know if you want me to pick up this.
+
+
+
+
+
+
+
+
+
+--
+Best Regards
+
+Masahiro Yamada
