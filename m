@@ -1,24 +1,24 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9056655B0;
-	Mon, 28 Feb 2022 14:08:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E13D559D;
+	Mon, 28 Feb 2022 14:08:49 +0000 (UTC)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:82d4:230a:70ff:cde0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 214031F43A54;
-	Mon, 28 Feb 2022 14:08:46 +0000 (GMT)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8020B1F43A62;
+	Mon, 28 Feb 2022 14:08:47 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1646057326;
-	bh=j2A4NMSFKaArnsLVO73dDEOpv7p5lUGniQuI/KRT0iU=;
+	s=mail; t=1646057328;
+	bh=bowMSxciKZ4e4jd3aI13NZ259r8hIcdS0hJZN8hF4F0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Mvu4ZYeFQVP2PJkU2EIpKTtyexMlm8JZ9kni5zlFyS8JPghDBx1lo2Q85ktKjSXEn
-	 RsrgHj6CqDF/CI8BbkFxXioS1xw1+xiZvtwUc5oWsj7lujE1UWcGjZPblhrVbqH7+6
-	 gkfzQAo0IhWZ62RsAeNdY49VEt2+gJkJgBlmdq8ASYUg35b0Ln4+SmM2++1CmvHRiZ
-	 vmfofD219zgVvNnNVfSf/kDjN9FJZHQsO07EZ53ozq4DzkEkJXrn5a4p0uHRDceHh5
-	 ZOHaFnNI38U3pDVJnc80ziiRP4Qm46HbLsfdEMZ1F7JWprbhyutYQ87q3nXj4F4DsK
-	 Kb51yo1Rdp3gA==
+	b=cF22N2PmAn74Wyq878r5eKfIQKuM0GUOn2hhxdaVw3A0V0KCyFfH8FdQWkFS82A4T
+	 Nv0mz5FF7fzz56np3/GE/DNW+Bzyax1rOlgVrScN+yc69wGPsAj/iqw3USrXxSqZ6u
+	 4iwmaKHteLUphgGYi3su1PIGy0HYjI23bBKrm0DxjMLkfogGODtqlQJvZT3hckTqcD
+	 mk9h3XgnZXwywqABmdEkSdTnnPmVSKMMU+0A6kIN0/snbkKYHQH/TmGhJzYE9+9xiV
+	 mPvMqzCI1oNPOMwCToGv0JPMY9/B6wkdULZQObPe0RyILItJ9+SAqfNo1D47i1C/eU
+	 E0uTA5P26Wwfw==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: mchehab@kernel.org,
 	ezequiel@vanguardiasur.com.ar,
@@ -39,9 +39,9 @@ Cc: linux-media@vger.kernel.org,
 	knaerzche@gmail.com,
 	jc@kynesim.co.uk,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v4 01/15] videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
-Date: Mon, 28 Feb 2022 15:08:24 +0100
-Message-Id: <20220228140838.622021-2-benjamin.gaignard@collabora.com>
+Subject: [PATCH v4 03/15] vivid: add dynamic array test control
+Date: Mon, 28 Feb 2022 15:08:26 +0100
+Message-Id: <20220228140838.622021-4-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
 References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
@@ -55,56 +55,54 @@ Content-Transfer-Encoding: 8bit
 
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Add a new flag that indicates that this control is a dynamically sized
-array. Also document this flag.
-
-Currently dynamically sized arrays are limited to one dimensional arrays,
-but that might change in the future if there is a need for it.
-
-The initial use-case of dynamic arrays are stateless codecs. A frame
-can be divided in many slices, so you want to provide an array containing
-slice information for each slice. Typically the number of slices is small,
-but the standard allow for hundreds or thousands of slices. Dynamic arrays
-are a good solution since sizing the array for the worst case would waste
-substantial amounts of memory.
+Add a dynamic array test control to help test support for this
+feature.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- .../userspace-api/media/v4l/vidioc-queryctrl.rst          | 8 ++++++++
- include/uapi/linux/videodev2.h                            | 1 +
- 2 files changed, 9 insertions(+)
+ drivers/media/test-drivers/vivid/vivid-ctrls.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index 88f630252d98..a20dfa2a933b 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -625,6 +625,14 @@ See also the examples in :ref:`control`.
- 	``V4L2_CTRL_FLAG_GRABBED`` flag when buffers are allocated or
- 	streaming is in progress since most drivers do not support changing
- 	the format in that case.
-+    * - ``V4L2_CTRL_FLAG_DYNAMIC_ARRAY``
-+      - 0x0800
-+      - This control is a dynamically sized 1-dimensional array. It
-+        behaves the same as a regular array, except that the number
-+	of elements as reported by the ``elems`` field is between 1 and
-+	``dims[0]``. So setting the control with a differently sized
-+	array will change the ``elems`` field when the control is
-+	queried afterwards.
+diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+index e7516dc1227b..7267892dc18a 100644
+--- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
++++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+@@ -34,6 +34,7 @@
+ #define VIVID_CID_U8_4D_ARRAY		(VIVID_CID_CUSTOM_BASE + 10)
+ #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
+ #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
++#define VIVID_CID_U32_DYN_ARRAY		(VIVID_CID_CUSTOM_BASE + 13)
  
- Return Value
- ============
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index df8b9c486ba1..e27c8eae78c9 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1884,6 +1884,7 @@ struct v4l2_querymenu {
- #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
- #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
- #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
-+#define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
+ #define VIVID_CID_VIVID_BASE		(0x00f00000 | 0xf000)
+ #define VIVID_CID_VIVID_CLASS		(0x00f00000 | 1)
+@@ -189,6 +190,19 @@ static const struct v4l2_ctrl_config vivid_ctrl_u32_array = {
+ 	.dims = { 1 },
+ };
  
- /*  Query flags, to be ORed with the control ID */
- #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
++static const struct v4l2_ctrl_config vivid_ctrl_u32_dyn_array = {
++	.ops = &vivid_user_gen_ctrl_ops,
++	.id = VIVID_CID_U32_DYN_ARRAY,
++	.name = "U32 Dynamic Array",
++	.type = V4L2_CTRL_TYPE_U32,
++	.flags = V4L2_CTRL_FLAG_DYNAMIC_ARRAY,
++	.def = 50,
++	.min = 10,
++	.max = 90,
++	.step = 1,
++	.dims = { 100 },
++};
++
+ static const struct v4l2_ctrl_config vivid_ctrl_u16_matrix = {
+ 	.ops = &vivid_user_gen_ctrl_ops,
+ 	.id = VIVID_CID_U16_MATRIX,
+@@ -1612,6 +1626,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+ 	dev->ro_int32 = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_ro_int32, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_area, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_array, NULL);
++	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u32_dyn_array, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u16_matrix, NULL);
+ 	v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_u8_4d_array, NULL);
+ 
 -- 
 2.32.0
 
