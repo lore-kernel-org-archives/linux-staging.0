@@ -1,50 +1,209 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7C75EC5
-	for <linux-staging@lists.linux.dev>; Tue,  1 Mar 2022 21:33:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31E9AC340EE;
-	Tue,  1 Mar 2022 21:33:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1646170384;
-	bh=zE5U46KEpiwIEu/kdY8+1tmSvfPUtdtjtmQqm1hgKqM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LCd8bX5e5w0bK9HR+1GZFoX4DBLQmRuWh04a36e21zm0vzMvjxmOgrvUN0Eazy1ds
-	 FCaWt2mRzcLdNNJyEii+QExTNGAJw3ekERTmMT59ts0nSpDZrscwF/d454HdPbJV9r
-	 aHt+JbmZfaX1F5bCfycXd18FM1WJ0soVucNb3nFg=
-Date: Tue, 1 Mar 2022 22:33:02 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Samuel =?iso-8859-1?Q?Sj=F6berg?= <info@samuelsjoberg.se>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rts5208: fix Lines should not end with a '('.
-Message-ID: <Yh6RDn1+q6yfo1EG@kroah.com>
-References: <20220301205936.3096-1-info@samuelsjoberg.se>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD2A5EC5
+	for <linux-staging@lists.linux.dev>; Tue,  1 Mar 2022 21:57:22 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nPAUT-000784-AN; Tue, 01 Mar 2022 22:57:05 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nPAUO-0025cA-NW; Tue, 01 Mar 2022 22:57:00 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nPAUN-006MiB-Cs; Tue, 01 Mar 2022 22:56:59 +0100
+Date: Tue, 1 Mar 2022 22:56:59 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Song Chen <chensong_2000@189.cn>
+Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
+	thierry.reding@gmail.com, lee.jones@linaro.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+	elder@ieee.org
+Subject: Re: [PATCH v3] staging: greybus: introduce pwm_ops::apply
+Message-ID: <20220301215659.kj2wwrijkdmkmces@pengutronix.de>
+References: <1645780561-18481-1-git-send-email-chensong_2000@189.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="r726a4xrd7fvdsa6"
+Content-Disposition: inline
+In-Reply-To: <1645780561-18481-1-git-send-email-chensong_2000@189.cn>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+
+
+--r726a4xrd7fvdsa6
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220301205936.3096-1-info@samuelsjoberg.se>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 01, 2022 at 09:59:36PM +0100, Samuel Sjöberg wrote:
-> Fix the following error reported by checkpatch.pl:
-> 
-> CHECK: Lines should not end with a '('
-> +                                       retval = ms_transfer_tpc(
-> 
-> Signed-off-by: Samuel Sjöberg <info@samuelsjoberg.se>
+Hello,
+
+On Fri, Feb 25, 2022 at 05:16:01PM +0800, Song Chen wrote:
+> Introduce apply in pwm_ops to replace legacy operations,
+> like enable, disable, config and set_polarity.
+>=20
+> Signed-off-by: Song Chen <chensong_2000@189.cn>
+>=20
 > ---
->  drivers/staging/rts5208/ms.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+> v2:
+> 1, define duty_cycle and period as u64 in gb_pwm_config_operation.
+> 2, define duty and period as u64 in gb_pwm_config_request.
+> 3, disable before configuring duty and period if the eventual goal
+>    is a disabled state.
+>=20
+> v3:
+> Regarding duty_cycle and period, I read more discussion in this thread,
+> min, warn or -EINVAL, seems no perfect way acceptable for everyone.
+> How about we limit their value to INT_MAX and throw a warning at the
+> same time when they are wrong?
 
-This does not show up on lore.kernel.org, are you sure your email domain
-is correct?  I get a failure when trying to verify your email using
-normal tools, so I think it is getting dropped.
+My position is that the driver should implement the biggest possible
+period not bigger than the requested period. That's how all new drivers
+behave since I care for reviewing PWM stuff. So capping to U32_MAX as is
+(nearly) done below is good in my book.
 
-thanks,
+> ---
+>  drivers/staging/greybus/pwm.c | 66 +++++++++++++++++++++--------------
+>  1 file changed, 40 insertions(+), 26 deletions(-)
+>=20
+> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+> index 891a6a672378..3ec5bc54d616 100644
+> --- a/drivers/staging/greybus/pwm.c
+> +++ b/drivers/staging/greybus/pwm.c
+> @@ -204,43 +204,57 @@ static void gb_pwm_free(struct pwm_chip *chip, stru=
+ct pwm_device *pwm)
+>  	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
+>  }
+> =20
+> -static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+> -			 int duty_ns, int period_ns)
+> +static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			const struct pwm_state *state)
+>  {
+> +	int err;
+> +	bool enabled =3D pwm->state.enabled;
+> +	u64 period =3D state->period;
+> +	u64 duty_cycle =3D state->duty_cycle;
+>  	struct gb_pwm_chip *pwmc =3D pwm_chip_to_gb_pwm_chip(chip);
+> =20
+> -	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
+> -};
+> -
+> -static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device =
+*pwm,
+> -			       enum pwm_polarity polarity)
+> -{
+> -	struct gb_pwm_chip *pwmc =3D pwm_chip_to_gb_pwm_chip(chip);
+> -
+> -	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
+> -};
+> +	/* set polarity */
+> +	if (state->polarity !=3D pwm->state.polarity) {
+> +		if (enabled) {
+> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
 
-greg k-h
+So polarity can only be switched with the PWM off?
+
+> +			enabled =3D false;
+> +		}
+> +		err =3D gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarit=
+y);
+> +		if (err)
+> +			return err;
+> +	}
+> =20
+> -static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
+> -{
+> -	struct gb_pwm_chip *pwmc =3D pwm_chip_to_gb_pwm_chip(chip);
+> +	if (!state->enabled) {
+> +		if (enabled)
+> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+> +		return 0;
+> +	}
+> =20
+> -	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+> -};
+> +	/* set period and duty cycle*/
+> +	if (period > INT_MAX) {
+
+Given that in gb_pwm_config_operation the parameters are u32, I suggest
+to use U32_MAX here instead of INT_MAX.
+
+> +		period =3D INT_MAX;
+> +		dev_warn(chip->dev, "period is %llu ns, out of range\n", state->period=
+);
+
+Please drop this warning. That's a bad one because it can be triggered
+=66rom userspace.
+
+> +	}
+> +	if (duty_cycle > INT_MAX) {
+> +		duty_cycle =3D INT_MAX;
+> +		dev_warn(chip->dev,
+> +			 "duty cycle is %llu ns, out of range\n", state->duty_cycle);
+> +	}
+> +	err =3D gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
+
+Is it clear how gb_pwm_config_operation rounds? If yes, please document
+this. I also wonder if you could implement (in a separate change)
+=2Eget_state().
+
+> +	if (err)
+> +		return err;
+> =20
+> -static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
+> -{
+> -	struct gb_pwm_chip *pwmc =3D pwm_chip_to_gb_pwm_chip(chip);
+> +	/* enable/disable */
+> +	if (!enabled)
+> +		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+> =20
+> -	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+> -};
+> +	return 0;
+> +}
+> =20
+>  static const struct pwm_ops gb_pwm_ops =3D {
+>  	.request =3D gb_pwm_request,
+>  	.free =3D gb_pwm_free,
+> -	.config =3D gb_pwm_config,
+> -	.set_polarity =3D gb_pwm_set_polarity,
+> -	.enable =3D gb_pwm_enable,
+> -	.disable =3D gb_pwm_disable,
+> +	.apply =3D gb_pwm_apply,
+>  	.owner =3D THIS_MODULE,
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--r726a4xrd7fvdsa6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmIelqYACgkQwfwUeK3K
+7Alwdgf8D5edHsZr1Jb77yd52CbV7Xj8gYkfrZr+ooB/WCOoZuP+kcZstYUzHHsR
+C2j7TfDQf5nr+GPyklBi58xyR9UcKazNRi4nxDWApeUauJLnuVfxog0jLv6XuBau
+QhAWJcd7tCgMbXb8/Ca8VcKHWD5xpUqveGomRHfN2tqw/FbCJeHK35JGnOyazXmR
+f1AwLvDaumNGCM4KgizkSmji6v3HWihpm5DbW89feVCSARufNky3BWBmH3xapBH8
+FmZlabb4V+YgP5Je+4+VIX0R1ch425hktZiBFLuo7jMkF/NNtaTahQSad+gITwDH
+TtV0UMkiwvIGGReYUY3qL5be4/BRDw==
+=mFjh
+-----END PGP SIGNATURE-----
+
+--r726a4xrd7fvdsa6--
