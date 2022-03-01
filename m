@@ -1,126 +1,158 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B447C
-	for <linux-staging@lists.linux.dev>; Tue,  1 Mar 2022 19:48:48 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id 29so23261510ljv.10
-        for <linux-staging@lists.linux.dev>; Tue, 01 Mar 2022 11:48:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB72617CC
+	for <linux-staging@lists.linux.dev>; Tue,  1 Mar 2022 20:36:32 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id f37so28836767lfv.8
+        for <linux-staging@lists.linux.dev>; Tue, 01 Mar 2022 12:36:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=PzY8tILS7/J5BzJfiKLdBDXy8/s4RAHqODI+UdY57jc=;
-        b=MSgmT6lRet0jPev3NhT8poLSNE2IuVKHhTmnMdindDPsxNrbDdzPrkBSaT4BauMeD+
-         LWq3ALR2NImH9IAbyg/9Mpz0DLX1H3V94a1gLKACC1HvSqM9EwtH2Km4ZUYlkqLoZgsQ
-         ZV7jqWBOB7cCGsim0JopuTtvt6tgng/ReKRwg=
+        bh=rAZcpGOFnijhfBt719P+IqprCBqe8sD9TF0Sez9IwiQ=;
+        b=F+7BPGYsO9QeRc6BTbvPUJxguXCTYika7fzNVLbSEfMjTVK29FjvhOtCtbBO2oalkB
+         9cweHARFFeQAeiDWhTrtcdfTzbCEOfTOrVCN9rTTV3Ek5jpvIVUt3aua8OA61CgDhA1w
+         zQABsshAfnGl6gFdFI9HcnnKU8AOre3uWnEew=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=PzY8tILS7/J5BzJfiKLdBDXy8/s4RAHqODI+UdY57jc=;
-        b=OebM9F/orEZUZt60yObFmy3yGOB8Wleqz2LqWtup9AZzgItQ0ru8VvcPBZBjxx1e+z
-         howtJOhO2Nu071S435pOonE9bh/jpk84X9DgpZ23QFGaBMVngFwuXukPcsJli2yxU2c6
-         PqSA+lh6ubNUX5G7Upq5wZNRGvj4xYj2naLZD7HtE4h6pfFqQzmB1zOzLyS1uW17aTdv
-         fglmbbw+GxH1AFpSXWtJjUOX/s159CS7anFGWHDTLT+NVm7dUiXNHq0c0TFJ9hzrliDn
-         Eh8xQ+wer6OK4xQL+X4CrwlO3+xCxYegvEeDrOZFGV1chqLkrn50G6PItZj1nKKzpQgd
-         jvPA==
-X-Gm-Message-State: AOAM531ZRloLV1UN1KL/UpzcM2VmsxG6TKBq5UsaAyBIZWolPjMkgDs1
-	Cw1KGswpZ32FgyOAP5S90Oxdbm78cDCTamUjFwQ=
-X-Google-Smtp-Source: ABdhPJzI/BlcGXmgEB3Ljtcil/fXshPnRqb2Uj9xx6e0Pg1Ai1kUY0mEE9i3IW4TH+Sv5jm/Y9eRuA==
-X-Received: by 2002:a2e:8045:0:b0:23a:ee87:6849 with SMTP id p5-20020a2e8045000000b0023aee876849mr18395107ljg.248.1646164126306;
-        Tue, 01 Mar 2022 11:48:46 -0800 (PST)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
-        by smtp.gmail.com with ESMTPSA id e7-20020ac24e07000000b00443970dc043sm1631496lfr.198.2022.03.01.11.48.45
+        bh=rAZcpGOFnijhfBt719P+IqprCBqe8sD9TF0Sez9IwiQ=;
+        b=08XP0UhXA0c0SJRKstTzqo0jOkx8OH95bS0XU2n+veJwMIfhrhYeDiM9cwm7PCFRGf
+         YV1nram7VQIj3Vm5IgeB6Ye/o+trnHr6etksEbAgIZAS44NYn3ObBRmdE2L6hie6vd1I
+         xdS22R/rBEGeIoJnNZHjr8codK6BQmkFFmU04G3jOz0wrCAjz3NIOrm/hs2/ZQcQSzoH
+         LFoW9nyIiH2JYJKEExxGKeU1zzeVzDfooSClfDf9CKcnmuiRjLtjjDeWZWIfhvgpxZDU
+         MolgO/ydOfMZHjIa6OWOccq3/qJGgrphvPARNGCAND9zx9DOsnF5gVSj3drfMaROtb02
+         ZG7Q==
+X-Gm-Message-State: AOAM532X0/JT5eYPEfM7zb/vY+a4USiFceFBALGCevNDZew0xCUx9R2l
+	DA0/4sj2+G5ZK1950+zhYnf8O0mVSfk9s8k251g=
+X-Google-Smtp-Source: ABdhPJxYeBIZJJpabtM1d1NKime3hH5GUfOsHPBwErZRavC2X8jMb/MZljeaAWpyof0fXpDiTTG9HQ==
+X-Received: by 2002:ac2:5389:0:b0:443:7b0e:951a with SMTP id g9-20020ac25389000000b004437b0e951amr16420595lfh.288.1646166991080;
+        Tue, 01 Mar 2022 12:36:31 -0800 (PST)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id bf31-20020a2eaa1f000000b0024637000209sm2161348ljb.10.2022.03.01.12.36.30
         for <linux-staging@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Mar 2022 11:48:46 -0800 (PST)
-Received: by mail-lf1-f46.google.com with SMTP id g39so28630942lfv.10
-        for <linux-staging@lists.linux.dev>; Tue, 01 Mar 2022 11:48:45 -0800 (PST)
-X-Received: by 2002:a2e:3013:0:b0:246:2ca9:365e with SMTP id
- w19-20020a2e3013000000b002462ca9365emr17983151ljw.291.1646163763108; Tue, 01
- Mar 2022 11:42:43 -0800 (PST)
+        Tue, 01 Mar 2022 12:36:30 -0800 (PST)
+Received: by mail-lf1-f48.google.com with SMTP id y24so28909168lfg.1
+        for <linux-staging@lists.linux.dev>; Tue, 01 Mar 2022 12:36:30 -0800 (PST)
+X-Received: by 2002:ac2:44a4:0:b0:445:8fc5:a12a with SMTP id
+ c4-20020ac244a4000000b004458fc5a12amr10608648lfm.27.1646166980002; Tue, 01
+ Mar 2022 12:36:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-3-jakobkoschel@gmail.com> <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
- <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com> <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
- <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org> <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
- <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
-In-Reply-To: <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com> <20220228110822.491923-7-jakobkoschel@gmail.com>
+In-Reply-To: <20220228110822.491923-7-jakobkoschel@gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 1 Mar 2022 11:42:26 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wghQygmASNUWj=LZn5FR5wsce2osyR6EXcfEB_FaX_6Og@mail.gmail.com>
-Message-ID: <CAHk-=wghQygmASNUWj=LZn5FR5wsce2osyR6EXcfEB_FaX_6Og@mail.gmail.com>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Mike Rapoport <rppt@kernel.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Jakob Koschel <jakobkoschel@gmail.com>, alsa-devel@alsa-project.org, 
-	linux-aspeed@lists.ozlabs.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, 
-	linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	Cristiano Giuffrida <c.giuffrida@vu.nl>, amd-gfx list <amd-gfx@lists.freedesktop.org>, 
-	samba-technical@lists.samba.org, linux1394-devel@lists.sourceforge.net, 
-	drbd-dev@lists.linbit.com, linux-arch <linux-arch@vger.kernel.org>, 
-	CIFS <linux-cifs@vger.kernel.org>, KVM list <kvm@vger.kernel.org>, 
-	linux-scsi <linux-scsi@vger.kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, "Bos, H.J." <h.j.bos@vu.nl>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, intel-wired-lan@lists.osuosl.org, 
-	kgdb-bugreport@lists.sourceforge.net, bcm-kernel-feedback-list@broadcom.com, 
-	Dan Carpenter <dan.carpenter@oracle.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Kees Cook <keescook@chromium.org>, 
-	Arnd Bergman <arnd@arndb.de>, Linux PM <linux-pm@vger.kernel.org>, 
-	intel-gfx <intel-gfx@lists.freedesktop.org>, 
-	Brian Johannesmeyer <bjohannesmeyer@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, v9fs-developer@lists.sourceforge.net, 
-	linux-tegra <linux-tegra@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org, 
-	linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>, 
-	linux-usb@vger.kernel.org, linux-wireless <linux-wireless@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>, 
-	tipc-discussion@lists.sourceforge.net, 
+Date: Tue, 1 Mar 2022 12:36:03 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgLtKofBbn9kSXRU3MpdX7S2OxN1V5Mc679oJpFnp_VnQ@mail.gmail.com>
+Message-ID: <CAHk-=wgLtKofBbn9kSXRU3MpdX7S2OxN1V5Mc679oJpFnp_VnQ@mail.gmail.com>
+Subject: Re: [PATCH 6/6] treewide: remove check of list iterator against head
+ past the loop body
+To: Jakob Koschel <jakobkoschel@gmail.com>
+Cc: linux-arch <linux-arch@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Arnd Bergman <arnd@arndb.de>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Kees Cook <keescook@chromium.org>, 
+	Mike Rapoport <rppt@kernel.org>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, 
+	Brian Johannesmeyer <bjohannesmeyer@gmail.com>, Cristiano Giuffrida <c.giuffrida@vu.nl>, 
+	"Bos, H.J." <h.j.bos@vu.nl>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Dan Carpenter <dan.carpenter@oracle.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Nathan Chancellor <nathan@kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+	linux-sgx@vger.kernel.org, drbd-dev@lists.linbit.com, 
+	linux-block <linux-block@vger.kernel.org>, linux-iio@vger.kernel.org, 
 	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, dma <dmaengine@vger.kernel.org>, 
-	linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>, 
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+	linux1394-devel@lists.sourceforge.net, 
+	amd-gfx list <amd-gfx@lists.freedesktop.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
+	intel-gfx <intel-gfx@lists.freedesktop.org>, nouveau@lists.freedesktop.org, 
+	linux-rdma <linux-rdma@vger.kernel.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, intel-wired-lan@lists.osuosl.org, 
+	Netdev <netdev@vger.kernel.org>, linux-wireless <linux-wireless@vger.kernel.org>, 
+	Linux PM <linux-pm@vger.kernel.org>, linux-scsi <linux-scsi@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
+	linux-aspeed@lists.ozlabs.org, bcm-kernel-feedback-list@broadcom.com, 
+	linux-tegra <linux-tegra@vger.kernel.org>, linux-mediatek@lists.infradead.org, 
+	KVM list <kvm@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>, 
+	samba-technical@lists.samba.org, 
+	Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, kgdb-bugreport@lists.sourceforge.net, 
+	v9fs-developer@lists.sourceforge.net, tipc-discussion@lists.sourceforge.net, 
+	alsa-devel@alsa-project.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 1, 2022 at 11:06 AM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+So looking at this patch, I really reacted to the fact that quite
+often the "use outside the loop" case is all kinds of just plain
+unnecessary, but _used_ to be a convenience feature.
+
+I'll just quote the first chunk in it's entirely as an example - not
+because I think this chunk is particularly important, but because it's
+a good example:
+
+On Mon, Feb 28, 2022 at 3:09 AM Jakob Koschel <jakobkoschel@gmail.com> wrote:
 >
-> So instead of that simple "if (!entry)", we'd effectively have to
-> continue to use something that still works with the old world order
-> (ie that "if (list_entry_is_head())" model).
+> diff --git a/arch/arm/mach-mmp/sram.c b/arch/arm/mach-mmp/sram.c
+> index 6794e2db1ad5..fc47c107059b 100644
+> --- a/arch/arm/mach-mmp/sram.c
+> +++ b/arch/arm/mach-mmp/sram.c
+> @@ -39,19 +39,22 @@ static LIST_HEAD(sram_bank_list);
+>  struct gen_pool *sram_get_gpool(char *pool_name)
+>  {
+>         struct sram_bank_info *info = NULL;
+> +       struct sram_bank_info *tmp;
+>
+>         if (!pool_name)
+>                 return NULL;
+>
+>         mutex_lock(&sram_lock);
+>
+> -       list_for_each_entry(info, &sram_bank_list, node)
+> -               if (!strcmp(pool_name, info->pool_name))
+> +       list_for_each_entry(tmp, &sram_bank_list, node)
+> +               if (!strcmp(pool_name, tmp->pool_name)) {
+> +                       info = tmp;
+>                         break;
+> +               }
+>
+>         mutex_unlock(&sram_lock);
+>
+> -       if (&info->node == &sram_bank_list)
+> +       if (!info)
+>                 return NULL;
+>
+>         return info->gpool;
 
-Just to prove my point about how this is painful, that doesn't work at all.
+I realize this was probably at least auto-generated with coccinelle,
+but maybe that script could be taught to do avoid the "use after loop"
+by simply moving the code _into_ the loop.
 
-If the loop iterator at the end is NULL (good, in theory), we can't
-use "list_entry_is_head()" to check whether we ended. We'd have to use
-a new thing entirely, to handle the "list_for_each_entry() has the
-old/new semantics" cases.
+IOW, this all would be cleaner and clear written as
 
-That's largely why I was pushing for the "let's make it impossible to
-use the loop iterator at all outside the loop". It avoids the
-confusing case, and the patches to move to that stricter semantic can
-be merged independently (and before) doing the actual semantic change.
+        if (!pool_name)
+                return NULL;
 
-I'm not saying my suggested approach is wonderful either. Honestly,
-it's painful that we have so nasty semantics for the end-of-loop case
-for list_for_each_entry().
+        mutex_lock(&sram_lock);
+        list_for_each_entry(info, &sram_bank_list, node) {
+                if (!strcmp(pool_name, info->pool_name)) {
+                        mutex_unlock(&sram_lock);
+                        return info;
+                }
+        }
+        mutex_unlock(&sram_lock);
+        return NULL;
 
-The minimal patch would clearly be to keep those broken semantics, and
-just force everybody to use the list_entry_is_head() case. That's the
-"we know we messed up, we are too lazy to fix it, we'll just work
-around it and people need to be careful" approach.
+Ta-daa - no use outside the loop, no need for new variables, just a
+simple "just do it inside the loop". Yes, we end up having that lock
+thing twice, but it looks worth it from a "make the code obvious"
+standpoint.
 
-And laziness is a virtue. But bad semantics are bad semantics. So it's
-a question of balancing those two issues.
+Would it be even cleaner if the locking was done in the caller, and
+the loop was some simple helper function? It probably would. But that
+would require a bit more smarts than probably a simple coccinelle
+script would do.
 
-               Linus
+                Linus
