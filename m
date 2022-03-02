@@ -1,185 +1,95 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE902590;
-	Wed,  2 Mar 2022 08:58:49 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2C62A04;
-	Wed,  2 Mar 2022 09:51:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1646211099;
-	bh=cbzPGIwgXJdg7L3y0VO7R5FjmCa4xay9OWwPMF71EJg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j3O8fi11Gp7hoTmSzMtUWa37EFrB/cKOrROkphix2NDKx30J/gcT2BsFswLGvuEY0
-	 y8hZn8JAKXwxMViZKN56dONwX2TATkgxIwWhsUb8+49nMVqoKxpIuZWc31bLIt+qSg
-	 QtN7oReI0oz9pRMYpzUV/6Hq2FsnfGAvBzacy+2Y=
-Date: Wed, 2 Mar 2022 10:51:27 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 63/66] staging: media: Add support for the Allwinner
- A31 ISP
-Message-ID: <Yh8wD8lF2Hs+cxD7@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-64-paul.kocialkowski@bootlin.com>
- <YgFFxMd2htKvX0K1@pendragon.ideasonboard.com>
- <Yh5CuyEJ+WhIAzYm@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496B52590
+	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 09:02:54 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id c16-20020a17090aa61000b001befad2bfaaso749057pjq.1
+        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 01:02:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=R4uOo5MHkeQgzq17T9YFrhDC6UuQ0Je/UgBAobCZK4Y=;
+        b=NB7oDpZG1zrTleofPpyTpCvySKZckLxHjXrTodWOnM02cHwTokRsxQhz226NYS51v8
+         weGGODXATipQwe9eixdr8HjDeI4Z+E/d1z/gYlGrU4gcOcTdmd1zN5D5Vdl2M9SN7nj8
+         je5N326XMvsXKjl9kXGyQ4SDYHmobI8tYA++cuEK7Iovn8qXcU6Gx8Cvc+D2nQaZuS1C
+         Oh0X1R9UOjS1m0PoPboOEd0zdg4arkp+74+rfb2E8wtXiwcr+heiI8swox8UyoSn9i26
+         FtZlGTbNgxrKSVdvnCQx0C/lFtWfTr/T4AM8Eyvcs4k5qM7+3L5cMBclXPv5Qwg2Kjz6
+         utJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=R4uOo5MHkeQgzq17T9YFrhDC6UuQ0Je/UgBAobCZK4Y=;
+        b=EAF7J/vgObceSkIvUqqW5mGxTuNH49Qc3D1hOWL37RLLVHWLQZVEPNCi8d6hfDfP+n
+         ydXtZjv5GSG2HFg0GGr4hVePSFXpolUfCaLeiYLJemDYZoYAr3Oj17Vhx5FPmm1lJp1+
+         1LBaH9ypzn9u05/j07/KPpaiiILA1lbC6fXHuos5T2v6QZK7N7ZmtiXN/XBJXL865NQS
+         +lbRT2X84W+jFkIWH3d//8UKZyIMo004TZ6ubE2Gljh/FV/XvSE0PEV0fGPGT7CAeWn5
+         HBYaLXFvSv0TUbiWrurgo44EZzD8irePubPoFJDAgZ5BbynLV8Rnen0Aw4cWGYtAF1uP
+         CFdQ==
+X-Gm-Message-State: AOAM530bU0IwWXXhMT6G544EThcLfmaHA2xi7wmpvIRwew52oZU2UVMh
+	kSYtUBApArkWjEwO9dbqODE=
+X-Google-Smtp-Source: ABdhPJwnq5VviDuQV2d+MxqmT3gBbwUOhuOZU5vyoHoOiukTwPepAlMDov6Mb6n6JDegnvyNa5Gr5A==
+X-Received: by 2002:a17:90a:1d04:b0:1bc:98ca:5e6f with SMTP id c4-20020a17090a1d0400b001bc98ca5e6fmr26362307pjd.32.1646211773654;
+        Wed, 02 Mar 2022 01:02:53 -0800 (PST)
+Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
+        by smtp.gmail.com with ESMTPSA id q8-20020a056a00088800b004bca31c8e56sm21461840pfj.115.2022.03.02.01.02.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 01:02:53 -0800 (PST)
+Date: Wed, 2 Mar 2022 22:02:46 +1300
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, paskripkin@gmail.com
+Cc: Pavel Skripkin <paskripkin@gmail.com>, gregkh@linuxfoundation.org,
+	realwakka@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: pi433: prevent uninitialized data from being
+ printed out
+Message-ID: <Yh8ytrK7EJjYbrHF@mail.google.com>
+References: <Yhmruyr2BUn0+3O3@mail.google.com>
+ <593b1840-aba1-3fcb-daef-9cc0011d0805@gmail.com>
+ <20220228064415.GB2794@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yh5CuyEJ+WhIAzYm@aptenodytes>
+In-Reply-To: <20220228064415.GB2794@kadam>
 
-Hi Paul,
-
-On Tue, Mar 01, 2022 at 04:58:51PM +0100, Paul Kocialkowski wrote:
-> On Mon 07 Feb 22, 18:16, Laurent Pinchart wrote:
-> > On Sat, Feb 05, 2022 at 07:54:26PM +0100, Paul Kocialkowski wrote:
-> > > Some Allwinner platforms come with an Image Signal Processor, which
-> > > supports various features in order to enhance and transform data
-> > > received by image sensors into good-looking pictures. In most cases,
-> > > the data is raw bayer, which gets internally converted to RGB and
-> > > finally YUV, which is what the hardware produces.
+On Mon, Feb 28, 2022 at 09:44:15AM +0300, Dan Carpenter wrote:
+> On Sat, Feb 26, 2022 at 04:08:48PM +0300, Pavel Skripkin wrote:
+> > > Patch dependency:
 > > > 
-> > > This driver supports ISPs that are similar to the A31 ISP, which was
-> > > the first standalone ISP found in Allwinner platforms. Simpler ISP
-> > > blocks were found in the A10 and A20, where they are tied to a CSI
-> > > controller. Newer generations of Allwinner SoCs (starting with the
-> > > H6, H616, etc) come with a new camera subsystem and revised ISP.
-> > > Even though these previous and next-generation ISPs are somewhat
-> > > similar to the A31 ISP, they have enough significant differences to
-> > > be out of the scope of this driver.
-> > > 
-> > > While the ISP supports many features, including 3A and many
-> > > enhancement blocks, this implementation is limited to the following:
-> > > - V3s (V3/S3) platform support;
-> > > - Bayer media bus formats as input;
-> > 
-> > Greyscale formats would also be nice to have, if the hardware can
-> > support that (it mostly just requires the ability to disable the CFA
-> > interpolation).
-> 
-> As far as I know there's no support for grayscale, only bayer formats
-> and YUV.
-> 
-> > > - Semi-planar YUV (NV12/NV21) as output;
-> > 
-> > Packed YUV would also be useful if the hardware supports it.
-> 
-> Same here, it only supports planar and semi-planar YUV as output.
-> 
-> > > - Debayering with per-component gain and offset configuration;
-> > > - 2D noise filtering with configurable coefficients.
-> > > 
-> > > Since many features are missing from the associated uAPI, the driver
-> > > is aimed to integrate staging until all features are properly
-> > > described.
-> > > 
-> > > On the technical side, it uses the v4l2 and media controller APIs,
-> > > with a video node for capture, a processor subdev and a video node
-> > > for parameters submission. A specific uAPI structure and associated
-> > > v4l2 meta format are used to configure parameters of the supported
-> > > modules.
-> > > 
-> > > One particular thing about the hardware is that configuration for
-> > > module registers needs to be stored in a DMA buffer and gets copied
-> > > to actual registers by the hardware at the next vsync, when instructed
-> > > by a flag. This is handled by the "state" mechanism in the driver.
-> > > 
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > - this patch depends on the following patch to be applied first as
+> > > both of them change the same file:
+> > > https://lore.kernel.org/lkml/Yhla4a1Clpguoo2h@mail.google.com/
 > > > ---
-> > >  drivers/staging/media/sunxi/Kconfig           |   1 +
-> > >  drivers/staging/media/sunxi/Makefile          |   1 +
-> > >  drivers/staging/media/sunxi/sun6i-isp/Kconfig |  13 +
-> > >  .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
-> > >  .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 572 +++++++++++++
-> > >  .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  86 ++
-> > >  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 751 ++++++++++++++++++
-> > >  .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
-> > >  .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 573 +++++++++++++
-> > >  .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
-> > >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 599 ++++++++++++++
-> > >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  61 ++
-> > >  .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
-> > >  .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
 > > 
-> > Could you add a TODO file to list the issues that need to be fixed for
-> > the driver to move out of staging ? I'll already propose one entry:
+> > You can send all these patches as a patch series with proper order. It will
+> > help maintainers to not break the order while applying.
 > > 
-> > - Add support in libcamera
 > 
-> Maybe it would be good to narrow down what level of support you have in mind
-> here. Just adding basic support fort the pipeline is probably doable, but
-> developing complex 3A algorithms would require very significant effort and
-> it would be a shame that this prevents the driver from leaving staging.
-> 
-> I think another obvious task would be to have a complete uAPI that reflects
-> all modules that are part of the ISP.
-> 
-> What do you think?
+> 1) All what Pavel said is true.
 
-The reason why I'd like to see libcamera support for the ISP driver is
-to ensure that the kernel API is adequate for real use cases. The API
-can be split in three parts:
+Hi Pavel, Hi Dan, 
 
-- Pipeline configuration (this includes the media controller topology,
-  link setting, subdev pad format/selection rectangle configuration,
-  ...)
-- ISP parameters
-- ISP statistics
+thanks for taking the time to review my patch (and apologies for taking
+this long to reply back to you guys).
 
-A pipeline handler implementation will cover the first parts. The second
-and third parts need to be tested too, but we don't need to implement
-every single feature. A very simple algorithm that demonstrates
-statistics can be captured and ISP parameters can be set should be
-enough to test and exercise the API in real scenarios. We're working on
-making basic AE and AWB algorithm implementations generic (or at least
-creating generic building blocks that can easily be assembled to create
-those algorithms, as the ISP statistics and parameters are specific to
-the ISP and thus require some ISP-specific code), so that should become
-a fairly easy task soon. I expect most of the work to go in the pipeline
-handler.
+This patch ended up being merged yesterday so I will be extra careful
+for the next patches I send :)
 
-Does this sound fair to you ?
+> 3) Greg is going to see that and he is *never* going to click on that
+>    link.  In staging then we do not care about the order of patches.
+>    Everything is applied in first come first serve basis.  If Greg finds
+>    out that order matters and it is not sent as a patch set then he
+>    just deletes all your patches and asks you to resend everything
+>    correctly.
 
-> > This isn't required to merge the driver in staging as long as ABI
-> > compatibility doesn't need to be preserved until the driver is moved out
-> > of staging.
-> >
-> > >  14 files changed, 3109 insertions(+)
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
-> > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
-> > 
-> > [snip]
+Noted.
 
--- 
-Regards,
+Best regards,
 
-Laurent Pinchart
+Paulo Almeida
