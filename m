@@ -1,147 +1,75 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCDF6136
-	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 20:59:30 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id 12so2696625pgd.0
-        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 12:59:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26FB6136
+	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 21:37:21 +0000 (UTC)
+Received: by mail-oo1-f49.google.com with SMTP id s203-20020a4a3bd4000000b003191c2dcbe8so3492704oos.9
+        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 13:37:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=R/oQqieG0aXWXHs93Td97reRxAIjZoSgBmUtDJFVhjU=;
-        b=d2ZFN7FzXJICmnX4Tyt0wAx0nHny3V7g7RBF7BzoFi4JqvMjvTlFe6r9CSmtZHYpfY
-         sI7cCbacBhQSn0c2nYjk/wWGRSWn9quhJSSynH9lMYRKPPdVW/LYlF+HQ4F3tfS4GoN+
-         rfxT6gA9HHGJJFfNnOWheyqKpysRyPxkd0f8U=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BFoBwGzYxG06VqMrwANucJbCVjfifnyESi4CFIqSN1M=;
+        b=nNmzwVxiWRwKwN4k4KLmSPlj1rv5VnF1B49cvukbQeWS67WDJ9QAg2++oDNyT57RI+
+         i3D/z3/XivykP7cyczWy6+V9jzG+nkqBPJ62f/HjrMdvkBuC87pk/VGRN9t8zWS6Y2EM
+         KyJpZ4YIOm3TVLwg7kxxYIi87jCvCuIRJXmgF8Pf34HDKyVwwfh9DCgR22gZKlNLpy8N
+         r00TjoZ2DT80BdXz+b8w2yoD3T7MByJS8lJq19ZEgoJHozGvZzMmcd4PfV3HO15XbCZn
+         J1YFY+bYn7SzI7WmIKBHHCBSct2mNdLtbf8N8y/EQXk/EdkFpF71tW+JZpmmHpIm/4D5
+         u5ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=R/oQqieG0aXWXHs93Td97reRxAIjZoSgBmUtDJFVhjU=;
-        b=qeiueBCF94rmlVd0r4QHzv+ML32Z2Juf1y0KXaC6r9EcPMD9a0F0FjlFd9W+3yp017
-         Y1Jv9Hl6gQHt+iiYkEwuTLx/UYV23iszqol/Hf+Jh10lafdbvb8kTqojoZH5lBf4JYlt
-         z4akjfk21OLC7KEFAJ/5CjFCUOSg3V0atk3y1WMFDu0c1bAjaZ7l8PndLE9yefVbvoik
-         ujlURbIUwQO8qotDULD424HSCh7lKmB0Y+ZWhmIjEHSFOv152rd12NmOocj2oHVXTY4S
-         7kgQXunIAR6qxHNdYNnPLp5oD22eY0rZOzg+a+V2E3dVjp1OsYSW6lCuBqkclO9W3Grl
-         75rQ==
-X-Gm-Message-State: AOAM532xBSfuz5YH+xP2NEBk6vnMAp8xkTaz0NxIX5NPL1frztqUa08S
-	c7kydGlOWhgVrc8ERP1OTs2XHg==
-X-Google-Smtp-Source: ABdhPJwV5Vftpu3BNFYOd1YAI3xcgBfQbmCq2DPnKYT59xnVma61vCMoUamoUdgwMbiUWTPibOctJw==
-X-Received: by 2002:a63:595e:0:b0:378:b203:a74e with SMTP id j30-20020a63595e000000b00378b203a74emr13280856pgm.328.1646254769698;
-        Wed, 02 Mar 2022 12:59:29 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z9-20020a655a49000000b00373459df190sm58337pgs.35.2022.03.02.12.59.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BFoBwGzYxG06VqMrwANucJbCVjfifnyESi4CFIqSN1M=;
+        b=RNT+0alMuLI49FxPSTVp1YGOZB9G4jstv0TY+6JA5vUzzHB4FM2pJndOo8oKwodmvM
+         pnYIJLLb27tXlfq9tNAzLHNXJsHFub3bp2RpY4bL1tLEMLbifUvAOvMif6kJ4feWsDK6
+         Yl1/+8QNqhSKHILXPxA3kPg6bzPEtTYhjPtOwU5gnWor4i2s2ikDRfhfMY8l8QS8MaZ+
+         PtTX3n+D460EpZsWYl1MYs2ZN6E7PKa1DoYcOcVxj9OFFoGetNG402Ummt+13rAqhmFF
+         fhOUzuUkih16Xa3eM4/sAu8NLbOvqD0k0qqKWkD7jJ9Ft8AC4Tnx4GK+2tvEEzmt1ekP
+         PBtA==
+X-Gm-Message-State: AOAM530QP7NzQ4E0idVTXFba3y7/GKy1Z0Xe/3mEpgfXYNZcuMvqhboU
+	B/fDt2HRcn5ee/CDj2GyngEsmZwpKms=
+X-Google-Smtp-Source: ABdhPJy6tfwEOrcQ5ol2+uAric46RZz/5NMzYCGjrl0bET88DJqM5wvmKMOPttH7p4qIgAgYHzs5RA==
+X-Received: by 2002:a05:6870:3c18:b0:d7:22ed:20b0 with SMTP id gk24-20020a0568703c1800b000d722ed20b0mr1549165oab.32.1646257040662;
+        Wed, 02 Mar 2022 13:37:20 -0800 (PST)
+Received: from localhost.localdomain ([181.23.87.56])
+        by smtp.gmail.com with ESMTPSA id s12-20020a0568302a8c00b005b010d92dadsm69132otu.69.2022.03.02.13.37.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 12:59:29 -0800 (PST)
-Date: Wed, 2 Mar 2022 12:59:28 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	David Laight <David.Laight@aculab.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	linux-wireless <linux-wireless@vger.kernel.org>,
-	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	KVM list <kvm@vger.kernel.org>,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-	"nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	Cristiano Giuffrida <c.giuffrida@vu.nl>,
-	"Bos, H.J." <h.j.bos@vu.nl>,
-	"linux1394-devel@lists.sourceforge.net" <linux1394-devel@lists.sourceforge.net>,
-	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
-	linux-arch <linux-arch@vger.kernel.org>,
-	CIFS <linux-cifs@vger.kernel.org>,
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-	linux-scsi <linux-scsi@vger.kernel.org>,
-	linux-rdma <linux-rdma@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	amd-gfx list <amd-gfx@lists.freedesktop.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	"kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
-	"bcm-kernel-feedback-list@broadcom.com" <bcm-kernel-feedback-list@broadcom.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Arnd Bergman <arnd@arndb.de>, Linux PM <linux-pm@vger.kernel.org>,
-	intel-gfx <intel-gfx@lists.freedesktop.org>,
-	Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	dma <dmaengine@vger.kernel.org>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Jakob Koschel <jakobkoschel@gmail.com>,
-	"v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
-	linux-tegra <linux-tegra@vger.kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	"linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
-	linux-block <linux-block@vger.kernel.org>,
-	Netdev <netdev@vger.kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
-	"tipc-discussion@lists.sourceforge.net" <tipc-discussion@lists.sourceforge.net>,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Message-ID: <202203021256.69D7C4BCA6@keescook>
-References: <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
- <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
- <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
- <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
- <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
- <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
- <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
- <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
- <202203021158.DB5204A0@keescook>
- <CAHk-=wikKPC0LUqZ8++EC5JOvGdBqVH9uUaTX=DvBioDoReYww@mail.gmail.com>
+        Wed, 02 Mar 2022 13:37:20 -0800 (PST)
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	nsaenz@kernel.org,
+	stefan.wahren@i2se.com,
+	ojaswin98@gmail.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: [PATCH 0/2] staging: vc04_services: address W=1 warnings
+Date: Wed,  2 Mar 2022 18:36:34 -0300
+Message-Id: <cover.1646255044.git.gascoar@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wikKPC0LUqZ8++EC5JOvGdBqVH9uUaTX=DvBioDoReYww@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 02, 2022 at 12:18:45PM -0800, Linus Torvalds wrote:
-> On Wed, Mar 2, 2022 at 12:07 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > I've long wanted to change kfree() to explicitly set pointers to NULL on
-> > free. https://github.com/KSPP/linux/issues/87
-> 
-> We've had this discussion with the gcc people in the past, and gcc
-> actually has some support for it, but it's sadly tied to the actual
-> function name (ie gcc has some special-casing for "free()")
-> 
-> See
-> 
->     https://gcc.gnu.org/bugzilla/show_bug.cgi?id=94527
-> 
-> for some of that discussion.
-> 
-> Oh, and I see some patch actually got merged since I looked there last
-> so that you can mark "deallocator" functions, but I think it's only
-> for the context matching, not for actually killing accesses to the
-> pointer afterwards.
+This set comprises two patches that fix two "no previous prototype"
+warnings in vc04_services.
 
-Ah! I missed that getting added in GCC 11. But yes, there it is:
+Gaston Gonzalez (2):
+  staging: vchiq_arm: make vchiq_platform_get_arm_state() static
+  staging: vchiq_arm: add prototype of function vchiq_platform_init()
 
-https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-malloc-function-attribute
-
-Hah, now we may need to split __malloc from __alloc_size. ;)
-
-I'd still like the NULL assignment behavior, though, since some things
-can easily avoid static analysis.
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 3 +--
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h | 2 ++
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
 -- 
-Kees Cook
+2.35.1
+
