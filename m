@@ -1,41 +1,41 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AA76136
-	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 20:48:25 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id p17so2605462plo.9
-        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 12:48:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F396136
+	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 20:48:28 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id z16so2971991pfh.3
+        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 12:48:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=47enilufvb5BapansswjqF7Mys+r/uaDJhXNYG8WXSg=;
-        b=XHOG96zu7g7EYkpVVmPw79Ey0bGouFPE6g2Hu6dof/IEIpXZy9wZMQZ41LjTzgoXmK
-         yOvd2nsz9xRGFBF6yCyRWelXRaf6j0cq5cqh8vnGWI5EV/9h6YI7A6Lr/tZ4122I4jO6
-         AquLeUk3Qtn3tdhARUtmTZq9cSdFmzOCwC4SPrnrLHOyXHndpci49F2yb5s9qJC/JP1Z
-         w7UPO3wKmK+yQnn4aEtDn4SxMdrxsvU6q/AyJCtQz+UkMrTAy1iAFUpRt/+ME4+4TKXk
-         TZr9xtUlRFY/DSA0xjvvEQ9ntd1ssP0+gXOPG9oNeu1H35O6wsovPUisgvajJlP1LoEZ
-         z8Zw==
+        bh=l2yCZ0MwzJLAtB0wdzpP2V0zRLEwcqRB7kcixjR8EmM=;
+        b=fjdZBTlhSpaVYrPZ66957zXOnwQ8S+NBlz4ykN1LkFfbuiZiwTXIl9hckI/+/XA4B6
+         txRJ3Paso2bXVKKK7X0vn21t6QeoWZsZAK3z5B2nI9K5ybzBi8fCKD9XqkJQYSQrI1YE
+         VqYW5jMZopBcklJ1Bk6y3FmbEbHrJfYOtFkq+zR/oRBQymythIh+B16T9FQ63cJDKeiW
+         BISa2TVRZDIWTzii8gp1t2rm+kJCu1jq+CRAITJISvsENdrSQp1SJMClHp3w/xPw3xkI
+         L4Lx1ZeQqXBHL8p5XlluG8Yeu4ro0B7fu1XTngGHSw7m9JeJ3QGWX5b7OuK4qoKFXRm2
+         EChw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=47enilufvb5BapansswjqF7Mys+r/uaDJhXNYG8WXSg=;
-        b=YOferO1u2Rv6oS2rMjNY1HzLu2hpxFDiGp/tfiWTLfzO3JKAtIoZR1X5Wv4n+XLE/G
-         eeRZvpiuEGRtxQeJG3mQ/X6Z7L55M2GLaTE9z8A3HR0qLONy88wAx5SrIZ5DHiLGLLtz
-         11nBxklhJ9nCvCtnJgDy+hq6U5Tahl1sFlKGP5I+XY3ahV3yTigYAPKueQ0/7zsSKxqT
-         bvJw+rNUJpbs6iyPJYVzwK2lXvlxoh0PBhznVvuoQXdnoB6Vegklf0FJHo9aKumYag+X
-         0HcXnhRIUHL9VuoF8+FOp8vsLx+cwAgRmygfGn5Vtp2NWNg75pHFOkKJjY1+Xx26VJGE
-         Bqmw==
-X-Gm-Message-State: AOAM533/IfTLxO2cs9uCJg5FsCGfsXY2vc06kin2NZ4P4UrZhUIUiRSJ
-	C+AduWUu/wKUC0rm1robGVA=
-X-Google-Smtp-Source: ABdhPJxPbzO7jugROjTOhIAlRLlpI1xSn+laZgNFggGEHyCAuiLE6/hCUJgqp+4OXDkA7Vx3rB1CXA==
-X-Received: by 2002:a17:903:110c:b0:14d:8859:5c8 with SMTP id n12-20020a170903110c00b0014d885905c8mr32843238plh.156.1646254105346;
-        Wed, 02 Mar 2022 12:48:25 -0800 (PST)
+        bh=l2yCZ0MwzJLAtB0wdzpP2V0zRLEwcqRB7kcixjR8EmM=;
+        b=rGmzK4FmYwwXO2fhidr2PGFSnOP1gQ7WSD0hrTxkzx4qagj6AcRfOIxzW43uVMgL7j
+         xzargkRMctIZSChNDzkxQ5DjsInFx6hHZohuH6ydHDYQSLFTc4Kfukm3UK/85oe3s795
+         WtfqiuoZcpeuLLiljA1l+TfGXdGbF0MHdBuuIVILBGDOL9OIckClhTaEpavJ2F3M2Qb7
+         5whHbyl2GPL7NW3ZAG9RzvC3d2WPZR1DyGUHOn3QvxikkDd3HehSrVjG15VTqEYb0THe
+         NRU2LzxXEWr5TOOw7/4AGygiNNVr9KjrzwlOKtu739QKrCdisKMVPbupkM5b9lAKGN/v
+         noJA==
+X-Gm-Message-State: AOAM532iFwyxZpWT3WCHH9FgJFKfsIuNacSxXjFmXeFlwEYmtEUHUohX
+	mmi3XS3NyLKj9n8zTdke5t+XS3lMGLifDA==
+X-Google-Smtp-Source: ABdhPJyLq+DPObg9qYBqsbRRyDs4NSTt8YlfmUplm7re8TiGIWZMCnZc7Ru6TWhO8HcrCXLWEI5YoA==
+X-Received: by 2002:a62:770a:0:b0:4e0:2547:9219 with SMTP id s10-20020a62770a000000b004e025479219mr34580040pfc.43.1646254108391;
+        Wed, 02 Mar 2022 12:48:28 -0800 (PST)
 Received: from localhost.localdomain ([103.161.98.179])
-        by smtp.gmail.com with ESMTPSA id bh11-20020a056a00308b00b004f40144cf76sm50905pfb.142.2022.03.02.12.48.22
+        by smtp.gmail.com with ESMTPSA id bh11-20020a056a00308b00b004f40144cf76sm50905pfb.142.2022.03.02.12.48.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 12:48:24 -0800 (PST)
+        Wed, 02 Mar 2022 12:48:28 -0800 (PST)
 From: Vihas Makwana <makvihas@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -45,9 +45,9 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH 07/16] staging: r8188eu: mark recv_indicatepkts_in_order as bool
-Date: Thu,  3 Mar 2022 02:17:28 +0530
-Message-Id: <20220302204737.49056-8-makvihas@gmail.com>
+Subject: [PATCH 08/16] staging: r8188eu: mark cckrates_included as bool
+Date: Thu,  3 Mar 2022 02:17:29 +0530
+Message-Id: <20220302204737.49056-9-makvihas@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220302204737.49056-1-makvihas@gmail.com>
 References: <20220302204737.49056-1-makvihas@gmail.com>
@@ -59,26 +59,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Mark recv_indicatepkts_in_order as bool as it returns true/false.
+Mark cckrates_included as bool as it returns true/false.
 
 Signed-off-by: Vihas Makwana <makvihas@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/core/rtw_wlan_util.c   | 2 +-
+ drivers/staging/r8188eu/include/rtw_mlme_ext.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 81ff22d0e..b6ab2db6d 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -1525,7 +1525,7 @@ static bool enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, s
- 	return true;
- }
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index 33c022820..4f58c8970 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -45,7 +45,7 @@ static u8 rtw_basic_rate_mix[7] = {
+ 	IEEE80211_OFDM_RATE_24MB | IEEE80211_BASIC_RATE_MASK
+ };
  
--static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reorder_ctrl *preorder_ctrl, int bforced)
-+static bool recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reorder_ctrl *preorder_ctrl, int bforced)
+-int cckrates_included(unsigned char *rate, int ratelen)
++bool cckrates_included(unsigned char *rate, int ratelen)
  {
- 	struct list_head *phead, *plist;
- 	struct recv_frame *prframe;
+ 	int	i;
+ 
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+index 26f31f20e..21c7f020a 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+@@ -632,7 +632,7 @@ void addba_timer_hdl(struct sta_info *psta);
+ 		_set_timer(&(mlmeext)->link_timer, (ms)); \
+ 	} while (0)
+ 
+-int cckrates_included(unsigned char *rate, int ratelen);
++bool cckrates_included(unsigned char *rate, int ratelen);
+ int cckratesonly_included(unsigned char *rate, int ratelen);
+ 
+ void process_addba_req(struct adapter *padapter, u8 *paddba_req, u8 *addr);
 -- 
 2.30.2
 
