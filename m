@@ -1,97 +1,162 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE7E2590
-	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 09:07:57 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id y11so1356867pfa.6
-        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 01:07:57 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127592590
+	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 09:29:36 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id u11so1387732lju.4
+        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 01:29:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1PWpW0/h9OxoVQDD4bcapW45oUiOIoSzLo/G9Alzs/Y=;
-        b=pgS/2ILaQVPmaJz+WJHQzLFwqqv+8A1VadcG0oZ7PYnR5ejErAfMdQ5WhphVNL2nfG
-         lsP2YTYOxLGMh8377eApzdWoRnp55gO6JSE89klyaPmv7Q8mHMbIHjX9kMdTanImTj8t
-         v77fCB3vizLHenOLuW18U8W6si/XmbW8ZiV0TGgj64tAEfpxtGSy2gIDiYXXtJYBxeyl
-         HXrHCrNgFcm1iE96pQk0OtbVR97Bp+km2WP9Ek4huCSRuHUAx7cNLjmnnqmcALEJOOVm
-         E+JsmRlIsZsnLzBN0FXKWwPP1HtR+Ork+Ff1J9HfjbOnjyJKtF1GSbQmQi/27xdH5BPv
-         +Cfg==
+        d=rasmusvillemoes.dk; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=XH8CYV/Z50iBLZ27uSo3DlVY0KhJ8ZO+RiecWTcYel0=;
+        b=IQg4uBejV+wOE9gbvRPz3nvi4LkiiVw4YSIjC8NPteocLXX0uLpiZyGXJ60leACu72
+         E2mMgbaj2BDeYnhoOw0DKPRcT2bjIlB4yRTWQZ65OcYRTHhlWzgeq8LyFprIEpiij6N8
+         YNaymndxJaFKphqyYHlKdyPolm4uaJOX+WJuI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1PWpW0/h9OxoVQDD4bcapW45oUiOIoSzLo/G9Alzs/Y=;
-        b=YytQZ4oW+7u9zlKax9jyIu9B0P7PI0/RF1U8M5z1K1Rf/xoAHeNULj2lWXm/OE5HdY
-         CPrFqHiefKVNyZe5w7DYU+14GLYNZrBZeTFhJFftthZKOOjTV8P2zbIAZxJKTRJeVWKm
-         ZvM9UIknUJyfWLLlKEENsEdWOM/sEQSJdB1ODt9Vm8XZW/3glpKBs55J0gRGNU8Fj+lH
-         Igr4uXGcQntjd2PfFGum4r77z1DXqj+zHp7iajDTwHw/mX3cJqIriOsM8Jczhq/hFHCD
-         YuIduIUuRKyYBbz/AFleKxydbFvfDFyfCU0h1IxdvXOhLQuKeYGYwLfmWi/US6V/Zpbq
-         vyzQ==
-X-Gm-Message-State: AOAM532g6Qv/53/GqMyCEkGv3Ec/ougxEeqJmtr8qezl+xjOlIuCI3Tq
-	a6iLG5+N9XWgg/tXU2wbzBQ=
-X-Google-Smtp-Source: ABdhPJxrQCSZtHY8+DQpXNBiO/RuiHOgAmhGZKQi+kRGtC01oBdy94Jbjub5iSh501Tf4U7hUpg5RA==
-X-Received: by 2002:a05:6a00:198b:b0:4f4:22f3:2fbb with SMTP id d11-20020a056a00198b00b004f422f32fbbmr10755169pfl.20.1646212077441;
-        Wed, 02 Mar 2022 01:07:57 -0800 (PST)
-Received: from mail.google.com (122-58-164-114-fibre.sparkbb.co.nz. [122.58.164.114])
-        by smtp.gmail.com with ESMTPSA id g7-20020a056a000b8700b004e1bed5c3bfsm20339062pfj.68.2022.03.02.01.07.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 01:07:56 -0800 (PST)
-Date: Wed, 2 Mar 2022 22:07:51 +1300
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: remove rf69_get_flag function resolving
- enum conflict
-Message-ID: <Yh8z5zWfpVKWNYpQ@mail.google.com>
-References: <Yhla4a1Clpguoo2h@mail.google.com>
- <20220228063238.GA2794@kadam>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=XH8CYV/Z50iBLZ27uSo3DlVY0KhJ8ZO+RiecWTcYel0=;
+        b=ygku+If571G2xg9VHz5nwG1sBo2FwNDjSE6tvegJHh108P6i8LIg6oPyPeXAuOtqZL
+         bDKlx2yJM5Di3XBZwswe4Udx9RWC+dLOcNpZFQu3ny6xLSkMFEKuZl0ahlFzhHySyQgS
+         i8M+EbdCUqdMCgh3uMmYyk7QbDeFx3fTT4P/pUkTI9N+LPQqwW3p9w3ohGImNTMfSXoj
+         R1rtB4x9aHYoPL7iviV64yit3Ei0xqWVPNNq77NNcrWrVbaD9Bvl2/EUkpZVqXnY7gbA
+         Dxd33URZh6ITKdkt3f0U4GLvPdtDJmrcz70ACJye9uVwwZBx3PuEEZzTKiX6p/WzPrXx
+         JI+w==
+X-Gm-Message-State: AOAM5306YV/QvF17iJSysuTIoAD2VheBMeSPPweLyll6ZShrYFKUv5f5
+	lF14+bdpE9CDQr3YEk+pb+CUhw==
+X-Google-Smtp-Source: ABdhPJxPRWTwhfDKGEWi/HTZUmtnN6xoKL1T2KNwEAF9KgB2sMMXSt6lke7BfBVtPRIEaNMyntkyzw==
+X-Received: by 2002:a2e:3c0d:0:b0:246:3c52:7ada with SMTP id j13-20020a2e3c0d000000b002463c527adamr19885072lja.459.1646213374808;
+        Wed, 02 Mar 2022 01:29:34 -0800 (PST)
+Received: from [172.16.11.74] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id f36-20020a0565123b2400b0043795432e87sm1960430lfv.150.2022.03.02.01.29.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Mar 2022 01:29:33 -0800 (PST)
+Message-ID: <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
+Date: Wed, 2 Mar 2022 10:29:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220228063238.GA2794@kadam>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Content-Language: en-US
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ David Laight <David.Laight@aculab.com>
+Cc: James Bottomley <James.Bottomley@hansenpartnership.com>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ KVM list <kvm@vger.kernel.org>, "Gustavo A. R. Silva"
+ <gustavo@embeddedor.com>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
+ "linux1394-devel@lists.sourceforge.net"
+ <linux1394-devel@lists.sourceforge.net>,
+ "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+ linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe
+ <jgg@ziepe.ca>,
+ "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+ "kgdb-bugreport@lists.sourceforge.net"
+ <kgdb-bugreport@lists.sourceforge.net>,
+ "bcm-kernel-feedback-list@broadcom.com"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jakob Koschel <jakobkoschel@gmail.com>,
+ "v9fs-developer@lists.sourceforge.net"
+ <v9fs-developer@lists.sourceforge.net>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+ linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ "tipc-discussion@lists.sourceforge.net"
+ <tipc-discussion@lists.sourceforge.net>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
+ <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
+ <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
+ <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
+ <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
+ <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
+ <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
+ <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
+ <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+In-Reply-To: <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 28, 2022 at 09:32:38AM +0300, Dan Carpenter wrote:
-> Looks good.
+On 02/03/2022 00.55, Linus Torvalds wrote:
+> On Tue, Mar 1, 2022 at 3:19 PM David Laight <David.Laight@aculab.com> wrote:
+>>
+
+> With the "don't use iterator outside the loop" approach, the exact
+> same code works in both the old world order and the new world order,
+> and you don't have the semantic confusion. And *if* you try to use the
+> iterator outside the loop, you'll _mostly_ (*) get a compiler warning
+> about it not being initialized.
 > 
-> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+>              Linus
 > 
+> (*) Unless somebody initializes the iterator pointer pointlessly.
+> Which clearly does happen. Thus the "mostly". It's not perfect, and
+> that's most definitely not nice - but it should at least hopefully
+> make it that much harder to mess up.
 
-Thanks for reviewing my patch Dan.
+This won't help the current issue (because it doesn't exist and might
+never), but just in case some compiler people are listening, I'd like to
+have some sort of way to tell the compiler "treat this variable as
+uninitialized from here on". So one could do
 
-> >  4 files changed, 4 insertions(+), 69 deletions(-)
-> 
-> You don't really need to write a long commit message for a commit which
-> deletes 69 - 4 = 65 lines.  Just say "Remove pointless rf69_get_flag()
-> function and call rf69_read_reg() directly.  This cleanup removes 65
-> lines of code and it more obvious to read."
->
+#define kfree(p) do { __kfree(p); __magic_uninit(p); } while (0)
 
-Thanks for the feedback. I swear I don't do that on purpose ... I have always
-struggled to be succint tbh. It's just something I'm actively working on...
+with __magic_uninit being a magic no-op that doesn't affect the
+semantics of the code, but could be used by the compiler's "[is/may be]
+used uninitialized" machinery to flag e.g. double frees on some odd
+error path etc. It would probably only work for local automatic
+variables, but it should be possible to just ignore the hint if p is
+some expression like foo->bar or has side effects. If we had that, the
+end-of-loop test could include that to "uninitialize" the iterator.
 
-> > -						  rf69_get_flag(dev->spi,
-> > -								rssi_exceeded_threshold));
-> > +						  rf69_read_reg(spi, REG_IRQFLAGS1)
-> > +						  & MASK_IRQFLAGS1_RSSI);
-> 
-> The & character should go on the first line.
-> 
-> 						  rf69_read_reg(spi, REG_IRQFLAGS1) &
-> 						  MASK_IRQFLAGS1_RSSI);
-> 
-> But that can be done in a follow on patch if you want.  Or you can
-> leave it as-is.
-> 
+Maybe sparse/smatch or some other static analyzer could implement such a
+magic thing? Maybe it's better as a function attribute
+[__attribute__((uninitializes(1)))] to avoid having to macrofy all
+functions that release resources.
 
-Noted. this patch was already merged into the staging-testing. I will
-send another one fixing it.
-
-Best regards,
-
-Paulo Almeida
+Rasmus
