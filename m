@@ -1,125 +1,98 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3405ED6
-	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 20:27:14 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id s14so3932920edw.0
-        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 12:27:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DFF33CB
+	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 20:48:03 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id gj15-20020a17090b108f00b001bef86c67c1so2762836pjb.3
+        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 12:48:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Uy+qIY61mUv01aVZ77KYqcI4VQ6CnEr5ehBFaIlKwdg=;
-        b=Be+smD91jIehBxsphVP8GxPmG9fZ7UzsziFVI8sCcayH4ghcjVwFadN69qX3SSZZfA
-         w/nKcppYscRVDTynDM99u+3Int1mDvzuW1vHPoDdJ+8JxYLDdH7+xaY9DZL7COnmW4q3
-         yEVm7FisHcBkdW7xwzBny/SyDipBoZU1ONqUc=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eoKQqCbI8PxL6l9piEDwf9eS8EFbrh6cCOCe/ltlwc4=;
+        b=ASeGJrfLRf/uRKaUvdh8TJg8raWbVzeyEUkn4pekIqzqxSAXb/GNo5doCQv013EQiA
+         Wd3ZjFZ5fKmPdd5sr8m8IUU3yWd2ci13b9omZL6ugqsdjz97AHAD+lEp/UQeddhywZmp
+         yR1CPpQXKzLYxO6zdAag+spSYMLJvZg8ecQtTUqk2/3ceIwdIwkkL2EBY1WePGmd37hP
+         KxKM/wxUY80ySGPxgYxPDoadheG92qG0iunt/EUR3oUNpQHFTJBVksuj0XgmxkuAuOYA
+         Gi91nHAtBmtvVOgR+j/zFsmoRcQcEsou4GfrSSytvOY6/N3d1Pz4Vy940W9bCYc7lI0x
+         yeBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Uy+qIY61mUv01aVZ77KYqcI4VQ6CnEr5ehBFaIlKwdg=;
-        b=UW+mOGcxBX7XOpDTh/Av3k9ZRUSNBAoo8DYPg1UfREDivYAfwoJTMaOfk8vKaISM5e
-         i/TdNtfqZ8t+Cevn8LvzRchyxJDisqoDzfe07EX7eJ0h9rL5o4cQcnL5nAEW8SyYKOcE
-         ByVzdSTJCA4z5gsuHzDkS7khvu+Hz+/5qEyJo645btGgu9g13z89M/HQrmR39cfWaRh8
-         VIf9ZYADHY+dxycbyhjW3W2LFpTMmA/8aC97neKja4Tn3hBr5HZyL6UFrGxFZgduPbcs
-         Q2Poi/Rf43h+m+fe33HNdlduX/sHLle/EsHnPoMzJPhX+L/K5I69OXnqRSgi5nCduOju
-         /Bog==
-X-Gm-Message-State: AOAM5318kEuby4RmI/143kQekCqwI21KHNi+k5366AwzYZPo5mey7iHG
-	WEo3OLbc9DaX71MaE3fxQMav6ke9F7+Ry+lZ38w=
-X-Google-Smtp-Source: ABdhPJztE27wMjtiZUBdk9JOTk2BGXjL7aM4I/8z51FpiiefveBraSsaaUus9ouHhFZ1dCg2Y06uvQ==
-X-Received: by 2002:a50:9d8a:0:b0:410:d303:8af5 with SMTP id w10-20020a509d8a000000b00410d3038af5mr31079946ede.371.1646252833121;
-        Wed, 02 Mar 2022 12:27:13 -0800 (PST)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id y12-20020a056402358c00b00415b3d2b79dsm1384659edc.97.2022.03.02.12.27.12
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Mar 2022 12:27:12 -0800 (PST)
-Received: by mail-ed1-f49.google.com with SMTP id p4so3905821edi.1
-        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 12:27:12 -0800 (PST)
-X-Received: by 2002:a2e:3013:0:b0:246:2ca9:365e with SMTP id
- w19-20020a2e3013000000b002462ca9365emr21092331ljw.291.1646252342192; Wed, 02
- Mar 2022 12:19:02 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eoKQqCbI8PxL6l9piEDwf9eS8EFbrh6cCOCe/ltlwc4=;
+        b=woQsOwO9KpjcvKLBMzPd9IBWMHtp2XDOGJJXkDQF2Kw0wEERc+bHm2wXlPuwps1ESu
+         AMyK1BaGOm5kxXO0PMDLICHVnPBtfm5Oo3Urerr25PbI1XKvH0ywkUB6eqL1fkeUNhQP
+         r7G6b1NQyBKFGI31h2zzB7pIQFBR2SK5q/ezqmemUzjGB93kCCai2WDDz/XybLcrTj6+
+         2Yp6qkcVvzhGQwDMEWnS1QIxkRn46qtgWi6rlgfBFqE6j7rr3PObf9Rp+kpt7NxNKfUC
+         EOfDnQnnowENlpFngvXXPhMTS26wQ8ZvEQXi3+kc3LNyQdqIR4G6bzvIlvUWlVqT5FzD
+         AerA==
+X-Gm-Message-State: AOAM530Af6R5r1vf2bCH/PHb0Tx6weDgTSyiWekBQGvNzWAcs3jBvwy2
+	QyNe2ONTJapFyp2TYFyz6joGSA+R80dD2Q==
+X-Google-Smtp-Source: ABdhPJwc8llIZdxMOho86N5zl7n2dsqX/toWP1I4HBVNCQHLPvrwfS5Xz8R4VJlL5puQky/fDmxwMg==
+X-Received: by 2002:a17:903:2284:b0:151:9670:9012 with SMTP id b4-20020a170903228400b0015196709012mr5002543plh.110.1646254083196;
+        Wed, 02 Mar 2022 12:48:03 -0800 (PST)
+Received: from localhost.localdomain ([103.161.98.179])
+        by smtp.gmail.com with ESMTPSA id bh11-20020a056a00308b00b004f40144cf76sm50905pfb.142.2022.03.02.12.48.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 12:48:02 -0800 (PST)
+From: Vihas Makwana <makvihas@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vihas Makwana <makvihas@gmail.com>
+Subject: [PATCH 00/16] staging: r8188eu: convert functions to return bool
+Date: Thu,  3 Mar 2022 02:17:21 +0530
+Message-Id: <20220302204737.49056-1-makvihas@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com> <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
- <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org> <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
- <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
- <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com> <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
- <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com> <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
- <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk> <202203021158.DB5204A0@keescook>
-In-Reply-To: <202203021158.DB5204A0@keescook>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 2 Mar 2022 12:18:45 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wikKPC0LUqZ8++EC5JOvGdBqVH9uUaTX=DvBioDoReYww@mail.gmail.com>
-Message-ID: <CAHk-=wikKPC0LUqZ8++EC5JOvGdBqVH9uUaTX=DvBioDoReYww@mail.gmail.com>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-To: Kees Cook <keescook@chromium.org>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>, David Laight <David.Laight@aculab.com>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	linux-wireless <linux-wireless@vger.kernel.org>, 
-	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>, KVM list <kvm@vger.kernel.org>, 
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>, 
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, 
-	"nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>, 
-	"linux1394-devel@lists.sourceforge.net" <linux1394-devel@lists.sourceforge.net>, 
-	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>, linux-arch <linux-arch@vger.kernel.org>, 
-	CIFS <linux-cifs@vger.kernel.org>, 
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, linux-scsi <linux-scsi@vger.kernel.org>, 
-	linux-rdma <linux-rdma@vger.kernel.org>, 
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, 
-	amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, 
-	"kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>, 
-	"bcm-kernel-feedback-list@broadcom.com" <bcm-kernel-feedback-list@broadcom.com>, 
-	Dan Carpenter <dan.carpenter@oracle.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Arnd Bergman <arnd@arndb.de>, 
-	Linux PM <linux-pm@vger.kernel.org>, intel-gfx <intel-gfx@lists.freedesktop.org>, 
-	Brian Johannesmeyer <bjohannesmeyer@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	dma <dmaengine@vger.kernel.org>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Jakob Koschel <jakobkoschel@gmail.com>, 
-	"v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>, 
-	linux-tegra <linux-tegra@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	"linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>, linux-block <linux-block@vger.kernel.org>, 
-	Netdev <netdev@vger.kernel.org>, 
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
-	"samba-technical@lists.samba.org" <samba-technical@lists.samba.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>, 
-	"tipc-discussion@lists.sourceforge.net" <tipc-discussion@lists.sourceforge.net>, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Mike Rapoport <rppt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 2, 2022 at 12:07 PM Kees Cook <keescook@chromium.org> wrote:
->
-> I've long wanted to change kfree() to explicitly set pointers to NULL on
-> free. https://github.com/KSPP/linux/issues/87
+There are many functions which return true/false but are marked as int, 
+uint, s32 etc. Mark them as bool.
 
-We've had this discussion with the gcc people in the past, and gcc
-actually has some support for it, but it's sadly tied to the actual
-function name (ie gcc has some special-casing for "free()")
+Vihas Makwana (16):
+  staging: r8188eu: mark rtw_is_cckrates_included as bool
+  staging: r8188eu: mark rtw_is_cckratesonly_included as bool
+  staging: r8188eu: mark rtw_is_desired_network as bool
+  staging: r8188eu: mark PS_RDY_CHECK as bool
+  staging: r8188eu: mark check_indicate_seq as bool
+  staging: r8188eu: mark enqueue_reorder_recvframe as bool
+  staging: r8188eu: mark recv_indicatepkts_in_order as bool
+  staging: r8188eu: mark cckrates_included as bool
+  staging: r8188eu: mark cckratesonly_included as bool
+  staging: r8188eu: mark is_basicrate as bool
+  staging: r8188eu: mark is_ap_in_tkip as bool
+  staging: r8188eu: mark rtl8188eu_xmitframe_complete as bool
+  staging: r8188eu: mark check_fwstate as bool
+  staging: r8188eu: mark IS_MCAST as bool
+  staging: r8188eu: mark IsFrameTypeCtrl as bool
+  staging: r8188eu: mark rtw_endofpktfile as bool
 
-See
+ drivers/staging/r8188eu/core/rtw_ieee80211.c    | 4 ++--
+ drivers/staging/r8188eu/core/rtw_mlme.c         | 2 +-
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c      | 2 +-
+ drivers/staging/r8188eu/core/rtw_recv.c         | 7 +++----
+ drivers/staging/r8188eu/core/rtw_wlan_util.c    | 8 ++++----
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c    | 2 +-
+ drivers/staging/r8188eu/include/ieee80211.h     | 4 ++--
+ drivers/staging/r8188eu/include/rtl8188e_xmit.h | 2 +-
+ drivers/staging/r8188eu/include/rtw_mlme.h      | 2 +-
+ drivers/staging/r8188eu/include/rtw_mlme_ext.h  | 6 +++---
+ drivers/staging/r8188eu/include/wifi.h          | 4 ++--
+ drivers/staging/r8188eu/include/xmit_osdep.h    | 2 +-
+ drivers/staging/r8188eu/os_dep/xmit_linux.c     | 2 +-
+ 13 files changed, 23 insertions(+), 24 deletions(-)
 
-    https://gcc.gnu.org/bugzilla/show_bug.cgi?id=94527
+-- 
+2.30.2
 
-for some of that discussion.
-
-Oh, and I see some patch actually got merged since I looked there last
-so that you can mark "deallocator" functions, but I think it's only
-for the context matching, not for actually killing accesses to the
-pointer afterwards.
-
-               Linus
