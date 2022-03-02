@@ -1,41 +1,41 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB4F6136
-	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 20:48:38 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id u16so2938667pfg.12
-        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 12:48:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C89A6136
+	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 20:48:41 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id 9so2618895pll.6
+        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 12:48:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qqbW4mdqciy+82dvr9Ujq0D1mLaRlfhiMe48ZVZg+Ds=;
-        b=JJ6JYyQE/5/9vxeTZIIdWgeBM/zmg+L98MNjcZd0o2zhHMBTDjYcxsp/LuqCKUuFsJ
-         viLEUxdLWN1Kg1SWyfTYIBNpl2ih0WB7MwW1HJCHhDisEU7cBvdIPoSrykrsH/5DW6x9
-         yYLtqtF2CdidfNOlAaKFnU1+UKtH6gIttB4IkwstNnOtF8ogVfZTTX5KSPJUHPFz41Zp
-         1fc4X7h72QUp2ryaurEPId7wNP673kqBCSebYIzwgaPKPEaVxyea2ZtuuvJ4++wHhHux
-         EoT1F/hTytT+15sSnDJf8tkkHK3wY/oJcpwROOl3TvQ4gatqRJ89ZFt7htd7sCVKI2rf
-         2vPw==
+        bh=wPdZrUH5dC0tchGf5qzbOv7p7DaHnxymvDfUAfQt99o=;
+        b=AssglXsU9fXqZvcQQMStPSUTOqnOLUBfpeChIVkRC8RJ04DfEN1n4ffaZxZDXr/JqA
+         FKhbYNI+qetaonyUNozQ+w7hZ/3WoB4eB5x/iQkQtXH7WFEnbcy9drt6e7p4O52gby+w
+         xenmmadIDhsIdObouASmKIRDLJc8+B4tiSkb9aFD4g107xbfIZvSc36PqFwAxYl4EfAV
+         21aWQbMLpDxXCJFb/wVVZxdNdjfd/a/EWc81aGQXdw8tmtanEQ/jX5Bff655thN1z+0+
+         C26cZMKevoRieTHgLMQy3p1jW8Rt7o0rLTx23WTRDSzjo/bHDcjpZ93lYX8cvflgbVLl
+         MfAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qqbW4mdqciy+82dvr9Ujq0D1mLaRlfhiMe48ZVZg+Ds=;
-        b=t5IoPtVCSORXz4t0dWzq5IVHt2DAJXL6fQ72GYCNXmX9senqZ6z0zMgOGInPlF7Rg8
-         SfTov3ST0FBruo5lMW0LrxIYbzNRVRhTZ+6sYqqcTz0Is1ZxxSa6bA/uYgn9TpI7KytS
-         gpPZGCmuGHoxDh49tkv8ptZ5szYXw00so5wTgHKsZOcxupI4E0VJTfIEtKN4JSCuGp5c
-         3tpPBdXJBipPwpEaHIqSlPNmahVB3fZoo1DumH9P3N49vlpvuAZXrX9Qsi4as2bu3ED2
-         DWN8dn9hqC71I2L/zXo0nF+6KPSR+lxASNKKNPMqdN7IEcfaYBWh99O630BKiZaRG1co
-         i4PA==
-X-Gm-Message-State: AOAM533Ev8VBHvIJMwq7G1CIdxy+jqnf3tC1oOcn5mOE75eiErYm3zaW
-	K+a0j/dMIoBaxt2a4s9JXKA=
-X-Google-Smtp-Source: ABdhPJxPv4BnSvxVWj8xRhjbwT5XPOZlzy7nsDZ/fonBx/0aZNrIynaWFG7cZ+7WPnnjhQt35h/xtA==
-X-Received: by 2002:a05:6a00:248c:b0:4e1:4b53:18f1 with SMTP id c12-20020a056a00248c00b004e14b5318f1mr35078186pfv.79.1646254117836;
-        Wed, 02 Mar 2022 12:48:37 -0800 (PST)
+        bh=wPdZrUH5dC0tchGf5qzbOv7p7DaHnxymvDfUAfQt99o=;
+        b=04vZzg3sl9PWegin5LAnk1rG5OY/ayV/kAHwPsLrhJK3nO0yx9sGA8pV0ejtC2IVNm
+         5mf6R98KmH5q4HwCbeiP83dbtqUiq4yv7Z5EAgwEacFDLlE0FdAZlTEGz1xGP+cr5PIQ
+         dZtL0XDPfb8tQM1sUcLA0iYZh3arWuXOP7vdspOj6P5dbc5naKkYWZs7TPhaQWjAJraN
+         xVc1Mg4EG1ADtf2wuqdWfLoQ5agRf7tyTEJUa1MjV132LpfLoVxkX10nK3FfGmdr9BSq
+         Ya13pNAGF1O0gkhUVWcR79Deo7VIhKGeAzSM1YCROg7XCXV+tUikIlg9rrjAXu6go6Pw
+         +OWA==
+X-Gm-Message-State: AOAM532iXHguw51QhytF9rd6x2zPZru4AMkvhyPf7jxymmfmCwXb7GCu
+	tt3JwG13TWk8u3FMTo4YRe4=
+X-Google-Smtp-Source: ABdhPJxV4TiR8bEBi8TABZ3dwLLR8EJMJMQJ+fYe8mWXWi1F+cdmXEicbSFUJE6Nnf+gUdc3vLp4pg==
+X-Received: by 2002:a17:902:d4c6:b0:150:15ed:3cd9 with SMTP id o6-20020a170902d4c600b0015015ed3cd9mr31948269plg.2.1646254120907;
+        Wed, 02 Mar 2022 12:48:40 -0800 (PST)
 Received: from localhost.localdomain ([103.161.98.179])
-        by smtp.gmail.com with ESMTPSA id bh11-20020a056a00308b00b004f40144cf76sm50905pfb.142.2022.03.02.12.48.34
+        by smtp.gmail.com with ESMTPSA id bh11-20020a056a00308b00b004f40144cf76sm50905pfb.142.2022.03.02.12.48.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 12:48:37 -0800 (PST)
+        Wed, 02 Mar 2022 12:48:40 -0800 (PST)
 From: Vihas Makwana <makvihas@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -45,9 +45,9 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH 11/16] staging: r8188eu: mark is_ap_in_tkip as bool
-Date: Thu,  3 Mar 2022 02:17:32 +0530
-Message-Id: <20220302204737.49056-12-makvihas@gmail.com>
+Subject: [PATCH 12/16] staging: r8188eu: mark rtl8188eu_xmitframe_complete as bool
+Date: Thu,  3 Mar 2022 02:17:33 +0530
+Message-Id: <20220302204737.49056-13-makvihas@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220302204737.49056-1-makvihas@gmail.com>
 References: <20220302204737.49056-1-makvihas@gmail.com>
@@ -59,40 +59,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Mark is_ap_in_tkip as bool as it returns true/false.
+Mark rtl8188eu_xmitframe_complete as bool as it returns true/false.
 
 Signed-off-by: Vihas Makwana <makvihas@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_wlan_util.c   | 2 +-
- drivers/staging/r8188eu/include/rtw_mlme_ext.h | 2 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c    | 2 +-
+ drivers/staging/r8188eu/include/rtl8188e_xmit.h | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index 8e8a82a1e..665b07719 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -1013,7 +1013,7 @@ void update_beacon_info(struct adapter *padapter, u8 *pframe, uint pkt_len, stru
- 	}
+diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+index 69b66eb45..55032d7ae 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
++++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+@@ -376,7 +376,7 @@ static u32 xmitframe_need_length(struct xmit_frame *pxmitframe)
+ 	return len;
  }
  
--unsigned int is_ap_in_tkip(struct adapter *padapter)
-+bool is_ap_in_tkip(struct adapter *padapter)
+-s32 rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
++bool rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf)
  {
- 	u32 i;
- 	struct ndis_802_11_var_ie *pIE;
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index cf397ac68..0c555ea67 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -508,7 +508,7 @@ unsigned int receive_disconnect(struct adapter *padapter,
+ 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(adapt);
+ 	struct xmit_frame *pxmitframe = NULL;
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_xmit.h b/drivers/staging/r8188eu/include/rtl8188e_xmit.h
+index 85eb0aad8..8adb672f7 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_xmit.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_xmit.h
+@@ -143,7 +143,7 @@ s32 rtl8188eu_mgnt_xmit(struct adapter *padapter, struct xmit_frame *frame);
+ s32 rtl8188eu_xmit_buf_handler(struct adapter *padapter);
+ #define hal_xmit_handler rtl8188eu_xmit_buf_handler
+ void rtl8188eu_xmit_tasklet(unsigned long priv);
+-s32 rtl8188eu_xmitframe_complete(struct adapter *padapter,
++bool rtl8188eu_xmitframe_complete(struct adapter *padapter,
+ 				 struct xmit_priv *pxmitpriv,
+ 				 struct xmit_buf *pxmitbuf);
  
- unsigned char get_highest_rate_idx(u32 mask);
- int support_short_GI(struct adapter *padapter, struct HT_caps_element *caps);
--unsigned int is_ap_in_tkip(struct adapter *padapter);
-+bool is_ap_in_tkip(struct adapter *padapter);
- 
- void report_join_res(struct adapter *padapter, int res);
- void report_survey_event(struct adapter *padapter, struct recv_frame *precv_frame);
 -- 
 2.30.2
 
