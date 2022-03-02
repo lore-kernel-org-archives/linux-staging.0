@@ -1,41 +1,32 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69DE7A
-	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 15:49:12 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id c18so2334295ioc.6
-        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 07:49:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=YKCrWj+1zMKlxKPB/IddCWs5wzrSW0P5NglCuipbZCs=;
-        b=eJxM/77B7ssFxi/0g1GKRtMpbZuhJOTlH8h19DcfwD6dL6zYrh6mfF5ZTegp7ireD6
-         S+YkCiFvI10DeKstOWdhQlMoYZ28GtJblXh7FxiMKbHHFUPTug1yG9XwA/VIjY+KvJYe
-         cvLD61wDFA944OtrZ73NZRdAx5JN2VLBTt0KY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=YKCrWj+1zMKlxKPB/IddCWs5wzrSW0P5NglCuipbZCs=;
-        b=IWXHMiHOwae8935dDe7ayXriaGwW1hk8XDFeBe1Py6G5ChniYPQrkDlnoo8HoBeebi
-         VJDHxad0pJ/Ug3hxohyKbMvgTCxb/eqpWuh3PVpRltL2B1g1BL2hLjHkAi4jxqHkqcWx
-         /s3wUpgbhh+EZCsPGQvFYgFYY1Z3SkyNz51Had34FPfmU795Cc2aNN9zOTWH5NzqdRWj
-         1kX4ZuzZLPJKP98orukr/BIsucumSO0iHmHecrFwVg0erhNMBNmx5EnszwrwY7u5c0fz
-         /HgPnwjgOJiojPBGLj3terh2fhHnyqpGIpOnRJGvuHdJL27dER/P+Ojlk0DnCzMkG5uT
-         Auog==
-X-Gm-Message-State: AOAM533bdW2l/1Q5KjXQayGzquTAHDC83JYesN5h3d7cyS0X1F3oikSb
-	97O0Op6w6Eq202HarpVj5RsyA953lHpBeQ==
-X-Google-Smtp-Source: ABdhPJwtlAzsfpKnWWZ+BUdUXjOYZfh0Ht45nhh4y3ukmKQ/VxVRY+e/gtZDfVyzHk0kEB7Zl9JCTQ==
-X-Received: by 2002:a05:6638:bcd:b0:314:9138:8344 with SMTP id g13-20020a0566380bcd00b0031491388344mr25620647jad.64.1646236151869;
-        Wed, 02 Mar 2022 07:49:11 -0800 (PST)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id p2-20020a92d682000000b002c291ae0e1bsm9724283iln.23.2022.03.02.07.49.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Mar 2022 07:49:11 -0800 (PST)
-Message-ID: <b4d057fd-cccc-571a-0941-061c6a26cbf0@ieee.org>
-Date: Wed, 2 Mar 2022 09:49:10 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B463FE3
+	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 17:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646241306; x=1677777306;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=quZJORXDoBJnmtXWeY1UEG0LMErZNbKWG4uR8GxuM8A=;
+  b=EgFtrQTE2RuXhvw9sRIr3IT+pA0Ncb8f9tiCc0SC60P5NxN5IIJ1lIbG
+   qRXhfI2wJDlspyrIGC0iL/9/1vb/Lqq8nOVou0CScelNSeM2zFz5ZYwQd
+   vRCxbYiuOYMHLgn2p868GOLIzIRhmd1d7Ftp+C+uIAO1rF5yphwxH1nTK
+   BZo8QGgTZGobcAwOhtAkimiecLreyGJPEymFRGwK29ytkPQQTUw1YAXwn
+   7s74MTXIjfdUqEKiu1QGwymv12Ru01fVqM/H0rIJHbiNJzFQB0n0mysA7
+   4izUGN7Nj88HSoNqykEmQlZt68TbXwAcpy2jJWkt8gcliob3VHMqMtNgg
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="253382754"
+X-IronPort-AV: E=Sophos;i="5.90,149,1643702400"; 
+   d="scan'208";a="253382754"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 09:15:05 -0800
+X-IronPort-AV: E=Sophos;i="5.90,149,1643702400"; 
+   d="scan'208";a="551343768"
+Received: from jbuller-mobl1.ger.corp.intel.com (HELO [10.213.194.231]) ([10.213.194.231])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 09:14:53 -0800
+Message-ID: <ed52ce3c-0f4a-a1e8-4176-543657d6228d@linux.intel.com>
+Date: Wed, 2 Mar 2022 17:14:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,63 +35,209 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [greybus-dev] Re: [PATCH] staging: greybus: loopback: Fix Coding
- Style Error
+Subject: Re: [Intel-gfx] [PATCH 6/6] treewide: remove check of list iterator
+ against head past the loop body
 Content-Language: en-US
-To: Ahamed Husni <ahamedhusni73@gmail.com>,
- Greg KH <gregkh@linuxfoundation.org>
-Cc: elder@kernel.org, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220217190722.44894-1-ahamedhusni73@gmail.com>
- <Yg6hcX6XK4Eu0KOR@kroah.com>
- <CAFjpAKqy908scQTRJPkMhEz8OyNiR3-N8XD2hiGa+VBLhUf0VA@mail.gmail.com>
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <CAFjpAKqy908scQTRJPkMhEz8OyNiR3-N8XD2hiGa+VBLhUf0VA@mail.gmail.com>
+To: Jakob Koschel <jakobkoschel@gmail.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel@lists.freedesktop.org, Cristiano Giuffrida <c.giuffrida@vu.nl>,
+ amd-gfx@lists.freedesktop.org, samba-technical@lists.samba.org,
+ linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+ linux-arch <linux-arch@vger.kernel.org>, linux-cifs@vger.kernel.org,
+ kvm@vger.kernel.org, linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-staging@lists.linux.dev, "Bos, H.J." <h.j.bos@vu.nl>,
+ Jason Gunthorpe <jgg@ziepe.ca>, intel-wired-lan@lists.osuosl.org,
+ kgdb-bugreport@lists.sourceforge.net, bcm-kernel-feedback-list@broadcom.com,
+ Dan Carpenter <dan.carpenter@oracle.com>, linux-media@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-fsdevel@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ v9fs-developer@lists.sourceforge.net, linux-tegra@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sgx@vger.kernel.org,
+ linux-block@vger.kernel.org, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ tipc-discussion@lists.sourceforge.net, linux-crypto@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+ Mike Rapoport <rppt@kernel.org>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-7-jakobkoschel@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220228110822.491923-7-jakobkoschel@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 2/17/22 10:52 PM, Ahamed Husni wrote:
-> Hi Greg,
+
+On 28/02/2022 11:08, Jakob Koschel wrote:
+> When list_for_each_entry() completes the iteration over the whole list
+> without breaking the loop, the iterator value will be a bogus pointer
+> computed based on the head element.
 > 
-> On Fri, Feb 18, 2022 at 12:56 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->> Did you try to build this change?
+> While it is safe to use the pointer to determine if it was computed
+> based on the head element, either with list_entry_is_head() or
+> &pos->member == head, using the iterator variable after the loop should
+> be avoided.
 > 
-> I am a newbie kernel dev and trying to understand how things work.
-> I did not build this change by the time I sent you this, thinking this
-> is just a style change.
-> I should have tested the build. I am sorry.
+> In preparation to limiting the scope of a list iterator to the list
+> traversal loop, use a dedicated pointer to point to the found element.
 > 
-> Now I built the changes by setting the following configurations.
-> CONFIG_GREYBUS
-> CONFIG_STAGING
-> CONFIG_GREYBUS_LOOPBACK
+> Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
+
+[snip until i915 parts]
+
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 14 +++---
+>   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 15 ++++---
+>   drivers/gpu/drm/i915/gt/intel_ring.c          | 15 ++++---
+
+[snip]
+
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index 00327b750fbb..80c79028901a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -107,25 +107,27 @@ static void lut_close(struct i915_gem_context *ctx)
+>   	radix_tree_for_each_slot(slot, &ctx->handles_vma, &iter, 0) {
+>   		struct i915_vma *vma = rcu_dereference_raw(*slot);
+>   		struct drm_i915_gem_object *obj = vma->obj;
+> -		struct i915_lut_handle *lut;
+> +		struct i915_lut_handle *lut = NULL;
+> +		struct i915_lut_handle *tmp;
 > 
-> My change introduces the following error.
-> ''''
-> drivers/staging/greybus/loopback.c:166:2: error: expected identifier
-> or ‘(’ before ‘do’
->    166 |  do {            \
->        |  ^~
-> ''''
-> I could not fix or find the reason for this error. Please guide me in
-> this regard.
+>   		if (!kref_get_unless_zero(&obj->base.refcount))
+>   			continue;
+> 
+>   		spin_lock(&obj->lut_lock);
+> -		list_for_each_entry(lut, &obj->lut_list, obj_link) {
+> -			if (lut->ctx != ctx)
+> +		list_for_each_entry(tmp, &obj->lut_list, obj_link) {
+> +			if (tmp->ctx != ctx)
+>   				continue;
+> 
+> -			if (lut->handle != iter.index)
+> +			if (tmp->handle != iter.index)
+>   				continue;
+> 
+> -			list_del(&lut->obj_link);
+> +			list_del(&tmp->obj_link);
+> +			lut = tmp;
+>   			break;
+>   		}
+>   		spin_unlock(&obj->lut_lock);
+> 
+> -		if (&lut->obj_link != &obj->lut_list) {
+> +		if (lut) {
+>   			i915_lut_handle_free(lut);
+>   			radix_tree_iter_delete(&ctx->handles_vma, &iter, slot);
 
-You should understand that you cannot contribute to the Linux
-kernel if you don't understand details of the C language well.
-And you really must test your changes (certainly a build test)
-before you send them for review.
+Looks okay although personally I would have left lut as is for a smaller 
+diff and introduced a new local like 'found' or 'unlinked'.
 
-To answer your question, the macro you changed does not
-expand into code that is itself incorporated in an executable
-block.  The macro is used to generate entire functions in a
-unified way.
+>   			i915_vma_close(vma);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 1736efa43339..fda9e3685ad2 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -2444,7 +2444,8 @@ static struct i915_request *eb_throttle(struct i915_execbuffer *eb, struct intel
+>   {
+>   	struct intel_ring *ring = ce->ring;
+>   	struct intel_timeline *tl = ce->timeline;
+> -	struct i915_request *rq;
+> +	struct i915_request *rq = NULL;
+> +	struct i915_request *tmp;
+> 
+>   	/*
+>   	 * Completely unscientific finger-in-the-air estimates for suitable
+> @@ -2460,15 +2461,17 @@ static struct i915_request *eb_throttle(struct i915_execbuffer *eb, struct intel
+>   	 * claiming our resources, but not so long that the ring completely
+>   	 * drains before we can submit our next request.
+>   	 */
+> -	list_for_each_entry(rq, &tl->requests, link) {
+> -		if (rq->ring != ring)
+> +	list_for_each_entry(tmp, &tl->requests, link) {
+> +		if (tmp->ring != ring)
+>   			continue;
+> 
+> -		if (__intel_ring_space(rq->postfix,
+> -				       ring->emit, ring->size) > ring->size / 2)
+> +		if (__intel_ring_space(tmp->postfix,
+> +				       ring->emit, ring->size) > ring->size / 2) {
+> +			rq = tmp;
+>   			break;
+> +		}
+>   	}
+> -	if (&rq->link == &tl->requests)
+> +	if (!rq)
+>   		return NULL; /* weird, we will check again later for real */
 
-					-Alex
+Alternatively, instead of break could simply do "return 
+i915_request_get(rq);" and replace the end of the function after the 
+loop with "return NULL;". A bit smaller diff, or at least less "spread 
+out" over the function, so might be easier to backport stuff touching 
+this area in the future. But looks correct as is.
 
 > 
-> Thanks,
-> Husni.
-> _______________________________________________
-> greybus-dev mailing list -- greybus-dev@lists.linaro.org
-> To unsubscribe send an email to greybus-dev-leave@lists.linaro.org
+>   	return i915_request_get(rq);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ring.c b/drivers/gpu/drm/i915/gt/intel_ring.c
+> index 2fdd52b62092..4881c4e0c407 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ring.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ring.c
+> @@ -191,24 +191,27 @@ wait_for_space(struct intel_ring *ring,
+>   	       struct intel_timeline *tl,
+>   	       unsigned int bytes)
+>   {
+> -	struct i915_request *target;
+> +	struct i915_request *target = NULL;
+> +	struct i915_request *tmp;
+>   	long timeout;
+> 
+>   	if (intel_ring_update_space(ring) >= bytes)
+>   		return 0;
+> 
+>   	GEM_BUG_ON(list_empty(&tl->requests));
+> -	list_for_each_entry(target, &tl->requests, link) {
+> -		if (target->ring != ring)
+> +	list_for_each_entry(tmp, &tl->requests, link) {
+> +		if (tmp->ring != ring)
+>   			continue;
+> 
+>   		/* Would completion of this request free enough space? */
+> -		if (bytes <= __intel_ring_space(target->postfix,
+> -						ring->emit, ring->size))
+> +		if (bytes <= __intel_ring_space(tmp->postfix,
+> +						ring->emit, ring->size)) {
+> +			target = tmp;
+>   			break;
+> +		}
+>   	}
+> 
+> -	if (GEM_WARN_ON(&target->link == &tl->requests))
+> +	if (GEM_WARN_ON(!target))
+>   		return -ENOSPC;
+> 
+>   	timeout = i915_request_wait(target,
 
+Looks okay as well. Less clear here if there is a clean solution to make 
+the diff smaller so no suggestions. I mean do I dare mention "goto 
+found;" from inside the loop, where the break is, instead of the 
+variable renames.. risky.. :) (And ofc "return -ENOSPC" immediately 
+after the loop.)
+
+As a summary changes looks okay, up to you if you want to try to make 
+the diffs smaller or not. It doesn't matter hugely really, all I have is 
+a vague and uncertain "maybe it makes backporting of something, someday 
+easier". So for i915 it is good either way.
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com> # i915 bits only
+
+Regards,
+
+Tvrtko
