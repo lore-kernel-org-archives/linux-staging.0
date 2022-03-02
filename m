@@ -1,214 +1,135 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B357C33D1;
-	Wed,  2 Mar 2022 13:33:52 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2BCE9FF;
-	Wed,  2 Mar 2022 14:33:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1646228030;
-	bh=RDOP6CHuRPV47uUz35zmTXfqgF44gD4Z+83Jzns/7Ac=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MKlZ8NBfN7gO6YWA73a7YQ+0JidqlTFuRBXjTH25bMyF1XbyVJEnWe10Nv2IFKEAz
-	 aoYX4VHy+GDwkWEQgk6LqwLAcPiQki8BEZHMl38Qj/EoUjGafaKXvikudfGJWdKBQf
-	 9EWArd/2Oh32WcA+kIU1e4TVO547U9AlGA4ni1GA=
-Date: Wed, 2 Mar 2022 15:33:37 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 63/66] staging: media: Add support for the Allwinner
- A31 ISP
-Message-ID: <Yh9yMYTJly5oDroa@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-64-paul.kocialkowski@bootlin.com>
- <YgFFxMd2htKvX0K1@pendragon.ideasonboard.com>
- <Yh5CuyEJ+WhIAzYm@aptenodytes>
- <Yh8wD8lF2Hs+cxD7@pendragon.ideasonboard.com>
- <Yh9v2Tez3x6rwhB3@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525D633D1
+	for <linux-staging@lists.linux.dev>; Wed,  2 Mar 2022 14:04:13 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-196-4Li6Fux3PdyQ14Lo-DMf3A-1; Wed, 02 Mar 2022 14:04:10 +0000
+X-MC-Unique: 4Li6Fux3PdyQ14Lo-DMf3A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.28; Wed, 2 Mar 2022 14:04:06 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.028; Wed, 2 Mar 2022 14:04:06 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Xiaomeng Tong' <xiam0nd.tong@gmail.com>, "torvalds@linux-foundation.org"
+	<torvalds@linux-foundation.org>
+CC: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	"arnd@arndb.de" <arnd@arndb.de>, "bcm-kernel-feedback-list@broadcom.com"
+	<bcm-kernel-feedback-list@broadcom.com>, "bjohannesmeyer@gmail.com"
+	<bjohannesmeyer@gmail.com>, "c.giuffrida@vu.nl" <c.giuffrida@vu.nl>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
+	"dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
+	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"gustavo@embeddedor.com" <gustavo@embeddedor.com>, "h.j.bos@vu.nl"
+	<h.j.bos@vu.nl>, "intel-gfx@lists.freedesktop.org"
+	<intel-gfx@lists.freedesktop.org>, "intel-wired-lan@lists.osuosl.org"
+	<intel-wired-lan@lists.osuosl.org>, "jakobkoschel@gmail.com"
+	<jakobkoschel@gmail.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+	"keescook@chromium.org" <keescook@chromium.org>,
+	"kgdb-bugreport@lists.sourceforge.net"
+	<kgdb-bugreport@lists.sourceforge.net>, "kvm@vger.kernel.org"
+	<kvm@vger.kernel.org>, "linux-arch@vger.kernel.org"
+	<linux-arch@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-cifs@vger.kernel.org"
+	<linux-cifs@vger.kernel.org>, "linux-crypto@vger.kernel.org"
+	<linux-crypto@vger.kernel.org>, "linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-iio@vger.kernel.org"
+	<linux-iio@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, "linux-scsi@vger.kernel.org"
+	<linux-scsi@vger.kernel.org>, "linux-sgx@vger.kernel.org"
+	<linux-sgx@vger.kernel.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>, "linux1394-devel@lists.sourceforge.net"
+	<linux1394-devel@lists.sourceforge.net>, "linux@rasmusvillemoes.dk"
+	<linux@rasmusvillemoes.dk>, "linuxppc-dev@lists.ozlabs.org"
+	<linuxppc-dev@lists.ozlabs.org>, "nathan@kernel.org" <nathan@kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+	"rppt@kernel.org" <rppt@kernel.org>, "samba-technical@lists.samba.org"
+	<samba-technical@lists.samba.org>, "tglx@linutronix.de" <tglx@linutronix.de>,
+	"tipc-discussion@lists.sourceforge.net"
+	<tipc-discussion@lists.sourceforge.net>,
+	"v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>
+Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Thread-Index: AQHYLhg9+DU/OogLf0+tiSFmjztyUKysHu+Q
+Date: Wed, 2 Mar 2022 14:04:06 +0000
+Message-ID: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
+References: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
+ <20220302093106.8402-1-xiam0nd.tong@gmail.com>
+In-Reply-To: <20220302093106.8402-1-xiam0nd.tong@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yh9v2Tez3x6rwhB3@aptenodytes>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
+From: Xiaomeng Tong
+> Sent: 02 March 2022 09:31
+>=20
+> On Mon, 28 Feb 2022 16:41:04 -0800, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > But basically to _me_, the important part is that the end result is
+> > maintainable longer-term.
+>=20
+> I couldn't agree more. And because of that, I stick with the following
+> approach because it's maintainable longer-term than "type(pos) pos" one:
+>  Implements a new macro for each list_for_each_entry* with _inside suffix=
+.
+>   #define list_for_each_entry_inside(pos, type, head, member)
 
-On Wed, Mar 02, 2022 at 02:23:37PM +0100, Paul Kocialkowski wrote:
-> On Wed 02 Mar 22, 10:51, Laurent Pinchart wrote:
-> > On Tue, Mar 01, 2022 at 04:58:51PM +0100, Paul Kocialkowski wrote:
-> > > On Mon 07 Feb 22, 18:16, Laurent Pinchart wrote:
-> > > > On Sat, Feb 05, 2022 at 07:54:26PM +0100, Paul Kocialkowski wrote:
-> > > > > Some Allwinner platforms come with an Image Signal Processor, which
-> > > > > supports various features in order to enhance and transform data
-> > > > > received by image sensors into good-looking pictures. In most cases,
-> > > > > the data is raw bayer, which gets internally converted to RGB and
-> > > > > finally YUV, which is what the hardware produces.
-> > > > > 
-> > > > > This driver supports ISPs that are similar to the A31 ISP, which was
-> > > > > the first standalone ISP found in Allwinner platforms. Simpler ISP
-> > > > > blocks were found in the A10 and A20, where they are tied to a CSI
-> > > > > controller. Newer generations of Allwinner SoCs (starting with the
-> > > > > H6, H616, etc) come with a new camera subsystem and revised ISP.
-> > > > > Even though these previous and next-generation ISPs are somewhat
-> > > > > similar to the A31 ISP, they have enough significant differences to
-> > > > > be out of the scope of this driver.
-> > > > > 
-> > > > > While the ISP supports many features, including 3A and many
-> > > > > enhancement blocks, this implementation is limited to the following:
-> > > > > - V3s (V3/S3) platform support;
-> > > > > - Bayer media bus formats as input;
-> > > > 
-> > > > Greyscale formats would also be nice to have, if the hardware can
-> > > > support that (it mostly just requires the ability to disable the CFA
-> > > > interpolation).
-> > > 
-> > > As far as I know there's no support for grayscale, only bayer formats
-> > > and YUV.
-> > > 
-> > > > > - Semi-planar YUV (NV12/NV21) as output;
-> > > > 
-> > > > Packed YUV would also be useful if the hardware supports it.
-> > > 
-> > > Same here, it only supports planar and semi-planar YUV as output.
-> > > 
-> > > > > - Debayering with per-component gain and offset configuration;
-> > > > > - 2D noise filtering with configurable coefficients.
-> > > > > 
-> > > > > Since many features are missing from the associated uAPI, the driver
-> > > > > is aimed to integrate staging until all features are properly
-> > > > > described.
-> > > > > 
-> > > > > On the technical side, it uses the v4l2 and media controller APIs,
-> > > > > with a video node for capture, a processor subdev and a video node
-> > > > > for parameters submission. A specific uAPI structure and associated
-> > > > > v4l2 meta format are used to configure parameters of the supported
-> > > > > modules.
-> > > > > 
-> > > > > One particular thing about the hardware is that configuration for
-> > > > > module registers needs to be stored in a DMA buffer and gets copied
-> > > > > to actual registers by the hardware at the next vsync, when instructed
-> > > > > by a flag. This is handled by the "state" mechanism in the driver.
-> > > > > 
-> > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > ---
-> > > > >  drivers/staging/media/sunxi/Kconfig           |   1 +
-> > > > >  drivers/staging/media/sunxi/Makefile          |   1 +
-> > > > >  drivers/staging/media/sunxi/sun6i-isp/Kconfig |  13 +
-> > > > >  .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
-> > > > >  .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 572 +++++++++++++
-> > > > >  .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  86 ++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 751 ++++++++++++++++++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 573 +++++++++++++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 599 ++++++++++++++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  61 ++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
-> > > > >  .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
-> > > > 
-> > > > Could you add a TODO file to list the issues that need to be fixed for
-> > > > the driver to move out of staging ? I'll already propose one entry:
-> > > > 
-> > > > - Add support in libcamera
-> > > 
-> > > Maybe it would be good to narrow down what level of support you have in mind
-> > > here. Just adding basic support fort the pipeline is probably doable, but
-> > > developing complex 3A algorithms would require very significant effort and
-> > > it would be a shame that this prevents the driver from leaving staging.
-> > > 
-> > > I think another obvious task would be to have a complete uAPI that reflects
-> > > all modules that are part of the ISP.
-> > > 
-> > > What do you think?
-> > 
-> > The reason why I'd like to see libcamera support for the ISP driver is
-> > to ensure that the kernel API is adequate for real use cases. The API
-> > can be split in three parts:
-> > 
-> > - Pipeline configuration (this includes the media controller topology,
-> >   link setting, subdev pad format/selection rectangle configuration,
-> >   ...)
-> > - ISP parameters
-> > - ISP statistics
-> > 
-> > A pipeline handler implementation will cover the first parts. The second
-> > and third parts need to be tested too, but we don't need to implement
-> > every single feature. A very simple algorithm that demonstrates
-> > statistics can be captured and ISP parameters can be set should be
-> > enough to test and exercise the API in real scenarios. We're working on
-> > making basic AE and AWB algorithm implementations generic (or at least
-> > creating generic building blocks that can easily be assembled to create
-> > those algorithms, as the ISP statistics and parameters are specific to
-> > the ISP and thus require some ISP-specific code), so that should become
-> > a fairly easy task soon. I expect most of the work to go in the pipeline
-> > handler.
-> > 
-> > Does this sound fair to you ?
-> 
-> Yes I understand that these aspects need to be tested too, but I feel like
-> having an implementation with a feedback look (even rudimentary and using
-> some generic helpers) would be quite a stretch.
+I think that it would be better to make any alternate loop macro
+just set the variable to NULL on the loop exit.
+That is easier to code for and the compiler might be persuaded to
+not redo the test.
 
-Don't be scared, it's not that difficult :-) A very basic feedback loop
-is easier to implement than the code that configures the pipeline and
-tracks buffers.
+It also doesn't need an extra variable defined in the for() statement
+so can be back-ported to older kernels without required declaration
+in the middle of blocks.
 
-> It would probably be sufficient to have some demo code that can receive stats
-> and set parameters, but without necessarily any connection between the two.
-> As such it's also my feeling that a standalone demo program could be easier
-> to manage for that purpose than libcamera support.
-> 
-> So how about making the requirement that a (free software) userspace
-> implementration must demonstrate ability to read relevant statistics
-> from the ISP and (independently) control parameters that affect the output?
+OTOH there may be alternative definitions that can be used to get
+the compiler (or other compiler-like tools) to detect broken code.
+Even if the definition can't possibly generate a working kerrnel.
 
-It's easy to create a test tool to demonstrate that the driver works
-fine, when the purpose of the test tool is to exercise the driver API in
-the way intended by the driver author. What such a test tool fails to
-demonstrate is the fitness of the API for real uses cases. This is why
-KMS requires userspace APIs to be exercised in a real display stack
-(X.org, Weston, Android hwcomposer, ...) and not just in a test tool.
-We're following the same rationale here.
+=09David
 
-> > > > This isn't required to merge the driver in staging as long as ABI
-> > > > compatibility doesn't need to be preserved until the driver is moved out
-> > > > of staging.
-> > > >
-> > > > >  14 files changed, 3109 insertions(+)
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
-> > > > 
-> > > > [snip]
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
--- 
-Regards,
-
-Laurent Pinchart
