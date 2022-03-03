@@ -1,243 +1,290 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB214367
-	for <linux-staging@lists.linux.dev>; Thu,  3 Mar 2022 12:37:48 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id ev16-20020a17090aead000b001bc3835fea8so4771523pjb.0
-        for <linux-staging@lists.linux.dev>; Thu, 03 Mar 2022 04:37:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FF/MJjppdIPbLAPuX69GDDcuetlfqDD+38vpsQJKjV4=;
-        b=bORDDPjE3HJ8Q+lkuHUI9YXm2z2OfuiHyYo73LjCVUqKH+mzapaLyTx7j6vUSzodyH
-         H1fbBW3W0VvnP5bKsE/Cw0qa3UKie6z+yV023jD/NJPLY9kKDIxXXIT7NvpcVUCfUtIs
-         KFg6MVSLFINqOtsOfPJChC2DDL1HsjgJIQ8T87wI93Fz/8cIhc43z3LdnIXEJu5YqpzN
-         mnmxIpvlp/TKF5EWx4k9hHupAU2T1e2iVIXLRuFiSvdgN4U8XMzx7dalBaWhuU90/nq+
-         yD0rNidPjh7VKui8oE8v/Ywp+ZPTs/OvJCCqJBXBdG8sdbvMpiVPMu/2SHGpauCCE/Ok
-         XUow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FF/MJjppdIPbLAPuX69GDDcuetlfqDD+38vpsQJKjV4=;
-        b=E/F4bT/lKHE60fQIFQrkNQtEyCRfZy6I8vSB518W3DUbPuE0UivZ+7vyB1tVEwsiIG
-         XGbYNlNDkQpwbfhr91+9RIOsaNPaLJTpXxelxVH+hztQ0BwvGAF5r3qOgI7qoPF3//oP
-         zwcIaLmntadlsrX7+c4FGFdaY9GRFBLFQchHoFEXQhhVEW0r1Fyt+nOUM8q/xd41utjf
-         jnA6AvNPRzeVkjmBebshcyCn6fw8ahdYjEp8xHNCMRvIobjAP2Ic4XgY6t6xVu3SmdY9
-         pHhWIxCfUP4xNY7G5zygY65xKX5XY+CZjLwiv8y/ZaThbaKDRgdOrcCmA8a5RlF4iC9Y
-         De7w==
-X-Gm-Message-State: AOAM531pc+CsF/AZewl9p/u61ApCUmOVeMmfN8ijl2Hk5uyU8uCd7k4r
-	IV6FmNe4YnRsqMm+CIhNzHg=
-X-Google-Smtp-Source: ABdhPJwaQutGx29a4puPWhBgOBT74prgxxfsvHgGuVwO/yqGuQ+dVL8XCd59bWLeDERLYwR3js66yQ==
-X-Received: by 2002:a17:903:22d0:b0:151:97f5:db54 with SMTP id y16-20020a17090322d000b0015197f5db54mr7837971plg.58.1646311068298;
-        Thu, 03 Mar 2022 04:37:48 -0800 (PST)
-Received: from ubuntu.huawei.com ([119.3.119.19])
-        by smtp.googlemail.com with ESMTPSA id t7-20020a17090a024700b001bf12386db4sm1483030pje.47.2022.03.03.04.37.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 04:37:47 -0800 (PST)
-From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To: david.laight@aculab.com
-Cc: akpm@linux-foundation.org,
-	alsa-devel@alsa-project.org,
-	amd-gfx@lists.freedesktop.org,
-	andriy.shevchenko@linux.intel.com,
-	arnd@arndb.de,
-	bcm-kernel-feedback-list@broadcom.com,
-	bjohannesmeyer@gmail.com,
-	c.giuffrida@vu.nl,
-	christian.koenig@amd.com,
-	christophe.jaillet@wanadoo.fr,
-	dan.carpenter@oracle.com,
-	dmaengine@vger.kernel.org,
-	drbd-dev@lists.linbit.com,
-	dri-devel@lists.freedesktop.org,
-	gustavo@embeddedor.com,
-	h.j.bos@vu.nl,
-	intel-gfx@lists.freedesktop.org,
-	intel-wired-lan@lists.osuosl.org,
-	jakobkoschel@gmail.com,
-	jgg@ziepe.ca,
-	keescook@chromium.org,
-	kgdb-bugreport@lists.sourceforge.net,
-	kvm@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-block@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sgx@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux1394-devel@lists.sourceforge.net,
-	linux@rasmusvillemoes.dk,
-	linuxppc-dev@lists.ozlabs.org,
-	nathan@kernel.org,
-	netdev@vger.kernel.org,
-	nouveau@lists.freedesktop.org,
-	rppt@kernel.org,
-	samba-technical@lists.samba.org,
-	tglx@linutronix.de,
-	tipc-discussion@lists.sourceforge.net,
-	torvalds@linux-foundation.org,
-	v9fs-developer@lists.sourceforge.net,
-	xiam0nd.tong@gmail.com
-Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body as a ptr
-Date: Thu,  3 Mar 2022 20:37:18 +0800
-Message-Id: <20220303123718.12426-1-xiam0nd.tong@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <2d208771c50b4c6db4f43039e9d62851@AcuMS.aculab.com>
-References: <2d208771c50b4c6db4f43039e9d62851@AcuMS.aculab.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C037E
+	for <linux-staging@lists.linux.dev>; Thu,  3 Mar 2022 15:16:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1646320586; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=JrpQ/H92nyTLnwuq1ni4w8NmnnCdjxOl3sGve0WiNmfcD6SkSEeC95NYHkSw94hMzcmCzB42v1b/gdgLt9V8rd0i8IErh2a70XVYoqjCDFnP8iLAqvEsCZO6mJnlIjtJHt9LbDrDqTX7ZQsh3CmpMJhmwIbOdPPPJ8YwKi/0N0I=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1646320586; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=R5VGKrB1TXcC7gdzXkVBxbvWdRfDw5wQnAyv/QuZCzY=; 
+	b=mp5GDLT54JAHcSUwomKoQsLqbX9A9dlAX1CLdLn8QIDt3hux+2codn3VhgZwst/3o0+/7jDUSTOdcE+Fhggr62nHCu8vkNlEler+PYtWaDfZBiiCpdm25B+tiODXfli4PPZpUpDz1lEeDAxLd6M4AgANyFd2JIxrGLEnrLFdIh0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=arinc9.com;
+	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+	dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1646320586;
+	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=R5VGKrB1TXcC7gdzXkVBxbvWdRfDw5wQnAyv/QuZCzY=;
+	b=Vw5U3loKQX4BKGiQ2O+WHj6C8LCfVhLTJ9ft3ReMipQEYCkuGWEUQ/EbK4rzxDQ8
+	vfyCvMbCSQ0brboBWMGOngmc2isIuQemD8ff65XkfJLNLJ8Z/tIVHy4E3pVb5WfjAav
+	0Q0rMwvU8zDBCOz8IrdeGy8viaTRTSDLnzEpQVrs=
+Received: from [10.10.10.3] (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
+	with SMTPS id 1646320584052832.2095674224655; Thu, 3 Mar 2022 07:16:24 -0800 (PST)
+Message-ID: <18f43289-516c-3b07-d8cf-f173491aa6bb@arinc9.com>
+Date: Thu, 3 Mar 2022 18:16:19 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 2/2] staging: mt7621-dts: do not use rgmii2_pins for
+ ethernet on GB-PC1
+Content-Language: en-US
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Sander Vanheule <sander@svanheule.net>, NeilBrown <neil@brown.name>,
+ DENG Qingfang <dqfext@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ erkin.bozoglu@xeront.com, Rob Herring <robh@kernel.org>,
+ linux-staging@lists.linux.dev
+References: <20220215081725.3463-1-arinc.unal@arinc9.com>
+ <20220215081725.3463-2-arinc.unal@arinc9.com>
+ <CAMhs-H-74bK3m975Dtmg2zPrGjmqzSd+Tb_qdUV14yJBAWRQbw@mail.gmail.com>
+ <d9240058-68b4-cbd6-54b0-18f41ee5a98a@arinc9.com>
+ <CAMhs-H_MvXOOmUDq97YyW7uaSfeNWcKE7F+J4182=MwH7yaOaw@mail.gmail.com>
+ <6902e0b3-5bd3-185b-26f8-eab2e37f29cb@arinc9.com>
+ <CAMhs-H-bMgsssuy-Rrygr0PCVkgDWDi=-=3vDVG_cnMX4L9vOA@mail.gmail.com>
+ <bffc9641-ec69-f88e-b877-65d12305b928@arinc9.com>
+ <CAMhs-H-dHY_+gTOmGXYFyVLK69D7y0bw5s2=e6gDh5yFtp6HzQ@mail.gmail.com>
+ <e26eae35-8207-b8c7-7af0-0fb4bd7a69c9@arinc9.com>
+ <CAMhs-H-JtkHzjUkNTdJ0OUsZqNYHYAi6gDp2SYc8yJbPpx9=zw@mail.gmail.com>
+From: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+In-Reply-To: <CAMhs-H-JtkHzjUkNTdJ0OUsZqNYHYAi6gDp2SYc8yJbPpx9=zw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-> From: Xiaomeng Tong
-> > Sent: 03 March 2022 07:27
-> > 
-> > On Thu, 3 Mar 2022 04:58:23 +0000, David Laight wrote:
-> > > on 3 Mar 2022 10:27:29 +0800, Xiaomeng Tong wrote:
-> > > > The problem is the mis-use of iterator outside the loop on exit, and
-> > > > the iterator will be the HEAD's container_of pointer which pointers
-> > > > to a type-confused struct. Sidenote: The *mis-use* here refers to
-> > > > mistakely access to other members of the struct, instead of the
-> > > > list_head member which acutally is the valid HEAD.
-> > >
-> > > The problem is that the HEAD's container_of pointer should never
-> > > be calculated at all.
-> > > This is what is fundamentally broken about the current definition.
-> > 
-> > Yes, the rule is "the HEAD's container_of pointer should never be
-> > calculated at all outside the loop", but how do you make sure everyone
-> > follows this rule?
-> > Everyone makes mistakes, but we can eliminate them all from the beginning
-> > with the help of compiler which can catch such use-after-loop things.
-> > 
-> > > > IOW, you would dereference a (NULL + offset_of_member) address here.
-> > >
-> > >Where?
-> > 
-> > In the case where a developer do not follows the above rule, and mistakely
-> > access a non-list-head member of the HEAD's container_of pointer outside
-> > the loop. For example:
-> >     struct req{
-> >       int a;
-> >       struct list_head h;
-> >     }
-> >     struct req *r;
-> >     list_for_each_entry(r, HEAD, h) {
-> >       if (r->a == 0x10)
-> >         break;
-> >     }
-> >     // the developer made a mistake: he didn't take this situation into
-> >     // account where all entries in the list are *r->a != 0x10*, and now
-> >     // the r is the HEAD's container_of pointer.
-> >     r->a = 0x20;
-> > Thus the "r->a = 0x20" would dereference a (NULL + offset_of_member)
-> > address here.
+On 28/02/2022 18:11, Sergio Paracuellos wrote:
+> On Mon, Feb 28, 2022 at 3:53 PM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+>>
+>> On 28/02/2022 10:01, Sergio Paracuellos wrote:
+>>> Hi Arinc,
+>>>
+>>> On Sun, Feb 27, 2022 at 4:12 PM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+>>>>
+>>>> On 15/02/2022 18:16, Sergio Paracuellos wrote:
+>>>>> Hi Arinc,
+>>>>>
+>>>>> On Tue, Feb 15, 2022 at 3:11 PM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+>>>>>>
+>>>>>> On 15/02/2022 12:09, Sergio Paracuellos wrote:
+>>>>>>> Hi Arinc,
+>>>>>>>
+>>>>>>> On Tue, Feb 15, 2022 at 9:50 AM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+>>>>>>>>
+>>>>>>>> Hey Sergio,
+>>>>>>>>
+>>>>>>>> On 15/02/2022 11:35, Sergio Paracuellos wrote:
+>>>>>>>>> Hi Arinc,
+>>>>>>>>>
+>>>>>>>>> On Tue, Feb 15, 2022 at 9:18 AM Arınç ÜNAL <arinc.unal@arinc9.com> wrote:
+>>>>>>>>>>
+>>>>>>>>>> GB-PC1 uses some of the rgmii2 pins (22 - 33) as GPIO. Therefore, the
+>>>>>>>>>> rgmii2 bus cannot be used on this device.
+>>>>>>>>>> Overwrite pinctrl-0 property under the ethernet node without rgmii2_pins on
+>>>>>>>>>> the GB-PC1 devicetree.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+>>>>>>>>>> ---
+>>>>>>>>>>       drivers/staging/mt7621-dts/gbpc1.dts | 4 ++++
+>>>>>>>>>>       1 file changed, 4 insertions(+)
+>>>>>>>>>
+>>>>>>>>> No issues in GB-PC1. So:
+>>>>>>>>>
+>>>>>>>>> Tested-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+>>>>>>>>
+>>>>>>>> Thanks for testing it so quickly!
+>>>>>>>>
+>>>>>>>> I was wondering if you got pinctrl errors on the bootlog before applying
+>>>>>>>> this patch series.
+>>>>>>>>
+>>>>>>>> rgmii2 pin group is given gpio function so calling it from ethernet node
+>>>>>>>> would cause this on my TP-Link RE650 v1 which also uses the rgmii2_pins
+>>>>>>>> as GPIO.
+>>>>>>>>
+>>>>>>>> [    1.177349] rt2880-pinmux pinctrl: pin io22 already requested by
+>>>>>>>> pinctrl; cannot claim for 1e100000.ethernet
+>>>>>>>> [    1.196966] rt2880-pinmux pinctrl: pin-22 (1e100000.ethernet) status -22
+>>>>>>>> [    1.210312] rt2880-pinmux pinctrl: could not request pin 22 (io22)
+>>>>>>>> from group rgmii2  on device rt2880-pinmux
+>>>>>>>> [    1.230058] mtk_soc_eth 1e100000.ethernet: Error applying setting,
+>>>>>>>> reverse things back
+>>>>>>>> [    1.245853] mtk_soc_eth: probe of 1e100000.ethernet failed with error -22
+>>>>>>>
+>>>>>>> No, I was not getting any kind of error since when I test your last
+>>>>>>> patch series I was not experimenting any kind of regression. I don't
+>>>>>>> have any issues now also with your new patch series. Your new changes
+>>>>>>> make sense since as you have said "rgmii2" pins are requested as GPIO
+>>>>>>> but it seems are not really being requested? I don't have time to
+>>>>>>> check the datasheet now but will try to get time to see what is
+>>>>>>> happening there.
+>>>>>>
+>>>>>> I think this must have something to do with pinctrl on newer kernels as
+>>>>>> the TP-Link RE650 that I tested uses the OpenWrt master branch (Linux 5.10).
+>>>>>
+>>>>> I think is this commit which I did according to a review after moving
+>>>>> the driver from staging into 'drivers/pincrtl/ralink':
+>>>>>
+>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/drivers/pinctrl/ralink?h=staging-next&id=8a55d64c3336fc2ffd488a37d08ceab154c7b56b
+>>>>>
+>>>>> You can also check other changes from where the driver was moved:
+>>>>>
+>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/log/drivers/pinctrl/ralink?h=staging-next
+>>>>
+>>>> I realised current mt7621.dtsi does not apply the functions we specify
+>>>> for the pin groups on device-specific devicetrees. I believe we need to
+>>>> add this like on OpenWrt's mt7621.dtsi.
+>>>>
+>>>> https://github.com/openwrt/openwrt/blob/master/target/linux/ramips/dts/mt7621.dtsi#L249-L253
+>>>>
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/tree/drivers/staging/mt7621-dts/mt7621.dtsi?h=staging-testing#n153
+>>>>
+>>>> Can you apply the patch below to see if you get the error like above?
+>>>> I also put it in attachments in case of space characters replacing tab
+>>>> on the mail.
+>>>>
+>>>> Arınç
+>>>>
+>>>> ---
+>>>> diff --git a/drivers/staging/mt7621-dts/gbpc1.dts
+>>>> b/drivers/staging/mt7621-dts/gbpc1.dts
+>>>> index 1b5175e6ccf3..e38a083811e5 100644
+>>>> --- a/drivers/staging/mt7621-dts/gbpc1.dts
+>>>> +++ b/drivers/staging/mt7621-dts/gbpc1.dts
+>>>> @@ -114,10 +114,6 @@ default_gpio: gpio {
+>>>>           };
+>>>>     };
+>>>>
+>>>> -&ethernet {
+>>>> -       pinctrl-0 = <&mdio_pins>, <&rgmii1_pins>;
+>>>> -};
+>>>> -
+>>>>     &switch0 {
+>>>>           ports {
+>>>>                   port@0 {
+>>>> diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi
+>>>> b/drivers/staging/mt7621-dts/mt7621.dtsi
+>>>> index 4da20da243e6..8e181d6f70ae 100644
+>>>> --- a/drivers/staging/mt7621-dts/mt7621.dtsi
+>>>> +++ b/drivers/staging/mt7621-dts/mt7621.dtsi
+>>>> @@ -152,6 +152,11 @@ spi0: spi@b00 {
+>>>>
+>>>>           pinctrl: pinctrl {
+>>>>                   compatible = "ralink,rt2880-pinmux";
+>>>> +               pinctrl-names = "default";
+>>>> +               pinctrl-0 = <&state_default>;
+>>>> +
+>>>> +               state_default: pinctrl0 {
+>>>> +               };
+>>>
+>>> This should not be in the pinctrl node. I was told to remove it when
+>>> bindings were reviewed since these properties must be in consumer
+>>> nodes [0]. See binding documentation [1]:
+>>>
+>>> [0]: https://www.mail-archive.com/driverdev-devel@linuxdriverproject.org/msg102634.html
+>>> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/tree/Documentation/devicetree/bindings/pinctrl/ralink,rt2880-pinmux.yaml?h=staging-linus&id=b6821b0d9b56386d2bf14806f90ec401468c799f
+>>
+>> I'm not sure what a consumer node would be in this context so we can
+>> claim the pin groups with the given function under it.
+>>
+>> Is the ethernet node a consumer node since I claim the rgmii2_pins pin
+>> group under it for example?
 > 
-> That is just a bug.
-> No different to failing to check anything else might 'return'
-> a NULL pointer.
+> That is my understanding, yes.
 
-Yes, but it‘s a mistake everyone has made and will make, we should avoid
-this at the beginning with the help of compiler.
+Adding Rob on Cc.
 
-> Because it is a NULL dereference you find out pretty quickly.
+Solutions that come to my mind:
 
-AFAIK，NULL dereference is a undefined bahavior, can compiler quickly
-catch it? Or it can only be applied to some simple/restricted cases.
+We can overwrite the pin group node with the function we want to set it.
+Then claim it under a node where pins from the pin group is used.
 
-> The existing loop leaves you with a valid pointer to something
-> that isn't a list item.
-> 
-> > > > Please remind me if i missed something, thanks.
-> > > >
-> > > > Can you share your "alternative definitions" details? thanks!
-> > >
-> > > The loop should probably use as extra variable that points
-> > > to the 'list node' in the next structure.
-> > > Something like:
-> > > 	for (xxx *iter = head->next;
-> > > 		iter == &head ? ((item = NULL),0) : ((item = list_item(iter),1));
-> > > 		iter = item->member->next) {
-> > > 	   ...
-> > > With a bit of casting you can use 'item' to hold 'iter'.
-> > 
-> > you still can not make sure everyone follows this rule:
-> > "do not use iterator outside the loop" without the help of compiler,
-> > because item is declared outside the loop.
-> 
-> That one has 'iter' defined in the loop.
+Example:
 
-Oh, sorry, I misunderstood. Then this is the same way with my way of
-list_for_each_entry_inside(pos, type, head, member), which declare
-the iterator inside the loop.
-You go further and make things like "&pos->member == (head)" goes away
-to avoid calculate the HEAD's container_of pointer, although the
-calculation is harmless.
+diff --git a/drivers/staging/mt7621-dts/gbpc1.dts 
+b/drivers/staging/mt7621-dts/gbpc1.dts
+index 360ac98de3f1..709105b2822b 100644
+--- a/drivers/staging/mt7621-dts/gbpc1.dts
++++ b/drivers/staging/mt7621-dts/gbpc1.dts
+@@ -38,6 +38,9 @@ reset {
+  	gpio-leds {
+  		compatible = "gpio-leds";
 
-> 
-> > BTW, to avoid ambiguity，the "alternative definitions" here i asked is
-> > something from you in this context:
-> > "OTOH there may be alternative definitions that can be used to get
-> > the compiler (or other compiler-like tools) to detect broken code.
-> > Even if the definition can't possibly generate a working kerrnel."
-> 
-> I was thinking of something like:
-> 	if ((pos = list_first)), 1) pos = NULL else
-> so that unchecked dereferences after the loop will be detectable
-> as NULL pointer offsets - but that in itself isn't enough to avoid
-> other warnings.
-> 
++		pinctrl-names = "default";
++		pinctrl-0 = <&uart3_pins>;
++
+  		power {
+  			label = "green:power";
+  			gpios = <&gpio 6 GPIO_ACTIVE_LOW>;
+@@ -103,6 +106,12 @@ gpio {
+  	};
+  };
 
-Do you mean put this right after the loop (I changed somthing that i
-do not understand, please correct me if i am worng, thanks):
-       if (pos == list_first) pos = NULL; else
-and compiler can detect the following NULL derefernce?
-But if the NULL derefernce is just right after the loop originally,
-it will be masked by the *else* keyword。
++&uart3_pins {
++	pinmux {
++		function = "gpio";
++	};
++};
++
+  &ethernet {
+  	pinctrl-0 = <&mdio_pins>, <&rgmii1_pins>;
+  };
 
-> > > > The "list_for_each_entry_inside(pos, type, head, member)" way makes
-> > > > the iterator invisiable outside the loop, and would be catched by
-> > > > compiler if use-after-loop things happened.
-> > 
-> > > It is also a compete PITA for anything doing a search.
-> > 
-> > You mean it would be a burden on search? can you show me some examples?
-> 
-> The whole business of having to save the pointer to the located item
-> before breaking the loop, remembering to have set it to NULL earlier etc.
+A few issues with this:
 
-Ok, i see. And then you need pass a "item" to the list_for_each_entry macro
-as a new argument.
+- Some used pins might not be defined on the devicetree. We cannot claim 
+these pin groups because the consumer node doesn't exist.
 
-> 
-> It is so much better if you can just do:
-> 		if (found)
-> 			break;
-> 
-> 	David
+For example, check JTAG pins of GB-PC2 on page 15:
+https://github.com/ngiger/GnuBee_Docs/blob/master/GB-PCx/Documents/GB-PC2_V1.1_schematic.pdf
 
-this confused me. this way is better or the "save the pointer to the located item
-before breaking the loop" one?
+- Pins on the same pin group can be used under different nodes. We 
+cannot claim a pin group under multiple nodes.
 
---
-Xiaomeng Tong
+So we can get back to this:
+
+Treat pinctrl node as a consumer node. We might not need to refer to the 
+pinctrl-0 & pinctrl-names properties on the rt2880-pinmux documentation 
+since they're generic pinctrl properties.
+
+Example:
+
+diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi
+b/drivers/staging/mt7621-dts/mt7621.dtsi
+index 4da20da243e6..8e181d6f70ae 100644
+--- a/drivers/staging/mt7621-dts/mt7621.dtsi
++++ b/drivers/staging/mt7621-dts/mt7621.dtsi
+@@ -152,6 +152,12 @@ spi0: spi@b00 {
+
+   	pinctrl: pinctrl {
+   		compatible = "ralink,rt2880-pinmux";
++		pinctrl-names = "default";
++		pinctrl-0 = <&state_default>;
++
++		state_default: state-default {
++
++		};
+
+   		i2c_pins: i2c0-pins {
+   			pinmux {
+
+On any mt7621 devicetree:
+
+&state_default {
+	gpio-pinmux {
+		groups = "rgmii2", "uart3", "wdt";
+		function = "gpio";
+	};
+};
+
+By the way, is there a reason why wdt and jtag pin groups are missing 
+from the documentation and mt7621.dtsi? If they are used as GPIO by 
+default we can explicitly define them on mt7621.dtsi and mention them on 
+the documentation.
+
+Arınç
