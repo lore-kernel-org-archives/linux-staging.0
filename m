@@ -1,202 +1,168 @@
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C2F36A
-	for <linux-staging@lists.linux.dev>; Thu,  3 Mar 2022 03:36:17 +0000 (UTC)
-HMM_SOURCE_IP:10.64.8.43:59860.1825392078
-HMM_ATTACHE_NUM:0000
-HMM_SOURCE_TYPE:SMTP
-Received: from clientip-39.156.73.14 (unknown [10.64.8.43])
-	by 189.cn (HERMES) with SMTP id 116D7100199;
-	Thu,  3 Mar 2022 11:32:17 +0800 (CST)
-Received: from  ([172.27.8.53])
-	by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id 1a7c2422cd53475e97fb8c11bba2953d for u.kleine-koenig@pengutronix.de;
-	Thu, 03 Mar 2022 11:32:43 CST
-X-Transaction-ID: 1a7c2422cd53475e97fb8c11bba2953d
-X-Real-From: chensong_2000@189.cn
-X-Receive-IP: 172.27.8.53
-X-MEDUSA-Status: 0
-Sender: chensong_2000@189.cn
-Message-ID: <bf44b184-265f-6931-20e2-42eab82f6177@189.cn>
-Date: Thu, 3 Mar 2022 11:31:26 +0800
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1EE621
+	for <linux-staging@lists.linux.dev>; Thu,  3 Mar 2022 04:58:28 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mtapsc-5-c9saVIHFMHux_Sno3vxg6w-1; Thu, 03 Mar 2022 04:58:25 +0000
+X-MC-Unique: c9saVIHFMHux_Sno3vxg6w-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.28; Thu, 3 Mar 2022 04:58:23 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.028; Thu, 3 Mar 2022 04:58:23 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Xiaomeng Tong' <xiam0nd.tong@gmail.com>
+CC: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	"arnd@arndb.de" <arnd@arndb.de>, "bcm-kernel-feedback-list@broadcom.com"
+	<bcm-kernel-feedback-list@broadcom.com>, "bjohannesmeyer@gmail.com"
+	<bjohannesmeyer@gmail.com>, "c.giuffrida@vu.nl" <c.giuffrida@vu.nl>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
+	"dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
+	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"gustavo@embeddedor.com" <gustavo@embeddedor.com>, "h.j.bos@vu.nl"
+	<h.j.bos@vu.nl>, "intel-gfx@lists.freedesktop.org"
+	<intel-gfx@lists.freedesktop.org>, "intel-wired-lan@lists.osuosl.org"
+	<intel-wired-lan@lists.osuosl.org>, "jakobkoschel@gmail.com"
+	<jakobkoschel@gmail.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+	"keescook@chromium.org" <keescook@chromium.org>,
+	"kgdb-bugreport@lists.sourceforge.net"
+	<kgdb-bugreport@lists.sourceforge.net>, "kvm@vger.kernel.org"
+	<kvm@vger.kernel.org>, "linux-arch@vger.kernel.org"
+	<linux-arch@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-block@vger.kernel.org"
+	<linux-block@vger.kernel.org>, "linux-cifs@vger.kernel.org"
+	<linux-cifs@vger.kernel.org>, "linux-crypto@vger.kernel.org"
+	<linux-crypto@vger.kernel.org>, "linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-iio@vger.kernel.org"
+	<linux-iio@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, "linux-scsi@vger.kernel.org"
+	<linux-scsi@vger.kernel.org>, "linux-sgx@vger.kernel.org"
+	<linux-sgx@vger.kernel.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>, "linux1394-devel@lists.sourceforge.net"
+	<linux1394-devel@lists.sourceforge.net>, "linux@rasmusvillemoes.dk"
+	<linux@rasmusvillemoes.dk>, "linuxppc-dev@lists.ozlabs.org"
+	<linuxppc-dev@lists.ozlabs.org>, "nathan@kernel.org" <nathan@kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+	"rppt@kernel.org" <rppt@kernel.org>, "samba-technical@lists.samba.org"
+	<samba-technical@lists.samba.org>, "tglx@linutronix.de" <tglx@linutronix.de>,
+	"tipc-discussion@lists.sourceforge.net"
+	<tipc-discussion@lists.sourceforge.net>, "torvalds@linux-foundation.org"
+	<torvalds@linux-foundation.org>, "v9fs-developer@lists.sourceforge.net"
+	<v9fs-developer@lists.sourceforge.net>
+Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Thread-Index: AQHYLhg9+DU/OogLf0+tiSFmjztyUKysHu+QgADRVYCAACVtoA==
+Date: Thu, 3 Mar 2022 04:58:23 +0000
+Message-ID: <39404befad5b44b385698ff65465abe5@AcuMS.aculab.com>
+References: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
+ <20220303022729.9321-1-xiam0nd.tong@gmail.com>
+In-Reply-To: <20220303022729.9321-1-xiam0nd.tong@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3] staging: greybus: introduce pwm_ops::apply
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
- thierry.reding@gmail.com, lee.jones@linaro.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, elder@ieee.org
-References: <1645780561-18481-1-git-send-email-chensong_2000@189.cn>
- <20220301215659.kj2wwrijkdmkmces@pengutronix.de>
-From: Song Chen <chensong_2000@189.cn>
-In-Reply-To: <20220301215659.kj2wwrijkdmkmces@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+From: Xiaomeng Tong
+> Sent: 03 March 2022 02:27
+>=20
+> On Wed, 2 Mar 2022 14:04:06 +0000, David Laight
+> <David.Laight@ACULAB.COM> wrote:
+> > I think that it would be better to make any alternate loop macro
+> > just set the variable to NULL on the loop exit.
+> > That is easier to code for and the compiler might be persuaded to
+> > not redo the test.
+>=20
+> No, that would lead to a NULL dereference.
 
-Hello,
+Why, it would make it b ethe same as the 'easy to use':
+=09for (item =3D head; item; item =3D item->next) {
+=09=09...
+=09=09if (...)
+=09=09=09break;
+=09=09...
+=09}
+=09if (!item)
+=09=09return;
+=20
+> The problem is the mis-use of iterator outside the loop on exit, and
+> the iterator will be the HEAD's container_of pointer which pointers
+> to a type-confused struct. Sidenote: The *mis-use* here refers to
+> mistakely access to other members of the struct, instead of the
+> list_head member which acutally is the valid HEAD.
 
-在 2022/3/2 05:56, Uwe Kleine-König 写道:
-> Hello,
-> 
-> On Fri, Feb 25, 2022 at 05:16:01PM +0800, Song Chen wrote:
->> Introduce apply in pwm_ops to replace legacy operations,
->> like enable, disable, config and set_polarity.
->>
->> Signed-off-by: Song Chen <chensong_2000@189.cn>
->>
->> ---
->> v2:
->> 1, define duty_cycle and period as u64 in gb_pwm_config_operation.
->> 2, define duty and period as u64 in gb_pwm_config_request.
->> 3, disable before configuring duty and period if the eventual goal
->>     is a disabled state.
->>
->> v3:
->> Regarding duty_cycle and period, I read more discussion in this thread,
->> min, warn or -EINVAL, seems no perfect way acceptable for everyone.
->> How about we limit their value to INT_MAX and throw a warning at the
->> same time when they are wrong?
-> 
-> My position is that the driver should implement the biggest possible
-> period not bigger than the requested period. That's how all new drivers
-> behave since I care for reviewing PWM stuff. So capping to U32_MAX as is
-> (nearly) done below is good in my book.
-> 
->> ---
->>   drivers/staging/greybus/pwm.c | 66 +++++++++++++++++++++--------------
->>   1 file changed, 40 insertions(+), 26 deletions(-)
->>
->> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
->> index 891a6a672378..3ec5bc54d616 100644
->> --- a/drivers/staging/greybus/pwm.c
->> +++ b/drivers/staging/greybus/pwm.c
->> @@ -204,43 +204,57 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
->>   	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
->>   }
->>   
->> -static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
->> -			 int duty_ns, int period_ns)
->> +static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
->> +			const struct pwm_state *state)
->>   {
->> +	int err;
->> +	bool enabled = pwm->state.enabled;
->> +	u64 period = state->period;
->> +	u64 duty_cycle = state->duty_cycle;
->>   	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->>   
->> -	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
->> -};
->> -
->> -static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
->> -			       enum pwm_polarity polarity)
->> -{
->> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->> -
->> -	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
->> -};
->> +	/* set polarity */
->> +	if (state->polarity != pwm->state.polarity) {
->> +		if (enabled) {
->> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
-> 
-> So polarity can only be switched with the PWM off?
+The problem is that the HEAD's container_of pointer should never
+be calculated at all.
+This is what is fundamentally broken about the current definition.
 
-I have no devices in my hand to get it tested, but i think it's 
-reasonable to turn off PWM before switching off its polarity.
+> IOW, you would dereference a (NULL + offset_of_member) address here.
 
-What's more, it follows the implementation of pwm_apply_legacy, which is 
-the way how it works now.
+Where?
 
-> 
->> +			enabled = false;
->> +		}
->> +		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
->> +		if (err)
->> +			return err;
->> +	}
->>   
->> -static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
->> -{
->> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->> +	if (!state->enabled) {
->> +		if (enabled)
->> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
->> +		return 0;
->> +	}
->>   
->> -	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
->> -};
->> +	/* set period and duty cycle*/
->> +	if (period > INT_MAX) {
-> 
-> Given that in gb_pwm_config_operation the parameters are u32, I suggest
-> to use U32_MAX here instead of INT_MAX.
-> 
+> Please remind me if i missed something, thanks.
+>
+> Can you share your "alternative definitions" details? thanks!
 
-will do.
+The loop should probably use as extra variable that points
+to the 'list node' in the next structure.
+Something like:
+=09for (xxx *iter =3D head->next;
+=09=09iter =3D=3D &head ? ((item =3D NULL),0) : ((item =3D list_item(iter),=
+1));
+=09=09iter =3D item->member->next) {
+=09   ...
+With a bit of casting you can use 'item' to hold 'iter'.
 
->> +		period = INT_MAX;
->> +		dev_warn(chip->dev, "period is %llu ns, out of range\n", state->period);
-> 
-> Please drop this warning. That's a bad one because it can be triggered
-> from userspace.
+>=20
+> > OTOH there may be alternative definitions that can be used to get
+> > the compiler (or other compiler-like tools) to detect broken code.
+> > Even if the definition can't possibly generate a working kerrnel.
+>=20
+> The "list_for_each_entry_inside(pos, type, head, member)" way makes
+> the iterator invisiable outside the loop, and would be catched by
+> compiler if use-after-loop things happened.
 
-will do
+It is also a compete PITA for anything doing a search.
 
-> 
->> +	}
->> +	if (duty_cycle > INT_MAX) {
->> +		duty_cycle = INT_MAX;
->> +		dev_warn(chip->dev,
->> +			 "duty cycle is %llu ns, out of range\n", state->duty_cycle);
->> +	}
->> +	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
-> 
-> Is it clear how gb_pwm_config_operation rounds? If yes, please document
-> this. I also wonder if you could implement (in a separate change)
-> .get_state().
+=09David
 
-Not clear about gb_pwm_config_operation rounds.
-For get_state, i will look into it.
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
-> 
->> +	if (err)
->> +		return err;
->>   
->> -static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
->> -{
->> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->> +	/* enable/disable */
->> +	if (!enabled)
->> +		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
->>   
->> -	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
->> -};
->> +	return 0;
->> +}
->>   
->>   static const struct pwm_ops gb_pwm_ops = {
->>   	.request = gb_pwm_request,
->>   	.free = gb_pwm_free,
->> -	.config = gb_pwm_config,
->> -	.set_polarity = gb_pwm_set_polarity,
->> -	.enable = gb_pwm_enable,
->> -	.disable = gb_pwm_disable,
->> +	.apply = gb_pwm_apply,
->>   	.owner = THIS_MODULE,
-> 
-> Best regards
-> Uwe
-> 
-
-Best regards
-
-Song
