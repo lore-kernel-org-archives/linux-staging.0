@@ -1,155 +1,243 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EDD615D
-	for <linux-staging@lists.linux.dev>; Thu,  3 Mar 2022 12:26:16 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 223C6UHo011437;
-	Thu, 3 Mar 2022 12:26:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=VQGDgxpGbapzOdR8KeQZ/XcPITteiqXIQDpKy8IecYY=;
- b=AxinDINm4I4RCkMtCTjpNKtEoGgBypnK+djSsBzdUnCF8wknwfcx/TVz+NANKCi+E9r+
- 5EObeN3x4EaARUp22IamnrEJWXddaKSlDvggeZvIJ5HNKCZquHhr+MiGTh6hdvTIlqLM
- O9Q4MUU3AQMX51F8akG1fjHQ4SGYrPDaD11Fn7E3TVzzURLXhDzQM+wViGWzHgfjEBS5
- a3OXozxzDoUdasmhwIzm7ZcN9JpmmRoTIhhxHZoTLDMWbHWZGbz5le1f3d5GLs5l/gXz
- QzpTJYBPpwz8woBeRGjjdMirmh6v9kd2MhChj8GSTEQERwfT/x5zGYj7JkW0ZpT4z68r 9Q== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3ehdayxye0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 03 Mar 2022 12:26:07 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 223C5Seo090573;
-	Thu, 3 Mar 2022 12:26:06 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
-	by userp3020.oracle.com with ESMTP id 3efdnsha3p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 03 Mar 2022 12:26:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eY440syv+7DrOReo6EEWduYFWDoH8J0Sqli/i/yzHxs0otBrNY8EaF0P4zNkmzrhjtcJhWX9w9ls91ZL1c9Gd+okv05ZfjBNsUDXTGum9UBQzYwIwjDYtydo1VoKvEzqGj0/v/sVdmQehF8cH73ja00IJa8xThV/Naw7f1nYF4+JmGA5XApi3l4d02gxlWV9wTmD5w2nCTHIrj5MQlzG9i9b1bKA4P3X1oZ0/7dkfACrJyU+E9UfM5a8KUgnFzKVGsezIryYs7o8GxCQ6EwFtmICm5KN7+inXMjQsSYEN5g+GJ+NUYowdExN3o5nTBmUitOgQpqupZ/3LPYXOviZuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VQGDgxpGbapzOdR8KeQZ/XcPITteiqXIQDpKy8IecYY=;
- b=jhBQhN1ZFnhdIIoQ2+InRSeoWabKeQlKFsPR3HWeEG+WcSfW+oCPGN3kl9wyipL3mXmfSQEQOnP0+vVPnRNg2WwRTz5C93f2/JBLSuwrUPT5qI2p3CSzNkbaIelxH/1LNMaDP9qFhPhzwqT6AflZhFvxkV3DWQphOC1hF21Q3Df03hnQ3c5/65hfjnUUOU8pQ8yOqUJkQ7BlMm3rqQd9lfT23SGl2pxHa7EiYIZXCr+8yBb/KxVHsnXLOLmPGSyako4MVPyQwqiO9V0PxxRO0pw0OwfSYy8M78+AlDCRLpsf80YQAUb/0tldlgW/EgLSW3WUVjNB4M5kJPA9sCU4sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB214367
+	for <linux-staging@lists.linux.dev>; Thu,  3 Mar 2022 12:37:48 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id ev16-20020a17090aead000b001bc3835fea8so4771523pjb.0
+        for <linux-staging@lists.linux.dev>; Thu, 03 Mar 2022 04:37:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VQGDgxpGbapzOdR8KeQZ/XcPITteiqXIQDpKy8IecYY=;
- b=oFjbZiYKmkG0m+2JN4XAqrj6ZBMMlhr4qdogoYYyOyJuauJ5UcbkEgDEdtgv8gEJ0Rfx36LmJZ41D5H40Wo1ferBBgRnG6vVY2XGkPbFjy0QYW51yIssN0NoRJXOCNROaq6XgvuceS8oVitkaoHTmaIUnGznAPLTu5OgaWr2V1M=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4595.namprd10.prod.outlook.com
- (2603:10b6:303:98::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Thu, 3 Mar
- 2022 12:26:03 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5%4]) with mapi id 15.20.5017.027; Thu, 3 Mar 2022
- 12:26:03 +0000
-Date: Thu, 3 Mar 2022 15:25:47 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Gaston Gonzalez <gascoar@gmail.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
-        nsaenz@kernel.org, stefan.wahren@i2se.com, ojaswin98@gmail.com,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: vchiq_arm: add prototype of function
- vchiq_platform_init()
-Message-ID: <20220303122546.GH2794@kadam>
-References: <cover.1646255044.git.gascoar@gmail.com>
- <b74ac90e869f71a98a04b834c4f3b5ab37bb38ea.1646255044.git.gascoar@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b74ac90e869f71a98a04b834c4f3b5ab37bb38ea.1646255044.git.gascoar@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MRXP264CA0043.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:500:14::31) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=FF/MJjppdIPbLAPuX69GDDcuetlfqDD+38vpsQJKjV4=;
+        b=bORDDPjE3HJ8Q+lkuHUI9YXm2z2OfuiHyYo73LjCVUqKH+mzapaLyTx7j6vUSzodyH
+         H1fbBW3W0VvnP5bKsE/Cw0qa3UKie6z+yV023jD/NJPLY9kKDIxXXIT7NvpcVUCfUtIs
+         KFg6MVSLFINqOtsOfPJChC2DDL1HsjgJIQ8T87wI93Fz/8cIhc43z3LdnIXEJu5YqpzN
+         mnmxIpvlp/TKF5EWx4k9hHupAU2T1e2iVIXLRuFiSvdgN4U8XMzx7dalBaWhuU90/nq+
+         yD0rNidPjh7VKui8oE8v/Ywp+ZPTs/OvJCCqJBXBdG8sdbvMpiVPMu/2SHGpauCCE/Ok
+         XUow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=FF/MJjppdIPbLAPuX69GDDcuetlfqDD+38vpsQJKjV4=;
+        b=E/F4bT/lKHE60fQIFQrkNQtEyCRfZy6I8vSB518W3DUbPuE0UivZ+7vyB1tVEwsiIG
+         XGbYNlNDkQpwbfhr91+9RIOsaNPaLJTpXxelxVH+hztQ0BwvGAF5r3qOgI7qoPF3//oP
+         zwcIaLmntadlsrX7+c4FGFdaY9GRFBLFQchHoFEXQhhVEW0r1Fyt+nOUM8q/xd41utjf
+         jnA6AvNPRzeVkjmBebshcyCn6fw8ahdYjEp8xHNCMRvIobjAP2Ic4XgY6t6xVu3SmdY9
+         pHhWIxCfUP4xNY7G5zygY65xKX5XY+CZjLwiv8y/ZaThbaKDRgdOrcCmA8a5RlF4iC9Y
+         De7w==
+X-Gm-Message-State: AOAM531pc+CsF/AZewl9p/u61ApCUmOVeMmfN8ijl2Hk5uyU8uCd7k4r
+	IV6FmNe4YnRsqMm+CIhNzHg=
+X-Google-Smtp-Source: ABdhPJwaQutGx29a4puPWhBgOBT74prgxxfsvHgGuVwO/yqGuQ+dVL8XCd59bWLeDERLYwR3js66yQ==
+X-Received: by 2002:a17:903:22d0:b0:151:97f5:db54 with SMTP id y16-20020a17090322d000b0015197f5db54mr7837971plg.58.1646311068298;
+        Thu, 03 Mar 2022 04:37:48 -0800 (PST)
+Received: from ubuntu.huawei.com ([119.3.119.19])
+        by smtp.googlemail.com with ESMTPSA id t7-20020a17090a024700b001bf12386db4sm1483030pje.47.2022.03.03.04.37.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Mar 2022 04:37:47 -0800 (PST)
+From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+To: david.laight@aculab.com
+Cc: akpm@linux-foundation.org,
+	alsa-devel@alsa-project.org,
+	amd-gfx@lists.freedesktop.org,
+	andriy.shevchenko@linux.intel.com,
+	arnd@arndb.de,
+	bcm-kernel-feedback-list@broadcom.com,
+	bjohannesmeyer@gmail.com,
+	c.giuffrida@vu.nl,
+	christian.koenig@amd.com,
+	christophe.jaillet@wanadoo.fr,
+	dan.carpenter@oracle.com,
+	dmaengine@vger.kernel.org,
+	drbd-dev@lists.linbit.com,
+	dri-devel@lists.freedesktop.org,
+	gustavo@embeddedor.com,
+	h.j.bos@vu.nl,
+	intel-gfx@lists.freedesktop.org,
+	intel-wired-lan@lists.osuosl.org,
+	jakobkoschel@gmail.com,
+	jgg@ziepe.ca,
+	keescook@chromium.org,
+	kgdb-bugreport@lists.sourceforge.net,
+	kvm@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-block@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-sgx@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net,
+	linux@rasmusvillemoes.dk,
+	linuxppc-dev@lists.ozlabs.org,
+	nathan@kernel.org,
+	netdev@vger.kernel.org,
+	nouveau@lists.freedesktop.org,
+	rppt@kernel.org,
+	samba-technical@lists.samba.org,
+	tglx@linutronix.de,
+	tipc-discussion@lists.sourceforge.net,
+	torvalds@linux-foundation.org,
+	v9fs-developer@lists.sourceforge.net,
+	xiam0nd.tong@gmail.com
+Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body as a ptr
+Date: Thu,  3 Mar 2022 20:37:18 +0800
+Message-Id: <20220303123718.12426-1-xiam0nd.tong@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <2d208771c50b4c6db4f43039e9d62851@AcuMS.aculab.com>
+References: <2d208771c50b4c6db4f43039e9d62851@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2468594c-13c2-47ea-1626-08d9fd10fb83
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4595:EE_
-X-Microsoft-Antispam-PRVS: 
-	<CO1PR10MB4595FFC377206E4D862796F68E049@CO1PR10MB4595.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	7WrDmMqdK06QE8Ys/kc+a9kl54E+xRM4HZZ+Us3RXyQA8EtJyfRs+4RXKnMn1iedRqRpX0PJvm+jGj+oJwfRNw++uV+eaArpke+mcrKntKNPJ9GEvZDNxMM7k9Dne4XCOVcMBwdeJHEt3kTMKHFYebt7KM2rxoy4fPyaaGDqyNycsJPIeSNVuSxomSObXf2WRamtKp68FZexE9mNMRTCgdtpJ8UW8LT43PN1/dwxJadt30RfYCfrK7st9ieUbg0L3iVzRAK/ykNOa7GYaizJtbE/6flQg19sYfkB2DQCpi/7E1qB5JnDPafjsszPJnyCZNMOfZJzmfyM3YchzQ4iiYC1UaV/BFzZbykrWCj5v3twtKnpFVdGh5Y41ch3fEoF5Pai/AzuCHZxz57H8GKQZ5pdIZmq6RVIOymxxk/M+6342mOKAngw3oG75i0xxSFzK/3tCvPqtfI4FfZURiuVY2LdQXAbPTbVWjI5fBdcC+t6qwuTdAMl7KdL+LTRfZqophUQO5V3/syz7Lh0eze2+/grJeg5efGpWQb2/PDlC2OxXkBqlh9eu5BbBpRvrXlv5FTM7BqOFpym+Y9NfSpcnC9dCbciQVv+Jfl9g82/gg/53nlx+RnS7eTxJ/zVmBvFseJDrW7+6KifimgV4PU9BJpHN6wQkCl/6MZig7+kKdGrJn0aE8jfSjjAdOVtfX9uFuDwO+JI/cEu8vXnB1Em1A==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(38100700002)(33716001)(2906002)(26005)(38350700002)(5660300002)(508600001)(6916009)(6506007)(186003)(86362001)(52116002)(8676002)(44832011)(4326008)(6666004)(4744005)(83380400001)(66476007)(8936002)(66556008)(6512007)(9686003)(33656002)(7416002)(6486002)(1076003)(316002)(66946007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?pERdCJPmT7pQn1atxQhn3IzqLbmYB6yilNCJjxjGZ0B9tjXXCcEjXDYqtuzL?=
- =?us-ascii?Q?nRJQ55VBGk0p50XjUrmcwCO/pe8sKV+j5FHA0Y3G3JDJuCt3HRh9j24jxdaH?=
- =?us-ascii?Q?9UVXIC/k2r5ZJliR9U2iIZnE2qvupokUg0h07jUwPXo/7geM2h0jSdU6g1y5?=
- =?us-ascii?Q?Y5FBzlVg05o0cGVDO9tNohYvMG5Tt1cmq6kaCx/Vz7dHlxoOVI1zaGlJoJ5C?=
- =?us-ascii?Q?9jgwdeqB+nO3RAZ4roEqnjff00lSBE5FL60uTbE08VioF8YDZVgWfCLrBo6B?=
- =?us-ascii?Q?O+hTYybdCO+M/YnRwmc9/GLFgSHp1o28p2PHj6ahgE8lEHvDCgm4EfdW3u6p?=
- =?us-ascii?Q?2HagI2Zu8hq2wQqxi1gPB+8cZrNabp6Vn1o7UCuXCX0hHrLLRumCf11SBXi6?=
- =?us-ascii?Q?VdH5Q4UA6gnI29NRogML84sWib/493oFHGb6SQk20wP+xRHk91cXviDgxeTR?=
- =?us-ascii?Q?Cun0zriMBAwxFwZXPlAz4qyuVoLzVUu3mAd1tphPfd3Wo+GnHFiedWpAf9+M?=
- =?us-ascii?Q?E8rMpearhsYO99ADktTZ70WtC4zDMTHTNiLcWrcZVja+RY4DUd2vj9uQRslV?=
- =?us-ascii?Q?+MPH5LtbUqizWdHPRi4QjOVsPOB5/z4o24f985JfGOMridugdLYk+3OkBXPU?=
- =?us-ascii?Q?94q2iWtwnktxeKXtK3yP4Jnn+1AtnSq4SlISc5+NUuuQ8BdRqRFg/R1vz7Cw?=
- =?us-ascii?Q?nA57m0UQtJ+umhYkMBlCGp1RN76x9+AGum9dzXzawBu8ShhEFoR19v1rf/xR?=
- =?us-ascii?Q?7X6nhE+EcP7hcnkbj1C4zo1j5xzNSOTWsmrLyacaLBvo9W3tv8XwhfMg8D3T?=
- =?us-ascii?Q?LQKVScpOenS591Pvzf/EiBJKcj1SRWZMqJ/maFPuRqcisgz+re7kzfy1Buae?=
- =?us-ascii?Q?HsB3keyWJRyO6S8WLweT/dANc3c6/0fun+2xx/jRfVyWfkPciXPLyYdKXnAj?=
- =?us-ascii?Q?TupNsTYkTWOQA/IYnpXAxEuIu6HYhn46aDNqxeFBi1JJm2kOnC4LRO+WZiL7?=
- =?us-ascii?Q?vgZFwyE8x9xYnt+Zsckj5DFMfCLyneCsX/Yh8NSIdnl+tc/0ay6ZeZ0IIBq9?=
- =?us-ascii?Q?bSEk0iDIzE3YrF2qnIuGnOXelQ+X58KeWG8Prp2Xm7rpTX0RdDiZa5voBYZ2?=
- =?us-ascii?Q?JFBcPPUlWRn11gUMoH7gIV0ec/qZkRn+t0wDslHt3Ty2D8AOgln9rrW3YZij?=
- =?us-ascii?Q?xbmQ4WLGaAhjq1wWYflR7sm/3jK2JLFza8tuNeyipays6Mp3EfdgKaX/y1B+?=
- =?us-ascii?Q?J5d8/SeXu7VNKWkvUTPViftIi926aEVco+zy18bkklDmo+AGnZFaTmV4UL6s?=
- =?us-ascii?Q?C14ZVOL3uAG9EsFAAUgNysCZBqmA5gmUzUJeaJG4fxmoCjGlq/x8c8+3nyCn?=
- =?us-ascii?Q?WTkyBFxQStUD7fgjileGg8hv8B4LjbR+cdz4fveRFsb1BlI7LZgRzRgRHP06?=
- =?us-ascii?Q?LxT11HmuzQ8bkXcaEwvJYrzo/nrIMdfELAkx+jFl4b/RUtdfNyzJ8X6V6spN?=
- =?us-ascii?Q?+4qgcrFn5hYU66sBDsgGwWo2rX0keJxcYiOwfd80JJJl/2yMgshPLl1e1T4U?=
- =?us-ascii?Q?syYvhMGCEWg42JOeBECY77J0D6T4ndTqelMj2kB7uwPBqiAMuui/H/WF7poL?=
- =?us-ascii?Q?WQ6bQfhatv3cWTOGkzfDROYUynMGJ1ZgQzShtifR5rcq6syPdaBpkkAhCmyX?=
- =?us-ascii?Q?U5LKag=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2468594c-13c2-47ea-1626-08d9fd10fb83
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2022 12:26:03.2174
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mU46L2Q3we9vy92DivhdhYDnAPZ/I89AiJ3ZehHsViLZAs5a93hHssnZqz47zakC+dAzHvigzEb0EsvgUqCzVw3cQbGsa+wOTIHav469htM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4595
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10274 signatures=686787
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
- adultscore=0 phishscore=0 spamscore=0 suspectscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2203030059
-X-Proofpoint-GUID: JwWbszR5tP2VRAPaXUgXYSw8zM5y5HOQ
-X-Proofpoint-ORIG-GUID: JwWbszR5tP2VRAPaXUgXYSw8zM5y5HOQ
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 02, 2022 at 06:36:38PM -0300, Gaston Gonzalez wrote:
-> Fix "no previous prototype" W=1 warning by adding the prototype of the
-> function vchiq_platform_init().
+> From: Xiaomeng Tong
+> > Sent: 03 March 2022 07:27
+> > 
+> > On Thu, 3 Mar 2022 04:58:23 +0000, David Laight wrote:
+> > > on 3 Mar 2022 10:27:29 +0800, Xiaomeng Tong wrote:
+> > > > The problem is the mis-use of iterator outside the loop on exit, and
+> > > > the iterator will be the HEAD's container_of pointer which pointers
+> > > > to a type-confused struct. Sidenote: The *mis-use* here refers to
+> > > > mistakely access to other members of the struct, instead of the
+> > > > list_head member which acutally is the valid HEAD.
+> > >
+> > > The problem is that the HEAD's container_of pointer should never
+> > > be calculated at all.
+> > > This is what is fundamentally broken about the current definition.
+> > 
+> > Yes, the rule is "the HEAD's container_of pointer should never be
+> > calculated at all outside the loop", but how do you make sure everyone
+> > follows this rule?
+> > Everyone makes mistakes, but we can eliminate them all from the beginning
+> > with the help of compiler which can catch such use-after-loop things.
+> > 
+> > > > IOW, you would dereference a (NULL + offset_of_member) address here.
+> > >
+> > >Where?
+> > 
+> > In the case where a developer do not follows the above rule, and mistakely
+> > access a non-list-head member of the HEAD's container_of pointer outside
+> > the loop. For example:
+> >     struct req{
+> >       int a;
+> >       struct list_head h;
+> >     }
+> >     struct req *r;
+> >     list_for_each_entry(r, HEAD, h) {
+> >       if (r->a == 0x10)
+> >         break;
+> >     }
+> >     // the developer made a mistake: he didn't take this situation into
+> >     // account where all entries in the list are *r->a != 0x10*, and now
+> >     // the r is the HEAD's container_of pointer.
+> >     r->a = 0x20;
+> > Thus the "r->a = 0x20" would dereference a (NULL + offset_of_member)
+> > address here.
 > 
-> Note: vchiq_platform_init() is only called once in vchiq_probe(), so
-> presumably should be static function. However, making the function
-> static breaks the build.
+> That is just a bug.
+> No different to failing to check anything else might 'return'
+> a NULL pointer.
+
+Yes, but it‘s a mistake everyone has made and will make, we should avoid
+this at the beginning with the help of compiler.
+
+> Because it is a NULL dereference you find out pretty quickly.
+
+AFAIK，NULL dereference is a undefined bahavior, can compiler quickly
+catch it? Or it can only be applied to some simple/restricted cases.
+
+> The existing loop leaves you with a valid pointer to something
+> that isn't a list item.
+> 
+> > > > Please remind me if i missed something, thanks.
+> > > >
+> > > > Can you share your "alternative definitions" details? thanks!
+> > >
+> > > The loop should probably use as extra variable that points
+> > > to the 'list node' in the next structure.
+> > > Something like:
+> > > 	for (xxx *iter = head->next;
+> > > 		iter == &head ? ((item = NULL),0) : ((item = list_item(iter),1));
+> > > 		iter = item->member->next) {
+> > > 	   ...
+> > > With a bit of casting you can use 'item' to hold 'iter'.
+> > 
+> > you still can not make sure everyone follows this rule:
+> > "do not use iterator outside the loop" without the help of compiler,
+> > because item is declared outside the loop.
+> 
+> That one has 'iter' defined in the loop.
+
+Oh, sorry, I misunderstood. Then this is the same way with my way of
+list_for_each_entry_inside(pos, type, head, member), which declare
+the iterator inside the loop.
+You go further and make things like "&pos->member == (head)" goes away
+to avoid calculate the HEAD's container_of pointer, although the
+calculation is harmless.
+
+> 
+> > BTW, to avoid ambiguity，the "alternative definitions" here i asked is
+> > something from you in this context:
+> > "OTOH there may be alternative definitions that can be used to get
+> > the compiler (or other compiler-like tools) to detect broken code.
+> > Even if the definition can't possibly generate a working kerrnel."
+> 
+> I was thinking of something like:
+> 	if ((pos = list_first)), 1) pos = NULL else
+> so that unchecked dereferences after the loop will be detectable
+> as NULL pointer offsets - but that in itself isn't enough to avoid
+> other warnings.
 > 
 
-That's weird.  I don't have an ARM cross compile set up.  How does the
-build break?
+Do you mean put this right after the loop (I changed somthing that i
+do not understand, please correct me if i am worng, thanks):
+       if (pos == list_first) pos = NULL; else
+and compiler can detect the following NULL derefernce?
+But if the NULL derefernce is just right after the loop originally,
+it will be masked by the *else* keyword。
 
-regards,
-dan carpenter
+> > > > The "list_for_each_entry_inside(pos, type, head, member)" way makes
+> > > > the iterator invisiable outside the loop, and would be catched by
+> > > > compiler if use-after-loop things happened.
+> > 
+> > > It is also a compete PITA for anything doing a search.
+> > 
+> > You mean it would be a burden on search? can you show me some examples?
+> 
+> The whole business of having to save the pointer to the located item
+> before breaking the loop, remembering to have set it to NULL earlier etc.
 
+Ok, i see. And then you need pass a "item" to the list_for_each_entry macro
+as a new argument.
+
+> 
+> It is so much better if you can just do:
+> 		if (found)
+> 			break;
+> 
+> 	David
+
+this confused me. this way is better or the "save the pointer to the located item
+before breaking the loop" one?
+
+--
+Xiaomeng Tong
