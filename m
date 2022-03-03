@@ -1,172 +1,212 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4637A
-	for <linux-staging@lists.linux.dev>; Thu,  3 Mar 2022 09:30:19 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-318-HvTdrMxlM1W3jsGT6It_3A-1; Thu, 03 Mar 2022 09:30:16 +0000
-X-MC-Unique: HvTdrMxlM1W3jsGT6It_3A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Thu, 3 Mar 2022 09:30:14 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Thu, 3 Mar 2022 09:30:14 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Xiaomeng Tong' <xiam0nd.tong@gmail.com>
-CC: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"arnd@arndb.de" <arnd@arndb.de>, "bcm-kernel-feedback-list@broadcom.com"
-	<bcm-kernel-feedback-list@broadcom.com>, "bjohannesmeyer@gmail.com"
-	<bjohannesmeyer@gmail.com>, "c.giuffrida@vu.nl" <c.giuffrida@vu.nl>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>,
-	"christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
-	"dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
-	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"gustavo@embeddedor.com" <gustavo@embeddedor.com>, "h.j.bos@vu.nl"
-	<h.j.bos@vu.nl>, "intel-gfx@lists.freedesktop.org"
-	<intel-gfx@lists.freedesktop.org>, "intel-wired-lan@lists.osuosl.org"
-	<intel-wired-lan@lists.osuosl.org>, "jakobkoschel@gmail.com"
-	<jakobkoschel@gmail.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"kgdb-bugreport@lists.sourceforge.net"
-	<kgdb-bugreport@lists.sourceforge.net>, "kvm@vger.kernel.org"
-	<kvm@vger.kernel.org>, "linux-arch@vger.kernel.org"
-	<linux-arch@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-cifs@vger.kernel.org"
-	<linux-cifs@vger.kernel.org>, "linux-crypto@vger.kernel.org"
-	<linux-crypto@vger.kernel.org>, "linux-f2fs-devel@lists.sourceforge.net"
-	<linux-f2fs-devel@lists.sourceforge.net>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-iio@vger.kernel.org"
-	<linux-iio@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "linux-sgx@vger.kernel.org"
-	<linux-sgx@vger.kernel.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>, "linux-tegra@vger.kernel.org"
-	<linux-tegra@vger.kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>, "linux1394-devel@lists.sourceforge.net"
-	<linux1394-devel@lists.sourceforge.net>, "linux@rasmusvillemoes.dk"
-	<linux@rasmusvillemoes.dk>, "linuxppc-dev@lists.ozlabs.org"
-	<linuxppc-dev@lists.ozlabs.org>, "nathan@kernel.org" <nathan@kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-	"rppt@kernel.org" <rppt@kernel.org>, "samba-technical@lists.samba.org"
-	<samba-technical@lists.samba.org>, "tglx@linutronix.de" <tglx@linutronix.de>,
-	"tipc-discussion@lists.sourceforge.net"
-	<tipc-discussion@lists.sourceforge.net>, "torvalds@linux-foundation.org"
-	<torvalds@linux-foundation.org>, "v9fs-developer@lists.sourceforge.net"
-	<v9fs-developer@lists.sourceforge.net>
-Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-Thread-Index: AQHYLhg9+DU/OogLf0+tiSFmjztyUKysHu+QgADRVYCAACVtoIAALj+AgAAE1XA=
-Date: Thu, 3 Mar 2022 09:30:14 +0000
-Message-ID: <2d208771c50b4c6db4f43039e9d62851@AcuMS.aculab.com>
-References: <39404befad5b44b385698ff65465abe5@AcuMS.aculab.com>
- <20220303072657.11124-1-xiam0nd.tong@gmail.com>
-In-Reply-To: <20220303072657.11124-1-xiam0nd.tong@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9307A;
+	Thu,  3 Mar 2022 10:13:16 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:1c92:7dc6:3047:5f3b] (unknown [IPv6:2a01:e0a:120:3210:1c92:7dc6:3047:5f3b])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6B95E1F45504;
+	Thu,  3 Mar 2022 10:13:07 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1646302388;
+	bh=yXrU5uknXeIgDXfseugJ6jxwHEV2jK9Ih9G3VFEr2FI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bWVRkTP+uWNzEJtWGLu3XPF5ZJ41K4BK716WAmi9uspUwCdUgaKt95YXbMBnW98MU
+	 J2LX0BlIcoNK1sY++GggCAo3KB6t0uJnsJgaGgYhuBz/eWFSRp72KEsfDrZFANmn+C
+	 FRS0h3UQYVLoAH4kHCGScI4okAIF83f04Q4n7GPpk8B9O45tHWHpZbusNvfz1biaO5
+	 IlGT8HAzjTKo4zYFJ2plbyrgssJasOleChDM3LIN/BcYjb/m7KtujJwhXr3SjIIwsf
+	 szCA0uEecK4Tp4xi397nVytkO5epxm5Ctjf0oSQHX0YeguERx4dO8LhotQniwDnfsB
+	 9AyLg6dpI80mg==
+Message-ID: <678c1f01-c6cd-d1be-bd0b-277a808b006a@collabora.com>
+Date: Thu, 3 Mar 2022 11:13:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 00/14] Move HEVC stateless controls out of staging
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+To: Adam Ford <aford173@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>,
+ "jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-media <linux-media@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
+ kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
+ <CAHCN7x+AUy4JsqfdyZFqg4ScR1OgoLvqF91za0AZ278NSBJj4A@mail.gmail.com>
+ <b832271d-cecd-a373-48ff-ba5ce736e47d@collabora.com>
+ <CAHCN7xJ3K2bLEc8dcTM+x-E0brDW-t4yrUdkUe0jCfuzH8v9pA@mail.gmail.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAHCN7xJ3K2bLEc8dcTM+x-E0brDW-t4yrUdkUe0jCfuzH8v9pA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-RnJvbTogWGlhb21lbmcgVG9uZw0KPiBTZW50OiAwMyBNYXJjaCAyMDIyIDA3OjI3DQo+IA0KPiBP
-biBUaHUsIDMgTWFyIDIwMjIgMDQ6NTg6MjMgKzAwMDAsIERhdmlkIExhaWdodCB3cm90ZToNCj4g
-PiBvbiAzIE1hciAyMDIyIDEwOjI3OjI5ICswODAwLCBYaWFvbWVuZyBUb25nIHdyb3RlOg0KPiA+
-ID4gVGhlIHByb2JsZW0gaXMgdGhlIG1pcy11c2Ugb2YgaXRlcmF0b3Igb3V0c2lkZSB0aGUgbG9v
-cCBvbiBleGl0LCBhbmQNCj4gPiA+IHRoZSBpdGVyYXRvciB3aWxsIGJlIHRoZSBIRUFEJ3MgY29u
-dGFpbmVyX29mIHBvaW50ZXIgd2hpY2ggcG9pbnRlcnMNCj4gPiA+IHRvIGEgdHlwZS1jb25mdXNl
-ZCBzdHJ1Y3QuIFNpZGVub3RlOiBUaGUgKm1pcy11c2UqIGhlcmUgcmVmZXJzIHRvDQo+ID4gPiBt
-aXN0YWtlbHkgYWNjZXNzIHRvIG90aGVyIG1lbWJlcnMgb2YgdGhlIHN0cnVjdCwgaW5zdGVhZCBv
-ZiB0aGUNCj4gPiA+IGxpc3RfaGVhZCBtZW1iZXIgd2hpY2ggYWN1dGFsbHkgaXMgdGhlIHZhbGlk
-IEhFQUQuDQo+ID4NCj4gPiBUaGUgcHJvYmxlbSBpcyB0aGF0IHRoZSBIRUFEJ3MgY29udGFpbmVy
-X29mIHBvaW50ZXIgc2hvdWxkIG5ldmVyDQo+ID4gYmUgY2FsY3VsYXRlZCBhdCBhbGwuDQo+ID4g
-VGhpcyBpcyB3aGF0IGlzIGZ1bmRhbWVudGFsbHkgYnJva2VuIGFib3V0IHRoZSBjdXJyZW50IGRl
-ZmluaXRpb24uDQo+IA0KPiBZZXMsIHRoZSBydWxlIGlzICJ0aGUgSEVBRCdzIGNvbnRhaW5lcl9v
-ZiBwb2ludGVyIHNob3VsZCBuZXZlciBiZQ0KPiBjYWxjdWxhdGVkIGF0IGFsbCBvdXRzaWRlIHRo
-ZSBsb29wIiwgYnV0IGhvdyBkbyB5b3UgbWFrZSBzdXJlIGV2ZXJ5b25lDQo+IGZvbGxvd3MgdGhp
-cyBydWxlPw0KPiBFdmVyeW9uZSBtYWtlcyBtaXN0YWtlcywgYnV0IHdlIGNhbiBlbGltaW5hdGUg
-dGhlbSBhbGwgZnJvbSB0aGUgYmVnaW5uaW5nDQo+IHdpdGggdGhlIGhlbHAgb2YgY29tcGlsZXIg
-d2hpY2ggY2FuIGNhdGNoIHN1Y2ggdXNlLWFmdGVyLWxvb3AgdGhpbmdzLg0KPiANCj4gPiA+IElP
-VywgeW91IHdvdWxkIGRlcmVmZXJlbmNlIGEgKE5VTEwgKyBvZmZzZXRfb2ZfbWVtYmVyKSBhZGRy
-ZXNzIGhlcmUuDQo+ID4NCj4gPldoZXJlPw0KPiANCj4gSW4gdGhlIGNhc2Ugd2hlcmUgYSBkZXZl
-bG9wZXIgZG8gbm90IGZvbGxvd3MgdGhlIGFib3ZlIHJ1bGUsIGFuZCBtaXN0YWtlbHkNCj4gYWNj
-ZXNzIGEgbm9uLWxpc3QtaGVhZCBtZW1iZXIgb2YgdGhlIEhFQUQncyBjb250YWluZXJfb2YgcG9p
-bnRlciBvdXRzaWRlDQo+IHRoZSBsb29wLiBGb3IgZXhhbXBsZToNCj4gICAgIHN0cnVjdCByZXF7
-DQo+ICAgICAgIGludCBhOw0KPiAgICAgICBzdHJ1Y3QgbGlzdF9oZWFkIGg7DQo+ICAgICB9DQo+
-ICAgICBzdHJ1Y3QgcmVxICpyOw0KPiAgICAgbGlzdF9mb3JfZWFjaF9lbnRyeShyLCBIRUFELCBo
-KSB7DQo+ICAgICAgIGlmIChyLT5hID09IDB4MTApDQo+ICAgICAgICAgYnJlYWs7DQo+ICAgICB9
-DQo+ICAgICAvLyB0aGUgZGV2ZWxvcGVyIG1hZGUgYSBtaXN0YWtlOiBoZSBkaWRuJ3QgdGFrZSB0
-aGlzIHNpdHVhdGlvbiBpbnRvDQo+ICAgICAvLyBhY2NvdW50IHdoZXJlIGFsbCBlbnRyaWVzIGlu
-IHRoZSBsaXN0IGFyZSAqci0+YSAhPSAweDEwKiwgYW5kIG5vdw0KPiAgICAgLy8gdGhlIHIgaXMg
-dGhlIEhFQUQncyBjb250YWluZXJfb2YgcG9pbnRlci4NCj4gICAgIHItPmEgPSAweDIwOw0KPiBU
-aHVzIHRoZSAici0+YSA9IDB4MjAiIHdvdWxkIGRlcmVmZXJlbmNlIGEgKE5VTEwgKyBvZmZzZXRf
-b2ZfbWVtYmVyKQ0KPiBhZGRyZXNzIGhlcmUuDQoNClRoYXQgaXMganVzdCBhIGJ1Zy4NCk5vIGRp
-ZmZlcmVudCB0byBmYWlsaW5nIHRvIGNoZWNrIGFueXRoaW5nIGVsc2UgbWlnaHQgJ3JldHVybicN
-CmEgTlVMTCBwb2ludGVyLg0KQmVjYXVzZSBpdCBpcyBhIE5VTEwgZGVyZWZlcmVuY2UgeW91IGZp
-bmQgb3V0IHByZXR0eSBxdWlja2x5Lg0KVGhlIGV4aXN0aW5nIGxvb3AgbGVhdmVzIHlvdSB3aXRo
-IGEgdmFsaWQgcG9pbnRlciB0byBzb21ldGhpbmcNCnRoYXQgaXNuJ3QgYSBsaXN0IGl0ZW0uDQoN
-Cj4gPiA+IFBsZWFzZSByZW1pbmQgbWUgaWYgaSBtaXNzZWQgc29tZXRoaW5nLCB0aGFua3MuDQo+
-ID4gPg0KPiA+ID4gQ2FuIHlvdSBzaGFyZSB5b3VyICJhbHRlcm5hdGl2ZSBkZWZpbml0aW9ucyIg
-ZGV0YWlscz8gdGhhbmtzIQ0KPiA+DQo+ID4gVGhlIGxvb3Agc2hvdWxkIHByb2JhYmx5IHVzZSBh
-cyBleHRyYSB2YXJpYWJsZSB0aGF0IHBvaW50cw0KPiA+IHRvIHRoZSAnbGlzdCBub2RlJyBpbiB0
-aGUgbmV4dCBzdHJ1Y3R1cmUuDQo+ID4gU29tZXRoaW5nIGxpa2U6DQo+ID4gCWZvciAoeHh4ICpp
-dGVyID0gaGVhZC0+bmV4dDsNCj4gPiAJCWl0ZXIgPT0gJmhlYWQgPyAoKGl0ZW0gPSBOVUxMKSww
-KSA6ICgoaXRlbSA9IGxpc3RfaXRlbShpdGVyKSwxKSk7DQo+ID4gCQlpdGVyID0gaXRlbS0+bWVt
-YmVyLT5uZXh0KSB7DQo+ID4gCSAgIC4uLg0KPiA+IFdpdGggYSBiaXQgb2YgY2FzdGluZyB5b3Ug
-Y2FuIHVzZSAnaXRlbScgdG8gaG9sZCAnaXRlcicuDQo+IA0KPiB5b3Ugc3RpbGwgY2FuIG5vdCBt
-YWtlIHN1cmUgZXZlcnlvbmUgZm9sbG93cyB0aGlzIHJ1bGU6DQo+ICJkbyBub3QgdXNlIGl0ZXJh
-dG9yIG91dHNpZGUgdGhlIGxvb3AiIHdpdGhvdXQgdGhlIGhlbHAgb2YgY29tcGlsZXIsDQo+IGJl
-Y2F1c2UgaXRlbSBpcyBkZWNsYXJlZCBvdXRzaWRlIHRoZSBsb29wLg0KDQpUaGF0IG9uZSBoYXMg
-J2l0ZXInIGRlZmluZWQgaW4gdGhlIGxvb3AuDQoNCj4gQlRXLCB0byBhdm9pZCBhbWJpZ3VpdHnv
-vIx0aGUgImFsdGVybmF0aXZlIGRlZmluaXRpb25zIiBoZXJlIGkgYXNrZWQgaXMNCj4gc29tZXRo
-aW5nIGZyb20geW91IGluIHRoaXMgY29udGV4dDoNCj4gIk9UT0ggdGhlcmUgbWF5IGJlIGFsdGVy
-bmF0aXZlIGRlZmluaXRpb25zIHRoYXQgY2FuIGJlIHVzZWQgdG8gZ2V0DQo+IHRoZSBjb21waWxl
-ciAob3Igb3RoZXIgY29tcGlsZXItbGlrZSB0b29scykgdG8gZGV0ZWN0IGJyb2tlbiBjb2RlLg0K
-PiBFdmVuIGlmIHRoZSBkZWZpbml0aW9uIGNhbid0IHBvc3NpYmx5IGdlbmVyYXRlIGEgd29ya2lu
-ZyBrZXJybmVsLiINCg0KSSB3YXMgdGhpbmtpbmcgb2Ygc29tZXRoaW5nIGxpa2U6DQoJaWYgKChw
-b3MgPSBsaXN0X2ZpcnN0KSksIDEpIHBvcyA9IE5VTEwgZWxzZQ0Kc28gdGhhdCB1bmNoZWNrZWQg
-ZGVyZWZlcmVuY2VzIGFmdGVyIHRoZSBsb29wIHdpbGwgYmUgZGV0ZWN0YWJsZQ0KYXMgTlVMTCBw
-b2ludGVyIG9mZnNldHMgLSBidXQgdGhhdCBpbiBpdHNlbGYgaXNuJ3QgZW5vdWdoIHRvIGF2b2lk
-DQpvdGhlciB3YXJuaW5ncy4NCg0KPiA+ID4gVGhlICJsaXN0X2Zvcl9lYWNoX2VudHJ5X2luc2lk
-ZShwb3MsIHR5cGUsIGhlYWQsIG1lbWJlcikiIHdheSBtYWtlcw0KPiA+ID4gdGhlIGl0ZXJhdG9y
-IGludmlzaWFibGUgb3V0c2lkZSB0aGUgbG9vcCwgYW5kIHdvdWxkIGJlIGNhdGNoZWQgYnkNCj4g
-PiA+IGNvbXBpbGVyIGlmIHVzZS1hZnRlci1sb29wIHRoaW5ncyBoYXBwZW5lZC4NCj4gDQo+ID4g
-SXQgaXMgYWxzbyBhIGNvbXBldGUgUElUQSBmb3IgYW55dGhpbmcgZG9pbmcgYSBzZWFyY2guDQo+
-IA0KPiBZb3UgbWVhbiBpdCB3b3VsZCBiZSBhIGJ1cmRlbiBvbiBzZWFyY2g/IGNhbiB5b3Ugc2hv
-dyBtZSBzb21lIGV4YW1wbGVzPw0KDQpUaGUgd2hvbGUgYnVzaW5lc3Mgb2YgaGF2aW5nIHRvIHNh
-dmUgdGhlIHBvaW50ZXIgdG8gdGhlIGxvY2F0ZWQgaXRlbQ0KYmVmb3JlIGJyZWFraW5nIHRoZSBs
-b29wLCByZW1lbWJlcmluZyB0byBoYXZlIHNldCBpdCB0byBOVUxMIGVhcmxpZXIgZXRjLg0KDQpJ
-dCBpcyBzbyBtdWNoIGJldHRlciBpZiB5b3UgY2FuIGp1c3QgZG86DQoJCWlmIChmb3VuZCkNCgkJ
-CWJyZWFrOw0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFt
-bGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3Ry
-YXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
+Le 03/03/2022 à 02:23, Adam Ford a écrit :
+> On Mon, Feb 28, 2022 at 4:13 AM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>>
+>> Le 26/02/2022 à 23:25, Adam Ford a écrit :
+>>> On Fri, Feb 25, 2022 at 4:41 PM Benjamin Gaignard
+>>> <benjamin.gaignard@collabora.com> wrote:
+>>>> This series aims to make HEVC uapi stable and usable for hardware
+>>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>>>> and 2 out of the tree drivers (rkvdec and RPI).
+>>>>
+>>>> After the remarks done on version 2, I have completely reworked to patches
+>>>> split so changelogs are meaningless. I have also drop "RFC" from the
+>>>> titles.
+>>>>
+>>>> In this v3 I do all the changes (new controls, documentation, etc..)
+>>>> in the staging directory before moving the HEVC uAPI to stable
+>>>> steps by steps (unlike the big one patch in v2).
+>>>>
+>>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>> I have push a branch here:
+>> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/HEVC_UAPI_V4
+>>
+>> it is the incoming version 4 of this series + patches to enable G2 on my IMX8MQ
+> Benjamin,
+>
+> I checked this repo out, and built it along with pulling the latest
+> versions of G-streamer and fluster.
+> When I check for v4l2 compatibility, I get the following:
+>
+>      GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
+> GStreamer 1.0... ✔️
+>      GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer 1.0... ❌
+>      GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+> GStreamer 1.0... ✔️
+>      GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+> GStreamer 1.0... ✔️
+>
+> I see H,264, VP8 and VP9, but I would have also expected
+> GStreamer-H.265-V4L2SL-Gst1.0 to return with a check box.
+>
+> When I checked to see if both decoders were being enumerated, I found they were.
+> [gst-main] root@localhost:~/gstreamer/fluster# dmesg |grep -i hantro
+> [   16.044243] hantro_vpu: module is from the staging directory, the
+> quality is unknown, you have been warned.
+> [   16.044243] hantro_vpu: module is from the staging directory, the
+> quality is unknown, you have been warned.
+> [   16.095661] hantro-vpu 38300000.video-codec: registered
+> nxp,imx8mq-vpu-g1-dec as /dev/video0
+> [   16.096782] hantro-vpu 38310000.video-codec: registered
+> nxp,imx8mq-vpu-g2-dec as /dev/video1
+>
+> Did I do something wrong, or did I miss something?
+
+Hi Adam,
+
+I guess it could be a misalignment between v4l2 kernel headers
+and GStreamer v4l2 headers.
+I have push a new version of the GST merge request which is aligned with
+HEVC uAPI v4 proposal.
+
+When you inspect v4l2codecs gst plugin (gst-inspect-1.0 v4l2codecs) do
+you see v4l2slh265dec plugin ?
+I have fluster happy with it:
+./fluster.py list -c
+
+
+H265
+     ...
+     GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for GStreamer 1.0... ❌
+     GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for GStreamer 1.0... ✔️
+     GStreamer-H.265-VA-Gst1.0: GStreamer H.265 VA decoder for GStreamer 1.0... ❌
+     GStreamer-H.265-VAAPI-Gst1.0: GStreamer H.265 VAAPI decoder for GStreamer 1.0... ❌
+     JCT-VT-H.265: JCT-VT H.265/HEVC reference decoder... ❌
+
+I hope that will help you,
+
+Regards,
+Benjamin
+
+>
+> adam
+>
+>> Regards,
+>> Benjamin
+>>
+>>> Benjamin,
+>>>
+>>> I have an imx8mm and imx8mq that I can test. Do you happen to have a
+>>> repo that I can clone to test this?  The imx8m stuff is spread around
+>>> between the media tree and the imx tree since it hasn't been fully
+>>> merged yet.
+>>>
+>>> thanks,
+>>>
+>>> adam
+>>>
+>>>> Benjamin
+>>>>
+>>>> Benjamin Gaignard (11):
+>>>>     media: uapi: HEVC: Add missing fields in HEVC controls
+>>>>     media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>>>>       prefix
+>>>>     media: uapi: HEVC: Add document uAPI structure
+>>>>     media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+>>>>       dynamic array
+>>>>     media: uapi: Move parsed HEVC pixel format out of staging
+>>>>     media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+>>>>     media: uapi: Move the HEVC stateless control type out of staging
+>>>>     media: controls: Log HEVC stateless control in .std_log
+>>>>     media: uapi: Create a dedicated header for Hantro control
+>>>>     media: uapi: HEVC: fix padding in v4l2 control structures
+>>>>     media: uapi: move HEVC stateless controls out of staging
+>>>>
+>>>> Hans Verkuil (3):
+>>>>     videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>>>>     v4l2-ctrls: add support for dynamically allocated arrays.
+>>>>     vivid: add dynamic array test control
+>>>>
+>>>>    .../userspace-api/media/drivers/hantro.rst    |   5 -
+>>>>    .../media/v4l/ext-ctrls-codec-stateless.rst   | 831 ++++++++++++++++++
+>>>>    .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
+>>>>    .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>>>>    .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>>>>    .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>>>>    .../media/videodev2.h.rst.exceptions          |   5 +
+>>>>    .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>>>>    drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>>>>    drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>>>>    drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>>>>    .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>>>>    include/media/hevc-ctrls.h                    | 250 ------
+>>>>    include/media/v4l2-ctrls.h                    |  48 +-
+>>>>    include/uapi/linux/hantro-media.h             |  19 +
+>>>>    include/uapi/linux/v4l2-controls.h            | 436 +++++++++
+>>>>    include/uapi/linux/videodev2.h                |  13 +
+>>>>    22 files changed, 1686 insertions(+), 1169 deletions(-)
+>>>>    delete mode 100644 include/media/hevc-ctrls.h
+>>>>    create mode 100644 include/uapi/linux/hantro-media.h
+>>>>
+>>>> --
+>>>> 2.32.0
+>>>>
