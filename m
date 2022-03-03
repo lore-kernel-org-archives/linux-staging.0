@@ -1,138 +1,202 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEB036B
-	for <linux-staging@lists.linux.dev>; Thu,  3 Mar 2022 02:27:53 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id 15-20020a17090a098f00b001bef0376d5cso3547355pjo.5
-        for <linux-staging@lists.linux.dev>; Wed, 02 Mar 2022 18:27:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=C6016/38QKZUQAyk5HMPjenTvm42Pe8sPBzTcqL5vmY=;
-        b=qBGtve+IuFrAkJa+gsN1WQjHRs2fvQkSK1D44BenBKAqsyswWIPF49CjeAw6Lc/Xiz
-         7VY9uX10GWOeYOq3Roffx9lK59MGCnSnWmLkHD6Zz3XGADMqQbIXFAspvzlfyt7tl87F
-         C44YITS/y0gKUKqqxM42VKL4jH/Xx4KasojD++jZOWXtcwkx1m//DlSoFwhQEbp4i/NS
-         eGEaCL2abI9d2Qo/vgVE47lljuFHl9RIsYb9haWI9DYl1+oIMHXMK3O9uyeK26H4D1AX
-         Jy4saNgfSyFkb5FP8pbKE6ds3BSqIpGBCoZu+qijzq/vfSl1dGYXTnehjmH9/ySByi+z
-         BIOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=C6016/38QKZUQAyk5HMPjenTvm42Pe8sPBzTcqL5vmY=;
-        b=BOntsyn6tr9vr7gykb2MU0ZziPQZeFKzWTW489um+ftFqAphahTfLVWfJjlibJHvQA
-         MmJXtsl/PQy2A4h4uZ8+TTBUKvO6a95ugALpskq+EoCcdsbIJdfPT03Inj8eh+4rXgyj
-         wbA8UsCCymMbbDzueYm1rweuZVhcDhe2eiayxwt8hW65dS3mQ4qv7HqttNCc9j4gNpu1
-         OEW2y5s0HA2o2fLRhgCx/t5NDuVqwc41U8odJpx6/mLl4VzapUPB/O1gM7/k7ga7PlE+
-         352Udp6XLl2vhoDq34gYb9lm4EtN3roi3tATAlhYMiHl1ewet/3l4Wn2vj7Tb4HIRokf
-         72CQ==
-X-Gm-Message-State: AOAM5322ZD8Z59Ty3yoJShh1OB17ZvuoNBh2/iSUvSCxFYZ6geVqJVQi
-	wW06lcf58hmBrOLY1zaqg24=
-X-Google-Smtp-Source: ABdhPJwdGKGtPoJbq9KB0b78P8kOQOqlHazHAUCZQHvA6TzNHcldJErwW75BUHOqmaVxrll88UvLqQ==
-X-Received: by 2002:a17:902:ec90:b0:151:a632:7ebb with SMTP id x16-20020a170902ec9000b00151a6327ebbmr1936164plg.154.1646274473191;
-        Wed, 02 Mar 2022 18:27:53 -0800 (PST)
-Received: from ubuntu.huawei.com ([119.3.119.19])
-        by smtp.googlemail.com with ESMTPSA id d15-20020a17090ab30f00b001b8e65326b3sm359822pjr.9.2022.03.02.18.27.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 18:27:52 -0800 (PST)
-From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To: david.laight@aculab.com
-Cc: akpm@linux-foundation.org,
-	alsa-devel@alsa-project.org,
-	amd-gfx@lists.freedesktop.org,
-	andriy.shevchenko@linux.intel.com,
-	arnd@arndb.de,
-	bcm-kernel-feedback-list@broadcom.com,
-	bjohannesmeyer@gmail.com,
-	c.giuffrida@vu.nl,
-	christian.koenig@amd.com,
-	christophe.jaillet@wanadoo.fr,
-	dan.carpenter@oracle.com,
-	dmaengine@vger.kernel.org,
-	drbd-dev@lists.linbit.com,
-	dri-devel@lists.freedesktop.org,
-	gustavo@embeddedor.com,
-	h.j.bos@vu.nl,
-	intel-gfx@lists.freedesktop.org,
-	intel-wired-lan@lists.osuosl.org,
-	jakobkoschel@gmail.com,
-	jgg@ziepe.ca,
-	keescook@chromium.org,
-	kgdb-bugreport@lists.sourceforge.net,
-	kvm@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-block@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sgx@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux1394-devel@lists.sourceforge.net,
-	linux@rasmusvillemoes.dk,
-	linuxppc-dev@lists.ozlabs.org,
-	nathan@kernel.org,
-	netdev@vger.kernel.org,
-	nouveau@lists.freedesktop.org,
-	rppt@kernel.org,
-	samba-technical@lists.samba.org,
-	tglx@linutronix.de,
-	tipc-discussion@lists.sourceforge.net,
-	torvalds@linux-foundation.org,
-	v9fs-developer@lists.sourceforge.net,
-	xiam0nd.tong@gmail.com
-Subject: RE: [PATCH 2/6] treewide: remove using list iterator after loop body as a ptr
-Date: Thu,  3 Mar 2022 10:27:29 +0800
-Message-Id: <20220303022729.9321-1-xiam0nd.tong@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
-References: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1C2F36A
+	for <linux-staging@lists.linux.dev>; Thu,  3 Mar 2022 03:36:17 +0000 (UTC)
+HMM_SOURCE_IP:10.64.8.43:59860.1825392078
+HMM_ATTACHE_NUM:0000
+HMM_SOURCE_TYPE:SMTP
+Received: from clientip-39.156.73.14 (unknown [10.64.8.43])
+	by 189.cn (HERMES) with SMTP id 116D7100199;
+	Thu,  3 Mar 2022 11:32:17 +0800 (CST)
+Received: from  ([172.27.8.53])
+	by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id 1a7c2422cd53475e97fb8c11bba2953d for u.kleine-koenig@pengutronix.de;
+	Thu, 03 Mar 2022 11:32:43 CST
+X-Transaction-ID: 1a7c2422cd53475e97fb8c11bba2953d
+X-Real-From: chensong_2000@189.cn
+X-Receive-IP: 172.27.8.53
+X-MEDUSA-Status: 0
+Sender: chensong_2000@189.cn
+Message-ID: <bf44b184-265f-6931-20e2-42eab82f6177@189.cn>
+Date: Thu, 3 Mar 2022 11:31:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3] staging: greybus: introduce pwm_ops::apply
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
+ thierry.reding@gmail.com, lee.jones@linaro.org,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, elder@ieee.org
+References: <1645780561-18481-1-git-send-email-chensong_2000@189.cn>
+ <20220301215659.kj2wwrijkdmkmces@pengutronix.de>
+From: Song Chen <chensong_2000@189.cn>
+In-Reply-To: <20220301215659.kj2wwrijkdmkmces@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2 Mar 2022 14:04:06 +0000, David Laight
-<David.Laight@ACULAB.COM> wrote:
-> I think that it would be better to make any alternate loop macro
-> just set the variable to NULL on the loop exit.
-> That is easier to code for and the compiler might be persuaded to
-> not redo the test.
 
-No, that would lead to a NULL dereference.
+Hello,
 
-The problem is the mis-use of iterator outside the loop on exit, and
-the iterator will be the HEAD's container_of pointer which pointers
-to a type-confused struct. Sidenote: The *mis-use* here refers to
-mistakely access to other members of the struct, instead of the
-list_head member which acutally is the valid HEAD.
+在 2022/3/2 05:56, Uwe Kleine-König 写道:
+> Hello,
+> 
+> On Fri, Feb 25, 2022 at 05:16:01PM +0800, Song Chen wrote:
+>> Introduce apply in pwm_ops to replace legacy operations,
+>> like enable, disable, config and set_polarity.
+>>
+>> Signed-off-by: Song Chen <chensong_2000@189.cn>
+>>
+>> ---
+>> v2:
+>> 1, define duty_cycle and period as u64 in gb_pwm_config_operation.
+>> 2, define duty and period as u64 in gb_pwm_config_request.
+>> 3, disable before configuring duty and period if the eventual goal
+>>     is a disabled state.
+>>
+>> v3:
+>> Regarding duty_cycle and period, I read more discussion in this thread,
+>> min, warn or -EINVAL, seems no perfect way acceptable for everyone.
+>> How about we limit their value to INT_MAX and throw a warning at the
+>> same time when they are wrong?
+> 
+> My position is that the driver should implement the biggest possible
+> period not bigger than the requested period. That's how all new drivers
+> behave since I care for reviewing PWM stuff. So capping to U32_MAX as is
+> (nearly) done below is good in my book.
+> 
+>> ---
+>>   drivers/staging/greybus/pwm.c | 66 +++++++++++++++++++++--------------
+>>   1 file changed, 40 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+>> index 891a6a672378..3ec5bc54d616 100644
+>> --- a/drivers/staging/greybus/pwm.c
+>> +++ b/drivers/staging/greybus/pwm.c
+>> @@ -204,43 +204,57 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+>>   	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
+>>   }
+>>   
+>> -static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+>> -			 int duty_ns, int period_ns)
+>> +static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>> +			const struct pwm_state *state)
+>>   {
+>> +	int err;
+>> +	bool enabled = pwm->state.enabled;
+>> +	u64 period = state->period;
+>> +	u64 duty_cycle = state->duty_cycle;
+>>   	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>>   
+>> -	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
+>> -};
+>> -
+>> -static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
+>> -			       enum pwm_polarity polarity)
+>> -{
+>> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>> -
+>> -	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
+>> -};
+>> +	/* set polarity */
+>> +	if (state->polarity != pwm->state.polarity) {
+>> +		if (enabled) {
+>> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+> 
+> So polarity can only be switched with the PWM off?
 
-IOW, you would dereference a (NULL + offset_of_member) address here.
+I have no devices in my hand to get it tested, but i think it's 
+reasonable to turn off PWM before switching off its polarity.
 
-Please remind me if i missed something, thanks.
+What's more, it follows the implementation of pwm_apply_legacy, which is 
+the way how it works now.
 
-> OTOH there may be alternative definitions that can be used to get
-> the compiler (or other compiler-like tools) to detect broken code.
-> Even if the definition can't possibly generate a working kerrnel.
+> 
+>> +			enabled = false;
+>> +		}
+>> +		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
+>> +		if (err)
+>> +			return err;
+>> +	}
+>>   
+>> -static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
+>> -{
+>> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>> +	if (!state->enabled) {
+>> +		if (enabled)
+>> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+>> +		return 0;
+>> +	}
+>>   
+>> -	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+>> -};
+>> +	/* set period and duty cycle*/
+>> +	if (period > INT_MAX) {
+> 
+> Given that in gb_pwm_config_operation the parameters are u32, I suggest
+> to use U32_MAX here instead of INT_MAX.
+> 
 
-The "list_for_each_entry_inside(pos, type, head, member)" way makes
-the iterator invisiable outside the loop, and would be catched by
-compiler if use-after-loop things happened.
+will do.
 
-Can you share your "alternative definitions" details? thanks!
+>> +		period = INT_MAX;
+>> +		dev_warn(chip->dev, "period is %llu ns, out of range\n", state->period);
+> 
+> Please drop this warning. That's a bad one because it can be triggered
+> from userspace.
 
---
-Xiaomeng Tong
+will do
+
+> 
+>> +	}
+>> +	if (duty_cycle > INT_MAX) {
+>> +		duty_cycle = INT_MAX;
+>> +		dev_warn(chip->dev,
+>> +			 "duty cycle is %llu ns, out of range\n", state->duty_cycle);
+>> +	}
+>> +	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
+> 
+> Is it clear how gb_pwm_config_operation rounds? If yes, please document
+> this. I also wonder if you could implement (in a separate change)
+> .get_state().
+
+Not clear about gb_pwm_config_operation rounds.
+For get_state, i will look into it.
+
+> 
+>> +	if (err)
+>> +		return err;
+>>   
+>> -static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
+>> -{
+>> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>> +	/* enable/disable */
+>> +	if (!enabled)
+>> +		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+>>   
+>> -	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+>> -};
+>> +	return 0;
+>> +}
+>>   
+>>   static const struct pwm_ops gb_pwm_ops = {
+>>   	.request = gb_pwm_request,
+>>   	.free = gb_pwm_free,
+>> -	.config = gb_pwm_config,
+>> -	.set_polarity = gb_pwm_set_polarity,
+>> -	.enable = gb_pwm_enable,
+>> -	.disable = gb_pwm_disable,
+>> +	.apply = gb_pwm_apply,
+>>   	.owner = THIS_MODULE,
+> 
+> Best regards
+> Uwe
+> 
+
+Best regards
+
+Song
