@@ -1,48 +1,57 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAF07A;
-	Fri,  4 Mar 2022 14:09:54 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B192451C;
-	Fri,  4 Mar 2022 15:09:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1646402991;
-	bh=tF6TWpIIc5PYHjBDOutrn91zOquoDieFQB9UV4VT/xA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wOH+XCeCDQNhLB7bifxDul4QCeIEWLjntNs3CPSl+Zkx5jp0ASRiqJL7k6CxknFC3
-	 CanLGoUWehTHglLWgU6Glf7e2tZ9H6hKYFg0nHl5aTpnkRSmJlzq52sFAxRwluP1Br
-	 onB5Km/r+4hvLynzOqJ+NATBoTng1c6nfR9gcJkE=
-Date: Fri, 4 Mar 2022 16:09:39 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 61/66] dt-bindings: media: Add Allwinner A31 ISP
- bindings documentation
-Message-ID: <YiIdo4PF/5smLocf@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-62-paul.kocialkowski@bootlin.com>
- <YgE/+UmP4nJVxtRT@pendragon.ideasonboard.com>
- <YgqAv2vLimYgRwDS@aptenodytes>
- <YgqM3ZdMfEz+ZKo/@pendragon.ideasonboard.com>
- <Ygt8LF8qx3rnxlgp@aptenodytes>
- <Ygt9j+rwEC+2aUjH@pendragon.ideasonboard.com>
- <Yh4+E9el5NdQ7qJq@aptenodytes>
- <YiH/kLakb/GOaYIT@pendragon.ideasonboard.com>
- <YiIa1SRFhtvURTbN@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C8B7C
+	for <linux-staging@lists.linux.dev>; Fri,  4 Mar 2022 19:30:29 +0000 (UTC)
+Received: by mail-oo1-f50.google.com with SMTP id j7-20020a4ad6c7000000b0031c690e4123so10515822oot.11
+        for <linux-staging@lists.linux.dev>; Fri, 04 Mar 2022 11:30:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=T7SqPemMgzqeX0eBPPz3FX/ZWDE+/Yzg/d3Nfke4UpM=;
+        b=nUAICK4lB2FzB60FGNvELrGPzsWLAjTyIY1hxQMeB4g3nlxzTPnpn4Pt/zlACk5wc1
+         cy3Zs1aBJ7wPqAQoDO/H17ddd3w7XoM6a9OuUGQNbSiVRpqLPRbMLQQ5fe1gc4FUICkB
+         KI0EdhJ1jrQFyF3o9fgl6S7gLIFzcnYyPaxWHUpA8oQO6YlH5p0PqfEPdFPRjXVLQk9G
+         8q6I5jVnzAH0tvKyoB3+meUU7xM2HA1GGpPmYxFK/WinealJPKydUbH/2Jmid4lNcFxj
+         WZmBXF4mO7SW2Xac6u7RWjuWeeDA9ljSuoo1jmLZBDjaCPqRe8SSVZIbJY0zE4WNa0/l
+         lF+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=T7SqPemMgzqeX0eBPPz3FX/ZWDE+/Yzg/d3Nfke4UpM=;
+        b=MaY8KbU2WPBMaE5usEyuDlecO4QT5G6WmNUhvOdOg60yUUYaImfiWkiZ+Uy9Uvzf82
+         SFa2CQNP8bAsXgcnRRVuiDeH3MZwZwXj8CAf5UDuIMemVIv/ouRuQQDoHsYvxmylxjzP
+         GrCB1LjAjpv6Q9cdL6k/p4KFz/xt3jmAIYEOyzUCiVRjcngJnvp7LOsPLwGxcuBO62bC
+         65sJfapLSiyMfB46pKt+1lfYQ5Lcbmxg8L2AGZBPi3w5Q6GdvBzyqKgE5sSbw5l/OEka
+         UgUshW6MUv3BYUJuHcerb2f9HAaIYQfP/OIUntvc5EiGtqg5Ra64Sc/pdkAfy1jLH7MC
+         N+BA==
+X-Gm-Message-State: AOAM530Z1sVnIGadjZPAFX7oEIkOIkBN/gVUSkeBH0OnhTWyEaDQe7sS
+	GtgX4dpY26G8Kddm7BCe0E8=
+X-Google-Smtp-Source: ABdhPJyN779d3j8xQjEPoJqb5A/WWySFaaoReEhphvW0mluDY66q8fKLlSno3yM2LfcRvhW6GeoNMQ==
+X-Received: by 2002:a05:6870:3510:b0:d7:179e:7e90 with SMTP id k16-20020a056870351000b000d7179e7e90mr8887695oah.168.1646422228486;
+        Fri, 04 Mar 2022 11:30:28 -0800 (PST)
+Received: from debian-BULLSEYE-live-builder-AMD64 ([181.22.168.223])
+        by smtp.gmail.com with ESMTPSA id b43-20020a4a98ee000000b0031bf8505320sm2595215ooj.25.2022.03.04.11.30.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Mar 2022 11:30:27 -0800 (PST)
+Date: Fri, 4 Mar 2022 16:30:15 -0300
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
+	nsaenz@kernel.org, stefan.wahren@i2se.com, ojaswin98@gmail.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: Re: [PATCH 2/2] staging: vchiq_arm: add prototype of function
+ vchiq_platform_init()
+Message-ID: <20220304193015.wgofp34efl2loplj@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1646255044.git.gascoar@gmail.com>
+ <b74ac90e869f71a98a04b834c4f3b5ab37bb38ea.1646255044.git.gascoar@gmail.com>
+ <20220303122546.GH2794@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,285 +60,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YiIa1SRFhtvURTbN@aptenodytes>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220303122546.GH2794@kadam>
 
-Hi Paul,
-
-(With a question for Sakari below)
-
-On Fri, Mar 04, 2022 at 02:57:41PM +0100, Paul Kocialkowski wrote:
-> On Fri 04 Mar 22, 14:01, Laurent Pinchart wrote:
-> > On Tue, Mar 01, 2022 at 04:38:59PM +0100, Paul Kocialkowski wrote:
-> > > On Tue 15 Feb 22, 12:16, Laurent Pinchart wrote:
-> > > > On Tue, Feb 15, 2022 at 11:10:52AM +0100, Paul Kocialkowski wrote:
-> > > > > On Mon 14 Feb 22, 19:09, Laurent Pinchart wrote:
-> > > > > > On Mon, Feb 14, 2022 at 05:18:07PM +0100, Paul Kocialkowski wrote:
-> > > > > > > On Mon 07 Feb 22, 17:51, Laurent Pinchart wrote:
-> > > > > > > > On Sat, Feb 05, 2022 at 07:54:24PM +0100, Paul Kocialkowski wrote:
-> > > > > > > > > This introduces YAML bindings documentation for the Allwinner A31 Image
-> > > > > > > > > Signal Processor (ISP).
-> > > > > > > > > 
-> > > > > > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > > > > > ---
-> > > > > > > > >  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
-> > > > > > > > >  1 file changed, 117 insertions(+)
-> > > > > > > > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > > > > > > > 
-> > > > > > > > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > > > > > > > new file mode 100644
-> > > > > > > > > index 000000000000..2d87022c43ce
-> > > > > > > > > --- /dev/null
-> > > > > > > > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > > > > > > > @@ -0,0 +1,117 @@
-> > > > > > > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > > > > > > > +%YAML 1.2
-> > > > > > > > > +---
-> > > > > > > > > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> > > > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > > > > +
-> > > > > > > > > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
-> > > > > > > > > +
-> > > > > > > > > +maintainers:
-> > > > > > > > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > > > > > +
-> > > > > > > > > +properties:
-> > > > > > > > > +  compatible:
-> > > > > > > > > +    enum:
-> > > > > > > > > +      - allwinner,sun6i-a31-isp
-> > > > > > > > > +      - allwinner,sun8i-v3s-isp
-> > > > > > > > > +
-> > > > > > > > > +  reg:
-> > > > > > > > > +    maxItems: 1
-> > > > > > > > > +
-> > > > > > > > > +  interrupts:
-> > > > > > > > > +    maxItems: 1
-> > > > > > > > > +
-> > > > > > > > > +  clocks:
-> > > > > > > > > +    items:
-> > > > > > > > > +      - description: Bus Clock
-> > > > > > > > > +      - description: Module Clock
-> > > > > > > > > +      - description: DRAM Clock
-> > > > > > > > 
-> > > > > > > > That's interesting, does the ISP have a dedicated DRAM ?
-> > > > > > > 
-> > > > > > > It doesn't, it actually uses the main DRAM with the "mbus" interconnect.
-> > > > > > > The clock is probably for the DMA engine.
-> > > > > > > 
-> > > > > > > > > +
-> > > > > > > > > +  clock-names:
-> > > > > > > > > +    items:
-> > > > > > > > > +      - const: bus
-> > > > > > > > > +      - const: mod
-> > > > > > > > > +      - const: ram
-> > > > > > > > > +
-> > > > > > > > > +  resets:
-> > > > > > > > > +    maxItems: 1
-> > > > > > > > > +
-> > > > > > > > > +  ports:
-> > > > > > > > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > > > > > > > +
-> > > > > > > > > +    properties:
-> > > > > > > > > +      port@0:
-> > > > > > > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > > > > > > +        description: CSI0 input port
-> > > > > > > > > +
-> > > > > > > > > +        properties:
-> > > > > > > > > +          reg:
-> > > > > > > > > +            const: 0
-> > > > > > > > > +
-> > > > > > > > > +          endpoint:
-> > > > > > > > > +            $ref: video-interfaces.yaml#
-> > > > > > > > > +            unevaluatedProperties: false
-> > > > > > > > 
-> > > > > > > > If no other property than remote-endpoint are allowed, I'd write
-> > > > > > > > 
-> > > > > > > >           endpoint:
-> > > > > > > >             $ref: video-interfaces.yaml#
-> > > > > > > > 	    remote-endpoint: true
-> > > > > > > >             additionalProperties: false
-> > > > > > > > 
-> > > > > > > > Same below.
-> > > > > > > > 
-> > > > > > > > > +
-> > > > > > > > > +        additionalProperties: false
-> > > > > > > > > +
-> > > > > > > > > +      port@1:
-> > > > > > > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > > > > > > +        description: CSI1 input port
-> > > > > > > > > +
-> > > > > > > > > +        properties:
-> > > > > > > > > +          reg:
-> > > > > > > > > +            const: 0
-> > > > > > > > 
-> > > > > > > > This should be 1.
-> > > > > > > 
-> > > > > > > Correct, thanks!
-> > > > > > > 
-> > > > > > > > > +
-> > > > > > > > > +          endpoint:
-> > > > > > > > > +            $ref: video-interfaces.yaml#
-> > > > > > > > > +            unevaluatedProperties: false
-> > > > > > > > > +
-> > > > > > > > > +        additionalProperties: false
-> > > > > > > > > +
-> > > > > > > > > +    anyOf:
-> > > > > > > > > +      - required:
-> > > > > > > > > +        - port@0
-> > > > > > > > > +      - required:
-> > > > > > > > > +        - port@1
-> > > > > > > > 
-> > > > > > > > As ports are an intrinsic property of the ISP, both should be required,
-> > > > > > > > but they don't have to be connected.
-> > > > > > > 
-> > > > > > > Well the ISP does have the ability to source from either CSI0 and CSI1
-> > > > > > > but I don't really get the point of declaring both ports when only one
-> > > > > > > of the two controllers is present.
-> > > > > > 
-> > > > > > If it's within an SoC I don't mind too much. What I usually insist on is
-> > > > > > declaring all ports even when no external devices are connected on the
-> > > > > > board. It may however be easier to implement things on the driver side
-> > > > > > when all the ports are declared, even for internal devices. I won't
-> > > > > > insist either way here.
-> > > > > > 
-> > > > > > > > By the way, how do you select at runtime which CSI-2 RX the ISP gets its
-> > > > > > > > image stream from ? Is it configured through registers of the ISP ?
-> > > > > > > 
-> > > > > > > Actually what the ISP gets is fully dependent on what is received by the
-> > > > > > > CSI controller it is connected to (which can be the mipi csi-2 controller
-> > > > > > > or its direct parallel pins), so the configuration happens on the CSI side.
-> > > > > > 
-> > > > > > OK, then how do you select at runtime which CSI the ISP gets its image
-> > > > > > stream from ? :-)
-> > > > > 
-> > > > > What is done in the driver is that all available csi(s) entities pads are linked
-> > > > > to a single csi sink media pad, which allows userspace to enable one or the
-> > > > > other. If there's only one, it's enabled by default.
-> > > > > 
-> > > > > The actual stream source (isp_dev->proc.source) is selected at link_validate
-> > > > > time and the source bit is set in sun6i_isp_proc_enable.
-> > > > > 
-> > > > > I hope this answers your question!
-> > > > 
-> > > > Yes it does, thank you.
-> > > > 
-> > > > While this works, it makes life a bit more complicated for userspace, as
-> > > > switching between the two sources require disabling the link first and
-> > > > then enabling the new one. This is something that caused issues in the
-> > > > libcamera simple pipeline handler, I ended up having to implement a
-> > > > workaround.
-> > > 
-> > > That surprises me a bit, I thought this was a typical use-case for links.
-> > > So the fact that it's a two-step process causes issues somehow?
+On Thu, Mar 03, 2022 at 03:25:47PM +0300, Dan Carpenter wrote:
+> On Wed, Mar 02, 2022 at 06:36:38PM -0300, Gaston Gonzalez wrote:
+> > Fix "no previous prototype" W=1 warning by adding the prototype of the
+> > function vchiq_platform_init().
 > > 
-> > It's not so much that the links have to be configured in two steps
-> > (although it would be nice if that could be fixed), but the fact that
-> > the order of the operations matter. Userspace has to know what
-> > combination of links is acceptable in order to determine the order of
-> > the enable/disable operations, otherwise errors may be returned. That
-> > makes it more difficult to write generic userspace code.
-> 
-> Ah right, I understand that. Now it's pretty much trial-and-error if userspace
-> doesn't have prior knowledge about the hardware. But to be honest I assumed
-> that it was more or less understood that there cannot be fully generic
-> userspace for this and that knowedlege about the driver and pipeline flow
-> is required to do things right.
-
-You're right, and that's why we have device-specific code in libcamera.
-However, the more generic-friendly the APIs can be, the more the
-device-specific userspace code will be able to use generic helpers, so
-it still matters.
-
-> > > > Could you instead have two sink pads for the ISP, and select the sensor
-> > > > at stream on time instead of link validation time by checking which link
-> > > > is enabled ? If no links or both links are enabled, you can then return
-> > > > an error.
-> > > 
-> > > Yes that's totally doable.
-> > > 
-> > > There's a similar situation with the sun6i-csi bridge where the source pad
-> > > has two possible links: one for routing to sun6i-csi capture (video device)
-> > > and one for routing to the isp entity.
-> > > 
-> > > Would that also be best represented as two pads?
+> > Note: vchiq_platform_init() is only called once in vchiq_probe(), so
+> > presumably should be static function. However, making the function
+> > static breaks the build.
 > > 
-> > Are the two outputs mutually exclusive ? Sorry if I've asked before.
 > 
-> I don't think you have. Yes they are mutually exclusive, only one source
-> can be selected at a time. Same situation as the ISP where the two CSI unit
-> inputs are mutually exclusive.
-
-On the sink (input) side that's quite common, if you have two different
-sources but a single sink, the sink can't (usually) process both sources
-at the same time. I understand that for the sun6i-csi bridge it's the
-other way around, with the bridge can output to either a DMA engine or
-to the ISP, but not both at the same time. That's less common, but can
-certainly happen. I think I'd go for two source pads in that case too.
-Sakari, any opinion ?
-
-> > > > Ideally I'd say such internal routing should use the new V4L2 subdev
-> > > > routing API that is currently being implemented (see [1]), but I don't
-> > > > know when it will land, and I don't want to delay your patch series.
-> > > > 
-> > > > [1] https://lore.kernel.org/linux-media/20211130141536.891878-28-tomi.valkeinen@ideasonboard.com
-> > > 
-> > > I'm still a bit confused what problem this is trying to solve.
-> > > My understanding was that the current pad/link API allows representing complex
-> > > topologies and switching different paths with link enable/disable.
-> > 
-> > That was the intent of the MEDIA_IOC_SETUP_LINK ioctl, but we ended up
-> > with something that is fairly ill-defined, and doesn't have the ability
-> > to set multiple links atomically. It turned out to be less usable for
-> > userspace than expected. Mistakes happen (and I'll blame myself here,
-> > having designed that API) when we don't have real test cases during
-> > kernel development.
+> That's weird.  I don't have an ARM cross compile set up.  How does the
+> build break?
 > 
-> Yeah it's hard to predict these kinds of things in advance I suppose.
-> Thanks for the heads up!
-> 
-> > > > > > > > > +
-> > > > > > > > > +required:
-> > > > > > > > > +  - compatible
-> > > > > > > > > +  - reg
-> > > > > > > > > +  - interrupts
-> > > > > > > > > +  - clocks
-> > > > > > > > > +  - clock-names
-> > > > > > > > > +  - resets
-> > > > > > > > > +
-> > > > > > > > > +additionalProperties: false
-> > > > > > > > > +
-> > > > > > > > > +examples:
-> > > > > > > > > +  - |
-> > > > > > > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > > > > > > > > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> > > > > > > > > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> > > > > > > > > +
-> > > > > > > > > +    isp: isp@1cb8000 {
-> > > > > > > > > +        compatible = "allwinner,sun8i-v3s-isp";
-> > > > > > > > > +        reg = <0x01cb8000 0x1000>;
-> > > > > > > > > +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > > > > +        clocks = <&ccu CLK_BUS_CSI>,
-> > > > > > > > > +             <&ccu CLK_CSI1_SCLK>,
-> > > > > > > > > +             <&ccu CLK_DRAM_CSI>;
-> > > > > > > > > +        clock-names = "bus", "mod", "ram";
-> > > > > > > > > +        resets = <&ccu RST_BUS_CSI>;
-> > > > > > > > > +
-> > > > > > > > > +        ports {
-> > > > > > > > > +            #address-cells = <1>;
-> > > > > > > > > +            #size-cells = <0>;
-> > > > > > > > > +
-> > > > > > > > > +            port@0 {
-> > > > > > > > > +                reg = <0>;
-> > > > > > > > > +
-> > > > > > > > > +                isp_in_csi0: endpoint {
-> > > > > > > > > +                    remote-endpoint = <&csi0_out_isp>;
-> > > > > > > > > +                };
-> > > > > > > > > +            };
-> > > > > > > > > +        };
-> > > > > > > > > +    };
-> > > > > > > > > +
-> > > > > > > > > +...
+> regards,
+> dan carpenter
+>
 
--- 
-Regards,
+Hi Dan,
 
-Laurent Pinchart
+Test building the driver in x86 I get the error pasted below.
+
+However, now that you mention it, I made an ARM (64 bit) cross
+compilation: making the function static builds OK without the warning.
+I'll to do the same for a 32 bit setup.
+
+So I suppose that making the function static is the right approach ?
+
+FWIW, branch and cross-compiler:
+
+- Remote: https://github.com/raspberrypi/linux.git
+- Branch: rpi-5.17.y
+- gcc: aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110
+
+
+-> x86 build error:
+
+CC [M]  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.o
+In function ‘free_pagelist’,
+    inlined from ‘vchiq_complete_bulk’ at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:650:3:
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:434:4: error: argument 2 null where non-null expected [-Werror=nonnull]
+  434 |    memcpy((char *)kmap(pages[0]) +
+      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  435 |     pagelist->offset,
+      |     ~~~~~~~~~~~~~~~~~
+  436 |     fragments,
+      |     ~~~~~~~~~~
+  437 |     head_bytes);
+      |     ~~~~~~~~~~~
+In file included from ./arch/x86/include/asm/string.h:5,
+                 from ./include/linux/string.h:20,
+                 from ./include/linux/bitmap.h:11,
+                 from ./include/linux/cpumask.h:12,
+                 from ./arch/x86/include/asm/cpumask.h:5,
+                 from ./arch/x86/include/asm/msr.h:11,
+                 from ./arch/x86/include/asm/processor.h:22,
+                 from ./arch/x86/include/asm/timex.h:5,
+                 from ./include/linux/timex.h:65,
+                 from ./include/linux/time32.h:13,
+                 from ./include/linux/time.h:60,
+                 from ./include/linux/stat.h:19,
+                 from ./include/linux/module.h:13,
+                 from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: In function ‘vchiq_complete_bulk’:
+./arch/x86/include/asm/string_64.h:14:14: note: in a call to function ‘memcpy’ declared here
+   14 | extern void *memcpy(void *to, const void *from, size_t len);
+      |              ^~~~~~
+cc1: all warnings being treated as errors
+make[1]: *** [scripts/Makefile.build:288: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.o] Error 1
+make: *** [Makefile:1831: drivers/staging/vc04_services] Error 2
+
+regards,
+
+Gaston
