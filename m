@@ -1,28 +1,21 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E7EA33;
-	Fri,  4 Mar 2022 09:12:11 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 36006C9A05;
-	Fri,  4 Mar 2022 09:00:26 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 3EEEC1BF213;
-	Fri,  4 Mar 2022 09:00:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1646384418;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MoznkUIec7VAQY3ImNmY3IHeuYJ/S05cBMHdD+Wm4Nc=;
-	b=F9tvU0ozNsPeQ9lftznClBeZfJB6PRNXxUPQuKwyUpT+KlQKi1Nt6H6ki+H9T74PtC15GX
-	mEICPAhXiahTCeW0RAjDqf9QHMqxP63CmickbbG9Wiyp9qId8qFcZGrK6aWmhmVw7/aGt2
-	yLlqqcQDFBjV1yRkmHN+eaunAwYFhRpPb7msRMR/CGFHaJhhUappIX1EW+O1P7k1yliwnB
-	M5V5bFFMXlCKDVfIyrkqNeKa0olTvBeJQCCkrxzrIJUMmqwnsXU1BEtxyIGQsumhssIw9L
-	Zlau+iKBkap+qVKAuIzvu4o1YBw/r/7qV5t3A4pr5bmRcw1uqeMrjAN3qNgwTQ==
-Date: Fri, 4 Mar 2022 10:00:12 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFC0A4D;
+	Fri,  4 Mar 2022 12:01:40 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F2EF51C;
+	Fri,  4 Mar 2022 13:01:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1646395293;
+	bh=lQch15hUc/mpi+qq1+TtRmnffODJBIvBGrrZ4WWNTwc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=myQzxkoQ6GwBNoSWRuFaWr0RxAD6+8mfTiQQADwZ5fvZPUW954Q1o3k/m7NoBbBqo
+	 FrlfOTgDjy2ALvbKptlwFt6v5sCKtcJ27dzlcB7MUBCZxh36neES5z7TEr+zCLZf78
+	 8I9HP/+vnsd/24IAkEbv37520smh2uq/q7E15LNM=
+Date: Fri, 4 Mar 2022 14:01:20 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
@@ -31,174 +24,280 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Helen Koike <helen.koike@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 30/66] media: sun6i-csi: Add bridge v4l2 subdev with
- port management
-Message-ID: <YiHVHM53GUQ1jxco@aptenodytes>
+Subject: Re: [PATCH v2 61/66] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <YiH/kLakb/GOaYIT@pendragon.ideasonboard.com>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-31-paul.kocialkowski@bootlin.com>
- <YgqbqVRinNxQ8+WV@paasikivi.fi.intel.com>
- <Yh+GZv9/rKQ2WbI2@aptenodytes>
- <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
+ <20220205185429.2278860-62-paul.kocialkowski@bootlin.com>
+ <YgE/+UmP4nJVxtRT@pendragon.ideasonboard.com>
+ <YgqAv2vLimYgRwDS@aptenodytes>
+ <YgqM3ZdMfEz+ZKo/@pendragon.ideasonboard.com>
+ <Ygt8LF8qx3rnxlgp@aptenodytes>
+ <Ygt9j+rwEC+2aUjH@pendragon.ideasonboard.com>
+ <Yh4+E9el5NdQ7qJq@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dwUOJP15b315kF0b"
-Content-Disposition: inline
-In-Reply-To: <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
-
-
---dwUOJP15b315kF0b
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Yh4+E9el5NdQ7qJq@aptenodytes>
 
-Hi Sakari,
+Hi Paul,
 
-On Fri 04 Mar 22, 00:43, Sakari Ailus wrote:
-> Hi Paul,
->=20
-> On Wed, Mar 02, 2022 at 03:59:50PM +0100, Paul Kocialkowski wrote:
-> > > > +static int
-> > > > +sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifi=
-er,
-> > > > +				struct v4l2_subdev *remote_subdev,
-> > > > +				struct v4l2_async_subdev *async_subdev)
-> > > > +{
-> > > > +	struct sun6i_csi_device *csi_dev =3D
-> > > > +		container_of(notifier, struct sun6i_csi_device,
-> > > > +			     bridge.notifier);
-> > > > +	struct sun6i_csi_bridge *bridge =3D &csi_dev->bridge;
-> > > > +	struct sun6i_csi_bridge_source *source =3D NULL;
-> > > > +	struct fwnode_handle *fwnode =3D dev_fwnode(csi_dev->dev);
-> > > > +	struct fwnode_handle *handle =3D NULL;
-> > > > +	bool enabled;
-> > > > +	int ret;
-> > > > +
-> > > > +	while ((handle =3D fwnode_graph_get_next_endpoint(fwnode, handle)=
-)) {
-> > >=20
-> > > I'd instead store the information you need here in struct sun6i_csi_b=
-ridge.
-> > > You could remove the loop here.
-> >=20
-> > Is there a different method for matching a remote subdev to a local por=
-t?
-> > The rationale here is that I need the handle for fwnode_graph_parse_end=
-point
-> > but cannot get that handle from the remote subdev's fwnode pointer dire=
-ctly.
->=20
-> You generally shouldn't try to match fwnodes here as the V4L2 async
-> framework has already done that job. This information can be found behind
-> the async_subdev pointer.
->=20
-> See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2-main.c for an example.
+On Tue, Mar 01, 2022 at 04:38:59PM +0100, Paul Kocialkowski wrote:
+> On Tue 15 Feb 22, 12:16, Laurent Pinchart wrote:
+> > On Tue, Feb 15, 2022 at 11:10:52AM +0100, Paul Kocialkowski wrote:
+> > > On Mon 14 Feb 22, 19:09, Laurent Pinchart wrote:
+> > > > On Mon, Feb 14, 2022 at 05:18:07PM +0100, Paul Kocialkowski wrote:
+> > > > > On Mon 07 Feb 22, 17:51, Laurent Pinchart wrote:
+> > > > > > On Sat, Feb 05, 2022 at 07:54:24PM +0100, Paul Kocialkowski wrote:
+> > > > > > > This introduces YAML bindings documentation for the Allwinner A31 Image
+> > > > > > > Signal Processor (ISP).
+> > > > > > > 
+> > > > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > > > > ---
+> > > > > > >  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+> > > > > > >  1 file changed, 117 insertions(+)
+> > > > > > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> > > > > > > 
+> > > > > > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> > > > > > > new file mode 100644
+> > > > > > > index 000000000000..2d87022c43ce
+> > > > > > > --- /dev/null
+> > > > > > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> > > > > > > @@ -0,0 +1,117 @@
+> > > > > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > > > > > +%YAML 1.2
+> > > > > > > +---
+> > > > > > > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > > > +
+> > > > > > > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
+> > > > > > > +
+> > > > > > > +maintainers:
+> > > > > > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > > > > +
+> > > > > > > +properties:
+> > > > > > > +  compatible:
+> > > > > > > +    enum:
+> > > > > > > +      - allwinner,sun6i-a31-isp
+> > > > > > > +      - allwinner,sun8i-v3s-isp
+> > > > > > > +
+> > > > > > > +  reg:
+> > > > > > > +    maxItems: 1
+> > > > > > > +
+> > > > > > > +  interrupts:
+> > > > > > > +    maxItems: 1
+> > > > > > > +
+> > > > > > > +  clocks:
+> > > > > > > +    items:
+> > > > > > > +      - description: Bus Clock
+> > > > > > > +      - description: Module Clock
+> > > > > > > +      - description: DRAM Clock
+> > > > > > 
+> > > > > > That's interesting, does the ISP have a dedicated DRAM ?
+> > > > > 
+> > > > > It doesn't, it actually uses the main DRAM with the "mbus" interconnect.
+> > > > > The clock is probably for the DMA engine.
+> > > > > 
+> > > > > > > +
+> > > > > > > +  clock-names:
+> > > > > > > +    items:
+> > > > > > > +      - const: bus
+> > > > > > > +      - const: mod
+> > > > > > > +      - const: ram
+> > > > > > > +
+> > > > > > > +  resets:
+> > > > > > > +    maxItems: 1
+> > > > > > > +
+> > > > > > > +  ports:
+> > > > > > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > > > > > +
+> > > > > > > +    properties:
+> > > > > > > +      port@0:
+> > > > > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > > > > > +        description: CSI0 input port
+> > > > > > > +
+> > > > > > > +        properties:
+> > > > > > > +          reg:
+> > > > > > > +            const: 0
+> > > > > > > +
+> > > > > > > +          endpoint:
+> > > > > > > +            $ref: video-interfaces.yaml#
+> > > > > > > +            unevaluatedProperties: false
+> > > > > > 
+> > > > > > If no other property than remote-endpoint are allowed, I'd write
+> > > > > > 
+> > > > > >           endpoint:
+> > > > > >             $ref: video-interfaces.yaml#
+> > > > > > 	    remote-endpoint: true
+> > > > > >             additionalProperties: false
+> > > > > > 
+> > > > > > Same below.
+> > > > > > 
+> > > > > > > +
+> > > > > > > +        additionalProperties: false
+> > > > > > > +
+> > > > > > > +      port@1:
+> > > > > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > > > > > +        description: CSI1 input port
+> > > > > > > +
+> > > > > > > +        properties:
+> > > > > > > +          reg:
+> > > > > > > +            const: 0
+> > > > > > 
+> > > > > > This should be 1.
+> > > > > 
+> > > > > Correct, thanks!
+> > > > > 
+> > > > > > > +
+> > > > > > > +          endpoint:
+> > > > > > > +            $ref: video-interfaces.yaml#
+> > > > > > > +            unevaluatedProperties: false
+> > > > > > > +
+> > > > > > > +        additionalProperties: false
+> > > > > > > +
+> > > > > > > +    anyOf:
+> > > > > > > +      - required:
+> > > > > > > +        - port@0
+> > > > > > > +      - required:
+> > > > > > > +        - port@1
+> > > > > > 
+> > > > > > As ports are an intrinsic property of the ISP, both should be required,
+> > > > > > but they don't have to be connected.
+> > > > > 
+> > > > > Well the ISP does have the ability to source from either CSI0 and CSI1
+> > > > > but I don't really get the point of declaring both ports when only one
+> > > > > of the two controllers is present.
+> > > > 
+> > > > If it's within an SoC I don't mind too much. What I usually insist on is
+> > > > declaring all ports even when no external devices are connected on the
+> > > > board. It may however be easier to implement things on the driver side
+> > > > when all the ports are declared, even for internal devices. I won't
+> > > > insist either way here.
+> > > > 
+> > > > > > By the way, how do you select at runtime which CSI-2 RX the ISP gets its
+> > > > > > image stream from ? Is it configured through registers of the ISP ?
+> > > > > 
+> > > > > Actually what the ISP gets is fully dependent on what is received by the
+> > > > > CSI controller it is connected to (which can be the mipi csi-2 controller
+> > > > > or its direct parallel pins), so the configuration happens on the CSI side.
+> > > > 
+> > > > OK, then how do you select at runtime which CSI the ISP gets its image
+> > > > stream from ? :-)
+> > > 
+> > > What is done in the driver is that all available csi(s) entities pads are linked
+> > > to a single csi sink media pad, which allows userspace to enable one or the
+> > > other. If there's only one, it's enabled by default.
+> > > 
+> > > The actual stream source (isp_dev->proc.source) is selected at link_validate
+> > > time and the source bit is set in sun6i_isp_proc_enable.
+> > > 
+> > > I hope this answers your question!
+> > 
+> > Yes it does, thank you.
+> > 
+> > While this works, it makes life a bit more complicated for userspace, as
+> > switching between the two sources require disabling the link first and
+> > then enabling the new one. This is something that caused issues in the
+> > libcamera simple pipeline handler, I ended up having to implement a
+> > workaround.
+> 
+> That surprises me a bit, I thought this was a typical use-case for links.
+> So the fact that it's a two-step process causes issues somehow?
 
-Thanks for the feedback, I'll look into that.
+It's not so much that the links have to be configured in two steps
+(although it would be nice if that could be fixed), but the fact that
+the order of the operations matter. Userspace has to know what
+combination of links is acceptable in order to determine the order of
+the enable/disable operations, otherwise errors may be returned. That
+makes it more difficult to write generic userspace code.
 
-> >=20
-> > > > +		struct fwnode_endpoint endpoint =3D { 0 };
-> > > > +		struct fwnode_handle *remote_fwnode;
-> > > > +
-> > > > +		remote_fwnode =3D fwnode_graph_get_remote_port_parent(handle);
-> > > > +		if (!remote_fwnode)
-> > > > +			continue;
-> > > > +
-> > > > +		if (remote_fwnode !=3D remote_subdev->fwnode)
-> > > > +			goto next;
-> > > > +
-> > > > +		ret =3D fwnode_graph_parse_endpoint(handle, &endpoint);
-> > > > +		if (ret < 0)
-> > > > +			goto next;
-> > > > +
-> > > > +		switch (endpoint.port) {
-> > > > +		case SUN6I_CSI_PORT_PARALLEL:
-> > > > +			source =3D &bridge->source_parallel;
-> > > > +			enabled =3D true;
-> > > > +			break;
-> > > > +		default:
-> > > > +			break;
-> > > > +		}
-> > > > +
-> > > > +next:
-> > > > +		fwnode_handle_put(remote_fwnode);
-> > > > +	}
-> > > > +
-> > > > +	if (!source)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	source->subdev =3D remote_subdev;
-> > > > +
-> > > > +	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
-> > > > +				     remote_subdev, enabled);
-> > > > +}
-> > > > +
-> > > > +static int
-> > > > +sun6i_csi_bridge_notifier_complete(struct v4l2_async_notifier *not=
-ifier)
-> > > > +{
-> > > > +	struct sun6i_csi_device *csi_dev =3D
-> > > > +		container_of(notifier, struct sun6i_csi_device,
-> > > > +			     bridge.notifier);
-> > > > +
-> > > > +	return sun6i_csi_v4l2_complete(csi_dev);
-> > >=20
-> > > You could call v4l2_device_register_subdev_nodes() here.
-> >=20
-> > That's definitely what sun6i_csi_v4l2_complete does (the diff is probab=
-ly not
-> > very clear). Note that the wrapper is extended later on to register the=
- capture
-> > video device for the no-isp path.
->=20
-> I could be missing something... Do you need to call
-> sun6i_csi_v4l2_complete() in multiple places or not? If not, then I think
-> it'd be probably better to just move the code here.
+> > Could you instead have two sink pads for the ISP, and select the sensor
+> > at stream on time instead of link validation time by checking which link
+> > is enabled ? If no links or both links are enabled, you can then return
+> > an error.
+> 
+> Yes that's totally doable.
+> 
+> There's a similar situation with the sun6i-csi bridge where the source pad
+> has two possible links: one for routing to sun6i-csi capture (video device)
+> and one for routing to the isp entity.
+> 
+> Would that also be best represented as two pads?
 
-No this is only called here so I guess we can avoid it entirely.
+Are the two outputs mutually exclusive ? Sorry if I've asked before.
 
-Thanks,
+> > Ideally I'd say such internal routing should use the new V4L2 subdev
+> > routing API that is currently being implemented (see [1]), but I don't
+> > know when it will land, and I don't want to delay your patch series.
+> > 
+> > [1] https://lore.kernel.org/linux-media/20211130141536.891878-28-tomi.valkeinen@ideasonboard.com
+> 
+> I'm still a bit confused what problem this is trying to solve.
+> My understanding was that the current pad/link API allows representing complex
+> topologies and switching different paths with link enable/disable.
 
-Paul
+That was the intent of the MEDIA_IOC_SETUP_LINK ioctl, but we ended up
+with something that is fairly ill-defined, and doesn't have the ability
+to set multiple links atomically. It turned out to be less usable for
+userspace than expected. Mistakes happen (and I'll blame myself here,
+having designed that API) when we don't have real test cases during
+kernel development.
 
-> >=20
-> > Maybe the capture registration could be kept in sun6i_csi_probe for the=
- non-isp
-> > path and then the wrapper wouldn't be needed. I don't mind either way.
->=20
-> --=20
-> Kind regards,
->=20
-> Sakari Ailus
+> > > > > > > +
+> > > > > > > +required:
+> > > > > > > +  - compatible
+> > > > > > > +  - reg
+> > > > > > > +  - interrupts
+> > > > > > > +  - clocks
+> > > > > > > +  - clock-names
+> > > > > > > +  - resets
+> > > > > > > +
+> > > > > > > +additionalProperties: false
+> > > > > > > +
+> > > > > > > +examples:
+> > > > > > > +  - |
+> > > > > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > > > > > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> > > > > > > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> > > > > > > +
+> > > > > > > +    isp: isp@1cb8000 {
+> > > > > > > +        compatible = "allwinner,sun8i-v3s-isp";
+> > > > > > > +        reg = <0x01cb8000 0x1000>;
+> > > > > > > +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > > +        clocks = <&ccu CLK_BUS_CSI>,
+> > > > > > > +             <&ccu CLK_CSI1_SCLK>,
+> > > > > > > +             <&ccu CLK_DRAM_CSI>;
+> > > > > > > +        clock-names = "bus", "mod", "ram";
+> > > > > > > +        resets = <&ccu RST_BUS_CSI>;
+> > > > > > > +
+> > > > > > > +        ports {
+> > > > > > > +            #address-cells = <1>;
+> > > > > > > +            #size-cells = <0>;
+> > > > > > > +
+> > > > > > > +            port@0 {
+> > > > > > > +                reg = <0>;
+> > > > > > > +
+> > > > > > > +                isp_in_csi0: endpoint {
+> > > > > > > +                    remote-endpoint = <&csi0_out_isp>;
+> > > > > > > +                };
+> > > > > > > +            };
+> > > > > > > +        };
+> > > > > > > +    };
+> > > > > > > +
+> > > > > > > +...
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+-- 
+Regards,
 
---dwUOJP15b315kF0b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIh1RwACgkQ3cLmz3+f
-v9Ha5Qf+Lz13XAEQwduMjvaJ3V4PK+23t0taf6Fv0+Peh5fnTfFagFYbMtBdFsbo
-q/6i5Zt3JaRdXe+5SixAINP00cflNxpxuAN+MRbjP4wfaRBxNRGqhIGjXWzJYLZe
-jn4lX8W49l8iafyCstJ5jhccMEn/LSo1mO3pAyjc3pMXK+6HabgMe5UEETWvm5n3
-XX1j/KBu1PtgQUNKbBxKGpGVmlmBjMEfM+DIx19h70AeeG7OW4wUq37IJ5i6AiuX
-Q7da7pWZMzdesWbjon3l5X5rPbfimGXqNLJYUa86zFBrk/nO+10HhU1udx4du5AW
-4e/50RP2kNoRQ9bvpvarQtS8gN0BGg==
-=Nf6c
------END PGP SIGNATURE-----
-
---dwUOJP15b315kF0b--
+Laurent Pinchart
