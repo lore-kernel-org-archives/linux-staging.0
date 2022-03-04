@@ -1,83 +1,308 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307CB7C
-	for <linux-staging@lists.linux.dev>; Fri,  4 Mar 2022 19:34:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646422455; x=1677958455;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=prSCg+P2w+6rp7GYMZxEjueC6DVV7pXYvo+J6n3NE1o=;
-  b=a4n1r5+akRVzEN3L1Ds+eq323GesBNiVADB7DTxdSiOGGsWmV/Tq4tUB
-   /CpWDMlN4XXaap/7Jx9XOjXqw260dJT5OCaQFDT+FlIyjyTOURqlD6gOg
-   8g7RVfRka2490z17M7MWLN7OVfPvadbKhsioNlP4GDEeEyHFJQWrYAHRN
-   V+Zsub4JcR91kP5hP6mSrFPdqcB8A6XwFC1Cyl9tZMWCg/Z1x+ZrM+RN3
-   JGEnBfZDYyLTqi9zO6q6hnCINvP9mQo98GVxVbFxkmKBAENNHHD6BGiUv
-   BywthkhqHWaVBJKhxFhjaFx6a/CSY71Yz95vYhhDJ1q5AloVlB5mI8toq
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10276"; a="234653450"
-X-IronPort-AV: E=Sophos;i="5.90,156,1643702400"; 
-   d="scan'208";a="234653450"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2022 11:34:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,156,1643702400"; 
-   d="scan'208";a="511959167"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 04 Mar 2022 11:33:58 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 4AD81A7; Fri,  4 Mar 2022 21:34:16 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] staging: fbtft: Consider type of init sequence values in fbtft_init_display()
-Date: Fri,  4 Mar 2022 21:34:14 +0200
-Message-Id: <20220304193414.88006-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999516AAC;
+	Fri,  4 Mar 2022 22:46:19 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id gb39so20275792ejc.1;
+        Fri, 04 Mar 2022 14:46:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=vrmuvAbijZ28kYtOk+uJcMyNX1JcQWAyDD9NR3O1IEA=;
+        b=jfzQP3fwST5myt15NEMM5eezOpBrQUqRUNS0x/N4L9hYh8NYQZWoYGMyEJYuPlDlI9
+         MsFUOcf2gNEvRRMY0lNBnwquK+B8UsIXCHxlyO3XN+5Ve1OvRiwhglpLbhG3mjjBRJIE
+         V6JM+Dc+WaNtdzjJ1objXCy43vDu/xc5okylmyn5Rk+N+20bguuVrkOhF1SjqTg3RF2o
+         8rCsLSKslX5G9/I4tQlOzgWHMquROTwKE+5xtGj0yKCTtgjfzTrznEUEBT9LzZYCuDcR
+         fIa3zeM65ZIstfWkYClEpQJ920wNT5hc0pYO6O3Pu0K9oSINRryo+YTbke25mdBCOuDI
+         6FVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=vrmuvAbijZ28kYtOk+uJcMyNX1JcQWAyDD9NR3O1IEA=;
+        b=XdzwzDyOm9W4adUC3buyn5j7/5yEkMzxXfNjSJQ/HH4qKpxXRj6xYIerspxEmMYOFj
+         0HbFEu4T/iPdZ/IzKFWF7Cz+U7VWSWlZKFyVfshNURHh8B8Oz5jlMJXu8xmLMTHyYeq0
+         VyAS4zgDsWHMeNq921fiBMdkxikguMSz5WGE9lNkPMkEZj18hd1SxO/7OzsaMTt4CYBN
+         zypL2Iu3UDr0vFCKkEnmjQiHYrEETWtImdrOcODT/1WzY+pFH2RpBSGAHC3b3OH8yoA4
+         er15M0U3UfYwi+bXhetNKdtbjaQEimtgERdfBr1eU6zCmo8H/+bOH9NVPrYb85ag+8Rw
+         aUlg==
+X-Gm-Message-State: AOAM533bhle/49v/y6+Qa+aEtcQpgDW9PyK+srqlNnon1q68l9mGi0jN
+	daTtY9DEUsIDOulj+I6tZaU5hUzTknOVqTcrbHQ=
+X-Google-Smtp-Source: ABdhPJyXA7Ej1BogzKJNf4dzgmoKM/PISk0NcZ3kD70oENSelFvPRmae78+uuODE7p1f2I7AkKx8Db0I5KR8y458zc0=
+X-Received: by 2002:a17:907:7704:b0:6cf:48ac:b4a8 with SMTP id
+ kw4-20020a170907770400b006cf48acb4a8mr741620ejc.305.1646433977434; Fri, 04
+ Mar 2022 14:46:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
+ <CAHCN7x+AUy4JsqfdyZFqg4ScR1OgoLvqF91za0AZ278NSBJj4A@mail.gmail.com>
+ <b832271d-cecd-a373-48ff-ba5ce736e47d@collabora.com> <CAHCN7xJ3K2bLEc8dcTM+x-E0brDW-t4yrUdkUe0jCfuzH8v9pA@mail.gmail.com>
+ <678c1f01-c6cd-d1be-bd0b-277a808b006a@collabora.com> <CAHCN7xL-+1cXbcOpRU8BRXoyAkecERqT-O8vM_069er8WWWEaw@mail.gmail.com>
+ <a0360b52-246e-21a2-1499-b9a03de21a30@collabora.com>
+In-Reply-To: <a0360b52-246e-21a2-1499-b9a03de21a30@collabora.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Fri, 4 Mar 2022 16:46:06 -0600
+Message-ID: <CAHCN7x+jmoFwUh2KA3e_B=PuPFGWv16ZzJR6whhBfJv9GF_4EA@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] Move HEVC stateless controls out of staging
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org, 
+	paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>, 
+	"jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media <linux-media@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk, 
+	Chris Healy <cphealy@gmail.com>, Ruslan Sushko <ruslan.sushko@zii.aero>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In the fbtft_init_display() the init sequence is printed for
-the debug purposes. Unfortunately the current code doesn't take
-into account that values in the buffer are of the s16 type.
+On Fri, Mar 4, 2022 at 7:03 AM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+>
+> Le 04/03/2022 =C3=A0 13:59, Adam Ford a =C3=A9crit :
+> > On Thu, Mar 3, 2022 at 4:13 AM Benjamin Gaignard
+> > <benjamin.gaignard@collabora.com> wrote:
+> >>
+> >> Le 03/03/2022 =C3=A0 02:23, Adam Ford a =C3=A9crit :
+> >>> On Mon, Feb 28, 2022 at 4:13 AM Benjamin Gaignard
+> >>> <benjamin.gaignard@collabora.com> wrote:
+> >>>> Le 26/02/2022 =C3=A0 23:25, Adam Ford a =C3=A9crit :
+> >>>>> On Fri, Feb 25, 2022 at 4:41 PM Benjamin Gaignard
+> >>>>> <benjamin.gaignard@collabora.com> wrote:
+> >>>>>> This series aims to make HEVC uapi stable and usable for hardware
+> >>>>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hant=
+ro)
+> >>>>>> and 2 out of the tree drivers (rkvdec and RPI).
+> >>>>>>
+> >>>>>> After the remarks done on version 2, I have completely reworked to=
+ patches
+> >>>>>> split so changelogs are meaningless. I have also drop "RFC" from t=
+he
+> >>>>>> titles.
+> >>>>>>
+> >>>>>> In this v3 I do all the changes (new controls, documentation, etc.=
+.)
+> >>>>>> in the staging directory before moving the HEVC uAPI to stable
+> >>>>>> steps by steps (unlike the big one patch in v2).
+> >>>>>>
+> >>>>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC code=
+c.
+> >>>> I have push a branch here:
+> >>>> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commit=
+s/HEVC_UAPI_V4
+> >>>>
+> >>>> it is the incoming version 4 of this series + patches to enable G2 o=
+n my IMX8MQ
+> >>> Benjamin,
+> >>>
+> >>> I checked this repo out, and built it along with pulling the latest
+> >>> versions of G-streamer and fluster.
+> >>> When I check for v4l2 compatibility, I get the following:
+> >>>
+> >>>       GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+> >>> GStreamer 1.0... =E2=9D=8C
+> >>>       GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder f=
+or
+> >>> GStreamer 1.0... =E2=9C=94=EF=B8=8F
+> >>>       GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+> >>> GStreamer 1.0... =E2=9D=8C
+> >>>       GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+> >>> GStreamer 1.0... =E2=9D=8C
+> >>>       GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder f=
+or
+> >>> GStreamer 1.0... =E2=9D=8C
+> >>>       GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStre=
+amer 1.0... =E2=9D=8C
+> >>>       GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+> >>> GStreamer 1.0... =E2=9C=94=EF=B8=8F
+> >>>       GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+> >>> GStreamer 1.0... =E2=9C=94=EF=B8=8F
+> >>>
+> >>> I see H,264, VP8 and VP9, but I would have also expected
+> >>> GStreamer-H.265-V4L2SL-Gst1.0 to return with a check box.
+> >>>
+> >>> When I checked to see if both decoders were being enumerated, I found=
+ they were.
+> >>> [gst-main] root@localhost:~/gstreamer/fluster# dmesg |grep -i hantro
+> >>> [   16.044243] hantro_vpu: module is from the staging directory, the
+> >>> quality is unknown, you have been warned.
+> >>> [   16.044243] hantro_vpu: module is from the staging directory, the
+> >>> quality is unknown, you have been warned.
+> >>> [   16.095661] hantro-vpu 38300000.video-codec: registered
+> >>> nxp,imx8mq-vpu-g1-dec as /dev/video0
+> >>> [   16.096782] hantro-vpu 38310000.video-codec: registered
+> >>> nxp,imx8mq-vpu-g2-dec as /dev/video1
+> >>>
+> >>> Did I do something wrong, or did I miss something?
+> >> Hi Adam,
+> >>
+> >> I guess it could be a misalignment between v4l2 kernel headers
+> >> and GStreamer v4l2 headers.
+> >> I have push a new version of the GST merge request which is aligned wi=
+th
+> >> HEVC uAPI v4 proposal.
+> >>
+> >> When you inspect v4l2codecs gst plugin (gst-inspect-1.0 v4l2codecs) do
+> >> you see v4l2slh265dec plugin ?
+> >> I have fluster happy with it:
+> >> ./fluster.py list -c
+> > I pulled the latest from g-streamer's git repo again, and re-built.
+> > gst-instpect does not appear to show the h265 codec anymore.
+> >
+> > # gst-inspect-1.0 |grep v4l2codecs
+> > v4l2codecs:  v4l2slh264dec: V4L2 Stateless H.264 Video Decoder
+> > v4l2codecs:  v4l2slmpeg2dec: V4L2 Stateless Mpeg2 Video Decoder
+> > v4l2codecs:  v4l2slvp8alphadecodebin: VP8 Alpha Decoder
+> > v4l2codecs:  v4l2slvp8dec: V4L2 Stateless VP8 Video Decoder
+> > v4l2codecs:  v4l2slvp9alphadecodebin: VP9 Alpha Decoder
+> > v4l2codecs:  v4l2slvp9dec: V4L2 Stateless VP9 Video Decoder
+> >
+> > Is there a specific branch of g-streamer I should be using that can
+> > handle the newer API?
+>
+> You can use this branch:
+>
+> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_a=
+ligned_with_kernel_5.15
+>
+> It is the one used to create the merge request for h265 plugin.
 
-Consider that and replace the printing code with fbtft_par_dbg_hex()
-call.
+I used the above gstreamer branch with
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/HEVC_=
+UAPI_V4
+for the kernel.
 
-Fixes: b888897014a9 ("staging/fbtft: Remove all strcpy() uses")
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/staging/fbtft/fbtft-core.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+I was able to confirm the gst-inspect showed the H265:
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 4a35347b3020..b28a059ad3b4 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -1035,10 +1035,9 @@ int fbtft_init_display(struct fbtft_par *par)
- 			for (j = 0; par->init_sequence[i + 1 + j] >= 0; j++)
- 				;
- 
--			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
--				      "init: write(0x%02X) %*ph\n",
--				      par->init_sequence[i], j,
--				      &par->init_sequence[i + 1]);
-+			fbtft_par_dbg_hex(DEBUG_INIT_DISPLAY, par, par->info->device,
-+					  s16, &par->init_sequence[i + 1], j,
-+					  "init: write(0x%02X)", par->init_sequence[i]);
- 
- 			/* Write */
- 			j = 0;
--- 
-2.34.1
+[gst-HEAD] root@localhost:~/fluster# gst-inspect-1.0 |grep 265
+libav:  avdec_h265: libav HEVC (High Efficiency Video Coding) decoder
+rtp:  rtph265depay: RTP H265 depayloader
 
+rtp:  rtph265pay: RTP H265 payloader
+typefindfunctions: video/x-h265: h265, x265, 265
+v4l2codecs:  v4l2slh265dec: V4L2 Stateless H.265 Video Decoder
+videoparsersbad:  h265parse: H.265 parser
+
+Unfortunately, fluster doesn't appear to recognize it:
+
+    GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+
+Attempting to run fluster with that decoder fail:
+
+# ./fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -j1
+Skipping decoder GStreamer-H.265-V4L2SL-Gst1.0 because it cannot be run
+[gst-HEAD] root@localhost:~/fluster#
+
+
+
+
+
+
+
+>
+> Benjamin
+>
+> adam
+>
+> >>
+> >> H265
+> >>       ...
+> >>       GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for GS=
+treamer 1.0... =E2=9D=8C
+> >>       GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder fo=
+r GStreamer 1.0... =E2=9C=94=EF=B8=8F
+> >>       GStreamer-H.265-VA-Gst1.0: GStreamer H.265 VA decoder for GStrea=
+mer 1.0... =E2=9D=8C
+> >>       GStreamer-H.265-VAAPI-Gst1.0: GStreamer H.265 VAAPI decoder for =
+GStreamer 1.0... =E2=9D=8C
+> >>       JCT-VT-H.265: JCT-VT H.265/HEVC reference decoder... =E2=9D=8C
+> >>
+> >> I hope that will help you,
+> >>
+> >> Regards,
+> >> Benjamin
+> >>
+> >>> adam
+> >>>
+> >>>> Regards,
+> >>>> Benjamin
+> >>>>
+> >>>>> Benjamin,
+> >>>>>
+> >>>>> I have an imx8mm and imx8mq that I can test. Do you happen to have =
+a
+> >>>>> repo that I can clone to test this?  The imx8m stuff is spread arou=
+nd
+> >>>>> between the media tree and the imx tree since it hasn't been fully
+> >>>>> merged yet.
+> >>>>>
+> >>>>> thanks,
+> >>>>>
+> >>>>> adam
+> >>>>>
+> >>>>>> Benjamin
+> >>>>>>
+> >>>>>> Benjamin Gaignard (11):
+> >>>>>>      media: uapi: HEVC: Add missing fields in HEVC controls
+> >>>>>>      media: uapi: HEVC: Rename HEVC stateless controls with STATEL=
+ESS
+> >>>>>>        prefix
+> >>>>>>      media: uapi: HEVC: Add document uAPI structure
+> >>>>>>      media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAM=
+S as a
+> >>>>>>        dynamic array
+> >>>>>>      media: uapi: Move parsed HEVC pixel format out of staging
+> >>>>>>      media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET c=
+ontrol
+> >>>>>>      media: uapi: Move the HEVC stateless control type out of stag=
+ing
+> >>>>>>      media: controls: Log HEVC stateless control in .std_log
+> >>>>>>      media: uapi: Create a dedicated header for Hantro control
+> >>>>>>      media: uapi: HEVC: fix padding in v4l2 control structures
+> >>>>>>      media: uapi: move HEVC stateless controls out of staging
+> >>>>>>
+> >>>>>> Hans Verkuil (3):
+> >>>>>>      videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+> >>>>>>      v4l2-ctrls: add support for dynamically allocated arrays.
+> >>>>>>      vivid: add dynamic array test control
+> >>>>>>
+> >>>>>>     .../userspace-api/media/drivers/hantro.rst    |   5 -
+> >>>>>>     .../media/v4l/ext-ctrls-codec-stateless.rst   | 831 ++++++++++=
+++++++++
+> >>>>>>     .../media/v4l/ext-ctrls-codec.rst             | 780 ----------=
+------
+> >>>>>>     .../media/v4l/pixfmt-compressed.rst           |   7 +-
+> >>>>>>     .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+> >>>>>>     .../media/v4l/vidioc-queryctrl.rst            |   8 +
+> >>>>>>     .../media/videodev2.h.rst.exceptions          |   5 +
+> >>>>>>     .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+> >>>>>>     drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+> >>>>>>     drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+> >>>>>>     drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +-
+> >>>>>>     drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+> >>>>>>     drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+> >>>>>>     drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+> >>>>>>     drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+> >>>>>>     drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+> >>>>>>     .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+> >>>>>>     include/media/hevc-ctrls.h                    | 250 ------
+> >>>>>>     include/media/v4l2-ctrls.h                    |  48 +-
+> >>>>>>     include/uapi/linux/hantro-media.h             |  19 +
+> >>>>>>     include/uapi/linux/v4l2-controls.h            | 436 +++++++++
+> >>>>>>     include/uapi/linux/videodev2.h                |  13 +
+> >>>>>>     22 files changed, 1686 insertions(+), 1169 deletions(-)
+> >>>>>>     delete mode 100644 include/media/hevc-ctrls.h
+> >>>>>>     create mode 100644 include/uapi/linux/hantro-media.h
+> >>>>>>
+> >>>>>> --
+> >>>>>> 2.32.0
+> >>>>>>
