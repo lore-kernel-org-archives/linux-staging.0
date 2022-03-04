@@ -1,204 +1,204 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6A5815
-	for <linux-staging@lists.linux.dev>; Fri,  4 Mar 2022 07:00:21 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id z4so6737054pgh.12
-        for <linux-staging@lists.linux.dev>; Thu, 03 Mar 2022 23:00:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=0a+oQu3LYTAbOOyoILb+F/zkApGIum0yjd+xPCLEHo4=;
-        b=UcHSzcmMAevEFsqxc8gimvoSIew96LrW3UYvjfgkcaeLb/Edql9668oTELTgMdhcyh
-         uwTLYgNgPfuwuQfZCbkLtuIX59UkP2xXrD0mK6eOfNdOu/KSihdjQUFHL7gwAFzgpb4Z
-         PeSQfhLMwS3uLkuXfSSL1QQyblGTA4kTyWBkcty1viz6EkWmIbbGn99xu95lY6jAsJ0c
-         CbisDo/RPFGn8gAJnKluj00ht4OQ80XaXmCEvGalnXTnvAWrV5UWFfWh6kgUBnLZJvSQ
-         W0PYU136vUwP4grvjJEIhDxHc0WM1lPQ2cysIXPjh+breTQ07tU9AM0RgZ3Jr4UsSFjT
-         NaGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=0a+oQu3LYTAbOOyoILb+F/zkApGIum0yjd+xPCLEHo4=;
-        b=I2D3VoK2OsAq3Ct3ywT28tROOGB03mo2bXzQiy6S09kEgd0P20WDsa3cgVdr7H6WPM
-         Rhs0zeduRimBTyYG45iZiRIGxSdUPh4GS+aHb3lEuYE3reueGg7ZRNUv7eejPGeLbIKm
-         b2LxzNw/MDXGLyUwKfjKPObOeqSTdR3/r9SDQM7ZYxaw/bxI0Z9Mwz5//V3eolMu/W+Y
-         BOmS3aO1DGJdRtjk6njurjbqj3Kl1FdDJonl3kwEaMUiaCkVo3qeM+W5mIjEzuPjmrCH
-         6HL70I5VN/0wN2ZWwf6Kebp2d0ncyJvhEMNfENTk1Ho0ABZbMhfnW++pB4tdysTMrtBj
-         IWlw==
-X-Gm-Message-State: AOAM5308kvuKOvXyUlMFTCZvWUztP2v7JiOfs9wDvwU9RpIUMfYJN5F/
-	DgbeCEcKuNvsOtjl3+RhylY=
-X-Google-Smtp-Source: ABdhPJxBFOb3A6C/RlDh1uHGrWM51HjSkR68cXfNAhNGErUbSC2hd/FilwMHkJmidt1eEHAWD7GVrA==
-X-Received: by 2002:a05:6a00:cc7:b0:4ec:c6f3:ad29 with SMTP id b7-20020a056a000cc700b004ecc6f3ad29mr41958698pfv.66.1646377221067;
-        Thu, 03 Mar 2022 23:00:21 -0800 (PST)
-Received: from ubuntu.huawei.com ([119.3.119.19])
-        by smtp.googlemail.com with ESMTPSA id f6-20020a654006000000b00346193b405fsm3665134pgp.44.2022.03.03.23.00.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 23:00:20 -0800 (PST)
-From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To: daniel.thompson@linaro.org
-Cc: akpm@linux-foundation.org,
-	alsa-devel@alsa-project.org,
-	amd-gfx@lists.freedesktop.org,
-	andriy.shevchenko@linux.intel.com,
-	arnd@arndb.de,
-	bcm-kernel-feedback-list@broadcom.com,
-	bjohannesmeyer@gmail.com,
-	c.giuffrida@vu.nl,
-	christian.koenig@amd.com,
-	christophe.jaillet@wanadoo.fr,
-	dan.carpenter@oracle.com,
-	david.laight@aculab.com,
-	dmaengine@vger.kernel.org,
-	drbd-dev@lists.linbit.com,
-	dri-devel@lists.freedesktop.org,
-	gustavo@embeddedor.com,
-	h.j.bos@vu.nl,
-	intel-gfx@lists.freedesktop.org,
-	intel-wired-lan@lists.osuosl.org,
-	jakobkoschel@gmail.com,
-	jgg@ziepe.ca,
-	keescook@chromium.org,
-	kgdb-bugreport@lists.sourceforge.net,
-	kvm@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-block@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sgx@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux1394-devel@lists.sourceforge.net,
-	linux@rasmusvillemoes.dk,
-	linuxppc-dev@lists.ozlabs.org,
-	nathan@kernel.org,
-	netdev@vger.kernel.org,
-	nouveau@lists.freedesktop.org,
-	rppt@kernel.org,
-	samba-technical@lists.samba.org,
-	tglx@linutronix.de,
-	tipc-discussion@lists.sourceforge.net,
-	torvalds@linux-foundation.org,
-	v9fs-developer@lists.sourceforge.net,
-	xiam0nd.tong@gmail.com
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body as a ptr
-Date: Fri,  4 Mar 2022 14:59:57 +0800
-Message-Id: <20220304065957.16799-1-xiam0nd.tong@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220303121824.qdyrognluik74iph@maple.lan>
-References: <20220303121824.qdyrognluik74iph@maple.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E7EA33;
+	Fri,  4 Mar 2022 09:12:11 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 36006C9A05;
+	Fri,  4 Mar 2022 09:00:26 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 3EEEC1BF213;
+	Fri,  4 Mar 2022 09:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1646384418;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MoznkUIec7VAQY3ImNmY3IHeuYJ/S05cBMHdD+Wm4Nc=;
+	b=F9tvU0ozNsPeQ9lftznClBeZfJB6PRNXxUPQuKwyUpT+KlQKi1Nt6H6ki+H9T74PtC15GX
+	mEICPAhXiahTCeW0RAjDqf9QHMqxP63CmickbbG9Wiyp9qId8qFcZGrK6aWmhmVw7/aGt2
+	yLlqqcQDFBjV1yRkmHN+eaunAwYFhRpPb7msRMR/CGFHaJhhUappIX1EW+O1P7k1yliwnB
+	M5V5bFFMXlCKDVfIyrkqNeKa0olTvBeJQCCkrxzrIJUMmqwnsXU1BEtxyIGQsumhssIw9L
+	Zlau+iKBkap+qVKAuIzvu4o1YBw/r/7qV5t3A4pr5bmRcw1uqeMrjAN3qNgwTQ==
+Date: Fri, 4 Mar 2022 10:00:12 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 30/66] media: sun6i-csi: Add bridge v4l2 subdev with
+ port management
+Message-ID: <YiHVHM53GUQ1jxco@aptenodytes>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-31-paul.kocialkowski@bootlin.com>
+ <YgqbqVRinNxQ8+WV@paasikivi.fi.intel.com>
+ <Yh+GZv9/rKQ2WbI2@aptenodytes>
+ <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="dwUOJP15b315kF0b"
+Content-Disposition: inline
+In-Reply-To: <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
 
-On Thu, 3 Mar 2022 12:18:24 +0000, Daniel Thompson wrote:
-> On Thu, Mar 03, 2022 at 03:26:57PM +0800, Xiaomeng Tong wrote:
-> > On Thu, 3 Mar 2022 04:58:23 +0000, David Laight wrote:
-> > > on 3 Mar 2022 10:27:29 +0800, Xiaomeng Tong wrote:
-> > > > The problem is the mis-use of iterator outside the loop on exit, and
-> > > > the iterator will be the HEAD's container_of pointer which pointers
-> > > > to a type-confused struct. Sidenote: The *mis-use* here refers to
-> > > > mistakely access to other members of the struct, instead of the
-> > > > list_head member which acutally is the valid HEAD.
-> > >
-> > > The problem is that the HEAD's container_of pointer should never
-> > > be calculated at all.
-> > > This is what is fundamentally broken about the current definition.
-> > 
-> > Yes, the rule is "the HEAD's container_of pointer should never be
-> > calculated at all outside the loop", but how do you make sure everyone
-> > follows this rule?
-> 
-> Your formulation of the rule is correct: never run container_of() on HEAD
-> pointer.
 
-Actually, it is not my rule. My rule is that never access other members
-of the struct except for the list_head member after the loop, because
-this is a invalid member after loop exit, but valid for the list_head
-member which just is HEAD and the lately caculation (&pos->head) seems
-harmless.
+--dwUOJP15b315kF0b
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have considered the case that the HEAD's container "pos" is layouted
-across the max and the min address boundary, which means the address of
-HEAD is likely 0x60, and the address of pos is likely 0xffffffe0.
-It seems ok to caculate pos with:
-((type *)(__mptr - offsetof(type, member)));
-and it seems ok to caculate head outside the loop with:
-if (&pos->head == &HEAD)
-    return NULL;
+Hi Sakari,
 
-The only case I can think of with the rule "never run container_of()
-on HEAD" must be followed is when the first argument (which is &HEAD)
-passing to container_of() is NULL + some offset, it may lead to the
-resulting "pos->member" access being a NULL dereference. But maybe
-the caller can take the responsibility to check if it is NULL, not
-container_of() itself.
+On Fri 04 Mar 22, 00:43, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> On Wed, Mar 02, 2022 at 03:59:50PM +0100, Paul Kocialkowski wrote:
+> > > > +static int
+> > > > +sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifi=
+er,
+> > > > +				struct v4l2_subdev *remote_subdev,
+> > > > +				struct v4l2_async_subdev *async_subdev)
+> > > > +{
+> > > > +	struct sun6i_csi_device *csi_dev =3D
+> > > > +		container_of(notifier, struct sun6i_csi_device,
+> > > > +			     bridge.notifier);
+> > > > +	struct sun6i_csi_bridge *bridge =3D &csi_dev->bridge;
+> > > > +	struct sun6i_csi_bridge_source *source =3D NULL;
+> > > > +	struct fwnode_handle *fwnode =3D dev_fwnode(csi_dev->dev);
+> > > > +	struct fwnode_handle *handle =3D NULL;
+> > > > +	bool enabled;
+> > > > +	int ret;
+> > > > +
+> > > > +	while ((handle =3D fwnode_graph_get_next_endpoint(fwnode, handle)=
+)) {
+> > >=20
+> > > I'd instead store the information you need here in struct sun6i_csi_b=
+ridge.
+> > > You could remove the loop here.
+> >=20
+> > Is there a different method for matching a remote subdev to a local por=
+t?
+> > The rationale here is that I need the handle for fwnode_graph_parse_end=
+point
+> > but cannot get that handle from the remote subdev's fwnode pointer dire=
+ctly.
+>=20
+> You generally shouldn't try to match fwnodes here as the V4L2 async
+> framework has already done that job. This information can be found behind
+> the async_subdev pointer.
+>=20
+> See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2-main.c for an example.
 
-Please remind me if i missed somthing, thanks.
+Thanks for the feedback, I'll look into that.
 
-> 
-> However the rule that is introduced by list_for_each_entry_inside() is
-> *not* this rule. The rule it introduces is: never access the iterator
-> variable outside the loop.
+> >=20
+> > > > +		struct fwnode_endpoint endpoint =3D { 0 };
+> > > > +		struct fwnode_handle *remote_fwnode;
+> > > > +
+> > > > +		remote_fwnode =3D fwnode_graph_get_remote_port_parent(handle);
+> > > > +		if (!remote_fwnode)
+> > > > +			continue;
+> > > > +
+> > > > +		if (remote_fwnode !=3D remote_subdev->fwnode)
+> > > > +			goto next;
+> > > > +
+> > > > +		ret =3D fwnode_graph_parse_endpoint(handle, &endpoint);
+> > > > +		if (ret < 0)
+> > > > +			goto next;
+> > > > +
+> > > > +		switch (endpoint.port) {
+> > > > +		case SUN6I_CSI_PORT_PARALLEL:
+> > > > +			source =3D &bridge->source_parallel;
+> > > > +			enabled =3D true;
+> > > > +			break;
+> > > > +		default:
+> > > > +			break;
+> > > > +		}
+> > > > +
+> > > > +next:
+> > > > +		fwnode_handle_put(remote_fwnode);
+> > > > +	}
+> > > > +
+> > > > +	if (!source)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	source->subdev =3D remote_subdev;
+> > > > +
+> > > > +	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
+> > > > +				     remote_subdev, enabled);
+> > > > +}
+> > > > +
+> > > > +static int
+> > > > +sun6i_csi_bridge_notifier_complete(struct v4l2_async_notifier *not=
+ifier)
+> > > > +{
+> > > > +	struct sun6i_csi_device *csi_dev =3D
+> > > > +		container_of(notifier, struct sun6i_csi_device,
+> > > > +			     bridge.notifier);
+> > > > +
+> > > > +	return sun6i_csi_v4l2_complete(csi_dev);
+> > >=20
+> > > You could call v4l2_device_register_subdev_nodes() here.
+> >=20
+> > That's definitely what sun6i_csi_v4l2_complete does (the diff is probab=
+ly not
+> > very clear). Note that the wrapper is extended later on to register the=
+ capture
+> > video device for the no-isp path.
+>=20
+> I could be missing something... Do you need to call
+> sun6i_csi_v4l2_complete() in multiple places or not? If not, then I think
+> it'd be probably better to just move the code here.
 
-Sorry for the confusion, indeed, that is two *different* rule.
+No this is only called here so I guess we can avoid it entirely.
 
-> 
-> Making the iterator NULL on loop exit does follow the rule you proposed
-> but using a different technique: do not allow HEAD to be stored in the
-> iterator variable after loop exit. This also makes it impossible to run
-> container_of() on the HEAD pointer.
-> 
+Thanks,
 
-It does not. My rule is: never access the iterator variable outside the loop.
-The "Making the iterator NULL on loop exit" way still leak the pos with NULL
-outside the loop, may lead to a NULL deference.
+Paul
 
-> 
-> > Everyone makes mistakes, but we can eliminate them all from the beginning
-> > with the help of compiler which can catch such use-after-loop things.
-> 
-> Indeed but if we introduce new interfaces then we don't have to worry
-> about existing usages and silent regressions. Code will have been
-> written knowing the loop can exit with the iterator set to NULL.
+> >=20
+> > Maybe the capture registration could be kept in sun6i_csi_probe for the=
+ non-isp
+> > path and then the wrapper wouldn't be needed. I don't mind either way.
+>=20
+> --=20
+> Kind regards,
+>=20
+> Sakari Ailus
 
-Yes, it is more simple and compatible with existing interfaces. Howerver,
-you should make every developers to remember that "pos will be set NULL on
-loop exit", which is unreasonable and impossible for *every* single person.
-Otherwise the mis-use-after-loop will lead to a NULL dereference.
-But we can kill this problem by declaring iterator inside the loop and the
-complier will catch it if somebody mis-use-after-loop.
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-> 
-> Sure it is still possible for programmers to make mistakes and
-> dereference the NULL pointer but C programmers are well training w.r.t.
-> NULL pointer checking so such mistakes are much less likely than with
-> the current list_for_each_entry() macro. This risk must be offset
-> against the way a NULLify approach can lead to more elegant code when we
-> are doing a list search.
-> 
+--dwUOJP15b315kF0b
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Yes, the NULLify approach is better than the current list_for_each_entry()
-macro, but i stick with that the list_for_each_entry_inside() way is best
-and perfect _technically_.
+-----BEGIN PGP SIGNATURE-----
 
-Thus, my idea is *better a finger off than always aching*, let's settle this
-damn problem once and for all, with list_for_each_entry_inside().
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIh1RwACgkQ3cLmz3+f
+v9Ha5Qf+Lz13XAEQwduMjvaJ3V4PK+23t0taf6Fv0+Peh5fnTfFagFYbMtBdFsbo
+q/6i5Zt3JaRdXe+5SixAINP00cflNxpxuAN+MRbjP4wfaRBxNRGqhIGjXWzJYLZe
+jn4lX8W49l8iafyCstJ5jhccMEn/LSo1mO3pAyjc3pMXK+6HabgMe5UEETWvm5n3
+XX1j/KBu1PtgQUNKbBxKGpGVmlmBjMEfM+DIx19h70AeeG7OW4wUq37IJ5i6AiuX
+Q7da7pWZMzdesWbjon3l5X5rPbfimGXqNLJYUa86zFBrk/nO+10HhU1udx4du5AW
+4e/50RP2kNoRQ9bvpvarQtS8gN0BGg==
+=Nf6c
+-----END PGP SIGNATURE-----
 
---
-Xiaomeng Tong
+--dwUOJP15b315kF0b--
