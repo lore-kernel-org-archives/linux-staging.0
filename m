@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A586ABB
-	for <linux-staging@lists.linux.dev>; Sat,  5 Mar 2022 18:54:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C11C6AC0
+	for <linux-staging@lists.linux.dev>; Sat,  5 Mar 2022 18:54:06 +0000 (UTC)
 Received: from dslb-084-059-247-134.084.059.pools.vodafone-ip.de ([84.59.247.134] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nQZXY-00016k-RB; Sat, 05 Mar 2022 19:54:04 +0100
+	id 1nQZXX-00016k-Tz; Sat, 05 Mar 2022 19:54:03 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 6/6] staging: r8188eu: remove local BIT macro
-Date: Sat,  5 Mar 2022 19:53:51 +0100
-Message-Id: <20220305185351.1409232-7-martin@kaiser.cx>
+Subject: [PATCH 5/6] staging: r8188eu: remove some unused local ieee80211 macros
+Date: Sat,  5 Mar 2022 19:53:50 +0100
+Message-Id: <20220305185351.1409232-6-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220305185351.1409232-1-martin@kaiser.cx>
 References: <20220305185351.1409232-1-martin@kaiser.cx>
@@ -30,34 +30,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The r8188eu driver defines a local BIT(x) macro. Remove this local macro
-and use the one from include/linux/bits.h.
+Remove some macros from wifi.h which are not used by this driver.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/include/wifi.h | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/staging/r8188eu/include/wifi.h | 27 --------------------------
+ 1 file changed, 27 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index c331be19ff83..299553351246 100644
+index c1c9bae58d6d..c331be19ff83 100644
 --- a/drivers/staging/r8188eu/include/wifi.h
 +++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -4,14 +4,9 @@
- #ifndef _WIFI_H_
- #define _WIFI_H_
+@@ -167,17 +167,11 @@ enum WIFI_REG_DOMAIN {
  
-+#include <linux/bits.h>
- #include <linux/ieee80211.h>
+ #define GetToDs(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_TO_DS_)) != 0)
  
--#ifdef BIT
--/* error	"BIT define occurred earlier elsewhere!\n" */
--#undef BIT
--#endif
--#define BIT(x)	(1 << (x))
+-#define ClearToDs(pbuf)	\
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_TO_DS_))
 -
- #define WLAN_ETHHDR_LEN		14
- #define WLAN_HDR_A3_LEN		24
- #define WLAN_HDR_A3_QOS_LEN	26
+ #define SetFrDs(pbuf)	\
+ 	*(__le16 *)(pbuf) |= cpu_to_le16(_FROM_DS_)
+ 
+ #define GetFrDs(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_FROM_DS_)) != 0)
+ 
+-#define ClearFrDs(pbuf)	\
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_FROM_DS_))
+-
+ #define get_tofr_ds(pframe)	((GetToDs(pframe) << 1) | GetFrDs(pframe))
+ 
+ #define SetMFrag(pbuf)	\
+@@ -186,46 +180,25 @@ enum WIFI_REG_DOMAIN {
+ #define ClearMFrag(pbuf)	\
+ 	*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_FRAG_))
+ 
+-#define SetRetry(pbuf)	\
+-	*(__le16 *)(pbuf) |= cpu_to_le16(_RETRY_)
+-
+ #define GetRetry(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_RETRY_)) != 0)
+ 
+-#define ClearRetry(pbuf)	\
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_RETRY_))
+-
+ #define SetPwrMgt(pbuf)	\
+ 	*(__le16 *)(pbuf) |= cpu_to_le16(_PWRMGT_)
+ 
+ #define GetPwrMgt(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_PWRMGT_)) != 0)
+ 
+-#define ClearPwrMgt(pbuf)	\
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_PWRMGT_))
+-
+ #define SetMData(pbuf)	\
+ 	*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_DATA_)
+ 
+-#define ClearMData(pbuf)	\
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_MORE_DATA_))
+-
+ #define SetPrivacy(pbuf)	\
+ 	*(__le16 *)(pbuf) |= cpu_to_le16(_PRIVACY_)
+ 
+ #define GetPrivacy(pbuf)					\
+ 	(((*(__le16 *)(pbuf)) & cpu_to_le16(_PRIVACY_)) != 0)
+ 
+-#define ClearPrivacy(pbuf)	\
+-	*(__le16 *)(pbuf) &= (~cpu_to_le16(_PRIVACY_))
+-
+ #define GetFrameType(pbuf)				\
+ 	(le16_to_cpu(*(__le16 *)(pbuf)) & (BIT(3) | BIT(2)))
+ 
+-#define SetFrameType(pbuf, type)	\
+-	do {	\
+-		*(unsigned short *)(pbuf) &= __constant_cpu_to_le16(~(BIT(3) | BIT(2))); \
+-		*(unsigned short *)(pbuf) |= __constant_cpu_to_le16(type); \
+-	} while (0)
+-
+ #define GetFrameSubType(pbuf)	(le16_to_cpu(*(__le16 *)(pbuf)) & (BIT(7) |\
+ 	 BIT(6) | BIT(5) | BIT(4) | BIT(3) | BIT(2)))
+ 
 -- 
 2.30.2
 
