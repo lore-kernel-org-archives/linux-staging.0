@@ -1,308 +1,120 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999516AAC;
-	Fri,  4 Mar 2022 22:46:19 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id gb39so20275792ejc.1;
-        Fri, 04 Mar 2022 14:46:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=vrmuvAbijZ28kYtOk+uJcMyNX1JcQWAyDD9NR3O1IEA=;
-        b=jfzQP3fwST5myt15NEMM5eezOpBrQUqRUNS0x/N4L9hYh8NYQZWoYGMyEJYuPlDlI9
-         MsFUOcf2gNEvRRMY0lNBnwquK+B8UsIXCHxlyO3XN+5Ve1OvRiwhglpLbhG3mjjBRJIE
-         V6JM+Dc+WaNtdzjJ1objXCy43vDu/xc5okylmyn5Rk+N+20bguuVrkOhF1SjqTg3RF2o
-         8rCsLSKslX5G9/I4tQlOzgWHMquROTwKE+5xtGj0yKCTtgjfzTrznEUEBT9LzZYCuDcR
-         fIa3zeM65ZIstfWkYClEpQJ920wNT5hc0pYO6O3Pu0K9oSINRryo+YTbke25mdBCOuDI
-         6FVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=vrmuvAbijZ28kYtOk+uJcMyNX1JcQWAyDD9NR3O1IEA=;
-        b=XdzwzDyOm9W4adUC3buyn5j7/5yEkMzxXfNjSJQ/HH4qKpxXRj6xYIerspxEmMYOFj
-         0HbFEu4T/iPdZ/IzKFWF7Cz+U7VWSWlZKFyVfshNURHh8B8Oz5jlMJXu8xmLMTHyYeq0
-         VyAS4zgDsWHMeNq921fiBMdkxikguMSz5WGE9lNkPMkEZj18hd1SxO/7OzsaMTt4CYBN
-         zypL2Iu3UDr0vFCKkEnmjQiHYrEETWtImdrOcODT/1WzY+pFH2RpBSGAHC3b3OH8yoA4
-         er15M0U3UfYwi+bXhetNKdtbjaQEimtgERdfBr1eU6zCmo8H/+bOH9NVPrYb85ag+8Rw
-         aUlg==
-X-Gm-Message-State: AOAM533bhle/49v/y6+Qa+aEtcQpgDW9PyK+srqlNnon1q68l9mGi0jN
-	daTtY9DEUsIDOulj+I6tZaU5hUzTknOVqTcrbHQ=
-X-Google-Smtp-Source: ABdhPJyXA7Ej1BogzKJNf4dzgmoKM/PISk0NcZ3kD70oENSelFvPRmae78+uuODE7p1f2I7AkKx8Db0I5KR8y458zc0=
-X-Received: by 2002:a17:907:7704:b0:6cf:48ac:b4a8 with SMTP id
- kw4-20020a170907770400b006cf48acb4a8mr741620ejc.305.1646433977434; Fri, 04
- Mar 2022 14:46:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047AB7E
+	for <linux-staging@lists.linux.dev>; Sat,  5 Mar 2022 10:57:50 +0000 (UTC)
+Received: from dslb-084-059-247-134.084.059.pools.vodafone-ip.de ([84.59.247.134] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.89)
+	(envelope-from <postmaster@kaiser.cx>)
+	id 1nQS6X-0005hR-Fm; Sat, 05 Mar 2022 11:57:41 +0100
+Received: from martin by martin-debian-2.paytec.ch with local (Exim 4.94.2)
+	(envelope-from <martin@martin-debian-2.paytec.ch>)
+	id 1nQS6W-005djc-Lh; Sat, 05 Mar 2022 11:57:40 +0100
+Date: Sat, 5 Mar 2022 11:57:40 +0100
+From: Martin Kaiser <lists@kaiser.cx>
+To: Qing Wang <wangqing@vivo.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] r8188eu: core: use time_is_after_eq_jiffies() instead of
+ open coding it
+Message-ID: <YiNCJFFLPcD+aGnr@martin-debian-1.paytec.ch>
+References: <1646018092-61367-1-git-send-email-wangqing@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
- <CAHCN7x+AUy4JsqfdyZFqg4ScR1OgoLvqF91za0AZ278NSBJj4A@mail.gmail.com>
- <b832271d-cecd-a373-48ff-ba5ce736e47d@collabora.com> <CAHCN7xJ3K2bLEc8dcTM+x-E0brDW-t4yrUdkUe0jCfuzH8v9pA@mail.gmail.com>
- <678c1f01-c6cd-d1be-bd0b-277a808b006a@collabora.com> <CAHCN7xL-+1cXbcOpRU8BRXoyAkecERqT-O8vM_069er8WWWEaw@mail.gmail.com>
- <a0360b52-246e-21a2-1499-b9a03de21a30@collabora.com>
-In-Reply-To: <a0360b52-246e-21a2-1499-b9a03de21a30@collabora.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Fri, 4 Mar 2022 16:46:06 -0600
-Message-ID: <CAHCN7x+jmoFwUh2KA3e_B=PuPFGWv16ZzJR6whhBfJv9GF_4EA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/14] Move HEVC stateless controls out of staging
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org, 
-	paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>, 
-	"jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media <linux-media@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk, 
-	Chris Healy <cphealy@gmail.com>, Ruslan Sushko <ruslan.sushko@zii.aero>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1646018092-61367-1-git-send-email-wangqing@vivo.com>
+Sender: "Martin Kaiser,,," <martin@martin-debian-2.paytec.ch>
 
-On Fri, Mar 4, 2022 at 7:03 AM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
->
-> Le 04/03/2022 =C3=A0 13:59, Adam Ford a =C3=A9crit :
-> > On Thu, Mar 3, 2022 at 4:13 AM Benjamin Gaignard
-> > <benjamin.gaignard@collabora.com> wrote:
-> >>
-> >> Le 03/03/2022 =C3=A0 02:23, Adam Ford a =C3=A9crit :
-> >>> On Mon, Feb 28, 2022 at 4:13 AM Benjamin Gaignard
-> >>> <benjamin.gaignard@collabora.com> wrote:
-> >>>> Le 26/02/2022 =C3=A0 23:25, Adam Ford a =C3=A9crit :
-> >>>>> On Fri, Feb 25, 2022 at 4:41 PM Benjamin Gaignard
-> >>>>> <benjamin.gaignard@collabora.com> wrote:
-> >>>>>> This series aims to make HEVC uapi stable and usable for hardware
-> >>>>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hant=
-ro)
-> >>>>>> and 2 out of the tree drivers (rkvdec and RPI).
-> >>>>>>
-> >>>>>> After the remarks done on version 2, I have completely reworked to=
- patches
-> >>>>>> split so changelogs are meaningless. I have also drop "RFC" from t=
-he
-> >>>>>> titles.
-> >>>>>>
-> >>>>>> In this v3 I do all the changes (new controls, documentation, etc.=
-.)
-> >>>>>> in the staging directory before moving the HEVC uAPI to stable
-> >>>>>> steps by steps (unlike the big one patch in v2).
-> >>>>>>
-> >>>>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC code=
-c.
-> >>>> I have push a branch here:
-> >>>> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commit=
-s/HEVC_UAPI_V4
-> >>>>
-> >>>> it is the incoming version 4 of this series + patches to enable G2 o=
-n my IMX8MQ
-> >>> Benjamin,
-> >>>
-> >>> I checked this repo out, and built it along with pulling the latest
-> >>> versions of G-streamer and fluster.
-> >>> When I check for v4l2 compatibility, I get the following:
-> >>>
-> >>>       GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
-> >>> GStreamer 1.0... =E2=9D=8C
-> >>>       GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder f=
-or
-> >>> GStreamer 1.0... =E2=9C=94=EF=B8=8F
-> >>>       GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
-> >>> GStreamer 1.0... =E2=9D=8C
-> >>>       GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
-> >>> GStreamer 1.0... =E2=9D=8C
-> >>>       GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder f=
-or
-> >>> GStreamer 1.0... =E2=9D=8C
-> >>>       GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStre=
-amer 1.0... =E2=9D=8C
-> >>>       GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
-> >>> GStreamer 1.0... =E2=9C=94=EF=B8=8F
-> >>>       GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
-> >>> GStreamer 1.0... =E2=9C=94=EF=B8=8F
-> >>>
-> >>> I see H,264, VP8 and VP9, but I would have also expected
-> >>> GStreamer-H.265-V4L2SL-Gst1.0 to return with a check box.
-> >>>
-> >>> When I checked to see if both decoders were being enumerated, I found=
- they were.
-> >>> [gst-main] root@localhost:~/gstreamer/fluster# dmesg |grep -i hantro
-> >>> [   16.044243] hantro_vpu: module is from the staging directory, the
-> >>> quality is unknown, you have been warned.
-> >>> [   16.044243] hantro_vpu: module is from the staging directory, the
-> >>> quality is unknown, you have been warned.
-> >>> [   16.095661] hantro-vpu 38300000.video-codec: registered
-> >>> nxp,imx8mq-vpu-g1-dec as /dev/video0
-> >>> [   16.096782] hantro-vpu 38310000.video-codec: registered
-> >>> nxp,imx8mq-vpu-g2-dec as /dev/video1
-> >>>
-> >>> Did I do something wrong, or did I miss something?
-> >> Hi Adam,
-> >>
-> >> I guess it could be a misalignment between v4l2 kernel headers
-> >> and GStreamer v4l2 headers.
-> >> I have push a new version of the GST merge request which is aligned wi=
-th
-> >> HEVC uAPI v4 proposal.
-> >>
-> >> When you inspect v4l2codecs gst plugin (gst-inspect-1.0 v4l2codecs) do
-> >> you see v4l2slh265dec plugin ?
-> >> I have fluster happy with it:
-> >> ./fluster.py list -c
-> > I pulled the latest from g-streamer's git repo again, and re-built.
-> > gst-instpect does not appear to show the h265 codec anymore.
-> >
-> > # gst-inspect-1.0 |grep v4l2codecs
-> > v4l2codecs:  v4l2slh264dec: V4L2 Stateless H.264 Video Decoder
-> > v4l2codecs:  v4l2slmpeg2dec: V4L2 Stateless Mpeg2 Video Decoder
-> > v4l2codecs:  v4l2slvp8alphadecodebin: VP8 Alpha Decoder
-> > v4l2codecs:  v4l2slvp8dec: V4L2 Stateless VP8 Video Decoder
-> > v4l2codecs:  v4l2slvp9alphadecodebin: VP9 Alpha Decoder
-> > v4l2codecs:  v4l2slvp9dec: V4L2 Stateless VP9 Video Decoder
-> >
-> > Is there a specific branch of g-streamer I should be using that can
-> > handle the newer API?
->
-> You can use this branch:
->
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_a=
-ligned_with_kernel_5.15
->
-> It is the one used to create the merge request for h265 plugin.
+Hi,
 
-I used the above gstreamer branch with
-https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/HEVC_=
-UAPI_V4
-for the kernel.
+Thus wrote Qing Wang (wangqing@vivo.com):
 
-I was able to confirm the gst-inspect showed the H265:
+> From: Wang Qing <wangqing@vivo.com>
 
-[gst-HEAD] root@localhost:~/fluster# gst-inspect-1.0 |grep 265
-libav:  avdec_h265: libav HEVC (High Efficiency Video Coding) decoder
-rtp:  rtph265depay: RTP H265 depayloader
+> Use the helper function time_is_{before,after}_jiffies() to improve
+> code readability.
 
-rtp:  rtph265pay: RTP H265 payloader
-typefindfunctions: video/x-h265: h265, x265, 265
-v4l2codecs:  v4l2slh265dec: V4L2 Stateless H.265 Video Decoder
-videoparsersbad:  h265parse: H.265 parser
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_pwrctrl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Unfortunately, fluster doesn't appear to recognize it:
+> diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+> index 46e44ae..9894abb
+> --- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+> +++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+> @@ -102,7 +102,7 @@ static bool rtw_pwr_unassociated_idle(struct adapter *adapter)
+>  	struct wifidirect_info	*pwdinfo = &adapter->wdinfo;
+>  	bool ret = false;
 
-    GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
-GStreamer 1.0... =E2=9D=8C
+> -	if (adapter->pwrctrlpriv.ips_deny_time >= jiffies)
+> +	if (time_is_after_eq_jiffies(adapter->pwrctrlpriv.ips_deny_time))
+>  		goto exit;
 
-Attempting to run fluster with that decoder fail:
+>  	if (check_fwstate(pmlmepriv, WIFI_ASOC_STATE | WIFI_SITE_MONITOR) ||
+> -- 
+> 2.7.4
 
-# ./fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -j1
-Skipping decoder GStreamer-H.265-V4L2SL-Gst1.0 because it cannot be run
-[gst-HEAD] root@localhost:~/fluster#
+
+This doesn't compile on my system:
+
+  CC [M]  drivers/staging/r8188eu/core/rtw_p2p.o
+In file included from ./include/linux/irqflags.h:15,
+                 from ./arch/arm/include/asm/atomic.h:14,
+                 from ./include/linux/atomic.h:7,
+                 from ./include/linux/rcupdate.h:25,
+                 from ./include/linux/rculist.h:11,
+                 from ./include/linux/sched/signal.h:5,
+                 from drivers/staging/r8188eu/core/../include/osdep_service.h:7,
+                 from drivers/staging/r8188eu/core/rtw_pwrctrl.c:6:
+drivers/staging/r8188eu/core/rtw_pwrctrl.c: In function ‘rtw_pwr_unassociated_idle’:
+./include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+   12 |         (void)(&__dummy == &__dummy2); \
+      |                         ^~
+./include/linux/jiffies.h:111:10: note: in expansion of macro ‘typecheck’
+  111 |         (typecheck(unsigned long, a) && \
+      |          ^~~~~~~~~
+./include/linux/jiffies.h:114:33: note: in expansion of macro ‘time_after_eq’
+  114 | #define time_before_eq(a,b)     time_after_eq(b,a)
+      |                                 ^~~~~~~~~~~~~
+./include/linux/jiffies.h:166:37: note: in expansion of macro ‘time_before_eq’
+  166 | #define time_is_after_eq_jiffies(a) time_before_eq(jiffies, a)
+      |                                     ^~~~~~~~~~~~~~
+drivers/staging/r8188eu/core/rtw_pwrctrl.c:92:13: note: in expansion of macro ‘time_is_after_eq_jiffies’
+   92 |         if (time_is_after_eq_jiffies(adapter->pwrctrlpriv.ips_deny_time))
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
+time_is_after_eq_jiffies checks at compile time that its argument is
+unsigned long but ips_deny_time is u32 in the r8188eu driver.
 
+We should change ips_deny_time to unsigned long, the rtl8723bs driver did
+this as well. ips_deny_time is used in these places
 
+  11     92  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<rtw_pwr_unassociated_idle>>
+             if (adapter->pwrctrlpriv.ips_deny_time >= jiffies)
+  12    363  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
+             if (pwrpriv->ips_deny_time < jiffies + rtw_ms_to_systime(ips_deffer_ms))
+  13    364  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
+             pwrpriv->ips_deny_time = jiffies + rtw_ms_to_systime(ips_deffer_ms);
+  14    399  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
+             if (pwrpriv->ips_deny_time < jiffies + rtw_ms_to_systime(ips_deffer_ms))
+  15    400  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
+             pwrpriv->ips_deny_time = jiffies + rtw_ms_to_systime(ips_deffer_ms);
 
+rtw_ms_to_systime converts milliseconds to jiffies and returns u32. We
+should use msecs_to_jiffies instead, this functions returns unsigned long.
 
->
-> Benjamin
->
-> adam
->
-> >>
-> >> H265
-> >>       ...
-> >>       GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for GS=
-treamer 1.0... =E2=9D=8C
-> >>       GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder fo=
-r GStreamer 1.0... =E2=9C=94=EF=B8=8F
-> >>       GStreamer-H.265-VA-Gst1.0: GStreamer H.265 VA decoder for GStrea=
-mer 1.0... =E2=9D=8C
-> >>       GStreamer-H.265-VAAPI-Gst1.0: GStreamer H.265 VAAPI decoder for =
-GStreamer 1.0... =E2=9D=8C
-> >>       JCT-VT-H.265: JCT-VT H.265/HEVC reference decoder... =E2=9D=8C
-> >>
-> >> I hope that will help you,
-> >>
-> >> Regards,
-> >> Benjamin
-> >>
-> >>> adam
-> >>>
-> >>>> Regards,
-> >>>> Benjamin
-> >>>>
-> >>>>> Benjamin,
-> >>>>>
-> >>>>> I have an imx8mm and imx8mq that I can test. Do you happen to have =
-a
-> >>>>> repo that I can clone to test this?  The imx8m stuff is spread arou=
-nd
-> >>>>> between the media tree and the imx tree since it hasn't been fully
-> >>>>> merged yet.
-> >>>>>
-> >>>>> thanks,
-> >>>>>
-> >>>>> adam
-> >>>>>
-> >>>>>> Benjamin
-> >>>>>>
-> >>>>>> Benjamin Gaignard (11):
-> >>>>>>      media: uapi: HEVC: Add missing fields in HEVC controls
-> >>>>>>      media: uapi: HEVC: Rename HEVC stateless controls with STATEL=
-ESS
-> >>>>>>        prefix
-> >>>>>>      media: uapi: HEVC: Add document uAPI structure
-> >>>>>>      media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAM=
-S as a
-> >>>>>>        dynamic array
-> >>>>>>      media: uapi: Move parsed HEVC pixel format out of staging
-> >>>>>>      media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET c=
-ontrol
-> >>>>>>      media: uapi: Move the HEVC stateless control type out of stag=
-ing
-> >>>>>>      media: controls: Log HEVC stateless control in .std_log
-> >>>>>>      media: uapi: Create a dedicated header for Hantro control
-> >>>>>>      media: uapi: HEVC: fix padding in v4l2 control structures
-> >>>>>>      media: uapi: move HEVC stateless controls out of staging
-> >>>>>>
-> >>>>>> Hans Verkuil (3):
-> >>>>>>      videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
-> >>>>>>      v4l2-ctrls: add support for dynamically allocated arrays.
-> >>>>>>      vivid: add dynamic array test control
-> >>>>>>
-> >>>>>>     .../userspace-api/media/drivers/hantro.rst    |   5 -
-> >>>>>>     .../media/v4l/ext-ctrls-codec-stateless.rst   | 831 ++++++++++=
-++++++++
-> >>>>>>     .../media/v4l/ext-ctrls-codec.rst             | 780 ----------=
-------
-> >>>>>>     .../media/v4l/pixfmt-compressed.rst           |   7 +-
-> >>>>>>     .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
-> >>>>>>     .../media/v4l/vidioc-queryctrl.rst            |   8 +
-> >>>>>>     .../media/videodev2.h.rst.exceptions          |   5 +
-> >>>>>>     .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
-> >>>>>>     drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
-> >>>>>>     drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
-> >>>>>>     drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +-
-> >>>>>>     drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
-> >>>>>>     drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
-> >>>>>>     drivers/staging/media/hantro/hantro_drv.c     |  27 +-
-> >>>>>>     drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
-> >>>>>>     drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
-> >>>>>>     .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
-> >>>>>>     include/media/hevc-ctrls.h                    | 250 ------
-> >>>>>>     include/media/v4l2-ctrls.h                    |  48 +-
-> >>>>>>     include/uapi/linux/hantro-media.h             |  19 +
-> >>>>>>     include/uapi/linux/v4l2-controls.h            | 436 +++++++++
-> >>>>>>     include/uapi/linux/videodev2.h                |  13 +
-> >>>>>>     22 files changed, 1686 insertions(+), 1169 deletions(-)
-> >>>>>>     delete mode 100644 include/media/hevc-ctrls.h
-> >>>>>>     create mode 100644 include/uapi/linux/hantro-media.h
-> >>>>>>
-> >>>>>> --
-> >>>>>> 2.32.0
-> >>>>>>
+Do you want to have a go at this?
+
+Best regards,
+
+   Martin
