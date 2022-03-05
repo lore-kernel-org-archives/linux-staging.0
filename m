@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41DF6ABE
-	for <linux-staging@lists.linux.dev>; Sat,  5 Mar 2022 18:54:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A586ABB
+	for <linux-staging@lists.linux.dev>; Sat,  5 Mar 2022 18:54:07 +0000 (UTC)
 Received: from dslb-084-059-247-134.084.059.pools.vodafone-ip.de ([84.59.247.134] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nQZXX-00016k-4k; Sat, 05 Mar 2022 19:54:03 +0100
+	id 1nQZXY-00016k-RB; Sat, 05 Mar 2022 19:54:04 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 4/6] staging: r8188eu: make rtl8188e_process_phy_info static
-Date: Sat,  5 Mar 2022 19:53:49 +0100
-Message-Id: <20220305185351.1409232-5-martin@kaiser.cx>
+Subject: [PATCH 6/6] staging: r8188eu: remove local BIT macro
+Date: Sat,  5 Mar 2022 19:53:51 +0100
+Message-Id: <20220305185351.1409232-7-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220305185351.1409232-1-martin@kaiser.cx>
 References: <20220305185351.1409232-1-martin@kaiser.cx>
@@ -30,40 +30,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtl8188e_process_phy_info is used only in rtl8188e_rxdesc.c. Make the
-function static and remove its prototype from rtl8188e_recv.h.
+The r8188eu driver defines a local BIT(x) macro. Remove this local macro
+and use the one from include/linux/bits.h.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c   | 2 +-
- drivers/staging/r8188eu/include/rtl8188e_recv.h | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/r8188eu/include/wifi.h | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c b/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
-index 387af789797d..9bf7a9248026 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
-@@ -45,7 +45,7 @@ static void process_link_qual(struct adapter *padapter, struct recv_frame *prfra
- 	signal_stat->avg_val = signal_stat->total_val / signal_stat->total_num;
- }
+diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
+index c331be19ff83..299553351246 100644
+--- a/drivers/staging/r8188eu/include/wifi.h
++++ b/drivers/staging/r8188eu/include/wifi.h
+@@ -4,14 +4,9 @@
+ #ifndef _WIFI_H_
+ #define _WIFI_H_
  
--void rtl8188e_process_phy_info(struct adapter *padapter, void *prframe)
-+static void rtl8188e_process_phy_info(struct adapter *padapter, void *prframe)
- {
- 	struct recv_frame *precvframe = (struct recv_frame *)prframe;
++#include <linux/bits.h>
+ #include <linux/ieee80211.h>
  
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_recv.h b/drivers/staging/r8188eu/include/rtl8188e_recv.h
-index 8d06815d0374..b752c5c06309 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_recv.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_recv.h
-@@ -36,7 +36,6 @@ enum rx_packet_type {
- s32 rtl8188eu_init_recv_priv(struct adapter *padapter);
- void rtl8188eu_free_recv_priv(struct adapter * padapter);
- void rtl8188eu_recv_tasklet(unsigned long priv);
--void rtl8188e_process_phy_info(struct adapter * padapter, void *prframe);
- void update_recvframe_phyinfo_88e(struct recv_frame *fra, struct phy_stat *phy);
- void update_recvframe_attrib_88e(struct recv_frame *fra, struct recv_stat *stat);
- 
+-#ifdef BIT
+-/* error	"BIT define occurred earlier elsewhere!\n" */
+-#undef BIT
+-#endif
+-#define BIT(x)	(1 << (x))
+-
+ #define WLAN_ETHHDR_LEN		14
+ #define WLAN_HDR_A3_LEN		24
+ #define WLAN_HDR_A3_QOS_LEN	26
 -- 
 2.30.2
 
