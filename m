@@ -1,42 +1,62 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5B97E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5632915
 	for <linux-staging@lists.linux.dev>; Sun,  6 Mar 2022 22:04:34 +0000 (UTC)
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020; t=1646603881;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8+8slx61Q8ToDW/o7PkKsmbPNBa/MZR5vMCzY38Lg1o=;
-	b=vUJZxxDBgM2VdN+goCbz4yIobXy4EQgbm2MLvmROnqEbgh43Vb42YKYNixYiNnLCXCXt/9
-	el1Av0rlAuyIeAIVL6rV+91AG+L3vZ6IvgySMmYPt/H87Ig/lxLSQ0J8hhtAgC5LcdQUPP
-	KpRwAeszXQU48C2Ld4aUmY5lvjavnvglphtD51CT7GQRZE92oSkC1EiEMohuLdpQoHxQi9
-	Fhg8DhVjYv4aNLL0sI7NjiYD97obUGprsdBFYlV0jyFfEHL/500OfXNY933ztlu602N8in
-	KBTzziTLBAI3ZVUaw/8AV4r+xq+x8LUIZzJmgrqRECOS0A6nS9f7t+s4XDOzeQ==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OLij3hLq/ByEiIvsKO2mUqNMbWd2cFRiFv/iL/CpBCk=;
+	b=tUne71KCZTwV5KHN/PA2BeuDU0Ui2RmzmR06wo5VCgSnXvcNJ6gUdlowRejfyJNqosczI0
+	XyIRewLv9JIHiQHH8tPt2M+F4beDGD/0Yt9G+nD/DvgMbBI64JFULurNIZzsA0PINVVvbJ
+	1QmKMsvsr8OT4Dt1Kql7HOdKoTP+eJN1PnsOPhvPeyuU0o0fqW5DVr/vBOLYy2td0FE4iD
+	mI6Bh7LRqEVP0JG44lJL9GazmWDjSATwFYGnODpUEoEwH3i8Qxyw9zG+Pj3ogW8w9lOUAq
+	htbT4393p5kH+q1pUt6hS94uyx81KNWM5UWwCA2zec7l3KTSzI3/u1bWwA9cSw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1646603881;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8+8slx61Q8ToDW/o7PkKsmbPNBa/MZR5vMCzY38Lg1o=;
-	b=nDXUPYWsiHR6mBDu90JfZc4ZVCJtFHHkVaT+NfY43fAFi4X6phsuZMFSVL6rhrLzeNeTpH
-	6C8rWOUmy7LGGUAw==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OLij3hLq/ByEiIvsKO2mUqNMbWd2cFRiFv/iL/CpBCk=;
+	b=rkxcvxvK79CfwpOoWAKzxP921+aI4UP2669w0fns34DkINPs693vfhMMINY9U6iEsbZWfw
+	PeHf6FpY2DQ8tJBQ==
 To: netdev@vger.kernel.org
 Cc: "David S. Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Alexandra Winter <wintera@linux.ibm.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Antonio Quartulli <a@unstable.cc>,
+	b.a.t.m.a.n@lists.open-mesh.org,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Divya Koppera <Divya.Koppera@microchip.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH net-next 02/10] staging: Use netif_rx().
-Date: Sun,  6 Mar 2022 22:57:45 +0100
-Message-Id: <20220306215753.3156276-3-bigeasy@linutronix.de>
-In-Reply-To: <20220306215753.3156276-1-bigeasy@linutronix.de>
-References: <20220306215753.3156276-1-bigeasy@linutronix.de>
+	Heiko Carstens <hca@linux.ibm.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Jon Maloy <jmaloy@redhat.com>,
+	linux-bluetooth@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Marek Lindner <mareklindner@neomailbox.ch>,
+	Remi Denis-Courmont <courmisch@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Simon Wunderlich <sw@simonwunderlich.de>,
+	Sven Eckelmann <sven@narfation.org>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	tipc-discussion@lists.sourceforge.net,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Ying Xue <ying.xue@windriver.com>
+Subject: [PATCH net-next 00/10] net: Convert user to netif_rx(), part 3.
+Date: Sun,  6 Mar 2022 22:57:43 +0100
+Message-Id: <20220306215753.3156276-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,62 +65,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Since commit
-   baebdf48c3600 ("net: dev: Makes sure netif_rx() can be invoked in any co=
-ntext.")
+This is the third and last batch of converting netif_rx_ni() caller to
+netif_rx(). The change making this possible is net-next and
+netif_rx_ni() is a wrapper around netif_rx(). This is a clean up in
+order to remove netif_rx_ni().
 
-the function netif_rx() can be used in preemptible/thread context as
-well as in interrupt context.
+The micrel phy driver is patched twice within this series: the first is
+is to replace netif_rx_ni() and second to move netif_rx() outside of the
+IRQ-off section. It is probably simpler to keep it within this series.
 
-Use netif_rx().
-
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Alexandra Winter <wintera@linux.ibm.com>
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Antonio Quartulli <a@unstable.cc>
+Cc: b.a.t.m.a.n@lists.open-mesh.org
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Divya Koppera <Divya.Koppera@microchip.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Johan Hedberg <johan.hedberg@gmail.com>
+Cc: Jon Maloy <jmaloy@redhat.com>
+Cc: linux-bluetooth@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
 Cc: linux-staging@lists.linux.dev
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/staging/gdm724x/gdm_lte.c      | 2 +-
- drivers/staging/wlan-ng/p80211netdev.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Cc: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: Marcel Holtmann <marcel@holtmann.org>
+Cc: Marek Lindner <mareklindner@neomailbox.ch>
+Cc: Remi Denis-Courmont <courmisch@gmail.com>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Simon Wunderlich <sw@simonwunderlich.de>
+Cc: Sven Eckelmann <sven@narfation.org>
+Cc: Sven Schnelle <svens@linux.ibm.com>
+Cc: tipc-discussion@lists.sourceforge.net
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Wenjia Zhang <wenjia@linux.ibm.com>
+Cc: Ying Xue <ying.xue@windriver.com>
 
-diff --git a/drivers/staging/gdm724x/gdm_lte.c b/drivers/staging/gdm724x/gd=
-m_lte.c
-index 493ed4821515b..2587309da766a 100644
---- a/drivers/staging/gdm724x/gdm_lte.c
-+++ b/drivers/staging/gdm724x/gdm_lte.c
-@@ -78,7 +78,7 @@ static int gdm_lte_rx(struct sk_buff *skb, struct nic *ni=
-c, int nic_type)
- {
- 	int ret;
-=20
--	ret =3D netif_rx_ni(skb);
-+	ret =3D netif_rx(skb);
- 	if (ret =3D=3D NET_RX_DROP) {
- 		nic->stats.rx_dropped++;
- 	} else {
-diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-=
-ng/p80211netdev.c
-index 255500448ad3e..e04fc666d218e 100644
---- a/drivers/staging/wlan-ng/p80211netdev.c
-+++ b/drivers/staging/wlan-ng/p80211netdev.c
-@@ -255,7 +255,7 @@ static int p80211_convert_to_ether(struct wlandevice *w=
-landev,
- 	if (skb_p80211_to_ether(wlandev, wlandev->ethconv, skb) =3D=3D 0) {
- 		wlandev->netdev->stats.rx_packets++;
- 		wlandev->netdev->stats.rx_bytes +=3D skb->len;
--		netif_rx_ni(skb);
-+		netif_rx(skb);
- 		return 0;
- 	}
-=20
-@@ -290,7 +290,7 @@ static void p80211netdev_rx_bh(struct tasklet_struct *t)
-=20
- 				dev->stats.rx_packets++;
- 				dev->stats.rx_bytes +=3D skb->len;
--				netif_rx_ni(skb);
-+				netif_rx(skb);
- 				continue;
- 			} else {
- 				if (!p80211_convert_to_ether(wlandev, skb))
---=20
-2.35.1
+Sebastian
+
 
