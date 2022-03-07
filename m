@@ -1,94 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D253674
-	for <linux-staging@lists.linux.dev>; Mon,  7 Mar 2022 12:00:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 41496C340F8;
-	Mon,  7 Mar 2022 12:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1646654413;
-	bh=uoA/yLVU/b+oLbGKfCPcOcNL/NpocL53c2UhSxUM5X0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=n7lbew84IjCUDVuL0t2kMi5mLKdOSr79LSw2Ss5xBTXI24X0W5PZovs4iVr67fqKe
-	 ENER3ae6dBsUhCt7gr3Fgm3Sj2/h08Y0B0qCjREhpVjNkqrI0M3YnQ6DZqhZKM5EMM
-	 5klvwvQs/fZhtCAiQk07dTA5HlyC8yOMBLjkCK8uswJ8KnItHOTK9AcUfuGfb4Rn4B
-	 QhKGYDHHpkBPec7j92J9gB3YLzrFTfZkwCuIANFdcqZbMNKhJ+6ZfIQsaBUpIkUSgo
-	 8QAVqy+QVrmIr7FIHZq+qIZlZ4He+HnxW4UmMdNVhY9QQpSlBa9WyWM6KkWLjC8pkH
-	 5Yok8HKf71u1w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1993BEAC081;
-	Mon,  7 Mar 2022 12:00:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939E528E0
+	for <linux-staging@lists.linux.dev>; Mon,  7 Mar 2022 14:36:28 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id p9so23615370wra.12
+        for <linux-staging@lists.linux.dev>; Mon, 07 Mar 2022 06:36:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CeIhj+xlbNH1tbRacxDrcMILHX0PhWKDMIaEBWJrU/0=;
+        b=L9Yy9MzJkNzV/4C4etsj7XGiuZUF21kwtAR0Kpsb8xVBwxFXRDOY0SHCeC9pHGeCIr
+         eXS7pcBvdlYH+iYGPPnCfKfgnuUANcL66LChHy+NdG2AcBhTVSH+2pwiTszUh1RQEt35
+         VmcuZCb+Wkfsx8x1GLdfUT990PIwmIi2z0014LwVppPzA01QJ+6KrohYMnoI1l1KQnzu
+         kUeqz/ibg2YsIXINHBcwCdiH/EAYyugzNK7sjhbbAtP00I65BX5N8a3+ZaKTezIkQck9
+         pXfV4lcBRtdV7tj5MQz61/zpG0ucxZySFwtCjUpmFEQ00CnYOQIRhTaoQ9snz4kPTlj0
+         vTFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CeIhj+xlbNH1tbRacxDrcMILHX0PhWKDMIaEBWJrU/0=;
+        b=0SlEBlW4gROYCV1KtMjh7dBtAy6s/O/KTOadnIy8yPY/esAdphcMstGZLlfdI56bjv
+         4tKoc2rWkEI0LcVyjhntYziT4p1Ag/FUuEf2GIR9yNqIj9rR9nuCkCgx8qihaA+YFSaN
+         e4dltg51korZrH/rmJ5a3Aiy977alpuUC9LegAnwXmyOgp43USHDxAI9JpQTZNksx+nR
+         +OflrNRwN7xeXaztI8Wep0A9ifCTp7/38uZ1YS7BVfdRImqYAFMiG4lyNE8q2MSCAiYb
+         D8hrR4uSrDumsfNE8UVv1jG74m8UiLn66cb6hvf/0mRrUbKIwzmpwmFINyK88C4228XB
+         frDg==
+X-Gm-Message-State: AOAM533RB802l6zJIXSbHKcWbmmt3fZdT3PJk0YJnetehOmEDpABUSQw
+	HXNEiCI9v7PenzVFNxsa2Is=
+X-Google-Smtp-Source: ABdhPJzAxxaAb26zhaHLIkISgqgjxNtoRShsy26CNag6U+fVlySw7Ij39E5P0na4aYKZjESTeF9bLA==
+X-Received: by 2002:adf:fc08:0:b0:1f0:48ef:cec7 with SMTP id i8-20020adffc08000000b001f048efcec7mr8170366wrr.540.1646663786801;
+        Mon, 07 Mar 2022 06:36:26 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id l1-20020a05600c4f0100b00387369f380bsm14428800wmq.41.2022.03.07.06.36.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Mar 2022 06:36:26 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vt6655: remove redundant assignment of pointer tx_key
+Date: Mon,  7 Mar 2022 14:36:25 +0000
+Message-Id: <20220307143625.136189-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 00/10] net: Convert user to netif_rx(), part 3.
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <164665441309.23552.3596500663864763691.git-patchwork-notify@kernel.org>
-Date: Mon, 07 Mar 2022 12:00:13 +0000
-References: <20220306215753.3156276-1-bigeasy@linutronix.de>
-In-Reply-To: <20220306215753.3156276-1-bigeasy@linutronix.de>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
- tglx@linutronix.de, agordeev@linux.ibm.com, wintera@linux.ibm.com,
- andrew@lunn.ch, a@unstable.cc, b.a.t.m.a.n@lists.open-mesh.org,
- borntraeger@linux.ibm.com, Divya.Koppera@microchip.com,
- gregkh@linuxfoundation.org, hca@linux.ibm.com, hkallweit1@gmail.com,
- johan.hedberg@gmail.com, jmaloy@redhat.com, linux-bluetooth@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-staging@lists.linux.dev,
- luiz.dentz@gmail.com, marcel@holtmann.org, mareklindner@neomailbox.ch,
- courmisch@gmail.com, linux@armlinux.org.uk, sw@simonwunderlich.de,
- sven@narfation.org, svens@linux.ibm.com,
- tipc-discussion@lists.sourceforge.net, gor@linux.ibm.com,
- wenjia@linux.ibm.com, ying.xue@windriver.com
 
-Hello:
+Pointer tx_key is being assigned a value that is never read, it is
+being re-assigned a new value later. The assignment is redundant
+and can be removed.
 
-This series was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
+Cleans up clan scan build warning:
+drivers/staging/vt6655/rxtx.c:1311:3: warning: Value stored
+to 'tx_key' is never read [deadcode.DeadStores]
 
-On Sun,  6 Mar 2022 22:57:43 +0100 you wrote:
-> This is the third and last batch of converting netif_rx_ni() caller to
-> netif_rx(). The change making this possible is net-next and
-> netif_rx_ni() is a wrapper around netif_rx(). This is a clean up in
-> order to remove netif_rx_ni().
-> 
-> The micrel phy driver is patched twice within this series: the first is
-> is to replace netif_rx_ni() and second to move netif_rx() outside of the
-> IRQ-off section. It is probably simpler to keep it within this series.
-> 
-> [...]
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/vt6655/rxtx.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Here is the summary with links:
-  - [net-next,01/10] s390: net: Use netif_rx().
-    https://git.kernel.org/netdev/net-next/c/a70d20704ad5
-  - [net-next,02/10] staging: Use netif_rx().
-    https://git.kernel.org/netdev/net-next/c/4bcc4249b4cf
-  - [net-next,03/10] tun: vxlan: Use netif_rx().
-    https://git.kernel.org/netdev/net-next/c/3d391f6518fd
-  - [net-next,04/10] tipc: Use netif_rx().
-    https://git.kernel.org/netdev/net-next/c/a0f0db8292e6
-  - [net-next,05/10] batman-adv: Use netif_rx().
-    https://git.kernel.org/netdev/net-next/c/94da81e2fc42
-  - [net-next,06/10] bluetooth: Use netif_rx().
-    https://git.kernel.org/netdev/net-next/c/d33d0dc9275d
-  - [net-next,07/10] phonet: Use netif_rx().
-    https://git.kernel.org/netdev/net-next/c/63d57cd67454
-  - [net-next,08/10] net: phy: micrel: Use netif_rx().
-    https://git.kernel.org/netdev/net-next/c/e1f9e434617f
-  - [net-next,09/10] net: Remove netif_rx_any_context() and netif_rx_ni().
-    https://git.kernel.org/netdev/net-next/c/2655926aea9b
-  - [net-next,10/10] net: phy: micrel: Move netif_rx() outside of IRQ-off section.
-    https://git.kernel.org/netdev/net-next/c/67dbd6c0a2c4
-
-You are awesome, thank you!
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 0de801b666da..53506e242a96 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -1308,8 +1308,6 @@ int vnt_generate_fifo_header(struct vnt_private *priv, u32 dma_idx,
+ 			cpu_to_le16(ieee80211_get_hdrlen_from_skb(skb) << 10);
+ 
+ 	if (info->control.hw_key) {
+-		tx_key = info->control.hw_key;
+-
+ 		switch (info->control.hw_key->cipher) {
+ 		case WLAN_CIPHER_SUITE_WEP40:
+ 		case WLAN_CIPHER_SUITE_WEP104:
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.35.1
 
