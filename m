@@ -1,242 +1,281 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23D238C9
-	for <linux-staging@lists.linux.dev>; Mon,  7 Mar 2022 08:02:48 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2275ptkT010128;
-	Mon, 7 Mar 2022 07:46:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type :
- content-transfer-encoding : in-reply-to : mime-version; s=corp-2021-07-09;
- bh=m86YmNWM0+XdMDMveDVKzLtCSWWx62tdkC0E0UMsZH0=;
- b=WMW8neX5z6qPDstFk+y7cFb6R4OzEKi+qrE7k+MbZ1A9YiI1ckLtDoVVvBkl9b9AU4Ih
- RS0qcgpZ/Ret0g40LEKzGewTyb508R1vO4jXeL3WCjf4HolqBAuQ8mXrgioGyj/5SbI2
- 96d0yD0nHghOqg7AaVGcwSOmm5sBlu2nS0jzjvgsiegNMIsWCusa3Vfl9ttgzH24EfsU
- k5Xs0Xr0I+Q6Qpfr8nnKRPrnbrLJhd8XjSC5CoennEHrhqMo9A6IaS3fY3rRBE5gn1bQ
- oz3Bdo+NQV8gwSmXrN6x/Qbgdr+a7w9mvn2quSsecguRYYwNzFfOZELt+0VeV3USpJEH TA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3ekx9caw10-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 07 Mar 2022 07:46:04 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 2277bJma046980;
-	Mon, 7 Mar 2022 07:46:03 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2043.outbound.protection.outlook.com [104.47.51.43])
-	by aserp3020.oracle.com with ESMTP id 3ekyp0u824-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 07 Mar 2022 07:46:03 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hlx3E/mRvFoQ/EupcL/tr0H5udwfQm6stomYyZSlt4b0qDeoNPfQirqjdxlx4pwoYH/IgcptZof6tk069nSrCegbeSk4lLo/Y/qiDTZTR8nloXIoweDLmw90jMLWgRg8rqKvZDtiBLlqNjdb0ASwaAVU2hOGgVtf3J0bn9eG/xrVmNHN3z0VVI9LJb2fVuNI7ulqy1RY9NJ+4YI0IAoDXYFUXzTJUYnxSTMmH/RR6TeWjZpdiW30/b1cwAQTuomCC/JdE/Ib1Ov/UAjpE92f5q82dQaLZ5RzyuKsfDawJQ5CtbQW4fpgd5sMa3PbWsRKC8jgPVLElR17wLTyKPeTfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m86YmNWM0+XdMDMveDVKzLtCSWWx62tdkC0E0UMsZH0=;
- b=YxaocSGzznSs3rgJ6KGbo2tFtTQpEbgol+aQXx+evyKxGMKWpuWpifYkljlZuI6p3nF/9N9Yl0HYNeH5q9fOTDCoKsk8ZTH/QlLP+MkIihVN56KTHiA+iW7borK+N5Gr04tvjekEdPPHynsCGK52O03vSw+gCDxeuhU2DHv8q/s2jNllPYoEym/9mGcbPALNaU7CkAtT+F6Ytkd5tEA1EwoSgNS8FRuJgSGo9K9Hq+JM9Q0giWt8xFmN8Vk1/to6fkXLtsiZ0X2kadsfFs+CC6GK7hLXvKZC7kQGJ1uiyWsA5toxmPOxVfzj5KehZtceAZTjEW2qJrmSVSk1WX8Njw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m86YmNWM0+XdMDMveDVKzLtCSWWx62tdkC0E0UMsZH0=;
- b=lc0DwUR6jERp8BGFT8DbUsyrWLoyW+rdKSHlQyuqPM556GwAFWWzatskSjFDyhtCTNsdbdHC6QfxZp5aZu9frTs6co3/5iCC5eAGIecDD/00at685pmxSq45oOXOVbyuEiuKBMirivyPNBR77moyr5/bepUTfILwNNdKefYyZVo=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MN2PR10MB4014.namprd10.prod.outlook.com
- (2603:10b6:208:182::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.16; Mon, 7 Mar
- 2022 07:46:00 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5%4]) with mapi id 15.20.5038.026; Mon, 7 Mar 2022
- 07:46:00 +0000
-Date: Mon, 7 Mar 2022 10:45:44 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Gaston Gonzalez <gascoar@gmail.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
-        nsaenz@kernel.org, stefan.wahren@i2se.com, ojaswin98@gmail.com,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: vchiq_arm: add prototype of function
- vchiq_platform_init()
-Message-ID: <20220307074544.GA3293@kadam>
-References: <cover.1646255044.git.gascoar@gmail.com>
- <b74ac90e869f71a98a04b834c4f3b5ab37bb38ea.1646255044.git.gascoar@gmail.com>
- <20220303122546.GH2794@kadam>
- <20220304193015.wgofp34efl2loplj@debian-BULLSEYE-live-builder-AMD64>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220304193015.wgofp34efl2loplj@debian-BULLSEYE-live-builder-AMD64>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MR1P264CA0096.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:3f::10) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1004538E2;
+	Mon,  7 Mar 2022 08:49:26 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:40ba:eb63:679:a031] (unknown [IPv6:2a01:e0a:120:3210:40ba:eb63:679:a031])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 430CF1F41639;
+	Mon,  7 Mar 2022 08:49:18 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1646642958;
+	bh=eDuNMNvh2RKaJFVJCNRbUeyaA9yRBi1qJSQYtNUMn8U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mIxLnDSRSEiqQerdS+U2WsqAwMdHlHYLXnkRhQbTyPRh/Q5YAzkiHOHDsWchaHL1t
+	 6x+n4VohrASGjRn1Kt+xAeULFe9Lk7p0zycnLMOIUCsUqC9sAjXpFjnL/a3Q0Hb1JR
+	 W0Bje0N9zbOMCfmmF1nRAwD5lDkp6oRObpyHxeQR/kcu7RXmXaVwPTproJV7Z8GKrS
+	 pbt0NarhQrqS/CPnk5KcteCaQ1rAzwJA1CCmoaxAfVW2Xy55dhQRtSjm760U7OVc2a
+	 H0W1PKSNXJTlbwWXVNuZVJgTemU408+0OchX7FLCWRLH8DAIRJtH0d6bYs6Jp91UQ2
+	 aO3vOJtXw0PHw==
+Message-ID: <eef89bea-244f-fa20-08f0-50cb1e03bede@collabora.com>
+Date: Mon, 7 Mar 2022 09:49:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c5160470-e9b0-44e6-88b6-08da000e85f9
-X-MS-TrafficTypeDiagnostic: MN2PR10MB4014:EE_
-X-Microsoft-Antispam-PRVS: 
-	<MN2PR10MB40147223895B289DFA814DDC8E089@MN2PR10MB4014.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	QdFv9jOuwl+ok6ltrubtt65glrhslzk5JVsW7EzW+Httnc5gu6dZ4meiVsCSMXZfDSn05CGQk2+IR5SOCr9Oi3qNpH7yS11avVJ7lw51Qayh23bdOCNY93qzeeDbY7wxXyEzRq7+ZdFuTPOCG2dVCmL0y+5TckN5CNyIhDxsKGgb7Qhl+EtWRp16LPeg5KbuSlCQWZE4kNs6+/i2p/Flrfa8VlWRJCJVep/Ujt7IqSdTmYayBJ8359SWU4A5KEgl2IH+EE23Rdl0JTFfnNzom/CLogbOoZ5X6r0tqg0SDlIsTb7tKQixF9V1t3TUafViUvS8Xq/rc9nvW5gfnmOUPqlnq45C/cu8fIx9xt+KFk3GxzbkTsg0Cmg0fY8qrAIdHSkgaxqP64XFN5B5dj4sCvI61zXIsTOpe3EHmxe33hTsLRT56oUnSIxIqYzMC8I8xcC5hoQkyEH9PhFCBunSxEJIrpykZBbU/OSceqZ8aVZwxvogyQUwYFPibBKXZS2qjPEzYNEeQq1QA+IXX6kJeP2uMwGwAiXFD+Ufxd3WvAhxvkKeRfVIAwnkvEXKUULYl1zcmqaJk7h5ciRwvqsyRDKSiBKNykGistGuv2ENzmI9H5NFf+GGWnOz3FK6LOTBBwSZfI6vJNpwKmstOAusiFcarFuMXCHkkGrVLcw4Lko37iIJy/UxiLGJORQSrNounS+miM8fY0jtABXROQILGI+/QrbYPmwm9xDCAImvw8nWUoVXYkS1717Rq3VkwVJ9qgJVKey6C0G8lWpZ/0R0TX8tKK/OiqXPSZnq6NgSL4M=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(8676002)(4326008)(52116002)(6486002)(66556008)(66946007)(1076003)(26005)(186003)(33716001)(33656002)(316002)(66476007)(83380400001)(6916009)(5660300002)(9686003)(6666004)(6512007)(6506007)(44832011)(7416002)(8936002)(508600001)(38100700002)(38350700002)(86362001)(2906002)(966005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?S3NIajgyalI2azBnZ2UvY1FjWk1sWnlaeHR2cjlzNzZFeHdIWEtkbGZHQlFI?=
- =?utf-8?B?YWErNEJNcnVRd1VYTzlyeENOMm1SSnVZSzVlVUJFaE5NUGtZWjRxS3VDeE9X?=
- =?utf-8?B?aUFSWkZJVjRQNEZmcmJoMzFBU3Nzb3c1eHNQMWhjbGV2K2hmck1mdWlteHZy?=
- =?utf-8?B?RUJ4YXJjL2JlVElIbW1xVnc3cUlxOWNuaEtJaE5UV1F6S2dId085NFJsSFZ0?=
- =?utf-8?B?M2t5WWhXZFdIdTFjcGZ1cUdzUHlBRXl5eUtaNmpZVll3UmRnUGpWbnRXcWhr?=
- =?utf-8?B?VkNyd20vbktaenpEZlJybHhVckVScnVEeWR3UkJSTzI3aVRnaklPTG9RdVlC?=
- =?utf-8?B?OGVFQURSMWtwcGhiSVZXUnhYdWFuRXkzWGprdytFR3M5SmxCa2NkbXk2SWhn?=
- =?utf-8?B?amZ2Q1dIaWlLNndLTGxBM1hSaHdKUWJQdGhlNFRaWktUdFRZWVJiQldjdkZY?=
- =?utf-8?B?c0xIYk5vb0svd2x4dmhUYldiQW15MW0rN2VJSThGcUFkS1FENlpEZ0tua1Za?=
- =?utf-8?B?SGVJTytJa0pwU2M1UzNpZEhoRjd0eVRRQWllMEpBN1IyS2dFWnFMZkx4MjlJ?=
- =?utf-8?B?RUZxd3d4Vk5BWmpGYjl4RlFHTGg3ZWorVGpZTnJlMWZvTE01M2xISkFsaitC?=
- =?utf-8?B?MXF3ZkhTZEVoREVEcFhieDVWM3Q5S0Y3SmtKbUdvb0ZqNEFJa3o5aFpFWEFV?=
- =?utf-8?B?dHRPWWxRVE53MFdGVFd4QlZsd3BUVEwxTGY5MklPZnF4Nk5WQjZDOFI0ZGw0?=
- =?utf-8?B?bUcrdkp3ejhxYWVqY1Y0U1dDN1VVZHlqTG5JYXJCaGRPTGN0eWlyQXhhc2hl?=
- =?utf-8?B?eXNSM2doK3VQRENRNm9YSGRHbVlmN2dNYUR1Y2ExZjhpdm1NcC9hN0d6SHp0?=
- =?utf-8?B?S05IdFBHSFdvSWdlTS9tTU9ibnRhTUdrQ3BTWTVGUk1FNVhndUswMnMxbWJi?=
- =?utf-8?B?SnVjUGhna0tpWEhqM3JFWnpqK1ZNTlZvVjliYkZIdjN2MGZSQ2Q1M00wTnM5?=
- =?utf-8?B?TEhaR01oV0xJUC9USGhoWE9MbXJsWDc0dGYrTXNwQVRjWWsvQkhIYjhyMVR3?=
- =?utf-8?B?c3N5dFp3QnQwMVVkVnlDVUg5RGdFWGJkS013OXhUM1k0SEh6QzdUUGFkL3FZ?=
- =?utf-8?B?NXlobTg4Y3M0NjhLUHVMMThSTiszL0VCQWg3djZtVFk1MlpTSTBSY3RmOFUr?=
- =?utf-8?B?d2E4TnRMdXRnWG5haWVDSlpTZFBYY3RSZExGSDh6WHRMaFBubXE3SlpMcnlk?=
- =?utf-8?B?R0VnZC9BdHg3RnNWOWcxWTM3Z3QzY0VyZi9LUjhsSXdFNlVpUDlFdGtJL2tF?=
- =?utf-8?B?Uzk5Y25hTFhVV3ZBcklHNS8xUFlKV296MVFlaWNkT1E0WFc2dXJWZkM4eWdB?=
- =?utf-8?B?R1FBWTM2dUVicmRXWHFMVnhWaWNsdGZNdzBPNzNLVUY2dWlGY3lBcStNZ2U0?=
- =?utf-8?B?RURBOStZY0VwNGNJdFpoOGM4RERqNjJMSlY0U05FVVd2RUp2QkNhcUJydFpt?=
- =?utf-8?B?VTNRQU5XM25kNVBpY1dZWWdFUG8vK1JiVVh3WC9zSWNIN3AwWTFETDlIZVJx?=
- =?utf-8?B?ZWRjNGQwVXJFZ0hBU2puSmpOcnk0T2JHVFFhcEtWWlBwbmVLMWRxMVFkaVBG?=
- =?utf-8?B?Q3F3dDhBZTFMSzFXMmdKNTA1UzVINFVhNytER2pKaHByaTljOERLeU5SZnRX?=
- =?utf-8?B?czUyRHhQWC8zcEplZm9XeUNHalNvYWtnOFd3WkJkMERMZXJUcDFGNTMzUWUv?=
- =?utf-8?B?N3NYb1kxVE80Smg5V3VDWTJ1ZmVNbXgyK2E2akZTMDkxY3c1NkM5R205SjVD?=
- =?utf-8?B?OXV3OEdyZmNRWVB5czFrYzFMN1lVc1FjLzdiQVNlRUY0Y3NCQUhKRFRUcW5h?=
- =?utf-8?B?aWd4NG5FVWJON2E4cGhnVkxheS9aYm5QTWtzSUVkRlM2OVlkMzNlcVRkT3BB?=
- =?utf-8?B?R3NGWjhQRzVlQUw2Q0FGOXI2dlA1ZnJCMDJRbit1RDFjZXZnRFVndmhnNVpC?=
- =?utf-8?B?YXZ4Wmw0T2RuSWhiWGMzRXZoY3Z3SEdsM3FIZUtDTm9QbXpRZm94ZjVPd0w3?=
- =?utf-8?B?NXYwcmU0MlpzZ0RESmQ4emlVd1NuOU8xSk5VdXBlaVhHdXk4eXJrZ0ExVkh0?=
- =?utf-8?B?bFBNekFEZWFjanZKdklPdGg0RjNWbTV5M00rZ0liYk1wdVVYS3lZZHNmelpu?=
- =?utf-8?B?TEVkM3pBcHFRZVpwWWVGNnZZaEJJeFZ3czRQdFd6Ykd0UHArZ0cyMm5FRktD?=
- =?utf-8?B?WEpHTDBNendySDNGRlVWaGxwNk9BPT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5160470-e9b0-44e6-88b6-08da000e85f9
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2022 07:46:00.5642
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ipLUEJxozG/ZDuY9JxGZaOb5AqtzJvg51dGCFX/SwaVHPlQC0RUYhpuN9hpoSRQnoyRlJnUPkzqSjUV/WJtHgi3y8ykXhn60nQigyVOQ2E4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4014
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10278 signatures=690470
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 mlxscore=0
- bulkscore=0 mlxlogscore=999 spamscore=0 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203070044
-X-Proofpoint-ORIG-GUID: kBtn6XeozpiQ9n11P4pkIgUlqu3IL4DG
-X-Proofpoint-GUID: kBtn6XeozpiQ9n11P4pkIgUlqu3IL4DG
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 00/14] Move HEVC stateless controls out of staging
+Content-Language: en-US
+To: Adam Ford <aford173@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>,
+ "jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-media <linux-media@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
+ kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk,
+ Chris Healy <cphealy@gmail.com>, Ruslan Sushko <ruslan.sushko@zii.aero>
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
+ <CAHCN7x+AUy4JsqfdyZFqg4ScR1OgoLvqF91za0AZ278NSBJj4A@mail.gmail.com>
+ <b832271d-cecd-a373-48ff-ba5ce736e47d@collabora.com>
+ <CAHCN7xJ3K2bLEc8dcTM+x-E0brDW-t4yrUdkUe0jCfuzH8v9pA@mail.gmail.com>
+ <678c1f01-c6cd-d1be-bd0b-277a808b006a@collabora.com>
+ <CAHCN7xL-+1cXbcOpRU8BRXoyAkecERqT-O8vM_069er8WWWEaw@mail.gmail.com>
+ <a0360b52-246e-21a2-1499-b9a03de21a30@collabora.com>
+ <CAHCN7x+jmoFwUh2KA3e_B=PuPFGWv16ZzJR6whhBfJv9GF_4EA@mail.gmail.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAHCN7x+jmoFwUh2KA3e_B=PuPFGWv16ZzJR6whhBfJv9GF_4EA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 04, 2022 at 04:30:15PM -0300, Gaston Gonzalez wrote:
-> On Thu, Mar 03, 2022 at 03:25:47PM +0300, Dan Carpenter wrote:
-> > On Wed, Mar 02, 2022 at 06:36:38PM -0300, Gaston Gonzalez wrote:
-> > > Fix "no previous prototype" W=1 warning by adding the prototype of the
-> > > function vchiq_platform_init().
-> > > 
-> > > Note: vchiq_platform_init() is only called once in vchiq_probe(), so
-> > > presumably should be static function. However, making the function
-> > > static breaks the build.
-> > > 
-> > 
-> > That's weird.  I don't have an ARM cross compile set up.  How does the
-> > build break?
-> > 
-> > regards,
-> > dan carpenter
-> >
-> 
-> Hi Dan,
-> 
-> Test building the driver in x86 I get the error pasted below.
-> 
-> However, now that you mention it, I made an ARM (64 bit) cross
-> compilation: making the function static builds OK without the warning.
-> I'll to do the same for a 32 bit setup.
-> 
-> So I suppose that making the function static is the right approach ?
-> 
-> FWIW, branch and cross-compiler:
-> 
-> - Remote: https://github.com/raspberrypi/linux.git
-> - Branch: rpi-5.17.y
-> - gcc: aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210110
-> 
-> 
-> -> x86 build error:
-> 
-> CC [M]  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.o
-> In function ‘free_pagelist’,
->     inlined from ‘vchiq_complete_bulk’ at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:650:3:
-> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:434:4: error: argument 2 null where non-null expected [-Werror=nonnull]
->   434 |    memcpy((char *)kmap(pages[0]) +
->       |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   435 |     pagelist->offset,
->       |     ~~~~~~~~~~~~~~~~~
->   436 |     fragments,
->       |     ~~~~~~~~~~
->   437 |     head_bytes);
->       |     ~~~~~~~~~~~
-> In file included from ./arch/x86/include/asm/string.h:5,
->                  from ./include/linux/string.h:20,
->                  from ./include/linux/bitmap.h:11,
->                  from ./include/linux/cpumask.h:12,
->                  from ./arch/x86/include/asm/cpumask.h:5,
->                  from ./arch/x86/include/asm/msr.h:11,
->                  from ./arch/x86/include/asm/processor.h:22,
->                  from ./arch/x86/include/asm/timex.h:5,
->                  from ./include/linux/timex.h:65,
->                  from ./include/linux/time32.h:13,
->                  from ./include/linux/time.h:60,
->                  from ./include/linux/stat.h:19,
->                  from ./include/linux/module.h:13,
->                  from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
-> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: In function ‘vchiq_complete_bulk’:
-> ./arch/x86/include/asm/string_64.h:14:14: note: in a call to function ‘memcpy’ declared here
->    14 | extern void *memcpy(void *to, const void *from, size_t len);
->       |              ^~~~~~
-> cc1: all warnings being treated as errors
-> make[1]: *** [scripts/Makefile.build:288: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.o] Error 1
-> make: *** [Makefile:1831: drivers/staging/vc04_services] Error 2
 
-That's so weird.
+Le 04/03/2022 à 23:46, Adam Ford a écrit :
+> On Fri, Mar 4, 2022 at 7:03 AM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>>
+>> Le 04/03/2022 à 13:59, Adam Ford a écrit :
+>>> On Thu, Mar 3, 2022 at 4:13 AM Benjamin Gaignard
+>>> <benjamin.gaignard@collabora.com> wrote:
+>>>> Le 03/03/2022 à 02:23, Adam Ford a écrit :
+>>>>> On Mon, Feb 28, 2022 at 4:13 AM Benjamin Gaignard
+>>>>> <benjamin.gaignard@collabora.com> wrote:
+>>>>>> Le 26/02/2022 à 23:25, Adam Ford a écrit :
+>>>>>>> On Fri, Feb 25, 2022 at 4:41 PM Benjamin Gaignard
+>>>>>>> <benjamin.gaignard@collabora.com> wrote:
+>>>>>>>> This series aims to make HEVC uapi stable and usable for hardware
+>>>>>>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>>>>>>>> and 2 out of the tree drivers (rkvdec and RPI).
+>>>>>>>>
+>>>>>>>> After the remarks done on version 2, I have completely reworked to patches
+>>>>>>>> split so changelogs are meaningless. I have also drop "RFC" from the
+>>>>>>>> titles.
+>>>>>>>>
+>>>>>>>> In this v3 I do all the changes (new controls, documentation, etc..)
+>>>>>>>> in the staging directory before moving the HEVC uAPI to stable
+>>>>>>>> steps by steps (unlike the big one patch in v2).
+>>>>>>>>
+>>>>>>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>>>>>> I have push a branch here:
+>>>>>> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/HEVC_UAPI_V4
+>>>>>>
+>>>>>> it is the incoming version 4 of this series + patches to enable G2 on my IMX8MQ
+>>>>> Benjamin,
+>>>>>
+>>>>> I checked this repo out, and built it along with pulling the latest
+>>>>> versions of G-streamer and fluster.
+>>>>> When I check for v4l2 compatibility, I get the following:
+>>>>>
+>>>>>        GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+>>>>> GStreamer 1.0... ❌
+>>>>>        GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
+>>>>> GStreamer 1.0... ✔️
+>>>>>        GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+>>>>> GStreamer 1.0... ❌
+>>>>>        GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+>>>>> GStreamer 1.0... ❌
+>>>>>        GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+>>>>> GStreamer 1.0... ❌
+>>>>>        GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer 1.0... ❌
+>>>>>        GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+>>>>> GStreamer 1.0... ✔️
+>>>>>        GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+>>>>> GStreamer 1.0... ✔️
+>>>>>
+>>>>> I see H,264, VP8 and VP9, but I would have also expected
+>>>>> GStreamer-H.265-V4L2SL-Gst1.0 to return with a check box.
+>>>>>
+>>>>> When I checked to see if both decoders were being enumerated, I found they were.
+>>>>> [gst-main] root@localhost:~/gstreamer/fluster# dmesg |grep -i hantro
+>>>>> [   16.044243] hantro_vpu: module is from the staging directory, the
+>>>>> quality is unknown, you have been warned.
+>>>>> [   16.044243] hantro_vpu: module is from the staging directory, the
+>>>>> quality is unknown, you have been warned.
+>>>>> [   16.095661] hantro-vpu 38300000.video-codec: registered
+>>>>> nxp,imx8mq-vpu-g1-dec as /dev/video0
+>>>>> [   16.096782] hantro-vpu 38310000.video-codec: registered
+>>>>> nxp,imx8mq-vpu-g2-dec as /dev/video1
+>>>>>
+>>>>> Did I do something wrong, or did I miss something?
+>>>> Hi Adam,
+>>>>
+>>>> I guess it could be a misalignment between v4l2 kernel headers
+>>>> and GStreamer v4l2 headers.
+>>>> I have push a new version of the GST merge request which is aligned with
+>>>> HEVC uAPI v4 proposal.
+>>>>
+>>>> When you inspect v4l2codecs gst plugin (gst-inspect-1.0 v4l2codecs) do
+>>>> you see v4l2slh265dec plugin ?
+>>>> I have fluster happy with it:
+>>>> ./fluster.py list -c
+>>> I pulled the latest from g-streamer's git repo again, and re-built.
+>>> gst-instpect does not appear to show the h265 codec anymore.
+>>>
+>>> # gst-inspect-1.0 |grep v4l2codecs
+>>> v4l2codecs:  v4l2slh264dec: V4L2 Stateless H.264 Video Decoder
+>>> v4l2codecs:  v4l2slmpeg2dec: V4L2 Stateless Mpeg2 Video Decoder
+>>> v4l2codecs:  v4l2slvp8alphadecodebin: VP8 Alpha Decoder
+>>> v4l2codecs:  v4l2slvp8dec: V4L2 Stateless VP8 Video Decoder
+>>> v4l2codecs:  v4l2slvp9alphadecodebin: VP9 Alpha Decoder
+>>> v4l2codecs:  v4l2slvp9dec: V4L2 Stateless VP9 Video Decoder
+>>>
+>>> Is there a specific branch of g-streamer I should be using that can
+>>> handle the newer API?
+>> You can use this branch:
+>>
+>> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
+>>
+>> It is the one used to create the merge request for h265 plugin.
+> I used the above gstreamer branch with
+> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/HEVC_UAPI_V4
+> for the kernel.
+>
+> I was able to confirm the gst-inspect showed the H265:
+>
+> [gst-HEAD] root@localhost:~/fluster# gst-inspect-1.0 |grep 265
+> libav:  avdec_h265: libav HEVC (High Efficiency Video Coding) decoder
+> rtp:  rtph265depay: RTP H265 depayloader
+>
+> rtp:  rtph265pay: RTP H265 payloader
+> typefindfunctions: video/x-h265: h265, x265, 265
+> v4l2codecs:  v4l2slh265dec: V4L2 Stateless H.265 Video Decoder
+> videoparsersbad:  h265parse: H.265 parser
+>
+> Unfortunately, fluster doesn't appear to recognize it:
+>
+>      GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+> GStreamer 1.0... ❌
+>
+> Attempting to run fluster with that decoder fail:
+>
+> # ./fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -j1
+> Skipping decoder GStreamer-H.265-V4L2SL-Gst1.0 because it cannot be run
+> [gst-HEAD] root@localhost:~/fluster#
 
-1) The GCC warning is a false positive, but -Werror means we have to
-   deal with it.
-2) I can't explain the false positive.
-3) My guess is that making the function static affects how it is inlined
-   so it gives the compiler more visibility into how free_pagelist()?
-   is called so that's why it gets triggered because of the patch?
-4) This is an x86 config and it's an ARM driver, but nothing in the
-   Kconfig file says that vchiq_arm needs ARM or raspberry pi.  Should
-   there be?  And a COMPILE_TEST option?
+Can you try with -vvv option in fluster command line ?
 
-Anyway, we don't paper over warnings like this so the patch is not the
-correct thing.  Especially we don't paper over it without a giant
-comment explaining how we filed a bug with GCC or whatever and a link
-to bugzilla and all that other stuff.
+Does a manual gst pipeline with v4l2slh265dec works ?
 
-regards,
-dan carpenter
+Regards,
+Benjamin
+
+>
+>
+>
+>
+>
+>
+>
+>> Benjamin
+>>
+>> adam
+>>
+>>>> H265
+>>>>        ...
+>>>>        GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for GStreamer 1.0... ❌
+>>>>        GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for GStreamer 1.0... ✔️
+>>>>        GStreamer-H.265-VA-Gst1.0: GStreamer H.265 VA decoder for GStreamer 1.0... ❌
+>>>>        GStreamer-H.265-VAAPI-Gst1.0: GStreamer H.265 VAAPI decoder for GStreamer 1.0... ❌
+>>>>        JCT-VT-H.265: JCT-VT H.265/HEVC reference decoder... ❌
+>>>>
+>>>> I hope that will help you,
+>>>>
+>>>> Regards,
+>>>> Benjamin
+>>>>
+>>>>> adam
+>>>>>
+>>>>>> Regards,
+>>>>>> Benjamin
+>>>>>>
+>>>>>>> Benjamin,
+>>>>>>>
+>>>>>>> I have an imx8mm and imx8mq that I can test. Do you happen to have a
+>>>>>>> repo that I can clone to test this?  The imx8m stuff is spread around
+>>>>>>> between the media tree and the imx tree since it hasn't been fully
+>>>>>>> merged yet.
+>>>>>>>
+>>>>>>> thanks,
+>>>>>>>
+>>>>>>> adam
+>>>>>>>
+>>>>>>>> Benjamin
+>>>>>>>>
+>>>>>>>> Benjamin Gaignard (11):
+>>>>>>>>       media: uapi: HEVC: Add missing fields in HEVC controls
+>>>>>>>>       media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>>>>>>>>         prefix
+>>>>>>>>       media: uapi: HEVC: Add document uAPI structure
+>>>>>>>>       media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+>>>>>>>>         dynamic array
+>>>>>>>>       media: uapi: Move parsed HEVC pixel format out of staging
+>>>>>>>>       media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+>>>>>>>>       media: uapi: Move the HEVC stateless control type out of staging
+>>>>>>>>       media: controls: Log HEVC stateless control in .std_log
+>>>>>>>>       media: uapi: Create a dedicated header for Hantro control
+>>>>>>>>       media: uapi: HEVC: fix padding in v4l2 control structures
+>>>>>>>>       media: uapi: move HEVC stateless controls out of staging
+>>>>>>>>
+>>>>>>>> Hans Verkuil (3):
+>>>>>>>>       videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>>>>>>>>       v4l2-ctrls: add support for dynamically allocated arrays.
+>>>>>>>>       vivid: add dynamic array test control
+>>>>>>>>
+>>>>>>>>      .../userspace-api/media/drivers/hantro.rst    |   5 -
+>>>>>>>>      .../media/v4l/ext-ctrls-codec-stateless.rst   | 831 ++++++++++++++++++
+>>>>>>>>      .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
+>>>>>>>>      .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>>>>>>>>      .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>>>>>>>>      .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>>>>>>>>      .../media/videodev2.h.rst.exceptions          |   5 +
+>>>>>>>>      .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>>>>>>>>      drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+>>>>>>>>      drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+>>>>>>>>      drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +-
+>>>>>>>>      drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>>>>>>>>      drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>>>>>>>>      drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>>>>>>>>      drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>>>>>>>>      drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>>>>>>>>      .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>>>>>>>>      include/media/hevc-ctrls.h                    | 250 ------
+>>>>>>>>      include/media/v4l2-ctrls.h                    |  48 +-
+>>>>>>>>      include/uapi/linux/hantro-media.h             |  19 +
+>>>>>>>>      include/uapi/linux/v4l2-controls.h            | 436 +++++++++
+>>>>>>>>      include/uapi/linux/videodev2.h                |  13 +
+>>>>>>>>      22 files changed, 1686 insertions(+), 1169 deletions(-)
+>>>>>>>>      delete mode 100644 include/media/hevc-ctrls.h
+>>>>>>>>      create mode 100644 include/uapi/linux/hantro-media.h
+>>>>>>>>
+>>>>>>>> --
+>>>>>>>> 2.32.0
+>>>>>>>>
