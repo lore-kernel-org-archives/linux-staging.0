@@ -1,152 +1,135 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B495948D0
-	for <linux-staging@lists.linux.dev>; Tue,  8 Mar 2022 13:03:12 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 228CiLWJ015371;
-	Tue, 8 Mar 2022 13:03:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=EGbJ85CYYS4pyE412jW3hvHqZOlJmkHzFOf0RF4icto=;
- b=nAEFtlKVBGd/G+EbMf+UWMDL67ZWvLNHIFQWse3HtViF1Bzc/e0f1SU/1J8m6TU9n3/W
- 3GKgdR04vrM4XIsA/j4oHxUqtKz4mmsHV4MyM9vNGenRx7tB9/YMHmhpi50mVu3cE8nG
- YooSq3aQ4yFj7VyTArndGXkKTCK1h3A+9kio0I2RB1TO+ds1KtSZWrYezuScTBHzyT2T
- 5koUtdvCuHoxiszMPObQK5+Jfsie5832rbdzjG1wvUNnmxDxY/uSOxSuZ2NHuSHeCN9O
- eIM8Z3xilCNRWjWr8lD5GQFIOKgg9fsGvNfl/RyyJ8AlPylxHUh80TIrN7sLImugahx7 zA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3ekyfsew0p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 08 Mar 2022 13:03:03 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 228D1Bhv049299;
-	Tue, 8 Mar 2022 13:03:03 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2105.outbound.protection.outlook.com [104.47.70.105])
-	by aserp3020.oracle.com with ESMTP id 3ekyp253wt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 08 Mar 2022 13:03:02 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NCEscRvwpAUhREmlzsTwuVprB4Lt4wiFAbiQMMYppaZOt6wQtMs5TF/XqC3HakZBdUEL7lmoofbaPrdfFNZdbB7hBMb34OZF0yOeloViX//Ff4iI9AD3fffW8QVsZjl9vfSyk4/lwI57fLZI0sIueJHfRyQIjlijpUqCY2SHMmwD1Fb9mvQ5AZboBn0KKBbvWsFjZv8FfweuqJXrRqZ4AnLWlNNv1rPT4RiGTl9Cu3wyW5PM4BP1c8M7WqtnNEhkjrcQxMDX2mOkUjlnMZg70bhbDrMMBJ5LbW78gyCtNtqT62DVKC1dVcwdMLabzWps6mCpG0UoiakYHPvT/wXuoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EGbJ85CYYS4pyE412jW3hvHqZOlJmkHzFOf0RF4icto=;
- b=Hq33dB+BEWir6B5j9VxSY/Yn0VvjHiAhZ90JqUZn9FGE16fWvoUG+qBTEs/tdVA+eGiJVnTTFtepKLVCMFJhO/q4OZbwwgiXSkEztHfVaq2ZlyPHqsLfezKjBZvF+PSP2pFsvPWHBXkUgZHT8wfdchgNasBpgiNHCJONjx4Z5XP5K9wgst0PE95luaWF//FB3Kd7Xr1R8RqftfTR5wIsHX1GeAsZpfFjLMOHXykU9nc2R7G43P/Rc71EZyYugv/K91Xbr6asQV0+Dvyx92T/O3FBZIpUl3MQkPgpI8fYRsjDDP2dC3tQAij4rvB2OdT0prnbg8hRf0JYr4w5duoykw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EGbJ85CYYS4pyE412jW3hvHqZOlJmkHzFOf0RF4icto=;
- b=dxMCfNBVMNp9odnlbNsKTzmNJ4Kfnw2nU1iZ7ozqIooJxbimgcFq9uRXZSHGiT2L+AmPmv/tYflX8HqCI9Gh0MbMQ7zZomiQ5LRMQbNf8M2gUBXhlBuysgkhrC7Fky/X2NX4kUtD8oIRSBjKgW4ALiBFdlyuOSB1+XO4j66oNh0=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BN6PR10MB1730.namprd10.prod.outlook.com
- (2603:10b6:405:8::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Tue, 8 Mar
- 2022 13:03:00 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5%4]) with mapi id 15.20.5038.026; Tue, 8 Mar 2022
- 13:03:00 +0000
-Date: Tue, 8 Mar 2022 16:02:41 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-Cc: gregkh@linuxfoundation.org, realwakka@gmail.com,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: formatting improvement for multi-line
- bitwise statement
-Message-ID: <20220308130241.GF3293@kadam>
-References: <YicRpmT2xMupVp4h@mail.google.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YicRpmT2xMupVp4h@mail.google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0007.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::12)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CF02F2B
+	for <linux-staging@lists.linux.dev>; Tue,  8 Mar 2022 20:44:26 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1nRggq-0008Kl-2l; Tue, 08 Mar 2022 21:44:16 +0100
+Date: Tue, 8 Mar 2022 21:44:16 +0100
+From: Martin Kaiser <lists@kaiser.cx>
+To: =?utf-8?B?546L5pOO?= <wangqing@vivo.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0hdIHI4MTg4?= =?utf-8?Q?eu=3A_core?=
+ =?utf-8?Q?=3A?= use time_is_after_eq_jiffies() instead of open coding it
+Message-ID: <20220308204416.flwg2z5jvbapnsud@viti.kaiser.cx>
+References: <1646018092-61367-1-git-send-email-wangqing@vivo.com>
+ <YiNCJFFLPcD+aGnr@martin-debian-1.paytec.ch>
+ <SL2PR06MB30829C82386B3278C2E4A17ABD089@SL2PR06MB3082.apcprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 39e7779f-2be8-49b8-026b-08da0103f8d7
-X-MS-TrafficTypeDiagnostic: BN6PR10MB1730:EE_
-X-Microsoft-Antispam-PRVS: 
-	<BN6PR10MB1730C3A6921AEDAB6DD1CB278E099@BN6PR10MB1730.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	571X/BbzV3mPlEveRGlTwGz4FfPEw/wltsOc+Igks5GHqGNAJM3GQVMA3lb8C+6woX4DBp1r3ks2uSSbUk6NPKL9BqLV/NcvJ5sZ3sDnV8BoS6vIMi4VUY1Nx3flqrR3YQSYbya4IIs2OmoE+q2tqDxLxu7Cg8cBeBU04SwEHRHs9u8jDIsQirRTI2S+qx7F+fuHZzZN880qwiTADoZ4F7WQn/u4ciXYbyrLtRybZJ3Vj21WYdacxP+MYIjvmKLqf2+zbmHG4o23Hv7SNk0mptAXv97egix+/MJu27Ma9XXLgdaOoTJwz5TdiF2TWyRDHeFggqiGFh6ucITXbZzwx/J64OzXJ6eI1wOATicuPec0r0vnWR2Ic66QRQdTb+LuS2QJqMEnA0pmDhLcaPUTJ66N84Zjmw6IAgDpvgfs2CJ76Jk7CFoAEzxg0N7jmJG+nv3kn3Qb74tO3lU2pQeffKEPi100wAlYKOnRfmnqvpilVfrrMtjrGFgxyYWevj6YxPd59M1gQBxfJ82mqSD1RtvLiXXYIOCeLeMbTlBhKWUA+jv82F3+hydoq5eHCLjR9V6LBrUceDDZ1H6/yIaEIpZAbkW6W2KSfoK73rw0YCP+Sx2D9u6IZF91bGuitNEdXWz9mbUxLMto1rweZqIlpr+EzGZNZG7nHcqvt1dqewAQK6qFaFsS1KXfe55+ePAYMKk1xqt8GksYm09TQJj8TDhT2Shq8mDVBQrQjf+XvsWQtmdK/lDoFYJZ8OGUZ5v7ON5yI4gO7DknN0vKIorL4A5UO8oE9H6rdcnw0hZaFME=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(8936002)(26005)(966005)(6916009)(38100700002)(6486002)(6666004)(508600001)(44832011)(33656002)(4744005)(5660300002)(38350700002)(33716001)(8676002)(2906002)(4326008)(186003)(86362001)(66946007)(66556008)(316002)(1076003)(52116002)(6506007)(66476007)(6512007)(9686003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?SKtr18g1Yk24Xt7I+oAc2ORD5vRKuegzJy+qzwWJwky7DVw0ZtFC6N75mFOJ?=
- =?us-ascii?Q?3mRBs14TWu2hSksGxhfdl6LwVy1kmk/MW/lggf5xebpB8TvWoPAHImzVViFn?=
- =?us-ascii?Q?x/SI5lCDQ8n8qLNBmk5wy+MJB9f/3uHQcVIX2FG29LToSdVDwoEZl+gSS7bN?=
- =?us-ascii?Q?IFcVNoNNPH5ONmMybpJy2GouThwvnFuin2+DfnZElRXPix04TV+nIXDNp3lj?=
- =?us-ascii?Q?BFE+BsYk4iDi814F1LDstXBJfRfEu98ZRST+Rw7/OvZ4ono1USXu8kK+v7Sg?=
- =?us-ascii?Q?u6NB2scEi/Dq0MarzTbQuGbdebhHIUdElR/Vbd+5SciYbHiPKUdU9w4m1TWM?=
- =?us-ascii?Q?wgBOFwCJI6FugqT/B6lGqW6mu9txPefQOaHD63RT6xBOMYYWLIKxJ/oeROu2?=
- =?us-ascii?Q?0mW4X+PsNQBQ1YgkDFRf3nki1lL+L45UcDvQMMMa7koriw86GEQm7k5hT1QB?=
- =?us-ascii?Q?nB/GsuhIJknJHvEuxFXE7HIw3CaBqBEzHq6+oe11gDrAqcJY84TDdeJSIH59?=
- =?us-ascii?Q?qRhbREKuKVaosoHmx5aLMpgt1siLGfCdIZbIwJD8S1Unn1/jY0KOpKsRGN1+?=
- =?us-ascii?Q?5ee2/nFKft4Kb5xUbLhAdvzostHLGWhhfk8afayuRU5R5vgcVSLz0YaTARH4?=
- =?us-ascii?Q?F3TAC/BKdevG7df+6YInseBkUoCIg783U5fRyVxboqgp1yOMFSJ5sILcC18A?=
- =?us-ascii?Q?sa/OsDCBlQ1FL6KEt2rVLFSr/cnPLR/OAAdfTnyb/xVs4aq6hjJVE49TlIf1?=
- =?us-ascii?Q?8rB6UNjA2gJRIKxbLS0u1KSNTYgSsX1s+hpxHLcPNwLs84NT/o9GrzB4bBI9?=
- =?us-ascii?Q?Wc5ywHYS/1A5N9qTtwzzxchmEmAU6PZYSvV+3XdL1OTlhZNP7PO2by8higNu?=
- =?us-ascii?Q?Deq2trPPPSqI1ymDp121h46uaekOHrnoifYACNRvknKbP7HJRWrznBG5M/Ny?=
- =?us-ascii?Q?zowzsvrTI04H1j++vzfkWiKv4ygOrxtGkMEIrb4jH/ODxY0cgcD+9wyDAFrg?=
- =?us-ascii?Q?OJ/5BKEy908ntwbyRUiu0+/X4nPrxZFM7mno6xDnTMo1JZOutsUoDnNRL0R6?=
- =?us-ascii?Q?vppyLgne1eyDLaU2cuYihjY8r525C8kblkU1SdwKg6QOF0QhrUzVoFYBigYm?=
- =?us-ascii?Q?AnX3RfBZ3ydUELz/ypZD5HAzEDugzw7TPpS0XNRFEOfmc4vmCjGquUrQdMPY?=
- =?us-ascii?Q?2QidWwJ4fXvzMldMFHOa32W+y7mIYD5DdsUgYTc2qWswwBoMeXnPgGAb1sg7?=
- =?us-ascii?Q?2ldQ2Na/vTUNrAHZkac3dMMy/hg+SkjyMJ8gr/GuAzwyzQpHiC+iMNgilcaS?=
- =?us-ascii?Q?w5aIbVzawhSfsRXx8hNiT77NxiuA83QRx/vcb9L8zCqG4aFFvRYsPIw1uiWi?=
- =?us-ascii?Q?AGBx+QdthAmKg5SXrPBIG/2QjQA6BEU2CSHPvMIl7PFyNuirO/HK7X93JYCx?=
- =?us-ascii?Q?cd8E3PGwRepkEbtZkJYblIkGI6HEV6dikFHSJDqikiKwy3jQ2FWjXFPJwj9c?=
- =?us-ascii?Q?gH3gfLNq9kbF5lpzFpWz2MlKLg7ArrvLeoLT2Ty47/CBz5cV8vLg8rS+46sx?=
- =?us-ascii?Q?eLApWrTa4zbRA8gEgigVZ53OV1sYhVbaOGnjJUblkeDWTPLZm5FJrc2QT2i0?=
- =?us-ascii?Q?2g/qwvfn28Z3RKQs55alp1YEGS2uyS7EtvnYQkytROgxEC6hurzeduAO96So?=
- =?us-ascii?Q?zrof3g=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39e7779f-2be8-49b8-026b-08da0103f8d7
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2022 13:02:59.9278
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eHgUuHrkO0WcJos8r8808S4dfNWlstT10AN8fuIjjbmJTBSUfd1xUNLjeTztMKellYiFRSKYDIZ2bqpzaA/AA7SD2NBjUArLOEE1yEd0V4U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR10MB1730
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10279 signatures=690470
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 mlxscore=0
- bulkscore=0 mlxlogscore=930 spamscore=0 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203080069
-X-Proofpoint-GUID: 3hr1YLhzYWdA2K_44vOb7diz97WriWQW
-X-Proofpoint-ORIG-GUID: 3hr1YLhzYWdA2K_44vOb7diz97WriWQW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SL2PR06MB30829C82386B3278C2E4A17ABD089@SL2PR06MB3082.apcprd06.prod.outlook.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-On Tue, Mar 08, 2022 at 09:19:50PM +1300, Paulo Miguel Almeida wrote:
-> Move bitwise & operator to the end of previous line for better
-> readability
-> 
-> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> ---
-> Meta-comments:
-> 
-> This suggestion was made by Dan Carpenter in a previous patch that ended
-> up being merged:
-> https://lore.kernel.org/lkml/20220228063238.GA2794@kadam/
+Thus wrote 王擎 (wangqing@vivo.com):
 
-Thanks!
+> >Hi,
 
-regards,
-dan carpenter
+> >Thus wrote Qing Wang (wangqing@vivo.com):
 
+> >> From: Wang Qing <wangqing@vivo.com>
+
+> >> Use the helper function time_is_{before,after}_jiffies() to improve
+> >> code readability.
+
+> >> Signed-off-by: Wang Qing <wangqing@vivo.com>
+> >> ---
+> >>  drivers/staging/r8188eu/core/rtw_pwrctrl.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+> >> diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+> >> index 46e44ae..9894abb
+> >> --- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+> >> +++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+> >> @@ -102,7 +102,7 @@ static bool rtw_pwr_unassociated_idle(struct adapter *adapter)
+> >>        struct wifidirect_info  *pwdinfo = &adapter->wdinfo;
+> >>        bool ret = false;
+
+> >> -     if (adapter->pwrctrlpriv.ips_deny_time >= jiffies)
+> >> +     if (time_is_after_eq_jiffies(adapter->pwrctrlpriv.ips_deny_time))
+> >>                goto exit;
+
+> >>        if (check_fwstate(pmlmepriv, WIFI_ASOC_STATE | WIFI_SITE_MONITOR) ||
+> >> -- 
+> >> 2.7.4
+
+
+> >This doesn't compile on my system:
+
+> >  CC [M]  drivers/staging/r8188eu/core/rtw_p2p.o
+> >In file included from ./include/linux/irqflags.h:15,
+> >                 from ./arch/arm/include/asm/atomic.h:14,
+> >                 from ./include/linux/atomic.h:7,
+> >                 from ./include/linux/rcupdate.h:25,
+> >                 from ./include/linux/rculist.h:11,
+> >                 from ./include/linux/sched/signal.h:5,
+> >                 from drivers/staging/r8188eu/core/../include/osdep_service.h:7,
+> >                from drivers/staging/r8188eu/core/rtw_pwrctrl.c:6:
+> >drivers/staging/r8188eu/core/rtw_pwrctrl.c: In function ‘rtw_pwr_unassociated_idle’:
+> >./include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+> >   12 |         (void)(&__dummy == &__dummy2); \
+> >      |                         ^~
+> >./include/linux/jiffies.h:111:10: note: in expansion of macro ‘typecheck’
+> >  111 |         (typecheck(unsigned long, a) && \
+> >      |          ^~~~~~~~~
+> >./include/linux/jiffies.h:114:33: note: in expansion of macro ‘time_after_eq’
+> >  114 | #define time_before_eq(a,b)     time_after_eq(b,a)
+> >      |                                 ^~~~~~~~~~~~~
+> ./include/linux/jiffies.h:166:37: note: in expansion of macro ‘time_before_eq’
+> >  166 | #define time_is_after_eq_jiffies(a) time_before_eq(jiffies, a)
+> >      |                                     ^~~~~~~~~~~~~~
+> >drivers/staging/r8188eu/core/rtw_pwrctrl.c:92:13: note: in expansion of macro ‘time_is_after_eq_jiffies’
+> >   92 |         if (time_is_after_eq_jiffies(adapter->pwrctrlpriv.ips_deny_time))
+> >      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+> >time_is_after_eq_jiffies checks at compile time that its argument is
+> >unsigned long but ips_deny_time is u32 in the r8188eu driver.
+
+> >We should change ips_deny_time to unsigned long, the rtl8723bs driver did
+> >this as well. ips_deny_time is used in these places
+
+> >  11     92  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<rtw_pwr_unassociated_idle>>
+> >             if (adapter->pwrctrlpriv.ips_deny_time >= jiffies)
+> >  12    363  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
+> >             if (pwrpriv->ips_deny_time < jiffies + rtw_ms_to_systime(ips_deffer_ms))
+> >  13    364  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
+> >             pwrpriv->ips_deny_time = jiffies + rtw_ms_to_systime(ips_deffer_ms);
+> >  14    399  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
+> >             if (pwrpriv->ips_deny_time < jiffies + rtw_ms_to_systime(ips_deffer_ms))
+> >  15    400  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
+> >             pwrpriv->ips_deny_time = jiffies + rtw_ms_to_systime(ips_deffer_ms);
+
+> >rtw_ms_to_systime converts milliseconds to jiffies and returns u32. We
+> >should use msecs_to_jiffies instead, this functions returns unsigned long.
+
+> >Do you want to have a go at this?
+
+> >Best regards,
+
+> >   Martin
+
+> I see rtl8723bs/include/rtw_pwrctrl.h also has a definition of struct pwrctrl_priv on it, 
+> which is unsigned long ips_deny_time.
+> Is there any difference, or should it be changed to unsigned long?
+
+
+Hi Wang,
+
+yes, I believe that we should change ips_deny_time to unsigned long.
+
+But before this, we have to change rtw_ms_to_systime to msecs_to_jiffies.
+
+Best regards,
+Martin
