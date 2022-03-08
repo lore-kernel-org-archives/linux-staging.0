@@ -1,77 +1,152 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17BF48BE
-	for <linux-staging@lists.linux.dev>; Tue,  8 Mar 2022 12:14:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646741682; x=1678277682;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Pj07O+oiBpvt9RG+DMy/vaA6wCldd0Kb1X9+1g+qKKk=;
-  b=ZYiSsnAXuNktEFZ5Y5TA7KgqsgBGRLEuxN1B/NDik+PCTJjwXbcPR6+y
-   zneatAKig5z6EOujeJu0mzD75961ZAHQPgDPGb+rM4xfDbopGQJIJdF65
-   ticUVL3NJFiKcQFWlURLhKgWsaLsLdnp+HHI8PDV5K8oN54wCu3kgtVz/
-   wWUG0QAJS1GG5CpfTjgLXcx8Ftxl/y44PetWl3BDupfkbkRAqU8/KjTqw
-   xYxSf1kSzmaD6G4gzlg3K0Mz2IfYuruKXcf63baT69/zBDgES4LNpW5Zk
-   E2K0fHkHAfJut9dCFhxE4f583wix2CJ2yX3YjJ45Z1u8DsvyEY7UTFp9P
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="317898529"
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; 
-   d="scan'208";a="317898529"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2022 04:14:41 -0800
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; 
-   d="scan'208";a="537546642"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2022 04:14:38 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1nRYiw-00DLej-Di;
-	Tue, 08 Mar 2022 14:13:54 +0200
-Date: Tue, 8 Mar 2022 14:13:54 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v1 1/1] staging: fbtft: Consider type of init sequence
- values in fbtft_init_display()
-Message-ID: <YidIgkiv7B8g14RD@smile.fi.intel.com>
-References: <20220304193414.88006-1-andriy.shevchenko@linux.intel.com>
- <Yictcf0BCvveVT+V@smile.fi.intel.com>
- <Yic0CN+qSvDtSiEz@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAF12F33
+	for <linux-staging@lists.linux.dev>; Tue,  8 Mar 2022 12:50:27 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id z30so24705481ybi.2
+        for <linux-staging@lists.linux.dev>; Tue, 08 Mar 2022 04:50:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0t+oRuFUeoTJYozgTMtCFZq9+My0K/1omeutSIQNN6c=;
+        b=VdjJnnr+C0SxYl1Zfv6eCgIvxYd2ufGHcIvRcQ/VIGsIYVt9PhlbvbUzfggbRSqFzj
+         RxPPhr/2Eb9RCPAk1xO7BXtorCMVdZT5LuH2tXfmkAF6xSbB8cEMwtNZ9wGLXjNud/dB
+         jBsOBGtLDj5scOtoeErNpyUcFex47626+5L11vUXquCf3XsBAjGuEWh590sePBBeLctH
+         is1y9mYA53c4lJpnuG01+P/3uXLvMEFls0rae/X/iScC2mU96fR28PzQzNz37GICrhJj
+         vl0Skchxw4ZoQpEHxNXPNWKQLjNPvCdK/c6YVCUCMhZmdO0ulw1v2ahwXKB1L6N2+PsY
+         ydag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0t+oRuFUeoTJYozgTMtCFZq9+My0K/1omeutSIQNN6c=;
+        b=yrfUSxXPtJSIjxhPgwAYEaLdzdngqps3If6MiszflxhBnOBui7rJCRmt2retk8l0nW
+         jZS1fC+KO98Sp+fp0BH3JNhwOv8DvUfhvZl9uJA8P+s5s6pciAwW1Rx2c3GLfqvx+B1C
+         m6+5vvigzrokiWKtA32V/W4XVhsq2NoYnvqckYMSkQZNBhNYUG/GeCes0CRJwqZNRShq
+         CwkNNnHBKaKTPqCxXmMkvkQ0bh858tB01OgECH4y1B0hetnIQUrs6L0DnE0pTOCO9yxU
+         P9RxSRymLxJPmJ4hkX3kr4JBxZyzvnmLP2NW5zW9vpTqWgu0OMZefE20dTQUG5hSrHKR
+         on7A==
+X-Gm-Message-State: AOAM530OPw/A9puZF11v9iprSUdr2pC+ld5qW7Gdiq3pRNEQZLLMo/zy
+	mJGDPYhSj620VbK3JmoFw8Fy5RbUODpxhFUC2XM=
+X-Google-Smtp-Source: ABdhPJx/FmDFbVg6U7+f8zWD9dQz7u0t1Y3O/0rcVHlTq7FZM3OaV5Cp3DElVYlhAwovztLHGmt1Nj+tJeGepzc1Fcs=
+X-Received: by 2002:a25:8149:0:b0:623:bc3c:be06 with SMTP id
+ j9-20020a258149000000b00623bc3cbe06mr12366407ybm.223.1646743826531; Tue, 08
+ Mar 2022 04:50:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yic0CN+qSvDtSiEz@kroah.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220225155622.585621-1-ahamedhusni73@gmail.com> <818eb53d-0ca5-d0dc-4a06-37615a5c4c3b@xs4all.nl>
+In-Reply-To: <818eb53d-0ca5-d0dc-4a06-37615a5c4c3b@xs4all.nl>
+From: Ahamed Husni <ahamedhusni73@gmail.com>
+Date: Tue, 8 Mar 2022 18:20:14 +0530
+Message-ID: <CAFjpAKpyDeEKvA9TEK0KbKVHFN8KSMDZKF=L2Azq_7cuAhHH4A@mail.gmail.com>
+Subject: Re: [PATCH] media: av7110: av7110_av: Fix Switch and Case Same Indent
+ Style Error
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: mchehab@kernel.org, Greg KH <gregkh@linuxfoundation.org>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 08, 2022 at 11:46:32AM +0100, Greg Kroah-Hartman wrote:
-> On Tue, Mar 08, 2022 at 12:18:25PM +0200, Andy Shevchenko wrote:
-> > +Cc: Helge
-> > 
-> > Maybe you can pick this up?
-> > 
-> > On Fri, Mar 04, 2022 at 09:34:14PM +0200, Andy Shevchenko wrote:
-> 
-> You sent this less than a week ago!  Please relax, staging driver
-> patches are way down my list of priorities at the moment.  Wait at least
-> 2 weeks before trying to get someone else to take patches for this
-> subsystem.
-> 
-> relax...
+Hello Hans,
 
-Ah, okay. Sorry, I was browsing my long mailbox and haven't paid attention on
-the date I had sent this one on.
+On Mon, Mar 7, 2022 at 12:58 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Hi Husni,
+>
+> Thank you for the patch.
+>
+> The Subject line needs some work: either name the source ('av7110_av.c:') or
+> driver ('av7110:'), but not both. Also just stick to lower case, so:
+> "media: av7110_av.c: fix switch indentation"
+>
+> That gives all the relevant information, and is a lot shorter.
+Noted with thanks. I'll update the subject line in the V2 of the patch.
 
--- 
-With Best Regards,
-Andy Shevchenko
+>
+> On 2/25/22 16:56, Husni Faiz wrote:
+> > This patch fixes "switch and case should be at the same indent"
+> > checkpatch error.
+> >
+> > Signed-off-by: Husni Faiz <ahamedhusni73@gmail.com>
+> > ---
+> >  drivers/staging/media/av7110/av7110_av.c | 30 ++++++++++++------------
+> >  1 file changed, 15 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
+> > index 91f4866c7e59..1d42862e9669 100644
+> > --- a/drivers/staging/media/av7110/av7110_av.c
+> > +++ b/drivers/staging/media/av7110/av7110_av.c
+> > @@ -770,22 +770,22 @@ static void p_to_t(u8 const *buf, long int length, u16 pid, u8 *counter,
+> >       if (length > 3 &&
+> >            buf[0] == 0x00 && buf[1] == 0x00 && buf[2] == 0x01)
+> >               switch (buf[3]) {
+> > -                     case PROG_STREAM_MAP:
+> > -                     case PRIVATE_STREAM2:
+> > -                     case PROG_STREAM_DIR:
+> > -                     case ECM_STREAM     :
+> > -                     case EMM_STREAM     :
+> > -                     case PADDING_STREAM :
+> > -                     case DSM_CC_STREAM  :
+> > -                     case ISO13522_STREAM:
+> > -                     case PRIVATE_STREAM1:
+> > -                     case AUDIO_STREAM_S ... AUDIO_STREAM_E:
+> > -                     case VIDEO_STREAM_S ... VIDEO_STREAM_E:
+> > -                             pes_start = 1;
+> > -                             break;
+> > +             case PROG_STREAM_MAP:
+> > +             case PRIVATE_STREAM2:
+> > +             case PROG_STREAM_DIR:
+> > +             case ECM_STREAM     :
+> > +             case EMM_STREAM     :
+> > +             case PADDING_STREAM :
+> > +             case DSM_CC_STREAM  :
+> > +             case ISO13522_STREAM:
+> > +             case PRIVATE_STREAM1:
+> > +             case AUDIO_STREAM_S ... AUDIO_STREAM_E:
+> > +             case VIDEO_STREAM_S ... VIDEO_STREAM_E:
+> > +                     pes_start = 1;
+> > +                     break;
+> >
+> > -                     default:
+> > -                             break;
+> > +             default:
+> > +                     break;
+> >               }
+> >
+> >       while (c < length) {
+>
+> Running checkpatch.pl over this patch give me:
+>
+> ERROR: space prohibited before that ':' (ctx:WxE)
+> #40: FILE: drivers/staging/media/av7110/av7110_av.c:776:
+> +               case ECM_STREAM     :
+>                                     ^
+>
+> ERROR: space prohibited before that ':' (ctx:WxE)
+> #41: FILE: drivers/staging/media/av7110/av7110_av.c:777:
+> +               case EMM_STREAM     :
+>                                     ^
+>
+> ERROR: space prohibited before that ':' (ctx:WxE)
+> #42: FILE: drivers/staging/media/av7110/av7110_av.c:778:
+> +               case PADDING_STREAM :
+>                                     ^
+>
+> ERROR: space prohibited before that ':' (ctx:WxE)
+> #43: FILE: drivers/staging/media/av7110/av7110_av.c:779:
+> +               case DSM_CC_STREAM  :
+>                                     ^
+> Can you fix that as well in a v2 of this patch?
+It seems that these spaces are deliberately added by the author to
+keep the case statements' colons aligned.
+Some other lines in the file where the same approach has been taken
+are [line 598,599,600,601] and [line 662, 663, 664, 665].
+Should we leave these spaces as it is?
 
-
+Thanks,
+Husni.
