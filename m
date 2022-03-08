@@ -1,135 +1,76 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CF02F2B
-	for <linux-staging@lists.linux.dev>; Tue,  8 Mar 2022 20:44:26 +0000 (UTC)
-Received: from martin by viti.kaiser.cx with local (Exim 4.89)
-	(envelope-from <martin@viti.kaiser.cx>)
-	id 1nRggq-0008Kl-2l; Tue, 08 Mar 2022 21:44:16 +0100
-Date: Tue, 8 Mar 2022 21:44:16 +0100
-From: Martin Kaiser <lists@kaiser.cx>
-To: =?utf-8?B?546L5pOO?= <wangqing@vivo.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0hdIHI4MTg4?= =?utf-8?Q?eu=3A_core?=
- =?utf-8?Q?=3A?= use time_is_after_eq_jiffies() instead of open coding it
-Message-ID: <20220308204416.flwg2z5jvbapnsud@viti.kaiser.cx>
-References: <1646018092-61367-1-git-send-email-wangqing@vivo.com>
- <YiNCJFFLPcD+aGnr@martin-debian-1.paytec.ch>
- <SL2PR06MB30829C82386B3278C2E4A17ABD089@SL2PR06MB3082.apcprd06.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4B52F2B
+	for <linux-staging@lists.linux.dev>; Tue,  8 Mar 2022 20:56:31 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id c16-20020a17090aa61000b001befad2bfaaso457037pjq.1
+        for <linux-staging@lists.linux.dev>; Tue, 08 Mar 2022 12:56:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bF1HEb4hQ/k+ib8dpChTtvtb+CH2Jji8DmJRbjZMzTw=;
+        b=BpOabioy+Xmzf6o470njed3G6kgCN7E2fzRVoYriSX6cGI/piyAKvdvCX0HLbQcclg
+         qKljPt14k41dZ+/5mLjXQnUY/+3At32L0Gq9yfmJNGllOI68E98fin7+SGsh9hbylhWh
+         rGyl3I1nn2R2rvgCxM+IP0TmGtnMogTHS7u/BpPK/DeWqDYiSPq6I+YeYRWb0Iszcr8t
+         xL5+M6TO80ChYg1jzceBnzKS7a2AhOEiikVW7jGoNXqMVuWmnzheeouE2l8iqq93hwdJ
+         jJc5ISRbF0erRR6TRiL6D/DnRJszs64o7PSzIWdaBUUhA2b1SDzpKztWOzExpEmJJAdS
+         o3JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bF1HEb4hQ/k+ib8dpChTtvtb+CH2Jji8DmJRbjZMzTw=;
+        b=eq/xblniWJtWhVrIjSutM0Cei9bE8ToghE73SUXJ6W4YFLyhUQYUR4qr9M/9zVDDvM
+         AGPcoG2VUYAcivbiy6Up5FoCEz4PxamWkMznO8BXQd39r/NcCCgAHQIsbUBrv4wFPnRt
+         eUAkiHeDIr3sX/KOSxZvWi2RT8JZGHKQ8fJS2neQi2sMZyz/Ye/YWfbjoDR++Lsv7rqh
+         F19nE4U1sFTmLxhbqbE/eOoW//8zUBwk0UU59RKyYwcp7doNUrRsxS3eQLcNl0sBrh55
+         eWInK9Mb7ogTVw22zd8qW6ZL+RM1AS6os+zkcL9/EnEhiavlEweCVVpjEMqJWP/eFVSB
+         875g==
+X-Gm-Message-State: AOAM530x+KerBamJbFeRsFwMK58B8JJMO6qPRddM4BMkW06wss6E4nA+
+	rShqMxF84HeRI006z2V1kkY=
+X-Google-Smtp-Source: ABdhPJyYCSMFRB25ISa8tma4k+MrwF+TJGeCpy8kkKm47LntfvId+7RmCBY4yiOLpOU9xFOXhrNzig==
+X-Received: by 2002:a17:902:8a97:b0:14a:c625:eb2d with SMTP id p23-20020a1709028a9700b0014ac625eb2dmr19419454plo.26.1646772991323;
+        Tue, 08 Mar 2022 12:56:31 -0800 (PST)
+Received: from localhost.localdomain ([103.85.9.4])
+        by smtp.gmail.com with ESMTPSA id u10-20020a056a00124a00b004f741eb11d0sm1252661pfi.149.2022.03.08.12.56.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Mar 2022 12:56:30 -0800 (PST)
+From: Vihas Makwana <makvihas@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Pavel Skripkin <paskripkin@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vihas Makwana <makvihas@gmail.com>
+Subject: [PATCH 0/2] staging: r8188eu: improve error handling
+Date: Wed,  9 Mar 2022 02:25:08 +0530
+Message-Id: <20220308205510.48431-1-makvihas@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <SL2PR06MB30829C82386B3278C2E4A17ABD089@SL2PR06MB3082.apcprd06.prod.outlook.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-Thus wrote 王擎 (wangqing@vivo.com):
+This patchset improves error handling in rtw_init_drv_sw() and
+fixes some memory leaks.
 
-> >Hi,
+Vihas Makwana (2):
+  staging: r8188eu: call rtl8188eu_free_recv_priv from
+    _rtw_free_recv_priv
+  staging: r8188eu: proper error handling in rtw_init_drv_sw
 
-> >Thus wrote Qing Wang (wangqing@vivo.com):
+ drivers/staging/r8188eu/core/rtw_recv.c   |  1 +
+ drivers/staging/r8188eu/os_dep/os_intfs.c | 60 ++++++++++++++++++-----
+ 2 files changed, 48 insertions(+), 13 deletions(-)
 
-> >> From: Wang Qing <wangqing@vivo.com>
+-- 
+2.30.2
 
-> >> Use the helper function time_is_{before,after}_jiffies() to improve
-> >> code readability.
-
-> >> Signed-off-by: Wang Qing <wangqing@vivo.com>
-> >> ---
-> >>  drivers/staging/r8188eu/core/rtw_pwrctrl.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-
-> >> diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> >> index 46e44ae..9894abb
-> >> --- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> >> +++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> >> @@ -102,7 +102,7 @@ static bool rtw_pwr_unassociated_idle(struct adapter *adapter)
-> >>        struct wifidirect_info  *pwdinfo = &adapter->wdinfo;
-> >>        bool ret = false;
-
-> >> -     if (adapter->pwrctrlpriv.ips_deny_time >= jiffies)
-> >> +     if (time_is_after_eq_jiffies(adapter->pwrctrlpriv.ips_deny_time))
-> >>                goto exit;
-
-> >>        if (check_fwstate(pmlmepriv, WIFI_ASOC_STATE | WIFI_SITE_MONITOR) ||
-> >> -- 
-> >> 2.7.4
-
-
-> >This doesn't compile on my system:
-
-> >  CC [M]  drivers/staging/r8188eu/core/rtw_p2p.o
-> >In file included from ./include/linux/irqflags.h:15,
-> >                 from ./arch/arm/include/asm/atomic.h:14,
-> >                 from ./include/linux/atomic.h:7,
-> >                 from ./include/linux/rcupdate.h:25,
-> >                 from ./include/linux/rculist.h:11,
-> >                 from ./include/linux/sched/signal.h:5,
-> >                 from drivers/staging/r8188eu/core/../include/osdep_service.h:7,
-> >                from drivers/staging/r8188eu/core/rtw_pwrctrl.c:6:
-> >drivers/staging/r8188eu/core/rtw_pwrctrl.c: In function ‘rtw_pwr_unassociated_idle’:
-> >./include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
-> >   12 |         (void)(&__dummy == &__dummy2); \
-> >      |                         ^~
-> >./include/linux/jiffies.h:111:10: note: in expansion of macro ‘typecheck’
-> >  111 |         (typecheck(unsigned long, a) && \
-> >      |          ^~~~~~~~~
-> >./include/linux/jiffies.h:114:33: note: in expansion of macro ‘time_after_eq’
-> >  114 | #define time_before_eq(a,b)     time_after_eq(b,a)
-> >      |                                 ^~~~~~~~~~~~~
-> ./include/linux/jiffies.h:166:37: note: in expansion of macro ‘time_before_eq’
-> >  166 | #define time_is_after_eq_jiffies(a) time_before_eq(jiffies, a)
-> >      |                                     ^~~~~~~~~~~~~~
-> >drivers/staging/r8188eu/core/rtw_pwrctrl.c:92:13: note: in expansion of macro ‘time_is_after_eq_jiffies’
-> >   92 |         if (time_is_after_eq_jiffies(adapter->pwrctrlpriv.ips_deny_time))
-> >      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-> >time_is_after_eq_jiffies checks at compile time that its argument is
-> >unsigned long but ips_deny_time is u32 in the r8188eu driver.
-
-> >We should change ips_deny_time to unsigned long, the rtl8723bs driver did
-> >this as well. ips_deny_time is used in these places
-
-> >  11     92  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<rtw_pwr_unassociated_idle>>
-> >             if (adapter->pwrctrlpriv.ips_deny_time >= jiffies)
-> >  12    363  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
-> >             if (pwrpriv->ips_deny_time < jiffies + rtw_ms_to_systime(ips_deffer_ms))
-> >  13    364  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
-> >             pwrpriv->ips_deny_time = jiffies + rtw_ms_to_systime(ips_deffer_ms);
-> >  14    399  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
-> >             if (pwrpriv->ips_deny_time < jiffies + rtw_ms_to_systime(ips_deffer_ms))
-> >  15    400  drivers/staging/r8188eu/core/rtw_pwrctrl.c <<_rtw_pwr_wakeup>>
-> >             pwrpriv->ips_deny_time = jiffies + rtw_ms_to_systime(ips_deffer_ms);
-
-> >rtw_ms_to_systime converts milliseconds to jiffies and returns u32. We
-> >should use msecs_to_jiffies instead, this functions returns unsigned long.
-
-> >Do you want to have a go at this?
-
-> >Best regards,
-
-> >   Martin
-
-> I see rtl8723bs/include/rtw_pwrctrl.h also has a definition of struct pwrctrl_priv on it, 
-> which is unsigned long ips_deny_time.
-> Is there any difference, or should it be changed to unsigned long?
-
-
-Hi Wang,
-
-yes, I believe that we should change ips_deny_time to unsigned long.
-
-But before this, we have to change rtw_ms_to_systime to msecs_to_jiffies.
-
-Best regards,
-Martin
