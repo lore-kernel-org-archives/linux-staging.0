@@ -1,178 +1,131 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E9F4C88
-	for <linux-staging@lists.linux.dev>; Tue,  8 Mar 2022 20:56:39 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id n2so197441plf.4
-        for <linux-staging@lists.linux.dev>; Tue, 08 Mar 2022 12:56:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3A24C88
+	for <linux-staging@lists.linux.dev>; Tue,  8 Mar 2022 21:13:55 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id h14so208696lfk.11
+        for <linux-staging@lists.linux.dev>; Tue, 08 Mar 2022 13:13:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8S8Qc5du8q8iXMWiizollg+y08pSQtHFMISLIZOfmxc=;
-        b=VPn6oa8gpFPLYzoFh6lAN+Q0LDFSvXnFJLDHEdn24xbm3GWzY6nSpFNCkr0/2+r7FL
-         1uhF9J6esX5X0oXfvW4I5l9XXVivOPcu5aKFtAdZ5B8TprMil8oTxWbd8ZSnE5Rg/+5p
-         vdPtGVWt6c1ZwpOM4tCsilm4f8PsaTmue19y08QuSZF+YmB7BUqWGDGgl/L7wSVvRiGA
-         WkMFiaJGzPYQ/l4UrsVg7KSMK9lQ/pLTDid2Kw4nRCHFgbw9Hxb9y7DiY+H1+bbwVFRZ
-         9/HVtGHsal5+1RezHWUgPmHLJ+ZMDhN1SxMVhCmvHvyCWZLnQEOpdO0alEMYmuMj14dP
-         IPNQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=m0/8sk6gVvfrZi40mwng+FUCP1kcZ21w5gsjbQW+jrM=;
+        b=gXJzdw//hwZUJwUfVmASwdiGtxcIEwMvM9cEBlXwXPjiBKJ1TT6awhKi928+TwJ56V
+         CaLlnHnEL9uPTdutzTSNR9L2giSncZhOfb/JBz4BhN/VKHFt7+9NNrNzVbck2BafRCHG
+         FAJ3y4srZEdDT2YDMkzgG/QRjloci1teTLqJbjbGfb1+MoDNW1W2Xj3Z7m+i/R3VjDfW
+         EKwyXOkJ7twGbPdMEIGBQiAv/0CdoQBt+PnG4SeKaoQIxeDFpoNrvDItpOF6SsHW1wPy
+         KWlSQCB60frkA8Q+ULHldnDMt1ZViGHqQndjVw1+XU5iglFzuCmHduL/j8hS7NApIU+4
+         TO2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8S8Qc5du8q8iXMWiizollg+y08pSQtHFMISLIZOfmxc=;
-        b=eb3tExA4BsWeGmyXS7MMtmv2QLKZBG940kCBJ2gIaZtH0IyiWG0ZHoINI/BLBX2Ke6
-         QVVFsC9QRx2rV86cFDsWPsrIr9TzRjrLwUqkZ1kCoOaxXwydeJrDFUuL0TBeDWMgB/Da
-         cQFecZE+cT7UhjL4sQLztuncV6CbRG6w+tvxPVUagf19RQLeSxSfGxk1NzdArhXSa1XB
-         3kGR9xoNP3DzxdfYIgWzxqINiWMJztG+W6XyQozt1zmT3FpzH3yqScUlEE3YODIJri1N
-         Lmp4uUKnH6ubY2iQWARWTBiHc55yB7BbVpGS9RplRm6bT/sf3SaBobQUgzUwTuN/Ef2N
-         UiMA==
-X-Gm-Message-State: AOAM531BU/H+u4mJWTDauBMr1gvnRg8Q3Qi3Sd46T93Zlqp4wdj1zEQE
-	6H3GSk0btAwP0T3Vr29kqxs=
-X-Google-Smtp-Source: ABdhPJxTU+k8VbUnz5FYJtFfhaPn5ce7zc55gBOelRp6kTIdZdSvcy4Ex9fCg73Wm4h/VFOmMUuhSA==
-X-Received: by 2002:a17:90b:3807:b0:1bf:6c8e:f9d1 with SMTP id mq7-20020a17090b380700b001bf6c8ef9d1mr6651514pjb.186.1646772998682;
-        Tue, 08 Mar 2022 12:56:38 -0800 (PST)
-Received: from localhost.localdomain ([103.85.9.4])
-        by smtp.gmail.com with ESMTPSA id u10-20020a056a00124a00b004f741eb11d0sm1252661pfi.149.2022.03.08.12.56.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 12:56:38 -0800 (PST)
-From: Vihas Makwana <makvihas@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	Martin Kaiser <martin@kaiser.cx>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Pavel Skripkin <paskripkin@gmail.com>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: proper error handling in rtw_init_drv_sw
-Date: Wed,  9 Mar 2022 02:25:10 +0530
-Message-Id: <20220308205510.48431-3-makvihas@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220308205510.48431-1-makvihas@gmail.com>
-References: <20220308205510.48431-1-makvihas@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=m0/8sk6gVvfrZi40mwng+FUCP1kcZ21w5gsjbQW+jrM=;
+        b=7YD39K50wxXomGBA+smQDK7UH4kc9eXjJCaud2IPm1Ge0jDn/qS/w2fFpUWBeTdzIA
+         AVkY5ksaFoP8ii1ihLTafc+oM2TTICFgyDeUa5c0bnJcpf5hQDwc7GOKzrnXWxB90P1v
+         wgwxbpJ6Zk9eVUrXWykNohQHfAJuWTdgBddXJeBEo/kbQOS7jS3mURPus6PIQNX3RLEa
+         +n2SlgrxuBKJrCWHlPnEBPDpH89JYRv615lG2BGhY5RAiGJpJGRwtwBc992V21tYsyfM
+         x9axGhWx08sKewnsfKe3aO9HVAzwTF/mddOI9bytrlb7GBPBbyhAx1qq+/q9mbDJMVe5
+         94Uw==
+X-Gm-Message-State: AOAM533heYvVFI/0cE+jRqX+xrIrs4RDqg9mg/s76ICxwkBh7D721pCB
+	AAPOuRYACBiFipfBx2KiehE=
+X-Google-Smtp-Source: ABdhPJwtcOjTXd69ii9+/wSYLlrXYrNW+Itc7rTNm3XvC3Y30flrQW8pqKlCcZqWHLpRC9EQHb7twg==
+X-Received: by 2002:a05:6512:3619:b0:443:1597:8293 with SMTP id f25-20020a056512361900b0044315978293mr12502051lfs.439.1646774033201;
+        Tue, 08 Mar 2022 13:13:53 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.229.107])
+        by smtp.gmail.com with ESMTPSA id f17-20020a2e1f11000000b00247f8eb86a7sm449827ljf.108.2022.03.08.13.13.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Mar 2022 13:13:52 -0800 (PST)
+Message-ID: <b5f9dda7-269a-6b50-ddf2-b5fa05aa1d72@gmail.com>
+Date: Wed, 9 Mar 2022 00:13:50 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 2/2] staging: r8188eu: proper error handling in
+ rtw_init_drv_sw
+Content-Language: en-US
+To: Vihas Makwana <makvihas@gmail.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220308205510.48431-1-makvihas@gmail.com>
+ <20220308205510.48431-3-makvihas@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20220308205510.48431-3-makvihas@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The code inside rtw_init_drv_sw() calls various init functions to
-populate the padapter structure and checks for their return values
-respectively.
-But if one of the functions in middle fails then it simply returns 
-_FAIL instead of proper logging and calling freeing counterparts
-of previous init functions.
-This leads to various memory leaks and can be found in 
-/sys/kernel/debug/kmemleak if kernel is compiled with DEBUG_KMEMLEAK=y.
+Hi Vihas,
 
-Fix this and keep the success and error separate.
+On 3/8/22 23:55, Vihas Makwana wrote:
+> The code inside rtw_init_drv_sw() calls various init functions to
+> populate the padapter structure and checks for their return values
+> respectively.
+> But if one of the functions in middle fails then it simply returns
+> _FAIL instead of proper logging and calling freeing counterparts
+> of previous init functions.
+> This leads to various memory leaks and can be found in
+> /sys/kernel/debug/kmemleak if kernel is compiled with DEBUG_KMEMLEAK=y.
+> 
+> Fix this and keep the success and error separate.
+> 
+> 
+> Signed-off-by: Vihas Makwana <makvihas@gmail.com>
+> ---
+
+Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for 
+RTL8188eu driver")
+> Tested on Comfast CF-WU810N RTL8188EUS wireless adapter.
+> This patch depends on "[PATCH 1/2] staging: r8188eu: call _cancel_timer_ex from
+>   _rtw_free_recv_priv"
+> ---
+
+No need to say that 1/2 depends on 2/2 since they are already in same 
+patch series :)
+
+>   drivers/staging/r8188eu/os_dep/os_intfs.c | 60 ++++++++++++++++++-----
+>   1 file changed, 47 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> index 197568422..6279bba07 100644
+> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
+> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> @@ -469,32 +469,46 @@ u8 rtw_reset_drv_sw(struct adapter *padapter)
+>   
+>   u8 rtw_init_drv_sw(struct adapter *padapter)
+>   {
+> -	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL)
+> +	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL) {
+> +		pr_err("rtw_init_cmd_priv failed\n");
+
+Hm, what about
+dev_err(dvobj_to_dev(padapter->dvobj), "..."); ?
+
+IIRC it's main usb device for this driver.
+
+@Phillip, @Larry, @Martin, please, correct me if I am wrong here
 
 
-Signed-off-by: Vihas Makwana <makvihas@gmail.com>
----
-Tested on Comfast CF-WU810N RTL8188EUS wireless adapter.
-This patch depends on "[PATCH 1/2] staging: r8188eu: call _cancel_timer_ex from
- _rtw_free_recv_priv"
----
- drivers/staging/r8188eu/os_dep/os_intfs.c | 60 ++++++++++++++++++-----
- 1 file changed, 47 insertions(+), 13 deletions(-)
+Random note: We can't use netdev_err here since rtw_init_drv_sw() is 
+called before netdev registration
 
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 197568422..6279bba07 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -469,32 +469,46 @@ u8 rtw_reset_drv_sw(struct adapter *padapter)
- 
- u8 rtw_init_drv_sw(struct adapter *padapter)
- {
--	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL)
-+	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL) {
-+		pr_err("rtw_init_cmd_priv failed\n");
- 		return _FAIL;
-+	}
- 
- 	padapter->cmdpriv.padapter = padapter;
- 
--	if ((rtw_init_evt_priv(&padapter->evtpriv)) == _FAIL)
--		return _FAIL;
-+	if ((rtw_init_evt_priv(&padapter->evtpriv)) == _FAIL) {
-+		pr_err("rtw_init_evt_priv failed\n");
-+		goto free_cmd_priv;
-+	}
- 
--	if (rtw_init_mlme_priv(padapter) == _FAIL)
--		return _FAIL;
-+	if (rtw_init_mlme_priv(padapter) == _FAIL) {
-+		pr_err("rtw_init_mlme_priv failed\n");
-+		goto free_evt_priv;
-+	}
- 
- 	rtw_init_wifidirect_timers(padapter);
- 	init_wifidirect_info(padapter, P2P_ROLE_DISABLE);
- 	reset_global_wifidirect_info(padapter);
- 
--	if (init_mlme_ext_priv(padapter) == _FAIL)
--		return _FAIL;
-+	if (init_mlme_ext_priv(padapter) == _FAIL) {
-+		pr_err("init_mlme_ext_priv failed\n");
-+		goto free_mlme_priv;
-+	}
- 
--	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL)
--		return _FAIL;
-+	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL) {
-+		pr_err("_rtw_init_xmit_priv failed\n");
-+		goto free_mlme_ext;
-+	}
- 
--	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL)
--		return _FAIL;
-+	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL) {
-+		pr_err("_rtw_init_recv_priv failed\n");
-+		goto free_xmit_priv;
-+	}
- 
--	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL)
--		return _FAIL;
-+	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL) {
-+		pr_err("_rtw_init_sta_priv failed\n");
-+		goto free_recv_priv;
-+	}
- 
- 	padapter->stapriv.padapter = padapter;
- 
-@@ -510,6 +524,26 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
- 	spin_lock_init(&padapter->br_ext_lock);
- 
- 	return _SUCCESS;
-+
-+free_recv_priv:
-+	_rtw_free_recv_priv(&padapter->recvpriv);
-+
-+free_xmit_priv:
-+	_rtw_free_xmit_priv(&padapter->xmitpriv);
-+
-+free_mlme_ext:
-+	free_mlme_ext_priv(&padapter->mlmeextpriv);
-+
-+free_mlme_priv:
-+	rtw_free_mlme_priv(&padapter->mlmepriv);
-+
-+free_evt_priv:
-+	rtw_free_evt_priv(&padapter->evtpriv);
-+
-+free_cmd_priv:
-+	rtw_free_cmd_priv(&padapter->cmdpriv);
-+
-+	return _FAIL;
- }
- 
- void rtw_cancel_all_timer(struct adapter *padapter)
--- 
-2.30.2
 
+>   		return _FAIL;
+> +	}
+>   
+>   	padapter->cmdpriv.padapter = padapter;
+
+Otherwise looks good to me
+
+
+With regards,
+Pavel Skripkin
