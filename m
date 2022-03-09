@@ -1,137 +1,181 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309437E
-	for <linux-staging@lists.linux.dev>; Wed,  9 Mar 2022 10:40:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=h2eDy6oU9ZtZAY6GjBi61uPbJyUlQd/vuRaD0dkUSUg=; b=TLRPeRJSHdtfkkpxVAf6z4CPal
-	EY49yjkYWIHx1qeAbDMgxRCovA/f8cKtUF8q9J1FV4NQ/bBPTCG7YBOyHeHVtXT+MWNZICDZURwny
-	swS0XRK0QI5wlF4Qiz5XEV7mSOXEWEkxcue9DeRA096m5SfjOhl8wWxX5c+9SifglFZntpcgCFHsX
-	z86qK9DDuRWtNmHRjPADgDSwYJm1yCTm0nOw0reswomuCmDQMN9Oay3a2hYtmpoqfibj1on8wqB/2
-	v1l7Lg1YCsylKVItRP07G31R0Kv7GvPsw+Vk7kL4H3szv+UiJCq0G3HK7ypxkpTlPtwH34OneOksc
-	qC9TDaGg==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:64253 helo=[192.168.10.61])
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1nRth1-0005xU-9w; Wed, 09 Mar 2022 11:37:19 +0100
-Message-ID: <c8ac19a6-fab9-b627-b4c1-6321066a10f9@tronnes.org>
-Date: Wed, 9 Mar 2022 11:37:15 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5527E
+	for <linux-staging@lists.linux.dev>; Wed,  9 Mar 2022 11:42:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1646826126; x=1678362126;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=T4YRDfFcrypsN9W2qi4iowIurInzo1YRPeKZxqXyGsk=;
+  b=m41Ro86kh7ch0ThetDnTWifsmuvDeB/RxhN1mAwQy0dO/CETicdIZ35c
+   /BbMdSJ5TI0Nr3AnwKtP3/535dueJBX9VlPjRGOODBBsbKL3DsCMkb6YE
+   mZxtWSj2Ai+cA+UFWgXlb6Tz4IsVCn2qifv8MNDL7Ro3rwuZ7C2PGALOj
+   gb/cQg3NMCQ6XWIsOJ/NplljtbYSotFOYERkol+BNTxwlpLDXFfjU1Qd+
+   3m7rQL0f6+l86n2oojKUpmcUt1PtuKf4qsKzzBpNqEljot3oFGEU6jeru
+   zpks9AMohkcDriHNoiWdymG+kI2VkowwKpM/xnPzT8njRY6eNGm2tnzMI
+   g==;
+X-IronPort-AV: E=Sophos;i="5.90,167,1643670000"; 
+   d="scan'208";a="22553370"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 09 Mar 2022 12:41:55 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Wed, 09 Mar 2022 12:41:55 +0100
+X-PGP-Universal: processed;
+	by tq-pgp-pr1.tq-net.de on Wed, 09 Mar 2022 12:41:55 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1646826115; x=1678362115;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=T4YRDfFcrypsN9W2qi4iowIurInzo1YRPeKZxqXyGsk=;
+  b=MqDLgsmXxGLsVNwFRYxqjIqhXLzhQXFhNu8iTRbdIO7Q0CWTAWTyFjtd
+   6UkgWXAB04m/ii+1j2tcaWuHp0gqarh5m4UR7s/nXi3AbLIQq+8kIAVBM
+   nZPOpQAkdRCA6DAE1IRGP4rvtA3MyRT73cWt9Nz1SyKmO9UXDGjJFRLWB
+   UY0g/y0bt4GzrAyx+ZTFX8HO0J/QqXQ9LD7OFsS1AReT9BX35yuPzMuAF
+   plkt43XJvJHlYhO+O4ftNdK1DbYTNDsTrjvqnfep8yGcNc/iLm2cHUj6Q
+   9PRf+q3o+J5rFocoXDGpYvrMTOOu32Ms50Dd3BD/N6nsutlV2QXE28gBE
+   w==;
+X-IronPort-AV: E=Sophos;i="5.90,167,1643670000"; 
+   d="scan'208";a="22553369"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 09 Mar 2022 12:41:55 +0100
+Received: from steina-w.tq-net.de (unknown [10.123.49.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id EF933280075;
+	Wed,  9 Mar 2022 12:41:54 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 6/8] media: imx: utils: Add more Bayer formats
+Date: Wed,  9 Mar 2022 12:41:42 +0100
+Message-Id: <20220309114144.120643-7-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220309114144.120643-1-alexander.stein@ew.tq-group.com>
+References: <20220309114144.120643-1-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
-To: david@lechnology.com
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- dave.stevenson@raspberrypi.com, maxime@cerno.tech, robh+dt@kernel.org
-References: <20211124150757.17929-1-noralf@tronnes.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20211124150757.17929-1-noralf@tronnes.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Without this the ioctl VIDIOC_ENUM_FMT will not list the 10/12/14-Bit
+Bayer formats. This in return results in
+"v4l2-ctl --set-fmt-video pixelformat='RG10'" failing to set the
+pixelformat.
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+Changes in v3:
+* None
 
-Den 24.11.2021 16.07, skrev Noralf Trønnes:
-> Hi,
-> 
-> This patchset adds a missing piece for decommissioning the
-> staging/fbtft/fb_st7735r.c driver namely a way to configure the
-> controller from Device Tree.
-> 
-> All fbtft drivers have builtin support for one display panel and all
-> other panels using that controller are configured using the Device Tree
-> 'init' property. This property is supported by all fbtft drivers and
-> provides a generic way to set register values or issue commands
-> (depending on the type of controller).
-> 
-> It is common for these types of displays to have a datasheet listing the
-> necessary controller settings/commands or some example code doing the
-> same.
-> 
-> This is how the panel directly supported by the fb_st7735r staging
-> driver is described using Device Tree with that driver:
-> 
->     width = <160>;
->     height = <128>;
-> 
->     init = <0x1000001
->             0x2000096
->             0x1000011
->             0x20000ff
->             0x10000B1 0x01 0x2C 0x2D
->             0x10000B4 0x07
->             0x10000C0 0xA2 0x02 0x84
->             0x10000C1 0xC5
->             0x10000C2 0x0A 0x00
->             0x10000C5 0x0E
->             0x100003a 0x55
->             0x1000036 0x60
->             0x10000E0 0x0F 0x1A 0x0F 0x18 0x2F 0x28 0x20 0x22
->                       0x1F 0x1B 0x23 0x37 0x00 0x07 0x02 0x10
->             0x10000E1 0x0F 0x1B 0x0F 0x17 0x33 0x2C 0x29 0x2E
->                       0x30 0x30 0x39 0x3F 0x00 0x07 0x03 0x10
->             0x1000029
->             0x2000064>;
-> 
-> 
-> This is how the same panel is described using the st7735r drm driver and
-> this patchset:
-> 
->     width = <160>;
->     height = <128>;
-> 
->     frmctr1 = [ 01 2C 2D ];
->     invctr = [ 07 ];
->     pwctr1 = [ A2 02 84 ];
->     pwctr2 = [ C5 ];
->     pwctr3 = [ 0A 00 ];
->     vmctr1 = [ 0E ];
->     madctl = [ 60 ];
->     gamctrp1 = [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
->     gamctrn1 = [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
-> 
-> 
-> Back when the fbtft drivers were added to staging I asked on the DT
-> mailinglist if it was OK to use the 'init' property but it was turned
-> down. In this patchset I'm trying the same approach used by the
-> solomon,ssd1307fb.yaml binding in describing the attached panel. That
-> binding prefixes the properties with the vendor name, not sure why that
-> is and I think it looks strange so I try without it.
-> 
-> Noralf.
-> 
-> 
-> Noralf Trønnes (6):
->   dt-bindings: display: sitronix,st7735r: Fix backlight in example
->   dt-bindings: display: sitronix,st7735r: Make reset-gpios optional
->   dt-bindings: display: sitronix,st7735r: Remove spi-max-frequency limit
+ drivers/staging/media/imx/imx-media-utils.c | 72 +++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
-Patches 1-3 applied, thanks for reviewing.
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 0152bbcc5150..e69bbe0d6c83 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -130,6 +130,78 @@ static const struct imx_media_pixfmt pixel_formats[] = {
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 8,
+ 		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SBGGR10,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR10_1X10),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 10,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGBRG10,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG10_1X10),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 10,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGRBG10,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG10_1X10),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 10,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SRGGB10,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB10_1X10),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 10,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SBGGR12,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR12_1X12),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 12,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGBRG12,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG12_1X12),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 12,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGRBG12,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG12_1X12),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 12,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SRGGB12,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB12_1X12),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 12,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SBGGR14,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR14_1X14),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 14,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGBRG14,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG14_1X14),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 14,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SGRBG14,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG14_1X14),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 14,
++		.bayer  = true,
++	}, {
++		.fourcc = V4L2_PIX_FMT_SRGGB14,
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB14_1X14),
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 14,
++		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_SBGGR16,
+ 		.codes  = IMX_BUS_FMTS(
+-- 
+2.25.1
 
-The change to the driver has been replaced by a new generic driver
-panel-mipi-dbi.
-
-Noralf.
-
->   dt-bindings: display: sitronix,st7735r: Add initialization properties
->   drm/mipi-dbi: Add device property functions
->   drm: tiny: st7735r: Support DT initialization of controller
-> 
->  .../bindings/display/sitronix,st7735r.yaml    | 122 ++++++++++++++-
->  drivers/gpu/drm/drm_mipi_dbi.c                | 139 ++++++++++++++++++
->  drivers/gpu/drm/tiny/st7735r.c                |  87 +++++++++--
->  include/drm/drm_mipi_dbi.h                    |   3 +
->  4 files changed, 334 insertions(+), 17 deletions(-)
-> 
