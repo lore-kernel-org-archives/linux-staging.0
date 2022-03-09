@@ -1,52 +1,52 @@
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7F67E
-	for <linux-staging@lists.linux.dev>; Wed,  9 Mar 2022 11:42:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A0A7E
+	for <linux-staging@lists.linux.dev>; Wed,  9 Mar 2022 11:43:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1646826129; x=1678362129;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yev62PtTcyJMc3JdaFGquolvb6gHeScWk6sAEYEIg2I=;
-  b=ZCJwhcDb783HfN7ZAd4FonWTt+we/YJtkmTzXAg9peuYLjhzIcai9Y1D
-   IsZ4U4vG4ictDz0h8RkxEIfxYSX0J3sytte/fjBT6Y9dKtWiUjvWrY4BA
-   uYE7+zEWQKv0CEgFtIktBEfNbXy0kcSUbjzU/jyBFV0VJxnYe/0Y8jyXw
-   U2FuL2eVGYi5D7naVj5pyR7t2BnwVJHKb3J/Clqg8ZYrPuV5DbRV/pxy3
-   ZbElBd+Vsob38cwpadPQFdheB1xqCIxXDv6kyaAj4DaBNQxjjAh0xxIq0
-   kRj8SY0/DuHs7OZxVnYaWDE+8emP8FCcTz/YlICeU5WC7EL4GBmHREShs
-   Q==;
+  t=1646826185; x=1678362185;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gF8J7HWv3bLfkhCArBXGHHbXjOWuWHrvcm/30Nahldg=;
+  b=QKUMK5xLpGQ7z33b/+YMncJhZCkJTYeZf0BK5Xtm6i/TuYRcjkfstc5R
+   DX69h/S5MwF1N5yfVP1bq8F24Xafxh07BiaQrIJ6mHVqBuxKqDi6ATQ3f
+   2ODYQWqahaKmZMeRY7LhuZr0hjLEZP7JKU2ITadkvb9pb3ec/HRLk2U5H
+   l4QZqABX45Yhb3kQs6NlB0/5cl94F5Wqr5iGSc036lALyANKRMRV/Y8mt
+   DIsH/5fLMhcHg1qK1vUZ3gK6e5glKw1mlp9I8wc8N7WZG3tEw/B5yTezI
+   S9nBg72cQbfSzsfmN2gcYzs5adsF9Sci2iWrEMELjlZMpfrXYC6lehT7I
+   g==;
 X-IronPort-AV: E=Sophos;i="5.90,167,1643670000"; 
-   d="scan'208";a="22553375"
+   d="scan'208";a="22553358"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 09 Mar 2022 12:41:55 +0100
+  by mx1-pgp.tq-group.com with ESMTP; 09 Mar 2022 12:41:53 +0100
 Received: from mx1.tq-group.com ([192.168.6.7])
   by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Wed, 09 Mar 2022 12:41:55 +0100
+  Wed, 09 Mar 2022 12:41:53 +0100
 X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Wed, 09 Mar 2022 12:41:55 +0100
+	by tq-pgp-pr1.tq-net.de on Wed, 09 Mar 2022 12:41:53 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1646826115; x=1678362115;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yev62PtTcyJMc3JdaFGquolvb6gHeScWk6sAEYEIg2I=;
-  b=NlXklOp/5EsGkMVjcVC+ji5EyEw9hhSIfOuz/hp0iuLRRuMS+07UdWG+
-   p7ajRUkIDFz0fDkEqltBNJuLI6ie21FENEHOXzbWwEMUkyKwjP2So+0IM
-   4Vzc0TSXv9FXKC++7vVZfMmCWufXCGc5/1ODajtHQLj/W1yDezG8NzhrY
-   ILMCA7r668IjvuyR/5buXqYZve51u5yZHRykfnkiLV/1s+pcrmswBsOlr
-   4pb6IZMc6whyAse9cjyfyD9VbUvDu7+nnSWd3Y6irMj3jRRR4er3mNYJ/
-   UPzZBsV2pt3F+ZSPo9oPYphiTtFU3c8f1zMo6ogWaW0qW9FV03T+v9xPP
-   w==;
+  t=1646826113; x=1678362113;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gF8J7HWv3bLfkhCArBXGHHbXjOWuWHrvcm/30Nahldg=;
+  b=VS5Y7Cv5L2T3+7Y7Cqeylm8/AQpWGAgj9ZcGo0NTByRwtKFueL+DXe/4
+   2PXkOP81n1Zy6si8sKxd/9vFtGoeS/P6o+ejHxT3nEkOXxrBkeIs0Rcrf
+   tMu5cbzCPUhA5FfNJPrfIrKD+3MZPGTLcN8xCvRn7MZhzR8yft2YFNIJd
+   0FfCQoIaYylbaXCWC3hrMJakTCevsqmXhLZULIwkEw0y93dBFucPUh36U
+   9llFi4C6EE+9EMgk/EBgv7cPAM+Mwl3MOqCpZTnPF6maoojguyFxezpX3
+   0CVJ+FlmM7phoieXIH+vO2+bT2EG457qnmGlTLrWctziq6G3WJTogchAQ
+   Q==;
 X-IronPort-AV: E=Sophos;i="5.90,167,1643670000"; 
-   d="scan'208";a="22553374"
+   d="scan'208";a="22553357"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 09 Mar 2022 12:41:55 +0100
+  by mx1.tq-group.com with ESMTP; 09 Mar 2022 12:41:53 +0100
 Received: from steina-w.tq-net.de (unknown [10.123.49.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 8963F280078;
-	Wed,  9 Mar 2022 12:41:55 +0100 (CET)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D7F56280065;
+	Wed,  9 Mar 2022 12:41:52 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Steve Longerbeam <slongerbeam@gmail.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
@@ -65,12 +65,10 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
 	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 8/8] [DNI] arm64: dts: tqma8mqml: add IMX327 MIPI-CSI overlay
-Date: Wed,  9 Mar 2022 12:41:44 +0100
-Message-Id: <20220309114144.120643-9-alexander.stein@ew.tq-group.com>
+Subject: [PATCH v3 0/8] imx7/imx8mm media / csi patches
+Date: Wed,  9 Mar 2022 12:41:36 +0100
+Message-Id: <20220309114144.120643-1-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220309114144.120643-1-alexander.stein@ew.tq-group.com>
-References: <20220309114144.120643-1-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,132 +77,127 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
----
-Changes in v3:
-* None
+Hey everyone,
 
- arch/arm64/boot/dts/freescale/Makefile        |  4 +
- .../imx8mm-tqma8mqml-mba8mx-imx327.dts        | 95 +++++++++++++++++++
- 2 files changed, 99 insertions(+)
+thanks for the feedback in v2.
+
+Changes in v3:
+* Dropped PATCH v2 5/9, applied in commit a7a52e146d0e
+* Added R-b Laurent Pinchart to PATCH 1 & 4
+* Fix bpp check in PATCH 3
+
+Below is the original message slightly modified to match the v3 changes.
+
+This is a set of patch for imx7 media drivers based on next-20220308. With
+this set I was able to capture video frames from a MIPI CSI-2 camera in my
+TQMa8MQML + MBA8MX hardware. The actual camera used is a Vision Components
+'VC MIPI IMX327 C' camera. IMX327 is compatible to IMX290. Patch 8 shows the
+DT overlay I'm using, not suitable for merging.
+Please ignore the FPGA part, this is mainly for power supply and GPIO reset
+line. This is currently a custom driver I'm working on, but I do not want to
+focus on in this series.
+
+Please note I tested this only on this imx8 platform.
+
+First thanks to Dorota for the patchset at [1] (patches 1-4) which is necessary
+to capture correct images.
+
+Starting from patch 5 there are small fixes which allows me to configure my
+media device.
+
+Device configuration:
+```
+media-ctl -l "'imx290 2-001a':0->'csis-32e30000.mipi-csi':0 [1]"
+media-ctl -V "'imx290 2-001a':0 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]"
+media-ctl -V "'csi':0 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]"
+v4l2-ctl -d0 --set-fmt-video width=1920,height=1080,pixelformat='RG10',field=none
+media-ctl -p
+```
+
+The media-ctl topology is:
+```
+$ media-ctl -p
+Media controller API version 5.17.0
+
+Media device information
+------------------------
+driver          imx7-csi
+model           imx-media
+serial          
+bus info        platform:32e20000.csi
+hw revision     0x0
+driver version  5.17.0
+
+Device topology
+- entity 1: csi (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+        pad0: Sink
+                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+                <- "csis-32e30000.mipi-csi":1 [ENABLED,IMMUTABLE]
+        pad1: Source
+                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+                -> "csi capture":0 [ENABLED,IMMUTABLE]
+
+- entity 4: csi capture (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+        pad0: Sink
+                <- "csi":1 [ENABLED,IMMUTABLE]
+
+- entity 10: csis-32e30000.mipi-csi (2 pads, 2 links)
+             type V4L2 subdev subtype Unknown flags 0
+             device node name /dev/v4l-subdev1
+        pad0: Sink
+                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]
+                <- "imx290 2-001a":0 [ENABLED]
+        pad1: Source
+                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]
+                -> "csi":0 [ENABLED,IMMUTABLE]
+
+- entity 15: imx290 2-001a (1 pad, 1 link)
+             type V4L2 subdev subtype Sensor flags 0
+             device node name /dev/v4l-subdev2
+        pad0: Source
+                [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw]
+                -> "csis-32e30000.mipi-csi":0 [ENABLED]
+```
+
+Note: MIPI CSI settle times are not calculated correctly right now and need a
+manual overwrite:
+echo 13 > /sys/kernel/debug/32e30000.mipi-csi/ths_settle 
+echo 2 > /sys/kernel/debug/32e30000.mipi-csi/tclk_settle
+
+I did not focus on v4l2-compliance tool, this is a future task.
+
+Regards,
+Alexander
+
+[1] https://patchwork.linuxtv.org/project/linux-media/patch/20211104113631.206899-2-dorota.czaplejewicz@puri.sm/
+
+Alexander Stein (4):
+  media: imx: imx7_media-csi: Add support for additional Bayer patterns
+  media: imx: utils: Add more Bayer formats
+  media: imx: utils: initialize local variable
+  [DNI] arm64: dts: tqma8mqml: add IMX327 MIPI-CSI overlay
+
+Dorota Czaplejewicz (4):
+  media: imx: Store the type of hardware implementation
+  media: imx: Forward type of hardware implementation
+  media: imx: Use dedicated format handler for i.MX7/8
+  media: imx: Fail conversion if pixel format not supported
+
+ arch/arm64/boot/dts/freescale/Makefile        |   4 +
+ .../imx8mm-tqma8mqml-mba8mx-imx327.dts        |  95 ++++++++++++
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |   3 +-
+ drivers/staging/media/imx/imx-media-capture.c |  20 ++-
+ drivers/staging/media/imx/imx-media-csi.c     |   3 +-
+ drivers/staging/media/imx/imx-media-utils.c   | 136 +++++++++++++++++-
+ drivers/staging/media/imx/imx-media.h         |  11 +-
+ drivers/staging/media/imx/imx7-media-csi.c    |  15 +-
+ 8 files changed, 271 insertions(+), 16 deletions(-)
  create mode 100644 arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
 
-diff --git a/arch/arm64/boot/dts/freescale/Makefile b/arch/arm64/boot/dts/freescale/Makefile
-index faa01802276d..b27842200d5f 100644
---- a/arch/arm64/boot/dts/freescale/Makefile
-+++ b/arch/arm64/boot/dts/freescale/Makefile
-@@ -57,6 +57,10 @@ dtb-$(CONFIG_ARCH_MXC) += imx8mm-icore-mx8mm-edimm2.2.dtb
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-kontron-n801x-s.dtb
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-nitrogen-r2.dtb
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-tqma8mqml-mba8mx.dtb
-+
-+tqma8mqml-mba8mx-imx327-dtbs += imx8mm-tqma8mqml-mba8mx.dtb imx8mm-tqma8mqml-mba8mx-imx327.dtbo
-+dtb-$(CONFIG_ARCH_MXC) += tqma8mqml-mba8mx-imx327.dtb
-+
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-var-som-symphony.dtb
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw71xx-0x.dtb
- dtb-$(CONFIG_ARCH_MXC) += imx8mm-venice-gw72xx-0x.dtb
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts b/arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
-new file mode 100644
-index 000000000000..3f1223d4d73b
---- /dev/null
-+++ b/arch/arm64/boot/dts/freescale/imx8mm-tqma8mqml-mba8mx-imx327.dts
-@@ -0,0 +1,95 @@
-+// SPDX-License-Identifier: (GPL-2.0-or-later OR MIT)
-+/*
-+ * Copyright 2021 TQ-Systems GmbH
-+ */
-+
-+#include <dt-bindings/gpio/gpio.h>
-+
-+/dts-v1/;
-+/plugin/;
-+
-+&{/} {
-+	compatible = "tq,imx8mm-tqma8mqml-mba8mx", "tq,imx8mm-tqma8mqml", "fsl,imx8mm";
-+
-+	sensor_clk: sensor-clk {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <37125000>;
-+	};
-+};
-+
-+&csi {
-+       status = "okay";
-+};
-+
-+&i2c3 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	vc_fpga: fpga@10 {
-+		reg = <0x10>;
-+		compatible = "vc,fpga";
-+
-+		vc_fpga_reg: regulator {
-+			regulator-name = "CAM_VCC";
-+		};
-+
-+		vc_fpga_reset: reset {
-+			#reset-cells = <0>;
-+		};
-+
-+		vc_fpga_gpio: gpio-chip {
-+			gpio-controller;
-+			#gpio-cells = <2>;
-+		};
-+	};
-+
-+	sony_imx327: camera@1a {
-+		#address-cells = <0x1>;
-+		#size-cells = <0x0>;
-+		reg = <0x1a>;
-+
-+		compatible = "sony,imx327", "sony,imx290";
-+
-+		clock-names = "xclk";
-+		clocks = <&sensor_clk>;
-+		clock-frequency = <37125000>;
-+
-+		vdd-supply = <&vc_fpga_reg>;
-+
-+		vdda-supply = <&vc_fpga_reg>;
-+		vddd-supply = <&vc_fpga_reg>;
-+		vdddo-supply = <&vc_fpga_reg>;
-+
-+		reset-gpios = <&vc_fpga_gpio 0 GPIO_ACTIVE_HIGH>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			sony_imx327_ep0: endpoint {
-+				remote-endpoint = <&imx8mm_mipi_csi_in>;
-+				data-lanes = <1 2>;
-+				clock-lanes = <0>;
-+				clock-noncontinuous = <1>;
-+				link-frequencies = /bits/ 64 <445500000 297000000>;
-+			};
-+		};
-+	};
-+};
-+
-+&mipi_csi {
-+       status = "okay";
-+
-+       ports {
-+               #address-cells = <1>;
-+               #size-cells = <0>;
-+
-+               port@0 {
-+                       reg = <0>;
-+                       imx8mm_mipi_csi_in: endpoint {
-+                               remote-endpoint = <&sony_imx327_ep0>;
-+                               data-lanes = <1 2>;
-+                       };
-+               };
-+       };
-+};
-\ No newline at end of file
 -- 
 2.25.1
 
