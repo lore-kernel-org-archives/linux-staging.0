@@ -1,106 +1,81 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C9E48C1
-	for <linux-staging@lists.linux.dev>; Wed,  9 Mar 2022 17:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646845365; x=1678381365;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OkzOLsVy4bRJDx790ntahgYsXuWH4OdPbeR3N+MAs4w=;
-  b=GNXFeBz4mJYBWVVl7d+6LEx8WE7P3EdaGQHOUDiJfVN1rtsOEpMWp7Q3
-   xvN68u7B/v6VF1qdhGe9L7bdER6tWRSH0wb3oZ11XSSjRdtiF+mpDhhuM
-   ylbGpDFuqnkvySqDhOqamTKhBQ3xg2SgLgVr3Jx9pupUCpAxyOGE7Artz
-   86WQFjpznRXGoD3RuP/0PU5kabDj9qiLCvWNcNix3VVC8n2I3zhG5b+SI
-   R24/PAyADsuOqG2OfMc2ATAng4+1P98ZHRZP7PslpwCDrSuDkYamQauGs
-   rGV7L24AsI9ZE6Gfgob/Tihdz6a6JZqv7Sl4o4bkiBv4hbmnpCOvnnkm1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="253860012"
-X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; 
-   d="scan'208";a="253860012"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2022 08:50:42 -0800
-X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; 
-   d="scan'208";a="644096964"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2022 08:50:39 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id 711152051A;
-	Wed,  9 Mar 2022 18:50:37 +0200 (EET)
-Date: Wed, 9 Mar 2022 18:50:37 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Kate Hsuan <hpa@redhat.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F86E5127
+	for <linux-staging@lists.linux.dev>; Wed,  9 Mar 2022 20:51:02 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id n15so3038433plh.2
+        for <linux-staging@lists.linux.dev>; Wed, 09 Mar 2022 12:51:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=suRNmv6R67HpMji5/xf/olL00ZEMpVSYsMjDd2Yupcs=;
+        b=aZspRFy9P0OU6RMmNAybc+fl4/Ya6uKHWiIz5KFSKXo3O6dhVOTo1nCehdIcpGf4sR
+         iIHlbU2DcVvkuuhsYoewXDghk82DXsVPh6VC177KLLR8kYJuBUTBp4ZodOLQGkn19eFj
+         1BJfzFNtQDHPqL9aH6Rygua/qOTObAFPA2E5lYZMezbrjI1eTTTqlALGk6jwQwSdExlg
+         Lvw9gWk1CWCeH5ri0RAq/+Ju7qfxfyS7wiOXlcoETI+pTeyvQ681frFDxRuBkD0A+vNg
+         IOcObX3Rb9nTC+azrw61/BzLo7UV0ro6VFKeaRtvXIHWdMoyQi97ZCHM0/jdWgvTYeeF
+         fGKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=suRNmv6R67HpMji5/xf/olL00ZEMpVSYsMjDd2Yupcs=;
+        b=K5tnYUkC2RD2d1kAoxkQqm6Eehm6yBI0VM6c6G9D9ieKEbSAxjD85c+7ltCi0jfKui
+         s7K5QOlspSdtMVR2ilFzsQHNZnPW1bZGJQ+fbhmeQH4ddqf1EO+jrA3NMJizCsLYiv7o
+         2/g1wS2STNAYbsn14Gu/s9Cgk03rTT6tfhBlJ0gy+rNRKqu+/KtKuJkvoKTds0pJb8hl
+         dCNUsZGM94Xsg6prLd8N5XZyREgOf3cDnt4YiSsDv3bfwMwObsw72mv699E6nrNUJ4KR
+         9pwlQTHHQnbvGDkORIe6hkbgmonsJyfYzq9o5rHQdPCeBz3Q++92ggVzC+M1Iub52rc4
+         Z2FA==
+X-Gm-Message-State: AOAM533wAhHZSXholTm7+wSjeQ0UZMrq+UKGUNcY87664tXPEggdacSx
+	8q8ShcwxkL44m858Q9jpIiY=
+X-Google-Smtp-Source: ABdhPJytxunVsvk4zBdKbaY75AOod7nkz/wTIxFKKwQjzou1amumLklanF/WocA6j5yYvYFPGp+dqQ==
+X-Received: by 2002:a17:902:9308:b0:14e:def5:e6b5 with SMTP id bc8-20020a170902930800b0014edef5e6b5mr1467317plb.73.1646859061860;
+        Wed, 09 Mar 2022 12:51:01 -0800 (PST)
+Received: from localhost.localdomain ([103.85.9.4])
+        by smtp.gmail.com with ESMTPSA id m11-20020a17090a3f8b00b001bc299e0aefsm7259674pjc.56.2022.03.09.12.50.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Mar 2022 12:51:01 -0800 (PST)
+From: Vihas Makwana <makvihas@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, hdegoede@redhat.com
-Subject: Re: [PATCH v2] staging: media: ipu3: Fix AF x_start position when
- rightmost stripe is used
-Message-ID: <Yija3YQ55gvCtKdR@paasikivi.fi.intel.com>
-References: <20220309063456.102895-1-hpa@redhat.com>
+	Michael Straube <straube.linux@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Pavel Skripkin <paskripkin@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vihas Makwana <makvihas@gmail.com>
+Subject: [PATCH v2 0/2] staging: r8188eu: improve error handling
+Date: Thu, 10 Mar 2022 02:20:45 +0530
+Message-Id: <20220309205047.45981-1-makvihas@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220309063456.102895-1-hpa@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Kate,
+This patchset improves error handling in rtw_init_drv_sw() and
+fixes some memory leaks.
 
-Thanks for the update.
+v1->v2:
+Added fixes tag in patch 2/2.
+Used dev_err instead of pr_err as it prefixes the error with
+device info.
 
-On Wed, Mar 09, 2022 at 02:34:56PM +0800, Kate Hsuan wrote:
-> For the AF configuration, if the rightmost stripe is used, the AF scene
-> will be at the incorrect location of the sensor.
-> 
-> The AF coordinate may be set to the right part of the sensor. This
-> configuration would lead to x_start being greater than the
-> down_scaled_stripes offset and the leftmost stripe would be disabled
-> and only the rightmost stripe is used to control the AF coordinate. If
-> the x_start doesn't perform any adjustments, the AF coordinate will be
-> at the wrong place of the sensor since down_scaled_stripes offset
-> would be the new zero of the coordinate system.
-> 
-> In this patch, if only the rightmost stripe is used, x_start should
-> minus down_scaled_stripes offset to maintain its correctness of AF
-> scene coordinate.
-> 
-> Changes in v2:
-> 1. Remove the setting of the first stripe.
-> 
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> ---
->  drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-> index d9e3c3785075..5a8c07f34756 100644
-> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
-> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-> @@ -2556,6 +2556,10 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
->  		/* Enable only for rightmost stripe, disable left */
->  		acc->af.stripes[0].grid_cfg.y_start &=
->  			~IPU3_UAPI_GRID_Y_START_EN;
-> +		acc->af.stripes[1].grid_cfg.x_start -=
-> +			acc->stripe.down_scaled_stripes[1].offset;
-> +		acc->af.stripes[1].grid_cfg.x_end -=
-> +			acc->stripe.down_scaled_stripes[1].offset;
+Vihas Makwana (2):
+  staging: r8188eu: call rtl8188eu_free_recv_priv from
+    _rtw_free_recv_priv
+  staging: r8188eu: proper error handling in rtw_init_drv_sw
 
-Could you calculate these the same way as in the case both stripes are
-enabled? Some bits in x_start is masked and then x_end is calculated from
-width.
-
->  	} else if (acc->af.config.grid_cfg.x_end <=
->  		   acc->stripe.bds_out_stripes[0].width - min_overlap) {
->  		/* Enable only for leftmost stripe, disable right */
+ drivers/staging/r8188eu/core/rtw_recv.c   |  1 +
+ drivers/staging/r8188eu/os_dep/os_intfs.c | 60 ++++++++++++++++++-----
+ 2 files changed, 48 insertions(+), 13 deletions(-)
 
 -- 
-Regards,
+2.30.2
 
-Sakari Ailus
