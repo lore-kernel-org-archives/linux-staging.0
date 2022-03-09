@@ -1,131 +1,156 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3A24C88
-	for <linux-staging@lists.linux.dev>; Tue,  8 Mar 2022 21:13:55 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id h14so208696lfk.11
-        for <linux-staging@lists.linux.dev>; Tue, 08 Mar 2022 13:13:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=m0/8sk6gVvfrZi40mwng+FUCP1kcZ21w5gsjbQW+jrM=;
-        b=gXJzdw//hwZUJwUfVmASwdiGtxcIEwMvM9cEBlXwXPjiBKJ1TT6awhKi928+TwJ56V
-         CaLlnHnEL9uPTdutzTSNR9L2giSncZhOfb/JBz4BhN/VKHFt7+9NNrNzVbck2BafRCHG
-         FAJ3y4srZEdDT2YDMkzgG/QRjloci1teTLqJbjbGfb1+MoDNW1W2Xj3Z7m+i/R3VjDfW
-         EKwyXOkJ7twGbPdMEIGBQiAv/0CdoQBt+PnG4SeKaoQIxeDFpoNrvDItpOF6SsHW1wPy
-         KWlSQCB60frkA8Q+ULHldnDMt1ZViGHqQndjVw1+XU5iglFzuCmHduL/j8hS7NApIU+4
-         TO2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=m0/8sk6gVvfrZi40mwng+FUCP1kcZ21w5gsjbQW+jrM=;
-        b=7YD39K50wxXomGBA+smQDK7UH4kc9eXjJCaud2IPm1Ge0jDn/qS/w2fFpUWBeTdzIA
-         AVkY5ksaFoP8ii1ihLTafc+oM2TTICFgyDeUa5c0bnJcpf5hQDwc7GOKzrnXWxB90P1v
-         wgwxbpJ6Zk9eVUrXWykNohQHfAJuWTdgBddXJeBEo/kbQOS7jS3mURPus6PIQNX3RLEa
-         +n2SlgrxuBKJrCWHlPnEBPDpH89JYRv615lG2BGhY5RAiGJpJGRwtwBc992V21tYsyfM
-         x9axGhWx08sKewnsfKe3aO9HVAzwTF/mddOI9bytrlb7GBPBbyhAx1qq+/q9mbDJMVe5
-         94Uw==
-X-Gm-Message-State: AOAM533heYvVFI/0cE+jRqX+xrIrs4RDqg9mg/s76ICxwkBh7D721pCB
-	AAPOuRYACBiFipfBx2KiehE=
-X-Google-Smtp-Source: ABdhPJwtcOjTXd69ii9+/wSYLlrXYrNW+Itc7rTNm3XvC3Y30flrQW8pqKlCcZqWHLpRC9EQHb7twg==
-X-Received: by 2002:a05:6512:3619:b0:443:1597:8293 with SMTP id f25-20020a056512361900b0044315978293mr12502051lfs.439.1646774033201;
-        Tue, 08 Mar 2022 13:13:53 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.229.107])
-        by smtp.gmail.com with ESMTPSA id f17-20020a2e1f11000000b00247f8eb86a7sm449827ljf.108.2022.03.08.13.13.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Mar 2022 13:13:52 -0800 (PST)
-Message-ID: <b5f9dda7-269a-6b50-ddf2-b5fa05aa1d72@gmail.com>
-Date: Wed, 9 Mar 2022 00:13:50 +0300
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA6CC6463
+	for <linux-staging@lists.linux.dev>; Wed,  9 Mar 2022 01:59:14 +0000 (UTC)
+HMM_SOURCE_IP:10.64.8.41:34660.93913698
+HMM_ATTACHE_NUM:0000
+HMM_SOURCE_TYPE:SMTP
+Received: from clientip-39.156.73.14 (unknown [10.64.8.41])
+	by 189.cn (HERMES) with SMTP id 0F014100132;
+	Wed,  9 Mar 2022 09:53:43 +0800 (CST)
+Received: from  ([172.27.8.53])
+	by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id 5628fe8fc4034f1fac611907918a9439 for johan@kernel.org;
+	Wed, 09 Mar 2022 09:54:09 CST
+X-Transaction-ID: 5628fe8fc4034f1fac611907918a9439
+X-Real-From: chensong_2000@189.cn
+X-Receive-IP: 172.27.8.53
+X-MEDUSA-Status: 0
+Sender: chensong_2000@189.cn
+From: Song Chen <chensong_2000@189.cn>
+To: johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	thierry.reding@gmail.com,
+	u.kleine-koenig@pengutronix.de,
+	lee.jones@linaro.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	elder@ieee.org
+Cc: Song Chen <chensong_2000@189.cn>
+Subject: [PATCH v4] staging: greybus: introduce pwm_ops::apply
+Date: Wed,  9 Mar 2022 09:59:34 +0800
+Message-Id: <1646791174-30557-1-git-send-email-chensong_2000@189.cn>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 2/2] staging: r8188eu: proper error handling in
- rtw_init_drv_sw
-Content-Language: en-US
-To: Vihas Makwana <makvihas@gmail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220308205510.48431-1-makvihas@gmail.com>
- <20220308205510.48431-3-makvihas@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20220308205510.48431-3-makvihas@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi Vihas,
+Introduce newer .apply function in pwm_ops to
+replace legacy operations,like enable, disable,
+config and set_polarity.
 
-On 3/8/22 23:55, Vihas Makwana wrote:
-> The code inside rtw_init_drv_sw() calls various init functions to
-> populate the padapter structure and checks for their return values
-> respectively.
-> But if one of the functions in middle fails then it simply returns
-> _FAIL instead of proper logging and calling freeing counterparts
-> of previous init functions.
-> This leads to various memory leaks and can be found in
-> /sys/kernel/debug/kmemleak if kernel is compiled with DEBUG_KMEMLEAK=y.
-> 
-> Fix this and keep the success and error separate.
-> 
-> 
-> Signed-off-by: Vihas Makwana <makvihas@gmail.com>
-> ---
+This guarantees atomic changes of the pwm
+controller configuration and also reduces the
+size of the driver.
 
-Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for 
-RTL8188eu driver")
-> Tested on Comfast CF-WU810N RTL8188EUS wireless adapter.
-> This patch depends on "[PATCH 1/2] staging: r8188eu: call _cancel_timer_ex from
->   _rtw_free_recv_priv"
-> ---
+Signed-off-by: Song Chen <chensong_2000@189.cn>
 
-No need to say that 1/2 depends on 2/2 since they are already in same 
-patch series :)
+---
+v2:
+1, define duty_cycle and period as u64 in gb_pwm_config_operation.
+2, define duty and period as u64 in gb_pwm_config_request.
+3, disable before configuring duty and period if the eventual goal
+   is a disabled state.
 
->   drivers/staging/r8188eu/os_dep/os_intfs.c | 60 ++++++++++++++++++-----
->   1 file changed, 47 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> index 197568422..6279bba07 100644
-> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> @@ -469,32 +469,46 @@ u8 rtw_reset_drv_sw(struct adapter *padapter)
->   
->   u8 rtw_init_drv_sw(struct adapter *padapter)
->   {
-> -	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL)
-> +	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL) {
-> +		pr_err("rtw_init_cmd_priv failed\n");
+v3:
+Regarding duty_cycle and period, I read more discussion in this thread,
+min, warn or -EINVAL, seems no perfect way acceptable for everyone.
+How about we limit their value to INT_MAX and throw a warning at the
+same time when they are wrong?
 
-Hm, what about
-dev_err(dvobj_to_dev(padapter->dvobj), "..."); ?
+v4:
+1, explain why legacy operations are replaced.
+2, cap the value of period and duty to U32_MAX
+---
+ drivers/staging/greybus/pwm.c | 59 +++++++++++++++++++++--------------
+ 1 file changed, 35 insertions(+), 24 deletions(-)
 
-IIRC it's main usb device for this driver.
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index 891a6a672378..3add3032678b 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -204,43 +204,54 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+ 	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
+ }
+ 
+-static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+-			 int duty_ns, int period_ns)
++static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
++			const struct pwm_state *state)
+ {
++	int err;
++	bool enabled = pwm->state.enabled;
++	u64 period = state->period;
++	u64 duty_cycle = state->duty_cycle;
+ 	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+ 
+-	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
+-};
++	/* set polarity */
++	if (state->polarity != pwm->state.polarity) {
++		if (enabled) {
++			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
++			enabled = false;
++		}
++		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
++		if (err)
++			return err;
++	}
+ 
+-static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
+-			       enum pwm_polarity polarity)
+-{
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
++	if (!state->enabled) {
++		if (enabled)
++			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
++		return 0;
++	}
+ 
+-	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
+-};
++	/* set period and duty cycle*/
++	if (period > U32_MAX)
++		period = U32_MAX;
+ 
+-static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
+-{
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
++	if (duty_cycle > period)
++		duty_cycle = period;
+ 
+-	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+-};
++	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
++	if (err)
++		return err;
+ 
+-static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
+-{
+-	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
++	/* enable/disable */
++	if (!enabled)
++		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+ 
+-	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+-};
++	return 0;
++}
+ 
+ static const struct pwm_ops gb_pwm_ops = {
+ 	.request = gb_pwm_request,
+ 	.free = gb_pwm_free,
+-	.config = gb_pwm_config,
+-	.set_polarity = gb_pwm_set_polarity,
+-	.enable = gb_pwm_enable,
+-	.disable = gb_pwm_disable,
++	.apply = gb_pwm_apply,
+ 	.owner = THIS_MODULE,
+ };
+ 
+-- 
+2.25.1
 
-@Phillip, @Larry, @Martin, please, correct me if I am wrong here
-
-
-Random note: We can't use netdev_err here since rtw_init_drv_sw() is 
-called before netdev registration
-
-
->   		return _FAIL;
-> +	}
->   
->   	padapter->cmdpriv.padapter = padapter;
-
-Otherwise looks good to me
-
-
-With regards,
-Pavel Skripkin
