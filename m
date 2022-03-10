@@ -1,201 +1,95 @@
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20BB57C4
-	for <linux-staging@lists.linux.dev>; Thu, 10 Mar 2022 11:41:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1646912467; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Lr6OuNL/f5qebjSnmUwodRM+9KKD4CPJ2WxgqAPCuax1BSEzu0b56Oqy9Aqep/MMtofdBVGcPoPG0vJdGgPc/d3QWWRWneEnY1UE589sWg4OZkoD9Wv96ITSYFIJIk6Qq5LN+kLKDRRUfLgfWa4kvmqnADO0Oq5sOLhDGB4zLL0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1646912467; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=bQerYfwPPqcpi+VeOc29IIqk/giTwfy3pFS85td5pbQ=; 
-	b=NRqTFJloS1V0Dd9JCzvne6welZpppS3e04AHJQVVizXsF20zjIe06dPRllL5erPjA0gPla0YygbYVB7mV8tVXtCtrGdd671eEn/jyZIooICwZoRq8g5tXKKOtr/u7skTo+0TetA/dgLtJJL/+vuzpeFl995AUVzSSpYU1fNlWzQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=arinc9.com;
-	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
-	dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1646912466;
-	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=bQerYfwPPqcpi+VeOc29IIqk/giTwfy3pFS85td5pbQ=;
-	b=GfDd8KEMz+EwouJSkYVRku8NnTmDleLiQT2W2Nc5sm335HOTXC2kClHUXw0hIWws
-	Gf9jFmrRbdkDsBVtRIDWN9bl4UIRQn5qNX12qI3ydn8MIcUL9BWmNgBHjgKeolnlHmf
-	V0Uj6tdGM2lpqJPdlnYurKDNiy9jOIN+w+/5mDEM=
-Received: from arinc9-PC.localdomain (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
-	with SMTPS id 1646912464852976.8836398390705; Thu, 10 Mar 2022 03:41:04 -0800 (PST)
-From: =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-To: Greg KH <gregkh@linuxfoundation.org>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	NeilBrown <neil@brown.name>,
-	erkin.bozoglu@xeront.com
-Cc: linux-staging@lists.linux.dev,
-	=?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-Subject: [PATCH 2/2] staging: mt7621-dts: fix GB-PC2 devicetree
-Date: Thu, 10 Mar 2022 14:39:40 +0300
-Message-Id: <20220310113939.6601-2-arinc.unal@arinc9.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220310113939.6601-1-arinc.unal@arinc9.com>
-References: <20220310113939.6601-1-arinc.unal@arinc9.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0088157C5
+	for <linux-staging@lists.linux.dev>; Thu, 10 Mar 2022 11:46:25 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id j5so4244379qvs.13
+        for <linux-staging@lists.linux.dev>; Thu, 10 Mar 2022 03:46:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=e8H4NZlGitWERpnrJB+gF8De5fWTQAOUqhIU4m1vOsQ=;
+        b=X6t2JrBRp8pMNM9gpNdKqCUWs+MV0AmjiXIPzniKVNrSLn4Og8oEZTxi2z/ozKsBtc
+         lFHxShE/1BAAyfPvmw3CB3dCRhDqcIcjSlmLfrVHNn6Svp1lwefQzBBy+UUvE/ih8Zy1
+         2z3jpoMnlowRlKJYFfU/ju7K6j5ce2sqtn4s01tMv31/FsUrwwn/363c87npth8JHe7k
+         VOpg5FuTrc0AYYCZ+B7GCRLfGom1FtbdxdERyVJpztJ8MlKC6vEk2yJvngi4Gk9BhuGN
+         u9U2+G14/L9W4dSHnpxCguiGSqhIDj4IwQDCl06JK52CLfJY19rQa0mEEfJmyyazkiBD
+         BD5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=e8H4NZlGitWERpnrJB+gF8De5fWTQAOUqhIU4m1vOsQ=;
+        b=Q4xTIb+VpyQQnqej+BJEZ9v0aXQOuJr5/zjOrz2iYtfEPebgbXVJsrPaUl8M+UjSsG
+         XZQm9BrHyFOQII+0+pOMmYEM3P6yISwaDabMUJGqjuIRpNKMFgE2nbt4Ro9UCylJam6c
+         ZN1zPdb0Y07+P+X6Q1u1yarAMGxkO3QhuRtAH6dCHyCTAqtE5VzDobn6BCkZIwQC58pW
+         O2FN4gKpxd+q0uLqFK0NS8b71K2HFIvj3MVPUJSInP5U/CkIMA6WUS78UyuIYv9mopQl
+         7HvjKBSkSTZPC8VSTnE7PUF64epewJTVPFr0Zvv8JlYLnaIvPRdNIWNpt9QrH6+kYy6o
+         WAUg==
+X-Gm-Message-State: AOAM5304kQTTpdUfhj5Ieh9YuLoxDoAi9sznH+4WlYri0mYYhZDh+asv
+	rp9radjpzEaR1DGQhPWxfhYpeRvBRcP7J12AgCY=
+X-Google-Smtp-Source: ABdhPJzZxWS8P9K2y4CcznXQgKyvVgkqE/HezXyum8gJ7+HSNRcjZdsFq2ahbKBwxOwYL7CssMd7D630cNww0S+YeO8=
+X-Received: by 2002:a05:6214:519a:b0:435:4de5:c9dd with SMTP id
+ kl26-20020a056214519a00b004354de5c9ddmr3484709qvb.118.1646912784923; Thu, 10
+ Mar 2022 03:46:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20220310113939.6601-1-arinc.unal@arinc9.com>
+In-Reply-To: <20220310113939.6601-1-arinc.unal@arinc9.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Thu, 10 Mar 2022 12:46:14 +0100
+Message-ID: <CAMhs-H-zcuoyK_7bVishVx-q26F-NnswAFa+RJCZ6CrGK9-WRg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] staging: mt7621-dts: fix LEDs and pinctrl on GB-PC1 devicetree
+To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, NeilBrown <neil@brown.name>, 
+	erkin.bozoglu@xeront.com, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix the GB-PC2 devicetree. Refer to the schematics of the device for more
-information.
+Hi Arinc,
 
-GB-PC2 devicetree fixes:
-- Include mt7621.dtsi instead of gbpc1.dts. Add the missing definitions.
-- Remove gpio-leds node as the system LED is not wired to anywhere on
-the board and the power LED is directly wired to GND.
-- Remove uart3 pin group from gpio-pinmux node as it's not used as GPIO.
-- Use reg 7 for the external phy to be on par with
-Documentation/devicetree/bindings/net/dsa/mt7530.txt.
+On Thu, Mar 10, 2022 at 12:41 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arin=
+c9.com> wrote:
+>
+> Fix LED and pinctrl definitions on the GB-PC1 devicetree. Refer to the
+> schematics of the device for more information.
+>
+> LED fixes:
+> - Change GPIO6 LED label from system to power as GPIO6 is connected to
+> PLED.
+> - Add default-on default-trigger to power LED.
+> - Change GPIO8 LED label from status to system as GPIO8 is connected to
+> SYS_LED.
+> - Add disk-activity default-trigger to system LED.
+> - Switch to the color:function naming scheme.
+> - Remove lan1 and lan2 LEDs as they don't exist.
+>
+> Pinctrl fixes:
+> - Claim state_default node under pinctrl node.
+> - Change pinctrl0 node name to state-default.
+> - Change gpio node name to gpio-pinmux to respect
+> Documentation/devicetree/bindings/pinctrl/ralink,rt2880-pinmux.yaml.
+> - Sort pin groups alphabetically.
+>
+> Misc fixes:
+> - Fix formatting.
+>
+> Link: https://github.com/ngiger/GnuBee_Docs/blob/master/GB-PCx/Documents/=
+GB-PC1_V1.0_Schematic.pdf
+> Signed-off-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
+> ---
+>  drivers/staging/mt7621-dts/gbpc1.dts | 31 ++++++++++++----------------
+>  1 file changed, 13 insertions(+), 18 deletions(-)
 
-Link: https://github.com/ngiger/GnuBee_Docs/blob/master/GB-PCx/Documents/GB-PC2_V1.1_schematic.pdf
-Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
----
- drivers/staging/mt7621-dts/gbpc2.dts | 107 +++++++++++++++++++++++++--
- 1 file changed, 100 insertions(+), 7 deletions(-)
+Don't know if this needs to be splitted into separate patches, that's
+up to Greg, but FWIW:
 
-diff --git a/drivers/staging/mt7621-dts/gbpc2.dts b/drivers/staging/mt7621-dts/gbpc2.dts
-index 03d6bb6735ac..581ae10c080f 100644
---- a/drivers/staging/mt7621-dts/gbpc2.dts
-+++ b/drivers/staging/mt7621-dts/gbpc2.dts
-@@ -1,28 +1,121 @@
- // SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- /dts-v1/;
- 
--#include "gbpc1.dts"
-+#include "mt7621.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/input.h>
- 
- / {
- 	compatible = "gnubee,gb-pc2", "mediatek,mt7621-soc";
- 	model = "GB-PC2";
-+
-+	memory@0 {
-+		device_type = "memory";
-+		reg = <0x0 0x1c000000>, <0x20000000 0x4000000>;
-+	};
-+
-+	chosen {
-+		bootargs = "console=ttyS0,57600";
-+	};
-+
-+	palmbus: palmbus@1e000000 {
-+		i2c@900 {
-+			status = "okay";
-+		};
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		reset {
-+			label = "reset";
-+			gpios = <&gpio 18 GPIO_ACTIVE_HIGH>;
-+			linux,code = <KEY_RESTART>;
-+		};
-+	};
- };
- 
--&default_gpio {
--	groups = "wdt", "uart3";
--	function = "gpio";
-+&sdhci {
-+	status = "okay";
-+};
-+
-+&spi0 {
-+	status = "okay";
-+
-+	m25p80@0 {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		compatible = "jedec,spi-nor";
-+		reg = <0>;
-+		spi-max-frequency = <50000000>;
-+		broken-flash-reset;
-+
-+		partition@0 {
-+			label = "u-boot";
-+			reg = <0x0 0x30000>;
-+			read-only;
-+		};
-+
-+		partition@30000 {
-+			label = "u-boot-env";
-+			reg = <0x30000 0x10000>;
-+			read-only;
-+		};
-+
-+		factory: partition@40000 {
-+			label = "factory";
-+			reg = <0x40000 0x10000>;
-+			read-only;
-+		};
-+
-+		partition@50000 {
-+			label = "firmware";
-+			reg = <0x50000 0x1FB0000>;
-+		};
-+	};
-+};
-+
-+&pcie {
-+	status = "okay";
-+};
-+
-+&pinctrl {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&state_default>;
-+
-+	state_default: state-default {
-+		gpio-pinmux {
-+			groups = "wdt";
-+			function = "gpio";
-+		};
-+	};
- };
- 
- &ethernet {
- 	gmac1: mac@1 {
- 		status = "ok";
--		phy-handle = <&phy_external>;
-+		phy-handle = <&ethphy7>;
- 	};
- 
- 	mdio-bus {
--		phy_external: ethernet-phy@5 {
--			reg = <5>;
-+		ethphy7: ethernet-phy@7 {
-+			reg = <7>;
- 			phy-mode = "rgmii-rxid";
- 		};
- 	};
- };
-+
-+&switch0 {
-+	ports {
-+		port@0 {
-+			label = "ethblack";
-+			status = "ok";
-+		};
-+
-+		port@4 {
-+			label = "ethblue";
-+			status = "ok";
-+		};
-+	};
-+};
--- 
-2.25.1
+Tested-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
+Thanks,
+    Sergio Paracuellos
