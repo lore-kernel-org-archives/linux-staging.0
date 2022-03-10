@@ -1,114 +1,86 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4884F7A
-	for <linux-staging@lists.linux.dev>; Thu, 10 Mar 2022 12:42:50 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id c7so4213120qka.7
-        for <linux-staging@lists.linux.dev>; Thu, 10 Mar 2022 04:42:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3F45A1F
+	for <linux-staging@lists.linux.dev>; Thu, 10 Mar 2022 18:54:08 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id c25so6046043edj.13
+        for <linux-staging@lists.linux.dev>; Thu, 10 Mar 2022 10:54:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=x8cvk9nXbf769IxgCb0SGvjzaFi8GDi3vukprk7g5Qk=;
-        b=CFixbDvxzF/Ceh2VtmnIZxyk3RB4i+OxyI7NjHerjaxGWzYGn1RJTc4fJN1HtnkKZ+
-         MZJiatZXAkyV4ft6w/HnZGdexzw8BzGb93CglzEw6hKa0+C0NuPPBvd0jgyg2uE+MA7U
-         6JrEfYH+8QT7GGBW0TDbNqIADdehua/gFLkVBHTEpYXzfpu9EBm9YbAfNdQOWcrZWikk
-         QT5pYXkttUv535BvKDhrTtgjf6kqCGv9tBupTJZkNBhr/mROpvILhzByOLFkPYE+ejPi
-         nrWJ6ti57K3LRWO8RzEnLfUs/EVyhXuMNZtdfYls5qRVqC5u3hlRiaUDmE1AyVk5WEs6
-         TaHw==
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=+JFJPMX7Uwm4Dfyx3KvGq89D/Z2lFa+BIel917v3Dr0=;
+        b=VSMYRlT5qdW/04vy+bC1Ddc8L24Hafh/20WrmAxP5WKQUdsFYvhA1m0IBpysR0Y/20
+         qwWhHHFWZWONxFU5+ee/WmbWBQmM+p/31L9mXtPDWCEeqkP87G7lPFEHVXdhvVUFohVf
+         BxiHa3EVc1I/lA5aN+pJv/br2tp6+Ntx8+nPueyzyduS0tuHmsx1oRgs2mdM0HZqsXwa
+         AbVoJHSiS6iT/RA2xWSruaNywCrOHLl6nekOYCEt1ohTpVwckUJvR8m1GTb+1hCy/E9z
+         sEmegPZ6UMu1aPX/DX95l9PfHxIYOR9r44HiycSMo0c8RzGhcYV1Vg0Eh1YvxG1pWzG4
+         6Fsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=x8cvk9nXbf769IxgCb0SGvjzaFi8GDi3vukprk7g5Qk=;
-        b=GdM2vITJ4sFkMDeQ6nLLP7DC0IKW4Ad2oEECQ0Yjf1YNEJe53RVPGk/l42Q6RTIVY1
-         2aw2YWDgu1ZmV7ZptaXstspk1zMUjL+JwzSvOjRvFy8dpbpR9aZMhyDIBO20ebLkbIVx
-         pZ1LOPFmrzg8OephGa9CKSwUYXjTPfESOhilUgrE7BOBTd3Lew3J8PspVsD7u09Tqxdv
-         IBLI9oollpMC1CUuimGvfg48LcEVifL5gnItHkW7cFFfh5FygbZ9HKkPKNb+owRZFs1e
-         CdpWFFxgc3dtbq30zbt8mesF4ELnNgBcoyCGr49sKPYtg8VdQcCrCpFfH0z0EtSWOMvR
-         GpvQ==
-X-Gm-Message-State: AOAM533oyJ5+T5FlhuGLQtrTIcaTcTqguAc7HS8KLfRQVKrIxQLn2G5l
-	eQSvm4UQuyf3blVs1ijRYy7IrwOSGD8D6nDgFn4kKyvb
-X-Google-Smtp-Source: ABdhPJyaO4+zx72LbNC/kpw3J1tb1ReFT48ECdok3QyAIyMZNjnKlJES+48PGeMg7yAuu6S694CkyQmLwmiwqRmPNbM=
-X-Received: by 2002:a05:620a:1448:b0:67d:4057:ec80 with SMTP id
- i8-20020a05620a144800b0067d4057ec80mr2779867qkl.563.1646916169221; Thu, 10
- Mar 2022 04:42:49 -0800 (PST)
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=+JFJPMX7Uwm4Dfyx3KvGq89D/Z2lFa+BIel917v3Dr0=;
+        b=WIjlvJtrGUpX4mnB1Fqyu8DkfbonQR5Y2Q4JAw1JKhtw78AdqI8xrUilM8oeBlqRcW
+         MV+LKUlsLv/nwrFSGtOKsMupeJBfBkqztIz1w46QoAWrbWsVmy9ha2bd0ltt1egtS0Bj
+         gcaou/IzN7/Q8OQQcUjfSBE/r55MJ4MCn2UYpMc72yvIW91V2vuVr6Utrt2EggIu7fOQ
+         gXvu/uHPV54fDQ05tV/HGXgaUE5LFSRVCzdjQFLJHkD0f2XpZOFb1D0K2CvrO2SakUf0
+         evvb36ZBdRLhSOIUVhZiQmLoDGvzAqju99DNNNOOFEvNB9Foo8F1NealVUsH4AOJ57lX
+         nDQg==
+X-Gm-Message-State: AOAM530+kZp5tDIJAp7YiUHdW0bT8lKUsN78Ta1w3W7duu/L437/4XQ5
+	fBPPjI/1vtPZwxVtmrMP7RU=
+X-Google-Smtp-Source: ABdhPJx9TOmMFujFnGVl8b6xHN1ndgoe2DniOY4IItI5ZmI4A+NR+uZ9Da7nqpkBConZUtEfqH+rIg==
+X-Received: by 2002:a05:6402:11c6:b0:416:3751:d700 with SMTP id j6-20020a05640211c600b004163751d700mr5866245edw.97.1646938446827;
+        Thu, 10 Mar 2022 10:54:06 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p57935aa6.dip0.t-ipconnect.de. [87.147.90.166])
+        by smtp.gmail.com with ESMTPSA id q2-20020a170906144200b006ceb8723de9sm2047740ejc.120.2022.03.10.10.54.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Mar 2022 10:54:06 -0800 (PST)
+Date: Thu, 10 Mar 2022 19:54:02 +0100
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] staging: vt6656: Remove unused 5GHz support
+Message-ID: <cover.1646935331.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220310113939.6601-1-arinc.unal@arinc9.com> <20220310113939.6601-2-arinc.unal@arinc9.com>
- <CAMhs-H-pUWadNi7ZhuVEh2uhvqkUJNmsS=uYZQi8yNoFTch3MQ@mail.gmail.com> <49f5cd24-62db-0d5d-bdf5-da23cb85befd@arinc9.com>
-In-Reply-To: <49f5cd24-62db-0d5d-bdf5-da23cb85befd@arinc9.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Thu, 10 Mar 2022 13:42:38 +0100
-Message-ID: <CAMhs-H8Cj3xmwUe235YJjfJp03YQbDNir9DWqHFcOmFDF1M3Sw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] staging: mt7621-dts: fix GB-PC2 devicetree
-To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, NeilBrown <neil@brown.name>, 
-	erkin.bozoglu@xeront.com, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Mar 10, 2022 at 1:23 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
-9.com> wrote:
->
-> Hi Sergio,
->
-> On 10/03/2022 14:50, Sergio Paracuellos wrote:
-> > Hi Arinc,
-> >
-> > Overall it looks good. See below my concerns.
-> >
-> > On Thu, Mar 10, 2022 at 12:41 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@=
-arinc9.com> wrote:
-> >>
-> >> Fix the GB-PC2 devicetree. Refer to the schematics of the device for m=
-ore
-> >> information.
-> >>
-> >> GB-PC2 devicetree fixes:
-> >> - Include mt7621.dtsi instead of gbpc1.dts. Add the missing definition=
-s.
-> >
-> > There are pretty much the same definitions. Should we really include
-> > mt7621 instead of gbpc1??
->
-> The DeviceTree Specification states that the name of include files
-> should end with =E2=80=9C.dtsi=E2=80=9D.
->
-> On top of that, we'd have to overwrite ethernet node's pinctrl-0
-> property again since we use a different value for GB-PC2 than GB-PC1.
->
-> Not to mention, GB-PC2 does not need gpio-leds node.
+vt6655 (PCI) and vt6656 (USB) do only support 2.4GHz band and not 5GHz band.
+Both drivers do allow only one vendor id and device id.
+So no other devices are covered by those drivers.
+Because of this the following priv->rf_type cannot occure:
+RF_AIROHA7230
+RF_VT3342A0
 
-Fair enough :). Thanks for doing this.
+---
+Tested with vt6656 on mini PCIe card (connected over USB)
+which is using rf_type: RF_VT3226D0 (2.4GHz only)
+Tested with vt6656 as USB Plugin Module
+which is using rf_type: RF_AL2230S (2.4GHz only)
+In order to combine vt665x infrastructure it is important
+that vt6655 is also not using this code. (Patch already provided)
+vt6655 on mini PCI Module is using
+rf_type: RF_AIROHA (2.4GHz only)
 
-Best regards,
-    Sergio Paracuellos
+Philipp Hortmann (5):
+  staging: vt6656: Remove unused rf_type in channel.c
+  staging: vt6656: Remove unused rf_type in baseband.c
+  staging: vt6656: Remove unused rf_type in rf.c; top level
+  staging: vt6656: Remove unused rf_type in rf.c; unused variables
+  staging: vt6656: Remove unused rf_type in card.c
 
->
-> >
-> >> - Remove gpio-leds node as the system LED is not wired to anywhere on
-> >> the board and the power LED is directly wired to GND.
-> >> - Remove uart3 pin group from gpio-pinmux node as it's not used as GPI=
-O.
-> >> - Use reg 7 for the external phy to be on par with
-> >> Documentation/devicetree/bindings/net/dsa/mt7530.txt.
-> >>
-> >> Link: https://github.com/ngiger/GnuBee_Docs/blob/master/GB-PCx/Documen=
-ts/GB-PC2_V1.1_schematic.pdf
-> >> Signed-off-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
-> >> ---
-> >>   drivers/staging/mt7621-dts/gbpc2.dts | 107 +++++++++++++++++++++++++=
---
-> >>   1 file changed, 100 insertions(+), 7 deletions(-)
-> >
-> > In any case, as I have said, looks good:
-> >
-> > Reviewed-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> >
-> > Thanks,
-> >      Sergio Paracuellos
+ drivers/staging/vt6656/baseband.c |  16 +-
+ drivers/staging/vt6656/card.c     |  16 --
+ drivers/staging/vt6656/channel.c  |  96 +------
+ drivers/staging/vt6656/rf.c       | 413 +-----------------------------
+ 4 files changed, 10 insertions(+), 531 deletions(-)
+
+-- 
+2.25.1
+
