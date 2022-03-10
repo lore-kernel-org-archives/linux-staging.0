@@ -1,118 +1,207 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCEB5A1F
-	for <linux-staging@lists.linux.dev>; Thu, 10 Mar 2022 18:54:56 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id y22so8216164eds.2
-        for <linux-staging@lists.linux.dev>; Thu, 10 Mar 2022 10:54:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Dnbl9J5as2Gf5vNj38MxzDXS9iSn1zZIqkNkCDFNSco=;
-        b=ZxHYR6iNmM1pCGBttsHFowX65AGrCjogKt7NhOaysAdbOUZm+gM3lrXjbT+y1kvIR5
-         RldlTsWCyLeqRQgvL1mxHPDq51Tvj7g7NMRUxWvbmDdTQzQudSd0oGvaROJ/+61ckN3R
-         EU4J3OO1MJBiJz7qiHtMcXk2fO3U7yknilroUHXLZnIygs29R/xpvBf/tFhb7k6qN76e
-         GI5cQgQ7ZAs2VbgKsITi3b09Owc3+pRl22Jai1ktC6iyedrmFwVF4uvFTI78ibDcxhRi
-         PonXPntOhzJKqqytt9q1ggq3MlfVuX6/vzBbP9BzxZIHV9jL4DdWGC8lnd0/tC82wJQX
-         mrMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Dnbl9J5as2Gf5vNj38MxzDXS9iSn1zZIqkNkCDFNSco=;
-        b=krLkk7f/gHyJgLsNogZxMVq61HpxKDe4sqQg6wDA0aBbjQ46MSWFnnUZ2xPujxpcv0
-         6wBaDXEs6PIzdUIEXkP+cZYCCfuRpuBCmC9b/DBY7XtX90QH2NLPWhijfwfV0uY5ze6n
-         CzvoJanfPYZ0Kq0YwcPpBL7RcbIWlqu240NawALTjTqSpaLkVF7eqbeuDDNM1VZbz0bS
-         4DdyuJLMY3k3lc2SOxTzVUI3842dnyymlwdbeEjGml3tflMED4g+o/nHLyGX0rThGp6t
-         SacLNTOm0p39quDBkRMd+0RhSZtHtbAmMnHeQTB6OpgHKfadXdj3mTydS0zP0jwxO8pl
-         jntg==
-X-Gm-Message-State: AOAM530+V7MH5UWNJqJbgp6MzRVPYe2mVnMmndhHY5SyZ752t2pzZJ2Z
-	G5JrdS0IMEwTxJwjgDu3Z81Ie9G7REw=
-X-Google-Smtp-Source: ABdhPJymuVv6RmHNZ+R3h/hna6bzcvI9FHkHLmTKIJCFvWOz6Uq7LA0WhcrtfMDkqt/iySAkhaCCOQ==
-X-Received: by 2002:a05:6402:4252:b0:416:6cd8:e273 with SMTP id g18-20020a056402425200b004166cd8e273mr5828633edb.328.1646938494518;
-        Thu, 10 Mar 2022 10:54:54 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p57935aa6.dip0.t-ipconnect.de. [87.147.90.166])
-        by smtp.gmail.com with ESMTPSA id bm23-20020a170906c05700b006d597fd51c6sm2117171ejb.145.2022.03.10.10.54.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Mar 2022 10:54:54 -0800 (PST)
-Date: Thu, 10 Mar 2022 19:54:49 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] staging: vt6656: Remove unused rf_type in card.c
-Message-ID: <e768dbb116e79349aa083747729213d2d1ca7af9.1646935331.git.philipp.g.hortmann@gmail.com>
-References: <cover.1646935331.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59DD25A1F
+	for <linux-staging@lists.linux.dev>; Thu, 10 Mar 2022 20:06:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1646942799; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=cC0fEq/Zs3LkAxbo+G7Ahop9m3o96OvQsaoK5cgxf9c2Kua6+hTY19naa2Pnz3OTVdwZZdhBvqb9KM4njalV9tlStTVdch44Cgh1iJ9/pkZ4osSQ+zpph6nPLO/iDJUi7uhIYYrcPkmbfjm50b8e5jsmIv2dLJMBZaLA2+jj2lA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1646942799; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=E2HYzxiU06S9rlZpnQulqVx8R83OC31K7RONYJzcO8A=; 
+	b=G6laBB4m8tcj1wuULiWuyND29KWlVzENCuJjOmUq7Z4kN/3jzK5//Y8UE9meVnYfIolv9m4ROfvdUzf7QXP11ivniahVYSQOZayXFgcYWP6ilmSXqvs9seesI8ttSVKcjlxXk4+HatjTrVahPnoBfG4XpEmf3jVpQOtM/M4ZAqE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=arinc9.com;
+	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+	dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1646942799;
+	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=E2HYzxiU06S9rlZpnQulqVx8R83OC31K7RONYJzcO8A=;
+	b=XYSCkibDVjUhX7fkEnOz4JXwNhRzKtvGPS6uC2r3EunvjAhnMeUm97OFIFaRl8oy
+	Kp60HdvYtafMdYf9ry8tDMiwcMz6UPkOCJVZsTXMFn1KoBFkVSSNNApQQCSGxIJEqe+
+	KCedjEP3SWMAZifFw0x+jeGTaqDu9Da4UuiWxxdk=
+Received: from arinc9-PC.localdomain (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
+	with SMTPS id 1646942797076169.4301950853901; Thu, 10 Mar 2022 12:06:37 -0800 (PST)
+From: =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
+To: Greg KH <gregkh@linuxfoundation.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	NeilBrown <neil@brown.name>,
+	erkin.bozoglu@xeront.com
+Cc: linux-staging@lists.linux.dev,
+	=?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
+Subject: [PATCH v2 2/2] staging: mt7621-dts: fix GB-PC2 devicetree
+Date: Thu, 10 Mar 2022 23:06:15 +0300
+Message-Id: <20220310200615.14484-2-arinc.unal@arinc9.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220310200615.14484-1-arinc.unal@arinc9.com>
+References: <20220310200615.14484-1-arinc.unal@arinc9.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1646935331.git.philipp.g.hortmann@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Remove rf_type that supports 5GHz band.
+Fix the GB-PC2 devicetree. Refer to the schematics of the device for more
+information.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+GB-PC2 devicetree fixes:
+- Include mt7621.dtsi instead of gbpc1.dts. Add the missing definitions.
+- Remove gpio-leds node as the system LED is not wired to anywhere on
+the board and the power LED is directly wired to GND.
+- Remove uart3 pin group from gpio-pinmux node as it's not used as GPIO.
+- Use reg 7 for the external phy to be on par with
+Documentation/devicetree/bindings/net/dsa/mt7530.txt.
+- Use the status value "okay".
+
+Link: https://github.com/ngiger/GnuBee_Docs/blob/master/GB-PCx/Documents/GB-PC2_V1.1_schematic.pdf
+Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+Reviewed-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- drivers/staging/vt6656/card.c | 16 ----------------
- 1 file changed, 16 deletions(-)
+v2: Use the status value "okay" as it's the official proper spelling.
 
-diff --git a/drivers/staging/vt6656/card.c b/drivers/staging/vt6656/card.c
-index e92ecfad26d2..d74165d0d3bb 100644
---- a/drivers/staging/vt6656/card.c
-+++ b/drivers/staging/vt6656/card.c
-@@ -369,10 +369,8 @@ int vnt_radio_power_off(struct vnt_private *priv)
- 	switch (priv->rf_type) {
- 	case RF_AL2230:
- 	case RF_AL2230S:
--	case RF_AIROHA7230:
- 	case RF_VT3226:
- 	case RF_VT3226D0:
--	case RF_VT3342A0:
- 		ret = vnt_mac_reg_bits_off(priv, MAC_REG_SOFTPWRCTL,
- 					   (SOFTPWRCTL_SWPE2 |
- 					    SOFTPWRCTL_SWPE3));
-@@ -423,10 +421,8 @@ int vnt_radio_power_on(struct vnt_private *priv)
- 	switch (priv->rf_type) {
- 	case RF_AL2230:
- 	case RF_AL2230S:
--	case RF_AIROHA7230:
- 	case RF_VT3226:
- 	case RF_VT3226D0:
--	case RF_VT3342A0:
- 		ret = vnt_mac_reg_bits_on(priv, MAC_REG_SOFTPWRCTL,
- 					  (SOFTPWRCTL_SWPE2 |
- 					   SOFTPWRCTL_SWPE3));
-@@ -445,9 +441,6 @@ int vnt_set_bss_mode(struct vnt_private *priv)
- 	unsigned char bb_vga_0 = 0x1c;
- 	unsigned char bb_vga_2_3 = 0x00;
+---
+ drivers/staging/mt7621-dts/gbpc2.dts | 109 +++++++++++++++++++++++++--
+ 1 file changed, 101 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/mt7621-dts/gbpc2.dts b/drivers/staging/mt7621-dts/gbpc2.dts
+index 03d6bb6735ac..5753c678783d 100644
+--- a/drivers/staging/mt7621-dts/gbpc2.dts
++++ b/drivers/staging/mt7621-dts/gbpc2.dts
+@@ -1,28 +1,121 @@
+ // SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ /dts-v1/;
  
--	if (priv->rf_type == RF_AIROHA7230 && priv->bb_type == BB_TYPE_11A)
--		type = BB_TYPE_11G;
--
- 	ret = vnt_mac_set_bb_type(priv, type);
- 	if (ret)
- 		return ret;
-@@ -479,15 +472,6 @@ int vnt_set_bss_mode(struct vnt_private *priv)
- 	if (ret)
- 		return ret;
+-#include "gbpc1.dts"
++#include "mt7621.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
  
--	if (priv->rf_type == RF_AIROHA7230) {
--		priv->bb_vga[0] = bb_vga_0;
--
--		ret = vnt_control_out_u8(priv, MESSAGE_REQUEST_BBREG,
--					 0xe7, priv->bb_vga[0]);
--		if (ret)
--			return ret;
--	}
--
- 	priv->bb_vga[2] = bb_vga_2_3;
- 	priv->bb_vga[3] = bb_vga_2_3;
+ / {
+ 	compatible = "gnubee,gb-pc2", "mediatek,mt7621-soc";
+ 	model = "GB-PC2";
++
++	memory@0 {
++		device_type = "memory";
++		reg = <0x0 0x1c000000>, <0x20000000 0x4000000>;
++	};
++
++	chosen {
++		bootargs = "console=ttyS0,57600";
++	};
++
++	palmbus: palmbus@1e000000 {
++		i2c@900 {
++			status = "okay";
++		};
++	};
++
++	gpio-keys {
++		compatible = "gpio-keys";
++
++		reset {
++			label = "reset";
++			gpios = <&gpio 18 GPIO_ACTIVE_HIGH>;
++			linux,code = <KEY_RESTART>;
++		};
++	};
+ };
  
+-&default_gpio {
+-	groups = "wdt", "uart3";
+-	function = "gpio";
++&sdhci {
++	status = "okay";
++};
++
++&spi0 {
++	status = "okay";
++
++	m25p80@0 {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		compatible = "jedec,spi-nor";
++		reg = <0>;
++		spi-max-frequency = <50000000>;
++		broken-flash-reset;
++
++		partition@0 {
++			label = "u-boot";
++			reg = <0x0 0x30000>;
++			read-only;
++		};
++
++		partition@30000 {
++			label = "u-boot-env";
++			reg = <0x30000 0x10000>;
++			read-only;
++		};
++
++		factory: partition@40000 {
++			label = "factory";
++			reg = <0x40000 0x10000>;
++			read-only;
++		};
++
++		partition@50000 {
++			label = "firmware";
++			reg = <0x50000 0x1FB0000>;
++		};
++	};
++};
++
++&pcie {
++	status = "okay";
++};
++
++&pinctrl {
++	pinctrl-names = "default";
++	pinctrl-0 = <&state_default>;
++
++	state_default: state-default {
++		gpio-pinmux {
++			groups = "wdt";
++			function = "gpio";
++		};
++	};
+ };
+ 
+ &ethernet {
+ 	gmac1: mac@1 {
+-		status = "ok";
+-		phy-handle = <&phy_external>;
++		status = "okay";
++		phy-handle = <&ethphy7>;
+ 	};
+ 
+ 	mdio-bus {
+-		phy_external: ethernet-phy@5 {
+-			reg = <5>;
++		ethphy7: ethernet-phy@7 {
++			reg = <7>;
+ 			phy-mode = "rgmii-rxid";
+ 		};
+ 	};
+ };
++
++&switch0 {
++	ports {
++		port@0 {
++			status = "okay";
++			label = "ethblack";
++		};
++
++		port@4 {
++			status = "okay";
++			label = "ethblue";
++		};
++	};
++};
 -- 
 2.25.1
 
