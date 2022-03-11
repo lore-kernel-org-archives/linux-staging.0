@@ -1,22 +1,23 @@
 Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
 	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6566E7E
-	for <linux-staging@lists.linux.dev>; Fri, 11 Mar 2022 07:18:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F707E
+	for <linux-staging@lists.linux.dev>; Fri, 11 Mar 2022 08:35:35 +0000 (UTC)
 Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
  (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 11 Mar
- 2022 15:17:36 +0800
+ 2022 16:35:34 +0800
 Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
  (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 11 Mar
- 2022 15:17:34 +0800
+ 2022 16:35:32 +0800
 From: Haowen Bai <baihaowen@meizu.com>
-To: <gregkh@linuxfoundation.org>
+To: <vireshk@kernel.org>, <johan@kernel.org>, <elder@kernel.org>,
+	<gregkh@linuxfoundation.org>
 CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Haowen
  Bai" <baihaowen@meizu.com>
-Subject: [PATCH] staging: rtl8723bs: Use min() instead of doing it manually
-Date: Fri, 11 Mar 2022 15:17:32 +0800
-Message-ID: <1646983052-16390-1-git-send-email-baihaowen@meizu.com>
+Subject: [PATCH] staging: greybus: Fix potential NULL dereference
+Date: Fri, 11 Mar 2022 16:35:30 +0800
+Message-ID: <1646987730-7597-1-git-send-email-baihaowen@meizu.com>
 X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -30,29 +31,51 @@ X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
  IT-EXMB-1-125.meizu.com (172.16.1.125)
 
 Fix following coccicheck warning:
-drivers/staging/rtl8723bs/core/rtw_xmit.c:452:25-26: WARNING opportunity for min()
+drivers/staging/greybus/bootrom.c:301:35-39: ERROR: fw is NULL but dereferenced.
+
+When goto queue_work but dereference Uninitialized fw will trigger a NULL 
+dereference.
 
 Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/staging/greybus/bootrom.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index f466bfd..a225126 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -449,10 +449,7 @@ static void update_attrib_phy_info(struct adapter *padapter, struct pkt_attrib *
+diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
+index a8efb86..6f3926b 100644
+--- a/drivers/staging/greybus/bootrom.c
++++ b/drivers/staging/greybus/bootrom.c
+@@ -252,14 +252,6 @@ static int gb_bootrom_get_firmware(struct gb_operation *op)
+ 	/* Disable timeouts */
+ 	gb_bootrom_cancel_timeout(bootrom);
  
- 	pattrib->raid = psta->raid;
+-	if (op->request->payload_size != sizeof(*firmware_request)) {
+-		dev_err(dev, "%s: Illegal size of get firmware request (%zu %zu)\n",
+-			__func__, op->request->payload_size,
+-			sizeof(*firmware_request));
+-		ret = -EINVAL;
+-		goto queue_work;
+-	}
+-
+ 	mutex_lock(&bootrom->mutex);
  
--	if (mlmeext->cur_bwmode < psta->bw_mode)
--		pattrib->bwmode = mlmeext->cur_bwmode;
--	else
--		pattrib->bwmode = psta->bw_mode;
-+	pattrib->bwmode = min(mlmeext->cur_bwmode, psta->bw_mode);
+ 	fw = bootrom->fw;
+@@ -269,6 +261,15 @@ static int gb_bootrom_get_firmware(struct gb_operation *op)
+ 		goto unlock;
+ 	}
  
- 	pattrib->sgi = query_ra_short_GI(psta);
- 
++	if (op->request->payload_size != sizeof(*firmware_request)) {
++		dev_err(dev, "%s: Illegal size of get firmware request (%zu %zu)\n",
++			__func__, op->request->payload_size,
++			sizeof(*firmware_request));
++		ret = -EINVAL;
++		mutex_unlock(&bootrom->mutex);
++		goto queue_work;
++	}
++
+ 	firmware_request = op->request->payload;
+ 	offset = le32_to_cpu(firmware_request->offset);
+ 	size = le32_to_cpu(firmware_request->size);
 -- 
 2.7.4
 
