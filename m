@@ -1,59 +1,174 @@
-Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E7C7E
-	for <linux-staging@lists.linux.dev>; Fri, 11 Mar 2022 08:50:52 +0000 (UTC)
-Received: from IT-EXMB-1-123.meizu.com (172.16.1.123) by mz-mail12.meizu.com
- (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 11 Mar
- 2022 16:50:52 +0800
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by
- IT-EXMB-1-123.meizu.com (172.16.1.123) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 11 Mar 2022 16:50:49 +0800
-Received: from IT-EXMB-1-125.meizu.com ([fe80::7481:7d92:3801:4575]) by
- IT-EXMB-1-125.meizu.com ([fe80::7481:7d92:3801:4575%3]) with mapi id
- 15.01.2308.014; Fri, 11 Mar 2022 16:50:49 +0800
-From: =?gb2312?B?sNe6xs7E?= <baihaowen@meizu.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-CC: "vireshk@kernel.org" <vireshk@kernel.org>, "johan@kernel.org"
-	<johan@kernel.org>, "elder@kernel.org" <elder@kernel.org>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: =?gb2312?B?tPC4tDogW1BBVENIXSBzdGFnaW5nOiBncmV5YnVzOiBGaXggcG90ZW50aWFs?=
- =?gb2312?Q?_NULL_dereference?=
-Thread-Topic: [PATCH] staging: greybus: Fix potential NULL dereference
-Thread-Index: AQHYNSL4iVqrOrm/80ClDX0ZeDDii6y5VuSAgACIFEY=
-Date: Fri, 11 Mar 2022 08:50:49 +0000
-Message-ID: <0a6d02d1b6374cf0bddd0f4e7fbc475a@meizu.com>
-References: <1646987730-7597-1-git-send-email-baihaowen@meizu.com>,<20220311084019.w45kfluiamgosivu@vireshk-i7>
-In-Reply-To: <20220311084019.w45kfluiamgosivu@vireshk-i7>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [172.16.137.70]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F6F2596
+	for <linux-staging@lists.linux.dev>; Fri, 11 Mar 2022 09:03:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1646989413; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=UpKzYtdCXd55NR2QcGvDTkpmslUNGH4J6UWMfrQze1NsUY1E/Wlsmqw7SsWR0LgReE/w0oTsdzPpUfSpOOu4rwfTSg0waWR01XX/8c+mtzSJHmfpWS90wTSG0bh1JEejJwIm72GJn2wWC0sEFsi/f9TnzBOhEPzU1VpDG4uk88c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1646989413; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=4roVWSPEI3RjX5g+LE+Wvg/VIGsK7rmfqJJ7ETH3hd4=; 
+	b=WshKYS4Omlq6/DFsmYmIb9zqZsuaVwX5yx8QjswcVETZjSwJ8cleUwM0iK3nvepQgsXfNRxHfmgBtVLgYtQ+V2BiG22Sg7RyGcKvoVMTgCCbGd5x3lZOT/cAyMvoZVAgSJzEMeaCfjMrzVVujYvEpKsPdDLGaXYAM9JqePWlJgk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=arinc9.com;
+	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+	dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1646989413;
+	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=4roVWSPEI3RjX5g+LE+Wvg/VIGsK7rmfqJJ7ETH3hd4=;
+	b=YNi4V+Gnh6GApAgvFkGPkX0USYCubxTeWh/5jpad893Zb3TOZFx/bomWPLDLZMsT
+	a0eHl/gtc/rU2+SxDE+b2gQ/1RD3dYlJpP51iBmPK2aRcfkfOhGaDwF22tWa4N3EI7N
+	sNd1Fd3uRd+2BPvlBG4LqhktjavqB/IohccHdDQw=
+Received: from arinc9-PC.localdomain (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
+	with SMTPS id 1646989412237429.9221899443488; Fri, 11 Mar 2022 01:03:32 -0800 (PST)
+From: =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
+To: Greg KH <gregkh@linuxfoundation.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	NeilBrown <neil@brown.name>,
+	erkin.bozoglu@xeront.com
+Cc: linux-staging@lists.linux.dev,
+	=?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
+Subject: [PATCH v3 1/2] staging: mt7621-dts: fix LEDs and pinctrl on GB-PC1 devicetree
+Date: Fri, 11 Mar 2022 12:03:19 +0300
+Message-Id: <20220311090320.3068-1-arinc.unal@arinc9.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-T2gsIG15IGNhcmVsZXNzIHRvIGNoZWNrIGNvZGUuIFRoYW5rIHlvdSBmb3IgeW91ciBraW5kbHkg
-cmVtaW5kZXIuDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQq3orz+
-yMs6IFZpcmVzaCBLdW1hciA8dmlyZXNoLmt1bWFyQGxpbmFyby5vcmc+DQq3osvNyrG85DogMjAy
-MsTqM9TCMTHI1SAxNjo0MDoxOQ0KytW8/sjLOiCw17rGzsQNCrOty806IHZpcmVzaGtAa2VybmVs
-Lm9yZzsgam9oYW5Aa2VybmVsLm9yZzsgZWxkZXJAa2VybmVsLm9yZzsgZ3JlZ2toQGxpbnV4Zm91
-bmRhdGlvbi5vcmc7IGxpbnV4LXN0YWdpbmdAbGlzdHMubGludXguZGV2OyBsaW51eC1rZXJuZWxA
-dmdlci5rZXJuZWwub3JnDQrW98ziOiBSZTogW1BBVENIXSBzdGFnaW5nOiBncmV5YnVzOiBGaXgg
-cG90ZW50aWFsIE5VTEwgZGVyZWZlcmVuY2UNCg0KT24gMTEtMDMtMjIsIDE2OjM1LCBIYW93ZW4g
-QmFpIHdyb3RlOg0KPiBGaXggZm9sbG93aW5nIGNvY2NpY2hlY2sgd2FybmluZzoNCj4gZHJpdmVy
-cy9zdGFnaW5nL2dyZXlidXMvYm9vdHJvbS5jOjMwMTozNS0zOTogRVJST1I6IGZ3IGlzIE5VTEwg
-YnV0IGRlcmVmZXJlbmNlZC4NCj4NCj4gV2hlbiBnb3RvIHF1ZXVlX3dvcmsgYnV0IGRlcmVmZXJl
-bmNlIFVuaW5pdGlhbGl6ZWQgZncgd2lsbCB0cmlnZ2VyIGEgTlVMTA0KPiBkZXJlZmVyZW5jZS4N
-Cg0KUGxlYXNlIGhhdmUgYSBsb29rIGF0IGVhcmxpZXIgYXR0ZW1wdHMgbGlrZSB0aGlzOg0KDQpo
-dHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAxNTA5OS54VnY0OFZ6Tml0QGxpbnV4LmxvY2Fs
-Lw0KDQotLQ0KdmlyZXNoDQo=
+Fix LED and pinctrl definitions on the GB-PC1 devicetree. Refer to the
+schematics of the device for more information.
+
+LED fixes:
+- Change GPIO6 LED label from system to power as GPIO6 is connected to
+PLED.
+- Add default-on default-trigger to power LED.
+- Change GPIO8 LED label from status to system as GPIO8 is connected to
+SYS_LED.
+- Add disk-activity default-trigger to system LED.
+- Switch to the color:function naming scheme.
+- Remove lan1 and lan2 LEDs as they don't exist.
+
+Pinctrl fixes:
+- Claim state_default node under pinctrl node.
+- Change pinctrl0 node name to state-default.
+- Change gpio node name to gpio-pinmux to respect
+Documentation/devicetree/bindings/pinctrl/ralink,rt2880-pinmux.yaml.
+- Sort pin groups alphabetically.
+
+Misc fixes:
+- Fix formatting.
+- Use the status value "okay".
+- Define hexadecimal addresses in lower case.
+- Make hexadecimal addresses for memory easier to read.
+
+Link: https://github.com/ngiger/GnuBee_Docs/blob/master/GB-PCx/Documents/GB-PC1_V1.0_Schematic.pdf
+Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+Tested-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+---
+v3: Define hex addresses in lower case and make memory hex easier to read.
+v2: Use the status value "okay" as it's the official proper spelling.
+
+---
+ drivers/staging/mt7621-dts/gbpc1.dts | 40 +++++++++++++---------------
+ 1 file changed, 18 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/staging/mt7621-dts/gbpc1.dts b/drivers/staging/mt7621-dts/gbpc1.dts
+index 1b5175e6ccf3..5892bcf71595 100644
+--- a/drivers/staging/mt7621-dts/gbpc1.dts
++++ b/drivers/staging/mt7621-dts/gbpc1.dts
+@@ -12,7 +12,8 @@ / {
+ 
+ 	memory@0 {
+ 		device_type = "memory";
+-		reg = <0x0 0x1c000000>, <0x20000000 0x4000000>;
++		reg = <0x00000000 0x1c000000>,
++		      <0x20000000 0x04000000>;
+ 	};
+ 
+ 	chosen {
+@@ -38,24 +39,16 @@ reset {
+ 	gpio-leds {
+ 		compatible = "gpio-leds";
+ 
+-		system {
+-			label = "gb-pc1:green:system";
++		power {
++			label = "green:power";
+ 			gpios = <&gpio 6 GPIO_ACTIVE_LOW>;
++			linux,default-trigger = "default-on";
+ 		};
+ 
+-		status {
+-			label = "gb-pc1:green:status";
++		system {
++			label = "green:system";
+ 			gpios = <&gpio 8 GPIO_ACTIVE_LOW>;
+-		};
+-
+-		lan1 {
+-			label = "gb-pc1:green:lan1";
+-			gpios = <&gpio 24 GPIO_ACTIVE_LOW>;
+-		};
+-
+-		lan2 {
+-			label = "gb-pc1:green:lan2";
+-			gpios = <&gpio 25 GPIO_ACTIVE_LOW>;
++			linux,default-trigger = "disk-activity";
+ 		};
+ 	};
+ };
+@@ -95,9 +88,8 @@ factory: partition@40000 {
+ 
+ 		partition@50000 {
+ 			label = "firmware";
+-			reg = <0x50000 0x1FB0000>;
++			reg = <0x50000 0x1fb0000>;
+ 		};
+-
+ 	};
+ };
+ 
+@@ -106,9 +98,12 @@ &pcie {
+ };
+ 
+ &pinctrl {
+-	state_default: pinctrl0 {
+-		default_gpio: gpio {
+-			groups = "wdt", "rgmii2", "uart3";
++	pinctrl-names = "default";
++	pinctrl-0 = <&state_default>;
++
++	state_default: state-default {
++		gpio-pinmux {
++			groups = "rgmii2", "uart3", "wdt";
+ 			function = "gpio";
+ 		};
+ 	};
+@@ -121,12 +116,13 @@ &ethernet {
+ &switch0 {
+ 	ports {
+ 		port@0 {
++			status = "okay";
+ 			label = "ethblack";
+-			status = "ok";
+ 		};
++
+ 		port@4 {
++			status = "okay";
+ 			label = "ethblue";
+-			status = "ok";
+ 		};
+ 	};
+ };
+-- 
+2.25.1
+
