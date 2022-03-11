@@ -1,117 +1,98 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCE833E9;
-	Fri, 11 Mar 2022 16:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647014781; x=1678550781;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8sd/osNdwpZjh8x9Ga7m3iWdLk1yyi5ow5D55whePkk=;
-  b=B345YMVjQWwhM4GUzrwJyfrhCBEc/Pb7pnnflGI9gWYbVvDbQ3VBQDCQ
-   +wXotgBxbXUaji6ClRVu8DwM5BwyIHBM76faAl+0zH2i1++q0sAFvFxrC
-   l6n9k3F0hkzeaU2cfqlt4/k0Un8DGCoWc9bcfygGRcmSavGPPN8JAk3iE
-   +T1eORA8E/6ZfiU9+HDDuWWeA9DGqeiMzwFafOuJHlEBksLZDFmd0bLuV
-   JvjCnR1Lhw4udwzaz8OjDSzf2wJc6wo4/hHz1D0WfJsbeIxsPz/px+M6O
-   AuBJAgwRP/DcP09a5sNEac7OYp4GtwWhE66I/zggOkleT1izWLvZHiLqh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="253162486"
-X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; 
-   d="scan'208";a="253162486"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 08:06:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,174,1643702400"; 
-   d="scan'208";a="712887681"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 11 Mar 2022 08:06:18 -0800
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-	(envelope-from <lkp@intel.com>)
-	id 1nShmU-0006ha-0Q; Fri, 11 Mar 2022 16:06:18 +0000
-Date: Sat, 12 Mar 2022 00:06:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org
-Subject: Re: [PATCH 2/5] staging: vt6656: Remove unused rf_type in baseband.c
-Message-ID: <202203112347.5u5Hv6vj-lkp@intel.com>
-References: <77dcff8602084484532fcbd734aafd138087c5ee.1646935331.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38359211B
+	for <linux-staging@lists.linux.dev>; Fri, 11 Mar 2022 19:13:50 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id h14so16652456lfk.11
+        for <linux-staging@lists.linux.dev>; Fri, 11 Mar 2022 11:13:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=aIl3qyAJQDV5o+ArVkOH0QKLBlNpboQaLuO8XFWfnr4=;
+        b=ZxB0bjMnh3W+v4rXJtn/5FJdqM9Z+8ET/FwPKp0ht2Z34agafOBgclCABLR5Rk8nDT
+         jej9or3aW+ZIYljJ3//wz9hjh+qjxF6GOtRRDePHzVvQAddXOiam1W7t1KuxQWMCDVG9
+         Tdr/+j3g5xv+/oCt0FvPj3BwLnB1aEAa9wDsELm1fFVfjKoz7BvREK2tuVyBBkkUqS8A
+         GtWz5L65W/0nau9AGpSYlbePS4lnLKaQl6+K50gc1DXrrtt2h0154PaVLlWmFDzGkeSl
+         viGGMEGw+6cb8Oq3gwH8/2ueoiQnzADUKAlHFSbopPmpIuXYiF2TSwKcg7Q9K5rbrbgV
+         dVXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=aIl3qyAJQDV5o+ArVkOH0QKLBlNpboQaLuO8XFWfnr4=;
+        b=2rRRvHwwAmW6UKXShPfDdvYWQhItEFHYS1JlC4krIW25njskOgXLZjRpVMr9YXQaCO
+         2x0v+l304VJPzsridVVwLOPqw7lo5PvxH2lj914eooZJKg3uAE/ISagjFu5kwyp2Yr6C
+         c4bYtHcF9bqmIKBeAcJAcUdwL6lYQtTFB+9CArLcPvHbAOshNwz5B19FjcWQGFWyQEql
+         YOYVAPqzbbvcCV4d6kaA3M/hUbXLBm87L+y6v0L8wwOmJ/uvzaXt6zXGQA/BfSLXahzT
+         t1NXATKaBGLpQ20RkpH/p7IiIHBaMYElqkBBK9lTzX+YhAIJ5sjP8wDLX7Cc72Rlqyi5
+         GBYg==
+X-Gm-Message-State: AOAM531L1ckI8aH9hwBTV0/Bd03yd3PF/8bYG/K0O5vVKwFZHBdLIyXH
+	Ei5wLLLq5Yoqb0SYTuNVIkM=
+X-Google-Smtp-Source: ABdhPJwOY3jvr12Q0QCOoAzPM61VxdF/xvDSkyW4H/fkHJ6XmBt8tQ7JgpddmLa/EuRAmexogIueEQ==
+X-Received: by 2002:a05:6512:31d4:b0:448:3937:c09c with SMTP id j20-20020a05651231d400b004483937c09cmr6860184lfe.158.1647026027995;
+        Fri, 11 Mar 2022 11:13:47 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.229.107])
+        by smtp.gmail.com with ESMTPSA id h23-20020a19ca57000000b004486be4b96csm797465lfj.118.2022.03.11.11.13.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Mar 2022 11:13:47 -0800 (PST)
+Message-ID: <ec429deb-104a-1b63-1acf-dd69d486b1c6@gmail.com>
+Date: Fri, 11 Mar 2022 22:13:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <77dcff8602084484532fcbd734aafd138087c5ee.1646935331.git.philipp.g.hortmann@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH] staging: r8188eu: simplify unnecessary NULL check
+Content-Language: en-US
+To: Haowen Bai <baihaowen@meizu.com>, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <1646994801-26211-1-git-send-email-baihaowen@meizu.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <1646994801-26211-1-git-send-email-baihaowen@meizu.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Philipp,
+Hi Haowen,
 
-Thank you for the patch! Perhaps something to improve:
+On 3/11/22 13:33, Haowen Bai wrote:
+> remove the optimisation of NULL checking it inline, kfree/rtw_free_netdev
+> will take care if that would ever be the case.
+> 
+> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+> ---
+>   drivers/staging/r8188eu/os_dep/usb_intf.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> index 91792df..8d1ac48 100644
+> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
+> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> @@ -425,10 +425,8 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
+>   		rtw_handle_dualmac(padapter, 0);
+>   free_adapter:
+>   	if (status != _SUCCESS) {
+> -		if (pnetdev)
+> -			rtw_free_netdev(pnetdev);
+> -		else if (padapter)
+> -			vfree(padapter);
+> +		rtw_free_netdev(pnetdev);
+> +		vfree(padapter);
+>   		padapter = NULL;
+>   	}
+>   exit:
 
-[auto build test WARNING on staging/staging-testing]
+I don't see such code on staging-testing branch.
 
-url:    https://github.com/0day-ci/linux/commits/Philipp-Hortmann/staging-vt6656-Remove-unused-5GHz-support/20220311-025658
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git b25c7dc13fb8842e8634bd846a7a96f2176f0244
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20220311/202203112347.5u5Hv6vj-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca87382b8f16a65bddac700202924228982f6)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/747c899152efe7f0dbbcdd5399f1b1de3a7ba51d
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Philipp-Hortmann/staging-vt6656-Remove-unused-5GHz-support/20220311-025658
-        git checkout 747c899152efe7f0dbbcdd5399f1b1de3a7ba51d
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/bluetooth/ drivers/staging/vt6656/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/vt6656/baseband.c:170:35: warning: unused variable 'vt3342_vnt_threshold' [-Wunused-const-variable]
-   static const struct vnt_threshold vt3342_vnt_threshold[] = {
-                                     ^
-   1 warning generated.
+All error handling code was refactored in commit 13456b9. Please, always 
+base your code on top of newest branch but not upstream one
 
 
-vim +/vt3342_vnt_threshold +170 drivers/staging/vt6656/baseband.c
 
-69a809e1569312 Oscar Carter 2020-03-28  169  
-69a809e1569312 Oscar Carter 2020-03-28 @170  static const struct vnt_threshold vt3342_vnt_threshold[] = {
-69a809e1569312 Oscar Carter 2020-03-28  171  	{0, 0x00, 0x38},	/* Max sensitivity */
-69a809e1569312 Oscar Carter 2020-03-28  172  	{66, 0x00, 0x43},
-69a809e1569312 Oscar Carter 2020-03-28  173  	{65, 0x00, 0x52},
-69a809e1569312 Oscar Carter 2020-03-28  174  	{64, 0x00, 0x68},
-69a809e1569312 Oscar Carter 2020-03-28  175  	{63, 0x00, 0x80},
-69a809e1569312 Oscar Carter 2020-03-28  176  	{62, 0x00, 0x9c},
-69a809e1569312 Oscar Carter 2020-03-28  177  	{61, 0x00, 0xc0},
-69a809e1569312 Oscar Carter 2020-03-28  178  	{60, 0x00, 0xea},
-69a809e1569312 Oscar Carter 2020-03-28  179  	{59, 0x01, 0x30},
-69a809e1569312 Oscar Carter 2020-03-28  180  	{58, 0x01, 0x70},
-69a809e1569312 Oscar Carter 2020-03-28  181  	{57, 0x01, 0xb0},
-69a809e1569312 Oscar Carter 2020-03-28  182  	{56, 0x02, 0x30},
-69a809e1569312 Oscar Carter 2020-03-28  183  	{55, 0x02, 0xc0},
-69a809e1569312 Oscar Carter 2020-03-28  184  	{53, 0x04, 0x00},
-69a809e1569312 Oscar Carter 2020-03-28  185  	{51, 0x07, 0x00},
-69a809e1569312 Oscar Carter 2020-03-28  186  	{49, 0x0a, 0x00},
-69a809e1569312 Oscar Carter 2020-03-28  187  	{47, 0x11, 0x00},
-69a809e1569312 Oscar Carter 2020-03-28  188  	{45, 0x18, 0x00},
-69a809e1569312 Oscar Carter 2020-03-28  189  	{43, 0x26, 0x00},
-69a809e1569312 Oscar Carter 2020-03-28  190  	{42, 0x36, 0x00},
-69a809e1569312 Oscar Carter 2020-03-28  191  	{41, 0xff, 0x00}
-69a809e1569312 Oscar Carter 2020-03-28  192  };
-69a809e1569312 Oscar Carter 2020-03-28  193  
-
----
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+With regards,
+Pavel Skripkin
