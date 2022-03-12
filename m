@@ -1,50 +1,80 @@
-Received: from aeon.co.jp (unknown [152.32.203.86])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32B216145
-	for <linux-staging@lists.linux.dev>; Sat, 12 Mar 2022 20:30:39 +0000 (UTC)
-Message-ID: <20220313043039187355@foxmail.com>
-From: =?utf-8?B?44Kk44Kq44Oz44Kv44Os44K444OD44OI44K144O844OT44K55qCq5byP5Lya56S+?= <admin@foxmail.com>
-To: <linux-staging@lists.linux.dev>
-Subject: =?utf-8?B?W0Flb25d44Kk44Kq44Oz44Kr44O844OJ44GU6YeN6KaB44Gq44GK55+l44KJ44Gb?=
-Date: Sun, 13 Mar 2022 04:30:26 +0800
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90BE614F
+	for <linux-staging@lists.linux.dev>; Sat, 12 Mar 2022 20:41:52 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id cx5so11107412pjb.1
+        for <linux-staging@lists.linux.dev>; Sat, 12 Mar 2022 12:41:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=z0OtbkAFOzZxKR5/4BNUwxuMMsg+2em+OF72Kb9Nh9I=;
+        b=GxCc7whH6+vY1PtxE9K8VX8Nj/A/1vqusEa9KgtMMNeyDnmRaXcHRK+m16ac89qTdH
+         CzVUvAb8ClcDlB6Q/5hqFSxMRiU3PIvIDVAOXLaHpeiG2hyCM4JvYJVdwMmDlj7jwbqn
+         dmjVaWyyp1uvnRgu/kjmeuAm7L2XdDUih8RGWxgsXU4d8JU1wrGUJfc+G4xdVgAjY0ok
+         HBjy2pRipPrmwWor5bBbP4adqLM4GPTbRc4Lfja2f1/P5uLWTwNLb5JR8xhx+3Ls4hZ+
+         Cmr75+bLftAteOxEA+uBSLSw8MUP+Q0PcL+elCq3DZcynBgX07jFMWPJFQDFXJpUWBjj
+         gZ7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=z0OtbkAFOzZxKR5/4BNUwxuMMsg+2em+OF72Kb9Nh9I=;
+        b=Ogs9Xy85/2K3dtkP98RZYSea8fS+aSjOHBZ2fPy7qA6HwWt0B0yPU8dutVzBqX1ML5
+         9P+5f3iAcyW+EyyEnB7zNVIDArhpcCxss/ZbIcgvE38dDmTiB5SdKflIJI1QUGDNgsdf
+         AG45bHv4RwyOfMCH4NsUlkUcx69iQpxRWyrTajsdtlvDjbLA5fiiW3/vWh0OyAvUJd1x
+         kr4HR1YuK87U887UZ0zKlXtM6kFgAZmTx0h7nDa28/iHD5hCHvIWg7cESaHdkmHhYqX6
+         wmA0gkv6AWWL0kzQK8lHY6cHsmSE9Ivy/HQJoeQttLwPY3M7DI2Z9ougx/toXKj2j3cG
+         TF6w==
+X-Gm-Message-State: AOAM533sG0dPybDFaXiBDkv/bxIR6d9ttq+zIfmOFoQQSVvvogTWFxRb
+	pSZbFpVnjTRJKDBaPKep5tM=
+X-Google-Smtp-Source: ABdhPJzJEOMlOrhBzV/paNYbCbKqWmpAJrTQfrcl695FtmcHwmiiAap0tNnTGpDg2LPwXPXtCnbDZA==
+X-Received: by 2002:a17:902:bd86:b0:14d:8437:5113 with SMTP id q6-20020a170902bd8600b0014d84375113mr16505518pls.43.1647117712132;
+        Sat, 12 Mar 2022 12:41:52 -0800 (PST)
+Received: from localhost.localdomain ([45.250.64.116])
+        by smtp.gmail.com with ESMTPSA id f21-20020a056a0022d500b004f7a420c330sm3683389pfj.12.2022.03.12.12.41.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Mar 2022 12:41:51 -0800 (PST)
+From: shaikh kamal <shaikhkamal2012@gmail.com>
+To: 
+Cc: shaikhkamal2012@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+	Todd Kjos <tkjos@android.com>,
+	Martijn Coenen <maco@android.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Hridya Valsaraju <hridya@google.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH]  staging: android: ashmem: Declared file operation with const keyword Warning found by checkpatch.pl script.
+Date: Sun, 13 Mar 2022 02:11:27 +0530
+Message-Id: <20220312204128.3942-1-shaikhkamal2012@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-X-mailer: Bcx 3
 
-QUVPTiBDQVJE44KS44GU5Yip55So44GE44Gf44Gg44GN44CB6Kqg44Gr44GC44KK44GM44Go44GG
-44GU44GW44GE44G+44GZ44CCDQrjgZPjga7jgZ/jgbPjgIHjgYrlrqLjgZXjgb7jga7jgYrlj5bl
-vJXjgavjgaTjgY3jgb7jgZfjgabjgIHnrKzkuInogIXjgavjgojjgovkuI3mraPkvb/nlKjjga7l
-j6/og73mgKfjgpLmpJznn6XjgZfjgZ/jgZ/jgoHCt+S4gOaZgueahOOBq+OBiuWPluW8leOCkuOB
-iuatouOCgeOBl+OBvuOBl+OBn+OAgg0K44GU5pys5Lq644GV44G+44Gu44GU5Yip55So44Gn44GC
-44Gj44Gf5aC05ZCI44Gv44CB5aSn5aSJ44GK5omL5pWw44KS44GK44GL44GR44GE44Gf44GX44G+
-44GZ44GM44CB5YaN5bqm44GU5Yip55So44KS44GK6aGY44CB55Sz44GX44GC44GS44G+44GZ44CC
-DQoo44Kk44Oz44K/44O844ON44OD5bqX6IiX44Gn44Gu44GU5Yip55So44Gu5aC05ZCI44Gv44CB
-44GK5Y+W5byV44Gu5oiQ56uL54q25rOB44KS44GU56K66KqN44Gu44GG44GI44CB5YaN5bqm44GU
-5Yip55So44KS44GK5Y6f44GE44Gf44GX44G+44GZ44CCKQ0K44CQ5Y+W5byV5bm05pyI5pelXToy
-MDIyLzMvMTMNCuOAkOOBiuWVj+WQiOOBm+eVquWPt106MDI0My0wMTY0LTcwODEtMjE2Mw0KDQrj
-gZTliKnnlKjnorroqo3jga/jgZPjgaHjgokNCmh0dHBzOi8vYWVvbl9jb19qcC5jNGY2MDA1LmNu
-DQrjgZTmnKzkurrjgZXjgb7jga7jgZTliKnnlKjjgafjgarjgYTloLTlkIjjgavjga/jgIHku4rl
-vozjgIHlronlhajjgavjgqvjg7zjg4njgpLjgZTliKnnlKjjgYTjgZ/jgaDjgY/jgZ/jgoHjgIHj
-gqvjg7zjg4njga7lt67mm7/Ct+OBiOetieOBiuaJi+e2muOBjeOBjOW/heimgeOBqOOBquOCiuOB
-vuOBmeOAguOBiuaJi+aVsOOBp+OBmeOBjOOAgeS4i+iomA0K44CQ5pys44Oh44O844Or5bCC55So
-44OA44Kk44Ok44Or44CR44G444GK6Zu76Kmx44GP44Gg44GV44GE44G+44GZ44KI44GG44GK6aGY
-44GE44Gf44GX44G+44GZ44CCDQoNCuOBlOW/g+mFjeOBqOOBlOS4jeS+v+OCkuOBiuOBi+OBkeOB
-hOOBn+OBl+OBvuOBmeOBjOOAgeS9leWNkuOBlOeQhuino+iznOOCiuOBvuOBmeOCiOOBhuOBiumh
-mOOBhOeUs+OBl+OBguOBkuOBvuOBmeOAgg0KwrfkuI3mraPlj5blvJXjga7nm6PoppbkvZPliLbj
-gavjgaTjgYTjgaYNCigxKeW8iuekvuOBp+OBr+OBiuWuouOBleOBvuOBjOeKr+e9quOBq+W3u+OB
-jei+vOOBvuOCjOOBquOBhOOCiOOBhuOAgeOBiuWuouOBleOBvuOBruOCq+ODvOODieOBq+S4jeWv
-qeOBquOBiuWPluW8leOBjOOBquOBhOOBizI05pmC6ZaTMzY15pel44Oi44OL44K/44Oq44Oz44Kw
-KOS4jeato+S9v+eUqOOBruebo+imlinjgpLooYzjgaPjgabjgYrjgorjgb7jgZnjgIINCigyKeOB
-iuWPluW8leOBruebo+imluOBq+OCiOOCiuS4jeato+WPluW8leOBruWCvuWQkeOBqOWQiOiHtOOB
-l+OBn+OBiuWPluW8leOCkuS/neeVmeOBruOBhuOBiOOAgeacrOODoeODvOODq+OCkumFjeS/oeOB
-l+OBpuOBiuOCiuOBvuOBmeOAgg0KKDMp5byK56S+44Gu44Kr44O844OJ5LiN5q2j5L2/55So44Gr
-5a++44GZ44KL5Y+W57WE44G/44Gr44Gk44GE44Gm44Gv44CB6Kmz44GX44GP44Gv5byK56S+44Ob
-44O844Og44Oa44O844K444KS44GU6Kan44GP44Gg44GV44GE44CCDQogDQo=
+Signed-off-by: shaikh kamal <shaikhkamal2012@gmail.com>
+---
+ drivers/staging/android/ashmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
+index ddbde3f8430e..4c6b420fbf4d 100644
+--- a/drivers/staging/android/ashmem.c
++++ b/drivers/staging/android/ashmem.c
+@@ -377,7 +377,7 @@ ashmem_vmfile_get_unmapped_area(struct file *file, unsigned long addr,
+ 
+ static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
+ {
+-	static struct file_operations vmfile_fops;
++	static const struct file_operations vmfile_fops;
+ 	struct ashmem_area *asma = file->private_data;
+ 	int ret = 0;
+ 
+-- 
+2.17.1
 
