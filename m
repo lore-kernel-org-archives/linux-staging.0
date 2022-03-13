@@ -1,28 +1,48 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E37A46
-	for <linux-staging@lists.linux.dev>; Sun, 13 Mar 2022 12:04:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0F17A;
+	Sun, 13 Mar 2022 16:15:53 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C062C492;
-	Sun, 13 Mar 2022 12:59:20 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 35208475;
+	Sun, 13 Mar 2022 17:15:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1647172761;
-	bh=2KHd2mtefEmvKWJtyswFnBPxpf8PGYWwKivi8REA7VM=;
+	s=mail; t=1647188151;
+	bh=kDZteoz/vLxKC+dAc2am0kAxaFB6dCfEEzjUoN5FEUo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C5+2f3qYyNhsh21BGuAPQGSxoecJTUCJk94W9DXtfWsOw00Kc1GM0oL3isbgklIKQ
-	 CDWWQ8knRJepBSoDBwdpKkxe8IqfPKwaET5JbC/22rGpc37fpIXX/NrpYXVDCs6wwE
-	 q1G08QnFez/16rZ4PwJ+Fv7hdFXmQBa/6L8+pZd4=
-Date: Sun, 13 Mar 2022 13:59:04 +0200
+	b=kQpErlASlVm7jSj0F9neo0lEN2wjXCTNUnaDvyeaUi2BI/dx4jn7AAUpcNFsC4Pk9
+	 mc2xEv+/942NbznabvxF4qxzWyY+FSiMUkRSyPH08kkQTybqbif/AqMAQ2IoyOTVbx
+	 iZykGMLNYTDnXyqt44OoTJBPrYn46pyObsQRhjoA=
+Date: Sun, 13 Mar 2022 18:15:34 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] media: Kconfig: cleanup VIDEO_DEV dependencies
-Message-ID: <Yi3ciCTbHrxYUatX@pendragon.ideasonboard.com>
-References: <42ae3d28d4d822f3e14db76b99f2f4c41688ae3e.1647155467.git.mchehab@kernel.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 61/66] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <Yi4YpnMWguEMWYaA@pendragon.ideasonboard.com>
+References: <YgE/+UmP4nJVxtRT@pendragon.ideasonboard.com>
+ <YgqAv2vLimYgRwDS@aptenodytes>
+ <YgqM3ZdMfEz+ZKo/@pendragon.ideasonboard.com>
+ <Ygt8LF8qx3rnxlgp@aptenodytes>
+ <Ygt9j+rwEC+2aUjH@pendragon.ideasonboard.com>
+ <Yh4+E9el5NdQ7qJq@aptenodytes>
+ <YiH/kLakb/GOaYIT@pendragon.ideasonboard.com>
+ <YiIa1SRFhtvURTbN@aptenodytes>
+ <YiIdo4PF/5smLocf@pendragon.ideasonboard.com>
+ <YitZ6y2JoNzeHUrp@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,223 +51,307 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <42ae3d28d4d822f3e14db76b99f2f4c41688ae3e.1647155467.git.mchehab@kernel.org>
+In-Reply-To: <YitZ6y2JoNzeHUrp@aptenodytes>
 
-Hi Mauro,
+Hi Paul,
 
-Thank you for the patch.
-
-Trimming the CC list to keep a few mailing lists only.
-
-On Sun, Mar 13, 2022 at 08:12:05AM +0100, Mauro Carvalho Chehab wrote:
-> media Kconfig has two entries associated to V4L API:
-> VIDEO_DEV and VIDEO_V4L2.
+On Fri, Mar 11, 2022 at 03:17:15PM +0100, Paul Kocialkowski wrote:
+> On Fri 04 Mar 22, 16:09, Laurent Pinchart wrote:
+> > On Fri, Mar 04, 2022 at 02:57:41PM +0100, Paul Kocialkowski wrote:
+> > > On Fri 04 Mar 22, 14:01, Laurent Pinchart wrote:
+> > > > On Tue, Mar 01, 2022 at 04:38:59PM +0100, Paul Kocialkowski wrote:
+> > > > > On Tue 15 Feb 22, 12:16, Laurent Pinchart wrote:
+> > > > > > On Tue, Feb 15, 2022 at 11:10:52AM +0100, Paul Kocialkowski wrote:
+> > > > > > > On Mon 14 Feb 22, 19:09, Laurent Pinchart wrote:
+> > > > > > > > On Mon, Feb 14, 2022 at 05:18:07PM +0100, Paul Kocialkowski wrote:
+> > > > > > > > > On Mon 07 Feb 22, 17:51, Laurent Pinchart wrote:
+> > > > > > > > > > On Sat, Feb 05, 2022 at 07:54:24PM +0100, Paul Kocialkowski wrote:
+> > > > > > > > > > > This introduces YAML bindings documentation for the Allwinner A31 Image
+> > > > > > > > > > > Signal Processor (ISP).
+> > > > > > > > > > > 
+> > > > > > > > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > > > > > > > > ---
+> > > > > > > > > > >  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+> > > > > > > > > > >  1 file changed, 117 insertions(+)
+> > > > > > > > > > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> > > > > > > > > > > 
+> > > > > > > > > > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> > > > > > > > > > > new file mode 100644
+> > > > > > > > > > > index 000000000000..2d87022c43ce
+> > > > > > > > > > > --- /dev/null
+> > > > > > > > > > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> > > > > > > > > > > @@ -0,0 +1,117 @@
+> > > > > > > > > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > > > > > > > > > +%YAML 1.2
+> > > > > > > > > > > +---
+> > > > > > > > > > > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> > > > > > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > > > > > > > +
+> > > > > > > > > > > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
+> > > > > > > > > > > +
+> > > > > > > > > > > +maintainers:
+> > > > > > > > > > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > > > > > > > > +
+> > > > > > > > > > > +properties:
+> > > > > > > > > > > +  compatible:
+> > > > > > > > > > > +    enum:
+> > > > > > > > > > > +      - allwinner,sun6i-a31-isp
+> > > > > > > > > > > +      - allwinner,sun8i-v3s-isp
+> > > > > > > > > > > +
+> > > > > > > > > > > +  reg:
+> > > > > > > > > > > +    maxItems: 1
+> > > > > > > > > > > +
+> > > > > > > > > > > +  interrupts:
+> > > > > > > > > > > +    maxItems: 1
+> > > > > > > > > > > +
+> > > > > > > > > > > +  clocks:
+> > > > > > > > > > > +    items:
+> > > > > > > > > > > +      - description: Bus Clock
+> > > > > > > > > > > +      - description: Module Clock
+> > > > > > > > > > > +      - description: DRAM Clock
+> > > > > > > > > > 
+> > > > > > > > > > That's interesting, does the ISP have a dedicated DRAM ?
+> > > > > > > > > 
+> > > > > > > > > It doesn't, it actually uses the main DRAM with the "mbus" interconnect.
+> > > > > > > > > The clock is probably for the DMA engine.
+> > > > > > > > > 
+> > > > > > > > > > > +
+> > > > > > > > > > > +  clock-names:
+> > > > > > > > > > > +    items:
+> > > > > > > > > > > +      - const: bus
+> > > > > > > > > > > +      - const: mod
+> > > > > > > > > > > +      - const: ram
+> > > > > > > > > > > +
+> > > > > > > > > > > +  resets:
+> > > > > > > > > > > +    maxItems: 1
+> > > > > > > > > > > +
+> > > > > > > > > > > +  ports:
+> > > > > > > > > > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > > > > > > > > > +
+> > > > > > > > > > > +    properties:
+> > > > > > > > > > > +      port@0:
+> > > > > > > > > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > > > > > > > > > +        description: CSI0 input port
+> > > > > > > > > > > +
+> > > > > > > > > > > +        properties:
+> > > > > > > > > > > +          reg:
+> > > > > > > > > > > +            const: 0
+> > > > > > > > > > > +
+> > > > > > > > > > > +          endpoint:
+> > > > > > > > > > > +            $ref: video-interfaces.yaml#
+> > > > > > > > > > > +            unevaluatedProperties: false
+> > > > > > > > > > 
+> > > > > > > > > > If no other property than remote-endpoint are allowed, I'd write
+> > > > > > > > > > 
+> > > > > > > > > >           endpoint:
+> > > > > > > > > >             $ref: video-interfaces.yaml#
+> > > > > > > > > > 	    remote-endpoint: true
+> > > > > > > > > >             additionalProperties: false
+> > > > > > > > > > 
+> > > > > > > > > > Same below.
+> > > > > > > > > > 
+> > > > > > > > > > > +
+> > > > > > > > > > > +        additionalProperties: false
+> > > > > > > > > > > +
+> > > > > > > > > > > +      port@1:
+> > > > > > > > > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > > > > > > > > > +        description: CSI1 input port
+> > > > > > > > > > > +
+> > > > > > > > > > > +        properties:
+> > > > > > > > > > > +          reg:
+> > > > > > > > > > > +            const: 0
+> > > > > > > > > > 
+> > > > > > > > > > This should be 1.
+> > > > > > > > > 
+> > > > > > > > > Correct, thanks!
+> > > > > > > > > 
+> > > > > > > > > > > +
+> > > > > > > > > > > +          endpoint:
+> > > > > > > > > > > +            $ref: video-interfaces.yaml#
+> > > > > > > > > > > +            unevaluatedProperties: false
+> > > > > > > > > > > +
+> > > > > > > > > > > +        additionalProperties: false
+> > > > > > > > > > > +
+> > > > > > > > > > > +    anyOf:
+> > > > > > > > > > > +      - required:
+> > > > > > > > > > > +        - port@0
+> > > > > > > > > > > +      - required:
+> > > > > > > > > > > +        - port@1
+> > > > > > > > > > 
+> > > > > > > > > > As ports are an intrinsic property of the ISP, both should be required,
+> > > > > > > > > > but they don't have to be connected.
+> > > > > > > > > 
+> > > > > > > > > Well the ISP does have the ability to source from either CSI0 and CSI1
+> > > > > > > > > but I don't really get the point of declaring both ports when only one
+> > > > > > > > > of the two controllers is present.
+> > > > > > > > 
+> > > > > > > > If it's within an SoC I don't mind too much. What I usually insist on is
+> > > > > > > > declaring all ports even when no external devices are connected on the
+> > > > > > > > board. It may however be easier to implement things on the driver side
+> > > > > > > > when all the ports are declared, even for internal devices. I won't
+> > > > > > > > insist either way here.
+> > > > > > > > 
+> > > > > > > > > > By the way, how do you select at runtime which CSI-2 RX the ISP gets its
+> > > > > > > > > > image stream from ? Is it configured through registers of the ISP ?
+> > > > > > > > > 
+> > > > > > > > > Actually what the ISP gets is fully dependent on what is received by the
+> > > > > > > > > CSI controller it is connected to (which can be the mipi csi-2 controller
+> > > > > > > > > or its direct parallel pins), so the configuration happens on the CSI side.
+> > > > > > > > 
+> > > > > > > > OK, then how do you select at runtime which CSI the ISP gets its image
+> > > > > > > > stream from ? :-)
+> > > > > > > 
+> > > > > > > What is done in the driver is that all available csi(s) entities pads are linked
+> > > > > > > to a single csi sink media pad, which allows userspace to enable one or the
+> > > > > > > other. If there's only one, it's enabled by default.
+> > > > > > > 
+> > > > > > > The actual stream source (isp_dev->proc.source) is selected at link_validate
+> > > > > > > time and the source bit is set in sun6i_isp_proc_enable.
+> > > > > > > 
+> > > > > > > I hope this answers your question!
+> > > > > > 
+> > > > > > Yes it does, thank you.
+> > > > > > 
+> > > > > > While this works, it makes life a bit more complicated for userspace, as
+> > > > > > switching between the two sources require disabling the link first and
+> > > > > > then enabling the new one. This is something that caused issues in the
+> > > > > > libcamera simple pipeline handler, I ended up having to implement a
+> > > > > > workaround.
+> > > > > 
+> > > > > That surprises me a bit, I thought this was a typical use-case for links.
+> > > > > So the fact that it's a two-step process causes issues somehow?
+> > > > 
+> > > > It's not so much that the links have to be configured in two steps
+> > > > (although it would be nice if that could be fixed), but the fact that
+> > > > the order of the operations matter. Userspace has to know what
+> > > > combination of links is acceptable in order to determine the order of
+> > > > the enable/disable operations, otherwise errors may be returned. That
+> > > > makes it more difficult to write generic userspace code.
+> > > 
+> > > Ah right, I understand that. Now it's pretty much trial-and-error if userspace
+> > > doesn't have prior knowledge about the hardware. But to be honest I assumed
+> > > that it was more or less understood that there cannot be fully generic
+> > > userspace for this and that knowedlege about the driver and pipeline flow
+> > > is required to do things right.
+> > 
+> > You're right, and that's why we have device-specific code in libcamera.
+> > However, the more generic-friendly the APIs can be, the more the
+> > device-specific userspace code will be able to use generic helpers, so
+> > it still matters.
+> > 
+> > > > > > Could you instead have two sink pads for the ISP, and select the sensor
+> > > > > > at stream on time instead of link validation time by checking which link
+> > > > > > is enabled ? If no links or both links are enabled, you can then return
+> > > > > > an error.
+> > > > > 
+> > > > > Yes that's totally doable.
+> > > > > 
+> > > > > There's a similar situation with the sun6i-csi bridge where the source pad
+> > > > > has two possible links: one for routing to sun6i-csi capture (video device)
+> > > > > and one for routing to the isp entity.
+> > > > > 
+> > > > > Would that also be best represented as two pads?
+> > > > 
+> > > > Are the two outputs mutually exclusive ? Sorry if I've asked before.
+> > > 
+> > > I don't think you have. Yes they are mutually exclusive, only one source
+> > > can be selected at a time. Same situation as the ISP where the two CSI unit
+> > > inputs are mutually exclusive.
+> > 
+> > On the sink (input) side that's quite common, if you have two different
+> > sources but a single sink, the sink can't (usually) process both sources
+> > at the same time. I understand that for the sun6i-csi bridge it's the
+> > other way around, with the bridge can output to either a DMA engine or
+> > to the ISP, but not both at the same time. That's less common, but can
+> > certainly happen. I think I'd go for two source pads in that case too.
+> > Sakari, any opinion ?
 > 
-> On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
-> VIDEO_DEV were meant to:
-> 	1) enable Video4Linux and make its Kconfig options to appear;
-> 	2) it makes the Kernel build the V4L core.
+> As I was reading this thread again, I think there might be a misunderstanding
+> here when you said that "switching between the two sources require disabling
+> the link first and then enabling the new one".
 > 
-> while VIDEO_V4L2 where used to distinguish between drivers that
-> implement the newer API and drivers that implemented the former one.
+> The driver is currently not checking the validity of the setup at link_setup
+> but at link_validate (which is called at streamon time), so userspace can
+> effectively disable/enable links in whichever order and a valid setup is only
+> required when streaming starts. I think that's already the situation that you
+> want to achieve.
+
+That's right. link_validate is probably not the best place though, as
+it's meant to validate one link, while here you need to perform
+validation of the state of multiple links, right ?
+
+> To summarize, the following pads can have multiple links:
+> - csi sink (parallel sensor source or mipi csi-2 bridge source)
+> - csi source (isp sink or video capture sink)
+> - isp sink (csi0 source or csi1 source)
 > 
-> With time, such meaning changed, specially after the removal of
-> all V4L version 1 drivers.
-> 
-> At the current implementation, VIDEO_DEV only does (1): it enables
-> the media options related to V4L, that now has:
-> 
-> 	menu "Video4Linux options"
-> 		visible if VIDEO_DEV
-> 
-> 	source "drivers/media/v4l2-core/Kconfig"
-> 	endmenu
-> 
-> but it doesn't affect anymore the V4L core drivers.
-> 
-> The rationale is that the V4L2 core has a "soft" dependency
-> at the I2C bus, and now requires to select a number of other
-> Kconfig options:
-> 
-> 	config VIDEO_V4L2
-> 		tristate
-> 		depends on (I2C || I2C=n) && VIDEO_DEV
-> 		select RATIONAL
-> 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
-> 		default (I2C || I2C=n) && VIDEO_DEV
-> 
-> In the past, merging them would be tricky, but it seems that it is now
-> possible to merge those symbols, in order to simplify V4L dependencies.
-> 
-> Let's keep VIDEO_DEV, as this one is used on some make *defconfig
-> configurations.
+> I'll send my next versions without changes (one pad, multiple links)
+> but we can revisit this if there's an issue with that after all.
 
-I would have gone for VIDEO_V4L2, but if it makes configuration changes
-easier to handle, VIDEO_DEV is fine with me too.
+OK.
 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
->  drivers/input/rmi4/Kconfig                    |   2 +-
->  drivers/input/touchscreen/Kconfig             |   4 +-
->  drivers/media/Kconfig                         |   3 +
->  drivers/media/common/saa7146/Kconfig          |   2 +-
->  drivers/media/dvb-core/Kconfig                |   2 +-
->  drivers/media/dvb-frontends/Kconfig           |   4 +-
->  drivers/media/i2c/Kconfig                     | 250 +++++++++---------
->  drivers/media/i2c/ccs/Kconfig                 |   2 +-
->  drivers/media/i2c/cx25840/Kconfig             |   2 +-
->  drivers/media/i2c/et8ek8/Kconfig              |   2 +-
->  drivers/media/i2c/m5mols/Kconfig              |   2 +-
->  drivers/media/pci/Kconfig                     |   2 +-
->  drivers/media/pci/bt8xx/Kconfig               |   2 +-
->  drivers/media/pci/cobalt/Kconfig              |   2 +-
->  drivers/media/pci/cx18/Kconfig                |   2 +-
->  drivers/media/pci/dt3155/Kconfig              |   2 +-
->  drivers/media/pci/intel/ipu3/Kconfig          |   2 +-
->  drivers/media/pci/ivtv/Kconfig                |   2 +-
->  drivers/media/pci/meye/Kconfig                |   2 +-
->  drivers/media/pci/saa7146/Kconfig             |   6 +-
->  drivers/media/pci/sta2x11/Kconfig             |   2 +-
->  drivers/media/pci/tw5864/Kconfig              |   2 +-
->  drivers/media/pci/tw68/Kconfig                |   2 +-
->  drivers/media/pci/tw686x/Kconfig              |   2 +-
->  drivers/media/platform/Kconfig                |   6 +-
->  drivers/media/platform/allegro-dvt/Kconfig    |   2 +-
->  drivers/media/platform/am437x/Kconfig         |   2 +-
->  drivers/media/platform/amphion/Kconfig        |   2 +-
->  drivers/media/platform/aspeed/Kconfig         |   2 +-
->  drivers/media/platform/atmel/Kconfig          |   8 +-
->  drivers/media/platform/cadence/Kconfig        |   4 +-
->  drivers/media/platform/coda/Kconfig           |   2 +-
->  drivers/media/platform/davinci/Kconfig        |  12 +-
->  drivers/media/platform/exynos-gsc/Kconfig     |   2 +-
->  drivers/media/platform/exynos4-is/Kconfig     |   2 +-
->  drivers/media/platform/intel/Kconfig          |   2 +-
->  drivers/media/platform/marvell-ccic/Kconfig   |   4 +-
->  drivers/media/platform/meson/ge2d/Kconfig     |   2 +-
->  drivers/media/platform/mtk-jpeg/Kconfig       |   2 +-
->  drivers/media/platform/mtk-mdp/Kconfig        |   2 +-
->  drivers/media/platform/mtk-vcodec/Kconfig     |   2 +-
->  drivers/media/platform/mtk-vpu/Kconfig        |   2 +-
->  drivers/media/platform/nxp/Kconfig            |   8 +-
->  drivers/media/platform/nxp/imx-jpeg/Kconfig   |   2 +-
->  drivers/media/platform/omap/Kconfig           |   2 +-
->  drivers/media/platform/omap3isp/Kconfig       |   2 +-
->  drivers/media/platform/qcom/camss/Kconfig     |   2 +-
->  drivers/media/platform/qcom/venus/Kconfig     |   2 +-
->  drivers/media/platform/renesas/Kconfig        |  12 +-
->  .../media/platform/renesas/rcar-vin/Kconfig   |   4 +-
->  drivers/media/platform/rockchip/rga/Kconfig   |   2 +-
->  .../media/platform/rockchip/rkisp1/Kconfig    |   2 +-
->  drivers/media/platform/s3c-camif/Kconfig      |   2 +-
->  drivers/media/platform/s5p-g2d/Kconfig        |   2 +-
->  drivers/media/platform/s5p-jpeg/Kconfig       |   2 +-
->  drivers/media/platform/s5p-mfc/Kconfig        |   2 +-
->  drivers/media/platform/sti/bdisp/Kconfig      |   2 +-
->  drivers/media/platform/sti/delta/Kconfig      |   2 +-
->  drivers/media/platform/sti/hva/Kconfig        |   2 +-
->  drivers/media/platform/stm32/Kconfig          |   4 +-
->  .../media/platform/sunxi/sun4i-csi/Kconfig    |   2 +-
->  .../media/platform/sunxi/sun6i-csi/Kconfig    |   2 +-
->  drivers/media/platform/sunxi/sun8i-di/Kconfig |   2 +-
->  .../media/platform/sunxi/sun8i-rotate/Kconfig |   2 +-
->  drivers/media/platform/tegra/vde/Kconfig      |   2 +-
->  drivers/media/platform/ti-vpe/Kconfig         |   4 +-
->  drivers/media/platform/via/Kconfig            |   2 +-
->  drivers/media/platform/xilinx/Kconfig         |   2 +-
->  drivers/media/radio/Kconfig                   |  54 ++--
->  drivers/media/radio/si470x/Kconfig            |   2 +-
->  drivers/media/radio/wl128x/Kconfig            |   2 +-
->  drivers/media/spi/Kconfig                     |   4 +-
->  drivers/media/test-drivers/Kconfig            |   2 +-
->  drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
->  drivers/media/test-drivers/vimc/Kconfig       |   2 +-
->  drivers/media/test-drivers/vivid/Kconfig      |   2 +-
->  drivers/media/tuners/Kconfig                  |   6 +-
->  drivers/media/tuners/e4000.c                  |   6 +-
->  drivers/media/tuners/fc2580.c                 |   6 +-
->  drivers/media/usb/airspy/Kconfig              |   2 +-
->  drivers/media/usb/au0828/Kconfig              |   6 +-
->  drivers/media/usb/cpia2/Kconfig               |   2 +-
->  drivers/media/usb/dvb-usb-v2/Kconfig          |   8 +-
->  drivers/media/usb/dvb-usb/Kconfig             |   4 +-
->  drivers/media/usb/gspca/Kconfig               |  96 +++----
->  drivers/media/usb/gspca/gl860/Kconfig         |   2 +-
->  drivers/media/usb/gspca/m5602/Kconfig         |   2 +-
->  drivers/media/usb/hackrf/Kconfig              |   2 +-
->  drivers/media/usb/hdpvr/Kconfig               |   2 +-
->  drivers/media/usb/msi2500/Kconfig             |   2 +-
->  drivers/media/usb/pvrusb2/Kconfig             |   2 +-
->  drivers/media/usb/pwc/Kconfig                 |   2 +-
->  drivers/media/usb/s2255/Kconfig               |   2 +-
->  drivers/media/usb/stkwebcam/Kconfig           |   2 +-
->  drivers/media/usb/usbtv/Kconfig               |   2 +-
->  drivers/media/usb/uvc/Kconfig                 |   2 +-
->  drivers/media/usb/zr364xx/Kconfig             |   2 +-
->  drivers/media/v4l2-core/Kconfig               |  12 +-
->  drivers/media/v4l2-core/Makefile              |   2 +-
->  drivers/staging/media/atomisp/Kconfig         |   2 +-
->  drivers/staging/media/atomisp/i2c/Kconfig     |  14 +-
->  drivers/staging/media/hantro/Kconfig          |   2 +-
->  drivers/staging/media/imx/Kconfig             |   2 +-
->  drivers/staging/media/ipu3/Kconfig            |   2 +-
->  drivers/staging/media/max96712/Kconfig        |   2 +-
->  drivers/staging/media/meson/vdec/Kconfig      |   2 +-
->  drivers/staging/media/omap4iss/Kconfig        |   2 +-
->  drivers/staging/media/rkvdec/Kconfig          |   2 +-
->  drivers/staging/media/sunxi/cedrus/Kconfig    |   2 +-
->  drivers/staging/media/tegra-video/Kconfig     |   2 +-
->  drivers/staging/media/zoran/Kconfig           |   2 +-
->  drivers/staging/most/video/Kconfig            |   2 +-
->  .../vc04_services/bcm2835-camera/Kconfig      |   2 +-
->  drivers/usb/gadget/Kconfig                    |   2 +-
->  drivers/usb/gadget/legacy/Kconfig             |   2 +-
->  sound/pci/Kconfig                             |   4 +-
->  116 files changed, 363 insertions(+), 368 deletions(-)
-
-[snip]
-
-> diff --git a/drivers/media/pci/tw5864/Kconfig b/drivers/media/pci/tw5864/Kconfig
-> index d376d4ed65b9..0a0f3191f238 100644
-> --- a/drivers/media/pci/tw5864/Kconfig
-> +++ b/drivers/media/pci/tw5864/Kconfig
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config VIDEO_TW5864
->  	tristate "Techwell TW5864 video/audio grabber and encoder"
-> -	depends on VIDEO_DEV && PCI && VIDEO_V4L2
-> +	depends on VIDEO_DEV && PCI && VIDEO_DEV
-
-You can drop the second VIDEO_DEV.
-
->  	select VIDEOBUF2_DMA_CONTIG
->  	help
->  	  Support for boards based on Techwell TW5864 chip which provides
-> diff --git a/drivers/media/pci/tw68/Kconfig b/drivers/media/pci/tw68/Kconfig
-> index af0cb60337bb..ef29be7db493 100644
-> --- a/drivers/media/pci/tw68/Kconfig
-> +++ b/drivers/media/pci/tw68/Kconfig
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  config VIDEO_TW68
->  	tristate "Techwell tw68x Video For Linux"
-> -	depends on VIDEO_DEV && PCI && VIDEO_V4L2
-> +	depends on VIDEO_DEV && PCI && VIDEO_DEV
-
-Here too.
-
-Apart from that, the patch looks good to me.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-I have however not evaluated the impact it will have on make oldconfig.
-
->  	select VIDEOBUF2_DMA_SG
->  	help
->  	  Support for Techwell tw68xx based frame grabber boards.
-
-[snip]
+> > > > > > Ideally I'd say such internal routing should use the new V4L2 subdev
+> > > > > > routing API that is currently being implemented (see [1]), but I don't
+> > > > > > know when it will land, and I don't want to delay your patch series.
+> > > > > > 
+> > > > > > [1] https://lore.kernel.org/linux-media/20211130141536.891878-28-tomi.valkeinen@ideasonboard.com
+> > > > > 
+> > > > > I'm still a bit confused what problem this is trying to solve.
+> > > > > My understanding was that the current pad/link API allows representing complex
+> > > > > topologies and switching different paths with link enable/disable.
+> > > > 
+> > > > That was the intent of the MEDIA_IOC_SETUP_LINK ioctl, but we ended up
+> > > > with something that is fairly ill-defined, and doesn't have the ability
+> > > > to set multiple links atomically. It turned out to be less usable for
+> > > > userspace than expected. Mistakes happen (and I'll blame myself here,
+> > > > having designed that API) when we don't have real test cases during
+> > > > kernel development.
+> > > 
+> > > Yeah it's hard to predict these kinds of things in advance I suppose.
+> > > Thanks for the heads up!
+> > > 
+> > > > > > > > > > > +
+> > > > > > > > > > > +required:
+> > > > > > > > > > > +  - compatible
+> > > > > > > > > > > +  - reg
+> > > > > > > > > > > +  - interrupts
+> > > > > > > > > > > +  - clocks
+> > > > > > > > > > > +  - clock-names
+> > > > > > > > > > > +  - resets
+> > > > > > > > > > > +
+> > > > > > > > > > > +additionalProperties: false
+> > > > > > > > > > > +
+> > > > > > > > > > > +examples:
+> > > > > > > > > > > +  - |
+> > > > > > > > > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > > > > > > > > > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> > > > > > > > > > > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> > > > > > > > > > > +
+> > > > > > > > > > > +    isp: isp@1cb8000 {
+> > > > > > > > > > > +        compatible = "allwinner,sun8i-v3s-isp";
+> > > > > > > > > > > +        reg = <0x01cb8000 0x1000>;
+> > > > > > > > > > > +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > > > > > > > > > > +        clocks = <&ccu CLK_BUS_CSI>,
+> > > > > > > > > > > +             <&ccu CLK_CSI1_SCLK>,
+> > > > > > > > > > > +             <&ccu CLK_DRAM_CSI>;
+> > > > > > > > > > > +        clock-names = "bus", "mod", "ram";
+> > > > > > > > > > > +        resets = <&ccu RST_BUS_CSI>;
+> > > > > > > > > > > +
+> > > > > > > > > > > +        ports {
+> > > > > > > > > > > +            #address-cells = <1>;
+> > > > > > > > > > > +            #size-cells = <0>;
+> > > > > > > > > > > +
+> > > > > > > > > > > +            port@0 {
+> > > > > > > > > > > +                reg = <0>;
+> > > > > > > > > > > +
+> > > > > > > > > > > +                isp_in_csi0: endpoint {
+> > > > > > > > > > > +                    remote-endpoint = <&csi0_out_isp>;
+> > > > > > > > > > > +                };
+> > > > > > > > > > > +            };
+> > > > > > > > > > > +        };
+> > > > > > > > > > > +    };
+> > > > > > > > > > > +
+> > > > > > > > > > > +...
 
 -- 
 Regards,
