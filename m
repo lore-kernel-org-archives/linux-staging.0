@@ -1,86 +1,85 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613E17A
-	for <linux-staging@lists.linux.dev>; Mon, 14 Mar 2022 10:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1647252954;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TN2T3pV/RSYPJmQU4+Rpzf9IHps10qbPty7fqrdTQLg=;
-	b=OqhH3EQIgxgHcbRXf47ArJ1c4W57x7W/vm4tKXCKdRlvtXoYQkhSwWu8ou18EC9gIFhQ+s
-	etbg2f5XwajS6+BWxMkicXKQbcvcuFyfjd/6GFXjW5kBmz32kQeWJbJX+rhBcTwfhNX+rw
-	2xgLNXhEGCoqDYZYLtAz/64Fm/+Mk2g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-B5x3RyY_PcyA-qn-QsZVnQ-1; Mon, 14 Mar 2022 06:15:51 -0400
-X-MC-Unique: B5x3RyY_PcyA-qn-QsZVnQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2A0DC29A9CCB;
-	Mon, 14 Mar 2022 10:15:50 +0000 (UTC)
-Received: from kate-fedora.redhat.com (unknown [10.2.16.91])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 587C34AE323;
-	Mon, 14 Mar 2022 10:15:47 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	hdegoede@redhat.com,
-	Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v3 2/2] staging: media: ipu3: fixing stripe1 x_end is greater than BDS width
-Date: Mon, 14 Mar 2022 18:15:23 +0800
-Message-Id: <20220314101523.129672-2-hpa@redhat.com>
-In-Reply-To: <20220314101523.129672-1-hpa@redhat.com>
-References: <20220314101523.129672-1-hpa@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EED1855
+	for <linux-staging@lists.linux.dev>; Mon, 14 Mar 2022 11:18:54 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id z12-20020a17090ad78c00b001bf022b69d6so14165717pju.2
+        for <linux-staging@lists.linux.dev>; Mon, 14 Mar 2022 04:18:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=dpq2jd5nmzdPBxLx2tXJQXsCy3Tj/t5W3K7mDTr0mRA=;
+        b=jh/Cnw1mFIfgU+lkoZrJoF0z6Z6W9mFhDXhB5+RnCHYuKE5YhSDNj9/g7UVKLRN/3y
+         ngf5XPbBFRBYJxq9ucd7l+r91HkUvWYN4cffHl68Z07pcKMUiJWixniIYPdiQ6hpT/0t
+         Sk91booBlv/neFQH87+V1m+zaEqXSoKwW0A+/lUVKmEo5F4Q690hCPa1tBS3sjW4e6os
+         YBGI+5KSwBwLdwjdOT4iCLqCd9Bd+nxcf1ba3jN4nh+e6Gdl4ZzrOE6RsKyU8OtWULP4
+         rbMjgyE8AL/rPY7Sxe5PlylhulojeITZgBlCAUN1fD9AYPShvUTV3vpgpIdUNzxrZDuz
+         UWTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=dpq2jd5nmzdPBxLx2tXJQXsCy3Tj/t5W3K7mDTr0mRA=;
+        b=BdoXXn5cbdN9q8n+TKwkWTg/nOlu4Ud6Eh1YioReCazT/TQokkVg6Fy1w9st7ImAKa
+         N+iMk8ZTApRFko/eyaFb65rzqmypC23woTpho197m1K8nRI96XLaHvz2+8rv1CxSFYRj
+         4i1DiCFpuyHYUqyV6kGeH9Hi2vxRq8G1Rsko+8l436dicW2pJp85Qt1A0nZKJ3epFx/U
+         bxYH0AOmx/DwtTZDZwOzv4PsYr4tHyPVEfcN99SGe6zzbn7QJ1HeGFIhnDQ1AX0cawA3
+         wrMFY4YpOuk3LEnIXOhh4nXZqnvVOxRmCaSc5BK1Erdd74oTFR03ZWN7RfxEVKw5Nicf
+         XpIQ==
+X-Gm-Message-State: AOAM533H6LU6Qf/kU8BF4LeMX78JgAHG1y5M1a9cikfGvDL6xVK/fXlQ
+	nJ3126IMSBHtS6hc3eXtDy0=
+X-Google-Smtp-Source: ABdhPJw7TrZDmVqj0LeEGjx3ITiP3HqPpbBotW11n2lnXv64Cc62Cb792fcZnNvgCutVVrheuog0iw==
+X-Received: by 2002:a17:90b:1e47:b0:1bf:6d79:b1fd with SMTP id pi7-20020a17090b1e4700b001bf6d79b1fdmr35927360pjb.49.1647256734337;
+        Mon, 14 Mar 2022 04:18:54 -0700 (PDT)
+Received: from [192.168.1.102] ([45.250.64.116])
+        by smtp.gmail.com with ESMTPSA id e4-20020a17090ab38400b001bf9519fe8bsm20757369pjr.38.2022.03.14.04.18.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Mar 2022 04:18:53 -0700 (PDT)
+Message-ID: <85279e7c-bc63-5ee0-0a4b-443b4b1a87c9@gmail.com>
+Date: Mon, 14 Mar 2022 16:48:47 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] staging: android: ashmem: Declared file operation with
+ const keyword Warning found by checkpatch.pl script.
+Content-Language: en-US
+To: Joe Perches <joe@perches.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Arve_Hj=c3=b8nnev=c3=a5g?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Christian Brauner <brauner@kernel.org>, Hridya Valsaraju
+ <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20220312204128.3942-1-shaikhkamal2012@gmail.com>
+ <19a139d0dde6fadfce79c10d40c9810b50702fb1.camel@perches.com>
+From: shaikh kamaluddin <shaikhkamal2012@gmail.com>
+In-Reply-To: <19a139d0dde6fadfce79c10d40c9810b50702fb1.camel@perches.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If both stripes are enabled, an improper AF grid configuration leads
-the AF scene width to be wilder than the BDS width. Also, the second
-stripe x_end is estimated based on the remaining AF scene width.
-Therefore, the second stripe x_end will be greater than the second
-stripe BDS width.
+On 3/13/2022 2:57 AM, Joe Perches wrote:
+> On Sun, 2022-03-13 at 03:11 +0530, shaikh kamal wrote:
+> []
+>> diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
+> []
+>> @@ -377,7 +377,7 @@ ashmem_vmfile_get_unmapped_area(struct file *file, unsigned long addr,
+>>   
+>>   static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
+>>   {
+>> -	static struct file_operations vmfile_fops;
+>> +	static const struct file_operations vmfile_fops;
+> 
+> Make sure to compile any files modified by your suggested patches
+> _before_ sending the patches.
+> 
+> 
 
-In this patch, if the second stripe x_end is greater than BDS width,
-x_end will be set to BDS width.
-
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
- drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-index 5a8c07f34756..8923760aa913 100644
---- a/drivers/staging/media/ipu3/ipu3-css-params.c
-+++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-@@ -2593,6 +2593,10 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
- 					  acc->af.stripes[1].grid_cfg.width,
- 					  b_w_log2);
- 
-+		if (acc->af.stripes[1].grid_cfg.x_end >= acc->stripe.bds_out_stripes[1].width)
-+			acc->af.stripes[1].grid_cfg.x_end =
-+				acc->stripe.bds_out_stripes[1].width - min_overlap;
-+
- 		/*
- 		 * To reduce complexity of debubbling and loading statistics
- 		 * fix grid_height_per_slice to 1 for both stripes
--- 
-2.35.1
-
+Thanks for your suggestion, Kernel build is failing.
