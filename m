@@ -1,140 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.meizu.com (edge01.meizu.com [14.29.68.187])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4012F44
-	for <linux-staging@lists.linux.dev>; Sun, 13 Mar 2022 19:08:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8AA7C340E8;
-	Sun, 13 Mar 2022 19:07:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1647198481;
-	bh=S85F7ZrTXTrFfys0rJRseAMPLnZqh6VsxjYx3rCW0qE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dmNaUYlaZzqRi5HFPSpsaDKlblQ3p5MVwueWdtZ27nwr8sXgDKGi2zeY/AjXhia3r
-	 t3niMVPVw7ZMGjht2uPQpdIjDG4Xhh9RGBhkGpYYOvaUeyV1uyl7/Ooe5SRkYIpGeX
-	 nPRzgYBl7I9TulXE9lJimj0/y8WedW4Wi+roZ8v+CzAwespYPgVioTi8rInofHYnIy
-	 491oP//dd5FdrR2OaOwIhThTPNfNsfaRZeZ3HQhK2GC9Kcx+ke0YN8MaSRvnFceHGK
-	 pt91NFQbpkfyZg/QEihqmYtQ09K3FaejAvhCvgIlhJQH+gCJk9QSEoxFWap65S3vAZ
-	 MpeygeZQ1qMyA==
-Date: Sun, 13 Mar 2022 20:07:55 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-usb@vger.kernel.org
-Subject: Re: [PATCH] media: Kconfig: cleanup VIDEO_DEV dependencies
-Message-ID: <20220313200755.0873537c@coco.lan>
-In-Reply-To: <Yi3ciCTbHrxYUatX@pendragon.ideasonboard.com>
-References: <42ae3d28d4d822f3e14db76b99f2f4c41688ae3e.1647155467.git.mchehab@kernel.org>
-	<Yi3ciCTbHrxYUatX@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943F8C62
+	for <linux-staging@lists.linux.dev>; Mon, 14 Mar 2022 01:13:33 +0000 (UTC)
+Received: from IT-EXMB-1-126.meizu.com (172.16.1.126) by mz-mail04.meizu.com
+ (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 14 Mar
+ 2022 09:12:17 +0800
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by
+ IT-EXMB-1-126.meizu.com (172.16.1.126) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Mon, 14 Mar 2022 09:12:16 +0800
+Received: from IT-EXMB-1-125.meizu.com ([fe80::7481:7d92:3801:4575]) by
+ IT-EXMB-1-125.meizu.com ([fe80::7481:7d92:3801:4575%3]) with mapi id
+ 15.01.2308.014; Mon, 14 Mar 2022 09:12:16 +0800
+From: =?gb2312?B?sNe6xs7E?= <baihaowen@meizu.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+CC: "vireshk@kernel.org" <vireshk@kernel.org>, "johan@kernel.org"
+	<johan@kernel.org>, "elder@kernel.org" <elder@kernel.org>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: =?gb2312?B?tPC4tDogW1BBVENIXSBzdGFnaW5nOiBncmV5YnVzOiBGaXggcG90ZW50aWFs?=
+ =?gb2312?Q?_NULL_dereference?=
+Thread-Topic: [PATCH] staging: greybus: Fix potential NULL dereference
+Thread-Index: AQHYNSL4iVqrOrm/80ClDX0ZeDDii6y5huUAgASPw4I=
+Date: Mon, 14 Mar 2022 01:12:16 +0000
+Message-ID: <5bbec145aa454874a8ae45091e26c3ca@meizu.com>
+References: <1646987730-7597-1-git-send-email-baihaowen@meizu.com>,<20220311113208.GK3293@kadam>
+In-Reply-To: <20220311113208.GK3293@kadam>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.16.137.70]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-Em Sun, 13 Mar 2022 13:59:04 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
-
-> Hi Mauro,
-> 
-> Thank you for the patch.
-> 
-> Trimming the CC list to keep a few mailing lists only.
-> 
-> On Sun, Mar 13, 2022 at 08:12:05AM +0100, Mauro Carvalho Chehab wrote:
-> > media Kconfig has two entries associated to V4L API:
-> > VIDEO_DEV and VIDEO_V4L2.
-> > 
-> > On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
-> > VIDEO_DEV were meant to:
-> > 	1) enable Video4Linux and make its Kconfig options to appear;
-> > 	2) it makes the Kernel build the V4L core.
-> > 
-> > while VIDEO_V4L2 where used to distinguish between drivers that
-> > implement the newer API and drivers that implemented the former one.
-> > 
-> > With time, such meaning changed, specially after the removal of
-> > all V4L version 1 drivers.
-> > 
-> > At the current implementation, VIDEO_DEV only does (1): it enables
-> > the media options related to V4L, that now has:
-> > 
-> > 	menu "Video4Linux options"
-> > 		visible if VIDEO_DEV
-> > 
-> > 	source "drivers/media/v4l2-core/Kconfig"
-> > 	endmenu
-> > 
-> > but it doesn't affect anymore the V4L core drivers.
-> > 
-> > The rationale is that the V4L2 core has a "soft" dependency
-> > at the I2C bus, and now requires to select a number of other
-> > Kconfig options:
-> > 
-> > 	config VIDEO_V4L2
-> > 		tristate
-> > 		depends on (I2C || I2C=n) && VIDEO_DEV
-> > 		select RATIONAL
-> > 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
-> > 		default (I2C || I2C=n) && VIDEO_DEV
-> > 
-> > In the past, merging them would be tricky, but it seems that it is now
-> > possible to merge those symbols, in order to simplify V4L dependencies.
-> > 
-> > Let's keep VIDEO_DEV, as this one is used on some make *defconfig
-> > configurations.  
-> 
-> I would have gone for VIDEO_V4L2, but if it makes configuration changes
-> easier to handle, VIDEO_DEV is fine with me too.
-
-That was actually my first option ;-) VIDEO_V4L2 (or VIDEO_V4L) is a much
-better name. From my side, I'm fine either way.
-
-As a plus, using VIDEO_V4L2 would produce a much smaller patch that won't be
-rejected by some ML servers, but maybe it would require distros and people 
-who have their own .config files stored somewhere to re-configure their
-Kernels.
-
-> [snip]
-> 
-> > diff --git a/drivers/media/pci/tw5864/Kconfig b/drivers/media/pci/tw5864/Kconfig
-> > index d376d4ed65b9..0a0f3191f238 100644
-> > --- a/drivers/media/pci/tw5864/Kconfig
-> > +++ b/drivers/media/pci/tw5864/Kconfig
-> > @@ -1,7 +1,7 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  config VIDEO_TW5864
-> >  	tristate "Techwell TW5864 video/audio grabber and encoder"
-> > -	depends on VIDEO_DEV && PCI && VIDEO_V4L2
-> > +	depends on VIDEO_DEV && PCI && VIDEO_DEV  
-> 
-> You can drop the second VIDEO_DEV.
-> 
-> >  	select VIDEOBUF2_DMA_CONTIG
-> >  	help
-> >  	  Support for boards based on Techwell TW5864 chip which provides
-> > diff --git a/drivers/media/pci/tw68/Kconfig b/drivers/media/pci/tw68/Kconfig
-> > index af0cb60337bb..ef29be7db493 100644
-> > --- a/drivers/media/pci/tw68/Kconfig
-> > +++ b/drivers/media/pci/tw68/Kconfig
-> > @@ -1,7 +1,7 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  config VIDEO_TW68
-> >  	tristate "Techwell tw68x Video For Linux"
-> > -	depends on VIDEO_DEV && PCI && VIDEO_V4L2
-> > +	depends on VIDEO_DEV && PCI && VIDEO_DEV  
-> 
-> Here too.
-> 
-> Apart from that, the patch looks good to me.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks!
-
-Mauro
+VGhhbmsgeW91IGZvciB5b3VyIHN1Z2dlc3Rpb24uDQpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fDQq3orz+yMs6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAb3Jh
+Y2xlLmNvbT4NCreiy83KsbzkOiAyMDIyxOoz1MIxMcjVIDE5OjMyOjA4DQrK1bz+yMs6ILDXusbO
+xA0Ks63LzTogdmlyZXNoa0BrZXJuZWwub3JnOyBqb2hhbkBrZXJuZWwub3JnOyBlbGRlckBrZXJu
+ZWwub3JnOyBncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZzsgbGludXgtc3RhZ2luZ0BsaXN0cy5s
+aW51eC5kZXY7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCtb3zOI6IFJlOiBbUEFUQ0hd
+IHN0YWdpbmc6IGdyZXlidXM6IEZpeCBwb3RlbnRpYWwgTlVMTCBkZXJlZmVyZW5jZQ0KDQpPbiBG
+cmksIE1hciAxMSwgMjAyMiBhdCAwNDozNTozMFBNICswODAwLCBIYW93ZW4gQmFpIHdyb3RlOg0K
+PiBGaXggZm9sbG93aW5nIGNvY2NpY2hlY2sgd2FybmluZzoNCj4gZHJpdmVycy9zdGFnaW5nL2dy
+ZXlidXMvYm9vdHJvbS5jOjMwMTozNS0zOTogRVJST1I6IGZ3IGlzIE5VTEwgYnV0IGRlcmVmZXJl
+bmNlZC4NCj4NCj4gV2hlbiBnb3RvIHF1ZXVlX3dvcmsgYnV0IGRlcmVmZXJlbmNlIFVuaW5pdGlh
+bGl6ZWQgZncgd2lsbCB0cmlnZ2VyIGEgTlVMTA0KPiBkZXJlZmVyZW5jZS4NCj4NCj4gU2lnbmVk
+LW9mZi1ieTogSGFvd2VuIEJhaSA8YmFpaGFvd2VuQG1laXp1LmNvbT4NCg0KWW91ciBwYXRjaCBj
+bGFpbXMgdG8gZml4IGEgYnVnLCBidXQgdGhlIHdhcm5pbmcgaXMgYSBmYWxzZSBwb3NpdGl2ZS4N
+CldoZW4gd2UgImdvdG8gcXVldWVfd29yazsiIHRoZW4gInJldCA9IC1FSU5WQUwiIHNvIHRoYXQg
+bWVhbnMgdGhhdCB3ZQ0Kd2lsbCBub3QgZGVyZWZlcmVuY2UgImZ3Ii4NCg0KWW91IHNob3VsZCBp
+Z25vcmUgZmFsc2UgcG9zaXRpdmUgd2FybmluZ3MuDQoNCldlIHdvdWxkIGFwcGx5IHRoZSBwYXRj
+aCBvbmx5IGlmIGl0IG1hZGUgdGhlIGNvZGUgbW9yZSByZWFkYWJsZSBidXQgSQ0KZG8gbm90IHRo
+aW5rIHRoYXQgaXMgdGhlIGNhc2UgaGVyZS4gIEkgZG8gbm90IHJlYWxseSBldmVuIHNlZSBob3cg
+dGhlDQpwYXRjaCBzaWxlbmNlcyB0aGUgZmFsc2UgcG9zaXRpdmUgd2FybmluZywgYnV0IGl0IG1h
+eSBkby4uLg0KDQpBbnl3YXksIHRoZSBwb2ludCBpczogIEZhbHNlIHBvc2l0aXZlLiAgSWdub3Jl
+IGl0Lg0KDQpyZWdhcmRzLA0KZGFuIGNhcnBlbnRlcg0KDQo=
