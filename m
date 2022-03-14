@@ -1,108 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC65C1855
-	for <linux-staging@lists.linux.dev>; Mon, 14 Mar 2022 11:33:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C0F6C340EC;
-	Mon, 14 Mar 2022 11:33:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1647257627;
-	bh=WnA80cH9bCfifQAruhmVw0SF3GOH8r0waE1k9+hp16M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NtN9qLvGrdCVps1JMlMK+p3Zl6l/JM8B2TKNo/eHGwlfB+zl2jVvb9xhyjedeLN7K
-	 ZOwkP8PInd4Q1R6cYhpxvJmagFxptOMCqBWTjDuwzwu6w1FxGzQ41rW7PPGOy8cTGU
-	 /UUqeoFQ/ONH3p/P7ESxslIQpDebHm/19u/RmBaE=
-Date: Mon, 14 Mar 2022 12:33:42 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: shaikh kamaluddin <shaikhkamal2012@gmail.com>
-Cc: Pavel Skripkin <paskripkin@gmail.com>,
-	Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Hridya Valsaraju <hridya@google.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: android: ashmem: Declared file operation with
- const keyword Warning found by checkpatch.pl script.
-Message-ID: <Yi8oFtMxfTkPF8/h@kroah.com>
-References: <20220312204128.3942-1-shaikhkamal2012@gmail.com>
- <303ed0c8-8e2c-51a4-a4da-be973a25cdec@gmail.com>
- <bf27518d-4990-8b0e-c6ea-26a658ce2e54@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBE91855;
+	Mon, 14 Mar 2022 11:55:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=41PUcU9tzULCiIgb8Uibh/5DuRgn44vcqHlit9be1ys=;
+  b=da5ZDADTYjfUb4CkZvv1ifI5i+2sUHWvJw+dkr6l96rFI9+3qCoi3gnv
+   q0ycGdD5ccrm59796HzJuglqTi/Zn7sM07eq2eqJ7FQY8P7GtUxL24J6z
+   5W/zcd3/E6fo/TuVnTzoYm6lik0f+KcMTza69NkDCls6kpW1/h8PdxP5f
+   k=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,180,1643670000"; 
+   d="scan'208";a="25997332"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 12:53:59 +0100
+From: Julia Lawall <Julia.Lawall@inria.fr>
+To: linux-can@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-spi@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-leds@vger.kernel.org,
+	Shayne Chen <shayne.chen@mediatek.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-omap@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-rdma@vger.kernel.org,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	linux-s390@vger.kernel.org,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	linux-power@fi.rohmeurope.com,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	linux-perf-users@vger.kernel.org
+Subject: [PATCH 00/30] fix typos in comments
+Date: Mon, 14 Mar 2022 12:53:24 +0100
+Message-Id: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bf27518d-4990-8b0e-c6ea-26a658ce2e54@gmail.com>
 
-On Mon, Mar 14, 2022 at 04:55:55PM +0530, shaikh kamaluddin wrote:
-> On 3/13/2022 3:13 AM, Pavel Skripkin wrote:
-> > Hi Shaikh,
-> > 
-> > On 3/12/22 23:41, shaikh kamal wrote:
-> > > Signed-off-by: shaikh kamal <shaikhkamal2012@gmail.com>
-> > > ---
-> > >   drivers/staging/android/ashmem.c | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/staging/android/ashmem.c
-> > > b/drivers/staging/android/ashmem.c
-> > > index ddbde3f8430e..4c6b420fbf4d 100644
-> > > --- a/drivers/staging/android/ashmem.c
-> > > +++ b/drivers/staging/android/ashmem.c
-> > > @@ -377,7 +377,7 @@ ashmem_vmfile_get_unmapped_area(struct file
-> > > *file, unsigned long addr,
-> > >   static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
-> > >   {
-> > > -    static struct file_operations vmfile_fops;
-> > > +    static const struct file_operations vmfile_fops;
-> > >       struct ashmem_area *asma = file->private_data;
-> > >       int ret = 0;
-> > 
-> > Are you sure this patch compiles? vmfile_fops is overrided few lines below
-> > 
-> > odd checkpatch.pl warning...
-> > 
-> > 
-> > 
-> > 
-> > With regards,
-> > Pavel Skripkin
-> 
-> Thank you,yes vmfile_fops is overrided in below code.
-> Building the kernel - make -j4,
-> drivers/staging/android/ashmem.c: In function ‘ashmem_mmap’:
-> drivers/staging/android/ashmem.c:431:16: error: assignment of read-only
-> variable ‘vmfile_fops’
->     vmfile_fops = *vmfile->f_op;
->                 ^
-> drivers/staging/android/ashmem.c:432:21: error: assignment of member ‘mmap’
-> in read-only object
->     vmfile_fops.mmap = ashmem_vmfile_mmap;
->                      ^
-> drivers/staging/android/ashmem.c:433:34: error: assignment of member
-> ‘get_unmapped_area’ in read-only object
->     vmfile_fops.get_unmapped_area =
->                                   ^
-> scripts/Makefile.build:288: recipe for target
-> 'drivers/staging/android/ashmem.o' failed
-> make[3]: *** [drivers/staging/android/ashmem.o] Error 1
-> scripts/Makefile.build:550: recipe for target 'drivers/staging/android'
-> failed
-> make[2]: *** [drivers/staging/android] Error 2
-> scripts/Makefile.build:550: recipe for target 'drivers/staging' failed
-> make[1]: *** [drivers/staging] Error 2
-> Makefile:1831: recipe for target 'drivers' failed
+Various spelling mistakes in comments.
+Detected with the help of Coccinelle.
 
-As always, it is expected that when you submit a change to the kernel,
-at the very least you have test-built it to ensure that it does not
-break the build.  Please remember to do this next time.
+---
 
-thanks,
-
-greg k-h
+ drivers/base/devres.c                               |    4 ++--
+ drivers/clk/qcom/gcc-sm6125.c                       |    2 +-
+ drivers/clk/ti/clkctrl.c                            |    2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c              |    4 ++--
+ drivers/gpu/drm/amd/display/dc/bios/command_table.c |    6 +++---
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                  |    2 +-
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c  |    4 ++--
+ drivers/gpu/drm/sti/sti_gdp.c                       |    2 +-
+ drivers/infiniband/hw/qib/qib_iba7220.c             |    4 ++--
+ drivers/leds/leds-pca963x.c                         |    2 +-
+ drivers/media/i2c/ov5695.c                          |    2 +-
+ drivers/mfd/rohm-bd9576.c                           |    2 +-
+ drivers/mtd/ubi/block.c                             |    2 +-
+ drivers/net/can/usb/ucan.c                          |    4 ++--
+ drivers/net/ethernet/packetengines/yellowfin.c      |    2 +-
+ drivers/net/wireless/ath/ath6kl/htc_mbox.c          |    2 +-
+ drivers/net/wireless/cisco/airo.c                   |    2 +-
+ drivers/net/wireless/mediatek/mt76/mt7915/init.c    |    2 +-
+ drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c |    6 +++---
+ drivers/platform/x86/uv_sysfs.c                     |    2 +-
+ drivers/s390/crypto/pkey_api.c                      |    2 +-
+ drivers/scsi/aic7xxx/aicasm/aicasm.c                |    2 +-
+ drivers/scsi/elx/libefc_sli/sli4.c                  |    2 +-
+ drivers/scsi/lpfc/lpfc_mbox.c                       |    2 +-
+ drivers/scsi/qla2xxx/qla_gs.c                       |    2 +-
+ drivers/spi/spi-sun4i.c                             |    2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c           |    2 +-
+ drivers/usb/gadget/udc/snps_udc_core.c              |    2 +-
+ fs/kernfs/file.c                                    |    2 +-
+ kernel/events/core.c                                |    2 +-
+ 30 files changed, 39 insertions(+), 39 deletions(-)
