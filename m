@@ -1,103 +1,118 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F296AB3
-	for <linux-staging@lists.linux.dev>; Mon, 14 Mar 2022 19:31:16 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id hw13so34955482ejc.9
-        for <linux-staging@lists.linux.dev>; Mon, 14 Mar 2022 12:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=JR1ztvq6kbKN8hA7Y7h98nuZLWbTGZ3l/pHlNUnX8tE=;
-        b=XGomWcDqK/SjKlZAq4K+U+TwMjoR8oh+nnvFNnUZI0bHV6Vo5DkLiQHehbD4V83RYy
-         1oX/VohumuiCcDz8OoQ/FDMgx/pPW8BbyS1RKUk/LW/Lkv3IiCfIkAgA0nD2EIlThttp
-         BuHZ7b0tAs7pRAgOvPMDVRH0GLnXYID/8J/oGwGFtGYY2W667Naz0bH/Wdb4Lus9d6Xc
-         39d9C/jPsgt3IYC3uub69dzuKZfsdjiDQNA/zmmJRfLc/UxEPKwLsDjeosnm3TJPnqZg
-         9TcDtfjuT45wCgxIOm1WqNloiUsUB8oMr1RCw0UV62eHgnTZ8NUwmRDOxoygviqjCM7S
-         ogGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=JR1ztvq6kbKN8hA7Y7h98nuZLWbTGZ3l/pHlNUnX8tE=;
-        b=m1Zx4eFBiVNx+j5XaPmZkPZuuvxEJeSwl/bFbbwDBqDIhoBZNgWHH5iMLB1Uc5TTeU
-         +fIz4Ek/rp7PuVGScVfC5FaKI1BLn4wUcNB8MZyUs3/fxlNgExJ1yi32jhuxz5zQJhyH
-         i77B5jFLP+NkUaqI/FxwuF6Hs2xgFnm2/nxcC6WJzbW+qG+e4iBDlCdKPiO/yepvratb
-         Rpp/TkMcSeRyMw+s1SBLqb32x8lbd5PcEyFjQt6QXCbwWBb8RC4G7TtL5jAOIYDkHfXq
-         Jj/Pn84tVcpXl35Ofp0kD7VecE18U5UMZVMLmwHNZZwxN2s/lAi2kgzO4qS8zuTtzuuw
-         Nxwg==
-X-Gm-Message-State: AOAM530sukeTnKVQsgRdC4+GRmu5/bPuTDiJ1wvDf4xQNjoP//L8NOaJ
-	yGr6bEsn6yNuR4O8KCJEKI0=
-X-Google-Smtp-Source: ABdhPJwX0bDiQzNL3RTuiGVwPJ5kgLUdAZRRQyXu26dwV/buw7A9BNgZ36XpNbZ/EApYwyXNm/mI6A==
-X-Received: by 2002:a17:906:6158:b0:6ce:61d6:f243 with SMTP id p24-20020a170906615800b006ce61d6f243mr19652896ejl.268.1647286273745;
-        Mon, 14 Mar 2022 12:31:13 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p57935aa6.dip0.t-ipconnect.de. [87.147.90.166])
-        by smtp.gmail.com with ESMTPSA id w2-20020a50d982000000b00410dc0889b9sm8646960edj.63.2022.03.14.12.31.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Mar 2022 12:31:13 -0700 (PDT)
-Date: Mon, 14 Mar 2022 20:31:11 +0100
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: vt6656: Removed unused variable
- vt3342_vnt_threshold
-Message-ID: <6e1ef287e66039f9013435f8fa1266de7387df2e.1647284830.git.philipp.g.hortmann@gmail.com>
-References: <cover.1647284830.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4A82F20;
+	Mon, 14 Mar 2022 20:30:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 395EAC340EE;
+	Mon, 14 Mar 2022 20:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1647289811;
+	bh=5slkzW/wYFCAJdfNlCFTBba0nZcr16X7BRShsWGs8e4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=leggAOjDGLqu5Y16iRzmCapGpn9MgtEwT4CrU4eyl+t2E31oSfK39qKDLg3AehmbU
+	 40wH8plobcUAZegoJFqfw9/xkqsBBPmZP9vZVSFOcI/Xp23ZGUf+pgmWTjQguJdafL
+	 aR+7p6LxqiE9iThzqyS8jQ9G6EB+4tZZi+yCfGQiapJJIo9jcBYm9fR9I2LX08BkN2
+	 bFDWmepy5ZVI6q23q7h6GXJ7SL0Svf5wH1oJCuTgacReCjqPgety1pGCFxOBEiOwa4
+	 z9SA1gQwBNf2EwKLfJ+KdExejyFckwalTlOP/U5FXz63cZ94Vo7u6CrKogKN+nyC4B
+	 +CVXdED/jOy7Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0DC0AE6D3DE;
+	Mon, 14 Mar 2022 20:30:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1647284830.git.philipp.g.hortmann@gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/30] fix typos in comments
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <164728981105.21494.10764025984714254687.git-patchwork-notify@kernel.org>
+Date: Mon, 14 Mar 2022 20:30:11 +0000
+References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: linux-can@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-spi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-usb@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, linux-leds@vger.kernel.org,
+ shayne.chen@mediatek.com, sean.wang@mediatek.com,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, rafael@kernel.org,
+ linux-rdma@vger.kernel.org, borntraeger@linux.ibm.com, svens@linux.ibm.com,
+ linux-s390@vger.kernel.org, matti.vaittinen@fi.rohmeurope.com,
+ linux-power@fi.rohmeurope.com, mark.rutland@arm.com,
+ alexander.shishkin@linux.intel.com, jolsa@kernel.org, namhyung@kernel.org,
+ linux-perf-users@vger.kernel.org
 
-Missing part of staging: vt6656: Remove unused rf_type in baseband.c
-Reported-by: kernel test robot <lkp@intel.com>
+Hello:
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- drivers/staging/vt6656/baseband.c | 24 ------------------------
- 1 file changed, 24 deletions(-)
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-diff --git a/drivers/staging/vt6656/baseband.c b/drivers/staging/vt6656/baseband.c
-index c04fd052e467..ad7b963f0d98 100644
---- a/drivers/staging/vt6656/baseband.c
-+++ b/drivers/staging/vt6656/baseband.c
-@@ -167,30 +167,6 @@ static const struct vnt_threshold vt3226_vnt_threshold[] = {
- 	{41, 0xff, 0x00}
- };
- 
--static const struct vnt_threshold vt3342_vnt_threshold[] = {
--	{0, 0x00, 0x38},	/* Max sensitivity */
--	{66, 0x00, 0x43},
--	{65, 0x00, 0x52},
--	{64, 0x00, 0x68},
--	{63, 0x00, 0x80},
--	{62, 0x00, 0x9c},
--	{61, 0x00, 0xc0},
--	{60, 0x00, 0xea},
--	{59, 0x01, 0x30},
--	{58, 0x01, 0x70},
--	{57, 0x01, 0xb0},
--	{56, 0x02, 0x30},
--	{55, 0x02, 0xc0},
--	{53, 0x04, 0x00},
--	{51, 0x07, 0x00},
--	{49, 0x0a, 0x00},
--	{47, 0x11, 0x00},
--	{45, 0x18, 0x00},
--	{43, 0x26, 0x00},
--	{42, 0x36, 0x00},
--	{41, 0xff, 0x00}
--};
--
- /*
-  * Description: Set Antenna mode
-  *
+On Mon, 14 Mar 2022 12:53:24 +0100 you wrote:
+> Various spelling mistakes in comments.
+> Detected with the help of Coccinelle.
+> 
+> ---
+> 
+>  drivers/base/devres.c                               |    4 ++--
+>  drivers/clk/qcom/gcc-sm6125.c                       |    2 +-
+>  drivers/clk/ti/clkctrl.c                            |    2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c              |    4 ++--
+>  drivers/gpu/drm/amd/display/dc/bios/command_table.c |    6 +++---
+>  drivers/gpu/drm/amd/pm/amdgpu_pm.c                  |    2 +-
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c  |    4 ++--
+>  drivers/gpu/drm/sti/sti_gdp.c                       |    2 +-
+>  drivers/infiniband/hw/qib/qib_iba7220.c             |    4 ++--
+>  drivers/leds/leds-pca963x.c                         |    2 +-
+>  drivers/media/i2c/ov5695.c                          |    2 +-
+>  drivers/mfd/rohm-bd9576.c                           |    2 +-
+>  drivers/mtd/ubi/block.c                             |    2 +-
+>  drivers/net/can/usb/ucan.c                          |    4 ++--
+>  drivers/net/ethernet/packetengines/yellowfin.c      |    2 +-
+>  drivers/net/wireless/ath/ath6kl/htc_mbox.c          |    2 +-
+>  drivers/net/wireless/cisco/airo.c                   |    2 +-
+>  drivers/net/wireless/mediatek/mt76/mt7915/init.c    |    2 +-
+>  drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c |    6 +++---
+>  drivers/platform/x86/uv_sysfs.c                     |    2 +-
+>  drivers/s390/crypto/pkey_api.c                      |    2 +-
+>  drivers/scsi/aic7xxx/aicasm/aicasm.c                |    2 +-
+>  drivers/scsi/elx/libefc_sli/sli4.c                  |    2 +-
+>  drivers/scsi/lpfc/lpfc_mbox.c                       |    2 +-
+>  drivers/scsi/qla2xxx/qla_gs.c                       |    2 +-
+>  drivers/spi/spi-sun4i.c                             |    2 +-
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c           |    2 +-
+>  drivers/usb/gadget/udc/snps_udc_core.c              |    2 +-
+>  fs/kernfs/file.c                                    |    2 +-
+>  kernel/events/core.c                                |    2 +-
+>  30 files changed, 39 insertions(+), 39 deletions(-)
+
+Here is the summary with links:
+  - [03/30] ath6kl: fix typos in comments
+    (no matching commit)
+  - [10/30] mt76: mt7915: fix typos in comments
+    (no matching commit)
+  - [12/30] drivers: net: packetengines: fix typos in comments
+    https://git.kernel.org/netdev/net-next/c/ebc0b8b5374e
+  - [19/30] rtlwifi: rtl8821ae: fix typos in comments
+    (no matching commit)
+  - [20/30] airo: fix typos in comments
+    (no matching commit)
+  - [27/30] can: ucan: fix typos in comments
+    (no matching commit)
+
+You are awesome, thank you!
 -- 
-2.25.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
