@@ -1,67 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1D623A0;
-	Tue, 15 Mar 2022 13:41:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07A13C340E8;
-	Tue, 15 Mar 2022 13:40:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1647351662;
-	bh=gvl9SFrDd+2JfY4XpOU21w5Fgp3RnrxgO3xzRNMW3ig=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=FpIzPAInqwcWVe7lVXyZMo10uysAvQH5/+0FSS06nOQud/sjKtVu2eXUrgVVwDtnS
-	 K9saXWWZ1hCdhU07mL3gP1lbyLMM5ncodj0hAGG1sCe8guzPWwUCxCvCMd4UnYk0ij
-	 MiKnX5ElR8cklFLsknUpJxfH63KChYC/OCTeoHADKe2d7sJJxnj+KlqJSXMWCfA0RW
-	 7IMl8VYJBtsy0LvBdpwYawlVvfm1y/uovTsdBOXZktA8NvrkBJg6F9XHpbVdi97yvv
-	 ktn0TMEJDT+qVku5scquwwLC4arp4ujY52Gxd5XtzcUD53EHdZUC9sEswg4SOYFru/
-	 p422dM8tR7ngQ==
-From: Mark Brown <broonie@kernel.org>
-To: Julia Lawall <Julia.Lawall@inria.fr>, linux-can@vger.kernel.org
-Cc: netdev@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>, Shayne Chen <shayne.chen@mediatek.com>, linux-media@vger.kernel.org, Christian Borntraeger <borntraeger@linux.ibm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-perf-users@vger.kernel.org, linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, Sean Wang <sean.wang@mediatek.com>, linux-arm-msm@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>, Sven Schnelle <svens@linux.ibm.com>, platform-driver-x86@vger.kernel.org, kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org, Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, target-devel@vger.kernel.org, linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev, linux-s390@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-power@fi.rohmeurope.com, linux-omap@vger.kernel.org
- , linux-mediatek@lists.infradead.org, linux-leds@vger.kernel.org, linux-spi@vger.kernel.org, amd-gfx@lists.freedesktop.org, linux-clk@vger.kernel.org, linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, linux-wireless@vger.kernel.org
-In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
-References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
-Subject: Re: (subset) [PATCH 00/30] fix typos in comments
-Message-Id: <164735165474.3687547.1964402001196947729.b4-ty@kernel.org>
-Date: Tue, 15 Mar 2022 13:40:54 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416F423A0
+	for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 14:10:11 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id gm1so15039719qvb.7
+        for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 07:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=HYr3pi4BMwg8XurxUPEZOXVcmILs5yF8kfiWA1uwWus=;
+        b=NBpL3yZTX3rX0rCVBAuLqTfzWQY3EjPLV9UlQY32nw3JjfqwKXu2qlti4/amjtA6F8
+         K+gAg/4j+JQmhirKtqCHd+EguMw3VQTAmcjRgPz7oHTJsGWRpOLCWcog3IAXYLK5tjwz
+         PMXsH8ZIqwTlcn9prXj0KWS2PkPeih5i85ohY31gQpaDN84SKpUVYhj9tPtL3jgUCMI4
+         DLk4Kxez315tGBQGvjXghs3PAuQWBvNtSEGhlroIgeJy/RYuzosBN3tJju40kA5yHsga
+         zaPgOku5S+N8Dcjtuc6kvSnki5qIN0RarapspOmRBDUHtRlNB3bQtvU2tvhy7D2na96A
+         HAyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HYr3pi4BMwg8XurxUPEZOXVcmILs5yF8kfiWA1uwWus=;
+        b=M5JUhphmMZZ4chkC8HJHLEt9jdNHHGQ9VR7w1inrdhxiuhgH/NoNQFxnWZKiRQnnVs
+         mT+eCBm0klUMA/EisZSYk7XhONs5XzE6cqPdUWKcqvUoVJcdNw6Ub0akVacoLtpsHmwQ
+         +Qke8DQcLy6CG472m1kp0g/Qx+JG05yJ54g3f9Bo/m2W0A1pHW11gxpvIE3xIUK0hiLD
+         e12Z0kjDvAypy4Cj1taOOQD0vT8Uj512AGe8SHn5znrqnuO+hKfQde4h3UJn76uvznM+
+         1JbbKUzNoIl5WURZ10F5+LVxnTZ0/fq+kgqVyI+wSKxrtp3DN9jRLiXgC7BgyM91LCaj
+         rQ5w==
+X-Gm-Message-State: AOAM531yZKNOwaQHTjSugIkKptHeopeSSFc6GKmCQihtQEJquJ99lbiZ
+	298TqrN533TDKcCmIgL7JSGS0yl9rArCPKwRMMI=
+X-Google-Smtp-Source: ABdhPJwX9RjMlXP9UtTr655sw8v9+9Wy4M6MdUPRxYFoY+iCcim+TEUlnE4V1K7Av56MRgYc0uli2eoP+wCzmajoxl8=
+X-Received: by 2002:a0c:e781:0:b0:42c:4e4f:a6db with SMTP id
+ x1-20020a0ce781000000b0042c4e4fa6dbmr21035527qvn.107.1647353410051; Tue, 15
+ Mar 2022 07:10:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20220315132836.1062-1-arinc.unal@arinc9.com>
+In-Reply-To: <20220315132836.1062-1-arinc.unal@arinc9.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Tue, 15 Mar 2022 15:09:58 +0100
+Message-ID: <CAMhs-H-PSNHMB-AWZ7B_sFH_Fu9N4RtS9=ieuLH2-jq1A3hSmg@mail.gmail.com>
+Subject: Re: [PATCH] mips: dts: ralink: add MT7621 SoC
+To: =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, NeilBrown <neil@brown.name>, 
+	DENG Qingfang <dqfext@gmail.com>, Sean Wang <sean.wang@mediatek.com>, 
+	Mark Lee <Mark-MC.Lee@mediatek.com>, Luiz Angelo Daros de Luca <luizluca@gmail.com>, erkin.bozoglu@xeront.com, 
+	linux-staging@lists.linux.dev, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "open list:MIPS" <linux-mips@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 14 Mar 2022 12:53:24 +0100, Julia Lawall wrote:
-> Various spelling mistakes in comments.
-> Detected with the help of Coccinelle.
-> 
+Hi Arinc,
 
-Applied to
+On Tue, Mar 15, 2022 at 2:29 PM Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc=
+9.com> wrote:
+>
+> The MT7621 system-on-a-chip includes a 880 MHz MIPS1004Kc dual-core CPU,
+> a 5-port 10/100/1000 switch/PHY and one RGMII.
+>
+> Add the devicetrees for GB-PC1 and GB-PC2 devices which use MT7621 SoC.
+>
+> Signed-off-by: Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
+> ---
+> I'm not sure which repository/branch this patch is supposed to be applied
+> to. This patch does changes on top of commit dcd520af4eac ("staging:
+> mt7621-dts: fix cpuintc and fixedregulator dtc warnings, fix xhci") which
+> is currently applied on gregkh/staging.git staging-next branch.
+>
+> Ar=C4=B1n=C3=A7
+>
+> ---
+>  MAINTAINERS                                           |  7 +++++++
+>  arch/mips/boot/dts/ralink/Makefile                    |  4 ++++
+>  .../mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts     |  0
+>  .../mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts     |  0
+>  .../mips/boot/dts/ralink}/mt7621.dtsi                 |  0
+>  arch/mips/ralink/Kconfig                              |  5 +++++
+>  drivers/staging/Kconfig                               |  2 --
+>  drivers/staging/Makefile                              |  1 -
+>  drivers/staging/mt7621-dts/Kconfig                    | 11 -----------
+>  drivers/staging/mt7621-dts/Makefile                   |  5 -----
+>  drivers/staging/mt7621-dts/TODO                       |  5 -----
+>  11 files changed, 16 insertions(+), 24 deletions(-)
+>  rename drivers/staging/mt7621-dts/gbpc1.dts =3D> arch/mips/boot/dts/rali=
+nk/mt7621-gnubee-gb-pc1.dts (100%)
+>  rename drivers/staging/mt7621-dts/gbpc2.dts =3D> arch/mips/boot/dts/rali=
+nk/mt7621-gnubee-gb-pc2.dts (100%)
+>  rename {drivers/staging/mt7621-dts =3D> arch/mips/boot/dts/ralink}/mt762=
+1.dtsi (100%)
+>  delete mode 100644 drivers/staging/mt7621-dts/Kconfig
+>  delete mode 100644 drivers/staging/mt7621-dts/Makefile
+>  delete mode 100644 drivers/staging/mt7621-dts/TODO
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 62d6758bf8c4..92eda5adca44 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16181,6 +16181,13 @@ L:     linux-mips@vger.kernel.org
+>  S:     Maintained
+>  F:     arch/mips/ralink
+>
+> +RALINK MT7621 MIPS ARCHITECTURE
+> +M:     Ar=C4=B1n=C3=A7 =C3=9CNAL <arinc.unal@arinc9.com>
+> +M:     Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> +L:     linux-mips@vger.kernel.org
+> +S:     Maintained
+> +F:     arch/mips/boot/dts/ralink/mt7621*
+> +
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-
-Thanks!
-
-[21/30] spi: sun4i: fix typos in comments
-        commit: 2002c13243d595e211c0dad6b8e2e87f906f474b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
 Thanks,
-Mark
+    Sergio Paracuellos
