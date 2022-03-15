@@ -1,47 +1,48 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814257A
-	for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 20:09:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF3E7A
+	for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 20:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1647374982;
+	s=mimecast20190719; t=1647374984;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=cVuRUCzWQ8sHp4iijGuH6jG3CMenp456hE40B3rmy5w=;
-	b=HS4LL8RGPmAKmsHtdS5MpY4H6p2SMpjCd4uHvbKorQTNhvfZ5YMmNU2hYfYWJR2eRSMRnH
-	sRnBEUrlv/W3A2Dk3iWYmOJDfs1bCFgMnpKzfW9ObJ8wVfQEd7ZUimMTM0S+Oe3BAvUDwc
-	oR/HVQPMyEDsTCXUA/mhEsIfKyad4Ys=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gzuNLYDsbc4LQ+eCCeLM8v+rRX11qjhaA0tgT5aZNJM=;
+	b=EAS41bcUbfFSlGAajx5zmeenhVUHa+6ChfwWS6cw1k0uVFj5AZ/83WvFdy6WysuqMnvR/7
+	5uQqtWApO76gSC9gWL7SD0RjiYbxNnsKwd73Rd0PRt2aQHV5sZQKucMjC054QXW+Ej76tk
+	Drrpsq8mQ/2oEkwXVKzfAVN3w3MjEq8=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-141-con2IrRrMwukVy8fY_TQzw-1; Tue, 15 Mar 2022 16:09:41 -0400
-X-MC-Unique: con2IrRrMwukVy8fY_TQzw-1
-Received: by mail-qt1-f199.google.com with SMTP id e28-20020ac8415c000000b002c5e43ca6b7so116974qtm.9
-        for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 13:09:41 -0700 (PDT)
+ us-mta-36--jSfna0PMtCf2SL6sfnnvA-1; Tue, 15 Mar 2022 16:09:43 -0400
+X-MC-Unique: -jSfna0PMtCf2SL6sfnnvA-1
+Received: by mail-qt1-f200.google.com with SMTP id bb15-20020a05622a1b0f00b002e06ae2f56cso112171qtb.12
+        for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 13:09:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cVuRUCzWQ8sHp4iijGuH6jG3CMenp456hE40B3rmy5w=;
-        b=QEEvOEPEnvF1K6GNi5h0X/kOq1Q1DDa6HON6RJXpyz2V6do1p71r4pUIfJFLumVdU1
-         6YedsybzcHv184ZHylTW1cFaing03uVwhcLg3hiO00iRiVjKHnaF9GTbiFOJk5YsL4ZW
-         5vX0lEKJwZ7rBDqF/tDFKNcEksiznqZNUnGcPAKKQr9tI8SaiolJR5zlfK4jyyQYGak1
-         tqe+6xJByim8rws1g8x6ZX1xAs1893cK6rN4eBKrcrFa0Pz6YHY4rCs9/jCfn3Eh+ziD
-         SWX/V8zO1ub1LFfr07wIrwM/6fJzJwtfnj8zP+veBJwrydbXdedw2rl7MG9hY6wXVTj1
-         YpQw==
-X-Gm-Message-State: AOAM532pa3A/SnRo01TmPLAKsEW5bONEnVzWN6pJHHojl7sM38DRE+PA
-	14EoExJ5AYtw8xb752BF8kLg9n3MQ+IjTcgHvAjXcBVyApK7TJPiInF3o/nMs4ixKRB3q+Cjrz4
-	qlpqU8Nc4G5xZRwOglUw9iX3JIw==
-X-Received: by 2002:a05:6214:2689:b0:435:be79:a17e with SMTP id gm9-20020a056214268900b00435be79a17emr22493329qvb.35.1647374981034;
-        Tue, 15 Mar 2022 13:09:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzuPkjuOo9bT0rnQm4l+mCvOeMmKIO0U+oT7rObYdgyQ8gKGTTXcMrZp9grdWrNFpk95GFfDA==
-X-Received: by 2002:a05:6214:2689:b0:435:be79:a17e with SMTP id gm9-20020a056214268900b00435be79a17emr22493322qvb.35.1647374980830;
-        Tue, 15 Mar 2022 13:09:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=gzuNLYDsbc4LQ+eCCeLM8v+rRX11qjhaA0tgT5aZNJM=;
+        b=EDQxMJc26TCjlh7aY/obaQu6W/u5TIYqAki+Y7q2KJAUou/LyhkC9dXaC14M0XLGM9
+         DHTSR2Gvnnd0leD/SeTCldx9BZ9QjF1kuUuJALFuwPOeI8RT5+WXrozK/j9CGB0NUUCh
+         DkK2vMM9jLcqB/aahtmUwehJI01dC1coGf186ksJ4XLNJNOPbkhApBDf2y4Q8OvyWj8S
+         HJuQw+8J+6dmCyuwZA+DmOo6U0ImUPEEIdZPnn+njlpfes+G0zQCgM5o9sqijt+ZX4QX
+         TwDpWRrvKW0sKBcySMNmoYNsrAvso2/UAuOdP7zsuoBTQUt9qzWV+CLM8qFbiBhHWhnB
+         Qx1g==
+X-Gm-Message-State: AOAM532M3ah+oCvrCrR5B09FnpwjboAvMd0Z20oQP9JsJspTmwXjjpce
+	4jXGLr/XJinH5/pFEQi0EiTcOhWJkE2hNzY242Y/EROks2SwBd9NAkaJKWGLIoXQJc6MJ3uJVWv
+	Iy3HkL3kuHe+/Djwdigg1DNYZBQ==
+X-Received: by 2002:a05:6214:2021:b0:435:c2f0:817c with SMTP id 1-20020a056214202100b00435c2f0817cmr22526831qvf.1.1647374982637;
+        Tue, 15 Mar 2022 13:09:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQGJ2hEhXw4BbiMPJAtVDm4Wh2ugdd8oUEZ2eae1W1C3kjSaJzxn/pmqNT6dQ+bbCeD+X7BA==
+X-Received: by 2002:a05:6214:2021:b0:435:c2f0:817c with SMTP id 1-20020a056214202100b00435c2f0817cmr22526815qvf.1.1647374982483;
+        Tue, 15 Mar 2022 13:09:42 -0700 (PDT)
 Received: from fedora.hitronhub.home (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id 197-20020a3703ce000000b0067af869ffa6sm9582433qkd.127.2022.03.15.13.09.39
+        by smtp.gmail.com with ESMTPSA id 197-20020a3703ce000000b0067af869ffa6sm9582433qkd.127.2022.03.15.13.09.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Mar 2022 13:09:40 -0700 (PDT)
+        Tue, 15 Mar 2022 13:09:42 -0700 (PDT)
 From: Adrien Thierry <athierry@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: Adrien Thierry <athierry@redhat.com>,
@@ -59,10 +60,12 @@ Cc: Adrien Thierry <athierry@redhat.com>,
 	Gaston Gonzalez <gascoar@gmail.com>,
 	Ojaswin Mujoo <ojaswin98@gmail.com>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 0/2] Add support for bcm2711 in vchiq_arm
-Date: Tue, 15 Mar 2022 16:09:27 -0400
-Message-Id: <20220315200929.74952-1-athierry@redhat.com>
+Subject: [PATCH 1/2] dt-bindings: soc: bcm: bcm2835-vchiq: Add support for bcm2711
+Date: Tue, 15 Mar 2022 16:09:28 -0400
+Message-Id: <20220315200929.74952-2-athierry@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220315200929.74952-1-athierry@redhat.com>
+References: <20220315200929.74952-1-athierry@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,22 +79,31 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 
-The goal of this patch series is to use the bcm2711 compatible string in
-vchiq_arm for the Raspberry Pi 4. This allows using the downstream device
-tree with the upstream kernel.
+Add a new compatible string for BCM2711. This is the chip used on the
+Raspberry Pi 4.
 
-Adrien Thierry (2):
-  dt-bindings: soc: bcm: bcm2835-vchiq: Add support for bcm2711
-  staging: vchiq_arm: Use bcm2711 compatible string for bcm2711-based
-    RPi
-
+Signed-off-by: Adrien Thierry <athierry@redhat.com>
+---
  .../devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml     | 6 ++++++
- arch/arm/boot/dts/bcm2711-rpi.dtsi                          | 1 +
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 5 +++++
- 3 files changed, 12 insertions(+)
+ 1 file changed, 6 insertions(+)
 
-
-base-commit: 09688c0166e76ce2fb85e86b9d99be8b0084cdf9
+diff --git a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+index e04439b3355b..599bd283df1b 100644
+--- a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
++++ b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+@@ -27,6 +27,12 @@ properties:
+               - brcm,bcm2836-vchiq
+           - const: brcm,bcm2835-vchiq
+ 
++      - description: BCM2711 based boards
++        items:
++          - enum:
++              - brcm,bcm2711-vchiq
++          - const: brcm,bcm2711-vchiq
++
+   reg:
+     description: Physical base address and length of the doorbell register pair
+     minItems: 1
 -- 
 2.35.1
 
