@@ -1,75 +1,110 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA27E2912
-	for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 20:55:31 +0000 (UTC)
-Received: from martin by viti.kaiser.cx with local (Exim 4.89)
-	(envelope-from <martin@viti.kaiser.cx>)
-	id 1nUECW-00088x-NG; Tue, 15 Mar 2022 21:55:28 +0100
-Date: Tue, 15 Mar 2022 21:55:28 +0100
-From: Martin Kaiser <lists@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] staging: r8188eu: some rx cleanups
-Message-ID: <20220315205528.vfby3delkhyidbv5@viti.kaiser.cx>
-References: <20220305185351.1409232-1-martin@kaiser.cx>
- <Yi97s4Eu20CVE/Ds@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094F42912
+	for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 21:15:09 +0000 (UTC)
+Received: by mail-qv1-f66.google.com with SMTP id kk16so490541qvb.5
+        for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 14:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=northvilleschools.net; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=zt1OL2xVjdGJFHy645jKL0xvPay0033GOEEzUn5jKUk=;
+        b=JA2HFkl3fdUjf7ZUvsQjSrBfMjNMYm45ExJngSlwKbgHuGZ6gAuggePkU4GaS8G5Yr
+         t8t2rv8yK6YrP9CocZTAS0BYabjqpfxeY5+jmITqSPQk+0b6fhvTh0JqkF7/C8qPwFyG
+         UUB9U+111KZI9Cc2+4klhNj0Y8XBX2GGkYUcAW9RyRlq8+zpUDBXxyK9Tg9JGtzBstW1
+         608BqV+ykIUOjhq3hp4PXJ8YlAZKNJE60W7acWsABP79xoipU3EedX7I/xw6w8WCuhOC
+         9tx79V8FOskkWxFrwBlhootPqYh/siYqpVnB7BDm3DBWM71JqCSMR41Ftww2nQqVTCXm
+         velw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=zt1OL2xVjdGJFHy645jKL0xvPay0033GOEEzUn5jKUk=;
+        b=GgXnKx+uJhEPctt92RTMHEtiEtN6xJfr4uc94waVrcV8ZeHj1Ug6eA3/fi6nJBVWWQ
+         Hm/teFpKu0LY//V8lbtxsxeSiLgqVAE9UeBKUZYHoUH6SOEjvwbe3ZNuD/nC90oagKOk
+         hkCxHAEOKN5aNddyBQafxsMh5eWz2RdC1r+G+bFvHaAfm4JkpRHn/vtnP7YdBa/TZ7og
+         8Ii6kOoVcQmkk8lIJZrry/NtkXoP9os/olMV82Z3AfA579q95cTtq9UTOYxEJQC2zQ89
+         C1BuZ7f/A2c16++ODK9hexjMkbgIZHmlt59DMZvwxYG5OEvJIzGKbLCi1IFTZVDwSe/Z
+         S8eQ==
+X-Gm-Message-State: AOAM532YJVriQCqkbQfv5JOuVMwdWK9lr1uYFPEzoIjMqviuhybRfGtq
+	LDMkF/QS6+R65lqkIZl8P5eWyg==
+X-Google-Smtp-Source: ABdhPJw92dYbx3bTvF1/mjzabEzXu4uY4Sg0EurCPJyw1tU73GVyCe9WguChpVIbDumk5rWpihQtqA==
+X-Received: by 2002:a05:6214:2309:b0:435:374d:4bbb with SMTP id gc9-20020a056214230900b00435374d4bbbmr22022590qvb.105.1647378908702;
+        Tue, 15 Mar 2022 14:15:08 -0700 (PDT)
+Received: from sckzor-linux (d4-50-247-168.col.wideopenwest.com. [50.4.168.247])
+        by smtp.gmail.com with ESMTPSA id k10-20020a05622a03ca00b002e0684cf81fsm58022qtx.73.2022.03.15.14.15.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Mar 2022 14:15:08 -0700 (PDT)
+Date: Tue, 15 Mar 2022 17:15:07 -0400
+From: Charlie Sands <sandsch@northvilleschools.net>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rts5208: Resolve checkpath.pl issues.
+Message-ID: <YjEB27xzf+krm3ew@sckzor-linux.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yi97s4Eu20CVE/Ds@kroah.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-Thus wrote Greg Kroah-Hartman (gregkh@linuxfoundation.org):
+> Always test-build your patches. Applying this change results in a build 
+> failure :(
+My apologies, I ran a build test on a copy of the repository with my changes
+stashed in order to look at the original checkpatch warnings.
 
-> On Sat, Mar 05, 2022 at 07:53:45PM +0100, Martin Kaiser wrote:
-> > Here's another set with simple cleanups in the code for receiving frames.
+> Please fix up and resend.
+It should now fix the below issues without build warnings.
 
-> > Martin Kaiser (6):
-> >   staging: r8188eu: remove unnecessary initializations
-> >   staging: r8188eu: remove three unused receive defines
-> >   staging: r8188eu: remove unused function prototype
-> >   staging: r8188eu: make rtl8188e_process_phy_info static
-> >   staging: r8188eu: remove some unused local ieee80211 macros
-> >   staging: r8188eu: remove local BIT macro
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
++ dev_info(&dev->pci->dev, "%s called\n", __func__);
 
-> >  drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c |  6 +---
-> >  .../staging/r8188eu/include/rtl8188e_recv.h   |  6 ----
-> >  drivers/staging/r8188eu/include/wifi.h        | 34 +------------------
-> >  3 files changed, 2 insertions(+), 44 deletions(-)
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
++ dev_info(&dev->pci->dev, "%s called\n", __func__);
 
-> > -- 
-> > 2.30.2
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
++ dev_info(&pci->dev, "%s called\n", __func__);
 
+Signed-off-by: Charlie Sands <sandsch@northvilleschools.net>
+---
+ drivers/staging/rts5208/rtsx.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
+diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
+index 5a58dac76c88..2284a96abcff 100644
+--- a/drivers/staging/rts5208/rtsx.c
++++ b/drivers/staging/rts5208/rtsx.c
+@@ -159,8 +159,6 @@ static int command_abort(struct scsi_cmnd *srb)
+ 	struct rtsx_dev *dev = host_to_rtsx(host);
+ 	struct rtsx_chip *chip = dev->chip;
+ 
+-	dev_info(&dev->pci->dev, "%s called\n", __func__);
+-
+ 	scsi_lock(host);
+ 
+ 	/* Is this command still active? */
+@@ -186,10 +184,6 @@ static int command_abort(struct scsi_cmnd *srb)
+  */
+ static int device_reset(struct scsi_cmnd *srb)
+ {
+-	struct rtsx_dev *dev = host_to_rtsx(srb->device->host);
+-
+-	dev_info(&dev->pci->dev, "%s called\n", __func__);
+-
+ 	return SUCCESS;
+ }
+ 
+@@ -968,8 +962,6 @@ static void rtsx_remove(struct pci_dev *pci)
+ {
+ 	struct rtsx_dev *dev = pci_get_drvdata(pci);
+ 
+-	dev_info(&pci->dev, "%s called\n", __func__);
+-
+ 	quiesce_and_remove_host(dev);
+ 	release_everything(dev);
+ 	pci_release_regions(pci);
+-- 
+2.35.1
 
-> This series breaks the build:
-
-on x86_64 - and I tested only on arm32 :-(
-
-> drivers/staging/r8188eu/core/rtw_wlan_util.c: In function ‘update_IOT_info’:
-> drivers/staging/r8188eu/core/rtw_wlan_util.c:1279:42: error: conversion from ‘long unsigned int’ to ‘u32’ {aka ‘unsigned int’} changes value from ‘18446744073709551611’ to ‘4294967291’ [-Werror=overflow]
->  1279 |                 Switch_DM_Func(padapter, (~DYNAMIC_BB_DYNAMIC_TXPWR), false);
->       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/staging/r8188eu/core/rtw_wlan_util.c:1285:42: error: conversion from ‘long unsigned int’ to ‘u32’ {aka ‘unsigned int’} changes value from ‘18446744073709551611’ to ‘4294967291’ [-Werror=overflow]
->  1285 |                 Switch_DM_Func(padapter, (~DYNAMIC_BB_DYNAMIC_TXPWR), false);
->       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> cc1: all warnings being treated as errors
-
-> I'm going to drop it from my queue now.
-
-The driver's BIT(x) macro was 1 << (x), the "global" one uses 1UL << (x).
-DYNAMIC_BB_DYNAMIC_TXPWR needs a cast to u32. I've just sent v2.
-
-Thanks,
-Martin
