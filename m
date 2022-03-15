@@ -1,371 +1,219 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C810A1FA1;
-	Tue, 15 Mar 2022 10:13:22 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA90C2A5;
-	Tue, 15 Mar 2022 11:13:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1647339200;
-	bh=TSCI/jlTrreFhvhlF9Uro+LXlPKdR7g2kIaeukooB9w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TeZeorcDCnIYsfEq/XYQS0hy+pQ1JVfLT6X1/D95RGh0Q88GVELQ3gZg90ZF5OHdz
-	 v6EbWQ2bGc42W/AlZATWCh83R9YLezE/VwdVOrsr5ow2HvTQVfPZu0ltzsvAakwX24
-	 rP8wjX5YQ05hMi/VzNQpQqCiku40GjeCeY534dP4=
-Date: Tue, 15 Mar 2022 12:13:03 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B891FD4
+	for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 13:29:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1647350942; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ScvkKBtXG0qdn0mauPdahMW+RjSCyD8vzYY6IXSzGqrqJ0uRruKCYGR41Phb8QjJ3aKV407ZfFYB/fdejI1d+Q9WhdJNfqLekkGWdwpX74l/4A6GPHQ8M7cAtY8BgGMMBZeSuDfDyh28+j39irhywl0CwAM9r4yyXCUgDBM/864=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1647350942; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+	bh=sNhaXvyi8YDqFUl3xFmq63+uF4zWI49tDG+hI38O0eo=; 
+	b=cZkUgC/+yvgvb6xdpejJgIhXcJ0icbm4QZBl43GFyfjjHJe2s/lWPErhyd3srDRHlftFTnit3JSyk1SV2vuX7F1hcYifx2FoKb2QaP9nRFiogIwGj9aW4ySMyCJquQT14xGWIGirbcAzCQsZIpMtSawujo40Youomt8fmmFFhyA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=arinc9.com;
+	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
+	dmarc=pass header.from=<arinc.unal@arinc9.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1647350942;
+	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:Reply-To;
+	bh=sNhaXvyi8YDqFUl3xFmq63+uF4zWI49tDG+hI38O0eo=;
+	b=D+jcP5Krmiwo62ABhcPFRY+6OpnpNyDOG+KbsVeLbpDbsejFzqAYhFKWJrdYWJu+
+	pSi5encngtrTTNnxOIDUgmeuObiPVwZxAzyMpy1rWKP5bqwNiX31nh/D3hP/VQIFNFC
+	esqARFZtTZM0sdQAryi7ci+JxklShiqeVSVTFSaY=
+Received: from arinc9-PC.localdomain (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
+	with SMTPS id 1647350940373463.6171585371825; Tue, 15 Mar 2022 06:29:00 -0700 (PDT)
+From: =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
+To: Greg KH <gregkh@linuxfoundation.org>,
 	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 61/66] dt-bindings: media: Add Allwinner A31 ISP
- bindings documentation
-Message-ID: <YjBmrzPuN3oqW6Hm@pendragon.ideasonboard.com>
-References: <YgqM3ZdMfEz+ZKo/@pendragon.ideasonboard.com>
- <Ygt8LF8qx3rnxlgp@aptenodytes>
- <Ygt9j+rwEC+2aUjH@pendragon.ideasonboard.com>
- <Yh4+E9el5NdQ7qJq@aptenodytes>
- <YiH/kLakb/GOaYIT@pendragon.ideasonboard.com>
- <YiIa1SRFhtvURTbN@aptenodytes>
- <YiIdo4PF/5smLocf@pendragon.ideasonboard.com>
- <YitZ6y2JoNzeHUrp@aptenodytes>
- <Yi4YpnMWguEMWYaA@pendragon.ideasonboard.com>
- <YjBhMNZsJz7crDuX@aptenodytes>
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	NeilBrown <neil@brown.name>,
+	DENG Qingfang <dqfext@gmail.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Luiz Angelo Daros de Luca <luizluca@gmail.com>,
+	erkin.bozoglu@xeront.com
+Cc: linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
+Subject: [PATCH] mips: dts: ralink: add MT7621 SoC
+Date: Tue, 15 Mar 2022 16:28:36 +0300
+Message-Id: <20220315132836.1062-1-arinc.unal@arinc9.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YjBhMNZsJz7crDuX@aptenodytes>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Hi Paul,
+The MT7621 system-on-a-chip includes a 880 MHz MIPS1004Kc dual-core CPU,
+a 5-port 10/100/1000 switch/PHY and one RGMII.
 
-On Tue, Mar 15, 2022 at 10:49:36AM +0100, Paul Kocialkowski wrote:
-> On Sun 13 Mar 22, 18:15, Laurent Pinchart wrote:
-> > On Fri, Mar 11, 2022 at 03:17:15PM +0100, Paul Kocialkowski wrote:
-> > > On Fri 04 Mar 22, 16:09, Laurent Pinchart wrote:
-> > > > On Fri, Mar 04, 2022 at 02:57:41PM +0100, Paul Kocialkowski wrote:
-> > > > > On Fri 04 Mar 22, 14:01, Laurent Pinchart wrote:
-> > > > > > On Tue, Mar 01, 2022 at 04:38:59PM +0100, Paul Kocialkowski wrote:
-> > > > > > > On Tue 15 Feb 22, 12:16, Laurent Pinchart wrote:
-> > > > > > > > On Tue, Feb 15, 2022 at 11:10:52AM +0100, Paul Kocialkowski wrote:
-> > > > > > > > > On Mon 14 Feb 22, 19:09, Laurent Pinchart wrote:
-> > > > > > > > > > On Mon, Feb 14, 2022 at 05:18:07PM +0100, Paul Kocialkowski wrote:
-> > > > > > > > > > > On Mon 07 Feb 22, 17:51, Laurent Pinchart wrote:
-> > > > > > > > > > > > On Sat, Feb 05, 2022 at 07:54:24PM +0100, Paul Kocialkowski wrote:
-> > > > > > > > > > > > > This introduces YAML bindings documentation for the Allwinner A31 Image
-> > > > > > > > > > > > > Signal Processor (ISP).
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > > > > > > > > > ---
-> > > > > > > > > > > > >  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
-> > > > > > > > > > > > >  1 file changed, 117 insertions(+)
-> > > > > > > > > > > > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > > > > > > > > > > > new file mode 100644
-> > > > > > > > > > > > > index 000000000000..2d87022c43ce
-> > > > > > > > > > > > > --- /dev/null
-> > > > > > > > > > > > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > > > > > > > > > > > @@ -0,0 +1,117 @@
-> > > > > > > > > > > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > > > > > > > > > > > +%YAML 1.2
-> > > > > > > > > > > > > +---
-> > > > > > > > > > > > > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> > > > > > > > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +maintainers:
-> > > > > > > > > > > > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +properties:
-> > > > > > > > > > > > > +  compatible:
-> > > > > > > > > > > > > +    enum:
-> > > > > > > > > > > > > +      - allwinner,sun6i-a31-isp
-> > > > > > > > > > > > > +      - allwinner,sun8i-v3s-isp
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +  reg:
-> > > > > > > > > > > > > +    maxItems: 1
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +  interrupts:
-> > > > > > > > > > > > > +    maxItems: 1
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +  clocks:
-> > > > > > > > > > > > > +    items:
-> > > > > > > > > > > > > +      - description: Bus Clock
-> > > > > > > > > > > > > +      - description: Module Clock
-> > > > > > > > > > > > > +      - description: DRAM Clock
-> > > > > > > > > > > > 
-> > > > > > > > > > > > That's interesting, does the ISP have a dedicated DRAM ?
-> > > > > > > > > > > 
-> > > > > > > > > > > It doesn't, it actually uses the main DRAM with the "mbus" interconnect.
-> > > > > > > > > > > The clock is probably for the DMA engine.
-> > > > > > > > > > > 
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +  clock-names:
-> > > > > > > > > > > > > +    items:
-> > > > > > > > > > > > > +      - const: bus
-> > > > > > > > > > > > > +      - const: mod
-> > > > > > > > > > > > > +      - const: ram
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +  resets:
-> > > > > > > > > > > > > +    maxItems: 1
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +  ports:
-> > > > > > > > > > > > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +    properties:
-> > > > > > > > > > > > > +      port@0:
-> > > > > > > > > > > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > > > > > > > > > > +        description: CSI0 input port
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +        properties:
-> > > > > > > > > > > > > +          reg:
-> > > > > > > > > > > > > +            const: 0
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +          endpoint:
-> > > > > > > > > > > > > +            $ref: video-interfaces.yaml#
-> > > > > > > > > > > > > +            unevaluatedProperties: false
-> > > > > > > > > > > > 
-> > > > > > > > > > > > If no other property than remote-endpoint are allowed, I'd write
-> > > > > > > > > > > > 
-> > > > > > > > > > > >           endpoint:
-> > > > > > > > > > > >             $ref: video-interfaces.yaml#
-> > > > > > > > > > > > 	    remote-endpoint: true
-> > > > > > > > > > > >             additionalProperties: false
-> > > > > > > > > > > > 
-> > > > > > > > > > > > Same below.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +        additionalProperties: false
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +      port@1:
-> > > > > > > > > > > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > > > > > > > > > > +        description: CSI1 input port
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +        properties:
-> > > > > > > > > > > > > +          reg:
-> > > > > > > > > > > > > +            const: 0
-> > > > > > > > > > > > 
-> > > > > > > > > > > > This should be 1.
-> > > > > > > > > > > 
-> > > > > > > > > > > Correct, thanks!
-> > > > > > > > > > > 
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +          endpoint:
-> > > > > > > > > > > > > +            $ref: video-interfaces.yaml#
-> > > > > > > > > > > > > +            unevaluatedProperties: false
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +        additionalProperties: false
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +    anyOf:
-> > > > > > > > > > > > > +      - required:
-> > > > > > > > > > > > > +        - port@0
-> > > > > > > > > > > > > +      - required:
-> > > > > > > > > > > > > +        - port@1
-> > > > > > > > > > > > 
-> > > > > > > > > > > > As ports are an intrinsic property of the ISP, both should be required,
-> > > > > > > > > > > > but they don't have to be connected.
-> > > > > > > > > > > 
-> > > > > > > > > > > Well the ISP does have the ability to source from either CSI0 and CSI1
-> > > > > > > > > > > but I don't really get the point of declaring both ports when only one
-> > > > > > > > > > > of the two controllers is present.
-> > > > > > > > > > 
-> > > > > > > > > > If it's within an SoC I don't mind too much. What I usually insist on is
-> > > > > > > > > > declaring all ports even when no external devices are connected on the
-> > > > > > > > > > board. It may however be easier to implement things on the driver side
-> > > > > > > > > > when all the ports are declared, even for internal devices. I won't
-> > > > > > > > > > insist either way here.
-> > > > > > > > > > 
-> > > > > > > > > > > > By the way, how do you select at runtime which CSI-2 RX the ISP gets its
-> > > > > > > > > > > > image stream from ? Is it configured through registers of the ISP ?
-> > > > > > > > > > > 
-> > > > > > > > > > > Actually what the ISP gets is fully dependent on what is received by the
-> > > > > > > > > > > CSI controller it is connected to (which can be the mipi csi-2 controller
-> > > > > > > > > > > or its direct parallel pins), so the configuration happens on the CSI side.
-> > > > > > > > > > 
-> > > > > > > > > > OK, then how do you select at runtime which CSI the ISP gets its image
-> > > > > > > > > > stream from ? :-)
-> > > > > > > > > 
-> > > > > > > > > What is done in the driver is that all available csi(s) entities pads are linked
-> > > > > > > > > to a single csi sink media pad, which allows userspace to enable one or the
-> > > > > > > > > other. If there's only one, it's enabled by default.
-> > > > > > > > > 
-> > > > > > > > > The actual stream source (isp_dev->proc.source) is selected at link_validate
-> > > > > > > > > time and the source bit is set in sun6i_isp_proc_enable.
-> > > > > > > > > 
-> > > > > > > > > I hope this answers your question!
-> > > > > > > > 
-> > > > > > > > Yes it does, thank you.
-> > > > > > > > 
-> > > > > > > > While this works, it makes life a bit more complicated for userspace, as
-> > > > > > > > switching between the two sources require disabling the link first and
-> > > > > > > > then enabling the new one. This is something that caused issues in the
-> > > > > > > > libcamera simple pipeline handler, I ended up having to implement a
-> > > > > > > > workaround.
-> > > > > > > 
-> > > > > > > That surprises me a bit, I thought this was a typical use-case for links.
-> > > > > > > So the fact that it's a two-step process causes issues somehow?
-> > > > > > 
-> > > > > > It's not so much that the links have to be configured in two steps
-> > > > > > (although it would be nice if that could be fixed), but the fact that
-> > > > > > the order of the operations matter. Userspace has to know what
-> > > > > > combination of links is acceptable in order to determine the order of
-> > > > > > the enable/disable operations, otherwise errors may be returned. That
-> > > > > > makes it more difficult to write generic userspace code.
-> > > > > 
-> > > > > Ah right, I understand that. Now it's pretty much trial-and-error if userspace
-> > > > > doesn't have prior knowledge about the hardware. But to be honest I assumed
-> > > > > that it was more or less understood that there cannot be fully generic
-> > > > > userspace for this and that knowedlege about the driver and pipeline flow
-> > > > > is required to do things right.
-> > > > 
-> > > > You're right, and that's why we have device-specific code in libcamera.
-> > > > However, the more generic-friendly the APIs can be, the more the
-> > > > device-specific userspace code will be able to use generic helpers, so
-> > > > it still matters.
-> > > > 
-> > > > > > > > Could you instead have two sink pads for the ISP, and select the sensor
-> > > > > > > > at stream on time instead of link validation time by checking which link
-> > > > > > > > is enabled ? If no links or both links are enabled, you can then return
-> > > > > > > > an error.
-> > > > > > > 
-> > > > > > > Yes that's totally doable.
-> > > > > > > 
-> > > > > > > There's a similar situation with the sun6i-csi bridge where the source pad
-> > > > > > > has two possible links: one for routing to sun6i-csi capture (video device)
-> > > > > > > and one for routing to the isp entity.
-> > > > > > > 
-> > > > > > > Would that also be best represented as two pads?
-> > > > > > 
-> > > > > > Are the two outputs mutually exclusive ? Sorry if I've asked before.
-> > > > > 
-> > > > > I don't think you have. Yes they are mutually exclusive, only one source
-> > > > > can be selected at a time. Same situation as the ISP where the two CSI unit
-> > > > > inputs are mutually exclusive.
-> > > > 
-> > > > On the sink (input) side that's quite common, if you have two different
-> > > > sources but a single sink, the sink can't (usually) process both sources
-> > > > at the same time. I understand that for the sun6i-csi bridge it's the
-> > > > other way around, with the bridge can output to either a DMA engine or
-> > > > to the ISP, but not both at the same time. That's less common, but can
-> > > > certainly happen. I think I'd go for two source pads in that case too.
-> > > > Sakari, any opinion ?
-> > > 
-> > > As I was reading this thread again, I think there might be a misunderstanding
-> > > here when you said that "switching between the two sources require disabling
-> > > the link first and then enabling the new one".
-> > > 
-> > > The driver is currently not checking the validity of the setup at link_setup
-> > > but at link_validate (which is called at streamon time), so userspace can
-> > > effectively disable/enable links in whichever order and a valid setup is only
-> > > required when streaming starts. I think that's already the situation that you
-> > > want to achieve.
-> > 
-> > That's right. link_validate is probably not the best place though, as
-> > it's meant to validate one link, while here you need to perform
-> > validation of the state of multiple links, right ?
-> 
-> Yeah actually I'm starting to think that unexpected situations may not be
-> correctly handled here. I'll have a closer look at it. It feels like the
-> best approach would be to keep track each source's enabled state with
-> link_setup and check that only one is enabled at streamon time.
+Add the devicetrees for GB-PC1 and GB-PC2 devices which use MT7621 SoC.
 
-You don't even necessarily have to keep track in link_setup, you could
-iterate through links at streamon time to ensure one and only one is
-enabled. As this is a common use case, a helper function to do that
-would be useful.
+Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+---
+I'm not sure which repository/branch this patch is supposed to be applied
+to. This patch does changes on top of commit dcd520af4eac ("staging:
+mt7621-dts: fix cpuintc and fixedregulator dtc warnings, fix xhci") which
+is currently applied on gregkh/staging.git staging-next branch.
 
-> > > To summarize, the following pads can have multiple links:
-> > > - csi sink (parallel sensor source or mipi csi-2 bridge source)
-> > > - csi source (isp sink or video capture sink)
-> > > - isp sink (csi0 source or csi1 source)
-> > > 
-> > > I'll send my next versions without changes (one pad, multiple links)
-> > > but we can revisit this if there's an issue with that after all.
-> > 
-> > OK.
-> > 
-> > > > > > > > Ideally I'd say such internal routing should use the new V4L2 subdev
-> > > > > > > > routing API that is currently being implemented (see [1]), but I don't
-> > > > > > > > know when it will land, and I don't want to delay your patch series.
-> > > > > > > > 
-> > > > > > > > [1] https://lore.kernel.org/linux-media/20211130141536.891878-28-tomi.valkeinen@ideasonboard.com
-> > > > > > > 
-> > > > > > > I'm still a bit confused what problem this is trying to solve.
-> > > > > > > My understanding was that the current pad/link API allows representing complex
-> > > > > > > topologies and switching different paths with link enable/disable.
-> > > > > > 
-> > > > > > That was the intent of the MEDIA_IOC_SETUP_LINK ioctl, but we ended up
-> > > > > > with something that is fairly ill-defined, and doesn't have the ability
-> > > > > > to set multiple links atomically. It turned out to be less usable for
-> > > > > > userspace than expected. Mistakes happen (and I'll blame myself here,
-> > > > > > having designed that API) when we don't have real test cases during
-> > > > > > kernel development.
-> > > > > 
-> > > > > Yeah it's hard to predict these kinds of things in advance I suppose.
-> > > > > Thanks for the heads up!
-> > > > > 
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +required:
-> > > > > > > > > > > > > +  - compatible
-> > > > > > > > > > > > > +  - reg
-> > > > > > > > > > > > > +  - interrupts
-> > > > > > > > > > > > > +  - clocks
-> > > > > > > > > > > > > +  - clock-names
-> > > > > > > > > > > > > +  - resets
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +additionalProperties: false
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +examples:
-> > > > > > > > > > > > > +  - |
-> > > > > > > > > > > > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > > > > > > > > > > > > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> > > > > > > > > > > > > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +    isp: isp@1cb8000 {
-> > > > > > > > > > > > > +        compatible = "allwinner,sun8i-v3s-isp";
-> > > > > > > > > > > > > +        reg = <0x01cb8000 0x1000>;
-> > > > > > > > > > > > > +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > > > > > > > > > > > > +        clocks = <&ccu CLK_BUS_CSI>,
-> > > > > > > > > > > > > +             <&ccu CLK_CSI1_SCLK>,
-> > > > > > > > > > > > > +             <&ccu CLK_DRAM_CSI>;
-> > > > > > > > > > > > > +        clock-names = "bus", "mod", "ram";
-> > > > > > > > > > > > > +        resets = <&ccu RST_BUS_CSI>;
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +        ports {
-> > > > > > > > > > > > > +            #address-cells = <1>;
-> > > > > > > > > > > > > +            #size-cells = <0>;
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +            port@0 {
-> > > > > > > > > > > > > +                reg = <0>;
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +                isp_in_csi0: endpoint {
-> > > > > > > > > > > > > +                    remote-endpoint = <&csi0_out_isp>;
-> > > > > > > > > > > > > +                };
-> > > > > > > > > > > > > +            };
-> > > > > > > > > > > > > +        };
-> > > > > > > > > > > > > +    };
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +...
+Arınç
 
+---
+ MAINTAINERS                                           |  7 +++++++
+ arch/mips/boot/dts/ralink/Makefile                    |  4 ++++
+ .../mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts     |  0
+ .../mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts     |  0
+ .../mips/boot/dts/ralink}/mt7621.dtsi                 |  0
+ arch/mips/ralink/Kconfig                              |  5 +++++
+ drivers/staging/Kconfig                               |  2 --
+ drivers/staging/Makefile                              |  1 -
+ drivers/staging/mt7621-dts/Kconfig                    | 11 -----------
+ drivers/staging/mt7621-dts/Makefile                   |  5 -----
+ drivers/staging/mt7621-dts/TODO                       |  5 -----
+ 11 files changed, 16 insertions(+), 24 deletions(-)
+ rename drivers/staging/mt7621-dts/gbpc1.dts => arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts (100%)
+ rename drivers/staging/mt7621-dts/gbpc2.dts => arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts (100%)
+ rename {drivers/staging/mt7621-dts => arch/mips/boot/dts/ralink}/mt7621.dtsi (100%)
+ delete mode 100644 drivers/staging/mt7621-dts/Kconfig
+ delete mode 100644 drivers/staging/mt7621-dts/Makefile
+ delete mode 100644 drivers/staging/mt7621-dts/TODO
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 62d6758bf8c4..92eda5adca44 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16181,6 +16181,13 @@ L:	linux-mips@vger.kernel.org
+ S:	Maintained
+ F:	arch/mips/ralink
+ 
++RALINK MT7621 MIPS ARCHITECTURE
++M:	Arınç ÜNAL <arinc.unal@arinc9.com>
++M:	Sergio Paracuellos <sergio.paracuellos@gmail.com>
++L:	linux-mips@vger.kernel.org
++S:	Maintained
++F:	arch/mips/boot/dts/ralink/mt7621*
++
+ RALINK RT2X00 WIRELESS LAN DRIVER
+ M:	Stanislaw Gruszka <stf_xl@wp.pl>
+ M:	Helmut Schaa <helmut.schaa@googlemail.com>
+diff --git a/arch/mips/boot/dts/ralink/Makefile b/arch/mips/boot/dts/ralink/Makefile
+index 6c26dfa0a903..11732b8c8163 100644
+--- a/arch/mips/boot/dts/ralink/Makefile
++++ b/arch/mips/boot/dts/ralink/Makefile
+@@ -6,4 +6,8 @@ dtb-$(CONFIG_DTB_MT7620A_EVAL)	+= mt7620a_eval.dtb
+ dtb-$(CONFIG_DTB_OMEGA2P)	+= omega2p.dtb
+ dtb-$(CONFIG_DTB_VOCORE2)	+= vocore2.dtb
+ 
++dtb-$(CONFIG_SOC_MT7621) += \
++	mt7621-gnubee-gb-pc1.dtb \
++	mt7621-gnubee-gb-pc2.dtb
++
+ obj-$(CONFIG_BUILTIN_DTB)	+= $(addsuffix .o, $(dtb-y))
+diff --git a/drivers/staging/mt7621-dts/gbpc1.dts b/arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts
+similarity index 100%
+rename from drivers/staging/mt7621-dts/gbpc1.dts
+rename to arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts
+diff --git a/drivers/staging/mt7621-dts/gbpc2.dts b/arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts
+similarity index 100%
+rename from drivers/staging/mt7621-dts/gbpc2.dts
+rename to arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts
+diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/arch/mips/boot/dts/ralink/mt7621.dtsi
+similarity index 100%
+rename from drivers/staging/mt7621-dts/mt7621.dtsi
+rename to arch/mips/boot/dts/ralink/mt7621.dtsi
+diff --git a/arch/mips/ralink/Kconfig b/arch/mips/ralink/Kconfig
+index 120adad51d6a..841c0f69a3bf 100644
+--- a/arch/mips/ralink/Kconfig
++++ b/arch/mips/ralink/Kconfig
+@@ -54,10 +54,15 @@ choice
+ 		select HAVE_PCI
+ 		select PCI_DRIVERS_GENERIC
+ 		select SOC_BUS
++
++		help
++		  The MT7621 system-on-a-chip includes a 880 MHz MIPS1004Kc dual-core CPU,
++		  a 5-port 10/100/1000 switch/PHY and one RGMII.
+ endchoice
+ 
+ choice
+ 	prompt "Devicetree selection"
++	depends on !SOC_MT7621
+ 	default DTB_RT_NONE
+ 	help
+ 	  Select the devicetree.
+diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
+index d1ce500c0319..efa194ec12fb 100644
+--- a/drivers/staging/Kconfig
++++ b/drivers/staging/Kconfig
+@@ -82,8 +82,6 @@ source "drivers/staging/vc04_services/Kconfig"
+ 
+ source "drivers/staging/pi433/Kconfig"
+ 
+-source "drivers/staging/mt7621-dts/Kconfig"
+-
+ source "drivers/staging/axis-fifo/Kconfig"
+ 
+ source "drivers/staging/fieldbus/Kconfig"
+diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
+index 82e912a7586f..db876663a1e3 100644
+--- a/drivers/staging/Makefile
++++ b/drivers/staging/Makefile
+@@ -31,7 +31,6 @@ obj-$(CONFIG_KS7010)		+= ks7010/
+ obj-$(CONFIG_GREYBUS)		+= greybus/
+ obj-$(CONFIG_BCM2835_VCHIQ)	+= vc04_services/
+ obj-$(CONFIG_PI433)		+= pi433/
+-obj-$(CONFIG_SOC_MT7621)	+= mt7621-dts/
+ obj-$(CONFIG_XIL_AXIS_FIFO)	+= axis-fifo/
+ obj-$(CONFIG_FIELDBUS_DEV)     += fieldbus/
+ obj-$(CONFIG_QLGE)		+= qlge/
+diff --git a/drivers/staging/mt7621-dts/Kconfig b/drivers/staging/mt7621-dts/Kconfig
+deleted file mode 100644
+index 6932ab7acadf..000000000000
+--- a/drivers/staging/mt7621-dts/Kconfig
++++ /dev/null
+@@ -1,11 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-config DTB_GNUBEE1
+-	bool "GnuBee1 2.5inch NAS"
+-	depends on SOC_MT7621 && DTB_RT_NONE
+-	select BUILTIN_DTB
+-
+-config DTB_GNUBEE2
+-	bool "GnuBee2 3.5inch NAS"
+-	depends on SOC_MT7621 && DTB_RT_NONE
+-	select BUILTIN_DTB
+-
+diff --git a/drivers/staging/mt7621-dts/Makefile b/drivers/staging/mt7621-dts/Makefile
+deleted file mode 100644
+index b4ab99fed932..000000000000
+--- a/drivers/staging/mt7621-dts/Makefile
++++ /dev/null
+@@ -1,5 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-dtb-$(CONFIG_DTB_GNUBEE1)      += gbpc1.dtb
+-dtb-$(CONFIG_DTB_GNUBEE2)      += gbpc2.dtb
+-
+-obj-y				+= $(patsubst %.dtb, %.dtb.o, $(dtb-y))
+diff --git a/drivers/staging/mt7621-dts/TODO b/drivers/staging/mt7621-dts/TODO
+deleted file mode 100644
+index 1b758e5c84e0..000000000000
+--- a/drivers/staging/mt7621-dts/TODO
++++ /dev/null
+@@ -1,5 +0,0 @@
+-
+-- ensure all usage matches code
+-- ensure all features used are documented
+-
+-Cc: NeilBrown <neil@brown.name>
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
