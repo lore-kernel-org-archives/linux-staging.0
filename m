@@ -1,102 +1,75 @@
-Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CDE23CC
-	for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 17:32:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1647365531;
-	bh=8Dq3UHkiF8sKrd4rL50cJdnD1RwPcpD+6IhqnTkCDWc=;
-	h=From:To:Cc:Subject:Date;
-	b=Hi9oRUIytb0PC2VZ+QacQfKcu1HrdceNlOwLRb4kokw+scoyppVguDejXNiAkjAD+
-	 yrL7kXE1sR0KlSt/xL6hf9dNnxVhCH4T9V8DAfzkBXvrGjUCTigEnptUpaZ06W86HG
-	 cCEWtdQRoyHWAMCf61zNY/HKIuLjOOKr5hqdKdW4=
-Received: from localhost.localdomain ([218.197.153.188])
-	by newxmesmtplogicsvrszb7.qq.com (NewEsmtp) with SMTP
-	id 61E19C3B; Wed, 16 Mar 2022 01:24:30 +0800
-X-QQ-mid: xmsmtpt1647365070ty68a8iup
-Message-ID: <tencent_F721901366AB5C720E008AF7F02DA5D3FF07@qq.com>
-X-QQ-XMAILINFO: MyirvGjpKb1jQdcb8Zmu3PrYNR/0MQcRhpCOvUEuVfJxKw4fIwFXfZXYjfqlHU
-	 twfs+UBPOw70nFBIBCOG8t0WK/dNeP3RlSbypp2XIntvVKB6RJNfs0w0tyRisMcQtInPC275fg3h
-	 by3Yk0sfCzSdxjeiiNs48kp8VW+HW+b1G83RyK6VGUxVoOBLLLivQ/f+kvtQjuwO88YQJba5zJEY
-	 /GGUJJvuF/nfiyhpeS4Uf6lF/A9PkXIVCYufTbdjRGQWXQdqsIO8jyIODupCGixUpPzZaLtL4Edc
-	 UawjL+6m6oVibUSVOXYLk60WccIHvs9CZRf9djySUCZyayGZFi11/rQGmWmWnYv1gTgliCiso9j2
-	 BDFfPm5UQlhb1xDVnEA0YyXwBGaHKogkby7PvXfERFEZP1ghxEWrZt7/K8C3+jF1+Ue0uAxgvm0d
-	 aXkM22Dif/6dZGXK3CQnt439wWuzshxXih8LrNTyQcnT1a1vG5L5hY2JBON2sOSvc2gKKEHSCzRd
-	 UpoO9xucGwNJZETdF7CGwjb6I6IFR6fdxHGthqQRoGJIKQ1YNY9u8+KTQAJQ/UJrSgei8cC5Fbs0
-	 WMrKwhE5eWolYdQKDIFburkfbkz2SNlIg/iCisDsj9qx3LIaOx1W1ra/Stjp/ULYO0iWt1JigmzU
-	 Gpsv//ZEJnfZgHXS8CXz1zJPVITpCE93FKO3cVmGJRBrHOQOWHLoZhEeqKdVgINSxYdYNmhljkT9
-	 Lm/QwEIJgvvkVuWhTUXEaKZPIRmtWcbvdD1uKyjkztb1kTsSK1vc/XlYMfxu8nv55q8Ye+oiBTl2
-	 qKy6TJZK2hAx13Dh4jHAkEdm8UZqkm1/1WhQQF2hEWs5EUV+PQNdGo5W7iTVrje258DV/5+GbPCC
-	 /4LDOJ4fTJoOsdzT0lgStw1IKTCUWceLOuK+lm//hVxfKDJJgqK5Ql13ke6b5dfU06XdLoDRJC
-From: xkernel.wang@foxmail.com
-To: gregkh@linuxfoundation.org,
-	dan.carpenter@oracle.com,
-	nsaenz@kernel.org
-Cc: bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH] staging: mmal-vchiq: clear redundant item named bulk_scratch
-Date: Wed, 16 Mar 2022 01:24:12 +0800
-X-OQ-MSGID: <20220315172412.1024-1-xkernel.wang@foxmail.com>
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C338623CC
+	for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 17:32:31 +0000 (UTC)
+Received: from uucp (helo=alpha)
+	by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+	id 1nUB1y-0000Ez-00; Tue, 15 Mar 2022 18:32:22 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+	id 21920C2E31; Tue, 15 Mar 2022 18:32:04 +0100 (CET)
+Date: Tue, 15 Mar 2022 18:32:04 +0100
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: =?utf-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	NeilBrown <neil@brown.name>, DENG Qingfang <dqfext@gmail.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	Mark Lee <Mark-MC.Lee@mediatek.com>,
+	Luiz Angelo Daros de Luca <luizluca@gmail.com>,
+	erkin.bozoglu@xeront.com, linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] mips: dts: ralink: add MT7621 SoC
+Message-ID: <20220315173204.GA14220@alpha.franken.de>
+References: <20220315160149.3617-1-arinc.unal@arinc9.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220315160149.3617-1-arinc.unal@arinc9.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+On Tue, Mar 15, 2022 at 07:01:50PM +0300, Arınç ÜNAL wrote:
+> The MT7621 system-on-a-chip includes an 880 MHz MIPS1004Kc dual-core CPU,
+> a 5-port 10/100/1000 switch/PHY and one RGMII.
+> 
+> Add the devicetrees for GB-PC1 and GB-PC2 devices which use MT7621 SoC.
+> 
+> Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
+> Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> ---
+> v2: fix a tiny grammar mistake, add Sergio's acked-by.
+> 
+> This patch does changes on top of commit dcd520af4eac ("staging:
+> mt7621-dts: fix cpuintc and fixedregulator dtc warnings, fix xhci") which
+> is currently applied on gregkh/staging.git staging-next branch.
+> 
+> ---
+>  MAINTAINERS                                           |  7 +++++++
+>  arch/mips/boot/dts/ralink/Makefile                    |  4 ++++
+>  .../mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts     |  0
+>  .../mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts     |  0
+>  .../mips/boot/dts/ralink}/mt7621.dtsi                 |  0
+>  arch/mips/ralink/Kconfig                              |  5 +++++
+>  drivers/staging/Kconfig                               |  2 --
+>  drivers/staging/Makefile                              |  1 -
+>  drivers/staging/mt7621-dts/Kconfig                    | 11 -----------
+>  drivers/staging/mt7621-dts/Makefile                   |  5 -----
+>  drivers/staging/mt7621-dts/TODO                       |  5 -----
+>  11 files changed, 16 insertions(+), 24 deletions(-)
+>  rename drivers/staging/mt7621-dts/gbpc1.dts => arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts (100%)
+>  rename drivers/staging/mt7621-dts/gbpc2.dts => arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts (100%)
+>  rename {drivers/staging/mt7621-dts => arch/mips/boot/dts/ralink}/mt7621.dtsi (100%)
+>  delete mode 100644 drivers/staging/mt7621-dts/Kconfig
+>  delete mode 100644 drivers/staging/mt7621-dts/Makefile
+>  delete mode 100644 drivers/staging/mt7621-dts/TODO
 
-bulk_scratch is not used anywhere and the original allocation of it
-does not have proper check.
-Deleting it directly seems to be a good choice.
+Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
- drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 7 -------
- 1 file changed, 7 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-index 76d3f03..6615c7a 100644
---- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-+++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-@@ -168,9 +168,6 @@ struct vchiq_mmal_instance {
- 	/* ensure serialised access to service */
- 	struct mutex vchiq_mutex;
- 
--	/* vmalloc page to receive scratch bulk xfers into */
--	void *bulk_scratch;
--
- 	struct idr context_map;
- 	/* protect accesses to context_map */
- 	struct mutex context_map_lock;
-@@ -1847,8 +1844,6 @@ int vchiq_mmal_finalise(struct vchiq_mmal_instance *instance)
- 	flush_workqueue(instance->bulk_wq);
- 	destroy_workqueue(instance->bulk_wq);
- 
--	vfree(instance->bulk_scratch);
--
- 	idr_destroy(&instance->context_map);
- 
- 	kfree(instance);
-@@ -1908,7 +1903,6 @@ int vchiq_mmal_init(struct vchiq_mmal_instance **out_instance)
- 
- 	mutex_init(&instance->vchiq_mutex);
- 
--	instance->bulk_scratch = vmalloc(PAGE_SIZE);
- 	instance->vchiq_instance = vchiq_instance;
- 
- 	mutex_init(&instance->context_map_lock);
-@@ -1939,7 +1933,6 @@ int vchiq_mmal_init(struct vchiq_mmal_instance **out_instance)
- 	vchiq_close_service(instance->service_handle);
- 	destroy_workqueue(instance->bulk_wq);
- err_free:
--	vfree(instance->bulk_scratch);
- 	kfree(instance);
- err_shutdown_vchiq:
- 	vchiq_shutdown(vchiq_instance);
 -- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
