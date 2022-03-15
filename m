@@ -1,219 +1,67 @@
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com [136.143.188.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B891FD4
-	for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 13:29:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1647350942; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=ScvkKBtXG0qdn0mauPdahMW+RjSCyD8vzYY6IXSzGqrqJ0uRruKCYGR41Phb8QjJ3aKV407ZfFYB/fdejI1d+Q9WhdJNfqLekkGWdwpX74l/4A6GPHQ8M7cAtY8BgGMMBZeSuDfDyh28+j39irhywl0CwAM9r4yyXCUgDBM/864=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1647350942; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
-	bh=sNhaXvyi8YDqFUl3xFmq63+uF4zWI49tDG+hI38O0eo=; 
-	b=cZkUgC/+yvgvb6xdpejJgIhXcJ0icbm4QZBl43GFyfjjHJe2s/lWPErhyd3srDRHlftFTnit3JSyk1SV2vuX7F1hcYifx2FoKb2QaP9nRFiogIwGj9aW4ySMyCJquQT14xGWIGirbcAzCQsZIpMtSawujo40Youomt8fmmFFhyA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=arinc9.com;
-	spf=pass  smtp.mailfrom=arinc.unal@arinc9.com;
-	dmarc=pass header.from=<arinc.unal@arinc9.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1647350942;
-	s=zmail; d=arinc9.com; i=arinc.unal@arinc9.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:Reply-To;
-	bh=sNhaXvyi8YDqFUl3xFmq63+uF4zWI49tDG+hI38O0eo=;
-	b=D+jcP5Krmiwo62ABhcPFRY+6OpnpNyDOG+KbsVeLbpDbsejFzqAYhFKWJrdYWJu+
-	pSi5encngtrTTNnxOIDUgmeuObiPVwZxAzyMpy1rWKP5bqwNiX31nh/D3hP/VQIFNFC
-	esqARFZtTZM0sdQAryi7ci+JxklShiqeVSVTFSaY=
-Received: from arinc9-PC.localdomain (85.117.236.245 [85.117.236.245]) by mx.zohomail.com
-	with SMTPS id 1647350940373463.6171585371825; Tue, 15 Mar 2022 06:29:00 -0700 (PDT)
-From: =?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-To: Greg KH <gregkh@linuxfoundation.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	NeilBrown <neil@brown.name>,
-	DENG Qingfang <dqfext@gmail.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Mark Lee <Mark-MC.Lee@mediatek.com>,
-	Luiz Angelo Daros de Luca <luizluca@gmail.com>,
-	erkin.bozoglu@xeront.com
-Cc: linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Ar=C4=B1n=C3=A7=20=C3=9CNAL?= <arinc.unal@arinc9.com>
-Subject: [PATCH] mips: dts: ralink: add MT7621 SoC
-Date: Tue, 15 Mar 2022 16:28:36 +0300
-Message-Id: <20220315132836.1062-1-arinc.unal@arinc9.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1D623A0;
+	Tue, 15 Mar 2022 13:41:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07A13C340E8;
+	Tue, 15 Mar 2022 13:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1647351662;
+	bh=gvl9SFrDd+2JfY4XpOU21w5Fgp3RnrxgO3xzRNMW3ig=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=FpIzPAInqwcWVe7lVXyZMo10uysAvQH5/+0FSS06nOQud/sjKtVu2eXUrgVVwDtnS
+	 K9saXWWZ1hCdhU07mL3gP1lbyLMM5ncodj0hAGG1sCe8guzPWwUCxCvCMd4UnYk0ij
+	 MiKnX5ElR8cklFLsknUpJxfH63KChYC/OCTeoHADKe2d7sJJxnj+KlqJSXMWCfA0RW
+	 7IMl8VYJBtsy0LvBdpwYawlVvfm1y/uovTsdBOXZktA8NvrkBJg6F9XHpbVdi97yvv
+	 ktn0TMEJDT+qVku5scquwwLC4arp4ujY52Gxd5XtzcUD53EHdZUC9sEswg4SOYFru/
+	 p422dM8tR7ngQ==
+From: Mark Brown <broonie@kernel.org>
+To: Julia Lawall <Julia.Lawall@inria.fr>, linux-can@vger.kernel.org
+Cc: netdev@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>, Shayne Chen <shayne.chen@mediatek.com>, linux-media@vger.kernel.org, Christian Borntraeger <borntraeger@linux.ibm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-perf-users@vger.kernel.org, linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, Sean Wang <sean.wang@mediatek.com>, linux-arm-msm@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>, Sven Schnelle <svens@linux.ibm.com>, platform-driver-x86@vger.kernel.org, kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org, Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, target-devel@vger.kernel.org, linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev, linux-s390@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-power@fi.rohmeurope.com, linux-omap@vger.kernel.org
+ , linux-mediatek@lists.infradead.org, linux-leds@vger.kernel.org, linux-spi@vger.kernel.org, amd-gfx@lists.freedesktop.org, linux-clk@vger.kernel.org, linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, Namhyung Kim <namhyung@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, linux-wireless@vger.kernel.org
+In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+Subject: Re: (subset) [PATCH 00/30] fix typos in comments
+Message-Id: <164735165474.3687547.1964402001196947729.b4-ty@kernel.org>
+Date: Tue, 15 Mar 2022 13:40:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-The MT7621 system-on-a-chip includes a 880 MHz MIPS1004Kc dual-core CPU,
-a 5-port 10/100/1000 switch/PHY and one RGMII.
+On Mon, 14 Mar 2022 12:53:24 +0100, Julia Lawall wrote:
+> Various spelling mistakes in comments.
+> Detected with the help of Coccinelle.
+> 
 
-Add the devicetrees for GB-PC1 and GB-PC2 devices which use MT7621 SoC.
+Applied to
 
-Signed-off-by: Arınç ÜNAL <arinc.unal@arinc9.com>
----
-I'm not sure which repository/branch this patch is supposed to be applied
-to. This patch does changes on top of commit dcd520af4eac ("staging:
-mt7621-dts: fix cpuintc and fixedregulator dtc warnings, fix xhci") which
-is currently applied on gregkh/staging.git staging-next branch.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-Arınç
+Thanks!
 
----
- MAINTAINERS                                           |  7 +++++++
- arch/mips/boot/dts/ralink/Makefile                    |  4 ++++
- .../mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts     |  0
- .../mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts     |  0
- .../mips/boot/dts/ralink}/mt7621.dtsi                 |  0
- arch/mips/ralink/Kconfig                              |  5 +++++
- drivers/staging/Kconfig                               |  2 --
- drivers/staging/Makefile                              |  1 -
- drivers/staging/mt7621-dts/Kconfig                    | 11 -----------
- drivers/staging/mt7621-dts/Makefile                   |  5 -----
- drivers/staging/mt7621-dts/TODO                       |  5 -----
- 11 files changed, 16 insertions(+), 24 deletions(-)
- rename drivers/staging/mt7621-dts/gbpc1.dts => arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts (100%)
- rename drivers/staging/mt7621-dts/gbpc2.dts => arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts (100%)
- rename {drivers/staging/mt7621-dts => arch/mips/boot/dts/ralink}/mt7621.dtsi (100%)
- delete mode 100644 drivers/staging/mt7621-dts/Kconfig
- delete mode 100644 drivers/staging/mt7621-dts/Makefile
- delete mode 100644 drivers/staging/mt7621-dts/TODO
+[21/30] spi: sun4i: fix typos in comments
+        commit: 2002c13243d595e211c0dad6b8e2e87f906f474b
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 62d6758bf8c4..92eda5adca44 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16181,6 +16181,13 @@ L:	linux-mips@vger.kernel.org
- S:	Maintained
- F:	arch/mips/ralink
- 
-+RALINK MT7621 MIPS ARCHITECTURE
-+M:	Arınç ÜNAL <arinc.unal@arinc9.com>
-+M:	Sergio Paracuellos <sergio.paracuellos@gmail.com>
-+L:	linux-mips@vger.kernel.org
-+S:	Maintained
-+F:	arch/mips/boot/dts/ralink/mt7621*
-+
- RALINK RT2X00 WIRELESS LAN DRIVER
- M:	Stanislaw Gruszka <stf_xl@wp.pl>
- M:	Helmut Schaa <helmut.schaa@googlemail.com>
-diff --git a/arch/mips/boot/dts/ralink/Makefile b/arch/mips/boot/dts/ralink/Makefile
-index 6c26dfa0a903..11732b8c8163 100644
---- a/arch/mips/boot/dts/ralink/Makefile
-+++ b/arch/mips/boot/dts/ralink/Makefile
-@@ -6,4 +6,8 @@ dtb-$(CONFIG_DTB_MT7620A_EVAL)	+= mt7620a_eval.dtb
- dtb-$(CONFIG_DTB_OMEGA2P)	+= omega2p.dtb
- dtb-$(CONFIG_DTB_VOCORE2)	+= vocore2.dtb
- 
-+dtb-$(CONFIG_SOC_MT7621) += \
-+	mt7621-gnubee-gb-pc1.dtb \
-+	mt7621-gnubee-gb-pc2.dtb
-+
- obj-$(CONFIG_BUILTIN_DTB)	+= $(addsuffix .o, $(dtb-y))
-diff --git a/drivers/staging/mt7621-dts/gbpc1.dts b/arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts
-similarity index 100%
-rename from drivers/staging/mt7621-dts/gbpc1.dts
-rename to arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc1.dts
-diff --git a/drivers/staging/mt7621-dts/gbpc2.dts b/arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts
-similarity index 100%
-rename from drivers/staging/mt7621-dts/gbpc2.dts
-rename to arch/mips/boot/dts/ralink/mt7621-gnubee-gb-pc2.dts
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/arch/mips/boot/dts/ralink/mt7621.dtsi
-similarity index 100%
-rename from drivers/staging/mt7621-dts/mt7621.dtsi
-rename to arch/mips/boot/dts/ralink/mt7621.dtsi
-diff --git a/arch/mips/ralink/Kconfig b/arch/mips/ralink/Kconfig
-index 120adad51d6a..841c0f69a3bf 100644
---- a/arch/mips/ralink/Kconfig
-+++ b/arch/mips/ralink/Kconfig
-@@ -54,10 +54,15 @@ choice
- 		select HAVE_PCI
- 		select PCI_DRIVERS_GENERIC
- 		select SOC_BUS
-+
-+		help
-+		  The MT7621 system-on-a-chip includes a 880 MHz MIPS1004Kc dual-core CPU,
-+		  a 5-port 10/100/1000 switch/PHY and one RGMII.
- endchoice
- 
- choice
- 	prompt "Devicetree selection"
-+	depends on !SOC_MT7621
- 	default DTB_RT_NONE
- 	help
- 	  Select the devicetree.
-diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
-index d1ce500c0319..efa194ec12fb 100644
---- a/drivers/staging/Kconfig
-+++ b/drivers/staging/Kconfig
-@@ -82,8 +82,6 @@ source "drivers/staging/vc04_services/Kconfig"
- 
- source "drivers/staging/pi433/Kconfig"
- 
--source "drivers/staging/mt7621-dts/Kconfig"
--
- source "drivers/staging/axis-fifo/Kconfig"
- 
- source "drivers/staging/fieldbus/Kconfig"
-diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
-index 82e912a7586f..db876663a1e3 100644
---- a/drivers/staging/Makefile
-+++ b/drivers/staging/Makefile
-@@ -31,7 +31,6 @@ obj-$(CONFIG_KS7010)		+= ks7010/
- obj-$(CONFIG_GREYBUS)		+= greybus/
- obj-$(CONFIG_BCM2835_VCHIQ)	+= vc04_services/
- obj-$(CONFIG_PI433)		+= pi433/
--obj-$(CONFIG_SOC_MT7621)	+= mt7621-dts/
- obj-$(CONFIG_XIL_AXIS_FIFO)	+= axis-fifo/
- obj-$(CONFIG_FIELDBUS_DEV)     += fieldbus/
- obj-$(CONFIG_QLGE)		+= qlge/
-diff --git a/drivers/staging/mt7621-dts/Kconfig b/drivers/staging/mt7621-dts/Kconfig
-deleted file mode 100644
-index 6932ab7acadf..000000000000
---- a/drivers/staging/mt7621-dts/Kconfig
-+++ /dev/null
-@@ -1,11 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--config DTB_GNUBEE1
--	bool "GnuBee1 2.5inch NAS"
--	depends on SOC_MT7621 && DTB_RT_NONE
--	select BUILTIN_DTB
--
--config DTB_GNUBEE2
--	bool "GnuBee2 3.5inch NAS"
--	depends on SOC_MT7621 && DTB_RT_NONE
--	select BUILTIN_DTB
--
-diff --git a/drivers/staging/mt7621-dts/Makefile b/drivers/staging/mt7621-dts/Makefile
-deleted file mode 100644
-index b4ab99fed932..000000000000
---- a/drivers/staging/mt7621-dts/Makefile
-+++ /dev/null
-@@ -1,5 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--dtb-$(CONFIG_DTB_GNUBEE1)      += gbpc1.dtb
--dtb-$(CONFIG_DTB_GNUBEE2)      += gbpc2.dtb
--
--obj-y				+= $(patsubst %.dtb, %.dtb.o, $(dtb-y))
-diff --git a/drivers/staging/mt7621-dts/TODO b/drivers/staging/mt7621-dts/TODO
-deleted file mode 100644
-index 1b758e5c84e0..000000000000
---- a/drivers/staging/mt7621-dts/TODO
-+++ /dev/null
-@@ -1,5 +0,0 @@
--
--- ensure all usage matches code
--- ensure all features used are documented
--
--Cc: NeilBrown <neil@brown.name>
--- 
-2.25.1
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
