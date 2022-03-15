@@ -1,118 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4A82F20;
-	Mon, 14 Mar 2022 20:30:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 395EAC340EE;
-	Mon, 14 Mar 2022 20:30:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1647289811;
-	bh=5slkzW/wYFCAJdfNlCFTBba0nZcr16X7BRShsWGs8e4=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=leggAOjDGLqu5Y16iRzmCapGpn9MgtEwT4CrU4eyl+t2E31oSfK39qKDLg3AehmbU
-	 40wH8plobcUAZegoJFqfw9/xkqsBBPmZP9vZVSFOcI/Xp23ZGUf+pgmWTjQguJdafL
-	 aR+7p6LxqiE9iThzqyS8jQ9G6EB+4tZZi+yCfGQiapJJIo9jcBYm9fR9I2LX08BkN2
-	 bFDWmepy5ZVI6q23q7h6GXJ7SL0Svf5wH1oJCuTgacReCjqPgety1pGCFxOBEiOwa4
-	 z9SA1gQwBNf2EwKLfJ+KdExejyFckwalTlOP/U5FXz63cZ94Vo7u6CrKogKN+nyC4B
-	 +CVXdED/jOy7Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0DC0AE6D3DE;
-	Mon, 14 Mar 2022 20:30:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4CB10F3
+	for <linux-staging@lists.linux.dev>; Tue, 15 Mar 2022 02:27:43 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id h196so14454635qke.12
+        for <linux-staging@lists.linux.dev>; Mon, 14 Mar 2022 19:27:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=northvilleschools.net; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=PuIMjui1Ge4EhyWDZpr9OGS4dz+9ZtjP0SsU+pEdP2g=;
+        b=VjJPcNPhiccH4ZpCpc7PtlucjeS4mTJpt18MJMmQnKeA/OPiovxPM5aoxlvJ8UJzxl
+         h9RFhSBjBTzcQu7XnVER0sFiF75DIgyTh5/Xdq2O4HnY0jVa8c1H6db6z25KDCNIj/h5
+         9ZDJunhwi/vD/So39vqrsE359J8jUsMjFrUrBW5CrdHPB2ObQ0tcn2G5gdgm8ZonC9g4
+         WCxpxzLJDs03WD5MPITF9a06YG2HZIIfa9Au1yPlL27l49TLCnzmBEU4ix6lBuSzG8U+
+         tsyGDR+1zt6C2WM6yeMonqSDCWSZeduM7FBLvyZedB/693oHamr3ho89Hw4B18gNYm+w
+         +DRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=PuIMjui1Ge4EhyWDZpr9OGS4dz+9ZtjP0SsU+pEdP2g=;
+        b=D8e2CBfoelwFgcBe1wJ9SDMLJEsGvZGz49gWObiNzE0R0aYqOTWuRg+Rf9mVSvTdUP
+         ou54ozpxcwHOyr8eOZ3ID8UrDr1GkdbVqmKSvQPfQueSXLSpFPbNfoB4YSJ4dODWaRkN
+         fzIZUWVhNzlUepxEf1EfCs/tEQG4fVKvMqN1zKUukX7qOR6KR39ENdwr09IUfY/yVXBn
+         XzPYnH3FIq2u8HD2Fd2df0k4YcjM1TFoIUOorFP3q2RhBLzH28v9UezeCF7dmCKGaeDp
+         tasyrLy9nAm99XZIHBG7fCvhLtYbZINGZEjGrTA9DOM6XbEAeTKwNi5kCf7XN6ff6rXV
+         FV7A==
+X-Gm-Message-State: AOAM533Bb4+BXnxXAKHLHarS9WhA9ZKFOQDP/oLeYfMPBRUz7UTtG74O
+	Yh5ZbExB7P4Q+4RahAZX2NNqpwXTvKAZqsiMzQI=
+X-Google-Smtp-Source: ABdhPJxPy8lQkCERhKpA7+QhUzhl7HtMqbu8E8la6bO1tyWBGiKtvivXkMnA6YZXbpiT6S9/J5FKww==
+X-Received: by 2002:a05:620a:f14:b0:67d:1b1c:cf34 with SMTP id v20-20020a05620a0f1400b0067d1b1ccf34mr16788449qkl.479.1647311262143;
+        Mon, 14 Mar 2022 19:27:42 -0700 (PDT)
+Received: from sckzor-linux (d4-50-247-168.col.wideopenwest.com. [50.4.168.247])
+        by smtp.gmail.com with ESMTPSA id p13-20020a05622a048d00b002e1ce0c627csm4222518qtx.58.2022.03.14.19.27.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Mar 2022 19:27:41 -0700 (PDT)
+Date: Mon, 14 Mar 2022 22:27:40 -0400
+From: Charlie Sands <sandsch@northvilleschools.net>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rts5208: Resolve checkpath.pl issues.
+Message-ID: <Yi/5nEXVmzZrbfbz@sckzor-linux.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 00/30] fix typos in comments
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <164728981105.21494.10764025984714254687.git-patchwork-notify@kernel.org>
-Date: Mon, 14 Mar 2022 20:30:11 +0000
-References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
-In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: linux-can@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-spi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-usb@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- platform-driver-x86@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, linux-leds@vger.kernel.org,
- shayne.chen@mediatek.com, sean.wang@mediatek.com,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, rafael@kernel.org,
- linux-rdma@vger.kernel.org, borntraeger@linux.ibm.com, svens@linux.ibm.com,
- linux-s390@vger.kernel.org, matti.vaittinen@fi.rohmeurope.com,
- linux-power@fi.rohmeurope.com, mark.rutland@arm.com,
- alexander.shishkin@linux.intel.com, jolsa@kernel.org, namhyung@kernel.org,
- linux-perf-users@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello:
+This patch remedies the following checkpath.pl issues:
 
-This series was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
++ dev_info(&dev->pci->dev, "%s called\n", __func__);
 
-On Mon, 14 Mar 2022 12:53:24 +0100 you wrote:
-> Various spelling mistakes in comments.
-> Detected with the help of Coccinelle.
-> 
-> ---
-> 
->  drivers/base/devres.c                               |    4 ++--
->  drivers/clk/qcom/gcc-sm6125.c                       |    2 +-
->  drivers/clk/ti/clkctrl.c                            |    2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c              |    4 ++--
->  drivers/gpu/drm/amd/display/dc/bios/command_table.c |    6 +++---
->  drivers/gpu/drm/amd/pm/amdgpu_pm.c                  |    2 +-
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c  |    4 ++--
->  drivers/gpu/drm/sti/sti_gdp.c                       |    2 +-
->  drivers/infiniband/hw/qib/qib_iba7220.c             |    4 ++--
->  drivers/leds/leds-pca963x.c                         |    2 +-
->  drivers/media/i2c/ov5695.c                          |    2 +-
->  drivers/mfd/rohm-bd9576.c                           |    2 +-
->  drivers/mtd/ubi/block.c                             |    2 +-
->  drivers/net/can/usb/ucan.c                          |    4 ++--
->  drivers/net/ethernet/packetengines/yellowfin.c      |    2 +-
->  drivers/net/wireless/ath/ath6kl/htc_mbox.c          |    2 +-
->  drivers/net/wireless/cisco/airo.c                   |    2 +-
->  drivers/net/wireless/mediatek/mt76/mt7915/init.c    |    2 +-
->  drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c |    6 +++---
->  drivers/platform/x86/uv_sysfs.c                     |    2 +-
->  drivers/s390/crypto/pkey_api.c                      |    2 +-
->  drivers/scsi/aic7xxx/aicasm/aicasm.c                |    2 +-
->  drivers/scsi/elx/libefc_sli/sli4.c                  |    2 +-
->  drivers/scsi/lpfc/lpfc_mbox.c                       |    2 +-
->  drivers/scsi/qla2xxx/qla_gs.c                       |    2 +-
->  drivers/spi/spi-sun4i.c                             |    2 +-
->  drivers/staging/rtl8723bs/core/rtw_mlme.c           |    2 +-
->  drivers/usb/gadget/udc/snps_udc_core.c              |    2 +-
->  fs/kernfs/file.c                                    |    2 +-
->  kernel/events/core.c                                |    2 +-
->  30 files changed, 39 insertions(+), 39 deletions(-)
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
++ dev_info(&dev->pci->dev, "%s called\n", __func__);
 
-Here is the summary with links:
-  - [03/30] ath6kl: fix typos in comments
-    (no matching commit)
-  - [10/30] mt76: mt7915: fix typos in comments
-    (no matching commit)
-  - [12/30] drivers: net: packetengines: fix typos in comments
-    https://git.kernel.org/netdev/net-next/c/ebc0b8b5374e
-  - [19/30] rtlwifi: rtl8821ae: fix typos in comments
-    (no matching commit)
-  - [20/30] airo: fix typos in comments
-    (no matching commit)
-  - [27/30] can: ucan: fix typos in comments
-    (no matching commit)
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
++ dev_info(&pci->dev, "%s called\n", __func__);
 
-You are awesome, thank you!
+Signed-off-by: Charlie Sands <sandsch@northvilleschools.net>
+---
+ drivers/staging/rts5208/rtsx.c | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
+index 5a58dac76c88..643d33b9a239 100644
+--- a/drivers/staging/rts5208/rtsx.c
++++ b/drivers/staging/rts5208/rtsx.c
+@@ -159,8 +159,6 @@ static int command_abort(struct scsi_cmnd *srb)
+ 	struct rtsx_dev *dev = host_to_rtsx(host);
+ 	struct rtsx_chip *chip = dev->chip;
+ 
+-	dev_info(&dev->pci->dev, "%s called\n", __func__);
+-
+ 	scsi_lock(host);
+ 
+ 	/* Is this command still active? */
+@@ -188,8 +186,6 @@ static int device_reset(struct scsi_cmnd *srb)
+ {
+ 	struct rtsx_dev *dev = host_to_rtsx(srb->device->host);
+ 
+-	dev_info(&dev->pci->dev, "%s called\n", __func__);
+-
+ 	return SUCCESS;
+ }
+ 
+@@ -968,8 +964,6 @@ static void rtsx_remove(struct pci_dev *pci)
+ {
+ 	struct rtsx_dev *dev = pci_get_drvdata(pci);
+ 
+-	dev_info(&pci->dev, "%s called\n", __func__);
+-
+ 	quiesce_and_remove_host(dev);
+ 	release_everything(dev);
+ 	pci_release_regions(pci);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.35.1
 
