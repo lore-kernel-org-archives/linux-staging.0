@@ -1,89 +1,202 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF2338F8
-	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 16:53:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647449627; x=1678985627;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=67HJ5xsUQCH77LSjNv9g0hLBWeBJ7D0jAoL2UnUtLbY=;
-  b=HBh8ZL6gNJP29QMUJaedkNQo/9EWjfgtgxd9bgDEo894NUv13zYQa3Ag
-   QSyNSSNb8Y0n2Uk8EwDUo5X6u2CqHMiA0o0PdVkXO6UZEyxq8qUaZA5ku
-   CS8NfbJhT3rSdpT/vbecdZ0VAeF7nDxFAbN35OVnDCw4DO2e2QI0zINhg
-   slaeeB9wG3RG2t7G/+dZsctN4mb480c8vlkPbMRrWxxYBaIV8COqeGUlt
-   W9afWjrwYcnbJb4vbrw8Wvz2M0UiAxfhJvEl+fuPfBBlAo8vi8zmzD7MH
-   1fu+6XE0LFzPLOA8/AVN+ZrZtlEXjXcAKIKCarePlzCf/C7+FjhLt49SJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="281444467"
-X-IronPort-AV: E=Sophos;i="5.90,187,1643702400"; 
-   d="scan'208";a="281444467"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 09:53:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,187,1643702400"; 
-   d="scan'208";a="513107709"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 16 Mar 2022 09:53:36 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 7D8E3192; Wed, 16 Mar 2022 18:53:55 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Helge Deller <deller@gmx.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 2/2] staging: fbtft: Consider type of init sequence values in fbtft_init_display()
-Date: Wed, 16 Mar 2022 18:53:51 +0200
-Message-Id: <20220316165351.58107-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220316165351.58107-1-andriy.shevchenko@linux.intel.com>
-References: <20220316165351.58107-1-andriy.shevchenko@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E02B38F8
+	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 17:20:14 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id z7so3190813iom.1
+        for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 10:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=ZHu31H02wKCvXtiv1u3NIdRpK08igoxIqxArOW7UWyU=;
+        b=rZiKWOUZzSymkN+Yq4KLAQtJfCVFW/+Xjr+qxaZLzj8ouud7dnx2bV8X8EQoXNSBx2
+         Jhlrltfnf9Yx8RJlkCyRT4kFyK4cEJqv24EFOdqxN3cbCxJ48jvTBJWzifhR4d25wAfW
+         usl3o2rg+mhnn35fUhyy5R+9fkAHWaGNLnRVnAXneLbyhzQ5VSaKUF2gvX1vqnXd0Xca
+         0OMuhAb5sRnzgy63RV1t7idRVETz9qiNRYDvpDj/HQcRIj9KZMHbP5zyFFEglQgmlEgp
+         OCmBzrLw77ObeFFeY8pZgIVP+BwJmPPwcj4BYC9kJD87mZhP0537wG+zyzigtoJ2s+Gb
+         kU+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=ZHu31H02wKCvXtiv1u3NIdRpK08igoxIqxArOW7UWyU=;
+        b=Ep5qeiTiXn/GGW3TKOZFx1eBh7/FHUyrykIOhoLwS07j9fJjxa+IrqD594iBMoU0qW
+         oEbNYxjWt2iEpkjcwjLH00q2TXFG/FkBf+X8QrpWVUDThA8WmfVYOjIHc792j424pF9S
+         +w2BsBUYLRK4aW3cbsTUMOoOW4nKLEpDfnPsgpNVK/CV52+DUJNGOnm3cXBF+6qoAc9F
+         HQep6I8Y5OiICH2hQxvYGGLOiZTUEciLi43CcKwdPwKAjiScX6D+vbkI+mw9UeSQnaxg
+         Q0M4PGdh1spa6Et7Bz2ubcuAKlft59yOnpq+GSmfl7HxN0JyS3GukyVBnA1HONDevd7C
+         Auww==
+X-Gm-Message-State: AOAM5319hDLGI0svN6/DRSvhTU4OLqlerFPT/yjsrK2uAut32PrMlk/d
+	iNfw4fgBTnN6rKG1Xuatd31cjg==
+X-Google-Smtp-Source: ABdhPJyZrc94uhg5ZCgdSfeLCguT5+TqrzVKMhco+wETb+0v8fLCrj1k85w00vM79bnWWKdgvyh9eQ==
+X-Received: by 2002:a05:6638:24ca:b0:319:d811:b3b5 with SMTP id y10-20020a05663824ca00b00319d811b3b5mr243642jat.235.1647451213288;
+        Wed, 16 Mar 2022 10:20:13 -0700 (PDT)
+Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id e18-20020a5d85d2000000b00649254a855fsm1257054ios.26.2022.03.16.10.20.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Mar 2022 10:20:12 -0700 (PDT)
+Message-ID: <a1074d55-c5ee-ced5-b9f7-0e1d023e1fea@linaro.org>
+Date: Wed, 16 Mar 2022 12:20:11 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [greybus-dev] Re: [PATCH v5] staging: greybus: introduce
+ pwm_ops::apply
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Alex Elder <elder@ieee.org>
+Cc: Song Chen <chensong_2000@189.cn>, johan@kernel.org, elder@kernel.org,
+ thierry.reding@gmail.com, lee.jones@linaro.org,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+References: <1647397285-30061-1-git-send-email-chensong_2000@189.cn>
+ <49f18070-0215-8475-907b-487d1e01c15c@ieee.org>
+ <20220316162903.kwkfefyznvopvr5g@pengutronix.de>
+From: Alex Elder <elder@linaro.org>
+In-Reply-To: <20220316162903.kwkfefyznvopvr5g@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-In the fbtft_init_display() the init sequence is printed for
-the debug purposes. Unfortunately the current code doesn't take
-into account that values in the buffer are of the s16 type.
+On 3/16/22 11:29 AM, Uwe Kleine-König wrote:
+> On Wed, Mar 16, 2022 at 10:14:30AM -0500, Alex Elder wrote:
+>> On 3/15/22 9:21 PM, Song Chen wrote:
+>>> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+>>> index 891a6a672378..3add3032678b 100644
+>>> --- a/drivers/staging/greybus/pwm.c
+>>> +++ b/drivers/staging/greybus/pwm.c
+>>> @@ -204,43 +204,54 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+>>>    	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
+>>>    }
+>>> -static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+>>> -			 int duty_ns, int period_ns)
+>>> +static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>>> +			const struct pwm_state *state)
+>>>    {
+>>> +	int err;
+>>> +	bool enabled = pwm->state.enabled;
+>>> +	u64 period = state->period;
+>>> +	u64 duty_cycle = state->duty_cycle;
+>>
+>> The use of local variables here is inconsistent, and that
+>> can be confusing.  Specifically, the "enabled" variable
+>> represents the *current* state, while the "period" and
+>> "duty_cycle" variables represent the *desired* state.  To
+>> avoid confusion, if you're going to use local variables
+>> like that, they should all represent *either* the current
+>> state *or* the new state.  Please update your patch to
+>> do one or the other.
+> 
+> IMHO that it overly picky. I'm ok with the usage as is.
 
-Consider that and replace the printing code with fbtft_par_dbg_hex()
-call.
+I see the "enabled" flag is used in a way that I didn't
+notice before.  Changing its name to "disabled" (to mean
+"we have disabled the device within this function already")
+would allow it to be used in the same way, but would make
+it more obvious it's not just a copy of "old" device state.
 
-Fixes: b888897014a9 ("staging/fbtft: Remove all strcpy() uses")
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v2: no changes, just based on prerequisite
- drivers/staging/fbtft/fbtft-core.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+>>>    	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>>> -	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
+>>> -};
+>>> +	/* set polarity */
+>>> +	if (state->polarity != pwm->state.polarity) {
+>>> +		if (enabled) {
+>>> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+>>> +			enabled = false;
+>>> +		}
+>>> +		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
+>>> +		if (err)
+>>> +			return err;
+>>> +	}
+>>> -static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
+>>> -			       enum pwm_polarity polarity)
+>>> -{
+>>> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>>> +	if (!state->enabled) {
+>>> +		if (enabled)
+>>> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+>>> +		return 0;
+>>
+>> If you are disabling the device, you return without updating the
+>> period and duty cycle.  But you *do* set polarity.  Is that
+>> required by the PWM API?  (I don't actually know.)  Or can the
+>> polarity setting be simply ignored as well if the new state is
+>> disabled?
+> 
+> All is well here. A disabled PWM is expected to emit the inactive level.
+> So polarity matters, duty and period don't.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 6dc77895a87c..3b182115bd6e 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -1034,10 +1034,9 @@ int fbtft_init_display(struct fbtft_par *par)
- 			for (j = 0; par->init_sequence[i + 1 + j] >= 0; j++)
- 				;
- 
--			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
--				      "init: write(0x%02X) %*ph\n",
--				      par->init_sequence[i], j,
--				      &par->init_sequence[i + 1]);
-+			fbtft_par_dbg_hex(DEBUG_INIT_DISPLAY, par, par->info->device,
-+					  s16, &par->init_sequence[i + 1], j,
-+					  "init: write(0x%02X)", par->init_sequence[i]);
- 
- 			/* Write */
- 			j = 0;
--- 
-2.35.1
+Thanks for clarifying that.  I did not know what was expected.
+
+>> Also, if the polarity changed, the device will have already been
+>> disabled above, so there's no need to do so again (and perhaps
+>> it might be a bad thing to do twice?).
+> 
+> That won't happen, because if the device was disabled for the polarity
+> change, enabled = false. In fact that is the purpose of the local
+> variable.
+
+Now I see, yes, the local variable gets changed when the
+disable occurred above.
+
+>>> +	}
+>>> -	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
+>>> -};
+>>
+>> Since you're clamping the values to 32 bits here, your comment
+>> should explain why (because Greybus uses 32-bit values here,
+>> while the API supports 64 bit values).  That would be a much
+>> more useful piece of information than "set period and duty cycle".
+>>
+>>> +	/* set period and duty cycle*/
+>>
+>> Include a space before "*/" in your comments.
+> 
+> ack
+> 
+>>> +	if (period > U32_MAX)
+>>> +		period = U32_MAX;
+>>> -static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
+>>> -{
+>>> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>>> +	if (duty_cycle > period)
+>>> +		duty_cycle = period;
+>>> -	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+>>> -};
+>>> +	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
+>>> +	if (err)
+>>> +		return err;
+>>
+>> What if the new state set usage_power to true?  It would
+>> be ignored here.  Is it OK to silently ignore it?  Even
+>> if it is, a comment about that would be good to see, so
+>> we know it's intentional.
+> 
+> ignoring usage_power is OK. All but a single driver do it that way.
+
+I don't actually see anything that sets usage_power to true,
+although "pwm-pca9685.c" tests its value.
+
+I guess it's an advisory parameter that's passed to the apply
+callback function.  It's described as optional, but--not being
+a "PWM person"--this isn't obvious to me.  Maybe the comments
+describing the field or the apply callback could define the
+semantics a little better at some point.
+
+					-Alex
+
+> 
+> Best regards
+> Uwe
+> 
+> 
+> _______________________________________________
+> greybus-dev mailing list -- greybus-dev@lists.linaro.org
+> To unsubscribe send an email to greybus-dev-leave@lists.linaro.org
 
