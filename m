@@ -1,47 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9704128E6
-	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 06:29:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A35EC340E9;
-	Wed, 16 Mar 2022 06:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0E54683
+	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 06:39:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C0FC340E9;
+	Wed, 16 Mar 2022 06:39:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1647412158;
-	bh=WPffMnbLy+mRaNgF3nbJhYoZuUmvH1mApTBnDeQ8aOo=;
+	s=korg; t=1647412798;
+	bh=ZCM0KWZVm8GiuvHcY7t2+wvpzLhzc2pm5OpcsTiB7tw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JgV1V9m1SWB0EHNeCEnd1BWo/M9Mk40nwknqztRUGBEgwz9/uKw1N5UP0qvQCVgnW
-	 95IFKR86aNtYBUEpW5Hw+5RwBgBce5dW6R/Phm4oBfMPobJe3Zs48EhlNLY/kw7O4p
-	 8eEepi/OJCvW/37LreNDnvNMzfAMdumJeoYXmJ+U=
-Date: Wed, 16 Mar 2022 07:29:08 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Charlie Sands <sandsch@northvilleschools.net>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rts5208: Resolve checkpath.pl issues.
-Message-ID: <YjGDtLvysfyVQHLm@kroah.com>
-References: <YjEB27xzf+krm3ew@sckzor-linux.localdomain>
+	b=hwmsPY2OLxoHiSqxSHlksEZt/syviCaFroQOXVytYD5WNTClOPfjRzdenxVF7WWww
+	 u4oMfReliVtkWAJgOIpI8IALcjEVdYCO6lSiQnqebY7+OwcIIDliMNqs132ogINKRM
+	 i7Yp4x1AI4bGfVnapgGw1PfKwSm78VA6igJgx7SU=
+Date: Wed, 16 Mar 2022 07:39:49 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Martin Kaiser <lists@kaiser.cx>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/6] staging: r8188eu: some rx cleanups
+Message-ID: <YjGGNf5Pv7jp6MAv@kroah.com>
+References: <20220305185351.1409232-1-martin@kaiser.cx>
+ <Yi97s4Eu20CVE/Ds@kroah.com>
+ <20220315205528.vfby3delkhyidbv5@viti.kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YjEB27xzf+krm3ew@sckzor-linux.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220315205528.vfby3delkhyidbv5@viti.kaiser.cx>
 
-On Tue, Mar 15, 2022 at 05:15:07PM -0400, Charlie Sands wrote:
-> > Always test-build your patches. Applying this change results in a build 
-> > failure :(
-> My apologies, I ran a build test on a copy of the repository with my changes
-> stashed in order to look at the original checkpatch warnings.
+On Tue, Mar 15, 2022 at 09:55:28PM +0100, Martin Kaiser wrote:
+> Thus wrote Greg Kroah-Hartman (gregkh@linuxfoundation.org):
 > 
-> > Please fix up and resend.
-> It should now fix the below issues without build warnings.
+> > On Sat, Mar 05, 2022 at 07:53:45PM +0100, Martin Kaiser wrote:
+> > > Here's another set with simple cleanups in the code for receiving frames.
+> 
+> > > Martin Kaiser (6):
+> > >   staging: r8188eu: remove unnecessary initializations
+> > >   staging: r8188eu: remove three unused receive defines
+> > >   staging: r8188eu: remove unused function prototype
+> > >   staging: r8188eu: make rtl8188e_process_phy_info static
+> > >   staging: r8188eu: remove some unused local ieee80211 macros
+> > >   staging: r8188eu: remove local BIT macro
+> 
+> > >  drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c |  6 +---
+> > >  .../staging/r8188eu/include/rtl8188e_recv.h   |  6 ----
+> > >  drivers/staging/r8188eu/include/wifi.h        | 34 +------------------
+> > >  3 files changed, 2 insertions(+), 44 deletions(-)
+> 
+> > > -- 
+> > > 2.30.2
+> 
+> 
+> 
+> > This series breaks the build:
+> 
+> on x86_64 - and I tested only on arm32 :-(
+> 
+> > drivers/staging/r8188eu/core/rtw_wlan_util.c: In function ‘update_IOT_info’:
+> > drivers/staging/r8188eu/core/rtw_wlan_util.c:1279:42: error: conversion from ‘long unsigned int’ to ‘u32’ {aka ‘unsigned int’} changes value from ‘18446744073709551611’ to ‘4294967291’ [-Werror=overflow]
+> >  1279 |                 Switch_DM_Func(padapter, (~DYNAMIC_BB_DYNAMIC_TXPWR), false);
+> >       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > drivers/staging/r8188eu/core/rtw_wlan_util.c:1285:42: error: conversion from ‘long unsigned int’ to ‘u32’ {aka ‘unsigned int’} changes value from ‘18446744073709551611’ to ‘4294967291’ [-Werror=overflow]
+> >  1285 |                 Switch_DM_Func(padapter, (~DYNAMIC_BB_DYNAMIC_TXPWR), false);
+> >       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > cc1: all warnings being treated as errors
+> 
+> > I'm going to drop it from my queue now.
+> 
+> The driver's BIT(x) macro was 1 << (x), the "global" one uses 1UL << (x).
+> DYNAMIC_BB_DYNAMIC_TXPWR needs a cast to u32. I've just sent v2.
 
-None of this should be in the changelog, please fix this up and send a
-version 2 of this patch, properly listing what changed from the previous
-version.  Instructions on how to do that should be in the documentation.
-
-thanks,
-
-greg k-h
+There shouldn't need to be a cast when using the BIT macro, so be
+careful...
