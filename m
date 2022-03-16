@@ -1,81 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0E54683
-	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 06:39:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C0FC340E9;
-	Wed, 16 Mar 2022 06:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2310C290E
+	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 06:40:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB50C340E9;
+	Wed, 16 Mar 2022 06:40:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1647412798;
-	bh=ZCM0KWZVm8GiuvHcY7t2+wvpzLhzc2pm5OpcsTiB7tw=;
+	s=korg; t=1647412831;
+	bh=TEEVCtov0uvaa0mtrBCOKBjl0ZC+ALGzF1+Ca8qo+NQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hwmsPY2OLxoHiSqxSHlksEZt/syviCaFroQOXVytYD5WNTClOPfjRzdenxVF7WWww
-	 u4oMfReliVtkWAJgOIpI8IALcjEVdYCO6lSiQnqebY7+OwcIIDliMNqs132ogINKRM
-	 i7Yp4x1AI4bGfVnapgGw1PfKwSm78VA6igJgx7SU=
-Date: Wed, 16 Mar 2022 07:39:49 +0100
+	b=nFDhvXGs7fl172dILd97WD5BzFBV/8gpClpyZbmxCN+j2hpuvEWB33XyYOQ138Tna
+	 glvBH0pLN5L8ABi6q47+IuTdMzZEcFAn7+XXrEdRBKwlg+nkkfZHfB9fpRr4tr7wjK
+	 I08giLTBAxY2nIAw5vx7f6Co5/WdJ7Lw6nxGOea0=
+Date: Wed, 16 Mar 2022 07:40:23 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Martin Kaiser <lists@kaiser.cx>
+To: Martin Kaiser <martin@kaiser.cx>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] staging: r8188eu: some rx cleanups
-Message-ID: <YjGGNf5Pv7jp6MAv@kroah.com>
-References: <20220305185351.1409232-1-martin@kaiser.cx>
- <Yi97s4Eu20CVE/Ds@kroah.com>
- <20220315205528.vfby3delkhyidbv5@viti.kaiser.cx>
+Subject: Re: [PATCH v2 6/6] staging: r8188eu: remove local BIT macro
+Message-ID: <YjGGV226yQv0vKMS@kroah.com>
+References: <20220315205041.2714168-1-martin@kaiser.cx>
+ <20220315205041.2714168-7-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220315205528.vfby3delkhyidbv5@viti.kaiser.cx>
+In-Reply-To: <20220315205041.2714168-7-martin@kaiser.cx>
 
-On Tue, Mar 15, 2022 at 09:55:28PM +0100, Martin Kaiser wrote:
-> Thus wrote Greg Kroah-Hartman (gregkh@linuxfoundation.org):
+On Tue, Mar 15, 2022 at 09:50:41PM +0100, Martin Kaiser wrote:
+> The r8188eu driver defines a local BIT(x) macro. Remove this local macro
+> and use the one from include/linux/bits.h.
 > 
-> > On Sat, Mar 05, 2022 at 07:53:45PM +0100, Martin Kaiser wrote:
-> > > Here's another set with simple cleanups in the code for receiving frames.
+> The global BIT macro returns an unsigned long value. Therefore, we have to
+> cast DYNAMIC_BB_DYNAMIC_TXPWR to u32 explicitly. This define is used with
+> the bitwise not operator.
 > 
-> > > Martin Kaiser (6):
-> > >   staging: r8188eu: remove unnecessary initializations
-> > >   staging: r8188eu: remove three unused receive defines
-> > >   staging: r8188eu: remove unused function prototype
-> > >   staging: r8188eu: make rtl8188e_process_phy_info static
-> > >   staging: r8188eu: remove some unused local ieee80211 macros
-> > >   staging: r8188eu: remove local BIT macro
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+> v2:
+>  - cast DYNAMIC_BB_DYNAMIC_TXPWR to u32, fix build error on 64-bit systems
 > 
-> > >  drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c |  6 +---
-> > >  .../staging/r8188eu/include/rtl8188e_recv.h   |  6 ----
-> > >  drivers/staging/r8188eu/include/wifi.h        | 34 +------------------
-> > >  3 files changed, 2 insertions(+), 44 deletions(-)
+>  drivers/staging/r8188eu/include/rtw_mlme_ext.h | 2 +-
+>  drivers/staging/r8188eu/include/wifi.h         | 7 +------
+>  2 files changed, 2 insertions(+), 7 deletions(-)
 > 
-> > > -- 
-> > > 2.30.2
-> 
-> 
-> 
-> > This series breaks the build:
-> 
-> on x86_64 - and I tested only on arm32 :-(
-> 
-> > drivers/staging/r8188eu/core/rtw_wlan_util.c: In function ‘update_IOT_info’:
-> > drivers/staging/r8188eu/core/rtw_wlan_util.c:1279:42: error: conversion from ‘long unsigned int’ to ‘u32’ {aka ‘unsigned int’} changes value from ‘18446744073709551611’ to ‘4294967291’ [-Werror=overflow]
-> >  1279 |                 Switch_DM_Func(padapter, (~DYNAMIC_BB_DYNAMIC_TXPWR), false);
-> >       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > drivers/staging/r8188eu/core/rtw_wlan_util.c:1285:42: error: conversion from ‘long unsigned int’ to ‘u32’ {aka ‘unsigned int’} changes value from ‘18446744073709551611’ to ‘4294967291’ [-Werror=overflow]
-> >  1285 |                 Switch_DM_Func(padapter, (~DYNAMIC_BB_DYNAMIC_TXPWR), false);
-> >       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > cc1: all warnings being treated as errors
-> 
-> > I'm going to drop it from my queue now.
-> 
-> The driver's BIT(x) macro was 1 << (x), the "global" one uses 1UL << (x).
-> DYNAMIC_BB_DYNAMIC_TXPWR needs a cast to u32. I've just sent v2.
+> diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> index 0c555ea6719b..2b5089be5156 100644
+> --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+> @@ -34,7 +34,7 @@
+>  /*  BB ODM section BIT 0-15 */
+>  #define	DYNAMIC_BB_DIG				BIT(0)
+>  #define	DYNAMIC_BB_RA_MASK			BIT(1)
+> -#define	DYNAMIC_BB_DYNAMIC_TXPWR	BIT(2)
+> +#define	DYNAMIC_BB_DYNAMIC_TXPWR	((u32)BIT(2))
 
-There shouldn't need to be a cast when using the BIT macro, so be
-careful...
+That's really odd, why the cast for just one define?  Try fixing up
+where this is used instead.
+
+thanks,
+
+greg k-h
