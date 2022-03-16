@@ -1,917 +1,164 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2051.outbound.protection.outlook.com [40.107.21.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2581B28FA
-	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 18:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=aPqspxgmbtSUpBfnpuR4sCa2Va5iViG4yPvt7wUetqg=; b=X44G94svF6r/YnM14KLmxLxaYj
-	DKfuC2jc1swNDubchesCM0s+hKJ83oiAmUNrnFMTKRI7x8BMkBhVb+Ox0TEf+VhnByt+JmmGxcwps
-	yQMqyjT7tMFndQy5pRXIpGLYckKdUPNcduTfhx6mXkTMPMI1Pmkp6AhlwTf5jbIUfex7ND3ba+qOh
-	A8JJ+cp+ah8KQNrkv+KD/lTCToG+Y7hCb3ZToDYncZpVr9T59GYT1UW92D97Ig9VPbYjrsvKA5rWb
-	KkKZhUSL0HhsPNHZsgcJecaGbCnx/BncN442hBY52HEVIEBmlOYh7Af7RXyqAaZpNX20EkY/lguNG
-	LxHanIyA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-	by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nUYRE-001ciq-Ir; Wed, 16 Mar 2022 18:32:01 +0000
-Message-ID: <55c3002a-7eee-9877-24a4-41f11ef4d1b8@infradead.org>
-Date: Wed, 16 Mar 2022 11:31:54 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FA838F5
+	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 18:57:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=anR4IZeh0ehjrb3axRcIjaFcOB/qIjkO57lZ332kZMK27Qw6rSk+668Pv9UDvWlzPf73RMQ6ch9/98ELthT9lpk25dVhY4wNLLdYV0ruN0k0CymUhSU0FuB5Ck0bM/ZcoTqwVU1JzuFnHlwxsd7QjezUzbNPE6JyMNWf1NdC23mphcaK8w2LqzROqQ/pc4LJS85cj/iGohnL+C2NaJ9yfKV/EO9KW2N5i0s4BT194B5TIV04r9yXSTNf46uHLTW9/IhcF7scH1PIa/OMJ2OsQ13vIRQFXOkaWUEHr6lpIfFbnnUNvCSWYFoAOuezAdXezWv1VG8M5ijwJy6hgbHTdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W+BX7tHjmGXxyQUO0VqHGnr77+8euYcx+OtKfnvAkms=;
+ b=kPJk2n3bln+0hWA98BEpoc5k1rohcGiKTrUrIkiptgwlMwBjhF0ISA/EqumawS+NLwyXr4E8vTn+N7OCkjxAhJrbfhl8AekPx6xurw/XrHeke5PCGngH5H+t+oIFa2eUQplq5pvCtZ3IHzkTGKa3+867G0aIxlrDSUmyQrb+WH/I3HcgxSd4RxX25K34oChl5Wrs6FGPIyLn+/s/RQ4eJoinnWS+yoqkZ6iF9wYQNlYlzXyVC0dq4IuD8WcQfHtHgcbGuW44xamOWY/tm7p3GMuF2/bMqtRtu0dO2m6d5HHNZymjfJco8DCDUBml7WLdLuGAJQ93n4cafJaGcjWlyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=sap.com; dmarc=pass action=none header.from=sap.com; dkim=pass
+ header.d=sap.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sap.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W+BX7tHjmGXxyQUO0VqHGnr77+8euYcx+OtKfnvAkms=;
+ b=S4vw+GxCDVwmOF8zmYtKaFdHAi1hr4CARgWkGXYVSmCo1dO23YjllN/Pft8lapnNwcEJC7XXpFXZ8n9G8G4x8Mik5hJdfBtsCmQ6KvX5g/38y6kII4ax3X4S25UD2rjNCco5BmZdFPmmnP3Emi/B/OM/NxXskQerlNJp28pGhusckzmrLc8ZGuIEXwlfIJ+mpM0VS4jwCI1fdtp2HiIQP8yE4XnlZRKzzr5CrfETRDoxK4uv/3RmXHHpmoNkfBnl240p12pzsAv2Vr5uZ5IxySPkrv4Wy46Nn9HN4Vkqjr1dz3RHkqO+5woSXV5koIEq+7Y+UfeSzMLpLIY+6lyPGw==
+Received: from PAXPR02MB7310.eurprd02.prod.outlook.com (2603:10a6:102:1c5::10)
+ by PA4PR02MB6702.eurprd02.prod.outlook.com (2603:10a6:102:fa::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.17; Wed, 16 Mar
+ 2022 18:57:39 +0000
+Received: from PAXPR02MB7310.eurprd02.prod.outlook.com
+ ([fe80::a4d0:f2e7:68e1:bf71]) by PAXPR02MB7310.eurprd02.prod.outlook.com
+ ([fe80::a4d0:f2e7:68e1:bf71%7]) with mapi id 15.20.5081.015; Wed, 16 Mar 2022
+ 18:57:38 +0000
+From: "Czerwacki, Eial" <eial.czerwacki@sap.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+CC: SAP vSMP Linux Maintainer <linux.vsmp@sap.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
+Subject: Re: [RFC] staging/vSMP: new driver
+Thread-Topic: [RFC] staging/vSMP: new driver
+Thread-Index: AQHYOWFVtbFVL/RlCkqxQt1YlxgURKzCVXUAgAAGCRY=
+Date: Wed, 16 Mar 2022 18:57:38 +0000
+Message-ID:
+ <PAXPR02MB73106E577096DBD6A982D96681119@PAXPR02MB7310.eurprd02.prod.outlook.com>
+References:
+ <PAXPR02MB73106333FD8FA483FAA0DAC181119@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <55c3002a-7eee-9877-24a4-41f11ef4d1b8@infradead.org>
+In-Reply-To: <55c3002a-7eee-9877-24a4-41f11ef4d1b8@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+suggested_attachment_session_id: 32870f2b-9cb0-0523-cc82-dc5906503df4
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=sap.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a6161c7c-41fd-4403-e36e-08da077ed78c
+x-ms-traffictypediagnostic: PA4PR02MB6702:EE_
+x-microsoft-antispam-prvs:
+ <PA4PR02MB6702DC591024BE402EA8729181119@PA4PR02MB6702.eurprd02.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ Tv1knwhBFPr3Z9NJ4Ngd+AnEV7zI0YcbeNPd6zHm2pK2LOOSRCa0qfV7olDtd8pXpSg0aqWXYr96LIBdHfa3y6mtb8x6XHl7SNkVSmWsRzCLB2w1zyWauWt4cua44p9jbiMLjSuP65QzESJbKdX9P3Za1tPq8FINUnucnzgL+OmrYobzwOeFEfEas8/LWkQraulroRuf/IZrIo6EKQbcVtW6zl4BXrQAvU04anja7GX7HmP7/Si7J2tF0tZca6WI2Tmlp3RbDQAOBoIyMLcHQ1f2RadYhofKBDu0Yue87+WitFbkAj8KCAtA95V4cAIcl5z1hLN62VqWL0ar8pkACHxAQg5gGgE+ESUGsqbNSasLu7rLCX9wIJxn6EhSjZmWOhWLj7UaAVnlNmEV3Caz5i9ElCgCQXUn7QlaNxluEbTYho77ir1bBWE8PyhxoDtRKSORhikyaPNXXK3fN6/jGFx+6ksr3b5K8gb0r5HGebQM8KE5QIujgLNV0P+HfwYOpIdrvIzvG+UCcDLFeO96UUOsq4zqJEbgFbkgkMry4YdcYepkhcmjC8qO89709ILDJVeiiLQVKU2x3iqEmefOhNUoLO2ARU2JWFM/DPxgMx9BUq/cmmKdB4gp3lgdzd63qty6qiBHFss0LptnsrLrgsfHhwf9tSoXCnKQkFSuW7EiLD9Q4LrrQalwjCU6mhmnXIOZ3I+aZGfW551rt62PEdAuXFojgrN6AGF+BO3cbo9dw9ndoIwJ8WtqkBErmxHJ
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR02MB7310.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(54906003)(38070700005)(2906002)(8676002)(6506007)(7696005)(316002)(6916009)(55016003)(71200400001)(9686003)(82960400001)(66946007)(38100700002)(76116006)(122000001)(8936002)(91956017)(33656002)(64756008)(66446008)(66476007)(186003)(26005)(4326008)(5660300002)(52536014)(508600001)(66556008)(966005)(86362001)(10090945011);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?xORZuTeWIa71tdXxNquS1R+6RglQNsQf0FSS6oqXajOZlwEMhqCC2fLchj?=
+ =?iso-8859-1?Q?UHc25jbyZP9h5KEZukdiNZhsxgTdlOEOmNJ5oRGTmh3bK3NlrjDueJcgk1?=
+ =?iso-8859-1?Q?fp7X4t3Nb9EHyQfkaTpGIl5KMSO8cqWgUjL/MHETVADP/76zmdGzo/YCiS?=
+ =?iso-8859-1?Q?UT1Ary96k5uUErtN7JA6Hhi+C6mIwcFBFB+Jj0S7Hz1oarCDZyOc0BvZ8h?=
+ =?iso-8859-1?Q?qCFuTiZ78O8xnfA7gG7bxI4CKJMLOsnI6Iv1qgHNSpt1SoRWp/JOfvK449?=
+ =?iso-8859-1?Q?qQaIqvHYktGYaN4gkRRJdUPr0nI7q6DwPGTIoPbWA/3jqaxY2wW+o/amgP?=
+ =?iso-8859-1?Q?/y8EVOxs6ojvGWXMoi+wKQWSGhMCALZtFoYYKNdbgXluSVCD1Qy+iO7YZx?=
+ =?iso-8859-1?Q?Q2b9LDAt7INyJT47lDzgLfCQLkQs6rJKvShJ05oGFp/mJX3XDUDnMc332U?=
+ =?iso-8859-1?Q?7+igMTgx1A0Mdpdqxbld3EwjlWoyaOIyg71VzO5QlwQ9sKj5FR52jodg9j?=
+ =?iso-8859-1?Q?f2L8U14w3QlYimKSi+2iZ2kIAjqE2FrgcSAy03MtKCAFnl/Quh2syAET6C?=
+ =?iso-8859-1?Q?L7aqRE2fZq4y8vqnFFpnHq/1ak70CRGWxJOoQmFAkyvUaJo8fBx7SMev6Y?=
+ =?iso-8859-1?Q?wQ6Ue/7E1r4xInxKu2iHsqh4r+LmJh47d85oveiy6A5XpGXFSwGZOkjpKp?=
+ =?iso-8859-1?Q?L16N+CcD6TqpopALkuwLd8hVUlp7FD8TkwPPkztdk2O66+YBRNK9a22mQl?=
+ =?iso-8859-1?Q?UJji/PSkZvQSJBNMNpgXbhJJcAOh+m6o6HZwO6VewocdXit6AAOBcw0mbe?=
+ =?iso-8859-1?Q?GFUWSIzgVSB5Sh3jA7Pdd4K8Q65lxtbYfHLSBFAViuCdyFwqtJC1eEPu/t?=
+ =?iso-8859-1?Q?G74EPhRBntbWyQvRW56ecOkIi7d5UA52NoTiWXgopEImDfwRge0VlhzlUA?=
+ =?iso-8859-1?Q?/OpuvDG3pxGsh7z/hDu+ZYSEXGkIBs9WtnUSyKDuKSEJ4XS6XWxcElSTE/?=
+ =?iso-8859-1?Q?Py9ktrth+1xl7ZyaFz8HQcmzlHmaCbeuuDLPi5XA0jDScX9Nuzn7KYklXo?=
+ =?iso-8859-1?Q?F9sTkIBka3SeBbMj+v7wZq2ELrnzHS0FHe4IJv9psxnxNAaEETAYeV7lbQ?=
+ =?iso-8859-1?Q?u02SNy1VmyOVOTCPuVRNwF1d7bWxuOE3GMvJAhqIpw3OA4dgN0XiyltHbf?=
+ =?iso-8859-1?Q?lSoCrnKNOWhmeAai8GrOpsTGPU/YneVJ106DbMaRL+dp7G5PYhK5AgoJPS?=
+ =?iso-8859-1?Q?3xaffP7deBdNpVCtBHOURdjReBWE84nCauoPuxcjxcJnsGi9He/be9ElMt?=
+ =?iso-8859-1?Q?qEZG38qo1j4czqLe9+8mu8QirMU0jPmI62lpTzA/bMnI0080uMVqwC/z/Q?=
+ =?iso-8859-1?Q?2YRMaDC0jRxOyx6JY0c2NQG7FeIYSE9bf2Febr+i9hGpN3f/1TdQoMpo0/?=
+ =?iso-8859-1?Q?2xJwG7XotTNXRa6Mtahm2HvIqS5SexFiWmd1RoFvCewQ9ATmfUTo1TUSvb?=
+ =?iso-8859-1?Q?nGyU8eBM7nd0kStkJw9uWo?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC] staging/vSMP: new driver
-Content-Language: en-US
-To: "Czerwacki, Eial" <eial.czerwacki@sap.com>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Cc: SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-References: <PAXPR02MB73106333FD8FA483FAA0DAC181119@PAXPR02MB7310.eurprd02.prod.outlook.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <PAXPR02MB73106333FD8FA483FAA0DAC181119@PAXPR02MB7310.eurprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-Hi--
-
-On 3/16/22 11:13, Czerwacki, Eial wrote:
-> Introducing the vSMP guest driver which allows interaction with the vSMP control device when
-> running a Linux OS atop of the vSMP hypervisor.
-> vSMP is a resource aggregation hypervisor from SAP.
-> 
-> the driver comprises of 3 modules, vsmp which includes all the api needed to interact with the
-
-  The                                                            API
-
-> control driver, vsmp_logs which allows reading logs from the hypervisor and vsmp_common_info which
-> allows reading generic information the hypervisor exposes, currently only the version is exposed.
-> 
-> Signed-off-by: Eial Czerwacki <eial.czerwacki@sap.com>
-> ---
->  MAINTAINERS                             |   6 +
->  drivers/staging/Kconfig                 |   2 +
->  drivers/staging/Makefile                |   1 +
->  drivers/staging/vsmp/Kconfig            |  14 +
->  drivers/staging/vsmp/Makefile           |   7 +
->  drivers/staging/vsmp/api.c              | 402 ++++++++++++++++++++++++
->  drivers/staging/vsmp/api.h              |  61 ++++
->  drivers/staging/vsmp/common/Kconfig     |  11 +
->  drivers/staging/vsmp/common/Makefile    |   7 +
->  drivers/staging/vsmp/common/common.c    |  64 ++++
->  drivers/staging/vsmp/common/common.h    |  27 ++
->  drivers/staging/vsmp/common/version.c   |  85 +++++
->  drivers/staging/vsmp/logs/Kconfig       |  10 +
->  drivers/staging/vsmp/logs/Makefile      |   7 +
->  drivers/staging/vsmp/logs/active_logs.c | 112 +++++++
->  drivers/staging/vsmp/registers.h        |  16 +
->  16 files changed, 832 insertions(+)
->  create mode 100644 drivers/staging/vsmp/Kconfig
->  create mode 100644 drivers/staging/vsmp/Makefile
->  create mode 100644 drivers/staging/vsmp/api.c
->  create mode 100644 drivers/staging/vsmp/api.h
->  create mode 100644 drivers/staging/vsmp/common/Kconfig
->  create mode 100644 drivers/staging/vsmp/common/Makefile
->  create mode 100644 drivers/staging/vsmp/common/common.c
->  create mode 100644 drivers/staging/vsmp/common/common.h
->  create mode 100644 drivers/staging/vsmp/common/version.c
->  create mode 100644 drivers/staging/vsmp/logs/Kconfig
->  create mode 100644 drivers/staging/vsmp/logs/Makefile
->  create mode 100644 drivers/staging/vsmp/logs/active_logs.c
->  create mode 100644 drivers/staging/vsmp/registers.h
-> 
-
-
-> diff --git a/drivers/staging/vsmp/Kconfig b/drivers/staging/vsmp/Kconfig
-> new file mode 100644
-> index 000000000000..c57cfcb55033
-> --- /dev/null
-> +++ b/drivers/staging/vsmp/Kconfig
-> @@ -0,0 +1,14 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +menuconfig VSMP
-> +	tristate "vSMP Guest Support"
-> +	depends on SYS_HYPERVISOR && X86_64 && PCI
-> +	help
-> +	  Support for vSMP Guest Driver.
-> +
-> +	  this drivers allows information gathering of data from the vSMP hypervisor when
-
-	  This driver
-
-> +	  running ontop of a vSMP based VM.
-
-	          on top of a vSMP-based VM.
-
-> +
-> +	  If unsure, say no.
-> +
-> +source "drivers/staging/vsmp/common/Kconfig"
-> +source "drivers/staging/vsmp/logs/Kconfig"
-
-
-
-> diff --git a/drivers/staging/vsmp/api.c b/drivers/staging/vsmp/api.c
-> new file mode 100644
-> index 000000000000..b0d4b5a990d4
-> --- /dev/null
-> +++ b/drivers/staging/vsmp/api.c
-> @@ -0,0 +1,402 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * vSMP api
-> + * Copyright (C) 2022 SAP.
-> + */
-> +
-> +#include <linux/init.h>
-> +#include <linux/module.h>
-> +#include <linux/moduleparam.h>
-> +#include <linux/pci_regs.h>
-> +#include <linux/pci.h>
-> +#include <linux/kobject.h>
-> +#include <linux/kernel.h>
-> +
-> +#include <asm/io.h>
-> +
-> +#include "api.h"
-> +
-> +#define DRIVER_LICENSE "GPL"
-> +#define DRIVER_AUTHOR "Eial Czerwacki <eial.czerwacki@sap.com>"
-> +#define DRIVER_DESC "vSMP api driver"
-> +#define DRIVER_VERSION "0.1"
-> +
-> +#define PCI_DEVICE_ID_SAP_FLX_VSMP_CTL 0x1011
-> +#define VSMP_CTL_MAX_PCI_BARS 2
-> +
-> +/* modules info */
-> +MODULE_LICENSE(DRIVER_LICENSE);
-> +MODULE_AUTHOR(DRIVER_AUTHOR);
-> +MODULE_DESCRIPTION(DRIVER_DESC);
-> +MODULE_VERSION(DRIVER_VERSION);
-> +
-> +static unsigned int vsmp_bus = 0;
-> +static unsigned short vsmp_dev = 0x1f;
-> +static unsigned char vsmp_func = 0;
-
-No need to init globals to 0.
-
-> +static bool vsmp_bdf_static = false;
-> +static char *vsmp_ctrl_pci_addr = "";
-> +module_param(vsmp_ctrl_pci_addr, charp, 0660);
-> +
-> +/* defines */
-> +// copied from arch/x86/pci/direct.c
-> +#define PCI_CONF1_ADDRESS(bus, devfn, reg) \
-> +	   (0x80000000 | ((reg & 0xF00) << 16) | (bus << 16) \
-> +	   | (devfn << 8) | (reg & 0xFC))
-> +
-> +/* global vars */
-> +void __iomem *cfg_addr = NULL;
-> +static struct kobject *vsmp_sysfs_kobj;
-> +static struct pci_dev *vsmp_dev_obj = NULL;
-
-ditto.
-
-> +
-> +static const struct pci_device_id pci_tbl[] = {
-> +	{ PCI_VDEVICE(SCALEMP, PCI_DEVICE_ID_SAP_FLX_VSMP_CTL), 0, },
-> +	{ 0, },			/* terminate list */
-> +};
-> +
-> +static struct {
-> +	uint64_t start;
-> +	uint64_t len;
-> +} mapped_bars[VSMP_CTL_MAX_PCI_BARS] = { 0 };
-> +
-> +/* internal functions */
-> +
-> +/**
-> + * parses the pci address of a given address where the vSMP
-> + * pci device is found
-> + */
-
-In the kernel source tree, "/**" means "This is the beginning of a
-kernel-doc comment," but this (above) is not in kernel-doc format,
-so either use "/*" to begin the comment or use kernel-doc notation.
-
-(Repeat in several other places...)
-
-> +static void parse_vsmp_ctrl_pci_addr(void)
-> +{
-> +	if (strlen(vsmp_ctrl_pci_addr)) {
-> +		unsigned int bus;
-> +		unsigned short dev;
-> +		unsigned char func;
-> +
-> +		if (sscanf(vsmp_ctrl_pci_addr, "%04x:%02hx.%1hhx", &bus, &dev,
-> +			   &func) == 3) {
-> +			vsmp_bus = bus;
-> +			vsmp_dev = dev;
-> +			vsmp_func = func;
-> +			vsmp_bdf_static = true;
-> +		}
-> +	}
-> +}
-> +
-> +/**
-> + * queries as specfic device in order to determine if it is a vSMP pci device
-
-                 specific                                             PCI
-
-> + */
-> +static void query_pci_bus_for_vsmp_directly(unsigned int default_bus,
-> +					    unsigned int devfn)
-> +{
-> +	printk(KERN_INFO
-> +	       "vSMP pci controller not found in devices tree, trying directly at %x:%x.%x...\n",
-> +	       vsmp_bus, vsmp_dev, vsmp_func);
-> +
-> +	outl(PCI_CONF1_ADDRESS(vsmp_bus, devfn, PCI_BASE_ADDRESS_0), 0xcf8);
-> +	mapped_bars[0].start = inl(0xcfc);
-> +}
-> +
-> +/**
-> + * scan all the devices on the system in order to locate the
-> + * vSMP pic device for a given dev end func is provided
-
-           PCI
-I guess.
-
-> + */
-> +static void scan_pci_devs_list_for_vsmp(unsigned int devfn)
-> +{
-> +	int found, i;
-> +	struct pci_dev *pdev = NULL;
-> +	const struct pci_device_id *ent;
-> +
-> +	for_each_pci_dev(pdev) {
-> +		if (devfn != -1) {
-> +			if ((pdev->bus->number == vsmp_bus) &&
-> +			    (devfn == pdev->devfn)) {
-> +				found = 1;
-> +				break;
-> +			}
-> +		} else {
-> +			ent = pci_match_id(pci_tbl, pdev);
-> +			if (ent) {
-> +				found = 1;
-> +				vsmp_bus = pdev->bus->number;
-> +				vsmp_dev = PCI_SLOT(pdev->devfn);
-> +				vsmp_func = PCI_FUNC(pdev->devfn);
-> +				break;
-> +			}
-> +		}
-> +	}
-> +
-> +	for (i = 0; (i < ARRAY_SIZE(mapped_bars)) && found; i++) {
-> +		mapped_bars[i].start = pci_resource_start(pdev, i);
-> +		mapped_bars[i].len = pci_resource_len(pdev, i);
-> +	}
-> +	vsmp_dev_obj = pdev;
-> +}
-> +
-> +/**
-> + * open the cfg address space of the vSDP device
-> + */
-> +static int open_cfg_addr(void)
-> +{
-> +	unsigned int devfn = (vsmp_bdf_static) ? PCI_DEVFN(vsmp_dev, vsmp_func)
-> +						: -1;
-> +
-> +	scan_pci_devs_list_for_vsmp(devfn);
-> +	if (!mapped_bars[0].start)
-> +		query_pci_bus_for_vsmp_directly(0, devfn);
-> +
-> +	if (!mapped_bars[0].len) {
-> +		printk(KERN_INFO "vSMP pci controller not found, exiting.\n");
-> +		return -1;
-> +	}
-> +
-> +	printk(KERN_INFO "mapping bar 0: [0x%llx,0x%llx]\n",
-> +	       mapped_bars[0].start, mapped_bars[0].start + mapped_bars[0].len);
-> +	cfg_addr = ioremap(mapped_bars[0].start, mapped_bars[0].len);
-> +
-> +	if (!cfg_addr) {
-> +		printk(KERN_ERR
-> +		       "failed to map vSMP pci controller at %x:%x.%x, exiting.\n",
-> +		       vsmp_bus, vsmp_dev, vsmp_func);
-> +		return -1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/* exported functions */
-> +
-> +/**
-> + * read a value from a specfic register in the vSMP's device config space
-
-                          specific
-
-> + */
-> +unsigned long vsmp_read_reg_from_cfg(unsigned int reg, enum reg_size_type type)
-> +{
-> +	unsigned long ret_val;
-> +
-> +	switch (type) {
-> +	case VSMP_CTL_REG_SIZE_8BIT:
-> +		ret_val = readb(cfg_addr + reg);
-> +		break;
-> +
-> +	case VSMP_CTL_REG_SIZE_16BIT:
-> +		ret_val = readw(cfg_addr + reg);
-> +		break;
-> +
-> +	case VSMP_CTL_REG_SIZE_32BIT:
-> +		ret_val = readl(cfg_addr + reg);
-> +		break;
-> +
-> +	case VSMP_CTL_REG_SIZE_64BIT:
-> +		ret_val = readq(cfg_addr + reg);
-> +		break;
-> +
-> +	default:
-> +		printk(KERN_ERR "unsupported reg size type %d.\n", type);
-> +		ret_val = (unsigned long)(-1);
-> +	}
-> +
-> +	dev_dbg(&vsmp_dev_obj->dev, "%s: read 0x%lx from reg 0x%x of %d bits\n",
-> +		__func__, ret_val, reg, (type + 1) * 8);
-> +	return ret_val;
-> +}
-> +EXPORT_SYMBOL_GPL(vsmp_read_reg_from_cfg);
-> +
-> +/**
-> + * write a value to a specfic register in the vSMP's device config space
-
-                         specific
-
-> + */
-> +void vsmp_write_reg_to_cfg(unsigned int reg, unsigned long value,
-> +			   enum reg_size_type type)
-> +{
-> +	switch (type) {
-> +	case VSMP_CTL_REG_SIZE_8BIT:
-> +		writeb((unsigned char)value, cfg_addr + reg);
-> +		break;
-> +
-> +	case VSMP_CTL_REG_SIZE_16BIT:
-> +		writew((unsigned short)value, cfg_addr + reg);
-> +		break;
-> +
-> +	case VSMP_CTL_REG_SIZE_32BIT:
-> +		writel((unsigned int)value, cfg_addr + reg);
-> +		break;
-> +
-> +	case VSMP_CTL_REG_SIZE_64BIT:
-> +		writeq(value, cfg_addr + reg);
-> +		break;
-> +
-> +	default:
-> +		printk(KERN_ERR "unsupported reg size type %d.\n", type);
-> +	}
-> +
-> +	dev_dbg(&vsmp_dev_obj->dev, "%s: wrote 0x%x to reg 0x%x of %u bits\n",
-> +		__func__, reg, reg, (type + 1) * 8);
-> +}
-> +EXPORT_SYMBOL_GPL(vsmp_write_reg_to_cfg);
-> +
-> +/**
-> + * reag a buffer from a specific offset in a specific bar, maxed to a predefined len size-wise from the vSMP device
-
-      read
-
-> + */
-> +unsigned int vsmp_read_buff_from_bar(unsigned int bar, unsigned int offset,
-> +				     char *out, unsigned int len,
-> +				     bool halt_on_null)
-> +{
-> +	unsigned char __iomem *buff;
-> +
-> +	BUG_ON(!mapped_bars[bar].start);
-> +	BUG_ON(ARRAY_SIZE(mapped_bars) <= bar);
-> +	BUG_ON((offset + len) > mapped_bars[bar].len);
-> +
-> +	buff = ioremap(mapped_bars[bar].start + offset, len);
-> +	if (!buff)
-> +		return -ENOMEM;
-> +
-> +	if (halt_on_null) {
-> +		int i;
-> +		unsigned char c;
-> +
-> +		for (i = 0; i < len; i++) {
-> +			c = ioread8(&buff[i]);
-> +			if (!c)
-> +				break;
-> +			out[i] = c;
-> +		}
-> +	} else
-> +		memcpy_fromio(out, buff, len);
-> +
-> +	iounmap(buff);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(vsmp_read_buff_from_bar);
-> +
-> +/**
-> + * register the vSMP sysfs object for user space interaction
-> + */
-> +int vsmp_register_sysfs_group(const struct bin_attribute *bin_attr)
-> +{
-> +	int error = -1;
-> +
-> +	if (vsmp_sysfs_kobj && bin_attr) {
-> +		if ((error = sysfs_create_bin_file(vsmp_sysfs_kobj, bin_attr)))
-> +			printk(KERN_CRIT "%s returned error %d\n", __func__,
-> +			       error);
-> +	}
-> +
-> +	return error;
-> +}
-> +EXPORT_SYMBOL_GPL(vsmp_register_sysfs_group);
-> +
-> +/**
-> + * deergister the vSMP sysfs object for user space interaction
-
-      deregister
-or    unregister
-
-> + */
-> +void vsmp_deregister_sysfs_group(const struct bin_attribute *bin_attr)
-> +{
-> +	if (vsmp_sysfs_kobj && bin_attr)
-> +		sysfs_remove_bin_file(vsmp_sysfs_kobj, bin_attr);
-> +}
-> +EXPORT_SYMBOL_GPL(vsmp_deregister_sysfs_group);
-> +
-> +/**
-> + * generic function to read from the bar
-> + */
-> +ssize_t vsmp_generic_buff_read(struct fw_ops *op, unsigned bar, unsigned reg,
-> +			       char *buf, loff_t off, size_t count)
-> +{
-> +	ssize_t ret_val = 0;
-> +
-> +	if (op->buff_offset >= op->hwi_block_size) {	// preform H/W op
-
-	                              is that              perform
-?
-
-> +		vsmp_reset_op(op);
-> +
-> +		if ((ret_val = vsmp_read_buff_from_bar(bar, reg, op->buff,
-> +						       op->hwi_block_size, false))) {
-> +			printk(KERN_ERR "%s operation failed\n",
-> +			       (op->action == FW_READ) ? "read" : "write");
-> +		}
-> +		op->buff_offset = 0;
-> +	}
-> +
-> +	if (!ret_val) {
-> +		ret_val = memory_read_from_buffer(buf, count, &op->buff_offset,
-> +						  op->buff, op->hwi_block_size);
-> +	}
-> +
-> +	return ret_val;
-> +}
-> +EXPORT_SYMBOL_GPL(vsmp_generic_buff_read);
-> +
-> +void vsmp_reset_op(struct fw_ops *op)
-> +{
-> +	memset(op->buff, 0, op->hwi_block_size);
-> +	op->buff_offset = op->hwi_block_size;
-> +}
-> +EXPORT_SYMBOL_GPL(vsmp_reset_op);
-> +
-> +int vsmp_init_op(struct fw_ops *op, ssize_t max_size,
-> +		  enum vsmp_fw_action action)
-> +{
-> +	op->hwi_block_size = max_size;
-> +	op->action = action;
-> +	op->buff_offset = op->hwi_block_size;
-> +
-> +	if (!(op->buff = kzalloc(op->hwi_block_size, GFP_KERNEL)))
-> +		return -ENOMEM;
-> +
-> +	vsmp_reset_op(op);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(vsmp_init_op);
-> +
-> +void vsmp_release_op(struct fw_ops *op)
-> +{
-> +	BUG_ON(!op->buff);
-> +	kfree(op->buff);
-> +	memset(op, 0, sizeof(*op));
-> +}
-> +EXPORT_SYMBOL_GPL(vsmp_release_op);
-> +
-> +bool vsmp_op_buffer_depleted(struct fw_ops *op)
-> +{
-> +	return op->buff_offset >= op->hwi_block_size;
-> +}
-> +EXPORT_SYMBOL_GPL(vsmp_op_buffer_depleted);
-> +
-> +/* module functions */
-> +
-> +/**
-> + * init the module
-> + */
-> +static int __init vsmp_api_init(void)
-> +{
-> +	int ret_val;
-> +
-> +	parse_vsmp_ctrl_pci_addr();
-> +
-> +	if (!(ret_val = open_cfg_addr())) {
-> +		printk(KERN_INFO "%s [%02x:%02x.%x] up and running\n",
-> +		       DRIVER_DESC, vsmp_bus, vsmp_dev, vsmp_func);
-> +
-> +		if (!(vsmp_sysfs_kobj = kobject_create_and_add("vsmp",
-> +								hypervisor_kobj))) {
-> +			printk(KERN_ERR
-> +			       "failed to create sysfs entry for vSMP pci controller at %x:%x.%x, exiting.\n",
-> +			       vsmp_bus, vsmp_dev, vsmp_func);
-> +			ret_val = -1;
-> +		}
-> +	}
-> +
-> +	return ret_val;
-> +}
-> +
-> +/**
-> + * cleanup after the module upon exit
-> + */
-> +static void __exit vsmp_api_exit(void)
-> +{
-> +	if (cfg_addr)
-> +		iounmap(cfg_addr);
-> +
-> +	if (vsmp_sysfs_kobj)
-> +		kobject_put(vsmp_sysfs_kobj);
-> +}
-> +
-> +module_init(vsmp_api_init);
-> +module_exit(vsmp_api_exit);
-
-
-> diff --git a/drivers/staging/vsmp/common/Kconfig b/drivers/staging/vsmp/common/Kconfig
-> new file mode 100644
-> index 000000000000..fe0cfeaca1bb
-> --- /dev/null
-> +++ b/drivers/staging/vsmp/common/Kconfig
-> @@ -0,0 +1,11 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config VSMP_COMMON
-> +	tristate "vSMP Guest driver common Support"
-> +	depends on VSMP
-> +	help
-> +	  select this feature in order to be able to retrive generic data from the vSMP
-
-	  Select                                     retreive
-
-> +	  VM.
-> +	  currently old version is supported.
-
-	  Currently only
-
-> +	  the data can be found under /sys/hypervisor/vsmp
-
-	  The
-
-> +
-> +	  If unsure, say N.
-
-
-> diff --git a/drivers/staging/vsmp/common/common.c b/drivers/staging/vsmp/common/common.c
-> new file mode 100644
-> index 000000000000..31e6551f2b7f
-> --- /dev/null
-> +++ b/drivers/staging/vsmp/common/common.c
-> @@ -0,0 +1,64 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * vSMP common
-> + * Copyright (C) 2022 SAP.
-> + */
-> +
-> +#include <linux/init.h>
-> +#include <linux/module.h>
-> +#include <linux/pci_regs.h>
-> +#include <linux/pci.h>
-> +#include <linux/kobject.h>
-> +#include <linux/kernel.h>
-> +
-> +#include <asm/io.h>
-> +
-> +#include "../api.h"
-> +#include "common.h"
-> +
-> +#define DRIVER_LICENSE "GPL"
-> +#define DRIVER_AUTHOR "Eial Czerwacki <eial.czerwacki@sap.com>"
-> +#define DRIVER_DESC "vSMP common info driver"
-> +#define DRIVER_VERSION "0.1"
-> +
-> +/* modules info */
-> +MODULE_LICENSE(DRIVER_LICENSE);
-> +MODULE_AUTHOR(DRIVER_AUTHOR);
-> +MODULE_DESCRIPTION(DRIVER_DESC);
-> +MODULE_VERSION(DRIVER_VERSION);
-> +
-> +static struct sysfs_entry_cbs cbs_arr[] = {
-> +	create_entry(version),
-> +};
-> +
-> +/* module functions */
-> +
-> +/**
-
-/*
-
-(in multiple places)
-
-> + * init the common module
-> + */
-> +static int __init vsmp_common_info_init(void)
-> +{
-> +	int ret_val = 0, i;
-> +
-> +	for (i = 0; (i < ARRAY_SIZE(cbs_arr) && !ret_val); i++) {
-> +		if ((ret_val = cbs_arr[i].reg_cb()))
-> +			printk(KERN_ERR "failed to init sysfs (%d), exiting.\n",
-> +			       ret_val);
-> +	}
-> +
-> +	return -1 * ret_val;
-> +}
-> +
-> +/**
-> + * cleanup after the module
-> + */
-> +static void __exit vsmp_common_info_exit(void)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(cbs_arr); i++)
-> +		cbs_arr[i].dereg_cb();
-> +}
-> +
-> +module_init(vsmp_common_info_init);
-> +module_exit(vsmp_common_info_exit);
-
-
-> diff --git a/drivers/staging/vsmp/common/version.c b/drivers/staging/vsmp/common/version.c
-> new file mode 100644
-> index 000000000000..35b5a7785e9a
-> --- /dev/null
-> +++ b/drivers/staging/vsmp/common/version.c
-> @@ -0,0 +1,85 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * vSMP version
-> + * Copyright (C) 2022 SAP.
-> + */
-> +
-> +#include <linux/slab.h>
-> +#include <linux/kobject.h>
-> +
-> +#include "../api.h"
-> +#include "../registers.h"
-> +
-> +#define VERSION_MAX_LEN (1 << 19)
-
-Wow, that's a lot of version info.  What is in it?
-
-> +
-> +static struct fw_ops op;
-> +
-> +static ssize_t version_read(struct file *filp, struct kobject *kobj,
-> +			    struct bin_attribute *bin_attr,
-> +			    char *buf, loff_t off, size_t count)
-> +{
-> +	ssize_t ret_val = vsmp_generic_buff_read(&op, 0,
-> +						 vsmp_read_reg32_from_cfg(VSMP_VERSION_REG),
-> +						 buf, off, count);
-> +
-> +	if ((ret_val != -ENOMEM) && ((ret_val != -EINVAL)))
-> +	    buf[ret_val++] = '\n';
-> +
-> +	return ret_val;
-> +}
-> +
-> +struct bin_attribute version_raw_attr = __BIN_ATTR(version, FILE_PREM, version_read, NULL, VERSION_MAX_LEN);
-> +
-> +/**
-> + * retrive str in order to determine the proper length.
-
-      retreive
-
-> + * this is the best way to maintain backwards compatibility with all
-> + * vSMP versions.
-> + */
-> +static int get_version_len(void)
-> +{
-> +	unsigned reg;
-> +	char *version_str = kzalloc(VERSION_MAX_LEN, GFP_ATOMIC | __GFP_NOWARN);
-> +
-> +	if (!version_str)
-> +		return -1;
-> +
-> +	reg = vsmp_read_reg32_from_cfg(VSMP_VERSION_REG);
-> +	memset(version_str, 0, VERSION_MAX_LEN);
-> +
-> +	if (vsmp_read_buff_from_bar(0, reg, version_str, VERSION_MAX_LEN, true)) {
-> +		printk(KERN_ERR "failed to read buffer from bar\n");
-> +		return -1;
-> +	}
-> +
-> +	version_raw_attr.size = strlen(version_str);
-> +	kfree(version_str);
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * register the version sysfs entry
-> + */
-> +int sysfs_register_version_cb(void)
-> +{
-> +	if (get_version_len()) {
-> +		printk(KERN_ERR "failed to init vSMP version module\n");
-> +		return -1;
-> +	}
-> +
-> +	if (!vsmp_init_op(&op, version_raw_attr.size, FW_READ)) {
-> +		printk(KERN_ERR "failed to init vSMP version op\n");
-> +		return -1;
-> +	}
-> +
-> +	return vsmp_register_sysfs_group(&version_raw_attr);
-> +}
-> +
-> +/**
-> + * deregister the version sysfs entry
-> + */
-> +void sysfs_deregister_version_cb(void)
-> +{
-> +	vsmp_deregister_sysfs_group(&version_raw_attr);
-> +	vsmp_release_op(&op);
-> +}
-> diff --git a/drivers/staging/vsmp/logs/Kconfig b/drivers/staging/vsmp/logs/Kconfig
-> new file mode 100644
-> index 000000000000..d41491472bab
-> --- /dev/null
-> +++ b/drivers/staging/vsmp/logs/Kconfig
-> @@ -0,0 +1,10 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config VSMP_LOGS
-> +	tristate "vSMP Guest driver logs Support"
-> +	depends on VSMP
-> +	help
-> +	  select this feature in order to be able to retrive logs from the vSMP
-
-	  Select                                     retreive
-
-> +	  VM.
-> +	  the data can be found under /sys/hypervisor/logs
-
-	  The
-
-> +
-> +	  If unsure, say N.
-
-
-> diff --git a/drivers/staging/vsmp/logs/active_logs.c b/drivers/staging/vsmp/logs/active_logs.c
-> new file mode 100644
-> index 000000000000..91492c72cc6f
-> --- /dev/null
-> +++ b/drivers/staging/vsmp/logs/active_logs.c
-> @@ -0,0 +1,112 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * vSMP logs
-> + * Copyright (C) 2022 SAP.
-> + */
-> +
-> +#include <linux/init.h>
-> +#include <linux/module.h>
-> +#include <linux/pci_regs.h>
-> +#include <linux/pci.h>
-> +#include <linux/kobject.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mutex.h>
-> +
-> +#include <asm/io.h>
-> +
-> +#include "../api.h"
-> +#include "../registers.h"
-> +
-> +#define DRIVER_LICENSE "GPL"
-> +#define DRIVER_AUTHOR "Eial Czerwacki <eial.czerwacki@sap.com>"
-> +#define DRIVER_DESC "vSMP logs driver"
-> +#define DRIVER_VERSION "0.1"
-> +
-> +#define LOGS_MASK (1 << 0)
-> +
-> +/* modules info */
-> +MODULE_LICENSE(DRIVER_LICENSE);
-> +MODULE_AUTHOR(DRIVER_AUTHOR);
-> +MODULE_DESCRIPTION(DRIVER_DESC);
-> +MODULE_VERSION(DRIVER_VERSION);
-> +
-> +static struct fw_ops op;
-> +static unsigned log_start;
-> +DEFINE_MUTEX(log_mutex);
-> +
-> +/* module functions */
-> +static ssize_t log_read(struct file *filp, struct kobject *kobj,
-> +			struct bin_attribute *bin_attr,
-> +			char *buf, loff_t off, size_t count)
-> +{
-> +	ssize_t ret_val = 0;
-> +
-> +	if (!op.in_progress) {
-> +		if ((ret_val = mutex_lock_interruptible(&log_mutex))) {
-> +			printk(KERN_ERR
-> +			       "error in atemmpt to lock mutex (%lx)\n",
-> +			       ret_val);
-> +			return ret_val;
-> +		}
-> +
-> +		vsmp_write_reg16_to_cfg(VSMP_LOGS_CTRL_REG,
-> +					vsmp_read_reg16_from_cfg
-> +					(VSMP_LOGS_CTRL_REG) | LOGS_MASK);
-> +		op.in_progress = true;
-> +		vsmp_write_reg64_to_cfg(VSMP_LOGS_STATUS_REG, 0);
-> +	}
-> +
-> +	if (vsmp_op_buffer_depleted(&op)) {
-> +		if (!(vsmp_read_reg16_from_cfg(VSMP_LOGS_CTRL_REG) & LOGS_MASK)) {
-> +			vsmp_reset_op(&op);
-> +			op.in_progress = 0;
-> +			mutex_unlock(&log_mutex);
-> +			return ret_val;
-> +		}
-> +	}
-> +
-> +	ret_val = vsmp_generic_buff_read(&op, 1, log_start, buf, off, count);
-> +	if (!ret_val || (ret_val == -ENOMEM) || (ret_val == -EINVAL)) {
-> +		printk(KERN_ERR "error reading from buffer\n");
-> +		mutex_unlock(&log_mutex);
-> +		return 0;
-> +	}
-> +
-> +	if (vsmp_op_buffer_depleted(&op)) {
-> +		vsmp_write_reg64_to_cfg(VSMP_LOGS_STATUS_REG,
-> +					~0LL & ~(1LL << 0));
-> +	}
-> +
-> +	return count;
-> +}
-> +
-> +static struct bin_attribute log_raw_attr = __BIN_ATTR(log, FILE_PREM, log_read, NULL, 0);
-> +
-> +/**
-
-/*
-
-(in multiple places)
-
-> + * init the log module
-> + */
-> +static int __init vsmp_logs_init(void)
-> +{
-> +	if (!vsmp_init_op(&op, vsmp_read_reg32_from_cfg(VSMP_LOGS_LEN_REG),
-> +							 FW_READ)) {
-> +		printk(KERN_ERR "failed to init vSMP log op\n");
-> +		return -1;
-> +	}
-> +
-> +	log_start = vsmp_read_reg32_from_cfg(VSMP_LOGS_START_REG);
-> +	mutex_init(&log_mutex);
-> +
-> +	return vsmp_register_sysfs_group(&log_raw_attr);
-> +}
-> +
-> +/**
-> + * cleanup after the module
-> + */
-> +static void __exit vsmp_logs_exit(void)
-> +{
-> +	vsmp_deregister_sysfs_group(&log_raw_attr);
-> +	vsmp_release_op(&op);
-> +}
-> +
-> +module_init(vsmp_logs_init);
-> +module_exit(vsmp_logs_exit);
-
-
--- 
-~Randy
+X-OriginatorOrg: sap.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR02MB7310.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6161c7c-41fd-4403-e36e-08da077ed78c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2022 18:57:38.9330
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 42f7676c-f455-423c-82f6-dc2d99791af7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ffqSdXojpq7H0483eG3wtBthP7bpz/V2xfAurFqTixPGfI1dVkDKda/HVaTHl6UInwdeXtmh+C9hSJGc3YkEKw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB6702
+
+Greetings Randy,=0A=
+=0A=
+>From: Randy Dunlap <rdunlap@infradead.org>Sent: Wednesday, March 16, 2022 =
+20:31To: Czerwacki, Eial <eial.czerwacki@sap.com>; linux-staging@lists.linu=
+x.dev <linux-staging@lists.linux.dev>Cc: SAP vSMP Linux Maintainer <linux.v=
+smp@sap.com>Subject: Re: [RFC] staging/vSMP: new driver=0A=
+> =0A=
+>[You don't often get email from rdunlap@infradead.org. Learn why this is i=
+mportant at http://aka.ms/LearnAboutSenderIdentification.]=0A=
+>=0A=
+>Hi--=0A=
+>=0A=
+>On 3/16/22 11:13, Czerwacki, Eial wrote:=0A=
+>> Introducing the vSMP guest driver which allows interaction with the vSMP=
+ control device when=0A=
+>> running a Linux OS atop of the vSMP hypervisor.=0A=
+>> vSMP is a resource aggregation hypervisor from SAP.=0A=
+>=0A=
+>=0A=
+Done, thanks for the comments.=0A=
+=0A=
+>> diff --git a/drivers/staging/vsmp/common/version.c b/drivers/staging/vsm=
+p/common/version.c=0A=
+>> new file mode 100644=0A=
+>> index 000000000000..35b5a7785e9a=0A=
+>> --- /dev/null=0A=
+>> +++ b/drivers/staging/vsmp/common/version.c=0A=
+>> @@ -0,0 +1,85 @@=0A=
+>> +/* SPDX-License-Identifier: GPL-2.0 */=0A=
+>> +/*=0A=
+>> + * vSMP version=0A=
+>> + * Copyright (C) 2022 SAP.=0A=
+>> + */=0A=
+>> +=0A=
+>> +#include <linux/slab.h>=0A=
+>> +#include <linux/kobject.h>=0A=
+>> +=0A=
+>> +#include "../api.h"=0A=
+>> +#include "../registers.h"=0A=
+>> +=0A=
+>> +#define VERSION_MAX_LEN (1 << 19)=0A=
+>=0A=
+>Wow, that's a lot of version info.  What is in it?=0A=
+>=0A=
+>--=0A=
+>~Randy=0A=
+=0A=
+the version comes in a text mode that displays the entire system configurat=
+ion under vSMP.=0A=
+the current max possible len of this str is 512 MB, usually, the used lengt=
+h is way lower=0A=
+=0A=
+Thanks,=0A=
+=0A=
+Eial=
