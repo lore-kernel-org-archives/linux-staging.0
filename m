@@ -1,231 +1,91 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AC27A
-	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 11:32:32 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id y22so2343071eds.2
-        for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 04:32:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A0E46BD
+	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 12:48:19 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id b24so2548816edu.10
+        for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 05:48:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=z7CaZbPZq6SD/rCd0CoB4w0F/gmxReGr5y5LNnIrfJA=;
-        b=ciG/P8FospDjh7j/kzW33HVBu4cdpoi0wvIjT/4H374Tly3GU4LxHEb58blRweP47u
-         t/WUDBcYcEMl7U7KPueulvfrKxlGe+DOd4UiXb1tkqF1LTIxjbz2mThfzO9ZNAx3385p
-         4qgS2oWiS3jkopukEFIkhyDxk/K0yWQPMbE8mMdpIdiblvXAIk0DSlHdj7MvPQcbMBp8
-         jEtnf7flN1V6TrtDiCKrWB+G8ci2woWrmdNtn/R9zoSAe/aEwzgELtb5OtihwmNHJFXA
-         JW+5lAvNwNH9yMjea2urhM8B5eGxwn1lwD1Nnao+CNh1ortit3secADqp+u9M67cPbuq
-         b24g==
+        h=from:to:cc:subject:date:message-id;
+        bh=XygkMwuh2MWsaZ+MkMSHPntfTcHrWBaJgT8VxhIRrmw=;
+        b=YVVZeqqYD6xLnTq4lZJk+K2oYMIm+k7Z1fSxloPG9AJXclhPEjY7B/Zjt9QNUDpl/j
+         2WdHmvgbKvFGVzCOzkib8tchMvDvVwZ9nvJintoDictU5depVV1XFdDhRPLsNe4fTlfW
+         /qGMMrsySxMaQqEVxhJgLW4lChzrcvPVpZr+87wDeCepL3PNl5hY9j8WiwXJVwVNa3J4
+         0xidiQRTiCh2LI4syKweFiWTxl9ZKDthrpoSbmEPdsEtiw4tZzQpKxdSvMQV9cGUAS5e
+         n3KWjagY91M2w8lhn2ZvZFgQ76Y7iWd+SstwU+FggiGScxUln7gISYEg2BzesePyRkTm
+         3fKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=z7CaZbPZq6SD/rCd0CoB4w0F/gmxReGr5y5LNnIrfJA=;
-        b=zt1AeKtmZbdRaFWb8uL0Ylch8d0V1Tx+GUyyhOfbEYM/2NGWuK/yQfZPOPF4BT4mvk
-         5kk20edsiInqkXKpZbPL7lOTxoGPHZ2UlR6sGALyHzSqqb02e3Sp0nVUZHjKVQOgvzY8
-         uE4txTG26t64XCsA7rnKXqGumB7uv18fXZN5tVbuvEROJ676/RJp5tdn2EqONXUYrrdD
-         IR8aPzGqtGS8SceC/1RXcunoMziRcGdRuZxBo+UF8rdNJ86t/bsiM/QSRjqY2Cb0UTX3
-         /EO5C6MS0CzLRmns9WxajQHMHv644oiTgrqe+XWuZPmxb2RrvuBJC8KTcP0ryO7Bp5Qp
-         m2OA==
-X-Gm-Message-State: AOAM531ClItvAerkzPo+fRLvS8Ubud/0/Pb0Wma9ZxuC8LuQz6BYQN7p
-	pnDWgcvnL3pgfFCE1CbKers=
-X-Google-Smtp-Source: ABdhPJw96HMi7nbtr37WQFoY5q2QudPxkplZro/AHEMYSj96fUpHMgZu6m9RBss4WHj432Jc24D5hQ==
-X-Received: by 2002:a05:6402:909:b0:416:6f3c:5c1d with SMTP id g9-20020a056402090900b004166f3c5c1dmr29251163edz.108.1647430350270;
-        Wed, 16 Mar 2022 04:32:30 -0700 (PDT)
-Received: from linux-kernel-dev (159.137.141.34.bc.googleusercontent.com. [34.141.137.159])
-        by smtp.gmail.com with ESMTPSA id r29-20020a50c01d000000b00415fb0dc793sm841209edb.47.2022.03.16.04.32.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=XygkMwuh2MWsaZ+MkMSHPntfTcHrWBaJgT8VxhIRrmw=;
+        b=aAXY0E4jeXuBvUalEZDzJxxDS1JpFWnMAazIR9QiLRV6Z+DCdCRdCcJHjgsZmxMJ1g
+         U/o5pfgowMdj6YQHPYU40drcAZvQY6qppBqgk48qXvIL5+cFTgP2HlzxyGepoOpsbKpO
+         JNpMk4YImJcdXp9rXuB914LfrZTSlnZxn6BDdu51fqZNVpLAhx7sKgQA9MLQhvD0i8uH
+         2mWVb37YoQtwGD3QOw/jOyC1NOTirfyfLPGr/HNVHiIBMWH8aNzUWAorqIyH6vd7FEsT
+         2E8LEwiiwko/NJUL6A/JzV55ojjPamHmwajMpfSuJyDgEN5o9Svj6k3wunYDjMLWwbm/
+         qCeA==
+X-Gm-Message-State: AOAM533Lr/zi32S3bxMbsff9LgCvrTCl0l0VhMP63tuKR+DASFjaJwe4
+	NN44/D+0dzZf8Z0JfDHlEIc=
+X-Google-Smtp-Source: ABdhPJxUCbJI38d9XPAi/0rGzQd0QKenyZzwAhUeJfbNsh0a1ESINhjn30PLIdVhLxk5y5HgOnmQrg==
+X-Received: by 2002:aa7:d4d6:0:b0:416:30a2:58c7 with SMTP id t22-20020aa7d4d6000000b0041630a258c7mr29118605edr.271.1647434897994;
+        Wed, 16 Mar 2022 05:48:17 -0700 (PDT)
+Received: from felia.fritz.box (200116b826783100351493f9f729970f.dip.versatel-1u1.de. [2001:16b8:2678:3100:3514:93f9:f729:970f])
+        by smtp.gmail.com with ESMTPSA id t19-20020a1709060c5300b006d582121f99sm848189ejf.36.2022.03.16.05.48.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 04:32:29 -0700 (PDT)
-From: Nam Cao <cvn249@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org,
+        Wed, 16 Mar 2022 05:48:17 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
+	Todd Kjos <tkjos@android.com>,
+	Martijn Coenen <maco@android.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Christian Brauner <christian@brauner.io>,
+	Hridya Valsaraju <hridya@google.com>,
+	Suren Baghdasaryan <surenb@google.com>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Nam Cao <cvn249@gmail.com>
-Subject: [PATCH] staging: sm750fb: fix CamelCase naming style
-Date: Wed, 16 Mar 2022 11:32:28 +0000
-Message-Id: <20220316113228.21243-1-cvn249@gmail.com>
-X-Mailer: git-send-email 2.32.0
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: remove the obsolete file entry for staging in ANDROID DRIVERS
+Date: Wed, 16 Mar 2022 13:48:02 +0100
+Message-Id: <20220316124802.372-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Fix CamelCase names defined in ddk750_dvi.c and ddk750_dvi.h, as
-reported by checkpatch.pl.
+Commit 721412ed3d81 ("staging: remove ashmem") removes the last android
+driver from staging, but misses to adjust MAINTAINERS.
 
-Signed-off-by: Nam Cao <cvn249@gmail.com>
+Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
+broken reference.
+
+Remove the obsolete file entry in ANDROID DRIVERS.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- drivers/staging/sm750fb/ddk750_dvi.c | 50 +++++++++++-----------
- drivers/staging/sm750fb/ddk750_dvi.h | 64 ++++++++++++++--------------
- 2 files changed, 57 insertions(+), 57 deletions(-)
+Greg, please pick this minor clean-up patch for your staging-next tree on
+top of the commit above.
 
-diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
-index cd564ea40779..48f40dcc5ffd 100644
---- a/drivers/staging/sm750fb/ddk750_dvi.c
-+++ b/drivers/staging/sm750fb/ddk750_dvi.c
-@@ -11,41 +11,41 @@
-  * function API. Please set the function pointer to NULL whenever the function
-  * is not supported.
-  */
--static struct dvi_ctrl_device g_dcftSupportedDviController[] = {
-+static struct dvi_ctrl_device g_dcft_supported_dvi_controller[] = {
- #ifdef DVI_CTRL_SII164
- 	{
--		.pfnInit = sii164InitChip,
--		.pfnGetVendorId = sii164GetVendorID,
--		.pfnGetDeviceId = sii164GetDeviceID,
-+		.pfn_init = sii164InitChip,
-+		.pfn_get_vendor_id = sii164GetVendorID,
-+		.pfn_get_device_id = sii164GetDeviceID,
- #ifdef SII164_FULL_FUNCTIONS
--		.pfnResetChip = sii164ResetChip,
--		.pfnGetChipString = sii164GetChipString,
--		.pfnSetPower = sii164SetPower,
--		.pfnEnableHotPlugDetection = sii164EnableHotPlugDetection,
--		.pfnIsConnected = sii164IsConnected,
--		.pfnCheckInterrupt = sii164CheckInterrupt,
--		.pfnClearInterrupt = sii164ClearInterrupt,
-+		.pfn_reset_chip = sii164ResetChip,
-+		.pfn_get_chip_string = sii164GetChipString,
-+		.pfn_set_power = sii164SetPower,
-+		.pfn_enable_hot_plug_detection = sii164EnableHotPlugDetection,
-+		.pfn_is_connected = sii164IsConnected,
-+		.pfn_check_interrupt = sii164CheckInterrupt,
-+		.pfn_clear_interrupt = sii164ClearInterrupt,
- #endif
- 	},
- #endif
- };
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 963d7001f2ce..192e99b6b8f0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1325,7 +1325,6 @@ L:	linux-kernel@vger.kernel.org
+ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
+ F:	drivers/android/
+-F:	drivers/staging/android/
  
--int dviInit(unsigned char edge_select,
--	    unsigned char bus_select,
--	    unsigned char dual_edge_clk_select,
--	    unsigned char hsync_enable,
--	    unsigned char vsync_enable,
--	    unsigned char deskew_enable,
--	    unsigned char deskew_setting,
--	    unsigned char continuous_sync_enable,
--	    unsigned char pll_filter_enable,
--	    unsigned char pll_filter_value)
-+int dvi_init(unsigned char edge_select,
-+	     unsigned char bus_select,
-+	     unsigned char dual_edge_clk_select,
-+	     unsigned char hsync_enable,
-+	     unsigned char vsync_enable,
-+	     unsigned char deskew_enable,
-+	     unsigned char deskew_setting,
-+	     unsigned char continuous_sync_enable,
-+	     unsigned char pll_filter_enable,
-+	     unsigned char pll_filter_value)
- {
--	struct dvi_ctrl_device *pCurrentDviCtrl;
-+	struct dvi_ctrl_device *p_current_dvi_ctrl;
- 
--	pCurrentDviCtrl = g_dcftSupportedDviController;
--	if (pCurrentDviCtrl->pfnInit) {
--		return pCurrentDviCtrl->pfnInit(edge_select,
-+	p_current_dvi_ctrl = g_dcft_supported_dvi_controller;
-+	if (p_current_dvi_ctrl->pfn_init) {
-+		return p_current_dvi_ctrl->pfn_init(edge_select,
- 						bus_select,
- 						dual_edge_clk_select,
- 						hsync_enable,
-diff --git a/drivers/staging/sm750fb/ddk750_dvi.h b/drivers/staging/sm750fb/ddk750_dvi.h
-index 1c7a565b617a..ab00f8621375 100644
---- a/drivers/staging/sm750fb/ddk750_dvi.h
-+++ b/drivers/staging/sm750fb/ddk750_dvi.h
-@@ -4,54 +4,54 @@
- 
- /* dvi chip stuffs structros */
- 
--typedef long (*PFN_DVICTRL_INIT)(unsigned char edgeSelect,
--				 unsigned char busSelect,
--				 unsigned char dualEdgeClkSelect,
--				 unsigned char hsyncEnable,
--				 unsigned char vsyncEnable,
--				 unsigned char deskewEnable,
--				 unsigned char deskewSetting,
--				 unsigned char continuousSyncEnable,
--				 unsigned char pllFilterEnable,
--				 unsigned char pllFilterValue);
-+typedef long (*PFN_DVICTRL_INIT)(unsigned char edge_select,
-+				 unsigned char bus_select,
-+				 unsigned char dual_edge_clk_select,
-+				 unsigned char hsync_enable,
-+				 unsigned char vsync_enable,
-+				 unsigned char deskew_enable,
-+				 unsigned char deskew_eetting,
-+				 unsigned char continuous_sync_enable,
-+				 unsigned char pll_filter_enable,
-+				 unsigned char pll_filter_value);
- 
- typedef void (*PFN_DVICTRL_RESETCHIP)(void);
- typedef char* (*PFN_DVICTRL_GETCHIPSTRING)(void);
- typedef unsigned short (*PFN_DVICTRL_GETVENDORID)(void);
- typedef unsigned short (*PFN_DVICTRL_GETDEVICEID)(void);
--typedef void (*PFN_DVICTRL_SETPOWER)(unsigned char powerUp);
--typedef void (*PFN_DVICTRL_HOTPLUGDETECTION)(unsigned char enableHotPlug);
-+typedef void (*PFN_DVICTRL_SETPOWER)(unsigned char power_up);
-+typedef void (*PFN_DVICTRL_HOTPLUGDETECTION)(unsigned char enable_hot_plug);
- typedef unsigned char (*PFN_DVICTRL_ISCONNECTED)(void);
- typedef unsigned char (*PFN_DVICTRL_CHECKINTERRUPT)(void);
- typedef void (*PFN_DVICTRL_CLEARINTERRUPT)(void);
- 
- /* Structure to hold all the function pointer to the DVI Controller. */
- struct dvi_ctrl_device {
--	PFN_DVICTRL_INIT		pfnInit;
--	PFN_DVICTRL_RESETCHIP		pfnResetChip;
--	PFN_DVICTRL_GETCHIPSTRING	pfnGetChipString;
--	PFN_DVICTRL_GETVENDORID		pfnGetVendorId;
--	PFN_DVICTRL_GETDEVICEID		pfnGetDeviceId;
--	PFN_DVICTRL_SETPOWER		pfnSetPower;
--	PFN_DVICTRL_HOTPLUGDETECTION	pfnEnableHotPlugDetection;
--	PFN_DVICTRL_ISCONNECTED		pfnIsConnected;
--	PFN_DVICTRL_CHECKINTERRUPT	pfnCheckInterrupt;
--	PFN_DVICTRL_CLEARINTERRUPT	pfnClearInterrupt;
-+	PFN_DVICTRL_INIT		pfn_init;
-+	PFN_DVICTRL_RESETCHIP		pfn_reset_chip;
-+	PFN_DVICTRL_GETCHIPSTRING	pfn_get_chip_string;
-+	PFN_DVICTRL_GETVENDORID		pfn_get_vendor_id;
-+	PFN_DVICTRL_GETDEVICEID		pfn_get_device_id;
-+	PFN_DVICTRL_SETPOWER		pfn_set_power;
-+	PFN_DVICTRL_HOTPLUGDETECTION	pfn_enable_hot_plug_detection;
-+	PFN_DVICTRL_ISCONNECTED		pfn_is_connected;
-+	PFN_DVICTRL_CHECKINTERRUPT	pfn_check_interrupt;
-+	PFN_DVICTRL_CLEARINTERRUPT	pfn_clear_interrupt;
- };
- 
- #define DVI_CTRL_SII164
- 
- /* dvi functions prototype */
--int dviInit(unsigned char edgeSelect,
--	    unsigned char busSelect,
--	    unsigned char dualEdgeClkSelect,
--	    unsigned char hsyncEnable,
--	    unsigned char vsyncEnable,
--	    unsigned char deskewEnable,
--	    unsigned char deskewSetting,
--	    unsigned char continuousSyncEnable,
--	    unsigned char pllFilterEnable,
--	    unsigned char pllFilterValue);
-+int dvi_init(unsigned char edge_select,
-+	     unsigned char bus_select,
-+	     unsigned char dual_edge_clk_select,
-+	     unsigned char hsync_enable,
-+	     unsigned char vsync_enable,
-+	     unsigned char deskew_enable,
-+	     unsigned char deskew_setting,
-+	     unsigned char continuous_sync_enable,
-+	     unsigned char pll_filter_enable,
-+	     unsigned char pll_filter_value);
- 
- #endif
- 
+ ANDROID GOLDFISH PIC DRIVER
+ M:	Miodrag Dinic <miodrag.dinic@mips.com>
 -- 
-2.32.0
+2.17.1
 
