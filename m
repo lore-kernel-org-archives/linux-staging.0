@@ -1,136 +1,231 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1664A2F5C
-	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 09:33:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1647423233;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g0QoVJurl6KK3rlbhKndKVTVS4HCyEO8q4IyxNqkWMk=;
-	b=WCfPnEYEHp4CElv2lzZVYHVUtBhOV3J7ogphB49NRTA55BWxmOwI8/3wj4xJMhdYOOfw5P
-	vF5ZVgTR/SqhsChK8h84+Jb0qlcIQNMWAUm5GZge9CLMrpq/+7YvFnTbm++kVPShjM4wkF
-	AZHj7Wr39gSxOuq4GJwvk7IUiF3/hDg=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-17-IFs52dB3NQCYOv9jhW8ZPg-1; Wed, 16 Mar 2022 05:33:51 -0400
-X-MC-Unique: IFs52dB3NQCYOv9jhW8ZPg-1
-Received: by mail-oi1-f197.google.com with SMTP id ay31-20020a056808301f00b002d06e828c00so1149530oib.2
-        for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 02:33:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AC27A
+	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 11:32:32 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id y22so2343071eds.2
+        for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 04:32:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z7CaZbPZq6SD/rCd0CoB4w0F/gmxReGr5y5LNnIrfJA=;
+        b=ciG/P8FospDjh7j/kzW33HVBu4cdpoi0wvIjT/4H374Tly3GU4LxHEb58blRweP47u
+         t/WUDBcYcEMl7U7KPueulvfrKxlGe+DOd4UiXb1tkqF1LTIxjbz2mThfzO9ZNAx3385p
+         4qgS2oWiS3jkopukEFIkhyDxk/K0yWQPMbE8mMdpIdiblvXAIk0DSlHdj7MvPQcbMBp8
+         jEtnf7flN1V6TrtDiCKrWB+G8ci2woWrmdNtn/R9zoSAe/aEwzgELtb5OtihwmNHJFXA
+         JW+5lAvNwNH9yMjea2urhM8B5eGxwn1lwD1Nnao+CNh1ortit3secADqp+u9M67cPbuq
+         b24g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g0QoVJurl6KK3rlbhKndKVTVS4HCyEO8q4IyxNqkWMk=;
-        b=eOh1xtfmU0SjQBgrfXAPMr7OI0O58cEf5ya+3MVRjkn2H5dSrEstyPTrLLAHL/i0N1
-         9sl5c9huC353bhQk3hoK2WxboOx1y7RyDuTRwE2Qj5pV29+TvHoVDsZjI5ZI9WmjycbU
-         zL6BrleESj1o/+iyI1Ek3uhFHj6X9WY6JqQVBiHfjUYFQm/cu71l+FolfuL0ZJ7Nhb8C
-         5YAY8P3AlbwflbOlzDe2DYW1t+LoY6oqL7beZKrF8ypt/30VMvPETfINMN9881KCT647
-         bG5xY5vqWEhlRrX2wthF5e8jpBwTkYbehKnwh2nU/HKQQaKFzvsgNN25haBdluitpp7s
-         vhig==
-X-Gm-Message-State: AOAM531dExhHzprulgGe4kAXJApCac5YBCYzQxyjVdiIqGPsbFflUbSE
-	OnXudPFG4qU8PgZe2M9XWkdKPW+XAcQrTAlQCdf0BTL1xe+UuFLTF6n8NUIbuHORfg1SbAzI/on
-	9l9srcSzXYD3k2pxQlKZhEeLRRybbhZLImAjhODzXYg==
-X-Received: by 2002:a05:6870:14c5:b0:da:ab41:3a78 with SMTP id l5-20020a05687014c500b000daab413a78mr3273467oab.23.1647423230816;
-        Wed, 16 Mar 2022 02:33:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSH0VjypowhPYfTXaUbcR6ddqy3et+gJ4RZnTZUs3ieCNnMAY9fFRbvaHeehLpfn97TUxEhlwCZ7C2THapvzg=
-X-Received: by 2002:a05:6870:14c5:b0:da:ab41:3a78 with SMTP id
- l5-20020a05687014c500b000daab413a78mr3273454oab.23.1647423230510; Wed, 16 Mar
- 2022 02:33:50 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z7CaZbPZq6SD/rCd0CoB4w0F/gmxReGr5y5LNnIrfJA=;
+        b=zt1AeKtmZbdRaFWb8uL0Ylch8d0V1Tx+GUyyhOfbEYM/2NGWuK/yQfZPOPF4BT4mvk
+         5kk20edsiInqkXKpZbPL7lOTxoGPHZ2UlR6sGALyHzSqqb02e3Sp0nVUZHjKVQOgvzY8
+         uE4txTG26t64XCsA7rnKXqGumB7uv18fXZN5tVbuvEROJ676/RJp5tdn2EqONXUYrrdD
+         IR8aPzGqtGS8SceC/1RXcunoMziRcGdRuZxBo+UF8rdNJ86t/bsiM/QSRjqY2Cb0UTX3
+         /EO5C6MS0CzLRmns9WxajQHMHv644oiTgrqe+XWuZPmxb2RrvuBJC8KTcP0ryO7Bp5Qp
+         m2OA==
+X-Gm-Message-State: AOAM531ClItvAerkzPo+fRLvS8Ubud/0/Pb0Wma9ZxuC8LuQz6BYQN7p
+	pnDWgcvnL3pgfFCE1CbKers=
+X-Google-Smtp-Source: ABdhPJw96HMi7nbtr37WQFoY5q2QudPxkplZro/AHEMYSj96fUpHMgZu6m9RBss4WHj432Jc24D5hQ==
+X-Received: by 2002:a05:6402:909:b0:416:6f3c:5c1d with SMTP id g9-20020a056402090900b004166f3c5c1dmr29251163edz.108.1647430350270;
+        Wed, 16 Mar 2022 04:32:30 -0700 (PDT)
+Received: from linux-kernel-dev (159.137.141.34.bc.googleusercontent.com. [34.141.137.159])
+        by smtp.gmail.com with ESMTPSA id r29-20020a50c01d000000b00415fb0dc793sm841209edb.47.2022.03.16.04.32.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 04:32:29 -0700 (PDT)
+From: Nam Cao <cvn249@gmail.com>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Nam Cao <cvn249@gmail.com>
+Subject: [PATCH] staging: sm750fb: fix CamelCase naming style
+Date: Wed, 16 Mar 2022 11:32:28 +0000
+Message-Id: <20220316113228.21243-1-cvn249@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220314101523.129672-1-hpa@redhat.com> <YjGncJFYky69Fjmz@paasikivi.fi.intel.com>
-In-Reply-To: <YjGncJFYky69Fjmz@paasikivi.fi.intel.com>
-From: Kate Hsuan <hpa@redhat.com>
-Date: Wed, 16 Mar 2022 17:33:39 +0800
-Message-ID: <CAEth8oGMyO6BJ6kPuXYYZ_bGmwq+AfGMrrcK38UxtnJs1NfjRg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] staging: media: ipu3: Fix AF x_start position when
- rightmost stripe is used
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Hans De Goede <hdegoede@redhat.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hpa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+Fix CamelCase names defined in ddk750_dvi.c and ddk750_dvi.h, as
+reported by checkpatch.pl.
 
-On Wed, Mar 16, 2022 at 5:02 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Kate,
->
-> On Mon, Mar 14, 2022 at 06:15:22PM +0800, Kate Hsuan wrote:
-> > For the AF configuration, if the rightmost stripe is used, the AF scene
-> > will be at the incorrect location of the sensor.
-> >
-> > The AF coordinate may be set to the right part of the sensor. This
-> > configuration would lead to x_start being greater than the
-> > down_scaled_stripes offset and the leftmost stripe would be disabled
-> > and only the rightmost stripe is used to control the AF coordinate. If
-> > the x_start doesn't perform any adjustments, the AF coordinate will be
-> > at the wrong place of the sensor since down_scaled_stripes offset
-> > would be the new zero of the coordinate system.
-> >
-> > In this patch, if only the rightmost stripe is used, x_start should
-> > minus down_scaled_stripes offset to maintain its correctness of AF
-> > scene coordinate.
-> >
-> > Changes in v2:
-> > 1. Remove the setting of the first stripe.
-> >
-> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> > ---
-> >  drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-> > index d9e3c3785075..5a8c07f34756 100644
-> > --- a/drivers/staging/media/ipu3/ipu3-css-params.c
-> > +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-> > @@ -2556,6 +2556,10 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
-> >               /* Enable only for rightmost stripe, disable left */
-> >               acc->af.stripes[0].grid_cfg.y_start &=
-> >                       ~IPU3_UAPI_GRID_Y_START_EN;
-> > +             acc->af.stripes[1].grid_cfg.x_start -=
-> > +                     acc->stripe.down_scaled_stripes[1].offset;
-> > +             acc->af.stripes[1].grid_cfg.x_end -=
-> > +                     acc->stripe.down_scaled_stripes[1].offset;
->
-> Could you calculate the values the same way as for the two stripes case, as
-> I've been asking since v1?
+Signed-off-by: Nam Cao <cvn249@gmail.com>
+---
+ drivers/staging/sm750fb/ddk750_dvi.c | 50 +++++++++++-----------
+ drivers/staging/sm750fb/ddk750_dvi.h | 64 ++++++++++++++--------------
+ 2 files changed, 57 insertions(+), 57 deletions(-)
 
-Sorry for my misunderstanding of the comments.
-You mean x_end could be estimated by the width here and could use the
-same way as for two stripes case to estimate this.
-I'll correct this in my v4 patch. :)
-
-Thank you.
-
->
-> >       } else if (acc->af.config.grid_cfg.x_end <=
-> >                  acc->stripe.bds_out_stripes[0].width - min_overlap) {
-> >               /* Enable only for leftmost stripe, disable right */
->
-> --
-> Regards,
->
-> Sakari Ailus
->
-
-
+diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
+index cd564ea40779..48f40dcc5ffd 100644
+--- a/drivers/staging/sm750fb/ddk750_dvi.c
++++ b/drivers/staging/sm750fb/ddk750_dvi.c
+@@ -11,41 +11,41 @@
+  * function API. Please set the function pointer to NULL whenever the function
+  * is not supported.
+  */
+-static struct dvi_ctrl_device g_dcftSupportedDviController[] = {
++static struct dvi_ctrl_device g_dcft_supported_dvi_controller[] = {
+ #ifdef DVI_CTRL_SII164
+ 	{
+-		.pfnInit = sii164InitChip,
+-		.pfnGetVendorId = sii164GetVendorID,
+-		.pfnGetDeviceId = sii164GetDeviceID,
++		.pfn_init = sii164InitChip,
++		.pfn_get_vendor_id = sii164GetVendorID,
++		.pfn_get_device_id = sii164GetDeviceID,
+ #ifdef SII164_FULL_FUNCTIONS
+-		.pfnResetChip = sii164ResetChip,
+-		.pfnGetChipString = sii164GetChipString,
+-		.pfnSetPower = sii164SetPower,
+-		.pfnEnableHotPlugDetection = sii164EnableHotPlugDetection,
+-		.pfnIsConnected = sii164IsConnected,
+-		.pfnCheckInterrupt = sii164CheckInterrupt,
+-		.pfnClearInterrupt = sii164ClearInterrupt,
++		.pfn_reset_chip = sii164ResetChip,
++		.pfn_get_chip_string = sii164GetChipString,
++		.pfn_set_power = sii164SetPower,
++		.pfn_enable_hot_plug_detection = sii164EnableHotPlugDetection,
++		.pfn_is_connected = sii164IsConnected,
++		.pfn_check_interrupt = sii164CheckInterrupt,
++		.pfn_clear_interrupt = sii164ClearInterrupt,
+ #endif
+ 	},
+ #endif
+ };
+ 
+-int dviInit(unsigned char edge_select,
+-	    unsigned char bus_select,
+-	    unsigned char dual_edge_clk_select,
+-	    unsigned char hsync_enable,
+-	    unsigned char vsync_enable,
+-	    unsigned char deskew_enable,
+-	    unsigned char deskew_setting,
+-	    unsigned char continuous_sync_enable,
+-	    unsigned char pll_filter_enable,
+-	    unsigned char pll_filter_value)
++int dvi_init(unsigned char edge_select,
++	     unsigned char bus_select,
++	     unsigned char dual_edge_clk_select,
++	     unsigned char hsync_enable,
++	     unsigned char vsync_enable,
++	     unsigned char deskew_enable,
++	     unsigned char deskew_setting,
++	     unsigned char continuous_sync_enable,
++	     unsigned char pll_filter_enable,
++	     unsigned char pll_filter_value)
+ {
+-	struct dvi_ctrl_device *pCurrentDviCtrl;
++	struct dvi_ctrl_device *p_current_dvi_ctrl;
+ 
+-	pCurrentDviCtrl = g_dcftSupportedDviController;
+-	if (pCurrentDviCtrl->pfnInit) {
+-		return pCurrentDviCtrl->pfnInit(edge_select,
++	p_current_dvi_ctrl = g_dcft_supported_dvi_controller;
++	if (p_current_dvi_ctrl->pfn_init) {
++		return p_current_dvi_ctrl->pfn_init(edge_select,
+ 						bus_select,
+ 						dual_edge_clk_select,
+ 						hsync_enable,
+diff --git a/drivers/staging/sm750fb/ddk750_dvi.h b/drivers/staging/sm750fb/ddk750_dvi.h
+index 1c7a565b617a..ab00f8621375 100644
+--- a/drivers/staging/sm750fb/ddk750_dvi.h
++++ b/drivers/staging/sm750fb/ddk750_dvi.h
+@@ -4,54 +4,54 @@
+ 
+ /* dvi chip stuffs structros */
+ 
+-typedef long (*PFN_DVICTRL_INIT)(unsigned char edgeSelect,
+-				 unsigned char busSelect,
+-				 unsigned char dualEdgeClkSelect,
+-				 unsigned char hsyncEnable,
+-				 unsigned char vsyncEnable,
+-				 unsigned char deskewEnable,
+-				 unsigned char deskewSetting,
+-				 unsigned char continuousSyncEnable,
+-				 unsigned char pllFilterEnable,
+-				 unsigned char pllFilterValue);
++typedef long (*PFN_DVICTRL_INIT)(unsigned char edge_select,
++				 unsigned char bus_select,
++				 unsigned char dual_edge_clk_select,
++				 unsigned char hsync_enable,
++				 unsigned char vsync_enable,
++				 unsigned char deskew_enable,
++				 unsigned char deskew_eetting,
++				 unsigned char continuous_sync_enable,
++				 unsigned char pll_filter_enable,
++				 unsigned char pll_filter_value);
+ 
+ typedef void (*PFN_DVICTRL_RESETCHIP)(void);
+ typedef char* (*PFN_DVICTRL_GETCHIPSTRING)(void);
+ typedef unsigned short (*PFN_DVICTRL_GETVENDORID)(void);
+ typedef unsigned short (*PFN_DVICTRL_GETDEVICEID)(void);
+-typedef void (*PFN_DVICTRL_SETPOWER)(unsigned char powerUp);
+-typedef void (*PFN_DVICTRL_HOTPLUGDETECTION)(unsigned char enableHotPlug);
++typedef void (*PFN_DVICTRL_SETPOWER)(unsigned char power_up);
++typedef void (*PFN_DVICTRL_HOTPLUGDETECTION)(unsigned char enable_hot_plug);
+ typedef unsigned char (*PFN_DVICTRL_ISCONNECTED)(void);
+ typedef unsigned char (*PFN_DVICTRL_CHECKINTERRUPT)(void);
+ typedef void (*PFN_DVICTRL_CLEARINTERRUPT)(void);
+ 
+ /* Structure to hold all the function pointer to the DVI Controller. */
+ struct dvi_ctrl_device {
+-	PFN_DVICTRL_INIT		pfnInit;
+-	PFN_DVICTRL_RESETCHIP		pfnResetChip;
+-	PFN_DVICTRL_GETCHIPSTRING	pfnGetChipString;
+-	PFN_DVICTRL_GETVENDORID		pfnGetVendorId;
+-	PFN_DVICTRL_GETDEVICEID		pfnGetDeviceId;
+-	PFN_DVICTRL_SETPOWER		pfnSetPower;
+-	PFN_DVICTRL_HOTPLUGDETECTION	pfnEnableHotPlugDetection;
+-	PFN_DVICTRL_ISCONNECTED		pfnIsConnected;
+-	PFN_DVICTRL_CHECKINTERRUPT	pfnCheckInterrupt;
+-	PFN_DVICTRL_CLEARINTERRUPT	pfnClearInterrupt;
++	PFN_DVICTRL_INIT		pfn_init;
++	PFN_DVICTRL_RESETCHIP		pfn_reset_chip;
++	PFN_DVICTRL_GETCHIPSTRING	pfn_get_chip_string;
++	PFN_DVICTRL_GETVENDORID		pfn_get_vendor_id;
++	PFN_DVICTRL_GETDEVICEID		pfn_get_device_id;
++	PFN_DVICTRL_SETPOWER		pfn_set_power;
++	PFN_DVICTRL_HOTPLUGDETECTION	pfn_enable_hot_plug_detection;
++	PFN_DVICTRL_ISCONNECTED		pfn_is_connected;
++	PFN_DVICTRL_CHECKINTERRUPT	pfn_check_interrupt;
++	PFN_DVICTRL_CLEARINTERRUPT	pfn_clear_interrupt;
+ };
+ 
+ #define DVI_CTRL_SII164
+ 
+ /* dvi functions prototype */
+-int dviInit(unsigned char edgeSelect,
+-	    unsigned char busSelect,
+-	    unsigned char dualEdgeClkSelect,
+-	    unsigned char hsyncEnable,
+-	    unsigned char vsyncEnable,
+-	    unsigned char deskewEnable,
+-	    unsigned char deskewSetting,
+-	    unsigned char continuousSyncEnable,
+-	    unsigned char pllFilterEnable,
+-	    unsigned char pllFilterValue);
++int dvi_init(unsigned char edge_select,
++	     unsigned char bus_select,
++	     unsigned char dual_edge_clk_select,
++	     unsigned char hsync_enable,
++	     unsigned char vsync_enable,
++	     unsigned char deskew_enable,
++	     unsigned char deskew_setting,
++	     unsigned char continuous_sync_enable,
++	     unsigned char pll_filter_enable,
++	     unsigned char pll_filter_value);
+ 
+ #endif
+ 
 -- 
-BR,
-Kate
+2.32.0
 
