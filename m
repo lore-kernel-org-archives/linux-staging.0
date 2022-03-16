@@ -1,157 +1,136 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B578E2F5C
-	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 09:28:13 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22G82Kw9018452;
-	Wed, 16 Mar 2022 09:28:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=PG9rXtGtOPe9Ne9DMxy+OXTi70yNoxrPzxcgnoQN940=;
- b=ix50/v+dNbxULneEVfwkctOFzgMkKrPxHxFILTxkbzXnDZBN0+AzGzutKYj3E5ISI/Ee
- aMSaO1Fwkb0ORxTFc0V9UgZV3Vbbf0exrFyFFC5ACQiCcUiwMtFKwk5zZd0tbsLOJfHq
- YRGbz0th8klWteUiJF7BuhMCMh9puPDQi6p/Iv8fOIg1uONlKgSjf4uqFt5cX65tbnDK
- 7XKRa3q/cKZIvuEwcMwt6xnNDf9upZ71uDmX9BxMUKyjPelIlDct+eDEv9DSk2FKZB+J
- S9b+1C2TW4OZjztwRY75gvYqLk2S6hFZRazc8+zpr7W11lwRUfa2+0VjwbCgkTl93QWy fg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3et5xwncnb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 16 Mar 2022 09:28:08 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 22G9A2L3018698;
-	Wed, 16 Mar 2022 09:28:07 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2176.outbound.protection.outlook.com [104.47.59.176])
-	by aserp3020.oracle.com with ESMTP id 3et64kj695-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 16 Mar 2022 09:28:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JJpeMYoBS0/MYyQpO5ADNA+9/LS6hXK8ENXQOdU72O6/38v756A1qNYsF22JMTXkolK0Xwq2Rd2R0YxxVkvQ4oaIJMi8wzWUJxaaq2p3QhIJ/BQiC0kXnBuN1gQiZUna6S2MKhKU7YIY1dHEeKu1YzSge+HQRNw0c2q6oXuFjyEIWMqYropHi53s63+sJaR4S5XhGSB7Ju7vlejm+uGsJu2bD9WR/uU9yV3CZB6+ydNo0DM+isxb2up5WT4Dft9qQyWte5KYUSICOXXLbc7PgJyZ03fN+BXvagpG0o1GMg1J1+ndbrytaosb/M/2JOsHff/oIx1NSVBb3fhVzEuRLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PG9rXtGtOPe9Ne9DMxy+OXTi70yNoxrPzxcgnoQN940=;
- b=GLcVzrEVZaLjC90Z+g/slg/dx8vkwJPBOyNeGZe6YOwSKTbN94bVvswoGydx9MRbDRyFmDj4KzuSmzXCwc6WwAshwFQr2VlkfWhgqp3IdGhnHeN2GTePpW6dm7WZpWv90y8tzhhNx+jTBn4OrvqB5HZgZcRM0s35ZrtW3TiWCktxDp4N/EfC+LfL8l3UyEoiFOyQbpa/FydiJB9kqn8F18poKbY3+CW/S+UhKVXJQOaX+1yNMxki1lyiPmtQ2zd14xdgC8HLHC2Uwv57bbJGPpCqRLRSXGk5WR8p1p7IyGrIG3txNtqp4w/lU77EHiOsESjQzU2r0Kh1izG1TgUzvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PG9rXtGtOPe9Ne9DMxy+OXTi70yNoxrPzxcgnoQN940=;
- b=wKhRcMQnhgfqIYcjsQnnIEM4BRjXIdC5ifblc2O+adOwBcoscrGinQDJG3SseRm8OH9xmEIz7IvvLs0MkNHf07OwShC4BPkTVRC2qlfHcKJifd/021ZHp+YlhDSE3e2OCk/zJdzgBez9N4TX59rLMc3PFhmAZkWThI2dNMhdcE4=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by PH0PR10MB4742.namprd10.prod.outlook.com
- (2603:10b6:510:3f::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Wed, 16 Mar
- 2022 09:28:05 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::2c3d:92b5:42b3:c1c5%4]) with mapi id 15.20.5081.015; Wed, 16 Mar 2022
- 09:28:05 +0000
-Date: Wed, 16 Mar 2022 12:27:44 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        Michael Straube <straube.linux@gmail.com>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] staging: r8188eu: remove local BIT macro
-Message-ID: <20220316092743.GD1841@kadam>
-References: <20220315205041.2714168-1-martin@kaiser.cx>
- <20220315205041.2714168-7-martin@kaiser.cx>
- <20220316090128.GT3293@kadam>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220316090128.GT3293@kadam>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0033.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::21)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1664A2F5C
+	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 09:33:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1647423233;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g0QoVJurl6KK3rlbhKndKVTVS4HCyEO8q4IyxNqkWMk=;
+	b=WCfPnEYEHp4CElv2lzZVYHVUtBhOV3J7ogphB49NRTA55BWxmOwI8/3wj4xJMhdYOOfw5P
+	vF5ZVgTR/SqhsChK8h84+Jb0qlcIQNMWAUm5GZge9CLMrpq/+7YvFnTbm++kVPShjM4wkF
+	AZHj7Wr39gSxOuq4GJwvk7IUiF3/hDg=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-17-IFs52dB3NQCYOv9jhW8ZPg-1; Wed, 16 Mar 2022 05:33:51 -0400
+X-MC-Unique: IFs52dB3NQCYOv9jhW8ZPg-1
+Received: by mail-oi1-f197.google.com with SMTP id ay31-20020a056808301f00b002d06e828c00so1149530oib.2
+        for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 02:33:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g0QoVJurl6KK3rlbhKndKVTVS4HCyEO8q4IyxNqkWMk=;
+        b=eOh1xtfmU0SjQBgrfXAPMr7OI0O58cEf5ya+3MVRjkn2H5dSrEstyPTrLLAHL/i0N1
+         9sl5c9huC353bhQk3hoK2WxboOx1y7RyDuTRwE2Qj5pV29+TvHoVDsZjI5ZI9WmjycbU
+         zL6BrleESj1o/+iyI1Ek3uhFHj6X9WY6JqQVBiHfjUYFQm/cu71l+FolfuL0ZJ7Nhb8C
+         5YAY8P3AlbwflbOlzDe2DYW1t+LoY6oqL7beZKrF8ypt/30VMvPETfINMN9881KCT647
+         bG5xY5vqWEhlRrX2wthF5e8jpBwTkYbehKnwh2nU/HKQQaKFzvsgNN25haBdluitpp7s
+         vhig==
+X-Gm-Message-State: AOAM531dExhHzprulgGe4kAXJApCac5YBCYzQxyjVdiIqGPsbFflUbSE
+	OnXudPFG4qU8PgZe2M9XWkdKPW+XAcQrTAlQCdf0BTL1xe+UuFLTF6n8NUIbuHORfg1SbAzI/on
+	9l9srcSzXYD3k2pxQlKZhEeLRRybbhZLImAjhODzXYg==
+X-Received: by 2002:a05:6870:14c5:b0:da:ab41:3a78 with SMTP id l5-20020a05687014c500b000daab413a78mr3273467oab.23.1647423230816;
+        Wed, 16 Mar 2022 02:33:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSH0VjypowhPYfTXaUbcR6ddqy3et+gJ4RZnTZUs3ieCNnMAY9fFRbvaHeehLpfn97TUxEhlwCZ7C2THapvzg=
+X-Received: by 2002:a05:6870:14c5:b0:da:ab41:3a78 with SMTP id
+ l5-20020a05687014c500b000daab413a78mr3273454oab.23.1647423230510; Wed, 16 Mar
+ 2022 02:33:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5e25b475-0c49-4b19-78e5-08da072f461b
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4742:EE_
-X-Microsoft-Antispam-PRVS: 
-	<PH0PR10MB474229E07A6FBC20CA5219EA8E119@PH0PR10MB4742.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	mkuHnArDW+g7cgdCSO0v2vIfo1pjZMH47zwLl6U/zeuC5BicjAOyKjW+ZB/oiB/VWuDqPpi6++H+uHtSOrTVYL0c174m6uxQT/6cEf6SuKbRi0Xr68YDdEg4xqdgDRrYb4IpsaFPOZapvk3QNF+dJ319VG2COUThBdbgTgI/iEzAUj/6dQhU0gtKotlo7iaWYhfIobR9YWg1ozIOi1X8wDQ7gSmXqa0U5LB8HhU95O58xUv+xZ6gki553Dg6Vxdq/rA1uV2qVWVF6QXYUHVELp7daqx39WY6cLInuFyKK7B6p9lkMnnmQAzcjMdYdCAYiepHoFjNoJCHYrjlyvXh8vyWQegbqB3oUfcYwDXqsBi4mpikntX8H8e889c4/EDbXbukZFVfgZ3g7XA1BC3FrkTRT3bHipZ1uIR6jCAxvft+xqR9jUeBtvsAsXFHAxRN2h8ByW/3ClrZTxciIeuzw27RVcgpxbW0LxVpORtWzXAAh6gOf3AfuqLU5XRgIDLpfvXWEFOvENya+PrwsCtJ7MqM4zqsFIi4cgRKxC5xFV/X0Nk8gVvarrmAWFqAI0EUL/BYrKN9pk/XsQXvrKnLmgyMoLaHRyuCfVqYBH6EhFZfM1D6ZfuVLEWlHku7V5rr0jiQPnl5FkxnuY0k1UYMJrUdwUW7rYJsDT/TvAFPzzZvoeN2JzBSX/FhQhlS+zpcEIQvu0y4z9wWVgIG0LQE1w==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(186003)(26005)(1076003)(6666004)(5660300002)(6506007)(8936002)(83380400001)(54906003)(6916009)(86362001)(6486002)(66476007)(9686003)(316002)(2906002)(33656002)(508600001)(38100700002)(44832011)(52116002)(38350700002)(4744005)(66556008)(66946007)(6512007)(8676002)(4326008)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?3A7mniqLOV894/yH1EX8qwIqaq9RClh3qCGusMUpck8p5tN630heyZUxWyEA?=
- =?us-ascii?Q?xIEpul3r2iL8/nvVe6VLOL9gWcXPyEE9AlEspx8zdOdUJv9cXo5cQP42X+UY?=
- =?us-ascii?Q?K0Ms6HgKXHaYNF5FY+5HV/eqEEXO1uD9TPiQ9QLN2CVAvdUSWSYoaVBPCSKS?=
- =?us-ascii?Q?xri+8VnhSac3wA5yLoDlDlNiZvkXLgkt1aXT1yPPKkUbalHcQdAHQMyR5jbU?=
- =?us-ascii?Q?aOONr8MboOekKlXfFk62IuTSUSX9OiaQAP1WKsdPn2OzW4urHA4ey/VlUWob?=
- =?us-ascii?Q?5yo00GvAsMS1eQ7xjn2qoPw/g2quWV3KwlmsSSH+6X9QoYxWtr9Bl84jFF8n?=
- =?us-ascii?Q?PmTY8zAu5jMryFyvM/iHDUrfj05MVKVseFp7yOxGu7QT9XhZ3HFYxLLVQZcZ?=
- =?us-ascii?Q?ppff88YgHRLEXqIp7gJBvG7xqMURnMY+weDEoU8I5IwsfxqaEzZDBzW+uVNq?=
- =?us-ascii?Q?Tkc7UcaaGK2ba6wvI14Mp4pd/dl0OMaBXfpXYcBR7wvj9WbyFasLaUYQUfq0?=
- =?us-ascii?Q?L7fLT2IcI4Pd8igrhbUlkFEFo8QcEdKpEHRVjRTaNA57ZAZMW0cwdDj4S3yF?=
- =?us-ascii?Q?073yExOw23MH0fRt26hYUYVvd7Lmu+AIzGFPxuBiSY4oo/YOX7tcZ2n8a7IF?=
- =?us-ascii?Q?K7FnHF0ndEfRIiCkGmaZ35HF/KfmyEkfEgnY822RbzAhQPwiPBW6/p/q4Cm4?=
- =?us-ascii?Q?TOU7tvlYs2qrq0zuoDAdcC56e0JC+RLJymo02Vs/3ZbL3o+gyFVoTlVtyer7?=
- =?us-ascii?Q?pSlPorZ5UQW6Ot4QkZU/r+yQrjtFgAVfEngfJFILFCwYG5GYj2e0A7DB5kwg?=
- =?us-ascii?Q?MDHDaNc2ufZvfllruZKXKvWCYtBeGSh01NQ4JEJnDex91HAlEVdwpHEHQ5tI?=
- =?us-ascii?Q?cfh60ZPKB1rPTkleJKDsR3tK8wwb0WaXhzrTuTHQywftvMbyDzbZQD9a0kYm?=
- =?us-ascii?Q?uWhabFPB56KUxEACqmlrcRQvK/JbNrLdb8eVaVlIxbpSWSO+Pm0Yz1nT2mlX?=
- =?us-ascii?Q?Sih0cTfENIOiI5vD4daJUsFXtMLwQwn5P4vuYW7yUZrs+JCOkGLhrVI72fcj?=
- =?us-ascii?Q?8e7fnrfkWkK/rpDD3asTrKqd00IqvMt9TUVfk9NI6Vp6JvkhDNoP9/BIhcQQ?=
- =?us-ascii?Q?+Chm7LLq6p3wOJ93ul1ot7PMF4kEEBUL/Z3z8jKl/QJgIuRl6v0y0R3HV/RN?=
- =?us-ascii?Q?VDG3DVwSSbsGSobpEQ36zGj/nDgug3VnqnW6chIEjdkVUDxe1/7P6aqejA8F?=
- =?us-ascii?Q?b8Ca1MIN+bjsoI23OohgXGlbJKndijoCp+xf0blX6fq2auORdvCACqkOfsMh?=
- =?us-ascii?Q?h5L/Bif0HQ0RpIhv6nJ2jDR2eU8MLJRuEpsxgah7/v66UTh0Zekpb4w6aCD4?=
- =?us-ascii?Q?aqCF39iUK+tn3OaHncFmqRhK10ge22wUxxV4Ww6XZQqZns0qaGo+u7VQOqrQ?=
- =?us-ascii?Q?Bz1YLiBH+piqAPleGhQfeYktU1TvzifVt1gbWwu7uU6kwFmtnieVIA=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e25b475-0c49-4b19-78e5-08da072f461b
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2022 09:28:04.9596
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sQmY0NDcujdnb3nj9BNhsS/WjFdGowkbCo47XQdAmrut7owCYGGe61OS1aXBPWDvoUGtOx45J6Zfz2hNlSr/drlcHItBm6IC7V4iX+yStfo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4742
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10287 signatures=693139
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
- malwarescore=0 mlxscore=0 suspectscore=0 spamscore=0 bulkscore=0
- mlxlogscore=799 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203160057
-X-Proofpoint-GUID: Wwohv9QGhfRyqP1_mSAwGBS4PhuLK9Mh
-X-Proofpoint-ORIG-GUID: Wwohv9QGhfRyqP1_mSAwGBS4PhuLK9Mh
+References: <20220314101523.129672-1-hpa@redhat.com> <YjGncJFYky69Fjmz@paasikivi.fi.intel.com>
+In-Reply-To: <YjGncJFYky69Fjmz@paasikivi.fi.intel.com>
+From: Kate Hsuan <hpa@redhat.com>
+Date: Wed, 16 Mar 2022 17:33:39 +0800
+Message-ID: <CAEth8oGMyO6BJ6kPuXYYZ_bGmwq+AfGMrrcK38UxtnJs1NfjRg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] staging: media: ipu3: Fix AF x_start position when
+ rightmost stripe is used
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Hans De Goede <hdegoede@redhat.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hpa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 16, 2022 at 12:01:28PM +0300, Dan Carpenter wrote:
-> On Tue, Mar 15, 2022 at 09:50:41PM +0100, Martin Kaiser wrote:
-> > The r8188eu driver defines a local BIT(x) macro. Remove this local macro
-> > and use the one from include/linux/bits.h.
-> > 
-> > The global BIT macro returns an unsigned long value. Therefore, we have to
-> > cast DYNAMIC_BB_DYNAMIC_TXPWR to u32 explicitly. This define is used with
-> > the bitwise not operator.
-> 
-> It doesn't change run time at all if you leave it as unsigned long.
-> I don't know if there are static checkers which care, but if there are
-> then those checkers are wrong.  It's nicer to not have the unnecesary
-> cast.
+Hi Sakari,
 
-Oop.  It's a GCC warning...
+On Wed, Mar 16, 2022 at 5:02 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Kate,
+>
+> On Mon, Mar 14, 2022 at 06:15:22PM +0800, Kate Hsuan wrote:
+> > For the AF configuration, if the rightmost stripe is used, the AF scene
+> > will be at the incorrect location of the sensor.
+> >
+> > The AF coordinate may be set to the right part of the sensor. This
+> > configuration would lead to x_start being greater than the
+> > down_scaled_stripes offset and the leftmost stripe would be disabled
+> > and only the rightmost stripe is used to control the AF coordinate. If
+> > the x_start doesn't perform any adjustments, the AF coordinate will be
+> > at the wrong place of the sensor since down_scaled_stripes offset
+> > would be the new zero of the coordinate system.
+> >
+> > In this patch, if only the rightmost stripe is used, x_start should
+> > minus down_scaled_stripes offset to maintain its correctness of AF
+> > scene coordinate.
+> >
+> > Changes in v2:
+> > 1. Remove the setting of the first stripe.
+> >
+> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> > ---
+> >  drivers/staging/media/ipu3/ipu3-css-params.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+> > index d9e3c3785075..5a8c07f34756 100644
+> > --- a/drivers/staging/media/ipu3/ipu3-css-params.c
+> > +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+> > @@ -2556,6 +2556,10 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
+> >               /* Enable only for rightmost stripe, disable left */
+> >               acc->af.stripes[0].grid_cfg.y_start &=
+> >                       ~IPU3_UAPI_GRID_Y_START_EN;
+> > +             acc->af.stripes[1].grid_cfg.x_start -=
+> > +                     acc->stripe.down_scaled_stripes[1].offset;
+> > +             acc->af.stripes[1].grid_cfg.x_end -=
+> > +                     acc->stripe.down_scaled_stripes[1].offset;
+>
+> Could you calculate the values the same way as for the two stripes case, as
+> I've been asking since v1?
 
-People accept such absolute garbage from GCC.  It's like in Africa when
-you get bitten by a snake they rub cow dung into the wound.  If it hurts
-it must be good.
+Sorry for my misunderstanding of the comments.
+You mean x_end could be estimated by the width here and could use the
+same way as for two stripes case to estimate this.
+I'll correct this in my v4 patch. :)
 
-regards,
-dan carpenter
+Thank you.
+
+>
+> >       } else if (acc->af.config.grid_cfg.x_end <=
+> >                  acc->stripe.bds_out_stripes[0].width - min_overlap) {
+> >               /* Enable only for leftmost stripe, disable right */
+>
+> --
+> Regards,
+>
+> Sakari Ailus
+>
+
+
+-- 
+BR,
+Kate
+
