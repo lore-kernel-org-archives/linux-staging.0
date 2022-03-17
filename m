@@ -1,255 +1,98 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E311B2F5C
-	for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 22:52:44 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id a8so7189090ejc.8
-        for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 15:52:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F742F3A
+	for <linux-staging@lists.linux.dev>; Thu, 17 Mar 2022 02:53:14 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id j21so3469302qta.0
+        for <linux-staging@lists.linux.dev>; Wed, 16 Mar 2022 19:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=S9gCTWlc9p2G4Mf4tEdAge9wxpXHZ7B8VpsEVH/T2so=;
-        b=UMwAkeqZVJIh/5hKCUjeTsWOPqTAbH/K7YrpyWna1gutUilxrY2/7iduvI7svjw8PP
-         uLzxGFyRck4+jsBNIbE589EtFtC5PT19VJduymJcJDsVz6r9BLL1oQ+hTXRpc6jpCzAf
-         0crOO0KIgM840B9UOSVTkzcWTkod8nnEK/0VCI2OErworV2TUrPE0npOsGEIH2C+pdJF
-         oYjKaNtKYR9HGResMUM0wIoz+HxZAxhcDWBIzxuqSjveOmMF1F1LeoHFeCcAI7lC6L29
-         abZTlQa048L6nNZeql2wBr6dsYd58Y2nsY6uWQtGFXk9KQ73fKf/ExrmuUiczuSRJl0k
-         ivaQ==
+        d=northvilleschools.net; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=hOTvV/BSKqVkGgoGdzHd4gweYpV9pcJ3dB6vvIoE2gU=;
+        b=BVTlqSXDh/6F0/7cr+KPmDGtn27xHshwmogWqP00WdmxLteEOSwZlNSaJOBLvd+qb8
+         qDa/rgK6dn+meP1EArL1V2duBZi3GoiYWlb3tRa7rbmwb3AVfAY0EjJiPH4g58yZwV+j
+         hXQ6fFN9lyxmI35PDNl0E7mn2MH1ILNXdkVdC8FVSw+vvZPTwQlgpKZXPpOq7eQnaUp9
+         A1YNDqvQ1teAgSYR/v6hGxb/FJTFaSYmMjuxnUReFY/sUGPw16VtSK7XCc1CCT5OPs5r
+         +5IrEj060hA7qwHGOCxcOm+3D2dSqsAPi98UwulgRarYityfafdUH25Swou844UKQNCa
+         bUFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=S9gCTWlc9p2G4Mf4tEdAge9wxpXHZ7B8VpsEVH/T2so=;
-        b=MsP406wpqmBPyqv998YgVp8hEW7ULCz4ZB8KVw2OzPxFGNH/lVGwhhu/jhth9I6j/d
-         rxlTR4pjRSnEhLPxdipkGTv2NEMLYGdtksMa7X5++7KDHqToahOCDMyFcrp8Np54H5AJ
-         aweqNcUNrpt/f6G88O9h4zQ/sgjuwfQbB0eUlNEWyv/58txnxpc+5XRt9hK9ebpPWGw/
-         UddnJNgALKJJsBDUhDLCydHwYo8JfDqeTrzrPPP/SH15uMjzIHiQOjLIB2nwPK/C5WH3
-         MmLC2bVRG5lK1vkwjE2/eMbyBm6EACpVTm95yRh5YiMAG7nhUfNusRzRKSi936GbsABn
-         xo2A==
-X-Gm-Message-State: AOAM532I0OxNObuZ7wlM9dHr8JB2eatXVYgsAoIjvAikHU/vSsNTugBP
-	pLwW1xPn3P2A243OF2Wl2d4=
-X-Google-Smtp-Source: ABdhPJwG8k2AQakxj1x52lpQ78SDqvtYBPscQ5njb53RQX3s5Z4nQSiDJF1p+E6Uk+IMMI9LQ6HewQ==
-X-Received: by 2002:a17:906:7954:b0:6da:9ee0:2e54 with SMTP id l20-20020a170906795400b006da9ee02e54mr1914401ejo.630.1647471163128;
-        Wed, 16 Mar 2022 15:52:43 -0700 (PDT)
-Received: from linux-kernel-dev (159.137.141.34.bc.googleusercontent.com. [34.141.137.159])
-        by smtp.gmail.com with ESMTPSA id bk1-20020a170906b0c100b006d47308d84dsm1494452ejb.33.2022.03.16.15.52.42
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=hOTvV/BSKqVkGgoGdzHd4gweYpV9pcJ3dB6vvIoE2gU=;
+        b=MMz6TshD+NpTDazds9wLYyx+9BKiiJl88RA2AJK9mU64v21RbpVuy7pGeedGRhuZTB
+         quMIiI+egIGxYg/hGVycEUA77iuZ2Ss156xSXXzPHxu0z3ChS8ys5eEADhv7F6QN/N9F
+         QUe75m678yiqi5Oh3dycuu3dFLuWRO0+ZP6mVlx62FT+6QEFEFo5QozskrmCXOkWeBBP
+         uYhgTt+a78wYkKa3sOou6RH4MVjeCIR0bnA+vOwAw/evCl7HrKzbKC0Ck1wJgtDi/M+y
+         6RIW2/A9ItROZfBvohhA2yOmmhU155cZGR0JY3wabMByBdw+4TNrqPnjAAioRufQjM+C
+         if1g==
+X-Gm-Message-State: AOAM532JUoS4bA20lZ781QjxWUd2B8Apz8TSec1aHabhhvYw1wngWfD0
+	3tvks73M8/JuY5Szismj08Tckg==
+X-Google-Smtp-Source: ABdhPJxcSCr7rDUc/YBUZSvGfZQOTDxzd+GR7tv+xBZ0n9tA0G7tmJVSHCMEVmU70JPw4w7J13sEYA==
+X-Received: by 2002:ac8:4b61:0:b0:2d1:cfc7:2989 with SMTP id g1-20020ac84b61000000b002d1cfc72989mr2184228qts.416.1647485593603;
+        Wed, 16 Mar 2022 19:53:13 -0700 (PDT)
+Received: from sckzor-linux (d4-50-247-168.col.wideopenwest.com. [50.4.168.247])
+        by smtp.gmail.com with ESMTPSA id j4-20020a37c244000000b0067d79a3fd0esm1817540qkm.106.2022.03.16.19.53.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 15:52:42 -0700 (PDT)
-From: Nam Cao <cvn249@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Nam Cao <cvn249@gmail.com>
-Subject: [PATCH v2] staging: sm750fb: fix naming style
-Date: Wed, 16 Mar 2022 22:49:41 +0000
-Message-Id: <20220316224940.70107-1-cvn249@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220316202335.GB7346@nam-dell>
-References: <20220316202335.GB7346@nam-dell>
+        Wed, 16 Mar 2022 19:53:13 -0700 (PDT)
+Date: Wed, 16 Mar 2022 22:53:12 -0400
+From: Charlie Sands <sandsch@northvilleschools.net>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH V2] staging: rts5208: Resolve checkpatch.pl issues.
+Message-ID: <YjKimAdiRfRVfGl8@sckzor-linux.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fix CamelCase names defined in ddk750_dvi.c and ddk750_dvi.h, as
-reported by checkpatch.pl. Remove name suffixes such as pfn_ and g_.
+This patch removes unwanted use of dev_info for ftrace-like functionality
+as suggested by checkpatch.pl.
 
-Signed-off-by: Nam Cao <cvn249@gmail.com>
+Signed-off-by: Charlie Sands <sandsch@northvilleschools.net>
 ---
-Changes in v2:
-  - Remove name suffixes including pfn_, g_ and p_.
-  - Typo: deskew_eetting -> deskew_setting
+V2: fixed bad commit message and compiler warning
 
- drivers/staging/sm750fb/ddk750_dvi.c | 68 ++++++++++++++--------------
- drivers/staging/sm750fb/ddk750_dvi.h | 64 +++++++++++++-------------
- 2 files changed, 66 insertions(+), 66 deletions(-)
+ drivers/staging/rts5208/rtsx.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
-index cd564ea40779..029d9acec47d 100644
---- a/drivers/staging/sm750fb/ddk750_dvi.c
-+++ b/drivers/staging/sm750fb/ddk750_dvi.c
-@@ -11,50 +11,50 @@
-  * function API. Please set the function pointer to NULL whenever the function
-  * is not supported.
+diff --git a/drivers/staging/rts5208/rtsx.c b/drivers/staging/rts5208/rtsx.c
+index 5a58dac76c88..2284a96abcff 100644
+--- a/drivers/staging/rts5208/rtsx.c
++++ b/drivers/staging/rts5208/rtsx.c
+@@ -159,8 +159,6 @@ static int command_abort(struct scsi_cmnd *srb)
+ 	struct rtsx_dev *dev = host_to_rtsx(host);
+ 	struct rtsx_chip *chip = dev->chip;
+ 
+-	dev_info(&dev->pci->dev, "%s called\n", __func__);
+-
+ 	scsi_lock(host);
+ 
+ 	/* Is this command still active? */
+@@ -186,10 +184,6 @@ static int command_abort(struct scsi_cmnd *srb)
   */
--static struct dvi_ctrl_device g_dcftSupportedDviController[] = {
-+static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
- #ifdef DVI_CTRL_SII164
- 	{
--		.pfnInit = sii164InitChip,
--		.pfnGetVendorId = sii164GetVendorID,
--		.pfnGetDeviceId = sii164GetDeviceID,
-+		.init = sii164InitChip,
-+		.get_vendor_id = sii164GetVendorID,
-+		.get_device_id = sii164GetDeviceID,
- #ifdef SII164_FULL_FUNCTIONS
--		.pfnResetChip = sii164ResetChip,
--		.pfnGetChipString = sii164GetChipString,
--		.pfnSetPower = sii164SetPower,
--		.pfnEnableHotPlugDetection = sii164EnableHotPlugDetection,
--		.pfnIsConnected = sii164IsConnected,
--		.pfnCheckInterrupt = sii164CheckInterrupt,
--		.pfnClearInterrupt = sii164ClearInterrupt,
-+		.reset_chip = sii164ResetChip,
-+		.get_chip_string = sii164GetChipString,
-+		.set_power = sii164SetPower,
-+		.enable_hot_plug_detection = sii164EnableHotPlugDetection,
-+		.is_connected = sii164IsConnected,
-+		.check_interrupt = sii164CheckInterrupt,
-+		.clear_interrupt = sii164ClearInterrupt,
- #endif
- 	},
- #endif
- };
- 
--int dviInit(unsigned char edge_select,
--	    unsigned char bus_select,
--	    unsigned char dual_edge_clk_select,
--	    unsigned char hsync_enable,
--	    unsigned char vsync_enable,
--	    unsigned char deskew_enable,
--	    unsigned char deskew_setting,
--	    unsigned char continuous_sync_enable,
--	    unsigned char pll_filter_enable,
--	    unsigned char pll_filter_value)
-+int dvi_init(unsigned char edge_select,
-+	     unsigned char bus_select,
-+	     unsigned char dual_edge_clk_select,
-+	     unsigned char hsync_enable,
-+	     unsigned char vsync_enable,
-+	     unsigned char deskew_enable,
-+	     unsigned char deskew_setting,
-+	     unsigned char continuous_sync_enable,
-+	     unsigned char pll_filter_enable,
-+	     unsigned char pll_filter_value)
+ static int device_reset(struct scsi_cmnd *srb)
  {
--	struct dvi_ctrl_device *pCurrentDviCtrl;
-+	struct dvi_ctrl_device *current_dvi_ctrl;
- 
--	pCurrentDviCtrl = g_dcftSupportedDviController;
--	if (pCurrentDviCtrl->pfnInit) {
--		return pCurrentDviCtrl->pfnInit(edge_select,
--						bus_select,
--						dual_edge_clk_select,
--						hsync_enable,
--						vsync_enable,
--						deskew_enable,
--						deskew_setting,
--						continuous_sync_enable,
--						pll_filter_enable,
--						pll_filter_value);
-+	current_dvi_ctrl = dcft_supported_dvi_controller;
-+	if (current_dvi_ctrl->init) {
-+		return current_dvi_ctrl->init(edge_select,
-+					      bus_select,
-+					      dual_edge_clk_select,
-+					      hsync_enable,
-+					      vsync_enable,
-+					      deskew_enable,
-+					      deskew_setting,
-+					      continuous_sync_enable,
-+					      pll_filter_enable,
-+					      pll_filter_value);
- 	}
- 	return -1; /* error */
+-	struct rtsx_dev *dev = host_to_rtsx(srb->device->host);
+-
+-	dev_info(&dev->pci->dev, "%s called\n", __func__);
+-
+ 	return SUCCESS;
  }
-diff --git a/drivers/staging/sm750fb/ddk750_dvi.h b/drivers/staging/sm750fb/ddk750_dvi.h
-index 1c7a565b617a..c2518b73bdbd 100644
---- a/drivers/staging/sm750fb/ddk750_dvi.h
-+++ b/drivers/staging/sm750fb/ddk750_dvi.h
-@@ -4,54 +4,54 @@
  
- /* dvi chip stuffs structros */
+@@ -968,8 +962,6 @@ static void rtsx_remove(struct pci_dev *pci)
+ {
+ 	struct rtsx_dev *dev = pci_get_drvdata(pci);
  
--typedef long (*PFN_DVICTRL_INIT)(unsigned char edgeSelect,
--				 unsigned char busSelect,
--				 unsigned char dualEdgeClkSelect,
--				 unsigned char hsyncEnable,
--				 unsigned char vsyncEnable,
--				 unsigned char deskewEnable,
--				 unsigned char deskewSetting,
--				 unsigned char continuousSyncEnable,
--				 unsigned char pllFilterEnable,
--				 unsigned char pllFilterValue);
-+typedef long (*PFN_DVICTRL_INIT)(unsigned char edge_select,
-+				 unsigned char bus_select,
-+				 unsigned char dual_edge_clk_select,
-+				 unsigned char hsync_enable,
-+				 unsigned char vsync_enable,
-+				 unsigned char deskew_enable,
-+				 unsigned char deskew_setting,
-+				 unsigned char continuous_sync_enable,
-+				 unsigned char pll_filter_enable,
-+				 unsigned char pll_filter_value);
- 
- typedef void (*PFN_DVICTRL_RESETCHIP)(void);
- typedef char* (*PFN_DVICTRL_GETCHIPSTRING)(void);
- typedef unsigned short (*PFN_DVICTRL_GETVENDORID)(void);
- typedef unsigned short (*PFN_DVICTRL_GETDEVICEID)(void);
--typedef void (*PFN_DVICTRL_SETPOWER)(unsigned char powerUp);
--typedef void (*PFN_DVICTRL_HOTPLUGDETECTION)(unsigned char enableHotPlug);
-+typedef void (*PFN_DVICTRL_SETPOWER)(unsigned char power_up);
-+typedef void (*PFN_DVICTRL_HOTPLUGDETECTION)(unsigned char enable_hot_plug);
- typedef unsigned char (*PFN_DVICTRL_ISCONNECTED)(void);
- typedef unsigned char (*PFN_DVICTRL_CHECKINTERRUPT)(void);
- typedef void (*PFN_DVICTRL_CLEARINTERRUPT)(void);
- 
- /* Structure to hold all the function pointer to the DVI Controller. */
- struct dvi_ctrl_device {
--	PFN_DVICTRL_INIT		pfnInit;
--	PFN_DVICTRL_RESETCHIP		pfnResetChip;
--	PFN_DVICTRL_GETCHIPSTRING	pfnGetChipString;
--	PFN_DVICTRL_GETVENDORID		pfnGetVendorId;
--	PFN_DVICTRL_GETDEVICEID		pfnGetDeviceId;
--	PFN_DVICTRL_SETPOWER		pfnSetPower;
--	PFN_DVICTRL_HOTPLUGDETECTION	pfnEnableHotPlugDetection;
--	PFN_DVICTRL_ISCONNECTED		pfnIsConnected;
--	PFN_DVICTRL_CHECKINTERRUPT	pfnCheckInterrupt;
--	PFN_DVICTRL_CLEARINTERRUPT	pfnClearInterrupt;
-+	PFN_DVICTRL_INIT		init;
-+	PFN_DVICTRL_RESETCHIP		reset_chip;
-+	PFN_DVICTRL_GETCHIPSTRING	get_chip_string;
-+	PFN_DVICTRL_GETVENDORID		get_vendor_id;
-+	PFN_DVICTRL_GETDEVICEID		get_device_id;
-+	PFN_DVICTRL_SETPOWER		set_power;
-+	PFN_DVICTRL_HOTPLUGDETECTION	enable_hot_plug_detection;
-+	PFN_DVICTRL_ISCONNECTED		is_connected;
-+	PFN_DVICTRL_CHECKINTERRUPT	check_interrupt;
-+	PFN_DVICTRL_CLEARINTERRUPT	clear_interrupt;
- };
- 
- #define DVI_CTRL_SII164
- 
- /* dvi functions prototype */
--int dviInit(unsigned char edgeSelect,
--	    unsigned char busSelect,
--	    unsigned char dualEdgeClkSelect,
--	    unsigned char hsyncEnable,
--	    unsigned char vsyncEnable,
--	    unsigned char deskewEnable,
--	    unsigned char deskewSetting,
--	    unsigned char continuousSyncEnable,
--	    unsigned char pllFilterEnable,
--	    unsigned char pllFilterValue);
-+int dvi_init(unsigned char edge_select,
-+	     unsigned char bus_select,
-+	     unsigned char dual_edge_clk_select,
-+	     unsigned char hsync_enable,
-+	     unsigned char vsync_enable,
-+	     unsigned char deskew_enable,
-+	     unsigned char deskew_setting,
-+	     unsigned char continuous_sync_enable,
-+	     unsigned char pll_filter_enable,
-+	     unsigned char pll_filter_value);
- 
- #endif
- 
+-	dev_info(&pci->dev, "%s called\n", __func__);
+-
+ 	quiesce_and_remove_host(dev);
+ 	release_everything(dev);
+ 	pci_release_regions(pci);
 -- 
-2.32.0
+2.35.1
 
