@@ -1,46 +1,29 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F150D7A
-	for <linux-staging@lists.linux.dev>; Thu, 17 Mar 2022 08:28:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647505691; x=1679041691;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AtLCZOmSAc7T9bFuE0z5XJxVO7tj6pN3X+ECBIFaw9U=;
-  b=CAQsp7yKH0EpjHW0nmTYQs9ijYWQ2WvMYEVKSOykNmcQgIY6kklLNWkZ
-   vF78iLn4IPSVWceRHo7b6ITLrZ2sLFiPn6I81+yaMCNNDomSkpm54cnJV
-   e33IqZc6+5RhKdVGE3NKFJDc/YA4xjfE/1ySx5quD57eYrywtkpCnRJSY
-   vTu6Bk++J3gciGQO6jmR6TrhgDHQUBRybQCzaV8C/TNBubijxb00OV6n7
-   dvBO2cheKGFOlwMKe5Bf7Gtz3JEzy0VOyyws++hXGOLJdo6uCjxm6Xh5G
-   Uu3f/gkcl2EL3TkMj+eYntmBMoZhtknWMGUlY3UEFNLHdSFkpgo8Uwp4E
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="281604458"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="281604458"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2022 01:28:11 -0700
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="645013588"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2022 01:28:08 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id B743320090;
-	Thu, 17 Mar 2022 10:28:06 +0200 (EET)
-Date: Thu, 17 Mar 2022 10:28:06 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Kate Hsuan <hpa@redhat.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, hdegoede@redhat.com
-Subject: Re: [PATCH v4] staging: media: ipu3: Fix AF x_start position when
- rightmost stripe is used
-Message-ID: <YjLxFuRXKzg3m9HH@paasikivi.fi.intel.com>
-References: <20220317075713.10633-1-hpa@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9CE369B
+	for <linux-staging@lists.linux.dev>; Thu, 17 Mar 2022 08:35:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A82C340E9;
+	Thu, 17 Mar 2022 08:35:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1647506155;
+	bh=tFObloEApOpbVJhBLJ6aU2o8fMFKxyKlWpdsDyjEtls=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AqKugbOl7cXxMSKRVJ1vOHaFj6bBfGi1L05Mimzf6TJp1N3oF9DhD37j8LOywcT59
+	 WoDwbSpjC1+fBfw2LKkg+bMMsEX+nSDQ//y/bQ38rwS3wspqGq1p3XjLdqBubnjUwd
+	 bNCBjGx9dGXcXk75YsbafZMsNSjNaZdFeyuHz2fo=
+Date: Thu, 17 Mar 2022 09:35:51 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
+Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
+Subject: Re: [RFC] staging/vSMP: new driver
+Message-ID: <YjLy5wHtdYZvUU8t@kroah.com>
+References: <PAXPR02MB73106333FD8FA483FAA0DAC181119@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YjLiC82wSBO1oUIq@kroah.com>
+ <PAXPR02MB7310E037FFE7E641C582F67381129@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YjLolEqaRgZKawHl@kroah.com>
+ <PAXPR02MB7310A489D636D9BE75108CAC81129@PAXPR02MB7310.eurprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,33 +32,105 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220317075713.10633-1-hpa@redhat.com>
+In-Reply-To: <PAXPR02MB7310A489D636D9BE75108CAC81129@PAXPR02MB7310.eurprd02.prod.outlook.com>
 
-On Thu, Mar 17, 2022 at 03:57:13PM +0800, Kate Hsuan wrote:
-> For the AF configuration, if the rightmost stripe is used, the AF scene
-> will be at the incorrect location of the sensor.
+On Thu, Mar 17, 2022 at 08:17:04AM +0000, Czerwacki, Eial wrote:
+> Greetings Greg,
 > 
-> The AF coordinate may be set to the right part of the sensor. This
-> configuration would lead to x_start being greater than the
-> down_scaled_stripes offset and the leftmost stripe would be disabled
-> and only the rightmost stripe is used to control the AF coordinate. If
-> the x_start doesn't perform any adjustments, the AF coordinate will be
-> at the wrong place of the sensor since down_scaled_stripes offset
-> would be the new zero of the coordinate system.
-> 
-> In this patch, if only the rightmost stripe is used, x_start should
-> minus down_scaled_stripes offset to maintain its correctness of AF
-> scene coordinate.
-> 
-> Changes in v2:
-> 1. Remove the setting of the first stripe.
-> 
-> Changes in v4:
-> 1. x_start is estimated based on the method for both stripes are enabled.
-> 2. x_end is estimated based on the width.
+> >On Thu, Mar 17, 2022 at 07:34:30AM +0000, Czerwacki, Eial wrote:
+> >> Greetings Greg,
+> >> 
+> >> >On Wed, Mar 16, 2022 at 06:13:04PM +0000, Czerwacki, Eial wrote:
+> >> >> Introducing the vSMP guest driver which allows interaction with the vSMP control device when
+> >> >> running a Linux OS atop of the vSMP hypervisor.
+> >> >> vSMP is a resource aggregation hypervisor from SAP.
+> >> >> 
+> >> >> the driver comprises of 3 modules, vsmp which includes all the api needed to interact with the
+> >> >> control driver, vsmp_logs which allows reading logs from the hypervisor and vsmp_common_info which
+> >> >> allows reading generic information the hypervisor exposes, currently only the version is exposed.
+> >> >
+> >> >Please wrap changelog text at 72 columns, like git asks you to.
+> >> git didn't asked me to do so, I'll fix it in the next iteration.
+> >> 
+> >> >
+> >> >Also, why did you not cc: the staging maintainer?  :(
+> >> I've probably missed that when I was going over the docs, my bad.
+> >> 
+> >> >
+> >> >> Signed-off-by: Eial Czerwacki <eial.czerwacki@sap.com>
+> >> >> ---
+> >> >>  MAINTAINERS                             |   6 +
+> >> >>  drivers/staging/Kconfig                 |   2 +
+> >> >>  drivers/staging/Makefile                |   1 +
+> >> >>  drivers/staging/vsmp/Kconfig            |  14 +
+> >> >>  drivers/staging/vsmp/Makefile           |   7 +
+> >> >>  drivers/staging/vsmp/api.c              | 402 ++++++++++++++++++++++++
+> >> >>  drivers/staging/vsmp/api.h              |  61 ++++
+> >> >>  drivers/staging/vsmp/common/Kconfig     |  11 +
+> >> >>  drivers/staging/vsmp/common/Makefile    |   7 +
+> >> >>  drivers/staging/vsmp/common/common.c    |  64 ++++
+> >> >>  drivers/staging/vsmp/common/common.h    |  27 ++
+> >> >>  drivers/staging/vsmp/common/version.c   |  85 +++++
+> >> >>  drivers/staging/vsmp/logs/Kconfig       |  10 +
+> >> >>  drivers/staging/vsmp/logs/Makefile      |   7 +
+> >> >>  drivers/staging/vsmp/logs/active_logs.c | 112 +++++++
+> >> >>  drivers/staging/vsmp/registers.h        |  16 +
+> >> >
+> >> >Without looking at the code, I do not see a TODO file here that lists
+> >> >the tasks that need to be completed to get this out of the
+> >> >drivers/staging/ directory.  This is a requirement.
+> >> there are tasks to complete it however I'm not sure they are blockers.
+> >
+> >What tasks?
+> support of other information bits like stats
 
-Please put the changelog before '---' line. I've removed it from the commit
-message this time.
+I have no idea what that means :)
 
--- 
-Sakari Ailus
+> >> >Also, why is this submitted for drivers/staging/ ?  What prevents it
+> >> >from being merged to the "correct" place in the kernel tree today?
+> >> afaiu, the correct order for new drivers is staging => mainline.
+> >
+> >No, not at all.  This is the "hard way" to get drivers merged.  I would
+> >never recommend doing it this way for anyone as it will take more time
+> >and effort than just doing it the correct way the first time.
+> I understand, thanks for clearing it up
+> 
+> >
+> >> in addition, from past experience with the main kernel mailing list, I
+> >> thought the driver will get more traction here than in the main kernel
+> >> mailing list.  unless there is a specific mailing list for drivers
+> >> beside the staging tree one
+> >
+> >There are zillions of subsystem mailing lists out there.  Always target
+> >the specific one you are interested in.  For this code, it should live
+> >in drivers/virt/ right?  Ah, no mailing list specific for that one, but
+> >I usually am the one that merges the code in there, so cc: me and Arnd
+> >and lkml and we can go from there!
+> drivers/virt looks like the correct place, so I need to send it as [PATCH] to the lkml with Arnd and yourself in the CC of the mail?
+
+Yes please!
+
+> >Also, you have a bunch of sysfs files, all of those need to be
+> >documented in Documentation/ABI/ entries as you will see if you run
+> >scripts/get_abi.pl with your driver loaded.
+> will do.
+> 
+> >
+> >Also, rip out the old-school PCI bus scanning stuff.  That hasn't been
+> >needed since the 2.4 kernel days :)
+> can you point me to a doc that states how I can retrieve the dev struct of the device in question?
+
+The device in question is passed to you in your pci probe function
+callback.  You do NOT allow any random PCI device number to be passed as
+a module parameter, as that way lies madness.
+
+If you MUST allow userspace to bind a specific PCI device to your
+driver, then use the sysfs "bind" file that the driver core provides to
+you.  Then the normal pci probe callback will be called and all is good.
+
+In short, your driver is doing a lot of extra work that it doesn't need
+to do at all, just remove all of that code.
+
+thanks,
+
+greg k-h
