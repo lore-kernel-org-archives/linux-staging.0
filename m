@@ -1,448 +1,330 @@
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-eopbgr140057.outbound.protection.outlook.com [40.107.14.57])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0A34352
-	for <linux-staging@lists.linux.dev>; Thu, 17 Mar 2022 14:05:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UOMiSTA3sAk0VSqrjhntVZjdGpl7nfwf1iq35wUFWD8P+DgV/jnRChJHL5/+kad9ISRSm2B9+Qb7RuypwFzzStp4EsRp4cU75DsV8msBR/iq8E9e2d5SSTEe2nLefJh2SvUc3e8YTB5i0WiHLzTC2oJMXcCsRra0Q3GdWGd4Si/AWEhLHUHG0kI6lYE0/uOl/Hdjqli6TCr8F7Qdsf/6CHBIPnMwhRTNtcojqt5ZXLyLakIoC35Z5e+8NcL34sbb8HLfwAGHLFq3qvcD+HMVB7ou98ILMS/tYYcu5Ql8caqSQ09S3oC3QHwR83/b4sbrpwRYPI/tTJohFXDvqnz/DA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WcGeRkCyO+QUa0+vv8YOWfMdrGbFaVe7AXB7fodTd0I=;
- b=g2/2/dxSP9CGv3z0pclyFAXJ6RF16t8AbmyWsjvc7jR1nO1zgpT9cAWZR2JUcD/phUJxT2Kk0UW3QKuiXPeLP9tdtcfHteuTPreW+xdvAiMwJrlMRBKqlO5aYz4DEBLzZALmB7b9OoFbpoJICXO1R/jmkXgu2hAD6FPAS+6qNGTAOrOKf5KYvm8hlcw1Z1LIMPvJOiWzO/564LIuT8p8nV3V65qE9q859EpgNlFt939zZFvenxenKdfhjqP+tJ3EPJjGH71Ocsqjcf+5JvUbati7mvThDlhkC+dkmvpetAGAUcSAElJO+iiKq0vD0xzfFBHSF1Cp3CC1KU8tBnAvgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sap.com; dmarc=pass action=none header.from=sap.com; dkim=pass
- header.d=sap.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sap.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WcGeRkCyO+QUa0+vv8YOWfMdrGbFaVe7AXB7fodTd0I=;
- b=kU5c3uqaA7dhVwUi3fKRtKmW9/5aoUeF0a0ToV1ralJTY2Kxc3ym7f2Nd4zUbAr+LX0vRey9AVstFuVncsWIfN+ohF0V55XCRyretl6wWyQVCVRBw7KfgMCydyfuOMtAVMCqry6D3vUIu+d8Z1FjKKsI8CSimhTCxzpQ4jfmyIL7TD7DHHdBylInXE+W9yf5iog1f8JhrpEJGSQXBQDRDJHGe5E+5F2YAZAUT1zT0gPi1Nperc6mM3Y/DkB+C5X0sTajOsdHvgeGay/FLALLwPc9J0k7szVO5GR0AbXuYlqHNDmL+PpSnpE1yU25oCKfj25DM4En+gtaiLr4+P8SZQ==
-Received: from PAXPR02MB7310.eurprd02.prod.outlook.com (2603:10a6:102:1c5::10)
- by DBAPR02MB5976.eurprd02.prod.outlook.com (2603:10a6:10:187::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5061.32; Thu, 17 Mar
- 2022 14:05:26 +0000
-Received: from PAXPR02MB7310.eurprd02.prod.outlook.com
- ([fe80::a4d0:f2e7:68e1:bf71]) by PAXPR02MB7310.eurprd02.prod.outlook.com
- ([fe80::a4d0:f2e7:68e1:bf71%9]) with mapi id 15.20.5081.017; Thu, 17 Mar 2022
- 14:05:25 +0000
-From: "Czerwacki, Eial" <eial.czerwacki@sap.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, SAP vSMP
- Linux Maintainer <linux.vsmp@sap.com>
-Subject: Re: [RFC] staging/vSMP: new driver
-Thread-Topic: [RFC] staging/vSMP: new driver
-Thread-Index: AQHYOWFVtbFVL/RlCkqxQt1YlxgURKzDXkaAgAAeIw+AAB5tAIAAAO9q
-Date: Thu, 17 Mar 2022 14:05:25 +0000
-Message-ID:
- <PAXPR02MB7310A543B3B89D889D67776B81129@PAXPR02MB7310.eurprd02.prod.outlook.com>
-References:
- <PAXPR02MB73106333FD8FA483FAA0DAC181119@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <20220317101942.GX3293@kadam>
- <PAXPR02MB73109408A4070F19F34AD7D181129@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <20220317135628.GC3293@kadam>
-In-Reply-To: <20220317135628.GC3293@kadam>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-suggested_attachment_session_id: 5f8654bd-8033-25c9-aa3a-e335579dc9e9
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=sap.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ed595731-b7ca-4e44-d508-08da081f2f75
-x-ms-traffictypediagnostic: DBAPR02MB5976:EE_
-x-microsoft-antispam-prvs:
- <DBAPR02MB59769E6586153BF6A3AC027C81129@DBAPR02MB5976.eurprd02.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- H7yjAqY/qQVoqM+GovjMy4AxEMJ5Nak7Cdw9NzmpWmB2eR73WMOATXfomOGP13vkSYngLAdo6x5auEiW70xlHUhDFZ5QDP41TugPqTYs0U/EWBzdMQze60SAnXJGN1NakmBJdc9u6c6NeyUs6T9eIMsJyZvEZYNVpCsgRUB6HK3dYRm5PTpZaMD07bPQa01kRo4bYgXlOKmnv8kKJ+sMkXRsFCINLHch1xqcdaaWlkloFtlAOZTPewpOnzohsCvWwo6zdxOyVkzeqVg1vY8Qy0zFb74igw6DijwJ8DISTXFFddNhASRddN4qCb1KtY09jnQyqrYXUDm6cIiaGbzzYTHeGM3fhDFbNPGK4oKcU7lqXqhVy6J42+1xlqRjRmRULBMoTnJZEsOOfElwAfQ8zSWMlXVof1CfmDPfke88VisKAucIG/8ss73GslA+jAngLM2x1hvyIaT3k/T3l0e2VUZFrFXxxR6+IZ1dC1WZTPk+vcqsYsVhpejOaXGRmSXx+f1hBadq40wCgqhB+dNQReqRKbfK53NVNqHVksPrmre1cDtpCfdTOhCWO6PZC2UvH76soZeVw3M6kiTLDxcfRVj3Lq9ojr9w87XaMzXbKoAiO3xNaf6qwZy5dIdF5KpElmfNkdxg8K3k4Zz1KTMwYl23SX+cVP72S+IpBcbv2UvGIDih04Sq++3fHGbjStUPr+zXA7TLbCZ2cTJsz7MoHA==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR02MB7310.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(54906003)(83380400001)(6916009)(316002)(7696005)(6506007)(71200400001)(9686003)(2906002)(508600001)(55016003)(186003)(26005)(33656002)(76116006)(91956017)(64756008)(66946007)(38070700005)(66476007)(66556008)(4326008)(8936002)(66446008)(5660300002)(8676002)(86362001)(52536014)(38100700002)(82960400001)(122000001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?l8Ynhlnuy6sMQWjaBYaQrBQh29cM5Iz8Iqk7TFunVpPahTfIvpAiqSanKg?=
- =?iso-8859-1?Q?JZL+Z/9+bCKTxc/8pdIL3qioX7sTS3yx/UtGZ9C3HjO5Mwwky1K5mGYxGN?=
- =?iso-8859-1?Q?cy4+jLPfbEonlrTDGPQMHlozIEStwm3mRP+hu8UfaALLM/87QsYTsE+qP9?=
- =?iso-8859-1?Q?uIDmqTH3qX02J4H++2NxlrgclvlMKuty62APNqyQHU+B0c56KXp7cHZP1v?=
- =?iso-8859-1?Q?/DdDfdJNCyTZ2fs7vD0Uul8JvaRnUSR7kTtLl+I2NLyZEZauFj1mJ1VW5b?=
- =?iso-8859-1?Q?DLfKDTyS7v2gpgmY4aLhQbuhl6cxFHZoa3eFnVhud8jVoJlolnFrKeR2ed?=
- =?iso-8859-1?Q?ugyzfsmihw2Hh5rM8q+iwJ45xZ2Hr5C8ZVrZozAZj8RzEL7gQL8v/b+9Rn?=
- =?iso-8859-1?Q?CIOOM5TzmYJuR3ZmW0ODY9Q3fkNCm/YbRnmG+E8YWE9YQlmPjRjpFd42Cf?=
- =?iso-8859-1?Q?3k4vYW55F8+wCPcT/36Xk4rgyMYUmphGvUpRADxBNSKN516vZX27B9nJ7T?=
- =?iso-8859-1?Q?0ktynwcI+FQGUxhsZR/oaP9Ybr0bYoVEjOk/JQmIEF8r/l8Ma8U9cYjJRb?=
- =?iso-8859-1?Q?lonKsk1G/kPGoYbX9Y202aFv25K83rA9cs+cgl3x2YUSzqxvSx+1k0Mf05?=
- =?iso-8859-1?Q?e9GnVUAMhpyXeHn6JUKm0wdBsiWZyVfrTf/U4Q9EwnT7dT8wQDj2Qzkvme?=
- =?iso-8859-1?Q?Y3ngc3YAtfitkakekOCumprh94HM6p1zJDibHacS5/7l0KM++6c8FJGu7y?=
- =?iso-8859-1?Q?YYrkxLqV0q1LTVLCPdBYZUZw5/e3vVXQtdi9frLpWSIswAhqOuPI1DLaGj?=
- =?iso-8859-1?Q?gBf7qDbe/8s/df5Q1MbjNztShAKabXv9EtS4AKpXTn8X1OPrUBD6SU1KBI?=
- =?iso-8859-1?Q?PK6wM0CmtTaB0kBcW6CMp9Xe1nWE7JKEWEk40CTvna+RE9jEBDDw2186fj?=
- =?iso-8859-1?Q?PLx+7vuHPhu0toya8kiYk5A2VJnoFaC9RrNLpMqH11ATTai4dMxhDdU4FT?=
- =?iso-8859-1?Q?c5Bm2M9MiYEJkdZS7woTNkQR9q+5wczslkX55nHydece60QTEJyl/eEJO3?=
- =?iso-8859-1?Q?B7yRYiSxrTfKKTdX8VPeJLO948B09Y/zWLm8LUWS3bmFtjBrhZxrbHM5Qc?=
- =?iso-8859-1?Q?49NhRLATdx7i0xn3T7oXO9Bf6evPOcTGlAWt3zJ+k2kgrzYbqg1OSLd62O?=
- =?iso-8859-1?Q?A/pVRbUQve/tiyygGn4CJM4ayQbm+4rrkKcaBaZtotw9Lb1TY0KhX6/qAq?=
- =?iso-8859-1?Q?auWie/w4DdPZtR1xJdAb7UDwV/K41MiSwUGp4/abC0X03JrREVgOrzl858?=
- =?iso-8859-1?Q?THYpheBW5Chw7PpuWhrNdc4/4HyE6BMsIjKAjoq0ptwswHOsyTe32K9Xsd?=
- =?iso-8859-1?Q?dOlyfbjWMM48bGDDHNXUOO9/CjQZjWuuM6oOnsMPb4drSYmyucGhynUI9l?=
- =?iso-8859-1?Q?aKAHX9R1ifPuCN7Y2TCAOtafRJ9LJN8YwRnxnrlrceOnkaLGRG0XBMFuzB?=
- =?iso-8859-1?Q?xEhkKCvA8vN8Vsq3+R+vcL?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466014A84;
+	Thu, 17 Mar 2022 19:27:21 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220317192137euoutp017e71ba0ed22d1b91ba2d8624c345a9c9~dQVr6851W0692706927euoutp01j;
+	Thu, 17 Mar 2022 19:21:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220317192137euoutp017e71ba0ed22d1b91ba2d8624c345a9c9~dQVr6851W0692706927euoutp01j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1647544897;
+	bh=8AJD7LLy/THFDuNHTzws2WZ7Rh8dubqLenZAtO6y33w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SSsYA3sB8VCPS64sV7bKPBdT8Gs/9iazS1cVIbja0uftAb3Jtq7aVK0HmcrvM88Y1
+	 NoEJ9kl4mWA5MXUH10J7hVGyfodyRX1b5gMz1n+rN5J9woekIMHDbFexQ8XqDOWVDm
+	 SBXoHQ05p7Jo9XqAW4y1w7OlZTplPAkddYsl9vKc=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20220317192137eucas1p26a509d5aaf346c7b64b070301bf61eb3~dQVrnVIS11741017410eucas1p2i;
+	Thu, 17 Mar 2022 19:21:37 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id 08.B3.09887.14A83326; Thu, 17
+	Mar 2022 19:21:37 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20220317192136eucas1p185dfbf79e792ebdc4c5614a90c1b0cd8~dQVqafbfc3134231342eucas1p1O;
+	Thu, 17 Mar 2022 19:21:36 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20220317192136eusmtrp180d92f8748820fe9ee93ff913a9123e8~dQVqZWQ871868218682eusmtrp1x;
+	Thu, 17 Mar 2022 19:21:36 +0000 (GMT)
+X-AuditID: cbfec7f4-45bff7000000269f-39-62338a41cdcf
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms2.samsung.com (EUCPMTA) with SMTP id C4.14.09404.F3A83326; Thu, 17
+	Mar 2022 19:21:35 +0000 (GMT)
+Received: from localhost (unknown [106.120.51.46]) by eusmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20220317192135eusmtip11512036116a92f228b87ec99e1e8e94b~dQVqJMrcG1419214192eusmtip1r;
+	Thu, 17 Mar 2022 19:21:35 +0000 (GMT)
+From: Lukasz Stelmach <l.stelmach@samsung.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: alsa-devel@alsa-project.org,  bcm-kernel-feedback-list@broadcom.com,
+	linux-amlogic@lists.infradead.org,  linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,  linux-aspeed@lists.ozlabs.org,
+	linux-input@vger.kernel.org,  linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,  linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,  linux-rockchip@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,  linux-samsung-soc@vger.kernel.org,
+	linux-staging@lists.linux.dev,  linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,  linux-tegra@vger.kernel.org,
+	linux-usb@vger.kernel.org,  mjpeg-users@lists.sourceforge.net,
+	openbmc@lists.ozlabs.org
+Subject: Re: [PATCH v2 65/67] media: Kconfig: cleanup VIDEO_DEV dependencies
+Date: Thu, 17 Mar 2022 20:21:35 +0100
+In-Reply-To: <d5b6678363c4374436014137fecc22ff666e3ebc.1647274407.git.mchehab@kernel.org>
+	(Mauro Carvalho Chehab's message of "Mon, 14 Mar 2022 17:35:00 +0100")
+Message-ID: <dleftj1qz0mlkw.fsf%l.stelmach@samsung.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: sap.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR02MB7310.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed595731-b7ca-4e44-d508-08da081f2f75
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2022 14:05:25.8981
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 42f7676c-f455-423c-82f6-dc2d99791af7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hvUPqMc9vInyaNKS0G8UhWXmjPZ0Vkf9pBGZ0Kr8UPrl/QDqeQT9E/P0dOWihxMHNi8XdU/2w0vIw/RZoRp84w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR02MB5976
+Content-Type: multipart/signed; boundary="=-=-="; micalg="pgp-sha256";
+	protocol="application/pgp-signature"
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf1DTZRzHe77f7777Dhw+DpDnlkfdMCo4QcPySQj0sLvvVWdcWnnVNSd8
+	BY6xrf3IrDNmUMGaIAMvmJhACZ78aA5FI52JlqfEYETkgoSEFCe6k3GQhNC2L9753/vz+bzf
+	r+f5PPcwpKSUljK5Kj2nVSmUMjqEav/lvnPVRlPSjtV/+8Jwv6uTwC37fqZw7cFQbB8dEODy
+	c91CXNjkJLF7clqAf+uoobHZdtKvCl0An7x1l8CTIwskLh+0CXFVj4PAF30cNg2MCXClo4PG
+	JVNWGtc3fE7iBvscgfsLXTS+UjRObVjO2nyf0ax1uJtm7cdKaLbtuwJ2vK0asD1VdYD9sdZH
+	sOcda1ifPTpD9E5IShanzP2Q0yambg/JcR9Sac5lfOS746CMoDvZBEQMgmvR78YaygRCGAk8
+	CtDtwQeLxZS/GHcL+cIH0I0+i/BhxHSiIqglsBGgQnsOb7oJ0IzxG2ACDEPDBNTSsi3gifDL
+	m22uIJWEfQI0MlBOBQbh8DXU5hgMgij4FBo1zQoCWgTrAXowvzrAEcN16KuFjEA7Er6I5m7c
+	C9rFcBm6XD0WxJAwH1X3TIAAH8FpESobHAP8RTehhVNzJK/DkefSicUFVqCuCjMV4CNYgCos
+	L/BZM0DtNf9SvCcZDTlnaV5vRJMXviR4fxi6emcZf24YsrR/TfJtMSr+QsK7V6LWsjOLFCna
+	5zkKeAuLLjue4F+qGSBX6RC9HzxpfWQb6yPbWP0REj6Lvu9I5NvxqKHuNsnrl1Brq5eqBYJj
+	IIoz6PKzOd1zKm5Xgk6RrzOoshMy1fl24P+mXfOXpk6DRs+9hE5AMKATrPSHr9uaeoGUUqlV
+	nCxC/Ot44g6JOEux+2NOq5ZrDUpO1wkeZyhZlDgz16aQwGyFnsvjOA2nfTglGJHUSCz5jwiT
+	Wuf7RPGMO0ZuT1txPm1XkdfIls/Id8rfDE9LuYqFOvnFmLzZvriu++7imOvc3U+lWUmHt2yO
+	X/hpiIJdbrOtd/3zfzmUu/fH1Vz5IzZ9xHDw7AFxaDdXJd++NEUc++7a9brmptKYvMhrFq/y
+	afVpvUEtK4YTinWV2Y/1vz165NVXNlSFbrFr0jPet+6xaupPSXGvfucz8tSRt6hts9NJwkNQ
+	f2RJkbh55nikWd+YWnLGLV1aklz3AV7Vku6JOr75FpP5Hrd36z/RzuE3csctzJDn8ITrdW/l
+	/IGXzw57DWWfwGvfOlMKNBfizVunueU/RPzp3rM32hs7kFMmo3Q5ijVxpFan+B+mhywbIQQA
+	AA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmplleLIzCtJLcpLzFFi42I5/e/4XV37LuMkg4XvLSyuXDzEZLG29yiL
+	xYLZ3BabHl9jtZi4/yy7RfPqc8wWNz99Y7W4vGsOm0XPhq1AVvNFRoutL98xWXx68J/ZYuLt
+	DewWM87vY7I48jnVouvaE1aLKft2sVl0fpnFZrFoWSuzxbJNf5gsrjRfZLM41fKCxUHMY8Pn
+	JjaPWffPsnlsWtXJ5rF5Sb3Hi80zGT3Oz1jI6LF7wWcmj4P7DD0+b5IL4IzSsynKLy1JVcjI
+	Ly6xVYo2tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQy7g5N69gf0DF57f7WBoY
+	z1p3MXJySAiYSHRtmcwOYgsJLGWU+Po2p4uRAyguJbFybjpEibDEn2tdbBAlTxklVr1yAClh
+	E9CTWLs2AiQsAmQ+33yRpYuRi4NZ4A6rRPPBLUwgCWEBH4nN+25DjY+QeDT/ClicRUBV4nHX
+	L1YQm1NgEaPE338GIDN5Bcwluv8HgIRFBSwl/jz7CNbKKyAocXLmExYQm1kgW+Lr6ufMExgF
+	ZiFJzUKSmgU0iVlAU2L9Ln2IsLbEsoWvmSFsW4l1696zLGBkXcUoklpanJueW2ykV5yYW1ya
+	l66XnJ+7iRGYBrYd+7llB+PKVx/1DjEycTAeYlQB6ny0YfUFRimWvPy8VCUR3jMv9JOEeFMS
+	K6tSi/Lji0pzUosPMZoCfTaRWUo0OR+YoPJK4g3NDEwNTcwsDUwtzYyVxHk9CzoShQTSE0tS
+	s1NTC1KLYPqYODilGphibDLLzno6a12RuDKlvcxuZvKmx2eWWB5gnB5gUWXGNVsodHGRqhCz
+	Pg9XyWxtr7VzpZ9P3hNRbMCt65M2a2Ge2rfLJw5tj9m7M9oh9VdhTkTaD/uPSTwRbxS7jzSL
+	B4vd17WZInhyi7znJvmJfHYZ0y9uzPf51et2rNRa7eyadRl3RJdb7c6dG5/5ZvPfVelu/OFy
+	pQ0xXB+yAqOC/zGZPEqxNDt5IlYh/0Lr14P3pCMCd6oZ3JLTZbry59WdaRMc3e6+YHjx+I13
+	6cwlzY/az/VOm73l4jPeGON4HienzZ/YF5RyXNizpM3tTnXW/W13Xuzus3NWTZE+0dB6LGOj
+	pbZ4/N24dTtW7mBSmajEUpyRaKjFXFScCABQmWVNmAMAAA==
+X-CMS-MailID: 20220317192136eucas1p185dfbf79e792ebdc4c5614a90c1b0cd8
+X-Msg-Generator: CA
+X-RootMTR: 20220317192136eucas1p185dfbf79e792ebdc4c5614a90c1b0cd8
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220317192136eucas1p185dfbf79e792ebdc4c5614a90c1b0cd8
+References: <d5b6678363c4374436014137fecc22ff666e3ebc.1647274407.git.mchehab@kernel.org>
+	<CGME20220317192136eucas1p185dfbf79e792ebdc4c5614a90c1b0cd8@eucas1p1.samsung.com>
 
->On Thu, Mar 17, 2022 at 01:41:30PM +0000, Czerwacki, Eial wrote:=0A=
->> >> +     printk(KERN_INFO "mapping bar 0: [0x%llx,0x%llx]\n",=0A=
->> >> +            mapped_bars[0].start, mapped_bars[0].start + mapped_bars=
-[0].len);=0A=
->> >> +     cfg_addr =3D ioremap(mapped_bars[0].start, mapped_bars[0].len);=
-=0A=
->> >> +=0A=
->> >> +     if (!cfg_addr) {=0A=
->> >=0A=
->> >Delete the blank link between the call and the error checking.  They ar=
-e=0A=
->> >part of the same thing.=0A=
->> did you meant line?=0A=
->> =0A=
->=0A=
->What I mean is that it's like paragraphs.=0A=
->=0A=
->        cfg_addr =3D ioremap(mapped_bars[0].start, mapped_bars[0].len);=0A=
->        if (!cfg_addr)=0A=
->                return -ENOMEM;=0A=
->=0A=
->The call and the check go together.=0A=
-you are correct=0A=
-=0A=
->=0A=
->> >=0A=
->> >> +             printk(KERN_ERR=0A=
->> >> +                    "failed to map vSMP pci controller at %x:%x.%x, =
-exiting.\n",=0A=
->> >> +                    vsmp_bus, vsmp_dev, vsmp_func);=0A=
->> >> +             return -1;=0A=
->> >> +     }=0A=
->> >> +=0A=
->> >> +     return 0;=0A=
->> >> +}=0A=
->> >> +=0A=
->> >> +/* exported functions */=0A=
->> >> +=0A=
->> >> +/**=0A=
->> >> + * read a value from a specfic register in the vSMP's device config =
-space=0A=
->> >> + */=0A=
->> >> +unsigned long vsmp_read_reg_from_cfg(unsigned int reg, enum reg_size=
-_type type)=0A=
->> >=0A=
->> >=0A=
->> >Use u64 when 64 bit types are intended.=0A=
->> >=0A=
->> >> +{=0A=
->> >> +     unsigned long ret_val;=0A=
->> >=0A=
->> >=0A=
->> >u64 ret_val;=0A=
->> sure=0A=
->> =0A=
->> >=0A=
->> >> +=0A=
->> >> +     switch (type) {=0A=
->> >> +     case VSMP_CTL_REG_SIZE_8BIT:=0A=
->> >> +             ret_val =3D readb(cfg_addr + reg);=0A=
->> >> +             break;=0A=
->> >> +=0A=
->> >> +     case VSMP_CTL_REG_SIZE_16BIT:=0A=
->> >> +             ret_val =3D readw(cfg_addr + reg);=0A=
->> >> +             break;=0A=
->> >> +=0A=
->> >> +     case VSMP_CTL_REG_SIZE_32BIT:=0A=
->> >> +             ret_val =3D readl(cfg_addr + reg);=0A=
->> >> +             break;=0A=
->> >> +=0A=
->> >> +     case VSMP_CTL_REG_SIZE_64BIT:=0A=
->> >> +             ret_val =3D readq(cfg_addr + reg);=0A=
->> >> +             break;=0A=
->> >> +=0A=
->> >> +     default:=0A=
->> >> +             printk(KERN_ERR "unsupported reg size type %d.\n", type=
-);=0A=
->> >> +             ret_val =3D (unsigned long)(-1);=0A=
->> >=0A=
->> >=0A=
->> >64 bit types.  "ret_val =3D -1ULL;"=0A=
->> >=0A=
->> >=0A=
->> >> +     }=0A=
->> >> +=0A=
->> >> +     dev_dbg(&vsmp_dev_obj->dev, "%s: read 0x%lx from reg 0x%x of %d=
- bits\n",=0A=
->> >> +             __func__, ret_val, reg, (type + 1) * 8);=0A=
->> >> +     return ret_val;=0A=
->> >> +}=0A=
->> >> +EXPORT_SYMBOL_GPL(vsmp_read_reg_from_cfg);=0A=
->> >> +=0A=
->> >> +/**=0A=
->> >> + * write a value to a specfic register in the vSMP's device config s=
-pace=0A=
->> >> + */=0A=
->> >> +void vsmp_write_reg_to_cfg(unsigned int reg, unsigned long value,=0A=
->> >> +                        enum reg_size_type type)=0A=
->> >> +{=0A=
->> >> +     switch (type) {=0A=
->> >> +     case VSMP_CTL_REG_SIZE_8BIT:=0A=
->> >> +             writeb((unsigned char)value, cfg_addr + reg);=0A=
->> >> +             break;=0A=
->> >> +=0A=
->> >> +     case VSMP_CTL_REG_SIZE_16BIT:=0A=
->> >> +             writew((unsigned short)value, cfg_addr + reg);=0A=
->> >> +             break;=0A=
->> >> +=0A=
->> >> +     case VSMP_CTL_REG_SIZE_32BIT:=0A=
->> >> +             writel((unsigned int)value, cfg_addr + reg);=0A=
->> >> +             break;=0A=
->> >> +=0A=
->> >> +     case VSMP_CTL_REG_SIZE_64BIT:=0A=
->> >> +             writeq(value, cfg_addr + reg);=0A=
->> >> +             break;=0A=
->> >> +=0A=
->> >> +     default:=0A=
->> >> +             printk(KERN_ERR "unsupported reg size type %d.\n", type=
-);=0A=
->> >> +     }=0A=
->> >> +=0A=
->> >> +     dev_dbg(&vsmp_dev_obj->dev, "%s: wrote 0x%x to reg 0x%x of %u b=
-its\n",=0A=
->> >> +             __func__, reg, reg, (type + 1) * 8);=0A=
->> >> +}=0A=
->> >> +EXPORT_SYMBOL_GPL(vsmp_write_reg_to_cfg);=0A=
->> >> +=0A=
->> >> +/**=0A=
->> >> + * reag a buffer from a specific offset in a specific bar, maxed to =
-a predefined len size-wise from the vSMP device=0A=
->> >> + */=0A=
->> >> +unsigned int vsmp_read_buff_from_bar(unsigned int bar, unsigned int =
-offset,=0A=
->> >=0A=
->> >This is unsigned int but it returns zero or negative error codes.=0A=
->> >=0A=
->> >Create a separate function for "halt_on_null".  It will be cleaner that=
-=0A=
->> >way.=0A=
->> I'll refractor this code properly.=0A=
->> =0A=
->> >=0A=
->> >> +                                  char *out, unsigned int len,=0A=
->> >> +                                  bool halt_on_null)=0A=
->> >> +{=0A=
->> >> +     unsigned char __iomem *buff;=0A=
->> >> +=0A=
->> >> +     BUG_ON(!mapped_bars[bar].start);=0A=
->> >> +     BUG_ON(ARRAY_SIZE(mapped_bars) <=3D bar);=0A=
->> >> +     BUG_ON((offset + len) > mapped_bars[bar].len);=0A=
->> >> +=0A=
->> >> +     buff =3D ioremap(mapped_bars[bar].start + offset, len);=0A=
->> >> +     if (!buff)=0A=
->> >> +             return -ENOMEM;=0A=
->> >> +=0A=
->> >> +     if (halt_on_null) {=0A=
->> >> +             int i;=0A=
->> >> +             unsigned char c;=0A=
->> >> +=0A=
->> >> +             for (i =3D 0; i < len; i++) {=0A=
->> >> +                     c =3D ioread8(&buff[i]);=0A=
->> >> +                     if (!c)=0A=
->> >> +                             break;=0A=
->> >> +                     out[i] =3D c;=0A=
->> >=0A=
->> >Copy the NUL terminator to out[i] before the break.=0A=
->> >=0A=
->> should I memset out to zero instead?=0A=
->=0A=
->Right now you're relying on the caller to set the NUL terminator and=0A=
->that's ugly.  Just do:=0A=
->=0A=
->                for (i =3D 0; i < len; i++) {=0A=
->                        c =3D ioread8(&buff[i]);=0A=
->                        out[i] =3D c;=0A=
->                        if (!c)=0A=
->                                break;=0A=
->=0A=
->=0A=
-I think I've tried your suggestion and it didn't went well, I'll retry it.=
-=0A=
-=0A=
->> =0A=
->> >> +             }=0A=
->> >> +     } else=0A=
->> >> +             memcpy_fromio(out, buff, len);=0A=
->> >> +=0A=
->> >> +     iounmap(buff);=0A=
->> >> +=0A=
->> >> +     return 0;=0A=
->> >> +}=0A=
->=0A=
->[ snip ]=0A=
->=0A=
->> >> +static ssize_t version_read(struct file *filp, struct kobject *kobj,=
-=0A=
->> >> +                         struct bin_attribute *bin_attr,=0A=
->> >> +                         char *buf, loff_t off, size_t count)=0A=
->> >> +{=0A=
->> >> +     ssize_t ret_val =3D vsmp_generic_buff_read(&op, 0,=0A=
->> >> +                                              vsmp_read_reg32_from_c=
-fg(VSMP_VERSION_REG),=0A=
->> >> +                                              buf, off, count);=0A=
->> >=0A=
->> >Don't put functions which can fail in the declaration block.=0A=
->> >=0A=
->> >        ret_val =3D vsmp_generic_buff_read(&op, 0,=0A=
->> >                                         vsmp_read_reg32_from_cfg(VSMP_=
-VERSION_REG),=0A=
->> >                                         buf, off, count);=0A=
->> >=0A=
->> can you explain what is the reason behind this recommendation?=0A=
->> =0A=
->=0A=
->That's just my own preference, not really a rule.  I stole that=0A=
->guideline from someone else.  I forget who.  But it's a fact that the=0A=
->declaration block is more bug prone than other code.  (Very clean in=0A=
->static analysis results).  Plus it means that you put a blank line=0A=
->between the call and the check which I do not like (again just my=0A=
->preference).=0A=
->=0A=
->=0A=
->> >> +=0A=
->> >> +     if ((ret_val !=3D -ENOMEM) && ((ret_val !=3D -EINVAL)))=0A=
->> >=0A=
->> >Don't test for specific error codes.=0A=
->> >=0A=
->> >        if (ret_val < 0)=0A=
->> >                return ret_val;=0A=
->> >=0A=
->> >=0A=
->> now I understand, there was a patchset which fixes for all the -1 and th=
-e specific ret_val testing, I see it=0A=
->> was misplaced at some point of the work.=0A=
->> thanks for pointing it out=0A=
->> =0A=
->> >> +         buf[ret_val++] =3D '\n';=0A=
->> >> +=0A=
->> >> +     return ret_val;=0A=
->> >> +}=0A=
->> >> +=0A=
->> >> +struct bin_attribute version_raw_attr =3D __BIN_ATTR(version, FILE_P=
-REM, version_read, NULL, VERSION_MAX_LEN);=0A=
->> >> +=0A=
->> >> +/**=0A=
->> >> + * retrive str in order to determine the proper length.=0A=
->> >> + * this is the best way to maintain backwards compatibility with all=
-=0A=
->> >> + * vSMP versions.=0A=
->> >> + */=0A=
->> >> +static int get_version_len(void)=0A=
->> >> +{=0A=
->> >> +     unsigned reg;=0A=
->> >> +     char *version_str =3D kzalloc(VERSION_MAX_LEN, GFP_ATOMIC | __G=
-FP_NOWARN);=0A=
->> >=0A=
->> >VERSION_MAX_LEN is 524288 bytes.  That's too long.  Create a small=0A=
->> >buffer and loop over it until you find the NUL terminator.  Why does=0A=
->> >this need to be ATOMIC, are we holding a lock?  Hopefully if we can fix=
-=0A=
->> >the length the __GFP_NOWARN will be unnecessary.=0A=
->> I'm not sure it is possible to loopover, I'll take that into considerati=
-on.=0A=
->> in this flow, only one access is possible, so I assume GFP_ATOMIC is not=
- needed=0A=
->> =0A=
->=0A=
->This get_version_len() is cray cray...  It needs to loop.=0A=
-it all depends on the hypervisor's implementation below, I think loop over =
-can be used but I'll need to check=0A=
-=0A=
->=0A=
->> >=0A=
->> >> +=0A=
->> >> +     if (!version_str)=0A=
->> >> +             return -1;=0A=
->> >> +=0A=
->> >> +     reg =3D vsmp_read_reg32_from_cfg(VSMP_VERSION_REG);=0A=
->> >> +     memset(version_str, 0, VERSION_MAX_LEN);=0A=
->> >> +=0A=
->> >> +     if (vsmp_read_buff_from_bar(0, reg, version_str, VERSION_MAX_LE=
-N, true)) {=0A=
->> >> +             printk(KERN_ERR "failed to read buffer from bar\n");=0A=
->> >> +             return -1;=0A=
->> >> +     }=0A=
->> >> +=0A=
->> >> +     version_raw_attr.size =3D strlen(version_str);=0A=
->> >=0A=
->> >get_version_len() should return the length instead of setting a global.=
-=0A=
->> do you mean version_raw_attr.size =3D get_version_len()?=0A=
->> =0A=
->=0A=
->Yes, but with negative error codes.=0A=
-ok=0A=
-=0A=
->=0A=
->> >=0A=
->> >> +     kfree(version_str);=0A=
->> >> +=0A=
->> >> +     return 0;=0A=
->> >> +}=0A=
->> >> +=0A=
->> >> +/**=0A=
->> >> + * register the version sysfs entry=0A=
->> >> + */=0A=
->> >> +int sysfs_register_version_cb(void)=0A=
->> >> +{=0A=
->> >> +     if (get_version_len()) {=0A=
->> >> +             printk(KERN_ERR "failed to init vSMP version module\n")=
-;=0A=
->> >> +             return -1;=0A=
->> >> +     }=0A=
->> >> +=0A=
->> >> +     if (!vsmp_init_op(&op, version_raw_attr.size, FW_READ)) {=0A=
->> >=0A=
->> >This if statement is reversed so this code can never work.=0A=
->> not sure I follow, can you explain?=0A=
->> =0A=
->=0A=
->The vsmp_init_op() function returns zero on success and this code treats=
-=0A=
->success as failure.=0A=
-weird, I'll check it out.=0A=
-=0A=
->=0A=
->> >=0A=
->> >> +             printk(KERN_ERR "failed to init vSMP version op\n");=0A=
->> >> +             return -1;=0A=
->> >> +     }=0A=
->> >> +=0A=
->> >> +     return vsmp_register_sysfs_group(&version_raw_attr);=0A=
->> >> +}=0A=
-=0A=
-Thanks,=0A=
-=0A=
-Eial=
+--=-=-=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+It was <2022-03-14 pon 17:35>, when Mauro Carvalho Chehab wrote:
+> media Kconfig has two entries associated to V4L API:
+> VIDEO_DEV and VIDEO_V4L2.
+>
+> On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
+> VIDEO_DEV were meant to:
+> 	1) enable Video4Linux and make its Kconfig options to appear;
+> 	2) it makes the Kernel build the V4L core.
+>
+> while VIDEO_V4L2 where used to distinguish between drivers that
+> implement the newer API and drivers that implemented the former one.
+>
+> With time, such meaning changed, specially after the removal of
+> all V4L version 1 drivers.
+>
+> At the current implementation, VIDEO_DEV only does (1): it enables
+> the media options related to V4L, that now has:
+>
+> 	menu "Video4Linux options"
+> 		visible if VIDEO_DEV
+>
+> 	source "drivers/media/v4l2-core/Kconfig"
+> 	endmenu
+>
+> but it doesn't affect anymore the V4L core drivers.
+>
+> The rationale is that the V4L2 core has a "soft" dependency
+> at the I2C bus, and now requires to select a number of other
+> Kconfig options:
+>
+> 	config VIDEO_V4L2
+> 		tristate
+> 		depends on (I2C || I2C=3Dn) && VIDEO_DEV
+> 		select RATIONAL
+> 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
+> 		default (I2C || I2C=3Dn) && VIDEO_DEV
+>
+> In the past, merging them would be tricky, but it seems that it is now
+> possible to merge those symbols, in order to simplify V4L dependencies.
+>
+> Let's keep VIDEO_DEV, as this one is used on some make *defconfig
+> configurations.
+>
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+>
+> To avoid mailbombing on a large number of people, only mailing lists were=
+ C/C on the cover.
+> See [PATCH v2 00/67] at: https://lore.kernel.org/all/cover.1647274406.git=
+.mchehab@kernel.org/
+>
+>  drivers/input/rmi4/Kconfig                    |   2 +-
+>  drivers/input/touchscreen/Kconfig             |   4 +-
+>  drivers/media/Kconfig                         |   3 +
+>  drivers/media/common/saa7146/Kconfig          |   2 +-
+>  drivers/media/dvb-core/Kconfig                |   2 +-
+>  drivers/media/dvb-frontends/Kconfig           |   4 +-
+>  drivers/media/i2c/Kconfig                     | 250 +++++++++---------
+>  drivers/media/i2c/ccs/Kconfig                 |   2 +-
+>  drivers/media/i2c/cx25840/Kconfig             |   2 +-
+>  drivers/media/i2c/et8ek8/Kconfig              |   2 +-
+>  drivers/media/i2c/m5mols/Kconfig              |   2 +-
+>  drivers/media/pci/Kconfig                     |   2 +-
+>  drivers/media/pci/bt8xx/Kconfig               |   2 +-
+>  drivers/media/pci/cobalt/Kconfig              |   2 +-
+>  drivers/media/pci/cx18/Kconfig                |   2 +-
+>  drivers/media/pci/dt3155/Kconfig              |   2 +-
+>  drivers/media/pci/intel/ipu3/Kconfig          |   2 +-
+>  drivers/media/pci/ivtv/Kconfig                |   2 +-
+>  drivers/media/pci/meye/Kconfig                |   2 +-
+>  drivers/media/pci/saa7146/Kconfig             |   6 +-
+>  drivers/media/pci/sta2x11/Kconfig             |   2 +-
+>  drivers/media/pci/tw5864/Kconfig              |   2 +-
+>  drivers/media/pci/tw68/Kconfig                |   2 +-
+>  drivers/media/pci/tw686x/Kconfig              |   2 +-
+>  drivers/media/platform/Kconfig                |   6 +-
+>  drivers/media/platform/allegro-dvt/Kconfig    |   2 +-
+>  .../platform/allwinner/sun4i-csi/Kconfig      |   2 +-
+>  .../platform/allwinner/sun6i-csi/Kconfig      |   2 +-
+>  .../media/platform/allwinner/sun8i-di/Kconfig |   2 +-
+>  .../platform/allwinner/sun8i-rotate/Kconfig   |   2 +-
+>  .../media/platform/amlogic/meson-ge2d/Kconfig |   2 +-
+>  drivers/media/platform/amphion/Kconfig        |   1 -
+>  drivers/media/platform/aspeed/Kconfig         |   2 +-
+>  drivers/media/platform/atmel/Kconfig          |   8 +-
+>  drivers/media/platform/cadence/Kconfig        |   4 +-
+>  drivers/media/platform/chips-media/Kconfig    |   2 +-
+>  drivers/media/platform/intel/Kconfig          |   2 +-
+>  drivers/media/platform/marvell/Kconfig        |   4 +-
+>  .../media/platform/mediatek/mtk-jpeg/Kconfig  |   2 +-
+>  .../media/platform/mediatek/mtk-mdp/Kconfig   |   2 +-
+>  .../platform/mediatek/mtk-vcodec/Kconfig      |   2 +-
+>  .../media/platform/mediatek/mtk-vpu/Kconfig   |   2 +-
+>  .../media/platform/nvidia/tegra-vde/Kconfig   |   2 +-
+>  drivers/media/platform/nxp/Kconfig            |   6 +-
+>  drivers/media/platform/nxp/imx-jpeg/Kconfig   |   2 +-
+>  drivers/media/platform/qcom/camss/Kconfig     |   2 +-
+>  drivers/media/platform/qcom/venus/Kconfig     |   2 +-
+>  drivers/media/platform/renesas/Kconfig        |  30 +--
+>  .../media/platform/renesas/rcar-vin/Kconfig   |   4 +-
+>  drivers/media/platform/rockchip/rga/Kconfig   |   2 +-
+>  .../media/platform/rockchip/rkisp1/Kconfig    |   2 +-
+>  .../media/platform/samsung/exynos-gsc/Kconfig |   2 +-
+>  .../media/platform/samsung/exynos4-is/Kconfig |   2 +-
+>  .../media/platform/samsung/s3c-camif/Kconfig  |   2 +-
+>  .../media/platform/samsung/s5p-g2d/Kconfig    |   2 +-
+>  .../media/platform/samsung/s5p-jpeg/Kconfig   |   2 +-
+>  .../media/platform/samsung/s5p-mfc/Kconfig    |   2 +-
+>  drivers/media/platform/stm/sti/bdisp/Kconfig  |   2 +-
+>  drivers/media/platform/stm/sti/delta/Kconfig  |   2 +-
+>  drivers/media/platform/stm/sti/hva/Kconfig    |   2 +-
+>  drivers/media/platform/stm/stm32/Kconfig      |   4 +-
+>  drivers/media/platform/ti/am437x/Kconfig      |   2 +-
+>  drivers/media/platform/ti/davinci/Kconfig     |  12 +-
+>  drivers/media/platform/ti/omap/Kconfig        |   2 +-
+>  drivers/media/platform/ti/omap3isp/Kconfig    |   2 +-
+>  drivers/media/platform/via/Kconfig            |   2 +-
+>  drivers/media/platform/xilinx/Kconfig         |   2 +-
+>  drivers/media/radio/Kconfig                   |  42 ++-
+>  drivers/media/radio/si470x/Kconfig            |   2 +-
+>  drivers/media/radio/wl128x/Kconfig            |   2 +-
+>  drivers/media/spi/Kconfig                     |   4 +-
+>  drivers/media/test-drivers/Kconfig            |   2 +-
+>  drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
+>  drivers/media/test-drivers/vimc/Kconfig       |   2 +-
+>  drivers/media/test-drivers/vivid/Kconfig      |   2 +-
+>  drivers/media/tuners/Kconfig                  |   6 +-
+>  drivers/media/tuners/e4000.c                  |   6 +-
+>  drivers/media/tuners/fc2580.c                 |   6 +-
+>  drivers/media/usb/airspy/Kconfig              |   2 +-
+>  drivers/media/usb/au0828/Kconfig              |   6 +-
+>  drivers/media/usb/cpia2/Kconfig               |   2 +-
+>  drivers/media/usb/dvb-usb-v2/Kconfig          |   8 +-
+>  drivers/media/usb/dvb-usb/Kconfig             |   4 +-
+>  drivers/media/usb/gspca/Kconfig               |  96 +++----
+>  drivers/media/usb/gspca/gl860/Kconfig         |   2 +-
+>  drivers/media/usb/gspca/m5602/Kconfig         |   2 +-
+>  drivers/media/usb/hackrf/Kconfig              |   2 +-
+>  drivers/media/usb/hdpvr/Kconfig               |   2 +-
+>  drivers/media/usb/msi2500/Kconfig             |   2 +-
+>  drivers/media/usb/pvrusb2/Kconfig             |   2 +-
+>  drivers/media/usb/pwc/Kconfig                 |   2 +-
+>  drivers/media/usb/s2255/Kconfig               |   2 +-
+>  drivers/media/usb/stkwebcam/Kconfig           |   2 +-
+>  drivers/media/usb/usbtv/Kconfig               |   2 +-
+>  drivers/media/usb/uvc/Kconfig                 |   2 +-
+>  drivers/media/usb/zr364xx/Kconfig             |   2 +-
+>  drivers/media/v4l2-core/Kconfig               |  12 +-
+>  drivers/media/v4l2-core/Makefile              |   2 +-
+>  drivers/staging/media/atomisp/Kconfig         |   2 +-
+>  drivers/staging/media/atomisp/i2c/Kconfig     |  14 +-
+>  drivers/staging/media/hantro/Kconfig          |   2 +-
+>  drivers/staging/media/imx/Kconfig             |   2 +-
+>  drivers/staging/media/ipu3/Kconfig            |   2 +-
+>  drivers/staging/media/max96712/Kconfig        |   2 +-
+>  drivers/staging/media/meson/vdec/Kconfig      |   2 +-
+>  drivers/staging/media/omap4iss/Kconfig        |   2 +-
+>  drivers/staging/media/rkvdec/Kconfig          |   2 +-
+>  drivers/staging/media/sunxi/cedrus/Kconfig    |   2 +-
+>  drivers/staging/media/tegra-video/Kconfig     |   2 +-
+>  drivers/staging/media/zoran/Kconfig           |   2 +-
+>  drivers/staging/most/video/Kconfig            |   2 +-
+>  .../vc04_services/bcm2835-camera/Kconfig      |   2 +-
+>  drivers/usb/gadget/Kconfig                    |   2 +-
+>  drivers/usb/gadget/legacy/Kconfig             |   2 +-
+>  sound/pci/Kconfig                             |   4 +-
+>  115 files changed, 356 insertions(+), 374 deletions(-)
+>
+
+Acked-by: =C5=81ukasz Stelmach <l.stelmach@samsung.com>
+
+[...]
+
+
+> diff --git a/drivers/media/platform/samsung/s5p-g2d/Kconfig b/drivers/med=
+ia/platform/samsung/s5p-g2d/Kconfig
+> index 9bc9d90a666a..28ab88fc2d7c 100644
+> --- a/drivers/media/platform/samsung/s5p-g2d/Kconfig
+> +++ b/drivers/media/platform/samsung/s5p-g2d/Kconfig
+> @@ -1,7 +1,7 @@
+>  config VIDEO_SAMSUNG_S5P_G2D
+>  	tristate "Samsung S5P and EXYNOS4 G2D 2d graphics accelerator driver"
+>  	depends on V4L_MEM2MEM_DRIVERS
+> -	depends on VIDEO_DEV && VIDEO_V4L2
+> +	depends on VIDEO_DEV
+>  	depends on ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
+>  	select VIDEOBUF2_DMA_CONTIG
+>  	select V4L2_MEM2MEM_DEV
+
+[...]
+
+
+=2D-=20
+=C5=81ukasz Stelmach
+Samsung R&D Institute Poland
+Samsung Electronics
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEXpuyqjq9kGEVr9UQsK4enJilgBAFAmIzij8ACgkQsK4enJil
+gBBbcgf/aneuRLpVmb3t9XhFHinqWTwAHjmHijfM4Bxpeie5LGPD+ZODOQbbTHI/
+SXYJS3DSxcgXnRGiv7g4MNmazBgof2zjvt/C8g0cTWdthAC4RALkjvOFd+4JyyJP
+ozwCmesdus9emei4oZwgFKK914YZDEjYr8bWMicgALtwdnF7z9A00O5RwqaptPTX
+jSFQlpjo5s4gYR2xpQZaLPRwnr328DtW8oertBocpd32+OtNe+A2u1cjdxKuOPqt
+1iB2h/WFOgzqi5noKYu5eQ37WtWZsiPlUuEcrUXRddHEj/TYOFwBEclb+TtkaO0X
+ysdUvYWSGALn6XAUtaiDpl43o6bQ2A==
+=1sCe
+-----END PGP SIGNATURE-----
+--=-=-=--
