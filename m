@@ -1,82 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905AB7A
-	for <linux-staging@lists.linux.dev>; Thu, 17 Mar 2022 07:52:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2CA5C340EC;
-	Thu, 17 Mar 2022 07:52:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1647503558;
-	bh=OL8OrlSScfrDStw2fOrQwAyTowg3Pyni7oYdVnzOErE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F4WUKjAu2g6SIAQZcMkLzAIkEVbP/JXP/bIIQluP/LgJPqWv9vC4HEcSD9ZcV7qu+
-	 jSSZHAxnS+mILYR58nG8R2xp8lmmvyoxorDJzZtAZGRGqaC/uezERUs9SIpc+I4/8Z
-	 riqptY/+Apn0mYD+NNzpQuJ8HUxf1SD/grZswK9Q=
-Date: Thu, 17 Mar 2022 08:52:35 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
-Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-Subject: Re: [RFC] staging/vSMP: new driver
-Message-ID: <YjLow39rzMmL/qmD@kroah.com>
-References: <PAXPR02MB73106333FD8FA483FAA0DAC181119@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YjLiMzVvbLgrePlq@kroah.com>
- <PAXPR02MB7310426E4B8329062656D8A681129@PAXPR02MB7310.eurprd02.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE1C7A
+	for <linux-staging@lists.linux.dev>; Thu, 17 Mar 2022 07:57:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1647503847;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=rsKGxCT5EMTMvvumRzuTsDlOPEhzZuYv4Wa7W0b1M0o=;
+	b=G0rRxXrCoecpd8gXkpn1dfjZ74Gd4jXoEJeLAiVuXFHB4JQJzyWTcLV4FoMr4A7jgf1gyN
+	99QB4D6Nr6vuT6sZOCGC64B2SPtXX7gJ/1ZsQhq505tDsOK/X4jM3NjrwWCsF3IuWcRhnr
+	jGefcNxRikSiL/BqLwn1gopKoZVv1qU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-98-PV7pdlTjNBShrICZNJoyNw-1; Thu, 17 Mar 2022 03:57:26 -0400
+X-MC-Unique: PV7pdlTjNBShrICZNJoyNw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 603033804076;
+	Thu, 17 Mar 2022 07:57:25 +0000 (UTC)
+Received: from kate-fedora.redhat.com (unknown [10.2.16.41])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 58D31C23DC3;
+	Thu, 17 Mar 2022 07:57:22 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	hdegoede@redhat.com,
+	Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v4] staging: media: ipu3: Fix AF x_start position when rightmost stripe is used
+Date: Thu, 17 Mar 2022 15:57:13 +0800
+Message-Id: <20220317075713.10633-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR02MB7310426E4B8329062656D8A681129@PAXPR02MB7310.eurprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 
-On Thu, Mar 17, 2022 at 07:38:28AM +0000, Czerwacki, Eial wrote:
-> Greetings Greg,
-> 
-> >On Wed, Mar 16, 2022 at 06:13:04PM +0000, Czerwacki, Eial wrote:
-> >> Introducing the vSMP guest driver which allows interaction with the vSMP control device when
-> >> running a Linux OS atop of the vSMP hypervisor.
-> >> vSMP is a resource aggregation hypervisor from SAP.
-> >> 
-> >> the driver comprises of 3 modules, vsmp which includes all the api needed to interact with the
-> >> control driver, vsmp_logs which allows reading logs from the hypervisor and vsmp_common_info which
-> >> allows reading generic information the hypervisor exposes, currently only the version is exposed.
-> >> 
-> >> Signed-off-by: Eial Czerwacki <eial.czerwacki@sap.com>
-> >> ---
-> >>  MAINTAINERS                             |   6 +
-> >>  drivers/staging/Kconfig                 |   2 +
-> >>  drivers/staging/Makefile                |   1 +
-> >>  drivers/staging/vsmp/Kconfig            |  14 +
-> >>  drivers/staging/vsmp/Makefile           |   7 +
-> >>  drivers/staging/vsmp/api.c              | 402 ++++++++++++++++++++++++
-> >>  drivers/staging/vsmp/api.h              |  61 ++++
-> >>  drivers/staging/vsmp/common/Kconfig     |  11 +
-> >>  drivers/staging/vsmp/common/Makefile    |   7 +
-> >>  drivers/staging/vsmp/common/common.c    |  64 ++++
-> >>  drivers/staging/vsmp/common/common.h    |  27 ++
-> >>  drivers/staging/vsmp/common/version.c   |  85 +++++
-> >>  drivers/staging/vsmp/logs/Kconfig       |  10 +
-> >>  drivers/staging/vsmp/logs/Makefile      |   7 +
-> >>  drivers/staging/vsmp/logs/active_logs.c | 112 +++++++
-> >>  drivers/staging/vsmp/registers.h        |  16 +
-> >>  16 files changed, 832 insertions(+)
-> >
-> >800 lines of code turn into 3 modules?  Why isn't this just one module?
-> >Why split them at all?
-> >
-> 
-> imho it is more flexible, if a developer needs only the api part but wants the ability to read only the logs, he can do so without the need to have the module up
-> if you think that merging it to one will increase the changes the driver will be merged to head soon, I'll merge them to one module
+For the AF configuration, if the rightmost stripe is used, the AF scene
+will be at the incorrect location of the sensor.
 
-I do not know, as I do not know what the code does (didn't really look
-at it.)
+The AF coordinate may be set to the right part of the sensor. This
+configuration would lead to x_start being greater than the
+down_scaled_stripes offset and the leftmost stripe would be disabled
+and only the rightmost stripe is used to control the AF coordinate. If
+the x_start doesn't perform any adjustments, the AF coordinate will be
+at the wrong place of the sensor since down_scaled_stripes offset
+would be the new zero of the coordinate system.
 
-Leave it as-is for now, we can review it properly in future submissions,
-you have bigger issues to fix up first :)
+In this patch, if only the rightmost stripe is used, x_start should
+minus down_scaled_stripes offset to maintain its correctness of AF
+scene coordinate.
 
-thanks,
+Changes in v2:
+1. Remove the setting of the first stripe.
 
-greg k-h
+Changes in v4:
+1. x_start is estimated based on the method for both stripes are enabled.
+2. x_end is estimated based on the width.
+
+Signed-off-by: Kate Hsuan <hpa@redhat.com>
+---
+ drivers/staging/media/ipu3/ipu3-css-params.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+index d9e3c3785075..f84cf11358a8 100644
+--- a/drivers/staging/media/ipu3/ipu3-css-params.c
++++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+@@ -2556,6 +2556,15 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
+ 		/* Enable only for rightmost stripe, disable left */
+ 		acc->af.stripes[0].grid_cfg.y_start &=
+ 			~IPU3_UAPI_GRID_Y_START_EN;
++		acc->af.stripes[1].grid_cfg.x_start =
++			(acc->af.stripes[1].grid_cfg.x_start -
++			 acc->stripe.down_scaled_stripes[1].offset) &
++			IPU3_UAPI_GRID_START_MASK;
++		b_w_log2 = acc->af.stripes[1].grid_cfg.block_width_log2;
++		acc->af.stripes[1].grid_cfg.x_end =
++			imgu_css_grid_end(acc->af.stripes[1].grid_cfg.x_start,
++					  acc->af.stripes[1].grid_cfg.width,
++					  b_w_log2);
+ 	} else if (acc->af.config.grid_cfg.x_end <=
+ 		   acc->stripe.bds_out_stripes[0].width - min_overlap) {
+ 		/* Enable only for leftmost stripe, disable right */
+-- 
+2.35.1
+
