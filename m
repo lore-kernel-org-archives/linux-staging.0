@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703947A
-	for <linux-staging@lists.linux.dev>; Thu, 17 Mar 2022 07:51:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C41EC340EC;
-	Thu, 17 Mar 2022 07:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905AB7A
+	for <linux-staging@lists.linux.dev>; Thu, 17 Mar 2022 07:52:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2CA5C340EC;
+	Thu, 17 Mar 2022 07:52:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1647503513;
-	bh=7Zf5+QtCegSRX+H50O4AzUVpVS6UlqMOP3uIjIYnXDQ=;
+	s=korg; t=1647503558;
+	bh=OL8OrlSScfrDStw2fOrQwAyTowg3Pyni7oYdVnzOErE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U4tvOGR1bUk9AGmGpYRFmBUFWxeGrfJrH+tNVNsd9QcSrbU6xQEHQ94iyvalsrcfk
-	 Qce+XM3xZkdEloo+ynF57lHt1fbjgkrhR9iSQ0FWxGXgTCQfGOBlRxxr7sIeS9UW6o
-	 3MGvBs9cYye4NlXvNw8/DseVTiayeI95yRdgTFW4=
-Date: Thu, 17 Mar 2022 08:51:48 +0100
+	b=F4WUKjAu2g6SIAQZcMkLzAIkEVbP/JXP/bIIQluP/LgJPqWv9vC4HEcSD9ZcV7qu+
+	 jSSZHAxnS+mILYR58nG8R2xp8lmmvyoxorDJzZtAZGRGqaC/uezERUs9SIpc+I4/8Z
+	 riqptY/+Apn0mYD+NNzpQuJ8HUxf1SD/grZswK9Q=
+Date: Thu, 17 Mar 2022 08:52:35 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
 Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
 	SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
 Subject: Re: [RFC] staging/vSMP: new driver
-Message-ID: <YjLolEqaRgZKawHl@kroah.com>
+Message-ID: <YjLow39rzMmL/qmD@kroah.com>
 References: <PAXPR02MB73106333FD8FA483FAA0DAC181119@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YjLiC82wSBO1oUIq@kroah.com>
- <PAXPR02MB7310E037FFE7E641C582F67381129@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YjLiMzVvbLgrePlq@kroah.com>
+ <PAXPR02MB7310426E4B8329062656D8A681129@PAXPR02MB7310.eurprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,9 +30,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR02MB7310E037FFE7E641C582F67381129@PAXPR02MB7310.eurprd02.prod.outlook.com>
+In-Reply-To: <PAXPR02MB7310426E4B8329062656D8A681129@PAXPR02MB7310.eurprd02.prod.outlook.com>
 
-On Thu, Mar 17, 2022 at 07:34:30AM +0000, Czerwacki, Eial wrote:
+On Thu, Mar 17, 2022 at 07:38:28AM +0000, Czerwacki, Eial wrote:
 > Greetings Greg,
 > 
 > >On Wed, Mar 16, 2022 at 06:13:04PM +0000, Czerwacki, Eial wrote:
@@ -43,15 +43,7 @@ On Thu, Mar 17, 2022 at 07:34:30AM +0000, Czerwacki, Eial wrote:
 > >> the driver comprises of 3 modules, vsmp which includes all the api needed to interact with the
 > >> control driver, vsmp_logs which allows reading logs from the hypervisor and vsmp_common_info which
 > >> allows reading generic information the hypervisor exposes, currently only the version is exposed.
-> >
-> >Please wrap changelog text at 72 columns, like git asks you to.
-> git didn't asked me to do so, I'll fix it in the next iteration.
-> 
-> >
-> >Also, why did you not cc: the staging maintainer?  :(
-> I've probably missed that when I was going over the docs, my bad.
-> 
-> >
+> >> 
 > >> Signed-off-by: Eial Czerwacki <eial.czerwacki@sap.com>
 > >> ---
 > >>  MAINTAINERS                             |   6 +
@@ -70,39 +62,20 @@ On Thu, Mar 17, 2022 at 07:34:30AM +0000, Czerwacki, Eial wrote:
 > >>  drivers/staging/vsmp/logs/Makefile      |   7 +
 > >>  drivers/staging/vsmp/logs/active_logs.c | 112 +++++++
 > >>  drivers/staging/vsmp/registers.h        |  16 +
+> >>  16 files changed, 832 insertions(+)
 > >
-> >Without looking at the code, I do not see a TODO file here that lists
-> >the tasks that need to be completed to get this out of the
-> >drivers/staging/ directory.  This is a requirement.
-> there are tasks to complete it however I'm not sure they are blockers.
+> >800 lines of code turn into 3 modules?  Why isn't this just one module?
+> >Why split them at all?
+> >
+> 
+> imho it is more flexible, if a developer needs only the api part but wants the ability to read only the logs, he can do so without the need to have the module up
+> if you think that merging it to one will increase the changes the driver will be merged to head soon, I'll merge them to one module
 
-What tasks?
+I do not know, as I do not know what the code does (didn't really look
+at it.)
 
-> >Also, why is this submitted for drivers/staging/ ?  What prevents it
-> >from being merged to the "correct" place in the kernel tree today?
-> afaiu, the correct order for new drivers is staging => mainline.
-
-No, not at all.  This is the "hard way" to get drivers merged.  I would
-never recommend doing it this way for anyone as it will take more time
-and effort than just doing it the correct way the first time.
-
-> in addition, from past experience with the main kernel mailing list, I
-> thought the driver will get more traction here than in the main kernel
-> mailing list.  unless there is a specific mailing list for drivers
-> beside the staging tree one
-
-There are zillions of subsystem mailing lists out there.  Always target
-the specific one you are interested in.  For this code, it should live
-in drivers/virt/ right?  Ah, no mailing list specific for that one, but
-I usually am the one that merges the code in there, so cc: me and Arnd
-and lkml and we can go from there!
-
-Also, you have a bunch of sysfs files, all of those need to be
-documented in Documentation/ABI/ entries as you will see if you run
-scripts/get_abi.pl with your driver loaded.
-
-Also, rip out the old-school PCI bus scanning stuff.  That hasn't been
-needed since the 2.4 kernel days :)
+Leave it as-is for now, we can review it properly in future submissions,
+you have bigger issues to fix up first :)
 
 thanks,
 
