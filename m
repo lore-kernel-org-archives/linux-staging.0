@@ -1,102 +1,185 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB79915A7
-	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 16:50:50 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id m12so10909646edc.12
-        for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 09:50:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162FF5137
+	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 20:59:09 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id b16so10674105ioz.3
+        for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Oijxu/f5iYqZvIjDXs+VJYzgILezr7W6S5yxU4cLB60=;
-        b=MJbIasCfRhwa1NH1dypo3beHOiq9TBtIHjvCEGUEZ7NpriFAL1IoyGPICKVH8vEY/r
-         67Zw5yWC5jkH9CfENfL8ssHzagmKZk97sJWKBH1RGJRlVbciKijZPCn1nF16TqvxQt1N
-         kIzUwgY3WmovpFOU5+5CF2iRXzr4AI5HxGeLvcHAd9/MXqo55KocpszME6BtYeemHL2o
-         CrcZKqXiopX0YvwOhj8UmaGKVF2hvMTSrekJ5NKgTF3+AYgZBuSWA9v7g6Zjbk+YUNqh
-         XeWWJ+6k2fPEBjijBmqIMuJy3ncLys/r+K4I/N7bJj9+D28ryfb4HXGzt8Itr6egKiU8
-         pnBA==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oNAPpR+5qx5bHO8wJ1SIgWig3LUKuwuqLo641jvFAak=;
+        b=R3B03hXdzmRL4FMHavxss76+tb9Q0Hy78NbdGoHIgmWRsuIfciGr2JWywHMf/Kpkhf
+         QniqntLtfhiE8E3Wo0oxTFcS1KWerJtG5tNgnrk3j2xUiX43wMMg+/mjp1wKd5A4aRIu
+         ErIGjgvdava6sQlmLmDCO8Qr2P9RfzXvczFjE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Oijxu/f5iYqZvIjDXs+VJYzgILezr7W6S5yxU4cLB60=;
-        b=wgCJncOdjAR1RUujWFN2PcI/czi51TYBp3sfgBPRv9Zpz0OsbteGMYY8UCyo3gSAoH
-         Y3j9G7C4EMDkqVCNjysM/3LQKzhevUclVwslzzH8zbzBOiL+LNm9uwNno6zqQvOGkTUD
-         xDRGs2SI1MUzdbZo9bf10RYkyAVUrpSangdt2APMsLbVtEnhZzC6GhqBBCkOuyRoXzOf
-         9jwHmtoADlxCCzaBKWJuhcZfDtoXY+ZwhnoADSuoipwhoNqnBN6S5BgMeRj+vqH+H4kj
-         K/KdLU8mKmoqJWGe291Ud4cgZpJfPZeUyhXg+wP51YolA3e7QZTAfe/etQEsJW6n94mI
-         mSKg==
-X-Gm-Message-State: AOAM533Hwlaocwhlv7W//rspn2oOcHhu9dAb+efXUYH6EbEd1YveJGbe
-	DdZyRIqjxOcVItmE5W7tJwnWUQyS3Zwz8g==
-X-Google-Smtp-Source: ABdhPJzHe/FYbC6iOGD84lzpd3XCiGnXiREZKFepXaNGJAi4f2Qgu2pKiNJKo79P3iPLU/XjvSpvNg==
-X-Received: by 2002:a50:bac3:0:b0:418:edb0:4ae8 with SMTP id x61-20020a50bac3000000b00418edb04ae8mr10109911ede.219.1647622249016;
-        Fri, 18 Mar 2022 09:50:49 -0700 (PDT)
-Received: from nam-dell (dslb-002-203-132-165.002.203.pools.vodafone-ip.de. [2.203.132.165])
-        by smtp.gmail.com with ESMTPSA id g2-20020aa7dc42000000b00418ef55eabcsm3613764edu.83.2022.03.18.09.50.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Mar 2022 09:50:48 -0700 (PDT)
-From: Nam Cao <namcaov@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Nam Cao <namcaov@gmail.com>
-Subject: [PATCH] staging: sm750fb: add necessary #include in sm750_accel.h, sm750_cursor.h
-Date: Fri, 18 Mar 2022 17:50:46 +0100
-Message-Id: <20220318165046.33745-1-namcaov@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=oNAPpR+5qx5bHO8wJ1SIgWig3LUKuwuqLo641jvFAak=;
+        b=4Rmjg8mFNdFreuQZ/EL9QkYB91rozcj5zwFAuNauFcYDV9utB2j2WV3RWkb7fuDzDo
+         huRmbPd0D64plqDfxxe1mEI74aeDMkP0fNuDk0Gixz+tLpHkcmvSiAyOqITcpOiv03YZ
+         Bze4hBK4ypPxv9UWC90dyeu6KJqWDi+oDdSBfJLo/8PQCNjVU5N32EoyOeUonfUDmU+7
+         axpz1w7MkTK5f6e5N+/54eY7ng96PdzMwq290OKKfQAeFC3HEyq277uEavFqz7m3SRlT
+         w5um8oDesz1bcMOp404C1Ipw7LaNMZQcqLeJ2g6b7uu3ksul+HhjkyK19kHtjfi2baaS
+         zDxQ==
+X-Gm-Message-State: AOAM5336UAfgmpFD9pCeU9H/TJ83sgMsNOIBbSoH/k5ZySz8+uwRjz3Z
+	Hs+sa9ZBdy5urxaBkq7+GqY1NA==
+X-Google-Smtp-Source: ABdhPJw+g6qtXnLujFKVRv55AGvVhZcbGPndogV4eznqetPdpLwXYueCN6beIFsP8OoV/l235xaSaw==
+X-Received: by 2002:a5d:9542:0:b0:648:f92b:7bc6 with SMTP id a2-20020a5d9542000000b00648f92b7bc6mr5223132ios.73.1647637149068;
+        Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
+Received: from [192.168.1.128] ([71.205.29.0])
+        by smtp.gmail.com with ESMTPSA id d14-20020a056602328e00b006494aa126c2sm3528385ioz.11.2022.03.18.13.59.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Mar 2022 13:59:08 -0700 (PDT)
+Subject: Re: [PATCH 64/64] media: Kconfig: cleanup VIDEO_DEV dependencies
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Fabio Estevam <festevam@gmail.com>, Felipe Balbi <balbi@kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Giulio Benetti <giulio.benetti@benettiengineering.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Heiko Stuebner <heiko@sntech.de>,
+ Heungjun Kim <riverful.kim@samsung.com>,
+ Houlong Wei <houlong.wei@mediatek.com>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, Hyun Kwon
+ <hyun.kwon@xilinx.com>, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Jacob Chen <jacob-chen@iotwrt.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+ Jeff LaBundy <jeff@labundy.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, Joe Hung <joe_hung@ilitek.com>,
+ Joel Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Martina Krasteva <martinax.krasteva@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Michael Grzeschik <m.grzeschik@pengutronix.de>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Michal Simek <michal.simek@xilinx.com>, Mike Isely <isely@pobox.com>,
+ Ming Qian <ming.qian@nxp.com>, Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Olivier Lorin <o.lorin@laposte.net>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Pavel Machek <pavel@ucw.cz>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Randy Dunlap <rdunlap@infradead.org>, Ray Jui <rjui@broadcom.com>,
+ Rick Chang <rick.chang@mediatek.com>, Robert Foss <robert.foss@linaro.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Scott Branden
+ <sbranden@broadcom.com>, Sean Young <sean@mess.org>,
+ Shawn Guo <shawnguo@kernel.org>, Shawn Tu <shawnx.tu@intel.com>,
+ Shijie Qin <shijie.qin@nxp.com>, Sowjanya Komatineni
+ <skomatineni@nvidia.com>, Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin
+ <tiffany.lin@mediatek.com>, Todor Tomov <todor.too@gmail.com>,
+ Vincent Knecht <vincent.knecht@mailoo.org>,
+ Yong Deng <yong.deng@magewell.com>, Yong Zhi <yong.zhi@intel.com>,
+ Zhou Peng <eagle.zhou@nxp.com>, alsa-devel@alsa-project.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ mjpeg-users@lists.sourceforge.net, openbmc@lists.ozlabs.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1647242578.git.mchehab@kernel.org>
+ <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <9e02d88a-3344-8d91-c652-72cb989506de@linuxfoundation.org>
+Date: Fri, 18 Mar 2022 14:59:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-In sm750_cursor.h, struct lynx_cursor is used without including the
-header file where this struct is defined. Similar thing is seen in
-sm750_accel.h.
+On 3/14/22 1:55 AM, Mauro Carvalho Chehab wrote:
+> media Kconfig has two entries associated to V4L API:
+> VIDEO_DEV and VIDEO_V4L2.
+> 
+> On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
+> VIDEO_DEV were meant to:
+> 	1) enable Video4Linux and make its Kconfig options to appear;
+> 	2) it makes the Kernel build the V4L core.
+> 
+> while VIDEO_V4L2 where used to distinguish between drivers that
+> implement the newer API and drivers that implemented the former one.
+> 
+> With time, such meaning changed, specially after the removal of
+> all V4L version 1 drivers.
+> 
+> At the current implementation, VIDEO_DEV only does (1): it enables
+> the media options related to V4L, that now has:
+> 
+> 	menu "Video4Linux options"
+> 		visible if VIDEO_DEV
+> 
+> 	source "drivers/media/v4l2-core/Kconfig"
+> 	endmenu
+> 
+> but it doesn't affect anymore the V4L core drivers.
+> 
+> The rationale is that the V4L2 core has a "soft" dependency
+> at the I2C bus, and now requires to select a number of other
+> Kconfig options:
+> 
+> 	config VIDEO_V4L2
+> 		tristate
+> 		depends on (I2C || I2C=n) && VIDEO_DEV
+> 		select RATIONAL
+> 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
+> 		default (I2C || I2C=n) && VIDEO_DEV
+> 
+> In the past, merging them would be tricky, but it seems that it is now
+> possible to merge those symbols, in order to simplify V4L dependencies.
+> 
+> Let's keep VIDEO_DEV, as this one is used on some make *defconfig
+> configurations.
+> 
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
 
-The module can still be compiled because there is "#include "sm750.h""
-before every "#include "sm750_accel.h"" and "#include "sm750_cursor.h"".
-However, the order of #include should not affect the ability to compile.
+>   drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
+>   drivers/media/test-drivers/vimc/Kconfig       |   2 +-
+>   drivers/media/test-drivers/vivid/Kconfig      |   2 +-
+>
 
-Add "#include "sm750.h"" to sm750_accel.h and sm750_cursor.h.
+For vimc change: (trimmed the recipient list to send response)
 
-Signed-off-by: Nam Cao <namcaov@gmail.com>
----
- drivers/staging/sm750fb/sm750_accel.h  | 2 ++
- drivers/staging/sm750fb/sm750_cursor.h | 2 ++
- 2 files changed, 4 insertions(+)
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
-diff --git a/drivers/staging/sm750fb/sm750_accel.h b/drivers/staging/sm750fb/sm750_accel.h
-index 2c79cb730a0a..fe6ff196272c 100644
---- a/drivers/staging/sm750fb/sm750_accel.h
-+++ b/drivers/staging/sm750fb/sm750_accel.h
-@@ -2,6 +2,8 @@
- #ifndef ACCEL_H__
- #define ACCEL_H__
- 
-+#include "sm750.h"
-+
- #define HW_ROP2_COPY 0xc
- #define HW_ROP2_XOR 0x6
- 
-diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
-index b59643dd61ed..f023b691ac0b 100644
---- a/drivers/staging/sm750fb/sm750_cursor.h
-+++ b/drivers/staging/sm750fb/sm750_cursor.h
-@@ -2,6 +2,8 @@
- #ifndef LYNX_CURSOR_H__
- #define LYNX_CURSOR_H__
- 
-+#include "sm750.h"
-+
- /* hw_cursor_xxx works for voyager,718 and 750 */
- void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
- void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
--- 
-2.25.1
+thanks,
+-- Shuah
+
+
 
