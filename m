@@ -1,132 +1,111 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C01515AA
-	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 06:47:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1647586058;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I3lYvZeJcpFfGGlJYFnn0VDJIi283PypPxo2EohREtU=;
-	b=KS4GE01m2ZrHxFfbSfgIyRqwStcicE1PHECKgoScfVYCQ7KnQLTV02FXOikqY3xdKVCMch
-	AVeSu/PpP6ikkpFePbqtCWNEvP1YjiCT4im16xXJSX5M9E/qPF4nmpyw4PTtafCWLJn/ZS
-	LOS/Ya0aT2RKp54Gz4D5YxfdWPTKxf0=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-8hItwfwsNeGgBwvebqNARw-1; Fri, 18 Mar 2022 02:47:35 -0400
-X-MC-Unique: 8hItwfwsNeGgBwvebqNARw-1
-Received: by mail-lj1-f197.google.com with SMTP id 67-20020a2e0946000000b002493a3be913so3076703ljj.15
-        for <linux-staging@lists.linux.dev>; Thu, 17 Mar 2022 23:47:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2392F2D
+	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 09:04:30 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id o8so4637681pgf.9
+        for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 02:04:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=FXtO594ge8nWoKJhkRK9YLemS9ZVc4q9DV746nBa+bU=;
+        b=iQd+PY1pSOiSzKuysLdHJIP/VldyYqhEj5zXUYhNp5AgOTQwI0PaGAsYgJR+Y7SlsN
+         PVr9PdrqgjPkH+NtCTEGuO/ENGLyq56Ljiz2B2m5fXLTbmOEuqlp3UmJyL2WJB6Fc+CU
+         E/dBN1nrRSsX5mkjjggZoBOhL1x4adzylzHAifEc62Yu6xJhXguiJZ4cw/1iB/egBCUY
+         svuGHXnCK4PZoVcVzCX+mgWyicOWerTWTdqsigjlUxUeWh5+coKcnPrX7aZZHM+EZ/RB
+         /5DD9KrLjiYBTV4sJaFtUpHX8u86iBkDHLrRxEE4/d1VTIUmwfm+DqDqZ0di9nKgQO03
+         HNFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I3lYvZeJcpFfGGlJYFnn0VDJIi283PypPxo2EohREtU=;
-        b=zdJRfdY7JP4Ly/9l9Ijh7yFSvBW6iJWeMj7lfTzW9JvpX8Qgru3JOm28rtMTFv8He/
-         I7rEFlnbpQZCtGPj78aopg6++PcPB8yshTwRN/Jk+CIi2L2aX680w+2aL91VoBWzZlSm
-         tNtc/SdqUXiNcXKH0GVBeFPUImtklkCONVjz1kL8a3Cz6ndBDUAo2gJ017NtcaoUlDBY
-         /nVh6f7MweTQad0X2mrd+TaJ5Pr4QDrXb84kzt0c1eeUAyxwJmQOC9Ojd7Ck0xKItf5j
-         LEt2TFRG1E1yPxbIpJ13b+Yrauz+zAh/ZulBcg9g7h2gLYsnZsaw2p/FnzdHhY5O+vE8
-         94yw==
-X-Gm-Message-State: AOAM533xZkcEC15iLArWedrxAH1W3AUm13eMFhZqyFD3N9VQijH/SZrh
-	1oW1BPeZrO/+KLfUpYnTqe30XW2/gvqq0DG08kC1RV0eqfR5ovcmS+rrPQz0lR2VWgS3DZgpCbN
-	dwzONpiJsKJe5FuD73ltcRUpDAm+CfTnvBT9G54WYSg==
-X-Received: by 2002:a05:651c:1542:b0:246:36c:8d1f with SMTP id y2-20020a05651c154200b00246036c8d1fmr5344713ljp.311.1647586053352;
-        Thu, 17 Mar 2022 23:47:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0I/xHSd8pqwSVkxR1iXkhf+tY1ZEwHylqHNX4opihknbprFolc447b2KSlP6xQEh9ImWdTxXmczEnwgkljXo=
-X-Received: by 2002:a05:651c:1542:b0:246:36c:8d1f with SMTP id
- y2-20020a05651c154200b00246036c8d1fmr5344701ljp.311.1647586053120; Thu, 17
- Mar 2022 23:47:33 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=FXtO594ge8nWoKJhkRK9YLemS9ZVc4q9DV746nBa+bU=;
+        b=cDLD9DXtPSeU/1qpXZ7SQTrPzwrUNaXloCIXlemP8ow/kp91bhLnXxgd5uUujNYeef
+         H31U+XtRDk9eSZW9bS8PXdVrUAjK9PqNG/PqR7F3o24MxbUknwrwh3VNnss9e9wj8MBB
+         Gs9O99pM9PaH4oIt66d5Toabmb5hylDM2Vr4eiMhukvydpCtb+uI5D17mmggP7LZoLLS
+         lsh0jTC7srWe4vy6N+FFAO2ezWwqpI6D+IMtmcH1/qGOQ+O1pGs7KDFvapMmix4BnGAJ
+         c8X2qcbssoJC3YaHyrObc8hhsvoj/hEqBfc3w3U6iyS4MeuOdErQROyUA4bKoXQlv03j
+         rsRQ==
+X-Gm-Message-State: AOAM532pgC+AlrZwB1vu2xJuLtRuFrlIVS+XlVSV92hZT/a+Uo2Xi6to
+	6aBfy9QgR39Kwhd7b/hvZhk=
+X-Google-Smtp-Source: ABdhPJyX5a81jAmAQVWNWUkR1fmd1MXW+wU7Hh5PDemKokzPtuyKb0Mnq49JAgh13Mu6mRSjrYAaog==
+X-Received: by 2002:a05:6a00:989:b0:4f6:f12a:e2ab with SMTP id u9-20020a056a00098900b004f6f12ae2abmr9019013pfg.34.1647594269811;
+        Fri, 18 Mar 2022 02:04:29 -0700 (PDT)
+Received: from ubuntu-vm.jnpr.net ([116.197.184.13])
+        by smtp.gmail.com with ESMTPSA id h16-20020a056a001a5000b004fa343c2d0csm5647867pfv.136.2022.03.18.02.04.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Mar 2022 02:04:28 -0700 (PDT)
+From: Sathish Kumar <skumark1902@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Sathish Kumar <skumark1902@gmail.com>
+Subject: [PATCH] staging: rtl8712: Fix CamelCase warnings
+Date: Fri, 18 Mar 2022 14:33:58 +0530
+Message-Id: <20220318090358.13559-1-skumark1902@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20220317075713.10633-1-hpa@redhat.com> <YjLxFuRXKzg3m9HH@paasikivi.fi.intel.com>
- <CAEth8oHqSS7EsPofmERRB=pmtS8YPP+MeM6fMG6tJT2z_qChxA@mail.gmail.com> <YjL6/wOVjSvZjSZ5@paasikivi.fi.intel.com>
-In-Reply-To: <YjL6/wOVjSvZjSZ5@paasikivi.fi.intel.com>
-From: Kate Hsuan <hpa@redhat.com>
-Date: Fri, 18 Mar 2022 14:47:22 +0800
-Message-ID: <CAEth8oES8abPO4p7eFv43PwDXuxeOmg1661YtVvykBPrkagzKg@mail.gmail.com>
-Subject: Re: [PATCH v4] staging: media: ipu3: Fix AF x_start position when
- rightmost stripe is used
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Hans De Goede <hdegoede@redhat.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hpa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Sakari,
+This patch fixes the checkpatch.pl warnings like:
+CHECK: Avoid CamelCase: <blnEnableRxFF0Filter>
++   u8 blnEnableRxFF0Filter;
 
-On Thu, Mar 17, 2022 at 5:10 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> On Thu, Mar 17, 2022 at 04:53:07PM +0800, Kate Hsuan wrote:
-> > Hi Sakari,
-> >
-> > On Thu, Mar 17, 2022 at 4:28 PM Sakari Ailus
-> > <sakari.ailus@linux.intel.com> wrote:
-> > >
-> > > On Thu, Mar 17, 2022 at 03:57:13PM +0800, Kate Hsuan wrote:
-> > > > For the AF configuration, if the rightmost stripe is used, the AF scene
-> > > > will be at the incorrect location of the sensor.
-> > > >
-> > > > The AF coordinate may be set to the right part of the sensor. This
-> > > > configuration would lead to x_start being greater than the
-> > > > down_scaled_stripes offset and the leftmost stripe would be disabled
-> > > > and only the rightmost stripe is used to control the AF coordinate. If
-> > > > the x_start doesn't perform any adjustments, the AF coordinate will be
-> > > > at the wrong place of the sensor since down_scaled_stripes offset
-> > > > would be the new zero of the coordinate system.
-> > > >
-> > > > In this patch, if only the rightmost stripe is used, x_start should
-> > > > minus down_scaled_stripes offset to maintain its correctness of AF
-> > > > scene coordinate.
-> > > >
-> > > > Changes in v2:
-> > > > 1. Remove the setting of the first stripe.
-> > > >
-> > > > Changes in v4:
-> > > > 1. x_start is estimated based on the method for both stripes are enabled.
-> > > > 2. x_end is estimated based on the width.
-> > >
-> > > Please put the changelog before '---' line. I've removed it from the commit
-> > > message this time.
->
-> I meant to say after. Then it won't be part of the commit message.
+Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
+---
+ drivers/staging/rtl8712/drv_types.h   | 2 +-
+ drivers/staging/rtl8712/rtl871x_cmd.c | 2 +-
+ drivers/staging/rtl8712/xmit_linux.c  | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-Thank you. I understand :)
-
->
-> > >
-> > > --
-> > > Sakari Ailus
-> > >
-> >
-> > Okay, I got it.
-> >
-> > Thank you.
-> >
-> > --
-> > BR,
-> > Kate
-> >
->
-> --
-> Sakari Ailus
->
-
-
+diff --git a/drivers/staging/rtl8712/drv_types.h b/drivers/staging/rtl8712/drv_types.h
+index a44d04effc8b..88845b46131f 100644
+--- a/drivers/staging/rtl8712/drv_types.h
++++ b/drivers/staging/rtl8712/drv_types.h
+@@ -157,7 +157,7 @@ struct _adapter {
+ 	struct iw_statistics iwstats;
+ 	int pid; /*process id from UI*/
+ 	struct work_struct wk_filter_rx_ff0;
+-	u8 blnEnableRxFF0Filter;
++	u8 bln_enable_rx_ff0_filter;
+ 	spinlock_t lock_rx_ff0_filter;
+ 	const struct firmware *fw;
+ 	struct usb_interface *pusb_intf;
+diff --git a/drivers/staging/rtl8712/rtl871x_cmd.c b/drivers/staging/rtl8712/rtl871x_cmd.c
+index acda930722b2..ad82379c062b 100644
+--- a/drivers/staging/rtl8712/rtl871x_cmd.c
++++ b/drivers/staging/rtl8712/rtl871x_cmd.c
+@@ -202,7 +202,7 @@ u8 r8712_sitesurvey_cmd(struct _adapter *padapter,
+ 	mod_timer(&pmlmepriv->scan_to_timer,
+ 		  jiffies + msecs_to_jiffies(SCANNING_TIMEOUT));
+ 	padapter->ledpriv.LedControlHandler(padapter, LED_CTL_SITE_SURVEY);
+-	padapter->blnEnableRxFF0Filter = 0;
++	padapter->bln_enable_rx_ff0_filter = 0;
+ 	return _SUCCESS;
+ }
+ 
+diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
+index 90d34cf9d2ff..7c7435d20580 100644
+--- a/drivers/staging/rtl8712/xmit_linux.c
++++ b/drivers/staging/rtl8712/xmit_linux.c
+@@ -102,11 +102,11 @@ void r8712_SetFilter(struct work_struct *work)
+ 	r8712_write8(adapter, 0x117, newvalue);
+ 
+ 	spin_lock_irqsave(&adapter->lock_rx_ff0_filter, irqL);
+-	adapter->blnEnableRxFF0Filter = 1;
++	adapter->bln_enable_rx_ff0_filter = 1;
+ 	spin_unlock_irqrestore(&adapter->lock_rx_ff0_filter, irqL);
+ 	do {
+ 		msleep(100);
+-	} while (adapter->blnEnableRxFF0Filter == 1);
++	} while (adapter->bln_enable_rx_ff0_filter == 1);
+ 	r8712_write8(adapter, 0x117, oldvalue);
+ }
+ 
 -- 
-BR,
-Kate
+2.17.1
 
