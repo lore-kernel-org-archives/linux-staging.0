@@ -1,167 +1,114 @@
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5945A2F2D
-	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 09:51:15 +0000 (UTC)
-HMM_SOURCE_IP:10.64.8.31:36022.1773867350
-HMM_ATTACHE_NUM:0000
-HMM_SOURCE_TYPE:SMTP
-Received: from clientip-123.150.8.43 (unknown [10.64.8.31])
-	by 189.cn (HERMES) with SMTP id 2ABC21001B4;
-	Fri, 18 Mar 2022 17:51:06 +0800 (CST)
-Received: from  ([123.150.8.43])
-	by gateway-153622-dep-749df8664c-cv9r2 with ESMTP id 374a5bf189884f2aa252180a3e8c7832 for johan@kernel.org;
-	Fri, 18 Mar 2022 17:51:08 CST
-X-Transaction-ID: 374a5bf189884f2aa252180a3e8c7832
-X-Real-From: chensong_2000@189.cn
-X-Receive-IP: 123.150.8.43
-X-MEDUSA-Status: 0
-Sender: chensong_2000@189.cn
-From: Song Chen <chensong_2000@189.cn>
-To: johan@kernel.org,
-	elder@kernel.org,
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE6015A9
+	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 10:34:36 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id p5so2964746pfo.5
+        for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 03:34:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=fRESBb1qpqOH9PJ2aIurp7ZJ33pgIpvPdKysm8+ZUG8=;
+        b=m1JnxZNmOmklJD60WMV143YD8TVkfFZmJ0lRDEIH5wGUwBgCOy0jLaCItaxJGnJSKs
+         sg4mCCoIR/d5cEzvGC9bVdphVHckM+do3oNU7vLKqKr9V++Sq4S5ZUHnyDWGO/re27vV
+         d53908yvPrSiGyDYs4JNhkiBzOY5WfCqis+MU35iOkXB9ZcoWb9XSk7XfYt44RyTk2tX
+         KSfjXmj9JIvTdDY2mDNX2gffmIWvjoEtpuPA/UMk4DkIk52LBWxiy4bsHn/SN6yUM+qn
+         96oVYjOdg7kMMEYaGCZBnTfwZ4/ydUeLu/p4Xo+3CleGnXP4mFK6Tyl41nC7IstJ6t33
+         YnEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=fRESBb1qpqOH9PJ2aIurp7ZJ33pgIpvPdKysm8+ZUG8=;
+        b=KgfFyie+ecgU5sAYqtaqtJGShI69S+Bftyt7UmqjRUWCySJBE0RkOEvWIyb0sHyI3C
+         WTpjymNqIL1A2VS6ntQu1hadlppfExfYpFfAIn+UmDduqtNUIETJsApGoBpe0OkIvfPi
+         a9CPZz7qswULOUytNd6fx/7ZbToGPIw2wSU9BPtHSdOITCUkDeIee2VpeiX8tPMd1qfw
+         XIqjarAv2HbrWfKcUKSNTxKWOFuq3oiFbmKXYbtyVZlw28VXx4OZ2HB4BsXA3ws9RH7R
+         sm/cIQDx9hJpgCZU4jN8TQYrSpjgq77OtrCSN86liwKghwaomSbmVCzOExk7yCpWo9t9
+         4g6Q==
+X-Gm-Message-State: AOAM533nEuTGvJRbWlstuu/fYq927FE6vOemqm3SAFFblGCcP863psKf
+	enD7UJGeukhf74Q7wtPM0xo=
+X-Google-Smtp-Source: ABdhPJz43YC1eoOd62V/z1W6lJ89r3eS9lSSJ+X5l3p3fxrWsewgbBcxvOxdHWh5mrV6rLpl720ypg==
+X-Received: by 2002:a63:b06:0:b0:374:5e1a:150a with SMTP id 6-20020a630b06000000b003745e1a150amr7149034pgl.137.1647599675723;
+        Fri, 18 Mar 2022 03:34:35 -0700 (PDT)
+Received: from ubuntu-vm.jnpr.net ([116.197.184.15])
+        by smtp.gmail.com with ESMTPSA id b9-20020a056a000cc900b004f7ac2189e2sm9528808pfv.191.2022.03.18.03.34.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Mar 2022 03:34:35 -0700 (PDT)
+From: Sathish Kumar <skumark1902@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
 	gregkh@linuxfoundation.org,
-	thierry.reding@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	lee.jones@linaro.org,
-	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	elder@ieee.org,
-	elder@linaro.org
-Cc: Song Chen <chensong_2000@189.cn>
-Subject: [PATCH v6] staging: greybus: introduce pwm_ops::apply
-Date: Fri, 18 Mar 2022 17:57:12 +0800
-Message-Id: <1647597432-27586-1-git-send-email-chensong_2000@189.cn>
-X-Mailer: git-send-email 2.7.4
+	linux-kernel@vger.kernel.org
+Cc: Sathish Kumar <skumark1902@gmail.com>
+Subject: [PATCH v2] staging: rtl8712: Fix CamelCase warnings
+Date: Fri, 18 Mar 2022 15:44:40 +0530
+Message-Id: <20220318101440.13887-1-skumark1902@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Introduce newer .apply function in pwm_ops to replace legacy operations
-including enable, disable, config and set_polarity.
+This patch fixes the checkpatch.pl warnings like:
+CHECK: Avoid CamelCase: <blnEnableRxFF0Filter>
++   u8 blnEnableRxFF0Filter;
 
-This guarantees atomic changes of the pwm controller configuration.
-
-Signed-off-by: Song Chen <chensong_2000@189.cn>
-
+Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
 ---
-v2:
-1, define duty_cycle and period as u64 in gb_pwm_config_operation.
-2, define duty and period as u64 in gb_pwm_config_request.
-3, disable before configuring duty and period if the eventual goal
-   is a disabled state.
-
-v3:
-Regarding duty_cycle and period, I read more discussion in this thread,
-min, warn or -EINVAL, seems no perfect way acceptable for everyone.
-How about we limit their value to INT_MAX and throw a warning at the
-same time when they are wrong?
-
-v4:
-1, explain why legacy operations are replaced.
-2, cap the value of period and duty to U32_MAX.
-
-v5:
-1, revise commit message.
-
-v6:
-1, revise commit message.
-2, explain why capping the value of period and duty to U32_MAX in
-   comment.
+Changes in v2:
+    - Remove the "bln" prefix
 ---
- drivers/staging/greybus/pwm.c | 64 ++++++++++++++++++++++-------------
- 1 file changed, 40 insertions(+), 24 deletions(-)
+ drivers/staging/rtl8712/drv_types.h   | 2 +-
+ drivers/staging/rtl8712/rtl871x_cmd.c | 2 +-
+ drivers/staging/rtl8712/xmit_linux.c  | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
-index 891a6a672378..ad20ec24031e 100644
---- a/drivers/staging/greybus/pwm.c
-+++ b/drivers/staging/greybus/pwm.c
-@@ -204,43 +204,59 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
- 	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
+diff --git a/drivers/staging/rtl8712/drv_types.h b/drivers/staging/rtl8712/drv_types.h
+index a44d04effc8b..4de3aad08242 100644
+--- a/drivers/staging/rtl8712/drv_types.h
++++ b/drivers/staging/rtl8712/drv_types.h
+@@ -157,7 +157,7 @@ struct _adapter {
+ 	struct iw_statistics iwstats;
+ 	int pid; /*process id from UI*/
+ 	struct work_struct wk_filter_rx_ff0;
+-	u8 blnEnableRxFF0Filter;
++	u8 enable_rx_ff0_filter;
+ 	spinlock_t lock_rx_ff0_filter;
+ 	const struct firmware *fw;
+ 	struct usb_interface *pusb_intf;
+diff --git a/drivers/staging/rtl8712/rtl871x_cmd.c b/drivers/staging/rtl8712/rtl871x_cmd.c
+index acda930722b2..69d3c55ee9e5 100644
+--- a/drivers/staging/rtl8712/rtl871x_cmd.c
++++ b/drivers/staging/rtl8712/rtl871x_cmd.c
+@@ -202,7 +202,7 @@ u8 r8712_sitesurvey_cmd(struct _adapter *padapter,
+ 	mod_timer(&pmlmepriv->scan_to_timer,
+ 		  jiffies + msecs_to_jiffies(SCANNING_TIMEOUT));
+ 	padapter->ledpriv.LedControlHandler(padapter, LED_CTL_SITE_SURVEY);
+-	padapter->blnEnableRxFF0Filter = 0;
++	padapter->enable_rx_ff0_filter = 0;
+ 	return _SUCCESS;
  }
  
--static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
--			 int duty_ns, int period_ns)
-+static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			const struct pwm_state *state)
- {
-+	int err;
-+	bool enabled = pwm->state.enabled;
-+	u64 period = state->period;
-+	u64 duty_cycle = state->duty_cycle;
- 	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
+index 90d34cf9d2ff..d58ae5b387d4 100644
+--- a/drivers/staging/rtl8712/xmit_linux.c
++++ b/drivers/staging/rtl8712/xmit_linux.c
+@@ -102,11 +102,11 @@ void r8712_SetFilter(struct work_struct *work)
+ 	r8712_write8(adapter, 0x117, newvalue);
  
--	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
--};
-+	/* Set polarity */
-+	if (state->polarity != pwm->state.polarity) {
-+		if (enabled) {
-+			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
-+			enabled = false;
-+		}
-+		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
-+		if (err)
-+			return err;
-+	}
- 
--static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
--			       enum pwm_polarity polarity)
--{
--	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
-+	if (!state->enabled) {
-+		if (enabled)
-+			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
-+		return 0;
-+	}
- 
--	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
--};
-+	/*
-+	 * Set period and duty cycle
-+	 *
-+	 * PWM privodes 64-bit period and duty_cycle, but greybus only accepts
-+	 * 32-bit, so their values have to be limited to U32_MAX.
-+	 */
-+	if (period > U32_MAX)
-+		period = U32_MAX;
- 
--static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
--{
--	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
-+	if (duty_cycle > period)
-+		duty_cycle = period;
- 
--	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
--};
-+	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
-+	if (err)
-+		return err;
- 
--static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
--{
--	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
-+	/* enable/disable */
-+	if (!enabled)
-+		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
- 
--	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
--};
-+	return 0;
-+}
- 
- static const struct pwm_ops gb_pwm_ops = {
- 	.request = gb_pwm_request,
- 	.free = gb_pwm_free,
--	.config = gb_pwm_config,
--	.set_polarity = gb_pwm_set_polarity,
--	.enable = gb_pwm_enable,
--	.disable = gb_pwm_disable,
-+	.apply = gb_pwm_apply,
- 	.owner = THIS_MODULE,
- };
+ 	spin_lock_irqsave(&adapter->lock_rx_ff0_filter, irqL);
+-	adapter->blnEnableRxFF0Filter = 1;
++	adapter->enable_rx_ff0_filter = 1;
+ 	spin_unlock_irqrestore(&adapter->lock_rx_ff0_filter, irqL);
+ 	do {
+ 		msleep(100);
+-	} while (adapter->blnEnableRxFF0Filter == 1);
++	} while (adapter->enable_rx_ff0_filter == 1);
+ 	r8712_write8(adapter, 0x117, oldvalue);
+ }
  
 -- 
-2.25.1
+2.17.1
 
