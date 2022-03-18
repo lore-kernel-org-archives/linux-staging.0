@@ -1,179 +1,102 @@
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9C6115A8
-	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 12:58:21 +0000 (UTC)
-HMM_SOURCE_IP:10.64.8.31:34786.918040143
-HMM_ATTACHE_NUM:0000
-HMM_SOURCE_TYPE:SMTP
-Received: from clientip-117.13.170.79 (unknown [10.64.8.31])
-	by 189.cn (HERMES) with SMTP id E2DA4100132;
-	Fri, 18 Mar 2022 20:58:12 +0800 (CST)
-Received: from  ([117.13.170.79])
-	by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id 42c959ff59a34243a620c7ace1295b92 for elder@ieee.org;
-	Fri, 18 Mar 2022 20:58:13 CST
-X-Transaction-ID: 42c959ff59a34243a620c7ace1295b92
-X-Real-From: chensong_2000@189.cn
-X-Receive-IP: 117.13.170.79
-X-MEDUSA-Status: 0
-Sender: chensong_2000@189.cn
-Subject: Re: [PATCH v6] staging: greybus: introduce pwm_ops::apply
-To: Alex Elder <elder@linaro.org>, johan@kernel.org, elder@kernel.org,
- gregkh@linuxfoundation.org, thierry.reding@gmail.com,
- u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, elder@ieee.org
-References: <1647597432-27586-1-git-send-email-chensong_2000@189.cn>
- <a4b3ad02-f1c7-c13b-7740-d5b9982bd7c7@linaro.org>
-From: chensong <chensong_2000@189.cn>
-Message-ID: <a8b8def4-dbf0-cfd0-d456-265ab4fc8d7f@189.cn>
-Date: Fri, 18 Mar 2022 20:58:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB79915A7
+	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 16:50:50 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id m12so10909646edc.12
+        for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 09:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Oijxu/f5iYqZvIjDXs+VJYzgILezr7W6S5yxU4cLB60=;
+        b=MJbIasCfRhwa1NH1dypo3beHOiq9TBtIHjvCEGUEZ7NpriFAL1IoyGPICKVH8vEY/r
+         67Zw5yWC5jkH9CfENfL8ssHzagmKZk97sJWKBH1RGJRlVbciKijZPCn1nF16TqvxQt1N
+         kIzUwgY3WmovpFOU5+5CF2iRXzr4AI5HxGeLvcHAd9/MXqo55KocpszME6BtYeemHL2o
+         CrcZKqXiopX0YvwOhj8UmaGKVF2hvMTSrekJ5NKgTF3+AYgZBuSWA9v7g6Zjbk+YUNqh
+         XeWWJ+6k2fPEBjijBmqIMuJy3ncLys/r+K4I/N7bJj9+D28ryfb4HXGzt8Itr6egKiU8
+         pnBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Oijxu/f5iYqZvIjDXs+VJYzgILezr7W6S5yxU4cLB60=;
+        b=wgCJncOdjAR1RUujWFN2PcI/czi51TYBp3sfgBPRv9Zpz0OsbteGMYY8UCyo3gSAoH
+         Y3j9G7C4EMDkqVCNjysM/3LQKzhevUclVwslzzH8zbzBOiL+LNm9uwNno6zqQvOGkTUD
+         xDRGs2SI1MUzdbZo9bf10RYkyAVUrpSangdt2APMsLbVtEnhZzC6GhqBBCkOuyRoXzOf
+         9jwHmtoADlxCCzaBKWJuhcZfDtoXY+ZwhnoADSuoipwhoNqnBN6S5BgMeRj+vqH+H4kj
+         K/KdLU8mKmoqJWGe291Ud4cgZpJfPZeUyhXg+wP51YolA3e7QZTAfe/etQEsJW6n94mI
+         mSKg==
+X-Gm-Message-State: AOAM533Hwlaocwhlv7W//rspn2oOcHhu9dAb+efXUYH6EbEd1YveJGbe
+	DdZyRIqjxOcVItmE5W7tJwnWUQyS3Zwz8g==
+X-Google-Smtp-Source: ABdhPJzHe/FYbC6iOGD84lzpd3XCiGnXiREZKFepXaNGJAi4f2Qgu2pKiNJKo79P3iPLU/XjvSpvNg==
+X-Received: by 2002:a50:bac3:0:b0:418:edb0:4ae8 with SMTP id x61-20020a50bac3000000b00418edb04ae8mr10109911ede.219.1647622249016;
+        Fri, 18 Mar 2022 09:50:49 -0700 (PDT)
+Received: from nam-dell (dslb-002-203-132-165.002.203.pools.vodafone-ip.de. [2.203.132.165])
+        by smtp.gmail.com with ESMTPSA id g2-20020aa7dc42000000b00418ef55eabcsm3613764edu.83.2022.03.18.09.50.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Mar 2022 09:50:48 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Nam Cao <namcaov@gmail.com>
+Subject: [PATCH] staging: sm750fb: add necessary #include in sm750_accel.h, sm750_cursor.h
+Date: Fri, 18 Mar 2022 17:50:46 +0100
+Message-Id: <20220318165046.33745-1-namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <a4b3ad02-f1c7-c13b-7740-d5b9982bd7c7@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-hi Alex,
+In sm750_cursor.h, struct lynx_cursor is used without including the
+header file where this struct is defined. Similar thing is seen in
+sm750_accel.h.
 
-On 2022/3/18 下午8:15, Alex Elder wrote:
-> On 3/18/22 4:57 AM, Song Chen wrote:
->> Introduce newer .apply function in pwm_ops to replace legacy operations
->> including enable, disable, config and set_polarity.
->>
->> This guarantees atomic changes of the pwm controller configuration.
->>
->> Signed-off-by: Song Chen <chensong_2000@189.cn>
-> 
-> I had another comment suggestion but you've been through enough.
-> Thanks for working this to completion.
+The module can still be compiled because there is "#include "sm750.h""
+before every "#include "sm750_accel.h"" and "#include "sm750_cursor.h"".
+However, the order of #include should not affect the ability to compile.
 
-sorry about that, i probably missed it somehow. Thanks for the 
-understanding.
+Add "#include "sm750.h"" to sm750_accel.h and sm750_cursor.h.
 
-Song
+Signed-off-by: Nam Cao <namcaov@gmail.com>
+---
+ drivers/staging/sm750fb/sm750_accel.h  | 2 ++
+ drivers/staging/sm750fb/sm750_cursor.h | 2 ++
+ 2 files changed, 4 insertions(+)
 
-> 
-> Reviewed-by: Alex Elder <elder@linaro.org>
-> 
->>
->> ---
->> v2:
->> 1, define duty_cycle and period as u64 in gb_pwm_config_operation.
->> 2, define duty and period as u64 in gb_pwm_config_request.
->> 3, disable before configuring duty and period if the eventual goal
->>     is a disabled state.
->>
->> v3:
->> Regarding duty_cycle and period, I read more discussion in this thread,
->> min, warn or -EINVAL, seems no perfect way acceptable for everyone.
->> How about we limit their value to INT_MAX and throw a warning at the
->> same time when they are wrong?
->>
->> v4:
->> 1, explain why legacy operations are replaced.
->> 2, cap the value of period and duty to U32_MAX.
->>
->> v5:
->> 1, revise commit message.
->>
->> v6:
->> 1, revise commit message.
->> 2, explain why capping the value of period and duty to U32_MAX in
->>     comment.
->> ---
->>   drivers/staging/greybus/pwm.c | 64 ++++++++++++++++++++++-------------
->>   1 file changed, 40 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/staging/greybus/pwm.c 
->> b/drivers/staging/greybus/pwm.c
->> index 891a6a672378..ad20ec24031e 100644
->> --- a/drivers/staging/greybus/pwm.c
->> +++ b/drivers/staging/greybus/pwm.c
->> @@ -204,43 +204,59 @@ static void gb_pwm_free(struct pwm_chip *chip, 
->> struct pwm_device *pwm)
->>       gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
->>   }
->> -static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
->> -             int duty_ns, int period_ns)
->> +static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
->> +            const struct pwm_state *state)
->>   {
->> +    int err;
->> +    bool enabled = pwm->state.enabled;
->> +    u64 period = state->period;
->> +    u64 duty_cycle = state->duty_cycle;
->>       struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->> -    return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, 
->> period_ns);
->> -};
->> +    /* Set polarity */
->> +    if (state->polarity != pwm->state.polarity) {
->> +        if (enabled) {
->> +            gb_pwm_disable_operation(pwmc, pwm->hwpwm);
->> +            enabled = false;
->> +        }
->> +        err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, 
->> state->polarity);
->> +        if (err)
->> +            return err;
->> +    }
->> -static int gb_pwm_set_polarity(struct pwm_chip *chip, struct 
->> pwm_device *pwm,
->> -                   enum pwm_polarity polarity)
->> -{
->> -    struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->> +    if (!state->enabled) {
->> +        if (enabled)
->> +            gb_pwm_disable_operation(pwmc, pwm->hwpwm);
->> +        return 0;
->> +    }
->> -    return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
->> -};
->> +    /*
->> +     * Set period and duty cycle
->> +     *
->> +     * PWM privodes 64-bit period and duty_cycle, but greybus only 
->> accepts
->> +     * 32-bit, so their values have to be limited to U32_MAX.
->> +     */
->> +    if (period > U32_MAX)
->> +        period = U32_MAX;
->> -static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
->> -{
->> -    struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->> +    if (duty_cycle > period)
->> +        duty_cycle = period;
->> -    return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
->> -};
->> +    err = gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
->> +    if (err)
->> +        return err;
->> -static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device 
->> *pwm)
->> -{
->> -    struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
->> +    /* enable/disable */
->> +    if (!enabled)
->> +        return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
->> -    gb_pwm_disable_operation(pwmc, pwm->hwpwm);
->> -};
->> +    return 0;
->> +}
->>   static const struct pwm_ops gb_pwm_ops = {
->>       .request = gb_pwm_request,
->>       .free = gb_pwm_free,
->> -    .config = gb_pwm_config,
->> -    .set_polarity = gb_pwm_set_polarity,
->> -    .enable = gb_pwm_enable,
->> -    .disable = gb_pwm_disable,
->> +    .apply = gb_pwm_apply,
->>       .owner = THIS_MODULE,
->>   };
-> 
-> 
+diff --git a/drivers/staging/sm750fb/sm750_accel.h b/drivers/staging/sm750fb/sm750_accel.h
+index 2c79cb730a0a..fe6ff196272c 100644
+--- a/drivers/staging/sm750fb/sm750_accel.h
++++ b/drivers/staging/sm750fb/sm750_accel.h
+@@ -2,6 +2,8 @@
+ #ifndef ACCEL_H__
+ #define ACCEL_H__
+ 
++#include "sm750.h"
++
+ #define HW_ROP2_COPY 0xc
+ #define HW_ROP2_XOR 0x6
+ 
+diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
+index b59643dd61ed..f023b691ac0b 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.h
++++ b/drivers/staging/sm750fb/sm750_cursor.h
+@@ -2,6 +2,8 @@
+ #ifndef LYNX_CURSOR_H__
+ #define LYNX_CURSOR_H__
+ 
++#include "sm750.h"
++
+ /* hw_cursor_xxx works for voyager,718 and 750 */
+ void sm750_hw_cursor_enable(struct lynx_cursor *cursor);
+ void sm750_hw_cursor_disable(struct lynx_cursor *cursor);
+-- 
+2.25.1
+
