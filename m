@@ -1,100 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EE648B7
-	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 11:28:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D2D8C340E8;
-	Fri, 18 Mar 2022 11:28:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1647602886;
-	bh=XLQdldPHGNEHIsD6t21nuOci19JYv52oxjj5ejLailY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AUl4eWnxAjZyFOZZQFeg+pe4ZX1NO98jHQGDXaPAKwUzDX9kKfj8efmQeuE1CqVRz
-	 OZTs+nliTyrlSXQPAwgI1i71ZOjVBXGu31afm7Mltc7AbaKgv2uNHhfH3cgk18QobM
-	 Wd5ZuiWnArMRVMl8LQib6pK8o3sS2qIin4MuTptw=
-Date: Fri, 18 Mar 2022 12:28:02 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sathish Kumar <skumark1902@gmail.com>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8712: Fix CamelCase warnings
-Message-ID: <YjRswrHu0JUm9331@kroah.com>
-References: <20220318101440.13887-1-skumark1902@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7029248D8
+	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 12:15:37 +0000 (UTC)
+Received: by mail-il1-f177.google.com with SMTP id r2so5708134ilh.0
+        for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 05:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=vfOVKzjXEJgbasTjmTrxtQ69SXV3NL2wUbcICFdrT0Q=;
+        b=Mp8xNUnf83O5UYm8HTwhZw+W8dX1ciFYSag/WGoXxhkPD7uDumvEh2gYMaggbJsjlE
+         SS4056+GwHrKQyAY9SS15Iwwe65HKU/VmwlJIBuDswLhvXwh/sm6WDe1XjKJxTzKn5nk
+         74HQnq0MWfj4i2kLZnNHPsleSR9V7o2XKStbKUD2qLe4Mou8VqiK+yZHwcztCS2ocldZ
+         hn9xhi5G0YfgaNNuydrzT+gAs3+90qnF6jyppovYY4VlNP1y/o/Yr39zSwDQFNbl73RW
+         TQxweW8oXAeaaiGUxcgNmRYYaXfWwPdjNt+B8Sf6gg7ADxDbO5dr4kDG0GJVobuGP5ej
+         uYag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=vfOVKzjXEJgbasTjmTrxtQ69SXV3NL2wUbcICFdrT0Q=;
+        b=C1tMhYaCvy/BqX/euIuP1R4hc3ZW3xP3yFp24IUcsCJ3nlRJrqc7xwpj6B0MreCq8B
+         wtSKHAbok0BjsuQZyy/WbsmNQwXdBUcorLNLqVaVtxb63KlipILL2fgW1qtP509myZ92
+         Ev1ZWpvYJPdkMvgekD8WIeMGAuO24Jxzc5T6jkDhbduZjdzU3CmqPHgoWgypAz7LGxPs
+         LxGAoQJRxaMFncumcYwoa36kLNLq+BXWKtEW/ZTT39F9f2vrKBDOHdRmLI/A7WoEjD2r
+         E85y1NLYco2TRj6TjicGUroKJfCsgpSMjC05uqQ5dSdqUCm1WyMzNVDlk7DSB1QGD5YG
+         EERg==
+X-Gm-Message-State: AOAM532ErEMCzGyrm4P2wEeS9bsINBs6qrBCiENdEZZuCs+qC8Aa29U8
+	vCWKJ/3uw4yG9n5KlTWQrD2QzA==
+X-Google-Smtp-Source: ABdhPJy4jNJGr92YWGl0Z7hprUxfmBOjlbNFBAjBrGpbebIFPWycBIChT+nePxjFSYCqEThHJqi7hw==
+X-Received: by 2002:a05:6e02:1581:b0:2c2:5aef:db32 with SMTP id m1-20020a056e02158100b002c25aefdb32mr4607238ilu.158.1647605736347;
+        Fri, 18 Mar 2022 05:15:36 -0700 (PDT)
+Received: from [172.22.22.26] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id k2-20020a056e02156200b002c7881bf27asm4984760ilu.27.2022.03.18.05.15.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Mar 2022 05:15:35 -0700 (PDT)
+Message-ID: <a4b3ad02-f1c7-c13b-7740-d5b9982bd7c7@linaro.org>
+Date: Fri, 18 Mar 2022 07:15:34 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220318101440.13887-1-skumark1902@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6] staging: greybus: introduce pwm_ops::apply
+Content-Language: en-US
+To: Song Chen <chensong_2000@189.cn>, johan@kernel.org, elder@kernel.org,
+ gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+ u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, elder@ieee.org
+References: <1647597432-27586-1-git-send-email-chensong_2000@189.cn>
+From: Alex Elder <elder@linaro.org>
+In-Reply-To: <1647597432-27586-1-git-send-email-chensong_2000@189.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 18, 2022 at 03:44:40PM +0530, Sathish Kumar wrote:
-> This patch fixes the checkpatch.pl warnings like:
-> CHECK: Avoid CamelCase: <blnEnableRxFF0Filter>
-> +   u8 blnEnableRxFF0Filter;
+On 3/18/22 4:57 AM, Song Chen wrote:
+> Introduce newer .apply function in pwm_ops to replace legacy operations
+> including enable, disable, config and set_polarity.
 > 
-> Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
-> ---
-> Changes in v2:
->     - Remove the "bln" prefix
-> ---
->  drivers/staging/rtl8712/drv_types.h   | 2 +-
->  drivers/staging/rtl8712/rtl871x_cmd.c | 2 +-
->  drivers/staging/rtl8712/xmit_linux.c  | 4 ++--
->  3 files changed, 4 insertions(+), 4 deletions(-)
+> This guarantees atomic changes of the pwm controller configuration.
 > 
-> diff --git a/drivers/staging/rtl8712/drv_types.h b/drivers/staging/rtl8712/drv_types.h
-> index a44d04effc8b..4de3aad08242 100644
-> --- a/drivers/staging/rtl8712/drv_types.h
-> +++ b/drivers/staging/rtl8712/drv_types.h
-> @@ -157,7 +157,7 @@ struct _adapter {
->  	struct iw_statistics iwstats;
->  	int pid; /*process id from UI*/
->  	struct work_struct wk_filter_rx_ff0;
-> -	u8 blnEnableRxFF0Filter;
-> +	u8 enable_rx_ff0_filter;
+> Signed-off-by: Song Chen <chensong_2000@189.cn>
 
-Shouldn't this be a boolean?
+I had another comment suggestion but you've been through enough.
+Thanks for working this to completion.
 
->  	spinlock_t lock_rx_ff0_filter;
->  	const struct firmware *fw;
->  	struct usb_interface *pusb_intf;
-> diff --git a/drivers/staging/rtl8712/rtl871x_cmd.c b/drivers/staging/rtl8712/rtl871x_cmd.c
-> index acda930722b2..69d3c55ee9e5 100644
-> --- a/drivers/staging/rtl8712/rtl871x_cmd.c
-> +++ b/drivers/staging/rtl8712/rtl871x_cmd.c
-> @@ -202,7 +202,7 @@ u8 r8712_sitesurvey_cmd(struct _adapter *padapter,
->  	mod_timer(&pmlmepriv->scan_to_timer,
->  		  jiffies + msecs_to_jiffies(SCANNING_TIMEOUT));
->  	padapter->ledpriv.LedControlHandler(padapter, LED_CTL_SITE_SURVEY);
-> -	padapter->blnEnableRxFF0Filter = 0;
-> +	padapter->enable_rx_ff0_filter = 0;
->  	return _SUCCESS;
->  }
->  
-> diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
-> index 90d34cf9d2ff..d58ae5b387d4 100644
-> --- a/drivers/staging/rtl8712/xmit_linux.c
-> +++ b/drivers/staging/rtl8712/xmit_linux.c
-> @@ -102,11 +102,11 @@ void r8712_SetFilter(struct work_struct *work)
->  	r8712_write8(adapter, 0x117, newvalue);
->  
->  	spin_lock_irqsave(&adapter->lock_rx_ff0_filter, irqL);
-> -	adapter->blnEnableRxFF0Filter = 1;
-> +	adapter->enable_rx_ff0_filter = 1;
->  	spin_unlock_irqrestore(&adapter->lock_rx_ff0_filter, irqL);
->  	do {
->  		msleep(100);
-> -	} while (adapter->blnEnableRxFF0Filter == 1);
-> +	} while (adapter->enable_rx_ff0_filter == 1);
+Reviewed-by: Alex Elder <elder@linaro.org>
 
-Ah, that's funny.  It's amazing it works at all and that the compiler
-doesn't optimize this away.  This isn't a good pattern to use in kernel
-code.  I know it's not caused by your change here, but perhaps you might
-want to fix this up to work properly?
+> 
+> ---
+> v2:
+> 1, define duty_cycle and period as u64 in gb_pwm_config_operation.
+> 2, define duty and period as u64 in gb_pwm_config_request.
+> 3, disable before configuring duty and period if the eventual goal
+>     is a disabled state.
+> 
+> v3:
+> Regarding duty_cycle and period, I read more discussion in this thread,
+> min, warn or -EINVAL, seems no perfect way acceptable for everyone.
+> How about we limit their value to INT_MAX and throw a warning at the
+> same time when they are wrong?
+> 
+> v4:
+> 1, explain why legacy operations are replaced.
+> 2, cap the value of period and duty to U32_MAX.
+> 
+> v5:
+> 1, revise commit message.
+> 
+> v6:
+> 1, revise commit message.
+> 2, explain why capping the value of period and duty to U32_MAX in
+>     comment.
+> ---
+>   drivers/staging/greybus/pwm.c | 64 ++++++++++++++++++++++-------------
+>   1 file changed, 40 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+> index 891a6a672378..ad20ec24031e 100644
+> --- a/drivers/staging/greybus/pwm.c
+> +++ b/drivers/staging/greybus/pwm.c
+> @@ -204,43 +204,59 @@ static void gb_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+>   	gb_pwm_deactivate_operation(pwmc, pwm->hwpwm);
+>   }
+>   
+> -static int gb_pwm_config(struct pwm_chip *chip, struct pwm_device *pwm,
+> -			 int duty_ns, int period_ns)
+> +static int gb_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			const struct pwm_state *state)
+>   {
+> +	int err;
+> +	bool enabled = pwm->state.enabled;
+> +	u64 period = state->period;
+> +	u64 duty_cycle = state->duty_cycle;
+>   	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+>   
+> -	return gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_ns, period_ns);
+> -};
+> +	/* Set polarity */
+> +	if (state->polarity != pwm->state.polarity) {
+> +		if (enabled) {
+> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+> +			enabled = false;
+> +		}
+> +		err = gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, state->polarity);
+> +		if (err)
+> +			return err;
+> +	}
+>   
+> -static int gb_pwm_set_polarity(struct pwm_chip *chip, struct pwm_device *pwm,
+> -			       enum pwm_polarity polarity)
+> -{
+> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+> +	if (!state->enabled) {
+> +		if (enabled)
+> +			gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+> +		return 0;
+> +	}
+>   
+> -	return gb_pwm_set_polarity_operation(pwmc, pwm->hwpwm, polarity);
+> -};
+> +	/*
+> +	 * Set period and duty cycle
+> +	 *
+> +	 * PWM privodes 64-bit period and duty_cycle, but greybus only accepts
+> +	 * 32-bit, so their values have to be limited to U32_MAX.
+> +	 */
+> +	if (period > U32_MAX)
+> +		period = U32_MAX;
+>   
+> -static int gb_pwm_enable(struct pwm_chip *chip, struct pwm_device *pwm)
+> -{
+> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+> +	if (duty_cycle > period)
+> +		duty_cycle = period;
+>   
+> -	return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+> -};
+> +	err = gb_pwm_config_operation(pwmc, pwm->hwpwm, duty_cycle, period);
+> +	if (err)
+> +		return err;
+>   
+> -static void gb_pwm_disable(struct pwm_chip *chip, struct pwm_device *pwm)
+> -{
+> -	struct gb_pwm_chip *pwmc = pwm_chip_to_gb_pwm_chip(chip);
+> +	/* enable/disable */
+> +	if (!enabled)
+> +		return gb_pwm_enable_operation(pwmc, pwm->hwpwm);
+>   
+> -	gb_pwm_disable_operation(pwmc, pwm->hwpwm);
+> -};
+> +	return 0;
+> +}
+>   
+>   static const struct pwm_ops gb_pwm_ops = {
+>   	.request = gb_pwm_request,
+>   	.free = gb_pwm_free,
+> -	.config = gb_pwm_config,
+> -	.set_polarity = gb_pwm_set_polarity,
+> -	.enable = gb_pwm_enable,
+> -	.disable = gb_pwm_disable,
+> +	.apply = gb_pwm_apply,
+>   	.owner = THIS_MODULE,
+>   };
+>   
 
-thanks,
-
-greg k-h
