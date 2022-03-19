@@ -1,185 +1,96 @@
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162FF5137
-	for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 20:59:09 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id b16so10674105ioz.3
-        for <linux-staging@lists.linux.dev>; Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oNAPpR+5qx5bHO8wJ1SIgWig3LUKuwuqLo641jvFAak=;
-        b=R3B03hXdzmRL4FMHavxss76+tb9Q0Hy78NbdGoHIgmWRsuIfciGr2JWywHMf/Kpkhf
-         QniqntLtfhiE8E3Wo0oxTFcS1KWerJtG5tNgnrk3j2xUiX43wMMg+/mjp1wKd5A4aRIu
-         ErIGjgvdava6sQlmLmDCO8Qr2P9RfzXvczFjE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oNAPpR+5qx5bHO8wJ1SIgWig3LUKuwuqLo641jvFAak=;
-        b=4Rmjg8mFNdFreuQZ/EL9QkYB91rozcj5zwFAuNauFcYDV9utB2j2WV3RWkb7fuDzDo
-         huRmbPd0D64plqDfxxe1mEI74aeDMkP0fNuDk0Gixz+tLpHkcmvSiAyOqITcpOiv03YZ
-         Bze4hBK4ypPxv9UWC90dyeu6KJqWDi+oDdSBfJLo/8PQCNjVU5N32EoyOeUonfUDmU+7
-         axpz1w7MkTK5f6e5N+/54eY7ng96PdzMwq290OKKfQAeFC3HEyq277uEavFqz7m3SRlT
-         w5um8oDesz1bcMOp404C1Ipw7LaNMZQcqLeJ2g6b7uu3ksul+HhjkyK19kHtjfi2baaS
-         zDxQ==
-X-Gm-Message-State: AOAM5336UAfgmpFD9pCeU9H/TJ83sgMsNOIBbSoH/k5ZySz8+uwRjz3Z
-	Hs+sa9ZBdy5urxaBkq7+GqY1NA==
-X-Google-Smtp-Source: ABdhPJw+g6qtXnLujFKVRv55AGvVhZcbGPndogV4eznqetPdpLwXYueCN6beIFsP8OoV/l235xaSaw==
-X-Received: by 2002:a5d:9542:0:b0:648:f92b:7bc6 with SMTP id a2-20020a5d9542000000b00648f92b7bc6mr5223132ios.73.1647637149068;
-        Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
-Received: from [192.168.1.128] ([71.205.29.0])
-        by smtp.gmail.com with ESMTPSA id d14-20020a056602328e00b006494aa126c2sm3528385ioz.11.2022.03.18.13.59.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Mar 2022 13:59:08 -0700 (PDT)
-Subject: Re: [PATCH 64/64] media: Kconfig: cleanup VIDEO_DEV dependencies
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Fabio Estevam <festevam@gmail.com>, Felipe Balbi <balbi@kernel.org>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Giulio Benetti <giulio.benetti@benettiengineering.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil@xs4all.nl>, Heiko Stuebner <heiko@sntech.de>,
- Heungjun Kim <riverful.kim@samsung.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>, Hyun Kwon
- <hyun.kwon@xilinx.com>, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Jacob Chen <jacob-chen@iotwrt.com>, Jaroslav Kysela <perex@perex.cz>,
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
- Jeff LaBundy <jeff@labundy.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jerome Brunet <jbrunet@baylibre.com>, Joe Hung <joe_hung@ilitek.com>,
- Joel Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>,
- Kevin Hilman <khilman@baylibre.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Martina Krasteva <martinax.krasteva@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Grzeschik <m.grzeschik@pengutronix.de>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Michal Simek <michal.simek@xilinx.com>, Mike Isely <isely@pobox.com>,
- Ming Qian <ming.qian@nxp.com>, Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Olivier Lorin <o.lorin@laposte.net>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Pavel Machek <pavel@ucw.cz>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>,
- Randy Dunlap <rdunlap@infradead.org>, Ray Jui <rjui@broadcom.com>,
- Rick Chang <rick.chang@mediatek.com>, Robert Foss <robert.foss@linaro.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Scott Branden
- <sbranden@broadcom.com>, Sean Young <sean@mess.org>,
- Shawn Guo <shawnguo@kernel.org>, Shawn Tu <shawnx.tu@intel.com>,
- Shijie Qin <shijie.qin@nxp.com>, Sowjanya Komatineni
- <skomatineni@nvidia.com>, Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- Steve Longerbeam <slongerbeam@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin
- <tiffany.lin@mediatek.com>, Todor Tomov <todor.too@gmail.com>,
- Vincent Knecht <vincent.knecht@mailoo.org>,
- Yong Deng <yong.deng@magewell.com>, Yong Zhi <yong.zhi@intel.com>,
- Zhou Peng <eagle.zhou@nxp.com>, alsa-devel@alsa-project.org,
- bcm-kernel-feedback-list@broadcom.com, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
- mjpeg-users@lists.sourceforge.net, openbmc@lists.ozlabs.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <cover.1647242578.git.mchehab@kernel.org>
- <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
-From: Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <9e02d88a-3344-8d91-c652-72cb989506de@linuxfoundation.org>
-Date: Fri, 18 Mar 2022 14:59:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C52F7A;
+	Sat, 19 Mar 2022 03:57:46 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22J2ro58012531;
+	Sat, 19 Mar 2022 03:57:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2021-07-09;
+ bh=dOCvppNUKgOlcA89bNUdrq8FTQRYfsjfsvR3rEo7hmg=;
+ b=rB4F0btdvmuQ8qSVzB0TI/MVdj6L1wLlPT1srOv4birzBP2VsA5D9mxqDnty9FGI031e
+ OhuXiDi8PP/hnk9+43pScgnlvc1Msx3IXhpur+XlVll5oz+03KUF4YG2ZJeO5ctAVyuc
+ ABInatOkvEpdjQe0XOBM3Vw23gTi3RCDw1NbsqI8/p8gXop58M1CrcTLpLi34DxilkOw
+ aIKWvxzBLmxogO1BmHkA0n6pbxmOlCrA4EQcUelFgQP2O0W9a5LqlQOoSqpIeuQaOZbZ
+ 7pKjNVt7qrQPqi5lf6wtbxwtbMHhpxhomcEA8IcEfMLaUK5a8MKBz0qkUbZ41JgSbvMB dA== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3ew6ss016q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 19 Mar 2022 03:57:15 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 22J3uvsm007045;
+	Sat, 19 Mar 2022 03:57:14 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3ew5kyshp1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 19 Mar 2022 03:57:14 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 22J3v5Qm007126;
+	Sat, 19 Mar 2022 03:57:13 GMT
+Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3ew5kyshmn-6;
+	Sat, 19 Mar 2022 03:57:13 +0000
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: Julia Lawall <Julia.Lawall@inria.fr>, linux-can@vger.kernel.org
+Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>, linux-rdma@vger.kernel.org,
+        Jonas Karlman <jonas@kwiboo.se>, linux-s390@vger.kernel.org,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        linux-clk@vger.kernel.org, linux-spi@vger.kernel.org,
+        Shayne Chen <shayne.chen@mediatek.com>, netdev@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Jiri Olsa <jolsa@kernel.org>, kernel-janitors@vger.kernel.org,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        linux-staging@lists.linux.dev, Namhyung Kim <namhyung@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-perf-users@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-sunxi@lists.linux.dev,
+        Sven Schnelle <svens@linux.ibm.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-power@fi.rohmeurope.com,
+        linux-mtd@lists.infradead.org, target-devel@vger.kernel.org,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-mediatek@lists.infradead.org,
+        Christian Borntraeger <borntraeger@linux.ibm.com>
+Subject: Re: [PATCH 00/30] fix typos in comments
+Date: Fri, 18 Mar 2022 23:56:56 -0400
+Message-Id: <164766213032.31329.14855996441316567317.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: ryygBDbx4ESlJehbCVsBuy2qL-PPuldd
+X-Proofpoint-GUID: ryygBDbx4ESlJehbCVsBuy2qL-PPuldd
 
-On 3/14/22 1:55 AM, Mauro Carvalho Chehab wrote:
-> media Kconfig has two entries associated to V4L API:
-> VIDEO_DEV and VIDEO_V4L2.
-> 
-> On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
-> VIDEO_DEV were meant to:
-> 	1) enable Video4Linux and make its Kconfig options to appear;
-> 	2) it makes the Kernel build the V4L core.
-> 
-> while VIDEO_V4L2 where used to distinguish between drivers that
-> implement the newer API and drivers that implemented the former one.
-> 
-> With time, such meaning changed, specially after the removal of
-> all V4L version 1 drivers.
-> 
-> At the current implementation, VIDEO_DEV only does (1): it enables
-> the media options related to V4L, that now has:
-> 
-> 	menu "Video4Linux options"
-> 		visible if VIDEO_DEV
-> 
-> 	source "drivers/media/v4l2-core/Kconfig"
-> 	endmenu
-> 
-> but it doesn't affect anymore the V4L core drivers.
-> 
-> The rationale is that the V4L2 core has a "soft" dependency
-> at the I2C bus, and now requires to select a number of other
-> Kconfig options:
-> 
-> 	config VIDEO_V4L2
-> 		tristate
-> 		depends on (I2C || I2C=n) && VIDEO_DEV
-> 		select RATIONAL
-> 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
-> 		default (I2C || I2C=n) && VIDEO_DEV
-> 
-> In the past, merging them would be tricky, but it seems that it is now
-> possible to merge those symbols, in order to simplify V4L dependencies.
-> 
-> Let's keep VIDEO_DEV, as this one is used on some make *defconfig
-> configurations.
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
+On Mon, 14 Mar 2022 12:53:24 +0100, Julia Lawall wrote:
+
+> Various spelling mistakes in comments.
+> Detected with the help of Coccinelle.
 > 
 
->   drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
->   drivers/media/test-drivers/vimc/Kconfig       |   2 +-
->   drivers/media/test-drivers/vivid/Kconfig      |   2 +-
->
+Applied to 5.18/scsi-queue, thanks!
 
-For vimc change: (trimmed the recipient list to send response)
+[02/30] scsi: lpfc: fix typos in comments
+        https://git.kernel.org/mkp/scsi/c/9a866e6aaf4e
+[17/30] scsi: elx: libefc_sli: fix typos in comments
+        https://git.kernel.org/mkp/scsi/c/8037185d1ad8
+[24/30] scsi: qla2xxx: fix typos in comments
+        https://git.kernel.org/mkp/scsi/c/5419e0f15622
+[25/30] treewide: fix typos in comments
+        https://git.kernel.org/mkp/scsi/c/9d05790f5187
 
-Acked-by: Shuah Khan <skhan@linuxfoundation.org>
-
-thanks,
--- Shuah
-
-
-
+-- 
+Martin K. Petersen	Oracle Linux Engineering
