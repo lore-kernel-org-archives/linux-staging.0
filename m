@@ -1,130 +1,79 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916DB5395
-	for <linux-staging@lists.linux.dev>; Sat, 19 Mar 2022 22:36:02 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-103-5yAVdD5nNv2Y22tzMnRdCQ-1; Sat, 19 Mar 2022 22:35:58 +0000
-X-MC-Unique: 5yAVdD5nNv2Y22tzMnRdCQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.32; Sat, 19 Mar 2022 22:35:58 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.033; Sat, 19 Mar 2022 22:35:58 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Martin Kaiser' <martin@kaiser.cx>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
-	<phil@philpotter.co.uk>, Michael Straube <straube.linux@gmail.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] staging: r8188eu: remove local BIT macro
-Thread-Topic: [PATCH] staging: r8188eu: remove local BIT macro
-Thread-Index: AQHYO7vDt7lRrzeqGEaCQ6n5CUyH5azHRaWw
-Date: Sat, 19 Mar 2022 22:35:58 +0000
-Message-ID: <ac3343ea279b4d048d77b3cf2724bcbe@AcuMS.aculab.com>
-References: <20220319180342.3143734-1-martin@kaiser.cx>
-In-Reply-To: <20220319180342.3143734-1-martin@kaiser.cx>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6198C20E4
+	for <linux-staging@lists.linux.dev>; Sun, 20 Mar 2022 03:33:56 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id i65so3773925qkd.7
+        for <linux-staging@lists.linux.dev>; Sat, 19 Mar 2022 20:33:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AE/BXY7F2KOdTssv98/tsVCVvRVwtSj3MkZKgJjE5vc=;
+        b=foBrR5EryWGwNwgjnDx/Obcd/RLWgFzR+sE3TcdOQabxWQUQHQ4mX6taWXpEImn3Yx
+         O4MqKBfWvNPpbGOGrTGyebQIqYaVHCRaokkvu6snpTt3IZj2OIV2LQGtMNGSr3bOJKsM
+         nOfMgBI/s9VpGnG4RB77QVaE2lal22Ta9sAyrRiJzASFHbZSMVRwwamxL9jpAYuXu2kt
+         KIrUX52xO+fEQEtxvXvXVCGEgQ4vBKNN/+F6Q+d/X2BJSenXibdZ6jawCOsKFal5D9Bp
+         ozKDDRayHzjbVbzDCk/Tz2JHimrC8ejeNk0MKjlj98vcmqkIZGtsFIXVuAK8JRkVKhG5
+         itXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AE/BXY7F2KOdTssv98/tsVCVvRVwtSj3MkZKgJjE5vc=;
+        b=y9MssrBNuucglMORVsgitZ2556al8pEfV1iJFhGFn1RLkFc3U4Sl3jOTiF2I/tTZK4
+         w0ff/RZymXmgED1iDgou/sWl2zsOe61jdiTLifvLrC7e+kKDeenUmWjZ+d+ViYYThSLM
+         Lx5QXI9mEiOps7JyLnwKXC+Te7TLU/ya34LxiZUb6w5/Kvjjfhxmmishox/WcvTLb5b8
+         68QWYy2s8Kyb6zDdF8lDHqt4toOGMRy0BaFThic7IuzxnjimR8qNvSUHU3DIUeZrpB/s
+         FDauJ21MK/SCNNoNvwRrUt1emWJwvU7+fhmjalSmVxHWm8ftKZ9ATkKljaMINDHgqOav
+         0BiQ==
+X-Gm-Message-State: AOAM532Xo6y82Dc9vrViR0BeF+tIf0NHg3qxkBwIEE7N0A36z6bUu7ho
+	CJ1ZIXQcLDg3iZkQLZbCYuA=
+X-Google-Smtp-Source: ABdhPJz2dyv1mrOQ4RZ3BPPCQ1QJj7P7SK5PWCQUaFblmIjV9r7zPOHHQtCLeh297KhYgXpAXnWNyg==
+X-Received: by 2002:a05:620a:2985:b0:67d:b9ac:90b2 with SMTP id r5-20020a05620a298500b0067db9ac90b2mr9923453qkp.436.1647747235069;
+        Sat, 19 Mar 2022 20:33:55 -0700 (PDT)
+Received: from localhost.localdomain ([159.223.186.39])
+        by smtp.gmail.com with ESMTPSA id j4-20020a37c244000000b0067d79a3fd0esm6250340qkm.106.2022.03.19.20.33.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Mar 2022 20:33:54 -0700 (PDT)
+From: "Ryan C. England" <rcengland@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: arve@android.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	"Ryan C. England" <rcengland@gmail.com>
+Subject: [PATCH] staging: android: ashmem: Fixed a struct coding style issue
+Date: Sun, 20 Mar 2022 03:33:37 +0000
+Message-Id: <20220320033337.47118-1-rcengland@gmail.com>
+X-Mailer: git-send-email 2.27.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Martin Kaiser <martin@kaiser.cx>
-> Sent: 19 March 2022 18:04
->=20
-> The r8188eu driver defines a local BIT(x) macro. Remove this local macro
-> and use the one from include/linux/bits.h.
->=20
-> The global BIT macro returns an unsigned long value, the removed local
-> BIT macro used a signed int.
->=20
-> DYNAMIC_BB_DYNAMIC_TXPWR is defined as BIT(2), ~DYNAMIC_BB_DYNAMIC_TXPWR
-> is passed to Switch_DM_Func as a u32 parameter. We need a cast in this
-> case as ~DYNAMIC_BB_DYNAMIC_TXPWR is a 64-bit value on x86_64 systems.
+Fixed a coding style issue.
 
-Hmmm....
-Why not fix the called function so that the caller doesn't
-need to do the invert.
+Signed-off-by: Ryan C. England <rcengland@gmail.com>
+---
+ drivers/staging/android/ashmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-...
-> b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> index 665b077190bc..f32401deae9a 100644
-> --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> @@ -1276,13 +1276,13 @@ void update_IOT_info(struct adapter *padapter)
->  =09=09pmlmeinfo->turboMode_cts2self =3D 0;
->  =09=09pmlmeinfo->turboMode_rtsen =3D 1;
->  =09=09/* disable high power */
-> -=09=09Switch_DM_Func(padapter, (~DYNAMIC_BB_DYNAMIC_TXPWR), false);
-> +=09=09Switch_DM_Func(padapter, (u32)(~DYNAMIC_BB_DYNAMIC_TXPWR), false);
-
-The function is defined as a real function:
-Even though all the callers either pass 'true' or 'false' for enable.
-
-void Switch_DM_Func(struct adapter *padapter, u32 mode, u8 enable)
-{
-=09if (enable)
-=09=09SetHwReg8188EU(padapter, HW_VAR_DM_FUNC_SET, (u8 *)(&mode));
-=09else
-=09=09SetHwReg8188EU(padapter, HW_VAR_DM_FUNC_CLR, (u8 *)(&mode));
-}
-
-That (u8 *)&mode cast is at best dubious.
-
-Searching for the callers also gives:
-=09Switch_DM_Func(padapter, DYNAMIC_FUNC_DISABLE, false)
-
-Should that have an invert?
-Or is the other call wrong?
-They don't both look right.
-Or is DYNAMIC_FUNC_DISABLE just zero?
-
-SetHwReg8188EU() is basically a big switch statement on the
-'probably mostly constant' second argument.
-The two relevant switch cases are:
-
-=09case HW_VAR_DM_FUNC_SET:
-=09=09if (*((u32 *)val) =3D=3D DYNAMIC_ALL_FUNC_ENABLE) {
-=09=09=09podmpriv->SupportAbility =3D=09pdmpriv->InitODMFlag;
-=09=09} else {
-=09=09=09podmpriv->SupportAbility |=3D *((u32 *)val);
-=09=09}
-=09=09break;
-=09case HW_VAR_DM_FUNC_CLR:
-=09=09podmpriv->SupportAbility &=3D *((u32 *)val);
-=09=09break;
-
-So the ~ should probably be moved to the final statement.
-
-OTOH this code is a big pile of poo.
-Abstraction functions gone mad.
-
-If you have a function that does two different things based on
-a parameter that is always a constant you really should have
-two different functions.
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+diff --git a/drivers/staging/android/ashmem.c b/drivers/staging/android/ashmem.c
+index ddbde3f8430e..f2bf7995b403 100644
+--- a/drivers/staging/android/ashmem.c
++++ b/drivers/staging/android/ashmem.c
+@@ -377,7 +377,7 @@ ashmem_vmfile_get_unmapped_area(struct file *file, unsigned long addr,
+ 
+ static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
+ {
+-	static struct file_operations vmfile_fops;
++	const struct file_operations vmfile_fops;
+ 	struct ashmem_area *asma = file->private_data;
+ 	int ret = 0;
+ 
+-- 
+2.27.0
 
