@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADB57B;
-	Sun, 20 Mar 2022 04:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B130C7B
+	for <linux-staging@lists.linux.dev>; Sun, 20 Mar 2022 05:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647750779; x=1679286779;
+  t=1647755039; x=1679291039;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=T8PgXPwUB7x80Snub8mVwqNz4p0+StZLkf6bD2ZZHxE=;
-  b=hhlx2YVjs+G+WuVJFEr9ilyIgjLAZfZ9oEZZNh2yltN+GZ7ldcyORzhj
-   +c1w4Ag9hzGULLwYvKvZN/H+USQyoDdxDBvYCFtSHzY4o+BF6/oFQ3iuy
-   Cs2CYobdAuCWlANvcFl9E/R5cbCfL+OT+AcrCpd83U0qpXSOsIwm7fuLk
-   a6Oa/BbVJvJozCgfDBcMjlx5ZB8mEAqfdEgsLPvw13gXfUr1C2Tu8dsG2
-   ML097o8AWaqkGTxgU1+Ue2JJQGSM69O9t4k0lO4/D8eU9LXqOVrRvz/xV
-   zobLBhKphZisqsAZcoJ1hJs/KMa27cPMZWSiUUM633yHzYLpz7eNbG5DH
+  bh=rrDkrzS2Pyphm7EzJWTD91knn7RX/U+hqCGWZFdV1Ro=;
+  b=RNNkN9zzNLcdjroB0d+y25X0b8WeiEz53PgCme54p29ONS/zQMkaGMZQ
+   T1v+OgjHWsrV8Mi0Fxp5SjoRBzCQ9+RbHo7Am6f/F3QEePvF2mBLgmqv/
+   zrZqReM3HkI316yEF9b6pawXFUbE/gVomoLaR6kuRs2YMBQHSOLrFtN39
+   u7jo7yhYqt9sWcebkafj+8W03zLIdkGOJi8iTTsxtSD7vz3eTZ+9O8u3k
+   m+B8iQCYWJBrYJKBWTAnzmkyzwswFcuHzRePyMprzVZ4ES1NmdFURZnev
+   0mVPldmlbS4+APRKeX/ATia9TMSsvY8VG26Ik9bTJGFNImD+93KDsuGqu
    w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10291"; a="256170719"
+X-IronPort-AV: E=McAfee;i="6200,9189,10291"; a="318062924"
 X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; 
-   d="scan'208";a="256170719"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2022 21:32:58 -0700
+   d="scan'208";a="318062924"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2022 22:43:59 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,195,1643702400"; 
-   d="scan'208";a="514553418"
+   d="scan'208";a="499790018"
 Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 19 Mar 2022 21:32:56 -0700
+  by orsmga003.jf.intel.com with ESMTP; 19 Mar 2022 22:43:57 -0700
 Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
 	(envelope-from <lkp@intel.com>)
-	id 1nVnFP-000GZq-ML; Sun, 20 Mar 2022 04:32:55 +0000
-Date: Sun, 20 Mar 2022 12:32:22 +0800
+	id 1nVoM8-000GcF-H5; Sun, 20 Mar 2022 05:43:56 +0000
+Date: Sun, 20 Mar 2022 13:43:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Ryan C. England" <rcengland@gmail.com>, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org, arve@android.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+Cc: kbuild-all@lists.01.org, arve@android.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	"Ryan C. England" <rcengland@gmail.com>
 Subject: Re: [PATCH] staging: android: ashmem: Fixed a struct coding style
  issue
-Message-ID: <202203201252.7MGSCMzO-lkp@intel.com>
+Message-ID: <202203201305.0oJLwAvU-lkp@intel.com>
 References: <20220320033337.47118-1-rcengland@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -63,46 +63,35 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Ryan-C-England/staging-android-ashmem-Fixed-a-struct-coding-style-issue/20220320-113530
 base:    09688c0166e76ce2fb85e86b9d99be8b0084cdf9
-config: hexagon-randconfig-r001-20220320 (https://download.01.org/0day-ci/archive/20220320/202203201252.7MGSCMzO-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 85e9b2687a13d1908aa86d1b89c5ce398a06cd39)
+config: i386-randconfig-c021 (https://download.01.org/0day-ci/archive/20220320/202203201305.0oJLwAvU-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         # https://github.com/0day-ci/linux/commit/10507a768384915f1f405934b635a4409626571d
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Ryan-C-England/staging-android-ashmem-Fixed-a-struct-coding-style-issue/20220320-113530
         git checkout 10507a768384915f1f405934b635a4409626571d
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/staging/android/
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
->> drivers/staging/android/ashmem.c:431:16: error: cannot assign to variable 'vmfile_fops' with const-qualified type 'const struct file_operations'
-                           vmfile_fops = *vmfile->f_op;
-                           ~~~~~~~~~~~ ^
-   drivers/staging/android/ashmem.c:380:31: note: variable 'vmfile_fops' declared const here
-           const struct file_operations vmfile_fops;
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   drivers/staging/android/ashmem.c:432:21: error: cannot assign to variable 'vmfile_fops' with const-qualified type 'const struct file_operations'
-                           vmfile_fops.mmap = ashmem_vmfile_mmap;
-                           ~~~~~~~~~~~~~~~~ ^
-   drivers/staging/android/ashmem.c:380:31: note: variable 'vmfile_fops' declared const here
-           const struct file_operations vmfile_fops;
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   drivers/staging/android/ashmem.c:433:34: error: cannot assign to variable 'vmfile_fops' with const-qualified type 'const struct file_operations'
-                           vmfile_fops.get_unmapped_area =
-                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/staging/android/ashmem.c:380:31: note: variable 'vmfile_fops' declared const here
-           const struct file_operations vmfile_fops;
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   3 errors generated.
+   drivers/staging/android/ashmem.c: In function 'ashmem_mmap':
+>> drivers/staging/android/ashmem.c:431:16: error: assignment of read-only variable 'vmfile_fops'
+     431 |    vmfile_fops = *vmfile->f_op;
+         |                ^
+>> drivers/staging/android/ashmem.c:432:21: error: assignment of member 'mmap' in read-only object
+     432 |    vmfile_fops.mmap = ashmem_vmfile_mmap;
+         |                     ^
+>> drivers/staging/android/ashmem.c:433:34: error: assignment of member 'get_unmapped_area' in read-only object
+     433 |    vmfile_fops.get_unmapped_area =
+         |                                  ^
 
 
-vim +431 drivers/staging/android/ashmem.c
+vim +/vmfile_fops +431 drivers/staging/android/ashmem.c
 
 6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  377  
 11980c2ac4ccfa Robert Love        2011-12-20  378  static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
@@ -159,8 +148,8 @@ vim +431 drivers/staging/android/ashmem.c
 6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  429  		 */
 6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  430  		if (!vmfile_fops.mmap) {
 6d67b0290b4b84 Suren Baghdasaryan 2020-01-27 @431  			vmfile_fops = *vmfile->f_op;
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  432  			vmfile_fops.mmap = ashmem_vmfile_mmap;
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  433  			vmfile_fops.get_unmapped_area =
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27 @432  			vmfile_fops.mmap = ashmem_vmfile_mmap;
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27 @433  			vmfile_fops.get_unmapped_area =
 6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  434  					ashmem_vmfile_get_unmapped_area;
 6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  435  		}
 6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  436  		vmfile->f_op = &vmfile_fops;
