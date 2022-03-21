@@ -1,138 +1,138 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6515933D1
-	for <linux-staging@lists.linux.dev>; Mon, 21 Mar 2022 12:06:08 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id t2so15201289pfj.10
-        for <linux-staging@lists.linux.dev>; Mon, 21 Mar 2022 05:06:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF83D4282
+	for <linux-staging@lists.linux.dev>; Mon, 21 Mar 2022 12:19:00 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id e22so16410502ioe.11
+        for <linux-staging@lists.linux.dev>; Mon, 21 Mar 2022 05:19:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=mQVeuWDN9J1yJyMFSCKrDaWCEtSDGr5BIpmWKndqjqU=;
-        b=il07ih78+2jqROVK64V1q8dH8fuvuEUVpuFFYuoV9+FUaWECoUWPLX1EGjh2oTzcAA
-         6Nc5ZhfANhok56d6bAs5Q3AvdhsQm5kKSNFlrVXf/M3Vl/CfUUeKpLo1YS917+HwP3Gt
-         /VUOYUIlfE68hEnUoNmKmbzLUIIFQ7qwhDb8wj3UGZEVm7re7NSt6rEgMxm8FKX6Wnf+
-         F1BmE/uiSfXCGOU0p0Q9mxEiy1RNvYw6cfHG3GBWsvNJzc4eWC/PsRrsCmF9jL4FfXA5
-         OyhxkvWKwF0S6qH3JYiM0jl00ipXcNTD0u/C4IMIjo9tqcu3I/MgCb/k5iRgn2S7o/dO
-         rlXg==
+        bh=gviUCZoqMlwAzPxDTeni3/iP7iEP9Odnzm6mNqYWrWE=;
+        b=sUINLx6thHdc+ZK8Os4juDGY3FX9AeO5hZVu/WjHFREy1p3ODH3sudnKqkHlbnB7l6
+         UO2IiYkkoyKWuTT31JjYaPqvJtA144jGu4cDav2Q+wXfQbPYU5Gx+6uyB6BAR4etAR3Z
+         3zG4DBXNSYV1rQBfDL3UrV+GYPjDf4tMlpGovjwSESOqxy5/CtlgY3GhqUpp/OpaIg5f
+         rv8uY1at77CC7Mag+vZdnHCVQInAkvwytCiv3igX9p4CK2RSSxss1KzYdOS1OnEiRFPR
+         wKqHrqwG9IyZNdLT3X/G0XosymFnKXHWY5p//o+JKPIEGPp8RDmLA4K+fkldDp6S9jpZ
+         RpQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=mQVeuWDN9J1yJyMFSCKrDaWCEtSDGr5BIpmWKndqjqU=;
-        b=BzFV2GmJ9v88qsGKEoCsQhp0CwJEfpyDFFSYrOWWZ6bGIPnIbzrgKUNFJyC86WIjgJ
-         OHjVOvnHQESbqHGX8aw0CTUfL/d8G5h5xahvkD/V16aN0MM95FF1jmdSB22+tvh3gK0u
-         aFppHglSysqvfTQOZU1bT43qoqaEs2+6E+AUgN24AJg2YKZDeyKSDfjJXoFuhok5QjLt
-         lKYfqwAvboC73L9ukAG7CctnHQL/XompUcDJs26SELOaqFQhXwQk+iP4cgGJIfYhi14W
-         g2bLym+33sNR9owNjB932i6AtZVaehdBIjs8IbymB5PCD5Gskvl46ansV0opjaLyjZ/a
-         p0gQ==
-X-Gm-Message-State: AOAM5315fseF8fqf8TnHPEsthCa+tFv6nttDeEBGOgh3BQlO/JM1Kyd0
-	soTiwazQ9zHmgMaqOdlH07U=
-X-Google-Smtp-Source: ABdhPJzTSnRZI8bxbc9u4mpE7+yAwc8MQ3ONG2T9QvJu6PpnBge+u3kcv+5gCP4PLj9EL9IMgX0ugg==
-X-Received: by 2002:a63:9d48:0:b0:378:c359:fcbf with SMTP id i69-20020a639d48000000b00378c359fcbfmr17593387pgd.371.1647864367768;
-        Mon, 21 Mar 2022 05:06:07 -0700 (PDT)
-Received: from [192.168.225.67] ([157.49.192.24])
-        by smtp.gmail.com with ESMTPSA id kb10-20020a17090ae7ca00b001bfad03c750sm21996931pjb.26.2022.03.21.05.06.04
+        bh=gviUCZoqMlwAzPxDTeni3/iP7iEP9Odnzm6mNqYWrWE=;
+        b=gzB31fLNwo1X2H40zzJPgPh512vdckepr+DyrxlRa5Uq+Udi00EWvtSN5ZB5uFQkru
+         c8PZksdXn5L6W0sH2C8hgqa6JKACnCnLKQuUWjONAhXqk4fmafEv6DmPsNfPj91bQjXm
+         hVloCwLFAvvXIsEjvhy5fusi2GmZdrJxRWMit+Oz/JPevI7tQXVYI9999NlBJmBex+nD
+         6rSF5ndC6CK4Q6DtqwzzjnWaESx00tLI35NF7o6iN9+LK0uRmNHtHVJtwIUURGcBJp2S
+         wmZJR5RFtJPabW0jVee3SIN7QgCwJxeiPDZyzSNxz+BxTQZt1n045sUp7akuwof4Ewni
+         QBHA==
+X-Gm-Message-State: AOAM533DmreHM9f4U+C66ZOphGdsO2+Vwjz6jU1NxKzNDRaLvB9dkacE
+	D5TNNXbnoWsyT1DNrqr9wOVDIg==
+X-Google-Smtp-Source: ABdhPJwnU6BWz11dWizI7zp4dHVLETJ6TbQyIBffJyHl3m3j17tE7tcHexwcX2y3NMCekWPKLLRtlQ==
+X-Received: by 2002:a05:6638:1455:b0:319:e467:656b with SMTP id l21-20020a056638145500b00319e467656bmr10518195jad.111.1647865139942;
+        Mon, 21 Mar 2022 05:18:59 -0700 (PDT)
+Received: from [172.22.22.26] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id w8-20020a056e0213e800b002c8279fb9dfsm1847793ilj.57.2022.03.21.05.18.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Mar 2022 05:06:07 -0700 (PDT)
-Message-ID: <6f088754-49e7-143b-7735-d94b0199ee33@gmail.com>
-Date: Mon, 21 Mar 2022 17:36:01 +0530
+        Mon, 21 Mar 2022 05:18:59 -0700 (PDT)
+Message-ID: <312061ed-61d6-4e2f-a180-8e8c85573e31@linaro.org>
+Date: Mon, 21 Mar 2022 07:18:57 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH v2] staging: rtl8712: Fix CamelCase warnings
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [greybus-dev] Re: [PATCH] staging: greybus: codecs: fix type
+ confusion with dedicated list iterator variable
 Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220318101440.13887-1-skumark1902@gmail.com>
- <YjRswrHu0JUm9331@kroah.com>
-From: Sathish Kumar <skumark1902@gmail.com>
-In-Reply-To: <YjRswrHu0JUm9331@kroah.com>
+To: Jakob Koschel <jakobkoschel@gmail.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Mike Rapport <rppt@kernel.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>
+References: <20220319202058.2518847-1-jakobkoschel@gmail.com>
+ <20220321084844.GG3293@kadam>
+ <23587784-B0EB-4FDD-B5BC-DC1B16404DA7@gmail.com>
+ <20220321092132.GI3293@kadam>
+ <56102C8D-DBFF-43A5-9641-04577F01AB6D@gmail.com>
+From: Alex Elder <elder@linaro.org>
+In-Reply-To: <56102C8D-DBFF-43A5-9641-04577F01AB6D@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 18/03/22 4:58 pm, Greg KH wrote:
+On 3/21/22 4:27 AM, Jakob Koschel wrote:
+> 
 
-> On Fri, Mar 18, 2022 at 03:44:40PM +0530, Sathish Kumar wrote:
->> This patch fixes the checkpatch.pl warnings like:
->> CHECK: Avoid CamelCase: <blnEnableRxFF0Filter>
->> +   u8 blnEnableRxFF0Filter;
+I just released some messages that were marked as spam.  So
+this looks to me like it's already been seen on the list.
+I'm not sure why this happens but if it seems like deja vu,
+you're not imagining things.  Please know that this could
+happen from time to time, but I'll see if I can find out
+how to avoid it.
+
+					-Alex
+
+>> On 21. Mar 2022, at 10:21, Dan Carpenter <dan.carpenter@oracle.com> wrote:
 >>
->> Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
->> ---
->> Changes in v2:
->>      - Remove the "bln" prefix
->> ---
->>   drivers/staging/rtl8712/drv_types.h   | 2 +-
->>   drivers/staging/rtl8712/rtl871x_cmd.c | 2 +-
->>   drivers/staging/rtl8712/xmit_linux.c  | 4 ++--
->>   3 files changed, 4 insertions(+), 4 deletions(-)
+>> On Mon, Mar 21, 2022 at 10:06:13AM +0100, Jakob Koschel wrote:
+>>>
+>>>> On 21. Mar 2022, at 09:48, Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>>>>
+>>>> The subject says that it fixes a bug but it does not.
+>>>
+>>> Thank you for your review!
+>>>
+>>> I don't agree that this doesn't fix a bug:
+>>>
+>>>> +		}
+>>>> 	}
+>>>> 	if (!data) {
+>>>> -		dev_err(dai->dev, "%s:%s DATA connection missing\n",
+>>>> -			dai->name, module->name);
+>>>
+>>> Using 'module' when data == NULL is *guaranteed* to be a type confused
+>>> bogus pointer. It fundamentally can never be correct.
 >>
->> diff --git a/drivers/staging/rtl8712/drv_types.h b/drivers/staging/rtl8712/drv_types.h
->> index a44d04effc8b..4de3aad08242 100644
->> --- a/drivers/staging/rtl8712/drv_types.h
->> +++ b/drivers/staging/rtl8712/drv_types.h
->> @@ -157,7 +157,7 @@ struct _adapter {
->>   	struct iw_statistics iwstats;
->>   	int pid; /*process id from UI*/
->>   	struct work_struct wk_filter_rx_ff0;
->> -	u8 blnEnableRxFF0Filter;
->> +	u8 enable_rx_ff0_filter;
-> Shouldn't this be a boolean?
-Yes. It should be boolean(dealing only with either 0 or 1). Will fix this.
->
->>   	spinlock_t lock_rx_ff0_filter;
->>   	const struct firmware *fw;
->>   	struct usb_interface *pusb_intf;
->> diff --git a/drivers/staging/rtl8712/rtl871x_cmd.c b/drivers/staging/rtl8712/rtl871x_cmd.c
->> index acda930722b2..69d3c55ee9e5 100644
->> --- a/drivers/staging/rtl8712/rtl871x_cmd.c
->> +++ b/drivers/staging/rtl8712/rtl871x_cmd.c
->> @@ -202,7 +202,7 @@ u8 r8712_sitesurvey_cmd(struct _adapter *padapter,
->>   	mod_timer(&pmlmepriv->scan_to_timer,
->>   		  jiffies + msecs_to_jiffies(SCANNING_TIMEOUT));
->>   	padapter->ledpriv.LedControlHandler(padapter, LED_CTL_SITE_SURVEY);
->> -	padapter->blnEnableRxFF0Filter = 0;
->> +	padapter->enable_rx_ff0_filter = 0;
->>   	return _SUCCESS;
->>   }
->>   
->> diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
->> index 90d34cf9d2ff..d58ae5b387d4 100644
->> --- a/drivers/staging/rtl8712/xmit_linux.c
->> +++ b/drivers/staging/rtl8712/xmit_linux.c
->> @@ -102,11 +102,11 @@ void r8712_SetFilter(struct work_struct *work)
->>   	r8712_write8(adapter, 0x117, newvalue);
->>   
->>   	spin_lock_irqsave(&adapter->lock_rx_ff0_filter, irqL);
->> -	adapter->blnEnableRxFF0Filter = 1;
->> +	adapter->enable_rx_ff0_filter = 1;
->>   	spin_unlock_irqrestore(&adapter->lock_rx_ff0_filter, irqL);
->>   	do {
->>   		msleep(100);
->> -	} while (adapter->blnEnableRxFF0Filter == 1);
->> +	} while (adapter->enable_rx_ff0_filter == 1);
-> Ah, that's funny.  It's amazing it works at all and that the compiler
-> doesn't optimize this away.  This isn't a good pattern to use in kernel
-Do you mean "do { msleep(); } while()" here?
-> code.  I know it's not caused by your change here, but perhaps you might
-> want to fix this up to work properly?
->
-> thanks,
->
-> greg k-h
-
-Sure. Will fix this up to work properly.
-
-Thanks,
-
-Sathish
+>> Ah.  I did not read all the way to the end of the patch.
+>>
+>> The bugfix needs to be sent as it's own patch.  Just the one liner.  It
+>> needs a fixes tag as well.
+>>
+>> [PATCH] staging: greybus: fix Oops in error message
+>>
+>> The "module" pointer is invalid here.  It's the list iterator and we
+>> exited the loop without finding a valid entry.
+>>
+>> Fixes: 6dd67645f22c ("greybus: audio: Use single codec driver registration")
+>> Signed-off-by: You
+>>
+>> 	if (!data) {
+>> -		dev_err(dai->dev, "%s:%s DATA connection missing\n",
+>> -			dai->name, module->name);
+>> +		dev_err(dai->dev, "%s DATA connection missing\n",
+>> +			dai->name);
+>> 		mutex_unlock(&codec->lock);
+>>
+>> We're happy to apply the other stuff as well, but we don't mix cleanups
+>> and bug fixes like that.
+> 
+> ok great, I'll separate and resubmit both. Thanks!
+> 
+>>
+>> regards,
+>> dan carpenter
+> 
+> 	Jakob
+> 
+> _______________________________________________
+> greybus-dev mailing list -- greybus-dev@lists.linaro.org
+> To unsubscribe send an email to greybus-dev-leave@lists.linaro.org
 
