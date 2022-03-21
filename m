@@ -1,138 +1,94 @@
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF83D4282
-	for <linux-staging@lists.linux.dev>; Mon, 21 Mar 2022 12:19:00 +0000 (UTC)
-Received: by mail-io1-f49.google.com with SMTP id e22so16410502ioe.11
-        for <linux-staging@lists.linux.dev>; Mon, 21 Mar 2022 05:19:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CAA2C9C
+	for <linux-staging@lists.linux.dev>; Mon, 21 Mar 2022 12:37:05 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id j15so15437462eje.9
+        for <linux-staging@lists.linux.dev>; Mon, 21 Mar 2022 05:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=gviUCZoqMlwAzPxDTeni3/iP7iEP9Odnzm6mNqYWrWE=;
-        b=sUINLx6thHdc+ZK8Os4juDGY3FX9AeO5hZVu/WjHFREy1p3ODH3sudnKqkHlbnB7l6
-         UO2IiYkkoyKWuTT31JjYaPqvJtA144jGu4cDav2Q+wXfQbPYU5Gx+6uyB6BAR4etAR3Z
-         3zG4DBXNSYV1rQBfDL3UrV+GYPjDf4tMlpGovjwSESOqxy5/CtlgY3GhqUpp/OpaIg5f
-         rv8uY1at77CC7Mag+vZdnHCVQInAkvwytCiv3igX9p4CK2RSSxss1KzYdOS1OnEiRFPR
-         wKqHrqwG9IyZNdLT3X/G0XosymFnKXHWY5p//o+JKPIEGPp8RDmLA4K+fkldDp6S9jpZ
-         RpQw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7me8S3DIeK4bexe2TBxZLK2PJKyh4lTG51mZlWXkZww=;
+        b=C19FsPW3byM6bnKzUkgtA47+KFtmLiWrmr4t6hSJGULj2k309rEBEtN2OGQsQRiwuq
+         Tf7pGGbRpBWabv9ws0LjfO1OL+rhABFTf+vjU+HIUUnAQRbmDhdFLmJpMp+yjZ8xSV4B
+         KUfeNsDBZsJHX3FP8Lk7r2hiXgERWOOIBOGZ3FcOfhKTIgdhYHT3bknlW4P2YOYCrDXv
+         5rkAOgvhMbmPGyyfARZBgE1MHiem0Ujlefjvar28MLDqRVXhaMP1F5tXGn792CIrUp8i
+         qMmwJn+4Tj+g36DpgP5vT9kKWi3ykd/ErottJfQwACHtJmP9342GGljWeMeJpbxpoRYQ
+         9WVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=gviUCZoqMlwAzPxDTeni3/iP7iEP9Odnzm6mNqYWrWE=;
-        b=gzB31fLNwo1X2H40zzJPgPh512vdckepr+DyrxlRa5Uq+Udi00EWvtSN5ZB5uFQkru
-         c8PZksdXn5L6W0sH2C8hgqa6JKACnCnLKQuUWjONAhXqk4fmafEv6DmPsNfPj91bQjXm
-         hVloCwLFAvvXIsEjvhy5fusi2GmZdrJxRWMit+Oz/JPevI7tQXVYI9999NlBJmBex+nD
-         6rSF5ndC6CK4Q6DtqwzzjnWaESx00tLI35NF7o6iN9+LK0uRmNHtHVJtwIUURGcBJp2S
-         wmZJR5RFtJPabW0jVee3SIN7QgCwJxeiPDZyzSNxz+BxTQZt1n045sUp7akuwof4Ewni
-         QBHA==
-X-Gm-Message-State: AOAM533DmreHM9f4U+C66ZOphGdsO2+Vwjz6jU1NxKzNDRaLvB9dkacE
-	D5TNNXbnoWsyT1DNrqr9wOVDIg==
-X-Google-Smtp-Source: ABdhPJwnU6BWz11dWizI7zp4dHVLETJ6TbQyIBffJyHl3m3j17tE7tcHexwcX2y3NMCekWPKLLRtlQ==
-X-Received: by 2002:a05:6638:1455:b0:319:e467:656b with SMTP id l21-20020a056638145500b00319e467656bmr10518195jad.111.1647865139942;
-        Mon, 21 Mar 2022 05:18:59 -0700 (PDT)
-Received: from [172.22.22.26] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id w8-20020a056e0213e800b002c8279fb9dfsm1847793ilj.57.2022.03.21.05.18.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Mar 2022 05:18:59 -0700 (PDT)
-Message-ID: <312061ed-61d6-4e2f-a180-8e8c85573e31@linaro.org>
-Date: Mon, 21 Mar 2022 07:18:57 -0500
+        bh=7me8S3DIeK4bexe2TBxZLK2PJKyh4lTG51mZlWXkZww=;
+        b=FIaSeMmeDo3e7MMJ8hHDdyMtwLWyShiCl572qcpe7aSJ+AQCoKHBU9hl3H8ch5g6SP
+         x1LRVM/EwYl5mS5kS2tBhbBosGAb5oPo3xT5ny1iPFXzOdFeOHHN5JUnuKXo0Uqvh63/
+         CfxaF8O8z7FiTqmYyRE3EcZaiZBcfJqip3rsAYlKbUbac4V/WDmSaCfbH9dcjXupQJnZ
+         9Nl0ChLfBFtNMqMZQDw5/QtlT3ctS5ea0Qcf9WWvVRnZM9XS/Rd6ql5AfoJtiwc7+z6N
+         kLU0iK2Ajz3ivI17l87bW7dpZQSc83CbUdXSUobpHM5FjMX7Y+T4Rg/pPAsFZGJeoWQm
+         TgjA==
+X-Gm-Message-State: AOAM5315pgK+r6mAzFkBTHhvd8Ut2dw5IJUil47naVhsI+qTT62MSLOh
+	ciBYycYPnTGYIlCzqvFiVVc=
+X-Google-Smtp-Source: ABdhPJz//+/NzM8a26O+rIuAgQzPd3NBsmf9i2GYdkXJe3FDISS5jPq35iB6eXU0g5Afq1Abig9xGQ==
+X-Received: by 2002:a17:906:dc90:b0:6df:f5fb:cf91 with SMTP id cs16-20020a170906dc9000b006dff5fbcf91mr7190371ejc.429.1647866223710;
+        Mon, 21 Mar 2022 05:37:03 -0700 (PDT)
+Received: from localhost.localdomain (i130160.upc-i.chello.nl. [62.195.130.160])
+        by smtp.googlemail.com with ESMTPSA id q16-20020a170906145000b006bdaf981589sm6836241ejc.81.2022.03.21.05.37.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Mar 2022 05:37:03 -0700 (PDT)
+From: Jakob Koschel <jakobkoschel@gmail.com>
+To: Vaibhav Agarwal <vaibhav.sr@gmail.com>
+Cc: Jakob Koschel <jakobkoschel@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	"Brian Johannesmeyer" <bjohannesmeyer@gmail.com>,
+	Cristiano Giuffrida <c.giuffrida@vu.nl>,
+	"Bos, H.J." <h.j.bos@vu.nl>
+Subject: [PATCH] staging: greybus: codecs: fix type confusion of list iterator variable
+Date: Mon, 21 Mar 2022 13:36:26 +0100
+Message-Id: <20220321123626.3068639-1-jakobkoschel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [greybus-dev] Re: [PATCH] staging: greybus: codecs: fix type
- confusion with dedicated list iterator variable
-Content-Language: en-US
-To: Jakob Koschel <jakobkoschel@gmail.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- Mike Rapport <rppt@kernel.org>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>
-References: <20220319202058.2518847-1-jakobkoschel@gmail.com>
- <20220321084844.GG3293@kadam>
- <23587784-B0EB-4FDD-B5BC-DC1B16404DA7@gmail.com>
- <20220321092132.GI3293@kadam>
- <56102C8D-DBFF-43A5-9641-04577F01AB6D@gmail.com>
-From: Alex Elder <elder@linaro.org>
-In-Reply-To: <56102C8D-DBFF-43A5-9641-04577F01AB6D@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/21/22 4:27 AM, Jakob Koschel wrote:
-> 
+If the list does not exit early then data == NULL and 'module' does not
+point to a valid list element.
+Using 'module' in such a case is not valid and was therefore removed.
 
-I just released some messages that were marked as spam.  So
-this looks to me like it's already been seen on the list.
-I'm not sure why this happens but if it seems like deja vu,
-you're not imagining things.  Please know that this could
-happen from time to time, but I'll see if I can find out
-how to avoid it.
+Fixes: 6dd67645f22c ("greybus: audio: Use single codec driver registration")
+Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
+---
+ drivers/staging/greybus/audio_codec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-					-Alex
+diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
+index b589cf6b1d03..e19b91e7a72e 100644
+--- a/drivers/staging/greybus/audio_codec.c
++++ b/drivers/staging/greybus/audio_codec.c
+@@ -599,8 +599,8 @@ static int gbcodec_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
+ 			break;
+ 	}
+ 	if (!data) {
+-		dev_err(dai->dev, "%s:%s DATA connection missing\n",
+-			dai->name, module->name);
++		dev_err(dai->dev, "%s DATA connection missing\n",
++			dai->name);
+ 		mutex_unlock(&codec->lock);
+ 		return -ENODEV;
+ 	}
 
->> On 21. Mar 2022, at 10:21, Dan Carpenter <dan.carpenter@oracle.com> wrote:
->>
->> On Mon, Mar 21, 2022 at 10:06:13AM +0100, Jakob Koschel wrote:
->>>
->>>> On 21. Mar 2022, at 09:48, Dan Carpenter <dan.carpenter@oracle.com> wrote:
->>>>
->>>> The subject says that it fixes a bug but it does not.
->>>
->>> Thank you for your review!
->>>
->>> I don't agree that this doesn't fix a bug:
->>>
->>>> +		}
->>>> 	}
->>>> 	if (!data) {
->>>> -		dev_err(dai->dev, "%s:%s DATA connection missing\n",
->>>> -			dai->name, module->name);
->>>
->>> Using 'module' when data == NULL is *guaranteed* to be a type confused
->>> bogus pointer. It fundamentally can never be correct.
->>
->> Ah.  I did not read all the way to the end of the patch.
->>
->> The bugfix needs to be sent as it's own patch.  Just the one liner.  It
->> needs a fixes tag as well.
->>
->> [PATCH] staging: greybus: fix Oops in error message
->>
->> The "module" pointer is invalid here.  It's the list iterator and we
->> exited the loop without finding a valid entry.
->>
->> Fixes: 6dd67645f22c ("greybus: audio: Use single codec driver registration")
->> Signed-off-by: You
->>
->> 	if (!data) {
->> -		dev_err(dai->dev, "%s:%s DATA connection missing\n",
->> -			dai->name, module->name);
->> +		dev_err(dai->dev, "%s DATA connection missing\n",
->> +			dai->name);
->> 		mutex_unlock(&codec->lock);
->>
->> We're happy to apply the other stuff as well, but we don't mix cleanups
->> and bug fixes like that.
-> 
-> ok great, I'll separate and resubmit both. Thanks!
-> 
->>
->> regards,
->> dan carpenter
-> 
-> 	Jakob
-> 
-> _______________________________________________
-> greybus-dev mailing list -- greybus-dev@lists.linaro.org
-> To unsubscribe send an email to greybus-dev-leave@lists.linaro.org
+base-commit: f443e374ae131c168a065ea1748feac6b2e76613
+-- 
+2.25.1
 
