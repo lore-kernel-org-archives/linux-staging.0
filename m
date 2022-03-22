@@ -1,67 +1,96 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A44A54
-	for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 10:51:06 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id bi13-20020a05600c3d8d00b0038c2c33d8f3so1534827wmb.4
-        for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 03:51:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fW7h21v3Ivjw1G7/perEqnpmWeToQrSlBMPA8HUbBbg=;
-        b=YlFDV8YLOUfJUtA/tnmM25PrK7KOpQHQY2lGFJMNk+l+60xoMCycTAuuHx3S9rIHY7
-         nMwNl0FokoOoLTGslZoRXBrjdkltAkXoRTeoOagHgnu0ekn2QfjMOMPRSayMUNea2EHD
-         PmbxEJz151Z3iqzvcOP+m6CfWfPU2GVHs6/nvtZQw1zlhgKRTSQf0FwmL5SEK4230H5M
-         FjzrbBFkViZarSr6H04LfdhpuLzB7XeLqa97LQoe8iVIuk8hH4bFnfZh6ZPs183AtsoC
-         mBE6YFlJ5Yai3Xtb6WuuGKZymUnl/uFszmdEWzYyGwJg/0qGITDBcqQ2sieCAFQZcHyV
-         GFrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fW7h21v3Ivjw1G7/perEqnpmWeToQrSlBMPA8HUbBbg=;
-        b=SaeV8BDsO9dmr3Vn5JIgUvZ5mlXMdfhhSC/Geoo+ef9dil29sBRDpOGvsnddoK9Ds5
-         hQJRXCMT5ldaAiMpYkeLQfd5AcsqDe2RqU5dDb40w47JfVVbCHTWa78d2XuBm5GZVlpa
-         8l0mNm6EUAp31aqo10LvcCzS4j4SJFfAR1vdwnZOmHNqE9/2VWtQnLcsSWKk47LQtigj
-         eU1nb0daDLYmlduL42SqBDPzo2MgBHMXaidxpvgweUQsRm3/pgPGdO3zP2KmByMNgjhY
-         l3iqoU1tQPNm8VCL9pb/sQGcLD8nWMHmdLP+Z49ko5BDvk/1sMAQzOqgVd0/A2Kw9Xtm
-         TXvQ==
-X-Gm-Message-State: AOAM532pCUAkfn5hZKyj7mpRihESaPUXaPW9Itg40u+WImkayayd0DBM
-	+RTHdREi9QaKc9bdCt8+eJs=
-X-Google-Smtp-Source: ABdhPJxFEtSvxdd+B1CGdwG6gjVZbwxFsjrRBm3mgCGTlktWdC2/h9/QjppSlG72zku9Vpj1ck7x5Q==
-X-Received: by 2002:a5d:5886:0:b0:204:85e:5a3a with SMTP id n6-20020a5d5886000000b00204085e5a3amr9875996wrf.434.1647946264431;
-        Tue, 22 Mar 2022 03:51:04 -0700 (PDT)
-Received: from leap.localnet (host-79-37-100-169.retail.telecomitalia.it. [79.37.100.169])
-        by smtp.gmail.com with ESMTPSA id m9-20020a05600c4f4900b00389e8184edcsm1617116wmq.35.2022.03.22.03.51.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Mar 2022 03:51:03 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>, Sathish Kumar <skumark1902@gmail.com>
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1F0A54
+	for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 11:31:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27358C340F0;
+	Tue, 22 Mar 2022 11:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1647948696;
+	bh=Q803Ahh2mXBrXYeT2gzMvlXoFBqdS/QQwfKfuZr72KE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j5C+iEKDhFncKyOkwb+7ZLqwnyfRKMuB/qf++cLRjNkSe1LI4aUDhEpKLMdiSSnqt
+	 bAOT/Xtxhe3i5Ae0hDn1jDLEW2RwcUuX5+Kqq0hVaS5rg8ojii9VkYsxTQlS/iv9R5
+	 rCD+qeLYUqng7rUXGu6WToL6doPELz0+V8fxgbYA=
+Date: Tue, 22 Mar 2022 12:31:32 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Sathish Kumar <skumark1902@gmail.com>, Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] staging: rtl8712: Fix CamelCase warnings
-Date: Tue, 22 Mar 2022 11:51:01 +0100
-Message-ID: <2364205.jE0xQCEvom@leap>
-In-Reply-To: <1786742.atdPhlSkOF@leap>
-References: <20220318101440.13887-1-skumark1902@gmail.com> <3a85ae64-00c1-6483-f1d7-c12abdd3ff3a@gmail.com> <1786742.atdPhlSkOF@leap>
+Message-ID: <YjmzlGZJaBxLljq2@kroah.com>
+References: <20220318101440.13887-1-skumark1902@gmail.com>
+ <YjRswrHu0JUm9331@kroah.com>
+ <3a85ae64-00c1-6483-f1d7-c12abdd3ff3a@gmail.com>
+ <1786742.atdPhlSkOF@leap>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1786742.atdPhlSkOF@leap>
 
-On marted=C3=AC 22 marzo 2022 11:42:21 CET Fabio M. De Francesco wrote:
-
+On Tue, Mar 22, 2022 at 11:42:21AM +0100, Fabio M. De Francesco wrote:
+> On martedì 22 marzo 2022 05:30:29 CET Sathish Kumar wrote:
+> > On 18/03/22 4:58 pm, Greg KH wrote:
+> > > On Fri, Mar 18, 2022 at 03:44:40PM +0530, Sathish Kumar wrote:
+> > >> This patch fixes the checkpatch.pl warnings like:
+> > >> CHECK: Avoid CamelCase: <blnEnableRxFF0Filter>
+> > >> +   u8 blnEnableRxFF0Filter;
+> > >>
+> > >> Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
+> > >> ---
+> > >> Changes in v2:
+> > >>      - Remove the "bln" prefix
+> > >> ---
+> > >>   drivers/staging/rtl8712/drv_types.h   | 2 +-
+> > >>   drivers/staging/rtl8712/rtl871x_cmd.c | 2 +-
+> > >>   drivers/staging/rtl8712/xmit_linux.c  | 4 ++--
+> > >>   3 files changed, 4 insertions(+), 4 deletions(-)
+> > >>
+> > >> [...]
+> > >>
+> > >>   	do {
+> > >>   		msleep(100);
+> > >> -	} while (adapter->blnEnableRxFF0Filter == 1);
+> > >> +	} while (adapter->enable_rx_ff0_filter == 1);
+> > > Ah, that's funny.  It's amazing it works at all and that the compiler
+> > > doesn't optimize this away.  This isn't a good pattern to use in kernel
+> > Do you mean the following code is not a good pattern in kernel?
+> > do {
+> > msleep();
+> > } while(condition);
+> 
+> Exactly, this is not a pattern that works as you expect :)
+> 
+> I was waiting for Greg to detail something more about this subject but, 
+> since it looks like he has no time yet to respond, I'll try to interpret 
+> his words.
+> 
+> (@Greg, please forgive me if I saying something different from what you
+> intended to convey :)).
+> 
 > The reason why this pattern does not work as expected is too long to be
-> explained here. However, I think that Greg is suggesting to you to resear=
-ch
+> explained here. However, I think that Greg is suggesting to you to research
 > and use what are called "Condition variables".
 
-Sorry, "Condition" -> "Completion".
+Kind of.  The problem is that "condition" here is just looking at a
+random variable.  There is no sort of assurance that the variable will
+actually change or that that compiler even has to read from memory for
+it.  It could cache the value the first time it is read and then never
+update it for the whole loop logic.
 
-=46abio
+Please read Documentation/memory-barriers.txt for how to fix this all up
+and do it properly.
 
+Again, it's amazing that the current code even works at all.  So maybe
+it doesn't!  :)
 
+thansks,
+
+greg k-h
