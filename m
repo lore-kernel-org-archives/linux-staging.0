@@ -1,332 +1,143 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596807ED
-	for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 04:17:52 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id u103so31566867ybi.9
-        for <linux-staging@lists.linux.dev>; Mon, 21 Mar 2022 21:17:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6168621
+	for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 04:30:34 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id u17so17171014pfk.11
+        for <linux-staging@lists.linux.dev>; Mon, 21 Mar 2022 21:30:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bNxiLk92avGeytICuwxT4OBkdGX6EwxdZY8/sl4y4uA=;
-        b=lTwGO+vCAL98C2NzBml/Lk8tko1bSAzDs98cqSA7eP6hmGGghKpFxQGM8MUCn1+gOY
-         RWNbzuxYZsET/KoGJvTdXbw3PGArxQZQJ4OjCon1UHtV6qmQIqvGANBzR4jd2O3z3buY
-         5b/2VHbWnMoYmf5uNLrOgQ9aW/XtEoFLF3oqc=
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=aHNQ24PWiPjii6F5lkM3fKzrkShIeqqIUDEofSLJIto=;
+        b=eOPIZw6UeU1k5ngrdt8Ghoc3fF1MCx8GDFYmjZHl1yJJV/CqC9U56k5j1lYfZ4ugl9
+         +c3+cfuxLKJDsYidpaWnwLHKP72/0yWOIwU7I+2lkvKltjP2O3zQodOU0XqFmCW/vGg3
+         Uhg8VElhMz6JWo1Iib2B3Q5H4Cevqb+Df3leDeGpSgGQsj169if5vaJK1RHJRl+CRNzU
+         9uHiPffOaUgl/BJlnTeosGZ9XPzk99F+wuX4W6hf8NA8Y8PK7aLK6iACMgIqPWcPcQq0
+         ZSj/fI+8WnwjDKq1esfiBuaLKfH5ipuKupvaIw3ClQ8kv6Ddm9PdrVWrXOsdqMcizAL6
+         D56g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bNxiLk92avGeytICuwxT4OBkdGX6EwxdZY8/sl4y4uA=;
-        b=gxdx3IfVEi8JVLiaCgev75iEOobr9W8yfxT/ZEPo/RV1WLZgRfMeDYaoAlAdI8inka
-         6OcaCYVnfxaQv2P7JC2porFep2Epdmj7UEC9/kqwiAARv3D4LHasbk4+9VGSEJpdyT8w
-         X69w+HIP0xZsjX8+LtznrJncgfMaP/RDPDxG9uAuLtjOuPUKwnD9TbnjirlNrZeVxE6u
-         8CFMubKoPkVmAgnFkGBb/w4L8Dt0F6xLok9kbwzOXXZyaovjFzpDhAweSI0nejNiShUI
-         wXss0IVJ7cEVqCIJwaHpw89vaty8oITSuhbtS1yzANSWaFloddIeJNk9JR4N6DHXPrNB
-         jTyw==
-X-Gm-Message-State: AOAM531gJ5H33eIoJA/HS9WJeOLCL1Ou6WPrW1kAfM9PGfXuAlyhjPXF
-	cJzZFqArdMd2lvrf2Q7OHHSfan0DzP6jCI7GoCYakg==
-X-Google-Smtp-Source: ABdhPJy6NfGXrzXG/KS37k6+c146m2HdK+iLBw14JkXF+wdPCYjlx1bPQfHEz00DP6lARbslkHqgnC6ShuPUksgyRc4=
-X-Received: by 2002:a25:3ca:0:b0:633:7dc4:d13a with SMTP id
- 193-20020a2503ca000000b006337dc4d13amr24899384ybd.189.1647922671247; Mon, 21
- Mar 2022 21:17:51 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=aHNQ24PWiPjii6F5lkM3fKzrkShIeqqIUDEofSLJIto=;
+        b=36SczOip2m/U/Y31RzeNBLui4bO/iEcY/wRZ8rVtki29gjvaarkRiWfo9BQlw8XVSz
+         v4HuL6wP77MQsx+Op3xpAKDolKRNQuFIiuB6Aa5HkcUnU39lbWXP3GZcvzZgnxBzqVmI
+         /Cn4AXdO3sZcjm3ofcwMzKNVb7UFn6odXqEUzGi5PGfF/mjEzlffYrYwuAmqdwjM+HdN
+         R6PNUE2zoLTaXKCiv54Isq9xi+JqsegLDwddWmOKQ17UE9O244HFVuC2PdmUy49GLgTz
+         q6u9WoFG4m8Uc42bDh42L10CeD5xXwY+0QY1+NBwP4LOdQl5dPoJt5Ktt98ZCBr3WPqt
+         eO0g==
+X-Gm-Message-State: AOAM531UbIM4xQx+4Y0JPN+rDBKe8yan/Q/09Zpw7i5LI0vTJ14rV4lW
+	BikwPIP8O8Ue3yissa/C420=
+X-Google-Smtp-Source: ABdhPJynC+Dxfbf4XOsFfakoXjYdBPUwanv3IemaVPMlWaytEYdm9ih0AbVD33vrWon8J+ZhxuMlQQ==
+X-Received: by 2002:a62:3896:0:b0:4f7:87dc:de5b with SMTP id f144-20020a623896000000b004f787dcde5bmr27534389pfa.49.1647923434419;
+        Mon, 21 Mar 2022 21:30:34 -0700 (PDT)
+Received: from [192.168.225.67] ([157.49.254.255])
+        by smtp.gmail.com with ESMTPSA id h13-20020a056a00170d00b004f757a795fesm21071279pfc.219.2022.03.21.21.30.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Mar 2022 21:30:33 -0700 (PDT)
+Message-ID: <3a85ae64-00c1-6483-f1d7-c12abdd3ff3a@gmail.com>
+Date: Tue, 22 Mar 2022 10:00:29 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220301042225.1540019-1-wenst@chromium.org> <YjcbnmTUaWDtkIb/@eze-laptop>
- <CAGXv+5Em4CAYYMfg0_9kzYaPHhu3w8fwpfArE5FFkShp8A2DtQ@mail.gmail.com> <CAAEAJfBhGnge9675URC5w5Zg=yyy-3WuSGYRNYccjW-Cj84rhQ@mail.gmail.com>
-In-Reply-To: <CAAEAJfBhGnge9675URC5w5Zg=yyy-3WuSGYRNYccjW-Cj84rhQ@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 22 Mar 2022 12:17:40 +0800
-Message-ID: <CAGXv+5GwH3D+Wv==NjMd1km=p=D_6WoQuQhGAzkV-gT2uRDhGA@mail.gmail.com>
-Subject: Re: [PATCH v3] media: hantro: Implement support for encoder commands
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-media <linux-media@vger.kernel.org>, 
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH v2] staging: rtl8712: Fix CamelCase warnings
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220318101440.13887-1-skumark1902@gmail.com>
+ <YjRswrHu0JUm9331@kroah.com>
+From: Sathish Kumar <skumark1902@gmail.com>
+In-Reply-To: <YjRswrHu0JUm9331@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 21, 2022 at 8:50 PM Ezequiel Garcia
-<ezequiel@vanguardiasur.com.ar> wrote:
+On 18/03/22 4:58 pm, Greg KH wrote:
+> On Fri, Mar 18, 2022 at 03:44:40PM +0530, Sathish Kumar wrote:
+>> This patch fixes the checkpatch.pl warnings like:
+>> CHECK: Avoid CamelCase: <blnEnableRxFF0Filter>
+>> +   u8 blnEnableRxFF0Filter;
+>>
+>> Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
+>> ---
+>> Changes in v2:
+>>      - Remove the "bln" prefix
+>> ---
+>>   drivers/staging/rtl8712/drv_types.h   | 2 +-
+>>   drivers/staging/rtl8712/rtl871x_cmd.c | 2 +-
+>>   drivers/staging/rtl8712/xmit_linux.c  | 4 ++--
+>>   3 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/staging/rtl8712/drv_types.h b/drivers/staging/rtl8712/drv_types.h
+>> index a44d04effc8b..4de3aad08242 100644
+>> --- a/drivers/staging/rtl8712/drv_types.h
+>> +++ b/drivers/staging/rtl8712/drv_types.h
+>> @@ -157,7 +157,7 @@ struct _adapter {
+>>   	struct iw_statistics iwstats;
+>>   	int pid; /*process id from UI*/
+>>   	struct work_struct wk_filter_rx_ff0;
+>> -	u8 blnEnableRxFF0Filter;
+>> +	u8 enable_rx_ff0_filter;
+> Shouldn't this be a boolean?
 >
-> Hi Chen-Yu,
+>>   	spinlock_t lock_rx_ff0_filter;
+>>   	const struct firmware *fw;
+>>   	struct usb_interface *pusb_intf;
+>> diff --git a/drivers/staging/rtl8712/rtl871x_cmd.c b/drivers/staging/rtl8712/rtl871x_cmd.c
+>> index acda930722b2..69d3c55ee9e5 100644
+>> --- a/drivers/staging/rtl8712/rtl871x_cmd.c
+>> +++ b/drivers/staging/rtl8712/rtl871x_cmd.c
+>> @@ -202,7 +202,7 @@ u8 r8712_sitesurvey_cmd(struct _adapter *padapter,
+>>   	mod_timer(&pmlmepriv->scan_to_timer,
+>>   		  jiffies + msecs_to_jiffies(SCANNING_TIMEOUT));
+>>   	padapter->ledpriv.LedControlHandler(padapter, LED_CTL_SITE_SURVEY);
+>> -	padapter->blnEnableRxFF0Filter = 0;
+>> +	padapter->enable_rx_ff0_filter = 0;
+>>   	return _SUCCESS;
+>>   }
+>>   
+>> diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
+>> index 90d34cf9d2ff..d58ae5b387d4 100644
+>> --- a/drivers/staging/rtl8712/xmit_linux.c
+>> +++ b/drivers/staging/rtl8712/xmit_linux.c
+>> @@ -102,11 +102,11 @@ void r8712_SetFilter(struct work_struct *work)
+>>   	r8712_write8(adapter, 0x117, newvalue);
+>>   
+>>   	spin_lock_irqsave(&adapter->lock_rx_ff0_filter, irqL);
+>> -	adapter->blnEnableRxFF0Filter = 1;
+>> +	adapter->enable_rx_ff0_filter = 1;
+>>   	spin_unlock_irqrestore(&adapter->lock_rx_ff0_filter, irqL);
+>>   	do {
+>>   		msleep(100);
+>> -	} while (adapter->blnEnableRxFF0Filter == 1);
+>> +	} while (adapter->enable_rx_ff0_filter == 1);
+> Ah, that's funny.  It's amazing it works at all and that the compiler
+> doesn't optimize this away.  This isn't a good pattern to use in kernel
+Do you mean the following code is not a good pattern in kernel?
+do {
+msleep();
+} while(condition);
+> code.  I know it's not caused by your change here, but perhaps you might
+> want to fix this up to work properly?
 >
-> On Mon, Mar 21, 2022 at 1:12 AM Chen-Yu Tsai <wenst@chromium.org> wrote:
-> >
-> > On Sun, Mar 20, 2022 at 8:18 PM Ezequiel Garcia
-> > <ezequiel@vanguardiasur.com.ar> wrote:
-> > >
-> > > Hi Chen-Yu, Benjamin, Nicolas,
-> > >
-> > > Sorry for the late review.
-> > >
-> > > On Tue, Mar 01, 2022 at 12:22:25PM +0800, Chen-Yu Tsai wrote:
-> > > > The V4L2 stateful encoder uAPI specification requires that drivers
-> > > > support the ENCODER_CMD ioctl to allow draining of buffers. This
-> > > > however was not implemented, and causes issues for some userspace
-> > > > applications.
-> > > >
-> > > > Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
-> > > > This is entirely based on existing code found in the vicodec test
-> > > > driver.
-> > > >
-> > > > Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-> > > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > > Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > > > ---
-> > > >
-> > > > Changes since v2:
-> > > > - Dropped RFC tag
-> > > > - Added Reviewed-by from Benjamin
-> > > > - Replace direct access to vb->planes[i].bytesused with
-> > > >   vb2_set_plane_payload()
-> > > >
-> > > > Changes since v1:
-> > > > - Correctly handle last buffers that are empty
-> > > > - Correctly handle last buffers that just got queued
-> > > > - Disable (TRY_)ENCODER_CMD ioctls for hantro decoder
-> > > >
-> > > > This is based on linux-next-20220208, and was tested on RK3399 with
-> > > > Gstreamer running the JPEG encoder. It was also tested on ChromeOS
-> > > > 5.10 on Kevin with the video encoder used in ChromeOS ARC, which
-> > > > requires this. For ChromeOS, both encoder and decoder tests were run
-> > > > to check for regressions.
-> > > >
-> > >
-> > > Sounds great, thanks for running those tests!
-> > >
-> > > > Everything really works OK now, but since I'm not very familiar with
-> > > > the mem2mem framework, I might be missing something, causing resource
-> > > > leaks. Hence this patch is labeled RFC.
-> > > >
-> > >
-> > > It would be great to apply this to a mainline-ish kernel,
-> > > and run some fluster and some stress-tests to ensure this is not
-> > > regressing decoding in some way.
-> >
-> > I can try to get the fluster suite running.
-> >
-> > Not sure what stress-tests you had in mind though? Upstream only has the
-> > JPEG encoder. Maybe multiple gstreamer encoding/decoding instances running
-> > in parallel? Or even multiple fluster runs in parallel?
-> >
+> thanks,
 >
-> Exactly, I was imagining multiple gstreamer pipelines in parallel,
-> focusing on decoding.
->
-> > I had just put my RK3399 device away though. Have to dig it out again.
-> >
->
-> Sorry about that. I will try to shorten my review cadence.
+> greg k-h
 
-No worries. I just meant that it might take me a few days to get
-through testing.
+Do i need to replace the above code with some other mechanism?
 
-ChenYu
+If yes, please let me know which mechanism i should use? Or what should 
+I do here?
 
-> Thanks,
-> Ezequiel
->
-> > > > Last, I suppose we could also add support for (TRY_)DECODER_CMD now?
-> > > >
-> > > >  drivers/staging/media/hantro/hantro_drv.c  | 17 +++++-
-> > > >  drivers/staging/media/hantro/hantro_v4l2.c | 68 +++++++++++++++++++++-
-> > > >  2 files changed, 81 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> > > > index bc9bcb4eaf46..99bc650a5a93 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > > @@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
-> > > >       return hantro_get_dec_buf_addr(ctx, buf);
-> > > >  }
-> > > >
-> > > > +static const struct v4l2_event hantro_eos_event = {
-> > > > +     .type = V4L2_EVENT_EOS
-> > > > +};
-> > > > +
-> > > >  static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
-> > > >                                   struct hantro_ctx *ctx,
-> > > >                                   enum vb2_buffer_state result)
-> > > > @@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
-> > > >       src->sequence = ctx->sequence_out++;
-> > > >       dst->sequence = ctx->sequence_cap++;
-> > > >
-> > > > +     if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
-> > > > +             dst->flags |= V4L2_BUF_FLAG_LAST;
-> > > > +             v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-> > > > +             v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
-> > > > +     }
-> > > > +
-> > > >       v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
-> > > >                                        result);
-> > > >  }
-> > > > @@ -807,10 +817,13 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
-> > > >       snprintf(vfd->name, sizeof(vfd->name), "%s-%s", match->compatible,
-> > > >                funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER ? "enc" : "dec");
-> > > >
-> > > > -     if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER)
-> > > > +     if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
-> > > >               vpu->encoder = func;
-> > > > -     else
-> > > > +     } else {
-> > > >               vpu->decoder = func;
-> > > > +             v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
-> > > > +             v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
-> > > > +     }
-> > > >
-> > > >       video_set_drvdata(vfd, vpu);
-> > > >
-> > > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> > > > index 67148ba346f5..aa10ecd04c9c 100644
-> > > > --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> > > > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> > > > @@ -628,6 +628,39 @@ static int vidioc_s_selection(struct file *file, void *priv,
-> > > >       return 0;
-> > > >  }
-> > > >
-> > > > +static const struct v4l2_event hantro_eos_event = {
-> > > > +     .type = V4L2_EVENT_EOS
-> > > > +};
-> > > > +
-> > > > +static int vidioc_encoder_cmd(struct file *file, void *priv,
-> > > > +                           struct v4l2_encoder_cmd *ec)
-> > > > +{
-> > > > +     struct hantro_ctx *ctx = fh_to_ctx(priv);
-> > > > +     int ret;
-> > > > +
-> > > > +     ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
-> > > > +     if (ret < 0)
-> > > > +             return ret;
-> > > > +
-> > > > +     if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
-> > > > +         !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
-> > > > +             return 0;
-> > > > +
-> > > > +     ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
-> > > > +     if (ret < 0)
-> > > > +             return ret;
-> > > > +
-> > > > +     if (ec->cmd == V4L2_ENC_CMD_STOP &&
-> > > > +         v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-> > > > +             v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-> > > > +
-> > > > +     if (ec->cmd == V4L2_ENC_CMD_START &&
-> > > > +         v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-> > >
-> > > This looks odd. The has_stopped flag is cleared by calling
-> > > v4l2_m2m_ioctl_encoder_cmd so I can't see how it could be set here.
-> > >
-> > > This same pattern is in the vicodec driver, the change was introduced
-> > > in d4d137de5f31d318ed9acdcdf359b9bd3920808b.
-> >
-> > Looking at the commit you pointed out, it seems the original intent was to
-> > check the prior state. So it looks like d4d137de5f31d318ed9acdcdf359b9bd3920808b
-> > introduced a bug.
-> >
-> > I'll take care of both drivers.
-> >
-> > > > +             vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > >  const struct v4l2_ioctl_ops hantro_ioctl_ops = {
-> > > >       .vidioc_querycap = vidioc_querycap,
-> > > >       .vidioc_enum_framesizes = vidioc_enum_framesizes,
-> > > > @@ -657,6 +690,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
-> > > >
-> > > >       .vidioc_g_selection = vidioc_g_selection,
-> > > >       .vidioc_s_selection = vidioc_s_selection,
-> > > > +
-> > > > +     .vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-> > > > +     .vidioc_encoder_cmd = vidioc_encoder_cmd,
-> > > >  };
-> > > >
-> > > >  static int
-> > > > @@ -733,8 +769,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
-> > > >        * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
-> > > >        * it to buffer length).
-> > > >        */
-> > > > -     if (V4L2_TYPE_IS_CAPTURE(vq->type))
-> > > > -             vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-> > > > +     if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
-> > > > +             if (ctx->is_encoder)
-> > > > +                     vb2_set_plane_payload(vb, 0, 0);
-> > >
-> > > This looks like some fix, that could be applied independently of this patch?
-> >
-> > Yes. I seem to have accidentally squashed that in. Of the top of my head,
-> > I think this was clearing the capture buffers to be empty, so unused
-> > buffers returned to userspace do look "unused".
-> >
-> > I'll split this out.
-> >
-> >
-> > Thanks
-> > ChenYu
-> >
-> > > > +             else
-> > > > +                     vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-> > > > +     }
-> > > >
-> > > >       return 0;
-> > > >  }
-> > > > @@ -744,6 +784,22 @@ static void hantro_buf_queue(struct vb2_buffer *vb)
-> > > >       struct hantro_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
-> > > >       struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > > >
-> > > > +     if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
-> > > > +         vb2_is_streaming(vb->vb2_queue) &&
-> > > > +         v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
-> > > > +             unsigned int i;
-> > > > +
-> > > > +             for (i = 0; i < vb->num_planes; i++)
-> > > > +                     vb2_set_plane_payload(vb, i, 0);
-> > > > +
-> > > > +             vbuf->field = V4L2_FIELD_NONE;
-> > > > +             vbuf->sequence = ctx->sequence_cap++;
-> > > > +
-> > > > +             v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
-> > > > +             v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-> > > > +             return;
-> > > > +     }
-> > > > +
-> > > >       v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
-> > > >  }
-> > > >
-> > > > @@ -759,6 +815,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
-> > > >       struct hantro_ctx *ctx = vb2_get_drv_priv(q);
-> > > >       int ret = 0;
-> > > >
-> > > > +     v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
-> > > > +
-> > > >       if (V4L2_TYPE_IS_OUTPUT(q->type))
-> > > >               ctx->sequence_out = 0;
-> > > >       else
-> > > > @@ -831,6 +889,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
-> > > >               hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
-> > > >       else
-> > > >               hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
-> > > > +
-> > > > +     v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
-> > > > +
-> > > > +     if (V4L2_TYPE_IS_OUTPUT(q->type) &&
-> > > > +         v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-> > > > +             v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-> > > >  }
-> > > >
-> > > >  static void hantro_buf_request_complete(struct vb2_buffer *vb)
-> > > > --
-> > > > 2.35.1.574.g5d30c73bfb-goog
-> > > >
-> > >
-> > > Thanks,
-> > > Ezequiel
+Note : I am new to Linux kernel development and looking forward to learn 
+and contribute.
+
+Thanks,
+Sathish
