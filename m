@@ -1,90 +1,90 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9E5A31
-	for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 08:39:04 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id a17so19715173edm.9
-        for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 01:39:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA54BA31
+	for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 08:43:59 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id n18so14868755plg.5
+        for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 01:43:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X99bYtMPXK/lUQRyXYEMc82PYA/a9iPeIbyvT5Yw/Y4=;
-        b=kjzsyGVFO7n/ps8vT3T+52rxTOI3jY2t4UGftFX6Dtm8CrsMtWfqW64D0NbY1KpUuR
-         jdxGVxIa88gbx79Sk52K8S8NW2HRlfKnjYPVqvF8NYUPt+I3CEtqMyxVhYYuW5W+vm37
-         TgSCx1X8nvHFVASN7iSujEpSLkonNCyxDyUi30caOnYTIo1WWoHgKoxRviJpAVa1TdH8
-         hh3/+J3r2akg4O/LDR7iHSIDypgp6iGeiX68pb4XD8EPB7vNijFw/2YUo4+Zg7RKIjua
-         1ZvETy+DeS/IcM+O3CUR+AOnxe7HaBuGeZTcyfp6U+MzK7FS9MVRGwc0WOFqu8N7y6dE
-         Ny6g==
+        h=from:to:cc:subject:date:message-id;
+        bh=ZxrxvLmhhEpAfBV6uhz1YKPOjB2lLxvj2bDyOyEBloU=;
+        b=fHN0nGy6JZwVZZACiD3BMloqyF9i7AL6wUEjck1epp3PbRIMOMyCca+surdzGsIkD9
+         MdHLNrWhGdMj/uoPcxX7fqguuH/8GPjq0dmJmWQdCP858Hpk7PaxSV0VVVo9z+ffvte3
+         KyjkZdh+DhvkPUz7BcnBHwFRIGClky5OG2UyjXNl5ot+rLa4MIBnyHl3ATnN6yTyT3kF
+         GiOYAKu4w43PR3pbHR45BrL/J2zELloW08wlmmGCoQSdmsDWKt94aIM690W8IR9n+N71
+         ka6grEBkP83YGu/qVybRHR7vIZqgq/++XQPrh68bTXJ9a5rVsN9YAQCR52o/32P0loAN
+         PkHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=X99bYtMPXK/lUQRyXYEMc82PYA/a9iPeIbyvT5Yw/Y4=;
-        b=oY/YsKpGKjpY1WQpXwpRxLJWaO9azS0aXfK/XP4teOk1WOzNCvypEDjOFTn3fdND2M
-         FC816tqX/HySEbRlQUBDkg0LP5qlGxhZWoSnmfpLW2GgVwgIlma31DODdfSR/TQaay4z
-         c9vSIN376gjyvMgiokMDAn6VZAJxebZRXUcKp0L7Q/WeSQ9ekfQEXaQ5QucUpwumr+Yo
-         KHWh/zKbrM9YLKy0UTHlII9Qx6APanSFMQeMtkP9CQfrDvOxMBva+AzeJUTdqeUzmi78
-         Pt34u1TRssbvQ+DevNDzZd9xlCygxCD6bmrbVUhcUdi7H/cpA2UyMX7yuyQzYTPxCN3i
-         Ew5w==
-X-Gm-Message-State: AOAM530wyypJnj+Yh41QZE0/wQfdX89DUVj2MBOCUJmEef1kDD7YpJKu
-	iUyAtuSML0V+fjVQNjIx838=
-X-Google-Smtp-Source: ABdhPJxXDtRJWchyCbVOGD2wwIGmi4wLssoOiyYgO2VoKtkzls9TLlTHQKUP8kctT6dQwoJcuefSAA==
-X-Received: by 2002:a05:6402:280f:b0:419:4c6f:a91b with SMTP id h15-20020a056402280f00b004194c6fa91bmr6438066ede.84.1647938342706;
-        Tue, 22 Mar 2022 01:39:02 -0700 (PDT)
-Received: from localhost.localdomain (host-79-37-100-169.retail.telecomitalia.it. [79.37.100.169])
-        by smtp.gmail.com with ESMTPSA id do8-20020a170906c10800b006dfe4d1edc6sm3631131ejc.61.2022.03.22.01.39.01
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ZxrxvLmhhEpAfBV6uhz1YKPOjB2lLxvj2bDyOyEBloU=;
+        b=1wrFrYXT+8ikbBj7jzWtPbkXAhsaTlx2J8UKVOWvUlm9/Xtb8Db7ekQ8CCWS05GeDs
+         5ofdpVUnDZiM6C/ouY4WyIYgk7Zg9fyQLp7weD9KI8R9BnHqlQ4uTfaqd5gclpPLG6FW
+         tPuDH0svb3egJ6HbkxzCVzc1PHGc/+BRe1Ygcz4SFwgxihl0kG9vU4oep8aaXkB+FJ10
+         EBnPhvCKDFEEkJdkjraXoJ3qZyclv9OsOrGhyxlH9kYtH1v82ZPK18capHKHreXzHSxx
+         mAafiH9FjmDRL5+FcYsACivXdcEoFnCV7iQXU6n17AmkgZT2BZEZt7KapuhwH0i0qSjD
+         KulA==
+X-Gm-Message-State: AOAM530QIPCvmzlgi4GBFrfDdRNzgJU2eKEOFAHpXvnDONADTkngv8m3
+	k9c1TTLVRDK1hfofxNQhDO3GjDOiowEYjOQU
+X-Google-Smtp-Source: ABdhPJwlpFZfcxZl1zBc7WLYS8WdYv68M00ubMwztbD/5H5eWT2/Ju1ejMIUUgnCP94/g2n4VT2cXw==
+X-Received: by 2002:a17:902:cecb:b0:154:6f46:a5d6 with SMTP id d11-20020a170902cecb00b001546f46a5d6mr5994007plg.92.1647938639111;
+        Tue, 22 Mar 2022 01:43:59 -0700 (PDT)
+Received: from ubuntu-vm.jnpr.net ([116.197.184.10])
+        by smtp.gmail.com with ESMTPSA id rj14-20020a17090b3e8e00b001bf50a8b468sm2091658pjb.51.2022.03.22.01.43.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Mar 2022 01:39:01 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: David Kershner <david.kershner@unisys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	sparmaintainer@unisys.com,
+        Tue, 22 Mar 2022 01:43:58 -0700 (PDT)
+From: Sathish Kumar <skumark1902@gmail.com>
+To: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: unisys: Properly test debugfs_create_dir() return values
-Date: Tue, 22 Mar 2022 09:38:58 +0100
-Message-Id: <20220322083858.16887-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Sathish Kumar <skumark1902@gmail.com>
+Subject: [PATCH] staging: vt6656: Fix multiple blank lines warning
+Date: Tue, 22 Mar 2022 14:13:34 +0530
+Message-Id: <20220322084334.4077-1-skumark1902@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-debugfs_create_dir() returns a pointers to a dentry objects. On failures
-it returns errors. Currently the values returned to visornic_probe()
-seem to be tested for being equal to NULL in case of failures.
+This patch fixes the checkpatch.pl warnings like:
+CHECK: Please don't use multiple blank lines
++
++
 
-Properly test with "if (IS_ERR())" and then assign the correct error 
-value to the "err" variable.
-
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
 ---
- drivers/staging/unisys/visornic/visornic_main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/vt6656/channel.c | 1 -
+ drivers/staging/vt6656/rf.c      | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/drivers/staging/unisys/visornic/visornic_main.c b/drivers/staging/unisys/visornic/visornic_main.c
-index 643432458105..58d03f3d3173 100644
---- a/drivers/staging/unisys/visornic/visornic_main.c
-+++ b/drivers/staging/unisys/visornic/visornic_main.c
-@@ -1922,11 +1922,11 @@ static int visornic_probe(struct visor_device *dev)
- 	/* create debug/sysfs directories */
- 	devdata->eth_debugfs_dir = debugfs_create_dir(netdev->name,
- 						      visornic_debugfs_dir);
--	if (!devdata->eth_debugfs_dir) {
-+	if (IS_ERR(devdata->eth_debugfs_dir)) {
- 		dev_err(&dev->device,
- 			"%s debugfs_create_dir %s failed\n",
- 			__func__, netdev->name);
--		err = -ENOMEM;
-+		err = PTR_ERR(devdata->eth_debugfs_dir);
- 		goto cleanup_register_netdev;
- 	}
+diff --git a/drivers/staging/vt6656/channel.c b/drivers/staging/vt6656/channel.c
+index aca003031995..413e2fc4a50d 100644
+--- a/drivers/staging/vt6656/channel.c
++++ b/drivers/staging/vt6656/channel.c
+@@ -55,7 +55,6 @@ static struct ieee80211_channel vnt_channels_2ghz[] = {
+ 	{ .center_freq = 2484, .hw_value = 14 }
+ };
  
+-
+ static struct ieee80211_supported_band vnt_supported_2ghz_band = {
+ 	.channels = vnt_channels_2ghz,
+ 	.n_channels = ARRAY_SIZE(vnt_channels_2ghz),
+diff --git a/drivers/staging/vt6656/rf.c b/drivers/staging/vt6656/rf.c
+index acbbf8acdf1b..464602c74727 100644
+--- a/drivers/staging/vt6656/rf.c
++++ b/drivers/staging/vt6656/rf.c
+@@ -82,7 +82,6 @@ static u8 al2230_channel_table1[CB_MAX_CHANNEL_24G][3] = {
+ 	{0x06, 0x66, 0x61}
+ };
+ 
+-
+ static u8 vt3226_init_table[CB_VT3226_INIT_SEQ][3] = {
+ 	{0x03, 0xff, 0x80},
+ 	{0x02, 0x82, 0xa1},
 -- 
-2.34.1
+2.17.1
 
