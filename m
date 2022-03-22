@@ -1,114 +1,142 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8289AA31
-	for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 09:09:27 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id v22so10055960wra.2
-        for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 02:09:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D07628
+	for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 10:42:26 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id p12-20020a05600c430c00b0038cbdf52227so356652wme.2
+        for <linux-staging@lists.linux.dev>; Tue, 22 Mar 2022 03:42:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/1rlicvjRZ8VsB2zz7DEBNteWHvxmtIGKnriEjiwbXo=;
-        b=EWucjHmK90N5Kw9y229FrvTX2t9MS+0MLqUzxnovTe9p8dGNnikFtOKNwIAMpyUq3a
-         ZRZTb3RquMTnDOhdAFKPP4yXurRXDHgM7xlTAho1O+ZCJKlPImUm+8goPdEQcqMf5Ghl
-         ymz9Lxv5xFCTW3fVx1IsqpTZ4e7VNAiWAhuPrBpDi0l09llTfqEmeoD7GWzYYPwPrOIY
-         nUOvGUhMKo866OeMIkVCyDNNo53thokSlLRiNbBx7XKuQ0UdyyTHdFP3BR3LplTe8C0t
-         FY0XDKW1/kDJ7txrsrd+S3fMmqGbCcKIN/73BUNvbrMlOhypccEwY8JVEJrDvZEDpmnX
-         JVEg==
+        bh=DFfOJE9o2HqAJOSqBaJFQFfutWgZMKV4kI/WYj73AZY=;
+        b=WkdbAVUeg++bdea+vhZthWfIKaO5ibIym7B19DfJlss0ygAzE8WtcxGgk3Rq9sfFed
+         UwgqLMLZKc6Y5I+J0KyeK+hsrns5AZtsO4FdBKxgXLtHgiGpPPS6eYt4h5NuD+eqzrs8
+         RLLj0Gz4hLS8zETFMySV+vWfhFXY5tlf1zSLiPqTs5B62TnVhn+jFjDyu77AyJ6j/UaZ
+         5xMfZNuKmut2DhAcvKoRWuqv6jjpfmj9nmbrHqpIc/4/So2tfdOZbdQZNfONwnZPj4hC
+         vIyxAzVxXxI1zAMtF4rg90j5QD4xanY1EHUcO/HsV4bsTH4VQTWmnFs6nz4SUmxImV5Q
+         nsgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/1rlicvjRZ8VsB2zz7DEBNteWHvxmtIGKnriEjiwbXo=;
-        b=D4hACt3Gh/tfRtcyhg+yejlc8/c1h/i+K7HnIpYGttnMYTeIrjBmlDojHgJ2QgqVSe
-         dxvkOb+w2P+9h5MJClLgFYYMdKuK1kh5JduB37kioRWyaj3h0Ty1BpjARqug351Y4udf
-         pFqfJ579nI/0lClS4UM5bQ2l5BA1uwAoKFIyewjvr1qdrvecL0lyL/ic3uMLLI00mE0A
-         Iss6KuQx1+ZU917RupKxdHF8XN09s+/tYb8b8HzrYduijgmOEcE1oAQICvJmXonLYIAE
-         FGSngNM0HnTC3/675G22fNOnrxBF34u3Y49BU9/WnOptXeQ8XsagwPDKHbgFmW2or9WG
-         YaSQ==
-X-Gm-Message-State: AOAM530o98qdwQAsGGwBY26hw1trpuCnDpQVF8M7ggIq7nPr9C2vyCL0
-	QM1Gc3Nmv8xPYjgs2jnKBbU=
-X-Google-Smtp-Source: ABdhPJxEcA1X9hNexTw4rh6b8gunWxPhay6h57jxYz26xCAhQsbReprjuVb694nQ8O72PDkHUMBTmQ==
-X-Received: by 2002:a5d:6b0f:0:b0:1e7:9432:ee8c with SMTP id v15-20020a5d6b0f000000b001e79432ee8cmr20895553wrw.216.1647940165623;
-        Tue, 22 Mar 2022 02:09:25 -0700 (PDT)
+        bh=DFfOJE9o2HqAJOSqBaJFQFfutWgZMKV4kI/WYj73AZY=;
+        b=6QvIDSIfNjsCD3q0XSwrgB9aqXqo1TWVNGaStn9pZw11znSfVs1ItCPQ3LOtxsTiFO
+         iUBA//NLzREObOHw0uPzzG4fcnB0hr2BsrVk7czETT9swj91ycmP6w+yoisv7IN/fmLX
+         wPM9UbSTn1w4WQ+3DniDPKHlcQy5GoGz/f3D+Bwc01EtRJBYuBdKoF1NYZuDhR80Si7j
+         VG8sI1fNkLiQN/BQ2QZ+f3Tz9OR54ldxow6CRUkt7/M/esBxj5JAOzWASShd/mzoyRC4
+         8AdeHhilg5xg2mJvLH7mLRRuExzwhDkLAPotzXShiD8nrWWDITt8gs2Fj8fiklduSYZO
+         c6BA==
+X-Gm-Message-State: AOAM532QjHK+QDdmQO0zuk+VGAXjzAFIowHFFuhY8y5W3ERr0Gm7Pjlo
+	Z2iEM+bG4wJmsXlUlPoIPX8=
+X-Google-Smtp-Source: ABdhPJx81q0d4bF09rUxEJOf+ippZhBk0x9Q/jaLlDzPBAcA10A2VFYKheCupIeUBtiYMxr654a3Ww==
+X-Received: by 2002:adf:db4b:0:b0:203:e76f:fc45 with SMTP id f11-20020adfdb4b000000b00203e76ffc45mr20818549wrj.549.1647945744429;
+        Tue, 22 Mar 2022 03:42:24 -0700 (PDT)
 Received: from leap.localnet (host-79-37-100-169.retail.telecomitalia.it. [79.37.100.169])
-        by smtp.gmail.com with ESMTPSA id v8-20020a1cf708000000b0034d7b5f2da0sm1436402wmh.33.2022.03.22.02.09.23
+        by smtp.gmail.com with ESMTPSA id c12-20020a05600c0a4c00b00381141f4967sm1903414wmq.35.2022.03.22.03.42.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Mar 2022 02:09:24 -0700 (PDT)
+        Tue, 22 Mar 2022 03:42:23 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: David Kershner <david.kershner@unisys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: unisys: Properly test debugfs_create_dir() return values
-Date: Tue, 22 Mar 2022 10:09:22 +0100
-Message-ID: <3166283.44csPzL39Z@leap>
-In-Reply-To: <20220322084928.GM3293@kadam>
-References: <20220322083858.16887-1-fmdefrancesco@gmail.com> <20220322084928.GM3293@kadam>
+To: Greg KH <gregkh@linuxfoundation.org>, Sathish Kumar <skumark1902@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8712: Fix CamelCase warnings
+Date: Tue, 22 Mar 2022 11:42:21 +0100
+Message-ID: <1786742.atdPhlSkOF@leap>
+In-Reply-To: <3a85ae64-00c1-6483-f1d7-c12abdd3ff3a@gmail.com>
+References: <20220318101440.13887-1-skumark1902@gmail.com> <YjRswrHu0JUm9331@kroah.com> <3a85ae64-00c1-6483-f1d7-c12abdd3ff3a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On marted? 22 marzo 2022 09:49:28 CET Dan Carpenter wrote:
-> On Tue, Mar 22, 2022 at 09:38:58AM +0100, Fabio M. De Francesco wrote:
-> > debugfs_create_dir() returns a pointers to a dentry objects. On failures
-> > it returns errors. Currently the values returned to visornic_probe()
-> > seem to be tested for being equal to NULL in case of failures.
-> > 
-> > Properly test with "if (IS_ERR())" and then assign the correct error 
-> > value to the "err" variable.
-> > 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> >  drivers/staging/unisys/visornic/visornic_main.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/staging/unisys/visornic/visornic_main.c b/drivers/staging/unisys/visornic/visornic_main.c
-> > index 643432458105..58d03f3d3173 100644
-> > --- a/drivers/staging/unisys/visornic/visornic_main.c
-> > +++ b/drivers/staging/unisys/visornic/visornic_main.c
-> > @@ -1922,11 +1922,11 @@ static int visornic_probe(struct visor_device *dev)
-> >  	/* create debug/sysfs directories */
-> >  	devdata->eth_debugfs_dir = debugfs_create_dir(netdev->name,
-> >  						      visornic_debugfs_dir);
-> > -	if (!devdata->eth_debugfs_dir) {
-> > +	if (IS_ERR(devdata->eth_debugfs_dir)) {
-> 
-> Normally I would say to just delete the error handling.  But in this
-> case you can delete the whole devdata->eth_debugfs_dir and the related
-> code.  It's not used at all.
-> 
-> regards,
-> dan carpenter
-> 
-Dear Dan,
+On marted=C3=AC 22 marzo 2022 05:30:29 CET Sathish Kumar wrote:
+> On 18/03/22 4:58 pm, Greg KH wrote:
+> > On Fri, Mar 18, 2022 at 03:44:40PM +0530, Sathish Kumar wrote:
+> >> This patch fixes the checkpatch.pl warnings like:
+> >> CHECK: Avoid CamelCase: <blnEnableRxFF0Filter>
+> >> +   u8 blnEnableRxFF0Filter;
+> >>
+> >> Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
+> >> ---
+> >> Changes in v2:
+> >>      - Remove the "bln" prefix
+> >> ---
+> >>   drivers/staging/rtl8712/drv_types.h   | 2 +-
+> >>   drivers/staging/rtl8712/rtl871x_cmd.c | 2 +-
+> >>   drivers/staging/rtl8712/xmit_linux.c  | 4 ++--
+> >>   3 files changed, 4 insertions(+), 4 deletions(-)
+> >>
+> >> [...]
+> >>
+> >>   	do {
+> >>   		msleep(100);
+> >> -	} while (adapter->blnEnableRxFF0Filter =3D=3D 1);
+> >> +	} while (adapter->enable_rx_ff0_filter =3D=3D 1);
+> > Ah, that's funny.  It's amazing it works at all and that the compiler
+> > doesn't optimize this away.  This isn't a good pattern to use in kernel
+> Do you mean the following code is not a good pattern in kernel?
+> do {
+> msleep();
+> } while(condition);
 
-I think that you are right and the whole thing should be deleted. There are 
-a couple more of these kinds of bad error handling in the Unisys driver.
+Exactly, this is not a pattern that works as you expect :)
 
-However, soon after sending this patch I noticed that David Kershner email
-account at unisys.com is not working anymore. Furthermore, I am recalling
-that in 2021 I made a conversion from IDA to XArray for the whole visorhba
-driver and nobody at Unisys replied. After one month in queue, Greg decided
-to apply my patches while noticing that nobody from Unisys cares.
+I was waiting for Greg to detail something more about this subject but,=20
+since it looks like he has no time yet to respond, I'll try to interpret=20
+his words.
 
-In summation, probably I'll follow your suggestion for this case and the
-other bugs that I was about to fix but I'm not sure at all at the moment.
+(@Greg, please forgive me if I saying something different from what you
+intended to convey :)).
 
-What I mean is: if people at Unisys don't care, why should I?
+The reason why this pattern does not work as expected is too long to be
+explained here. However, I think that Greg is suggesting to you to research
+and use what are called "Condition variables".
 
-Thanks for your review, Dan.
+Take some time to research and understand what the Linuc kernel uses for
+waiting for completion or state changes: struct completion,=20
+wait_for_completion(), complete(), and others.
 
-Regards,
+Another related mechanism are the Linux kernel "Wait Queues". Do some=20
+research and understand how to use wait_event{,_interruptible,timeout}=20
+and wake_up{,all,interruptible,interruptible_all}.
 
-Fabio M. De Francesco
+If I recall correctly you may find one or more of my own patches to
+r8188eu where I use those API (git-log is your friend).
 
-P.S.: I found this and the other bugs in this Unisys driver with the help
-of Smatch. Thank you for this precious tool :)
+I hope that all the above will be sufficient to start with.
+
+Again, Greg please correct my words if I'm misinterpreting what you
+requested to Sathish.
+
+Thanks,
+
+=46abio M. De Francesco
+
+> > I know it's not caused by your change here, but perhaps you might
+> > want to fix this up to work properly?
+> >
+> > thanks,
+> >
+> > greg k-h
+>=20
+> Do i need to replace the above code with some other mechanism?
+>=20
+> If yes, please let me know which mechanism i should use? Or what should=20
+> I do here?
+>=20
+> Note : I am new to Linux kernel development and looking forward to learn=
+=20
+> and contribute.
+>=20
+> Thanks,
+> Sathish
+>=20
+>=20
+
 
 
 
