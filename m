@@ -1,112 +1,81 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11881B72
-	for <linux-staging@lists.linux.dev>; Wed, 23 Mar 2022 15:49:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1648050574;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O4t9kavJSuWG3T394Vw0tvPWs8TWctqC32p4OaxhLmc=;
-	b=d7Is+EDjPTwa8dHBezehB2IoxyAnU55v1uN/qbzDSr/Wo8/w8O8x1Nib8A78DDBM7a9dqn
-	Zz5rY1ht56dwIWG7OqXLC3meM0R1E3rQkmTq2dUTTE3AP1mtRHV9KY378PWKgcvQHEyGmF
-	KU9zqGnzRady+XkIlorNdEJ8xgrHaO4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-449-nrgGN6y_OrOJhEQRkBFKzQ-1; Wed, 23 Mar 2022 11:49:33 -0400
-X-MC-Unique: nrgGN6y_OrOJhEQRkBFKzQ-1
-Received: by mail-ed1-f72.google.com with SMTP id s7-20020a508dc7000000b0040f29ccd65aso1306583edh.1
-        for <linux-staging@lists.linux.dev>; Wed, 23 Mar 2022 08:49:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FA266C5
+	for <linux-staging@lists.linux.dev>; Wed, 23 Mar 2022 18:44:48 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id q129so2563664oif.4
+        for <linux-staging@lists.linux.dev>; Wed, 23 Mar 2022 11:44:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=O4t9kavJSuWG3T394Vw0tvPWs8TWctqC32p4OaxhLmc=;
-        b=4dJXaV1EvjbE8lfkUx082YhVxnhabwEgHStBvSuIFAo3NGegr4CeXRnSWtJE0V/htX
-         S1qQHPCW2no/E//k7md+gFzVyFBo9s1NIXzfWCAx9dfEaY02s/Y5wz97rZB+k6CMWui2
-         FQQj2pnDIqT507kyhhxLdRXacticlrX5mz+zUo0W0T0pGQCeQIqQ2zn0VkHfxAmKtwzx
-         5Tc6HurOI3bx2rUzarsQTon5qrppYZoPIp/kn6ANz47sMCnD04qroP+0Dsex6NE8CJQ+
-         vPfseyVgBjQ/lPDhZb7QXdXwcrqtJIdYL9whXniH/CldRaO4S/xiY82kDAWgBTs3lkMS
-         zMzw==
-X-Gm-Message-State: AOAM531cuUsJuoK0K7gurAy64C+/vn+Q41Gj91QGJ7pJun/8QDLxjt8Q
-	3PsC2wW+L0DOpNRsstXv0f/P5W2aDTp7Vo1mR628RVHwhiSiA27SYLu+pM+12oirs4QBAKlHZni
-	ZRYdyFYih4gPqQ+XyzBM0YdHZDg==
-X-Received: by 2002:a17:906:3a04:b0:6d0:8d78:2758 with SMTP id z4-20020a1709063a0400b006d08d782758mr621245eje.685.1648050572132;
-        Wed, 23 Mar 2022 08:49:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCxvE1wTBNgh0BMjbEc6Wy/6EM5zeycNP/xCY2D/KAM9DkY/y/SnuCIV5ahvDHaOu1C+g+lw==
-X-Received: by 2002:a17:906:3a04:b0:6d0:8d78:2758 with SMTP id z4-20020a1709063a0400b006d08d782758mr621226eje.685.1648050571968;
-        Wed, 23 Mar 2022 08:49:31 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:cdb2:2781:c55:5db0? (2001-1c00-0c1e-bf00-cdb2-2781-0c55-5db0.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:cdb2:2781:c55:5db0])
-        by smtp.gmail.com with ESMTPSA id nb38-20020a1709071ca600b006e02fed87ebsm105415ejc.17.2022.03.23.08.49.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Mar 2022 08:49:31 -0700 (PDT)
-Message-ID: <13a5173d-d4c6-4539-8303-e6a5ff72ef13@redhat.com>
-Date: Wed, 23 Mar 2022 16:49:30 +0100
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UhAIis1sOQRNVOvuZb/HadToEgbIlD8Ne2xz3MzwvhE=;
+        b=zmzJidMri/Q6E2Nr3Fd2qJNhbBcxW1Hj0847qOoyXtU9rBTqurTErErGHTyhcvT9hZ
+         /C1AwXeYoERLPy3b9inwO6t6ezVaSLxD1zKV0zcku+mNssCvukZYAuiW7mVadUjnxahK
+         5dys/IS61H83mrb/53svil0FSgdbnvq+P/4PoX5IFvH8YaWCO/X9nwVPQLztOP14H1Pv
+         PfYV9hLCf4PuESVdZ+Iv1LAw9NmMBmoFmYw0hPielZ9uVhivxKH4fxiS1NzFOghZwrG/
+         dEKFdGioKzVSH8m02/Oujx8a/ZfkPYV5jPptlkSvBRpUuaEiq/9wQCcVTx58zD5nu+pM
+         uX4A==
+X-Gm-Message-State: AOAM531A8PyorPgprgVa5Y0iSvwRNw+VEqxGWJzluIhpXHT6gb8UWFgU
+	F0peLeSpRIbE38zYoO216A==
+X-Google-Smtp-Source: ABdhPJwgXCtwH1bJb5phSOJ/PNftPX3MRNt1PhAGu5iAKeTjH+CgiYzDdRdv3pDRcsD1OLWbbclljw==
+X-Received: by 2002:aca:59d5:0:b0:2ef:2125:ec15 with SMTP id n204-20020aca59d5000000b002ef2125ec15mr864310oib.4.1648061088200;
+        Wed, 23 Mar 2022 11:44:48 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id r21-20020a05683002f500b005b249ffa43fsm350713ote.22.2022.03.23.11.44.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Mar 2022 11:44:47 -0700 (PDT)
+Received: (nullmailer pid 237514 invoked by uid 1000);
+	Wed, 23 Mar 2022 18:44:46 -0000
+Date: Wed, 23 Mar 2022 13:44:46 -0500
+From: Rob Herring <robh@kernel.org>
+To: Adrien Thierry <athierry@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Nicolas Saenz Julienne <nsaenz@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, bcm-kernel-feedback-list@broadcom.com, Stefan Wahren <stefan.wahren@i2se.com>, devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gaston Gonzalez <gascoar@gmail.com>, Ojaswin Mujoo <ojaswin98@gmail.com>, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/2] dt-bindings: soc: bcm: bcm2835-vchiq: Add support
+ for bcm2711
+Message-ID: <YjtqnktIHajn8skP@robh.at.kernel.org>
+References: <20220315200929.74952-1-athierry@redhat.com>
+ <20220315200929.74952-2-athierry@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] staging: rtl8723bs: Change rtw_ndev_notifier_call message
- to dbg
-To: Chris Morgan <macroalpha82@gmail.com>, linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com, kuba@kernel.org,
- saurav.girepunje@gmail.com, Chris Morgan <macromorgan@hotmail.com>
-References: <20220323154237.21736-1-macroalpha82@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220323154237.21736-1-macroalpha82@gmail.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220315200929.74952-2-athierry@redhat.com>
 
-Hi,
-
-On 3/23/22 16:42, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
+On Tue, Mar 15, 2022 at 04:09:28PM -0400, Adrien Thierry wrote:
+> Add a new compatible string for BCM2711. This is the chip used on the
+> Raspberry Pi 4.
 > 
-> The message received in the kernel log for the state of the notifier
-> call doesn't seem to be of much help to end users. Changing the message
-> type from info to dbg to hide the message unless you are debugging
-> the kernel or the network subsystem.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-
+> Signed-off-by: Adrien Thierry <athierry@redhat.com>
 > ---
->  drivers/staging/rtl8723bs/os_dep/os_intfs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml     | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> index 05482341eefe..bc58bd8c38b2 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> @@ -389,7 +389,7 @@ static int rtw_ndev_notifier_call(struct notifier_block *nb, unsigned long state
->  	if (dev->netdev_ops->ndo_do_ioctl != rtw_ioctl)
->  		return NOTIFY_DONE;
+> diff --git a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+> index e04439b3355b..599bd283df1b 100644
+> --- a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+> +++ b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+> @@ -27,6 +27,12 @@ properties:
+>                - brcm,bcm2836-vchiq
+>            - const: brcm,bcm2835-vchiq
 >  
-> -	netdev_info(dev, FUNC_NDEV_FMT " state:%lu\n", FUNC_NDEV_ARG(dev),
-> +	netdev_dbg(dev, FUNC_NDEV_FMT " state:%lu\n", FUNC_NDEV_ARG(dev),
->  		    state);
->  
->  	return NOTIFY_DONE;
+> +      - description: BCM2711 based boards
+> +        items:
+> +          - enum:
+> +              - brcm,bcm2711-vchiq
+> +          - const: brcm,bcm2711-vchiq
 
+Why do you have the same compatible twice?
+
+> +
+>    reg:
+>      description: Physical base address and length of the doorbell register pair
+>      minItems: 1
+> -- 
+> 2.35.1
+> 
+> 
