@@ -1,161 +1,114 @@
 Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC841B60
-	for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 07:31:01 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id pv16so7420297ejb.0
-        for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 00:31:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523481B93
+	for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 09:02:28 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id r13so7765496ejd.5
+        for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 02:02:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bQP0V9OY5aQsKT4SJO0KH8YjFqWZFbeNBTnB8MCoLgM=;
-        b=p+j6YAY2V68RpdPuWD726VDdObgITxMOArazNEZ+vBFzd/Yyzwxf7UJRhHGjLOx/c1
-         eu1r3a2tAJa+O0Xm+a8k8wWrz0K1QtaHKUUXgXzazpXSr9PZHYwFApajJSNiqRk7dXT9
-         qhSfvDxpciDHZ37jtEgKCyxERlB6a8N55D9jmEVLDj4XXhjlNAD2r/EaHDsB3uNOiywZ
-         oUVDeeb2xy6h3jGTYWpTGOzUX4Lef6xyIeC2tFMn49ZkHq/Zvcuh8lqJlyTYpsuTEGBV
-         NGwQXEisS/3JAiNA4XN9ackHlaGaCXkKwnQ/iOybWRtaY0k+rk0pYcUTpH31XoCr7cz+
-         6/dw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Q0pr84jWpyF9HF9IcRwnJxsXg1/1KAMzdTSZaMqOal8=;
+        b=JpV6XImnUXt0JBK3uECq/IbXisNCPGUDkVxFm1oUDxZGw7Lp4u7CaS3VIzVd+8rNuT
+         vGZP8alBTGp0iq8GkX2RsYNAsiBvU2nbP4Zerqjl0G3u5G1KshAXsQA8TD9vaRR+GQwn
+         OC4XQdAhcIcJZ6Tm3rqiU48z7sLpzEF/EJNAmadEG2F8VTK4qVH9j8MR+6VfLZazc8I+
+         I2cqmNDemTVBF62QHwgtDQESNNuLoiARKsQtwIPJ3ov9nMQiuhhMXebo6JBWClBDIop+
+         05xrWcGGPDjDrwBplIAcoOmWADIQdpHDPNAw+d772sSTpcGnhUff42Ma8s2WCyGDrLW5
+         Ommw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bQP0V9OY5aQsKT4SJO0KH8YjFqWZFbeNBTnB8MCoLgM=;
-        b=mxnNk5mxbetv61wFO1Oo/nQI28C5MZNpnfbbow9ZP/QsO58MsC6YPpWurf9iptZI+b
-         JLOJr25xwjvZQKGdbVDKEyWAWky/ss3vG9nvtNYdGj2Bve0Xp46LwuK4HVFsuKg8D1J6
-         zO5XrMuyh4ZX52d/pgD9idB/GecLJtu7s6s8O5VHXXb0Lp03O/i5PUtDwQuTQOLsPWU3
-         cc2grRuGSKtNZY22ZdmyWIYOIKcNTQaPorxkcvB+I9N3gef+oUnaGZ0CTPWXHscKYISL
-         orfeuel3hjUT6BR0hPn6fmlkNcxsV3ZAXcO4NrD9ZmkW9xRHF9BKQ0dNHN5vFAKQIZIb
-         foMg==
-X-Gm-Message-State: AOAM530hLtpqphjnObvj+juCkDpXjLKGIXZjBAxNA3PnhZzmw3BJHL12
-	6C6XlABMU9xHfW+JNu1xYJk=
-X-Google-Smtp-Source: ABdhPJyjdhPveqm4nFYih/ZGNZbOl5jnnO+9D7Pg2jNePkk0xBvxhyvs3MM/lXT8Rx/g8O09rT6I4g==
-X-Received: by 2002:a17:906:ae0b:b0:6df:c7d6:9235 with SMTP id le11-20020a170906ae0b00b006dfc7d69235mr4366763ejb.664.1648107060275;
-        Thu, 24 Mar 2022 00:31:00 -0700 (PDT)
-Received: from localhost.localdomain (i130160.upc-i.chello.nl. [62.195.130.160])
-        by smtp.googlemail.com with ESMTPSA id sa13-20020a1709076d0d00b006ce3ef8e1d4sm776972ejc.31.2022.03.24.00.30.59
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Q0pr84jWpyF9HF9IcRwnJxsXg1/1KAMzdTSZaMqOal8=;
+        b=oIKK8V4h8x2hfRjLDSuxZSV37tnXLAvOYWKv+rIIbTwXBrCw3vk8QFE46wVd44Dk11
+         sjerqaap25rhRVh7lh9TpLztk6aE/VejEMWIiV+4jSwBe/bNZXq2Pd0MsRwE4t0fxDyo
+         MKXQXjZCQvsnFrkg/IUAM+OO2vbB+5Zi5Cqh1juIFQymGJNr1nAoQxx9amadIAVASIJ8
+         Wz6O9qfS0yRlqHzpsswOZFW43RQws2uhhG88//BfzNfwx0o1TqJwKfM5PpV/9uDlFrp3
+         ++1Yso9c0DyKOApMbXBWmVi4jlO++TyOTgSSCxIeK1MSd5EddaAUzJoqNgm3YfbvP0zJ
+         vHyQ==
+X-Gm-Message-State: AOAM532vNzJutysGYIbRtmP4t2dbDOYaqW566YF/n06thIT9rdFE/dJd
+	++KsS/D1QGW3i/lQp15F9gk=
+X-Google-Smtp-Source: ABdhPJz19UiVU80Rfr3Z6DeD0tq7NFWcSb99BErADW6wIBDasVfcz8nDtYbaLXZY1IvAHS88OkVrrw==
+X-Received: by 2002:a17:906:974e:b0:6bb:4f90:a6ae with SMTP id o14-20020a170906974e00b006bb4f90a6aemr4734153ejy.452.1648112546535;
+        Thu, 24 Mar 2022 02:02:26 -0700 (PDT)
+Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id gl2-20020a170906e0c200b006a767d52373sm836331ejb.182.2022.03.24.02.02.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Mar 2022 00:30:59 -0700 (PDT)
-From: Jakob Koschel <jakobkoschel@gmail.com>
-To: Nicolas Saenz Julienne <nsaenz@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Gaston Gonzalez <gascoar@gmail.com>,
-	Ojaswin Mujoo <ojaswin98@gmail.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mike Rapoport <rppt@kernel.org>,
-	"Brian Johannesmeyer" <bjohannesmeyer@gmail.com>,
-	Cristiano Giuffrida <c.giuffrida@vu.nl>,
-	"Bos, H.J." <h.j.bos@vu.nl>,
-	Jakob Koschel <jakobkoschel@gmail.com>
-Subject: [PATCH] staging: vchiq: replace usage of found with dedicated list iterator variable
-Date: Thu, 24 Mar 2022 08:30:24 +0100
-Message-Id: <20220324073024.65943-1-jakobkoschel@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 24 Mar 2022 02:02:24 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Sathish Kumar <skumark1902@gmail.com>
+Cc: Sathish Kumar <skumark1902@gmail.com>
+Subject: Re: [PATCH v3] staging: rtl8712: Use completions for signaling
+Date: Thu, 24 Mar 2022 10:02:17 +0100
+Message-ID: <3422492.iIbC2pHGDl@leap>
+In-Reply-To: <20220323045515.2513-1-skumark1902@gmail.com>
+References: <20220323045515.2513-1-skumark1902@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="ISO-8859-1"
 
-To move the list iterator variable into the list_for_each_entry_*()
-macro in the future it should be avoided to use the list iterator
-variable after the loop body.
+On mercoled=EC 23 marzo 2022 05:55:15 CET Sathish Kumar wrote:
+> r8712_sitesurvey_cmd() uses a variable to notify r8712_SetFilter() that it
+> has completed operation. There is no sort of assurance that the variable =
+will
+> actually change and it could cache the value the first time it is read and
+> then never update it for the whole loop logic.
+>=20
+> Use completion variables because they are better suited for the purpose.
+>=20
+> This patch fixes the checkpatch.pl warnings like:
+> CHECK: Avoid CamelCase: <blnEnableRxFF0Filter>
+> +   u8 blnEnableRxFF0Filter;
+>=20
+> Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
+> ---
+> Changes in v2:
+>   - Remove the "bln" prefix
+>=20
+> Changes in v3:
+>   - Replace the variable used for signaling with completion
+> ---
+>  drivers/staging/rtl8712/drv_types.h   | 3 +--
+>  drivers/staging/rtl8712/rtl871x_cmd.c | 2 +-
+>  drivers/staging/rtl8712/usb_intf.c    | 2 +-
+>  drivers/staging/rtl8712/xmit_linux.c  | 8 +-------
+>  4 files changed, 4 insertions(+), 11 deletions(-)
+>=20
+Hi Sathish,
 
-To *never* use the list iterator variable after the loop it was
-concluded to use a separate iterator variable instead of a
-found boolean [1].
+=46irst of all, I must admit that you have impressed me :)
 
-This removes the need to use a found variable and simply checking if
-the variable was set, can determine if the break/goto was hit.
+Aside from the specific code of this driver that I don't know and aside
+from the specific problem that you've been suggested to fix, I see that
+you have been able to research and understand the subjects that Greg and=20
+I talked to you about.
 
-Link: https://lore.kernel.org/all/CAHk-=wgRr_D8CB-D9Kg-c=EHreAsk5SqXPwr9Y7k9sA6cWXJ6w@mail.gmail.com/
-Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
----
- .../vc04_services/interface/vchiq_arm/vchiq_arm.c   | 13 ++++++-------
- .../vc04_services/interface/vchiq_arm/vchiq_dev.c   | 13 ++++++-------
- 2 files changed, 12 insertions(+), 14 deletions(-)
+By reading what Greg wrote soon after me, I believe that he was expecting
+a slight different solution. I suggest you to read carefully what he writes
+rather than what I write, just because he has at least 20 or more years=20
+of experience than me and because I'm just a spare time type of kernel=20
+developer.=20
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 3a2e4582db8e..f27ff246a672 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -908,8 +908,7 @@ vchiq_blocking_bulk_transfer(unsigned int handle, void *data, unsigned int size,
- 	struct vchiq_instance *instance;
- 	struct vchiq_service *service;
- 	enum vchiq_status status;
--	struct bulk_waiter_node *waiter = NULL;
--	bool found = false;
-+	struct bulk_waiter_node *waiter = NULL, *iter;
- 
- 	service = find_service_by_handle(handle);
- 	if (!service)
-@@ -920,16 +919,16 @@ vchiq_blocking_bulk_transfer(unsigned int handle, void *data, unsigned int size,
- 	vchiq_service_put(service);
- 
- 	mutex_lock(&instance->bulk_waiter_list_mutex);
--	list_for_each_entry(waiter, &instance->bulk_waiter_list, list) {
--		if (waiter->pid == current->pid) {
--			list_del(&waiter->list);
--			found = true;
-+	list_for_each_entry(iter, &instance->bulk_waiter_list, list) {
-+		if (iter->pid == current->pid) {
-+			list_del(&iter->list);
-+			waiter = iter;
- 			break;
- 		}
- 	}
- 	mutex_unlock(&instance->bulk_waiter_list_mutex);
- 
--	if (found) {
-+	if (waiter) {
- 		struct vchiq_bulk *bulk = waiter->bulk_waiter.bulk;
- 
- 		if (bulk) {
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-index 2325844b0880..5102750dbabc 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-@@ -290,8 +290,7 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
- 				      enum vchiq_bulk_mode __user *mode)
- {
- 	struct vchiq_service *service;
--	struct bulk_waiter_node *waiter = NULL;
--	bool found = false;
-+	struct bulk_waiter_node *waiter = NULL, *iter;
- 	void *userdata;
- 	int status = 0;
- 	int ret;
-@@ -310,16 +309,16 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
- 		userdata = &waiter->bulk_waiter;
- 	} else if (args->mode == VCHIQ_BULK_MODE_WAITING) {
- 		mutex_lock(&instance->bulk_waiter_list_mutex);
--		list_for_each_entry(waiter, &instance->bulk_waiter_list,
-+		list_for_each_entry(iter, &instance->bulk_waiter_list,
- 				    list) {
--			if (waiter->pid == current->pid) {
--				list_del(&waiter->list);
--				found = true;
-+			if (iter->pid == current->pid) {
-+				list_del(&iter->list);
-+				waiter = iter;
- 				break;
- 			}
- 		}
- 		mutex_unlock(&instance->bulk_waiter_list_mutex);
--		if (!found) {
-+		if (!waiter) {
- 			vchiq_log_error(vchiq_arm_log_level,
- 					"no bulk_waiter found for pid %d", current->pid);
- 			ret = -ESRCH;
+You chose to use wait_for_completion() / complete() (notice that these API=
+=20
+use barriers indirectly). What I can say is that they look to be suited for=
+=20
+solving the issues that you have here, even if there are other approaches.
 
-base-commit: f443e374ae131c168a065ea1748feac6b2e76613
--- 
-2.25.1
+Since, as said, it looks like you have understood how to select and use the=
+=20
+one of the API that were suggested, you have my...
+
+Reviewed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+
+Thanks,
+
+=46abio
+
 
