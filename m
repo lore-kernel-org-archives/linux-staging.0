@@ -1,146 +1,161 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C211A6AB9
-	for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 00:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648080046; x=1679616046;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oMEJnPtZcH7pdTBWL2rAUzaHh70z6n+O5Q3opiboGBU=;
-  b=BdlMENf5dEV5dQzySZvR2aJyc7/9FF0wRdwgNm5jQ0DkZKPAYpAMP/GT
-   E9UTNCH8dVYCOL4JE2NTtQxR6ItSZ2VdCZA25MgaiyqKZ+W37DBftzjzk
-   PHvSCniGmJAyFkboFWjwlPf/uu36TDqKLlHyKaUfPpbe3lUcyg/pfSsqm
-   MEAMVoCdJw2+RO2j2oZJS+yYKsbgCy4LfzzXXYNPmeFUz80NxEO3DbAvF
-   eh7y8Rzs7ooEWBVvZc7zkL5AJF1YZb4sKkbRfJGyfnmaNb5KL92kYDz/g
-   tjAj/NJVf6k1hy/T9BN5PEm6JIFAzb5iUopVCE+AWz53LutozBhEmZI4I
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10295"; a="257078613"
-X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; 
-   d="scan'208";a="257078613"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 17:00:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,205,1643702400"; 
-   d="scan'208";a="601494545"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Mar 2022 17:00:43 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-	(envelope-from <lkp@intel.com>)
-	id 1nXAuA-000KUZ-Uj; Thu, 24 Mar 2022 00:00:42 +0000
-Date: Thu, 24 Mar 2022 07:59:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Martin Kaiser <martin@kaiser.cx>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kbuild-all@lists.01.org, Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: Re: [PATCH 1/7] staging: r8188eu: use ieee80211 define for version
- check
-Message-ID: <202203240701.1JNFezRj-lkp@intel.com>
-References: <20220323074859.177425-2-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC841B60
+	for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 07:31:01 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id pv16so7420297ejb.0
+        for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 00:31:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bQP0V9OY5aQsKT4SJO0KH8YjFqWZFbeNBTnB8MCoLgM=;
+        b=p+j6YAY2V68RpdPuWD726VDdObgITxMOArazNEZ+vBFzd/Yyzwxf7UJRhHGjLOx/c1
+         eu1r3a2tAJa+O0Xm+a8k8wWrz0K1QtaHKUUXgXzazpXSr9PZHYwFApajJSNiqRk7dXT9
+         qhSfvDxpciDHZ37jtEgKCyxERlB6a8N55D9jmEVLDj4XXhjlNAD2r/EaHDsB3uNOiywZ
+         oUVDeeb2xy6h3jGTYWpTGOzUX4Lef6xyIeC2tFMn49ZkHq/Zvcuh8lqJlyTYpsuTEGBV
+         NGwQXEisS/3JAiNA4XN9ackHlaGaCXkKwnQ/iOybWRtaY0k+rk0pYcUTpH31XoCr7cz+
+         6/dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bQP0V9OY5aQsKT4SJO0KH8YjFqWZFbeNBTnB8MCoLgM=;
+        b=mxnNk5mxbetv61wFO1Oo/nQI28C5MZNpnfbbow9ZP/QsO58MsC6YPpWurf9iptZI+b
+         JLOJr25xwjvZQKGdbVDKEyWAWky/ss3vG9nvtNYdGj2Bve0Xp46LwuK4HVFsuKg8D1J6
+         zO5XrMuyh4ZX52d/pgD9idB/GecLJtu7s6s8O5VHXXb0Lp03O/i5PUtDwQuTQOLsPWU3
+         cc2grRuGSKtNZY22ZdmyWIYOIKcNTQaPorxkcvB+I9N3gef+oUnaGZ0CTPWXHscKYISL
+         orfeuel3hjUT6BR0hPn6fmlkNcxsV3ZAXcO4NrD9ZmkW9xRHF9BKQ0dNHN5vFAKQIZIb
+         foMg==
+X-Gm-Message-State: AOAM530hLtpqphjnObvj+juCkDpXjLKGIXZjBAxNA3PnhZzmw3BJHL12
+	6C6XlABMU9xHfW+JNu1xYJk=
+X-Google-Smtp-Source: ABdhPJyjdhPveqm4nFYih/ZGNZbOl5jnnO+9D7Pg2jNePkk0xBvxhyvs3MM/lXT8Rx/g8O09rT6I4g==
+X-Received: by 2002:a17:906:ae0b:b0:6df:c7d6:9235 with SMTP id le11-20020a170906ae0b00b006dfc7d69235mr4366763ejb.664.1648107060275;
+        Thu, 24 Mar 2022 00:31:00 -0700 (PDT)
+Received: from localhost.localdomain (i130160.upc-i.chello.nl. [62.195.130.160])
+        by smtp.googlemail.com with ESMTPSA id sa13-20020a1709076d0d00b006ce3ef8e1d4sm776972ejc.31.2022.03.24.00.30.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Mar 2022 00:30:59 -0700 (PDT)
+From: Jakob Koschel <jakobkoschel@gmail.com>
+To: Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Gaston Gonzalez <gascoar@gmail.com>,
+	Ojaswin Mujoo <ojaswin98@gmail.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mike Rapoport <rppt@kernel.org>,
+	"Brian Johannesmeyer" <bjohannesmeyer@gmail.com>,
+	Cristiano Giuffrida <c.giuffrida@vu.nl>,
+	"Bos, H.J." <h.j.bos@vu.nl>,
+	Jakob Koschel <jakobkoschel@gmail.com>
+Subject: [PATCH] staging: vchiq: replace usage of found with dedicated list iterator variable
+Date: Thu, 24 Mar 2022 08:30:24 +0100
+Message-Id: <20220324073024.65943-1-jakobkoschel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220323074859.177425-2-martin@kaiser.cx>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-Hi Martin,
+To move the list iterator variable into the list_for_each_entry_*()
+macro in the future it should be avoided to use the list iterator
+variable after the loop body.
 
-Thank you for the patch! Perhaps something to improve:
+To *never* use the list iterator variable after the loop it was
+concluded to use a separate iterator variable instead of a
+found boolean [1].
 
-[auto build test WARNING on staging/staging-testing]
+This removes the need to use a found variable and simply checking if
+the variable was set, can determine if the break/goto was hit.
 
-url:    https://github.com/0day-ci/linux/commits/Martin-Kaiser/staging-r8188eu-use-ieee80211-helpers-for-parsing/20220323-155119
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 41197a5f11a4b2d11ac19bc62552022153032811
-config: sh-randconfig-s031-20220323 (https://download.01.org/0day-ci/archive/20220324/202203240701.1JNFezRj-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/ab583161be478f342c621b22766fc7f233769bef
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Martin-Kaiser/staging-r8188eu-use-ieee80211-helpers-for-parsing/20220323-155119
-        git checkout ab583161be478f342c621b22766fc7f233769bef
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh SHELL=/bin/bash
+Link: https://lore.kernel.org/all/CAHk-=wgRr_D8CB-D9Kg-c=EHreAsk5SqXPwr9Y7k9sA6cWXJ6w@mail.gmail.com/
+Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
+---
+ .../vc04_services/interface/vchiq_arm/vchiq_arm.c   | 13 ++++++-------
+ .../vc04_services/interface/vchiq_arm/vchiq_dev.c   | 13 ++++++-------
+ 2 files changed, 12 insertions(+), 14 deletions(-)
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 3a2e4582db8e..f27ff246a672 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -908,8 +908,7 @@ vchiq_blocking_bulk_transfer(unsigned int handle, void *data, unsigned int size,
+ 	struct vchiq_instance *instance;
+ 	struct vchiq_service *service;
+ 	enum vchiq_status status;
+-	struct bulk_waiter_node *waiter = NULL;
+-	bool found = false;
++	struct bulk_waiter_node *waiter = NULL, *iter;
+ 
+ 	service = find_service_by_handle(handle);
+ 	if (!service)
+@@ -920,16 +919,16 @@ vchiq_blocking_bulk_transfer(unsigned int handle, void *data, unsigned int size,
+ 	vchiq_service_put(service);
+ 
+ 	mutex_lock(&instance->bulk_waiter_list_mutex);
+-	list_for_each_entry(waiter, &instance->bulk_waiter_list, list) {
+-		if (waiter->pid == current->pid) {
+-			list_del(&waiter->list);
+-			found = true;
++	list_for_each_entry(iter, &instance->bulk_waiter_list, list) {
++		if (iter->pid == current->pid) {
++			list_del(&iter->list);
++			waiter = iter;
+ 			break;
+ 		}
+ 	}
+ 	mutex_unlock(&instance->bulk_waiter_list_mutex);
+ 
+-	if (found) {
++	if (waiter) {
+ 		struct vchiq_bulk *bulk = waiter->bulk_waiter.bulk;
+ 
+ 		if (bulk) {
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+index 2325844b0880..5102750dbabc 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+@@ -290,8 +290,7 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
+ 				      enum vchiq_bulk_mode __user *mode)
+ {
+ 	struct vchiq_service *service;
+-	struct bulk_waiter_node *waiter = NULL;
+-	bool found = false;
++	struct bulk_waiter_node *waiter = NULL, *iter;
+ 	void *userdata;
+ 	int status = 0;
+ 	int ret;
+@@ -310,16 +309,16 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
+ 		userdata = &waiter->bulk_waiter;
+ 	} else if (args->mode == VCHIQ_BULK_MODE_WAITING) {
+ 		mutex_lock(&instance->bulk_waiter_list_mutex);
+-		list_for_each_entry(waiter, &instance->bulk_waiter_list,
++		list_for_each_entry(iter, &instance->bulk_waiter_list,
+ 				    list) {
+-			if (waiter->pid == current->pid) {
+-				list_del(&waiter->list);
+-				found = true;
++			if (iter->pid == current->pid) {
++				list_del(&iter->list);
++				waiter = iter;
+ 				break;
+ 			}
+ 		}
+ 		mutex_unlock(&instance->bulk_waiter_list_mutex);
+-		if (!found) {
++		if (!waiter) {
+ 			vchiq_log_error(vchiq_arm_log_level,
+ 					"no bulk_waiter found for pid %d", current->pid);
+ 			ret = -ESRCH;
 
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/staging/r8188eu/core/rtw_recv.c:1074:14: sparse: sparse: restricted __le16 degrades to integer
-
-vim +1074 drivers/staging/r8188eu/core/rtw_recv.c
-
-  1054	
-  1055	static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv_frame)
-  1056	{
-  1057		/* shall check frame subtype, to / from ds, da, bssid */
-  1058	
-  1059		/* then call check if rx seq/frag. duplicated. */
-  1060	
-  1061		int retval = _FAIL;
-  1062		u8 bDumpRxPkt;
-  1063		struct rx_pkt_attrib *pattrib = &precv_frame->attrib;
-  1064		u8 *ptr = precv_frame->rx_data;
-  1065		__le16 fc = *(__le16 *)ptr;
-  1066		struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
-  1067	
-  1068		if (pmlmeext->sitesurvey_res.state == SCAN_PROCESS) {
-  1069			int ch_set_idx = rtw_ch_set_search_ch(pmlmeext->channel_set, rtw_get_oper_ch(adapter));
-  1070			if (ch_set_idx >= 0)
-  1071				pmlmeext->channel_set[ch_set_idx].rx_count++;
-  1072		}
-  1073	
-> 1074		if ((fc & IEEE80211_FCTL_VERS) != 0)
-  1075			return _FAIL;
-  1076	
-  1077		pattrib->to_fr_ds = get_tofr_ds(ptr);
-  1078	
-  1079		pattrib->frag_num = GetFragNum(ptr);
-  1080		pattrib->seq_num = GetSequence(ptr);
-  1081	
-  1082		pattrib->pw_save = GetPwrMgt(ptr);
-  1083		pattrib->mfrag = ieee80211_has_morefrags(fc);
-  1084		pattrib->mdata = ieee80211_has_moredata(fc);
-  1085		pattrib->privacy = ieee80211_has_protected(fc);
-  1086		pattrib->order = ieee80211_has_order(fc);
-  1087	
-  1088		/* Dump rx packets */
-  1089		GetHalDefVar8188EUsb(adapter, HAL_DEF_DBG_DUMP_RXPKT, &bDumpRxPkt);
-  1090	
-  1091		/* We return _SUCCESS only for data frames. */
-  1092		if (ieee80211_is_mgmt(fc))
-  1093			validate_recv_mgnt_frame(adapter, precv_frame);
-  1094		else if (ieee80211_is_ctl(fc))
-  1095			validate_recv_ctrl_frame(adapter, precv_frame);
-  1096		else if (ieee80211_is_data(fc)) {
-  1097			rtw_led_control(adapter, LED_CTL_RX);
-  1098			pattrib->qos = ieee80211_is_data_qos(fc);
-  1099			retval = validate_recv_data_frame(adapter, precv_frame);
-  1100			if (retval == _FAIL) {
-  1101				struct recv_priv *precvpriv = &adapter->recvpriv;
-  1102				precvpriv->rx_drop++;
-  1103			}
-  1104		}
-  1105	
-  1106		return retval;
-  1107	}
-  1108	
-
+base-commit: f443e374ae131c168a065ea1748feac6b2e76613
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
