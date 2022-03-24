@@ -1,48 +1,48 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A67A23A0
-	for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 17:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49187E
+	for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 17:27:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1648142825;
+	s=mimecast20190719; t=1648142828;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FuZsMHesHkwyF+f4SfnxOtgM2hC6A+pYUGF0YW0O7oY=;
-	b=KRBsHXS/Zqj5ua8ObBJClA1+4YJ0aGvmBONcQzXcdHNdRWp72VaoECLMqu1NR7EgKLyduW
-	b+PawB/llcUfPBI/aF6Ah6Jj4kD/9xJKnWtPdUrOuKR2EDIpyY4YUzhmg0iKw8d6Clqh3l
-	A0gAf1fD6oshnnetqyOMMKoA5uy2qcE=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=OIJlhxZQII2b1Vl5R2eePvHRFchgJiZqPqucMSOZBVI=;
+	b=J2z21nMtgNXILWZPkXDeK5XIbFXcDWw0Ee85VJUBsVn9Hwf3yklOzxys1byW2yHHBVZbiS
+	1Dlv23r2I7baRGbAT+1xJztObbJ7qdzNnKqIKQ4aRrUqzdJ4iVjwUe8jFOBC2Yi9t9gjMh
+	Z+tLdOufLs/0asq2YYIkQt8szDQgbVI=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-465-MSsRJsWSPAudBbpbuIaZtA-1; Thu, 24 Mar 2022 13:27:04 -0400
-X-MC-Unique: MSsRJsWSPAudBbpbuIaZtA-1
-Received: by mail-qk1-f199.google.com with SMTP id o15-20020ae9f50f000000b00680a61f51c4so1050494qkg.15
-        for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 10:27:04 -0700 (PDT)
+ us-mta-609-IFOjKZA_M7qjFnoZZ_YIRg-1; Thu, 24 Mar 2022 13:27:05 -0400
+X-MC-Unique: IFOjKZA_M7qjFnoZZ_YIRg-1
+Received: by mail-qv1-f69.google.com with SMTP id o1-20020a0c9001000000b00440e415a3a2so4114318qvo.13
+        for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 10:27:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FuZsMHesHkwyF+f4SfnxOtgM2hC6A+pYUGF0YW0O7oY=;
-        b=FFEgDfGk1T7v9DXsAGn1nPOi+16sV6LkYfHWPWnAGBYBEbyEILqBT0iJK++njK/Xqq
-         3mnEv9wl7fx+6wLsXHGK1uNAph3FcGd+qTv+tcT11rrvQqgxXCM+QbGl7SIMezdr77Ju
-         8PDOBSy78+Xkl0yuLCWgPFNUSvPmq26/1F4E0ZYXNz3VIWPfaYpkQ8oyUxpDpLuGZzHN
-         HitJjUSPwoAbVoYuAYvSziYMdOZLok/st2ZhTQCOJfAiQeoqkcAJ/cxDnDIfpFcqDd4h
-         5+HH6UeZEoOVhpkx5ZWhRL7OsTDCmT0Uz0YBKtSzo86LoGxtQOLlNSDqh0OwFzX+7WCV
-         Fejg==
-X-Gm-Message-State: AOAM530oaYHfL5uu1mao9XL0nKwQTKf/Ku6GXWezxBbrxCJQtNCAL+c6
-	WgHYq339LoM6kqYHmHS71c76vtQf+lqYNj/2YwZdlXe6rJ7lbZskA/aXZeiVF1ZkoHI/LzY8/cB
-	clpFa1IG2hBfFiwDCwC0ED45h8A==
-X-Received: by 2002:a05:622a:1cb:b0:2e2:27da:74c4 with SMTP id t11-20020a05622a01cb00b002e227da74c4mr5570091qtw.462.1648142823613;
-        Thu, 24 Mar 2022 10:27:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxB3fqgMHNs7WS6KwTaNhgQHa0SyJ45xcvpPfz8cy6zRHaIw7naxDTmXdL5flaBJsQuUOU2Zg==
-X-Received: by 2002:a05:622a:1cb:b0:2e2:27da:74c4 with SMTP id t11-20020a05622a01cb00b002e227da74c4mr5570066qtw.462.1648142823425;
-        Thu, 24 Mar 2022 10:27:03 -0700 (PDT)
+        bh=OIJlhxZQII2b1Vl5R2eePvHRFchgJiZqPqucMSOZBVI=;
+        b=ssQSKQA9Lszm75VooJ548xJRt6uFh7xZer3I16SuS5knLF8zR4hU+eO75BkjpgBwXe
+         uQ0/v5dblXYOF6EvX0eI9L8JNMySOIboUk6o0V+m5UUmZLTCA6ei0xObJZ4qu7k5C8nx
+         ICt2T43Sr738QmWuJxxrZL43aJfTPgtg5rSgXKE68Ns+vh9Qh/NMcyorHoA11DU3fhAx
+         +HC+saszBqHrDKAH64HxWqz8AF464sqsgP9OfYy0JHq2h6kihpchzTIfvd3f1kRE5lzI
+         lwoN9mUbSTTA9Ye+lf/nxbpFwepGC9dP52lKeiUfizDfG2ccA0Rgar84f3C34GwP4D8W
+         oVOg==
+X-Gm-Message-State: AOAM5321ETGKbYTdO3olnW6GDsRMNng+jR5qKugHpz3yVJl4iyoii1T3
+	SjCKTI8bqQTcf7+Af4F9zuDXu6ql+PhOwabI1SerIF5aGOEM6j1j+DS3rHbGSG9o49NremECK3k
+	kiQXh5Jpr2FdBhEXjNWaPz/XUow==
+X-Received: by 2002:a05:620a:a57:b0:67d:396a:8a9d with SMTP id j23-20020a05620a0a5700b0067d396a8a9dmr4150364qka.322.1648142825406;
+        Thu, 24 Mar 2022 10:27:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxB5F5wgV7J5cTSYxSXNzkylFEPJGtGrvg0qTVvsWiiJ29lM4a+bp0esEG2VaB8Mu4hX9z7ng==
+X-Received: by 2002:a05:620a:a57:b0:67d:396a:8a9d with SMTP id j23-20020a05620a0a5700b0067d396a8a9dmr4150351qka.322.1648142825215;
+        Thu, 24 Mar 2022 10:27:05 -0700 (PDT)
 Received: from fedora.hitronhub.home (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id bm21-20020a05620a199500b0067d5e6c7bd8sm1886515qkb.56.2022.03.24.10.27.02
+        by smtp.gmail.com with ESMTPSA id bm21-20020a05620a199500b0067d5e6c7bd8sm1886515qkb.56.2022.03.24.10.27.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Mar 2022 10:27:03 -0700 (PDT)
+        Thu, 24 Mar 2022 10:27:04 -0700 (PDT)
 From: Adrien Thierry <athierry@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: Adrien Thierry <athierry@redhat.com>,
@@ -60,9 +60,9 @@ Cc: Adrien Thierry <athierry@redhat.com>,
 	Gaston Gonzalez <gascoar@gmail.com>,
 	Ojaswin Mujoo <ojaswin98@gmail.com>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2 1/2] dt-bindings: soc: bcm: bcm2835-vchiq: Add support for bcm2711
-Date: Thu, 24 Mar 2022 13:26:46 -0400
-Message-Id: <20220324172647.167617-2-athierry@redhat.com>
+Subject: [PATCH v2 2/2] staging: vchiq_arm: Use bcm2711 compatible string for bcm2711-based RPi
+Date: Thu, 24 Mar 2022 13:26:47 -0400
+Message-Id: <20220324172647.167617-3-athierry@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220324172647.167617-1-athierry@redhat.com>
 References: <20220324172647.167617-1-athierry@redhat.com>
@@ -79,33 +79,51 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Add a new compatible string for BCM2711. This is the chip used on the
-Raspberry Pi 4.
+Use bcm2711 compatible string in vchiq driver and device tree for
+bcm2711-based Raspberry Pi (Raspberry Pi 4). This is consistent with
+what the downstream device tree uses, and allows running the vchiq
+driver on the upstream kernel with the downstream device tree.
 
 Signed-off-by: Adrien Thierry <athierry@redhat.com>
 ---
-Changes since v1:
-- Removed duplicate compatible string for bcm2711
+ arch/arm/boot/dts/bcm2711-rpi.dtsi                           | 1 +
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c    | 5 +++++
+ 2 files changed, 6 insertions(+)
 
- .../devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml      | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
-index e04439b3355b..9cb957facae0 100644
---- a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
-+++ b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
-@@ -27,6 +27,11 @@ properties:
-               - brcm,bcm2836-vchiq
-           - const: brcm,bcm2835-vchiq
+diff --git a/arch/arm/boot/dts/bcm2711-rpi.dtsi b/arch/arm/boot/dts/bcm2711-rpi.dtsi
+index ca266c5d9f9b..c868d1dcaba7 100644
+--- a/arch/arm/boot/dts/bcm2711-rpi.dtsi
++++ b/arch/arm/boot/dts/bcm2711-rpi.dtsi
+@@ -70,5 +70,6 @@ blconfig: nvram@0 {
+ };
  
-+      - description: BCM2711 based boards
-+        items:
-+          - enum:
-+              - brcm,bcm2711-vchiq
+ &vchiq {
++	compatible = "brcm,bcm2711-vchiq";
+ 	interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+ };
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 3a2e4582db8e..136c664132f4 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -81,6 +81,10 @@ static struct vchiq_drvdata bcm2836_drvdata = {
+ 	.cache_line_size = 64,
+ };
+ 
++static struct vchiq_drvdata bcm2711_drvdata = {
++	.cache_line_size = 64,
++};
 +
-   reg:
-     description: Physical base address and length of the doorbell register pair
-     minItems: 1
+ struct vchiq_arm_state {
+ 	/* Keepalive-related data */
+ 	struct task_struct *ka_thread;
+@@ -1748,6 +1752,7 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+ static const struct of_device_id vchiq_of_match[] = {
+ 	{ .compatible = "brcm,bcm2835-vchiq", .data = &bcm2835_drvdata },
+ 	{ .compatible = "brcm,bcm2836-vchiq", .data = &bcm2836_drvdata },
++	{ .compatible = "brcm,bcm2711-vchiq", .data = &bcm2711_drvdata },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, vchiq_of_match);
 -- 
 2.35.1
 
