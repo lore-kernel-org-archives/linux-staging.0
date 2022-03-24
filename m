@@ -1,114 +1,101 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523481B93
-	for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 09:02:28 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id r13so7765496ejd.5
-        for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 02:02:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FB01B93
+	for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 09:20:20 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id b24so4842159edu.10
+        for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 02:20:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Q0pr84jWpyF9HF9IcRwnJxsXg1/1KAMzdTSZaMqOal8=;
-        b=JpV6XImnUXt0JBK3uECq/IbXisNCPGUDkVxFm1oUDxZGw7Lp4u7CaS3VIzVd+8rNuT
-         vGZP8alBTGp0iq8GkX2RsYNAsiBvU2nbP4Zerqjl0G3u5G1KshAXsQA8TD9vaRR+GQwn
-         OC4XQdAhcIcJZ6Tm3rqiU48z7sLpzEF/EJNAmadEG2F8VTK4qVH9j8MR+6VfLZazc8I+
-         I2cqmNDemTVBF62QHwgtDQESNNuLoiARKsQtwIPJ3ov9nMQiuhhMXebo6JBWClBDIop+
-         05xrWcGGPDjDrwBplIAcoOmWADIQdpHDPNAw+d772sSTpcGnhUff42Ma8s2WCyGDrLW5
-         Ommw==
+        bh=wUxU3fOD5HvLRSIgRUZrOG93Jscp2CK4Bk5FgxkJpUs=;
+        b=I0f7XIFUmiIz6T697ESW/6vQEHTCQR/9iqVii1Nu5YP2M/w1xM8JFezUeoDTA3NS94
+         wm+3sKh20V8YgFadenrWLm2evSLbF6u6oi5/2eLfCRQI3ixaJDsvn6FmISO1sp+nl/gg
+         0qPd4JuOfjA3UZsvBQWsqTd4Z1Rv2946U24xNHJRl8oM8FLnpp7k4x9f7VS78tpOH//8
+         pXgio5iQRHjZdZkJqQbPJN4tscUgS9yXepEC57kLQWK8cfnrhVHCpvLtvER6JHdwC0i6
+         nVlQDXvL9NNapHXnNp1UiNzQLYcK7ARo/xgQuNX/UCc088UgdvAO2KHlXnIvPrso2UGJ
+         kQow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Q0pr84jWpyF9HF9IcRwnJxsXg1/1KAMzdTSZaMqOal8=;
-        b=oIKK8V4h8x2hfRjLDSuxZSV37tnXLAvOYWKv+rIIbTwXBrCw3vk8QFE46wVd44Dk11
-         sjerqaap25rhRVh7lh9TpLztk6aE/VejEMWIiV+4jSwBe/bNZXq2Pd0MsRwE4t0fxDyo
-         MKXQXjZCQvsnFrkg/IUAM+OO2vbB+5Zi5Cqh1juIFQymGJNr1nAoQxx9amadIAVASIJ8
-         Wz6O9qfS0yRlqHzpsswOZFW43RQws2uhhG88//BfzNfwx0o1TqJwKfM5PpV/9uDlFrp3
-         ++1Yso9c0DyKOApMbXBWmVi4jlO++TyOTgSSCxIeK1MSd5EddaAUzJoqNgm3YfbvP0zJ
-         vHyQ==
-X-Gm-Message-State: AOAM532vNzJutysGYIbRtmP4t2dbDOYaqW566YF/n06thIT9rdFE/dJd
-	++KsS/D1QGW3i/lQp15F9gk=
-X-Google-Smtp-Source: ABdhPJz19UiVU80Rfr3Z6DeD0tq7NFWcSb99BErADW6wIBDasVfcz8nDtYbaLXZY1IvAHS88OkVrrw==
-X-Received: by 2002:a17:906:974e:b0:6bb:4f90:a6ae with SMTP id o14-20020a170906974e00b006bb4f90a6aemr4734153ejy.452.1648112546535;
-        Thu, 24 Mar 2022 02:02:26 -0700 (PDT)
+        bh=wUxU3fOD5HvLRSIgRUZrOG93Jscp2CK4Bk5FgxkJpUs=;
+        b=D/2cQWcM1iclN8Q/XRdkl+0EFOJB2Ue6Tw5rAbJW6/OB3aiclAkV+ZoknLuVCz95Ax
+         NyKqpt3s3vZ7w4uC865E5J5cVwZfxHqs6b0ZtguvQM/pAQyPEEy9BI2li13nXDhSG50G
+         1rksd4ehudKctj5Am44htH/YdxJEWfXWAh7kvYUuONLTL3LHlqxqgTG3NnBsKzGWY9PW
+         Uk7DwfqLvxE7aiqwYuwVqea+K4Phuyql0NnygM+qeoTy0EFBP1HlGfCzSMYlWH9J3wbI
+         kjKdNT8whfmUN+HCD+VVi/QlAgrCGK4tUoPyxfMYmgfb4L5+VO/Uy13eWYVUhtvFuA35
+         Q1Gg==
+X-Gm-Message-State: AOAM533w5LUWGgcWGZxopqVI3WdsKmMIWmYzoWsnOJwiz1M2KDFRj4V4
+	6LXjFFQuOXyDtIcqUt1vwCc=
+X-Google-Smtp-Source: ABdhPJxNBk5JbP3n28V5DXRcTZC07vtWRCQie1QiNDHq9oGOareElYrBOfNi6xqMhs2W7xjFU9pIGg==
+X-Received: by 2002:a50:99cd:0:b0:418:d6c2:2405 with SMTP id n13-20020a5099cd000000b00418d6c22405mr5469314edb.342.1648113619282;
+        Thu, 24 Mar 2022 02:20:19 -0700 (PDT)
 Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
-        by smtp.gmail.com with ESMTPSA id gl2-20020a170906e0c200b006a767d52373sm836331ejb.182.2022.03.24.02.02.24
+        by smtp.gmail.com with ESMTPSA id da19-20020a056402177300b00413583e0996sm1125552edb.14.2022.03.24.02.20.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Mar 2022 02:02:24 -0700 (PDT)
+        Thu, 24 Mar 2022 02:20:17 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Sathish Kumar <skumark1902@gmail.com>
-Cc: Sathish Kumar <skumark1902@gmail.com>
-Subject: Re: [PATCH v3] staging: rtl8712: Use completions for signaling
-Date: Thu, 24 Mar 2022 10:02:17 +0100
-Message-ID: <3422492.iIbC2pHGDl@leap>
-In-Reply-To: <20220323045515.2513-1-skumark1902@gmail.com>
-References: <20220323045515.2513-1-skumark1902@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: David Kershner <david.kershner@unisys.com>, sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: unisys: Properly test debugfs_create_dir() return values
+Date: Thu, 24 Mar 2022 10:20:15 +0100
+Message-ID: <3480204.R56niFO833@leap>
+In-Reply-To: <YjmNIX4RsbG8LpyF@kroah.com>
+References: <20220322083858.16887-1-fmdefrancesco@gmail.com> <YjmNIX4RsbG8LpyF@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On mercoled=EC 23 marzo 2022 05:55:15 CET Sathish Kumar wrote:
-> r8712_sitesurvey_cmd() uses a variable to notify r8712_SetFilter() that it
-> has completed operation. There is no sort of assurance that the variable =
-will
-> actually change and it could cache the value the first time it is read and
-> then never update it for the whole loop logic.
->=20
-> Use completion variables because they are better suited for the purpose.
->=20
-> This patch fixes the checkpatch.pl warnings like:
-> CHECK: Avoid CamelCase: <blnEnableRxFF0Filter>
-> +   u8 blnEnableRxFF0Filter;
->=20
-> Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
-> ---
-> Changes in v2:
->   - Remove the "bln" prefix
->=20
-> Changes in v3:
->   - Replace the variable used for signaling with completion
-> ---
->  drivers/staging/rtl8712/drv_types.h   | 3 +--
->  drivers/staging/rtl8712/rtl871x_cmd.c | 2 +-
->  drivers/staging/rtl8712/usb_intf.c    | 2 +-
->  drivers/staging/rtl8712/xmit_linux.c  | 8 +-------
->  4 files changed, 4 insertions(+), 11 deletions(-)
->=20
-Hi Sathish,
+On marted? 22 marzo 2022 09:47:29 CET Greg Kroah-Hartman wrote:
+> On Tue, Mar 22, 2022 at 09:38:58AM +0100, Fabio M. De Francesco wrote:
+> > debugfs_create_dir() returns a pointers to a dentry objects. On failures
+> > it returns errors. Currently the values returned to visornic_probe()
+> > seem to be tested for being equal to NULL in case of failures.
+> > 
+> > Properly test with "if (IS_ERR())" and then assign the correct error 
+> > value to the "err" variable.
+> > 
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >  drivers/staging/unisys/visornic/visornic_main.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/staging/unisys/visornic/visornic_main.c b/drivers/staging/unisys/visornic/visornic_main.c
+> > index 643432458105..58d03f3d3173 100644
+> > --- a/drivers/staging/unisys/visornic/visornic_main.c
+> > +++ b/drivers/staging/unisys/visornic/visornic_main.c
+> > @@ -1922,11 +1922,11 @@ static int visornic_probe(struct visor_device *dev)
+> >  	/* create debug/sysfs directories */
+> >  	devdata->eth_debugfs_dir = debugfs_create_dir(netdev->name,
+> >  						      visornic_debugfs_dir);
+> > -	if (!devdata->eth_debugfs_dir) {
+> > +	if (IS_ERR(devdata->eth_debugfs_dir)) {
+> 
+> We really shouldn't be checking this value at all.  There's no reason to
+> check the return value of a debugfs_* call.  Can you fix up the code to
+> do that instead?
+> 
+> thanks,
+> 
+> greg k-h
+> 
 
-=46irst of all, I must admit that you have impressed me :)
+Yes I'll do the work that you requested by this weekend, notwithstanding 
+what I replied to Dan. 
 
-Aside from the specific code of this driver that I don't know and aside
-from the specific problem that you've been suggested to fix, I see that
-you have been able to research and understand the subjects that Greg and=20
-I talked to you about.
-
-By reading what Greg wrote soon after me, I believe that he was expecting
-a slight different solution. I suggest you to read carefully what he writes
-rather than what I write, just because he has at least 20 or more years=20
-of experience than me and because I'm just a spare time type of kernel=20
-developer.=20
-
-You chose to use wait_for_completion() / complete() (notice that these API=
-=20
-use barriers indirectly). What I can say is that they look to be suited for=
-=20
-solving the issues that you have here, even if there are other approaches.
-
-Since, as said, it looks like you have understood how to select and use the=
-=20
-one of the API that were suggested, you have my...
-
-Reviewed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+While I reiterate all my considerations, it seems that, if not the people 
+from Unisys, someone else still cares about this driver :)
 
 Thanks,
 
-=46abio
+Fabio
+
 
 
