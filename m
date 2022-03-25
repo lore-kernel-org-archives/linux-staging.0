@@ -1,174 +1,97 @@
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E07523A7
-	for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 20:20:22 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id u25-20020a5d8199000000b006421bd641bbso3796686ion.11
-        for <linux-staging@lists.linux.dev>; Thu, 24 Mar 2022 13:20:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E6B46A1
+	for <linux-staging@lists.linux.dev>; Fri, 25 Mar 2022 07:16:44 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id bg10so13592305ejb.4
+        for <linux-staging@lists.linux.dev>; Fri, 25 Mar 2022 00:16:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=k+/Px3J18ct4MWwIC9SB1CG75VmFLpzvG31ThQP4l6M=;
-        b=WqYufYXVGhjSb8DmeDO8oyu9xi3IMJ4NqNXHTT+A+JYgoBCh+FKHBNFdntlwboYVZ3
-         /RnKStoTLsGsEyTnSJOUGzVLorFAkHewBY+EZM97L+EZLSD/jh3QfAk8tsZqUknQ4Sye
-         xMAKgPUX/nXImNKzjX103q7X55j3JgnZ+XYRwcT4Hr3Y3139CS3imCe+LrsxfEUbSMxh
-         L8iwnY1Ri4HnIQmDgF+/Z4cthpCyRBY9AKNI7tBgC0JCN7Epwn/obBQy25q3gvF991EL
-         1Hxm/5suS6OqtoSSl39T1qkkBvPSQgErQHVXPXD7IuiZKVOFk7Z+YY2uu2XGcQRviXKs
-         vVqA==
-X-Gm-Message-State: AOAM530n+lmR9pYtbAcSURF/S1BvsUWPGHJ9unIB5o6WCWXcW90RZH0J
-	NTdJeBBeFbLHvRWEcELnp7Y4qR85M2nRjC1qvk3ZKvVllGlV
-X-Google-Smtp-Source: ABdhPJzOJ6i0rxvmuhErCiMqlfNJkUONDof8H6bBYgiAmTddEX2Ubyx5+lqv9B4zQP4Fv0f1/ImTjlvSa03h5CaRqdghuhK7H1Jn
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:in-reply-to
+         :content-transfer-encoding;
+        bh=6YHRcsHOFCm3E4C9FykKyoJxe7PYRENyIsb3tXOaP5I=;
+        b=MJ7AY+PpZLP6wcI+djrFmEcl7GcnaK1295f3AIjMtxbte2BZiOGkbTYaqo760Cbnus
+         pnBRVWqvYZr59Fukw5G6s9b1de0UQ7sX3zg1fhojr4LecvGoOx3cD+ujKJ54g2DwnQaz
+         fgV7Ey9+PEz05xoflx5mJl9BAQ+eFa3OJSIY2/ZmIPQi09QT3Hca88/R1a83MNULETeV
+         ykuelv7v4tCR2Czq0ZC5YCsXyHOQTtTq+ssWViUp3Sc72kscqK3QhDfzvblqW+j5miUj
+         Z7GNSes/8QYnnGyaRg0eBbTZI+4kJV1n+HldD9GenkQqv8bKi503QCStw6u7G9hT+jBD
+         cQ9Q==
+X-Gm-Message-State: AOAM533vJgzbrYBAxHG7uUH7BmYtBYgzgCbFxSFUOdtel75IxjX2oqYx
+	2bPaJ9d2l5jZk/xPbKR1Law=
+X-Google-Smtp-Source: ABdhPJzPzXLNwxYfju2wh9vwGi8cPlhGKuDBZCqBi7gSMRDLYWMBkqfgbdWQbnsDEtFpPc5+JuVk0A==
+X-Received: by 2002:a17:907:1b20:b0:6da:649b:d99e with SMTP id mp32-20020a1709071b2000b006da649bd99emr9906155ejc.712.1648192602385;
+        Fri, 25 Mar 2022 00:16:42 -0700 (PDT)
+Received: from [192.168.0.158] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
+        by smtp.googlemail.com with ESMTPSA id ga5-20020a1709070c0500b006de43e9605asm2015052ejc.181.2022.03.25.00.16.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Mar 2022 00:16:41 -0700 (PDT)
+Message-ID: <2c6b873f-a971-e79a-6a32-f101bda46e93@kernel.org>
+Date: Fri, 25 Mar 2022 08:16:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c541:0:b0:2c8:2488:154d with SMTP id
- a1-20020a92c541000000b002c82488154dmr3796717ilj.229.1648153222218; Thu, 24
- Mar 2022 13:20:22 -0700 (PDT)
-Date: Thu, 24 Mar 2022 13:20:22 -0700
-In-Reply-To: <00000000000009442305b65af1fa@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005887f405dafc930d@google.com>
-Subject: Re: [syzbot] INFO: task hung in netdev_run_todo (2)
-From: syzbot <syzbot+9d77543f47951a63d5c1@syzkaller.appspotmail.com>
-To: Larry.Finger@lwfinger.net, davem@davemloft.net, 
-	florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, 
-	kuba@kernel.org, kuznet@ms2.inr.ac.ru, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, netdev@vger.kernel.org, paskripkin@gmail.com, 
-	payroll@tennesseecarriers.com, syzkaller-bugs@googlegroups.com, 
-	yoshfuji@linux-ipv6.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/2] dt-bindings: soc: bcm: bcm2835-vchiq: Add support
+ for bcm2711
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Adrien Thierry <athierry@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ bcm-kernel-feedback-list@broadcom.com, Stefan Wahren
+ <stefan.wahren@i2se.com>, devicetree@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gaston Gonzalez <gascoar@gmail.com>, Ojaswin Mujoo <ojaswin98@gmail.com>,
+ linux-staging@lists.linux.dev
+References: <20220324172647.167617-1-athierry@redhat.com>
+ <20220324172647.167617-2-athierry@redhat.com>
+ <fdf37f73-6b7a-a96d-6a42-35d870c96f35@kernel.org>
+In-Reply-To: <fdf37f73-6b7a-a96d-6a42-35d870c96f35@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-syzbot has found a reproducer for the following issue on:
+On 24/03/2022 19:47, Krzysztof Kozlowski wrote:
+> On 24/03/2022 18:26, Adrien Thierry wrote:
+>> Add a new compatible string for BCM2711. This is the chip used on the
+>> Raspberry Pi 4.
+>>
+>> Signed-off-by: Adrien Thierry <athierry@redhat.com>
+>> ---
+>> Changes since v1:
+>> - Removed duplicate compatible string for bcm2711
+>>
+>>  .../devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml      | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+>> index e04439b3355b..9cb957facae0 100644
+>> --- a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+>> +++ b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+>> @@ -27,6 +27,11 @@ properties:
+>>                - brcm,bcm2836-vchiq
+>>            - const: brcm,bcm2835-vchiq
+>>  
+>> +      - description: BCM2711 based boards
+>> +        items:
+>> +          - enum:
+>> +              - brcm,bcm2711-vchiq
+> 
+> This oneOf here - just to add description which is copy-paste of
+> compatible - does not make sense. It should be just enum with
+> compatibles. At least for 2711 and 2835 (and put them in alphabetical
+> order).
 
-HEAD commit:    ed4643521e6a Merge tag 'arm-dt-5.18' of git://git.kernel.o..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=105db1dd700000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=77631dc57d015556
-dashboard link: https://syzkaller.appspot.com/bug?extid=9d77543f47951a63d5c1
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a8af6d700000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17dacda3700000
+Actually, judging by your driver and DTS, it seems that this should be
+list of items bcm2711 followed by bcm2836.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9d77543f47951a63d5c1@syzkaller.appspotmail.com
 
-INFO: task kworker/1:2:3649 blocked for more than 143 seconds.
-      Tainted: G        W         5.17.0-syzkaller-04443-ged4643521e6a #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:kworker/1:2     state:D stack:24952 pid: 3649 ppid:     2 flags:0x00004000
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5073 [inline]
- __schedule+0xa9a/0x4940 kernel/sched/core.c:6382
- schedule+0xd2/0x1f0 kernel/sched/core.c:6454
- schedule_preempt_disabled+0xf/0x20 kernel/sched/core.c:6513
- __mutex_lock_common kernel/locking/mutex.c:673 [inline]
- __mutex_lock+0xa32/0x12f0 kernel/locking/mutex.c:733
- netdev_run_todo+0x70f/0xaa0 net/core/dev.c:9967
- r871xu_dev_remove+0x24f/0x2c0 drivers/staging/rtl8712/usb_intf.c:599
- usb_unbind_interface+0x1d8/0x8e0 drivers/usb/core/driver.c:458
- __device_release_driver+0x627/0x760 drivers/base/dd.c:1209
- device_release_driver_internal drivers/base/dd.c:1242 [inline]
- device_release_driver+0x26/0x40 drivers/base/dd.c:1265
- bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:529
- device_del+0x4f3/0xc80 drivers/base/core.c:3592
- usb_disable_device+0x35b/0x7b0 drivers/usb/core/message.c:1419
- usb_disconnect.cold+0x278/0x6ec drivers/usb/core/hub.c:2228
- hub_port_connect drivers/usb/core/hub.c:5202 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5502 [inline]
- port_event drivers/usb/core/hub.c:5660 [inline]
- hub_event+0x1e74/0x4680 drivers/usb/core/hub.c:5742
- process_one_work+0x996/0x1610 kernel/workqueue.c:2289
- process_scheduled_works kernel/workqueue.c:2352 [inline]
- worker_thread+0x854/0x1080 kernel/workqueue.c:2438
- kthread+0x2e9/0x3a0 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
- </TASK>
-INFO: lockdep is turned off.
-NMI backtrace for cpu 1
-CPU: 1 PID: 27 Comm: khungtaskd Tainted: G        W         5.17.0-syzkaller-04443-ged4643521e6a #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- nmi_cpu_backtrace.cold+0x47/0x144 lib/nmi_backtrace.c:111
- nmi_trigger_cpumask_backtrace+0x1e6/0x230 lib/nmi_backtrace.c:62
- trigger_all_cpu_backtrace include/linux/nmi.h:146 [inline]
- check_hung_uninterruptible_tasks kernel/hung_task.c:212 [inline]
- watchdog+0xc1d/0xf50 kernel/hung_task.c:369
- kthread+0x2e9/0x3a0 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
- </TASK>
-Sending NMI from CPU 1 to CPUs 0:
-NMI backtrace for cpu 0
-CPU: 0 PID: 3639 Comm: syz-executor169 Tainted: G        W         5.17.0-syzkaller-04443-ged4643521e6a #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:____rb_erase_color lib/rbtree.c:259 [inline]
-RIP: 0010:rb_erase+0x516/0x1210 lib/rbtree.c:445
-Code: 48 89 f9 48 c1 e9 03 80 3c 19 00 0f 85 bb 0b 00 00 49 8d 7d 10 4c 89 60 08 48 89 f8 48 c1 e8 03 80 3c 18 00 0f 85 90 0b 00 00 <4d> 89 ec 4d 8b 6d 10 e9 cb fd ff ff 48 b8 00 00 00 00 00 fc ff df
-RSP: 0018:ffffc90002befa38 EFLAGS: 00000046
-RAX: 1ffff1100fd8aaf4 RBX: dffffc0000000000 RCX: 1ffff110173873d1
-RDX: ffffed10173873d0 RSI: ffff8880b9c39e80 RDI: ffff88807ec557a0
-RBP: ffff88801da05790 R08: ffff8880b9c39e40 R09: 0000000000000000
-R10: 0000000000000006 R11: ffff8880b9c3a958 R12: ffff88801d7d5790
-R13: ffff88807ec55790 R14: ffff88801da05791 R15: ffff8880b9c39e80
-FS:  00005555558cf300(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f945ed6a01d CR3: 00000000222c0000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- rb_erase_cached include/linux/rbtree.h:126 [inline]
- __dequeue_entity kernel/sched/fair.c:624 [inline]
- set_next_entity+0x334/0x5e0 kernel/sched/fair.c:4522
- pick_next_task_fair+0x6ad/0xe20 kernel/sched/fair.c:7348
- __pick_next_task kernel/sched/core.c:5695 [inline]
- pick_next_task kernel/sched/core.c:5768 [inline]
- __schedule+0x3e8/0x4940 kernel/sched/core.c:6346
- schedule+0xd2/0x1f0 kernel/sched/core.c:6454
- freezable_schedule include/linux/freezer.h:172 [inline]
- do_nanosleep+0x24e/0x690 kernel/time/hrtimer.c:2044
- hrtimer_nanosleep+0x1f9/0x4a0 kernel/time/hrtimer.c:2097
- common_nsleep+0xa2/0xc0 kernel/time/posix-timers.c:1227
- __do_sys_clock_nanosleep kernel/time/posix-timers.c:1267 [inline]
- __se_sys_clock_nanosleep kernel/time/posix-timers.c:1245 [inline]
- __x64_sys_clock_nanosleep+0x2f4/0x430 kernel/time/posix-timers.c:1245
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7f945ed4a2aa
-Code: 83 ff 03 74 3b 48 83 ec 28 b8 fa ff ff ff 83 ff 02 49 89 ca 0f 44 f8 64 8b 04 25 18 00 00 00 85 c0 75 2d b8 e6 00 00 00 0f 05 <89> c2 f7 da 3d 00 f0 ff ff b8 00 00 00 00 0f 47 c2 48 83 c4 28 c3
-RSP: 002b:00007ffcdea2c300 EFLAGS: 00000246 ORIG_RAX: 00000000000000e6
-RAX: ffffffffffffffda RBX: 00000000000f4240 RCX: 00007f945ed4a2aa
-RDX: 00007ffcdea2c340 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 000000000000126b R08: 00000000000002cc R09: 00007ffcdea53080
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000000adfd3
-R13: 00007ffcdea2c37c R14: 00007ffcdea2c390 R15: 00007ffcdea2c380
- </TASK>
-INFO: NMI handler (nmi_cpu_backtrace_handler) took too long to run: 1.178 msecs
-----------------
-Code disassembly (best guess):
-   0:	48 89 f9             	mov    %rdi,%rcx
-   3:	48 c1 e9 03          	shr    $0x3,%rcx
-   7:	80 3c 19 00          	cmpb   $0x0,(%rcx,%rbx,1)
-   b:	0f 85 bb 0b 00 00    	jne    0xbcc
-  11:	49 8d 7d 10          	lea    0x10(%r13),%rdi
-  15:	4c 89 60 08          	mov    %r12,0x8(%rax)
-  19:	48 89 f8             	mov    %rdi,%rax
-  1c:	48 c1 e8 03          	shr    $0x3,%rax
-  20:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
-  24:	0f 85 90 0b 00 00    	jne    0xbba
-* 2a:	4d 89 ec             	mov    %r13,%r12 <-- trapping instruction
-  2d:	4d 8b 6d 10          	mov    0x10(%r13),%r13
-  31:	e9 cb fd ff ff       	jmpq   0xfffffe01
-  36:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  3d:	fc ff df
-
+Best regards,
+Krzysztof
