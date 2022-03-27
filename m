@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173DC3D92
-	for <linux-staging@lists.linux.dev>; Sun, 27 Mar 2022 18:10:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6542C3D94
+	for <linux-staging@lists.linux.dev>; Sun, 27 Mar 2022 18:10:08 +0000 (UTC)
 Received: from dslb-178-004-173-219.178.004.pools.vodafone-ip.de ([178.4.173.219] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nYXL1-00019B-3V; Sun, 27 Mar 2022 20:10:03 +0200
+	id 1nYXKw-00019B-3X; Sun, 27 Mar 2022 20:09:58 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-kernel@vger.kernel.org,
 	David Laight <David.Laight@ACULAB.COM>,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 8/9] staging: r8188eu: use ieee80211 macro for sequence number
-Date: Sun, 27 Mar 2022 20:09:43 +0200
-Message-Id: <20220327180944.712545-9-martin@kaiser.cx>
+Subject: [PATCH v2 2/9] staging: r8188eu: use ieee80211 helper to read the pwr bit
+Date: Sun, 27 Mar 2022 20:09:37 +0200
+Message-Id: <20220327180944.712545-3-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220327180944.712545-1-martin@kaiser.cx>
 References: <20220323074859.177425-1-martin@kaiser.cx>
@@ -32,95 +32,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the IEEE80211_SEQ_TO_SN macro in function validate_recv_frame to get
-the sequence number of an incoming frame.
-
-Map the incoming rx bytes to a struct ieee80211_hdr. Replace the fc
-variable with struct ieee80211_hdr's frame control component.
-
-The IEEE80211_SEQ_TO_SN macro takes the sequence control field of an
-ieee80211 header and extracts the sequence number. The macro's input
-parameter must be in host endianness, the sequence number in the 80211
-header is little-endian, we have to convert it to host endianness.
-
-Remove the local GetSequence macro, it is not used any more.
+Use the ieee80211 helper to read the power management bit.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 24 ++++++++++++------------
- drivers/staging/r8188eu/include/wifi.h  |  3 ---
- 2 files changed, 12 insertions(+), 15 deletions(-)
+ drivers/staging/r8188eu/core/rtw_recv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index bb67abd3ed99..415747da7e3b 100644
+index fc7f2a559f9b..5af715a08430 100644
 --- a/drivers/staging/r8188eu/core/rtw_recv.c
 +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -1063,7 +1063,7 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 	u8 bDumpRxPkt;
- 	struct rx_pkt_attrib *pattrib = &precv_frame->attrib;
- 	u8 *ptr = precv_frame->rx_data;
--	__le16 fc = *(__le16 *)ptr;
-+	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)precv_frame->rx_data;
- 	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
- 
- 	if (pmlmeext->sitesurvey_res.state == SCAN_PROCESS) {
-@@ -1072,31 +1072,31 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 			pmlmeext->channel_set[ch_set_idx].rx_count++;
- 	}
- 
--	if ((fc & cpu_to_le16(IEEE80211_FCTL_VERS)) != 0)
-+	if ((hdr->frame_control & cpu_to_le16(IEEE80211_FCTL_VERS)) != 0)
- 		return _FAIL;
- 
- 	pattrib->to_fr_ds = get_tofr_ds(ptr);
- 
+@@ -1079,7 +1079,7 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
  	pattrib->frag_num = GetFragNum(ptr);
--	pattrib->seq_num = GetSequence(ptr);
-+	pattrib->seq_num = IEEE80211_SEQ_TO_SN(le16_to_cpu(hdr->seq_ctrl));
+ 	pattrib->seq_num = GetSequence(ptr);
  
--	pattrib->pw_save = ieee80211_has_pm(fc);
--	pattrib->mfrag = ieee80211_has_morefrags(fc);
--	pattrib->mdata = ieee80211_has_moredata(fc);
--	pattrib->privacy = ieee80211_has_protected(fc);
--	pattrib->order = ieee80211_has_order(fc);
-+	pattrib->pw_save = ieee80211_has_pm(hdr->frame_control);
-+	pattrib->mfrag = ieee80211_has_morefrags(hdr->frame_control);
-+	pattrib->mdata = ieee80211_has_moredata(hdr->frame_control);
-+	pattrib->privacy = ieee80211_has_protected(hdr->frame_control);
-+	pattrib->order = ieee80211_has_order(hdr->frame_control);
- 
- 	/* Dump rx packets */
- 	GetHalDefVar8188EUsb(adapter, HAL_DEF_DBG_DUMP_RXPKT, &bDumpRxPkt);
- 
- 	/* We return _SUCCESS only for data frames. */
--	if (ieee80211_is_mgmt(fc))
-+	if (ieee80211_is_mgmt(hdr->frame_control))
- 		validate_recv_mgnt_frame(adapter, precv_frame);
--	else if (ieee80211_is_ctl(fc))
-+	else if (ieee80211_is_ctl(hdr->frame_control))
- 		validate_recv_ctrl_frame(adapter, precv_frame);
--	else if (ieee80211_is_data(fc)) {
-+	else if (ieee80211_is_data(hdr->frame_control)) {
- 		rtw_led_control(adapter, LED_CTL_RX);
--		pattrib->qos = ieee80211_is_data_qos(fc);
-+		pattrib->qos = ieee80211_is_data_qos(hdr->frame_control);
- 		retval = validate_recv_data_frame(adapter, precv_frame);
- 		if (retval == _FAIL) {
- 			struct recv_priv *precvpriv = &adapter->recvpriv;
-diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index 24d404f0f5f4..dbda1880c45a 100644
---- a/drivers/staging/r8188eu/include/wifi.h
-+++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -189,9 +189,6 @@ enum WIFI_REG_DOMAIN {
- 		*(__le16 *)(pbuf) |= cpu_to_le16(type); \
- 	} while (0)
- 
--#define GetSequence(pbuf)			\
--	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 22)) >> 4)
--
- #define GetFragNum(pbuf)			\
- 	(le16_to_cpu(*(__le16 *)((size_t)(pbuf) + 22)) & 0x0f)
- 
+-	pattrib->pw_save = GetPwrMgt(ptr);
++	pattrib->pw_save = ieee80211_has_pm(fc);
+ 	pattrib->mfrag = ieee80211_has_morefrags(fc);
+ 	pattrib->mdata = ieee80211_has_moredata(fc);
+ 	pattrib->privacy = ieee80211_has_protected(fc);
 -- 
 2.30.2
 
