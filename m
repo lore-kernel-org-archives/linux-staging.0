@@ -1,71 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.meizu.com (edge01.meizu.com [14.29.68.187])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6BE7C
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 08:48:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C539C340ED;
-	Mon, 28 Mar 2022 08:48:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1648457328;
-	bh=/4P1QfEXx+SD//zNcIF3is1gtUA9WvLmCRu3ZiwpImw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OZXuWiX+XBnsODPJEifNUSRoLRiF2ocznQyjwsPL8f8hIjcfdn9TXedvbFpT6mwMv
-	 SrdM6eW6UgOeZY5WbzlT5lbe8UQdQMgKB+18DxeqzaRzAHOcInJy5nMlIeL7kS2CBq
-	 L7CxBpjlaNlV8D2M5PFx+6sW9zsvaIyrqLWffE5E=
-Date: Mon, 28 Mar 2022 10:48:45 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Haowen Bai <baihaowen@meizu.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] staging: r8188eu: Directly return _FAIL instead of
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D687C
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 09:07:47 +0000 (UTC)
+Received: from IT-EXMB-1-123.meizu.com (172.16.1.123) by mz-mail04.meizu.com
+ (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 28 Mar
+ 2022 17:07:45 +0800
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by
+ IT-EXMB-1-123.meizu.com (172.16.1.123) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 28 Mar 2022 17:07:44 +0800
+Received: from IT-EXMB-1-125.meizu.com ([fe80::7481:7d92:3801:4575]) by
+ IT-EXMB-1-125.meizu.com ([fe80::7481:7d92:3801:4575%3]) with mapi id
+ 15.01.2308.014; Mon, 28 Mar 2022 17:07:44 +0800
+From: =?gb2312?B?sNe6xs7E?= <baihaowen@meizu.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: "Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
+	"phil@philpotter.co.uk" <phil@philpotter.co.uk>, "straube.linux@gmail.com"
+	<straube.linux@gmail.com>, "martin@kaiser.cx" <martin@kaiser.cx>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: =?gb2312?B?tPC4tDogW1BBVENIIFYyXSBzdGFnaW5nOiByODE4OGV1OiBEaXJlY3RseSBy?=
+ =?gb2312?B?ZXR1cm4gX1NVQ0NFU1MgaW5zdGVhZCBvZiB1c2luZyBsb2NhbCByZXQgdmFy?=
+ =?gb2312?Q?iable?=
+Thread-Topic: [PATCH V2] staging: r8188eu: Directly return _SUCCESS instead of
  using local ret variable
-Message-ID: <YkF2bU7lAn91n9Ch@kroah.com>
-References: <1648457022-4076-1-git-send-email-baihaowen@meizu.com>
+Thread-Index: AQHYQn/ynpKI+ybssEqkIpZT65/a3qzT9eCAgACLIh4=
+Date: Mon, 28 Mar 2022 09:07:44 +0000
+Message-ID: <be09d628f09041ac8f2c7bf2e9d5a13d@meizu.com>
+References: <1648457028-4226-1-git-send-email-baihaowen@meizu.com>,<YkF2MRdxlUWow0UC@kroah.com>
+In-Reply-To: <YkF2MRdxlUWow0UC@kroah.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.16.137.70]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1648457022-4076-1-git-send-email-baihaowen@meizu.com>
 
-On Mon, Mar 28, 2022 at 04:43:42PM +0800, Haowen Bai wrote:
-> fixes coccinelle warning:
-> ./drivers/staging/r8188eu/core/rtw_mlme_ext.c:1518:14-17: Unneeded variable: "ret".
->  Return "_FAIL" on line 1549
-> 
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> ---
-> V1->V2: split into two patches.
-> 
->  drivers/staging/r8188eu/core/rtw_mlme_ext.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> index 10d5f12..931e6f2 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> @@ -1515,7 +1515,6 @@ unsigned int OnAtim(struct adapter *padapter, struct recv_frame *precv_frame)
->  
->  unsigned int on_action_spct(struct adapter *padapter, struct recv_frame *precv_frame)
->  {
-> -	unsigned int ret = _FAIL;
->  	struct sta_info *psta = NULL;
->  	struct sta_priv *pstapriv = &padapter->stapriv;
->  	u8 *pframe = precv_frame->rx_data;
-> @@ -1546,7 +1545,7 @@ unsigned int on_action_spct(struct adapter *padapter, struct recv_frame *precv_f
->  	}
->  
->  exit:
-> -	return ret;
-> +	return _FAIL;
-
-Something is wrong here, why would this function always fail?  Are you
-sure that this is working properly?
-
-thanks,
-
-greg k-h
+SGksIEdyZWcgS0gNCg0KWWVzLCBJIHRoaW5rIHN5bmMgcnRsODcyM2JzIGFuZCByODE4OGV1IHdp
+bGwgYmUgYmV0dGVyIGFzIHRoZXkgaGF2ZSBzYW1lIHByb2JsZW0uDQoNCmNvbW1pdCAwNjc3NTZh
+Y2RhYzhlMGRkOTFlZGY0ODAwZTg0NGZjYjZlMGNjNzJhDQpBdXRob3I6IEhhcmlwcmFzYWQgS2Vs
+YW0gPGhhcmlwcmFzYWQua2VsYW1AZ21haWwuY29tPg0KRGF0ZTogICBNb24gSnVsIDE1IDIzOjE2
+OjE4IDIwMTkgKzA1MzANCg0KICAgIHN0YWdpbmc6IHJ0bDg3MjNiczogY29yZTogQ2hhbmdlIHJl
+dHVybiB0eXBlIG9mIGluaXRfbWxtZV9leHRfcHJpdg0KDQogICAgQXMgaW5pdF9tbG1lX2V4dF9w
+cml2IGZ1bmN0aW9uIGFsd2F5cyByZXR1cm5zIFNVQ0NFU1MgLCBXZSBjYW4gY2hhbmdlDQogICAg
+cmV0dXJuIHR5cGUgZnJvbSBpbnQgdG8gdm9pZC4NCg0KICAgIEZpeGVzIGJlbG93IGlzc3VlIGlk
+ZW50aWZpZWQgYnkgY29jY2ljaGVjaw0KICAgIGRyaXZlcnMvc3RhZ2luZy9ydGw4NzIzYnMvY29y
+ZS9ydHdfbWxtZV9leHQuYzo0NjQ6NS04OiBVbm5lZWRlZA0KICAgIHZhcmlhYmxlOiAicmVzIi4g
+UmV0dXJuICJfU1VDQ0VTUyIgb24gbGluZSA0OTINCg0KX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXw0Kt6K8/sjLOiBHcmVnIEtIIDxncmVna2hAbGludXhmb3VuZGF0aW9u
+Lm9yZz4NCreiy83KsbzkOiAyMDIyxOoz1MIyOMjVIDE2OjQ3OjQ1DQrK1bz+yMs6ILDXusbOxA0K
+s63LzTogTGFycnkuRmluZ2VyQGx3ZmluZ2VyLm5ldDsgcGhpbEBwaGlscG90dGVyLmNvLnVrOyBz
+dHJhdWJlLmxpbnV4QGdtYWlsLmNvbTsgbWFydGluQGthaXNlci5jeDsgbGludXgtc3RhZ2luZ0Bs
+aXN0cy5saW51eC5kZXY7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCtb3zOI6IFJlOiBb
+UEFUQ0ggVjJdIHN0YWdpbmc6IHI4MTg4ZXU6IERpcmVjdGx5IHJldHVybiBfU1VDQ0VTUyBpbnN0
+ZWFkIG9mIHVzaW5nIGxvY2FsIHJldCB2YXJpYWJsZQ0KDQpPbiBNb24sIE1hciAyOCwgMjAyMiBh
+dCAwNDo0Mzo0OFBNICswODAwLCBIYW93ZW4gQmFpIHdyb3RlOg0KPiBmaXhlcyBjb2NjaW5lbGxl
+IHdhcm5pbmc6DQo+IC4vZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfbWxtZV9leHQu
+YzozNTc6NS04OiBVbm5lZWRlZCB2YXJpYWJsZTogInJlcyIuDQo+ICBSZXR1cm4gIl9TVUNDRVNT
+IiBvbiBsaW5lIDM4MA0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBIYW93ZW4gQmFpIDxiYWloYW93ZW5A
+bWVpenUuY29tPg0KPiAtLS0NCj4gVjEtPlYyOiBzcGxpdCBpbnRvIHR3byBwYXRjaGVzLg0KPg0K
+PiAgZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfbWxtZV9leHQuYyB8IDMgKy0tDQo+
+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pDQo+DQo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0d19tbG1lX2V4dC5jIGIv
+ZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfbWxtZV9leHQuYw0KPiBpbmRleCA5MzFl
+NmYyLi40YjdiMGVlIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3Jl
+L3J0d19tbG1lX2V4dC5jDQo+ICsrKyBiL2RyaXZlcnMvc3RhZ2luZy9yODE4OGV1L2NvcmUvcnR3
+X21sbWVfZXh0LmMNCj4gQEAgLTM1NCw3ICszNTQsNiBAQCBzdGF0aWMgdTggaW5pdF9jaGFubmVs
+X3NldChzdHJ1Y3QgYWRhcHRlciAqcGFkYXB0ZXIsIHU4IENoYW5uZWxQbGFuLCBzdHJ1Y3QgcnRf
+Yw0KPg0KPiAgaW50ICBpbml0X21sbWVfZXh0X3ByaXYoc3RydWN0IGFkYXB0ZXIgKnBhZGFwdGVy
+KQ0KPiAgew0KPiAtICAgICBpbnQgICAgIHJlcyA9IF9TVUNDRVNTOw0KPiAgICAgICBzdHJ1Y3Qg
+cmVnaXN0cnlfcHJpdiAqcHJlZ2lzdHJ5cHJpdiA9ICZwYWRhcHRlci0+cmVnaXN0cnlwcml2Ow0K
+PiAgICAgICBzdHJ1Y3QgbWxtZV9leHRfcHJpdiAqcG1sbWVleHQgPSAmcGFkYXB0ZXItPm1sbWVl
+eHRwcml2Ow0KPiAgICAgICBzdHJ1Y3QgbWxtZV9wcml2ICpwbWxtZXByaXYgPSAmcGFkYXB0ZXIt
+Pm1sbWVwcml2Ow0KPiBAQCAtMzc3LDcgKzM3Niw3IEBAIGludCAgICAgICBpbml0X21sbWVfZXh0
+X3ByaXYoc3RydWN0IGFkYXB0ZXIgKnBhZGFwdGVyKQ0KPg0KPiAgICAgICBwbWxtZWV4dC0+YWN0
+aXZlX2tlZXBfYWxpdmVfY2hlY2sgPSB0cnVlOw0KPg0KPiAtICAgICByZXR1cm4gcmVzOw0KPiAr
+ICAgICByZXR1cm4gX1NVQ0NFU1M7DQoNCklmIGEgZnVuY3Rpb24gY2FuIG9ubHkgZXZlciBzdWNj
+ZWVkLCB3aHkgcmV0dXJuIGFueXRoaW5nPyAgUGxlYXNlIG1ha2UNCnRoaXMgYSBmdW5jdGlvbiBy
+ZXR1cm4gdm9pZC4NCg0KdGhhbmtzLA0KDQpncmVnIGstaA0K
