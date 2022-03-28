@@ -1,52 +1,92 @@
-Received: from mail.ourpartnership.pl (mail.ourpartnership.pl [80.211.82.238])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EE517E9
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 07:55:09 +0000 (UTC)
-Received: by mail.ourpartnership.pl (Postfix, from userid 1001)
-	id 176B161705; Mon, 28 Mar 2022 08:46:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ourpartnership.pl;
-	s=mail; t=1648453611;
-	bh=M1ZVeu3q6Upppe+FUx/3rgI7MKJXh389NZDbgCK1SX4=;
-	h=Date:From:To:Subject:From;
-	b=mQaxMGxVoftIwSfOjUcvlzg4nwx5fMNQGBzzA40U3xxiHoUHy61PMlmE9u+i/+ELb
-	 mtQoIVblcy/StOd3Vr17C3Iawv3vL0JetY8dsB3NsepM8abi6JZ5fJJKYeU8xtMgBO
-	 lxC0BXhP+WdIBhW2cArtF32c2xT+I/hTlaIA8xgQFqL++3Y9c41ZdDoTAn2N1NIWzc
-	 YYuvpVs1mcUhJ7++CpFSVzRh6FVhVWmZEKZcAfP4ttzkdsBQXyhBdCaSrvBG+E71Dh
-	 up4gamT5k98QjYJMG2Iqw3ohalrqHs3bjnn7a9UIoInlOF8eEs7OyNKS41xsEOr7pk
-	 c/rnMrk8eKSQA==
-Received: by mail.ourpartnership.pl for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 07:46:04 GMT
-Message-ID: <20220328074501-0.1.9.2a3o.0.9bfn1e2e86@ourpartnership.pl>
-Date: Mon, 28 Mar 2022 07:46:04 GMT
-From: =?UTF-8?Q?"Arkadiusz_Soko=C5=82owski"?= <arkadiusz.sokolowski@ourpartnership.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: Koszty instalacji fotowoltaicznej
-X-Mailer: mail.ourpartnership.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF1517F9
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 08:08:24 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1nYkQD-0007da-3d; Mon, 28 Mar 2022 10:08:17 +0200
+Date: Mon, 28 Mar 2022 10:08:17 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Haowen Bai <baihaowen@meizu.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, straube.linux@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: Directly return instead of using local
+ ret variable
+Message-ID: <20220328080817.4r5n5z375hzqaxjf@viti.kaiser.cx>
+References: <1648431715-21333-1-git-send-email-baihaowen@meizu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1648431715-21333-1-git-send-email-baihaowen@meizu.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-Dzie=C5=84 dobry,
+Thus wrote Haowen Bai (baihaowen@meizu.com):
 
-stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
- obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
+> From: 白浩文 <baihaowen@meizu.com>
 
-Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
-acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
-ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
+> fixes coccinelle warning:
+> ./drivers/staging/r8188eu/core/rtw_mlme_ext.c:1518:14-17: Unneeded variable: "ret".
+>  Return "_FAIL" on line 1549
+> ./drivers/staging/r8188eu/core/rtw_mlme_ext.c:357:5-8: Unneeded variable: "res".
+>  Return "_SUCCESS" on line 380
 
-Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
-=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
-=2E
+These are two unrelated changes. I guess you should split this into two
+patches.
 
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
+> Signed-off-by: 白浩文 <baihaowen@meizu.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index 10d5f12..4b7b0ee 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -354,7 +354,6 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
 
-Pozdrawiam
-Arkadiusz Soko=C5=82owski
+>  int	init_mlme_ext_priv(struct adapter *padapter)
+>  {
+> -	int	res = _SUCCESS;
+>  	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+>  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+>  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+> @@ -377,7 +376,7 @@ int	init_mlme_ext_priv(struct adapter *padapter)
+
+>  	pmlmeext->active_keep_alive_check = true;
+
+> -	return res;
+> +	return _SUCCESS;
+>  }
+
+The caller does not check the return value. You should change the
+function to void init_mlme_ext_priv...
+
+>  void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext)
+> @@ -1515,7 +1514,6 @@ unsigned int OnAtim(struct adapter *padapter, struct recv_frame *precv_frame)
+
+>  unsigned int on_action_spct(struct adapter *padapter, struct recv_frame *precv_frame)
+>  {
+> -	unsigned int ret = _FAIL;
+>  	struct sta_info *psta = NULL;
+>  	struct sta_priv *pstapriv = &padapter->stapriv;
+>  	u8 *pframe = precv_frame->rx_data;
+> @@ -1546,7 +1544,7 @@ unsigned int on_action_spct(struct adapter *padapter, struct recv_frame *precv_f
+>  	}
+
+>  exit:
+> -	return ret;
+> +	return _FAIL;
+>  }
+>  unsigned int OnAction_qos(struct adapter *padapter, struct recv_frame *precv_frame)
+> -- 
+> 2.7.4
+
