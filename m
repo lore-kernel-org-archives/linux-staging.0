@@ -1,111 +1,97 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D787C
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 16:13:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648483984; x=1680019984;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1K00Uy2bjZkVdoEOhcJO6s0f7diS2FE9HUV9VPPi8yw=;
-  b=LYttew5cwb4WmOAZiqnywRsUE2edULY8E9pXVuVjVGG+KAogCTmfHcmd
-   /t/bN5CEDLDijWXfxt60y8/GSQ9ksKADJiY+JO9OM76qAr8iR7mWm4qY1
-   r+ORcH6mdl30sScLrQVL/HHMNY9D7Rj5VRsEbJWDVmGpWxopY+RUxF5sP
-   nETz3fOxRW6t2fKBy74Dx1uY0bS20CYqTmFXIt250M7jMyuoxuz17v6hv
-   fpamij6Q39iB1CZ/nchOFxgdM53h2CkUY88YsPawR8xUrzt9OMW69f4Ho
-   nxfN68yiLqBT/NB0wL/tuZf3CjHJ7dEXK9tF60jweXRhVZVaRr+V8XiN9
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="259009593"
-X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; 
-   d="scan'208";a="259009593"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2022 09:11:59 -0700
-X-IronPort-AV: E=Sophos;i="5.90,217,1643702400"; 
-   d="scan'208";a="521075979"
-Received: from allenzho-mobl.amr.corp.intel.com (HELO localhost) ([10.212.109.43])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2022 09:11:57 -0700
-Date: Mon, 28 Mar 2022 09:11:56 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Benjamin Philip <benjamin.philip495@gmail.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Charlie Sands <sandsch@northvilleschools.net>,
-	Mitali Borkar <mitaliborkar810@gmail.com>,
-	Colin Ian King <colin.king@intel.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	iweiny@gmail.com, ira.weiny@intel.com
-Subject: Re: [PATCH] staging: rts5208: Convert kmap() to kmap_local_page()
-Message-ID: <YkHeTCGdnGPjW0/9@iweiny-desk3>
-References: <20220328112440.17756-1-fmdefrancesco@gmail.com>
- <YkHXQRmExRFioEBN@iweiny-desk3>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD45437E;
+	Mon, 28 Mar 2022 17:09:14 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id qa43so30011438ejc.12;
+        Mon, 28 Mar 2022 10:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=oz/GhbrsSoiiuJbFSvXUMfpNUWNZ2X3Kmt6C0b9MtEY=;
+        b=XLFg6dCmzHI6UVEuH8BLYtKKM4uvH1ZozdUxJhyd9zDVCSiCtUzw6R4eiOcIvKdtp+
+         OKddStrGMKY8ErWM/NqQq/kTWdaunQJTqePkGKtU1344Wj+/F/i30ItvbA4IFnBLSQwF
+         V54eQVV+UGCyhBuPy2yjZg2dmrMr+eoLRbjvlMQ1nkV1S+tR/6RAYXCgx+dCLXCwTgOu
+         w6GK9j/qC32+SQY+8OroKJsE2UtR34akAYW9D+sOA0gZhXFh1I3RJnD6fFQuFmo/0BU/
+         PRSsL+VvNUjbki90jg38CzUeCr2IKa7ibdhMwchZvJ3LJYdvrreSSh3J/0os/8ijeegd
+         s8YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=oz/GhbrsSoiiuJbFSvXUMfpNUWNZ2X3Kmt6C0b9MtEY=;
+        b=cS1Qger1omawOh3BF+I56h6bx302H77HFv0Fq6MOGKze5DdnV/JsYi9ima+Z4ZUs5P
+         7uSs8OZzhamvq2lyDKFZXtfslBRRcAULz41Z9IluR1BI2GmqoQk8Y8ADYT7vT5W7TkWr
+         REfpT+a4i9AA6SQZH08xx0bQELbqWbNrA0pjYTj/fSzsZiiq+f0v8UyqK+u5YpLr+4Ut
+         M1zRMRx9qEhXVKBpfb5VU+eX75bLrFfHrhnfZrMrJeIPx9WnahjefENGcANsT+CzFuZx
+         nRYVh/SkwXjaK8EWjYfJJTkcRvalLLcJg+gzr7oxg2PsnmVycosx7SkrwkxELpNI2L8I
+         1xXA==
+X-Gm-Message-State: AOAM531VQFeSM44XBgtRhM77nSf7BRAAoY5/YQDrx0AvpsOdpl/Sg47B
+	fyEG9Ok4I+0WZfy+8tieqf8=
+X-Google-Smtp-Source: ABdhPJxn3BJyJKNC9/61CZcKeOhAnR0kP6RUMvDsLZPNcLzptiHSJT5FmZKkFiS6yu0S2vwJNZhpcA==
+X-Received: by 2002:a17:907:7ba3:b0:6df:b07c:ee35 with SMTP id ne35-20020a1709077ba300b006dfb07cee35mr28691222ejc.588.1648487353124;
+        Mon, 28 Mar 2022 10:09:13 -0700 (PDT)
+Received: from jernej-laptop.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id o17-20020a056402439100b0041938757232sm7321011edc.17.2022.03.28.10.09.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Mar 2022 10:09:12 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-media@vger.kernel.org, Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: acourbot@chromium.org, tfiga@chromium.org, hverkuil-cisco@xs4all.nl, Sebastian Fricke <sebastian.fricke@collabora.com>, Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, "moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH v3 2/2] staging: media: cedrus: Rename H265 to HEVC
+Date: Mon, 28 Mar 2022 19:09:11 +0200
+Message-ID: <4697363.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <20220327084308.9053-3-sebastian.fricke@collabora.com>
+References: <20220327084308.9053-1-sebastian.fricke@collabora.com> <20220327084308.9053-3-sebastian.fricke@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkHXQRmExRFioEBN@iweiny-desk3>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Mar 28, 2022 at 08:41:53AM -0700, Ira Weiny wrote:
-> On Mon, Mar 28, 2022 at 01:24:40PM +0200, Fabio M. De Francesco wrote:
-> > The use of kmap() is being deprecated and kmap_local_page() is faster.
-> > Use kmap_local_page() in place of kmap().
-> 
-> Thanks for the patch!  I have just a couple of comments.
-> 
-> kmap_local_page() is not necessarily faster than kmap() but it is more correct
-> in this case.  You should mention why.
-> 
-> Also to help with kmap_local_page() there are a number of helpers implemented
-> in highmem.h for things like memcpy, memmove, etc.
-> 
-> Check out memcpy_page() for this use case.
-> 
-> Thank you!
-> Ira
-> 
+Hi Sebastian!
 
-Also I believe this is work toward the Outreachy program.  If so be sure to
-follow the guidelines on this page:
+Dne nedelja, 27. marec 2022 ob 10:43:10 CEST je Sebastian Fricke napisal(a):
+> Rename all instances where the identifier H265 is used with HEVC.
+> The codec has multiple identifiers H.265 (ITU-T), MPEG-H Part 2 (ISO),
+> but the actual name of the codec is HEVC (High Efficiency Video Coding).
+> Also nearly all other related drivers use the term HEVC instead of H265.
+> 
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 
-https://kernelnewbies.org/Outreachyfirstpatch
+This patch is not constructive. I admit, it's unfortunate it's not using same 
+name as other drivers, but anyone dealing with HEVC will know H265 is synonym 
+for it. This patch doesn't improve anything and actually makes any fix harder 
+to backport, if something cames up. According to diffstat, this rewrites more 
+than 50% of cedrus_h265.c, including renaming the file. Additionally, it's easy 
+to miss something to rename and we could play this game in the future too, for 
+no real benefit.
 
-In particular, it does not look like you cc'ed the Outreachy list.
+So NAK.
 
-Thanks!
-Ira
+Best regard,
+Jernej
 
-> > 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> >  drivers/staging/rts5208/rtsx_transport.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rts5208/rtsx_transport.c b/drivers/staging/rts5208/rtsx_transport.c
-> > index 805dc18fac0a..de690d7ee5e3 100644
-> > --- a/drivers/staging/rts5208/rtsx_transport.c
-> > +++ b/drivers/staging/rts5208/rtsx_transport.c
-> > @@ -92,13 +92,13 @@ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
-> >  			while (sglen > 0) {
-> >  				unsigned int plen = min(sglen, (unsigned int)
-> >  						PAGE_SIZE - poff);
-> > -				unsigned char *ptr = kmap(page);
-> > +				unsigned char *ptr = kmap_local_page(page);
-> >  
-> >  				if (dir == TO_XFER_BUF)
-> >  					memcpy(ptr + poff, buffer + cnt, plen);
-> >  				else
-> >  					memcpy(buffer + cnt, ptr + poff, plen);
-> > -				kunmap(page);
-> > +				kunmap_local(ptr);
-> >  
-> >  				/* Start at the beginning of the next page */
-> >  				poff = 0;
-> > -- 
-> > 2.34.1
-> > 
+P.S. Please wait at least few days before resending patches, even if you find 
+something. After all, RFC patches are meant to get some response, it's not 
+expected they will be perfect.
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  30 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  14 +-
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>  .../cedrus/{cedrus_h265.c => cedrus_hevc.c}   | 438 +++++++++---------
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |   4 +-
+>  .../staging/media/sunxi/cedrus/cedrus_regs.h  | 394 ++++++++--------
+>  .../staging/media/sunxi/cedrus/cedrus_video.c |   4 +-
+>  8 files changed, 448 insertions(+), 448 deletions(-)
+>  rename drivers/staging/media/sunxi/cedrus/{cedrus_h265.c => cedrus_hevc.c}
+> (53%)
+
+
+
