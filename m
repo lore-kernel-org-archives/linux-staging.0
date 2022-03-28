@@ -1,41 +1,41 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9394435F
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 11:39:52 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id g22so5455804edz.2
-        for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 04:39:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7844435A
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 11:39:53 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id b15so16557652edn.4
+        for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 04:39:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pA2M4InBcSa1/UC/P+oxkaND7wrYasrDOMFK/BPCor0=;
-        b=MDF/PWyeCXv4HfFg55AOtsh8gwNWgUkCYefIjBVbFKfg7uefeHhoFh5sTId3RRusqP
-         jDJjH64/PpguGDaCwazJ8yMajbYFwRd2r8JibTHOrn6ZHbdx6PXmVeTWIkxhKFVX5W37
-         ca9atZpGw84YrN6XWVtkK5F3xyi7muqH/MnosWSCmFHZRt6EHaOiAtXyP7uLxsiLZTpZ
-         whd0rOXJftizSWSWqMVyMrjCS/bt61q8H3Q2sEK4L3do4htuvoMvkulCJQXIEPq9Lznv
-         Oy2nPPZIMysa1kHfw09xW27SV5zFCPHAcfsES5EXx9hzPgf63ENP1T/+wd1kz2671PWE
-         FDxg==
+        bh=NqlenlfkIdPIxhhz0bGQm5CSsmhIboo593gX7DqUXRY=;
+        b=PMQIQIXdb+GvtPrU7PnzM+dUHYQmICOXrBzwZWkBxuMoh1fL4XFlPrz8/hUjKGivt2
+         n2BkiNAOr62MIXic0GBIwtYZcs21b2+LlDY1QBRCppAGk7V1W91olErQ9fIszsdub4AK
+         Lo7dw/E/EOIcInoPoy3hqMbbroC7a50S8ogOsken2NZab/otLMa6sjnBlLckjoP826Sz
+         NEi5iQq00D/XGXPAUbZOEfwx+tf5cEistwisbP8+s1eQpcZU6uwDiQLEgr828XKJR99z
+         zvtGIlKS6sPiELWyNtCIug8Pn999EVfRi11Zu81Jlc+fU7CzR/uP5f0YtSrcmn5kAIBe
+         cIIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pA2M4InBcSa1/UC/P+oxkaND7wrYasrDOMFK/BPCor0=;
-        b=EKvB9qSYGYb/OKAPjMTq0gMyFaYRxJkgzvzCyMRmv0RGc2vQ9RzbrM9Js/x3pEV1BG
-         iXunbjY6lj1xZGEgjvcg67sONVJiTZxDpe3MIApKr/vRxKB6kbui7jHWV2nzW+gmboo2
-         LVB+15tCLp6ybc+7myxhbZuq7SeUyVfQO7LsN4wgtDHI2TNtgWSPv5F+s76/03cR5L16
-         0Bx2Ghjb9tC4YrU/hQEA8zAedKKB2D1IV3aDqATXQ6iQHEJvv+j+kMmLLZnHLG1Tf7C7
-         itUL2wvskO/kWwZv12K6/o6mmaUQCn8Y/CouGox9wu+FuNPudtSUfDTQdQttzY+8mNXc
-         xReA==
-X-Gm-Message-State: AOAM531PLT0ZCpxXR0YxZxfz8e+o48tQi6GIsxS5Ux7qV48dBXT4RB6k
-	HrteOasVM8jcxHOwxT9e3mM=
-X-Google-Smtp-Source: ABdhPJztCfvXETlz6E0qv5EG04xoV64MmlCLDzXEAnGW24zHt/nEcGXLz55B+63BOshcdC2irVGXOQ==
-X-Received: by 2002:a05:6402:1217:b0:419:249:8461 with SMTP id c23-20020a056402121700b0041902498461mr15759207edw.10.1648467591168;
-        Mon, 28 Mar 2022 04:39:51 -0700 (PDT)
+        bh=NqlenlfkIdPIxhhz0bGQm5CSsmhIboo593gX7DqUXRY=;
+        b=HXAc6sYdBagmcGzcesh6VHjuO20x08C4jM3F9jyxdqYXeCfVTWzQ4sAHzRVW6Yr4Px
+         /ZbijC5e0bFQ55yOWJfQ5d6yf3JJ7IJRzgpjEYETBakxwE/3jUZo67bdTZFnPbqY1J7D
+         f6bRJkT25gUc/fEWNuUOXJbZ/MMQ9PXtyaT5sZvGHk0NXNJh637iunG5518My672gyB2
+         URatZRueTi7nsx3t2DVUG/9JStq/b5i+B8qsUqNLIYg3uHajWrFmbArB8YhBbAU2UOPs
+         WVSTfY2ptzdh+MEQMpBTso7zRlS83EKqHqsmes4OcJnKYG4mxTkYnnX7g7Ud2MxJNZuL
+         bJgg==
+X-Gm-Message-State: AOAM5338XF71M1zQbWVn6xhZAsV5ozzQHxnq8pJxTiF/4BF32uB6k6l8
+	HUICuz/aUcx0sRS4tDJE4wM=
+X-Google-Smtp-Source: ABdhPJw8yVKXQTMacjlW8K6Uz3SAsBFnmLxWnE5oMuo/XynkFTzgggH8ce8YF4HzFZmZZ+0Y3JDQcg==
+X-Received: by 2002:aa7:d98f:0:b0:419:1200:91e0 with SMTP id u15-20020aa7d98f000000b00419120091e0mr15730786eds.145.1648467592053;
+        Mon, 28 Mar 2022 04:39:52 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id hq39-20020a1709073f2700b006dfc58efab9sm5938556ejc.73.2022.03.28.04.39.50
+        by smtp.gmail.com with ESMTPSA id hq39-20020a1709073f2700b006dfc58efab9sm5938556ejc.73.2022.03.28.04.39.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 04:39:50 -0700 (PDT)
+        Mon, 28 Mar 2022 04:39:51 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/9] staging: r8188eu: remove HW_VAR_RESP_SIFS from SetHwReg8188EU()
-Date: Mon, 28 Mar 2022 13:39:32 +0200
-Message-Id: <20220328113940.6396-2-straube.linux@gmail.com>
+Subject: [PATCH 2/9] staging: r8188eu: remove HW_VAR_MLME_DISCONNECT from SetHwReg8188EU()
+Date: Mon, 28 Mar 2022 13:39:33 +0200
+Message-Id: <20220328113940.6396-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220328113940.6396-1-straube.linux@gmail.com>
 References: <20220328113940.6396-1-straube.linux@gmail.com>
@@ -57,78 +57,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-SetHwReg8188EU() is called with HW_VAR_RESP_SIFS only in one place.
-Remove the HW_VAR_RESP_SIFS case from SetHwReg8188EU() and call
-rtw_write8() directly instead. This is part of the ongoing effort to
-get rid of the unwanted hal layer.
+SetHwReg8188EU() is called with HW_VAR_MLME_DISCONNECT only from
+functions in rtw_mlme_ext.c. Move the functionality into a static
+function in rtw_mlme_ext.c and remove the HW_VAR_MLME_DISCONNECT case
+from SetHwReg8188EU(). This is part of the ongoing effort to get rid
+of the unwanted hal layer.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_wlan_util.c | 11 ++++++-----
- drivers/staging/r8188eu/hal/usb_halinit.c    |  8 --------
- drivers/staging/r8188eu/include/hal_intf.h   |  1 -
- 3 files changed, 6 insertions(+), 14 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 19 ++++++++++++++++---
+ drivers/staging/r8188eu/hal/usb_halinit.c   | 11 -----------
+ drivers/staging/r8188eu/include/hal_intf.h  |  1 -
+ 3 files changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index 665b077190bc..eda4e5f9a6af 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -1338,7 +1338,6 @@ void update_capinfo(struct adapter *Adapter, u16 updateCap)
- void update_wireless_mode(struct adapter *padapter)
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 10d5f1222936..b2adb05856a0 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -6800,13 +6800,26 @@ void mlmeext_sta_add_event_callback(struct adapter *padapter, struct sta_info *p
+ 	update_sta_info(padapter, psta);
+ }
+ 
++static void mlme_disconnect(struct adapter *adapter)
++{
++	/* Set RCR to not to receive data frame when NO LINK state */
++	/* reject all data frames */
++	rtw_write16(adapter, REG_RXFLTMAP2, 0x00);
++
++	/* reset TSF */
++	rtw_write8(adapter, REG_DUAL_TSF_RST, (BIT(0) | BIT(1)));
++
++	/* disable update TSF */
++	rtw_write8(adapter, REG_BCN_CTRL, rtw_read8(adapter, REG_BCN_CTRL) | BIT(4));
++}
++
+ void mlmeext_sta_del_event_callback(struct adapter *padapter)
  {
- 	int ratelen, network_type = 0;
--	u32 SIFS_Timer;
  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct wlan_bssid_ex	*cur_network = &pmlmeinfo->network;
-@@ -1365,10 +1364,12 @@ void update_wireless_mode(struct adapter *padapter)
  
- 	pmlmeext->cur_wireless_mode = network_type & padapter->registrypriv.wireless_mode;
+ 	if (is_client_associated_to_ap(padapter) || is_IBSS_empty(padapter)) {
+-		SetHwReg8188EU(padapter, HW_VAR_MLME_DISCONNECT, NULL);
++		mlme_disconnect(padapter);
+ 		SetHwReg8188EU(padapter, HW_VAR_BSSID, null_addr);
  
--	SIFS_Timer = 0x0a0a0808;/* 0x0808 -> for CCK, 0x0a0a -> for OFDM */
--				/* change this value if having IOT issues. */
--
--	SetHwReg8188EU(padapter, HW_VAR_RESP_SIFS, (u8 *)&SIFS_Timer);
-+	/* RESP_SIFS for CCK */
-+	rtw_write8(padapter, REG_R2T_SIFS, 0x08);
-+	rtw_write8(padapter, REG_R2T_SIFS + 1, 0x08);
-+	/* RESP_SIFS for OFDM */
-+	rtw_write8(padapter, REG_T2T_SIFS, 0x0a);
-+	rtw_write8(padapter, REG_T2T_SIFS + 1, 0x0a);
+ 		/* restore to initial setting. */
+@@ -7170,7 +7183,7 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
+ 		/* set MSR to nolink -> infra. mode */
+ 		Set_MSR(padapter, _HW_STATE_STATION_);
  
- 	if (pmlmeext->cur_wireless_mode & WIRELESS_11B)
- 		update_mgnt_tx_rate(padapter, IEEE80211_CCK_RATE_1MB);
+-		SetHwReg8188EU(padapter, HW_VAR_MLME_DISCONNECT, NULL);
++		mlme_disconnect(padapter);
+ 	}
+ 
+ 	rtw_antenna_select_cmd(padapter, pparm->network.PhyInfo.Optimum_antenna, false);
+@@ -7266,7 +7279,7 @@ u8 disconnect_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 	if (is_client_associated_to_ap(padapter))
+ 		issue_deauth_ex(padapter, pnetwork->MacAddress, WLAN_REASON_DEAUTH_LEAVING, param->deauth_timeout_ms / 100, 100);
+ 
+-	SetHwReg8188EU(padapter, HW_VAR_MLME_DISCONNECT, NULL);
++	mlme_disconnect(padapter);
+ 	SetHwReg8188EU(padapter, HW_VAR_BSSID, null_addr);
+ 
+ 	/* restore to initial setting. */
 diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index a92774352d2d..4ee12e260d36 100644
+index 4ee12e260d36..cf1e4bbfd6a9 100644
 --- a/drivers/staging/r8188eu/hal/usb_halinit.c
 +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1119,14 +1119,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 			}
+@@ -1024,17 +1024,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 				ResumeTxBeacon(Adapter);
  		}
  		break;
--	case HW_VAR_RESP_SIFS:
--		/* RESP_SIFS for CCK */
--		rtw_write8(Adapter, REG_R2T_SIFS, val[0]); /*  SIFS_T2T_CCK (0x08) */
--		rtw_write8(Adapter, REG_R2T_SIFS + 1, val[1]); /* SIFS_R2T_CCK(0x08) */
--		/* RESP_SIFS for OFDM */
--		rtw_write8(Adapter, REG_T2T_SIFS, val[2]); /* SIFS_T2T_OFDM (0x0a) */
--		rtw_write8(Adapter, REG_T2T_SIFS + 1, val[3]); /* SIFS_R2T_OFDM(0x0a) */
+-	case HW_VAR_MLME_DISCONNECT:
+-		/* Set RCR to not to receive data frame when NO LINK state */
+-		/* reject all data frames */
+-		rtw_write16(Adapter, REG_RXFLTMAP2, 0x00);
+-
+-		/* reset TSF */
+-		rtw_write8(Adapter, REG_DUAL_TSF_RST, (BIT(0) | BIT(1)));
+-
+-		/* disable update TSF */
+-		rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL) | BIT(4));
 -		break;
- 	case HW_VAR_ACK_PREAMBLE:
- 		{
- 			u8 regTmp;
+ 	case HW_VAR_MLME_SITESURVEY:
+ 		if (*((u8 *)val)) { /* under sitesurvey */
+ 			/* config RCR to receive different BSSID & not to receive data frame */
 diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 3cededa4dcfc..d49e6e6505ea 100644
+index d49e6e6505ea..a2c5724790f6 100644
 --- a/drivers/staging/r8188eu/include/hal_intf.h
 +++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -17,7 +17,6 @@ enum hw_variables {
+@@ -13,7 +13,6 @@ enum hw_variables {
+ 	HW_VAR_BSSID,
+ 	HW_VAR_BASIC_RATE,
+ 	HW_VAR_CORRECT_TSF,
+-	HW_VAR_MLME_DISCONNECT,
  	HW_VAR_MLME_SITESURVEY,
  	HW_VAR_MLME_JOIN,
  	HW_VAR_SLOT_TIME,
--	HW_VAR_RESP_SIFS,
- 	HW_VAR_ACK_PREAMBLE,
- 	HW_VAR_BCN_VALID,
- 	HW_VAR_DM_FLAG,
 -- 
 2.35.1
 
