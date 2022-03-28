@@ -1,132 +1,149 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB5D437E
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 17:21:32 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id w4so21333320wrg.12
-        for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 10:21:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AA9VriTYf3jKrZYNetwW/7xvUoB3MbpeM0Zb2dqi/hA=;
-        b=TdMydTYX3pbRo19Mbk4+TDMgMVeGK3c6zUvBYHggkBkGlG9cVCqp6oqanz5J4huQ2m
-         A+8u1alcWk3SdfJIGGMDl7dPZqessWliCcYUWWvQ1XwwA1UggwBElxpDbESlerXUPqYi
-         qo5c1JHbBKMcpAW0scCtmpNLH3ixlX7bEBdu/8M9+YYT8bRp9+MU7pOFS9EyKTa4nYAK
-         PlcV0dpwDREDDhx1+4AYzFTS+LPM0XmstcQoSwT0B6NHgYo78J6Snyro4+0ggK1+ZyrA
-         DzTdvdM9z6X9ZNd890TSPJlGv2HejfGdcwfQzEHRt8HBrUeQAr7NJOTG4BY7AoUqDi50
-         ztgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AA9VriTYf3jKrZYNetwW/7xvUoB3MbpeM0Zb2dqi/hA=;
-        b=ruWhLbDGpkgPzdA1fBOFjTKArUgKUdZTd5U0Tixt9OHG8B4JXlFoEow+ET5vbjW2jp
-         0qXgGBzyHD0b3zUIBc0ISvL6WEB1fA5w2GsA/QeIU53lcWQ349qydm6bJ09DoOYs9DgI
-         kHHnT5X7YPEedpKxZXpeAN0Q7Kr8c+WhiUXhoNFF6izRbtUA3JUJBU2BrRBaUzAypruh
-         q4QvnUK9kryymg6xfcm1MBKY0AeXTdteJdSWkKYHJuqw6cpgXRX+Ai8tLvaKhlVO8ybC
-         mS2MGnz71AMYgMv0vE0OEKA1OlFoDAQgHQx+MLYzU4hNElnLth1cfTZ/rxPy31/q4LAj
-         Gpug==
-X-Gm-Message-State: AOAM532SUACCZQ9y+Q2Bhf6Kvuyhft56Y0LmX9mOFyhRSyYxb0CsYVIu
-	7JwG8HU7G/6hGAZI/IdvQKw=
-X-Google-Smtp-Source: ABdhPJybT//Aze1al+8a/xDU3kHsjC3Zs4UGHQYU6nb5u88vRwpBFo1985eB55KiQTGkRtX8r8ovDg==
-X-Received: by 2002:adf:e483:0:b0:203:f946:396 with SMTP id i3-20020adfe483000000b00203f9460396mr24891290wrm.548.1648488090667;
-        Mon, 28 Mar 2022 10:21:30 -0700 (PDT)
-Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
-        by smtp.gmail.com with ESMTPSA id j16-20020a05600c191000b0038ca3500494sm175034wmq.27.2022.03.28.10.21.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 10:21:29 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benjamin Philip <benjamin.philip495@gmail.com>, Bart Van Assche <bvanassche@acm.org>, "Martin K. Petersen" <martin.petersen@oracle.com>, Charlie Sands <sandsch@northvilleschools.net>, Mitali Borkar <mitaliborkar810@gmail.com>, Colin Ian King <colin.king@intel.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rts5208: Convert kmap() to kmap_local_page()
-Date: Mon, 28 Mar 2022 19:21:26 +0200
-Message-ID: <1816944.CQOukoFCf9@leap>
-In-Reply-To: <YkHXQRmExRFioEBN@iweiny-desk3>
-References: <20220328112440.17756-1-fmdefrancesco@gmail.com> <YkHXQRmExRFioEBN@iweiny-desk3>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5B44C6D
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 19:59:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: nicolas)
+	with ESMTPSA id D9B6F1F4384C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1648497591;
+	bh=juEkTDE+SY0qwuOHnUrLzTo/uQ/rPpurP5PmYNSVfck=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=iDK0M7FyPd5O9ZPH6cann5jLnLLjQxkwxZS6CxveFOrYR2TgBiSEl3kWREbifBLE5
+	 HZRuUeEO9kEeU/TrdUJ9PrBWxVgDCny/0Y81gl86ehzEsOcPhiqoSaXJripdv6E71x
+	 0/25h8I8CAdgcpPLWjeE19aES5+LvahKaZ5cD1qVXJg+Zx8TeFAdwyMEPjV/k3svr+
+	 lcehnmWXJt8Ck9Bmp0H1zf/LUbVDh/KbR2MIF9h2fOQBKaxcPWGqsLYOMxy1jFN4mH
+	 7U+Vs2qTQY+N/5Stg8DeyjEX6RuMi0RR/lqfzNFIq5yT+qFvI0KHGVelygcwbOopyu
+	 SSNsN4gBJVs5Q==
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@collabora.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v1 01/24] media: h264: Increase reference lists size to 32
+Date: Mon, 28 Mar 2022 15:59:13 -0400
+Message-Id: <20220328195936.82552-2-nicolas.dufresne@collabora.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
+References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On luned? 28 marzo 2022 17:41:53 CEST Ira Weiny wrote:
-> On Mon, Mar 28, 2022 at 01:24:40PM +0200, Fabio M. De Francesco wrote:
-> > The use of kmap() is being deprecated and kmap_local_page() is faster.
-> > Use kmap_local_page() in place of kmap().
-> 
-> Thanks for the patch!  
+This is to accommodate support for field decoding, which splits the top
+and the bottom reference into the reference list.
 
-Thanks for your review!
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+ drivers/media/v4l2-core/v4l2-h264.c        | 6 +++---
+ drivers/staging/media/hantro/hantro_hw.h   | 6 +++---
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 6 +++---
+ include/media/v4l2-h264.h                  | 8 ++++----
+ 4 files changed, 13 insertions(+), 13 deletions(-)
 
-> I have just a couple of comments.
-> 
-> kmap_local_page() is not necessarily faster than kmap() but it is more correct
-> in this case.  You should mention why.
-
-Sure, my mistake. Thomas G. was talking about kmap_atomic() when he wrote that
-it is "faster". It does not apply to kmap_local_page(). 
-
-What could justify the use of kmap_local_page() is that "The mapping is per 
-thread, CPU local and not globally visible.". Therefore this code is the right 
-context where to use kmap_local_page() in place of kmap().
-
-At this moment I think that I might change my commit message and write something
-like the above.
-
-However, I'll research more information during the next days. In the meantime 
-I'm also going to take a look at the differences in implementation.
-
-> Also to help with kmap_local_page() there are a number of helpers implemented
-> in highmem.h for things like memcpy, memmove, etc.
-> 
-> Check out memcpy_page() for this use case.
-
-Aren't memcpy_to_page() and memcpy_from_page() better suited for the two 
-different branches of the "if" statement?
-
-Thank you,
-
-Fabio M. De Francesco
-
-> 
-> Thank you!
-> Ira
-> 
-> > 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> >  drivers/staging/rts5208/rtsx_transport.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rts5208/rtsx_transport.c b/drivers/staging/rts5208/rtsx_transport.c
-> > index 805dc18fac0a..de690d7ee5e3 100644
-> > --- a/drivers/staging/rts5208/rtsx_transport.c
-> > +++ b/drivers/staging/rts5208/rtsx_transport.c
-> > @@ -92,13 +92,13 @@ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
-> >  			while (sglen > 0) {
-> >  				unsigned int plen = min(sglen, (unsigned int)
-> >  						PAGE_SIZE - poff);
-> > -				unsigned char *ptr = kmap(page);
-> > +				unsigned char *ptr = kmap_local_page(page);
-> >  
-> >  				if (dir == TO_XFER_BUF)
-> >  					memcpy(ptr + poff, buffer + cnt, plen);
-> >  				else
-> >  					memcpy(buffer + cnt, ptr + poff, plen);
-> > -				kunmap(page);
-> > +				kunmap_local(ptr);
-> >  
-> >  				/* Start at the beginning of the next page */
-> >  				poff = 0;
-> > -- 
-> > 2.34.1
-> > 
-> 
-
-
-
+diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
+index 0618c6f52214..8d750ee69e74 100644
+--- a/drivers/media/v4l2-core/v4l2-h264.c
++++ b/drivers/media/v4l2-core/v4l2-h264.c
+@@ -210,7 +210,7 @@ static int v4l2_h264_b1_ref_list_cmp(const void *ptra, const void *ptrb,
+  * v4l2_h264_build_p_ref_list() - Build the P reference list
+  *
+  * @builder: reference list builder context
+- * @reflist: 16 sized array used to store the P reference list. Each entry
++ * @reflist: 32 sized array used to store the P reference list. Each entry
+  *	     is a v4l2_h264_reference structure
+  *
+  * This functions builds the P reference lists. This procedure is describe in
+@@ -233,9 +233,9 @@ EXPORT_SYMBOL_GPL(v4l2_h264_build_p_ref_list);
+  * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
+  *
+  * @builder: reference list builder context
+- * @b0_reflist: 16 sized array used to store the B0 reference list. Each entry
++ * @b0_reflist: 32 sized array used to store the B0 reference list. Each entry
+  *		is a v4l2_h264_reference structure
+- * @b1_reflist: 16 sized array used to store the B1 reference list. Each entry
++ * @b1_reflist: 32 sized array used to store the B1 reference list. Each entry
+  *		is a v4l2_h264_reference structure
+  *
+  * This functions builds the B0/B1 reference lists. This procedure is described
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 2bc6b8f088f5..292aaaabaf24 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -69,9 +69,9 @@ struct hantro_h264_dec_ctrls {
+  * @b1:		B1 reflist
+  */
+ struct hantro_h264_dec_reflists {
+-	struct v4l2_h264_reference p[HANTRO_H264_DPB_SIZE];
+-	struct v4l2_h264_reference b0[HANTRO_H264_DPB_SIZE];
+-	struct v4l2_h264_reference b1[HANTRO_H264_DPB_SIZE];
++	struct v4l2_h264_reference p[V4L2_H264_REF_LIST_LEN];
++	struct v4l2_h264_reference b0[V4L2_H264_REF_LIST_LEN];
++	struct v4l2_h264_reference b1[V4L2_H264_REF_LIST_LEN];
+ };
+ 
+ /**
+diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+index 3c7f3d87fab4..dff89732ddd0 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
++++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+@@ -100,9 +100,9 @@ struct rkvdec_h264_priv_tbl {
+ #define RKVDEC_H264_DPB_SIZE 16
+ 
+ struct rkvdec_h264_reflists {
+-	struct v4l2_h264_reference p[RKVDEC_H264_DPB_SIZE];
+-	struct v4l2_h264_reference b0[RKVDEC_H264_DPB_SIZE];
+-	struct v4l2_h264_reference b1[RKVDEC_H264_DPB_SIZE];
++	struct v4l2_h264_reference p[V4L2_H264_REF_LIST_LEN];
++	struct v4l2_h264_reference b0[V4L2_H264_REF_LIST_LEN];
++	struct v4l2_h264_reference b1[V4L2_H264_REF_LIST_LEN];
+ 	u8 num_valid;
+ };
+ 
+diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
+index ef9a894e3c32..e282fb16ac58 100644
+--- a/include/media/v4l2-h264.h
++++ b/include/media/v4l2-h264.h
+@@ -37,7 +37,7 @@ struct v4l2_h264_reflist_builder {
+ 		u16 longterm : 1;
+ 	} refs[V4L2_H264_NUM_DPB_ENTRIES];
+ 	s32 cur_pic_order_count;
+-	struct v4l2_h264_reference unordered_reflist[V4L2_H264_NUM_DPB_ENTRIES];
++	struct v4l2_h264_reference unordered_reflist[V4L2_H264_REF_LIST_LEN];
+ 	u8 num_valid;
+ };
+ 
+@@ -51,9 +51,9 @@ v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
+  * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
+  *
+  * @builder: reference list builder context
+- * @b0_reflist: 16 sized array used to store the B0 reference list. Each entry
++ * @b0_reflist: 32 sized array used to store the B0 reference list. Each entry
+  *		is a v4l2_h264_reference structure
+- * @b1_reflist: 16 sized array used to store the B1 reference list. Each entry
++ * @b1_reflist: 32 sized array used to store the B1 reference list. Each entry
+  *		is a v4l2_h264_reference structure
+  *
+  * This functions builds the B0/B1 reference lists. This procedure is described
+@@ -70,7 +70,7 @@ v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
+  * v4l2_h264_build_p_ref_list() - Build the P reference list
+  *
+  * @builder: reference list builder context
+- * @reflist: 16 sized array used to store the P reference list. Each entry
++ * @reflist: 32 sized array used to store the P reference list. Each entry
+  *	     is a v4l2_h264_reference structure
+  *
+  * This functions builds the P reference lists. This procedure is describe in
+-- 
+2.34.1
 
