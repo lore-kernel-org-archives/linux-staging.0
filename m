@@ -1,24 +1,27 @@
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail.ourpartnership.pl (mail.ourpartnership.pl [80.211.82.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F038182
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 01:42:10 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 28 Mar
- 2022 09:41:57 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 28 Mar
- 2022 09:41:56 +0800
-From: Haowen Bai <baihaowen@meizu.com>
-To: <Larry.Finger@lwfinger.net>, <phil@philpotter.co.uk>,
-	<gregkh@linuxfoundation.org>, <straube.linux@gmail.com>, <martin@kaiser.cx>
-CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	=?UTF-8?q?=E7=99=BD=E6=B5=A9=E6=96=87?= <baihaowen@meizu.com>
-Subject: [PATCH] staging: r8188eu: Directly return instead of using local ret variable
-Date: Mon, 28 Mar 2022 09:41:55 +0800
-Message-ID: <1648431715-21333-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EE517E9
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 07:55:09 +0000 (UTC)
+Received: by mail.ourpartnership.pl (Postfix, from userid 1001)
+	id 176B161705; Mon, 28 Mar 2022 08:46:21 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ourpartnership.pl;
+	s=mail; t=1648453611;
+	bh=M1ZVeu3q6Upppe+FUx/3rgI7MKJXh389NZDbgCK1SX4=;
+	h=Date:From:To:Subject:From;
+	b=mQaxMGxVoftIwSfOjUcvlzg4nwx5fMNQGBzzA40U3xxiHoUHy61PMlmE9u+i/+ELb
+	 mtQoIVblcy/StOd3Vr17C3Iawv3vL0JetY8dsB3NsepM8abi6JZ5fJJKYeU8xtMgBO
+	 lxC0BXhP+WdIBhW2cArtF32c2xT+I/hTlaIA8xgQFqL++3Y9c41ZdDoTAn2N1NIWzc
+	 YYuvpVs1mcUhJ7++CpFSVzRh6FVhVWmZEKZcAfP4ttzkdsBQXyhBdCaSrvBG+E71Dh
+	 up4gamT5k98QjYJMG2Iqw3ohalrqHs3bjnn7a9UIoInlOF8eEs7OyNKS41xsEOr7pk
+	 c/rnMrk8eKSQA==
+Received: by mail.ourpartnership.pl for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 07:46:04 GMT
+Message-ID: <20220328074501-0.1.9.2a3o.0.9bfn1e2e86@ourpartnership.pl>
+Date: Mon, 28 Mar 2022 07:46:04 GMT
+From: =?UTF-8?Q?"Arkadiusz_Soko=C5=82owski"?= <arkadiusz.sokolowski@ourpartnership.pl>
+To: <linux-staging@lists.linux.dev>
+Subject: Koszty instalacji fotowoltaicznej
+X-Mailer: mail.ourpartnership.pl
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -26,62 +29,24 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-125.meizu.com (172.16.1.125) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+Content-Transfer-Encoding: quoted-printable
 
-From: 白浩文 <baihaowen@meizu.com>
+Dzie=C5=84 dobry,
 
-fixes coccinelle warning:
-./drivers/staging/r8188eu/core/rtw_mlme_ext.c:1518:14-17: Unneeded variable: "ret".
- Return "_FAIL" on line 1549
-./drivers/staging/r8188eu/core/rtw_mlme_ext.c:357:5-8: Unneeded variable: "res".
- Return "_SUCCESS" on line 380
+stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
+ obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
 
-Signed-off-by: 白浩文 <baihaowen@meizu.com>
----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
+acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
+ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 10d5f12..4b7b0ee 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -354,7 +354,6 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
- 
- int	init_mlme_ext_priv(struct adapter *padapter)
- {
--	int	res = _SUCCESS;
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-@@ -377,7 +376,7 @@ int	init_mlme_ext_priv(struct adapter *padapter)
- 
- 	pmlmeext->active_keep_alive_check = true;
- 
--	return res;
-+	return _SUCCESS;
- }
- 
- void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext)
-@@ -1515,7 +1514,6 @@ unsigned int OnAtim(struct adapter *padapter, struct recv_frame *precv_frame)
- 
- unsigned int on_action_spct(struct adapter *padapter, struct recv_frame *precv_frame)
- {
--	unsigned int ret = _FAIL;
- 	struct sta_info *psta = NULL;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	u8 *pframe = precv_frame->rx_data;
-@@ -1546,7 +1544,7 @@ unsigned int on_action_spct(struct adapter *padapter, struct recv_frame *precv_f
- 	}
- 
- exit:
--	return ret;
-+	return _FAIL;
- }
- 
- unsigned int OnAction_qos(struct adapter *padapter, struct recv_frame *precv_frame)
--- 
-2.7.4
+Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
+=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
+=2E
 
+Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
+temacie?
+
+
+Pozdrawiam
+Arkadiusz Soko=C5=82owski
