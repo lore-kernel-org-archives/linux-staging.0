@@ -1,34 +1,33 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5B44C6D
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 19:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD294C6D
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 20:00:07 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(Authenticated sender: nicolas)
-	with ESMTPSA id D9B6F1F4384C
+	with ESMTPSA id 8DFC11F43871
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648497591;
-	bh=juEkTDE+SY0qwuOHnUrLzTo/uQ/rPpurP5PmYNSVfck=;
+	s=mail; t=1648497605;
+	bh=m44B+xryaDUBDC4OQZH1svm4TvbuzUk06rZQFsjsWkM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iDK0M7FyPd5O9ZPH6cann5jLnLLjQxkwxZS6CxveFOrYR2TgBiSEl3kWREbifBLE5
-	 HZRuUeEO9kEeU/TrdUJ9PrBWxVgDCny/0Y81gl86ehzEsOcPhiqoSaXJripdv6E71x
-	 0/25h8I8CAdgcpPLWjeE19aES5+LvahKaZ5cD1qVXJg+Zx8TeFAdwyMEPjV/k3svr+
-	 lcehnmWXJt8Ck9Bmp0H1zf/LUbVDh/KbR2MIF9h2fOQBKaxcPWGqsLYOMxy1jFN4mH
-	 7U+Vs2qTQY+N/5Stg8DeyjEX6RuMi0RR/lqfzNFIq5yT+qFvI0KHGVelygcwbOopyu
-	 SSNsN4gBJVs5Q==
+	b=dd0806z1QOOqDJRf/6nckgUYaYCCCq1RZvmymLye4MrEVbi/GLzoVD/98K8xpdfpd
+	 OOaBuahZWQqWJFxiGJsE1E24+2+QPUgfsWbegMOGbgE7oQ3IodaVuMENc6XqD7whtI
+	 RWTqn0EinA3/ORAu0d9Ov8Zkr7eM7+HZMgfvPrr3smH7Dv5rRtNpY34ypTVM6zRLVa
+	 LnoF9n9Xb8b903lw7Fj2I4G7gRqV90tOvH0uOQUKTxWWE7ZVUvzupw5sUOtKHjQCEe
+	 DrwhIK95JOVt9WxEySFw9DmEwC4A0tZVSH/8ay9040P/sk2PbBgVaXYnJZ0pesC1m/
+	 +YcQ6pe5ShX9A==
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: kernel@collabora.com,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v1 01/24] media: h264: Increase reference lists size to 32
-Date: Mon, 28 Mar 2022 15:59:13 -0400
-Message-Id: <20220328195936.82552-2-nicolas.dufresne@collabora.com>
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 12/24] media: rkvdec: Stop overclocking the decoder
+Date: Mon, 28 Mar 2022 15:59:24 -0400
+Message-Id: <20220328195936.82552-13-nicolas.dufresne@collabora.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
 References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
@@ -40,110 +39,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is to accommodate support for field decoding, which splits the top
-and the bottom reference into the reference list.
+While this overclock hack seems to works on some implementation (some
+ChromeBooks, RockPi4) it is also causing instability on other
+implementation (notably LibreComputer Renegade, but saw more reports in
+the LibreELEC project, were this is already removed). While performance is
+indeed affectied (tested with GStreamer), 4K playback still works as long
+as you don't operate in lock step and keep at least 1 frame ahead of time
+in the decode queue.
+
+After discussion with ChromeOS members, it would seem that their
+implementation indeed synchronously decode each frames, so this hack was
+simply compensating for their code being less efficienti. This hack
+should in my opinion have stayed downstream and I'm removing it to ensure
+stability across all RK3399 variants.
 
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- drivers/media/v4l2-core/v4l2-h264.c        | 6 +++---
- drivers/staging/media/hantro/hantro_hw.h   | 6 +++---
- drivers/staging/media/rkvdec/rkvdec-h264.c | 6 +++---
- include/media/v4l2-h264.h                  | 8 ++++----
- 4 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
-index 0618c6f52214..8d750ee69e74 100644
---- a/drivers/media/v4l2-core/v4l2-h264.c
-+++ b/drivers/media/v4l2-core/v4l2-h264.c
-@@ -210,7 +210,7 @@ static int v4l2_h264_b1_ref_list_cmp(const void *ptra, const void *ptrb,
-  * v4l2_h264_build_p_ref_list() - Build the P reference list
-  *
-  * @builder: reference list builder context
-- * @reflist: 16 sized array used to store the P reference list. Each entry
-+ * @reflist: 32 sized array used to store the P reference list. Each entry
-  *	     is a v4l2_h264_reference structure
-  *
-  * This functions builds the P reference lists. This procedure is describe in
-@@ -233,9 +233,9 @@ EXPORT_SYMBOL_GPL(v4l2_h264_build_p_ref_list);
-  * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
-  *
-  * @builder: reference list builder context
-- * @b0_reflist: 16 sized array used to store the B0 reference list. Each entry
-+ * @b0_reflist: 32 sized array used to store the B0 reference list. Each entry
-  *		is a v4l2_h264_reference structure
-- * @b1_reflist: 16 sized array used to store the B1 reference list. Each entry
-+ * @b1_reflist: 32 sized array used to store the B1 reference list. Each entry
-  *		is a v4l2_h264_reference structure
-  *
-  * This functions builds the B0/B1 reference lists. This procedure is described
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 2bc6b8f088f5..292aaaabaf24 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -69,9 +69,9 @@ struct hantro_h264_dec_ctrls {
-  * @b1:		B1 reflist
-  */
- struct hantro_h264_dec_reflists {
--	struct v4l2_h264_reference p[HANTRO_H264_DPB_SIZE];
--	struct v4l2_h264_reference b0[HANTRO_H264_DPB_SIZE];
--	struct v4l2_h264_reference b1[HANTRO_H264_DPB_SIZE];
-+	struct v4l2_h264_reference p[V4L2_H264_REF_LIST_LEN];
-+	struct v4l2_h264_reference b0[V4L2_H264_REF_LIST_LEN];
-+	struct v4l2_h264_reference b1[V4L2_H264_REF_LIST_LEN];
- };
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index c0cf3488f970..2df8cf4883e2 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -1027,12 +1027,6 @@ static int rkvdec_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
  
- /**
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index 3c7f3d87fab4..dff89732ddd0 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -100,9 +100,9 @@ struct rkvdec_h264_priv_tbl {
- #define RKVDEC_H264_DPB_SIZE 16
- 
- struct rkvdec_h264_reflists {
--	struct v4l2_h264_reference p[RKVDEC_H264_DPB_SIZE];
--	struct v4l2_h264_reference b0[RKVDEC_H264_DPB_SIZE];
--	struct v4l2_h264_reference b1[RKVDEC_H264_DPB_SIZE];
-+	struct v4l2_h264_reference p[V4L2_H264_REF_LIST_LEN];
-+	struct v4l2_h264_reference b0[V4L2_H264_REF_LIST_LEN];
-+	struct v4l2_h264_reference b1[V4L2_H264_REF_LIST_LEN];
- 	u8 num_valid;
- };
- 
-diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
-index ef9a894e3c32..e282fb16ac58 100644
---- a/include/media/v4l2-h264.h
-+++ b/include/media/v4l2-h264.h
-@@ -37,7 +37,7 @@ struct v4l2_h264_reflist_builder {
- 		u16 longterm : 1;
- 	} refs[V4L2_H264_NUM_DPB_ENTRIES];
- 	s32 cur_pic_order_count;
--	struct v4l2_h264_reference unordered_reflist[V4L2_H264_NUM_DPB_ENTRIES];
-+	struct v4l2_h264_reference unordered_reflist[V4L2_H264_REF_LIST_LEN];
- 	u8 num_valid;
- };
- 
-@@ -51,9 +51,9 @@ v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
-  * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
-  *
-  * @builder: reference list builder context
-- * @b0_reflist: 16 sized array used to store the B0 reference list. Each entry
-+ * @b0_reflist: 32 sized array used to store the B0 reference list. Each entry
-  *		is a v4l2_h264_reference structure
-- * @b1_reflist: 16 sized array used to store the B1 reference list. Each entry
-+ * @b1_reflist: 32 sized array used to store the B1 reference list. Each entry
-  *		is a v4l2_h264_reference structure
-  *
-  * This functions builds the B0/B1 reference lists. This procedure is described
-@@ -70,7 +70,7 @@ v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
-  * v4l2_h264_build_p_ref_list() - Build the P reference list
-  *
-  * @builder: reference list builder context
-- * @reflist: 16 sized array used to store the P reference list. Each entry
-+ * @reflist: 32 sized array used to store the P reference list. Each entry
-  *	     is a v4l2_h264_reference structure
-  *
-  * This functions builds the P reference lists. This procedure is describe in
+-	/*
+-	 * Bump ACLK to max. possible freq. (500 MHz) to improve performance
+-	 * When 4k video playback.
+-	 */
+-	clk_set_rate(rkvdec->clocks[0].clk, 500 * 1000 * 1000);
+-
+ 	rkvdec->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(rkvdec->regs))
+ 		return PTR_ERR(rkvdec->regs);
 -- 
 2.34.1
 
