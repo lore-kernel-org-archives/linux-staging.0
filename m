@@ -1,57 +1,52 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C81A435A
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 11:24:55 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id o10so27992135ejd.1
-        for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 04:24:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0620435A
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 11:39:51 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id lr4so19615251ejb.11
+        for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 04:39:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=LSGVVstA8xSFKqm3J0T/OWA7Sm6ZWqDMvi1oUYKoUQg=;
-        b=DPV4As0LqO6PxUoMkKt+gD4Sp4g81m4Uyo0RMYEz2E3P7pfyvtdXjGrBNZDHBP/UB1
-         gCFttcV0hthj4q1bL5TNl0zgC1lGn7IRag4nBKsJ8EP2YePrQZ13CN6W5Sfvfp8QF2Sp
-         wELX/+cizZqQx47zB7fGuZ9lFxr9AwmUsxdmwe8MW4eic5SAUeR1O8wHo+TyZ21CIyay
-         q7N3FAUsLSw2T7TAwO/n3REWByJ0KsJHuB6v+wB5DLXByNeI7ARpMC1EcyMes+d0d++3
-         Az1f4uQBXYfarp3CB4XKNCRn8iHQgyIum6DxyH2giFC9U76PXYn+pGn9yYRL50TSN3s1
-         2OrA==
+        bh=2qbZlyK41top+fUFxaArbnfsAsaJyOPV3CRdd0agBOs=;
+        b=eiav2mIIB10KaNLFSu2fH/zVh1VhcZp/GYAuzUkyCYBXYMisjBWmSh70c2CNQ3Ng44
+         F42KDPdbDtkeKXVs6reqLAEGIu4nn6yiS0hEImIWzXsKs2D9ePOqpjmZm9eJPvIjuvUg
+         oaPFnkWdkO5Usm6odR0NbSgn16QIpAXFx8WGlh2fVfPn9AIprAblqlbai2REppcFCfVZ
+         2Ah+xvvXnPKkTJZ9PjMqgpQZ3kjcK7GIcXYCCgoN7lCftwFo3kzrM/qTt0hvBakW6Vax
+         NP7zSqWYvpBP5iIaTZD0RjO1vWO9hK+KJ1q+xvNYBdbNqZj+tTHM4UC9UuxW/PIrfcYt
+         LlYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=LSGVVstA8xSFKqm3J0T/OWA7Sm6ZWqDMvi1oUYKoUQg=;
-        b=1yHnz5Ys6DNjtyQZ9N7gSO/iLx12ECk1aSpDW+rFlSYjky2SayFkrOPXUOVVrYJVpa
-         Ey+FeqaTtglHtBwHyyW4z3PPQRSxowb0Qg9Wvm8pUa1nmOFISyVV7jY0yFT/F8gvcUCp
-         pq7b1s5c7vGw1gTfw3JBYqLF6d5Ai2mBbK88QPGtmU1OgKnIpackIwnLpFgr8xuzIkBz
-         vpuZk5hP3f1k02fEfMhnMZgc2rkq2rIsMjj90IogVO7um3CBSy/fQQO1n1YHs/b8oINJ
-         dqJXEUTUbpJXpCpmURAt0t1uyz68AKtiTamVv05SS+W+a72Ad8qRR4RS8kDxrLqFRpo7
-         8Zjw==
-X-Gm-Message-State: AOAM530HJGGemIeMW40Zoy+IgJlZP9Q3Zyi5ND6dNLPvHS7iF4ivr5bN
-	dMj8sbGmOWTghDxIhLn8CtLtnSVD+p0=
-X-Google-Smtp-Source: ABdhPJxl6boSwWBk+hJgPWLFTN1iKFHKVHLRcqYs36e+eXokFUamDhBLmr6Eju0TLSaJYffp3TOQTA==
-X-Received: by 2002:a17:907:1623:b0:6df:c9da:a6a8 with SMTP id hb35-20020a170907162300b006dfc9daa6a8mr26762275ejc.303.1648466693755;
-        Mon, 28 Mar 2022 04:24:53 -0700 (PDT)
-Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
-        by smtp.gmail.com with ESMTPSA id u10-20020a170906b10a00b006e1004406easm1839730ejy.93.2022.03.28.04.24.51
+        bh=2qbZlyK41top+fUFxaArbnfsAsaJyOPV3CRdd0agBOs=;
+        b=XuVvXPagYWuyuJV+3Djgu2glRvUsRAsKoa4xPbzvpQI1stqbEuVyKbVFC5vu2hLqLY
+         hHPZkejgtoqTIAvF82kMpGIdqyFob/v8h0kpjPCSnaOdH1mkrgwRvMbU17l6WROuzAn1
+         37ofWpzRCIltQmqms0zvWQYq25A7yuYdzX1ks451rUcbw76U4S9v69HUW8w8oYLUaM/S
+         l92Ttf2CX9jAJKpV6jbfoKdv1oFS52yyzIngl5roYB1ceAUf8axMeEH6p/HCsGC5BTkU
+         mk4VZN6hp/NWCzu3DFxZy1JsrQ/iOynjDh/tGSlIfUL3ZxFBVhp0qWnyOaRSxn/Dwr9v
+         1Qmw==
+X-Gm-Message-State: AOAM530gvqoaM3KzYoW6nUBk8uNcyIttX4V81pJJc8Tj9D6WSBWddX9I
+	MPRni+MWyJab21vJruWK5+I=
+X-Google-Smtp-Source: ABdhPJzJz42IY+2x7DyRmSbgEb2NLTDjQIn7jkFcMRAFbG0Iemn3uf6JdQTV4qH/pOdp3qCgfwX8+w==
+X-Received: by 2002:a17:907:1c89:b0:6e0:cc9:345a with SMTP id nb9-20020a1709071c8900b006e00cc9345amr27563502ejc.332.1648467590086;
+        Mon, 28 Mar 2022 04:39:50 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
+        by smtp.gmail.com with ESMTPSA id hq39-20020a1709073f2700b006dfc58efab9sm5938556ejc.73.2022.03.28.04.39.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 04:24:52 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Benjamin Philip <benjamin.philip495@gmail.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Charlie Sands <sandsch@northvilleschools.net>,
-	Mitali Borkar <mitaliborkar810@gmail.com>,
-	Colin Ian King <colin.king@intel.com>,
+        Mon, 28 Mar 2022 04:39:49 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	ira.weiny@intel.com
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: rts5208: Convert kmap() to kmap_local_page()
-Date: Mon, 28 Mar 2022 13:24:40 +0200
-Message-Id: <20220328112440.17756-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/9] staging: r8188eu: SetHwReg8188EU() cleanups
+Date: Mon, 28 Mar 2022 13:39:31 +0200
+Message-Id: <20220328113940.6396-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,34 +55,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The use of kmap() is being deprecated and kmap_local_page() is faster.
-Use kmap_local_page() in place of kmap().
+This series removes some cases from the function SetHwReg8188EU()
+and moves the functionality to the callers. This is part of the
+ongoing effort to get rid of the unwanted hal layer.
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/rts5208/rtsx_transport.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Tested on x86_64 with Inter-Tech DMG-02.
 
-diff --git a/drivers/staging/rts5208/rtsx_transport.c b/drivers/staging/rts5208/rtsx_transport.c
-index 805dc18fac0a..de690d7ee5e3 100644
---- a/drivers/staging/rts5208/rtsx_transport.c
-+++ b/drivers/staging/rts5208/rtsx_transport.c
-@@ -92,13 +92,13 @@ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
- 			while (sglen > 0) {
- 				unsigned int plen = min(sglen, (unsigned int)
- 						PAGE_SIZE - poff);
--				unsigned char *ptr = kmap(page);
-+				unsigned char *ptr = kmap_local_page(page);
- 
- 				if (dir == TO_XFER_BUF)
- 					memcpy(ptr + poff, buffer + cnt, plen);
- 				else
- 					memcpy(buffer + cnt, ptr + poff, plen);
--				kunmap(page);
-+				kunmap_local(ptr);
- 
- 				/* Start at the beginning of the next page */
- 				poff = 0;
+Michael Straube (9):
+  staging: r8188eu: remove HW_VAR_RESP_SIFS from SetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_MLME_DISCONNECT from SetHwReg8188EU()
+  staging: r8188eu: rename some macros to upper case
+  staging: r8188eu: remove HW_VAR_ACM_CTRL from SetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_RXDMA_AGG_PG_TH from SetHwReg8188EU()
+  staging: r8188eu: remove unnecessary if statement
+  staging: r8188eu: simplify if-else statement
+  staging: r8188eu: remove HW_VAR_TX_RPT_MAX_MACID from SetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_BCN_VALID from SetHwReg8188EU()
+
+ drivers/staging/r8188eu/core/rtw_mlme.c       | 22 +++----
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 27 ++++++--
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  | 38 ++++++++---
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    | 12 ++--
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 63 -------------------
+ drivers/staging/r8188eu/include/hal_intf.h    |  5 --
+ .../staging/r8188eu/include/rtl8188e_spec.h   | 10 +--
+ 7 files changed, 73 insertions(+), 104 deletions(-)
+
 -- 
-2.34.1
+2.35.1
 
