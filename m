@@ -1,41 +1,41 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0144361
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 11:40:00 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id qa43so28007693ejc.12
-        for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 04:39:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C80E435A
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 11:40:01 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id a17so16546235edm.9
+        for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 04:40:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8msKbWjmWaaAEB0ve/uVsBqzn8oJg5GhyY4aeWNy/tU=;
-        b=BuzmH4hJJtuOW1CwUw5MEPHfiGqswfkecIwmzFKYX+/EjhHaAgxDUzT3HD9LeeJYMV
-         q5mCMfTle/ekaqqAFrIeGbwgBfWjbYD0JTjQffNNsIrZQfNYfRl5hvrYAZOeYJyMtfFs
-         aruRud3NNV2uSoy/dIQJ/6zxwsNr5W4g539j1yR21Wdm10krdy4OXLTITXi+mrhlYY5l
-         1WnQFExhnFY789jU8kTrnoAeMKUIlT4zJQs798+mG3yVQv+CeCppo9CUCb9u+KfBSkjE
-         6aWmwQ+sgpo7Il11lg7q2yM5SIblS+Tqt9F86VMrZPgjQpe8KxbTLXqnN8eDHYYgHgom
-         SE8A==
+        bh=5U5/Qr+cQNGt04R4HkgE3JZ2XZt3yyTkgQ3RavyTc6g=;
+        b=NFFGrqLusL2W2aloJb7UyHTq8l406uyV6/lUS/xNlz23h9z3LaprrosVjLtorPeLPn
+         y1EuSFNpwiEQEjs3pqEj2v8vwEFLd8+Mka9DKzi2PwH5Yq4FXEBo4DYFymttBTDlRd+h
+         IdRlNPn6GUkW4r6fLpl+K2cyP2w/KN7C6zMusxdLplnARrmQ9LGFqOfQPjAwqwXcLcHv
+         VHKoCQcl8cdSL9zKj1o62kNt6Wk2fPwiomcljqT92a+1/MaAJl7yeBA1hepgvWzzxwyE
+         cFA1LepEXNpW2L2Zgi4+QtoH4BvpoM/sa+hRng5ICBnMMNCUg6owfPNJBopBlCEOLGGP
+         GClQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8msKbWjmWaaAEB0ve/uVsBqzn8oJg5GhyY4aeWNy/tU=;
-        b=lyVAfDJ7BVE/AmopDGRmZmlHvxFZ4XJU5GGMxEolQjN6+0yOwiao+xKiegM6FQp7mr
-         /Zm+67in0ffdG2WLKM2JTDn8QYEyswnAUCJEQjJ7J0c9f7u+Wpgl7DRC18XDD/s//gDd
-         I+LeWwqsCzwYAesnvnE9p+u0X3rlsXlo3hKiiwvkjwqqstqyPN3fEkBWLCxm1idVK6Pz
-         itb3ZWuCnwszvq6gyRHf/Kh4FVGQpQBD4KRY4zEynvEl/eY3kwJRlhUMc3jFaz2SanQR
-         44PSqmk/gK2gMhKYlqr6QS7OOg0CIYKunabb+5eEeQJxbO/jRS+57EkpbGLJMO1k50Rh
-         cb1w==
-X-Gm-Message-State: AOAM530A8tmGeaPJ4iCEdzELbU0+b9BHaCtZsgCs5T4Ag+gP7O+jSryV
-	ZGYJXNJCZbRLyz1aIomZ5iw=
-X-Google-Smtp-Source: ABdhPJzNdkBbdP8Mi+9mKteraiatVeNOfkFX3eBFwbj6yJBxXaR5/MFhtcyMKz5IE221hvJTPLK83Q==
-X-Received: by 2002:a17:906:a4b:b0:6d0:fbdd:7cb5 with SMTP id x11-20020a1709060a4b00b006d0fbdd7cb5mr27586011ejf.152.1648467598366;
-        Mon, 28 Mar 2022 04:39:58 -0700 (PDT)
+        bh=5U5/Qr+cQNGt04R4HkgE3JZ2XZt3yyTkgQ3RavyTc6g=;
+        b=lyyhWWVKHyct2DrICw89KIBJ3fLXTVpprplh4YWXyWUW8xQ4sKKpGCeGxGNQFZFxcQ
+         p8i3FwXpqs8Lvs2gj32o6/edfeO0eYGM/zp1si3MOxXAG9/cjj3G47DfPkmZmhXSBJHR
+         d4dfb6oHblqrgm43JpV0GzZvcxMV2lgMgKosCAISuVw11WZSmAjfR60bBVOcA1JyzUX1
+         CgM0hTRKjOAYXYIR++S1yRXZFAaeg8CIMwd3lB9kngeBAMyv/gxnup7A4D8NMlctd35N
+         VqZ42/v5KOs3N2y14ClBqsmnuhjGqSM47DEcW+VltkFWMff6I2O9NYFo4pk74/KBTYR9
+         Pm7g==
+X-Gm-Message-State: AOAM532QtCkeEP/trez5+wKag5kGLe1266ZGYBUKthAU7k7c9SONbxQ6
+	l1f/PcmnWnXQfZiaQIHJNjM=
+X-Google-Smtp-Source: ABdhPJzOXu7cB9SOxfdEWZGeyRyOBY/WMvEq+jyyC1TxxcvsjDwuDeqnyyL2prnzrZBAakSEa+cvkg==
+X-Received: by 2002:a05:6402:354b:b0:419:4af8:c5c9 with SMTP id f11-20020a056402354b00b004194af8c5c9mr15818762edd.91.1648467599289;
+        Mon, 28 Mar 2022 04:39:59 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id hq39-20020a1709073f2700b006dfc58efab9sm5938556ejc.73.2022.03.28.04.39.57
+        by smtp.gmail.com with ESMTPSA id hq39-20020a1709073f2700b006dfc58efab9sm5938556ejc.73.2022.03.28.04.39.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 04:39:57 -0700 (PDT)
+        Mon, 28 Mar 2022 04:39:58 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 8/9] staging: r8188eu: remove HW_VAR_TX_RPT_MAX_MACID from SetHwReg8188EU()
-Date: Mon, 28 Mar 2022 13:39:39 +0200
-Message-Id: <20220328113940.6396-9-straube.linux@gmail.com>
+Subject: [PATCH 9/9] staging: r8188eu: remove HW_VAR_BCN_VALID from SetHwReg8188EU()
+Date: Mon, 28 Mar 2022 13:39:40 +0200
+Message-Id: <20220328113940.6396-10-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220328113940.6396-1-straube.linux@gmail.com>
 References: <20220328113940.6396-1-straube.linux@gmail.com>
@@ -57,76 +57,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The HW_VAR_TX_RPT_MAX_MACID case in SetHwReg8188EU() just calls
-rtw_write8(). Remove HW_VAR_TX_RPT_MAX_MACID from SetHwReg8188EU() and
-call rtw_write8() directly. This is part of the ongoing effort to get
-rid of the unwanted hal layer.
+The HW_VAR_BCN_VALID case in SetHwReg8188EU() just calls rtw_write8().
+Remove HW_VAR_BCN_VALID from SetHwReg8188EU() and call rtw_write8()
+directly. This is part of the ongoing effort to getrid of the unwanted
+hal layer.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c     | 3 ++-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 3 ++-
- drivers/staging/r8188eu/hal/usb_halinit.c   | 6 ------
- drivers/staging/r8188eu/include/hal_intf.h  | 1 -
- 4 files changed, 4 insertions(+), 9 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c |  5 ++++-
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c  | 12 ++++++++----
+ drivers/staging/r8188eu/hal/usb_halinit.c   |  4 ----
+ 3 files changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 1569f719af1b..06c17a16dab9 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1141,7 +1141,8 @@ void rtw_sta_media_status_rpt(struct adapter *adapter, struct sta_info *psta,
- 		return;
- 
- 	macid = search_max_mac_id(adapter);
--	SetHwReg8188EU(adapter, HW_VAR_TX_RPT_MAX_MACID, (u8 *)&macid);
-+	rtw_write8(adapter, REG_TX_RPT_CTRL + 1, macid + 1);
-+
- 	/* MACID|OPMODE:1 connect */
- 	media_status_rpt = (u16)((psta->mac_id << 8) | mstatus);
- 	SetHwReg8188EU(adapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status_rpt);
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index b2adb05856a0..b5c2e7d4cb48 100644
+index b5c2e7d4cb48..313e1a3beecb 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -6750,7 +6750,8 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
+@@ -5765,7 +5765,10 @@ unsigned int send_beacon(struct adapter *padapter)
  
- 		/* set per sta rate after updating HT cap. */
- 		set_sta_rate(padapter, psta);
--		SetHwReg8188EU(padapter, HW_VAR_TX_RPT_MAX_MACID, (u8 *)&psta->mac_id);
-+		rtw_write8(padapter, REG_TX_RPT_CTRL + 1, psta->mac_id + 1);
+ 	u32 start = jiffies;
+ 
+-	SetHwReg8188EU(padapter, HW_VAR_BCN_VALID, NULL);
++	/* Clear beacon valid check bit. */
++	/* BIT(16) of REG_TDECTRL = BIT(0) of REG_TDECTRL+2, write 1 to clear, Clear by sw */
++	rtw_write8(padapter, REG_TDECTRL + 2, rtw_read8(padapter, REG_TDECTRL + 2) | BIT(0));
 +
- 		media_status = (psta->mac_id << 8) | 1; /*   MACID|OPMODE: 1 means connect */
- 		SetHwReg8188EU(padapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status);
- 	}
+ 	do {
+ 		issue_beacon(padapter, 100);
+ 		issue++;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+index f1464e4ba429..f58284eba70a 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+@@ -557,8 +557,9 @@ void rtl8188e_set_FwJoinBssReport_cmd(struct adapter *adapt, u8 mstatus)
+ 		rtw_write8(adapt, REG_FWHW_TXQ_CTRL + 2, (haldata->RegFwHwTxQCtrl & (~BIT(6))));
+ 		haldata->RegFwHwTxQCtrl &= (~BIT(6));
+ 
+-		/*  Clear beacon valid check bit. */
+-		SetHwReg8188EU(adapt, HW_VAR_BCN_VALID, NULL);
++		/* Clear beacon valid check bit. */
++		/* BIT(16) of REG_TDECTRL = BIT(0) of REG_TDECTRL+2, write 1 to clear, Clear by sw */
++		rtw_write8(adapt, REG_TDECTRL + 2, rtw_read8(adapt, REG_TDECTRL + 2) | BIT(0));
+ 		DLBcnCount = 0;
+ 		poll = 0;
+ 		do {
+@@ -596,8 +597,11 @@ void rtl8188e_set_FwJoinBssReport_cmd(struct adapter *adapt, u8 mstatus)
+ 		}
+ 
+ 		/*  Update RSVD page location H2C to Fw. */
+-		if (bcn_valid)
+-			SetHwReg8188EU(adapt, HW_VAR_BCN_VALID, NULL);
++		if (bcn_valid) {
++			/* Clear beacon valid check bit. */
++			/* BIT(16) of REG_TDECTRL = BIT(0) of REG_TDECTRL+2, write 1 to clear, Clear by sw */
++			rtw_write8(adapt, REG_TDECTRL + 2, rtw_read8(adapt, REG_TDECTRL + 2) | BIT(0));
++		}
+ 
+ 		/*  Do not enable HW DMA BCN or it will cause Pcie interface hang by timing issue. 2011.11.24. by tynli. */
+ 		/*  Clear CR[8] or beacon packet will not be send to TxBuf anymore. */
 diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 219f0e5d36aa..4be5c5ed8711 100644
+index 4be5c5ed8711..8bff4c6c29cf 100644
 --- a/drivers/staging/r8188eu/hal/usb_halinit.c
 +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1278,12 +1278,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 			}
- 		}
- 		break;
--	case HW_VAR_TX_RPT_MAX_MACID:
--		{
--			u8 maxMacid = *val;
--			rtw_write8(Adapter, REG_TX_RPT_CTRL + 1, maxMacid + 1);
--		}
--		break;
+@@ -1281,10 +1281,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
  	case HW_VAR_H2C_MEDIA_STATUS_RPT:
  		rtl8188e_set_FwMediaStatus_cmd(Adapter, (*(__le16 *)val));
  		break;
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 9d755eb59224..98f00c46fe8e 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -33,7 +33,6 @@ enum hw_variables {
- 	HW_VAR_ANTENNA_DIVERSITY_SELECT,
- 	HW_VAR_FIFO_CLEARN_UP,
- 	HW_VAR_RPT_TIMER_SETTING,
--	HW_VAR_TX_RPT_MAX_MACID,
- 	HW_VAR_H2C_MEDIA_STATUS_RPT,
- 	HW_VAR_CHK_HI_QUEUE_EMPTY,
- };
+-	case HW_VAR_BCN_VALID:
+-		/* BCN_VALID, BIT(16) of REG_TDECTRL = BIT(0) of REG_TDECTRL+2, write 1 to clear, Clear by sw */
+-		rtw_write8(Adapter, REG_TDECTRL + 2, rtw_read8(Adapter, REG_TDECTRL + 2) | BIT(0));
+-		break;
+ 	default:
+ 		break;
+ 	}
 -- 
 2.35.1
 
