@@ -1,74 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DB47C
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 09:12:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39C84C340F0;
-	Mon, 28 Mar 2022 09:12:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1648458741;
-	bh=WzFWWu1R9aaNE4hxIXvh1cfPuKjD+vdZInuaqPs0CVg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GpRTXzzBhe9JSoNRuOzIY6yUV8k73z/K8qMWuuB7nrQXUsAmknwPo5yUnlUGV4v7Q
-	 aA12cX2izmteE9/JqroXn/ah1hDCN8Zxq+kyNKia76QhgTb3akxMKhTZFzehAXW0ZU
-	 ZBzS4LApnHKBJWbfPJ0WHv8CAlbK6uICvbaatQOQ=
-Date: Mon, 28 Mar 2022 11:12:19 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?utf-8?B?55m95rWp5paH?= <baihaowen@meizu.com>
-Cc: "Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
-	"phil@philpotter.co.uk" <phil@philpotter.co.uk>,
-	"straube.linux@gmail.com" <straube.linux@gmail.com>,
-	"martin@kaiser.cx" <martin@kaiser.cx>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: =?utf-8?B?562U5aSNOiBbUEFUQ0ggVjJdIHN0?=
- =?utf-8?Q?aging=3A_r8188eu=3A_Directl?= =?utf-8?Q?y?= return _SUCCESS
- instead of using local ret variable
-Message-ID: <YkF78wyXCaQIwkB2@kroah.com>
-References: <1648457028-4226-1-git-send-email-baihaowen@meizu.com>
- <YkF2MRdxlUWow0UC@kroah.com>
- <be09d628f09041ac8f2c7bf2e9d5a13d@meizu.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C81A435A
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 11:24:55 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id o10so27992135ejd.1
+        for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 04:24:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LSGVVstA8xSFKqm3J0T/OWA7Sm6ZWqDMvi1oUYKoUQg=;
+        b=DPV4As0LqO6PxUoMkKt+gD4Sp4g81m4Uyo0RMYEz2E3P7pfyvtdXjGrBNZDHBP/UB1
+         gCFttcV0hthj4q1bL5TNl0zgC1lGn7IRag4nBKsJ8EP2YePrQZ13CN6W5Sfvfp8QF2Sp
+         wELX/+cizZqQx47zB7fGuZ9lFxr9AwmUsxdmwe8MW4eic5SAUeR1O8wHo+TyZ21CIyay
+         q7N3FAUsLSw2T7TAwO/n3REWByJ0KsJHuB6v+wB5DLXByNeI7ARpMC1EcyMes+d0d++3
+         Az1f4uQBXYfarp3CB4XKNCRn8iHQgyIum6DxyH2giFC9U76PXYn+pGn9yYRL50TSN3s1
+         2OrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LSGVVstA8xSFKqm3J0T/OWA7Sm6ZWqDMvi1oUYKoUQg=;
+        b=1yHnz5Ys6DNjtyQZ9N7gSO/iLx12ECk1aSpDW+rFlSYjky2SayFkrOPXUOVVrYJVpa
+         Ey+FeqaTtglHtBwHyyW4z3PPQRSxowb0Qg9Wvm8pUa1nmOFISyVV7jY0yFT/F8gvcUCp
+         pq7b1s5c7vGw1gTfw3JBYqLF6d5Ai2mBbK88QPGtmU1OgKnIpackIwnLpFgr8xuzIkBz
+         vpuZk5hP3f1k02fEfMhnMZgc2rkq2rIsMjj90IogVO7um3CBSy/fQQO1n1YHs/b8oINJ
+         dqJXEUTUbpJXpCpmURAt0t1uyz68AKtiTamVv05SS+W+a72Ad8qRR4RS8kDxrLqFRpo7
+         8Zjw==
+X-Gm-Message-State: AOAM530HJGGemIeMW40Zoy+IgJlZP9Q3Zyi5ND6dNLPvHS7iF4ivr5bN
+	dMj8sbGmOWTghDxIhLn8CtLtnSVD+p0=
+X-Google-Smtp-Source: ABdhPJxl6boSwWBk+hJgPWLFTN1iKFHKVHLRcqYs36e+eXokFUamDhBLmr6Eju0TLSaJYffp3TOQTA==
+X-Received: by 2002:a17:907:1623:b0:6df:c9da:a6a8 with SMTP id hb35-20020a170907162300b006dfc9daa6a8mr26762275ejc.303.1648466693755;
+        Mon, 28 Mar 2022 04:24:53 -0700 (PDT)
+Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id u10-20020a170906b10a00b006e1004406easm1839730ejy.93.2022.03.28.04.24.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Mar 2022 04:24:52 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benjamin Philip <benjamin.philip495@gmail.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Charlie Sands <sandsch@northvilleschools.net>,
+	Mitali Borkar <mitaliborkar810@gmail.com>,
+	Colin Ian King <colin.king@intel.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ira.weiny@intel.com
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: rts5208: Convert kmap() to kmap_local_page()
+Date: Mon, 28 Mar 2022 13:24:40 +0200
+Message-Id: <20220328112440.17756-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <be09d628f09041ac8f2c7bf2e9d5a13d@meizu.com>
 
+The use of kmap() is being deprecated and kmap_local_page() is faster.
+Use kmap_local_page() in place of kmap().
 
-A: http://en.wikipedia.org/wiki/Top_post
-Q: Were do I find info about this thing called top-posting?
-A: Because it messes up the order in which people normally read text.
-Q: Why is top-posting such a bad thing?
-A: Top-posting.
-Q: What is the most annoying thing in e-mail?
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/rts5208/rtsx_transport.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-A: No.
-Q: Should I include quotations after my reply?
-
-http://daringfireball.net/2007/07/on_top
-
-On Mon, Mar 28, 2022 at 09:07:44AM +0000, 白浩文 wrote:
-> Hi, Greg KH
-> 
-> Yes, I think sync rtl8723bs and r8188eu will be better as they have same problem.
-> 
-> commit 067756acdac8e0dd91edf4800e844fcb6e0cc72a
-> Author: Hariprasad Kelam <hariprasad.kelam@gmail.com>
-> Date:   Mon Jul 15 23:16:18 2019 +0530
-> 
->     staging: rtl8723bs: core: Change return type of init_mlme_ext_priv
-> 
->     As init_mlme_ext_priv function always returns SUCCESS , We can change
->     return type from int to void.
-> 
->     Fixes below issue identified by coccicheck
->     drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:464:5-8: Unneeded
->     variable: "res". Return "_SUCCESS" on line 492
-
-Yes, that would be good.
+diff --git a/drivers/staging/rts5208/rtsx_transport.c b/drivers/staging/rts5208/rtsx_transport.c
+index 805dc18fac0a..de690d7ee5e3 100644
+--- a/drivers/staging/rts5208/rtsx_transport.c
++++ b/drivers/staging/rts5208/rtsx_transport.c
+@@ -92,13 +92,13 @@ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
+ 			while (sglen > 0) {
+ 				unsigned int plen = min(sglen, (unsigned int)
+ 						PAGE_SIZE - poff);
+-				unsigned char *ptr = kmap(page);
++				unsigned char *ptr = kmap_local_page(page);
+ 
+ 				if (dir == TO_XFER_BUF)
+ 					memcpy(ptr + poff, buffer + cnt, plen);
+ 				else
+ 					memcpy(buffer + cnt, ptr + poff, plen);
+-				kunmap(page);
++				kunmap_local(ptr);
+ 
+ 				/* Start at the beginning of the next page */
+ 				poff = 0;
+-- 
+2.34.1
 
