@@ -1,94 +1,53 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69234C70
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 20:00:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: nicolas)
-	with ESMTPSA id 173C11F438BD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648497627;
-	bh=5bMWt8FIlhATFg8dWZpSwD375jbwZ9dZXKe/ctzMbWc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HgE8I+mDkxkQ2X9yVMvzFDQ4jmEqoeYUkBg3IBrZElVU6jyB8GKIFEdYDfaA5E7Nt
-	 VsYfXmZ7jIXrWHsBn57QQHjFOKAl1GAF5icpLR08XgBFPqgxXS9XG7uySm7sNh7bcK
-	 d3/7xeYZ3V/t6VinCbny8rAAZYBZ9TTaMEYUW1E+KTFs0+cQKnaPCTHEGvD3G40bBk
-	 gTiAW3vZmHVzewLprpcQJTIwAXwFY+kphUECS2Ci6zv+k0HIzAHe2YAxl/LnRClop9
-	 PEIrQU7bIWEKMK3Cq2pri/rmqXODlitsSCd2gAiS3y54w45iHyx+n+ae/sLMeutUl5
-	 BYlnDrYQVnITw==
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel@collabora.com,
-	Alex Bee <knaerzche@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 24/24] media: rkvdec-h264: Don't hardcode SPS/PPS parameters
-Date: Mon, 28 Mar 2022 15:59:36 -0400
-Message-Id: <20220328195936.82552-25-nicolas.dufresne@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51FB34C6D
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 20:28:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0EF94C340F0;
+	Mon, 28 Mar 2022 20:28:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1648499324;
+	bh=QLi7AzU+b/7PjKH7gsTRezczmXRNXx1OFehK9D/8XdY=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=i1AGItzJaB7wOwgjZB3C7vVVPmwPfrkwl3pkUZ/tBr3UZQj8SQZzrJ2DVP5cumzjy
+	 KB8YchKRrCuJxIiEU8tS3j8EHsXMpfdvta58ntAFrFUxdohx20apc5yW32bxuYK9fE
+	 If0//oKQv/FhcU0vh/tSUD3Ycoz3X2ckpN4F2tuIWZcQETMI+S4YazrFVFrO/YkqOD
+	 dt4FhK/cUB6F+KqxDUXJ39bitpgk6FMikcA+tx2bUsL2pyWD91bD3pjxpVllR9KVGC
+	 B+o2M4kP94C7VquVCse9qpUuFeDIKsdzDEkr7W30ZZ0dvulFAQSdh2kekSyqZIj7NF
+	 jc7pZqe5w+eyQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F1A21EAC081;
+	Mon, 28 Mar 2022 20:28:43 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver changes for 5.18-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <YkG60GW9QJ8OCWjd@kroah.com>
+References: <YkG60GW9QJ8OCWjd@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <YkG60GW9QJ8OCWjd@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.18-rc1
+X-PR-Tracked-Commit-Id: 41197a5f11a4b2d11ac19bc62552022153032811
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: dfdc1de64248b5e1024d8188aeaf0e59ec6cecd5
+Message-Id: <164849932398.7875.1978345527314763094.pr-tracker-bot@kernel.org>
+Date: Mon, 28 Mar 2022 20:28:43 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Alex Bee <knaerzche@gmail.com>
+The pull request you sent on Mon, 28 Mar 2022 15:40:32 +0200:
 
-Some SPS/PPS parameters are currently hardcoded in the driver
-even though so do exist in the uapi which is stable by now.
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.18-rc1
 
-Use them instead of hardcoding them.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/dfdc1de64248b5e1024d8188aeaf0e59ec6cecd5
 
-Conformance tests have shown there is no difference, but it might
-increase decoder performance.
+Thank you!
 
-Signed-off-by: Alex Bee <knaerzche@gmail.com>
----
- drivers/staging/media/rkvdec/rkvdec-h264.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index 891c48bf6a51..91f65d78e453 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -655,13 +655,14 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
- 
- #define WRITE_PPS(value, field) set_ps_field(hw_ps->info, field, value)
- 	/* write sps */
--	WRITE_PPS(0xf, SEQ_PARAMETER_SET_ID);
--	WRITE_PPS(0xff, PROFILE_IDC);
--	WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
-+	WRITE_PPS(sps->seq_parameter_set_id, SEQ_PARAMETER_SET_ID);
-+	WRITE_PPS(sps->profile_idc, PROFILE_IDC);
-+	WRITE_PPS((sps->constraint_set_flags & 1 << 3) ? 1 : 0, CONSTRAINT_SET3_FLAG);
- 	WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
- 	WRITE_PPS(sps->bit_depth_luma_minus8, BIT_DEPTH_LUMA);
- 	WRITE_PPS(sps->bit_depth_chroma_minus8, BIT_DEPTH_CHROMA);
--	WRITE_PPS(0, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
-+	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS),
-+		  QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
- 	WRITE_PPS(sps->log2_max_frame_num_minus4, LOG2_MAX_FRAME_NUM_MINUS4);
- 	WRITE_PPS(sps->max_num_ref_frames, MAX_NUM_REF_FRAMES);
- 	WRITE_PPS(sps->pic_order_cnt_type, PIC_ORDER_CNT_TYPE);
-@@ -679,8 +680,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
- 		  DIRECT_8X8_INFERENCE_FLAG);
- 
- 	/* write pps */
--	WRITE_PPS(0xff, PIC_PARAMETER_SET_ID);
--	WRITE_PPS(0x1f, PPS_SEQ_PARAMETER_SET_ID);
-+	WRITE_PPS(pps->pic_parameter_set_id, PIC_PARAMETER_SET_ID);
-+	WRITE_PPS(pps->seq_parameter_set_id, PPS_SEQ_PARAMETER_SET_ID);
- 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE),
- 		  ENTROPY_CODING_MODE_FLAG);
- 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT),
 -- 
-2.34.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
