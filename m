@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EB67C
-	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 08:47:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14C96C340ED;
-	Mon, 28 Mar 2022 08:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6BE7C
+	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 08:48:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C539C340ED;
+	Mon, 28 Mar 2022 08:48:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1648457267;
-	bh=aCy1183IFeSJEQ/PvYRHTMEfAcgEEitlYrwCkkKgiSg=;
+	s=korg; t=1648457328;
+	bh=/4P1QfEXx+SD//zNcIF3is1gtUA9WvLmCRu3ZiwpImw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MX3gCVLJyItskiLMyOpDpXgDdaC2i9inH9p+RNcDTUqYTphF66BnOK1B/otYzGxUK
-	 2TraMoHCww74EnS9ZquMBxPHBsFGqCZIPgfSVK3kKVklcTZkLw+ATny7mKTujwe+nX
-	 6qSaISaGLQyfGIE+sdXdVYkRjXMMKF2Y+tOWhmbE=
-Date: Mon, 28 Mar 2022 10:47:45 +0200
+	b=OZXuWiX+XBnsODPJEifNUSRoLRiF2ocznQyjwsPL8f8hIjcfdn9TXedvbFpT6mwMv
+	 SrdM6eW6UgOeZY5WbzlT5lbe8UQdQMgKB+18DxeqzaRzAHOcInJy5nMlIeL7kS2CBq
+	 L7CxBpjlaNlV8D2M5PFx+6sW9zsvaIyrqLWffE5E=
+Date: Mon, 28 Mar 2022 10:48:45 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Haowen Bai <baihaowen@meizu.com>
 Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
 	straube.linux@gmail.com, martin@kaiser.cx,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] staging: r8188eu: Directly return _SUCCESS instead of
+Subject: Re: [PATCH V2] staging: r8188eu: Directly return _FAIL instead of
  using local ret variable
-Message-ID: <YkF2MRdxlUWow0UC@kroah.com>
-References: <1648457028-4226-1-git-send-email-baihaowen@meizu.com>
+Message-ID: <YkF2bU7lAn91n9Ch@kroah.com>
+References: <1648457022-4076-1-git-send-email-baihaowen@meizu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,12 +30,12 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1648457028-4226-1-git-send-email-baihaowen@meizu.com>
+In-Reply-To: <1648457022-4076-1-git-send-email-baihaowen@meizu.com>
 
-On Mon, Mar 28, 2022 at 04:43:48PM +0800, Haowen Bai wrote:
+On Mon, Mar 28, 2022 at 04:43:42PM +0800, Haowen Bai wrote:
 > fixes coccinelle warning:
-> ./drivers/staging/r8188eu/core/rtw_mlme_ext.c:357:5-8: Unneeded variable: "res".
->  Return "_SUCCESS" on line 380
+> ./drivers/staging/r8188eu/core/rtw_mlme_ext.c:1518:14-17: Unneeded variable: "ret".
+>  Return "_FAIL" on line 1549
 > 
 > Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 > ---
@@ -45,26 +45,26 @@ On Mon, Mar 28, 2022 at 04:43:48PM +0800, Haowen Bai wrote:
 >  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
 > diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> index 931e6f2..4b7b0ee 100644
+> index 10d5f12..931e6f2 100644
 > --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 > +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> @@ -354,7 +354,6 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
+> @@ -1515,7 +1515,6 @@ unsigned int OnAtim(struct adapter *padapter, struct recv_frame *precv_frame)
 >  
->  int	init_mlme_ext_priv(struct adapter *padapter)
+>  unsigned int on_action_spct(struct adapter *padapter, struct recv_frame *precv_frame)
 >  {
-> -	int	res = _SUCCESS;
->  	struct registry_priv *pregistrypriv = &padapter->registrypriv;
->  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
->  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-> @@ -377,7 +376,7 @@ int	init_mlme_ext_priv(struct adapter *padapter)
+> -	unsigned int ret = _FAIL;
+>  	struct sta_info *psta = NULL;
+>  	struct sta_priv *pstapriv = &padapter->stapriv;
+>  	u8 *pframe = precv_frame->rx_data;
+> @@ -1546,7 +1545,7 @@ unsigned int on_action_spct(struct adapter *padapter, struct recv_frame *precv_f
+>  	}
 >  
->  	pmlmeext->active_keep_alive_check = true;
->  
-> -	return res;
-> +	return _SUCCESS;
+>  exit:
+> -	return ret;
+> +	return _FAIL;
 
-If a function can only ever succeed, why return anything?  Please make
-this a function return void.
+Something is wrong here, why would this function always fail?  Are you
+sure that this is working properly?
 
 thanks,
 
