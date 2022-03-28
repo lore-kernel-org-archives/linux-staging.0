@@ -1,39 +1,39 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31367435A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114D3435F
 	for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 11:39:57 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id w25so16533472edi.11
+Received: by mail-ed1-f44.google.com with SMTP id w25so16533524edi.11
         for <linux-staging@lists.linux.dev>; Mon, 28 Mar 2022 04:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yM1+Oyjs7rm2COzVRYeg0I3yW0Tfk94lGVc8waDOVeI=;
-        b=dc38IoMpWs+lEG/BmL0z48Adl6jmTMzVi6trdkH2alBV+433Xkg5FA37EOYmGfSaLh
-         xmi8J2979iBiggD0YfEJyUWwMquaCxeUi0QN5lULG0BtXFeL+N3iaRZph863S28eUZU3
-         PkLjjcRH2HntNTk0gihCVGxHqaEGm6jAtSWSAtqYjganrZtjfZLdq8F29muBpJyigLHG
-         vBzOojqQKwfQx/MllJ51tlrlG65GjsReRtMT2n8jpU3zUwUgmFfR3COkbsHhbM5xlRGE
-         UR5fGSXBfEr4bI42YRqpIalX1f8WEG0+KosM9hwkWPoiGWflZpZhZd8Si9h7fyVQzF2Z
-         4gUg==
+        bh=CTe1aR5OcBBOwDIeny+aB4PntXqLk/4mfX1YAG71O3U=;
+        b=atr0aIYdDMVOJshhfblOWqacBiAVKEwVfbDjG8shUTmy6sNPlKeKTAHTM92cqmtOXu
+         1ksX2Guin9hE/vP8jqZzrrtzynRbo5u0dctijjDLgbV0ubhKlazibkVBt/G3ZRqnAQUs
+         2LRfXMc8TiZFZF4KpF6cwUlsupv/TqNwTmPO4zdvqiWTEWYSVZC4IFrRDlt6nyOlK1QC
+         3u0WcTx/HMvlUNv13fXfxheOk4m80p/v0gis8yIRVA9DM0ga9SeqF2nfxhJ5ZMNseAbt
+         7OJzR/xiY/6iS7LKhDvRvmrfCPcLR7NGbTU94qLMIHxJiwXfLnjmMeV1BXj07rAO2wUq
+         PteQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yM1+Oyjs7rm2COzVRYeg0I3yW0Tfk94lGVc8waDOVeI=;
-        b=iZBWcFdhOkv1PyxQFU92dPhutHsdL5p/NOnJXR1i0Z9A/SGgoygKBns4ODm1rLV1dX
-         uLWXfsufzJpmSytOC6bNQdpvMQP3bQiITbpSaAnbGob8XccA2yiFN+DQekGLerKyWfeD
-         ilZZpDzV4itWAJtkU/jpNL/NW5OLkk0GnZzYJ75GrpmJLOWQb4Mz5i+hHaV6jv1gOW5y
-         wBfr/Ujp3kYZjqjBu7UvSNAde1VpOap6gHgadAD32BRnwEDZZxE20apEMjEmtBd8xPA9
-         qvkxvpzpN9s/+CAIU6hTg1Yn7Jn92gqaiCdwt12ftFhMhxNb5fiqrxH1ZCWxik5hqyhc
-         TMKw==
-X-Gm-Message-State: AOAM531upZYhrRXcz/1yfPAae/Wiun7kHKm9mteMBSPn52KEeHTqnh8p
-	TxHkinCj/7OowpT58QPRrXfj2eyY7CY=
-X-Google-Smtp-Source: ABdhPJxVaoduq6jwj15g4ToMbp7aFdbZH7njcersBGBWMEc/mCryNyI05RgL5hVAY7VUjMz9uBiWWg==
-X-Received: by 2002:a05:6402:847:b0:419:7fb0:9e29 with SMTP id b7-20020a056402084700b004197fb09e29mr15565288edz.45.1648467595613;
-        Mon, 28 Mar 2022 04:39:55 -0700 (PDT)
+        bh=CTe1aR5OcBBOwDIeny+aB4PntXqLk/4mfX1YAG71O3U=;
+        b=eiMnEnkm8gFslRNyo4y3n7Ljz1GueQHrSIfxCqvzrmo+32pZSXJOSliJBwTPng+8LV
+         o225QXkOT+SCb3JXs8NxaCfHkOZ3hYBics0ViuvN8s4ETqHmW5u05+E4WMUFav5rGTQy
+         wM3pkLbBYSz54Jo53A/ZttUCnlY4uCTpnnnbDeyObrLZsUur1qyhZamNf5QpV6e1iJ8Q
+         Q18/no7EK1gifCDU4gQL5bdovXzOOZEz2Gqe/q7gdyO+YSDgc6TLn+XpnxVz+NyB6ZuO
+         Mx8xqwjbFsKPPEYSNMzJtAdK6HPPc8XC5H0xaxi/L4D2VL+sXrX609htpSRn1OeEnrqs
+         PcMg==
+X-Gm-Message-State: AOAM532+Mv2ROqHTN5YXk1FEqOJtTZX8m5QTG9sBkXvUGArq513jcq23
+	bq8QXfOoHgJYI/A2Tmo/f6s=
+X-Google-Smtp-Source: ABdhPJxgp8CfIhItzgswwUIi/UV+3j3Lk01yEt2iQobYQcLbGkOO1Vbk2xgcZbc1+zg2PGKNcO7J/w==
+X-Received: by 2002:aa7:c58e:0:b0:418:f6f7:ccd4 with SMTP id g14-20020aa7c58e000000b00418f6f7ccd4mr15584346edq.132.1648467596398;
+        Mon, 28 Mar 2022 04:39:56 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id hq39-20020a1709073f2700b006dfc58efab9sm5938556ejc.73.2022.03.28.04.39.54
+        by smtp.gmail.com with ESMTPSA id hq39-20020a1709073f2700b006dfc58efab9sm5938556ejc.73.2022.03.28.04.39.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 28 Mar 2022 04:39:55 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/9] staging: r8188eu: remove HW_VAR_RXDMA_AGG_PG_TH from SetHwReg8188EU()
-Date: Mon, 28 Mar 2022 13:39:36 +0200
-Message-Id: <20220328113940.6396-6-straube.linux@gmail.com>
+Subject: [PATCH 6/9] staging: r8188eu: remove unnecessary if statement
+Date: Mon, 28 Mar 2022 13:39:37 +0200
+Message-Id: <20220328113940.6396-7-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220328113940.6396-1-straube.linux@gmail.com>
 References: <20220328113940.6396-1-straube.linux@gmail.com>
@@ -57,70 +57,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The HW_VAR_RXDMA_AGG_PG_TH case in SetHwReg8188EU() just sets a
-variable conditionally and then calls rtw_write8(). Set the variable
-in the caller and, call rtw_write8() directly and remove the
-HW_VAR_RXDMA_AGG_PG_TH case from SetHwReg8188EU(). This is part of the
-ongoing effort to get rid of the unwanted hal layer.
+The local variable threshold in rtw_joinbss_reset() is set to 0 and
+immediately set to another value if it is 0. Remove this unnecessary
+if and assign the final value in the first place.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c    | 7 +++++--
- drivers/staging/r8188eu/hal/usb_halinit.c  | 8 --------
- drivers/staging/r8188eu/include/hal_intf.h | 1 -
- 3 files changed, 5 insertions(+), 11 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 6f0bff186477..14aff6a2040a 100644
+index 14aff6a2040a..83841cf85a0d 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1817,10 +1817,13 @@ void rtw_joinbss_reset(struct adapter *padapter)
+@@ -1816,10 +1816,8 @@ void rtw_joinbss_reset(struct adapter *padapter)
+ 		if (padapter->registrypriv.wifi_spec == 1)
  			threshold = 1;
  		else
- 			threshold = 0;
--		SetHwReg8188EU(padapter, HW_VAR_RXDMA_AGG_PG_TH, (u8 *)(&threshold));
+-			threshold = 0;
+-
+-		if (threshold == 0)
+ 			threshold = USB_RXAGG_PAGE_COUNT;
 +
-+		if (threshold == 0)
-+			threshold = USB_RXAGG_PAGE_COUNT;
-+		rtw_write8(padapter, REG_RXDMA_AGG_PG_TH, threshold);
+ 		rtw_write8(padapter, REG_RXDMA_AGG_PG_TH, threshold);
  	} else {
  		threshold = 1;
--		SetHwReg8188EU(padapter, HW_VAR_RXDMA_AGG_PG_TH, (u8 *)(&threshold));
-+		rtw_write8(padapter, REG_RXDMA_AGG_PG_TH, threshold);
- 	}
- }
- 
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 86d8b603d4fa..219f0e5d36aa 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1197,14 +1197,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 			}
- 		}
- 		break;
--	case HW_VAR_RXDMA_AGG_PG_TH:
--		{
--			u8 threshold = *((u8 *)val);
--			if (threshold == 0)
--				threshold = USB_RXAGG_PAGE_COUNT;
--			rtw_write8(Adapter, REG_RXDMA_AGG_PG_TH, threshold);
--		}
--		break;
- 	case HW_VAR_H2C_FW_PWRMODE:
- 		{
- 			u8 psmode = (*(u8 *)val);
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index d0317f5b85ba..9d755eb59224 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -25,7 +25,6 @@ enum hw_variables {
- 	HW_VAR_AC_PARAM_BE,
- 	HW_VAR_AMPDU_MIN_SPACE,
- 	HW_VAR_AMPDU_FACTOR,
--	HW_VAR_RXDMA_AGG_PG_TH,
- 	HW_VAR_H2C_FW_PWRMODE,
- 	HW_VAR_H2C_FW_JOINBSSRPT,
- 	HW_VAR_FWLPS_RF_ON,
 -- 
 2.35.1
 
