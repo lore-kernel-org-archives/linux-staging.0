@@ -1,119 +1,81 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com [209.85.167.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FE220FF
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 07:22:21 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a02:3030:a:f397:f6bc:b726:2678:839f])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 617721F434C3;
-	Tue, 29 Mar 2022 08:22:19 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648538539;
-	bh=/W5ETW3ilMG908aam2DSTA6zgd0fm+3tYbWwdkTwWRk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nLF8BzyzhkdV7qtb7zyz8uOMfyvj6z1nQML/smXC3jCjwbbqt+AnC8ggo18xor1Ip
-	 aXFdV8uGzjQeh4Vy1AWCISf6kN2kITw+l83JbdQSL82l6ZOufzfaRzE+GXZTje0lZU
-	 oeLppJONQll4PG7lXm0LSfJlzn9Rj2aLKI9LVjPGCS5P21mSxWzg4nc3uJsFI8s7Oo
-	 OB6gi6bBXctow5FnNG2reIa9HKcgdclI0ad3Ol4JyFoNlGCZGjpEeTm7BcbYJZ2boW
-	 UtGtB9hHTXU4hn/sjWwwt97x4MBIGxmydRqk0exrPYyvLi4Q5JSh+5J0hmv0RWYUDu
-	 B/ju1nHdWNA1A==
-Date: Tue, 29 Mar 2022 09:22:16 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA7720FF;
+	Tue, 29 Mar 2022 07:53:38 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id r8so18268289oib.5;
+        Tue, 29 Mar 2022 00:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=KCFMGfNYizh6pzOTqsxgLLJuZZfsr83zhrOGb53NYPQ=;
+        b=aRwrrxn8IEL+X82hc+96+iD0zXCnJjJYP4lO0q7ULschJPbL45YLvBqJ++M8yMQB6Q
+         u9EYAxq6btOkP9NSxsvEBFpF5uqxLtSyaxqRID0HDvQlF5wCPRdMdsEdvO7ZB3Krcu7c
+         DF16sbLThsZfms7+9JorppHYeAxoXUpkw5zcESZXl22El3UGGvES36WV/kdyW9s5UeSe
+         F2EVj+fkFAYzxHTRyD9kZBPajrx16HAaj+WVp3YrbR8t04YEtKzNicEfcOtc9Bjc4bC9
+         fxu74xZ2MI7DfiQ1aO1qHcvDQTEp6f4fh8/ItymsUc7CIPpufVPMJTbf+8d2qg+zeuJC
+         TVTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=KCFMGfNYizh6pzOTqsxgLLJuZZfsr83zhrOGb53NYPQ=;
+        b=z/pR9DhirgtTi8cMzgf9MWwC+JxhktDGvbIR5O4jUXkqqDo+/v7BifhspCGGqxUEgl
+         SYHUqaOdL6nV8endXbdExX1xf9y+U5DN6lFv+SOGJuO85CbLtxzklpCPCZeXoxVQ7sFs
+         2KIqqQEO3OpYU/z4QzE4VMrepITH1uWlJOILqgzlzM2ZKKHGHAVrIBwSd+CN6rlIkoVW
+         kFz4LTCzU7s/E++hIS81irepa++y3vpvUQ4pP1AAfKXvLjNN62q3y0e9x9qKUSt5l86/
+         mk/qvYnEO78MDN/2PnK/TirW8ffBVGDDfZFFVcuBJ0okl5kawYZlGy5o7C521Vgq1qyG
+         fu/A==
+X-Gm-Message-State: AOAM532sqMr2ot0ZzAgCl/vBSz3lgFyWt8S0QXFTNYfsD4jKBZz5ZbVF
+	aXsdKRV1ToZ25UAOdXnjeWoh0xGdscVaAIFXfXo=
+X-Google-Smtp-Source: ABdhPJwYQacqsHy2tk8qS/8ZNe/lsC0CrDqg+g+TH91qEyztXbB7TzVH6xu/cdqZGiNMJyxlxfly4w==
+X-Received: by 2002:a05:6808:f07:b0:2da:4916:578e with SMTP id m7-20020a0568080f0700b002da4916578emr1515111oiw.271.1648540417651;
+        Tue, 29 Mar 2022 00:53:37 -0700 (PDT)
+Received: from bertie (072-190-140-117.res.spectrum.com. [72.190.140.117])
+        by smtp.gmail.com with ESMTPSA id w7-20020a9d6387000000b005b2265711fcsm6989536otk.16.2022.03.29.00.53.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 00:53:37 -0700 (PDT)
+Date: Tue, 29 Mar 2022 02:53:36 -0500
+From: Rebecca Mckeever <remckee0@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel@collabora.com, Alex Bee <knaerzche@gmail.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 24/24] media: rkvdec-h264: Don't hardcode SPS/PPS
- parameters
-Message-ID: <20220329072216.gqzcp6lowpfrweb7@basti-XPS-13-9310>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-25-nicolas.dufresne@collabora.com>
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: r8188eu: fix suspect code indent for conditional
+ statements
+Message-ID: <YkK7ABTVt0TCbd18@bertie>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220328195936.82552-25-nicolas.dufresne@collabora.com>
 
-Hey Nicolas,
+Align the if and else if branches of the conditional statement
+to improve readability. Prevent bugs that could be introduced
+if developers misread the code. Issue found by checkpatch.
 
-The patch series doesn't seem to apply on the latest media tree master
-branch. Looking at your tree I can see that you have commit: ba2c670a
-"media: nxp: Restrict VIDEO_IMX_MIPI_CSIS to ARCH_MXC or COMPILE_TEST
-Laurent Pinchart authored 1 week ago "
+Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-But the current head of the media tree is: 71e6d0608e4d
-"media: platform: Remove unnecessary print function dev_err()
-Yang Li authored 13 days ago"
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 6eca30124ee8..ccc43c0ba433 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -1408,7 +1408,7 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+ 		/* TODO: cancel timer and do timeout handler directly... */
+ 		/* need to make timeout handlerOS independent */
+ 		_set_timer(&pmlmepriv->scan_to_timer, 1);
+-		} else if (pcmd->res != H2C_SUCCESS) {
++	} else if (pcmd->res != H2C_SUCCESS) {
+ 		_set_timer(&pmlmepriv->scan_to_timer, 1);
+ 	}
+ 
+-- 
+2.32.0
 
-On 28.03.2022 15:59, Nicolas Dufresne wrote:
->From: Alex Bee <knaerzche@gmail.com>
->
->Some SPS/PPS parameters are currently hardcoded in the driver
->even though so do exist in the uapi which is stable by now.
-
-s/even though so/even though they/
->
->Use them instead of hardcoding them.
->
->Conformance tests have shown there is no difference, but it might
->increase decoder performance.
-
-I think it would be great if we could add some performance metrics to
-the commit description to have a metric that following patches could
-compare themselves with.
-
-Greetings,
-Sebastian
-
->
->Signed-off-by: Alex Bee <knaerzche@gmail.com>
->---
-> drivers/staging/media/rkvdec/rkvdec-h264.c | 13 +++++++------
-> 1 file changed, 7 insertions(+), 6 deletions(-)
->
->diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
->index 891c48bf6a51..91f65d78e453 100644
->--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
->+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
->@@ -655,13 +655,14 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
->
-> #define WRITE_PPS(value, field) set_ps_field(hw_ps->info, field, value)
-> 	/* write sps */
->-	WRITE_PPS(0xf, SEQ_PARAMETER_SET_ID);
->-	WRITE_PPS(0xff, PROFILE_IDC);
->-	WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
->+	WRITE_PPS(sps->seq_parameter_set_id, SEQ_PARAMETER_SET_ID);
->+	WRITE_PPS(sps->profile_idc, PROFILE_IDC);
->+	WRITE_PPS((sps->constraint_set_flags & 1 << 3) ? 1 : 0, CONSTRAINT_SET3_FLAG);
-> 	WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
-> 	WRITE_PPS(sps->bit_depth_luma_minus8, BIT_DEPTH_LUMA);
-> 	WRITE_PPS(sps->bit_depth_chroma_minus8, BIT_DEPTH_CHROMA);
->-	WRITE_PPS(0, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
->+	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS),
->+		  QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
-> 	WRITE_PPS(sps->log2_max_frame_num_minus4, LOG2_MAX_FRAME_NUM_MINUS4);
-> 	WRITE_PPS(sps->max_num_ref_frames, MAX_NUM_REF_FRAMES);
-> 	WRITE_PPS(sps->pic_order_cnt_type, PIC_ORDER_CNT_TYPE);
->@@ -679,8 +680,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
-> 		  DIRECT_8X8_INFERENCE_FLAG);
->
-> 	/* write pps */
->-	WRITE_PPS(0xff, PIC_PARAMETER_SET_ID);
->-	WRITE_PPS(0x1f, PPS_SEQ_PARAMETER_SET_ID);
->+	WRITE_PPS(pps->pic_parameter_set_id, PIC_PARAMETER_SET_ID);
->+	WRITE_PPS(pps->seq_parameter_set_id, PPS_SEQ_PARAMETER_SET_ID);
-> 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE),
-> 		  ENTROPY_CODING_MODE_FLAG);
-> 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT),
->-- 
->2.34.1
->
