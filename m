@@ -1,41 +1,41 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657867C
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 10:38:09 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id r13so34185657ejd.5
-        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 03:38:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE812118
+	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 10:38:10 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id a8so34074326ejc.8
+        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 03:38:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9rdVFsRva52GcMtl178td/PU4MqSDMZsE8jDt+0zP9I=;
-        b=UVJtGaPxt8BpoHJbuk1xXngqHQZsl7Uf5d2uNeQRlI4atTKdtaP2hzE54PZ8ATZ/al
-         XTg31u4URUThaXpbxGQGUt9TNFM120i4GjKGljxmYB10vakEECv6huo30obtck3pB78N
-         JDYEhAuCnncHfkBxtOZVQ1vX8P8LQLE6BJXiSXBg3aDSZLiuZ8E+vJ7kRtUu1h6LYwlV
-         ukvlOzxQtAM8HaEWSRXyWMeGQ0Q5npGLIC274y3iuQkv4UbyDu9NVQo/qfXLqsOfXy64
-         5A4XyMgsNq9byNU8JEHc+WEPJA+j1UK/1UWHpyR4NddKSJ35jQgtt68yhLHM53CaDSYm
-         xALw==
+        bh=LsMxFHOpT2A5HUis8VHCCczQTixH8ndtilKa6t51LrI=;
+        b=Pq3ggJM3Rhl7SPfPzHmle6U9ZLOrNMFBynlGOnTYhnWdeWRFEFR9k5d0GC+wQ2k3BG
+         CbXgwnDqAf6j3GK6U2PaQ87RBSfG2F7q+DxLCT5LwFyKzM5QXhsj9UldUsAPbwvUyVCL
+         CCuoXg1PxryZlYsSHhthxfYHvFahI0f+UQHgCN/RGGMTxcosxnrOu0qnZKB5MG5WhEX4
+         hp0kYFR94mptzFAPnduf1Oi9dMi0TfbOpwcYtM8PWRZp3Jz3k8EseLOYUs7lIrpHcRQY
+         6QbKysFcmjBGyRxlRMaglVlR/sxVZ1TvhDqR2EcKuyI5LqwSCjkLvby9ANn4JXoUj9tG
+         etIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9rdVFsRva52GcMtl178td/PU4MqSDMZsE8jDt+0zP9I=;
-        b=1kLT9+0bOHWKJuomothsg17QQJt85Hjb3Qi2U7e5Da5Hoh+YP8DIGIN3dcnsszzYoC
-         mbHBbNxj6+ahJvYhvNtN1PqIwBGo225L49A+32ebVOTRNd5JtQFJEzTsLqlNcEjDiShs
-         y/D6dPLpN0HGZT8Fv4X5E5vhfwG/HXUenlouRq2IDSgcH7Bkq4fOVsFqO6nyZ+kmB1IW
-         oPsV5Mr2vhvvxz9yp5DAtSHoZuAbkiIUDIZjZDl5T75bwjcH6ikN7XklMbMnUgdxEiNO
-         1pwS4E4ONUm8SHxt7ErasCQZuv1XPJZpGyxBupCzTl8yPqlg1MrddYDbtjVIEJEtuaS4
-         mslQ==
-X-Gm-Message-State: AOAM530i1Bhqopwy7U/0QTiU7eA81FsG5jjSzFGTxnBcEnuBThMV6TcZ
-	fkAz8xYtzJ+Br3nFdWFJ9fY=
-X-Google-Smtp-Source: ABdhPJzBrJIN6iNc35BhKt3rDrOUXzyyI1OqD8DooHxlSo8WlTK2A+JWyzxTwcLCtIaZVO3gK6Atdw==
-X-Received: by 2002:a17:907:6d0b:b0:6df:e54c:ad1d with SMTP id sa11-20020a1709076d0b00b006dfe54cad1dmr34438013ejc.734.1648550287768;
-        Tue, 29 Mar 2022 03:38:07 -0700 (PDT)
+        bh=LsMxFHOpT2A5HUis8VHCCczQTixH8ndtilKa6t51LrI=;
+        b=p67g6xqbaRgcZHP2gEGQhFz0ZRYWSSyNzjjPWOpOR5pbnLQ+MXZxlMfOTYNuSoI2Ps
+         YxSyEVbo2hA6soDMhRlF58FewFQI6wVMd2ZFpFEKW7EJvPuvw7CuPkob8TfR4owS/UYY
+         NIl3sWrlogUUbyANivfykvTdAk7glR5H8WgTjIwV2HJf3as7ZxdugODXLOzhMG5bk+Or
+         Q0W7B+EPX6enmqHQMwcyj3m9AnRoNal8I9EEZXMRMDOm630+9x/2zZ1Rkq5aoc/TcIOH
+         daifQDYpIWzL2Ps/Ogiy6UIVqgaaqKaSwZuLkSzItIQcfSENZvGa4aA8JQXFHGcdSFC1
+         qo0w==
+X-Gm-Message-State: AOAM5339F8TrD/3h8YzpQlf6395AaTYU1F2nnG/2LO9l5AgQEmftCL6f
+	SlzDl3wIGNIJUXWQAEYX9ew=
+X-Google-Smtp-Source: ABdhPJz0xqUQqT3sUKGA15qsP14r3IAHkIFxcD0kHKW7MrHMOmtXEEJtDpooSpjRdDfVk+jHjyb69Q==
+X-Received: by 2002:a17:906:434e:b0:6d0:ed9c:68bc with SMTP id z14-20020a170906434e00b006d0ed9c68bcmr32630418ejm.70.1648550288698;
+        Tue, 29 Mar 2022 03:38:08 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
         by smtp.gmail.com with ESMTPSA id qw39-20020a1709066a2700b006e03017d60csm7058151ejc.54.2022.03.29.03.38.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 03:38:07 -0700 (PDT)
+        Tue, 29 Mar 2022 03:38:08 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/4] staging: r8188eu: refactor rtw_inc_and_chk_continual_urb_error()
-Date: Tue, 29 Mar 2022 12:37:54 +0200
-Message-Id: <20220329103756.6740-3-straube.linux@gmail.com>
+Subject: [PATCH 3/4] staging: r8188eu: convert rtw_usb_bulk_size_boundary() to bool
+Date: Tue, 29 Mar 2022 12:37:55 +0200
+Message-Id: <20220329103756.6740-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329103756.6740-1-straube.linux@gmail.com>
 References: <20220329103756.6740-1-straube.linux@gmail.com>
@@ -57,37 +57,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor rtw_inc_and_chk_continual_urb_error(). Return directly
-instead of using a return variable and initialize the variable 'value'
-at declaration. This shortens the code and improves readability.
+Function rtw_usb_bulk_size_boundary() returns boolean values.
+Change its return type from u8 to bool.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/include/usb_ops.h | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/staging/r8188eu/include/usb_ops.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/r8188eu/include/usb_ops.h b/drivers/staging/r8188eu/include/usb_ops.h
-index 3416c8baceb6..cfcf6f84d2cf 100644
+index cfcf6f84d2cf..5ee1c8c7940d 100644
 --- a/drivers/staging/r8188eu/include/usb_ops.h
 +++ b/drivers/staging/r8188eu/include/usb_ops.h
-@@ -27,13 +27,12 @@
-  */
- static inline int rtw_inc_and_chk_continual_urb_error(struct dvobj_priv *dvobj)
+@@ -46,7 +46,7 @@ static inline void rtw_reset_continual_urb_error(struct dvobj_priv *dvobj)
+ #define USB_HIGH_SPEED_BULK_SIZE	512
+ #define USB_FULL_SPEED_BULK_SIZE	64
+ 
+-static inline u8 rtw_usb_bulk_size_boundary(struct adapter *padapter, int buf_len)
++static inline bool rtw_usb_bulk_size_boundary(struct adapter *padapter, int buf_len)
  {
--	int ret = false;
--	int value;
--	value = atomic_inc_return(&dvobj->continual_urb_error);
-+	int value = atomic_inc_return(&dvobj->continual_urb_error);
-+
- 	if (value > MAX_CONTINUAL_URB_ERR)
--		ret = true;
-+		return true;
+ 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
  
--	return ret;
-+	return false;
- }
- 
- /*
 -- 
 2.35.1
 
