@@ -1,90 +1,87 @@
-Received: from out203-205-251-80.mail.qq.com (out203-205-251-80.mail.qq.com [203.205.251.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CF1258C
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 18:57:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1648580238;
-	bh=BFcxlAe+LsB8c+2xzDGfgYM7lyfmGjKn3YNoYDjsiwY=;
-	h=Date:From:To:Cc:Subject:References;
-	b=HZRN03L4shXuWaYoZtGzLYMIjgYdVokiJq2bXwGzhPfuFUsEk+UnmLR2mZ+b0BgVd
-	 hajYu01wnQNHbCgCXxMpLcXpNVO9CRLV0ji5voAChtJP+uQazvUrLLnuWPMAYxc6fH
-	 M3p4JbFphTACsR/6ctOSbwNmt/5Nf7HYGCnuzwKc=
-Received: from LAPTOP-4BSPBRI7 ([59.172.176.225])
-	by newxmesmtplogicsvrszb6.qq.com (NewEsmtp) with SMTP
-	id D4D9FAF8; Wed, 30 Mar 2022 00:53:13 +0800
-X-QQ-mid: xmsmtpt1648572793t6jgsvlkk
-Message-ID: <tencent_CDE57270A4536C84E328F5FF6B80C033E70A@qq.com>
-X-QQ-XMAILINFO: MSPKLehv9mFjFb+T6Vhn9S8DnVuVnFJS9/ECsfGc0gRAWKHLrFEvsmIhD4c/6Q
-	 Hyw1v3U+leAEhecMEVwq+XMgYU+6QxJ9a4Jo0knqZEAjTebC0urS8Klx/czZfTBFA9bBnOnhbSjT
-	 Wp4Nn9LGq1kDpwEzP4RVJL2nx6ruEvK+oGRddS2dimCe2PaZWXjRNmk4aXmBe7S1ZLD0GHrwA+fV
-	 kfsSSubP1KkszyiCFN2+iYgBBjDOfSdsXegJ6T4zf8+Y/cQzL/qk4/XZCYS7hmfW2bPmJumuJ2bs
-	 ZmumZVwin2LwnZqBVRRsgT6+gFQNOpl91wrVZO/KfXcoEjtwSCUJqS7kyuyWDj6BkX4FlgvsdXrK
-	 O5TAX353++xZo/l1f6Nj8avKfZqSUk6vXtRvP73ST5S6GOUaLmJZ5ZuG1izzP1M5Xke/l2OfjN48
-	 JA4VQv65uC37LPZfNIJPE3QXxMqSr4vGyruBMvt6TACcv9s5DHpZQU5yoq/VGn50wv27j//YgiEv
-	 J20GeW/gxwCfCHEmflNpy7g5VJzBPiZXPig8/tFE9Se1/o79POuiK2ElpHCbgfhu+UsXOusoieRQ
-	 cx2xDoNJWQ/j2nCBh6pHmYSnLVxalK6/GNdDPF4ID6ZVh2cY8XnTP9RPDMlt3nV2oMeHBdVyWOqb
-	 JH+mTrJBOXo0Ewa84QJeLis9hz0/vtD4R3GqsItU0v0PXMcXcl/zW8BmWcAACCLoJ5BD0LxDq46e
-	 zMPVca2hRLwws3XTAIso7bv9x8ShnlMcLEWJVrB5S2a+7mGeO+drYYjyC1obYE5v7NcgJ/8V6bQe
-	 psWaxAC4g+TTRoQY+WotCi9LsZdAj0T8H2BrHR7JYlA1gJEkQp/G6/+GmKFPKU5sQDBda+x4Tk6e
-	 k4rGM8sBWDMqrsFAf4YxwB9EncHYCOs4vcWPig5E8f1IobbIW9bO8=
-Date: Wed, 30 Mar 2022 00:53:14 +0800
-From: "Xiaoke Wang" <xkernel.wang@foxmail.com>
-To: gregkh <gregkh@linuxfoundation.org>
-Cc: larry.finger <larry.finger@lwfinger.net>, 
-	phil <phil@philpotter.co.uk>, 
-	linux-staging <linux-staging@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH] staging: r8188eu: check the return value of kzalloc()
-References: <tencent_B489FA9F0FC49CF92A77916394E225DC4705@qq.com>, 
-	<YkMsTz/iJdgmUxtS@kroah.com>
-X-Priority: 3
-X-GUID: 15BE972B-C263-4A8E-AF78-D82DD169B0FA
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.23.116[cn]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21030258C;
+	Tue, 29 Mar 2022 19:01:51 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 123-20020a1c1981000000b0038b3616a71aso2075730wmz.4;
+        Tue, 29 Mar 2022 12:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=R3zMo+uDtp2l+2kaX1Lp74xR1gw/ziE5ozZsnq4hQ8k=;
+        b=U+PDa1smVYwC3pwXcJQc790e48a0STXHiJ1Tob4ZhZoOp359ppRiQcIiaruJv4Wonw
+         vtGz291Bq4w0J332K00NGOGkTfqExMDhH7mrTif2Ci+lxQZFI47qvSACcVIamsVQKuLs
+         /UtkQTP3EyFjF9oFQg5iTDAgeqdbOKGJLcTHCfzi11U5u131O6A7BpsZ5uFkyOd4CkqB
+         7W/jshZwoROJnQ/czND4bmqo018rQ5HtLCDsIFC3fWDbNX7e1rIpXsvlC/m0bxguZbNy
+         hS0ex9YQURLG4ZwalU3bmxGgm7oOxduNVuQR/7GA9DXN8v5Li/sQ/9qlc+K9sMrWJOE/
+         9UaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=R3zMo+uDtp2l+2kaX1Lp74xR1gw/ziE5ozZsnq4hQ8k=;
+        b=uPdMrsVeM1892F9+rRuzp0tc0KGkz1zBbMsFyRtYWRZgnZebK0i/x8SA+vteeLNo3A
+         J2A52IrrglT+85WIWcZvADsIFYUyNewmW6ZIxu/AIpGA4KcuDlT1Z/YPpD7P2LJg4BRA
+         jKIVxGiGUZ+JAv3StIN7ed5MdliewQVrfBHCrmQH7ICyOVEB7XrcV5JH6+RQ7cUvT6aa
+         MoclEKR1frJrKUoeJlGDSQIaU7sJh7yFm7X8Q4XnC13z0KE446B4voYLc85z+013J9zt
+         C6WI3lkEK2r2Q7B3iqC69PryqCGIwWKfUNPl0XMrtA5SqbdJoar+AzDdIXKa6MyJqt9i
+         DT1Q==
+X-Gm-Message-State: AOAM531EBfdeh6f+jY8t6yT0drrDzFIrz1CXw7RiG4cXDG+v8V88h3xc
+	bVc/rWt5NxfJkxeWx5RyB8xUgu2tZr2uvA==
+X-Google-Smtp-Source: ABdhPJztfYohtHoyBbHivKC+K8e7yMSDnLaeZ2arGqm7/qRuJ+I4cwrg3KZKsxzzBqJCb9PiJYomfg==
+X-Received: by 2002:a05:600c:1d26:b0:38e:2c97:6f19 with SMTP id l38-20020a05600c1d2600b0038e2c976f19mr916630wms.89.1648580509138;
+        Tue, 29 Mar 2022 12:01:49 -0700 (PDT)
+Received: from alaa-emad ([41.37.132.115])
+        by smtp.gmail.com with ESMTPSA id j16-20020a05600c191000b0038ca3500494sm4884687wmq.27.2022.03.29.12.01.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 12:01:48 -0700 (PDT)
+From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	eng.alaamohamedsoliman.am@gmail.com
+Subject: [PATCH] media:av7110:av7110_av.c remove blank line
+Date: Tue, 29 Mar 2022 21:01:33 +0200
+Message-Id: <20220329190133.6243-1-eng.alaamohamedsoliman.am@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-OQ-MSGID: <2022033000531432529026@foxmail.com>
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-T24gVHVlLCAyOSBNYXIgMjAyMiAyMzo1NzoxMCArMDgwMCwgZ3JlZ2toQGxpbnV4Zm91bmRhdGlv
-bi5vcmcgd3JvdGU6Cj4+wqAgCXBkYXRhX2F0dHIgPSBremFsbG9jKE1BWF9QMlBfSUVfTEVOLCBH
-RlBfS0VSTkVMKTsKPj4gKwlpZiAoIXBkYXRhX2F0dHIpCj4+ICsJCXJldHVybiAwOwo+Cj4gMCBp
-cyBub3QgYW4gZXJyb3IuwqAgUGxlYXNlIHByb3BhZ2F0ZSB0aGlzIGVycm9yIGJhY2t3YXJkcyBw
-cm9wZXJseS4KCgoKT2suIEJ1dCB0aGUgZnVuY3Rpb24gZ29fYWRkX2dyb3VwX2luZm9fYXR0cigp
-IGlzIGNhbGxlZCBieToKCj4gCQlwMnBpZWxlbiArPSBnb19hZGRfZ3JvdXBfaW5mb19hdHRyKHB3
-ZGluZm8sIHAycGllICsgcDJwaWVsZW4pOwoKSSBhbSBub3Qgc3VyZSBob3cgdG8gcHJvcGVybHkg
-aGFuZGxlIGl0IGJlZm9yZSwgc28gSSBqdXN0IGRlYWwgd2l0aCBpdApsYXppbHkgdG8gcmVkdWNl
-IHVuaW50ZW50aW9uYWwgbW9kaWZpY2F0aW9uLgpJIHdpbGwgbWFrZSBpdCBhIG5lZ2F0aXZlIGNv
-ZGUgaW4gbmV4dCB2ZXJzaW9uLCBidXQgdGhlcmUgaXMgYSBsYWNrIG9mCnByb3BlciBlcnJvciBo
-YW5kbGVycyBhbG9uZyB0aGUgY2FsbCBjaGFpbi4KCgo+PiAtLS0gYS9kcml2ZXJzL3N0YWdpbmcv
-cjgxODhldS9jb3JlL3J0d194bWl0LmMKPj4gKysrIGIvZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUv
-Y29yZS9ydHdfeG1pdC5jCj4+IEBAIC0xODAsNiArMTgwLDEwIEBAIHMzMglfcnR3X2luaXRfeG1p
-dF9wcml2KHN0cnVjdCB4bWl0X3ByaXYgKnB4bWl0cHJpdiwgc3RydWN0IGFkYXB0ZXIgKnBhZGFw
-dGVyKQo+PsKgIAlweG1pdHByaXYtPmZyZWVfeG1pdF9leHRidWZfY250ID0gbnVtX3htaXRfZXh0
-YnVmOwo+PsKgIAo+PsKgIAlydHdfYWxsb2NfaHd4bWl0cyhwYWRhcHRlcik7Cj4+ICsJaWYgKCFw
-eG1pdHByaXYtPmh3eG1pdHMpIHsKPj4gKwkJcmVzID0gX0ZBSUw7Cj4+ICsJCWdvdG8gZXhpdDsK
-Pj4gKwl9Cj4KPiBZb3UganVzdCBsZWFrZWQgbWVtb3J5IHJlc291cmNlcyA6KAo+IEhvdyBkaWQg
-eW91IHRlc3QgdGhpcz8KCgpFbW1tLCBJIGRvIG5vdCB0aGluayB0aGlzIHdpbGwgbGVhayBhcyBg
-cHhtaXRwcml2YCBvciBgcGFkYXB0ZXJgIGFyZSBhbGwKYXJndW1lbnRzIGZyb20gdGhlIGNhbGxl
-ci4gQW5kIHRoaXMgaXMgc2ltaWxhciB0byB0aGUgc2FtZSBmdW5jdGlvbiBpbgpkcml2ZXJzXHN0
-YWdpbmdccnRsODcyM2JzXGNvcmVccnR3X3htaXQuYy4KCgo+PiBAQCAtMTUyNCw2ICsxNTI4LDgg
-QEAgdm9pZCBydHdfYWxsb2NfaHd4bWl0cyhzdHJ1Y3QgYWRhcHRlciAqcGFkYXB0ZXIpCj4+wqAg
-CXB4bWl0cHJpdi0+aHd4bWl0X2VudHJ5ID0gSFdYTUlUX0VOVFJZOwo+PsKgIAo+PsKgIAlweG1p
-dHByaXYtPmh3eG1pdHMgPSBremFsbG9jKHNpemVvZihzdHJ1Y3QgaHdfeG1pdCkgKiBweG1pdHBy
-aXYtPmh3eG1pdF9lbnRyeSwgR0ZQX0tFUk5FTCk7Cj4+ICsJaWYgKCFweG1pdHByaXYtPmh3eG1p
-dHMpCj4+ICsJCXJldHVybjsKPgo+IFlvdSBoYXZlIHRvIHJldHVybiBhbiBlcnJvciwgeW91IGNh
-biBub3Qga2VlcCBnb2luZyBhcyBpZiBhbGwgaXMgd2VsbC4KCk9rLCB0aGVuIEkgd2lsbCBjaGFu
-Z2UgaXQgdG8gdGhlIHNoYXBlIGxpa2UgczMyIF9ydHdfaW5pdF94bWl0X3ByaXYoKQppbiBkcml2
-ZXJzXHN0YWdpbmdccnRsODcyM2JzXGNvcmVccnR3X3htaXQuYyBhbmQgcmV0dXJuIGBfRkFJTGAu
-CgoKPgo+IFBsZWFzZSBhbHdheXMgYmUgVkVSWSBjYXJlZnVsIHdpdGggdGhlc2UgdHlwZXMgb2Yg
-Zml4ZXMuwqAgRXNwZWNpYWxseSBpZgo+IHlvdSBoYXZlIG5vdCB0ZXN0ZWQgdGhlbS4KClRoYW5r
-IHlvdSBmb3IgeW91ciBzdWdnZXN0aW9uLCBJIHdpbGwgdHJ5IG15IGJlc3QgXl9eLgoKClJlZ2Fy
-ZHMsClhpYW9rZSBXYW5nCgoKCgo=
+according to checkpatch.pl results
+"CHECK: Please don't use multiple blank lines"
+after lines 73 and 78 ,I removed the blank lines
+
+Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+---
+ drivers/staging/media/av7110/av7110_av.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
+index 91f4866c7e59..1544f120e8b1 100644
+--- a/drivers/staging/media/av7110/av7110_av.c
++++ b/drivers/staging/media/av7110/av7110_av.c
+@@ -70,12 +70,10 @@
+ #define PIECE_RATE	 0x40
+ #define SEAM_SPLICE	 0x20
+ 
+-
+ static void p_to_t(u8 const *buf, long int length, u16 pid,
+ 		   u8 *counter, struct dvb_demux_feed *feed);
+ static int write_ts_to_decoder(struct av7110 *av7110, int type, const u8 *buf, size_t len);
+ 
+-
+ int av7110_record_cb(struct dvb_filter_pes2ts *p2t, u8 *buf, size_t len)
+ {
+ 	struct dvb_demux_feed *dvbdmxfeed = (struct dvb_demux_feed *) p2t->priv;
+-- 
+2.35.1
 
