@@ -1,79 +1,91 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D176829A2;
-	Tue, 29 Mar 2022 22:25:40 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id gi14so15600607qvb.0;
-        Tue, 29 Mar 2022 15:25:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=EDIv2NnbA2HoBvysLf3wHiMFJpgyzFX6SdC4PgZ8XbE=;
-        b=E078j+CtyyfVfdi8VFaQaMdt+NElXSLQzSkBfloPiGe2UYTglMBZJz7mpbohxh8F39
-         S+8oZhLeHVKS0ITF6aHCz8jNJLeK5L7/k5RXItXPMyWa6nbWmUAufWcoYpxEMdxyBPNM
-         CmcQpNUwtyC0HhEqmZAPs6nZaRv6F+qnXuwlrM+XztOrZa4XD7ny2FJp+jdlzCXzBdjs
-         Pd5WXBXG0LY1pnRanTcouM6xMyslAf64QA5OaDFcrR7+XR9uZyYcRjUxD+UQrT9oKBcN
-         p4v/9P8minyCaTbqkJ3lEf0kxw2rHo1UX04iVsr+2lez3FyYWm0yKpNW2rXYFClkdG57
-         ourw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8932F35
+	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 23:21:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1648596087;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vnEVLzN6wtV9JQalUxoL87eeycMaKfu2BZqOrOuPk4E=;
+	b=E9n9bgX2vm9n8e5+Hc8f0sQChojVOPqbmYq2S1pmjP55V0J4v208O4O3y0ZyDtQVkUBqhq
+	JHfVi7lmht4sfUKhUzGzdX4rOXjR+uLQKy/K7hJBmLD6kynEiO+DMMKdMoysMdkEyVcfUQ
+	bjkPslkDXbcFtxhBsMbIQGjeTRZE2qI=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-122-xw1OeGssPeeJfGzIRSGNdA-1; Tue, 29 Mar 2022 19:21:24 -0400
+X-MC-Unique: xw1OeGssPeeJfGzIRSGNdA-1
+Received: by mail-qt1-f199.google.com with SMTP id f22-20020ac840d6000000b002dd4d87de21so15968285qtm.23
+        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 16:21:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=EDIv2NnbA2HoBvysLf3wHiMFJpgyzFX6SdC4PgZ8XbE=;
-        b=zdOetnLZPaJrJLbRZccl1jlg6toQxQtLrVfGTocJbT7aCf5ZyrEXjPLlCaK05KtqLb
-         iVqlwQLYgHY888cT1Z4pRH954MGDeuIbrxuxNIeG6J7OkV/Je5e2Hz4NsrpKERHHA7RU
-         8GNRd0IkumdJLbTxCrEazgagmI90LC/bhhY/4Y4DC06/hAClSTFGbnH9dCj+tVPFRANR
-         S1DAxkcvtEd/cUBWYliozWkj9fWeTelMdKZXnSP213vdJ+AkfTf3ufDMfusBOd4qvzcw
-         QxSpY1HYyONjtPC1uB6L16wVIflbjiAu2J09t7HELl+ZVOol8+TK8kHnyvNUQG2hf+25
-         RqrA==
-X-Gm-Message-State: AOAM531/5ysTMfGIO0ZHnyvYvJNAdmP9y/NCrX206KcQZq/CCQ89+rOp
-	BshX4WBC1grqY7dckhqXmDs=
-X-Google-Smtp-Source: ABdhPJwQeCznI7jJGwMXETg1DyJ2CXIcdL8cnv8H29sEKJ+HqpOlskcyhNZrmoCsSiKDi98S2MQ+6Q==
-X-Received: by 2002:a05:6214:19e9:b0:443:6799:829e with SMTP id q9-20020a05621419e900b004436799829emr7392065qvc.30.1648592739643;
-        Tue, 29 Mar 2022 15:25:39 -0700 (PDT)
-Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id v5-20020a05622a144500b002e1c7d027b1sm15338135qtx.66.2022.03.29.15.25.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 15:25:38 -0700 (PDT)
-Date: Tue, 29 Mar 2022 18:25:34 -0400
-From: Jaehee Park <jhpark1013@gmail.com>
-To: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: [PATCH] staging: wfx: remove space at the start of the line
-Message-ID: <20220329222534.GA1002253@jaehee-ThinkPad-X1-Extreme>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=vnEVLzN6wtV9JQalUxoL87eeycMaKfu2BZqOrOuPk4E=;
+        b=lTILdfcD+U+ERiKS1spiFyzTxXnwfQD/Fl7n/6/rhUCM4NI7L1UGtiMZ7sktJhRty8
+         oaZ6CN8LUgLHn5TVCkhvHZ4CTPCWw+Pv+wDQpeLSTiUOwZcrN1DiMBZRAiN+sWcc3X5s
+         yveh3EygLqqTG3HOntZjA3pGlvZFQpeF8n2xNAWfVPjgmb9NlWND7AD59I06fRtPy5eh
+         n3O/z+5e8ojNlDNblQk8dJMJy5O/Z/R0dK8HAeylwadJnafVtxkWxqn5QLiASnu9kuGV
+         y9gAnUZSYwwFNS3sBUTpN8GLkAzdrJRCTOYKgdifRWQgofCYmKuRYIprN51as2pZ3sV5
+         TtqQ==
+X-Gm-Message-State: AOAM530CAuTF5Senxg9kAlkhF3RDRuHTz8lgXwIsjuX9PbHVu8B9UJZy
+	RhvE4ibxekLB6uS7pKaH+OitT8exd/tmtZEIE2tgQZeaPUVFoVqfInHAmRL4x5r/TE4WQV3I727
+	k/37U5eOwQjnbsEK3ECZMEIUVeA==
+X-Received: by 2002:a05:620a:1a99:b0:680:f33c:dbd3 with SMTP id bl25-20020a05620a1a9900b00680f33cdbd3mr2912679qkb.17.1648596083862;
+        Tue, 29 Mar 2022 16:21:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwaMl8cwEN02JVbghXfjiOKK5vbmlk7rHZYxrkXCYwKhBHbTy3z6OejWxFNRFl2ohGsizFJXg==
+X-Received: by 2002:a05:620a:1a99:b0:680:f33c:dbd3 with SMTP id bl25-20020a05620a1a9900b00680f33cdbd3mr2912659qkb.17.1648596083595;
+        Tue, 29 Mar 2022 16:21:23 -0700 (PDT)
+Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
+        by smtp.gmail.com with ESMTPSA id q8-20020a05622a030800b002e1c9304db8sm15819272qtw.38.2022.03.29.16.21.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Mar 2022 16:21:23 -0700 (PDT)
+Subject: Re: [PATCH] media: staging: atomisp: rework reading the id and
+ revision values
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, nathan@kernel.org,
+ ndesaulniers@google.com, hverkuil-cisco@xs4all.nl, vrzh@vrzh.net,
+ tomi.valkeinen@ideasonboard.com, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <20220326191853.2914552-1-trix@redhat.com>
+ <YkN0w5NxLcBFes1b@paasikivi.fi.intel.com>
+From: Tom Rix <trix@redhat.com>
+Message-ID: <2ab474d8-ee4e-44b5-ab3c-38b72135a27f@redhat.com>
+Date: Tue, 29 Mar 2022 16:21:20 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <YkN0w5NxLcBFes1b@paasikivi.fi.intel.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Remove spaces at the start of the line to follow the linux kernel
-coding style. Issue found by checkpatch:
-WARNING: please, no spaces at the start of a line.
+I'll do a resend.
 
-Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
----
- drivers/staging/wfx/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I use git send-mail, sooo not sure what went wrong.
 
-diff --git a/drivers/staging/wfx/main.c b/drivers/staging/wfx/main.c
-index b93b16b900c8..e575a81ca2ca 100644
---- a/drivers/staging/wfx/main.c
-+++ b/drivers/staging/wfx/main.c
-@@ -170,7 +170,7 @@ bool wfx_api_older_than(struct wfx_dev *wdev, int major, int minor)
-  *
-  * The PDS file is an array of Time-Length-Value structs.
-  */
-- int wfx_send_pds(struct wfx_dev *wdev, u8 *buf, size_t len)
-+int wfx_send_pds(struct wfx_dev *wdev, u8 *buf, size_t len)
- {
- 	int ret, chunk_type, chunk_len, chunk_num = 0;
- 
--- 
-2.25.1
+Tom
+
+On 3/29/22 2:06 PM, Sakari Ailus wrote:
+> On Sat, Mar 26, 2022 at 12:18:53PM -0700, trix@redhat.com wrote:
+>
+> Hi Tom,
+>
+> It seems that somehow the Content-type header of your patch  is
+> application/octet-stream. I.e. not text.
+>
 
