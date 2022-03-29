@@ -1,115 +1,117 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AFB257F
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 17:00:54 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id b15so21429746edn.4
-        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 10:00:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451A9257F;
+	Tue, 29 Mar 2022 17:21:24 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id i4so15861871qti.7;
+        Tue, 29 Mar 2022 10:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BPKs3suq1SgwSX2Q9VZX8LKJW7ayWPXQUfm1Ivff7Yg=;
-        b=F/2SYHD88iDJ7+pjQBONixePXir6QXcvw8CfxAJqR8XP7+Y5PhUSIgoAqVmMU+jmbc
-         hIPpXnmU8FZa3G85hY6f9oG77VaQi2vhrO/Zx1Hl1Ol4nJVnRESIZYT0MKxpQKG20myz
-         ijUqrtKbN4pUIXFBR+koaQg5nqwRuQu5piJeJGZpzEjKvVEeflBtxdf3oFnSBIyhfAX2
-         HZfmlTC32O0zmhEnDWeCzyLVQtqpXMBysZSbn06xzxq5mhrTTylJSOxMOdJ/zk0zxoM9
-         NVxMaVbzHV/L4I3ppSWTxUauBVImumSbms90mWkBvL/TqeknNzVaXhbf34czzAJqjgJn
-         7upg==
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=Kf1v8hS8vyA7Y5W9J43n/PAPUIUn4eGCoQYkh6AdKJ0=;
+        b=Aa/bMcJenjtxFF5mhNT5iiE4M9JTC0iCsIzerOh5vuhT2TOu1A0cg7mP0Cly9SodV2
+         1sfMfIIv5yxlIzS3b2XjQXxA1qfklG08+dQ8Uh2nIqSPX5g5MFT6oZ+VH4KJXzBUsgDZ
+         tc0oUyCIOW3XL++hTPLa5WRZnog1dp3/QPxwgG8Vij6MOyXe2/0Xw5VVtFo3vlXqOogy
+         3qyJDw8++eNDXTqH9XjUAmkVmkmS1IfjdoH0hzCyuT6Wzdioo8/59H+lZfGHHCZgqe2A
+         dt7Olf5cRk5+BZ5K99oi+NaU80jGDnDRXhCJjPYNLCQ4H/Y9jmwpeukOvdiF0Jb8yXV8
+         VSZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BPKs3suq1SgwSX2Q9VZX8LKJW7ayWPXQUfm1Ivff7Yg=;
-        b=VJOj0OD1kNbxoaek7G4AcenT6FMIluBkuMnmqxF+1XTsOp8uzhSYMHlxTIRzfXvWhE
-         vyTLq07cJ9j26NtpRyUHDm8wwYfPufyFjLwjH0U0VOQHXxYWKyUV4P/py4aByntJf1WI
-         tHcYSW/KiJ7AUVbcALnSn7nKNymrTBMqvpXWTwrdfmOIzGnRkL0Ieq3GUP5fs3utPncg
-         w/QKEicorpAYlQD83vJ2qDaiCdGEopZ/NSeSOqn82Ye0C5JhSWUVOpa27hwl56dZKg4D
-         1prvLt9VidZLiBxe25WYVvKFfbtm9+CKA6/ceL2G0sXNkNGsPuGKDICSXy3gNbaiF7PH
-         CwMw==
-X-Gm-Message-State: AOAM531uKSopVFx/WzEzb/xPEhJqYx8SWLs5A70fpTkcAS40AAIivMTp
-	N9ELt05dWEzrmfcwmED7mXc=
-X-Google-Smtp-Source: ABdhPJw37lXtVfuQrFwFlV0EXWgi+RpMtuLezJR109NVeOyq7+/UWRXue9+RusATHM8TRMeZnCqahA==
-X-Received: by 2002:a05:6402:914:b0:419:a627:ef6f with SMTP id g20-20020a056402091400b00419a627ef6fmr5731279edz.67.1648573252351;
-        Tue, 29 Mar 2022 10:00:52 -0700 (PDT)
-Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
-        by smtp.gmail.com with ESMTPSA id p10-20020a170906604a00b006e07c76f3d7sm6851961ejj.210.2022.03.29.10.00.50
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=Kf1v8hS8vyA7Y5W9J43n/PAPUIUn4eGCoQYkh6AdKJ0=;
+        b=flnfwT0deOQw8qDaj8276vR9HnKf/0oagdBCA9pHj8W/kLEz+V0Cucks04ODOm8zeC
+         4/RAjdrxXVmSrXdl4maEFdxJ2VnULndIGYJU5856koNRcubOhXS5khdWSqsrD67U4fO6
+         ONY3r1eVTEWQWYcBuo+IpcOiVkqIoL5GtRgLK+ZPGPae7YvamQrP2T+dNCnBGyjkATD/
+         tQP06+xAzTtZfDv9dFvrs8l3g5o7I6ezPSvq6Uqcl9mDlcueqLmDilYNmHSmkovl6J/5
+         w5YsGE4Dlh+EhlZQHeNF7/IJc9xenZATAYe5eW3/VhbStGTRz958o46JcUGjAgNcswLM
+         Vprg==
+X-Gm-Message-State: AOAM533h0WC/nJ0lY66CJDfc69t14e2mojYtizKzs58ns/t/YdIWIZnn
+	xmkKC6f8M7H7CSEAO+kPhhCNJUZCzSZ4dg==
+X-Google-Smtp-Source: ABdhPJzd+TvCfuNO8xYNBI86wdS+kYFzzEDJm5od6F+y3VVnDsW2sUTNvvOelHDWj5ejtlr0wtf54w==
+X-Received: by 2002:a05:622a:1994:b0:2e1:a3dc:23dd with SMTP id u20-20020a05622a199400b002e1a3dc23ddmr29120672qtc.203.1648574482441;
+        Tue, 29 Mar 2022 10:21:22 -0700 (PDT)
+Received: from euclid ([104.39.252.111])
+        by smtp.gmail.com with ESMTPSA id k73-20020a37a14c000000b0067b316a4161sm10082583qke.120.2022.03.29.10.21.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 10:00:51 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dan.carpenter@oracle.com
-Cc: David Kershner <david.kershner@unisys.com>, sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: unisys: Properly test debugfs_create_dir() return values
-Date: Tue, 29 Mar 2022 19:00:49 +0200
-Message-ID: <2030244.KlZ2vcFHjT@leap>
-In-Reply-To: <20220322083858.16887-1-fmdefrancesco@gmail.com>
-References: <20220322083858.16887-1-fmdefrancesco@gmail.com>
+        Tue, 29 Mar 2022 10:21:21 -0700 (PDT)
+Date: Tue, 29 Mar 2022 13:21:20 -0400
+From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Muhammad Usama Anjum <musamaanjum@gmail.com>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: rtl8723bs: Remove redundant braces in if statements.
+Message-ID: <20220329172037.GA208840@euclid>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="ISO-8859-1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On marted=EC 22 marzo 2022 09:38:58 CEST Fabio M. De Francesco wrote:
-> debugfs_create_dir() returns a pointers to a dentry objects. On failures
-> it returns errors. Currently the values returned to visornic_probe()
-> seem to be tested for being equal to NULL in case of failures.
->=20
-> Properly test with "if (IS_ERR())" and then assign the correct error=20
-> value to the "err" variable.
->=20
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
->  drivers/staging/unisys/visornic/visornic_main.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/staging/unisys/visornic/visornic_main.c b/drivers/st=
-aging/unisys/visornic/visornic_main.c
-> index 643432458105..58d03f3d3173 100644
-> --- a/drivers/staging/unisys/visornic/visornic_main.c
-> +++ b/drivers/staging/unisys/visornic/visornic_main.c
-> @@ -1922,11 +1922,11 @@ static int visornic_probe(struct visor_device *de=
-v)
->  	/* create debug/sysfs directories */
->  	devdata->eth_debugfs_dir =3D debugfs_create_dir(netdev->name,
->  						      visornic_debugfs_dir);
-> -	if (!devdata->eth_debugfs_dir) {
-> +	if (IS_ERR(devdata->eth_debugfs_dir)) {
->  		dev_err(&dev->device,
->  			"%s debugfs_create_dir %s failed\n",
->  			__func__, netdev->name);
-> -		err =3D -ENOMEM;
-> +		err =3D PTR_ERR(devdata->eth_debugfs_dir);
->  		goto cleanup_register_netdev;
->  	}
-> =20
-> --=20
-> 2.34.1
->=20
-Hi Greg, Dan,
+This patch fixes the following checkpatch.pl warning:
 
-Now I have time to rework this patch but, if I'm not misunderstanding, you=
-=20
-asked for two contrasting works to do here...
+WARNING: braces {} are not necessary for single statement blocks
 
-Dan wrote that "[in] this case you can delete the whole devdata->eth_debugf=
-s_dir=20
-and the related code.".
+Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-Greg wrote that "We really shouldn't be checking this value at all.  There'=
-s=20
-no reason to check the return value of a debugfs_* call. Can you fix up the=
- code to
-do that instead?".
-
-I'm confused because they look like two incompatible requests. What should =
-I do?
-
-Thanks,
-
-=46abio M. De Francesco
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 27de086903e2..68e41d99679d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -335,9 +335,8 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
+ 
+ 	ie = rtw_set_ie(ie, WLAN_EID_IBSS_PARAMS, 2, (u8 *)&(pdev_network->configuration.atim_window), &sz);
+ 
+-	if (rateLen > 8) {
++	if (rateLen > 8)
+ 		ie = rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rateLen - 8), (pdev_network->supported_rates + 8), &sz);
+-	}
+ 
+ 	/* HT Cap. */
+ 	if ((pregistrypriv->wireless_mode & WIRELESS_11_24N) &&
+@@ -366,9 +365,8 @@ unsigned char *rtw_get_wpa_ie(unsigned char *pie, int *wpa_ie_len, int limit)
+ 
+ 		if (pbuf) {
+ 			/* check if oui matches... */
+-			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type))) {
++			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type)))
+ 				goto check_next_ie;
+-			}
+ 
+ 			/* check version... */
+ 			memcpy((u8 *)&le_tmp, (pbuf + 6), sizeof(val16));
+@@ -493,9 +491,8 @@ int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwis
+ 	if (is_8021x) {
+ 		if (left >= 6) {
+ 			pos += 2;
+-			if (!memcmp(pos, SUITE_1X, 4)) {
++			if (!memcmp(pos, SUITE_1X, 4))
+ 				*is_8021x = 1;
+-			}
+ 		}
+ 	}
+ 
+@@ -514,9 +511,8 @@ int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher, int *pairwi
+ 		return _FAIL;
+ 	}
+ 
+-	if ((*rsn_ie != WLAN_EID_RSN) || (*(rsn_ie+1) != (u8)(rsn_ie_len - 2))) {
++	if ((*rsn_ie != WLAN_EID_RSN) || (*(rsn_ie+1) != (u8)(rsn_ie_len - 2)))
+ 		return _FAIL;
+-	}
+ 
+ 	pos = rsn_ie;
+ 	pos += 4;
+-- 
+2.25.1
 
