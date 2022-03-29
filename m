@@ -1,43 +1,43 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631F92565
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 13:38:39 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id v13so14029188qkv.3
-        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 06:38:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45AC92565
+	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 13:39:41 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id t7so15206332qta.10
+        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 06:39:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :content-transfer-encoding:user-agent:mime-version;
-        bh=Ol3Hp+YMfuySWgvy8mFMxAXv90sbOTJsuyiieSGKpH0=;
-        b=uWtiNW8FCMmk0oKEj1lpvSj6VTxqSChA1CLjNhZgh4nNFksWEZJP3UhpiHRorzgYVS
-         GDKURNQ2RSYUcE1e/4lLkzfcxqdQRRan2aowWp6Rn9zo897pbtFCxhAKAqyxn7ci8e4T
-         AQhxJRFOLpBmd8WEdBUcGa6sJSWhPBQCcpHWmGTFlZYVstybbVayYQaMMh5GDO/AmjJq
-         EGAihYlBDg3YTxi6gETdllsFzYUw8a60NGW1+hFpj7gD7EUaZIQd4FwP1xl8pGBWXXGF
-         EsGq4yPW6ImAeQGFBiAV95QkDeQI8YZ7EZMTdnAJ7W8llq7qSib0w/U+dWwIFy9Sb295
-         H9OQ==
+        bh=tPpKSwJDTiQu2sjMGweoZsTG1xECoNDnnovlQrFXi0M=;
+        b=ngXzcXYr3VLU93q+PFtfdVbc6m/o8JZPfcyXHs/hlu4sngWknmhnHYX9BzZoXPhaTO
+         Gib1W114ack8O/YacQ+98zxn+aa+Tim7jsQfsjLrm6Zf2NJc1P/FPUT5hZS2fyF6zESY
+         FqxW5RDMFFj4Uap2Q0IPMBwZnvsJ/G5zFgNmWiIi5zH7SZD9wp1owMjM2uDH3qzCl9t1
+         Mz//C12ZfzbjbQhx5GdERHy3t9KfIRUvPNZWsAmuXI0szqED8uv/GHibzcObAESLnxoJ
+         ETJjRt9IZ/bdGd2o/dQsAsDBSJRbN/lW5wWx5KHly0HEqIGJF4yYQ47zQAy+nMXQlHu4
+         jPYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:content-transfer-encoding:user-agent:mime-version;
-        bh=Ol3Hp+YMfuySWgvy8mFMxAXv90sbOTJsuyiieSGKpH0=;
-        b=jFbSxDM1CIoAtXeMs/5/hjHK2PdFsqV9ZyMUt+bMwT7EG8RC9AF3NMSdJtQro+TXrK
-         QGwgHqRpMQylvviQAxDchFXelaA82UAG/XqDswkcMFnb8kDOp/VVB4+QDNBJayfdNY6p
-         vUrtNUIfNwRgANHkfsodU+tbOUbOalowXcu3/SQlAsuW6cRz+kjtM4O3jFbewgw79bPY
-         Z/SGvf4iLxsotUE++00JWwE+RcJKCdG7jctlvDUL770uzHTcLbNpCbWgraJYSlv2q87U
-         7eyKjTDU9VSEZrGjFAH+CkbLK/k628OHD7atsBO9kq2O7djYq66NV1ka9jVDU3abaaCW
-         KmHQ==
-X-Gm-Message-State: AOAM532CmK9y608sVJ9H9iNWOjW5hIuO2R3Nu7SG9jDCze+2eh/SpnkE
-	dmHvAMtS1jfVVo6RPX10kzEOAg==
-X-Google-Smtp-Source: ABdhPJx2ys3r6Td+fhKB2RWe9KMZbIu2iD6bmzq/KiPUzkPdG2Oc2JFJ7L6ZgRrS826lRxgALCpzxw==
-X-Received: by 2002:a05:620a:4311:b0:67e:8a0f:4cd5 with SMTP id u17-20020a05620a431100b0067e8a0f4cd5mr20367074qko.363.1648561118001;
-        Tue, 29 Mar 2022 06:38:38 -0700 (PDT)
+        bh=tPpKSwJDTiQu2sjMGweoZsTG1xECoNDnnovlQrFXi0M=;
+        b=mUJOuREIqykRrqYiY4jbIuqKlSNEHtykAk9APN9phraJaslxTdbmJfSZEl8cf9o/aS
+         xCBpp89iLZUcJ1KAisZjyhEPmd2FZg5wEXTdyYNLmXh06oKhM1wskX+2YCoCWPqQ3VZq
+         IMyto0ytirml88iPF5MuTCpvCjb8aITdpHZuN+uHwkldZoR4Fe8QYpvRwA79AYW/rd/p
+         mxwNtH2TH24sz1dthZ1IBX+o2uKE/mTuYu+0b755t+xsNxC63IW6aSijY6/9uUvjNJKF
+         vxfzfYPyovi5fMpuDbDYd0HenYNN3yyTq9mMW2m386XwLisZbvSPsdAQ2Fu3iH7fYhTi
+         Q4Jg==
+X-Gm-Message-State: AOAM5333lzEmRVePRTC8HD5QwN7wtLlob58QFBNYhPOFrYKwPTHuSJ2i
+	bE0psu9xXthbXvvaBeXK1Tvefg==
+X-Google-Smtp-Source: ABdhPJwFvvcHyL6sk2op7ok5D3neOdXRDaDWdU13bBRPyD2LNfnc6hSW/RNdei+LKXxfy9ynoHRTjg==
+X-Received: by 2002:a05:622a:587:b0:2e2:38d6:ca75 with SMTP id c7-20020a05622a058700b002e238d6ca75mr27451666qtb.415.1648561180240;
+        Tue, 29 Mar 2022 06:39:40 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id g1-20020ae9e101000000b0067d4bfffc57sm9168660qkm.117.2022.03.29.06.38.37
+        by smtp.gmail.com with ESMTPSA id b82-20020ae9eb55000000b0067b314c0fedsm10039714qkg.42.2022.03.29.06.39.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 06:38:37 -0700 (PDT)
-Message-ID: <cb6a47f29c8ff3b6259d8f4b25da6a2d8b57bfba.camel@ndufresne.ca>
-Subject: Re: [PATCH] staging: media: hantro: Fix typos
+        Tue, 29 Mar 2022 06:39:39 -0700 (PDT)
+Message-ID: <c158787c2950b4fe03477ac261067ca5600e7bc0.camel@ndufresne.ca>
+Subject: Re: [PATCH] staging: media: hantro: Update TODO list
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
 To: Sebastian Fricke <sebastian.fricke@collabora.com>, 
 	linux-media@vger.kernel.org
@@ -46,9 +46,9 @@ Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel
  Kroah-Hartman <gregkh@linuxfoundation.org>, "open list:HANTRO VPU CODEC
  DRIVER" <linux-rockchip@lists.infradead.org>, "open list:STAGING SUBSYSTEM"
  <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
-Date: Tue, 29 Mar 2022 09:38:36 -0400
-In-Reply-To: <20220326183603.66797-1-sebastian.fricke@collabora.com>
-References: <20220326183603.66797-1-sebastian.fricke@collabora.com>
+Date: Tue, 29 Mar 2022 09:39:38 -0400
+In-Reply-To: <20220326183715.67332-1-sebastian.fricke@collabora.com>
+References: <20220326183715.67332-1-sebastian.fricke@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
@@ -59,48 +59,36 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-Thanks Sebastian.
-
-Le samedi 26 mars 2022 =C3=A0 19:36 +0100, Sebastian Fricke a =C3=A9crit=C2=
+Le samedi 26 mars 2022 =C3=A0 19:37 +0100, Sebastian Fricke a =C3=A9crit=C2=
 =A0:
-> Fix typos in comments within the Hantro driver.
+> VP8 has been added to the uABI by 363240ce1c08
+> VP9 has been added to the uABI by b88dbe38dca8
+> H264 has been added to the uABI by 46a309d27517
+>=20
+> The last remaining codec to be added to the uABI is HEVC.
+> Highlight these changes in the TODO list.
 >=20
 > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 > ---
->  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
->  drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  drivers/staging/media/hantro/TODO | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/=
-staging/media/hantro/hantro_g2_hevc_dec.c
-> index c524af41baf5..c0645e335fc9 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> @@ -406,7 +406,7 @@ static int set_ref(struct hantro_ctx *ctx)
-> =20
->  	set_ref_pic_list(ctx);
-> =20
-> -	/* We will only keep the references picture that are still used */
-> +	/* We will only keep the reference pictures that are still used */
->  	ctx->hevc_dec.ref_bufs_used =3D 0;
-> =20
->  	/* Set up addresses of DPB buffers */
-> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging=
-/media/hantro/hantro_hevc.c
-> index b49a41d7ae91..9c351f7fe6bd 100644
-> --- a/drivers/staging/media/hantro/hantro_hevc.c
-> +++ b/drivers/staging/media/hantro/hantro_hevc.c
-> @@ -59,7 +59,7 @@ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *c=
-tx,
->  	struct hantro_hevc_dec_hw_ctx *hevc_dec =3D &ctx->hevc_dec;
->  	int i;
-> =20
-> -	/* Find the reference buffer in already know ones */
-> +	/* Find the reference buffer in already known ones */
->  	for (i =3D 0;  i < NUM_REF_PICTURES; i++) {
->  		if (hevc_dec->ref_bufs_poc[i] =3D=3D poc) {
->  			hevc_dec->ref_bufs_used |=3D 1 << i;
+> diff --git a/drivers/staging/media/hantro/TODO b/drivers/staging/media/ha=
+ntro/TODO
+> index 1d7fed936019..8483ff482146 100644
+> --- a/drivers/staging/media/hantro/TODO
+> +++ b/drivers/staging/media/hantro/TODO
+> @@ -1,6 +1,2 @@
+> -* Support for VP8, VP9 and H264 is planned for this driver.
+> -
+> -  Given the V4L controls for those CODECs will be part of
+> -  the uABI, it will be required to have the driver in staging.
+> -
+> -  For this reason, we are keeping this driver in staging for now.
+> +The V4L controls for the HEVC CODEC are not yet part of the stable uABI,
+> +we are keeping this driver in staging until the HEVC uABI has been merge=
+d.
 
