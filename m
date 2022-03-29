@@ -1,166 +1,61 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1165F2563
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 20:55:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: nicolas)
-	with ESMTPSA id 5A8251F41D1F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648587306;
-	bh=RBMQRZSrdkCLhPicdgFkZvgqP1dxXq/zI3/xkKcqf40=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=HWMan1B3lqPXMR5oo746sTUY3miO5ui9NGC/zh7vf67Jx+ab/XUzI/+rz61ZLO5KN
-	 +yL+DMFY7mCb45ZMFQngbGzuh+INeDIEOWb4DSf4eBLXNEOP8jjLOyIkCxm6cKmatC
-	 YJ0AT+1SAFxcZkWjq4SA3rbjtkexSDS3RDfmvTII+UnAPTFF5Ww5H+hBhFiPQtLj7h
-	 oYy1aXTl61fV+yDwn73qsfLDRcJzjqQn9lbFyuqF9IBWWd9LQB30/g5vffrC7yc8K2
-	 RaO4a3Yvr82CVgx26blawQQ1eOInP9bK899P7HG7GGxDqqV9vCFuFLqdV2Eoy6i57B
-	 3U3yhrxcTBh5Q==
-Message-ID: <f7e5b577bc48ba16befbed47ac96c363ce861f48.camel@collabora.com>
-Subject: Re: [PATCH v1 19/24] media: rkvdec-h264: Add field decoding support
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	kernel@collabora.com, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Tue, 29 Mar 2022 16:54:55 -0400
-In-Reply-To: <20220329081321.GV3293@kadam>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
-	 <20220328195936.82552-20-nicolas.dufresne@collabora.com>
-	 <20220329081321.GV3293@kadam>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6233128E2;
+	Tue, 29 Mar 2022 21:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648587978; x=1680123978;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RzJHCbmjmJfFhs4f7385Z702T3TtRLJI9GtPCkU8DNQ=;
+  b=Q6VNvHXcVWtboG5yGoBaoR6BgJF2uj9penarh3Ki2zwTbo6SIX89cC3Q
+   gRtgb4AaL7ePOapHfC8EuZvr4VKJmE+Rj/FjDjYGXcZFn1sFaDwMYUObN
+   WpwcbeiIXhYkkNSDrPDfziBNUK8asQovfIV5+XhrEpN1+MeBJbqKWrszb
+   Zm3eD5YW3odNGWBU62Uuyv3WRGhrCtndWovoW9BROZC15wcjERuHE+Dl/
+   ZYyFD4i1LRlsA8Ea3W/sSK3VxrUBPe96nhvlMe29LVS+npnRjkic3w5Tq
+   Llv2LuPpxaS5afDsOwRJEJmArmmxzxGl8BAqLfoPDnl9m6Yw8dkkZnzrT
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="259560119"
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="259560119"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 14:06:16 -0700
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="653283314"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 14:06:13 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 3CAD6203C9;
+	Wed, 30 Mar 2022 00:06:11 +0300 (EEST)
+Date: Wed, 30 Mar 2022 00:06:11 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: trix@redhat.com
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, nathan@kernel.org,
+	ndesaulniers@google.com, hverkuil-cisco@xs4all.nl, vrzh@vrzh.net,
+	tomi.valkeinen@ideasonboard.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH] media: staging: atomisp: rework reading the id and
+ revision values
+Message-ID: <YkN0w5NxLcBFes1b@paasikivi.fi.intel.com>
+References: <20220326191853.2914552-1-trix@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220326191853.2914552-1-trix@redhat.com>
 
-Le mardi 29 mars 2022 =C3=A0 11:13 +0300, Dan Carpenter a =C3=A9crit=C2=A0:
-> On Mon, Mar 28, 2022 at 03:59:31PM -0400, Nicolas Dufresne wrote:
-> > @@ -738,23 +735,26 @@ static void lookup_ref_buf_idx(struct rkvdec_ctx =
-*ctx,
-> >  		struct vb2_queue *cap_q =3D &m2m_ctx->cap_q_ctx.q;
-> >  		int buf_idx =3D -1;
-> > =20
-> > -		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
-> > +		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE) {
-> >  			buf_idx =3D vb2_find_timestamp(cap_q,
-> >  						     dpb[i].reference_ts, 0);
-> > +			if (buf_idx < 0)
-> > +				pr_debug("No buffer for reference_ts %llu",
-> > +					 dpb[i].reference_ts);
->=20
-> pr_debug() is too quiet.  Make it pr_err().  Set buf_idx to zero instead
-> leaving it as an error code.
+On Sat, Mar 26, 2022 at 12:18:53PM -0700, trix@redhat.com wrote:
 
-Thanks for the suggestion, I'm just a bit uncomfortable using pr_err() for
-something that is not a driver error, but userland error. Perhaps you can
-educate me on the policy in this regard, but malicous userland being able t=
-o
-flood the logs very easily is my main concern here.
+Hi Tom,
 
-About the negative idx, it is being used set dpb_valid later on. H.264 erro=
-r
-resilience requires that these frames should be marked as "unexisting" but =
-still
-occupy space in the DPB, this is more or less what I'm trying to implement =
-here.
-Setting it to 0 would basically mean to refer to DPB index 0, which is
-relatively random pick. I believe your suggestion is not taking into
-consideration what the code is doing, but it would fall in some poor-man
-concealment which I would rather leave to the userland.
+It seems that somehow the Content-type header of your patch  is
+application/octet-stream. I.e. not text.
 
->=20
-> > +		}
-> > =20
-> >  		run->ref_buf_idx[i] =3D buf_idx;
-> >  	}
-> >  }
-> > =20
-> >  static void assemble_hw_rps(struct rkvdec_ctx *ctx,
-> > +			    struct v4l2_h264_reflist_builder *builder,
-> >  			    struct rkvdec_h264_run *run)
-> >  {
-> >  	const struct v4l2_ctrl_h264_decode_params *dec_params =3D run->decode=
-_params;
-> >  	const struct v4l2_h264_dpb_entry *dpb =3D dec_params->dpb;
-> >  	struct rkvdec_h264_ctx *h264_ctx =3D ctx->priv;
-> > -	const struct v4l2_ctrl_h264_sps *sps =3D run->sps;
-> >  	struct rkvdec_h264_priv_tbl *priv_tbl =3D h264_ctx->priv_tbl.cpu;
-> > -	u32 max_frame_num =3D 1 << (sps->log2_max_frame_num_minus4 + 4);
-> > =20
-> >  	u32 *hw_rps =3D priv_tbl->rps;
-> >  	u32 i, j;
-> > @@ -772,37 +772,36 @@ static void assemble_hw_rps(struct rkvdec_ctx *ct=
-x,
-> >  		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> >  			continue;
-> > =20
-> > -		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
-> > -		    dpb[i].frame_num <=3D dec_params->frame_num) {
-> > -			p[i] =3D dpb[i].frame_num;
-> > -			continue;
-> > -		}
-> > -
-> > -		p[i] =3D dpb[i].frame_num - max_frame_num;
-> > +		p[i] =3D builder->refs[i].frame_num;
-> >  	}
-> > =20
-> >  	for (j =3D 0; j < RKVDEC_NUM_REFLIST; j++) {
-> > -		for (i =3D 0; i < h264_ctx->reflists.num_valid; i++) {
-> > -			u8 dpb_valid =3D run->ref_buf_idx[i] >=3D 0;
-> > -			u8 idx =3D 0;
-> > +		for (i =3D 0; i < builder->num_valid; i++) {
-> > +			struct v4l2_h264_reference *ref;
-> > +			u8 dpb_valid;
-> > +			u8 bottom;
->=20
-> These would be better as type bool.
-
-I never used a bool for bit operations before, but I guess that can work, t=
-hanks
-for the suggestion. As this deviates from the original code, I suppose I sh=
-ould
-make this a separate patch ?
-
->=20
-> regards,
-> dan carpenter
->=20
-> > =20
-> >  			switch (j) {
-> >  			case 0:
-> > -				idx =3D h264_ctx->reflists.p[i].index;
-> > +				ref =3D &h264_ctx->reflists.p[i];
-> >  				break;
-> >  			case 1:
-> > -				idx =3D h264_ctx->reflists.b0[i].index;
-> > +				ref =3D &h264_ctx->reflists.b0[i];
-> >  				break;
-> >  			case 2:
-> > -				idx =3D h264_ctx->reflists.b1[i].index;
-> > +				ref =3D &h264_ctx->reflists.b1[i];
-> >  				break;
-> >  			}
-> > =20
-> > -			if (idx >=3D ARRAY_SIZE(dec_params->dpb))
-> > +			if (WARN_ON(ref->index >=3D ARRAY_SIZE(dec_params->dpb)))
-> >  				continue;
-> > =20
-> > +			dpb_valid =3D run->ref_buf_idx[ref->index] >=3D 0;
-> > +			bottom =3D ref->fields =3D=3D V4L2_H264_BOTTOM_FIELD_REF;
-> > +
-> >  			set_ps_field(hw_rps, DPB_INFO(i, j),
-> > -				     idx | dpb_valid << 4);
-> > +				     ref->index | dpb_valid << 4);
-> > +			set_ps_field(hw_rps, BOTTOM_FLAG(i, j), bottom);
-> >  		}
-> >  	}
-> >  }
->=20
-
+-- 
+Sakari Ailus
