@@ -1,87 +1,184 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21030258C;
-	Tue, 29 Mar 2022 19:01:51 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 123-20020a1c1981000000b0038b3616a71aso2075730wmz.4;
-        Tue, 29 Mar 2022 12:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=R3zMo+uDtp2l+2kaX1Lp74xR1gw/ziE5ozZsnq4hQ8k=;
-        b=U+PDa1smVYwC3pwXcJQc790e48a0STXHiJ1Tob4ZhZoOp359ppRiQcIiaruJv4Wonw
-         vtGz291Bq4w0J332K00NGOGkTfqExMDhH7mrTif2Ci+lxQZFI47qvSACcVIamsVQKuLs
-         /UtkQTP3EyFjF9oFQg5iTDAgeqdbOKGJLcTHCfzi11U5u131O6A7BpsZ5uFkyOd4CkqB
-         7W/jshZwoROJnQ/czND4bmqo018rQ5HtLCDsIFC3fWDbNX7e1rIpXsvlC/m0bxguZbNy
-         hS0ex9YQURLG4ZwalU3bmxGgm7oOxduNVuQR/7GA9DXN8v5Li/sQ/9qlc+K9sMrWJOE/
-         9UaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=R3zMo+uDtp2l+2kaX1Lp74xR1gw/ziE5ozZsnq4hQ8k=;
-        b=uPdMrsVeM1892F9+rRuzp0tc0KGkz1zBbMsFyRtYWRZgnZebK0i/x8SA+vteeLNo3A
-         J2A52IrrglT+85WIWcZvADsIFYUyNewmW6ZIxu/AIpGA4KcuDlT1Z/YPpD7P2LJg4BRA
-         jKIVxGiGUZ+JAv3StIN7ed5MdliewQVrfBHCrmQH7ICyOVEB7XrcV5JH6+RQ7cUvT6aa
-         MoclEKR1frJrKUoeJlGDSQIaU7sJh7yFm7X8Q4XnC13z0KE446B4voYLc85z+013J9zt
-         C6WI3lkEK2r2Q7B3iqC69PryqCGIwWKfUNPl0XMrtA5SqbdJoar+AzDdIXKa6MyJqt9i
-         DT1Q==
-X-Gm-Message-State: AOAM531EBfdeh6f+jY8t6yT0drrDzFIrz1CXw7RiG4cXDG+v8V88h3xc
-	bVc/rWt5NxfJkxeWx5RyB8xUgu2tZr2uvA==
-X-Google-Smtp-Source: ABdhPJztfYohtHoyBbHivKC+K8e7yMSDnLaeZ2arGqm7/qRuJ+I4cwrg3KZKsxzzBqJCb9PiJYomfg==
-X-Received: by 2002:a05:600c:1d26:b0:38e:2c97:6f19 with SMTP id l38-20020a05600c1d2600b0038e2c976f19mr916630wms.89.1648580509138;
-        Tue, 29 Mar 2022 12:01:49 -0700 (PDT)
-Received: from alaa-emad ([41.37.132.115])
-        by smtp.gmail.com with ESMTPSA id j16-20020a05600c191000b0038ca3500494sm4884687wmq.27.2022.03.29.12.01.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 12:01:48 -0700 (PDT)
-From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	eng.alaamohamedsoliman.am@gmail.com
-Subject: [PATCH] media:av7110:av7110_av.c remove blank line
-Date: Tue, 29 Mar 2022 21:01:33 +0200
-Message-Id: <20220329190133.6243-1-eng.alaamohamedsoliman.am@gmail.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B08E258C;
+	Tue, 29 Mar 2022 19:58:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648583931; x=1680119931;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6lXzXPNeWSTZUKpGd3f1DaStNivl3hsDdk61LrorPAo=;
+  b=Ey23Hxz+6/KSoxrApomq11uN2pw8q8USJopt6r4q6mgyXATnAKrFGz3a
+   g1E+DtJZUT/4IBg2P/UTxCGzdV+5Ng0fW8ySaNZRdn3q1PrTIQY707OF/
+   81giqh+4AVD1Gij73O3wT2K+k9+pZz73IeBWQMGnILoes/8cXoQCZbQHG
+   kIcO9pfTY5YrZIo4yeruna6NAITbyZqzSRsy0pAqxL0KdaFdlzk8Z2xYH
+   abwLPzZAcDYHFVIbHhU0Gx4fTBJRLgO6aEX7rO+7lxYIkWojaGS6vmeM9
+   q0jun64LiMj8brhVkWt4sTOpsPmmAOljzoXGieurRDNasbswOq/RlPoRQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="258185671"
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="258185671"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 12:58:28 -0700
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="564919141"
+Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 12:58:27 -0700
+Date: Tue, 29 Mar 2022 13:00:53 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Muhammad Usama Anjum <musamaanjum@gmail.com>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: Remove redundant else branches.
+Message-ID: <20220329200053.GA1170989@alison-desk>
+References: <20220329140904.GA3566@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220329140904.GA3566@ubuntu>
 
-according to checkpatch.pl results
-"CHECK: Please don't use multiple blank lines"
-after lines 73 and 78 ,I removed the blank lines
+Hi Sevinj,
 
-Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
----
- drivers/staging/media/av7110/av7110_av.c | 2 --
- 1 file changed, 2 deletions(-)
+You can do this to make sure your commit msg 'looks' similar to
+others in the file:
 
-diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
-index 91f4866c7e59..1544f120e8b1 100644
---- a/drivers/staging/media/av7110/av7110_av.c
-+++ b/drivers/staging/media/av7110/av7110_av.c
-@@ -70,12 +70,10 @@
- #define PIECE_RATE	 0x40
- #define SEAM_SPLICE	 0x20
- 
--
- static void p_to_t(u8 const *buf, long int length, u16 pid,
- 		   u8 *counter, struct dvb_demux_feed *feed);
- static int write_ts_to_decoder(struct av7110 *av7110, int type, const u8 *buf, size_t len);
- 
--
- int av7110_record_cb(struct dvb_filter_pes2ts *p2t, u8 *buf, size_t len)
- {
- 	struct dvb_demux_feed *dvbdmxfeed = (struct dvb_demux_feed *) p2t->priv;
--- 
-2.35.1
+$git log --pretty=oneline --abbrev-commit
 
+d6ad258ae15d staging: rtl8723bs: Remove redundant else branches.
+24e65aac9457 staging: rtl8723bs: remove rf type branching (fourth patch)
+167fc30e8e51 staging: rtl8723bs: remove unused macros
+d7361874468f staging: rtl8723bs: fix camel case in struct wlan_bcn_info
+6994aa430368 staging: rtl8723bs: fix camel case in struct ndis_802_11_ssid
+
+That tells me the 'Remove' should not start with an uppercase and
+there should be no period at the end of line. Note that I look at this
+per patch, because different drivers and subsystems have different
+conventions. The point is to try to discern the prevailing style,
+and follow it.
+
+Please check the get_maintainers instruction in the first patch tutorial.
+I only got this: 
+
+$ git show HEAD | perl scripts/get_maintainer.pl --separator , --nokeywords --nogit --nogit-fallback --norolestats
+Greg Kroah-Hartman <gregkh@linuxfoundation.org>,linux-staging@lists.linux.dev,linux-kernel@vger.kernel.org
+
+
+On Tue, Mar 29, 2022 at 07:09:04AM -0700, Sevinj Aghayeva wrote:
+
+Please state the 'why' of this patch. ie something like:
+Adhere to Linux kernel coding style.
+
+> This patch fixes the following checkpatch.pl warning:
+The phrases 'This patch' is frowned upon as unecessarily wordy.
+Perhaps simply:
+Reported by checkpatch:
+
+You have another patch in flight with similar things to update.
+Please post a v2 of that one that addresses the feedback given
+here.
+
+I thought both patches had good scope in that they addressed multiple
+instances of the same issue in a single file.
+
+Thanks!
+Alison
+
+> 
+> WARNING: else is not generally useful after a break or return
+> 
+> Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+> ---
+>  .../staging/rtl8723bs/core/rtw_ieee80211.c    | 32 ++++++++-----------
+>  1 file changed, 13 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> index b449be537376..27de086903e2 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> @@ -94,16 +94,14 @@ bool rtw_is_cckratesonly_included(u8 *rate)
+>  
+>  int rtw_check_network_type(unsigned char *rate, int ratelen, int channel)
+>  {
+> -	if (channel > 14) {
+> +	if (channel > 14)
+>  		return WIRELESS_INVALID;
+> -	} else { /*  could be pure B, pure G, or B/G */
+> -		if (rtw_is_cckratesonly_included(rate))
+> -			return WIRELESS_11B;
+> -		else if (rtw_is_cckrates_included(rate))
+> -			return	WIRELESS_11BG;
+> -		else
+> -			return WIRELESS_11G;
+> -	}
+> +	/* could be pure B, pure G, or B/G */
+> +	if (rtw_is_cckratesonly_included(rate))
+> +		return WIRELESS_11B;
+> +	if (rtw_is_cckrates_included(rate))
+> +		return WIRELESS_11BG;
+> +	return WIRELESS_11G;
+>  }
+>  
+>  u8 *rtw_set_fixed_ie(unsigned char *pbuf, unsigned int len, unsigned char *source,
+> @@ -151,11 +149,10 @@ u8 *rtw_get_ie(u8 *pbuf, signed int index, signed int *len, signed int limit)
+>  		if (*p == index) {
+>  			*len = *(p + 1);
+>  			return p;
+> -		} else {
+> -			tmp = *(p + 1);
+> -			p += (tmp + 2);
+> -			i += (tmp + 2);
+>  		}
+> +		tmp = *(p + 1);
+> +		p += (tmp + 2);
+> +		i += (tmp + 2);
+>  		if (i >= limit)
+>  			break;
+>  	}
+> @@ -199,9 +196,8 @@ u8 *rtw_get_ie_ex(u8 *in_ie, uint in_len, u8 eid, u8 *oui, u8 oui_len, u8 *ie, u
+>  				*ielen = in_ie[cnt+1]+2;
+>  
+>  			break;
+> -		} else {
+> -			cnt += in_ie[cnt+1]+2; /* goto next */
+>  		}
+> +		cnt += in_ie[cnt+1]+2; /* goto next */
+>  	}
+>  
+>  	return target_ie;
+> @@ -697,9 +693,8 @@ u8 *rtw_get_wps_ie(u8 *in_ie, uint in_len, u8 *wps_ie, uint *wps_ielen)
+>  			cnt += in_ie[cnt+1]+2;
+>  
+>  			break;
+> -		} else {
+> -			cnt += in_ie[cnt+1]+2; /* goto next */
+>  		}
+> +		cnt += in_ie[cnt+1]+2; /* goto next */
+>  	}
+>  
+>  	return wpsie_ptr;
+> @@ -748,9 +743,8 @@ u8 *rtw_get_wps_attr(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_att
+>  				*len_attr = attr_len;
+>  
+>  			break;
+> -		} else {
+> -			attr_ptr += attr_len; /* goto next */
+>  		}
+> +		attr_ptr += attr_len; /* goto next */
+>  	}
+>  
+>  	return target_attr_ptr;
+> -- 
+> 2.25.1
+> 
+> 
