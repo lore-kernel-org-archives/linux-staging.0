@@ -1,41 +1,41 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88055258C
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 20:21:50 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id j15so37382628eje.9
-        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 13:21:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599AA2598
+	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 20:21:51 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id r13so37410583ejd.5
+        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 13:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aGUeIhIlqrmJCyD9+oOrQ5s+iflJJ+7myFcwnSduBIw=;
-        b=WyRgy3/lZ7Tbr5Of7/54vktujTA+sfTmiUJeTZJW4Uyts1els4oPKF959+mUVN7kQF
-         /lEOzK/TsuSN7zc50KyiogIqbH5ACGh6cpYwJLR11F2J2c0qo2XHn3e0VQohVbhPjcBL
-         wFa5LaIOP7wZt82CF9GbcT06Boch12lgoHrebNdzcvszdcYbPbEQD3JPTolo160wa9iW
-         s9Ju+bEA4UjEAW75PRyFuqroodrZ/XBuihyYXiZeLcr+n9ZZ4MugN0xQdpZ1yjZt6C3K
-         iw6C0jzhxbvOp9HXz85Ylf7qxCLC+IzkmUQSIKgZHSpiRPRrpFC31yFtaNYronzjGvl5
-         nXsg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=iwoHH2DorQoLHJxUTXcAs6n0sWifllvRMo0K56xrEzw=;
+        b=mQ3AbiTBM6wCrigpmTiVd/Ll38qQH+4MXqq5afjCa0AcRph490/4HL4l5dH1Okt71G
+         sElXl2tczJw/DGceqv/ckeN8TgyJO/uEvK6CqqnptIbjq8RedVVwga8UOl9nF7bvi8ZZ
+         wcitcXQmn/SUHqyKN0yAJ8nM4D+59JSn9YHVYnSrDQIpvALUAQsj6KVr/i+W93gkEH3J
+         oM5ttIUgNbhMQB14TTV9qjyCYxJMEqUeVOK4XJ5KEsBDOSUbpJaX+9TNH7VqhU/Wh+Ov
+         gCkNfrgRRyvAgQmwXr7HVGNqi2K622a7T6EZnOJ3gWh671JUX70ZK0tUvuXNkrSf/jCn
+         5MRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aGUeIhIlqrmJCyD9+oOrQ5s+iflJJ+7myFcwnSduBIw=;
-        b=B6qFGLEKBd5ofesTPgVTIYSyzC6h0SFo6+6z4eTAwcicaXcDgx6PQ0AbZw/cKrnB9g
-         cRqEH9wt40rfFvNeQsy57xsyEilZxBXTC55jcepGS5IHI9eJ/TBANjBTxnbZ1h7pB/xK
-         4m0zFh4I5l2DSfd8yBDQXOxsiX2WfAW+b+18apcE8+BFmASeAcBPy4e7412345dnBRNY
-         staxxbT0jWbwkCehMpGc3ZuzFoOyL4Ecq7cW1lFqKzkL6+Nv0/BUDLpGhYgYVRRLAnZT
-         4GFMZIVciCqi6+WnuLIyQ/Yo7Tb6Vo/2oOiLLyEC+5iAuT0J+vztoD7nnvbJGNPLV8xc
-         Li7w==
-X-Gm-Message-State: AOAM532nGUPJisRhm2LryReswue6qZZLRkitWRo33Zr9gpEWGGT/7hnZ
-	/kVz0r0n8+9PLT4W/E5jBwY=
-X-Google-Smtp-Source: ABdhPJz8hHXvUVF6ar0Kwk8uUKvrtkO9Fjp9PKjI1G7G9bP1nLt1iFX5qjdllXRPV71/khuszy3eFQ==
-X-Received: by 2002:a17:907:6ea4:b0:6e1:260e:a232 with SMTP id sh36-20020a1709076ea400b006e1260ea232mr10819255ejc.15.1648585308803;
-        Tue, 29 Mar 2022 13:21:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=iwoHH2DorQoLHJxUTXcAs6n0sWifllvRMo0K56xrEzw=;
+        b=DTFiQATUA4/rJTvVIdQUCgiJ1MP5ldsNyNYBI3RCjlm+YPbK/kCHtwf9CqoLIr2/yV
+         H6RT/nNJ7LP79b0kmG7A7bua2dgPa5p0VByTYEYKGgaHudSVbMnkUSXPgdNTwK12UtG8
+         xGM90EoMAPMd++LmPEoS7U/Sqq32rCdaCV/T6ymqBdMeW1Efo1VBCupmshuFip55YO/d
+         YzUw48AGrkJATnZ66zVIlt7fOP3hFEu5IdOL5gWIci9ppLd1LvuiHFtLZhwJsBZp9u9D
+         9e4GOXsbME8Om73a+npBkHw0AW12yUympbCNIwsJRpJSCdwOQGDjgl2ibnk41widFtm3
+         kI2Q==
+X-Gm-Message-State: AOAM5317Jw5BhRGz0lDsB4Icvsr2cf0pd/7GQUuTdW4/8KR23JIRl72U
+	U2lEo1Wf/z5TtJtwwE07raA=
+X-Google-Smtp-Source: ABdhPJw4oLdWWjJKgol/2/7lcJdEbAX5CWE5R7NVZULtHjCju1DvV5+XbQ2GXKKxTYyK+y8GhNAe4w==
+X-Received: by 2002:a17:907:b590:b0:6cf:48a4:9a4c with SMTP id qx16-20020a170907b59000b006cf48a49a4cmr35635934ejc.6.1648585309697;
+        Tue, 29 Mar 2022 13:21:49 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
         by smtp.gmail.com with ESMTPSA id ss12-20020a170907038c00b006e0ec9e806dsm3938111ejb.136.2022.03.29.13.21.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 13:21:48 -0700 (PDT)
+        Tue, 29 Mar 2022 13:21:49 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 0/8] staging: r8188eu: SetHwReg8188EU() cleanups
-Date: Tue, 29 Mar 2022 22:21:33 +0200
-Message-Id: <20220329202141.7028-1-straube.linux@gmail.com>
+Subject: [PATCH v2 1/8] staging: r8188eu: remove HW_VAR_RESP_SIFS from SetHwReg8188EU()
+Date: Tue, 29 Mar 2022 22:21:34 +0200
+Message-Id: <20220329202141.7028-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220329202141.7028-1-straube.linux@gmail.com>
+References: <20220329202141.7028-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,37 +57,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series removes some cases from the function SetHwReg8188EU()
-and moves the functionality to the callers. This is part of the
-ongoing effort to get rid of the unwanted hal layer.
+SetHwReg8188EU() is called with HW_VAR_RESP_SIFS only in one place.
+Remove the HW_VAR_RESP_SIFS case from SetHwReg8188EU() and call
+rtw_write8() directly instead. This is part of the ongoing effort to
+get rid of the unwanted hal layer.
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+v2: no changes
 
-v2:
-Moved some code into functions.
-The series is based on todays staging-testing.
+ drivers/staging/r8188eu/core/rtw_wlan_util.c | 11 ++++++-----
+ drivers/staging/r8188eu/hal/usb_halinit.c    |  8 --------
+ drivers/staging/r8188eu/include/hal_intf.h   |  1 -
+ 3 files changed, 6 insertions(+), 14 deletions(-)
 
-Michael Straube (8):
-  staging: r8188eu: remove HW_VAR_RESP_SIFS from SetHwReg8188EU()
-  staging: r8188eu: remove HW_VAR_MLME_DISCONNECT from SetHwReg8188EU()
-  staging: r8188eu: rename some macros to upper case
-  staging: r8188eu: remove HW_VAR_ACM_CTRL from SetHwReg8188EU()
-  staging: r8188eu: remove HW_VAR_RXDMA_AGG_PG_TH from SetHwReg8188EU()
-  staging: r8188eu: simplify if-else statement
-  staging: r8188eu: remove HW_VAR_TX_RPT_MAX_MACID from SetHwReg8188EU()
-  staging: r8188eu: remove HW_VAR_BCN_VALID from SetHwReg8188EU()
-
- drivers/staging/r8188eu/core/rtw_mlme.c       | 36 ++++++-----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 31 +++++++--
- drivers/staging/r8188eu/core/rtw_wlan_util.c  | 38 +++++++++--
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  5 +-
- drivers/staging/r8188eu/hal/usb_halinit.c     | 63 -------------------
- drivers/staging/r8188eu/include/hal_intf.h    |  5 --
- .../staging/r8188eu/include/rtl8188e_spec.h   | 10 +--
- drivers/staging/r8188eu/include/rtw_mlme.h    |  1 +
- .../staging/r8188eu/include/rtw_mlme_ext.h    |  1 +
- 9 files changed, 87 insertions(+), 103 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index 5a1eede57458..e44f4752f222 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -1326,7 +1326,6 @@ void update_capinfo(struct adapter *Adapter, u16 updateCap)
+ void update_wireless_mode(struct adapter *padapter)
+ {
+ 	int ratelen, network_type = 0;
+-	u32 SIFS_Timer;
+ 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct wlan_bssid_ex	*cur_network = &pmlmeinfo->network;
+@@ -1353,10 +1352,12 @@ void update_wireless_mode(struct adapter *padapter)
+ 
+ 	pmlmeext->cur_wireless_mode = network_type & padapter->registrypriv.wireless_mode;
+ 
+-	SIFS_Timer = 0x0a0a0808;/* 0x0808 -> for CCK, 0x0a0a -> for OFDM */
+-				/* change this value if having IOT issues. */
+-
+-	SetHwReg8188EU(padapter, HW_VAR_RESP_SIFS, (u8 *)&SIFS_Timer);
++	/* RESP_SIFS for CCK */
++	rtw_write8(padapter, REG_R2T_SIFS, 0x08);
++	rtw_write8(padapter, REG_R2T_SIFS + 1, 0x08);
++	/* RESP_SIFS for OFDM */
++	rtw_write8(padapter, REG_T2T_SIFS, 0x0a);
++	rtw_write8(padapter, REG_T2T_SIFS + 1, 0x0a);
+ 
+ 	if (pmlmeext->cur_wireless_mode & WIRELESS_11B)
+ 		update_mgnt_tx_rate(padapter, IEEE80211_CCK_RATE_1MB);
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 789ad11170b2..0186f8bf73c7 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -1119,14 +1119,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 			}
+ 		}
+ 		break;
+-	case HW_VAR_RESP_SIFS:
+-		/* RESP_SIFS for CCK */
+-		rtw_write8(Adapter, REG_R2T_SIFS, val[0]); /*  SIFS_T2T_CCK (0x08) */
+-		rtw_write8(Adapter, REG_R2T_SIFS + 1, val[1]); /* SIFS_R2T_CCK(0x08) */
+-		/* RESP_SIFS for OFDM */
+-		rtw_write8(Adapter, REG_T2T_SIFS, val[2]); /* SIFS_T2T_OFDM (0x0a) */
+-		rtw_write8(Adapter, REG_T2T_SIFS + 1, val[3]); /* SIFS_R2T_OFDM(0x0a) */
+-		break;
+ 	case HW_VAR_ACK_PREAMBLE:
+ 		{
+ 			u8 regTmp;
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index 6f661c4af358..77069cbc1e07 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -17,7 +17,6 @@ enum hw_variables {
+ 	HW_VAR_MLME_SITESURVEY,
+ 	HW_VAR_MLME_JOIN,
+ 	HW_VAR_SLOT_TIME,
+-	HW_VAR_RESP_SIFS,
+ 	HW_VAR_ACK_PREAMBLE,
+ 	HW_VAR_BCN_VALID,
+ 	HW_VAR_DM_FLAG,
 -- 
 2.35.1
 
