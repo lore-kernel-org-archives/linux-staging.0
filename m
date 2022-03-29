@@ -1,41 +1,41 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C78C2598
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 20:21:52 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id b15so22020772edn.4
-        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 13:21:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8C3258C
+	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 20:21:53 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id bi12so37484486ejb.3
+        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 13:21:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pXzC7B+G1Vq7z1Rm7bBrok4K1ZSPCYyPSAJ9Zp074Sw=;
-        b=q3vf2bCmZ1ZNNDsHVj7VTUOZLT75ckZ+jzRTjxI79ZK+r+8N7HyjTOv8g1xVew7qrp
-         yv3aQOyyx4HhhSbJsA4UnbTAVgeeQxw8zQMKDSy3h4ZNu2XJhoPnpfuh/fbxd43IUFGT
-         Y/3Rbf6KrXPtt18ROsuEXWlwIqbeiQWg8hxICPLyKUS0Cfk5YC8Y8rWk52nTgOqnw5HR
-         smIsJNAVpgssK5M1Q0nQeM9U/f5+ZoiQBSesQW767NVM11xiMbxKv5s7KBG2WzQvZKb3
-         tJGl2/f7dI/hLUEgK4mnvAdwJkUk089iZpPFeskba3V0FxPDNxOhSOOZoW1Qe8kF5NSL
-         DswQ==
+        bh=tFUJkKDNSDlaGRatgnjRTwnUsmUOuBgdOwxC6d/heDg=;
+        b=ILwQiPuexznMlZzfZ499KkWWp3FTCt9En4hJq0G3JPeDcSovZzeVa6o+fkNo+6f6eZ
+         rV5Kgk0uzq9H3a73qfvSqXAnlsaIrJOOxunyhgNqePq+uAXu2tdVqhw5WsB3fdrlGzSL
+         6x6ISn0SUSjLio6JxqKCJqaie+dLsFgZ82vh+3AhpVJAdItkvtxjNcyBeOdhottgAJ6j
+         2h50T+3vFPu1eIpMf4qLsqvq9KNgkSdtrxGpt00xjBjq7s0hdYaNGpVAVO7jxswUIZqg
+         JAR9CTlO8XNn8cKXXW+4Epsly+Z26Y7+lwqLwoJJIMUsG1ITV6pSrtjvZyuoEi2cMbwX
+         0/jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pXzC7B+G1Vq7z1Rm7bBrok4K1ZSPCYyPSAJ9Zp074Sw=;
-        b=mc5yLCJSzHxByXK/fS5WgC0ClnnBylJu7LJLyC60qWD4solonSssp38DwCcUmzEv2I
-         w5yjVVimLOf6VwgfMHtgu1B9iU/DAZEVP1vI+bNjoi+LmE54RXeq9CezDyRXHVy1yvKZ
-         cX4s7IIe6mCj1HGuizBzqSF1o9wsZZplKTr5b3tVFA/Ld2XmBGQ8UoBExHYkpdZlqkXC
-         lcwoixp4/5BZjm/RqGMkQ0zXXLvFOeEVz17sKcqbfpVe8PmfoBEbKPGWgCN/tZ2Ozaya
-         DOpt3JgBxn70rOd3/vD/8zYl7e/ifpjtteuaSuVMJZZgseqEJMoJgHsg5t1cm7rpgK4U
-         5rtg==
-X-Gm-Message-State: AOAM531JhpXM4fca3vnWFVoeqWNW410/Sl30D/4wy1zrJoftgS7FXxJp
-	Ga8wP3lTAs1Pd/t2VdUumyU=
-X-Google-Smtp-Source: ABdhPJwjjdL5AxQOccoKR3owW99Y8879dAR8FYcnUW7XGN1zAHBGFL2zRoplCkFqRzGWCsFRR+nvxw==
-X-Received: by 2002:a05:6402:3689:b0:419:d380:ddbc with SMTP id ej9-20020a056402368900b00419d380ddbcmr6819875edb.230.1648585311330;
-        Tue, 29 Mar 2022 13:21:51 -0700 (PDT)
+        bh=tFUJkKDNSDlaGRatgnjRTwnUsmUOuBgdOwxC6d/heDg=;
+        b=dfOTmD1kAItK01YAkdCUt3K3zyKOG5JFgBq0Ln262qB2Wb4AvfqoFFTcSBCQlUJy8c
+         nWimrMI8R5EZpHGViu2UgD2hJ64uy/EX+ehHVW9csK4P5JWgZZvu0Gfbc5oui9lP4FcJ
+         C6uyaSQa576mL9k7ai5LneaYrkz1XdafxX4ouunjm2U9kQhbksjOTnGV/sZHCqmBRECC
+         gjNQomJzfaqT+auY4o1IGt091fFpfa+jMHl1XLCzj9WKy/Fle0T7j42v3S6OgyEY5o+C
+         bQ9RAVbvge4EL3YQ6UnzHjK0EsWWGPLQjHK5C1IHApmlTW9AdBRnq0blCiHEMsFgZR2B
+         BmgA==
+X-Gm-Message-State: AOAM530OMYV9PiPLJiDB31Q2JhgirGBbcowqqIJRWHhHK7eUOw3pUtHT
+	ehT0Gz5BBV9gl77zmySN8BM=
+X-Google-Smtp-Source: ABdhPJyoyU0t0fHUeTsbyn9P2w0/m69f5NzLf++en/S7/O08ht/Bf0ZI72Hz+EUn+qNGq1qQqicIQw==
+X-Received: by 2002:a17:907:9801:b0:6db:ab31:96f4 with SMTP id ji1-20020a170907980100b006dbab3196f4mr36730399ejc.571.1648585312165;
+        Tue, 29 Mar 2022 13:21:52 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id ss12-20020a170907038c00b006e0ec9e806dsm3938111ejb.136.2022.03.29.13.21.50
+        by smtp.gmail.com with ESMTPSA id ss12-20020a170907038c00b006e0ec9e806dsm3938111ejb.136.2022.03.29.13.21.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 13:21:50 -0700 (PDT)
+        Tue, 29 Mar 2022 13:21:51 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 3/8] staging: r8188eu: rename some macros to upper case
-Date: Tue, 29 Mar 2022 22:21:36 +0200
-Message-Id: <20220329202141.7028-4-straube.linux@gmail.com>
+Subject: [PATCH v2 4/8] staging: r8188eu: remove HW_VAR_ACM_CTRL from SetHwReg8188EU()
+Date: Tue, 29 Mar 2022 22:21:37 +0200
+Message-Id: <20220329202141.7028-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329202141.7028-1-straube.linux@gmail.com>
 References: <20220329202141.7028-1-straube.linux@gmail.com>
@@ -57,68 +57,115 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename some macros to upper case to avoid camel case and improve
-readability. While at it, remove some unused macros.
+SetHwReg8188EU() is called with HW_VAR_ACM_CTRL only from a function
+in rtw_wlan_util.c. Move the functionality into a static function in
+rtw_wlan_util.c and remove the HW_VAR_ACM_CTRL case from
+SetHwReg8188EU(). This is part of the ongoing effort to get rid of the
+unwanted hal layer.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
-v2: no changes
+v2: Moved the code into a function.
 
- drivers/staging/r8188eu/hal/usb_halinit.c       | 12 ++++++------
- drivers/staging/r8188eu/include/rtl8188e_spec.h | 10 +++-------
- 2 files changed, 9 insertions(+), 13 deletions(-)
+ drivers/staging/r8188eu/core/rtw_wlan_util.c | 27 +++++++++++++++++++-
+ drivers/staging/r8188eu/hal/usb_halinit.c    | 26 -------------------
+ drivers/staging/r8188eu/include/hal_intf.h   |  1 -
+ 3 files changed, 26 insertions(+), 28 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index e44f4752f222..f005bd3c9ff2 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -503,6 +503,31 @@ int WMM_param_handler(struct adapter *padapter, struct ndis_802_11_var_ie *pIE)
+ 	return true;
+ }
+ 
++static void set_acm_ctrl(struct adapter *adapter, u8 acm_mask)
++{
++	u8 acmctrl = rtw_read8(adapter, REG_ACMHWCTRL);
++
++	if (acm_mask > 1)
++		acmctrl = acmctrl | 0x1;
++
++	if (acm_mask & BIT(3))
++		acmctrl |= ACMHW_VOQEN;
++	else
++		acmctrl &= (~ACMHW_VOQEN);
++
++	if (acm_mask & BIT(2))
++		acmctrl |= ACMHW_VIQEN;
++	else
++		acmctrl &= (~ACMHW_VIQEN);
++
++	if (acm_mask & BIT(1))
++		acmctrl |= ACMHW_BEQEN;
++	else
++		acmctrl &= (~ACMHW_BEQEN);
++
++	rtw_write8(adapter, REG_ACMHWCTRL, acmctrl);
++}
++
+ void WMMOnAssocRsp(struct adapter *padapter)
+ {
+ 	u8	ACI, ACM, AIFS, ECWMin, ECWMax, aSifsTime;
+@@ -564,7 +589,7 @@ void WMMOnAssocRsp(struct adapter *padapter)
+ 	}
+ 
+ 	if (padapter->registrypriv.acm_method == 1)
+-		SetHwReg8188EU(padapter, HW_VAR_ACM_CTRL, (u8 *)(&acm_mask));
++		set_acm_ctrl(padapter, acm_mask);
+ 	else
+ 		padapter->mlmepriv.acm_mask = acm_mask;
+ 
 diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 8e4b84f51a3c..8dc90f9636b5 100644
+index 8dc90f9636b5..1bf867123c48 100644
 --- a/drivers/staging/r8188eu/hal/usb_halinit.c
 +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1148,19 +1148,19 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 				AcmCtrl = AcmCtrl | 0x1;
- 
- 			if (acm_ctrl & BIT(3))
--				AcmCtrl |= AcmHw_VoqEn;
-+				AcmCtrl |= ACMHW_VOQEN;
- 			else
--				AcmCtrl &= (~AcmHw_VoqEn);
-+				AcmCtrl &= (~ACMHW_VOQEN);
- 
- 			if (acm_ctrl & BIT(2))
--				AcmCtrl |= AcmHw_ViqEn;
-+				AcmCtrl |= ACMHW_VIQEN;
- 			else
--				AcmCtrl &= (~AcmHw_ViqEn);
-+				AcmCtrl &= (~ACMHW_VIQEN);
- 
- 			if (acm_ctrl & BIT(1))
--				AcmCtrl |= AcmHw_BeqEn;
-+				AcmCtrl |= ACMHW_BEQEN;
- 			else
--				AcmCtrl &= (~AcmHw_BeqEn);
-+				AcmCtrl &= (~ACMHW_BEQEN);
- 
- 			rtw_write8(Adapter, REG_ACMHWCTRL, AcmCtrl);
- 		}
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_spec.h b/drivers/staging/r8188eu/include/rtl8188e_spec.h
-index edae053e350e..ef42c4b2f20c 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_spec.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_spec.h
-@@ -998,13 +998,9 @@ Current IOREG MAP
- #define STOP_BCNQ		BIT(6)
- 
- /* 2 ACMHWCTRL */
--#define	AcmHw_HwEn		BIT(0)
--#define	AcmHw_BeqEn		BIT(1)
--#define	AcmHw_ViqEn		BIT(2)
--#define	AcmHw_VoqEn		BIT(3)
--#define	AcmHw_BeqStatus		BIT(4)
--#define	AcmHw_ViqStatus		BIT(5)
--#define	AcmHw_VoqStatus		BIT(6)
-+#define ACMHW_BEQEN		BIT(1)
-+#define ACMHW_VIQEN		BIT(2)
-+#define ACMHW_VOQEN		BIT(3)
- 
- /* 	0x0600h ~ 0x07FFh	WMAC Configuration */
- /* 2APSD_CTRL */
+@@ -1139,32 +1139,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 		haldata->AcParam_BE = ((u32 *)(val))[0];
+ 		rtw_write32(Adapter, REG_EDCA_BE_PARAM, ((u32 *)(val))[0]);
+ 		break;
+-	case HW_VAR_ACM_CTRL:
+-		{
+-			u8 acm_ctrl = *((u8 *)val);
+-			u8 AcmCtrl = rtw_read8(Adapter, REG_ACMHWCTRL);
+-
+-			if (acm_ctrl > 1)
+-				AcmCtrl = AcmCtrl | 0x1;
+-
+-			if (acm_ctrl & BIT(3))
+-				AcmCtrl |= ACMHW_VOQEN;
+-			else
+-				AcmCtrl &= (~ACMHW_VOQEN);
+-
+-			if (acm_ctrl & BIT(2))
+-				AcmCtrl |= ACMHW_VIQEN;
+-			else
+-				AcmCtrl &= (~ACMHW_VIQEN);
+-
+-			if (acm_ctrl & BIT(1))
+-				AcmCtrl |= ACMHW_BEQEN;
+-			else
+-				AcmCtrl &= (~ACMHW_BEQEN);
+-
+-			rtw_write8(Adapter, REG_ACMHWCTRL, AcmCtrl);
+-		}
+-		break;
+ 	case HW_VAR_AMPDU_MIN_SPACE:
+ 		{
+ 			u8 MinSpacingToSet;
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index d481cc759e27..5b4de29a2e10 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -23,7 +23,6 @@ enum hw_variables {
+ 	HW_VAR_DM_FUNC_RESET,
+ 	HW_VAR_DM_FUNC_CLR,
+ 	HW_VAR_AC_PARAM_BE,
+-	HW_VAR_ACM_CTRL,
+ 	HW_VAR_AMPDU_MIN_SPACE,
+ 	HW_VAR_AMPDU_FACTOR,
+ 	HW_VAR_RXDMA_AGG_PG_TH,
 -- 
 2.35.1
 
