@@ -1,26 +1,42 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B592572
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 16:07:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C2DC3410F;
-	Tue, 29 Mar 2022 16:07:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1648570057;
-	bh=2mAImiyju7BSQdfrIPm8kVdDd0aZCmkuZyMEOcwPSSk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PUZiuoizGGKnuW2jlFW4wWgllNUKi0tWsWXbMEnNphmpgpaxc3LNcb2BOtPCWnay2
-	 whXNtL1a7gOn8fAOpBdqFoWY7S1T1ItqXVPztDXs6mvK8wLUcUpPzJzXM0dBMWBsdv
-	 BXaC6rWF2wmOpzuTIgS91KAJkI6g31fB7XYrmK1c=
-Date: Tue, 29 Mar 2022 18:07:29 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nam Cao <namcaov@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: sm750fb: fix CamelCase name style
-Message-ID: <YkMuwcM36pkpiLLL@kroah.com>
-References: <YjXLp2pdGUQIWcFg@kroah.com>
- <20220319125629.21405-1-namcaov@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4DA2572;
+	Tue, 29 Mar 2022 16:15:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648570506; x=1680106506;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=V7I1wdGG6eu8VtqmUYmFQ80cpXVRC0RQdim1swUODT4=;
+  b=jb6UEUH/ymhxSYzY8GuLFNIKQ1KGlK1He1p8h15HzrzQxzcF/yEx6gI9
+   SZD9ZQuW8AYRfhZcDYgrdkswovxV7aZ6/vVl76eKuT4tsvmtwPknVIftc
+   Y47ewiu2BkaTWGN9w4nOZGzDfnikSPYRyq51lRD32nIeOoHKSxKRvBavo
+   8jfLsb2dqJ5TrWxfYeaLJffIDOMWMJatIcxc3Y9KbRs1jrOIG/aMq+2j7
+   Fa3uDaGsz1TiHDWlxpRY9xIffTMtIf+9RHdoQM9gMBLG0CJSOriEjXxbc
+   Aaff3p+D1XQ6kabihFN5xewMoLttFq1YOPF8AkNwFY3VydlcubEtODYHv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="256866020"
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="256866020"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 09:14:07 -0700
+X-IronPort-AV: E=Sophos;i="5.90,220,1643702400"; 
+   d="scan'208";a="564742695"
+Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 09:14:06 -0700
+Date: Tue, 29 Mar 2022 09:16:32 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Rebecca Mckeever <remckee0@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: r8188eu: fix suspect code indent for
+ conditional statements
+Message-ID: <20220329161632.GA1169956@alison-desk>
+References: <YkK7ABTVt0TCbd18@bertie>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,59 +45,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220319125629.21405-1-namcaov@gmail.com>
+In-Reply-To: <YkK7ABTVt0TCbd18@bertie>
 
-On Sat, Mar 19, 2022 at 01:56:30PM +0100, Nam Cao wrote:
-> Convert all names in CamelCase style to appropriate styles as suggested
-> by checkpatch.pl.
+On Tue, Mar 29, 2022 at 02:53:36AM -0500, Rebecca Mckeever wrote:
+> Align the if and else if branches of the conditional statement
+> to improve readability. Prevent bugs that could be introduced
+> if developers misread the code. Issue found by checkpatch.
+
+Thanks for the patch Rebecca!
+
+Lots of stuff done right - passes chkp, compiles, patch is sent to
+correct recipients, the commit message follows the format of the file.
+
+Let's set a pattern here for all checkpatch related cleanups,
+for you and others that follow.(Thanks for being the first ;))
+
+Commit msg says 'what'. Commit log says 'why'. Acknowledge that
+it was found using checkpatch in the commit log also. (In the future
+you may be acknowledging use of other tools like sparse, coccinelle.)
+
+Note that the 'why' is never that a tool reported an error. The 'why'
+for these checkpatch reports is usually to follow the Linux Kernel
+Coding Style.
+
+'Fix' in the commit message is needlessly generic. Perhaps:
+[PATCH] staging: r8188eu: align both branches of a conditional statement
+
+Commit log: (what you have is fine in the log)
+I usually paste in the checkpatch error explicitly so it can be grep'd
+for. Something like:
+
+Issue found by checkpatch:
+WARNING: suspect code indent for conditional statements
+
+Thanks,
+Alison
+
 > 
-> Signed-off-by: Nam Cao <namcaov@gmail.com>
+> Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
 > ---
-> Changes in V2:
->   - Add patch description
+>  drivers/staging/r8188eu/core/rtw_cmd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  drivers/staging/sm750fb/ddk750_dvi.c    |  20 +--
->  drivers/staging/sm750fb/ddk750_mode.c   |  90 ++++++-------
->  drivers/staging/sm750fb/ddk750_mode.h   |   2 +-
->  drivers/staging/sm750fb/ddk750_power.h  |  10 +-
->  drivers/staging/sm750fb/ddk750_sii164.c | 172 ++++++++++++------------
->  drivers/staging/sm750fb/ddk750_sii164.h |  40 +++---
->  drivers/staging/sm750fb/sm750.c         | 104 +++++++-------
->  drivers/staging/sm750fb/sm750.h         |  56 ++++----
->  drivers/staging/sm750fb/sm750_accel.c   | 149 ++++++++++----------
->  drivers/staging/sm750fb/sm750_accel.h   |  42 +++---
->  drivers/staging/sm750fb/sm750_cursor.c  |  14 +-
->  drivers/staging/sm750fb/sm750_cursor.h  |  12 +-
->  drivers/staging/sm750fb/sm750_hw.c      |  62 ++++-----
->  13 files changed, 387 insertions(+), 386 deletions(-)
+> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+> index 6eca30124ee8..ccc43c0ba433 100644
+> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
+> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+> @@ -1408,7 +1408,7 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+>  		/* TODO: cancel timer and do timeout handler directly... */
+>  		/* need to make timeout handlerOS independent */
+>  		_set_timer(&pmlmepriv->scan_to_timer, 1);
+> -		} else if (pcmd->res != H2C_SUCCESS) {
+> +	} else if (pcmd->res != H2C_SUCCESS) {
+>  		_set_timer(&pmlmepriv->scan_to_timer, 1);
+>  	}
+>  
+> -- 
+> 2.32.0
 > 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+> 
