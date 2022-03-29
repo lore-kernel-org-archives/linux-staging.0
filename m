@@ -1,26 +1,26 @@
-Received: from mail.meizu.com (edge01.meizu.com [14.29.68.187])
+Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
 	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AF87C
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 11:06:21 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
- (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 29 Mar
- 2022 19:06:13 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EBE7C
+	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 11:09:33 +0000 (UTC)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
+ (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 29 Mar
+ 2022 19:09:20 +0800
 Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
  (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 29 Mar
- 2022 19:06:12 +0800
+ 2022 19:09:19 +0800
 From: Haowen Bai <baihaowen@meizu.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
 	<phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC: Haowen Bai <baihaowen@meizu.com>, <linux-staging@lists.linux.dev>,
 	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] staging: r8188eu: Directly return _SUCCESS instead of using local ret variable
-Date: Tue, 29 Mar 2022 19:06:06 +0800
-Message-ID: <1648551967-23627-1-git-send-email-baihaowen@meizu.com>
+Subject: [PATCH V3] staging: r8188eu: Directly return _SUCCESS instead of using local ret variable
+Date: Tue, 29 Mar 2022 19:09:17 +0800
+Message-ID: <1648552158-24203-1-git-send-email-baihaowen@meizu.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <d293aee5-6065-9d87-0906-438542a8be84@meizu.com>
-References: <d293aee5-6065-9d87-0906-438542a8be84@meizu.com>
+In-Reply-To: <1648551967-23627-1-git-send-email-baihaowen@meizu.com>
+References: <1648551967-23627-1-git-send-email-baihaowen@meizu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,6 +41,9 @@ fixes coccinelle warning:
 
 Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 ---
+V1->V2: split into two patches.
+V2->V3: change return type from int to void.
+
  drivers/staging/r8188eu/core/rtw_mlme_ext.c    | 5 +----
  drivers/staging/r8188eu/include/rtw_mlme_ext.h | 2 +-
  drivers/staging/r8188eu/os_dep/os_intfs.c      | 8 +-------
