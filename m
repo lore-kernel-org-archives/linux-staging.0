@@ -1,119 +1,115 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC782572
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 16:25:40 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id qa43so36186101ejc.12
-        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 09:25:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AFB257F
+	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 17:00:54 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id b15so21429746edn.4
+        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 10:00:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/Jg/lgUXJ8tlbH0TThjgXJTU0nO4xWzd7wXj/Y11atM=;
-        b=Krt37wklsbXb5xXyChlds582mL4VFW5icapNaELKjNu/70ES8p6bWgd0245neemOpS
-         XCJuNQ9YXeePUP85EZ7JohKauY332BGbyb0R7gE3a7xTAROKF3MjTopC+/uxcIiuuICe
-         4FofNnpNPyR3Iz3kGZA55fPsGIwgk9AQiKXJwbsBeaR8HDH8JwFdIyQUURJMVC9/9ltb
-         eRGMUMM23fRa1KNnPKJ31p+kBQqYgwevz730F1j8kp4IfU2+w81pVMDkOHfmU3EBOFH1
-         Dt8xX+0vbImVTZN9T83vIYLiSGBpva+dMQG57zMGkSGTKhCDSeDpjrht2HN6N7igANeF
-         Me+w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=BPKs3suq1SgwSX2Q9VZX8LKJW7ayWPXQUfm1Ivff7Yg=;
+        b=F/2SYHD88iDJ7+pjQBONixePXir6QXcvw8CfxAJqR8XP7+Y5PhUSIgoAqVmMU+jmbc
+         hIPpXnmU8FZa3G85hY6f9oG77VaQi2vhrO/Zx1Hl1Ol4nJVnRESIZYT0MKxpQKG20myz
+         ijUqrtKbN4pUIXFBR+koaQg5nqwRuQu5piJeJGZpzEjKvVEeflBtxdf3oFnSBIyhfAX2
+         HZfmlTC32O0zmhEnDWeCzyLVQtqpXMBysZSbn06xzxq5mhrTTylJSOxMOdJ/zk0zxoM9
+         NVxMaVbzHV/L4I3ppSWTxUauBVImumSbms90mWkBvL/TqeknNzVaXhbf34czzAJqjgJn
+         7upg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=/Jg/lgUXJ8tlbH0TThjgXJTU0nO4xWzd7wXj/Y11atM=;
-        b=j60JTTCGQb5e3MCGODN7xRFnCmLjS5It03WrNH9c1ERsmfW97032jRioOLJM5AgCb/
-         3YIDx+Z/7CnmpP3fZEA22l0KKRfU1aXkTsD6PyMoLLn+YNT55WCev0HjGamnpQqJZeTF
-         wqtOLknxR/NLowiNO0twO0D3Rh4zFY3cgje2J1Pmg41k+qlENhHJ7l3RNdvTWYNxja9H
-         02Mx8gxRBtzAzrGGLTv4uOHhSp5Cgj9hgpj+np2Rwbxk0dPfUN3+Tl2MqUZZaG3aDhGg
-         5cDzpgiR/+3BXSYOpOEVMY5G4nipxDFj0FuCQmbuz1Knrv0JGo6tekAVsM+I2BqI6eZE
-         c6MQ==
-X-Gm-Message-State: AOAM533nrOJo3f/6/MAFIp8PckBaqp8sNRn7nj8JCEPa72nHdjNhfyUO
-	TafitY9FYh5Y6slsw1Demq0=
-X-Google-Smtp-Source: ABdhPJzYorWbZr5xoJzG1ZpCofK5AbbMnXygNv72OX4gBIzREHz+Jnw/9YhXtO5XYzOK7KmLyuTREA==
-X-Received: by 2002:a17:906:2ac9:b0:6ce:dc0f:9139 with SMTP id m9-20020a1709062ac900b006cedc0f9139mr35652179eje.206.1648571136860;
-        Tue, 29 Mar 2022 09:25:36 -0700 (PDT)
-Received: from [192.168.0.253] (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id ga42-20020a1709070c2a00b006df76956b53sm7114319ejc.212.2022.03.29.09.25.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Mar 2022 09:25:36 -0700 (PDT)
-Message-ID: <b06f943e-a9e3-0bb2-7384-6f0d23bd2e96@gmail.com>
-Date: Tue, 29 Mar 2022 18:25:35 +0200
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BPKs3suq1SgwSX2Q9VZX8LKJW7ayWPXQUfm1Ivff7Yg=;
+        b=VJOj0OD1kNbxoaek7G4AcenT6FMIluBkuMnmqxF+1XTsOp8uzhSYMHlxTIRzfXvWhE
+         vyTLq07cJ9j26NtpRyUHDm8wwYfPufyFjLwjH0U0VOQHXxYWKyUV4P/py4aByntJf1WI
+         tHcYSW/KiJ7AUVbcALnSn7nKNymrTBMqvpXWTwrdfmOIzGnRkL0Ieq3GUP5fs3utPncg
+         w/QKEicorpAYlQD83vJ2qDaiCdGEopZ/NSeSOqn82Ye0C5JhSWUVOpa27hwl56dZKg4D
+         1prvLt9VidZLiBxe25WYVvKFfbtm9+CKA6/ceL2G0sXNkNGsPuGKDICSXy3gNbaiF7PH
+         CwMw==
+X-Gm-Message-State: AOAM531uKSopVFx/WzEzb/xPEhJqYx8SWLs5A70fpTkcAS40AAIivMTp
+	N9ELt05dWEzrmfcwmED7mXc=
+X-Google-Smtp-Source: ABdhPJw37lXtVfuQrFwFlV0EXWgi+RpMtuLezJR109NVeOyq7+/UWRXue9+RusATHM8TRMeZnCqahA==
+X-Received: by 2002:a05:6402:914:b0:419:a627:ef6f with SMTP id g20-20020a056402091400b00419a627ef6fmr5731279edz.67.1648573252351;
+        Tue, 29 Mar 2022 10:00:52 -0700 (PDT)
+Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id p10-20020a170906604a00b006e07c76f3d7sm6851961ejj.210.2022.03.29.10.00.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 10:00:51 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dan.carpenter@oracle.com
+Cc: David Kershner <david.kershner@unisys.com>, sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: unisys: Properly test debugfs_create_dir() return values
+Date: Tue, 29 Mar 2022 19:00:49 +0200
+Message-ID: <2030244.KlZ2vcFHjT@leap>
+In-Reply-To: <20220322083858.16887-1-fmdefrancesco@gmail.com>
+References: <20220322083858.16887-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 4/9] staging: r8188eu: remove HW_VAR_ACM_CTRL from
- SetHwReg8188EU()
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220328113940.6396-1-straube.linux@gmail.com>
- <20220328113940.6396-5-straube.linux@gmail.com> <YkMtsKlCsMOnV1Q0@kroah.com>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <YkMtsKlCsMOnV1Q0@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="ISO-8859-1"
 
-On 3/29/22 18:02, Greg KH wrote:
-> On Mon, Mar 28, 2022 at 01:39:35PM +0200, Michael Straube wrote:
->> SetHwReg8188EU() is called with HW_VAR_ACM_CTRL only in one place.
->> Remove the HW_VAR_RESP_SIFS case from SetHwReg8188EU() and replace its
->> call with the code from that case. This is part of the ongoing effort
->> to get rid of the unwanted hal layer.
->>
->> Signed-off-by: Michael Straube <straube.linux@gmail.com>
->> ---
->>   drivers/staging/r8188eu/core/rtw_wlan_util.c | 27 +++++++++++++++++---
->>   drivers/staging/r8188eu/hal/usb_halinit.c    | 26 -------------------
->>   drivers/staging/r8188eu/include/hal_intf.h   |  1 -
->>   3 files changed, 24 insertions(+), 30 deletions(-)
->>
->> diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
->> index eda4e5f9a6af..cde3779ff21d 100644
->> --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
->> +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
->> @@ -571,10 +571,31 @@ void WMMOnAssocRsp(struct adapter *padapter)
->>   		}
->>   	}
->>   
->> -	if (padapter->registrypriv.acm_method == 1)
->> -		SetHwReg8188EU(padapter, HW_VAR_ACM_CTRL, (u8 *)(&acm_mask));
->> -	else
->> +	if (padapter->registrypriv.acm_method == 1) {
->> +		u8 acmctrl = rtw_read8(padapter, REG_ACMHWCTRL);
->> +
->> +		if (acm_mask > 1)
->> +			acmctrl = acmctrl | 0x1;
->> +
->> +		if (acm_mask & BIT(3))
->> +			acmctrl |= ACMHW_VOQEN;
->> +		else
->> +			acmctrl &= (~ACMHW_VOQEN);
->> +
->> +		if (acm_mask & BIT(2))
->> +			acmctrl |= ACMHW_VIQEN;
->> +		else
->> +			acmctrl &= (~ACMHW_VIQEN);
->> +
->> +		if (acm_mask & BIT(1))
->> +			acmctrl |= ACMHW_BEQEN;
->> +		else
->> +			acmctrl &= (~ACMHW_BEQEN);
->> +
->> +		rtw_write8(padapter, REG_ACMHWCTRL, acmctrl);
-> 
-> Shouldn't be a function that explains what you are doing here?  Like you
-> did with previous changes in this patch series?
-> 
+On marted=EC 22 marzo 2022 09:38:58 CEST Fabio M. De Francesco wrote:
+> debugfs_create_dir() returns a pointers to a dentry objects. On failures
+> it returns errors. Currently the values returned to visornic_probe()
+> seem to be tested for being equal to NULL in case of failures.
+>=20
+> Properly test with "if (IS_ERR())" and then assign the correct error=20
+> value to the "err" variable.
+>=20
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>  drivers/staging/unisys/visornic/visornic_main.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/unisys/visornic/visornic_main.c b/drivers/st=
+aging/unisys/visornic/visornic_main.c
+> index 643432458105..58d03f3d3173 100644
+> --- a/drivers/staging/unisys/visornic/visornic_main.c
+> +++ b/drivers/staging/unisys/visornic/visornic_main.c
+> @@ -1922,11 +1922,11 @@ static int visornic_probe(struct visor_device *de=
+v)
+>  	/* create debug/sysfs directories */
+>  	devdata->eth_debugfs_dir =3D debugfs_create_dir(netdev->name,
+>  						      visornic_debugfs_dir);
+> -	if (!devdata->eth_debugfs_dir) {
+> +	if (IS_ERR(devdata->eth_debugfs_dir)) {
+>  		dev_err(&dev->device,
+>  			"%s debugfs_create_dir %s failed\n",
+>  			__func__, netdev->name);
+> -		err =3D -ENOMEM;
+> +		err =3D PTR_ERR(devdata->eth_debugfs_dir);
+>  		goto cleanup_register_netdev;
+>  	}
+> =20
+> --=20
+> 2.34.1
+>=20
+Hi Greg, Dan,
 
-Sound like a good idea.
-I'll send v2 and address your other comments to this series too.
+Now I have time to rework this patch but, if I'm not misunderstanding, you=
+=20
+asked for two contrasting works to do here...
+
+Dan wrote that "[in] this case you can delete the whole devdata->eth_debugf=
+s_dir=20
+and the related code.".
+
+Greg wrote that "We really shouldn't be checking this value at all.  There'=
+s=20
+no reason to check the return value of a debugfs_* call. Can you fix up the=
+ code to
+do that instead?".
+
+I'm confused because they look like two incompatible requests. What should =
+I do?
 
 Thanks,
-Michael
+
+=46abio M. De Francesco
+
+
