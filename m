@@ -1,155 +1,166 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89B0258C
-	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 20:21:56 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id bq8so23469910ejb.10
-        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 13:21:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=vc+8XpUtyVNiqLLtoPnfC057JfZKwxN2NzxO5NmDbTM=;
-        b=J8KvhlYAxm+Jnh6RGzMUCOrR7LASjHDjKLf5jrdb7ibPS1BGAOderi0ICuiQLOoWyM
-         O64NUJJ4vQsUb3dhKCJmgbTPbtzGWo/hteuB/MPqXsZak+nvNHyoaVJ5btw1AAG0jiun
-         Hmuod6ahu8v1xcFS1CnWVL/k7aP4sXme7RHzBSSRzNeSD0HG5P/F5Umq3x+kkN8gjjnB
-         sg16FIP0gKIezve0rP45KcMue2wfubsDIQQm5bqQpPJg4ZcewjJnLZVVIC2KTGMXSCTI
-         KDuRbsGbxAvg3IDqHj9rs5gse7S/pfXRFWRKKFYBJjKW7FfL5Hx7s8v7+8+JgvuSsejk
-         drzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vc+8XpUtyVNiqLLtoPnfC057JfZKwxN2NzxO5NmDbTM=;
-        b=6152re4cPzqC78qL7F0mbHypDkM7PzTU/PCASaygHD0trwvjEEgiLWrXgDbp8DlKt0
-         ts5kcUW+8RRBpJHWzXjaCVJCs8vQ8k1pF7xF4jvFIwKvPVwytNdiljntDFp4qIDDfitP
-         2HrjxDyPf0y1yWFnyJwy6DMzcZtzl7xBGTcbgrm4FNo2z62sGiKq+R2MsWwGfa+vny8L
-         HAVWewtAuTqYFRA8F8H8JUsvWa6lYU08ga5JH1rj11vRLVojGb52OVBluH+dDgvQ6mqi
-         37Ug3zLBOQSmU5nfa5HzgDRcKUGB+B1p8iTGpV4biTsMsw1l/oAbqHXmr8Z0Oi66Q3eg
-         Zh1w==
-X-Gm-Message-State: AOAM530XQ77leoES0Mw5ggVdTx5ihnnUsGtfoJIhIwkfjr1Qev5IrqzX
-	zwkjpsnoVF767AAH9cvMvI0=
-X-Google-Smtp-Source: ABdhPJyPSqTxbQ86DNXVq4dHPCjZDaRIOKjLwbjGpyYpgcIHWvJQhPQXPaahdJCFxV1EyoV45FqJBQ==
-X-Received: by 2002:a17:907:6d96:b0:6df:f199:6a7c with SMTP id sb22-20020a1709076d9600b006dff1996a7cmr37449982ejc.137.1648585315340;
-        Tue, 29 Mar 2022 13:21:55 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id ss12-20020a170907038c00b006e0ec9e806dsm3938111ejb.136.2022.03.29.13.21.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 13:21:54 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 8/8] staging: r8188eu: remove HW_VAR_BCN_VALID from SetHwReg8188EU()
-Date: Tue, 29 Mar 2022 22:21:41 +0200
-Message-Id: <20220329202141.7028-9-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220329202141.7028-1-straube.linux@gmail.com>
-References: <20220329202141.7028-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1165F2563
+	for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 20:55:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: nicolas)
+	with ESMTPSA id 5A8251F41D1F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1648587306;
+	bh=RBMQRZSrdkCLhPicdgFkZvgqP1dxXq/zI3/xkKcqf40=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=HWMan1B3lqPXMR5oo746sTUY3miO5ui9NGC/zh7vf67Jx+ab/XUzI/+rz61ZLO5KN
+	 +yL+DMFY7mCb45ZMFQngbGzuh+INeDIEOWb4DSf4eBLXNEOP8jjLOyIkCxm6cKmatC
+	 YJ0AT+1SAFxcZkWjq4SA3rbjtkexSDS3RDfmvTII+UnAPTFF5Ww5H+hBhFiPQtLj7h
+	 oYy1aXTl61fV+yDwn73qsfLDRcJzjqQn9lbFyuqF9IBWWd9LQB30/g5vffrC7yc8K2
+	 RaO4a3Yvr82CVgx26blawQQ1eOInP9bK899P7HG7GGxDqqV9vCFuFLqdV2Eoy6i57B
+	 3U3yhrxcTBh5Q==
+Message-ID: <f7e5b577bc48ba16befbed47ac96c363ce861f48.camel@collabora.com>
+Subject: Re: [PATCH v1 19/24] media: rkvdec-h264: Add field decoding support
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	kernel@collabora.com, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 29 Mar 2022 16:54:55 -0400
+In-Reply-To: <20220329081321.GV3293@kadam>
+References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
+	 <20220328195936.82552-20-nicolas.dufresne@collabora.com>
+	 <20220329081321.GV3293@kadam>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The HW_VAR_BCN_VALID case in SetHwReg8188EU() just calls rtw_write8().
-Remove HW_VAR_BCN_VALID from SetHwReg8188EU() and call rtw_write8()
-directly. Move the call to a new function to indicate what it actually
-does. This is part of the ongoing effort to getrid of the unwanted hal
-layer.
+Le mardi 29 mars 2022 =C3=A0 11:13 +0300, Dan Carpenter a =C3=A9crit=C2=A0:
+> On Mon, Mar 28, 2022 at 03:59:31PM -0400, Nicolas Dufresne wrote:
+> > @@ -738,23 +735,26 @@ static void lookup_ref_buf_idx(struct rkvdec_ctx =
+*ctx,
+> >  		struct vb2_queue *cap_q =3D &m2m_ctx->cap_q_ctx.q;
+> >  		int buf_idx =3D -1;
+> > =20
+> > -		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+> > +		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE) {
+> >  			buf_idx =3D vb2_find_timestamp(cap_q,
+> >  						     dpb[i].reference_ts, 0);
+> > +			if (buf_idx < 0)
+> > +				pr_debug("No buffer for reference_ts %llu",
+> > +					 dpb[i].reference_ts);
+>=20
+> pr_debug() is too quiet.  Make it pr_err().  Set buf_idx to zero instead
+> leaving it as an error code.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
-v2: Moved the code into a function.
+Thanks for the suggestion, I'm just a bit uncomfortable using pr_err() for
+something that is not a driver error, but userland error. Perhaps you can
+educate me on the policy in this regard, but malicous userland being able t=
+o
+flood the logs very easily is my main concern here.
 
- drivers/staging/r8188eu/core/rtw_mlme_ext.c    | 9 ++++++++-
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c     | 5 ++---
- drivers/staging/r8188eu/hal/usb_halinit.c      | 4 ----
- drivers/staging/r8188eu/include/rtw_mlme_ext.h | 1 +
- 4 files changed, 11 insertions(+), 8 deletions(-)
+About the negative idx, it is being used set dpb_valid later on. H.264 erro=
+r
+resilience requires that these frames should be marked as "unexisting" but =
+still
+occupy space in the DPB, this is more or less what I'm trying to implement =
+here.
+Setting it to 0 would basically mean to refer to DPB index 0, which is
+relatively random pick. I believe your suggestion is not taking into
+consideration what the code is doing, but it would fall in some poor-man
+concealment which I would rather leave to the userland.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 9df87a878121..ef14a960c861 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -5764,7 +5764,8 @@ unsigned int send_beacon(struct adapter *padapter)
- 
- 	u32 start = jiffies;
- 
--	SetHwReg8188EU(padapter, HW_VAR_BCN_VALID, NULL);
-+	clear_bacon_valid_bit(padapter);
-+
- 	do {
- 		issue_beacon(padapter, 100);
- 		issue++;
-@@ -5786,6 +5787,12 @@ unsigned int send_beacon(struct adapter *padapter)
- 	}
- }
- 
-+void clear_bacon_valid_bit(struct adapter *adapter)
-+{
-+	/* BIT(16) of REG_TDECTRL = BIT(0) of REG_TDECTRL+2, write 1 to clear, Clear by sw */
-+	rtw_write8(adapter, REG_TDECTRL + 2, rtw_read8(adapter, REG_TDECTRL + 2) | BIT(0));
-+}
-+
- /****************************************************************************
- 
- Following are some utitity fuctions for WiFi MLME
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-index f1464e4ba429..a7337954891a 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-@@ -557,8 +557,7 @@ void rtl8188e_set_FwJoinBssReport_cmd(struct adapter *adapt, u8 mstatus)
- 		rtw_write8(adapt, REG_FWHW_TXQ_CTRL + 2, (haldata->RegFwHwTxQCtrl & (~BIT(6))));
- 		haldata->RegFwHwTxQCtrl &= (~BIT(6));
- 
--		/*  Clear beacon valid check bit. */
--		SetHwReg8188EU(adapt, HW_VAR_BCN_VALID, NULL);
-+		clear_bacon_valid_bit(adapt);
- 		DLBcnCount = 0;
- 		poll = 0;
- 		do {
-@@ -597,7 +596,7 @@ void rtl8188e_set_FwJoinBssReport_cmd(struct adapter *adapt, u8 mstatus)
- 
- 		/*  Update RSVD page location H2C to Fw. */
- 		if (bcn_valid)
--			SetHwReg8188EU(adapt, HW_VAR_BCN_VALID, NULL);
-+			clear_bacon_valid_bit(adapt);
- 
- 		/*  Do not enable HW DMA BCN or it will cause Pcie interface hang by timing issue. 2011.11.24. by tynli. */
- 		/*  Clear CR[8] or beacon packet will not be send to TxBuf anymore. */
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index a3c955e54321..0330947e0106 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1277,10 +1277,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 	case HW_VAR_H2C_MEDIA_STATUS_RPT:
- 		rtl8188e_set_FwMediaStatus_cmd(Adapter, (*(__le16 *)val));
- 		break;
--	case HW_VAR_BCN_VALID:
--		/* BCN_VALID, BIT(16) of REG_TDECTRL = BIT(0) of REG_TDECTRL+2, write 1 to clear, Clear by sw */
--		rtw_write8(Adapter, REG_TDECTRL + 2, rtw_read8(Adapter, REG_TDECTRL + 2) | BIT(0));
--		break;
- 	default:
- 		break;
- 	}
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index bab6eeae6fc9..6974c7ffafde 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -538,6 +538,7 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr,
- 		     unsigned char action, unsigned short status);
- unsigned int send_delba(struct adapter *padapter, u8 initiator, u8 *addr);
- unsigned int send_beacon(struct adapter *padapter);
-+void clear_bacon_valid_bit(struct adapter *adapter);
- 
- void start_clnt_assoc(struct adapter *padapter);
- void start_clnt_auth(struct adapter *padapter);
--- 
-2.35.1
+>=20
+> > +		}
+> > =20
+> >  		run->ref_buf_idx[i] =3D buf_idx;
+> >  	}
+> >  }
+> > =20
+> >  static void assemble_hw_rps(struct rkvdec_ctx *ctx,
+> > +			    struct v4l2_h264_reflist_builder *builder,
+> >  			    struct rkvdec_h264_run *run)
+> >  {
+> >  	const struct v4l2_ctrl_h264_decode_params *dec_params =3D run->decode=
+_params;
+> >  	const struct v4l2_h264_dpb_entry *dpb =3D dec_params->dpb;
+> >  	struct rkvdec_h264_ctx *h264_ctx =3D ctx->priv;
+> > -	const struct v4l2_ctrl_h264_sps *sps =3D run->sps;
+> >  	struct rkvdec_h264_priv_tbl *priv_tbl =3D h264_ctx->priv_tbl.cpu;
+> > -	u32 max_frame_num =3D 1 << (sps->log2_max_frame_num_minus4 + 4);
+> > =20
+> >  	u32 *hw_rps =3D priv_tbl->rps;
+> >  	u32 i, j;
+> > @@ -772,37 +772,36 @@ static void assemble_hw_rps(struct rkvdec_ctx *ct=
+x,
+> >  		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+> >  			continue;
+> > =20
+> > -		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
+> > -		    dpb[i].frame_num <=3D dec_params->frame_num) {
+> > -			p[i] =3D dpb[i].frame_num;
+> > -			continue;
+> > -		}
+> > -
+> > -		p[i] =3D dpb[i].frame_num - max_frame_num;
+> > +		p[i] =3D builder->refs[i].frame_num;
+> >  	}
+> > =20
+> >  	for (j =3D 0; j < RKVDEC_NUM_REFLIST; j++) {
+> > -		for (i =3D 0; i < h264_ctx->reflists.num_valid; i++) {
+> > -			u8 dpb_valid =3D run->ref_buf_idx[i] >=3D 0;
+> > -			u8 idx =3D 0;
+> > +		for (i =3D 0; i < builder->num_valid; i++) {
+> > +			struct v4l2_h264_reference *ref;
+> > +			u8 dpb_valid;
+> > +			u8 bottom;
+>=20
+> These would be better as type bool.
+
+I never used a bool for bit operations before, but I guess that can work, t=
+hanks
+for the suggestion. As this deviates from the original code, I suppose I sh=
+ould
+make this a separate patch ?
+
+>=20
+> regards,
+> dan carpenter
+>=20
+> > =20
+> >  			switch (j) {
+> >  			case 0:
+> > -				idx =3D h264_ctx->reflists.p[i].index;
+> > +				ref =3D &h264_ctx->reflists.p[i];
+> >  				break;
+> >  			case 1:
+> > -				idx =3D h264_ctx->reflists.b0[i].index;
+> > +				ref =3D &h264_ctx->reflists.b0[i];
+> >  				break;
+> >  			case 2:
+> > -				idx =3D h264_ctx->reflists.b1[i].index;
+> > +				ref =3D &h264_ctx->reflists.b1[i];
+> >  				break;
+> >  			}
+> > =20
+> > -			if (idx >=3D ARRAY_SIZE(dec_params->dpb))
+> > +			if (WARN_ON(ref->index >=3D ARRAY_SIZE(dec_params->dpb)))
+> >  				continue;
+> > =20
+> > +			dpb_valid =3D run->ref_buf_idx[ref->index] >=3D 0;
+> > +			bottom =3D ref->fields =3D=3D V4L2_H264_BOTTOM_FIELD_REF;
+> > +
+> >  			set_ps_field(hw_rps, DPB_INFO(i, j),
+> > -				     idx | dpb_valid << 4);
+> > +				     ref->index | dpb_valid << 4);
+> > +			set_ps_field(hw_rps, BOTTOM_FLAG(i, j), bottom);
+> >  		}
+> >  	}
+> >  }
+>=20
 
