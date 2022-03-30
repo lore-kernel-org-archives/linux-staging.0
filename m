@@ -1,114 +1,111 @@
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7047C
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 18:52:56 +0000 (UTC)
-Received: by mail-io1-f49.google.com with SMTP id b16so25933970ioz.3
-        for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 11:52:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC017C;
+	Wed, 30 Mar 2022 19:14:20 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id bh17so3996543ejb.8;
+        Wed, 30 Mar 2022 12:14:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=northvilleschools.net; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=csFzrGs94hc9ejuvCE+fZueUzzUfTyueT4QFad6sO7A=;
-        b=kbnhEsKnagC3ws+rlRgd+RU28wvTNGRtMhsWmEWwmbYiqPqptlBL+A9mL7v0airgXu
-         nctI+WMn3dDObMW9CsUdJpTlbW4vKrL5pBUyx2pjSAtqZVv+f4VoIF+urD25EjG4nG9u
-         zLzFJIR4zoloxEVaPi2GQ7QjUEqZ9P2Zo2he6oaRZpKVsIm/s2LjMtk1F6dvaljt9fHj
-         O23mashsppwcbvWYUVZkgQs9nBEuiiElBXVO4KUIO2L6k/7d83gLBgZfI/FJ1ci/tLVu
-         sdfVNmsRF/qL4/DMVmAdkYk56XSbbKN/ryP/n2Us/yIx2PBPQQg8HII6vraxFFJ72lWN
-         sMOg==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NCSDRJRZlCX3e7uOeDLU6kERCIj4I7Er1tKnwqwYKMA=;
+        b=Rmu0hvbOX8eaSHKORfu191SNwV2QA2hqAtO5gsCaJUm2esBMjCRaCKSAbSwoaF+Hmw
+         dIwzPn0nPjLOzIOUpLTukUBXGqqYHQce7E7kGpF40ySsgsuyyBeZl7YXZSMcV3srcgre
+         DdQS2MWjhoUSVeNVricufO8tcpVtetPppOUWOrFscaDwoIhIwc32kknNESIMVGgTA0zs
+         tlaaulXQIQLV9Zk9pBCafMqtiuWX6tkumTdij8iejOB90Oed+ZefR5UANsJ7gYzEYwDN
+         BVw8Va2tT65rsA9kFZsle+OGfKg2/jbRcBJNatQ5MhNWbiDnH8MktPWpIeU/Fmny39mV
+         9LAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=csFzrGs94hc9ejuvCE+fZueUzzUfTyueT4QFad6sO7A=;
-        b=lRyU8DI7NgGNKYniL0bhy52GSonHt5xbPKN0rpoHxcTly4mXqH5eqqLxy2PQH+M++1
-         Ulh7QBqBTXW056Y/RpCRrQ7g3l/qGqfrBk8iER+pOWo7XxrdEEUBvupPI53nORrpPrUN
-         6oBMOh9xOilQ5Phj8Gmj650Swx1LHKG7LC6EYLjMaD49KhXJn15+I39SDa6blcMy1M6s
-         XofilzMpLum7wuYkyLKdj4u/nOHczQdcz3YsV8HYNcFqRVZxK0Fto6k4p3IkogY2ksn5
-         HqEv9rNFO/Yr0txCS4jdy43QizzULli7e7gTPV+fUqdKYhm9+21/S954ItDj3MOS3PZ6
-         FUaQ==
-X-Gm-Message-State: AOAM530/P3hhWq5Sia631G+F0sdEydlWU6lTzDIsO3a7c8OvbRdn+AEk
-	XRzcNFiSSeBZU/LdzV5ILeZzyQ==
-X-Google-Smtp-Source: ABdhPJzf+QgapgXK+iZ4oLIAi54xyUI7HuBOe15v2PKWDvHqC3zBMwB3TdP35jII066WX2V1hkbzwQ==
-X-Received: by 2002:a6b:14a:0:b0:649:a974:9042 with SMTP id 71-20020a6b014a000000b00649a9749042mr12139250iob.81.1648666375278;
-        Wed, 30 Mar 2022 11:52:55 -0700 (PDT)
-Received: from sckzor-linux (d4-50-247-168.col.wideopenwest.com. [50.4.168.247])
-        by smtp.gmail.com with ESMTPSA id k5-20020a6bf705000000b00649a2634725sm11587364iog.17.2022.03.30.11.52.54
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NCSDRJRZlCX3e7uOeDLU6kERCIj4I7Er1tKnwqwYKMA=;
+        b=NFcaY7uZUqYjQef/FK0QfQ/SACRyJOg9mEwkBYeiYVdXug/BbMsA6slTmatkiOeqez
+         COiPHMrEYi3p2KrcJFyFE3J1uOCefjG4Bf/6zTyB7sseitt7Eb7G+HViXUiKY6XTYxrw
+         atVLXr3DOmHMwIhejSKbxlGQPQ5MvYbNyr+SIFKATRfzy1eYLtE6hRgGXf+hyPK9i4m9
+         66ds4LuTAs7H35p2lGKk2rW0QXF0ZZdJP/9diykGYnzpY7p7UHjvRhp/ZolMhRd36tak
+         AoyGihIL3f5kpjXq+imig/d/aLkESBCHIRAVaH6C5tK70IA10UwTlRo5q0cgSB398wWr
+         R/iQ==
+X-Gm-Message-State: AOAM530YQnRr/FHR75ck0nm6mwF2rpHctHevTbQw9S0C9l6AlD9QtKwJ
+	V/gTxBRa3MeSEZBToKKeAtM=
+X-Google-Smtp-Source: ABdhPJyal9zlxaOI9M9P6dckapoFO3jQ2Nw/aHbPR+kqzTd8nXpGWQZsitAgb+8prWXHo8YAK+krcQ==
+X-Received: by 2002:a17:907:8688:b0:6d2:c19:e1a0 with SMTP id qa8-20020a170907868800b006d20c19e1a0mr1102572ejc.249.1648667658992;
+        Wed, 30 Mar 2022 12:14:18 -0700 (PDT)
+Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id eg6-20020a056402288600b0041919c78082sm10257328edb.87.2022.03.30.12.14.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Mar 2022 11:52:54 -0700 (PDT)
-Date: Wed, 30 Mar 2022 14:52:53 -0400
-From: Charlie Sands <sandsch@northvilleschools.net>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dan.carpenter@oracle.com
-Subject: [PATCH V2] staging: r8188eu: Fix sparse endianness warnings
-Message-ID: <YkSnBW70kruOyN9h@sckzor-linux.localdomain>
+        Wed, 30 Mar 2022 12:14:17 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	ira.weiny@intel.com,
+	outreachy@lists.linux.dev
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: vc04_services: Convert kmap() to kmap_local_page()
+Date: Wed, 30 Mar 2022 21:14:14 +0200
+Message-Id: <20220330191414.23141-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-This patch fixes sparse warnings about the endianness of different
-pieces of data in the driver.
+The use of kmap() is being deprecated in favor of kmap_local_page()
+where it is feasible. In file interface/vchiq_arm/vchiq_arm.c,
+function free_pagelist() calls kmap() / kunmap() from two places.
 
-Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for
-RTL8188eu driver")
-Signed-off-by: Charlie Sands <sandsch@northvilleschools.net>
+With kmap_local_page(), the mapping is per thread, CPU local and not
+globally visible. Therefore, free_pagelist() is a function where the
+use of kmap_local_page() in place of kmap() is correctly suited.
+
+Convert to kmap_local_page() but, instead of open coding it, use the
+memcpy_to_page() helper.
+
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
-V2: Added the "fixes" line to the commit at the request of Dan Carpenter.
+ .../vc04_services/interface/vchiq_arm/vchiq_arm.c   | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
- drivers/staging/r8188eu/core/rtw_br_ext.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index d68611ef22f8..ed41c4e30262 100644
---- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
- 	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
- 	int data_len;
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index f0bfacfdea80..efb1383b5218 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -431,21 +431,18 @@ free_pagelist(struct vchiq_pagelist_info *pagelistinfo,
+ 			if (head_bytes > actual)
+ 				head_bytes = actual;
  
--	data_len = tag->tag_len + TAG_HDR_LEN;
-+	data_len = be16_to_cpu(tag->tag_len) + TAG_HDR_LEN;
- 	if (skb_tailroom(skb) < data_len)
- 		return -1;
+-			memcpy((char *)kmap(pages[0]) +
++			memcpy_to_page(pages[0],
+ 				pagelist->offset,
+ 				fragments,
+ 				head_bytes);
+-			kunmap(pages[0]);
+ 		}
+ 		if ((actual >= 0) && (head_bytes < actual) &&
+-		    (tail_bytes != 0)) {
+-			memcpy((char *)kmap(pages[num_pages - 1]) +
+-				((pagelist->offset + actual) &
+-				(PAGE_SIZE - 1) & ~(g_cache_line_size - 1)),
++		    (tail_bytes != 0))
++			memcpy_to_page(pages[num_pages - 1],
++				(pagelist->offset + actual) &
++				(PAGE_SIZE - 1) & ~(g_cache_line_size - 1),
+ 				fragments + g_cache_line_size,
+ 				tail_bytes);
+-			kunmap(pages[num_pages - 1]);
+-		}
  
-@@ -432,7 +432,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
- 		/*                Handle PPPoE frame                 */
- 		/*---------------------------------------------------*/
- 		struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
--		unsigned short *pMagic;
-+		__be16 *pMagic;
- 
- 		switch (method) {
- 		case NAT25_CHECK:
-@@ -471,7 +471,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
- 						tag->tag_len = htons(MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN+old_tag_len);
- 
- 						/*  insert the magic_code+client mac in relay tag */
--						pMagic = (unsigned short *)tag->tag_data;
-+						pMagic = (__be16 *)tag->tag_data;
- 						*pMagic = htons(MAGIC_CODE);
- 						memcpy(tag->tag_data+MAGIC_CODE_LEN, skb->data+ETH_ALEN, ETH_ALEN);
- 
-@@ -557,9 +557,11 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
- 						struct icmp6hdr  *hdr = (struct icmp6hdr *)(skb->data + ETH_HLEN + sizeof(*iph));
- 						hdr->icmp6_cksum = 0;
- 						hdr->icmp6_cksum = csum_ipv6_magic(&iph->saddr, &iph->daddr,
--										iph->payload_len,
-+										be16_to_cpu(iph->payload_len),
- 										IPPROTO_ICMPV6,
--										csum_partial((__u8 *)hdr, iph->payload_len, 0));
-+										csum_partial((__u8 *)hdr,
-+										be16_to_cpu(iph->payload_len),
-+										0));
- 					}
- 				}
- 			}
+ 		down(&g_free_fragments_mutex);
+ 		*(char **)fragments = g_free_fragments;
 -- 
-2.35.1
+2.34.1
 
