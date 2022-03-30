@@ -1,98 +1,58 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DE3366
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 09:06:05 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a02:3030:d:7e3f:91e1:4be5:4001:fd80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id A82C61F413F2;
-	Wed, 30 Mar 2022 10:06:03 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648631163;
-	bh=RoXU/zRTOsprxcVyL8cesrL4y5J+39EDv2zM0wrojSw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RsYrTMkvC3ZG5fswH35ZdQ3YJ8wUwCx9HwSKpoVveS1P4plUbJMOOmxfZcOgWvrtq
-	 y/RvpouQH4alULASbqTjPnjMZO2Tfhkkd/khgWKywZGyTz/owP6fgxrMLvSY+9QE61
-	 mPuLXz8ItZ5004fOL7E7WB1tcoo8ieQn0m6XQrHw8YEUehwEd4voOlrYqzjf5LYs9u
-	 wZQmzb36WzWMm/ZKrkr0M0bZT1uQlK+ga0YELbaDNBM8Q++6tdEiE0VbxwrgepElDu
-	 Y9VgeOSh5yjgwCV2KyPS5zAS0wXDxOhJsDizR1oH4driNsA5WZdMaI6WaNtyxecJpY
-	 hcHiKcagipUzA==
-Date: Wed, 30 Mar 2022 11:06:00 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 16/24] media: rkvdec: Ensure decoded resolution fit
- coded resolution
-Message-ID: <20220330090600.blvhjzqnklu6zrnd@basti-XPS-13-9310>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-17-nicolas.dufresne@collabora.com>
- <20220329153933.nrbqhayyivqskrcf@basti-XPS-13-9310>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EADF7C
+	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 10:31:25 +0000 (UTC)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
+ (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 30 Mar
+ 2022 18:31:19 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 30 Mar
+ 2022 18:31:16 +0800
+From: Haowen Bai <baihaowen@meizu.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
+	<phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Haowen Bai <baihaowen@meizu.com>, <linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] staging: r8188eu: Fix misspelling in comment "writting" -> "writing"
+Date: Wed, 30 Mar 2022 18:31:15 +0800
+Message-ID: <1648636275-13558-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220329153933.nrbqhayyivqskrcf@basti-XPS-13-9310>
+Content-Type: text/plain
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-124.meizu.com (172.16.1.124) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 
-Hey Nicolas,
+This patch fixes some spelling typo in error message reported by
+checkpatch.pl
 
-Also typo in title:
-s/Ensure decoded resolution fit coded resolution/
-   Ensure decoded resolution fits coded resolution/
+WARNING: 'writting' may be misspelled - perhaps 'writing'?
 
-Greetings,
-Sebastian
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+ drivers/staging/r8188eu/hal/usb_halinit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 29.03.2022 17:39, Sebastian Fricke wrote:
->Hey Nicolas,
->
->On 28.03.2022 15:59, Nicolas Dufresne wrote:
->>From: Jonas Karlman <jonas@kwiboo.se>
->>
->>Ensure decoded CAPTURE buffer resolution is larger or equal to the coded
->>OPTUPT buffer resolution.
->
->s/OPTUPT/OUTPUT/
->
->>
->>Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->
->>---
->>drivers/staging/media/rkvdec/rkvdec.c | 2 ++
->>1 file changed, 2 insertions(+)
->>
->>diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
->>index 05824f1997f7..22c0382c579e 100644
->>--- a/drivers/staging/media/rkvdec/rkvdec.c
->>+++ b/drivers/staging/media/rkvdec/rkvdec.c
->>@@ -269,6 +269,8 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
->>		pix_mp->pixelformat = coded_desc->decoded_fmts[0];
->>
->>	/* Always apply the frmsize constraint of the coded end. */
->
->s/frmsize/framesize/
->s/constraint/constraints/
->s/coded end/coded format/
->
->Greetings,
->Sebastian
->
->>+	pix_mp->width = max(pix_mp->width, ctx->coded_fmt.fmt.pix_mp.width);
->>+	pix_mp->height = max(pix_mp->height, ctx->coded_fmt.fmt.pix_mp.height);
->>	v4l2_apply_frmsize_constraints(&pix_mp->width,
->>				       &pix_mp->height,
->>				       &coded_desc->frmsize);
->>-- 
->>2.34.1
->>
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index a927743..e334c9b 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -123,7 +123,7 @@ static void _InitQueueReservedPage(struct adapter *Adapter)
+ 		if (haldata->OutEpQueueSel & TX_SELE_LQ)
+ 			numLQ = 0x1C;
+ 
+-		/*  NOTE: This step shall be proceed before writting REG_RQPN. */
++		/*  NOTE: This step shall be proceed before writing REG_RQPN. */
+ 		if (haldata->OutEpQueueSel & TX_SELE_NQ)
+ 			numNQ = 0x1C;
+ 		value8 = (u8)_NPQ(numNQ);
+-- 
+2.7.4
+
