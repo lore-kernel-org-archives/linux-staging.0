@@ -1,48 +1,44 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972E4366;
-	Wed, 30 Mar 2022 00:52:32 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id hu11so15755650qvb.7;
-        Tue, 29 Mar 2022 17:52:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=+sHB2K20EL//AH+6So4JQczV3z9OH1YB7s4Uv15wvfE=;
-        b=Jj5lL1O8uvEtVWKfr5l1tByGRVtJko2A30NFWmU4LXBvjqGKBpv5biPxbO2Ic+Qek3
-         WZU21PcjfD8/n2sIDQfKpFvMgSLV8rarGp1zxW4QbskbnV6Ee3ysw835MYA0laLXpveG
-         rcfA+RGtz5lAHLb1YC7wn7AxMSv1IkUz141b0XQ+HiNT+Y1IgmurJrv9WGXaLVdei7k1
-         jHxNZ3v9mIKyfP+DTRb8v+0uWb75QoUio8ND3XebB1vPL6uxiJ4REpwbVbdS7rpX4Edz
-         fo02KAZ1FBPZej+3U72iSvhEb17v817LPtZvS6HOCnUuz+aLs5S1c/CJZGj0tO6ighbG
-         56pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=+sHB2K20EL//AH+6So4JQczV3z9OH1YB7s4Uv15wvfE=;
-        b=aiFN/9f8/rBLhThOtjo4kObQc3/WSLWtnrklo4isGjQODoRYsX466eNZE+VrCd9ghQ
-         GNM6BA9N0y40BXdUh1iu2aWUyZICHR9ALhOH8e2Euxi826iQhqhWlkUf69a/H31sFRO2
-         Lbk/pkCQx9aogqA52x07iGHTOKnYJ7hrCXkEJ0RCMV8+Xyux1Dm4k8ZtcpctgsyhkxXe
-         fX+hgDHTHCGV9jeU0IHdhnxMPirO0xgc5uk5nFoG0UCZs9GNYRSS0J+IWm1Mof/7mXnZ
-         v566pbdrGeHJGsnvmZUm566mkeFhokzgdnnGHCzQI2zkfnJFcaYYsTrTyvnqxQLTPGTr
-         5kHw==
-X-Gm-Message-State: AOAM530HsBfhJMfizlZdqLXlHbJPliPuAHDSoUS5wumFy+hrhwtxjZ+h
-	S+AqhRphtyxmWGi5/irxViTEIGIzFcxJEZ78
-X-Google-Smtp-Source: ABdhPJxgOE1NKI9hmwdJ4V0TgoDjzjZaUV1wkMv6NwanObP7mGxtBqkddhRrCrpYVMH9kHpMTNYh4A==
-X-Received: by 2002:a05:6214:c82:b0:441:1ec7:a225 with SMTP id r2-20020a0562140c8200b004411ec7a225mr28745677qvr.123.1648601551130;
-        Tue, 29 Mar 2022 17:52:31 -0700 (PDT)
-Received: from euclid ([71.58.109.160])
-        by smtp.gmail.com with ESMTPSA id x20-20020ac85f14000000b002e1ee1c56c3sm16759682qta.76.2022.03.29.17.52.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Mar 2022 17:52:30 -0700 (PDT)
-Date: Tue, 29 Mar 2022 20:52:29 -0400
-From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38763366;
+	Wed, 30 Mar 2022 01:07:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648602453; x=1680138453;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8KIRnNLoi9wMoGub3g/iUrpxj6QpD9v0f1yJbTbQg3I=;
+  b=h3fosuhljMh5GrBHP2rBkGeSDaClH04t+2cldcmy0QCE8S2wey62R8m/
+   TWJRkL/FushyjO8ZY5g9jOmcCrwJc8N55oHcfXEk6yetG464jncBoGvl1
+   G6MbPobbbtb+t8KuNxpaEjxIHH31T6P0WMq1DgDBU2ymL8jSoXxij8i6c
+   JIAWdR0Xxp5O0DccKDgw7yKT7yM8V65j/X1hKORBqtMi2gc4VWcvh9q8c
+   MHCOWmw1ei9oIgg3jp2FXTUQ75BLMerIbD7jl6OfI/nKjlto2RrUNEvJC
+   /3iL3FNzM/QIJnv6GyBOcJK8QUnuBxxlC8pssWNzCH4d+uVEXA7VVITV5
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="258246109"
+X-IronPort-AV: E=Sophos;i="5.90,221,1643702400"; 
+   d="scan'208";a="258246109"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 18:07:32 -0700
+X-IronPort-AV: E=Sophos;i="5.90,221,1643702400"; 
+   d="scan'208";a="787817665"
+Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 18:07:32 -0700
+Date: Tue, 29 Mar 2022 18:09:56 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Rebecca Mckeever <remckee0@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev
-Subject: [PATCH v2] staging: rtl8723bs: remove redundant braces in if
- statements
-Message-ID: <20220330005229.GA318642@euclid>
+Subject: Re: [PATCH] staging: r8188eu: fix suspect code indent for
+ conditional statements
+Message-ID: <20220330010956.GA1173030@alison-desk>
+References: <YkK7ABTVt0TCbd18@bertie>
+ <20220329161632.GA1169956@alison-desk>
+ <YkOowzOkAE5Fr1dW@bertie>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,66 +47,84 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <YkOowzOkAE5Fr1dW@bertie>
 
-Adhere to Linux kernel coding style.
+On Tue, Mar 29, 2022 at 07:48:03PM -0500, Rebecca Mckeever wrote:
+> On Tue, Mar 29, 2022 at 09:16:32AM -0700, Alison Schofield wrote:
+> > On Tue, Mar 29, 2022 at 02:53:36AM -0500, Rebecca Mckeever wrote:
+> > > Align the if and else if branches of the conditional statement
+> > > to improve readability. Prevent bugs that could be introduced
+> > > if developers misread the code. Issue found by checkpatch.
+> > 
+> > Thanks for the patch Rebecca!
+> > 
+> > Lots of stuff done right - passes chkp, compiles, patch is sent to
+> > correct recipients, the commit message follows the format of the file.
+> > 
+> > Let's set a pattern here for all checkpatch related cleanups,
+> > for you and others that follow.(Thanks for being the first ;))
+> > 
+> > Commit msg says 'what'. Commit log says 'why'. Acknowledge that
+> > it was found using checkpatch in the commit log also. (In the future
+> > you may be acknowledging use of other tools like sparse, coccinelle.)
+> > 
+> > Note that the 'why' is never that a tool reported an error. The 'why'
+> > for these checkpatch reports is usually to follow the Linux Kernel
+> > Coding Style.
+> > 
+> > 'Fix' in the commit message is needlessly generic. Perhaps:
+> > [PATCH] staging: r8188eu: align both branches of a conditional statement
+> > 
+> > Commit log: (what you have is fine in the log)
+> > I usually paste in the checkpatch error explicitly so it can be grep'd
+> > for. Something like:
+> > 
+> > Issue found by checkpatch:
+> > WARNING: suspect code indent for conditional statements
+> 
+> There was a section of https://kernelnewbies.org/PatchPhilosophy that suggested
+> putting the warning message in the subject line. I thought it would be
+> redundant to also put it in the body. Is it a good practice to include the
+> warning message in both places?
+> 
+The commit msg should say what you did. If it happens to match the
+warning message, that's fine. Think of the commit msg as directives
+to a machine. 
 
-Reported by checkpatch:
+This patch has already been applied :)
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-testing&id=20b4b3fb383b3a499b8b47daaf1d6325faa9cfe2
 
-WARNING: braces {} are not necessary for single statement blocks
+You can view contents of staging-testing here:
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/log/?h=staging-testing
 
-Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 27de086903e2..68e41d99679d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -335,9 +335,8 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
- 
- 	ie = rtw_set_ie(ie, WLAN_EID_IBSS_PARAMS, 2, (u8 *)&(pdev_network->configuration.atim_window), &sz);
- 
--	if (rateLen > 8) {
-+	if (rateLen > 8)
- 		ie = rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rateLen - 8), (pdev_network->supported_rates + 8), &sz);
--	}
- 
- 	/* HT Cap. */
- 	if ((pregistrypriv->wireless_mode & WIRELESS_11_24N) &&
-@@ -366,9 +365,8 @@ unsigned char *rtw_get_wpa_ie(unsigned char *pie, int *wpa_ie_len, int limit)
- 
- 		if (pbuf) {
- 			/* check if oui matches... */
--			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type))) {
-+			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type)))
- 				goto check_next_ie;
--			}
- 
- 			/* check version... */
- 			memcpy((u8 *)&le_tmp, (pbuf + 6), sizeof(val16));
-@@ -493,9 +491,8 @@ int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwis
- 	if (is_8021x) {
- 		if (left >= 6) {
- 			pos += 2;
--			if (!memcmp(pos, SUITE_1X, 4)) {
-+			if (!memcmp(pos, SUITE_1X, 4))
- 				*is_8021x = 1;
--			}
- 		}
- 	}
- 
-@@ -514,9 +511,8 @@ int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher, int *pairwi
- 		return _FAIL;
- 	}
- 
--	if ((*rsn_ie != WLAN_EID_RSN) || (*(rsn_ie+1) != (u8)(rsn_ie_len - 2))) {
-+	if ((*rsn_ie != WLAN_EID_RSN) || (*(rsn_ie+1) != (u8)(rsn_ie_len - 2)))
- 		return _FAIL;
--	}
- 
- 	pos = rsn_ie;
- 	pos += 4;
--- 
-2.25.1
-
+> > 
+> > Thanks,
+> > Alison
+> > 
+> > > 
+> > > Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
+> > > ---
+> > >  drivers/staging/r8188eu/core/rtw_cmd.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+> > > index 6eca30124ee8..ccc43c0ba433 100644
+> > > --- a/drivers/staging/r8188eu/core/rtw_cmd.c
+> > > +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+> > > @@ -1408,7 +1408,7 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+> > >  		/* TODO: cancel timer and do timeout handler directly... */
+> > >  		/* need to make timeout handlerOS independent */
+> > >  		_set_timer(&pmlmepriv->scan_to_timer, 1);
+> > > -		} else if (pcmd->res != H2C_SUCCESS) {
+> > > +	} else if (pcmd->res != H2C_SUCCESS) {
+> > >  		_set_timer(&pmlmepriv->scan_to_timer, 1);
+> > >  	}
+> > >  
+> > > -- 
+> > > 2.32.0
+> > > 
+> > > 
+> > 
+> 
+> Thanks,
+> Rebecca
