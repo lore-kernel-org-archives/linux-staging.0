@@ -1,130 +1,163 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2707B
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 15:28:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: nicolas)
-	with ESMTPSA id 0F1B61F45096
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648654086;
-	bh=XqP59wNQgL49UoC/qJA6H4F54qe+92UN4Pm6NzrUT+Y=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=d4ZVJbLKFH8ofeoSJ7TaFRhX6JNUT7dGadFrW94uBDCcShCX53CjdxIm4zSZEGaRU
-	 P9rh6Slo86It4EDl3n7U8/mSQlMqc2mdw+eVuoDZ2TciPFCzHMzp5V4nAfGhI3J0oa
-	 ij0QR+GFV3qNvRFmUtCNMtHJOYBtb5D/4kHhbKywN5d8K12NCGPYi60O19yEE+M03V
-	 5XDrwpL5qHtJcfC6C4wZ5AV+7veBl9oxjiaKgnUqWCRH6q6fVDgv4t7e/mdzVcnLHd
-	 12rZNSGduPN8qGwp8bK14UsPNaFvGdgWt//pZESLlqezrSUIL6u1UcHbmu9VZTqRnR
-	 slNt9zFRegxXQ==
-Message-ID: <835323cf7278da60998c3cf7a1e3fca08a3e14d6.camel@collabora.com>
-Subject: Re: [PATCH v1 24/24] media: rkvdec-h264: Don't hardcode SPS/PPS
- parameters
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	kernel@collabora.com, Alex Bee <knaerzche@gmail.com>, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Wed, 30 Mar 2022 11:27:51 -0400
-In-Reply-To: <20220329072216.gqzcp6lowpfrweb7@basti-XPS-13-9310>
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
-	 <20220328195936.82552-25-nicolas.dufresne@collabora.com>
-	 <20220329072216.gqzcp6lowpfrweb7@basti-XPS-13-9310>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03007B
+	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 15:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1648654130;
+	bh=Y2gWGiyGET0aaB7nZfjwQVU5pPS63T1+UMxe5VYM0A4=;
+	h=From:To:Cc:Subject:Date;
+	b=SN3XAej9ilhOFkKPo7e9w489G7wPiWF7zxBi9uWJd5YjSVRIhk/bYnFzRz1dZvXMj
+	 iysoboatWYEpqGxDQrrwN3LazXP/6rcG2Xesy1F9NrvHCqy4craEh5ps6b+ajrqJ5s
+	 5lBkAUShRwYd5ErxhD2Bf1DAmj2pQId9JZe7PFnY=
+Received: from localhost.localdomain ([43.227.136.188])
+	by newxmesmtplogicsvrsza7.qq.com (NewEsmtp) with SMTP
+	id 72FBC21C; Wed, 30 Mar 2022 23:28:47 +0800
+X-QQ-mid: xmsmtpt1648654127t47znl2d3
+Message-ID: <tencent_12789CD2DEBF33C818B3542E170737854506@qq.com>
+X-QQ-XMAILINFO: NwIPvWX4YDagLxUpX5W5nIF/mfb+aK4Kow7/soLuRKpM94Ck6dWpMTSHVCb8ij
+	 7NWQpmfgbQsX64JoKUTtoVwYtV4Gsqauj3PHKWUahRML7j7Mx1kVU89YSTbBdiOtJnJIMCbYSO4c
+	 Sgxe2/GUZBApe1W4mrQwLRLwa1mUiD8/hGuZ6fwFejjbdKYTNE9m/DXZTcLOzZxNsUFtlaW05XHV
+	 5HngVLs4ycd7JI/0DD9OxJ1wXEcvla8YVCuW89o3+DHzZY5GimTc7KJ+c1Y1s6pHhV3UDfz1cI5X
+	 qHNhVX9iyV68SPR3CNiNoocMzrMWaSkJFJPMaIBgfYwcyD07vPxJgAC5sKoWOP3gr4jK7Mcp6bKH
+	 sjNk88j7CJB408Q+FNLuxv/EVnImo/X+TUoGsc84/bBC7azYQTnH7nWB9xsP5pjhx2Kv9AWibXkV
+	 4ucDFFJ2KO7tmOSU4rIdy/4dsBbXdbP+C6j4ExdMzxUMRphw29tpCZn+XL5nzB6OI55WJK6OASvL
+	 UyUn24Ibb616Lzd8temaXB++jPGb/JjjEbLe06Ed1o2mVsDxaVdg6rYNYZ2MFHsR/BL7Fnuc22aB
+	 mPeerOSo5cmJ6zu5lXjFsIyZqGp7vMLzYAi4Ke1ZBFPlrEFXj56h5BxElJp99Oh4D/vJafBUFBdd
+	 lPX7tlXOZnhptb81Mr6OB45Q65jeJSngb8k/thmRq9OFZ2RWx28/Kq+ecdXgS4z1EgNBIeMFklOf
+	 zslkEMDGTaF0ATyBLX3NC+72+sYgCLpcRikDBHWYf81pZ084DIGW4CdoW7xMrAHAtlgxuvTcZx39
+	 FFedKnD3WT5cP52DLbAD42LQ7Swi16ZrzX/ttwDG7GCfhGcMg5B+rV85dpRDhIJJZkhDs/g8aElT
+	 Pgo7q2oroLsEza67u/Bfz75FpclNlGVsId299nsL4MFOEs5GAKJlsJuOhycxS7s8QSNLd311OnHN
+	 0AYP0I+U8KwGXITiAj3Q5lzR2OgoG0NKpDK8cuoI909pPMP/ehSQ==
+From: xkernel.wang@foxmail.com
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Xiaoke Wang <xkernel.wang@foxmail.com>
+Subject: [PATCH 1/2] staging: r8188eu: properly handle the kzalloc()
+Date: Wed, 30 Mar 2022 23:16:07 +0800
+X-OQ-MSGID: <20220330151607.6639-1-xkernel.wang@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Le mardi 29 mars 2022 =C3=A0 09:22 +0200, Sebastian Fricke a =C3=A9crit=C2=
-=A0:
-> Hey Nicolas,
->=20
-> The patch series doesn't seem to apply on the latest media tree master
-> branch. Looking at your tree I can see that you have commit: ba2c670a
-> "media: nxp: Restrict VIDEO_IMX_MIPI_CSIS to ARCH_MXC or COMPILE_TEST
-> Laurent Pinchart authored 1 week ago "
->=20
-> But the current head of the media tree is: 71e6d0608e4d
-> "media: platform: Remove unnecessary print function dev_err()
-> Yang Li authored 13 days ago"
->=20
-> On 28.03.2022 15:59, Nicolas Dufresne wrote:
-> > From: Alex Bee <knaerzche@gmail.com>
-> >=20
-> > Some SPS/PPS parameters are currently hardcoded in the driver
-> > even though so do exist in the uapi which is stable by now.
->=20
-> s/even though so/even though they/
-> >=20
-> > Use them instead of hardcoding them.
-> >=20
-> > Conformance tests have shown there is no difference, but it might
-> > increase decoder performance.
->=20
-> I think it would be great if we could add some performance metrics to
-> the commit description to have a metric that following patches could
-> compare themselves with.
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-Alex, can you extend on this one? I'm not sure how this can impact performa=
-nce,
-so I doubt any mitric will be significant. Can I just drop that part of the
-comment ?
->=20
-> Greetings,
-> Sebastian
->=20
-> >=20
-> > Signed-off-by: Alex Bee <knaerzche@gmail.com>
-> > ---
-> > drivers/staging/media/rkvdec/rkvdec-h264.c | 13 +++++++------
-> > 1 file changed, 7 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
-ng/media/rkvdec/rkvdec-h264.c
-> > index 891c48bf6a51..91f65d78e453 100644
-> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > @@ -655,13 +655,14 @@ static void assemble_hw_pps(struct rkvdec_ctx *ct=
-x,
-> >=20
-> > #define WRITE_PPS(value, field) set_ps_field(hw_ps->info, field, value)
-> > 	/* write sps */
-> > -	WRITE_PPS(0xf, SEQ_PARAMETER_SET_ID);
-> > -	WRITE_PPS(0xff, PROFILE_IDC);
-> > -	WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
-> > +	WRITE_PPS(sps->seq_parameter_set_id, SEQ_PARAMETER_SET_ID);
-> > +	WRITE_PPS(sps->profile_idc, PROFILE_IDC);
-> > +	WRITE_PPS((sps->constraint_set_flags & 1 << 3) ? 1 : 0, CONSTRAINT_SE=
-T3_FLAG);
-> > 	WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
-> > 	WRITE_PPS(sps->bit_depth_luma_minus8, BIT_DEPTH_LUMA);
-> > 	WRITE_PPS(sps->bit_depth_chroma_minus8, BIT_DEPTH_CHROMA);
-> > -	WRITE_PPS(0, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
-> > +	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM=
-_BYPASS),
-> > +		  QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
-> > 	WRITE_PPS(sps->log2_max_frame_num_minus4, LOG2_MAX_FRAME_NUM_MINUS4);
-> > 	WRITE_PPS(sps->max_num_ref_frames, MAX_NUM_REF_FRAMES);
-> > 	WRITE_PPS(sps->pic_order_cnt_type, PIC_ORDER_CNT_TYPE);
-> > @@ -679,8 +680,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
-> > 		  DIRECT_8X8_INFERENCE_FLAG);
-> >=20
-> > 	/* write pps */
-> > -	WRITE_PPS(0xff, PIC_PARAMETER_SET_ID);
-> > -	WRITE_PPS(0x1f, PPS_SEQ_PARAMETER_SET_ID);
-> > +	WRITE_PPS(pps->pic_parameter_set_id, PIC_PARAMETER_SET_ID);
-> > +	WRITE_PPS(pps->seq_parameter_set_id, PPS_SEQ_PARAMETER_SET_ID);
-> > 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE),
-> > 		  ENTROPY_CODING_MODE_FLAG);
-> > 	WRITE_PPS(!!(pps->flags & V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN=
-_FRAME_PRESENT),
-> > --=20
-> > 2.34.1
-> >=20
+kzalloc() is a memory allocation function which can return NULL when
+some internal memory errors happen. So it is better to handle the return
+of it to prevent potential wrong memory access.
+For the kzalloc() in go_add_group_info_attr(), since there is a lack
+of error handlers along the call chain it lies and the lifetime of
+`pdata_attr` is only in go_add_group_info_attr(), `pdata_attr` is roughly
+changed to a local variable on stack like the other functions in 
+rtw_p2p.c, such as `u8 p2pie[MAX_P2P_IE_LEN] = { 0x00 };` in 
+issue_p2p_presence_resp().
 
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_p2p.c     |  6 ++----
+ drivers/staging/r8188eu/core/rtw_xmit.c    | 12 +++++++++---
+ drivers/staging/r8188eu/include/rtw_xmit.h |  2 +-
+ 3 files changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
+index e2b6cf2..f1a5df8 100644
+--- a/drivers/staging/r8188eu/core/rtw_p2p.c
++++ b/drivers/staging/r8188eu/core/rtw_p2p.c
+@@ -27,15 +27,14 @@ static u32 go_add_group_info_attr(struct wifidirect_info *pwdinfo, u8 *pbuf)
+ 	struct list_head *phead, *plist;
+ 	u32 len = 0;
+ 	u16 attr_len = 0;
+-	u8 tmplen, *pdata_attr, *pstart, *pcur;
++	u8 pdata_attr[MAX_P2P_IE_LEN] = { 0x00 };
++	u8 tmplen, *pstart, *pcur;
+ 	struct sta_info *psta = NULL;
+ 	struct adapter *padapter = pwdinfo->padapter;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 
+ 	DBG_88E("%s\n", __func__);
+ 
+-	pdata_attr = kzalloc(MAX_P2P_IE_LEN, GFP_KERNEL);
+-
+ 	pstart = pdata_attr;
+ 	pcur = pdata_attr;
+ 
+@@ -106,7 +105,6 @@ static u32 go_add_group_info_attr(struct wifidirect_info *pwdinfo, u8 *pbuf)
+ 	if (attr_len > 0)
+ 		len = rtw_set_p2p_attr_content(pbuf, P2P_ATTR_GROUP_INFO, attr_len, pdata_attr);
+ 
+-	kfree(pdata_attr);
+ 	return len;
+ }
+ 
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 46fe62c..5888979 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -179,7 +179,9 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 
+ 	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
+ 
+-	rtw_alloc_hwxmits(padapter);
++	res = rtw_alloc_hwxmits(padapter);
++	if (res == _FAIL)
++		goto exit;
+ 	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
+ 
+ 	for (i = 0; i < 4; i++)
+@@ -202,7 +204,6 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 	rtw_hal_init_xmit_priv(padapter);
+ 
+ exit:
+-
+ 	return res;
+ }
+ 
+@@ -1516,7 +1517,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 	return res;
+ }
+ 
+-void rtw_alloc_hwxmits(struct adapter *padapter)
++s32 rtw_alloc_hwxmits(struct adapter *padapter)
+ {
+ 	struct hw_xmit *hwxmits;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+@@ -1525,6 +1526,9 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
+ 
+ 	pxmitpriv->hwxmits = kzalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry, GFP_KERNEL);
+ 
++	if (!pxmitpriv->hwxmits)
++		return _FAIL;
++
+ 	hwxmits = pxmitpriv->hwxmits;
+ 
+ 	if (pxmitpriv->hwxmit_entry == 5) {
+@@ -1540,6 +1544,8 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
+ 		hwxmits[3] .sta_queue = &pxmitpriv->bk_pending;
+ 	} else {
+ 	}
++
++	return _SUCCESS;
+ }
+ 
+ void rtw_free_hwxmits(struct adapter *padapter)
+diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
+index 5f6e240..b45cd29 100644
+--- a/drivers/staging/r8188eu/include/rtw_xmit.h
++++ b/drivers/staging/r8188eu/include/rtw_xmit.h
+@@ -345,7 +345,7 @@ s32 rtw_txframes_sta_ac_pending(struct adapter *padapter,
+ void rtw_init_hwxmits(struct hw_xmit *phwxmit, int entry);
+ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter);
+ void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv);
+-void rtw_alloc_hwxmits(struct adapter *padapter);
++s32 rtw_alloc_hwxmits(struct adapter *padapter);
+ void rtw_free_hwxmits(struct adapter *padapter);
+ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **pkt);
+ 
+-- 
