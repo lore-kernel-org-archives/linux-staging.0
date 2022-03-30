@@ -1,140 +1,124 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0A62F46
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 20:56:26 +0000 (UTC)
-Received: from dslb-178-004-172-185.178.004.pools.vodafone-ip.de ([178.4.172.185] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1nZefy-0007FS-Jc; Wed, 30 Mar 2022 22:12:18 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 1/2] staging: r8188eu: remove the "dump rx packet" fragments
-Date: Wed, 30 Mar 2022 22:12:09 +0200
-Message-Id: <20220330201210.175941-2-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220330201210.175941-1-martin@kaiser.cx>
-References: <20220330201210.175941-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02002C80;
+	Wed, 30 Mar 2022 21:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1648674680; x=1680210680;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=keon6mJSiu6oJTFE85youukWofwphPuyQTu9o5aZfkI=;
+  b=IHlTFB+2s8niBP3np51PR7rAGkkpRpK42uzFh4VfYV63RhixM+Cmb606
+   Y9krwY35KyW1CZfZ+pPqMcLezy6+VtEmnMZllP44u8soDl+Y9wTdwWiOp
+   WaaJv2BtalAdkqspSk4Aw+CLe6dahazsGiQbiIAyIyR3VHmPyC8z+zdbm
+   Miqw1TVWxdtYE5bCEI6ui4WvSNRxX99yZ2DYhOpDGPFCAQe2kFYh1c4uo
+   WU6nyt419UiXkTdKk5hAy+qls70CJbkdvxearTpybqhlN8k5xSuXZaDP+
+   OpEXgtXf6N91NAq2FAHCn5a2FqmF95HxBMVO6zFUOcFL7MsEXsPQtwUoN
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="346083831"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; 
+   d="scan'208";a="346083831"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 14:11:20 -0700
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; 
+   d="scan'208";a="639869076"
+Received: from npeper-mobl1.amr.corp.intel.com (HELO localhost) ([10.212.16.15])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2022 14:11:19 -0700
+Date: Wed, 30 Mar 2022 14:11:19 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benjamin Philip <benjamin.philip495@gmail.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Colin Ian King <colin.king@intel.com>,
+	Samuel =?iso-8859-1?Q?Sj=F6berg?= <info@samuelsjoberg.se>,
+	Charlie Sands <sandsch@northvilleschools.net>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@oracle.com>, outreachy@lists.linux.dev
+Subject: Re: [PATCH v4] staging: rts5208: Convert kmap() to kmap_local_page()
+Message-ID: <YkTHG+HSlU9u1FoV@iweiny-desk3>
+References: <20220330143331.8306-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220330143331.8306-1-fmdefrancesco@gmail.com>
 
-Remove the code fragments for printing incoming packets. There's only a
-hal variable HAL_DEF_DBG_DUMP_RXPKT and the bDumpRxPkt component of
-struct hal_data_8188e.
+On Wed, Mar 30, 2022 at 04:33:31PM +0200, Fabio M. De Francesco wrote:
+> The use of kmap() is being deprecated in favor of kmap_local_page()
+> where it is feasible.
+> 
+> With kmap_local_page(), the mapping is per thread, CPU local and not
+> globally visible. Therefore rtsx_stor_access_xfer_buf() is a function
+> where the use of kmap_local_page() in place of kmap() is correctly
+> suited.
+> 
+> Convert to kmap_local_page() but, instead of open coding it, use the
+> helpers memcpy_to_page() and memcpy_from_page().
+> 
+> Make a minor change to a comment related to scatter-gather.
+> 
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 
-The hal variable is set by a private ioctl, it's read in
-validate_recv_frame but it's not used.
+Thanks!
 
-All of this can be removed, there's no code to dump the packets.
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_recv.c        | 4 ----
- drivers/staging/r8188eu/hal/usb_halinit.c      | 6 ------
- drivers/staging/r8188eu/include/hal_intf.h     | 1 -
- drivers/staging/r8188eu/include/rtl8188e_hal.h | 1 -
- drivers/staging/r8188eu/os_dep/ioctl_linux.c   | 5 +----
- 5 files changed, 1 insertion(+), 16 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 62cf2df90073..476bd4f22528 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -1060,7 +1060,6 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 	/* then call check if rx seq/frag. duplicated. */
- 
- 	int retval = _FAIL;
--	u8 bDumpRxPkt;
- 	struct rx_pkt_attrib *pattrib = &precv_frame->attrib;
- 	u8 *ptr = precv_frame->rx_data;
- 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)precv_frame->rx_data;
-@@ -1086,9 +1085,6 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 	pattrib->privacy = ieee80211_has_protected(hdr->frame_control);
- 	pattrib->order = ieee80211_has_order(hdr->frame_control);
- 
--	/* Dump rx packets */
--	GetHalDefVar8188EUsb(adapter, HAL_DEF_DBG_DUMP_RXPKT, &bDumpRxPkt);
--
- 	/* We return _SUCCESS only for data frames. */
- 	if (ieee80211_is_mgmt(hdr->frame_control))
- 		validate_recv_mgnt_frame(adapter, precv_frame);
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 789ad11170b2..0b6bf84acff6 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1401,9 +1401,6 @@ void GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariab
- 	case HAL_DEF_DBG_DM_FUNC:
- 		*((u32 *)pValue) = haldata->odmpriv.SupportAbility;
- 		break;
--	case HAL_DEF_DBG_DUMP_RXPKT:
--		*((u8 *)pValue) = haldata->bDumpRxPkt;
--		break;
- 	case HAL_DEF_DBG_DUMP_TXPKT:
- 		*((u8 *)pValue) = haldata->bDumpTxPkt;
- 		break;
-@@ -1436,9 +1433,6 @@ void SetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariab
- 			}
- 		}
- 		break;
--	case HAL_DEF_DBG_DUMP_RXPKT:
--		haldata->bDumpRxPkt = *((u8 *)pValue);
--		break;
- 	case HAL_DEF_DBG_DUMP_TXPKT:
- 		haldata->bDumpTxPkt = *((u8 *)pValue);
- 		break;
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 6f661c4af358..8ecb49c4f038 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -45,7 +45,6 @@ enum hw_variables {
- enum hal_def_variable {
- 	HAL_DEF_IS_SUPPORT_ANT_DIV,
- 	HAL_DEF_CURRENT_ANTENNA,
--	HAL_DEF_DBG_DUMP_RXPKT,/* for dbg */
- 	HAL_DEF_DBG_DM_FUNC,/* for dbg */
- 	HAL_DEF_DBG_DUMP_TXPKT,
- };
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 82cb4f7f4d3e..5bda353b6a41 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -160,7 +160,6 @@ struct hal_data_8188e {
- 	u8	AntDivCfg;
- 	u8	TRxAntDivType;
- 
--	u8	bDumpRxPkt;/* for debug */
- 	u8	bDumpTxPkt;/* for debug */
- 
- 	u8	OutEpQueueSel;
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index eb9375b0c660..a45d60a7c19b 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -3633,11 +3633,8 @@ static int rtw_dbg_port(struct net_device *dev,
- 		case 0x09:
- 			break;
- 		case 0x0c:/* dump rx/tx packet */
--			if (arg == 0) {
--				SetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DUMP_RXPKT, &extra_arg);
--			} else if (arg == 1) {
-+			if (arg == 1)
- 				SetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DUMP_TXPKT, &extra_arg);
--			}
- 			break;
- 		case 0x15:
- 			break;
--- 
-2.30.2
-
+> ---
+> 
+> v1 -> v2: Rework the commit message and use the appropriate helpers
+> instead of open coding the use of kmap_local_page()/kunmap_local_page().
+> (Thanks to Ira Weiny <ira.weiny@intel.com>).
+> 
+> v2 -> v3: Use memcpy_{to,from}_page() arguments correctly.
+> (Thanks to Dan Carpenter <dan.carpenter@oracle.com>).
+> 
+> v3 -> v4: According to a suggestion by Ira Weiny, change the test
+> of a comment related to the use of scatter-gather.
+> 
+>  drivers/staging/rts5208/rtsx_transport.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/rts5208/rtsx_transport.c b/drivers/staging/rts5208/rtsx_transport.c
+> index 805dc18fac0a..d5ad49de4c56 100644
+> --- a/drivers/staging/rts5208/rtsx_transport.c
+> +++ b/drivers/staging/rts5208/rtsx_transport.c
+> @@ -55,9 +55,9 @@ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
+>  		*offset += cnt;
+>  
+>  	/*
+> -	 * Using scatter-gather.  We have to go through the list one entry
+> -	 * at a time.  Each s-g entry contains some number of pages, and
+> -	 * each page has to be kmap()'ed separately.
+> +	 * Using scatter-gather. We have to go through the list one entry
+> +	 * at a time. Each s-g entry contains some number of pages which
+> +	 * have to be copied one at a time.
+>  	 */
+>  	} else {
+>  		struct scatterlist *sg =
+> @@ -92,13 +92,11 @@ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
+>  			while (sglen > 0) {
+>  				unsigned int plen = min(sglen, (unsigned int)
+>  						PAGE_SIZE - poff);
+> -				unsigned char *ptr = kmap(page);
+>  
+>  				if (dir == TO_XFER_BUF)
+> -					memcpy(ptr + poff, buffer + cnt, plen);
+> +					memcpy_to_page(page, poff, buffer + cnt, plen);
+>  				else
+> -					memcpy(buffer + cnt, ptr + poff, plen);
+> -				kunmap(page);
+> +					memcpy_from_page(buffer + cnt, page, poff, plen);
+>  
+>  				/* Start at the beginning of the next page */
+>  				poff = 0;
+> -- 
+> 2.34.1
+> 
