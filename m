@@ -1,25 +1,25 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A8D36C
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 07:59:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD5A366
+	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 09:03:51 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a02:3030:d:7e3f:91e1:4be5:4001:fd80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: sebastianfricke)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1F7C31F443D2;
-	Wed, 30 Mar 2022 08:59:17 +0100 (BST)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9E6271F43F72;
+	Wed, 30 Mar 2022 10:03:49 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648627157;
-	bh=h3tnoZejbOLZjyN2atSaobYGn8o799H2KiEzYAFUa98=;
+	s=mail; t=1648631029;
+	bh=thl7w5H/Mz6OVUPKz9FOv3R7KrVbcm5LF6AXzXqidsw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hcrLXVqpL/wTu+500y0aqOOpvuc4BCADPVrYxLySFJsZ2Jr5zJeMc6SZi8MJG5Eql
-	 8EImGRlYtfL7z2Q6Se/E+tthQ8yYdJiPEynqsTdEnkXU2oOt5APJAldERtFqfWoo5o
-	 dpk6hIZtJfyRXBitCTgkr7KYTuQ97FCu/QwRJ9bnpsu2NVP9nHUZrafiz5UT5GLH3A
-	 Kf3SPwrQx/FjQm+1d2BKt7z8sHCAOC6s1m+j8mNZIBDTyJytj5s2gPD/B0Y97dVzbI
-	 rJP9wMYd6KjG7wCai96RwEJu8goepdIHgGnmWuZusOVFSAz8Radw7OOIP5Awdd0/Ro
-	 cL/SmHo9GVmVA==
-Date: Wed, 30 Mar 2022 09:59:13 +0200
+	b=nHyESjBbe18iqD6nzkiIOwqByEB/lHoMy4TlCriirvL38orqA+XYP1XFaNMqTQm/r
+	 bUxdvI8tum0PgAJwAWuBJi8Ojvt2sGFZN/J8yiJW/yzyFD6vjekKTGfRCZrcFsHb61
+	 eki4GaJoYxiePqLm23e8dG0bhCVFKAejNQCfJDbHXmOjdaj7KpoMzgiiTGs0p7Sq0s
+	 jACbjADR2x1lN48KppP6ru2RL67KJuMWwxtx0oF459xzc9wPIc1H/cspypHTS2jwSp
+	 JGyq7p3+tPxh5s3dCXB4xcizdiNJNMIkrmgNigEapOoJMzp+bQVNKSkoIUJWK/8gsI
+	 MDYOkeNt9QDUQ==
+Date: Wed, 30 Mar 2022 11:03:45 +0200
 From: Sebastian Fricke <sebastian.fricke@collabora.com>
 To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
@@ -29,11 +29,10 @@ Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
 	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 22/24] media: hantro: h264: Make dpb entry management
- more robust
-Message-ID: <20220330075913.wfl3prsyw5fvsv4t@basti-XPS-13-9310>
+Subject: Re: [PATCH v1 23/24] media: hantro: Add H.264 field decoding support
+Message-ID: <20220330090345.pxx54emtalz6vgqt@basti-XPS-13-9310>
 References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-23-nicolas.dufresne@collabora.com>
+ <20220328195936.82552-24-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,86 +41,268 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220328195936.82552-23-nicolas.dufresne@collabora.com>
+In-Reply-To: <20220328195936.82552-24-nicolas.dufresne@collabora.com>
 
 Hey Nicolas,
 
 On 28.03.2022 15:59, Nicolas Dufresne wrote:
->From: Jonas Karlman <jonas@kwiboo.se>
+>This adds the required code to support field decoding. While most of
+>the code is derived from Rockchip and VSI reference code, the
+>reduction of the reference list to 16 entries has been found by
+
+s/has been/was/
+
+>trial and errors. The list consist of all the references with the
+
+s/consist/consists/
+
+>opposite field parity.
 >
->The driver maintains stable slot location for reference pictures. This
+>The strategy being to deduplicate the reference picture that points
 
-s/slot location/slot locations/
+s/strategy being to/strategy is to/
 
->change makes the code more robust by using the reference_ts as key and
->by marking all entries invalid right from the start.
+>to the same storage (same index). The choice of opposite parity has
+>been made to keep the other field or a field pair to be kept in the
+
+Do you mean?
+
+s/keep the other field or a field pair to be kept/
+   keep the other field of a field pair/
+
+>list. This method may not be robust if a field was lost.
 >
 >Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 >Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 >---
-> drivers/staging/media/hantro/hantro_h264.c | 10 ++++------
-> 1 file changed, 4 insertions(+), 6 deletions(-)
+> drivers/staging/media/hantro/hantro_h264.c | 107 ++++++++++++++++++---
+> drivers/staging/media/hantro/hantro_hw.h   |   1 +
+> 2 files changed, 94 insertions(+), 14 deletions(-)
 >
 >diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
->index 228629fb3cdf..7377fc26f780 100644
+>index 7377fc26f780..f6fc939aa726 100644
 >--- a/drivers/staging/media/hantro/hantro_h264.c
 >+++ b/drivers/staging/media/hantro/hantro_h264.c
->@@ -258,8 +258,7 @@ static void prepare_table(struct hantro_ctx *ctx)
-> static bool dpb_entry_match(const struct v4l2_h264_dpb_entry *a,
-> 			    const struct v4l2_h264_dpb_entry *b)
+>@@ -22,6 +22,11 @@
+> #define POC_BUFFER_SIZE			34
+> #define SCALING_LIST_SIZE		(6 * 16 + 2 * 64)
+>
+>+/* For valid and long term reference marking, index are reversed, so bit 31
+
+s/index/indeces/
+
+>+ * indicates the status of the picture 0.
+>+ */
+>+#define REF_BIT(i)			BIT(32 - 1 - (i))
+>+
+> /* Data structure describing auxiliary buffer format. */
+> struct hantro_h264_dec_priv_tbl {
+> 	u32 cabac_table[CABAC_INIT_BUFFER_SIZE];
+>@@ -227,6 +232,7 @@ static void prepare_table(struct hantro_ctx *ctx)
 > {
->-	return a->top_field_order_cnt == b->top_field_order_cnt &&
->-	       a->bottom_field_order_cnt == b->bottom_field_order_cnt;
->+	return a->reference_ts == b->reference_ts;
+> 	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
+> 	const struct v4l2_ctrl_h264_decode_params *dec_param = ctrls->decode;
+>+	const struct v4l2_ctrl_h264_sps *sps = ctrls->sps;
+> 	struct hantro_h264_dec_priv_tbl *tbl = ctx->h264_dec.priv.cpu;
+> 	const struct v4l2_h264_dpb_entry *dpb = ctx->h264_dec.dpb;
+> 	u32 dpb_longterm = 0;
+>@@ -237,20 +243,45 @@ static void prepare_table(struct hantro_ctx *ctx)
+> 		tbl->poc[i * 2] = dpb[i].top_field_order_cnt;
+> 		tbl->poc[i * 2 + 1] = dpb[i].bottom_field_order_cnt;
+>
+>+		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
+>+			continue;
+>+
+> 		/*
+> 		 * Set up bit maps of valid and long term DPBs.
+>-		 * NOTE: The bits are reversed, i.e. MSb is DPB 0.
+>+		 * NOTE: The bits are reversed, i.e. MSb is DPB 0. For frame
+>+		 * decoding, bit 31 to 15 are used, while for field decoding,
+
+s/bit 31/bits 31/
+
+>+		 * all bits are used, with bit 31 being a top field, 30 a bottom
+>+		 * field and so on.
+> 		 */
+>-		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+>-			dpb_valid |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
+>-		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+>-			dpb_longterm |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
+>+		if (dec_param->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) {
+>+			if (dpb[i].fields & V4L2_H264_TOP_FIELD_REF)
+>+				dpb_valid |= REF_BIT(i * 2);
+>+
+>+			if (dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF)
+>+				dpb_valid |= REF_BIT(i * 2 + 1);
+>+
+>+			if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM) {
+>+				dpb_longterm |= REF_BIT(i * 2);
+>+				dpb_longterm |= REF_BIT(i * 2 + 1);
+>+			}
+>+		} else {
+>+			dpb_valid |= REF_BIT(i);
+>+
+>+			if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+>+				dpb_longterm |= REF_BIT(i);
+>+		}
+>+	}
+>+	ctx->h264_dec.dpb_valid = dpb_valid;
+>+	ctx->h264_dec.dpb_longterm = dpb_longterm;
+>+
+>+	if ((dec_param->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) ||
+>+	    !(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)) {
+>+		tbl->poc[32] = ctx->h264_dec.cur_poc;
+>+		tbl->poc[33] = 0;
+>+	} else {
+>+		tbl->poc[32] = dec_param->top_field_order_cnt;
+>+		tbl->poc[33] = dec_param->bottom_field_order_cnt;
+> 	}
+>-	ctx->h264_dec.dpb_valid = dpb_valid << 16;
+>-	ctx->h264_dec.dpb_longterm = dpb_longterm << 16;
+>-
+>-	tbl->poc[32] = dec_param->top_field_order_cnt;
+>-	tbl->poc[33] = dec_param->bottom_field_order_cnt;
+>
+> 	assemble_scaling_list(ctx);
+> }
+>@@ -326,6 +357,8 @@ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
+> {
+> 	struct v4l2_h264_dpb_entry *dpb = ctx->h264_dec.dpb;
+> 	dma_addr_t dma_addr = 0;
+>+	s32 cur_poc = ctx->h264_dec.cur_poc;
+>+	u32 flags;
+>
+> 	if (dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+> 		dma_addr = hantro_get_ref(ctx, dpb[dpb_idx].reference_ts);
+>@@ -343,7 +376,12 @@ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
+> 		dma_addr = hantro_get_dec_buf_addr(ctx, buf);
+> 	}
+>
+>-	return dma_addr;
+>+	flags = dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD ? 0x2 : 0;
+
+>+	flags |= abs(dpb[dpb_idx].top_field_order_cnt - cur_poc) <
+>+		 abs(dpb[dpb_idx].bottom_field_order_cnt - cur_poc) ?
+>+		 0x1 : 0;
+
+You use the magic values `0x1` & `0x2` here, can you replace those with
+macros?
+
+It looks 0x2 indicates that we have a field and 0x1 indicates the
+distance of the current picture to the bottom field is greater than
+the distance of the current picture to the top field. (inidicating that
+the order is correct?)
+
+So maybe:
+```
+#define HANTRO_H264_FIELD_DMA_ADDR              0x1
+#define HANTRO_H264_CORRECT_FIELD_ORDER         0x2
+```
+
+
+>+
+>+	return dma_addr | flags;
 > }
 >
-> static void update_dpb(struct hantro_ctx *ctx)
->@@ -273,13 +272,13 @@ static void update_dpb(struct hantro_ctx *ctx)
+> u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
+>@@ -355,6 +393,34 @@ u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
+> 	return dpb->frame_num;
+> }
 >
-> 	/* Disable all entries by default. */
-> 	for (i = 0; i < ARRAY_SIZE(ctx->h264_dec.dpb); i++)
->-		ctx->h264_dec.dpb[i].flags &= ~V4L2_H264_DPB_ENTRY_FLAG_ACTIVE;
->+		ctx->h264_dec.dpb[i].flags = 0;
+>+static void deduplicate_reflist(struct v4l2_h264_reflist_builder *b,
+>+				struct v4l2_h264_reference *reflist)
 
-Ehm ... we just remove all flags? Can't this have any unwanted side
-effects like removing a flag that we actually wanted to keep?
-(Like long term or the field flags?)
-If we just want to set the DPB entry inactive, then removing the ACTIVE
-flag seems like the correct approach to me.
-If we want to get rid of the VALID flag as well, then we could just do:
-		ctx->h264_dec.dpb[i].flags &=
-       ~(V4L2_H264_DPB_ENTRY_FLAG_ACTIVE | V4L2_H264_DPB_ENTRY_FLAG_VALID);
+Can you add a comment describing why we need to deduplicate the
+reference list? And maybe also why we get duplications in the first
+place? Why must we limit the size to 16?
+This would increase the readability of the code a lot.
 
-In case we really want to reset all flags, I'd say adjust the comment
-above it:
-```
-- 	/* Disable all entries by default. */
-+ 	/* Reset the flags for all entries by default. */
-```
+>+{
+>+	int write_idx = 0;
+>+	int i;
+>+
+>+	if (b->cur_pic_fields == V4L2_H264_FRAME_REF) {
+>+		write_idx = b->num_valid;
+>+		goto done;
+>+	}
+>+
+>+	for (i = 0; i < b->num_valid; i++) {
+>+		if (!(b->cur_pic_fields == reflist[i].fields)) {
+>+			reflist[write_idx++] = reflist[i];
+>+			continue;
+>+		}
+>+	}
+>+
+>+done:
+>+	/* Should not happen unless we have a bug in the reflist builder. */
+>+	if (WARN_ON(write_idx > 16))
+>+		write_idx = 16;
+>+
+>+	/* Clear the remaining, some streams fails otherwise */
+
+s/the remaining/the remaining entries/
+s/fails/fail/
+
+>+	for (; write_idx < 16; write_idx++)
+>+		reflist[write_idx].index = 15;
+>+}
+>+
+> int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
+> {
+> 	struct hantro_h264_dec_hw_ctx *h264_ctx = &ctx->h264_dec;
+>@@ -386,15 +452,28 @@ int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
+> 	/* Update the DPB with new refs. */
+> 	update_dpb(ctx);
+>
+>-	/* Prepare data in memory. */
+>-	prepare_table(ctx);
+>-
+> 	/* Build the P/B{0,1} ref lists. */
+> 	v4l2_h264_init_reflist_builder(&reflist_builder, ctrls->decode,
+> 				       ctrls->sps, ctx->h264_dec.dpb);
+>+	h264_ctx->cur_poc = reflist_builder.cur_pic_order_count;
+>+
+>+	/* Prepare data in memory. */
+>+	prepare_table(ctx);
+>+
+> 	v4l2_h264_build_p_ref_list(&reflist_builder, h264_ctx->reflists.p);
+> 	v4l2_h264_build_b_ref_lists(&reflist_builder, h264_ctx->reflists.b0,
+> 				    h264_ctx->reflists.b1);
+>+
+>+	/* Reduce ref lists to at most 16 entries, Hantro hardware will deduce
+>+	 * the actual picture lists in field through the dpb_valid,
+
+s/in field/in a field/
+
+>+	 * dpb_longterm bitmap along with the current frame parity.
+
+s/bitmap/bitmaps/
 
 Greetings,
 Sebastian
 
+>+	 */
+>+	if (reflist_builder.cur_pic_fields != V4L2_H264_FRAME_REF) {
+>+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.p);
+>+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.b0);
+>+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.b1);
+>+	}
+>+
+> 	return 0;
+> }
 >
-> 	/* Try to match new DPB entries with existing ones by their POCs. */
-> 	for (i = 0; i < ARRAY_SIZE(dec_param->dpb); i++) {
-> 		const struct v4l2_h264_dpb_entry *ndpb = &dec_param->dpb[i];
+>diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>index 292aaaabaf24..fd869369fb97 100644
+>--- a/drivers/staging/media/hantro/hantro_hw.h
+>+++ b/drivers/staging/media/hantro/hantro_hw.h
+>@@ -91,6 +91,7 @@ struct hantro_h264_dec_hw_ctx {
+> 	struct hantro_h264_dec_ctrls ctrls;
+> 	u32 dpb_longterm;
+> 	u32 dpb_valid;
+>+	s32 cur_poc;
+> };
 >
->-		if (!(ndpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
->+		if (!(ndpb->flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
-> 			continue;
->
-> 		/*
->@@ -290,8 +289,7 @@ static void update_dpb(struct hantro_ctx *ctx)
-> 			struct v4l2_h264_dpb_entry *cdpb;
->
-> 			cdpb = &ctx->h264_dec.dpb[j];
->-			if (cdpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE ||
->-			    !dpb_entry_match(cdpb, ndpb))
->+			if (!dpb_entry_match(cdpb, ndpb))
-> 				continue;
->
-> 			*cdpb = *ndpb;
+> /**
 >-- 
 >2.34.1
 >
