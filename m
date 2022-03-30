@@ -1,82 +1,74 @@
-Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Received: from out203-205-251-80.mail.qq.com (out203-205-251-80.mail.qq.com [203.205.251.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F7736C
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 07:27:26 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
- (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 30 Mar
- 2022 15:27:25 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 30 Mar
- 2022 15:27:23 +0800
-From: Haowen Bai <baihaowen@meizu.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
-	<phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Haowen Bai <baihaowen@meizu.com>, <linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH V2] staging: r8188eu: Fix misspelling in comment "Tranceiver" -> "Transceiver"
-Date: Wed, 30 Mar 2022 15:27:21 +0800
-Message-ID: <1648625242-12678-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <YkP7DGP+nbo2VJ+Z@kroah.com>
-References: <YkP7DGP+nbo2VJ+Z@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F13836C
+	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 07:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1648625669;
+	bh=u9DOwmiLqvVY2c2l9fva7rkwmGz9kPnFqwiAHjDu7zM=;
+	h=Date:From:To:Cc:Subject:References;
+	b=c8ZPDo5E30x8XwlvdeKNuRm8plmEbj1Qds+pXIEb4ob3q7HQfLplCgJnAcftgN2x9
+	 QqvAeF6EuvKCrHiYoYnCawzHTb2hjBpFyJYxiae3MHrsI56DeV4hGdrRimfGm7Hk9A
+	 jNXMsSNQuqf+S5c3ek0DbaYyJLBvaSjESAjFfHJg=
+Received: from LAPTOP-4BSPBRI7 ([59.172.176.225])
+	by newxmesmtplogicsvrszb6.qq.com (NewEsmtp) with SMTP
+	id 896B721B; Wed, 30 Mar 2022 15:34:22 +0800
+X-QQ-mid: xmsmtpt1648625662tsfzi8hd0
+Message-ID: <tencent_4E078E318ADFF03325CAFF5D9043E6A15C07@qq.com>
+X-QQ-XMAILINFO: OKkKo7I1HxIe2bDOLGX75ovihCLf5qNbe1XJO5Ki/PgLzidhfcZ5Lf3pMqr5hd
+	 5YP9emgJ5epy6ogzTKFJf0pN5OmLG0jgLhvSYRvjhA5riKrSZaJqYDw9xcC6ZmeCZCaZqgXDmFYQ
+	 IWpb56FuD8OfhUHipPs8dZguHrTr+CGsno1aWuHhSRoCm8pRHzeVIBRvuAcHtdVsxPcILTxyRxZB
+	 vyM6g+A72ZOJVWcmXOfSbJxtFJcvKOLYZ2FtRPgTfGm44Y8hh23kCiVUMmugtGOXkBnZJaF7l5KS
+	 QLPJ+mMQTvwxmZkHxSBEEeue3D7/KNyWz6gnmdnHtYUFkKw1dUutufktTnEW7F93DqhH/Aeu6Tmv
+	 5Y7rMjfUyau9DRCQ2q0/5rmmWoPJMTlWBowynpGCRnB9nzBYwTUMMkqcY3dgmfZy1dY73+RViF/v
+	 JvHNdJAmhZGiT0rt9u7bqK1plOVFPcCSTLmGQzChcwJfBfLZbKsGXjnZBgnydsoZL9SxfX+skrX8
+	 MsWudn5ca+F89UeR+uAAMgmvKi9un7Ak7B/czae24Si/NgmtKRXOp49FNEGIe8IzKXH3Kw0LZNVL
+	 yUew8StuiQHfm1yUClbSt6RSNQ0iZvncVG9fnXc3zNcqmE/UYL4eNXqQY8XaamDl52WqgIONdqSx
+	 HRvG2cVvNntyDZNet2lWAzydl+0Bb/I5no1YMSCgktRdFRv6XCeWd+0HodDfXBS7pkXz4CSyx7Zv
+	 f4a4jiiM7bExXCCRBsFSpOQGK148nB5kgfcyOHyGPTRV8/f74weQ+piZfR3fsgJc2h54J9DVHKo8
+	 MQZy8OElnZhRYjOYhU9uOGWnvYR+yCF1GfFIiecafHVtuoFNGV+YWm7YnInQZTYmF3Xnqcl9TLYd
+	 0JcVt81eToe1dRop/iCkwSJZJMlOXsuC6oFjcTDBHRFDZtaMyGgguh0M1dLdKCINKVwqc7TDA/
+Date: Wed, 30 Mar 2022 15:34:24 +0800
+From: "Xiaoke Wang" <xkernel.wang@foxmail.com>
+To: gregkh <gregkh@linuxfoundation.org>
+Cc: larry.finger <larry.finger@lwfinger.net>, 
+	phil <phil@philpotter.co.uk>, 
+	linux-staging <linux-staging@lists.linux.dev>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [PATCH] staging: r8188eu: check the return value of kzalloc()
+References: <tencent_B489FA9F0FC49CF92A77916394E225DC4705@qq.com>, 
+	<YkMsTz/iJdgmUxtS@kroah.com>
+X-Priority: 3
+X-GUID: E7637EAC-5FDE-40AF-8EF8-294C839259CC
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.23.116[cn]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-124.meizu.com (172.16.1.124) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+Mime-Version: 1.0
+X-OQ-MSGID: <2022033015342338674844@foxmail.com>
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This patch fixes some spelling typo in error message reported by 
-checkpatch.pl
-
-WARNING: 'Tranceiver' may be misspelled - perhaps 'Transceiver'?
-WARNING: 'Tranceiver' may be misspelled - perhaps 'Transceiver'?
-WARNING: 'Tranceiver' may be misspelled - perhaps 'Transceiver'?
-WARNING: 'Tranceiver' may be misspelled - perhaps 'Transceiver'?
-
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
-V1->V2: split one-patch-per-misspelled-word; change title;
-
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index ea75ff1..4864daf 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -378,10 +378,10 @@ phy_InitBBRFRegisterDefinition(
- 	/*  Tx AGC Gain Stage (same for all path. Should we remove this?) */
- 	pHalData->PHYRegDef.rfTxGainStage = rFPGA0_TxGainStage; /* Tx gain stage */
- 
--	/*  Tranceiver A~D HSSI Parameter-1 */
-+	/*  Transceiver A~D HSSI Parameter-1 */
- 	pHalData->PHYRegDef.rfHSSIPara1 = rFPGA0_XA_HSSIParameter1;  /* wire control parameter1 */
- 
--	/*  Tranceiver A~D HSSI Parameter-2 */
-+	/*  Transceiver A~D HSSI Parameter-2 */
- 	pHalData->PHYRegDef.rfHSSIPara2 = rFPGA0_XA_HSSIParameter2;  /* wire control parameter2 */
- 
- 	/*  RF switch Control */
-@@ -405,10 +405,10 @@ phy_InitBBRFRegisterDefinition(
- 	/*  Tx AFE control 2 */
- 	pHalData->PHYRegDef.rfTxAFE = rOFDM0_XATxAFE;
- 
--	/*  Tranceiver LSSI Readback SI mode */
-+	/*  Transceiver LSSI Readback SI mode */
- 	pHalData->PHYRegDef.rfLSSIReadBack = rFPGA0_XA_LSSIReadBack;
- 
--	/*  Tranceiver LSSI Readback PI mode */
-+	/*  Transceiver LSSI Readback PI mode */
- 	pHalData->PHYRegDef.rfLSSIReadBackPi = TransceiverA_HSPI_Readback;
- }
- 
--- 
-2.7.4
+T24gVHVlLCAyOSBNYXIgMjAyMiAyMzo1NzoxMCArMDgwMCwgZ3JlZ2toQGxpbnV4Zm91bmRhdGlv
+bi5vcmcgd3JvdGU6Cj4+IC0tLSBhL2RyaXZlcnMvc3RhZ2luZy9yODE4OGV1L2NvcmUvcnR3X3ht
+aXQuYwo+PiArKysgYi9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0d194bWl0LmMKPj4g
+QEAgLTE4MCw2ICsxODAsMTAgQEAgczMyCV9ydHdfaW5pdF94bWl0X3ByaXYoc3RydWN0IHhtaXRf
+cHJpdiAqcHhtaXRwcml2LCBzdHJ1Y3QgYWRhcHRlciAqcGFkYXB0ZXIpCj4+wqAgCXB4bWl0cHJp
+di0+ZnJlZV94bWl0X2V4dGJ1Zl9jbnQgPSBudW1feG1pdF9leHRidWY7Cj4+wqAgCj4+wqAgCXJ0
+d19hbGxvY19od3htaXRzKHBhZGFwdGVyKTsKPj4gKwlpZiAoIXB4bWl0cHJpdi0+aHd4bWl0cykg
+ewo+PiArCQlyZXMgPSBfRkFJTDsKPj4gKwkJZ290byBleGl0Owo+PiArCX0KPgo+IFlvdSBqdXN0
+IGxlYWtlZCBtZW1vcnkgcmVzb3VyY2VzIDooCj4KClNvcnJ5LCB5b3UgYXJlIHJpZ2h0LiBJIHRy
+YWNrZWQgdGhlIGNhbGxlcnMgb2YgX3J0d19pbml0X3htaXRfcHJpdigpIGFuZApmb3VuZCB0aGF0
+IHRoZXkgZG8gbm90IHByb3Blcmx5IHJlbGVhc2UgdGhlIHJlc291cmNlcyBhbGxvY2F0ZWQgYnkg
+dGhpcwpmdW5jaXRvbi4gVGhpcyBtZWFucyB0aGF0IHRoZSBvdGhlciBlcnJvciBwYXRocyBjYW4g
+YWxzbyBicmluZyBtZW1vcnkKbGVha3MsIGFzIHdlbGwgYXMgdGhlIHNhbWUgZnVuY3Rpb24gaW4K
+ZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d194bWl0LmMuClRoZXJlIGFyZSBhbHNv
+IHNldmVyYWwgc2ltaWxhciBpc3N1c2VzIG9mIGFsbG9jX2h3eG1pdHMoKSBhbmQgCl9yODcxMl9p
+bml0X3htaXRfcHJpdigpIGluIGRyaXZlcnMvc3RhZ2luZy9ydGw4NzEyL3J0bDg3MXhfeG1pdC5j
+LgpJIHdpbGwgdHJ5IHRvIGNhcmVmdWxseSBmaXggdGhlbS4KClJlZ2FyZHMsClhpYW9rZSBXYW5n
+Cgo=
 
