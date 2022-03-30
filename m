@@ -1,39 +1,39 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFCD36C
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 07:42:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A8D36C
+	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 07:59:19 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a02:3030:d:7e3f:91e1:4be5:4001:fd80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: sebastianfricke)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9D4621F44389;
-	Wed, 30 Mar 2022 08:42:54 +0100 (BST)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1F7C31F443D2;
+	Wed, 30 Mar 2022 08:59:17 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648626174;
-	bh=pIoevYhcg4lXfHAB+gBSklOntW3daq2OPWaaIDxIW6U=;
+	s=mail; t=1648627157;
+	bh=h3tnoZejbOLZjyN2atSaobYGn8o799H2KiEzYAFUa98=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Iq4UZjhSaV+ZYTcSkGHAm9xbaJifda92sZT/0xu0mlaErqEDx8q3PQxXGnLazpxux
-	 cYxJ0F5vFVwS0NTOWzswdqbTz5Xcg0uUJTgsI1CLRwaXKZ567UbHDi9cVdgKM375nf
-	 0LkAlezqhGvsdXF+y6a6XwurlLaHoBzC+bADyP00qoc4ba6ZNP4O9S0ctMldo/tEeS
-	 TDodJrL12LoM5I1OFg4jb3a/mVQ5a9MbM4EBID2itedr3abZRzrpiaVDkeGqGUD3dO
-	 Z9xhsyqcA0f+fvtn+L2xGODoKGBsgMpFJFhWgnDvM76lUM06dyCOEtxJw4BS4sGmvO
-	 Pz4S9HYRbGMpw==
-Date: Wed, 30 Mar 2022 09:42:50 +0200
+	b=hcrLXVqpL/wTu+500y0aqOOpvuc4BCADPVrYxLySFJsZ2Jr5zJeMc6SZi8MJG5Eql
+	 8EImGRlYtfL7z2Q6Se/E+tthQ8yYdJiPEynqsTdEnkXU2oOt5APJAldERtFqfWoo5o
+	 dpk6hIZtJfyRXBitCTgkr7KYTuQ97FCu/QwRJ9bnpsu2NVP9nHUZrafiz5UT5GLH3A
+	 Kf3SPwrQx/FjQm+1d2BKt7z8sHCAOC6s1m+j8mNZIBDTyJytj5s2gPD/B0Y97dVzbI
+	 rJP9wMYd6KjG7wCai96RwEJu8goepdIHgGnmWuZusOVFSAz8Radw7OOIP5Awdd0/Ro
+	 cL/SmHo9GVmVA==
+Date: Wed, 30 Mar 2022 09:59:13 +0200
 From: Sebastian Fricke <sebastian.fricke@collabora.com>
 To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel@collabora.com, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 21/24] media: hantro: Stop using H.264 parameter
- pic_num
-Message-ID: <20220330074250.jqyljbr53fgeci6q@basti-XPS-13-9310>
+	kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 22/24] media: hantro: h264: Make dpb entry management
+ more robust
+Message-ID: <20220330075913.wfl3prsyw5fvsv4t@basti-XPS-13-9310>
 References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-22-nicolas.dufresne@collabora.com>
+ <20220328195936.82552-23-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,69 +42,86 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220328195936.82552-22-nicolas.dufresne@collabora.com>
+In-Reply-To: <20220328195936.82552-23-nicolas.dufresne@collabora.com>
 
 Hey Nicolas,
 
-The term pic_num is now only present in the following files:
-```
-❯ rg 'pic_num'
-staging/media/rkvdec/rkvdec-h264.c
-766:	 * Assign an invalid pic_num if DPB entry at that position is inactive.
-768:	 * reference picture with pic_num 0, triggering output picture
-
-media/platform/amphion/vpu_windsor.c
-485:	u32 pic_num;
-
-media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c
-97:	unsigned short pic_num;
-346:		dst_entry->pic_num = src_entry->pic_num;
-
-media/v4l2-core/v4l2-h264.c
-143:	 * but with frame_num (wrapped). As for frame the pic_num and frame_num
-306:		/* this is pic_num for frame and frame_num (wrapped) for field,
-307:		 * but for frame pic_num is equal to frame_num (wrapped).
-```
-
-In v4l2-h264 and rkvdec-h264 it is only present as comment and the term
-is not part of the specification.
-In vpu_windsor it is actually never used.
-And for the mediatek driver the same might apply.
-It might be worth it to get rid of that term all together while you are
-at it.
-
 On 28.03.2022 15:59, Nicolas Dufresne wrote:
->The hardware expects FrameNumWrap or long_term_frame_idx. Picture
->numbers are per field, and are mostly used during the memory
->management process, which is done in userland. This fixes two
->ITU conformance tests:
+>From: Jonas Karlman <jonas@kwiboo.se>
 >
->  - MR6_BT_B
->  - MR8_BT_B
+>The driver maintains stable slot location for reference pictures. This
+
+s/slot location/slot locations/
+
+>change makes the code more robust by using the reference_ts as key and
+>by marking all entries invalid right from the start.
 >
+>Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 >Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>---
+> drivers/staging/media/hantro/hantro_h264.c | 10 ++++------
+> 1 file changed, 4 insertions(+), 6 deletions(-)
+>
+>diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+>index 228629fb3cdf..7377fc26f780 100644
+>--- a/drivers/staging/media/hantro/hantro_h264.c
+>+++ b/drivers/staging/media/hantro/hantro_h264.c
+>@@ -258,8 +258,7 @@ static void prepare_table(struct hantro_ctx *ctx)
+> static bool dpb_entry_match(const struct v4l2_h264_dpb_entry *a,
+> 			    const struct v4l2_h264_dpb_entry *b)
+> {
+>-	return a->top_field_order_cnt == b->top_field_order_cnt &&
+>-	       a->bottom_field_order_cnt == b->bottom_field_order_cnt;
+>+	return a->reference_ts == b->reference_ts;
+> }
+>
+> static void update_dpb(struct hantro_ctx *ctx)
+>@@ -273,13 +272,13 @@ static void update_dpb(struct hantro_ctx *ctx)
+>
+> 	/* Disable all entries by default. */
+> 	for (i = 0; i < ARRAY_SIZE(ctx->h264_dec.dpb); i++)
+>-		ctx->h264_dec.dpb[i].flags &= ~V4L2_H264_DPB_ENTRY_FLAG_ACTIVE;
+>+		ctx->h264_dec.dpb[i].flags = 0;
+
+Ehm ... we just remove all flags? Can't this have any unwanted side
+effects like removing a flag that we actually wanted to keep?
+(Like long term or the field flags?)
+If we just want to set the DPB entry inactive, then removing the ACTIVE
+flag seems like the correct approach to me.
+If we want to get rid of the VALID flag as well, then we could just do:
+		ctx->h264_dec.dpb[i].flags &=
+       ~(V4L2_H264_DPB_ENTRY_FLAG_ACTIVE | V4L2_H264_DPB_ENTRY_FLAG_VALID);
+
+In case we really want to reset all flags, I'd say adjust the comment
+above it:
+```
+- 	/* Disable all entries by default. */
++ 	/* Reset the flags for all entries by default. */
+```
 
 Greetings,
 Sebastian
->---
-> drivers/staging/media/hantro/hantro_h264.c | 2 --
-> 1 file changed, 2 deletions(-)
+
 >
->diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
->index 0b4d2491be3b..228629fb3cdf 100644
->--- a/drivers/staging/media/hantro/hantro_h264.c
->+++ b/drivers/staging/media/hantro/hantro_h264.c
->@@ -354,8 +354,6 @@ u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
+> 	/* Try to match new DPB entries with existing ones by their POCs. */
+> 	for (i = 0; i < ARRAY_SIZE(dec_param->dpb); i++) {
+> 		const struct v4l2_h264_dpb_entry *ndpb = &dec_param->dpb[i];
 >
-> 	if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> 		return 0;
->-	if (dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
->-		return dpb->pic_num;
-> 	return dpb->frame_num;
-> }
+>-		if (!(ndpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+>+		if (!(ndpb->flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
+> 			continue;
 >
+> 		/*
+>@@ -290,8 +289,7 @@ static void update_dpb(struct hantro_ctx *ctx)
+> 			struct v4l2_h264_dpb_entry *cdpb;
+>
+> 			cdpb = &ctx->h264_dec.dpb[j];
+>-			if (cdpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE ||
+>-			    !dpb_entry_match(cdpb, ndpb))
+>+			if (!dpb_entry_match(cdpb, ndpb))
+> 				continue;
+>
+> 			*cdpb = *ndpb;
 >-- 
 >2.34.1
 >
