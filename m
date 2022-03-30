@@ -1,116 +1,89 @@
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
+Received: from mail.meizu.com (edge01.meizu.com [14.29.68.187])
 	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A717D366
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 01:29:10 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 30 Mar
- 2022 09:29:03 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0D4366
+	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 01:42:40 +0000 (UTC)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
+ (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 30 Mar
+ 2022 09:42:38 +0800
+Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
  (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 30 Mar
- 2022 09:29:01 +0800
-From: Haowen Bai <baihaowen@meizu.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
-	<phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Haowen Bai <baihaowen@meizu.com>, <linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH V4] staging: r8188eu: Directly return _SUCCESS instead of using local ret variable
-Date: Wed, 30 Mar 2022 09:28:59 +0800
-Message-ID: <1648603740-14760-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <ce82792a-9e9e-f324-641e-d1fbcb26b1a0@meizu.com>
-References: <ce82792a-9e9e-f324-641e-d1fbcb26b1a0@meizu.com>
+ 2022 09:42:37 +0800
+Message-ID: <fe624454-a530-3361-76d9-b4aeb89eba71@meizu.com>
+Date: Wed, 30 Mar 2022 09:42:36 +0800
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] staging: r8188eu: Fix misspelling in comment
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <Larry.Finger@lwfinger.net>, <phil@philpotter.co.uk>,
+	<straube.linux@gmail.com>, <linux@roeck-us.net>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <1647831314-25511-1-git-send-email-baihaowen@meizu.com>
+ <YkMdEIMHrYBPGYzK@kroah.com>
+From: baihaowen <baihaowen@meizu.com>
+In-Reply-To: <YkMdEIMHrYBPGYzK@kroah.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [172.16.137.70]
 X-ClientProxiedBy: IT-EXMB-1-125.meizu.com (172.16.1.125) To
  IT-EXMB-1-125.meizu.com (172.16.1.125)
 
-As init_mlme_ext_priv function always returns SUCCESS , We can change
-return type from int to void.
+在 3/29/22 10:52 PM, Greg KH 写道:
+> On Mon, Mar 21, 2022 at 10:55:14AM +0800, Haowen Bai wrote:
+>> The original error is as below shows:
+>>
+>> CHECK: 'associcated' may be misspelled - perhaps 'associated'?
+>>
+>> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+>> ---
+>>  drivers/staging/r8188eu/core/rtw_ap.c | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+>> index 1675e2e..e02dd8e 100644
+>> --- a/drivers/staging/r8188eu/core/rtw_ap.c
+>> +++ b/drivers/staging/r8188eu/core/rtw_ap.c
+>> @@ -819,7 +819,7 @@ static int rtw_ht_operation_update(struct adapter *padapter)
+>>  
+>>  void associated_clients_update(struct adapter *padapter, u8 updated)
+>>  {
+>> -	/* update associcated stations cap. */
+>> +	/* update associated stations cap. */
+>>  	if (updated) {
+>>  		struct list_head *phead, *plist;
+>>  		struct sta_info *psta = NULL;
+>> @@ -972,7 +972,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+>>  		update_beacon(padapter, _HT_ADD_INFO_IE_, NULL, true);
+>>  	}
+>>  
+>> -	/* update associcated stations cap. */
+>> +	/* update associated stations cap. */
+>>  	associated_clients_update(padapter,  beacon_updated);
+>>  
+>>  	DBG_88E("%s, updated =%d\n", __func__, beacon_updated);
+>> @@ -1036,7 +1036,7 @@ u8 bss_cap_update_on_sta_leave(struct adapter *padapter, struct sta_info *psta)
+>>  		update_beacon(padapter, _HT_ADD_INFO_IE_, NULL, true);
+>>  	}
+>>  
+>> -	/* update associcated stations cap. */
+>> +	/* update associated stations cap. */
+>>  
+>>  	DBG_88E("%s, updated =%d\n", __func__, beacon_updated);
+>>  
+>> -- 
+>> 2.7.4
+>>
+>>
+> Does not apply to my tree :(
+yes, I need to develop on the next branch, but not before.
 
-fixes coccinelle warning:
-./drivers/staging/r8188eu/core/rtw_mlme_ext.c:357:5-8: Unneeded variable: "res".
- Return "_SUCCESS" on line 380
-
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
-V1->V2: split into two patches.
-V2->V3: change return type from int to void.
-V3->V4: just delete the unused label but don't delete the free function.
-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c    | 5 +----
- drivers/staging/r8188eu/include/rtw_mlme_ext.h | 2 +-
- drivers/staging/r8188eu/os_dep/os_intfs.c      | 6 +-----
- 3 files changed, 3 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 10d5f12..ff48293 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -352,9 +352,8 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
- 	return chanset_size;
- }
- 
--int	init_mlme_ext_priv(struct adapter *padapter)
-+void init_mlme_ext_priv(struct adapter *padapter)
- {
--	int	res = _SUCCESS;
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-@@ -376,8 +375,6 @@ int	init_mlme_ext_priv(struct adapter *padapter)
- 	pmlmeext->mlmeext_init = true;
- 
- 	pmlmeext->active_keep_alive_check = true;
--
--	return res;
- }
- 
- void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext)
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index 0c555ea..827ac6c 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -419,7 +419,7 @@ struct mlme_ext_priv {
- 	u8 active_keep_alive_check;
- };
- 
--int init_mlme_ext_priv(struct adapter *adapter);
-+void init_mlme_ext_priv(struct adapter *adapter);
- int init_hw_mlme_ext(struct adapter *padapter);
- void free_mlme_ext_priv (struct mlme_ext_priv *pmlmeext);
- extern void init_mlme_ext_timer(struct adapter *padapter);
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 550721e..c531504 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -490,10 +490,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
- 	init_wifidirect_info(padapter, P2P_ROLE_DISABLE);
- 	reset_global_wifidirect_info(padapter);
- 
--	if (init_mlme_ext_priv(padapter) == _FAIL) {
--		dev_err(dvobj_to_dev(padapter->dvobj), "init_mlme_ext_priv failed\n");
--		goto free_mlme_priv;
--	}
-+	init_mlme_ext_priv(padapter);
- 
- 	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL) {
- 		dev_err(dvobj_to_dev(padapter->dvobj), "_rtw_init_xmit_priv failed\n");
-@@ -534,7 +531,6 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
- free_mlme_ext:
- 	free_mlme_ext_priv(&padapter->mlmeextpriv);
- 
--free_mlme_priv:
- 	rtw_free_mlme_priv(&padapter->mlmepriv);
- 
- free_evt_priv:
 -- 
-2.7.4
+Haowen Bai
 
