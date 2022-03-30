@@ -1,98 +1,176 @@
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com [209.85.167.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03879363;
-	Wed, 30 Mar 2022 13:07:39 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id e189so21988524oia.8;
-        Wed, 30 Mar 2022 06:07:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=iHRrjC7NGgHX48bIJgJGcmUknIuFtHx4WhnT2MgRlL4=;
-        b=Kp0gzgzMfQ3kAvf1gdqVG9PW5fvH8A0wiM4iIvt/os2m6GCy08yYL67z/4CzATgJeE
-         uWtPe78fPYk6XMDFsIi+sC12sSsR7hWAI01iUU/B4UeBhpp5yuWO1APRl80MMrCw8nXt
-         az93SELSRfONXauqZ+Uu9Ti+fOA7Pypjke+BMgKn4U4EGLjaLw07BFcr+jcIVg2igMLk
-         pSTUW5v6OhQ+M89TATX9k5I5KvYJ8rhmW96WrZi1dEP9c3PdkThDfiqqlj7UK7Kra4KA
-         h0xyfDDbPGR7k5w6MGeKR3kJW1BJhwPa1VfpK8odK3A3koHsn3fZ4BdVJYU7I54cZqhp
-         7pfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=iHRrjC7NGgHX48bIJgJGcmUknIuFtHx4WhnT2MgRlL4=;
-        b=ppQeZ+gkReMDdNDRFc/GwS2gBabNU84WggL1bXvjBKEjAJqly6I1mbC29Cfy2ON8yd
-         r/Wg4AeXkoQ0qR8E9vZMHx3rMxCQn/Xqsb8ECyHD/iWdT7YAG0BonNL3Rg8yx7G/4Mk/
-         TSl18b0DthYI747K/mow60SGM/P6QU8vpLSrYCaYHREtQIAdUKgd2A3GTXpJiB+rYek6
-         Hkko33aJCr6QpkJue1bg/FIr+tmfPnHYu6RD6Xklc9r+ripPwPscptKpIYbvvJ95/E01
-         28Z0W28ajSowbYz+Uvy9gPGDDQ+wRJjKeO4484xnPTzTRt75VS5k3Xvh4fe/4ACxhY2r
-         XDKQ==
-X-Gm-Message-State: AOAM530/Vp/uA2kWgrNuTVc3bTaMxRnDbthO3Ob5NBxtXF9nU7+UCEzr
-	8CanrMDxmmV4EGHvhbESH3QT9AGa0kw0oA==
-X-Google-Smtp-Source: ABdhPJyrbIXiZOh+V+60qXAY07OWSGBpHcV9cLP7AqXSJjdmJ5cpofJ52ZV786SXOXELUk9wteiGSQ==
-X-Received: by 2002:a05:6808:146:b0:2f4:748:5588 with SMTP id h6-20020a056808014600b002f407485588mr1704317oie.292.1648645658296;
-        Wed, 30 Mar 2022 06:07:38 -0700 (PDT)
-Received: from bertie (072-190-140-117.res.spectrum.com. [72.190.140.117])
-        by smtp.gmail.com with ESMTPSA id q6-20020acaf206000000b002ef960f65b3sm10264175oih.25.2022.03.30.06.07.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Mar 2022 06:07:37 -0700 (PDT)
-Date: Wed, 30 Mar 2022 08:07:36 -0500
-From: Rebecca Mckeever <remckee0@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: [PATCH] staging: r8188eu: remove unnecessary spaces
-Message-ID: <YkRWGCmMytlqgvkZ@bertie>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C4D63C
+	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 13:39:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: nicolas)
+	with ESMTPSA id A95011F44B1D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1648647597;
+	bh=/nr41sQ73zO79g7UhTaH3UMxIMdg1ZngRWwuuw4My44=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Yxv8JWsjqd4Uj9CKTFfRdpuyYFfepOvhF8yKGn7sRP0N4PXMeoloJSJRLxYeJCCyX
+	 VydoV7PTNihglFY9bergPRGJghtv0uJjlpehTTjjMMFtpx3Uf6RQpLSC+7o7jPRtJV
+	 sT/eKnoQcXn0aKldhGSRiq7n1kZRsnVYsSU9Af1Jj3Ty1Y86MWU5sAKl+vIXKPIJln
+	 41C8G5rOMe1tnw+uVbluwHd+/HSDVDSVGMTmgew1ifVIILQ4lsws1EwSoftNq3YJMp
+	 Ap2XL1c43OYhj5QYRhwzS/lUDxEe3WnkXIo+mNfB0MrGRNVeIcHlWV1gdVugWZjvss
+	 svirAa1IlVdxg==
+Message-ID: <ed16a4dcfb0859a284675ddad46ab536008a15c5.camel@collabora.com>
+Subject: Re: [PATCH v1 19/24] media: rkvdec-h264: Add field decoding support
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	kernel@collabora.com, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 30 Mar 2022 09:39:44 -0400
+In-Reply-To: <20220330051541.GE3293@kadam>
+References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
+	 <20220328195936.82552-20-nicolas.dufresne@collabora.com>
+	 <20220329081321.GV3293@kadam>
+	 <f7e5b577bc48ba16befbed47ac96c363ce861f48.camel@collabora.com>
+	 <20220330051541.GE3293@kadam>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Conform to Linux kernel coding style. Issue found by checkpatch:
+Le mercredi 30 mars 2022 =C3=A0 08:15 +0300, Dan Carpenter a =C3=A9crit=C2=
+=A0:
+> On Tue, Mar 29, 2022 at 04:54:55PM -0400, Nicolas Dufresne wrote:
+> > Le mardi 29 mars 2022 =C3=A0 11:13 +0300, Dan Carpenter a =C3=A9crit=C2=
+=A0:
+> > > On Mon, Mar 28, 2022 at 03:59:31PM -0400, Nicolas Dufresne wrote:
+> > > > @@ -738,23 +735,26 @@ static void lookup_ref_buf_idx(struct rkvdec_=
+ctx *ctx,
+> > > >  		struct vb2_queue *cap_q =3D &m2m_ctx->cap_q_ctx.q;
+> > > >  		int buf_idx =3D -1;
+> > > > =20
+> > > > -		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+> > > > +		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE) {
+> > > >  			buf_idx =3D vb2_find_timestamp(cap_q,
+> > > >  						     dpb[i].reference_ts, 0);
+> > > > +			if (buf_idx < 0)
+> > > > +				pr_debug("No buffer for reference_ts %llu",
+> > > > +					 dpb[i].reference_ts);
+> > >=20
+> > > pr_debug() is too quiet.  Make it pr_err().  Set buf_idx to zero inst=
+ead
+> > > leaving it as an error code.
+> >=20
+> > Thanks for the suggestion, I'm just a bit uncomfortable using pr_err() =
+for
+> > something that is not a driver error, but userland error. Perhaps you c=
+an
+> > educate me on the policy in this regard, but malicous userland being ab=
+le to
+> > flood the logs very easily is my main concern here.
+> >=20
+> > About the negative idx, it is being used set dpb_valid later on. H.264 =
+error
+> > resilience requires that these frames should be marked as "unexisting" =
+but still
+> > occupy space in the DPB, this is more or less what I'm trying to implem=
+ent here.
+> > Setting it to 0 would basically mean to refer to DPB index 0, which is
+> > relatively random pick. I believe your suggestion is not taking into
+> > consideration what the code is doing, but it would fall in some poor-ma=
+n
+> > concealment which I would rather leave to the userland.
+> >=20
+>=20
+> To be honest, I just saw that it was a negative idx and freaked out.  I
+> didn't look at any context...
+>=20
+> You're right that we don't to allow the user to spam the dmesg.  Ideally
+> we would return an error.  A second best solution is to do a pr_err_once(=
+).
 
-WARNING: Statements should start on a tabstop
+There is two schools in the context of video stream decoding. I'm not sayin=
+g
+this driver is quite there in term of visual corruption reporting, this is
+something I expect we'll improve in the long term. But here's the two schoo=
+ls:
 
-Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_led.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+- Freeze on the last non-corrupted image (Apple style)
+- Display slightly distorted image with movement (the rest of the world)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-index ccd43accb7dc..4b047c438389 100644
---- a/drivers/staging/r8188eu/core/rtw_led.c
-+++ b/drivers/staging/r8188eu/core/rtw_led.c
-@@ -278,7 +278,7 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
- 			else
- 				pLed->BlinkingLedState = RTW_LED_ON;
- 			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
--		 }
-+		}
- 		break;
- 	case LED_CTL_TX:
- 	case LED_CTL_RX:
-@@ -304,7 +304,7 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
- 		}
- 		break;
- 	case LED_CTL_START_WPS: /* wait until xinpin finish */
--		 if (!pLed->bLedWPSBlinkInProgress) {
-+		if (!pLed->bLedWPSBlinkInProgress) {
- 			if (pLed->bLedNoLinkBlinkInProgress) {
- 				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedNoLinkBlinkInProgress = false;
-@@ -328,7 +328,7 @@ void rtw_led_control(struct adapter *padapter, enum LED_CTL_MODE LedAction)
- 			else
- 				pLed->BlinkingLedState = RTW_LED_ON;
- 			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
--		 }
-+		}
- 		break;
- 	case LED_CTL_STOP_WPS:
- 		if (pLed->bLedNoLinkBlinkInProgress) {
--- 
-2.32.0
+In order to give users that choice, I must try decoding as much as I can
+regardless if there is a missing a reference or not. That wasn't the goal i=
+n
+this MR, but in the long run we'll remember this and mark the buffer as
+corrupted (using the ERROR but setting a payload size to the picture size).=
+ This
+leaves the users the option to drop or to keep the visually corrupted image=
+. In
+video streaming, corrupted stream could look relatively fine, this cannot b=
+e
+judge noticing 1 reference frame missing (it could be referenced in only 1
+macro-block).
+
+Educational bit behind, I think we should keep going and not "error out". A=
+lso,
+for debugging purpose, it is nicer if we can get a complete report of non-m=
+emory
+backed references. As a missing reference in 1 frame, may have implication =
+in
+later frame, or may cause other frames to be missed.
+
+One thing I was thinking though, is that through using raw pr_debug() I'm n=
+ot
+giving much context to my trace, so it would be hard to associate it with t=
+he
+driver instance (m2m are multi-instance) it was running against. But I didn=
+'t
+want to add a new tracing wrapper for that driver in this patchset as it wa=
+s
+already relatively large patchset. Though, these traces have been previous =
+to
+make the driver work (as long as you test with a single instance).
+
+If its all right with everyone, I'd leave it like this for this round, we c=
+an
+dedicated a patchset on improve this driver tracing in the future.
+
+>=20
+> > > >  	for (j =3D 0; j < RKVDEC_NUM_REFLIST; j++) {
+> > > > -		for (i =3D 0; i < h264_ctx->reflists.num_valid; i++) {
+> > > > -			u8 dpb_valid =3D run->ref_buf_idx[i] >=3D 0;
+> > > > -			u8 idx =3D 0;
+> > > > +		for (i =3D 0; i < builder->num_valid; i++) {
+> > > > +			struct v4l2_h264_reference *ref;
+> > > > +			u8 dpb_valid;
+> > > > +			u8 bottom;
+> > >=20
+> > > These would be better as type bool.
+> >=20
+> > I never used a bool for bit operations before, but I guess that can wor=
+k, thanks
+> > for the suggestion. As this deviates from the original code, I suppose =
+I should
+> > make this a separate patch ?
+>=20
+> I just saw the name and wondered why it was a u8.  bool does make more
+> sense and works fine for the bitwise stuff.  But I don't really care at
+> all.
+
+I'll do that in v2, in same patch, looks minor enough. I think if using boo=
+l
+could guaranty that only 1 or 0 is  possible, it would be even better, but =
+don't
+think C works like this.
+
+Thanks again for your comments.
+
+>=20
+> regards,
+> dan carpenter
+>=20
 
