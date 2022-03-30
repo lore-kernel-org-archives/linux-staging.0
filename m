@@ -1,119 +1,182 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.meizu.com (edge01.meizu.com [14.29.68.187])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83EAA36E;
-	Wed, 30 Mar 2022 05:34:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648618493; x=1680154493;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SAL7/34vJ25bamv8Fr/9MpfHVJ+j2ue84dl6hFHp+n0=;
-  b=DXnJ0t7+MgWnYuaM+WnY69wBy1AgVnwkU2pjjdP4DXTBOzhP1Otgfboq
-   bH0VRhsl/Djjb5wQZ1M6rUewTFOnkJXTLQvobcYe+urjDEBIvuWgTcrWk
-   tQV9u+pZL6/ItYn+lW/p12eo0qSYpXjOLekUU0yZHf2qah3wNRoQEUn05
-   Hq9tFM6B0rm/vRpjobajTRv18/6GFGRQVZ70OzEX/zuimBNNt6srhzLV4
-   hXzmXWmP2EeIQCFjxqmHnDOOO9khYfkO+/ZFRJTXUfNtH8B/jCqF3zytY
-   +m8iVLv1lObqLGSXPMxvPGdQYkTrAtqqJa/O6x0b2ZgL+TzdaoFwOTc3P
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="284355836"
-X-IronPort-AV: E=Sophos;i="5.90,221,1643702400"; 
-   d="scan'208";a="284355836"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 22:34:52 -0700
-X-IronPort-AV: E=Sophos;i="5.90,221,1643702400"; 
-   d="scan'208";a="503175602"
-Received: from micastro-mobl1.amr.corp.intel.com (HELO localhost) ([10.212.81.34])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 22:34:51 -0700
-Date: Tue, 29 Mar 2022 22:34:51 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Benjamin Philip <benjamin.philip495@gmail.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Colin Ian King <colin.king@intel.com>,
-	Samuel =?iso-8859-1?Q?Sj=F6berg?= <info@samuelsjoberg.se>,
-	Charlie Sands <sandsch@northvilleschools.net>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@oracle.com>, outreachy@lists.linux.dev
-Subject: Re: [PATCHi v3] staging: rts5208: Convert kmap() to kmap_local_page()
-Message-ID: <YkPr+4lRbha/LV+9@iweiny-desk3>
-References: <20220329162055.28006-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB0536E
+	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 06:23:39 +0000 (UTC)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
+ (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 30 Mar
+ 2022 14:23:37 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 30 Mar
+ 2022 14:23:36 +0800
+From: Haowen Bai <baihaowen@meizu.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
+	<phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Haowen Bai <baihaowen@meizu.com>, <linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] staging: r8188eu: Fix misspelling in comment
+Date: Wed, 30 Mar 2022 14:23:33 +0800
+Message-ID: <1648621413-1263-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220329162055.28006-1-fmdefrancesco@gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-124.meizu.com (172.16.1.124) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 
-On Tue, Mar 29, 2022 at 06:20:55PM +0200, Fabio M. De Francesco wrote:
-> The use of kmap() is being deprecated in favor of kmap_local_page()
-> where it is feasible.
-> 
-> With kmap_local_page(), the mapping is per thread, CPU local and not
-> globally visible. Therefore rtsx_stor_access_xfer_buf() is a function
-> where the use of kmap_local_page() in place of kmap() is correctly
-> suited.
-> 
-> Convert to kmap_local_page() but, instead of open coding it, use the
-> helpers memcpy_to_page() and memcpy_from_page().
-> 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
-> 
-> v1 -> v2: Rework the commit message and use the appropriate helpers
-> instead of open coding the use of kmap_local_page()/kunmap_local_page().
-> (Thanks to Ira Weiny <ira.weiny@intel.com>).
-> 
-> v2 -> v3: Use memcpy_{to,from}_page() arguments correctly.
-> (Thanks to Dan Carpenter <dan.carpenter@oracle.com>).
-> 
->  drivers/staging/rts5208/rtsx_transport.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rts5208/rtsx_transport.c b/drivers/staging/rts5208/rtsx_transport.c
-> index 805dc18fac0a..b702c7caf944 100644
-> --- a/drivers/staging/rts5208/rtsx_transport.c
-> +++ b/drivers/staging/rts5208/rtsx_transport.c
-> @@ -92,13 +92,11 @@ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
->  			while (sglen > 0) {
->  				unsigned int plen = min(sglen, (unsigned int)
->  						PAGE_SIZE - poff);
-> -				unsigned char *ptr = kmap(page);
->  
->  				if (dir == TO_XFER_BUF)
-> -					memcpy(ptr + poff, buffer + cnt, plen);
-> +					memcpy_to_page(page, poff, buffer + cnt, plen);
->  				else
-> -					memcpy(buffer + cnt, ptr + poff, plen);
-> -				kunmap(page);
-> +					memcpy_from_page(buffer + cnt, page, poff, plen);
+This patch fixes some spelling typo in error message reported by checkpatch.pl
 
-This code is great...  But I went and looked at the function and found a
-comment which needs to be updated as well.  :-/
+WARNING: 'cacluated' may be misspelled - perhaps 'calculated'?
+WARNING: 'cacluated' may be misspelled - perhaps 'calculated'?
+WARNING: 'writting' may be misspelled - perhaps 'writing'?
+WARNING: 'defualt' may be misspelled - perhaps 'default'?
+WARNING: 'Caculate' may be misspelled - perhaps 'Calculate'?
+WARNING: 'accordign' may be misspelled - perhaps 'according'?
+WARNING: 'regster' may be misspelled - perhaps 'register'?
+WARNING: 'Wirte' may be misspelled - perhaps 'Write'?
+WARNING: 'Tranceiver' may be misspelled - perhaps 'Transceiver'?
+WARNING: 'Tranceiver' may be misspelled - perhaps 'Transceiver'?
+WARNING: 'Tranceiver' may be misspelled - perhaps 'Transceiver'?
+WARNING: 'Tranceiver' may be misspelled - perhaps 'Transceiver'?
 
- 57         /*
- 58          * Using scatter-gather.  We have to go through the list one entry
- 59          * at a time.  Each s-g entry contains some number of pages, and
- 60          * each page has to be kmap()'ed separately.
- 61          */
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c    |  2 +-
+ drivers/staging/r8188eu/hal/odm_HWConfig.c      |  4 ++--
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c      |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c   | 12 ++++++------
+ drivers/staging/r8188eu/hal/usb_halinit.c       |  2 +-
+ 6 files changed, 12 insertions(+), 12 deletions(-)
 
-I would update it to say something like:
+diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+index b944c80..310b6f5 100644
+--- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
++++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+@@ -69,7 +69,7 @@ void ODM_TxPwrTrackAdjust88E(struct odm_dm_struct *dm_odm, u8 Type,/*  0 = OFDM,
+ /*-----------------------------------------------------------------------------
+  * Function:	odm_TxPwrTrackSetPwr88E()
+  *
+- * Overview:	88E change all channel tx power accordign to flag.
++ * Overview:	88E change all channel tx power according to flag.
+  *				OFDM & CCK are all different.
+  *
+  * Input:		NONE
+diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
+index 87e9a52..1183e4a 100644
+--- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
++++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
+@@ -71,7 +71,7 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
+ 		u8 cck_agc_rpt;
+ 
+ 		/*  (1)Hardware does not provide RSSI for CCK */
+-		/*  (2)PWDB, Average PWDB cacluated by hardware (for rate adaptive) */
++		/*  (2)PWDB, Average PWDB calculated by hardware (for rate adaptive) */
+ 
+ 		cck_highpwr = dm_odm->bCckHighPower;
+ 
+@@ -170,7 +170,7 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
+ 			/* Get Rx snr value in DB */
+ 			dm_odm->PhyDbgInfo.RxSNRdB[i] = (s32)(pPhyStaRpt->path_rxsnr[i] / 2);
+ 		}
+-		/*  (2)PWDB, Average PWDB cacluated by hardware (for rate adaptive) */
++		/*  (2)PWDB, Average PWDB calculated by hardware (for rate adaptive) */
+ 		rx_pwr_all = (((pPhyStaRpt->cck_sig_qual_ofdm_pwdb_all) >> 1) & 0x7f) - 110;
+ 
+ 		PWDB_ALL = odm_QueryRxPwrPercentage(rx_pwr_all);
+diff --git a/drivers/staging/r8188eu/hal/odm_RTL8188E.c b/drivers/staging/r8188eu/hal/odm_RTL8188E.c
+index c8a3c52..dd9c829 100644
+--- a/drivers/staging/r8188eu/hal/odm_RTL8188E.c
++++ b/drivers/staging/r8188eu/hal/odm_RTL8188E.c
+@@ -194,7 +194,7 @@ static void odm_HWAntDiv(struct odm_dm_struct *dm_odm)
+ 	for (i = 0; i < ODM_ASSOCIATE_ENTRY_NUM; i++) {
+ 		pEntry = dm_odm->pODM_StaInfo[i];
+ 		if (IS_STA_VALID(pEntry)) {
+-			/* 2 Caculate RSSI per Antenna */
++			/* 2 Calculate RSSI per Antenna */
+ 			Main_RSSI = (dm_fat_tbl->MainAnt_Cnt[i] != 0) ? (dm_fat_tbl->MainAnt_Sum[i] / dm_fat_tbl->MainAnt_Cnt[i]) : 0;
+ 			Aux_RSSI = (dm_fat_tbl->AuxAnt_Cnt[i] != 0) ? (dm_fat_tbl->AuxAnt_Sum[i] / dm_fat_tbl->AuxAnt_Cnt[i]) : 0;
+ 			TargetAnt = (Main_RSSI >= Aux_RSSI) ? MAIN_ANT : AUX_ANT;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index 6811be9..2658bac 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -327,7 +327,7 @@ void rtl8188e_EfusePowerSwitch(struct adapter *pAdapter, u8 PwrState)
+ 	if (PwrState) {
+ 		rtw_write8(pAdapter, REG_EFUSE_ACCESS, EFUSE_ACCESS_ON);
+ 
+-		/*  1.2V Power: From VDDON with Power Cut(0x0000h[15]), defualt valid */
++		/*  1.2V Power: From VDDON with Power Cut(0x0000h[15]), default valid */
+ 		tmpV16 = rtw_read16(pAdapter, REG_SYS_ISO_CTRL);
+ 		if (!(tmpV16 & PWC_EV12V)) {
+ 			tmpV16 |= PWC_EV12V;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+index ea75ff1..3a7437c 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+@@ -100,7 +100,7 @@ void rtl8188e_PHY_SetBBReg(struct adapter *Adapter, u32 RegAddr, u32 BitMask, u3
+ /**
+ * Function:	phy_RFSerialRead
+ *
+-* OverView:	Read regster from RF chips
++* OverView:	Read register from RF chips
+ *
+ * Input:
+ *			struct adapter *Adapter,
+@@ -369,7 +369,7 @@ phy_InitBBRFRegisterDefinition(
+ 	/*  RF Interface (Output and)  Enable */
+ 	pHalData->PHYRegDef.rfintfe = rFPGA0_XA_RFInterfaceOE; /*  16 MSBs if read 32-bit from 0x860 (16-bit for 0x862) */
+ 
+-	/* Addr of LSSI. Wirte RF register by driver */
++	/* Addr of LSSI. Write RF register by driver */
+ 	pHalData->PHYRegDef.rf3wireOffset = rFPGA0_XA_LSSIParameter; /* LSSI Parameter */
+ 
+ 	/*  RF parameter */
+@@ -378,10 +378,10 @@ phy_InitBBRFRegisterDefinition(
+ 	/*  Tx AGC Gain Stage (same for all path. Should we remove this?) */
+ 	pHalData->PHYRegDef.rfTxGainStage = rFPGA0_TxGainStage; /* Tx gain stage */
+ 
+-	/*  Tranceiver A~D HSSI Parameter-1 */
++	/*  Transceiver A~D HSSI Parameter-1 */
+ 	pHalData->PHYRegDef.rfHSSIPara1 = rFPGA0_XA_HSSIParameter1;  /* wire control parameter1 */
+ 
+-	/*  Tranceiver A~D HSSI Parameter-2 */
++	/*  Transceiver A~D HSSI Parameter-2 */
+ 	pHalData->PHYRegDef.rfHSSIPara2 = rFPGA0_XA_HSSIParameter2;  /* wire control parameter2 */
+ 
+ 	/*  RF switch Control */
+@@ -405,10 +405,10 @@ phy_InitBBRFRegisterDefinition(
+ 	/*  Tx AFE control 2 */
+ 	pHalData->PHYRegDef.rfTxAFE = rOFDM0_XATxAFE;
+ 
+-	/*  Tranceiver LSSI Readback SI mode */
++	/*  Transceiver LSSI Readback SI mode */
+ 	pHalData->PHYRegDef.rfLSSIReadBack = rFPGA0_XA_LSSIReadBack;
+ 
+-	/*  Tranceiver LSSI Readback PI mode */
++	/*  Transceiver LSSI Readback PI mode */
+ 	pHalData->PHYRegDef.rfLSSIReadBackPi = TransceiverA_HSPI_Readback;
+ }
+ 
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index a927743..e334c9b 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -123,7 +123,7 @@ static void _InitQueueReservedPage(struct adapter *Adapter)
+ 		if (haldata->OutEpQueueSel & TX_SELE_LQ)
+ 			numLQ = 0x1C;
+ 
+-		/*  NOTE: This step shall be proceed before writting REG_RQPN. */
++		/*  NOTE: This step shall be proceed before writing REG_RQPN. */
+ 		if (haldata->OutEpQueueSel & TX_SELE_NQ)
+ 			numNQ = 0x1C;
+ 		value8 = (u8)_NPQ(numNQ);
+-- 
+2.7.4
 
-...  Each s-g entry contains some number of pages which have to be copied one
-at a time.
-
-Sorry for not catching that earlier,
-Ira
-
->  
->  				/* Start at the beginning of the next page */
->  				poff = 0;
-> -- 
-> 2.34.1
-> 
