@@ -1,25 +1,25 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500FF36C
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 07:36:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFCD36C
+	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 07:42:56 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a02:3030:d:7e3f:91e1:4be5:4001:fd80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: sebastianfricke)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 71E2F1F4438B;
-	Wed, 30 Mar 2022 08:36:04 +0100 (BST)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9D4621F44389;
+	Wed, 30 Mar 2022 08:42:54 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648625764;
-	bh=UTGb39eNA/52bA/avUqa1vAIsS16AGDE3+w7kh3a6og=;
+	s=mail; t=1648626174;
+	bh=pIoevYhcg4lXfHAB+gBSklOntW3daq2OPWaaIDxIW6U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QC4vZngr3Uf9QXAtUMWbst6zGquCSCpyytNiKEzxsZj3KX7YkpTaAlCupEzhztCPu
-	 gBJtGKKFaTKzt3tRoPoeRVPScGQU6tLJ3nNxXts+psMN6kB80q6gPkLi0cJ47e9Wux
-	 FoP6RuXDpcKGL6XkQNuVDQdjEiZC3Myw5SRjrwZBXc4IiO4iMFIB+5VVSpQZH9cFCH
-	 /O69NoNP4PL9lKjX9l5WRAA0dyC2KAbdhPyezJ3MGtESVdfvlM0FviZ5YEgKxgh2GP
-	 5GfogVIFouwXZUdf+uMedRxRRsUGa28HYlOLVEOnJr2+m4ftNFyRC8GNrKw+8plX2c
-	 zxWeWiR1hOXww==
-Date: Wed, 30 Mar 2022 09:36:00 +0200
+	b=Iq4UZjhSaV+ZYTcSkGHAm9xbaJifda92sZT/0xu0mlaErqEDx8q3PQxXGnLazpxux
+	 cYxJ0F5vFVwS0NTOWzswdqbTz5Xcg0uUJTgsI1CLRwaXKZ567UbHDi9cVdgKM375nf
+	 0LkAlezqhGvsdXF+y6a6XwurlLaHoBzC+bADyP00qoc4ba6ZNP4O9S0ctMldo/tEeS
+	 TDodJrL12LoM5I1OFg4jb3a/mVQ5a9MbM4EBID2itedr3abZRzrpiaVDkeGqGUD3dO
+	 Z9xhsyqcA0f+fvtn+L2xGODoKGBsgMpFJFhWgnDvM76lUM06dyCOEtxJw4BS4sGmvO
+	 Pz4S9HYRbGMpw==
+Date: Wed, 30 Mar 2022 09:42:50 +0200
 From: Sebastian Fricke <sebastian.fricke@collabora.com>
 To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
@@ -29,10 +29,11 @@ Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	kernel@collabora.com, linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 20/24] media: hantro: Enable HOLD_CAPTURE_BUF for H.264
-Message-ID: <20220330073600.crbi5wqlp4rimx2a@basti-XPS-13-9310>
+Subject: Re: [PATCH v1 21/24] media: hantro: Stop using H.264 parameter
+ pic_num
+Message-ID: <20220330074250.jqyljbr53fgeci6q@basti-XPS-13-9310>
 References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-21-nicolas.dufresne@collabora.com>
+ <20220328195936.82552-22-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,125 +42,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220328195936.82552-21-nicolas.dufresne@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220328195936.82552-22-nicolas.dufresne@collabora.com>
 
 Hey Nicolas,
 
+The term pic_num is now only present in the following files:
+```
+❯ rg 'pic_num'
+staging/media/rkvdec/rkvdec-h264.c
+766:	 * Assign an invalid pic_num if DPB entry at that position is inactive.
+768:	 * reference picture with pic_num 0, triggering output picture
+
+media/platform/amphion/vpu_windsor.c
+485:	u32 pic_num;
+
+media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c
+97:	unsigned short pic_num;
+346:		dst_entry->pic_num = src_entry->pic_num;
+
+media/v4l2-core/v4l2-h264.c
+143:	 * but with frame_num (wrapped). As for frame the pic_num and frame_num
+306:		/* this is pic_num for frame and frame_num (wrapped) for field,
+307:		 * but for frame pic_num is equal to frame_num (wrapped).
+```
+
+In v4l2-h264 and rkvdec-h264 it is only present as comment and the term
+is not part of the specification.
+In vpu_windsor it is actually never used.
+And for the mediatek driver the same might apply.
+It might be worth it to get rid of that term all together while you are
+at it.
+
 On 28.03.2022 15:59, Nicolas Dufresne wrote:
->This is needed to optimizing field decoding. Each field will be
-
-s/is needed to optimizing/is needed to optimize/
-
->decoded in the same capture buffer, so to make use of the queues
-
-s/in the same/into the same/
-
->we need to be able to ask the driver to keep the capture buffer.
-
-How about:
-"""
-During field decoding each field will be decoded into the same capture
-buffer. Optimise this mode by asking the driver to hold the buffer until
-all fields are written into it.
-"""
-
+>The hardware expects FrameNumWrap or long_term_frame_idx. Picture
+>numbers are per field, and are mostly used during the memory
+>management process, which is done in userland. This fixes two
+>ITU conformance tests:
+>
+>  - MR6_BT_B
+>  - MR8_BT_B
 >
 >Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 
->---
-> drivers/staging/media/hantro/hantro_v4l2.c | 25 ++++++++++++++++++++++
-> 1 file changed, 25 insertions(+)
->
->diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
->index 67148ba346f5..50d636678ff3 100644
->--- a/drivers/staging/media/hantro/hantro_v4l2.c
->+++ b/drivers/staging/media/hantro/hantro_v4l2.c
->@@ -409,6 +409,30 @@ hantro_update_requires_request(struct hantro_ctx *ctx, u32 fourcc)
-> 	}
-> }
->
->+static void
->+hantro_update_requires_hold_capture_buf(struct hantro_ctx *ctx, u32 fourcc)
->+{
->+	struct vb2_queue *vq;
->+
->+	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
->+			     V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
->+
->+	switch (fourcc) {
->+	case V4L2_PIX_FMT_JPEG:
->+	case V4L2_PIX_FMT_MPEG2_SLICE:
->+	case V4L2_PIX_FMT_VP8_FRAME:
->+	case V4L2_PIX_FMT_HEVC_SLICE:
->+	case V4L2_PIX_FMT_VP9_FRAME:
->+		vq->subsystem_flags &= ~(VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF);
->+		break;
-
-Out of curiosity, why would it be bad for the other codecs to have
-support for that feature activated? As this doesn't actually hold the
-buffers but only makes sure that they could be held.
-
->+	case V4L2_PIX_FMT_H264_SLICE:
->+		vq->subsystem_flags |= VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
-
-I think it is worth it to highlight with a comment why only this one
-receives support for holding the buffer. As it is quite confusing
-without background info and just the code.
-
-How about:
-```
-/*
-  * During field decoding in H264, all fields are written into the
-  * same capture buffer, thus we need to be able to hold the buffer
-  * until all fields are written to it
-  */
-```
-
->+		break;
->+	default:
-
-The only other decoding formats remaining are:
-- V4L2_PIX_FMT_NV12_4L4
-- V4L2_PIX_FMT_NV12
-
-Both have codec mode HANTRO_MODE_NONE.
-
-My thought is:
-If we don't care for these two, the we might as well disable buffer holding
-support for them as well. So, we could make this simplier
-(but a bit less descriptive):
-
-```
-/*
-  * During field decoding in H264, all fields are written into the
-  * same capture buffer, thus we need to be able to hold the buffer
-  * until all fields are written to it
-  */
-if (fourcc == V4L2_PIX_FMT_H264_SLICE)
-     vq->subsystem_flags |= VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
-else 
-		vq->subsystem_flags &= ~(VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF);
-```
-
 Greetings,
 Sebastian
-
->+		break;
->+	}
->+}
->+
-> static int hantro_set_fmt_out(struct hantro_ctx *ctx,
-> 			      struct v4l2_pix_format_mplane *pix_mp)
-> {
->@@ -472,6 +496,7 @@ static int hantro_set_fmt_out(struct hantro_ctx *ctx,
-> 	ctx->dst_fmt.quantization = pix_mp->quantization;
+>---
+> drivers/staging/media/hantro/hantro_h264.c | 2 --
+> 1 file changed, 2 deletions(-)
 >
-> 	hantro_update_requires_request(ctx, pix_mp->pixelformat);
->+	hantro_update_requires_hold_capture_buf(ctx, pix_mp->pixelformat);
+>diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+>index 0b4d2491be3b..228629fb3cdf 100644
+>--- a/drivers/staging/media/hantro/hantro_h264.c
+>+++ b/drivers/staging/media/hantro/hantro_h264.c
+>@@ -354,8 +354,6 @@ u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
 >
-> 	vpu_debug(0, "OUTPUT codec mode: %d\n", ctx->vpu_src_fmt->codec_mode);
-> 	vpu_debug(0, "fmt - w: %d, h: %d\n",
+> 	if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+> 		return 0;
+>-	if (dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+>-		return dpb->pic_num;
+> 	return dpb->frame_num;
+> }
+>
 >-- 
 >2.34.1
 >
