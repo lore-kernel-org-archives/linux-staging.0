@@ -1,89 +1,109 @@
-Received: from mail.meizu.com (edge01.meizu.com [14.29.68.187])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0D4366
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 01:42:40 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
- (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 30 Mar
- 2022 09:42:38 +0800
-Received: from [172.16.137.70] (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 30 Mar
- 2022 09:42:37 +0800
-Message-ID: <fe624454-a530-3361-76d9-b4aeb89eba71@meizu.com>
-Date: Wed, 30 Mar 2022 09:42:36 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817847C
+	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 03:14:07 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id h63so23330173iof.12
+        for <linux-staging@lists.linux.dev>; Tue, 29 Mar 2022 20:14:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=northvilleschools.net; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=tx0S3IoWKwhBblgXlSk6eBT885Zq+4pfcJ7ztGcossU=;
+        b=QqQjkH3EtCEzRB3DKA9ZBkqDexr43NHDlVfYhH87ZKsMQNE1foRYtUP/dKASISz0jU
+         WXeqYfLgkG28RXOjiu0sDswqCYH6Qy+Mfk6k0FrxXGiBPs4wWbY9Ctry4OBQRc7ZEWIZ
+         RRfKpISO8icHhEyWp/v7MMKCCpr7/cobnyiptbjSQLq7yJcNmEJj6z0d0bIXBS3qbbef
+         awgn/5vkcZUwJ4nk8w6pRjqpT+kUIW4TwyAEtQ0/YgAHoFLyfiYmZ//90J2vuNfZwgI7
+         hnZ1D7sxlIjtTbe0ka8nYAjedsVs1HJak7sNMnqD67C1knyIrcOReomHJSRsgCzx2lMh
+         SKFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=tx0S3IoWKwhBblgXlSk6eBT885Zq+4pfcJ7ztGcossU=;
+        b=JC/FRqlKbw01MXB3N8rVMpRKMtbiaOO6oaCYIzLLREdd+WiSJ4JXOpECX+bnX9EJll
+         sl+Ihv4Db9NcDf3rJnQf0mecdq6yo/BuuVqOLwf4PDinROrnRBNgkWrpzewU5m1LUznY
+         8WqZ+Qt7t/aqTOuwljfQ/xE9UL7VWJCBSdNo5J/sTb9qLeG3Y0a0aVcUFFCp9qHFYAoP
+         nKUe+0AsOO3VH3k26h7QfC3WmJHRVAun2igmbydZZ8jIz4U4gcdqleIYvyPtE9c40NPf
+         ziw/ZRbYdv/Nfd+OJ8y5FixScK67fF5qc/fpqITeWQctXu20FpNYCM9wogwgyutix2lQ
+         XJfQ==
+X-Gm-Message-State: AOAM532lqjyo0jkktXVrfruZDKWVnaQcm4zxvrO5IqAaa1kybuGSDqU9
+	O97ZD/z36ObsKtnWzRoGwEr1Ag==
+X-Google-Smtp-Source: ABdhPJxz1kNiwMvaB7buRSeau/6CVisXBu1tQl0Gx5bHwm86vNcKXCj0Clz5qEp6FP6wuPBmMCSq8A==
+X-Received: by 2002:a02:7115:0:b0:2fa:a6d9:9e10 with SMTP id n21-20020a027115000000b002faa6d99e10mr16234152jac.293.1648610046447;
+        Tue, 29 Mar 2022 20:14:06 -0700 (PDT)
+Received: from sckzor-linux (d4-50-247-168.col.wideopenwest.com. [50.4.168.247])
+        by smtp.gmail.com with ESMTPSA id y11-20020a92d80b000000b002c880174e40sm8191734ilm.57.2022.03.29.20.14.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Mar 2022 20:14:06 -0700 (PDT)
+Date: Tue, 29 Mar 2022 23:14:05 -0400
+From: Charlie Sands <sandsch@northvilleschools.net>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: Fix sparse endianness warnings.
+Message-ID: <YkPK/QmLAp3BkygY@sckzor-linux.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] staging: r8188eu: Fix misspelling in comment
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: <Larry.Finger@lwfinger.net>, <phil@philpotter.co.uk>,
-	<straube.linux@gmail.com>, <linux@roeck-us.net>,
-	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <1647831314-25511-1-git-send-email-baihaowen@meizu.com>
- <YkMdEIMHrYBPGYzK@kroah.com>
-From: baihaowen <baihaowen@meizu.com>
-In-Reply-To: <YkMdEIMHrYBPGYzK@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-125.meizu.com (172.16.1.125) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-在 3/29/22 10:52 PM, Greg KH 写道:
-> On Mon, Mar 21, 2022 at 10:55:14AM +0800, Haowen Bai wrote:
->> The original error is as below shows:
->>
->> CHECK: 'associcated' may be misspelled - perhaps 'associated'?
->>
->> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
->> ---
->>  drivers/staging/r8188eu/core/rtw_ap.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
->> index 1675e2e..e02dd8e 100644
->> --- a/drivers/staging/r8188eu/core/rtw_ap.c
->> +++ b/drivers/staging/r8188eu/core/rtw_ap.c
->> @@ -819,7 +819,7 @@ static int rtw_ht_operation_update(struct adapter *padapter)
->>  
->>  void associated_clients_update(struct adapter *padapter, u8 updated)
->>  {
->> -	/* update associcated stations cap. */
->> +	/* update associated stations cap. */
->>  	if (updated) {
->>  		struct list_head *phead, *plist;
->>  		struct sta_info *psta = NULL;
->> @@ -972,7 +972,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
->>  		update_beacon(padapter, _HT_ADD_INFO_IE_, NULL, true);
->>  	}
->>  
->> -	/* update associcated stations cap. */
->> +	/* update associated stations cap. */
->>  	associated_clients_update(padapter,  beacon_updated);
->>  
->>  	DBG_88E("%s, updated =%d\n", __func__, beacon_updated);
->> @@ -1036,7 +1036,7 @@ u8 bss_cap_update_on_sta_leave(struct adapter *padapter, struct sta_info *psta)
->>  		update_beacon(padapter, _HT_ADD_INFO_IE_, NULL, true);
->>  	}
->>  
->> -	/* update associcated stations cap. */
->> +	/* update associated stations cap. */
->>  
->>  	DBG_88E("%s, updated =%d\n", __func__, beacon_updated);
->>  
->> -- 
->> 2.7.4
->>
->>
-> Does not apply to my tree :(
-yes, I need to develop on the next branch, but not before.
+This patch fixes sparse warnings about the endianness of different
+integers in the driver.
 
+Signed-off-by: Charlie Sands <sandsch@northvilleschools.net>
+---
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index d68611ef22f8..ed41c4e30262 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
+ 	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+ 	int data_len;
+ 
+-	data_len = tag->tag_len + TAG_HDR_LEN;
++	data_len = be16_to_cpu(tag->tag_len) + TAG_HDR_LEN;
+ 	if (skb_tailroom(skb) < data_len)
+ 		return -1;
+ 
+@@ -432,7 +432,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 		/*                Handle PPPoE frame                 */
+ 		/*---------------------------------------------------*/
+ 		struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+-		unsigned short *pMagic;
++		__be16 *pMagic;
+ 
+ 		switch (method) {
+ 		case NAT25_CHECK:
+@@ -471,7 +471,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 						tag->tag_len = htons(MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN+old_tag_len);
+ 
+ 						/*  insert the magic_code+client mac in relay tag */
+-						pMagic = (unsigned short *)tag->tag_data;
++						pMagic = (__be16 *)tag->tag_data;
+ 						*pMagic = htons(MAGIC_CODE);
+ 						memcpy(tag->tag_data+MAGIC_CODE_LEN, skb->data+ETH_ALEN, ETH_ALEN);
+ 
+@@ -557,9 +557,11 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 						struct icmp6hdr  *hdr = (struct icmp6hdr *)(skb->data + ETH_HLEN + sizeof(*iph));
+ 						hdr->icmp6_cksum = 0;
+ 						hdr->icmp6_cksum = csum_ipv6_magic(&iph->saddr, &iph->daddr,
+-										iph->payload_len,
++										be16_to_cpu(iph->payload_len),
+ 										IPPROTO_ICMPV6,
+-										csum_partial((__u8 *)hdr, iph->payload_len, 0));
++										csum_partial((__u8 *)hdr,
++										be16_to_cpu(iph->payload_len),
++										0));
+ 					}
+ 				}
+ 			}
 -- 
-Haowen Bai
+2.35.1
 
