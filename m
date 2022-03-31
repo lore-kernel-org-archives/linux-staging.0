@@ -1,53 +1,44 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816497B;
-	Thu, 31 Mar 2022 06:41:22 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id h1so27031688edj.1;
-        Wed, 30 Mar 2022 23:41:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vRVZfZhek/ld27PxqrvAQx7maxQWJQLXz5r4N00GOvw=;
-        b=Xi15f2aQFwUqwT9TRfxb1qLZvAF/UDB1Tt0O9qg5coX6j0xbBItJGn1yVFfRp2bGWs
-         CyISIlUzkJxbvKCdz+xyfNlp4GXb9ZaA2NELq4JW91qbOeZTPzWd4iZY6XL9JPC9P+1t
-         +TIQoHlEn5SxgLYrk4/UK4irrscHYYlOJOv5Fjm61PDQyTpJfOLjJ3VcMc2kAxBwETUO
-         xa8EE6m9WBm2PqMFCF6SMxNdalTNQzljyMoUOC/4BLfWqfeqjmyvoKfgHh2MtKAbJH9N
-         UWRqJLBk+Nvrn8+5LValSaXCvoxz9R0Usfvuhx3gKu9XNZI/16lDqDAdL6APKiLxTOZF
-         V9yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vRVZfZhek/ld27PxqrvAQx7maxQWJQLXz5r4N00GOvw=;
-        b=U3vRRQDG3I7mbelprMMnHXD6d+ilpORUSJ6+tzbdoD9W69kk80alYw2JrWzS6Fj4gU
-         ENYwQPoMLlDTSMR1UISEwlBTw96JqyC9xO77Y2vimlip4/GiQsLyFUIZKncer0l9RvLp
-         mcFWTZIvNk+OL/DSHZuVJCZpfsBoBBT5NkuOJ87WpkXeaH72SsT+9mk3GpCA9EifIuhp
-         RDW2M7PYqpypubscektagrt7GtEx5wPdBiXWjWz6MveMwRSdoinD1Ba+RPHcR4vLkmda
-         5ezIYyd7i5fWcM+BgEynk3rrFMpS91gVBEZd/4RO9hqz4oFA+EAp2CZeT+H5vrxJi9GZ
-         3vkg==
-X-Gm-Message-State: AOAM531YGrPAyC/lamuwUS8h8UFjZZHRomsmDRC8lT5GEtMDWnhEAXwu
-	0sVmCMBw26Jrb9BI7NloZHE=
-X-Google-Smtp-Source: ABdhPJzhFtKO5Fs8WACAacp4q9R9a24cKA+TW99SvZ81BfLY1EtflbXpMX6JRr/ibKETH7Zt2DpGMw==
-X-Received: by 2002:aa7:d58e:0:b0:419:c121:ea33 with SMTP id r14-20020aa7d58e000000b00419c121ea33mr14939013edq.256.1648708880560;
-        Wed, 30 Mar 2022 23:41:20 -0700 (PDT)
-Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
-        by smtp.gmail.com with ESMTPSA id eq7-20020a056402298700b00419d8d46a8asm5368593edb.39.2022.03.30.23.41.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Mar 2022 23:41:18 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: David Kershner <david.kershner@unisys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	sparmaintainer@unisys.com,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28917B
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 06:46:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1648709178;
+	bh=bufxMJHVCYXrsdpVg5rYz5crzyMeuyybMNfKuLxj1ts=;
+	h=From:To:Cc:Subject:Date;
+	b=mxHiZLaVUQOtchXrZaFncO87VelQGmrgfaUKHnzII8tG6f8KDKL5SW6LP4BJoNC/U
+	 LB5tkS4GoT4h9IsMhc7NlCmgGCl8CWVz3eSdrhOoDeo8CAct2rF5teMZ2ptuQxUDE6
+	 C4npd62kdlBSSqI7uvgdLWJKDtX0nAA6burcV0O4=
+Received: from localhost.localdomain ([43.227.138.48])
+	by newxmesmtplogicsvrszc11.qq.com (NewEsmtp) with SMTP
+	id B442E060; Thu, 31 Mar 2022 14:45:04 +0800
+X-QQ-mid: xmsmtpt1648709104tbeh6zl7s
+Message-ID: <tencent_E11454E1CC4A16FF712002CC8CB90F1C2E08@qq.com>
+X-QQ-XMAILINFO: NdlHRE7tlvP0wtWI2e0bKZfYqAcsdByok55RWiz4vdyUMFq/FmyqIa/bN07In6
+	 QxBaPb0yWxXbD2MV4kyd37V1bUko9K4rlUDWgMJgHaohA1hBR9rsjzbACOf8kHUo/JWPBHPPTGeF
+	 OHo+ssEg3JGuH5kuwuGqVhUKNFAemhWqr2FKtWM+aj30V628QbU4hBInQhkazbMOSaHwqenCpJ/z
+	 h0fdCIeQLDwPHFQPl+JZpRkmnqV2VTOQ2TVBnDjikcI/qkBuz9JSCoYI4+ZGK1xuI4vK+zyXfUVc
+	 G8F0O0F+jdzmvpXWg3PLymkvl3Jm+4iM46lpoWUal/uWi7i1EdNUjbmj0QnyiXeVm2DWdyr6YRq/
+	 oDP0CGkYocTM2tTu/0drhWqxUQDWv+mLcGCTnEYx6hokibbd4NvpBcyF03fAFhWkbL/wuqlyx/ow
+	 ASsJsCcMCP4ZifxedXIi24xmh0gdlObE348K7aIpRkSFuqN1HZ7MoRSCFBMR6GmABExd6j9HdzE5
+	 AT98Fzu0tdNUZldopi7UsnpC5zHPfvMZOYghJZ66MCHZYqNgNkoanyC/+HBN3EbkjzXrrmhHPThC
+	 J6RHmvOuOlH+y0m275M13UoL5CLl2s/Ek6bp4wpkrx3gwQzhPZ8ykR60hA8FVhx2Veg7gL1V1b7U
+	 DFxyMR+s9D2aQNgquIEKKj+otF+T5hbwQB0drt470btHGB8ShJZiKIi9Tv4hhqSme4aA0YIqgcfQ
+	 k++phgTSr8swJh7ZUa1X1FcXsK7g2ahM8ao8RvEM6OMCJmU0PdtKEdB0zowGBQAiuq2kT1kF4fRw
+	 mDb4axCpIuqN/w84QSpQYlK3osRv8v3O70vxtebHDLaqEyL9ym3Olabk6xMrcbNGvy5+tC66YHUr
+	 m09DS7ZEgZjQeFgzPJO+tRUoY5OZFEjLW6PfxHi1syAjREwgit7SlymT2+pQeZlTqGBnBTAga44X
+	 VohplMaK6cssZNXps0rg==
+From: xkernel.wang@foxmail.com
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: unisys: Remove "struct dentry *eth_debugfs_dir"
-Date: Thu, 31 Mar 2022 08:41:15 +0200
-Message-Id: <20220331064115.29345-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Xiaoke Wang <xkernel.wang@foxmail.com>
+Subject: [PATCH v3] staging: r8188eu: fix a potential memory leak in _rtw_init_cmd_priv()
+Date: Thu, 31 Mar 2022 14:44:52 +0800
+X-OQ-MSGID: <20220331064452.7143-1-xkernel.wang@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,71 +47,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is no need for "struct dentry *eth_debugfs_dir" which is used for
-debug / sysfs directories. Therefore, remove this "struct dentry" and
-everything related (i.e., creation, test, removal).
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-As a side effect of this change, the code has no more need of the
-"cleanup_register_netdev" label, which can also be removed.
+In _rtw_init_cmd_priv(), if `pcmdpriv->rsp_allocated_buf` is allocated
+in failure, `pcmdpriv->cmd_allocated_buf` is not properly released.
+This patch is to free it.
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 ---
- drivers/staging/unisys/visornic/visornic_main.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ChangeLog:
+v1->v2: simplify the function.
+v2->v3: rebase and recover some whitespace cleanups.
+ drivers/staging/r8188eu/core/rtw_cmd.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/unisys/visornic/visornic_main.c b/drivers/staging/unisys/visornic/visornic_main.c
-index 643432458105..bb7ec492503e 100644
---- a/drivers/staging/unisys/visornic/visornic_main.c
-+++ b/drivers/staging/unisys/visornic/visornic_main.c
-@@ -103,7 +103,6 @@ struct chanstat {
-  * @server_down:                    IOPART is down.
-  * @server_change_state:            Processing SERVER_CHANGESTATE msg.
-  * @going_away:                     device is being torn down.
-- * @struct *eth_debugfs_dir:
-  * @interrupts_rcvd:
-  * @interrupts_notme:
-  * @interrupts_disabled:
-@@ -157,7 +156,6 @@ struct visornic_devdata {
- 	bool server_down;
- 	bool server_change_state;
- 	bool going_away;
--	struct dentry *eth_debugfs_dir;
- 	u64 interrupts_rcvd;
- 	u64 interrupts_notme;
- 	u64 interrupts_disabled;
-@@ -1919,24 +1917,10 @@ static int visornic_probe(struct visor_device *dev)
- 		goto cleanup_napi_add;
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 4eeb961..f6653d6 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -18,8 +18,6 @@ No irqsave is necessary.
+ 
+ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ {
+-	int res = _SUCCESS;
+-
+ 	init_completion(&pcmdpriv->enqueue_cmd);
+ 	/* sema_init(&(pcmdpriv->cmd_done_sema), 0); */
+ 	init_completion(&pcmdpriv->start_cmd_thread);
+@@ -34,27 +32,24 @@ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ 	pcmdpriv->cmd_allocated_buf = kzalloc(MAX_CMDSZ + CMDBUFF_ALIGN_SZ,
+ 					      GFP_KERNEL);
+ 
+-	if (!pcmdpriv->cmd_allocated_buf) {
+-		res = _FAIL;
+-		goto exit;
+-	}
++	if (!pcmdpriv->cmd_allocated_buf)
++		return _FAIL;
+ 
+ 	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((size_t)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ - 1));
+ 
+ 	pcmdpriv->rsp_allocated_buf = kzalloc(MAX_RSPSZ + 4, GFP_KERNEL);
+ 
+ 	if (!pcmdpriv->rsp_allocated_buf) {
+-		res = _FAIL;
+-		goto exit;
++		kfree(pcmdpriv->cmd_allocated_buf);
++		return _FAIL;
  	}
  
--	/* create debug/sysfs directories */
--	devdata->eth_debugfs_dir = debugfs_create_dir(netdev->name,
--						      visornic_debugfs_dir);
--	if (!devdata->eth_debugfs_dir) {
--		dev_err(&dev->device,
--			"%s debugfs_create_dir %s failed\n",
--			__func__, netdev->name);
--		err = -ENOMEM;
--		goto cleanup_register_netdev;
--	}
--
- 	dev_info(&dev->device, "%s success netdev=%s\n",
- 		 __func__, netdev->name);
- 	return 0;
+ 	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf  +  4 - ((size_t)(pcmdpriv->rsp_allocated_buf) & 3);
  
--cleanup_register_netdev:
--	unregister_netdev(netdev);
--
- cleanup_napi_add:
- 	visorbus_disable_channel_interrupts(dev);
- 	netif_napi_del(&devdata->napi);
-@@ -2002,7 +1986,6 @@ static void visornic_remove(struct visor_device *dev)
- 	/* going_away prevents new items being added to the workqueues */
- 	cancel_work_sync(&devdata->timeout_reset);
+ 	pcmdpriv->cmd_done_cnt = 0;
+ 	pcmdpriv->rsp_cnt = 0;
+-exit:
  
--	debugfs_remove_recursive(devdata->eth_debugfs_dir);
- 	/* this will call visornic_close() */
- 	unregister_netdev(netdev);
+-	return res;
++	return _SUCCESS;
+ }
  
+ static void c2h_wk_callback(struct work_struct *work);
 -- 
-2.34.1
-
