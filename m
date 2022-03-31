@@ -1,161 +1,94 @@
-Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com [209.85.161.66])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4F07B;
-	Thu, 31 Mar 2022 15:40:03 +0000 (UTC)
-Received: by mail-oo1-f66.google.com with SMTP id y27-20020a4a9c1b000000b0032129651bb0so40620ooj.2;
-        Thu, 31 Mar 2022 08:40:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF4EA2D;
+	Thu, 31 Mar 2022 16:59:03 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id l7-20020a05600c1d0700b0038c99618859so2064337wms.2;
+        Thu, 31 Mar 2022 09:59:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=5NvDxXOCj2IjyiLWVvaGa2K8cfqwFAMmFQA1NzW5zlQ=;
-        b=SlYdKhMQeCIIizXjR2ftf96grOKqBwNTw15wVpZchWuXuI4ivEgri7HPuS3/j6rDjp
-         XytUgTkYYuTIyY+G/dJtV5VC2vRffaWHwNJ52M2TMu8AG6HVcFFP3CXqeF3nrImQbBaM
-         /MsdY3mLAje9vfjtf/wxdAhAmEyDkH3fpWsgtSuycN7vGlomI7ibnc1IQv07AS7WOaNB
-         376vzHNd08msPiJizrDCjWQ4jW3UFR8DhCoSJCktV3G1uNT/LThu72dD/zx/3CDwn788
-         4owfczlLxRRW3OCRjhIg1yJY4sdtAf0e0Qtzj69AZHirkGDTXiSWjOJrE/bFr9RMrQHQ
-         dETA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=vrgHRAcGFYBW5//Px3FPaIXJFM+ziIQctDRECHM/5Yc=;
+        b=L5mcU8fek7ltwjMyOO8VtBdjLOs6rCjrIcH1SxftOcNUCue44IkMbLx0FutOlIy9Gy
+         678tQasKLTf8JXDUXlAw+pdCKki/CSbvtJcQYLW9o4sZs9wlmwzgAzh99PpGut4nG4Nr
+         RdmGICjFxuXuEu/eaCSkEN2vfeWihguDKUEgDseKIZ2x+ENnyf4eFeJCik5OZYUGB0O0
+         ihJudIy+wwooJad80VmxU4sXePSaQ2LDxtDBF6lQ5poJNMC77F7VM3VH+0TdzQsdAhFO
+         LYXb2xvRsHAsnQudaJJNKBXt6HIXmpgu8aKngWU32vZwTEpwWepfIbmNH7s8IdlBe1v5
+         0ZXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=5NvDxXOCj2IjyiLWVvaGa2K8cfqwFAMmFQA1NzW5zlQ=;
-        b=O82wue3Sy8RtVKuN3Mx2tOuOL27p25cEg1xj4Cs1QGQtUERFW/56uS5MaXIuz2E+kS
-         VpGSUeCry3qKjI0Z+qhgsg2YP8N24P3okRDlz08SViUDkzkPo5TV1IAia3qv3fT1gzaJ
-         fmUVZsfmeK58v7Pd5HLCFMZAGPdB+uKqmP2VbZEKixYbzGEO5V10RwZfZafD4JwYb0sm
-         x2KFVNmF3l963mYjc2qT9ZosFIuOe2Ucd78SyVxo+AN6hN2p7Wo/ruxUDiLezySb6y2h
-         MOcXGyARm3vuObqWm7q6rLQvCMNSw+uJoV5SXCQ1iYIzEEcrMY8zwB+syE5wvNgXCBjS
-         gP+Q==
-X-Gm-Message-State: AOAM533PGoHWoteF6Bp7JTDVqFxoIZK8uCsyxxoj0aR3yaNT+6FXoCKE
-	UhZROHrOfIRR5quAkQXcsVfR+s/xJshiKg==
-X-Google-Smtp-Source: ABdhPJzuRo0YGQtSqCPTJVqtxgUHrhRly5OEtg0E8sVgxze6Up+3RncDemZbLaq8micNvmL4QlYQ2Q==
-X-Received: by 2002:a4a:cb0d:0:b0:324:852f:4438 with SMTP id r13-20020a4acb0d000000b00324852f4438mr5335614ooq.3.1648741202226;
-        Thu, 31 Mar 2022 08:40:02 -0700 (PDT)
-Received: from bertie (072-190-140-117.res.spectrum.com. [72.190.140.117])
-        by smtp.gmail.com with ESMTPSA id u23-20020a056870d59700b000de821ba7cbsm11462103oao.15.2022.03.31.08.40.01
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=vrgHRAcGFYBW5//Px3FPaIXJFM+ziIQctDRECHM/5Yc=;
+        b=niV5MTX8ubf6tptnfw1JKWnjUGATW2do336+e+vhEe4dUwLEmncID308EzAp2oIX8p
+         OtB0qNML4i9BwKbyeGAjGvs4HI+GcyCaOq/KlMDC5NbN7iMNE9uV/sUqouTZDVdt8GAb
+         VlI4FrvKCAlTDTitBaVY86D+69ASqVkVhipaobf7yb27FA7YDBsfAZzHGSnAgiWj0Tma
+         vV1vAU8SaxIXPfEmMHREt6HHGcvtyf3ZRR6sLAUED20K+euegqt1J/u1cbbbCCCWnfUE
+         Ly917jRpVM2PRsIQjEY04oX0mwokigDwPTYRiDtOAkdOb49unoqPoEw/Ugk7BcIDDjAB
+         hbPg==
+X-Gm-Message-State: AOAM53271cu1FZHa9Yp6W++iDdd8Zytti4EwWDrk6+qY+IeoCf39UuBy
+	Zfguod5hFneCZvExsxrcMuA=
+X-Google-Smtp-Source: ABdhPJyY9VFEb1OxfOzeK9H/V3w75Pxss7kmhEAc3nqyEsc2M5BH0HyOboimDEnBmqGNI8ZTgrH3CA==
+X-Received: by 2002:a1c:4e18:0:b0:38c:bd8d:6bd9 with SMTP id g24-20020a1c4e18000000b0038cbd8d6bd9mr5410289wmh.94.1648745941467;
+        Thu, 31 Mar 2022 09:59:01 -0700 (PDT)
+Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id d5-20020adfef85000000b00205b3945fdasm13858693wro.92.2022.03.31.09.58.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 08:40:01 -0700 (PDT)
-Date: Thu, 31 Mar 2022 10:40:00 -0500
-From: Rebecca Mckeever <remckee0@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: [PATCH] staging: r8188eu: use sizeof(*pvar) for allocating structs
-Message-ID: <YkXLUIMkcD02N0RU@bertie>
+        Thu, 31 Mar 2022 09:59:00 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] staging: unisys: Remove "struct dentry *eth_debugfs_dir"
+Date: Thu, 31 Mar 2022 18:58:58 +0200
+Message-ID: <5558288.DvuYhMxLoT@leap>
+In-Reply-To: <20220331082202.GZ12805@kadam>
+References: <20220331064751.29634-1-fmdefrancesco@gmail.com> <20220331082202.GZ12805@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Use sizeof(*pvar) instead of sizeof(struct var) when allocating memory.
-This conforms to Linux kernel coding style, improves readability,
-and decreases the opportunity for bugs if the pointer variable type is
-changed. Issue found by checkpatch messages of the following format:
+On gioved? 31 marzo 2022 10:22:02 CEST Dan Carpenter wrote:
+> On Thu, Mar 31, 2022 at 08:47:51AM +0200, Fabio M. De Francesco wrote:
+> > There is no need for "struct dentry *eth_debugfs_dir" which is used for
+> > debug / sysfs directories. Therefore, remove this "struct dentry" and
+> > everything related (i.e., creation and removal).
+> > 
+> > As a side effect of this change, the code has no more need of the
+> > "cleanup_register_netdev" label, which can also be removed.
+> > 
+> > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> > 
+> > v1 - v2: Add a couple of "Suggested-by" tags which were forgotten. 
+> > Thanks to Dan Carpenter and Greg Kroah-Hartman.
+> > 
+> 
+> Thanks!
+> 
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> 
+> regards,
+> dan carpenter
+> 
+I've just noticed that visornic and visorhba do other calls to 
+debugfs_create_dir() and debugfs_create_file() functions.
 
-CHECK: Prefer kzalloc(sizeof(*pvar)...) over kzalloc(sizeof(struct var)...)
+I'm not sure whether or not this driver still needs those other calls.
 
-Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_mlme.c     |  4 ++--
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 16 ++++++++--------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+Do you think that they should be removed as well as it has been done 
+in the patch above?
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 6f0bff186477..2afbb6a9aee6 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1509,13 +1509,13 @@ int rtw_set_auth(struct adapter *adapter, struct security_priv *psecuritypriv)
- 	struct	cmd_priv *pcmdpriv = &adapter->cmdpriv;
- 	int		res = _SUCCESS;
- 
--	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
-+	pcmd = kzalloc(sizeof(*pcmd), GFP_KERNEL);
- 	if (!pcmd) {
- 		res = _FAIL;  /* try again */
- 		goto exit;
- 	}
- 
--	psetauthparm = kzalloc(sizeof(struct setauth_parm), GFP_KERNEL);
-+	psetauthparm = kzalloc(sizeof(*psetauthparm), GFP_KERNEL);
- 	if (!psetauthparm) {
- 		kfree(pcmd);
- 		res = _FAIL;
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 10d5f1222936..c3ec853d0895 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -6421,7 +6421,7 @@ void report_survey_event(struct adapter *padapter, struct recv_frame *precv_fram
- 	pmlmeext = &padapter->mlmeextpriv;
- 	pcmdpriv = &padapter->cmdpriv;
- 
--	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-+	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
- 	if (!pcmd_obj)
- 		return;
- 
-@@ -6471,7 +6471,7 @@ void report_surveydone_event(struct adapter *padapter)
- 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 
--	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
-+	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_KERNEL);
- 	if (!pcmd_obj)
- 		return;
- 
-@@ -6513,7 +6513,7 @@ void report_join_res(struct adapter *padapter, int res)
- 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 
--	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-+	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
- 	if (!pcmd_obj)
- 		return;
- 
-@@ -6610,7 +6610,7 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
- 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 
--	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
-+	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_KERNEL);
- 	if (!pcmd_obj)
- 		return;
- 
-@@ -6996,11 +6996,11 @@ void survey_timer_hdl(struct adapter *padapter)
- 			pmlmeext->scan_abort = false;/* reset */
- 		}
- 
--		ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-+		ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
- 		if (!ph2c)
- 			goto exit_survey_timer_hdl;
- 
--		psurveyPara = kzalloc(sizeof(struct sitesurvey_parm), GFP_ATOMIC);
-+		psurveyPara = kzalloc(sizeof(*psurveyPara), GFP_ATOMIC);
- 		if (!psurveyPara) {
- 			kfree(ph2c);
- 			goto exit_survey_timer_hdl;
-@@ -7538,13 +7538,13 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
- 	u8 res = _SUCCESS;
- 	int len_diff = 0;
- 
--	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-+	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
- 	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
--	ptxBeacon_parm = kzalloc(sizeof(struct Tx_Beacon_param), GFP_ATOMIC);
-+	ptxBeacon_parm = kzalloc(sizeof(*ptxBeacon_parm), GFP_ATOMIC);
- 	if (!ptxBeacon_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
--- 
-2.32.0
+Thanks,
+
+Fabio M. De Francesco
+
+
 
