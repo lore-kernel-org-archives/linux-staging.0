@@ -1,131 +1,177 @@
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2099.outbound.protection.outlook.com [40.107.255.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C175B7C
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 12:08:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KTE1h4y8fGaOZw1xaMXA+7Gn9bCG7jw+ko6CpVJ7aUb/kznNuNzte1PMuSSxfpaIlAysKPM59VDcVpd4UzGl7h1qSc1niQFj1yNwYsnF7q89h/+7TOr1Tq+DKytI5V7uYmHfAboBZ5vqUi1RM0yEDrWEoxFIVfet7y5doid7BYkRsERDCj+RF2jDl2dl8nO5PU8ehQgXd81OXbAWmunubq6hP1ZQCtUGdujRJRfG4zvCsc7s00dV2JiSv8+n5WCfhGfnGwV2c/9fHpsHDsqZ93rsExlck0cM/dzZqw2zsN7pnmosugpHMc024Kksys1QpFyBgx+79iUgPjxetpAAdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D+0wcEHDFaSjHIBW4mg57qHIxShqM19A4XovI/5fakw=;
- b=LRGRNuSCrrTedOrfP/ezMbhEtgYt6gGiaAQWwcnoKPUUcjevZFKw1g9wf+QBSJUZ9eSr0FFtyxa36qAEvNyikOjKy97M9gnK9d5By2ChlZqBkzMzPaEipoE6+/pKuAcqaCcMbzvUSqcB/I2s43+7fJoXO49xJT2Cu6fCWbJ9yLKlQoF6zhnHn0aH6nCwTlnFjudAAvbEFHOoqsu02foy0izJBHt9X/+9SWZvYul3LArQnulrZfnf/scjhWidHaRTyCS269VllLqfVNG0GvAHIaNSG76HL5rf7OHwSz+Y81PRHQF7FGp5AAv7IJKyOy251xtc2nkoW9lUfN8wzBJITw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D+0wcEHDFaSjHIBW4mg57qHIxShqM19A4XovI/5fakw=;
- b=fkdOuLvU3RFYwuyLJAYelOQdLLL6EL8aGkhJuppne9FZjUXZH9HuCrS7iWr7Wpdui7oMWcNQ5nmHGTBnVVHpkxuIk/aLYenZq3u6mwadHtb0Ip6ZJsGQ7qbIG3q18uugD8Ar0WWDuBRJH50p7w412z7T7OmSoPiacFDYivlV97I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
- by SI2PR06MB3882.apcprd06.prod.outlook.com (2603:1096:4:ea::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.23; Thu, 31 Mar
- 2022 12:08:47 +0000
-Received: from SL2PR06MB3082.apcprd06.prod.outlook.com
- ([fe80::6c6e:d8af:2d3c:3507]) by SL2PR06MB3082.apcprd06.prod.outlook.com
- ([fe80::6c6e:d8af:2d3c:3507%7]) with mapi id 15.20.5123.021; Thu, 31 Mar 2022
- 12:08:47 +0000
-From: Qing Wang <wangqing@vivo.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9647B7C;
+	Thu, 31 Mar 2022 12:15:53 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id c4so21187758qtx.1;
+        Thu, 31 Mar 2022 05:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=XF/s3UO58P3HsSZw+GTULwVtlQyjwaiZoqdQ/vxoa0Q=;
+        b=LmqzuotlFBpEVS8oxw8kc6t8ivWB8dCcGXySEGVPZFyBqFBNvxQByoZviEjyOmfiSw
+         8esc0Naf/cZa8vAWfj7m/63TOcANOhWkYTjt5EI+Zth4Dz/pimjaODvycr/wp6xwgYMF
+         qP0tDJKWd7ygKU2hdG9uLerHsSEUQz1qwx0s1yT6Q12hF8pSJ5aS+fGgdfXW3cJ5OnWe
+         nT2Fulthff08XqUZQRXMFOL1YgS4DEQBiuK8NMcxUtG6ajCW7aBU0a5Xv+RNCqdeexJN
+         zfRuXNcKvUOxwd9BA1e/kNl08g56Qnaez9Kf4BBU12p+p2W24smkSMGtiwgK9eLQ7rur
+         0UGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=XF/s3UO58P3HsSZw+GTULwVtlQyjwaiZoqdQ/vxoa0Q=;
+        b=ac+5RDojlgunZLKHJoRe6+sBW+jsno1my197wae5ol+LthD0asH+im1yx7IctWdVQl
+         UdR/2XDfPbadcpXLiRkZ4cSlC6SaGNhS1ZoyMGrJEsO3IRaiKYeeNoNMpB8RkvUFmWYo
+         9zDwJBXZxTHZ/3aWiip8BeHY+touFRVGvjFfoDjfLUAtbXAzTgz3VdDUWq6h7s9WMoZP
+         VCtjZ5Pl4xL6F9SwR1pZtV70p6rVJ/y0qWjyyG+TsXOSguA5i4/+OlxwsBTyz+jKu754
+         mTK+fSnaZpkJV4xWerwBKCEYqQTAe5ZFXCrQYITKcBFfj85AaiosahTU+zSTe7J05hs4
+         dyng==
+X-Gm-Message-State: AOAM532nMkq+LFg8bpXclH/1Ck1jMmZ9KU0RGpcALhn4bU5DQoWyrEpC
+	YMTjJyHkp2ckXbBV5/NyOamtHxParXKPug==
+X-Google-Smtp-Source: ABdhPJx4wyrbXP3SPA0GaXnuXNXsuT9Bg0w2bVzN1hfotU+bgrDJvUZd9K3uIlYNTD1/BaQsHabTAQ==
+X-Received: by 2002:a05:622a:89:b0:2e1:b8c7:9975 with SMTP id o9-20020a05622a008900b002e1b8c79975mr3907324qtw.342.1648728951887;
+        Thu, 31 Mar 2022 05:15:51 -0700 (PDT)
+Received: from euclid ([71.58.109.160])
+        by smtp.gmail.com with ESMTPSA id g5-20020ac87f45000000b002e125ef0ba3sm19503701qtk.82.2022.03.31.05.15.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 05:15:51 -0700 (PDT)
+Date: Thu, 31 Mar 2022 08:15:50 -0400
+From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Wang Qing <wangqing@vivo.com>
-Subject: [PATCH] staging: r8188eu: remove duplicate assignment
-Date: Thu, 31 Mar 2022 05:08:34 -0700
-Message-Id: <1648728514-37390-1-git-send-email-wangqing@vivo.com>
-X-Mailer: git-send-email 2.7.4
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR04CA0047.apcprd04.prod.outlook.com
- (2603:1096:202:14::15) To SL2PR06MB3082.apcprd06.prod.outlook.com
- (2603:1096:100:37::17)
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: rtl8723bs: place constants on the right side of
+ tests
+Message-ID: <20220331121550.GA429809@euclid>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef10fb5c-c499-4804-126a-08da130f3598
-X-MS-TrafficTypeDiagnostic: SI2PR06MB3882:EE_
-X-Microsoft-Antispam-PRVS:
-	<SI2PR06MB3882DD350EBCB440AA44C73CBDE19@SI2PR06MB3882.apcprd06.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	k3zkNMlPZhyV8J+44J58vtx9RCHcQgyHixKfhfFJ7ax7g5z6cjxg2+PiFYkDmU5liI2VzQI49LPwzSq/Ijfwnj7/ztr8Ae22hz7RN49Bo99p261OZ3zZK2KVHcR9moLi11sH91oGGXiSrq8uYFxOa5pQ+hEdN/50j4BW3nGRxE6xrVig/Pi8z9uf/X0wNhvShoHqcNTuS7eWpOni6xLXGTiO8W2bHSuoIsxtSK9l+PA9gOm7ZN3UqfyeJAq4A2rWUtfwzKk77u83K7EqYGdodkO9WcGECf4PztgHg6uleqLUPdoKqcs4whzBm/9xMqhfM+42CA40rlfaM40jskpjHQTM71l7i+Nrt9M8Lqn/jIN24l6OlIWP/rK0HmpNko4t6GsykfG6dbTTmkLNi/nHHlKN5GI+wT+yXS4TfPo6kEvhBsMWhwiOnShhRhWEJp2yRWGerO6vUFAFX49gQ8Uz/uCgPRq/gJlpN1lkbCnquwGeczywI/NS6HCaQZx7xLQOg/P/lvn/fIC0HfD4IrWYXLnzmVKoETjRdfR9npYiwfQBpqls2IpseVRGc5P8BoLc18sNUlCyneBZIlZ42DE7ahM3iwwo7PxGI8sMs9/KvXd4icl6whMnzlkWzaB9+WwRl98pOJknkuqtkCohSM28w4jP+uzO9iNAyESesyyzvkB1CxxUeBiDYCkHa0TXE40gzZPNqvXxEcY+TK1m5LYOuw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2PR06MB3082.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38350700002)(38100700002)(86362001)(316002)(8936002)(4326008)(66946007)(66556008)(66476007)(8676002)(107886003)(2616005)(26005)(186003)(83380400001)(6666004)(508600001)(6486002)(6512007)(52116002)(6506007)(36756003)(4744005)(2906002)(5660300002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NWazgiXjUlGgOV2+RU4RtyEG3y8zjgyVh7QrIkfdc72hXAvNA+zeMBvrqZRR?=
- =?us-ascii?Q?P9JYhHAIpJaMDe99jqBR4nLzaY/Eo70Vn9d2iDjteMVRZguZzqb/QK9ug/vN?=
- =?us-ascii?Q?t+5oovgYL4ScrogCWO6mM/81OuhqdheUAd4NADjtOkkb4qy++18ncYFeZQpY?=
- =?us-ascii?Q?uaeugeGuDqEzDNaebCWgimqUcY4LPErWVj5q52vJ3CdtYTtwUkkw4TS+jPaf?=
- =?us-ascii?Q?jJLgnWLQutYxRJzVjIK8lMNHj9A+4LZfuPQutIsMff/g6lwD0Sqxdk1zY2Dy?=
- =?us-ascii?Q?pxFhYctEkvjA2d5J5Sk94BjHJGqc3l+d6OrL1LkJ31DEajaUEWHq7HHhzonE?=
- =?us-ascii?Q?VwZLPuCfafMDiGHkfxCItbVi8wxxTa96Fxgj3RKWkMCoYq9OQN9/8PP0bDW3?=
- =?us-ascii?Q?gzfWBW/0jAsnRGgT5HVDbx3dtCZfC5uEi/W5wqRjLVO/6G3o2dJ1A2a4Dat5?=
- =?us-ascii?Q?sVb30TIqofyn9HL+ptDcZhFgKacshyqWtKGOV5+5KefEYnEzR1GQMceLWhfC?=
- =?us-ascii?Q?PbHHA4l9d8SFZS2qZtP92X75o4Fv8Oebsa5E17BMKRnmlcmQIjovNDprLKUE?=
- =?us-ascii?Q?YFoX+VHe9gyebjlQe+sQrTU7xfPtcLeYolhIYV7RWe1inPlFPGs2O5slLuMn?=
- =?us-ascii?Q?wlxLSdZf5d/TRvJpHZ/+Hy/5rLsRg3e8GIPvzWSuyPLorovE3tu2cvm0OhQF?=
- =?us-ascii?Q?EAj1QHl40FJYekfsPfWAZpLHxQKRsmMMJCIgXl38SZuYpTNUckxcDh0jAV53?=
- =?us-ascii?Q?S1b3q34dhJndZt1tBrBGzqIdO+z0sVUn2t+Uh58KDg+OzGYrypSzXbWAp2CS?=
- =?us-ascii?Q?zDcflcencu1eodsuzLvBleZQQM8WAi1SZ1Mg4ipKfvo/RGXR1PnWtP8hOBrp?=
- =?us-ascii?Q?1+ikNDssWNn9v7dJ4p4ERVt4tyFiowpV0nAtlqz6R7FNtX04d1Jjw9dnuzbe?=
- =?us-ascii?Q?BO/WiMebN/AAC653PhX8784eZDR4Xj1CF7QMmlhOn5hkcwzZDuHj4HDZvZma?=
- =?us-ascii?Q?SAWiYKnQ34n16C0/qxOdCqVLsjQ9zmQDL0xp1Fj/sH/Swlq3WsL4JORjCPFX?=
- =?us-ascii?Q?Xho5SoHV/+ejhgQfKBK54cY/Gx08uy5gKFe1SQiXVCaUuv1QT5xnyX3pPCyC?=
- =?us-ascii?Q?kQffc6Hesnu/kX/91D91vFmgprBOSxGCbQeDS0cn0RB1UxPSqx8Y9E++EHq7?=
- =?us-ascii?Q?cssb0B0XtVZXAz0WU1mx4/XKDfrpgpghQDiwcc2GdaYkHaehIq5A56V1DVpy?=
- =?us-ascii?Q?21bXh17KmtoCSak14q3r/I1xuToKBV5rlgO1e5zeBSQ8ovdm2OPXmOpWWUpM?=
- =?us-ascii?Q?ZaZdaz3UiMJBxBEdyqliqHHJn5Zt80Y1Xlw+QfIpoiwtF6SCWmkH+vFvFD4j?=
- =?us-ascii?Q?S314mD/NWtfFGIjbPpIN6n4iZYBAbRcblZ8WDagSz06m88mi9b4ZR7nP06Ej?=
- =?us-ascii?Q?7/vTXURVdhQv66rgXnZoqS3uwi8fmzPwGeH2KjFjDyjI4u6m9T0MoTKWO3ka?=
- =?us-ascii?Q?OWZ9EZcvEppMgbxZ1THhvUa0IMnnyPfHUA28VqOn3jPJFgDI4RLkTQfDoOJ3?=
- =?us-ascii?Q?QBrl4cwB/L7QkiiYK5piAuHtGyt6ppB1D0Y1r9mdSPmtbqLg/pQgtlV3tGfP?=
- =?us-ascii?Q?mflyUgcB75LUaKR8hOwe8k082alraSgAHqeceMHoJBwtZmnsNI6RUCc9LebD?=
- =?us-ascii?Q?h+YWUegeRNWzxjKFaNtSD8lIydJjRdspt0Xeu31LmJ8yntdZbHJk9Gdj1HNW?=
- =?us-ascii?Q?UEPlyQ6pHA=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef10fb5c-c499-4804-126a-08da130f3598
-X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3082.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 12:08:47.2660
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pY34/54Txwbb4W+zG0M+0ukNqI5YOF5wB66r6byt/iGp4SkljeXQOzkbX48LhatCI7mqf4bIYAGKrwBxDfXUpw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB3882
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Wang Qing <wangqing@vivo.com>
+Adhere to Linux kernel coding style.
 
-netdev_alloc_skb() has assigned ssi->netdev to skb->dev if successed,
-no need to repeat assignment.
+Reported by checkpatch:
 
-Signed-off-by: Wang Qing <wangqing@vivo.com>
+WARNING: Comparisons should place the constant on the right side of the test
+
+Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
 ---
- drivers/staging/r8188eu/hal/usb_ops_linux.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 32 +++++++++----------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 673c30e..e5d6cd6
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -260,7 +260,6 @@ static int recvbuf2recvframe(struct adapter *adapt, struct sk_buff *pskb)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 49a3f45cb771..9fdbcd83b46e 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -311,11 +311,11 @@ static void init_channel_list(struct adapter *padapter, struct rt_channel_info *
+ 			if (!has_channel(channel_set, chanset_size, ch))
+ 				continue;
  
- 		pkt_copy = netdev_alloc_skb(adapt->pnetdev, alloc_sz);
- 		if (pkt_copy) {
--			pkt_copy->dev = adapt->pnetdev;
- 			precvframe->pkt = pkt_copy;
- 			precvframe->rx_head = pkt_copy->data;
- 			precvframe->rx_end = pkt_copy->data + alloc_sz;
+-			if ((0 == padapter->registrypriv.ht_enable) && (8 == o->inc))
++			if ((padapter->registrypriv.ht_enable == 0) && (8 == o->inc))
+ 				continue;
+ 
+ 			if ((0 < (padapter->registrypriv.bw_mode & 0xf0)) &&
+-				((BW40MINUS == o->bw) || (BW40PLUS == o->bw)))
++				((o->bw == BW40MINUS) || (o->bw == BW40PLUS)))
+ 				continue;
+ 
+ 			if (!reg) {
+@@ -345,7 +345,7 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
+ 
+ 	if (is_supported_24g(padapter->registrypriv.wireless_mode)) {
+ 		b2_4GBand = true;
+-		if (RT_CHANNEL_DOMAIN_REALTEK_DEFINE == ChannelPlan)
++		if (ChannelPlan == RT_CHANNEL_DOMAIN_REALTEK_DEFINE)
+ 			Index2G = RTW_CHANNEL_PLAN_MAP_REALTEK_DEFINE.Index2G;
+ 		else
+ 			Index2G = RTW_ChannelPlanMap[ChannelPlan].Index2G;
+@@ -355,14 +355,14 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
+ 		for (index = 0; index < RTW_ChannelPlan2G[Index2G].Len; index++) {
+ 			channel_set[chanset_size].ChannelNum = RTW_ChannelPlan2G[Index2G].Channel[index];
+ 
+-			if ((RT_CHANNEL_DOMAIN_GLOBAL_DOAMIN == ChannelPlan) ||/* Channel 1~11 is active, and 12~14 is passive */
+-				(RT_CHANNEL_DOMAIN_GLOBAL_NULL == ChannelPlan)) {
++			if ((ChannelPlan == RT_CHANNEL_DOMAIN_GLOBAL_DOAMIN) ||/* Channel 1~11 is active, and 12~14 is passive */
++				(ChannelPlan == RT_CHANNEL_DOMAIN_GLOBAL_NULL)) {
+ 				if (channel_set[chanset_size].ChannelNum >= 1 && channel_set[chanset_size].ChannelNum <= 11)
+ 					channel_set[chanset_size].ScanType = SCAN_ACTIVE;
+ 				else if ((channel_set[chanset_size].ChannelNum  >= 12 && channel_set[chanset_size].ChannelNum  <= 14))
+ 					channel_set[chanset_size].ScanType  = SCAN_PASSIVE;
+-			} else if (RT_CHANNEL_DOMAIN_WORLD_WIDE_13 == ChannelPlan ||
+-				RT_CHANNEL_DOMAIN_2G_WORLD == Index2G) { /*  channel 12~13, passive scan */
++			} else if (ChannelPlan == RT_CHANNEL_DOMAIN_WORLD_WIDE_13 ||
++				 Index2G == RT_CHANNEL_DOMAIN_2G_WORLD) { /*  channel 12~13, passive scan */
+ 				if (channel_set[chanset_size].ChannelNum <= 11)
+ 					channel_set[chanset_size].ScanType = SCAN_ACTIVE;
+ 				else
+@@ -1331,7 +1331,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 	spin_unlock_bh(&pstapriv->asoc_list_lock);
+ 
+ 	/*  now the station is qualified to join our BSS... */
+-	if (pstat && (pstat->state & WIFI_FW_ASSOC_SUCCESS) && (WLAN_STATUS_SUCCESS == status)) {
++	if (pstat && (pstat->state & WIFI_FW_ASSOC_SUCCESS) && (status == WLAN_STATUS_SUCCESS)) {
+ 		/* 1 bss_cap_update & sta_info_update */
+ 		bss_cap_update_on_sta_join(padapter, pstat);
+ 		sta_info_update(padapter, pstat);
+@@ -1520,7 +1520,7 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
+ 			(pmlmeinfo->state & WIFI_FW_ASSOC_STATE)) {
+ 			if (reason == WLAN_REASON_CLASS2_FRAME_FROM_NONAUTH_STA) {
+ 				ignore_received_deauth = 1;
+-			} else if (WLAN_REASON_PREV_AUTH_NOT_VALID == reason) {
++			} else if (reason == WLAN_REASON_PREV_AUTH_NOT_VALID) {
+ 				/*  TODO: 802.11r */
+ 				ignore_received_deauth = 1;
+ 			}
+@@ -1531,7 +1531,7 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
+ 			   reason, GetAddr3Ptr(pframe),
+ 			   ignore_received_deauth);
+ 
+-		if (0 == ignore_received_deauth) {
++		if (ignore_received_deauth == 0) {
+ 			receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
+ 		}
+ 	}
+@@ -3552,13 +3552,13 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
+ 				rtw_hal_get_def_var(padapter,
+ 						    HW_VAR_MAX_RX_AMPDU_FACTOR, &max_rx_ampdu_factor);
+ 
+-			if (IEEE80211_HT_MAX_AMPDU_64K == max_rx_ampdu_factor)
++			if (max_rx_ampdu_factor == IEEE80211_HT_MAX_AMPDU_64K)
+ 				BA_para_set = ((le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f) | 0x1000); /* 64 buffer size */
+-			else if (IEEE80211_HT_MAX_AMPDU_32K == max_rx_ampdu_factor)
++			else if (max_rx_ampdu_factor == IEEE80211_HT_MAX_AMPDU_32K)
+ 				BA_para_set = ((le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f) | 0x0800); /* 32 buffer size */
+-			else if (IEEE80211_HT_MAX_AMPDU_16K == max_rx_ampdu_factor)
++			else if (max_rx_ampdu_factor == IEEE80211_HT_MAX_AMPDU_16K)
+ 				BA_para_set = ((le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f) | 0x0400); /* 16 buffer size */
+-			else if (IEEE80211_HT_MAX_AMPDU_8K == max_rx_ampdu_factor)
++			else if (max_rx_ampdu_factor == IEEE80211_HT_MAX_AMPDU_8K)
+ 				BA_para_set = ((le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f) | 0x0200); /* 8 buffer size */
+ 			else
+ 				BA_para_set = ((le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f) | 0x1000); /* 64 buffer size */
+@@ -5086,7 +5086,7 @@ void linked_status_chk(struct adapter *padapter)
+ 			if (pmlmeinfo->FW_sta_info[i].status == 1) {
+ 				psta = pmlmeinfo->FW_sta_info[i].psta;
+ 
+-				if (NULL == psta)
++				if (psta == NULL)
+ 					continue;
+ 
+ 				if (pmlmeinfo->FW_sta_info[i].rx_pkt == sta_rx_pkts(psta)) {
+@@ -6073,7 +6073,7 @@ u8 run_in_thread_hdl(struct adapter *padapter, u8 *pbuf)
+ 	struct RunInThread_param *p;
+ 
+ 
+-	if (NULL == pbuf)
++	if (pbuf == NULL)
+ 		return H2C_PARAMETERS_ERROR;
+ 	p = (struct RunInThread_param *)pbuf;
+ 
 -- 
-2.7.4
+2.25.1
 
