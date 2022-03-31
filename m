@@ -1,94 +1,82 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF4EA2D;
-	Thu, 31 Mar 2022 16:59:03 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id l7-20020a05600c1d0700b0038c99618859so2064337wms.2;
-        Thu, 31 Mar 2022 09:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=vrgHRAcGFYBW5//Px3FPaIXJFM+ziIQctDRECHM/5Yc=;
-        b=L5mcU8fek7ltwjMyOO8VtBdjLOs6rCjrIcH1SxftOcNUCue44IkMbLx0FutOlIy9Gy
-         678tQasKLTf8JXDUXlAw+pdCKki/CSbvtJcQYLW9o4sZs9wlmwzgAzh99PpGut4nG4Nr
-         RdmGICjFxuXuEu/eaCSkEN2vfeWihguDKUEgDseKIZ2x+ENnyf4eFeJCik5OZYUGB0O0
-         ihJudIy+wwooJad80VmxU4sXePSaQ2LDxtDBF6lQ5poJNMC77F7VM3VH+0TdzQsdAhFO
-         LYXb2xvRsHAsnQudaJJNKBXt6HIXmpgu8aKngWU32vZwTEpwWepfIbmNH7s8IdlBe1v5
-         0ZXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vrgHRAcGFYBW5//Px3FPaIXJFM+ziIQctDRECHM/5Yc=;
-        b=niV5MTX8ubf6tptnfw1JKWnjUGATW2do336+e+vhEe4dUwLEmncID308EzAp2oIX8p
-         OtB0qNML4i9BwKbyeGAjGvs4HI+GcyCaOq/KlMDC5NbN7iMNE9uV/sUqouTZDVdt8GAb
-         VlI4FrvKCAlTDTitBaVY86D+69ASqVkVhipaobf7yb27FA7YDBsfAZzHGSnAgiWj0Tma
-         vV1vAU8SaxIXPfEmMHREt6HHGcvtyf3ZRR6sLAUED20K+euegqt1J/u1cbbbCCCWnfUE
-         Ly917jRpVM2PRsIQjEY04oX0mwokigDwPTYRiDtOAkdOb49unoqPoEw/Ugk7BcIDDjAB
-         hbPg==
-X-Gm-Message-State: AOAM53271cu1FZHa9Yp6W++iDdd8Zytti4EwWDrk6+qY+IeoCf39UuBy
-	Zfguod5hFneCZvExsxrcMuA=
-X-Google-Smtp-Source: ABdhPJyY9VFEb1OxfOzeK9H/V3w75Pxss7kmhEAc3nqyEsc2M5BH0HyOboimDEnBmqGNI8ZTgrH3CA==
-X-Received: by 2002:a1c:4e18:0:b0:38c:bd8d:6bd9 with SMTP id g24-20020a1c4e18000000b0038cbd8d6bd9mr5410289wmh.94.1648745941467;
-        Thu, 31 Mar 2022 09:59:01 -0700 (PDT)
-Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
-        by smtp.gmail.com with ESMTPSA id d5-20020adfef85000000b00205b3945fdasm13858693wro.92.2022.03.31.09.58.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 09:59:00 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH v2] staging: unisys: Remove "struct dentry *eth_debugfs_dir"
-Date: Thu, 31 Mar 2022 18:58:58 +0200
-Message-ID: <5558288.DvuYhMxLoT@leap>
-In-Reply-To: <20220331082202.GZ12805@kadam>
-References: <20220331064751.29634-1-fmdefrancesco@gmail.com> <20220331082202.GZ12805@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EA2A2D
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 17:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1648746554;
+	bh=ctWsvOCYw/Nk+/HVUYkGj4y3NFwJ5+znyibIFc9hryU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=QLp32bsgpMqHi6NHe2kspE2aYEOMVfhmZ9Q9EqIUOVuyf/eZW9W03gUHdsx6QH8Ac
+	 nlBiV/biUNuGp/8gVW9StpusRpkmhIPWWGLpQyYFV5BiQQUjthROD+FGuoQviMxaGE
+	 hq7mU2MRf2iL5QAlPFDESO8Vqdj9iu84a0KUjSP0=
+Received: from localhost.localdomain ([218.197.153.188])
+	by newxmesmtplogicsvrszc6.qq.com (NewEsmtp) with SMTP
+	id 2031D0A9; Fri, 01 Apr 2022 01:08:03 +0800
+X-QQ-mid: xmsmtpt1648746483t4hkxdb1g
+Message-ID: <tencent_3096E1464A73FF232014CC40B9001C551408@qq.com>
+X-QQ-XMAILINFO: OKkKo7I1HxIeMjOTVeXWC6Xr2HPJXf7Z1mIOravcX95UqAVizHoxIBVt3O1iMe
+	 N+brrEucwxY9JjJAODjkJFI2Ml5/p7bi/oxa+K7Njk2I7SjR/CBb97B4tObAqxiMN9W8hyv9mDQL
+	 SaBR1OILkXRb61xxFb73V7qPPVZITz4WCzXWnczl55vcknJ5DOJJmoy93s0VjORlIEoMA/MKymrL
+	 gK1TZK4/RxMammsgvUERL8oR0vsJMN2wvfnu5MoLMDd06g0L6fIy/SX4uCSjEtv2pAdyoHEKk5+9
+	 qbZHCYxaA/4XGHsMV2iyf1HOyt/WfWPaChRpNhO2CtVdB96AwVSJZr/x5fTOrDDKTxWwjL6VyqHE
+	 qn28YT3AF4LFLWIQn8oINPt2eFTlUuhWInd24baVuxV+EUsBYGHcvQXK6NhX1x9VYpkfLuktt19k
+	 LYKnrVcren0gtJYn3fe7cV27BZa605XX44MwDPhZibDNu7b99GdaMZRw5jrVvg1HRl2i9rlGqLfP
+	 sNDFuqLI9Cy5WR4QO9/FjZLoU3DzPjlt3BP0Fu7yxrULuSLkh8CIVq9ikvOQeNbvvT71Xty2lH0b
+	 lOk0Gp7cvUmQdyT/w9RSxBqtyPVtHL3Za58Wc803JA2t9YiZb0E+ZH0KlT+gc5bnjbVabN2DFKYr
+	 IRK0Ad3Ll0Li9BDj2rhnCUTki7TcCPiH1npuH0NJKblHC9xl2S78af7VhQ1L7N0vs0JEMDkWTJeE
+	 yaqo57re1eebFjxnOJAIatYpTstHZeY79ype4MzIsvgGGkki/r7qiqqRdT+eZ9ezExyHldxgfw4y
+	 m6dCXmB5GKpAD6GfK8qDxqScbruxPDahim24iANlzPinT9R7PmIRxh2BItXhEX6EAGv3z38+1DaB
+	 uo+WG/l+pmYN12/prFD7sqBXBL+hhY5PUVSdzmk0gZM8ANrhV9lDMWef86Wutsam7731RcWflaFg
+	 XMLD30Tk4=
+From: xkernel.wang@foxmail.com
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Xiaoke Wang <xkernel.wang@foxmail.com>
+Subject: [PATCH 2/3] staging: rtl8712: add two validation check in r8712_init_drv_sw()
+Date: Fri,  1 Apr 2022 01:07:45 +0800
+X-OQ-MSGID: <20220331170745.9592-1-xkernel.wang@foxmail.com>
+In-Reply-To: <tencent_0A1273526E1E87150578F8B752CF7F178806@qq.com>
+References: <tencent_0A1273526E1E87150578F8B752CF7F178806@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On gioved? 31 marzo 2022 10:22:02 CEST Dan Carpenter wrote:
-> On Thu, Mar 31, 2022 at 08:47:51AM +0200, Fabio M. De Francesco wrote:
-> > There is no need for "struct dentry *eth_debugfs_dir" which is used for
-> > debug / sysfs directories. Therefore, remove this "struct dentry" and
-> > everything related (i.e., creation and removal).
-> > 
-> > As a side effect of this change, the code has no more need of the
-> > "cleanup_register_netdev" label, which can also be removed.
-> > 
-> > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> > 
-> > v1 - v2: Add a couple of "Suggested-by" tags which were forgotten. 
-> > Thanks to Dan Carpenter and Greg Kroah-Hartman.
-> > 
-> 
-> Thanks!
-> 
-> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-> 
-> regards,
-> dan carpenter
-> 
-I've just noticed that visornic and visorhba do other calls to 
-debugfs_create_dir() and debugfs_create_file() functions.
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-I'm not sure whether or not this driver still needs those other calls.
+_r8712_init_xmit_priv() or _r8712_init_recv_priv() returns -ENOMEM
+when some allocations inside it failed.
+So it is better to check the return status of them.
 
-Do you think that they should be removed as well as it has been done 
-in the patch above?
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+---
+ drivers/staging/rtl8712/os_intfs.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Thanks,
-
-Fabio M. De Francesco
-
-
-
+diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
+index 9502f6a..163baaa 100644
+--- a/drivers/staging/rtl8712/os_intfs.c
++++ b/drivers/staging/rtl8712/os_intfs.c
+@@ -308,8 +308,12 @@ int r8712_init_drv_sw(struct _adapter *padapter)
+ 	ret = r8712_init_mlme_priv(padapter);
+ 	if (ret)
+ 		return ret;
+-	_r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
+-	_r8712_init_recv_priv(&padapter->recvpriv, padapter);
++	ret = _r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
++	if (ret)
++		return ret;
++	ret = _r8712_init_recv_priv(&padapter->recvpriv, padapter);
++	if (ret)
++		return ret;
+ 	memset((unsigned char *)&padapter->securitypriv, 0,
+ 	       sizeof(struct security_priv));
+ 	timer_setup(&padapter->securitypriv.tkip_timer,
+-- 
