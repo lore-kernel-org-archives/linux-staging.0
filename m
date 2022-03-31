@@ -1,42 +1,44 @@
-Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290E3A2D
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 17:57:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F329FA2D
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 18:11:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1648749455;
-	bh=XhKQWR3BGW0/rNU3IYozp58rwLwhq1yx0fsceKajOxg=;
+	s=s201512; t=1648750315;
+	bh=wn45RItVLXLWXANc+t8C2ZSMFmtM6wkn0DriGaM+lMs=;
 	h=From:To:Cc:Subject:Date;
-	b=AueJLs0kcWagvSouu0KB0puO5V5UOazzR859YGB+6QyGYcVUTwRabWryBPqXYZFv4
-	 MfQfn7m7hX3N3MVWSudPKiKv1aAUq1zAFe3B/dMtkty5cWULgM/jKjfNBFEOnSfk66
-	 0FA9IpqPoU0PpX8YRaOGwssprOJhT1Sd2wk7LXVU=
-Received: from localhost.localdomain ([218.197.153.188])
-	by newxmesmtplogicsvrszb6.qq.com (NewEsmtp) with SMTP
-	id E6094825; Fri, 01 Apr 2022 01:57:32 +0800
-X-QQ-mid: xmsmtpt1648749452tklbwi7jk
-Message-ID: <tencent_DA99AB72BB38FA297CC29394C8FEB5407C09@qq.com>
-X-QQ-XMAILINFO: MQ+wLuVvI2LQtNO8Egt+c+zUxwIuRKyP1i3lU8ZDsKr96KrLc7Aog2wORKPrIt
-	 WVbikKfBTnDzPbr/WUIwkDOwAq1zxekQZ6w9bBcBY+wVLl5kwlOl/WgiAckXr97GnJt5EcqOf6ZE
-	 RwDGWPiAyEScEo4A8ySZy1Gz78ooKP3lKDVgARbu6OlAXWsRyLTKdlTMTmZgP1P/JONVzV9WYNaS
-	 /1Yg9bEX6zjRHMjOnLt5G/PnU/JaOsRdoLhPzKXsku938vRUmLbckBlpusstT5ZlgnnMylVVAT8c
-	 NW9xlMQAOS7mz9j3Y3H55+pvfPvr673rpvfmlMfBLXAmnNybARoyf/hwRmOg8yd03As5xYxkuDJA
-	 pK08wnEt/xqYvl2o6063XxDDhjy9N2vA1tq5s9exSCgfvsi/9aJaUKXgx7fN4B1Ivm8+Mh4cF2hm
-	 WNKUynfDZZ+TQqdfN6Gzcwv32yukkI1EWKQm3QM/mgGSTImbkC8KYyjAqMNgxv5IEc70k6AQWhrp
-	 u41SB4zwttZQPwCIEhP/subs31/eYWxjlBWSwYwGI8pXGE680/BVWpVkXU47QEkZZLnVY/Qzgopi
-	 aEHYz7QTmwpIhvfLo7wWkV/evDl0CwK2Oy6hDb9C3XZ90UR+KZ79ad4gS8KRArcJ82srekWuHeLm
-	 /Q1nlvj8F6oV3Zgw25oS2q+0Y9ktGSJF+5TXjNLTHXpIPfdfNWwU6ZdvQddCyZY+dbqSab+jYjB1
-	 6tyIgEsEOkuBfharigC/o0GsHNQJWWYQfcOteW8OzFwxwqZykjN90IE9eXq1y0lklfqitt0F5TtL
-	 q7MRsoE3XVbJKxvYoEaVecyskV/Vt8VM+im9dKUPOvTj5YtA7Ox04Cl8E6P3/bGoCBNHBH+YLZcT
-	 TiQmzg6get2pnv5NOwCSMXdrZQCg/nDpxc8Y+6DECFrS34LTPC6hs7KbFAH6fvOIeROnBegrPQn7
-	 NZyyW1ZNg=
+	b=k2XOKs0YTRcqszYgpsw8ZuYK2ojrPQOaIdNTc+Kr9xkX46eBbb3wXdfuN0bYnA20l
+	 7oU79P309lZEcmayiTe5HRl5Y6h+hsMDp05S43u4Xh4nT0IbIbTsTZk1dezRMwa9AZ
+	 WhsYDeO5KOq9FbWbdjJ2CQbMcb4G0bSaBKx9Zelo=
+Received: from localhost.localdomain ([43.227.136.188])
+	by newxmesmtplogicsvrszc6.qq.com (NewEsmtp) with SMTP
+	id 2F40E022; Fri, 01 Apr 2022 02:11:52 +0800
+X-QQ-mid: xmsmtpt1648750312tvpa0vkk8
+Message-ID: <tencent_35C87F0B0813734E6E3DC7100565789CD206@qq.com>
+X-QQ-XMAILINFO: NKv2G1wnhDBnTrTyLpsSIIqTGYsnfA2L8f8T0diFi2gcGjeMNwM1yWhKu2y/IL
+	 GUcg2scRgjI2ko6NDLqsRlZar7h4KGvzZKMII7QgAcMqcEVAXdNn768iI6JiYjbtOa6/+UJuBxsA
+	 p3ALIOq74OKoI81bPAZAIdlc3UKXq3RPOsP/Obbl+YBv4MlBAxRz1Xu5LwR4ADcBu8DEfOhzYQRa
+	 NyRVy06fFdQJZ6BcJ8y+dWasvxQuTogjNwquOCX1QorMlkeNh8iKGOu7wTHVX7AitwdDDJlpI1TV
+	 K+Q/WDgKpq8jTKKf+JoSY3oP3qPMJSHvkShYg6NaBIY6ppgR1k6jMVd3W2/Lst2YJK0fVcsd12+1
+	 9vVCLyIeTNoHWubMp9o/3i5LfkmA0X016bEwZEX01VN7iDUffp26E4mnogLsdNct5Po3ahfICBp3
+	 eDSBJpj2+2SJjot5708x4WkdEDBD0/nomOEGJYrdu9P94TBcfiRKZ5ac5kCJuT43sCyKzaZ836+S
+	 U1vEJzAE2smqkEo4K5I/P72dN2wMqcOaiBtH02zqUdfnOs+YD6NdCG2Y69pRoJ0xmJSpm5p3XGQK
+	 ZNqAUljTr2GzilzW/lm9K+CKft5HDTBcxt6SiL9jCD2/5KkrTocS5EdddK4nrKDOHHZyooMcvXkc
+	 L1kb/moqhiyrCew8mnaFWZFC94UuUN14HdiS4IAtMwX0IQ9JLQUY+mm50TiBBbgZTHSgTYhKDQ2s
+	 1vMaa3zHvi35Q67JszxW1eZnN2yYCKpwTgEdjQjG7EG7J1aYopf0Q4wEjJzM3m4k4/89WWacrNEt
+	 bG9BGm0A/7xKdzzRj1EdoI7ibqaTTv8WCYfUihqkyrCIJnGRXmjOJnvTZGyKjSus2x5hdgMBCNiA
+	 2623vv2aOk8ZhWVVabaiZt3rBPG7nnBepFuXuT3MZ7pHbcmgcjhaSPKy2Of2oJNehdUK+/AIQmtO
+	 0KQAt0kzfJBzi+Dr2ujA==
 From: xkernel.wang@foxmail.com
 To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+Cc: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix potential memory leak in rtw_init_drv_sw()
-Date: Fri,  1 Apr 2022 01:57:20 +0800
-X-OQ-MSGID: <20220331175720.10009-1-xkernel.wang@foxmail.com>
+Subject: [PATCH] staging: rtl8712: fix potential memory leak in r8712_xmit_resource_alloc()
+Date: Fri,  1 Apr 2022 02:11:41 +0800
+X-OQ-MSGID: <20220331181141.10172-1-xkernel.wang@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,110 +49,25 @@ Content-Transfer-Encoding: 8bit
 
 From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-In rtw_init_drv_sw(), except for the first one, the other error paths
-do not properly release the resources allocated by its callees.
-This patch is to free them.
+In r8712_xmit_resource_alloc(), if usb_alloc_urb() fails, there are some
+explored items should be released before this function returns.
 
 Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/os_intfs.c | 60 +++++++++++----------
- 1 file changed, 31 insertions(+), 29 deletions(-)
+ drivers/staging/rtl8712/xmit_linux.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 0a8c24e..1bf6fc0 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -664,51 +664,36 @@ void rtw_reset_drv_sw(struct adapter *padapter)
- 
- u8 rtw_init_drv_sw(struct adapter *padapter)
- {
--	u8 ret8 = _SUCCESS;
--
- 	rtw_init_default_value(padapter);
- 
- 	rtw_init_hal_com_default_value(padapter);
- 
--	if (rtw_init_cmd_priv(&padapter->cmdpriv)) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (rtw_init_cmd_priv(&padapter->cmdpriv))
-+		return _FAIL;
- 
- 	padapter->cmdpriv.padapter = padapter;
- 
--	if (rtw_init_evt_priv(&padapter->evtpriv)) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (rtw_init_evt_priv(&padapter->evtpriv))
-+		goto free_cmd_priv;
- 
--
--	if (rtw_init_mlme_priv(padapter) == _FAIL) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (rtw_init_mlme_priv(padapter) == _FAIL)
-+		goto free_evt_priv;
- 
- 	init_mlme_ext_priv(padapter);
- 
--	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL)
-+		goto free_mlme_ext;
- 
--	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL)
-+		goto free_xmit_priv;
- 	/*  add for CONFIG_IEEE80211W, none 11w also can use */
- 	spin_lock_init(&padapter->security_key_mutex);
- 
- 	/*  We don't need to memset padapter->XXX to zero, because adapter is allocated by vzalloc(). */
- 	/* memset((unsigned char *)&padapter->securitypriv, 0, sizeof (struct security_priv)); */
- 
--	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL) {
--		ret8 = _FAIL;
--		goto exit;
--	}
-+	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL)
-+		goto free_recv_priv;
- 
- 	padapter->stapriv.padapter = padapter;
- 	padapter->setband = GHZ24_50;
-@@ -719,9 +704,26 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
- 
- 	rtw_hal_dm_init(padapter);
- 
--exit:
-+	return _SUCCESS;
-+
-+free_recv_priv:
-+	_rtw_free_recv_priv(&padapter->recvpriv);
-+
-+free_xmit_priv:
-+	_rtw_free_xmit_priv(&padapter->xmitpriv);
-+
-+free_mlme_ext:
-+	free_mlme_ext_priv(&padapter->mlmeextpriv);
- 
--	return ret8;
-+	rtw_free_mlme_priv(&padapter->mlmepriv);
-+
-+free_evt_priv:
-+	rtw_free_evt_priv(&padapter->evtpriv);
-+
-+free_cmd_priv:
-+	rtw_free_cmd_priv(&padapter->cmdpriv);
-+
-+	return _FAIL;
- }
- 
- void rtw_cancel_all_timer(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8712/xmit_linux.c b/drivers/staging/rtl8712/xmit_linux.c
+index 06283c4..1bfa204 100644
+--- a/drivers/staging/rtl8712/xmit_linux.c
++++ b/drivers/staging/rtl8712/xmit_linux.c
+@@ -113,6 +113,8 @@ int r8712_xmit_resource_alloc(struct _adapter *padapter,
+ 		pxmitbuf->pxmit_urb[i] = usb_alloc_urb(0, GFP_KERNEL);
+ 		if (!pxmitbuf->pxmit_urb[i]) {
+ 			netdev_err(padapter->pnetdev, "pxmitbuf->pxmit_urb[i] == NULL\n");
++			while (i-- > 0)
++				usb_free_urb(pxmitbuf->pxmit_urb[i]);
+ 			return -ENOMEM;
+ 		}
+ 		kmemleak_not_leak(pxmitbuf->pxmit_urb[i]);
 -- 
