@@ -1,71 +1,104 @@
-Received: from out203-205-221-235.mail.qq.com (out203-205-221-235.mail.qq.com [203.205.221.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8053A620
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 08:33:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1648715617;
-	bh=T8WvPBmgjqdrR0PwDH2uCZLcFCNRLTpq0uGOSav5bEU=;
-	h=Date:From:To:Cc:Subject:References;
-	b=qR5EpgDENP37+xS4xFh3MvIGCBYcwYzjYXx1X78hL1S2wjUOPgH8FElOzMc03ALSo
-	 ilYnS9SzXxifVYqiWUig1y9AZa3sF97hDFIE+HONbdvNT6E/Xal+W12TL8GQ2jvCvX
-	 /YVbRlrK5Mene8rE7I6s+oFVWWMKU502QEc4Y49w=
-Received: from LAPTOP-4BSPBRI7 ([59.172.176.225])
-	by newxmesmtplogicsvrszc9.qq.com (NewEsmtp) with SMTP
-	id 86323CAE; Thu, 31 Mar 2022 16:33:35 +0800
-X-QQ-mid: xmsmtpt1648715615th7dqjssg
-Message-ID: <tencent_7E870E856738AA52C5FF04C81D735AEE1206@qq.com>
-X-QQ-XMAILINFO: MyIXMys/8kCt5il7mVOFmu6uKP0gJOVD+GPp1a7uexg1QZDxJiimi1AuqufNTK
-	 cSmek1Bm3rIU8k2B5gouX63wjws+utK/DNWP7jl5FVeIThFcn4uooCKLI0ungnbUjUvbD6ciM5cY
-	 wqyQoMyLO0BiPQsoviqtCh3vElMWMunYKSrz3KMGHdXOFi2naQsACATOdVGj/fq4GrTNrL2NFuPj
-	 EHnekupwCHDlhBvA/dpoMO5bIEvQGPP5V/kRV1VnyrKoCBluPqsFrijWxCOqA43k3dDAuUDfRAy1
-	 GAnlzu59rTAvCmAOGGHj1QB0A2IqMWPUdCZxvMmzMKnjLZKfAeAGOG55MZRCojA4ris6lJfcWz8J
-	 nKavl80i2ba9a/flVZfX5BpOG47BI6XM08g0bE+eF1ByY74rilFtfjtI358NvBzmZ8mUIptee/lH
-	 pmzAoepccZHK+JVK/2n23y7C5hZKnTBUtGb/hD0AotxSUuC5FwREcTSym/+ko2bUEftiTpuMHh/+
-	 CWPDnizJ1Z4QPZEPuy/u4q6qbLKUuLwjGfSwyZAijHrm977qZ6K8s0nGltKlj7zSQRn1e0ZTjxMb
-	 sYcYCXB0M/BO9Pf24qMsdSwKLNjYyqBo3FKEtS+mcHjDYTo9d+9R/WDjsoW9LV/v2bMlCm2St59o
-	 1GQs3IbrGLfE+uZXKvHXJESbgChPgiqy1myY9AS2AOLLxoFM9+tdS30B8D+UjuQhPHhyaGAqbAAU
-	 KKNLLN749WrdG8RSCoZibSC7QhcLiIalF/Qg5uC1z2Do36m3eFYHNB7Hu566hTAO2JIM7NGO13NN
-	 MRIrNQ0olX6DV63J7qY8J3cZui1vfYl1Yke4P1U08o9r0/p/I5CZaHW57r4P7Vd4sBtnjfphaQ/t
-	 HIRMkpy4j7hHH6hmE4bVOEl0lTeak5o5emfioF6lyYHFNI883MN5WrS05atJEi4g==
-Date: Thu, 31 Mar 2022 16:33:37 +0800
-From: "Xiaoke Wang" <xkernel.wang@foxmail.com>
-To: dan.carpenter <dan.carpenter@oracle.com>
-Cc: larry.finger <Larry.Finger@lwfinger.net>, 
-	phil <phil@philpotter.co.uk>, 
-	gregkh <gregkh@linuxfoundation.org>, 
-	linux-staging <linux-staging@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH 2/2] staging: r8188eu: fix potential memory leak in _rtw_init_xmit_priv()
-References: <tencent_12789CD2DEBF33C818B3542E170737854506@qq.com>, 
-	<tencent_2F72CC5068850B2BEDFC2B8058303FE6520A@qq.com>, 
-	<20220331073555.GK3293@kadam>, 
-	<2022033116214474301568@foxmail.com>
-X-Priority: 3
-X-GUID: 8EB87ADA-A700-44D8-BD79-8410E945CA49
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.23.116[cn]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8338E7F6
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 08:49:14 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id o68-20020a17090a0a4a00b001c686a48263so2593696pjo.1
+        for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 01:49:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W056jK4JO9Wem+3qlNSvwaayL2PwMR77g5EtZS2gUYw=;
+        b=WmCBHXFFuScgmmMGMP/VH609AxnAySmVJWaJZ62cOndAUFjHiwuhvCMbqdzYxL0PqJ
+         O8RwQn+EO5U1GQpLfh2uEeY3psnAoZeQKIzE53AC53docGkPbTd37tJD5jjYxV5T0jcV
+         17l9p2c+I1LPqJo4fyJQjnK3ZbZE0HKbzk748=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W056jK4JO9Wem+3qlNSvwaayL2PwMR77g5EtZS2gUYw=;
+        b=c29ym2bfg9rvjW5gpGalxkMUkK3sM4tpxVlau6GBOpvJ5U4SltTZq2CVPHUjXpCvGO
+         36rB250ZxlL1YI2wLzxaDV0ipIqrYPeVnhLLZuxSRq0DhYB8YbChDV/RmDyMb+wSP6md
+         RgXB+xsAJ00JaUNiZvQb0TEuvbwCCHW/AenjVd6GPL1oYdLTO8tz733r30HaLyt+8s08
+         fdmviNQRCJPoIc1mnx8PACjX7z16hENJXgjL+7EHpoMeDSeEzGN/NoNvfMNRwg6JNksi
+         x0lgYfPnJwF8wW73KlG+v+QhaQzRZR/qS5yNkYTYWt7hCc7lTQlTOBBdX6aHe1Kk/VhC
+         g9Lg==
+X-Gm-Message-State: AOAM532atcxkSSctYMiKvKZOaWNKDhPm0Qw8z8v/xAD9NGAKfow9vDQM
+	wApAJpLbrcx3iE4g3bEJoHKPlw==
+X-Google-Smtp-Source: ABdhPJyIyUj9Alp436tInM7YNihHEEDUYPNgqt+AGVoPl3O5jctUXjLSQUMXrAN+OoCit0uHawL0gQ==
+X-Received: by 2002:a17:902:ea03:b0:154:4af3:bb5e with SMTP id s3-20020a170902ea0300b001544af3bb5emr4124775plg.95.1648716553888;
+        Thu, 31 Mar 2022 01:49:13 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:deb3:b2d3:c33d:e877])
+        by smtp.gmail.com with ESMTPSA id mw10-20020a17090b4d0a00b001c7cc82daabsm10408026pjb.1.2022.03.31.01.49.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 01:49:13 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: hantro: Empty encoder capture buffers by default
+Date: Thu, 31 Mar 2022 16:49:06 +0800
+Message-Id: <20220331084907.628349-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-OQ-MSGID: <2022033116333655762473@foxmail.com>
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Ck9uIFRodSwgMzEgTWFyIDIwMjIgMTY6MjE6NDMgKzA4MDAsIHhrZXJuZWwud2FuZ0Bmb3htYWls
-LmNvbSB3cm90ZToKPkluIGZhY3QsIHRoaXMgaXMgY29uc2lkZXJpbmcgdGhhdCB3ZSBkbyBub3Qg
-a25vdyB3aGVyZSBpcyB0aGUgZmFpbHVyZQo+ZnJvbS4gSW4gcnR3X29zX3htaXRfcmVzb3VyY2Vf
-YWxsb2MoKSwgdGhlIGZhaWx1cmUgY2FuIGZyb20gCj4KPj4gcHhtaXRidWYtPnBhbGxvY2F0ZWRf
-YnVmID0ga3phbGxvYyhhbGxvY19zeiwgR0ZQX0tFUk5FTCk7Cj4KPiAsIGJ1dCBhbHNvIGNhbiBm
-cm9tIAo+Cj4+IAkJcHhtaXRidWYtPnB4bWl0X3VyYltpXSA9IHVzYl9hbGxvY191cmIoMCwgR0ZQ
-X0tFUk5FTCk7Cj4KPiBTbyBpZiB3ZSBkbyBub3QgaGFuZGxlIHRoZSBjdXJyZW50IGZhaWxlZCBp
-dGVtIGFuZCBqdXN0IHNraXAgaXQsIHRoZW4gc29tZQo+IG1lbW9yeSBtYXkgYmUgaWdub3JlZC4K
-CgoKTWF5YmUgdGhpcyBzaG91bGQgYmUgdGhlIHByb2JsZW0gb2YgcnR3X29zX3htaXRfcmVzb3Vy
-Y2VfYWxsb2MoKSBhcyBpdApkb2VzIHByb3Blcmx5IGhhbmRsZSB0aGUgZXJyb3IgZnJvbSBpdC4K
-QW55d2F5LCBJIHdpbGwgYXR0ZW1wdCB0byBmaXggdGhlbS4KCgpSZWdhcmRzLAoKCgpYaWFva2Ug
-V2FuZwoKCgoK
+The payload size for encoder capture buffers is set by the driver upon
+finishing encoding each frame, based on the encoded length returned from
+hardware, and whatever header and padding length used. Setting a
+non-zero default serves no real purpose, and also causes issues if the
+capture buffer is returned to userspace unused, confusing the
+application.
+
+Instead, always set the payload size to 0 for encoder capture buffers
+when preparing them.
+
+Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+Fixes: 082aaecff35f ("media: hantro: Fix .buf_prepare")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+
+This was previously incorrectly squashed into my Hantro encoder cmd
+patch [1].
+
+[1] https://lore.kernel.org/linux-media/20220301042225.1540019-1-wenst@chromium.org/
+
+ drivers/staging/media/hantro/hantro_v4l2.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index 67148ba346f5..261beb0c40f6 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -733,8 +733,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
+ 	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
+ 	 * it to buffer length).
+ 	 */
+-	if (V4L2_TYPE_IS_CAPTURE(vq->type))
+-		vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
++	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
++		if (ctx->is_encoder)
++			vb2_set_plane_payload(vb, 0, 0);
++		else
++			vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.35.1.1021.g381101b075-goog
 
