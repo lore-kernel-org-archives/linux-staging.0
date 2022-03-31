@@ -1,80 +1,175 @@
-Received: from out203-205-251-84.mail.qq.com (unknown [203.205.251.84])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F7A7C
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 12:17:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1648729067;
-	bh=7dPkUFxQF7MLl0QeP2bU2b1g3DJxkteqxbd0DoLfUEU=;
-	h=Date:From:To:Cc:Subject:References;
-	b=XV7tEynkbpsZVmfrOWQv110UvkhGH1Orrox2vbVXVCRQVYbyscnQNMYe4FGtlHltk
-	 tb3FixpuxkvzluMHdlpysNKYh7+4RZUwW2yzNodKrzliG+vCxDNv2OQDtGpgKUdYLA
-	 Tu4iyciUWIZeyheL6k+gedRC+JW0PSFhUs70AlDc=
-Received: from LAPTOP-4BSPBRI7 ([59.172.176.225])
-	by newxmesmtplogicsvrsza8.qq.com (NewEsmtp) with SMTP
-	id 39B37C6E; Thu, 31 Mar 2022 20:14:27 +0800
-X-QQ-mid: xmsmtpt1648728867t9yjxyj3j
-Message-ID: <tencent_F67F09C488F93BD79AE384E22D3C4CE9F905@qq.com>
-X-QQ-XMAILINFO: NwU0tZNR0OQKXMMvgMZ3LgX8Xun946i2wfv3BfiCGk67PVUWTHuS7fv1aj2w9U
-	 uduKcJHlQY7yFtZeYZlaendtkYCLUapYHcB4CorHkBgaO/ACr6VR/ZoQij01DVkYaqxehZNgTbHv
-	 K7bLcu26UahfABL6z9seGenBHOju0svcwlVQB++aUTsqeLVllHHK05tB7jyP1GzhJDfWSmsH/HW/
-	 z+8eGxkq+8la69ykXjNsqqqDJorNmPUTLeQ+Tqexcg2+CZ1IuYcAzxuvketyF3orZAK/ghbCqVMc
-	 cqL7TS2tVoOa+sTzh/irPrywMisdx0JdkGj4paKpAKONd8+m/pUUD4D8qaM5ovzQxipO/F+yNlZ9
-	 ctrkC6Bo5xhuaugjDMLsRkPAlk303B25gmHTy5QzBgIr3Z8gU2P3SGF0fxhBOe65KhKfqsw7z0WS
-	 shIt615eFdrhx0jVEmgWGJEGGE8Qm/2HVA6CggBuDchXuCFyb0WStINuJVwLMxRae3HWdLKsSjp+
-	 JK8m7KMpMSj9yDuRn8NuXLwIlSHA0nJSequvHx5LodIon4Q6FRDSSY84cT/lpUJQG0Wk9PW+qG4P
-	 qfPtL2iF3SwqHnt2ry8DwcbpPgvlpnaPeg6KktEsimzqusR4LgJB5U/ds9HyQuClgUYZMSubshLJ
-	 NmS1lqwPEFVMM4VXc+G6lDfBqWVdLjZxj2RG1Rf4x/b6V+9e9g1BEZN6v5gkvfREz/1p67YjLLqT
-	 m/GxywbUNIiUDKDl5kcqo8HdkW3WYGcYPa52LBRBH4O9yTWMSyGhPNho+iFEq5AuCOV/VpE+990t
-	 Hstq8zfK32SQaIT3jUYUtKY2MebgDxfPKwVYARQvvVRq3ZMnhpbpIyqg82CLZYrguBUt94kLvJyc
-	 nNGHuJeb5piwmrmTilkmwG8UgU9Iyrw8jDZ8uhGkz6IN5BQavW7MHHkdbhE7v5QWutTNYajtEZ
-Date: Thu, 31 Mar 2022 20:14:27 +0800
-From: "Xiaoke Wang" <xkernel.wang@foxmail.com>
-To: dan.carpenter <dan.carpenter@oracle.com>
-Cc: gregkh <gregkh@linuxfoundation.org>, 
-	Larry.Finger <Larry.Finger@lwfinger.net>, 
-	phil <phil@philpotter.co.uk>, 
-	linux-staging <linux-staging@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH v2 2/2] staging: r8188eu: fix potential memory leak in _rtw_init_xmit_priv()
-References: <tencent_254AD0FF06201BCCF5B9911C6E142CE1F208@qq.com>, 
-	<tencent_A5280DFCCB827030EBE73673F0510084970A@qq.com>, 
-	<20220331112312.GO3293@kadam>
-X-Priority: 3
-X-GUID: F36358DD-13BB-43FD-A6EF-B1E3C25D3D96
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.23.116[cn]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1077C;
+	Thu, 31 Mar 2022 12:22:10 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22VC82He007021;
+	Thu, 31 Mar 2022 12:22:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=68XfDTeQK5pj6T/YPhJ9RDmWYhmMSyaD+fphflcEBEQ=;
+ b=XbJqgRCcPqdV07/+RxtZJzIfJbRKVTGOnwkDWm0WiSAlAUZtqvy6Zdpssdkdo2aaNnmC
+ Jja6LbCWiNIErEmg66b1bQQGI4CCUPmiyodJUwo1fWqEiA1Jmo6cFeRXwMK7Qq1tDpn8
+ MvzH5ilKwVP4NUmCJqA4Mq7B7MfNuh4TMNtdIzk74xTA4BFr6pYALasrcxcOJ5GYuenN
+ f9Z8P+dWbWmbrgCPl+WdBjTYtVc8SBTzEH1vMaSsgRfR7n9+0ZTuD3AEYo8Ba05ajHNv
+ ZiuwSp+gjHfZt0ZDDGNtP2dvf/8aaQpV76J0s1N3H7RvwrbMx2/sifNZMlNk+8Trd6lf BQ== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3f1tes44xp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 31 Mar 2022 12:22:06 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 22VCHN7N035810;
+	Thu, 31 Mar 2022 12:22:06 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2176.outbound.protection.outlook.com [104.47.58.176])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3f1s959s81-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 31 Mar 2022 12:22:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WtPGcKLvxVVmP7FmJKMOFRM50qyY7OkyOGZTTye/YP+6BClNARur0EgEkhuT+1qiNE+3XPM4ZPbiKy1dBErQj3fc7VICsP7Sek43/pnc3Zwt37cUHp9xmd2oUpf0CR3HmzrW2+b5cktR4OXzCxaP8vXgY6UuUj0Zh6ZCTBJmOW+/2WTvUmffCwDWRi2XnFsF7YRh33L1D229Omc1cAyEfjc6TqINilqwR3Jg5CfBYu/TPlZZ3ToIEDMu2obb34mMAu+usKAyRum8VaaHxRkwCatNYMpXF3+7Yox2+s19M0iophDhduddzGabDk3aIE4ndvHcgfCEzlgFfNaQbV8yBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=68XfDTeQK5pj6T/YPhJ9RDmWYhmMSyaD+fphflcEBEQ=;
+ b=hUfjYR1Kj49K2F1x4PycpFJO6b2pnyZze8TeP1chx5AY+z+S7yTq6zNwWjDRU3O861xsNZetPHD5bmgBIvWayk9cErGzjfLfj2XcY7oaFco2Atj//yDUWLIe0X9LigLOoahRaNaPfwvLOG715jtJjvo4UMGgnb3SWrRA5kXCmGaR5YvfC0sSSqBW0YtIItFcEg4DhmRRvZHx52yWM2nzvRzFHDXFVPAlilKj/zOl0YwMaV5zsGTDsfBUm9jdUjcF5QmUZswn992tSp8GSdcJZuFBC81hlqk7w7RfaX7BwgRODEQrqFuLeeFElXh5x3SH3f8TABux2G+qBra4P/U8UQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=68XfDTeQK5pj6T/YPhJ9RDmWYhmMSyaD+fphflcEBEQ=;
+ b=o/wLP66gnsSm1adH4vdP21DBQcMZwI7FIo4l/gKIWrBwZrDOr52mOotZi+evzMZ1Docor2lWUoBcpNsVKc3OTM9OR5UQ1wLAZInmff9tJ3JyaM6FbuyHId1ZBqLX88AeHHy0bJ1PQEuixzkTmvtNuBJvnaFGANP5RUDVDucmS5w=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BN7PR10MB2530.namprd10.prod.outlook.com
+ (2603:10b6:406:c5::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.18; Thu, 31 Mar
+ 2022 12:22:02 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d4e7:ee60:f060:e20c]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d4e7:ee60:f060:e20c%7]) with mapi id 15.20.5081.025; Thu, 31 Mar 2022
+ 12:22:01 +0000
+Date: Thu, 31 Mar 2022 15:21:39 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Rebecca Mckeever <remckee0@gmail.com>
+Cc: Alison Schofield <alison.schofield@intel.com>,
+        Larry Finger <Larry.Finger@lwfinger.net>,
+        Phillip Potter <phil@philpotter.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: r8188eu: fix suspect code indent for
+ conditional statements
+Message-ID: <20220331122139.GE12805@kadam>
+References: <YkK7ABTVt0TCbd18@bertie>
+ <20220329161632.GA1169956@alison-desk>
+ <20220330062829.GF3293@kadam>
+ <YkWZKOvThq5paUi3@bertie>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkWZKOvThq5paUi3@bertie>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0047.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::8)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-OQ-MSGID: <2022033120142712861498@foxmail.com>
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 13f20252-d2f1-400f-387b-08da13110ee2
+X-MS-TrafficTypeDiagnostic: BN7PR10MB2530:EE_
+X-Microsoft-Antispam-PRVS: 
+	<BN7PR10MB2530374451EEF2506A1EB2A58EE19@BN7PR10MB2530.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	prTkrrJVUjME/M2DO+4ZHeCL0HNJPuEE/6qcWyC+Gsb3fogdnUl307O5MDWRS50qbzhCC7OWN4sbACUxHM9HARaGPSeVegoqiEDLCrwSKg1b93hVeAENDS6Qn4oJVD+pt87PD0Vntu0fIiMl2SiLx2MTAcpiX23T4mA3/maXLQ4k3jBHneDwwcFFAi5ImaL5vJ8h6qm52R3CD1JU8Ms5BUeN9SwAQW+nbjH0xXGOC1JaDoyzaZkx9Zmg8ZdUUVkyX7qO1efIMmQx3HBeHnxY/Nx2UnQZn7WCuCsWIMdn7HqKcA0G2mGBvBkIOhmmxDIBxAFQLbL/UC3Lyi+HJsdqn1IiWfwmGP/a/0oya+8Vtgmrm5DGVGrlbkf6QhpedEQAyaW01aHBV0tanJPlbTSorbRg2FickgAdE0rPkciEleM8NIwrhIifontW+2ct6tQ+UVVM+26JdKVq5oKDkup3Snr+cuRI57TkHwCDAtotmUjb4SF3Mp1u42lfgKbob6G8EoYSfNRJmS5DGzTdQz6Jl2bMocVGUTTBUdlExkKSVbiarpMEt5CEyma8mydphuVvYOiffeh4sxc91m8E3Aa2VIvC+6cw3sGR5uJTJQwtFZRxJ1Iw/jS5+CBwGNzf0MmGJ9GiUeWreb4yf4w7Q4L4sFoJ3zuGaxxD8voE8L0qbJ7iJhMQFIUaK/osT9cAtZya5IYj3Cqqz3sDEwU56+WeWw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(33656002)(6512007)(38100700002)(38350700002)(9686003)(2906002)(66476007)(33716001)(8936002)(83380400001)(66556008)(4326008)(66946007)(5660300002)(8676002)(44832011)(86362001)(26005)(186003)(1076003)(6506007)(316002)(52116002)(54906003)(6666004)(508600001)(6916009)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?a+IKuH/KV1Kk8gK4B34TwHoYJnTbU1xDWo8vxb3jmM5SEWCNoQjtEkH1CyMh?=
+ =?us-ascii?Q?MLkipnye6IibIkRcFNL+IndVRfHEpnAkpqK9GimfHpxiQejWYfEMHaqMK7BU?=
+ =?us-ascii?Q?WPNqWIXZcQaEdquZdVz/1Lt1QB9EbAK0ckIV8mfC399FEmCVhndQUF1ho1J1?=
+ =?us-ascii?Q?gppn/PrbveUqwPODJEC95lo9ywL8EDsTJO6kh2/Ay+1m1N0VA8puWeHGJ/jE?=
+ =?us-ascii?Q?xuNI/Rm++acjz9GcH+qmjZaiVIaWuk4zNnP77hpxvmlaLlSeHb0SRoieeOzu?=
+ =?us-ascii?Q?TbkasvR+fJuSzst7j6O2aSub6bPb3vZCJ27huch1zaiYCPhR4IPjP0k3V1IX?=
+ =?us-ascii?Q?yxyIGjsL4qcREwvjAZ62XXpmP5sngPs2Y9k0fbSF0StqjNfGKzb5JJtDfEG0?=
+ =?us-ascii?Q?f2707QppsPE0B+z+FB6fAIUGkPdLvK43T9/a4lNWt7IhIo+zRo5oiprVzhWI?=
+ =?us-ascii?Q?SO6wrmT0yzN8pDOkkLX8je1w3B3RIkOBVnR/u5tigD3S6M3ynT5XOJkUnjle?=
+ =?us-ascii?Q?t3ZgZ+V5C5qGpE7xlV2pBRkR8pcYlvOqIbvA3YhINMdWoqmDqNrX4Yqeq2N5?=
+ =?us-ascii?Q?1dqMdYqND6BkpXDhS8Wl9Qbvx/hS323A7RPBQ+Y/HJBS+HJv/t4SNsZBTRBW?=
+ =?us-ascii?Q?9OiFjNQDZgBYXfQk5VE+WTPUC4AObvEnTD742IZzY1T72Arjide+pm5TlMQc?=
+ =?us-ascii?Q?wyGyu1hrq+VtWROM35+RNccWm11ccT713AbNFHtz03lWEPhXR07yTCDuWkAK?=
+ =?us-ascii?Q?+M84T8a7+ByyJ1P43+sWr+bPDVIrGGOT9U43LqXbeShLxJGa76o3LQuYrema?=
+ =?us-ascii?Q?+SKfWgF4U/9WaxvfaNs3owMlgfR9MaB1FMFwK/sMr/ThX6ybsZ7sPbDjnKpt?=
+ =?us-ascii?Q?eZeoD6jQDrFbUqGb3/kMamn6VyHOO+ee9392ABMkP7t4KTqRJeRNVjGN4cTn?=
+ =?us-ascii?Q?wh/zRf/mgHb5+JUQCy049xu8Z//P5ZIptcEPG82XcbjrxsndkPV1mnI3xz8S?=
+ =?us-ascii?Q?8ays381+eAB0eUBb4Q0w48Ua1xsXjbeUNSJYl27WqV0YkcbZiSsdutQvtsAa?=
+ =?us-ascii?Q?5OoILyV+G6QxqySo6xGeXFU7l0TGTtyNB1zmI8sNLcb3kSoC6XVOrYtZrh/v?=
+ =?us-ascii?Q?ttznFNSFwU8azIvzGFlTUaGl0QNNDUu65ubM2vmR6/cLXIq36ZT72kX9uaYM?=
+ =?us-ascii?Q?eIjFoCs3YTYjnMAh4uKuyMW7FNQ2AVrXl+PCTb8MGVeeG2MhVrzg3Knvi5qo?=
+ =?us-ascii?Q?ZCWyrhBjt39y4zaG2NQSt4Gh6q5dfhgTntaGP2bzEnupqZYBTIfs1F8Vm5kz?=
+ =?us-ascii?Q?qf+cLKy9DmmhZN4DxWPXVNAvecpCUWgbB/ZPUwRZcZC8zUu1XMKApLAOWHg/?=
+ =?us-ascii?Q?IYU7Ee4OpIeMavXpVEcBt0icyOlhbIM1iO4XSEqksQ8jYCs/Ntit2Ouqs/wb?=
+ =?us-ascii?Q?cJjNRj75FJyc28U2y5iXFwVSVvsgV5D1FiSaNxDNhVJ7QqQR+X4UwUgQoNCH?=
+ =?us-ascii?Q?GFpc10MfYSQmcEyTmMd4DYrIC4bOpPVRKsP6roPPnJZtWyNS/LyF+QVIt9cS?=
+ =?us-ascii?Q?jf6sIWyMw1DhvvOF4t+SHCLhOeCHynhyRQo65LSGMwhH46Y8h+1o+/DN4+d0?=
+ =?us-ascii?Q?h430Qpwc2v7CQcPpGnzfPmEUMMMdj22++FKgUPx17c7TeI/wi5pNsn3yuOR2?=
+ =?us-ascii?Q?4MpIX5G7fwoimXz7px0G4J2x7Ig4BEDIAlWh3mH7mwlkEGwLSc0qvr6kQk2P?=
+ =?us-ascii?Q?4wwtEyk57qvSSo5ps8G/q9DDAq6Fh/g=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13f20252-d2f1-400f-387b-08da13110ee2
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 12:22:01.5955
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yUwgCR8yw8ENamgQQoQFrRCL66Dqu+IPij7CWnlN+aE6E4yndGM3JSjacEqv4xwKfWlkRnVDH+2M4vBUDTMCm0rIhVOhbw4QY1HzpTPSUm0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR10MB2530
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
+ definitions=2022-03-31_04:2022-03-30,2022-03-31 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 malwarescore=0
+ mlxscore=0 phishscore=0 spamscore=0 suspectscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203310069
+X-Proofpoint-GUID: tQJ4923-MzJUhiiv2tENMApG_hy-ppR7
+X-Proofpoint-ORIG-GUID: tQJ4923-MzJUhiiv2tENMApG_hy-ppR7
 
-VGh1LCAzMSBNYXIgMjAyMiAxOToyMzozNCArMDgwMCwgZGFuLmNhcnBlbnRlckBvcmFjbGUuY29t
-IHdyb3RlOgo+VGhpcyB3b3Jrcy4uLsKgIFByZXN1bWFibHksIGl0IGFwcGxpZXMgdG8gc3RhZ2lu
-Zy1uZXh0IGV2ZW4gdGhvdWdoIGl0Cj5kb2Vzbid0IGFwcGx5IHRvIGxpbnV4LW5leHQuwqAgU286
-Cj4KPlJldmlld2VkLWJ5OiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+
-Cj4KPkluIGFuIGlkZWFsIHdvcmxkLCBweG1pdHByaXYtPnB4bWl0YnVmIHdvdWxkIGJlIGRlY2xh
-cmVkIGFzIGFuIGFycmF5IG9mCj5zdHJ1Y3QgaW5zdGVhZCBvZiBhbiBhcnJheSBvZiB1OC7CoCBU
-aGF0IHdvdWxkIG1ha2UgaXQgbXVjaCBzaW1wbGVyCj5iZWNhdXNlIHdlIGNvdWxkIGRvCj4KPmZy
-ZWVfeG1pdF9leHRidWY6Cj4Jd2hpbGUgKC0taSA+PSAwKQo+CQlydHdfb3NfeG1pdF9yZXNvdXJj
-ZV9mcmVlKHB4bWl0cHJpdi0+cHhtaXRfZXh0YnVmW2ldKTsKPgl2ZnJlZShweG1pdHByaXYtPnB4
-bWl0X2V4dGJ1Zik7Cj4JaSA9IE5SX1hNSVRCVUZGOwo+ZnJlZV94bWl0YnVmOgo+CXdoaWxlICgt
-LWkgPj0gMCkKPgkJcnR3X29zX3htaXRfcmVzb3VyY2VfZnJlZShweG1pdHByaXYtPnB4bWl0YnVm
-W2ldKTsKPgoKCgpUaGlzIGlzIGdyZWF0ISBTb3JyeSBJIGRpZCBub3Qgbm90aWNlIHlvdXIgbGFz
-dCBlbWFpbC4KCk15IG1haW4gam9iIGlzIHRvIGZpbmQsIHJlcG9ydCBidWdzIGFuZCBwcm92aWRl
-IHBhdGNoZXMuCkluIGZhY3QsIHRoZXJlIGFyZSBzbyBtYW55IHNpbWlsYXIgYnVncyBuZWVkIHRv
-IGJlIGhhbmRsZWQgaW4gaXRzCmZhbWlseS4KU3VjaCBhcyBfcjg3MTJfaW5pdF94bWl0X3ByaXYo
-MCBpbiAvZHJpdmVycy9zdGFnaW5nL3J0bDg3MTIvcnRsODcxeF94bWl0LmMKYW5kIF9ydHdfaW5p
-dF94bWl0X3ByaXYoKSBpbiBkcml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmVccnR3X3htaXQu
-Yy4uLgoKU28gSSB3aWxsIHRyeSB0byBmaXggdGhlIGJ1Z3MgYXQgZmlyc3QuIEFjdHVhbGx5LCB0
-aGUgcHJvYmxlbXMgeW91IG1lbnRpb25lZAphbHNvIHdpZGVseSBleGlzdCBpbiBpdHMgZmFtaWx5
-IGNvZGUuCkkgc3VwcG9zZSB0aG9zZSBhcmUgdGhlIHN0eWxlIG9mIHRoZSBjb2RlICg6CkkgYW0g
-aGFwcHkgdG8gaW1wcm92ZSB0aGUgY29kZSBxdWFsaXR5IGl0c2VsZiB3aGVuIEkgZmluaXNoCm15
-IG93biB3b3JrIGF0IGhhbmQuCgpSZWdhcmRzLApYaWFva2UgV2FuZw==
+On Thu, Mar 31, 2022 at 07:06:00AM -0500, Rebecca Mckeever wrote:
+> > diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+> > index 6eca30124ee8..dcf7b24f95a8 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_cmd.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+> > @@ -1404,11 +1404,8 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+> >  {
+> >  	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
+> >  
+> > -	if (pcmd->res == H2C_DROPPED) {
+> > +	if (pcmd->res != H2C_SUCCESS) {
+> >  		/* TODO: cancel timer and do timeout handler directly... */
+> > -		/* need to make timeout handlerOS independent */
+> > -		_set_timer(&pmlmepriv->scan_to_timer, 1);
+> > -		} else if (pcmd->res != H2C_SUCCESS) {
+> >  		_set_timer(&pmlmepriv->scan_to_timer, 1);
+> >  	}
+> >  
+> 
+> Is it okay if I submit a patch to implement your suggestion? I would
+> include a "Suggested-by" tag.
 
+Yes, that's always okay.
+
+I would probably send it as one patch, but I suggest you would be better
+off sending it as two uncontroversial patches.  patch 1: delete the
+"handlerOS independent" comment.  Patch2: combine both sides of the if
+statement.
+
+regards,
+dan carpenter
