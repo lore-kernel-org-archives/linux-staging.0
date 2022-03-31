@@ -1,164 +1,125 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A997B
-	for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 23:43:22 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id bq8so30649382ejb.10
-        for <linux-staging@lists.linux.dev>; Wed, 30 Mar 2022 16:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=iREdRJSlGkex49OSzIjV0KsFYd3jZkgqeIW8XLnqJVg=;
-        b=v3+DvT6MCRwfRE2AsrD6YG1zSiTxbEnxL6aEqZFU/4zqeuCy5A6lE4iTeY+xbiG8I5
-         x5sI51qPvKIaTNBzbsgmeiUriNZA6Kn1CbUpdVh6K0ARyes4hEwCSxnpaTpGQo8CsY8I
-         68ayLJPCkYZ1TBvBlm8Jy3i/0yq4T7lOHGm4oaGQB57zlbrm14e6zjQ30W4QWlJ1na8B
-         yluIPxS3F2ANatES130GX7cIUfWGFbkaMSpvwt/xt4mBXmWxaWn0vCtU6Y9ontlzRgGK
-         MnvGuNkZ8A4FkSalHvCMKXkPXM6NSnLvgCAUZybrfmU2m0axLV54Da5AyNWnee/FFq0D
-         RkmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=iREdRJSlGkex49OSzIjV0KsFYd3jZkgqeIW8XLnqJVg=;
-        b=1gn5OQnaFaGOGxltHFN6geyNZCKKt9edFK0fEmxjNqLSYIAaXmTXPAI0n+74oxKOSH
-         xbUovu4Myf+NNTfcvQ4EGT+KFENnHF9NVivxtxkRuEep7Y27+a1n3KVtSZ9x5CMrhGBe
-         8xpaq/KXOH3e+Psut7YzQGFcxLGUZdjt730dX8i9e8LQv5Dybki5geRrOw1JoaMD7vf5
-         f6kl0VzpCseSmE1QhEHQjKK8ZysChP1Q51WiCeorFn4RtKeAr8kuJHR/KCl1tJZSezBO
-         NvdDTSXbHqlBOcWGL8gYZb6AmVnYoleXba5pzaCSSIIDGhaewk+46ibZA0ctkLxaAyCy
-         jQCg==
-X-Gm-Message-State: AOAM532UjYf4XdDF6iPhBz+jBoIJGC9MBk9kcDdckdxGT6EYTo0fuu68
-	rAY8Sh4QWgxtYUHQGTxxt/W6tpskeRykCrqSDdn1Ow==
-X-Google-Smtp-Source: ABdhPJxy8IQdc1GvtVhMWnjfsuJqWeXYQSzpSc7eTZXkFj106tgToJ42geM6ymErC4zrL4G/l3YiOH/g+QiNb7AA6bE=
-X-Received: by 2002:a17:907:168a:b0:6da:9177:9fdd with SMTP id
- hc10-20020a170907168a00b006da91779fddmr2232289ejc.757.1648683800778; Wed, 30
- Mar 2022 16:43:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BF67E0;
+	Thu, 31 Mar 2022 05:45:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1BDAC340F0;
+	Thu, 31 Mar 2022 05:45:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1648705508;
+	bh=typN6HaBunrT3sm6KGyaPW9XCKoGbVVwCGjp0mnJLcA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C8EelGk+foqMrqM9tqxQUYQK54WLMsdObwXzqXxBYss9g0Lh1HlXZWydeVBAZnLg+
+	 8UKii0KPD9pEzRkfoprtAWWjzBQUNPiV1AqECccSRqXg1fvQ61T3a8DghCvKEHlg/G
+	 x+3R6I9Pt2R+WWU5NR3hIX5hDAiUCiGz56yPPqXQ=
+Date: Thu, 31 Mar 2022 07:45:05 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove redundant braces in if
+ statements
+Message-ID: <YkU/4YYz53VHVzoj@kroah.com>
+References: <20220330005229.GA318642@euclid>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220328195936.82552-1-nicolas.dufresne@collabora.com>
- <20220328195936.82552-23-nicolas.dufresne@collabora.com> <20220330075913.wfl3prsyw5fvsv4t@basti-XPS-13-9310>
- <4740735d92c0dac3708aa922b3d73db7a61fbdda.camel@collabora.com>
-In-Reply-To: <4740735d92c0dac3708aa922b3d73db7a61fbdda.camel@collabora.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Wed, 30 Mar 2022 20:43:08 -0300
-Message-ID: <CAAEAJfCH+m7mzU2EHkyxdKiNs7p=qfSfnvDzS+hLOftFE=n9CA@mail.gmail.com>
-Subject: Re: [PATCH v1 22/24] media: hantro: h264: Make dpb entry management
- more robust
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Collabora Kernel ML <kernel@collabora.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	linux-media <linux-media@vger.kernel.org>, 
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220330005229.GA318642@euclid>
 
-On Wed, Mar 30, 2022 at 12:16 PM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> Le mercredi 30 mars 2022 =C3=A0 09:59 +0200, Sebastian Fricke a =C3=A9cri=
-t :
-> > Hey Nicolas,
-> >
-> > On 28.03.2022 15:59, Nicolas Dufresne wrote:
-> > > From: Jonas Karlman <jonas@kwiboo.se>
-> > >
-> > > The driver maintains stable slot location for reference pictures. Thi=
-s
-> >
-> > s/slot location/slot locations/
-> >
-> > > change makes the code more robust by using the reference_ts as key an=
-d
-> > > by marking all entries invalid right from the start.
-> > >
-> > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > > ---
-> > > drivers/staging/media/hantro/hantro_h264.c | 10 ++++------
-> > > 1 file changed, 4 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/sta=
-ging/media/hantro/hantro_h264.c
-> > > index 228629fb3cdf..7377fc26f780 100644
-> > > --- a/drivers/staging/media/hantro/hantro_h264.c
-> > > +++ b/drivers/staging/media/hantro/hantro_h264.c
-> > > @@ -258,8 +258,7 @@ static void prepare_table(struct hantro_ctx *ctx)
-> > > static bool dpb_entry_match(const struct v4l2_h264_dpb_entry *a,
-> > >                         const struct v4l2_h264_dpb_entry *b)
-> > > {
-> > > -   return a->top_field_order_cnt =3D=3D b->top_field_order_cnt &&
-> > > -          a->bottom_field_order_cnt =3D=3D b->bottom_field_order_cnt=
-;
-> > > +   return a->reference_ts =3D=3D b->reference_ts;
-> > > }
-> > >
-> > > static void update_dpb(struct hantro_ctx *ctx)
-> > > @@ -273,13 +272,13 @@ static void update_dpb(struct hantro_ctx *ctx)
-> > >
-> > >     /* Disable all entries by default. */
-> > >     for (i =3D 0; i < ARRAY_SIZE(ctx->h264_dec.dpb); i++)
-> > > -           ctx->h264_dec.dpb[i].flags &=3D ~V4L2_H264_DPB_ENTRY_FLAG=
-_ACTIVE;
-> > > +           ctx->h264_dec.dpb[i].flags =3D 0;
-> >
-> > Ehm ... we just remove all flags? Can't this have any unwanted side
-> > effects like removing a flag that we actually wanted to keep?
-> > (Like long term or the field flags?)
->
-> This is a local copy of the dpb, the DPB is fully passed for every decode=
-. So
-> these flags will be fully restored lower when we copy the found entry. In=
- fact,
-> holding a state here would not represent well the userland intention and =
-can
-> have negative side effect on the decoding. Flags are not immutable betwee=
-n
-> decode and can change. This simplify the code, and make things less error=
- prone.
-> This part of the code is already a bit complex, no need for an extra laye=
-r.
->
-> > If we just want to set the DPB entry inactive, then removing the ACTIVE
-> > flag seems like the correct approach to me.
-> > If we want to get rid of the VALID flag as well, then we could just do:
-> >               ctx->h264_dec.dpb[i].flags &=3D
-> >        ~(V4L2_H264_DPB_ENTRY_FLAG_ACTIVE | V4L2_H264_DPB_ENTRY_FLAG_VAL=
-ID);
-> >
-> > In case we really want to reset all flags, I'd say adjust the comment
-> > above it:
-> > ```
-> > -     /* Disable all entries by default. */
-> > +     /* Reset the flags for all entries by default. */
-> > ```
->
-> This reads the same to me, but I can do that yes. understand that VALID m=
-eans
-> the reference exist and the TS should point to some existing past referen=
-ce
-> (unless there was some decode error, which the userland may not be aware =
-yet as
-> this is asynchronous). While ACTIVE means that it is used as a reference.=
- FFMPEG
-> is known not to filter inactive references. ACTIVE is just a flag without=
- bunch
-> of other flags that can change for every decode. So none of this make sen=
-se
-> between 2 decodes.
->
+On Tue, Mar 29, 2022 at 08:52:29PM -0400, Sevinj Aghayeva wrote:
+> Adhere to Linux kernel coding style.
+> 
+> Reported by checkpatch:
+> 
+> WARNING: braces {} are not necessary for single statement blocks
+> 
+> Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> index 27de086903e2..68e41d99679d 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> @@ -335,9 +335,8 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
+>  
+>  	ie = rtw_set_ie(ie, WLAN_EID_IBSS_PARAMS, 2, (u8 *)&(pdev_network->configuration.atim_window), &sz);
+>  
+> -	if (rateLen > 8) {
+> +	if (rateLen > 8)
+>  		ie = rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rateLen - 8), (pdev_network->supported_rates + 8), &sz);
+> -	}
+>  
+>  	/* HT Cap. */
+>  	if ((pregistrypriv->wireless_mode & WIRELESS_11_24N) &&
+> @@ -366,9 +365,8 @@ unsigned char *rtw_get_wpa_ie(unsigned char *pie, int *wpa_ie_len, int limit)
+>  
+>  		if (pbuf) {
+>  			/* check if oui matches... */
+> -			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type))) {
+> +			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type)))
+>  				goto check_next_ie;
+> -			}
+>  
+>  			/* check version... */
+>  			memcpy((u8 *)&le_tmp, (pbuf + 6), sizeof(val16));
+> @@ -493,9 +491,8 @@ int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwis
+>  	if (is_8021x) {
+>  		if (left >= 6) {
+>  			pos += 2;
+> -			if (!memcmp(pos, SUITE_1X, 4)) {
+> +			if (!memcmp(pos, SUITE_1X, 4))
+>  				*is_8021x = 1;
+> -			}
+>  		}
+>  	}
+>  
+> @@ -514,9 +511,8 @@ int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher, int *pairwi
+>  		return _FAIL;
+>  	}
+>  
+> -	if ((*rsn_ie != WLAN_EID_RSN) || (*(rsn_ie+1) != (u8)(rsn_ie_len - 2))) {
+> +	if ((*rsn_ie != WLAN_EID_RSN) || (*(rsn_ie+1) != (u8)(rsn_ie_len - 2)))
+>  		return _FAIL;
+> -	}
+>  
+>  	pos = rsn_ie;
+>  	pos += 4;
+> -- 
+> 2.25.1
+> 
+> 
 
-Please leave the comment as-is, 'Disable all entries' is readable.
+Hi,
 
-As much as I'd love to have very clear comments everywhere,
-we have to accept that only people with insight on codec details
-are expected to make sense of driver details :-)
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Thanks,
-Ezequiel
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
