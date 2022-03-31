@@ -1,41 +1,41 @@
 Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DA37E0
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 13:05:31 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id c10so29573921ejs.13
-        for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 06:05:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87467E0
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 13:05:32 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id c10so29574107ejs.13
+        for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 06:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pvflieYkGvqxxIFeLwTIeMj7AbGD4LMFP+RQU2pR/xU=;
-        b=ek1+IghIBT0bcGojmg71M4YYdT+5iyd9S2DmEDNImFQZkSO8m2dv2hmeWO0CSdjNf7
-         AAtdpjkrPRIoVJawVniS/hzEFLf1RR9/gvz8jzGOMnEOL61BlOcBG7QAwTXY9kvmfNwk
-         T74Xix2kVrSh5uUUPYfvY43IIFIe8GImiy1Kcm+fdQ4VbQ6qq4MAsQeWdex+M6gYsUfy
-         VMRKXW1MvOQLJazzbAyuT5yvkM7rtbmPxGk8QoiB7NIjgtCTXmssYHRd7U6VLEuFzKBC
-         8Xn7Sy1R5Ysvtlt7cHqT1zNSa+b/CwhXsTtATHGvFbOFuC8jp4P6z4C1fz5LkzW5wt/J
-         fV9Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=wLM8ocKt6f0arebieMXLbfikbZM3siH2fLv2W59ipRg=;
+        b=GPYA80S5QnuytLdzBu2lKmTT4pttp+NDMO26zncwgWjfyTTSEE0CmyiOb3xx6xTzGJ
+         4c6Vhz9iYrJgMYSxW6ZxJxyPo7KS+MoV+BD6TvGVU9GU0rWrhlfCR5ac1eupmJAaoPn+
+         b9rWtDUypN8Kv5YWWYUm/hfBLHK4z1wt3lh+SgHiXyBUleZSm280/QZ+DrQG9VSROu9o
+         +F+w+oAwV/DlmjW5if8ZPXJYQAoSqy97PgdjH/TAlqTAie5pJsK+c7Giqm5eWrAOPozZ
+         LMNCeWCu0isId2APvA/BnHca1f7ZtqVtTZDNWv/ZK2Dfnkk4+8eLuxR1j2XghtXQ8IhO
+         FgQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pvflieYkGvqxxIFeLwTIeMj7AbGD4LMFP+RQU2pR/xU=;
-        b=L47IPWz1mKRpPHLNUz2q2gqM5V1QUkQkzBRev0I/OIk9i6UL9NPtrUJ8haaaAQ0wYT
-         bwt0LSQibrk1wy9/cuMC2BCHA2Unx37zsqCWFJ50XqojWj/NE4FjKIiFGcxFH3Vo3AEW
-         Ldh130Pwlt0iclxLvzXldgTazBYT+RyIfB2QzW1qUD94p8SEWasCPkDydB0nFYtfiA0z
-         PZkf8NeZSAnFReHz93Zv+N0ls7ERLjYs+7YI1uL1++RgqF9AuCfnQuY3Ct1I2R+JxVTL
-         j7zmxoF3IHkH7Y72fAF9IPh+hWI4Wzf310p1rufB9gHWHypQVbPHf0oeItnW1QUnZwaH
-         l8bg==
-X-Gm-Message-State: AOAM531pGoeSOSDidVfx4xLjzlaF7e7GAO1Jt8RL3FDh9NhhkC6ELYDO
-	TBuY7Uqj1k7PxlI4P96VgO4=
-X-Google-Smtp-Source: ABdhPJwE/mM0q2UOa5P6FLgSZ+W9DWY0CAbNM725eRXiAEEY1B/GzM02PAPJHEONKlNBLKpUGF0RXw==
-X-Received: by 2002:a17:906:6a11:b0:6e4:976b:e94 with SMTP id qw17-20020a1709066a1100b006e4976b0e94mr4986900ejc.142.1648731928910;
-        Thu, 31 Mar 2022 06:05:28 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=wLM8ocKt6f0arebieMXLbfikbZM3siH2fLv2W59ipRg=;
+        b=Kdp7HvzwkcZmV4Aw+mMmOcRHOpp+QqYjuikzYpKJsrkUViz7WSTjWgQ+PHUq/QSRP4
+         XP1cY2xGNOzgyS1C/vXKTd+reApU6u+oVL+iF3Plz+yaIMMyNHEFZ4WiUS7jq0LINzEG
+         NYGBYOikscBrKfRzcTgxhz1ABwv3eFGMxOCHtVNkIa57g5/AWHYm87ZnGmXWpQxw0CAe
+         V7Plypzhz8TlU+fKLkIoaA8EOlUDNn5es4DEDodPyQ4IL8RZQpOBRS+9ggLaG1LZwHVg
+         iRcVRLF9eXpT+mKYeJEXYbPgfZP7tB/k1NTMJt4Jc31QOTy1i0YxPAO4AqYAYPZwiKup
+         1ssA==
+X-Gm-Message-State: AOAM532zARmiavPd9/qQWdgIp5ZJbAkrju3Rhc3bYRUvvKoGg2khnVAS
+	//bDvED+lMrilJtBL85X3jg=
+X-Google-Smtp-Source: ABdhPJySxYC9VY6GU3cnheaUqRUTgTRtIMdM3cjme2J0sjJokpLC7EyjcXJpEn5RcJALk3PCjETRFA==
+X-Received: by 2002:a17:906:1645:b0:6ce:de9:6eb1 with SMTP id n5-20020a170906164500b006ce0de96eb1mr4972136ejd.616.1648731929952;
+        Thu, 31 Mar 2022 06:05:29 -0700 (PDT)
 Received: from localhost.localdomain ([95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id kw3-20020a170907770300b006d2a835ac33sm9333358ejc.197.2022.03.31.06.05.28
+        by smtp.gmail.com with ESMTPSA id kw3-20020a170907770300b006d2a835ac33sm9333358ejc.197.2022.03.31.06.05.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 06:05:28 -0700 (PDT)
+        Thu, 31 Mar 2022 06:05:29 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/5] staging: r8188eu: remove GetHwReg8188EU()
-Date: Thu, 31 Mar 2022 15:05:17 +0200
-Message-Id: <20220331130522.6648-1-straube.linux@gmail.com>
+Subject: [PATCH 1/5] staging: r8188eu: rename clear_bacon_valid_bit()
+Date: Thu, 31 Mar 2022 15:05:18 +0200
+Message-Id: <20220331130522.6648-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220331130522.6648-1-straube.linux@gmail.com>
+References: <20220331130522.6648-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,29 +57,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series remove the function GetHwReg8188EU(). This is part of the
-ongoing effort to get rid of the unwanted hal layer.
+Rename clear_bacon_valid_bit(). Actually it should be
+clear_beacon_valid_bit().
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c    | 4 ++--
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c     | 4 ++--
+ drivers/staging/r8188eu/include/rtw_mlme_ext.h | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-Michael Straube (5):
-  staging: r8188eu: rename clear_bacon_valid_bit()
-  staging: r8188eu: remove HW_VAR_BCN_VALID from GetHwReg8188EU()
-  staging: r8188eu: remove HW_VAR_CHK_HI_QUEUE_EMPTY from
-    GetHwReg8188EU()
-  staging: r8188eu: remove HW_VAR_FWLPS_RF_ON from GetHwReg8188EU()
-  staging: r8188eu: remove GetHwReg8188EU()
-
- drivers/staging/r8188eu/core/rtw_cmd.c        | 14 +++----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 14 +++++--
- drivers/staging/r8188eu/core/rtw_pwrctrl.c    | 19 +++++++--
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  6 +--
- drivers/staging/r8188eu/hal/usb_halinit.c     | 40 -------------------
- drivers/staging/r8188eu/include/hal_intf.h    |  4 --
- .../staging/r8188eu/include/rtw_mlme_ext.h    |  3 +-
- drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  4 +-
- 8 files changed, 39 insertions(+), 65 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 643f9f8a7a3d..15a91c5fc852 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -5761,7 +5761,7 @@ unsigned int send_beacon(struct adapter *padapter)
+ 
+ 	u32 start = jiffies;
+ 
+-	clear_bacon_valid_bit(padapter);
++	clear_beacon_valid_bit(padapter);
+ 
+ 	do {
+ 		issue_beacon(padapter, 100);
+@@ -5784,7 +5784,7 @@ unsigned int send_beacon(struct adapter *padapter)
+ 	}
+ }
+ 
+-void clear_bacon_valid_bit(struct adapter *adapter)
++void clear_beacon_valid_bit(struct adapter *adapter)
+ {
+ 	/* BIT(16) of REG_TDECTRL = BIT(0) of REG_TDECTRL+2, write 1 to clear, Clear by sw */
+ 	rtw_write8(adapter, REG_TDECTRL + 2, rtw_read8(adapter, REG_TDECTRL + 2) | BIT(0));
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+index a7337954891a..2e252562e48c 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+@@ -557,7 +557,7 @@ void rtl8188e_set_FwJoinBssReport_cmd(struct adapter *adapt, u8 mstatus)
+ 		rtw_write8(adapt, REG_FWHW_TXQ_CTRL + 2, (haldata->RegFwHwTxQCtrl & (~BIT(6))));
+ 		haldata->RegFwHwTxQCtrl &= (~BIT(6));
+ 
+-		clear_bacon_valid_bit(adapt);
++		clear_beacon_valid_bit(adapt);
+ 		DLBcnCount = 0;
+ 		poll = 0;
+ 		do {
+@@ -596,7 +596,7 @@ void rtl8188e_set_FwJoinBssReport_cmd(struct adapter *adapt, u8 mstatus)
+ 
+ 		/*  Update RSVD page location H2C to Fw. */
+ 		if (bcn_valid)
+-			clear_bacon_valid_bit(adapt);
++			clear_beacon_valid_bit(adapt);
+ 
+ 		/*  Do not enable HW DMA BCN or it will cause Pcie interface hang by timing issue. 2011.11.24. by tynli. */
+ 		/*  Clear CR[8] or beacon packet will not be send to TxBuf anymore. */
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+index 66f7361e7a19..a00da19c4b88 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+@@ -538,7 +538,7 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr,
+ 		     unsigned char action, unsigned short status);
+ unsigned int send_delba(struct adapter *padapter, u8 initiator, u8 *addr);
+ unsigned int send_beacon(struct adapter *padapter);
+-void clear_bacon_valid_bit(struct adapter *adapter);
++void clear_beacon_valid_bit(struct adapter *adapter);
+ 
+ void start_clnt_assoc(struct adapter *padapter);
+ void start_clnt_auth(struct adapter *padapter);
 -- 
 2.35.1
 
