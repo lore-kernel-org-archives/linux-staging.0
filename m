@@ -1,169 +1,161 @@
-Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com [209.85.161.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3D07B
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 15:26:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1648740376;
-	bh=6eNe0sCBAfB/Hcfduogy8j4fDGvYRi7JohyzMwaNYwc=;
-	h=From:To:Cc:Subject:Date;
-	b=JpISyFgjkY9ekyIBwFZaBXUpOFirDzI4eVKaJCW/DH/WxyAp30n4IO/frFXP1OOEr
-	 gBB/Fl0sEuO6Q6HMdX8DOqF5rM8l8dqXV1vROqlRmaOBIadzzNwNG7kdTEzJrpYvLW
-	 WMtGxPoo8KLDB1+H7MPw58hU4oxbZTyj5Uw7K2qE=
-Received: from localhost.localdomain ([218.197.153.188])
-	by newxmesmtplogicsvrszc6.qq.com (NewEsmtp) with SMTP
-	id 68DB8661; Thu, 31 Mar 2022 23:26:13 +0800
-X-QQ-mid: xmsmtpt1648740373thyjaxjd9
-Message-ID: <tencent_0AE833E7E70272D4518084C72B05FE17810A@qq.com>
-X-QQ-XMAILINFO: N7h1OCCDntujP6ZwiqCqDasFNtR0GvcsI1nrPkLX6b36tQRgx8JFpF1v/39Xwb
-	 7ccgrWcehKuTzSdNQS1f+Ep9OA+uXl4mucqtc4KNvoXuDsyWOjOkUtI9kZuItMmnooQxztrX09QR
-	 hRh5GiNB32NIPIxvrmfNnoniks96XobZvyRQBeusGZotVrmLkPoHmrx24mI9Bmt/ahtdAOtWQcYu
-	 834w8xHvRJR/cIklTr81l77/iK9HnOw4zm6KCEOlKNzSpy6b65KgPu83v2BRnP/22qC9CJ9+axJP
-	 BOyxGFtQw6oBPyAwvcytfYB+NEhyELB6hhiuoyn2FV+4y9o0N000/641C+tvBdNvZje7vf3O0EP0
-	 hR/PwyGIyV6Dl4deklwQfNF4oFvxTN0VPMQlWbMrDfcPAatl5mZwTJguA5QngCHRIE8+V1wHxvCf
-	 3pAEQYTVX64NGZbP6w5CbGKw/alDJhcwJSBwHeEAro3GWn6l26wEV1H79EI+Bo52lG47huxxyLoN
-	 jn1T5TnRoG5ubdZ1bSM2qbWXCsVAclYMzP2pr1Us5P8k16DcjIGT+y7QNUpjgMX7I2dG63kpuOmg
-	 b2gQkQI1f25G2NA8BKnJHj98hxibd9bdrxVY+PdO7El+EX/DUdiRCAQVedP8A+AVa1HuVeP7/Zs+
-	 hpWLYPQ7Y4eNx240jmfJYvwHw3CUwIbKhQEUWmfB+Tx0JRtTyictzJMDVumTNhOir4MGL3yzW+aQ
-	 l+t6mDL6nnJbIq8zJr4nZbHHh7zyL75rIkxvJp5eISWaOOj1LhwgFkLqAfrHlWrDnO2qbeKkNMOh
-	 Av3w9THovGFV3GqcQW98NECy4Co1ylnSs8NQRdJ7lqlhNiDn9aocOzyS6YT0dRXH98Wzrlq0eM2s
-	 Tz/j/lpgT986M/0D8uiKGO+rFqVws5qZaTu3OHhutgnyYVMAzqpkvYVRdOS4icKjkq6kCyUEk6dt
-	 jIa749J9twl1+pFoT8Ag==
-From: xkernel.wang@foxmail.com
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix potential memory leak in _rtw_init_xmit_priv()
-Date: Thu, 31 Mar 2022 23:26:04 +0800
-X-OQ-MSGID: <20220331152604.8729-1-xkernel.wang@foxmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4F07B;
+	Thu, 31 Mar 2022 15:40:03 +0000 (UTC)
+Received: by mail-oo1-f66.google.com with SMTP id y27-20020a4a9c1b000000b0032129651bb0so40620ooj.2;
+        Thu, 31 Mar 2022 08:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=5NvDxXOCj2IjyiLWVvaGa2K8cfqwFAMmFQA1NzW5zlQ=;
+        b=SlYdKhMQeCIIizXjR2ftf96grOKqBwNTw15wVpZchWuXuI4ivEgri7HPuS3/j6rDjp
+         XytUgTkYYuTIyY+G/dJtV5VC2vRffaWHwNJ52M2TMu8AG6HVcFFP3CXqeF3nrImQbBaM
+         /MsdY3mLAje9vfjtf/wxdAhAmEyDkH3fpWsgtSuycN7vGlomI7ibnc1IQv07AS7WOaNB
+         376vzHNd08msPiJizrDCjWQ4jW3UFR8DhCoSJCktV3G1uNT/LThu72dD/zx/3CDwn788
+         4owfczlLxRRW3OCRjhIg1yJY4sdtAf0e0Qtzj69AZHirkGDTXiSWjOJrE/bFr9RMrQHQ
+         dETA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=5NvDxXOCj2IjyiLWVvaGa2K8cfqwFAMmFQA1NzW5zlQ=;
+        b=O82wue3Sy8RtVKuN3Mx2tOuOL27p25cEg1xj4Cs1QGQtUERFW/56uS5MaXIuz2E+kS
+         VpGSUeCry3qKjI0Z+qhgsg2YP8N24P3okRDlz08SViUDkzkPo5TV1IAia3qv3fT1gzaJ
+         fmUVZsfmeK58v7Pd5HLCFMZAGPdB+uKqmP2VbZEKixYbzGEO5V10RwZfZafD4JwYb0sm
+         x2KFVNmF3l963mYjc2qT9ZosFIuOe2Ucd78SyVxo+AN6hN2p7Wo/ruxUDiLezySb6y2h
+         MOcXGyARm3vuObqWm7q6rLQvCMNSw+uJoV5SXCQ1iYIzEEcrMY8zwB+syE5wvNgXCBjS
+         gP+Q==
+X-Gm-Message-State: AOAM533PGoHWoteF6Bp7JTDVqFxoIZK8uCsyxxoj0aR3yaNT+6FXoCKE
+	UhZROHrOfIRR5quAkQXcsVfR+s/xJshiKg==
+X-Google-Smtp-Source: ABdhPJzuRo0YGQtSqCPTJVqtxgUHrhRly5OEtg0E8sVgxze6Up+3RncDemZbLaq8micNvmL4QlYQ2Q==
+X-Received: by 2002:a4a:cb0d:0:b0:324:852f:4438 with SMTP id r13-20020a4acb0d000000b00324852f4438mr5335614ooq.3.1648741202226;
+        Thu, 31 Mar 2022 08:40:02 -0700 (PDT)
+Received: from bertie (072-190-140-117.res.spectrum.com. [72.190.140.117])
+        by smtp.gmail.com with ESMTPSA id u23-20020a056870d59700b000de821ba7cbsm11462103oao.15.2022.03.31.08.40.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 08:40:01 -0700 (PDT)
+Date: Thu, 31 Mar 2022 10:40:00 -0500
+From: Rebecca Mckeever <remckee0@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: r8188eu: use sizeof(*pvar) for allocating structs
+Message-ID: <YkXLUIMkcD02N0RU@bertie>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+Use sizeof(*pvar) instead of sizeof(struct var) when allocating memory.
+This conforms to Linux kernel coding style, improves readability,
+and decreases the opportunity for bugs if the pointer variable type is
+changed. Issue found by checkpatch messages of the following format:
 
-In _rtw_init_xmit_priv(), there are several error paths for allocation
-failures without releasing the resources.
-To properly release them, several error handling paths are added.
+CHECK: Prefer kzalloc(sizeof(*pvar)...) over kzalloc(sizeof(struct var)...)
 
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 50 +++++++++++++++++------
- 1 file changed, 37 insertions(+), 13 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c     |  4 ++--
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 16 ++++++++--------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 528f920..b288b04 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -112,7 +112,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 6f0bff186477..2afbb6a9aee6 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -1509,13 +1509,13 @@ int rtw_set_auth(struct adapter *adapter, struct security_priv *psecuritypriv)
+ 	struct	cmd_priv *pcmdpriv = &adapter->cmdpriv;
+ 	int		res = _SUCCESS;
  
- 	if (!pxmitpriv->pallocated_xmitbuf) {
- 		res = _FAIL;
--		goto exit;
-+		goto free_frame_buf;
+-	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
++	pcmd = kzalloc(sizeof(*pcmd), GFP_KERNEL);
+ 	if (!pcmd) {
+ 		res = _FAIL;  /* try again */
+ 		goto exit;
  	}
  
- 	pxmitpriv->pxmitbuf = (u8 *)N_BYTE_ALIGMENT((SIZE_PTR)(pxmitpriv->pallocated_xmitbuf), 4);
-@@ -132,7 +132,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 			msleep(10);
- 			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
- 			if (res == _FAIL)
--				goto exit;
-+				goto free_xmitbuf;
+-	psetauthparm = kzalloc(sizeof(struct setauth_parm), GFP_KERNEL);
++	psetauthparm = kzalloc(sizeof(*psetauthparm), GFP_KERNEL);
+ 	if (!psetauthparm) {
+ 		kfree(pcmd);
+ 		res = _FAIL;
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 10d5f1222936..c3ec853d0895 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -6421,7 +6421,7 @@ void report_survey_event(struct adapter *padapter, struct recv_frame *precv_fram
+ 	pmlmeext = &padapter->mlmeextpriv;
+ 	pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+@@ -6471,7 +6471,7 @@ void report_surveydone_event(struct adapter *padapter)
+ 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_KERNEL);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+@@ -6513,7 +6513,7 @@ void report_join_res(struct adapter *padapter, int res)
+ 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+@@ -6610,7 +6610,7 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
+ 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_KERNEL);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+@@ -6996,11 +6996,11 @@ void survey_timer_hdl(struct adapter *padapter)
+ 			pmlmeext->scan_abort = false;/* reset */
  		}
  
- 		pxmitbuf->phead = pxmitbuf->pbuf;
-@@ -162,7 +162,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 	if (!pxmitpriv->xframe_ext_alloc_addr) {
- 		pxmitpriv->xframe_ext = NULL;
+-		ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
++		ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 		if (!ph2c)
+ 			goto exit_survey_timer_hdl;
+ 
+-		psurveyPara = kzalloc(sizeof(struct sitesurvey_parm), GFP_ATOMIC);
++		psurveyPara = kzalloc(sizeof(*psurveyPara), GFP_ATOMIC);
+ 		if (!psurveyPara) {
+ 			kfree(ph2c);
+ 			goto exit_survey_timer_hdl;
+@@ -7538,13 +7538,13 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
+ 	u8 res = _SUCCESS;
+ 	int len_diff = 0;
+ 
+-	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
++	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
+ 	if (!ph2c) {
  		res = _FAIL;
--		goto exit;
-+		goto free_xmitbuf;
+ 		goto exit;
  	}
- 	pxmitpriv->xframe_ext = (u8 *)N_BYTE_ALIGMENT((SIZE_PTR)(pxmitpriv->xframe_ext_alloc_addr), 4);
- 	pxframe = (struct xmit_frame *)pxmitpriv->xframe_ext;
-@@ -195,7 +195,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
  
- 	if (!pxmitpriv->pallocated_xmit_extbuf) {
+-	ptxBeacon_parm = kzalloc(sizeof(struct Tx_Beacon_param), GFP_ATOMIC);
++	ptxBeacon_parm = kzalloc(sizeof(*ptxBeacon_parm), GFP_ATOMIC);
+ 	if (!ptxBeacon_parm) {
+ 		kfree(ph2c);
  		res = _FAIL;
--		goto exit;
-+		goto free_xframe_ext;
- 	}
- 
- 	pxmitpriv->pxmit_extbuf = (u8 *)N_BYTE_ALIGMENT((SIZE_PTR)(pxmitpriv->pallocated_xmit_extbuf), 4);
-@@ -210,10 +210,8 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 		pxmitbuf->buf_tag = XMITBUF_MGNT;
- 
- 		res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, MAX_XMIT_EXTBUF_SZ + XMITBUF_ALIGN_SZ, true);
--		if (res == _FAIL) {
--			res = _FAIL;
--			goto exit;
--		}
-+		if (res == _FAIL)
-+			goto free_xmit_extbuf;
- 
- 		pxmitbuf->phead = pxmitbuf->pbuf;
- 		pxmitbuf->pend = pxmitbuf->pbuf + MAX_XMIT_EXTBUF_SZ;
-@@ -240,10 +238,8 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 			pxmitbuf->buf_tag = XMITBUF_CMD;
- 
- 			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, MAX_CMDBUF_SZ+XMITBUF_ALIGN_SZ, true);
--			if (res == _FAIL) {
--				res = _FAIL;
--				goto exit;
--			}
-+			if (res == _FAIL)
-+				goto free_cmd_xmitbuf;
- 
- 			pxmitbuf->phead = pxmitbuf->pbuf;
- 			pxmitbuf->pend = pxmitbuf->pbuf + MAX_CMDBUF_SZ;
-@@ -255,7 +251,7 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	res = rtw_alloc_hwxmits(padapter);
- 	if (res == _FAIL)
--		goto exit;
-+		goto free_cmd_xmitbuf;
- 	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
- 
- 	for (i = 0; i < 4; i++)
-@@ -267,6 +263,34 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	rtw_hal_init_xmit_priv(padapter);
- 
-+	return res;
-+
-+free_cmd_xmitbuf:
-+	while (i-- > 0) {
-+		pxmitbuf = &pxmitpriv->pcmd_xmitbuf[i];
-+		if (pxmitbuf)
-+			rtw_os_xmit_resource_free(padapter, pxmitbuf, MAX_CMDBUF_SZ + XMITBUF_ALIGN_SZ, true);
-+	}
-+	i = NR_XMIT_EXTBUFF;
-+free_xmit_extbuf:
-+	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmit_extbuf;
-+	while (i-- > 0) {
-+		rtw_os_xmit_resource_free(padapter, pxmitbuf, (MAX_XMIT_EXTBUF_SZ + XMITBUF_ALIGN_SZ), true);
-+		pxmitbuf++;
-+	}
-+	vfree(pxmitpriv->pallocated_xmit_extbuf);
-+free_xframe_ext:
-+	vfree(pxmitpriv->xframe_ext_alloc_addr);
-+	i = NR_XMITBUFF;
-+free_xmitbuf:
-+	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
-+	while (i-- > 0) {
-+		rtw_os_xmit_resource_free(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ), true);
-+		pxmitbuf++;
-+	}
-+	vfree(pxmitpriv->pallocated_xmitbuf);
-+free_frame_buf:
-+	vfree(pxmitpriv->pallocated_frame_buf);
- exit:
- 	return res;
- }
 -- 
+2.32.0
+
