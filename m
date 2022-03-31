@@ -1,35 +1,35 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FDB7C
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 19:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FBF7C
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 19:38:12 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(Authenticated sender: nicolas)
-	with ESMTPSA id 092A01F47266
+	with ESMTPSA id C572A1F47264
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648755489;
-	bh=rqMU1/6TJ46L9lH5r2+bP74ysDX3ywT+LO6k1I+k3Bg=;
+	s=mail; t=1648755491;
+	bh=XEgENTYjCMT2Anghn2qsNUIMLssrmzXSWUAtGOk2EIY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A9lbdHIAvXLk56s++dH+TARP3iPn8nxqBL43DHyHw063RYlN3TCEBrYyFCaE0LiP9
-	 rGMCV/SOgX8KwJWC0Ihv8exLfF4D8ER9ORtY2rTYGBsSItbcvqnQ5llHSkSUZVXoMS
-	 qHB12chJCWDhbw6Zk4uEgSXS/d5TG3qw8AcPV1Xms2x0QfbvlRddxzfwndEv4IRobN
-	 HbrG8GRarM6+xbaMW2Y11TsETJMU5FD6WJXUYvJZgavz2rdNrCpgElXJ5loFoJHXFM
-	 14rhrTNPNloz9KXCVzwnj+l+7fT+t3D/KrlFV4mjrMDvLo1udPFCKEpk41R+gSXuLA
-	 qfu1iCs6k1FhQ==
+	b=E2gxoqJYVViah1bnCh0Ns/I6N5AWWkUGJ5pwWF1M2iGOkatQdu7HYSfXKLCPR6Vjs
+	 CIOdDSZTD8YGL/O0L0HIIUraQV/W+PS2aZqG0ebyX3gYmT0hnDmMfbqpGI4DIX6HgC
+	 +CXc0sS+dZYb/4sDd8TzDpDaTyiBaREh+L3XbxjKYDjZTHJGx8q+UWB290VIDhPwvO
+	 bqKYSgcQr5KZ7ycx3sB7ZR4Cp+0a9HHvql1YJ7trdLRBLGv6ZvzHqSXVGH3FI4qSNC
+	 kq2I4PWNBc6HPvyPsvZvKya5e2900uSShQ/0cLwh2RVgLekIsUANMF8sKfvUT1yfBK
+	 HeSQf8SQMqmMg==
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: kernel@collabora.com,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
 	linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 21/23] media: hantro: Stop using H.264 parameter pic_num
-Date: Thu, 31 Mar 2022 15:37:23 -0400
-Message-Id: <20220331193726.289559-22-nicolas.dufresne@collabora.com>
+Subject: [PATCH v2 22/23] media: hantro: h264: Make dpb entry management more robust
+Date: Thu, 31 Mar 2022 15:37:24 -0400
+Message-Id: <20220331193726.289559-23-nicolas.dufresne@collabora.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
 References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
@@ -41,33 +41,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The hardware expects FrameNumWrap or long_term_frame_idx. Picture
-numbers are per field, and are mostly used during the memory
-management process, which is done in userland. This fixes two
-ITU conformance tests:
+From: Jonas Karlman <jonas@kwiboo.se>
 
-  - MR6_BT_B
-  - MR8_BT_B
+The driver maintains stable slot locations for reference pictures. This
+change makes the code more robust by using the reference_ts as key and
+by marking all entries invalid right from the start.
 
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 ---
- drivers/staging/media/hantro/hantro_h264.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/media/hantro/hantro_h264.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
-index 0b4d2491be3b..228629fb3cdf 100644
+index 228629fb3cdf..7377fc26f780 100644
 --- a/drivers/staging/media/hantro/hantro_h264.c
 +++ b/drivers/staging/media/hantro/hantro_h264.c
-@@ -354,8 +354,6 @@ u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
- 
- 	if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
- 		return 0;
--	if (dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
--		return dpb->pic_num;
- 	return dpb->frame_num;
+@@ -258,8 +258,7 @@ static void prepare_table(struct hantro_ctx *ctx)
+ static bool dpb_entry_match(const struct v4l2_h264_dpb_entry *a,
+ 			    const struct v4l2_h264_dpb_entry *b)
+ {
+-	return a->top_field_order_cnt == b->top_field_order_cnt &&
+-	       a->bottom_field_order_cnt == b->bottom_field_order_cnt;
++	return a->reference_ts == b->reference_ts;
  }
  
+ static void update_dpb(struct hantro_ctx *ctx)
+@@ -273,13 +272,13 @@ static void update_dpb(struct hantro_ctx *ctx)
+ 
+ 	/* Disable all entries by default. */
+ 	for (i = 0; i < ARRAY_SIZE(ctx->h264_dec.dpb); i++)
+-		ctx->h264_dec.dpb[i].flags &= ~V4L2_H264_DPB_ENTRY_FLAG_ACTIVE;
++		ctx->h264_dec.dpb[i].flags = 0;
+ 
+ 	/* Try to match new DPB entries with existing ones by their POCs. */
+ 	for (i = 0; i < ARRAY_SIZE(dec_param->dpb); i++) {
+ 		const struct v4l2_h264_dpb_entry *ndpb = &dec_param->dpb[i];
+ 
+-		if (!(ndpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
++		if (!(ndpb->flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
+ 			continue;
+ 
+ 		/*
+@@ -290,8 +289,7 @@ static void update_dpb(struct hantro_ctx *ctx)
+ 			struct v4l2_h264_dpb_entry *cdpb;
+ 
+ 			cdpb = &ctx->h264_dec.dpb[j];
+-			if (cdpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE ||
+-			    !dpb_entry_match(cdpb, ndpb))
++			if (!dpb_entry_match(cdpb, ndpb))
+ 				continue;
+ 
+ 			*cdpb = *ndpb;
 -- 
 2.34.1
 
