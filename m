@@ -1,246 +1,110 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5475E7C
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 19:38:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: nicolas)
-	with ESMTPSA id B7BB71F47268
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648755493;
-	bh=QXCqhwGgS71Plij0LYpMswWc72NGt82a9mKy6xwpDRk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=f3tdOpbrfmBJM9E1eieNv3lSTG8VF2jict14/WplVjzSJWPvrdt1WljxliR/iwYJN
-	 gouvm328JQH/r5kJA06kVD4ZZuWct+FNxxAQVshBE4W9lhnd1nTQxwmQs5nlmDzXO/
-	 yILZ0nAmysFMKoG3LgfSI3fYs84oTRdx1IfrnSafmC1hKX+J0fTesRCckW2C9UelpW
-	 555/F3ldoPVZHM3cZxnibOaUc3pxF1USjL8EXbh77casUQ67cVyWEbXaIosgPN+CQg
-	 70notWdfPUeDqt0ROnEIBqGBaCvI6gG+7btIN6l/vMRPDIWd2i+/rmBeiKIeun25Qw
-	 CqjzRYpRU9f3w==
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BDB7C
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 20:15:37 +0000 (UTC)
+Received: by mail-oi1-f174.google.com with SMTP id i7so692371oie.7
+        for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 13:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6O6TQE9gY/RCGoA8Lj72Kezh8AhkaXWoFpitVHtqqC0=;
+        b=mXBaYXFodB5BNYtQLsAi85UeIgUz+rJ8jR+IjiFZ7xdlENE8KMHvCXLuuZLNbwMwx2
+         woFVXRWjONwaTsuJqBRZbtbssVAObJzulRjY/OOqYy5RVGQRFUuoj6VMHtyCP+iLwZVH
+         AXRy5kqcp/yQ8DrLEinN4/hL3JYxoLGiDeQ62TnzGrMe9RPKG8OTEfDdW+L+ACVrzuZC
+         hCHP05rd5gQYTbLk7gzcg0t/pR1vNhlgDDfZhEBo1gk03ccs7VWJCITWMFe8GHrJaGhB
+         vWi9ZMT9l5ycdy5Co2CJd8cPoiy8xAQmIdtlDAd+PzlDjajTJC0+zPiAfeEF03DmSMFZ
+         w+qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6O6TQE9gY/RCGoA8Lj72Kezh8AhkaXWoFpitVHtqqC0=;
+        b=AUOjYigxZubyJPmA25JyyVyoiiXodQgXv4Kk8IXKeErpZ4s73je39IX//rRWU2Iy8R
+         emRHmXbj14/6QxEE7zz67Ym4G/FATDHjnvXXYHKUiurfwa+vaK1lB4vcrY79l0USNnhW
+         8fQEhkUoZmQq6oil/LixRGEWAAwUpv5ncRKdp+IqEax/kkj4aur5/lSWP3E6rIXQVTVQ
+         +mCSutXz4lv3CWjZbKT1krQ6x9OyMkWfv7vU7H74IdpKVsMvmYOoT82EEKYRZ1XZdUXf
+         seMTwGKSZhg10/kWWyU5X9YIhGzJqp3oQ/VbeRdVZhsNBEVaMRLc1fwkqVk3Al2ZpG1i
+         Qolg==
+X-Gm-Message-State: AOAM5308mpp4he0ZPKiAZ1ovqf5lEiZs5rRdOuJDJtI8L40bhbg+LMa2
+	bHPqfle41aXGm9twMLcPcQDk+w==
+X-Google-Smtp-Source: ABdhPJz0dHz0S0Kxb6XfpeUoORZA029B4Og25ME2y94yefm5MksonaTie6pvHqTlUxRYIXLjV2cN7g==
+X-Received: by 2002:a05:6808:ec5:b0:2f7:4019:53be with SMTP id q5-20020a0568080ec500b002f7401953bemr3370230oiv.176.1648757737012;
+        Thu, 31 Mar 2022 13:15:37 -0700 (PDT)
+Received: from eze-laptop ([190.194.87.200])
+        by smtp.gmail.com with ESMTPSA id z10-20020a0568301daa00b005ce0f36dd81sm252391oti.12.2022.03.31.13.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 13:15:36 -0700 (PDT)
+Date: Thu, 31 Mar 2022 17:15:31 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel@collabora.com,
-	Jonas Karlman <jonas@kwiboo.se>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 23/23] media: hantro: Add H.264 field decoding support
-Date: Thu, 31 Mar 2022 15:37:25 -0400
-Message-Id: <20220331193726.289559-24-nicolas.dufresne@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
-References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: hantro: Empty encoder capture buffers by default
+Message-ID: <YkYL45bEwjS/1+Rs@eze-laptop>
+References: <20220331084907.628349-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220331084907.628349-1-wenst@chromium.org>
 
-This adds the required code to support field decoding. While most of
-the code is derived from Rockchip and VSI reference code, the
-reduction of the reference list to 16 entries was found by
-trial and errors. The list consists of all the references with the
-opposite field parity.
+On Thu, Mar 31, 2022 at 04:49:06PM +0800, Chen-Yu Tsai wrote:
+> The payload size for encoder capture buffers is set by the driver upon
+> finishing encoding each frame, based on the encoded length returned from
+> hardware, and whatever header and padding length used. Setting a
+> non-zero default serves no real purpose, and also causes issues if the
+> capture buffer is returned to userspace unused, confusing the
+> application.
+> 
+> Instead, always set the payload size to 0 for encoder capture buffers
+> when preparing them.
+> 
+> Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+> Fixes: 082aaecff35f ("media: hantro: Fix .buf_prepare")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
-The strategy is to deduplicate the reference picture that points
-to the same storage (same index). The choice of opposite parity has
-been made to keep the other field of the current field pair in the
-list. This method may not be robust if a field was lost.
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
- drivers/staging/media/hantro/hantro_h264.c | 107 ++++++++++++++++++---
- drivers/staging/media/hantro/hantro_hw.h   |   1 +
- 2 files changed, 94 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
-index 7377fc26f780..f6fc939aa726 100644
---- a/drivers/staging/media/hantro/hantro_h264.c
-+++ b/drivers/staging/media/hantro/hantro_h264.c
-@@ -22,6 +22,11 @@
- #define POC_BUFFER_SIZE			34
- #define SCALING_LIST_SIZE		(6 * 16 + 2 * 64)
- 
-+/* For valid and long term reference marking, index are reversed, so bit 31
-+ * indicates the status of the picture 0.
-+ */
-+#define REF_BIT(i)			BIT(32 - 1 - (i))
-+
- /* Data structure describing auxiliary buffer format. */
- struct hantro_h264_dec_priv_tbl {
- 	u32 cabac_table[CABAC_INIT_BUFFER_SIZE];
-@@ -227,6 +232,7 @@ static void prepare_table(struct hantro_ctx *ctx)
- {
- 	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
- 	const struct v4l2_ctrl_h264_decode_params *dec_param = ctrls->decode;
-+	const struct v4l2_ctrl_h264_sps *sps = ctrls->sps;
- 	struct hantro_h264_dec_priv_tbl *tbl = ctx->h264_dec.priv.cpu;
- 	const struct v4l2_h264_dpb_entry *dpb = ctx->h264_dec.dpb;
- 	u32 dpb_longterm = 0;
-@@ -237,20 +243,45 @@ static void prepare_table(struct hantro_ctx *ctx)
- 		tbl->poc[i * 2] = dpb[i].top_field_order_cnt;
- 		tbl->poc[i * 2 + 1] = dpb[i].bottom_field_order_cnt;
- 
-+		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_VALID))
-+			continue;
-+
- 		/*
- 		 * Set up bit maps of valid and long term DPBs.
--		 * NOTE: The bits are reversed, i.e. MSb is DPB 0.
-+		 * NOTE: The bits are reversed, i.e. MSb is DPB 0. For frame
-+		 * decoding, bit 31 to 15 are used, while for field decoding,
-+		 * all bits are used, with bit 31 being a top field, 30 a bottom
-+		 * field and so on.
- 		 */
--		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
--			dpb_valid |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
--		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
--			dpb_longterm |= BIT(HANTRO_H264_DPB_SIZE - 1 - i);
-+		if (dec_param->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) {
-+			if (dpb[i].fields & V4L2_H264_TOP_FIELD_REF)
-+				dpb_valid |= REF_BIT(i * 2);
-+
-+			if (dpb[i].fields & V4L2_H264_BOTTOM_FIELD_REF)
-+				dpb_valid |= REF_BIT(i * 2 + 1);
-+
-+			if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM) {
-+				dpb_longterm |= REF_BIT(i * 2);
-+				dpb_longterm |= REF_BIT(i * 2 + 1);
-+			}
-+		} else {
-+			dpb_valid |= REF_BIT(i);
-+
-+			if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
-+				dpb_longterm |= REF_BIT(i);
-+		}
-+	}
-+	ctx->h264_dec.dpb_valid = dpb_valid;
-+	ctx->h264_dec.dpb_longterm = dpb_longterm;
-+
-+	if ((dec_param->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) ||
-+	    !(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)) {
-+		tbl->poc[32] = ctx->h264_dec.cur_poc;
-+		tbl->poc[33] = 0;
-+	} else {
-+		tbl->poc[32] = dec_param->top_field_order_cnt;
-+		tbl->poc[33] = dec_param->bottom_field_order_cnt;
- 	}
--	ctx->h264_dec.dpb_valid = dpb_valid << 16;
--	ctx->h264_dec.dpb_longterm = dpb_longterm << 16;
--
--	tbl->poc[32] = dec_param->top_field_order_cnt;
--	tbl->poc[33] = dec_param->bottom_field_order_cnt;
- 
- 	assemble_scaling_list(ctx);
- }
-@@ -326,6 +357,8 @@ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
- {
- 	struct v4l2_h264_dpb_entry *dpb = ctx->h264_dec.dpb;
- 	dma_addr_t dma_addr = 0;
-+	s32 cur_poc = ctx->h264_dec.cur_poc;
-+	u32 flags;
- 
- 	if (dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
- 		dma_addr = hantro_get_ref(ctx, dpb[dpb_idx].reference_ts);
-@@ -343,7 +376,12 @@ dma_addr_t hantro_h264_get_ref_buf(struct hantro_ctx *ctx,
- 		dma_addr = hantro_get_dec_buf_addr(ctx, buf);
- 	}
- 
--	return dma_addr;
-+	flags = dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD ? 0x2 : 0;
-+	flags |= abs(dpb[dpb_idx].top_field_order_cnt - cur_poc) <
-+		 abs(dpb[dpb_idx].bottom_field_order_cnt - cur_poc) ?
-+		 0x1 : 0;
-+
-+	return dma_addr | flags;
- }
- 
- u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
-@@ -355,6 +393,34 @@ u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
- 	return dpb->frame_num;
- }
- 
-+static void deduplicate_reflist(struct v4l2_h264_reflist_builder *b,
-+				struct v4l2_h264_reference *reflist)
-+{
-+	int write_idx = 0;
-+	int i;
-+
-+	if (b->cur_pic_fields == V4L2_H264_FRAME_REF) {
-+		write_idx = b->num_valid;
-+		goto done;
-+	}
-+
-+	for (i = 0; i < b->num_valid; i++) {
-+		if (!(b->cur_pic_fields == reflist[i].fields)) {
-+			reflist[write_idx++] = reflist[i];
-+			continue;
-+		}
-+	}
-+
-+done:
-+	/* Should not happen unless we have a bug in the reflist builder. */
-+	if (WARN_ON(write_idx > 16))
-+		write_idx = 16;
-+
-+	/* Clear the remaining, some streams fails otherwise */
-+	for (; write_idx < 16; write_idx++)
-+		reflist[write_idx].index = 15;
-+}
-+
- int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
- {
- 	struct hantro_h264_dec_hw_ctx *h264_ctx = &ctx->h264_dec;
-@@ -386,15 +452,28 @@ int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
- 	/* Update the DPB with new refs. */
- 	update_dpb(ctx);
- 
--	/* Prepare data in memory. */
--	prepare_table(ctx);
--
- 	/* Build the P/B{0,1} ref lists. */
- 	v4l2_h264_init_reflist_builder(&reflist_builder, ctrls->decode,
- 				       ctrls->sps, ctx->h264_dec.dpb);
-+	h264_ctx->cur_poc = reflist_builder.cur_pic_order_count;
-+
-+	/* Prepare data in memory. */
-+	prepare_table(ctx);
-+
- 	v4l2_h264_build_p_ref_list(&reflist_builder, h264_ctx->reflists.p);
- 	v4l2_h264_build_b_ref_lists(&reflist_builder, h264_ctx->reflists.b0,
- 				    h264_ctx->reflists.b1);
-+
-+	/* Reduce ref lists to at most 16 entries, Hantro hardware will deduce
-+	 * the actual picture lists in field through the dpb_valid,
-+	 * dpb_longterm bitmap along with the current frame parity.
-+	 */
-+	if (reflist_builder.cur_pic_fields != V4L2_H264_FRAME_REF) {
-+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.p);
-+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.b0);
-+		deduplicate_reflist(&reflist_builder, h264_ctx->reflists.b1);
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 292aaaabaf24..fd869369fb97 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -91,6 +91,7 @@ struct hantro_h264_dec_hw_ctx {
- 	struct hantro_h264_dec_ctrls ctrls;
- 	u32 dpb_longterm;
- 	u32 dpb_valid;
-+	s32 cur_poc;
- };
- 
- /**
--- 
-2.34.1
-
+> ---
+> 
+> This was previously incorrectly squashed into my Hantro encoder cmd
+> patch [1].
+> 
+> [1] https://lore.kernel.org/linux-media/20220301042225.1540019-1-wenst@chromium.org/
+> 
+>  drivers/staging/media/hantro/hantro_v4l2.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> index 67148ba346f5..261beb0c40f6 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> @@ -733,8 +733,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
+>  	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
+>  	 * it to buffer length).
+>  	 */
+> -	if (V4L2_TYPE_IS_CAPTURE(vq->type))
+> -		vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
+> +	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
+> +		if (ctx->is_encoder)
+> +			vb2_set_plane_payload(vb, 0, 0);
+> +		else
+> +			vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
+> +	}
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.35.1.1021.g381101b075-goog
+> 
