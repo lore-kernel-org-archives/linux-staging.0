@@ -1,42 +1,52 @@
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CB87E0
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 12:49:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1648730970;
-	bh=2lHPRv4qX+qjn934MuW0oHQYA3Tg/r5CBkNflSNV2Vw=;
-	h=From:To:Cc:Subject:Date;
-	b=mQiyTApkPEyF53TQRUaQ1keFoabC6xBHycCCJhP+RUg30jKHLGdrXnx1AFrfHBm48
-	 oVD5mcU5iSQHLLAHO5l1LAKQiBS+NgVrIc2Ox2hbQQqtvFGsWVLKvbE4fg2v9lOWTW
-	 0/2wlD2DelBiTdfcnw5dYDlvTR8VTHoTI703pcVo=
-Received: from localhost.localdomain ([218.197.153.188])
-	by newxmesmtplogicsvrszc6.qq.com (NewEsmtp) with SMTP
-	id C5A80A8D; Thu, 31 Mar 2022 20:49:26 +0800
-X-QQ-mid: xmsmtpt1648730966tvlxw2aws
-Message-ID: <tencent_D4A9E79F06848819377784A393A2285C4F05@qq.com>
-X-QQ-XMAILINFO: N7h1OCCDntujBiT1TPLAgTayvup/iQClN36R+hwGF6RJYRMgOEwwR7smGdJ1vl
-	 t67cpKX+aiZYJa4kXdpb1/f2hS/M+udrEZky5OhaFFcdv4eL1gMm81K/cDH5UBWgB+kUhjOLEbGt
-	 P7HtPw0ocJRA18yRh8GhzIRxZVmVUwDlXsJVv8Qd5fZgZU/4vfOHjXHXr3RrH9KHijBZU7QEZHax
-	 61l6S8YOCJgTZoeCtXasQ7SJSnjKbrVwrqVe++7Gy8AzgE8SC8f62JrbYb6gY0jAKfH+y/DwiHtC
-	 cTidpsUFfFdWySkpd8BYUCA7ZdMS4VJ4eZ4gVhFNSl9ZrvQMZrs5LLcLSWxX0n6bzH41XtBkp3nn
-	 sCQPMU/Ndi2ecW/esYAZCYfH9Z2jpDrBTT1tVYytrtHn0yuc+SDONaUnUTgeHktTzh6ko2WIJ46m
-	 qJ9ivJYQe4OfczhOaiCEc7JJVLvci9TT1UNbvDXRaD8Lqz/u6tigACU88iP1xMUKhbMEBGAU1oVk
-	 I1G2x6EJZeNboc7eF2il9E7We4OoQ60O17cBiky7S/JHDRWQTOBcl2tJEXgjdFmBsVauD/dkY4Px
-	 xPRShE1n2csmEiG5bMhV0fuXRM6KpB/5LA8KR3CwtPDThaXFODD4scs6pHAXVaSCH+OYiigMf+UV
-	 fXlmQ2ZwmBkZK0GpwswiAlPz2MM58cw86V5QGuLmHCiPeCJGHbP1OAeuftEb338yIeUaZ27kNznS
-	 AKMR474rmUI/q8/kUYb6r9o/f71PobYvdYg43kI3IiyWuVBYOs9B07ijbou+8Y15QT/C+gSFUYQu
-	 xp0Lr6Sr/JoSDoJzNEiXqeEipp7KEhymzdbd4+S2VwTnfwegGXMTDwVhrKg6R9xSPrudAuis5raV
-	 jFZLC97usNgnH1iKTeZOrK4fvcfeyYS+m2hPVf4OeD7NoZzBJcAHy+66qHFyMbEjIXtc/a8+Lf4f
-	 2Qn61kavN5wG5sImMZ/w==
-From: xkernel.wang@foxmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DA37E0
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 13:05:31 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id c10so29573921ejs.13
+        for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 06:05:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pvflieYkGvqxxIFeLwTIeMj7AbGD4LMFP+RQU2pR/xU=;
+        b=ek1+IghIBT0bcGojmg71M4YYdT+5iyd9S2DmEDNImFQZkSO8m2dv2hmeWO0CSdjNf7
+         AAtdpjkrPRIoVJawVniS/hzEFLf1RR9/gvz8jzGOMnEOL61BlOcBG7QAwTXY9kvmfNwk
+         T74Xix2kVrSh5uUUPYfvY43IIFIe8GImiy1Kcm+fdQ4VbQ6qq4MAsQeWdex+M6gYsUfy
+         VMRKXW1MvOQLJazzbAyuT5yvkM7rtbmPxGk8QoiB7NIjgtCTXmssYHRd7U6VLEuFzKBC
+         8Xn7Sy1R5Ysvtlt7cHqT1zNSa+b/CwhXsTtATHGvFbOFuC8jp4P6z4C1fz5LkzW5wt/J
+         fV9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pvflieYkGvqxxIFeLwTIeMj7AbGD4LMFP+RQU2pR/xU=;
+        b=L47IPWz1mKRpPHLNUz2q2gqM5V1QUkQkzBRev0I/OIk9i6UL9NPtrUJ8haaaAQ0wYT
+         bwt0LSQibrk1wy9/cuMC2BCHA2Unx37zsqCWFJ50XqojWj/NE4FjKIiFGcxFH3Vo3AEW
+         Ldh130Pwlt0iclxLvzXldgTazBYT+RyIfB2QzW1qUD94p8SEWasCPkDydB0nFYtfiA0z
+         PZkf8NeZSAnFReHz93Zv+N0ls7ERLjYs+7YI1uL1++RgqF9AuCfnQuY3Ct1I2R+JxVTL
+         j7zmxoF3IHkH7Y72fAF9IPh+hWI4Wzf310p1rufB9gHWHypQVbPHf0oeItnW1QUnZwaH
+         l8bg==
+X-Gm-Message-State: AOAM531pGoeSOSDidVfx4xLjzlaF7e7GAO1Jt8RL3FDh9NhhkC6ELYDO
+	TBuY7Uqj1k7PxlI4P96VgO4=
+X-Google-Smtp-Source: ABdhPJwE/mM0q2UOa5P6FLgSZ+W9DWY0CAbNM725eRXiAEEY1B/GzM02PAPJHEONKlNBLKpUGF0RXw==
+X-Received: by 2002:a17:906:6a11:b0:6e4:976b:e94 with SMTP id qw17-20020a1709066a1100b006e4976b0e94mr4986900ejc.142.1648731928910;
+        Thu, 31 Mar 2022 06:05:28 -0700 (PDT)
+Received: from localhost.localdomain ([95.90.187.85])
+        by smtp.gmail.com with ESMTPSA id kw3-20020a170907770300b006d2a835ac33sm9333358ejc.197.2022.03.31.06.05.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 06:05:28 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix a potential memory leak in rtw_init_cmd_priv()
-Date: Thu, 31 Mar 2022 20:49:16 +0800
-X-OQ-MSGID: <20220331124916.8412-1-xkernel.wang@foxmail.com>
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: remove GetHwReg8188EU()
+Date: Thu, 31 Mar 2022 15:05:17 +0200
+Message-Id: <20220331130522.6648-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,63 +55,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+This series remove the function GetHwReg8188EU(). This is part of the
+ongoing effort to get rid of the unwanted hal layer.
 
-In rtw_init_cmd_priv(), if `pcmdpriv->rsp_allocated_buf` is allocated
-in failure, `pcmdpriv->cmd_allocated_buf` is not properly released.
-This patch is to free it.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+Michael Straube (5):
+  staging: r8188eu: rename clear_bacon_valid_bit()
+  staging: r8188eu: remove HW_VAR_BCN_VALID from GetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_CHK_HI_QUEUE_EMPTY from
+    GetHwReg8188EU()
+  staging: r8188eu: remove HW_VAR_FWLPS_RF_ON from GetHwReg8188EU()
+  staging: r8188eu: remove GetHwReg8188EU()
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index e574893..9126ea9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -161,8 +161,6 @@ static struct cmd_hdl wlancmds[] = {
- 
- int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
- {
--	int res = 0;
--
- 	init_completion(&pcmdpriv->cmd_queue_comp);
- 	init_completion(&pcmdpriv->terminate_cmdthread_comp);
- 
-@@ -175,18 +173,17 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
- 
- 	pcmdpriv->cmd_allocated_buf = rtw_zmalloc(MAX_CMDSZ + CMDBUFF_ALIGN_SZ);
- 
--	if (!pcmdpriv->cmd_allocated_buf) {
--		res = -ENOMEM;
--		goto exit;
--	}
-+	if (!pcmdpriv->cmd_allocated_buf)
-+		return -ENOMEM;
- 
- 	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((SIZE_PTR)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ-1));
- 
- 	pcmdpriv->rsp_allocated_buf = rtw_zmalloc(MAX_RSPSZ + 4);
- 
- 	if (!pcmdpriv->rsp_allocated_buf) {
--		res = -ENOMEM;
--		goto exit;
-+		kfree(pcmdpriv->cmd_allocated_buf);
-+		pcmdpriv->cmd_allocated_buf = NULL;
-+		return -ENOMEM;
- 	}
- 
- 	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf  +  4 - ((SIZE_PTR)(pcmdpriv->rsp_allocated_buf) & 3);
-@@ -196,8 +193,8 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
- 	pcmdpriv->rsp_cnt = 0;
- 
- 	mutex_init(&pcmdpriv->sctx_mutex);
--exit:
--	return res;
-+
-+	return 0;
- }
- 
- static void c2h_wk_callback(struct work_struct *work);
+ drivers/staging/r8188eu/core/rtw_cmd.c        | 14 +++----
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 14 +++++--
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    | 19 +++++++--
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  6 +--
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 40 -------------------
+ drivers/staging/r8188eu/include/hal_intf.h    |  4 --
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  3 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  4 +-
+ 8 files changed, 39 insertions(+), 65 deletions(-)
+
 -- 
+2.35.1
+
