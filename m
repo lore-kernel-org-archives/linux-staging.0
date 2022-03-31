@@ -1,26 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BF67E0;
-	Thu, 31 Mar 2022 05:45:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1BDAC340F0;
-	Thu, 31 Mar 2022 05:45:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3BF47E0
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 05:52:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A1ABC340ED;
+	Thu, 31 Mar 2022 05:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1648705508;
-	bh=typN6HaBunrT3sm6KGyaPW9XCKoGbVVwCGjp0mnJLcA=;
+	s=korg; t=1648705946;
+	bh=7WIb2O/ijIFwfYmhFi5G0UXBjXEKNalAGXR9f+8HLDE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C8EelGk+foqMrqM9tqxQUYQK54WLMsdObwXzqXxBYss9g0Lh1HlXZWydeVBAZnLg+
-	 8UKii0KPD9pEzRkfoprtAWWjzBQUNPiV1AqECccSRqXg1fvQ61T3a8DghCvKEHlg/G
-	 x+3R6I9Pt2R+WWU5NR3hIX5hDAiUCiGz56yPPqXQ=
-Date: Thu, 31 Mar 2022 07:45:05 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove redundant braces in if
- statements
-Message-ID: <YkU/4YYz53VHVzoj@kroah.com>
-References: <20220330005229.GA318642@euclid>
+	b=Quq34u06rN6LVE3rAFOT0Arh8ULMBTFH80rwI7D4fV0s1rEYD+3uPGj+nY1VzPosF
+	 D8Zc4tr8GeIARMdFQvIBEJt/thD8uHzPqixuUcDkU44RxL6rcm9+5TilWkFKCltC4K
+	 LQ/uTlxfQO7yCsDu0VDVID6UUqN0OQdBD7Bd7164=
+Date: Thu, 31 Mar 2022 07:52:24 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/8] staging: r8188eu: remove HW_VAR_RXDMA_AGG_PG_TH
+ from SetHwReg8188EU()
+Message-ID: <YkVBmIfVJOj9abe7@kroah.com>
+References: <20220329202141.7028-1-straube.linux@gmail.com>
+ <20220329202141.7028-6-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,97 +30,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220330005229.GA318642@euclid>
+In-Reply-To: <20220329202141.7028-6-straube.linux@gmail.com>
 
-On Tue, Mar 29, 2022 at 08:52:29PM -0400, Sevinj Aghayeva wrote:
-> Adhere to Linux kernel coding style.
+On Tue, Mar 29, 2022 at 10:21:38PM +0200, Michael Straube wrote:
+> The HW_VAR_RXDMA_AGG_PG_TH case in SetHwReg8188EU() just sets a
+> variable conditionally and then calls rtw_write8(). Set the variable
+> in the caller and call rtw_write8() directly. Move the functionality
+> into a new static function to make the code cleaner. Remove the
+> HW_VAR_RXDMA_AGG_PG_TH case from SetHwReg8188EU(). This is part of the
+> ongoing effort to get rid of the unwanted hal layer.
 > 
-> Reported by checkpatch:
-> 
-> WARNING: braces {} are not necessary for single statement blocks
-> 
-> Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
+> v2: Moved the code into a function and included patch 6/9 of v1.
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> index 27de086903e2..68e41d99679d 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> @@ -335,9 +335,8 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
->  
->  	ie = rtw_set_ie(ie, WLAN_EID_IBSS_PARAMS, 2, (u8 *)&(pdev_network->configuration.atim_window), &sz);
->  
-> -	if (rateLen > 8) {
-> +	if (rateLen > 8)
->  		ie = rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rateLen - 8), (pdev_network->supported_rates + 8), &sz);
-> -	}
->  
->  	/* HT Cap. */
->  	if ((pregistrypriv->wireless_mode & WIRELESS_11_24N) &&
-> @@ -366,9 +365,8 @@ unsigned char *rtw_get_wpa_ie(unsigned char *pie, int *wpa_ie_len, int limit)
->  
->  		if (pbuf) {
->  			/* check if oui matches... */
-> -			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type))) {
-> +			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type)))
->  				goto check_next_ie;
-> -			}
->  
->  			/* check version... */
->  			memcpy((u8 *)&le_tmp, (pbuf + 6), sizeof(val16));
-> @@ -493,9 +491,8 @@ int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwis
->  	if (is_8021x) {
->  		if (left >= 6) {
->  			pos += 2;
-> -			if (!memcmp(pos, SUITE_1X, 4)) {
-> +			if (!memcmp(pos, SUITE_1X, 4))
->  				*is_8021x = 1;
-> -			}
->  		}
->  	}
->  
-> @@ -514,9 +511,8 @@ int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher, int *pairwi
->  		return _FAIL;
->  	}
->  
-> -	if ((*rsn_ie != WLAN_EID_RSN) || (*(rsn_ie+1) != (u8)(rsn_ie_len - 2))) {
-> +	if ((*rsn_ie != WLAN_EID_RSN) || (*(rsn_ie+1) != (u8)(rsn_ie_len - 2)))
->  		return _FAIL;
-> -	}
->  
->  	pos = rsn_ie;
->  	pos += 4;
-> -- 
-> 2.25.1
+>  drivers/staging/r8188eu/core/rtw_mlme.c    | 34 +++++++++++++---------
+>  drivers/staging/r8188eu/hal/usb_halinit.c  |  8 -----
+>  drivers/staging/r8188eu/include/hal_intf.h |  1 -
+>  3 files changed, 21 insertions(+), 22 deletions(-)
 > 
-> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+> index f1e1627641cb..086d64542082 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> @@ -1787,10 +1787,29 @@ void rtw_update_registrypriv_dev_network(struct adapter *adapter)
+>  
+>  }
+>  
+> +static void rtw_set_threshold(struct adapter *adapter)
+> +{
+> +	u8 threshold;
+> +	struct mlme_priv *mlmepriv = &adapter->mlmepriv;
+> +	struct ht_priv *htpriv = &mlmepriv->htpriv;
+> +
+> +	/*  TH = 1 => means that invalidate usb rx aggregation */
+> +	/*  TH = 0 => means that validate usb rx aggregation, use init value. */
+> +	if (htpriv->ht_option) {
+> +		if (adapter->registrypriv.wifi_spec == 1)
+> +			threshold = 1;
+> +		else
+> +			threshold = USB_RXAGG_PAGE_COUNT;
+> +
+> +		rtw_write8(adapter, REG_RXDMA_AGG_PG_TH, threshold);
+> +	} else {
+> +		rtw_write8(adapter, REG_RXDMA_AGG_PG_TH, 1);
+> +	}
+> +}
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+For future cleanups, this function can be made a lot smaller :)
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
