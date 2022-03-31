@@ -1,54 +1,51 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4827814
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 13:05:34 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id r23so28124804edb.0
-        for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 06:05:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66F97E0;
+	Thu, 31 Mar 2022 13:09:54 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id d7so33755339wrb.7;
+        Thu, 31 Mar 2022 06:09:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hDkMgRtARbafWLIsbRUHsKRuUskVl4hLD8Sy8XkZqqQ=;
-        b=RuBqpGSqjVaNIFU0quQSMU7nMkXosvjERI4FrDrlsgaGgLhK7/ARVZFry+fAVp5s6S
-         hq5MsxLjysLVqULWFzG5uFc3dGwdt+l1F5cuib5Evgsp+n3/C4j7gkf0qGTpyC8D7Ee7
-         rT9VRxPfPa4O47VYd+paKpeo/6OXAbd61PMNSi6vaC2rz7HE07gY6WpDne/AxvKJV0ro
-         1b90+Dgxu3gkPnGQktk/lmBWr4rzxXrSgZSB+MZ53RFqWUttx+vUbLVYQOOH0ct32Z/D
-         p/dzmDFriyTZoPxKpfxOlAmxNzcpjIBb/mBnfMt1u5jUQFok19miYGi+yzl2x2tSR08M
-         2G4g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BV/bIHTT1neiW4KaA2YJdbMk/VdfvUqsLrJa1P0rOGk=;
+        b=jdZY1CShnQz+gjzfn4c5QInD9OvUvgHhBakTnvP29jkgwaq8BVcr/L0rdvOwxsNStp
+         UNFT4h8GjY5/HM88JI6BJeon0UClKG/c+RnJ5KeVOb0U5+Tbw0rahFs80y2PvchgV8WE
+         FMkhNonvBeOLZsfa82VkZ6pj2gLdq22olUgjPqlVnZZ7XJNEsQeAUCpM7Oq4Mt46yE3U
+         uHUGe1W/aJlEgsp6KH2kG5eftsc7orLhhH1mmPojaKU2hPTQpe2GdyR5tgfjOQLdZ7Xj
+         J4sWhEmyxgdbofVsJxRjJ5sXSortzu+HBVUHCVzf/Vucz3VU8GfJjp17x7HEE1ydcGFp
+         WFLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hDkMgRtARbafWLIsbRUHsKRuUskVl4hLD8Sy8XkZqqQ=;
-        b=IU/1yQpqc7yylwdQNaTwA9Xy4OD3FSEgPx1/6z+JK7LGwIvmQzzdKxmnXhy0gZFEjF
-         pWadCI8JXQAHvdoIeiseJryfRxMawyQKSEuWCbfp2BB4TIVADh1xHIHhmVwGhi2jn1Ga
-         7uvEZrS8WWPeyLz3wYIeNaK45svl1yR5KtwS8vvULn+jWDMID+qg94f7jNxwL3/6jgcs
-         2QUxXTXSOgLoFzdsBv/7OGqCcrX9vmJd8MCQlmeoO3JvOcIPTw7/LrUimZvUahfeuz4T
-         wOIw7k1dK9qoMXC79sTaLsc70+++XFiP47G9LBbVu6w/Q44ai/6kxbJIPVQcixq6gCcx
-         xl6w==
-X-Gm-Message-State: AOAM533X0QwaNhCyUgNyTgKCZvHRbBWIRzgb9GWz7fiT0D7+FNwiv65i
-	mx9inQFd4nQZM39AOI4dCClsH5uaJ+c=
-X-Google-Smtp-Source: ABdhPJzlp512fZ6CXDDdg1NM8qbyrCqIy1+fO2jPvqpDCyPTWMsKe07QK7eYVqWYDPJO22cPiDbllA==
-X-Received: by 2002:a05:6402:4248:b0:419:4583:eaa2 with SMTP id g8-20020a056402424800b004194583eaa2mr16571892edb.376.1648731933208;
-        Thu, 31 Mar 2022 06:05:33 -0700 (PDT)
-Received: from localhost.localdomain ([95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id kw3-20020a170907770300b006d2a835ac33sm9333358ejc.197.2022.03.31.06.05.32
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BV/bIHTT1neiW4KaA2YJdbMk/VdfvUqsLrJa1P0rOGk=;
+        b=6wlw5FvsBHrNSmROyTcAhBq74qGH2vQKqIbZwt/DwIPf95xa6gN+Hhz8HZMYBuhlIz
+         5Q66ViPuonA9fulOgt8QKXWoYmD3HvgJ1OaZOea+EMlbaucRmXJdX6pu5AIpoYwxCauw
+         PHxoEMqJkU5VEj3nuCXYTo1k+0Rad42+wp7VMwh6KE73gAX7Kn10pZxj+PjEDMoSjY/Z
+         QZBsDAfsQBFfUd6ouKm/hHQ4rh9uEfg4ggABv7S6Aov+xeDTWmfpFBF+U+1MAJQN8wSe
+         5iBei1F0dy84qtIb+r7ZJtS72anZAPg008qn0QwSS/vppO2VHcSwIKZctzLsmUXy/WE4
+         oPxw==
+X-Gm-Message-State: AOAM533OoeXm/VckabnvfWapS/jd+P/SZjMMwB2U2RsQmjIPNoGIrmjM
+	z2WLe6RAwiin2Tj+tpGLpCo=
+X-Google-Smtp-Source: ABdhPJyvjYt9wLvH682uZ+aLb5dzowvSPZC9TGQqNZGDrGWH9B/reFQrxPC0eXEDTojUf/CgGJ4gEg==
+X-Received: by 2002:a5d:64ae:0:b0:205:dc46:faff with SMTP id m14-20020a5d64ae000000b00205dc46faffmr3990442wrp.195.1648732192802;
+        Thu, 31 Mar 2022 06:09:52 -0700 (PDT)
+Received: from alaa-emad ([41.37.132.115])
+        by smtp.gmail.com with ESMTPSA id p14-20020a05600c1d8e00b0038dbb5ecc8asm6898070wms.2.2022.03.31.06.09.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 06:05:32 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+        Thu, 31 Mar 2022 06:09:52 -0700 (PDT)
+From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/5] staging: r8188eu: remove GetHwReg8188EU()
-Date: Thu, 31 Mar 2022 15:05:22 +0200
-Message-Id: <20220331130522.6648-6-straube.linux@gmail.com>
+	eng.alaamohamedsoliman.am@gmail.com
+Subject: [PATCH] staging: rtl8723bs: Fix No space before tabs
+Date: Thu, 31 Mar 2022 15:09:48 +0200
+Message-Id: <20220331130948.74835-1-eng.alaamohamedsoliman.am@gmail.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220331130522.6648-1-straube.linux@gmail.com>
-References: <20220331130522.6648-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,72 +54,144 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The only call to GetHwReg8188EU() that is left over from previous
-cleanups sets a variable that is immediately overwritten. This call
-is useless and we can finally remove the GetHwReg8188EU() function.
-This is part of the ongoing effort to get rid of the unwanted hal
-layer.
+Fix "WARNING: please, no space before tabs"
+reported by checkpatch
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
 ---
- drivers/staging/r8188eu/hal/usb_halinit.c    | 15 ---------------
- drivers/staging/r8188eu/include/hal_intf.h   |  1 -
- drivers/staging/r8188eu/os_dep/ioctl_linux.c |  4 +---
- 3 files changed, 1 insertion(+), 19 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_efuse.c | 54 +++++++++++-----------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 37c56690b13a..6b4b0b0c4f53 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1283,21 +1283,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index 3d3c77273026..06e727ce9cc2 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -100,7 +100,7 @@ u8 PwrState)
+ u16
+ Efuse_GetCurrentSize(
+ 	struct adapter *padapter,
+-	u8 	efuseType,
++	u8	efuseType,
+ 	bool		bPseudoTest)
+ {
+ 	return padapter->HalFunc.EfuseGetCurrentSize(padapter, efuseType,
+@@ -124,29 +124,29 @@ Efuse_CalculateWordCnts(u8 word_en)
  }
  
--void GetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
--{
--	struct hal_data_8188e *haldata = &Adapter->haldata;
--	struct odm_dm_struct *podmpriv = &haldata->odmpriv;
--
--	switch (variable) {
--	case HW_VAR_DM_FLAG:
--		val[0] = podmpriv->SupportAbility;
--		break;
--	default:
--		break;
--	}
--
--}
--
- /* Query setting of specified variable. */
- void GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue)
+ /*  */
+-/* 	Description: */
+-/* 		1. Execute E-Fuse read byte operation according as map offset and */
+-/* 		    save to E-Fuse table. */
+-/* 		2. Referred from SD1 Richard. */
++/* Description: */
++/*		1. Execute E-Fuse read byte operation according as map offset and */
++/*			save to E-Fuse table. */
++/*		2. Referred from SD1 Richard. */
+ /*  */
+-/* 	Assumption: */
+-/* 		1. Boot from E-Fuse and successfully auto-load. */
+-/* 		2. PASSIVE_LEVEL (USB interface) */
++/* Assumption: */
++/*		1. Boot from E-Fuse and successfully auto-load. */
++/*		2. PASSIVE_LEVEL (USB interface) */
+ /*  */
+-/* 	Created by Roger, 2008.10.21. */
++/* Created by Roger, 2008.10.21. */
+ /*  */
+-/* 	2008/12/12 MH	1. Reorganize code flow and reserve bytes. and add description. */
+-/* 					2. Add efuse utilization collect. */
+-/* 	2008/12/22 MH	Read Efuse must check if we write section 1 data again!!! Sec1 */
+-/* 					write addr must be after sec5. */
++/* 2008/12/12 MH	1. Reorganize code flow and reserve bytes. and add description. */
++/*					2. Add efuse utilization collect. */
++/* 2008/12/22 MH	Read Efuse must check if we write section 1 data again!!! Sec1 */
++/*					write addr must be after sec5. */
+ /*  */
+ 
+ void
+ efuse_ReadEFuse(
+ 	struct adapter *Adapter,
+ 	u8 efuseType,
+-	u16 	_offset,
+-	u16 	_size_byte,
++	u16		_offset,
++	u16		_size_byte,
+ 	u8 *pbuf,
+ bool	bPseudoTest
+ 	);
+@@ -154,8 +154,8 @@ void
+ efuse_ReadEFuse(
+ 	struct adapter *Adapter,
+ 	u8 efuseType,
+-	u16 	_offset,
+-	u16 	_size_byte,
++	u16		_offset,
++	u16		_size_byte,
+ 	u8 *pbuf,
+ bool	bPseudoTest
+ 	)
+@@ -168,7 +168,7 @@ EFUSE_GetEfuseDefinition(
+ 	struct adapter *padapter,
+ 	u8 efuseType,
+ 	u8 type,
+-	void 	*pOut,
++	void	*pOut,
+ 	bool		bPseudoTest
+ 	)
  {
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 0033a0aca27b..9b465001975c 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -66,7 +66,6 @@ void GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariab
- unsigned int rtl8188eu_inirp_init(struct adapter *Adapter);
+@@ -194,7 +194,7 @@ EFUSE_GetEfuseDefinition(
+ u8
+ EFUSE_Read1Byte(
+ struct adapter *Adapter,
+-u16 	Address)
++u16		Address)
+ {
+ 	u8 Bytetemp = {0x00};
+ 	u8 temp = {0x00};
+@@ -235,8 +235,8 @@ u16 	Address)
+ u8
+ efuse_OneByteRead(
+ struct adapter *padapter,
+-u16 		addr,
+-u8 	*data,
++u16	addr,
++u8	*data,
+ bool		bPseudoTest)
+ {
+ 	u32 tmpidx = 0;
+@@ -324,8 +324,8 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
  
- void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val);
--void GetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val);
+ int
+ Efuse_PgPacketRead(struct adapter *padapter,
+-				u8 	offset,
+-				u8 	*data,
++				u8	offset,
++				u8	*data,
+ 				bool		bPseudoTest)
+ {
+ 	return padapter->HalFunc.Efuse_PgPacketRead(padapter, offset, data,
+@@ -334,9 +334,9 @@ Efuse_PgPacketRead(struct adapter *padapter,
  
- uint rtw_hal_init(struct adapter *padapter);
- uint rtw_hal_deinit(struct adapter *padapter);
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 7df213856d66..6383b399ae40 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -3620,9 +3620,7 @@ static int rtw_dbg_port(struct net_device *dev,
- 			break;
- 		case 0x06:
- 			{
--				u32	ODMFlag;
--				GetHwReg8188EU(padapter, HW_VAR_DM_FLAG, (u8 *)(&ODMFlag));
--				ODMFlag = (u32)(0x0f & arg);
-+				u32 ODMFlag = (u32)(0x0f & arg);
- 				SetHwReg8188EU(padapter, HW_VAR_DM_FLAG, (u8 *)(&ODMFlag));
- 			}
- 			break;
+ int
+ Efuse_PgPacketWrite(struct adapter *padapter,
+-				u8 	offset,
+-				u8 	word_en,
+-				u8 	*data,
++				u8	offset,
++				u8	word_en,
++				u8	*data,
+ 				bool		bPseudoTest)
+ {
+ 	return padapter->HalFunc.Efuse_PgPacketWrite(padapter, offset, word_en,
+@@ -386,7 +386,7 @@ efuse_WordEnableDataRead(u8 word_en,
+ 
+ u8
+ Efuse_WordEnableDataWrite(struct adapter *padapter,
+-						u16 	efuse_addr,
++						u16		efuse_addr,
+ 						u8 word_en,
+ 						u8 *data,
+ 						bool		bPseudoTest)
 -- 
 2.35.1
 
