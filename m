@@ -1,266 +1,205 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFBA47F6
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 09:19:29 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id j13so22834937plj.8
-        for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 02:19:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9678D7F6
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 09:20:40 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22V9K4im027080;
+	Thu, 31 Mar 2022 09:20:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=oA3XuDTkjDr348BkGtJ37wAGt9T0IfLctMHFwDaFMJM=;
+ b=gE3+HJ5RQpqLfP6K1OQW0QRzvnZSeTwvAuNe7krzgAnWzfZf3IgYh8OD7X7HgZtMpGMW
+ o549KfN8so0tHKQWj1lEwtPe+3DRzGEdqRkCBiOaosUO5sEaZf2wPZsvmBabRaPUR+ew
+ xSndPM0KBn0S6XBrKQigSIJ5u757RWiY4djB0D0+EFts//yOKYO2kAzbwiY9mSIsBI0H
+ 9YyDR4oaZ3v1bIEv/4ssuUAg7K/9TMNbA4ELYI2wiBXio+982x1BRjwEDXxppGMPdbqY
+ OxtKTRPt7o+ShZZZUCebsiZk2N3YU/bzm2hPooo2tLv7kQrJDVDuZfiI7TxA+UiF+n9/ ew== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3f1s8cuhe4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 31 Mar 2022 09:20:35 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 22V9BMRS020989;
+	Thu, 31 Mar 2022 09:20:34 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3f1s953kvr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 31 Mar 2022 09:20:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CApXDhSZGmds+2UKPHEi7xHmvEp7E5tXvmi29UFr6YyJ0K5wX6Pn6/VF6fHHJjvK2EOGkz0Xo8PGgfI0K+Fc5GwEMSDl9tNI7aNlJu9NLN9JMBG/a9mitCCb/de4hmHs4E8dVwEprra8DMEzO04h6paQS8eZ0NMmIl+80HXnX3pTzB+RPaXhgt0kS67d+1XtauA6biTnS2FImdAL2K1J3+6nicXrNGuUxENfqOxG9je4Da34ApDN1jdmomGmkyoFunmtzxTW9gHEYTUnuGkUjTbXH0a8tlHQ09hFGzZoXoE0f+MKWe3EDgGsXdi5D0NXBPDnsPbShEmpnXWw7k6t1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oA3XuDTkjDr348BkGtJ37wAGt9T0IfLctMHFwDaFMJM=;
+ b=NQ59IsIhCScasGiR6bL9OXpMueF6pBeh3x2UxmrkJe6jfhY2hlhumecTR2xNyzadD1pM6LKanMwYVfTzeX5wL8MKLi+ubL/KSRHnbPV82S7xZKERyosF7iyNYm9Rf6Ov8ASGbLSMU750SMsEU4+a7pz9Z3Xpb+0CMy6j0ao10cXvkV6O4YbYTZugBTkgHNtyahcxoIveew4AgZe+B4jnbJjgljAlLMY3HWQcUbk+r1Lcq5wG9RRa1JPByJmh5grS/HrAZ+KmM2h5KI+y+l7S9q7FmBi10QqlUFBmBrLgGci528cIVy/hRoJnJrJEpzCY7pQfY+/oPU85N6xUxns2YQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qEtBuQMfA8FwFYowFJek6SiJSS2Ba4i87djesSoQlLI=;
-        b=Jq7Kg+D24f92UakuJsPWv3qmBcxrbpJrzPfifmbHO24FuxsUkpuFB+fhPg3MQdVf3h
-         Omo7xmZqepLNvf8iScixSS3ThMqnVnk2EvwXxwUA6jms8yTWCDUR1iwA2XUXoQaBVJvY
-         DRhlKwGBOmYU2jaiVG0mb26IUqPV8df7FFQzg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qEtBuQMfA8FwFYowFJek6SiJSS2Ba4i87djesSoQlLI=;
-        b=cTyJ/lK5ob9fRcZChNpNysE9RNJ/k6SyQdDvQ0gJTZpz0yvT7yqFs5K0GwFwtrimuY
-         nG4Fn4dpN4fKeij5npHjQb733VKvp4RWRlKlE9339FKQANeACyYhTxOTBwnW14NMNJwx
-         Hjf3mxYq3wl5Yp+AOVAcOMRUFHSutyhf58AkqjjPNB2QBznBSJIdZWRDKVYp79t1zFXw
-         smQTrL93zp3ap0t5jELWbPBTPgrTL/daGjlXMZBhUSbaLNuBzmuLrAsqyIf/okqxIiaI
-         2DRieGHwt+2JchiOqSCV6bQXqns6GRXc9RbA/8aOTeV1bBx/PuLaxCGiD4Xv+T/fDChQ
-         hGPA==
-X-Gm-Message-State: AOAM532OataW2P+sCyAy0BPX1i/ebwRSqFz7qkIJPuh7zoghxAcRJcvV
-	L9hKLT461pqC6Y2bVYCGXsL04A==
-X-Google-Smtp-Source: ABdhPJxZaMDtDNOVsjPVDNd4PnF5gsbyPisvnVDKHLAYGNOgfDKQx144tzefNTa9mvjNJwGOKgIhGA==
-X-Received: by 2002:a17:902:a60f:b0:155:efbf:1291 with SMTP id u15-20020a170902a60f00b00155efbf1291mr25707200plq.152.1648718369279;
-        Thu, 31 Mar 2022 02:19:29 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:deb3:b2d3:c33d:e877])
-        by smtp.gmail.com with ESMTPSA id w63-20020a638242000000b0038631169c02sm20616846pgd.57.2022.03.31.02.19.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 02:19:28 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4] media: hantro: Implement support for encoder commands
-Date: Thu, 31 Mar 2022 17:16:28 +0800
-Message-Id: <20220331091628.641915-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.35.1.1021.g381101b075-goog
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oA3XuDTkjDr348BkGtJ37wAGt9T0IfLctMHFwDaFMJM=;
+ b=FA7OUkqMEVY4ZRnEzts0PLLf+oryvyTD3t75Hv4zxwblPPhl9d9PXsgr2k+Kk1PFIiur7bK8F+wJDYuHfswC63Z6F4eyvvuZukuU65/zjzdsuZ9Au81eFn3GjICGne6QIbm12Kmf0nPqsUO1hsp1umQSuWDscMnD1yCchWSQDbM=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by SJ0PR10MB4703.namprd10.prod.outlook.com
+ (2603:10b6:a03:2d3::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.21; Thu, 31 Mar
+ 2022 09:20:32 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d4e7:ee60:f060:e20c]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d4e7:ee60:f060:e20c%7]) with mapi id 15.20.5081.025; Thu, 31 Mar 2022
+ 09:20:32 +0000
+Date: Thu, 31 Mar 2022 12:20:13 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Xiaoke Wang <xkernel.wang@foxmail.com>
+Cc: "larry.finger" <Larry.Finger@lwfinger.net>, phil <phil@philpotter.co.uk>,
+        gregkh <gregkh@linuxfoundation.org>,
+        linux-staging <linux-staging@lists.linux.dev>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [PATCH 2/2] staging: r8188eu: fix potential memory leak in
+ _rtw_init_xmit_priv()
+Message-ID: <20220331092013.GC12805@kadam>
+References: <tencent_12789CD2DEBF33C818B3542E170737854506@qq.com>
+ <tencent_2F72CC5068850B2BEDFC2B8058303FE6520A@qq.com>
+ <20220331073555.GK3293@kadam>
+ <2022033116214474301568@foxmail.com>
+ <tencent_7E870E856738AA52C5FF04C81D735AEE1206@qq.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_7E870E856738AA52C5FF04C81D735AEE1206@qq.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0021.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::33)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f599b5f5-4231-4378-31ba-08da12f7b480
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB4703:EE_
+X-Microsoft-Antispam-PRVS: 
+	<SJ0PR10MB4703E1D7970BB4641FBC39238EE19@SJ0PR10MB4703.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	yuxTgaXIYBmJnDbeyY16JWUd1RPUG7wIF/KD8yPJDeeF8wfhPMLnKOQg+C28Rfy6GQZbZBTmQ6R1PNlxOq0UcAfi9R+dZJZWaT3YfNQWDJ/pO5F2hgT5t2aNGCF9zH6qG5NjPrAejjmJCtWrvORcftsqEcrel8DhpI4mezKZXuUv0XRfzDk+l0+RaylOulOBemackr/S0NAmEL2Ik42cMbkf9c+78HBvr3ln/KF9o9+0a1JZXGc1j6h+ykZoyES2RHTPwIvCgIrJUnx9Kwh1xLBjaKVWjXFdFiX/Jw7ZjgbI6tTVzatzYJLmR7eQUxXCtyQVzQnSso0+6sSa69LkpkxZJfV83Gv9yAjne3QOwRU+iDISCDegkSzpFgogfR6jXx4eIognlN3xtAlba7oYheLppwnKS0jJWFe6Ww1j+0DmdxBQ3WB2IYAF94JSjkEMjSFNV6MyF6lTQnUNHLOguTT5lUKFGUbmrTCXtL6hQ4ALgQM2JbIXLqQbKuK9KUJskNupZWicajQH5WiV9PGRfUOou52WZ5kUWDx00G0opta+ydupDRY3NjWNzEvK8CKu7kK4VOfLI+Sx7XTce58Kecl3J1OYZraCvmpQEoymiT8HzGLs8CkodyfCY7zpUTLa7TMftWlWO5FC6FQVNf3phXcgxoPsQVXf41hJdHNUzTvaw95vNkHAhh9SqIQCZ05qmMQbTTllWeolK1D8HEI0f+qrcV3GKxNIMDJj53GQ9gh1eRm3CZXmg8Y2V9+nimm2
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(8676002)(4326008)(1076003)(186003)(86362001)(26005)(54906003)(66476007)(66946007)(6916009)(316002)(33716001)(508600001)(6512007)(6486002)(9686003)(66556008)(52116002)(33656002)(6506007)(6666004)(38350700002)(38100700002)(5660300002)(8936002)(2906002)(44832011)(83380400001)(48020200001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?4/KZXTLbeoaCUB9snAkBXEkabJw2KoUqaYpdzjPtRRI2Jd/cXRJpB47zHxWN?=
+ =?us-ascii?Q?6oPmKMd8+ZNGy+seWl0YQinN2WZd2GnRtwcVJFKnf7iu//MSco7lFYhKZh/O?=
+ =?us-ascii?Q?4ko6uEzdcn1g67aobOhYqQu3MKbQFL1aa/sSjnGjYF/f4Fll6VhuaWy5dSge?=
+ =?us-ascii?Q?33OeEe4uvEdVqXiZHNX3XgwqeM00DmHaWUwFWtRCvCM+UxCGQXFJeYTkG+U5?=
+ =?us-ascii?Q?UC3WZYafHpgm2TVmxEmM5K1HxE4I9lK4NXjzThWXwJyeRECYgii96OGOuOC8?=
+ =?us-ascii?Q?ZpXdv9SBKh0vd9nwTXLhR3Ixs2Emyg+eA8zUgcwIaEQK035LkYobLJyUauw6?=
+ =?us-ascii?Q?9qdQkMMSlG7PT4OQkkcRHiIj4VORKD3MHzIdC0QJOJBFIBbSkPK9+4lJEhWE?=
+ =?us-ascii?Q?GTBn9W3tKwgTsk/7IL9AbxGgzVWjHYZDHJPcmyCmHtoNgRyEAR6NaBzt/Iy/?=
+ =?us-ascii?Q?gNbls9KiynwI7dUSm73Czycn4ZXy/7K7fGMXXNEXOQ7FNUDki3vlal2atykx?=
+ =?us-ascii?Q?cyGaMHzcYOhHUbpAvZUW5KX/OcgchZqnAjFM2DJ5vvZiRBZ0of1tt5LUwhZ2?=
+ =?us-ascii?Q?9Jq8CwhYGM7MvjtSur4g5cFWep0Ag1n9H8r9cKtlLQzAYmIzFqzYDUKebo+z?=
+ =?us-ascii?Q?62fuvRzmBfnnx4Aex753gNy2VNsAL3VrVjNYnSS97+i+lpYYCbxcV3GqpnXI?=
+ =?us-ascii?Q?+vvAK4plhEtQMITmyGbY4d1SPHxXXNMxKbmED12pTSk4UQjWwARAYyed8y5A?=
+ =?us-ascii?Q?KmshL84UYjhHkBS5o+cilNtQM4gMI7Qmrx4J16FCoSsoJ7R4pIeS8oTyRZo+?=
+ =?us-ascii?Q?0eDTEIr1pPD0a0bkBbvWk0hvJrE4VL4kaoNUafpk7w8OVc51+54cdNIzGLq3?=
+ =?us-ascii?Q?QSocDcRzPg8b/OZ7dyUsDM1Ve+ojBooIxs70UFUrtIqAgNhJzK6p4Y2t1Ept?=
+ =?us-ascii?Q?GBhsGfAFDpmK8VCVaMvXSkOSclZsjS0WNh/0tx4SQol6d/VWySlOTuGq/rcS?=
+ =?us-ascii?Q?c+c86TDS14PpLCIDWhHgXPKRq5lBtRvSYMr+3XCEc13UIiZO0O8dKWqs5zvW?=
+ =?us-ascii?Q?WJj/bawcHzQnran0JQz2N+6+iQsEmlqSVg6TN5UBvyfrFznAzNLOHPQlkxxx?=
+ =?us-ascii?Q?c6yLce4Kg9xImKWbOex+ND3l/MBw580BhIEBgoNWR8SAdN+yrhX8ho3POXp2?=
+ =?us-ascii?Q?UMoUTEdRqSxPbhP3W8OsIENsgGaqD2j+AdNj88+DaBkpGxvTjNadtKG4vx8i?=
+ =?us-ascii?Q?d0jLagPyi+QKEi1t3fvboXofBU4R9U9XQFhl7T8+BtXez2Iea8lcPqOM+tlI?=
+ =?us-ascii?Q?lpdYIDeihX0wA5iELIjdLxqOYQ1mvZSVffqhJiOVEPHcvF5/1K/FLkH6VkFs?=
+ =?us-ascii?Q?M/8sM13Mal9gb+HC48J4AaWI+8+8MF9DnBO9d1sgicuxcyf16CXcsnKiWzZl?=
+ =?us-ascii?Q?NcuJu/mG6eLWYwuwmIep+BV8fQf88co60a9QvD4eqsDu7kP1PT72/vyQUkVh?=
+ =?us-ascii?Q?KWRVIHyvK9LxaYWt4DaB6bkxxSYCAM7ZFmAIIknoJjQYHeWnMo37iUQL/P0e?=
+ =?us-ascii?Q?5tOyxPH7GaWmOFoe3Y/AA/UDmyiKNWX9dRpFAIHZFrfvmrVuNYqfNpHt22Tk?=
+ =?us-ascii?Q?43zrtYqS/sL+fvD1UI/DkUsiOQ4dj1D3LhPOEWZ1i3+XnraUhIiDwuNlcS/6?=
+ =?us-ascii?Q?/TzWQrOfIJcq5p6ljjo0AFTX5AcXjGR7bvV53CkkvmuKdkvM4u0xZTJ9vG+m?=
+ =?us-ascii?Q?8Fbn2yhT2+yOSynFT9R8xu/GAxpbJ/s=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f599b5f5-4231-4378-31ba-08da12f7b480
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 09:20:32.2587
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DmlD12qlqDwzhPL07Y/f42v3Z/dOl/aBRGx7BQGD+w5nJIZnLlZ4hBkrFe+R7+cLsv0I+doXYJ4Le73uxeB+sxTwogGhpdVKUgvBiFhd6+c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4703
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
+ definitions=2022-03-31_03:2022-03-29,2022-03-31 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 malwarescore=0
+ mlxscore=0 phishscore=0 spamscore=0 suspectscore=0 mlxlogscore=780
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203310051
+X-Proofpoint-GUID: oqOnaGYpuL4W8twTelDmCLHGEOQe-gfo
+X-Proofpoint-ORIG-GUID: oqOnaGYpuL4W8twTelDmCLHGEOQe-gfo
 
-The V4L2 stateful encoder uAPI specification requires that drivers
-support the ENCODER_CMD ioctl to allow draining of buffers. This
-however was not implemented, and causes issues for some userspace
-applications.
+On Thu, Mar 31, 2022 at 04:33:37PM +0800, Xiaoke Wang wrote:
+> 
+> On Thu, 31 Mar 2022 16:21:43 +0800, xkernel.wang@foxmail.com wrote:
+> >In fact, this is considering that we do not know where is the failure
+> >from. In rtw_os_xmit_resource_alloc(), the failure can from 
+> >
+> >> pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
+> >
+> > , but also can from 
+> >
+> >> 		pxmitbuf->pxmit_urb[i] = usb_alloc_urb(0, GFP_KERNEL);
+> >
+> > So if we do not handle the current failed item and just skip it, then some
+> > memory may be ignored.
+> 
+> 
+> 
+> Maybe this should be the problem of rtw_os_xmit_resource_alloc() as it
+> does properly handle the error from it.
+> Anyway, I will attempt to fix them.
+> 
 
-Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
-This is entirely based on existing code found in the vicodec test
-driver.
+It would be a lot easier to fix this code, if it were cleaner.
 
-Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
+It goes to a lot of work to ensure that the pointers are aligned at the
+4 byte mark, but memory from kmalloc() or vmalloc() is already aligned
+at 8 bytes so there is no need.
 
-This version was tested on RK3399 on mainline with fluster and gstreamer.
-Fluster test scores for VP8 decoding remain the same. Gstreamer jpeg
-encoding works without stalling or outputing extra frames.
+	pxmitpriv->pallocated_frame_buf = vzalloc(NR_XMITFRAME * sizeof(struct xmit_frame) + 4);
 
-For stress testing, fluster by itself already runs six jobs concurrently.
-At the same time, I also spawn a half-dozen gstreamer encoding jobs:
+The + 4 is for alignment.
 
-    gst-launch-1.0 videotestsrc num-buffers=2000 ! v4l2jpegenc ! fakesink
+	pxmitpriv->pxmit_frame_buf = (u8 *)N_BYTE_ALIGMENT((size_t)(pxmitpriv->pallocated_frame_buf), 4);
 
-It was also backported onto ChromeOS 5.10, and tested on kevin.
+So then it stores pxmitpriv->pxmit_frame_buf which is the aligned
+version of the pointer and the ->pallocated_frame_buf pointer which it
+uses to free the memory.  Delete pxmitpriv->pallocated_frame_buf.  Just
+allocate it directly.  Use vcalloc().
 
-Everything seems to work ok, without anything stalling.
+	pxmitpriv->pxmit_frame_buf = vzalloc(NR_XMITFRAME * sizeof(struct xmit_frame);
 
-Changes since v3:
-- Split out unrelated change into separate patch [1]
-- Dropped invalid .has_stopped check after v4l2_m2m_ioctl_encoder_cmd()
-  was called. Issue raised by Ezequiel.
-- Dropped reviewed-by from Benjamin due to code changes
+That stuff can all be done in one patch because it is:
 
-[1] https://lore.kernel.org/linux-media/20220331084907.628349-1-wenst@chromium.org/
+Patch 1: Remove unnecessary alignment hacks.
 
-Changes since v2:
-- Dropped RFC tag
-- Added Reviewed-by from Benjamin
-- Replace direct access to vb->planes[i].bytesused with
-  vb2_set_plane_payload()
+This code goes to great lengths to ensure that the buffers are 4 bytes
+aligned.  However that is not necessary as the vmalloc() and kmalloc()
+functions return memory that is already aligned at 8 bytes.
+1) No need for the temporary pxmitpriv->pallocated_frame_buf pointer to
+   store unaligned memory.
+2) No need to allocate "+ 4" extra bytes for alignment.
+3) No need to call N_BYTE_ALIGMENT().
 
-Changes since v1:
-- Correctly handle last buffers that are empty
-- Correctly handle last buffers that just got queued
-- Disable (TRY_)ENCODER_CMD ioctls for hantro decoder
+Patch 2: Use vcalloc() instead of vzalloc()
+Patch 3: Declare the pxmitpriv->pxmit_frame_buf pointer as an array of
+structs instead of an array of u8.  This allows us to remove some
+casting.
 
-This is based on linux-next-20220208, and was tested on RK3399 with
-Gstreamer running the JPEG encoder. It was also tested on ChromeOS
-5.10 on Kevin with the video encoder used in ChromeOS ARC, which
-requires this. For ChromeOS, both encoder and decoder tests were run
-to check for regressions.
+Once the code is cleaner then the error handling will also be easier.
 
-Everything really works OK now, but since I'm not very familiar with
-the mem2mem framework, I might be missing something, causing resource
-leaks. Hence this patch is labeled RFC.
-
-Last, I suppose we could also add support for (TRY_)DECODER_CMD now?
-
- drivers/staging/media/hantro/hantro_drv.c  | 17 ++++++-
- drivers/staging/media/hantro/hantro_v4l2.c | 59 ++++++++++++++++++++++
- 2 files changed, 74 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index dc768884cb79..bd7d11032c94 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
- 	return hantro_get_dec_buf_addr(ctx, buf);
- }
- 
-+static const struct v4l2_event hantro_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
- static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
- 				    struct hantro_ctx *ctx,
- 				    enum vb2_buffer_state result)
-@@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
- 	src->sequence = ctx->sequence_out++;
- 	dst->sequence = ctx->sequence_cap++;
- 
-+	if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
-+		dst->flags |= V4L2_BUF_FLAG_LAST;
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+		v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
-+	}
-+
- 	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
- 					 result);
- }
-@@ -809,10 +819,13 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
- 	snprintf(vfd->name, sizeof(vfd->name), "%s-%s", match->compatible,
- 		 funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER ? "enc" : "dec");
- 
--	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER)
-+	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
- 		vpu->encoder = func;
--	else
-+	} else {
- 		vpu->decoder = func;
-+		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
-+		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
-+	}
- 
- 	video_set_drvdata(vfd, vpu);
- 
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index 261beb0c40f6..71a6279750bf 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -628,6 +628,38 @@ static int vidioc_s_selection(struct file *file, void *priv,
- 	return 0;
- }
- 
-+static const struct v4l2_event hantro_eos_event = {
-+	.type = V4L2_EVENT_EOS
-+};
-+
-+static int vidioc_encoder_cmd(struct file *file, void *priv,
-+			      struct v4l2_encoder_cmd *ec)
-+{
-+	struct hantro_ctx *ctx = fh_to_ctx(priv);
-+	int ret;
-+
-+	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
-+	    !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
-+		return 0;
-+
-+	ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ec->cmd == V4L2_ENC_CMD_STOP &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+
-+	if (ec->cmd == V4L2_ENC_CMD_START)
-+		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
-+
-+	return 0;
-+}
-+
- const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_querycap = vidioc_querycap,
- 	.vidioc_enum_framesizes = vidioc_enum_framesizes,
-@@ -657,6 +689,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 
- 	.vidioc_g_selection = vidioc_g_selection,
- 	.vidioc_s_selection = vidioc_s_selection,
-+
-+	.vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-+	.vidioc_encoder_cmd = vidioc_encoder_cmd,
- };
- 
- static int
-@@ -748,6 +783,22 @@ static void hantro_buf_queue(struct vb2_buffer *vb)
- 	struct hantro_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
- 
-+	if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
-+	    vb2_is_streaming(vb->vb2_queue) &&
-+	    v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
-+		unsigned int i;
-+
-+		for (i = 0; i < vb->num_planes; i++)
-+			vb2_set_plane_payload(vb, i, 0);
-+
-+		vbuf->field = V4L2_FIELD_NONE;
-+		vbuf->sequence = ctx->sequence_cap++;
-+
-+		v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
-+		return;
-+	}
-+
- 	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
- }
- 
-@@ -763,6 +814,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct hantro_ctx *ctx = vb2_get_drv_priv(q);
- 	int ret = 0;
- 
-+	v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
-+
- 	if (V4L2_TYPE_IS_OUTPUT(q->type))
- 		ctx->sequence_out = 0;
- 	else
-@@ -835,6 +888,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
- 		hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
- 	else
- 		hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
-+
-+	v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
-+
-+	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
- }
- 
- static void hantro_buf_request_complete(struct vb2_buffer *vb)
--- 
-2.35.1.1021.g381101b075-goog
-
+regards,
+dan carpenter
