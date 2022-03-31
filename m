@@ -1,42 +1,42 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BDB7C
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 20:15:37 +0000 (UTC)
-Received: by mail-oi1-f174.google.com with SMTP id i7so692371oie.7
-        for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 13:15:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF2F7C
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 20:18:49 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id d15-20020a9d72cf000000b005cda54187c3so687026otk.2
+        for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 13:18:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=6O6TQE9gY/RCGoA8Lj72Kezh8AhkaXWoFpitVHtqqC0=;
-        b=mXBaYXFodB5BNYtQLsAi85UeIgUz+rJ8jR+IjiFZ7xdlENE8KMHvCXLuuZLNbwMwx2
-         woFVXRWjONwaTsuJqBRZbtbssVAObJzulRjY/OOqYy5RVGQRFUuoj6VMHtyCP+iLwZVH
-         AXRy5kqcp/yQ8DrLEinN4/hL3JYxoLGiDeQ62TnzGrMe9RPKG8OTEfDdW+L+ACVrzuZC
-         hCHP05rd5gQYTbLk7gzcg0t/pR1vNhlgDDfZhEBo1gk03ccs7VWJCITWMFe8GHrJaGhB
-         vWi9ZMT9l5ycdy5Co2CJd8cPoiy8xAQmIdtlDAd+PzlDjajTJC0+zPiAfeEF03DmSMFZ
-         w+qg==
+        bh=wQjAfS7fQNP+0bjIIqmCMq8qsMvCY7R1nHBvhnmQNXI=;
+        b=j10MlezzUpC9JiuA1DYXfc0p9tDkTlUyllrS2JSrfg+4az2Fea/Pxd3qOyo3vhFJAf
+         sqTdXREuXvgAbMvHpqFgquPi4HC8CUWBpNp8qbTF6IbqDAm5vmnHhv89ecdqJx6oT7tH
+         Bgn6QkG2lvJhZD6fOulEkF9TvlEIEx65uZJBmWP+D432fiawAc5E2i2zMsJr8DGZCCSj
+         pxKArQyeFNkWcww1cZBcpb+vo4J13O3Oth9qR0YD9JzDNOHHXmCo+1JU75Z+Kj8m+wCQ
+         fFcKsE82F2K2QllygTYgs0Fgb0NjwkiAYEc7z58T3fNWI2LIlajmTS45yKqpBMtYrrAa
+         TFPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=6O6TQE9gY/RCGoA8Lj72Kezh8AhkaXWoFpitVHtqqC0=;
-        b=AUOjYigxZubyJPmA25JyyVyoiiXodQgXv4Kk8IXKeErpZ4s73je39IX//rRWU2Iy8R
-         emRHmXbj14/6QxEE7zz67Ym4G/FATDHjnvXXYHKUiurfwa+vaK1lB4vcrY79l0USNnhW
-         8fQEhkUoZmQq6oil/LixRGEWAAwUpv5ncRKdp+IqEax/kkj4aur5/lSWP3E6rIXQVTVQ
-         +mCSutXz4lv3CWjZbKT1krQ6x9OyMkWfv7vU7H74IdpKVsMvmYOoT82EEKYRZ1XZdUXf
-         seMTwGKSZhg10/kWWyU5X9YIhGzJqp3oQ/VbeRdVZhsNBEVaMRLc1fwkqVk3Al2ZpG1i
-         Qolg==
-X-Gm-Message-State: AOAM5308mpp4he0ZPKiAZ1ovqf5lEiZs5rRdOuJDJtI8L40bhbg+LMa2
-	bHPqfle41aXGm9twMLcPcQDk+w==
-X-Google-Smtp-Source: ABdhPJz0dHz0S0Kxb6XfpeUoORZA029B4Og25ME2y94yefm5MksonaTie6pvHqTlUxRYIXLjV2cN7g==
-X-Received: by 2002:a05:6808:ec5:b0:2f7:4019:53be with SMTP id q5-20020a0568080ec500b002f7401953bemr3370230oiv.176.1648757737012;
-        Thu, 31 Mar 2022 13:15:37 -0700 (PDT)
+        bh=wQjAfS7fQNP+0bjIIqmCMq8qsMvCY7R1nHBvhnmQNXI=;
+        b=cysB5jnhrK6O5G/td861Cy5v89JidEZp3yZBjiYzuxscH7l8ygI6j/ifSY2usS7BTq
+         bf7CfxhkVslqIcs3e45Y5zcxknNAV3mwgPuBvGyGo9Khrqem6bZ2bGzJF3nSvDqahRx4
+         BmCzZlC6F0QfmJW9KnxNH0IzGHP9vHffzYawtS1yB1h8qeZGR3tG3WDTDp5mosk8MbP/
+         u7MHMw3wjXhDNdGh3xCzxXua+GmYJNSglw6WaVtstPYwx7Cd/kNv2WTd41tEAGSMA8i6
+         RtvXjUU5chpsV7RGPsBlVrLKZTMi4GHAy2Luj6cmD11hLzBpqA+23C5G+6IZF5mJJmQ3
+         jj0w==
+X-Gm-Message-State: AOAM530V3nbHbEKCmypqpgNmngdpEsYKm7w5P5iCz60sG4clRHxPuVyS
+	g/Crh35TVeYzhh70wDo9YxQlLQ==
+X-Google-Smtp-Source: ABdhPJyqCR7D5/odh4ouFQT5iXg7jswTv5MMl65YGWcRHy65MBuAgKtCob4+S4ePPn9YL9WlX0TwmQ==
+X-Received: by 2002:a05:6830:1dea:b0:5b2:3db5:1494 with SMTP id b10-20020a0568301dea00b005b23db51494mr6277005otj.169.1648757928806;
+        Thu, 31 Mar 2022 13:18:48 -0700 (PDT)
 Received: from eze-laptop ([190.194.87.200])
-        by smtp.gmail.com with ESMTPSA id z10-20020a0568301daa00b005ce0f36dd81sm252391oti.12.2022.03.31.13.15.33
+        by smtp.gmail.com with ESMTPSA id x18-20020a056830245200b005ce01c28c77sm270635otr.1.2022.03.31.13.18.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 13:15:36 -0700 (PDT)
-Date: Thu, 31 Mar 2022 17:15:31 -0300
+        Thu, 31 Mar 2022 13:18:48 -0700 (PDT)
+Date: Thu, 31 Mar 2022 17:18:43 -0300
 From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Philipp Zabel <p.zabel@pengutronix.de>,
@@ -44,11 +44,12 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: hantro: Empty encoder capture buffers by default
-Message-ID: <YkYL45bEwjS/1+Rs@eze-laptop>
-References: <20220331084907.628349-1-wenst@chromium.org>
+Subject: Re: [PATCH v4] media: hantro: Implement support for encoder commands
+Message-ID: <YkYMo3cU2lqeDBu1@eze-laptop>
+References: <20220331091628.641915-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,54 +58,221 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220331084907.628349-1-wenst@chromium.org>
+In-Reply-To: <20220331091628.641915-1-wenst@chromium.org>
 
-On Thu, Mar 31, 2022 at 04:49:06PM +0800, Chen-Yu Tsai wrote:
-> The payload size for encoder capture buffers is set by the driver upon
-> finishing encoding each frame, based on the encoded length returned from
-> hardware, and whatever header and padding length used. Setting a
-> non-zero default serves no real purpose, and also causes issues if the
-> capture buffer is returned to userspace unused, confusing the
-> application.
+On Thu, Mar 31, 2022 at 05:16:28PM +0800, Chen-Yu Tsai wrote:
+> The V4L2 stateful encoder uAPI specification requires that drivers
+> support the ENCODER_CMD ioctl to allow draining of buffers. This
+> however was not implemented, and causes issues for some userspace
+> applications.
 > 
-> Instead, always set the payload size to 0 for encoder capture buffers
-> when preparing them.
+> Implement support for the ENCODER_CMD ioctl using v4l2-mem2mem helpers.
+> This is entirely based on existing code found in the vicodec test
+> driver.
 > 
 > Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
-> Fixes: 082aaecff35f ("media: hantro: Fix .buf_prepare")
 > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 
 Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
+I believe Nicolas tested the patch before the splitting,
+so this is probably Tested-by as well.
+
+Thanks!
+Ezequiel
+
 > ---
 > 
-> This was previously incorrectly squashed into my Hantro encoder cmd
-> patch [1].
+> This version was tested on RK3399 on mainline with fluster and gstreamer.
+> Fluster test scores for VP8 decoding remain the same. Gstreamer jpeg
+> encoding works without stalling or outputing extra frames.
 > 
-> [1] https://lore.kernel.org/linux-media/20220301042225.1540019-1-wenst@chromium.org/
+> For stress testing, fluster by itself already runs six jobs concurrently.
+> At the same time, I also spawn a half-dozen gstreamer encoding jobs:
 > 
->  drivers/staging/media/hantro/hantro_v4l2.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>     gst-launch-1.0 videotestsrc num-buffers=2000 ! v4l2jpegenc ! fakesink
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> index 67148ba346f5..261beb0c40f6 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> @@ -733,8 +733,12 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
->  	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
->  	 * it to buffer length).
->  	 */
-> -	if (V4L2_TYPE_IS_CAPTURE(vq->type))
-> -		vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
-> +	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
-> +		if (ctx->is_encoder)
-> +			vb2_set_plane_payload(vb, 0, 0);
-> +		else
-> +			vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
+> It was also backported onto ChromeOS 5.10, and tested on kevin.
+> 
+> Everything seems to work ok, without anything stalling.
+> 
+> Changes since v3:
+> - Split out unrelated change into separate patch [1]
+> - Dropped invalid .has_stopped check after v4l2_m2m_ioctl_encoder_cmd()
+>   was called. Issue raised by Ezequiel.
+> - Dropped reviewed-by from Benjamin due to code changes
+> 
+> [1] https://lore.kernel.org/linux-media/20220331084907.628349-1-wenst@chromium.org/
+> 
+> Changes since v2:
+> - Dropped RFC tag
+> - Added Reviewed-by from Benjamin
+> - Replace direct access to vb->planes[i].bytesused with
+>   vb2_set_plane_payload()
+> 
+> Changes since v1:
+> - Correctly handle last buffers that are empty
+> - Correctly handle last buffers that just got queued
+> - Disable (TRY_)ENCODER_CMD ioctls for hantro decoder
+> 
+> This is based on linux-next-20220208, and was tested on RK3399 with
+> Gstreamer running the JPEG encoder. It was also tested on ChromeOS
+> 5.10 on Kevin with the video encoder used in ChromeOS ARC, which
+> requires this. For ChromeOS, both encoder and decoder tests were run
+> to check for regressions.
+> 
+> Everything really works OK now, but since I'm not very familiar with
+> the mem2mem framework, I might be missing something, causing resource
+> leaks. Hence this patch is labeled RFC.
+> 
+> Last, I suppose we could also add support for (TRY_)DECODER_CMD now?
+> 
+>  drivers/staging/media/hantro/hantro_drv.c  | 17 ++++++-
+>  drivers/staging/media/hantro/hantro_v4l2.c | 59 ++++++++++++++++++++++
+>  2 files changed, 74 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index dc768884cb79..bd7d11032c94 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -56,6 +56,10 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
+>  	return hantro_get_dec_buf_addr(ctx, buf);
+>  }
+>  
+> +static const struct v4l2_event hantro_eos_event = {
+> +	.type = V4L2_EVENT_EOS
+> +};
+> +
+>  static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+>  				    struct hantro_ctx *ctx,
+>  				    enum vb2_buffer_state result)
+> @@ -73,6 +77,12 @@ static void hantro_job_finish_no_pm(struct hantro_dev *vpu,
+>  	src->sequence = ctx->sequence_out++;
+>  	dst->sequence = ctx->sequence_cap++;
+>  
+> +	if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src)) {
+> +		dst->flags |= V4L2_BUF_FLAG_LAST;
+> +		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> +		v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
+> +	}
+> +
+>  	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
+>  					 result);
+>  }
+> @@ -809,10 +819,13 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
+>  	snprintf(vfd->name, sizeof(vfd->name), "%s-%s", match->compatible,
+>  		 funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER ? "enc" : "dec");
+>  
+> -	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER)
+> +	if (funcid == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
+>  		vpu->encoder = func;
+> -	else
+> +	} else {
+>  		vpu->decoder = func;
+> +		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+> +		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
 > +	}
 >  
+>  	video_set_drvdata(vfd, vpu);
+>  
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> index 261beb0c40f6..71a6279750bf 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> @@ -628,6 +628,38 @@ static int vidioc_s_selection(struct file *file, void *priv,
 >  	return 0;
 >  }
+>  
+> +static const struct v4l2_event hantro_eos_event = {
+> +	.type = V4L2_EVENT_EOS
+> +};
+> +
+> +static int vidioc_encoder_cmd(struct file *file, void *priv,
+> +			      struct v4l2_encoder_cmd *ec)
+> +{
+> +	struct hantro_ctx *ctx = fh_to_ctx(priv);
+> +	int ret;
+> +
+> +	ret = v4l2_m2m_ioctl_try_encoder_cmd(file, priv, ec);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (!vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)) ||
+> +	    !vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)))
+> +		return 0;
+> +
+> +	ret = v4l2_m2m_ioctl_encoder_cmd(file, priv, ec);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (ec->cmd == V4L2_ENC_CMD_STOP &&
+> +	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> +		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> +
+> +	if (ec->cmd == V4L2_ENC_CMD_START)
+> +		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
+> +
+> +	return 0;
+> +}
+> +
+>  const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+>  	.vidioc_querycap = vidioc_querycap,
+>  	.vidioc_enum_framesizes = vidioc_enum_framesizes,
+> @@ -657,6 +689,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+>  
+>  	.vidioc_g_selection = vidioc_g_selection,
+>  	.vidioc_s_selection = vidioc_s_selection,
+> +
+> +	.vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
+> +	.vidioc_encoder_cmd = vidioc_encoder_cmd,
+>  };
+>  
+>  static int
+> @@ -748,6 +783,22 @@ static void hantro_buf_queue(struct vb2_buffer *vb)
+>  	struct hantro_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+>  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+>  
+> +	if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
+> +	    vb2_is_streaming(vb->vb2_queue) &&
+> +	    v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
+> +		unsigned int i;
+> +
+> +		for (i = 0; i < vb->num_planes; i++)
+> +			vb2_set_plane_payload(vb, i, 0);
+> +
+> +		vbuf->field = V4L2_FIELD_NONE;
+> +		vbuf->sequence = ctx->sequence_cap++;
+> +
+> +		v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
+> +		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+> +		return;
+> +	}
+> +
+>  	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
+>  }
+>  
+> @@ -763,6 +814,8 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
+>  	struct hantro_ctx *ctx = vb2_get_drv_priv(q);
+>  	int ret = 0;
+>  
+> +	v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
+> +
+>  	if (V4L2_TYPE_IS_OUTPUT(q->type))
+>  		ctx->sequence_out = 0;
+>  	else
+> @@ -835,6 +888,12 @@ static void hantro_stop_streaming(struct vb2_queue *q)
+>  		hantro_return_bufs(q, v4l2_m2m_src_buf_remove);
+>  	else
+>  		hantro_return_bufs(q, v4l2_m2m_dst_buf_remove);
+> +
+> +	v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
+> +	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
+> +		v4l2_event_queue_fh(&ctx->fh, &hantro_eos_event);
+>  }
+>  
+>  static void hantro_buf_request_complete(struct vb2_buffer *vb)
 > -- 
 > 2.35.1.1021.g381101b075-goog
 > 
