@@ -1,151 +1,196 @@
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322EA7C
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 10:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1648724388;
-	bh=nC8dQ7uRLas0XLiNq+JhgvbwYYcBQdgbkee7bW4IQwg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ludcs6I1UPeximliaoR+wfRAUHkT2bHnUP0+JEDojIYjXrcpmuwK+ULkCwLmJ2pfj
-	 IESXFC+rfb3AjZSlh5e5ECh3WGQk0JB3CRrOr6fczDWJbjG8YHgzEFar4pHw+z0JKs
-	 5VCvVwzR5t6N2aiTFkEsxc8IpOHjJYaV0UY941mo=
-Received: from localhost.localdomain ([218.197.153.188])
-	by newxmesmtplogicsvrszc10.qq.com (NewEsmtp) with SMTP
-	id EA302AEC; Thu, 31 Mar 2022 18:58:35 +0800
-X-QQ-mid: xmsmtpt1648724315t8977q2fg
-Message-ID: <tencent_A5280DFCCB827030EBE73673F0510084970A@qq.com>
-X-QQ-XMAILINFO: NK7mH5+t7Gn7WWAdexxdQcWzT7csSrC6zIsF8JUt1dGBUmpt+vVYkKv1Kgz4Mq
-	 I0Wo/oH+jP5LQI3acuPORnMg9LiyWixMfJtGI9z3Oc0fZm+jkhJthCS6ERZMr13sG9C0Y6TIEApw
-	 M9xyi6aljTQrGvTJ7ADqA3/I/NzLDHKGFm/76G3G7yNoha/NH8vtbpIdjlni041uWxvzhzjS7/Uz
-	 pn+qCYY6OItDBfdujpwRdACOPmUqqFMubzGwHNQjHIvkXdVa2K7EQY6G3BIb86xIzPSPtq2I6AF2
-	 UzZP8qzPEWscGq2FjmE57HDUkIEK28E8A+hK3MHNA6XlSCVwNnHkfwzonCR+3+eW+l16D0IhaVfa
-	 DjlV2VZHpY0yPx0FxOBI6As8aP5K/9157j2uzMY1wf70cKntlLD5+AbxpJAPcVvDyPWQrY/JbwdX
-	 ypJZAXPM13TXIQfqSYcJHzSAQIoJlNbd/O7j4weZnssOOvSJdsMH9bLZhaga3rXmqe6tmjm3O3Wl
-	 gnVVDh+6YeXjw8/+AuHZcgIahh6dbFL2shDVGGdwIKAu8DHDLSGosC2MdNKp3yjvE74VqwD+j5Id
-	 ifxdaZRyWJqtQmgWiEvH3vflhYIGYsPcS2yCp54r6oF/O5YdeBSulTRSRrzQUiTygBQNhS66/IMo
-	 YQkLzsbDcavk66d5pT+4SUJpMyufy0qhcFVDb4BDbHhW8xVfsr/TmZw/RLIvu/D9VEO3g8rk69BS
-	 jPO2dnx6Sk7DK4ch7bkF/SzAfLx505Q1L8cU9VRTHkjApslJSgx5moYw65a6dLSr5Le/zp+Tqzbt
-	 unJzBRpEFCH5HgWtOrpjlSKzBVGI6QO8IsQHPrk7ScY0UK1UOsG4pI4ZvawL9BuLxdDBSoXItmuh
-	 X3KkU1+0OJmm5+Vy9lUUQrItjf0FpumT5QFkjhMNuIui9Y86cYn3M+fep/ouRr/W+++uqBk3uQxI
-	 8mjSWR+cuvT+MR6q+JDuGRWd3s96giFlHWa0ihA0xFh3fZRt6JAg==
-From: xkernel.wang@foxmail.com
-To: gregkh@linuxfoundation.org,
-	dan.carpenter@oracle.com
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH v2 2/2] staging: r8188eu: fix potential memory leak in _rtw_init_xmit_priv()
-Date: Thu, 31 Mar 2022 18:58:16 +0800
-X-OQ-MSGID: <20220331105816.8003-1-xkernel.wang@foxmail.com>
-In-Reply-To: <tencent_254AD0FF06201BCCF5B9911C6E142CE1F208@qq.com>
-References: <tencent_254AD0FF06201BCCF5B9911C6E142CE1F208@qq.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1E37C;
+	Thu, 31 Mar 2022 11:01:08 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22V8fmTn030419;
+	Thu, 31 Mar 2022 11:01:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=GRyX1tjSSAQaoq16nrx47KBmdaBr1sCKe8nOJjvKXxM=;
+ b=RUnBUhyyFsXxbkzXTz4G/u7VpUUsiuCxgn0WW42KD9RkFt5zwhy+wwTRgNAzRlDpEqax
+ l6qdv4hqw17BDtGzOlQrXIq4oTetVNv8n0J8NRfRXDqgC6ndHdq/2GqUAofx5a+AVV/O
+ lWvt0ByyUONx4UfPW9WVHjJ8lbf6uwL25fGH3B1apAuUypD4vR/WVf3RkgJwvPjwY6NU
+ XWtuxJAGTIs2LatLdJUxiL+FXy3MgkO+y+K23+Qnju16Wy1AF14MlEEVNF+QmewpCekd
+ TBIsHU3IzHu7Bc36BicGypuh6UPe1+dvWp67LYftjDV9jVpFyMrrWG+MG41p2Db/RSxo lQ== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3f1se0m1h4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 31 Mar 2022 11:01:02 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 22VAu6LG027648;
+	Thu, 31 Mar 2022 11:01:02 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3f1tg7wfn7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 31 Mar 2022 11:01:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NKMlgnksg1VWKLQKjQ61WroMjY1XNBnIwKea82e779td+cgD2PKA6OUu0c634puzNSboHZWWd8KCZMc+0wINhmvru60Qs4sGhHoRVZzbKcNiAYVYCcUlB/MFGN43twRnUfNpqhBwAmX0pb/Deux+y0+y4Z3UrxRyKfk35Y2IYuzQQNMgbmJgu8A/RiZQkyb39k/1SY7bW4Hd/IwZsMCinygJhdOIkLsRXJ5aQR7qx3spSBgVCr7qAobiEORvwv1Z0a+/+SkLrDKU1oTC40dKI52e6ffUPwjgro8F8mHwgZ8keULuM0KWSW7KniOvpMxVKAKPPZ7O/SK1LcoQVwftrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GRyX1tjSSAQaoq16nrx47KBmdaBr1sCKe8nOJjvKXxM=;
+ b=VjXFA8pHCH0VTpwRyEaf2xHY9Qm9DM9rcneVwgBaMUXPRfuOWPpDjAYyYXl6S42CDWVjTevZSMWWzDMG5DyjSgssT5CKrKk+/34WHI3+wjTnkzOgObMhiAynrQHj9wKiYZMV5SoDla2V0Ra5atzci9nYPr9qqHUlsaLn1smuG9MmXXhwIFQTOCjTnGxyuOHf4a9rr7B+gwBlELWlJLp272ImimKSFFHKLOLZUZtDSGZTNql14Ldw0pbgHYN/0dguiMyVxmrZrdzGPdm9aLluZkjsL+rlCBe5tP09rOPcPPba+BoixTWncZhDFOCEXCxfqHDyvavjSLrErWcDRCc3sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GRyX1tjSSAQaoq16nrx47KBmdaBr1sCKe8nOJjvKXxM=;
+ b=xOZdV0FU75P9htRAChgqoWQv8KLZoxlWBgbDQ9coO2Ysk2w69U7y+nLpuYkYp/PQcxkjWELDSZcgu677x/G7+oSu64KsBRS1+2gx0+cobhhyzHMbOzf+5Jmj4felGTctwTGq4fmE8FFJ9I9Cu2lylr3l2il4hf8wonZPNWFhdXo=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by DM5PR10MB2025.namprd10.prod.outlook.com
+ (2603:10b6:3:10e::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.16; Thu, 31 Mar
+ 2022 11:01:00 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d4e7:ee60:f060:e20c]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d4e7:ee60:f060:e20c%7]) with mapi id 15.20.5081.025; Thu, 31 Mar 2022
+ 11:00:59 +0000
+Date: Thu, 31 Mar 2022 14:00:48 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: David Laight <David.Laight@ACULAB.COM>
+Cc: 'Alaa Mohamed' <eng.alaamohamedsoliman.am@gmail.com>,
+        "outreachy@lists.linux.dev" <outreachy@lists.linux.dev>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: gdm724x: Fix Duplication of Side Effects
+Message-ID: <20220331110048.GN3293@kadam>
+References: <20220331101849.71046-1-eng.alaamohamedsoliman.am@gmail.com>
+ <ebbc4a14c30f492f8553e6ef572bbcbe@AcuMS.aculab.com>
+ <20220331104012.GM3293@kadam>
+ <acde5b1e8495431dac05403c593d4679@AcuMS.aculab.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acde5b1e8495431dac05403c593d4679@AcuMS.aculab.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MRXP264CA0035.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:500:14::23) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ec3967b8-20ee-4c93-517e-08da1305bd36
+X-MS-TrafficTypeDiagnostic: DM5PR10MB2025:EE_
+X-Microsoft-Antispam-PRVS: 
+	<DM5PR10MB2025968BC787A0FE99D80DC88EE19@DM5PR10MB2025.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	tKBfkE7G9fYeX98B9vgPtFMEnrQiHsFmeY2W7/x9yZm2aQKBDc7W5ltv3GX7+36MU6ddk/C0mol8gqRI9a3ApNsso9l3REMkD54lNggJlYu04opE3DfEzMi7aufqWBzWaDjQaKLoV+/w7ySCe0Mh1QnaL77zyKfdfNln8tdbKuzK9X7Z0VhVpmMpYzFm0lKbfWcymFqNmUbKbX131ektdN84vCbQhopX6BT+IKVn9nggANjhAiEBh34o9LROZqC1EHV3K2m3IthBa0wz/S9Ty0iTpM9XP/Q2eyvslfYBzoALBvnDegcPzYD/wFxbN57SpVeFCmtRlmcH2kYljdq6x27RfgOQ5dYpNqyN21/RkoEYGV+TqS8SuXb4zlIYiOUkghpAZ/15yKR4hJpLaGV76IMTPuOUNDGqBKoKrJtgxZ9tl1ElHGl4uI76+uiEj8QBFy30+zIRwQRwIXuit3cJZAVcLnPDm1h2Ud2Ht4L0V/21wLIWmldsI5opsfm1JwwWBg0ekYmoPAZk9Q//rG/wNfWSZBsy8Ya2/PUIQ7QF+aa+pHpO9r996qyqFePZi/TLRw2f8EvWVpzwDx78mwRk5F9gJPd/iuFweJ3pNi/Iy0f5zByuV7sdq/p1PdWmAGdDi/kIXkeBkQv22oEUjv1dMPzULneSo7hmm4yS0D6Z530HOEZ+5SsVkZipCWAEWD5vNYuFJ6q2trJD2aX+URaPI8N8AJ4WAL5ydc+sUBI7GdQx6OvD73p+GbYynJxO0lF+0KbdbG6v5/KwlSoySCLgvzNt0a5v+O9keZX6lyoEm2iW2wWSr2o+vzpmLTFzs2eCORAbV0gL/NG8eKuH+sIJpFLOz4ARceP5YBzgTN1Kyjs=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(33716001)(966005)(6486002)(508600001)(38100700002)(54906003)(186003)(26005)(6666004)(6512007)(6506007)(9686003)(52116002)(38350700002)(33656002)(2906002)(316002)(86362001)(1076003)(6916009)(8676002)(66946007)(5660300002)(66476007)(8936002)(66556008)(83380400001)(44832011)(4326008)(56340200001)(21314003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?obU5p09Ba2Ebfdsqg/3AuYqC30HHzFseZInnKd5AkJD6dAatVfthnQ1mJRYe?=
+ =?us-ascii?Q?10Rbx2Lc8Xq5TvMCavr4dMaXjbEZIaDRI4h8VE6sBLuyrOiH0AlT48/hCEit?=
+ =?us-ascii?Q?o8BJvjFOvy1EGuZDuHkzKi1UsH5akD3oi0OtmMvwzgUhRB1WlTdL1MEjBLUk?=
+ =?us-ascii?Q?PDw68wwEDXZw0LyVjAdDb59oQlGU0QqGDystTC6LZWGVvcz1M0wa6sWftYuo?=
+ =?us-ascii?Q?0Bon406hGik/LaxNJpN5d4aLACtLhjRaABw5lwoyQPPJapxvv3EBA2mGul7Z?=
+ =?us-ascii?Q?ypePyCjJEwm4zK5jVAgBdE3W91s6YjwzB1Q75M5/CkQ2Qg3UnBh1EMdX0+S/?=
+ =?us-ascii?Q?HAD727OoRIJAacIgwZax13lkfCXiAZjvf9pJ3A51KdfDcpuSQfVQeOgFvoej?=
+ =?us-ascii?Q?BOu+567CGKocCIxTjYzy/cwV1Ayl7Dqc99g9f2REYJlmrjhqtMwuIkA9TuD9?=
+ =?us-ascii?Q?kdOcbEiTfevrIs0XFZ++XY8wAOC9OkGejnK3/bH3kU7nr6I64Or1va4hE7Lr?=
+ =?us-ascii?Q?NZS+3MruHsn8k8kg9kkEwWAJq6itpZvQSwAxhFNNJUTyYoSCTv1lHDiJXVyr?=
+ =?us-ascii?Q?rAD0jDAZHA3UudT+FldSqyK5VL8Co664gxS6KdeAoGQ5sWvmgLSY3Vg/tDU+?=
+ =?us-ascii?Q?JHZtP+wh18RKrmp7NHdTBuYdlY/LAsdUcH7PTpitecwx3bChlFKm/HmWNb0Z?=
+ =?us-ascii?Q?qQNBMkmbQDNv+Mw0fqr4BKy6MbrMrzsZloz4X1qce2UjFSPeLF0PtMpwXabq?=
+ =?us-ascii?Q?fhIUhzwrG9Q3wQ1lL+vB2+gFbU3mj7y9DG2fOKIjyGQuTzYNMJkD0CPcZS81?=
+ =?us-ascii?Q?kCN4BbwBj67jQhl4AnUb0lksR0dcHpwdTgrgXVecyyP5xp9SBdWK7Gcvz/vU?=
+ =?us-ascii?Q?K6+Lx9D8EwE5ZtPu5rK2A8dW+lKAfP6lhrD2mI8VDkjmyex5CySRC46Mb0qh?=
+ =?us-ascii?Q?bpb9dMjypK42LOItUx8xgd+sG1PIqIfttQvHVc0Yz9PSeCBL/sPR54s9yOMb?=
+ =?us-ascii?Q?eaNUZ0egxde9oGlnkN1Pl290WqCMNh1Q1A2qarGuIaZw+jU9+kIPMByYkIxD?=
+ =?us-ascii?Q?Rev5x37iZf2KtzuEtvk76ZMOKyBAmn9nEhxlzuiQXNkChSeP+t5rn1SpFsRm?=
+ =?us-ascii?Q?ggOAA+sZuMl8af1C9fOIiiqUlU4TdPuynWB0uxnY+6y655ZiUFdpuhjVyTuQ?=
+ =?us-ascii?Q?0JBiR91XgI3rnQYDZ+lKqSDRT5CQbKb3q7cNKy6dKm4IUwfcB8mbdY7F12Yx?=
+ =?us-ascii?Q?ZjvAcnrVpQxsfsKVtEyCjiGo+Dhvb+uHI2IEqJNoq1PKk0OuDdPWkSpwRv+b?=
+ =?us-ascii?Q?kXkMDzaAxZwipLRZpNXRbrdfLATHX7YicGyQGy5eI2WUhgq57MgiqhzynP+l?=
+ =?us-ascii?Q?3iSqIX52/KC9pU6TqY5aqQOMg7MguvKseJl0upjsmOQnFVxhSw+4ZTq17IZD?=
+ =?us-ascii?Q?17Ihzq9wHpG39uohvgn20aHEC6AfibLJTZm++YQFwRiYZpoyyzqQ5buB5lmy?=
+ =?us-ascii?Q?0F7QDsnrVxvAnNXuQDRdoElaehAlX1VWDmX1OFoq9mBkyGfsnNgt7HZInl4y?=
+ =?us-ascii?Q?M5W2Osk0pY4Pg0YX3Aj1RMa1aFUvk5ISG5dIopQY93c7al/0GFtwhlQz5nIZ?=
+ =?us-ascii?Q?eNT7DeBMkFAILRyzRhz7WSWjQxrVo+JL1XqQDarpfy6SZlQjvypbSSaphWkI?=
+ =?us-ascii?Q?CdQGMnghn2VmRE08s42Vq/Xj3lYCkZVR1UMCji+tI6f3hvBeKSSSUE79q+TX?=
+ =?us-ascii?Q?KHw+Uio4nG361WzftbqzlLepQljQkIA=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec3967b8-20ee-4c93-517e-08da1305bd36
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 11:00:59.8282
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MnBx8cy5giWhjdG7KSP966fA73DkwUXqJ/HexFdqZP08ohDe2ODM3s/KW+LyIDBVbs/3rF1gtfWP7RoJW+9pA3P6IrMmnzXCKVgg3VTpUaU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB2025
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
+ definitions=2022-03-31_03:2022-03-30,2022-03-31 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0 mlxscore=0
+ phishscore=0 spamscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203310061
+X-Proofpoint-ORIG-GUID: _q6dySWNascWOaEZcyv0EnYok2qt8RA_
+X-Proofpoint-GUID: _q6dySWNascWOaEZcyv0EnYok2qt8RA_
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+On Thu, Mar 31, 2022 at 10:49:24AM +0000, David Laight wrote:
+> From: Dan Carpenter
+> > Sent: 31 March 2022 11:40
+> > 
+> > On Thu, Mar 31, 2022 at 10:29:04AM +0000, David Laight wrote:
+> > > From: Alaa Mohamed
+> > > > Sent: 31 March 2022 11:19
+> > > >
+> > > > Fix Duplication of Side Effects for GDM_TTY_READY(gdm) macro
+> > > > reported by checkpatch
+> > > > "CHECK: Macro argument reuse 'gdm' - possible side-effects?"
+> > > >
+> > > > Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+> > > > ---
+> > > >  drivers/staging/gdm724x/gdm_tty.c | 4 +++-
+> > > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
+> > > > index 04df6f9f5403..6f0274470e69 100644
+> > > > --- a/drivers/staging/gdm724x/gdm_tty.c
+> > > > +++ b/drivers/staging/gdm724x/gdm_tty.c
+> > > > @@ -27,7 +27,9 @@
+> > > >
+> > > >  #define MUX_TX_MAX_SIZE 2048
+> > > >
+> > > > -#define GDM_TTY_READY(gdm) (gdm && gdm->tty_dev && gdm->port.count)
+> > > > +#define GDM_TTY_READY(_gdm) \
+> > > > +	({ typeof(_gdm) (gdm) = (_gdm); \
+> > > > +	(gdm && gdm->tty_dev && gdm->port.count); })
+> > >
+> > > Did you test this?
+> > >
+> > > see https://godbolt.org/z/cazPrrzPv
+> > >
+> > 
+> > I don't understand the link.  The patch should work as far as I can see.
+> 
+> If you call GDM_TTY_READY(gdm) the first line ends up as:
+> 	struct xxx *gdm = gdm;
+> which shadows the parameter.
+> There's probably a warning about an uninitialised variable as well.
 
-In _rtw_init_xmit_priv(), there are several error paths for allocation
-failures without releasing the resources.
-To properly release them, several error handling paths are added.
+Oh yeah.  You're right.  But you won't get any variable uninitialized
+warnings because int foo = foo; was the traditional way to silence GCC's
+uninitialized variable warnings.
 
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
-ChangeLog:
-v1->v2 unified all the error handling code in free_* section.
-    remove the unnecessary modifications for rtw_os_xmit_resource_free().
- drivers/staging/r8188eu/core/rtw_xmit.c | 37 +++++++++++++++++--------
- 1 file changed, 26 insertions(+), 11 deletions(-)
+Smatch copied the GCC code.  There are some static checkers which might
+complain.  Sparse used to have a warning about shadow variables but it
+didn't trigger on this code.  Not sure why.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 299fe26..e6bbbf7 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -112,7 +112,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	if (!pxmitpriv->pallocated_xmitbuf) {
- 		res = _FAIL;
--		goto exit;
-+		goto free_frame_buf;
- 	}
- 
- 	pxmitpriv->pxmitbuf = (u8 *)N_BYTE_ALIGMENT((size_t)(pxmitpriv->pallocated_xmitbuf), 4);
-@@ -133,9 +133,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 		if (res == _FAIL) {
- 			msleep(10);
- 			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ));
--			if (res == _FAIL) {
--				goto exit;
--			}
-+			if (res == _FAIL)
-+				goto free_xmitbuf;
- 		}
- 
- 		pxmitbuf->flags = XMIT_VO_QUEUE;
-@@ -153,7 +152,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	if (!pxmitpriv->pallocated_xmit_extbuf) {
- 		res = _FAIL;
--		goto exit;
-+		goto free_xmitbuf;
- 	}
- 
- 	pxmitpriv->pxmit_extbuf = (u8 *)N_BYTE_ALIGMENT((size_t)(pxmitpriv->pallocated_xmit_extbuf), 4);
-@@ -168,10 +167,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 		pxmitbuf->ext_tag = true;
- 
- 		res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, max_xmit_extbuf_size + XMITBUF_ALIGN_SZ);
--		if (res == _FAIL) {
--			res = _FAIL;
--			goto exit;
--		}
-+		if (res == _FAIL)
-+			goto free_xmit_extbuf;
- 
- 		list_add_tail(&pxmitbuf->list, &pxmitpriv->free_xmit_extbuf_queue.queue);
- 		pxmitbuf++;
-@@ -181,7 +178,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	res = rtw_alloc_hwxmits(padapter);
- 	if (res == _FAIL)
--		goto exit;
-+		goto free_xmit_extbuf;
- 	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
- 
- 	for (i = 0; i < 4; i++)
-@@ -203,8 +200,26 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	rtw_hal_init_xmit_priv(padapter);
- 
--exit:
-+	return res;
- 
-+free_xmit_extbuf:
-+	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmit_extbuf;
-+	while (i-- > 0) {
-+		rtw_os_xmit_resource_free(padapter, pxmitbuf, (max_xmit_extbuf_size + XMITBUF_ALIGN_SZ));
-+		pxmitbuf++;
-+	}
-+	vfree(pxmitpriv->pallocated_xmit_extbuf);
-+	i = NR_XMITBUFF;
-+free_xmitbuf:
-+	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
-+	while (i-- > 0) {
-+		rtw_os_xmit_resource_free(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ));
-+		pxmitbuf++;
-+	}
-+	vfree(pxmitpriv->pallocated_xmitbuf);
-+free_frame_buf:
-+	vfree(pxmitpriv->pallocated_frame_buf);
-+exit:
- 	return res;
- }
- 
--- 
+regards,
+dan carpenter
+
