@@ -1,116 +1,131 @@
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com [209.85.167.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2099.outbound.protection.outlook.com [40.107.255.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792737C;
-	Thu, 31 Mar 2022 12:06:03 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id q129so25017896oif.4;
-        Thu, 31 Mar 2022 05:06:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=XUYGC/MdNC/QqLiDIIOH17Fg3yzA6z93mDMspfC2XaQ=;
-        b=ddKq2q3GyR8sFIXGUgmNi3oXOBB72Xs9tG83/2jymJ6saS+DmSitBcCsgPZovTXmoj
-         fdkHFNdbr0Y/8p4YzxLf12jy+9uRUenoC1q69G7eM2SWzzYtITHrrTzjTgOmgXQGZwik
-         /k/xAbrK2jfpwtn9iPxbuf1H9Y19x32ZAtVP6mDU9Cpn30A23idfmjc6LxHC4U7Y8bui
-         0UtcyIT/B7b/pCFkmcEVBvzvvYZrDj9hCB90XU3ykhBgNCcQyeQCqG6mv0DAvQvip0Sx
-         uwqJLxujMwMHQdifm+du9W+iTrVULqPtPvf08BCHnXwReBaUJfJxV/3pbWnpqIL4Muql
-         qf5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XUYGC/MdNC/QqLiDIIOH17Fg3yzA6z93mDMspfC2XaQ=;
-        b=fWYjZeSQe1fR/LdlbxcYyaaW2DRl1y5PEBsyJdFKyOOXmHz4IbfGJI4x25MjWLsaDt
-         yERrZZAFhz1g4Gx/f4jLYLY4rnw5+dEc9IV+dU4O/LIRSZrafZNN4pjfCJuwarM/Fh1f
-         kXMrWIGLQfpisHb+yhQWxnD2UBYKWiEwf6B/Vk03Z3imIYSHVBZt0G4u+oOpK3oyaUlN
-         SpOqoRO6G0cH6tZPZUa/IzgCQjJNR3i+b8kpAfHJwCxPU1FeVgOmmECsPgYQlY9h3vEL
-         VKTdu1XJMWJ764UthI2ZFAp1bxifQxI6SeimnElHpKcxF0LHBXHgLOQYkY7lkSDGHly9
-         EOeg==
-X-Gm-Message-State: AOAM531fS15tSNZk20OMkNRotDUGLZY4G5odPtMd3pX4L8vRtjeTsf/2
-	kTh8e2mmO+rRbmY9+XO5KMzMmGE4WycGZw==
-X-Google-Smtp-Source: ABdhPJwPeUCR7dZ0ZNy9Z6Z4+gWzjpXEMiYmvnVekMgG7S8j/XpHIN3LixCKkM0Ny3Ya1/1xVWna2Q==
-X-Received: by 2002:a54:478e:0:b0:2ec:c28d:8930 with SMTP id o14-20020a54478e000000b002ecc28d8930mr2503337oic.162.1648728362311;
-        Thu, 31 Mar 2022 05:06:02 -0700 (PDT)
-Received: from bertie (072-190-140-117.res.spectrum.com. [72.190.140.117])
-        by smtp.gmail.com with ESMTPSA id 184-20020a4a03c1000000b003240492fc15sm11729175ooi.36.2022.03.31.05.06.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 05:06:01 -0700 (PDT)
-Date: Thu, 31 Mar 2022 07:06:00 -0500
-From: Rebecca Mckeever <remckee0@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Alison Schofield <alison.schofield@intel.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: r8188eu: fix suspect code indent for
- conditional statements
-Message-ID: <YkWZKOvThq5paUi3@bertie>
-References: <YkK7ABTVt0TCbd18@bertie>
- <20220329161632.GA1169956@alison-desk>
- <20220330062829.GF3293@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C175B7C
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 12:08:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KTE1h4y8fGaOZw1xaMXA+7Gn9bCG7jw+ko6CpVJ7aUb/kznNuNzte1PMuSSxfpaIlAysKPM59VDcVpd4UzGl7h1qSc1niQFj1yNwYsnF7q89h/+7TOr1Tq+DKytI5V7uYmHfAboBZ5vqUi1RM0yEDrWEoxFIVfet7y5doid7BYkRsERDCj+RF2jDl2dl8nO5PU8ehQgXd81OXbAWmunubq6hP1ZQCtUGdujRJRfG4zvCsc7s00dV2JiSv8+n5WCfhGfnGwV2c/9fHpsHDsqZ93rsExlck0cM/dzZqw2zsN7pnmosugpHMc024Kksys1QpFyBgx+79iUgPjxetpAAdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D+0wcEHDFaSjHIBW4mg57qHIxShqM19A4XovI/5fakw=;
+ b=LRGRNuSCrrTedOrfP/ezMbhEtgYt6gGiaAQWwcnoKPUUcjevZFKw1g9wf+QBSJUZ9eSr0FFtyxa36qAEvNyikOjKy97M9gnK9d5By2ChlZqBkzMzPaEipoE6+/pKuAcqaCcMbzvUSqcB/I2s43+7fJoXO49xJT2Cu6fCWbJ9yLKlQoF6zhnHn0aH6nCwTlnFjudAAvbEFHOoqsu02foy0izJBHt9X/+9SWZvYul3LArQnulrZfnf/scjhWidHaRTyCS269VllLqfVNG0GvAHIaNSG76HL5rf7OHwSz+Y81PRHQF7FGp5AAv7IJKyOy251xtc2nkoW9lUfN8wzBJITw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D+0wcEHDFaSjHIBW4mg57qHIxShqM19A4XovI/5fakw=;
+ b=fkdOuLvU3RFYwuyLJAYelOQdLLL6EL8aGkhJuppne9FZjUXZH9HuCrS7iWr7Wpdui7oMWcNQ5nmHGTBnVVHpkxuIk/aLYenZq3u6mwadHtb0Ip6ZJsGQ7qbIG3q18uugD8Ar0WWDuBRJH50p7w412z7T7OmSoPiacFDYivlV97I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
+ by SI2PR06MB3882.apcprd06.prod.outlook.com (2603:1096:4:ea::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.23; Thu, 31 Mar
+ 2022 12:08:47 +0000
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::6c6e:d8af:2d3c:3507]) by SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::6c6e:d8af:2d3c:3507%7]) with mapi id 15.20.5123.021; Thu, 31 Mar 2022
+ 12:08:47 +0000
+From: Qing Wang <wangqing@vivo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Wang Qing <wangqing@vivo.com>
+Subject: [PATCH] staging: r8188eu: remove duplicate assignment
+Date: Thu, 31 Mar 2022 05:08:34 -0700
+Message-Id: <1648728514-37390-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR04CA0047.apcprd04.prod.outlook.com
+ (2603:1096:202:14::15) To SL2PR06MB3082.apcprd06.prod.outlook.com
+ (2603:1096:100:37::17)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220330062829.GF3293@kadam>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ef10fb5c-c499-4804-126a-08da130f3598
+X-MS-TrafficTypeDiagnostic: SI2PR06MB3882:EE_
+X-Microsoft-Antispam-PRVS:
+	<SI2PR06MB3882DD350EBCB440AA44C73CBDE19@SI2PR06MB3882.apcprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	k3zkNMlPZhyV8J+44J58vtx9RCHcQgyHixKfhfFJ7ax7g5z6cjxg2+PiFYkDmU5liI2VzQI49LPwzSq/Ijfwnj7/ztr8Ae22hz7RN49Bo99p261OZ3zZK2KVHcR9moLi11sH91oGGXiSrq8uYFxOa5pQ+hEdN/50j4BW3nGRxE6xrVig/Pi8z9uf/X0wNhvShoHqcNTuS7eWpOni6xLXGTiO8W2bHSuoIsxtSK9l+PA9gOm7ZN3UqfyeJAq4A2rWUtfwzKk77u83K7EqYGdodkO9WcGECf4PztgHg6uleqLUPdoKqcs4whzBm/9xMqhfM+42CA40rlfaM40jskpjHQTM71l7i+Nrt9M8Lqn/jIN24l6OlIWP/rK0HmpNko4t6GsykfG6dbTTmkLNi/nHHlKN5GI+wT+yXS4TfPo6kEvhBsMWhwiOnShhRhWEJp2yRWGerO6vUFAFX49gQ8Uz/uCgPRq/gJlpN1lkbCnquwGeczywI/NS6HCaQZx7xLQOg/P/lvn/fIC0HfD4IrWYXLnzmVKoETjRdfR9npYiwfQBpqls2IpseVRGc5P8BoLc18sNUlCyneBZIlZ42DE7ahM3iwwo7PxGI8sMs9/KvXd4icl6whMnzlkWzaB9+WwRl98pOJknkuqtkCohSM28w4jP+uzO9iNAyESesyyzvkB1CxxUeBiDYCkHa0TXE40gzZPNqvXxEcY+TK1m5LYOuw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2PR06MB3082.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38350700002)(38100700002)(86362001)(316002)(8936002)(4326008)(66946007)(66556008)(66476007)(8676002)(107886003)(2616005)(26005)(186003)(83380400001)(6666004)(508600001)(6486002)(6512007)(52116002)(6506007)(36756003)(4744005)(2906002)(5660300002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NWazgiXjUlGgOV2+RU4RtyEG3y8zjgyVh7QrIkfdc72hXAvNA+zeMBvrqZRR?=
+ =?us-ascii?Q?P9JYhHAIpJaMDe99jqBR4nLzaY/Eo70Vn9d2iDjteMVRZguZzqb/QK9ug/vN?=
+ =?us-ascii?Q?t+5oovgYL4ScrogCWO6mM/81OuhqdheUAd4NADjtOkkb4qy++18ncYFeZQpY?=
+ =?us-ascii?Q?uaeugeGuDqEzDNaebCWgimqUcY4LPErWVj5q52vJ3CdtYTtwUkkw4TS+jPaf?=
+ =?us-ascii?Q?jJLgnWLQutYxRJzVjIK8lMNHj9A+4LZfuPQutIsMff/g6lwD0Sqxdk1zY2Dy?=
+ =?us-ascii?Q?pxFhYctEkvjA2d5J5Sk94BjHJGqc3l+d6OrL1LkJ31DEajaUEWHq7HHhzonE?=
+ =?us-ascii?Q?VwZLPuCfafMDiGHkfxCItbVi8wxxTa96Fxgj3RKWkMCoYq9OQN9/8PP0bDW3?=
+ =?us-ascii?Q?gzfWBW/0jAsnRGgT5HVDbx3dtCZfC5uEi/W5wqRjLVO/6G3o2dJ1A2a4Dat5?=
+ =?us-ascii?Q?sVb30TIqofyn9HL+ptDcZhFgKacshyqWtKGOV5+5KefEYnEzR1GQMceLWhfC?=
+ =?us-ascii?Q?PbHHA4l9d8SFZS2qZtP92X75o4Fv8Oebsa5E17BMKRnmlcmQIjovNDprLKUE?=
+ =?us-ascii?Q?YFoX+VHe9gyebjlQe+sQrTU7xfPtcLeYolhIYV7RWe1inPlFPGs2O5slLuMn?=
+ =?us-ascii?Q?wlxLSdZf5d/TRvJpHZ/+Hy/5rLsRg3e8GIPvzWSuyPLorovE3tu2cvm0OhQF?=
+ =?us-ascii?Q?EAj1QHl40FJYekfsPfWAZpLHxQKRsmMMJCIgXl38SZuYpTNUckxcDh0jAV53?=
+ =?us-ascii?Q?S1b3q34dhJndZt1tBrBGzqIdO+z0sVUn2t+Uh58KDg+OzGYrypSzXbWAp2CS?=
+ =?us-ascii?Q?zDcflcencu1eodsuzLvBleZQQM8WAi1SZ1Mg4ipKfvo/RGXR1PnWtP8hOBrp?=
+ =?us-ascii?Q?1+ikNDssWNn9v7dJ4p4ERVt4tyFiowpV0nAtlqz6R7FNtX04d1Jjw9dnuzbe?=
+ =?us-ascii?Q?BO/WiMebN/AAC653PhX8784eZDR4Xj1CF7QMmlhOn5hkcwzZDuHj4HDZvZma?=
+ =?us-ascii?Q?SAWiYKnQ34n16C0/qxOdCqVLsjQ9zmQDL0xp1Fj/sH/Swlq3WsL4JORjCPFX?=
+ =?us-ascii?Q?Xho5SoHV/+ejhgQfKBK54cY/Gx08uy5gKFe1SQiXVCaUuv1QT5xnyX3pPCyC?=
+ =?us-ascii?Q?kQffc6Hesnu/kX/91D91vFmgprBOSxGCbQeDS0cn0RB1UxPSqx8Y9E++EHq7?=
+ =?us-ascii?Q?cssb0B0XtVZXAz0WU1mx4/XKDfrpgpghQDiwcc2GdaYkHaehIq5A56V1DVpy?=
+ =?us-ascii?Q?21bXh17KmtoCSak14q3r/I1xuToKBV5rlgO1e5zeBSQ8ovdm2OPXmOpWWUpM?=
+ =?us-ascii?Q?ZaZdaz3UiMJBxBEdyqliqHHJn5Zt80Y1Xlw+QfIpoiwtF6SCWmkH+vFvFD4j?=
+ =?us-ascii?Q?S314mD/NWtfFGIjbPpIN6n4iZYBAbRcblZ8WDagSz06m88mi9b4ZR7nP06Ej?=
+ =?us-ascii?Q?7/vTXURVdhQv66rgXnZoqS3uwi8fmzPwGeH2KjFjDyjI4u6m9T0MoTKWO3ka?=
+ =?us-ascii?Q?OWZ9EZcvEppMgbxZ1THhvUa0IMnnyPfHUA28VqOn3jPJFgDI4RLkTQfDoOJ3?=
+ =?us-ascii?Q?QBrl4cwB/L7QkiiYK5piAuHtGyt6ppB1D0Y1r9mdSPmtbqLg/pQgtlV3tGfP?=
+ =?us-ascii?Q?mflyUgcB75LUaKR8hOwe8k082alraSgAHqeceMHoJBwtZmnsNI6RUCc9LebD?=
+ =?us-ascii?Q?h+YWUegeRNWzxjKFaNtSD8lIydJjRdspt0Xeu31LmJ8yntdZbHJk9Gdj1HNW?=
+ =?us-ascii?Q?UEPlyQ6pHA=3D=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef10fb5c-c499-4804-126a-08da130f3598
+X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3082.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 12:08:47.2660
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pY34/54Txwbb4W+zG0M+0ukNqI5YOF5wB66r6byt/iGp4SkljeXQOzkbX48LhatCI7mqf4bIYAGKrwBxDfXUpw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB3882
 
-Hi Dan,
+From: Wang Qing <wangqing@vivo.com>
 
-On Wed, Mar 30, 2022 at 09:28:29AM +0300, Dan Carpenter wrote:
-> I don't really like the focus on commit message minutia...  :/
-> Basically everyone can understand the commit message.  There are one or
-> two maintainers who will fly into a rage when they see the word "fix"
-> in a commit message but I have a simple solution where I just never
-> email them again.  My time is too valuable for that nonsense.
-> 
-> We would have applied this patch as is.  Or I would normally have
-> written it like this:
-> 
-> [PATCH] staging: r8188eu: Delete a stray tab in rtw_survey_cmd_callback()
-> 
-> This code works fine, but the line is indented too far so it's confusing.
-> Delete a tab.
-> 
-> Signed-off-by: ...
-> 
-> I had reviewed this patch earlier and almost pointed out that both sides
-> of the if statement are the same except for the comment.  The "need to
-> make timeout handlerOS independent" comment is wrong.  I have not looked
-> at the details of the other comment.
-> 
-> I did not send my review comments because the patch was fine.  But what
-> we want is for the code to look more like this.
-> 
-> regards,
-> dan carpenter
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-> index 6eca30124ee8..dcf7b24f95a8 100644
-> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
-> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-> @@ -1404,11 +1404,8 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
->  {
->  	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
->  
-> -	if (pcmd->res == H2C_DROPPED) {
-> +	if (pcmd->res != H2C_SUCCESS) {
->  		/* TODO: cancel timer and do timeout handler directly... */
-> -		/* need to make timeout handlerOS independent */
-> -		_set_timer(&pmlmepriv->scan_to_timer, 1);
-> -		} else if (pcmd->res != H2C_SUCCESS) {
->  		_set_timer(&pmlmepriv->scan_to_timer, 1);
->  	}
->  
+netdev_alloc_skb() has assigned ssi->netdev to skb->dev if successed,
+no need to repeat assignment.
 
-Is it okay if I submit a patch to implement your suggestion? I would
-include a "Suggested-by" tag.
+Signed-off-by: Wang Qing <wangqing@vivo.com>
+---
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Thanks,
-Rebecca
+diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+index 673c30e..e5d6cd6
+--- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
++++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+@@ -260,7 +260,6 @@ static int recvbuf2recvframe(struct adapter *adapt, struct sk_buff *pskb)
+ 
+ 		pkt_copy = netdev_alloc_skb(adapt->pnetdev, alloc_sz);
+ 		if (pkt_copy) {
+-			pkt_copy->dev = adapt->pnetdev;
+ 			precvframe->pkt = pkt_copy;
+ 			precvframe->rx_head = pkt_copy->data;
+ 			precvframe->rx_end = pkt_copy->data + alloc_sz;
+-- 
+2.7.4
+
