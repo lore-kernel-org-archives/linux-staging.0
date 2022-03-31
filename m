@@ -1,41 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFF17C
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 11:32:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D67C340F3;
-	Thu, 31 Mar 2022 11:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1648726331;
-	bh=t0lC1RQIMJQ9wmY9jq+yTfW7RjoXXGVpdb/3uZ0FJ0Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fNHj4AGDpAZrOi7HiVrnjfUu7pjzWkaPko+JNLbcKZCq1IcQNPbnZI3QbEQF8yvRD
-	 Rvk9BPTAwt7es2EjGzdbFqgtTVi8dudTKL5PzhagULHwH7Fd7NF7hUGYl/TkAaJfQP
-	 HfvLROs/ZB3GYsvWt/+ImhAkzMugwhVX4fBop67k=
-Date: Thu, 31 Mar 2022 13:32:07 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Nas Chung <nas.chung@chipsnmedia.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-	"kernel@collabora.com" <kernel@collabora.com>,
-	"dafna3@gmail.com" <dafna3@gmail.com>,
-	"bob.beckett@collabora.com" <bob.beckett@collabora.com>,
-	"kiril.bicevski@collabora.com" <kiril.bicevski@collabora.com>,
-	"lafley.kim" <lafley.kim@chipsnmedia.com>,
-	Scott Woo <scott.woo@chipsnmedia.com>,
-	"olivier.crete@collabora.com" <olivier.crete@collabora.com>,
-	"dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
-	"rdunlap@infradead.org" <rdunlap@infradead.org>,
-	"daniel@0x0f.com" <daniel@0x0f.com>
-Subject: Re: [PATCH v6 4/6] staging: media: wave5: Add TODO file
-Message-ID: <YkWRN4ac0ivRn4aB@kroah.com>
-References: <SL2P216MB12463DE2E1E100E2498A5C33FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
- <SL2P216MB1246D7900A0B9620F1E1A038FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5BA7C;
+	Thu, 31 Mar 2022 11:32:48 +0000 (UTC)
+Received: by mail-qv1-f45.google.com with SMTP id kd21so16555871qvb.6;
+        Thu, 31 Mar 2022 04:32:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=bc/PXIbfsZzVLQeoRR3CqcpGDJosJWCkO2fVBiONc1Q=;
+        b=IuANEAlikqk+/VwxizAK1a+Ql93DgV1MBbrzqKiKcQ6uMpYb+HW9tBrX71WStTgsQL
+         ark9m1886ou6JooOdEUxV3R+yAlu3Vb3UtEd9HO/E0JexD5S+/GyMPLze5coFzguUS96
+         D2JDmXv/wxVhS4HUcvf+xfRk9PQuNueIOMloGKTZCqlfMs6V8fjpShlajBOue4QV4+nU
+         p7ioBtADZ9jKIrXJDS1POSpS2OtBS/HtXvcsyYY+Fxwn/d7BbERl2L/LesgYFXK9ZkGm
+         NPrGK40P4wq+nxf73GxvyJFRlsULnWgCJ4JNk9MP8FttHmb2awxZoJA/xTocCI6fpecA
+         GHaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=bc/PXIbfsZzVLQeoRR3CqcpGDJosJWCkO2fVBiONc1Q=;
+        b=tIxuvjXmB5ZN0AkI5PQhGI7SgubHVbuA3VTEDp3AFh4OzuGOxT9WUpDGo383oHyJ+a
+         4tpvSCkIxYUWoQrFm9Cs6wn+28WyPVZhx3ovSOTMBGgR5x1krbtotxdJBSrtmbYyJu5i
+         +450UTP6+CMasyLZWuErEV0kXD6jCj65o4en/ChGNN2n3bpLaPJTbem4p3FLpuP8hIFZ
+         RUednU94/7xQJBaz80s96gGPoCxzImQxtbCp4iIjWgRC2X9ivrGYrGzjGHaOIYE+XZQc
+         4i+P2ytj9S9GAhonbYkm5QN6nh4jchB4UwF/UOJ2x1+XubBA5JYipSzVdHzuDCkX6cc+
+         XPXQ==
+X-Gm-Message-State: AOAM530y0alaHhDhGgNZunE+24LemphbKv69H7hKrXUxRVMbDW2Hd7ug
+	Zc+Cr0fLhRIXkYqEI1nbDLVoV6EgQlHgyLRV
+X-Google-Smtp-Source: ABdhPJwZk6l8e5XgH/f35IcfjChMbG+vK++077j9LhGcXMxWN6sv/fSrQ9EjdnlX0JxKc2zNdYlYaA==
+X-Received: by 2002:a05:6214:528d:b0:441:4702:6263 with SMTP id kj13-20020a056214528d00b0044147026263mr3373484qvb.125.1648726367405;
+        Thu, 31 Mar 2022 04:32:47 -0700 (PDT)
+Received: from euclid ([71.58.109.160])
+        by smtp.gmail.com with ESMTPSA id bs32-20020a05620a472000b0067d4560a516sm12743636qkb.32.2022.03.31.04.32.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Mar 2022 04:32:46 -0700 (PDT)
+Date: Thu, 31 Mar 2022 07:32:45 -0400
+From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH v2] staging: rtl8723bs: remove redundant braces in if
+ statements
+Message-ID: <20220331113245.GA425141@euclid>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,48 +51,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SL2P216MB1246D7900A0B9620F1E1A038FBE19@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
 
-On Thu, Mar 31, 2022 at 09:55:10AM +0000, Nas Chung wrote:
-> From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> 
-> Add a TODO file listing all that is need for destaging.
-> 
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/wave5/TODO | 64 ++++++++++++++++++++++++++++++++
->  1 file changed, 64 insertions(+)
->  create mode 100644 drivers/staging/media/wave5/TODO
-> 
-> diff --git a/drivers/staging/media/wave5/TODO b/drivers/staging/media/wave5/TODO
-> new file mode 100644
-> index 000000000000..425ed42a234c
-> --- /dev/null
-> +++ b/drivers/staging/media/wave5/TODO
-> @@ -0,0 +1,64 @@
-> +* Test on real silicon once available
-> +
-> +  This driver has so far been tested on pre-silicon FPGA and on the beta BeagleV
-> +  board which uses the StarFive JH7100 beta SoC.
-> +
-> +  Testing on FPGA shows it working fine, though the FPGA uses polled interrupts
-> +  and copied buffers between the host and it's on board RAM.
-> +
-> +  Testing on BeagleV shows buffer corruption that is currently attributed to a
-> +  known silicon issue in the SoC that makes the cache coherent interconnect not
-> +  so coherent.
-> +  This can likely be solved when the riscv non-coherent dma support lands and
-> +  provide optional v4l2 non-contiguous allocator, though it remains to be seen
-> +  whether support non-coherent use cases will be useful in real world hw.
-> +
-> +  Until we can test and resolve any issues on final silicon (due 2H 2021)
-> +  this driver should remain in staging.
+Adhere to Linux kernel coding style.
 
-Then why not just wait?  Why merge this now?  What is the benifit of us
-taking this code at this point in time for hardware that is no one has
-as it is not even created?
+Reported by checkpatch:
 
-thanks,
+WARNING: braces {} are not necessary for single statement blocks
 
-greg k-h
+Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+---
+
+v1 -> v2: Rewrite the commit message to confirm to the established conventions.(Thanks to Alison Schofield <alison.schofield.com>.) 
+
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 27de086903e2..68e41d99679d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -335,9 +335,8 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
+ 
+ 	ie = rtw_set_ie(ie, WLAN_EID_IBSS_PARAMS, 2, (u8 *)&(pdev_network->configuration.atim_window), &sz);
+ 
+-	if (rateLen > 8) {
++	if (rateLen > 8)
+ 		ie = rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rateLen - 8), (pdev_network->supported_rates + 8), &sz);
+-	}
+ 
+ 	/* HT Cap. */
+ 	if ((pregistrypriv->wireless_mode & WIRELESS_11_24N) &&
+@@ -366,9 +365,8 @@ unsigned char *rtw_get_wpa_ie(unsigned char *pie, int *wpa_ie_len, int limit)
+ 
+ 		if (pbuf) {
+ 			/* check if oui matches... */
+-			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type))) {
++			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type)))
+ 				goto check_next_ie;
+-			}
+ 
+ 			/* check version... */
+ 			memcpy((u8 *)&le_tmp, (pbuf + 6), sizeof(val16));
+@@ -493,9 +491,8 @@ int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwis
+ 	if (is_8021x) {
+ 		if (left >= 6) {
+ 			pos += 2;
+-			if (!memcmp(pos, SUITE_1X, 4)) {
++			if (!memcmp(pos, SUITE_1X, 4))
+ 				*is_8021x = 1;
+-			}
+ 		}
+ 	}
+ 
+@@ -514,9 +511,8 @@ int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher, int *pairwi
+ 		return _FAIL;
+ 	}
+ 
+-	if ((*rsn_ie != WLAN_EID_RSN) || (*(rsn_ie+1) != (u8)(rsn_ie_len - 2))) {
++	if ((*rsn_ie != WLAN_EID_RSN) || (*(rsn_ie+1) != (u8)(rsn_ie_len - 2)))
+ 		return _FAIL;
+-	}
+ 
+ 	pos = rsn_ie;
+ 	pos += 4;
+-- 
+2.25.1
+
