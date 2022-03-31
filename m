@@ -1,227 +1,126 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EEA7B
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 06:38:02 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22V4e0BO030419;
-	Thu, 31 Mar 2022 06:37:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=9FJaXwRwObErwwNiGShR5rqX19wW56894vqRiiuqiC4=;
- b=LRmvKWvvyIZbDGViB5JalsFCCzmFALmoDAPfPVy09RfCq1vX4v6fZtbR/GipzAZNtv3m
- p50MiuS1U8qq6PBcV/okSyiVVg+Mg8OslDonyz/7iOpUdHafQD8QKnlh9cQivTyizBTf
- cgnSA5kAcYTzYWygG8ZuCBbYKL+XizKd0ZBxsw1mALfHSZtwHvpuhoIJPkgvtjpJjstD
- pZ1gAPwh8cKBB/j8Q4ZBq6BH2Vj9t/p8CtF0DIusYEqN20vjKkqwFTiaTLkH66y9BXMT
- zyvNHknZQDR8eXvZzVcRuTYfWzPDJ22SnLGhL6FBAagY97pJcq3BYKv4vRSA1eqbofZ8 Mw== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3f1se0ke3j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 31 Mar 2022 06:37:56 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 22V6UYAJ033132;
-	Thu, 31 Mar 2022 06:37:54 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2172.outbound.protection.outlook.com [104.47.59.172])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3f1s947hdh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 31 Mar 2022 06:37:54 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JgLG7PViIw3XeeOwxaYYBHPa8fkA47TUbYqeSWeFva/kY6D2uFHadkYVnyDqx6IIngWGeQEBGU8VmiqD9ncnCSU/NBFazuymfbHZyRNy+fmem9iRkPBSyaYIhuNDsa3tZtg7OYvBHRrPveoEjOzP6PDlucUALPXnQLOC31DGuBvztAEWxh8DxxC4VM8srG9p+pkbBl/4F2yafcB+MQVjtuCfWeXQyxtqZbj3PprggglMj9Do12QKWJmnzAb6DAvHg3JUUKNWIMXgD9kQdqIl2MR9vMTSV6CFfBP+mJHxUleWkJR0VYgrQ5Ej1zpRaZiasGM56N5INcsstouoMaKhbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9FJaXwRwObErwwNiGShR5rqX19wW56894vqRiiuqiC4=;
- b=AfTlO+VKW33PIcj5Xn+/FgCzVL+ZmGGynckKDsCU0xyhYfCYi79wMmuqlU/2EEKB4dKoY7owGm6lgfBnp/tnFqaOIQxZXH4H4l+2fbkaWMwJFOO1eFsVg70xRxZAnFwQlsHfsb6gQD4wRKtSWBpGFB8p4W9fgOFzba/P8HpYkb8bvjEtYQXgbXSoP6JBDBWX7sKhR44tlsYIEfaaTsc0gIss/y0a3LJMeaI1KAZs44Po1rujKeIUrm+xolRFpGcifiRq1xKgCeATqRGx2kVFtHe1aFD4NsF1bIatJKSnG2Y1ZNDsYB514DdOESDbAIKpMZWqnnEjcAvjSOeXc71fPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816497B;
+	Thu, 31 Mar 2022 06:41:22 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id h1so27031688edj.1;
+        Wed, 30 Mar 2022 23:41:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9FJaXwRwObErwwNiGShR5rqX19wW56894vqRiiuqiC4=;
- b=sN5d+Top0F3IqZcehUDytvWTvqDJ+3jYp7GMGaegjrdVrD+xgeOLTg4gDX3UXDQhGx86aLzlHkIlf1duJKOvTK3h6BqpwZz4MIdy0T2B+9n4bmvUmiQ8FD0KhH7S68teiFKQmL17Uz73d3GoWN068J5tR8VY5btWM8K0O1COGeo=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by PH0PR10MB4502.namprd10.prod.outlook.com
- (2603:10b6:510:31::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.21; Thu, 31 Mar
- 2022 06:37:52 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d4e7:ee60:f060:e20c]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d4e7:ee60:f060:e20c%7]) with mapi id 15.20.5081.025; Thu, 31 Mar 2022
- 06:37:52 +0000
-Date: Thu, 31 Mar 2022 09:37:33 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: xkernel.wang@foxmail.com
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-        gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: r8188eu: properly handle the kzalloc()
-Message-ID: <20220331063733.GJ3293@kadam>
-References: <tencent_12789CD2DEBF33C818B3542E170737854506@qq.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_12789CD2DEBF33C818B3542E170737854506@qq.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0036.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::6)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vRVZfZhek/ld27PxqrvAQx7maxQWJQLXz5r4N00GOvw=;
+        b=Xi15f2aQFwUqwT9TRfxb1qLZvAF/UDB1Tt0O9qg5coX6j0xbBItJGn1yVFfRp2bGWs
+         CyISIlUzkJxbvKCdz+xyfNlp4GXb9ZaA2NELq4JW91qbOeZTPzWd4iZY6XL9JPC9P+1t
+         +TIQoHlEn5SxgLYrk4/UK4irrscHYYlOJOv5Fjm61PDQyTpJfOLjJ3VcMc2kAxBwETUO
+         xa8EE6m9WBm2PqMFCF6SMxNdalTNQzljyMoUOC/4BLfWqfeqjmyvoKfgHh2MtKAbJH9N
+         UWRqJLBk+Nvrn8+5LValSaXCvoxz9R0Usfvuhx3gKu9XNZI/16lDqDAdL6APKiLxTOZF
+         V9yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vRVZfZhek/ld27PxqrvAQx7maxQWJQLXz5r4N00GOvw=;
+        b=U3vRRQDG3I7mbelprMMnHXD6d+ilpORUSJ6+tzbdoD9W69kk80alYw2JrWzS6Fj4gU
+         ENYwQPoMLlDTSMR1UISEwlBTw96JqyC9xO77Y2vimlip4/GiQsLyFUIZKncer0l9RvLp
+         mcFWTZIvNk+OL/DSHZuVJCZpfsBoBBT5NkuOJ87WpkXeaH72SsT+9mk3GpCA9EifIuhp
+         RDW2M7PYqpypubscektagrt7GtEx5wPdBiXWjWz6MveMwRSdoinD1Ba+RPHcR4vLkmda
+         5ezIYyd7i5fWcM+BgEynk3rrFMpS91gVBEZd/4RO9hqz4oFA+EAp2CZeT+H5vrxJi9GZ
+         3vkg==
+X-Gm-Message-State: AOAM531YGrPAyC/lamuwUS8h8UFjZZHRomsmDRC8lT5GEtMDWnhEAXwu
+	0sVmCMBw26Jrb9BI7NloZHE=
+X-Google-Smtp-Source: ABdhPJzhFtKO5Fs8WACAacp4q9R9a24cKA+TW99SvZ81BfLY1EtflbXpMX6JRr/ibKETH7Zt2DpGMw==
+X-Received: by 2002:aa7:d58e:0:b0:419:c121:ea33 with SMTP id r14-20020aa7d58e000000b00419c121ea33mr14939013edq.256.1648708880560;
+        Wed, 30 Mar 2022 23:41:20 -0700 (PDT)
+Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id eq7-20020a056402298700b00419d8d46a8asm5368593edb.39.2022.03.30.23.41.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Mar 2022 23:41:18 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: David Kershner <david.kershner@unisys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	sparmaintainer@unisys.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: unisys: Remove "struct dentry *eth_debugfs_dir"
+Date: Thu, 31 Mar 2022 08:41:15 +0200
+Message-Id: <20220331064115.29345-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 14ee74e4-7579-48a3-bde4-08da12e0fabc
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4502:EE_
-X-Microsoft-Antispam-PRVS: 
-	<PH0PR10MB4502903C225CBA31F94249498EE19@PH0PR10MB4502.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	OJtLMfPeOs2Z6kiTjgnAfhcR9iz0L7Oa+5HYZhibAqIh1ewVOefg36riq7zUjUojv1DLnTJHwSJwwdrp6dchl0y/2NX51l8pzCG4s27XzSgl+lDZYool6kNw3sCkQxXyyTZefaV59nAQZnEqTEUoWhUlClNPrlNJRHLH4KX3IK//abYuH3JLhKFcMBlcJyxrSD9xnF+RHWL65EedXinctTOio8ZT+pRvZnwDVZe2fuADvjSUZuvLiEJ1VUlvZpGhiAgVIq2UKCWsbXu+tlCXBXhmsw2m6VUYunucIlK6wOgX603WRszOb5WpP1Aop/Sks6zpy6wF1kOtn76D6YqWRJJ1TlmaVBj/4+rD75w6UrkLAIDxHhY7LLtp/1463xySFoGRg1I40OCRdt//Ii0u0IaGhs9J7E+XXeP6shfulb3rI276xQR/toa93i2KEbG/YZ76KEeahHuanHgks4+Mr7JOWnB2iep/KFBOK1RFbeKW9HWjrowlp7G03GU5AxQlHBOaW8TSzSX0zTl1tTPYbf6VtiY/YTDiG68s+5kInrUo6LEStU5ahLU8SrxGwyqRnKrsHH+QyvmGnxu6Y+v/avJMZC/TRbUY1t7Y8kOb5iz2+WcnDgUgumruS7w2NcpXTUOcC6WgDkbrlnq06MUDg9cMI1t/zasPGKXqNdtcODZhEV5fMinZVDJl72fakibs0cSnoAe6vnhhcGEzZgdC02ZUaO4SjmJQWsBpyl0N2Pqjog84QFEzOHCes56Yuz7m
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(508600001)(5660300002)(33656002)(6486002)(44832011)(8936002)(6512007)(9686003)(38350700002)(38100700002)(316002)(1076003)(6916009)(4326008)(8676002)(86362001)(66476007)(66556008)(66946007)(6666004)(2906002)(186003)(33716001)(26005)(6506007)(52116002)(48020200001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Mk1KrxtIvWECwBeB8H0NvbYbnirIyXk76vMwCHMLvETdSr7H2zNFwt4a+BVH?=
- =?us-ascii?Q?KkA4kCrsbf8d74RN+qMZurtA1o6Uv+qZcbl6PSYpGlewWEuFc98i7I4kwZPh?=
- =?us-ascii?Q?8WJlAS7odaqXjNbztvGUXRjrxM0qlM7pAFWVJQ7f1ovukPAGgaJPQT3UIlR9?=
- =?us-ascii?Q?xcTqNIXgl/K8AIWIy8XWThdxmjMlk2yB+8oHlclXLL8pXFMoJRqkkH1OQujJ?=
- =?us-ascii?Q?CBkWyTc5grTAyUo/g5W8vRvRTpnSkptz/lDU6ADH0pEHzxLNH13sHUfbfaf6?=
- =?us-ascii?Q?4sIbtwBb82mF8VGCJ8LisefyKLDyZhFB0SqcN/WjxlKIfX7rHqmHMG9eeqmy?=
- =?us-ascii?Q?+M6gmgNFKQAjD9YYEMIlmo++lIdsrJBuuKQAZTVv5y6MPIsn3DSh/LvFusZ8?=
- =?us-ascii?Q?zNBfthoTu7Cy0GHrj5dVe6SwGPDHtnIs1tRZIHEKEEDJjYk89F+WApArQefl?=
- =?us-ascii?Q?pKm5h/6TVoKRFVTC9t5GKf5eEaKJU2CPLwYeA+TJP/vzUh9n/zT8LCikxt/f?=
- =?us-ascii?Q?quimeoSK6mm7zRZ1s+Zlub60hxQNunUqWr/W3wDc9jPN/5+554a5EzyB5eaJ?=
- =?us-ascii?Q?JyJwoiPlTnOfT183QhgAGey31u36CHUi9t3Ter16hcIrjhLai2515EWs7YFA?=
- =?us-ascii?Q?uSHU9XZDXI2sWBAjWLAcrsgNn0ncW4a0EHKm65TIFJCO6oTLHzfaVrAGKwhB?=
- =?us-ascii?Q?pMSHEPhgaFlOPwnJ3ENIsYOFnUW7FxTSSDbWzREgpSCN+SQEKphjCAqTtzv7?=
- =?us-ascii?Q?9jFLMgxy+ZJAb52Eg9Wf8/GGi9THTUHYPpJnhEJEe/iNk7DjhBKSn+68Wkxi?=
- =?us-ascii?Q?nJI2XxzHfyYyhPkSf/KD36f3lVYFkM7TjW2jL+uj9HGznC9s9Xel5HfMi2wn?=
- =?us-ascii?Q?aKdfFooKXNysgwgymkglQMuTXderHHLZazzf5CxVbqbJ7u3WupdYfEpUk7ri?=
- =?us-ascii?Q?ME6vYnJHXXZqOLp6BGV817iMxLE7UB+srOrLk2a0Zv4tusO0fHW+hlE0kZ0b?=
- =?us-ascii?Q?0cF+e1llxjilEDechjLgfApeJfyFPwSy+Qqa3kxqryk42bTzYwfP4tXEnZq0?=
- =?us-ascii?Q?+zIZUJEvZeT9LTqWb5aW7Or/QZdnRteqBWLET6SJ2JQhFu89MN5NmxbR8L+f?=
- =?us-ascii?Q?cDnOgdGlTludpuZ3gkLHawYoYSSeHjY5tbma13/MThFMjcaLFVYhlaQWehR3?=
- =?us-ascii?Q?V7zCdezBVgeZGsq/lYjKrLxk7DDcmPMPJ4zKS3GItbqM81e3nPkBQAz8IT0c?=
- =?us-ascii?Q?flhfcxGN95P4jMQLSCj62puqzwSAamGfBb/8vPML5gGqwRiNpJoPnPGj5ykV?=
- =?us-ascii?Q?ucD9sP8YlwruwQx/2CcFfSCJMYaYcaKFd3dexx/CRveyi9zy4G725V5vZQmT?=
- =?us-ascii?Q?0QIHYbrEf07UCwo9wYzY58td/8TYW1cPoKiRJgeE5ITpstDNajFg28QsGq87?=
- =?us-ascii?Q?eKofY8oxy6RivjqC/BJntZPl4RK5tBqTZC9G86ZCuuuUS5fxyZq8sIXfTkd5?=
- =?us-ascii?Q?9rkkHJimsBEIf8apTMRu3WBdJXM9aYK8f6B+e6cyaalmMZtuk9hwxoQj78a7?=
- =?us-ascii?Q?gTsdbJIX1VOWvW3fsOnAbjdHAuhexHDPWI1NU6ozy19rgWUh7phRJgXs+qF2?=
- =?us-ascii?Q?Zndq8hpNbcgxi253+50a3CYPm7AXEaiDobfJ1BWu5FLfrqJfys3a26gRdjMf?=
- =?us-ascii?Q?odJUGws+8kkRpymsSOGeofj2uPB6O2VKzV6n3stK5CEdMvXAkN3GHPhDwywi?=
- =?us-ascii?Q?oClCR3nBndZpcYS9BMLL6Vsbea7fh/k=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14ee74e4-7579-48a3-bde4-08da12e0fabc
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 06:37:52.2024
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a2MQQmGSpUIo0yocVoorATjcJBcLnJbHMTv5qJB8boCzux8gpyq8tW/3dq8G9KO88yde1Hg2u7JdNVktWU8a4s5Ezqn4N3wOM/hQeL7Ax0U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4502
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
- definitions=2022-03-31_02:2022-03-29,2022-03-31 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- spamscore=0 mlxscore=0 phishscore=0 malwarescore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203310037
-X-Proofpoint-ORIG-GUID: 7Hd8dYAn8HNsLIUBFGFC1nvS47PxvRE3
-X-Proofpoint-GUID: 7Hd8dYAn8HNsLIUBFGFC1nvS47PxvRE3
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 30, 2022 at 11:16:07PM +0800, xkernel.wang@foxmail.com wrote:
-> diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-> index e2b6cf2..f1a5df8 100644
-> --- a/drivers/staging/r8188eu/core/rtw_p2p.c
-> +++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-> @@ -27,15 +27,14 @@ static u32 go_add_group_info_attr(struct wifidirect_info *pwdinfo, u8 *pbuf)
->  	struct list_head *phead, *plist;
->  	u32 len = 0;
->  	u16 attr_len = 0;
-> -	u8 tmplen, *pdata_attr, *pstart, *pcur;
-> +	u8 pdata_attr[MAX_P2P_IE_LEN] = { 0x00 };
-> +	u8 tmplen, *pstart, *pcur;
->  	struct sta_info *psta = NULL;
->  	struct adapter *padapter = pwdinfo->padapter;
->  	struct sta_priv *pstapriv = &padapter->stapriv;
->  
->  	DBG_88E("%s\n", __func__);
->  
-> -	pdata_attr = kzalloc(MAX_P2P_IE_LEN, GFP_KERNEL);
-> -
->  	pstart = pdata_attr;
->  	pcur = pdata_attr;
->  
-> @@ -106,7 +105,6 @@ static u32 go_add_group_info_attr(struct wifidirect_info *pwdinfo, u8 *pbuf)
->  	if (attr_len > 0)
->  		len = rtw_set_p2p_attr_content(pbuf, P2P_ATTR_GROUP_INFO, attr_len, pdata_attr);
->  
-> -	kfree(pdata_attr);
->  	return len;
->  }
->  
+There is no need for "struct dentry *eth_debugfs_dir" which is used for
+debug / sysfs directories. Therefore, remove this "struct dentry" and
+everything related (i.e., creation, test, removal).
 
-This part is fine.  This change is can be pulled into a separate patch
-and reviewed by itself.
+As a side effect of this change, the code has no more need of the
+"cleanup_register_netdev" label, which can also be removed.
 
-> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-> index 46fe62c..5888979 100644
-> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
-> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-> @@ -179,7 +179,9 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
->  
->  	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
->  
-> -	rtw_alloc_hwxmits(padapter);
-> +	res = rtw_alloc_hwxmits(padapter);
-> +	if (res == _FAIL)
-> +		goto exit;
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/unisys/visornic/visornic_main.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-There needs to be some cleanup if rtw_alloc_hwxmits() fails.
+diff --git a/drivers/staging/unisys/visornic/visornic_main.c b/drivers/staging/unisys/visornic/visornic_main.c
+index 643432458105..bb7ec492503e 100644
+--- a/drivers/staging/unisys/visornic/visornic_main.c
++++ b/drivers/staging/unisys/visornic/visornic_main.c
+@@ -103,7 +103,6 @@ struct chanstat {
+  * @server_down:                    IOPART is down.
+  * @server_change_state:            Processing SERVER_CHANGESTATE msg.
+  * @going_away:                     device is being torn down.
+- * @struct *eth_debugfs_dir:
+  * @interrupts_rcvd:
+  * @interrupts_notme:
+  * @interrupts_disabled:
+@@ -157,7 +156,6 @@ struct visornic_devdata {
+ 	bool server_down;
+ 	bool server_change_state;
+ 	bool going_away;
+-	struct dentry *eth_debugfs_dir;
+ 	u64 interrupts_rcvd;
+ 	u64 interrupts_notme;
+ 	u64 interrupts_disabled;
+@@ -1919,24 +1917,10 @@ static int visornic_probe(struct visor_device *dev)
+ 		goto cleanup_napi_add;
+ 	}
+ 
+-	/* create debug/sysfs directories */
+-	devdata->eth_debugfs_dir = debugfs_create_dir(netdev->name,
+-						      visornic_debugfs_dir);
+-	if (!devdata->eth_debugfs_dir) {
+-		dev_err(&dev->device,
+-			"%s debugfs_create_dir %s failed\n",
+-			__func__, netdev->name);
+-		err = -ENOMEM;
+-		goto cleanup_register_netdev;
+-	}
+-
+ 	dev_info(&dev->device, "%s success netdev=%s\n",
+ 		 __func__, netdev->name);
+ 	return 0;
+ 
+-cleanup_register_netdev:
+-	unregister_netdev(netdev);
+-
+ cleanup_napi_add:
+ 	visorbus_disable_channel_interrupts(dev);
+ 	netif_napi_del(&devdata->napi);
+@@ -2002,7 +1986,6 @@ static void visornic_remove(struct visor_device *dev)
+ 	/* going_away prevents new items being added to the workqueues */
+ 	cancel_work_sync(&devdata->timeout_reset);
+ 
+-	debugfs_remove_recursive(devdata->eth_debugfs_dir);
+ 	/* this will call visornic_close() */
+ 	unregister_netdev(netdev);
+ 
+-- 
+2.34.1
 
->  	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
->  
->  	for (i = 0; i < 4; i++)
-> @@ -202,7 +204,6 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
->  	rtw_hal_init_xmit_priv(padapter);
->  
->  exit:
-> -
->  	return res;
-
-This whitespace change has nothing to do with allocating memory.  Leave
-it out.
-
->  }
->  
-> @@ -1516,7 +1517,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
->  	return res;
->  }
->  
-> -void rtw_alloc_hwxmits(struct adapter *padapter)
-> +s32 rtw_alloc_hwxmits(struct adapter *padapter)
->  {
->  	struct hw_xmit *hwxmits;
->  	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
-> @@ -1525,6 +1526,9 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
->  
->  	pxmitpriv->hwxmits = kzalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry, GFP_KERNEL);
->  
-> +	if (!pxmitpriv->hwxmits)
-
-Don't leave a blank line between the allocation and the check.
-
-> +		return _FAIL;
-> +
->  	hwxmits = pxmitpriv->hwxmits;
->  
->  	if (pxmitpriv->hwxmit_entry == 5) {
-
-regards,
-dan carpenter
