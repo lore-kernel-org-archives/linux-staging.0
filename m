@@ -1,26 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058E57E0
-	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 05:57:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AECBC340ED;
-	Thu, 31 Mar 2022 05:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEB67E0
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 06:03:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E4FC340ED;
+	Thu, 31 Mar 2022 06:03:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1648706232;
-	bh=PyjRVZSlbGKAR6UehNDdnoGgntb9T9gi297dJHWkNVg=;
+	s=korg; t=1648706591;
+	bh=A0m+Ep1Uons0hoytgDZ+0JywZF4PGusJ+GkrcK012yk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YfjP5Suqu8RiD29EZCdLBdodO1i4fOW9wVXex57mfeHPQKfyyRseOH8V8Q3Okib3B
-	 88IxCrsyNdxlYPe4UH6ZhslE5bJNpMplRhQvO1wL8lch4fTT5TNqFkudTEuZhXgGQ8
-	 kfgDJIjuLp12HAEQMWxXC4Lg8b4EIpkuP7WtebII=
-Date: Thu, 31 Mar 2022 07:57:10 +0200
+	b=MLrgOnwSctG+gm6aPt7XUieMGp8JxaThqmsq5M+Y0SN3UAmkZX/W7s2RYLYk7J/tO
+	 aRGSNDA1IYzqtgKQMrUer0TzbsGCx3WsAArVeL27deJwzheoHrSSMcdZowfOjzxCjW
+	 btqPzaWcNO3DSd+gu8AvHke6bT9EgEOV/KAh55c8=
+Date: Thu, 31 Mar 2022 08:03:08 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Charlie Sands <sandsch@northvilleschools.net>
+To: xkernel.wang@foxmail.com
 Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dan.carpenter@oracle.com
-Subject: Re: [PATCH V2] staging: r8188eu: Fix sparse endianness warnings
-Message-ID: <YkVCtnEXPn8S8CC5@kroah.com>
-References: <YkSnBW70kruOyN9h@sckzor-linux.localdomain>
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] staging: r8188eu: properly handle the kzalloc()
+Message-ID: <YkVEHNubZCXmgeMx@kroah.com>
+References: <tencent_12789CD2DEBF33C818B3542E170737854506@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,23 +28,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YkSnBW70kruOyN9h@sckzor-linux.localdomain>
+In-Reply-To: <tencent_12789CD2DEBF33C818B3542E170737854506@qq.com>
 
-On Wed, Mar 30, 2022 at 02:52:53PM -0400, Charlie Sands wrote:
-> This patch fixes sparse warnings about the endianness of different
-> pieces of data in the driver.
+On Wed, Mar 30, 2022 at 11:16:07PM +0800, xkernel.wang@foxmail.com wrote:
+> From: Xiaoke Wang <xkernel.wang@foxmail.com>
 > 
-> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for
-> RTL8188eu driver")
-
-Nit, this should be all on one line or our tools get upset.
-
-> Signed-off-by: Charlie Sands <sandsch@northvilleschools.net>
+> kzalloc() is a memory allocation function which can return NULL when
+> some internal memory errors happen. So it is better to handle the return
+> of it to prevent potential wrong memory access.
+> For the kzalloc() in go_add_group_info_attr(), since there is a lack
+> of error handlers along the call chain it lies and the lifetime of
+> `pdata_attr` is only in go_add_group_info_attr(), `pdata_attr` is roughly
+> changed to a local variable on stack like the other functions in 
+> rtw_p2p.c, such as `u8 p2pie[MAX_P2P_IE_LEN] = { 0x00 };` in 
+> issue_p2p_presence_resp().
+> 
+> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 > ---
-> V2: Added the "fixes" line to the commit at the request of Dan Carpenter.
+>  drivers/staging/r8188eu/core/rtw_p2p.c     |  6 ++----
+>  drivers/staging/r8188eu/core/rtw_xmit.c    | 12 +++++++++---
+>  drivers/staging/r8188eu/include/rtw_xmit.h |  2 +-
+>  3 files changed, 12 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
+> index e2b6cf2..f1a5df8 100644
+> --- a/drivers/staging/r8188eu/core/rtw_p2p.c
+> +++ b/drivers/staging/r8188eu/core/rtw_p2p.c
+> @@ -27,15 +27,14 @@ static u32 go_add_group_info_attr(struct wifidirect_info *pwdinfo, u8 *pbuf)
+>  	struct list_head *phead, *plist;
+>  	u32 len = 0;
+>  	u16 attr_len = 0;
+> -	u8 tmplen, *pdata_attr, *pstart, *pcur;
+> +	u8 pdata_attr[MAX_P2P_IE_LEN] = { 0x00 };
 
-My tools picked this up from the v1 patch thread, no need to resend.
+You just created a huge variable on the stack.  Are you _SURE_ that is
+ok?
 
-thanks,
+Have you tested this change to make sure it works?  If not, I can't take
+it, sorry.
 
 greg k-h
