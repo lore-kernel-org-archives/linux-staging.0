@@ -1,177 +1,80 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-251-84.mail.qq.com (unknown [203.205.251.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9647B7C;
-	Thu, 31 Mar 2022 12:15:53 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id c4so21187758qtx.1;
-        Thu, 31 Mar 2022 05:15:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=XF/s3UO58P3HsSZw+GTULwVtlQyjwaiZoqdQ/vxoa0Q=;
-        b=LmqzuotlFBpEVS8oxw8kc6t8ivWB8dCcGXySEGVPZFyBqFBNvxQByoZviEjyOmfiSw
-         8esc0Naf/cZa8vAWfj7m/63TOcANOhWkYTjt5EI+Zth4Dz/pimjaODvycr/wp6xwgYMF
-         qP0tDJKWd7ygKU2hdG9uLerHsSEUQz1qwx0s1yT6Q12hF8pSJ5aS+fGgdfXW3cJ5OnWe
-         nT2Fulthff08XqUZQRXMFOL1YgS4DEQBiuK8NMcxUtG6ajCW7aBU0a5Xv+RNCqdeexJN
-         zfRuXNcKvUOxwd9BA1e/kNl08g56Qnaez9Kf4BBU12p+p2W24smkSMGtiwgK9eLQ7rur
-         0UGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=XF/s3UO58P3HsSZw+GTULwVtlQyjwaiZoqdQ/vxoa0Q=;
-        b=ac+5RDojlgunZLKHJoRe6+sBW+jsno1my197wae5ol+LthD0asH+im1yx7IctWdVQl
-         UdR/2XDfPbadcpXLiRkZ4cSlC6SaGNhS1ZoyMGrJEsO3IRaiKYeeNoNMpB8RkvUFmWYo
-         9zDwJBXZxTHZ/3aWiip8BeHY+touFRVGvjFfoDjfLUAtbXAzTgz3VdDUWq6h7s9WMoZP
-         VCtjZ5Pl4xL6F9SwR1pZtV70p6rVJ/y0qWjyyG+TsXOSguA5i4/+OlxwsBTyz+jKu754
-         mTK+fSnaZpkJV4xWerwBKCEYqQTAe5ZFXCrQYITKcBFfj85AaiosahTU+zSTe7J05hs4
-         dyng==
-X-Gm-Message-State: AOAM532nMkq+LFg8bpXclH/1Ck1jMmZ9KU0RGpcALhn4bU5DQoWyrEpC
-	YMTjJyHkp2ckXbBV5/NyOamtHxParXKPug==
-X-Google-Smtp-Source: ABdhPJx4wyrbXP3SPA0GaXnuXNXsuT9Bg0w2bVzN1hfotU+bgrDJvUZd9K3uIlYNTD1/BaQsHabTAQ==
-X-Received: by 2002:a05:622a:89:b0:2e1:b8c7:9975 with SMTP id o9-20020a05622a008900b002e1b8c79975mr3907324qtw.342.1648728951887;
-        Thu, 31 Mar 2022 05:15:51 -0700 (PDT)
-Received: from euclid ([71.58.109.160])
-        by smtp.gmail.com with ESMTPSA id g5-20020ac87f45000000b002e125ef0ba3sm19503701qtk.82.2022.03.31.05.15.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Mar 2022 05:15:51 -0700 (PDT)
-Date: Thu, 31 Mar 2022 08:15:50 -0400
-From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: [PATCH] staging: rtl8723bs: place constants on the right side of
- tests
-Message-ID: <20220331121550.GA429809@euclid>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F7A7C
+	for <linux-staging@lists.linux.dev>; Thu, 31 Mar 2022 12:17:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1648729067;
+	bh=7dPkUFxQF7MLl0QeP2bU2b1g3DJxkteqxbd0DoLfUEU=;
+	h=Date:From:To:Cc:Subject:References;
+	b=XV7tEynkbpsZVmfrOWQv110UvkhGH1Orrox2vbVXVCRQVYbyscnQNMYe4FGtlHltk
+	 tb3FixpuxkvzluMHdlpysNKYh7+4RZUwW2yzNodKrzliG+vCxDNv2OQDtGpgKUdYLA
+	 Tu4iyciUWIZeyheL6k+gedRC+JW0PSFhUs70AlDc=
+Received: from LAPTOP-4BSPBRI7 ([59.172.176.225])
+	by newxmesmtplogicsvrsza8.qq.com (NewEsmtp) with SMTP
+	id 39B37C6E; Thu, 31 Mar 2022 20:14:27 +0800
+X-QQ-mid: xmsmtpt1648728867t9yjxyj3j
+Message-ID: <tencent_F67F09C488F93BD79AE384E22D3C4CE9F905@qq.com>
+X-QQ-XMAILINFO: NwU0tZNR0OQKXMMvgMZ3LgX8Xun946i2wfv3BfiCGk67PVUWTHuS7fv1aj2w9U
+	 uduKcJHlQY7yFtZeYZlaendtkYCLUapYHcB4CorHkBgaO/ACr6VR/ZoQij01DVkYaqxehZNgTbHv
+	 K7bLcu26UahfABL6z9seGenBHOju0svcwlVQB++aUTsqeLVllHHK05tB7jyP1GzhJDfWSmsH/HW/
+	 z+8eGxkq+8la69ykXjNsqqqDJorNmPUTLeQ+Tqexcg2+CZ1IuYcAzxuvketyF3orZAK/ghbCqVMc
+	 cqL7TS2tVoOa+sTzh/irPrywMisdx0JdkGj4paKpAKONd8+m/pUUD4D8qaM5ovzQxipO/F+yNlZ9
+	 ctrkC6Bo5xhuaugjDMLsRkPAlk303B25gmHTy5QzBgIr3Z8gU2P3SGF0fxhBOe65KhKfqsw7z0WS
+	 shIt615eFdrhx0jVEmgWGJEGGE8Qm/2HVA6CggBuDchXuCFyb0WStINuJVwLMxRae3HWdLKsSjp+
+	 JK8m7KMpMSj9yDuRn8NuXLwIlSHA0nJSequvHx5LodIon4Q6FRDSSY84cT/lpUJQG0Wk9PW+qG4P
+	 qfPtL2iF3SwqHnt2ry8DwcbpPgvlpnaPeg6KktEsimzqusR4LgJB5U/ds9HyQuClgUYZMSubshLJ
+	 NmS1lqwPEFVMM4VXc+G6lDfBqWVdLjZxj2RG1Rf4x/b6V+9e9g1BEZN6v5gkvfREz/1p67YjLLqT
+	 m/GxywbUNIiUDKDl5kcqo8HdkW3WYGcYPa52LBRBH4O9yTWMSyGhPNho+iFEq5AuCOV/VpE+990t
+	 Hstq8zfK32SQaIT3jUYUtKY2MebgDxfPKwVYARQvvVRq3ZMnhpbpIyqg82CLZYrguBUt94kLvJyc
+	 nNGHuJeb5piwmrmTilkmwG8UgU9Iyrw8jDZ8uhGkz6IN5BQavW7MHHkdbhE7v5QWutTNYajtEZ
+Date: Thu, 31 Mar 2022 20:14:27 +0800
+From: "Xiaoke Wang" <xkernel.wang@foxmail.com>
+To: dan.carpenter <dan.carpenter@oracle.com>
+Cc: gregkh <gregkh@linuxfoundation.org>, 
+	Larry.Finger <Larry.Finger@lwfinger.net>, 
+	phil <phil@philpotter.co.uk>, 
+	linux-staging <linux-staging@lists.linux.dev>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [PATCH v2 2/2] staging: r8188eu: fix potential memory leak in _rtw_init_xmit_priv()
+References: <tencent_254AD0FF06201BCCF5B9911C6E142CE1F208@qq.com>, 
+	<tencent_A5280DFCCB827030EBE73673F0510084970A@qq.com>, 
+	<20220331112312.GO3293@kadam>
+X-Priority: 3
+X-GUID: F36358DD-13BB-43FD-A6EF-B1E3C25D3D96
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.23.116[cn]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+X-OQ-MSGID: <2022033120142712861498@foxmail.com>
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Adhere to Linux kernel coding style.
-
-Reported by checkpatch:
-
-WARNING: Comparisons should place the constant on the right side of the test
-
-Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 32 +++++++++----------
- 1 file changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 49a3f45cb771..9fdbcd83b46e 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -311,11 +311,11 @@ static void init_channel_list(struct adapter *padapter, struct rt_channel_info *
- 			if (!has_channel(channel_set, chanset_size, ch))
- 				continue;
- 
--			if ((0 == padapter->registrypriv.ht_enable) && (8 == o->inc))
-+			if ((padapter->registrypriv.ht_enable == 0) && (8 == o->inc))
- 				continue;
- 
- 			if ((0 < (padapter->registrypriv.bw_mode & 0xf0)) &&
--				((BW40MINUS == o->bw) || (BW40PLUS == o->bw)))
-+				((o->bw == BW40MINUS) || (o->bw == BW40PLUS)))
- 				continue;
- 
- 			if (!reg) {
-@@ -345,7 +345,7 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
- 
- 	if (is_supported_24g(padapter->registrypriv.wireless_mode)) {
- 		b2_4GBand = true;
--		if (RT_CHANNEL_DOMAIN_REALTEK_DEFINE == ChannelPlan)
-+		if (ChannelPlan == RT_CHANNEL_DOMAIN_REALTEK_DEFINE)
- 			Index2G = RTW_CHANNEL_PLAN_MAP_REALTEK_DEFINE.Index2G;
- 		else
- 			Index2G = RTW_ChannelPlanMap[ChannelPlan].Index2G;
-@@ -355,14 +355,14 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
- 		for (index = 0; index < RTW_ChannelPlan2G[Index2G].Len; index++) {
- 			channel_set[chanset_size].ChannelNum = RTW_ChannelPlan2G[Index2G].Channel[index];
- 
--			if ((RT_CHANNEL_DOMAIN_GLOBAL_DOAMIN == ChannelPlan) ||/* Channel 1~11 is active, and 12~14 is passive */
--				(RT_CHANNEL_DOMAIN_GLOBAL_NULL == ChannelPlan)) {
-+			if ((ChannelPlan == RT_CHANNEL_DOMAIN_GLOBAL_DOAMIN) ||/* Channel 1~11 is active, and 12~14 is passive */
-+				(ChannelPlan == RT_CHANNEL_DOMAIN_GLOBAL_NULL)) {
- 				if (channel_set[chanset_size].ChannelNum >= 1 && channel_set[chanset_size].ChannelNum <= 11)
- 					channel_set[chanset_size].ScanType = SCAN_ACTIVE;
- 				else if ((channel_set[chanset_size].ChannelNum  >= 12 && channel_set[chanset_size].ChannelNum  <= 14))
- 					channel_set[chanset_size].ScanType  = SCAN_PASSIVE;
--			} else if (RT_CHANNEL_DOMAIN_WORLD_WIDE_13 == ChannelPlan ||
--				RT_CHANNEL_DOMAIN_2G_WORLD == Index2G) { /*  channel 12~13, passive scan */
-+			} else if (ChannelPlan == RT_CHANNEL_DOMAIN_WORLD_WIDE_13 ||
-+				 Index2G == RT_CHANNEL_DOMAIN_2G_WORLD) { /*  channel 12~13, passive scan */
- 				if (channel_set[chanset_size].ChannelNum <= 11)
- 					channel_set[chanset_size].ScanType = SCAN_ACTIVE;
- 				else
-@@ -1331,7 +1331,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 	spin_unlock_bh(&pstapriv->asoc_list_lock);
- 
- 	/*  now the station is qualified to join our BSS... */
--	if (pstat && (pstat->state & WIFI_FW_ASSOC_SUCCESS) && (WLAN_STATUS_SUCCESS == status)) {
-+	if (pstat && (pstat->state & WIFI_FW_ASSOC_SUCCESS) && (status == WLAN_STATUS_SUCCESS)) {
- 		/* 1 bss_cap_update & sta_info_update */
- 		bss_cap_update_on_sta_join(padapter, pstat);
- 		sta_info_update(padapter, pstat);
-@@ -1520,7 +1520,7 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 			(pmlmeinfo->state & WIFI_FW_ASSOC_STATE)) {
- 			if (reason == WLAN_REASON_CLASS2_FRAME_FROM_NONAUTH_STA) {
- 				ignore_received_deauth = 1;
--			} else if (WLAN_REASON_PREV_AUTH_NOT_VALID == reason) {
-+			} else if (reason == WLAN_REASON_PREV_AUTH_NOT_VALID) {
- 				/*  TODO: 802.11r */
- 				ignore_received_deauth = 1;
- 			}
-@@ -1531,7 +1531,7 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 			   reason, GetAddr3Ptr(pframe),
- 			   ignore_received_deauth);
- 
--		if (0 == ignore_received_deauth) {
-+		if (ignore_received_deauth == 0) {
- 			receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
- 		}
- 	}
-@@ -3552,13 +3552,13 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 				rtw_hal_get_def_var(padapter,
- 						    HW_VAR_MAX_RX_AMPDU_FACTOR, &max_rx_ampdu_factor);
- 
--			if (IEEE80211_HT_MAX_AMPDU_64K == max_rx_ampdu_factor)
-+			if (max_rx_ampdu_factor == IEEE80211_HT_MAX_AMPDU_64K)
- 				BA_para_set = ((le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f) | 0x1000); /* 64 buffer size */
--			else if (IEEE80211_HT_MAX_AMPDU_32K == max_rx_ampdu_factor)
-+			else if (max_rx_ampdu_factor == IEEE80211_HT_MAX_AMPDU_32K)
- 				BA_para_set = ((le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f) | 0x0800); /* 32 buffer size */
--			else if (IEEE80211_HT_MAX_AMPDU_16K == max_rx_ampdu_factor)
-+			else if (max_rx_ampdu_factor == IEEE80211_HT_MAX_AMPDU_16K)
- 				BA_para_set = ((le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f) | 0x0400); /* 16 buffer size */
--			else if (IEEE80211_HT_MAX_AMPDU_8K == max_rx_ampdu_factor)
-+			else if (max_rx_ampdu_factor == IEEE80211_HT_MAX_AMPDU_8K)
- 				BA_para_set = ((le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f) | 0x0200); /* 8 buffer size */
- 			else
- 				BA_para_set = ((le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f) | 0x1000); /* 64 buffer size */
-@@ -5086,7 +5086,7 @@ void linked_status_chk(struct adapter *padapter)
- 			if (pmlmeinfo->FW_sta_info[i].status == 1) {
- 				psta = pmlmeinfo->FW_sta_info[i].psta;
- 
--				if (NULL == psta)
-+				if (psta == NULL)
- 					continue;
- 
- 				if (pmlmeinfo->FW_sta_info[i].rx_pkt == sta_rx_pkts(psta)) {
-@@ -6073,7 +6073,7 @@ u8 run_in_thread_hdl(struct adapter *padapter, u8 *pbuf)
- 	struct RunInThread_param *p;
- 
- 
--	if (NULL == pbuf)
-+	if (pbuf == NULL)
- 		return H2C_PARAMETERS_ERROR;
- 	p = (struct RunInThread_param *)pbuf;
- 
--- 
-2.25.1
+VGh1LCAzMSBNYXIgMjAyMiAxOToyMzozNCArMDgwMCwgZGFuLmNhcnBlbnRlckBvcmFjbGUuY29t
+IHdyb3RlOgo+VGhpcyB3b3Jrcy4uLsKgIFByZXN1bWFibHksIGl0IGFwcGxpZXMgdG8gc3RhZ2lu
+Zy1uZXh0IGV2ZW4gdGhvdWdoIGl0Cj5kb2Vzbid0IGFwcGx5IHRvIGxpbnV4LW5leHQuwqAgU286
+Cj4KPlJldmlld2VkLWJ5OiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+
+Cj4KPkluIGFuIGlkZWFsIHdvcmxkLCBweG1pdHByaXYtPnB4bWl0YnVmIHdvdWxkIGJlIGRlY2xh
+cmVkIGFzIGFuIGFycmF5IG9mCj5zdHJ1Y3QgaW5zdGVhZCBvZiBhbiBhcnJheSBvZiB1OC7CoCBU
+aGF0IHdvdWxkIG1ha2UgaXQgbXVjaCBzaW1wbGVyCj5iZWNhdXNlIHdlIGNvdWxkIGRvCj4KPmZy
+ZWVfeG1pdF9leHRidWY6Cj4Jd2hpbGUgKC0taSA+PSAwKQo+CQlydHdfb3NfeG1pdF9yZXNvdXJj
+ZV9mcmVlKHB4bWl0cHJpdi0+cHhtaXRfZXh0YnVmW2ldKTsKPgl2ZnJlZShweG1pdHByaXYtPnB4
+bWl0X2V4dGJ1Zik7Cj4JaSA9IE5SX1hNSVRCVUZGOwo+ZnJlZV94bWl0YnVmOgo+CXdoaWxlICgt
+LWkgPj0gMCkKPgkJcnR3X29zX3htaXRfcmVzb3VyY2VfZnJlZShweG1pdHByaXYtPnB4bWl0YnVm
+W2ldKTsKPgoKCgpUaGlzIGlzIGdyZWF0ISBTb3JyeSBJIGRpZCBub3Qgbm90aWNlIHlvdXIgbGFz
+dCBlbWFpbC4KCk15IG1haW4gam9iIGlzIHRvIGZpbmQsIHJlcG9ydCBidWdzIGFuZCBwcm92aWRl
+IHBhdGNoZXMuCkluIGZhY3QsIHRoZXJlIGFyZSBzbyBtYW55IHNpbWlsYXIgYnVncyBuZWVkIHRv
+IGJlIGhhbmRsZWQgaW4gaXRzCmZhbWlseS4KU3VjaCBhcyBfcjg3MTJfaW5pdF94bWl0X3ByaXYo
+MCBpbiAvZHJpdmVycy9zdGFnaW5nL3J0bDg3MTIvcnRsODcxeF94bWl0LmMKYW5kIF9ydHdfaW5p
+dF94bWl0X3ByaXYoKSBpbiBkcml2ZXJzL3N0YWdpbmcvcnRsODcyM2JzL2NvcmVccnR3X3htaXQu
+Yy4uLgoKU28gSSB3aWxsIHRyeSB0byBmaXggdGhlIGJ1Z3MgYXQgZmlyc3QuIEFjdHVhbGx5LCB0
+aGUgcHJvYmxlbXMgeW91IG1lbnRpb25lZAphbHNvIHdpZGVseSBleGlzdCBpbiBpdHMgZmFtaWx5
+IGNvZGUuCkkgc3VwcG9zZSB0aG9zZSBhcmUgdGhlIHN0eWxlIG9mIHRoZSBjb2RlICg6CkkgYW0g
+aGFwcHkgdG8gaW1wcm92ZSB0aGUgY29kZSBxdWFsaXR5IGl0c2VsZiB3aGVuIEkgZmluaXNoCm15
+IG93biB3b3JrIGF0IGhhbmQuCgpSZWdhcmRzLApYaWFva2UgV2FuZw==
 
