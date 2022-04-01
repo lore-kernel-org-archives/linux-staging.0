@@ -1,169 +1,150 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD3C1367;
-	Fri,  1 Apr 2022 13:18:52 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:a2c0:2ef3:44e0:633b] (unknown [IPv6:2a01:e0a:120:3210:a2c0:2ef3:44e0:633b])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3CCF01F47939;
-	Fri,  1 Apr 2022 14:18:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648819124;
-	bh=7v8TCx/Kj5ELlw8I2aKq0GItt14ep/CbDiUKjFQ0BWQ=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=aCoSe9GFvS8N20ultU35dtAW/lMJ7mDvjo8RapHP11UgfAZp0UvxLjkmGNKBitqa3
-	 5sjS3FdjzVB98Aj49v85+rJRGzPYSTSCsVHabj8/MeU7NMtfnivd1YQ8nNHoWhZwOJ
-	 OQIm1XDVc2k0+Sp5CQ6RMMt/2xunaAKKLKnKD6n1x09Y0Tzm7ckfTS86aJ4zML9UMi
-	 I+x7UDkRRFvv1GPuJk3EYwfZpwQ1R9gth/F9SmK0S9KDkJ3KNfUcPTm9AKs4Fqd0Cn
-	 UBRnNZ5Y6a1Sjh5hb7R+bHTcnuErJwwjBWJ5NVp/2T+rp443Lo6+cFVwd2C/soOd8J
-	 1HjPJMB8LWofQ==
-Message-ID: <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
-Date: Fri, 1 Apr 2022 15:18:42 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0917B;
+	Fri,  1 Apr 2022 14:53:57 +0000 (UTC)
+Received: by mail-qv1-f43.google.com with SMTP id hu11so2188366qvb.7;
+        Fri, 01 Apr 2022 07:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=Qd7+UMiN3Jrll9fNOSYkpHLr2EKG3gIqE6IEorWFPTo=;
+        b=frhnIWwX5xEJfxxbkE/n9nEd6dE/TeDbW4SLwUwBveOv2aw7Dz1nk5aApc1nvf8271
+         pLwhEcIZXPWFnuLMEPuh4Xo+HviPV7y6uyxVowzlLGed/+eMajBWaaoyAAb+HUfQ0A/1
+         rCJ3N9Cn68SJFgAWkQL0H2BKx1CLbjuLYO5NPKkooHJ7k9A4nMNvdPuXkqfGRwpFyJFa
+         akkMzxvvoSPZg0cAUJFX8gwoIm6Ib6peqfsZegtq2NwpLcbySC8S6ttsC5Zq1T0OpB5V
+         GS4fTPDFal55l3KY9ramCBrqwpX61mlvQAkawS6oydb1GnExWqjrJ6y8xFlkhuCpxuSS
+         hxUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=Qd7+UMiN3Jrll9fNOSYkpHLr2EKG3gIqE6IEorWFPTo=;
+        b=pCIijn7R/W4XmlzU75zAz8cmorTMwxyoTRR1GjYR+ERsFzxI2eh/vGpGdK4Llrayz9
+         bZct4LUfD0Iixj1qLiVxvIUF9CkPbkaeOzkSe71QMjyxcSin1Gqy0CuWdh49xZesEVTZ
+         kOMv2d1cNgo+cjkuSMOR67ORvnNYcKJPZ/EwIguDmmr9T1nw/BcwmC/FwW9qLfM3dlNF
+         WxOiL8w67/U/2AJPKkRx0eH+3APUOl6eZ6qDxzO4glJXEkRC5u8ViWQJIe+8eux/dut9
+         bDE7oJA6535GUD0BlYChVExv/aC5HVXzdO80N2QhAKkIBR9ROT/2UWrgYOJtqmdW2EiI
+         ZTuA==
+X-Gm-Message-State: AOAM5316L3N8tD17pSmpzx63VequijMbcmrhwnlWw1xErU6qsAl8n8x6
+	dge4L5FnhMxUwg6Z6Ory4Zo=
+X-Google-Smtp-Source: ABdhPJy03H5LmOvAHNjNyWo4gCVB0lYUhUS1sgLswcBnnNIHvMqyZuLbnB1sbi1joMr9KqFX9Idebw==
+X-Received: by 2002:a05:6214:2388:b0:443:865c:5623 with SMTP id fw8-20020a056214238800b00443865c5623mr8396733qvb.72.1648824835916;
+        Fri, 01 Apr 2022 07:53:55 -0700 (PDT)
+Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
+        by smtp.gmail.com with ESMTPSA id i68-20020a375447000000b006809e0adfffsm1511818qkb.25.2022.04.01.07.53.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Apr 2022 07:53:55 -0700 (PDT)
+Date: Fri, 1 Apr 2022 10:53:50 -0400
+From: Jaehee Park <jhpark1013@gmail.com>
+To: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: wfx: change variable name to be consistent
+Message-ID: <20220401145350.GA45053@jaehee-ThinkPad-X1-Extreme>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: Adam Ford <aford173@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>,
- "jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman
- <jonas@kwiboo.se>, Nicolas Dufresne <nicolas@ndufresne.ca>,
- linux-media <linux-media@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
- kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
-References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
- <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com>
- <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
- <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com>
-In-Reply-To: <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Change variable name to be consistent with the naming conventions.
+ssidlen was changed to ssid_len and ssidie was changed to ssid_ie to be
+consistent. This makes the variables more readable. The other ssid
+names in the code are separated by an underscore. For example,
+bssid_filter and num_of_ssids have the ssid separated from the rest of
+the words with an underscore.
 
-Le 31/03/2022 à 08:53, Benjamin Gaignard a écrit :
->
-> Le 30/03/2022 à 20:52, Adam Ford a écrit :
->> On Wed, Mar 30, 2022 at 2:53 AM Benjamin Gaignard
->> <benjamin.gaignard@collabora.com> wrote:
->>>
->>> Le 28/02/2022 à 15:08, Benjamin Gaignard a écrit :
->>>> This series aims to make HEVC uapi stable and usable for hardware
->>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
->>>> and 2 out of the tree drivers (rkvdec and RPI).
->>>>
->>>> After the remarks done on version 2, I have completely reworked to 
->>>> patches
->>>> split so changelogs are meaningless. I have also drop "RFC" from the
->>>> titles.
->>>>
->>>> Version 4:
->>>> - Add num_entry_point_offsets field in  struct 
->>>> v4l2_ctrl_hevc_slice_params
->>>> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
->>>> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
->>>> - Fix space/tab issue in kernel-doc
->>>> - Add patch to change data_bit_offset definition
->>>> - Fix hantro-media SPDX license
->>>> - put controls under stateless section in v4l2-ctrls-defs.c
->>>>
->>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
->>> Dear reviewers,
->>>
->>> This series is waiting for your feedback,
->> I tried several times with the suggested repos for both the kernel and
->> g-streamer without success getting Fluster to pass any tests on the
->> imx8mq.  I can try again but I likely won't get to it until this
->> weekend.  If I can get it working, I'll test both the 8mq and 8mm.
->
-> Thanks a lot for that.
->
-> Benjamin
+Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+---
+ drivers/staging/wfx/hif_tx.c | 10 +++++-----
+ drivers/staging/wfx/sta.c    | 20 ++++++++++----------
+ 2 files changed, 15 insertions(+), 15 deletions(-)
 
-Adam,
+diff --git a/drivers/staging/wfx/hif_tx.c b/drivers/staging/wfx/hif_tx.c
+index ae3cc5919dcd..9c653d0e9034 100644
+--- a/drivers/staging/wfx/hif_tx.c
++++ b/drivers/staging/wfx/hif_tx.c
+@@ -280,7 +280,7 @@ int wfx_hif_stop_scan(struct wfx_vif *wvif)
+ }
+ 
+ int wfx_hif_join(struct wfx_vif *wvif, const struct ieee80211_bss_conf *conf,
+-		 struct ieee80211_channel *channel, const u8 *ssid, int ssidlen)
++		 struct ieee80211_channel *channel, const u8 *ssid, int ssid_len)
+ {
+ 	int ret;
+ 	struct wfx_hif_msg *hif;
+@@ -288,8 +288,8 @@ int wfx_hif_join(struct wfx_vif *wvif, const struct ieee80211_bss_conf *conf,
+ 
+ 	WARN_ON(!conf->beacon_int);
+ 	WARN_ON(!conf->basic_rates);
+-	WARN_ON(sizeof(body->ssid) < ssidlen);
+-	WARN(!conf->ibss_joined && !ssidlen, "joining an unknown BSS");
++	WARN_ON(sizeof(body->ssid) < ssid_len);
++	WARN(!conf->ibss_joined && !ssid_len, "joining an unknown BSS");
+ 	if (!hif)
+ 		return -ENOMEM;
+ 	body->infrastructure_bss_mode = !conf->ibss_joined;
+@@ -300,8 +300,8 @@ int wfx_hif_join(struct wfx_vif *wvif, const struct ieee80211_bss_conf *conf,
+ 	body->basic_rate_set = cpu_to_le32(wfx_rate_mask_to_hw(wvif->wdev, conf->basic_rates));
+ 	memcpy(body->bssid, conf->bssid, sizeof(body->bssid));
+ 	if (ssid) {
+-		body->ssid_length = cpu_to_le32(ssidlen);
+-		memcpy(body->ssid, ssid, ssidlen);
++		body->ssid_length = cpu_to_le32(ssid_len);
++		memcpy(body->ssid, ssid, ssid_len);
+ 	}
+ 	wfx_fill_header(hif, wvif->id, HIF_REQ_ID_JOIN, sizeof(*body));
+ 	ret = wfx_cmd_send(wvif->wdev, hif, NULL, 0, false);
+diff --git a/drivers/staging/wfx/sta.c b/drivers/staging/wfx/sta.c
+index b1e9fb14d2b4..03025ef7f1be 100644
+--- a/drivers/staging/wfx/sta.c
++++ b/drivers/staging/wfx/sta.c
+@@ -392,8 +392,8 @@ static void wfx_join(struct wfx_vif *wvif)
+ 	struct ieee80211_bss_conf *conf = &wvif->vif->bss_conf;
+ 	struct cfg80211_bss *bss = NULL;
+ 	u8 ssid[IEEE80211_MAX_SSID_LEN];
+-	const u8 *ssidie = NULL;
+-	int ssidlen = 0;
++	const u8 *ssid_ie = NULL;
++	int ssid_len = 0;
+ 
+ 	wfx_tx_lock_flush(wvif->wdev);
+ 
+@@ -404,21 +404,21 @@ static void wfx_join(struct wfx_vif *wvif)
+ 		return;
+ 	}
+ 
+-	rcu_read_lock(); /* protect ssidie */
++	rcu_read_lock(); /* protect ssid_ie */
+ 	if (bss)
+-		ssidie = ieee80211_bss_get_ie(bss, WLAN_EID_SSID);
+-	if (ssidie) {
+-		ssidlen = ssidie[1];
+-		if (ssidlen > IEEE80211_MAX_SSID_LEN)
+-			ssidlen = IEEE80211_MAX_SSID_LEN;
+-		memcpy(ssid, &ssidie[2], ssidlen);
++		ssid_ie = ieee80211_bss_get_ie(bss, WLAN_EID_SSID);
++	if (ssid_ie) {
++		ssid_len = ssid_ie[1];
++		if (ssid_len > IEEE80211_MAX_SSID_LEN)
++			ssid_len = IEEE80211_MAX_SSID_LEN;
++		memcpy(ssid, &ssid_ie[2], ssid_len);
+ 	}
+ 	rcu_read_unlock();
+ 
+ 	cfg80211_put_bss(wvif->wdev->hw->wiphy, bss);
+ 
+ 	wvif->join_in_progress = true;
+-	ret = wfx_hif_join(wvif, conf, wvif->channel, ssid, ssidlen);
++	ret = wfx_hif_join(wvif, conf, wvif->channel, ssid, ssid_len);
+ 	if (ret) {
+ 		ieee80211_connection_loss(wvif->vif);
+ 		wfx_reset(wvif);
+-- 
+2.25.1
 
-You may need to check if h265parse and v4l2slh265dec are available on your board.
-
-fluster check if v4l2slh265dec is working fine with this command line:
-
-gst-launch-1.0 appsrc num-buffers=0 ! h265parse ! v4l2slh265dec ! fakesink
-
-so if one of them is missing it won't work.
-
-Regards,
-Benjamin
-
->
->>
->> adam
->>> Thanks,
->>> Benjamin
->>>
->>>> Benjamin
->>>>
->>>>
->>>> Benjamin Gaignard (12):
->>>>     media: uapi: HEVC: Add missing fields in HEVC controls
->>>>     media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
->>>>       prefix
->>>>     media: uapi: HEVC: Add document uAPI structure
->>>>     media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS 
->>>> as a
->>>>       dynamic array
->>>>     media: uapi: Move parsed HEVC pixel format out of staging
->>>>     media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS 
->>>> control
->>>>     media: uapi: Move the HEVC stateless control type out of staging
->>>>     media: controls: Log HEVC stateless control in .std_log
->>>>     media: uapi: Create a dedicated header for Hantro control
->>>>     media: uapi: HEVC: fix padding in v4l2 control structures
->>>>     media: uapi: Change data_bit_offset definition
->>>>     media: uapi: move HEVC stateless controls out of staging
->>>>
->>>> Hans Verkuil (3):
->>>>     videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->>>>     v4l2-ctrls: add support for dynamically allocated arrays.
->>>>     vivid: add dynamic array test control
->>>>
->>>>    .../userspace-api/media/drivers/hantro.rst    |   5 -
->>>>    .../media/v4l/ext-ctrls-codec-stateless.rst   | 833 
->>>> ++++++++++++++++++
->>>>    .../media/v4l/ext-ctrls-codec.rst             | 780 
->>>> ----------------
->>>>    .../media/v4l/pixfmt-compressed.rst           |   7 +-
->>>>    .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
->>>>    .../media/v4l/vidioc-queryctrl.rst            |   8 +
->>>>    .../media/videodev2.h.rst.exceptions          |   5 +
->>>>    .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
->>>>    drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
->>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
->>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
->>>>    drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->>>>    drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->>>>    drivers/staging/media/hantro/hantro_drv.c     |  27 +-
->>>>    drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
->>>>    drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
->>>>    .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
->>>>    include/media/hevc-ctrls.h                    | 250 ------
->>>>    include/media/v4l2-ctrls.h                    |  48 +-
->>>>    include/uapi/linux/hantro-media.h             |  19 +
->>>>    include/uapi/linux/v4l2-controls.h            | 439 +++++++++
->>>>    include/uapi/linux/videodev2.h                |  13 +
->>>>    23 files changed, 1697 insertions(+), 1170 deletions(-)
->>>>    delete mode 100644 include/media/hevc-ctrls.h
->>>>    create mode 100644 include/uapi/linux/hantro-media.h
->>>>
