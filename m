@@ -1,117 +1,174 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB72ED5
-	for <linux-staging@lists.linux.dev>; Fri,  1 Apr 2022 09:35:02 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id x31so2115293pfh.9
-        for <linux-staging@lists.linux.dev>; Fri, 01 Apr 2022 02:35:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF4BED5
+	for <linux-staging@lists.linux.dev>; Fri,  1 Apr 2022 09:43:23 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2318jOox014843;
+	Fri, 1 Apr 2022 09:43:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=la4jggkM5xAMCyR4dm34w6/gLBH3kQBLYUGi/VNgpcs=;
+ b=KnDoq72ouXhf1MNfX/n11itqGcZp22pirllhUcbe0GyYbSnBE9LicXfEslNAjI3phCY6
+ 5CZ6FKZifaJTkpTEIkr45q9BVi+z8Hta9IwlIBlT+NIuKhzQVHa9RowPFiqXDDuTfpLa
+ PFTYdfEusK7wiVzREyjeyGJoyReBZwMJBGYSm7xlXLEA7k4kvU9SsGwMQXMo/sHEcsV2
+ yKHMMVpUz4/WbPjMNKvzhh0Enqjenj728FEhEG4HhC2egq1Kl1PIfgQ38oxtmXjazS8M
+ 0CvECvMqsJVhnrbYvU9Oy3dByuDzA5yTULsuoGz/jGaQDfdEWiFZ+x0iYxT4I+G0NDgP RA== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3f1sm2pngr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 01 Apr 2022 09:43:11 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 2319VNpf025522;
+	Fri, 1 Apr 2022 09:43:10 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3f1s95v3nu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 01 Apr 2022 09:43:10 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZZacSKkuuizAlFcEVyh8rFPlRZFVHQywGfX555RF0auq1xoUBtfyR14EmdKOO1S82WB6CwGn7EXOnHp/E/bI5MEoU7NsszXhL6VeaUpXhiD3hxQpS9QAgsNQLy9CxXsBiNYdD2nhMbUfAlzc7Zzd9M8IHihJijrO1Kzd22SlNdtdI2RfW6TFa8vSqHT9pWfj/ZQ6auelycfL71fvz/wADdMAmSXf9oqLzrYVpW8/j62vicNSn3CPeCT3fo3HLj9mkSkeSAc8sdUo8QlaZmGPBK90uGTwYshaynhiQdltwZHS/WQJAJJGLDKi5LZq+LPuLwjo0c8p1RSTslcJZ7VyNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=la4jggkM5xAMCyR4dm34w6/gLBH3kQBLYUGi/VNgpcs=;
+ b=RmJrcrzNoyLfWbF6Q6Lt5QcByld4BYTLZZgJ2EoOTniO66PGjGZTv2rZJ6AUwC4iuEZ2xnFicTY0MkDjmFbUysbB4pdNROrR7CR0Iu63z2tvpNPKV1wSfj5wn6sRjqn2D/Mi/PVvwwIusbkhjGrVlQixh4ebBIFwszC/rpcyhpdD3x8dAnDYAWjWu2TonrorkbKBQkVE1y7BUYK+fPcbJFC+c7kjXSU0tq8PAmH8VEBqCco8Ge+Dmusr6SHO72h6SNoi1ptmOR8xCgiBbFiC/66tqOATPh977eUk0VELUhVD1DjwTLqw1AAJJD40XygM0FGw55bu8ceSSYYA1oWOdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=Vn5NpwWl2cUBu3wyjrfqRsuWIfgmZwnj+QZMZfZlE/o=;
-        b=CPE6jLWhuduMCAlXTGzuwb+9zkkIdlAQuOgnc0x6jioAs4AQZNKD2gjBz1Rno1Pn/l
-         3Tu1PCdfhKnDpauhEo9sd0Uea3Ap3nuOoO7HbqPjRbjq5aBkQnqUN/Mf4iiyGZKHoxUG
-         cSFgEq9/EkisIEdCM+hLr8UXEIxc865l0zVGwT9w54NMxYJmWWgHhy6zj8ppru8rIkHV
-         rjsax0X+KVtTy4SeB5tgzqxiC6uALyRBu/7FLQwhY6q8l3HvCj0w4+zXAnFcUNucsnsY
-         73dvrJoyTV7xv3VX/AETE/Z/Vb+ly4ONIjdVrs/09mozESXk+7xX/rdj7FQKYooeWkyB
-         AJDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Vn5NpwWl2cUBu3wyjrfqRsuWIfgmZwnj+QZMZfZlE/o=;
-        b=K5YWlKtzQfCiC9lQn8qdGM+Nu2edszKvfmklvqoifdXR0Pr3VPT8aIkBV8H+lWoWbE
-         VOjz6zwM5opCwJM3t6EANCdjdgyrocWqaMqvwji6zCLESbZ0xaWDRQMUJuUxxaYlOgKy
-         ZdkHtmyeToFi2dWvCuOC0nNCx2bNk7Z0NE9E8P0ZIPXzJOxdQfxeT/Bxy4WAJh7YUWfr
-         wQ1YhBB5f4U0Bwxu1/zxUW6UvR/niGzCh3PYtKF6m352bQrpwm1mQYiR3sISpUIZbiwh
-         PGf7YFwZ1x5hENiNSa7X2268HblDJbBEBzooo+rveqvfRtw6dwN57TMpf0GfGkNCD+Tn
-         ESgQ==
-X-Gm-Message-State: AOAM530YIF+Y+NGhjtZRtIwWrO/28osuIiXhHjL+Rqfw9z4QDChbLjfW
-	8DBvtXx7bd9rwGwg86ZWwKg=
-X-Google-Smtp-Source: ABdhPJzFDfY8T2KmlZBnyKjVPHPRbcL8J3AJgUkKFtxAkNZ3slUYcVxRLw3Bb62kN5W4umPef3HiGQ==
-X-Received: by 2002:a63:b55d:0:b0:398:5eeb:e637 with SMTP id u29-20020a63b55d000000b003985eebe637mr13994421pgo.314.1648805702073;
-        Fri, 01 Apr 2022 02:35:02 -0700 (PDT)
-Received: from ubuntu-vm.jnpr.net ([116.197.184.14])
-        by smtp.gmail.com with ESMTPSA id d21-20020a056a0010d500b004fd9ee64134sm2321715pfu.74.2022.04.01.02.34.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 02:35:01 -0700 (PDT)
-From: Sathish Kumar <skumark1902@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Sathish Kumar <skumark1902@gmail.com>
-Subject: [PATCH] staging: rtl8712: Fix multiple blank lines warning
-Date: Fri,  1 Apr 2022 15:04:49 +0530
-Message-Id: <20220401093449.6872-1-skumark1902@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=la4jggkM5xAMCyR4dm34w6/gLBH3kQBLYUGi/VNgpcs=;
+ b=BXmrr8pE1PvNChZ/wVhH//J4uU7XyT80rHvdOZoOyCCNvMvoCQirTSJt0/RU8jOhnQ3isDGPbxsYEctzpljvsQwlN7hyGFuoyG+VOHBQRC4BrQcq4pzHwkXviYNWDSrnpw8x6ZeCFA65l3JCcL2l8I/RVIbdOzaJrNqZ11ZxYTs=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by PH7PR10MB5721.namprd10.prod.outlook.com
+ (2603:10b6:510:125::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.16; Fri, 1 Apr
+ 2022 09:43:08 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d4e7:ee60:f060:e20c]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d4e7:ee60:f060:e20c%7]) with mapi id 15.20.5081.025; Fri, 1 Apr 2022
+ 09:43:08 +0000
+Date: Fri, 1 Apr 2022 12:42:48 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: xkernel.wang@foxmail.com
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+        florian.c.schilhabel@googlemail.com, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] staging: rtl8712: fix potential memory leak in
+ r8712_init_drv_sw()
+Message-ID: <20220401094248.GT3293@kadam>
+References: <tencent_0A1273526E1E87150578F8B752CF7F178806@qq.com>
+ <tencent_F3B552EEBF1CC810B36CEE23070BC54BF806@qq.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_F3B552EEBF1CC810B36CEE23070BC54BF806@qq.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0026.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::14)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7970056b-14ba-4f37-2ca2-08da13c40716
+X-MS-TrafficTypeDiagnostic: PH7PR10MB5721:EE_
+X-Microsoft-Antispam-PRVS: 
+	<PH7PR10MB572161592253F2FEBD43F2158EE09@PH7PR10MB5721.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	CU3FNn+WhEqoITm9Zf1hPaep0dr9OttEvYTd8UjzwvKxu5ZAnsgVt3CwvzA8ClWlDv8Zqulk0l/Q5oNmEr5L5WxY2vDzyX67L+gcE7AWDXEBbVB8tPMP2SoA2qZMzkSwtS4DumUL4t3C+ArH2PCuvdGO2xED90UujRr5MQM67TtZt2/8VF2A5Z8xnlH3VjRCQzM4WfQskUkhoaxYJaB9jSaO5ALa7lgq1tmsFqi5j2Yan8tba+SM0YcQlyfrbLBBSqnLwTmSgqetAPdS+ARx6LAVGi1XwVxTjwCN8EQPLY45OGaRnMMXpiTz9zz3xiT9XzEa8q1/FbPYvRW9PdczLal1m47Q3ESbwcKFhrcg/kf7TGIvXQpf+wJ1s1Wjiy3XrhQ2pEcYJRJoYN+sBn2SrlEubaJ/VXUni61URt/HCvWrZ+ewnZu65WsHMQwp6Bn+hy7u9HzyKD4QFf3qFk/pS2A94FhHNoo+PwRgOzEEbx1ipfDvLD2NvIKliAlcUBQM/LHCAPe0Kd4KOaCWhJLJT1Dcw20aohvtVPnSsg8UhbmkwF36pFQuIt++w4+cDaQyZCGHo2qVHnVwP1Qg/hyl01lkheIjOu5yx6kHf4+kyXMKvm9Odo0YbUz+ljFj40b8zJ0NSzBUBcmif7fKsPMk6rQC3h2hZSbDjfxUY83nyneDG7NjUEaIH3ZF7i7aQAhx8LZ4TX5ZLYnvzuEZ8a+5Kaj+XjBkJ3n4HezbS6KV5Aw=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(6666004)(6512007)(52116002)(6506007)(66476007)(86362001)(33656002)(33716001)(66946007)(4326008)(6916009)(8676002)(9686003)(66556008)(5660300002)(26005)(186003)(38100700002)(44832011)(4744005)(6486002)(1076003)(316002)(8936002)(2906002)(508600001)(38350700002)(48020200001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?7Rj5xEZU1XJoyR1GlgqZo43zBEbEuuyGz6S05US+bZi25Vj+aMPdwWN+XxPb?=
+ =?us-ascii?Q?0hxFl+8JzJpw/l1ACIzUU3oJYY45jLh8YEySh9twCLlflrEWFZZRbUigIe2m?=
+ =?us-ascii?Q?c8sQHFJGaqko3+p17uq1fPCfhT9Cvqi4Nz1u88b/MGxUAOUECHYod3+iq15D?=
+ =?us-ascii?Q?0ZGZPYOJQB8Pjg6V5xBQZewyt8Z7tocTvI3GgfWcvQFAgaFoqimz+ZH1PuNH?=
+ =?us-ascii?Q?VQP0KV1/5+x3OGQqdMl8HIsQQAtHb1Se6egy23rgCuj4VQKqQl07ZXxwQv1j?=
+ =?us-ascii?Q?o/LhBRKlBpcpHWu1XWLXylI6G1ei/pbfFlN6VF1NcN4ekfe+MezGhY2aUqXA?=
+ =?us-ascii?Q?9tcLaob5kZBkk64wCEkeHP/J6mgVZdSjOYkcyMozsvJIecYJuOfK3CQy5gyW?=
+ =?us-ascii?Q?mN8PwWtPy+tzTgLPC1T6mELeeNh8TNoCCjdFz0gnBOQ4Bl5bibLiydzkVPYu?=
+ =?us-ascii?Q?m9r7+gTxLyQzFyQwU0144sFxCvKePFEAZp3sVDLBQFp74RYXYRzNBVH6ambF?=
+ =?us-ascii?Q?I8HM8sp4QQjg0r+Q2kH8f1YpqK6Xcu/PaABk5ZFsAasTn7FAAlHAxPc5BOKx?=
+ =?us-ascii?Q?l9sZw3cDhCxsvfiaoEhS3VvWeNYcBic4OI9gZDk7vBaC7a6Mf4UBm9zMRjHW?=
+ =?us-ascii?Q?bHZjWhz6BUMn1Bv+6mAdrl6DzUuR37X7IsLt0kCALkUpYduHQuN8pEI/qlNx?=
+ =?us-ascii?Q?iy5s6Z0qj4OwA/e5aHWMzoEK9Jx7VFOz1asEI7LB1ciElmCy78YvxXmergM3?=
+ =?us-ascii?Q?uxoI1QOQ4G4vhefjQWycPlhVJkENfyma1FakZx9F+uR8wXfTxX0SLHdj/toU?=
+ =?us-ascii?Q?ZHd90eE/AFRY29K68OQwInxAHvFefbepKIVaAdW2iP5oPzEPxJG2il0rVEUM?=
+ =?us-ascii?Q?EefrX8KEOpWVUgY3Y4SS7J0LY/KNOF3vxFQ6RcuINJ5qouKDtgSTsUm668mS?=
+ =?us-ascii?Q?uyh+LqTiZTlahx7FxbKZNUKpKgtSZP3mPxVYbzlG8LHaAEYaEkkCfoJ052MS?=
+ =?us-ascii?Q?5cC2dvgXF4gEOFX9FRP4V/BSnk5vItcvFdriUSV2KsBwCfFGf1r3b3ZMrWlR?=
+ =?us-ascii?Q?muRICTlsmBchF7SKRhFdIXNYcf28Q+uq5LF25kphL4/6gFLySiKjbEi9RLF8?=
+ =?us-ascii?Q?2hGzKOj8SC3KcfWueiEr+1qeThBvH2BFwqamfeu7LUtv3CsZH91KjtPKPy8q?=
+ =?us-ascii?Q?B1DnucBnZOYv5fybWm0e/Qj04LQtRxFO1YmTHCfn4nS/dUdaJYwIxT5qUugn?=
+ =?us-ascii?Q?VlqCUZ6sjKdMBJ504MGWuVjFvbOZWr/nL4bWh7c+CK0Pbm8mhjjlflb1hgtv?=
+ =?us-ascii?Q?JgNU7cQ2GH7KUyWKVI6+q1g71ibUZazJ3wDgsuNXKY73bMf5B4vRXhfPk2DY?=
+ =?us-ascii?Q?X03TUVbX/VlILikr/OlvKGVyGkfuLf2hCjloICY4A76P6mP6yILhbyDQNYm0?=
+ =?us-ascii?Q?gkC2FOTnVszk0+WyRzj60nZqnK9+MfL4EYHnLQcrCySBAL8VA/SL8m9gmaI3?=
+ =?us-ascii?Q?i85WxZDEY8ITDEhCD4g2u+UayrK3mp7Adsvz2gtC7Kp3y8Te+xEqfYdofEA7?=
+ =?us-ascii?Q?wIvxMfPA0cc5OGtXroTxNS4glWrapxhdyq13ORPhKu12f1WlBkVxefO+KD73?=
+ =?us-ascii?Q?/qn9i/I5incxMyf0FOWjL9oztp5xuqnKyHaml6I5k7uaSHJc5Kep50PrW3wM?=
+ =?us-ascii?Q?eoMdyWNzHUhdxRW9khh4xUqg9Fwt7CKvcFK7VzLGTpIzNi8MvleYlVU2hpgy?=
+ =?us-ascii?Q?9mbB4zVznprOt3jue/q+hD2Jovj34lw=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7970056b-14ba-4f37-2ca2-08da13c40716
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2022 09:43:08.3351
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FhNt420xipNFF9BE42z7+k9+qzKk/mp8MOI97lGYrOctNXN1IvxBPyHtQzHlm8h787TIPXcZni05EZf5Go0uIXzoZ65efRi35VRJlnwmJsc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB5721
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
+ definitions=2022-04-01_03:2022-03-30,2022-04-01 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=851
+ phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204010043
+X-Proofpoint-ORIG-GUID: DCacM2kK7wnJ9QuumBhcQ1BBW52NkURX
+X-Proofpoint-GUID: DCacM2kK7wnJ9QuumBhcQ1BBW52NkURX
 
-This patch fixes the checkpatch.pl warnings like:
-CHECK: Please don't use multiple blank lines
-+
-+
+On Fri, Apr 01, 2022 at 01:08:19AM +0800, xkernel.wang@foxmail.com wrote:
+>  	ret = _r8712_init_sta_priv(&padapter->stapriv);
+>  	if (ret)
+> -		return ret;
+> +		goto free_recv_priv;
+>  	padapter->stapriv.padapter = padapter;
+>  	r8712_init_bcmc_stainfo(padapter);
+>  	r8712_init_pwrctrl_priv(padapter);
+> @@ -328,6 +328,18 @@ int r8712_init_drv_sw(struct _adapter *padapter)
+>  	init_default_value(padapter);
+>  	r8712_InitSwLeds(padapter);
+>  	return ret;
 
-Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
----
- drivers/staging/rtl8712/rtl871x_ioctl_rtl.c | 1 -
- drivers/staging/rtl8712/rtl871x_ioctl_set.c | 1 -
- drivers/staging/rtl8712/rtl871x_recv.c      | 1 -
- drivers/staging/rtl8712/rtl871x_security.c  | 1 -
- 4 files changed, 4 deletions(-)
+Not related to the patch.  (You didn't introduce this, so it's not
+something you need to fix.)  But this "return ret;" would be better if
+it were "return 0;"
 
-diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c b/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c
-index b78101afc93d..2b539335206a 100644
---- a/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c
-+++ b/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c
-@@ -367,7 +367,6 @@ uint oid_rt_get_scan_in_progress_hdl(struct oid_par_priv *poid_par_priv)
- 	return RNDIS_STATUS_SUCCESS;
- }
- 
--
- uint oid_rt_forced_data_rate_hdl(struct oid_par_priv *poid_par_priv)
- {
- 	return RNDIS_STATUS_SUCCESS;
-diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_set.c b/drivers/staging/rtl8712/rtl871x_ioctl_set.c
-index 6cdc6f1a6bc6..603a3a48f952 100644
---- a/drivers/staging/rtl8712/rtl871x_ioctl_set.c
-+++ b/drivers/staging/rtl8712/rtl871x_ioctl_set.c
-@@ -22,7 +22,6 @@
- #include "usb_osintf.h"
- #include "usb_ops.h"
- 
--
- static u8 validate_ssid(struct ndis_802_11_ssid *ssid)
- {
- 	u8 i;
-diff --git a/drivers/staging/rtl8712/rtl871x_recv.c b/drivers/staging/rtl8712/rtl871x_recv.c
-index 66cc50f24e29..de9a568eaffa 100644
---- a/drivers/staging/rtl8712/rtl871x_recv.c
-+++ b/drivers/staging/rtl8712/rtl871x_recv.c
-@@ -455,7 +455,6 @@ static sint validate_recv_mgnt_frame(struct _adapter *adapter,
- 	return _FAIL;
- }
- 
--
- static sint validate_recv_data_frame(struct _adapter *adapter,
- 				     union recv_frame *precv_frame)
- {
-diff --git a/drivers/staging/rtl8712/rtl871x_security.c b/drivers/staging/rtl8712/rtl871x_security.c
-index e0a1c30a8fe6..e46a5dbc7b65 100644
---- a/drivers/staging/rtl8712/rtl871x_security.c
-+++ b/drivers/staging/rtl8712/rtl871x_security.c
-@@ -381,7 +381,6 @@ void seccalctkipmic(u8 *key, u8 *header, u8 *data, u32 data_len, u8 *mic_code,
- #define P1K_SIZE         10    /*  80-bit Phase1 key                */
- #define RC4_KEY_SIZE     16    /* 128-bit RC4KEY (104 bits unknown) */
- 
--
- /* 2-unsigned char by 2-unsigned char subset of the full AES S-box table */
- static const unsigned short Sbox1[2][256] = {/* Sbox for hash (can be in ROM) */
- 	{
--- 
-2.17.1
+regards,
+dan carpenter
+
+
+> +
+> +free_recv_priv:
+> +	_r8712_free_recv_priv(&padapter->recvpriv);
+> +free_xmit_priv:
+> +	_free_xmit_priv(&padapter->xmitpriv);
+> +free_mlme_priv:
+> +	r8712_free_mlme_priv(&padapter->mlmepriv);
+> +free_evt_priv:
+> +	r8712_free_evt_priv(&padapter->evtpriv);
+> +free_cmd_priv:
+> +	r8712_free_cmd_priv(&padapter->cmdpriv);
+> +	return ret;
+>  }
 
