@@ -1,29 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B52EBF;
-	Fri,  1 Apr 2022 06:01:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 425D8C2BBE4;
-	Fri,  1 Apr 2022 06:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B480EBF;
+	Fri,  1 Apr 2022 06:08:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 994C0C34110;
+	Fri,  1 Apr 2022 06:08:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1648792896;
-	bh=usiQ5/kmWskool16uoQNuX3zH9fqlkLk8OXUJrapyVs=;
+	s=korg; t=1648793300;
+	bh=YFueYBxeF3pP1sxELNGDeE/l8m6/Goc5dYe7xrFWBnw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hgDBvIU4HK7sNSbq7Es2681HocJZvVfc0diInnEolZ0o577aEhp56QPwNvlmJKHEO
-	 0uXwiEaG1aIFcpFH/FnZM2z6CUYsNxMR8OirdyOoidTg/bIL3PA6wvUrobP+xQWci3
-	 4vTuXwDt8myng+TKtmwZxbmwo0U8Rm/ffsOwCDqA=
-Date: Fri, 1 Apr 2022 08:01:34 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, sparmaintainer@unisys.com,
+	b=jbq5CGhJMWXhZGN4ZiQVPNjOTjADnwVVNaa/uu1G6zDXt4dL754F984iXJhpVNPv9
+	 KYcEbfURN6g3tL3//IqVC2AORcgtxNl+oXrPKjiiRSrse8a3N4H4dD+aaP/n+69RCx
+	 1GPeWxmbHJ56Do9wZ25BaUXA/lGvOoRMe1/YDzO0=
+Date: Fri, 1 Apr 2022 08:08:17 +0200
+From: reg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+Cc: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev
-Subject: Re: [PATCH v2] staging: unisys: Remove "struct dentry
- *eth_debugfs_dir"
-Message-ID: <YkaVPtpgLk7zc1e/@kroah.com>
-References: <20220331064751.29634-1-fmdefrancesco@gmail.com>
- <20220331082202.GZ12805@kadam>
- <5558288.DvuYhMxLoT@leap>
+Subject: Re: [PATCH] staging: vme: Adjusted VME_USER in Kconfig
+Message-ID: <YkaW0ThT8Ah3z0wW@kroah.com>
+References: <20220401050045.3686663-1-codeagain@codeagain.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,41 +30,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5558288.DvuYhMxLoT@leap>
+In-Reply-To: <20220401050045.3686663-1-codeagain@codeagain.dev>
 
-On Thu, Mar 31, 2022 at 06:58:58PM +0200, Fabio M. De Francesco wrote:
-> On gioved? 31 marzo 2022 10:22:02 CEST Dan Carpenter wrote:
-> > On Thu, Mar 31, 2022 at 08:47:51AM +0200, Fabio M. De Francesco wrote:
-> > > There is no need for "struct dentry *eth_debugfs_dir" which is used for
-> > > debug / sysfs directories. Therefore, remove this "struct dentry" and
-> > > everything related (i.e., creation and removal).
-> > > 
-> > > As a side effect of this change, the code has no more need of the
-> > > "cleanup_register_netdev" label, which can also be removed.
-> > > 
-> > > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > ---
-> > > 
-> > > v1 - v2: Add a couple of "Suggested-by" tags which were forgotten. 
-> > > Thanks to Dan Carpenter and Greg Kroah-Hartman.
-> > > 
-> > 
-> > Thanks!
-> > 
-> > Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > 
-> > regards,
-> > dan carpenter
-> > 
-> I've just noticed that visornic and visorhba do other calls to 
-> debugfs_create_dir() and debugfs_create_file() functions.
+On Fri, Apr 01, 2022 at 02:00:45AM -0300, Bruno Moreira-Guedes wrote:
+> Currently, the VME_USER driver is in the staging tree Kconfig, unlike
+> other VME drivers already moved to the main portions of the kernel tree.
+> Its configuration is, however, nested into the VME_BUS config option,
+> which might be misleading.
 > 
-> I'm not sure whether or not this driver still needs those other calls.
+> Since the staging tree "[...] is used to hold stand-alone[1] drivers and
+> filesystem that are not ready to be merged into the main portion of the
+> Linux kernel tree [...]"[1], IMHO all staging drivers should appear
+> nested into the Main Menu -> Device Drivers -> Staging Drivers to make
+> sure the user don't pick it without being fully aware of its staging
+> status as it could be the case in Menu -> Device Drivers -> VME bridge
+> support (the current location).
+> 
+> With this change menuconfig users will clearly know this is not a driver
+> in the main portion of the kernel tree and decide whether to build it or
+> not with that clearly in mind.
+> 
+> This change goes into the same direction of commit 4b4cdf3979c3
+> ("STAGING: Move staging drivers back to staging-specific menu")
+> 
+> [1] https://lkml.org/lkml/2009/3/18/314
+> 
+> Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+> ---
+>  drivers/staging/Kconfig | 2 ++
+>  drivers/vme/Kconfig     | 2 --
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
+> index 932acb4e8cbc..0545850eb2ff 100644
+> --- a/drivers/staging/Kconfig
+> +++ b/drivers/staging/Kconfig
+> @@ -88,4 +88,6 @@ source "drivers/staging/qlge/Kconfig"
+>  
+>  source "drivers/staging/wfx/Kconfig"
+>  
+> +source "drivers/staging/vme/devices/Kconfig"
+> +
+>  endif # STAGING
+> diff --git a/drivers/vme/Kconfig b/drivers/vme/Kconfig
+> index 936392ca3c8c..c13dd9d2a604 100644
+> --- a/drivers/vme/Kconfig
+> +++ b/drivers/vme/Kconfig
+> @@ -15,6 +15,4 @@ source "drivers/vme/bridges/Kconfig"
+>  
+>  source "drivers/vme/boards/Kconfig"
+>  
+> -source "drivers/staging/vme/devices/Kconfig"
+> -
+>  endif # VME
+> -- 
+> 2.35.1
+> 
+> 
 
-It looks like those drivers create actual files in debugfs with
-information in them, so I would leave them alone.
+The problem with this change is that you just changed the initialization
+order of the drivers if they are built into the kernel.  Are you sure
+that you can initialize a vme device driver before the vme bridge and
+bus code is run?  I don't know if that will work properly, which is why
+the Kconfig entries are in the order they currently are in (we preserved
+the link order.)
+
+It's not an obvious thing at all, sorry, but build order defines link
+order, which defines the order in which things are initialized in the
+kernel.
+
+So I can't take this change unless you are able to prove that it still
+works properly on the hardware that these drivers control.  Do you have
+this hardware to test this change with?
 
 thanks,
 
