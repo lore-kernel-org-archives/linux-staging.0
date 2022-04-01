@@ -1,150 +1,102 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gateway23.websitewelcome.com (gateway23.websitewelcome.com [192.185.47.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0917B;
-	Fri,  1 Apr 2022 14:53:57 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id hu11so2188366qvb.7;
-        Fri, 01 Apr 2022 07:53:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=Qd7+UMiN3Jrll9fNOSYkpHLr2EKG3gIqE6IEorWFPTo=;
-        b=frhnIWwX5xEJfxxbkE/n9nEd6dE/TeDbW4SLwUwBveOv2aw7Dz1nk5aApc1nvf8271
-         pLwhEcIZXPWFnuLMEPuh4Xo+HviPV7y6uyxVowzlLGed/+eMajBWaaoyAAb+HUfQ0A/1
-         rCJ3N9Cn68SJFgAWkQL0H2BKx1CLbjuLYO5NPKkooHJ7k9A4nMNvdPuXkqfGRwpFyJFa
-         akkMzxvvoSPZg0cAUJFX8gwoIm6Ib6peqfsZegtq2NwpLcbySC8S6ttsC5Zq1T0OpB5V
-         GS4fTPDFal55l3KY9ramCBrqwpX61mlvQAkawS6oydb1GnExWqjrJ6y8xFlkhuCpxuSS
-         hxUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=Qd7+UMiN3Jrll9fNOSYkpHLr2EKG3gIqE6IEorWFPTo=;
-        b=pCIijn7R/W4XmlzU75zAz8cmorTMwxyoTRR1GjYR+ERsFzxI2eh/vGpGdK4Llrayz9
-         bZct4LUfD0Iixj1qLiVxvIUF9CkPbkaeOzkSe71QMjyxcSin1Gqy0CuWdh49xZesEVTZ
-         kOMv2d1cNgo+cjkuSMOR67ORvnNYcKJPZ/EwIguDmmr9T1nw/BcwmC/FwW9qLfM3dlNF
-         WxOiL8w67/U/2AJPKkRx0eH+3APUOl6eZ6qDxzO4glJXEkRC5u8ViWQJIe+8eux/dut9
-         bDE7oJA6535GUD0BlYChVExv/aC5HVXzdO80N2QhAKkIBR9ROT/2UWrgYOJtqmdW2EiI
-         ZTuA==
-X-Gm-Message-State: AOAM5316L3N8tD17pSmpzx63VequijMbcmrhwnlWw1xErU6qsAl8n8x6
-	dge4L5FnhMxUwg6Z6Ory4Zo=
-X-Google-Smtp-Source: ABdhPJy03H5LmOvAHNjNyWo4gCVB0lYUhUS1sgLswcBnnNIHvMqyZuLbnB1sbi1joMr9KqFX9Idebw==
-X-Received: by 2002:a05:6214:2388:b0:443:865c:5623 with SMTP id fw8-20020a056214238800b00443865c5623mr8396733qvb.72.1648824835916;
-        Fri, 01 Apr 2022 07:53:55 -0700 (PDT)
-Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id i68-20020a375447000000b006809e0adfffsm1511818qkb.25.2022.04.01.07.53.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 07:53:55 -0700 (PDT)
-Date: Fri, 1 Apr 2022 10:53:50 -0400
-From: Jaehee Park <jhpark1013@gmail.com>
-To: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31827B
+	for <linux-staging@lists.linux.dev>; Fri,  1 Apr 2022 16:07:50 +0000 (UTC)
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+	by gateway23.websitewelcome.com (Postfix) with ESMTP id 44470CD43
+	for <linux-staging@lists.linux.dev>; Fri,  1 Apr 2022 10:13:00 -0500 (CDT)
+Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with SMTP
+	id aIxQnTJ97dx86aIxQnzIbK; Fri, 01 Apr 2022 10:13:00 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=tXvnUQ/FXD1UvbyTKpd+dcDmkEPwPIFr8NQTKbJN99E=; b=l4BBlH7g2efu+nd2NS+v3CJXux
+	oIx9Cm7hfWIYHHnTzgK/T6DEDOhc/XjG+lZdPwFv0hYVPDug0uaMvWqIRtmsLD6khjKHxKLHj5QSA
+	rl2bg3HL8SK9XtcJ2w8xD4m2l2s74rGiwwPA+hL2O8rQUjHzauqJ3rSOfjwnsmlf/eA/pHUZNeNYC
+	GnyvoBp/7kEfnV9sAcYp/rUDvjXNEis+7iSfa/ppd7GY9oeGxZma0H3YlTG8JTToIS4e1EDLp/ywv
+	IoAY6DNsh9WZIfbe30HQUwyX7tLqBEpKKsEiuphLNGp9bxVPujr59AqY1DRc6SUZeCYalU7rwMF4s
+	9PE/Z1VA==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:57798 helo=localhost)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@roeck-us.net>)
+	id 1naIxP-003wjx-Ok; Fri, 01 Apr 2022 15:12:59 +0000
+From: Guenter Roeck <linux@roeck-us.net>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Phillip Potter <phil@philpotter.co.uk>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: [PATCH] staging: wfx: change variable name to be consistent
-Message-ID: <20220401145350.GA45053@jaehee-ThinkPad-X1-Extreme>
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH] staging: r8188eu: Fix PPPoE tag insertion on big endian systems
+Date: Fri,  1 Apr 2022 08:12:57 -0700
+Message-Id: <20220401151257.3414576-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1naIxP-003wjx-Ok
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:57798
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 6
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 
-Change variable name to be consistent with the naming conventions.
-ssidlen was changed to ssid_len and ssidie was changed to ssid_ie to be
-consistent. This makes the variables more readable. The other ssid
-names in the code are separated by an underscore. For example,
-bssid_filter and num_of_ssids have the ssid separated from the rest of
-the words with an underscore.
+In __nat25_add_pppoe_tag(), the tag length is read from the tag data
+structure. The value is kept in network format, but read as raw value.
+With -Warray-bounds, this results in the following gcc error/warning
+when building the driver on a big endian system such as alpha.
 
-Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+In function '__nat25_add_pppoe_tag',
+    inlined from 'nat25_db_handle' at
+	drivers/staging/r8188eu/core/rtw_br_ext.c:479:11:
+arch/alpha/include/asm/string.h:22:16: error:
+	'__builtin_memcpy' forming offset [40, 2051] is out of the bounds
+	[0, 40] of object 'tag_buf' with type 'unsigned char[40]'
+
+Add the missing ntohs().
+
+Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
+Cc: Phillip Potter <phil@philpotter.co.uk>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
- drivers/staging/wfx/hif_tx.c | 10 +++++-----
- drivers/staging/wfx/sta.c    | 20 ++++++++++----------
- 2 files changed, 15 insertions(+), 15 deletions(-)
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/wfx/hif_tx.c b/drivers/staging/wfx/hif_tx.c
-index ae3cc5919dcd..9c653d0e9034 100644
---- a/drivers/staging/wfx/hif_tx.c
-+++ b/drivers/staging/wfx/hif_tx.c
-@@ -280,7 +280,7 @@ int wfx_hif_stop_scan(struct wfx_vif *wvif)
- }
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index d68611ef22f8..31bcd495ec04 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
+ 	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+ 	int data_len;
  
- int wfx_hif_join(struct wfx_vif *wvif, const struct ieee80211_bss_conf *conf,
--		 struct ieee80211_channel *channel, const u8 *ssid, int ssidlen)
-+		 struct ieee80211_channel *channel, const u8 *ssid, int ssid_len)
- {
- 	int ret;
- 	struct wfx_hif_msg *hif;
-@@ -288,8 +288,8 @@ int wfx_hif_join(struct wfx_vif *wvif, const struct ieee80211_bss_conf *conf,
+-	data_len = tag->tag_len + TAG_HDR_LEN;
++	data_len = htons(tag->tag_len) + TAG_HDR_LEN;
+ 	if (skb_tailroom(skb) < data_len)
+ 		return -1;
  
- 	WARN_ON(!conf->beacon_int);
- 	WARN_ON(!conf->basic_rates);
--	WARN_ON(sizeof(body->ssid) < ssidlen);
--	WARN(!conf->ibss_joined && !ssidlen, "joining an unknown BSS");
-+	WARN_ON(sizeof(body->ssid) < ssid_len);
-+	WARN(!conf->ibss_joined && !ssid_len, "joining an unknown BSS");
- 	if (!hif)
- 		return -ENOMEM;
- 	body->infrastructure_bss_mode = !conf->ibss_joined;
-@@ -300,8 +300,8 @@ int wfx_hif_join(struct wfx_vif *wvif, const struct ieee80211_bss_conf *conf,
- 	body->basic_rate_set = cpu_to_le32(wfx_rate_mask_to_hw(wvif->wdev, conf->basic_rates));
- 	memcpy(body->bssid, conf->bssid, sizeof(body->bssid));
- 	if (ssid) {
--		body->ssid_length = cpu_to_le32(ssidlen);
--		memcpy(body->ssid, ssid, ssidlen);
-+		body->ssid_length = cpu_to_le32(ssid_len);
-+		memcpy(body->ssid, ssid, ssid_len);
- 	}
- 	wfx_fill_header(hif, wvif->id, HIF_REQ_ID_JOIN, sizeof(*body));
- 	ret = wfx_cmd_send(wvif->wdev, hif, NULL, 0, false);
-diff --git a/drivers/staging/wfx/sta.c b/drivers/staging/wfx/sta.c
-index b1e9fb14d2b4..03025ef7f1be 100644
---- a/drivers/staging/wfx/sta.c
-+++ b/drivers/staging/wfx/sta.c
-@@ -392,8 +392,8 @@ static void wfx_join(struct wfx_vif *wvif)
- 	struct ieee80211_bss_conf *conf = &wvif->vif->bss_conf;
- 	struct cfg80211_bss *bss = NULL;
- 	u8 ssid[IEEE80211_MAX_SSID_LEN];
--	const u8 *ssidie = NULL;
--	int ssidlen = 0;
-+	const u8 *ssid_ie = NULL;
-+	int ssid_len = 0;
- 
- 	wfx_tx_lock_flush(wvif->wdev);
- 
-@@ -404,21 +404,21 @@ static void wfx_join(struct wfx_vif *wvif)
- 		return;
- 	}
- 
--	rcu_read_lock(); /* protect ssidie */
-+	rcu_read_lock(); /* protect ssid_ie */
- 	if (bss)
--		ssidie = ieee80211_bss_get_ie(bss, WLAN_EID_SSID);
--	if (ssidie) {
--		ssidlen = ssidie[1];
--		if (ssidlen > IEEE80211_MAX_SSID_LEN)
--			ssidlen = IEEE80211_MAX_SSID_LEN;
--		memcpy(ssid, &ssidie[2], ssidlen);
-+		ssid_ie = ieee80211_bss_get_ie(bss, WLAN_EID_SSID);
-+	if (ssid_ie) {
-+		ssid_len = ssid_ie[1];
-+		if (ssid_len > IEEE80211_MAX_SSID_LEN)
-+			ssid_len = IEEE80211_MAX_SSID_LEN;
-+		memcpy(ssid, &ssid_ie[2], ssid_len);
- 	}
- 	rcu_read_unlock();
- 
- 	cfg80211_put_bss(wvif->wdev->hw->wiphy, bss);
- 
- 	wvif->join_in_progress = true;
--	ret = wfx_hif_join(wvif, conf, wvif->channel, ssid, ssidlen);
-+	ret = wfx_hif_join(wvif, conf, wvif->channel, ssid, ssid_len);
- 	if (ret) {
- 		ieee80211_connection_loss(wvif->vif);
- 		wfx_reset(wvif);
 -- 
-2.25.1
+2.35.1
 
