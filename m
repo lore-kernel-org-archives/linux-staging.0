@@ -1,167 +1,169 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD3C1367;
+	Fri,  1 Apr 2022 13:18:52 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:a2c0:2ef3:44e0:633b] (unknown [IPv6:2a01:e0a:120:3210:a2c0:2ef3:44e0:633b])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610A51368;
-	Fri,  1 Apr 2022 13:03:21 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id kk12so1908550qvb.13;
-        Fri, 01 Apr 2022 06:03:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=oI4MeZFmluScztYaA4VGctO3l6sUlCTurVeMLoxfQBg=;
-        b=YvI0VDDH3q5+7ckyi7kCQTBjoOqgTj+ac4c9wT8B8eJ1PbPaRwwK0+7mto6l5e0DcS
-         0TjrdiBikRqVaBrF2BT/jPxFFgcOKyYAUklYMsq20KQHj/Ey25bvWuyjbDUFwQqNI0ya
-         Xooja1fJ+rAk314BrC4GIWJIGBZX0k+aaD26e0ZoGoz06GxE6IfjNE0Cn87VEEJJZqbK
-         yruEBFnbu652T3+OqKOOV9GqXGraxiVaQfpgk/aeYWt/47VwZ6cwAKYLkVHIbi6kZBVS
-         nKBNv+PhAmZbut7ss3SkJWReTmK5GvW3UC53Cz5gRm2XE5r9Qid0BXEKGzSqIRcM68kD
-         loyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=oI4MeZFmluScztYaA4VGctO3l6sUlCTurVeMLoxfQBg=;
-        b=h+bJ3eaU0RC5UAKzyjIkBKrsXgUoY+Vstyk2IjNTU7NuUdNrR8j3rXwHoLKyOD1JbE
-         EAIwrkVQDw/FpAR6pmKaT+ReFgq516yt/ZAi3vH1EU1a4lKXjevO3bm1yvDPEfQSrWZ5
-         0DSZ0Kw+IqSOG66+mtsXhmQTtmudZWb8JuHETNJGXZCOggkmBppYy5WYGk0GlO9ak4tv
-         OskO2GCkUdBaEUmJB4mX91RMqj07hUtn1uaAIyylmHCEOTsqGiy+IoCS27kRHTd8D+cO
-         XeqmNKTFppO1BaGz55tHX/3ydPs8KTW9KeqbC9bLoTEw6KwY1SHhj6cfPLFKD8mbdal9
-         kMgg==
-X-Gm-Message-State: AOAM532PjlFjKyGrDQjifCsRL2GMRU2LANQqPVuehMugKB8g7dDvbajx
-	3UxrCk5gl6xO/pwaufm4fLM=
-X-Google-Smtp-Source: ABdhPJyvsCwzPlmuiLN3jWABn2eF7L/jerRPovbVt3dzsb3tiE8WZzgpYikzbcbDORXhvkobAMQWUw==
-X-Received: by 2002:a05:6214:5017:b0:441:1ced:36e4 with SMTP id jo23-20020a056214501700b004411ced36e4mr7926306qvb.80.1648818199108;
-        Fri, 01 Apr 2022 06:03:19 -0700 (PDT)
-Received: from euclid ([71.58.109.160])
-        by smtp.gmail.com with ESMTPSA id l13-20020a37a20d000000b0067d17b656acsm1220235qke.78.2022.04.01.06.03.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 06:03:18 -0700 (PDT)
-From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-Subject: [PATCH 3/3] staging: rtl8723bs: remove redundant else branches
-Date: Fri,  1 Apr 2022 09:02:47 -0400
-Message-Id: <8d745122cd10f5db59393b1bff09e6a73e88640b.1648817213.git.sevinj.aghayeva@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1648817213.git.sevinj.aghayeva@gmail.com>
-References: <cover.1648817213.git.sevinj.aghayeva@gmail.com>
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3CCF01F47939;
+	Fri,  1 Apr 2022 14:18:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1648819124;
+	bh=7v8TCx/Kj5ELlw8I2aKq0GItt14ep/CbDiUKjFQ0BWQ=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=aCoSe9GFvS8N20ultU35dtAW/lMJ7mDvjo8RapHP11UgfAZp0UvxLjkmGNKBitqa3
+	 5sjS3FdjzVB98Aj49v85+rJRGzPYSTSCsVHabj8/MeU7NMtfnivd1YQ8nNHoWhZwOJ
+	 OQIm1XDVc2k0+Sp5CQ6RMMt/2xunaAKKLKnKD6n1x09Y0Tzm7ckfTS86aJ4zML9UMi
+	 I+x7UDkRRFvv1GPuJk3EYwfZpwQ1R9gth/F9SmK0S9KDkJ3KNfUcPTm9AKs4Fqd0Cn
+	 UBRnNZ5Y6a1Sjh5hb7R+bHTcnuErJwwjBWJ5NVp/2T+rp443Lo6+cFVwd2C/soOd8J
+	 1HjPJMB8LWofQ==
+Message-ID: <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
+Date: Fri, 1 Apr 2022 15:18:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: Adam Ford <aford173@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>,
+ "jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-media <linux-media@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
+ kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+ <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com>
+ <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
+ <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com>
+In-Reply-To: <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Adhere to Linux kernel coding style.
 
-Reported by checkpatch:
+Le 31/03/2022 à 08:53, Benjamin Gaignard a écrit :
+>
+> Le 30/03/2022 à 20:52, Adam Ford a écrit :
+>> On Wed, Mar 30, 2022 at 2:53 AM Benjamin Gaignard
+>> <benjamin.gaignard@collabora.com> wrote:
+>>>
+>>> Le 28/02/2022 à 15:08, Benjamin Gaignard a écrit :
+>>>> This series aims to make HEVC uapi stable and usable for hardware
+>>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>>>> and 2 out of the tree drivers (rkvdec and RPI).
+>>>>
+>>>> After the remarks done on version 2, I have completely reworked to 
+>>>> patches
+>>>> split so changelogs are meaningless. I have also drop "RFC" from the
+>>>> titles.
+>>>>
+>>>> Version 4:
+>>>> - Add num_entry_point_offsets field in  struct 
+>>>> v4l2_ctrl_hevc_slice_params
+>>>> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+>>>> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+>>>> - Fix space/tab issue in kernel-doc
+>>>> - Add patch to change data_bit_offset definition
+>>>> - Fix hantro-media SPDX license
+>>>> - put controls under stateless section in v4l2-ctrls-defs.c
+>>>>
+>>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>>> Dear reviewers,
+>>>
+>>> This series is waiting for your feedback,
+>> I tried several times with the suggested repos for both the kernel and
+>> g-streamer without success getting Fluster to pass any tests on the
+>> imx8mq.  I can try again but I likely won't get to it until this
+>> weekend.  If I can get it working, I'll test both the 8mq and 8mm.
+>
+> Thanks a lot for that.
+>
+> Benjamin
 
-WARNING: else is not generally useful after a break or return
+Adam,
 
-Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 63 +++++++++----------
- 1 file changed, 30 insertions(+), 33 deletions(-)
+You may need to check if h265parse and v4l2slh265dec are available on your board.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 81e4b1bf68f6..b80d9061f5a5 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -907,10 +907,9 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
- 			set_link_timer(pmlmeext, REAUTH_TO);
- 
- 			return _SUCCESS;
--		} else {
--			/*  open system */
--			go2asoc = 1;
- 		}
-+		/*  open system */
-+		go2asoc = 1;
- 	} else if (seq == 4) {
- 		if (pmlmeinfo->auth_algo == dot11AuthAlgrthm_Shared)
- 			go2asoc = 1;
-@@ -1502,32 +1501,32 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 
- 
- 		return _SUCCESS;
--	} else {
--		int	ignore_received_deauth = 0;
--
--		/* 	Commented by Albert 20130604 */
--		/* 	Before sending the auth frame to start the STA/GC mode connection with AP/GO, */
--		/* 	we will send the deauth first. */
--		/* 	However, the Win8.1 with BRCM Wi-Fi will send the deauth with reason code 6 to us after receieving our deauth. */
--		/* 	Added the following code to avoid this case. */
--		if ((pmlmeinfo->state & WIFI_FW_AUTH_STATE) ||
--			(pmlmeinfo->state & WIFI_FW_ASSOC_STATE)) {
--			if (reason == WLAN_REASON_CLASS2_FRAME_FROM_NONAUTH_STA) {
--				ignore_received_deauth = 1;
--			} else if (reason == WLAN_REASON_PREV_AUTH_NOT_VALID) {
--				/*  TODO: 802.11r */
--				ignore_received_deauth = 1;
--			}
-+	}
-+	int	ignore_received_deauth = 0;
-+
-+	/* 	Commented by Albert 20130604 */
-+	/* 	Before sending the auth frame to start the STA/GC mode connection with AP/GO, */
-+	/* 	we will send the deauth first. */
-+	/* 	However, the Win8.1 with BRCM Wi-Fi will send the deauth with reason code 6 to us after receieving our deauth. */
-+	/* 	Added the following code to avoid this case. */
-+	if ((pmlmeinfo->state & WIFI_FW_AUTH_STATE) ||
-+		(pmlmeinfo->state & WIFI_FW_ASSOC_STATE)) {
-+		if (reason == WLAN_REASON_CLASS2_FRAME_FROM_NONAUTH_STA) {
-+			ignore_received_deauth = 1;
-+		} else if (reason == WLAN_REASON_PREV_AUTH_NOT_VALID) {
-+			/*  TODO: 802.11r */
-+			ignore_received_deauth = 1;
- 		}
-+	}
- 
--		netdev_dbg(padapter->pnetdev,
--			   "sta recv deauth reason code(%d) sta:%pM, ignore = %d\n",
--			   reason, GetAddr3Ptr(pframe),
--			   ignore_received_deauth);
-+	netdev_dbg(padapter->pnetdev,
-+		"sta recv deauth reason code(%d) sta:%pM, ignore = %d\n",
-+		reason, GetAddr3Ptr(pframe),
-+		ignore_received_deauth);
-+
-+	if (ignore_received_deauth == 0)
-+		receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
- 
--		if (ignore_received_deauth == 0)
--			receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
--	}
- 	pmlmepriv->LinkDetectInfo.bBusyTraffic = false;
- 	return _SUCCESS;
- 
-@@ -1574,16 +1573,14 @@ unsigned int OnDisassoc(struct adapter *padapter, union recv_frame *precv_frame)
- 		}
- 
- 		return _SUCCESS;
--	} else {
--		netdev_dbg(padapter->pnetdev,
--			   "sta recv disassoc reason code(%d) sta:%pM\n",
--			   reason, GetAddr3Ptr(pframe));
--
--		receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
- 	}
-+	netdev_dbg(padapter->pnetdev,
-+		"sta recv disassoc reason code(%d) sta:%pM\n",
-+		reason, GetAddr3Ptr(pframe));
-+
-+	receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
- 	pmlmepriv->LinkDetectInfo.bBusyTraffic = false;
- 	return _SUCCESS;
--
- }
- 
- unsigned int OnAtim(struct adapter *padapter, union recv_frame *precv_frame)
--- 
-2.25.1
+fluster check if v4l2slh265dec is working fine with this command line:
 
+gst-launch-1.0 appsrc num-buffers=0 ! h265parse ! v4l2slh265dec ! fakesink
+
+so if one of them is missing it won't work.
+
+Regards,
+Benjamin
+
+>
+>>
+>> adam
+>>> Thanks,
+>>> Benjamin
+>>>
+>>>> Benjamin
+>>>>
+>>>>
+>>>> Benjamin Gaignard (12):
+>>>>     media: uapi: HEVC: Add missing fields in HEVC controls
+>>>>     media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>>>>       prefix
+>>>>     media: uapi: HEVC: Add document uAPI structure
+>>>>     media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS 
+>>>> as a
+>>>>       dynamic array
+>>>>     media: uapi: Move parsed HEVC pixel format out of staging
+>>>>     media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS 
+>>>> control
+>>>>     media: uapi: Move the HEVC stateless control type out of staging
+>>>>     media: controls: Log HEVC stateless control in .std_log
+>>>>     media: uapi: Create a dedicated header for Hantro control
+>>>>     media: uapi: HEVC: fix padding in v4l2 control structures
+>>>>     media: uapi: Change data_bit_offset definition
+>>>>     media: uapi: move HEVC stateless controls out of staging
+>>>>
+>>>> Hans Verkuil (3):
+>>>>     videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>>>>     v4l2-ctrls: add support for dynamically allocated arrays.
+>>>>     vivid: add dynamic array test control
+>>>>
+>>>>    .../userspace-api/media/drivers/hantro.rst    |   5 -
+>>>>    .../media/v4l/ext-ctrls-codec-stateless.rst   | 833 
+>>>> ++++++++++++++++++
+>>>>    .../media/v4l/ext-ctrls-codec.rst             | 780 
+>>>> ----------------
+>>>>    .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>>>>    .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>>>>    .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>>>>    .../media/videodev2.h.rst.exceptions          |   5 +
+>>>>    .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>>>>    drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>>>>    drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>>>>    drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>>>>    .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
+>>>>    include/media/hevc-ctrls.h                    | 250 ------
+>>>>    include/media/v4l2-ctrls.h                    |  48 +-
+>>>>    include/uapi/linux/hantro-media.h             |  19 +
+>>>>    include/uapi/linux/v4l2-controls.h            | 439 +++++++++
+>>>>    include/uapi/linux/videodev2.h                |  13 +
+>>>>    23 files changed, 1697 insertions(+), 1170 deletions(-)
+>>>>    delete mode 100644 include/media/hevc-ctrls.h
+>>>>    create mode 100644 include/uapi/linux/hantro-media.h
+>>>>
