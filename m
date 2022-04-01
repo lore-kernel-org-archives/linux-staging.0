@@ -1,113 +1,84 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA217C
-	for <linux-staging@lists.linux.dev>; Fri,  1 Apr 2022 18:40:24 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-df22f50e0cso3657131fac.3
-        for <linux-staging@lists.linux.dev>; Fri, 01 Apr 2022 11:40:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9613B7C;
+	Fri,  1 Apr 2022 19:07:07 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id z19so2985377qtw.2;
+        Fri, 01 Apr 2022 12:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Fk/O5aak+N33KC9MIWPLIbExEcKor3AEJLX4blCgxJs=;
-        b=SiPYCiMvqlOnvvJ12rA9PeRsnBQ11JhSBGYiHNiXnWO8U2t9FYIrag87+HlowHzOEq
-         QEfHwgntR/KK1/HhqDFmq7d6SWGjTpYI9ow3bjFcWPyvhmV7rm80rjtzGQMsZ31C/DtH
-         qvdaWhXfwNGg6vGHD2P1RcPUurQvw88GTUCGxMudpjFWdGYF4XpSG11+ySZ6qfrMiWoM
-         gdsl41WsJBa+BUr7WopTFUC5/k0PTeMgtN241IKFzHfGo603ShuW2Xirn4Wh71qQHehX
-         aGbFURiydzAR/YSx/IXwBf9AthIiGhteSjKuIMVqCVEPbuxrUMtu+VjjEfnqLBqlb7R4
-         FHlw==
+        bh=7sCg00QwNMKVUFlzQkj2jwwa0uYhEC8jL1U6rlvYrSo=;
+        b=klBxS0IuRANL9EkV0AlTz7LfzK2HCEuB8787h4LJqwiiafZvZ1IoFlcrBBD3IzOlfe
+         +KxC7PFfqALM13UDk0nBznmlKk3pLKttxxohCRaOnT+FqLK86EKdXlhuOEpC9I1F0ISx
+         BNtFO5r+FOz/4S5IQ3SvA54Kj8dNpiMGM7Iuy6gfYgiVhrMeE6s3qoHzYV8E+DWDuqcI
+         4HAm9W3hYNvVk1rBMy7x6Mdz1Mqq5mFWgesqFnKPDSk5cd6pX8UFOUWkwImJgHgW3aXc
+         WFC54LPQGB54yujmOs9Tv4RgCFHNR+pY30y3w1L7/93sHUOdDMCMSEbDwXnVS8HSQAyB
+         HDpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Fk/O5aak+N33KC9MIWPLIbExEcKor3AEJLX4blCgxJs=;
-        b=gXjDPAlhYTxuG783vlqTp1MO29XpKjHo09Y5YjLC7az+/7FJfQDxMKPEtFW25sDJKD
-         ccn7Wqnrc7WzPvZXXwqNMAkereVmblMuGpJfBBHOKnYhjcTb8NLgFqSP2FUHp0lA1VEM
-         BfQvt047fJYOhQ3LX9g2IpWqEBD7x9jt7xiM+udxnPAfaPfrfAuu3dPFe54zKpXWeZlg
-         huc4Xty/tvHGZRxyEOCNpmbeMqBKJuOp3RkeFJCPZKZhljQOitaKsBH4IH6fQ9nFsY/0
-         YihBo7A4SMzUl7N7YL+5bjhhSx27EfpuCdCoSU1zlt29Zvu1DuAQpTOhW3jqcKfDXuO4
-         hFew==
-X-Gm-Message-State: AOAM5319utGyn14jkeOJJj9BfTqaSMR4PGgFoeT+soi09EZ3vrZQsEFB
-	8f3bxtF1UrnbrSrVQodpuoc=
-X-Google-Smtp-Source: ABdhPJw6ApqVyzvZkE7AP2DkgyzvazCou+czbhV9toVYHjwbY7GETxfBbM9+pBT/ROWOZi1K0zLWVw==
-X-Received: by 2002:a05:6870:2041:b0:db:1a12:6cb1 with SMTP id l1-20020a056870204100b000db1a126cb1mr5437381oad.153.1648838424030;
-        Fri, 01 Apr 2022 11:40:24 -0700 (PDT)
-Received: from ?IPV6:2603:8090:2005:39b3::1004? (2603-8090-2005-39b3-0000-0000-0000-1004.res6.spectrum.com. [2603:8090:2005:39b3::1004])
-        by smtp.gmail.com with ESMTPSA id y16-20020a9d6350000000b005c9653ab377sm1381170otk.17.2022.04.01.11.40.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Apr 2022 11:40:23 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <782f0115-e45f-1aff-a152-5d403c990b31@lwfinger.net>
-Date: Fri, 1 Apr 2022 13:40:21 -0500
+        bh=7sCg00QwNMKVUFlzQkj2jwwa0uYhEC8jL1U6rlvYrSo=;
+        b=XwDhkNQeJEDxLEfzy33ebAcHpJOB5sI/2buQeUuw9yQH+VMBhEngR1cQaJ/FfRvc/N
+         0ZW2nM4dkXMDwIgP2E/ienpqJONpCi6Rm/hlnJXqYs3AH7mzs9mqRra9rMS68mY+bXMJ
+         9sJQ/d0AkjsCYNSHZOEh+WZeLRr6tl89GV9zIH+Il4iDn0ChMV6ky1SKfSr67HUSvGyJ
+         wZvzJfLWDlrQzd5N7kxIMylZUKfoxZS/rNdTZJrtMHRIZ6NDZYCqv48lYtRrMYoY8RiB
+         1YJhzzibdYve6i661A+KirgZxcgO6aDjE3C9r03U4av9wL4rf9m9/DamnFEhdxy66Uka
+         qLmg==
+X-Gm-Message-State: AOAM532wEsx64lcAs7PYpJcnPXJYsPjlfROPWX71vwy9eO/jLbM587uS
+	Gq2F1DR68EdC/yxU/x0xPBZfbtOvxGOK/zhj
+X-Google-Smtp-Source: ABdhPJwpO0qbLyMdD6SzmDXNla4KlXsoLvFGbpLE5RJEEM73tH2inLiDjeKeBTv3EfGrih8xy0EzHQ==
+X-Received: by 2002:ac8:5855:0:b0:2eb:87af:ab50 with SMTP id h21-20020ac85855000000b002eb87afab50mr9628284qth.406.1648840026397;
+        Fri, 01 Apr 2022 12:07:06 -0700 (PDT)
+Received: from euclid ([71.58.109.160])
+        by smtp.gmail.com with ESMTPSA id r11-20020ae9d60b000000b0067e5308d664sm1797765qkk.92.2022.04.01.12.07.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Apr 2022 12:07:05 -0700 (PDT)
+From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+Subject: [PATCH v2 0/3] rlt8723bs cleanup
+Date: Fri,  1 Apr 2022 15:06:55 -0400
+Message-Id: <cover.1648839305.git.sevinj.aghayeva@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] staging: r8188eu: Fix PPPoE tag insertion on big endian
- systems
-Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220401151257.3414576-1-linux@roeck-us.net>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <20220401151257.3414576-1-linux@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/1/22 10:12, Guenter Roeck wrote:
-> In __nat25_add_pppoe_tag(), the tag length is read from the tag data
-> structure. The value is kept in network format, but read as raw value.
-> With -Warray-bounds, this results in the following gcc error/warning
-> when building the driver on a big endian system such as alpha.
-> 
-> In function '__nat25_add_pppoe_tag',
->      inlined from 'nat25_db_handle' at
-> 	drivers/staging/r8188eu/core/rtw_br_ext.c:479:11:
-> arch/alpha/include/asm/string.h:22:16: error:
-> 	'__builtin_memcpy' forming offset [40, 2051] is out of the bounds
-> 	[0, 40] of object 'tag_buf' with type 'unsigned char[40]'
-> 
-> Add the missing ntohs().
-> 
-> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
-> Cc: Phillip Potter <phil@philpotter.co.uk>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->   drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> index d68611ef22f8..31bcd495ec04 100644
-> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> @@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
->   	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
->   	int data_len;
->   
-> -	data_len = tag->tag_len + TAG_HDR_LEN;
-> +	data_len = htons(tag->tag_len) + TAG_HDR_LEN;
->   	if (skb_tailroom(skb) < data_len)
->   		return -1;
->   
+These patches fix three categories of checkpatch warnings (redundant
+braces, redundant else branches after return/break, and constant
+placements on tests) in file rtw_mlme_ext.c, which is part of the
+rtl8723bs driver. False positives, such as
 
-Strange that a BE compiler would generate a warning for what is actually an 
-execution error on LE platforms.
+if (foo) {
+	/* TODO: ... */
+}
 
-I prefer be16_to_cpu() to htons() as the former makes it clearer what is 
-happening, but I suppose that is a matter of choice.
+were not altered.
 
-Reviewed_by: Larry Finger <Larry.Finger@lwfinger.net>
+---
+v1 -> v2: Removing a redundant else branch left a variable declaration
+mixed with code, which was caught by the kernel test bot. Move the
+declaration to the beginning of a function.
+---
 
-Incidentally, Sparse shows 3 more __be16 problems in this routine. I leave their 
-fixing to you.
+Sevinj Aghayeva (3):
+  staging: rtl8723bs: remove redundant braces in if statements
+  staging: rtl8723bs: place constants on the right side of tests
+  staging: rtl8723bs: remove redundant else branches
 
-Larry
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 167 ++++++++----------
+ 1 file changed, 70 insertions(+), 97 deletions(-)
+
+-- 
+2.25.1
 
