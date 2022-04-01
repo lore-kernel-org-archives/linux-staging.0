@@ -1,94 +1,113 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255177C;
-	Fri,  1 Apr 2022 18:35:19 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id g20so3925022edw.6;
-        Fri, 01 Apr 2022 11:35:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA217C
+	for <linux-staging@lists.linux.dev>; Fri,  1 Apr 2022 18:40:24 +0000 (UTC)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-df22f50e0cso3657131fac.3
+        for <linux-staging@lists.linux.dev>; Fri, 01 Apr 2022 11:40:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=HwvsNVubztdYKgXLtsvkx6INUsTkEhAT0Rw4f8IMAMo=;
-        b=Xcn8nF2R5LJEHbhs1V1/l/VEgg+pGar5DdZIQ8xwzExhCd/A84R4g77oZby0x19077
-         /uJCka7iPlqTiJ029x+CbwGcCwEE2jFye6DjEkl2q80KKzlr7ngt3CTEbaoRv4feSaM7
-         Z0dDYsw0wadOXuPR4Jgg96elUr3DG2wZocmySOXbiRXJu5952YSxEw87YPows1xpiN8B
-         HRFWOxEH+leHb3skrswnGhFL+CHRBZa1C6VchrIKRJtIU+fFDWFVN1MSqizlyNYS6Eno
-         Roil+V+pbnhlJqmdHH38rccM+6/LLvw9L+QxEHLkkE9nVvxvgwnMbdEcSYCnQpd2I3rd
-         UCsw==
+        bh=Fk/O5aak+N33KC9MIWPLIbExEcKor3AEJLX4blCgxJs=;
+        b=SiPYCiMvqlOnvvJ12rA9PeRsnBQ11JhSBGYiHNiXnWO8U2t9FYIrag87+HlowHzOEq
+         QEfHwgntR/KK1/HhqDFmq7d6SWGjTpYI9ow3bjFcWPyvhmV7rm80rjtzGQMsZ31C/DtH
+         qvdaWhXfwNGg6vGHD2P1RcPUurQvw88GTUCGxMudpjFWdGYF4XpSG11+ySZ6qfrMiWoM
+         gdsl41WsJBa+BUr7WopTFUC5/k0PTeMgtN241IKFzHfGo603ShuW2Xirn4Wh71qQHehX
+         aGbFURiydzAR/YSx/IXwBf9AthIiGhteSjKuIMVqCVEPbuxrUMtu+VjjEfnqLBqlb7R4
+         FHlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=HwvsNVubztdYKgXLtsvkx6INUsTkEhAT0Rw4f8IMAMo=;
-        b=s7isUQWI+KQVeKb/SeyAUxiE3ulxv+BESe/maHN7QHnK982G5286fZ0WI6h85V0CPj
-         IzS3becsGmdkz7FMPNDGE4zAPcFU4dXzWx89apxCfbDE4rKkiLHFvPGsiXJVu0jRPfPs
-         1/RPpnZhOYR7PX5pGgb50oCwQBLObt4oZxrHqVNDBizRvDX3wcAiUmSIofWkXoCEWJ48
-         rLO3D5dYQVv1OEM2KozpQpK9BHlEkiGTzFjPOZOLh+9CIUl1UlFHkoLov55z16kL82Jz
-         tNBbxCVMLIvTJhvyEcINnkeFJeAWySieJ+rlE7COu65DzcRlVRFZp161dh07Vm7EF9N0
-         U0zg==
-X-Gm-Message-State: AOAM530BTnJbXU2IQpAT723nYlBuCEfRj5A+6uALimINYbg2mR9CytvO
-	3l1lA5zDoq7yU4ughpVARbM=
-X-Google-Smtp-Source: ABdhPJwHOb8kRreHG9rzDqQ31EWROiF+cK8Oi1m/wEhs46Appl0tGn8pjrroiFnmjIfLZk6mxRdYdQ==
-X-Received: by 2002:a05:6402:510c:b0:419:3fe5:15f with SMTP id m12-20020a056402510c00b004193fe5015fmr22337749edd.274.1648838117280;
-        Fri, 01 Apr 2022 11:35:17 -0700 (PDT)
-Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
-        by smtp.gmail.com with ESMTPSA id b7-20020a170906490700b006b2512921b2sm1296420ejq.48.2022.04.01.11.35.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Apr 2022 11:35:16 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: r8188eu: Remove goto to no-op exit label
-Date: Fri,  1 Apr 2022 20:35:13 +0200
-Message-Id: <20220401183513.26222-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=Fk/O5aak+N33KC9MIWPLIbExEcKor3AEJLX4blCgxJs=;
+        b=gXjDPAlhYTxuG783vlqTp1MO29XpKjHo09Y5YjLC7az+/7FJfQDxMKPEtFW25sDJKD
+         ccn7Wqnrc7WzPvZXXwqNMAkereVmblMuGpJfBBHOKnYhjcTb8NLgFqSP2FUHp0lA1VEM
+         BfQvt047fJYOhQ3LX9g2IpWqEBD7x9jt7xiM+udxnPAfaPfrfAuu3dPFe54zKpXWeZlg
+         huc4Xty/tvHGZRxyEOCNpmbeMqBKJuOp3RkeFJCPZKZhljQOitaKsBH4IH6fQ9nFsY/0
+         YihBo7A4SMzUl7N7YL+5bjhhSx27EfpuCdCoSU1zlt29Zvu1DuAQpTOhW3jqcKfDXuO4
+         hFew==
+X-Gm-Message-State: AOAM5319utGyn14jkeOJJj9BfTqaSMR4PGgFoeT+soi09EZ3vrZQsEFB
+	8f3bxtF1UrnbrSrVQodpuoc=
+X-Google-Smtp-Source: ABdhPJw6ApqVyzvZkE7AP2DkgyzvazCou+czbhV9toVYHjwbY7GETxfBbM9+pBT/ROWOZi1K0zLWVw==
+X-Received: by 2002:a05:6870:2041:b0:db:1a12:6cb1 with SMTP id l1-20020a056870204100b000db1a126cb1mr5437381oad.153.1648838424030;
+        Fri, 01 Apr 2022 11:40:24 -0700 (PDT)
+Received: from ?IPV6:2603:8090:2005:39b3::1004? (2603-8090-2005-39b3-0000-0000-0000-1004.res6.spectrum.com. [2603:8090:2005:39b3::1004])
+        by smtp.gmail.com with ESMTPSA id y16-20020a9d6350000000b005c9653ab377sm1381170otk.17.2022.04.01.11.40.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Apr 2022 11:40:23 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <782f0115-e45f-1aff-a152-5d403c990b31@lwfinger.net>
+Date: Fri, 1 Apr 2022 13:40:21 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] staging: r8188eu: Fix PPPoE tag insertion on big endian
+ systems
+Content-Language: en-US
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220401151257.3414576-1-linux@roeck-us.net>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <20220401151257.3414576-1-linux@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In function rtw_free_netdev() there are two "goto" jumps to a no-op exit
-label called "RETURN". Remove the label and return in line.
+On 4/1/22 10:12, Guenter Roeck wrote:
+> In __nat25_add_pppoe_tag(), the tag length is read from the tag data
+> structure. The value is kept in network format, but read as raw value.
+> With -Warray-bounds, this results in the following gcc error/warning
+> when building the driver on a big endian system such as alpha.
+> 
+> In function '__nat25_add_pppoe_tag',
+>      inlined from 'nat25_db_handle' at
+> 	drivers/staging/r8188eu/core/rtw_br_ext.c:479:11:
+> arch/alpha/include/asm/string.h:22:16: error:
+> 	'__builtin_memcpy' forming offset [40, 2051] is out of the bounds
+> 	[0, 40] of object 'tag_buf' with type 'unsigned char[40]'
+> 
+> Add the missing ntohs().
+> 
+> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
+> Cc: Phillip Potter <phil@philpotter.co.uk>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+>   drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index d68611ef22f8..31bcd495ec04 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
+>   	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+>   	int data_len;
+>   
+> -	data_len = tag->tag_len + TAG_HDR_LEN;
+> +	data_len = htons(tag->tag_len) + TAG_HDR_LEN;
+>   	if (skb_tailroom(skb) < data_len)
+>   		return -1;
+>   
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/r8188eu/os_dep/osdep_service.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Strange that a BE compiler would generate a warning for what is actually an 
+execution error on LE platforms.
 
-diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-index 7a6fcc96081a..d680bfba7f5d 100644
---- a/drivers/staging/r8188eu/os_dep/osdep_service.c
-+++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-@@ -117,18 +117,15 @@ void rtw_free_netdev(struct net_device *netdev)
- 	struct rtw_netdev_priv_indicator *pnpi;
- 
- 	if (!netdev)
--		goto RETURN;
-+		return;
- 
- 	pnpi = netdev_priv(netdev);
- 
- 	if (!pnpi->priv)
--		goto RETURN;
-+		return;
- 
- 	vfree(pnpi->priv);
- 	free_netdev(netdev);
--
--RETURN:
--	return;
- }
- 
- int rtw_change_ifname(struct adapter *padapter, const char *ifname)
--- 
-2.34.1
+I prefer be16_to_cpu() to htons() as the former makes it clearer what is 
+happening, but I suppose that is a matter of choice.
+
+Reviewed_by: Larry Finger <Larry.Finger@lwfinger.net>
+
+Incidentally, Sparse shows 3 more __be16 problems in this routine. I leave their 
+fixing to you.
+
+Larry
 
