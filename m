@@ -1,98 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE0F7C
-	for <linux-staging@lists.linux.dev>; Fri,  1 Apr 2022 10:50:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1648810218;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gDDO4Z8byxB+Vv3MwlS6NmtsWgbDQ/bQgZ8uPefW6us=;
-	b=Jn2SzCBX/0v9WQqVkVd/yh4Nz65Z0vPFYAZg8M3/krRW/F0Ohw8Nn9APol2+K9xpZd09DA
-	zIJZCEKvhbPiy75XvPDhnYzieTQ0fKUj6isD18gixlbLnefVRpfDzIbFPiUfNEjZOh2Wjt
-	6cVrRi9CTif9oB3kmQLB888HHI81j4Q=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-313-JxgmbhvMMPG4dQHPTAr_xg-1; Fri, 01 Apr 2022 06:50:17 -0400
-X-MC-Unique: JxgmbhvMMPG4dQHPTAr_xg-1
-Received: by mail-ed1-f70.google.com with SMTP id y18-20020aa7d512000000b0041b6bb71ab0so1285729edq.21
-        for <linux-staging@lists.linux.dev>; Fri, 01 Apr 2022 03:50:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D907C;
+	Fri,  1 Apr 2022 11:46:40 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id kl29so1808135qvb.2;
+        Fri, 01 Apr 2022 04:46:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=tj0eNhKFTRgfzMUzArZlhD6QnaURQ8wTdtssetTRosY=;
+        b=KzIzeaYzf4tIG+9XJ/8/tTFusg2jVfudxBBaoDpAzW+mgKn1Isc5QsPfXnbq/Nx09r
+         3R0iEkoClUBuQFNcUwmc11x+5P59EpMjMvD7Fi3aUe1EizO5WpGG1xS2naPg93vYAhfM
+         7U/WNhMOIWIKkyqGOscZIRBiH7zToF/h9D8/mg89LGQPwC4Xr5eNaqSl34+EfGTFcYnR
+         mpHhDgxZ420NyYluQgv9t0u/JcoHwZ76WpPKxS2xmBWWHl8bzSZqCKGEZXpQlynI1hwi
+         XBqV/GaS5foi34EvogInHcl1rdyYfazPUmw5Tj6hClhKjVtPD22ypP2+OwpNlMk63fWE
+         jXKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=gDDO4Z8byxB+Vv3MwlS6NmtsWgbDQ/bQgZ8uPefW6us=;
-        b=KB0wiZPlC9LlAAHi3wy0u1WiQBHvUoDeWXlHeQnISDZ+TZzsSBMmv+Bj+uePuTQ87o
-         6sbxr44ZW0Cy6Ff6AWxBJcefsh+nhQvEuGM6WMrHbOy2lr5t7Wg2/aMdMe1aMblrbnUJ
-         3s4QcWhvluPPivPqBajw+BxWZsnkAV9+0TJkW0bbJyVYscshrF83dIHkZReEVkAC6C+f
-         uk59wxrqO2Kd1KR4JwM1FpCT5JnWV8yx2DsjiRc0Wo43vFy7vHMvsQSm7q2FLlH+X2OI
-         Q50oDruaEBOqL0zbFoxk1yn0HVt3MX71drgA6DuuhtXbTA8jM79HhTJXP4NO+YdXq+Kb
-         ztog==
-X-Gm-Message-State: AOAM532/4GAD6Q/iOgXBOolTqcfjwob66ySL1a32W/StNQHeB7f20ora
-	oAQorQZSHR73MzohLIMcBLV4KFClisai3snRub3apdRLKUHoVbKbmYx/Ddb4274r9l4mnA0cEQm
-	N3AXDtv+Cq+lRApdo+KridX5Xkw==
-X-Received: by 2002:a50:9d49:0:b0:418:681b:f6d with SMTP id j9-20020a509d49000000b00418681b0f6dmr20467287edk.160.1648810216117;
-        Fri, 01 Apr 2022 03:50:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhFlFkORi2fxrVhw0AlbjXBnfVihiFBGuQKhRIJf9d7DtE4HzdXknBigLBfoR6nADd+SUniw==
-X-Received: by 2002:a50:9d49:0:b0:418:681b:f6d with SMTP id j9-20020a509d49000000b00418681b0f6dmr20467276edk.160.1648810215971;
-        Fri, 01 Apr 2022 03:50:15 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1? (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
-        by smtp.gmail.com with ESMTPSA id gb29-20020a170907961d00b006e00c7b0f5asm888182ejc.0.2022.04.01.03.50.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Apr 2022 03:50:15 -0700 (PDT)
-Message-ID: <b4462338-7c38-032f-bcd2-2a50cffb15d5@redhat.com>
-Date: Fri, 1 Apr 2022 12:50:15 +0200
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=tj0eNhKFTRgfzMUzArZlhD6QnaURQ8wTdtssetTRosY=;
+        b=If0Qxt5OjGKNB3s/SV35tQEu056o824wDYxjsMbPlPxyIOBUt30aTW4qLV5VTMdYLO
+         Cshmp9wrHkq8zkjfQwSUXomaUFBXHh3ohxxNIVT5ZdeYr0rgdczxJcZC2/WA4J+SuV0G
+         huEg1R0le2Xja3ErG80eekpBHLIfa0R3+qEef5O747mAzo7UEh3yDAha1h69Z5F1yNwZ
+         6YfpeaR289KE0kLj7C3nbEG92A0Ohfcd8lHhCiWWTKHo64InYpUWvJYb6rLsG8xBzrLx
+         MavEuz4YHunYY1vVogjugdPbicMgzjoK4wZSxBWQu1Q0V9C6rUqgRFFutvQQKV5r6UsP
+         UaDQ==
+X-Gm-Message-State: AOAM533mWkQIvOYOHduFcKWR/sr/Xu9TFMNaxzocS9c9Qgh1N9MI8Hir
+	TvWTHigqxZm1CtXJUwzQsiI=
+X-Google-Smtp-Source: ABdhPJw7758JWF0PuLJ7DJ2/46WviL/79JThXVCdP5eGNfwJtsO3e6//YTHB906fnz3tmqICDZdc4A==
+X-Received: by 2002:a05:6214:400f:b0:441:2cd7:9cf2 with SMTP id kd15-20020a056214400f00b004412cd79cf2mr7385441qvb.111.1648813599101;
+        Fri, 01 Apr 2022 04:46:39 -0700 (PDT)
+Received: from euclid ([71.58.109.160])
+        by smtp.gmail.com with ESMTPSA id s12-20020a05622a018c00b002e1cd88645dsm1669422qtw.74.2022.04.01.04.46.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Apr 2022 04:46:38 -0700 (PDT)
+Date: Fri, 1 Apr 2022 07:46:35 -0400
+From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: rtl8723bs: simplify control flow
+Message-ID: <20220401114635.GA567659@euclid>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 0/2] staging: rtl8723bs: remove some 5 GHz code
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220331214146.15161-1-straube.linux@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220331214146.15161-1-straube.linux@gmail.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+The function iterates an index from 0 to NUM_PMKID_CACHE and returns
+the first index for which the condition is true. If no such index is
+found, the function returns -1. Current code has a complex control
+flow that obfuscates this simple task. Replace it with a loop.
 
-On 3/31/22 23:41, Michael Straube wrote:
-> This two patches remove 5 GHz channels from the ch_freq_map array in
-> rtw_rf.c and simplify the rtw_ch2freq() function.
+Also, given the shortened function body, replace the long variable
+name psecuritypriv with a short variable name p.
 
-Thanks, both patches look good to me:
+Reported by checkpatch:
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+WARNING: else is not generally useful after a break or return
 
-for the series.
+Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 28 ++++++-----------------
+ 1 file changed, 7 insertions(+), 21 deletions(-)
 
-Regards,
-
-Hans
-
-
-
-> 
-> Michael Straube (2):
->   staging: rtl8723bs: remove 5 GHz channels from ch_freq_map
->   staging: rtl8723bs: refactor rtw_ch2freq()
-> 
->  drivers/staging/rtl8723bs/core/rtw_rf.c | 56 ++++++++-----------------
->  1 file changed, 18 insertions(+), 38 deletions(-)
-> 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index d5bb3a5bd2fb..3eacf8f9d236 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -2036,28 +2036,14 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+ 
+ static int SecIsInPMKIDList(struct adapter *Adapter, u8 *bssid)
+ {
+-	struct security_priv *psecuritypriv = &Adapter->securitypriv;
+-	int i = 0;
+-
+-	do {
+-		if ((psecuritypriv->PMKIDList[i].bUsed) &&
+-				(!memcmp(psecuritypriv->PMKIDList[i].Bssid, bssid, ETH_ALEN))) {
+-			break;
+-		} else {
+-			i++;
+-			/* continue; */
+-		}
+-
+-	} while (i < NUM_PMKID_CACHE);
+-
+-	if (i == NUM_PMKID_CACHE) {
+-		i = -1;/*  Could not find. */
+-	} else {
+-		/*  There is one Pre-Authentication Key for the specific BSSID. */
+-	}
+-
+-	return i;
++	struct security_priv *p = &Adapter->securitypriv;
++	int i;
+ 
++	for (i = 0; i < NUM_PMKID_CACHE; i++)
++		if ((p->PMKIDList[i].bUsed) &&
++				(!memcmp(p->PMKIDList[i].Bssid, bssid, ETH_ALEN)))
++			return i;
++	return -1;
+ }
+ 
+ /*  */
+-- 
+2.25.1
 
