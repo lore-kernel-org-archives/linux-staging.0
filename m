@@ -1,61 +1,53 @@
-Received: from relay3-m.mailbaby.net (relay3-m.mailbaby.net [66.45.229.237])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A490137F
-	for <linux-staging@lists.linux.dev>; Fri,  1 Apr 2022 18:27:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
- q=dns/txt; s=bambino; bh=k/8TzgWh4nCFw8vlYksITye8TseoA5qe5lkr22s9LRM=;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:content-transfer-encoding:in-reply-to:references;
- b=CdeC4ZY2hK2fPpmP9+TEkLWiAr/FZgPEcWPFzXwO5wqvn1d41k61OQ3GidNyBqpk0e1ccTddK
- hi4OBcCpJ5MEGlpyhZbCcZXsyU+nkf0Bo80/tVCgp6jNkI4oalMX5vnlbWI3/TjNB7uVbzpPyxN
- v/cY0arAL9s9BrU3PAUgeTs=
-Received: from mia1000.iaasdns.com ([162.254.200.130] mia1000.iaasdns.com)
- (Authenticated sender: mb6724)
- by relay3-m.mailbaby.net (InterServerMTA) with ESMTPSA id 17fe65cc526000e98b.004
- for <linux-staging@lists.linux.dev>
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256);
- Fri, 01 Apr 2022 18:21:53 +0000
-X-Zone-Loop: d7578e11998e0d41efccb92228dd330fe745392c101b
-ARC-Authentication-Results: i=1;	relay1.mailbaby.net;	auth=pass
- smtp.auth=mb6724 smtp.mailfrom=codeagain@codeagain.dev
-ARC-Seal: i=1; s=detka; d=mailbaby.net; t=1648837313; a=rsa-sha256;
-	cv=none;
-	b=eU2Pwi2yb4MB/glvYZSZq3OQE0P5F6DK915Ko5gt1S6DtqRSu086ycEIWFV1AaLMOkg+dO
-	9J2oBaAwxcd1rqmeUUUvV7LI1tR/IzV0ZhIW2f7sagrwmxKZWiIOvAVsBWSWEtzskVdL+f
-	R8cvcvNb1ZVdIEBJIUcOomRtUMF05GRaIJ9X2Ub7/xoxVNnKk5tQVAyPM+xlPsb1sqEmVa
-	7TSvzH4TMPJBCgtOEjmfl8LEhSPaUp1NwDuLtFd26f5QCUHxYoCOeBaOj/02GLkd9YGbMw
-	KpxuefjKh7PJZIaUPryxLEN0Q3VKZCDPKFROIP158y69vYFO49oviSh8K+hjKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailbaby.net;	s=detka; t=1648837313;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k/8TzgWh4nCFw8vlYksITye8TseoA5qe5lkr22s9LRM=;
-	b=tgqM7wtGQ7BKnNsAqe2Ft9Fo1FDE3JLUPaX4buFmhhaQ96s+RQgnfvSLoytPeEklBYfvX8
-	x7kDvmhCTI/OX6dHpcU872++mCO0tB4/mz4pqVsq+83bsCAfemYCEVm5tHxNFNBYKcTHIY
-	6T1G7ZCA/rgSs6WDrkNZbE5XwuDjy+8RAawm+nnAgqz7jGFBKluofcg6l91KC1ClupJdJ3
-	8k+0XtPMDNn323NKM0+q85VF4LnzRLQJtF1sOMGY7v/rc2rF1QL18aeRNhLOQSrwr0VgdS
-	qlck4HnGvZCqpenuWfskAQdnbBPCRyN8tt07hQqOhunbal2XatAraeRFZMifKw==
-X-Originating-IP: [162.254.200.130]
-Received: from [170.84.58.28] (port=24959 helo=[192.168.21.4])
-	by mia1000.iaasdns.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <codeagain@codeagain.dev>)
-	id 1naLuC-0000Ej-Va; Fri, 01 Apr 2022 14:21:53 -0400
-Message-ID: <37e5203d1efd310ea82cf91c18c6a07eea743ac7.camel@codeagain.dev>
-Subject: Re: [PATCH] staging: vme: Adjusted VME_USER in Kconfig
-From: Bruno <codeagain@codeagain.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Martyn Welch <martyn@welchs.me.uk>, Manohar Vanga
- <manohar.vanga@gmail.com>,  linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org,  outreachy@lists.linux.dev
-Date: Fri, 01 Apr 2022 15:21:50 -0300
-In-Reply-To: <YkaXRpIElW1BwKGb@kroah.com>
-References: <20220401050045.3686663-1-codeagain@codeagain.dev>
-	 <YkaW0ThT8Ah3z0wW@kroah.com> <YkaXRpIElW1BwKGb@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255177C;
+	Fri,  1 Apr 2022 18:35:19 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id g20so3925022edw.6;
+        Fri, 01 Apr 2022 11:35:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HwvsNVubztdYKgXLtsvkx6INUsTkEhAT0Rw4f8IMAMo=;
+        b=Xcn8nF2R5LJEHbhs1V1/l/VEgg+pGar5DdZIQ8xwzExhCd/A84R4g77oZby0x19077
+         /uJCka7iPlqTiJ029x+CbwGcCwEE2jFye6DjEkl2q80KKzlr7ngt3CTEbaoRv4feSaM7
+         Z0dDYsw0wadOXuPR4Jgg96elUr3DG2wZocmySOXbiRXJu5952YSxEw87YPows1xpiN8B
+         HRFWOxEH+leHb3skrswnGhFL+CHRBZa1C6VchrIKRJtIU+fFDWFVN1MSqizlyNYS6Eno
+         Roil+V+pbnhlJqmdHH38rccM+6/LLvw9L+QxEHLkkE9nVvxvgwnMbdEcSYCnQpd2I3rd
+         UCsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HwvsNVubztdYKgXLtsvkx6INUsTkEhAT0Rw4f8IMAMo=;
+        b=s7isUQWI+KQVeKb/SeyAUxiE3ulxv+BESe/maHN7QHnK982G5286fZ0WI6h85V0CPj
+         IzS3becsGmdkz7FMPNDGE4zAPcFU4dXzWx89apxCfbDE4rKkiLHFvPGsiXJVu0jRPfPs
+         1/RPpnZhOYR7PX5pGgb50oCwQBLObt4oZxrHqVNDBizRvDX3wcAiUmSIofWkXoCEWJ48
+         rLO3D5dYQVv1OEM2KozpQpK9BHlEkiGTzFjPOZOLh+9CIUl1UlFHkoLov55z16kL82Jz
+         tNBbxCVMLIvTJhvyEcINnkeFJeAWySieJ+rlE7COu65DzcRlVRFZp161dh07Vm7EF9N0
+         U0zg==
+X-Gm-Message-State: AOAM530BTnJbXU2IQpAT723nYlBuCEfRj5A+6uALimINYbg2mR9CytvO
+	3l1lA5zDoq7yU4ughpVARbM=
+X-Google-Smtp-Source: ABdhPJwHOb8kRreHG9rzDqQ31EWROiF+cK8Oi1m/wEhs46Appl0tGn8pjrroiFnmjIfLZk6mxRdYdQ==
+X-Received: by 2002:a05:6402:510c:b0:419:3fe5:15f with SMTP id m12-20020a056402510c00b004193fe5015fmr22337749edd.274.1648838117280;
+        Fri, 01 Apr 2022 11:35:17 -0700 (PDT)
+Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id b7-20020a170906490700b006b2512921b2sm1296420ejq.48.2022.04.01.11.35.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Apr 2022 11:35:16 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: r8188eu: Remove goto to no-op exit label
+Date: Fri,  1 Apr 2022 20:35:13 +0200
+Message-Id: <20220401183513.26222-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,167 +55,40 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-AuthUser: me@brunodout.dev
 
-On Fri, 2022-04-01 at 08:10 +0200, reg Kroah-Hartman wrote:
-> On Fri, Apr 01, 2022 at 08:08:17AM +0200, reg Kroah-Hartman wrote:
-> > On Fri, Apr 01, 2022 at 02:00:45AM -0300, Bruno Moreira-Guedes
-> > wrote:
-> > > Currently, the VME_USER driver is in the staging tree Kconfig,
-> > > unlike
-> > > other VME drivers already moved to the main portions of the
-> > > kernel tree.
-> > > Its configuration is, however, nested into the VME_BUS config
-> > > option,
-> > > which might be misleading.
-> > > 
-> > > Since the staging tree "[...] is used to hold stand-alone[1]
-> > > drivers and
-> > > filesystem that are not ready to be merged into the main portion
-> > > of the
-> > > Linux kernel tree [...]"[1], IMHO all staging drivers should
-> > > appear
-> > > nested into the Main Menu -> Device Drivers -> Staging Drivers
-> > > to make
-> > > sure the user don't pick it without being fully aware of its
-> > > staging
-> > > status as it could be the case in Menu -> Device Drivers -> VME
-> > > bridge
-> > > support (the current location).
-> > > 
-> > > With this change menuconfig users will clearly know this is not
-> > > a driver
-> > > in the main portion of the kernel tree and decide whether to
-> > > build it or
-> > > not with that clearly in mind.
-> > > 
-> > > This change goes into the same direction of commit 4b4cdf3979c3
-> > > ("STAGING: Move staging drivers back to staging-specific menu")
-> > > 
-> > > [1] https://lkml.org/lkml/2009/3/18/314
-> > > 
-> > > Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
-> > > ---
-> > >  drivers/staging/Kconfig | 2 ++
-> > >  drivers/vme/Kconfig     | 2 --
-> > >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
-> > > index 932acb4e8cbc..0545850eb2ff 100644
-> > > --- a/drivers/staging/Kconfig
-> > > +++ b/drivers/staging/Kconfig
-> > > @@ -88,4 +88,6 @@ source "drivers/staging/qlge/Kconfig"
-> > >  
-> > >  source "drivers/staging/wfx/Kconfig"
-> > >  
-> > > +source "drivers/staging/vme/devices/Kconfig"
-> > > +
-> > >  endif # STAGING
-> > > diff --git a/drivers/vme/Kconfig b/drivers/vme/Kconfig
-> > > index 936392ca3c8c..c13dd9d2a604 100644
-> > > --- a/drivers/vme/Kconfig
-> > > +++ b/drivers/vme/Kconfig
-> > > @@ -15,6 +15,4 @@ source "drivers/vme/bridges/Kconfig"
-> > >  
-> > >  source "drivers/vme/boards/Kconfig"
-> > >  
-> > > -source "drivers/staging/vme/devices/Kconfig"
-> > > -
-> > >  endif # VME
-> > > -- 
-> > > 2.35.1
-> > > 
-> > > 
-> > 
-> > The problem with this change is that you just changed the
-> > initialization
-> > order of the drivers if they are built into the kernel.  Are you
-> > sure
-> > that you can initialize a vme device driver before the vme bridge
-> > and
-> > bus code is run?  I don't know if that will work properly, which
-> > is why
-> > the Kconfig entries are in the order they currently are in (we
-> > preserved
-> > the link order.)
-> > 
-> > It's not an obvious thing at all, sorry, but build order defines
-> > link
-> > order, which defines the order in which things are initialized in
-> > the
-> > kernel.
-> > 
-> > So I can't take this change unless you are able to prove that it
-> > still
-> > works properly on the hardware that these drivers control.  Do you
-> > have
-> > this hardware to test this change with?
-> 
-> Oh wait, it's the Makefile order that controls this, not the Kconfig
-> order.  Sorry for the noise here, it's still early...
+In function rtw_free_netdev() there are two "goto" jumps to a no-op exit
+label called "RETURN". Remove the label and return in line.
 
-No worries, your previous message was quite helpful to make realize
-some scenarios I wasn't considering at first. I did a more throrough
-inspection of how this patch impacts everything thanks to this
-observations.
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/r8188eu/os_dep/osdep_service.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-I don't have the hardware so indeed I'm avoiding changes that would
-need it to be tested, and as far as I'm properly aware my patch just
-changes the places of things in the config targets. Build is protected
-from such changes through some Makefile validations such as in
-drivers/staging/Makefile:
-| obj-$(CONFIG_VME_BUS)           += vme/
-
-> 
-> So this change _should_ be fine, but it would be good if you could
-> prove it still works with some build tests.  How did you test this
-> change?
-
-At first I ran menuconfig and tested if it was still properly setting
-CONFIG_VME_USER. Then I built with CONFIG_VME_USER=m and
-CONFIG_VME_USER=n to check if it would build the module.
-
-After your first e-mail I realized I didn't account for
-CONFIG_VME_USER=y on my tests. I have now successfuly built with this
-option too. Are those enough tests for this situation?
-
-> 
-> thanks,
-> 
-> greg k-h
-> 
-
-With my tests in my, I have found two other things that I think are
-remarkable to mention. First one is a missing `depends on` line for
-`VME_BRIDGE` in drivers/staging/vme/devices/Kconfig, not visible
-because they were in the same tree, but now unveiled. I'm fixing it,
-do you think it's best to add it in the same patch?
-
-Finally, not directly related with the patch, yet remarkable, I
-happened to notice something. When probing the vme_user module
-(compiled with CONFIG_VME_USER=m), I naturally get the following
-messages on my log and command output for `modprobe vme_user`:
-| [177666.590400] vme_user: module is from the staging directory, the
-quality is unknown, you have been warned.
-| [177666.601166] vme_user: VME User Space Access Driver
-| [177666.602111] vme_user: No cards, skipping registration modprobe:
-| ERROR: could not insert 'vme_user': No such device
-
-While this is completely expected, the message about the code from
-staging directory does not appear when compiled with
-CONFIG_VME_USER=y, as shows a `grep -i vme` on the console log:
-
-| [0.000000] Linux version 5.17.0lsa-t-vme_user=y-13483-gfeb94431c35c-
-dirty (bruno@AN5Bruno) (gcc (GCC) 11.2.0, GNU ld (GNU Binutils) 2.38)
-#7 SMP PREEMPT_DYNAMIC Fri Apr 1 14:33:16 -03 2022
-| [1.974450] vme_user: VME User Space Access Driver
-| [ 1.975405] vme_user: No cards, skipping registration
-
-Do you think it would be interesting for a future patch to provide
-some output when drivers from the staging tree are present in the
-running kernel image?
-
+diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+index 7a6fcc96081a..d680bfba7f5d 100644
+--- a/drivers/staging/r8188eu/os_dep/osdep_service.c
++++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+@@ -117,18 +117,15 @@ void rtw_free_netdev(struct net_device *netdev)
+ 	struct rtw_netdev_priv_indicator *pnpi;
+ 
+ 	if (!netdev)
+-		goto RETURN;
++		return;
+ 
+ 	pnpi = netdev_priv(netdev);
+ 
+ 	if (!pnpi->priv)
+-		goto RETURN;
++		return;
+ 
+ 	vfree(pnpi->priv);
+ 	free_netdev(netdev);
+-
+-RETURN:
+-	return;
+ }
+ 
+ int rtw_change_ifname(struct adapter *padapter, const char *ifname)
 -- 
-Sincerely,
-Bruno | Pronouns: they/them/theirs
-IRC: CodeAgain
+2.34.1
+
