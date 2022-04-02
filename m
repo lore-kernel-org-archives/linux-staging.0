@@ -1,52 +1,54 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0FB186B
-	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 17:38:42 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id h4so6439550edr.3
-        for <linux-staging@lists.linux.dev>; Sat, 02 Apr 2022 10:38:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57461186B;
+	Sat,  2 Apr 2022 17:57:02 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id yy13so12095308ejb.2;
+        Sat, 02 Apr 2022 10:57:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8/HOImi9ShJxRDSviaqXL5UfScuEqhfA9DqIDa3cDdY=;
-        b=AvGo9CR8DUEJG/SPlPv3JWOEu39Uits9NFrFOuY5QeSmr4ZzX53j3c3et6pEDMuRW+
-         98LXoqn5jJyIHcjsLs44dHum040nneEAaqfni4o9uSbYD2N3b+1OJEVyb79tifuOWKLD
-         UV8Y7wIBkdjd3O6sttGbYKxQVfG4Z3coIZyaMa5Sh7/QpjL6zvRbdFQCKLUxmlNHgFDO
-         pnsBe2bpKOVAm70nUqN8yEjGG4/FCXX4ChdvRbuXVIw2kgsuT3lhRlqGgHMNwNeo+n61
-         idggfat4H197bUkfGLma2vf1jkE3Qd7DZ5CzqMDYGTK0K0MVKF7WmCE8nnnHtY5gNsxx
-         1lSQ==
+        bh=BVxMHUicLbUH3Hvb1PPfVYvYyoskkvyv49vbgbrFCNo=;
+        b=l4c6G01X/mM7+1GnZ7oTuCLmtLgPbKG3mx7SbFPIku+ccwGTElZ0p+W8JpJcckG2wh
+         /lF6CkMeckAATTx3qq8eCxC0mdDSJ0VT019mKzu8JOetLhqQuR09W5RVyrR1UzGEDt7H
+         knZw+WaqR0Sidvgu5QJrnqYYMGo1Y1pb08ICafpgzDjkd/Q6yIWrf7dgseR/JD945Em3
+         9BH+Nb3SU6TlJBW8YtlSz/fuKkv3a9zHjIUAn2x7LKtTPE+BqSFW9l9bishHF4Eei2fe
+         fJhs+n3r7vBmF7oQn92ysEu3AeNjnZ7OlVofn2YH8295+lgWegZ90Ap6GMNXlUY+LxGh
+         c2sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=8/HOImi9ShJxRDSviaqXL5UfScuEqhfA9DqIDa3cDdY=;
-        b=3vTchn0eX81QUo5HqnPzMpFFQP5llPBBeDJ9Sl2EpRtrJ7zpIHMUrVA/Kway/hVUfz
-         UJwxswnMomXEurb4o/Sip2Wa202IoRUKXrK1oMK1R2vEkOUkNx7JG6CcbBi/ISCFRFjW
-         /uV31SuYxsLoMM0ggd0el+XaKBlsSY7El9Srw+bBKgFs/FUW3YOVtyPH/WPOttbTlYEl
-         Rn3XO4OmgWSuAr027AONI8TA9Il6sjJ043ma/Drv2bGvY0gRrVbukDeg03cgB5db9AAG
-         Xn1sPjE1re5M6ObajjxGRiacro7kzTC3W/jeqRkkY8Jte5xn4uveEZ6rvE86iZaUOST4
-         2WpQ==
-X-Gm-Message-State: AOAM530cP5zr0BlE+L5YfMZVrnR+Lzw8WGWjZZt1B08XLRFkjiV1Rd+L
-	nycqMTBa3r1RhjxKxarm1/2mv9N6CV4=
-X-Google-Smtp-Source: ABdhPJyNdqjR9aQDmMI+eVGPJuEv9mY5QG6DCwIzEFWgz11PKEtjXA/b3UxDX7ybDZ+G0N/4UpRtzw==
-X-Received: by 2002:a05:6402:2812:b0:418:fc32:be18 with SMTP id h18-20020a056402281200b00418fc32be18mr26118861ede.357.1648921121121;
-        Sat, 02 Apr 2022 10:38:41 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id gb3-20020a170907960300b006dfafbb4ba4sm2329901ejc.83.2022.04.02.10.38.39
+        bh=BVxMHUicLbUH3Hvb1PPfVYvYyoskkvyv49vbgbrFCNo=;
+        b=pMg3g7CJu2U53hSc9teVTIuYQQSdrADXaWbvp1lsOWxC0/sUJuZV5s9znFCSNqY6AV
+         GD28GpRrVkM0G+Z59NRfUk1LeuzrqWWCngL+Hr4sSS3jxtBKEVbql+uCyyf6Raxl4l+T
+         KqpmO7+itti0CLUkBmk+NwKXidTtxxiCAWv1oq0Ku6qa6yCVjfb4hWudvbJ/GUR+49rj
+         j3vSV9VwnSWeALL/ZsXh06zAm9up30vAeiYMa2Q2GS0Pjf41RJIGMbhCBXVLAdsiVOJ1
+         fr02kJ3HYfntViwda0QU1qlz5YS6eY0THLJP+TLygyJ8AsjXTPR0dGxM0U5bhaU+cbOr
+         CMHw==
+X-Gm-Message-State: AOAM533tJedNb+Z3yGc1j9FoKkDvqYegcGqBLQ1fmD8POS5HrtYFGXzk
+	LlCUGfqKMOSChD1cjdqLRXY=
+X-Google-Smtp-Source: ABdhPJxRkR3w6MzpTeXo9b3BtpKvfUhBJrw6SYUseLvbqksVCDq8E3opTpW2w3JsDEAmAT8cwPaL5Q==
+X-Received: by 2002:a17:907:62a9:b0:6da:7953:4df0 with SMTP id nd41-20020a17090762a900b006da79534df0mr4472210ejc.316.1648922220505;
+        Sat, 02 Apr 2022 10:57:00 -0700 (PDT)
+Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id hs12-20020a1709073e8c00b006dfd7dee980sm2330857ejc.30.2022.04.02.10.56.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 10:38:40 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+        Sat, 02 Apr 2022 10:56:59 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove unncessary ternary operator
-Date: Sat,  2 Apr 2022 19:38:35 +0200
-Message-Id: <20220402173835.7560-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
+	outreachy@lists.linux.dev
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: sm750fb: Call iounmap() to free mapped bus memory
+Date: Sat,  2 Apr 2022 19:56:55 +0200
+Message-Id: <20220402175655.31512-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,210 +57,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Using the ternary operator to assign true or false is redundant.
-There are many places in the driver code where this is done. Remove
-the unnecessary operator to improve readbility.
+If ioremap_wc() fails, the code jumps to the "exit" label and forgets to
+free the bus memory mapped into "sm750_dev->pvReg". Mapped bus memory must
+always be freed by calling iounmap().
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Call iounmap(sm750_dev->pvReg) when the above-mentioned failures happen.
+
+The site of the missing iounmap() has been detected by Smatch.
+
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
-Tested on x86_64 with Inter-Tech DMG-02.
+ drivers/staging/sm750fb/sm750_hw.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/staging/r8188eu/core/rtw_p2p.c          | 2 +-
- drivers/staging/r8188eu/core/rtw_pwrctrl.c      | 4 ++--
- drivers/staging/r8188eu/core/rtw_sta_mgt.c      | 4 ++--
- drivers/staging/r8188eu/core/rtw_wlan_util.c    | 2 +-
- drivers/staging/r8188eu/hal/hal_com.c           | 2 +-
- drivers/staging/r8188eu/hal/odm_HWConfig.c      | 4 ++--
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c      | 2 +-
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 2 +-
- drivers/staging/r8188eu/include/HalVerDef.h     | 4 ++--
- drivers/staging/r8188eu/include/ieee80211.h     | 8 ++++----
- drivers/staging/r8188eu/os_dep/osdep_service.c  | 2 +-
- 11 files changed, 18 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-index 1e728a03e0ac..80305d128ccd 100644
---- a/drivers/staging/r8188eu/core/rtw_p2p.c
-+++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-@@ -951,7 +951,7 @@ u32 process_p2p_devdisc_req(struct wifidirect_info *pwdinfo, u8 *pframe, uint le
- 	/* issue Device Discoverability Response */
- 	issue_p2p_devdisc_resp(pwdinfo, GetAddr2Ptr(pframe), status, dialogToken);
- 
--	return (status == P2P_STATUS_SUCCESS) ? true : false;
-+	return status == P2P_STATUS_SUCCESS;
- }
- 
- u32 process_p2p_devdisc_resp(struct wifidirect_info *pwdinfo, u8 *pframe, uint len)
-diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-index 0141de7ab08c..39fbefd4858d 100644
---- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-+++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-@@ -348,7 +348,7 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
- 
- 	pwrctrlpriv->LpsIdleCount = 0;
- 	pwrctrlpriv->power_mgnt = padapter->registrypriv.power_mgnt;/*  PS_MODE_MIN; */
--	pwrctrlpriv->bLeisurePs = (PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt) ? true : false;
-+	pwrctrlpriv->bLeisurePs = PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt;
- 
- 	pwrctrlpriv->bFwCurrentInPSMode = false;
- 
-@@ -426,7 +426,7 @@ int rtw_pm_set_lps(struct adapter *padapter, u8 mode)
- 			else
- 				pwrctrlpriv->LpsIdleCount = 2;
- 			pwrctrlpriv->power_mgnt = mode;
--			pwrctrlpriv->bLeisurePs = (PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt) ? true : false;
-+			pwrctrlpriv->bLeisurePs = PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt;
- 		}
- 	} else {
- 		ret = -EINVAL;
-diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-index 91ff82f24f1f..357f98e22d8a 100644
---- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-+++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-@@ -470,9 +470,9 @@ u8 rtw_access_ctrl(struct adapter *padapter, u8 *mac_addr)
- 	spin_unlock_bh(&pacl_node_q->lock);
- 
- 	if (pacl_list->mode == 1)/* accept unless in deny list */
--		res = (match) ? false : true;
-+		res = !match;
- 	else if (pacl_list->mode == 2)/* deny unless in accept list */
--		res = (match) ? true : false;
-+		res = match;
- 	else
- 		res = true;
- 
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index b526715a70bc..84ced6a86df9 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -1482,7 +1482,7 @@ void process_addba_req(struct adapter *padapter, u8 *paddba_req, u8 *addr)
- 		tid = (param >> 2) & 0x0f;
- 		preorder_ctrl = &psta->recvreorder_ctrl[tid];
- 		preorder_ctrl->indicate_seq = 0xffff;
--		preorder_ctrl->enable = (pmlmeinfo->bAcceptAddbaReq) ? true : false;
-+		preorder_ctrl->enable = pmlmeinfo->bAcceptAddbaReq;
- 	}
- }
- 
-diff --git a/drivers/staging/r8188eu/hal/hal_com.c b/drivers/staging/r8188eu/hal/hal_com.c
-index 06f2a9083056..7649f9919f67 100644
---- a/drivers/staging/r8188eu/hal/hal_com.c
-+++ b/drivers/staging/r8188eu/hal/hal_com.c
-@@ -267,7 +267,7 @@ static void three_out_pipe(struct adapter *adapter, bool wifi_cfg)
- bool Hal_MappingOutPipe(struct adapter *adapter, u8 numoutpipe)
- {
- 	struct registry_priv *pregistrypriv = &adapter->registrypriv;
--	bool  wifi_cfg = (pregistrypriv->wifi_spec) ? true : false;
-+	bool wifi_cfg = pregistrypriv->wifi_spec;
- 	bool result = true;
- 
- 	switch (numoutpipe) {
-diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index 87e9a5270be0..3c09d9d459b1 100644
---- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
-+++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -65,7 +65,7 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
- 
- 	struct phy_status_rpt *pPhyStaRpt = (struct phy_status_rpt *)pPhyStatus;
- 
--	isCCKrate = ((pPktinfo->Rate >= DESC92C_RATE1M) && (pPktinfo->Rate <= DESC92C_RATE11M)) ? true : false;
-+	isCCKrate = pPktinfo->Rate >= DESC92C_RATE1M && pPktinfo->Rate <= DESC92C_RATE11M;
- 
- 	if (isCCKrate) {
- 		u8 cck_agc_rpt;
-@@ -234,7 +234,7 @@ static void odm_Process_RSSIForDM(struct odm_dm_struct *dm_odm,
- 	if ((!pPktinfo->bPacketMatchBSSID))
- 		return;
- 
--	isCCKrate = ((pPktinfo->Rate >= DESC92C_RATE1M) && (pPktinfo->Rate <= DESC92C_RATE11M)) ? true : false;
-+	isCCKrate = pPktinfo->Rate >= DESC92C_RATE1M && pPktinfo->Rate <= DESC92C_RATE11M;
- 
- 	/* Smart Antenna Debug Message------------------  */
- 	if ((dm_odm->AntDivType == CG_TRX_HW_ANTDIV) || (dm_odm->AntDivType == CGCS_RX_HW_ANTDIV)) {
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-index 45b788212628..18650cd96f09 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-@@ -137,7 +137,7 @@ void rtl8188e_Add_RateATid(struct adapter *pAdapter, u32 bitmap, u8 arg, u8 rssi
- 
- 	bitmap |= ((raid << 28) & 0xf0000000);
- 
--	short_gi_rate = (arg & BIT(5)) ? true : false;
-+	short_gi_rate = arg & BIT(5);
- 
- 	raid = (bitmap >> 28) & 0x0f;
- 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index 6811be95da9a..ffc82d17ddbe 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -747,7 +747,7 @@ void Hal_ReadPowerSavingMode88E(struct adapter *padapter, u8 *hwinfo, bool AutoL
- 
- 		/*  decide hw if support remote wakeup function */
- 		/*  if hw supported, 8051 (SIE) will generate WeakUP signal(D+/D- toggle) when autoresume */
--		padapter->pwrctrlpriv.bSupportRemoteWakeup = (hwinfo[EEPROM_USB_OPTIONAL_FUNCTION0] & BIT(1)) ? true : false;
-+		padapter->pwrctrlpriv.bSupportRemoteWakeup = hwinfo[EEPROM_USB_OPTIONAL_FUNCTION0] & BIT(1);
- }
- 
- void Hal_ReadTxPowerInfo88E(struct adapter *padapter, u8 *PROMContent, bool AutoLoadFail)
-diff --git a/drivers/staging/r8188eu/include/HalVerDef.h b/drivers/staging/r8188eu/include/HalVerDef.h
-index 2bc18eabb55d..56dadadb1a0f 100644
---- a/drivers/staging/r8188eu/include/HalVerDef.h
-+++ b/drivers/staging/r8188eu/include/HalVerDef.h
-@@ -34,10 +34,10 @@ struct HAL_VERSION {
- 
- /* HAL_CHIP_TYPE_E */
- #define IS_NORMAL_CHIP(version)				\
--	((GET_CVID_CHIP_TYPE(version) == NORMAL_CHIP) ? true : false)
-+	(GET_CVID_CHIP_TYPE(version) == NORMAL_CHIP)
- 
- /* HAL_VENDOR_E */
- #define IS_CHIP_VENDOR_TSMC(version)			\
--	((GET_CVID_MANUFACTUER(version) == CHIP_VENDOR_TSMC) ? true : false)
-+	(GET_CVID_MANUFACTUER(version) == CHIP_VENDOR_TSMC)
- 
- #endif
-diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
-index 8c20363cdd31..03d63257797a 100644
---- a/drivers/staging/r8188eu/include/ieee80211.h
-+++ b/drivers/staging/r8188eu/include/ieee80211.h
-@@ -127,7 +127,7 @@ enum NETWORK_TYPE {
- 	 (WIRELESS_11B | WIRELESS_11G | WIRELESS_11_24N)
- 
- #define IsSupported24G(NetType)					\
--	((NetType) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
-+	((NetType) & SUPPORTED_24G_NETTYPE_MSK)
- 
- #define IsEnableHWCCK(NetType)					\
- 	IsSupported24G(NetType)
-@@ -135,11 +135,11 @@ enum NETWORK_TYPE {
- #define IsSupportedRxCCK(NetType) IsEnableHWCCK(NetType)
- 
- #define IsSupportedTxCCK(NetType)				\
--	((NetType) & (WIRELESS_11B) ? true : false)
-+	((NetType) & WIRELESS_11B)
- #define IsSupportedTxOFDM(NetType)				\
--	((NetType) & (WIRELESS_11G) ? true : false)
-+	((NetType) & WIRELESS_11G)
- #define IsSupportedTxMCS(NetType)				\
--	((NetType) & (WIRELESS_11_24N) ? true : false)
-+	((NetType) & WIRELESS_11_24N)
- 
- struct ieee_param {
- 	u32 cmd;
-diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-index 7a6fcc96081a..3a13f166fb21 100644
---- a/drivers/staging/r8188eu/os_dep/osdep_service.c
-+++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-@@ -220,7 +220,7 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
-  */
- inline bool rtw_cbuf_empty(struct rtw_cbuf *cbuf)
- {
--	return (cbuf->write == cbuf->read) ? true : false;
-+	return cbuf->write == cbuf->read;
- }
- 
- /**
+diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
+index a7c6eb07b62e..55cb00e8b0d1 100644
+--- a/drivers/staging/sm750fb/sm750_hw.c
++++ b/drivers/staging/sm750fb/sm750_hw.c
+@@ -81,6 +81,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	sm750_dev->pvMem =
+ 		ioremap_wc(sm750_dev->vidmem_start, sm750_dev->vidmem_size);
+ 	if (!sm750_dev->pvMem) {
++		iounmap(sm750_dev->pvReg);
+ 		pr_err("Map video memory failed\n");
+ 		ret = -EFAULT;
+ 		goto exit;
 -- 
-2.35.1
+2.34.1
 
