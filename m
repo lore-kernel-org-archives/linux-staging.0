@@ -1,252 +1,264 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6D1186B;
-	Sat,  2 Apr 2022 17:00:13 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id qh7so1864834ejb.11;
-        Sat, 02 Apr 2022 10:00:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0FB186B
+	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 17:38:42 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id h4so6439550edr.3
+        for <linux-staging@lists.linux.dev>; Sat, 02 Apr 2022 10:38:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1d95uWgxWqAEeS4NzrjhRN8csVGHge7TtaFw1w6jEY8=;
-        b=ZzzTEiNcOz6o5GUT7vuX//kk+RW6606LKchRehEWCNxLZu+MW1SOPdKnY47EFDbHJ/
-         Y0UlF4fy1WyfQPTgq0QEJSzWKdwdUlWvyR6fONIfjL3BvkFPaOyJ5Cky1+WeQoxn35Ce
-         S8qZ1hEU89JiLruTWnolT+yTDiuAwsPTEA1DbkuVAewBMQhLR5y0nJlpqr0ZEe1YsfQ2
-         no7ZDwTU7mx6/WXxm8T/7VJeuZAU63Eh40402PNgrOXLs1ezZAMR2wnVg39lO/xseyrv
-         x1AgAeEB4Ti7eyw9nd8cn5M4Yk5BcwMY5eoHCxh6g+rPfR54H6gOcI6JmEHaAeb/+t+6
-         /q2A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8/HOImi9ShJxRDSviaqXL5UfScuEqhfA9DqIDa3cDdY=;
+        b=AvGo9CR8DUEJG/SPlPv3JWOEu39Uits9NFrFOuY5QeSmr4ZzX53j3c3et6pEDMuRW+
+         98LXoqn5jJyIHcjsLs44dHum040nneEAaqfni4o9uSbYD2N3b+1OJEVyb79tifuOWKLD
+         UV8Y7wIBkdjd3O6sttGbYKxQVfG4Z3coIZyaMa5Sh7/QpjL6zvRbdFQCKLUxmlNHgFDO
+         pnsBe2bpKOVAm70nUqN8yEjGG4/FCXX4ChdvRbuXVIw2kgsuT3lhRlqGgHMNwNeo+n61
+         idggfat4H197bUkfGLma2vf1jkE3Qd7DZ5CzqMDYGTK0K0MVKF7WmCE8nnnHtY5gNsxx
+         1lSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1d95uWgxWqAEeS4NzrjhRN8csVGHge7TtaFw1w6jEY8=;
-        b=E7J+rA57lytQ5b5aI5aQmQg2QI91+2sVqGq6iEGOwIIWyU+T54K0CbVDq80Z3RBEuX
-         R+6JLEGRIxx+EXUcdeJXxL6TYatsF11+3fQUEgl2aTzIMT3zp/sSbvQ+IAzU39TBv37R
-         nKG7aoM9hy0a3Hk50xqWcJxZM67PKxFCBZd4ovrYeapzmH17tLNjTgi2SKohnI0D6r+i
-         epmRIdSiyih7JhWkSoJZQ4q39bo2YcI9Rp3koHi4EcxmH5QWvYoAHd6Pi79LDnwNTY46
-         sF3xMGHsHkxbFJyBxmYjr8MFzJzBu6vyMvpU6I92DsIXn4NVFuutRpUw8DJXMJC8auUB
-         iH7w==
-X-Gm-Message-State: AOAM5336DBZqw/kqyWKm0Wi0SFHjHy8KW2XGgFOcraFtHwlsSq0N296T
-	jgCQOooW2Ahtuw8d67Kpe0wN6l8MJLk0svsOS5U=
-X-Google-Smtp-Source: ABdhPJwdHs58RuuBXxWvaveuDf18gJaMH2ifHAlVaxf1JGpRCsshkezcQMGFLtDGyYlhogs/yaHWYcwviWboY1uhUuA=
-X-Received: by 2002:a17:907:62a9:b0:6da:7953:4df0 with SMTP id
- nd41-20020a17090762a900b006da79534df0mr4337079ejc.316.1648918811224; Sat, 02
- Apr 2022 10:00:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8/HOImi9ShJxRDSviaqXL5UfScuEqhfA9DqIDa3cDdY=;
+        b=3vTchn0eX81QUo5HqnPzMpFFQP5llPBBeDJ9Sl2EpRtrJ7zpIHMUrVA/Kway/hVUfz
+         UJwxswnMomXEurb4o/Sip2Wa202IoRUKXrK1oMK1R2vEkOUkNx7JG6CcbBi/ISCFRFjW
+         /uV31SuYxsLoMM0ggd0el+XaKBlsSY7El9Srw+bBKgFs/FUW3YOVtyPH/WPOttbTlYEl
+         Rn3XO4OmgWSuAr027AONI8TA9Il6sjJ043ma/Drv2bGvY0gRrVbukDeg03cgB5db9AAG
+         Xn1sPjE1re5M6ObajjxGRiacro7kzTC3W/jeqRkkY8Jte5xn4uveEZ6rvE86iZaUOST4
+         2WpQ==
+X-Gm-Message-State: AOAM530cP5zr0BlE+L5YfMZVrnR+Lzw8WGWjZZt1B08XLRFkjiV1Rd+L
+	nycqMTBa3r1RhjxKxarm1/2mv9N6CV4=
+X-Google-Smtp-Source: ABdhPJyNdqjR9aQDmMI+eVGPJuEv9mY5QG6DCwIzEFWgz11PKEtjXA/b3UxDX7ybDZ+G0N/4UpRtzw==
+X-Received: by 2002:a05:6402:2812:b0:418:fc32:be18 with SMTP id h18-20020a056402281200b00418fc32be18mr26118861ede.357.1648921121121;
+        Sat, 02 Apr 2022 10:38:41 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
+        by smtp.gmail.com with ESMTPSA id gb3-20020a170907960300b006dfafbb4ba4sm2329901ejc.83.2022.04.02.10.38.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Apr 2022 10:38:40 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove unncessary ternary operator
+Date: Sat,  2 Apr 2022 19:38:35 +0200
+Message-Id: <20220402173835.7560-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
- <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com> <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
- <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com> <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
- <CAHCN7xLy2381AFLWhLxk5YuRV7C=OwLX=XPXONX8sbkg-SqMjA@mail.gmail.com>
-In-Reply-To: <CAHCN7xLy2381AFLWhLxk5YuRV7C=OwLX=XPXONX8sbkg-SqMjA@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Sat, 2 Apr 2022 11:59:59 -0500
-Message-ID: <CAHCN7xJWQa-uXb0-+CSvAr1JhFmQYt80Q=uGvaY8uyptNcfbgw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org, 
-	paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>, 
-	"jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media <linux-media@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Apr 2, 2022 at 11:22 AM Adam Ford <aford173@gmail.com> wrote:
->
-> On Fri, Apr 1, 2022 at 8:18 AM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
-> >
-> >
-> > Le 31/03/2022 =C3=A0 08:53, Benjamin Gaignard a =C3=A9crit :
-> > >
-> > > Le 30/03/2022 =C3=A0 20:52, Adam Ford a =C3=A9crit :
-> > >> On Wed, Mar 30, 2022 at 2:53 AM Benjamin Gaignard
-> > >> <benjamin.gaignard@collabora.com> wrote:
-> > >>>
-> > >>> Le 28/02/2022 =C3=A0 15:08, Benjamin Gaignard a =C3=A9crit :
-> > >>>> This series aims to make HEVC uapi stable and usable for hardware
-> > >>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hant=
-ro)
-> > >>>> and 2 out of the tree drivers (rkvdec and RPI).
-> > >>>>
-> > >>>> After the remarks done on version 2, I have completely reworked to
-> > >>>> patches
-> > >>>> split so changelogs are meaningless. I have also drop "RFC" from t=
-he
-> > >>>> titles.
-> > >>>>
-> > >>>> Version 4:
-> > >>>> - Add num_entry_point_offsets field in  struct
-> > >>>> v4l2_ctrl_hevc_slice_params
-> > >>>> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
-> > >>>> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
-> > >>>> - Fix space/tab issue in kernel-doc
-> > >>>> - Add patch to change data_bit_offset definition
-> > >>>> - Fix hantro-media SPDX license
-> > >>>> - put controls under stateless section in v4l2-ctrls-defs.c
-> > >>>>
-> > >>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC code=
-c.
-> > >>> Dear reviewers,
-> > >>>
-> > >>> This series is waiting for your feedback,
-> > >> I tried several times with the suggested repos for both the kernel a=
-nd
-> > >> g-streamer without success getting Fluster to pass any tests on the
-> > >> imx8mq.  I can try again but I likely won't get to it until this
-> > >> weekend.  If I can get it working, I'll test both the 8mq and 8mm.
-> > >
-> > > Thanks a lot for that.
-> > >
-> > > Benjamin
-> >
-> > Adam,
-> >
-> > You may need to check if h265parse and v4l2slh265dec are available on y=
-our board.
->
-> I ran gst-inspect to see what showed up with 265 in the name.
->
-> # gst-inspect-1.0 |grep 265
-> libav:  avdec_h265: libav HEVC (High Efficiency Video Coding) decoder
-> rtp:  rtph265depay: RTP H265 depayloader
-> rtp:  rtph265pay: RTP H265 payloader
-> typefindfunctions: video/x-h265: h265, x265, 265
-> v4l2codecs:  v4l2slh265dec: V4L2 Stateless H.265 Video Decoder
-> videoparsersbad:  h265parse: H.265 parser
->
-> It appears I have both h265parse and v4l2slh265dec.
->
-> >
-> > fluster check if v4l2slh265dec is working fine with this command line:
-> >
-> > gst-launch-1.0 appsrc num-buffers=3D0 ! h265parse ! v4l2slh265dec ! fak=
-esink
-> >
-> > so if one of them is missing it won't work.
->
-> gst-launch-1.0 appsrc num-buffers=3D0 ! h265parse ! v4l2slh265dec ! fakes=
-ink
-> Setting pipeline to PAUSED ...
-> 0:00:00.098389938   526 0xaaaaf9d86ac0 ERROR     v4l2codecs-decoder
-> gstv4l2decoder.c:725:gst_v4l2_decoder_get_controls:<v4l2decoder2>
-> VIDIOC_G_EXT_CTRLS failed: Invalid argument
-> ERROR: from element
-> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0: Driver did not
-> report framing and start code method.
-> Additional debug info:
-> ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codech265dec.c(155):
-> gst_v4l2_codec_h265_dec_open ():
-> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0:
-> gst_v4l2_decoder_get_controls() failed: Invalid argument
-> ERROR: pipeline doesn't want to preroll.
-> ERROR: from element
-> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0: Could not
-> initialize supporting library.
-> Additional debug info:
-> ../subprojects/gst-plugins-base/gst-libs/gst/video/gstvideodecoder.c(2909=
-):
-> gst_video_decoder_change_state ():
-> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0:
-> Failed to open decoder
-> ERROR: pipeline doesn't want to preroll.
-> Failed to set pipeline to PAUSED.
-> Setting pipeline to NULL ...
-> Freeing pipeline ...
->
-> Does this mean I have a wrong version of the kernel and/or incomplete pat=
-ches?
+Using the ternary operator to assign true or false is redundant.
+There are many places in the driver code where this is done. Remove
+the unnecessary operator to improve readbility.
 
-I double checked the branches.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Kernel:
-https://gitlab.collabora.com/benjamin.gaignard/for-upstream.git
-branch:  origin/HEVC_UAPI_V4
+ drivers/staging/r8188eu/core/rtw_p2p.c          | 2 +-
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c      | 4 ++--
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c      | 4 ++--
+ drivers/staging/r8188eu/core/rtw_wlan_util.c    | 2 +-
+ drivers/staging/r8188eu/hal/hal_com.c           | 2 +-
+ drivers/staging/r8188eu/hal/odm_HWConfig.c      | 4 ++--
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c      | 2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 2 +-
+ drivers/staging/r8188eu/include/HalVerDef.h     | 4 ++--
+ drivers/staging/r8188eu/include/ieee80211.h     | 8 ++++----
+ drivers/staging/r8188eu/os_dep/osdep_service.c  | 2 +-
+ 11 files changed, 18 insertions(+), 18 deletions(-)
 
-Gstreamer:
-https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer.git
-branch:  origin/benjamin.gaignard1/gstreamer-HEVC_aligned_with_kernel_5.15
+diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
+index 1e728a03e0ac..80305d128ccd 100644
+--- a/drivers/staging/r8188eu/core/rtw_p2p.c
++++ b/drivers/staging/r8188eu/core/rtw_p2p.c
+@@ -951,7 +951,7 @@ u32 process_p2p_devdisc_req(struct wifidirect_info *pwdinfo, u8 *pframe, uint le
+ 	/* issue Device Discoverability Response */
+ 	issue_p2p_devdisc_resp(pwdinfo, GetAddr2Ptr(pframe), status, dialogToken);
+ 
+-	return (status == P2P_STATUS_SUCCESS) ? true : false;
++	return status == P2P_STATUS_SUCCESS;
+ }
+ 
+ u32 process_p2p_devdisc_resp(struct wifidirect_info *pwdinfo, u8 *pframe, uint len)
+diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+index 0141de7ab08c..39fbefd4858d 100644
+--- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
++++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+@@ -348,7 +348,7 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
+ 
+ 	pwrctrlpriv->LpsIdleCount = 0;
+ 	pwrctrlpriv->power_mgnt = padapter->registrypriv.power_mgnt;/*  PS_MODE_MIN; */
+-	pwrctrlpriv->bLeisurePs = (PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt) ? true : false;
++	pwrctrlpriv->bLeisurePs = PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt;
+ 
+ 	pwrctrlpriv->bFwCurrentInPSMode = false;
+ 
+@@ -426,7 +426,7 @@ int rtw_pm_set_lps(struct adapter *padapter, u8 mode)
+ 			else
+ 				pwrctrlpriv->LpsIdleCount = 2;
+ 			pwrctrlpriv->power_mgnt = mode;
+-			pwrctrlpriv->bLeisurePs = (PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt) ? true : false;
++			pwrctrlpriv->bLeisurePs = PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt;
+ 		}
+ 	} else {
+ 		ret = -EINVAL;
+diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+index 91ff82f24f1f..357f98e22d8a 100644
+--- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+@@ -470,9 +470,9 @@ u8 rtw_access_ctrl(struct adapter *padapter, u8 *mac_addr)
+ 	spin_unlock_bh(&pacl_node_q->lock);
+ 
+ 	if (pacl_list->mode == 1)/* accept unless in deny list */
+-		res = (match) ? false : true;
++		res = !match;
+ 	else if (pacl_list->mode == 2)/* deny unless in accept list */
+-		res = (match) ? true : false;
++		res = match;
+ 	else
+ 		res = true;
+ 
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index b526715a70bc..84ced6a86df9 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -1482,7 +1482,7 @@ void process_addba_req(struct adapter *padapter, u8 *paddba_req, u8 *addr)
+ 		tid = (param >> 2) & 0x0f;
+ 		preorder_ctrl = &psta->recvreorder_ctrl[tid];
+ 		preorder_ctrl->indicate_seq = 0xffff;
+-		preorder_ctrl->enable = (pmlmeinfo->bAcceptAddbaReq) ? true : false;
++		preorder_ctrl->enable = pmlmeinfo->bAcceptAddbaReq;
+ 	}
+ }
+ 
+diff --git a/drivers/staging/r8188eu/hal/hal_com.c b/drivers/staging/r8188eu/hal/hal_com.c
+index 06f2a9083056..7649f9919f67 100644
+--- a/drivers/staging/r8188eu/hal/hal_com.c
++++ b/drivers/staging/r8188eu/hal/hal_com.c
+@@ -267,7 +267,7 @@ static void three_out_pipe(struct adapter *adapter, bool wifi_cfg)
+ bool Hal_MappingOutPipe(struct adapter *adapter, u8 numoutpipe)
+ {
+ 	struct registry_priv *pregistrypriv = &adapter->registrypriv;
+-	bool  wifi_cfg = (pregistrypriv->wifi_spec) ? true : false;
++	bool wifi_cfg = pregistrypriv->wifi_spec;
+ 	bool result = true;
+ 
+ 	switch (numoutpipe) {
+diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
+index 87e9a5270be0..3c09d9d459b1 100644
+--- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
++++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
+@@ -65,7 +65,7 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
+ 
+ 	struct phy_status_rpt *pPhyStaRpt = (struct phy_status_rpt *)pPhyStatus;
+ 
+-	isCCKrate = ((pPktinfo->Rate >= DESC92C_RATE1M) && (pPktinfo->Rate <= DESC92C_RATE11M)) ? true : false;
++	isCCKrate = pPktinfo->Rate >= DESC92C_RATE1M && pPktinfo->Rate <= DESC92C_RATE11M;
+ 
+ 	if (isCCKrate) {
+ 		u8 cck_agc_rpt;
+@@ -234,7 +234,7 @@ static void odm_Process_RSSIForDM(struct odm_dm_struct *dm_odm,
+ 	if ((!pPktinfo->bPacketMatchBSSID))
+ 		return;
+ 
+-	isCCKrate = ((pPktinfo->Rate >= DESC92C_RATE1M) && (pPktinfo->Rate <= DESC92C_RATE11M)) ? true : false;
++	isCCKrate = pPktinfo->Rate >= DESC92C_RATE1M && pPktinfo->Rate <= DESC92C_RATE11M;
+ 
+ 	/* Smart Antenna Debug Message------------------  */
+ 	if ((dm_odm->AntDivType == CG_TRX_HW_ANTDIV) || (dm_odm->AntDivType == CGCS_RX_HW_ANTDIV)) {
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+index 45b788212628..18650cd96f09 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+@@ -137,7 +137,7 @@ void rtl8188e_Add_RateATid(struct adapter *pAdapter, u32 bitmap, u8 arg, u8 rssi
+ 
+ 	bitmap |= ((raid << 28) & 0xf0000000);
+ 
+-	short_gi_rate = (arg & BIT(5)) ? true : false;
++	short_gi_rate = arg & BIT(5);
+ 
+ 	raid = (bitmap >> 28) & 0x0f;
+ 
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index 6811be95da9a..ffc82d17ddbe 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -747,7 +747,7 @@ void Hal_ReadPowerSavingMode88E(struct adapter *padapter, u8 *hwinfo, bool AutoL
+ 
+ 		/*  decide hw if support remote wakeup function */
+ 		/*  if hw supported, 8051 (SIE) will generate WeakUP signal(D+/D- toggle) when autoresume */
+-		padapter->pwrctrlpriv.bSupportRemoteWakeup = (hwinfo[EEPROM_USB_OPTIONAL_FUNCTION0] & BIT(1)) ? true : false;
++		padapter->pwrctrlpriv.bSupportRemoteWakeup = hwinfo[EEPROM_USB_OPTIONAL_FUNCTION0] & BIT(1);
+ }
+ 
+ void Hal_ReadTxPowerInfo88E(struct adapter *padapter, u8 *PROMContent, bool AutoLoadFail)
+diff --git a/drivers/staging/r8188eu/include/HalVerDef.h b/drivers/staging/r8188eu/include/HalVerDef.h
+index 2bc18eabb55d..56dadadb1a0f 100644
+--- a/drivers/staging/r8188eu/include/HalVerDef.h
++++ b/drivers/staging/r8188eu/include/HalVerDef.h
+@@ -34,10 +34,10 @@ struct HAL_VERSION {
+ 
+ /* HAL_CHIP_TYPE_E */
+ #define IS_NORMAL_CHIP(version)				\
+-	((GET_CVID_CHIP_TYPE(version) == NORMAL_CHIP) ? true : false)
++	(GET_CVID_CHIP_TYPE(version) == NORMAL_CHIP)
+ 
+ /* HAL_VENDOR_E */
+ #define IS_CHIP_VENDOR_TSMC(version)			\
+-	((GET_CVID_MANUFACTUER(version) == CHIP_VENDOR_TSMC) ? true : false)
++	(GET_CVID_MANUFACTUER(version) == CHIP_VENDOR_TSMC)
+ 
+ #endif
+diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
+index 8c20363cdd31..03d63257797a 100644
+--- a/drivers/staging/r8188eu/include/ieee80211.h
++++ b/drivers/staging/r8188eu/include/ieee80211.h
+@@ -127,7 +127,7 @@ enum NETWORK_TYPE {
+ 	 (WIRELESS_11B | WIRELESS_11G | WIRELESS_11_24N)
+ 
+ #define IsSupported24G(NetType)					\
+-	((NetType) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
++	((NetType) & SUPPORTED_24G_NETTYPE_MSK)
+ 
+ #define IsEnableHWCCK(NetType)					\
+ 	IsSupported24G(NetType)
+@@ -135,11 +135,11 @@ enum NETWORK_TYPE {
+ #define IsSupportedRxCCK(NetType) IsEnableHWCCK(NetType)
+ 
+ #define IsSupportedTxCCK(NetType)				\
+-	((NetType) & (WIRELESS_11B) ? true : false)
++	((NetType) & WIRELESS_11B)
+ #define IsSupportedTxOFDM(NetType)				\
+-	((NetType) & (WIRELESS_11G) ? true : false)
++	((NetType) & WIRELESS_11G)
+ #define IsSupportedTxMCS(NetType)				\
+-	((NetType) & (WIRELESS_11_24N) ? true : false)
++	((NetType) & WIRELESS_11_24N)
+ 
+ struct ieee_param {
+ 	u32 cmd;
+diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+index 7a6fcc96081a..3a13f166fb21 100644
+--- a/drivers/staging/r8188eu/os_dep/osdep_service.c
++++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+@@ -220,7 +220,7 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
+  */
+ inline bool rtw_cbuf_empty(struct rtw_cbuf *cbuf)
+ {
+-	return (cbuf->write == cbuf->read) ? true : false;
++	return cbuf->write == cbuf->read;
+ }
+ 
+ /**
+-- 
+2.35.1
 
-
-I am still not able to run h.265/HEVC tests.
-
-adam
->
-> adam
-> >
-> > Regards,
-> > Benjamin
-> >
-> > >
-> > >>
-> > >> adam
-> > >>> Thanks,
-> > >>> Benjamin
-> > >>>
-> > >>>> Benjamin
-> > >>>>
-> > >>>>
-> > >>>> Benjamin Gaignard (12):
-> > >>>>     media: uapi: HEVC: Add missing fields in HEVC controls
-> > >>>>     media: uapi: HEVC: Rename HEVC stateless controls with STATELE=
-SS
-> > >>>>       prefix
-> > >>>>     media: uapi: HEVC: Add document uAPI structure
-> > >>>>     media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS
-> > >>>> as a
-> > >>>>       dynamic array
-> > >>>>     media: uapi: Move parsed HEVC pixel format out of staging
-> > >>>>     media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
-> > >>>> control
-> > >>>>     media: uapi: Move the HEVC stateless control type out of stagi=
-ng
-> > >>>>     media: controls: Log HEVC stateless control in .std_log
-> > >>>>     media: uapi: Create a dedicated header for Hantro control
-> > >>>>     media: uapi: HEVC: fix padding in v4l2 control structures
-> > >>>>     media: uapi: Change data_bit_offset definition
-> > >>>>     media: uapi: move HEVC stateless controls out of staging
-> > >>>>
-> > >>>> Hans Verkuil (3):
-> > >>>>     videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
-> > >>>>     v4l2-ctrls: add support for dynamically allocated arrays.
-> > >>>>     vivid: add dynamic array test control
-> > >>>>
-> > >>>>    .../userspace-api/media/drivers/hantro.rst    |   5 -
-> > >>>>    .../media/v4l/ext-ctrls-codec-stateless.rst   | 833
-> > >>>> ++++++++++++++++++
-> > >>>>    .../media/v4l/ext-ctrls-codec.rst             | 780
-> > >>>> ----------------
-> > >>>>    .../media/v4l/pixfmt-compressed.rst           |   7 +-
-> > >>>>    .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
-> > >>>>    .../media/v4l/vidioc-queryctrl.rst            |   8 +
-> > >>>>    .../media/videodev2.h.rst.exceptions          |   5 +
-> > >>>>    .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
-> > >>>>    drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
-> > >>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
-> > >>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
-> > >>>>    drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
-> > >>>>    drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
-> > >>>>    drivers/staging/media/hantro/hantro_drv.c     |  27 +-
-> > >>>>    drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
-> > >>>>    drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
-> > >>>>    .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
-> > >>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
-> > >>>>    include/media/hevc-ctrls.h                    | 250 ------
-> > >>>>    include/media/v4l2-ctrls.h                    |  48 +-
-> > >>>>    include/uapi/linux/hantro-media.h             |  19 +
-> > >>>>    include/uapi/linux/v4l2-controls.h            | 439 +++++++++
-> > >>>>    include/uapi/linux/videodev2.h                |  13 +
-> > >>>>    23 files changed, 1697 insertions(+), 1170 deletions(-)
-> > >>>>    delete mode 100644 include/media/hevc-ctrls.h
-> > >>>>    create mode 100644 include/uapi/linux/hantro-media.h
-> > >>>>
