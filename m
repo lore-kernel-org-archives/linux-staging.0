@@ -1,46 +1,34 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gateway20.websitewelcome.com (gateway20.websitewelcome.com [192.185.55.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05F91FA2
-	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 21:32:53 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id z9-20020a05683020c900b005b22bf41872so4565654otq.13
-        for <linux-staging@lists.linux.dev>; Sat, 02 Apr 2022 14:32:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=OuxBTZEviYeN1sMz66IprCGLA9hb5Nx6rXTjFA3rNN4=;
-        b=UUdp0QnvOdDZpMvTZD2fAUtdk89HiNaA/Yp846JGS9ftpyaiv+KyFxkWN3p7YHobY4
-         pqMhGC74Y2XBx5CKTjugeHhTgTmUdhFNfWyEVO6sw9H+n44jRaj2Rp8b7/c98lgsH6DJ
-         zVPH5/hyAibGvwg3+C1ALNT6Kidqo2bUAHjTk0UWXCul/Y7zK/58w0s7O3VriASM6AzQ
-         /7UDPNc4vQVxnU54ZLvBgh93Mhr+qcyE8SMcID83HmwxTgAqedCzQLQr3psnOiqp/hFQ
-         OuS977nP0gfGHjGtVs9FAm/A6BhgeWLXxLtRVyEvBAaG+Dj4KtU7UNI/nzN6jR4GvY8O
-         MFDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=OuxBTZEviYeN1sMz66IprCGLA9hb5Nx6rXTjFA3rNN4=;
-        b=YbD8QTRsnP3ULem6mSvfefPaMPusdEU+Ij2B13JjTm+Z7IvM7fcOUXXhYQlv1jBaN8
-         7Z+5dZqq2ef9HOQUe5GGoOyQqNTE31IFnjq2hjCmE2E/ea5XtM1VtBOIM2iKySnSS59C
-         P7lXjEb6xcIynhyhHmEJU0tKjle6JD/s0s8dcB5UPo67VcOdj7IB54Is6/T4ftxOjErV
-         wDJ1jUlGIshN3yVM4Vrsf93j2Ey8jCJuD1JMOv+PfrCNzMbUCSS6fj+t9IZK8alXEfZT
-         EqLvdRqzWcN025Gl6Cfo7HmwHVjTZbZAAk+b6aO5ETnacSi1tX6B9vP8QbXIr3M75MsS
-         ccBQ==
-X-Gm-Message-State: AOAM532OJYNJA19LL0zRKIRqjipzdQkgShGu8cplbt4n3/pxobVsk34K
-	b4o6bRN9C9pNfyUtCHyElQE=
-X-Google-Smtp-Source: ABdhPJx+JbqluJ9nIsvXP1fqha9EZvzEFi/2FGjrQlYIN7fB7NULUTOKPgOSoyZ8PaSoP/dTstmeTA==
-X-Received: by 2002:a05:6830:1484:b0:5cb:4a65:c91b with SMTP id s4-20020a056830148400b005cb4a65c91bmr9769156otq.121.1648935173030;
-        Sat, 02 Apr 2022 14:32:53 -0700 (PDT)
-Received: from ?IPV6:2603:8090:2005:39b3::1004? (2603-8090-2005-39b3-0000-0000-0000-1004.res6.spectrum.com. [2603:8090:2005:39b3::1004])
-        by smtp.gmail.com with ESMTPSA id c8-20020a4ad788000000b0031ce69b1640sm2443817oou.10.2022.04.02.14.32.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Apr 2022 14:32:52 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <d9c7a2ba-288a-d81a-cd59-5b002489d821@lwfinger.net>
-Date: Sat, 2 Apr 2022 16:32:50 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BEC11FA2
+	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 22:07:05 +0000 (UTC)
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+	by gateway20.websitewelcome.com (Postfix) with ESMTP id 9B5BC400C4EFF
+	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 16:18:23 -0500 (CDT)
+Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with SMTP
+	id al8Znvurydx86al8ZnQMVz; Sat, 02 Apr 2022 16:18:23 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=iICxu8o08zMe7Ui0G3M/Cil+gzMynrzmoXIS4ku/IFc=; b=iAeWkgFTI4f+WwvufCpNRVV30g
+	RARIdOHXZKwKzfrMlC9DuIe3dol5ANBgPCBYNKi+y7+GTRZj74OMa9Ar3Kk+hKW15w1XQKrWZdzD3
+	BIwqV5mZELQ4m5GUz1Y+sXYHhl1nG7slujDlNbpovf2VVAJk043gY4alMMSTAJs47vOTP/bKuQkXJ
+	h1o2GN86znlBn4kSFX8ryS1H2z77zvoF61MVn7PK0e44t5w9UpU9uZBOvHRy350yWHZxJ+jVUSMSB
+	8XX/7umuQ8YPVlsGydKcHfgvMq8GfY5XsirjFAp75SfrkLqTjDUFmJcL5QcjQGumwmbUClMtElpBW
+	uf3pDLdw==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:54664)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@roeck-us.net>)
+	id 1nal8Z-000y7u-6M; Sat, 02 Apr 2022 21:18:23 +0000
+Message-ID: <0c646d80-3198-06c1-e8aa-442b245ffb3e@roeck-us.net>
+Date: Sat, 2 Apr 2022 14:18:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,48 +37,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
+Subject: Re: [PATCH] staging: r8188eu: Fix PPPoE tag insertion on big endian
+ systems
 Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>,
- Greg KH <gregkh@linuxfoundation.org>
+To: Larry Finger <Larry.Finger@lwfinger.net>
 Cc: Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220401151257.3414576-1-linux@roeck-us.net>
+ <782f0115-e45f-1aff-a152-5d403c990b31@lwfinger.net>
+ <dcba377b-1fce-92e6-680a-77c5567cd06c@roeck-us.net>
+ <8e68501c-24fd-cfbc-60f2-ec3e277159ab@lwfinger.net>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <8e68501c-24fd-cfbc-60f2-ec3e277159ab@lwfinger.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1nal8Z-000y7u-6M
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:54664
+X-Source-Auth: linux@roeck-us.net
+X-Email-Count: 2
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 
-On 4/2/22 15:47, Michael Straube wrote:
-> Hi all,
+On 4/1/22 13:25, Larry Finger wrote:
+> On 4/1/22 14:25, Guenter Roeck wrote:
+>> The rest of the code uses htons/ntohs, so I prefer to follow that lead.
 > 
-> smatch reported a sleeping in atomic context.
+> You just proved my point. It is hard to get be16_to_cpu() wrong. Sparse will flag the error when you use cpu_to_be16() instead. I expect that your htons/ntohs problem would also have shown up with Sparse.
 > 
-> rtw_set_802_11_disassociate() <- disables preempt
-> -> _rtw_pwr_wakeup()
->     -> ips_leave()
-> 
-> rtw_set_802_11_disassociate() takes a spinlock and ips_leave() uses a
-> mutex.
-> 
-> I'm fairly new to the locking stuff, but as far as I know this is not a
-> false positive since mutex can sleep, but that's not allowed under a
-> spinlock.
-> 
-> What is the best way to handle this?
-> I'm not sure if converting the mutex to a spinlock (including all the
-> other places where the mutex is used) is the right thing to do?
 
-In drivers/net/wireless/realtek/rtlwifi, we had a similar problem. There it was 
-handled by putting the lps_enter() and lps_leave() operations in a separate 
-workqueue. In this case, the routines were rtl_lps_enter() and rtl_lps_leave(). 
-Each of them sets a variable to indicate whether enter_ps is true or false, and 
-schedules the workqueue. In the workqueue's callback routine, the routines to 
-start/stop ps mode are called. The code is in 
-drivers/net/wireless/realtek/rtlwifi/ps.c.
+Ok, you made your point. I'll use be16_to_cpu() - the driver
+already uses it elsewhere anyway. As for the other problems,
+I am not sure if the driver ever worked. The function we are
+looking at can't really have worked on a little endian system
+because of the missing conversion, and the same is true for the
+other code flagged by sparse. I think I'll just add a note
+to this patch and let the driver authors decide what to do
+about those problems.
 
-This solution is only one of many, and there may be a better one.
-
-Larry
-
+Guenter
