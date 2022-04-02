@@ -1,88 +1,107 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF9B1856;
-	Sat,  2 Apr 2022 13:22:28 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id w4so7809234wrg.12;
-        Sat, 02 Apr 2022 06:22:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64971856;
+	Sat,  2 Apr 2022 14:07:04 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id r7so3283147wmq.2;
+        Sat, 02 Apr 2022 07:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bM1qv869mLVj0L15vUr24+B+GszxmRptC2PdqnBJ5K4=;
-        b=SlUPIUKCXurYXUIrs3NwfGg0Q69oEQSC4nOx9sE0oKSjX80eII/DdEotFI3Bsbtvtu
-         l3jr+SAkdZKyZMX49mQuH0CLAd9dv8kunEEmIrXttd113lXE7z5xMzayFiJ0fHkWqOAb
-         TUP8L74xzEv2V1T43r0FZtVnZ3NLmx5MDGJDpKHf/9VQ9gU677ca+83lObYF6iyLdksJ
-         d1WoSgAvcktQuGOqpMOZWuFeZZ/56PcyVAAJ7kY4ejRYSbd9WcmJlU4wpnViOyC38fa9
-         hKW+fbSCyf7eyAvikq8Ane9Fd0m9j9NFJe1p5IQxW+CNWF+WGGsIFkVWN2n7GzsUw6AL
-         jYxQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fg7D1iGUfw9j684AaN9ZwUUtm9p5W+5qSKHanyjniig=;
+        b=XhKe6RBzOIYGM7e1jgWJtS6NaOo4+4DLXXecjeNVeEgHXKdrxJ54a8D6RAAHjJ5QOY
+         BlkaPbXoCClrtXJ5Rl+dzMbMRuL69iFqyY0BlGEa6j7/TXmR7/nEewXOEipQuLbycwIk
+         EER4AZGnsSfOtNsL0LkfXOnzds3+z1PJQxYRzwP81AX1QWdDebCsV0KWRSnw+6vtvogF
+         RGJiuz0XHVxeTkSCQToYFFxfOD4hKaSZBJZQnk7D3gzEXzm/YPXTNKl87tQ7RD8FIWFg
+         BkOTUR5Vqcs+P3DxcqD53+CDLJ/i8yM0CGVjDbEQsxQBmYHYyBnwouSSEkHLUR5Y/cz0
+         LmFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bM1qv869mLVj0L15vUr24+B+GszxmRptC2PdqnBJ5K4=;
-        b=O7SBSpklYHy7i53gOlQfyrg+G2DI5zlyGASe005XN5vP9oWUJeoqf+NQi1eRiKJx9A
-         ty/RjIPJBYtiI6beq9Az7igDcKJ32sk7Z6aICeDNurKZxsUd/PkuMrLGi13H316Izdp0
-         +ZKe6dgRNWa5q3YZv4oGRpLsMTbd66+E+8czJNkG38IN2By5x9QGryvao0APrO26CRQE
-         sOtgW0h/ACsz5EPaRBwPzMBtr//BBcSQPUQAy07+cvtDNqdMy9yEJZB+MBjGpO9Y7KkW
-         ZQOLph4lIYaZ+Bk+d2uixo34oe1xhVYC+R8fmDKS0p8qCfS9EP3DmgSTNDWS60NIXJdz
-         MI1w==
-X-Gm-Message-State: AOAM530pWdFvQnxkpaVIuvg8r9qseSKtL271q2nlIlaTq0g2/3JxeJuu
-	jpyB021BeXx5sS6yABjyn4U=
-X-Google-Smtp-Source: ABdhPJxm8EUnxXG3nVLRw1XHSCkv+pnaG7kBoIk60raQSsyVXx7drDSOToewaHuiVxNmCbBNEkL6aw==
-X-Received: by 2002:a05:6000:1e16:b0:206:40c:872d with SMTP id bj22-20020a0560001e1600b00206040c872dmr2204783wrb.535.1648905746951;
-        Sat, 02 Apr 2022 06:22:26 -0700 (PDT)
-Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
-        by smtp.gmail.com with ESMTPSA id y15-20020a05600015cf00b00203e324347bsm5530402wry.102.2022.04.02.06.22.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fg7D1iGUfw9j684AaN9ZwUUtm9p5W+5qSKHanyjniig=;
+        b=jkF8M1J9Y3F3s1voPOt5V0KwlorhpMxGzy5VJdNDc2SBOWGai7LYDP6VbXbGvDnU71
+         FAblCaWeXR17HUEXWjRQWPmmNpMppkn5Dzk1Pw4hg0CCmnH5o4SapaCdJSC6j9Nq3Vq5
+         k0tO89AR9d6FvsYz0E/QPDoKdDwJPNYkt1BbdIxNowK49oEZ/xovnqOl+uCNH+ctXp/8
+         SGpWfj/FIIvGH8yFTFFn6QWNxvWPnA35YOqTTgCAaN9NMUcZZDLNHZdVx+1NTiTj/SLk
+         x7Plk7wo9S77dA2RgigSkupGPGEyHreN7MN85C/D108lxrf9QdSdqmke1sfUejkJ2AY3
+         WRqg==
+X-Gm-Message-State: AOAM530gO101hNvarZsC763lJf+ni/NjKIWcTD0mRFMnSQFTS58nUUCF
+	IHiIeLayeAG7gNiTMEPetto=
+X-Google-Smtp-Source: ABdhPJygcdRjc8ahdcTdoCmXr0p4Hl8GYpF9eDNU5lTcaWSQGrz4m6EBUQgXxO4UOGoIYdwA68lXVw==
+X-Received: by 2002:a7b:c5d0:0:b0:355:482a:6f44 with SMTP id n16-20020a7bc5d0000000b00355482a6f44mr12523721wmk.58.1648908423127;
+        Sat, 02 Apr 2022 07:07:03 -0700 (PDT)
+Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id z13-20020a5d440d000000b00203f2b010b1sm4638195wrq.44.2022.04.02.07.07.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 06:22:25 -0700 (PDT)
+        Sat, 02 Apr 2022 07:07:01 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Ira Weiny <ira.weiny@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: r8188eu: Remove goto to no-op exit label
-Date: Sat, 02 Apr 2022 15:22:23 +0200
-Message-ID: <2108195.Mh6RI2rZIc@leap>
-In-Reply-To: <Ykg3Xfb4vjjGSyKc@martin-debian-2.paytec.ch>
-References: <20220401183513.26222-1-fmdefrancesco@gmail.com> <1724388.VLH7GnMWUR@leap> <Ykg3Xfb4vjjGSyKc@martin-debian-2.paytec.ch>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH] staging: r8188eu: Remove redundant code from rtw_free_netdev()
+Date: Sat,  2 Apr 2022 16:06:57 +0200
+Message-Id: <20220402140657.10549-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On sabato 2 aprile 2022 13:45:33 CEST Martin Kaiser wrote:
-> Thus wrote Fabio M. De Francesco (fmdefrancesco@gmail.com):
-> 
-> > > >  	pnpi = netdev_priv(netdev);
-> 
-> > > >  	if (!pnpi->priv)
-> > > > -		goto RETURN;
-> > > > +		return;
-> 
-> > I cannot see how pnpi->priv might ever be NULL.
-> 
-> Even if pnpi->priv was NULL, we wouldn't need the check. It's ok to call
-> vfree(NULL).
-> 
-> > After the two removals I've talked about above, the code will always call 
-> > vfree(pnpi->priv) and then free_netdev(netdev).
-> 
-> That makes sense.
-> 
-> Best regards,
-> Martin
-> 
-Hi Martin,
+In rtw_free_netdev() there are two redundant tests. The first checks for
+a valid pointer to a "struct net_device". This pointer is the argument
+of rtw_free_netdev(). The two callers of this function already test this
+parameter immediatelly before the calls. The second checks for a valid
+pointer to a "struct rtw_netdev_priv_indicator". This pointer is always
+valid and, even if it were not, vfree() is a no-op on NULL pointers.
 
-Thanks for reminding to me that a vfree() on a NULL pointer is a no-op.
-I'm going to submit a new patch with the purpose to re-work rtw_free_netdev().
+Therefore the above-mentioned two "if" statements are unnecessary and
+redundant. For this reason, remove these two tests.
 
-Thanks again,
+After removing these tests there is no more need of the "RETURN" label.
+Therefore, remove also the "RETURN" label.
 
-Fabio
+Cc: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Martin Kaiser <martin@kaiser.cx>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/r8188eu/os_dep/osdep_service.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-
+diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+index 7a6fcc96081a..fc10eefe04a9 100644
+--- a/drivers/staging/r8188eu/os_dep/osdep_service.c
++++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+@@ -116,19 +116,10 @@ void rtw_free_netdev(struct net_device *netdev)
+ {
+ 	struct rtw_netdev_priv_indicator *pnpi;
+ 
+-	if (!netdev)
+-		goto RETURN;
+-
+ 	pnpi = netdev_priv(netdev);
+ 
+-	if (!pnpi->priv)
+-		goto RETURN;
+-
+ 	vfree(pnpi->priv);
+ 	free_netdev(netdev);
+-
+-RETURN:
+-	return;
+ }
+ 
+ int rtw_change_ifname(struct adapter *padapter, const char *ifname)
+-- 
+2.34.1
 
