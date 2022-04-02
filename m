@@ -1,134 +1,163 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60B5136C
-	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 09:23:47 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id ot30so528629ejb.12
-        for <linux-staging@lists.linux.dev>; Sat, 02 Apr 2022 02:23:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEF01366;
+	Sat,  2 Apr 2022 10:13:27 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id h4so5642000edr.3;
+        Sat, 02 Apr 2022 03:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p1nCazU2RR08u9chSBMxQI9AzP6gAEkfhwUIFi0LIXg=;
-        b=Wg7mpw7XUE4bov9iBjuBYKFcVHyxOb+b9cnznxNDNvkRKByMlQ7DM4l1oY7shpcn7Z
-         Mp3duqVwKMMQS0k8odTmhEn8wBwbhUff89OkcdqppYTImkQ8/2eE2brZQC8XLFBqlUIG
-         WvLby9+1lF2IxSRDIQ0MWXsPzcCasBitTAqHvgLm78AtAkSour981+e+X5gAWiqMifo9
-         cyhclO/5zGCHK0PsB83VIND20i/wKTfkIEsbKX4vMG519BakSPP+inVty+D44YTYbl7r
-         d4myFPDQ3GKa3SOpY42ShIFERYpO7YhTAXTzNAHtoh7/BD18u96vVjRkGIyBBeFHdpK7
-         FV+g==
+        bh=nq7rsHg8A3iBgRJPmTpgXY1OAM+6fX6NYBzTSzTX1C4=;
+        b=CTwZbdYvrj4KAu0xHRfcJUQGyWJaqzAOfCiguc/crzFxDm2B7eKW5F2KudW+/zpD4h
+         ENeIVrF38WevKHfBGdtUAtVLwHbjAlNvHiGllWuMkg3t7SNnyktQ/wfYmk2Iu57V7Hqh
+         p1RVlMCOrWp/kou0x5bp8xAazC2aiox4Gyb15wS0KL8ReMTgj6mC3siHhSbTWB9u6vzp
+         iodgdPSC0x7qOoFuAM5Ls52XjBLpHTZY3glwRBtFswt9TBj6rrawGSKbATE5IroqfN7H
+         GFNKHu9mUNTqTUtf1m6EnqQJGKTFY/iOp4Y73YsDUmiIBparj1N4WCQpByskqMRv4snO
+         me7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p1nCazU2RR08u9chSBMxQI9AzP6gAEkfhwUIFi0LIXg=;
-        b=S9gd+rrcFXSlleqiOfSTLhyv5bJJTmwd9BqcTKXtXYo+AQSTCshRotCPMoupUkzy+1
-         ToKBouuK0p9VpnEp1RsIurYga7NmTC6ob334iQss4UaHsbkgkTrgJm19atLJreaT4HBI
-         aOwkqfvD0OF07kvaImZzkPOOujyzx+NYLXU4k0vwmfd9Q2Qzbpi5q9GkNszKMRPbfmfo
-         kialHBeALtoLemz3dYmGBzkbk9hw26usByDpLJnuNPOl5Ahf6ByHYalEgmeFErsBIh/X
-         n3/S9tI6ah4BqWyzJEGyWCOyDHmevW1vhYQ2umnYXW2GIJ29ydg+JyTGRO5703ZjkIBx
-         vDqQ==
-X-Gm-Message-State: AOAM53323AXI4oivlvQeg5hvGKShv/7fTrfl2sAhWtG7Nh7MaT/gU/+5
-	PQ7MrtUNNIPIEm7vdoBxsSA=
-X-Google-Smtp-Source: ABdhPJyrGqa254pGglGEIFCVEPeMoDDg7oWpzf0Pv4SVMvPPifEA4K17QwjnhZRW3g/ZSTqFTJ5DRg==
-X-Received: by 2002:a17:907:7da5:b0:6e4:e40f:60a0 with SMTP id oz37-20020a1709077da500b006e4e40f60a0mr3240474ejc.486.1648891426020;
-        Sat, 02 Apr 2022 02:23:46 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id jv19-20020a170907769300b006e095c047d6sm1897679ejc.109.2022.04.02.02.23.45
+        bh=nq7rsHg8A3iBgRJPmTpgXY1OAM+6fX6NYBzTSzTX1C4=;
+        b=ndyf85c0O5vY2pwVUWwYqljCTd00FtqxU9hE7tF1HcC0XqUjo8t9+kMA9YN4s7eQGg
+         u+Y2P+Qis1/p27XdhyEKqS76kYSqqECndu7MPX1ykGt1D6OT2fO7fuLCMKwkJU6qtWuC
+         LPk2kDMZZi7b/7TSqauYy9WmQ3y8Qihhe215PW76JiJhRK+GCHxW+s8L2CjanLVqrklx
+         92MPhcE1wXqsMPYh7a8a6O2H5Q1kFDX3KHaUohH8BH1+FatCZ92sOoisD55VniI1Cqn6
+         sNHYHwL14NQE10xFGKwED9pR9lS6Ptp4BylkexhWmHf2Kn8uH6J0vwi8HPZhx2n44FOO
+         TzLg==
+X-Gm-Message-State: AOAM533hmMmKg8JWy1zayppL6io/LwnRMk1WYoaTTK5I8SouJSG3Go7F
+	Ahmmh637iX54/y5elwQAEgo=
+X-Google-Smtp-Source: ABdhPJzqJkyefi7J2cWzB2Ryqz9jNoMNznjyESx9VUbicGy3kNqEj5pQvaHy6jaGftlqgmnLWXAdjg==
+X-Received: by 2002:a05:6402:13d6:b0:419:2eab:d21 with SMTP id a22-20020a05640213d600b004192eab0d21mr24687793edx.78.1648894405231;
+        Sat, 02 Apr 2022 03:13:25 -0700 (PDT)
+Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id gq12-20020a170906e24c00b006e067c93e1bsm1929807ejb.39.2022.04.02.03.13.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 02:23:45 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 7/7] staging: r8188eu: remove HW_VAR_H2C_FW_P2P_PS_OFFLOAD from SetHwReg8188EU()
-Date: Sat,  2 Apr 2022 11:23:32 +0200
-Message-Id: <20220402092332.6627-8-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220402092332.6627-1-straube.linux@gmail.com>
-References: <20220402092332.6627-1-straube.linux@gmail.com>
+        Sat, 02 Apr 2022 03:13:23 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Ira Weiny <ira.weiny@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: r8188eu: Remove goto to no-op exit label
+Date: Sat, 02 Apr 2022 12:13:20 +0200
+Message-ID: <1724388.VLH7GnMWUR@leap>
+In-Reply-To: <YkdjhGtMwnbJcz+P@iweiny-desk3>
+References: <20220401183513.26222-1-fmdefrancesco@gmail.com> <YkdjhGtMwnbJcz+P@iweiny-desk3>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The HW_VAR_H2C_FW_P2P_PS_OFFLOAD case in SetHwReg8188EU() just calls a
-function. Call the function directly and remove the
-HW_VAR_H2C_FW_P2P_PS_OFFLOAD case from SetHwReg8188EU(). This is part
-of the ongoing effort to get rid of the unwanted hal layer.
+On venerd? 1 aprile 2022 22:41:40 CEST Ira Weiny wrote:
+> On Fri, Apr 01, 2022 at 08:35:13PM +0200, Fabio M. De Francesco wrote:
+> > In function rtw_free_netdev() there are two "goto" jumps to a no-op exit
+> > label called "RETURN". Remove the label and return in line.
+> 
+> Thanks for the patch!  However, A good commit message lists the why and what of
+> a change.  I don't see a why for this commit?
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_p2p.c     | 6 +++---
- drivers/staging/r8188eu/hal/usb_halinit.c  | 6 ------
- drivers/staging/r8188eu/include/hal_intf.h | 1 -
- 3 files changed, 3 insertions(+), 10 deletions(-)
+Yes I forgot the "why" :(
+I'll rework the commit message for v2.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-index 48500fb82250..1e728a03e0ac 100644
---- a/drivers/staging/r8188eu/core/rtw_p2p.c
-+++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-@@ -1602,7 +1602,7 @@ void p2p_ps_wk_hdl(struct adapter *padapter, u8 p2p_ps_state)
- 	case P2P_PS_DISABLE:
- 		pwdinfo->p2p_ps_state = p2p_ps_state;
- 
--		SetHwReg8188EU(padapter, HW_VAR_H2C_FW_P2P_PS_OFFLOAD, (u8 *)(&p2p_ps_state));
-+		rtl8188e_set_p2p_ps_offload_cmd(padapter, p2p_ps_state);
- 
- 		pwdinfo->noa_index = 0;
- 		pwdinfo->ctwindow = 0;
-@@ -1626,7 +1626,7 @@ void p2p_ps_wk_hdl(struct adapter *padapter, u8 p2p_ps_state)
- 					SetHwReg8188EU(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&padapter->pwrctrlpriv.pwr_mode));
- 				}
- 			}
--			SetHwReg8188EU(padapter, HW_VAR_H2C_FW_P2P_PS_OFFLOAD, (u8 *)(&p2p_ps_state));
-+			rtl8188e_set_p2p_ps_offload_cmd(padapter, p2p_ps_state);
- 		}
- 		break;
- 	case P2P_PS_SCAN:
-@@ -1634,7 +1634,7 @@ void p2p_ps_wk_hdl(struct adapter *padapter, u8 p2p_ps_state)
- 	case P2P_PS_ALLSTASLEEP:
- 		if (pwdinfo->p2p_ps_mode > P2P_PS_NONE) {
- 			pwdinfo->p2p_ps_state = p2p_ps_state;
--			SetHwReg8188EU(padapter, HW_VAR_H2C_FW_P2P_PS_OFFLOAD, (u8 *)(&p2p_ps_state));
-+			rtl8188e_set_p2p_ps_offload_cmd(padapter, p2p_ps_state);
- 		}
- 		break;
- 	default:
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index cbd49183be13..4bc6b08fb282 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1150,12 +1150,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 			rtl8188e_set_FwPwrMode_cmd(Adapter, psmode);
- 		}
- 		break;
--	case HW_VAR_H2C_FW_P2P_PS_OFFLOAD:
--		{
--			u8 p2p_ps_state = (*(u8 *)val);
--			rtl8188e_set_p2p_ps_offload_cmd(Adapter, p2p_ps_state);
--		}
--		break;
- 	case HW_VAR_INITIAL_GAIN:
- 		{
- 			struct rtw_dig *pDigTable = &podmpriv->DM_DigTable;
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 0f64cb41cca6..e222ab89bfc5 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -22,7 +22,6 @@ enum hw_variables {
- 	HW_VAR_AC_PARAM_BE,
- 	HW_VAR_AMPDU_FACTOR,
- 	HW_VAR_H2C_FW_PWRMODE,
--	HW_VAR_H2C_FW_P2P_PS_OFFLOAD,
- 	HW_VAR_INITIAL_GAIN,
- 	HW_VAR_FIFO_CLEARN_UP,
- 	HW_VAR_H2C_MEDIA_STATUS_RPT,
--- 
-2.35.1
+> 
+> FWIW (For what it's worth) I know of a couple of good reasons for this change
+> but you should get in the habit of putting that in the commit message.  Even
+> for obvious things like this.
+> 
+> Anyway, I think this patch can stand on it's own with an updated commit
+> message.  However, see below...
+> 
+> > 
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >  drivers/staging/r8188eu/os_dep/osdep_service.c | 7 ++-----
+> >  1 file changed, 2 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+> > index 7a6fcc96081a..d680bfba7f5d 100644
+> > --- a/drivers/staging/r8188eu/os_dep/osdep_service.c
+> > +++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+> > @@ -117,18 +117,15 @@ void rtw_free_netdev(struct net_device *netdev)
+> >  	struct rtw_netdev_priv_indicator *pnpi;
+> >  
+> >  	if (!netdev)
+> > -		goto RETURN;
+> > +		return;
+
+Actually this function doesn't need to test for a valid "netdev". There are only
+two callers of this function (they are in os_dep/usb_intf.c) and they already test
+the pointer soon before calling rtw_free_netdev().
+
+Therefore, I'll remove the test for a valid "netdev" and (obviously) the code has
+no more need to return at that point in function.
+
+> >  
+> >  	pnpi = netdev_priv(netdev);
+> >  
+> >  	if (!pnpi->priv)
+> > -		goto RETURN;
+> > +		return;
+
+I cannot see how pnpi->priv might ever be NULL. Pavel Skripkin made me notice
+that "in rtw_alloc_etherdev() (I can confirm this information because now I've 
+just read the code), if pnpi->priv allocation fails, then netdev will
+be just freed.". If "netdev" is already free, this function is never called.
+
+Therefore, I'll remove this test too.
+
+> This does not look right.  If netdev is not NULL why does this function skip
+> free_netdev()?
+
+After the two removals I've talked about above, the code will always call 
+vfree(pnpi->priv) and then free_netdev(netdev).
+
+Therefore, the code won't anymore skip free_netdev() and the bug is avoided.
+
+> 
+> Fabio could you follow up with Larry and/or Phillip and see why the code does
+> this?  To me it looks like a potential bug.
+> 
+> Thanks!
+> Ira
+> 
+> >  
+> >  	vfree(pnpi->priv);
+> >  	free_netdev(netdev);
+> > -
+> > -RETURN:
+> > -	return;
+> >  }
+> >  
+> >  int rtw_change_ifname(struct adapter *padapter, const char *ifname)
+> > -- 
+> > 2.34.1
+> > 
+> 
+
+This is how I think to rework rtw_free_netdev():
+
+void rtw_free_netdev(struct net_device *netdev)
+{
+        struct rtw_netdev_priv_indicator *pnpi = netdev_priv(netdev);
+
+        vfree(pnpi->priv);
+        free_netdev(netdev);
+}
+
+Am I missing something?
+
+@Greg: please discard this patch; I'll send another that has the purpose
+to rework rtw_free_netdev() as I showed above for the purpose to avoid 
+redundant tests and avoid the potential skipping of free_netdev() (as Ira 
+has correctly noted, currently we have a bug).
+
+Thanks,
+
+Fabio
+
 
