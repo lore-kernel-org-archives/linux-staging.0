@@ -1,27 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CE9111F;
-	Sat,  2 Apr 2022 09:13:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3227C340EC;
-	Sat,  2 Apr 2022 09:13:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B191366
+	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 09:15:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29F67C340EC;
+	Sat,  2 Apr 2022 09:15:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1648890792;
-	bh=CKBGdL4fzfJl0zSr2Nh3CRBUsgg+gNUR9uNnFCWZvD0=;
+	s=korg; t=1648890921;
+	bh=cmXUTzA3SwdO26GO+w95ET9rjyIfmQ1A+0zYKFbqny8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tiAiScO5KLfylFnjuy07u7WjweWKlRN0OVQ6Qtw32oL1RBje1SaKAU55EIpB568MR
-	 KQNDNFBmx3mabrkDXLB8V99V+j9Iq5PBX62V4SOobkAnzVZuXXcCTDifa5XUBPl9Ol
-	 X424QJCXSCHPRzZlORv/yBhlHRf/DCLXzRqyXl6A=
-Date: Sat, 2 Apr 2022 11:13:09 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-Cc: Ira Weiny <ira.weiny@intel.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: simplify control flow
-Message-ID: <YkgTpS+pzhWPgVIh@kroah.com>
-References: <20220401114635.GA567659@euclid>
- <YkdvzIyz/WGlm2uy@iweiny-desk3>
- <20220401224619.GA71483@euclid>
+	b=NP2r0HcjmaX6Gv+hRfR13xNgNH0Mb9CORjNyYVFU/tKWWk5sUVKfZSewk2Sti/Pcz
+	 FY3gQlHlinVwzr8l9Wqh5vj9MOCJj6NoQ6j5eL7/3ZYcTlZvnZmXJi1t/zg0rA4Q6R
+	 cBjZ4XyhtVuE5evNfhA/jE6CBzcEB9eyS7Jxy+HI=
+Date: Sat, 2 Apr 2022 11:15:18 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sathish Kumar <skumark1902@gmail.com>
+Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8712: Fix multiple blank lines warning
+Message-ID: <YkgUJq8fU+CslCEl@kroah.com>
+References: <20220401093449.6872-1-skumark1902@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,56 +28,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220401224619.GA71483@euclid>
+In-Reply-To: <20220401093449.6872-1-skumark1902@gmail.com>
 
-On Fri, Apr 01, 2022 at 06:46:19PM -0400, Sevinj Aghayeva wrote:
-> On Fri, Apr 01, 2022 at 02:34:04PM -0700, Ira Weiny wrote:
-> > On Fri, Apr 01, 2022 at 07:46:35AM -0400, Sevinj Aghayeva wrote:
-> > > The function iterates an index from 0 to NUM_PMKID_CACHE and returns
-> > > the first index for which the condition is true. If no such index is
-> > > found, the function returns -1. Current code has a complex control
-> > > flow that obfuscates this simple task. Replace it with a loop.
-> > > 
-> > > Also, given the shortened function body, replace the long variable
-> > > name psecuritypriv with a short variable name p.
-> > > 
-> > > Reported by checkpatch:
-> > > 
-> > > WARNING: else is not generally useful after a break or return
-> > > 
-> > > Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-> > 
-> > Wow!  Nice find!  This is a huge clean up.  Extra kudos recognizing that it is
-> > not just the else statement which is broken here!
+On Fri, Apr 01, 2022 at 03:04:49PM +0530, Sathish Kumar wrote:
+> This patch fixes the checkpatch.pl warnings like:
+> CHECK: Please don't use multiple blank lines
+> +
+> +
 > 
-> Thanks! It took me a while to realize what this loop is doing.
-> 
-> > The only issue for the patch is that I don't see any maintainer emailed?
-> > However, I don't see a maintainer listed in the MAINTAINERS file so ...
-> > 
-> > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> 
-> Thanks for the review!
-> 
-> Greg, please do not apply this yet. After I sent out the patch, I
-> noticed the comment at the top of the function:
-> 
-> /*  Ported from 8185: IsInPreAuthKeyList(). (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.) */
-> 
-> So I did a git grep to find the original function and fix it as well,
-> and it looks like there are three copies of the same function in
-> different files:
-> 
-> $ git grep IsInPreAuthKeyList
-> r8188eu/core/rtw_mlme.c:/*  Ported from 8185: IsInPreAuthKeyList(). (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.) */
-> rtl8712/rtl871x_mlme.c: * Ported from 8185: IsInPreAuthKeyList().
-> rtl8723bs/core/rtw_mlme.c:/*  Ported from 8185: IsInPreAuthKeyList(). (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.) */
-> 
-> I will later send a v2 patch that replaces all of them.
+> Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
+> ---
+>  drivers/staging/rtl8712/rtl871x_ioctl_rtl.c | 1 -
+>  drivers/staging/rtl8712/rtl871x_ioctl_set.c | 1 -
+>  drivers/staging/rtl8712/rtl871x_recv.c      | 1 -
+>  drivers/staging/rtl8712/rtl871x_security.c  | 1 -
+>  4 files changed, 4 deletions(-)
 
-No, please do one patch per driver.  These are all different drivers
-(cut/pasted from some original source), so this patch is fine as-is.
-You can make 2 other patches as well for the other drivers.
+I see 2 patches that do differnet things, yet have the same subject and
+changelog text.  Please fix up and resend a v2.
 
 thanks,
 
