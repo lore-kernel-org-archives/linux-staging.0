@@ -1,56 +1,55 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637067C
-	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 11:34:01 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-e1e5e8d9faso137242fac.4
-        for <linux-staging@lists.linux.dev>; Sat, 02 Apr 2022 04:34:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900137C
+	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 11:35:40 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id j83so5302212oih.6
+        for <linux-staging@lists.linux.dev>; Sat, 02 Apr 2022 04:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=V3U+5UMiJybq7zY98DwsaSNVhzwSmjvGiJkV3X+RFBM=;
-        b=24BPX8VpvHlBMEx6hIWdtAG/9S/+iyZLlr/QAmp0Z+5yWJiGHzFhq/uIQdxSKyVYCP
-         enPRmYoZkbFQcW1HpQH8zrb3IRM4d0hYNTbwxbVgEBdL6AG2jt0/HSVAt9robgILFabJ
-         hPkLvUch+hB8OPL87o/mqnhm3QiZhrMUfdzGNvgyVWrVhnz/AJhfBVlruRn8eWEQNGCu
-         c4w8zQ0s4CUgcN34kZe+uGnqzOnVLeqA0YDWuGn26R8g+72dBvLyMw/s+cjtb5JCtN0k
-         NvTn7x2fWQ5Jv/xStKL7yXif078NOV/iO9/fHaI5S9fhUpkKVvCwnsGEVqWwzqQuIz4I
-         iIPQ==
+        bh=tVmxAeV6jn1gWoncdeIJ5il6g0CdD+Hlq/EJxdUklqE=;
+        b=LX19uD64aLiDbq3sb546SA4HLqf42Hkj/oUycVdKLmFoJECd+hM13ExfTEaEPnp2PL
+         2KZsm7KZk4HZb4V+xwi5sbfA3JGGZAX/D+5SNk5btOtJHf6uT2RR2ULjb9KlhkpTm7F1
+         XmYasU+20jlkyQ0EDlHndJu7lWkehb+9JOLlXJR+9yBBR/4B/DXXKmS+W3m9YHlsMfu8
+         HgFtjrjGD7qNUTQvhYOFhghbbKH1dmjzRDvPikJLUswtPre+XZwrflCzE+GrbkHD0fQQ
+         7uG76GGsFNZqmVKV/uVkn7FJqv/mI5i/aCUVRxso0YK5hffxgs/0UvtsF7kncaawG2GU
+         INQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=V3U+5UMiJybq7zY98DwsaSNVhzwSmjvGiJkV3X+RFBM=;
-        b=v+JoigWz7SzGYwz5pEpQ9WzVmA4OZYZ1OI9kXGBZjTVZ/xajk3cLMdfI91Vp94YLoa
-         FJwycYGRVxObl2C+VKRQ77dxmDN32ON7P8ZrnifG5RWzzHWQLmk7nS+c88ZOuMjD7I4S
-         V9eMUy3Nbf0Qi21rwp5530YWBWj7NqmlCFDwxgVESHj5ouiJzP6CqTqokPGoeDZ2dPpl
-         S+I7/GiXliD7wkedrNCa7uswhY+NfxdzV5+f1cctb4kQGskO+6iSDkmQsZS93Zwzgv2P
-         sDIAnb5MYEbO5rWrUsJgudxoDUTnlLUF6mQtq1VzHPJ6IbB9jsIiIMd0fqx0UFBPbo8V
-         AnPw==
-X-Gm-Message-State: AOAM5306/fdgxQBVOrTfXt+7L8yXczFPx+aKDQQirWHerXsL8hvzmcyq
-	bKOYhO82+4ihPRIMq32U2JIZsw==
-X-Google-Smtp-Source: ABdhPJy3rMJldwi8Tb/ncmzg6WyZ80EFa7bQd46QO9bii8Cw9gw35Jy6JhWEPjRky3sVVbphVckt4w==
-X-Received: by 2002:a05:6870:3488:b0:de:eaa5:260b with SMTP id n8-20020a056870348800b000deeaa5260bmr6754153oah.281.1648899240576;
-        Sat, 02 Apr 2022 04:34:00 -0700 (PDT)
+        bh=tVmxAeV6jn1gWoncdeIJ5il6g0CdD+Hlq/EJxdUklqE=;
+        b=T87up6h+dt3OcXoaq3tngSkWIjjFuKCIwGFlsevwiOqjjKF7w1mgmNTwFIBcjJFgWu
+         AhH7rvhzYyTcOZWCfmMOr48eP/qRBLoWk3Rg3mn1oTYJs7MP1ptmwoUaYDKKyc5ucSq2
+         vPd/CNb8nsE2Y3EvnnHJOrCcOhkP6b+O+ANNXAdvWi6G2ryJauKJKNoqbuB0sz8T/vFg
+         MbZ3ta5xcHhR375LLvxGMYKomsyGwDNdjaLzDuZribGZFBl+fjre4pAKxewS2atPmm0Z
+         PgsCu6F7XHHza9XLoObn7lE/C1zIgDLKy7vIWW8hnQtJ0xITOWP7kG9JpCqVihiguTyk
+         Lbsg==
+X-Gm-Message-State: AOAM533v8564neIPza2Nwf6zpDr+yhE9q9BkAGB69fJKssiGY5mIt0VH
+	4SejNlXKDovi4pLWRyhAKyY/uQ==
+X-Google-Smtp-Source: ABdhPJwxMUnytlHFsdF6Bum7FoSq6ZYIQ0IJaVahiou9heXHf6ka4kyt7XPFCWoOXG6HgpUNyhO1og==
+X-Received: by 2002:a05:6808:120e:b0:2f8:6db8:afa0 with SMTP id a14-20020a056808120e00b002f86db8afa0mr6338394oil.283.1648899339624;
+        Sat, 02 Apr 2022 04:35:39 -0700 (PDT)
 Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
-        by smtp.gmail.com with ESMTPSA id p16-20020a05680811d000b002d72ec3a921sm2098566oiv.21.2022.04.02.04.33.57
+        by smtp.gmail.com with ESMTPSA id b188-20020aca34c5000000b002da579c994dsm1998072oia.31.2022.04.02.04.35.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 04:34:00 -0700 (PDT)
-Date: Sat, 2 Apr 2022 08:33:54 -0300
+        Sat, 02 Apr 2022 04:35:39 -0700 (PDT)
+Date: Sat, 2 Apr 2022 08:35:33 -0300
 From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-	Ezequiel Garcia <ezequiel@collabora.com>,
+	kernel@collabora.com,
 	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 16/23] media: rkvdec: h264: Fix reference frame_num
- wrap for second field
-Message-ID: <Ykg0oqJOb/ExafB3@eze-laptop>
+Subject: Re: [PATCH v2 17/23] media: rkvdec: Enable capture buffer holding
+ for H264
+Message-ID: <Ykg1BfGyI7ummQL8@eze-laptop>
 References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
- <20220331193726.289559-17-nicolas.dufresne@collabora.com>
+ <20220331193726.289559-18-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,49 +58,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220331193726.289559-17-nicolas.dufresne@collabora.com>
+In-Reply-To: <20220331193726.289559-18-nicolas.dufresne@collabora.com>
 
-Hi Nicolas,
-
-On Thu, Mar 31, 2022 at 03:37:18PM -0400, Nicolas Dufresne wrote:
-> From: Jonas Karlman <jonas@kwiboo.se>
+On Thu, Mar 31, 2022 at 03:37:19PM -0400, Nicolas Dufresne wrote:
+> In order to support interlaced video decoding, the driver must
+> allow holding the capture buffer so that the second field can
+> be decoded into it.
 > 
-> When decoding the second field in a complementary field pair the second
-> field is sharing the same frame_num with the first field.
-> 
-> Currently the frame_num for the first field is wrapped when it matches the
-> field being decoded, this cause issues to decode the second field in a
-> complementary field pair.
-> 
-> Fix this by using inclusive comparison, less than or equal.
-> 
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 > Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 
-To complete the Signed-off-by chain, can you add your Signed-off-by: at
-the bottom?
+IMO, this patch (and the similar one for Hantro) should come
+after interlaced support is added.
 
 Thanks,
 Ezequiel
 
 > ---
->  drivers/staging/media/rkvdec/rkvdec-h264.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/media/rkvdec/rkvdec.c | 4 ++++
+>  drivers/staging/media/rkvdec/rkvdec.h | 1 +
+>  2 files changed, 5 insertions(+)
 > 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> index a42cf19bcc6d..730f8ebf7f58 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -773,7 +773,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
->  			continue;
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index 1b805710e195..b6376eaa92d7 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -148,6 +148,7 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
+>  		.ops = &rkvdec_h264_fmt_ops,
+>  		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
+>  		.decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
+> +		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
+>  	},
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
+> @@ -404,6 +405,9 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
+>  	cap_fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
+>  	cap_fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
 >  
->  		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
-> -		    dpb[i].frame_num < dec_params->frame_num) {
-> +		    dpb[i].frame_num <= dec_params->frame_num) {
->  			p[i] = dpb[i].frame_num;
->  			continue;
->  		}
+> +	/* Enable format specific queue features */
+> +	vq->subsystem_flags |= desc->subsystem_flags;
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+> index 2f4ea1786b93..e37f1a015fa0 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.h
+> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> @@ -81,6 +81,7 @@ struct rkvdec_coded_fmt_desc {
+>  	const struct rkvdec_coded_fmt_ops *ops;
+>  	unsigned int num_decoded_fmts;
+>  	const u32 *decoded_fmts;
+> +	u32 subsystem_flags;
+>  };
+>  
+>  struct rkvdec_dev {
 > -- 
 > 2.34.1
 > 
