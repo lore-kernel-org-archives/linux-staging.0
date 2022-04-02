@@ -1,41 +1,41 @@
-Received: from mail-oa1-f67.google.com (mail-oa1-f67.google.com [209.85.160.67])
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com [209.85.210.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68AE1363;
-	Sat,  2 Apr 2022 08:51:23 +0000 (UTC)
-Received: by mail-oa1-f67.google.com with SMTP id 586e51a60fabf-d39f741ba0so5128788fac.13;
-        Sat, 02 Apr 2022 01:51:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4631363;
+	Sat,  2 Apr 2022 08:51:26 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id b17-20020a0568301df100b005ce0456a9efso3692292otj.9;
+        Sat, 02 Apr 2022 01:51:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CwyPQSB+WJYU+JkcFUBBvDrf5lBS4YcYc8z0W7DhRMo=;
-        b=DubTEXg4Iq97boyWsG+ES8tg2dBvQdNgO7s3bOR3PAhTsUm1TPc9GqibMunWyFkQi1
-         PAI1grvSPXOAr+LAkhzoE9m4j2fFaPhxX5+pBWv+ACUTBfb7C3yN6RBFKN904E1kcd7E
-         Ii2z18jwsn2VBVRFK9WpYDgT8sWHlPTjAymqlKRf3WZMpwBY6kqAkxnZpgOkewJEI9KD
-         pGuZspgQa779EjH7glXXnpPTH6sfDvaz3p6wgmYX4cKAGwKUlVhq/q61A4HTKuOW3GMC
-         wPeeeX5IayCzDGxTxIq9aO/n8Bw6x/82NDSVwTKaXJI9R+K0X64ucEL8MsA0Ye2Vm1IF
-         gmMQ==
+        bh=ldid4ljpTipmsQhOv6JPWoqFhKtbXsLDYhk2KntAovc=;
+        b=KAFQGvZ0NJ9rVgGYrPkiRPInodeyew81EEkXVadDRY8N6ktZRH5Iqs0gGptd9EAKuV
+         6DEo+8wnwOddDm5nibVVRniAPDTbdG17FbEYMgEA+AbRQwJ/wzei2H3fxkHWEZ0ULFis
+         KOZsrbpkCnfNEPpgbO4LXQnlQHw7QBL18Yqo0mPBEYs2rv1vhRW/sz59H95Jdsh4F6NO
+         pPxC15AqnyFI8YjGJhBU6ekW88/fQk015anivwUZIZeIvTB6Rh0RCsp+bXIi0/ua1ZTl
+         hOaPZC82HOlxvXkey8SypmVvqqbyOcrjYe9WUxDANfP0q7Y9QWCn1RQQxfWn7gNRG+5Q
+         807Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CwyPQSB+WJYU+JkcFUBBvDrf5lBS4YcYc8z0W7DhRMo=;
-        b=ShDcO0zYf5hIBWmSWIgKp+LFHsUK90/asvMBidLM14sy8B+i0PHbW+/jXvIqUdp44O
-         J34f0cLagfpIahWxhOJWxza5ymLhSGGdItS8fufXqoh3ajw/ZEycw0aR0LxktZxT+y7q
-         4jf4Yy+5GhaL5Re8+llvSCjJS0R8ma7fdS3RTW64nHgSxgpGC4TCrJU6Zx4cwyiGEaQE
-         XiiboZIRlxQGu+DC7dUvAxGUlMZORvhhpaS2UwoU9IaLZ/9BZlLUSb7NwDb8bsYKoppb
-         pKwU5p66h+N/yz+vmWpwqytHUj8Dx5kOWiAaXNuYazScNjN2Z0946pC2ZLsacjW8ek97
-         T4Mw==
-X-Gm-Message-State: AOAM530aGOlmO3AHCrFZom54zrzVj1PkyCwoT1WStB44Op/0d/amUgwc
-	I3m/qsS4lV6/HIQnIngLBeg=
-X-Google-Smtp-Source: ABdhPJwHvzC34/jLXSMJglm+fac8tsDNLvgYbrYDMZAEB1F1P7UFN/NhraLjOGiAk2qNsFmMimowsQ==
-X-Received: by 2002:a05:6870:e2c9:b0:dd:b78a:82cd with SMTP id w9-20020a056870e2c900b000ddb78a82cdmr6912349oad.50.1648889482790;
-        Sat, 02 Apr 2022 01:51:22 -0700 (PDT)
+        bh=ldid4ljpTipmsQhOv6JPWoqFhKtbXsLDYhk2KntAovc=;
+        b=JwjRNfGIkEpgOla1dr9nl1qaW73rpwQiMbUYMX+tX+NAQ2M39LOO3EvnSeG1RaISvx
+         g0F5oYhuGhxPIqqGrrhqckqZEH0fqdz6BBWfFoKXH8sWHG5NT8B0XY6/LrvPpnMrrnxo
+         qMth74S8r5slMSzVA3tZBqPG2gpXWtIWR6q79ahIG4eqvCaSX1Ffi+ezAM0sonUcwpGs
+         oxE65X8mE1rwAM5Vqrw/Bdn+uLZ3oWUZZjuJHW/r8R2xKT1tqUG6Qdv72sNNCQEcLI7i
+         qEFTOVBJYKgu7N7MBwdRdwHTgVQ4rznNgcT+rsx/g21aPUNENstQ//ITEAgkXGIUu5cR
+         zQ6g==
+X-Gm-Message-State: AOAM532ytdspTauXsIXkLFDSNjfqJ3AqEmciEdQDq7+cO0Nb3V+WfVS8
+	FCyCoSEwu1UFG/1PNjgaIsU=
+X-Google-Smtp-Source: ABdhPJzJtFaXbMcy+64yaYYRroXmyTyK8j8Gkg7Uj2Kv573XC8okNjixo4oiA7R0G6MyTG46ipjrAQ==
+X-Received: by 2002:a9d:7d96:0:b0:5cd:ae1e:3043 with SMTP id j22-20020a9d7d96000000b005cdae1e3043mr8942959otn.284.1648889485183;
+        Sat, 02 Apr 2022 01:51:25 -0700 (PDT)
 Received: from bertie (072-190-140-117.res.spectrum.com. [72.190.140.117])
-        by smtp.gmail.com with ESMTPSA id m5-20020a056870194500b000d9a0818925sm1911593oak.25.2022.04.02.01.51.22
+        by smtp.gmail.com with ESMTPSA id g25-20020a544f99000000b002da70c710b8sm1947556oiy.54.2022.04.02.01.51.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 01:51:22 -0700 (PDT)
+        Sat, 02 Apr 2022 01:51:24 -0700 (PDT)
 From: Rebecca Mckeever <remckee0@gmail.com>
 To: outreachy@lists.linux.dev
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -44,9 +44,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Rebecca Mckeever <remckee0@gmail.com>
-Subject: [PATCH 5/6] staging: r8188eu: remove unnecessary braces in conditional statements
-Date: Sat,  2 Apr 2022 03:50:47 -0500
-Message-Id: <2b46501bb3965a8cf27e7134407c50551c36b7e8.1648888462.git.remckee0@gmail.com>
+Subject: [PATCH 6/6] staging: r8188eu: remove spaces before tabs
+Date: Sat,  2 Apr 2022 03:50:48 -0500
+Message-Id: <2fd10f393e3bc7381a85d0bfc1ec04a80af4eabb.1648888462.git.remckee0@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1648888461.git.remckee0@gmail.com>
 References: <cover.1648888461.git.remckee0@gmail.com>
@@ -62,48 +62,61 @@ Conform to Linux kernel coding style.
 
 Reported by checkpatch:
 
-WARNING: braces {} are not necessary for single statement blocks
-WARNING: braces {} are not necessary for any arm of this statement
+WARNING: please, no space before tabs
 
 Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/staging/r8188eu/core/rtw_cmd.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 0c659b40aa1c..832bf25b1a83 100644
+index 832bf25b1a83..8ae25cb4246b 100644
 --- a/drivers/staging/r8188eu/core/rtw_cmd.c
 +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -331,13 +331,11 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
- 	struct cmd_priv		*pcmdpriv = &padapter->cmdpriv;
- 	struct mlme_priv	*pmlmepriv = &padapter->mlmepriv;
+@@ -548,9 +548,9 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
  
--	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
-+	if (check_fwstate(pmlmepriv, _FW_LINKED))
- 		rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_SCAN, 1);
--	}
+ 	phtpriv->ht_option = false;
+ 	if (pregistrypriv->ht_enable) {
+-		/* 	Added by Albert 2010/06/23 */
+-		/* 	For the WEP mode, we will use the bg mode to do the connection to avoid some IOT issue. */
+-		/* 	Especially for Realtek 8192u SoftAP. */
++		/*	Added by Albert 2010/06/23 */
++		/*	For the WEP mode, we will use the bg mode to do the connection to avoid some IOT issue. */
++		/*	Especially for Realtek 8192u SoftAP. */
+ 		if ((padapter->securitypriv.dot11PrivacyAlgrthm != _WEP40_) &&
+ 		    (padapter->securitypriv.dot11PrivacyAlgrthm != _WEP104_) &&
+ 		    (padapter->securitypriv.dot11PrivacyAlgrthm != _TKIP_)) {
+@@ -1010,7 +1010,7 @@ u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue)
+ 	u8	res = _SUCCESS;
  
--	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
-+	if (check_fwstate(pmlmepriv, _FW_LINKED))
- 		p2p_ps_wk_cmd(padapter, P2P_PS_SCAN, 1);
--	}
+ 	/* if (!pwrctrlpriv->bLeisurePs) */
+-	/* 	return res; */
++	/*	return res; */
  
- 	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
- 	if (!ph2c)
-@@ -517,11 +515,10 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+ 	if (enqueue) {
+ 		ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
+@@ -1151,8 +1151,8 @@ u8 p2p_protocol_wk_cmd(struct adapter *padapter, int intCmdType)
+ 	}
  
- 	psecuritypriv->authenticator_ie[0] = (unsigned char)psecnetwork->IELength;
+ 	pdrvextra_cmd_parm->ec_id = P2P_PROTO_WK_CID;
+-	pdrvextra_cmd_parm->type_size = intCmdType;	/* 	As the command tppe. */
+-	pdrvextra_cmd_parm->pbuf = NULL;		/* 	Must be NULL here */
++	pdrvextra_cmd_parm->type_size = intCmdType;	/*	As the command tppe. */
++	pdrvextra_cmd_parm->pbuf = NULL;		/*	Must be NULL here */
  
--	if (psecnetwork->IELength - 12 < 255) {
-+	if (psecnetwork->IELength - 12 < 255)
- 		memcpy(&psecuritypriv->authenticator_ie[1], &psecnetwork->IEs[12], psecnetwork->IELength - 12);
--	} else {
-+	else
- 		memcpy(&psecuritypriv->authenticator_ie[1], &psecnetwork->IEs[12], 255);
--	}
+ 	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
  
- 	psecnetwork->IELength = 0;
- 	/*  Added by Albert 2009/02/18 */
+@@ -1378,8 +1378,8 @@ u8 rtw_drvextra_cmd_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 		p2p_ps_wk_hdl(padapter, pdrvextra_cmd->type_size);
+ 		break;
+ 	case P2P_PROTO_WK_CID:
+-		/* 	Commented by Albert 2011/07/01 */
+-		/* 	I used the type_size as the type command */
++		/*	Commented by Albert 2011/07/01 */
++		/*	I used the type_size as the type command */
+ 		p2p_protocol_wk_hdl(padapter, pdrvextra_cmd->type_size);
+ 		break;
+ 	case CHECK_HIQ_WK_CID:
 -- 
 2.32.0
 
