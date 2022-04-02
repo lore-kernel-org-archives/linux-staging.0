@@ -1,228 +1,166 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6363E7A;
-	Sat,  2 Apr 2022 16:22:37 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id yy13so11794122ejb.2;
-        Sat, 02 Apr 2022 09:22:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0E0111D;
+	Sat,  2 Apr 2022 16:34:45 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id a6so847796ejk.0;
+        Sat, 02 Apr 2022 09:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=TpBrMR6oS9V/SbBfjNMiP6m12bFbq6KIwbF80S3aCJ8=;
-        b=EXY019FWntu4G5GGHBNtLLD7ID8nqNnP3oZHC3jJJYj0jeJDsHI7IISoRyxt2NDufZ
-         ofKbd0Ec76vqsHRUmteFxJEcReHngOldz6uJkP/W4b3V6XF9mOinDtTmBKYhcRXKe+8y
-         j+esHv+6RygnvzjCa9T4rd+pqjEQuQXVt2dcdl041YdSzfy/bDOwT/GcKBZqpjYeVyJR
-         yDvzebrlk7vUhKek7iA+oVH+ty/kR8DcIZSfTLHTNDESHQD/xchBrTywgiDR9HOhVJA1
-         RDKrxOBqnlnPigW/Jgqd6eW1uwQ5/Knqrb7AFpb8mYphHCnC2gMzKEcpNOR8HSRPdnJw
-         MGhQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/FUIvc/vDnMsC8g3By0xz2o93YIAaNo0DmbUPR75Tlc=;
+        b=Ioi61ehSCrXnxLXiUDHyumdLEB4WVYi0QVlxNUL2ed3iV843fKZaDve+2MpfC/8G5J
+         x4KZDzHzRvf5A9KYLawd2xkLz3U3C2lc/ofNKczlkanAj5jwaZVkKKkrmeaKbbiaLeof
+         oi8LgC+BF5j3duxC/OEIitiA/o+xBkNhgB09T3wwbJ40k1yBS2K+6FatLnxPu0GHZUrs
+         KmuipXAqwxdBUFU+O19jfc2TBpM2iLafe8ARV9lZaphs7EYb+0iDUvB1wKN/rS0Qt4+s
+         bkHGMxghC9ZADEqlsTctvDu7TyNIYX17XomcLzYbJ5dMwVBxVI7/VkFC/caEdkepdKuL
+         i9dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=TpBrMR6oS9V/SbBfjNMiP6m12bFbq6KIwbF80S3aCJ8=;
-        b=TLxkirUbBkP6qXxfvcif5P2AOxPERC2FvEZJlzyVJjRKrQtqkA9r1U8BJeSmSwdDts
-         2ka8MFn4ZvVbB+MMuhsqP74OqwYp88IpixT827UuS70+ivOOWMCFwAnFjxz56TJOosMF
-         4KjiwmnY5GxsX7gr3vpx2b/oQf9UoSftTbHfqxrUOg0vluGBl7C9ag5N4POAxTRTG23k
-         jxVduBLpiIIxvBKnsAUzCK2/ELdZNq592czyWLVaDcAZTrKBVnDCAdHDA08pxHgJi5Lu
-         DhXRSMt6pm8pUWlBdGeJ+Y7+Xf6bmC3YFNn8mISGVciFodtQ63wo7odNfCzoSeQWjJeK
-         lIAA==
-X-Gm-Message-State: AOAM530lhUUJBNmmAvig7IYj4JazUadWRhMOhnxdDA8CAQXSSOa0MZ8h
-	FRt4pECeUrCYd1QaQrE/sIK9nB4QnmejnTJSB5g=
-X-Google-Smtp-Source: ABdhPJz/6K9Rl99P1P1n3MsOF+mfJYbq/9WGuUQJuwA0GZlt2Hp7WEI55rPdAUk8tGkS1MUES4129we4bdovHByX0iM=
-X-Received: by 2002:a17:907:7704:b0:6cf:48ac:b4a8 with SMTP id
- kw4-20020a170907770400b006cf48acb4a8mr4196371ejc.305.1648916555350; Sat, 02
- Apr 2022 09:22:35 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/FUIvc/vDnMsC8g3By0xz2o93YIAaNo0DmbUPR75Tlc=;
+        b=HtafNI68IXiU3NksqUOOTTi0bNYq9/A9POdoONLwcsE3EWjyDBNmm5Q/Ofuss9+4w0
+         yFmXSl6vltYRql6KfN63/DrAkMMy7ypDTPPLxycFMk/PcYwpnRIxBlByeF97m7JA8B/3
+         6GltemOh+F4w3pcbwulWXw1EEK7dIVcjfmjhroT5tmz7B1e/UA/sSVHcQr3saBGRYo53
+         UuS6OaqLQ335vsKVMlLJw4k2BfYuDP2DknR809CwMB680asgL+QDbBUs2hPKWN1jcQ0F
+         gyh31B2Qaf0EGl83L/UrYv80ji0rzXPFgOEWrYNzbYErcXj0gj9QNrJK2/ipFT1o2e11
+         Pdlg==
+X-Gm-Message-State: AOAM531XLInobe/x9fRGbQAV9aEfO25qorYKN0EcDJgaLJraENKU1Rju
+	em0holpirkWVVT97qQ0Sghg=
+X-Google-Smtp-Source: ABdhPJy2M5JbKf2OjnCPA6qJuPiQbgigSFQO/VYzmNX4uOlglDcSFd71pcHoDc/5PYlOC4uf4RS7eg==
+X-Received: by 2002:a17:906:b107:b0:6e0:a25a:af6e with SMTP id u7-20020a170906b10700b006e0a25aaf6emr4308839ejy.359.1648917284171;
+        Sat, 02 Apr 2022 09:34:44 -0700 (PDT)
+Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id ka22-20020a170907921600b006e4c1ab0bbdsm2191216ejb.207.2022.04.02.09.34.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Apr 2022 09:34:42 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: r8188eu: Use the ARRAY_SIZE() macro
+Date: Sat,  2 Apr 2022 18:34:39 +0200
+Message-Id: <20220402163439.20457-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
- <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com> <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
- <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com> <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
-In-Reply-To: <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Sat, 2 Apr 2022 11:22:23 -0500
-Message-ID: <CAHCN7xLy2381AFLWhLxk5YuRV7C=OwLX=XPXONX8sbkg-SqMjA@mail.gmail.com>
-Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org, 
-	paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>, 
-	"jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media <linux-media@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 1, 2022 at 8:18 AM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
->
-> Le 31/03/2022 =C3=A0 08:53, Benjamin Gaignard a =C3=A9crit :
-> >
-> > Le 30/03/2022 =C3=A0 20:52, Adam Ford a =C3=A9crit :
-> >> On Wed, Mar 30, 2022 at 2:53 AM Benjamin Gaignard
-> >> <benjamin.gaignard@collabora.com> wrote:
-> >>>
-> >>> Le 28/02/2022 =C3=A0 15:08, Benjamin Gaignard a =C3=A9crit :
-> >>>> This series aims to make HEVC uapi stable and usable for hardware
-> >>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro=
-)
-> >>>> and 2 out of the tree drivers (rkvdec and RPI).
-> >>>>
-> >>>> After the remarks done on version 2, I have completely reworked to
-> >>>> patches
-> >>>> split so changelogs are meaningless. I have also drop "RFC" from the
-> >>>> titles.
-> >>>>
-> >>>> Version 4:
-> >>>> - Add num_entry_point_offsets field in  struct
-> >>>> v4l2_ctrl_hevc_slice_params
-> >>>> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
-> >>>> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
-> >>>> - Fix space/tab issue in kernel-doc
-> >>>> - Add patch to change data_bit_offset definition
-> >>>> - Fix hantro-media SPDX license
-> >>>> - put controls under stateless section in v4l2-ctrls-defs.c
-> >>>>
-> >>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
-> >>> Dear reviewers,
-> >>>
-> >>> This series is waiting for your feedback,
-> >> I tried several times with the suggested repos for both the kernel and
-> >> g-streamer without success getting Fluster to pass any tests on the
-> >> imx8mq.  I can try again but I likely won't get to it until this
-> >> weekend.  If I can get it working, I'll test both the 8mq and 8mm.
-> >
-> > Thanks a lot for that.
-> >
-> > Benjamin
->
-> Adam,
->
-> You may need to check if h265parse and v4l2slh265dec are available on you=
-r board.
+Use the ARRAY_SIZE() macro in places where there are open coded
+calculations of the size of arrays.
 
-I ran gst-inspect to see what showed up with 265 in the name.
+ARRAY_SIZE(arr) makes sure that "arr" is an array, it's safer than
+sizeof(arr) / sizeof(arr[0]), and improves readibility.
 
-# gst-inspect-1.0 |grep 265
-libav:  avdec_h265: libav HEVC (High Efficiency Video Coding) decoder
-rtp:  rtph265depay: RTP H265 depayloader
-rtp:  rtph265pay: RTP H265 payloader
-typefindfunctions: video/x-h265: h265, x265, 265
-v4l2codecs:  v4l2slh265dec: V4L2 Stateless H.265 Video Decoder
-videoparsersbad:  h265parse: H.265 parser
+Detected with the help of Coccinelle.
 
-It appears I have both h265parse and v4l2slh265dec.
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c     | 2 +-
+ drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c  | 6 +++---
+ drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c | 2 +-
+ drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c  | 2 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c    | 6 +++---
+ 5 files changed, 9 insertions(+), 9 deletions(-)
 
->
-> fluster check if v4l2slh265dec is working fine with this command line:
->
-> gst-launch-1.0 appsrc num-buffers=3D0 ! h265parse ! v4l2slh265dec ! fakes=
-ink
->
-> so if one of them is missing it won't work.
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 10d5f1222936..2ce130165b39 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -3985,7 +3985,7 @@ unsigned int OnAction(struct adapter *padapter, struct recv_frame *precv_frame)
+ 
+ 	category = frame_body[0];
+ 
+-	for (i = 0; i < sizeof(OnAction_tbl) / sizeof(struct action_handler); i++) {
++	for (i = 0; i < ARRAY_SIZE(OnAction_tbl); i++) {
+ 		ptable = &OnAction_tbl[i];
+ 		if (category == ptable->num)
+ 			ptable->func(padapter, precv_frame);
+diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
+index e7f834b02567..7901d0afa2e7 100644
+--- a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
++++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
+@@ -170,7 +170,7 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
+ {
+ 	u32     hex         = 0;
+ 	u32     i           = 0;
+-	u32     arraylen    = sizeof(array_agc_tab_1t_8188e) / sizeof(u32);
++	u32     arraylen    = ARRAY_SIZE(array_agc_tab_1t_8188e);
+ 	u32    *array       = array_agc_tab_1t_8188e;
+ 	bool		biol = false;
+ 	struct adapter *adapter =  dm_odm->Adapter;
+@@ -446,7 +446,7 @@ enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
+ {
+ 	u32     hex         = 0;
+ 	u32     i           = 0;
+-	u32     arraylen    = sizeof(array_phy_reg_1t_8188e) / sizeof(u32);
++	u32     arraylen    = ARRAY_SIZE(array_phy_reg_1t_8188e);
+ 	u32    *array       = array_phy_reg_1t_8188e;
+ 	bool	biol = false;
+ 	struct adapter *adapter =  dm_odm->Adapter;
+@@ -651,7 +651,7 @@ void ODM_ReadAndConfig_PHY_REG_PG_8188E(struct odm_dm_struct *dm_odm)
+ {
+ 	u32  hex;
+ 	u32  i           = 0;
+-	u32  arraylen    = sizeof(array_phy_reg_pg_8188e) / sizeof(u32);
++	u32  arraylen    = ARRAY_SIZE(array_phy_reg_pg_8188e);
+ 	u32 *array       = array_phy_reg_pg_8188e;
+ 
+ 	hex = ODM_ITRF_USB << 8;
+diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
+index 20ce1571fc26..77b25885c63b 100644
+--- a/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
++++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
+@@ -132,7 +132,7 @@ enum HAL_STATUS ODM_ReadAndConfig_MAC_REG_8188E(struct odm_dm_struct *dm_odm)
+ 
+ 	u32     hex         = 0;
+ 	u32     i;
+-	u32     array_len    = sizeof(array_MAC_REG_8188E) / sizeof(u32);
++	u32     array_len    = ARRAY_SIZE(array_MAC_REG_8188E);
+ 	u32    *array       = array_MAC_REG_8188E;
+ 	bool	biol = false;
+ 
+diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
+index 9dc888a66d09..08cbfce3808d 100644
+--- a/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
++++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
+@@ -138,7 +138,7 @@ enum HAL_STATUS ODM_ReadAndConfig_RadioA_1T_8188E(struct odm_dm_struct *pDM_Odm)
+ 
+ 	u32     hex         = 0;
+ 	u32     i           = 0;
+-	u32     ArrayLen    = sizeof(Array_RadioA_1T_8188E) / sizeof(u32);
++	u32     ArrayLen    = ARRAY_SIZE(Array_RadioA_1T_8188E);
+ 	u32    *Array       = Array_RadioA_1T_8188E;
+ 	bool		biol = false;
+ 	struct adapter *Adapter =  pDM_Odm->Adapter;
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index eb9375b0c660..dd2f9ae59c3f 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -3958,10 +3958,10 @@ static struct iw_statistics *rtw_get_wireless_stats(struct net_device *dev)
+ 
+ struct iw_handler_def rtw_handlers_def = {
+ 	.standard = rtw_handlers,
+-	.num_standard = sizeof(rtw_handlers) / sizeof(iw_handler),
++	.num_standard = ARRAY_SIZE(rtw_handlers),
+ 	.private = rtw_private_handler,
+ 	.private_args = (struct iw_priv_args *)rtw_private_args,
+-	.num_private = sizeof(rtw_private_handler) / sizeof(iw_handler),
+-	.num_private_args = sizeof(rtw_private_args) / sizeof(struct iw_priv_args),
++	.num_private = ARRAY_SIZE(rtw_private_handler),
++	.num_private_args = ARRAY_SIZE(rtw_private_args),
+ 	.get_wireless_stats = rtw_get_wireless_stats,
+ };
+-- 
+2.34.1
 
-gst-launch-1.0 appsrc num-buffers=3D0 ! h265parse ! v4l2slh265dec ! fakesin=
-k
-Setting pipeline to PAUSED ...
-0:00:00.098389938   526 0xaaaaf9d86ac0 ERROR     v4l2codecs-decoder
-gstv4l2decoder.c:725:gst_v4l2_decoder_get_controls:<v4l2decoder2>
-VIDIOC_G_EXT_CTRLS failed: Invalid argument
-ERROR: from element
-/GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0: Driver did not
-report framing and start code method.
-Additional debug info:
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codech265dec.c(155):
-gst_v4l2_codec_h265_dec_open ():
-/GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0:
-gst_v4l2_decoder_get_controls() failed: Invalid argument
-ERROR: pipeline doesn't want to preroll.
-ERROR: from element
-/GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0: Could not
-initialize supporting library.
-Additional debug info:
-../subprojects/gst-plugins-base/gst-libs/gst/video/gstvideodecoder.c(2909):
-gst_video_decoder_change_state ():
-/GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0:
-Failed to open decoder
-ERROR: pipeline doesn't want to preroll.
-Failed to set pipeline to PAUSED.
-Setting pipeline to NULL ...
-Freeing pipeline ...
-
-Does this mean I have a wrong version of the kernel and/or incomplete patch=
-es?
-
-adam
->
-> Regards,
-> Benjamin
->
-> >
-> >>
-> >> adam
-> >>> Thanks,
-> >>> Benjamin
-> >>>
-> >>>> Benjamin
-> >>>>
-> >>>>
-> >>>> Benjamin Gaignard (12):
-> >>>>     media: uapi: HEVC: Add missing fields in HEVC controls
-> >>>>     media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
-> >>>>       prefix
-> >>>>     media: uapi: HEVC: Add document uAPI structure
-> >>>>     media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS
-> >>>> as a
-> >>>>       dynamic array
-> >>>>     media: uapi: Move parsed HEVC pixel format out of staging
-> >>>>     media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
-> >>>> control
-> >>>>     media: uapi: Move the HEVC stateless control type out of staging
-> >>>>     media: controls: Log HEVC stateless control in .std_log
-> >>>>     media: uapi: Create a dedicated header for Hantro control
-> >>>>     media: uapi: HEVC: fix padding in v4l2 control structures
-> >>>>     media: uapi: Change data_bit_offset definition
-> >>>>     media: uapi: move HEVC stateless controls out of staging
-> >>>>
-> >>>> Hans Verkuil (3):
-> >>>>     videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
-> >>>>     v4l2-ctrls: add support for dynamically allocated arrays.
-> >>>>     vivid: add dynamic array test control
-> >>>>
-> >>>>    .../userspace-api/media/drivers/hantro.rst    |   5 -
-> >>>>    .../media/v4l/ext-ctrls-codec-stateless.rst   | 833
-> >>>> ++++++++++++++++++
-> >>>>    .../media/v4l/ext-ctrls-codec.rst             | 780
-> >>>> ----------------
-> >>>>    .../media/v4l/pixfmt-compressed.rst           |   7 +-
-> >>>>    .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
-> >>>>    .../media/v4l/vidioc-queryctrl.rst            |   8 +
-> >>>>    .../media/videodev2.h.rst.exceptions          |   5 +
-> >>>>    .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
-> >>>>    drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
-> >>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
-> >>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
-> >>>>    drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
-> >>>>    drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
-> >>>>    drivers/staging/media/hantro/hantro_drv.c     |  27 +-
-> >>>>    drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
-> >>>>    drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
-> >>>>    .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
-> >>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
-> >>>>    include/media/hevc-ctrls.h                    | 250 ------
-> >>>>    include/media/v4l2-ctrls.h                    |  48 +-
-> >>>>    include/uapi/linux/hantro-media.h             |  19 +
-> >>>>    include/uapi/linux/v4l2-controls.h            | 439 +++++++++
-> >>>>    include/uapi/linux/videodev2.h                |  13 +
-> >>>>    23 files changed, 1697 insertions(+), 1170 deletions(-)
-> >>>>    delete mode 100644 include/media/hevc-ctrls.h
-> >>>>    create mode 100644 include/uapi/linux/hantro-media.h
-> >>>>
