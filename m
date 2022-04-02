@@ -1,87 +1,81 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57461186B;
-	Sat,  2 Apr 2022 17:57:02 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id yy13so12095308ejb.2;
-        Sat, 02 Apr 2022 10:57:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267081FA2
+	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 20:47:31 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id g20so6731633edw.6
+        for <linux-staging@lists.linux.dev>; Sat, 02 Apr 2022 13:47:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BVxMHUicLbUH3Hvb1PPfVYvYyoskkvyv49vbgbrFCNo=;
-        b=l4c6G01X/mM7+1GnZ7oTuCLmtLgPbKG3mx7SbFPIku+ccwGTElZ0p+W8JpJcckG2wh
-         /lF6CkMeckAATTx3qq8eCxC0mdDSJ0VT019mKzu8JOetLhqQuR09W5RVyrR1UzGEDt7H
-         knZw+WaqR0Sidvgu5QJrnqYYMGo1Y1pb08ICafpgzDjkd/Q6yIWrf7dgseR/JD945Em3
-         9BH+Nb3SU6TlJBW8YtlSz/fuKkv3a9zHjIUAn2x7LKtTPE+BqSFW9l9bishHF4Eei2fe
-         fJhs+n3r7vBmF7oQn92ysEu3AeNjnZ7OlVofn2YH8295+lgWegZ90Ap6GMNXlUY+LxGh
-         c2sw==
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=g31uGSPwPMWewxfQR13fcVJH7Aw4CAneBT6TuPz0pyw=;
+        b=GkFVdk4CcIgbip16DYwzTk93slGlP4VxK4SjUKxFM+RSwqm+odkuGpwemzBxpL5e/d
+         +k5bNxJU3h1RkY19XdzPABWBUop9L120f2EqmM8zbHC99RMheR2usvUpQght/mgURWga
+         OcX+XsBuWOBBZTrCkmWk6xjRqb0cv5vhNkRLHZesnMwKTIE5lYC0dDKcMBZRVzBSWvEk
+         ALLZ5RXpVEgU3VYoJmt5BaOON7BXqpM0H85FplGN3UjGvYxC4ygHc7CTx9TVsJh9Kvl4
+         uqfZRntJ+HDuNLzDxOT5luEaGd2AXjv46zUTAsdgU1Ka/c1UzonGHQKt8lz+KFPj1Rnz
+         14fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BVxMHUicLbUH3Hvb1PPfVYvYyoskkvyv49vbgbrFCNo=;
-        b=pMg3g7CJu2U53hSc9teVTIuYQQSdrADXaWbvp1lsOWxC0/sUJuZV5s9znFCSNqY6AV
-         GD28GpRrVkM0G+Z59NRfUk1LeuzrqWWCngL+Hr4sSS3jxtBKEVbql+uCyyf6Raxl4l+T
-         KqpmO7+itti0CLUkBmk+NwKXidTtxxiCAWv1oq0Ku6qa6yCVjfb4hWudvbJ/GUR+49rj
-         j3vSV9VwnSWeALL/ZsXh06zAm9up30vAeiYMa2Q2GS0Pjf41RJIGMbhCBXVLAdsiVOJ1
-         fr02kJ3HYfntViwda0QU1qlz5YS6eY0THLJP+TLygyJ8AsjXTPR0dGxM0U5bhaU+cbOr
-         CMHw==
-X-Gm-Message-State: AOAM533tJedNb+Z3yGc1j9FoKkDvqYegcGqBLQ1fmD8POS5HrtYFGXzk
-	LlCUGfqKMOSChD1cjdqLRXY=
-X-Google-Smtp-Source: ABdhPJxRkR3w6MzpTeXo9b3BtpKvfUhBJrw6SYUseLvbqksVCDq8E3opTpW2w3JsDEAmAT8cwPaL5Q==
-X-Received: by 2002:a17:907:62a9:b0:6da:7953:4df0 with SMTP id nd41-20020a17090762a900b006da79534df0mr4472210ejc.316.1648922220505;
-        Sat, 02 Apr 2022 10:57:00 -0700 (PDT)
-Received: from localhost.localdomain (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
-        by smtp.gmail.com with ESMTPSA id hs12-20020a1709073e8c00b006dfd7dee980sm2330857ejc.30.2022.04.02.10.56.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 10:56:59 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: sm750fb: Call iounmap() to free mapped bus memory
-Date: Sat,  2 Apr 2022 19:56:55 +0200
-Message-Id: <20220402175655.31512-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=g31uGSPwPMWewxfQR13fcVJH7Aw4CAneBT6TuPz0pyw=;
+        b=efto6RHqzDLQI06LeJ2iDgZfrhvyyCQ+1v7s4dXR7hEm0IbRX0Nn8duFRjIUv+Dqv5
+         e6YbVL0NxrfcY4jbXvi2Rmxl88GTaVG8Vd2J2Yv0efP+N9doUcLsFdAR5BwNHpxbo+gX
+         dUmX/PizZXaD0CNqs0fq16E7sw8zCa+eK7J87JE3azeRqLwEQ3hRHETCDqLTgfTVLypN
+         6izEjqR7U9SG9RZTIiXEnC/u2bKiKNEGyQJ64uZOJ7W+CTg3gGhm/gCO+i8A1BVfYDYp
+         RS5ZjMoI04XLCUYcC2GG0bn+ICUMWgVh2iVcsO0FpsdsKPMfQjLNXz6tq1/zoIaMZCAz
+         /eJA==
+X-Gm-Message-State: AOAM531uNH4ztyTY8h1Zs1si1rX3rBhj1FIsZbu59+e8boLoGdA/NUY1
+	B1ZRE+kj2J7kY7IZiyOX4gs=
+X-Google-Smtp-Source: ABdhPJx65AtVjYJPqt7EjkR34GR2H20ET2zuI1GusFwr0yE3N8N0vgIomKhPw6h20J2TnplqfTB00g==
+X-Received: by 2002:a05:6402:1753:b0:41c:c12d:c1e2 with SMTP id v19-20020a056402175300b0041cc12dc1e2mr331748edx.227.1648932449322;
+        Sat, 02 Apr 2022 13:47:29 -0700 (PDT)
+Received: from [192.168.0.253] (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
+        by smtp.gmail.com with ESMTPSA id dm11-20020a170907948b00b006cf488e72e3sm2505910ejc.25.2022.04.02.13.47.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Apr 2022 13:47:28 -0700 (PDT)
+Message-ID: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
+Date: Sat, 2 Apr 2022 22:47:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ straube.linux@gmail.com
+From: Michael Straube <straube.linux@gmail.com>
+Subject: staging: r8188eu: how to handle nested mutex under spinlock
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If ioremap_wc() fails, the code jumps to the "exit" label and forgets to
-free the bus memory mapped into "sm750_dev->pvReg". Mapped bus memory must
-always be freed by calling iounmap().
+Hi all,
 
-Call iounmap(sm750_dev->pvReg) when the above-mentioned failures happen.
+smatch reported a sleeping in atomic context.
 
-The site of the missing iounmap() has been detected by Smatch.
+rtw_set_802_11_disassociate() <- disables preempt
+-> _rtw_pwr_wakeup()
+    -> ips_leave()
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/sm750fb/sm750_hw.c | 1 +
- 1 file changed, 1 insertion(+)
+rtw_set_802_11_disassociate() takes a spinlock and ips_leave() uses a
+mutex.
 
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index a7c6eb07b62e..55cb00e8b0d1 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -81,6 +81,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	sm750_dev->pvMem =
- 		ioremap_wc(sm750_dev->vidmem_start, sm750_dev->vidmem_size);
- 	if (!sm750_dev->pvMem) {
-+		iounmap(sm750_dev->pvReg);
- 		pr_err("Map video memory failed\n");
- 		ret = -EFAULT;
- 		goto exit;
--- 
-2.34.1
+I'm fairly new to the locking stuff, but as far as I know this is not a
+false positive since mutex can sleep, but that's not allowed under a
+spinlock.
 
+What is the best way to handle this?
+I'm not sure if converting the mutex to a spinlock (including all the
+other places where the mutex is used) is the right thing to do?
+
+thanks,
+Michael
