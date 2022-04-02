@@ -1,41 +1,41 @@
-Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com [209.85.160.65])
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com [209.85.167.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572D51363;
-	Sat,  2 Apr 2022 08:51:18 +0000 (UTC)
-Received: by mail-oa1-f65.google.com with SMTP id 586e51a60fabf-d6ca46da48so5136964fac.12;
-        Sat, 02 Apr 2022 01:51:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3467F1363;
+	Sat,  2 Apr 2022 08:51:21 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id e4so5075299oif.2;
+        Sat, 02 Apr 2022 01:51:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vf9XrnRNNEu/g7WX3Cp+ZJwmHe6lW1eduApC7K6BbhE=;
-        b=j4xXeAsTbXwdT377xyxJfFrgd59iWXp7ELSyJv/EanKnQ6DUqM7TKGIHzdUAJwBhho
-         IfP92/Mu4xkb7coNtVbXepdb/BDiVtnO/ri84k0s5IenWecqphAeZiDhCpKLiikTU+Le
-         iJxeo8FeZ5r55plXaqBWsRyfw9tioVsq2pyYtxMggElcaVnSqMJ4rjjgn1lnJ2bmnACv
-         m6HfGppRv2L5jJYOFopWEj9iTHX1qjv1kHfy3BOqaZg1vPUL6Vwx7TQ48KeRQfZmrEc9
-         8p8IPjIaOIflSh+Klx1YPKYCicJ4SqF7Ep6mWy6uzd/Tur6gHbU4eZjvbZwcukbbeZBb
-         t+mw==
+        bh=dsvg2OPb+FuOq6QpPd6PmHwu11pbVJX0wlikRs5/Wus=;
+        b=RGOfLxghPwV+kPX7AQTR+zDf/CJEWHKRESbsvHUIpiBM6PEga0LCzHFs66cHxpzgKm
+         jsvZLVPrNUTRm9n52Qz8RmGluY2lEVgCxoko5jofqv3ei1S9+m9iOOmQuxP8GBZPaxQX
+         YCOLiVl9utI4JNC9PuBKgqa6Ynmy5nwIlJloCA+DwI4Pf8n1oWzWz+u0aMfOpLIuRGje
+         POK1WBHC+bKlEVFdyqS7U7YsAWSKOnNtTecYR830P3bwcWQCGH8NmZ29MoHBMtTDn/mx
+         OORf/gDhMe1uKP0C96pbWUUWdE8WP3ak5JdiTaS5luhJIje71/O4hXJFXhKbm7tUMiMH
+         UCaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vf9XrnRNNEu/g7WX3Cp+ZJwmHe6lW1eduApC7K6BbhE=;
-        b=VY+TPtzD9XJ45nQFPcSd9HA6HViPdUH7vA7C3utiVX/yKSwF3U3TLgrKF9K4wID+X0
-         MKN/qYEWAs4skHGdahauj70jGjaLu/u834UAd9JHInY+P5Qz1nJ/9TMHsXt6DF0+Ef2M
-         eZASY3G8JymZyaJtq3ssU74M/xaWwZTKEQ1MlB4CmSKb89y6bNn7oMDIkM5gHeMnete9
-         WNcgpbWY/NxWqF/h+7U2PYNFBZY8qdjY+Kc0RsIXELQ7TLrect76JpnO4Lh7sfUbAc2h
-         FuBGgUApi3FrjdXu3hEYRYL2Lf3cjrtigEd/6ea+vSI28iNmADWxZ1fONUVRXzufbsZt
-         p03w==
-X-Gm-Message-State: AOAM531FkbgWKH0TxRNc8JNJ0GBveVmLUXkRQEXdpB2oVGk+8BF6J7AU
-	bxjZWLZKKdBTpmlTG87BdqE=
-X-Google-Smtp-Source: ABdhPJz0isEyVWmgEv8MhEfi7jtm1pbgdsRBYf6wjvSELYX1zdlwt+fTQ0mw2iorYuRZP969f1KQXw==
-X-Received: by 2002:a05:6871:787:b0:df:f1a:2d9c with SMTP id o7-20020a056871078700b000df0f1a2d9cmr6599085oap.1.1648889477542;
-        Sat, 02 Apr 2022 01:51:17 -0700 (PDT)
+        bh=dsvg2OPb+FuOq6QpPd6PmHwu11pbVJX0wlikRs5/Wus=;
+        b=iR6euCXYSzwKu1PCayWNSmqJj8G5CqSnaoNqDYq9S8NKpIPqLAyx3VITuMcRm9QLtk
+         x5EnQ29T276SVU8axwenr30rmzAswmbRkPRCv49QhXVhVHla7UXOac5wEJhudlnZZf9F
+         +z1kbVkSwoXDbM9vF+qsyDA/p5udAx3XeHg2ObTHLM1fuqVVGgZOmMMlIqM41gBqJrfj
+         oh91q1VnXtVUJooJuD01YI5njwfUJhQ68YmkQS5LbXxGXemX0DdF2IoyZ93s9LmCkbut
+         4nn2j7fpTN1TXqNyOXclENvmIU/h+RZf0pVPyITUAi4HVfXxgyA5Pei9HxSQqIYYuvtj
+         +YWQ==
+X-Gm-Message-State: AOAM5336f3USsMIWu+qZktz2ZyXosKVvZfsqqdS+1Os/1f3hfIgn5ODS
+	fjrqdBPEvlKDC+B3oSnOx17mCmb7YQTK2w==
+X-Google-Smtp-Source: ABdhPJwoPr/yNxlNco+MBnjGbe6z2GYhCoF34vsMysOvLuORVPIv7QjCe6vQqUcHd8o8Nyro437AZw==
+X-Received: by 2002:a05:6808:1883:b0:2da:3ed2:68cf with SMTP id bi3-20020a056808188300b002da3ed268cfmr6561466oib.204.1648889480241;
+        Sat, 02 Apr 2022 01:51:20 -0700 (PDT)
 Received: from bertie (072-190-140-117.res.spectrum.com. [72.190.140.117])
-        by smtp.gmail.com with ESMTPSA id bg39-20020a056820082700b00324c8eba341sm2074930oob.18.2022.04.02.01.51.17
+        by smtp.gmail.com with ESMTPSA id q11-20020a4a330b000000b003289cbe97c6sm2057675ooq.13.2022.04.02.01.51.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 01:51:17 -0700 (PDT)
+        Sat, 02 Apr 2022 01:51:19 -0700 (PDT)
 From: Rebecca Mckeever <remckee0@gmail.com>
 To: outreachy@lists.linux.dev
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -44,9 +44,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Rebecca Mckeever <remckee0@gmail.com>
-Subject: [PATCH 3/6] staging: r8188eu: correct misspelling in comment "conider" -> "consider"
-Date: Sat,  2 Apr 2022 03:50:45 -0500
-Message-Id: <5799315f84e50db2a7d05b74cd4ed9ec2f28a8e2.1648888461.git.remckee0@gmail.com>
+Subject: [PATCH 4/6] staging: r8188eu: format block comments
+Date: Sat,  2 Apr 2022 03:50:46 -0500
+Message-Id: <0387f3df49d89c17acf96cf072e70c98e81e58f7.1648888462.git.remckee0@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1648888461.git.remckee0@gmail.com>
 References: <cover.1648888461.git.remckee0@gmail.com>
@@ -58,28 +58,72 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Correct spelling typo. Reported by checkpatch:
+Add ' * ' or ' ' to beginning of block comment lines
+to conform to Linux kernel coding style.
 
-CHECK: 'conider' may be misspelled - perhaps 'consider'?
+Reported by checkpatch:
+
+WARNING: Block comments use * on subsequent lines
 
 Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/core/rtw_cmd.c | 29 +++++++++++++-------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 09fde5b23ce2..2e135bbd836a 100644
+index 2e135bbd836a..0c659b40aa1c 100644
 --- a/drivers/staging/r8188eu/core/rtw_cmd.c
 +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -293,7 +293,7 @@ int rtw_cmd_thread(void *context)
- 				rtw_free_cmd_obj(pcmd);
- 			else
- 				/* todo: !!! fill rsp_buf to pcmd->rsp if (pcmd->rsp!= NULL) */
--				pcmd_callback(pcmd->padapter, pcmd);/* need conider that free cmd_obj in rtw_cmd_callback */
-+				pcmd_callback(pcmd->padapter, pcmd);/* need consider that free cmd_obj in rtw_cmd_callback */
- 		} else {
- 			rtw_free_cmd_obj(pcmd);
- 		}
+@@ -12,9 +12,9 @@
+ #include "../include/rtl8188e_dm.h"
+ 
+ /*
+-Caller and the rtw_cmd_thread can protect cmd_q by spin_lock.
+-No irqsave is necessary.
+-*/
++ * Caller and the rtw_cmd_thread can protect cmd_q by spin_lock.
++ * No irqsave is necessary.
++ */
+ 
+ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ {
+@@ -97,14 +97,13 @@ static void _rtw_free_cmd_priv(struct cmd_priv *pcmdpriv)
+ }
+ 
+ /*
+-Calling Context:
+-
+-rtw_enqueue_cmd can only be called between kernel thread,
+-since only spin_lock is used.
+-
+-ISR/Call-Back functions can't call this sub-function.
+-
+-*/
++ * Calling Context:
++ *
++ * rtw_enqueue_cmd can only be called between kernel thread,
++ * since only spin_lock is used.
++ *
++ * ISR/Call-Back functions can't call this sub-function.
++ */
+ 
+ static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+ {
+@@ -319,10 +318,10 @@ int rtw_cmd_thread(void *context)
+ }
+ 
+ /*
+-rtw_sitesurvey_cmd(~)
+-	### NOTE:#### (!!!!)
+-	MUST TAKE CARE THAT BEFORE CALLING THIS FUNC, YOU SHOULD HAVE LOCKED pmlmepriv->lock
+-*/
++ * rtw_sitesurvey_cmd(~)
++ *	### NOTE:#### (!!!!)
++ *	MUST TAKE CARE THAT BEFORE CALLING THIS FUNC, YOU SHOULD HAVE LOCKED pmlmepriv->lock
++ */
+ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num,
+ 	struct rtw_ieee80211_channel *ch, int ch_num)
+ {
 -- 
 2.32.0
 
