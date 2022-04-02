@@ -1,81 +1,174 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5758A7C;
-	Sat,  2 Apr 2022 11:48:36 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id u16so7670505wru.4;
-        Sat, 02 Apr 2022 04:48:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A4D7C
+	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 12:03:50 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id 12so5309673oix.12
+        for <linux-staging@lists.linux.dev>; Sat, 02 Apr 2022 05:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sLXbcmO5F8pv8rU06HtWAEl2LZNlFUBFepYo7bqA8sQ=;
-        b=YZ0ff4QfkkKYik0Vim4MSpP3bN0N0LcK+nM0VE1FGCerrllFUhIfVbhPJZSGOq9UY2
-         rm++WGs1Uro1wZ9AqpC08iVStCTiZf9w+0aj6NM6GdHlV/IgA8MhU3YqTg9J3dYmoTmQ
-         ESa/8d1mte243ArJihnXqBeB55SdB5UWhpcKzn20c1R7oUmV7kuuNY+qdcSTqCithHDp
-         qn5TN4a2bFyfN52cjMmDBsc7elP1Ss8qh2mWnr9cyIRHruTO/eGkkq4sayiT4rpdHhhN
-         hYHkqNk9GL4jqwSiYdjfYXQjf/3+EgnjMqUbRTYjP/KT0dB+8KYjety3U5a9NfpngyrB
-         +Dng==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=MUMGXPrqhpvIg0z7EbjNFhlD2pXd3vJXCzo/3QPQm0U=;
+        b=slPzghhizm6vOrspQTwF79a4wz9zjj1ZH4K8G7OATmi+KyjLTur1IHmXK8yG200QTg
+         WcfNxzSC3ZpkCivqbqjidMFbuOwb7ZBuDDLS4BOJQPxDR9xdKgJDpS99cA4J0Awvfozw
+         oec1zWyrL14gIOo6XcDUrNCZiApNVVixg9UCe5OzDIhl1Bca0hsZIreOZdDvYg/U6Oct
+         Kcc/EE4S6pE9jPYz+64zk1AZyfJRrHJP4bW5zBffvnRJTiyF59xmwsMZVo35+brRfeJq
+         jClmkNFUGKTL1wXGtcIkfwe71TI6OjJOFLCpMSaak87MFqpsLkFHYFd6Yk23S6L7T6lr
+         oo0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sLXbcmO5F8pv8rU06HtWAEl2LZNlFUBFepYo7bqA8sQ=;
-        b=dNi1ffZsKBF3R8BuATUYxdQTfhznBaLq3FPDboWmg0uH2QPzVpwr6X/9GlZ0nTg31p
-         w36GXdYBhwyQSztg2Z3qbJuJt5W92k/Mz9o7dgW/6bPZ2NQPOGJ4kM2He3uOdQeA7+3E
-         8At08VrdtSYtEQ7a2gzzHUEQsh9XitSUzbPvcpu0OzGOa2Gu+0NeFN50LcqFbYuEUFUP
-         B1J5BO1gmLS31PViGJQNcvEVto9OgTED7953wFDxeImz6sdlXOi/X9v8n8ypCfb7YD6u
-         lHnaI3TBhZ5GTXkNnS9/S0ebwj9AlB5bCdLO3ClBRohbTqDh6VLttqoXLbCc1AqPtccr
-         6bEQ==
-X-Gm-Message-State: AOAM532xYKADCRncJoqAdpSwwzFfzdn2uLcWL3ACnEe53lm+Qz9XXYBO
-	DeB76o5TNqW1iisA8gBce+M=
-X-Google-Smtp-Source: ABdhPJzlEQrZpBfNWxy5rUyYWm2MUxbS9tdhMq6oiwzO860+COc7AiCOzFMqZeStqkrybW2oOky2DQ==
-X-Received: by 2002:a5d:6d8b:0:b0:203:f9b4:be1d with SMTP id l11-20020a5d6d8b000000b00203f9b4be1dmr11020010wrs.298.1648900114696;
-        Sat, 02 Apr 2022 04:48:34 -0700 (PDT)
-Received: from alaa-emad ([197.57.138.121])
-        by smtp.gmail.com with ESMTPSA id v1-20020adff681000000b00205f21617d5sm4532563wrp.105.2022.04.02.04.48.33
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MUMGXPrqhpvIg0z7EbjNFhlD2pXd3vJXCzo/3QPQm0U=;
+        b=EFsZz6wkRLZsk0Wy3gxRUb2373aBRQZmMtV2WKx0xB7A/Tz71qR3S6DVO1T/Qxq4JK
+         mVR3IDtu5C1yZ+6fgV0Uk3sfYLTWdN3zal0gTKqjhvLOX3qYEQyZmIvHvWc5YfxLJFwn
+         ZpojSIH/5HdRuc8BYDLCf4bqOeaxvX5oOFFHkZU/g+giwCITm5klr515jVWbxUVRkxNg
+         zwKvosQEgwJUnBauX7Fw6BG3mZgg6H9cSIfDjQA8POQNwV5pQO25XCxX3BDTX87HNatr
+         FrwTZi5Z6oSpfZN4me7AcUHN/5/Q6INS/hHlp0bsOOFYG0RmKfNahlP/WWgYHugatyD6
+         +X3w==
+X-Gm-Message-State: AOAM533ZpDaXMR/VaEHlFs6ElxYfunS0gh0KfqRu6nvsq2PmHVYV2pud
+	vMNoPDlbFyfCvY2uFHgsCbC40dVnC9KCjg==
+X-Google-Smtp-Source: ABdhPJyVm3SEe6m69LmK1R0CuNduK1Owo1bZ9uOPeNTUVOBr/U7jLy0gVAnDVQbwrRzI5OjhF5gZqA==
+X-Received: by 2002:a05:6808:1809:b0:2da:3311:3290 with SMTP id bh9-20020a056808180900b002da33113290mr6709699oib.295.1648901029264;
+        Sat, 02 Apr 2022 05:03:49 -0700 (PDT)
+Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
+        by smtp.gmail.com with ESMTPSA id q12-20020a4ad54c000000b003245ac0a745sm2082881oos.22.2022.04.02.05.03.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 04:48:34 -0700 (PDT)
-From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	jerome.pouiller@silabs.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	eng.alaamohamedsoliman.am@gmail.com
-Subject: [PATCH] staging: wfx: remove space at the start of a line
-Date: Sat,  2 Apr 2022 13:48:31 +0200
-Message-Id: <20220402114831.14977-1-eng.alaamohamedsoliman.am@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Sat, 02 Apr 2022 05:03:48 -0700 (PDT)
+Date: Sat, 2 Apr 2022 09:03:43 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kernel@collabora.com,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 06/23] media: h264: Increase reference lists size to 32
+Message-ID: <Ykg7n2QM/TjH7Vro@eze-laptop>
+References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
+ <20220331193726.289559-7-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220331193726.289559-7-nicolas.dufresne@collabora.com>
 
-Fix " WARNING: please, no spaces at the start of a line"
-Reported by checkpatch
+On Thu, Mar 31, 2022 at 03:37:08PM -0400, Nicolas Dufresne wrote:
+> This is to accommodate support for field decoding, which splits the top
+> and the bottom references into the reference list.
+> 
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 
-Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
----
- drivers/staging/wfx/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-diff --git a/drivers/staging/wfx/main.c b/drivers/staging/wfx/main.c
-index b93b16b900c8..e575a81ca2ca 100644
---- a/drivers/staging/wfx/main.c
-+++ b/drivers/staging/wfx/main.c
-@@ -170,7 +170,7 @@ bool wfx_api_older_than(struct wfx_dev *wdev, int major, int minor)
-  *
-  * The PDS file is an array of Time-Length-Value structs.
-  */
-- int wfx_send_pds(struct wfx_dev *wdev, u8 *buf, size_t len)
-+int wfx_send_pds(struct wfx_dev *wdev, u8 *buf, size_t len)
- {
- 	int ret, chunk_type, chunk_len, chunk_num = 0;
- 
--- 
-2.35.1
-
+> ---
+>  drivers/media/v4l2-core/v4l2-h264.c        | 6 +++---
+>  drivers/staging/media/hantro/hantro_hw.h   | 6 +++---
+>  drivers/staging/media/rkvdec/rkvdec-h264.c | 6 +++---
+>  include/media/v4l2-h264.h                  | 8 ++++----
+>  4 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
+> index afbfcf78efe4..4b46b36526c0 100644
+> --- a/drivers/media/v4l2-core/v4l2-h264.c
+> +++ b/drivers/media/v4l2-core/v4l2-h264.c
+> @@ -212,7 +212,7 @@ static int v4l2_h264_b1_ref_list_cmp(const void *ptra, const void *ptrb,
+>   * v4l2_h264_build_p_ref_list() - Build the P reference list
+>   *
+>   * @builder: reference list builder context
+> - * @reflist: 16 sized array used to store the P reference list. Each entry
+> + * @reflist: 32 sized array used to store the P reference list. Each entry
+>   *	     is a v4l2_h264_reference structure
+>   *
+>   * This functions builds the P reference lists. This procedure is describe in
+> @@ -235,9 +235,9 @@ EXPORT_SYMBOL_GPL(v4l2_h264_build_p_ref_list);
+>   * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
+>   *
+>   * @builder: reference list builder context
+> - * @b0_reflist: 16 sized array used to store the B0 reference list. Each entry
+> + * @b0_reflist: 32 sized array used to store the B0 reference list. Each entry
+>   *		is a v4l2_h264_reference structure
+> - * @b1_reflist: 16 sized array used to store the B1 reference list. Each entry
+> + * @b1_reflist: 32 sized array used to store the B1 reference list. Each entry
+>   *		is a v4l2_h264_reference structure
+>   *
+>   * This functions builds the B0/B1 reference lists. This procedure is described
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index 2bc6b8f088f5..292aaaabaf24 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -69,9 +69,9 @@ struct hantro_h264_dec_ctrls {
+>   * @b1:		B1 reflist
+>   */
+>  struct hantro_h264_dec_reflists {
+> -	struct v4l2_h264_reference p[HANTRO_H264_DPB_SIZE];
+> -	struct v4l2_h264_reference b0[HANTRO_H264_DPB_SIZE];
+> -	struct v4l2_h264_reference b1[HANTRO_H264_DPB_SIZE];
+> +	struct v4l2_h264_reference p[V4L2_H264_REF_LIST_LEN];
+> +	struct v4l2_h264_reference b0[V4L2_H264_REF_LIST_LEN];
+> +	struct v4l2_h264_reference b1[V4L2_H264_REF_LIST_LEN];
+>  };
+>  
+>  /**
+> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> index 3c7f3d87fab4..dff89732ddd0 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> @@ -100,9 +100,9 @@ struct rkvdec_h264_priv_tbl {
+>  #define RKVDEC_H264_DPB_SIZE 16
+>  
+>  struct rkvdec_h264_reflists {
+> -	struct v4l2_h264_reference p[RKVDEC_H264_DPB_SIZE];
+> -	struct v4l2_h264_reference b0[RKVDEC_H264_DPB_SIZE];
+> -	struct v4l2_h264_reference b1[RKVDEC_H264_DPB_SIZE];
+> +	struct v4l2_h264_reference p[V4L2_H264_REF_LIST_LEN];
+> +	struct v4l2_h264_reference b0[V4L2_H264_REF_LIST_LEN];
+> +	struct v4l2_h264_reference b1[V4L2_H264_REF_LIST_LEN];
+>  	u8 num_valid;
+>  };
+>  
+> diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
+> index ef9a894e3c32..e282fb16ac58 100644
+> --- a/include/media/v4l2-h264.h
+> +++ b/include/media/v4l2-h264.h
+> @@ -37,7 +37,7 @@ struct v4l2_h264_reflist_builder {
+>  		u16 longterm : 1;
+>  	} refs[V4L2_H264_NUM_DPB_ENTRIES];
+>  	s32 cur_pic_order_count;
+> -	struct v4l2_h264_reference unordered_reflist[V4L2_H264_NUM_DPB_ENTRIES];
+> +	struct v4l2_h264_reference unordered_reflist[V4L2_H264_REF_LIST_LEN];
+>  	u8 num_valid;
+>  };
+>  
+> @@ -51,9 +51,9 @@ v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
+>   * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
+>   *
+>   * @builder: reference list builder context
+> - * @b0_reflist: 16 sized array used to store the B0 reference list. Each entry
+> + * @b0_reflist: 32 sized array used to store the B0 reference list. Each entry
+>   *		is a v4l2_h264_reference structure
+> - * @b1_reflist: 16 sized array used to store the B1 reference list. Each entry
+> + * @b1_reflist: 32 sized array used to store the B1 reference list. Each entry
+>   *		is a v4l2_h264_reference structure
+>   *
+>   * This functions builds the B0/B1 reference lists. This procedure is described
+> @@ -70,7 +70,7 @@ v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
+>   * v4l2_h264_build_p_ref_list() - Build the P reference list
+>   *
+>   * @builder: reference list builder context
+> - * @reflist: 16 sized array used to store the P reference list. Each entry
+> + * @reflist: 32 sized array used to store the P reference list. Each entry
+>   *	     is a v4l2_h264_reference structure
+>   *
+>   * This functions builds the P reference lists. This procedure is describe in
+> -- 
+> 2.34.1
+> 
