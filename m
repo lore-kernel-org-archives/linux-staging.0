@@ -1,55 +1,56 @@
 Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4855E7C
-	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 11:32:26 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-e1dcc0a327so840492fac.1
-        for <linux-staging@lists.linux.dev>; Sat, 02 Apr 2022 04:32:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637067C
+	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 11:34:01 +0000 (UTC)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-e1e5e8d9faso137242fac.4
+        for <linux-staging@lists.linux.dev>; Sat, 02 Apr 2022 04:34:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=96WWzGX1QlTdIs8fpY2JF8+JRT0XNwmjxbPhRBdEIc0=;
-        b=ERAtDfAKGKIIovbquS2nNopqUl72XF1JBlIGtZseWZO1QPTuhHU10O6lEUF6QuUPQ6
-         P2oPqeJL+8t7kkSSOLwpU2bfUUSCvz1GqEGICvc6+fNcs0kqQq0vfwk+iQYjdeYVmPaM
-         Vy241epC7zQRTY/X6r8K2OsaT2kcc0EGv/SSQiDWOvFRd//22wWg9ASwNb9LmZntG6nH
-         zTSW1BWhoB034is5QS8FmffsXOi7SrvfoNpteJnETXH4cx6qhe/g6PzjdrAJSO7hYELM
-         ts8QQhwvwFXHy0dsemNqLCwguQO0ksg7vAMt+pfk98Lo3DwPKdehIwS9EKZqLUBOgdKj
-         Bj4w==
+        bh=V3U+5UMiJybq7zY98DwsaSNVhzwSmjvGiJkV3X+RFBM=;
+        b=24BPX8VpvHlBMEx6hIWdtAG/9S/+iyZLlr/QAmp0Z+5yWJiGHzFhq/uIQdxSKyVYCP
+         enPRmYoZkbFQcW1HpQH8zrb3IRM4d0hYNTbwxbVgEBdL6AG2jt0/HSVAt9robgILFabJ
+         hPkLvUch+hB8OPL87o/mqnhm3QiZhrMUfdzGNvgyVWrVhnz/AJhfBVlruRn8eWEQNGCu
+         c4w8zQ0s4CUgcN34kZe+uGnqzOnVLeqA0YDWuGn26R8g+72dBvLyMw/s+cjtb5JCtN0k
+         NvTn7x2fWQ5Jv/xStKL7yXif078NOV/iO9/fHaI5S9fhUpkKVvCwnsGEVqWwzqQuIz4I
+         iIPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=96WWzGX1QlTdIs8fpY2JF8+JRT0XNwmjxbPhRBdEIc0=;
-        b=lITJGHbDy7Jj/BHTLjJ9OXppD50R89WOrtodltkjU+CTXUVMFnPe3jgs3wZM2v3+Tq
-         tCbw+4T32NLLYFRZQUznD9D/m6EoT8FwY+3x7pi6OEP84ZL2Fr6bc3JRE9Q1wOpiraT6
-         OaNpp9s71MHtVXCcJvDiKO5YpkTZe9eE27LgoYxNM96ZcvoKm7VmNkqCdoGQrcl57JDF
-         E8sgqBO46x8mMfsgOstNW3CUjln2ZxKWtVxdP/gjkBRrrepCft4QNrRF1JThYFeUjafi
-         5iz0OUFevrGtBSSk9W6ay34sUUlsiCa1tOs67++brvElQdQJpUTgyfQoNvW2B72nuPW2
-         oc3g==
-X-Gm-Message-State: AOAM531od6wCK+kIbamz3gNSTW671o0pU772FqGWkC592lCZ/wYkMs3Y
-	Z8cnona4FiW4W3wTJUAbfus/9XAs3AB4Qw==
-X-Google-Smtp-Source: ABdhPJwDqf1/vu0mXQ/9kj4+h/eGfG7Eay8+8AdlhYL1ehJJGnfvQl/Iq9fBv1/MaFLTnYrAIGY3tg==
-X-Received: by 2002:a05:6870:d0c4:b0:dd:c7f6:2d62 with SMTP id k4-20020a056870d0c400b000ddc7f62d62mr7021239oaa.99.1648899145085;
-        Sat, 02 Apr 2022 04:32:25 -0700 (PDT)
+        bh=V3U+5UMiJybq7zY98DwsaSNVhzwSmjvGiJkV3X+RFBM=;
+        b=v+JoigWz7SzGYwz5pEpQ9WzVmA4OZYZ1OI9kXGBZjTVZ/xajk3cLMdfI91Vp94YLoa
+         FJwycYGRVxObl2C+VKRQ77dxmDN32ON7P8ZrnifG5RWzzHWQLmk7nS+c88ZOuMjD7I4S
+         V9eMUy3Nbf0Qi21rwp5530YWBWj7NqmlCFDwxgVESHj5ouiJzP6CqTqokPGoeDZ2dPpl
+         S+I7/GiXliD7wkedrNCa7uswhY+NfxdzV5+f1cctb4kQGskO+6iSDkmQsZS93Zwzgv2P
+         sDIAnb5MYEbO5rWrUsJgudxoDUTnlLUF6mQtq1VzHPJ6IbB9jsIiIMd0fqx0UFBPbo8V
+         AnPw==
+X-Gm-Message-State: AOAM5306/fdgxQBVOrTfXt+7L8yXczFPx+aKDQQirWHerXsL8hvzmcyq
+	bKOYhO82+4ihPRIMq32U2JIZsw==
+X-Google-Smtp-Source: ABdhPJy3rMJldwi8Tb/ncmzg6WyZ80EFa7bQd46QO9bii8Cw9gw35Jy6JhWEPjRky3sVVbphVckt4w==
+X-Received: by 2002:a05:6870:3488:b0:de:eaa5:260b with SMTP id n8-20020a056870348800b000deeaa5260bmr6754153oah.281.1648899240576;
+        Sat, 02 Apr 2022 04:34:00 -0700 (PDT)
 Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
-        by smtp.gmail.com with ESMTPSA id f79-20020a4a5852000000b003291b52dc7csm1584506oob.15.2022.04.02.04.32.21
+        by smtp.gmail.com with ESMTPSA id p16-20020a05680811d000b002d72ec3a921sm2098566oiv.21.2022.04.02.04.33.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Apr 2022 04:32:24 -0700 (PDT)
-Date: Sat, 2 Apr 2022 08:32:19 -0300
+        Sat, 02 Apr 2022 04:34:00 -0700 (PDT)
+Date: Sat, 2 Apr 2022 08:33:54 -0300
 From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+	Ezequiel Garcia <ezequiel@collabora.com>,
 	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 15/23] media: rkvdec: h264: Validate and use pic width
- and height in mbs
-Message-ID: <Ykg0Qw24PuGCnbLT@eze-laptop>
+Subject: Re: [PATCH v2 16/23] media: rkvdec: h264: Fix reference frame_num
+ wrap for second field
+Message-ID: <Ykg0oqJOb/ExafB3@eze-laptop>
 References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
- <20220331193726.289559-16-nicolas.dufresne@collabora.com>
+ <20220331193726.289559-17-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,91 +59,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220331193726.289559-16-nicolas.dufresne@collabora.com>
+In-Reply-To: <20220331193726.289559-17-nicolas.dufresne@collabora.com>
 
 Hi Nicolas,
 
-On Thu, Mar 31, 2022 at 03:37:17PM -0400, Nicolas Dufresne wrote:
+On Thu, Mar 31, 2022 at 03:37:18PM -0400, Nicolas Dufresne wrote:
 > From: Jonas Karlman <jonas@kwiboo.se>
 > 
-> The width and height in macroblocks is currently configured based on OUTPUT
-> buffer resolution, this works for frame pictures but can cause issues for
-> field pictures.
+> When decoding the second field in a complementary field pair the second
+> field is sharing the same frame_num with the first field.
 > 
-> When frame_mbs_only_flag is 0 the height in mbs should be height of
-> the field instead of height of frame.
+> Currently the frame_num for the first field is wrapped when it matches the
+> field being decoded, this cause issues to decode the second field in a
+> complementary field pair.
 > 
-> Validate pic_width_in_mbs_minus1 and pic_height_in_map_units_minus1
-> against OUTPUT buffer resolution and use these values to configure HW.
+> Fix this by using inclusive comparison, less than or equal.
 > 
 > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 > Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec-h264.c |  4 ++--
->  drivers/staging/media/rkvdec/rkvdec.c      | 10 ++++++++++
->  2 files changed, 12 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> index 8d44a884a52e..a42cf19bcc6d 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -672,8 +672,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
->  		  LOG2_MAX_PIC_ORDER_CNT_LSB_MINUS4);
->  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZERO),
->  		  DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG);
-> -	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.width, 16), PIC_WIDTH_IN_MBS);
-> -	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.height, 16), PIC_HEIGHT_IN_MBS);
 
-Please add a comment so we don't forget why we use the bitstream
-fields here.
-
-> +	WRITE_PPS(sps->pic_width_in_mbs_minus1 + 1, PIC_WIDTH_IN_MBS);
-> +	WRITE_PPS(sps->pic_height_in_map_units_minus1 + 1, PIC_HEIGHT_IN_MBS);
->  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY),
->  		  FRAME_MBS_ONLY_FLAG);
->  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD),
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 2df8cf4883e2..1b805710e195 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -29,8 +29,11 @@
->  
->  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
-> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> +
->  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
->  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
-> +		unsigned int width, height;
->  		/*
->  		 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
->  		 * but it's currently broken in the driver.
-> @@ -45,6 +48,13 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->  		if (sps->bit_depth_luma_minus8 != 0)
->  			/* Only 8-bit is supported */
->  			return -EINVAL;
-> +
-> +		width = (sps->pic_width_in_mbs_minus1 + 1) * 16;
-> +		height = (sps->pic_height_in_map_units_minus1 + 1) * 16;
-> +
-
-Let's please add a comment here, clarifying it's legal to check
-the coded format (OUTPUT queue format) at .try_ctrl time,
-because the stateless decoder specification [1] mandates
-S_FMT on the OUTPUT queue, before passing the SPS/PPS controls.
-
-[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stateless-decoder.html
-
-> +		if (width > ctx->coded_fmt.fmt.pix_mp.width ||
-> +		    height > ctx->coded_fmt.fmt.pix_mp.height)
-
-Can you add a debug message or error message?
-These silent errors tend to get super hard to track.
-
-With these changes:
-
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To complete the Signed-off-by chain, can you add your Signed-off-by: at
+the bottom?
 
 Thanks,
 Ezequiel
+
+> ---
+>  drivers/staging/media/rkvdec/rkvdec-h264.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> index a42cf19bcc6d..730f8ebf7f58 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> @@ -773,7 +773,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
+>  			continue;
+>  
+>  		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
+> -		    dpb[i].frame_num < dec_params->frame_num) {
+> +		    dpb[i].frame_num <= dec_params->frame_num) {
+>  			p[i] = dpb[i].frame_num;
+>  			continue;
+>  		}
+> -- 
+> 2.34.1
+> 
