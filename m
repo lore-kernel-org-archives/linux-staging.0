@@ -1,146 +1,65 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from m228-13.mailgun.net (m228-13.mailgun.net [159.135.228.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E02523B2
-	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 21:15:15 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id 17so10631339lji.1
-        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 14:15:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=0VMA9dSUTpLCb6xWZrmY1SOl3mR04sovoHbxgbSlKCY=;
-        b=aFGkE9KT8GWKejenrGuUh7DISUGy9cu45NTcDbgVmLzFcxJ5gZ41A4/X6n/7Scf6d8
-         qKDHY4sfZNF1yjy64GR9+5jtfD/iMBbgo6RWPuVMpiSzS8M2Y6fJ+yDXCzlojxNJEKB6
-         AVlOI2QbfdrLl3DrfbQC1+cJEKB3dhtuEzp9n2VFJklYcacr1N+IvOX+7SN1yx4eiwjG
-         3dzkf6np4Fzoe1bcD0/VRTZqUSR6Ke/bnqU73rM4Ll8q8vV2+hcvHCv1arNFWnqKGwRE
-         JOcg0oyYp7acZZLAtO9FUaDlKo6O6xiAqX/Nq05NyBEKMFQSCTWl9xr0GnRiwGDclwGy
-         4F7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=0VMA9dSUTpLCb6xWZrmY1SOl3mR04sovoHbxgbSlKCY=;
-        b=dqNR2H/DcRoTvj+gxo6EKEcDforoQ1rKW70yt24777hkGry+mJ+GT8VaXrnTohjY9b
-         A07la8pnCgOSzdvbnasJmsfFebsuMOQUhaxLVnS0usQqET4/4/XSrxl3KH266K1zaQVl
-         kkRFZiCeNTOrC64vEw3EW7DMTC5TQGPM046cKpgi5fHApjS51HF5ibHkEsByUDmxre2P
-         M0f8huw80NIZypEb/eAg2gcbpzf4JlEX5ZqOLh4rfcJdhs5c9V7PbgFZzemUVcH8rGmC
-         E6Bf8dapYyEkPSywTvmbXGM3GdzUlsbEGbkPHmgA12AK4So3HXad40nh4mxOCeHrXNKp
-         efqQ==
-X-Gm-Message-State: AOAM532slb1TvMOD2BB0ixEE7jDEmx+34egJjyXLZ5iCFZP0rI831cv0
-	fgnUJBjaWfnG08Md6icmk0c=
-X-Google-Smtp-Source: ABdhPJxUffZ8c0gA4w9uGLIG33OOlYbfwhJJ2m+2I7dPPoQbezZ1O0U6dM1DnPdBkClQF3FbydVE4A==
-X-Received: by 2002:a2e:968e:0:b0:24b:125b:f399 with SMTP id q14-20020a2e968e000000b0024b125bf399mr3838883lji.67.1649020513369;
-        Sun, 03 Apr 2022 14:15:13 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.247])
-        by smtp.gmail.com with ESMTPSA id u21-20020a056512129500b0044a51b85576sm921220lfs.21.2022.04.03.14.15.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Apr 2022 14:15:12 -0700 (PDT)
-Message-ID: <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
-Date: Mon, 4 Apr 2022 00:15:11 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAE123B2
+	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 22:27:41 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev; q=dns/txt;
+ s=smtp; t=1649024861; h=Content-Transfer-Encoding: MIME-Version:
+ Reply-To: Message-Id: Date: Subject: Subject: Cc: To: To: From: From:
+ Sender: Sender; bh=y5ltD1YbS8stWfMw6OYDAa9OeNCMcSjpNZgM56D6GYk=; b=Xxl2VY1OrPHJhMFeY5ihF39zr7wbkDVUvqM7J5Oz7gibHA9wpVTE5pOj8NtqKYrH7rzrNN7R
+ w7wudHcdx5cFquWBq1gl5fkvL5YImr+KxOgZfGaxpG2sz4EFP1lmQboIJudpRiibLLbfG8T9
+ zkF8Up5ORNS16xUOYMOYvSo1B6hHqh2ufV1+4gy/M204TCeVnC+AMeggcD8wxjJxsh1mlqKu
+ +6n7y2UKU6gC+9QB2UWozJo450ugF3MwR/aX7cPVnjrVyJF4wIZu64kMRSqxEHFapUGJOPJa
+ huBtE++yvokR3XX6s5jLvqffgRljt03LUB/lEfH+PqFjSv94qKTiaA==
+X-Mailgun-Sending-Ip: 159.135.228.13
+X-Mailgun-Sid: WyI4MTlhZCIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTljNmQiXQ==
+Received: from localhost.localdomain (177.75.142.174.mhnet.com.br
+ [177.75.142.174]) by smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 624a1f5ccb3e04acafb2af84 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Sun, 03 Apr 2022 22:27:40 GMT
+Sender: codeagain@codeagain.dev
+From: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+To: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev
+Cc: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+Subject: [PATCH] staging: vme_user: Fixed typo in the MODULE_AUTHOR
+Date: Sun,  3 Apr 2022 19:27:28 -0300
+Message-Id: <20220403222728.276111-1-codeagain@codeagain.dev>
+X-Mailer: git-send-email 2.35.1
+Reply-To: Bruno's Patch Box <patch-reply@codeagain.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
-Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
- <2029549.KlZ2vcFHjT@leap> <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
- <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------zH4AhstN0hmrhzV5ODHhhnQq"
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------zH4AhstN0hmrhzV5ODHhhnQq
-Content-Type: multipart/mixed; boundary="------------khzppFhuE5jRIu4GaNSU6LLR";
- protected-headers="v1"
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Michael Straube <straube.linux@gmail.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Message-ID: <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
- <2029549.KlZ2vcFHjT@leap> <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
- <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
-In-Reply-To: <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
+The MODULE_AUTHOR line missed the '>' character in the end of the
+author's e-mail address. Just added it.
 
---------------khzppFhuE5jRIu4GaNSU6LLR
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+---
+ drivers/staging/vme/devices/vme_user.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-SGkgTWljaGFlbCwNCg0KT24gNC8zLzIyIDIzOjUxLCBNaWNoYWVsIFN0cmF1YmUgd3JvdGU6
-DQo+PiANCj4+IElNTywgdGhlIGJlc3QgYW5zd2VyIGlzIGp1c3QgcmVtb3ZlIHRoaXMgbG9v
-cCwgc2luY2UgaXQgZG9lcyBub3RoaW5nLiBPciANCj4+IHJlZGVzaWduIGl0IHRvIGJlIG1v
-cmUgc2FuZQ0KPj4gDQo+PiBJdCB3YWl0cyBmb3IgcHNfcHJvY2Vzc2luZyB0byBiZWNvbWUg
-MCBmb3IgMzAwMCBtcywgYnV0IGlmIDMwMDAgbXMgDQo+PiBleHBpcmVzLi4uIGV4ZWN1dGlv
-biBnb2VzIGZvcndhcmQgbGlrZSBhcyBwc19wcm9jZXNzaW5nIHdhcyAwIGZyb20gdGhlIA0K
-Pj4gYmVnaW5uaW5nDQo+PiANCj4+IE1heWJlIGl0J3Mgc29tZXRoaW5nIGh3IHJlbGF0ZWQs
-IGxpa2Ugd2FpdCBmb3IgMzAwMCBtcyBhbmQgYWxsIHdpbGwgYmUgDQo+PiBvay4gQ2FuJ3Qg
-c2F5Li4uDQo+PiANCj4gDQo+IEhpIFBhdmVsLA0KPiANCj4gc2FtZSB3aXRoIHRoZSBsb29w
-IHRoYXQgZm9sbG93czoNCj4gDQo+IAkvKiBTeXN0ZW0gc3VzcGVuZCBpcyBub3QgYWxsb3dl
-ZCB0byB3YWtldXAgKi8NCj4gCWlmIChwd3Jwcml2LT5iSW5TdXNwZW5kKSB7DQoNCgkgICBe
-Xl5eDQoNCmJ0dywgdGhpcyBwYXJ0IGlzIHVzZWxlc3MgdG8NCg0KDQo+IAkJd2hpbGUgKHB3
-cnByaXYtPmJJblN1c3BlbmQgJiYNCg0KSSd2ZSBsb29rZWQgaW50byB3aGF0IGdjYzExIHBy
-b2R1Y2VkIGZyb20gdGhpcyBmdW5jdGlvbiBhbmQgbG9va3MgbGlrZSANCm15IGNvbXBpbGVy
-IGlzIHNtYXJ0IGVub3VnaCB0byBub3QgY2FjaGUgdGhhdCB2YWx1ZSwgYnV0IEkgYW0gYWZy
-YWlkIG5vdCANCmFsbCBjb21waWxlcnMgYXJlIHRoYXQgc21hcnQuDQoNCkFuZCBsb29rcyBs
-aWtlIGl0IHdpbGwgYmUgYmV0dGVyIHRvIHdhaXQgb24gbXV0ZXhfbG9jaygmcHdycHJpdi0+
-bG9jayk7IA0KcmF0aGVyIHRoYW4gb2RkIGxvb3BzLiBBaCwgd2UgY2FuJ3Qgd2FpdCBoZXJl
-Li4uDQoNCkluIGZpcnN0IHBsYWNlLCB3aHkgdGhpcyBmdW5jdGlvbiBjYXJlcyBhYm91dCB1
-c2Igc3VzcGVuZCBjYWxsYmFjaz8NCg0KSSd2ZSBnb3QgdG9vIG1hbnkgcXVlc3Rpb25zIHRv
-IHRoYXQgY29kZS4uLiBJJ2QgYmV0dGVyIHN0b3ANCg0KPiAJCSAgICAgICAocnR3X2dldF9w
-YXNzaW5nX3RpbWVfbXMoc3RhcnQpIDw9IDMwMDAgfHwNCj4gCQkgICAgICAgKHJ0d19nZXRf
-cGFzc2luZ190aW1lX21zKHN0YXJ0KSA8PSA1MDApKSkNCj4gCQkJCW1zbGVlcCgxMCk7DQo+
-IAl9DQo+IA0KPiBJIGp1c3Qgd2FpdHMgNTAwbXMgaWYgcHdycHJpdi0+YkluU3VzcGVuZCBp
-cyB0cnVlLiBBZGRpdGlvbmFseSB0aGUNCj4gPD0gMzAwMCBoYXMgbm8gZWZmZWN0IGhlcmUg
-YmVjYXVzZSBvZiB0aGUgb3JlZCA8PSA1MDAuDQo+IA0KDQpZZWFoLCBhbmQgdW5mb3J0dW5h
-dGVseSBpdCB3b24ndCBiZSBvcHRpbWl6ZWQgb3V0IDooDQoNCj4gRXZlbiB3b3JzZSB0aGUg
-Y29tbWVudCBzZWVtcyBtaXNsZWFkaW5nIGJlY2F1c2UgcHdycHJpdi0+YkluU3VzcGVuZA0K
-PiBpbmRpY2F0ZXMgdXNiIGF1dG9zdXNwZW5kIGJ1dCBub3Qgc3lzdGVtIHN1c3BlbmQuDQo+
-IA0KDQoNCg0KDQoNCg0KV2l0aCByZWdhcmRzLA0KUGF2ZWwgU2tyaXBraW4NCg==
+diff --git a/drivers/staging/vme/devices/vme_user.c b/drivers/staging/vme/devices/vme_user.c
+index e3fa38bd7f12..859af797630c 100644
+--- a/drivers/staging/vme/devices/vme_user.c
++++ b/drivers/staging/vme/devices/vme_user.c
+@@ -773,7 +773,7 @@ MODULE_PARM_DESC(bus, "Enumeration of VMEbus to which the driver is connected");
+ module_param_array(bus, int, &bus_num, 0000);
+ 
+ MODULE_DESCRIPTION("VME User Space Access Driver");
+-MODULE_AUTHOR("Martyn Welch <martyn.welch@ge.com");
++MODULE_AUTHOR("Martyn Welch <martyn.welch@ge.com>");
+ MODULE_LICENSE("GPL");
+ 
+ module_init(vme_user_init);
+-- 
+2.35.1
 
---------------khzppFhuE5jRIu4GaNSU6LLR--
-
---------------zH4AhstN0hmrhzV5ODHhhnQq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmJKDl8FAwAAAAAACgkQbk1w61LbBA2F
-CQ/+Lezdqmz1Jux9DjMbQXe3dTUaICPfCq/2TS0KwjLgNcNhtA2zkUjWeKk1qYnk0i3prcU/vIcl
-LmmBgVxKWlgBIfAukuaxRormobtXWGaLauEFqt/FHlPA1qmPXfSAq/Q1LDAvrwB4OpjpQWp/Rimv
-2miub4BjvPV5X85wxxgVFO/YWlecub3cht2nKXhKmhliW47TLCQnHY1bn3cZNZScrEI3aDlbQT6J
-sut2wptTcIQHigLe0eSYFsam0opb6DPIs78eKFu5EjrZFXCgnF0ugD5LkYcbyhYOw8o3mqEz1nbF
-lg4PCx3H1v8cFilkLK/NapVIYFwLg1FMxh9MH+/NKpHoq6m3pH6kmeiwC4piMpGyFHOKVEGMfASs
-l1XSqs76LBo6/qgSaBF5jNbWuQxF6mWdPYOmU/CFfe+IPItWujW/7GeEEhoBktMno1LbTc0v1hv/
-izkEDKJJinqqKsG8281SCNHIxUODQrkWe5YugTnb5xblKEZNcBgZIsqXFtAuYE1dA4+sUlOsPm1h
-fxnuN9WnD1nBUKfrEU+/+WtYVoNPcfZdHiClIJxRtJLNtXbDeUFfK0DOvsmcv2Wizt/AyAmIpV3z
-73bWr7o8Y7UhLDAURQvr/IjT19F/SG9CysBhV1ta2DjHBEYgj0I6MNUUgCpAFved+o8C7cSVP+Rb
-8F4=
-=16uw
------END PGP SIGNATURE-----
-
---------------zH4AhstN0hmrhzV5ODHhhnQq--
