@@ -1,143 +1,110 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gateway34.websitewelcome.com (gateway34.websitewelcome.com [192.185.148.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A508D469B
-	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 12:45:53 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id m3so12551498lfj.11
-        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 05:45:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=xlsY5r2nglBsMWJUdySSrJiJJXcQpr5JPOvALISjTM4=;
-        b=OIZAowJljiV+zy99qIdwj5PLH+4xbGpavxkWt08LMxmcbI+ZqkZE26/4zCJ1lx8eUv
-         kP/q9tfUL0nYhMmkwe6NQnlI1I/qsciYhVOyI4kaZZ44HfkqOBeiZELYZcQRQA3xPNF+
-         xV5VhrF5gEZ+jdfesVy4m7ZQJq2EW39D8l4A/cM0zeCu+yvZUqlBnmutKtG6c/n4miHB
-         PrEcYVpZ89Thg98sqH8gQZ4fwpRzoo1kmkc0knM9QgenYToWSMrFOdWaXfAC7AFn0dJ/
-         rvvd2Bo4jdaiFQMPBhdFv7zK7A+me+MeTwecv/dV88FS2S8EhqYItcW7860TxAVKH4C5
-         BlLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=xlsY5r2nglBsMWJUdySSrJiJJXcQpr5JPOvALISjTM4=;
-        b=1O0dS7mZ4kWf1Wk/3H1EcqWZtL+UA24T/znrN62tGUxZqSLRNbGIsujtlgs461Z8NZ
-         dF67hQAe4yUYtnzIU1hqWzzbQb/lemjkA0JTwGl97+HfLqwKrScpa4omfxaSap6WbrOW
-         1o7y5gAAn+RkbjGIxG4a4Jc+d3MxXApcEQpZv6rx/kTLunG6ynWlwBqSeiLoExdHkhw5
-         VRzbP56z+FLEIEtGZeJpsBr4Amkv64NdMe5h9UZI5PnqdYMQIxZDZEq7XsTK+c8Gf3tO
-         ExkHYJM7NQbQwtuI+9vbffWpyd9qUl8evV7BUy+X9fctu7UrdsypSpaDeXNxCr0gho+l
-         2c5Q==
-X-Gm-Message-State: AOAM5307GxYlshn98JOxseso70r1U3Y4qhWGnVLBZB4FOc0oI6718yrW
-	roZb5iZ0LpLT98rNr8hTy9U=
-X-Google-Smtp-Source: ABdhPJxX4Uk7PP9Y9hcr1wt42MQjB3eSjeqek9I0OZd2yekHYuCgJJwwWALg1jmGtKsQ/OE+8t72kw==
-X-Received: by 2002:a05:6512:3d04:b0:44a:43e8:5b46 with SMTP id d4-20020a0565123d0400b0044a43e85b46mr19524052lfv.476.1648989951605;
-        Sun, 03 Apr 2022 05:45:51 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.247])
-        by smtp.gmail.com with ESMTPSA id y37-20020a0565123f2500b0044a1e1c6b37sm817148lfa.53.2022.04.03.05.45.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Apr 2022 05:45:51 -0700 (PDT)
-Message-ID: <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
-Date: Sun, 3 Apr 2022 15:45:49 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13CAE46BA
+	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 12:59:17 +0000 (UTC)
+Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
+	by gateway34.websitewelcome.com (Postfix) with ESMTP id 8CD3D77
+	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 07:36:31 -0500 (CDT)
+Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with SMTP
+	id azT5nC6BxHnotazT5nyPoG; Sun, 03 Apr 2022 07:36:31 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=CYOWZgHjZ+R9GBciJmXVJ6KuHCf+mXuaB0YT+N2ma3o=; b=IY4EDNfee5a4+olnuCoiU/tDYn
+	ckCHxny/SYfc/Z53UlZLknsrnrNdVNEuj3wQ7Kf0RRWdVhnrsvzyGf0Z3lQ4WOtwjkN8QkbiO2lOz
+	/IUu33ELx5GRSj4T0JggjxBjXHP64DJx/JQiIsSsOQjLsHlfFOA41Cxr5PeRgRgeH8i58g47ZMrO/
+	9Y7O8V2PrPdgpJL8HvX4fZUZDSxMx2+C3RzbQgWpcAyd5G4js7PRc1E484bGJ6Cx+7ulGqvzNFsU4
+	H7oaAHClu6iBzPs1+bmNxrRPC7zJbb/2RW4OZ+3Hoxy5ssXCJS63Qy86+hCvunxtWr8btTNDGB5He
+	L/H3UPfg==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:57820 helo=localhost)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@roeck-us.net>)
+	id 1nazT4-001y5E-TV; Sun, 03 Apr 2022 12:36:31 +0000
+From: Guenter Roeck <linux@roeck-us.net>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH v2] staging: r8188eu: Fix PPPoE tag insertion on big endian systems
+Date: Sun,  3 Apr 2022 05:36:28 -0700
+Message-Id: <20220403123628.3113382-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
-Content-Language: en-US
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Michael Straube <straube.linux@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <3fb13fee-a605-7f2e-81ad-45148082a733@gmail.com>
- <fd356230-c9b1-2824-d073-83975bd31be9@gmail.com> <4412825.cEBGB3zze1@leap>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <4412825.cEBGB3zze1@leap>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------HBEBferClgyWmVBB7Kek60ZS"
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1nazT4-001y5E-TV
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:57820
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 3
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------HBEBferClgyWmVBB7Kek60ZS
-Content-Type: multipart/mixed; boundary="------------CAwiyjxSYFWrSmp4pZ7jml8B";
- protected-headers="v1"
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Michael Straube <straube.linux@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Message-ID: <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <3fb13fee-a605-7f2e-81ad-45148082a733@gmail.com>
- <fd356230-c9b1-2824-d073-83975bd31be9@gmail.com> <4412825.cEBGB3zze1@leap>
-In-Reply-To: <4412825.cEBGB3zze1@leap>
+In __nat25_add_pppoe_tag(), the tag length is read from the tag data
+structure. The value is kept in network format, but read as raw value.
+With -Warray-bounds, this results in the following gcc error/warning
+when building the driver on a big endian system such as alpha.
 
---------------CAwiyjxSYFWrSmp4pZ7jml8B
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+In function '__nat25_add_pppoe_tag',
+    inlined from 'nat25_db_handle' at
+	drivers/staging/r8188eu/core/rtw_br_ext.c:479:11:
+arch/alpha/include/asm/string.h:22:16: error:
+	'__builtin_memcpy' forming offset [40, 2051] is out of the bounds
+	[0, 40] of object 'tag_buf' with type 'unsigned char[40]'
 
-SGkgRmFiaW8sDQoNCk9uIDQvMy8yMiAxNTozNywgRmFiaW8gTS4gRGUgRnJhbmNlc2NvIHdy
-b3RlOg0KPj4gPiANCj4+ID4gZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfcHdy
-Y3RybC5jOjM3OQ0KPj4gPiANCj4+ID4gICAgCWlmIChwd3Jwcml2LT5wc19wcm9jZXNzaW5n
-KSB7DQo+PiA+ICAgIAkJd2hpbGUgKHB3cnByaXYtPnBzX3Byb2Nlc3NpbmcgJiYgcnR3X2dl
-dF9wYXNzaW5nX3RpbWVfbXMoc3RhcnQpIDw9IDMwMDApDQo+PiA+ICAgIAkJCW1zbGVlcCgx
-MCk7DQo+PiA+ICAgIAl9DQo+PiA+IA0KPj4gDQo+PiBIbSwganVzdCB3b25kZXJpbmcsIHNo
-b3VsZG4ndCB3ZSBhbm5vdGF0ZSBsb2FkIGZyb20gDQo+PiBwd3Jwcml2LT5wc19wcm9jZXNz
-aW5nIHdpdGggUkVBRF9PTkNFKCkgaW5zaWRlIHdoaWxlIGxvb3A/DQo+PiBJSVVDIGNvbXBp
-bGVyIG1pZ2h0IHdhbnQgdG8gY2FjaGUgZmlyc3QgbG9hZCBpbnRvIHJlZ2lzdGVyIGFuZCB3
-ZSB3aWxsIA0KPj4gc3R1Y2sgaGVyZSBmb3JldmVyLg0KPiANCj4gWW91J3JlIHJpZ2h0LiBU
-aGlzIGNhbiBiZSBjYWNoZWQuIEluIHNpdHVhdGlvbnMgbGlrZSB0aGVzZSBvbmUgc2hvdWxk
-IHVzZQ0KPiBiYXJyaWVycyBvciBvdGhlciBBUEkgdGhhdCB1c2UgYmFycmllcnMgaW1wbGlj
-aXRseSAoY29tcGxldGlvbnMsIGZvciBleGFtcGxlKS4NCj4gDQoNCk5vdCBzdXJlIGFib3V0
-IGNvbXBsZXRpb25zLCBzaW5jZSB0aGV5IG1heSBzbGVlcC4NCg0KQWxzbywgZG9uJ3QgdGhp
-bmsgdGhhdCBiYXJyaWVycyBhcmUgbmVlZGVkIGhlcmUsIHNpbmNlIHRoaXMgY29kZSBqdXN0
-IA0Kd2FpdGluZyBmb3Igb2JzZXJ2aW5nIHZhbHVlIDEuIE1pZ2h0IGJlIGJhcnJpZXIgd2ls
-bCBzbGlnaHRseSBzcGVlZCB1cCANCndhaXRpbmcgdGhyZWFkLCBidXQgd2lsbCBhbHNvIHNs
-b3cgZG93biBvdGhlciB0aHJlYWQNCg0KDQo+IEluIHRoaXMgbGlzdCwgYSBjb3VwbGUgb2Yg
-d2Vla3MgYWdvLCBJIHN1Z2dlc3RlZCBzb21lb25lIHRvIHVzZSB0aGVtLiBIZS9zaGUNCj4g
-cmUtc3VibWl0dGVkIGhpcy9oZXIgcGF0Y2hlcyB3aXRoIHdhaXRfZm9yX2NvbXBsZXRpb24o
-KSAvIGNvbXBsZXRlKCksIEkgcGxhY2VkDQo+IG15IFJldmlld2VkLWJ5IHRhZyBhbmQgR3Jl
-ZyB3YXMgaGFwcHkgdG8gYWNjZXB0IGl0IGFuZCBtZXJnZS4NCj4gDQo+IE5vdCBzdXJlIGFi
-b3V0IFJFQURfT05DRSgpLCBiZWNhdXNlLCBhcyBmYXIgYXMgSSBrbm93LCBpdCBpcyB1c2Vk
-IG9ubHkgdG8NCj4gcHJldmVudCBsb2FkIHRlYXJpbmcuIEJ1dCBJIG1pZ2h0IGJlIHdyb25n
-IGhlcmUuDQo+IA0KPiBGYWJpbw0KPiANCj4gUC5TLjogSXMgUGF1bCdzIGJvb2sgc3RpbGwg
-dW4tcmVhZD8gVW5mb3J0dW5hdGVseSwgSSBhbSBub3QgeWV0IGRvbmUgOigNCj4gDQoNCklm
-IEkgY291bGQgcmVhZCBpdCAyNC83IEkgd2lsbCBiZSB0aGUgaGFwcGllc3QgcGVyc29uIGV2
-ZXIgOikgQXMgeW91IA0KbWlnaHQgZXhwZWN0IEkgYW0gbm90IHlldCBkb25lIGFzIHdlbGwN
-Cg0KDQoNCg0KV2l0aCByZWdhcmRzLA0KUGF2ZWwgU2tyaXBraW4NCg==
+Add the missing be16_to_cpu() to fix the compile error. It should be
+noted, however, that this fix means that the code did probably not work
+on little endian systems and/or that the driver has other endiannes related
+issues. A build with C=1 suggests that this is indeed the case. This patch
+does not attempt to fix any of those issues.
 
---------------CAwiyjxSYFWrSmp4pZ7jml8B--
+Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
+Cc: Phillip Potter <phil@philpotter.co.uk>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+v2: Use be16_to_cpu().
+    Add comment to patch description suggesting that the driver may have
+    other endianness related problems.
 
---------------HBEBferClgyWmVBB7Kek60ZS
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index d68611ef22f8..f056204c0fdb 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
+ 	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+ 	int data_len;
+ 
+-	data_len = tag->tag_len + TAG_HDR_LEN;
++	data_len = be16_to_cpu(tag->tag_len) + TAG_HDR_LEN;
+ 	if (skb_tailroom(skb) < data_len)
+ 		return -1;
+ 
+-- 
+2.35.1
 
-wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmJJlv0FAwAAAAAACgkQbk1w61LbBA3r
-SRAAmkqrHFWPddRcFAshBxkzBKvDsuuB9kbaUrSIItvyc9pHeZeJHzLuHIEU7a5ouUrdNgIibaRU
-Ex2uJVau+fS963RYaLKyIeol3PlQBk2p2tlUn2LjgQciamS86/nU5aBtbQNg7Uh462w4BQKaRy/9
-9v29OfxuSYd4Lf8UYJY0GLAp68aQT+P0qGnX1fkL2EOw776WFPAd+lb/aHsD1FXeywbpFMI2oAMQ
-yeGFqy7oc3Fk8hVzycycRP649NpgtjbUDcMcF6Up8fnr5Ru+nPsKbSByFER5g1ziadwlPP59Ay7T
-RixPUA1avbeHnc9uxbcm1vXG56lNJZ0jpCaUWVqIg/Szu76utbA4O5f9QlABV7acU1qsIVpzuPHI
-wtCkPqwijPKsBer/mYzkaNZUUnzQ6ai01WFMuj1AbStVMLpLWr4SQktrg99SroRhYZ6SHKdyJMb/
-deCx6fubnpXZ0PTLERLW/6vjD2jteHp9YZ7EoApcG8bTqxNYfV70URpUaz8uGezBczkWDWmMTf9o
-ON4EnD59PZbeRbfxD9fpspyanuS2Mowdyc//TbX23CAl4iJJ3iPbSpWVE5Zs7mRCJEqyap4RLtFR
-HeijvAQ7XKm+0DphtE7egNXhxHEuHp/pt+uMPsooa0Lp2hLrGsSh4bEPeD/+fWRyp3YXbnEmblWa
-prc=
-=0ZZc
------END PGP SIGNATURE-----
-
---------------HBEBferClgyWmVBB7Kek60ZS--
