@@ -1,41 +1,41 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B640E1FDA
-	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 16:53:03 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id ot30so5513131ejb.12
-        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 09:53:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E941FDB
+	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 16:53:04 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id k2so1191079edj.9
+        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 09:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hGWC9z9Vble15uohjVceMy9pmNPvA8ixj7T4/I7j2vg=;
-        b=eysorBVn3uf8H6RmlcB4Y5q6Uiqu9VJI6vguIsiW8ijsMcWha2M5Ru92qDdfkK6V8b
-         m0G4kxUXDhxG6GKopOg+qvJ2uiA5n99+BgXGelAtrejCQqxzFpn1W0DYhRp4GCPIKDGo
-         peGizf/+uC6QCAf6xooViaBPcBd1YMVj/T4cb506C5+X9RfR7LaXaN3wivuqCRG1yIWb
-         I98umR3e+WW3aeinfhfyP87cEizGuQFvEOR0dnfBLPVQf8F1Xi/Si4k7IsKMpnz2f6Wp
-         ABItaMzMaExtIQg0PtS3ue/0PIyQv6okQ2MEkrGJ9tocmknXtPS3yPh57jlH5018rUy4
-         8cmQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=6ppqJI6bbXknNDSSsJIou3kIlI0a1zrBWncxQPeAqXw=;
+        b=eO4A/B8Rbvg6+KTk8Q4V11CE6ik1HKgFFfLiNJga4J4Y4h6nPl1JaYnGi2k0gYTueI
+         B+n8t33+dDXRX4z2QEJAmhrvXLBbv1BDalzX4ARwNWrzt6vcsiAQO5Fm2ZuuKoy7PsG9
+         v2Xe0Kzq9lGRl2rOj6Z7H43sUSua4fSmupcpgRKmVZBHEDsaGtd7/wPd/r3VVe9t2pbd
+         S3uDgFsEAqULZXa1BYFnJF7KwmSWLKtrOXpmpYIgm2J2FkvgvdCaAVHGLwwUZlPSQ5WA
+         KLyHYzZLCtuQpOm0IxyOX4yk06bBv4aeUp739l24Nh2aiZt5cZkNSwftn87MkdA2uzWu
+         01qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hGWC9z9Vble15uohjVceMy9pmNPvA8ixj7T4/I7j2vg=;
-        b=UopNBAbOXEcOBxAY5f7JIGo+gARXHaCnpJUn7sm+WwyHLVkMpz4ocXjRHrz/uYnNVu
-         nFT41KqnDbcSwNJmxgRbBF9dl1Pfh7HhZQRUzL18ijnnWftLUtLJ3xbo551Lh3uqu54Q
-         PFvM4ZAeldrcjzgkK61f1REXPXg/LqSQiMWbTeGY+ygCeQNC0AER6Iqw7SrsqGXcVMTK
-         nMzZXk7sUOySuOGb9aiTPmY87G9rN+vmSCsQB/uMmIpUlvc+xWzhzy5DRgu8jvdwFvbp
-         JMjx4cTaznNUBbzMsWRKqE36IWM6qmJcANL2IfmDtVelLxBZMVc34OOeYGGW8ohxnpTJ
-         wohQ==
-X-Gm-Message-State: AOAM530hKN2bKOjIkIdsA1A103jUldojFPPfzi622nv30pGuPq12xJjG
-	yEM3h1Ba3xIWVDtaDs1/aAaCYJZP6TQ=
-X-Google-Smtp-Source: ABdhPJwGAoEhkgr7k86IejYdeWPiUf8Ssp0RP2typ0RgA6GgyE6WRpNu7wrCgyFnm/sAyvBNhuk02A==
-X-Received: by 2002:a17:907:62a1:b0:6da:7952:d4d2 with SMTP id nd33-20020a17090762a100b006da7952d4d2mr7550856ejc.260.1649004782072;
-        Sun, 03 Apr 2022 09:53:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=6ppqJI6bbXknNDSSsJIou3kIlI0a1zrBWncxQPeAqXw=;
+        b=WOmig4elZPu0QrqWU3XG8RwamHq6Xutfr355Y/jRSExB93ENhRzz9uJNkS5nUPvotN
+         gdwvkrku4aCdZaFL7MdA7UjkhOf0ZyAKy1CFCkeVbjZ56P2ZCP4IB1Yf3aA5mVZewlup
+         MmDOs+to0ISsoeHgdP5nkEiuL0GNtcv7FD1mM7cPhBxd0OJA4JOxN/uKW8q2jzAIwvI6
+         IqayUK07GXdRdB0Lz+Tf/r3S2GG5ViLQG6hLUbU8KZbJP/a9hy9BNRsvaP0AIX764Y2k
+         IiUrVQXZryax5RItpsROVPUphuZ/g6uJyYgtYydBjsIXMvL+NgnDk6sqJBkr1cDtdY/c
+         Hzkg==
+X-Gm-Message-State: AOAM533Z/FKmZBPPXuDwfTRY/2HOloZtBmqUepQV4mnM4ce6wThi1ovm
+	GXexl+D6jJYBGZyiH3nCk/8=
+X-Google-Smtp-Source: ABdhPJz7iGMzQylnp6xiZ8+xjEBOJvO9t+6oZBhF04quwPsb32ENmk3xPMKMy8SE7IACgTCKfCrk9g==
+X-Received: by 2002:a05:6402:1148:b0:416:a4fb:3c2e with SMTP id g8-20020a056402114800b00416a4fb3c2emr29423188edw.182.1649004783078;
+        Sun, 03 Apr 2022 09:53:03 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id d4-20020a056402000400b00412d60fee38sm4018138edu.11.2022.04.03.09.53.00
+        by smtp.gmail.com with ESMTPSA id d4-20020a056402000400b00412d60fee38sm4018138edu.11.2022.04.03.09.53.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Apr 2022 09:53:01 -0700 (PDT)
+        Sun, 03 Apr 2022 09:53:02 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/5] staging: r8188eu: remove GetHalDefVar8188EUsb()
-Date: Sun,  3 Apr 2022 18:52:50 +0200
-Message-Id: <20220403165255.6900-1-straube.linux@gmail.com>
+Subject: [PATCH 1/5] staging: r8188eu: remove HAL_DEF_IS_SUPPORT_ANT_DIV
+Date: Sun,  3 Apr 2022 18:52:51 +0200
+Message-Id: <20220403165255.6900-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220403165255.6900-1-straube.linux@gmail.com>
+References: <20220403165255.6900-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,27 +57,107 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series removes the function GetHalDefVar8188EUsb(). This is part
-of the ongoing effort to get rid of the unwanted hal layer.
+In order to get rid of the function GetHalDefVar8188EUsb(), remove
+the HAL_DEF_IS_SUPPORT_ANT_DIV case from it and move the functionality
+into a new function. This is part of the ongoing effort to get rid of
+the unwanted hal layer.
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_cmd.c     |  4 +---
+ drivers/staging/r8188eu/core/rtw_mlme.c    |  4 +---
+ drivers/staging/r8188eu/hal/usb_halinit.c  | 10 +++++++---
+ drivers/staging/r8188eu/include/hal_intf.h |  3 ++-
+ 4 files changed, 11 insertions(+), 10 deletions(-)
 
-Michael Straube (5):
-  staging: r8188eu: remove HAL_DEF_IS_SUPPORT_ANT_DIV
-  staging: r8188eu: use support_ant_div()
-  staging: r8188eu: remove dead code
-  staging: r8188eu: remove HAL_DEF_CURRENT_ANTENNA
-  staging: r8188eu: remove GetHalDefVar8188EUsb()
-
- drivers/staging/r8188eu/core/rtw_cmd.c       |  4 +--
- drivers/staging/r8188eu/core/rtw_mlme.c      | 11 ++----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c  |  2 +-
- drivers/staging/r8188eu/hal/rtl8188e_dm.c    |  8 ++---
- drivers/staging/r8188eu/hal/usb_halinit.c    | 36 ++++++++------------
- drivers/staging/r8188eu/include/hal_intf.h   |  6 ++--
- drivers/staging/r8188eu/os_dep/ioctl_linux.c |  8 +----
- 7 files changed, 26 insertions(+), 49 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 8b24330e97c1..c286485e6a40 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -1099,11 +1099,9 @@ u8 rtw_antenna_select_cmd(struct adapter *padapter, u8 antenna, u8 enqueue)
+ 	struct cmd_obj		*ph2c;
+ 	struct drvextra_cmd_parm	*pdrvextra_cmd_parm;
+ 	struct cmd_priv	*pcmdpriv = &padapter->cmdpriv;
+-	u8	support_ant_div;
+ 	u8	res = _SUCCESS;
+ 
+-	GetHalDefVar8188EUsb(padapter, HAL_DEF_IS_SUPPORT_ANT_DIV, &support_ant_div);
+-	if (!support_ant_div)
++	if (!support_ant_div(padapter))
+ 		return res;
+ 
+ 	if (enqueue) {
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index f94b1536a177..b6ed5fb5b281 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -1458,7 +1458,6 @@ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
+ 	struct __queue *queue	= &pmlmepriv->scanned_queue;
+ 	struct	wlan_network	*pnetwork = NULL;
+ 	struct	wlan_network	*candidate = NULL;
+-	u8	supp_ant_div = false;
+ 
+ 	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
+ 	phead = get_list_head(queue);
+@@ -1485,8 +1484,7 @@ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
+ 		rtw_free_assoc_resources(adapter, 0);
+ 	}
+ 
+-	GetHalDefVar8188EUsb(adapter, HAL_DEF_IS_SUPPORT_ANT_DIV, &supp_ant_div);
+-	if (supp_ant_div) {
++	if (support_ant_div(adapter)) {
+ 		u8 cur_ant;
+ 		GetHalDefVar8188EUsb(adapter, HAL_DEF_CURRENT_ANTENNA, &cur_ant);
+ 	}
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 4bc6b08fb282..31ec88b7a400 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -481,6 +481,13 @@ static void _BBTurnOnBlock(struct adapter *Adapter)
+ 	rtl8188e_PHY_SetBBReg(Adapter, rFPGA0_RFMOD, bOFDMEn, 0x1);
+ }
+ 
++bool support_ant_div(struct adapter *adapter)
++{
++	struct hal_data_8188e *haldata = &adapter->haldata;
++
++	return haldata->AntDivCfg != 0;
++}
++
+ static void _InitAntenna_Selection(struct adapter *Adapter)
+ {
+ 	struct hal_data_8188e *haldata = &Adapter->haldata;
+@@ -1204,9 +1211,6 @@ void GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariab
+ 	struct hal_data_8188e *haldata = &Adapter->haldata;
+ 
+ 	switch (eVariable) {
+-	case HAL_DEF_IS_SUPPORT_ANT_DIV:
+-		*((u8 *)pValue) = (haldata->AntDivCfg == 0) ? false : true;
+-		break;
+ 	case HAL_DEF_CURRENT_ANTENNA:
+ 		*((u8 *)pValue) = haldata->CurAntenna;
+ 		break;
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index e222ab89bfc5..2a82bc392b87 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -28,7 +28,6 @@ enum hw_variables {
+ };
+ 
+ enum hal_def_variable {
+-	HAL_DEF_IS_SUPPORT_ANT_DIV,
+ 	HAL_DEF_CURRENT_ANTENNA,
+ 	HAL_DEF_DBG_DM_FUNC,/* for dbg */
+ };
+@@ -64,6 +63,8 @@ uint rtw_hal_init(struct adapter *padapter);
+ uint rtw_hal_deinit(struct adapter *padapter);
+ void rtw_hal_stop(struct adapter *padapter);
+ 
++bool support_ant_div(struct adapter *adapter);
++
+ u32 rtl8188eu_hal_init(struct adapter *Adapter);
+ u32 rtl8188eu_hal_deinit(struct adapter *Adapter);
+ 
 -- 
 2.35.1
 
