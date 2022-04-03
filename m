@@ -1,89 +1,145 @@
-Received: from gateway20.websitewelcome.com (gateway20.websitewelcome.com [192.185.55.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BEC11FA2
-	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 22:07:05 +0000 (UTC)
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
-	by gateway20.websitewelcome.com (Postfix) with ESMTP id 9B5BC400C4EFF
-	for <linux-staging@lists.linux.dev>; Sat,  2 Apr 2022 16:18:23 -0500 (CDT)
-Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with SMTP
-	id al8Znvurydx86al8ZnQMVz; Sat, 02 Apr 2022 16:18:23 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=iICxu8o08zMe7Ui0G3M/Cil+gzMynrzmoXIS4ku/IFc=; b=iAeWkgFTI4f+WwvufCpNRVV30g
-	RARIdOHXZKwKzfrMlC9DuIe3dol5ANBgPCBYNKi+y7+GTRZj74OMa9Ar3Kk+hKW15w1XQKrWZdzD3
-	BIwqV5mZELQ4m5GUz1Y+sXYHhl1nG7slujDlNbpovf2VVAJk043gY4alMMSTAJs47vOTP/bKuQkXJ
-	h1o2GN86znlBn4kSFX8ryS1H2z77zvoF61MVn7PK0e44t5w9UpU9uZBOvHRy350yWHZxJ+jVUSMSB
-	8XX/7umuQ8YPVlsGydKcHfgvMq8GfY5XsirjFAp75SfrkLqTjDUFmJcL5QcjQGumwmbUClMtElpBW
-	uf3pDLdw==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:54664)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@roeck-us.net>)
-	id 1nal8Z-000y7u-6M; Sat, 02 Apr 2022 21:18:23 +0000
-Message-ID: <0c646d80-3198-06c1-e8aa-442b245ffb3e@roeck-us.net>
-Date: Sat, 2 Apr 2022 14:18:22 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915D210EE;
+	Sun,  3 Apr 2022 04:55:35 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id j21so5388315qta.0;
+        Sat, 02 Apr 2022 21:55:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kUho+lhvmxV7brTbWyWD6YBAbxEiznMLxM2RG/qNbi0=;
+        b=C/VjivnMQ7u3WrE2jMPbSdDZ66Apq6t9jTvxgevpelL7gFXesHnmMuBMTb423wzHZe
+         T9um4G9m00c+tBGrArgCttnBudMADQj/hBR/B37yqyaU0JCDuuFebOmJBvNx25FxDDCQ
+         4386gXqEeSTAV+LFXYg3XIb8D3xVDpOjIxIDJKs0B70kLyU80C3P3fJJ++ChZMkAkXZn
+         1CopDq3PBX0rUDeexfzKFSEDP3buvWAvB18vn7RWtxz6wNRj5TtuaEGrAK2myYaLXS8u
+         RrRWugvGI33g6gdecB+X0/ulbHJnsH+xXJB2YGZr5BYqYk1B/M/MhbEHxEPJ/8D/h48N
+         cPfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kUho+lhvmxV7brTbWyWD6YBAbxEiznMLxM2RG/qNbi0=;
+        b=aJp+97S4ZWgBBgmI5uDuEy0mSAnGxqzdbVsJk4ferl/qQ0airtXtY4b9IublsfM4Iw
+         PidRva9dafzCCkHaNezlWd7ilqY1xAW0kV7W1en7VnTtSnYT2rrv2fONfH0PdFEiOO0G
+         uaX4GICfiz7VR9Cqsfk5eqet4Z0Ujh1tI+afkAexKmvhbHzdnfc3ygcQskaqW1WUgiiB
+         CyXfnZs3KZ8emlSjMWKZuwvv3umEQl/8LgPQmWHY9N0RXLroyue2+6P0m7T51xR/XkPF
+         0rlW3lNU7zYAc6BE4N492H9mx/TduQaDHPF/qHEh/YH0OjTOeKUoIEBOrwdtQSrfvN+G
+         JCNw==
+X-Gm-Message-State: AOAM532T/DWw4eIyqm/TformixDaahKMYhY9+xh/vzCjObYHMcPQIU5R
+	EBjXRxc3/uRCsF4gg/d2RxM=
+X-Google-Smtp-Source: ABdhPJyjS3PusZ7wLVd4SqsMjD6uPEcBYYEPhF4QBQ+xq7Dt8koQL+u681oR/qxGQVCBHyeEL5dP5A==
+X-Received: by 2002:a05:622a:1646:b0:2e0:6fe2:9f7d with SMTP id y6-20020a05622a164600b002e06fe29f7dmr13477824qtj.174.1648961734509;
+        Sat, 02 Apr 2022 21:55:34 -0700 (PDT)
+Received: from sophie ([45.134.140.181])
+        by smtp.gmail.com with ESMTPSA id s5-20020a37a905000000b0067d35f2fdb1sm3990931qke.37.2022.04.02.21.55.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Apr 2022 21:55:34 -0700 (PDT)
+Date: Sat, 2 Apr 2022 23:55:32 -0500
+From: Rebecca Mckeever <remckee0@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: outreachy@lists.linux.dev, Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/6] staging: r8188eu: format block comments
+Message-ID: <20220403045532.GA12084@sophie>
+References: <cover.1648888461.git.remckee0@gmail.com>
+ <0387f3df49d89c17acf96cf072e70c98e81e58f7.1648888462.git.remckee0@gmail.com>
+ <563ddd2d-b8b2-dde6-a0de-c7bbebcc834e@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] staging: r8188eu: Fix PPPoE tag insertion on big endian
- systems
-Content-Language: en-US
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220401151257.3414576-1-linux@roeck-us.net>
- <782f0115-e45f-1aff-a152-5d403c990b31@lwfinger.net>
- <dcba377b-1fce-92e6-680a-77c5567cd06c@roeck-us.net>
- <8e68501c-24fd-cfbc-60f2-ec3e277159ab@lwfinger.net>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <8e68501c-24fd-cfbc-60f2-ec3e277159ab@lwfinger.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1nal8Z-000y7u-6M
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:54664
-X-Source-Auth: linux@roeck-us.net
-X-Email-Count: 2
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <563ddd2d-b8b2-dde6-a0de-c7bbebcc834e@lwfinger.net>
 
-On 4/1/22 13:25, Larry Finger wrote:
-> On 4/1/22 14:25, Guenter Roeck wrote:
->> The rest of the code uses htons/ntohs, so I prefer to follow that lead.
+Hi Larry,
+
+On Sat, Apr 02, 2022 at 11:37:27AM -0500, Larry Finger wrote:
+> On 4/2/22 03:50, Rebecca Mckeever wrote:
+> > Add ' * ' or ' ' to beginning of block comment lines
+> > to conform to Linux kernel coding style.
+> > 
+> > Reported by checkpatch:
+> > 
+> > WARNING: Block comments use * on subsequent lines
+> > 
+> > Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
+> > ---
+> >   drivers/staging/r8188eu/core/rtw_cmd.c | 29 +++++++++++++-------------
+> >   1 file changed, 14 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+> > index 2e135bbd836a..0c659b40aa1c 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_cmd.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+> > @@ -12,9 +12,9 @@
+> >   #include "../include/rtl8188e_dm.h"
+> >   /*
+> > -Caller and the rtw_cmd_thread can protect cmd_q by spin_lock.
+> > -No irqsave is necessary.
+> > -*/
+> > + * Caller and the rtw_cmd_thread can protect cmd_q by spin_lock.
+> > + * No irqsave is necessary.
+> > + */
+> >   static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+> >   {
+> > @@ -97,14 +97,13 @@ static void _rtw_free_cmd_priv(struct cmd_priv *pcmdpriv)
+> >   }
+> >   /*
+> > -Calling Context:
+> > -
+> > -rtw_enqueue_cmd can only be called between kernel thread,
+> > -since only spin_lock is used.
+> > -
+> > -ISR/Call-Back functions can't call this sub-function.
+> > -
+> > -*/
+> > + * Calling Context:
+> > + *
+> > + * rtw_enqueue_cmd can only be called between kernel thread,
+> > + * since only spin_lock is used.
+> > + *
+> > + * ISR/Call-Back functions can't call this sub-function.
+> > + */
+> >   static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+> >   {
+> > @@ -319,10 +318,10 @@ int rtw_cmd_thread(void *context)
+> >   }
+> >   /*
+> > -rtw_sitesurvey_cmd(~)
+> > -	### NOTE:#### (!!!!)
+> > -	MUST TAKE CARE THAT BEFORE CALLING THIS FUNC, YOU SHOULD HAVE LOCKED pmlmepriv->lock
+> > -*/
+> > + * rtw_sitesurvey_cmd(~)
+> > + *	### NOTE:#### (!!!!)
+> > + *	MUST TAKE CARE THAT BEFORE CALLING THIS FUNC, YOU SHOULD HAVE LOCKED pmlmepriv->lock
+> > + */
+> >   u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num,
+> >   	struct rtw_ieee80211_channel *ch, int ch_num)
+> >   {
 > 
-> You just proved my point. It is hard to get be16_to_cpu() wrong. Sparse will flag the error when you use cpu_to_be16() instead. I expect that your htons/ntohs problem would also have shown up with Sparse.
+> These changes are OK, but the rules in drivers/net/wireless specify using
 > 
+> /* abcd
+> 
+> rather than
+> 
+> /*
+>  * abcd
+> 
+> Thus, if and when this driver is accepted into the drivers/net/wireless
+> tree, another change will be needed. I suggest doing that now.
+> 
+> Larry
 
-Ok, you made your point. I'll use be16_to_cpu() - the driver
-already uses it elsewhere anyway. As for the other problems,
-I am not sure if the driver ever worked. The function we are
-looking at can't really have worked on a little endian system
-because of the missing conversion, and the same is true for the
-other code flagged by sparse. I think I'll just add a note
-to this patch and let the driver authors decide what to do
-about those problems.
+To clarify, I should make that change in this file?
+And would it be better to make a new patch for it, or make a revision to this patch?
 
-Guenter
+Thanks,
+Rebecca
+
