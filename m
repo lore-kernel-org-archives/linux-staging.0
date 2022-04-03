@@ -1,140 +1,110 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0671FDB
-	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 16:53:09 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id c42so994392edf.3
-        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 09:53:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05051FDA;
+	Sun,  3 Apr 2022 16:53:30 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id b189so5914182qkf.11;
+        Sun, 03 Apr 2022 09:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=M8SD2tWDFceFBc3Hy1HeduUtsXtz9wGLYrV1mAwzJ0s=;
-        b=Ih+Vq66PmnEQifzPGWEAQYjEm+s7ZH/05V3TJsrkeZGdMphKGy6AksqvOuRbbCZDF5
-         TK7cNEWdUiXK4Xme+ls/AZW+QHfMO8fYf6iD2KZGwiz7kapsMsfM4yJYI/vC7ab4E/bE
-         m5KBaoUuG5CE8S/bDgzJfNzIGYdVc6gvk3LGQ1xC/cfdQhcw9J1h15WeVaBvLfkLHpZw
-         pvc9Xg9ABwKQr9gm8RSqFcXYZTPhRRo0+WkPa3pwzH8yTmxhcLjlqqnxyjxMYXwcJffi
-         e7iNqaz5BzOLQlUjjygJQr2yBIwmvtM7LbZFEZQ4740zxLHFeqwNHAj7RmFV3KtW0pFc
-         W7tA==
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=HgjUYAn5zy8VBzEx1URiJxTFwjP91TAGQJx9luH2liI=;
+        b=N68qT/clnRGCwOqBfHQ1AlXyxPbosDIBo8Znf5RG+rBhSLumUBaKqpJhPz4lvzOJNt
+         jvAjAG9mZzc5WjH8kf07ZKHmpBO4pnZFpGX12lE5VKQf0bmGKSL8O4ck5+AEBNL9SpYW
+         u+G9/Z9pPlkA/f4CIn349klUwzNwyqfT7oWb7IEKc75en/nK8Noq01FsiYxHqE5Ors7H
+         zrXPIV2dlptNgKv8D4HVEnADJl7oCf7Cgfa0n5maEhBS991BvzTTLQ2Xbs6/bd9gIvDj
+         Mb8ym5wtcQF1NT/BKbt9Kxt9wl00XYZO9ZfmlOwcNjmKVgggVebryqp/vy0Y7NOXlzQc
+         FSBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=M8SD2tWDFceFBc3Hy1HeduUtsXtz9wGLYrV1mAwzJ0s=;
-        b=5wSbo0zp+PPZ+gZAy3v/UgDHpCq8nRW4DVYE+vkdCUR686BLDZscDZh6L/FJovcrAM
-         LTE+4Kzzi5w7DulOFA2tA5IkXBaZRQqsNeo5n0q77TkThlbK/MB1TyPSqa+tmVfdmer3
-         /DezwQ4LfT9Gx7WPq2va0+WBFamJJH9NsjsykKNIMlIWueloMKypLEriHVRHrFvTuPzp
-         gKohWTL/zGh/Ti7SSwgDtkr+RcGXind+X3SQxagCNViaRl6s7d3eF6cy2q1ULAMMekYM
-         wv9MEx+S5rJ/zTi0tt/p4m6tJ8lzO+DgQa2cv9F3sKxZ1ko+m+8ZM1UwmuRUEEiuPyVJ
-         lmkQ==
-X-Gm-Message-State: AOAM533m5fXMwOMMtLWaZjbv9mgsYSquzn+zPpgOnH7tOk0uEWvHXhrd
-	tYwzZVESEvXiNKA1jbUxp/E=
-X-Google-Smtp-Source: ABdhPJwoufX7FfTOIR7O9fnlvrUb3MRXpRmZ/cTL5hm9tssCGUowDNRxlJSm4ANp1ZVQrxBicYHTZQ==
-X-Received: by 2002:a05:6402:4254:b0:419:245b:8051 with SMTP id g20-20020a056402425400b00419245b8051mr29645806edb.295.1649004787558;
-        Sun, 03 Apr 2022 09:53:07 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id d4-20020a056402000400b00412d60fee38sm4018138edu.11.2022.04.03.09.53.06
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=HgjUYAn5zy8VBzEx1URiJxTFwjP91TAGQJx9luH2liI=;
+        b=B/PLXrAf47CsETZP+L7fU0Bo9XDoWsSbiO/MvSbeWGm65yU6tPYa6NGXNsg3xRryoh
+         sgPu0paCqjBmiAgvM/jdHtpXGv12U0dzxrcggH3ikEj83GKsL/0Bi75CYuWJz49ODwtR
+         o8uCukkiG3gaSbnl7Lkat03hqrLMQT/JDLEYPfP9DIkJreQgMQNLE4C/u2UR4cO+iZW6
+         AeRFC8nA8jfG/cMMhNRsUUt2HuMJ8lOiqrW7aM0yl/Jn2xcj+iwjSVY7aMT0Ou4KXXAy
+         RLhxksdIdLMx/Lgzxj9xfTM8EhTuVXVNv3WnpL9u/02W5pv7vf2wXL3p2W6t8bdTsRn5
+         zHkg==
+X-Gm-Message-State: AOAM533DE5pe2eWuDmn4UDHkIJZVvmHZd+hkDW7QjgttClQwI6KpdIxf
+	B/KnkJRb9pfZqvedOT81p+w=
+X-Google-Smtp-Source: ABdhPJxXQkphHAz1KxoUaxLPZjI0+Y0VrwkwA15r7Q4wX/m4VLWX4zqgErzdRgGbp43LvfSs3B+HUQ==
+X-Received: by 2002:a37:b906:0:b0:67e:4497:c3cc with SMTP id j6-20020a37b906000000b0067e4497c3ccmr11943914qkf.260.1649004809714;
+        Sun, 03 Apr 2022 09:53:29 -0700 (PDT)
+Received: from euclid ([71.58.109.160])
+        by smtp.gmail.com with ESMTPSA id 78-20020a370551000000b0067e3a58c090sm4771733qkf.82.2022.04.03.09.53.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Apr 2022 09:53:06 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/5] staging: r8188eu: remove GetHalDefVar8188EUsb()
-Date: Sun,  3 Apr 2022 18:52:55 +0200
-Message-Id: <20220403165255.6900-6-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220403165255.6900-1-straube.linux@gmail.com>
-References: <20220403165255.6900-1-straube.linux@gmail.com>
+        Sun, 03 Apr 2022 09:53:29 -0700 (PDT)
+Date: Sun, 3 Apr 2022 12:53:25 -0400
+From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: rtl8712: simplify control flow
+Message-ID: <20220403165325.GA374638@euclid>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The local variable odm_flag in rtw_dbg_port() is set but never used.
-This are the last two remaining calls to GetHalDefVar8188EUsb(). Both
-calls can be removed and we finally can remove GetHalDefVar8188EUsb()
-itself. This is part of the ongoing effort to get rid of the unwanted
-hal layer.
+The function iterates an index from 0 to NUM_PMKID_CACHE and returns
+the first index for which the condition is true. If no such index is
+found, the function returns -1. Current code has a complex control
+flow that obfuscates this simple task. Replace it with a loop.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Also, given the shortened function body, replace the long variable
+name psecuritypriv with a short variable name p.
+
+Reported by checkpatch:
+
+WARNING: else is not generally useful after a break or return
+
+Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
 ---
- drivers/staging/r8188eu/hal/usb_halinit.c    | 14 --------------
- drivers/staging/r8188eu/include/hal_intf.h   |  1 -
- drivers/staging/r8188eu/os_dep/ioctl_linux.c |  8 +-------
- 3 files changed, 1 insertion(+), 22 deletions(-)
+ drivers/staging/rtl8712/rtl871x_mlme.c | 25 ++++++-------------------
+ 1 file changed, 6 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 7a7eceaac311..028ccce2c282 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1212,20 +1212,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
+index 92b7c9c07df6..b93b33092932 100644
+--- a/drivers/staging/rtl8712/rtl871x_mlme.c
++++ b/drivers/staging/rtl8712/rtl871x_mlme.c
+@@ -1284,26 +1284,13 @@ int r8712_restruct_wmm_ie(struct _adapter *adapter, u8 *in_ie, u8 *out_ie,
+  */
+ static int SecIsInPMKIDList(struct _adapter *Adapter, u8 *bssid)
+ {
+-	struct security_priv *psecuritypriv = &Adapter->securitypriv;
+-	int i = 0;
+-
+-	do {
+-		if (psecuritypriv->PMKIDList[i].bUsed &&
+-		   (!memcmp(psecuritypriv->PMKIDList[i].Bssid,
+-			    bssid, ETH_ALEN)))
+-			break;
+-		i++;
+-
+-	} while (i < NUM_PMKID_CACHE);
++	struct security_priv *p = &Adapter->securitypriv;
++	int i;
  
+-	if (i == NUM_PMKID_CACHE) {
+-		i = -1; /* Could not find. */
+-	} else {
+-		; /* There is one Pre-Authentication Key for the
+-		   * specific BSSID.
+-		   */
+-	}
+-	return i;
++	for (i = 0; i < NUM_PMKID_CACHE; i++)
++		if (p->PMKIDList[i].bUsed && !memcmp(p->PMKIDList[i].Bssid, bssid, ETH_ALEN))
++			return i;
++	return -1;
  }
  
--/* Query setting of specified variable. */
--void GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue)
--{
--	struct hal_data_8188e *haldata = &Adapter->haldata;
--
--	switch (eVariable) {
--	case HAL_DEF_DBG_DM_FUNC:
--		*((u32 *)pValue) = haldata->odmpriv.SupportAbility;
--		break;
--	default:
--		break;
--	}
--}
--
- /* Change default setting of specified variable. */
- void SetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue)
- {
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 92ba276031b0..c24059bab981 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -52,7 +52,6 @@ int rtl8188e_IOL_exec_cmds_sync(struct adapter *adapter,
- 				struct xmit_frame *xmit_frame, u32 max_wating_ms, u32 bndy_cnt);
- 
- void SetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
--void GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
- 
- unsigned int rtl8188eu_inirp_init(struct adapter *Adapter);
- 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index d127cebb6eae..b6851628e4d2 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -3675,22 +3675,16 @@ static int rtw_dbg_port(struct net_device *dev,
- 			break;
- 		case 0xee:/* turn on/off dynamic funcs */
- 			{
--				u32 odm_flag;
--
--				if (0xf == extra_arg) {
--					GetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DM_FUNC, &odm_flag);
--				} else {
-+				if (extra_arg != 0xf) {
- 					/*	extra_arg = 0  - disable all dynamic func
- 						extra_arg = 1  - disable DIG
- 						extra_arg = 2  - disable tx power tracking
- 						extra_arg = 3  - turn on all dynamic func
- 					*/
- 					SetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DM_FUNC, &extra_arg);
--					GetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DM_FUNC, &odm_flag);
- 				}
- 			}
- 			break;
--
- 		case 0xfd:
- 			rtw_write8(padapter, 0xc50, arg);
- 			rtw_write8(padapter, 0xc58, arg);
+ sint r8712_restruct_sec_ie(struct _adapter *adapter, u8 *in_ie,
 -- 
-2.35.1
+2.25.1
 
