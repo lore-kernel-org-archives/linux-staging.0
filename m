@@ -1,336 +1,129 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221451FC8;
-	Sun,  3 Apr 2022 13:56:48 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id 17so9733838ljw.8;
-        Sun, 03 Apr 2022 06:56:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2767E7A;
+	Sun,  3 Apr 2022 15:34:05 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id e16so12968773lfc.13;
+        Sun, 03 Apr 2022 08:34:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=MBAKoPZjAakKIlnbHjpDhWtb6RRB2eJBPWizvPJ/+Bo=;
-        b=kxCaDGXxYCqlWxgTZ8NaC4fIlRxhfpSHmhglknxVXDn2uJsqpKV1hNHXNv+EzjNzcY
-         8a57l3jhR/F+P/leMZqat+jfXXsuALPXS6aSTEiM0tLx+1IeVMUgiFS9bZa8bSuwUnaI
-         FHMHDmOGjFSZOBRx1ZLm+sFgSYT68mNCnfy7AdMlreAibFBXE7jtyAXY0mMS9BT7B1QY
-         AgenZik0fPiXsf5fkRRoPQ720iF2yCY69ZHgNZtGCs/UgubcDffCJVre7p8jKgBY1gC4
-         eirSRSPLIwcJkiI/qqFNNp4vfj/2ROiVt16jHOIdqeR8pNfUE3td+cBXjM608V3Ge1kS
-         1gVw==
+        bh=mIC6+nPyLNVJaE3S1OhJgHqXEDSVnYfTyjeRKg1mrs4=;
+        b=GeYFG9nTDUXSnCsLuryw0kNRtPQSYiO5g35lKNgE14JldKA6j75lNmRDchCCdAgpUv
+         cmD35zgE2pewBFV9E9dchYEWjvM8ONvkxcbhH6wZMyN1tLGGLXrAKY0d8Q26OiVtT3jI
+         tN+2na86ZvTOipKrQLA4qV5dP2z4Nmvzy9i1dmoQBgyZHmzo94K9cfDGCkZt0yt1FnkE
+         mmBaDqWdBI1U+DWtKKCgmH/2CKjVA00/AOnI/eyhbvLECA1XIhFBw0u9KBGrMwzwHvc/
+         Q6XgJjkqLa6IcPRTZZUOTlKJXBi6GxwvsOtX0uf1tKg2wyEk8FfaO/incESquyAXeqtm
+         VHpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MBAKoPZjAakKIlnbHjpDhWtb6RRB2eJBPWizvPJ/+Bo=;
-        b=Xht33ys5nrEBxtBtvJUf3C3zKj+amOMySeHC2cZ8rHTucaBK13TATvAIuPvPItXF19
-         OQtun/gYTp3/3mfkZgE1grTMhLUYPDa4u1yNG7vzRZwOGmd/5c6npdkjWgkbx9/f8CuT
-         fbStbMEiwZd5oH3fD62sicsBZNO0G1oUtuEAyob9TH2/v9jV8NtfNdbPH81COPNfrW6Q
-         x4L9R9mPQnQhci/UCU/B/RRtmrvG9u0BctH4WNsXPVEC/7okD5ijBNZGHC8v7alA+Y0A
-         Lpf3zwB0Op6bNwUjNJOWoEBZMEHyoPrP/sivHWCtZS01HgEST7/bB5WA2I2GjVtca+54
-         SGlw==
-X-Gm-Message-State: AOAM533GNgtVqwvw3knj8YjrlFK6QSjfiVx5G6FTSCZxJJgS684IPHYu
-	3qKpzS13yAU8uNyM/IAKRHPKdVDdpPMfCHPlrTA=
-X-Google-Smtp-Source: ABdhPJwe28P8jbpyadFYcDVA6XJYC6/J4hbwEooG1Q0BtqW8YxfETVA26DQ2GtfYpLopx1meR6bpJIODP05PEn/2ah4=
-X-Received: by 2002:a2e:8941:0:b0:24b:156c:70ec with SMTP id
- b1-20020a2e8941000000b0024b156c70ecmr1519337ljk.38.1648994206059; Sun, 03 Apr
- 2022 06:56:46 -0700 (PDT)
+        bh=mIC6+nPyLNVJaE3S1OhJgHqXEDSVnYfTyjeRKg1mrs4=;
+        b=2Y6vriPf0ngyvdoh2Z9loYrz/93tTk8RVMXJ/f3y7SitWR/5KtAtPOcGkTQP0KTnex
+         uvIrtehYH9771iCng/RWg4aRMp0XPsvevJC7mQ/5eOj4ixA8/c2aZIu2Aik3iS9l+IUd
+         w1WRpIMaantUcAhdwRQ0lnBCE4sBq5oEALkG9vUw7hJuZCWBziLf0Xsnou27XKPgMN3c
+         K726JhYFuJaVaX34mE6RN37gjZxWDsFqiAo/bCvQBJaCttI+AAqjLBaADtu17fJ2QsuZ
+         ZXHdsuxKQNXyLKmo6cHdiI7tVLSFyD9dStwXf2w/cqG2rVqiePj4rea2xXHipZVIKQcT
+         gafw==
+X-Gm-Message-State: AOAM532jHwjbPzw43zXsE/O4p7cCLLF8EgNNGz2MEGsZ78r9SWlFFgc0
+	GMJ+ErL/YDh4AVEq7T+1DGCTH+DjEAQVTt323Eg=
+X-Google-Smtp-Source: ABdhPJz/nL7zr6+3VO14htVnHlFLPjNAmBSr7VkYGC+fRtykkcRSWiIqb+qKA0SfyySBsesv0QEbHeKCnKq1A9izojw=
+X-Received: by 2002:a05:6512:b91:b0:44a:d2be:7ad3 with SMTP id
+ b17-20020a0565120b9100b0044ad2be7ad3mr10510438lfv.538.1649000042918; Sun, 03
+ Apr 2022 08:34:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1648840991.git.sevinj.aghayeva@gmail.com>
- <1a9f181f7f30f71c03e6e88df9fb8c17a298a192.1648840991.git.sevinj.aghayeva@gmail.com>
- <Ykl/4mIsSzaPRr+y@kroah.com>
-In-Reply-To: <Ykl/4mIsSzaPRr+y@kroah.com>
+References: <cover.1648817213.git.sevinj.aghayeva@gmail.com>
+ <8d745122cd10f5db59393b1bff09e6a73e88640b.1648817213.git.sevinj.aghayeva@gmail.com>
+ <Ykl+5reEIg31WHyy@kroah.com>
+In-Reply-To: <Ykl+5reEIg31WHyy@kroah.com>
 From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-Date: Sun, 3 Apr 2022 09:56:34 -0400
-Message-ID: <CAMWRUK4BpTFf8fGoANjjOEZ2dxCws=QPLPJ166JPgnsdsy+pmg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] staging: rtl8723bs: remove redundant braces in if statements
+Date: Sun, 3 Apr 2022 11:33:51 -0400
+Message-ID: <CAMWRUK6iuyRguC67J2ErzBp6p86OzaqxNDxhKUU=Gpw6crj3TA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] staging: rtl8723bs: remove redundant else branches
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	outreachy@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Apr 3, 2022 at 7:07 AM Greg Kroah-Hartman
+On Sun, Apr 3, 2022 at 7:03 AM Greg Kroah-Hartman
 <gregkh@linuxfoundation.org> wrote:
 >
-> On Fri, Apr 01, 2022 at 03:28:36PM -0400, Sevinj Aghayeva wrote:
+> On Fri, Apr 01, 2022 at 09:02:47AM -0400, Sevinj Aghayeva wrote:
 > > Adhere to Linux kernel coding style.
 > >
 > > Reported by checkpatch:
 > >
-> > WARNING: braces {} are not necessary for single statement blocks
+> > WARNING: else is not generally useful after a break or return
 > >
 > > Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
 > > ---
-> >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 76 +++++++------------
-> >  1 file changed, 26 insertions(+), 50 deletions(-)
+> >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 63 +++++++++----------
+> >  1 file changed, 30 insertions(+), 33 deletions(-)
 > >
 > > diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> > index 49a3f45cb771..9f328e9a81ff 100644
+> > index 81e4b1bf68f6..b80d9061f5a5 100644
 > > --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
 > > +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> > @@ -271,12 +271,9 @@ static int has_channel(struct rt_channel_info *channel_set,
-> >  {
-> >       int i;
+> > @@ -907,10 +907,9 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
+> >                       set_link_timer(pmlmeext, REAUTH_TO);
 > >
-> > -     for (i = 0; i < chanset_size; i++) {
-> > -             if (channel_set[i].ChannelNum == chan) {
-> > +     for (i = 0; i < chanset_size; i++)
-> > +             if (channel_set[i].ChannelNum == chan)
-> >                       return 1;
-> > -             }
-> > -     }
-> > -
-> >       return 0;
-> >  }
-> >
-> > @@ -649,9 +646,8 @@ unsigned int OnBeacon(struct adapter *padapter, union recv_frame *precv_frame)
-> >                       if (psta) {
-> >                               /* update WMM, ERP in the beacon */
-> >                               /* todo: the timer is used instead of the number of the beacon received */
-> > -                             if ((sta_rx_pkts(psta) & 0xf) == 0) {
-> > +                             if ((sta_rx_pkts(psta) & 0xf) == 0)
-> >                                       update_beacon_info(padapter, pframe, len, psta);
-> > -                             }
-> >                       } else {
-> >                               /* allocate a new CAM entry for IBSS station */
-> >                               cam_idx = allocate_fw_sta_entry(padapter);
-> > @@ -916,11 +912,10 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
-> >                       go2asoc = 1;
-> >               }
-> >       } else if (seq == 4) {
-> > -             if (pmlmeinfo->auth_algo == dot11AuthAlgrthm_Shared) {
-> > +             if (pmlmeinfo->auth_algo == dot11AuthAlgrthm_Shared)
-> >                       go2asoc = 1;
+> >                       return _SUCCESS;
 > > -             } else {
-> > +             else
-> >                       goto authclnt_fail;
-> > -             }
-> >       } else {
-> >               /*  this is also illegal */
-> >               goto authclnt_fail;
-> > @@ -1455,11 +1450,10 @@ unsigned int OnAssocRsp(struct adapter *padapter, union recv_frame *precv_frame)
-> >       UpdateBrateTbl(padapter, pmlmeinfo->network.supported_rates);
+> > -                     /*  open system */
+> > -                     go2asoc = 1;
+> >               }
+> > +             /*  open system */
+> > +             go2asoc = 1;
+> >       } else if (seq == 4) {
+> >               if (pmlmeinfo->auth_algo == dot11AuthAlgrthm_Shared)
+> >                       go2asoc = 1;
+> > @@ -1502,32 +1501,32 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
 > >
-> >  report_assoc_result:
-> > -     if (res > 0) {
-> > +     if (res > 0)
-> >               rtw_buf_update(&pmlmepriv->assoc_rsp, &pmlmepriv->assoc_rsp_len, pframe, pkt_len);
+> >
+> >               return _SUCCESS;
 > > -     } else {
-> > +     else
-> >               rtw_buf_free(&pmlmepriv->assoc_rsp, &pmlmepriv->assoc_rsp_len);
-> > -     }
-> >
-> >       report_join_res(padapter, res);
-> >
-> > @@ -1531,9 +1525,8 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
-> >                          reason, GetAddr3Ptr(pframe),
-> >                          ignore_received_deauth);
-> >
-> > -             if (0 == ignore_received_deauth) {
-> > +             if (0 == ignore_received_deauth)
-> >                       receive_disconnect(padapter, GetAddr3Ptr(pframe), reason);
-> > -             }
-> >       }
-> >       pmlmepriv->LinkDetectInfo.bBusyTraffic = false;
-> >       return _SUCCESS;
-> > @@ -1674,11 +1667,10 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
-> >                       /* process_addba_req(padapter, (u8 *)&(pmlmeinfo->ADDBA_req), GetAddr3Ptr(pframe)); */
-> >                       process_addba_req(padapter, (u8 *)&(pmlmeinfo->ADDBA_req), addr);
-> >
-> > -                     if (pmlmeinfo->accept_addba_req) {
-> > +                     if (pmlmeinfo->accept_addba_req)
-> >                               issue_action_BA(padapter, addr, WLAN_ACTION_ADDBA_RESP, 0);
-> > -                     } else {
-> > +                     else
-> >                               issue_action_BA(padapter, addr, WLAN_ACTION_ADDBA_RESP, 37);/* reject ADDBA Req */
+> > -             int     ignore_received_deauth = 0;
+> > -
+> > -             /*      Commented by Albert 20130604 */
+> > -             /*      Before sending the auth frame to start the STA/GC mode connection with AP/GO, */
+> > -             /*      we will send the deauth first. */
+> > -             /*      However, the Win8.1 with BRCM Wi-Fi will send the deauth with reason code 6 to us after receieving our deauth. */
+> > -             /*      Added the following code to avoid this case. */
+> > -             if ((pmlmeinfo->state & WIFI_FW_AUTH_STATE) ||
+> > -                     (pmlmeinfo->state & WIFI_FW_ASSOC_STATE)) {
+> > -                     if (reason == WLAN_REASON_CLASS2_FRAME_FROM_NONAUTH_STA) {
+> > -                             ignore_received_deauth = 1;
+> > -                     } else if (reason == WLAN_REASON_PREV_AUTH_NOT_VALID) {
+> > -                             /*  TODO: 802.11r */
+> > -                             ignore_received_deauth = 1;
 > > -                     }
-> >
-> >                       break;
-> >
-> > @@ -1774,9 +1766,8 @@ static unsigned int on_action_public_vendor(union recv_frame *precv_frame)
-> >       u8 *pframe = precv_frame->u.hdr.rx_data;
-> >       u8 *frame_body = pframe + sizeof(struct ieee80211_hdr_3addr);
-> >
-> > -     if (!memcmp(frame_body + 2, P2P_OUI, 4)) {
-> > +     if (!memcmp(frame_body + 2, P2P_OUI, 4))
-> >               ret = on_action_public_p2p(precv_frame);
-> > -     }
-> >
-> >       return ret;
-> >  }
-> > @@ -2187,9 +2178,8 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
-> >
-> >                       wps_ie = rtw_get_wps_ie(pmgntframe->buf_addr+TXDESC_OFFSET+sizeof(struct ieee80211_hdr_3addr)+_BEACON_IE_OFFSET_,
-> >                               pattrib->pktlen-sizeof(struct ieee80211_hdr_3addr)-_BEACON_IE_OFFSET_, NULL, &wps_ielen);
-> > -                     if (wps_ie && wps_ielen > 0) {
-> > +                     if (wps_ie && wps_ielen > 0)
-> >                               rtw_get_wps_attr_content(wps_ie,  wps_ielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
-> > -                     }
-> >                       if (sr != 0)
-> >                               set_fwstate(pmlmepriv, WIFI_UNDER_WPS);
-> >                       else
-> > @@ -2245,9 +2235,8 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
-> >
-> >
-> >       /*  EXTERNDED SUPPORTED RATE */
-> > -     if (rate_len > 8) {
-> > +     if (rate_len > 8)
-> >               pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8), (cur_network->supported_rates + 8), &pattrib->pktlen);
-> > -     }
-> >
-> >
-> >       /* todo:HT for adhoc */
-> > @@ -2447,9 +2436,8 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
-> >
-> >
-> >               /*  EXTERNDED SUPPORTED RATE */
-> > -             if (rate_len > 8) {
-> > +             if (rate_len > 8)
-> >                       pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8), (cur_network->supported_rates + 8), &pattrib->pktlen);
-> > -             }
-> >
-> >
-> >               /* todo:HT for adhoc */
-> > @@ -2674,9 +2662,8 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
-> >
-> >               /*  setting auth algo number */
-> >               val16 = (pmlmeinfo->auth_algo == dot11AuthAlgrthm_Shared) ? 1 : 0;/*  0:OPEN System, 1:Shared key */
-> > -             if (val16) {
-> > +             if (val16)
-> >                       use_shared_key = 1;
-> > -             }
-> >               le_tmp = cpu_to_le16(val16);
-> >
-> >               /* setting IV for auth seq #3 */
-> > @@ -2831,16 +2818,14 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
-> >                               break;
-> >                       }
-> >
-> > -                     if (!pbuf || ie_len == 0) {
-> > +                     if (!pbuf || ie_len == 0)
-> >                               break;
-> > -                     }
-> >               }
-> >
-> >       }
-> >
-> > -     if (pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_REALTEK) {
-> > +     if (pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_REALTEK)
-> >               pframe = rtw_set_ie(pframe, WLAN_EID_VENDOR_SPECIFIC, 6, REALTEK_96B_IE, &(pattrib->pktlen));
-> > -     }
-> >
-> >       /* add WPS IE ie for wps 2.0 */
-> >       if (pmlmepriv->wps_assoc_resp_ie && pmlmepriv->wps_assoc_resp_ie_len > 0) {
-> > @@ -3301,9 +3286,8 @@ static int _issue_deauth(struct adapter *padapter, unsigned char *da,
-> >       __le16 le_tmp;
-> >
-> >       pmgntframe = alloc_mgtxmitframe(pxmitpriv);
-> > -     if (!pmgntframe) {
-> > +     if (!pmgntframe)
-> >               goto exit;
-> > -     }
-> >
-> >       /* update attribute */
-> >       pattrib = &pmgntframe->attrib;
-> > @@ -3627,9 +3611,8 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
-> >       action = ACT_PUBLIC_BSSCOEXIST;
-> >
-> >       pmgntframe = alloc_mgtxmitframe(pxmitpriv);
-> > -     if (!pmgntframe) {
-> > +     if (!pmgntframe)
-> >               return;
-> > -     }
-> >
-> >       /* update attribute */
-> >       pattrib = &pmgntframe->attrib;
-> > @@ -3802,9 +3785,8 @@ unsigned int send_beacon(struct adapter *padapter)
-> >
-> >       } while (false == bxmitok && issue < 100 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
-> >
-> > -     if (padapter->bSurpriseRemoved || padapter->bDriverStopped) {
-> > +     if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
-> >               return _FAIL;
-> > -     }
-> >
-> >
-> >       if (!bxmitok)
-> > @@ -4388,9 +4370,8 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
-> >                       }
-> >
-> >                       /*  skip AP 2.4G channel plan */
-> > -                     while ((j < chplan_ap.Len) && (chplan_ap.Channel[j] <= 14)) {
-> > +                     while ((j < chplan_ap.Len) && (chplan_ap.Channel[j] <= 14))
-> >                               j++;
-> > -                     }
-> >               }
-> >
-> >               pmlmeext->update_channel_plan_by_ap_done = 1;
-> > @@ -4402,9 +4383,8 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
-> >       i = 0;
-> >       while ((i < MAX_CHANNEL_NUM) && (chplan_new[i].ChannelNum != 0)) {
-> >               if (chplan_new[i].ChannelNum == channel) {
-> > -                     if (chplan_new[i].ScanType == SCAN_PASSIVE) {
-> > +                     if (chplan_new[i].ScanType == SCAN_PASSIVE)
-> >                               chplan_new[i].ScanType = SCAN_ACTIVE;
-> > -                     }
-> >                       break;
-> >               }
-> >               i++;
-> > @@ -4629,9 +4609,8 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
-> >       struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
-> >
-> >       pcmd_obj = rtw_zmalloc(sizeof(struct cmd_obj));
-> > -     if (!pcmd_obj) {
-> > +     if (!pcmd_obj)
-> >               return;
-> > -     }
-> >
-> >       cmdsz = (sizeof(struct stadel_event) + sizeof(struct C2HEvent_Header));
-> >       pevtcmd = rtw_zmalloc(cmdsz);
-> > @@ -5124,9 +5103,8 @@ void survey_timer_hdl(struct timer_list *t)
-> >
-> >       /* issue rtw_sitesurvey_cmd */
-> >       if (pmlmeext->sitesurvey_res.state > SCAN_START) {
-> > -             if (pmlmeext->sitesurvey_res.state ==  SCAN_PROCESS) {
-> > +             if (pmlmeext->sitesurvey_res.state ==  SCAN_PROCESS)
-> >                       pmlmeext->sitesurvey_res.channel_idx++;
-> > -             }
-> >
-> >               if (pmlmeext->scan_abort) {
-> >                       pmlmeext->sitesurvey_res.channel_idx = pmlmeext->sitesurvey_res.ch_num;
-> > @@ -5135,9 +5113,8 @@ void survey_timer_hdl(struct timer_list *t)
-> >               }
-> >
-> >               ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
-> > -             if (!ph2c) {
-> > +             if (!ph2c)
-> >                       goto exit_survey_timer_hdl;
-> > -             }
-> >
-> >               psurveyPara = rtw_zmalloc(sizeof(struct sitesurvey_parm));
-> >               if (!psurveyPara) {
-> > @@ -5348,9 +5325,8 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
-> >
-> >       /* check already connecting to AP or not */
-> >       if (pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) {
-> > -             if (pmlmeinfo->state & WIFI_FW_STATION_STATE) {
-> > +             if (pmlmeinfo->state & WIFI_FW_STATION_STATE)
-> >                       issue_deauth_ex(padapter, pnetwork->mac_address, WLAN_REASON_DEAUTH_LEAVING, 1, 100);
-> > -             }
-> >               pmlmeinfo->state = WIFI_FW_NULL_STATE;
-> >
-> >               /* clear CAM */
-> > --
-> > 2.25.1
-> >
-> >
+> > +     }
+> > +     int     ignore_received_deauth = 0;
+> > +
+> > +     /*      Commented by Albert 20130604 */
+> > +     /*      Before sending the auth frame to start the STA/GC mode connection with AP/GO, */
+> > +     /*      we will send the deauth first. */
+> > +     /*      However, the Win8.1 with BRCM Wi-Fi will send the deauth with reason code 6 to us after receieving our deauth. */
+> > +     /*      Added the following code to avoid this case. */
+> > +     if ((pmlmeinfo->state & WIFI_FW_AUTH_STATE) ||
+> > +             (pmlmeinfo->state & WIFI_FW_ASSOC_STATE)) {
 >
-> Still does not apply to my tree :(
+> Very odd indentation :(
+>
 
- Sorry about that! Will sync my tree and train again.
+Just to make sure, are you not happy about the existing code or the
+comments being indented? Because I've preserved the code structure and
+have only removed the else branch. If you could clarify, I would know
+what to fix.
+
+Thanks!
 
 -- 
 
