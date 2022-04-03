@@ -1,80 +1,73 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271BD1FC6
-	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 08:44:50 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id u28so1318955eda.12
-        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 01:44:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=xfVP9oZn0/BE7WrrGSxvCysoPKHtw6VApFuE82wzSUY=;
-        b=fuyvg/Rki7ORmk6z35agkDIa3JB+Kcq0XudQdz+cdYkCdy6eMJpqcjCm0M4h6Yu3qk
-         0lWRGUxd5stxr52H+cb2cs1PLw/z5UBU0V2kvESeBRaffBXsi3MCTkp1Txl8n9wdHggi
-         YtGiTGcvKvNDeTe/xKmfozTqZK/y6rFXHhl9RC7WB7NRkTD822NsfDLNTg5glmnkBFX5
-         MnmyMQzTsv808Aywg0tcE9QOquqimyB/sKIMqTGqcrL2CyLUctTkKDn5/9uRnQ2AvYr6
-         pWe6MmfPe0FK8fD3IL3+UfTJyl8/VejC/OHhhK3tMYy3FlzKT+iNgyyVSq4immMGJzU5
-         ++1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=xfVP9oZn0/BE7WrrGSxvCysoPKHtw6VApFuE82wzSUY=;
-        b=0Jr5OJ14wtLzQ62EGKymTTah+LVMsc1FkM1NMHjKTcBVwGv75ArR8f2Mlsj+MeTkui
-         3c82OFJdBXP0t7XdDwYmZJmBCt2xeNnQ5WKrWxK9SuYR+qXO5YgTEiUyZpV9X+XhKiMT
-         T1u3Um3nI4d61WvHfrW/QYyKsS/ScGENZGChefqwyw0qe9k014ymuASlcPq2i2OtG1Em
-         hcCNiog1iHwPKVRdorKff+/Y7pEEoTpSUldgXFzOa1ZelfoiYDON/fnJDS574YXSZZ79
-         xzrjxG9Qm3OKqfxom/IID8Dr8m4zTDyVD9TKJA+elZvUKFSIbNCMEpjHHYFtznOx0c9v
-         h+7g==
-X-Gm-Message-State: AOAM530EWA1Man/tZHHupu1iNk5qYLMkxDzx2OiTLQsWdQNZGXcE6Ysv
-	6aFDqviD4zN+c54JeqwfdCs=
-X-Google-Smtp-Source: ABdhPJzjC+z6DqdTw+gOo/2sJOoWVqhf1eSPznjPBrvXeqqUPef50/kVxo8PaF7nhyKgtQmCLwGWaA==
-X-Received: by 2002:a50:954b:0:b0:41a:c9cb:8778 with SMTP id v11-20020a50954b000000b0041ac9cb8778mr28075200eda.165.1648975488355;
-        Sun, 03 Apr 2022 01:44:48 -0700 (PDT)
-Received: from [192.168.0.253] (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id h14-20020a056402280e00b0041957289726sm3775622ede.79.2022.04.03.01.44.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Apr 2022 01:44:47 -0700 (PDT)
-Message-ID: <6a1d7485-d405-d9a6-fefd-5a10d038d493@gmail.com>
-Date: Sun, 3 Apr 2022 10:44:46 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E147D1FC6;
+	Sun,  3 Apr 2022 08:57:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2994CC340ED;
+	Sun,  3 Apr 2022 08:57:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1648976256;
+	bh=1mCqVCGJhKXscLciRMEdJ4sz7mlkpG1XFYW0ZKNoZOo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eSLWoII9l3SD8kDLAdJ4Z716719mB9u/n5ufg73vlRYCSSmdcsZXAtaJRMS/YfAy4
+	 46BMjzQOlfOwLhBbJ/FIOZB2KhwcBg5wRpNm5ERre2OV1IlNvJNZtH7Ed3vNSO78+6
+	 DSgmm27lAg0hNoagcNSV+j8cdoEAOlzXhr1c9o+Q=
+Date: Sun, 3 Apr 2022 10:57:33 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: rtl8712: Fix Lines shouldn't end with '('
+Message-ID: <YklhfWv8DQlBdM0w@kroah.com>
+References: <8c88829f625f9847a1db18fe467399594dacb064.1648902188.git.eng.alaamohamedsoliman.am@gmail.com>
+ <9bb14ea276fd3274900f7aec455174c53ed3a3e9.1648902188.git.eng.alaamohamedsoliman.am@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
-Content-Language: en-US
-To: Larry Finger <Larry.Finger@lwfinger.net>,
- Greg KH <gregkh@linuxfoundation.org>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <d9c7a2ba-288a-d81a-cd59-5b002489d821@lwfinger.net>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <d9c7a2ba-288a-d81a-cd59-5b002489d821@lwfinger.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9bb14ea276fd3274900f7aec455174c53ed3a3e9.1648902188.git.eng.alaamohamedsoliman.am@gmail.com>
 
-On 4/2/22 23:32, Larry Finger wrote:
-> In drivers/net/wireless/realtek/rtlwifi, we had a similar problem. There 
-> it was handled by putting the lps_enter() and lps_leave() operations in 
-> a separate workqueue. In this case, the routines were rtl_lps_enter() 
-> and rtl_lps_leave(). Each of them sets a variable to indicate whether 
-> enter_ps is true or false, and schedules the workqueue. In the 
-> workqueue's callback routine, the routines to start/stop ps mode are 
-> called. The code is in drivers/net/wireless/realtek/rtlwifi/ps.c.
+On Sat, Apr 02, 2022 at 02:28:17PM +0200, Alaa Mohamed wrote:
+> Fix " CHECK: Lines should not end with a '(' "
+> Reported by checkpatch
 > 
-> This solution is only one of many, and there may be a better one.
+> Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+> ---
+>  drivers/staging/rtl8712/rtl8712_xmit.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
 > 
-> Larry
-> 
+> diff --git a/drivers/staging/rtl8712/rtl8712_xmit.c b/drivers/staging/rtl8712/rtl8712_xmit.c
+> index 05ba0ca7d627..d43c097f30c3 100644
+> --- a/drivers/staging/rtl8712/rtl8712_xmit.c
+> +++ b/drivers/staging/rtl8712/rtl8712_xmit.c
+> @@ -638,16 +638,12 @@ int r8712_xmitframe_complete(struct _adapter *padapter,
+>  		if (p2ndxmitframe) {
+>  			u16 total_length;
+>  
+> -			total_length = r8712_xmitframe_aggr_next(
+> -				pxmitbuf, p2ndxmitframe);
+> +			total_length = r8712_xmitframe_aggr_next(pxmitbuf, p2ndxmitframe);
+>  			do {
+> -				p2ndxmitframe = dequeue_xframe_ex(
+> -					pxmitpriv, phwxmits, hwentry);
+> +				p2ndxmitframe = dequeue_xframe_ex(pxmitpriv, phwxmits, hwentry);
+>  				if (p2ndxmitframe)
+>  					total_length =
+> -						r8712_xmitframe_aggr_next(
+> -							pxmitbuf,
+> -							p2ndxmitframe);
+> +						r8712_xmitframe_aggr_next(pxmitbuf, p2ndxmitframe);
 
-Thank you for the explanation Larry.
+And now you went over 80 columns :(
 
-Michael
+You can do this better so that you still wrap lines, but do not trail
+with a '(' character.
+
+thanks,
+
+greg k-h
