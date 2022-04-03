@@ -1,44 +1,44 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B63C7C
-	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 12:18:07 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id p15so14642286ejc.7
-        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 05:18:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B293E7C
+	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 12:20:01 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id h7so12567553lfl.2
+        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 05:20:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=QvjIgpbYP0AE6cl4O3RydzzNsUQwz26DYQCH/eouy64=;
-        b=f5frQnxK7uaM8FUwx5q4Iy5wVI1d1DwBKl/6tkrg4H5H91G0kNf/df1m8SOx2VZ11/
-         aK41kEj+C25hMNdpbZa32MIkgj01ymwWZnxAcK4m6+P7GAXe6eu4c6qw3dMgJfuqH/MT
-         sRh10Qgt+yw8IBYAkvlRUGHtHC7YkS5yZ7TanH+UF61YQGjR9R8ILky0XcPcrZsMg5A6
-         jykHXC4mP3nJZTvcDE2z6lu/ClJ3c6Hg/vxTF+OBPebrKheIIZ/R/Q/Z0solK+jHlYn7
-         fbfiHuofFucD0SkkcpjITJnB8l/x87F0KvRtX7+vZ05OeF377AjxoE+3CG3qJbCu1zYV
-         wgEA==
+        h=message-id:date:mime-version:user-agent:subject:content-language
+         :from:to:cc:references:in-reply-to:content-transfer-encoding;
+        bh=zbodHHrevjydH+zdP0lL/nnwlQQVq6AdfqnfCx0W7oU=;
+        b=UHpjHkiDrYV/NBMUyc1gt5luZX4ad+7i18Zz3kJ/GsF5tO2qtEINyZvbs3zDob86D7
+         ATCHqS8X3g7xgOdfEHxR4j2a2D97tcS9/7owd+fqQQOdMajcP9OC4v7ODAQZaseYt3D2
+         UCmlB2ILmTQ7ei0QhtadNgNR9zY+gKamkVBTFZysVrUj0CyPUeoHkwnOkVPOHXABrUCV
+         9PCVpy4Zrfc9+e955iSSq2nOWi4aI+fql5ouwdqZRyaDzFPecdVUbFNkitC8+qvk2GgZ
+         9bAPqcDzYwwD27LSE354DRPDYLSSG9HwzImx5LfPVqMUC60yUGB/wC05ZqGXvchHJzIK
+         0BUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+         :content-language:from:to:cc:references:in-reply-to
          :content-transfer-encoding;
-        bh=QvjIgpbYP0AE6cl4O3RydzzNsUQwz26DYQCH/eouy64=;
-        b=E+NUIY4SQcIDhP/9Vj0lrjfm7FAqG6OXvkjWvF9DaQ3HcgyGkZC5QnM4Z0KeC77WFl
-         Rzs0IsS/mAcXrw6MX2VWj5SUWW29bbVv4RdbNh6AqXGf52urbxXMPJkTBKkErKfMqOJm
-         fT5Gru9S6loFI3DyUhpz15ADloguzEUP4njaaCzsHqylM+PwwNwEzu84za9hAWK6JhC2
-         yRVtSCYHrKboDabSbf6i1Tu12/bssloFDyuspFGorVeKpL4WnvVrVvP5imu6k7ABdseE
-         CjVfY/p6/48f2N6l6qGp58BNebl0jkPEt61Q+kT+iepxIPow1jScoy4w/ZHhMT0aixh+
-         B6Wg==
-X-Gm-Message-State: AOAM532Md5pCVs1oMqPkjxWNUVJwCFnCdjVjwRlD+y9oCmlB4kg2+5Gi
-	co3fy0mDSA3FJ7xYpBl/OaI=
-X-Google-Smtp-Source: ABdhPJyZk64Gf+4esdRzmYupZUsrBhSqUtT5RydmSA5vuqCCLk3J87Isu/YnNmpJTDuxMTzu25z6Hg==
-X-Received: by 2002:a17:907:1b1e:b0:6d7:31b0:e821 with SMTP id mp30-20020a1709071b1e00b006d731b0e821mr7064454ejc.334.1648988285519;
-        Sun, 03 Apr 2022 05:18:05 -0700 (PDT)
-Received: from [192.168.0.253] (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id k14-20020a170906128e00b006e4b67514a1sm3230167ejb.179.2022.04.03.05.18.04
+        bh=zbodHHrevjydH+zdP0lL/nnwlQQVq6AdfqnfCx0W7oU=;
+        b=vYlnRFv/k5QwH2lnL0Rq50VZ8YTOOdabzCX4kYfl1ZIbsTn7uZE6JyVL07BMotfZiT
+         KPT7xy/xbsvTi9FZ70ttlMNK3Y46xu87XFaX1Li+8mUMHwszu8/FEYv8fKIcvW+QgIA8
+         QOIgI8jpuRMoQHlej5XG6SInolkHJsraeiqf1S1fkpIluU8R7KrxCfDKHqcxp/96Z5yA
+         z4feR6XwzZjthAc5u3F+j7oAET7VgQnd+MYYwvesrjR3lu0QMLGwz1xMavkH+q/Lsyxe
+         gGEBOYbJYtYMsth5OKER+P2T5oY6qFTQi/Flbx3WZzYiP25RxT9xynPh08r7rJO2b3qR
+         KjYA==
+X-Gm-Message-State: AOAM531Ou5vfwuwP48xGXyizQWJxKY0HU9+UHRWimNldMzqyoN/qmDWg
+	7ghhWfj7T4T0LpWcTXnsIgY=
+X-Google-Smtp-Source: ABdhPJwVPiaFOsF8CF+UKJVFczY+Y6vkqwIPieZKR+4654dAF79RQZXMYcm0XT5ySNBn4AAVYu+aoQ==
+X-Received: by 2002:a19:6750:0:b0:44a:1fd7:530f with SMTP id e16-20020a196750000000b0044a1fd7530fmr19392379lfj.341.1648988399546;
+        Sun, 03 Apr 2022 05:19:59 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.247])
+        by smtp.gmail.com with ESMTPSA id c20-20020a196554000000b0044a1181c527sm810298lfj.9.2022.04.03.05.19.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Apr 2022 05:18:04 -0700 (PDT)
-Message-ID: <617af7b6-eeac-372a-7bbb-828db11a2aa9@gmail.com>
-Date: Sun, 3 Apr 2022 14:18:04 +0200
+        Sun, 03 Apr 2022 05:19:59 -0700 (PDT)
+Message-ID: <fd356230-c9b1-2824-d073-83975bd31be9@gmail.com>
+Date: Sun, 3 Apr 2022 15:19:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,32 +49,61 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
 Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
 Content-Language: en-US
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: Michael Straube <straube.linux@gmail.com>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Cc: Greg KH <gregkh@linuxfoundation.org>,
  Larry Finger <Larry.Finger@lwfinger.net>,
  Phillip Potter <phil@philpotter.co.uk>,
  "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <bf1137fa-5051-a834-0c1f-042c5a8074a3@gmail.com> <1858641.taCxCBeP46@leap>
- <2366209.jE0xQCEvom@leap>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <2366209.jE0xQCEvom@leap>
+ <1813843.tdWV9SEqCh@leap> <942bbcb6-725d-9b47-5dfe-f105d30ea6b7@gmail.com>
+ <7365301.EvYhyI6sBW@leap> <bf1137fa-5051-a834-0c1f-042c5a8074a3@gmail.com>
+ <3fb13fee-a605-7f2e-81ad-45148082a733@gmail.com>
+In-Reply-To: <3fb13fee-a605-7f2e-81ad-45148082a733@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/3/22 14:10, Fabio M. De Francesco wrote:
-> For a list of all the paths to a given function you may use Smatch:
+On 4/3/22 14:48, Pavel Skripkin wrote:
+> On 4/3/22 14:41, Michael Straube wrote:
+>> 
+>> Hi Fabio,
+>> 
+>> wait..
+>> 
+>> rtw_set_802_11_disassociate() calls rtw_pwr_wakeup() only if
+>> check_fwstate(pmlmepriv, _FW_LINKED) is true.
+>> 
+>> 
+>> 	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+>> 		rtw_disassoc_cmd(padapter, 0, true);
+>> 		rtw_indicate_disconnect(padapter);
+>> 		rtw_free_assoc_resources(padapter, 1);
+>> 		rtw_pwr_wakeup(padapter);
+>> 	}
+>> 
 > 
-> ./smatch/smatch_data/db/smdb.py ips_leave
+> msleep() cannot be called in atomic context:
 > 
-> or
+> drivers/staging/r8188eu/core/rtw_pwrctrl.c:379
 > 
-> ./smatch/smatch_data/db/smdb.py call_tree ips_leave
+>    	if (pwrpriv->ps_processing) {
+>    		while (pwrpriv->ps_processing && rtw_get_passing_time_ms(start) <= 3000)
+>    			msleep(10);
+>    	}
 > 
-> But perhaps you already know how to do it.
 
-Yes, but thank you anyway. :)
+Hm, just wondering, shouldn't we annotate load from 
+pwrpriv->ps_processing with READ_ONCE() inside while loop?
 
-Michael
+IIUC compiler might want to cache first load into register and we will 
+stuck here forever.
 
+
+Am I missing something?
+
+
+
+With regards,
+Pavel Skripkin
