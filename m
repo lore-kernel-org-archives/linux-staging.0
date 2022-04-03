@@ -1,148 +1,119 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14E81FC8
-	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 13:02:20 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id b21so2098618lfb.5
-        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 06:02:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB31B1FC8;
+	Sun,  3 Apr 2022 13:50:43 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id b21so2218858lfb.5;
+        Sun, 03 Apr 2022 06:50:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=o/5H3hQU1bKGnfI2Eizpq3URJjhLApS4+nGYxyH5uXs=;
-        b=W7oxCgG6rhTffSg1LkpIKdY7Tv/R9el64FWQVlZ3J9FZvla3/k9q+OePlgqJ/aaa0J
-         js8FBngRi4H7nZ83cKHEUEn930EH4zgb0z//euOzyTgqxE81Ug1UPCaJ4UYEzV6/aByU
-         EJquYtZJwQA4RJ+skVTlRN569zpgMZxknHn3y2ShLGOyVSXBAzb+Q8B68v9svZR1ibrv
-         RLl2OGRPtpOM6qIdxAVOzkODHLcBZuQ/EXJWmDfz3qZqn60INBTRD11hU6x1sCYoCJXZ
-         +Vn+906bdVtH/wu7RAkhnZhMNg4VKfOfHvCkSHy+U3Ka/DRM2Bm1XgmHJXsfDyIrnigT
-         4SjA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rH+nD+w/YAEr4Mpti0uLenxNEyIksOqvfR5bkd8T8k8=;
+        b=HJnZ2bnWwobk856WqtLSSDhke48sE9iRsOb7r9XO4eD2yYUNJx81OuYzYsUYyb2npK
+         qvf/6YYvlFP4GkV28Hcz9tCPBVXIPM/OohUl+gtdXYsqELGcrDSfcmCN+FfDb/HiJ4w8
+         tVsjYZ4JW8RTymUt3dc9QOGn685aMYFSr2pNQB4l3GJIWZMF+SvsrMLHJDCF07Tjg74t
+         cHVJkcFgjrq4haSPS3tsUspBseH2OwFnONqQFGpk6qdiRzWDW6dsojuKqluD/RafWZfw
+         oqe6m63DesbITmx7ED64WnYcRhxVVqxd1Es88K5llqFj/l0B4P+6dfFp78Pka/ch8+gu
+         /Yag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=o/5H3hQU1bKGnfI2Eizpq3URJjhLApS4+nGYxyH5uXs=;
-        b=nld4ABLVfV2tgq+o+oncgcVdMUIXBpUEYOaN2yttMRKCX3wvQxwDxN2DFkhxeZrzJM
-         ES/tvQONPGcKQ5HwP6eba9bntRygjzWWiN908zhhPg5TZGVsWYqyFSSveDDgKOQqvhFs
-         zjE4shgRIeijpTLLyp+dJyZTEDy/+voIYTk57S+mhqOEN83EWI3CKFIZT5DUC2c3rHtm
-         M2S198e12iCf0AJ7jymFEc/RXJ+dUsdQlltBdG9sa4UkZtcGa3Kvlnh2kcUpSzpH7Yk0
-         BZ9WEDatO4GsCT+snXJ5zIEnnxyaXfjHTqS96PAF2Mui4gRMiqr8u1Fk6N4t0Uf+plXN
-         y8LA==
-X-Gm-Message-State: AOAM531fD43uKUruXkiH8p4aoFuhI+3H8iZUe33V4eVbjXuiVYgj2Cl1
-	V6AQpz8kvwAKELIkzLkEkAo=
-X-Google-Smtp-Source: ABdhPJzGfiC8zqn5uOwjALa8g6t/F+vMzacLRWQSs3RMZx4dD54eKbz1qtF5XguEYryQ6UftY2UHrQ==
-X-Received: by 2002:a05:6512:3056:b0:44a:5117:2b2b with SMTP id b22-20020a056512305600b0044a51172b2bmr19532934lfb.275.1648990938668;
-        Sun, 03 Apr 2022 06:02:18 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.247])
-        by smtp.gmail.com with ESMTPSA id z23-20020a2e8857000000b00249a15d93b8sm786112ljj.125.2022.04.03.06.02.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Apr 2022 06:02:18 -0700 (PDT)
-Message-ID: <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
-Date: Sun, 3 Apr 2022 16:02:16 +0300
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rH+nD+w/YAEr4Mpti0uLenxNEyIksOqvfR5bkd8T8k8=;
+        b=AQxbSgDLx+1R++7dn6yop8EJ9TSpx7+PgLuKZtdegEo5DI77X+SuQ+hIsiWPqNESCW
+         KfWJVl+65csBijBy2pVVMvuUP/cl9kWpuhb+3Tm5DwPNFd1T4fh/5JwGA8hDungxz3ls
+         nxXHwhJ4oltAo6AaEGrFMJHYFut5bFf1KyjUtbkD418MUrFp3wHCDpuU39tIar8bdHK1
+         AQOh6vkG3n1uznN59Himz1UrBE5JtFQI8GOIU4G4/UC4otWEswiwbfcHWRcnby5RP7Jy
+         hgfRuJd1sq53N0gxKFH+wLlWemf6INK7yTFJrXVvjZW4cTK04F5+htauHhf25Uav0Diz
+         R3WQ==
+X-Gm-Message-State: AOAM5316Fg5MhA/yNnHGOhFwcrQ48OADaORAYSCiGFQ8jOob8ftaOtLS
+	6WU2mrD0YkzChJR0qBOPhmAjSR+z6HK6SF/PAj4=
+X-Google-Smtp-Source: ABdhPJxuBZeu9WHR7ugNIX/VHjhJH161cvXJSa5sMBesGNqIU6sQah7GDaBBbHMgYHZpTrzJVLOX/N5gHX49nSrKKjY=
+X-Received: by 2002:a05:6512:3c93:b0:44b:4ba:c334 with SMTP id
+ h19-20020a0565123c9300b0044b04bac334mr740681lfv.27.1648993841812; Sun, 03 Apr
+ 2022 06:50:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
-Content-Language: en-US
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Michael Straube <straube.linux@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
- <2029549.KlZ2vcFHjT@leap>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <2029549.KlZ2vcFHjT@leap>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ztQ7hFqw52D7RmjZ5Zza2Sdv"
+References: <20220401114635.GA567659@euclid> <YkdvzIyz/WGlm2uy@iweiny-desk3>
+ <20220401224619.GA71483@euclid> <YkgTpS+pzhWPgVIh@kroah.com>
+In-Reply-To: <YkgTpS+pzhWPgVIh@kroah.com>
+From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+Date: Sun, 3 Apr 2022 09:50:30 -0400
+Message-ID: <CAMWRUK4A2DKTaJFhT6b93OjKii=51A9eVKdD3Oov1uTqug9Ttw@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: simplify control flow
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ira Weiny <ira.weiny@intel.com>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ztQ7hFqw52D7RmjZ5Zza2Sdv
-Content-Type: multipart/mixed; boundary="------------kEZEa3yRzqeY92pR2tN00X09";
- protected-headers="v1"
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Michael Straube <straube.linux@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Message-ID: <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
- <2029549.KlZ2vcFHjT@leap>
-In-Reply-To: <2029549.KlZ2vcFHjT@leap>
+On Sat, Apr 2, 2022 at 5:13 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Apr 01, 2022 at 06:46:19PM -0400, Sevinj Aghayeva wrote:
+> > On Fri, Apr 01, 2022 at 02:34:04PM -0700, Ira Weiny wrote:
+> > > On Fri, Apr 01, 2022 at 07:46:35AM -0400, Sevinj Aghayeva wrote:
+> > > > The function iterates an index from 0 to NUM_PMKID_CACHE and returns
+> > > > the first index for which the condition is true. If no such index is
+> > > > found, the function returns -1. Current code has a complex control
+> > > > flow that obfuscates this simple task. Replace it with a loop.
+> > > >
+> > > > Also, given the shortened function body, replace the long variable
+> > > > name psecuritypriv with a short variable name p.
+> > > >
+> > > > Reported by checkpatch:
+> > > >
+> > > > WARNING: else is not generally useful after a break or return
+> > > >
+> > > > Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+> > >
+> > > Wow!  Nice find!  This is a huge clean up.  Extra kudos recognizing that it is
+> > > not just the else statement which is broken here!
+> >
+> > Thanks! It took me a while to realize what this loop is doing.
+> >
+> > > The only issue for the patch is that I don't see any maintainer emailed?
+> > > However, I don't see a maintainer listed in the MAINTAINERS file so ...
+> > >
+> > > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> >
+> > Thanks for the review!
+> >
+> > Greg, please do not apply this yet. After I sent out the patch, I
+> > noticed the comment at the top of the function:
+> >
+> > /*  Ported from 8185: IsInPreAuthKeyList(). (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.) */
+> >
+> > So I did a git grep to find the original function and fix it as well,
+> > and it looks like there are three copies of the same function in
+> > different files:
+> >
+> > $ git grep IsInPreAuthKeyList
+> > r8188eu/core/rtw_mlme.c:/*  Ported from 8185: IsInPreAuthKeyList(). (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.) */
+> > rtl8712/rtl871x_mlme.c: * Ported from 8185: IsInPreAuthKeyList().
+> > rtl8723bs/core/rtw_mlme.c:/*  Ported from 8185: IsInPreAuthKeyList(). (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.) */
+> >
+> > I will later send a v2 patch that replaces all of them.
+>
+> No, please do one patch per driver.  These are all different drivers
+> (cut/pasted from some original source), so this patch is fine as-is.
+> You can make 2 other patches as well for the other drivers.
 
---------------kEZEa3yRzqeY92pR2tN00X09
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Sure, will send two more patches.
 
-SGkgRmFiaW8sDQoNCk9uIDQvMy8yMiAxNTo1NSwgRmFiaW8gTS4gRGUgRnJhbmNlc2NvIHdy
-b3RlOg0KPiBPbiBkb21lbmljYSAzIGFwcmlsZSAyMDIyIDE0OjQ1OjQ5IENFU1QgUGF2ZWwg
-U2tyaXBraW4gd3JvdGU6DQo+PiBIaSBGYWJpbywNCj4+IA0KPj4gT24gNC8zLzIyIDE1OjM3
-LCBGYWJpbyBNLiBEZSBGcmFuY2VzY28gd3JvdGU6DQo+PiA+PiA+IA0KPj4gPj4gPiBkcml2
-ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0d19wd3JjdHJsLmM6Mzc5DQo+PiA+PiA+IA0K
-Pj4gPj4gPiAgICAJaWYgKHB3cnByaXYtPnBzX3Byb2Nlc3NpbmcpIHsNCj4+ID4+ID4gICAg
-CQl3aGlsZSAocHdycHJpdi0+cHNfcHJvY2Vzc2luZyAmJiBydHdfZ2V0X3Bhc3NpbmdfdGlt
-ZV9tcyhzdGFydCkgPD0gMzAwMCkNCj4+ID4+ID4gICAgCQkJbXNsZWVwKDEwKTsNCj4+ID4+
-ID4gICAgCX0NCj4+ID4+ID4gDQo+PiA+PiANCj4+ID4+IEhtLCBqdXN0IHdvbmRlcmluZywg
-c2hvdWxkbid0IHdlIGFubm90YXRlIGxvYWQgZnJvbSANCj4+ID4+IHB3cnByaXYtPnBzX3By
-b2Nlc3Npbmcgd2l0aCBSRUFEX09OQ0UoKSBpbnNpZGUgd2hpbGUgbG9vcD8NCj4+ID4+IElJ
-VUMgY29tcGlsZXIgbWlnaHQgd2FudCB0byBjYWNoZSBmaXJzdCBsb2FkIGludG8gcmVnaXN0
-ZXIgYW5kIHdlIHdpbGwgDQo+PiA+PiBzdHVjayBoZXJlIGZvcmV2ZXIuDQo+PiA+IA0KPj4g
-PiBZb3UncmUgcmlnaHQuIFRoaXMgY2FuIGJlIGNhY2hlZC4gSW4gc2l0dWF0aW9ucyBsaWtl
-IHRoZXNlIG9uZSBzaG91bGQgdXNlDQo+PiA+IGJhcnJpZXJzIG9yIG90aGVyIEFQSSB0aGF0
-IHVzZSBiYXJyaWVycyBpbXBsaWNpdGx5IChjb21wbGV0aW9ucywgZm9yIGV4YW1wbGUpLg0K
-Pj4gPiANCj4+IA0KPj4gTm90IHN1cmUgYWJvdXQgY29tcGxldGlvbnMsIHNpbmNlIHRoZXkg
-bWF5IHNsZWVwLg0KPiANCj4gTm8gY29tcGxldGlvbnMgaW4gdGhpcyBzcGVjaWFsIGNvbnRl
-eHQuIFRoZXkgZm9yIF9zdXJlXyBtaWdodCBzbGVlcC4gSSB3YXMNCj4gdGFsa2luZyBhYm91
-dCBnZW5lcmFsIGNhc2VzIHdoZW4geW91IGFyZSBpbiBhIGxvb3AgYW5kIHdhaXQgZm9yIHN0
-YXR1cyBjaGFuZ2UuDQo+IA0KPj4gDQo+PiBBbHNvLCBkb24ndCB0aGluayB0aGF0IGJhcnJp
-ZXJzIGFyZSBuZWVkZWQgaGVyZSwgc2luY2UgdGhpcyBjb2RlIGp1c3QgDQo+PiB3YWl0aW5n
-IGZvciBvYnNlcnZpbmcgdmFsdWUgMS4gTWlnaHQgYmUgYmFycmllciB3aWxsIHNsaWdodGx5
-IHNwZWVkIHVwIA0KPj4gd2FpdGluZyB0aHJlYWQsIGJ1dCB3aWxsIGFsc28gc2xvdyBkb3du
-IG90aGVyIHRocmVhZA0KPiANCj4gSGVyZSwgSSBjYW5ub3QgaGVscCB3aXRoIGEgMTAwJSBn
-b29kIGFuc3dlci4gTWF5YmUgR3JlZyB3YW50cyB0byBzYXkgc29tZXRoaW5nDQo+IGFib3V0
-IGl0Pw0KPiANCg0KSU1PLCB0aGUgYmVzdCBhbnN3ZXIgaXMganVzdCByZW1vdmUgdGhpcyBs
-b29wLCBzaW5jZSBpdCBkb2VzIG5vdGhpbmcuIE9yIA0KcmVkZXNpZ24gaXQgdG8gYmUgbW9y
-ZSBzYW5lDQoNCkl0IHdhaXRzIGZvciBwc19wcm9jZXNzaW5nIHRvIGJlY29tZSAwIGZvciAz
-MDAwIG1zLCBidXQgaWYgMzAwMCBtcyANCmV4cGlyZXMuLi4gZXhlY3V0aW9uIGdvZXMgZm9y
-d2FyZCBsaWtlIGFzIHBzX3Byb2Nlc3Npbmcgd2FzIDAgZnJvbSB0aGUgDQpiZWdpbm5pbmcN
-Cg0KTWF5YmUgaXQncyBzb21ldGhpbmcgaHcgcmVsYXRlZCwgbGlrZSB3YWl0IGZvciAzMDAw
-IG1zIGFuZCBhbGwgd2lsbCBiZSANCm9rLiBDYW4ndCBzYXkuLi4NCg0KDQoNCg0KV2l0aCBy
-ZWdhcmRzLA0KUGF2ZWwgU2tyaXBraW4NCg==
+Thanks
 
---------------kEZEa3yRzqeY92pR2tN00X09--
+>
+> thanks,
+>
+> greg k-h
 
---------------ztQ7hFqw52D7RmjZ5Zza2Sdv
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmJJmtgFAwAAAAAACgkQbk1w61LbBA3I
-aA//SU9SjnbUrWUShxTLqLoxLRi3zL08861r8rC+JoNWBbYNmReFX+ENZYz3OKSiEsxWIZys2X/r
-PB1sCOTqB4TK32xkkC61552ChAXy3hNyhzpM+ox+ZPcbHq/3SidHEt2DvOvJxGL7yqdKF+t50drv
-7XLVjPYS+cIqzxggxt7Hkf6r7MzOr/zbNhKD51JJxny4/K3hgtv3BZlJILvz0AkaW/2jpvT8H88m
-9ZDpj/SklO5+NuaBd4mdGAdJgoHyVuSwOYk6JtCAgH31flRAvyi6CnR0L3tWAbpG0czBeGgJn3Yi
-JKhPY9juqVVrPsIn+QvtW/5Ao4eXNuVCAiwVd3DsWHP6OzI6h80xWg046XMYthy6mOJQ5dt4sDjp
-NVZAAk/r9t1Zk2ujtX+GrL1UsMmGjALneMXJTAquEHk8mrVL9NMANtmpLutvQrVj+Zn+Pnd+RFdr
-G0lvHP6xXdo8cvh/w6NFYVExgPISY9z2us36LeDGYr0ZTAhlLbYDPrsSEq/10DPr5VcPqU202EiV
-26uHceFRBzOLDA0aDFWfiBn08qqma3w1W8VRYygv2mHSAC1HDFTaL8DIGswi9A3SMqVuWNNzP9Xm
-dwMXI86VR+RQowpoSgyq/pH2CcdkGV4x7SCJBEQrB9ukI8+KU5Lj7154Opce02BuG/N6YEA3C/z8
-xdY=
-=wfyk
------END PGP SIGNATURE-----
+-- 
 
---------------ztQ7hFqw52D7RmjZ5Zza2Sdv--
+Sevinj.Aghayeva
