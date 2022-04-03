@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703E71FDA
-	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 16:45:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426831FDA
+	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 16:45:56 +0000 (UTC)
 Received: from dslb-094-219-033-178.094.219.pools.vodafone-ip.de ([94.219.33.178] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nb3MC-00085T-2k; Sun, 03 Apr 2022 18:45:40 +0200
+	id 1nb3ME-00085T-PF; Sun, 03 Apr 2022 18:45:42 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 1/5] staging: r8188eu: make validate_recv_ctrl_frame return void
-Date: Sun,  3 Apr 2022 18:45:22 +0200
-Message-Id: <20220403164526.357371-2-martin@kaiser.cx>
+Subject: [PATCH 4/5] staging: r8188eu: use ieee80211 structs for addresses
+Date: Sun,  3 Apr 2022 18:45:25 +0200
+Message-Id: <20220403164526.357371-5-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220403164526.357371-1-martin@kaiser.cx>
 References: <20220403164526.357371-1-martin@kaiser.cx>
@@ -30,72 +30,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make validate_recv_ctrl_frame return void.
-
-At the moment, the function always returns _FAIL, the caller does not
-check the return value.
+Map the incoming frame data to a struct ieee80211_hdr and extract
+the addresses.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ drivers/staging/r8188eu/core/rtw_recv.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 1a79c3f46bbf..931bd81b0886 100644
+index 39834771519f..a8ab1be33cfb 100644
 --- a/drivers/staging/r8188eu/core/rtw_recv.c
 +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -795,8 +795,8 @@ static int sta2ap_data_frame(struct adapter *adapter,
- 	return ret;
- }
- 
--static int validate_recv_ctrl_frame(struct adapter *padapter,
--				    struct recv_frame *precv_frame)
-+static void validate_recv_ctrl_frame(struct adapter *padapter,
-+				     struct recv_frame *precv_frame)
- {
+@@ -801,22 +801,21 @@ static void validate_recv_ctrl_frame(struct adapter *padapter,
  	struct rx_pkt_attrib *pattrib = &precv_frame->attrib;
  	struct sta_priv *pstapriv = &padapter->stapriv;
-@@ -805,11 +805,11 @@ static int validate_recv_ctrl_frame(struct adapter *padapter,
- 	/* uint len = precv_frame->len; */
- 
- 	if (!ieee80211_is_ctl(fc))
--		return _FAIL;
-+		return;
+ 	u8 *pframe = precv_frame->rx_data;
+-	__le16 fc = *(__le16 *)pframe;
+-	/* uint len = precv_frame->len; */
+ 	u16 aid;
++	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)precv_frame->rx_data;
+ 	u8 wmmps_ac;
+ 	struct sta_info *psta;
  
  	/* receive the frames that ra(a1) is my address */
- 	if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN))
--		return _FAIL;
-+		return;
+-	if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN))
++	if (memcmp(hdr->addr1, myid(&padapter->eeprompriv), ETH_ALEN))
+ 		return;
  
  	/* only handle ps-poll */
- 	if (GetFrameSubType(pframe) == WIFI_PSPOLL) {
-@@ -821,7 +821,7 @@ static int validate_recv_ctrl_frame(struct adapter *padapter,
- 		psta = rtw_get_stainfo(pstapriv, GetAddr2Ptr(pframe));
+-	if (!ieee80211_is_pspoll(fc))
++	if (!ieee80211_is_pspoll(hdr->frame_control))
+ 		return;
  
- 		if (!psta || psta->aid != aid)
--			return _FAIL;
-+			return;
+ 	aid = GetAid(pframe);
+-	psta = rtw_get_stainfo(pstapriv, GetAddr2Ptr(pframe));
++	psta = rtw_get_stainfo(pstapriv, hdr->addr2);
  
- 		/* for rx pkt statistics */
- 		psta->sta_stats.rx_ctrl_pkts++;
-@@ -847,7 +847,7 @@ static int validate_recv_ctrl_frame(struct adapter *padapter,
- 		}
- 
- 		if (wmmps_ac)
--			return _FAIL;
-+			return;
- 
- 		if (psta->state & WIFI_STA_ALIVE_CHK_STATE) {
- 			psta->expire_to = pstapriv->expire_to;
-@@ -905,8 +905,6 @@ static int validate_recv_ctrl_frame(struct adapter *padapter,
- 			spin_unlock_bh(&pxmitpriv->lock);
- 		}
- 	}
--
--	return _FAIL;
- }
- 
- struct recv_frame *recvframe_chk_defrag(struct adapter *padapter, struct recv_frame *precv_frame);
+ 	if (!psta || psta->aid != aid)
+ 		return;
 -- 
 2.30.2
 
