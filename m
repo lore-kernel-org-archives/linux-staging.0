@@ -1,27 +1,52 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACDA1FDA
-	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 16:46:00 +0000 (UTC)
-Received: from dslb-094-219-033-178.094.219.pools.vodafone-ip.de ([94.219.33.178] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1nb3MD-00085T-Qy; Sun, 03 Apr 2022 18:45:41 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B640E1FDA
+	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 16:53:03 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id ot30so5513131ejb.12
+        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 09:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hGWC9z9Vble15uohjVceMy9pmNPvA8ixj7T4/I7j2vg=;
+        b=eysorBVn3uf8H6RmlcB4Y5q6Uiqu9VJI6vguIsiW8ijsMcWha2M5Ru92qDdfkK6V8b
+         m0G4kxUXDhxG6GKopOg+qvJ2uiA5n99+BgXGelAtrejCQqxzFpn1W0DYhRp4GCPIKDGo
+         peGizf/+uC6QCAf6xooViaBPcBd1YMVj/T4cb506C5+X9RfR7LaXaN3wivuqCRG1yIWb
+         I98umR3e+WW3aeinfhfyP87cEizGuQFvEOR0dnfBLPVQf8F1Xi/Si4k7IsKMpnz2f6Wp
+         ABItaMzMaExtIQg0PtS3ue/0PIyQv6okQ2MEkrGJ9tocmknXtPS3yPh57jlH5018rUy4
+         8cmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hGWC9z9Vble15uohjVceMy9pmNPvA8ixj7T4/I7j2vg=;
+        b=UopNBAbOXEcOBxAY5f7JIGo+gARXHaCnpJUn7sm+WwyHLVkMpz4ocXjRHrz/uYnNVu
+         nFT41KqnDbcSwNJmxgRbBF9dl1Pfh7HhZQRUzL18ijnnWftLUtLJ3xbo551Lh3uqu54Q
+         PFvM4ZAeldrcjzgkK61f1REXPXg/LqSQiMWbTeGY+ygCeQNC0AER6Iqw7SrsqGXcVMTK
+         nMzZXk7sUOySuOGb9aiTPmY87G9rN+vmSCsQB/uMmIpUlvc+xWzhzy5DRgu8jvdwFvbp
+         JMjx4cTaznNUBbzMsWRKqE36IWM6qmJcANL2IfmDtVelLxBZMVc34OOeYGGW8ohxnpTJ
+         wohQ==
+X-Gm-Message-State: AOAM530hKN2bKOjIkIdsA1A103jUldojFPPfzi622nv30pGuPq12xJjG
+	yEM3h1Ba3xIWVDtaDs1/aAaCYJZP6TQ=
+X-Google-Smtp-Source: ABdhPJwGAoEhkgr7k86IejYdeWPiUf8Ssp0RP2typ0RgA6GgyE6WRpNu7wrCgyFnm/sAyvBNhuk02A==
+X-Received: by 2002:a17:907:62a1:b0:6da:7952:d4d2 with SMTP id nd33-20020a17090762a100b006da7952d4d2mr7550856ejc.260.1649004782072;
+        Sun, 03 Apr 2022 09:53:02 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
+        by smtp.gmail.com with ESMTPSA id d4-20020a056402000400b00412d60fee38sm4018138edu.11.2022.04.03.09.53.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Apr 2022 09:53:01 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/5] staging: r8188eu: exit straight away if we have no pspoll frame
-Date: Sun,  3 Apr 2022 18:45:24 +0200
-Message-Id: <20220403164526.357371-4-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220403164526.357371-1-martin@kaiser.cx>
-References: <20220403164526.357371-1-martin@kaiser.cx>
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: remove GetHalDefVar8188EUsb()
+Date: Sun,  3 Apr 2022 18:52:50 +0200
+Message-Id: <20220403165255.6900-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,199 +55,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-validate_recv_ctrl_frame wraps nearly all of its code into a large
-if (pspoll) { ... } clause.
+This series removes the function GetHalDefVar8188EUsb(). This is part
+of the ongoing effort to get rid of the unwanted hal layer.
 
-Revert this condition and exit if the incoming frame is not a pspoll
-frame.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_recv.c | 146 ++++++++++++------------
- 1 file changed, 73 insertions(+), 73 deletions(-)
+Michael Straube (5):
+  staging: r8188eu: remove HAL_DEF_IS_SUPPORT_ANT_DIV
+  staging: r8188eu: use support_ant_div()
+  staging: r8188eu: remove dead code
+  staging: r8188eu: remove HAL_DEF_CURRENT_ANTENNA
+  staging: r8188eu: remove GetHalDefVar8188EUsb()
 
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 74fe2d7011fc..39834771519f 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -803,104 +803,104 @@ static void validate_recv_ctrl_frame(struct adapter *padapter,
- 	u8 *pframe = precv_frame->rx_data;
- 	__le16 fc = *(__le16 *)pframe;
- 	/* uint len = precv_frame->len; */
-+	u16 aid;
-+	u8 wmmps_ac;
-+	struct sta_info *psta;
- 
- 	/* receive the frames that ra(a1) is my address */
- 	if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN))
- 		return;
- 
- 	/* only handle ps-poll */
--	if (ieee80211_is_pspoll(fc)) {
--		u16 aid;
--		u8 wmmps_ac = 0;
--		struct sta_info *psta = NULL;
-+	if (!ieee80211_is_pspoll(fc))
-+		return;
- 
--		aid = GetAid(pframe);
--		psta = rtw_get_stainfo(pstapriv, GetAddr2Ptr(pframe));
-+	aid = GetAid(pframe);
-+	psta = rtw_get_stainfo(pstapriv, GetAddr2Ptr(pframe));
- 
--		if (!psta || psta->aid != aid)
--			return;
-+	if (!psta || psta->aid != aid)
-+		return;
- 
--		/* for rx pkt statistics */
--		psta->sta_stats.rx_ctrl_pkts++;
-+	/* for rx pkt statistics */
-+	psta->sta_stats.rx_ctrl_pkts++;
- 
--		switch (pattrib->priority) {
--		case 1:
--		case 2:
--			wmmps_ac = psta->uapsd_bk & BIT(0);
--			break;
--		case 4:
--		case 5:
--			wmmps_ac = psta->uapsd_vi & BIT(0);
--			break;
--		case 6:
--		case 7:
--			wmmps_ac = psta->uapsd_vo & BIT(0);
--			break;
--		case 0:
--		case 3:
--		default:
--			wmmps_ac = psta->uapsd_be & BIT(0);
--			break;
--		}
-+	switch (pattrib->priority) {
-+	case 1:
-+	case 2:
-+		wmmps_ac = psta->uapsd_bk & BIT(0);
-+		break;
-+	case 4:
-+	case 5:
-+		wmmps_ac = psta->uapsd_vi & BIT(0);
-+		break;
-+	case 6:
-+	case 7:
-+		wmmps_ac = psta->uapsd_vo & BIT(0);
-+		break;
-+	case 0:
-+	case 3:
-+	default:
-+		wmmps_ac = psta->uapsd_be & BIT(0);
-+		break;
-+	}
- 
--		if (wmmps_ac)
--			return;
-+	if (wmmps_ac)
-+		return;
- 
--		if (psta->state & WIFI_STA_ALIVE_CHK_STATE) {
--			psta->expire_to = pstapriv->expire_to;
--			psta->state ^= WIFI_STA_ALIVE_CHK_STATE;
--		}
-+	if (psta->state & WIFI_STA_ALIVE_CHK_STATE) {
-+		psta->expire_to = pstapriv->expire_to;
-+		psta->state ^= WIFI_STA_ALIVE_CHK_STATE;
-+	}
- 
--		if ((psta->state & WIFI_SLEEP_STATE) && (pstapriv->sta_dz_bitmap & BIT(psta->aid))) {
--			struct list_head *xmitframe_plist, *xmitframe_phead;
--			struct xmit_frame *pxmitframe = NULL;
--			struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
-+	if ((psta->state & WIFI_SLEEP_STATE) && (pstapriv->sta_dz_bitmap & BIT(psta->aid))) {
-+		struct list_head *xmitframe_plist, *xmitframe_phead;
-+		struct xmit_frame *pxmitframe = NULL;
-+		struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 
--			spin_lock_bh(&pxmitpriv->lock);
-+		spin_lock_bh(&pxmitpriv->lock);
- 
--			xmitframe_phead = get_list_head(&psta->sleep_q);
--			xmitframe_plist = xmitframe_phead->next;
-+		xmitframe_phead = get_list_head(&psta->sleep_q);
-+		xmitframe_plist = xmitframe_phead->next;
- 
--			if (xmitframe_phead != xmitframe_plist) {
--				pxmitframe = container_of(xmitframe_plist, struct xmit_frame, list);
-+		if (xmitframe_phead != xmitframe_plist) {
-+			pxmitframe = container_of(xmitframe_plist, struct xmit_frame, list);
- 
--				xmitframe_plist = xmitframe_plist->next;
-+			xmitframe_plist = xmitframe_plist->next;
- 
--				list_del_init(&pxmitframe->list);
-+			list_del_init(&pxmitframe->list);
- 
--				psta->sleepq_len--;
-+			psta->sleepq_len--;
- 
--				if (psta->sleepq_len > 0)
--					pxmitframe->attrib.mdata = 1;
--				else
--					pxmitframe->attrib.mdata = 0;
-+			if (psta->sleepq_len > 0)
-+				pxmitframe->attrib.mdata = 1;
-+			else
-+				pxmitframe->attrib.mdata = 0;
- 
--				pxmitframe->attrib.triggered = 1;
-+			pxmitframe->attrib.triggered = 1;
- 
--				if (psta->sleepq_len == 0) {
--					pstapriv->tim_bitmap &= ~BIT(psta->aid);
-+			if (psta->sleepq_len == 0) {
-+				pstapriv->tim_bitmap &= ~BIT(psta->aid);
- 
--					/* upate BCN for TIM IE */
--					/* update_BCNTIM(padapter); */
--					update_beacon(padapter, _TIM_IE_, NULL, false);
--				}
--			} else {
--				if (pstapriv->tim_bitmap & BIT(psta->aid)) {
--					if (psta->sleepq_len == 0)
--						/* issue nulldata with More data bit = 0 to indicate we have no buffered packets */
--						issue_nulldata(padapter, psta->hwaddr, 0, 0, 0);
--					else
--						psta->sleepq_len = 0;
--
--					pstapriv->tim_bitmap &= ~BIT(psta->aid);
--
--					/* upate BCN for TIM IE */
--					/* update_BCNTIM(padapter); */
--					update_beacon(padapter, _TIM_IE_, NULL, false);
--				}
-+				/* upate BCN for TIM IE */
-+				/* update_BCNTIM(padapter); */
-+				update_beacon(padapter, _TIM_IE_, NULL, false);
-+			}
-+		} else {
-+			if (pstapriv->tim_bitmap & BIT(psta->aid)) {
-+				if (psta->sleepq_len == 0)
-+					/* issue nulldata with More data bit = 0 to indicate we have no buffered packets */
-+					issue_nulldata(padapter, psta->hwaddr, 0, 0, 0);
-+				else
-+					psta->sleepq_len = 0;
-+
-+				pstapriv->tim_bitmap &= ~BIT(psta->aid);
-+
-+				/* upate BCN for TIM IE */
-+				/* update_BCNTIM(padapter); */
-+				update_beacon(padapter, _TIM_IE_, NULL, false);
- 			}
--			spin_unlock_bh(&pxmitpriv->lock);
- 		}
-+		spin_unlock_bh(&pxmitpriv->lock);
- 	}
- }
- 
+ drivers/staging/r8188eu/core/rtw_cmd.c       |  4 +--
+ drivers/staging/r8188eu/core/rtw_mlme.c      | 11 ++----
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c  |  2 +-
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c    |  8 ++---
+ drivers/staging/r8188eu/hal/usb_halinit.c    | 36 ++++++++------------
+ drivers/staging/r8188eu/include/hal_intf.h   |  6 ++--
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c |  8 +----
+ 7 files changed, 26 insertions(+), 49 deletions(-)
+
 -- 
-2.30.2
+2.35.1
 
