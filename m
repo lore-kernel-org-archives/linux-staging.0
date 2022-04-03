@@ -1,131 +1,121 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC6C1FDA
-	for <linux-staging@lists.linux.dev>; Sun,  3 Apr 2022 16:55:20 +0000 (UTC)
-Received: from dslb-094-219-033-178.094.219.pools.vodafone-ip.de ([94.219.33.178] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1nb3V5-0008D7-UZ; Sun, 03 Apr 2022 18:54:52 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 07/11] staging: r8188eu: remove to_fr_ds from struct rx_pkt_attrib
-Date: Sun,  3 Apr 2022 18:54:34 +0200
-Message-Id: <20220403165438.357728-8-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220403165438.357728-1-martin@kaiser.cx>
-References: <20220403165438.357728-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAD31FDA;
+	Sun,  3 Apr 2022 17:00:06 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id s13so10113172ljd.5;
+        Sun, 03 Apr 2022 10:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=y9ueE08O4hgLJ/etsVdj1Kl8Il5FNA2+FWPSFvQRrPk=;
+        b=U+HajK7vqk1UVA1fsIaKeJKFZd7cfzVEcwM4KyUoZ2V0Ugn+cZGoZLPMP0MtdaBWRS
+         alyBTpxOK/kPBbB5H+BZ2edC9isgxq9HwRKLHFEe9+wHKvRCBd8A7EIafe5zLl6VBgX2
+         5GpqjuD2PLXR72sXVIlqxmMGocx+ENmc+txeLLXT+WZlzKBAyjzuIo8YHi7KkfMBGPGt
+         qmhnXv8IOnuyxamhdlB+PENbk9pErGvYi7b/v7sJ+hZpePT1DkGvMIqoV2gVXkQaQtL4
+         u52lNn2EHzCx5x6Bj/vAvxqHRSYdUVp7PhscZGCHsSakft2rgstcYHKmdGc7fwFIzHb7
+         75Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y9ueE08O4hgLJ/etsVdj1Kl8Il5FNA2+FWPSFvQRrPk=;
+        b=HaqiDu8DFS/p/ffSilxzGJQ4/KWbjVpS3SBEqIbFZ6OOaQBnwmr06P1/we/4EJ1JWk
+         FmXtJ1azioZaGR1d6NgZm95lz0ONSpLGb9igifEO3mVRQSRAFHKJy/H6tBhO1L5jBTrA
+         XN+2Sm0sKwhhtLFphN4oc+nzbblScQ9GQ8VIcEfyK7eLIiVUQDfe0Cs+TzmAtzD/5mZI
+         DY1HCYtfJFOBFPcfXlSTbnGIQDlyc6h0vvbXOvmVGkzzfNViwZNsV5fsea1bw40OaYh9
+         qXs8+eSw1UU3liw2zz7lzoP9sgVn1juLIYH9MQFBkoRg/ocZwcwUjQmGk9Xp4wlgdwYT
+         OP+Q==
+X-Gm-Message-State: AOAM531u8PrSzaNCznV17Frj7xflCu+AMtpJh9OEloBBS9iyNoJ9qnnD
+	TQPcadZ0hkJWXpKbhIe0t2zQoWIGDbAkOTG5HEw=
+X-Google-Smtp-Source: ABdhPJzVZRAjSxF9zMVc8S+plYKgl7R00N+fdaod9HHbDZuUOJH2tuCfsHYzy+OmwFUTKicp8o9YIqILgdGyfi5wRvM=
+X-Received: by 2002:a05:651c:1507:b0:249:83b4:9a27 with SMTP id
+ e7-20020a05651c150700b0024983b49a27mr20023362ljf.24.1649005203378; Sun, 03
+ Apr 2022 10:00:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220403155111.GA333187@euclid> <ed0e9f7b-9ba9-b0c8-8261-397bf793b9b9@gmail.com>
+ <CAMWRUK6K77KpRkCkruL=RQcmA1opbvapyPJOA-EFpYdXxY8ujQ@mail.gmail.com>
+ <4ccc9ac3-c542-cd32-0cbb-7cdabbf0dbf9@gmail.com> <CAMWRUK7g7BqUL1NziBfbc6Epx7G8Xos47sKAtcimDZYmG-hVgA@mail.gmail.com>
+ <3e1dfdde-d9f3-9e16-82a6-7b5497981bdd@gmail.com>
+In-Reply-To: <3e1dfdde-d9f3-9e16-82a6-7b5497981bdd@gmail.com>
+From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+Date: Sun, 3 Apr 2022 12:59:51 -0400
+Message-ID: <CAMWRUK5Ws=QvKvOAQ=iHtTNK8c3zvWJeOWoTEu2CUjrPCFuBEA@mail.gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: simplify control flow
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Pavel Skripkin <paskripkin@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	outreachy@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-to_fr_ds in struct rx_pkt_attrib stores the values of the to_ds and
-from_ds bits of an incoming data frame. to_fr_ds is set by parsing the
-frame control bytes and it's used only in validate_recv_data_frame.
+On Sun, Apr 3, 2022 at 12:43 PM Michael Straube <straube.linux@gmail.com> wrote:
+>
+> On 4/3/22 18:29, Sevinj Aghayeva wrote:
+> > Ah, I see. You run it on an email file that contains the patch. I
+> > could reproduce what you saw when I ran checkpatch without any options
+> > on an email file. But my usual workflow is to modify a file, e.g.
+> > rtw_mlme.c and then run "checkpatch.pl -f rtw_mlme.c", in which case I
+> > cannot see the "Alignment should match" error. So it looks like if you
+> > do not specify -f then checkpatch.pl enables --strict option.
+> >
+>
+> Hi Sevinj,
+>
+> I'm also not a checkpatch expert, but on my system this works without
+> --strict too. I applied your patch to my local tree and get:
+>
+> /scripts/checkpatch.pl -f drivers/staging/r8188eu/core/rtw_mlme.c
 
-Remove to_fr_ds from struct rx_pkt_attrib and use the ieee80211 helpers
-to distinguish between the four different cases for to_ds, from_ds.
+Hi Michael,
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_recv.c    | 26 +++++++++-------------
- drivers/staging/r8188eu/include/rtw_recv.h |  1 -
- drivers/staging/r8188eu/include/wifi.h     |  2 --
- 3 files changed, 10 insertions(+), 19 deletions(-)
+That's odd. I don't get any CHECK messages if I run exactly the same
+command as above:
 
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index c200e1251545..0098f3de31d7 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -958,25 +958,22 @@ static int validate_recv_data_frame(struct adapter *adapter,
- 
- 	memcpy(pattrib->bssid, pbssid, ETH_ALEN);
- 
--	switch (pattrib->to_fr_ds) {
--	case 0:
--		memcpy(pattrib->ra, pda, ETH_ALEN);
--		memcpy(pattrib->ta, psa, ETH_ALEN);
--		ret = sta2sta_data_frame(adapter, precv_frame, &psta);
--		break;
--	case 1:
-+	/* address4 is used only if both to_ds and from_ds are set */
-+	if (ieee80211_has_a4(hdr->frame_control))
-+		return _FAIL;
-+
-+	if (ieee80211_has_fromds(hdr->frame_control)) {
- 		memcpy(pattrib->ra, pda, ETH_ALEN);
- 		memcpy(pattrib->ta, pbssid, ETH_ALEN);
- 		ret = ap2sta_data_frame(adapter, precv_frame, &psta);
--		break;
--	case 2:
-+	} else if (ieee80211_has_tods(hdr->frame_control)) {
- 		memcpy(pattrib->ra, pbssid, ETH_ALEN);
- 		memcpy(pattrib->ta, psa, ETH_ALEN);
- 		ret = sta2ap_data_frame(adapter, precv_frame, &psta);
--		break;
--	default:
--		ret = _FAIL;
--		break;
-+	} else {
-+		memcpy(pattrib->ra, pda, ETH_ALEN);
-+		memcpy(pattrib->ta, psa, ETH_ALEN);
-+		ret = sta2sta_data_frame(adapter, precv_frame, &psta);
- 	}
- 
- 	if (ret == _FAIL || ret == RTW_RX_HANDLED)
-@@ -1035,7 +1032,6 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 
- 	int retval = _FAIL;
- 	struct rx_pkt_attrib *pattrib = &precv_frame->attrib;
--	u8 *ptr = precv_frame->rx_data;
- 	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)precv_frame->rx_data;
- 	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
- 
-@@ -1048,8 +1044,6 @@ static int validate_recv_frame(struct adapter *adapter, struct recv_frame *precv
- 	if ((hdr->frame_control & cpu_to_le16(IEEE80211_FCTL_VERS)) != 0)
- 		return _FAIL;
- 
--	pattrib->to_fr_ds = get_tofr_ds(ptr);
--
- 	pattrib->frag_num = le16_to_cpu(hdr->seq_ctrl) & IEEE80211_SCTL_FRAG;
- 	pattrib->seq_num = IEEE80211_SEQ_TO_SN(le16_to_cpu(hdr->seq_ctrl));
- 
-diff --git a/drivers/staging/r8188eu/include/rtw_recv.h b/drivers/staging/r8188eu/include/rtw_recv.h
-index 4ac4e6b3e177..59b4773bc3c9 100644
---- a/drivers/staging/r8188eu/include/rtw_recv.h
-+++ b/drivers/staging/r8188eu/include/rtw_recv.h
-@@ -80,7 +80,6 @@ struct rx_pkt_attrib {
- 	u8	drvinfo_sz;
- 	u8	shift_sz;
- 	u8	hdrlen; /* the WLAN Header Len */
--	u8	to_fr_ds;
- 	u8	amsdu;
- 	bool	qos;
- 	u8	priority;
-diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index eb3cb1fb285f..a252a416d3e5 100644
---- a/drivers/staging/r8188eu/include/wifi.h
-+++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -152,8 +152,6 @@ enum WIFI_REG_DOMAIN {
- 
- #define GetFrDs(pbuf)	(((*(__le16 *)(pbuf)) & cpu_to_le16(_FROM_DS_)) != 0)
- 
--#define get_tofr_ds(pframe)	((GetToDs(pframe) << 1) | GetFrDs(pframe))
--
- #define SetMFrag(pbuf)	\
- 	*(__le16 *)(pbuf) |= cpu_to_le16(_MORE_FRAG_)
- 
+$ pwd
+/home/sevinj/k/staging/drivers/staging/r8188eu/core
+$ ~/k/staging/scripts/checkpatch.pl -f rtw_mlme.c | grep 'CHECK:' | wc -l
+0
+
+I have to specify --strict to get CHECK messages:
+
+$ ~/k/staging/scripts/checkpatch.pl --strict -f rtw_mlme.c | grep
+'CHECK:' | wc -l
+167
+
+I don't know why that is. I'm on Ubuntu 20.04 and it looks like I'm
+running checkpatch version 0.32:
+
+$ ~/k/staging/scripts/checkpatch.pl -h
+Usage: /home/sevinj/k/staging/scripts/checkpatch.pl [OPTION]... [FILE]...
+Version: 0.32
+
+<snip>
+
+>
+> [snip]
+>
+> CHECK: Alignment should match open parenthesis
+> #1638: FILE: drivers/staging/r8188eu/core/rtw_mlme.c:1638:
+> +               if ((p->PMKIDList[i].bUsed) &&
+> +                               (!memcmp(p->PMKIDList[i].Bssid, bssid,
+> ETH_ALEN)))
+>
+> [snip]
+>
+> You can also run checkpatch on the patch files (without -f).
+> Then it's easier to see if you introduced new issues.
+>
+> regards,
+> Michael
+
+
+
 -- 
-2.30.2
 
+Sevinj.Aghayeva
