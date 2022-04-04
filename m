@@ -1,74 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B31F2F21
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 14:29:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9DEBC2BBE4;
-	Mon,  4 Apr 2022 14:29:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1649082576;
-	bh=aT8e3BlBfNipB4O093d7n5Op1VJKa4RJFODCpYYoFsw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hx6l2VVUpYnQOFTg6KmsjgZgEOjYARG7zUVdOY+6HXouOH7JSXoeRR3ZCcPm4fI1A
-	 gVmDDfxhmRkKO8FzUeus9PzqkUQFSbMftgH1JrPxn9zGjBssGxkSIULTsHybgnfqxA
-	 kg0HAuuvy56dEjOdoGDw33MvkEFbz891ehoXLHlw=
-Date: Mon, 4 Apr 2022 16:29:33 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: xkernel.wang@foxmail.com
-Cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] staging: rtl8712: add two validation check in
- r8712_init_drv_sw()
-Message-ID: <YksAzXHif7Usdfv9@kroah.com>
-References: <tencent_0A1273526E1E87150578F8B752CF7F178806@qq.com>
- <tencent_3096E1464A73FF232014CC40B9001C551408@qq.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875D82F21
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 14:29:52 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id bq8so20299446ejb.10
+        for <linux-staging@lists.linux.dev>; Mon, 04 Apr 2022 07:29:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=77kGfP4Ekffc+7FFnax+xXuZmbqgY9SJOFJ7fk7iBNw=;
+        b=R9+3Kmy71VGEeFaQozw9sFkyt7mh1KE6j/VenMTAWOCwG4y79Bmo0CUMvbZKIVOxc8
+         qBLFvawexcjQmHB5ySGecSLnR0DxPIhGmCb9721y6ABB4I6o+gyyf2RuNZduUgqIT8kw
+         HCxxubAi6CmQ91kTTWyOZBP5+m1sqCTQ21gzaJ0utuPWjwiUVdUfPAYGwOCRp6aR/Utp
+         ziS5QeoySUI6inf5z4jKupCNM9pEGP33wTMmu+RkNFsoe8crFXib4OkbXadzY8jqbA5X
+         BbCaqn/GgkptZI0kl7l6XxBiOOGwDjITDLuSVwm9swRnQHwin5jvaeJOZpS6lsk3t69Y
+         ZNdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=77kGfP4Ekffc+7FFnax+xXuZmbqgY9SJOFJ7fk7iBNw=;
+        b=dQuQ9DigXw7e5TlSysodHoTGVp/wkHAxKwETa5rPDZD9+wCtju3STz66EcWKjqg9du
+         7zp1GTciPOpmv0mzzTCo8aHtLnNZiuFDVQNdPAc3kSxlzqoGOv19NjT5meRmU1s5sBUQ
+         QYRf7l09QL0t78qGBCCHByEP9CbIAwbpob1RH3ygBNcTCWU6QGjDBb0lZr0a701IYmVu
+         5amxvwAaHmzr3Wj1HkCg9TtYR5/u9d3qT974VXhYu7XTOamMHdmwazoLy/x1LeoF7+xU
+         e3EVSRUID1dyLoIwe6NkXy2/v8l4TWxkDX3846rF10FRp8Fef9RqyUvCNeRJ4jb/qTGU
+         EpYA==
+X-Gm-Message-State: AOAM533zsSL+cHyf++FdAmZ/aKaMgFu82msctRrjUKW5AnKPX7MS/VdW
+	kKQSYZBbiPtPRLwxV9flGnI=
+X-Google-Smtp-Source: ABdhPJwa9ZiC1to5cnPURySwUxxNWevW/upManv7R5NdXF0hNZCzTc9waoQbftAOfnZIin1rsXJsEA==
+X-Received: by 2002:a17:906:c147:b0:6df:f047:1677 with SMTP id dp7-20020a170906c14700b006dff0471677mr351120ejc.4.1649082590837;
+        Mon, 04 Apr 2022 07:29:50 -0700 (PDT)
+Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id da23-20020a056402177700b0041394d8173csm5293015edb.31.2022.04.04.07.29.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Apr 2022 07:29:49 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Charlie Sands <sandsch@northvilleschools.net>, gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net, phil@philpotter.co.uk, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, paskripkin@gmail.com
+Subject: Re: [PATCH V2] Fix unsafe memory access by memcmp
+Date: Mon, 04 Apr 2022 16:29:48 +0200
+Message-ID: <1890716.PYKUYFuaPT@leap>
+In-Reply-To: <20220404120332.GY3293@kadam>
+References: <YkpdVyuQguGzPSNE@sckzor-linux.localdomain> <4729027.31r3eYUQgx@leap> <20220404120332.GY3293@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_3096E1464A73FF232014CC40B9001C551408@qq.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Apr 01, 2022 at 01:07:45AM +0800, xkernel.wang@foxmail.com wrote:
-> From: Xiaoke Wang <xkernel.wang@foxmail.com>
+On luned? 4 aprile 2022 14:03:32 CEST Dan Carpenter wrote:
+> On Mon, Apr 04, 2022 at 01:25:37PM +0200, Fabio M. De Francesco wrote:
+> > On luned? 4 aprile 2022 12:50:41 CEST Dan Carpenter wrote:
+> > > On Sun, Apr 03, 2022 at 10:52:07PM -0400, Charlie Sands wrote:
+> > > > This patch fixes sparse warnings about the memcmp function unsafely
+> > > > accessing userspace memory without first copying it to kernel space.
+> > > > 
+> > > > Signed-off-by: Charlie Sands <sandsch@northvilleschools.net>
+> > > > ---
+> > > > 
+> > > > V2: Fixed checkpatch.pl warning and changed variable name as suggested
+> > > > by Greg K. H. and improved error checking on the "copy_from_user" function as
+> > > > suggested by Pavel Skripkin.
+> > > > 
+> > > >  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 21 ++++++++++++--------
+> > > >  1 file changed, 13 insertions(+), 8 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> > > > index 7df213856d66..4b4eec2bde96 100644
+> > > > --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> > > > +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> > > > @@ -3233,23 +3233,28 @@ static int rtw_p2p_get(struct net_device *dev,
+> > > >  			       struct iw_request_info *info,
+> > > >  			       union iwreq_data *wrqu, char *extra)
+> > > >  {
+> > > > -	if (!memcmp(wrqu->data.pointer, "status", 6)) {
+> > > > +	char wrqu_data[9];
+> > > > +
+> > > > +	if (copy_from_user(wrqu_data, wrqu->data.pointer, 9) != 0)
+> > > > +		return 0;
+> > > 
+> > > return -EFAULT;  We can't assume that that user wants to copy 9 bytes
+> > > especially when they're passing a 4 character + NUL string.
+> > > 
+> > > This is a custom ioctl.  Called from ioctl_private_iw_point().
+> > > 
+> > > I think if you try to dereference a user pointer like this then it will
+> > > cause a crash, right?  So that means no one has ever tested or used this
+> > > code and we hopefully we can just delete it?
+> > 
+> > After a quick look, I'm pretty confident that we can also delete 
+> > rtw_p2p_get2() and rtw_p2p_set() unless I'm overlooking something.
 > 
-> _r8712_init_xmit_priv() or _r8712_init_recv_priv() returns -ENOMEM
-> when some allocations inside it failed.
-> So it is better to check the return status of them.
+> What are the problems with rtw_p2p_get2() and rtw_p2p_set()?
 > 
-> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
-> ---
->  drivers/staging/rtl8712/os_intfs.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+> regards,
+> dan carpenter
 > 
-> diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
-> index 9502f6a..163baaa 100644
-> --- a/drivers/staging/rtl8712/os_intfs.c
-> +++ b/drivers/staging/rtl8712/os_intfs.c
-> @@ -308,8 +308,12 @@ int r8712_init_drv_sw(struct _adapter *padapter)
->  	ret = r8712_init_mlme_priv(padapter);
->  	if (ret)
->  		return ret;
-> -	_r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
-> -	_r8712_init_recv_priv(&padapter->recvpriv, padapter);
-> +	ret = _r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
-> +	if (ret)
-> +		return ret;
-> +	ret = _r8712_init_recv_priv(&padapter->recvpriv, padapter);
-> +	if (ret)
-> +		return ret;
+Is it safe to access user space pointers without using proper helpers? 
+In those cases I mean: is it safe without using copy_from_user()?
 
-You just leaked memory :(
+As I said, perhaps I'm overlooking something. However my conclusions 
+follow by your own argument.
 
-please please please test these types of "fix up error handling"
-changes, as there are lots and lots of ways to get these wrong.
+If I understand what you wrote, you asked to delete rtw_p2p_get()
+because it looks like nobody "has ever tested or used this code".
 
-If you can not test them, provide some sort of proof that the change is
-correct please.
+rtw_p2p_get2() and rtw_p2p_set() use the same pattern of rtw_p2p_get()
+when they access user space without using the proper helpers.
 
-thanks,
+Therefore, I thought that, if you suggest to delete rtw_p2p_get(), why
+not also rtw_p2p_set() and rtw_p2p_get2() that use the same unsafe
+accesses?
 
-greg k-h
+What am I still missing?
+
+Thanks,
+
+Fabio M. De Francesco
+
+
+
+
+
+
+
