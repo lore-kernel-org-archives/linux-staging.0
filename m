@@ -1,92 +1,98 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A4D7A
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 14:47:28 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id ot30so10526487ejb.12
-        for <linux-staging@lists.linux.dev>; Mon, 04 Apr 2022 07:47:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168267A;
+	Mon,  4 Apr 2022 14:52:23 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id n63-20020a1c2742000000b0038d0c31db6eso5768831wmn.1;
+        Mon, 04 Apr 2022 07:52:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mr7YWSWf9Fh5mx8DlwJhg4GGJWPL19lC/MOxR2q8iLM=;
-        b=AtCNH6+qLl12Ug6eCiCqNuePjAcTpoPNw1iCqIx/6BeEJkZKJ2r2A/FwRnkTXyC5rM
-         lEsG+RwBEkuX1fb0w9jo5BomEak7mLveAThWEODoGMM1NHmEzFFyp18MxsbXGJqc9Vbs
-         NVAFME0UufgcpbPEmQFiab7xuRREsfnh6IBCCZYFMKcwZ7lFo9zVXVS5Q3j21wjC3N5N
-         EJ6SGJPRm9VXBc0nuTZyOT8Vuus+vrgIzw6aNHweHSai15ka2cnDZT4S0IBIB1BtEq0U
-         vQL/AgqEg0xNQXcFoG9kNf5xXl11+FhW4gVmdMBJO4KcON+QL+dJV7cAjDNxiL1WvuI1
-         N/vA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qYxLsEyrkgXdnm5LAQn/zPFIjossJ27xzVLlTLKNJ1o=;
+        b=mJwseqYMjX/TfeU0TOz5lm6Zk4glWq/g3mAYF7Z4aRpv+SDPrL8NZyBjFJ3xeKA1W9
+         nygt+qc3exzXmzW90iQSz1PtJ2DGIqDxkXPTKcqsYffKmUADTvOyM0UDX/cv4hUsayET
+         5nc2qAPmbJzkwxox6fOSHbKecczcn2eUCS5mHAY1piJgJArOS4t5Gt7vcX914nqEHCHV
+         KFNKev5qRw4vMDGKJWAtryaWmFOZBoDURehR9o+t/0WCRn7a7XnqiVXifEOlMMTm5emR
+         l6g5bVk4Bq1ZpF0RUXNdk/1TJ3Gs7R6JDloT/xpvIeMbhdkA6HY1k+z+YrbmzokwPPH6
+         zXDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mr7YWSWf9Fh5mx8DlwJhg4GGJWPL19lC/MOxR2q8iLM=;
-        b=29xndDWx0Ae6VGcP/tAmJ3MvoUPf1HvdlGu9Pm8S9v7fbVff9yZj2BlaugVxH8zPF3
-         1BtttOkf25QicqC+yPc/rvy0s4Hj54j2lcafTd10rCaEjtlta87NBb4gETMkotEC4omK
-         7JSrGiTLOTbIf32VyEKUWEIXL6CrXlBep/VLD8UfdJ3vemet+zwp37/51ZTXgkE9qwEL
-         ElU01VI9oCHJl6Pj/ixDUIZK5aPOH/jPISPTvyXppasAPw2E3pKFEYm9qQn23LftpgcY
-         Vj1KEbPYv45VsXVI6+kUrGsu9yPcHYUFIjXnmo+OAwMg6eWuz1X70OlaD4GVfSBo0f21
-         ukeg==
-X-Gm-Message-State: AOAM530tRlYhkTrLf698ueKvBhDQhj/DjYHVkuX52Sj5S+Vrie13Fu0F
-	2YZSH1HT6b5XFmpQfVyMqaE=
-X-Google-Smtp-Source: ABdhPJw8S6m/1fNDQFpEzt4Ph+PTap1MEc8hF/iIt9eHY7l1piaaTbSxTLM55bPcr6dl63IabQUIew==
-X-Received: by 2002:a17:906:3283:b0:6ce:78f9:fafd with SMTP id 3-20020a170906328300b006ce78f9fafdmr431125ejw.534.1649083646445;
-        Mon, 04 Apr 2022 07:47:26 -0700 (PDT)
-Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
-        by smtp.gmail.com with ESMTPSA id gn3-20020a1709070d0300b006e1036666bfsm4409656ejc.223.2022.04.04.07.47.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qYxLsEyrkgXdnm5LAQn/zPFIjossJ27xzVLlTLKNJ1o=;
+        b=N3yqTWpjlqIu0+T2VDz6rwxVx0b/oj9w8EPv8zNMF5dvn1qMR6VLnJyAUk27yXsl36
+         LvHzXNyw6Z0YtARzteUq1qMhx8kX6chsAq3GS4U8N1gN8akcyx3SvcDb/8OWGlfFwsaS
+         tCv9UpEjbx3xOHc48ckSvhVsDbrVeEqDE5XDscfPmc/c4DwjRobapuFJAbJNltnd/h36
+         CdqPqCvlFE3SEswfURfe2YooAuKNCWMSfzoKRGuHshW6P4ZhPMsbrvr2DeViimkVmDW0
+         tunOD+slWFZejUknXgRW5A2Q8tX8OEM1b3fT9IzhpRlVJG9EVeWPvVvSkIbUADJYH1xG
+         B+sA==
+X-Gm-Message-State: AOAM533JI10d/8K48eUkGVllYYq144CwKH0pY8JBcz0FtHUGQhtjg1nC
+	SJvknao4SS0EGFcwKF9NzR8=
+X-Google-Smtp-Source: ABdhPJyAXJ20VBx2Ek7B4vBvpOYLDKniIMEAu9TwaQfHA38MDBoTVIZu0vLfi112O8MFSf5vnU6jvg==
+X-Received: by 2002:a7b:cb84:0:b0:382:a9b9:2339 with SMTP id m4-20020a7bcb84000000b00382a9b92339mr20140642wmi.91.1649083941411;
+        Mon, 04 Apr 2022 07:52:21 -0700 (PDT)
+Received: from alaa-emad ([41.42.174.117])
+        by smtp.gmail.com with ESMTPSA id 20-20020a05600c22d400b0038c8dbdc1a3sm9412536wmg.38.2022.04.04.07.52.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 07:47:25 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Charlie Sands <sandsch@northvilleschools.net>, gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net, phil@philpotter.co.uk, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, paskripkin@gmail.com
-Subject: Re: [PATCH V2] Fix unsafe memory access by memcmp
-Date: Mon, 04 Apr 2022 16:47:24 +0200
-Message-ID: <1723480.VLH7GnMWUR@leap>
-In-Reply-To: <20220404143531.GE3293@kadam>
-References: <YkpdVyuQguGzPSNE@sckzor-linux.localdomain> <1890716.PYKUYFuaPT@leap> <20220404143531.GE3293@kadam>
+        Mon, 04 Apr 2022 07:52:20 -0700 (PDT)
+From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	eng.alaamohamedsoliman.am@gmail.com
+Subject: [PATCH] staging: r8188eu: remove unnecessary blank lines
+Date: Mon,  4 Apr 2022 16:52:17 +0200
+Message-Id: <20220404145217.15069-1-eng.alaamohamedsoliman.am@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On luned? 4 aprile 2022 16:35:31 CEST Dan Carpenter wrote:
-> On Mon, Apr 04, 2022 at 04:29:48PM +0200, Fabio M. De Francesco wrote:
+Reported by checkpatch:
 
-> > Is it safe to access user space pointers without using proper helpers? 
-> 
-> No.
-> 
-> > In those cases I mean: is it safe without using copy_from_user()?
-> 
-> Correct.  You need to use copy_from_user().
-> 
-> > 
-> > As I said, perhaps I'm overlooking something. However my conclusions 
-> > follow by your own argument.
-> > 
-> > If I understand what you wrote, you asked to delete rtw_p2p_get()
-> > because it looks like nobody "has ever tested or used this code".
-> > 
-> > rtw_p2p_get2() and rtw_p2p_set() use the same pattern of rtw_p2p_get()
-> > when they access user space without using the proper helpers.
-> 
-> Those functions use "extra" which is a kernel pointer.  Which user
-> pointer do they use?  Sparse doesn't detect it.
+CHECK: Blank lines aren't necessary before a close brace '}'
 
-You're right, sorry. This is what I had overlooked. I took a brief look
-(just 5 seconds or something) and saw the same arguments that 
-rtw_p2p_get() takes and then a long list of calls to memcmp().
+Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_ap.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-I overlooked that they were called using the 4th argument ("extra").
-
-Sorry for the noise.
-
-Fabio
-
+diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+index 2ff78ed1faab..ac6effbecf6d 100644
+--- a/drivers/staging/r8188eu/core/rtw_ap.c
++++ b/drivers/staging/r8188eu/core/rtw_ap.c
+@@ -188,7 +188,6 @@ void	expire_timeout_chk(struct adapter *padapter)
+ 				spin_lock_bh(&pstapriv->auth_list_lock);
+ 			}
+ 		}
+-
+ 	}
+ 	spin_unlock_bh(&pstapriv->auth_list_lock);
  
-
+@@ -381,7 +380,6 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
+ 		/* set ra_id, init_rate */
+ 		psta->raid = raid;
+ 		psta->init_rate = init_rate;
+-
+ 	}
+ }
+ 
+@@ -455,7 +453,6 @@ void update_bmc_sta(struct adapter *padapter)
+ 		spin_lock_bh(&psta->lock);
+ 		psta->state = _FW_LINKED;
+ 		spin_unlock_bh(&psta->lock);
+-
+ 	}
+ }
+ 
+-- 
+2.35.1
 
