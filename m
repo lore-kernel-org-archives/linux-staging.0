@@ -1,50 +1,60 @@
-Received: from gateway20.websitewelcome.com (gateway20.websitewelcome.com [192.185.62.46])
+Received: from gateway34.websitewelcome.com (gateway34.websitewelcome.com [192.185.147.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F092F21
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 14:05:30 +0000 (UTC)
-Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
-	by gateway20.websitewelcome.com (Postfix) with ESMTP id 46452400F40C9
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 08:43:42 -0500 (CDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDC82F21
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 14:07:22 +0000 (UTC)
+Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
+	by gateway34.websitewelcome.com (Postfix) with ESMTP id 719DC19CA6
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 08:47:10 -0500 (CDT)
 Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
 	by cmsmtp with SMTP
-	id bMzene0ITXvvJbMzenhTtn; Mon, 04 Apr 2022 08:43:42 -0500
+	id bN30nuJCD9AGSbN30nXoFL; Mon, 04 Apr 2022 08:47:10 -0500
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=7PYozm/ATicWotchWm5FupK5vVZvpTu0fQKaRndvMaM=; b=EffaQC0MOfAY86zFzzRHDkeLEl
-	kfmkvMmiN3U/fipvE5s1H3DirlUH0Kt5HNjjK/rXrEzmnW7II81NUvKHUN7845KYedKZBQnMbJKr7
-	WD/0oYlvLJ7fQhMqbEL5DDEjKpWNFJ/t/ORPoFNhcc7GX2tuayszFP97cZx/Az52G9TXz2PVhJVmy
-	pqmjfkBauQPUX/pcKrEPUyjy+HbetZu64TkR6dX1n8WRd+CUiJyNJ3cLZDY+sJuw6hX9iIaMRkEpe
-	+Z3HY/grDa7lIoCYlClk1mf6WK4jBMZkVpETpG2283cTSWHAWC0qZbHipgR53WycGn7t35yPyZdrr
-	S4FwOdlw==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:57844 helo=localhost)
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=sBTcpRo+ZmNBLuHykhWfL9kt+ZTCEKXYU6cLW6tiBi4=; b=3WdW7Q9IouJVO/MkGYqsYWrmWQ
+	nnr5k+jVmzZ11583WBJ4vbe64g6OtIk8Gd2Z/ZvmqEGcuER4XId8UdZiXFOaKFqCgqIGDdvsxzDHk
+	eBaqCKoxZgrCjpNcBG9GpIAmOv2Zj2JusoWCR4ti+Dpa53KidF8icLeDjLfwMha6EVnoZVn07ntXx
+	c6hWf32Ox/IuU4lOW4X24Gqzd4cDKstIqT9kEVqg3FYfY5XNdgj2LeU48XzhckEMeEtkZatbmUC5t
+	HpvnCpYhFcnHU91o6tN1t3L492QGn6FgVhfWkSGYpYhV/L6PPCHehYeqf5ZU3tB1si+G+zvcI5vW6
+	fwbWKyvg==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:54714)
 	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <linux@roeck-us.net>)
-	id 1nbMzd-000dg4-Jh; Mon, 04 Apr 2022 13:43:41 +0000
-From: Guenter Roeck <linux@roeck-us.net>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH v3] staging: r8188eu: Fix PPPoE tag insertion on little endian systems
-Date: Mon,  4 Apr 2022 06:43:38 -0700
-Message-Id: <20220404134338.3276991-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.35.1
+	id 1nbN2z-000fkX-NC; Mon, 04 Apr 2022 13:47:09 +0000
+Message-ID: <c4f6452c-d3b4-3eb7-c0a9-1dbbd4cd50e1@roeck-us.net>
+Date: Mon, 4 Apr 2022 06:47:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] staging: r8188eu: Fix PPPoE tag insertion on big endian
+ systems
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220401151257.3414576-1-linux@roeck-us.net>
+ <782f0115-e45f-1aff-a152-5d403c990b31@lwfinger.net>
+ <dcba377b-1fce-92e6-680a-77c5567cd06c@roeck-us.net>
+ <8e68501c-24fd-cfbc-60f2-ec3e277159ab@lwfinger.net>
+ <0c646d80-3198-06c1-e8aa-442b245ffb3e@roeck-us.net>
+ <20220404095312.GV3293@kadam>
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20220404095312.GV3293@kadam>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
 X-AntiAbuse: Original Domain - lists.linux.dev
@@ -53,60 +63,44 @@ X-AntiAbuse: Sender Address Domain - roeck-us.net
 X-BWhitelist: no
 X-Source-IP: 108.223.40.66
 X-Source-L: No
-X-Exim-ID: 1nbMzd-000dg4-Jh
+X-Exim-ID: 1nbN2z-000fkX-NC
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:57844
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 2
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:54714
+X-Source-Auth: linux@roeck-us.net
+X-Email-Count: 7
 X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
 X-Local-Domain: yes
 
-In __nat25_add_pppoe_tag(), the tag length is read from the tag data
-structure. The value is kept in network format, but read as raw value.
-With -Warray-bounds, this results in the following gcc error/warning
-when building the driver on alpha.
+On 4/4/22 02:53, Dan Carpenter wrote:
+> On Sat, Apr 02, 2022 at 02:18:22PM -0700, Guenter Roeck wrote:
+>> On 4/1/22 13:25, Larry Finger wrote:
+>>> On 4/1/22 14:25, Guenter Roeck wrote:
+>>>> The rest of the code uses htons/ntohs, so I prefer to follow that lead.
+>>>
+>>> You just proved my point. It is hard to get be16_to_cpu() wrong. Sparse will flag the error when you use cpu_to_be16() instead. I expect that your htons/ntohs problem would also have shown up with Sparse.
+>>>
+>>
+>> Ok, you made your point. I'll use be16_to_cpu() - the driver
+>> already uses it elsewhere anyway. As for the other problems,
+>> I am not sure if the driver ever worked. The function we are
+>> looking at can't really have worked on a little endian system
+>> because of the missing conversion, and the same is true for the
+>> other code flagged by sparse. I think I'll just add a note
+>> to this patch and let the driver authors decide what to do
+>> about those problems.
+>>
+>> Guenter
+> 
+> This is already fixed along with a couple related bugs in commit
+> 2d959a842a8f ("staging: r8188eu: Fix sparse endianness warnings.").
+> 
+> https://lore.kernel.org/r/YkPK/QmLAp3BkygY@sckzor-linux.localdomain
+> 
+> It's in staging-next but hasn't hit linux-next yet.
+> 
 
-In function '__nat25_add_pppoe_tag',
-    inlined from 'nat25_db_handle' at
-	drivers/staging/r8188eu/core/rtw_br_ext.c:479:11:
-arch/alpha/include/asm/string.h:22:16: error:
-	'__builtin_memcpy' forming offset [40, 2051] is out of the bounds
-	[0, 40] of object 'tag_buf' with type 'unsigned char[40]'
+Good to hear. Too bad I got it a minute too late - I just sent v3.
 
-Add the missing be16_to_cpu() to fix the compile error. It should be
-noted, however, that this fix means that the code did probably not work
-on any little endian systems and/or that the driver has other endiannes
-related issues. A build with C=1 suggests that this is indeed the case.
-This patch does not attempt to fix any of those other issues.
-
-Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
-Cc: Phillip Potter <phil@philpotter.co.uk>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-v3: alpha is little endian, not big endian. Change wording of subject
-    and commit message accordingly.
-v2: Use be16_to_cpu().
-    Add comment to patch description suggesting that the driver may have
-    other endianness related problems.
-
- drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index d68611ef22f8..f056204c0fdb 100644
---- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
- 	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
- 	int data_len;
- 
--	data_len = tag->tag_len + TAG_HDR_LEN;
-+	data_len = be16_to_cpu(tag->tag_len) + TAG_HDR_LEN;
- 	if (skb_tailroom(skb) < data_len)
- 		return -1;
- 
--- 
-2.35.1
-
+Guenter
