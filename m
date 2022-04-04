@@ -1,43 +1,46 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160447C
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 17:12:34 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id by7so13895909ljb.0
-        for <linux-staging@lists.linux.dev>; Mon, 04 Apr 2022 10:12:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341E22F25;
+	Mon,  4 Apr 2022 18:47:36 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id z8so11004126oix.3;
+        Mon, 04 Apr 2022 11:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=oo8RE32nCoCnJcNuvIDU6kj6dR7jI6fh9JBXKwfUBHo=;
-        b=S/DawjrTHpwGGbpG+dCODzMvOUlxdV8xj+b4tNbbVnOQuZy5XLBD7WPUTkCNRvNY6R
-         FjlWtNIJBDmHMR5WwBu4mG1DnHYCI3RvDeLIzVDyyuEmjWshmiJeAA1pVUNwNWKOiAvS
-         JuIcVMYunN+8EAr90Ft4D2gZOyowPTsiLhhnrMFqllFu+5ggIrS7xV9GBHHuzt7KFCfW
-         EGV+CVqzCvD9ybtuiz7J+M0jO16h7+rT14kkzOCemY3l2PO+HYWna55A9K0TH9yJDDBv
-         NW1fL0lCh9uOnoOJ39tcwG85zKMX5bhGicPqm8MUxNo0boipgt/Lmy/ChFcZoE+0cUBL
-         0a+w==
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=1Hoq9zXJV39q89hBa70SrMFhPx8RZY0vhEzpf12yaGE=;
+        b=LSDGLhsnVOEx9ODwTEz2zHFdkwTWjGz5Yo86ybGpgs1MipIaI4GOjquCyXvF9ddLuM
+         VoaKZ6VLJF53zEIJDCd4sMGtAQFALWJeU5zPvaToQUZ0owHRy3bMhnaD2Lgjr8O4sfEb
+         5UuE4j3b8f5YfXQt0y6PC6UZljX+obS8xTeM5hh6Yh1d2dNhmGJE+WOdiQmqLFHTaHTB
+         USikjQjDFJ2FnR/mouImDqGzIdaPd5up5AHTQvOGmZGSabhc0sAMMwcuHHitW+3Ay2TA
+         QntueumZ9NdCyF/kx897lTqDNdgz9Z7lx9lwsZbIjR0B0EsRsCiWp2+gpmM5suJQGgVx
+         oUVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=oo8RE32nCoCnJcNuvIDU6kj6dR7jI6fh9JBXKwfUBHo=;
-        b=i4xEhZWW46KTxoGXn0ZsvXGpdQFDeUZsIFeTfWSZw2bZJTB0EL1XWEBhjrl5o6cymb
-         ynZOveibONnoWMZEDj6jH+g2B1EzYpwl+5TmEMfG1iX5gEFeKLzXWuRNylTN3BWZkQ95
-         EgXK9PCg4T7Xd/jWSGwnUwTN9N0kPYtilpgwNwTLktQMUgh/RwBCY0ZwTzLYdJJGGf0c
-         /ppGdOZC4QtjlReio0W6xNIF4DzX9vKYFVuWrBqYHwjCfuOdP8+YzTogU/nhVWEMfYo/
-         1EkPqoxh+TJiWbxMBLoNMLXkJ7ihgYhC+zvNB3DS3EoOVSvCT7icHIYTDBJpr9iq349N
-         b1ZQ==
-X-Gm-Message-State: AOAM531fGH+v9CxhyRVVBY1ShGGr2+0E7TSMx02j0CaWpce6yjK7con0
-	uFQj3o4WevWXc09Y29gD8Kk=
-X-Google-Smtp-Source: ABdhPJx81uhHW84j2KnF0Ehait9D2NCQPoIz8xM0zxXJuwkk2hiBcst8/kwCDgqf0hKfQ17VHOlSPA==
-X-Received: by 2002:a2e:bf12:0:b0:249:3a3b:e91a with SMTP id c18-20020a2ebf12000000b002493a3be91amr359298ljr.343.1649092353019;
-        Mon, 04 Apr 2022 10:12:33 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.247])
-        by smtp.gmail.com with ESMTPSA id p15-20020a19f10f000000b0044a36e3cc33sm1188334lfh.298.2022.04.04.10.12.31
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=1Hoq9zXJV39q89hBa70SrMFhPx8RZY0vhEzpf12yaGE=;
+        b=493eCLvauXI7pOw6BEs7jues5+x0Lk45JfFiy0Gtz6GSPriQgHQPEjQ+W73y8wcCwO
+         Ai6JR0q0hf4mdHePZ96G8md91DVYM6beKEQnH3odrUprMUJ2SGzIv3XvDfEEILv85KhY
+         /KauzgJki1FoqHsgkFjPpS0yoyTae7WRC0MO++xAmeQIV3vxXkTGIeun2FStGfSLqL/i
+         b6x8g0YuGq09WeIyIHUGrnbtG+6EVdMqTH4X8Gfgxjhf7qMJAe4ZbGtXrLCvqEdZ6O6Z
+         nI9Kt1Omhg+jimDOG40xVb5pRo0U2CyPQKhX2O6LcQQkptgxWGdz/nOa81El74xgohf5
+         Z64g==
+X-Gm-Message-State: AOAM531VIvq+ica2x3M1YNgssqf1oxnqX1cJcwZD2jmQ1eCBjGPA7FLR
+	864HeMiFOKHVXuLw3v5jTrk=
+X-Google-Smtp-Source: ABdhPJzEjbx27tmxLs/LVr3uhQkFFqUI9HaEIAsh0oSN0nUwdqNC2wsAJHzzG7/fEE8PMynXI3Gtkw==
+X-Received: by 2002:aca:2b14:0:b0:2ef:89b7:a885 with SMTP id i20-20020aca2b14000000b002ef89b7a885mr264764oik.16.1649098055299;
+        Mon, 04 Apr 2022 11:47:35 -0700 (PDT)
+Received: from ?IPV6:2603:8090:2005:39b3::1004? (2603-8090-2005-39b3-0000-0000-0000-1004.res6.spectrum.com. [2603:8090:2005:39b3::1004])
+        by smtp.gmail.com with ESMTPSA id u16-20020a056808151000b002f734da0881sm4708936oiw.57.2022.04.04.11.47.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Apr 2022 10:12:32 -0700 (PDT)
-Message-ID: <6771d68a-5251-4fb1-cecb-a0d2f32faf36@gmail.com>
-Date: Mon, 4 Apr 2022 20:12:31 +0300
+        Mon, 04 Apr 2022 11:47:34 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <c8461d9c-dda1-3c1e-0e3b-169073e8c4d0@lwfinger.net>
+Date: Mon, 4 Apr 2022 13:47:33 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,104 +49,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
+Subject: Re: [PATCH 2/2] staging: r8188eu: Add line after declarations
 Content-Language: en-US
-To: David Laight <David.Laight@ACULAB.COM>,
- Michael Straube <straube.linux@gmail.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
- <2029549.KlZ2vcFHjT@leap> <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
- <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
- <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
- <4ef1e90716e64fd78ebbc222bbb7e597@AcuMS.aculab.com>
- <3c8b6454-6b52-fe62-8db1-c76bdbeb2df0@gmail.com>
- <e1ab34f940234eecb91b9b262062eda5@AcuMS.aculab.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <e1ab34f940234eecb91b9b262062eda5@AcuMS.aculab.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ojgS2yDN6b8jEpOHeVgba6OW"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ojgS2yDN6b8jEpOHeVgba6OW
-Content-Type: multipart/mixed; boundary="------------f4ntLhnd0DATl3FwdBkEaOwo";
- protected-headers="v1"
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: David Laight <David.Laight@ACULAB.COM>,
- Michael Straube <straube.linux@gmail.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Message-ID: <6771d68a-5251-4fb1-cecb-a0d2f32faf36@gmail.com>
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
- <2029549.KlZ2vcFHjT@leap> <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
- <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
- <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
- <4ef1e90716e64fd78ebbc222bbb7e597@AcuMS.aculab.com>
- <3c8b6454-6b52-fe62-8db1-c76bdbeb2df0@gmail.com>
- <e1ab34f940234eecb91b9b262062eda5@AcuMS.aculab.com>
-In-Reply-To: <e1ab34f940234eecb91b9b262062eda5@AcuMS.aculab.com>
-
---------------f4ntLhnd0DATl3FwdBkEaOwo
+To: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>,
+ outreachy@lists.linux.dev
+Cc: phil@philpotter.co.uk, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <860d8e222e2b695ce5cb4f48aa46a7f66e05d8e4.1649082939.git.eng.alaamohamedsoliman.am@gmail.com>
+ <19d8f316e43d16c9341f7fe94e68534cf60cc05c.1649082939.git.eng.alaamohamedsoliman.am@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <19d8f316e43d16c9341f7fe94e68534cf60cc05c.1649082939.git.eng.alaamohamedsoliman.am@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGkgRGF2aWQsDQoNCk9uIDQvNC8yMiAxOTo1OSwgRGF2aWQgTGFpZ2h0IHdyb3RlOg0KPiBG
-cm9tOiBQYXZlbCBTa3JpcGtpbg0KPj4gU2VudDogMDQgQXByaWwgMjAyMiAxNzozOQ0KPj4g
-DQo+PiBIaSBEYXZpZCwNCj4+IA0KPj4gT24gNC80LzIyIDExOjUwLCBEYXZpZCBMYWlnaHQg
-d3JvdGU6DQo+PiA+Pg0KPj4gPj4gPiAJCXdoaWxlIChwd3Jwcml2LT5iSW5TdXNwZW5kICYm
-DQo+PiA+Pg0KPj4gPj4gSSd2ZSBsb29rZWQgaW50byB3aGF0IGdjYzExIHByb2R1Y2VkIGZy
-b20gdGhpcyBmdW5jdGlvbiBhbmQgbG9va3MgbGlrZQ0KPj4gPj4gbXkgY29tcGlsZXIgaXMg
-c21hcnQgZW5vdWdoIHRvIG5vdCBjYWNoZSB0aGF0IHZhbHVlLCBidXQgSSBhbSBhZnJhaWQg
-bm90DQo+PiA+PiBhbGwgY29tcGlsZXJzIGFyZSB0aGF0IHNtYXJ0Lg0KPj4gPg0KPj4gPiBU
-aGUgY29tcGlsZXIgY2FuJ3QgY2FjaGUgdGhlIHZhbHVlIGJlY2F1c2Ugb2YgdGhlIGZ1bmN0
-aW9uIGNhbGwuDQo+PiA+DQo+PiANCj4+IEhtLCBJIGFtIGEgbmV3YmllIGluIGNvbXBpbGVy
-cywgc28gY2FuIHlvdSwgcGxlYXNlLCBleHBsYWluIChvciBnaXZlIGENCj4+IGxpbmsgdG8g
-YW55IHJlc291cmNlIHdoZXJlIEkgY2FuIHJlYWQgYWJvdXQgaXQpIGhvdyBmdW5jdGlvbiBj
-YWxsIGhlcmUNCj4+IHByZXZlbnQgY2FjaGluZy4NCj4+IA0KPj4gSUlVQyBjb21waWxlciBn
-ZW5lcmF0ZXMgY29kZSB0aGF0IHdvcmtzIHdlbGwgaW4gc2NvcGUgb2Ygc2luZ2xlLXRocmVh
-ZGVkDQo+PiBhcHBsaWNhdGlvbiwgc28gd2h5IGNhbid0IGNvbXBpbGVyIGNhY2hlIHRoYXQg
-dmFsdWUgaW5zdGVhZCBvZiBhY2Nlc3NpbmcNCj4+IG1lbW9yeSBvbiBlYWNoIGl0ZXJhdGlv
-bi4uLiBJc24ndCByZWdpc3RlciBhY2Nlc3MgYSB3YXkgZmFzdGVyIHRoYW4gZXZlbg0KPj4g
-Y2FjaGUgaGl0Pw0KPiANCj4gQmVjYXVzZSBjYWxscyB0byBleHRlcm5hbCBmdW5jdGlvbnMg
-YXJlIGFsbG93ZWQgdG8gY2hhbmdlDQo+IGFueSBkYXRhIHZpYSAnb3RoZXInIHJlZmVyZW5j
-ZXMuDQo+IEZvciBpbnN0YW5jZSB0aGUgc3RydWN0dXJlIHBvaW50ZXIgdGhlIGZ1bmN0aW9u
-IGhhcyBjb3VsZA0KPiBhbHNvIGJlIGluIGdsb2JhbCBkYXRhIHNvbWV3aGVyZS4NCj4gDQoN
-Ck1ha2Ugc2Vuc2UsIHRoYW5rIHlvdSBmb3IgZXhwbGFuYXRpb24hDQoNCg0KDQoNCldpdGgg
-cmVnYXJkcywNClBhdmVsIFNrcmlwa2luDQo=
+On 4/4/22 09:39, Alaa Mohamed wrote:
+> Reported by checkpatch:
+> 
+> WARNING: Missing a blank line after declarations
+> 
+> Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_br_ext.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index 7c664f80fa99..f7811b46db1c 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -313,6 +313,7 @@ void nat25_db_cleanup(struct adapter *priv)
+>   
+>   	for (i = 0; i < NAT25_HASH_SIZE; i++) {
+>   		struct nat25_network_db_entry *f;
+> +
+>   		f = priv->nethash[i];
+>   		while (f) {
+>   			struct nat25_network_db_entry *g;
+> @@ -339,12 +340,12 @@ void nat25_db_expire(struct adapter *priv)
+>   
+>   	for (i = 0; i < NAT25_HASH_SIZE; i++) {
+>   		struct nat25_network_db_entry *f;
+> -		f = priv->nethash[i];
+>   
+> +		f = priv->nethash[i];
+>   		while (f) {
+>   			struct nat25_network_db_entry *g;
+> -			g = f->next_hash;
+>   
+> +			g = f->next_hash;
+>   			if (__nat25_has_expired(f)) {
+>   				if (atomic_dec_and_test(&f->use_count)) {
+>   					if (priv->scdb_entry == f) {
 
---------------f4ntLhnd0DATl3FwdBkEaOwo--
+Acked_by: Larry Finger <Larry.Finger@lwfinger.net>
 
---------------ojgS2yDN6b8jEpOHeVgba6OW
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+That applies to both patches.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
 
-wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmJLJv8FAwAAAAAACgkQbk1w61LbBA2Y
-FQ/+JO/v68k6xBMFzpBxhJLs8DsUg3auoVNTFLCilloTOAqlQVIp3JfgCf2tnc3i89vjphOtAYh5
-6QbtMCJyMigxcAIYq/AVEFHVMg1IuX2fiCYF0l7QFLSyuzZi4hya4WEQoXO762mR2wgpBqBbcySj
-uJ2nWSDPJaqBp5HXEYoV6/8mTSgTfIZfGax1PxLAIC+/aPb3CD37wkRGT3yH5d70gvSUku3zfD6f
-Ije3k4ypAoVTo6SPOwVxt0zNDgWeKkmlqIrvi6XD96vHmJujTmDyIPT5Vln3K1iHpzf6Mi3HpL9D
-dttDjLexS/WIpNrmDY3ks8O8FJlkMvymizj4EeCGg2F+SDVqEodU+bUZ7T/25rR7C0cUuVdSxgT8
-WYvNqr4HXI9bVEYjtNCL9OF4b0X7DXPOq0nY8ZvoyN+QAIaJcHWOdoLns9weqgNNmFTcQ70L+2Wz
-+TKEsfOfLE9wtoOSeHweDUmO2GqJ/obwHELXHvB5KYBgITdl2kvFJiuZ5mE62Q8VqS62oTmqnMxE
-TIKh2WkvckIWoMIvIWmuacF/dZL9bjelNvYoF3H7FnKR1/8Qua3rTrtEWzQ/Z+h1MTKe3kRIU+ho
-6/YxgL646R9SLNt1rk9xj8ZJCz4eCTzbM+Xyu4c8WsHcCMH65IAxZi4xm0Vz851FrTnD3wrvC619
-Lfo=
-=7pMo
------END PGP SIGNATURE-----
-
---------------ojgS2yDN6b8jEpOHeVgba6OW--
+Larry
