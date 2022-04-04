@@ -1,37 +1,37 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452292900
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 08:21:50 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id l26so1889257ejx.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED8D7A
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 08:21:51 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id b15so10088200edn.4
         for <linux-staging@lists.linux.dev>; Mon, 04 Apr 2022 01:21:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xwsH1XHMhYpHAHuQYTzJcbJHbl5Y3E62Se4odAiOvro=;
-        b=hcw7OiTZegjMnjMYOc3Mf29TNrKx3WvEthqQm+u5PwM2QoI6gw3bDB7EgjauRW9bXp
-         5E7SGUiqsm/80TQPDyWKtMPvaO1pNHMR8j/vUADxtlbRGe8jc4X5//LEq/qL6myYrbVH
-         vbaGsw9uKaaDGN0tM0YrXnxEFr/OdBrq9yyxVn9DgZyZGmbEyFo3SVBPHb+nFzuOdANi
-         1eW9yHCMqawuSShT09VcCegPYwGbkNTDxA+DcjCPY+Z0WG9CsR/RBc7uXQjM2BjW07Fp
-         AnBJP8plRqwr8wNiXG5xnkvYtJG8jE1kqrQsIaJhXdg2XzkxZGk6v+0/08ptfdz3Qxms
-         YUdQ==
+        bh=eYi42idZagF7+PntnhrV7u1NVJ1zH5gAAuFaLqoUChg=;
+        b=JjsmMULs94skPzT6xphNvB4kqywkZnL72/HghLakTvfFcbUjYvX0Z4O/7mNIZGfWEw
+         ONrgKXfIvNmc81bgyIfTtuNsLlaOHKLs/xkV7+5/yyJRRXc0Dzno3BX+au9N1Y0Vd7L1
+         1VHqTMV7EgKErFvvwhs532WZtJCMETyv1yJTHhxE9kx9XhOOBhBFq9Jn2C+dd0nu+h88
+         VhPfT4LdevaT3mqECsz+X/O0uEAimqT3tC/92w9eGHao4Nn25aO20OACQ/hiXIl8kdz2
+         UkF/mOr/KxuZUY7CiOlhF1CtDACs3O5qoUcDgG3cVBmBUFDj/29QoyQQQFY8GAGwxnyx
+         bV8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xwsH1XHMhYpHAHuQYTzJcbJHbl5Y3E62Se4odAiOvro=;
-        b=UIrzYRg3s5ryBC/Sy7MP3xzmVY8HwwvKjJgaC/yofyhthHZiUrEwxSSxesCDyYXRZk
-         da8++X61gc9O7D7IarKLf4yp0FCCfEY1Lfy52v9WuhI6FbzllCNaaRILUG1Q8fI3yjbd
-         F5nit6lmnf0p9Ebl3y0LaThFsENwsVtYKFlARIKtUoTVNJlVkNLjdIgXegkXbEhq0nFE
-         TbUL/HqB0nsF9oaND+txN1uClwkEHFWou7s+zOqwJpwoCQAZgOLKXFV4HHzW9mqS8tTz
-         RclYWqfet/6x2l7hN+VF7TaMlU3JfU1B5wllgYb96MHlzZ19zq/akj/ZsJ41E5nq+W2i
-         ksow==
-X-Gm-Message-State: AOAM532YdjuWGFHBjgtZmhlqJ2BMafhu/oCLrRPgaggzSPdprlYEUGCN
-	Nj5Jj6AtLcLg6UG1C6r3XPHsDbmUm+g=
-X-Google-Smtp-Source: ABdhPJwzrg6vSJfu2vqfp9sme37FQrq1ZQPDetPp5e6ytHFpurajaA91xJ/Srr+MycaqokQkem0SGg==
-X-Received: by 2002:a17:907:6da1:b0:6e7:efbe:d217 with SMTP id sb33-20020a1709076da100b006e7efbed217mr3381401ejc.119.1649060508614;
-        Mon, 04 Apr 2022 01:21:48 -0700 (PDT)
+        bh=eYi42idZagF7+PntnhrV7u1NVJ1zH5gAAuFaLqoUChg=;
+        b=R0OUOld/1rYpIWq5qq7XhxuVcf9BmBevJjpPT5/g1xQPhnEAxk5Mjo/Qv65tjyFmZn
+         IBElkwz+fyf8pzqiSWPk9rTzOCmpY821eZPyUyuNhmseENV/CkXRk8BHvc0tRe2CPzoX
+         6jX98gk0XWu2SPtqmKdE92p+YZlR+RueOaX/QwvQYdnCn+ArFrDmfm7oY0qMbGnHUglg
+         M8C8qpMXulJprm8tK23MVaMMq2KXQhLN1TlzLTK9WhJYBmEed0qb+g+bT0xzxySDn2SR
+         X5CNE5Bn4JOFMVeZBHB2aL2mW1+v40LRgmIt7Tz06sdnVMKogTQkR67yzV5xdh+Ae5De
+         ktow==
+X-Gm-Message-State: AOAM532EQn3tD5jZNZqcItWnGL3un4Ok9jQqapunvXDmWqII8O3bboPn
+	vJa5YWu+ersIS2rVF0LSLX8=
+X-Google-Smtp-Source: ABdhPJxNjt+nCbqV1xpIeLBTsFp/FnJSPk2UM+b7LWRvSinLDRADDXWo4LlRiMDnzweqhORcZxmCgQ==
+X-Received: by 2002:a50:f092:0:b0:41c:b7dd:cdb5 with SMTP id v18-20020a50f092000000b0041cb7ddcdb5mr7649642edl.225.1649060509500;
+        Mon, 04 Apr 2022 01:21:49 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
         by smtp.gmail.com with ESMTPSA id n3-20020a1709061d0300b006da94efcc7esm4047336ejh.204.2022.04.04.01.21.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/5] staging: r8188eu: pnp_bstop_trx is never set
-Date: Mon,  4 Apr 2022 10:21:40 +0200
-Message-Id: <20220404082142.4639-4-straube.linux@gmail.com>
+Subject: [PATCH 4/5] staging: r8188eu: pwr_state_check_cnts is always zero
+Date: Mon,  4 Apr 2022 10:21:41 +0200
+Message-Id: <20220404082142.4639-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220404082142.4639-1-straube.linux@gmail.com>
 References: <20220404082142.4639-1-straube.linux@gmail.com>
@@ -57,74 +57,72 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The field pnp_bstop_trx in struct pwrctrl_priv is never set. It stays
-at its default value 0. Remove it and remove related dead code.
+The field pwr_state_check_cnts in struct pwrctrl_priv is set to 0 and
+never changed. Remove it and remove related dead code.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/usb_ops_linux.c    | 7 +++----
- drivers/staging/r8188eu/include/rtw_pwrctrl.h  | 1 -
- drivers/staging/r8188eu/os_dep/usb_ops_linux.c | 3 +--
- 3 files changed, 4 insertions(+), 7 deletions(-)
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    | 4 +---
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h | 1 -
+ drivers/staging/r8188eu/os_dep/os_intfs.c     | 3 ---
+ 3 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index e5d6cd6228f2..6a65dcf57112 100644
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -16,7 +16,7 @@ static int usb_read(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 	int status;
- 	u8 io_buf[4];
+diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+index 5d468e8b4920..939909e5316f 100644
+--- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
++++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+@@ -133,9 +133,8 @@ void rtw_ps_processor(struct adapter *padapter)
+ 	if (!rtw_pwr_unassociated_idle(padapter))
+ 		goto exit;
  
--	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
-+	if (adapt->bSurpriseRemoved)
- 		return -EPERM;
+-	if ((pwrpriv->rf_pwrstate == rf_on) && ((pwrpriv->pwr_state_check_cnts % 4) == 0)) {
++	if (pwrpriv->rf_pwrstate == rf_on) {
+ 		pwrpriv->change_rfpwrstate = rf_off;
+-
+ 		ips_enter(padapter);
+ 	}
+ exit:
+@@ -342,7 +341,6 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
+ 	pwrctrlpriv->ips_mode_req = padapter->registrypriv.ips_mode;
  
- 	status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
-@@ -59,7 +59,7 @@ static int usb_write(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 	int status;
- 	u8 io_buf[VENDOR_CMD_MAX_DATA_LEN];
+ 	pwrctrlpriv->pwr_state_check_interval = RTW_PWR_STATE_CHK_INTERVAL;
+-	pwrctrlpriv->pwr_state_check_cnts = 0;
+ 	pwrctrlpriv->bInSuspend = false;
+ 	pwrctrlpriv->bkeepfwalive = false;
  
--	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
-+	if (adapt->bSurpriseRemoved)
- 		return -EPERM;
- 
- 	memcpy(io_buf, data, size);
-@@ -414,8 +414,7 @@ u32 rtw_read_port(struct adapter *adapter, u8 *rmem)
- 	size_t alignment = 0;
- 	u32 ret = _SUCCESS;
- 
--	if (adapter->bDriverStopped || adapter->bSurpriseRemoved ||
--	    adapter->pwrctrlpriv.pnp_bstop_trx)
-+	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
- 		return _FAIL;
- 
- 	if (!precvbuf)
 diff --git a/drivers/staging/r8188eu/include/rtw_pwrctrl.h b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-index 3efcc65b2f6e..94a65056a77e 100644
+index 94a65056a77e..162792988910 100644
 --- a/drivers/staging/r8188eu/include/rtw_pwrctrl.h
 +++ b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-@@ -64,7 +64,6 @@ struct pwrctrl_priv {
- 	u8	power_mgnt;
- 	u8	bFwCurrentInPSMode;
- 	u32	DelayLPSLastTimeStamp;
--	u8		pnp_bstop_trx;
- 
- 	u8		bInSuspend;
+@@ -69,7 +69,6 @@ struct pwrctrl_priv {
  	u8		bSupportRemoteWakeup;
-diff --git a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-index c4b6dbc8d66d..8ca16861bfcc 100644
---- a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-@@ -106,8 +106,7 @@ u32 rtw_write_port(struct adapter *padapter, u32 addr, u32 cnt, u8 *wmem)
- 	struct xmit_frame *pxmitframe = (struct xmit_frame *)pxmitbuf->priv_data;
- 	struct usb_device *pusbd = pdvobj->pusbdev;
+ 	struct timer_list pwr_state_check_timer;
+ 	int		pwr_state_check_interval;
+-	u8		pwr_state_check_cnts;
  
--	if ((padapter->bDriverStopped) || (padapter->bSurpriseRemoved) ||
--	    (padapter->pwrctrlpriv.pnp_bstop_trx)) {
-+	if (padapter->bDriverStopped || padapter->bSurpriseRemoved) {
- 		rtw_sctx_done_err(&pxmitbuf->sctx, RTW_SCTX_DONE_TX_DENY);
- 		goto exit;
- 	}
+ 	int		ps_flag;
+ 
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index c531504acc9e..5a9374957e3a 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -441,7 +441,6 @@ static void rtw_init_default_value(struct adapter *padapter)
+ u8 rtw_reset_drv_sw(struct adapter *padapter)
+ {
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-	struct pwrctrl_priv *pwrctrlpriv = &padapter->pwrctrlpriv;
+ 
+ 	/* hal_priv */
+ 	rtl8188eu_init_default_value(padapter);
+@@ -457,8 +456,6 @@ u8 rtw_reset_drv_sw(struct adapter *padapter)
+ 
+ 	_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY | _FW_UNDER_LINKING);
+ 
+-	pwrctrlpriv->pwr_state_check_cnts = 0;
+-
+ 	/* mlmeextpriv */
+ 	padapter->mlmeextpriv.sitesurvey_res.state = SCAN_DISABLE;
+ 
 -- 
 2.35.1
 
