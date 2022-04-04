@@ -1,108 +1,90 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8069E3200;
-	Mon,  4 Apr 2022 18:49:23 +0000 (UTC)
-Received: by mail-oi1-f174.google.com with SMTP id j83so11006219oih.6;
-        Mon, 04 Apr 2022 11:49:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6602D28F3
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 20:48:34 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id f18so7516235edc.5
+        for <linux-staging@lists.linux.dev>; Mon, 04 Apr 2022 13:48:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=+x8xeE7VdwyEBg9gBJjb/VSkL3ctOrEYGykxx0ig/m0=;
-        b=aIIJqQOlgGEaPFjQYKZkBfSoalRDYuXCqe3vleD+YoMT6FyQdOFPNf+S+9sxlwUq54
-         NmltyIWDy33kTR0OTRadOhK77QdqSl8Vr+QvqTOBdxzTwwZoyooJtH7PAoM4B6VuHvOb
-         mnKMngV7nKSgJ1NYzzG0jE2zETbUAFXGphzJoGcUTTRIAspUa2tNMrIYjM7MWIWIy/8E
-         NjJS7bznd7wBf5/40L9ymVkjSitPiflm5WaSfgHVSllrk9/yCcHtgWJ+KTmIMLY7VEhr
-         o2TpSk48hwsKaRx3fAQt2RGKCujfvasVxP9JLA++ZfvQi49nDSq+okk9BBSdlu/rffvk
-         cO1Q==
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=oSPKjJEXpR8ZygxdI2fFCg0aO4+x2fKb+7cSs9wJlWA=;
+        b=pbvAQYx+hG9bKJMK4uwgVCaQEMZOIUeLgvpTtPPPCWEqnX3yvZ7V3a7fs3rqgDrvIe
+         cpwsBHqT6X7uTknE2lA4tw4szXj8YpqBYNLLGG+vjXnjw0EWTPaYSGTLWPzNoesu+x08
+         lWNSR7tPXjmZHAgkK42SuabRStHU5/XDx1rbseciQD8xyuqj1vh02MfaKp4DjRu6mJAo
+         Yy/POyg/bLGuYqmR9eB2yZOPqVbc6O3JXnGzW3FGLWQgRe6Ccs3tADsY0F2iw+V+ZZBV
+         o0y9S0IAPTfx6cFW+WUZFjrSdVcxzQW8oP8rUwizjiM3IgaeiOG1J2WvGGBrfPNokeWs
+         cu0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=+x8xeE7VdwyEBg9gBJjb/VSkL3ctOrEYGykxx0ig/m0=;
-        b=LEKGROjBrIRNXxY60rEDnS+ctM+dZWz148ioteMc8pJRnnWnmWhhGjK8ix3hlOKIcW
-         uj2xWs0M9nk12+DnbHD31hqfN1NMVWsKfuUCdI+kofaoDyQc0YsNQsgc9QbbW7aG6370
-         61s0CEiJTQyK6a2MLPKjqXMTtOQBdmqT5bTC9bOSrBQg2h/7YlK0k4VFDoFZxMSm08CZ
-         mxXLGLoiMcyofW145G1Q9Nybh8NducMS8GolwKS6opn0kUk9H7+yCUnVVVbJoxB/mquW
-         pEqHMhhy078tJtuf8aUQ5rdzIi2PKYkK77xHd9yweHhFN3BFQG4wyblt5HPq5TY3/pY9
-         u/hQ==
-X-Gm-Message-State: AOAM533pd/LuqTo+KshadZSaxLmiQFcZXy3RJK6g8k0sDVMNkE2Lc0kf
-	p8ec4eXS+4K5yt6teedVMTM=
-X-Google-Smtp-Source: ABdhPJy1vzaNMEa6qR1jv8tDRSZiMxYpeg4RNjKExhY59rCu0Q+CxA5CqAv26vovX2cZDXQXs4yhBg==
-X-Received: by 2002:a05:6808:9ae:b0:2d9:a01a:4bf4 with SMTP id e14-20020a05680809ae00b002d9a01a4bf4mr238080oig.283.1649098162576;
-        Mon, 04 Apr 2022 11:49:22 -0700 (PDT)
-Received: from ?IPV6:2603:8090:2005:39b3::1004? (2603-8090-2005-39b3-0000-0000-0000-1004.res6.spectrum.com. [2603:8090:2005:39b3::1004])
-        by smtp.gmail.com with ESMTPSA id m17-20020a0568301e7100b005b256697d7csm4795089otr.72.2022.04.04.11.49.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Apr 2022 11:49:21 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <547963ab-4922-3208-fe63-07e0756890d9@lwfinger.net>
-Date: Mon, 4 Apr 2022 13:49:20 -0500
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=oSPKjJEXpR8ZygxdI2fFCg0aO4+x2fKb+7cSs9wJlWA=;
+        b=Dip5kmH1hykO8xnlEVGINKa95wqHxMmBP9tP0aCMOtmmx6rpF26RDApVAE6BfKzgz2
+         H2RLNBfxDw6bff5PCZG3ZrT40mG+6VL5EQKgYgj8NItUpcz8wj8ramJqyCrhT5F44Ldh
+         MSs9wB2ONa5PZJbanBjbaRyRDhQ/TNSj9nJyBFm+3sBmL7sZwrh6f6xc1aVBZxf2e+1g
+         izNu8CoP/6gB6iE0Qs/HGs0koIa/4jbT6K4iPgYbmxwXnQg5brTlHkK01+OPP5pzCTuV
+         5pmmIjlbuuYhtH55DhYjaC7CfYNGFGjD0zbEgQsdjCcA1Ml/QCZKoDtZBeatZRwCtDwv
+         g3rg==
+X-Gm-Message-State: AOAM532YgG27jssdGIWa+8wY80tTrEVKk3y0TSVPLdgWdbsDEJxZ2PU8
+	aA0nAULUWywN9U0PbR9t71I=
+X-Google-Smtp-Source: ABdhPJzaOScMIpUbkzhVH+5rt+NUH42tP5lvytCaMcRvvdxICEaZDlT4kyZQT1SUfUUSlqkuPLmyyg==
+X-Received: by 2002:a05:6402:3593:b0:419:7a2d:4b0b with SMTP id y19-20020a056402359300b004197a2d4b0bmr2044719edc.39.1649105312661;
+        Mon, 04 Apr 2022 13:48:32 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p54a074e9.dip0.t-ipconnect.de. [84.160.116.233])
+        by smtp.gmail.com with ESMTPSA id y17-20020a056402359100b0041926ea1e12sm5960734edc.53.2022.04.04.13.48.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Apr 2022 13:48:31 -0700 (PDT)
+Date: Mon, 4 Apr 2022 22:48:30 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/6] staging: vt6655: Fix CamelCase in upc.h and started
+ in mac.h
+Message-ID: <cover.1649103348.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] staging: r8188eu: remove unnecessary blank lines
-Content-Language: en-US
-To: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>,
- outreachy@lists.linux.dev
-Cc: phil@philpotter.co.uk, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220404145217.15069-1-eng.alaamohamedsoliman.am@gmail.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <20220404145217.15069-1-eng.alaamohamedsoliman.am@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 4/4/22 09:52, Alaa Mohamed wrote:
-> Reported by checkpatch:
-> 
-> CHECK: Blank lines aren't necessary before a close brace '}'
-> 
-> Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-> ---
->   drivers/staging/r8188eu/core/rtw_ap.c | 3 ---
->   1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-> index 2ff78ed1faab..ac6effbecf6d 100644
-> --- a/drivers/staging/r8188eu/core/rtw_ap.c
-> +++ b/drivers/staging/r8188eu/core/rtw_ap.c
-> @@ -188,7 +188,6 @@ void	expire_timeout_chk(struct adapter *padapter)
->   				spin_lock_bh(&pstapriv->auth_list_lock);
->   			}
->   		}
-> -
->   	}
->   	spin_unlock_bh(&pstapriv->auth_list_lock);
->   
-> @@ -381,7 +380,6 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
->   		/* set ra_id, init_rate */
->   		psta->raid = raid;
->   		psta->init_rate = init_rate;
-> -
->   	}
->   }
->   
-> @@ -455,7 +453,6 @@ void update_bmc_sta(struct adapter *padapter)
->   		spin_lock_bh(&psta->lock);
->   		psta->state = _FW_LINKED;
->   		spin_unlock_bh(&psta->lock);
-> -
->   	}
->   }
->   
+Start fix CamelCase or do-while{0} issues in macros by
+- removing
+- renaming
+as both issues are not accepted by checkpatch.pl
 
-Acked_by: Larry Finger <Larry.Finger@lwfinger.net>
+---
+V1 -> V2: Merged first two patches into one.
+          Patch 6/6: changed from (macro to function) to delete macro
+          Updated cover-letter description
 
-Thanks,
+Tested with vt6655 on mini PCI Module
+Transferred this patch over vt6655
 
-Larry
+Philipp Hortmann (6):
+  staging: vt6655: Remove unused macros in mac.h
+  staging: vt6655: Rename constant definitions with CamelCase
+  staging: vt6655: Rename macro arguments with CamelCase
+  staging: vt6655: Rename macros VNSvInPortB,W,D
+  staging: vt6655: Rename macros VNSvOutPortB,W,D
+  staging: vt6655: Remove macro PCAvDelayByIO
+
+ drivers/staging/vt6655/baseband.c    |  16 +-
+ drivers/staging/vt6655/card.c        |  60 +++---
+ drivers/staging/vt6655/channel.c     |   4 +-
+ drivers/staging/vt6655/device_main.c |  30 +--
+ drivers/staging/vt6655/mac.h         | 293 ++++++++-------------------
+ drivers/staging/vt6655/power.c       |   4 +-
+ drivers/staging/vt6655/rf.c          |  14 +-
+ drivers/staging/vt6655/rxtx.c        |   4 +-
+ drivers/staging/vt6655/srom.c        |  18 +-
+ drivers/staging/vt6655/upc.h         |  47 ++---
+ 10 files changed, 172 insertions(+), 318 deletions(-)
+
+-- 
+2.25.1
 
