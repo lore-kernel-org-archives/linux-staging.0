@@ -1,160 +1,88 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D5F7A;
-	Sun,  3 Apr 2022 22:42:15 +0000 (UTC)
-Received: by mail-qv1-f46.google.com with SMTP id kd21so6222510qvb.6;
-        Sun, 03 Apr 2022 15:42:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7094A7A
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 00:04:35 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id k23so13183959ejd.3
+        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 17:04:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=Ylr/q7X8v75OzYx2YPZzEqtYHesEZdwi5ZjBwvGkMpk=;
-        b=VHzrwaEIoRFGPw+0/6o86lbnEVNoSpp9KxVUXEjK8HnYRn5OU7YLDiYjBHd3RGBdwl
-         1IfnSaFh/5+DNFUHHYYOzcacLzlHR7a5oNw5XDf6/iYOB0OTB5vcstUjas81HSj1EIS0
-         Dw0Zj0HMspIsnQkr3I+fUemNYTOB2Sz+75s3+Hn1tYCAuFMBDl4DSOgKZoEPrxhCOvxB
-         Ev2OtF0GzOTUZdh6if9IHDin89gtNuxECbo7SFNeEzbn+7yKef0/jihuyL2bRiIhcSIp
-         w1b2MJRW9UEtLwWQTZB76yblgLF/AQ+hg5PGNlzLO8isY9WWfgRjhcuOFrY5sftlq3ug
-         7sYQ==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=YlBtLMwXDp/2aSzEQXf/0+zL7sSyqtfpT0RHI0yBN90=;
+        b=P4r/SoegNEr9VInkvurtF58MXhKjhQiVDqJpUu4jIYfBoM7fRxXVKY3XimQ8p1+Ht6
+         QBOFuh3Er8IF7Ud0cd5Xph7UWZWsfPQR5uHHwn5n0I3Yc0at8BiFSTRkaaC4oufeami/
+         5VT7CdnmzoYGC85b5eY4nGaPTbdnq/ly8bzjtQJQz4A5cxqfFEueUWK9t39IyI6VgB57
+         vs+NUn8s7BKAKtSom9Kxi3C8wAdXSgJEu4I09ncRbzTdHG0lWlPK1o5iTjjwEV/764Ja
+         RzMgmb4UMNgQF6Phj26OB1pum/i0O66B04Qdx+Y9Cx8bXB5LrJM5c3+a29wVh+J11wlo
+         c4JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=Ylr/q7X8v75OzYx2YPZzEqtYHesEZdwi5ZjBwvGkMpk=;
-        b=F4XlfYFM0EFLNeBMuejMlp450xzqLEiJJjohES+iVMvl0LJ4Di0ic3FnYUXXlbkpIs
-         01q6tcZiMYBV7jVzmziVEjGniBMSpQF9PF6xlF4Az6vaUStPV+iPzuCZ+2PIeiG0vuks
-         dxqzF0+fWZ6BCGhJz9kna5K0Ndc9rgGNoUJiw9APPuBIExbRa9MweZ68nmAlKFs8n9Th
-         FteF7UBagg5IJ5wrlQ9bGMCX/tDVOmXRGDhiBxcl5mptupeIQp6g8KAR95rlHCpQnEw9
-         cy/F1do01VO0UZ7TjaNr1DczZKRiSe7vZeAirUlu2UI8hvrKq2xWO5+pOjrKF1JyoIJ7
-         RGfA==
-X-Gm-Message-State: AOAM5321DlzkPRPfGgG+AWn/9YGhuSC4jvFvHz099S0xuyrGQSr6mYBZ
-	lTknxuSOFVklMClr9KoRfyaC+/WK61oBrQ==
-X-Google-Smtp-Source: ABdhPJykPbgKEIE6CUeou3/iSifvRf6zrTNJMVFvxt7I57A0orWy2N0jeetD/xK4ObYXWUbxN9bF2w==
-X-Received: by 2002:ad4:5be1:0:b0:440:a2ec:ea99 with SMTP id k1-20020ad45be1000000b00440a2ecea99mr46809616qvc.20.1649025734384;
-        Sun, 03 Apr 2022 15:42:14 -0700 (PDT)
-Received: from euclid ([71.58.109.160])
-        by smtp.gmail.com with ESMTPSA id e7-20020a37ac07000000b0067d7cd47af4sm5165031qkm.31.2022.04.03.15.42.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Apr 2022 15:42:13 -0700 (PDT)
-Date: Sun, 3 Apr 2022 18:42:07 -0400
-From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: [PATCH] staging: rtl8723bs: simplify control flow
-Message-ID: <20220403224207.GA397480@euclid>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=YlBtLMwXDp/2aSzEQXf/0+zL7sSyqtfpT0RHI0yBN90=;
+        b=DgLt0LNfjDqCjj6TNbgIYW0DIbEKKLvw7iofaLd8kJ0Ailm5l5P4s8K+Cx+pfCyKC/
+         7tiSiFxmhM7Z6uVa+IrK5iZDsYn1t+TMOXL6hjzR4ZxoKQCySwYSYpW0CdJJuKVW9OuF
+         KDT64vRRTJful4Gau+7EgZ5DEBXCKWYcHv2WqOpHwT+S2LuALHw/EcComLWFmlIhtDG2
+         QZ2IaTp8Zze46a1hCC3HdpH3mS8wPW0NDntCAUbMpb3Q+eSz13GYf7RCmWhdbrQmPZnj
+         6/dOL+Qmo7GaIPmkNeZpbCC6QCByB0AYUTofLX9Npkw9CDpC3qQdnDnwsVmMyQfE5xcM
+         P4Sw==
+X-Gm-Message-State: AOAM531moHhN1aH4cFwSz1sOhcfhpVFdVg34HgPXoXNcdeT33Ubx0kwI
+	o+2H/TE5v8tIH0OguFVMPrE4HPfbz/WNX+wZkTZ5PQ==
+X-Google-Smtp-Source: ABdhPJzV+fEMQ3b/d/a51/OGIg4GPl4a5ZojCGV9lwpP+gO59cT8hdkP5KKDh0yB0UMK8Iu+Tweu2xuIv/PiG9bs28M=
+X-Received: by 2002:a17:906:4785:b0:6df:6784:a7f8 with SMTP id
+ cw5-20020a170906478500b006df6784a7f8mr9035751ejc.301.1649030673654; Sun, 03
+ Apr 2022 17:04:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+ <20220227144926.3006585-3-jernej.skrabec@gmail.com> <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
+In-Reply-To: <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Sun, 3 Apr 2022 21:04:22 -0300
+Message-ID: <CAAEAJfCA1ef5+KZHU4ZTJvuqdCAEUkvpDY9HTy1fp3M+0QxqPg@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/8] media: Add P010 format
+To: Nicolas Dufresne <nicolas@ndufresne.ca>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Greg KH <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Samuel Holland <samuel@sholland.org>, linux-media <linux-media@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Checkpatch issues "WARNING: else is not generally useful after a break
-or return" for the following code:
+Hi Nicolas, Benjamin,
 
-while (1) {
-	do_join_r = rtw_do_join(padapter);
-	if (do_join_r == _SUCCESS) {
-		break;
-	} else {
-		rtw_dec_to_roam(padapter);
+On Mon, Feb 28, 2022 at 9:48 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> Le dimanche 27 f=C3=A9vrier 2022 =C3=A0 15:49 +0100, Jernej Skrabec a =C3=
+=A9crit :
+> > Add P010 format, which is commonly used for 10-bit videos.
+>
+> There is a much more complete patch that was sent previously (with docume=
+ntation
+> and all):
+>
+> https://patchwork.kernel.org/project/linux-rockchip/patch/20210618131526.=
+566762-5-benjamin.gaignard@collabora.com/
+>
 
-		if (rtw_to_roam(padapter) > 0) {
-			continue;
-		} else {
-			rtw_indicate_disconnect(padapter);
-			break;
-		}
-	}
-}
+I believe "media: Add P010 video format" should be good to go, I think
+we could merge it.
 
-We simplify this code in multiple steps. First, we remove do_join_r
-variable because it is only used right after it is assigned. Second,
-we remove the unnecessary else statement right after break:
+I can't find it on my gmail inbox, for some reason.. can you guys
+please repost it,
+and/or reply to with a gently ping for Hans (and please Cc me on this mail)=
+ ?
 
-while (1) {
-	if (rtw_do_join(padapter) == _SUCCESS)
-		break;
-	rtw_dec_to_roam(padapter);
-
-	if (rtw_to_roam(padapter) > 0) {
-		continue;
-	} else {
-		rtw_indicate_disconnect(padapter);
-		break;
-	}
-}
-
-Next, we move the call to rtw_do_join into the while test because the
-while will loop only until the call is successful:
-
-while (rtw_do_join(padapter) != _SUCCESS) {
-	rtw_dec_to_roam(padapter);
-	if (rtw_to_roam(padapter) > 0) {
-		continue;
-	} else {
-		rtw_indicate_disconnect(padapter);
-		break;
-	}
-}
-
-Finally, looking at the code above, it is clear that the code will
-break out of the loop if rtw_to_roam call is <= 0. Hence:
-
-while (rtw_do_join(padapter) != _SUCCESS) {
-	rtw_dec_to_roam(padapter);
-	if (rtw_to_roam(padapter) <= 0) {
-		rtw_indicate_disconnect(padapter);
-		break;
-	}
-}
-
-Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 3eacf8f9d236..a45df775d535 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2594,30 +2594,20 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
- {
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct wlan_network *cur_network = &pmlmepriv->cur_network;
--	int do_join_r;
- 
- 	if (rtw_to_roam(padapter) > 0) {
- 		memcpy(&pmlmepriv->assoc_ssid, &cur_network->network.ssid, sizeof(struct ndis_802_11_ssid));
- 
- 		pmlmepriv->assoc_by_bssid = false;
- 
--		while (1) {
--			do_join_r = rtw_do_join(padapter);
--			if (do_join_r == _SUCCESS) {
-+		while (rtw_do_join(padapter) != _SUCCESS) {
-+			rtw_dec_to_roam(padapter);
-+			if (rtw_to_roam(padapter) <= 0) {
-+				rtw_indicate_disconnect(padapter);
- 				break;
--			} else {
--				rtw_dec_to_roam(padapter);
--
--				if (rtw_to_roam(padapter) > 0) {
--					continue;
--				} else {
--					rtw_indicate_disconnect(padapter);
--					break;
--				}
- 			}
- 		}
- 	}
--
- }
- 
- signed int rtw_linked_check(struct adapter *padapter)
--- 
-2.25.1
-
+Thanks!
+Ezequiel
