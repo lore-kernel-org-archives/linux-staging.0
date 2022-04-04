@@ -1,44 +1,43 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5267C
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 17:00:53 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id bq8so21245577ejb.10
-        for <linux-staging@lists.linux.dev>; Mon, 04 Apr 2022 10:00:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160447C
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 17:12:34 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id by7so13895909ljb.0
+        for <linux-staging@lists.linux.dev>; Mon, 04 Apr 2022 10:12:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=At6V+p98WWM5cl2f18ea78oUqq1fd0MCKDFUe0vUx34=;
-        b=Aq5amcLXoa1xta3fhiqw88Vg7dVh9Q0gabJOkj7Dzik/gqQihPTvqDaJaj2dIj/aOH
-         2w3Ue6XFp8r+zwOGaUZ1kNNE85hQG9dHzxKJQfLgo5nuK4F6mkJZUgVhWHKnpwxjJBBQ
-         r3cxY7UOQbNy8GR7XHuvBQbW2Nj0V4PBpaZxeToaVjWoxblvkouLlzF9N1Ipz3cq+Vmc
-         L9Cc8AS4JXnsqmls3YhbmOtjq5v/NvlDJ3L1Es49PDmHhyX+Zf5d4fzIHkFgX/wmAYSx
-         VX7210Z46K4VC84HTRPoVzz+ACPq0jKrVSB8ncv9XYeetGtn69usXjUvIqang62tpuXk
-         fqJA==
+         :cc:references:from:in-reply-to;
+        bh=oo8RE32nCoCnJcNuvIDU6kj6dR7jI6fh9JBXKwfUBHo=;
+        b=S/DawjrTHpwGGbpG+dCODzMvOUlxdV8xj+b4tNbbVnOQuZy5XLBD7WPUTkCNRvNY6R
+         FjlWtNIJBDmHMR5WwBu4mG1DnHYCI3RvDeLIzVDyyuEmjWshmiJeAA1pVUNwNWKOiAvS
+         JuIcVMYunN+8EAr90Ft4D2gZOyowPTsiLhhnrMFqllFu+5ggIrS7xV9GBHHuzt7KFCfW
+         EGV+CVqzCvD9ybtuiz7J+M0jO16h7+rT14kkzOCemY3l2PO+HYWna55A9K0TH9yJDDBv
+         NW1fL0lCh9uOnoOJ39tcwG85zKMX5bhGicPqm8MUxNo0boipgt/Lmy/ChFcZoE+0cUBL
+         0a+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=At6V+p98WWM5cl2f18ea78oUqq1fd0MCKDFUe0vUx34=;
-        b=SJFoZf6yVFqL0qRxta/4k84hMAkO7blSdWhMmOXB5Cg5+Kr2OEzzM2bvoZ5GxIEMfd
-         6bye/17xxLpeNl0muSdc9rFboqlWzpjouXSbE/SCB0Jw6/sfcZ/kLPuWdu8WozMc6XFS
-         0m3LKNWnOoQnH1x0gnI6/gmRy8dV9Y4U9LYmJpdWSsmL8UcXLjZ8dT5SWpe2ft7g+jRa
-         JI+sRIlvxc/yYgl2ADGYTFKHmZSi5C9nvL2bnCckzu+x2Y7eUDBxZPVUY/J4hWUNkDUZ
-         m7409eZ8SMzpU/NNNUEB0zd7WKczEuluhTLFJY6Gk949t6X+p8NvFtYt1Zy6YPt/5aHE
-         I/mQ==
-X-Gm-Message-State: AOAM530PHQGE+rNiX1LM9J7nMSj5S97pdK/GX8rHUoBFQsBwFAs/nTmV
-	lmya0AOCnjA2V/85segZT+0=
-X-Google-Smtp-Source: ABdhPJwf3gGp2dlb23aM6MTrLaWCvwj85fBB2Fe5rbvzOf3UUHr2eXmjzifKz94TBBUkDjDECxscUw==
-X-Received: by 2002:a17:907:3f0a:b0:6e0:7189:cd6 with SMTP id hq10-20020a1709073f0a00b006e071890cd6mr1009892ejc.740.1649091651809;
-        Mon, 04 Apr 2022 10:00:51 -0700 (PDT)
-Received: from [192.168.0.253] (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id z12-20020a17090674cc00b006df9afdda91sm4559495ejl.185.2022.04.04.10.00.51
+         :content-language:to:cc:references:from:in-reply-to;
+        bh=oo8RE32nCoCnJcNuvIDU6kj6dR7jI6fh9JBXKwfUBHo=;
+        b=i4xEhZWW46KTxoGXn0ZsvXGpdQFDeUZsIFeTfWSZw2bZJTB0EL1XWEBhjrl5o6cymb
+         ynZOveibONnoWMZEDj6jH+g2B1EzYpwl+5TmEMfG1iX5gEFeKLzXWuRNylTN3BWZkQ95
+         EgXK9PCg4T7Xd/jWSGwnUwTN9N0kPYtilpgwNwTLktQMUgh/RwBCY0ZwTzLYdJJGGf0c
+         /ppGdOZC4QtjlReio0W6xNIF4DzX9vKYFVuWrBqYHwjCfuOdP8+YzTogU/nhVWEMfYo/
+         1EkPqoxh+TJiWbxMBLoNMLXkJ7ihgYhC+zvNB3DS3EoOVSvCT7icHIYTDBJpr9iq349N
+         b1ZQ==
+X-Gm-Message-State: AOAM531fGH+v9CxhyRVVBY1ShGGr2+0E7TSMx02j0CaWpce6yjK7con0
+	uFQj3o4WevWXc09Y29gD8Kk=
+X-Google-Smtp-Source: ABdhPJx81uhHW84j2KnF0Ehait9D2NCQPoIz8xM0zxXJuwkk2hiBcst8/kwCDgqf0hKfQ17VHOlSPA==
+X-Received: by 2002:a2e:bf12:0:b0:249:3a3b:e91a with SMTP id c18-20020a2ebf12000000b002493a3be91amr359298ljr.343.1649092353019;
+        Mon, 04 Apr 2022 10:12:33 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.247])
+        by smtp.gmail.com with ESMTPSA id p15-20020a19f10f000000b0044a36e3cc33sm1188334lfh.298.2022.04.04.10.12.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Apr 2022 10:00:51 -0700 (PDT)
-Message-ID: <297f97b5-e7ad-b225-cf58-b901a30ad6de@gmail.com>
-Date: Mon, 4 Apr 2022 19:00:50 +0200
+        Mon, 04 Apr 2022 10:12:32 -0700 (PDT)
+Message-ID: <6771d68a-5251-4fb1-cecb-a0d2f32faf36@gmail.com>
+Date: Mon, 4 Apr 2022 20:12:31 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,96 +46,104 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] staging: r8188eu: remove unncessary ternary operator
+Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
 Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220402173835.7560-1-straube.linux@gmail.com>
- <20220404130854.GB3293@kadam>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20220404130854.GB3293@kadam>
+To: David Laight <David.Laight@ACULAB.COM>,
+ Michael Straube <straube.linux@gmail.com>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
+ <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
+ <2029549.KlZ2vcFHjT@leap> <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
+ <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
+ <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
+ <4ef1e90716e64fd78ebbc222bbb7e597@AcuMS.aculab.com>
+ <3c8b6454-6b52-fe62-8db1-c76bdbeb2df0@gmail.com>
+ <e1ab34f940234eecb91b9b262062eda5@AcuMS.aculab.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <e1ab34f940234eecb91b9b262062eda5@AcuMS.aculab.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ojgS2yDN6b8jEpOHeVgba6OW"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ojgS2yDN6b8jEpOHeVgba6OW
+Content-Type: multipart/mixed; boundary="------------f4ntLhnd0DATl3FwdBkEaOwo";
+ protected-headers="v1"
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: David Laight <David.Laight@ACULAB.COM>,
+ Michael Straube <straube.linux@gmail.com>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Message-ID: <6771d68a-5251-4fb1-cecb-a0d2f32faf36@gmail.com>
+Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
+References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
+ <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
+ <2029549.KlZ2vcFHjT@leap> <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
+ <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
+ <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
+ <4ef1e90716e64fd78ebbc222bbb7e597@AcuMS.aculab.com>
+ <3c8b6454-6b52-fe62-8db1-c76bdbeb2df0@gmail.com>
+ <e1ab34f940234eecb91b9b262062eda5@AcuMS.aculab.com>
+In-Reply-To: <e1ab34f940234eecb91b9b262062eda5@AcuMS.aculab.com>
+
+--------------f4ntLhnd0DATl3FwdBkEaOwo
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hi Dan,
+SGkgRGF2aWQsDQoNCk9uIDQvNC8yMiAxOTo1OSwgRGF2aWQgTGFpZ2h0IHdyb3RlOg0KPiBG
+cm9tOiBQYXZlbCBTa3JpcGtpbg0KPj4gU2VudDogMDQgQXByaWwgMjAyMiAxNzozOQ0KPj4g
+DQo+PiBIaSBEYXZpZCwNCj4+IA0KPj4gT24gNC80LzIyIDExOjUwLCBEYXZpZCBMYWlnaHQg
+d3JvdGU6DQo+PiA+Pg0KPj4gPj4gPiAJCXdoaWxlIChwd3Jwcml2LT5iSW5TdXNwZW5kICYm
+DQo+PiA+Pg0KPj4gPj4gSSd2ZSBsb29rZWQgaW50byB3aGF0IGdjYzExIHByb2R1Y2VkIGZy
+b20gdGhpcyBmdW5jdGlvbiBhbmQgbG9va3MgbGlrZQ0KPj4gPj4gbXkgY29tcGlsZXIgaXMg
+c21hcnQgZW5vdWdoIHRvIG5vdCBjYWNoZSB0aGF0IHZhbHVlLCBidXQgSSBhbSBhZnJhaWQg
+bm90DQo+PiA+PiBhbGwgY29tcGlsZXJzIGFyZSB0aGF0IHNtYXJ0Lg0KPj4gPg0KPj4gPiBU
+aGUgY29tcGlsZXIgY2FuJ3QgY2FjaGUgdGhlIHZhbHVlIGJlY2F1c2Ugb2YgdGhlIGZ1bmN0
+aW9uIGNhbGwuDQo+PiA+DQo+PiANCj4+IEhtLCBJIGFtIGEgbmV3YmllIGluIGNvbXBpbGVy
+cywgc28gY2FuIHlvdSwgcGxlYXNlLCBleHBsYWluIChvciBnaXZlIGENCj4+IGxpbmsgdG8g
+YW55IHJlc291cmNlIHdoZXJlIEkgY2FuIHJlYWQgYWJvdXQgaXQpIGhvdyBmdW5jdGlvbiBj
+YWxsIGhlcmUNCj4+IHByZXZlbnQgY2FjaGluZy4NCj4+IA0KPj4gSUlVQyBjb21waWxlciBn
+ZW5lcmF0ZXMgY29kZSB0aGF0IHdvcmtzIHdlbGwgaW4gc2NvcGUgb2Ygc2luZ2xlLXRocmVh
+ZGVkDQo+PiBhcHBsaWNhdGlvbiwgc28gd2h5IGNhbid0IGNvbXBpbGVyIGNhY2hlIHRoYXQg
+dmFsdWUgaW5zdGVhZCBvZiBhY2Nlc3NpbmcNCj4+IG1lbW9yeSBvbiBlYWNoIGl0ZXJhdGlv
+bi4uLiBJc24ndCByZWdpc3RlciBhY2Nlc3MgYSB3YXkgZmFzdGVyIHRoYW4gZXZlbg0KPj4g
+Y2FjaGUgaGl0Pw0KPiANCj4gQmVjYXVzZSBjYWxscyB0byBleHRlcm5hbCBmdW5jdGlvbnMg
+YXJlIGFsbG93ZWQgdG8gY2hhbmdlDQo+IGFueSBkYXRhIHZpYSAnb3RoZXInIHJlZmVyZW5j
+ZXMuDQo+IEZvciBpbnN0YW5jZSB0aGUgc3RydWN0dXJlIHBvaW50ZXIgdGhlIGZ1bmN0aW9u
+IGhhcyBjb3VsZA0KPiBhbHNvIGJlIGluIGdsb2JhbCBkYXRhIHNvbWV3aGVyZS4NCj4gDQoN
+Ck1ha2Ugc2Vuc2UsIHRoYW5rIHlvdSBmb3IgZXhwbGFuYXRpb24hDQoNCg0KDQoNCldpdGgg
+cmVnYXJkcywNClBhdmVsIFNrcmlwa2luDQo=
 
-On 4/4/22 15:08, Dan Carpenter wrote:
-> On Sat, Apr 02, 2022 at 07:38:35PM +0200, Michael Straube wrote:
->> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
->> index 45b788212628..18650cd96f09 100644
->> --- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
->> +++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
->> @@ -137,7 +137,7 @@ void rtl8188e_Add_RateATid(struct adapter *pAdapter, u32 bitmap, u8 arg, u8 rssi
->>   
->>   	bitmap |= ((raid << 28) & 0xf0000000);
->>   
->> -	short_gi_rate = (arg & BIT(5)) ? true : false;
->> +	short_gi_rate = arg & BIT(5);
->>   
-> 
-> This is a bug.  Valid values of short_gi_rate are 0 and 1 but this sets
-> it to BIT(5) so it will break odm_RateUp_8188E() which tests for:
-> 
-> 	else if ((pRaInfo->SGIEnable) != 1)
-> 
->>   	raid = (bitmap >> 28) & 0x0f;
->>   
->> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
->> index 6811be95da9a..ffc82d17ddbe 100644
->> --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
->> +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
->> @@ -747,7 +747,7 @@ void Hal_ReadPowerSavingMode88E(struct adapter *padapter, u8 *hwinfo, bool AutoL
->>   
->>   		/*  decide hw if support remote wakeup function */
->>   		/*  if hw supported, 8051 (SIE) will generate WeakUP signal(D+/D- toggle) when autoresume */
->> -		padapter->pwrctrlpriv.bSupportRemoteWakeup = (hwinfo[EEPROM_USB_OPTIONAL_FUNCTION0] & BIT(1)) ? true : false;
->> +		padapter->pwrctrlpriv.bSupportRemoteWakeup = hwinfo[EEPROM_USB_OPTIONAL_FUNCTION0] & BIT(1);
-> 
-> I have not looked at this one to see if has a similar issue...  I don't
-> necessarily want to audit all of these.  I guess I will, but could you
-> do it first and then I will check?
-> 
+--------------f4ntLhnd0DATl3FwdBkEaOwo--
 
-It has the same issue. I'll leave these two as is in v2.
+--------------ojgS2yDN6b8jEpOHeVgba6OW
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
->> diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
->> index 8c20363cdd31..03d63257797a 100644
->> --- a/drivers/staging/r8188eu/include/ieee80211.h
->> +++ b/drivers/staging/r8188eu/include/ieee80211.h
->> @@ -127,7 +127,7 @@ enum NETWORK_TYPE {
->>   	 (WIRELESS_11B | WIRELESS_11G | WIRELESS_11_24N)
->>   
->>   #define IsSupported24G(NetType)					\
->> -	((NetType) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
->> +	((NetType) & SUPPORTED_24G_NETTYPE_MSK)
-> 
-> This too.
-> 
->>   
->>   #define IsEnableHWCCK(NetType)					\
->>   	IsSupported24G(NetType)
->> @@ -135,11 +135,11 @@ enum NETWORK_TYPE {
->>   #define IsSupportedRxCCK(NetType) IsEnableHWCCK(NetType)
->>   
->>   #define IsSupportedTxCCK(NetType)				\
->> -	((NetType) & (WIRELESS_11B) ? true : false)
->> +	((NetType) & WIRELESS_11B)
->>   #define IsSupportedTxOFDM(NetType)				\
->> -	((NetType) & (WIRELESS_11G) ? true : false)
->> +	((NetType) & WIRELESS_11G)
->>   #define IsSupportedTxMCS(NetType)				\
->> -	((NetType) & (WIRELESS_11_24N) ? true : false)
->> +	((NetType) & WIRELESS_11_24N)
->>   
-> 
-> And this.
+-----BEGIN PGP SIGNATURE-----
 
-It turned out that these are all unused and can be removed.
-I should really have looked deeper into this, sorry.
+wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmJLJv8FAwAAAAAACgkQbk1w61LbBA2Y
+FQ/+JO/v68k6xBMFzpBxhJLs8DsUg3auoVNTFLCilloTOAqlQVIp3JfgCf2tnc3i89vjphOtAYh5
+6QbtMCJyMigxcAIYq/AVEFHVMg1IuX2fiCYF0l7QFLSyuzZi4hya4WEQoXO762mR2wgpBqBbcySj
+uJ2nWSDPJaqBp5HXEYoV6/8mTSgTfIZfGax1PxLAIC+/aPb3CD37wkRGT3yH5d70gvSUku3zfD6f
+Ije3k4ypAoVTo6SPOwVxt0zNDgWeKkmlqIrvi6XD96vHmJujTmDyIPT5Vln3K1iHpzf6Mi3HpL9D
+dttDjLexS/WIpNrmDY3ks8O8FJlkMvymizj4EeCGg2F+SDVqEodU+bUZ7T/25rR7C0cUuVdSxgT8
+WYvNqr4HXI9bVEYjtNCL9OF4b0X7DXPOq0nY8ZvoyN+QAIaJcHWOdoLns9weqgNNmFTcQ70L+2Wz
++TKEsfOfLE9wtoOSeHweDUmO2GqJ/obwHELXHvB5KYBgITdl2kvFJiuZ5mE62Q8VqS62oTmqnMxE
+TIKh2WkvckIWoMIvIWmuacF/dZL9bjelNvYoF3H7FnKR1/8Qua3rTrtEWzQ/Z+h1MTKe3kRIU+ho
+6/YxgL646R9SLNt1rk9xj8ZJCz4eCTzbM+Xyu4c8WsHcCMH65IAxZi4xm0Vz851FrTnD3wrvC619
+Lfo=
+=7pMo
+-----END PGP SIGNATURE-----
 
-I'll remove them in a separate patch in v2.
-
-thanks,
-Michael
+--------------ojgS2yDN6b8jEpOHeVgba6OW--
