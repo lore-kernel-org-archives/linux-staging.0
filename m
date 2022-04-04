@@ -1,99 +1,92 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3BE28E8;
-	Mon,  4 Apr 2022 14:39:27 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id h4so14777645wrc.13;
-        Mon, 04 Apr 2022 07:39:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A4D7A
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 14:47:28 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id ot30so10526487ejb.12
+        for <linux-staging@lists.linux.dev>; Mon, 04 Apr 2022 07:47:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ezm7s/bPPlsKI3j5Vodd/A01CmYTO8Su6wSyqI3TlXY=;
-        b=YwX2YHH9SfzSWfpOg5TmK7w79nGo2g57qnkikIFBOAJNPurOj2AeWp2y2GJDQMNRQo
-         VPEa85uc0l8dCprSmr5BOnsWoPk8vPYjjtOlwJZaOb4XoNPz6+qmlApMVIAcNY7anQAa
-         Cr5kcgA081NzJXrGn3cjAKh3m0nR5fV74Pnz1u3tcsM+KmEMxJ/wBXxmJx5d6nkMgyOi
-         /iXbOaAy+LvPi7Nmbl+gneboS6mo1JgXvqPZX3BUP8Cq1uRk5+nrUwN7o47SeaJBpdZP
-         oNnQfUV2ztUXqwtxrmSC5j1LH31tYrOxnxNIpx2OGX7OQrXdePRPPBIg3qn3Dtb7yZ49
-         WcNA==
+        bh=mr7YWSWf9Fh5mx8DlwJhg4GGJWPL19lC/MOxR2q8iLM=;
+        b=AtCNH6+qLl12Ug6eCiCqNuePjAcTpoPNw1iCqIx/6BeEJkZKJ2r2A/FwRnkTXyC5rM
+         lEsG+RwBEkuX1fb0w9jo5BomEak7mLveAThWEODoGMM1NHmEzFFyp18MxsbXGJqc9Vbs
+         NVAFME0UufgcpbPEmQFiab7xuRREsfnh6IBCCZYFMKcwZ7lFo9zVXVS5Q3j21wjC3N5N
+         EJ6SGJPRm9VXBc0nuTZyOT8Vuus+vrgIzw6aNHweHSai15ka2cnDZT4S0IBIB1BtEq0U
+         vQL/AgqEg0xNQXcFoG9kNf5xXl11+FhW4gVmdMBJO4KcON+QL+dJV7cAjDNxiL1WvuI1
+         N/vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ezm7s/bPPlsKI3j5Vodd/A01CmYTO8Su6wSyqI3TlXY=;
-        b=XNjCZyXeIL0RXSxUnfE0AdPqF+tEXu1RbKiCQwvyG+GM2DMVyGwzM8WKFfTrbSjzrf
-         dJzXRZLvjfNAdWBh46USZnNG8OO+t2YrktnZlOtloqmHBayxN4+nUacNXNsLBd9L7qFe
-         Qax0fbWoTx1XWHDqYBuEL27hjPbDfFR2szwi9a3OtY1dF3tMAorUtDxUm0Y1a16Q9zMY
-         rwctp3ffCmqYYvg4TWLPdEGyven7OqtXGfDMy96rSv4sla6O/Ph14F5/vOiQ0XDtV2PK
-         trXfoqj2D9zhmIkiUHT/cwk4lzcTBwMn5V9S0LyG3PTXVslBNqXyz6QTiwG+OL/SBfst
-         sZsw==
-X-Gm-Message-State: AOAM530J4BXFs+RYXVrcuMyMzaqe0OjR++em3qBPsB6cIR8K6vPJdt3e
-	5Y4WGktWtklhwnnY/xuvxPc=
-X-Google-Smtp-Source: ABdhPJym4Ae6g+MhdncKokbHAsqQnkyzEtw7DFFFy5O0cd45KZebnaDdSU2lJZ575HmSr7bcg+2p7A==
-X-Received: by 2002:a5d:5512:0:b0:1ef:5f08:29fb with SMTP id b18-20020a5d5512000000b001ef5f0829fbmr17064670wrv.653.1649083165929;
-        Mon, 04 Apr 2022 07:39:25 -0700 (PDT)
-Received: from alaa-emad ([41.42.174.117])
-        by smtp.gmail.com with ESMTPSA id y2-20020adffa42000000b002060d53dbe0sm6142385wrr.9.2022.04.04.07.39.25
+        bh=mr7YWSWf9Fh5mx8DlwJhg4GGJWPL19lC/MOxR2q8iLM=;
+        b=29xndDWx0Ae6VGcP/tAmJ3MvoUPf1HvdlGu9Pm8S9v7fbVff9yZj2BlaugVxH8zPF3
+         1BtttOkf25QicqC+yPc/rvy0s4Hj54j2lcafTd10rCaEjtlta87NBb4gETMkotEC4omK
+         7JSrGiTLOTbIf32VyEKUWEIXL6CrXlBep/VLD8UfdJ3vemet+zwp37/51ZTXgkE9qwEL
+         ElU01VI9oCHJl6Pj/ixDUIZK5aPOH/jPISPTvyXppasAPw2E3pKFEYm9qQn23LftpgcY
+         Vj1KEbPYv45VsXVI6+kUrGsu9yPcHYUFIjXnmo+OAwMg6eWuz1X70OlaD4GVfSBo0f21
+         ukeg==
+X-Gm-Message-State: AOAM530tRlYhkTrLf698ueKvBhDQhj/DjYHVkuX52Sj5S+Vrie13Fu0F
+	2YZSH1HT6b5XFmpQfVyMqaE=
+X-Google-Smtp-Source: ABdhPJw8S6m/1fNDQFpEzt4Ph+PTap1MEc8hF/iIt9eHY7l1piaaTbSxTLM55bPcr6dl63IabQUIew==
+X-Received: by 2002:a17:906:3283:b0:6ce:78f9:fafd with SMTP id 3-20020a170906328300b006ce78f9fafdmr431125ejw.534.1649083646445;
+        Mon, 04 Apr 2022 07:47:26 -0700 (PDT)
+Received: from leap.localnet (host-95-249-145-232.retail.telecomitalia.it. [95.249.145.232])
+        by smtp.gmail.com with ESMTPSA id gn3-20020a1709070d0300b006e1036666bfsm4409656ejc.223.2022.04.04.07.47.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 07:39:25 -0700 (PDT)
-From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	eng.alaamohamedsoliman.am@gmail.com
-Subject: [PATCH 2/2] staging: r8188eu: Add line after declarations
-Date: Mon,  4 Apr 2022 16:39:17 +0200
-Message-Id: <19d8f316e43d16c9341f7fe94e68534cf60cc05c.1649082939.git.eng.alaamohamedsoliman.am@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <860d8e222e2b695ce5cb4f48aa46a7f66e05d8e4.1649082939.git.eng.alaamohamedsoliman.am@gmail.com>
-References: <860d8e222e2b695ce5cb4f48aa46a7f66e05d8e4.1649082939.git.eng.alaamohamedsoliman.am@gmail.com>
+        Mon, 04 Apr 2022 07:47:25 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Charlie Sands <sandsch@northvilleschools.net>, gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net, phil@philpotter.co.uk, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, paskripkin@gmail.com
+Subject: Re: [PATCH V2] Fix unsafe memory access by memcmp
+Date: Mon, 04 Apr 2022 16:47:24 +0200
+Message-ID: <1723480.VLH7GnMWUR@leap>
+In-Reply-To: <20220404143531.GE3293@kadam>
+References: <YkpdVyuQguGzPSNE@sckzor-linux.localdomain> <1890716.PYKUYFuaPT@leap> <20220404143531.GE3293@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Reported by checkpatch:
+On luned? 4 aprile 2022 16:35:31 CEST Dan Carpenter wrote:
+> On Mon, Apr 04, 2022 at 04:29:48PM +0200, Fabio M. De Francesco wrote:
 
-WARNING: Missing a blank line after declarations
+> > Is it safe to access user space pointers without using proper helpers? 
+> 
+> No.
+> 
+> > In those cases I mean: is it safe without using copy_from_user()?
+> 
+> Correct.  You need to use copy_from_user().
+> 
+> > 
+> > As I said, perhaps I'm overlooking something. However my conclusions 
+> > follow by your own argument.
+> > 
+> > If I understand what you wrote, you asked to delete rtw_p2p_get()
+> > because it looks like nobody "has ever tested or used this code".
+> > 
+> > rtw_p2p_get2() and rtw_p2p_set() use the same pattern of rtw_p2p_get()
+> > when they access user space without using the proper helpers.
+> 
+> Those functions use "extra" which is a kernel pointer.  Which user
+> pointer do they use?  Sparse doesn't detect it.
 
-Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_br_ext.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+You're right, sorry. This is what I had overlooked. I took a brief look
+(just 5 seconds or something) and saw the same arguments that 
+rtw_p2p_get() takes and then a long list of calls to memcmp().
 
-diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index 7c664f80fa99..f7811b46db1c 100644
---- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -313,6 +313,7 @@ void nat25_db_cleanup(struct adapter *priv)
+I overlooked that they were called using the 4th argument ("extra").
+
+Sorry for the noise.
+
+Fabio
+
  
- 	for (i = 0; i < NAT25_HASH_SIZE; i++) {
- 		struct nat25_network_db_entry *f;
-+
- 		f = priv->nethash[i];
- 		while (f) {
- 			struct nat25_network_db_entry *g;
-@@ -339,12 +340,12 @@ void nat25_db_expire(struct adapter *priv)
- 
- 	for (i = 0; i < NAT25_HASH_SIZE; i++) {
- 		struct nat25_network_db_entry *f;
--		f = priv->nethash[i];
- 
-+		f = priv->nethash[i];
- 		while (f) {
- 			struct nat25_network_db_entry *g;
--			g = f->next_hash;
- 
-+			g = f->next_hash;
- 			if (__nat25_has_expired(f)) {
- 				if (atomic_dec_and_test(&f->use_count)) {
- 					if (priv->scdb_entry == f) {
--- 
-2.35.1
+
 
