@@ -1,79 +1,84 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD387C
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 08:51:01 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-235-1Y4JqQ3oPCehEbsc0F2AAw-1; Mon, 04 Apr 2022 09:50:58 +0100
-X-MC-Unique: 1Y4JqQ3oPCehEbsc0F2AAw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.32; Mon, 4 Apr 2022 09:50:56 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.033; Mon, 4 Apr 2022 09:50:56 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Pavel Skripkin' <paskripkin@gmail.com>, Michael Straube
-	<straube.linux@gmail.com>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-CC: Greg KH <gregkh@linuxfoundation.org>, Larry Finger
-	<Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, "open
- list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, "Linux Kernel
- Mailing List" <linux-kernel@vger.kernel.org>
-Subject: RE: staging: r8188eu: how to handle nested mutex under spinlock
-Thread-Topic: staging: r8188eu: how to handle nested mutex under spinlock
-Thread-Index: AQHYR5/sp6xWhoDQCkym8rTDVxAmY6zfcjRQ
-Date: Mon, 4 Apr 2022 08:50:56 +0000
-Message-ID: <4ef1e90716e64fd78ebbc222bbb7e597@AcuMS.aculab.com>
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
- <2029549.KlZ2vcFHjT@leap> <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
- <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
- <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
-In-Reply-To: <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C767C;
+	Mon,  4 Apr 2022 09:02:32 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:52e1:bbc1:ca8:7fa9] (unknown [IPv6:2a01:e0a:120:3210:52e1:bbc1:ca8:7fa9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B7F841F459F5;
+	Mon,  4 Apr 2022 10:02:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649062945;
+	bh=Fq1cNgcG71vKarNXb1KWa+6C35UQPBCHFFeK77y16GU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hVG0HSDA8rE5xmxrpe4VsIiBt3wsvYi6+asdDW1r+DdHlUycVaXdd3/kjxQkbEG1e
+	 RQx8L6oOTNzvOcDD4TNaH03l7VDseaM0l8ceVPki+QpOBXuyClPIg5ac/Q/pSRWVV0
+	 ZK9JGt8sKkRmo09xfGYostker5HfHvm6SuS7re2kEjKxqbDc/WV+X7nvplqSiKDL7j
+	 2hjZ1EZ7dWCsWX/dGFuBZmr6Y6QkkmrWx6qO5jxeCjY/746yANDLjSX0Mi04ar1ZO/
+	 N/KWL1f6OQERJdteXsAUNOM22dgkGMRz4k7Ivmuqo43Ehs9YuAI5hZ/1IpTw+BGE98
+	 SIUWJDIqvfC+Q==
+Message-ID: <fa40b40d-b599-ec03-b596-57be7017d2c7@collabora.com>
+Date: Mon, 4 Apr 2022 11:02:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH 2/8] media: Add P010 format
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Greg KH
+ <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ linux-media <linux-media@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+ <20220227144926.3006585-3-jernej.skrabec@gmail.com>
+ <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
+ <CAAEAJfCA1ef5+KZHU4ZTJvuqdCAEUkvpDY9HTy1fp3M+0QxqPg@mail.gmail.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAAEAJfCA1ef5+KZHU4ZTJvuqdCAEUkvpDY9HTy1fp3M+0QxqPg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-RnJvbTogUGF2ZWwgU2tyaXBraW4NCj4gU2VudDogMDMgQXByaWwgMjAyMiAyMjoxNQ0KPiANCj4g
-SGkgTWljaGFlbCwNCj4gDQo+IE9uIDQvMy8yMiAyMzo1MSwgTWljaGFlbCBTdHJhdWJlIHdyb3Rl
-Og0KPiA+Pg0KPiA+PiBJTU8sIHRoZSBiZXN0IGFuc3dlciBpcyBqdXN0IHJlbW92ZSB0aGlzIGxv
-b3AsIHNpbmNlIGl0IGRvZXMgbm90aGluZy4gT3INCj4gPj4gcmVkZXNpZ24gaXQgdG8gYmUgbW9y
-ZSBzYW5lDQo+ID4+DQo+ID4+IEl0IHdhaXRzIGZvciBwc19wcm9jZXNzaW5nIHRvIGJlY29tZSAw
-IGZvciAzMDAwIG1zLCBidXQgaWYgMzAwMCBtcw0KPiA+PiBleHBpcmVzLi4uIGV4ZWN1dGlvbiBn
-b2VzIGZvcndhcmQgbGlrZSBhcyBwc19wcm9jZXNzaW5nIHdhcyAwIGZyb20gdGhlDQo+ID4+IGJl
-Z2lubmluZw0KPiA+Pg0KPiA+PiBNYXliZSBpdCdzIHNvbWV0aGluZyBodyByZWxhdGVkLCBsaWtl
-IHdhaXQgZm9yIDMwMDAgbXMgYW5kIGFsbCB3aWxsIGJlDQo+ID4+IG9rLiBDYW4ndCBzYXkuLi4N
-Cj4gPj4NCj4gPg0KPiA+IEhpIFBhdmVsLA0KPiA+DQo+ID4gc2FtZSB3aXRoIHRoZSBsb29wIHRo
-YXQgZm9sbG93czoNCj4gPg0KPiA+IAkvKiBTeXN0ZW0gc3VzcGVuZCBpcyBub3QgYWxsb3dlZCB0
-byB3YWtldXAgKi8NCj4gPiAJaWYgKHB3cnByaXYtPmJJblN1c3BlbmQpIHsNCj4gDQo+IAkgICBe
-Xl5eDQo+IA0KPiBidHcsIHRoaXMgcGFydCBpcyB1c2VsZXNzIHRvDQo+IA0KPiANCj4gPiAJCXdo
-aWxlIChwd3Jwcml2LT5iSW5TdXNwZW5kICYmDQo+IA0KPiBJJ3ZlIGxvb2tlZCBpbnRvIHdoYXQg
-Z2NjMTEgcHJvZHVjZWQgZnJvbSB0aGlzIGZ1bmN0aW9uIGFuZCBsb29rcyBsaWtlDQo+IG15IGNv
-bXBpbGVyIGlzIHNtYXJ0IGVub3VnaCB0byBub3QgY2FjaGUgdGhhdCB2YWx1ZSwgYnV0IEkgYW0g
-YWZyYWlkIG5vdA0KPiBhbGwgY29tcGlsZXJzIGFyZSB0aGF0IHNtYXJ0Lg0KDQpUaGUgY29tcGls
-ZXIgY2FuJ3QgY2FjaGUgdGhlIHZhbHVlIGJlY2F1c2Ugb2YgdGhlIGZ1bmN0aW9uIGNhbGwuDQoN
-ClF1aXRlIHdoZXRoZXIgdGhlIGNvZGUgaXMgaW4gYW55IHdheSBzYW5lIGluIGFub3RoZXIgbWF0
-dGVyLg0KDQpZb3UgZGVmaW5pdGVseSBjYW5ub3Qgc2xlZXAgd2l0aCBhIHNwaW5sb2NrIGhlbGQu
-DQpJbWFnaW5lIHdoYXQgaGFwcGVucyBpZiBhbm90aGVyIHByb2Nlc3MgdHJpZXMgdG8gYWNxdWly
-ZSB0aGUNCnNwaW5sb2NrIHdoaWxlIHlvdSBhcmUgc2xlZXBpbmcuDQpJdCB3aWxsIHNwaW4gZm9y
-ZXZlci4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxl
-eSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0
-aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
+Le 04/04/2022 à 02:04, Ezequiel Garcia a écrit :
+> Hi Nicolas, Benjamin,
+>
+> On Mon, Feb 28, 2022 at 9:48 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+>> Le dimanche 27 février 2022 à 15:49 +0100, Jernej Skrabec a écrit :
+>>> Add P010 format, which is commonly used for 10-bit videos.
+>> There is a much more complete patch that was sent previously (with documentation
+>> and all):
+>>
+>> https://patchwork.kernel.org/project/linux-rockchip/patch/20210618131526.566762-5-benjamin.gaignard@collabora.com/
+>>
+> I believe "media: Add P010 video format" should be good to go, I think
+> we could merge it.
+>
+> I can't find it on my gmail inbox, for some reason.. can you guys
+> please repost it,
+> and/or reply to with a gently ping for Hans (and please Cc me on this mail) ?
+
+I have rebased it on v5-18-rc1 tag and send it.
+You should have it in your mailbox now.
+
+Regards,
+Benjamin
+
+>
+> Thanks!
+> Ezequiel
