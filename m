@@ -1,39 +1,39 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47647C
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 03:47:22 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id u14so3774981pjj.0
-        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 20:47:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C147C
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 03:52:32 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id a16-20020a17090a6d9000b001c7d6c1bb13so7820653pjk.4
+        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 20:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id;
-        bh=YrXH9F1rDhQvv8JRqm7oSpU8bA/raNBsucfvPETPte4=;
-        b=ZOz5Bjo4F69/vp9sV8xJ2y0LRSQ/j2zLzn1f3Euwl2OxyaEIPp4a2nXaqs+gOwe9nb
-         lT38yHD8efA5qJtC1sSogLj+yYnSZkM06NvnYFPsjcLODbDelYDsZxiSho4/tFvDEavH
-         qpVtGMPsHC61oP9288jYnpUQb9PB+XX7GVkPT429WrGP4pMbFXYca3kbw72jRJvLw/5Y
-         rxQPpW/pA5EKCCcr3pRzfzUYenUxrSxqKYwP8HQKZAScxf4nei2MfpWGa2pZk9XLExC9
-         xjmhEVjHM4Uyfe5RFu6yvsMZTNlYEUkoZUuuE9LhWvjp+1/0ICRl5fc8H3GkF69hUA6V
-         IE/g==
+        bh=5FFxSTXwBaEGi4lfK+T2LU99v/h0J5utIcW5ijXutv0=;
+        b=aOwqDqJ9BCgS/OlFhm9cTrjEoXpHxRWPaSdFORy8vWyW8x/iTrv2q1mKVoilW1X400
+         OYFUvmhZHwmxTfQ43WxSyToXNH8dNyR/4aZoQHt6FGLCZ5EzRJYK6VHPPDNxH7K45XV4
+         hKsn1oXQLQNJDGCbJVDdtpXbVvgSAJlh4IMtxPc/cYsKQw8j6umU8GrjzjGStAuPZ/9D
+         6U6zgRbaUIcKw3Mw2HI9yunNV3XtGbQTXz5hm/NDfp6yE0ThHY3E8rTtm5YWQPuK6QF6
+         lI9AQ7+LxxLZaJtacqBiWFunVSWfaX9CfPquerctUl6jstXQPOXCg9lzO1IIDS4+GUhY
+         8A2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=YrXH9F1rDhQvv8JRqm7oSpU8bA/raNBsucfvPETPte4=;
-        b=frf9LMyNPGl5bD7PJQS+IOdrkJmIiZsWuyPj4dgn0EpOxGu0WsRXREdLO1SoGmejYO
-         PfXPokixydIbKGb86zTDsUgs51pbuxvks2MNtdMlaXwuiHjR6qW7oSpF8shHgZhUOY6j
-         P76wiUcjYxQXmm2UGxZwNNfdSeixgAfxSNc5YA9k5K5NskevbZpdL9LsMNcF9N7Hvkww
-         RX06J1KvEddxS1w95OT6Sf6Ih3TpBDloyYB/pQgGynTIvcMsQaXU30K7xftXyC3O6gqO
-         06HnSkMJiXOs+IiE5vL4RfMDkZ11v6zPMRNEnO0EpH15VLKSEKGH7JP7hhvAfZQ0inyu
-         YQuQ==
-X-Gm-Message-State: AOAM5338I9fDyH+6MU3kM2YHrfUrHJsdaLXo5nXZlrIbMPcXaFi0uZFR
-	gk+ttDEni+hVjPVB3zuHDqk=
-X-Google-Smtp-Source: ABdhPJyaNaTzSxVSBY3nhvZqZg5mkt9RERopcOPR05/X4I1kfZUmBpSOe/lSpy7eXE7YQeeJ0x3aEQ==
-X-Received: by 2002:a17:902:b705:b0:154:a806:5325 with SMTP id d5-20020a170902b70500b00154a8065325mr56956659pls.30.1649044042137;
-        Sun, 03 Apr 2022 20:47:22 -0700 (PDT)
+        bh=5FFxSTXwBaEGi4lfK+T2LU99v/h0J5utIcW5ijXutv0=;
+        b=fJiUCnbhSnDth5nitGzR4RiPV3Ueo1SPsi6o1+2+ZIL1SnPwMI5zhxmCRvj96mvFqk
+         6oNBvnqQX/XUyZoIjkn7iv9Ythyb2o7+jtGqQihlHiFI67Ur0VD7RkM3mlfp6ET+9/+1
+         U0MaWik2JpRgrwd+xqkTytqXnHeXHC49Mz+fk/XZ9+PxBOcAqaWZbPtRMtelZiFq1Q9c
+         wvagST32l2HjARRX5SpLxzwjr73JN37q2mz+NIBKjyHPE7r7hX9wuU9m59N/BmvtPqZN
+         4bWEgfC2LCY/fWpJRJnPOtacPCsiynCeqkL/Cs1n2+U+dInOGeL+URK6QI/7Qn1P4GEb
+         rKuA==
+X-Gm-Message-State: AOAM531StRTf0r+0NWBZcrz9pRWrjMLp6AcvUXG8PKhvzsdhDOGYZP7W
+	t53tmo/dLZQCGJujRhDk52c=
+X-Google-Smtp-Source: ABdhPJyudhD009LYaZ/Hx+oWc+f1KFk4uFo6y5eJN4i37qfjlVM9CRWpoE25/CLl7gD4dLO4V2JDtA==
+X-Received: by 2002:a17:90a:2ecc:b0:1ca:6007:406c with SMTP id h12-20020a17090a2ecc00b001ca6007406cmr9762848pjs.84.1649044352039;
+        Sun, 03 Apr 2022 20:52:32 -0700 (PDT)
 Received: from ubuntu-vm.jnpr.net ([116.197.184.15])
-        by smtp.gmail.com with ESMTPSA id k137-20020a633d8f000000b0039800918b00sm8744546pga.77.2022.04.03.20.47.18
+        by smtp.gmail.com with ESMTPSA id hk16-20020a17090b225000b001ca00b81a95sm15405045pjb.22.2022.04.03.20.52.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Apr 2022 20:47:21 -0700 (PDT)
+        Sun, 03 Apr 2022 20:52:31 -0700 (PDT)
 From: Sathish Kumar <skumark1902@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
@@ -41,9 +41,9 @@ To: gregkh@linuxfoundation.org,
 	Larry.Finger@lwfinger.net,
 	florian.c.schilhabel@googlemail.com
 Cc: Sathish Kumar <skumark1902@gmail.com>
-Subject: [PATCH v2] staging: rtl8712: Fix multiple blank lines warning from .h files
-Date: Mon,  4 Apr 2022 09:17:06 +0530
-Message-Id: <20220404034706.2384-1-skumark1902@gmail.com>
+Subject: [PATCH v2] staging: rtl8712: Fix multiple blank lines warning from .c files
+Date: Mon,  4 Apr 2022 09:22:13 +0530
+Message-Id: <20220404035213.2609-1-skumark1902@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,293 +55,68 @@ This patch fixes the checkpatch.pl warnings like:
 CHECK: Please don't use multiple blank lines
 +
 +
-from rtl8712_*.h, rtl871x_*.h, sta_info.h, and wifi.h
+from rtl871x_ioctl_rtl.c, rtl871x_ioctl_set.c, rtl871x_recv.c,
+and rtl871x_security.c
 
 Signed-off-by: Sathish Kumar <skumark1902@gmail.com>
 ---
 Changes in v2:
   - Updated the subject and changelog text
 ---
- drivers/staging/rtl8712/rtl8712_cmdctrl_bitdef.h    | 1 -
- drivers/staging/rtl8712/rtl8712_macsetting_bitdef.h | 3 ---
- drivers/staging/rtl8712/rtl8712_macsetting_regdef.h | 2 --
- drivers/staging/rtl8712/rtl8712_ratectrl_regdef.h   | 1 -
- drivers/staging/rtl8712/rtl8712_security_bitdef.h   | 1 -
- drivers/staging/rtl8712/rtl8712_spec.h              | 3 ---
- drivers/staging/rtl8712/rtl8712_syscfg_bitdef.h     | 4 ----
- drivers/staging/rtl8712/rtl8712_syscfg_regdef.h     | 2 --
- drivers/staging/rtl8712/rtl8712_timectrl_bitdef.h   | 1 -
- drivers/staging/rtl8712/rtl8712_wmac_bitdef.h       | 1 -
- drivers/staging/rtl8712/rtl871x_cmd.h               | 2 --
- drivers/staging/rtl8712/rtl871x_ioctl.h             | 1 -
- drivers/staging/rtl8712/rtl871x_mp_ioctl.h          | 1 -
- drivers/staging/rtl8712/rtl871x_mp_phy_regdef.h     | 3 ---
- drivers/staging/rtl8712/sta_info.h                  | 1 -
- drivers/staging/rtl8712/wifi.h                      | 1 -
- 16 files changed, 28 deletions(-)
+ drivers/staging/rtl8712/rtl871x_ioctl_rtl.c | 1 -
+ drivers/staging/rtl8712/rtl871x_ioctl_set.c | 1 -
+ drivers/staging/rtl8712/rtl871x_recv.c      | 1 -
+ drivers/staging/rtl8712/rtl871x_security.c  | 1 -
+ 4 files changed, 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/rtl8712_cmdctrl_bitdef.h b/drivers/staging/rtl8712/rtl8712_cmdctrl_bitdef.h
-index e125c7222ab5..68bdec07f51e 100644
---- a/drivers/staging/rtl8712/rtl8712_cmdctrl_bitdef.h
-+++ b/drivers/staging/rtl8712/rtl8712_cmdctrl_bitdef.h
-@@ -91,6 +91,5 @@
- #define	_BCNSPACE_MSK			0x0FFF
- #define	_BCNSPACE_SHT			0
+diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c b/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c
+index b78101afc93d..2b539335206a 100644
+--- a/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c
++++ b/drivers/staging/rtl8712/rtl871x_ioctl_rtl.c
+@@ -367,7 +367,6 @@ uint oid_rt_get_scan_in_progress_hdl(struct oid_par_priv *poid_par_priv)
+ 	return RNDIS_STATUS_SUCCESS;
+ }
  
 -
- #endif /* __RTL8712_CMDCTRL_BITDEF_H__*/
- 
-diff --git a/drivers/staging/rtl8712/rtl8712_macsetting_bitdef.h b/drivers/staging/rtl8712/rtl8712_macsetting_bitdef.h
-index 3d9f40fa8469..46d758d3f3a4 100644
---- a/drivers/staging/rtl8712/rtl8712_macsetting_bitdef.h
-+++ b/drivers/staging/rtl8712/rtl8712_macsetting_bitdef.h
-@@ -7,7 +7,6 @@
- #ifndef __RTL8712_MACSETTING_BITDEF_H__
- #define __RTL8712_MACSETTING_BITDEF_H__
- 
--
- /*MACID*/
- /*BSSID*/
- 
-@@ -28,7 +27,5 @@
- 
- /*BUILDUSER*/
+ uint oid_rt_forced_data_rate_hdl(struct oid_par_priv *poid_par_priv)
+ {
+ 	return RNDIS_STATUS_SUCCESS;
+diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_set.c b/drivers/staging/rtl8712/rtl871x_ioctl_set.c
+index 6cdc6f1a6bc6..603a3a48f952 100644
+--- a/drivers/staging/rtl8712/rtl871x_ioctl_set.c
++++ b/drivers/staging/rtl8712/rtl871x_ioctl_set.c
+@@ -22,7 +22,6 @@
+ #include "usb_osintf.h"
+ #include "usb_ops.h"
  
 -
--
- #endif /* __RTL8712_MACSETTING_BITDEF_H__*/
- 
-diff --git a/drivers/staging/rtl8712/rtl8712_macsetting_regdef.h b/drivers/staging/rtl8712/rtl8712_macsetting_regdef.h
-index e8cb2eee9294..64740d99c252 100644
---- a/drivers/staging/rtl8712/rtl8712_macsetting_regdef.h
-+++ b/drivers/staging/rtl8712/rtl8712_macsetting_regdef.h
-@@ -16,7 +16,5 @@
- #define BUILDTIME			(RTL8712_MACIDSETTING_ + 0x0024)
- #define BUILDUSER			(RTL8712_MACIDSETTING_ + 0x0028)
- 
--
--
- #endif /*__RTL8712_MACSETTING_REGDEF_H__*/
- 
-diff --git a/drivers/staging/rtl8712/rtl8712_ratectrl_regdef.h b/drivers/staging/rtl8712/rtl8712_ratectrl_regdef.h
-index a3eaee0e1b69..9ed5653f3f7f 100644
---- a/drivers/staging/rtl8712/rtl8712_ratectrl_regdef.h
-+++ b/drivers/staging/rtl8712/rtl8712_ratectrl_regdef.h
-@@ -39,6 +39,5 @@
- #define MCS_TXAGC7			(RTL8712_RATECTRL_ + 0x67)
- #define CCK_TXAGC			(RTL8712_RATECTRL_ + 0x68)
+ static u8 validate_ssid(struct ndis_802_11_ssid *ssid)
+ {
+ 	u8 i;
+diff --git a/drivers/staging/rtl8712/rtl871x_recv.c b/drivers/staging/rtl8712/rtl871x_recv.c
+index 66cc50f24e29..de9a568eaffa 100644
+--- a/drivers/staging/rtl8712/rtl871x_recv.c
++++ b/drivers/staging/rtl8712/rtl871x_recv.c
+@@ -455,7 +455,6 @@ static sint validate_recv_mgnt_frame(struct _adapter *adapter,
+ 	return _FAIL;
+ }
  
 -
- #endif	/*__RTL8712_RATECTRL_REGDEF_H__*/
- 
-diff --git a/drivers/staging/rtl8712/rtl8712_security_bitdef.h b/drivers/staging/rtl8712/rtl8712_security_bitdef.h
-index 1c26a7eca64a..44275ef455a0 100644
---- a/drivers/staging/rtl8712/rtl8712_security_bitdef.h
-+++ b/drivers/staging/rtl8712/rtl8712_security_bitdef.h
-@@ -30,6 +30,5 @@
- #define	_RXUSEDK					BIT(1)
- #define	_TXUSEDK					BIT(0)
- 
--
- #endif	/*__RTL8712_SECURITY_BITDEF_H__*/
- 
-diff --git a/drivers/staging/rtl8712/rtl8712_spec.h b/drivers/staging/rtl8712/rtl8712_spec.h
-index c0bab4c49ae9..613a410e5714 100644
---- a/drivers/staging/rtl8712/rtl8712_spec.h
-+++ b/drivers/staging/rtl8712/rtl8712_spec.h
-@@ -30,7 +30,6 @@
- 
- #define RTL8712_IOBASE_FF	0x10300000 /*IOBASE_FIFO 0x1031000~0x103AFFFF*/
+ static sint validate_recv_data_frame(struct _adapter *adapter,
+ 				     union recv_frame *precv_frame)
+ {
+diff --git a/drivers/staging/rtl8712/rtl871x_security.c b/drivers/staging/rtl8712/rtl871x_security.c
+index e0a1c30a8fe6..e46a5dbc7b65 100644
+--- a/drivers/staging/rtl8712/rtl871x_security.c
++++ b/drivers/staging/rtl8712/rtl871x_security.c
+@@ -381,7 +381,6 @@ void seccalctkipmic(u8 *key, u8 *header, u8 *data, u32 data_len, u8 *mic_code,
+ #define P1K_SIZE         10    /*  80-bit Phase1 key                */
+ #define RC4_KEY_SIZE     16    /* 128-bit RC4KEY (104 bits unknown) */
  
 -
- /*IOREG Offset for 8712*/
- #define RTL8712_SYSCFG_		RTL8712_IOBASE_IOREG
- #define RTL8712_CMDCTRL_	(RTL8712_IOBASE_IOREG + 0x40)
-@@ -47,7 +46,6 @@
- #define RTL8712_DEBUGCTRL_	(RTL8712_IOBASE_IOREG + 0x310)
- #define RTL8712_OFFLOAD_	(RTL8712_IOBASE_IOREG + 0x2D0)
- 
--
- /*FIFO for 8712*/
- #define RTL8712_DMA_BCNQ	(RTL8712_IOBASE_FF + 0x10000)
- #define RTL8712_DMA_MGTQ	(RTL8712_IOBASE_FF + 0x20000)
-@@ -60,7 +58,6 @@
- #define RTL8712_DMA_H2CCMD	(RTL8712_IOBASE_FF + 0x90000)
- #define RTL8712_DMA_C2HCMD	(RTL8712_IOBASE_FF + 0xA0000)
- 
--
- /*------------------------------*/
- 
- /*BIT 16 15*/
-diff --git a/drivers/staging/rtl8712/rtl8712_syscfg_bitdef.h b/drivers/staging/rtl8712/rtl8712_syscfg_bitdef.h
-index a328ca9b340c..d92df3fbd2b1 100644
---- a/drivers/staging/rtl8712/rtl8712_syscfg_bitdef.h
-+++ b/drivers/staging/rtl8712/rtl8712_syscfg_bitdef.h
-@@ -117,20 +117,17 @@
- 						       * Block's Bandgap.
- 						       */
- 
--
- /*--------------------------------------------------------------------------*/
- /*       SPS1_CTRL bits				(Offset 0x18-1E, 56bits)*/
- /*--------------------------------------------------------------------------*/
- #define	SPS1_SWEN		BIT(1)	/* Enable vsps18 SW Macro Block.*/
- #define	SPS1_LDEN		BIT(0)	/* Enable VSPS12 LDO Macro block.*/
- 
--
- /*----------------------------------------------------------------------------*/
- /*       LDOA15_CTRL bits		(Offset 0x20, 8bits)*/
- /*----------------------------------------------------------------------------*/
- #define	LDA15_EN		BIT(0)	/* Enable LDOA15 Macro Block*/
- 
--
- /*----------------------------------------------------------------------------*/
- /*       8192S LDOV12D_CTRL bit		(Offset 0x21, 8bits)*/
- /*----------------------------------------------------------------------------*/
-@@ -140,7 +137,6 @@
- /*CLK_PS_CTRL*/
- #define	_CLK_GATE_EN		BIT(0)
- 
--
- /* EFUSE_CTRL*/
- #define EF_FLAG			BIT(31)		/* Access Flag, Write:1;
- 						 *	        Read:0
-diff --git a/drivers/staging/rtl8712/rtl8712_syscfg_regdef.h b/drivers/staging/rtl8712/rtl8712_syscfg_regdef.h
-index e95eb5832ec4..da5efcdedabe 100644
---- a/drivers/staging/rtl8712/rtl8712_syscfg_regdef.h
-+++ b/drivers/staging/rtl8712/rtl8712_syscfg_regdef.h
-@@ -14,7 +14,6 @@
- #ifndef __RTL8712_SYSCFG_REGDEF_H__
- #define __RTL8712_SYSCFG_REGDEF_H__
- 
--
- #define SYS_ISO_CTRL		(RTL8712_SYSCFG_ + 0x0000)
- #define SYS_FUNC_EN		(RTL8712_SYSCFG_ + 0x0002)
- #define PMC_FSM			(RTL8712_SYSCFG_ + 0x0004)
-@@ -39,6 +38,5 @@
- #define RCLK_MON		(RTL8712_SYSCFG_ + 0x003E)
- #define EFUSE_CLK_CTRL		(RTL8712_SYSCFG_ + 0x02F8)
- 
--
- #endif /*__RTL8712_SYSCFG_REGDEF_H__*/
- 
-diff --git a/drivers/staging/rtl8712/rtl8712_timectrl_bitdef.h b/drivers/staging/rtl8712/rtl8712_timectrl_bitdef.h
-index 1af5f1dd3c20..d7bc9dd5cecd 100644
---- a/drivers/staging/rtl8712/rtl8712_timectrl_bitdef.h
-+++ b/drivers/staging/rtl8712/rtl8712_timectrl_bitdef.h
-@@ -45,6 +45,5 @@
- /*BCNERRTH*/
- /*MLT*/
- 
--
- #endif /* __RTL8712_TIMECTRL_BITDEF_H__*/
- 
-diff --git a/drivers/staging/rtl8712/rtl8712_wmac_bitdef.h b/drivers/staging/rtl8712/rtl8712_wmac_bitdef.h
-index d3b45c6cd855..ea164e482347 100644
---- a/drivers/staging/rtl8712/rtl8712_wmac_bitdef.h
-+++ b/drivers/staging/rtl8712/rtl8712_wmac_bitdef.h
-@@ -45,6 +45,5 @@
- #define	_RPT_CNT_MSK			0x000FFFFF
- #define	_RPT_CNT_SHT			0
- 
--
- #endif	/*__RTL8712_WMAC_BITDEF_H__*/
- 
-diff --git a/drivers/staging/rtl8712/rtl871x_cmd.h b/drivers/staging/rtl8712/rtl871x_cmd.h
-index 95e9ea5b2d98..c7b43a8cd53f 100644
---- a/drivers/staging/rtl8712/rtl871x_cmd.h
-+++ b/drivers/staging/rtl8712/rtl871x_cmd.h
-@@ -316,7 +316,6 @@ enum _RT_CHANNEL_DOMAIN {
- 	RT_CHANNEL_DOMAIN_MAX,
- };
- 
--
- struct SetChannelPlan_param {
- 	enum _RT_CHANNEL_DOMAIN ChannelPlan;
- };
-@@ -338,7 +337,6 @@ struct getdatarate_rsp {
- 	u8 datarates[NumRates];
- };
- 
--
- /*
-  *	Caller Mode: Any
-  *	AP: AP can use the info for the contents of beacon frame
-diff --git a/drivers/staging/rtl8712/rtl871x_ioctl.h b/drivers/staging/rtl8712/rtl871x_ioctl.h
-index 634e67461712..d6332a8c7f4f 100644
---- a/drivers/staging/rtl8712/rtl871x_ioctl.h
-+++ b/drivers/staging/rtl8712/rtl871x_ioctl.h
-@@ -13,7 +13,6 @@
- 	#define OID_802_11_PMKID                        0x0d010123
- #endif
- 
--
- /* For DDK-defined OIDs*/
- #define OID_NDIS_SEG1	0x00010100
- #define OID_NDIS_SEG2	0x00010200
-diff --git a/drivers/staging/rtl8712/rtl871x_mp_ioctl.h b/drivers/staging/rtl8712/rtl871x_mp_ioctl.h
-index 98204493a04c..aa4d5ce471f2 100644
---- a/drivers/staging/rtl8712/rtl871x_mp_ioctl.h
-+++ b/drivers/staging/rtl8712/rtl871x_mp_ioctl.h
-@@ -148,7 +148,6 @@ extern struct oid_obj_priv oid_rtl_seg_87_12_00[32];
- 
- #endif /* _RTL871X_MP_IOCTL_C_ */
- 
--
- enum MP_MODE {
- 	MP_START_MODE,
- 	MP_STOP_MODE,
-diff --git a/drivers/staging/rtl8712/rtl871x_mp_phy_regdef.h b/drivers/staging/rtl8712/rtl871x_mp_phy_regdef.h
-index ca5072e11e22..a08c5d2f59e3 100644
---- a/drivers/staging/rtl8712/rtl871x_mp_phy_regdef.h
-+++ b/drivers/staging/rtl8712/rtl871x_mp_phy_regdef.h
-@@ -26,7 +26,6 @@
- #ifndef __RTL871X_MP_PHY_REGDEF_H
- #define __RTL871X_MP_PHY_REGDEF_H
- 
--
- /*--------------------------Define Parameters-------------------------------*/
- 
- /*============================================================
-@@ -1008,7 +1007,6 @@
- #define	ANTENNA_C	0x4
- #define	ANTENNA_D	0x8
- 
--
- /* accept all physical address */
- #define RCR_AAP		BIT(0)
- #define RCR_APM		BIT(1)		/* accept physical match */
-@@ -1032,6 +1030,5 @@
- 
- /*--------------------------Define Parameters-------------------------------*/
- 
--
- #endif	/*__INC_HAL8192SPHYREG_H */
- 
-diff --git a/drivers/staging/rtl8712/sta_info.h b/drivers/staging/rtl8712/sta_info.h
-index 9b7e5ffa380d..6286c622475e 100644
---- a/drivers/staging/rtl8712/sta_info.h
-+++ b/drivers/staging/rtl8712/sta_info.h
-@@ -21,7 +21,6 @@
- #define NUM_STA 32
- #define NUM_ACL 64
- 
--
- /* if mode ==0, then the sta is allowed once the addr is hit.
-  * if mode ==1, then the sta is rejected once the addr is non-hit.
-  */
-diff --git a/drivers/staging/rtl8712/wifi.h b/drivers/staging/rtl8712/wifi.h
-index b8acb9c7395d..498e6dec7e67 100644
---- a/drivers/staging/rtl8712/wifi.h
-+++ b/drivers/staging/rtl8712/wifi.h
-@@ -186,7 +186,6 @@ static inline unsigned char *get_hdr_bssid(unsigned char *pframe)
- #define _CAPABILITY_			2
- #define _TIMESTAMP_				8
- 
--
- /*-----------------------------------------------------------------------------
-  *			Below is the definition for WMM
-  *------------------------------------------------------------------------------
+ /* 2-unsigned char by 2-unsigned char subset of the full AES S-box table */
+ static const unsigned short Sbox1[2][256] = {/* Sbox for hash (can be in ROM) */
+ 	{
 -- 
 2.17.1
 
