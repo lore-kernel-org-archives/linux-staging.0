@@ -1,248 +1,142 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE512F21
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 14:08:30 +0000 (UTC)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:52e1:bbc1:ca8:7fa9])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1AB751F44E48;
-	Mon,  4 Apr 2022 15:08:28 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1649081308;
-	bh=aNWJUHS5QEs9ea/zLSsrqqFtmxqVRUi9CSX9U08ggpA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=HRvH7pYmojBV8uTx36H6x1JVPqPr3RT3fc7znvDBrqTL+oTk+A/3f0/wkoS5yfCaO
-	 U++ZHmsbwbfzKKE+9426GMpMbudonC1AdALpoTHrbRMfo5lpK6JRhUGLT/H/MQmJ79
-	 FYaO+SlLY6LSvGK7MEUtEnKpOPcIeZC3s0n9pTz0m/1IfdCnUnPiWBC1JAfBE7gIEI
-	 CMyXpRF/5z6VbGH2ulq6RsTn6J1AiYIQEezavHFb0asYgw20sAdNYjefDEetif0Wv0
-	 e30XCQ1qQyGi6pqHe8wgEMwOby1bTEGJTviQUG2cGjy1l5vYuyOis/c5rMfEU+W25j
-	 YI8A5/RErqSyg==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH] media: hantro: Use post processor scaling capacities
-Date: Mon,  4 Apr 2022 16:08:19 +0200
-Message-Id: <20220404140819.733931-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC7B2F21
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 14:15:14 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id l26so3917023ejx.1
+        for <linux-staging@lists.linux.dev>; Mon, 04 Apr 2022 07:15:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=enyn11va52J9YxQxLmqhfvPGfWKhAIsk5cKTiEymAy8=;
+        b=DYgwwlBRxHL11XWuLBjeldXaJ17wCvLDMeD+znq7eRfTRHLj1uU+klXgm4fbtlPIp9
+         aynoOVc2w0F/r0ZVkpjk5GVq1uOhIMyoLUSl576QC+GOz4CIssm2ehzVx2fIioxLoU16
+         UEMww73nSnux78NcL5HqujFuN9hbW25wwxVPN+CKctdQ0udFOiFDEqqychsRMl7uGstM
+         Y05oO0hiHok3yp8v/gVaNWzrBoVcKiyemVg2fUspexCn6C1cTCbQQB4+ZwoJGngYbbCq
+         L0baz3djCGDN/VIHHCJh5x3kmz+6qn1sUsV6OJhphL9nAwBYjQFNqRZwXYPIIQ0Z6k5L
+         uwxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=enyn11va52J9YxQxLmqhfvPGfWKhAIsk5cKTiEymAy8=;
+        b=n8I5d5tW/9GwKanbfnDP7GlCwvkHrlrHRSvGT9QLPyByn4ibFgq81MmKCT8mCUMfeu
+         toEwCYBfnBpDyDWI1Wl23miqwfHw8zGkXUVuQByLsmlSE5Shtwt3T9i/+OQ8oUzmm6qy
+         BBP3T9rWLZY2M0zKUXZEr0oD5yH5RVsMcVc/8NbQL99LDLr6wv+QcWv98n7BD6Gooet5
+         dwc7/j3NoVzod3Ua+ztDQfyhD+OrFYkAbkXpy+T46KsNE1kbs2c6RiXLene2T5Zl0/h7
+         w2+Sf2jJX2kGhFLVsNoglsSQqa2l29NbxqZdPo5Bf41Yi9leDex1NY+hpTBCEFMoA6pA
+         DHjA==
+X-Gm-Message-State: AOAM533Lf+sQ/rCSEj6DFcyoRUrI+gPOSABUhyii0/Xs/Uu9SU3Mb3/3
+	PZ895V8/xBGBlhWHYqXQndY=
+X-Google-Smtp-Source: ABdhPJyqXfzSLxl8wjDqi4xLBZx1uRh2S2sl5ltqUKrbYSm4o59TfjmyHaflD9f40+BsygBGXNdU/g==
+X-Received: by 2002:a17:907:3e03:b0:6da:8c5a:6d4a with SMTP id hp3-20020a1709073e0300b006da8c5a6d4amr200538ejc.585.1649081712524;
+        Mon, 04 Apr 2022 07:15:12 -0700 (PDT)
+Received: from [192.168.0.253] (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
+        by smtp.gmail.com with ESMTPSA id r29-20020a50c01d000000b00415fb0dc793sm5441200edb.47.2022.04.04.07.15.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Apr 2022 07:15:11 -0700 (PDT)
+Message-ID: <00574358-05fd-d80f-e052-ba9549a120ed@gmail.com>
+Date: Mon, 4 Apr 2022 16:15:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] staging: r8188eu: remove unncessary ternary operator
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220402173835.7560-1-straube.linux@gmail.com>
+ <20220404130854.GB3293@kadam>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20220404130854.GB3293@kadam>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hantro G2 post processor is able to down scale decoded frames
-by 2, 4, or 8 factor.
-Add enum_framesizes() ops to postproc_ops structure to enumerate the
-possible output sizes for a given input resolution.
-For G2 post-processor use fsize->index (from 0 to 3) has power of 2
-diviser. As describe in v4l2 documentation return -EINVAL when scaling
-down isn't possible.
+On 4/4/22 15:08, Dan Carpenter wrote:
+> On Sat, Apr 02, 2022 at 07:38:35PM +0200, Michael Straube wrote:
+>> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+>> index 45b788212628..18650cd96f09 100644
+>> --- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+>> +++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+>> @@ -137,7 +137,7 @@ void rtl8188e_Add_RateATid(struct adapter *pAdapter, u32 bitmap, u8 arg, u8 rssi
+>>   
+>>   	bitmap |= ((raid << 28) & 0xf0000000);
+>>   
+>> -	short_gi_rate = (arg & BIT(5)) ? true : false;
+>> +	short_gi_rate = arg & BIT(5);
+>>   
+> 
+> This is a bug.  Valid values of short_gi_rate are 0 and 1 but this sets
+> it to BIT(5) so it will break odm_RateUp_8188E() which tests for:
+> 
+> 	else if ((pRaInfo->SGIEnable) != 1)
+> 
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
-Fluster score with this patch is 77/147 like before.
+Oh I see, I should have been more careful with this type of removals.
 
- drivers/staging/media/hantro/hantro.h         |  2 +
- drivers/staging/media/hantro/hantro_g2_regs.h |  6 +++
- drivers/staging/media/hantro/hantro_hw.h      |  8 ++-
- .../staging/media/hantro/hantro_postproc.c    | 53 ++++++++++++++++++-
- drivers/staging/media/hantro/hantro_v4l2.c    | 15 +++---
- 5 files changed, 72 insertions(+), 12 deletions(-)
+>>   	raid = (bitmap >> 28) & 0x0f;
+>>   
+>> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+>> index 6811be95da9a..ffc82d17ddbe 100644
+>> --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+>> +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+>> @@ -747,7 +747,7 @@ void Hal_ReadPowerSavingMode88E(struct adapter *padapter, u8 *hwinfo, bool AutoL
+>>   
+>>   		/*  decide hw if support remote wakeup function */
+>>   		/*  if hw supported, 8051 (SIE) will generate WeakUP signal(D+/D- toggle) when autoresume */
+>> -		padapter->pwrctrlpriv.bSupportRemoteWakeup = (hwinfo[EEPROM_USB_OPTIONAL_FUNCTION0] & BIT(1)) ? true : false;
+>> +		padapter->pwrctrlpriv.bSupportRemoteWakeup = hwinfo[EEPROM_USB_OPTIONAL_FUNCTION0] & BIT(1);
+> 
+> I have not looked at this one to see if has a similar issue...  I don't
+> necessarily want to audit all of these.  I guess I will, but could you
+> do it first and then I will check?
+> 
 
-diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-index 357f83b86809..26308bb29adc 100644
---- a/drivers/staging/media/hantro/hantro.h
-+++ b/drivers/staging/media/hantro/hantro.h
-@@ -475,5 +475,7 @@ void hantro_postproc_disable(struct hantro_ctx *ctx);
- void hantro_postproc_enable(struct hantro_ctx *ctx);
- void hantro_postproc_free(struct hantro_ctx *ctx);
- int hantro_postproc_alloc(struct hantro_ctx *ctx);
-+int hanto_postproc_enum_framesizes(struct hantro_ctx *ctx,
-+				   struct v4l2_frmsizeenum *fsize);
- 
- #endif /* HANTRO_H_ */
-diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
-index b7c6f9877b9d..877d663a8181 100644
---- a/drivers/staging/media/hantro/hantro_g2_regs.h
-+++ b/drivers/staging/media/hantro/hantro_g2_regs.h
-@@ -290,6 +290,10 @@
- #define g2_buswidth		G2_DEC_REG(58, 8,  0x7)
- #define g2_max_burst		G2_DEC_REG(58, 0,  0xff)
- 
-+#define g2_down_scale_e		G2_DEC_REG(184, 7, 0x1)
-+#define g2_down_scale_y		G2_DEC_REG(184, 2, 0x3)
-+#define g2_down_scale_x		G2_DEC_REG(184, 0, 0x3)
-+
- #define G2_REG_CONFIG				G2_SWREG(58)
- #define G2_REG_CONFIG_DEC_CLK_GATE_E		BIT(16)
- #define G2_REG_CONFIG_DEC_CLK_GATE_IDLE_E	BIT(17)
-@@ -312,6 +316,8 @@
- #define G2_TILE_FILTER_ADDR		(G2_SWREG(179))
- #define G2_TILE_SAO_ADDR		(G2_SWREG(181))
- #define G2_TILE_BSD_ADDR		(G2_SWREG(183))
-+#define G2_DS_DST			(G2_SWREG(186))
-+#define G2_DS_DST_CHR			(G2_SWREG(188))
- 
- #define g2_strm_buffer_len	G2_DEC_REG(258, 0, 0xffffffff)
- #define g2_strm_start_offset	G2_DEC_REG(259, 0, 0xffffffff)
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index ed018e293ba0..09f17a3ceb95 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -245,12 +245,16 @@ struct hantro_postproc_ctx {
- /**
-  * struct hantro_postproc_ops - post-processor operations
-  *
-- * @enable:	Enable the post-processor block. Optional.
-- * @disable:	Disable the post-processor block. Optional.
-+ * @enable:		Enable the post-processor block. Optional.
-+ * @disable:		Disable the post-processor block. Optional.
-+ * @enum_framesizes:	Enumerate possible scaled output formats.
-+ *			Returns zero if OK, a negative value in error cases.
-+ *			Optional.
-  */
- struct hantro_postproc_ops {
- 	void (*enable)(struct hantro_ctx *ctx);
- 	void (*disable)(struct hantro_ctx *ctx);
-+	int (*enum_framesizes)(struct hantro_ctx *ctx, struct v4l2_frmsizeenum *fsize);
- };
- 
- /**
-diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-index 248abe5423f0..ab168c1c0d28 100644
---- a/drivers/staging/media/hantro/hantro_postproc.c
-+++ b/drivers/staging/media/hantro/hantro_postproc.c
-@@ -100,21 +100,58 @@ static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
- 	HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
- }
- 
-+static int down_scale_factor(struct hantro_ctx *ctx)
-+{
-+	if (ctx->src_fmt.width == ctx->dst_fmt.width)
-+		return 0;
-+
-+	return DIV_ROUND_CLOSEST(ctx->src_fmt.width, ctx->dst_fmt.width);
-+}
-+
- static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct vb2_v4l2_buffer *dst_buf;
- 	size_t chroma_offset = ctx->dst_fmt.width * ctx->dst_fmt.height;
-+	int down_scale = down_scale_factor(ctx);
- 	dma_addr_t dst_dma;
- 
- 	dst_buf = hantro_get_dst_buf(ctx);
- 	dst_dma = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
- 
--	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
--	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + chroma_offset);
-+	if (down_scale) {
-+		hantro_reg_write(vpu, &g2_down_scale_e, 1);
-+		hantro_reg_write(vpu, &g2_down_scale_y, down_scale >> 2);
-+		hantro_reg_write(vpu, &g2_down_scale_x, down_scale >> 2);
-+		hantro_write_addr(vpu, G2_DS_DST, dst_dma);
-+		hantro_write_addr(vpu, G2_DS_DST_CHR, dst_dma + (chroma_offset >> down_scale));
-+	} else {
-+		hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
-+		hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + chroma_offset);
-+	}
- 	hantro_reg_write(vpu, &g2_out_rs_e, 1);
- }
- 
-+static int hantro_postproc_g2_enum_framesizes(struct hantro_ctx *ctx,
-+					      struct v4l2_frmsizeenum *fsize)
-+{
-+	/**
-+	 * G2 scaler can scale down by 0, 2, 4 or 8
-+	 * use fsize->index has power of 2 diviser
-+	 **/
-+	if (fsize->index > 3)
-+		return -EINVAL;
-+
-+	if (!ctx->src_fmt.width || !ctx->src_fmt.height)
-+		return -EINVAL;
-+
-+	fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
-+	fsize->discrete.width = ctx->src_fmt.width >> fsize->index;
-+	fsize->discrete.height = ctx->src_fmt.height >> fsize->index;
-+
-+	return 0;
-+}
-+
- void hantro_postproc_free(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-@@ -197,6 +234,17 @@ void hantro_postproc_enable(struct hantro_ctx *ctx)
- 		vpu->variant->postproc_ops->enable(ctx);
- }
- 
-+int hanto_postproc_enum_framesizes(struct hantro_ctx *ctx,
-+				   struct v4l2_frmsizeenum *fsize)
-+{
-+	struct hantro_dev *vpu = ctx->dev;
-+
-+	if (vpu->variant->postproc_ops && vpu->variant->postproc_ops->enum_framesizes)
-+		return vpu->variant->postproc_ops->enum_framesizes(ctx, fsize);
-+
-+	return -EINVAL;
-+}
-+
- const struct hantro_postproc_ops hantro_g1_postproc_ops = {
- 	.enable = hantro_postproc_g1_enable,
- 	.disable = hantro_postproc_g1_disable,
-@@ -205,4 +253,5 @@ const struct hantro_postproc_ops hantro_g1_postproc_ops = {
- const struct hantro_postproc_ops hantro_g2_postproc_ops = {
- 	.enable = hantro_postproc_g2_enable,
- 	.disable = hantro_postproc_g2_disable,
-+	.enum_framesizes = hantro_postproc_g2_enum_framesizes,
- };
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index 67148ba346f5..8314a2efd4c8 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -116,12 +116,6 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
- 	struct hantro_ctx *ctx = fh_to_ctx(priv);
- 	const struct hantro_fmt *fmt;
- 
--	if (fsize->index != 0) {
--		vpu_debug(0, "invalid frame size index (expected 0, got %d)\n",
--			  fsize->index);
--		return -EINVAL;
--	}
--
- 	fmt = hantro_find_format(ctx, fsize->pixel_format);
- 	if (!fmt) {
- 		vpu_debug(0, "unsupported bitstream format (%08x)\n",
-@@ -129,9 +123,14 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
- 		return -EINVAL;
- 	}
- 
--	/* This only makes sense for coded formats */
--	if (fmt->codec_mode == HANTRO_MODE_NONE)
-+	/* For non-coded formats check if postprocessing scaling is possible */
-+	if (fmt->codec_mode == HANTRO_MODE_NONE && hantro_needs_postproc(ctx, fmt)) {
-+		return hanto_postproc_enum_framesizes(ctx, fsize);
-+	} else if (fsize->index != 0) {
-+		vpu_debug(0, "invalid frame size index (expected 0, got %d)\n",
-+			  fsize->index);
- 		return -EINVAL;
-+	}
- 
- 	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
- 	fsize->stepwise = fmt->frmsize;
--- 
-2.32.0
+Sure I'll do.
 
+Thanks,
+Michael
+
+>> diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
+>> index 8c20363cdd31..03d63257797a 100644
+>> --- a/drivers/staging/r8188eu/include/ieee80211.h
+>> +++ b/drivers/staging/r8188eu/include/ieee80211.h
+>> @@ -127,7 +127,7 @@ enum NETWORK_TYPE {
+>>   	 (WIRELESS_11B | WIRELESS_11G | WIRELESS_11_24N)
+>>   
+>>   #define IsSupported24G(NetType)					\
+>> -	((NetType) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
+>> +	((NetType) & SUPPORTED_24G_NETTYPE_MSK)
+> 
+> This too.
+> 
+>>   
+>>   #define IsEnableHWCCK(NetType)					\
+>>   	IsSupported24G(NetType)
+>> @@ -135,11 +135,11 @@ enum NETWORK_TYPE {
+>>   #define IsSupportedRxCCK(NetType) IsEnableHWCCK(NetType)
+>>   
+>>   #define IsSupportedTxCCK(NetType)				\
+>> -	((NetType) & (WIRELESS_11B) ? true : false)
+>> +	((NetType) & WIRELESS_11B)
+>>   #define IsSupportedTxOFDM(NetType)				\
+>> -	((NetType) & (WIRELESS_11G) ? true : false)
+>> +	((NetType) & WIRELESS_11G)
+>>   #define IsSupportedTxMCS(NetType)				\
+>> -	((NetType) & (WIRELESS_11_24N) ? true : false)
+>> +	((NetType) & WIRELESS_11_24N)
+>>   
+> 
+> And this.
+> 
+> regards,
+> dan carpenter
+> 
