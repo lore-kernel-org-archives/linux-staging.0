@@ -1,51 +1,48 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72CC7C;
-	Mon,  4 Apr 2022 02:47:46 +0000 (UTC)
-Received: by mail-qk1-f173.google.com with SMTP id v15so6625337qkg.8;
-        Sun, 03 Apr 2022 19:47:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811C77C
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 02:52:10 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id g8so6656424qke.2
+        for <linux-staging@lists.linux.dev>; Sun, 03 Apr 2022 19:52:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wsLsGGE6HZAHiQo4OADVHc+WEijVYyrts9GPXNxbj+Q=;
-        b=nVEdY9wTdUl2M5C0fwaRvMdn8h0o+pbl2zp8lwgOZR1TDX7QgQOIxfoMPWtm11f34e
-         kYRaVkwW+mUexHIJYZv3aofkqyIXaBSeyDa043A+f0XzGna93/SdyIMo78ZheATCZC6b
-         FBIA2YUOijW2SdmMpRssDvOmVv9c+A2oGkxtNAtHZmF07psOZVIrNQWJW6MXODKSRfS9
-         RJJPEdbyUObh9e7p3Lf57zOHBWMT5gAGKptTqIxC2r7+q7r+hE3pkQp9wygl9baOagvY
-         n40ZZMmzDdmcG3/E+Ox73dOKItrvwmKnJPZ+xxoZ3C+llWOHkiwocqNVEUkZCcinNvbf
-         45Ng==
+        d=northvilleschools.net; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=otqIVowhU2obuVpjI9J66qJe/tdtEeQSkuJxEFFPVfw=;
+        b=CYdW/tHTao9xYQkkEgM4OgPB4UeamwEomjOcg8DPUI8rOX8OH9QPHQ9pwOsr3PXen5
+         uAoZiT0jzn3JqOp1nHTNaYsBpTOPvoeGiFQ++RJcdVPEPZ+91aHTB4CtoS2pak06daaJ
+         QgPNxuNn6qntkYIpS2zkLnxKPNVhP17KX2nnmUurTGUxczde02cM9z25fwMRYZwLD1oP
+         ntk07CnKq2q5ATZllrLXCxFu5CEvZYhg8VQmvD8MEXF5PkoOfskZcjV0CzNDfgW2EnGO
+         B1EceoKeBOszPct6xmvGEa4PKtxV0iMuttAIPfThwMiBzcpNB9C9M7guISP9/8l55LjE
+         ET0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wsLsGGE6HZAHiQo4OADVHc+WEijVYyrts9GPXNxbj+Q=;
-        b=H6yTV/nyI8j37iEsYDsZvs0BE9XxMpp5v4o+hSmx3/1wSXqb8V1z7qYfkaNhKfqz5+
-         Qbh9chJDu3pJxU/ZF8HH7yLi6O+iwsdPgTD8ZugGNLPx+4i0lKmakb7/eZ2/qPFiiMuG
-         nuOnO6uLfo9nSdMhbfvZGKvCOtHKH+0IQcV+d2jbowr81i0v1mefHH05hZnIVwcv6hXD
-         eq57gMm/ooon75GGveDQA3MgfhxrGvt/m2PQwCsO0rH0yFEgg/RZz9NH7wwXtUD/oo9x
-         yAbQPA9djZxhj6Ewlcd2OM/SOYgFB4cF/CjwIpZQ6LlF25nXTFtIF0kGu/H4OhTAY4J7
-         jTig==
-X-Gm-Message-State: AOAM532jYuQwjXcWv+5LOz0wiT3h/Px20xnZ1rO5blP963jZLvS51rHR
-	EIzQIjWOHzAa9T6WbjPFsD8=
-X-Google-Smtp-Source: ABdhPJxVkXfOkHGI9Sya0dmnZfZSb5+tRDyXe/3ht8pXZtffS2Ni+rJlITNG2SP4KZW6ML2v7jUTlw==
-X-Received: by 2002:a05:620a:40d5:b0:67d:f2cb:a38c with SMTP id g21-20020a05620a40d500b0067df2cba38cmr12643183qko.197.1649040465623;
-        Sun, 03 Apr 2022 19:47:45 -0700 (PDT)
-Received: from euclid ([71.58.109.160])
-        by smtp.gmail.com with ESMTPSA id n9-20020a05622a11c900b002e1c508ba41sm7326067qtk.19.2022.04.03.19.47.43
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=otqIVowhU2obuVpjI9J66qJe/tdtEeQSkuJxEFFPVfw=;
+        b=IRt1RUNWEYbVyl0rXJ/zSJeu+KZpNVyGSIptRvGnaSKIhOgj42xaI7KBTVwwS8lNHf
+         tSYIISVDwFmk+UQ9KJWhcptEU2LpXPDN4TXmOnp86U9UdjT2jwMQ+5lre2tDXS1hkXBm
+         wf/WhmKszGzXcOZtU7WnalP0sLMkULJtDKPLvilJBkFfXTDzU2rpU0zHlXwCPEslXEhT
+         B28gs3fW0i70Ss9BOxN0C92caOif9uTbAQAoarzWnFkn3vuaJ4cKJbiqaWjpJeQxfPuH
+         rTg26/s+0E+zBPzfZ7/CV+P8tdPlYId1WxOV0L/iX8jRbht8nnyIggd9UJMdMEHvJkWQ
+         kgSA==
+X-Gm-Message-State: AOAM533Wy7+AlTGurBbD+TZdy76KlHzVmxiUuoFp3Hft+Wg+e/7L/YO9
+	ZhLhgzDWWyLWZ+ePbGwTWeiF5A==
+X-Google-Smtp-Source: ABdhPJwFMLKJkNF7xvI5cuv4J44M713fbdKhh8CxD5KdS58mIW4cgGnX17hUpDsJgB+iM1RsQDVJmg==
+X-Received: by 2002:a37:781:0:b0:67e:11a2:7d00 with SMTP id 123-20020a370781000000b0067e11a27d00mr12997820qkh.218.1649040729273;
+        Sun, 03 Apr 2022 19:52:09 -0700 (PDT)
+Received: from sckzor-linux (d4-50-247-168.col.wideopenwest.com. [50.4.168.247])
+        by smtp.gmail.com with ESMTPSA id k13-20020a05622a03cd00b002e21621c243sm7872961qtx.39.2022.04.03.19.52.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Apr 2022 19:47:45 -0700 (PDT)
-Date: Sun, 3 Apr 2022 22:47:38 -0400
-From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sun, 03 Apr 2022 19:52:08 -0700 (PDT)
+Date: Sun, 3 Apr 2022 22:52:07 -0400
+From: Charlie Sands <sandsch@northvilleschools.net>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>
-Subject: Re: [PATCH] staging: rtl8712: simplify control flow
-Message-ID: <20220404024738.GB410484@euclid>
-References: <20220403165325.GA374638@euclid>
+	paskripkin@gmail.com
+Subject: [PATCH V2] Fix unsafe memory access by memcmp
+Message-ID: <YkpdVyuQguGzPSNE@sckzor-linux.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,65 +51,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220403165325.GA374638@euclid>
 
-My apologies for forgetting to Cc the maintainers! Adding them now.
+This patch fixes sparse warnings about the memcmp function unsafely
+accessing userspace memory without first copying it to kernel space.
 
-On Sun, Apr 03, 2022 at 12:53:25PM -0400, Sevinj Aghayeva wrote:
-> The function iterates an index from 0 to NUM_PMKID_CACHE and returns
-> the first index for which the condition is true. If no such index is
-> found, the function returns -1. Current code has a complex control
-> flow that obfuscates this simple task. Replace it with a loop.
-> 
-> Also, given the shortened function body, replace the long variable
-> name psecuritypriv with a short variable name p.
-> 
-> Reported by checkpatch:
-> 
-> WARNING: else is not generally useful after a break or return
-> 
-> Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-> ---
->  drivers/staging/rtl8712/rtl871x_mlme.c | 25 ++++++-------------------
->  1 file changed, 6 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8712/rtl871x_mlme.c b/drivers/staging/rtl8712/rtl871x_mlme.c
-> index 92b7c9c07df6..b93b33092932 100644
-> --- a/drivers/staging/rtl8712/rtl871x_mlme.c
-> +++ b/drivers/staging/rtl8712/rtl871x_mlme.c
-> @@ -1284,26 +1284,13 @@ int r8712_restruct_wmm_ie(struct _adapter *adapter, u8 *in_ie, u8 *out_ie,
->   */
->  static int SecIsInPMKIDList(struct _adapter *Adapter, u8 *bssid)
->  {
-> -	struct security_priv *psecuritypriv = &Adapter->securitypriv;
-> -	int i = 0;
-> -
-> -	do {
-> -		if (psecuritypriv->PMKIDList[i].bUsed &&
-> -		   (!memcmp(psecuritypriv->PMKIDList[i].Bssid,
-> -			    bssid, ETH_ALEN)))
-> -			break;
-> -		i++;
-> -
-> -	} while (i < NUM_PMKID_CACHE);
-> +	struct security_priv *p = &Adapter->securitypriv;
-> +	int i;
->  
-> -	if (i == NUM_PMKID_CACHE) {
-> -		i = -1; /* Could not find. */
-> -	} else {
-> -		; /* There is one Pre-Authentication Key for the
-> -		   * specific BSSID.
-> -		   */
-> -	}
-> -	return i;
-> +	for (i = 0; i < NUM_PMKID_CACHE; i++)
-> +		if (p->PMKIDList[i].bUsed && !memcmp(p->PMKIDList[i].Bssid, bssid, ETH_ALEN))
-> +			return i;
-> +	return -1;
->  }
->  
->  sint r8712_restruct_sec_ie(struct _adapter *adapter, u8 *in_ie,
-> -- 
-> 2.25.1
-> 
+Signed-off-by: Charlie Sands <sandsch@northvilleschools.net>
+---
+
+V2: Fixed checkpatch.pl warning and changed variable name as suggested
+by Greg K. H. and improved error checking on the "copy_from_user" function as
+suggested by Pavel Skripkin.
+
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 21 ++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 7df213856d66..4b4eec2bde96 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -3233,23 +3233,28 @@ static int rtw_p2p_get(struct net_device *dev,
+ 			       struct iw_request_info *info,
+ 			       union iwreq_data *wrqu, char *extra)
+ {
+-	if (!memcmp(wrqu->data.pointer, "status", 6)) {
++	char wrqu_data[9];
++
++	if (copy_from_user(wrqu_data, wrqu->data.pointer, 9) != 0)
++		return 0;
++
++	if (!memcmp(wrqu_data, "status", 6)) {
+ 		rtw_p2p_get_status(dev, info, wrqu, extra);
+-	} else if (!memcmp(wrqu->data.pointer, "role", 4)) {
++	} else if (!memcmp(wrqu_data, "role", 4)) {
+ 		rtw_p2p_get_role(dev, info, wrqu, extra);
+-	} else if (!memcmp(wrqu->data.pointer, "peer_ifa", 8)) {
++	} else if (!memcmp(wrqu_data, "peer_ifa", 8)) {
+ 		rtw_p2p_get_peer_ifaddr(dev, info, wrqu, extra);
+-	} else if (!memcmp(wrqu->data.pointer, "req_cm", 6)) {
++	} else if (!memcmp(wrqu_data, "req_cm", 6)) {
+ 		rtw_p2p_get_req_cm(dev, info, wrqu, extra);
+-	} else if (!memcmp(wrqu->data.pointer, "peer_deva", 9)) {
++	} else if (!memcmp(wrqu_data, "peer_deva", 9)) {
+ 		/*	Get the P2P device address when receiving the provision discovery request frame. */
+ 		rtw_p2p_get_peer_devaddr(dev, info, wrqu, extra);
+-	} else if (!memcmp(wrqu->data.pointer, "group_id", 8)) {
++	} else if (!memcmp(wrqu_data, "group_id", 8)) {
+ 		rtw_p2p_get_groupid(dev, info, wrqu, extra);
+-	} else if (!memcmp(wrqu->data.pointer, "peer_deva_inv", 9)) {
++	} else if (!memcmp(wrqu_data, "peer_deva_inv", 9)) {
+ 		/*	Get the P2P device address when receiving the P2P Invitation request frame. */
+ 		rtw_p2p_get_peer_devaddr_by_invitation(dev, info, wrqu, extra);
+-	} else if (!memcmp(wrqu->data.pointer, "op_ch", 5)) {
++	} else if (!memcmp(wrqu_data, "op_ch", 5)) {
+ 		rtw_p2p_get_op_ch(dev, info, wrqu, extra);
+ 	}
+ 	return 0;
+-- 
+2.35.1
+
