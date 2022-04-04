@@ -1,138 +1,77 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AB47C
-	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 16:38:59 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id e16so18314605lfc.13
-        for <linux-staging@lists.linux.dev>; Mon, 04 Apr 2022 09:38:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=f48IzbdBz845MsLZuGRp0JSze2mRq5AWOQgZcmuy9m8=;
-        b=oqABKViXVOmRRp3lNfNO/U0mipIFONFrxC+FmzokdpIugTQFWYCd9A0gdMvNuwvbGv
-         I0SR5USGwRM01uG6iascMUnnpC637ZzqUIIJ81pudOKgF8VhY55akFTBmhO38aGkQRgc
-         fyC1cnVSHkmHv+xfbTCYUm9U2vNtsebL/KAfcC6gBzFUtHrETL60Szk9AFgXFRQkGJrT
-         77GEKMY7s94yNanf8wzo6KcmrgLqNLwCfjzU8zWP67WX9QU7feQwtEY99nGNhg8/ojvv
-         JDh7VLuxGpoWTiE6+p17c49ktcOBdHsI6nSZV2143QKkG7mWE3DXy8JU6X6iwXE7MNAY
-         QarQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=f48IzbdBz845MsLZuGRp0JSze2mRq5AWOQgZcmuy9m8=;
-        b=jtXpndp9l6g3zd7zkPotITJfWhfoz74ypgsxwspLmTX/oDuMphC7PDPttuDCkbdsCU
-         gtyOcKYeFcMWymDsk/glkwIyxLQzBTFSM1GNiA14iwcDa9lCxfxLuSJ7PS3swRitB5Ha
-         teQ4eKaRIeH7nWPr8kam88EdY6wlXmRQUUawDajyc8gfcTKbgy2Qog9EzaYYtLpu4oHA
-         Xn1xKpNRclkSLAoWCj8dspX6N1/uBbeoPvy3faEjquUsEW7cVvH6PTBhRADN0wBpbn1l
-         PPFQxfti/3//dG3sGbouz4A6z/Z22m4Hx8X4IGfgBhO8EdPJ5OqhaQnkv0ZSTxoZpcHr
-         Vg9g==
-X-Gm-Message-State: AOAM532/T2scN1zuxMyCZ72bvXkoo8VSUHqC1g06Cs31GT2W58vpz0ZU
-	+a6lhX7LO8V8KHYi4CBbHLw=
-X-Google-Smtp-Source: ABdhPJyhDsVJM31ary8b+4NPbVlKXCSWqF8poo6kekmka4GL7V0gVe226UZh9QzWOMxMj0dm4s5Ueg==
-X-Received: by 2002:a05:6512:4006:b0:44a:7434:9829 with SMTP id br6-20020a056512400600b0044a74349829mr187616lfb.661.1649090338007;
-        Mon, 04 Apr 2022 09:38:58 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.247])
-        by smtp.gmail.com with ESMTPSA id h14-20020a2e900e000000b0024b14fa6038sm513048ljg.12.2022.04.04.09.38.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Apr 2022 09:38:57 -0700 (PDT)
-Message-ID: <3c8b6454-6b52-fe62-8db1-c76bdbeb2df0@gmail.com>
-Date: Mon, 4 Apr 2022 19:38:55 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B205B7C
+	for <linux-staging@lists.linux.dev>; Mon,  4 Apr 2022 16:59:28 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-153-svU6RoGOM7Wtws3q4TmOTA-1; Mon, 04 Apr 2022 17:59:26 +0100
+X-MC-Unique: svU6RoGOM7Wtws3q4TmOTA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.32; Mon, 4 Apr 2022 17:59:23 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.033; Mon, 4 Apr 2022 17:59:23 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Pavel Skripkin' <paskripkin@gmail.com>, Michael Straube
+	<straube.linux@gmail.com>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+CC: Greg KH <gregkh@linuxfoundation.org>, Larry Finger
+	<Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, "open
+ list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, "Linux Kernel
+ Mailing List" <linux-kernel@vger.kernel.org>
+Subject: RE: staging: r8188eu: how to handle nested mutex under spinlock
+Thread-Topic: staging: r8188eu: how to handle nested mutex under spinlock
+Thread-Index: AQHYR5/sp6xWhoDQCkym8rTDVxAmY6zfcjRQgAByu4CAABWc8A==
+Date: Mon, 4 Apr 2022 16:59:23 +0000
+Message-ID: <e1ab34f940234eecb91b9b262062eda5@AcuMS.aculab.com>
+References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
+ <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
+ <2029549.KlZ2vcFHjT@leap> <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
+ <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
+ <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
+ <4ef1e90716e64fd78ebbc222bbb7e597@AcuMS.aculab.com>
+ <3c8b6454-6b52-fe62-8db1-c76bdbeb2df0@gmail.com>
+In-Reply-To: <3c8b6454-6b52-fe62-8db1-c76bdbeb2df0@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-To: David Laight <David.Laight@ACULAB.COM>,
- Michael Straube <straube.linux@gmail.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
- <2029549.KlZ2vcFHjT@leap> <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
- <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
- <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
- <4ef1e90716e64fd78ebbc222bbb7e597@AcuMS.aculab.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <4ef1e90716e64fd78ebbc222bbb7e597@AcuMS.aculab.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------TSUrFrVmzrfCzbLpC7evl2Y1"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------TSUrFrVmzrfCzbLpC7evl2Y1
-Content-Type: multipart/mixed; boundary="------------ne0JqlCpjJz5NLvN4rBcfCm9";
- protected-headers="v1"
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: David Laight <David.Laight@ACULAB.COM>,
- Michael Straube <straube.linux@gmail.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Message-ID: <3c8b6454-6b52-fe62-8db1-c76bdbeb2df0@gmail.com>
-Subject: Re: staging: r8188eu: how to handle nested mutex under spinlock
-References: <356c24cf-625b-eea2-2c04-ce132d881cac@gmail.com>
- <4412825.cEBGB3zze1@leap> <26ac4c2d-91cf-656d-2b7e-21a95e500e70@gmail.com>
- <2029549.KlZ2vcFHjT@leap> <7d3d23c3-1839-3e6a-27bf-85bad384e5e4@gmail.com>
- <942c0fbd-f8b2-4cae-dd21-79bc55c54902@gmail.com>
- <26a91705-f721-03d1-f4c8-7f00ce0e65a8@gmail.com>
- <4ef1e90716e64fd78ebbc222bbb7e597@AcuMS.aculab.com>
-In-Reply-To: <4ef1e90716e64fd78ebbc222bbb7e597@AcuMS.aculab.com>
-
---------------ne0JqlCpjJz5NLvN4rBcfCm9
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: base64
 
-SGkgRGF2aWQsDQoNCk9uIDQvNC8yMiAxMTo1MCwgRGF2aWQgTGFpZ2h0IHdyb3RlOg0KPj4g
-DQo+PiA+IAkJd2hpbGUgKHB3cnByaXYtPmJJblN1c3BlbmQgJiYNCj4+IA0KPj4gSSd2ZSBs
-b29rZWQgaW50byB3aGF0IGdjYzExIHByb2R1Y2VkIGZyb20gdGhpcyBmdW5jdGlvbiBhbmQg
-bG9va3MgbGlrZQ0KPj4gbXkgY29tcGlsZXIgaXMgc21hcnQgZW5vdWdoIHRvIG5vdCBjYWNo
-ZSB0aGF0IHZhbHVlLCBidXQgSSBhbSBhZnJhaWQgbm90DQo+PiBhbGwgY29tcGlsZXJzIGFy
-ZSB0aGF0IHNtYXJ0Lg0KPiANCj4gVGhlIGNvbXBpbGVyIGNhbid0IGNhY2hlIHRoZSB2YWx1
-ZSBiZWNhdXNlIG9mIHRoZSBmdW5jdGlvbiBjYWxsLg0KPiANCg0KSG0sIEkgYW0gYSBuZXdi
-aWUgaW4gY29tcGlsZXJzLCBzbyBjYW4geW91LCBwbGVhc2UsIGV4cGxhaW4gKG9yIGdpdmUg
-YSANCmxpbmsgdG8gYW55IHJlc291cmNlIHdoZXJlIEkgY2FuIHJlYWQgYWJvdXQgaXQpIGhv
-dyBmdW5jdGlvbiBjYWxsIGhlcmUgDQpwcmV2ZW50IGNhY2hpbmcuDQoNCklJVUMgY29tcGls
-ZXIgZ2VuZXJhdGVzIGNvZGUgdGhhdCB3b3JrcyB3ZWxsIGluIHNjb3BlIG9mIHNpbmdsZS10
-aHJlYWRlZCANCmFwcGxpY2F0aW9uLCBzbyB3aHkgY2FuJ3QgY29tcGlsZXIgY2FjaGUgdGhh
-dCB2YWx1ZSBpbnN0ZWFkIG9mIGFjY2Vzc2luZyANCm1lbW9yeSBvbiBlYWNoIGl0ZXJhdGlv
-bi4uLiBJc24ndCByZWdpc3RlciBhY2Nlc3MgYSB3YXkgZmFzdGVyIHRoYW4gZXZlbiANCmNh
-Y2hlIGhpdD8NCg0KDQpUaGFua3MhDQoNCldpdGggcmVnYXJkcywNClBhdmVsIFNrcmlwa2lu
-DQo=
+RnJvbTogUGF2ZWwgU2tyaXBraW4NCj4gU2VudDogMDQgQXByaWwgMjAyMiAxNzozOQ0KPiANCj4g
+SGkgRGF2aWQsDQo+IA0KPiBPbiA0LzQvMjIgMTE6NTAsIERhdmlkIExhaWdodCB3cm90ZToNCj4g
+Pj4NCj4gPj4gPiAJCXdoaWxlIChwd3Jwcml2LT5iSW5TdXNwZW5kICYmDQo+ID4+DQo+ID4+IEkn
+dmUgbG9va2VkIGludG8gd2hhdCBnY2MxMSBwcm9kdWNlZCBmcm9tIHRoaXMgZnVuY3Rpb24gYW5k
+IGxvb2tzIGxpa2UNCj4gPj4gbXkgY29tcGlsZXIgaXMgc21hcnQgZW5vdWdoIHRvIG5vdCBjYWNo
+ZSB0aGF0IHZhbHVlLCBidXQgSSBhbSBhZnJhaWQgbm90DQo+ID4+IGFsbCBjb21waWxlcnMgYXJl
+IHRoYXQgc21hcnQuDQo+ID4NCj4gPiBUaGUgY29tcGlsZXIgY2FuJ3QgY2FjaGUgdGhlIHZhbHVl
+IGJlY2F1c2Ugb2YgdGhlIGZ1bmN0aW9uIGNhbGwuDQo+ID4NCj4gDQo+IEhtLCBJIGFtIGEgbmV3
+YmllIGluIGNvbXBpbGVycywgc28gY2FuIHlvdSwgcGxlYXNlLCBleHBsYWluIChvciBnaXZlIGEN
+Cj4gbGluayB0byBhbnkgcmVzb3VyY2Ugd2hlcmUgSSBjYW4gcmVhZCBhYm91dCBpdCkgaG93IGZ1
+bmN0aW9uIGNhbGwgaGVyZQ0KPiBwcmV2ZW50IGNhY2hpbmcuDQo+IA0KPiBJSVVDIGNvbXBpbGVy
+IGdlbmVyYXRlcyBjb2RlIHRoYXQgd29ya3Mgd2VsbCBpbiBzY29wZSBvZiBzaW5nbGUtdGhyZWFk
+ZWQNCj4gYXBwbGljYXRpb24sIHNvIHdoeSBjYW4ndCBjb21waWxlciBjYWNoZSB0aGF0IHZhbHVl
+IGluc3RlYWQgb2YgYWNjZXNzaW5nDQo+IG1lbW9yeSBvbiBlYWNoIGl0ZXJhdGlvbi4uLiBJc24n
+dCByZWdpc3RlciBhY2Nlc3MgYSB3YXkgZmFzdGVyIHRoYW4gZXZlbg0KPiBjYWNoZSBoaXQ/DQoN
+CkJlY2F1c2UgY2FsbHMgdG8gZXh0ZXJuYWwgZnVuY3Rpb25zIGFyZSBhbGxvd2VkIHRvIGNoYW5n
+ZQ0KYW55IGRhdGEgdmlhICdvdGhlcicgcmVmZXJlbmNlcy4NCkZvciBpbnN0YW5jZSB0aGUgc3Ry
+dWN0dXJlIHBvaW50ZXIgdGhlIGZ1bmN0aW9uIGhhcyBjb3VsZA0KYWxzbyBiZSBpbiBnbG9iYWwg
+ZGF0YSBzb21ld2hlcmUuDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNp
+ZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsN
+ClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
---------------ne0JqlCpjJz5NLvN4rBcfCm9--
-
---------------TSUrFrVmzrfCzbLpC7evl2Y1
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmJLHx8FAwAAAAAACgkQbk1w61LbBA0g
-mA//UbJy8VwtDJXIQ4H8+xxbbX334f8JocZMMupYuJBcLWs/C87gboedB9e5q9c/vQtMOfzxGXPO
-sF3HDC5S1Xc2aeufi3ibVTvbsKFnGNacbbbpr5Ltwssdgjq+F3pdWWmSEg8XdwCxn6lSQK0FNlUx
-YTXVzl3ojvYY768hSq3c2u2M3y7b4p0/TDmk1oBicZRKeMk5cSbb2foPG70f4464g++gCpTBTywU
-qj0cgtlSAX1kb7A8jiYcZQGQ7wiExEyak+pU47pb5ueA35ttKfqMG6xmLVSc89zw9qwd5xQ6v4qX
-WVnpYxab3s0PeVFr1vf+UQeTBi0vGU4GiBR5x0KAAunJAclcOdpevcd4gRfrzhz5QV9DEMLZM8hm
-OlNzJsWt4EQS/cnogC/PZY0MZaYew8WAy4R3H4Tiw9/5oGtWdcHQyMXcNHwk1v0SoP1++iYWyyMI
-QKFQLzQ3xN2/LeoGMsxsHJEmAUzbqTjAdP+uHuaVmUGaxtLpo+HAjAy8fNEXVWiMwXzX88jLxHSY
-Cm2YJXlis8wf20hPVgEMELesviVAXviSo+S3KckruZlgRQ0p7MNqmQwqKcJy7g9H9rwKLn7Rbebh
-Jg+MfIoWiaWcniNOXJ9+KS16ce035FWBhovFTmG19QXr1QKA5+1u0Ci9gxmH4G0Hz6TtroLv7DXV
-7Uk=
-=OSBD
------END PGP SIGNATURE-----
-
---------------TSUrFrVmzrfCzbLpC7evl2Y1--
