@@ -1,108 +1,104 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9887A;
+	Tue,  5 Apr 2022 16:07:46 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:cf29:3f0:be4d:7211] (unknown [IPv6:2a01:e0a:120:3210:cf29:3f0:be4d:7211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5737A;
-	Tue,  5 Apr 2022 16:05:35 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id k21so24102124lfe.4;
-        Tue, 05 Apr 2022 09:05:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nxSv5eyrtE6/qWHKkufe6DV14I2zyM0F7tIcd5vnzO8=;
-        b=LeSkYYoDEJNjK8zq0EOP89Hkk3DbuFfJjbUe5+KLYHcUT4m19pDvjujdRTwJ+6G4vB
-         8p1DyoVoOyCzKK3e/fxJLLSuxoeIJ8iil2Mcxo3v7StseqwcNFxnHznLz2EhZ1OEYZk9
-         /bao3mzDfMSstuCORSfk6Ns0RNTJK0oI9xZbHSil0JJNNqKPU5oidmvsCRPfhXYRRWNj
-         ++/rV4cmjyMXE9sqTGedA+0gd2DWodeIB/5zBK/deEpCSPnil+9uYYZi0kVhrhEC3lTn
-         eeA/dRf2fw8q6xdthG821zr9lo/+J4Mh/ioMv5Wz6HlDvhXTCgLhQJpWTPo5Aqs4xtts
-         k/aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nxSv5eyrtE6/qWHKkufe6DV14I2zyM0F7tIcd5vnzO8=;
-        b=tcgyKvBwO/XOEjPJo5Jec8bRRubc6YL25P8C/3MhDJvMpmr66e0cgj8b1eQgJ/UGAR
-         7MhjnwFIy+1KOURe/eJRM8N/mEIlH1pjBXMmT9ADzuHWWBCaAny73rtbkKazLxHqkK+Y
-         GIz2HZc5/QEm4SOXtc6Me+QNuZTI/DNm0ryF20HOj7MVuaBrfK0x0vsCyVknayu+cdgW
-         dq6at9JkHIy+bCTfWR5dmlVwmfLmsUP8m2d2NyVY/EIjkn66xYU+VcFVRvuLyE5maKRN
-         km5sPQsiXPgb4utQMi4sdtCxZZQ73O59rFfyt1UqZ3FmCzMAheDAVchAF1EEDkUCQSsW
-         Ptzw==
-X-Gm-Message-State: AOAM530WmLJo3GnYEWTQU20IURT3f9a4qsgdbnRot0z/dyWMangHJPCS
-	oPnEYS8icjUR8+vHKwkj7w916ozcC7Q3awrxZzY=
-X-Google-Smtp-Source: ABdhPJzz/ro4Lc6Ay7slYv/xbuptHLjWeC6GRfWxUOV/UMs/OUe1EaXf8ASQ22RGz1VdFmZ7e0Do10pbasFb0tTipmQ=
-X-Received: by 2002:a05:6512:3fa0:b0:44a:f66c:8365 with SMTP id
- x32-20020a0565123fa000b0044af66c8365mr3181106lfa.152.1649174734013; Tue, 05
- Apr 2022 09:05:34 -0700 (PDT)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 511F61F43BDC;
+	Tue,  5 Apr 2022 17:07:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649174864;
+	bh=Y7AMfmbF+pTW6heGBBOtMSPe72VwTuirLOp6bmUM2l8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YdiGwf54xZ2SQaL3Kg7d0z6H9yFy3jkfu5wqfmvXDG3Yoo43FV4nvSf8M7bozm3vQ
+	 VVZW2A3dSj2jG45xLSvt3K2OZwoa/XmIf31XNDejfWFZ4JEAtRNyxWjl7M38ydvyLK
+	 B/ELY4LHhInWRfNGtOqjHaytIuFg5ccxSSMzxTDcelnc1USAD0Ay5gysapFchtZ19D
+	 tGy4YnI0AxLEchVvhSDflRaVbn8ISxd+soOSaX/Bu+cTN4ObX5nvsybHapgxlzoCdJ
+	 vr+c8fj31gKs28+vpiZDH/FzwrxgFzYoJ41xyTDKpuPMLsqRupBjcVQjMZTf6IQroH
+	 vvGU7AI/NHllA==
+Message-ID: <b6987a9a-56af-f63f-b60a-37df141d6e89@collabora.com>
+Date: Tue, 5 Apr 2022 18:07:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220405150912.GA625670@euclid> <YkxdasBGZ3m2Yu66@kroah.com>
- <CAMWRUK7c-hqiz+KEFkqBuvu1syCwSnF4UZzbkPFw-VWABm9qOw@mail.gmail.com>
- <CAMWRUK7Jgs3evt3bC0pnRkbRw3CS1XCULPi8NzjgGh7aLTFKCQ@mail.gmail.com> <YkxnJvJyo75c/3yk@kroah.com>
-In-Reply-To: <YkxnJvJyo75c/3yk@kroah.com>
-From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-Date: Tue, 5 Apr 2022 12:05:22 -0400
-Message-ID: <CAMWRUK6Hamw9bg8-O+xqP0DKy=zcbXHaG4RQtqXo3keFj=KJyA@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix indentation
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy linux kernel <outreachy@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
+Content-Language: en-US
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de
+Cc: mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl,
+ gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 5, 2022 at 11:58 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Apr 05, 2022 at 11:45:29AM -0400, Sevinj Aghayeva wrote:
-> > On Tue, Apr 5, 2022 at 11:19 AM Sevinj Aghayeva
-> > <sevinj.aghayeva@gmail.com> wrote:
-> > >
-> > > On Tue, Apr 5, 2022 at 11:17 AM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > On Tue, Apr 05, 2022 at 11:09:12AM -0400, Sevinj Aghayeva wrote:
-> > > > > Adhere to Linux kernel coding style.
-> > > > >
-> > > > > Reported by checkpatch:
-> > > > >
-> > > > > WARNING: suspect code indent for conditional statements
-> > > >
-> > > > You are also removing unneeded comments, right?  Please explain that as
-> > > > the documentation link the bot pointed you to showed.
-> > >
-> > > I specified that under the --- line:
-> > >
-> > > v1 -> v2: Remove the comments that became irrelevant with proper indentation.
-> >
-> > I think I misunderstood the bot's response. It looks like you
-> > triggered it because you wanted me to write a more complete
-> > description of what the commit is doing. I thought I received it
-> > because it was the second version of the patch from a previous
-> > patchset (the last bullet point in the bot response) that didn't
-> > include v2 in the subject and a v1 -> v2 after the --- line.
->
-> That is one reason, yes, but you also need to update the changelog text
-> to say everything you are doing in the commit.
 
-Got it.
+Le 27/02/2022 à 15:49, Jernej Skrabec a écrit :
+> First two patches add 10-bit formats to UAPI, third extends filtering
+> mechanism, fourth fixes incorrect assumption, fifth moves register
+> configuration code to proper place, sixth and seventh enable 10-bit
+> VP9 decoding on Allwinner H6 and last increases core frequency on
+> Allwinner H6.
+>
+> I'm sending this as RFC to get some comments:
+> 1. format definitions - are fourcc's ok? are comments/descriptions ok?
+> 2. is extended filtering mechanism ok?
+>
+> I would also like if these patches are tested on some more HW.
+> Additionally, can someone test tiled P010?
+>
+> Please take a look.
+
+Hi Jernej,
+
+I have create a branch to test this series with VP9 and HEVC:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/10bit_imx8m
+Feel free to pick what I may need in it.
+
+That doesn't improve fluster scores, I think more dev are still needed in GST
+before getting something fully functional.
+Anyway I able to select P010 pixel format if the input is a 10bit bitstream.
+
+Regards,
+Benjamin
 
 >
-> > I can do a fresh patch with a complete description and no v2 stuff;
-> > please let me know.
+> Best regards,
+> Jernej
 >
-> It will be a v3 patch, right?
-
-Right.
-
+> Ezequiel Garcia (1):
+>    media: Add P010 tiled format
 >
-> thanks,
+> Jernej Skrabec (7):
+>    media: Add P010 format
+>    media: hantro: Support format filtering by depth
+>    media: hantro: postproc: Fix buffer size calculation
+>    media: hantro: postproc: Fix legacy regs configuration
+>    media: hantro: Store VP9 bit depth in context
+>    media: hantro: sunxi: Enable 10-bit decoding
+>    media: hantro: sunxi: Increase frequency
 >
-> greg k-h
-
-
-
--- 
-
-Sevinj.Aghayeva
+>   drivers/media/v4l2-core/v4l2-common.c         |  3 ++
+>   drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
+>   drivers/staging/media/hantro/hantro.h         |  4 ++
+>   drivers/staging/media/hantro/hantro_drv.c     | 23 +++++++++
+>   .../staging/media/hantro/hantro_g2_vp9_dec.c  |  8 ---
+>   .../staging/media/hantro/hantro_postproc.c    | 34 ++++++++++---
+>   drivers/staging/media/hantro/hantro_v4l2.c    | 50 +++++++++++++++++--
+>   drivers/staging/media/hantro/hantro_v4l2.h    |  3 ++
+>   drivers/staging/media/hantro/sunxi_vpu_hw.c   | 13 ++++-
+>   include/uapi/linux/videodev2.h                |  2 +
+>   10 files changed, 122 insertions(+), 20 deletions(-)
+>
