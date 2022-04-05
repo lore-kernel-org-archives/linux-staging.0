@@ -1,98 +1,105 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1317A;
-	Tue,  5 Apr 2022 16:16:48 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id z19so11911110qtw.2;
-        Tue, 05 Apr 2022 09:16:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0782917C8;
+	Tue,  5 Apr 2022 18:40:42 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id p15so28529016ejc.7;
+        Tue, 05 Apr 2022 11:40:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=FLSzkzyFKsMmWfcxhBs2Il7HtUd5I2QlvTXEeLFEpwI=;
-        b=j9daqXZVYch5PcpAusIBWMCwCZEA3KuTMvcnCJaxNxRmfjMoMsoNrNQZfOxu51vnLp
-         LmXUEEnUs+fN2pcJOcHqj0RSl/YrbpWNq3Px1arRKi/1PJQbDH2s3Zd43OqHi9aeMIfk
-         49FXG0jcUhMbkUAIagFnqSO4ZO3YIxij/23L6s/bAwH51pqO+L6He0sK6ZO4U+2CClJ+
-         7E6rGSmG1Yoe2MrDplF1/IPg+TYoCjqIojEo91MdsP5NE4CrS5qXvWW4+N6kJfjFJn74
-         wC3XiQTmBoDQlzC36uwwR0TRsFAJqVgRZM0PV/SOvxlvVsGmwtZcWZgyLSmPnAxmBv72
-         mgzg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=vbMPbp7aUefqeHa6gEgmXUlWTRHZ3oMWVTDKwmVUOh8=;
+        b=KJEMIj4e7Nkf5NRQSkeGOdWSQ/71GPeTAtj19TfSQfaw192KiobZULMM0yawIDtQ+1
+         kRjZ1hHKMIFz5w9uzoszb/2UfxMFLVuhv1pcx3l2FbrdwFg0o9IdUwBssH6gMmasF+sC
+         tAYmb4Zc+PawW5CU655i1OQPBPDNcC4ClfHWIMZ2+DO3B8slsGym7/pz3iqIyZLr1GZ5
+         MLbeRvJiT+5mT7bKd/c/7BGNhUV9FRT6Rbo4IITF2Ehl994/2iaeC7VBC13O0Owz00Gp
+         EuxD4peu6TSeWZYYpDmgXNCmVOuyQzE+ikHq9qi/Eo1WQKNiWby277cISSVlNRAYEi5t
+         uS3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=FLSzkzyFKsMmWfcxhBs2Il7HtUd5I2QlvTXEeLFEpwI=;
-        b=n1xjUe9ALTWJ6wjGGUFsWeoB+V/8IbzltCL5A0Aivrd2Zm8SB+CLyQXOPqf60eFFRp
-         3Rq4p+Q+S2Av+Oiso/errx+L4N9UGlKduViDAJ94x/VMWZR+IpxIjeW2ctnWw/zapXN8
-         Q1Wo5+FpGDxrF4syE3DjTeTMWHOMvYn88L7WawaH9JQJCERV2c/yVjyNjlrPdf16yLdq
-         /hyMZry2VfV9Ihoc3TnwlBrfPS+t5RJGt1JRukV7oqA8uTjJnerKaSmyfc6SDoCCk6Ti
-         o3aniVD/v6QPGJst/THUANjKIZOtbCohDivveJnrqB+0jWrZLEiWKxP9AJcYlpEjVyDE
-         EzwQ==
-X-Gm-Message-State: AOAM5305TdsVFIQGyyS3WeUM59+UOoZ3fGpX1jjy2mtPa8U8eLuOgak0
-	AUpePQgk0AnD5ni2lpSKcLM=
-X-Google-Smtp-Source: ABdhPJyfBydtZeKLeim9Up5yEFW9t0urIMuUeqTm5Q4+BL7NMsNpsqz5Yyt2XPRxiO0/MgGVyqlYIw==
-X-Received: by 2002:ac8:7dca:0:b0:2e1:db1b:7ba1 with SMTP id c10-20020ac87dca000000b002e1db1b7ba1mr3631493qte.614.1649175407387;
-        Tue, 05 Apr 2022 09:16:47 -0700 (PDT)
-Received: from euclid ([71.58.109.160])
-        by smtp.gmail.com with ESMTPSA id h8-20020ac87d48000000b002e1c6faae9csm11228777qtb.28.2022.04.05.09.16.45
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=vbMPbp7aUefqeHa6gEgmXUlWTRHZ3oMWVTDKwmVUOh8=;
+        b=01IzxdHjrPoYHaeocVdBTtHoQBgGKwTPbbtPyyZ2m3ukjG2G4jsRe3JDpGxk+8UHXV
+         LqmOA9ClUdN7vqG4dkPgfWoF2fpufDPU1CngdQGzvhQUznf+Ud3ITZBD0npbAf9L8E25
+         bYGDPpb6eQ0JorOYCtP2M/gbNkd6okrqvKcmH2EkAPsm3uZeUxAt5Oo5YYvWVB3raeCB
+         q/3WB9ouFjQUQyCsPK675cM/H34NSCQyTpBNQlZ/KUrq8T4S6HEfeuF3v4bMJA+hGl5t
+         cDXBLRtAXjAL24MU1Vsh6DakUMkbyJFJVKBbspBtrVtRN983/5RhPw5AKwIqSpoS1gD3
+         sR8A==
+X-Gm-Message-State: AOAM530UP4l5eKL8GElN8QdXKyla8a20LrcyXrMWc7PPNcv/F0Ku+q4L
+	QwyAzWhSJ9nNfKFC7zWWoeU=
+X-Google-Smtp-Source: ABdhPJyyOku7BguihhRDVr/2uQVz3QRhlNTGjiETo2Ny1XHm1wtZufdXrCu7Vy7i491eGogKd7Bkqg==
+X-Received: by 2002:a17:907:6e14:b0:6e7:f589:b7b4 with SMTP id sd20-20020a1709076e1400b006e7f589b7b4mr4991013ejc.222.1649184040612;
+        Tue, 05 Apr 2022 11:40:40 -0700 (PDT)
+Received: from jernej-laptop.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id dm11-20020a170907948b00b006cf488e72e3sm5795532ejc.25.2022.04.05.11.40.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 09:16:46 -0700 (PDT)
-Date: Tue, 5 Apr 2022 12:16:43 -0400
-From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: [PATCH v3] staging: rtl8723bs: fix indentation
-Message-ID: <20220405161643.GA630826@euclid>
+        Tue, 05 Apr 2022 11:40:40 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
+Date: Tue, 05 Apr 2022 20:40:38 +0200
+Message-ID: <4386971.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <b6987a9a-56af-f63f-b60a-37df141d6e89@collabora.com>
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com> <b6987a9a-56af-f63f-b60a-37df141d6e89@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Adhere to Linux kernel coding indentation style. Also remove the comments that
-became irrelevant after fixing indentation.
+Hi Benjamin!
 
-Reported by checkpatch:
+Dne torek, 05. april 2022 ob 18:07:41 CEST je Benjamin Gaignard napisal(a):
+> Le 27/02/2022 =E0 15:49, Jernej Skrabec a =E9crit :
+> > First two patches add 10-bit formats to UAPI, third extends filtering
+> > mechanism, fourth fixes incorrect assumption, fifth moves register
+> > configuration code to proper place, sixth and seventh enable 10-bit
+> > VP9 decoding on Allwinner H6 and last increases core frequency on
+> > Allwinner H6.
+> >=20
+> > I'm sending this as RFC to get some comments:
+> > 1. format definitions - are fourcc's ok? are comments/descriptions ok?
+> > 2. is extended filtering mechanism ok?
+> >=20
+> > I would also like if these patches are tested on some more HW.
+> > Additionally, can someone test tiled P010?
+> >=20
+> > Please take a look.
+>=20
+> Hi Jernej,
+>=20
+> I have create a branch to test this series with VP9 and HEVC:
+> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/10bit_=
+imx
+> 8m Feel free to pick what I may need in it.
+>=20
+> That doesn't improve fluster scores, I think more dev are still needed in
+> GST before getting something fully functional.
+> Anyway I able to select P010 pixel format if the input is a 10bit bitstre=
+am.
 
-WARNING: suspect code indent for conditional statements
+What kind of improvements do you expect? Actually, this series is designed =
+to=20
+change nothing for platforms, where 10-bit format is not added into the lis=
+t=20
+of supported formats. I think reasons are quite obvious. First, not every=20
+device may support 10-bit output. Second, as you might already figured it o=
+ut,=20
+registers in this series are set only for legacy cores. I have no idea, wha=
+t=20
+needs to be done for newer ones, since I don't have them. Anyway, I tested=
+=20
+this with fluster and only one additional test passes, because it is the on=
+ly=20
+one for 10-bit YUV420.
 
-Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
----
+Best regards,
+Jernej
 
-v1 -> v2: Remove the comments that became irrelevant with proper indentation.
-
-v2 -> v3: Update the changelog text to say everything the commit is doing.
-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 04e29e228c1e..1bdbd0971f73 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -5143,17 +5143,9 @@ void link_timer_hdl(struct timer_list *t)
- 	} else if (pmlmeinfo->state & WIFI_FW_AUTH_STATE) {
- 		/* re-auth timer */
- 		if (++pmlmeinfo->reauth_count > REAUTH_LIMIT) {
--			/* if (pmlmeinfo->auth_algo != dot11AuthAlgrthm_Auto) */
--			/*  */
--				pmlmeinfo->state = 0;
--				report_join_res(padapter, -1);
--				return;
--			/*  */
--			/* else */
--			/*  */
--			/* 	pmlmeinfo->auth_algo = dot11AuthAlgrthm_Shared; */
--			/* 	pmlmeinfo->reauth_count = 0; */
--			/*  */
-+			pmlmeinfo->state = 0;
-+			report_join_res(padapter, -1);
-+			return;
- 		}
- 
- 		pmlmeinfo->auth_seq = 1;
--- 
-2.25.1
 
