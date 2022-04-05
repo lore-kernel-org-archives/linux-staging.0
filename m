@@ -1,75 +1,69 @@
-Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com [203.205.221.239])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f66.google.com (mail-oa1-f66.google.com [209.85.160.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B1115A8
-	for <linux-staging@lists.linux.dev>; Tue,  5 Apr 2022 01:10:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1649121025;
-	bh=YJ4G6EfSMlc9a+RsjVXiyuZ8BgneqfFR+sZ3NViWAa8=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date;
-	b=HxFpj3AAeNiHsWYoczo1aZvOMOrFJzxL4qJ0HTBn2rz5uYQFmzt7lMoKw0PHF0p69
-	 ZmPYGBELDE3ZLbtzOx/gDYYLRPZqujwqVlJQjkfYLwHp4XEfWK9zS7juPaA7QmBcnC
-	 UlVEqoIPK9cyQzmy2LVM2Ah4JnWTjwWyXF69bcBc=
-Received: from helloworld ([59.172.176.225])
-	by newxmesmtplogicsvrsza5.qq.com (NewEsmtp) with SMTP
-	id 2973BC56; Tue, 05 Apr 2022 09:10:23 +0800
-X-QQ-mid: xmsmtpt1649121023t61dqi5iw
-Message-ID: <tencent_452951FCBB813C31CBE516716C537884D70A@qq.com>
-X-QQ-XMAILINFO: OZZSS56D9fAjE4XxrPhxnzYSX90Lp1RulwJjuhj3Ad5DeArzICeNyT6fu7ejU8
-	 EpiqbiEcoMIZz6o9SV3LKE6o6+gMPUjlc3wP6jH8zA6QAqCcAh4UgL3M83VB+YqEhTZu+3n5S8Kz
-	 xFomaiy4AoHpOIv7HasvXysadnzVInm4N+9JEsnJgFzb9eTrQVsaxcU16MxQsWNdhVk+Ee1/DrkE
-	 RLpNvJlBtnH0lLZs3o2XsjmnacJKkxbnn2b/4TnkJxTaR2s6sBZJuP0EgAwUf/FnmVO4nz84hDoD
-	 GyxG6cUVi9JQ7KS2AGu1huDd/FqV1BkHJcFxYEyCdB/SFOjVvP/rEzv8yNjBZwH46VKMLVW5hODU
-	 6quiF/NDMaZRVsDBUuSrEdpjQZosnqN8A1HpMVHj7QXCHrmL7i5yhujNDYYzDfScrWhbZM0MXJPC
-	 7xU+slEAU9HAmdCLSWwExHxk9JJk2zHqsL5MMqu/Kic2Mi9qiLs7OootEky5IdJEkOdzA/YvQxF9
-	 ZcaQyKdhWYXOafjtUGQdcLXbLL+TNltNfD2JDrV1wKaGj+7Medxt95jLGOnIksPwVKIkCPjAqJ7s
-	 FMypTzcC6Wqpqa+OWeeEfUj0xfq6ip8ObX45IpjVj5yZyg5N2xaE3xLosvguRW69Bqx0Zz0o1FZH
-	 CS2DedQQZUNcPBq46WmAaVOzDdJhX5bDkluA24naGPtgWhRJ26k1GhixgiWRsQRe5ONbfLVXskKM
-	 GVOMQIrjE7q+xQ0ZD2QiGYbXmZRTwQ4T/bfFN7bG+yY+D8jWF92QsoJ7tIn0MembYie0G+CZZpyD
-	 T+G+0zMBDXkdBUgXoP/exl4mUgvMiEPt0WGej9LbrH2RNlpofWHvu30UMh16GulTv410zkvrgUyJ
-	 DHXLDc+dJH2TgjPVOSG0QQTh82MqVGnLo6uTx304Vu2dkqnznYGY/eqyyi1lxR2Q==
-From: <xkernel.wang@foxmail.com>
-To: "'Greg KH'" <gregkh@linuxfoundation.org>
-Cc: <Larry.Finger@lwfinger.net>,
-	<florian.c.schilhabel@googlemail.com>,
-	<linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-References: <tencent_0A1273526E1E87150578F8B752CF7F178806@qq.com> <tencent_3096E1464A73FF232014CC40B9001C551408@qq.com> <YksAzXHif7Usdfv9@kroah.com>
-In-Reply-To: <YksAzXHif7Usdfv9@kroah.com>
-Subject: Re: [PATCH 2/3] staging: rtl8712: add two validation check in r8712_init_drv_sw()
-Date: Tue, 5 Apr 2022 09:10:24 +0800
-X-OQ-MSGID: <000e01d84889$ee63d8b0$cb2b8a10$@foxmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3DF15A8;
+	Tue,  5 Apr 2022 01:10:51 +0000 (UTC)
+Received: by mail-oa1-f66.google.com with SMTP id 586e51a60fabf-df0940c4eeso12818955fac.8;
+        Mon, 04 Apr 2022 18:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VWQUbrOoxwmYB9P20ebLb/ZcAUVjBSaCgXPVioGRjas=;
+        b=CdxPyPtRsQI/ntlcqty+gtnhuGMgiR7GNZNYORSTfB8oyttAskvRfIPJte2S68/aId
+         kBJgOIbwWAIwfYHwvrFjMc+9tORlpgSkmBLgiKiOyHqkNLllo/3syT1M9esqosWn+TZG
+         5qInbalMfrcpR1GA8o5jR6wlkDOEEGKrG+EKfdwf2JSENsYSXGniYsXuoeP7ANXynrv1
+         FioX+4H2NiQ8HriinLwqzAWM/yfCmAzrMtpiliqXVKi/Rl2J3s90GbHTDRz3C5VzkiJz
+         UxTF0ULgLfKihJSkJl6KpYztEHx1RhDz/NRzYRCYrJ+U6Nmc/4qucl01xKrFwwiLTZhM
+         iJTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VWQUbrOoxwmYB9P20ebLb/ZcAUVjBSaCgXPVioGRjas=;
+        b=leyHxfOxOmrGGatW1MmfeLI20u2k++3XF2+Ij2SsiBsCcRH1LziKi3RJtkO9ldVJmR
+         ++rnqAKDWknUq5Mmvou0lUR3XrrHQ1Lw9V0fNR8in+v+bZqc8H1ZMOXEvCaqmcfRtRiA
+         oTh4Z0rf8SANpEMBJdqBOUgkkHQA83oh+78TiovFOPdLdwwWiL5r4vtRJT+XEzFJHuMj
+         jI1bj37qeIWAAy3vq7Vta1VKG/xgKsjmvSybircdq2FEDz21wexCZc/54NrK41lLPCKQ
+         tpEFZEjAjhLAIS+O9cMq2qCAuKTEiRdnEHhmP9YdVuTK8CnFkFOYGWhlIvoAmEUMGbuF
+         KKSQ==
+X-Gm-Message-State: AOAM53399MDCj4ba1AqZSTRUUGBvkFaUR3tTM/9vBymniEz2FxGlwVqG
+	LTEsG2NNChUPr1MWycZb4Lg=
+X-Google-Smtp-Source: ABdhPJxcMNezG2Fs58i+G61lJGk2QRFQEXlhF9qXgjmBY8ZPaxWu1kvZpTBfEcM+ikqzAlk3Td6Ulg==
+X-Received: by 2002:a05:6870:5690:b0:e1:ef0c:271f with SMTP id p16-20020a056870569000b000e1ef0c271fmr533129oao.234.1649121050266;
+        Mon, 04 Apr 2022 18:10:50 -0700 (PDT)
+Received: from bertie (072-190-140-117.res.spectrum.com. [72.190.140.117])
+        by smtp.gmail.com with ESMTPSA id m15-20020a9d644f000000b005ce0a146bfcsm5075033otl.59.2022.04.04.18.10.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Apr 2022 18:10:49 -0700 (PDT)
+From: Rebecca Mckeever <remckee0@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rebecca Mckeever <remckee0@gmail.com>
+Subject: [PATCH 0/2] staging: rtl8723bs: clean up two *_cmd_callback() functions in rtw_cmd.c
+Date: Mon,  4 Apr 2022 20:10:42 -0500
+Message-Id: <cover.1649120568.git.remckee0@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQO0Uoy989zRJT7S4c8YGkbirmJg/AIqqt/GAmblFDABs2btQg==
-Content-Language: zh-cn
+Content-Transfer-Encoding: 8bit
 
-On Monday, April 4, 2022 10:30 PM +0800, gregkh@linuxfoundation.org =
-wrote:
-> You just leaked memory :(
->
-> please please please test these types of "fix up error handling"
-> changes, as there are lots and lots of ways to get these wrong.
->
+These patches perform cleanup in functions 
+rtw_survey_cmd_callback() and rtw_joinbss_cmd_callback().
 
-It seems that you missed the third email in this series.
+Rebecca Mckeever (2):
+  staging: rtl8723bs: remove handlerOS independent comment
+  staging: rtl8723bs: combine both sides of conditional statement
 
-In fact, I did not ignore the memory leak problem. But considering that =
-there are other paths which can also lead to memory leak, I separated =
-another patch to deal with them specifically.
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-In the next version, I will adjust the sequence of the patches and add =
-some descriptions to explicitly show the relations.
-
---
-Regards,
-Xiaoke Wang
+-- 
+2.32.0
 
