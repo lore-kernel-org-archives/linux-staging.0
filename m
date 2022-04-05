@@ -1,47 +1,25 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4E37A;
-	Tue,  5 Apr 2022 14:54:29 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id j21so11463491qta.0;
-        Tue, 05 Apr 2022 07:54:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=GiOCB0LEnVJnuUDKgIp7T1dC76Lv7y/CQVx5+uI2YZc=;
-        b=M4hADWEp021dn2H8CsRC3C99oEW6F8vJHJoOMLrMCUtoe85gORP+719UDYi2PioJJ3
-         GAsgSFwUvRgL8dnof/nCYGHgPIa1D9XSoPsoIXWanp2KBItOXOVI2x5vt0aYpRQfdiZB
-         HHKE/qkU+hyMsvzIK6CkqHKMgoxN97q8Z4ea4nnIyD/gUD17zGKWZIafrQHusA3jX10q
-         BJf6b1JG5zF174+wAgF5T1WJ8R9h4qVTE22/B9YkTgcl1C4jAyXI50FDli44jMrzaNIQ
-         vCzcayMxf5CKvgNqsYxf6Mj6swmrVLwPvB11MJUtx/UVVPyWFX9kKiWXc7vUDesLtrlo
-         lVsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=GiOCB0LEnVJnuUDKgIp7T1dC76Lv7y/CQVx5+uI2YZc=;
-        b=Pp5Y7R8fOX00qsq0OXn/saPnCbk9QvLITy7vE7LtFVgC5HB1KM56bb7zLBDbAM8Uan
-         tCKxTLR0/ZSpGiLJyIg2kK04x1j4pj0YF0TXJmIQs/gtgSA1fmWMDNuRKyQc+bky5lQF
-         M0I2jdpVm9bceAOnhrWQiR/bU+xXUBRWIOa1qnAnVdQPO5GrEKYV0KlxpAQg+gfmZY56
-         kPB8Eqs5uMYAHpd20OGPfOnh104QZIFAeLt9J8XpY3swSAPlITrF2QaM9ozMxDyYNHUE
-         KotJemDSh+tzP8dbL8gb2CAKEhyRIDGYt2kYNQIhMHj1EBitqtEUQN8mTzyv7+Pnokze
-         qHeQ==
-X-Gm-Message-State: AOAM530oJihpWLv/FJxKrs/JP1jYYUkSzpyeT7MDghyjHaZ5OtcGPBP4
-	vlhgY518JZ6YyR4DD170yag=
-X-Google-Smtp-Source: ABdhPJxWyKR68v2HR7slViur6n1YhBWHCXKEZdM79ZxGegD3hmcTEcx9ZnCjsvnh4vH3eih2OrSbyg==
-X-Received: by 2002:ac8:5dcd:0:b0:2eb:9458:4985 with SMTP id e13-20020ac85dcd000000b002eb94584985mr3329851qtx.85.1649170468792;
-        Tue, 05 Apr 2022 07:54:28 -0700 (PDT)
-Received: from euclid ([71.58.109.160])
-        by smtp.gmail.com with ESMTPSA id u62-20020a379241000000b0067ed2b0994dsm8201646qkd.54.2022.04.05.07.54.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 07:54:28 -0700 (PDT)
-Date: Tue, 5 Apr 2022 10:54:24 -0400
-From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767D27A;
+	Tue,  5 Apr 2022 15:02:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C21EC385A1;
+	Tue,  5 Apr 2022 15:02:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1649170943;
+	bh=Ra/03EFX5mzh6Q7bAuF5V7b3yZhKCzD8UNsg2MKHH24=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rIgEKXlspNbXek7p1WoN/d+mkKu3Nfa8cBFmmXaa3zM1MOzJHAaNrX2XOMt6AL4Se
+	 aKsuIqXU0jX9K9qb8rMRxLGXiIEhBcE7+x4B2gNTygCfF7EV5iBQztirOljQWwzHdg
+	 I+prIHrsuwc9fuHnZIEAV15TtdOGCgpdTXTrk9oY=
+Date: Tue, 5 Apr 2022 17:02:20 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev
-Subject: [PATCH] staging: rtl8723bs: fix indentation
-Message-ID: <20220405145424.GA623343@euclid>
+Subject: Re: [PATCH] staging: rtl8723bs: fix indentation
+Message-ID: <YkxZ/NMSNPQ59tRc@kroah.com>
+References: <20220405145424.GA623343@euclid>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,43 +28,86 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220405145424.GA623343@euclid>
 
-Adhere to Linux kernel coding style.
+On Tue, Apr 05, 2022 at 10:54:24AM -0400, Sevinj Aghayeva wrote:
+> Adhere to Linux kernel coding style.
+> 
+> Reported by checkpatch:
+> 
+> WARNING: suspect code indent for conditional statements
+> 
+> Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 14 +++-----------
+>  1 file changed, 3 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index 04e29e228c1e..1bdbd0971f73 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -5143,17 +5143,9 @@ void link_timer_hdl(struct timer_list *t)
+>  	} else if (pmlmeinfo->state & WIFI_FW_AUTH_STATE) {
+>  		/* re-auth timer */
+>  		if (++pmlmeinfo->reauth_count > REAUTH_LIMIT) {
+> -			/* if (pmlmeinfo->auth_algo != dot11AuthAlgrthm_Auto) */
+> -			/*  */
+> -				pmlmeinfo->state = 0;
+> -				report_join_res(padapter, -1);
+> -				return;
+> -			/*  */
+> -			/* else */
+> -			/*  */
+> -			/* 	pmlmeinfo->auth_algo = dot11AuthAlgrthm_Shared; */
+> -			/* 	pmlmeinfo->reauth_count = 0; */
+> -			/*  */
+> +			pmlmeinfo->state = 0;
+> +			report_join_res(padapter, -1);
+> +			return;
+>  		}
+>  
+>  		pmlmeinfo->auth_seq = 1;
+> -- 
+> 2.25.1
+> 
+> 
 
-Reported by checkpatch:
+Hi,
 
-WARNING: suspect code indent for conditional statements
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 04e29e228c1e..1bdbd0971f73 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -5143,17 +5143,9 @@ void link_timer_hdl(struct timer_list *t)
- 	} else if (pmlmeinfo->state & WIFI_FW_AUTH_STATE) {
- 		/* re-auth timer */
- 		if (++pmlmeinfo->reauth_count > REAUTH_LIMIT) {
--			/* if (pmlmeinfo->auth_algo != dot11AuthAlgrthm_Auto) */
--			/*  */
--				pmlmeinfo->state = 0;
--				report_join_res(padapter, -1);
--				return;
--			/*  */
--			/* else */
--			/*  */
--			/* 	pmlmeinfo->auth_algo = dot11AuthAlgrthm_Shared; */
--			/* 	pmlmeinfo->reauth_count = 0; */
--			/*  */
-+			pmlmeinfo->state = 0;
-+			report_join_res(padapter, -1);
-+			return;
- 		}
- 
- 		pmlmeinfo->auth_seq = 1;
--- 
-2.25.1
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what is needed in order to
+  properly describe the change.
 
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
