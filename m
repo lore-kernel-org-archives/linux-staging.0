@@ -1,53 +1,44 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF32615A7;
-	Tue,  5 Apr 2022 03:16:37 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id 10so9426649qtz.11;
-        Mon, 04 Apr 2022 20:16:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tpmJ9JB/ykvkb+WcvF07K5tTjzwOCUQVaGyVvSReF7c=;
-        b=Z7GpZlyDyQiEzgCn9NVqlL1a/EOlD60omRHVpUSC98e37MBwA9XFLiJosEUBFkLdux
-         sHbFUF8eAsyYOEszsfiWgNA1hetcXk2YQvkIkEZmN0iwgLgKebI+NIvcwO+/kCn8iGem
-         M8HGk9yJw2JhlJZTQxm79xUIzMGFNImPkMBPriRr0yUMwlSxl5r+eODQsmzXnr0VDq2H
-         f/5wzQuotHv6NcH2SDh4Ujg0VFas0p4InJLON7jDQ2iYO5dygAEjMxNFUt5uFvxseik4
-         PmbL177c0plkgqFHuxA6+tk5LPECgLqkbr7DjHWHvv5NkkUS4JBggVZmpoix0CzivVyX
-         N9Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tpmJ9JB/ykvkb+WcvF07K5tTjzwOCUQVaGyVvSReF7c=;
-        b=wnii45XQlN9cFdJoZ7vgEdZdl0IXHDhpX687wJGoiyR9mKZco2WgTIlwZCp2DkW9z7
-         Ck55BewBStpn/eN+oMMnyRJuCZ74LN/eOByauxd83SJX6fOjtSFyKiNr2jfV6BIqq0Es
-         rz7wNYtxbG0IY6CZTuOSUNgv0X0l8+adGt5UoBrgiU0JOCUivfAa3I+8BnRTFR+xxy+H
-         xn+GU2yGgx4Og7NL95YDIaNHW3tL8iAGl4eDccMpYgGR040uqjJo00Sw65j8Tomvd+H7
-         Fot7nwVZfSLYfBqaLkJHBsXbYgHN6uPB20VRgMncnZxDR/eAqPCtz7WYYHE9fSjyUsYX
-         VY+Q==
-X-Gm-Message-State: AOAM533nmDvNlMolDzgzncsW6ZCI0TB4cHRae53DYxwKZOxpXgEc2t1e
-	IeFK7CI1f+4SNXaUYKePNPU=
-X-Google-Smtp-Source: ABdhPJwlpP2v6CjMbc42ukFJfS0blQ4VolnyepFQ8f9fW6HWjm+Gn6GD+9s7SlxHER617ErrOGBaPA==
-X-Received: by 2002:ac8:5f4f:0:b0:2e1:d42d:b5bb with SMTP id y15-20020ac85f4f000000b002e1d42db5bbmr1320722qta.48.1649128596650;
-        Mon, 04 Apr 2022 20:16:36 -0700 (PDT)
-Received: from euclid ([71.58.109.160])
-        by smtp.gmail.com with ESMTPSA id j20-20020a37a014000000b0067b3a0c7d89sm7179208qke.38.2022.04.04.20.16.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Apr 2022 20:16:36 -0700 (PDT)
-From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5507515A3
+	for <linux-staging@lists.linux.dev>; Tue,  5 Apr 2022 04:51:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1649134276;
+	bh=ZOWmbRSE1ugYDN4B9+8FobQREdvXAlF1kKgzI2u7cr0=;
+	h=From:To:Cc:Subject:Date;
+	b=KKkcLFo9IPmJVp1Uj67xgyf1Gd4st36Fo7S5mdn1neRopwJOol+KhMuIvwSkfZaq3
+	 B2GzHwU28jHfnmkO9taBMjEb04A90JyZTN0U+SZXz92wUf1ENFfHofCkpmyzUlC3zu
+	 GUAaSs23dlTspkRdgMjR3I5cnkhza4dyk0tTh2YY=
+Received: from localhost.localdomain ([218.197.153.188])
+	by newxmesmtplogicsvrsza9.qq.com (NewEsmtp) with SMTP
+	id AD187C0F; Tue, 05 Apr 2022 12:43:17 +0800
+X-QQ-mid: xmsmtpt1649133797tybode3xr
+Message-ID: <tencent_B8048C592777830380A23A7C4409F9DF1305@qq.com>
+X-QQ-XMAILINFO: Nci1v0XuD9lF/UxJPIUnSOW35WJxhNHJ9+ASszE4sLfv8CucVVmCZNiogRzfLA
+	 FCueO2kxVwfgM/NnbjiZK+E+XJyJhRwuiBT8F7HDdKMjyH1CChIvlR3Axc1C++TAdWn+UWOmvfmv
+	 uF94lvzfEtFV2S7zeuitxu28ku6Rhf/8skdeop9GbjdNtA7sVq9waWY1hedDYT6vinVAYaBc7Hns
+	 2c2s3WvD2IPVB2J7qiF0HgGLj2nrIBqKGXlZUcXB+0pVBLoi1PWnrQj/bYQdEBQ0+IvgZqT/eFzx
+	 hVuIGMhpi3r8Dj00Cccbdnc8xEqSNLbG0aYf0udQT4bS0kqVB1D7uR12PM/WeD4LeFzYwUIUzib2
+	 Tes/qKEpqWiSFbtvV4VFXbK/RwdlCGsJ37J2tQ1PEKDK/WPOfpnLKKlUyBmFFH/8B9xwzy+0zJvw
+	 DThKCloCsmnsTdDQGW1mvMhsVM0ITDHUgxlg170tsxA5uDrllGT9EvtZuL3N+FpwNEYTOacQiiIt
+	 qear8mS+d6Q/F1TlpQ0D5ZgKgIi2zC+ZGT+chKu4HliSbEFDdP1fBBjI+f6iXgyCZljBzhSmjKH/
+	 rRtchvP3GuTO7Mj2sWuxPWMSf79IjRGxWfloPEKsukVhfhnTi+NwdRExQ/XGsFE+E64wnPp+xQ/C
+	 SNTRB7YGA8bxyoQknrdgj7WaY4Qp8WLdDuUXwsxUEzuUhtapC/8amBQLRVtxRAlpEHbq15ZqiM1f
+	 vEi2c/qQmKPVG7r3r+worYmPOIBbZpdhK5lDk6Q6OcCKh5zjT4HDNmkQdLBmvWUgW5cT24aWrZDR
+	 NE9VYuUcR5NE7S29TrUaz4TgTxe+xYejUQuiqixb2aEb3VjNAzW0WrqcomdjVahPMIw1U/3e33OB
+	 gXjGbaibi/DfSQx6fyavUq1DanypyU8DEcmMAHMGxqc0wvClVp9m0/OZQqX5iQ4yccM97e2bWcDs
+	 ipOKQzFdRCBjEYXM7avw==
+From: xkernel.wang@foxmail.com
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-Subject: [PATCH 5/5] staging: rtl8723bs: remove space after function name
-Date: Mon,  4 Apr 2022 23:16:12 -0400
-Message-Id: <86494fef795f1c3e28c55e556d68b407dadd1488.1649128267.git.sevinj.aghayeva@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1649128267.git.sevinj.aghayeva@gmail.com>
-References: <cover.1649128267.git.sevinj.aghayeva@gmail.com>
+	Xiaoke Wang <xkernel.wang@foxmail.com>
+Subject: [PATCH] staging: rtl8712: fix a potential memory leak in r871xu_drv_init()
+Date: Tue,  5 Apr 2022 12:43:07 +0800
+X-OQ-MSGID: <20220405044307.11297-1-xkernel.wang@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,30 +47,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adhere to Linux kernel coding style.
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-Reported by checkpatch:
+In r871xu_drv_init(), if r8712_init_drv_sw() fails, then the memory
+allocated by r8712_alloc_io_queue() in r8712_usb_dvobj_init() is not
+properly released as there is no action will be performed by
+r8712_usb_dvobj_deinit().
+To properly release it, we should call r8712_free_io_queue() in
+r8712_usb_dvobj_deinit().
 
-WARNING: space prohibited between function name and open parenthesis
+Besides, in r871xu_dev_remove(), r8712_usb_dvobj_deinit() will be called
+by r871x_dev_unload() under condition `padapter->bup` and
+r8712_free_io_queue() is called by r8712_free_drv_sw().
+However, r8712_usb_dvobj_deinit() does not rely on `padapter->bup` and
+calling r8712_free_io_queue() in r8712_free_drv_sw() is negative for
+better understading the code.
+So I move r8712_usb_dvobj_deinit() into r871xu_dev_remove(), and remove
+r8712_free_io_queue() from r8712_free_drv_sw().
 
-Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8712/os_intfs.c | 1 -
+ drivers/staging/rtl8712/usb_intf.c | 6 +++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 5eddff488f27..56e3b85f7006 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -2388,7 +2388,7 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
- 				pframe += ssid_ielen_diff;
- 				pattrib->pktlen += ssid_ielen_diff;
- 			}
--			kfree (buf);
-+			kfree(buf);
+diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
+index 28b1684..220fed5 100644
+--- a/drivers/staging/rtl8712/os_intfs.c
++++ b/drivers/staging/rtl8712/os_intfs.c
+@@ -348,7 +348,6 @@ void r8712_free_drv_sw(struct _adapter *padapter)
+ 	r8712_free_evt_priv(&padapter->evtpriv);
+ 	r8712_DeInitSwLeds(padapter);
+ 	r8712_free_mlme_priv(&padapter->mlmepriv);
+-	r8712_free_io_queue(padapter);
+ 	_free_xmit_priv(&padapter->xmitpriv);
+ 	_r8712_free_sta_priv(&padapter->stapriv);
+ 	_r8712_free_recv_priv(&padapter->recvpriv);
+diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
+index 8df50e2..8cbd419 100644
+--- a/drivers/staging/rtl8712/usb_intf.c
++++ b/drivers/staging/rtl8712/usb_intf.c
+@@ -265,6 +265,7 @@ static uint r8712_usb_dvobj_init(struct _adapter *padapter)
+ 
+ static void r8712_usb_dvobj_deinit(struct _adapter *padapter)
+ {
++	r8712_free_io_queue(padapter);
+ }
+ 
+ void rtl871x_intf_stop(struct _adapter *padapter)
+@@ -302,9 +303,6 @@ void r871x_dev_unload(struct _adapter *padapter)
+ 			rtl8712_hal_deinit(padapter);
  		}
- 	} else {
- 		/* timestamp will be inserted by hardware */
+ 
+-		/*s6.*/
+-		if (padapter->dvobj_deinit)
+-			padapter->dvobj_deinit(padapter);
+ 		padapter->bup = false;
+ 	}
+ }
+@@ -607,6 +605,8 @@ static void r871xu_dev_remove(struct usb_interface *pusb_intf)
+ 	/* Stop driver mlme relation timer */
+ 	r8712_stop_drv_timers(padapter);
+ 	r871x_dev_unload(padapter);
++	if (padapter->dvobj_deinit)
++		padapter->dvobj_deinit(padapter);
+ 	r8712_free_drv_sw(padapter);
+ 	free_netdev(pnetdev);
+ 
 -- 
-2.25.1
-
