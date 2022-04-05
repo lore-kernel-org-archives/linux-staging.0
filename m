@@ -1,46 +1,51 @@
-Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com [203.205.221.191])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5768A15A7
-	for <linux-staging@lists.linux.dev>; Tue,  5 Apr 2022 02:30:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1649125835;
-	bh=/3yGeZ7g3ndrgq7ezahWJRS7qUXCaNhhVgCTWOxAzag=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ROb7jQUoL4761S1XeVBdx+0ow4x5F/4P+lIzgoJfh3iHulIaGA/i4UFKVF/U5w2aE
-	 NTTBOfPF7l+mr11KvHmII3d56I9IXFYuKqSs7/KrLuepzXuTvtemMDgNFi/Jq3b4xF
-	 F9JzEg4jU/ELuq8t7/mpwAa8OuN8Z6n37Q7CoI6k=
-Received: from localhost.localdomain ([218.197.153.188])
-	by newxmesmtplogicsvrszb6.qq.com (NewEsmtp) with SMTP
-	id 757B7698; Tue, 05 Apr 2022 10:29:23 +0800
-X-QQ-mid: xmsmtpt1649125763tz7r97vbw
-Message-ID: <tencent_5ACC8CB9131CFA14F7E1514A54FFF520D308@qq.com>
-X-QQ-XMAILINFO: MDPfhejMR4aIUaXnh8SbAwTwpPAr4zJrY0xemmO5ZgY90J4sb4/U2jqT05KAWV
-	 G6glXny0sgROGUGBbVUdn27Tw38QXvlDOp8Enm68/axsxQZr/FME463zEIa5Iwg9G5suiHWWQMcP
-	 xmmfOhvTfIsgQEMcvk9sQiHAXFTJUroanhaEvI952KT/88nwrNRlqA00pLLpDm1KNQcI6nCk9RF5
-	 Yxq94CJ+ei5ptPAGV+7IbZupHsmzu3NB8o9w0tGfP8wxTeBs/zXpcanGCxnlXbc1BVvSqvuVFPJY
-	 a0ytrkhcyijw/c6X5KlKpEpmsTemHPWDTqrjGsdYSHk2ZGX6F4JXGkmVKUDoKXKQadVLb4KuuxzB
-	 N6ZlGjYX21OwOEGVyyz2DmHlqbSXfRnDYJVVWSe7lkWDYINxh6+OgnYsmZlx3XiLrYgyEkmk1yc2
-	 pJzmQ8YhY9lUu6W036SNV6xzQC8mdCdKyi+CRNMTMZSGjqjWphewxu/vIHGuV4WmgLAf60Nye3tI
-	 1jhbV87Lk1WNRcbnnuI1wE2X1DbDHeY5ZjnkOOw96/LvosN2nwzsnxfQrvQRtxxunvJGZG4hBrob
-	 FZLpnvdgMlBAf0HiFNTj9Ub8EEW+66W233i5kncz5Hkth0MtYlW/hGAo9tvg9rDhfWrFMlBfxMGE
-	 fTsIStPUYSARxoRWWjvIz8UrdaEG2J7SA61uuGNPkqzIwm6Oo1ZU5gjqrudsQ54MKKYXboaE76+g
-	 Tv7ozgj6ytxDEH8XrpFD9ThvjXmL8lnzy/pGIlpc+zy+y47svDM3WACdZ9k/2f+FOsdqUFeR85rm
-	 IJa3f6+mp8RdmS0mHa0RdrxrxJq+QsfRjHFLFanFjjwKx30S+f3Rd1PVPs5WcG6vwK+ksxCMm8rQ
-	 VBJsFo23ODnJeVgV5n3OQsQEKZKitEilprmeR500tASyf/eYzxVjHpSAkLuUySBjVbIpzCzg9lBE
-	 NvwiYLy2tCGddBTFHygO08AyqRfxUYU+1jXRY4BbnBbiWg8J3ERw==
-From: xkernel.wang@foxmail.com
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B9B15A7;
+	Tue,  5 Apr 2022 03:16:19 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id v15so9338012qkg.8;
+        Mon, 04 Apr 2022 20:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WNYZrXIYQcYX1eT3yCDusiEgOPOnE1Uw+GVsGFSpvGM=;
+        b=HhxfV7d6F24BtgCoeDYr+W7Q47h1cTnbmTNsJshOBMLDA38QSVFzUF3qXChkZsA+qr
+         YK3Sjoi5bfRiyCPNzFPnu0paWDNMgKhoWxfzCRTecppdzgxPsNfHL4LkMZWvatE0ug6h
+         roYgPaS5CL79KQ4u74x38nZ48nuRxQN1Uz/CcAnewdhDMrRC7bIn9ITILDIEYaPUB1wt
+         3Hh+pBgFKAp8CjqulWWxIWJHBKDOYUC4/Uu/OEuJRUUsacof90rPvTQ4rJnOaQWWB9Sh
+         bH3tnwQRi3eTNV1wu4HaErVRwC3ovYdXbqf/PWh5I6dyK+GRz1TqYLABsUPmmsqbkxpJ
+         JaAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WNYZrXIYQcYX1eT3yCDusiEgOPOnE1Uw+GVsGFSpvGM=;
+        b=Pu2otO7ozu0TIMR6QPPjKkyFuUpdcM278TXtdqAGFHTWSIIlshxalN3/LWvvsD9XBs
+         5t7xHJ+C3MGek+8kZl8TfTJTXFILN+XQ2h+4657KfEB9o4NisxHfQL6tSmeCBH+AoCb2
+         u4ZRnQEwcvcB3jVNeIW1pJFEutBnPcA/2IUkMignRSl5BRVzxrHoySPqaP0XIB1Waj3u
+         KBHmHoIvnIWXuGvfwoSZUoBHhdGxVZZD82xPqjWNIXhjW3DeCjjaJfOgIqsnGco/ae7N
+         IjFGNkT7kiLAY8QSz/3LJFMFayOoyUFG9FOBO/T1yVcW1d3Lcnh/CxxUP7nOcX2YXLJe
+         MNYQ==
+X-Gm-Message-State: AOAM53146D0YxGAB87N/grEucevoKEoshQesX7b7B89//28GtNx0RmBH
+	PmJ3dFeyTTlN0i/P6B4vI/8=
+X-Google-Smtp-Source: ABdhPJzzb9WkNhmQTDeNSDHP3FiLGAnOXs/XSaQsG23mfQpUq1r3ZCtsTczE1LWyAjyfsQjbjckwsg==
+X-Received: by 2002:a37:a64b:0:b0:47c:3ad5:bf8c with SMTP id p72-20020a37a64b000000b0047c3ad5bf8cmr952478qke.13.1649128578395;
+        Mon, 04 Apr 2022 20:16:18 -0700 (PDT)
+Received: from euclid ([71.58.109.160])
+        by smtp.gmail.com with ESMTPSA id m10-20020a05622a054a00b002eb965bbc3esm10337420qtx.93.2022.04.04.20.16.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Apr 2022 20:16:17 -0700 (PDT)
+From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH v2 3/3] staging: rtl8712: add two validation check in r8712_init_drv_sw()
-Date: Tue,  5 Apr 2022 10:28:54 +0800
-X-OQ-MSGID: <20220405022854.10991-1-xkernel.wang@foxmail.com>
-In-Reply-To: <tencent_FCEE3D8703C56F78B552FEFF070817736606@qq.com>
-References: <tencent_FCEE3D8703C56F78B552FEFF070817736606@qq.com>
+	outreachy@lists.linux.dev,
+	Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+Subject: [PATCH 0/5] rtl8723bs cleanup
+Date: Mon,  4 Apr 2022 23:16:07 -0400
+Message-Id: <cover.1649128267.git.sevinj.aghayeva@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,37 +54,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+These patches fix five categories of checkpatch warnings, such as redundant
+braces, and redundant else branches in file rtw_mlme_ext.c, which is part of the
+rtl8723bs driver. False positives, such as
 
-_r8712_init_xmit_priv() or _r8712_init_recv_priv() returns -ENOMEM
-when some allocations inside it failed.
-So it is better to check the return status of them.
+if (foo) {
+	/* TODO: ... */
+}
 
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
-ChangeLog:
-v1->v2 adjust the sequence of patches in this series and add error
-handlers in the first patch.
- drivers/staging/rtl8712/os_intfs.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+were not altered.
 
-diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
-index 1f7ccec..0dbf8c2 100644
---- a/drivers/staging/rtl8712/os_intfs.c
-+++ b/drivers/staging/rtl8712/os_intfs.c
-@@ -308,8 +308,12 @@ int r8712_init_drv_sw(struct _adapter *padapter)
- 	ret = r8712_init_mlme_priv(padapter);
- 	if (ret)
- 		goto free_evt_priv;
--	_r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
--	_r8712_init_recv_priv(&padapter->recvpriv, padapter);
-+	ret = _r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
-+	if (ret)
-+		goto free_mlme_priv;
-+	ret = _r8712_init_recv_priv(&padapter->recvpriv, padapter);
-+	if (ret)
-+		goto free_xmit_priv;
- 	memset((unsigned char *)&padapter->securitypriv, 0,
- 	       sizeof(struct security_priv));
- 	timer_setup(&padapter->securitypriv.tkip_timer,
+Sevinj Aghayeva (5):
+  staging: rtl8723bs: remove redundant braces in if statements
+  staging: rtl8723bs: remove redundant else branches
+  staging: rtl8723bs: remove return from a function returning void
+  staging: rtl8723bs: fix indentation
+  staging: rtl8723bs: remove space after function name
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 160 +++++++-----------
+ 1 file changed, 64 insertions(+), 96 deletions(-)
+
 -- 
+2.25.1
+
