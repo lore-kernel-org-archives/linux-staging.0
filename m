@@ -1,203 +1,98 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1584D7A;
-	Tue,  5 Apr 2022 16:09:08 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:cf29:3f0:be4d:7211] (unknown [IPv6:2a01:e0a:120:3210:cf29:3f0:be4d:7211])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2DFB51F43F0D;
-	Tue,  5 Apr 2022 17:09:06 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1649174946;
-	bh=eeySzn5IBf+PbYNi+kPSgsYzcuDGcdY6haFj9xgGbTc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bquGS9tF62KHpCx6KOlVue0u3BUHutbpdUkIswCR9dFWpqBqt9KTIZhdbkOkIg6S0
-	 5n2xd1750ecQX63Vs8TOqs39NgYYpYhtRV1t6PM4HIs72OOS+5VQxoFH+nMl/jbwmM
-	 MoMH95usmnc6FzA9zfnGsEhCZRd2dgBhftcFXzdzHxiElFBGm7MmpAFJrpct6Bj7ry
-	 EUCsInrPWwVbscgnQHQbTPVSxraI7RLgCevVwI6GjR3tRDPDX639GJsAt8wId1HaOc
-	 014r4nTSexAxfPlT6inGkQbKlLgmE1NOk4DqvEuLjCqTDgUGGP8Cy9z12GsYnUzX/k
-	 ERkD9KOJMHJgQ==
-Message-ID: <7972feba-221c-9960-68d0-ee15ad2a4f1a@collabora.com>
-Date: Tue, 5 Apr 2022 18:09:03 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1317A;
+	Tue,  5 Apr 2022 16:16:48 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id z19so11911110qtw.2;
+        Tue, 05 Apr 2022 09:16:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=FLSzkzyFKsMmWfcxhBs2Il7HtUd5I2QlvTXEeLFEpwI=;
+        b=j9daqXZVYch5PcpAusIBWMCwCZEA3KuTMvcnCJaxNxRmfjMoMsoNrNQZfOxu51vnLp
+         LmXUEEnUs+fN2pcJOcHqj0RSl/YrbpWNq3Px1arRKi/1PJQbDH2s3Zd43OqHi9aeMIfk
+         49FXG0jcUhMbkUAIagFnqSO4ZO3YIxij/23L6s/bAwH51pqO+L6He0sK6ZO4U+2CClJ+
+         7E6rGSmG1Yoe2MrDplF1/IPg+TYoCjqIojEo91MdsP5NE4CrS5qXvWW4+N6kJfjFJn74
+         wC3XiQTmBoDQlzC36uwwR0TRsFAJqVgRZM0PV/SOvxlvVsGmwtZcWZgyLSmPnAxmBv72
+         mgzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=FLSzkzyFKsMmWfcxhBs2Il7HtUd5I2QlvTXEeLFEpwI=;
+        b=n1xjUe9ALTWJ6wjGGUFsWeoB+V/8IbzltCL5A0Aivrd2Zm8SB+CLyQXOPqf60eFFRp
+         3Rq4p+Q+S2Av+Oiso/errx+L4N9UGlKduViDAJ94x/VMWZR+IpxIjeW2ctnWw/zapXN8
+         Q1Wo5+FpGDxrF4syE3DjTeTMWHOMvYn88L7WawaH9JQJCERV2c/yVjyNjlrPdf16yLdq
+         /hyMZry2VfV9Ihoc3TnwlBrfPS+t5RJGt1JRukV7oqA8uTjJnerKaSmyfc6SDoCCk6Ti
+         o3aniVD/v6QPGJst/THUANjKIZOtbCohDivveJnrqB+0jWrZLEiWKxP9AJcYlpEjVyDE
+         EzwQ==
+X-Gm-Message-State: AOAM5305TdsVFIQGyyS3WeUM59+UOoZ3fGpX1jjy2mtPa8U8eLuOgak0
+	AUpePQgk0AnD5ni2lpSKcLM=
+X-Google-Smtp-Source: ABdhPJyfBydtZeKLeim9Up5yEFW9t0urIMuUeqTm5Q4+BL7NMsNpsqz5Yyt2XPRxiO0/MgGVyqlYIw==
+X-Received: by 2002:ac8:7dca:0:b0:2e1:db1b:7ba1 with SMTP id c10-20020ac87dca000000b002e1db1b7ba1mr3631493qte.614.1649175407387;
+        Tue, 05 Apr 2022 09:16:47 -0700 (PDT)
+Received: from euclid ([71.58.109.160])
+        by smtp.gmail.com with ESMTPSA id h8-20020ac87d48000000b002e1c6faae9csm11228777qtb.28.2022.04.05.09.16.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Apr 2022 09:16:46 -0700 (PDT)
+Date: Tue, 5 Apr 2022 12:16:43 -0400
+From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH v3] staging: rtl8723bs: fix indentation
+Message-ID: <20220405161643.GA630826@euclid>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 3/8] media: hantro: Support format filtering by depth
-Content-Language: en-US
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de
-Cc: mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl,
- gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
- <20220227144926.3006585-4-jernej.skrabec@gmail.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20220227144926.3006585-4-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Adhere to Linux kernel coding indentation style. Also remove the comments that
+became irrelevant after fixing indentation.
 
-Le 27/02/2022 à 15:49, Jernej Skrabec a écrit :
-> In preparation for supporting 10-bit formats, add mechanism which will
-> filter formats based on pixel depth.
->
-> Hantro G2 supports only one decoding format natively and that is based
-> on bit depth of current video frame. Additionally, it makes no sense to
-> upconvert bitness, so filter those out too.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->   drivers/staging/media/hantro/hantro.h      |  4 ++
->   drivers/staging/media/hantro/hantro_v4l2.c | 48 ++++++++++++++++++++--
->   drivers/staging/media/hantro/hantro_v4l2.h |  1 +
->   3 files changed, 50 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> index 06d0f3597694..c6525ee8d89a 100644
-> --- a/drivers/staging/media/hantro/hantro.h
-> +++ b/drivers/staging/media/hantro/hantro.h
-> @@ -227,6 +227,7 @@ struct hantro_dev {
->    *
->    * @ctrl_handler:	Control handler used to register controls.
->    * @jpeg_quality:	User-specified JPEG compression quality.
-> + * @bit_depth:		Bit depth of current frame
->    *
->    * @codec_ops:		Set of operations related to codec mode.
->    * @postproc:		Post-processing context.
-> @@ -252,6 +253,7 @@ struct hantro_ctx {
->   
->   	struct v4l2_ctrl_handler ctrl_handler;
->   	int jpeg_quality;
-> +	int bit_depth;
->   
->   	const struct hantro_codec_ops *codec_ops;
->   	struct hantro_postproc_ctx postproc;
-> @@ -278,6 +280,7 @@ struct hantro_ctx {
->    * @enc_fmt:	Format identifier for encoder registers.
->    * @frmsize:	Supported range of frame sizes (only for bitstream formats).
->    * @postprocessed: Indicates if this format needs the post-processor.
-> + * @match_depth: Indicates if format bit depth must match video bit depth
->    */
->   struct hantro_fmt {
->   	char *name;
-> @@ -288,6 +291,7 @@ struct hantro_fmt {
->   	enum hantro_enc_fmt enc_fmt;
->   	struct v4l2_frmsize_stepwise frmsize;
->   	bool postprocessed;
-> +	bool match_depth;
->   };
->   
->   struct hantro_reg {
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> index e595905b3bd7..1214fa2f64ae 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> @@ -64,6 +64,42 @@ hantro_get_postproc_formats(const struct hantro_ctx *ctx,
->   	return ctx->dev->variant->postproc_fmts;
->   }
->   
-> +int hantro_get_formath_depth(u32 fourcc)
+Reported by checkpatch:
 
-Just a typo here:
+WARNING: suspect code indent for conditional statements
 
-s/hantro_get_formath_depth -> hantro_get_format_depth
+Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
+---
 
-regards
-Benjamin
+v1 -> v2: Remove the comments that became irrelevant with proper indentation.
 
-> +{
-> +	switch (fourcc) {
-> +	case V4L2_PIX_FMT_P010:
-> +	case V4L2_PIX_FMT_P010_4L4:
-> +		return 10;
-> +	default:
-> +		return 8;
-> +	}
-> +}
-> +
-> +static bool
-> +hantro_check_depth_match(const struct hantro_ctx *ctx,
-> +			 const struct hantro_fmt *fmt)
-> +{
-> +	int fmt_depth, ctx_depth = 8;
-> +
-> +	if (!fmt->match_depth && !fmt->postprocessed)
-> +		return true;
-> +
-> +	/* 0 means default depth, which is 8 */
-> +	if (ctx->bit_depth)
-> +		ctx_depth = ctx->bit_depth;
-> +
-> +	fmt_depth = hantro_get_formath_depth(fmt->fourcc);
-> +
-> +	/*
-> +	 * Allow only downconversion for postproc formats for now.
-> +	 * It may be possible to relax that on some HW.
-> +	 */
-> +	if (!fmt->match_depth)
-> +		return fmt_depth <= ctx_depth;
-> +
-> +	return fmt_depth == ctx_depth;
-> +}
-> +
->   static const struct hantro_fmt *
->   hantro_find_format(const struct hantro_ctx *ctx, u32 fourcc)
->   {
-> @@ -91,7 +127,8 @@ hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
->   	formats = hantro_get_formats(ctx, &num_fmts);
->   	for (i = 0; i < num_fmts; i++) {
->   		if (bitstream == (formats[i].codec_mode !=
-> -				  HANTRO_MODE_NONE))
-> +				  HANTRO_MODE_NONE) &&
-> +		    hantro_check_depth_match(ctx, &formats[i]))
->   			return &formats[i];
->   	}
->   	return NULL;
-> @@ -163,11 +200,13 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
->   	formats = hantro_get_formats(ctx, &num_fmts);
->   	for (i = 0; i < num_fmts; i++) {
->   		bool mode_none = formats[i].codec_mode == HANTRO_MODE_NONE;
-> +		fmt = &formats[i];
->   
->   		if (skip_mode_none == mode_none)
->   			continue;
-> +		if (!hantro_check_depth_match(ctx, fmt))
-> +			continue;
->   		if (j == f->index) {
-> -			fmt = &formats[i];
->   			f->pixelformat = fmt->fourcc;
->   			return 0;
->   		}
-> @@ -183,8 +222,11 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
->   		return -EINVAL;
->   	formats = hantro_get_postproc_formats(ctx, &num_fmts);
->   	for (i = 0; i < num_fmts; i++) {
-> +		fmt = &formats[i];
-> +
-> +		if (!hantro_check_depth_match(ctx, fmt))
-> +			continue;
->   		if (j == f->index) {
-> -			fmt = &formats[i];
->   			f->pixelformat = fmt->fourcc;
->   			return 0;
->   		}
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.h b/drivers/staging/media/hantro/hantro_v4l2.h
-> index 18bc682c8556..f4a5905ed518 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.h
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.h
-> @@ -22,5 +22,6 @@ extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
->   extern const struct vb2_ops hantro_queue_ops;
->   
->   void hantro_reset_fmts(struct hantro_ctx *ctx);
-> +int hantro_get_formath_depth(u32 fourcc);
->   
->   #endif /* HANTRO_V4L2_H_ */
+v2 -> v3: Update the changelog text to say everything the commit is doing.
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 04e29e228c1e..1bdbd0971f73 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -5143,17 +5143,9 @@ void link_timer_hdl(struct timer_list *t)
+ 	} else if (pmlmeinfo->state & WIFI_FW_AUTH_STATE) {
+ 		/* re-auth timer */
+ 		if (++pmlmeinfo->reauth_count > REAUTH_LIMIT) {
+-			/* if (pmlmeinfo->auth_algo != dot11AuthAlgrthm_Auto) */
+-			/*  */
+-				pmlmeinfo->state = 0;
+-				report_join_res(padapter, -1);
+-				return;
+-			/*  */
+-			/* else */
+-			/*  */
+-			/* 	pmlmeinfo->auth_algo = dot11AuthAlgrthm_Shared; */
+-			/* 	pmlmeinfo->reauth_count = 0; */
+-			/*  */
++			pmlmeinfo->state = 0;
++			report_join_res(padapter, -1);
++			return;
+ 		}
+ 
+ 		pmlmeinfo->auth_seq = 1;
+-- 
+2.25.1
+
