@@ -1,91 +1,80 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B4028E5
-	for <linux-staging@lists.linux.dev>; Tue,  5 Apr 2022 12:43:45 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id j8so10775499pll.11
-        for <linux-staging@lists.linux.dev>; Tue, 05 Apr 2022 05:43:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=32znQNcCvJk/J0LQPqfBrFopN6gveol4Y5sCPC/EtaM=;
-        b=MZMONg6evm1b06ebf10VUy5qFruE2ufypLDORfiNPGI9Nm0V2d8NKPNfbuYFXbxynU
-         Ew5pEiXL+/KwKou273b4JRujttgweTrjxe1fAy9x5lxWCMC0drqctxQwhyb95FPOLZgA
-         M2GCBt9hNOFC4/fXKhg8UBwwjYM3MxkKj0saUBeRaN6TZeFpC4g51PHtvYi8xJQ6OGra
-         eoa1gHvqGo83aGXxWV+nlgrBMVEmlWLj0Rbn48iMd00FALXO0M21yLmHguVJCwSsKS42
-         ySxbWr3ZrLtYfyGkDI3Ry/aerkx5NxGRDDuG+fXVHARuTb+F1Bn5hI0ft1DrvENkaJ/z
-         XDuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=32znQNcCvJk/J0LQPqfBrFopN6gveol4Y5sCPC/EtaM=;
-        b=YjyCICgtEC6SMG/6Ps2NFG/dfq8p3BzaaD+kW4P5dssdmQ/wt45fx/AzU2rHv1Eeyr
-         /s8K+ikxTbglLVWaGnkfayPeoL8GDKU6NrLYUKSf/DxG3SctQFkI49BLTd+6s0ynbFQ1
-         efY5CYUK7BfK2G+h1qitO0yprK6jqcnVcQGKY4lX+GPuuFJzzF7jnUlS1PKN7oTzxbLC
-         bYgq6mFYcbcOuq4ZPR/EQG609FJYsLA0SkU8X/VUZeSf7fTki4ox+v31g04bMaUXU+GY
-         0ptEbygX59UqRS5r4H+rJmHnDURIaHHXOswCUkwP+EaIGWn5E0blr6YwvFacwRMJjgSJ
-         zZlw==
-X-Gm-Message-State: AOAM533fHPpHTRCEdMyLuTsSBTojSLeGjobwfsWqMUrBxA4b1wA+YjJm
-	pBXa4rD/vZaj51WjVq4yaOQ=
-X-Google-Smtp-Source: ABdhPJzr7+HkHfXYcUBAah+Burhp6afkKXykookxCMdIonn8reMbllmPBZT9DGXRbz4AgS+4r6fW0A==
-X-Received: by 2002:a17:90b:1994:b0:1ca:9b45:405e with SMTP id mv20-20020a17090b199400b001ca9b45405emr3861657pjb.22.1649162625300;
-        Tue, 05 Apr 2022 05:43:45 -0700 (PDT)
-Received: from vihas.localhost.com ([103.85.9.59])
-        by smtp.gmail.com with ESMTPSA id nl17-20020a17090b385100b001c70883f6ccsm2760014pjb.36.2022.04.05.05.43.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 05:43:45 -0700 (PDT)
-From: Vihas Makwana <makvihas@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Pavel Skripkin <paskripkin@gmail.com>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH 3/3] staging: r8188eu: simplify rtw_inc_and_chk_continual_urb_error
-Date: Tue,  5 Apr 2022 18:12:40 +0530
-Message-Id: <20220405124239.3372-4-makvihas@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220405124239.3372-1-makvihas@gmail.com>
-References: <20220405124239.3372-1-makvihas@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0935228E5;
+	Tue,  5 Apr 2022 13:46:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46BB2C385A0;
+	Tue,  5 Apr 2022 13:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1649166367;
+	bh=tEPAy+NbytRr8LPw00hVjTlHe62y4ooPjjnn32amCII=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OyNi6FyvaNdAHMo2HEF5qEjBKMeMUTU3O/vPvFBgdkzXewf1tDQ+QF0VMQIG3TTrx
+	 sr/y65z0al95dQNkLplZ3mcnx9HCK4sJFFf8gQjgzLIJ8sohAxlK86eIHYgOca+g2n
+	 iacvEz+fISPqWVOzWMP3bo8LeSGYymg4P8JaHOFg=
+Date: Tue, 5 Apr 2022 15:45:49 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>,
+	outreachy@lists.linux.dev, phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: r8188eu: Add line after declarations
+Message-ID: <YkxIDdCrJT1rV3SZ@kroah.com>
+References: <860d8e222e2b695ce5cb4f48aa46a7f66e05d8e4.1649082939.git.eng.alaamohamedsoliman.am@gmail.com>
+ <19d8f316e43d16c9341f7fe94e68534cf60cc05c.1649082939.git.eng.alaamohamedsoliman.am@gmail.com>
+ <c8461d9c-dda1-3c1e-0e3b-169073e8c4d0@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c8461d9c-dda1-3c1e-0e3b-169073e8c4d0@lwfinger.net>
 
-The if check and variable "value" is redundant. Drop it and simplify
-the funciton.
+On Mon, Apr 04, 2022 at 01:47:33PM -0500, Larry Finger wrote:
+> On 4/4/22 09:39, Alaa Mohamed wrote:
+> > Reported by checkpatch:
+> > 
+> > WARNING: Missing a blank line after declarations
+> > 
+> > Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+> > ---
+> >   drivers/staging/r8188eu/core/rtw_br_ext.c | 5 +++--
+> >   1 file changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> > index 7c664f80fa99..f7811b46db1c 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> > @@ -313,6 +313,7 @@ void nat25_db_cleanup(struct adapter *priv)
+> >   	for (i = 0; i < NAT25_HASH_SIZE; i++) {
+> >   		struct nat25_network_db_entry *f;
+> > +
+> >   		f = priv->nethash[i];
+> >   		while (f) {
+> >   			struct nat25_network_db_entry *g;
+> > @@ -339,12 +340,12 @@ void nat25_db_expire(struct adapter *priv)
+> >   	for (i = 0; i < NAT25_HASH_SIZE; i++) {
+> >   		struct nat25_network_db_entry *f;
+> > -		f = priv->nethash[i];
+> > +		f = priv->nethash[i];
+> >   		while (f) {
+> >   			struct nat25_network_db_entry *g;
+> > -			g = f->next_hash;
+> > +			g = f->next_hash;
+> >   			if (__nat25_has_expired(f)) {
+> >   				if (atomic_dec_and_test(&f->use_count)) {
+> >   					if (priv->scdb_entry == f) {
+> 
+> Acked_by: Larry Finger <Larry.Finger@lwfinger.net>
+> 
+> That applies to both patches.
 
-Signed-off-by: Vihas Makwana <makvihas@gmail.com>
----
- drivers/staging/r8188eu/include/usb_ops.h | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+b4 doesn't pick this ack up for both patches, you either need to do it
+on the 0/X message, or on each one individually.
 
-diff --git a/drivers/staging/r8188eu/include/usb_ops.h b/drivers/staging/r8188eu/include/usb_ops.h
-index ddc46cb44..c5982704c 100644
---- a/drivers/staging/r8188eu/include/usb_ops.h
-+++ b/drivers/staging/r8188eu/include/usb_ops.h
-@@ -27,12 +27,7 @@
-  */
- static inline bool rtw_inc_and_chk_continual_urb_error(struct dvobj_priv *dvobj)
- {
--	int value = atomic_inc_return(&dvobj->continual_urb_error);
--
--	if (value > MAX_CONTINUAL_URB_ERR)
--		return true;
--
--	return false;
-+	return atomic_inc_return(&dvobj->continual_urb_error) > MAX_CONTINUAL_URB_ERR;
- }
- 
- /*
--- 
-2.30.2
+thanks,
 
+greg k-h
