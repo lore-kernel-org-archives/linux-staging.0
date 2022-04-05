@@ -1,81 +1,85 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45A27C
-	for <linux-staging@lists.linux.dev>; Tue,  5 Apr 2022 09:07:22 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id bq8so25260597ejb.10
-        for <linux-staging@lists.linux.dev>; Tue, 05 Apr 2022 02:07:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F0617D3
+	for <linux-staging@lists.linux.dev>; Tue,  5 Apr 2022 10:49:26 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id p15so25809835ejc.7
+        for <linux-staging@lists.linux.dev>; Tue, 05 Apr 2022 03:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=kJSjygeoIUEg15KEgznSTxJtmLSlX3j99Gbfk4k6bTw=;
-        b=BndCpHbRsWd6v9wYTuGwTQqEPbjP9eHNrRdtXrSGV8fG9UcpEcQ/yBmITbPMTE4+qm
-         sd6oJWbX1cCsjwY4F1Zmbei5RtCpG0eoriiJbERYskO8uAWG5dlcDnrtWhjAKvCDoZ9u
-         lmIaOv2I9muviE18eVTGJ10lQhNx6gE1arefCmnKLIXDoSaS/cvb+DxGhJCK8ZySH7lP
-         9eXGOIlDWyeyDCDmyuStxkgBcG/06bJMGSN/aI30KG6h7s1/TCvR473Fs6Q/c2xWepL5
-         YQNJaocsIHdlEDjig/56mixNPFNePdh0sbIzBj0g/MkffXf1EOx3u5Ipk8QQvkvau86f
-         8ERg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7577hiEEV60XWnU+gm9ig1vjqa65ibu1AZU+K7+N5IQ=;
+        b=E+cn+nYJ0eiXQPg7n4oHQaZOzpWn0DzsXu6Eyo8UPMxYDv6mVqQAQ7PPnro/TdPijA
+         FB1YZYILpwko9Q603p48/DJrOPcBcCeYTQ1UrV8uvnGf8Qucx/2jh63VT2P/ouJudb3I
+         I8mXgcTc9T0+Cm5E8ug6Kwn5INkDW2q1bP93Qvigi9QClBrc7nDrxhKPVKQtZVUZWEiB
+         P4yLWkpWOfLcwXk+dj6s8iIJf+D/mY31Y7nQaFBefs/LxtcstHiq13dkfdiaEo8NAIeL
+         9P87QqFuF8mH9xpKuQ0yql9arUlaCMOPWvOKgYhpyVaooeRb8dp5W0Sw6RKNYr655mz6
+         DfhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=kJSjygeoIUEg15KEgznSTxJtmLSlX3j99Gbfk4k6bTw=;
-        b=lnuvyMqqnWfaR0mom69b8e7Jp7VePTN1JP4GjqUHKFmkHvpu/UZm9iOW2ZBEBpO/vp
-         AoWxebPdUFHbyWF039PJ/1JH5rm00Ygf/s7lv9cxvi5OuqVJKSkVW24czT5QV5vOKenh
-         6PcXfaan2YbYlWjY6/FuEQRl5oTiNx0caWV5t9c+KgRU/y172Ri/t7ypYSK9aqTAyLWt
-         axKbVRL5P9KoBguOEeCV4kwbIzx2xpg8GXiBRUv3ObIB3BO5ebZyhz5zhTTJRsRUuUJa
-         J3t5vxCcC3mzy96mGYTaiTR5Uim5Yq9woIVRwOYc8zTTrT1mUv49LZ9mSCDGHXJuuWoH
-         2pnQ==
-X-Gm-Message-State: AOAM531hW1J4pOmToCrXVonkg+nSGpnHpeAKhUqwkD2F21KmEgJZn0WF
-	ht8rBYc19GQLJ0YlIeJukCo=
-X-Google-Smtp-Source: ABdhPJw9/2/4/0IARD1YEes9d1GNkT6ZQG5MG5TlQjfRSVS5zf4flLb6Q+lHMSGG8wYs+xRWXowjTA==
-X-Received: by 2002:a17:907:96a9:b0:6e0:db4a:ba8d with SMTP id hd41-20020a17090796a900b006e0db4aba8dmr2536171ejc.87.1649149641139;
-        Tue, 05 Apr 2022 02:07:21 -0700 (PDT)
-Received: from [192.168.0.151] (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id q15-20020a1709060e4f00b006cdf4535cf2sm5314719eji.67.2022.04.05.02.07.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Apr 2022 02:07:20 -0700 (PDT)
-Message-ID: <5420967d-5007-8ca7-7a8d-124b9ad96905@gmail.com>
-Date: Tue, 5 Apr 2022 11:07:19 +0200
+        bh=7577hiEEV60XWnU+gm9ig1vjqa65ibu1AZU+K7+N5IQ=;
+        b=tsOjtBmmOli1bA7TSuaD6nrBt+8sUgeflEW+6rXl4SD6gY/EdqHOtes0hbNkYc6Yja
+         TEzyogItWzdbwnO8ZpW0gmjzdLJFKmijmog4gFvAZeizjzevJNCyayEuF1QSqLnzkHME
+         Xlk4VLHQ9ah8Eo9f85sAy757LRQUVtqB40GVf0vTCuZRChMlVfhIMVpOYCjj3v9ljlY9
+         +6+6wc2omO7WDKBEE44Zcc7ToZQhjyDA4UTu8URBFtM2qJJDT3ZGSUvKlWLJLK08/LRr
+         920UbO1C+Eh2X4YV0/vgYwKUrRCshGwCTx9Ro8oZEQR2RpOaLZHTgzOoCGxyuIHEDbnJ
+         S6RA==
+X-Gm-Message-State: AOAM532kqEjQmxUr8v9y0Tv0IwSVyGRCcpM9kh+7v24r711ZPqFpUst5
+	gDgvyp6W1ExY0S5JqZw2/c0=
+X-Google-Smtp-Source: ABdhPJzlWvczrjaKZjKGrm8PwiUl7ri7bCRqBl55s3ADRN2o7JLvUjYq6wkv+QrsdJTIEZtmGbh2Qw==
+X-Received: by 2002:a17:906:9b8f:b0:6db:ab62:4713 with SMTP id dd15-20020a1709069b8f00b006dbab624713mr2905921ejc.738.1649155765362;
+        Tue, 05 Apr 2022 03:49:25 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
+        by smtp.gmail.com with ESMTPSA id j12-20020a50e0cc000000b0041cd813ac01sm2436702edl.28.2022.04.05.03.49.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Apr 2022 03:49:24 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH v2 0/4] staging: r8188eu: remove GetHalDefVar8188EUsb()
+Date: Tue,  5 Apr 2022 12:49:06 +0200
+Message-Id: <20220405104910.9769-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/5] staging: r8188eu: remove HAL_DEF_IS_SUPPORT_ANT_DIV
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220403165255.6900-1-straube.linux@gmail.com>
- <20220403165255.6900-2-straube.linux@gmail.com> <YksBcUBXbgzXmEBO@kroah.com>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <YksBcUBXbgzXmEBO@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+This series removes the function GetHalDefVar8188EUsb(). This is part
+of the ongoing effort to get rid of the unwanted hal layer.
 
-On 4/4/22 16:32, Greg KH wrote:
->> +bool support_ant_div(struct adapter *adapter)
-> 
-> That's a very odd function name to add to the kernel's global namespace
-> :(
-> 
-> Pleas emake it more obvious what this is for, with the driver name as
-> part of the prefix?
-> 
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Looking again at this I notice it can be made a static function in 
-rtw_cmd.c.
+v2:
+- remove dead code first
+- use better function names
+- make one function static
 
-I'll rework the series and make the function static with a more
-descriptive name.
+Michael Straube (4):
+  staging: r8188eu: cur_ant is set but never used
+  staging: r8188eu: remove HAL_DEF_IS_SUPPORT_ANT_DIV
+  staging: r8188eu: remove HAL_DEF_CURRENT_ANTENNA
+  staging: r8188eu: remove GetHalDefVar8188EUsb()
 
-thanks,
-Michael
+ drivers/staging/r8188eu/core/rtw_cmd.c       | 11 ++++++++---
+ drivers/staging/r8188eu/core/rtw_mlme.c      | 19 ++++++++++---------
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c  |  2 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c    | 20 --------------------
+ drivers/staging/r8188eu/include/hal_intf.h   |  3 ---
+ drivers/staging/r8188eu/include/rtw_mlme.h   |  2 ++
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c |  8 +-------
+ 7 files changed, 22 insertions(+), 43 deletions(-)
+
+-- 
+2.35.1
+
