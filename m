@@ -1,95 +1,178 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEA37A;
-	Tue,  5 Apr 2022 15:09:19 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id o15so10114100qtv.8;
-        Tue, 05 Apr 2022 08:09:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=YZkbL+GyCYshGd2SxK7PvgiiaFokGhdvBjFhAiL3mJE=;
-        b=ZJO9yRZp6P90RZT3XEvaUufFTHnVskvsXvvmkYd9SwzpPfgQ/EG7qq7XxWlnwiAWZo
-         P87Oj4KT6pQfjRrCT+DpXN5an1xn0JKcq13+wFXorFDrN7JcfMlNb5TWDfnUUdJj1+am
-         u/COgwXV/FL5IXcjkoE6ZJu8OXTt34vQyZjsGz7DWRMSrtnX1PJo/os3xrYpXg42KcBN
-         rnZO8Lts3yrMffecZZBrIk1/RZKUlrubFkJjuldbUXB5gB1TdX70eAdcZucVRfiMem6K
-         NbNXuSftzcBcc6NzXtkTRUFZo31VAtvKDKOAFFPu01z1GS0yn8EcAeqkhmn3robIPMwE
-         rSuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=YZkbL+GyCYshGd2SxK7PvgiiaFokGhdvBjFhAiL3mJE=;
-        b=QyIbQNKrBKKLSjqivRwzxmCR+OVQc0BZS+/jLO0sFJ8SzdH2YwLviSh3gT08RXmF6l
-         klFMJGrOzhuDqLkSsenWz+kbROLcAIJOOsC0WbiPhb/Uc8dlfIirZl4XDWrn35sQz/NZ
-         r9Oic9gjtIemheNmtsY/VKXvB1AhpddzZyxiUGqH0y0uKfglmRI5N/PVz69eKBhhpjfE
-         aNhF83CAvW+tFxW62kYsgiC55eXbbwErYPqgBqvFexXK7TTo8xqqR2ckburnrqolPjsQ
-         ougUatWZ0jyM3uclyayU8dT+kAscksSUG0kFV5pUUJ4M0pEZStcxAvHLb+CwtyZJ4TSX
-         z0AQ==
-X-Gm-Message-State: AOAM533e4AQ/pUzNd4rYSDJVitJSKFUKywIaa2aZg9NTTZ/Bhva0fib/
-	brTfGu6rngFa2l6eXGxdyZE=
-X-Google-Smtp-Source: ABdhPJzBcKEnmfMxzO4pTwXmDLNbb647BPIfA5UOISMSbZI4aCTntBXAPD1cj/qU/bDGmO4X+wqKOQ==
-X-Received: by 2002:a05:620a:4612:b0:67e:be08:b079 with SMTP id br18-20020a05620a461200b0067ebe08b079mr2633660qkb.422.1649171358837;
-        Tue, 05 Apr 2022 08:09:18 -0700 (PDT)
-Received: from euclid ([71.58.109.160])
-        by smtp.gmail.com with ESMTPSA id n8-20020ac85a08000000b002e06aa02021sm11266239qta.49.2022.04.05.08.09.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 08:09:18 -0700 (PDT)
-Date: Tue, 5 Apr 2022 11:09:12 -0400
-From: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: [PATCH v2] staging: rtl8723bs: fix indentation
-Message-ID: <20220405150912.GA625670@euclid>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8883A7A
+	for <linux-staging@lists.linux.dev>; Tue,  5 Apr 2022 15:11:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: nicolas)
+	with ESMTPSA id 14BC11F450DD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649171468;
+	bh=D+PPyG+d8bSZBQUHvuUVVhH3F9DHPinWPY0RxBOGLSk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=fXHyX2PGLz0ROYpReWRUYVsjVnAwYs4vGBfotmSL/S9PIaEyt6ZIvhSApwIsBmKNq
+	 u5HY49fCocaxlJF+2UNGHXJdHdioG6Tbxdnd7Z/E0SAMQODKgYIzrLsMRI+gghk96s
+	 5OLzd5Yt6pPZzXW+U8m1u+3hbk6iUTt9PWDaKT195nwD9pJE1GAafVEzuW6OuiCrY6
+	 d+GKTUpMH3nsIEeGyC2tKIGM8RRuy5Dfm1JgzFP+S7vM7Kjj2slaYaFvlu4NZlXHmd
+	 Fjlf7E0rFIbcgVx+gQQji44T+NHsmwh6QRGBJXBGuqzo0Q7MQvYKvdexH6nzhfa7wL
+	 N6TFMwTeJ9ArQ==
+Message-ID: <92001085580ac1005596b34f79f1dadcc4b3f3c9.camel@collabora.com>
+Subject: Re: [PATCH v2 13/23] media: rkvdec: h264: Fix dpb_valid
+ implementation
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>, kernel@collabora.com, Sebastian Fricke
+	 <sebastian.fricke@collabora.com>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 05 Apr 2022 11:10:57 -0400
+In-Reply-To: <YkgwmwTMa83RysKB@eze-laptop>
+References: <20220331193726.289559-1-nicolas.dufresne@collabora.com>
+	 <20220331193726.289559-14-nicolas.dufresne@collabora.com>
+	 <YkgwmwTMa83RysKB@eze-laptop>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Adhere to Linux kernel coding style.
+Le samedi 02 avril 2022 =C3=A0 08:16 -0300, Ezequiel Garcia a =C3=A9crit=C2=
+=A0:
+> On Thu, Mar 31, 2022 at 03:37:15PM -0400, Nicolas Dufresne wrote:
+> > The ref builder only provided references that are marked as valid in th=
+e
+> > dpb. Thus the current implementation of dpb_valid would always set the
+> > flag to 1. This is not representing missing frames (this is called
+> > 'non-existing' pictures in the spec). In some context, these non-existi=
+ng
+> > pictures still need to occupy a slot in the reference list according to
+> > the spec.
+> >=20
+>=20
+> Good catch! OOC, did you find this because it was failing a test vector?
 
-Reported by checkpatch:
+The effect is complex, so I could not correlate to specific tests. Also, wh=
+at I
+wanted to fix isn't covered by the ITU conformance, its mostly resiliance
+requirement. But this should remove some of the IOMMU fault on broken strea=
+ms
+and make it less likely to use references that don't exists or aren't set w=
+hat
+we expect. After this change, the driver was getting more stable, and resul=
+ts
+was also more reproducible (specially in parallel decode case, which I use =
+to
+speed up testing).
 
-WARNING: suspect code indent for conditional statements
+>=20
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>=20
+> Fixes: cd33c830448ba ("media: rkvdec: Add the rkvdec driver")
+> Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-Signed-off-by: Sevinj Aghayeva <sevinj.aghayeva@gmail.com>
----
+Thanks for the review.
 
-v1 -> v2: Remove the comments that became irrelevant with proper indentation.
-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 04e29e228c1e..1bdbd0971f73 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -5143,17 +5143,9 @@ void link_timer_hdl(struct timer_list *t)
- 	} else if (pmlmeinfo->state & WIFI_FW_AUTH_STATE) {
- 		/* re-auth timer */
- 		if (++pmlmeinfo->reauth_count > REAUTH_LIMIT) {
--			/* if (pmlmeinfo->auth_algo != dot11AuthAlgrthm_Auto) */
--			/*  */
--				pmlmeinfo->state = 0;
--				report_join_res(padapter, -1);
--				return;
--			/*  */
--			/* else */
--			/*  */
--			/* 	pmlmeinfo->auth_algo = dot11AuthAlgrthm_Shared; */
--			/* 	pmlmeinfo->reauth_count = 0; */
--			/*  */
-+			pmlmeinfo->state = 0;
-+			report_join_res(padapter, -1);
-+			return;
- 		}
- 
- 		pmlmeinfo->auth_seq = 1;
--- 
-2.25.1
+>=20
+> Thanks,
+> Ezequiel
+>=20
+> > ---
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 33 ++++++++++++++++------
+> >  1 file changed, 24 insertions(+), 9 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
+ng/media/rkvdec/rkvdec-h264.c
+> > index dff89732ddd0..bcde37d72244 100644
+> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > @@ -112,6 +112,7 @@ struct rkvdec_h264_run {
+> >  	const struct v4l2_ctrl_h264_sps *sps;
+> >  	const struct v4l2_ctrl_h264_pps *pps;
+> >  	const struct v4l2_ctrl_h264_scaling_matrix *scaling_matrix;
+> > +	int ref_buf_idx[V4L2_H264_NUM_DPB_ENTRIES];
+> >  };
+> > =20
+> >  struct rkvdec_h264_ctx {
+> > @@ -725,6 +726,26 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx=
+,
+> >  	}
+> >  }
+> > =20
+> > +static void lookup_ref_buf_idx(struct rkvdec_ctx *ctx,
+> > +			       struct rkvdec_h264_run *run)
+> > +{
+> > +	const struct v4l2_ctrl_h264_decode_params *dec_params =3D run->decode=
+_params;
+> > +	u32 i;
+> > +
+> > +	for (i =3D 0; i < ARRAY_SIZE(dec_params->dpb); i++) {
+> > +		struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
+> > +		const struct v4l2_h264_dpb_entry *dpb =3D run->decode_params->dpb;
+> > +		struct vb2_queue *cap_q =3D &m2m_ctx->cap_q_ctx.q;
+> > +		int buf_idx =3D -1;
+> > +
+> > +		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+> > +			buf_idx =3D vb2_find_timestamp(cap_q,
+> > +						     dpb[i].reference_ts, 0);
+> > +
+> > +		run->ref_buf_idx[i] =3D buf_idx;
+> > +	}
+> > +}
+> > +
+> >  static void assemble_hw_rps(struct rkvdec_ctx *ctx,
+> >  			    struct rkvdec_h264_run *run)
+> >  {
+> > @@ -762,7 +783,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
+> > =20
+> >  	for (j =3D 0; j < RKVDEC_NUM_REFLIST; j++) {
+> >  		for (i =3D 0; i < h264_ctx->reflists.num_valid; i++) {
+> > -			u8 dpb_valid =3D 0;
+> > +			bool dpb_valid =3D run->ref_buf_idx[i] >=3D 0;
+> >  			u8 idx =3D 0;
+> > =20
+> >  			switch (j) {
+> > @@ -779,8 +800,6 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
+> > =20
+> >  			if (idx >=3D ARRAY_SIZE(dec_params->dpb))
+> >  				continue;
+> > -			dpb_valid =3D !!(dpb[idx].flags &
+> > -				       V4L2_H264_DPB_ENTRY_FLAG_ACTIVE);
+> > =20
+> >  			set_ps_field(hw_rps, DPB_INFO(i, j),
+> >  				     idx | dpb_valid << 4);
+> > @@ -859,13 +878,8 @@ get_ref_buf(struct rkvdec_ctx *ctx, struct rkvdec_=
+h264_run *run,
+> >  	    unsigned int dpb_idx)
+> >  {
+> >  	struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
+> > -	const struct v4l2_h264_dpb_entry *dpb =3D run->decode_params->dpb;
+> >  	struct vb2_queue *cap_q =3D &m2m_ctx->cap_q_ctx.q;
+> > -	int buf_idx =3D -1;
+> > -
+> > -	if (dpb[dpb_idx].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
+> > -		buf_idx =3D vb2_find_timestamp(cap_q,
+> > -					     dpb[dpb_idx].reference_ts, 0);
+> > +	int buf_idx =3D run->ref_buf_idx[dpb_idx];
+> > =20
+> >  	/*
+> >  	 * If a DPB entry is unused or invalid, address of current destinatio=
+n
+> > @@ -1102,6 +1116,7 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx=
+)
+> > =20
+> >  	assemble_hw_scaling_list(ctx, &run);
+> >  	assemble_hw_pps(ctx, &run);
+> > +	lookup_ref_buf_idx(ctx, &run);
+> >  	assemble_hw_rps(ctx, &run);
+> >  	config_registers(ctx, &run);
+> > =20
+> > --=20
+> > 2.34.1
+> >=20
 
