@@ -1,69 +1,114 @@
-Received: from relay.hostedemail.com (relay.hostedemail.com [64.99.140.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6493D33EA;
-	Wed,  6 Apr 2022 18:44:11 +0000 (UTC)
-Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 07CFB2A7F6;
-	Wed,  6 Apr 2022 18:08:59 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf18.hostedemail.com (Postfix) with ESMTPA id 783B831;
-	Wed,  6 Apr 2022 18:08:57 +0000 (UTC)
-Message-ID: <963000ce7e7c8f94697be460441747f25f9247cb.camel@perches.com>
-Subject: Re: [PATCH] staging: rtl8712: remove Unnecessary parentheses
-From: Joe Perches <joe@perches.com>
-To: Julia Lawall <julia.lawall@inria.fr>, Alaa Mohamed
-	 <eng.alaamohamedsoliman.am@gmail.com>
-Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net, 
-	florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Wed, 06 Apr 2022 11:08:54 -0700
-In-Reply-To: <alpine.DEB.2.22.394.2204061735340.2349@hadrien>
-References: <20220406152858.14076-1-eng.alaamohamedsoliman.am@gmail.com>
-	 <alpine.DEB.2.22.394.2204061735340.2349@hadrien>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF7333EA
+	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 19:22:23 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id h11so4611336ljb.2
+        for <linux-staging@lists.linux.dev>; Wed, 06 Apr 2022 12:22:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=IY7OoR//ShblW6kyrlBUUrXswtml+giyXaUgcmjOBHM=;
+        b=cZSnajyumhDtwlZYKn5Kp6i7W3fmPF/lT40N9AKwMp/3M4ctrp/0elgIYKElOlxYuJ
+         dNwH7Xt/YjA9YFJYQ/6E2NkeEqjGU4UX7Ic2yIEv1U7Dsqxo9sSeWgbFz3MhUtEYojyf
+         9nYNiTrRwNhm61lkiu2KM/0xw9MS2ds35jIRMGBXsE2q3WmA0HZbgowV8BeWg7zNNpCf
+         xnduV0oNV5ZsyxbKgEI4Fvh0D/wHCwPG4Cw7l+3CdHiEueTN5CCjWSM4Z7vwIh9vUEH4
+         5FqsIL7t577nlmGFq/yDI0ari3NiRHdubB4D+MLsew7XiY6oM0EEsrE/YE9JU43Xdaa7
+         xxzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=IY7OoR//ShblW6kyrlBUUrXswtml+giyXaUgcmjOBHM=;
+        b=m9M/EnDeLureWSocrdEaJkEOrYMZ5aBBvFILVJj4mOD2LSziXAJrBBKGU7wKUGuUMS
+         wg8McXoldC2JqCkQKhdtoeSVZIU6m1/n5pzmiViohyqnqldmYIIHrtSqZOgxkJuaIIgD
+         YeigIP6kKbhlnJlmcvfXo/EtPSlq/0SzKTOPOMSqSYUu5/tmObFn/hlGBPRxXms5oZp6
+         8e+m+zg7p/izK4TDeA0TPf/vKAYERo0+Fb9ooWKg4LK8IkmnFd0ac55IRqCIqzQQ5u3E
+         4tGu0+ODctUEE1EAqYT4LtLuH52QoJh+cbhlvUrb2YlRrHXDnNBRz7r69BD/PmGN9eGU
+         wSzA==
+X-Gm-Message-State: AOAM531x+UYnvpM6aFAevzCf6lUEkzxcSzKDLSAhnPdlORqZSdIQ7gMD
+	Ah4x3xVxcrXgwiSfvobeI9o=
+X-Google-Smtp-Source: ABdhPJxxrgebjuuBB7dcPiuGRipD55DeXg8mm2ww5jZSdBNZmrcUrW0k92dF38UmLa84zsunOxtpbA==
+X-Received: by 2002:a2e:bd09:0:b0:247:e127:5e05 with SMTP id n9-20020a2ebd09000000b00247e1275e05mr6239533ljq.212.1649272941671;
+        Wed, 06 Apr 2022 12:22:21 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.247])
+        by smtp.gmail.com with ESMTPSA id h23-20020a056512339700b0044a15d1c6adsm1919834lfg.26.2022.04.06.12.22.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Apr 2022 12:22:21 -0700 (PDT)
+Message-ID: <9c307f1e-aa95-08e6-3a01-825caba19a30@gmail.com>
+Date: Wed, 6 Apr 2022 22:22:19 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 2/2] staging: r8188eu: check the return of kzalloc()
+Content-Language: en-US
+To: xkernel.wang@foxmail.com, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <tencent_5AB92A7786438342357C5669E7BF0C249505@qq.com>
+ <tencent_15C23F2EC8197361EE200714C54E78B45206@qq.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <tencent_15C23F2EC8197361EE200714C54E78B45206@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=0.33
-X-Stat-Signature: 7ebx3n8azbfjsxn1qbw3dag7hmyo373w
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 783B831
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19eR1puJVlPgSNNQQO83yH/i+xmSYM57Ko=
-X-HE-Tag: 1649268537-592042
 
-On Wed, 2022-04-06 at 17:37 +0200, Julia Lawall wrote:
-> If you want to capitalize something in the subject, it could be the first
-> word.  Capitalizing the second word is a bit strange.
+Hi Xkernel,
+
+On 4/6/22 07:30, xkernel.wang@foxmail.com wrote:
+> From: Xiaoke Wang <xkernel.wang@foxmail.com>
 > 
-> On Wed, 6 Apr 2022, Alaa Mohamed wrote:
+> kzalloc() is a memory allocation function which can return NULL when
+> some internal memory errors happen. So it is better to handle the return
+> of it to prevent potential wrong memory access.
 > 
-> > Reported by checkpatch:
-> > 
-> > CHECK: Unnecessary parentheses
+> Besides, to propagate the error to the caller, the type of
+> rtw_alloc_hwxmits() is changed and another check is added in its caller.
+> Then if kzalloc() fails, the caller will properly jump to the
+> corresponding error hanlding code.
 > 
-> Indicating that the problem was detected by checkpatch is good.  But
-> actually, the parentheses all have the same property.  So you could use
-> the log message to describe what kind of unnecessary parentheses were
-> removed.  That would help the maintainer know what to look for.
-[]
+> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+> ---
+> ChangeLog:
+> v1->v2 update the description and adjust the sequence of patches.
+>   drivers/staging/r8188eu/core/rtw_xmit.c    | 10 ++++++++--
+>   drivers/staging/r8188eu/include/rtw_xmit.h |  2 +-
+>   2 files changed, 9 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+> index 865b2fc..92a1ad3 100644
+> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
+> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+> @@ -176,7 +176,9 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+>   
+>   	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
+>   
+> -	rtw_alloc_hwxmits(padapter);
+> +	res = rtw_alloc_hwxmits(padapter);
+> +	if (res == _FAIL)
+> +		goto free_xmit_extbuf;
+>   	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
+>   
+>   	for (i = 0; i < 4; i++)
+> @@ -1490,7 +1492,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
+>   	return res;
+>   }
+>   
+> -void rtw_alloc_hwxmits(struct adapter *padapter)
+> +s32 rtw_alloc_hwxmits(struct adapter *padapter)
+>   {
 
-> > diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-[]
-> > @@ -82,9 +82,9 @@ static inline void handle_pairwise_key(struct sta_info *psta,
-> >  	       (param->u.crypt. key_len > 16 ? 16 : param->u.crypt.key_len));
-> >  	if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
-> >  		memcpy(psta->tkiptxmickey. skey,
+What about plain 'int'? I know that s32 is typedef for 'int', but 'int' 
+looks more natural
 
-Also, the space after the periods here are not great either.
-
-		memcpy(psta->tkiptxmickey. skey,
-vs
-		memcpy(psta->tkiptxmickey.skey,
+just my 2c,
 
 
+With regards,
+Pavel Skripkin
