@@ -1,114 +1,139 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF7333EA
-	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 19:22:23 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id h11so4611336ljb.2
-        for <linux-staging@lists.linux.dev>; Wed, 06 Apr 2022 12:22:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0E233F8
+	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 20:36:26 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id hu11so3232744qvb.7
+        for <linux-staging@lists.linux.dev>; Wed, 06 Apr 2022 13:36:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=IY7OoR//ShblW6kyrlBUUrXswtml+giyXaUgcmjOBHM=;
-        b=cZSnajyumhDtwlZYKn5Kp6i7W3fmPF/lT40N9AKwMp/3M4ctrp/0elgIYKElOlxYuJ
-         dNwH7Xt/YjA9YFJYQ/6E2NkeEqjGU4UX7Ic2yIEv1U7Dsqxo9sSeWgbFz3MhUtEYojyf
-         9nYNiTrRwNhm61lkiu2KM/0xw9MS2ds35jIRMGBXsE2q3WmA0HZbgowV8BeWg7zNNpCf
-         xnduV0oNV5ZsyxbKgEI4Fvh0D/wHCwPG4Cw7l+3CdHiEueTN5CCjWSM4Z7vwIh9vUEH4
-         5FqsIL7t577nlmGFq/yDI0ari3NiRHdubB4D+MLsew7XiY6oM0EEsrE/YE9JU43Xdaa7
-         xxzA==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=iVD51S2fZB/T43/yzpgAein+LxkO4Y3OqFseZyJMNZY=;
+        b=wIJ8NfE+AUWtM7lH+STs2g9OB2TaiQtjIGgsEZBrh+stbAhC7caz0JwPUkoIZGBlrs
+         LB1DrPwrXYi0rIY7X35P/zoqWV7fHvjo7aRUMs4TyMz6S/vFUghNVJsR3/tEqYaWbeIS
+         SpSzxsCOvUNm/1PF0AI/mVEvKzQZuddwJpTN/xCCPEwtKXsE8pXWY9SDXnRGt7hd+v5d
+         7aVh+a6lRIdvCCaTyTO3bvNDQa8edsj39IO4UFF22UDLrQkDlAZSf+4U3HgEfZo+IVo2
+         A/ZuTqF9mp4LAlL/TjngKMj4c7waWzoSFDpDwXInm8b9twE/3nTPedXH8SU6BjtHTO0m
+         X7tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=IY7OoR//ShblW6kyrlBUUrXswtml+giyXaUgcmjOBHM=;
-        b=m9M/EnDeLureWSocrdEaJkEOrYMZ5aBBvFILVJj4mOD2LSziXAJrBBKGU7wKUGuUMS
-         wg8McXoldC2JqCkQKhdtoeSVZIU6m1/n5pzmiViohyqnqldmYIIHrtSqZOgxkJuaIIgD
-         YeigIP6kKbhlnJlmcvfXo/EtPSlq/0SzKTOPOMSqSYUu5/tmObFn/hlGBPRxXms5oZp6
-         8e+m+zg7p/izK4TDeA0TPf/vKAYERo0+Fb9ooWKg4LK8IkmnFd0ac55IRqCIqzQQ5u3E
-         4tGu0+ODctUEE1EAqYT4LtLuH52QoJh+cbhlvUrb2YlRrHXDnNBRz7r69BD/PmGN9eGU
-         wSzA==
-X-Gm-Message-State: AOAM531x+UYnvpM6aFAevzCf6lUEkzxcSzKDLSAhnPdlORqZSdIQ7gMD
-	Ah4x3xVxcrXgwiSfvobeI9o=
-X-Google-Smtp-Source: ABdhPJxxrgebjuuBB7dcPiuGRipD55DeXg8mm2ww5jZSdBNZmrcUrW0k92dF38UmLa84zsunOxtpbA==
-X-Received: by 2002:a2e:bd09:0:b0:247:e127:5e05 with SMTP id n9-20020a2ebd09000000b00247e1275e05mr6239533ljq.212.1649272941671;
-        Wed, 06 Apr 2022 12:22:21 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.247])
-        by smtp.gmail.com with ESMTPSA id h23-20020a056512339700b0044a15d1c6adsm1919834lfg.26.2022.04.06.12.22.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Apr 2022 12:22:21 -0700 (PDT)
-Message-ID: <9c307f1e-aa95-08e6-3a01-825caba19a30@gmail.com>
-Date: Wed, 6 Apr 2022 22:22:19 +0300
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=iVD51S2fZB/T43/yzpgAein+LxkO4Y3OqFseZyJMNZY=;
+        b=E9weDD/Cbe7FfrgCngQOkOpItl4IfB6PuDuGKEhgg8k/2mf+sezUIVbTBKdd1g5rqX
+         1LHX279DF3DEC+8xh33H/2g31BLbGE0z56ehN5oJRe5eRGD64ZBrNY7IxEpNORqva40P
+         SY8SX3XxpPSfCKqS/cZeilYWH5dW8Bmfzf1EKyQfCeMxJ/jOOoYZ6AyZgMLESG1e7hXT
+         hGz88gdlTH8cq0neRPGTdd/lh6L8F7EaKriD8AKFMWL7m6JPgCN2VWH37Nqcqfjnslsn
+         w9MhS5OSRKeO/qOc4f5vD1sE0HxvMR2SIRb8m55vCBrlBmlsFVQ6lbviOrClkJ4hTqO1
+         OQ0Q==
+X-Gm-Message-State: AOAM531n1w4V7ocam00YDYqRz/WOdQfkdhUFn8q7HdFnpiPoZw+qd5G3
+	bkwiNfpq0jvGZ9bzY+vYLFPZmA==
+X-Google-Smtp-Source: ABdhPJyoTFpHdhAeiRuppAcSOH9NzY3ELjSpzTBbQkgV2JktrDoVuHlUfQFgR+UzclY5mKXxVmknUQ==
+X-Received: by 2002:a05:6214:508a:b0:440:f824:3d55 with SMTP id kk10-20020a056214508a00b00440f8243d55mr9112081qvb.26.1649277385279;
+        Wed, 06 Apr 2022 13:36:25 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id e15-20020a05622a110f00b002e1ed105652sm12804883qty.2.2022.04.06.13.36.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Apr 2022 13:36:24 -0700 (PDT)
+Message-ID: <ace60e1553ca73997f454ccea12c4540cddd3dc8.camel@ndufresne.ca>
+Subject: Re: [PATCH v4 14/15] media: uapi: Change data_bit_offset definition
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+  ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, 
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
+ jonas@kwiboo.se
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com, 
+	jc@kynesim.co.uk
+Date: Wed, 06 Apr 2022 16:36:17 -0400
+In-Reply-To: <20220228140838.622021-15-benjamin.gaignard@collabora.com>
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+	 <20220228140838.622021-15-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/2] staging: r8188eu: check the return of kzalloc()
-Content-Language: en-US
-To: xkernel.wang@foxmail.com, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <tencent_5AB92A7786438342357C5669E7BF0C249505@qq.com>
- <tencent_15C23F2EC8197361EE200714C54E78B45206@qq.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <tencent_15C23F2EC8197361EE200714C54E78B45206@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi Xkernel,
-
-On 4/6/22 07:30, xkernel.wang@foxmail.com wrote:
-> From: Xiaoke Wang <xkernel.wang@foxmail.com>
-> 
-> kzalloc() is a memory allocation function which can return NULL when
-> some internal memory errors happen. So it is better to handle the return
-> of it to prevent potential wrong memory access.
-> 
-> Besides, to propagate the error to the caller, the type of
-> rtw_alloc_hwxmits() is changed and another check is added in its caller.
-> Then if kzalloc() fails, the caller will properly jump to the
-> corresponding error hanlding code.
-> 
-> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+Le lundi 28 f=C3=A9vrier 2022 =C3=A0 15:08 +0100, Benjamin Gaignard a =C3=
+=A9crit=C2=A0:
+> 'F.7.3.6.1 General slice segment header syntax' section of HEVC
+> specification describes that a slice header always end byte aligned,
+> therefore we only need to provide the data offset in byte.
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > ---
-> ChangeLog:
-> v1->v2 update the description and adjust the sequence of patches.
->   drivers/staging/r8188eu/core/rtw_xmit.c    | 10 ++++++++--
->   drivers/staging/r8188eu/include/rtw_xmit.h |  2 +-
->   2 files changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-> index 865b2fc..92a1ad3 100644
-> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
-> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-> @@ -176,7 +176,9 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
->   
->   	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
->   
-> -	rtw_alloc_hwxmits(padapter);
-> +	res = rtw_alloc_hwxmits(padapter);
-> +	if (res == _FAIL)
-> +		goto free_xmit_extbuf;
->   	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
->   
->   	for (i = 0; i < 4; i++)
-> @@ -1490,7 +1492,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
->   	return res;
->   }
->   
-> -void rtw_alloc_hwxmits(struct adapter *padapter)
-> +s32 rtw_alloc_hwxmits(struct adapter *padapter)
->   {
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
+>  include/media/hevc-ctrls.h                                | 4 ++--
+>  3 files changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 1aa2a7399e76..c8602c1e706e 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2986,8 +2986,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>        - ``bit_size``
+>        - Size (in bits) of the current slice data.
+>      * - __u32
+> -      - ``data_bit_offset``
+> -      - Offset (in bits) to the video data in the current slice data.
+> +      - ``data_byte_offset``
+> +      - Offset (in bytes) to the video data in the current slice data.
+>      * - __u32
+>        - ``num_entry_point_offsets``
+>        - Specifies the number of entry point offset syntax elements in th=
+e slice header.
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h265.c
+> index 8ab2d9c6f048..3e43b7cc2f57 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -405,7 +405,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>  	/* Initialize bitstream access. */
+>  	cedrus_write(dev, VE_DEC_H265_TRIGGER, VE_DEC_H265_TRIGGER_INIT_SWDEC);
+> =20
+> -	cedrus_h265_skip_bits(dev, slice_params->data_bit_offset);
+> +	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset / 8);
 
-What about plain 'int'? I know that s32 is typedef for 'int', but 'int' 
-looks more natural
+Did you mean the following instead ?
 
-just my 2c,
++	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8);
 
+> =20
+>  	/* Bitstream parameters. */
+> =20
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index c50205083573..51bdf38ea0c3 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -296,7 +296,7 @@ struct v4l2_hevc_pred_weight_table {
+>   * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+>   *
+>   * @bit_size: size (in bits) of the current slice data
+> - * @data_bit_offset: offset (in bits) to the video data in the current s=
+lice data
+> + * @data_byte_offset: offset (in bytes) to the video data in the current=
+ slice data
+>   * @num_entry_point_offsets: specifies the number of entry point offset =
+syntax
+>   *			     elements in the slice header.
+>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+> @@ -340,7 +340,7 @@ struct v4l2_hevc_pred_weight_table {
+>   */
+>  struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	bit_size;
+> -	__u32	data_bit_offset;
+> +	__u32	data_byte_offset;
+>  	__u32	num_entry_point_offsets;
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>  	__u8	nal_unit_type;
 
-With regards,
-Pavel Skripkin
