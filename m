@@ -1,34 +1,34 @@
-Received: from out203-205-251-73.mail.qq.com (out203-205-251-73.mail.qq.com [203.205.251.73])
+Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com [203.205.221.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0682517CA
-	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 03:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C72D17CA
+	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 03:56:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1649217351;
-	bh=mwJyGvDfqq8uz4P7M9BPqtkY2gmLd8B4s+4UJ8k46Po=;
+	s=s201512; t=1649217375;
+	bh=aX2filfSFEj5vBMtD43q72C68TIjG2JpIiWef2rV3lg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=VLIsPgaBJS2Q9MPV1XRhJO96s4iNSZz8n059YkaslVEiMKv0kG0qsH41S5Yd2f5jL
-	 QbnBF9H37d231AcVWURqfQhcT7ptzczvHSTQcP4haEJRysD+mcjv6BtbYRnFU9OeCm
-	 SgwB0Gji501M7/rV2VoX/wvRLBivU3KAdk8fS8+k=
+	b=E28zaP7TQEUvBNeHb6QJmO473EclWSsICcw+wc9A9lnFZj7DaGqIvYaS/Jk/eruX9
+	 P5Rle4I3eieJzPb5bW/Fshfx5ZBcKQ+g0lC9r/onVGlrapQVL76wQCu0CdlzsPn+h9
+	 LIB7Glyi4Y+j9tyZlpcDEKermAe/fCEXZ5lFjwn0=
 Received: from localhost.localdomain ([43.227.136.188])
-	by newxmesmtplogicsvrszc7.qq.com (NewEsmtp) with SMTP
-	id DF0B5296; Wed, 06 Apr 2022 11:55:48 +0800
-X-QQ-mid: xmsmtpt1649217348t5lxnp1rd
-Message-ID: <tencent_833C53E9E95F05049BD9297781E387622005@qq.com>
-X-QQ-XMAILINFO: OakVxA/3u/8RDSac4O7zy62FMOR3lSEOvmucN4D2cPuQzKt5rqAaNqpPE6Noad
-	 fn/jWG2MdLT7Me1MnSo71Em3/Z9T20ZjsG6m37esCCDGV1TLT/EsrwSh4R69H1J9CzR7BrZyIgd9
-	 7PJxqi3vGN4e/Uh7sjOfjMlqnv3dFn41h/jaL3PAl4mXDZq7lPmQ8B9zRuVCDSEVm62X39rbv4br
-	 My79ylFsg0NByYii9a0FXUx22jNjCl70HSzFG01pwR62rhw+Bq0PyIBgnXKxSgC9sYOKKvLTth5P
-	 eDQce9do1iPFJgYO5tGOvtpSY7MFgQQQ1emn6CttC9lFaQpmS/f+34MYnxZLd4/rlPg1GDzWKFV/
-	 LZP9tYo2n6KJ1PHzahwKh/+lzdxKSJCQHrJpN2tWFUogB+dTpAHmGSZ3kijnj28Z05XCue8RBTva
-	 2hi6A40p4PW6GfcA3/5WNdCEizK/6CRfsafcj7CUeCNqC7NQS89IW+KTSnRHZmXsuW+l5Spf1myP
-	 c9AkYfzkloTUs7TVnysDJluZHYOmMg8UYaeWc4GzroODWrpMb2bGA/LXxEe5M8YV6vxBxKmC5mdd
-	 HtegzntO1d1obtEtX9p7TutsWZx4bCsqwhwXKXToz3xpeLd1IeUlfdh6i+qhdp2T24oWynrrt1y/
-	 8yfrxaLqvkS8X86WuCsyIULFvibDh0BGfXL08aM/mm0B8HjEaTI4E9CQM33CJeIpAysf/w2tYBYO
-	 W0Vp3CikRz0H0GJRR1m2BN69lNTZNwdZRbjWtYZJgQKWUHVinLSOwzQouGl2YPFwG/HBki8ELeN+
-	 TDzybsZHsPSKG+PQtGAhf8azaYQEUIPZGhVDtKXtcstpK36V41rM61dndM8yStBqE4vv3W9dSJMd
-	 EYMbe0Kyb8G6hOqEYbZBqB0m5EU3P0sRanb+EtbDl3qJtKx0J4AEJAco2xdOR1OTVYhl1zGCEphx
-	 GuNd9GsrpEE47eJYptCRZmGc7q928EVii4dPb7J5Q=
+	by newxmesmtplogicsvrszb6.qq.com (NewEsmtp) with SMTP
+	id E0BA308F; Wed, 06 Apr 2022 11:56:11 +0800
+X-QQ-mid: xmsmtpt1649217371t6o8amq8i
+Message-ID: <tencent_E0622D1C5669EF1F14A49D79309788C39305@qq.com>
+X-QQ-XMAILINFO: MR/iVh5QLeiepNVBjjotu9W2eBdd7jHW6cnVnmELCYwwUMVgL2mQq4KY3VBBF9
+	 cPKOuTXTDxEZsF4qixtfqd9rEqGIxhPQywikdo1p4zK6aW8JCRv+ghnaJEhSe/PDDBdyImyUo3g3
+	 FF87RBCNPex5ZbFSb5xi0TK3l2qycu3ow3kjef/HYctRyL0yU7W5/fSK4etKefUvPihQIEGFlKFi
+	 2p14ULeSHV9jaQpUeLkzVmr01trjuwIK5i6CsLncOQkzZHI16MOgDuH1l08Pau5znM8gyFdWWmg0
+	 f670YqeoVG0UQBSLVq5YoEUOlUPj52EjiaAUtC9wsDHXLLDOpnoj7OptdXktgM6H2nue8Wc1uTF9
+	 i4dB8vP6/2UReWMbeeCT2h1g1F6Id2mhNrFgmR8VqyV14fvOhtfxJw/wn94xk1m42WE2nhe0T/S+
+	 trgqb6HmFX8xkk7Et2jiXzrsYPrkynH2NOHv0614OMJCRSMp7lfVPpNkkZJtTqIH55WWxzRVUp2w
+	 ozu+2XzgsfmuByeHJ0/bg8kVCGqSjyorX26uxCgXvB98NqLjnKXcJb0Suq9Lk+hdQXsECgHS38vs
+	 +qSwLoCMuYIZXBze1POIwHK2iVwfOatcK+0Cn2JxTfVhON3aEHkHvaYjx2nTojFTFrZC19w3Ym1t
+	 EFJEHNd00nqemjycOlcr6YIkBsNpHRO/eSY90vJpRJ6Qb9Q3PASWxWQLMIPrflhqoheYN9oi8XZ/
+	 zgX/QZy/rVlg0bbnlth66DlfNmY4X6sguXB92Ie0aa4I0Q/itvK7t5IBMCFz47aGY7gYVaEBjejS
+	 KviUvRKsHj4HkZsSavxhwAS17BvEYnzqv9urAKrq5UROP/qtGBUrIuTF5VapbZ/yqQ4oo2WPw2C6
+	 ZRqeDxBW/YSkS5zbNbREQuLup5b/Q1qF4e3pWaM9WoWDmC5hUZKwdS/4ACOWTpH9dO7vzwKxNX6Z
+	 Igawm7xV55OswmFA9if6y8RogZZdQ5F1ReE3czHxY=
 From: xkernel.wang@foxmail.com
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -36,9 +36,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH v3 2/3] staging: rtl8712: change the type of _r8712_init_recv_priv()
-Date: Wed,  6 Apr 2022 11:55:37 +0800
-X-OQ-MSGID: <20220406035537.12913-1-xkernel.wang@foxmail.com>
+Subject: [PATCH v3 3/3] staging: rtl8712: add two validation check in r8712_init_drv_sw()
+Date: Wed,  6 Apr 2022 11:56:01 +0800
+X-OQ-MSGID: <20220406035601.12934-1-xkernel.wang@foxmail.com>
 In-Reply-To: <tencent_8289F062A5E3FF2C104466AF5C5A0E1B0A07@qq.com>
 References: <tencent_8289F062A5E3FF2C104466AF5C5A0E1B0A07@qq.com>
 Precedence: bulk
@@ -51,63 +51,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-There is a memory allocation in _r8712_init_recv_priv().  
-However, since the original type of this function is `void`, its error 
-status can not be feedbacked to its caller.
-Therefore, to make the error of allocation failures propagate to its 
-caller easily, this patch changes the type of this function to `int`.
+_r8712_init_xmit_priv() or _r8712_init_recv_priv() returns -ENOMEM 
+when some allocations inside it failed.
+However, the caller, i.e., r8712_init_drv_sw(), does not properly 
+validate their return status, which may lead to potential wrong memory  
+access in the future.
+
+Therefore, this patch adds two validation check for their return status  
+and properly jump to the corresponding error hanlding code if failures 
+happen.
 
 Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 ---
 ChangeLog:
-v1->v2 remove kmemleak_not_leak().
+v1->v2 adjust the sequence of patches in this series.
 v2->v3 update the description.
- drivers/staging/rtl8712/recv_osdep.h   | 2 +-
- drivers/staging/rtl8712/rtl871x_recv.c | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8712/os_intfs.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/recv_osdep.h b/drivers/staging/rtl8712/recv_osdep.h
-index d8c1fa7..f5b97c5 100644
---- a/drivers/staging/rtl8712/recv_osdep.h
-+++ b/drivers/staging/rtl8712/recv_osdep.h
-@@ -18,7 +18,7 @@
- #include "drv_types.h"
- #include <linux/skbuff.h>
- 
--void _r8712_init_recv_priv(struct recv_priv *precvpriv,
-+int _r8712_init_recv_priv(struct recv_priv *precvpriv,
- 			   struct _adapter *padapter);
- void _r8712_free_recv_priv(struct recv_priv *precvpriv);
- void r8712_recv_entry(union recv_frame *precv_frame);
-diff --git a/drivers/staging/rtl8712/rtl871x_recv.c b/drivers/staging/rtl8712/rtl871x_recv.c
-index c23f6b3..3464ee2 100644
---- a/drivers/staging/rtl8712/rtl871x_recv.c
-+++ b/drivers/staging/rtl8712/rtl871x_recv.c
-@@ -44,7 +44,7 @@ void _r8712_init_sta_recv_priv(struct sta_recv_priv *psta_recvpriv)
- 	_init_queue(&psta_recvpriv->defrag_q);
- }
- 
--void _r8712_init_recv_priv(struct recv_priv *precvpriv,
-+int _r8712_init_recv_priv(struct recv_priv *precvpriv,
- 			   struct _adapter *padapter)
- {
- 	sint i;
-@@ -60,8 +60,7 @@ void _r8712_init_recv_priv(struct recv_priv *precvpriv,
- 				sizeof(union recv_frame) + RXFRAME_ALIGN_SZ,
- 				GFP_ATOMIC);
- 	if (!precvpriv->pallocated_frame_buf)
--		return;
--	kmemleak_not_leak(precvpriv->pallocated_frame_buf);
-+		return -ENOMEM;
- 	precvpriv->precv_frame_buf = precvpriv->pallocated_frame_buf +
- 				    RXFRAME_ALIGN_SZ -
- 				    ((addr_t)(precvpriv->pallocated_frame_buf) &
-@@ -77,6 +76,7 @@ void _r8712_init_recv_priv(struct recv_priv *precvpriv,
- 	}
- 	precvpriv->rx_pending_cnt = 1;
- 	r8712_init_recv_priv(precvpriv, padapter);
-+	return 0;
- }
- 
- void _r8712_free_recv_priv(struct recv_priv *precvpriv)
+diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
+index 1f7ccec..0dbf8c2 100644
+--- a/drivers/staging/rtl8712/os_intfs.c
++++ b/drivers/staging/rtl8712/os_intfs.c
+@@ -308,8 +308,12 @@ int r8712_init_drv_sw(struct _adapter *padapter)
+ 	ret = r8712_init_mlme_priv(padapter);
+ 	if (ret)
+ 		goto free_evt_priv;
+-	_r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
+-	_r8712_init_recv_priv(&padapter->recvpriv, padapter);
++	ret = _r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
++	if (ret)
++		goto free_mlme_priv;
++	ret = _r8712_init_recv_priv(&padapter->recvpriv, padapter);
++	if (ret)
++		goto free_xmit_priv;
+ 	memset((unsigned char *)&padapter->securitypriv, 0,
+ 	       sizeof(struct security_priv));
+ 	timer_setup(&padapter->securitypriv.tkip_timer,
 -- 
