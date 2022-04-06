@@ -1,139 +1,170 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0E233F8
-	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 20:36:26 +0000 (UTC)
-Received: by mail-qv1-f48.google.com with SMTP id hu11so3232744qvb.7
-        for <linux-staging@lists.linux.dev>; Wed, 06 Apr 2022 13:36:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1A833FC;
+	Wed,  6 Apr 2022 21:50:56 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id z1so5161218wrg.4;
+        Wed, 06 Apr 2022 14:50:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=iVD51S2fZB/T43/yzpgAein+LxkO4Y3OqFseZyJMNZY=;
-        b=wIJ8NfE+AUWtM7lH+STs2g9OB2TaiQtjIGgsEZBrh+stbAhC7caz0JwPUkoIZGBlrs
-         LB1DrPwrXYi0rIY7X35P/zoqWV7fHvjo7aRUMs4TyMz6S/vFUghNVJsR3/tEqYaWbeIS
-         SpSzxsCOvUNm/1PF0AI/mVEvKzQZuddwJpTN/xCCPEwtKXsE8pXWY9SDXnRGt7hd+v5d
-         7aVh+a6lRIdvCCaTyTO3bvNDQa8edsj39IO4UFF22UDLrQkDlAZSf+4U3HgEfZo+IVo2
-         A/ZuTqF9mp4LAlL/TjngKMj4c7waWzoSFDpDwXInm8b9twE/3nTPedXH8SU6BjtHTO0m
-         X7tA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ctkfWR9bwdMoGeWels/5BpQ7XWMNAq7SYEfgxZw7Pak=;
+        b=b8ok8D2tdxUGnElGaaf3DwjFFBoxpOffvCR+9ft/ESApaeDqixS8CjzHXxuNzc9Wn3
+         rRWah9UTC/MsgWn79FDHbEREiMVaCUKUFj8LX0PKWslMVFn+tmalnDwnKxIJ6E0WXzdP
+         qoCNLku+AEO4W7HiQ+LrKF6mHXKTfByXh9/2bhkklzydm+QHdegSLJOSh24ucH6dutoe
+         oHngQjHGMuXgY3syTudv5tz9UxubPIVZpueQQjP+coU+Mk4D5MRbr0j8+0b9ea5OWrBR
+         R0G7qNWtyrGQq29s3/rU2Y/bxcjQSG3SE55eivLvRNAhsgUqqvFvuQbpto//knv/DULx
+         LFwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=iVD51S2fZB/T43/yzpgAein+LxkO4Y3OqFseZyJMNZY=;
-        b=E9weDD/Cbe7FfrgCngQOkOpItl4IfB6PuDuGKEhgg8k/2mf+sezUIVbTBKdd1g5rqX
-         1LHX279DF3DEC+8xh33H/2g31BLbGE0z56ehN5oJRe5eRGD64ZBrNY7IxEpNORqva40P
-         SY8SX3XxpPSfCKqS/cZeilYWH5dW8Bmfzf1EKyQfCeMxJ/jOOoYZ6AyZgMLESG1e7hXT
-         hGz88gdlTH8cq0neRPGTdd/lh6L8F7EaKriD8AKFMWL7m6JPgCN2VWH37Nqcqfjnslsn
-         w9MhS5OSRKeO/qOc4f5vD1sE0HxvMR2SIRb8m55vCBrlBmlsFVQ6lbviOrClkJ4hTqO1
-         OQ0Q==
-X-Gm-Message-State: AOAM531n1w4V7ocam00YDYqRz/WOdQfkdhUFn8q7HdFnpiPoZw+qd5G3
-	bkwiNfpq0jvGZ9bzY+vYLFPZmA==
-X-Google-Smtp-Source: ABdhPJyoTFpHdhAeiRuppAcSOH9NzY3ELjSpzTBbQkgV2JktrDoVuHlUfQFgR+UzclY5mKXxVmknUQ==
-X-Received: by 2002:a05:6214:508a:b0:440:f824:3d55 with SMTP id kk10-20020a056214508a00b00440f8243d55mr9112081qvb.26.1649277385279;
-        Wed, 06 Apr 2022 13:36:25 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id e15-20020a05622a110f00b002e1ed105652sm12804883qty.2.2022.04.06.13.36.23
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ctkfWR9bwdMoGeWels/5BpQ7XWMNAq7SYEfgxZw7Pak=;
+        b=lEX0anoK58qNDwkDZWvOXH0stfmUDRn6I0vxdYUGZyk8y4RrG2l6P80AWyREie2sHl
+         kEqalGgMs0jRkq96grzSxHU242YJDzS3mPmF96FIdlXhxP2tWlGVDOBXYq2L4HYuzApQ
+         vu34qgLc2UYNLjTxhphJ9E7r73iEKts6fZApjgRFmiadNyCxu/bo+5dFXtPA1Jh8f5v1
+         IhiaeYSlfp+5yuv3TqaFBwaB2eD9c9BeZa2YDyRxSi+3Mh0nHC47TXTNp0+RCG/TvHBu
+         KjE3pLRu4Kz3gKEN961Q8t4DCoh5Lq7Jbf9rt/guybL/AxIl8/uwIDd5zwXPOhpLi8u4
+         m8BQ==
+X-Gm-Message-State: AOAM531nZRSq5QMxcgcl957UQpwCyAMVbAbAXivcS0pM/K7BmYA1UJJL
+	3J8MQteHqZ/kE6lAomWvkNE=
+X-Google-Smtp-Source: ABdhPJyRHsDWgldGsWPKliidhg48rYOQCvv/fpi0Ag45OOjfpgtLsKmrSWc9bf44Ad+Hg58lMWY8KQ==
+X-Received: by 2002:a05:6000:2c7:b0:205:cb41:2a82 with SMTP id o7-20020a05600002c700b00205cb412a82mr7819657wry.395.1649281854803;
+        Wed, 06 Apr 2022 14:50:54 -0700 (PDT)
+Received: from alaa-emad ([197.57.159.73])
+        by smtp.gmail.com with ESMTPSA id l2-20020a5d5602000000b00206120e0b0fsm12555207wrv.18.2022.04.06.14.50.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 13:36:24 -0700 (PDT)
-Message-ID: <ace60e1553ca73997f454ccea12c4540cddd3dc8.camel@ndufresne.ca>
-Subject: Re: [PATCH v4 14/15] media: uapi: Change data_bit_offset definition
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
-  ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, 
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
- jonas@kwiboo.se
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com, 
-	jc@kynesim.co.uk
-Date: Wed, 06 Apr 2022 16:36:17 -0400
-In-Reply-To: <20220228140838.622021-15-benjamin.gaignard@collabora.com>
-References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
-	 <20220228140838.622021-15-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+        Wed, 06 Apr 2022 14:50:54 -0700 (PDT)
+From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	eng.alaamohamedsoliman.am@gmail.com
+Subject: [PATCH v2] staging: rtl8712: remove unnecessary parentheses
+Date: Wed,  6 Apr 2022 23:50:51 +0200
+Message-Id: <20220406215051.20483-1-eng.alaamohamedsoliman.am@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Le lundi 28 f=C3=A9vrier 2022 =C3=A0 15:08 +0100, Benjamin Gaignard a =C3=
-=A9crit=C2=A0:
-> 'F.7.3.6.1 General slice segment header syntax' section of HEVC
-> specification describes that a slice header always end byte aligned,
-> therefore we only need to provide the data offset in byte.
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
->  drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
->  include/media/hevc-ctrls.h                                | 4 ++--
->  3 files changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
-Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 1aa2a7399e76..c8602c1e706e 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -2986,8 +2986,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->        - ``bit_size``
->        - Size (in bits) of the current slice data.
->      * - __u32
-> -      - ``data_bit_offset``
-> -      - Offset (in bits) to the video data in the current slice data.
-> +      - ``data_byte_offset``
-> +      - Offset (in bytes) to the video data in the current slice data.
->      * - __u32
->        - ``num_entry_point_offsets``
->        - Specifies the number of entry point offset syntax elements in th=
-e slice header.
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h265.c
-> index 8ab2d9c6f048..3e43b7cc2f57 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -405,7 +405,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
->  	/* Initialize bitstream access. */
->  	cedrus_write(dev, VE_DEC_H265_TRIGGER, VE_DEC_H265_TRIGGER_INIT_SWDEC);
-> =20
-> -	cedrus_h265_skip_bits(dev, slice_params->data_bit_offset);
-> +	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset / 8);
+Reported by checkpatch:
 
-Did you mean the following instead ?
+CHECK: Unnecessary parentheses around param->u.crypt.key[16]: 85
+CHECK: Unnecessary parentheses around param->u.crypt.key[24]: 87
+CHECK: Unnecessary parentheses around padapter->mlmepriv: 603
+CHECK: Unnecessary parentheses around wrqu->encoding: 1497
+CHECK: Unnecessary parentheses around wrqu->encoding: 1592
+CHECK: Unnecessary parentheses around padapter->mlmepriv: 1593
+CHECK: Unnecessary parentheses around wrqu->param: 1673
+CHECK: Unnecessary parentheses around pmlmepriv->scanned_queue.lock: 1967
+CHECK: Unnecessary parentheses around pmlmepriv->scanned_queue.lock: 1977
+CHECK: Unnecessary parentheses around pmlmepriv->scanned_queue.lock: 1999
 
-+	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8);
+Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+---
+Changes in v2:
+	- Edit commit subject
+	- Edit commit message
+	- Fix the same check in more lines
+	- Remove space before '.skey' in
+"memcpy(psta->tkiptxmickey.skey," in lines 84 and 86.
+---
+ drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-> =20
->  	/* Bitstream parameters. */
-> =20
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index c50205083573..51bdf38ea0c3 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -296,7 +296,7 @@ struct v4l2_hevc_pred_weight_table {
->   * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
->   *
->   * @bit_size: size (in bits) of the current slice data
-> - * @data_bit_offset: offset (in bits) to the video data in the current s=
-lice data
-> + * @data_byte_offset: offset (in bytes) to the video data in the current=
- slice data
->   * @num_entry_point_offsets: specifies the number of entry point offset =
-syntax
->   *			     elements in the slice header.
->   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
-> @@ -340,7 +340,7 @@ struct v4l2_hevc_pred_weight_table {
->   */
->  struct v4l2_ctrl_hevc_slice_params {
->  	__u32	bit_size;
-> -	__u32	data_bit_offset;
-> +	__u32	data_byte_offset;
->  	__u32	num_entry_point_offsets;
->  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->  	__u8	nal_unit_type;
+diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+index 3b6926613257..e11332352285 100644
+--- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
++++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+@@ -81,10 +81,10 @@ static inline void handle_pairwise_key(struct sta_info *psta,
+ 	memcpy(psta->x_UncstKey.skey, param->u.crypt.key,
+ 	       (param->u.crypt. key_len > 16 ? 16 : param->u.crypt.key_len));
+ 	if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
+-		memcpy(psta->tkiptxmickey. skey,
+-		       &(param->u.crypt.key[16]), 8);
+-		memcpy(psta->tkiprxmickey. skey,
+-		       &(param->u.crypt.key[24]), 8);
++		memcpy(psta->tkiptxmickey.skey,
++		       &param->u.crypt.key[16], 8);
++		memcpy(psta->tkiprxmickey.skey,
++		       &param->u.crypt.key[24], 8);
+ 		padapter->securitypriv. busetkipkey = false;
+ 		mod_timer(&padapter->securitypriv.tkip_timer,
+ 			  jiffies + msecs_to_jiffies(50));
+@@ -600,7 +600,7 @@ static int r8711_wx_get_name(struct net_device *dev,
+ 	u32 ht_ielen = 0;
+ 	char *p;
+ 	u8 ht_cap = false;
+-	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
++	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
+ 	struct wlan_bssid_ex *pcur_bss = &pmlmepriv->cur_network.network;
+ 	u8 *prates;
+ 
+@@ -1494,7 +1494,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
+ 	u32 keyindex_provided;
+ 	struct NDIS_802_11_WEP	 wep;
+ 	enum NDIS_802_11_AUTHENTICATION_MODE authmode;
+-	struct iw_point *erq = &(wrqu->encoding);
++	struct iw_point *erq = &wrqu->encoding;
+ 	struct _adapter *padapter = netdev_priv(dev);
+ 
+ 	key = erq->flags & IW_ENCODE_INDEX;
+@@ -1589,8 +1589,8 @@ static int r8711_wx_get_enc(struct net_device *dev,
+ {
+ 	uint key;
+ 	struct _adapter *padapter = netdev_priv(dev);
+-	struct iw_point *erq = &(wrqu->encoding);
+-	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
++	struct iw_point *erq = &wrqu->encoding;
++	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
+ 	union Keytype *dk = padapter->securitypriv.DefKey;
+ 
+ 	if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
+@@ -1670,7 +1670,7 @@ static int r871x_wx_set_auth(struct net_device *dev,
+ 				union iwreq_data *wrqu, char *extra)
+ {
+ 	struct _adapter *padapter = netdev_priv(dev);
+-	struct iw_param *param = (struct iw_param *)&(wrqu->param);
++	struct iw_param *param = (struct iw_param *)&wrqu->param;
+ 	int paramid;
+ 	int paramval;
+ 	int ret = 0;
+@@ -1964,7 +1964,7 @@ static int r871x_get_ap_info(struct net_device *dev,
+ 		return -EINVAL;
+ 	data[32] = 0;
+ 
+-	spin_lock_irqsave(&(pmlmepriv->scanned_queue.lock), irqL);
++	spin_lock_irqsave(&pmlmepriv->scanned_queue.lock, irqL);
+ 	phead = &queue->queue;
+ 	plist = phead->next;
+ 	while (1) {
+@@ -1974,7 +1974,7 @@ static int r871x_get_ap_info(struct net_device *dev,
+ 		if (!mac_pton(data, bssid)) {
+ 			netdev_info(dev, "r8712u: Invalid BSSID '%s'.\n",
+ 				    (u8 *)data);
+-			spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock),
++			spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock,
+ 					       irqL);
+ 			return -EINVAL;
+ 		}
+@@ -1996,7 +1996,7 @@ static int r871x_get_ap_info(struct net_device *dev,
+ 		}
+ 		plist = plist->next;
+ 	}
+-	spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock), irqL);
++	spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock, irqL);
+ 	if (pdata->length >= 34) {
+ 		if (copy_to_user((u8 __user *)pdata->pointer + 32,
+ 		    (u8 *)&pdata->flags, 1))
+-- 
+2.35.1
 
