@@ -1,41 +1,41 @@
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE1B17FB;
-	Wed,  6 Apr 2022 08:31:22 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id i7so1684498oie.7;
-        Wed, 06 Apr 2022 01:31:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAFC17FB;
+	Wed,  6 Apr 2022 08:31:26 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id n19-20020a9d7113000000b005cd9cff76c3so1283192otj.1;
+        Wed, 06 Apr 2022 01:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fx+PuhUmntAQYILd3k06PDbFUSS94nXmjRNZJ6v+95g=;
-        b=HKuwVS9lBQumFrTvaBXETrUzSjYqNbjMNl7pjRJxlNVTM0LSCYzaoeuEG8wBiaBFh2
-         I95AWspuU1BhMxIJhwNJX5y+fgLxiysM0gGct2bDvLaOcaG/5esK2fH7GiynQDEv6ymA
-         9cVpFqDzbROrLCp3g2i7+cZp6Z5uA+Lviekv+ntvXIKi6ub2jBVcaFPOizk3j3PAXzPe
-         jfcdjfQ9f0eH4a6/7Fdlhk25lXsmBeimghJ97EVtMjPmeSrBmPYU8zCMtANGZ8h/2CeV
-         8T2lxja9RJc9fbJHs11wVPP9sBEicq8ycbAJ7+Je1Hg49ZNob/GJn/mnBNsh14C2RlTY
-         BRUA==
+        bh=e2nIgPNh3LZLtjXU7XO/QsmWtjivZoy3EzJLLI+3/RM=;
+        b=GzXIj9P51h2wKssIFpZU6VktIrPFOKUFfby38bTBRySx0eRoIGPrId2GUiPWIiEMeE
+         OJ8yJvfDsmS5BptMR5Wz0Pfxau9wqrCmZYiyCL/SlO23cyUgvuUhwjidVX2qNpuKaA90
+         QkHPW2Rjp/8+w0S2n57adAl23CQ2GnQss6q1lUDOeKdOZ5wb3+n2hppUtC5oDWFB0vsa
+         VPcQvsdb1KIf0iLdiEZn2cToz2bXUHhS9D+gpExEoCTRK8xqCJVZB2cc+/Zi9XYAQixJ
+         9EA/xE17zxKmzq04uPrLWE8l27kHJ+VsaBMtlCqCvEVheqeremAYugdoaq0+DKnin3gt
+         uvFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fx+PuhUmntAQYILd3k06PDbFUSS94nXmjRNZJ6v+95g=;
-        b=cTFtPLs3Hmosp3QfaDaSDs3DK7ye2UQsM16PSzAEoxeXpyf1BFNVO+xdn5BidDW1uh
-         ps1d6P7EgTNwSYSTtNoE4nKlg1GsNA7lkT1PcLqn4mQNuYxTEM57IdtZICy5624ASa/q
-         10swCXd/egTlDsiHnGd0Y57NCPXH7FU7bgZScssQufH8HCEYze3fGEeDske09gUadq2A
-         O4h2hCCDVc3lv+YGcVg8J81CEmg8snezgpmUCTFAF6CMACyqAYxun0PIqtlTL8DUTM8a
-         wdYhulCd2luQSH3dz8SH4rcjgerxhx+6EVutO1wo40/8KPMrbajf3+TQ2NJLO/zMxApn
-         Oe9A==
-X-Gm-Message-State: AOAM530IQVikoQ5tU47t4O9CJfs7uSlWyXQial3n+qwoqN0eTw3D68js
-	EqE0d+DQ0jN5pAxKnsZho6eKHOAuh2LoaA==
-X-Google-Smtp-Source: ABdhPJwqQwGchpMu2EMqAUxEdYcA9AXmytNB8OfGtkuDjeuI+izYShm5jyAzP89LrhVRvqqlRT7Y0A==
-X-Received: by 2002:a54:4518:0:b0:2ef:8719:b041 with SMTP id l24-20020a544518000000b002ef8719b041mr3263934oil.188.1649233881904;
-        Wed, 06 Apr 2022 01:31:21 -0700 (PDT)
+        bh=e2nIgPNh3LZLtjXU7XO/QsmWtjivZoy3EzJLLI+3/RM=;
+        b=4kIVotYhkWWA2XPzhCTR8AgjUq+RF4mIDiHRdE/OIqaUGt10/tZsnkSpfTmK6xkkb9
+         yh8vn1+nK3SzsEQH/7TO6cxX5HIlWT0hXqchwHHRRbQMyT+epKAAZp2sVtwKV55tD8/V
+         1xYXCBR4yPjtizGWBEUCq6tmMZoTr8dRMHilFw5+gVpPJBzXYgiyS/6fB7sNCrgUOjZ3
+         8IX3adkjn+84Eveu0Fb5VFCrK/6B3h4+0ozONDWNrsAlHMYP5MnugnV3q9m3W+KK+3WO
+         naBsVfAwZld8vv5v8OzgGzsvobKycwk3BUu7lcZ39jxAIfSrSvkD4+SLGdf845fFGiEE
+         CNGA==
+X-Gm-Message-State: AOAM531npp0j+EHkCm3bljf/KXqnDG6pVk5ksV9Z/vV6h532E4Ga1zcA
+	YEr2rX7HdpDXfdsA/Ln9lpk=
+X-Google-Smtp-Source: ABdhPJzHhSgEnNlc69E9Z7Tfy3nTedvFPS05swID/wqc4IRETGcRigFh2BUGlaUy0LCA0mCqbdVKDA==
+X-Received: by 2002:a05:6830:201a:b0:5e6:8de6:9922 with SMTP id e26-20020a056830201a00b005e68de69922mr2543389otp.3.1649233885645;
+        Wed, 06 Apr 2022 01:31:25 -0700 (PDT)
 Received: from bertie ([172.58.102.145])
-        by smtp.gmail.com with ESMTPSA id i28-20020a9d4a9c000000b005ce06a77de2sm6938116otf.48.2022.04.06.01.31.21
+        by smtp.gmail.com with ESMTPSA id u22-20020a4ae696000000b0032158ab4ce9sm5877502oot.26.2022.04.06.01.31.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 01:31:21 -0700 (PDT)
+        Wed, 06 Apr 2022 01:31:25 -0700 (PDT)
 From: Rebecca Mckeever <remckee0@gmail.com>
 To: outreachy@lists.linux.dev
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -43,10 +43,11 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Rebecca Mckeever <remckee0@gmail.com>
-Subject: [PATCH 2/4] staging: r8188eu: remove extra 'the'
-Date: Wed,  6 Apr 2022 03:30:58 -0500
-Message-Id: <e259a035b79c814f871b490aa277bf0dfe23fe11.1649233201.git.remckee0@gmail.com>
+	Rebecca Mckeever <remckee0@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH 3/4] staging: r8188eu: correct misspelling in comment 'tppe' -> 'type'
+Date: Wed,  6 Apr 2022 03:30:59 -0500
+Message-Id: <edaab7d38893e4f1cbb3c281b617c74fa91f0fe7.1649233201.git.remckee0@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1649233201.git.remckee0@gmail.com>
 References: <cover.1649233201.git.remckee0@gmail.com>
@@ -58,30 +59,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove repeated 'the' in comment to be grammatically correct and
-conform to Linux kernel coding style.
+Correct spelling typo.
 
-Found with checkpatch:
-WARNING: Possible repeated word: 'the'
-
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
 Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
 ---
  drivers/staging/r8188eu/core/rtw_cmd.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 9f5ece52bd39..cd20811ae152 100644
+index cd20811ae152..f4a277e6b654 100644
 --- a/drivers/staging/r8188eu/core/rtw_cmd.c
 +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -519,7 +519,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+@@ -1162,7 +1162,7 @@ u8 p2p_protocol_wk_cmd(struct adapter *padapter, int intCmdType)
+ 	}
  
- 	psecnetwork->IELength = 0;
- 	/*  Added by Albert 2009/02/18 */
--	/*  If the the driver wants to use the bssid to create the connection. */
-+	/*  If the driver wants to use the bssid to create the connection. */
- 	/*  If not,  we have to copy the connecting AP's MAC address to it so that */
- 	/*  the driver just has the bssid information for PMKIDList searching. */
+ 	pdrvextra_cmd_parm->ec_id = P2P_PROTO_WK_CID;
+-	pdrvextra_cmd_parm->type_size = intCmdType;	/*	As the command tppe. */
++	pdrvextra_cmd_parm->type_size = intCmdType;	/*	As the command type. */
+ 	pdrvextra_cmd_parm->pbuf = NULL;		/*	Must be NULL here */
  
+ 	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, GEN_CMD_CODE(_Set_Drv_Extra));
 -- 
 2.32.0
 
