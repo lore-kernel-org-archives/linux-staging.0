@@ -1,99 +1,96 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631CE33E0;
-	Wed,  6 Apr 2022 15:37:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB8C33E0;
+	Wed,  6 Apr 2022 15:49:27 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id q19so3876096wrc.6;
+        Wed, 06 Apr 2022 08:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=jzSTEJQcGfGZ7JxkMk9H1mBl0JJZpFa9fo6uzqvky2Q=;
-  b=sGIk5oEDLdgRxABX5JIFjj+a2Kwz7ZcKwYfWPfcBi5oloLW25ieCgVX/
-   iZY2U4Tiz6RogGzLu2VXuXumoCAbtyqXBs8t6/aRFgKMPg6hWiQ+j5wF8
-   0Qfe7ljgfV39td61LZ7Ny1ypPWU0gjUPh0ww4ZnvjbDemrUPJFdQcKLOj
-   E=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,240,1643670000"; 
-   d="scan'208";a="30395387"
-Received: from unknown (HELO hadrien) ([95.128.147.62])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 17:37:48 +0200
-Date: Wed, 6 Apr 2022 17:37:43 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: julia@hadrien
-To: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net, 
-    florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8712: remove Unnecessary parentheses
-In-Reply-To: <20220406152858.14076-1-eng.alaamohamedsoliman.am@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2204061735340.2349@hadrien>
-References: <20220406152858.14076-1-eng.alaamohamedsoliman.am@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pJRePmaoHF8y9FcZ88YD095N9pjI+K9p1C7d1voMNQA=;
+        b=UFnMBRRFAUq1tdwAQKRJaM+eU87Z4OIegSIOZnkvB4DjllOHIR5VnrGYdqcX+pR1ZK
+         dp3gLQR390O9+4ea1Ze/CqHSjkSnroqWL1B+k4eAapO/p9o82Elcy0deHnBT+Xh53pYG
+         4RZ0yRGwAhCiii5qMrpf1hy9zws2ct/H5Z8XIGx5C5DrH+9PTeA0lFG9ji8CQjbjKdBx
+         vJDc6d9MsfKeyq8ZNUkrWgk54MEkKLMEnIG/2UI1q87zK8jKM7ilkAvAioRTqaNTMaG2
+         Vvc2QDm94TLnmOfxnQGOn6m6LPY2qsKnLxAnrZD/kMHD530f0qwwR54v7HvBDePEQRVn
+         xcBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pJRePmaoHF8y9FcZ88YD095N9pjI+K9p1C7d1voMNQA=;
+        b=srgxMuTjDEErhezobFGsYcmGB6yOfSoA6oA5l0AXwOl7VCUMBAVUT6VQOPs5kQabeK
+         HnQxL8vd1HZKn4slMzKCDyvG+H9gKVh8zj6GsdoINRnWgZyp5sMMaMIAKo9TsioowlK0
+         W1uzl1sZeeqVcII4RNQ+Q1GWgWXQQkD2PDgAccWXKYx5MivfhhxiXY9inn9u2dkm8pvK
+         g7UAvDGuKhVSnqZd//M1/pq42J62/H9gHpVjswAWoo5acBUBK13EITHe2kdVWIEez0wy
+         P78f1eI99cDErUSaz/pY93cxXp96pUqtJRqsU4t0RYWTIg2ZVOwVlk1UYmSY7XnzM1yH
+         ZVpg==
+X-Gm-Message-State: AOAM532BLyR1Ax7xbl8A5nEjbi80cy3fGIBsM4CSpkEVisIFpyXrw37d
+	r7FfE/Xffr5lWgx21HIvhiE=
+X-Google-Smtp-Source: ABdhPJzQm9bjq8yLnVVnEajucrpLRFaujEv+Fn79oRJYooXadcAXYaqU3o9yLXxhp4haoMeNnzBtsg==
+X-Received: by 2002:adf:ce06:0:b0:206:fd5:6644 with SMTP id p6-20020adfce06000000b002060fd56644mr7434505wrn.624.1649260165196;
+        Wed, 06 Apr 2022 08:49:25 -0700 (PDT)
+Received: from alaa-emad ([197.57.159.73])
+        by smtp.gmail.com with ESMTPSA id m20-20020a05600c4f5400b0038b5162260csm7577725wmq.23.2022.04.06.08.49.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Apr 2022 08:49:24 -0700 (PDT)
+From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+To: outreachy@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	eng.alaamohamedsoliman.am@gmail.com
+Subject: [PATCH] staging: rtl8192e: remove multiple blank lines
+Date: Wed,  6 Apr 2022 17:49:21 +0200
+Message-Id: <20220406154921.15532-1-eng.alaamohamedsoliman.am@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-If you want to capitalize something in the subject, it could be the first
-word.  Capitalizing the second word is a bit strange.
+Reported by checkpatch:
 
-On Wed, 6 Apr 2022, Alaa Mohamed wrote:
+CHECK: Please don't use multiple blank lines
 
-> Reported by checkpatch:
->
-> CHECK: Unnecessary parentheses
+Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl819x_BAProc.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Indicating that the problem was detected by checkpatch is good.  But
-actually, the parentheses all have the same property.  So you could use
-the log message to describe what kind of unnecessary parentheses were
-removed.  That would help the maintainer know what to look for.
+diff --git a/drivers/staging/rtl8192e/rtl819x_BAProc.c b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+index 97afea4c3511..b0b1c839e770 100644
+--- a/drivers/staging/rtl8192e/rtl819x_BAProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_BAProc.c
+@@ -343,7 +343,6 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
+ 		goto OnADDBARsp_Reject;
+ 	}
+ 
+-
+ 	if (!GetTs(ieee, (struct ts_common_info **)(&pTS), dst,
+ 		   (u8)(pBaParamSet->field.tid), TX_DIR, false)) {
+ 		netdev_warn(ieee->dev, "%s(): can't get TS\n", __func__);
+@@ -355,7 +354,6 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	pPendingBA = &pTS->TxPendingBARecord;
+ 	pAdmittedBA = &pTS->TxAdmittedBARecord;
+ 
+-
+ 	if (pAdmittedBA->b_valid) {
+ 		netdev_dbg(ieee->dev, "%s(): ADDBA response already admitted\n",
+ 			   __func__);
+@@ -374,7 +372,6 @@ int rtllib_rx_ADDBARsp(struct rtllib_device *ieee, struct sk_buff *skb)
+ 		DeActivateBAEntry(ieee, pPendingBA);
+ 	}
+ 
+-
+ 	if (*pStatusCode == ADDBA_STATUS_SUCCESS) {
+ 		if (pBaParamSet->field.ba_policy == BA_POLICY_DELAYED) {
+ 			pTS->bAddBaReqDelayed = true;
+-- 
+2.35.1
 
-julia
-
-> Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-> ---
->  drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-> index 3b6926613257..6c692ad7bde7 100644
-> --- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-> +++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-> @@ -82,9 +82,9 @@ static inline void handle_pairwise_key(struct sta_info *psta,
->  	       (param->u.crypt. key_len > 16 ? 16 : param->u.crypt.key_len));
->  	if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
->  		memcpy(psta->tkiptxmickey. skey,
-> -		       &(param->u.crypt.key[16]), 8);
-> +		       &param->u.crypt.key[16], 8);
->  		memcpy(psta->tkiprxmickey. skey,
-> -		       &(param->u.crypt.key[24]), 8);
-> +		       &param->u.crypt.key[24], 8);
->  		padapter->securitypriv. busetkipkey = false;
->  		mod_timer(&padapter->securitypriv.tkip_timer,
->  			  jiffies + msecs_to_jiffies(50));
-> @@ -600,7 +600,7 @@ static int r8711_wx_get_name(struct net_device *dev,
->  	u32 ht_ielen = 0;
->  	char *p;
->  	u8 ht_cap = false;
-> -	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
-> +	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
->  	struct wlan_bssid_ex *pcur_bss = &pmlmepriv->cur_network.network;
->  	u8 *prates;
->
-> @@ -1996,7 +1996,7 @@ static int r871x_get_ap_info(struct net_device *dev,
->  		}
->  		plist = plist->next;
->  	}
-> -	spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock), irqL);
-> +	spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock, irqL);
->  	if (pdata->length >= 34) {
->  		if (copy_to_user((u8 __user *)pdata->pointer + 32,
->  		    (u8 *)&pdata->flags, 1))
-> --
-> 2.35.1
->
->
->
