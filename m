@@ -1,92 +1,194 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD5433D6;
-	Wed,  6 Apr 2022 13:05:36 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:ff63:de1f:2a77:5241] (unknown [IPv6:2a01:e0a:120:3210:ff63:de1f:2a77:5241])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B83D61F44155;
-	Wed,  6 Apr 2022 14:05:33 +0100 (BST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5242F2D
+	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 13:11:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: nicolas)
+	with ESMTPSA id BEA0F1F448EB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1649250334;
-	bh=8ZGg2lyWu5RKnQ3rLN2WnQy5xuyBOPkO3yKRiol9ycU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QXe3LgxAeKlxnjsV0YDwzLSqEuWxxSQTFm4c5lDQh7ro0gZ1d7zmkZFifpFQRblU9
-	 do7GBLvZwEgY+g4qM/a8YIgRzjlTOFLO91XPTliuqqNrSIgLdQGGEsX6cHFnC9yZhw
-	 RNH18tulbkuqUByzBkSxpE4Zdgv63kYcILwdiK9y5u+jkqOyDXfQHmaAGdm8OSZQNo
-	 +HE2ZpqMMqq485f8yIUEmTZkqISkUmT+9ty6wwt2vI5ETDU2MaeUJ2RUSplEVEOdHl
-	 P+Z41DAXsl2y6UfUZaXjavK2cxCk1K1Fb6sjaGjTm5/czRkR6IxLbqn2FkI4W0tLs/
-	 RtjW5pkGjK2Rg==
-Message-ID: <a1069c94-4c3c-ee4d-738a-752bb1d12dac@collabora.com>
-Date: Wed, 6 Apr 2022 15:05:31 +0200
+	s=mail; t=1649250670;
+	bh=HVSLEwbeNCSnRDzdZpPEXUqj6thaF6OV8UOGSpYxWow=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=bnzTxJwSJGH38S+tVlH2/LWfpFQRa8MkqadrdJk7uV06gDjC0GlSM2NVRglux42NV
+	 tuxRCa1kNAg0oi4QNgrmt3IYCh2/qOF8EvGVHgUz9KJ7OZQrxhz8tLIcBqpOHtPdK7
+	 AThjvWR2o13f7jSoM64oPaZ/wtOQ0w9E0EEo9eabO3rE1lqwdYwviswIeWHTmaM3hz
+	 0ILNcmyL3s1xG7U3BmjSefSwqfXyWkABUnvCvW7orNHgW2b70zHrMJOKvjaePD2BUZ
+	 q2ZPIOwElLBrjIdQCeb8q2t/YQZH1+ph7zP7t1dl6UKY7jpvx4BqDFaOhKdsw8Gr/4
+	 cUsebuoZ/K9pw==
+Message-ID: <d8a737d52aa93f559123ab795ba67c668c81163e.camel@collabora.com>
+Subject: Re: [PATCH v3 16/24] media: rkvdec: h264: Validate and use pic
+ width and height in mbs
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, Jonas Karlman
+	 <jonas@kwiboo.se>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
+Date: Wed, 06 Apr 2022 09:10:59 -0400
+In-Reply-To: <20220405204426.259074-17-nicolas.dufresne@collabora.com>
+References: <20220405204426.259074-1-nicolas.dufresne@collabora.com>
+	 <20220405204426.259074-17-nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
-Content-Language: en-US
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, Adam Ford <aford173@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>,
- "jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman
- <jonas@kwiboo.se>, linux-media <linux-media@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
- kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
-References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
- <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com>
- <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
- <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com>
- <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
- <CAHCN7xLy2381AFLWhLxk5YuRV7C=OwLX=XPXONX8sbkg-SqMjA@mail.gmail.com>
- <CAHCN7xJWQa-uXb0-+CSvAr1JhFmQYt80Q=uGvaY8uyptNcfbgw@mail.gmail.com>
- <163202bd-ea51-e80a-1481-568fae25b045@collabora.com>
- <CAHCN7x+AwNauiyaVL=NGARkmxWOL9uLS5-AO4TjkvLGNQ=3r+Q@mail.gmail.com>
- <bb462ee8-7bf9-5574-7cc2-098cc66e5ef0@collabora.com>
- <CAHCN7x+DTjeP7zQJYPyqzdz=hXWjz6Br0v1sWh4n1J3TJPb+9g@mail.gmail.com>
- <8d23c99a-4ad0-e65a-0134-12f5d119e8bb@collabora.com>
- <CAHCN7x+YuXFrMe6dYo_VhkG7ey1jcPTpOMCM1=qoTivZO9U2Rw@mail.gmail.com>
- <f495aa2b-81f7-a3cd-a6dd-cc5ae5f0a81f@collabora.com>
- <439e5c67e66dfff8f44f63787e2cdb8379f87446.camel@ndufresne.ca>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <439e5c67e66dfff8f44f63787e2cdb8379f87446.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+Le mardi 05 avril 2022 =C3=A0 16:44 -0400, Nicolas Dufresne a =C3=A9crit=C2=
+=A0:
+> From: Jonas Karlman <jonas@kwiboo.se>
+>=20
+> The width and height in macroblocks is currently configured based on OUTP=
+UT
+> buffer resolution, this works for frame pictures but can cause issues for
+> field pictures.
+>=20
+> When frame_mbs_only_flag is 0 the height in mbs should be height of
+> the field instead of height of frame.
+>=20
+> Validate pic_width_in_mbs_minus1 and pic_height_in_map_units_minus1
+> against OUTPUT buffer resolution and use these values to configure HW.
+> The validation is happening in both try_ctrt() and start() since it is
+> otherwise possible to trick the driver during initialization by changing
+> the OUTPUT format after having set a valid control.
+>=20
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec-h264.c | 78 ++++++++++++++++------
+>  1 file changed, 59 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging=
+/media/rkvdec/rkvdec-h264.c
+> index 0dcbcb1bac80..f081b476340f 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> @@ -672,8 +672,16 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+>  		  LOG2_MAX_PIC_ORDER_CNT_LSB_MINUS4);
+>  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZER=
+O),
+>  		  DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG);
+> -	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.width, 16), PIC_WIDTH_=
+IN_MBS);
+> -	WRITE_PPS(DIV_ROUND_UP(ctx->coded_fmt.fmt.pix_mp.height, 16), PIC_HEIGH=
+T_IN_MBS);
+> +
+> +	/* Use the SPS values since they are already in macroblocks
+> +	 * dimensions, height can be field height (halved) if
+> +	 * V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is not set and also it allows
+> +	 * decoding smaller images into larger allocation which can be used
+> +	 * to implementing SVC spatial layer support.
+> +	 */
+> +	WRITE_PPS(sps->pic_width_in_mbs_minus1 + 1, PIC_WIDTH_IN_MBS);
+> +	WRITE_PPS(sps->pic_height_in_map_units_minus1 + 1, PIC_HEIGHT_IN_MBS);
+> +
+>  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY),
+>  		  FRAME_MBS_ONLY_FLAG);
+>  	WRITE_PPS(!!(sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD),
+> @@ -1035,13 +1043,59 @@ static int rkvdec_h264_adjust_fmt(struct rkvdec_c=
+tx *ctx,
+>  	return 0;
+>  }
+> =20
+> +static int rkvdec_h264_validate_sps(struct rkvdec_ctx *ctx,
+> +				    const struct v4l2_ctrl_h264_sps *sps)
+> +{
+> +	unsigned int width, height;
+> +	/*
+> +	 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
+> +	 * but it's currently broken in the driver.
+> +	 * Reject them for now, until it's fixed.
+> +	 */
+> +	if (sps->chroma_format_idc > 1)
+> +		/* Only 4:0:0 and 4:2:0 are supported */
+> +		return -EINVAL;
+> +	if (sps->bit_depth_luma_minus8 !=3D sps->bit_depth_chroma_minus8)
+> +		/* Luma and chroma bit depth mismatch */
+> +		return -EINVAL;
+> +	if (sps->bit_depth_luma_minus8 !=3D 0)
+> +		/* Only 8-bit is supported */
+> +		return -EINVAL;
+> +
+> +	width =3D (sps->pic_width_in_mbs_minus1 + 1) * 16;
+> +	height =3D (sps->pic_height_in_map_units_minus1 + 1) * 16;
+> +
+> +	/* when frame_mbs_only_flag is not set, this is field height,
+> +	 * which is half the final height (see (7-18) in the
+> +	 * specification)
+> +	 */
+> +	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+> +		height *=3D 2;
+> +
+> +	if (width > ctx->coded_fmt.fmt.pix_mp.width ||
+> +	    height > ctx->coded_fmt.fmt.pix_mp.height)
+> +		return -EINVAL;
 
-Le 06/04/2022 à 15:02, Nicolas Dufresne a écrit :
-> Le mercredi 06 avril 2022 à 14:50 +0200, Benjamin Gaignard a écrit :
->>> default=1 value=1
->>> 1: Frame-Based
->>>                    hevc_start_code 0x00a40a96 (menu)   : min=1 max=1
->>> default=1 value=1
->>> 1: Annex B Start Code
->> It is the same so that suggest the issue is coming from GStreamer plugin.
-> Can you report the GStreamer commit hash you have building on ? Also please
-> validate the creation date of the plugin (libgstv4l2codecs.so) against your
-> source update date. Reminder that GStreamer is now mono-repo (just in case).
->
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
-> Hash: 54b7c1f98084c85d103446cc3f2edce42ad53b0f
->
-> Benjamin, can you confirm you have no local changes and this is the hash you are
-> building from ?
+I forgot to add traces for these as suggestion by Ezequiel in my review. I =
+think
+the patch is still acceptable as-is, I can later make a patchset on that
+specific subject. I'll would add trace for validation taking place in the
+generic control code, making this all much more consistent (and a smoother
+experience for developers).
 
-Yes that is the hash I'm using without local changes
+> +
+> +	return 0;
+> +}
+> +
+>  static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
+>  {
+>  	struct rkvdec_dev *rkvdec =3D ctx->dev;
+>  	struct rkvdec_h264_priv_tbl *priv_tbl;
+>  	struct rkvdec_h264_ctx *h264_ctx;
+> +	struct v4l2_ctrl *ctrl;
+>  	int ret;
+> =20
+> +	ctrl =3D v4l2_ctrl_find(&ctx->ctrl_hdl,
+> +			      V4L2_CID_STATELESS_H264_SPS);
+> +	if (!ctrl)
+> +		return -EINVAL;
+> +
+> +	ret =3D rkvdec_h264_validate_sps(ctx, ctrl->p_new.p_h264_sps);
+> +	if (ret)
+> +		return ret;
+> +
+>  	h264_ctx =3D kzalloc(sizeof(*h264_ctx), GFP_KERNEL);
+>  	if (!h264_ctx)
+>  		return -ENOMEM;
+> @@ -1139,23 +1193,9 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+> =20
+>  static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl=
+ *ctrl)
+>  {
+> -	if (ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS) {
+> -		const struct v4l2_ctrl_h264_sps *sps =3D ctrl->p_new.p_h264_sps;
+> -		/*
+> -		 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
+> -		 * but it's currently broken in the driver.
+> -		 * Reject them for now, until it's fixed.
+> -		 */
+> -		if (sps->chroma_format_idc > 1)
+> -			/* Only 4:0:0 and 4:2:0 are supported */
+> -			return -EINVAL;
+> -		if (sps->bit_depth_luma_minus8 !=3D sps->bit_depth_chroma_minus8)
+> -			/* Luma and chroma bit depth mismatch */
+> -			return -EINVAL;
+> -		if (sps->bit_depth_luma_minus8 !=3D 0)
+> -			/* Only 8-bit is supported */
+> -			return -EINVAL;
+> -	}
+> +	if (ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS)
+> +		return rkvdec_h264_validate_sps(ctx, ctrl->p_new.p_h264_sps);
+> +
+>  	return 0;
+>  }
+> =20
+> --=20
+> 2.34.1
+>=20
+>=20
 
-Benjamin
-
->
-> regards,
-> Nicolas
->
