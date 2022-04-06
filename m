@@ -1,39 +1,41 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C3E3D65;
-	Wed,  6 Apr 2022 22:24:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610533221;
+	Wed,  6 Apr 2022 22:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649283894; x=1680819894;
+  t=1649284214; x=1680820214;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3ul8bkNTWCZSfrE080PpKA25aPmx91a7UEV1J5UUEQU=;
-  b=B+nyWI28M7PkyX3TtvOVuMXsW+6CjdL9V4uvKIWo1TO1eeJ7IKt+kiQY
-   6jMFo1SEMyH0KfjGoJ0XfTTk8hzuA9ddSKqR7b8fZOATEEibLL8NyUivd
-   Nd4vIkh1QansZqq+Dz5k4VLK6HJskYw7ZHOCxUuTQjnabGJH7GH8A8S0D
-   Dr+07+RYnhKSSneIyI8DLo4JKBwk20xkmB8uIr069qUvQIGmGEXoaTReS
-   UbfoYD89FL53WKvNdJQJDS5izOjJKiyi9018licob54Wxy/U9fG5y0Oyb
-   8OX/IWvNGDryjoFAL2ee0JX05FhlSgCFSZW20SpmqICCgmyjgaNEuBIoo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10309"; a="260003835"
+  bh=BQxd2dKoArtzp9jyVHH2eE54PtstPiRRMOLriIfTTJ8=;
+  b=Q1pt287To3TbTUAcPuucf9Y8oDKkipJbLKHNOgQpFdx6FZNym5bmg4Lk
+   u2WCMajKey/ctiTqhS4r0nlAPAxbFD76+3Lxs/GOiy+g5Cy1SzF4p+dLc
+   heXN2IZmiNx3OGXp8PspGequFeQngUZ6SRGjmjo9DW4YVyi28NO9EltJJ
+   J3ToZu96OOiPs9PS3bCyiBL778go9Fcpf6IkzVes/z51txZbJT6sdXiZn
+   n7OrLG1/nEg/bxZRprpxFQ+3AtMf/RYOwZbNp8/GndQYxNVv5doJ3VsQp
+   GUsCQ9gFPQqGzZdiZdRovJGyWksqxr152OkcwCu3R94E6bgpdWra811IR
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10309"; a="243303836"
 X-IronPort-AV: E=Sophos;i="5.90,240,1643702400"; 
-   d="scan'208";a="260003835"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 15:24:53 -0700
+   d="scan'208";a="243303836"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 15:30:13 -0700
 X-IronPort-AV: E=Sophos;i="5.90,240,1643702400"; 
-   d="scan'208";a="524662523"
+   d="scan'208";a="549748206"
 Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 15:24:53 -0700
-Date: Wed, 6 Apr 2022 15:27:02 -0700
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 15:30:13 -0700
+Date: Wed, 6 Apr 2022 15:32:22 -0700
 From: Alison Schofield <alison.schofield@intel.com>
-To: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
+To: Rebecca Mckeever <remckee0@gmail.com>
+Cc: outreachy@lists.linux.dev, Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8712: remove unnecessary parentheses
-Message-ID: <20220406222702.GA1210425@alison-desk>
-References: <20220406215051.20483-1-eng.alaamohamedsoliman.am@gmail.com>
+Subject: Re: [PATCH 2/4] staging: r8188eu: remove extra 'the'
+Message-ID: <20220406223222.GB1210425@alison-desk>
+References: <cover.1649233201.git.remckee0@gmail.com>
+ <e259a035b79c814f871b490aa277bf0dfe23fe11.1649233201.git.remckee0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,129 +44,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220406215051.20483-1-eng.alaamohamedsoliman.am@gmail.com>
+In-Reply-To: <e259a035b79c814f871b490aa277bf0dfe23fe11.1649233201.git.remckee0@gmail.com>
 
-On Wed, Apr 06, 2022 at 11:50:51PM +0200, Alaa Mohamed wrote:
-> Reported by checkpatch:
+On Wed, Apr 06, 2022 at 03:30:58AM -0500, Rebecca Mckeever wrote:
+> Remove repeated 'the' in comment to be grammatically correct and
+> conform to Linux kernel coding style.
 > 
-> CHECK: Unnecessary parentheses around param->u.crypt.key[16]: 85
-> CHECK: Unnecessary parentheses around param->u.crypt.key[24]: 87
-> CHECK: Unnecessary parentheses around padapter->mlmepriv: 603
-> CHECK: Unnecessary parentheses around wrqu->encoding: 1497
-> CHECK: Unnecessary parentheses around wrqu->encoding: 1592
-> CHECK: Unnecessary parentheses around padapter->mlmepriv: 1593
-> CHECK: Unnecessary parentheses around wrqu->param: 1673
-> CHECK: Unnecessary parentheses around pmlmepriv->scanned_queue.lock: 1967
-> CHECK: Unnecessary parentheses around pmlmepriv->scanned_queue.lock: 1977
-> CHECK: Unnecessary parentheses around pmlmepriv->scanned_queue.lock: 1999
-
-Revisit Julia's feedback on v1. Your commit message can note the
-common property these changes share rather than listing each checkpatch
-message.
-
+> Found with checkpatch:
+> WARNING: Possible repeated word: 'the'
 > 
-> Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+> Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
 > ---
-> Changes in v2:
-> 	- Edit commit subject
-> 	- Edit commit message
-> 	- Fix the same check in more lines
-> 	- Remove space before '.skey' in
-> "memcpy(psta->tkiptxmickey.skey," in lines 84 and 86.
-
-Remove space change needs to be in a separate patch. It is not
-like the other changes.
-
-
-> ---
->  drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 24 +++++++++----------
->  1 file changed, 12 insertions(+), 12 deletions(-)
+>  drivers/staging/r8188eu/core/rtw_cmd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-> index 3b6926613257..e11332352285 100644
-> --- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-> +++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-> @@ -81,10 +81,10 @@ static inline void handle_pairwise_key(struct sta_info *psta,
->  	memcpy(psta->x_UncstKey.skey, param->u.crypt.key,
->  	       (param->u.crypt. key_len > 16 ? 16 : param->u.crypt.key_len));
->  	if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
-> -		memcpy(psta->tkiptxmickey. skey,
-> -		       &(param->u.crypt.key[16]), 8);
-> -		memcpy(psta->tkiprxmickey. skey,
-> -		       &(param->u.crypt.key[24]), 8);
-> +		memcpy(psta->tkiptxmickey.skey,
-> +		       &param->u.crypt.key[16], 8);
-> +		memcpy(psta->tkiprxmickey.skey,
-> +		       &param->u.crypt.key[24], 8);
->  		padapter->securitypriv. busetkipkey = false;
->  		mod_timer(&padapter->securitypriv.tkip_timer,
->  			  jiffies + msecs_to_jiffies(50));
-> @@ -600,7 +600,7 @@ static int r8711_wx_get_name(struct net_device *dev,
->  	u32 ht_ielen = 0;
->  	char *p;
->  	u8 ht_cap = false;
-> -	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
-> +	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
->  	struct wlan_bssid_ex *pcur_bss = &pmlmepriv->cur_network.network;
->  	u8 *prates;
+> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+> index 9f5ece52bd39..cd20811ae152 100644
+> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
+> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+> @@ -519,7 +519,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
 >  
-> @@ -1494,7 +1494,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
->  	u32 keyindex_provided;
->  	struct NDIS_802_11_WEP	 wep;
->  	enum NDIS_802_11_AUTHENTICATION_MODE authmode;
-> -	struct iw_point *erq = &(wrqu->encoding);
-> +	struct iw_point *erq = &wrqu->encoding;
->  	struct _adapter *padapter = netdev_priv(dev);
+>  	psecnetwork->IELength = 0;
+>  	/*  Added by Albert 2009/02/18 */
+
+I don't know if this type of thing "Added by Albert" is sprinkled through
+the file, but it seems they can be removed. Git will keep history of
+this file from here on. (And in case anyone asks what happened to
+Albert's notations, they can find that in the git history too ;))
+
+
+> -	/*  If the the driver wants to use the bssid to create the connection. */
+> +	/*  If the driver wants to use the bssid to create the connection. */
+>  	/*  If not,  we have to copy the connecting AP's MAC address to it so that */
+>  	/*  the driver just has the bssid information for PMKIDList searching. */
 >  
->  	key = erq->flags & IW_ENCODE_INDEX;
-> @@ -1589,8 +1589,8 @@ static int r8711_wx_get_enc(struct net_device *dev,
->  {
->  	uint key;
->  	struct _adapter *padapter = netdev_priv(dev);
-> -	struct iw_point *erq = &(wrqu->encoding);
-> -	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
-> +	struct iw_point *erq = &wrqu->encoding;
-> +	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
->  	union Keytype *dk = padapter->securitypriv.DefKey;
->  
->  	if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
-> @@ -1670,7 +1670,7 @@ static int r871x_wx_set_auth(struct net_device *dev,
->  				union iwreq_data *wrqu, char *extra)
->  {
->  	struct _adapter *padapter = netdev_priv(dev);
-> -	struct iw_param *param = (struct iw_param *)&(wrqu->param);
-> +	struct iw_param *param = (struct iw_param *)&wrqu->param;
->  	int paramid;
->  	int paramval;
->  	int ret = 0;
-> @@ -1964,7 +1964,7 @@ static int r871x_get_ap_info(struct net_device *dev,
->  		return -EINVAL;
->  	data[32] = 0;
->  
-> -	spin_lock_irqsave(&(pmlmepriv->scanned_queue.lock), irqL);
-> +	spin_lock_irqsave(&pmlmepriv->scanned_queue.lock, irqL);
->  	phead = &queue->queue;
->  	plist = phead->next;
->  	while (1) {
-> @@ -1974,7 +1974,7 @@ static int r871x_get_ap_info(struct net_device *dev,
->  		if (!mac_pton(data, bssid)) {
->  			netdev_info(dev, "r8712u: Invalid BSSID '%s'.\n",
->  				    (u8 *)data);
-> -			spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock),
-> +			spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock,
->  					       irqL);
->  			return -EINVAL;
->  		}
-> @@ -1996,7 +1996,7 @@ static int r871x_get_ap_info(struct net_device *dev,
->  		}
->  		plist = plist->next;
->  	}
-> -	spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock), irqL);
-> +	spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock, irqL);
->  	if (pdata->length >= 34) {
->  		if (copy_to_user((u8 __user *)pdata->pointer + 32,
->  		    (u8 *)&pdata->flags, 1))
 > -- 
-> 2.35.1
+> 2.32.0
 > 
 > 
