@@ -1,46 +1,44 @@
-Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com [203.205.221.191])
+Received: from out203-205-221-149.mail.qq.com (out203-205-221-149.mail.qq.com [203.205.221.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C72D17CA
-	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 03:56:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2254F7E
+	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 04:30:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1649217375;
-	bh=aX2filfSFEj5vBMtD43q72C68TIjG2JpIiWef2rV3lg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=E28zaP7TQEUvBNeHb6QJmO473EclWSsICcw+wc9A9lnFZj7DaGqIvYaS/Jk/eruX9
-	 P5Rle4I3eieJzPb5bW/Fshfx5ZBcKQ+g0lC9r/onVGlrapQVL76wQCu0CdlzsPn+h9
-	 LIB7Glyi4Y+j9tyZlpcDEKermAe/fCEXZ5lFjwn0=
+	s=s201512; t=1649219405;
+	bh=SW7cCxbNw7fP/uh78qTenXR+2MZct6mcKLxV49Y5gMI=;
+	h=From:To:Cc:Subject:Date;
+	b=EkvD29I7n+opEYEqlP+ejzhcOEPhO55hc8BAO/7zF66LKjJMUSJ+TKUEQ9DChRO2l
+	 n7zMWcAjPQbVYMML8HMBbG9i3ynYN9ju2rNv96j1kBjkiOWCyN75oNb6xYiJeaJ7lt
+	 Tn4XCtdXE52Zt3cQ2Bo+LPJkqthCZCBLyLrXmA6E=
 Received: from localhost.localdomain ([43.227.136.188])
-	by newxmesmtplogicsvrszb6.qq.com (NewEsmtp) with SMTP
-	id E0BA308F; Wed, 06 Apr 2022 11:56:11 +0800
-X-QQ-mid: xmsmtpt1649217371t6o8amq8i
-Message-ID: <tencent_E0622D1C5669EF1F14A49D79309788C39305@qq.com>
-X-QQ-XMAILINFO: MR/iVh5QLeiepNVBjjotu9W2eBdd7jHW6cnVnmELCYwwUMVgL2mQq4KY3VBBF9
-	 cPKOuTXTDxEZsF4qixtfqd9rEqGIxhPQywikdo1p4zK6aW8JCRv+ghnaJEhSe/PDDBdyImyUo3g3
-	 FF87RBCNPex5ZbFSb5xi0TK3l2qycu3ow3kjef/HYctRyL0yU7W5/fSK4etKefUvPihQIEGFlKFi
-	 2p14ULeSHV9jaQpUeLkzVmr01trjuwIK5i6CsLncOQkzZHI16MOgDuH1l08Pau5znM8gyFdWWmg0
-	 f670YqeoVG0UQBSLVq5YoEUOlUPj52EjiaAUtC9wsDHXLLDOpnoj7OptdXktgM6H2nue8Wc1uTF9
-	 i4dB8vP6/2UReWMbeeCT2h1g1F6Id2mhNrFgmR8VqyV14fvOhtfxJw/wn94xk1m42WE2nhe0T/S+
-	 trgqb6HmFX8xkk7Et2jiXzrsYPrkynH2NOHv0614OMJCRSMp7lfVPpNkkZJtTqIH55WWxzRVUp2w
-	 ozu+2XzgsfmuByeHJ0/bg8kVCGqSjyorX26uxCgXvB98NqLjnKXcJb0Suq9Lk+hdQXsECgHS38vs
-	 +qSwLoCMuYIZXBze1POIwHK2iVwfOatcK+0Cn2JxTfVhON3aEHkHvaYjx2nTojFTFrZC19w3Ym1t
-	 EFJEHNd00nqemjycOlcr6YIkBsNpHRO/eSY90vJpRJ6Qb9Q3PASWxWQLMIPrflhqoheYN9oi8XZ/
-	 zgX/QZy/rVlg0bbnlth66DlfNmY4X6sguXB92Ie0aa4I0Q/itvK7t5IBMCFz47aGY7gYVaEBjejS
-	 KviUvRKsHj4HkZsSavxhwAS17BvEYnzqv9urAKrq5UROP/qtGBUrIuTF5VapbZ/yqQ4oo2WPw2C6
-	 ZRqeDxBW/YSkS5zbNbREQuLup5b/Q1qF4e3pWaM9WoWDmC5hUZKwdS/4ACOWTpH9dO7vzwKxNX6Z
-	 Igawm7xV55OswmFA9if6y8RogZZdQ5F1ReE3czHxY=
+	by newxmesmtplogicsvrsza7.qq.com (NewEsmtp) with SMTP
+	id 7829ECDF; Wed, 06 Apr 2022 12:30:02 +0800
+X-QQ-mid: xmsmtpt1649219402tp1cwvijp
+Message-ID: <tencent_5AB92A7786438342357C5669E7BF0C249505@qq.com>
+X-QQ-XMAILINFO: NddGNcM70cPAn0dAvnaiD1hQr6vG/nJbcNjebT2nXn1KoP7NzirpfE3fK94qMT
+	 d5Ed6KskMHmRJkapWFhToWwPu4kf/PvEq/13GpvYuH+KyfHors5kI1GzZPwSEO80Y/KfXXF0wE5J
+	 1LntFpaybi8aKw+UwxIf0hcnjxsZyDVJeyaKXYPfRnE2qAm/vaUP7m6fQ9+hDotNTXGTzfCnRwKf
+	 6GgkEOQK/G45kgFaPhlMn6jjLuMteIYTsm/GjUmiHC0CoHPBSkrsx7dTNqlmD16qNAc5lr1rTdTC
+	 deApv7V5lwdbZXtNsAmxsXp7eb17+8Aro7cXZg8U2nZyGuuQpglS38Cz7D9VSbZ6w+LCWhciYpm/
+	 Wj8nNgbiABpuFfHEHvCovHLCGh4ewCmwKYAheVAXKBn0TSwAvwIS2tLY6WMHLmpUyQITR7gPV3TT
+	 VLIaLdXRZz7Cq+JJ30EKz4bKo39XqlUmeLA8GHenL7wVnSFfXv7j+y8eMwOBV9fQ/iqV5z6lXkxp
+	 7KpDWEZKOfA6B20qhMLw4h4WmSRIl0RwIn7SuiOj6A0B6W3TAeRH7V3XjfF7rBDFis0VzX1yyT9b
+	 5cqOdpYnh18ZcrKKE9GpL2mtnrmTvea0B4CqX4yNE+ujzMPV/U4sjQPQepSohNAihGcxtCgksATg
+	 x5eUDaKfR0T3UntpnVk4rwXwCPs717mecH5V1xQfqJ+a1Z7P8vBEVVkSXLWpvyanEE8w6vyxc1Q5
+	 b1dwdllZM/zxQw9k9MVbIk8+MxA6rRjjNixoTXLdU7ruucAWwcnnLn+eHF+dkfin4xKZ4BfST9Qj
+	 DbiAXSMEqLJYTlyR5HYdbZnANTgnO6LMsZtiIV5gqQTfhWD4JaJflgdSn5LV2mY0vKwPfl4NAhs5
+	 HeiNJMKkrieZAAD9LUJHbc2kJMpFXAT5gMMSt6GwBDDFyXfrIGEOMq577e625gxLTbmUI0pFpTOC
+	 GOaxY4KfKMVU6GNAIpoCqE+CP5l4N02dGdhrBImTY=
 From: xkernel.wang@foxmail.com
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH v3 3/3] staging: rtl8712: add two validation check in r8712_init_drv_sw()
-Date: Wed,  6 Apr 2022 11:56:01 +0800
-X-OQ-MSGID: <20220406035601.12934-1-xkernel.wang@foxmail.com>
-In-Reply-To: <tencent_8289F062A5E3FF2C104466AF5C5A0E1B0A07@qq.com>
-References: <tencent_8289F062A5E3FF2C104466AF5C5A0E1B0A07@qq.com>
+Subject: [PATCH v2 1/2] staging: r8188eu: fix potential memory leak in _rtw_init_xmit_priv()
+Date: Wed,  6 Apr 2022 12:29:52 +0800
+X-OQ-MSGID: <20220406042952.13372-1-xkernel.wang@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,41 +49,93 @@ Content-Transfer-Encoding: 8bit
 
 From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-_r8712_init_xmit_priv() or _r8712_init_recv_priv() returns -ENOMEM 
-when some allocations inside it failed.
-However, the caller, i.e., r8712_init_drv_sw(), does not properly 
-validate their return status, which may lead to potential wrong memory  
-access in the future.
+In _rtw_init_xmit_priv(), there are several error paths for allocation
+failures just jump to the `exit` section. However, there is no action
+will be performed, so the allocated resources are not properly released,
+which leads to various memory leaks.
 
-Therefore, this patch adds two validation check for their return status  
-and properly jump to the corresponding error hanlding code if failures 
-happen.
+To properly release them, this patch unifies the error handling code and
+several error handling paths are added.
+According to the allocation sequence, if the validation fails, it will
+jump to its corresponding error tag to release the resources.
 
 Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 ---
 ChangeLog:
-v1->v2 adjust the sequence of patches in this series.
-v2->v3 update the description.
- drivers/staging/rtl8712/os_intfs.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+v1->v2 update the description and adjust the sequence of patches.
+ drivers/staging/r8188eu/core/rtw_xmit.c | 32 ++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
-index 1f7ccec..0dbf8c2 100644
---- a/drivers/staging/rtl8712/os_intfs.c
-+++ b/drivers/staging/rtl8712/os_intfs.c
-@@ -308,8 +308,12 @@ int r8712_init_drv_sw(struct _adapter *padapter)
- 	ret = r8712_init_mlme_priv(padapter);
- 	if (ret)
- 		goto free_evt_priv;
--	_r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
--	_r8712_init_recv_priv(&padapter->recvpriv, padapter);
-+	ret = _r8712_init_xmit_priv(&padapter->xmitpriv, padapter);
-+	if (ret)
-+		goto free_mlme_priv;
-+	ret = _r8712_init_recv_priv(&padapter->recvpriv, padapter);
-+	if (ret)
-+		goto free_xmit_priv;
- 	memset((unsigned char *)&padapter->securitypriv, 0,
- 	       sizeof(struct security_priv));
- 	timer_setup(&padapter->securitypriv.tkip_timer,
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index aede8ef..865b2fc 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -112,7 +112,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 
+ 	if (!pxmitpriv->pallocated_xmitbuf) {
+ 		res = _FAIL;
+-		goto exit;
++		goto free_frame_buf;
+ 	}
+ 
+ 	pxmitpriv->pxmitbuf = (u8 *)N_BYTE_ALIGMENT((size_t)(pxmitpriv->pallocated_xmitbuf), 4);
+@@ -134,7 +134,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 			msleep(10);
+ 			res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ));
+ 			if (res == _FAIL)
+-				goto exit;
++				goto free_xmitbuf;
+ 		}
+ 
+ 		pxmitbuf->flags = XMIT_VO_QUEUE;
+@@ -152,7 +152,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 
+ 	if (!pxmitpriv->pallocated_xmit_extbuf) {
+ 		res = _FAIL;
+-		goto exit;
++		goto free_xmitbuf;
+ 	}
+ 
+ 	pxmitpriv->pxmit_extbuf = (u8 *)N_BYTE_ALIGMENT((size_t)(pxmitpriv->pallocated_xmit_extbuf), 4);
+@@ -167,10 +167,8 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 		pxmitbuf->ext_tag = true;
+ 
+ 		res = rtw_os_xmit_resource_alloc(padapter, pxmitbuf, max_xmit_extbuf_size + XMITBUF_ALIGN_SZ);
+-		if (res == _FAIL) {
+-			res = _FAIL;
+-			goto exit;
+-		}
++		if (res == _FAIL)
++			goto free_xmit_extbuf;
+ 
+ 		list_add_tail(&pxmitbuf->list, &pxmitpriv->free_xmit_extbuf_queue.queue);
+ 		pxmitbuf++;
+@@ -200,8 +198,26 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 
+ 	rtl8188eu_init_xmit_priv(padapter);
+ 
+-exit:
++	return _SUCCESS;
+ 
++free_xmit_extbuf:
++	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmit_extbuf;
++	while (i-- > 0) {
++		rtw_os_xmit_resource_free(padapter, pxmitbuf, (max_xmit_extbuf_size + XMITBUF_ALIGN_SZ));
++		pxmitbuf++;
++	}
++	vfree(pxmitpriv->pallocated_xmit_extbuf);
++	i = NR_XMITBUFF;
++free_xmitbuf:
++	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
++	while (i-- > 0) {
++		rtw_os_xmit_resource_free(padapter, pxmitbuf, (MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ));
++		pxmitbuf++;
++	}
++	vfree(pxmitpriv->pallocated_xmitbuf);
++free_frame_buf:
++	vfree(pxmitpriv->pallocated_frame_buf);
++exit:
+ 	return res;
+ }
+ 
 -- 
