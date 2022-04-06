@@ -1,104 +1,99 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D60233E0;
-	Wed,  6 Apr 2022 15:29:04 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id q20so1728173wmq.1;
-        Wed, 06 Apr 2022 08:29:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631CE33E0;
+	Wed,  6 Apr 2022 15:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/OoZmBV6a3q7C/3gzu8v5F8pfjhaFDRNfwnDlF4guvE=;
-        b=oi7mwnQZxklMgYGBbElVGCwjk52RB8MRTrGyWne253R+fc9EBZw3ESQplq60UDOXVx
-         wml1DRrw5I37P3RNMaF8TNTGfg81mrCsjydn/389WFITuJEmvJNIyrchU/VJkrDEY2Ck
-         ePAJ+3nlylSmAHK3NhsY6+x1mzp4gHiGF9VFhGZhWA4/4A0NcJZCVAi+IeakJMYCei5d
-         kZbJuyQVu4PZDzUt1AA9/wJn6jOgd6heJUtDEWR1yDKA5dWWwjdLfZq0M7aJVKd7rA2l
-         WM/ndh/hXo+I2LkUpBUW64wUURY66sdi6V84m3hIdCS+5azp2VKcWEoOcQix87MjPftb
-         Au6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/OoZmBV6a3q7C/3gzu8v5F8pfjhaFDRNfwnDlF4guvE=;
-        b=xrDomtrcHMRW6fk14JdFzTtsKXxUzy3H5RcCciDNKvNI8VsibTMhY5QU0wJ555WHEq
-         IwNHxZIKCaNRw2ASUHgGtTZLVGHhrKiuROR7MBj8s/flaX6dHo2XOIsNogZ+tWFhpaD9
-         nFmwtb+RhTiWHFtx1zt6X2r02nf5ybXDz0zlTQQfqW47olxYNWHCd2RdVesNPYKPdXeF
-         MaGP0s8lVroZv76nL5krJqZQeBvG3a+ZH9x6t8THOn56RGT0B8a0qYGe+hAuGrPcaK5j
-         7a2pYWkPG0nKOjWltnIB01H4UdeeStaL8gH43DZcLpmK/GGEG8JFWepvmuPkf6V/E+jz
-         ToUQ==
-X-Gm-Message-State: AOAM532C6GdntmRDWb6fwdXaAB4EOdp1bnizT1N/B1gTYSG3C4YGPP4z
-	FbFzZG1VRDthj8SIyBfSi+Y6el1/0gs=
-X-Google-Smtp-Source: ABdhPJxeE1BWWbybSlRUi9+rf49ljbgw6jcOREs0BLela241O37oI6RVcumQU6jROx5xhhq3eykqXw==
-X-Received: by 2002:a7b:cc15:0:b0:381:3fb8:5f93 with SMTP id f21-20020a7bcc15000000b003813fb85f93mr7795229wmh.106.1649258942169;
-        Wed, 06 Apr 2022 08:29:02 -0700 (PDT)
-Received: from alaa-emad ([197.57.159.73])
-        by smtp.gmail.com with ESMTPSA id g16-20020a05600c4ed000b0038ceb0b21b4sm6465966wmq.24.2022.04.06.08.29.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 08:29:01 -0700 (PDT)
-From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	eng.alaamohamedsoliman.am@gmail.com
-Subject: [PATCH] staging: rtl8712: remove Unnecessary parentheses
-Date: Wed,  6 Apr 2022 17:28:58 +0200
-Message-Id: <20220406152858.14076-1-eng.alaamohamedsoliman.am@gmail.com>
-X-Mailer: git-send-email 2.35.1
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=jzSTEJQcGfGZ7JxkMk9H1mBl0JJZpFa9fo6uzqvky2Q=;
+  b=sGIk5oEDLdgRxABX5JIFjj+a2Kwz7ZcKwYfWPfcBi5oloLW25ieCgVX/
+   iZY2U4Tiz6RogGzLu2VXuXumoCAbtyqXBs8t6/aRFgKMPg6hWiQ+j5wF8
+   0Qfe7ljgfV39td61LZ7Ny1ypPWU0gjUPh0ww4ZnvjbDemrUPJFdQcKLOj
+   E=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,240,1643670000"; 
+   d="scan'208";a="30395387"
+Received: from unknown (HELO hadrien) ([95.128.147.62])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 17:37:48 +0200
+Date: Wed, 6 Apr 2022 17:37:43 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: julia@hadrien
+To: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net, 
+    florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8712: remove Unnecessary parentheses
+In-Reply-To: <20220406152858.14076-1-eng.alaamohamedsoliman.am@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2204061735340.2349@hadrien>
+References: <20220406152858.14076-1-eng.alaamohamedsoliman.am@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Reported by checkpatch:
+If you want to capitalize something in the subject, it could be the first
+word.  Capitalizing the second word is a bit strange.
 
-CHECK: Unnecessary parentheses
+On Wed, 6 Apr 2022, Alaa Mohamed wrote:
 
-Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
----
- drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> Reported by checkpatch:
+>
+> CHECK: Unnecessary parentheses
 
-diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-index 3b6926613257..6c692ad7bde7 100644
---- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-+++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-@@ -82,9 +82,9 @@ static inline void handle_pairwise_key(struct sta_info *psta,
- 	       (param->u.crypt. key_len > 16 ? 16 : param->u.crypt.key_len));
- 	if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
- 		memcpy(psta->tkiptxmickey. skey,
--		       &(param->u.crypt.key[16]), 8);
-+		       &param->u.crypt.key[16], 8);
- 		memcpy(psta->tkiprxmickey. skey,
--		       &(param->u.crypt.key[24]), 8);
-+		       &param->u.crypt.key[24], 8);
- 		padapter->securitypriv. busetkipkey = false;
- 		mod_timer(&padapter->securitypriv.tkip_timer,
- 			  jiffies + msecs_to_jiffies(50));
-@@ -600,7 +600,7 @@ static int r8711_wx_get_name(struct net_device *dev,
- 	u32 ht_ielen = 0;
- 	char *p;
- 	u8 ht_cap = false;
--	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
-+	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
- 	struct wlan_bssid_ex *pcur_bss = &pmlmepriv->cur_network.network;
- 	u8 *prates;
- 
-@@ -1996,7 +1996,7 @@ static int r871x_get_ap_info(struct net_device *dev,
- 		}
- 		plist = plist->next;
- 	}
--	spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock), irqL);
-+	spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock, irqL);
- 	if (pdata->length >= 34) {
- 		if (copy_to_user((u8 __user *)pdata->pointer + 32,
- 		    (u8 *)&pdata->flags, 1))
--- 
-2.35.1
+Indicating that the problem was detected by checkpatch is good.  But
+actually, the parentheses all have the same property.  So you could use
+the log message to describe what kind of unnecessary parentheses were
+removed.  That would help the maintainer know what to look for.
 
+julia
+
+> Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+> ---
+>  drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+> index 3b6926613257..6c692ad7bde7 100644
+> --- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+> +++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+> @@ -82,9 +82,9 @@ static inline void handle_pairwise_key(struct sta_info *psta,
+>  	       (param->u.crypt. key_len > 16 ? 16 : param->u.crypt.key_len));
+>  	if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
+>  		memcpy(psta->tkiptxmickey. skey,
+> -		       &(param->u.crypt.key[16]), 8);
+> +		       &param->u.crypt.key[16], 8);
+>  		memcpy(psta->tkiprxmickey. skey,
+> -		       &(param->u.crypt.key[24]), 8);
+> +		       &param->u.crypt.key[24], 8);
+>  		padapter->securitypriv. busetkipkey = false;
+>  		mod_timer(&padapter->securitypriv.tkip_timer,
+>  			  jiffies + msecs_to_jiffies(50));
+> @@ -600,7 +600,7 @@ static int r8711_wx_get_name(struct net_device *dev,
+>  	u32 ht_ielen = 0;
+>  	char *p;
+>  	u8 ht_cap = false;
+> -	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
+> +	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
+>  	struct wlan_bssid_ex *pcur_bss = &pmlmepriv->cur_network.network;
+>  	u8 *prates;
+>
+> @@ -1996,7 +1996,7 @@ static int r871x_get_ap_info(struct net_device *dev,
+>  		}
+>  		plist = plist->next;
+>  	}
+> -	spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock), irqL);
+> +	spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock, irqL);
+>  	if (pdata->length >= 34) {
+>  		if (copy_to_user((u8 __user *)pdata->pointer + 32,
+>  		    (u8 *)&pdata->flags, 1))
+> --
+> 2.35.1
+>
+>
+>
