@@ -1,99 +1,97 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9EC190;
+	Wed,  6 Apr 2022 06:54:11 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:ff63:de1f:2a77:5241] (unknown [IPv6:2a01:e0a:120:3210:ff63:de1f:2a77:5241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D474B17E8
-	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 06:19:17 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id bg10so2128611ejb.4
-        for <linux-staging@lists.linux.dev>; Tue, 05 Apr 2022 23:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XRSeg/Lx0QJPiA9N9HHqOiU0JUD3WFJS5KpLC8e8al8=;
-        b=hAlKLpwqlxQfWYv8WAtYio5MqemQ+ZxJp68y8dLhZnbhPVsvdI5OwQ8eH8e2TLqsB/
-         K+0pv/feOiCVp44t+pTuKjMELYjGkkYB91tC//gM+bMZbVOXcxIyBlE7xEIF7ZSKIkxA
-         nIkIjRFvuAhoW86ZvcE5VDgYsa1z/J08GNO9OJQ1h7L7oS54oHCLUbT04ibs/BZJiaVK
-         emQAa1w0yRPxwJHvZSdhi12NiuS650Nlv3FJ7tmtv/+Nnl1cgiMGSJwuS/0ltx+HC+RW
-         8DChNYEgRgQvSYcKdUNqnSmGyMMcUDqT6GbOyJ6tiWrOencTJo7uJHoVPkfpiZ0/ut4z
-         mTog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XRSeg/Lx0QJPiA9N9HHqOiU0JUD3WFJS5KpLC8e8al8=;
-        b=DaHHOlQ3lfkdWk9T5FKf8/DFuynOUlcmC1IedkVtO/MWVKeBdzJytPE+8HtML5lm1J
-         Ql4wu+IbKLZYmkIjqGmsyt6vj6TqpAsgK0SFicDQuVzP2ocwgNyVZUbs/oA4jvLWFzKm
-         WskNcTLV4CIeBfA14DwTGOrrCWxAdDg4rbpeOplS/9wfg9ZUQ2yreVhsmIdx4i/BhTqU
-         HVxpjBOOZIl0/aXPM15wjehk/vxc/7A6kVfaGlx2FTe1+IsNDAIHnsIxqyhYnNh+j35K
-         WV8WAMOz3ZVjrU/bTMQ+P1bvpFCk5pkymWAJJLKDFEkpxMOtfShzZm72Vr7vVOJtNw0f
-         aDLw==
-X-Gm-Message-State: AOAM531qDHDDJPFssOd4dpZanX3F3HdJfh0XobjZFYliCorFlOZUOFLe
-	J47lu/l2tDDfJznvcmDAdPg=
-X-Google-Smtp-Source: ABdhPJzVASTH+rw+vBWafl7Vx3lSBIUK0lzuB9Wzg1uKkED1RFkQZt+lw06cgao2WU3AdEDbF7/sMQ==
-X-Received: by 2002:a17:906:a046:b0:6b9:20c:47c1 with SMTP id bg6-20020a170906a04600b006b9020c47c1mr6779846ejb.615.1649225956258;
-        Tue, 05 Apr 2022 23:19:16 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id q3-20020a50da83000000b0041cdd6e92b1sm2475251edj.27.2022.04.05.23.19.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 23:19:15 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/5] staging: r8188eu: remove unused _RND* from osdep_service.h
-Date: Wed,  6 Apr 2022 08:18:59 +0200
-Message-Id: <20220406061859.9011-6-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220406061859.9011-1-straube.linux@gmail.com>
-References: <20220406061859.9011-1-straube.linux@gmail.com>
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8091E1F44519;
+	Wed,  6 Apr 2022 07:54:09 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649228050;
+	bh=tqnMuI8tFUvTxaTXTOvtQ2qzTn9cKLNn18CehTYmq8w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hpbelg9ITQRa7aKF8ZvmRAihh+Xif2IZ1f80s4ReZW/+hjfUjbf6YDv0q+uTSAAyU
+	 +hp+8WaicFUXLVxHALbFU932x/O6gAmvj2w3STI3dwKIPTyEQbU63eAFAijijUcX5a
+	 7QQB0Ed4hvVe1vByawUjFE1muivhK0HdFyqeMdjcToNxpvOg5X90+fExd/Atfomwox
+	 XZS4lRr3b+/3cIbpuJgdJqsqjK55zAYRosi7aupAcwRd/Yluf91gLoLCkZzmWhfLeK
+	 P00ix/kzuCyg8he3Oxjp8uUq1LYP4VLO5WrBtyecAbkLYNBxowyjPZXPkQXSvLTRWR
+	 g/RXf+JtfVQaw==
+Message-ID: <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
+Date: Wed, 6 Apr 2022 08:54:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
+Content-Language: en-US
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de
+Cc: mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl,
+ gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+ <b6987a9a-56af-f63f-b60a-37df141d6e89@collabora.com>
+ <4386971.LvFx2qVVIh@jernej-laptop>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <4386971.LvFx2qVVIh@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Remove the unused macro _RND() and the unused functions _RND256(),
-_RND512() from osdep_service.h.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- .../staging/r8188eu/include/osdep_service.h    | 18 ------------------
- 1 file changed, 18 deletions(-)
+Le 05/04/2022 à 20:40, Jernej Škrabec a écrit :
+> Hi Benjamin!
+>
+> Dne torek, 05. april 2022 ob 18:07:41 CEST je Benjamin Gaignard napisal(a):
+>> Le 27/02/2022 à 15:49, Jernej Skrabec a écrit :
+>>> First two patches add 10-bit formats to UAPI, third extends filtering
+>>> mechanism, fourth fixes incorrect assumption, fifth moves register
+>>> configuration code to proper place, sixth and seventh enable 10-bit
+>>> VP9 decoding on Allwinner H6 and last increases core frequency on
+>>> Allwinner H6.
+>>>
+>>> I'm sending this as RFC to get some comments:
+>>> 1. format definitions - are fourcc's ok? are comments/descriptions ok?
+>>> 2. is extended filtering mechanism ok?
+>>>
+>>> I would also like if these patches are tested on some more HW.
+>>> Additionally, can someone test tiled P010?
+>>>
+>>> Please take a look.
+>> Hi Jernej,
+>>
+>> I have create a branch to test this series with VP9 and HEVC:
+>> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/10bit_imx
+>> 8m Feel free to pick what I may need in it.
+>>
+>> That doesn't improve fluster scores, I think more dev are still needed in
+>> GST before getting something fully functional.
+>> Anyway I able to select P010 pixel format if the input is a 10bit bitstream.
+> What kind of improvements do you expect? Actually, this series is designed to
+> change nothing for platforms, where 10-bit format is not added into the list
+> of supported formats. I think reasons are quite obvious. First, not every
+> device may support 10-bit output. Second, as you might already figured it out,
+> registers in this series are set only for legacy cores. I have no idea, what
+> needs to be done for newer ones, since I don't have them. Anyway, I tested
+> this with fluster and only one additional test passes, because it is the only
+> one for 10-bit YUV420.
 
-diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index f6c55f6c9e1a..f1f3e3ba5377 100644
---- a/drivers/staging/r8188eu/include/osdep_service.h
-+++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -94,24 +94,6 @@ static inline void flush_signals_thread(void)
- 		flush_signals(current);
- }
- 
--#define _RND(sz, r) ((((sz)+((r)-1))/(r))*(r))
--
--static inline u32 _RND256(u32 sz)
--{
--	u32	val;
--
--	val = ((sz >> 8) + ((sz & 255) ? 1: 0)) << 8;
--	return val;
--}
--
--static inline u32 _RND512(u32 sz)
--{
--	u32	val;
--
--	val = ((sz >> 9) + ((sz & 511) ? 1: 0)) << 9;
--	return val;
--}
--
- struct rtw_netdev_priv_indicator {
- 	void *priv;
- 	u32 sizeof_priv;
--- 
-2.35.1
+In this series you will find that I have added the registers for the new cores,
+fix hevc to be able to use 10-bit, and enable that in IMX8M.
 
+Regards,
+Benjamin
+
+>
+> Best regards,
+> Jernej
+>
+>
