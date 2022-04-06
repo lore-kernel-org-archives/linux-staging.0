@@ -1,126 +1,162 @@
-Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com [203.205.221.191])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A0E7E
-	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 04:30:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1649219450;
-	bh=6rBElJ0qW4HDdHbJHceH6b2ehGQNwWjmaMG9691pNhQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ZAFWaEMI1RiujXRoNw419i7o1zIlAZkBH/12rYyTAbTO3itjb/Pl9dugzIZiJP9x/
-	 sZZtxiiXm8j60CU/Np/JSSU007569fVS2PIxxBIY2BBB1sGgVOIZfNfzyUf5XkCcqq
-	 7okkI/Clkqw4eBzbcw/1HqXU4RbqD8Pchs5QEaL0=
-Received: from localhost.localdomain ([43.227.138.48])
-	by newxmesmtplogicsvrszc6.qq.com (NewEsmtp) with SMTP
-	id 7AF8D06E; Wed, 06 Apr 2022 12:30:47 +0800
-X-QQ-mid: xmsmtpt1649219447tssay7uu7
-Message-ID: <tencent_15C23F2EC8197361EE200714C54E78B45206@qq.com>
-X-QQ-XMAILINFO: NMGzQWUSIfvTbni/KihziXXGqr+Qs2lNBeV/C6dUBbYXHX3sJ6jYnkKoDKKL98
-	 cutp4kam/yeBVRMQ2IcecP2o87TyIbfktM469wXQYOr/EXA5xU8FXmZHupXg3fVd6lp4rh9muiGl
-	 SUkCxDZppdU1WEafV+1ptsUHU3kQb1juAXFnJrtOisw/Gr8ZkTLhaU/yN+LxX91rCoOwg5N6TfMG
-	 3dV7hBuB0U3cUqohwWc+AyYsMyMp1Q4zogKDFXB001tvQXEn+B99bZkPsfEZb5szUJb+Av6NQR43
-	 Gj5N1/51vuFN9uLVn09zBTrH5aw1rPxauIpTG1B7Hkg7r/LOMo30NhwZ69BGeIO9bv2PQvbwObNP
-	 qJbuaigqTyHGH4N7hH7AcY+IrVGBUm7q5qMxx66/DLInfJZy/Dzpkrrqv0VVd8nDXyF1V4vu3Cg3
-	 rnj7ebkI9FCY9Qz8GHZS1t3BFBpBej8r+c4O49FwkqWrWt8bmnRaMZuefRaLDyBg81ea+N3rxRss
-	 lbQuJiu8aNlgRb1YwpPIiITTnMySzHB4Au9ZxVM5k65JZnhoWYnHOqu07RRojr6EvQEtNXQRcHSc
-	 Iw7wn79bOgOLCuTPFF87E9bsUxa9DFmPLV/gdGhodyRnpho6HddUkCBNZ6DoTi+Uj55UHSjb/468
-	 q8qFFxTGUPkZOuJ+WoYdAud66TWXLhWM+OrP1DGwpZgEioynISQEFwvfXpMFwDEth5mIO4beEy4x
-	 ab+mCMaG0+zz1pP2u3qj19nftyDufewG0KFd+DBm5uaAsl/Ni18RkBZ0NjblghGN49FuFk7hiKvr
-	 9pjqMqKlVKWLhDvGxjph6HicmipYEWeg6ubn7zVwH4RIiQFQter+Vyty3CuhQaIZTa6JnJkao20M
-	 un9NHbjAjreHX4i9F6TGrXLAx1eDeN21WTVf1AHSz6AAr9Wrey55y3zJ/73CmkBFqms7ZjrSLd4M
-	 locErS4lax8vBfenHbF2ikSiUarEYAWSSs+ofe/sv8kDwoIM05HQ==
-From: xkernel.wang@foxmail.com
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH v2 2/2] staging: r8188eu: check the return of kzalloc()
-Date: Wed,  6 Apr 2022 12:30:32 +0800
-X-OQ-MSGID: <20220406043032.13393-1-xkernel.wang@foxmail.com>
-In-Reply-To: <tencent_5AB92A7786438342357C5669E7BF0C249505@qq.com>
-References: <tencent_5AB92A7786438342357C5669E7BF0C249505@qq.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52F47E
+	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 05:17:55 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id z8so1358852oix.3
+        for <linux-staging@lists.linux.dev>; Tue, 05 Apr 2022 22:17:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=EaYNgx8KbJOaAquzTTA9wZHzyzdVTdSankAvb1CZzyQ=;
+        b=x5n6cdCJEE/VCj3mLhng1qEaAEHHuW6CnLjYyMKJ8C5R5ZP0Q7JKSOAngNXZvEssT6
+         qYwF0nXkMrFHlG642wUJQ96R8zpKlbaA/iAu1W8vgASVZWN7754Y3hfqO2OLH7MlHlKO
+         ME6PI4A7vIvIay1Q1f8uJsQT4BK9tIPX8xmd/ugQJKSMeeEZPAKla6chmuZzSlbn/t7P
+         mGKdo/EHI/X1JEU3CvMq6WouABaUMJBGUExshvChDadmSyo+WH+DcM5YIqYJa+roV5UP
+         F0HGy42FpfZK4jAnq9YXXQQ5XGQc9/lIKTTMJwH4O9fdpI4TOuVX59WoOrmEpLxIWeL0
+         B4Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EaYNgx8KbJOaAquzTTA9wZHzyzdVTdSankAvb1CZzyQ=;
+        b=1WR+KZHUNgl7SyUXgKo9VFBz0iYXz17nJJbO5BQY7H/vSEYM8Sxpv1TuNLYprmRNnD
+         4Oc9BaQShxfM3X1cRuPNCY6941Yj9K24RIwIpxKpaOcB+eGLDUmUikwGcKHhw4g9aMgE
+         MqeR/ryvwh0V10as0M2p4fW6huf8UbSSaB/jANcvhS9k1dWIyW6Fqyf18aiSJarvJB4J
+         CRdJ2K0xH1KeZmWovA4tOhRHuTKi/+/oDTU1ElV2UIxytwOii1NFwFmETGBSAim+lHjc
+         /CsIxHI4HAh4PK/cTLUnzlHfVcRPA4xVm5bzriPeG16lFql1oam4/Wo33Fzd5vdhMUjc
+         rexg==
+X-Gm-Message-State: AOAM532xc2J77sA2GnA2igic17N9joOUKLYvbP94Ucbo7urQTCzFAwK6
+	GW5i7wM8U0EHklUxADP5SIvRNA==
+X-Google-Smtp-Source: ABdhPJznshMWCCRKhfXQIHf+0aM9ZllfI4xIqhhI3AR7UIbt17C0rKLn8MOFpYfzpZrwKU3Nu8zULQ==
+X-Received: by 2002:aca:f286:0:b0:2da:58ba:c578 with SMTP id q128-20020acaf286000000b002da58bac578mr2846902oih.127.1649222274622;
+        Tue, 05 Apr 2022 22:17:54 -0700 (PDT)
+Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
+        by smtp.gmail.com with ESMTPSA id gk6-20020a0568703c0600b000de4880b357sm6038605oab.50.2022.04.05.22.17.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Apr 2022 22:17:53 -0700 (PDT)
+Date: Wed, 6 Apr 2022 02:17:48 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kernel@collabora.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 15/24] media: rkvdec: Move H264 SPS validation in
+ rkvdec-h264
+Message-ID: <Yk0ifIfQmk9n5vyu@eze-laptop>
+References: <20220405204426.259074-1-nicolas.dufresne@collabora.com>
+ <20220405204426.259074-16-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220405204426.259074-16-nicolas.dufresne@collabora.com>
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+On Tue, Apr 05, 2022 at 04:44:16PM -0400, Nicolas Dufresne wrote:
+> No function change, this moves H264 specific validation into the H264
+> specific code. This is in preparation of improving this validation and
+> reusing at streamone.
+> 
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-kzalloc() is a memory allocation function which can return NULL when
-some internal memory errors happen. So it is better to handle the return
-of it to prevent potential wrong memory access.
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-Besides, to propagate the error to the caller, the type of
-rtw_alloc_hwxmits() is changed and another check is added in its caller.
-Then if kzalloc() fails, the caller will properly jump to the
-corresponding error hanlding code.
-
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
-ChangeLog:
-v1->v2 update the description and adjust the sequence of patches.
- drivers/staging/r8188eu/core/rtw_xmit.c    | 10 ++++++++--
- drivers/staging/r8188eu/include/rtw_xmit.h |  2 +-
- 2 files changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 865b2fc..92a1ad3 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -176,7 +176,9 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
- 
--	rtw_alloc_hwxmits(padapter);
-+	res = rtw_alloc_hwxmits(padapter);
-+	if (res == _FAIL)
-+		goto free_xmit_extbuf;
- 	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
- 
- 	for (i = 0; i < 4; i++)
-@@ -1490,7 +1492,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
- 	return res;
- }
- 
--void rtw_alloc_hwxmits(struct adapter *padapter)
-+s32 rtw_alloc_hwxmits(struct adapter *padapter)
- {
- 	struct hw_xmit *hwxmits;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
-@@ -1498,6 +1500,8 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
- 	pxmitpriv->hwxmit_entry = HWXMIT_ENTRY;
- 
- 	pxmitpriv->hwxmits = kzalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry, GFP_KERNEL);
-+	if (!pxmitpriv->hwxmits)
-+		return _FAIL;
- 
- 	hwxmits = pxmitpriv->hwxmits;
- 
-@@ -1514,6 +1518,8 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
- 		hwxmits[3] .sta_queue = &pxmitpriv->bk_pending;
- 	} else {
- 	}
-+
-+	return _SUCCESS;
- }
- 
- void rtw_free_hwxmits(struct adapter *padapter)
-diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
-index b2df148..fa35776 100644
---- a/drivers/staging/r8188eu/include/rtw_xmit.h
-+++ b/drivers/staging/r8188eu/include/rtw_xmit.h
-@@ -341,7 +341,7 @@ s32 rtw_txframes_sta_ac_pending(struct adapter *padapter,
- void rtw_init_hwxmits(struct hw_xmit *phwxmit, int entry);
- s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter);
- void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv);
--void rtw_alloc_hwxmits(struct adapter *padapter);
-+s32 rtw_alloc_hwxmits(struct adapter *padapter);
- void rtw_free_hwxmits(struct adapter *padapter);
- s32 rtw_xmit(struct adapter *padapter, struct sk_buff **pkt);
- 
--- 
+> ---
+>  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 ++++++++++++++++++++++
+>  drivers/staging/media/rkvdec/rkvdec.c      | 23 ++++++----------------
+>  drivers/staging/media/rkvdec/rkvdec.h      |  1 +
+>  3 files changed, 30 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> index 8d44a884a52e..0dcbcb1bac80 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> @@ -1137,9 +1137,32 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+>  	return 0;
+>  }
+>  
+> +static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
+> +{
+> +	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+> +		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+> +		/*
+> +		 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
+> +		 * but it's currently broken in the driver.
+> +		 * Reject them for now, until it's fixed.
+> +		 */
+> +		if (sps->chroma_format_idc > 1)
+> +			/* Only 4:0:0 and 4:2:0 are supported */
+> +			return -EINVAL;
+> +		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+> +			/* Luma and chroma bit depth mismatch */
+> +			return -EINVAL;
+> +		if (sps->bit_depth_luma_minus8 != 0)
+> +			/* Only 8-bit is supported */
+> +			return -EINVAL;
+> +	}
+> +	return 0;
+> +}
+> +
+>  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
+>  	.adjust_fmt = rkvdec_h264_adjust_fmt,
+>  	.start = rkvdec_h264_start,
+>  	.stop = rkvdec_h264_stop,
+>  	.run = rkvdec_h264_run,
+> +	.try_ctrl = rkvdec_h264_try_ctrl,
+>  };
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index 2df8cf4883e2..e3d44d5b35f3 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -29,23 +29,12 @@
+>  
+>  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+> -	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+> -		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+> -		/*
+> -		 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
+> -		 * but it's currently broken in the driver.
+> -		 * Reject them for now, until it's fixed.
+> -		 */
+> -		if (sps->chroma_format_idc > 1)
+> -			/* Only 4:0:0 and 4:2:0 are supported */
+> -			return -EINVAL;
+> -		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+> -			/* Luma and chroma bit depth mismatch */
+> -			return -EINVAL;
+> -		if (sps->bit_depth_luma_minus8 != 0)
+> -			/* Only 8-bit is supported */
+> -			return -EINVAL;
+> -	}
+> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+> +
+> +	if (desc->ops->try_ctrl)
+> +		return desc->ops->try_ctrl(ctx, ctrl);
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+> index 2f4ea1786b93..9df0fba799a4 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.h
+> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> @@ -72,6 +72,7 @@ struct rkvdec_coded_fmt_ops {
+>  	void (*done)(struct rkvdec_ctx *ctx, struct vb2_v4l2_buffer *src_buf,
+>  		     struct vb2_v4l2_buffer *dst_buf,
+>  		     enum vb2_buffer_state result);
+> +	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+>  };
+>  
+>  struct rkvdec_coded_fmt_desc {
+> -- 
+> 2.34.1
+> 
