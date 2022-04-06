@@ -1,101 +1,173 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F7033C7
-	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 17:22:40 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id d7so3442733edn.11
-        for <linux-staging@lists.linux.dev>; Wed, 06 Apr 2022 10:22:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9596533D5
+	for <linux-staging@lists.linux.dev>; Wed,  6 Apr 2022 17:50:05 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id a11so5566622qtb.12
+        for <linux-staging@lists.linux.dev>; Wed, 06 Apr 2022 10:50:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=B+W0ovMUi1rIKA0H93ONQhbPqTAcvMIJLIIKO5SgqwQ=;
-        b=IzSY30tgeyKhJuKVSko7726mC81nlvAkiLdzsHO/ZwKLkKoHDRbmlJjHKuYL1Epend
-         rs/Aqq7xdrjRZLwegY34CwXuxl2+zVh61xNV32DA/KHraAHU9EAzvpcnemAEyZFKOzWA
-         Ofi4K2bGrWCXUsD4ztxL/uwDCjD/DrVAxhzbkXA4JHVsnDmjdR+5jbxUBD2y+6qOlH1T
-         Ak+gDSxY//HWNaSnUOcVu/DYS2XZu5ZzwqJtdDXYTZ43H/kYjRFFjb4Duhx51/zG6i5c
-         48IZillBqMKk3h4fth3Szwm86RUPZjYhsT3ITtKe7NaleefGYdmauqxXrUrPBBswSsDN
-         jLbw==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=nbgYNk5Esw76+oSTzku5Iq0RBseYj50R251OC+s1Zko=;
+        b=oE77XjhZJdBZs73vBmWDSWOcpU+0g2TAF7dqKJsm0FrsMjk1RH5VR1BlQ5zyc+Ew0E
+         YAyZ7/3GSXX52HLi4w0ZLcWVx8WEfp2H70UxOLZhb4x9Tw8uCMDrbM5d5FHn6SM8+gwO
+         oJK9Mz7nWH9ol3Rrrfkwe3OikbspOO3ypvUVHlstZXQHmen/ZBRY15meUrtAA7c3OsiH
+         QTmrE/4Q7sxCk3fFXjAd0HZnALSONcplj2n9nhPVNVpiCO2IvqkTQM6QBRqJh5D4ZlDw
+         eJ5RkVM+Vz9/V7oOKSfMoNmKqTRPPtOn7EnIojoHf3XYwhNUGCPXlmEsvVhrbnUTWod8
+         nu/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=B+W0ovMUi1rIKA0H93ONQhbPqTAcvMIJLIIKO5SgqwQ=;
-        b=vxEa1S+46Vhd989v2YBj+TDbgcKXdRAQ1NUjbvA1FDJI7e3Z5C9zBpQvMXHPW4Ny98
-         26ctQ+IhfNd1WqIJdB4yPkSwUt1X7Ht+vtZtqZGgqSdZN6TFBVJ7uMq6XVXdD1+Spp1a
-         ++17Jqh738NRWOFe+2ZwcOsp4ibKiW1zJzwGncnO8EOVR+yKBZIPw+VPcpGCICm9JpA2
-         DcZSQSTHMoAoz7/YOEo5N85aZkGzrzIyvbbeHwMLzoBKAgVre91NtdJviqOO7JlcbAqL
-         oELIw8BmaUuJ85M+wn7BR4CQdBsRC4V5rwmJYq/Oe3tOQLE1iRTd6x52QHJ9dykhSiwU
-         DNBQ==
-X-Gm-Message-State: AOAM5323eA2BLrCOkyaBk299OD0WIuWCoBF6F5pwmad3v/k9Purl8h5b
-	4dS3dzPIVop0HK+urbuEg3DUV6CjC0Y=
-X-Google-Smtp-Source: ABdhPJyV9ip0vEfW8t15CaHBNwMXTEUy7+OTeQqIbWiHb4nBZQ9DWREueTCro87PMdTdruq9R4xykg==
-X-Received: by 2002:a05:6402:10d5:b0:408:f881:f0f3 with SMTP id p21-20020a05640210d500b00408f881f0f3mr9857798edu.112.1649265759220;
-        Wed, 06 Apr 2022 10:22:39 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id da19-20020a056402177300b00413583e0996sm7912730edb.14.2022.04.06.10.22.38
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=nbgYNk5Esw76+oSTzku5Iq0RBseYj50R251OC+s1Zko=;
+        b=E+O1M9y4ArUrRphNb+3qAVQIztBjrX0Cqvt1vB4EJQS9V7fGkGGHkH9RIVLA0mqh57
+         RqlbVnSOodVweLAJcmjUb1URYr8J9O25hYdHA7ZWEcKGiWw87+5hqh8AKp71itTQYTZi
+         sne3YxY1Z++xvWA8MN9NAHAhj0/4NN8dyCkwuBrkkDCRgaf5u3pQAfc26ntTFINhMa/M
+         ZwLpvyNk7NDwqEknAbWsB6xg+9fYeK/vw/hXFbdBV3ESUYYGSg6Ep3Ct4R0Lmu/+cOmH
+         I6uW4FJPrnlsHosXG9OE5Z6AzXHHEI10jvIBK7aOUD8gcSCP/p4M4NUCXQ233b3K4dNB
+         eiOQ==
+X-Gm-Message-State: AOAM530g8N9DtVfTQtSp2MffQWrMm4aEH+XpjBvA3spKFT1EhRSHJqqU
+	kIch26cKqIbYIqy26+359eiBFQ==
+X-Google-Smtp-Source: ABdhPJylSRQCASHDcc/QNJp7o7BwkgXxThlNUItggDkKtsHMdcE9vZQxW5pxT61gwxRLUSzl83zB0g==
+X-Received: by 2002:ac8:5a8f:0:b0:2e1:df21:d86f with SMTP id c15-20020ac85a8f000000b002e1df21d86fmr8769717qtc.450.1649267404445;
+        Wed, 06 Apr 2022 10:50:04 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id 78-20020a370551000000b0067e3a58c090sm10057930qkf.82.2022.04.06.10.50.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 10:22:38 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 5/5] staging: r8188eu: remove unused _RND* from osdep_service.h
-Date: Wed,  6 Apr 2022 19:22:19 +0200
-Message-Id: <20220406172219.15565-6-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220406172219.15565-1-straube.linux@gmail.com>
-References: <20220406172219.15565-1-straube.linux@gmail.com>
+        Wed, 06 Apr 2022 10:50:04 -0700 (PDT)
+Message-ID: <fd9917c2bdb41f361a1ecac2dfa8d85473c9f0f2.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, Benjamin Gaignard
+	 <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+ gregkh@linuxfoundation.org,  wens@csie.org, samuel@sholland.org,
+ linux-media@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,  linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev
+Date: Wed, 06 Apr 2022 13:50:02 -0400
+In-Reply-To: <2820101.e9J7NaK4W3@jernej-laptop>
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+	 <4386971.LvFx2qVVIh@jernej-laptop>
+	 <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
+	 <2820101.e9J7NaK4W3@jernej-laptop>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Remove the unused macro _RND() and the unused functions _RND256(),
-_RND512() from osdep_service.h.
+Le mercredi 06 avril 2022 =C3=A0 19:21 +0200, Jernej =C5=A0krabec a =C3=A9c=
+rit=C2=A0:
+> Dne sreda, 06. april 2022 ob 08:54:07 CEST je Benjamin Gaignard napisal(a=
+):
+> > Le 05/04/2022 =C3=A0 20:40, Jernej =C5=A0krabec a =C3=A9crit :
+> > > Hi Benjamin!
+> > >=20
+> > > Dne torek, 05. april 2022 ob 18:07:41 CEST je Benjamin Gaignard=20
+> napisal(a):
+> > > > Le 27/02/2022 =C3=A0 15:49, Jernej Skrabec a =C3=A9crit :
+> > > > > First two patches add 10-bit formats to UAPI, third extends filte=
+ring
+> > > > > mechanism, fourth fixes incorrect assumption, fifth moves registe=
+r
+> > > > > configuration code to proper place, sixth and seventh enable 10-b=
+it
+> > > > > VP9 decoding on Allwinner H6 and last increases core frequency on
+> > > > > Allwinner H6.
+> > > > >=20
+> > > > > I'm sending this as RFC to get some comments:
+> > > > > 1. format definitions - are fourcc's ok? are comments/description=
+s ok?
+> > > > > 2. is extended filtering mechanism ok?
+> > > > >=20
+> > > > > I would also like if these patches are tested on some more HW.
+> > > > > Additionally, can someone test tiled P010?
+> > > > >=20
+> > > > > Please take a look.
+> > > >=20
+> > > > Hi Jernej,
+> > > >=20
+> > > > I have create a branch to test this series with VP9 and HEVC:
+> > > > https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/=
+10bit_
+> > > > imx 8m Feel free to pick what I may need in it.
+> > > >=20
+> > > > That doesn't improve fluster scores, I think more dev are still nee=
+ded in
+> > > > GST before getting something fully functional.
+> > > > Anyway I able to select P010 pixel format if the input is a 10bit
+> > > > bitstream.>=20
+> > > What kind of improvements do you expect? Actually, this series is des=
+igned
+> > > to change nothing for platforms, where 10-bit format is not added int=
+o
+> > > the list of supported formats. I think reasons are quite obvious. Fir=
+st,
+> > > not every device may support 10-bit output. Second, as you might alre=
+ady
+> > > figured it out, registers in this series are set only for legacy core=
+s. I
+> > > have no idea, what needs to be done for newer ones, since I don't hav=
+e
+> > > them. Anyway, I tested this with fluster and only one additional test
+> > > passes, because it is the only one for 10-bit YUV420.
+> >=20
+> > In this series you will find that I have added the registers for the ne=
+w
+> > cores, fix hevc to be able to use 10-bit, and enable that in IMX8M.
+>=20
+> Your changes seems reasonable, but at this point I wouldn't bother with=
+=20
+> fluster. Instead, try to test with one specific bitstream or even a sampl=
+e video=20
+> file. I just tested with one random 10-bit VP9 video that I found when wo=
+rking=20
+> on this series. That way you avoid any corner cases which sometimes plaqu=
+e=20
+> fluster testing (reference bitstreams smaller than min. supported size).=
+=20
+> Anyway, re-check vendor lib if there is any other place to adjust somethi=
+ng=20
+> for 10-bit.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
-v2: no changes
+Just so we don't forget, there is a handful of 10bit tests that Daniel Alme=
+ida
+omitted when he added tests to fluster (though only 1 is 420). I will try a=
+nd
+fix that later on. There is otherwise 5G worth of 10bit tests available. In
+fluster we decided to go for the same subset libvpx uses, otherwise no one =
+would
+ever want to download these tests.
 
- .../staging/r8188eu/include/osdep_service.h    | 18 ------------------
- 1 file changed, 18 deletions(-)
+https://storage.googleapis.com/downloads.webmproject.org/vp9/decoder-test-s=
+treams/Profile_2_10bit.
 
-diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index f6c55f6c9e1a..f1f3e3ba5377 100644
---- a/drivers/staging/r8188eu/include/osdep_service.h
-+++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -94,24 +94,6 @@ static inline void flush_signals_thread(void)
- 		flush_signals(current);
- }
- 
--#define _RND(sz, r) ((((sz)+((r)-1))/(r))*(r))
--
--static inline u32 _RND256(u32 sz)
--{
--	u32	val;
--
--	val = ((sz >> 8) + ((sz & 255) ? 1: 0)) << 8;
--	return val;
--}
--
--static inline u32 _RND512(u32 sz)
--{
--	u32	val;
--
--	val = ((sz >> 9) + ((sz & 511) ? 1: 0)) << 9;
--	return val;
--}
--
- struct rtw_netdev_priv_indicator {
- 	void *priv;
- 	u32 sizeof_priv;
--- 
-2.35.1
+About the "min supported", G2 VP9 scores is 157/303 here (in comparision rk=
+vdec
+is 225, and MTK VCODEC 275). At this failure level this has no longer anyth=
+ing
+to do with the size of the render. There is likely couple of bugs hidden in=
+ the
+driver for the corner cases tested by the suite. Also, to illustrate that t=
+he
+size isn't the only variable in the failures, we have a vp90-2-02-size-
+64x34.webm that pass (the driver pretends that 64x64 is the minimum). I did=
+n't
+look at G2 output very closely, but on RKVDEC, in similar failures we have
+perfect keyframe, and a single corrupted tile on the following decode. My b=
+elief
+is that there is bugs in the drivers to be found and fixed. In absence of v=
+endor
+support, or working reference it will be difficult / near impossible to fix=
+, but
+I'm documenting this so we stop thinking this is just "not supported".
 
+cheers,
+Nicolas
