@@ -1,9 +1,9 @@
-Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B3F520F5
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 06:38:01 +0000 (UTC)
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AEEF2101
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 06:40:26 +0000 (UTC)
 Received: from ubuntu.localdomain (unknown [10.15.192.164])
-	by mail-app4 (Coremail) with SMTP id cS_KCgA3rqW8hk5ipp_iAA--.33196S2;
-	Thu, 07 Apr 2022 14:37:52 +0800 (CST)
+	by mail-app4 (Coremail) with SMTP id cS_KCgBnKRC7hU5imJbiAA--.58581S3;
+	Thu, 07 Apr 2022 14:33:37 +0800 (CST)
 From: Duoming Zhou <duoming@zju.edu.cn>
 To: linux-kernel@vger.kernel.org
 Cc: chris@zankel.net,
@@ -29,77 +29,77 @@ Cc: chris@zankel.net,
 	linux-serial@vger.kernel.org,
 	linux-usb@vger.kernel.org,
 	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH 11/11] arch: xtensa: platforms: Fix deadlock in rs_close()
-Date: Thu,  7 Apr 2022 14:37:48 +0800
-Message-Id: <9ca3ab0b40c875b6019f32f031c68a1ae80dd73a.1649310812.git.duoming@zju.edu.cn>
+Subject: [PATCH 01/11] drivers: tty: serial: Fix deadlock in sa1100_set_termios()
+Date: Thu,  7 Apr 2022 14:33:17 +0800
+Message-Id: <e82ff9358d4ef90a7e9f624534d6d54fc193467f.1649310812.git.duoming@zju.edu.cn>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1649310812.git.duoming@zju.edu.cn>
 References: <cover.1649310812.git.duoming@zju.edu.cn>
-X-CM-TRANSID:cS_KCgA3rqW8hk5ipp_iAA--.33196S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7AF1kWFy8CFW7KrWfAr4DXFb_yoW8Jw4xpF
-	WUKrnxGF4DWrWjg3WDta1DWryUZa1kKF1UJr98K3yUZ3Z5XryagF1xtw4rXFW7tFs7Wanx
-	ZF1vqry5AFsrZr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvG1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+In-Reply-To: <cover.1649310812.git.duoming@zju.edu.cn>
+References: <cover.1649310812.git.duoming@zju.edu.cn>
+X-CM-TRANSID:cS_KCgBnKRC7hU5imJbiAA--.58581S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7uFy3AFW3Jr17Jr17ZFy8uFg_yoW8Jw48pF
+	sFyr9IkFWkZF4293WDKw4qvF45ua1DuFy7GFW7G39Y9rnYqF90gF1fKa4YvFW2vFsrWr9F
+	vF1rZ3y3CF4kA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvm1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
 	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-	IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wA2z4x0Y4vEx4A2
-	jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
-	x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
-	twAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
-	8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY
-	0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-	14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7
-	IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
-	x4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa
-	73UjIFyTuYvjfU5JPEDUUUU
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAggNAVZdtZEcMgANsK
+	IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E
+	87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+	8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+	Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+	xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IY
+	c2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r
+	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+	67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+	x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
+	z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+	UI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgYNAVZdtZEbDgAQsi
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-There is a deadlock in rs_close(), which is shown
+There is a deadlock in sa1100_set_termios(), which is shown
 below:
 
    (Thread 1)              |      (Thread 2)
-                           | rs_open()
-rs_close()                 |  mod_timer()
- spin_lock_bh() //(1)      |  (wait a time)
- ...                       | rs_poll()
- del_timer_sync()          |  spin_lock() //(2)
+                           | sa1100_enable_ms()
+sa1100_set_termios()       |  mod_timer()
+ spin_lock_irqsave() //(1) |  (wait a time)
+ ...                       | sa1100_timeout()
+ del_timer_sync()          |  spin_lock_irqsave() //(2)
  (wait timer to stop)      |  ...
 
-We hold timer_lock in position (1) of thread 1 and
+We hold sport->port.lock in position (1) of thread 1 and
 use del_timer_sync() to wait timer to stop, but timer handler
-also need timer_lock in position (2) of thread 2.
-As a result, rs_close() will block forever.
+also need sport->port.lock in position (2) of thread 2. As a result,
+sa1100_set_termios() will block forever.
 
 This patch extracts del_timer_sync() from the protection of
-spin_lock_bh(), which could let timer handler to obtain
+spin_lock_irqsave(), which could let timer handler to obtain
 the needed lock.
 
 Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 ---
- arch/xtensa/platforms/iss/console.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/tty/serial/sa1100.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/xtensa/platforms/iss/console.c b/arch/xtensa/platforms/iss/console.c
-index 81d7c7e8f7e..d431b61ae3c 100644
---- a/arch/xtensa/platforms/iss/console.c
-+++ b/arch/xtensa/platforms/iss/console.c
-@@ -51,8 +51,10 @@ static int rs_open(struct tty_struct *tty, struct file * filp)
- static void rs_close(struct tty_struct *tty, struct file * filp)
- {
- 	spin_lock_bh(&timer_lock);
--	if (tty->count == 1)
-+	if (tty->count == 1) {
-+		spin_unlock_bh(&timer_lock);
- 		del_timer_sync(&serial_timer);
-+	}
- 	spin_unlock_bh(&timer_lock);
- }
+diff --git a/drivers/tty/serial/sa1100.c b/drivers/tty/serial/sa1100.c
+index 5fe6cccfc1a..3a5f12ced0b 100644
+--- a/drivers/tty/serial/sa1100.c
++++ b/drivers/tty/serial/sa1100.c
+@@ -476,7 +476,9 @@ sa1100_set_termios(struct uart_port *port, struct ktermios *termios,
+ 				UTSR1_TO_SM(UTSR1_ROR);
+ 	}
  
++	spin_unlock_irqrestore(&sport->port.lock, flags);
+ 	del_timer_sync(&sport->timer);
++	spin_lock_irqsave(&sport->port.lock, flags);
+ 
+ 	/*
+ 	 * Update the per-port timeout.
 -- 
 2.17.1
 
