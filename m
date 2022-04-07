@@ -1,117 +1,196 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AF220F5
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 07:22:11 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id ot30so8864502ejb.12
-        for <linux-staging@lists.linux.dev>; Thu, 07 Apr 2022 00:22:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1A420F5;
+	Thu,  7 Apr 2022 07:28:43 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2375hrNo006371;
+	Thu, 7 Apr 2022 07:28:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=3FLtkMsIRGUNpH17Y0+/PE5x12YvMTh6BSoAiMqpGJU=;
+ b=FAvU10ZlLycgoHlrtbQFcvmbrv9yLkQbwqt/DOB2DmNsSTdtYZLbGUkPv03WdQ4GYafi
+ MobtGY9CMKURCDTH4tFA8aYMA57zDu5zXIxKRkmjUyEZQQBrXm5Q7//vDy9m9i1Y1qTP
+ MpFNLcoy8qYApFm8nw+ZZRWmFVmkNWje08f8JM679EhOveeSM9mfqB2DaHlGY8DWL1Iz
+ vycjzNomt0GurulOpKJjHWeBi2Y8wu7MuYq2LUPQWJRVklvOyjcML37uvw98FtSygMYq
+ uU8CICZRy4FKzEwXayS3gOgJ4pJ/3oottSpkOkScgiyEJygTZDhRtiOIfh1z9YAiar7W OA== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3f6d31k44b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 07 Apr 2022 07:28:38 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 2377AmY5040305;
+	Thu, 7 Apr 2022 07:28:37 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2109.outbound.protection.outlook.com [104.47.58.109])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3f97y77ktk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 07 Apr 2022 07:28:37 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U6onBPDbnkMSokCfjztFoLkd2cF2unCJ81jVwCak9IsZbRtqUV7Ag9YUcCIhYBf8ZEPVvVGvYgVV2f+eWoUtNyQlgF+CfVp5JWpE1noCWTlLxucY4reQfd/cMA3/EbrNyu0paHdP4DGYFbv3GWGY1bncqFRoItXbDAilPmDPCJiB8v+a+NcJEkasCzNVODW1JsLqtc4JTWG29FWx7aqoUP/yH1vgiK33tI1u5h6Jard1VCNhuybbXuupf12Awd+0yqFALEoMr1x2UIV9oT/so2iOIaIVsEMbZwpnLQ6gwxPqb11P7jmrZY2eL4pot1Yxx8sUR8hAFSDXal49BtmPig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3FLtkMsIRGUNpH17Y0+/PE5x12YvMTh6BSoAiMqpGJU=;
+ b=YenXRHXMwBMtYPCkuq1SAxpFPm0bu5rvvY3tZDUbHLEBmmCVxmaI5YKuw9N11f9BqNUgJFEbZtQBHqdO6L53b5XhO32RM3bJY1U5sFKUFfSlLwQOqWdRsV5T+P/+22E0uGr1wA1VNEFWHDAAPwHNEYfuclWfecTQT5PK2N4B/Bl1hH14jbUpyHYQszA3aNtTcbppdNEW42v0OzeBGk+q3+0OiwSKM6hYzH9ZpJas8I13iZlmjZXjs+L+Frm1T4LelMMuVrtNYYKqm3aTN2wXvJ5QfNmrcVlVVvTir6C2J+QBiXLs/JQKDnbFy9gyZBsR5CfB/f2yWKlrNuN6jgtcGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vwGQPeLGONcDmqJfPIeESPpipQ500aFLCZgIRy5zqZ0=;
-        b=cGpUq0EaSPKZUmC5xLx1Jzohz8q2BA0SCfgkM8wrethxxkDt/+g2N32fYAJT3XYV7c
-         gQbz6QMaUUd43OLUA3Qr9ybm972y3GG09XSDuFu30DSIEbHhMHSFAgUidWPsz8GrgGeW
-         s7tbaW4vOsf45FRd0naJvDCrCyKtKsWV4L7c0X8uFXIFfWJcIPONICfRuDmKWStRxSCw
-         O51niQQXIBWe/kqVxIekXIQ/hHMRE3f0A3lQ3oU7dB+SGmXs9PVY3nPhJ24PTFgfotQd
-         B8VGD/Fzr7+dIrGtF2FRhhrKgQ9sbMeozCRly8MMFIdcZp6QMqHRMmi7EmTJnuHLjSxB
-         q5fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vwGQPeLGONcDmqJfPIeESPpipQ500aFLCZgIRy5zqZ0=;
-        b=u00/L3TrVSnuYDIT9cYYHeDyAF+SS2YYMqQo7fvWXSZW31Bl2fzj2DOFEcnN04kOBe
-         e8HR2SOwEBIi9DMWXkZO7VNyb5ws6bFmiQRcaid1j2uHAdUe+LZvG+yv0CyxC7kP9vnj
-         vRe/0wj78WQQfOaMbVblBKh/SkPCMf4NS0LtHavjXvkCrGhfknCoCInRvflrMUIsWtHl
-         7DoVmWaMxuhfC2Be9RifXzlrmsLLRHwwmZ7c1Vy+D2mwX2iOoQmxWu5DWXicfvxf0b8y
-         Q41SJMOs0ERPSy+rsd0BSkTQtpMkwzBeSBud5joojJD2Ztjf2/C0DxY/NYCjPtbxTT/2
-         ZkcQ==
-X-Gm-Message-State: AOAM531Go6JVFvSiXzIlEL0TVx9EfIL89R0W9J/qf7zmIuNYr8dr0Ql9
-	LpZhnOZu4XoiYjglDwhVLXA92KieseaAuZg9Zcw=
-X-Google-Smtp-Source: ABdhPJzQRq8/eIccgTS4Y7+Q3Go4ejR4ddyxfTtgPRrDE8QiY00n90m58Se3srjqqXXHUSIg52T71GhZZnCQSkeWe4o=
-X-Received: by 2002:a17:907:8a26:b0:6e1:2646:ef23 with SMTP id
- sc38-20020a1709078a2600b006e12646ef23mr12386094ejc.109.1649316129522; Thu, 07
- Apr 2022 00:22:09 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3FLtkMsIRGUNpH17Y0+/PE5x12YvMTh6BSoAiMqpGJU=;
+ b=Fyt2EleRSUPxi0bFCI5uXWAKTBctRsreuPwZcxgMuCAAiJFDPLGx5Gq8rO4ZGM9aWnCYWcyK2mLCtwPOxuyKGw9xHgGhb+nwjKWoovBPt8fxYhUNmwEeRMqEwyCDzrf495C+hWoTXFouZ/CcJMOgeBRk7zDzWeCzvuH/mNdhrCQ=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MN2PR10MB3679.namprd10.prod.outlook.com
+ (2603:10b6:208:11d::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Thu, 7 Apr
+ 2022 07:28:35 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5144.022; Thu, 7 Apr 2022
+ 07:28:35 +0000
+Date: Thu, 7 Apr 2022 10:28:03 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Rebecca Mckeever <remckee0@gmail.com>
+Cc: outreachy@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] staging: rtl8192u: use max macro instead of ternary
+ operator
+Message-ID: <20220407072803.GI3293@kadam>
+References: <cover.1649288226.git.remckee0@gmail.com>
+ <2513b1520d533c9f487903fc2c97f4637fe5f6da.1649288226.git.remckee0@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2513b1520d533c9f487903fc2c97f4637fe5f6da.1649288226.git.remckee0@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0001.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::13)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1649310812.git.duoming@zju.edu.cn> <9ca3ab0b40c875b6019f32f031c68a1ae80dd73a.1649310812.git.duoming@zju.edu.cn>
-In-Reply-To: <9ca3ab0b40c875b6019f32f031c68a1ae80dd73a.1649310812.git.duoming@zju.edu.cn>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Thu, 7 Apr 2022 00:21:58 -0700
-Message-ID: <CAMo8BfLG_u2z2HwY9Qo6cFgNoSrrz2mS2iD+rtj-uyrKhZYmLw@mail.gmail.com>
-Subject: Re: [PATCH 11/11] arch: xtensa: platforms: Fix deadlock in rs_close()
-To: Duoming Zhou <duoming@zju.edu.cn>
-Cc: LKML <linux-kernel@vger.kernel.org>, Chris Zankel <chris@zankel.net>, 
-	mustafa.ismail@intel.com, shiraz.saleem@intel.com, jgg@ziepe.ca, 
-	wg@grandegger.com, mkl@pengutronix.de, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, pabeni@redhat.com, 
-	jes@trained-monkey.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, alexander.deucher@amd.com, 
-	"open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>, linux-rdma@vger.kernel.org, 
-	linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>, linux-hippi@sunsite.dk, 
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, 
-	USB list <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 10420e4c-1a54-4a67-4f9d-08da18683989
+X-MS-TrafficTypeDiagnostic: MN2PR10MB3679:EE_
+X-Microsoft-Antispam-PRVS: 
+	<MN2PR10MB3679F1BF5BD25F34D08C1AD08EE69@MN2PR10MB3679.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	BNYhrP10Bt+ujqhjFxxRjOqpPq+wiMbVKGvYsYMRrb4C8tkQKvk7IKv36Cna2jmo/ojU6i5QK9tNNClaUQKszgXwO5G54H5Ftfz11qMVQhjss1ApscQ+vsrEoA1BUzofPkGWSin4c6tEHfAU5tB21Y71XBFVrqK5ZQZUMgl7UBP9/3X9EK0/wtglTv3pQZiV3FSV7uz0kUDkJ2nHaSae1mGTc+3l1MqmV1aqStg70dwHHmNZXN1nHD+2t14FyL5NcUHo/wufNjTmZL8m4B6mpDrh/aFBToiPlnCviH7UgrPLfhmtYnSSlKuQWp7adLgbPHXbxkIqPVRAhENzNtN3C00d5ROHbFCy2VcUDjG3Rt2xAs2mhGuaykoBiCAoV6t1bU3/I4DPqgPKysJCzkk9drXmNN3oY+GCRt5aH2Fx41K543R6uGLTZJxnHu/MrWPZKqxJvIoguhh/TSsOLSOF2qQZwdTdzZDBSG6tfOyCOVoSJbvpRB/LwAnLsEeXebOCMpKkqH1IP1WqdOtMIKSwgBGT/QrSSvKwLNjcm/EujAesBSXJ5kM6m0go7H2iMK90g9uPVZp8XWpiSjRFLzoEEna809Zswn/hflW6G/ZEH+I93/cLFB4bkjX8zfS2NVKSPTKR42++44yza2T0ureaCp9N7ke8bHSODfHfg9A7Rewyd8xX74MEwKuowmp4DIo53Em2/tDInoIKD+3sqFrS2g==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(6512007)(52116002)(9686003)(6486002)(66556008)(66476007)(66946007)(6506007)(508600001)(5660300002)(8936002)(86362001)(6916009)(316002)(44832011)(33656002)(2906002)(6666004)(33716001)(83380400001)(38350700002)(38100700002)(8676002)(1076003)(4326008)(26005)(186003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?TlnNchVP+PSyzap0LZif1pP7KgCZuBPjBdLzoijDsF6jN2QxcUu19HggopDc?=
+ =?us-ascii?Q?MzX5dbp9w5LPHw5d1OjYN4Qn0Qc+h679tFVSp44XdJE97EOyCrwArXlR1K2J?=
+ =?us-ascii?Q?HaALxAgxtG/QoVRWdOLNQuDrCeUTvJX7hyud3fhWKLZo3Dsf82U7VpZsbIFa?=
+ =?us-ascii?Q?G5fNCdMG3ZcVqfWzdtID3mXB7H6M7OgWPQaMKd63kdpa26VRDISY2JxCpy3Y?=
+ =?us-ascii?Q?cS7Lx29uTxJWrlgJv6MMZsoh6dOdQ6dqN/KPkCOug8fAh9TNEo1GXu76+g+2?=
+ =?us-ascii?Q?2jclvLNOHisTk/anu9Lrah7K14sYQuhHxaOdlvG3cuISGA6o18jJgEnW5BNb?=
+ =?us-ascii?Q?2vUK+hkyeh4LnSZvLIHTIgK7RgqdjhlYijZ0fyrHRl8hykML/C6e+3cnhTwT?=
+ =?us-ascii?Q?onmSsk0XM1H3yghiptC8nBMj1e5MwSFMX5mnMg6tXgTBvoNH0482CYAdkFPe?=
+ =?us-ascii?Q?DN4wTlscbsKmJev61m5ZpurUqY9KOr1tiFF2gtpADXbx9wO4lhO/Ys30Xq9K?=
+ =?us-ascii?Q?n16a72Qfg4igTgzmuVs9hgVDTqoG8BjibLnwx3KxdshisMSoXZCfFT9/TC8Y?=
+ =?us-ascii?Q?a+clJHbRf9QtFBDs7xjwtJbfwb9qz+VvOZPC0PboaopvqzNV5jGJ5ZfZiWZ5?=
+ =?us-ascii?Q?+CM7RhjNd9EBJ4wxWl2mxpGAkx4xy7BNnUCgWm1jZdU5Q+PrQmcuZcNoUmRh?=
+ =?us-ascii?Q?u0aRidLwXMSXyI9J0xP1a6i+Xboq5h8X18AsjakRRdC6WkEEt1gi8l4wBqej?=
+ =?us-ascii?Q?1Eaieh3Ve2Ng648T1pVb2XzBgS75erGZmKjKifSjC4nXKqF3tgAv1JgPeh2B?=
+ =?us-ascii?Q?h7+vRiHVm22a8tRZT7E10davxbOzpeog5EaK99eYwVEgzFVnOyI8f/tz+3Lt?=
+ =?us-ascii?Q?ENkw4PxLosjqeqs/QuFud9QMbuTHltmeEpKt1sk7irlRSH55QfpzH1n2I6H+?=
+ =?us-ascii?Q?aZtgryJRTU9AUD3R2m0oJice1BkmeWOeSErU8Ths7IC00U6JMIhDAKHqACBg?=
+ =?us-ascii?Q?ktW75mo5D0qQNE8ucdLtjQZwZFSeHNrAE6m6hDH3754WkABnS3dAZ1KE0a+g?=
+ =?us-ascii?Q?IAgZxMYF+e3IlOGdLYNpbzU5yZ/zumIT/cobPPpbl1CkaUSsutSUlcBXJ8Mb?=
+ =?us-ascii?Q?sdGgKgm6/4sjB9qm+0VPvuqwTU81uavSdcsRQ/YncyK+Y5c8MfbqfUM4ujLP?=
+ =?us-ascii?Q?va2glQYo7182Biq9IN9Ao66hFbUBAfJtYURmiH/cJ8QwNTAn6dP4eEe+x4iH?=
+ =?us-ascii?Q?ta5dFP/pWngVEGwWo1enWIzqx6zYOCZmsBQCNAkECkFUevmleXF6rxXQmtEG?=
+ =?us-ascii?Q?yIo9Am3DaDvi4YjPv5LpsEPBJ5dfPfIJcqOcFBlj0qA5pMlZ2U0ym2tRaI+Y?=
+ =?us-ascii?Q?6Qc/QoW8RmgbJKT5fjmx3voSI7r9r/oWoXx4zQv02nlc/aAOAXNq0tAlZcoV?=
+ =?us-ascii?Q?bkrE5OIReBbeYdppH/m+gRL8ZXVgRT9ZqGEkORTGxZr48teK3oQgEgI7PLVf?=
+ =?us-ascii?Q?juzIC4W+LHGfOBQOBNKmiqPRRPUdz1UuGWXVpOpUaJh3O9uOC7VrM5nPpn7v?=
+ =?us-ascii?Q?I/iUmh+4eqbpXCZygnLSBCQBSjBebCw8UYbXsqyjP/rRcbMEakpj9z0ykk2i?=
+ =?us-ascii?Q?i7qEValp/HgqSjJGRxMCM25QlLg2XQXcTRCdTcCq9qu4Pp8QjqMco/PYO03p?=
+ =?us-ascii?Q?DTxhGWOzuwPWR/lEKjIzyDYpf1lWJKhYj1PM5HrXu8mrFCWnVizHm/89PxMc?=
+ =?us-ascii?Q?5vVFI9fv2sCZ4xski716r++8vcG42BE=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10420e4c-1a54-4a67-4f9d-08da18683989
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2022 07:28:35.5905
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6X1tv8fRS8OFA8zspmghziMcmje5LQjD23hzc4eo+pmRJzkSDAIvJBTQnuazdG/HRwQVa4bnemhZVETtzBTwVCgEs9zRJZXc48qTHUaGjVQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3679
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
+ definitions=2022-04-06_13:2022-04-06,2022-04-06 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=837 spamscore=0
+ suspectscore=0 malwarescore=0 phishscore=0 adultscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2204070036
+X-Proofpoint-GUID: uTkNlFQDsvfJ20xJThkWFL8hfXOhJpRU
+X-Proofpoint-ORIG-GUID: uTkNlFQDsvfJ20xJThkWFL8hfXOhJpRU
 
-Hi Duoming,
-
-On Wed, Apr 6, 2022 at 11:38 PM Duoming Zhou <duoming@zju.edu.cn> wrote:
->
-> There is a deadlock in rs_close(), which is shown
-> below:
->
->    (Thread 1)              |      (Thread 2)
->                            | rs_open()
-> rs_close()                 |  mod_timer()
->  spin_lock_bh() //(1)      |  (wait a time)
->  ...                       | rs_poll()
->  del_timer_sync()          |  spin_lock() //(2)
->  (wait timer to stop)      |  ...
->
-> We hold timer_lock in position (1) of thread 1 and
-> use del_timer_sync() to wait timer to stop, but timer handler
-> also need timer_lock in position (2) of thread 2.
-> As a result, rs_close() will block forever.
-
-I agree with this.
-
-> This patch extracts del_timer_sync() from the protection of
-> spin_lock_bh(), which could let timer handler to obtain
-> the needed lock.
-
-Looking at the timer_lock I don't really understand what it protects.
-It looks like it is not needed at all.
-
-Also, I see that rs_poll rewinds the timer regardless of whether del_timer_sync
-was called or not, which violates del_timer_sync requirements.
-
-> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+On Wed, Apr 06, 2022 at 07:09:43PM -0500, Rebecca Mckeever wrote:
+> Replace ternary operator with max macro to increase readability
+> and conform to Linux kernel coding style.
+> Found with minmax coccinelle script.
+> 
+> Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
 > ---
->  arch/xtensa/platforms/iss/console.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/xtensa/platforms/iss/console.c b/arch/xtensa/platforms/iss/console.c
-> index 81d7c7e8f7e..d431b61ae3c 100644
-> --- a/arch/xtensa/platforms/iss/console.c
-> +++ b/arch/xtensa/platforms/iss/console.c
-> @@ -51,8 +51,10 @@ static int rs_open(struct tty_struct *tty, struct file * filp)
->  static void rs_close(struct tty_struct *tty, struct file * filp)
->  {
->         spin_lock_bh(&timer_lock);
-> -       if (tty->count == 1)
-> +       if (tty->count == 1) {
-> +               spin_unlock_bh(&timer_lock);
->                 del_timer_sync(&serial_timer);
-> +       }
->         spin_unlock_bh(&timer_lock);
+>  drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c
+> index 78cc8f357bbc..a10c1303695b 100644
+> --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c
+> +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c
+> @@ -470,7 +470,7 @@ int ieee80211_wx_get_encode(struct ieee80211_device *ieee,
+>  		return 0;
+>  	}
+>  	len = crypt->ops->get_key(keybuf, SCM_KEY_LEN, NULL, crypt->priv);
+> -	erq->length = (len >= 0 ? len : 0);
+> +	erq->length = max(len, 0);
 
-Now in case tty->count == 1 the timer_lock would be unlocked twice.
+Neither before nor after is really readable.  It would be better to
+write it as:
 
--- 
-Thanks.
--- Max
+	len = crypt->ops->get_key(keybuf, SCM_KEY_LEN, NULL, crypt->priv);
+	if (len < 0)
+		len = 0;
+	erq->length = len;
+
+There are few rules/patterns that apply here:
+1) Do error handling right away.
+2) Do error handling not success handling.
+3) Try to keep the error path and the success path separate.
+4) Try to keep the success path indented one tab and the error path
+   indented two tabs.  It looks like this to the reader:
+
+	a = frob();
+	if (fail)
+		cleanup;
+	b = frob();
+	if (fail)
+		cleanup;
+
+
+	success
+	check
+		fail
+	success
+	check
+		fail
+
+So then if you want to understand what a function does at a high level
+you can just skim the code which is indented one tab and ignore the
+error handling code.
+
+regards,
+dan carpenter
+
