@@ -1,57 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472552570
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 17:51:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3832C385A4;
-	Thu,  7 Apr 2022 17:51:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1649353863;
-	bh=iBZxPWDIqKLn9hWgPpT2DzF41eYn3xaK1WuVBDT9kLA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rv4C6fFhFdNrF+mn6KNyC1rHVUJ42ECR/3tD6579FzZhMQxJk0hqN7t29aISztqOo
-	 s5gKFaflSIeBKeuUzilYcTpLB/2wlj97czZCH4fc9OfaucwI7Zx914WCBD0Qvp5HKR
-	 LOKRpyMrm9ibvvFZnylA9crvK9SPH8B83cdY/02E=
-Date: Thu, 7 Apr 2022 19:51:00 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: xkernel.wang@foxmail.com
-Cc: paskripkin@gmail.com, Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: r8188eu: check the return of kzalloc()
-Message-ID: <Yk8khN/Htc0zVY9d@kroah.com>
-References: <tencent_5AB92A7786438342357C5669E7BF0C249505@qq.com>
- <tencent_15C23F2EC8197361EE200714C54E78B45206@qq.com>
- <9c307f1e-aa95-08e6-3a01-825caba19a30@gmail.com>
- <tencent_0D5C6E0E160AA0702025FDFF35906EE69E07@qq.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7212570;
+	Thu,  7 Apr 2022 17:58:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=q7lEK63sLrZyFdOoNnVucyuJ6DHz13VXShb3q/vADrc=;
+  b=ihpfJ0qywUrTSNMp3kCT0gGxNem/uv26NSUDcFDGiT40B9oyI4ZdVmCc
+   6/UNMdCW4k58xgViscOrDNDc9cxgQkzN96y7bl0TwUUjhWXhvtDGXqNPD
+   AyqTy/6KminBvrYy3HqMoUnnPa7RyTpoYt13ul+4OBL5tBHOUC3cwhpa1
+   8=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,242,1643670000"; 
+   d="scan'208";a="30649903"
+Received: from unknown (HELO hadrien) ([95.128.147.62])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2022 19:58:34 +0200
+Date: Thu, 7 Apr 2022 19:58:33 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: julia@hadrien
+To: MAHAK GUPTA <mahak_g@cs.iitr.ac.in>
+cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
+    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8712: fix camel case in function
+ r8712_generate_ie
+In-Reply-To: <CANnaPbD7C8kvz-fK4js=zprck58=Yxp8h+wBLmXfQNKsHMDytw@mail.gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2204071958000.2279@hadrien>
+References: <20220407120945.31030-1-mahak_g@cs.iitr.ac.in> <alpine.DEB.2.22.394.2204071414080.2213@hadrien> <CANnaPbD7C8kvz-fK4js=zprck58=Yxp8h+wBLmXfQNKsHMDytw@mail.gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_0D5C6E0E160AA0702025FDFF35906EE69E07@qq.com>
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Apr 07, 2022 at 10:03:49AM +0800, xkernel.wang@foxmail.com wrote:
-> On Thursday, April 7, 2022 3:22 AM +0800, paskripkin@gmail.com wrote:
-> > > -void rtw_alloc_hwxmits(struct adapter *padapter)
-> > > +s32 rtw_alloc_hwxmits(struct adapter *padapter)
-> > >   {
-> > 
-> > What about plain 'int'? I know that s32 is typedef for 'int', but 'int'
-> > looks more natural
-> > 
-> 
-> I agree with you.
-> Since the type of `_rtw_init_xmit_priv` is `s32`, I directly changed the
-> type of `rtw_alloc_hwxmits` to `s32` (they are neighbors in rtw_xmit.h).
-> In fact, there are many places where `s32` appears together with `int` 
-> in related files, so maybe we can leave it as a future work to make all 
-> of them a unified form.
 
-No, get this one right to start with.
 
-thanks,
+On Thu, 7 Apr 2022, MAHAK GUPTA wrote:
 
-greg k-h
+> On Thu, Apr 7, 2022 at 5:44 PM Julia Lawall <julia.lawall@inria.fr> wrote:
+> >
+> >
+> >
+> > On Thu, 7 Apr 2022, Mahak Gupta wrote:
+> >
+> > > Adhere to linux kernel coding style.
+> > >
+> > > Reported by checkpatch:
+> > >
+> > > CHECK: Avoid CamelCase: <beaconPeriod>
+> >
+> > As another patch, you could also adjust the structure field name.
+> >
+> > julia
+> >
+> > >
+> > > Signed-off-by: Mahak Gupta <mahak_g@cs.iitr.ac.in>
+> > > ---
+> > >  drivers/staging/rtl8712/ieee80211.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/rtl8712/ieee80211.c b/drivers/staging/rtl8712/ieee80211.c
+> > > index f926809b1021..7d8f1a29d18a 100644
+> > > --- a/drivers/staging/rtl8712/ieee80211.c
+> > > +++ b/drivers/staging/rtl8712/ieee80211.c
+> > > @@ -162,13 +162,13 @@ int r8712_generate_ie(struct registry_priv *registrypriv)
+> > >       uint sz = 0;
+> > >       struct wlan_bssid_ex *dev_network = &registrypriv->dev_network;
+> > >       u8 *ie = dev_network->IEs;
+> > > -     u16 beaconPeriod = (u16)dev_network->Configuration.BeaconPeriod;
+> > > +     u16 beacon_period = (u16)dev_network->Configuration.BeaconPeriod;
+> > >
+> > >       /*timestamp will be inserted by hardware*/
+> > >       sz += 8;
+> > >       ie += sz;
+> > >       /*beacon interval : 2bytes*/
+> > > -     *(__le16 *)ie = cpu_to_le16(beaconPeriod);
+> > > +     *(__le16 *)ie = cpu_to_le16(beacon_period);
+> > >       sz += 2;
+> > >       ie += 2;
+> > >       /*capability info*/
+> > > --
+> > > 2.17.1
+> > >
+> > >
+> > >
+>
+> Sure, on it. Thanks.
+
+It's good not to top post, but you can put your response right under the
+text you are responding to.
+
+julia
