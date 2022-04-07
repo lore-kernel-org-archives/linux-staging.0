@@ -1,232 +1,370 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3730259D;
-	Thu,  7 Apr 2022 21:08:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: nicolas)
-	with ESMTPSA id D95B61F4684B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1649365713;
-	bh=+Q9tzF5zrewPPQUetcYP2NwCnZ0F1sUYBWrvcIXKjdI=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ZYqA6jwNGkRb407zynQi+lH+uUBljFjQ9q4URjZir+aA1kGgsH/0jQzVvRQTW2sEv
-	 SUPx4yUIQJNWgou8H4IpgO4velWdf77zxiX+pW4GYqjOC4hkG+V/lE59XVZ30H6GyO
-	 6TP183Nyhgl3hURtGfu8gv6iiPUYX/CHiwE9lR6mzqB0LXBXzyy+D8ENortk7PCSP/
-	 zCsyCzAW4XGfrJS7mBpX1ty6EiGxokY3f90ZDuX7TdUE2hK0g9k3qIxaoe177fUdT5
-	 mqRiZF/R6qv9jnOY21wYRNGl2y0H5xt5U90vkKsgwNKLe3DBzpNIyWuC4Sh0Oyq5Cr
-	 DOMl2yH0mxD0w==
-Message-ID: <3297d1a4804b20d5d8d32013e5776109fa10c96f.camel@collabora.com>
-Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
- definition in v4l2_hevc_dpb_entry
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
-  hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-  gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	sebastian.fricke@collabora.com
-Date: Thu, 07 Apr 2022 17:08:22 -0400
-In-Reply-To: <b137de92ea0a6ecc3aa8ff39f6a1fc96b071b3e4.camel@collabora.com>
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
-	 <20220407152940.738159-7-benjamin.gaignard@collabora.com>
-	 <b137de92ea0a6ecc3aa8ff39f6a1fc96b071b3e4.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6175129A1;
+	Thu,  7 Apr 2022 21:17:23 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id c199so1625989qkg.4;
+        Thu, 07 Apr 2022 14:17:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=rKLun7tNmJlVydWOT8il/OTLbOYx5b7ZumsvOHVJ95k=;
+        b=DAkRCqExfbeEH06qON3EcbLyDQiDef7BSSxNmCZieTP1sTAoW9lSQX2JYAG07bhpr2
+         CtSMDxwLohY580CBUDxAiMZV/CeTTiwPxTok/5u5X9gfkr1LOeZB0lI9VKZi9YhFunP4
+         GfwaUe0kr/fuHNow+0F40GN+LL1xgtqI5w1WM/H+gwCc70XbXZaXPzHk5v80CgjZ4qTd
+         ktpI805a8r5vbML0ivjNHJzGys6kyxy6UQCz1ZskDh71qyKNw1a+WHQWA+JQJTE7LKKC
+         2utABwsS9HXcosbDnoW+JLHHcrF84I/3vwyADORPEpXjY2MQ/VcSoDByx5DgG6twLVrJ
+         imdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=rKLun7tNmJlVydWOT8il/OTLbOYx5b7ZumsvOHVJ95k=;
+        b=77Trbl2S6lXnJou1GQg5aolDFtWKBNlYSS6bAUfi/jHOIAXFs4WvrlXxD7qR6cv7DV
+         qOR7KkhPaJiHi0h/ftIviZ924equkgK8XTeoUSy4EyOEZS/p1eRFgtODl+d6K2KmBHPV
+         ed7NqDZjdzWPaoWnVzmo3pjGghpmrBJImFvBrp8VPMAlOB/PdSAs44Mn86Al9Tgj45WD
+         ZZLAlJWZeaXfn43H67sqqeQBaoWpVbWPD0v15eG43DXgwaJ3DKPXPG4t4aUFPJJMgSn+
+         bm5EC2UzkA4DcIysbRtSpjsYFON0J/TWxf7IQCRq1EI9qQQfQbXm3zJ0L0o6ayBELgv4
+         5h5A==
+X-Gm-Message-State: AOAM532lKx4tOvtEUPTs6w6nOB8QfO67He9gLt+kkGV36oQsjfeClZ0v
+	YpdrnnuuOVzTKWpanLNwELE=
+X-Google-Smtp-Source: ABdhPJzKN4BUQGKyx8v1/Qkj9In2l2oGhFk3ylyDs1XxY2PoViyEvAvCbpTqG6nc3EAaXrcYPwyODA==
+X-Received: by 2002:a05:620a:c08:b0:67d:3b4e:229f with SMTP id l8-20020a05620a0c0800b0067d3b4e229fmr10917977qki.550.1649366242112;
+        Thu, 07 Apr 2022 14:17:22 -0700 (PDT)
+Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
+        by smtp.gmail.com with ESMTPSA id e15-20020a05622a110f00b002e1ed105652sm15612766qty.2.2022.04.07.14.17.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Apr 2022 14:17:21 -0700 (PDT)
+Date: Thu, 7 Apr 2022 17:17:17 -0400
+From: Jaehee Park <jhpark1013@gmail.com>
+To: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH] staging: wfx: use container_of() to get vif
+Message-ID: <20220407211717.GA1934834@jaehee-ThinkPad-X1-Extreme>
+References: <20220407204128.GA1810425@jaehee-ThinkPad-X1-Extreme>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220407204128.GA1810425@jaehee-ThinkPad-X1-Extreme>
 
-Le jeudi 07 avril 2022 =C3=A0 16:51 -0400, Nicolas Dufresne a =C3=A9crit=C2=
-=A0:
-> Le jeudi 07 avril 2022 =C3=A0 17:29 +0200, Benjamin Gaignard a =C3=A9crit=
-=C2=A0:
-> > HEVC specifications say that:
-> > "PicOrderCntVal is derived as follows:
-> > PicOrderCntVal =3D PicOrderCntMsb + slice_pic_order_cnt_lsb
-> > The value of PicOrderCntVal shall be in the range of =E2=88=92231 to 23=
-1 =E2=88=92 1, inclusive."
->=20
-> Did you mean 2^31 ?
->=20
-> >=20
-> > To match with these definitions change __u16 pic_order_cnt[2]
-> > into __s32 pic_order_cnt_val.
-> >=20
-> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > ---
-> > version 5:
-> > - change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
-> >  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
-> >  drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
-> >  drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
-> >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
-> >  include/media/hevc-ctrls.h                        | 2 +-
-> >  5 files changed, 8 insertions(+), 8 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/driver=
-s/staging/media/hantro/hantro_g2_hevc_dec.c
-> > index c524af41baf5..6f3c774aa3d9 100644
-> > --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> > +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> > @@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
-> >  	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
-> >  	 */
-> >  	for (i =3D 0; i < decode_params->num_active_dpb_entries && i < ARRAY_=
-SIZE(cur_poc); i++) {
-> > -		char poc_diff =3D decode_params->pic_order_cnt_val - dpb[i].pic_orde=
-r_cnt[0];
-> > +		char poc_diff =3D decode_params->pic_order_cnt_val - dpb[i].pic_orde=
-r_cnt_val;
-> > =20
-> >  		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
-> >  	}
-> > @@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
-> >  	dpb_longterm_e =3D 0;
-> >  	for (i =3D 0; i < decode_params->num_active_dpb_entries &&
-> >  	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
-> > -		luma_addr =3D hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
-> > +		luma_addr =3D hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val)=
-;
-> >  		if (!luma_addr)
-> >  			return -ENOMEM;
-> > =20
-> > diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/stagi=
-ng/media/hantro/hantro_hevc.c
-> > index b6ec86d03d91..fadd40768579 100644
-> > --- a/drivers/staging/media/hantro/hantro_hevc.c
-> > +++ b/drivers/staging/media/hantro/hantro_hevc.c
-> > @@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *c=
-tx)
-> >  }
-> > =20
-> >  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
-> > -				   int poc)
-> > +				   s32 poc)
-> >  {
-> >  	struct hantro_hevc_dec_hw_ctx *hevc_dec =3D &ctx->hevc_dec;
-> >  	int i;
-> > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging=
-/media/hantro/hantro_hw.h
-> > index ed018e293ba0..a648c529662b 100644
-> > --- a/drivers/staging/media/hantro/hantro_hw.h
-> > +++ b/drivers/staging/media/hantro/hantro_hw.h
-> > @@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
-> >  	struct hantro_aux_buf tile_bsd;
-> >  	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
-> >  	struct hantro_aux_buf scaling_lists;
-> > -	int ref_bufs_poc[NUM_REF_PICTURES];
-> > +	s32 ref_bufs_poc[NUM_REF_PICTURES];
->=20
-> Was this strictly needed ? Isn't int always same as s32 ?
->=20
-> >  	u32 ref_bufs_used;
-> >  	struct hantro_hevc_dec_ctrls ctrls;
-> >  	unsigned int num_tile_cols_allocated;
-> > @@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
-> >  void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
-> >  int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
-> >  int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
-> > -dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
-> > +dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
-> >  int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_=
-t addr);
-> >  void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
-> >  size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps)=
-;
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers=
-/staging/media/sunxi/cedrus/cedrus_h265.c
-> > index 44f385be9f6c..d04521ffd920 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > @@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct=
- cedrus_ctx *ctx,
-> >  	for (i =3D 0; i < num_active_dpb_entries; i++) {
-> >  		int buffer_index =3D vb2_find_timestamp(vq, dpb[i].timestamp, 0);
-> >  		u32 pic_order_cnt[2] =3D {
-> > -			dpb[i].pic_order_cnt[0],
-> > -			dpb[i].pic_order_cnt[1]
-> > +			dpb[i].pic_order_cnt_val & 0xffff,
-> > +			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
->=20
-> This is confusing, it gives the impression that pic_order_cnt_val contain=
-s TOP
-> and BOTTOM field pic_order_cnt, which isn't the case. This is just the fu=
-ll pic
-> order count value for this reference.
->=20
-> This is confusing me, most HEVC decoder don't really know about fields. T=
-hey
-> will instead happily produce half height frames, and we should support th=
-is in
-> the form of ALTERNATE or SEQ interlacing output.
->=20
-> While it seems like Allwinner HW maybe support interleaved output, there =
-I would
-> not find any userland that would implement this, hence proving that it wo=
-rks.
-> Overall, interlaced HEVC (a very niche use case) should be studied, and w=
-e
-> should ensure that alternate/seq interlacing is possible, since a lot of =
-HW will
-> only offer this.
+On Thu, Apr 07, 2022 at 04:41:28PM -0400, Jaehee Park wrote:
+> Use container_of() to get vif. This improves the code in two ways:
+> [1] it speeds up the compilation because container_of() saves steps to
+> retrieve vif (the representation of ieee80211_vif), and
+> [2] it eliminates the need to define multiple pointers. Previously,
+> after setting the pointer to drv_priv, another pointer had to be
+> defined by vif in struct wfx_vif to point back to ieee80211_vif.
+> Remove vif from the struct wfx_vif, define a macro wvif_to_vif(ptr)
+> for container_of(), and replace all wvif->vif with the newly defined
+> container_of() construct.
+> 
+> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> ---
+> Questions:
+> - These changes built for me, but it would be great if someone can test it on the actual hardware.
+> - We noticed that the development of the wfx driver is happening in netdev instead of the staging directory. Do you suggest that I use the net-next tree for this change?
 
-I looked a bit more at the reverse-engineering data for that chip, and what
-should happen is that the pic_order_cnt_val should be set into pic_order_cn=
-t[0].
-The code handling this later on does:
+Sorry, to clarify my question regarding which tree to submit this patch to, I meant the netdev tree vs greg's tree:
+https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/log/drivers/staging/wfx
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/log/drivers/staging/wfx
 
-	struct cedrus_h265_sram_frame_info frame_info =3D {
-		.top_pic_order_cnt =3D cpu_to_le32(pic_order_cnt[0]),
-		.bottom_pic_order_cnt =3D cpu_to_le32(field_pic ?
-						    pic_order_cnt[1] :
-						    pic_order_cnt[0]),
-
-Now, the pic_oder_cnt[1] is the other field. Things is that the two field w=
-on't
-endup in the same frame buffer magically. In fact we'll need some tinkering=
- on
-how this could possibly be supported. In GStreamer we only have the DXVA ba=
-sed
-decoder that supports field decoding, and each field endups in their own su=
-rface
-(our buffers). This looks more natural for Hantro here at least. Though per=
-haps
-there exist stride trick to interleave them, but then we need special care =
-for
-the extra buffers. I think we need to think through what we want to offer h=
-ere,
-anything from SEQ or interleaved buffer will require some more thinking, wh=
-ile
-alternate interlacing would be rather simple (handle by userland mostly) an=
-d
-will be more portable. Even Cedrus should be usable in that mode by ignorin=
-g its
-interleaving capability.=20
-
->=20
-> >  		};
-> > =20
-> >  		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
-> > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> > index b3540167df9e..2812778b41f4 100644
-> > --- a/include/media/hevc-ctrls.h
-> > +++ b/include/media/hevc-ctrls.h
-> > @@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
-> >  	__u64	timestamp;
-> >  	__u8	flags;
-> >  	__u8	field_pic;
-> > -	__u16	pic_order_cnt[2];
-> > +	__s32	pic_order_cnt_val;
-> >  	__u8	padding[2];
-> >  };
-> > =20
->=20
-
+>  
+>  drivers/staging/wfx/data_rx.c |  4 ++--
+>  drivers/staging/wfx/data_tx.c |  2 +-
+>  drivers/staging/wfx/key.c     |  3 +--
+>  drivers/staging/wfx/queue.c   |  2 +-
+>  drivers/staging/wfx/scan.c    |  6 ++---
+>  drivers/staging/wfx/sta.c     | 45 ++++++++++++++++-------------------
+>  drivers/staging/wfx/wfx.h     |  3 ++-
+>  7 files changed, 31 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/staging/wfx/data_rx.c b/drivers/staging/wfx/data_rx.c
+> index a4b5ffe158e4..98c2223089b8 100644
+> --- a/drivers/staging/wfx/data_rx.c
+> +++ b/drivers/staging/wfx/data_rx.c
+> @@ -24,12 +24,12 @@ static void wfx_rx_handle_ba(struct wfx_vif *wvif, struct ieee80211_mgmt *mgmt)
+>  	case WLAN_ACTION_ADDBA_REQ:
+>  		params = le16_to_cpu(mgmt->u.action.u.addba_req.capab);
+>  		tid = (params & IEEE80211_ADDBA_PARAM_TID_MASK) >> 2;
+> -		ieee80211_start_rx_ba_session_offl(wvif->vif, mgmt->sa, tid);
+> +		ieee80211_start_rx_ba_session_offl(wvif_to_vif(wvif), mgmt->sa, tid);
+>  		break;
+>  	case WLAN_ACTION_DELBA:
+>  		params = le16_to_cpu(mgmt->u.action.u.delba.params);
+>  		tid = (params &  IEEE80211_DELBA_PARAM_TID_MASK) >> 12;
+> -		ieee80211_stop_rx_ba_session_offl(wvif->vif, mgmt->sa, tid);
+> +		ieee80211_stop_rx_ba_session_offl(wvif_to_vif(wvif), mgmt->sa, tid);
+>  		break;
+>  	}
+>  }
+> diff --git a/drivers/staging/wfx/data_tx.c b/drivers/staging/wfx/data_tx.c
+> index e07381b2ff4d..fd79e03a08c5 100644
+> --- a/drivers/staging/wfx/data_tx.c
+> +++ b/drivers/staging/wfx/data_tx.c
+> @@ -216,7 +216,7 @@ static u8 wfx_tx_get_link_id(struct wfx_vif *wvif, struct ieee80211_sta *sta,
+>  
+>  	if (sta_priv && sta_priv->link_id)
+>  		return sta_priv->link_id;
+> -	if (wvif->vif->type != NL80211_IFTYPE_AP)
+> +	if (wvif_to_vif(wvif)->type != NL80211_IFTYPE_AP)
+>  		return 0;
+>  	if (is_multicast_ether_addr(da))
+>  		return 0;
+> diff --git a/drivers/staging/wfx/key.c b/drivers/staging/wfx/key.c
+> index 8f23e8d42bd4..71b1fca70248 100644
+> --- a/drivers/staging/wfx/key.c
+> +++ b/drivers/staging/wfx/key.c
+> @@ -174,7 +174,7 @@ static int wfx_add_key(struct wfx_vif *wvif, struct ieee80211_sta *sta,
+>  			k.type = fill_tkip_pair(&k.key.tkip_pairwise_key, key, sta->addr);
+>  		else
+>  			k.type = fill_tkip_group(&k.key.tkip_group_key, key, &seq,
+> -						 wvif->vif->type);
+> +						 wvif_to_vif(wvif)->type);
+>  	} else if (key->cipher == WLAN_CIPHER_SUITE_CCMP) {
+>  		if (pairwise)
+>  			k.type = fill_ccmp_pair(&k.key.aes_pairwise_key, key, sta->addr);
+> @@ -224,4 +224,3 @@ int wfx_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd, struct ieee80211_
+>  	mutex_unlock(&wvif->wdev->conf_mutex);
+>  	return ret;
+>  }
+> -
+> diff --git a/drivers/staging/wfx/queue.c b/drivers/staging/wfx/queue.c
+> index 729825230db2..a2745d1024c6 100644
+> --- a/drivers/staging/wfx/queue.c
+> +++ b/drivers/staging/wfx/queue.c
+> @@ -207,7 +207,7 @@ bool wfx_tx_queues_has_cab(struct wfx_vif *wvif)
+>  {
+>  	int i;
+>  
+> -	if (wvif->vif->type != NL80211_IFTYPE_AP)
+> +	if (wvif_to_vif(wvif)->type != NL80211_IFTYPE_AP)
+>  		return false;
+>  	for (i = 0; i < IEEE80211_NUM_ACS; ++i)
+>  		/* Note: since only AP can have mcast frames in queue and only one vif can be AP,
+> diff --git a/drivers/staging/wfx/scan.c b/drivers/staging/wfx/scan.c
+> index 7f34f0d322f9..5c25fde3fc41 100644
+> --- a/drivers/staging/wfx/scan.c
+> +++ b/drivers/staging/wfx/scan.c
+> @@ -25,7 +25,7 @@ static int update_probe_tmpl(struct wfx_vif *wvif, struct cfg80211_scan_request
+>  {
+>  	struct sk_buff *skb;
+>  
+> -	skb = ieee80211_probereq_get(wvif->wdev->hw, wvif->vif->addr, NULL, 0, req->ie_len);
+> +	skb = ieee80211_probereq_get(wvif->wdev->hw, wvif_to_vif(wvif)->addr, NULL, 0, req->ie_len);
+>  	if (!skb)
+>  		return -ENOMEM;
+>  
+> @@ -75,8 +75,8 @@ static int send_scan_req(struct wfx_vif *wvif, struct cfg80211_scan_request *req
+>  	} else {
+>  		ret = wvif->scan_nb_chan_done;
+>  	}
+> -	if (req->channels[start_idx]->max_power != wvif->vif->bss_conf.txpower)
+> -		wfx_hif_set_output_power(wvif, wvif->vif->bss_conf.txpower);
+> +	if (req->channels[start_idx]->max_power != wvif_to_vif(wvif)->bss_conf.txpower)
+> +		wfx_hif_set_output_power(wvif, wvif_to_vif(wvif)->bss_conf.txpower);
+>  	wfx_tx_unlock(wvif->wdev);
+>  	return ret;
+>  }
+> diff --git a/drivers/staging/wfx/sta.c b/drivers/staging/wfx/sta.c
+> index 03025ef7f1be..b634c8e004db 100644
+> --- a/drivers/staging/wfx/sta.c
+> +++ b/drivers/staging/wfx/sta.c
+> @@ -132,7 +132,7 @@ void wfx_configure_filter(struct ieee80211_hw *hw, unsigned int changed_flags,
+>  			filter_bssid = true;
+>  
+>  		/* In AP mode, chip can reply to probe request itself */
+> -		if (*total_flags & FIF_PROBE_REQ && wvif->vif->type == NL80211_IFTYPE_AP) {
+> +		if (*total_flags & FIF_PROBE_REQ && wvif_to_vif(wvif)->type == NL80211_IFTYPE_AP) {
+>  			dev_dbg(wdev->dev, "do not forward probe request in AP mode\n");
+>  			*total_flags &= ~FIF_PROBE_REQ;
+>  		}
+> @@ -153,18 +153,18 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
+>  	struct ieee80211_channel *chan0 = NULL, *chan1 = NULL;
+>  	struct ieee80211_conf *conf = &wvif->wdev->hw->conf;
+>  
+> -	WARN(!wvif->vif->bss_conf.assoc && enable_ps,
+> +	WARN(!wvif_to_vif(wvif)->bss_conf.assoc && enable_ps,
+>  	     "enable_ps is reliable only if associated");
+>  	if (wdev_to_wvif(wvif->wdev, 0))
+> -		chan0 = wdev_to_wvif(wvif->wdev, 0)->vif->bss_conf.chandef.chan;
+> +		chan0 = wvif_to_vif(wdev_to_wvif(wvif->wdev, 0))->bss_conf.chandef.chan;
+>  	if (wdev_to_wvif(wvif->wdev, 1))
+> -		chan1 = wdev_to_wvif(wvif->wdev, 1)->vif->bss_conf.chandef.chan;
+> -	if (chan0 && chan1 && wvif->vif->type != NL80211_IFTYPE_AP) {
+> +		chan1 = wvif_to_vif(wdev_to_wvif(wvif->wdev, 1))->bss_conf.chandef.chan;
+> +	if (chan0 && chan1 && wvif_to_vif(wvif)->type != NL80211_IFTYPE_AP) {
+>  		if (chan0->hw_value == chan1->hw_value) {
+>  			/* It is useless to enable PS if channels are the same. */
+>  			if (enable_ps)
+>  				*enable_ps = false;
+> -			if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
+> +			if (wvif_to_vif(wvif)->bss_conf.assoc && wvif_to_vif(wvif)->bss_conf.ps)
+>  				dev_info(wvif->wdev->dev, "ignoring requested PS mode");
+>  			return -1;
+>  		}
+> @@ -177,8 +177,8 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
+>  			return 30;
+>  	}
+>  	if (enable_ps)
+> -		*enable_ps = wvif->vif->bss_conf.ps;
+> -	if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
+> +		*enable_ps = wvif_to_vif(wvif)->bss_conf.ps;
+> +	if (wvif_to_vif(wvif)->bss_conf.assoc && wvif_to_vif(wvif)->bss_conf.ps)
+>  		return conf->dynamic_ps_timeout;
+>  	else
+>  		return -1;
+> @@ -189,7 +189,7 @@ int wfx_update_pm(struct wfx_vif *wvif)
+>  	int ps_timeout;
+>  	bool ps;
+>  
+> -	if (!wvif->vif->bss_conf.assoc)
+> +	if (!wvif_to_vif(wvif)->bss_conf.assoc)
+>  		return 0;
+>  	ps_timeout = wfx_get_ps_timeout(wvif, &ps);
+>  	if (!ps)
+> @@ -215,7 +215,7 @@ int wfx_conf_tx(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+>  	mutex_lock(&wdev->conf_mutex);
+>  	assign_bit(queue, &wvif->uapsd_mask, params->uapsd);
+>  	wfx_hif_set_edca_queue_params(wvif, queue, params);
+> -	if (wvif->vif->type == NL80211_IFTYPE_STATION && old_uapsd != wvif->uapsd_mask) {
+> +	if (wvif_to_vif(wvif)->type == NL80211_IFTYPE_STATION && old_uapsd != wvif->uapsd_mask) {
+>  		wfx_hif_set_uapsd_info(wvif, wvif->uapsd_mask);
+>  		wfx_update_pm(wvif);
+>  	}
+> @@ -242,20 +242,20 @@ void wfx_event_report_rssi(struct wfx_vif *wvif, u8 raw_rcpi_rssi)
+>  	int cqm_evt;
+>  
+>  	rcpi_rssi = raw_rcpi_rssi / 2 - 110;
+> -	if (rcpi_rssi <= wvif->vif->bss_conf.cqm_rssi_thold)
+> +	if (rcpi_rssi <= wvif_to_vif(wvif)->bss_conf.cqm_rssi_thold)
+>  		cqm_evt = NL80211_CQM_RSSI_THRESHOLD_EVENT_LOW;
+>  	else
+>  		cqm_evt = NL80211_CQM_RSSI_THRESHOLD_EVENT_HIGH;
+> -	ieee80211_cqm_rssi_notify(wvif->vif, cqm_evt, rcpi_rssi, GFP_KERNEL);
+> +	ieee80211_cqm_rssi_notify(wvif_to_vif(wvif), cqm_evt, rcpi_rssi, GFP_KERNEL);
+>  }
+>  
+>  static void wfx_beacon_loss_work(struct work_struct *work)
+>  {
+>  	struct wfx_vif *wvif = container_of(to_delayed_work(work), struct wfx_vif,
+>  					    beacon_loss_work);
+> -	struct ieee80211_bss_conf *bss_conf = &wvif->vif->bss_conf;
+> +	struct ieee80211_bss_conf *bss_conf = &wvif_to_vif(wvif)->bss_conf;
+>  
+> -	ieee80211_beacon_loss(wvif->vif);
+> +	ieee80211_beacon_loss(wvif_to_vif(wvif));
+>  	schedule_delayed_work(to_delayed_work(work), msecs_to_jiffies(bss_conf->beacon_int));
+>  }
+>  
+> @@ -323,13 +323,13 @@ static int wfx_upload_ap_templates(struct wfx_vif *wvif)
+>  {
+>  	struct sk_buff *skb;
+>  
+> -	skb = ieee80211_beacon_get(wvif->wdev->hw, wvif->vif);
+> +	skb = ieee80211_beacon_get(wvif->wdev->hw, wvif_to_vif(wvif));
+>  	if (!skb)
+>  		return -ENOMEM;
+>  	wfx_hif_set_template_frame(wvif, skb, HIF_TMPLT_BCN, API_RATE_INDEX_B_1MBPS);
+>  	dev_kfree_skb(skb);
+>  
+> -	skb = ieee80211_proberesp_get(wvif->wdev->hw, wvif->vif);
+> +	skb = ieee80211_proberesp_get(wvif->wdev->hw, wvif_to_vif(wvif));
+>  	if (!skb)
+>  		return -ENOMEM;
+>  	wfx_hif_set_template_frame(wvif, skb, HIF_TMPLT_PRBRES, API_RATE_INDEX_B_1MBPS);
+> @@ -339,7 +339,7 @@ static int wfx_upload_ap_templates(struct wfx_vif *wvif)
+>  
+>  static void wfx_set_mfp_ap(struct wfx_vif *wvif)
+>  {
+> -	struct sk_buff *skb = ieee80211_beacon_get(wvif->wdev->hw, wvif->vif);
+> +	struct sk_buff *skb = ieee80211_beacon_get(wvif->wdev->hw, wvif_to_vif(wvif));
+>  	const int ieoffset = offsetof(struct ieee80211_mgmt, u.beacon.variable);
+>  	const u16 *ptr = (u16 *)cfg80211_find_ie(WLAN_EID_RSN, skb->data + ieoffset,
+>  						 skb->len - ieoffset);
+> @@ -389,7 +389,7 @@ void wfx_stop_ap(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
+>  static void wfx_join(struct wfx_vif *wvif)
+>  {
+>  	int ret;
+> -	struct ieee80211_bss_conf *conf = &wvif->vif->bss_conf;
+> +	struct ieee80211_bss_conf *conf = &wvif_to_vif(wvif)->bss_conf;
+>  	struct cfg80211_bss *bss = NULL;
+>  	u8 ssid[IEEE80211_MAX_SSID_LEN];
+>  	const u8 *ssid_ie = NULL;
+> @@ -420,7 +420,7 @@ static void wfx_join(struct wfx_vif *wvif)
+>  	wvif->join_in_progress = true;
+>  	ret = wfx_hif_join(wvif, conf, wvif->channel, ssid, ssid_len);
+>  	if (ret) {
+> -		ieee80211_connection_loss(wvif->vif);
+> +		ieee80211_connection_loss(wvif_to_vif(wvif));
+>  		wfx_reset(wvif);
+>  	} else {
+>  		/* Due to beacon filtering it is possible that the AP's beacon is not known for the
+> @@ -440,7 +440,7 @@ static void wfx_join_finalize(struct wfx_vif *wvif, struct ieee80211_bss_conf *i
+>  
+>  	rcu_read_lock(); /* protect sta */
+>  	if (info->bssid && !info->ibss_joined)
+> -		sta = ieee80211_find_sta(wvif->vif, info->bssid);
+> +		sta = ieee80211_find_sta(wvif_to_vif(wvif), info->bssid);
+>  	if (sta && sta->ht_cap.ht_supported)
+>  		ampdu_density = sta->ht_cap.ampdu_density;
+>  	if (sta && sta->ht_cap.ht_supported &&
+> @@ -565,7 +565,7 @@ static int wfx_update_tim(struct wfx_vif *wvif)
+>  	u16 tim_offset, tim_length;
+>  	u8 *tim_ptr;
+>  
+> -	skb = ieee80211_beacon_get_tim(wvif->wdev->hw, wvif->vif, &tim_offset, &tim_length);
+> +	skb = ieee80211_beacon_get_tim(wvif->wdev->hw, wvif_to_vif(wvif), &tim_offset, &tim_length);
+>  	if (!skb)
+>  		return -ENOENT;
+>  	tim_ptr = skb->data + tim_offset;
+> @@ -707,8 +707,6 @@ int wfx_add_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
+>  		return -EOPNOTSUPP;
+>  	}
+>  
+> -	/* FIXME: prefer use of container_of() to get vif */
+> -	wvif->vif = vif;
+>  	wvif->wdev = wdev;
+>  
+>  	wvif->link_id_map = 1; /* link-id 0 is reserved for multicast */
+> @@ -767,7 +765,6 @@ void wfx_remove_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
+>  
+>  	cancel_delayed_work_sync(&wvif->beacon_loss_work);
+>  	wdev->vif[wvif->id] = NULL;
+> -	wvif->vif = NULL;
+>  
+>  	mutex_unlock(&wdev->conf_mutex);
+>  
+> diff --git a/drivers/staging/wfx/wfx.h b/drivers/staging/wfx/wfx.h
+> index 6594cc647c2f..78f2a416fe4f 100644
+> --- a/drivers/staging/wfx/wfx.h
+> +++ b/drivers/staging/wfx/wfx.h
+> @@ -25,6 +25,8 @@
+>  #define USEC_PER_TXOP 32 /* see struct ieee80211_tx_queue_params */
+>  #define USEC_PER_TU 1024
+>  
+> +#define wvif_to_vif(ptr)(container_of((void *)ptr, struct ieee80211_vif, drv_priv))
+> +
+>  struct wfx_hwbus_ops;
+>  
+>  struct wfx_dev {
+> @@ -61,7 +63,6 @@ struct wfx_dev {
+>  
+>  struct wfx_vif {
+>  	struct wfx_dev             *wdev;
+> -	struct ieee80211_vif       *vif;
+>  	struct ieee80211_channel   *channel;
+>  	int                        id;
+>  
+> -- 
+> 2.25.1
+> 
