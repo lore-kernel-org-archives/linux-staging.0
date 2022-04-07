@@ -1,39 +1,39 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2A92566
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEB72564
 	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 12:57:50 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id g20so6307438edw.6
+Received: by mail-ed1-f43.google.com with SMTP id b15so6316832edn.4
         for <linux-staging@lists.linux.dev>; Thu, 07 Apr 2022 05:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DhBV9fSUs/h1yxQ+cBz6nBKH5UMTCWQCPrPfKTVvcIc=;
-        b=BSS4VNu7ODpEcdLkoR08kArNJC6n5/uLzHUrLxtD9C7u2qFy8WQ2cB/q+sGaD5keHS
-         YPeJO3RhBFf0fAzaGBs3a8nPaEg5fJK7CsUAXWUb0GwnQhZe2jnnIp1PJVEcZoOXx43e
-         Nhm0MRLxPYaGFw7zTofznmZZ7euw0ZHtqyYrXBl1GwQlrrOEatoPUhzQF1h33SP9CSV2
-         fQJS4kXwM8CNfd/LlRI9MoXzj0VZsz2uqvEKSUbuU0J1y3/plhJnO7zH92rkVG9A1juN
-         YxzwUIL9zhZZKbKznbzh3wxEGe28EYmGKs6YUDzUixILDisUVPJN/wnqzD0L0vQAc1T4
-         d+NQ==
+        bh=I2kKuQm9mBVMxGG2tuqK5kvCq3TE0hPoH+duL8WuPFE=;
+        b=fREgNyiTU+JgehQuQun/naOApONGw77/dtDLqvcR2nsBwPsXkPL44tiLSGRkpl+g8U
+         nVQTq7mUgmzMGC/FV0TUy5+XsuUIic2y79YJ3KLnA3Em+Ry3mvg/3dnASZsGwi+l0Qu4
+         qSLof8irjPFEG26f7yW11EVSQbayAVC2oEn2O/FClJkObCqo0Wi0RijRzPW7+XMuflRV
+         1fW49RE7eO3DPVOZjhFo7LrpiegCKlzb79Z70GdlOJLdHXN1U9vfedInRfsvZr0lRCeG
+         rgFjDQzge0XSGnifixG7ZxtlqFxKrUHEcr1kQoC1A2gQFYIU18lK2k7UDpqPsOSfS08v
+         N66w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DhBV9fSUs/h1yxQ+cBz6nBKH5UMTCWQCPrPfKTVvcIc=;
-        b=Bm/N4AvMRwRKghLjsdlOieYhAiq2dKDNupDpig1oQLb1arvdXzIc4EyUUXPJ31tjFB
-         ijm2Ecoj5C1RKrlS25bvhko8PR9IhHm/P5W4qXwgQ1ZSFp/lG019bB2v/cKlkRXO2fQH
-         FRWCEDZsjXFTP2ggmOmC+7RTHXz6I2rk+NYfMDNEU++TGalHxUFfLEeacXk19d8XCmpp
-         oemsxUq5gmiNZa2XUT2e2A4hj/MuTM1lkeHjdU1bbuUSN32fqnPN70GlFaLWrpMkQSYB
-         6tME7qmlhau6GgsDFDfTYBD0NdQN/NgMRZy5QzOMSW1WPm4f6hx2SYhI2BvUBXvarJWj
-         5KyA==
-X-Gm-Message-State: AOAM532hDv/FTzvlbRye7/RRtYy7iVgKLHyNX2IzKLxxPgRG5k8uHJ7h
-	BVe0NXZ2CyPbGuDtbdrWHRs=
-X-Google-Smtp-Source: ABdhPJzNEkdolj1fwRZkSHCDdVLOqdSreLW+sdhMxT7ie2gX60F2ufWilY7PnlcaX+RjiR+iHnhg1Q==
-X-Received: by 2002:a50:9fa2:0:b0:41c:d9c2:6b19 with SMTP id c31-20020a509fa2000000b0041cd9c26b19mr13884900edf.393.1649336268558;
-        Thu, 07 Apr 2022 05:57:48 -0700 (PDT)
+        bh=I2kKuQm9mBVMxGG2tuqK5kvCq3TE0hPoH+duL8WuPFE=;
+        b=c077Eb8dUn9E0pIUcuf/tBLKZN/DJe7NGu8qUkY8CveetKU+qUihBC0/4Je4FlfAln
+         waW63xvD8ICWDwt0KIBcFjMHJsxapuNdawWTV35ZH8PxLA+FaUi6XgSJYmLQi1d3a8Rp
+         3lRrEBGHPuS9j9y6Qw6ZlkG5ut1VT1z9LNUgtdBtYYUjzJhRWqcNVRibjQVyOVWFSTDM
+         nGhReIt1moXOYOc8Lp1GllTxjqbNvq/948dC2HH+G7vcqoP//0RolxUU5pw2PuVU+xyD
+         Sru4eSDXwMB7owfj6ycJqTqjqrzaqzsR6ylsy+HmdDHqnm0fFWcKLTEhIbwJjqHrUiL7
+         7drA==
+X-Gm-Message-State: AOAM5324miX6z0WxAqaFrJDdpMGGkbxbmMqNdW2PQKIEEyymb8g3rlsb
+	D1Z7ea8esjmwoo0srx7kRtI=
+X-Google-Smtp-Source: ABdhPJzipgYuM30uDF84FFOslfVMcPdQ8T/8aZ0+xYG7Wk5AyEfieXrgPeFqOSRCjuOFlA74RwPVJA==
+X-Received: by 2002:a05:6402:4247:b0:419:3990:3db6 with SMTP id g7-20020a056402424700b0041939903db6mr13837423edb.193.1649336269266;
+        Thu, 07 Apr 2022 05:57:49 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id n13-20020a170906724d00b006cedd6d7e24sm7676764ejk.119.2022.04.07.05.57.47
+        by smtp.gmail.com with ESMTPSA id n13-20020a170906724d00b006cedd6d7e24sm7676764ejk.119.2022.04.07.05.57.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 07 Apr 2022 05:57:48 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v3 1/5] staging: r8188eu: use PTR_ALIGN() instead of RND4()
-Date: Thu,  7 Apr 2022 14:57:38 +0200
-Message-Id: <20220407125742.7814-2-straube.linux@gmail.com>
+Subject: [PATCH v3 2/5] staging: r8188eu: use round_up() instead of _RND4()
+Date: Thu,  7 Apr 2022 14:57:39 +0200
+Message-Id: <20220407125742.7814-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220407125742.7814-1-straube.linux@gmail.com>
 References: <20220407125742.7814-1-straube.linux@gmail.com>
@@ -57,107 +57,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use in-kernel PTR_ALIGN() instead of custom RND4().
+Use in-kernel round_up() instead of custom _RND4().
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
 v3: no changes
-v2: use PTR_ALIGN
+v2: no changes
 
- drivers/staging/r8188eu/core/rtw_security.c     | 6 +++---
- drivers/staging/r8188eu/core/rtw_xmit.c         | 7 ++-----
- drivers/staging/r8188eu/hal/rtl8188eu_xmit.c    | 2 +-
- drivers/staging/r8188eu/include/osdep_service.h | 1 -
- 4 files changed, 6 insertions(+), 10 deletions(-)
+ drivers/staging/r8188eu/core/rtw_cmd.c          | 2 +-
+ drivers/staging/r8188eu/include/osdep_service.h | 8 --------
+ 2 files changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_security.c b/drivers/staging/r8188eu/core/rtw_security.c
-index 2cdcdfd5ca5c..5bba57d18b5f 100644
---- a/drivers/staging/r8188eu/core/rtw_security.c
-+++ b/drivers/staging/r8188eu/core/rtw_security.c
-@@ -63,7 +63,7 @@ void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
- 				arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
- 				pframe += pxmitpriv->frag_len;
--				pframe = (u8 *)RND4((size_t)(pframe));
-+				pframe = PTR_ALIGN(pframe, 4);
- 			}
- 		}
- 	}
-@@ -504,7 +504,7 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
- 					arc4_crypt(ctx, payload + length, crc.f1, 4);
- 
- 					pframe += pxmitpriv->frag_len;
--					pframe = (u8 *)RND4((size_t)(pframe));
-+					pframe = PTR_ALIGN(pframe, 4);
- 				}
- 			}
- 		} else {
-@@ -1133,7 +1133,7 @@ u32 rtw_aes_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
- 
- 					aes_cipher(prwskey, pattrib->hdrlen, pframe, length);
- 					pframe += pxmitpriv->frag_len;
--					pframe = (u8 *)RND4((size_t)(pframe));
-+					pframe = PTR_ALIGN(pframe, 4);
- 				}
- 			}
- 		} else {
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index aede8ef8b098..029b994e1b71 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -642,7 +642,7 @@ static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitfr
- 			payload = pframe;
- 
- 			for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
--				payload = (u8 *)RND4((size_t)(payload));
-+				payload = PTR_ALIGN(payload, 4);
- 
- 				payload = payload + pattrib->hdrlen + pattrib->iv_len;
- 				if ((curfragnum + 1) == pattrib->nr_frags) {
-@@ -868,7 +868,6 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
- {
- 	struct pkt_file pktfile;
- 	s32 frg_inx, frg_len, mpdu_len, llc_sz, mem_sz;
--	size_t addr;
- 	u8 *pframe, *mem_start;
- 	u8 hw_hdr_offset;
- 	struct sta_info		*psta;
-@@ -985,9 +984,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
- 			break;
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index 9b53b92c6795..ed092faafb0f 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -264,7 +264,7 @@ int rtw_cmd_thread(void *context)
+ 			goto post_process;
  		}
  
--		addr = (size_t)(pframe);
--
--		mem_start = (unsigned char *)RND4(addr) + hw_hdr_offset;
-+		mem_start = PTR_ALIGN(pframe, 4) + hw_hdr_offset;
- 		memcpy(mem_start, pbuf_start + hw_hdr_offset, pattrib->hdrlen);
- 	}
+-		pcmd->cmdsz = _RND4((pcmd->cmdsz));/* _RND4 */
++		pcmd->cmdsz = round_up(pcmd->cmdsz, 4);
  
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-index 55032d7ae7e3..9bd2428514de 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-@@ -347,7 +347,7 @@ static s32 rtw_dump_xframe(struct adapter *adapt, struct xmit_frame *pxmitframe)
+ 		memcpy(pcmdbuf, pcmd->parmbuf, pcmd->cmdsz);
  
- 		mem_addr += w_sz;
- 
--		mem_addr = (u8 *)RND4(((size_t)(mem_addr)));
-+		mem_addr = PTR_ALIGN(mem_addr, 4);
- 	}
- 
- 	rtw_free_xmitframe(pxmitpriv, pxmitframe);
 diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index fca8f3d116c2..56e5cbfec1f1 100644
+index 56e5cbfec1f1..388c22751d09 100644
 --- a/drivers/staging/r8188eu/include/osdep_service.h
 +++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -95,7 +95,6 @@ static inline void flush_signals_thread(void)
- }
+@@ -96,14 +96,6 @@ static inline void flush_signals_thread(void)
  
  #define _RND(sz, r) ((((sz)+((r)-1))/(r))*(r))
--#define RND4(x)	(((x >> 2) + (((x & 3) == 0) ?  0: 1)) << 2)
  
- static inline u32 _RND4(u32 sz)
+-static inline u32 _RND4(u32 sz)
+-{
+-	u32	val;
+-
+-	val = ((sz >> 2) + ((sz & 3) ? 1: 0)) << 2;
+-	return val;
+-}
+-
+ static inline u32 _RND8(u32 sz)
  {
+ 	u32	val;
 -- 
 2.35.1
 
