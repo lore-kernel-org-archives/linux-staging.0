@@ -1,82 +1,86 @@
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89DF82117
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 12:54:28 +0000 (UTC)
-Received: by ajax-webmail-mail-app3 (Coremail) ; Thu, 7 Apr 2022 20:54:13
- +0800 (GMT+08:00)
-X-Originating-IP: [10.181.226.201]
-Date: Thu, 7 Apr 2022 20:54:13 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: duoming@zju.edu.cn
-To: "Dan Carpenter" <dan.carpenter@oracle.com>
-Cc: linux-kernel@vger.kernel.org, chris@zankel.net, jcmvbkbc@gmail.com, 
-	mustafa.ismail@intel.com, shiraz.saleem@intel.com, jgg@ziepe.ca, 
-	wg@grandegger.com, mkl@pengutronix.de, davem@davemloft.net, 
-	kuba@kernel.org, pabeni@redhat.com, jes@trained-monkey.org, 
-	gregkh@linuxfoundation.org, jirislaby@kernel.org, 
-	alexander.deucher@amd.com, linux-xtensa@linux-xtensa.org, 
-	linux-rdma@vger.kernel.org, linux-can@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-hippi@sunsite.dk, 
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Subject: Re: Re: [PATCH 09/11] drivers: infiniband: hw: Fix deadlock in
- irdma_cleanup_cm_core()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.8 build 20200806(7a9be5e8)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <20220407112455.GK3293@kadam>
-References: <cover.1649310812.git.duoming@zju.edu.cn>
- <4069b99042d28c8e51b941d9e698b99d1656ed33.1649310812.git.duoming@zju.edu.cn>
- <20220407112455.GK3293@kadam>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4B42564
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 12:57:49 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id p23so6284904edi.8
+        for <linux-staging@lists.linux.dev>; Thu, 07 Apr 2022 05:57:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hcoCrifVh3jGcgC0QHKBTVRExy/JJ4Or1ScZya4YOn8=;
+        b=kWtO1BI99Fv7NjLqkGRW5l4rJTmet9h0vqKsFtk1q/jY10kDxbMHO0oa+mY6oBknIg
+         P+yUhK5IiUrxPTHu2cTmEUNZK5h1vKusvNDoylIl8AJ8MpjklAOGwW0YKb2oKeCdNZ7U
+         6kzmgkWn3HIs9X1VLheGJ+Hu2flmD1vWuDYVCb1pZOdWI42/Df4TRaLapYGWJ/jMtChv
+         bxu/mVAg9rOMsDzmPN5dh3cN1SatPZxO1FtfFJTGRo2bjgkF3vz3i/GM7rzJF6DBSXl5
+         fY73Y5YigZrC/Nile9exusXUgpEHyOei7cbsLOHmd1Iyv5Mr8clNtvq8LL/8+0JXWHTX
+         k2Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hcoCrifVh3jGcgC0QHKBTVRExy/JJ4Or1ScZya4YOn8=;
+        b=OW50JTttMHGMkKc/CeLZJ0JQhtAHCAU67/70bEVMAo+qsjuf/ANGqQRb0cbZQKHgxm
+         tMJ9tL+0QqdRAsRfSygAEu9kF3VKAN5XNVjY48II4sZReIXuAjKBm471gsFyAgEJI5hy
+         70RR/ZsjZiFpGp/ljLYbIPMibVrvht2CJUmhcPxsgQbzbD6qUyE+pSnoU9JGjTYcms1c
+         dUJbw0jObra0EqJLGjYZ6uZQ2AODXc6Nhd1wKXL927gWyZfrbI33ZgJMT2jgHfU0AH1C
+         OXa1xduXRNY6ye3IimEg8xFl5neApdGdxRcqEDRXakgS7rM2Fo8T35mTYZpBbv2rJ68R
+         o5sQ==
+X-Gm-Message-State: AOAM530UpBLdrrwgLlmJcsON/Mubb4pI+zOsN47Ar903ZyZKy/JfLNc+
+	S2kJsgiQ+goPiGoDYP2vlvU=
+X-Google-Smtp-Source: ABdhPJwrM3Jn6ZZx/kiPxaG6xqSXaPGp88T+W/Y+xl2nga11i+VTsOxQJF1VX9yj1LafADPzb+Zxaw==
+X-Received: by 2002:a05:6402:1a33:b0:41c:bfc1:957c with SMTP id be19-20020a0564021a3300b0041cbfc1957cmr14007296edb.354.1649336267756;
+        Thu, 07 Apr 2022 05:57:47 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
+        by smtp.gmail.com with ESMTPSA id n13-20020a170906724d00b006cedd6d7e24sm7676764ejk.119.2022.04.07.05.57.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Apr 2022 05:57:47 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH v3 0/5] staging: r8188eu: use round_up()
+Date: Thu,  7 Apr 2022 14:57:37 +0200
+Message-Id: <20220407125742.7814-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <1be0c02d.3f701.1800416ef60.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:cC_KCgDnXmL13k5iNReTAQ--.17805W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgYNAVZdtZE4DQAFsX
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Transfer-Encoding: 8bit
 
-SGVsbG8sCgpPbiBUaHUsIDcgQXByIDIwMjIgMTQ6MjQ6NTYgKzAzMDAgRGFuIENhcnBlbnRlciB3
-cm90ZToKCj4gPiBUaGVyZSBpcyBhIGRlYWRsb2NrIGluIGlyZG1hX2NsZWFudXBfY21fY29yZSgp
-LCB3aGljaCBpcyBzaG93bgo+ID4gYmVsb3c6Cj4gPiAKPiA+ICAgIChUaHJlYWQgMSkgICAgICAg
-ICAgICAgIHwgICAgICAoVGhyZWFkIDIpCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
-IGlyZG1hX3NjaGVkdWxlX2NtX3RpbWVyKCkKPiA+IGlyZG1hX2NsZWFudXBfY21fY29yZSgpICAg
-IHwgIGFkZF90aW1lcigpCj4gPiAgc3Bpbl9sb2NrX2lycXNhdmUoKSAvLygxKSB8ICAod2FpdCBh
-IHRpbWUpCj4gPiAgLi4uICAgICAgICAgICAgICAgICAgICAgICB8IGlyZG1hX2NtX3RpbWVyX3Rp
-Y2soKQo+ID4gIGRlbF90aW1lcl9zeW5jKCkgICAgICAgICAgfCAgc3Bpbl9sb2NrX2lycXNhdmUo
-KSAvLygyKQo+ID4gICh3YWl0IHRpbWVyIHRvIHN0b3ApICAgICAgfCAgLi4uCj4gPiAKPiA+IFdl
-IGhvbGQgY21fY29yZS0+aHRfbG9jayBpbiBwb3NpdGlvbiAoMSkgb2YgdGhyZWFkIDEgYW5kCj4g
-PiB1c2UgZGVsX3RpbWVyX3N5bmMoKSB0byB3YWl0IHRpbWVyIHRvIHN0b3AsIGJ1dCB0aW1lciBo
-YW5kbGVyCj4gPiBhbHNvIG5lZWQgY21fY29yZS0+aHRfbG9jayBpbiBwb3NpdGlvbiAoMikgb2Yg
-dGhyZWFkIDIuCj4gPiBBcyBhIHJlc3VsdCwgaXJkbWFfY2xlYW51cF9jbV9jb3JlKCkgd2lsbCBi
-bG9jayBmb3JldmVyLgo+ID4gCj4gPiBUaGlzIHBhdGNoIGV4dHJhY3RzIGRlbF90aW1lcl9zeW5j
-KCkgZnJvbSB0aGUgcHJvdGVjdGlvbiBvZgo+ID4gc3Bpbl9sb2NrX2lycXNhdmUoKSwgd2hpY2gg
-Y291bGQgbGV0IHRpbWVyIGhhbmRsZXIgdG8gb2J0YWluCj4gPiB0aGUgbmVlZGVkIGxvY2suCj4g
-PiAKPiA+IFNpZ25lZC1vZmYtYnk6IER1b21pbmcgWmhvdSA8ZHVvbWluZ0B6anUuZWR1LmNuPgo+
-ID4gLS0tCj4gPiAgZHJpdmVycy9pbmZpbmliYW5kL2h3L2lyZG1hL2NtLmMgfCA1ICsrKystCj4g
-PiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+ID4gCj4g
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbmZpbmliYW5kL2h3L2lyZG1hL2NtLmMgYi9kcml2ZXJz
-L2luZmluaWJhbmQvaHcvaXJkbWEvY20uYwo+ID4gaW5kZXggZGVkYjNiN2VkZDguLjAxOWRkOGJm
-ZTA4IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9pbmZpbmliYW5kL2h3L2lyZG1hL2NtLmMKPiA+
-ICsrKyBiL2RyaXZlcnMvaW5maW5pYmFuZC9ody9pcmRtYS9jbS5jCj4gPiBAQCAtMzI1Miw4ICsz
-MjUyLDExIEBAIHZvaWQgaXJkbWFfY2xlYW51cF9jbV9jb3JlKHN0cnVjdCBpcmRtYV9jbV9jb3Jl
-ICpjbV9jb3JlKQo+ID4gIAkJcmV0dXJuOwo+ID4gIAo+ID4gIAlzcGluX2xvY2tfaXJxc2F2ZSgm
-Y21fY29yZS0+aHRfbG9jaywgZmxhZ3MpOwo+ID4gLQlpZiAodGltZXJfcGVuZGluZygmY21fY29y
-ZS0+dGNwX3RpbWVyKSkKPiA+ICsJaWYgKHRpbWVyX3BlbmRpbmcoJmNtX2NvcmUtPnRjcF90aW1l
-cikpIHsKPiA+ICsJCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmNtX2NvcmUtPmh0X2xvY2ssIGZs
-YWdzKTsKPiA+ICAJCWRlbF90aW1lcl9zeW5jKCZjbV9jb3JlLT50Y3BfdGltZXIpOwo+ID4gKwkJ
-c3Bpbl9sb2NrX2lycXNhdmUoJmNtX2NvcmUtPmh0X2xvY2ssIGZsYWdzKTsKPiA+ICsJfQo+ID4g
-IAlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZjbV9jb3JlLT5odF9sb2NrLCBmbGFncyk7Cj4gCj4g
-VGhpcyBsb2NrIGRvZXNuJ3Qgc2VlbSB0byBiZSBwcm90ZWN0aW5nIGFueXRoaW5nLiAgQWxzbyBk
-byB3ZSBuZWVkIHRvCj4gY2hlY2sgdGltZXJfcGVuZGluZygpPyAgSSB0aGluayB0aGUgZGVsX3Rp
-bWVyX3N5bmMoKSBmdW5jdGlvbiB3aWxsIGp1c3QKPiByZXR1cm4gZGlyZWN0bHkgaWYgdGhlcmUg
-aXNuJ3QgYSBwZW5kaW5nIGxvY2s/CgpUaGFua3MgYSBsb3QgZm9yIHlvdXIgYWR2aWNlLCBJIHdp
-bGwgcmVtb3ZlIHRoZSB0aW1lcl9wZW5kaW5nKCkgYW5kIHRoZQpyZWR1bmRhbnQgbG9jay4KCkJl
-c3QgcmVnYXJkcywKRHVvbWluZyBaaG91
+This series converts the driver to use the in-kernel round_up()
+and PTR_ALIGN() instead of custom _RND* implementations.
+
+Tested on x86_64 with Inter-Tech DMG-02.
+
+v3:
+just remove _RND8 in one case
+
+v2:
+use PTR_ALIGN in patch 1/5
+
+Michael Straube (5):
+  staging: r8188eu: use PTR_ALIGN() instead of RND4()
+  staging: r8188eu: use round_up() instead of _RND4()
+  staging: r8188eu: use round_up() instead of _RND8()
+  staging: r8188eu: use round_up() instead of _RND128()
+  staging: r8188eu: remove unused _RND* from osdep_service.h
+
+ drivers/staging/r8188eu/core/rtw_cmd.c        |  2 +-
+ drivers/staging/r8188eu/core/rtw_security.c   |  6 +--
+ drivers/staging/r8188eu/core/rtw_xmit.c       |  7 +--
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  8 ++--
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |  2 +-
+ .../staging/r8188eu/include/osdep_service.h   | 43 -------------------
+ 6 files changed, 11 insertions(+), 57 deletions(-)
+
+-- 
+2.35.1
+
