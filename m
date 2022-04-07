@@ -1,88 +1,88 @@
-Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C51962560
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 12:03:17 +0000 (UTC)
-Received: by ajax-webmail-mail-app3 (Coremail) ; Thu, 7 Apr 2022 20:02:58
- +0800 (GMT+08:00)
-X-Originating-IP: [10.181.226.201]
-Date: Thu, 7 Apr 2022 20:02:58 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: duoming@zju.edu.cn
-To: "Oliver Neukum" <oneukum@suse.com>
-Cc: linux-kernel@vger.kernel.org, chris@zankel.net, jcmvbkbc@gmail.com, 
-	mustafa.ismail@intel.com, shiraz.saleem@intel.com, jgg@ziepe.ca, 
-	wg@grandegger.com, mkl@pengutronix.de, davem@davemloft.net, 
-	kuba@kernel.org, pabeni@redhat.com, jes@trained-monkey.org, 
-	gregkh@linuxfoundation.org, jirislaby@kernel.org, 
-	alexander.deucher@amd.com, linux-xtensa@linux-xtensa.org, 
-	linux-rdma@vger.kernel.org, linux-can@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-hippi@sunsite.dk, 
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linma@zju.edu.cn
-Subject: Re: Re: [PATCH 02/11] drivers: usb: host: Fix deadlock in
- oxu_bus_suspend()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.8 build 20200806(7a9be5e8)
- Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
-In-Reply-To: <8ed7760a-471d-19a2-0a3b-1e0fc3a27281@suse.com>
-References: <cover.1649310812.git.duoming@zju.edu.cn>
- <8b1201dc7554a2ab3ca555a2b6e2747761603d19.1649310812.git.duoming@zju.edu.cn>
- <8ed7760a-471d-19a2-0a3b-1e0fc3a27281@suse.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2D92561
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 12:10:46 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id ku13-20020a17090b218d00b001ca8fcd3adeso8704606pjb.2
+        for <linux-staging@lists.linux.dev>; Thu, 07 Apr 2022 05:10:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs-iitr-ac-in.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=aqpPueWPNxzXBHHxJyXiIz6ra+hEX3sVHFaudIBqTWU=;
+        b=2DL2TMXKvODXCmBbujyS6l/pZDnDTZc+ey2Xnf1zD2wEV4IlFyH8lvtx01eKv9x+rG
+         aD1N4AxqGK60pgBuRZ58NSTZx2eif3LUcDa6VRNUUMKEkdT/WL3aJ3XNDWZkeW5YlP4E
+         NlQXsptgN3eguxnvyin1IuUbY53mboBwxfArTY6MvXZgvDvcg8zo/QBDXEk58i2jY90u
+         +E9gLXAG5efmwlHs9OiKpUsf56h8TH0G3ZrE3wRGusLay/pYz852c5kbLmjYB/2ixEAw
+         7rSYxvH2ZGjm5TY/OPSbC4ikUIwTlTawealj7jFEI2czS7lTw79w+peUvUEhIynlFNgi
+         XOlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=aqpPueWPNxzXBHHxJyXiIz6ra+hEX3sVHFaudIBqTWU=;
+        b=tkiK6D4A/u8bKhLTkOupNyEwRQfG8P8wvkZ+yGEeYLkmh/MudF2D1czu/vHsyNUV/f
+         CczERUOW1reWsXEYhwUazED0sl9wH60L4uWbckZzpIj/5KXtzL/w9ZMvtDQ1WkLbWKNm
+         2Ur+7RQb/T4uNpPn9bp5z6p+K/UHb7USFydnBqqu0fqYcxuCjkIGxWGPOfFoH0+5krk/
+         lVQelFG0CACMJcuPh7ikubGO/+nuJSCmUJFy4oeTpgD+W5UiiSLjh9DYLTXx+MC8JWGN
+         0hXynhAkuExOHGKIsS4WwAednekbAF37gqoo1IxuRpZwi/IYbKN155aIVRMl1yfq0kf+
+         fOAA==
+X-Gm-Message-State: AOAM530bGmagNZ6U4D8GdgETN2ybRic3mMBsFmzeB32BiFBqVl1rRBnA
+	UrbzLWhxhuJh6ClCKrTBHGQeGw==
+X-Google-Smtp-Source: ABdhPJxygEAgUieNSz9kdAgidLjC5IHFf7mloWvF+BsA1T7rAwdhmOSZZQSW29M5jes+IkmxOj1RDw==
+X-Received: by 2002:a17:90b:38c7:b0:1c7:6afb:fac6 with SMTP id nn7-20020a17090b38c700b001c76afbfac6mr15455966pjb.198.1649333446047;
+        Thu, 07 Apr 2022 05:10:46 -0700 (PDT)
+Received: from mahak-Inspiron-7570.iitr.ac.in ([103.37.201.168])
+        by smtp.googlemail.com with ESMTPSA id t14-20020a056a00138e00b004fb1d833668sm24095458pfg.33.2022.04.07.05.10.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Apr 2022 05:10:45 -0700 (PDT)
+From: Mahak Gupta <mahak_g@cs.iitr.ac.in>
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: Mahak Gupta <mahak_g@cs.iitr.ac.in>
+Subject: [PATCH] staging: rtl8712: fix camel case in function r8712_generate_ie
+Date: Thu,  7 Apr 2022 17:39:45 +0530
+Message-Id: <20220407120945.31030-1-mahak_g@cs.iitr.ac.in>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Message-ID: <4170b816.3f4a8.18003e801f8.Coremail.duoming@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:cC_KCgAXj2Ly0k5i+UeSAQ--.26944W
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgQNAVZdtZE08wABsj
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
 
-SGVsbG8sCgpPbiBUaHUsIDcgQXByIDIwMjIgMTA6MDE6NDMgKzAyMDAgT2xpdmVyIE5ldWt1bSB3
-cm90ZToKCj4gT24gMDcuMDQuMjIgMDg6MzMsIER1b21pbmcgWmhvdSB3cm90ZToKPiA+IFRoZXJl
-IGlzIGEgZGVhZGxvY2sgaW4gb3h1X2J1c19zdXNwZW5kKCksIHdoaWNoIGlzIHNob3duIGJlbG93
-Ogo+ID4KPiA+ICAgIChUaHJlYWQgMSkgICAgICAgICAgICAgIHwgICAgICAoVGhyZWFkIDIpCj4g
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IHRpbWVyX2FjdGlvbigpCj4gPiBveHVfYnVz
-X3N1c3BlbmQoKSAgICAgICAgICB8ICBtb2RfdGltZXIoKQo+ID4gIHNwaW5fbG9ja19pcnEoKSAv
-LygxKSAgICAgfCAgKHdhaXQgYSB0aW1lKQo+ID4gIC4uLiAgICAgICAgICAgICAgICAgICAgICAg
-fCBveHVfd2F0Y2hkb2coKQo+ID4gIGRlbF90aW1lcl9zeW5jKCkgICAgICAgICAgfCAgc3Bpbl9s
-b2NrX2lycSgpIC8vKDIpCj4gPiAgKHdhaXQgdGltZXIgdG8gc3RvcCkgICAgICB8ICAuLi4KPiA+
-Cj4gPiBXZSBob2xkIG94dS0+bG9jayBpbiBwb3NpdGlvbiAoMSkgb2YgdGhyZWFkIDEsIGFuZCB1
-c2UKPiA+IGRlbF90aW1lcl9zeW5jKCkgdG8gd2FpdCB0aW1lciB0byBzdG9wLCBidXQgdGltZXIg
-aGFuZGxlcgo+ID4gYWxzbyBuZWVkIG94dS0+bG9jayBpbiBwb3NpdGlvbiAoMikgb2YgdGhyZWFk
-IDIuIEFzIGEgcmVzdWx0LAo+ID4gb3h1X2J1c19zdXNwZW5kKCkgd2lsbCBibG9jayBmb3JldmVy
-Lgo+ID4KPiA+IFRoaXMgcGF0Y2ggZXh0cmFjdHMgZGVsX3RpbWVyX3N5bmMoKSBmcm9tIHRoZSBw
-cm90ZWN0aW9uIG9mCj4gPiBzcGluX2xvY2tfaXJxKCksIHdoaWNoIGNvdWxkIGxldCB0aW1lciBo
-YW5kbGVyIHRvIG9idGFpbgo+ID4gdGhlIG5lZWRlZCBsb2NrLgo+IEdvb2QgY2F0Y2guCj4gPiBT
-aWduZWQtb2ZmLWJ5OiBEdW9taW5nIFpob3UgPGR1b21pbmdAemp1LmVkdS5jbj4KPiA+IC0tLQo+
-ID4gIGRyaXZlcnMvdXNiL2hvc3Qvb3h1MjEwaHAtaGNkLmMgfCAyICsrCj4gPiAgMSBmaWxlIGNo
-YW5nZWQsIDIgaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9o
-b3N0L294dTIxMGhwLWhjZC5jIGIvZHJpdmVycy91c2IvaG9zdC9veHUyMTBocC1oY2QuYwo+ID4g
-aW5kZXggYjc0MTY3MDUyNWUuLmVlNDAzZGYzMzA5IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy91
-c2IvaG9zdC9veHUyMTBocC1oY2QuYwo+ID4gKysrIGIvZHJpdmVycy91c2IvaG9zdC9veHUyMTBo
-cC1oY2QuYwo+ID4gQEAgLTM5MDksOCArMzkwOSwxMCBAQCBzdGF0aWMgaW50IG94dV9idXNfc3Vz
-cGVuZChzdHJ1Y3QgdXNiX2hjZCAqaGNkKQo+ID4gIAkJfQo+ID4gIAl9Cj4gPiAgCj4gPiArCXNw
-aW5fdW5sb2NrX2lycSgmb3h1LT5sb2NrKTsKPiA+ICAJLyogdHVybiBvZmYgbm93LWlkbGUgSEMg
-Ki8KPiA+ICAJZGVsX3RpbWVyX3N5bmMoJm94dS0+d2F0Y2hkb2cpOwo+ID4gKwlzcGluX2xvY2tf
-aXJxKCZveHUtPmxvY2spOwo+ID4gIAllaGNpX2hhbHQob3h1KTsKPiA+ICAJaGNkLT5zdGF0ZSA9
-IEhDX1NUQVRFX1NVU1BFTkRFRDsKPiA+ICAKPiAKPiBXaGF0IGlzIHRoZSBsb2NrIHByb3RlY3Rp
-bmcgYXQgdGhhdCBzdGFnZT8gV2h5IG5vdCBqdXN0IGRyb3AgaXQgZWFybGllci4KCkkgdGhpbmsg
-dGhlcmUgaXMgYSByYWNlIGNvbmRpdGlvbiBiZXR3ZWVuIG94dV9idXNfc3VzcGVuZCgpIGFuZCBv
-eHVfc3RvcCgpLApzbyBJIHRoaW5rIHdlIGNvdWxkIG5vdCBkcm9wIHRoZSBveHUtPmxvY2sgZWFy
-bGllci4KCiAgICAgICAgICAgICAgIChUaHJlYWQgMSkgICAgICAgICAgICAgICB8ICAgICAgICAg
-KFRocmVhZCAyKQogb3h1X2J1c19zdXNwZW5kKCkgICAgICAgICAgICAgICAgICAgICAgfCBveHVf
-c3RvcCgpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IAogaGNkLT5z
-dGF0ZSA9IEhDX1NUQVRFX1NVU1BFTkRFRDsgICAgICAgfCAgc3Bpbl9sb2NrX2lycSgmb3h1LT5s
-b2NrKTsKIC4uLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgCiB3cml0ZWwo
-bWFzaywgJm94dS0+cmVncy0+aW50cl9lbmFibGUpOyB8ICAuLi4KICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIHwgIHdyaXRlbCgwLCAmb3h1LT5yZWdzLT5pbnRyX2VuYWJs
-ZSk7CiByZWFkbCgmb3h1LT5yZWdzLT5pbnRyX2VuYWJsZSk7ICAgICAgICB8CgpUaGUgb3h1LT5y
-ZWdzLT5pbnRyX2VuYWJsZSBpcyBzZXQgdG8gMCBpbiBveHVfc3RvcCgpLCBhbmQgdGhlIHJlYWRs
-KCkgaW4Kb3h1X2J1c19zdXNwZW5kKCkgd2lsbCByZWFkIHRoZSB3cm9uZyB2YWx1ZS4KClRoYW5r
-cyBhIGxvdCBmb3IgeW91ciB0aW1lIGFuZCBhZHZpY2UuIElmIHlvdSBoYXZlIHF1ZXN0aW9ucywg
-d2VsY29tZSB0byBhc2sgbWUuCgpCZXN0IHJlZ2FyZHMsCkR1b21pbmcgWmhvdQo=
+Adhere to linux kernel coding style.
+
+Reported by checkpatch:
+
+CHECK: Avoid CamelCase: <beaconPeriod>
+
+Signed-off-by: Mahak Gupta <mahak_g@cs.iitr.ac.in>
+---
+ drivers/staging/rtl8712/ieee80211.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8712/ieee80211.c b/drivers/staging/rtl8712/ieee80211.c
+index f926809b1021..7d8f1a29d18a 100644
+--- a/drivers/staging/rtl8712/ieee80211.c
++++ b/drivers/staging/rtl8712/ieee80211.c
+@@ -162,13 +162,13 @@ int r8712_generate_ie(struct registry_priv *registrypriv)
+ 	uint sz = 0;
+ 	struct wlan_bssid_ex *dev_network = &registrypriv->dev_network;
+ 	u8 *ie = dev_network->IEs;
+-	u16 beaconPeriod = (u16)dev_network->Configuration.BeaconPeriod;
++	u16 beacon_period = (u16)dev_network->Configuration.BeaconPeriod;
+ 
+ 	/*timestamp will be inserted by hardware*/
+ 	sz += 8;
+ 	ie += sz;
+ 	/*beacon interval : 2bytes*/
+-	*(__le16 *)ie = cpu_to_le16(beaconPeriod);
++	*(__le16 *)ie = cpu_to_le16(beacon_period);
+ 	sz += 2;
+ 	ie += 2;
+ 	/*capability info*/
+-- 
+2.17.1
+
