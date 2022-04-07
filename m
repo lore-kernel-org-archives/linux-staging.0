@@ -1,165 +1,82 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010022564;
-	Thu,  7 Apr 2022 12:48:32 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id j12so7702696wrb.5;
-        Thu, 07 Apr 2022 05:48:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kVP0DeosChaP4vnFzIKGWwoOlpAbwuSOyH45+/mZoL0=;
-        b=WJ+kAroNj7E7A5y908A71aFJJj+nAvEUf4Ay0YLozhvoTHYxB902LFt2Od7TY10Wl4
-         MDtb0HNH2KI/aBYiddHdz1k5GRwnn5f0NxSBI/KuW8tYFoLP3fb7MV7vZs4Os7EQarFN
-         Dgs0YtQuP/Xuvpln1PFj/fDipk+nDKU5ckItz0m02ENbvnF8DuxySx8L9k9muCsMTORC
-         AOsHmomnvr2/rP0bfrxp7bPq9QSMKEOoWHbW/JLLg0fQjhDOgJu/5bKzY34INCmn6LgK
-         cUnRng5ayAzLyosP4ozBSF4L8uDB0FEaAlbbZiozeQWVnCoBO1Oa7znXd0VU+IHOEkvq
-         tevg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kVP0DeosChaP4vnFzIKGWwoOlpAbwuSOyH45+/mZoL0=;
-        b=JuNTmowusC4RTHZozQPdK1pqbE7MaXLYHFxOxxLf16MfYEzBTT8LwQaTHUjPPANmcY
-         g92e6FrJGh0td9Vxmaut5KDn+oMEKq26t+7YZ92P0z3kdPSdXHCFUnqeYlvJ6K/NaueC
-         rTBgO7nDZSye7jiGFQocGnKCkHe534CObFtnMPbSVzjHMGi8QwumFkrQIg4t93ciP3OG
-         Krb9dW7qH7sAF9HwzLwug3m6+tTsuJjO/8yxi5AwsCF3iKCEEG8p0L42I7CzonGLwsk8
-         2mgW/oAcF7coH9rKvd6+/9nSnPQW9e6RVqgZ3YIL27ttqz+KGdAoDhpRHaeRpAlNwPj0
-         +zVA==
-X-Gm-Message-State: AOAM531r0uqYMJ92DpdT4Pwyx4flNu7uFYx7bcHndcjSMgwg5021c+pD
-	P7T9vN6iblcr+NB2o+ke/dfemI6mnfY=
-X-Google-Smtp-Source: ABdhPJwcz9vVn9c0DLHAhAgTiD1FsFIPhhJ34CoOVsuCWnlvNQU1WIQX8uuwY6ONIZ02Z+NbDhdpng==
-X-Received: by 2002:adf:d1e3:0:b0:204:7e76:8a70 with SMTP id g3-20020adfd1e3000000b002047e768a70mr11019097wrd.580.1649335711115;
-        Thu, 07 Apr 2022 05:48:31 -0700 (PDT)
-Received: from alaa-emad ([197.57.231.245])
-        by smtp.gmail.com with ESMTPSA id n23-20020a05600c3b9700b0038b7c4c0803sm8172229wms.30.2022.04.07.05.48.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 05:48:30 -0700 (PDT)
-From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	eng.alaamohamedsoliman.am@gmail.com
-Subject: [PATCH v4] staging: rtl8712: remove unnecessary parentheses
-Date: Thu,  7 Apr 2022 14:48:17 +0200
-Message-Id: <20220407124817.7714-1-eng.alaamohamedsoliman.am@gmail.com>
-X-Mailer: git-send-email 2.35.1
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89DF82117
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 12:54:28 +0000 (UTC)
+Received: by ajax-webmail-mail-app3 (Coremail) ; Thu, 7 Apr 2022 20:54:13
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.181.226.201]
+Date: Thu, 7 Apr 2022 20:54:13 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: duoming@zju.edu.cn
+To: "Dan Carpenter" <dan.carpenter@oracle.com>
+Cc: linux-kernel@vger.kernel.org, chris@zankel.net, jcmvbkbc@gmail.com, 
+	mustafa.ismail@intel.com, shiraz.saleem@intel.com, jgg@ziepe.ca, 
+	wg@grandegger.com, mkl@pengutronix.de, davem@davemloft.net, 
+	kuba@kernel.org, pabeni@redhat.com, jes@trained-monkey.org, 
+	gregkh@linuxfoundation.org, jirislaby@kernel.org, 
+	alexander.deucher@amd.com, linux-xtensa@linux-xtensa.org, 
+	linux-rdma@vger.kernel.org, linux-can@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-hippi@sunsite.dk, 
+	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, 
+	linux-usb@vger.kernel.org
+Subject: Re: Re: [PATCH 09/11] drivers: infiniband: hw: Fix deadlock in
+ irdma_cleanup_cm_core()
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.8 build 20200806(7a9be5e8)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <20220407112455.GK3293@kadam>
+References: <cover.1649310812.git.duoming@zju.edu.cn>
+ <4069b99042d28c8e51b941d9e698b99d1656ed33.1649310812.git.duoming@zju.edu.cn>
+ <20220407112455.GK3293@kadam>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <1be0c02d.3f701.1800416ef60.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:cC_KCgDnXmL13k5iNReTAQ--.17805W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgYNAVZdtZE4DQAFsX
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-Reported by checkpatch:
-
-Remove unnecessary parentheses around structure field references
-
-Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
----
-Changes in v2:
-	- Edit commit subject
-	- Edit commit message
-	- Fix the same check in more lines
-	- Remove space before '.skey' in
-"memcpy(psta->tkiptxmickey.skey," in lines 84 and 86.
----
-Changes in v3:
-	return the space before '.skey' in
-"memcpy(psta->tkiptxmickey.skey," in lines 84 and 86
----
-Changes in v4:
-	edit commit message to be clearer.
----
- drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-index 3b6926613257..f1e352b7f83e 100644
---- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-+++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-@@ -82,9 +82,9 @@ static inline void handle_pairwise_key(struct sta_info *psta,
- 	       (param->u.crypt. key_len > 16 ? 16 : param->u.crypt.key_len));
- 	if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
- 		memcpy(psta->tkiptxmickey. skey,
--		       &(param->u.crypt.key[16]), 8);
-+		       &param->u.crypt.key[16], 8);
- 		memcpy(psta->tkiprxmickey. skey,
--		       &(param->u.crypt.key[24]), 8);
-+		       &param->u.crypt.key[24], 8);
- 		padapter->securitypriv. busetkipkey = false;
- 		mod_timer(&padapter->securitypriv.tkip_timer,
- 			  jiffies + msecs_to_jiffies(50));
-@@ -600,7 +600,7 @@ static int r8711_wx_get_name(struct net_device *dev,
- 	u32 ht_ielen = 0;
- 	char *p;
- 	u8 ht_cap = false;
--	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
-+	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
- 	struct wlan_bssid_ex *pcur_bss = &pmlmepriv->cur_network.network;
- 	u8 *prates;
- 
-@@ -1494,7 +1494,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
- 	u32 keyindex_provided;
- 	struct NDIS_802_11_WEP	 wep;
- 	enum NDIS_802_11_AUTHENTICATION_MODE authmode;
--	struct iw_point *erq = &(wrqu->encoding);
-+	struct iw_point *erq = &wrqu->encoding;
- 	struct _adapter *padapter = netdev_priv(dev);
- 
- 	key = erq->flags & IW_ENCODE_INDEX;
-@@ -1589,8 +1589,8 @@ static int r8711_wx_get_enc(struct net_device *dev,
- {
- 	uint key;
- 	struct _adapter *padapter = netdev_priv(dev);
--	struct iw_point *erq = &(wrqu->encoding);
--	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
-+	struct iw_point *erq = &wrqu->encoding;
-+	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
- 	union Keytype *dk = padapter->securitypriv.DefKey;
- 
- 	if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
-@@ -1670,7 +1670,7 @@ static int r871x_wx_set_auth(struct net_device *dev,
- 				union iwreq_data *wrqu, char *extra)
- {
- 	struct _adapter *padapter = netdev_priv(dev);
--	struct iw_param *param = (struct iw_param *)&(wrqu->param);
-+	struct iw_param *param = (struct iw_param *)&wrqu->param;
- 	int paramid;
- 	int paramval;
- 	int ret = 0;
-@@ -1964,7 +1964,7 @@ static int r871x_get_ap_info(struct net_device *dev,
- 		return -EINVAL;
- 	data[32] = 0;
- 
--	spin_lock_irqsave(&(pmlmepriv->scanned_queue.lock), irqL);
-+	spin_lock_irqsave(&pmlmepriv->scanned_queue.lock, irqL);
- 	phead = &queue->queue;
- 	plist = phead->next;
- 	while (1) {
-@@ -1974,7 +1974,7 @@ static int r871x_get_ap_info(struct net_device *dev,
- 		if (!mac_pton(data, bssid)) {
- 			netdev_info(dev, "r8712u: Invalid BSSID '%s'.\n",
- 				    (u8 *)data);
--			spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock),
-+			spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock,
- 					       irqL);
- 			return -EINVAL;
- 		}
-@@ -1996,7 +1996,7 @@ static int r871x_get_ap_info(struct net_device *dev,
- 		}
- 		plist = plist->next;
- 	}
--	spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock), irqL);
-+	spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock, irqL);
- 	if (pdata->length >= 34) {
- 		if (copy_to_user((u8 __user *)pdata->pointer + 32,
- 		    (u8 *)&pdata->flags, 1))
--- 
-2.35.1
-
+SGVsbG8sCgpPbiBUaHUsIDcgQXByIDIwMjIgMTQ6MjQ6NTYgKzAzMDAgRGFuIENhcnBlbnRlciB3
+cm90ZToKCj4gPiBUaGVyZSBpcyBhIGRlYWRsb2NrIGluIGlyZG1hX2NsZWFudXBfY21fY29yZSgp
+LCB3aGljaCBpcyBzaG93bgo+ID4gYmVsb3c6Cj4gPiAKPiA+ICAgIChUaHJlYWQgMSkgICAgICAg
+ICAgICAgIHwgICAgICAoVGhyZWFkIDIpCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
+IGlyZG1hX3NjaGVkdWxlX2NtX3RpbWVyKCkKPiA+IGlyZG1hX2NsZWFudXBfY21fY29yZSgpICAg
+IHwgIGFkZF90aW1lcigpCj4gPiAgc3Bpbl9sb2NrX2lycXNhdmUoKSAvLygxKSB8ICAod2FpdCBh
+IHRpbWUpCj4gPiAgLi4uICAgICAgICAgICAgICAgICAgICAgICB8IGlyZG1hX2NtX3RpbWVyX3Rp
+Y2soKQo+ID4gIGRlbF90aW1lcl9zeW5jKCkgICAgICAgICAgfCAgc3Bpbl9sb2NrX2lycXNhdmUo
+KSAvLygyKQo+ID4gICh3YWl0IHRpbWVyIHRvIHN0b3ApICAgICAgfCAgLi4uCj4gPiAKPiA+IFdl
+IGhvbGQgY21fY29yZS0+aHRfbG9jayBpbiBwb3NpdGlvbiAoMSkgb2YgdGhyZWFkIDEgYW5kCj4g
+PiB1c2UgZGVsX3RpbWVyX3N5bmMoKSB0byB3YWl0IHRpbWVyIHRvIHN0b3AsIGJ1dCB0aW1lciBo
+YW5kbGVyCj4gPiBhbHNvIG5lZWQgY21fY29yZS0+aHRfbG9jayBpbiBwb3NpdGlvbiAoMikgb2Yg
+dGhyZWFkIDIuCj4gPiBBcyBhIHJlc3VsdCwgaXJkbWFfY2xlYW51cF9jbV9jb3JlKCkgd2lsbCBi
+bG9jayBmb3JldmVyLgo+ID4gCj4gPiBUaGlzIHBhdGNoIGV4dHJhY3RzIGRlbF90aW1lcl9zeW5j
+KCkgZnJvbSB0aGUgcHJvdGVjdGlvbiBvZgo+ID4gc3Bpbl9sb2NrX2lycXNhdmUoKSwgd2hpY2gg
+Y291bGQgbGV0IHRpbWVyIGhhbmRsZXIgdG8gb2J0YWluCj4gPiB0aGUgbmVlZGVkIGxvY2suCj4g
+PiAKPiA+IFNpZ25lZC1vZmYtYnk6IER1b21pbmcgWmhvdSA8ZHVvbWluZ0B6anUuZWR1LmNuPgo+
+ID4gLS0tCj4gPiAgZHJpdmVycy9pbmZpbmliYW5kL2h3L2lyZG1hL2NtLmMgfCA1ICsrKystCj4g
+PiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+ID4gCj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbmZpbmliYW5kL2h3L2lyZG1hL2NtLmMgYi9kcml2ZXJz
+L2luZmluaWJhbmQvaHcvaXJkbWEvY20uYwo+ID4gaW5kZXggZGVkYjNiN2VkZDguLjAxOWRkOGJm
+ZTA4IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9pbmZpbmliYW5kL2h3L2lyZG1hL2NtLmMKPiA+
+ICsrKyBiL2RyaXZlcnMvaW5maW5pYmFuZC9ody9pcmRtYS9jbS5jCj4gPiBAQCAtMzI1Miw4ICsz
+MjUyLDExIEBAIHZvaWQgaXJkbWFfY2xlYW51cF9jbV9jb3JlKHN0cnVjdCBpcmRtYV9jbV9jb3Jl
+ICpjbV9jb3JlKQo+ID4gIAkJcmV0dXJuOwo+ID4gIAo+ID4gIAlzcGluX2xvY2tfaXJxc2F2ZSgm
+Y21fY29yZS0+aHRfbG9jaywgZmxhZ3MpOwo+ID4gLQlpZiAodGltZXJfcGVuZGluZygmY21fY29y
+ZS0+dGNwX3RpbWVyKSkKPiA+ICsJaWYgKHRpbWVyX3BlbmRpbmcoJmNtX2NvcmUtPnRjcF90aW1l
+cikpIHsKPiA+ICsJCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmNtX2NvcmUtPmh0X2xvY2ssIGZs
+YWdzKTsKPiA+ICAJCWRlbF90aW1lcl9zeW5jKCZjbV9jb3JlLT50Y3BfdGltZXIpOwo+ID4gKwkJ
+c3Bpbl9sb2NrX2lycXNhdmUoJmNtX2NvcmUtPmh0X2xvY2ssIGZsYWdzKTsKPiA+ICsJfQo+ID4g
+IAlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZjbV9jb3JlLT5odF9sb2NrLCBmbGFncyk7Cj4gCj4g
+VGhpcyBsb2NrIGRvZXNuJ3Qgc2VlbSB0byBiZSBwcm90ZWN0aW5nIGFueXRoaW5nLiAgQWxzbyBk
+byB3ZSBuZWVkIHRvCj4gY2hlY2sgdGltZXJfcGVuZGluZygpPyAgSSB0aGluayB0aGUgZGVsX3Rp
+bWVyX3N5bmMoKSBmdW5jdGlvbiB3aWxsIGp1c3QKPiByZXR1cm4gZGlyZWN0bHkgaWYgdGhlcmUg
+aXNuJ3QgYSBwZW5kaW5nIGxvY2s/CgpUaGFua3MgYSBsb3QgZm9yIHlvdXIgYWR2aWNlLCBJIHdp
+bGwgcmVtb3ZlIHRoZSB0aW1lcl9wZW5kaW5nKCkgYW5kIHRoZQpyZWR1bmRhbnQgbG9jay4KCkJl
+c3QgcmVnYXJkcywKRHVvbWluZyBaaG91
