@@ -1,161 +1,74 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com [203.205.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4CF20E0;
-	Thu,  7 Apr 2022 01:13:03 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id w18so4605310edi.13;
-        Wed, 06 Apr 2022 18:13:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=g8v4shd25GPDKxW8/72Sn4jdIkSgn2LhNRd6B8RvtA0=;
-        b=LjO0NIze8f21wcPliVRZEASPSuBMJxi7795FiThHlhYnCWFvy1BLzyLlMrjxjEAN5Q
-         svtqL8oicLBWHKO6XfAxPWS2uhEzCDNuLw3eKKqdQQ6ivxmq7++PicRFr4a/eB1oQrGl
-         09hAY+2i7kUDpweNjMFDGW5dVTomZTqS8UCYcFqy/4KHZ5a1KIMPNJD2+qkG6ddoohoe
-         LUOOfikm8ZsoZ9v5CWS7TkNjkKlDQO+SL3uPRaZqcKWbKXbgeihLPVFbVtGXidWLBg2g
-         Ir4N7J0o/QVusDOlmLATF/KUsVprh0R4VxT4DxwNyoowHVGdE5EYOivRMsH5ndYYTSrg
-         zg7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=g8v4shd25GPDKxW8/72Sn4jdIkSgn2LhNRd6B8RvtA0=;
-        b=OoJYRSJPnJooIgtghHCJ+jpP1agOPAzjbTnpfa6r+w4cR8npiPU+fWRmHIAkIlwhur
-         OpC1tuttPI8STh0fMAyrYMaE0797N9vywnmfN/ouesMk+YAtQ/p/GhSovtxUrXsoOc7A
-         tx/IFIPXI8Is1tTkyDhSveJ0e7ntAoO3fVUQAiwS3TgOjEklyRVoPLlf97dAnutd1SXu
-         yBxZ4ogBYGf2zwx0u0At89yfF6ATciVI1BDXQZOaysBNDaLk+vCxwZ9MkmQMGFUhxwCd
-         65yKeN0fhfROA46O1bI5IXo/qS84AmevfZNI0bHuNgW4O8izLocoNtWM/UNpCW84nvNa
-         c4+g==
-X-Gm-Message-State: AOAM5309j1YLwbAYO7+sMAWSKl7mEL9TfcYROYJ4d4Mcl9dMhxRgT1PQ
-	kgHO1IB3V0AG17830xbkeRYpYyELOte2tEWCCx0=
-X-Google-Smtp-Source: ABdhPJx/echMntfDFyiyVPC/gqKLWAbfPZwzsjwI+pWr4XJoT64OjDw/V+f5Mt+WFWOjjMUFwrwleMIKabyvLtVswQY=
-X-Received: by 2002:a05:6402:430d:b0:419:45cd:7ab1 with SMTP id
- m13-20020a056402430d00b0041945cd7ab1mr11485971edc.367.1649293981787; Wed, 06
- Apr 2022 18:13:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB42A20E6
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 02:05:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1649297104;
+	bh=PCUUj9sh+ZXg8xzwNDbyH1JMDapK+OEbw32C9DX7m4c=;
+	h=From:To:Cc:References:In-Reply-To:Subject:Date;
+	b=o5GitCTabYiZJK0I8xsYhZ8UmE6Ghu28Ul7M0F3WM4itQOAsmjwvjqcjZntS3Qvez
+	 lLMQEU/KWlV4eNQOXriD26Ax/ksn4FNm3c9R7JqH3axhGar8qDya6t5LsQHfPb6LCO
+	 fofruzF1UeHy0XHqFGJH/ChZPnpLMGCNDpDayMm8=
+Received: from helloworld ([59.172.176.225])
+	by newxmesmtplogicsvrszc11.qq.com (NewEsmtp) with SMTP
+	id F12E2A3; Thu, 07 Apr 2022 10:03:49 +0800
+X-QQ-mid: xmsmtpt1649297029tfj245p8a
+Message-ID: <tencent_0D5C6E0E160AA0702025FDFF35906EE69E07@qq.com>
+X-QQ-XMAILINFO: MyirvGjpKb1jSx3AS0EqrsEW80j37bKcqodxlAv3QiavnCt/RjzS00hoUWAvhA
+	 IOCClT2yzvoKT9d3mbSdpJmk6HWk+5Lfwza9gmmbUCSMCIXRKSD5HnQ6jebInyoanQi56MVnI2oM
+	 iHMjKA6r96nPsstWxs247KCatE26nfiiom23UoGCKD877Kv89VN/04cCqCfyS993Csy9UUQpoHVW
+	 vLCaWSYWomWvO8UX2aCsmwK5OrkBdD7DCC8WHYWQsIuYYZa3wVQK2VlEoR+a3KWGLhIos6iKosjG
+	 qmE4EV/RA0Hg5Ryu19etchAtyeqFF/gxIkL+Tfc1rT0G6WNeCwfZ+EU4EEfQjFWRFBJfTtKFz638
+	 Yu9itb9lzIq/9Lr4fReGaGeMbgrns5cXTkWUiszs+tYArDX4dOI2w/PLvkpvwsuRXi2XTDMImxAD
+	 vjW4DEodhrHr96zvoEGGrjhc/E0hc8CaSaHruQBx/bRQxwX1LbdJHaQTOmssOGYSOt/ZQ4NXA/eO
+	 BiihNq+qEXrnMCGVdNpVQ5F+91f+7J2kVL4qyZ4sIc+grcH5vcljS6GCQmhITGD0kiOkV0UUw30S
+	 XmZNtJp2xxAKisfM294nzuksHMFoVD9p9zgaHAPkQD77Oc5Nvw7+C5Sjr7uNKzpWbOclmmYOSN6a
+	 fFHKTxdpsqe/ZuhFccpOZojYW/UY/RTORHGXbsHBkZQqU3Uz/kjDLWVnkmF27KhrY1d286JJrSXn
+	 qh6NcmGMANnE+dnG0BW1ZVRGImU0uplZmUa1P1JljoPloz0qGJA5y2xUfc+U4U/pcSXTf7Mtf4O7
+	 wnKOyeM2cPJvH1chxOq6ICcMMG0PjVnADOdDW+87SRcJr5K2MoRMffiTnghXLRolMeEpIq6GjHgA
+	 vcj5Kb5VCnmCdrGMmNwUICuwTMe+H26OHsKUB5bIPU3ynlG5ppH/QgwztS4j3KMg==
+From: <xkernel.wang@foxmail.com>
+To: <paskripkin@gmail.com>
+Cc: <gregkh@linuxfoundation.org>,
+	<Larry.Finger@lwfinger.net>,
+	<phil@philpotter.co.uk>,
+	<linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+References: <tencent_5AB92A7786438342357C5669E7BF0C249505@qq.com> <tencent_15C23F2EC8197361EE200714C54E78B45206@qq.com> <9c307f1e-aa95-08e6-3a01-825caba19a30@gmail.com>
+In-Reply-To: <9c307f1e-aa95-08e6-3a01-825caba19a30@gmail.com>
+Subject: Re: [PATCH v2 2/2] staging: r8188eu: check the return of kzalloc()
+Date: Thu, 7 Apr 2022 10:03:49 +0800
+X-OQ-MSGID: <006d01d84a23$ba562c30$2f028490$@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
- <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com> <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
- <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com> <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
- <CAHCN7xLy2381AFLWhLxk5YuRV7C=OwLX=XPXONX8sbkg-SqMjA@mail.gmail.com>
- <CAHCN7xJWQa-uXb0-+CSvAr1JhFmQYt80Q=uGvaY8uyptNcfbgw@mail.gmail.com>
- <163202bd-ea51-e80a-1481-568fae25b045@collabora.com> <CAHCN7x+AwNauiyaVL=NGARkmxWOL9uLS5-AO4TjkvLGNQ=3r+Q@mail.gmail.com>
- <bb462ee8-7bf9-5574-7cc2-098cc66e5ef0@collabora.com> <CAHCN7x+DTjeP7zQJYPyqzdz=hXWjz6Br0v1sWh4n1J3TJPb+9g@mail.gmail.com>
- <8d23c99a-4ad0-e65a-0134-12f5d119e8bb@collabora.com> <CAHCN7x+YuXFrMe6dYo_VhkG7ey1jcPTpOMCM1=qoTivZO9U2Rw@mail.gmail.com>
- <f495aa2b-81f7-a3cd-a6dd-cc5ae5f0a81f@collabora.com> <439e5c67e66dfff8f44f63787e2cdb8379f87446.camel@ndufresne.ca>
- <a1069c94-4c3c-ee4d-738a-752bb1d12dac@collabora.com> <CAHCN7x+hvYjoZFA6uaTXq-XfLMck-ht7Z-VzzvGpkh7H7BBbEQ@mail.gmail.com>
-In-Reply-To: <CAHCN7x+hvYjoZFA6uaTXq-XfLMck-ht7Z-VzzvGpkh7H7BBbEQ@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Wed, 6 Apr 2022 20:12:50 -0500
-Message-ID: <CAHCN7xJwu1VnCNLHc9RNcbZ2yT4RooacA-hpwcXE3XvLrEJPGA@mail.gmail.com>
-Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org, 
-	paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>, 
-	"jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	linux-media <linux-media@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHFCzdkIZn1ahtT3bex/Ulo9ihwXQEIO4NAAgMPs9ys8c3LUA==
+Content-Language: zh-cn
 
-On Wed, Apr 6, 2022 at 8:34 AM Adam Ford <aford173@gmail.com> wrote:
->
-> On Wed, Apr 6, 2022 at 8:05 AM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
-> >
-> >
-> > Le 06/04/2022 =C3=A0 15:02, Nicolas Dufresne a =C3=A9crit :
-> > > Le mercredi 06 avril 2022 =C3=A0 14:50 +0200, Benjamin Gaignard a =C3=
-=A9crit :
-> > >>> default=3D1 value=3D1
-> > >>> 1: Frame-Based
-> > >>>                    hevc_start_code 0x00a40a96 (menu)   : min=3D1 ma=
-x=3D1
-> > >>> default=3D1 value=3D1
-> > >>> 1: Annex B Start Code
-> > >> It is the same so that suggest the issue is coming from GStreamer pl=
-ugin.
-> > > Can you report the GStreamer commit hash you have building on ? Also =
-please
-> > > validate the creation date of the plugin (libgstv4l2codecs.so) agains=
-t your
-> > > source update date. Reminder that GStreamer is now mono-repo (just in=
- case).
-> > >
-> > > https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HE=
-VC_aligned_with_kernel_5.15
-> > > Hash: 54b7c1f98084c85d103446cc3f2edce42ad53b0f
-> > >
-> > > Benjamin, can you confirm you have no local changes and this is the h=
-ash you are
-> > > building from ?
-> >
-> > Yes that is the hash I'm using without local changes
->
-> I was on (gstreamer-HEVC_aligned_with_kernel_5.15) with a hash of
-> 4b78eaa48c0c924afd57f85c47396b77497e69f8
->
-> Benjamin's hash wasn't listed before, but I did a git pull, and now it is=
-.
->
-> I've checked out that hash, and I am rebuilding it now. I'll report my
-> findings when it's done.  It's building on the imx8mq, so it may take
-> some time.
+On Thursday, April 7, 2022 3:22 AM +0800, paskripkin@gmail.com wrote:
+> > -void rtw_alloc_hwxmits(struct adapter *padapter)
+> > +s32 rtw_alloc_hwxmits(struct adapter *padapter)
+> >   {
+> 
+> What about plain 'int'? I know that s32 is typedef for 'int', but 'int'
+> looks more natural
+> 
 
-We're getting closer:
+I agree with you.
+Since the type of `_rtw_init_xmit_priv` is `s32`, I directly changed the
+type of `rtw_alloc_hwxmits` to `s32` (they are neighbors in rtw_xmit.h).
+In fact, there are many places where `s32` appears together with `int` 
+in related files, so maybe we can leave it as a future work to make all 
+of them a unified form.
 
-# gst-launch-1.0 appsrc num-buffers=3D0 ! h265parse ! v4l2slh265dec ! fakes=
-ink
-Setting pipeline to PAUSED ...
-Pipeline is PREROLLING ...
-Pipeline is PREROLLED ...
-Setting pipeline to PLAYING ...
-Redistribute latency...
-New clock: GstSystemClock
-Got EOS from element "pipeline0".
-Execution ended after 0:00:00.000563180
-Setting pipeline to NULL ...
-Freeing pipeline ...
+Regards,
+Xiaoke Wang
 
-GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
-GStreamer 1.0... =E2=9C=94=EF=B8=8F
-
-The statemless decoder appears to show it can do h.265, but it fails
-all the fluster tests.
-
-Ran 0/147 tests successfully               in 9.376 secs
-
-I checked other V4L2SL decoders and items that previously passed are
-failing now, so I think something is wrong or corrupted with my
-system.
-
-For some reason, my system seems unstable, so I might reinstall
-everything, but it will be a slow process.  I don't know if my sd card
-is wearing out, or something is wrong, but simple things like mounting
-a thumb drive are taking a very long time.
-
-I am not sure when I'll get back to this again, but I'll try to do a
-re-install this weekend to see if I can get my system more stable.
-
-adam
-
->
-> adam
->
-> >
-> > Benjamin
-> >
-> > >
-> > > regards,
-> > > Nicolas
-> > >
