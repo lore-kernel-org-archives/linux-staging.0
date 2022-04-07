@@ -1,98 +1,88 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7212570;
-	Thu,  7 Apr 2022 17:58:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0652570;
+	Thu,  7 Apr 2022 18:02:40 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id d29so8999629wra.10;
+        Thu, 07 Apr 2022 11:02:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=q7lEK63sLrZyFdOoNnVucyuJ6DHz13VXShb3q/vADrc=;
-  b=ihpfJ0qywUrTSNMp3kCT0gGxNem/uv26NSUDcFDGiT40B9oyI4ZdVmCc
-   6/UNMdCW4k58xgViscOrDNDc9cxgQkzN96y7bl0TwUUjhWXhvtDGXqNPD
-   AyqTy/6KminBvrYy3HqMoUnnPa7RyTpoYt13ul+4OBL5tBHOUC3cwhpa1
-   8=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,242,1643670000"; 
-   d="scan'208";a="30649903"
-Received: from unknown (HELO hadrien) ([95.128.147.62])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2022 19:58:34 +0200
-Date: Thu, 7 Apr 2022 19:58:33 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: julia@hadrien
-To: MAHAK GUPTA <mahak_g@cs.iitr.ac.in>
-cc: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
-    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8712: fix camel case in function
- r8712_generate_ie
-In-Reply-To: <CANnaPbD7C8kvz-fK4js=zprck58=Yxp8h+wBLmXfQNKsHMDytw@mail.gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2204071958000.2279@hadrien>
-References: <20220407120945.31030-1-mahak_g@cs.iitr.ac.in> <alpine.DEB.2.22.394.2204071414080.2213@hadrien> <CANnaPbD7C8kvz-fK4js=zprck58=Yxp8h+wBLmXfQNKsHMDytw@mail.gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=ZI2zq9mkd2prXmULME2LtrcZkY8ywRvQtGF9At1AEMM=;
+        b=liamQE/kdVhSCuAi5OWNzVoQ3g4xNM16YZqC0W7s0Aq7ZJNeiP06CAqHQ+hSc4MVM6
+         UjOOz1zh1WxpOU+yHJEZoS4DAbmODPzE84f8QLMP3ZkUON9vU3JglbB/Zvg2m91ibbbP
+         Uqt/5ENtb8hY0DuQgmMhzUXb8Tm4keng/c9bPZi9L2hfRJSSpoTbMYIQSKJd57h1BOVd
+         6XUeDR4VzJcSEtAfy4v6dSJlw4gf6CrqrxQXUnfDvBjfuJQGn+etz4xcotMOCMAsCHho
+         XfC+N710MMlJ1Dm9r+2+7bcYkhsLAIiDxIqVmRsuFVJ44EiYRVGxTj2vl4nivmFA7hdw
+         o0Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=ZI2zq9mkd2prXmULME2LtrcZkY8ywRvQtGF9At1AEMM=;
+        b=R7VCaAp7O+AlHRdfS1HcrOBPZz5ETWIAKALw77o1/++3DWbzQdl+xq9kvGyVnc4hQh
+         tALyvZMKwh2QCQwL0BArV7cutdJGPtka2e7j1qzCLCy9oLjYQdeQTJY+JT2uIi9Ehu3q
+         s4OZAHG8UL6VA0O22RLL0WESA/S/+N97H0QgCl7FdS8SwUcQGUjzYl5Ulcq6xVlKdtXv
+         aSce6J/06xKq+vqMU9mQrj6nK3myFqo6+HeECz9+pyR8bc5zt28N9oaJj9gn2o5i7TBQ
+         rWG2tFdUc9cSPEE2LlxEb0087M5lLab+s32yvz9MKClv1qgE4q+TWlKFWlomid9UoG6p
+         U3bg==
+X-Gm-Message-State: AOAM532CBQWUwdKifjokH9AxKUusOSnHu85wNSmKyE4pk23a8A56wmNW
+	v9xdTC9XyRPT5etMKbhQtyk=
+X-Google-Smtp-Source: ABdhPJzQka+xTNU7ql8arJI82ehOltbzm2rvGQHJA9CwS4HmmPHVaxrgpjhgiXExl+NTmFEefB9ASQ==
+X-Received: by 2002:a5d:55c8:0:b0:206:f52:902e with SMTP id i8-20020a5d55c8000000b002060f52902emr11330443wrw.597.1649354558824;
+        Thu, 07 Apr 2022 11:02:38 -0700 (PDT)
+Received: from [192.168.1.14] ([197.57.231.245])
+        by smtp.gmail.com with ESMTPSA id 10-20020a5d47aa000000b00204012e4373sm20030480wrb.101.2022.04.07.11.02.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Apr 2022 11:02:38 -0700 (PDT)
+Message-ID: <96a1de63-5b66-b6a6-731e-d7263f3328a5@gmail.com>
+Date: Thu, 7 Apr 2022 20:02:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4] staging: rtl8712: remove unnecessary parentheses
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
+ florian.c.schilhabel@googlemail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220407125947.8525-1-eng.alaamohamedsoliman.am@gmail.com>
+ <Yk8jbTSjvsHXpX2U@kroah.com>
+From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+In-Reply-To: <Yk8jbTSjvsHXpX2U@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-
-On Thu, 7 Apr 2022, MAHAK GUPTA wrote:
-
-> On Thu, Apr 7, 2022 at 5:44 PM Julia Lawall <julia.lawall@inria.fr> wrote:
-> >
-> >
-> >
-> > On Thu, 7 Apr 2022, Mahak Gupta wrote:
-> >
-> > > Adhere to linux kernel coding style.
-> > >
-> > > Reported by checkpatch:
-> > >
-> > > CHECK: Avoid CamelCase: <beaconPeriod>
-> >
-> > As another patch, you could also adjust the structure field name.
-> >
-> > julia
-> >
-> > >
-> > > Signed-off-by: Mahak Gupta <mahak_g@cs.iitr.ac.in>
-> > > ---
-> > >  drivers/staging/rtl8712/ieee80211.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/rtl8712/ieee80211.c b/drivers/staging/rtl8712/ieee80211.c
-> > > index f926809b1021..7d8f1a29d18a 100644
-> > > --- a/drivers/staging/rtl8712/ieee80211.c
-> > > +++ b/drivers/staging/rtl8712/ieee80211.c
-> > > @@ -162,13 +162,13 @@ int r8712_generate_ie(struct registry_priv *registrypriv)
-> > >       uint sz = 0;
-> > >       struct wlan_bssid_ex *dev_network = &registrypriv->dev_network;
-> > >       u8 *ie = dev_network->IEs;
-> > > -     u16 beaconPeriod = (u16)dev_network->Configuration.BeaconPeriod;
-> > > +     u16 beacon_period = (u16)dev_network->Configuration.BeaconPeriod;
-> > >
-> > >       /*timestamp will be inserted by hardware*/
-> > >       sz += 8;
-> > >       ie += sz;
-> > >       /*beacon interval : 2bytes*/
-> > > -     *(__le16 *)ie = cpu_to_le16(beaconPeriod);
-> > > +     *(__le16 *)ie = cpu_to_le16(beacon_period);
-> > >       sz += 2;
-> > >       ie += 2;
-> > >       /*capability info*/
-> > > --
-> > > 2.17.1
-> > >
-> > >
-> > >
+On ٧‏/٤‏/٢٠٢٢ ١٩:٤٦, Greg KH wrote:
+> On Thu, Apr 07, 2022 at 02:59:47PM +0200, Alaa Mohamed wrote:
+>> Reported by checkpatch:
+>>
+>> Remove unnecessary parentheses around structure field references
+>>
+>> Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+>> ---
+>> Changes in v2:
+>> 	- Edit commit subject
+>> 	- Edit commit message
+>> 	- Fix the same check in more lines
+>> 	- Remove space before '.skey' in
+>> "memcpy(psta->tkiptxmickey.skey," in lines 84 and 86.
+>> ---
+>> Changes in v3:
+>> 	return the space before '.skey' in
+>> "memcpy(psta->tkiptxmickey.skey," in lines 84 and 86
+>> ---
+>> Changes in v4:
+>> 	edit commit message to be clearer.
+>> ---
+> Why did you send this patch twice?
+That was by mistake , sorry
 >
-> Sure, on it. Thanks.
-
-It's good not to top post, but you can put your response right under the
-text you are responding to.
-
-julia
