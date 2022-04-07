@@ -1,84 +1,119 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868B620F5
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 06:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1649313788;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=pmmtr6abvNL/Cnfenuo9pFIn0+iTlC3IIqtYnn6nFjw=;
-	b=NR1Z29HCLz27e+CmsIrAMQQriYuY4q6/Iq/mBsLRojp9km2vq1SjhLaiDW686+TcCAplhT
-	UoLgBnFIm1Q4QL5JfS5rJzf4+YSjCb8yN19mYQqcgb/FphkfTGvEYb7ZGVazV1yXuUfuES
-	bGOhvIgmv996f1C9JogcpYgmEAioYAs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-GSTIqSZ6M8CXmxZHA61k5w-1; Thu, 07 Apr 2022 02:43:05 -0400
-X-MC-Unique: GSTIqSZ6M8CXmxZHA61k5w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A30C380005D;
-	Thu,  7 Apr 2022 06:43:04 +0000 (UTC)
-Received: from kate-fedora.redhat.com (unknown [10.2.16.44])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BAFE940D2822;
-	Thu,  7 Apr 2022 06:43:01 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	hdegoede@redhat.com,
-	Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH] staging: media: ipu3: Fix AWB x_start position when rightmost stripe is used
-Date: Thu,  7 Apr 2022 14:42:41 +0800
-Message-Id: <20220407064241.100500-1-hpa@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D066B20F5
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 07:02:09 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id x24so308492edl.2
+        for <linux-staging@lists.linux.dev>; Thu, 07 Apr 2022 00:02:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=46G4DElr2lTCJKQvU2NBw5+Ku6Z9RIMMPeVF6jkEn4U=;
+        b=DAvVXnPn7alc7k8NLAtGjN29x/f0AMIdjWrUlN3pR3IFNwWJPGyhzvu70N0tgYTpWM
+         QSbqa6UJPukeJoRPY7v5Q3IbsI4DkL+tvDtycSH1Tl4N2LU6G3rjn6WdrSEGxmm7r2aW
+         nOtan0sO0xXM760XZwJIul9DqnVfx0S3Tqx4ounYcxDsvyehaP2APdk6nd9MmMkBXOBl
+         AOTaSzFrix663S1/qTRbB8oMDrqM7ZwDqHyoihi+2rG/YCFQOEw2wqLeQvxVU5xVS9ci
+         AP4QvrsBDehAwIrG7ABJxLuoFm/NT/XRrS5Nu+3nM4k3DRR03rI2XNbAW85flCaNI6Md
+         BhFA==
+X-Gm-Message-State: AOAM533GMh8G0b3hIR5LGaIDn4KNZcKi2ldxhmDv08RA2wtCY/uHQpyC
+	bj06EXdY41tHMAV/1WKARy0=
+X-Google-Smtp-Source: ABdhPJyVCanP2uW7lJxkIPHF3GlJ1OHZfNBFV6sC53moBL0MR5YRphUv/uvWzQu3TDqz1ql0BUTMLw==
+X-Received: by 2002:a05:6402:5243:b0:419:52a1:a743 with SMTP id t3-20020a056402524300b0041952a1a743mr12778753edd.269.1649314927858;
+        Thu, 07 Apr 2022 00:02:07 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id q3-20020a50da83000000b0041cdd6e92b1sm3870276edj.27.2022.04.07.00.02.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Apr 2022 00:02:07 -0700 (PDT)
+Message-ID: <656ffd1d-e7cf-d2c0-e0e6-c10215ba422b@kernel.org>
+Date: Thu, 7 Apr 2022 09:02:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 01/11] drivers: tty: serial: Fix deadlock in
+ sa1100_set_termios()
+Content-Language: en-US
+To: Duoming Zhou <duoming@zju.edu.cn>, linux-kernel@vger.kernel.org
+Cc: chris@zankel.net, jcmvbkbc@gmail.com, mustafa.ismail@intel.com,
+ shiraz.saleem@intel.com, jgg@ziepe.ca, wg@grandegger.com,
+ mkl@pengutronix.de, davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+ jes@trained-monkey.org, gregkh@linuxfoundation.org,
+ alexander.deucher@amd.com, linux-xtensa@linux-xtensa.org,
+ linux-rdma@vger.kernel.org, linux-can@vger.kernel.org,
+ netdev@vger.kernel.org, linux-hippi@sunsite.dk,
+ linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+ linux-usb@vger.kernel.org, Russell King - ARM Linux <linux@armlinux.org.uk>
+References: <cover.1649310812.git.duoming@zju.edu.cn>
+ <e82ff9358d4ef90a7e9f624534d6d54fc193467f.1649310812.git.duoming@zju.edu.cn>
+From: Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <e82ff9358d4ef90a7e9f624534d6d54fc193467f.1649310812.git.duoming@zju.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-A not calibrated x_start setting would result in an incorrect AWB location
-configuration on a sensor when only the rightmost stripe is used. x_start
-should be calibrated by subtracting the stripe offset to set the coordinate
-to the correct position on the second stripe.
+On 07. 04. 22, 8:33, Duoming Zhou wrote:
+> There is a deadlock in sa1100_set_termios(), which is shown
+> below:
+> 
+>     (Thread 1)              |      (Thread 2)
+>                             | sa1100_enable_ms()
+> sa1100_set_termios()       |  mod_timer()
+>   spin_lock_irqsave() //(1) |  (wait a time)
+>   ...                       | sa1100_timeout()
+>   del_timer_sync()          |  spin_lock_irqsave() //(2)
+>   (wait timer to stop)      |  ...
+> 
+> We hold sport->port.lock in position (1) of thread 1 and
+> use del_timer_sync() to wait timer to stop, but timer handler
+> also need sport->port.lock in position (2) of thread 2. As a result,
+> sa1100_set_termios() will block forever.
+> 
+> This patch extracts del_timer_sync() from the protection of
+> spin_lock_irqsave(), which could let timer handler to obtain
+> the needed lock.
+> 
+> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+> ---
+>   drivers/tty/serial/sa1100.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/tty/serial/sa1100.c b/drivers/tty/serial/sa1100.c
+> index 5fe6cccfc1a..3a5f12ced0b 100644
+> --- a/drivers/tty/serial/sa1100.c
+> +++ b/drivers/tty/serial/sa1100.c
+> @@ -476,7 +476,9 @@ sa1100_set_termios(struct uart_port *port, struct ktermios *termios,
+>   				UTSR1_TO_SM(UTSR1_ROR);
+>   	}
+>   
+> +	spin_unlock_irqrestore(&sport->port.lock, flags);
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
- drivers/staging/media/ipu3/ipu3-css-params.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Unlocking the lock at this point doesn't look safe at all. Maybe moving 
+the timer deletion before the lock? There is no current maintainer to 
+ask. Most of the driver originates from rmk. Ccing him just in case.
 
-diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-index f84cf11358a8..050d7df7e72a 100644
---- a/drivers/staging/media/ipu3/ipu3-css-params.c
-+++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-@@ -2393,6 +2393,15 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
- 		/* Enable only for rightmost stripe, disable left */
- 		acc->awb_fr.stripes[0].grid_cfg.y_start &=
- 					~IPU3_UAPI_GRID_Y_START_EN;
-+		acc->awb_fr.stripes[1].grid_cfg.x_start =
-+			(acc->awb_fr.stripes[1].grid_cfg.x_start -
-+			 acc->stripe.down_scaled_stripes[1].offset) &
-+			IPU3_UAPI_GRID_START_MASK;
-+		b_w_log2 = acc->awb_fr.stripes[1].grid_cfg.block_width_log2;
-+		acc->awb_fr.stripes[1].grid_cfg.x_end  =
-+					imgu_css_grid_end(acc->awb_fr.stripes[1].grid_cfg.x_start,
-+							  acc->awb_fr.stripes[1].grid_cfg.width,
-+							  b_w_log2);
- 	} else if (acc->awb_fr.config.grid_cfg.x_end <=
- 		   acc->stripe.bds_out_stripes[0].width - min_overlap) {
- 		/* Enable only for leftmost stripe, disable right */
+FWIW the lock was moved by this commit around linux 2.5.55 (from 
+full-history-linux [1])
+commit f38aef3e62c26a33ea360a86fde9b27e183a3748
+Author: Russell King <rmk@flint.arm.linux.org.uk>
+Date:   Fri Jan 3 15:42:09 2003 +0000
+
+     [SERIAL] Convert change_speed() to settermios()
+
+[1] 
+https://archive.org/download/git-history-of-linux/full-history-linux.git.tar
+
+>   	del_timer_sync(&sport->timer);
+> +	spin_lock_irqsave(&sport->port.lock, flags);
+>   
+>   	/*
+>   	 * Update the per-port timeout.
+
+thanks,
 -- 
-2.35.1
-
+js
+suse labs
