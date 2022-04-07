@@ -1,92 +1,88 @@
-Received: from mxout04.lancloud.ru (mxout04.lancloud.ru [45.84.86.114])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012682100
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 09:52:54 +0000 (UTC)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru C1ADB20CD431
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH 11/11] arch: xtensa: platforms: Fix deadlock in rs_close()
-To: Duoming Zhou <duoming@zju.edu.cn>, <linux-kernel@vger.kernel.org>
-CC: <chris@zankel.net>, <jcmvbkbc@gmail.com>, <mustafa.ismail@intel.com>,
-	<shiraz.saleem@intel.com>, <jgg@ziepe.ca>, <wg@grandegger.com>,
-	<mkl@pengutronix.de>, <davem@davemloft.net>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <jes@trained-monkey.org>, <gregkh@linuxfoundation.org>,
-	<jirislaby@kernel.org>, <alexander.deucher@amd.com>,
-	<linux-xtensa@linux-xtensa.org>, <linux-rdma@vger.kernel.org>,
-	<linux-can@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-hippi@sunsite.dk>, <linux-staging@lists.linux.dev>,
-	<linux-serial@vger.kernel.org>, <linux-usb@vger.kernel.org>
-References: <cover.1649310812.git.duoming@zju.edu.cn>
- <9ca3ab0b40c875b6019f32f031c68a1ae80dd73a.1649310812.git.duoming@zju.edu.cn>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <1195e776-328d-12fe-d1f8-22085dc77b44@omp.ru>
-Date: Thu, 7 Apr 2022 12:42:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A7620E9
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 10:57:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1649329062;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OODoJ8pFOZGJN2UYeqJECfB5fJd3ylT7ksI+gG/N4Z4=;
+	b=ZVIybFN+09P2/L6DpSr5u+jPFnPC/i7Bw8zB13jtxIeBWb/iprUUQ9cOSYrDujYrdYNh6w
+	lJkIWvVLQ/cunMEntSnBV8E+VOeAHzWPa5qZOfJ702H9uCkKOxJWQ5Eo9vTwTui0+eThOh
+	5yGVQcJ/fYir0mBDWYHpfyrvD3FA/8I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-569-24LuU1uEPFiGVMyNxK409A-1; Thu, 07 Apr 2022 06:57:32 -0400
+X-MC-Unique: 24LuU1uEPFiGVMyNxK409A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D71D4100BAA7;
+	Thu,  7 Apr 2022 10:57:31 +0000 (UTC)
+Received: from kate-fedora.redhat.com (unknown [10.2.16.44])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E290E407DEC9;
+	Thu,  7 Apr 2022 10:57:28 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	hdegoede@redhat.com,
+	Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v2] staging: media: ipu3: Fix AWB x_start position when rightmost stripe is used
+Date: Thu,  7 Apr 2022 18:57:24 +0800
+Message-Id: <20220407105724.308930-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <9ca3ab0b40c875b6019f32f031c68a1ae80dd73a.1649310812.git.duoming@zju.edu.cn>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 
-Hello!
+A not calibrated x_start setting would result in an incorrect AWB location
+configuration on a sensor when only the rightmost stripe is used. x_start
+should be calibrated by subtracting the stripe offset to set the coordinate
+to the correct position on the second stripe.
 
-On 4/7/22 9:37 AM, Duoming Zhou wrote:
+Signed-off-by: Kate Hsuan <hpa@redhat.com>
+---
+Correct the patch. The correction should be awb, not awb_fr.
+---
+ drivers/staging/media/ipu3/ipu3-css-params.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-> There is a deadlock in rs_close(), which is shown
-> below:
-> 
->    (Thread 1)              |      (Thread 2)
->                            | rs_open()
-> rs_close()                 |  mod_timer()
->  spin_lock_bh() //(1)      |  (wait a time)
->  ...                       | rs_poll()
->  del_timer_sync()          |  spin_lock() //(2)
->  (wait timer to stop)      |  ...
-> 
-> We hold timer_lock in position (1) of thread 1 and
-> use del_timer_sync() to wait timer to stop, but timer handler
-> also need timer_lock in position (2) of thread 2.
-> As a result, rs_close() will block forever.
-> 
-> This patch extracts del_timer_sync() from the protection of
-> spin_lock_bh(), which could let timer handler to obtain
-> the needed lock.
-> 
-> Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> ---
->  arch/xtensa/platforms/iss/console.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/xtensa/platforms/iss/console.c b/arch/xtensa/platforms/iss/console.c
-> index 81d7c7e8f7e..d431b61ae3c 100644
-> --- a/arch/xtensa/platforms/iss/console.c
-> +++ b/arch/xtensa/platforms/iss/console.c
-> @@ -51,8 +51,10 @@ static int rs_open(struct tty_struct *tty, struct file * filp)
->  static void rs_close(struct tty_struct *tty, struct file * filp)
->  {
->  	spin_lock_bh(&timer_lock);
-> -	if (tty->count == 1)
-> +	if (tty->count == 1) {
-> +		spin_unlock_bh(&timer_lock);
->  		del_timer_sync(&serial_timer);
-> +	}
->  	spin_unlock_bh(&timer_lock);
+diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+index f84cf11358a8..76ad802d694e 100644
+--- a/drivers/staging/media/ipu3/ipu3-css-params.c
++++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+@@ -2636,6 +2636,17 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
+ 	    acc->stripe.down_scaled_stripes[1].offset + min_overlap) {
+ 		/* Enable only for rightmost stripe, disable left */
+ 		acc->awb.stripes[0].rgbs_thr_b &= ~IPU3_UAPI_AWB_RGBS_THR_B_EN;
++
++		acc->awb.stripes[1].grid.x_start =
++			(acc->awb.stripes[1].grid.x_start -
++			 acc->stripe.down_scaled_stripes[1].offset) &
++			IPU3_UAPI_GRID_START_MASK;
++
++		b_w_log2 = acc->awb.stripes[1].grid.block_width_log2;
++		acc->awb.stripes[1].grid.x_end =
++			imgu_css_grid_end(acc->awb.stripes[1].grid.x_start,
++					  acc->awb.stripes[1].grid.width,
++					  b_w_log2);
+ 	} else if (acc->awb.config.grid.x_end <=
+ 		   acc->stripe.bds_out_stripes[0].width - min_overlap) {
+ 		/* Enable only for leftmost stripe, disable right */
+-- 
+2.35.1
 
-   Double unlock iff tty->count == 1?
-
-[...]
-
-MBR, Sergey
