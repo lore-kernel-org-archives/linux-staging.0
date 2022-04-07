@@ -1,99 +1,97 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EA92564
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 14:04:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1649340242;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8dmlhw2gM3dighZKD1hw4c9m67LEmQRFc8UEGhxCeHA=;
-	b=SS0/Iim/AIbxK+D+j3nHnK8pPSYMrhdZwQd7IZLYGOsjVNHRWKK3veK9zpPxPZWOmpNjxZ
-	h/8GC+UpA4GaOvK7/BeFcH2OqzU8saB35VU81+bOCtrDnkEXhJezkK7JVe1sM/APyhth9E
-	Sq2lhCDa/BRcyHZPpkRK77t5wAi5ToM=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-494-maRkon0mNmWY9Ms9S_YP9Q-1; Thu, 07 Apr 2022 10:03:59 -0400
-X-MC-Unique: maRkon0mNmWY9Ms9S_YP9Q-1
-Received: by mail-qt1-f198.google.com with SMTP id t19-20020ac86a13000000b002e1fd2c4ce5so5577345qtr.5
-        for <linux-staging@lists.linux.dev>; Thu, 07 Apr 2022 07:03:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF7B2564
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 14:23:59 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id ke15so5045563qvb.11
+        for <linux-staging@lists.linux.dev>; Thu, 07 Apr 2022 07:23:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vlSZXPc/WWB6O0Ntn/+6VGgM4mQ/P1gNa/KkL6kCL7M=;
+        b=oeGPjNgtHVvKBxNMhG8G4Q8QuOtzWGHoB4yEDz/eqEuoLw4MoKrJV0Cu3zGSYz9kKw
+         HVroEobn9e+OLjnrG12dG9ZFzIfqeETZYJZxwSrKNz7g0IG8De4hOMEkfSHY/z0Zejfj
+         H1JlCxOss9whUG21mymflAK/TnzsF6V7KXt+IyKDTNevlzVXa2wn+6I48Nh6SdUCVmjd
+         aiNXnTtKVoinWgCb2wJ7v3Qi0EOZlwzRriDJb7MKWBJ0CnXgrVJYJLMXgdiyy+v5tHHh
+         41RpzdJsqTxqfiMUA/+gw2XoYaVRuDwkFqVtwMLYuXJ4pf560ZK2xU2By+QSLoO4DrjQ
+         Ga+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=8dmlhw2gM3dighZKD1hw4c9m67LEmQRFc8UEGhxCeHA=;
-        b=jCdj8gn5Qrfu90PbIGsdOTf51Qdcwbso4/9tJUyIVyMx4QyF60gdaRRVvWdAKAUXrr
-         X1fRF3Kby4QUwQopfmppqDuwrVx3QHxC/bX0l9hUMq1umaK2rg1S5bxm+4IJuu33F/oR
-         fuwbDkzEZ0tNjgSj/ZQHgQyru+efkBSMnfw2X5ATxkG2xkdk7x9U9pFaFEdSf/vuhTVz
-         qBceLcjSYUsYPvfy61XomCgZMAL7a4UXX00kIPrI2axFEIzK09adK7FDmcJwtMaBWKS0
-         mUx5kj9qeCnTKUyc7VzTs0PJBtLgHDm+S4wWXfptSP65o7ULMtxCo/OOIo0Wk0tqnGSo
-         VA+Q==
-X-Gm-Message-State: AOAM533y7rss3SFwfkCXZbPh3DF+KsxxuEdAhCeLuWElDt1seR6T5z4B
-	IEBLzmcF1upzD7cNu6iWkw9YF1eK5M10bGwyehHmCpiZc6UyXYk2wl1DOf5MqEiY34ht8sQugEq
-	n8z0DPa417MD3xPFHG6c7uRxmoA==
-X-Received: by 2002:a05:620a:424e:b0:67e:4c1b:c214 with SMTP id w14-20020a05620a424e00b0067e4c1bc214mr9398819qko.651.1649340238619;
-        Thu, 07 Apr 2022 07:03:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxeuhfUl7E5olUFie0FR1INlu5Q2ZTtT17yGQlnofo6l7qsijU3A/ijXWkDpwqeMJySvpGrYQ==
-X-Received: by 2002:a05:620a:424e:b0:67e:4c1b:c214 with SMTP id w14-20020a05620a424e00b0067e4c1bc214mr9398784qko.651.1649340238357;
-        Thu, 07 Apr 2022 07:03:58 -0700 (PDT)
-Received: from fedora (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id h6-20020ac85e06000000b002e1e8a98abbsm16006501qtx.41.2022.04.07.07.03.57
+        bh=vlSZXPc/WWB6O0Ntn/+6VGgM4mQ/P1gNa/KkL6kCL7M=;
+        b=Ef/5a0T3gMn+vAViXCgNK1Z+JvsMGi4mwQzAnJV+I4J5PBQesrJHc9rt2yh67CLdmN
+         SZq4jpVuLi6wguUvhSC+KyIVhT7mM+AWcdp4m0nUXPcYuPi9xgfaFo5fKyJEM3vi1bdZ
+         Z+xfj9RIxWzuakRlPR3RPhZm6v4JfdSTv9mqaYqJPVibJ39v/QKUf8y7Hd8pFPFDQKey
+         KJlutZPaB0ubn5P70EeWJ5BxkpMYkoBiahT97gB2EnhP1enkS2bQfqSaMfrUj8PtV2gQ
+         EiwFbi+4jGQI2VOfunDxmxBf4o4CpGjiT8UJL5z8rd3aSq0rnIaE1ILsj7auudYSZZij
+         /Lng==
+X-Gm-Message-State: AOAM531DwxARQ15gJYxd9LkpspfLwxKO9UVjmZdf8E+HQk0cF9cEzban
+	aP0QAMAIxkJgPIYZfZNPaMBEcA==
+X-Google-Smtp-Source: ABdhPJwBTVSbg6sLzWrCS9NGMS5EzxPSS5wkz2ckXLOjrhXFly+LUsn4jydlD/Qq90o6V5TmAN5lHw==
+X-Received: by 2002:a0c:a942:0:b0:443:a395:cc1f with SMTP id z2-20020a0ca942000000b00443a395cc1fmr11910876qva.68.1649341438080;
+        Thu, 07 Apr 2022 07:23:58 -0700 (PDT)
+Received: from ziepe.ca ([206.223.160.26])
+        by smtp.gmail.com with ESMTPSA id t3-20020a05620a0b0300b00699c6a9b2d1sm7135084qkg.32.2022.04.07.07.23.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 07:03:57 -0700 (PDT)
-Date: Thu, 7 Apr 2022 10:03:55 -0400
-From: Adrien Thierry <athierry@redhat.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gaston Gonzalez <gascoar@gmail.com>,
-	Ojaswin Mujoo <ojaswin98@gmail.com>, linux-staging@lists.linux.dev,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v2 0/2] Add support for bcm2711 in vchiq_arm
-Message-ID: <Yk7vSzk2XD+55EK4@fedora>
-References: <20220324172647.167617-1-athierry@redhat.com>
- <d20fd8f2-c47a-2f3e-4efa-be705f1517b9@i2se.com>
+        Thu, 07 Apr 2022 07:23:57 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1ncT3D-00EF1o-Ui; Thu, 07 Apr 2022 11:23:55 -0300
+Date: Thu, 7 Apr 2022 11:23:55 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: duoming@zju.edu.cn
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, linux-kernel@vger.kernel.org,
+	chris@zankel.net, jcmvbkbc@gmail.com, mustafa.ismail@intel.com,
+	shiraz.saleem@intel.com, wg@grandegger.com, mkl@pengutronix.de,
+	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+	jes@trained-monkey.org, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, alexander.deucher@amd.com,
+	linux-xtensa@linux-xtensa.org, linux-rdma@vger.kernel.org,
+	linux-can@vger.kernel.org, netdev@vger.kernel.org,
+	linux-hippi@sunsite.dk, linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: Re: [PATCH 09/11] drivers: infiniband: hw: Fix deadlock in
+ irdma_cleanup_cm_core()
+Message-ID: <20220407142355.GV64706@ziepe.ca>
+References: <cover.1649310812.git.duoming@zju.edu.cn>
+ <4069b99042d28c8e51b941d9e698b99d1656ed33.1649310812.git.duoming@zju.edu.cn>
+ <20220407112455.GK3293@kadam>
+ <1be0c02d.3f701.1800416ef60.Coremail.duoming@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <d20fd8f2-c47a-2f3e-4efa-be705f1517b9@i2se.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1be0c02d.3f701.1800416ef60.Coremail.duoming@zju.edu.cn>
 
-Hi Stefan,
+On Thu, Apr 07, 2022 at 08:54:13PM +0800, duoming@zju.edu.cn wrote:
+> > > diff --git a/drivers/infiniband/hw/irdma/cm.c b/drivers/infiniband/hw/irdma/cm.c
+> > > index dedb3b7edd8..019dd8bfe08 100644
+> > > +++ b/drivers/infiniband/hw/irdma/cm.c
+> > > @@ -3252,8 +3252,11 @@ void irdma_cleanup_cm_core(struct irdma_cm_core *cm_core)
+> > >  		return;
+> > >  
+> > >  	spin_lock_irqsave(&cm_core->ht_lock, flags);
+> > > -	if (timer_pending(&cm_core->tcp_timer))
+> > > +	if (timer_pending(&cm_core->tcp_timer)) {
+> > > +		spin_unlock_irqrestore(&cm_core->ht_lock, flags);
+> > >  		del_timer_sync(&cm_core->tcp_timer);
+> > > +		spin_lock_irqsave(&cm_core->ht_lock, flags);
+> > > +	}
+> > >  	spin_unlock_irqrestore(&cm_core->ht_lock, flags);
+> > 
+> > This lock doesn't seem to be protecting anything.  Also do we need to
+> > check timer_pending()?  I think the del_timer_sync() function will just
+> > return directly if there isn't a pending lock?
+> 
+> Thanks a lot for your advice, I will remove the timer_pending() and the
+> redundant lock.
 
-Thanks for your feedback.
+Does del_timer_sync work with a self-rescheduling timer like this has?
 
-> Could you please explain your approach, especially leaving out 36 bit
-> DMA support?
-
-I realize I overlooked this 36 bit DMA support issue, I need to think it
-through a little bit more.
-
-> This is a really bad idea and caused a lot of trouble in the past. A lot
-> of the issues in the Fedora or Arch Linux forums or mailing lists
-> results from this idea. It wastes the time of the kernel developer since
-> these DT files has never been reviewed by the devicetree maintainers.
-
-I understand, thanks! I find the downstream dtbs convenient because of the
-overlay system that allows you to easily enable certain drivers, but I get
-your point.
-
-Best regards,
-
-Adrien
-
+Jason
