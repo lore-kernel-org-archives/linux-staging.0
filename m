@@ -1,41 +1,41 @@
 Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEB72564
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 12:57:50 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id b15so6316832edn.4
-        for <linux-staging@lists.linux.dev>; Thu, 07 Apr 2022 05:57:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18082566
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 12:57:51 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id f18so6313558edc.5
+        for <linux-staging@lists.linux.dev>; Thu, 07 Apr 2022 05:57:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=I2kKuQm9mBVMxGG2tuqK5kvCq3TE0hPoH+duL8WuPFE=;
-        b=fREgNyiTU+JgehQuQun/naOApONGw77/dtDLqvcR2nsBwPsXkPL44tiLSGRkpl+g8U
-         nVQTq7mUgmzMGC/FV0TUy5+XsuUIic2y79YJ3KLnA3Em+Ry3mvg/3dnASZsGwi+l0Qu4
-         qSLof8irjPFEG26f7yW11EVSQbayAVC2oEn2O/FClJkObCqo0Wi0RijRzPW7+XMuflRV
-         1fW49RE7eO3DPVOZjhFo7LrpiegCKlzb79Z70GdlOJLdHXN1U9vfedInRfsvZr0lRCeG
-         rgFjDQzge0XSGnifixG7ZxtlqFxKrUHEcr1kQoC1A2gQFYIU18lK2k7UDpqPsOSfS08v
-         N66w==
+        bh=VQFB5yWy+dqTr0/vXZMWZCnU/4D4Laj4hZ4wf3r7fdQ=;
+        b=EdsSwzHfuZMpjh/pj5QJxv5ix7SQQN0fexd1yk+3DYy3b79RdgL/a0qcaJ3ckfuQYZ
+         3HJjyOSL1QhzSEvv/kX2jPOgUt0STtMQHOfPM2r/ZpsEKyz3dlatGceDC5kxEadL6OHN
+         oF2atjnAeeZqLydyT8zPZVl8bMtNavc2wR4t9wJNY1DkQpBNKZQy36ys1WJjC1qdPGcH
+         cy00Ohyy7NJ11/U9XjyLUmWat+JAMHH/zCDW+vZ+4Y/mPUWtDnJnqtUtq3hUMg4Ri3/F
+         RTsUWnffHvsNXPw2G2PUfHAhOF0/GkYNx9ouSsFFTIMZi+c4nVkPTyyOdEcuIWvYy/Nq
+         UNRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=I2kKuQm9mBVMxGG2tuqK5kvCq3TE0hPoH+duL8WuPFE=;
-        b=c077Eb8dUn9E0pIUcuf/tBLKZN/DJe7NGu8qUkY8CveetKU+qUihBC0/4Je4FlfAln
-         waW63xvD8ICWDwt0KIBcFjMHJsxapuNdawWTV35ZH8PxLA+FaUi6XgSJYmLQi1d3a8Rp
-         3lRrEBGHPuS9j9y6Qw6ZlkG5ut1VT1z9LNUgtdBtYYUjzJhRWqcNVRibjQVyOVWFSTDM
-         nGhReIt1moXOYOc8Lp1GllTxjqbNvq/948dC2HH+G7vcqoP//0RolxUU5pw2PuVU+xyD
-         Sru4eSDXwMB7owfj6ycJqTqjqrzaqzsR6ylsy+HmdDHqnm0fFWcKLTEhIbwJjqHrUiL7
-         7drA==
-X-Gm-Message-State: AOAM5324miX6z0WxAqaFrJDdpMGGkbxbmMqNdW2PQKIEEyymb8g3rlsb
-	D1Z7ea8esjmwoo0srx7kRtI=
-X-Google-Smtp-Source: ABdhPJzipgYuM30uDF84FFOslfVMcPdQ8T/8aZ0+xYG7Wk5AyEfieXrgPeFqOSRCjuOFlA74RwPVJA==
-X-Received: by 2002:a05:6402:4247:b0:419:3990:3db6 with SMTP id g7-20020a056402424700b0041939903db6mr13837423edb.193.1649336269266;
-        Thu, 07 Apr 2022 05:57:49 -0700 (PDT)
+        bh=VQFB5yWy+dqTr0/vXZMWZCnU/4D4Laj4hZ4wf3r7fdQ=;
+        b=cpsYBT0QFU5sWfkGo7hk9SAONYMZtyUbCtnFuy5pFV4MKdatMUyDmuij0+Se4Q1GwT
+         jLy048j3KmDNwDqBMWc0S5jE4QGs/iuXL6QMWy/pWisoBPodYC5J+cPpObqJJvjbR6Tq
+         8CSqVzIfYhSEYYv8G3N3EqUY31G/o8X9z7znSaKRsoRZAzk229b60Ys91H+pEqhyoY3V
+         GVJiD9bwpzwnqJwXLyyJJvwwOLktkY2RFkPR6/N52Pc4mKGmglnG5oqWU4N4Lxg/D+PG
+         61UB8bwTGLnD8U3fMaI07QkVwvsR5VSxQYPlV0FZB+48tA6onhRQIV0zngCOMc2x3Gwv
+         8abw==
+X-Gm-Message-State: AOAM533yvLSyPFImCeBYW301idmoIB4vftcAO1ubFEdwNBsIXB6DTfd8
+	Hao3fQuWiMUGo+g6w5LMBDI=
+X-Google-Smtp-Source: ABdhPJzgMxNu9bVKPUiyFBJrI3NYATy0seuQtm3wUICFma8ZcRZ/acC9lzr4cb8MsrM/H699EXtINw==
+X-Received: by 2002:a50:f08d:0:b0:41c:d21a:e77 with SMTP id v13-20020a50f08d000000b0041cd21a0e77mr13873355edl.277.1649336270017;
+        Thu, 07 Apr 2022 05:57:50 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id n13-20020a170906724d00b006cedd6d7e24sm7676764ejk.119.2022.04.07.05.57.48
+        by smtp.gmail.com with ESMTPSA id n13-20020a170906724d00b006cedd6d7e24sm7676764ejk.119.2022.04.07.05.57.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 05:57:48 -0700 (PDT)
+        Thu, 07 Apr 2022 05:57:49 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v3 2/5] staging: r8188eu: use round_up() instead of _RND4()
-Date: Thu,  7 Apr 2022 14:57:39 +0200
-Message-Id: <20220407125742.7814-3-straube.linux@gmail.com>
+Subject: [PATCH v3 3/5] staging: r8188eu: use round_up() instead of _RND8()
+Date: Thu,  7 Apr 2022 14:57:40 +0200
+Message-Id: <20220407125742.7814-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220407125742.7814-1-straube.linux@gmail.com>
 References: <20220407125742.7814-1-straube.linux@gmail.com>
@@ -57,47 +57,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use in-kernel round_up() instead of custom _RND4().
+Use in-kernel round_up() instead of custom _RND8().
+Just remove _RND8 where it is not necessary to round up.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
-v3: no changes
+v3: just remove _RND8 in one case
 v2: no changes
 
- drivers/staging/r8188eu/core/rtw_cmd.c          | 2 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c    | 6 +++---
  drivers/staging/r8188eu/include/osdep_service.h | 8 --------
- 2 files changed, 1 insertion(+), 9 deletions(-)
+ 2 files changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 9b53b92c6795..ed092faafb0f 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -264,7 +264,7 @@ int rtw_cmd_thread(void *context)
- 			goto post_process;
- 		}
+diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+index 9bd2428514de..bdfa51949289 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
++++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+@@ -437,7 +437,7 @@ bool rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmit
+ 	pfirstframe = pxmitframe;
+ 	len = xmitframe_need_length(pfirstframe) + TXDESC_SIZE + (pfirstframe->pkt_offset * PACKET_OFFSET_SZ);
+ 	pbuf_tail = len;
+-	pbuf = _RND8(pbuf_tail);
++	pbuf = round_up(pbuf_tail, 8);
  
--		pcmd->cmdsz = _RND4((pcmd->cmdsz));/* _RND4 */
-+		pcmd->cmdsz = round_up(pcmd->cmdsz, 4);
+ 	/*  check pkt amount in one bulk */
+ 	desc_cnt = 0;
+@@ -488,7 +488,7 @@ bool rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmit
  
- 		memcpy(pcmdbuf, pcmd->parmbuf, pcmd->cmdsz);
+ 		len = xmitframe_need_length(pxmitframe) + TXDESC_SIZE + (pxmitframe->pkt_offset * PACKET_OFFSET_SZ);
  
+-		if (_RND8(pbuf + len) > MAX_XMITBUF_SZ) {
++		if (pbuf + len > MAX_XMITBUF_SZ) {
+ 			pxmitframe->agg_num = 1;
+ 			pxmitframe->pkt_offset = 1;
+ 			break;
+@@ -511,7 +511,7 @@ bool rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmit
+ 
+ 		/*  handle pointer and stop condition */
+ 		pbuf_tail = pbuf + len;
+-		pbuf = _RND8(pbuf_tail);
++		pbuf = round_up(pbuf_tail, 8);
+ 
+ 		pfirstframe->agg_num++;
+ 		if (MAX_TX_AGG_PACKET_NUMBER == pfirstframe->agg_num)
 diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index 56e5cbfec1f1..388c22751d09 100644
+index 388c22751d09..ff44c4a37b9d 100644
 --- a/drivers/staging/r8188eu/include/osdep_service.h
 +++ b/drivers/staging/r8188eu/include/osdep_service.h
 @@ -96,14 +96,6 @@ static inline void flush_signals_thread(void)
  
  #define _RND(sz, r) ((((sz)+((r)-1))/(r))*(r))
  
--static inline u32 _RND4(u32 sz)
+-static inline u32 _RND8(u32 sz)
 -{
 -	u32	val;
 -
--	val = ((sz >> 2) + ((sz & 3) ? 1: 0)) << 2;
+-	val = ((sz >> 3) + ((sz & 7) ? 1: 0)) << 3;
 -	return val;
 -}
 -
- static inline u32 _RND8(u32 sz)
+ static inline u32 _RND128(u32 sz)
  {
  	u32	val;
 -- 
