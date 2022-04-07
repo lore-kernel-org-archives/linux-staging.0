@@ -1,165 +1,114 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552922564;
-	Thu,  7 Apr 2022 12:59:55 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id u3so7762521wrg.3;
-        Thu, 07 Apr 2022 05:59:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kVP0DeosChaP4vnFzIKGWwoOlpAbwuSOyH45+/mZoL0=;
-        b=EKN2hIRsBqehxl1LPwDXn+MG5SyKoqhVpkpyr2FlER8hbxE9Ay7WNPPw4ChApC65YQ
-         J30V9zKdRjJj8mCycqBYe6r/yZbYQ0Syua9qMK/XX+36rrCYQsATeqXHCoUQ9wc9vX4Q
-         FSlomHsQTEMFxVm7f4qT2/pO9mm/xpdt0tgcZlCsItIrg93Wb/3T2aD77sBXVXPboyt3
-         LXBikbAHA50KRnYq74MsZDjdGerLMWIh4JIhh2PbGZJJDz/TUc1izmizbOFwGvt7GfZ1
-         smc9IZOkpFiM1D4yqyI865GU7OL7PJcOQzjADzTNCkCAPlwgZwdDXZ0OpgG9OVqBzL4i
-         BO7A==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D692564
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 13:17:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1649337473;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8Xg006do2juJkqTWAxGfwqxVTFvDtf8Ouv8ifluSAu0=;
+	b=GXz3RdQi6O2Rf4KRNuP0qwtKUKoqvW0o0w30DH9tttGzfko1zVn8V1XlpJxrUWAFrJoKZE
+	7TuYpK/Lx4BUAfRgpr2m7J73qYBhUw89SuQIVd/x9ZWhKWKYX9Hjm+1tIZFB/Yb+NRXOB1
+	9DlFJoqw7f6Apvn3svF0wDDNemUEXpE=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-601-JgxOuLBrPh6_jyajb2voRA-1; Thu, 07 Apr 2022 09:17:52 -0400
+X-MC-Unique: JgxOuLBrPh6_jyajb2voRA-1
+Received: by mail-lj1-f199.google.com with SMTP id n9-20020a2e82c9000000b002435af2e8b9so2118570ljh.20
+        for <linux-staging@lists.linux.dev>; Thu, 07 Apr 2022 06:17:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kVP0DeosChaP4vnFzIKGWwoOlpAbwuSOyH45+/mZoL0=;
-        b=gTiD932kqL/gdaZziMId6ai7RCsw3NzQFFqOMBIzAdp8tXPveSBWzYQ9wlfEABFYly
-         VV/26tDtP/OJvpEOSbF4przmFEVVEolHV/bKCEJJiQuF3yiAP+UirW0kLELKz01tSBj5
-         9j+Yx1ezhvN0TyNv34S3WZlfgGWrfcSLGAihtqewZns1ZhQiu/zCA7Uy9yk+QfkR3zZI
-         cQi3PWVP8QmFrXAy8nYAtwpXDTFSLVXws0R5BmfBeD7xC1I0OyvCoAiGEbrvbTO/5uZl
-         l9iSGuXUL4rraZyBUg3Wvwzg9Gx7RTmfGDN+N86hfcHBusFTcfBOg2X+6cI6NzL72C8b
-         qXOQ==
-X-Gm-Message-State: AOAM533r5ISjcLqMg49TjarSIomyKvob6WX1uMHLLkz4RD4EQnakqwC3
-	iVE1KwUtdbwN/9kBwDkXaz6ARG8UCsY=
-X-Google-Smtp-Source: ABdhPJxshfU1NOlOOLmqcrimT11cLGwoDeMBpIbUyzbLG9YPscs+Pk4CihETUqSB0wB9UMgpKC6DVg==
-X-Received: by 2002:adf:ee08:0:b0:206:1b1e:bc20 with SMTP id y8-20020adfee08000000b002061b1ebc20mr10973407wrn.541.1649336393481;
-        Thu, 07 Apr 2022 05:59:53 -0700 (PDT)
-Received: from alaa-emad ([197.57.231.245])
-        by smtp.gmail.com with ESMTPSA id l20-20020a05600c1d1400b0038cba2f88c0sm10704711wms.26.2022.04.07.05.59.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 05:59:52 -0700 (PDT)
-From: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	eng.alaamohamedsoliman.am@gmail.com
-Subject: [PATCH v4] staging: rtl8712: remove unnecessary parentheses
-Date: Thu,  7 Apr 2022 14:59:47 +0200
-Message-Id: <20220407125947.8525-1-eng.alaamohamedsoliman.am@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8Xg006do2juJkqTWAxGfwqxVTFvDtf8Ouv8ifluSAu0=;
+        b=NEZeqlbrXAKDaiqGUi/JV1/vql29ZEcukswxFWnuE/fxI1UiQXWOVHpQRc8IRuw12I
+         rQjPys9J0+b7Ypcf63BJ4hudWTSb4vxczEFnb4g9FiOcdZ+Um1FDVXCHWXknSWqxGziQ
+         FAwdM4gcTKoykQ+qAoG8JhXzkGoZcv0R+J8SsWFQ7GJ1SkkqkK1b/9dK+1dxQjqi3RZA
+         Op0aP0N7gcCOheKSbEUwwkHA02LECxN4yWM1FxKPzg85ozzKXpEHokHuvfKegey/KEp2
+         iHgaqH6he+hcD6y2VDwR7gx1SfCbRztLqvQnOWJhfxVP+bF7//Kb7AeBZjgUGh8HF5eH
+         jpZg==
+X-Gm-Message-State: AOAM532a8AuSzGuKnLix5G9xvnVveizU6sIs9KLFcZsAJrm2R12q5/1z
+	vBZJBp9bK9VjnOXHSwW2QnGlWu11IKRdSrEhtEd7j9+priXCag5Qo58W0OJbpapfCZ8gtAhe/ds
+	or7DzEdY8hQ77EOpiaVYb1fiW6yOG5QPFX8jsWXIXoA==
+X-Received: by 2002:a2e:9ad7:0:b0:24b:fa3:6a8d with SMTP id p23-20020a2e9ad7000000b0024b0fa36a8dmr8750732ljj.363.1649337470354;
+        Thu, 07 Apr 2022 06:17:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOH3NMQzvLRuhgYGmMuiioeRpPbM3obm6q7/YkChssQxnH4v5W6zhC8c8fZS+DA2TNFh36USctJCoGkt+xtXA=
+X-Received: by 2002:a2e:9ad7:0:b0:24b:fa3:6a8d with SMTP id
+ p23-20020a2e9ad7000000b0024b0fa36a8dmr8750702ljj.363.1649337469936; Thu, 07
+ Apr 2022 06:17:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220407105724.308930-1-hpa@redhat.com> <20220407115133.GL3293@kadam>
+In-Reply-To: <20220407115133.GL3293@kadam>
+From: Kate Hsuan <hpa@redhat.com>
+Date: Thu, 7 Apr 2022 21:17:38 +0800
+Message-ID: <CAEth8oG_GAuammtSqKzyj+Vq6ZsQJJOEeFhgxYhxXHViDYvkow@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: ipu3: Fix AWB x_start position when
+ rightmost stripe is used
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Hans De Goede <hdegoede@redhat.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hpa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-Reported by checkpatch:
+Hi Dan,
 
-Remove unnecessary parentheses around structure field references
+On Thu, Apr 7, 2022 at 7:52 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> On Thu, Apr 07, 2022 at 06:57:24PM +0800, Kate Hsuan wrote:
+> > A not calibrated x_start setting would result in an incorrect AWB location
+> > configuration on a sensor when only the rightmost stripe is used. x_start
+> > should be calibrated by subtracting the stripe offset to set the coordinate
+> > to the correct position on the second stripe.
+> >
 
-Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
----
-Changes in v2:
-	- Edit commit subject
-	- Edit commit message
-	- Fix the same check in more lines
-	- Remove space before '.skey' in
-"memcpy(psta->tkiptxmickey.skey," in lines 84 and 86.
----
-Changes in v3:
-	return the space before '.skey' in
-"memcpy(psta->tkiptxmickey.skey," in lines 84 and 86
----
-Changes in v4:
-	edit commit message to be clearer.
----
- drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+>
+> I wish the commit description said more about what the bug looks like to
+> the user.  This is the front facing camera, right?  Is part of the video
+> blank or what's the deal?
 
-diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-index 3b6926613257..f1e352b7f83e 100644
---- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-+++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-@@ -82,9 +82,9 @@ static inline void handle_pairwise_key(struct sta_info *psta,
- 	       (param->u.crypt. key_len > 16 ? 16 : param->u.crypt.key_len));
- 	if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
- 		memcpy(psta->tkiptxmickey. skey,
--		       &(param->u.crypt.key[16]), 8);
-+		       &param->u.crypt.key[16], 8);
- 		memcpy(psta->tkiprxmickey. skey,
--		       &(param->u.crypt.key[24]), 8);
-+		       &param->u.crypt.key[24], 8);
- 		padapter->securitypriv. busetkipkey = false;
- 		mod_timer(&padapter->securitypriv.tkip_timer,
- 			  jiffies + msecs_to_jiffies(50));
-@@ -600,7 +600,7 @@ static int r8711_wx_get_name(struct net_device *dev,
- 	u32 ht_ielen = 0;
- 	char *p;
- 	u8 ht_cap = false;
--	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
-+	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
- 	struct wlan_bssid_ex *pcur_bss = &pmlmepriv->cur_network.network;
- 	u8 *prates;
- 
-@@ -1494,7 +1494,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
- 	u32 keyindex_provided;
- 	struct NDIS_802_11_WEP	 wep;
- 	enum NDIS_802_11_AUTHENTICATION_MODE authmode;
--	struct iw_point *erq = &(wrqu->encoding);
-+	struct iw_point *erq = &wrqu->encoding;
- 	struct _adapter *padapter = netdev_priv(dev);
- 
- 	key = erq->flags & IW_ENCODE_INDEX;
-@@ -1589,8 +1589,8 @@ static int r8711_wx_get_enc(struct net_device *dev,
- {
- 	uint key;
- 	struct _adapter *padapter = netdev_priv(dev);
--	struct iw_point *erq = &(wrqu->encoding);
--	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
-+	struct iw_point *erq = &wrqu->encoding;
-+	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
- 	union Keytype *dk = padapter->securitypriv.DefKey;
- 
- 	if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
-@@ -1670,7 +1670,7 @@ static int r871x_wx_set_auth(struct net_device *dev,
- 				union iwreq_data *wrqu, char *extra)
- {
- 	struct _adapter *padapter = netdev_priv(dev);
--	struct iw_param *param = (struct iw_param *)&(wrqu->param);
-+	struct iw_param *param = (struct iw_param *)&wrqu->param;
- 	int paramid;
- 	int paramval;
- 	int ret = 0;
-@@ -1964,7 +1964,7 @@ static int r871x_get_ap_info(struct net_device *dev,
- 		return -EINVAL;
- 	data[32] = 0;
- 
--	spin_lock_irqsave(&(pmlmepriv->scanned_queue.lock), irqL);
-+	spin_lock_irqsave(&pmlmepriv->scanned_queue.lock, irqL);
- 	phead = &queue->queue;
- 	plist = phead->next;
- 	while (1) {
-@@ -1974,7 +1974,7 @@ static int r871x_get_ap_info(struct net_device *dev,
- 		if (!mac_pton(data, bssid)) {
- 			netdev_info(dev, "r8712u: Invalid BSSID '%s'.\n",
- 				    (u8 *)data);
--			spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock),
-+			spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock,
- 					       irqL);
- 			return -EINVAL;
- 		}
-@@ -1996,7 +1996,7 @@ static int r871x_get_ap_info(struct net_device *dev,
- 		}
- 		plist = plist->next;
- 	}
--	spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock), irqL);
-+	spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock, irqL);
- 	if (pdata->length >= 34) {
- 		if (copy_to_user((u8 __user *)pdata->pointer + 32,
- 		    (u8 *)&pdata->flags, 1))
+This is IPU3 image processor. I tried to fix the configuration issues
+on stripe 1 coordinate settings.
+
+>
+> > Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> > ---
+> > Correct the patch. The correction should be awb, not awb_fr.
+>
+> I tried to review the original patch and it was impossible.  I saw
+> you're from an @redhat.com email address so I decided it must be right.
+>
+> I kind of get that you need to be a domain expert to review these
+> patches but this function is such a mess...
+
+Sorry for the misunderstanding in my comments.
+Since I made some mistakes on my v1 patch, so I had corrected this
+part and quickly sent the v2 patch. You are welcome to pinpoint the
+errors for my v2 patch. I could fix them.
+
+Thank you.
+
+>
+> regards,
+> dan carpenter
+>
+
+
 -- 
-2.35.1
+BR,
+Kate
 
