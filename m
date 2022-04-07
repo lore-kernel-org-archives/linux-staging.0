@@ -1,26 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705832570;
-	Thu,  7 Apr 2022 17:46:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2B19C385A0;
-	Thu,  7 Apr 2022 17:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472552570
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 17:51:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3832C385A4;
+	Thu,  7 Apr 2022 17:51:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1649353584;
-	bh=Jkvw4HbUD+BJnLkGElMbJBIW0lO8m3RLntyqyhk1X6M=;
+	s=korg; t=1649353863;
+	bh=iBZxPWDIqKLn9hWgPpT2DzF41eYn3xaK1WuVBDT9kLA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dnvq4cgiesiEk+CxUkH5lrwhvijZrGWqmipS+cWYZvnVo/Y5obLg9uWlLpO9garDW
-	 fQUzdePrQCXQ2o1uh+FN7JU7S0Nu3lIfF3n3IdRlTwnoU0DgxkPBJQWVqjWhc0YzgB
-	 s1bwgCOckxYLVk+zyMDQXxyCGYvS1zC7tGPL7aJE=
-Date: Thu, 7 Apr 2022 19:46:21 +0200
+	b=Rv4C6fFhFdNrF+mn6KNyC1rHVUJ42ECR/3tD6579FzZhMQxJk0hqN7t29aISztqOo
+	 s5gKFaflSIeBKeuUzilYcTpLB/2wlj97czZCH4fc9OfaucwI7Zx914WCBD0Qvp5HKR
+	 LOKRpyMrm9ibvvFZnylA9crvK9SPH8B83cdY/02E=
+Date: Thu, 7 Apr 2022 19:51:00 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-Cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: rtl8712: remove unnecessary parentheses
-Message-ID: <Yk8jbTSjvsHXpX2U@kroah.com>
-References: <20220407125947.8525-1-eng.alaamohamedsoliman.am@gmail.com>
+To: xkernel.wang@foxmail.com
+Cc: paskripkin@gmail.com, Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] staging: r8188eu: check the return of kzalloc()
+Message-ID: <Yk8khN/Htc0zVY9d@kroah.com>
+References: <tencent_5AB92A7786438342357C5669E7BF0C249505@qq.com>
+ <tencent_15C23F2EC8197361EE200714C54E78B45206@qq.com>
+ <9c307f1e-aa95-08e6-3a01-825caba19a30@gmail.com>
+ <tencent_0D5C6E0E160AA0702025FDFF35906EE69E07@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,29 +31,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220407125947.8525-1-eng.alaamohamedsoliman.am@gmail.com>
+In-Reply-To: <tencent_0D5C6E0E160AA0702025FDFF35906EE69E07@qq.com>
 
-On Thu, Apr 07, 2022 at 02:59:47PM +0200, Alaa Mohamed wrote:
-> Reported by checkpatch:
+On Thu, Apr 07, 2022 at 10:03:49AM +0800, xkernel.wang@foxmail.com wrote:
+> On Thursday, April 7, 2022 3:22 AM +0800, paskripkin@gmail.com wrote:
+> > > -void rtw_alloc_hwxmits(struct adapter *padapter)
+> > > +s32 rtw_alloc_hwxmits(struct adapter *padapter)
+> > >   {
+> > 
+> > What about plain 'int'? I know that s32 is typedef for 'int', but 'int'
+> > looks more natural
+> > 
 > 
-> Remove unnecessary parentheses around structure field references
-> 
-> Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
-> ---
-> Changes in v2:
-> 	- Edit commit subject
-> 	- Edit commit message
-> 	- Fix the same check in more lines
-> 	- Remove space before '.skey' in
-> "memcpy(psta->tkiptxmickey.skey," in lines 84 and 86.
-> ---
-> Changes in v3:
-> 	return the space before '.skey' in
-> "memcpy(psta->tkiptxmickey.skey," in lines 84 and 86
-> ---
-> Changes in v4:
-> 	edit commit message to be clearer.
-> ---
+> I agree with you.
+> Since the type of `_rtw_init_xmit_priv` is `s32`, I directly changed the
+> type of `rtw_alloc_hwxmits` to `s32` (they are neighbors in rtw_xmit.h).
+> In fact, there are many places where `s32` appears together with `int` 
+> in related files, so maybe we can leave it as a future work to make all 
+> of them a unified form.
 
-Why did you send this patch twice?
+No, get this one right to start with.
 
+thanks,
+
+greg k-h
