@@ -1,74 +1,167 @@
-Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com [203.205.221.173])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB42A20E6
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 02:05:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1649297104;
-	bh=PCUUj9sh+ZXg8xzwNDbyH1JMDapK+OEbw32C9DX7m4c=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date;
-	b=o5GitCTabYiZJK0I8xsYhZ8UmE6Ghu28Ul7M0F3WM4itQOAsmjwvjqcjZntS3Qvez
-	 lLMQEU/KWlV4eNQOXriD26Ax/ksn4FNm3c9R7JqH3axhGar8qDya6t5LsQHfPb6LCO
-	 fofruzF1UeHy0XHqFGJH/ChZPnpLMGCNDpDayMm8=
-Received: from helloworld ([59.172.176.225])
-	by newxmesmtplogicsvrszc11.qq.com (NewEsmtp) with SMTP
-	id F12E2A3; Thu, 07 Apr 2022 10:03:49 +0800
-X-QQ-mid: xmsmtpt1649297029tfj245p8a
-Message-ID: <tencent_0D5C6E0E160AA0702025FDFF35906EE69E07@qq.com>
-X-QQ-XMAILINFO: MyirvGjpKb1jSx3AS0EqrsEW80j37bKcqodxlAv3QiavnCt/RjzS00hoUWAvhA
-	 IOCClT2yzvoKT9d3mbSdpJmk6HWk+5Lfwza9gmmbUCSMCIXRKSD5HnQ6jebInyoanQi56MVnI2oM
-	 iHMjKA6r96nPsstWxs247KCatE26nfiiom23UoGCKD877Kv89VN/04cCqCfyS993Csy9UUQpoHVW
-	 vLCaWSYWomWvO8UX2aCsmwK5OrkBdD7DCC8WHYWQsIuYYZa3wVQK2VlEoR+a3KWGLhIos6iKosjG
-	 qmE4EV/RA0Hg5Ryu19etchAtyeqFF/gxIkL+Tfc1rT0G6WNeCwfZ+EU4EEfQjFWRFBJfTtKFz638
-	 Yu9itb9lzIq/9Lr4fReGaGeMbgrns5cXTkWUiszs+tYArDX4dOI2w/PLvkpvwsuRXi2XTDMImxAD
-	 vjW4DEodhrHr96zvoEGGrjhc/E0hc8CaSaHruQBx/bRQxwX1LbdJHaQTOmssOGYSOt/ZQ4NXA/eO
-	 BiihNq+qEXrnMCGVdNpVQ5F+91f+7J2kVL4qyZ4sIc+grcH5vcljS6GCQmhITGD0kiOkV0UUw30S
-	 XmZNtJp2xxAKisfM294nzuksHMFoVD9p9zgaHAPkQD77Oc5Nvw7+C5Sjr7uNKzpWbOclmmYOSN6a
-	 fFHKTxdpsqe/ZuhFccpOZojYW/UY/RTORHGXbsHBkZQqU3Uz/kjDLWVnkmF27KhrY1d286JJrSXn
-	 qh6NcmGMANnE+dnG0BW1ZVRGImU0uplZmUa1P1JljoPloz0qGJA5y2xUfc+U4U/pcSXTf7Mtf4O7
-	 wnKOyeM2cPJvH1chxOq6ICcMMG0PjVnADOdDW+87SRcJr5K2MoRMffiTnghXLRolMeEpIq6GjHgA
-	 vcj5Kb5VCnmCdrGMmNwUICuwTMe+H26OHsKUB5bIPU3ynlG5ppH/QgwztS4j3KMg==
-From: <xkernel.wang@foxmail.com>
-To: <paskripkin@gmail.com>
-Cc: <gregkh@linuxfoundation.org>,
-	<Larry.Finger@lwfinger.net>,
-	<phil@philpotter.co.uk>,
-	<linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-References: <tencent_5AB92A7786438342357C5669E7BF0C249505@qq.com> <tencent_15C23F2EC8197361EE200714C54E78B45206@qq.com> <9c307f1e-aa95-08e6-3a01-825caba19a30@gmail.com>
-In-Reply-To: <9c307f1e-aa95-08e6-3a01-825caba19a30@gmail.com>
-Subject: Re: [PATCH v2 2/2] staging: r8188eu: check the return of kzalloc()
-Date: Thu, 7 Apr 2022 10:03:49 +0800
-X-OQ-MSGID: <006d01d84a23$ba562c30$2f028490$@foxmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45B220EA;
+	Thu,  7 Apr 2022 04:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=Hb3fQ72S8kwAbM+KS3Vg2Hf5vL+s7WtSbsiDvS5WHCU=;
+  b=L2Rah73/y/lODEkv+pnO0oc8qwWdfoNi19axFMr/wGC4R4io84GXPXoY
+   +ti2mkiI90FqH6N23M6gv32apMRMGgzCsFhJKIAOycrhvBq5fUIQ4t//1
+   cTCN/5n92hy/cYGFcVDfofk3kdaE6U6P2fR5RBCfBEzTmKYh0B38c5m3L
+   U=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,241,1643670000"; 
+   d="scan'208";a="10799887"
+Received: from lputeaux-656-1-153-249.w217-128.abo.wanadoo.fr (HELO hadrien) ([217.128.47.249])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2022 06:04:30 +0200
+Date: Thu, 7 Apr 2022 06:04:28 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: julia@hadrien
+To: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+cc: outreachy@lists.linux.dev, Larry.Finger@lwfinger.net, 
+    florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8712: remove unnecessary parentheses
+In-Reply-To: <20220406215051.20483-1-eng.alaamohamedsoliman.am@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2204070601380.2191@hadrien>
+References: <20220406215051.20483-1-eng.alaamohamedsoliman.am@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHFCzdkIZn1ahtT3bex/Ulo9ihwXQEIO4NAAgMPs9ys8c3LUA==
-Content-Language: zh-cn
+Content-Type: text/plain; charset=US-ASCII
 
-On Thursday, April 7, 2022 3:22 AM +0800, paskripkin@gmail.com wrote:
-> > -void rtw_alloc_hwxmits(struct adapter *padapter)
-> > +s32 rtw_alloc_hwxmits(struct adapter *padapter)
-> >   {
-> 
-> What about plain 'int'? I know that s32 is typedef for 'int', but 'int'
-> looks more natural
-> 
 
-I agree with you.
-Since the type of `_rtw_init_xmit_priv` is `s32`, I directly changed the
-type of `rtw_alloc_hwxmits` to `s32` (they are neighbors in rtw_xmit.h).
-In fact, there are many places where `s32` appears together with `int` 
-in related files, so maybe we can leave it as a future work to make all 
-of them a unified form.
 
-Regards,
-Xiaoke Wang
+On Wed, 6 Apr 2022, Alaa Mohamed wrote:
 
+> Reported by checkpatch:
+>
+> CHECK: Unnecessary parentheses around param->u.crypt.key[16]: 85
+> CHECK: Unnecessary parentheses around param->u.crypt.key[24]: 87
+> CHECK: Unnecessary parentheses around padapter->mlmepriv: 603
+> CHECK: Unnecessary parentheses around wrqu->encoding: 1497
+> CHECK: Unnecessary parentheses around wrqu->encoding: 1592
+> CHECK: Unnecessary parentheses around padapter->mlmepriv: 1593
+> CHECK: Unnecessary parentheses around wrqu->param: 1673
+> CHECK: Unnecessary parentheses around pmlmepriv->scanned_queue.lock: 1967
+> CHECK: Unnecessary parentheses around pmlmepriv->scanned_queue.lock: 1977
+> CHECK: Unnecessary parentheses around pmlmepriv->scanned_queue.lock: 1999
+
+This is not what I was suggesting.  What do all of these things have in
+common?  How would you describe them in a single English sentence?
+
+>
+> Signed-off-by: Alaa Mohamed <eng.alaamohamedsoliman.am@gmail.com>
+> ---
+> Changes in v2:
+> 	- Edit commit subject
+> 	- Edit commit message
+> 	- Fix the same check in more lines
+> 	- Remove space before '.skey' in
+> "memcpy(psta->tkiptxmickey.skey," in lines 84 and 86.
+
+This is another change (no parentheses involved), so it should be in
+another patch.  Also, all changes should be described in the log message.
+
+julia
+
+> ---
+>  drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 24 +++++++++----------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+> index 3b6926613257..e11332352285 100644
+> --- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+> +++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+> @@ -81,10 +81,10 @@ static inline void handle_pairwise_key(struct sta_info *psta,
+>  	memcpy(psta->x_UncstKey.skey, param->u.crypt.key,
+>  	       (param->u.crypt. key_len > 16 ? 16 : param->u.crypt.key_len));
+>  	if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
+> -		memcpy(psta->tkiptxmickey. skey,
+> -		       &(param->u.crypt.key[16]), 8);
+> -		memcpy(psta->tkiprxmickey. skey,
+> -		       &(param->u.crypt.key[24]), 8);
+> +		memcpy(psta->tkiptxmickey.skey,
+> +		       &param->u.crypt.key[16], 8);
+> +		memcpy(psta->tkiprxmickey.skey,
+> +		       &param->u.crypt.key[24], 8);
+>  		padapter->securitypriv. busetkipkey = false;
+>  		mod_timer(&padapter->securitypriv.tkip_timer,
+>  			  jiffies + msecs_to_jiffies(50));
+> @@ -600,7 +600,7 @@ static int r8711_wx_get_name(struct net_device *dev,
+>  	u32 ht_ielen = 0;
+>  	char *p;
+>  	u8 ht_cap = false;
+> -	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
+> +	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
+>  	struct wlan_bssid_ex *pcur_bss = &pmlmepriv->cur_network.network;
+>  	u8 *prates;
+>
+> @@ -1494,7 +1494,7 @@ static int r8711_wx_set_enc(struct net_device *dev,
+>  	u32 keyindex_provided;
+>  	struct NDIS_802_11_WEP	 wep;
+>  	enum NDIS_802_11_AUTHENTICATION_MODE authmode;
+> -	struct iw_point *erq = &(wrqu->encoding);
+> +	struct iw_point *erq = &wrqu->encoding;
+>  	struct _adapter *padapter = netdev_priv(dev);
+>
+>  	key = erq->flags & IW_ENCODE_INDEX;
+> @@ -1589,8 +1589,8 @@ static int r8711_wx_get_enc(struct net_device *dev,
+>  {
+>  	uint key;
+>  	struct _adapter *padapter = netdev_priv(dev);
+> -	struct iw_point *erq = &(wrqu->encoding);
+> -	struct	mlme_priv	*pmlmepriv = &(padapter->mlmepriv);
+> +	struct iw_point *erq = &wrqu->encoding;
+> +	struct	mlme_priv	*pmlmepriv = &padapter->mlmepriv;
+>  	union Keytype *dk = padapter->securitypriv.DefKey;
+>
+>  	if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
+> @@ -1670,7 +1670,7 @@ static int r871x_wx_set_auth(struct net_device *dev,
+>  				union iwreq_data *wrqu, char *extra)
+>  {
+>  	struct _adapter *padapter = netdev_priv(dev);
+> -	struct iw_param *param = (struct iw_param *)&(wrqu->param);
+> +	struct iw_param *param = (struct iw_param *)&wrqu->param;
+>  	int paramid;
+>  	int paramval;
+>  	int ret = 0;
+> @@ -1964,7 +1964,7 @@ static int r871x_get_ap_info(struct net_device *dev,
+>  		return -EINVAL;
+>  	data[32] = 0;
+>
+> -	spin_lock_irqsave(&(pmlmepriv->scanned_queue.lock), irqL);
+> +	spin_lock_irqsave(&pmlmepriv->scanned_queue.lock, irqL);
+>  	phead = &queue->queue;
+>  	plist = phead->next;
+>  	while (1) {
+> @@ -1974,7 +1974,7 @@ static int r871x_get_ap_info(struct net_device *dev,
+>  		if (!mac_pton(data, bssid)) {
+>  			netdev_info(dev, "r8712u: Invalid BSSID '%s'.\n",
+>  				    (u8 *)data);
+> -			spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock),
+> +			spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock,
+>  					       irqL);
+>  			return -EINVAL;
+>  		}
+> @@ -1996,7 +1996,7 @@ static int r871x_get_ap_info(struct net_device *dev,
+>  		}
+>  		plist = plist->next;
+>  	}
+> -	spin_unlock_irqrestore(&(pmlmepriv->scanned_queue.lock), irqL);
+> +	spin_unlock_irqrestore(&pmlmepriv->scanned_queue.lock, irqL);
+>  	if (pdata->length >= 34) {
+>  		if (copy_to_user((u8 __user *)pdata->pointer + 32,
+>  		    (u8 *)&pdata->flags, 1))
+> --
+> 2.35.1
+>
+>
+>
