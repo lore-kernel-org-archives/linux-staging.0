@@ -1,88 +1,102 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A7620E9
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 10:57:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1649329062;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=OODoJ8pFOZGJN2UYeqJECfB5fJd3ylT7ksI+gG/N4Z4=;
-	b=ZVIybFN+09P2/L6DpSr5u+jPFnPC/i7Bw8zB13jtxIeBWb/iprUUQ9cOSYrDujYrdYNh6w
-	lJkIWvVLQ/cunMEntSnBV8E+VOeAHzWPa5qZOfJ702H9uCkKOxJWQ5Eo9vTwTui0+eThOh
-	5yGVQcJ/fYir0mBDWYHpfyrvD3FA/8I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-569-24LuU1uEPFiGVMyNxK409A-1; Thu, 07 Apr 2022 06:57:32 -0400
-X-MC-Unique: 24LuU1uEPFiGVMyNxK409A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D71D4100BAA7;
-	Thu,  7 Apr 2022 10:57:31 +0000 (UTC)
-Received: from kate-fedora.redhat.com (unknown [10.2.16.44])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E290E407DEC9;
-	Thu,  7 Apr 2022 10:57:28 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	hdegoede@redhat.com,
-	Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v2] staging: media: ipu3: Fix AWB x_start position when rightmost stripe is used
-Date: Thu,  7 Apr 2022 18:57:24 +0800
-Message-Id: <20220407105724.308930-1-hpa@redhat.com>
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9247F20E9
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 11:06:12 +0000 (UTC)
+Received: by ajax-webmail-mail-app3 (Coremail) ; Thu, 7 Apr 2022 19:05:54
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.181.226.201]
+Date: Thu, 7 Apr 2022 19:05:54 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: duoming@zju.edu.cn
+To: "Max Filippov" <jcmvbkbc@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, "Chris Zankel" <chris@zankel.net>, 
+	mustafa.ismail@intel.com, shiraz.saleem@intel.com, jgg@ziepe.ca, 
+	wg@grandegger.com, mkl@pengutronix.de, 
+	"David S. Miller" <davem@davemloft.net>, 
+	"Jakub Kicinski" <kuba@kernel.org>, pabeni@redhat.com, 
+	jes@trained-monkey.org, 
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, 
+	"Jiri Slaby" <jirislaby@kernel.org>, alexander.deucher@amd.com, 
+	"open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>, 
+	linux-rdma@vger.kernel.org, linux-can@vger.kernel.org, 
+	netdev <netdev@vger.kernel.org>, linux-hippi@sunsite.dk, 
+	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org, 
+	"USB list" <linux-usb@vger.kernel.org>, linma@zju.edu.cn
+Subject: Re: Re: [PATCH 11/11] arch: xtensa: platforms: Fix deadlock in
+ rs_close()
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.8 build 20200806(7a9be5e8)
+ Copyright (c) 2002-2022 www.mailtech.cn zju.edu.cn
+In-Reply-To: <CAMo8BfLG_u2z2HwY9Qo6cFgNoSrrz2mS2iD+rtj-uyrKhZYmLw@mail.gmail.com>
+References: <cover.1649310812.git.duoming@zju.edu.cn>
+ <9ca3ab0b40c875b6019f32f031c68a1ae80dd73a.1649310812.git.duoming@zju.edu.cn>
+ <CAMo8BfLG_u2z2HwY9Qo6cFgNoSrrz2mS2iD+rtj-uyrKhZYmLw@mail.gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Message-ID: <569b0b8a.3f281.18003b3c5c4.Coremail.duoming@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:cC_KCgB3HwCSxU5iMGyRAQ--.28878W
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgYNAVZdtZExiwABsc
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-A not calibrated x_start setting would result in an incorrect AWB location
-configuration on a sensor when only the rightmost stripe is used. x_start
-should be calibrated by subtracting the stripe offset to set the coordinate
-to the correct position on the second stripe.
-
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
-Correct the patch. The correction should be awb, not awb_fr.
----
- drivers/staging/media/ipu3/ipu3-css-params.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-index f84cf11358a8..76ad802d694e 100644
---- a/drivers/staging/media/ipu3/ipu3-css-params.c
-+++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-@@ -2636,6 +2636,17 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
- 	    acc->stripe.down_scaled_stripes[1].offset + min_overlap) {
- 		/* Enable only for rightmost stripe, disable left */
- 		acc->awb.stripes[0].rgbs_thr_b &= ~IPU3_UAPI_AWB_RGBS_THR_B_EN;
-+
-+		acc->awb.stripes[1].grid.x_start =
-+			(acc->awb.stripes[1].grid.x_start -
-+			 acc->stripe.down_scaled_stripes[1].offset) &
-+			IPU3_UAPI_GRID_START_MASK;
-+
-+		b_w_log2 = acc->awb.stripes[1].grid.block_width_log2;
-+		acc->awb.stripes[1].grid.x_end =
-+			imgu_css_grid_end(acc->awb.stripes[1].grid.x_start,
-+					  acc->awb.stripes[1].grid.width,
-+					  b_w_log2);
- 	} else if (acc->awb.config.grid.x_end <=
- 		   acc->stripe.bds_out_stripes[0].width - min_overlap) {
- 		/* Enable only for leftmost stripe, disable right */
--- 
-2.35.1
-
+SGVsbG8sCgpPbiBUaHUsIDcgQXByIDIwMjIgMDA6MjE6NTggLTA3MDAgTWF4IEZpbGlwcG92IHdy
+b3RlOgoKPiA+IFRoZXJlIGlzIGEgZGVhZGxvY2sgaW4gcnNfY2xvc2UoKSwgd2hpY2ggaXMgc2hv
+d24KPiA+IGJlbG93Ogo+ID4KPiA+ICAgIChUaHJlYWQgMSkgICAgICAgICAgICAgIHwgICAgICAo
+VGhyZWFkIDIpCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IHJzX29wZW4oKQo+ID4g
+cnNfY2xvc2UoKSAgICAgICAgICAgICAgICAgfCAgbW9kX3RpbWVyKCkKPiA+ICBzcGluX2xvY2tf
+YmgoKSAvLygxKSAgICAgIHwgICh3YWl0IGEgdGltZSkKPiA+ICAuLi4gICAgICAgICAgICAgICAg
+ICAgICAgIHwgcnNfcG9sbCgpCj4gPiAgZGVsX3RpbWVyX3N5bmMoKSAgICAgICAgICB8ICBzcGlu
+X2xvY2soKSAvLygyKQo+ID4gICh3YWl0IHRpbWVyIHRvIHN0b3ApICAgICAgfCAgLi4uCj4gPgo+
+ID4gV2UgaG9sZCB0aW1lcl9sb2NrIGluIHBvc2l0aW9uICgxKSBvZiB0aHJlYWQgMSBhbmQKPiA+
+IHVzZSBkZWxfdGltZXJfc3luYygpIHRvIHdhaXQgdGltZXIgdG8gc3RvcCwgYnV0IHRpbWVyIGhh
+bmRsZXIKPiA+IGFsc28gbmVlZCB0aW1lcl9sb2NrIGluIHBvc2l0aW9uICgyKSBvZiB0aHJlYWQg
+Mi4KPiA+IEFzIGEgcmVzdWx0LCByc19jbG9zZSgpIHdpbGwgYmxvY2sgZm9yZXZlci4KPiAKPiBJ
+IGFncmVlIHdpdGggdGhpcy4KPiAKPiA+IFRoaXMgcGF0Y2ggZXh0cmFjdHMgZGVsX3RpbWVyX3N5
+bmMoKSBmcm9tIHRoZSBwcm90ZWN0aW9uIG9mCj4gPiBzcGluX2xvY2tfYmgoKSwgd2hpY2ggY291
+bGQgbGV0IHRpbWVyIGhhbmRsZXIgdG8gb2J0YWluCj4gPiB0aGUgbmVlZGVkIGxvY2suCj4gCj4g
+TG9va2luZyBhdCB0aGUgdGltZXJfbG9jayBJIGRvbid0IHJlYWxseSB1bmRlcnN0YW5kIHdoYXQg
+aXQgcHJvdGVjdHMuCj4gSXQgbG9va3MgbGlrZSBpdCBpcyBub3QgbmVlZGVkIGF0IGFsbC4KClRo
+ZXJlIGlzIG5vIHJhY2UgY29uZGl0aW9uIGJldHdlZW4gcnNfY2xvc2UgYW5kIHJzX3BvbGwodGlt
+ZXIgaGFuZGxlciksCkkgdGhpbmsgd2UgY291bGQgcmVtb3ZlIHRoZSB0aW1lcl9sb2NrIGluIHJz
+X2Nsb3NlKCksIHJzX29wZW4oKSBhbmQgcnNfcG9sbCgpLgoKPiBBbHNvLCBJIHNlZSB0aGF0IHJz
+X3BvbGwgcmV3aW5kcyB0aGUgdGltZXIgcmVnYXJkbGVzcyBvZiB3aGV0aGVyIGRlbF90aW1lcl9z
+eW5jCj4gd2FzIGNhbGxlZCBvciBub3QsIHdoaWNoIHZpb2xhdGVzIGRlbF90aW1lcl9zeW5jIHJl
+cXVpcmVtZW50cy4KCkkgd3JvdGUgYSBrZXJuZWwgbW9kdWxlIHRvIHRlc3Qgd2hldGhlciBkZWxf
+dGltZXJfc3luYygpIGNvdWxkIGZpbmlzaCBhIHRpbWVyIGhhbmRsZXIKdGhhdCB1c2UgbW9kX3Rp
+bWVyKCkgdG8gcmV3aW5kIGl0c2VsZi4gVGhlIGZvbGxvd2luZyBpcyB0aGUgcmVzdWx0LgoKIyBp
+bnNtb2QgZGVsX3RpbWVyX3N5bmMua28gClsgIDkyOS4zNzQ0MDVdIG15X3RpbWVyIHdpbGwgYmUg
+Y3JlYXRlLgpbICA5MjkuMzc0NzM4XSB0aGUgamlmZmllcyBpcyA6NDI5NTU5NTU3MgpbICA5MzAu
+NDExNTgxXSBJbiBteV90aW1lcl9mdW5jdGlvbgpbICA5MzAuNDExOTU2XSB0aGUgamlmZmllcyBp
+cyA0Mjk1NTk2NjA5ClsgIDkzNS40NjY2NDNdIEluIG15X3RpbWVyX2Z1bmN0aW9uClsgIDkzNS40
+Njc1MDVdIHRoZSBqaWZmaWVzIGlzIDQyOTU2MDE2NjUKWyAgOTQwLjU4NjUzOF0gSW4gbXlfdGlt
+ZXJfZnVuY3Rpb24KWyAgOTQwLjU4NjkxNl0gdGhlIGppZmZpZXMgaXMgNDI5NTYwNjc4NApbICA5
+NDUuNzA2NTc5XSBJbiBteV90aW1lcl9mdW5jdGlvbgpbICA5NDUuNzA2ODg1XSB0aGUgamlmZmll
+cyBpcyA0Mjk1NjExOTA0CgojIAojIHJtbW9kIGRlbF90aW1lcl9zeW5jLmtvClsgIDk0OC41MDc2
+OTJdIHRoZSBkZWxfdGltZXJfc3luYyBpcyA6MQpbICA5NDguNTA3NjkyXSAKIyAKIyAKClRoZSBy
+ZXN1bHQgb2YgdGhlIGV4cGVyaW1lbnQgc2hvd3MgdGhhdCB0aGUgdGltZXIgaGFuZGxlciBjb3Vs
+ZApiZSBraWxsZWQgYWZ0ZXIgd2UgZXhlY3V0ZSBkZWxfdGltZXJfc3luYygpLgoKPiA+IFNpZ25l
+ZC1vZmYtYnk6IER1b21pbmcgWmhvdSA8ZHVvbWluZ0B6anUuZWR1LmNuPgo+ID4gLS0tCj4gPiAg
+YXJjaC94dGVuc2EvcGxhdGZvcm1zL2lzcy9jb25zb2xlLmMgfCA0ICsrKy0KPiA+ICAxIGZpbGUg
+Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gPgo+ID4gZGlmZiAtLWdp
+dCBhL2FyY2gveHRlbnNhL3BsYXRmb3Jtcy9pc3MvY29uc29sZS5jIGIvYXJjaC94dGVuc2EvcGxh
+dGZvcm1zL2lzcy9jb25zb2xlLmMKPiA+IGluZGV4IDgxZDdjN2U4ZjdlLi5kNDMxYjYxYWUzYyAx
+MDA2NDQKPiA+IC0tLSBhL2FyY2gveHRlbnNhL3BsYXRmb3Jtcy9pc3MvY29uc29sZS5jCj4gPiAr
+KysgYi9hcmNoL3h0ZW5zYS9wbGF0Zm9ybXMvaXNzL2NvbnNvbGUuYwo+ID4gQEAgLTUxLDggKzUx
+LDEwIEBAIHN0YXRpYyBpbnQgcnNfb3BlbihzdHJ1Y3QgdHR5X3N0cnVjdCAqdHR5LCBzdHJ1Y3Qg
+ZmlsZSAqIGZpbHApCj4gPiAgc3RhdGljIHZvaWQgcnNfY2xvc2Uoc3RydWN0IHR0eV9zdHJ1Y3Qg
+KnR0eSwgc3RydWN0IGZpbGUgKiBmaWxwKQo+ID4gIHsKPiA+ICAgICAgICAgc3Bpbl9sb2NrX2Jo
+KCZ0aW1lcl9sb2NrKTsKPiA+IC0gICAgICAgaWYgKHR0eS0+Y291bnQgPT0gMSkKPiA+ICsgICAg
+ICAgaWYgKHR0eS0+Y291bnQgPT0gMSkgewo+ID4gKyAgICAgICAgICAgICAgIHNwaW5fdW5sb2Nr
+X2JoKCZ0aW1lcl9sb2NrKTsKPiA+ICAgICAgICAgICAgICAgICBkZWxfdGltZXJfc3luYygmc2Vy
+aWFsX3RpbWVyKTsKPiA+ICsgICAgICAgfQo+ID4gICAgICAgICBzcGluX3VubG9ja19iaCgmdGlt
+ZXJfbG9jayk7Cj4gCj4gTm93IGluIGNhc2UgdHR5LT5jb3VudCA9PSAxIHRoZSB0aW1lcl9sb2Nr
+IHdvdWxkIGJlIHVubG9ja2VkIHR3aWNlLgoKSSB3aWxsIHJlbW92ZSB0aGUgdGltZXJfbG9jayBp
+biByc19jbG9zZSgpLCByc19vcGVuKCkgYW5kIHJzX3BvbGwoKS4KClRoYW5rcyBhIGxvdCBmb3Ig
+eW91ciB0aW1lIGFuZCBhZHZpY2UhCgpCZXN0IHJlZ2FyZHMsCkR1b21pbmcgWmhvdQ==
