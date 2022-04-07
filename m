@@ -1,105 +1,84 @@
-Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4D202101
-	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 06:40:29 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [10.15.192.164])
-	by mail-app4 (Coremail) with SMTP id cS_KCgBnKRC7hU5imJbiAA--.58581S4;
-	Thu, 07 Apr 2022 14:33:40 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: linux-kernel@vger.kernel.org
-Cc: chris@zankel.net,
-	jcmvbkbc@gmail.com,
-	mustafa.ismail@intel.com,
-	shiraz.saleem@intel.com,
-	jgg@ziepe.ca,
-	wg@grandegger.com,
-	mkl@pengutronix.de,
-	davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	jes@trained-monkey.org,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	alexander.deucher@amd.com,
-	linux-xtensa@linux-xtensa.org,
-	linux-rdma@vger.kernel.org,
-	linux-can@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-hippi@sunsite.dk,
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868B620F5
+	for <linux-staging@lists.linux.dev>; Thu,  7 Apr 2022 06:43:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1649313788;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=pmmtr6abvNL/Cnfenuo9pFIn0+iTlC3IIqtYnn6nFjw=;
+	b=NR1Z29HCLz27e+CmsIrAMQQriYuY4q6/Iq/mBsLRojp9km2vq1SjhLaiDW686+TcCAplhT
+	UoLgBnFIm1Q4QL5JfS5rJzf4+YSjCb8yN19mYQqcgb/FphkfTGvEYb7ZGVazV1yXuUfuES
+	bGOhvIgmv996f1C9JogcpYgmEAioYAs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-675-GSTIqSZ6M8CXmxZHA61k5w-1; Thu, 07 Apr 2022 02:43:05 -0400
+X-MC-Unique: GSTIqSZ6M8CXmxZHA61k5w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A30C380005D;
+	Thu,  7 Apr 2022 06:43:04 +0000 (UTC)
+Received: from kate-fedora.redhat.com (unknown [10.2.16.44])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id BAFE940D2822;
+	Thu,  7 Apr 2022 06:43:01 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH 02/11] drivers: usb: host: Fix deadlock in oxu_bus_suspend()
-Date: Thu,  7 Apr 2022 14:33:18 +0800
-Message-Id: <8b1201dc7554a2ab3ca555a2b6e2747761603d19.1649310812.git.duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1649310812.git.duoming@zju.edu.cn>
-References: <cover.1649310812.git.duoming@zju.edu.cn>
-In-Reply-To: <cover.1649310812.git.duoming@zju.edu.cn>
-References: <cover.1649310812.git.duoming@zju.edu.cn>
-X-CM-TRANSID:cS_KCgBnKRC7hU5imJbiAA--.58581S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Gr1ftr4xWw1DXw43ArW5ZFb_yoW8JrW7pr
-	4qgryayr1Utr42gFyUCa1DZa4rGa1DW3yUCrW7G39xZ3W8XF45GF1vyrWFgF4aqFsrJwnI
-	vF1Fq3y3CF4DCaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvl1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-	IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E
-	87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-	8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
-	Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-	xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IY
-	c2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r
-	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-	67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
-	x0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
-	x4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
-	DU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgYNAVZdtZEbDgASsg
+	linux-kernel@vger.kernel.org,
+	hdegoede@redhat.com,
+	Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH] staging: media: ipu3: Fix AWB x_start position when rightmost stripe is used
+Date: Thu,  7 Apr 2022 14:42:41 +0800
+Message-Id: <20220407064241.100500-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 
-There is a deadlock in oxu_bus_suspend(), which is shown below:
+A not calibrated x_start setting would result in an incorrect AWB location
+configuration on a sensor when only the rightmost stripe is used. x_start
+should be calibrated by subtracting the stripe offset to set the coordinate
+to the correct position on the second stripe.
 
-   (Thread 1)              |      (Thread 2)
-                           | timer_action()
-oxu_bus_suspend()          |  mod_timer()
- spin_lock_irq() //(1)     |  (wait a time)
- ...                       | oxu_watchdog()
- del_timer_sync()          |  spin_lock_irq() //(2)
- (wait timer to stop)      |  ...
-
-We hold oxu->lock in position (1) of thread 1, and use
-del_timer_sync() to wait timer to stop, but timer handler
-also need oxu->lock in position (2) of thread 2. As a result,
-oxu_bus_suspend() will block forever.
-
-This patch extracts del_timer_sync() from the protection of
-spin_lock_irq(), which could let timer handler to obtain
-the needed lock.
-
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+Signed-off-by: Kate Hsuan <hpa@redhat.com>
 ---
- drivers/usb/host/oxu210hp-hcd.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/staging/media/ipu3/ipu3-css-params.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/usb/host/oxu210hp-hcd.c b/drivers/usb/host/oxu210hp-hcd.c
-index b741670525e..ee403df3309 100644
---- a/drivers/usb/host/oxu210hp-hcd.c
-+++ b/drivers/usb/host/oxu210hp-hcd.c
-@@ -3909,8 +3909,10 @@ static int oxu_bus_suspend(struct usb_hcd *hcd)
- 		}
- 	}
- 
-+	spin_unlock_irq(&oxu->lock);
- 	/* turn off now-idle HC */
- 	del_timer_sync(&oxu->watchdog);
-+	spin_lock_irq(&oxu->lock);
- 	ehci_halt(oxu);
- 	hcd->state = HC_STATE_SUSPENDED;
- 
+diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+index f84cf11358a8..050d7df7e72a 100644
+--- a/drivers/staging/media/ipu3/ipu3-css-params.c
++++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+@@ -2393,6 +2393,15 @@ int imgu_css_cfg_acc(struct imgu_css *css, unsigned int pipe,
+ 		/* Enable only for rightmost stripe, disable left */
+ 		acc->awb_fr.stripes[0].grid_cfg.y_start &=
+ 					~IPU3_UAPI_GRID_Y_START_EN;
++		acc->awb_fr.stripes[1].grid_cfg.x_start =
++			(acc->awb_fr.stripes[1].grid_cfg.x_start -
++			 acc->stripe.down_scaled_stripes[1].offset) &
++			IPU3_UAPI_GRID_START_MASK;
++		b_w_log2 = acc->awb_fr.stripes[1].grid_cfg.block_width_log2;
++		acc->awb_fr.stripes[1].grid_cfg.x_end  =
++					imgu_css_grid_end(acc->awb_fr.stripes[1].grid_cfg.x_start,
++							  acc->awb_fr.stripes[1].grid_cfg.width,
++							  b_w_log2);
+ 	} else if (acc->awb_fr.config.grid_cfg.x_end <=
+ 		   acc->stripe.bds_out_stripes[0].width - min_overlap) {
+ 		/* Enable only for leftmost stripe, disable right */
 -- 
-2.17.1
+2.35.1
 
