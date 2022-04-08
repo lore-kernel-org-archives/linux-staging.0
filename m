@@ -1,190 +1,364 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCB6623
-	for <linux-staging@lists.linux.dev>; Fri,  8 Apr 2022 08:52:26 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2388jb8O006378;
-	Fri, 8 Apr 2022 08:52:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=Q31L00+abnjAfFDhbPHNyb7zCEdp+FcX1kfrEXSkrt8=;
- b=i+dBXbeak+P7Hcjr2z8g0CQI1qh3NXdIvJm7WQwasvuW7zNwfTgJpolkDA9QMOXIWcQt
- KpQzSHmDNegjVUDH+ckzy0F2WL014GjWsyLTCRt34HcHDzym//qSLPjhf+YjYPAO05al
- 9TpqvZokTsMh1GZvOaidVlqFjOJv+4pC/NgXYXeojRw/pYtb4n4odWNPPyexnfAl6sp0
- jRG+aKqg1d0RIM+OyNjzNAhWvLiLiKKHFsgsgvH+IEq+yuO8meWgmVRHO6GGzOhfSvsJ
- CbhKnkQLbNc0+kAZGbDtFfpj3mgK7slIoKMEaPVexdFvUUJ70mOfm+LkHOAlqfiVuQB6 7A== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3f6d31ph0h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 08 Apr 2022 08:52:20 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 2387tbtl013790;
-	Fri, 8 Apr 2022 08:52:19 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3f97tubbnu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 08 Apr 2022 08:52:19 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BniC2V5kJfJUjYJhMZi3HFuVCwnYHj75vBdQarn/f+aB1TmL9W0pwxvdD59DufBWFBkF8/CEtif3dtoLihhyTQIYYTFS4v/6jLgbOUPhNh5F66cM/RWjAkMHJXTcssOLbBtf0NZGpqHIgGbEjwa53rZKU5u+36bw+LG+jePuBoMPQyxRyMbOwmAjP+pXLBBufFd9vy8fzqIhVDFD1H56uRqDw6q6BfPMRNkJer3mSLKMuYnn8apsir3EBSLpfJLf0KoPjOfJ7GTMvNRYynY/gDDhen945GfMd+pZSN/0ThVoVpK3iORj82rfd5QRo0YlPYvzr9DOLwdSiZr7HcNJ2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q31L00+abnjAfFDhbPHNyb7zCEdp+FcX1kfrEXSkrt8=;
- b=e+4YGrYBU6MohoUkkhpwCji6AplQruo/dUN4+HaKhS4+4RjTkkr4lWBziYXpBGoHOyMQdwzLngze370tLN6kS97mo7+LKTHPL6pC3yY5i1KSJexL2b73+XIfiOPfz+f+0MCAR8fdomJGyebGf4kKp8SOA8UbCkgHXQ1l3LhmOqO+50N6vX5bMIbqSyK6w14FRHMsEAk7CEG6tay/5OtXjL+RjEB6yZBfja/AuF7ako8skEoIFBze9NYKRyUbu0BlKPT3eby8nlnvqLjtr+WR6QebsUnOZ/ppVvXBbGAkwp2wPzxl/xbYNHuDhNPZXeRvNZOaV5NdYb0idxND9IYPYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCDF623;
+	Fri,  8 Apr 2022 09:49:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q31L00+abnjAfFDhbPHNyb7zCEdp+FcX1kfrEXSkrt8=;
- b=dR44bYvAfcr9QSFfKq0cl6CCIfMDDp8hoB+zM42eJj1PvbRPKDwSuAXVJLoY8EeI4vsej6sthaMAqYxgH1GdeytPduIjOYbzJN1AmKWwxxigWWFTlENZsEe0+btXq1NsV9jh9d8sDzVR72JLYQAAZcUMwcXi5mTL+oFvYVTwjb0=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CY4PR1001MB2341.namprd10.prod.outlook.com
- (2603:10b6:910:43::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Fri, 8 Apr
- 2022 08:52:11 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5144.022; Fri, 8 Apr 2022
- 08:52:11 +0000
-Date: Fri, 8 Apr 2022 11:51:58 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Yihao Han <hanyihao@vivo.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Xiangyang Zhang <xyz.sun.ok@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Bryan Brattlof <hello@bryanbrattlof.com>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        kernel@vivo.com
-Subject: Re: [PATCH] staging: rtl8723bs: simplify if-if to if-else
-Message-ID: <20220408085158.GS3293@kadam>
-References: <20220408074245.13694-1-hanyihao@vivo.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220408074245.13694-1-hanyihao@vivo.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MR2P264CA0131.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:500:30::23) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=Q9j+BJ189Tmf/T5EWpNOmWGMKp2cUgVkrChLyGKv75A=;
+  b=nhWra5GM/dGa2Wk26zZ2hE3fWvcr3QTmXiaQCCRPOBCPwO0eIrfqN11w
+   6q8MmwCcV0yIqzJOWTyB30vRFTzO2ZWy2tJ3fnc1bOWShz4rB9DYsfT3v
+   SISKrn5lgJ4R4FCSWYpyvnZ30b52jmc8X/lZgEYpro7JRsV3SZ2LRjlfV
+   k=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,244,1643670000"; 
+   d="scan'208";a="10969568"
+Received: from unknown (HELO hadrien) ([95.128.147.62])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 11:49:51 +0200
+Date: Fri, 8 Apr 2022 11:49:49 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: julia@hadrien
+To: Jaehee Park <jhpark1013@gmail.com>
+cc: =?ISO-8859-15?Q?J=E9r=F4me_Pouiller?= <jerome.pouiller@silabs.com>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+    outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH] staging: wfx: use container_of() to get vif
+In-Reply-To: <20220407204128.GA1810425@jaehee-ThinkPad-X1-Extreme>
+Message-ID: <alpine.DEB.2.22.394.2204081149360.2196@hadrien>
+References: <20220407204128.GA1810425@jaehee-ThinkPad-X1-Extreme>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 31e073ef-d23c-4fae-cff2-08da193d1221
-X-MS-TrafficTypeDiagnostic: CY4PR1001MB2341:EE_
-X-Microsoft-Antispam-PRVS: 
-	<CY4PR1001MB23413A7965860BE3ABC5295A8EE99@CY4PR1001MB2341.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	dR/2ElGFI8XjhQICMbDSlSH/6IJ8VZYAXW9UQBtXOIToeFJ+V/KH2+UdaifPh2LS1fxPXfxnmnVEg6TSMugPmhnBhjOgUQCZAvrnMpYlTIYw7PehtFapURsRTlZpeltdLKWBM8ipTPKpl+hvHKDvasr7dozKIRAk0pZNkqPLnlw1w6dh0P7HU8osu5CyECmmN274d2mfoYUdCciRU7m84Ggp0GERoEkwJytYANHbsSJI4T9zaKepgMrpj7qEqBnJBoLOOnEbnQH+01qWcWaFY+7PDyr6nT2vh1QfyG1REgwbYFP+DZK+Yih78QnzbmcRToTtObywRBPhGLkT2WMFMbpwpL28P+6ScQHVx3kggTh8L0gL+odjB2ulR3wTlVCvvrWDJieCg0eIp5SbQZdamacZmX1+6w28SEsQ6sHlj2JpVxiiZ9n5yBJHIgoYuje3pfXtdYbbcmIys+uHe3H5GZ+LFQF6gVOuRu3AkDyeQMsC22zkZLNMFDcjnLKJLyV1nhUIsx9tISDqPkSNzb55iLG3bBcLxbzVILNCxvlIB+Q2TeoEzGD4va+aRyubGDS8Aoln/v/kcyy6fp3eWpwGi89sWyTMXTiykx7ue2iKge6FwsPDot7AO0D57M5cjfQ0e/UI7Mo1539bkcuM9GxuQipKP8KTCTAG9mmFNlyvYQ1gTd/Gi7PneK/IHuzioFvIvDarLwkoquPUCxtknzTAGtfpMrKWEGJGZ9nU+DNfRuvr+9VNx9+Tinz+khTGvlIA/bb0D1kpFEbm1kopUaZpTKo64vrjQLmxNI1cmay3I4c=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(86362001)(33716001)(4326008)(38100700002)(38350700002)(966005)(508600001)(6486002)(8936002)(6506007)(7416002)(2906002)(5660300002)(6666004)(52116002)(44832011)(26005)(54906003)(6916009)(1076003)(186003)(9686003)(6512007)(83380400001)(66556008)(66476007)(66946007)(33656002)(8676002)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?4V4u9040FNalU2nFWWnF8kvsaBGcYA/+jdqDwy/jBvbyq05sW7RmC0Sh1jms?=
- =?us-ascii?Q?AefvsYJgQLgWcdOC/e5IKlfAG6RpScQlh5XI/23cozL+czJ8RMfOlUwomoBa?=
- =?us-ascii?Q?qwlFugc8VmP2+eWPrgOLRTKmIze0aZc+ncOJ2plJdeq7wKqNNAFGHkdgyQhx?=
- =?us-ascii?Q?Jrqoc9/3tJKcIby/p/tgDP17jYKElVnjVM1QOd4nd1kjKEaj/s2Ok19xUtCI?=
- =?us-ascii?Q?m0/H/znXHqZudk3L9/c7iZfctn4Lf8oKhqOxIIEuqNPoh4qxbuyCkH8OvGaz?=
- =?us-ascii?Q?uycw6MkLRrVjZyjhjn/phFs4zQYLB4J2sWFFtLmxkmljF7yaeviORy70ozxg?=
- =?us-ascii?Q?IkLlfJ5ltNE2/12EibGLK0KLEEcyVvHrs+NqN5pocs2yuAMuzOvkAQTCiLRF?=
- =?us-ascii?Q?eNADp++3QE9iZobpi++RN70kS4HxO+4rFFbQUzH4cfNfw49qBAezfMUJWAyQ?=
- =?us-ascii?Q?yjdZeD8PNp2t90Gz8Gvnk31KmXr8L6bwP+HFSCKI6EqHcUkIkgmRspVpe6DR?=
- =?us-ascii?Q?+LJKEofFJABQzNPCK5GzZAzfGUy7HXmV0WM/w7HQejCDxjEa6seSfLEf5ZFO?=
- =?us-ascii?Q?8gnXydcx+TZOCPCPc//ly6ely8gVgMhOlBYLa5IS6ITwv9CyFRV5DsjMYmjO?=
- =?us-ascii?Q?5Suadn5x19HxVyc2KkpIvS/TwlCM+NyGqrRfWsC6XF9r7D3HrlOiN6LNRKBR?=
- =?us-ascii?Q?8ww0v28CVu8mV19g0pUerab52+Eq9bf/mU7rU6MbNl728QntDtMtVC+uxocv?=
- =?us-ascii?Q?HmZODBeyuhMaUm+6Ur2/v4gvQhsy1gSTnEaPuL4oT2ZHp7MR08BTISBakF0/?=
- =?us-ascii?Q?lom3rcNuzSp1+HaiEUJ0fkC9Wv3dYEFl6spd66ySb8fl6lXTiT1DrKqwb/nZ?=
- =?us-ascii?Q?cfxqGEDGLAbxjmU2XDc2pE1jnjhcm8SUuyyYZlNf124RXQ8G3PCCUbWTlqev?=
- =?us-ascii?Q?PDPPiDuDAdv09BWYRhgm0gyvFbBekF0IXGVleWxPQqAYsj52B2xsIKnX2oXT?=
- =?us-ascii?Q?v94p/4/FO8E73I6xTBNpxKS9YycrG5Ihhwc6XFe3ya/+cECoLebNXz1gPApX?=
- =?us-ascii?Q?843qWh/Z3xAW1G+538RBMEAsEd9fW9r5tkEFRyOo6xnsT5gbA/DsAOrhK2PZ?=
- =?us-ascii?Q?+3/w1hfEow1ZjfKcEKh3+F0TpiTvSBEmwemEyV/rWePisAQUCeaSePJPHFFb?=
- =?us-ascii?Q?irYtSfkLl+Nb56C4ScgqoS0zWFFlpsfknLgIR7FyMR1OYaitqwbUpwrBwX/n?=
- =?us-ascii?Q?NJ6HBYykt9e8O9MJJdrZ7vAUawxqhwInEFN8010atgcE7uzQDqllX5LUc1wQ?=
- =?us-ascii?Q?qh9daJHRw+vg2n1PJkzKABSgfbm2up3SWF5OQkGxduKqN40eVRB5p8ICdoA1?=
- =?us-ascii?Q?LpujgTehE4m7Chj0EuehnCf1Ps1/WYKeryCHqXy2AUgZjMyXztRux7+hwirT?=
- =?us-ascii?Q?3FIfMTipI8NK46w+w0aq6/mey1gvnW49YIBsmAaYTZDF6zJBZQooWV1hGBGB?=
- =?us-ascii?Q?CoDQ2w1lqRH9zW7NhJL2IHPNhmzdmECMUuDgYJ5Pmn3+asnpTpx1ue04yNZw?=
- =?us-ascii?Q?+uzOtR94Lrbm2CjZAV3HjynXGYEHl6N04nVyTA538UGCJY2AOJi8JqLLajDJ?=
- =?us-ascii?Q?K2FqG8iXTP7lq72PAsXgilNwV1U7/JsiyyOU6VPixnBREo6bl6MINDp/+jKJ?=
- =?us-ascii?Q?PbHLp94I4bNqm1QNO21d6Dz4o6sMaCnE4IfU5ldZ+JswNqVvL0DU1GOQvRC3?=
- =?us-ascii?Q?bOFmsECeFLOExz0UJ10elMGHlUqDMHE=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31e073ef-d23c-4fae-cff2-08da193d1221
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 08:52:11.8313
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DfezTP50LXHCn1MhrsMbruOvLzD2IZEBQUPPIzhdO231sdal9RwzXrHfdqVu8DtqRixWiUzzDpsiN4dT2lgwNxZNeg/w7PgVQ23oaq0FGzs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1001MB2341
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
- definitions=2022-04-07_01:2022-04-07,2022-04-07 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=956 malwarescore=0
- mlxscore=0 suspectscore=0 bulkscore=0 adultscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204070064
-X-Proofpoint-GUID: PVA8-4E15ENCuoZygySi2LpEwZzlId1k
-X-Proofpoint-ORIG-GUID: PVA8-4E15ENCuoZygySi2LpEwZzlId1k
+Content-Type: multipart/mixed; boundary="8323329-1018599381-1649411390=:2196"
 
-On Fri, Apr 08, 2022 at 12:42:40AM -0700, Yihao Han wrote:
-> Replace `if (!recvbuf->pskb)` with `else` for simplification and add curly
-> brackets according to the kernel coding style:
-> 
-> "Do not unnecessarily use braces where a single statement will do."
-> 
-> ...
-> 
-> "This does not apply if only one branch of a conditional statement is
-> a single statement; in the latter case use braces in both branches"
-> 
-> Please refer to:
-> https://www.kernel.org/doc/html/v5.17-rc8/process/coding-style.html
-> 
-> Signed-off-by: Yihao Han <hanyihao@vivo.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323329-1018599381-1649411390=:2196
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
+
+
+
+On Thu, 7 Apr 2022, Jaehee Park wrote:
+
+> Use container_of() to get vif. This improves the code in two ways:
+> [1] it speeds up the compilation because container_of() saves steps to
+> retrieve vif (the representation of ieee80211_vif), and
+
+I don't understand this part.
+
+julia
+
+> [2] it eliminates the need to define multiple pointers. Previously,
+> after setting the pointer to drv_priv, another pointer had to be
+> defined by vif in struct wfx_vif to point back to ieee80211_vif.
+> Remove vif from the struct wfx_vif, define a macro wvif_to_vif(ptr)
+> for container_of(), and replace all wvif->vif with the newly defined
+> container_of() construct.
+>
+> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/hal/sdio_ops.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> index a545832a468e..739fea437f69 100644
-> --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> @@ -818,10 +818,9 @@ static struct recv_buf *sd_recv_rxfifo(struct adapter *adapter, u32 size)
->  			tmpaddr = (SIZE_PTR)recvbuf->pskb->data;
->  			alignment = tmpaddr & (RECVBUFF_ALIGN_SZ - 1);
->  			skb_reserve(recvbuf->pskb, (RECVBUFF_ALIGN_SZ - alignment));
-> -		}
+> Questions:
+> - These changes built for me, but it would be great if someone can test it on the actual hardware.
+> - We noticed that the development of the wfx driver is happening in netdev instead of the staging directory. Do you suggest that I use the net-next tree for this change?
+>  
+>  drivers/staging/wfx/data_rx.c |  4 ++--
+>  drivers/staging/wfx/data_tx.c |  2 +-
+>  drivers/staging/wfx/key.c     |  3 +--
+>  drivers/staging/wfx/queue.c   |  2 +-
+>  drivers/staging/wfx/scan.c    |  6 ++---
+>  drivers/staging/wfx/sta.c     | 45 ++++++++++++++++-------------------
+>  drivers/staging/wfx/wfx.h     |  3 ++-
+>  7 files changed, 31 insertions(+), 34 deletions(-)
+>
+> diff --git a/drivers/staging/wfx/data_rx.c b/drivers/staging/wfx/data_rx.c
+> index a4b5ffe158e4..98c2223089b8 100644
+> --- a/drivers/staging/wfx/data_rx.c
+> +++ b/drivers/staging/wfx/data_rx.c
+> @@ -24,12 +24,12 @@ static void wfx_rx_handle_ba(struct wfx_vif *wvif, struct ieee80211_mgmt *mgmt)
+>  	case WLAN_ACTION_ADDBA_REQ:
+>  		params = le16_to_cpu(mgmt->u.action.u.addba_req.capab);
+>  		tid = (params & IEEE80211_ADDBA_PARAM_TID_MASK) >> 2;
+> -		ieee80211_start_rx_ba_session_offl(wvif->vif, mgmt->sa, tid);
+> +		ieee80211_start_rx_ba_session_offl(wvif_to_vif(wvif), mgmt->sa, tid);
+>  		break;
+>  	case WLAN_ACTION_DELBA:
+>  		params = le16_to_cpu(mgmt->u.action.u.delba.params);
+>  		tid = (params &  IEEE80211_DELBA_PARAM_TID_MASK) >> 12;
+> -		ieee80211_stop_rx_ba_session_offl(wvif->vif, mgmt->sa, tid);
+> +		ieee80211_stop_rx_ba_session_offl(wvif_to_vif(wvif), mgmt->sa, tid);
+>  		break;
+>  	}
+>  }
+> diff --git a/drivers/staging/wfx/data_tx.c b/drivers/staging/wfx/data_tx.c
+> index e07381b2ff4d..fd79e03a08c5 100644
+> --- a/drivers/staging/wfx/data_tx.c
+> +++ b/drivers/staging/wfx/data_tx.c
+> @@ -216,7 +216,7 @@ static u8 wfx_tx_get_link_id(struct wfx_vif *wvif, struct ieee80211_sta *sta,
+>
+>  	if (sta_priv && sta_priv->link_id)
+>  		return sta_priv->link_id;
+> -	if (wvif->vif->type != NL80211_IFTYPE_AP)
+> +	if (wvif_to_vif(wvif)->type != NL80211_IFTYPE_AP)
+>  		return 0;
+>  	if (is_multicast_ether_addr(da))
+>  		return 0;
+> diff --git a/drivers/staging/wfx/key.c b/drivers/staging/wfx/key.c
+> index 8f23e8d42bd4..71b1fca70248 100644
+> --- a/drivers/staging/wfx/key.c
+> +++ b/drivers/staging/wfx/key.c
+> @@ -174,7 +174,7 @@ static int wfx_add_key(struct wfx_vif *wvif, struct ieee80211_sta *sta,
+>  			k.type = fill_tkip_pair(&k.key.tkip_pairwise_key, key, sta->addr);
+>  		else
+>  			k.type = fill_tkip_group(&k.key.tkip_group_key, key, &seq,
+> -						 wvif->vif->type);
+> +						 wvif_to_vif(wvif)->type);
+>  	} else if (key->cipher == WLAN_CIPHER_SUITE_CCMP) {
+>  		if (pairwise)
+>  			k.type = fill_ccmp_pair(&k.key.aes_pairwise_key, key, sta->addr);
+> @@ -224,4 +224,3 @@ int wfx_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd, struct ieee80211_
+>  	mutex_unlock(&wvif->wdev->conf_mutex);
+>  	return ret;
+>  }
 > -
-> -		if (!recvbuf->pskb)
-> +		} else {
->  			return NULL;
-> +		}
-
-Please do it a different way:
-
-		recvbuf->pskb = rtw_skb_alloc(MAX_RECVBUF_SZ + RECVBUFF_ALIGN_SZ);
-		if (!recvbuf->pskb)
-			return NULL;
-
-Then pull the pull the other side in one tab.
-
-regards,
-dan carpenter
-
-
+> diff --git a/drivers/staging/wfx/queue.c b/drivers/staging/wfx/queue.c
+> index 729825230db2..a2745d1024c6 100644
+> --- a/drivers/staging/wfx/queue.c
+> +++ b/drivers/staging/wfx/queue.c
+> @@ -207,7 +207,7 @@ bool wfx_tx_queues_has_cab(struct wfx_vif *wvif)
+>  {
+>  	int i;
+>
+> -	if (wvif->vif->type != NL80211_IFTYPE_AP)
+> +	if (wvif_to_vif(wvif)->type != NL80211_IFTYPE_AP)
+>  		return false;
+>  	for (i = 0; i < IEEE80211_NUM_ACS; ++i)
+>  		/* Note: since only AP can have mcast frames in queue and only one vif can be AP,
+> diff --git a/drivers/staging/wfx/scan.c b/drivers/staging/wfx/scan.c
+> index 7f34f0d322f9..5c25fde3fc41 100644
+> --- a/drivers/staging/wfx/scan.c
+> +++ b/drivers/staging/wfx/scan.c
+> @@ -25,7 +25,7 @@ static int update_probe_tmpl(struct wfx_vif *wvif, struct cfg80211_scan_request
+>  {
+>  	struct sk_buff *skb;
+>
+> -	skb = ieee80211_probereq_get(wvif->wdev->hw, wvif->vif->addr, NULL, 0, req->ie_len);
+> +	skb = ieee80211_probereq_get(wvif->wdev->hw, wvif_to_vif(wvif)->addr, NULL, 0, req->ie_len);
+>  	if (!skb)
+>  		return -ENOMEM;
+>
+> @@ -75,8 +75,8 @@ static int send_scan_req(struct wfx_vif *wvif, struct cfg80211_scan_request *req
+>  	} else {
+>  		ret = wvif->scan_nb_chan_done;
+>  	}
+> -	if (req->channels[start_idx]->max_power != wvif->vif->bss_conf.txpower)
+> -		wfx_hif_set_output_power(wvif, wvif->vif->bss_conf.txpower);
+> +	if (req->channels[start_idx]->max_power != wvif_to_vif(wvif)->bss_conf.txpower)
+> +		wfx_hif_set_output_power(wvif, wvif_to_vif(wvif)->bss_conf.txpower);
+>  	wfx_tx_unlock(wvif->wdev);
+>  	return ret;
+>  }
+> diff --git a/drivers/staging/wfx/sta.c b/drivers/staging/wfx/sta.c
+> index 03025ef7f1be..b634c8e004db 100644
+> --- a/drivers/staging/wfx/sta.c
+> +++ b/drivers/staging/wfx/sta.c
+> @@ -132,7 +132,7 @@ void wfx_configure_filter(struct ieee80211_hw *hw, unsigned int changed_flags,
+>  			filter_bssid = true;
+>
+>  		/* In AP mode, chip can reply to probe request itself */
+> -		if (*total_flags & FIF_PROBE_REQ && wvif->vif->type == NL80211_IFTYPE_AP) {
+> +		if (*total_flags & FIF_PROBE_REQ && wvif_to_vif(wvif)->type == NL80211_IFTYPE_AP) {
+>  			dev_dbg(wdev->dev, "do not forward probe request in AP mode\n");
+>  			*total_flags &= ~FIF_PROBE_REQ;
+>  		}
+> @@ -153,18 +153,18 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
+>  	struct ieee80211_channel *chan0 = NULL, *chan1 = NULL;
+>  	struct ieee80211_conf *conf = &wvif->wdev->hw->conf;
+>
+> -	WARN(!wvif->vif->bss_conf.assoc && enable_ps,
+> +	WARN(!wvif_to_vif(wvif)->bss_conf.assoc && enable_ps,
+>  	     "enable_ps is reliable only if associated");
+>  	if (wdev_to_wvif(wvif->wdev, 0))
+> -		chan0 = wdev_to_wvif(wvif->wdev, 0)->vif->bss_conf.chandef.chan;
+> +		chan0 = wvif_to_vif(wdev_to_wvif(wvif->wdev, 0))->bss_conf.chandef.chan;
+>  	if (wdev_to_wvif(wvif->wdev, 1))
+> -		chan1 = wdev_to_wvif(wvif->wdev, 1)->vif->bss_conf.chandef.chan;
+> -	if (chan0 && chan1 && wvif->vif->type != NL80211_IFTYPE_AP) {
+> +		chan1 = wvif_to_vif(wdev_to_wvif(wvif->wdev, 1))->bss_conf.chandef.chan;
+> +	if (chan0 && chan1 && wvif_to_vif(wvif)->type != NL80211_IFTYPE_AP) {
+>  		if (chan0->hw_value == chan1->hw_value) {
+>  			/* It is useless to enable PS if channels are the same. */
+>  			if (enable_ps)
+>  				*enable_ps = false;
+> -			if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
+> +			if (wvif_to_vif(wvif)->bss_conf.assoc && wvif_to_vif(wvif)->bss_conf.ps)
+>  				dev_info(wvif->wdev->dev, "ignoring requested PS mode");
+>  			return -1;
+>  		}
+> @@ -177,8 +177,8 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
+>  			return 30;
+>  	}
+>  	if (enable_ps)
+> -		*enable_ps = wvif->vif->bss_conf.ps;
+> -	if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
+> +		*enable_ps = wvif_to_vif(wvif)->bss_conf.ps;
+> +	if (wvif_to_vif(wvif)->bss_conf.assoc && wvif_to_vif(wvif)->bss_conf.ps)
+>  		return conf->dynamic_ps_timeout;
+>  	else
+>  		return -1;
+> @@ -189,7 +189,7 @@ int wfx_update_pm(struct wfx_vif *wvif)
+>  	int ps_timeout;
+>  	bool ps;
+>
+> -	if (!wvif->vif->bss_conf.assoc)
+> +	if (!wvif_to_vif(wvif)->bss_conf.assoc)
+>  		return 0;
+>  	ps_timeout = wfx_get_ps_timeout(wvif, &ps);
+>  	if (!ps)
+> @@ -215,7 +215,7 @@ int wfx_conf_tx(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+>  	mutex_lock(&wdev->conf_mutex);
+>  	assign_bit(queue, &wvif->uapsd_mask, params->uapsd);
+>  	wfx_hif_set_edca_queue_params(wvif, queue, params);
+> -	if (wvif->vif->type == NL80211_IFTYPE_STATION && old_uapsd != wvif->uapsd_mask) {
+> +	if (wvif_to_vif(wvif)->type == NL80211_IFTYPE_STATION && old_uapsd != wvif->uapsd_mask) {
+>  		wfx_hif_set_uapsd_info(wvif, wvif->uapsd_mask);
+>  		wfx_update_pm(wvif);
+>  	}
+> @@ -242,20 +242,20 @@ void wfx_event_report_rssi(struct wfx_vif *wvif, u8 raw_rcpi_rssi)
+>  	int cqm_evt;
+>
+>  	rcpi_rssi = raw_rcpi_rssi / 2 - 110;
+> -	if (rcpi_rssi <= wvif->vif->bss_conf.cqm_rssi_thold)
+> +	if (rcpi_rssi <= wvif_to_vif(wvif)->bss_conf.cqm_rssi_thold)
+>  		cqm_evt = NL80211_CQM_RSSI_THRESHOLD_EVENT_LOW;
+>  	else
+>  		cqm_evt = NL80211_CQM_RSSI_THRESHOLD_EVENT_HIGH;
+> -	ieee80211_cqm_rssi_notify(wvif->vif, cqm_evt, rcpi_rssi, GFP_KERNEL);
+> +	ieee80211_cqm_rssi_notify(wvif_to_vif(wvif), cqm_evt, rcpi_rssi, GFP_KERNEL);
+>  }
+>
+>  static void wfx_beacon_loss_work(struct work_struct *work)
+>  {
+>  	struct wfx_vif *wvif = container_of(to_delayed_work(work), struct wfx_vif,
+>  					    beacon_loss_work);
+> -	struct ieee80211_bss_conf *bss_conf = &wvif->vif->bss_conf;
+> +	struct ieee80211_bss_conf *bss_conf = &wvif_to_vif(wvif)->bss_conf;
+>
+> -	ieee80211_beacon_loss(wvif->vif);
+> +	ieee80211_beacon_loss(wvif_to_vif(wvif));
+>  	schedule_delayed_work(to_delayed_work(work), msecs_to_jiffies(bss_conf->beacon_int));
+>  }
+>
+> @@ -323,13 +323,13 @@ static int wfx_upload_ap_templates(struct wfx_vif *wvif)
+>  {
+>  	struct sk_buff *skb;
+>
+> -	skb = ieee80211_beacon_get(wvif->wdev->hw, wvif->vif);
+> +	skb = ieee80211_beacon_get(wvif->wdev->hw, wvif_to_vif(wvif));
+>  	if (!skb)
+>  		return -ENOMEM;
+>  	wfx_hif_set_template_frame(wvif, skb, HIF_TMPLT_BCN, API_RATE_INDEX_B_1MBPS);
+>  	dev_kfree_skb(skb);
+>
+> -	skb = ieee80211_proberesp_get(wvif->wdev->hw, wvif->vif);
+> +	skb = ieee80211_proberesp_get(wvif->wdev->hw, wvif_to_vif(wvif));
+>  	if (!skb)
+>  		return -ENOMEM;
+>  	wfx_hif_set_template_frame(wvif, skb, HIF_TMPLT_PRBRES, API_RATE_INDEX_B_1MBPS);
+> @@ -339,7 +339,7 @@ static int wfx_upload_ap_templates(struct wfx_vif *wvif)
+>
+>  static void wfx_set_mfp_ap(struct wfx_vif *wvif)
+>  {
+> -	struct sk_buff *skb = ieee80211_beacon_get(wvif->wdev->hw, wvif->vif);
+> +	struct sk_buff *skb = ieee80211_beacon_get(wvif->wdev->hw, wvif_to_vif(wvif));
+>  	const int ieoffset = offsetof(struct ieee80211_mgmt, u.beacon.variable);
+>  	const u16 *ptr = (u16 *)cfg80211_find_ie(WLAN_EID_RSN, skb->data + ieoffset,
+>  						 skb->len - ieoffset);
+> @@ -389,7 +389,7 @@ void wfx_stop_ap(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
+>  static void wfx_join(struct wfx_vif *wvif)
+>  {
+>  	int ret;
+> -	struct ieee80211_bss_conf *conf = &wvif->vif->bss_conf;
+> +	struct ieee80211_bss_conf *conf = &wvif_to_vif(wvif)->bss_conf;
+>  	struct cfg80211_bss *bss = NULL;
+>  	u8 ssid[IEEE80211_MAX_SSID_LEN];
+>  	const u8 *ssid_ie = NULL;
+> @@ -420,7 +420,7 @@ static void wfx_join(struct wfx_vif *wvif)
+>  	wvif->join_in_progress = true;
+>  	ret = wfx_hif_join(wvif, conf, wvif->channel, ssid, ssid_len);
+>  	if (ret) {
+> -		ieee80211_connection_loss(wvif->vif);
+> +		ieee80211_connection_loss(wvif_to_vif(wvif));
+>  		wfx_reset(wvif);
+>  	} else {
+>  		/* Due to beacon filtering it is possible that the AP's beacon is not known for the
+> @@ -440,7 +440,7 @@ static void wfx_join_finalize(struct wfx_vif *wvif, struct ieee80211_bss_conf *i
+>
+>  	rcu_read_lock(); /* protect sta */
+>  	if (info->bssid && !info->ibss_joined)
+> -		sta = ieee80211_find_sta(wvif->vif, info->bssid);
+> +		sta = ieee80211_find_sta(wvif_to_vif(wvif), info->bssid);
+>  	if (sta && sta->ht_cap.ht_supported)
+>  		ampdu_density = sta->ht_cap.ampdu_density;
+>  	if (sta && sta->ht_cap.ht_supported &&
+> @@ -565,7 +565,7 @@ static int wfx_update_tim(struct wfx_vif *wvif)
+>  	u16 tim_offset, tim_length;
+>  	u8 *tim_ptr;
+>
+> -	skb = ieee80211_beacon_get_tim(wvif->wdev->hw, wvif->vif, &tim_offset, &tim_length);
+> +	skb = ieee80211_beacon_get_tim(wvif->wdev->hw, wvif_to_vif(wvif), &tim_offset, &tim_length);
+>  	if (!skb)
+>  		return -ENOENT;
+>  	tim_ptr = skb->data + tim_offset;
+> @@ -707,8 +707,6 @@ int wfx_add_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
+>  		return -EOPNOTSUPP;
+>  	}
+>
+> -	/* FIXME: prefer use of container_of() to get vif */
+> -	wvif->vif = vif;
+>  	wvif->wdev = wdev;
+>
+>  	wvif->link_id_map = 1; /* link-id 0 is reserved for multicast */
+> @@ -767,7 +765,6 @@ void wfx_remove_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
+>
+>  	cancel_delayed_work_sync(&wvif->beacon_loss_work);
+>  	wdev->vif[wvif->id] = NULL;
+> -	wvif->vif = NULL;
+>
+>  	mutex_unlock(&wdev->conf_mutex);
+>
+> diff --git a/drivers/staging/wfx/wfx.h b/drivers/staging/wfx/wfx.h
+> index 6594cc647c2f..78f2a416fe4f 100644
+> --- a/drivers/staging/wfx/wfx.h
+> +++ b/drivers/staging/wfx/wfx.h
+> @@ -25,6 +25,8 @@
+>  #define USEC_PER_TXOP 32 /* see struct ieee80211_tx_queue_params */
+>  #define USEC_PER_TU 1024
+>
+> +#define wvif_to_vif(ptr)(container_of((void *)ptr, struct ieee80211_vif, drv_priv))
+> +
+>  struct wfx_hwbus_ops;
+>
+>  struct wfx_dev {
+> @@ -61,7 +63,6 @@ struct wfx_dev {
+>
+>  struct wfx_vif {
+>  	struct wfx_dev             *wdev;
+> -	struct ieee80211_vif       *vif;
+>  	struct ieee80211_channel   *channel;
+>  	int                        id;
+>
+> --
+> 2.25.1
+>
+>
+>
+--8323329-1018599381-1649411390=:2196--
