@@ -1,385 +1,241 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C615368;
-	Fri,  8 Apr 2022 01:50:07 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id a38so3742377qkp.5;
-        Thu, 07 Apr 2022 18:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=7wfN1E5IFL2arXAaRPxJKdHfQt2VCB9HcHDplq0dV60=;
-        b=lIF+f7tneqOqPlBUe2oI0c6Lx5aYE6cuPxjUTZwQ/DtGB4Egy8BRyud6qsrU44+WmV
-         EBh0t+b9XbetftmVgw4G7CSG6UU6RYQmnYtSofOPOTni9LodPiuhIedK4GXTUhrSW9HL
-         Z4dNIz2j0U4kNdbBUzpVuuSsbIzM5AkRUOlqGMBZGGiuDx+4s0p5bL5hv7XpjnZST18z
-         KHWoDCg4vkN+2zPkMefeQqr2ZGJqTfCMwpc5rCvtKAeoK9qkaCmsmOXcxfw1kxveDnFp
-         q2i1i8kZ6UZ1Dibwtpwr7HPRP0d2j846m+QAo941/73xvU1ZD+ag3H1oqFD1p3YvRUqM
-         B+MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=7wfN1E5IFL2arXAaRPxJKdHfQt2VCB9HcHDplq0dV60=;
-        b=abhHLuOyM6KXOW2Zami19zZCgwUKTnjPSSP1UV9wQTUsV7kSwMDc6suSxvOyeq/q4s
-         m08LzvApuAz8jlV+ofLkD8HZk6ZmvOQDTsALsnLnoUYYBQheA9DqmruN4SqCT/bvLkRT
-         dsG+RW2w2k9xmLtMA2iTaUIIZUDiml+W68tUqMKeo8RfHDOR5PxyDMqYMrOg15GMUg6O
-         osKaIgCGF1ZTvwKkZogvX+Z57lY5jFnElWH6ZBRMggMCiulgqxHsXWyQlh738445YZ4V
-         lQTRn1uOgS9lG5AcRdtpIe00Y90tgyrQbI+2W2mB8X7iH5JmOIAOrpC9+UU45sS0XDfu
-         mXbg==
-X-Gm-Message-State: AOAM531Bcj0ZXW5bA5Xgw+DVQy708We0XEBJ0acILw96SUov9Nly4LL7
-	Sv9fOUH2y04RfQgR4s/Zgl8=
-X-Google-Smtp-Source: ABdhPJyPvlgaqnWdnP/qmAN6FLmEiXh4Fx/6Umq5OXZJsUtIvgnFlYhQBhiQ7hg0DCx1YGhmZNvtgA==
-X-Received: by 2002:a05:620a:d87:b0:67b:f949:1ee6 with SMTP id q7-20020a05620a0d8700b0067bf9491ee6mr11607794qkl.140.1649382606184;
-        Thu, 07 Apr 2022 18:50:06 -0700 (PDT)
-Received: from jaehee-ThinkPad-X1-Extreme ([2607:fb90:50fb:900e:9b98:2b92:de9c:bd16])
-        by smtp.gmail.com with ESMTPSA id f17-20020ac87f11000000b002e1e831366asm16815999qtk.77.2022.04.07.18.50.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Apr 2022 18:50:04 -0700 (PDT)
-Date: Thu, 7 Apr 2022 21:50:01 -0400
-From: Jaehee Park <jhpark1013@gmail.com>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [PATCH] staging: wfx: use container_of() to get vif
-Message-ID: <20220408015001.GA2114391@jaehee-ThinkPad-X1-Extreme>
-References: <20220407204128.GA1810425@jaehee-ThinkPad-X1-Extreme>
- <20220408010930.GA1215532@alison-desk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA66368
+	for <linux-staging@lists.linux.dev>; Fri,  8 Apr 2022 02:22:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649384527; x=1680920527;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=YmMKZ390+NzK0h9PLnMQGnDc9ELWqBacmVUyT9UjaNc=;
+  b=CTV0TTmYlhuFtiEwqIa2Cp1gMhVsG6VHy5mfawdaEmfnGGgb9bKKtwbw
+   2f3zK6cGLAHwQvRjZB2S5/XshHRdECJpMAeeEUkK2DkNdoamz6n0TmzhT
+   UgfKzwEpagt6SvxLTaAsQNUHUMS4EqDBDRKYaGyMAjQcRZVGLnIflOq2S
+   ViabYzuaGu5DWHCOWBm5uzUFOpNf3Ly1KGX9SGSEkjpUdTXyy4QXZTyf7
+   tT3jyIB4hfENT+zGyjiktS2HnRCRcrA/OK3a84q6O8EMVy5d+DQ1EO/tn
+   2XWCVAVvx8wvO+7uaQUFFv1ZbyyPJrm5AzkULdFfZQZ8orqm34l3DDToC
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="286479642"
+X-IronPort-AV: E=Sophos;i="5.90,243,1643702400"; 
+   d="scan'208";a="286479642"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2022 19:22:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,243,1643702400"; 
+   d="scan'208";a="851909598"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by fmsmga005.fm.intel.com with ESMTP; 07 Apr 2022 19:22:06 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 7 Apr 2022 19:22:05 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Thu, 7 Apr 2022 19:22:05 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.176)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Thu, 7 Apr 2022 19:22:05 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gCpbPCmk+/7abOTH88DrJUTQNdHJTYpVvyRWqtDxF3lgmBG7Uyyhf1OunNDpATQeb81UvMTzhIvtaFEmroLnJ7DVQdbQFlcTG/lGvCc/vwT7WENzD6aCPJTFZ+8Lq4Xfm2rLUBnuuUvBPIhh6OIhSAEhIS5yzMErtBs3+b3tPt5HI1d4AIHtdEkHYKIu75C+xGzg0QJtk2Z1NhDy2gOutnoD+9Mw9hq+pY75vCU8zY6PlnMkcRUrKsccx5PtD5CVELdy/BM7BQ2fd3gI26t5AB35jnuEXnvyf53rUuNDEGyc/w6xzBasouH7+RcoOmvRNsRn1TZbpw6x6LlyoQBFrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YmMKZ390+NzK0h9PLnMQGnDc9ELWqBacmVUyT9UjaNc=;
+ b=H64uVWv84mg+4MQIAcrciHFtvcwgexuJ4aOLv+fC2+0WZWwKn6JvhaOLJysxK1f/Mxc/bxboSXXO0DvWqbQu1hkGbgjg1UUhzOkgzhixHQZ4ppiF0HM4MwOqW9sQGwDqhdUo968ZIdJnF7DtuXd3W9bq8hwDeMvLe9tFIzYaIaDHuxLZrQ26LXvsB9cVvRRH6x2vzfVInNUI3TlVDQ5bGKs5QaEEzrgrQ2C/b6lebXRV+3FwCBrLs4VkdPF/XsssoNuNgTbGuWtkiyaDk+fSHwhdERalAAM8NCpi5vbseMajCqmEo2qVrP2LLSPJbyRgAUknWgrQyo2+zvXk8DQCmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MWHPR11MB0029.namprd11.prod.outlook.com (2603:10b6:301:67::25)
+ by CH2PR11MB4358.namprd11.prod.outlook.com (2603:10b6:610:39::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Fri, 8 Apr
+ 2022 02:21:59 +0000
+Received: from MWHPR11MB0029.namprd11.prod.outlook.com
+ ([fe80::ac0c:4806:934a:636c]) by MWHPR11MB0029.namprd11.prod.outlook.com
+ ([fe80::ac0c:4806:934a:636c%6]) with mapi id 15.20.5123.025; Fri, 8 Apr 2022
+ 02:21:59 +0000
+From: "Saleem, Shiraz" <shiraz.saleem@intel.com>
+To: "duoming@zju.edu.cn" <duoming@zju.edu.cn>
+CC: Dan Carpenter <dan.carpenter@oracle.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "chris@zankel.net" <chris@zankel.net>,
+	"jcmvbkbc@gmail.com" <jcmvbkbc@gmail.com>, "Ismail, Mustafa"
+	<mustafa.ismail@intel.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
+	"wg@grandegger.com" <wg@grandegger.com>, "mkl@pengutronix.de"
+	<mkl@pengutronix.de>, "davem@davemloft.net" <davem@davemloft.net>,
+	"kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+	"jes@trained-monkey.org" <jes@trained-monkey.org>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"jirislaby@kernel.org" <jirislaby@kernel.org>, "alexander.deucher@amd.com"
+	<alexander.deucher@amd.com>, "linux-xtensa@linux-xtensa.org"
+	<linux-xtensa@linux-xtensa.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, "linux-can@vger.kernel.org"
+	<linux-can@vger.kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-hippi@sunsite.dk" <linux-hippi@sunsite.dk>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: RE: Re: [PATCH 09/11] drivers: infiniband: hw: Fix deadlock in
+ irdma_cleanup_cm_core()
+Thread-Topic: RE: Re: [PATCH 09/11] drivers: infiniband: hw: Fix deadlock in
+ irdma_cleanup_cm_core()
+Thread-Index: AQHYSkn4HJrzWeSt/0qrCBQuiFUlDqzkT6MAgAAY8oCAACnjAIAAHSXQgAB8/oCAABo6AA==
+Date: Fri, 8 Apr 2022 02:21:58 +0000
+Message-ID: <MWHPR11MB00294A328036566B01917A5CE9E99@MWHPR11MB0029.namprd11.prod.outlook.com>
+References: <cover.1649310812.git.duoming@zju.edu.cn>
+ <4069b99042d28c8e51b941d9e698b99d1656ed33.1649310812.git.duoming@zju.edu.cn>
+ <20220407112455.GK3293@kadam>
+ <1be0c02d.3f701.1800416ef60.Coremail.duoming@zju.edu.cn>
+ <20220407142908.GO12805@kadam>
+ <MWHPR11MB00293D107510E728769874DFE9E69@MWHPR11MB0029.namprd11.prod.outlook.com>
+ <7775f2d3.3fd15.18006994530.Coremail.duoming@zju.edu.cn>
+In-Reply-To: <7775f2d3.3fd15.18006994530.Coremail.duoming@zju.edu.cn>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f3b9929a-92d9-4ebe-b9a8-08da19068f3d
+x-ms-traffictypediagnostic: CH2PR11MB4358:EE_
+x-microsoft-antispam-prvs: <CH2PR11MB4358F9236537F85A73F8F7AFE9E99@CH2PR11MB4358.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YBZ5MUWh5lXal+NOt06istpkQieGMR6GSiX1fH0qr6Y5Fl05I18rtgOPf12afa0nIfHvFL0DVOTzk6KZ6cKfoep2QQuj4tp7MjXVb0/eS4jr68jfLUL4PtTc+9sOceh5SjrmHHj0vFqmH3cBzx0aC56ZnW3yWuKBLjMElWR7pdAx1RDd5SG7emfB+lieEZ4rabvkz846w+Oh/aPVhUZmFcvEiohLOhYzas+21jdochP3l+u8IMQk3Zobv4jPUHoS/0MHICKMgKY6pB471rRri0fPT79WgTPEF21+0YnvcBGIef5zbhJs8fkjQb2xx8ddQLBGI0VBBf/VzdTWX/GUkWGHSpi7Axl+8obPnth7oT3IPXTmiLhkRV/4CafReaC16RypVpmYtj1cjJk4P740wY0rQ5AxiB183AUhCTJZnpjWfphD/K/yhR6zOrGnVtlVEFyidufJk37qNyVn0I2bdoKLn0RbzfQTlDGf6wtiMuwpOH/y7Pg0fczaSZ6pm5NrkMJko/hH6i4GsfDEfqXIsSQp51a6/cZYpRBsEkrE496nc9hoQyerEtUb+P7fRDW4fE+bHQ6SR8WjzKomQ9AF0BE7NcasMUwGPz8pcTsX5hOzxJRNvGnGeluoswmSv+wy0Y33/uB9mYC1IO1hfHqxPMZeaZGVgfBbdW86Ih1L1otHNpX84YCAonEvR36SlMl0LKa3QZEEvETzD8gd1Avw35M9Zqv/CSpixtBBsh831PuSQS9sW3aLXw32xDnM04Mice1AUs5MOjWeb8Eq9SYcSlcT3bZQplCs4CYvhqyiF4s=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB0029.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(966005)(508600001)(38070700005)(9686003)(2906002)(6506007)(7696005)(66446008)(64756008)(66556008)(8676002)(5660300002)(7416002)(4326008)(33656002)(76116006)(71200400001)(52536014)(66476007)(8936002)(86362001)(66946007)(6916009)(54906003)(26005)(186003)(316002)(122000001)(38100700002)(83380400001)(82960400001)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WXBCcnZqUWdFTVFER01iRjlZT2NWYjFlNFhkUXhUZG1xUXBuVlJQTWZjeWZu?=
+ =?utf-8?B?dGRYTmRpaC9TSVlYZ1YwMVNzajJwcFFzbm12RnJBV1owc2djcnJFYWlKYU1B?=
+ =?utf-8?B?QzlUbGRZSHJnVDdMdHM4WGF5UXpLNHJNSy9MK2JKVFh6SnJ2V0JpYjlsZlhI?=
+ =?utf-8?B?NzgxaTdGNTc4MmlYTDdITVVZUE8yMElNOTlCSVN4MG84MVo4M3I4VkpFMTdT?=
+ =?utf-8?B?eUdoSHNsbmh6clFteXROYVY4eUMrMXFJRzlGL1poeXlaclFwUDhmV1lvMDZQ?=
+ =?utf-8?B?eUE3THFtczRvMXVYR0RuR0FsK1pZc3BCWHBFeUt5aS9KME42RjdwdVhEUVlW?=
+ =?utf-8?B?UFQvbTdFWEhRc2xtcWJZdFBETWtMTW8xcTVmWHBBWEFMYTl1SVNYaHd0Tko4?=
+ =?utf-8?B?Umw4a2tENnZDNXlYaVkwWjN4Z0pRa3B5ZytPQlB2bVkrNVdNYVJDN0RwRTZx?=
+ =?utf-8?B?ajVZalJUdWl5Z2JZSDhxaUZydXBxOWEyUllPWGsyVkcxYkFjY3ZWWXZZTGFx?=
+ =?utf-8?B?M2hOdUdIa1VWdUlNMkxqRDFnOFJESXZvY05lR05odmNLbTZUb3oxWU1oakNt?=
+ =?utf-8?B?Znd4YXhtTWJxa3dVS1BvZS9ab0NDa2UwemxrZ1BQNWdpUlFxSFFHOEVhZUlZ?=
+ =?utf-8?B?SXJMWHVSTEtaUHVibzVLUHNaUDZkazkvbkN3UjZqRzNHdTFzblU0MlVTRjlq?=
+ =?utf-8?B?VEFrVzd6bEZRbzlIOHdFVkdkY1B4eEpPd0pJZlljaFVETFlJWXRzenhwZjJG?=
+ =?utf-8?B?VmpFR2swTTMvditmUVVXMExLcHdleVl5WGExQnJpQllXbEdreTM1Q2thRFRM?=
+ =?utf-8?B?Y205OHJWdXBMTlpJcEtzU2Z2enBZNTQ3UlBjbWh4SWpLek1yQU51OGtHRURW?=
+ =?utf-8?B?cjNkTmdxYWVaWTBIdVJ6UXlXdmlYdVFYYmMwNUdhT0hjYlJySlFEeWRFaFF6?=
+ =?utf-8?B?SlJpMWh0c0UxeElNQnhjYWR5enlobWhzeFRvcjc2RXdody9TaCtneDdJU1Y4?=
+ =?utf-8?B?a2dQN3MzRUhlWFlwcUpaanYxbGZ6WUlVUm9jVnhxTjBzelpsU2tLOTg5eXJN?=
+ =?utf-8?B?cmREMDg2WnVCZTk5UXdOd2lKVkFSYmVuSEM5Vk1KK1pKUXlLV25sMkxqa2Rq?=
+ =?utf-8?B?akVpMW8wSVZ6RWh4SVA0dS90OHltcGZGbXJROVZad3VQdTdmRGJCaWlKV2p6?=
+ =?utf-8?B?QlBtS0I1cEd5ZUJuWXZ4NVVlYWt6MEtuMWhkZm1VdW50ZUh3UUZaZXdyaUJ4?=
+ =?utf-8?B?WVNWdWtuVlAvaFlGOG1vZWxNWHQyTE5pdXh5YWs2T2F1c1Y3UFpxZHpOczN3?=
+ =?utf-8?B?OVFsLzJUUzgrV2duNnpwUmZXaFI2WWFPd2lQdEpzMm5pN282WnNmKzMrMnQ2?=
+ =?utf-8?B?OEhlc3JaQVNTWFZZVTMwSnhZMk1JTjkxSkpnNit5RHYyVlRZNGRmOTMrREpq?=
+ =?utf-8?B?UVBTZjZjdGNFOHJYTXh5WkZUMFdFSUNadGpSV1luV2dQMmdEaWlyeGhoaXQ2?=
+ =?utf-8?B?cFQ2dHFQaFJidWhiSHMxbFVHc2p2QU9uT1lSL0ZqWVZSY1UwV0FnYktXeHFD?=
+ =?utf-8?B?T1JYc0h6aVBFYjVJM2x4TCsxM1BVZjhGb1ZoTy9rRG5aUzF2bzZjbGoxSXZt?=
+ =?utf-8?B?MHVCeHZaY2NOSUZTUVZLMUR1UnI2V1RyTU1WNlF5bzVYZW4rRmJveEN1Zm1i?=
+ =?utf-8?B?Rk03K3p2WXlzTWtrUldFTkRDSENEVFNCNHRrNzF3UVdYaVFCNWh6cmNRNURv?=
+ =?utf-8?B?cjAzckpva0Qyd2xzOEZOc2RhZHl0OGZIbTd3eE0yZjQza0k0d0dTclhZVlNE?=
+ =?utf-8?B?MWVZeDlvdUF6NXJ2ZEZ0dVI0ckI4d0RyMHNpcEdSbWVhb25obkMxYVhsK0ov?=
+ =?utf-8?B?VjlTcXBFa0ZkQU1qaVlNUkdvTVR0VExrQ1hEN3FYV2JmbnVHZXJPaUN4NUJo?=
+ =?utf-8?B?d3NqZll0MSs3TWdsa0VXTnJ6ZnlEMlNYNTEzTy9lVE02YjBRQXlFTFVDMEgz?=
+ =?utf-8?B?bHRyZVZBb1FuYVJIRHJiaEN6TndzNjROSnhDNkk1NmtobU81V21WRkNsNWI0?=
+ =?utf-8?B?amVST01KZGxGWWN3cTh4bk9sSUlYK1pGelJVNjRyeHJ4aU9qSnB5UytGandK?=
+ =?utf-8?B?SFFQeW5La2NIWmoyTHd4cjRmTmlWR1lzeG9jdWdnSFMrZUozZzNzZzFua2dz?=
+ =?utf-8?B?M3I3QlM5ZGdIdjN6RG5ySU53RkgzaGZBS0c1ZUdBdm02Q3AwQk5KdWs4S2lP?=
+ =?utf-8?B?czVVR2djak1sZVlDK25JRWZMQkNpbFhlWXdFKzNSU2hUQUYrUm54S095Rk83?=
+ =?utf-8?B?TXBWRWY0dy95MDhVMXUrWEduL0lNb3g0dENMSWduSmR1Wkc5V1kwZz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220408010930.GA1215532@alison-desk>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0029.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3b9929a-92d9-4ebe-b9a8-08da19068f3d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2022 02:21:58.7688
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: emnmmR0jSzBp+7xOqIm+mecWv24Sxl4HX86aj7dKl1PBtW4kJ3uoF4mHChwlgQR5mDucuWK9dbB7rpsjoS+/sw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB4358
+X-OriginatorOrg: intel.com
 
-On Thu, Apr 07, 2022 at 06:09:30PM -0700, Alison Schofield wrote:
-> On Thu, Apr 07, 2022 at 04:41:28PM -0400, Jaehee Park wrote:
-> > Use container_of() to get vif. This improves the code in two ways:
-> > [1] it speeds up the compilation because container_of() saves steps to
-> > retrieve vif (the representation of ieee80211_vif), and
-> > [2] it eliminates the need to define multiple pointers. Previously,
-> > after setting the pointer to drv_priv, another pointer had to be
-> > defined by vif in struct wfx_vif to point back to ieee80211_vif.
-> > Remove vif from the struct wfx_vif, define a macro wvif_to_vif(ptr)
-> > for container_of(), and replace all wvif->vif with the newly defined
-> > container_of() construct.
-> > 
-> > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
-> > ---
-> > Questions:
-> > - These changes built for me, but it would be great if someone can test it on the actual hardware.
-> > - We noticed that the development of the wfx driver is happening in netdev instead of the staging directory. Do you suggest that I use the net-next tree for this change?
-> 
-> Hi Jaehee,
-> 
-> Yes - it looks like you missed staging by just a couple of days with this one.
-> 
-> Perhaps use .gitorderfile to order how the files appear in the diff.
-> Here, it would be helpful to see the new define first (in wfx.h)
-> followed by all usages.
-> 
-> Alison
-> 
-
-Hi Alison,
-I didn't know about .gitorderfile -- thank you for the advice! Seeing the wfx.h change first would make the other changes much easier to comprehend. I'll do a patch revision now.
-Thanks!
-Jaehee
-> >  
-> >  drivers/staging/wfx/data_rx.c |  4 ++--
-> >  drivers/staging/wfx/data_tx.c |  2 +-
-> >  drivers/staging/wfx/key.c     |  3 +--
-> >  drivers/staging/wfx/queue.c   |  2 +-
-> >  drivers/staging/wfx/scan.c    |  6 ++---
-> >  drivers/staging/wfx/sta.c     | 45 ++++++++++++++++-------------------
-> >  drivers/staging/wfx/wfx.h     |  3 ++-
-> >  7 files changed, 31 insertions(+), 34 deletions(-)
-> > 
-> > diff --git a/drivers/staging/wfx/data_rx.c b/drivers/staging/wfx/data_rx.c
-> > index a4b5ffe158e4..98c2223089b8 100644
-> > --- a/drivers/staging/wfx/data_rx.c
-> > +++ b/drivers/staging/wfx/data_rx.c
-> > @@ -24,12 +24,12 @@ static void wfx_rx_handle_ba(struct wfx_vif *wvif, struct ieee80211_mgmt *mgmt)
-> >  	case WLAN_ACTION_ADDBA_REQ:
-> >  		params = le16_to_cpu(mgmt->u.action.u.addba_req.capab);
-> >  		tid = (params & IEEE80211_ADDBA_PARAM_TID_MASK) >> 2;
-> > -		ieee80211_start_rx_ba_session_offl(wvif->vif, mgmt->sa, tid);
-> > +		ieee80211_start_rx_ba_session_offl(wvif_to_vif(wvif), mgmt->sa, tid);
-> >  		break;
-> >  	case WLAN_ACTION_DELBA:
-> >  		params = le16_to_cpu(mgmt->u.action.u.delba.params);
-> >  		tid = (params &  IEEE80211_DELBA_PARAM_TID_MASK) >> 12;
-> > -		ieee80211_stop_rx_ba_session_offl(wvif->vif, mgmt->sa, tid);
-> > +		ieee80211_stop_rx_ba_session_offl(wvif_to_vif(wvif), mgmt->sa, tid);
-> >  		break;
-> >  	}
-> >  }
-> > diff --git a/drivers/staging/wfx/data_tx.c b/drivers/staging/wfx/data_tx.c
-> > index e07381b2ff4d..fd79e03a08c5 100644
-> > --- a/drivers/staging/wfx/data_tx.c
-> > +++ b/drivers/staging/wfx/data_tx.c
-> > @@ -216,7 +216,7 @@ static u8 wfx_tx_get_link_id(struct wfx_vif *wvif, struct ieee80211_sta *sta,
-> >  
-> >  	if (sta_priv && sta_priv->link_id)
-> >  		return sta_priv->link_id;
-> > -	if (wvif->vif->type != NL80211_IFTYPE_AP)
-> > +	if (wvif_to_vif(wvif)->type != NL80211_IFTYPE_AP)
-> >  		return 0;
-> >  	if (is_multicast_ether_addr(da))
-> >  		return 0;
-> > diff --git a/drivers/staging/wfx/key.c b/drivers/staging/wfx/key.c
-> > index 8f23e8d42bd4..71b1fca70248 100644
-> > --- a/drivers/staging/wfx/key.c
-> > +++ b/drivers/staging/wfx/key.c
-> > @@ -174,7 +174,7 @@ static int wfx_add_key(struct wfx_vif *wvif, struct ieee80211_sta *sta,
-> >  			k.type = fill_tkip_pair(&k.key.tkip_pairwise_key, key, sta->addr);
-> >  		else
-> >  			k.type = fill_tkip_group(&k.key.tkip_group_key, key, &seq,
-> > -						 wvif->vif->type);
-> > +						 wvif_to_vif(wvif)->type);
-> >  	} else if (key->cipher == WLAN_CIPHER_SUITE_CCMP) {
-> >  		if (pairwise)
-> >  			k.type = fill_ccmp_pair(&k.key.aes_pairwise_key, key, sta->addr);
-> > @@ -224,4 +224,3 @@ int wfx_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd, struct ieee80211_
-> >  	mutex_unlock(&wvif->wdev->conf_mutex);
-> >  	return ret;
-> >  }
-> > -
-> > diff --git a/drivers/staging/wfx/queue.c b/drivers/staging/wfx/queue.c
-> > index 729825230db2..a2745d1024c6 100644
-> > --- a/drivers/staging/wfx/queue.c
-> > +++ b/drivers/staging/wfx/queue.c
-> > @@ -207,7 +207,7 @@ bool wfx_tx_queues_has_cab(struct wfx_vif *wvif)
-> >  {
-> >  	int i;
-> >  
-> > -	if (wvif->vif->type != NL80211_IFTYPE_AP)
-> > +	if (wvif_to_vif(wvif)->type != NL80211_IFTYPE_AP)
-> >  		return false;
-> >  	for (i = 0; i < IEEE80211_NUM_ACS; ++i)
-> >  		/* Note: since only AP can have mcast frames in queue and only one vif can be AP,
-> > diff --git a/drivers/staging/wfx/scan.c b/drivers/staging/wfx/scan.c
-> > index 7f34f0d322f9..5c25fde3fc41 100644
-> > --- a/drivers/staging/wfx/scan.c
-> > +++ b/drivers/staging/wfx/scan.c
-> > @@ -25,7 +25,7 @@ static int update_probe_tmpl(struct wfx_vif *wvif, struct cfg80211_scan_request
-> >  {
-> >  	struct sk_buff *skb;
-> >  
-> > -	skb = ieee80211_probereq_get(wvif->wdev->hw, wvif->vif->addr, NULL, 0, req->ie_len);
-> > +	skb = ieee80211_probereq_get(wvif->wdev->hw, wvif_to_vif(wvif)->addr, NULL, 0, req->ie_len);
-> >  	if (!skb)
-> >  		return -ENOMEM;
-> >  
-> > @@ -75,8 +75,8 @@ static int send_scan_req(struct wfx_vif *wvif, struct cfg80211_scan_request *req
-> >  	} else {
-> >  		ret = wvif->scan_nb_chan_done;
-> >  	}
-> > -	if (req->channels[start_idx]->max_power != wvif->vif->bss_conf.txpower)
-> > -		wfx_hif_set_output_power(wvif, wvif->vif->bss_conf.txpower);
-> > +	if (req->channels[start_idx]->max_power != wvif_to_vif(wvif)->bss_conf.txpower)
-> > +		wfx_hif_set_output_power(wvif, wvif_to_vif(wvif)->bss_conf.txpower);
-> >  	wfx_tx_unlock(wvif->wdev);
-> >  	return ret;
-> >  }
-> > diff --git a/drivers/staging/wfx/sta.c b/drivers/staging/wfx/sta.c
-> > index 03025ef7f1be..b634c8e004db 100644
-> > --- a/drivers/staging/wfx/sta.c
-> > +++ b/drivers/staging/wfx/sta.c
-> > @@ -132,7 +132,7 @@ void wfx_configure_filter(struct ieee80211_hw *hw, unsigned int changed_flags,
-> >  			filter_bssid = true;
-> >  
-> >  		/* In AP mode, chip can reply to probe request itself */
-> > -		if (*total_flags & FIF_PROBE_REQ && wvif->vif->type == NL80211_IFTYPE_AP) {
-> > +		if (*total_flags & FIF_PROBE_REQ && wvif_to_vif(wvif)->type == NL80211_IFTYPE_AP) {
-> >  			dev_dbg(wdev->dev, "do not forward probe request in AP mode\n");
-> >  			*total_flags &= ~FIF_PROBE_REQ;
-> >  		}
-> > @@ -153,18 +153,18 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
-> >  	struct ieee80211_channel *chan0 = NULL, *chan1 = NULL;
-> >  	struct ieee80211_conf *conf = &wvif->wdev->hw->conf;
-> >  
-> > -	WARN(!wvif->vif->bss_conf.assoc && enable_ps,
-> > +	WARN(!wvif_to_vif(wvif)->bss_conf.assoc && enable_ps,
-> >  	     "enable_ps is reliable only if associated");
-> >  	if (wdev_to_wvif(wvif->wdev, 0))
-> > -		chan0 = wdev_to_wvif(wvif->wdev, 0)->vif->bss_conf.chandef.chan;
-> > +		chan0 = wvif_to_vif(wdev_to_wvif(wvif->wdev, 0))->bss_conf.chandef.chan;
-> >  	if (wdev_to_wvif(wvif->wdev, 1))
-> > -		chan1 = wdev_to_wvif(wvif->wdev, 1)->vif->bss_conf.chandef.chan;
-> > -	if (chan0 && chan1 && wvif->vif->type != NL80211_IFTYPE_AP) {
-> > +		chan1 = wvif_to_vif(wdev_to_wvif(wvif->wdev, 1))->bss_conf.chandef.chan;
-> > +	if (chan0 && chan1 && wvif_to_vif(wvif)->type != NL80211_IFTYPE_AP) {
-> >  		if (chan0->hw_value == chan1->hw_value) {
-> >  			/* It is useless to enable PS if channels are the same. */
-> >  			if (enable_ps)
-> >  				*enable_ps = false;
-> > -			if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
-> > +			if (wvif_to_vif(wvif)->bss_conf.assoc && wvif_to_vif(wvif)->bss_conf.ps)
-> >  				dev_info(wvif->wdev->dev, "ignoring requested PS mode");
-> >  			return -1;
-> >  		}
-> > @@ -177,8 +177,8 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
-> >  			return 30;
-> >  	}
-> >  	if (enable_ps)
-> > -		*enable_ps = wvif->vif->bss_conf.ps;
-> > -	if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
-> > +		*enable_ps = wvif_to_vif(wvif)->bss_conf.ps;
-> > +	if (wvif_to_vif(wvif)->bss_conf.assoc && wvif_to_vif(wvif)->bss_conf.ps)
-> >  		return conf->dynamic_ps_timeout;
-> >  	else
-> >  		return -1;
-> > @@ -189,7 +189,7 @@ int wfx_update_pm(struct wfx_vif *wvif)
-> >  	int ps_timeout;
-> >  	bool ps;
-> >  
-> > -	if (!wvif->vif->bss_conf.assoc)
-> > +	if (!wvif_to_vif(wvif)->bss_conf.assoc)
-> >  		return 0;
-> >  	ps_timeout = wfx_get_ps_timeout(wvif, &ps);
-> >  	if (!ps)
-> > @@ -215,7 +215,7 @@ int wfx_conf_tx(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
-> >  	mutex_lock(&wdev->conf_mutex);
-> >  	assign_bit(queue, &wvif->uapsd_mask, params->uapsd);
-> >  	wfx_hif_set_edca_queue_params(wvif, queue, params);
-> > -	if (wvif->vif->type == NL80211_IFTYPE_STATION && old_uapsd != wvif->uapsd_mask) {
-> > +	if (wvif_to_vif(wvif)->type == NL80211_IFTYPE_STATION && old_uapsd != wvif->uapsd_mask) {
-> >  		wfx_hif_set_uapsd_info(wvif, wvif->uapsd_mask);
-> >  		wfx_update_pm(wvif);
-> >  	}
-> > @@ -242,20 +242,20 @@ void wfx_event_report_rssi(struct wfx_vif *wvif, u8 raw_rcpi_rssi)
-> >  	int cqm_evt;
-> >  
-> >  	rcpi_rssi = raw_rcpi_rssi / 2 - 110;
-> > -	if (rcpi_rssi <= wvif->vif->bss_conf.cqm_rssi_thold)
-> > +	if (rcpi_rssi <= wvif_to_vif(wvif)->bss_conf.cqm_rssi_thold)
-> >  		cqm_evt = NL80211_CQM_RSSI_THRESHOLD_EVENT_LOW;
-> >  	else
-> >  		cqm_evt = NL80211_CQM_RSSI_THRESHOLD_EVENT_HIGH;
-> > -	ieee80211_cqm_rssi_notify(wvif->vif, cqm_evt, rcpi_rssi, GFP_KERNEL);
-> > +	ieee80211_cqm_rssi_notify(wvif_to_vif(wvif), cqm_evt, rcpi_rssi, GFP_KERNEL);
-> >  }
-> >  
-> >  static void wfx_beacon_loss_work(struct work_struct *work)
-> >  {
-> >  	struct wfx_vif *wvif = container_of(to_delayed_work(work), struct wfx_vif,
-> >  					    beacon_loss_work);
-> > -	struct ieee80211_bss_conf *bss_conf = &wvif->vif->bss_conf;
-> > +	struct ieee80211_bss_conf *bss_conf = &wvif_to_vif(wvif)->bss_conf;
-> >  
-> > -	ieee80211_beacon_loss(wvif->vif);
-> > +	ieee80211_beacon_loss(wvif_to_vif(wvif));
-> >  	schedule_delayed_work(to_delayed_work(work), msecs_to_jiffies(bss_conf->beacon_int));
-> >  }
-> >  
-> > @@ -323,13 +323,13 @@ static int wfx_upload_ap_templates(struct wfx_vif *wvif)
-> >  {
-> >  	struct sk_buff *skb;
-> >  
-> > -	skb = ieee80211_beacon_get(wvif->wdev->hw, wvif->vif);
-> > +	skb = ieee80211_beacon_get(wvif->wdev->hw, wvif_to_vif(wvif));
-> >  	if (!skb)
-> >  		return -ENOMEM;
-> >  	wfx_hif_set_template_frame(wvif, skb, HIF_TMPLT_BCN, API_RATE_INDEX_B_1MBPS);
-> >  	dev_kfree_skb(skb);
-> >  
-> > -	skb = ieee80211_proberesp_get(wvif->wdev->hw, wvif->vif);
-> > +	skb = ieee80211_proberesp_get(wvif->wdev->hw, wvif_to_vif(wvif));
-> >  	if (!skb)
-> >  		return -ENOMEM;
-> >  	wfx_hif_set_template_frame(wvif, skb, HIF_TMPLT_PRBRES, API_RATE_INDEX_B_1MBPS);
-> > @@ -339,7 +339,7 @@ static int wfx_upload_ap_templates(struct wfx_vif *wvif)
-> >  
-> >  static void wfx_set_mfp_ap(struct wfx_vif *wvif)
-> >  {
-> > -	struct sk_buff *skb = ieee80211_beacon_get(wvif->wdev->hw, wvif->vif);
-> > +	struct sk_buff *skb = ieee80211_beacon_get(wvif->wdev->hw, wvif_to_vif(wvif));
-> >  	const int ieoffset = offsetof(struct ieee80211_mgmt, u.beacon.variable);
-> >  	const u16 *ptr = (u16 *)cfg80211_find_ie(WLAN_EID_RSN, skb->data + ieoffset,
-> >  						 skb->len - ieoffset);
-> > @@ -389,7 +389,7 @@ void wfx_stop_ap(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
-> >  static void wfx_join(struct wfx_vif *wvif)
-> >  {
-> >  	int ret;
-> > -	struct ieee80211_bss_conf *conf = &wvif->vif->bss_conf;
-> > +	struct ieee80211_bss_conf *conf = &wvif_to_vif(wvif)->bss_conf;
-> >  	struct cfg80211_bss *bss = NULL;
-> >  	u8 ssid[IEEE80211_MAX_SSID_LEN];
-> >  	const u8 *ssid_ie = NULL;
-> > @@ -420,7 +420,7 @@ static void wfx_join(struct wfx_vif *wvif)
-> >  	wvif->join_in_progress = true;
-> >  	ret = wfx_hif_join(wvif, conf, wvif->channel, ssid, ssid_len);
-> >  	if (ret) {
-> > -		ieee80211_connection_loss(wvif->vif);
-> > +		ieee80211_connection_loss(wvif_to_vif(wvif));
-> >  		wfx_reset(wvif);
-> >  	} else {
-> >  		/* Due to beacon filtering it is possible that the AP's beacon is not known for the
-> > @@ -440,7 +440,7 @@ static void wfx_join_finalize(struct wfx_vif *wvif, struct ieee80211_bss_conf *i
-> >  
-> >  	rcu_read_lock(); /* protect sta */
-> >  	if (info->bssid && !info->ibss_joined)
-> > -		sta = ieee80211_find_sta(wvif->vif, info->bssid);
-> > +		sta = ieee80211_find_sta(wvif_to_vif(wvif), info->bssid);
-> >  	if (sta && sta->ht_cap.ht_supported)
-> >  		ampdu_density = sta->ht_cap.ampdu_density;
-> >  	if (sta && sta->ht_cap.ht_supported &&
-> > @@ -565,7 +565,7 @@ static int wfx_update_tim(struct wfx_vif *wvif)
-> >  	u16 tim_offset, tim_length;
-> >  	u8 *tim_ptr;
-> >  
-> > -	skb = ieee80211_beacon_get_tim(wvif->wdev->hw, wvif->vif, &tim_offset, &tim_length);
-> > +	skb = ieee80211_beacon_get_tim(wvif->wdev->hw, wvif_to_vif(wvif), &tim_offset, &tim_length);
-> >  	if (!skb)
-> >  		return -ENOENT;
-> >  	tim_ptr = skb->data + tim_offset;
-> > @@ -707,8 +707,6 @@ int wfx_add_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
-> >  		return -EOPNOTSUPP;
-> >  	}
-> >  
-> > -	/* FIXME: prefer use of container_of() to get vif */
-> > -	wvif->vif = vif;
-> >  	wvif->wdev = wdev;
-> >  
-> >  	wvif->link_id_map = 1; /* link-id 0 is reserved for multicast */
-> > @@ -767,7 +765,6 @@ void wfx_remove_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
-> >  
-> >  	cancel_delayed_work_sync(&wvif->beacon_loss_work);
-> >  	wdev->vif[wvif->id] = NULL;
-> > -	wvif->vif = NULL;
-> >  
-> >  	mutex_unlock(&wdev->conf_mutex);
-> >  
-> > diff --git a/drivers/staging/wfx/wfx.h b/drivers/staging/wfx/wfx.h
-> > index 6594cc647c2f..78f2a416fe4f 100644
-> > --- a/drivers/staging/wfx/wfx.h
-> > +++ b/drivers/staging/wfx/wfx.h
-> > @@ -25,6 +25,8 @@
-> >  #define USEC_PER_TXOP 32 /* see struct ieee80211_tx_queue_params */
-> >  #define USEC_PER_TU 1024
-> >  
-> > +#define wvif_to_vif(ptr)(container_of((void *)ptr, struct ieee80211_vif, drv_priv))
-> > +
-> >  struct wfx_hwbus_ops;
-> >  
-> >  struct wfx_dev {
-> > @@ -61,7 +63,6 @@ struct wfx_dev {
-> >  
-> >  struct wfx_vif {
-> >  	struct wfx_dev             *wdev;
-> > -	struct ieee80211_vif       *vif;
-> >  	struct ieee80211_channel   *channel;
-> >  	int                        id;
-> >  
-> > -- 
-> > 2.25.1
-> > 
-> > 
+PiBTdWJqZWN0OiBSZTogUkU6IFJlOiBbUEFUQ0ggMDkvMTFdIGRyaXZlcnM6IGluZmluaWJhbmQ6
+IGh3OiBGaXggZGVhZGxvY2sgaW4NCj4gaXJkbWFfY2xlYW51cF9jbV9jb3JlKCkNCj4gDQo+IEhl
+bGxvLA0KPiANCj4gT24gVGh1LCA3IEFwciAyMDIyIDE3OjM2OjEyICswMDAwIFNhbGVlbSwgU2hp
+cmF6IHdyb3RlOg0KPiANCj4gPiA+IFN1YmplY3Q6IFJlOiBSZTogW1BBVENIIDA5LzExXSBkcml2
+ZXJzOiBpbmZpbmliYW5kOiBodzogRml4IGRlYWRsb2NrDQo+ID4gPiBpbg0KPiA+ID4gaXJkbWFf
+Y2xlYW51cF9jbV9jb3JlKCkNCj4gPiA+DQo+ID4gPiBPbiBUaHUsIEFwciAwNywgMjAyMiBhdCAw
+ODo1NDoxM1BNICswODAwLCBkdW9taW5nQHpqdS5lZHUuY24gd3JvdGU6DQo+ID4gPiA+IEhlbGxv
+LA0KPiA+ID4gPg0KPiA+ID4gPiBPbiBUaHUsIDcgQXByIDIwMjIgMTQ6MjQ6NTYgKzAzMDAgRGFu
+IENhcnBlbnRlciB3cm90ZToNCj4gPiA+ID4NCj4gPiA+ID4gPiA+IFRoZXJlIGlzIGEgZGVhZGxv
+Y2sgaW4gaXJkbWFfY2xlYW51cF9jbV9jb3JlKCksIHdoaWNoIGlzIHNob3duDQo+ID4gPiA+ID4g
+PiBiZWxvdzoNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAgICAoVGhyZWFkIDEpICAgICAgICAg
+ICAgICB8ICAgICAgKFRocmVhZCAyKQ0KPiA+ID4gPiA+ID4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfCBpcmRtYV9zY2hlZHVsZV9jbV90aW1lcigpDQo+ID4gPiA+ID4gPiBpcmRtYV9jbGVh
+bnVwX2NtX2NvcmUoKSAgICB8ICBhZGRfdGltZXIoKQ0KPiA+ID4gPiA+ID4gIHNwaW5fbG9ja19p
+cnFzYXZlKCkgLy8oMSkgfCAgKHdhaXQgYSB0aW1lKQ0KPiA+ID4gPiA+ID4gIC4uLiAgICAgICAg
+ICAgICAgICAgICAgICAgfCBpcmRtYV9jbV90aW1lcl90aWNrKCkNCj4gPiA+ID4gPiA+ICBkZWxf
+dGltZXJfc3luYygpICAgICAgICAgIHwgIHNwaW5fbG9ja19pcnFzYXZlKCkgLy8oMikNCj4gPiA+
+ID4gPiA+ICAod2FpdCB0aW1lciB0byBzdG9wKSAgICAgIHwgIC4uLg0KPiA+ID4gPiA+ID4NCj4g
+PiA+ID4gPiA+IFdlIGhvbGQgY21fY29yZS0+aHRfbG9jayBpbiBwb3NpdGlvbiAoMSkgb2YgdGhy
+ZWFkIDEgYW5kIHVzZQ0KPiA+ID4gPiA+ID4gZGVsX3RpbWVyX3N5bmMoKSB0byB3YWl0IHRpbWVy
+IHRvIHN0b3AsIGJ1dCB0aW1lciBoYW5kbGVyIGFsc28NCj4gPiA+ID4gPiA+IG5lZWQgY21fY29y
+ZS0+aHRfbG9jayBpbiBwb3NpdGlvbiAoMikgb2YgdGhyZWFkIDIuDQo+ID4gPiA+ID4gPiBBcyBh
+IHJlc3VsdCwgaXJkbWFfY2xlYW51cF9jbV9jb3JlKCkgd2lsbCBibG9jayBmb3JldmVyLg0KPiA+
+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IFRoaXMgcGF0Y2ggZXh0cmFjdHMgZGVsX3RpbWVyX3N5bmMo
+KSBmcm9tIHRoZSBwcm90ZWN0aW9uIG9mDQo+ID4gPiA+ID4gPiBzcGluX2xvY2tfaXJxc2F2ZSgp
+LCB3aGljaCBjb3VsZCBsZXQgdGltZXIgaGFuZGxlciB0byBvYnRhaW4NCj4gPiA+ID4gPiA+IHRo
+ZSBuZWVkZWQgbG9jay4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBE
+dW9taW5nIFpob3UgPGR1b21pbmdAemp1LmVkdS5jbj4NCj4gPiA+ID4gPiA+IC0tLQ0KPiA+ID4g
+PiA+ID4gIGRyaXZlcnMvaW5maW5pYmFuZC9ody9pcmRtYS9jbS5jIHwgNSArKysrLQ0KPiA+ID4g
+PiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4g
+PiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbmZpbmliYW5kL2h3
+L2lyZG1hL2NtLmMNCj4gPiA+ID4gPiA+IGIvZHJpdmVycy9pbmZpbmliYW5kL2h3L2lyZG1hL2Nt
+LmMNCj4gPiA+ID4gPiA+IGluZGV4IGRlZGIzYjdlZGQ4Li4wMTlkZDhiZmUwOCAxMDA2NDQNCj4g
+PiA+ID4gPiA+IC0tLSBhL2RyaXZlcnMvaW5maW5pYmFuZC9ody9pcmRtYS9jbS5jDQo+ID4gPiA+
+ID4gPiArKysgYi9kcml2ZXJzL2luZmluaWJhbmQvaHcvaXJkbWEvY20uYw0KPiA+ID4gPiA+ID4g
+QEAgLTMyNTIsOCArMzI1MiwxMSBAQCB2b2lkIGlyZG1hX2NsZWFudXBfY21fY29yZShzdHJ1Y3QN
+Cj4gPiA+IGlyZG1hX2NtX2NvcmUgKmNtX2NvcmUpDQo+ID4gPiA+ID4gPiAgCQlyZXR1cm47DQo+
+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gIAlzcGluX2xvY2tfaXJxc2F2ZSgmY21fY29yZS0+aHRf
+bG9jaywgZmxhZ3MpOw0KPiA+ID4gPiA+ID4gLQlpZiAodGltZXJfcGVuZGluZygmY21fY29yZS0+
+dGNwX3RpbWVyKSkNCj4gPiA+ID4gPiA+ICsJaWYgKHRpbWVyX3BlbmRpbmcoJmNtX2NvcmUtPnRj
+cF90aW1lcikpIHsNCj4gPiA+ID4gPiA+ICsJCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmNtX2Nv
+cmUtPmh0X2xvY2ssIGZsYWdzKTsNCj4gPiA+ID4gPiA+ICAJCWRlbF90aW1lcl9zeW5jKCZjbV9j
+b3JlLT50Y3BfdGltZXIpOw0KPiA+ID4gPiA+ID4gKwkJc3Bpbl9sb2NrX2lycXNhdmUoJmNtX2Nv
+cmUtPmh0X2xvY2ssIGZsYWdzKTsNCj4gPiA+ID4gPiA+ICsJfQ0KPiA+ID4gPiA+ID4gIAlzcGlu
+X3VubG9ja19pcnFyZXN0b3JlKCZjbV9jb3JlLT5odF9sb2NrLCBmbGFncyk7DQo+ID4gPiA+ID4N
+Cj4gPiA+ID4gPiBUaGlzIGxvY2sgZG9lc24ndCBzZWVtIHRvIGJlIHByb3RlY3RpbmcgYW55dGhp
+bmcuICBBbHNvIGRvIHdlDQo+ID4gPiA+ID4gbmVlZCB0byBjaGVjayB0aW1lcl9wZW5kaW5nKCk/
+ICBJIHRoaW5rIHRoZSBkZWxfdGltZXJfc3luYygpDQo+ID4gPiA+ID4gZnVuY3Rpb24gd2lsbCBq
+dXN0IHJldHVybiBkaXJlY3RseSBpZiB0aGVyZSBpc24ndCBhIHBlbmRpbmcgbG9jaz8NCj4gPiA+
+ID4NCj4gPiA+ID4gVGhhbmtzIGEgbG90IGZvciB5b3VyIGFkdmljZSwgSSB3aWxsIHJlbW92ZSB0
+aGUgdGltZXJfcGVuZGluZygpDQo+ID4gPiA+IGFuZCB0aGUgcmVkdW5kYW50IGxvY2suDQo+ID4g
+Pg0KPiA+ID4gSSBkaWRuJ3QgZ2l2ZSBhbnkgYWR2aWNlLiA6UCBJIG9ubHkgYXNrIHF1ZXN0aW9u
+cyB3aGVuIEkgZG9uJ3Qga25vdyB0aGUgYW5zd2Vycy4NCj4gPiA+IFNvbWVvbmUgcHJvYmFibHkg
+bmVlZHMgdG8gbG9vayBhdCAmY21fY29yZS0+aHRfbG9jayBhbmQgZmlndXJlIG91dA0KPiA+ID4g
+d2hhdCBpdCdzIHByb3RlY3RpbmcuDQo+ID4gPg0KPiA+IEFncmVlZCBvbiB0aGlzIGZpeC4NCj4g
+Pg0KPiA+IFdlIHNob3VsZCBub3QgbG9jayBhcm91bmQgZGVsX3RpbWVyX3N5bmMgb3IgbmVlZCB0
+byBjaGVjayBvbiB0aW1lcl9wZW5kaW5nLg0KPiA+DQo+ID4gSG93ZXZlciwgd2UgZG8gbmVlZCBz
+ZXJpYWxpemUgYWRkaXRpb24gb2YgYSB0aW1lciB3aGljaCBjYW4gYmUgY2FsbGVkIGZyb20NCj4g
+bXVsdGlwbGUgcGF0aHMsIGkuZS4gdGhlIHRpbWVyIGhhbmRsZXIgYW5kIGlyZG1hX3NjaGVkdWxl
+X2NtX3RpbWVyLg0KPiANCj4gSSB0aGluayB3ZSBzaG91bGQgcmVwbGFjZSB0aGUgY2hlY2sgImlm
+ICghdGltZXJfcGVuZGluZygmY21fY29yZS0+dGNwX3RpbWVyKSkiIHRvDQo+ICJpZiAodGltZXJf
+cGVuZGluZygmY21fY29yZS0+dGNwX3RpbWVyKSkiIGluIGlyZG1hX2NtX3RpbWVyX3RpY2soKSwg
+YW5kIHJlcGxhY2UgImlmDQo+ICghd2FzX3RpbWVyX3NldCkiIHRvICJpZiAod2FzX3RpbWVyX3Nl
+dCkiIGluIGlyZG1hX3NjaGVkdWxlX2NtX3RpbWVyKCkgaW4gb3JkZXIgdG8NCj4gZ3VhcmFudGVl
+IHRoZSB0aW1lciBjb3VsZCBiZSBleGVjdXRlZC4gSSB3aWxsIHNlbmQgdGhlIG1vZGlmaWVkIHBh
+dGNoIGFzIHNvb24gYXMNCj4gcG9zc2libGUuDQo+IA0KDQpObyB3ZSBkb27igJl0IGFybSB0aGUg
+dGltZXIgaWYgdGhlcmUncyBpcyBvbmUgcGVuZGluZy4gSXRzIGFsc28gYSBidWcgdG8gZG8gc28u
+IA0KDQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92NS4xOC1yYzEvc291cmNlL2tl
+cm5lbC90aW1lL3RpbWVyLmMjTDExNDMNCg==
