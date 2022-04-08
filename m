@@ -1,296 +1,168 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6F220E4
-	for <linux-staging@lists.linux.dev>; Fri,  8 Apr 2022 15:04:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1649430297;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Nf3doDTjAQOJeXMo+td/oIn+T9zeQzKA6cjU7aYrP9I=;
-	b=E+WsOw0GkX2lRcPAFB+0HkYfK/ozjJbsRU87F0lKT/xV45v4JLh1n2tV3+t+ibnKhVL/yy
-	RqqVAc9UguKHGLrlEUj38i8y+VnJphfEt/UTH14DKJxzDHbEGRAP8O9gq4Mzqp4nqcFpOh
-	ZKEAYySZXJMroK0Pbr9ews1ezjF/lSU=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-210-iOKpy-KVMDiR4t_RPg_cgQ-1; Fri, 08 Apr 2022 11:04:56 -0400
-X-MC-Unique: iOKpy-KVMDiR4t_RPg_cgQ-1
-Received: by mail-qk1-f198.google.com with SMTP id ay14-20020a05620a178e00b0069a9c319c64so1888914qkb.3
-        for <linux-staging@lists.linux.dev>; Fri, 08 Apr 2022 08:04:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Nf3doDTjAQOJeXMo+td/oIn+T9zeQzKA6cjU7aYrP9I=;
-        b=EPsrswiN5A51WVpoa+gaiwwp7ubqbC7KKSpce3E43M8/2X/j/WtfQfalVRKaAjQHH5
-         99M1jR0YM/fYSox6wjKcZUy0aJvWdrQohc5b2Oq+j0pdd8PVzk4AshCJvMQF2Ez1PFjc
-         LC0tfgjlytI4t/YVfPmsVmJI/rI8HG8Ur5L4ujChpxqwb4/Y0rkpGIkqt/gnJFUo8UMY
-         jQ5K8o6rdNxEatbt25AJnGHz0xqyhNhtSp7CbJgnj6F5EeFKL4FJJQoPow7RZ59OfeoX
-         eJq9Y2KKTMQRChLrJxMXMC23wMgtHkOmHth3dM40//gjuGkH8E6lL9M2Wqrp2ZPigHAS
-         lPIA==
-X-Gm-Message-State: AOAM530oiJLatMT1cwxXDg/M9gWyaOduoD64rJ5ZCilFV2qVVyQYYqy8
-	2cteUnfWIS0+VQnCCwYcrqvPPtAPABvnRu0SBbzaumfl5tTOSb4Uy5A46+BAje1HQKE3PIdRxW1
-	lnF6DRswfhd1/p+Pnka6imkuVCw==
-X-Received: by 2002:ad4:5d48:0:b0:440:ef43:3667 with SMTP id jk8-20020ad45d48000000b00440ef433667mr16347234qvb.110.1649430295313;
-        Fri, 08 Apr 2022 08:04:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCVc7ORoGlnJj5uukafi+K7qBY9LttNX9++JT3/dAotS3gtzJ8mGW4F4g7a6PbpA5LgjzL4g==
-X-Received: by 2002:ad4:5d48:0:b0:440:ef43:3667 with SMTP id jk8-20020ad45d48000000b00440ef433667mr16347198qvb.110.1649430295084;
-        Fri, 08 Apr 2022 08:04:55 -0700 (PDT)
-Received: from fedora.hitronhub.home (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id g9-20020a05620a108900b0067b13036bd5sm13700748qkk.52.2022.04.08.08.04.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 08:04:54 -0700 (PDT)
-From: Adrien Thierry <athierry@redhat.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>
-Cc: Adrien Thierry <athierry@redhat.com>,
-	linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: bcm2835-audio: remove compat ALSA card
-Date: Fri,  8 Apr 2022 11:03:58 -0400
-Message-Id: <20220408150359.26661-1-athierry@redhat.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18785623;
+	Fri,  8 Apr 2022 16:33:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: nicolas)
+	with ESMTPSA id CCA771F472F7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649435620;
+	bh=/tbQC/9J2hf57DwJAeFvsuSkxP9cojOW7/Vitx+0DRc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=kFCddj/7WhsLUGeDoxNvsCJWGmgYoMZVEFWH4gti4wECBFfvu0xvDcVJK++EQr8x9
+	 TdRePj0wTS24e6Z+I3VW7OM+YENce42o3jmUssrwRWk0QkSfqXpLGvGGLPQjZa/SQ4
+	 /SS15K6Hf31vIrRhVn935ZhafdEYHGtogv+h622eHRSS4Nhp71nd/xtzuvlDVZakcV
+	 wsRIfhoKNVeqh1pKakIL+L3Igv4dkEC6TUY3i5mU1JlRhq9x5W0jBIrvn3tWlfk9Mv
+	 wNAe4MWkw4yTBpD+9peYs3j/ckqNdoWV9qn/ps2JL6TprzzS9DJxsLjrkpgwHRQ8TV
+	 7nHlvVd62nj3Q==
+Message-ID: <34f586efdd6401b509cf11fba75039d5494c4eff.camel@collabora.com>
+Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
+ definition in v4l2_hevc_dpb_entry
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+  hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+  gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	sebastian.fricke@collabora.com
+Date: Fri, 08 Apr 2022 12:33:28 -0400
+In-Reply-To: <20220407152940.738159-7-benjamin.gaignard@collabora.com>
+References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
+	 <20220407152940.738159-7-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Remove compat ALSA card, which has overlapping functionality with the
-two other cards described by the driver (HDMI and headphones)
+Le jeudi 07 avril 2022 =C3=A0 17:29 +0200, Benjamin Gaignard a =C3=A9crit=
+=C2=A0:
+> HEVC specifications say that:
+> "PicOrderCntVal is derived as follows:
+> PicOrderCntVal =3D PicOrderCntMsb + slice_pic_order_cnt_lsb
+> The value of PicOrderCntVal shall be in the range of =E2=88=92231 to 231 =
+=E2=88=92 1, inclusive."
+>=20
+> To match with these definitions change __u16 pic_order_cnt[2]
+> into __s32 pic_order_cnt_val.
 
-This handles TODO item "Revisit multi-cards options and PCM route mixer
-control".
+You forgot to update the slice_params->slice_pic_order_count.
 
-Move the S/PDIF device that was part of the compat ALSA card to the HDMI
-card.
+Nicolas
 
-Only enable headphones card by default, because HDMI breaks when using
-both vc4 and bcm2835-audio with HDMI card enabled.
-
-Signed-off-by: Adrien Thierry <athierry@redhat.com>
----
-
-I was able to test PCM output on 3.5mm and HDMI on a Raspberry Pi 4.
-However, I couldn't test the HDMI S/PDIF device since I don't own a S/PDIF
-capable speaker.
-
- .../vc04_services/bcm2835-audio/bcm2835-ctl.c | 86 ++-----------------
- .../vc04_services/bcm2835-audio/bcm2835.c     | 33 ++-----
- 2 files changed, 15 insertions(+), 104 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c
-index 3703409715da..1c1f040122d7 100644
---- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c
-+++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c
-@@ -117,15 +117,6 @@ static const struct snd_kcontrol_new snd_bcm2835_ctl[] = {
- 		.get = snd_bcm2835_ctl_get,
- 		.put = snd_bcm2835_ctl_put,
- 	},
--	{
--		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
--		.name = "PCM Playback Route",
--		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
--		.private_value = PCM_PLAYBACK_DEVICE,
--		.info = snd_bcm2835_ctl_info,
--		.get = snd_bcm2835_ctl_get,
--		.put = snd_bcm2835_ctl_put,
--	},
- };
- 
- static int snd_bcm2835_spdif_default_info(struct snd_kcontrol *kcontrol,
-@@ -220,7 +211,14 @@ static int create_ctls(struct bcm2835_chip *chip, size_t size,
- 	return 0;
- }
- 
--int snd_bcm2835_new_ctl(struct bcm2835_chip *chip)
-+int snd_bcm2835_new_headphones_ctl(struct bcm2835_chip *chip)
-+{
-+	strscpy(chip->card->mixername, "Broadcom Mixer", sizeof(chip->card->mixername));
-+	return create_ctls(chip, ARRAY_SIZE(snd_bcm2835_ctl),
-+			   snd_bcm2835_ctl);
-+}
-+
-+int snd_bcm2835_new_hdmi_ctl(struct bcm2835_chip *chip)
- {
- 	int err;
- 
-@@ -232,71 +230,3 @@ int snd_bcm2835_new_ctl(struct bcm2835_chip *chip)
- 			   snd_bcm2835_spdif);
- }
- 
--static const struct snd_kcontrol_new snd_bcm2835_headphones_ctl[] = {
--	{
--		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
--		.name = "Headphone Playback Volume",
--		.index = 0,
--		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
--			  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
--		.private_value = PCM_PLAYBACK_VOLUME,
--		.info = snd_bcm2835_ctl_info,
--		.get = snd_bcm2835_ctl_get,
--		.put = snd_bcm2835_ctl_put,
--		.count = 1,
--		.tlv = {.p = snd_bcm2835_db_scale}
--	},
--	{
--		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
--		.name = "Headphone Playback Switch",
--		.index = 0,
--		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
--		.private_value = PCM_PLAYBACK_MUTE,
--		.info = snd_bcm2835_ctl_info,
--		.get = snd_bcm2835_ctl_get,
--		.put = snd_bcm2835_ctl_put,
--		.count = 1,
--	}
--};
--
--int snd_bcm2835_new_headphones_ctl(struct bcm2835_chip *chip)
--{
--	strscpy(chip->card->mixername, "Broadcom Mixer", sizeof(chip->card->mixername));
--	return create_ctls(chip, ARRAY_SIZE(snd_bcm2835_headphones_ctl),
--			   snd_bcm2835_headphones_ctl);
--}
--
--static const struct snd_kcontrol_new snd_bcm2835_hdmi[] = {
--	{
--		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
--		.name = "HDMI Playback Volume",
--		.index = 0,
--		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
--			  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
--		.private_value = PCM_PLAYBACK_VOLUME,
--		.info = snd_bcm2835_ctl_info,
--		.get = snd_bcm2835_ctl_get,
--		.put = snd_bcm2835_ctl_put,
--		.count = 1,
--		.tlv = {.p = snd_bcm2835_db_scale}
--	},
--	{
--		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
--		.name = "HDMI Playback Switch",
--		.index = 0,
--		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
--		.private_value = PCM_PLAYBACK_MUTE,
--		.info = snd_bcm2835_ctl_info,
--		.get = snd_bcm2835_ctl_get,
--		.put = snd_bcm2835_ctl_put,
--		.count = 1,
--	}
--};
--
--int snd_bcm2835_new_hdmi_ctl(struct bcm2835_chip *chip)
--{
--	strscpy(chip->card->mixername, "Broadcom Mixer", sizeof(chip->card->mixername));
--	return create_ctls(chip, ARRAY_SIZE(snd_bcm2835_hdmi),
--			   snd_bcm2835_hdmi);
--}
--
-diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-index 628732d7bf6a..00bc898b0189 100644
---- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-+++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-@@ -10,17 +10,13 @@
- #include "bcm2835.h"
- 
- static bool enable_hdmi;
--static bool enable_headphones;
--static bool enable_compat_alsa = true;
-+static bool enable_headphones = true;
- static int num_channels = MAX_SUBSTREAMS;
- 
- module_param(enable_hdmi, bool, 0444);
- MODULE_PARM_DESC(enable_hdmi, "Enables HDMI virtual audio device");
- module_param(enable_headphones, bool, 0444);
- MODULE_PARM_DESC(enable_headphones, "Enables Headphones virtual audio device");
--module_param(enable_compat_alsa, bool, 0444);
--MODULE_PARM_DESC(enable_compat_alsa,
--		 "Enables ALSA compatibility virtual audio device");
- module_param(num_channels, int, 0644);
- MODULE_PARM_DESC(num_channels, "Number of audio channels (default: 8)");
- 
-@@ -63,19 +59,20 @@ struct bcm2835_audio_driver {
- 	enum snd_bcm2835_route route;
- };
- 
--static int bcm2835_audio_alsa_newpcm(struct bcm2835_chip *chip,
-+static int bcm2835_audio_dual_newpcm(struct bcm2835_chip *chip,
- 				     const char *name,
- 				     enum snd_bcm2835_route route,
- 				     u32 numchannels)
- {
- 	int err;
- 
--	err = snd_bcm2835_new_pcm(chip, "bcm2835 ALSA", 0, AUDIO_DEST_AUTO,
--				  numchannels - 1, false);
-+	err = snd_bcm2835_new_pcm(chip, name, 0, route,
-+				  numchannels, false);
-+
- 	if (err)
- 		return err;
- 
--	err = snd_bcm2835_new_pcm(chip, "bcm2835 IEC958/HDMI", 1, 0, 1, true);
-+	err = snd_bcm2835_new_pcm(chip, "IEC958", 1, route, 1, true);
- 	if (err)
- 		return err;
- 
-@@ -90,18 +87,6 @@ static int bcm2835_audio_simple_newpcm(struct bcm2835_chip *chip,
- 	return snd_bcm2835_new_pcm(chip, name, 0, route, numchannels, false);
- }
- 
--static struct bcm2835_audio_driver bcm2835_audio_alsa = {
--	.driver = {
--		.name = "bcm2835_alsa",
--		.owner = THIS_MODULE,
--	},
--	.shortname = "bcm2835 ALSA",
--	.longname  = "bcm2835 ALSA",
--	.minchannels = 2,
--	.newpcm = bcm2835_audio_alsa_newpcm,
--	.newctl = snd_bcm2835_new_ctl,
--};
--
- static struct bcm2835_audio_driver bcm2835_audio_hdmi = {
- 	.driver = {
- 		.name = "bcm2835_hdmi",
-@@ -110,7 +95,7 @@ static struct bcm2835_audio_driver bcm2835_audio_hdmi = {
- 	.shortname = "bcm2835 HDMI",
- 	.longname  = "bcm2835 HDMI",
- 	.minchannels = 1,
--	.newpcm = bcm2835_audio_simple_newpcm,
-+	.newpcm = bcm2835_audio_dual_newpcm,
- 	.newctl = snd_bcm2835_new_hdmi_ctl,
- 	.route = AUDIO_DEST_HDMI
- };
-@@ -134,10 +119,6 @@ struct bcm2835_audio_drivers {
- };
- 
- static struct bcm2835_audio_drivers children_devices[] = {
--	{
--		.audio_driver = &bcm2835_audio_alsa,
--		.is_enabled = &enable_compat_alsa,
--	},
- 	{
- 		.audio_driver = &bcm2835_audio_hdmi,
- 		.is_enabled = &enable_hdmi,
-
-base-commit: 1831fed559732b132aef0ea8261ac77e73f7eadf
--- 
-2.35.1
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 5:
+> - change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
+>  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
+>  drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
+>  drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
+>  include/media/hevc-ctrls.h                        | 2 +-
+>  5 files changed, 8 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/=
+staging/media/hantro/hantro_g2_hevc_dec.c
+> index c524af41baf5..6f3c774aa3d9 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> @@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>  	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
+>  	 */
+>  	for (i =3D 0; i < decode_params->num_active_dpb_entries && i < ARRAY_SI=
+ZE(cur_poc); i++) {
+> -		char poc_diff =3D decode_params->pic_order_cnt_val - dpb[i].pic_order_=
+cnt[0];
+> +		char poc_diff =3D decode_params->pic_order_cnt_val - dpb[i].pic_order_=
+cnt_val;
+> =20
+>  		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
+>  	}
+> @@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>  	dpb_longterm_e =3D 0;
+>  	for (i =3D 0; i < decode_params->num_active_dpb_entries &&
+>  	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
+> -		luma_addr =3D hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
+> +		luma_addr =3D hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val);
+>  		if (!luma_addr)
+>  			return -ENOMEM;
+> =20
+> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging=
+/media/hantro/hantro_hevc.c
+> index b6ec86d03d91..fadd40768579 100644
+> --- a/drivers/staging/media/hantro/hantro_hevc.c
+> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+> @@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *ctx=
+)
+>  }
+> =20
+>  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+> -				   int poc)
+> +				   s32 poc)
+>  {
+>  	struct hantro_hevc_dec_hw_ctx *hevc_dec =3D &ctx->hevc_dec;
+>  	int i;
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/m=
+edia/hantro/hantro_hw.h
+> index ed018e293ba0..a648c529662b 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
+>  	struct hantro_aux_buf tile_bsd;
+>  	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
+>  	struct hantro_aux_buf scaling_lists;
+> -	int ref_bufs_poc[NUM_REF_PICTURES];
+> +	s32 ref_bufs_poc[NUM_REF_PICTURES];
+>  	u32 ref_bufs_used;
+>  	struct hantro_hevc_dec_ctrls ctrls;
+>  	unsigned int num_tile_cols_allocated;
+> @@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+>  void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+>  int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+>  int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+> -dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+> +dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+>  int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t =
+addr);
+>  void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+>  size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h265.c
+> index 44f385be9f6c..d04521ffd920 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct c=
+edrus_ctx *ctx,
+>  	for (i =3D 0; i < num_active_dpb_entries; i++) {
+>  		int buffer_index =3D vb2_find_timestamp(vq, dpb[i].timestamp, 0);
+>  		u32 pic_order_cnt[2] =3D {
+> -			dpb[i].pic_order_cnt[0],
+> -			dpb[i].pic_order_cnt[1]
+> +			dpb[i].pic_order_cnt_val & 0xffff,
+> +			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
+>  		};
+> =20
+>  		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index b3540167df9e..2812778b41f4 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
+>  	__u64	timestamp;
+>  	__u8	flags;
+>  	__u8	field_pic;
+> -	__u16	pic_order_cnt[2];
+> +	__s32	pic_order_cnt_val;
+>  	__u8	padding[2];
+>  };
+> =20
 
