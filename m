@@ -1,95 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE42366;
-	Fri,  8 Apr 2022 04:45:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E34DFC385A3;
-	Fri,  8 Apr 2022 04:45:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EED3366;
+	Fri,  8 Apr 2022 05:09:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C06AC385A1;
+	Fri,  8 Apr 2022 05:09:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1649393155;
-	bh=7lE1WpCl6Wiqc1IF6o6ROkQcTmCYCmlk5yThG4LhwDI=;
+	s=korg; t=1649394589;
+	bh=wW/WiXjDRjhOQJ2j+/wUQxXY5ErhWXLkWm2Z+gRGVpo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uuJu3pzZADimLOrM+BO+8kpLs+0MgZud2+AAAxm7ReoOY5YQImOnFHlZMDQUN3VTl
-	 5S/CpvmtpY8Bq5VJ3+qrN9K5fUM37sNEfk5GNw2moXv9YUAZDpbaELsI6gm44hvUBp
-	 BBXj3VKudp/7WW+fhqXNJyA2V8iQV03XPQcr3Sgk=
-Date: Fri, 8 Apr 2022 06:45:52 +0200
+	b=RZ962WN+gcwZp4+6kLgbFVwSQUcskTC7E+dJhstGSXlDM6KOos100DfkNDYFDtCF8
+	 M6hjRtMqQzWPcmgAcQ5JQPJt6kpyDVna2e3zMboGa+S5fjAj+gXXIEgUJqWdYe703u
+	 BzwI3H7x9JHHvgr3+LHj/0I/PEa6pFYIQpjnULVM=
+Date: Fri, 8 Apr 2022 07:09:47 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jaehee Park <jhpark1013@gmail.com>
-Cc: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [PATCH v2] staging: wfx: use container_of() to get vif
-Message-ID: <Yk++AMDTu7LCbjHu@kroah.com>
-References: <20220408032349.GA2132476@jaehee-ThinkPad-X1-Extreme>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Rebecca Mckeever <remckee0@gmail.com>, outreachy@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] staging: rtl8192u: replace ternary statement with
+ if and assignment
+Message-ID: <Yk/Dmy7PYqn532M+@kroah.com>
+References: <cover.1649378587.git.remckee0@gmail.com>
+ <36059ec66a2f3d58a8e339aa4f262772eabd3ef0.1649378587.git.remckee0@gmail.com>
+ <alpine.DEB.2.22.394.2204080614400.2199@hadrien>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220408032349.GA2132476@jaehee-ThinkPad-X1-Extreme>
+In-Reply-To: <alpine.DEB.2.22.394.2204080614400.2199@hadrien>
 
-On Thu, Apr 07, 2022 at 11:23:49PM -0400, Jaehee Park wrote:
-> Use container_of() to get vif. This improves the code in two ways:
-> [1] it speeds up the compilation because container_of() saves steps to
-> retrieve vif (the representation of ieee80211_vif), and
-> [2] it eliminates the need to define multiple pointers. Previously,
-> after setting the pointer to drv_priv, another pointer had to be
-> defined by vif in struct wfx_vif to point back to ieee80211_vif.
-> Remove vif from the struct wfx_vif, define a macro wvif_to_vif(ptr)
-> for container_of(), and replace all wvif->vif with the newly defined
-> container_of() construct.
+On Fri, Apr 08, 2022 at 06:15:14AM +0200, Julia Lawall wrote:
 > 
-> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
-> ---
-> Note: 
-> This is a revised patch to sequence the wfx.h file (with the new defines) to show up first on the diff, which makes the ordering of the diff more logical.
 > 
-> Questions:
-> - These changes had built without errors for me but it would be great if someone can test it on the actual hardware.
-> - We noticed that the development of the wfx driver is happening in the netdev tree instead of Greg's tree. Do you suggest that I use the net-next tree for this change? 
-> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/log/drivers/staging/wfx
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/log/drivers/staging/wfx
+> On Thu, 7 Apr 2022, Rebecca Mckeever wrote:
 > 
-> drivers/staging/wfx/wfx.h     |  3 ++-
->  drivers/staging/wfx/data_rx.c |  4 ++--
->  drivers/staging/wfx/data_tx.c |  2 +-
->  drivers/staging/wfx/key.c     |  3 +--
->  drivers/staging/wfx/queue.c   |  2 +-
->  drivers/staging/wfx/scan.c    |  6 ++---
->  drivers/staging/wfx/sta.c     | 45 ++++++++++++++++-------------------
->  7 files changed, 31 insertions(+), 34 deletions(-)
+> > Replace ternary statement with an if statement followed by an assignment
+> > to increase readability and make error handling more obvious.
+> > Found with minmax coccinelle script.
+> >
+> > Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
+> > ---
+> >  drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c
+> > index 78cc8f357bbc..9885917b9199 100644
+> > --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c
+> > +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c
+> > @@ -470,7 +470,9 @@ int ieee80211_wx_get_encode(struct ieee80211_device *ieee,
+> >  		return 0;
+> >  	}
+> >  	len = crypt->ops->get_key(keybuf, SCM_KEY_LEN, NULL, crypt->priv);
+> > -	erq->length = (len >= 0 ? len : 0);
+> > +	if (len < 0)
+> > +		len = 0;
+> > +	erq->length = len;
 > 
-> diff --git a/drivers/staging/wfx/wfx.h b/drivers/staging/wfx/wfx.h
-> index 6594cc647c2f..78f2a416fe4f 100644
-> --- a/drivers/staging/wfx/wfx.h
-> +++ b/drivers/staging/wfx/wfx.h
-> @@ -25,6 +25,8 @@
->  #define USEC_PER_TXOP 32 /* see struct ieee80211_tx_queue_params */
->  #define USEC_PER_TU 1024
->  
-> +#define wvif_to_vif(ptr)(container_of((void *)ptr, struct ieee80211_vif, drv_priv))
+> Maybe you could use max here?
 
-Always use whitespace properly.
+Dan said to not do this on based on the first submission :)
 
->  struct wfx_hwbus_ops;
->  
->  struct wfx_dev {
-> @@ -61,7 +63,6 @@ struct wfx_dev {
->  
->  struct wfx_vif {
->  	struct wfx_dev             *wdev;
-> -	struct ieee80211_vif       *vif;
-
-You need to test this on real hardware.  For an outreachy-first-task,
-this is not a good one at all.
-
-Also this code is no longer in drivers/staging/  Please work on the
-netdev mailing list as I can not take these changes anymore.
-
-good luck!
-
-greg k-h
