@@ -1,77 +1,95 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D5F367;
-	Fri,  8 Apr 2022 04:15:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=uTabu/53bsyjVq/ChwDFv7CtxaAxu/V7Z38X06Q53J8=;
-  b=GCcL5h9eISAZu40VAIaRYGmVcO2zZWvbtlq4m0c24CoerRPi4HxCPVTo
-   FnnS2mXXBEIcrSfMSyldAZgPP+2NgsQ2WX+TcXBt3TQ87QJIOytjey1iA
-   l8mbqpKak2PwBsHsxpCQDS5tUpMHGGIIqBollj7SXqDt9U1gFsL/xVTpx
-   8=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,243,1643670000"; 
-   d="scan'208";a="30688890"
-Received: from lputeaux-656-1-153-249.w217-128.abo.wanadoo.fr (HELO hadrien) ([217.128.47.249])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 06:15:14 +0200
-Date: Fri, 8 Apr 2022 06:15:14 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: julia@hadrien
-To: Rebecca Mckeever <remckee0@gmail.com>
-cc: outreachy@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: rtl8192u: replace ternary statement with
- if and assignment
-In-Reply-To: <36059ec66a2f3d58a8e339aa4f262772eabd3ef0.1649378587.git.remckee0@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2204080614400.2199@hadrien>
-References: <cover.1649378587.git.remckee0@gmail.com> <36059ec66a2f3d58a8e339aa4f262772eabd3ef0.1649378587.git.remckee0@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE42366;
+	Fri,  8 Apr 2022 04:45:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E34DFC385A3;
+	Fri,  8 Apr 2022 04:45:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1649393155;
+	bh=7lE1WpCl6Wiqc1IF6o6ROkQcTmCYCmlk5yThG4LhwDI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uuJu3pzZADimLOrM+BO+8kpLs+0MgZud2+AAAxm7ReoOY5YQImOnFHlZMDQUN3VTl
+	 5S/CpvmtpY8Bq5VJ3+qrN9K5fUM37sNEfk5GNw2moXv9YUAZDpbaELsI6gm44hvUBp
+	 BBXj3VKudp/7WW+fhqXNJyA2V8iQV03XPQcr3Sgk=
+Date: Fri, 8 Apr 2022 06:45:52 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jaehee Park <jhpark1013@gmail.com>
+Cc: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH v2] staging: wfx: use container_of() to get vif
+Message-ID: <Yk++AMDTu7LCbjHu@kroah.com>
+References: <20220408032349.GA2132476@jaehee-ThinkPad-X1-Extreme>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220408032349.GA2132476@jaehee-ThinkPad-X1-Extreme>
 
-
-
-On Thu, 7 Apr 2022, Rebecca Mckeever wrote:
-
-> Replace ternary statement with an if statement followed by an assignment
-> to increase readability and make error handling more obvious.
-> Found with minmax coccinelle script.
->
-> Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
+On Thu, Apr 07, 2022 at 11:23:49PM -0400, Jaehee Park wrote:
+> Use container_of() to get vif. This improves the code in two ways:
+> [1] it speeds up the compilation because container_of() saves steps to
+> retrieve vif (the representation of ieee80211_vif), and
+> [2] it eliminates the need to define multiple pointers. Previously,
+> after setting the pointer to drv_priv, another pointer had to be
+> defined by vif in struct wfx_vif to point back to ieee80211_vif.
+> Remove vif from the struct wfx_vif, define a macro wvif_to_vif(ptr)
+> for container_of(), and replace all wvif->vif with the newly defined
+> container_of() construct.
+> 
+> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
 > ---
->  drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c
-> index 78cc8f357bbc..9885917b9199 100644
-> --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c
-> +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c
-> @@ -470,7 +470,9 @@ int ieee80211_wx_get_encode(struct ieee80211_device *ieee,
->  		return 0;
->  	}
->  	len = crypt->ops->get_key(keybuf, SCM_KEY_LEN, NULL, crypt->priv);
-> -	erq->length = (len >= 0 ? len : 0);
-> +	if (len < 0)
-> +		len = 0;
-> +	erq->length = len;
+> Note: 
+> This is a revised patch to sequence the wfx.h file (with the new defines) to show up first on the diff, which makes the ordering of the diff more logical.
+> 
+> Questions:
+> - These changes had built without errors for me but it would be great if someone can test it on the actual hardware.
+> - We noticed that the development of the wfx driver is happening in the netdev tree instead of Greg's tree. Do you suggest that I use the net-next tree for this change? 
+> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/log/drivers/staging/wfx
+> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/log/drivers/staging/wfx
+> 
+> drivers/staging/wfx/wfx.h     |  3 ++-
+>  drivers/staging/wfx/data_rx.c |  4 ++--
+>  drivers/staging/wfx/data_tx.c |  2 +-
+>  drivers/staging/wfx/key.c     |  3 +--
+>  drivers/staging/wfx/queue.c   |  2 +-
+>  drivers/staging/wfx/scan.c    |  6 ++---
+>  drivers/staging/wfx/sta.c     | 45 ++++++++++++++++-------------------
+>  7 files changed, 31 insertions(+), 34 deletions(-)
+> 
+> diff --git a/drivers/staging/wfx/wfx.h b/drivers/staging/wfx/wfx.h
+> index 6594cc647c2f..78f2a416fe4f 100644
+> --- a/drivers/staging/wfx/wfx.h
+> +++ b/drivers/staging/wfx/wfx.h
+> @@ -25,6 +25,8 @@
+>  #define USEC_PER_TXOP 32 /* see struct ieee80211_tx_queue_params */
+>  #define USEC_PER_TU 1024
+>  
+> +#define wvif_to_vif(ptr)(container_of((void *)ptr, struct ieee80211_vif, drv_priv))
 
-Maybe you could use max here?
+Always use whitespace properly.
 
-julia
+>  struct wfx_hwbus_ops;
+>  
+>  struct wfx_dev {
+> @@ -61,7 +63,6 @@ struct wfx_dev {
+>  
+>  struct wfx_vif {
+>  	struct wfx_dev             *wdev;
+> -	struct ieee80211_vif       *vif;
 
->
->  	erq->flags |= IW_ENCODE_ENABLED;
->
-> --
-> 2.32.0
->
->
->
+You need to test this on real hardware.  For an outreachy-first-task,
+this is not a good one at all.
+
+Also this code is no longer in drivers/staging/  Please work on the
+netdev mailing list as I can not take these changes anymore.
+
+good luck!
+
+greg k-h
