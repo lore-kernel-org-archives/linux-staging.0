@@ -1,160 +1,188 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C2A362;
-	Fri,  8 Apr 2022 06:39:59 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2384Aklp024447;
-	Fri, 8 Apr 2022 06:39:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=amyHCSZYtwnxdvJ9Rub6TXLt3NIZmvaGuWtI3kf4gxs=;
- b=ePU7rw5YwpF9tFkLPX1+olh0xPFTpcejL4L6KIQd3iVkL6CcwYr97uoz9MR11kZ0Hds/
- Hc+kpU/7+nAI2vkxvJHKCUfyLEz1HjN3eY+65N8E10/NlAmipQ2B3eiEhtGwpeWmQ4+5
- LaVu693IoWrBOPv5rxXswjG/HBKYc8hPdVrt0eGCJyDkO1X/bzZ4/h1C2R36H8dVU+Ct
- En3ycpV8vDwcmnbAr60Gw1jRMnfvgcme5aU0g4ciE0QYIjyLu/kxLODtVxdj7Ht2yFMy
- 5CIfBrK7e7GSu/wU6NhqV46P8+w2DBn+6e6CzKjyGPq4xVlkrN6cYSanL66IDWqgTUgo fw== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3f6f1teajx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 08 Apr 2022 06:39:57 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 2385qd6g009665;
-	Fri, 8 Apr 2022 06:39:56 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2049.outbound.protection.outlook.com [104.47.74.49])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3f97ws5vk2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 08 Apr 2022 06:39:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eXO5Rz4hSbjiu74K1tROVZr8O62tOSwq4DErouNtwdYBcGWUh0+W7NkKlJZHu7X5R4y1VMPCeBB5bysju3P8Aq5H0L/2nmIvae1Q/ytkQ/CkjgWFlYOe56Mpcdn9wObQLSctRT4v4dDeRu7UuPzR3tRUIedvNHT6oazFD18TWSi8ndmyrNaKnYrU8cdt0OOfyZhLSyoGttErkAzhrU7YSErOShPNK1+uqaUjb6/mhYVk6FGqDFvAhBWIJfKaa9/k3ESxyC1NmTL1D3jJwsz+zoGMuAPzt3f3hTSV8NgoCPWbjVJwmTjdClGjqAqPBJB0bMy6uaMpbnPf2ObeH6yJvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=amyHCSZYtwnxdvJ9Rub6TXLt3NIZmvaGuWtI3kf4gxs=;
- b=GczRlhAxLgqcaaYvbQNfCWrMfsMsqBXhaNQWLiJSwEo9wUIOzX0Se0jgngI323mKIVskb4r+KTHcTzeEMET2Y4zQXgT8ON42ms0P9YwuuFu7qPj+rUmk6kkvSRnERhJionNV1ybnRaDtOK63TU5jMVMIIygUNHcD+zdh9shswx+Y30/LytWP5l2TP9EQlos9SK5tZavsksDvI+3AioykPy1JyULhLvCPgCb7gJYxKY1hrcgGl9ylnQGrZVw7cvGHfgTpVBahzKzjHaVAFKskRaushkL75MK5dXbfPF0kxMFUSvPt+f3W54Ll4nk8ecT0+1EXhU6m58An72Rztt1zFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=amyHCSZYtwnxdvJ9Rub6TXLt3NIZmvaGuWtI3kf4gxs=;
- b=dgUbYhqzLJwlAUds2D9QfFtaAhCjkZXVfwTZeIZxkui32TD0VGuckQxIbQCR78leFwoug8aUH7JhpgnLfIVee1Yre+2BppneRL12WVLutIlv1L0Z8vob3R+KzrCG+/TamgQvGEZ/gPaJZ8mhsLaN1TvMMBNUIgpX0I5DR8pU9ms=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CH0PR10MB4956.namprd10.prod.outlook.com
- (2603:10b6:610:c9::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Fri, 8 Apr
- 2022 06:39:54 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5144.022; Fri, 8 Apr 2022
- 06:39:54 +0000
-Date: Fri, 8 Apr 2022 09:39:42 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Rebecca Mckeever <remckee0@gmail.com>
-Cc: outreachy@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] staging: rtl8192u: cleanup of ternary and if else
- statements
-Message-ID: <20220408063942.GQ3293@kadam>
-References: <cover.1649378587.git.remckee0@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1649378587.git.remckee0@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MR1P264CA0085.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:3f::16) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A6F362;
+	Fri,  8 Apr 2022 07:10:20 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:da49:7795:4c90:2fa7] (unknown [IPv6:2a01:e0a:120:3210:da49:7795:4c90:2fa7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1CA471F46BDC;
+	Fri,  8 Apr 2022 08:10:16 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649401816;
+	bh=+bt/YbyiPOyPA87cqGdJcjVhlj/E13EpsXMdgA+VOXw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VWR3yI+rKqTJgWHZqownCRQbMWjSSD6PMSTe9XbtHsOcLhPWkcnaS/rDz2jakyahR
+	 vdzBSTntXU4yAhnQeQ58NUgEWNvOeaf768WCowqj1GrZ1i8QI1i0P5Dx4uaFaA3uSy
+	 +E6w2XSgyuDcRE33Ex3d1tAD4ZfbgOBYDgkhh48ujz5YYNSijVVH/5CnKgmkeeecN0
+	 FSrO4ftVlJvLRR6Z7WIHpX4xejf440OFYEHTgyZPDf+hs7LeBhjn08pHjnb2SMuOPN
+	 zB/eN87dmZ66D+nKc4uZr/CcRLRGiHxgdL9vGGI6aNOix6dRjx8rNl4Zbi5X9zXHy0
+	 cZTZWhvq0B5Qw==
+Message-ID: <a7c4a405-faf8-c02b-d9af-f6566725c5a2@collabora.com>
+Date: Fri, 8 Apr 2022 09:10:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4fb73a77-7b6e-4446-6d95-08da192a9764
-X-MS-TrafficTypeDiagnostic: CH0PR10MB4956:EE_
-X-Microsoft-Antispam-PRVS: 
-	<CH0PR10MB4956BFE3D785ED30CDD46C718EE99@CH0PR10MB4956.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Kq6B6JGRaTE+pJkM8W58E37QcISGocTu4jBjH/Pxv3oqvZuGSqagkHx2+IRG1xGGWShcvPSCpeqp8tLvhLQ/y20eEwysKW+RPAB+Yu+WKF+B+tWKs3qS+erHBNEq1TSqr3i/qd2T9jlii3PYDC5dSc8lpcTJs9PVhAoa0PoRbnXWtzIOylokIFS1TQUGQD7RmE7K4SP2mq2FRDia3R7Fox8KUXk3jR5Tr/6aDh+oxWZDlofC0/O5h5vrY99X3fLlXwX6j8v16SwrTSgmlcuyVdKLCbt8su3E/7y7OXWLyQMM/FVp/nFYYQzolhEHfkx3oIFbqHPOo0XvjPJ1u9QXxqqsV3HGjjANEsyiWQA6pO+CtJR/bfReGdiS81djHxvf8mCa2bSFYl9t+tic8+AJ62EjSKvhHFYAZ3ahwnHtFL30KoU64p2N0e4pysYW/0xD0hSAHYnsWvUxKr2y/m7sS6WOW9dpdeCnoIB4vIWa9bvnlTWaW1mprZFddXfOvxeAq5zFFxKacF1wNSVTXye+h097D6afWxStdJlPagyYAZMmTj83BVcsRcdtRHX6cZX75Bn0u4wHP1dyXhEw+2mUPoSAZmWoqspPR+lnEIHVk3jLZkM6RqhkOW9puzDLq3CeUid3oTSRnvktUl0na6KDICq5ucLBjdqmzmQjE4FOw1kXUIJBYr86+tZlW+dm5ZVjejGPH0bEMJdSAWuAJVzDUw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(26005)(186003)(2906002)(38100700002)(316002)(86362001)(6512007)(6666004)(38350700002)(33716001)(52116002)(9686003)(6506007)(508600001)(8676002)(66946007)(66556008)(66476007)(6486002)(4326008)(5660300002)(1076003)(8936002)(33656002)(44832011)(4744005)(6916009);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?avg//C0NNXZU+PfWj3zgeyfztSPx0i+9dBMj5RydIAuD7QR78tmptts2TWVj?=
- =?us-ascii?Q?kAZfnU+ycfuLkQbd601wqXnqpkG4z7MSA8XqI7Oh1YpXrHVTH8Et4rQJlaQ0?=
- =?us-ascii?Q?0NgDP4eZuhpJVsx+5Z2AG5qwDzAccoDLn7fA9oeHo3tMsVq/f+K5oyA58TYD?=
- =?us-ascii?Q?kRTvkCH/qKDzrFsk6pfrJl0+LDBWgoI4Fy4gnnH6nA5dsOMf0iTi1q4aXx42?=
- =?us-ascii?Q?LE/WuH2CVej4dukCAgU2rSsG1SwodA/VlqDInesI1DHRambphmMqPmQWXSIW?=
- =?us-ascii?Q?qgzBCVGPDTMY0yaYG5IFvBeqzlvAlN6FUA7UvTJzK7mC4fyUE4kH5iotB+s+?=
- =?us-ascii?Q?DRtbci/TBmhSXaNu7g1DXHgU7Q51rzheIfvb0Fu4ynwMveIVYkJj7Aig8Ex4?=
- =?us-ascii?Q?OJ4NfnX/xIYl5OBKA0iNhLOWzJ3V5yNNfvb22WSCOPH7Kdbm3zEhwC7NsNIi?=
- =?us-ascii?Q?2Q83Wp8MLmk66606ZaFLk0HOQKKOA/lmi6dDogPOGmNx62GqekD4jnPcydnU?=
- =?us-ascii?Q?eAH8G11OxVJKpMO5hjhAXHdG2DDFlUAksBStxAGoJ6sd+yLM631+PcAqx3vS?=
- =?us-ascii?Q?A0PB6XB+Ps/30dRqV4pxeiV6YxdfSDhOg+uAcOcwlJXV5VheeAFkJFZBWdxw?=
- =?us-ascii?Q?HyhKZnAkd6xpMGOkg6eIE69cRUb4KtL2zA4DoP+CuOX+gJS4348iuF93L4Mo?=
- =?us-ascii?Q?JrT4z0WqNT2Qnka7phQ6W0ZFFmlhHOzR90znwA73Rv9K2fkbFh11R/kCC+km?=
- =?us-ascii?Q?upT5yWS1DpppK5Fl4ikDZ0ocVsbyKaAc73NqpSHVCJwnhYOI4K5zw6er+167?=
- =?us-ascii?Q?wASmnTpfQiY5fGSsGv/SFnrDZj3KCtnpLTB5gS5cbNlp3BXYpSPG+tdigrex?=
- =?us-ascii?Q?Fh+3E2UMhF0Nmnmz8lPiD+lW82wmPb0udqbI+2H/Uwek4W5OLaN0IGpNYalh?=
- =?us-ascii?Q?8zy9uU0cW2dztebh77Kz6fJvQYnbjijauANQGW+tdbc6jatwt/mr8IaE31ZI?=
- =?us-ascii?Q?BkKl5MmFwdkAv/Os67RVPh9/+U9HFaGFirXCoSVHyLTovjBTLhZmkkl+zESv?=
- =?us-ascii?Q?vYWL3Te7k0O0UzBX7B5Kr9NLqdsyBsue/SWPW6nPWDqvjV1ZMzVLc6Rq79Xi?=
- =?us-ascii?Q?pZUaqhKUbt0HV+qJ5GXbv0MB4mWzzYQnhqSBPdaVhZEnUWLB6n3SMRXeQxE2?=
- =?us-ascii?Q?qIpopttGJ9ryCTSzunE3M0r7M5jFiIpXTZY31YwK3VaQDj8eDOUhqeL4Iakw?=
- =?us-ascii?Q?WLzmVvlmxWAJC/cMLnjuq0NgQNakNlMkwyY7Fqg23fcs/m1eFSYUBtms+So/?=
- =?us-ascii?Q?XKdYcJbc49VhJGY6Ib2LGNuZi5u5+HQfQy8NDG0OSrEzBsR2+6Oth4SYebLY?=
- =?us-ascii?Q?NaLFUz7Vo0sRhWAr+zYG+y608n2UxbgubdAMaw12j1sITwtqYIfE1fOwKjWS?=
- =?us-ascii?Q?puwccP3UjWoyriYWRkQWNPxGc4czK8c5MixVIJQ1f4LP/jNU3yx34RHJk0jh?=
- =?us-ascii?Q?fPSGMrmVeaLRwEYzCYni+LLqMPIbejtHS0SDRrKxBtKECbuCakfbqcgLzCrl?=
- =?us-ascii?Q?02HnNVnto7di9aXhLNOM2RiTI+Jg8XBAuJOUB6TGrGhFuCxCHE18mHG/YEl3?=
- =?us-ascii?Q?8W/xHrA65CWO+aXoVBsRHjBqpIrcge77KkqsP77n6TBMjQa9x4/9kJzIeXiC?=
- =?us-ascii?Q?HRindc6aX+MVfdvJkb0oMlwqlJPTbkByFo8/6Q+dCK2yvMeAWWk5Bet1awLJ?=
- =?us-ascii?Q?eBO0zK3ft+VoBNtNLvDMhNJEX7FNLVg=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fb73a77-7b6e-4446-6d95-08da192a9764
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 06:39:54.6858
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +a73N6bhs0UHZXIC+0Yy4taj7VZChFmZAwAujIVM7eCn2IGR9xOq0G+LnXZkgZORvV0Lk6emFE+SX1e7syRxLz2lLekoVGke62SDiThlQdA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB4956
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
- definitions=2022-04-07_01:2022-04-07,2022-04-07 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
- phishscore=0 mlxscore=0 mlxlogscore=999 adultscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204070064
-X-Proofpoint-ORIG-GUID: b-2odTNODYfZS7L6-5ftJ-8ON3BeAlFJ
-X-Proofpoint-GUID: b-2odTNODYfZS7L6-5ftJ-8ON3BeAlFJ
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
+ definition in v4l2_hevc_dpb_entry
+Content-Language: en-US
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, mchehab@kernel.org,
+ hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ sebastian.fricke@collabora.com
+References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
+ <20220407152940.738159-7-benjamin.gaignard@collabora.com>
+ <b137de92ea0a6ecc3aa8ff39f6a1fc96b071b3e4.camel@collabora.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <b137de92ea0a6ecc3aa8ff39f6a1fc96b071b3e4.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 07, 2022 at 08:12:49PM -0500, Rebecca Mckeever wrote:
-> These patches replace ternary and if else statements with
-> more readable statements. Found with minmax coccinelle script.
-> 
-> ---
-> v1 -> v2:
-> * Patch 1: "staging: rtl8192u: replace ternary statement with if and
-> * assignment"
->   * replaced max macro with an if statement followed by an assignment
-> 
-> * Patch 2: "staging: rtl8192u: use min_t/max_t macros instead of if
-> * else"
->   * changed the type argument in min_t and max_t from u8 to u32
-> ---
 
-Looks great.  Thanks!
+Le 07/04/2022 à 22:51, Nicolas Dufresne a écrit :
+> Le jeudi 07 avril 2022 à 17:29 +0200, Benjamin Gaignard a écrit :
+>> HEVC specifications say that:
+>> "PicOrderCntVal is derived as follows:
+>> PicOrderCntVal = PicOrderCntMsb + slice_pic_order_cnt_lsb
+>> The value of PicOrderCntVal shall be in the range of −231 to 231 − 1, inclusive."
+> Did you mean 2^31 ?
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+yes it is 2^31
 
-regards,
-dan carpenter
+>> To match with these definitions change __u16 pic_order_cnt[2]
+>> into __s32 pic_order_cnt_val.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> version 5:
+>> - change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
+>>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
+>>   drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
+>>   drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
+>>   drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
+>>   include/media/hevc-ctrls.h                        | 2 +-
+>>   5 files changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> index c524af41baf5..6f3c774aa3d9 100644
+>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> @@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>>   	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
+>>   	 */
+>>   	for (i = 0; i < decode_params->num_active_dpb_entries && i < ARRAY_SIZE(cur_poc); i++) {
+>> -		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt[0];
+>> +		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt_val;
+>>   
+>>   		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
+>>   	}
+>> @@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>>   	dpb_longterm_e = 0;
+>>   	for (i = 0; i < decode_params->num_active_dpb_entries &&
+>>   	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
+>> -		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
+>> +		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val);
+>>   		if (!luma_addr)
+>>   			return -ENOMEM;
+>>   
+>> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+>> index b6ec86d03d91..fadd40768579 100644
+>> --- a/drivers/staging/media/hantro/hantro_hevc.c
+>> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+>> @@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+>>   }
+>>   
+>>   dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+>> -				   int poc)
+>> +				   s32 poc)
+>>   {
+>>   	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+>>   	int i;
+>> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>> index ed018e293ba0..a648c529662b 100644
+>> --- a/drivers/staging/media/hantro/hantro_hw.h
+>> +++ b/drivers/staging/media/hantro/hantro_hw.h
+>> @@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
+>>   	struct hantro_aux_buf tile_bsd;
+>>   	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
+>>   	struct hantro_aux_buf scaling_lists;
+>> -	int ref_bufs_poc[NUM_REF_PICTURES];
+>> +	s32 ref_bufs_poc[NUM_REF_PICTURES];
+> Was this strictly needed ? Isn't int always same as s32 ?
 
+could be, but like this I'm sure it is fine in all cases
+
+>
+>>   	u32 ref_bufs_used;
+>>   	struct hantro_hevc_dec_ctrls ctrls;
+>>   	unsigned int num_tile_cols_allocated;
+>> @@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+>>   void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+>>   int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+>>   int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+>> -dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+>> +dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+>>   int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+>>   void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+>>   size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> index 44f385be9f6c..d04521ffd920 100644
+>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> @@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct cedrus_ctx *ctx,
+>>   	for (i = 0; i < num_active_dpb_entries; i++) {
+>>   		int buffer_index = vb2_find_timestamp(vq, dpb[i].timestamp, 0);
+>>   		u32 pic_order_cnt[2] = {
+>> -			dpb[i].pic_order_cnt[0],
+>> -			dpb[i].pic_order_cnt[1]
+>> +			dpb[i].pic_order_cnt_val & 0xffff,
+>> +			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
+> This is confusing, it gives the impression that pic_order_cnt_val contains TOP
+> and BOTTOM field pic_order_cnt, which isn't the case. This is just the full pic
+> order count value for this reference.
+>
+> This is confusing me, most HEVC decoder don't really know about fields. They
+> will instead happily produce half height frames, and we should support this in
+> the form of ALTERNATE or SEQ interlacing output.
+>
+> While it seems like Allwinner HW maybe support interleaved output, there I would
+> not find any userland that would implement this, hence proving that it works.
+> Overall, interlaced HEVC (a very niche use case) should be studied, and we
+> should ensure that alternate/seq interlacing is possible, since a lot of HW will
+> only offer this.
+
+In GST code pic_order_cnt[0] and pic_order_cnt[1] had the same value so Cedrus
+driver always put the same value in this register.
+I haven't any clue of want the hardware expect here.
+Maybe some maintainers can explain what we should set on these fields.
+
+Benjamin
+
+>
+>>   		};
+>>   
+>>   		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
+>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>> index b3540167df9e..2812778b41f4 100644
+>> --- a/include/media/hevc-ctrls.h
+>> +++ b/include/media/hevc-ctrls.h
+>> @@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
+>>   	__u64	timestamp;
+>>   	__u8	flags;
+>>   	__u8	field_pic;
+>> -	__u16	pic_order_cnt[2];
+>> +	__s32	pic_order_cnt_val;
+>>   	__u8	padding[2];
+>>   };
+>>   
