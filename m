@@ -1,97 +1,116 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61BA258A
-	for <linux-staging@lists.linux.dev>; Fri,  8 Apr 2022 16:38:35 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id l26so18455980ejx.1
-        for <linux-staging@lists.linux.dev>; Fri, 08 Apr 2022 09:38:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vI6Hm9RSMRrV2TmLm8c0QGf/x0XfSnUFVHwkf1u/cYU=;
-        b=BxrkPd3dEBKjVdg/dsd4TZyXGu4bqaDpOKVzfI804SgulnHfXNYBY6K7NbAEHMb0vQ
-         1eqvWhPYQEPkX/bFkGuaNE49kkZDnrOWGXmXI97ojj33RS8N/kExB8+g0/atQNppiZin
-         mRI1I6cvMxghA7Xfoe3KmNfvu+owZEXF1QIpuLhndsSiCmNtD+F8jvBeISSOHUO8w0m/
-         cF27mqHuey7vl0Us7cXKvLxwlPi8nZZV59beh6e8vtzFch9t/h8bpoBa7OmqvyP9nVy6
-         x6W+KlH4rIQewx5c7h4xTWgWqSkGXeIGeOqOKsTnvj1gKsIGyPfQN5sNge6d1LX426VH
-         Kfhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vI6Hm9RSMRrV2TmLm8c0QGf/x0XfSnUFVHwkf1u/cYU=;
-        b=i9YGyRgbYAJrNEGKrJCDiCNk7F7kaI6XUtpjhXibLOyATaPTJaPokVT72bbvCVeoh6
-         ETDvpm5qRxPRTcdeWmxnDbfVPfruPp//4DyX5ybGVBvPND5ek0CTAK1ObejxChKllLjN
-         AskvcnrZ7XB5D3p7UBzz9k0O/Hjh/mpeURDGSxO8n9BFJF4jYdDWYZmRw3CzAUQ675kv
-         qHf4e7HJ4O3R24zLa6OBTqtxVCztRHR7yNV2BCK37687cXPv31AYeRVqn7mDQB5YIGer
-         15zZfd7/PRMCvf5Vl8fa7T1uIpLjFCazmJ/7s4QELpiPehnEz9p401kBWpZFCP6HBJJn
-         haSQ==
-X-Gm-Message-State: AOAM5311qxAC9WHYuUe6l0q18X4wJUrrh5qFGtHxiBqW/AC/n35r2U1M
-	NdbddUuhMdg4ZHfn/AE3IEg=
-X-Google-Smtp-Source: ABdhPJx6WFUNQdUb7zVq2jmr/Es7R3OD4JX6GnIevR9IaUsVo4aUGIiBTqGxDIDDQVgLJrCuLucckg==
-X-Received: by 2002:a17:906:c149:b0:6df:f047:1698 with SMTP id dp9-20020a170906c14900b006dff0471698mr19247907ejc.16.1649435914282;
-        Fri, 08 Apr 2022 09:38:34 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id 22-20020a17090600d600b006dfbc46efabsm8899314eji.126.2022.04.08.09.38.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 09:38:33 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: convert else if to else in rtw_led.c
-Date: Fri,  8 Apr 2022 18:38:25 +0200
-Message-Id: <20220408163825.29069-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CE429AE;
+	Fri,  8 Apr 2022 18:53:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: nicolas)
+	with ESMTPSA id 4BC421F473B1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649444012;
+	bh=r1uTA7u5ZuBHwJEYWmnZvWNMO0Xo6FFVj0EubH+YtL8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=EJS6kkAybGAyLEkOzvKZh2fHTuNEdkEE+Ex+3qrvSsAZhQ97MVT27SOT+RkuBLMUX
+	 znygWl9zx1gXJbSdl5xK/rU+TJ/xbcP+hAg7lq2v6UucrPUJfYVUJ0R5llQcz93WC8
+	 T3zPcxkuvtXod9cWJ6SmV4a7DGlg3mywiIxuAaJ5YwlUUVxYvbmm0NDtPg2FEeKAdt
+	 Mie+pssSYeft3zi7Bb26OBcaX0BNxV1U13dyROoqPeiEwLXnpuW4abIxkatu/T4/L7
+	 285bmIhO01AeomMxQFI3bG9F4cjVY29kBwdwmJsiWgHa8DRh7DXlcmgfVcm0+Y5kmF
+	 LLchSBfC5EMSg==
+Message-ID: <3179e400d52704d11dd150bf4270dab4c1064cad.camel@collabora.com>
+Subject: Re: [PATCH v5 09/17] media: uapi: HEVC: Define
+ V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a dynamic array
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+  hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+  gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	sebastian.fricke@collabora.com
+Date: Fri, 08 Apr 2022 14:53:20 -0400
+In-Reply-To: <20220407152940.738159-10-benjamin.gaignard@collabora.com>
+References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
+	 <20220407152940.738159-10-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The else if in this block is redundant, it can be a simple else.
+Le jeudi 07 avril 2022 =C3=A0 17:29 +0200, Benjamin Gaignard a =C3=A9crit=
+=C2=A0:
+> Make explicit that V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control is
+> a dynamic array control type.
+> Some drivers may be able to receive multiple slices in one control
+> to improve decoding performance.
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
+>  include/media/hevc-ctrls.h                                | 3 +++
+>  2 files changed, 5 insertions(+)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 7fcc6c2bac4c..1aaf3b84b584 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2964,6 +2964,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      These bitstream parameters are defined according to :ref:`hevc`.
+>      They are described in section 7.4.7 "General slice segment header
+>      semantics" of the specification.
+> +    This control is a dynamically sized 1-dimensional array,
+> +    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+> =20
+>  .. c:type:: v4l2_ctrl_hevc_slice_params
+> =20
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index 96a9b71d1def..28049e1a8a07 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -314,6 +314,9 @@ struct v4l2_hevc_pred_weight_table {
+>  /**
+>   * v4l2_ctrl_hevc_slice_params - HEVC slice parameters
+>   *
+> + * This control is a dynamically sized 1-dimensional array,
+> + * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+> + *
 
-if (x) {
-  ...
-} else if (!x) {
-  ...
-}
+I'm not sure about this comment, but I'm sure you forgot:
 
-Convert two such else if statements to simple else in rw_led.c.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_led.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+@@ -1505,6 +1505,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
+v4l2_ctrl_type *type,
+                break;
+        case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
+                *type =3D V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
++               *flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+                break;
+        case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
+                *type =3D V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
 
-diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-index 4b047c438389..2f3000428af7 100644
---- a/drivers/staging/r8188eu/core/rtw_led.c
-+++ b/drivers/staging/r8188eu/core/rtw_led.c
-@@ -110,7 +110,7 @@ static void blink_work(struct work_struct *work)
- 				pLed->bLedLinkBlinkInProgress = true;
- 				pLed->CurrLedState = LED_BLINK_NORMAL;
- 				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
--			} else if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
-+			} else {
- 				pLed->bLedNoLinkBlinkInProgress = true;
- 				pLed->CurrLedState = LED_BLINK_SLOWLY;
- 				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
-@@ -131,7 +131,7 @@ static void blink_work(struct work_struct *work)
- 				pLed->bLedLinkBlinkInProgress = true;
- 				pLed->CurrLedState = LED_BLINK_NORMAL;
- 				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
--			} else if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
-+			} else {
- 				pLed->bLedNoLinkBlinkInProgress = true;
- 				pLed->CurrLedState = LED_BLINK_SLOWLY;
- 				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
--- 
-2.35.1
+Also, in AV1 we have V4L2_AV1_MAX_TILE_COUNT, which can be used in cfg.dims=
+,
+something the driver will actually set. We could have
+
+#define V4L2_HEVC_MAX_TILE_COUNT 600
+
+And drives can set:
+
+   .dims =3D { V4L2_HEVC_MAX_TILE_COUNT },
+
+In the control config.
+
+>   * @bit_size: size (in bits) of the current slice data
+>   * @data_bit_offset: offset (in bits) to the video data in the current s=
+lice data
+>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
 
