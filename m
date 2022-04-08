@@ -1,82 +1,226 @@
-Received: from relay.hostedemail.com (relay.hostedemail.com [64.99.140.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63A0362;
-	Fri,  8 Apr 2022 07:19:16 +0000 (UTC)
-Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay13.hostedemail.com (Postfix) with ESMTP id 7A4A860C9E;
-	Fri,  8 Apr 2022 07:19:08 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id DC18D1C;
-	Fri,  8 Apr 2022 07:19:01 +0000 (UTC)
-Message-ID: <e1e0a871d1a991980ffc9afe7198775b27833f6d.camel@perches.com>
-Subject: Re: [PATCH v2 1/2] staging: rtl8192u: replace ternary statement
- with if and assignment
-From: Joe Perches <joe@perches.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Julia Lawall <julia.lawall@inria.fr>, Rebecca Mckeever
- <remckee0@gmail.com>,  outreachy@lists.linux.dev, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Date: Fri, 08 Apr 2022 00:19:01 -0700
-In-Reply-To: <20220408063133.GP12805@kadam>
-References: <cover.1649378587.git.remckee0@gmail.com>
-	 <36059ec66a2f3d58a8e339aa4f262772eabd3ef0.1649378587.git.remckee0@gmail.com>
-	 <alpine.DEB.2.22.394.2204080614400.2199@hadrien>
-	 <20220408055732.GO3293@kadam>
-	 <34d0ad73f44ff4990f6bee49105ac49bb55352a5.camel@perches.com>
-	 <20220408063133.GP12805@kadam>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6271362
+	for <linux-staging@lists.linux.dev>; Fri,  8 Apr 2022 07:30:42 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id x17so4457041lfa.10
+        for <linux-staging@lists.linux.dev>; Fri, 08 Apr 2022 00:30:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=kBQo90N7sEL0M7e1R27tsRN751KlpZFtkEzziLKe240=;
+        b=AZ6HmJwpJmTNX4yORBpvhAQouRMvxLFnmiNg/zoCmTIGMhLnR1ytyvEjbjgusUXY/i
+         pN8Z5J53fx9/3r0vJncFHu16J02fatjvE69tn7lpz4acudwTEZm5pmhBkAx4MDYQzpR7
+         wtQk6OvkHfD7aSx6nihj2astU1PEzJtmbZHjr/8TOWLZvwFzuBrNrxvcEZCGo+3n6Hlr
+         18d9n0qfjJYmLR7oNMRJ2HZWSjaWNkxsUMVQkY2RyNo44Xvn1jIjczL808d2ukkYyH+t
+         FJERR3eeE9KP3HwZM61HCWOh12Gkj9kJUjS2ojA9kWeFndNt2mXh4AbWGjr72qwLNQl+
+         t65A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=kBQo90N7sEL0M7e1R27tsRN751KlpZFtkEzziLKe240=;
+        b=8JkFpWFr2g3L4tTxhvYcgQ11YHBrmvoxpgZq2t+ypeKfKQ7kJxw2dNzcbdNXDfZSVa
+         kpProlnimMCuD0/g7koN0xbPQMMD6gHkJCrOGQrEkKchU6FeSZQKymaVuxjak4ODkxB7
+         i8xz53H4KM4W8MAXrc1Sv6AvRIGh16p3kyHucz+xbQxXbiB1rYKHfJ03zcXxTFDuFBMm
+         sfXu9ElhFTml/bgeA/MOXxzihCIh4HMgKn1LYIRzDeEf57Uy8FwSLz16vvwyWpbbMCMb
+         3ZAyTl8f3POJXUn2ElLTmaw/vRB8zaunk9rxUgr/e15qnRlqCbBlV8LamYI98z9urfRW
+         zHeg==
+X-Gm-Message-State: AOAM531hB2YqKtC8W1RPvZPRNMC9HdgyraUNYzlRlfWsOtHZfyZoi2mz
+	ACTsdFtLBs+arjNGV6F7iH8=
+X-Google-Smtp-Source: ABdhPJxUw74C3ij570zJxqVSuzHpsuYvAZ5JxOtwqUnd7Rg+ndi6j71Pb4IXy16o5eYmKrNI11dCAw==
+X-Received: by 2002:a05:6512:33d0:b0:44a:72b2:cd36 with SMTP id d16-20020a05651233d000b0044a72b2cd36mr12241852lfg.113.1649403039787;
+        Fri, 08 Apr 2022 00:30:39 -0700 (PDT)
+Received: from crux (h-98-128-204-26.A444.priv.bahnhof.se. [98.128.204.26])
+        by smtp.gmail.com with ESMTPSA id h14-20020a0565123c8e00b0044a2ddb6694sm2382943lfv.124.2022.04.08.00.30.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Apr 2022 00:30:39 -0700 (PDT)
+Date: Fri, 8 Apr 2022 09:30:37 +0200
+From: Artur Bujdoso <artur.bujdoso@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: octeon-usb: remove unnecessary parentheses
+Message-ID: <Yk/knRtaujd/PzK7@crux>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.88
-X-Stat-Signature: z9ba1f5jjc67q58cs4yz37pqbsf4e9xk
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: DC18D1C
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+QikhRhVzwWv/z8uStoYQzqEakv0U9mx8=
-X-HE-Tag: 1649402341-483837
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 2022-04-08 at 09:31 +0300, Dan Carpenter wrote:
-> On Thu, Apr 07, 2022 at 11:14:51PM -0700, Joe Perches wrote:
-> > On Fri, 2022-04-08 at 08:57 +0300, Dan Carpenter wrote:
-> > > On Fri, Apr 08, 2022 at 06:15:14AM +0200, Julia Lawall wrote:
-> > > > On Thu, 7 Apr 2022, Rebecca Mckeever wrote:
-> > > > 
-> > > > > Replace ternary statement with an if statement followed by an assignment
-> > > > > to increase readability and make error handling more obvious.
-> > > > > Found with minmax coccinelle script.
-> > []
-> > > > > diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_wx.c
-> > []
-> > > > > @@ -470,7 +470,9 @@ int ieee80211_wx_get_encode(struct ieee80211_device *ieee,
-> > > > >  		return 0;
-> > > > >  	}
-> > > > >  	len = crypt->ops->get_key(keybuf, SCM_KEY_LEN, NULL, crypt->priv);
-> > > > > -	erq->length = (len >= 0 ? len : 0);
-> > > > > +	if (len < 0)
-> > > > > +		len = 0;
-> > > > > +	erq->length = len;
-> > > > 
-> > > > Maybe you could use max here?
-> > > 
-> > > Initially Rebecca did use max() but I NAKed it.  It's really not less
-> > > readable.  Better to handle the error explicitly.  Keep the error path
-> > > indented two tabs.  Separate from the success path.
-> > 
-> > A comment would be useful as it's not obvious it's an 'error' path.
-> > One has to read all 3 get_key functions to determine that.
-> > 
-> 
-> I'm so confused.  Negative error codes are the common case in the
-> kernel.  We don't need to comment it.
+Adhere to Linux kernel coding style.
 
-If it was an error, it would handle it as an error not set
-len to 0 and continue. That's why IMO a comment is useful.
+Reported by checkpatch:
 
+CHECK:UNNECESSARY_PARENTHESES: Unnecessary parentheses
+
+Signed-off-by: Artur Bujdoso <artur.bujdoso@gmail.com>
+---
+ drivers/staging/octeon-usb/octeon-hcd.c | 62 ++++++++++++-------------
+ 1 file changed, 31 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/staging/octeon-usb/octeon-hcd.c b/drivers/staging/octeon-usb/octeon-hcd.c
+index a1cd81d4a114..32bcd6c582f5 100644
+--- a/drivers/staging/octeon-usb/octeon-hcd.c
++++ b/drivers/staging/octeon-usb/octeon-hcd.c
+@@ -1101,9 +1101,9 @@ static struct cvmx_usb_pipe *cvmx_usb_open_pipe(struct octeon_hcd *usb,
+ 	pipe = kzalloc(sizeof(*pipe), GFP_ATOMIC);
+ 	if (!pipe)
+ 		return NULL;
+-	if ((device_speed == CVMX_USB_SPEED_HIGH) &&
+-	    (transfer_dir == CVMX_USB_DIRECTION_OUT) &&
+-	    (transfer_type == CVMX_USB_TRANSFER_BULK))
++	if (device_speed == CVMX_USB_SPEED_HIGH &&
++	    transfer_dir == CVMX_USB_DIRECTION_OUT &&
++	    transfer_type == CVMX_USB_TRANSFER_BULK)
+ 		pipe->flags |= CVMX_USB_PIPE_FLAGS_NEED_PING;
+ 	pipe->device_addr = device_addr;
+ 	pipe->endpoint_num = endpoint_num;
+@@ -1319,8 +1319,8 @@ static void cvmx_usb_fill_tx_fifo(struct octeon_hcd *usb, int channel)
+ 	if (!usbc_hctsiz.s.xfersize)
+ 		return;
+ 
+-	if ((hcchar.s.eptype == CVMX_USB_TRANSFER_INTERRUPT) ||
+-	    (hcchar.s.eptype == CVMX_USB_TRANSFER_ISOCHRONOUS))
++	if (hcchar.s.eptype == CVMX_USB_TRANSFER_INTERRUPT ||
++	    hcchar.s.eptype == CVMX_USB_TRANSFER_ISOCHRONOUS)
+ 		fifo = &usb->periodic;
+ 	else
+ 		fifo = &usb->nonperiodic;
+@@ -1637,9 +1637,9 @@ static void cvmx_usb_start_channel(struct octeon_hcd *usb, int channel,
+ 			 * begin/middle/end of the data or all
+ 			 */
+ 			if (!usbc_hcsplt.s.compsplt &&
+-			    (pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) &&
+-			    (pipe->transfer_type ==
+-			     CVMX_USB_TRANSFER_ISOCHRONOUS)) {
++			    pipe->transfer_dir == CVMX_USB_DIRECTION_OUT &&
++			    pipe->transfer_type ==
++			     CVMX_USB_TRANSFER_ISOCHRONOUS) {
+ 				/*
+ 				 * Clear the split complete frame number as
+ 				 * there isn't going to be a split complete
+@@ -1813,7 +1813,7 @@ static void cvmx_usb_start_channel(struct octeon_hcd *usb, int channel,
+ 		break;
+ 	}
+ 	{
+-		union cvmx_usbcx_hctsizx usbc_hctsiz = { .u32 =
++			union cvmx_usbcx_hctsizx usbc_hctsiz = { .u32 =
+ 			cvmx_usb_read_csr32(usb,
+ 					    CVMX_USBCX_HCTSIZX(channel,
+ 							       usb->index))
+@@ -1849,11 +1849,11 @@ static struct cvmx_usb_pipe *cvmx_usb_find_ready_pipe(struct octeon_hcd *usb,
+ 			list_first_entry(&pipe->transactions, typeof(*t),
+ 					 node);
+ 		if (!(pipe->flags & CVMX_USB_PIPE_FLAGS_SCHEDULED) && t &&
+-		    (pipe->next_tx_frame <= current_frame) &&
+-		    ((pipe->split_sc_frame == -1) ||
+-		     ((((int)current_frame - pipe->split_sc_frame) & 0x7f) <
++		    pipe->next_tx_frame <= current_frame &&
++		    (pipe->split_sc_frame == -1 ||
++		     (((int)current_frame - pipe->split_sc_frame) & 0x7f <
+ 		      0x40)) &&
+-		    (!usb->active_split || (usb->active_split == t))) {
++		    !usb->active_split || (usb->active_split == t)) {
+ 			prefetch(t);
+ 			return pipe;
+ 		}
+@@ -2075,8 +2075,8 @@ static void cvmx_usb_complete(struct octeon_hcd *usb,
+ 		 * If there are more ISOs pending and we succeeded, schedule the
+ 		 * next one
+ 		 */
+-		if ((transaction->iso_number_packets > 1) &&
+-		    (complete_code == CVMX_USB_STATUS_OK)) {
++		if (transaction->iso_number_packets > 1 &&
++		    complete_code == CVMX_USB_STATUS_OK) {
+ 			/* No bytes transferred for this packet as of yet */
+ 			transaction->actual_bytes = 0;
+ 			/* One less ISO waiting to transfer */
+@@ -2454,8 +2454,8 @@ static void cvmx_usb_transfer_control(struct octeon_hcd *usb,
+ 		}
+ 		break;
+ 	case CVMX_USB_STAGE_DATA_SPLIT_COMPLETE:
+-		if ((buffer_space_left == 0) ||
+-		    (bytes_in_last_packet < pipe->max_packet)) {
++		if (buffer_space_left == 0 ||
++		    bytes_in_last_packet < pipe->max_packet) {
+ 			pipe->pid_toggle = 1;
+ 			transaction->stage = CVMX_USB_STAGE_STATUS;
+ 		} else {
+@@ -2499,12 +2499,12 @@ static void cvmx_usb_transfer_bulk(struct octeon_hcd *usb,
+ 			cvmx_usb_complete(usb, pipe, transaction,
+ 					  CVMX_USB_STATUS_OK);
+ 	} else {
+-		if ((pipe->device_speed == CVMX_USB_SPEED_HIGH) &&
+-		    (pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) &&
+-		    (usbc_hcint.s.nak))
++		if (pipe->device_speed == CVMX_USB_SPEED_HIGH &&
++		    pipe->transfer_dir == CVMX_USB_DIRECTION_OUT &&
++		    usbc_hcint.s.nak)
+ 			pipe->flags |= CVMX_USB_PIPE_FLAGS_NEED_PING;
+ 		if (!buffer_space_left ||
+-		    (bytes_in_last_packet < pipe->max_packet))
++		    bytes_in_last_packet < pipe->max_packet)
+ 			cvmx_usb_complete(usb, pipe, transaction,
+ 					  CVMX_USB_STATUS_OK);
+ 	}
+@@ -2555,7 +2555,7 @@ static void cvmx_usb_transfer_isoc(struct octeon_hcd *usb,
+ 			 * then this transfer is complete. Otherwise start it
+ 			 * again to send the next 188 bytes
+ 			 */
+-			if (!buffer_space_left || (bytes_this_transfer < 188)) {
++			if (!buffer_space_left || bytes_this_transfer < 188) {
+ 				pipe->next_tx_frame += pipe->interval;
+ 				cvmx_usb_complete(usb, pipe, transaction,
+ 						  CVMX_USB_STATUS_OK);
+@@ -2568,8 +2568,8 @@ static void cvmx_usb_transfer_isoc(struct octeon_hcd *usb,
+ 			 * We are in the incoming data phase. Keep getting data
+ 			 * until we run out of space or get a small packet
+ 			 */
+-			if ((buffer_space_left == 0) ||
+-			    (bytes_in_last_packet < pipe->max_packet)) {
++			if (buffer_space_left == 0 ||
++			    bytes_in_last_packet < pipe->max_packet) {
+ 				pipe->next_tx_frame += pipe->interval;
+ 				cvmx_usb_complete(usb, pipe, transaction,
+ 						  CVMX_USB_STATUS_OK);
+@@ -2737,8 +2737,8 @@ static int cvmx_usb_poll_channel(struct octeon_hcd *usb, int channel)
+ 	 * the user's data. For this reason we don't count setup data as bytes
+ 	 * transferred
+ 	 */
+-	if ((transaction->stage == CVMX_USB_STAGE_SETUP) ||
+-	    (transaction->stage == CVMX_USB_STAGE_SETUP_SPLIT_COMPLETE))
++	if (transaction->stage == CVMX_USB_STAGE_SETUP ||
++	    transaction->stage == CVMX_USB_STAGE_SETUP_SPLIT_COMPLETE)
+ 		bytes_this_transfer = 0;
+ 
+ 	/*
+@@ -2765,9 +2765,9 @@ static int cvmx_usb_poll_channel(struct octeon_hcd *usb, int channel)
+ 	 * a ping before proceeding. If this isn't true the ACK processing below
+ 	 * will clear this flag
+ 	 */
+-	if ((pipe->device_speed == CVMX_USB_SPEED_HIGH) &&
+-	    (pipe->transfer_type == CVMX_USB_TRANSFER_BULK) &&
+-	    (pipe->transfer_dir == CVMX_USB_DIRECTION_OUT))
++	if (pipe->device_speed == CVMX_USB_SPEED_HIGH &&
++	    pipe->transfer_type == CVMX_USB_TRANSFER_BULK &&
++	    pipe->transfer_dir == CVMX_USB_DIRECTION_OUT)
+ 		pipe->flags |= CVMX_USB_PIPE_FLAGS_NEED_PING;
+ 
+ 	if (WARN_ON_ONCE(bytes_this_transfer < 0)) {
+@@ -2820,8 +2820,8 @@ static int cvmx_usb_poll_channel(struct octeon_hcd *usb, int channel)
+ 			 * If there is more data to go then we need to try
+ 			 * again. Otherwise this transaction is complete
+ 			 */
+-			if ((buffer_space_left == 0) ||
+-			    (bytes_in_last_packet < pipe->max_packet))
++			if (buffer_space_left == 0 ||
++			    bytes_in_last_packet < pipe->max_packet)
+ 				cvmx_usb_complete(usb, pipe,
+ 						  transaction,
+ 						  CVMX_USB_STATUS_OK);
+-- 
+2.30.2
 
