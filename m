@@ -1,161 +1,296 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0891520E4
-	for <linux-staging@lists.linux.dev>; Fri,  8 Apr 2022 14:59:29 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 238CPIlm006371;
-	Fri, 8 Apr 2022 14:59:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=2zzyI7smGU2RMQ16UaE9y0utQG3Yje8jR7Jabb4p8is=;
- b=0VB4y/aovcWeOWiOZgF9Bm5mK5IiG0Gr9xPK+Oad/DUQihftO+SF+tNN6wBXQa+aQE+h
- V+AZc4DaAKqyfAk+TsJSaDMByRpFIYrnZD/Pba96cSggM0JtO+7RMrZbtYIhc1FsIcKP
- O2pOz3RSGBYJzYF/UtxMq0MuZvVpRwCHxFkjv/riHqvhOBBTHKdJkzwipfnzCCoGL5uT
- iortM6vc/mBVbWXIAyREI9k/rqrJpLdN02Z+ymsF9XAFCTZSeOFCwCLQaDTpiKeQ3CLq
- Ce6HBaRst33K4IXaR0cR1BjBj9BVKgfcr6OyaufZMijLnz+hRWncEoDoIuN+CJuraye4 bQ== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3f6d31qfnj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 08 Apr 2022 14:59:13 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 238DUqIp030686;
-	Fri, 8 Apr 2022 14:59:11 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2046.outbound.protection.outlook.com [104.47.66.46])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3f9805byw2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 08 Apr 2022 14:59:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KHOqRGKpl/nVIcJ3AsLIQ5zqjS0mgwAwV85dMwV3NHH2h58LvxDNTRcgFH3V/YAkIMLlzYvFtN0kjuKF9m29fWu0PiT5cIFkwJ4qs4bAhLn15RwAQATpn+XfSUmeS/kj8XDI6LIG07Gz1nQAS3fr62XNYQ/UQIY7LRTqGUm6ev2BjhdEX/zzdbfmxbHH0Ch+HOTGNkpCnThi5Sbqj3BntAsACZq5Py5hqr8pXeMvxZtEJDWdMkjvoscgY6V89uoGUKdraQvS5l6pioAzHvYx/ErsJIJFbxMqg1ymHi8GpLpKy6dekYyf7qu5O62xDoMaZ3MpYSSDBz42GPzU2Yjuzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2zzyI7smGU2RMQ16UaE9y0utQG3Yje8jR7Jabb4p8is=;
- b=XSNXxO2/yN5sLUo+k6hUsyEXJV4T4noWMSWh3Es8hEhEnp4xWhZVY39/5XlrVLtt2scWIDQg3fJ7WEnVBlHe/5tD+kMkdmUsX+IPh37if9B4e8doGVXpphxxVh3+oLoT2HAN1J/H7bPJPCyvgR+JJveUl9+TQDijjEMmkkZ/6TYesZTgRmCfuCtyUWpyLzaUh+5Rebi+DsZ1QUbzMjBdABNGbn+oGUqiPXvQBkbqyjLeiJLug+66fUzL2omeUc+dfMLyHrAFs/1VWBplTN2/QdJEE07KWPKc07QeGmv16uVk+NB/jUOJbUCIzVneGaEjS0GLpd2GePX0HAZwo+RhlQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2zzyI7smGU2RMQ16UaE9y0utQG3Yje8jR7Jabb4p8is=;
- b=X7BtX3x9X9JwIPsdft3wWON3OGDYIg3ynKFTXm8fwEq1lmeVFkuT2EEzkPSLGD3jnqDm4BjsAtx23bRaBaAG9nMLzl6KU7qgG4qBTw9Dqc9n4IijU3j8KVlvw1IDO/FaWMeGvmnl3JKOinOLw89jdvrawbOTVCcS0BTprfG+G3k=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CY4PR1001MB2134.namprd10.prod.outlook.com
- (2603:10b6:910:49::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Fri, 8 Apr
- 2022 14:58:59 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5144.022; Fri, 8 Apr 2022
- 14:58:58 +0000
-Date: Fri, 8 Apr 2022 17:58:36 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Yihao Han <hanyihao@vivo.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Xiangyang Zhang <xyz.sun.ok@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Bryan Brattlof <hello@bryanbrattlof.com>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        kernel@vivo.com
-Subject: Re: [PATCH v3] staging: rtl8723bs: tidy up error handling
-Message-ID: <20220408145836.GV3293@kadam>
-References: <20220408144442.17611-1-hanyihao@vivo.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220408144442.17611-1-hanyihao@vivo.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0017.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::22)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6F220E4
+	for <linux-staging@lists.linux.dev>; Fri,  8 Apr 2022 15:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1649430297;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Nf3doDTjAQOJeXMo+td/oIn+T9zeQzKA6cjU7aYrP9I=;
+	b=E+WsOw0GkX2lRcPAFB+0HkYfK/ozjJbsRU87F0lKT/xV45v4JLh1n2tV3+t+ibnKhVL/yy
+	RqqVAc9UguKHGLrlEUj38i8y+VnJphfEt/UTH14DKJxzDHbEGRAP8O9gq4Mzqp4nqcFpOh
+	ZKEAYySZXJMroK0Pbr9ews1ezjF/lSU=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-210-iOKpy-KVMDiR4t_RPg_cgQ-1; Fri, 08 Apr 2022 11:04:56 -0400
+X-MC-Unique: iOKpy-KVMDiR4t_RPg_cgQ-1
+Received: by mail-qk1-f198.google.com with SMTP id ay14-20020a05620a178e00b0069a9c319c64so1888914qkb.3
+        for <linux-staging@lists.linux.dev>; Fri, 08 Apr 2022 08:04:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Nf3doDTjAQOJeXMo+td/oIn+T9zeQzKA6cjU7aYrP9I=;
+        b=EPsrswiN5A51WVpoa+gaiwwp7ubqbC7KKSpce3E43M8/2X/j/WtfQfalVRKaAjQHH5
+         99M1jR0YM/fYSox6wjKcZUy0aJvWdrQohc5b2Oq+j0pdd8PVzk4AshCJvMQF2Ez1PFjc
+         LC0tfgjlytI4t/YVfPmsVmJI/rI8HG8Ur5L4ujChpxqwb4/Y0rkpGIkqt/gnJFUo8UMY
+         jQ5K8o6rdNxEatbt25AJnGHz0xqyhNhtSp7CbJgnj6F5EeFKL4FJJQoPow7RZ59OfeoX
+         eJq9Y2KKTMQRChLrJxMXMC23wMgtHkOmHth3dM40//gjuGkH8E6lL9M2Wqrp2ZPigHAS
+         lPIA==
+X-Gm-Message-State: AOAM530oiJLatMT1cwxXDg/M9gWyaOduoD64rJ5ZCilFV2qVVyQYYqy8
+	2cteUnfWIS0+VQnCCwYcrqvPPtAPABvnRu0SBbzaumfl5tTOSb4Uy5A46+BAje1HQKE3PIdRxW1
+	lnF6DRswfhd1/p+Pnka6imkuVCw==
+X-Received: by 2002:ad4:5d48:0:b0:440:ef43:3667 with SMTP id jk8-20020ad45d48000000b00440ef433667mr16347234qvb.110.1649430295313;
+        Fri, 08 Apr 2022 08:04:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCVc7ORoGlnJj5uukafi+K7qBY9LttNX9++JT3/dAotS3gtzJ8mGW4F4g7a6PbpA5LgjzL4g==
+X-Received: by 2002:ad4:5d48:0:b0:440:ef43:3667 with SMTP id jk8-20020ad45d48000000b00440ef433667mr16347198qvb.110.1649430295084;
+        Fri, 08 Apr 2022 08:04:55 -0700 (PDT)
+Received: from fedora.hitronhub.home (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
+        by smtp.gmail.com with ESMTPSA id g9-20020a05620a108900b0067b13036bd5sm13700748qkk.52.2022.04.08.08.04.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Apr 2022 08:04:54 -0700 (PDT)
+From: Adrien Thierry <athierry@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: Adrien Thierry <athierry@redhat.com>,
+	linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: bcm2835-audio: remove compat ALSA card
+Date: Fri,  8 Apr 2022 11:03:58 -0400
+Message-Id: <20220408150359.26661-1-athierry@redhat.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d5f1071c-f47e-4d3f-5a32-08da19704f60
-X-MS-TrafficTypeDiagnostic: CY4PR1001MB2134:EE_
-X-Microsoft-Antispam-PRVS: 
-	<CY4PR1001MB21343FFE1171F012085287FB8EE99@CY4PR1001MB2134.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	aQCNivOcG2mopvsdqBHMmpL4uWz28EyzSAguuNj4ZBOrWqiK9oPU4N4c/tKdklXgtbjdXShsmt8uauIm+YUXeO22yOxznEGEl+7K/R0v7obx+teR59qctf/VQAHftP3/hcg6tFwTVxYpmVYME0GLLlvb38Y3irRGeii5CrKFNmSWu+j+7brzd3Q4DmdhVKF25GlohsW7NiI1fW/uhckHyv1/hIknsGj0MT8yV+V0sxAX9YqlL7QQQH9mf38z1nEkwVbDlgqmLP6uTk1ZmcbPM8Desi7uQTOHN5GqOwb6cvo5ogP4zzTuZ+3XH9hsHCsMa6yA16gGuji0kN8bPZYW2F0+Pt3NFKCUVJi1O0On9963S4Jdb2S/3aHc4rOQg7A0gveygQr0UAnwweonauhzD9Qp+cOrGLzei+HYNN6NP/7D8ZegKPQniSV6Av3/FSbTmQtPZdFS09GaBjGgrOgJpSXcqTN94cr5cY7LIPBUP03CRHQb65YNiwJPXeH5JB6uYOVgK4Nz4/KTskxTT3PTMj+kwG4FA562W5DvY8oKiNRpNkPIhn4OAiZxbv1+x1M/TQCyjFOr61DYfVvYHtiyiQVTxVpoLNDGu9CAFD07A5fxSih9cVnXiI8e4aJh8fNkIQoJ1dSJJNgL067cfOVBCJiJ3YVXF8+um6CsMideUW0y46MldIyqDgRAcKn+FCTugY9DbIIDJ5fqwdlexs5y4A==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(7416002)(508600001)(6506007)(44832011)(26005)(33716001)(6666004)(6486002)(83380400001)(1076003)(33656002)(52116002)(186003)(54906003)(8936002)(4744005)(66946007)(66556008)(2906002)(66476007)(8676002)(9686003)(6512007)(4326008)(86362001)(38350700002)(38100700002)(5660300002)(316002)(6916009);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?VxSIuQZwA/+BJyJU6pEmKo46hrxrlE6p2l/yri3Czqms3ixRvnMD2pStmztD?=
- =?us-ascii?Q?ZRFsTV50be/7CtRxxSnaiz8EGQOzF7QEqoF/eWliQekvmi0SK9EmyEvHkYOR?=
- =?us-ascii?Q?tInq89j1HJRINugHfkwSf/lDUBjZpQx5+WsrEef99YiOYENc3xpx7r8Vy3iA?=
- =?us-ascii?Q?QtnXwdIKy/EHNr/3qAR/HQEbVEyGjgK0iWJ3XXLFjIz5AWjPtNZadZrv+cqt?=
- =?us-ascii?Q?l1JZNcH2NRQfLnKfKvbl9eAXYrUgSBW2mLRmoy2mKH8nDPOE3xzUTwjhVC6z?=
- =?us-ascii?Q?oqHO/Z1mBhumfKEIN0a3QqnZMT0zCS98/vaOi5w847wiW0OzgczA+MzPOJ5X?=
- =?us-ascii?Q?FUwvKv7vI9heKjNuME1DctwJe1XZwJYvFABYZ0Zgx4W6h9b+4ESZlxuE1q54?=
- =?us-ascii?Q?X7jk+bswBCNpUNsrE/DwplWF80Beq9GoTUlOCrwEhj9Gp3ghraH4RzL9iBla?=
- =?us-ascii?Q?eP/aLI0REeb30GoJT6dhPptu4hbt8t38gCAu1/hhkoljqdxTpQrb36W0FA31?=
- =?us-ascii?Q?t9OxPHtjYgPBAs1MztUE6G7arnhUfq+b7UaNP7oxAyg8jZEJysXYIr/FAB8Y?=
- =?us-ascii?Q?v+/17IhoNWG6+kvOVmmpRQ9XiwGxiZuQsSQqOAmwKbJ7qGjqm6qPJr0Hlpd4?=
- =?us-ascii?Q?ZHeb9wufv/jJFs7qVJ+5v0P71hwupOdBduZTlzMttsFI1ILJcdKTrQWm4AUu?=
- =?us-ascii?Q?gJNVhORlovo8qMbo17kARx7mwqdlMnpW7bz35malHemGe6QvvXusheW4WMQD?=
- =?us-ascii?Q?sXmvRe0EX8zEH2y0TptvIAuvTc3oYarmX0etETVJkheFgN9XEfRzAR44DmmR?=
- =?us-ascii?Q?zRfubJfQYuYlFhqtMapn/ux1JENrJQsGkSV97tf8/GvSSwAZjmRwVKF75we8?=
- =?us-ascii?Q?tjow/XtgwDXRpxb+zcIahJke8UVgmEktJ1GJkAnJqV8YiOOPuPVQSSiH90UX?=
- =?us-ascii?Q?QTgK/blXia/+RuqH4h54m6GahO9J4QPZPkuEPEmzGc2GtQI0hU75aXdwMMww?=
- =?us-ascii?Q?9FikWRMUyDhPdHEgsVsrL+470/aTMcl2eWmvGQ0nA1PdmYdPIoHE7iFkof9x?=
- =?us-ascii?Q?C59Hu63lsVYcf34FOupWY70UBWgLUDaI57kp7a+P/LgSgXrrGfScxNjQEOKX?=
- =?us-ascii?Q?aumFGfrRaVRsxFG5lCu4qTPHa3z7hFiEMXf4rouk6nFHNYHzQz3q0TGscNRv?=
- =?us-ascii?Q?TRK+yf4cxROIzfKQapPtqu8NEDZFzH0CeRzCb/xqlZXunC7Qsl7uAx52s4fa?=
- =?us-ascii?Q?VsQMRssIjCRFmJzJByrgWxWlVZi3yHOZeZdbKaydOVcfrPVTL0mbZIERMHRU?=
- =?us-ascii?Q?ul2rJncbTHvNssPNo2JhmiSWWqA5rPaBXkeKnm05PcNnFfnES/otkXGzh/XR?=
- =?us-ascii?Q?jGWf7ouuJPDR7rImABS4+T+LWmHY0uY+x3RrtZH1eKrTnzkzZnv7VmdM1buG?=
- =?us-ascii?Q?FhgyvxUZ+laFZlWsAGzjXRj1mIIFqeWWMANFBFgNVy5MqLWTOyM3PhpKlFSN?=
- =?us-ascii?Q?9s9VRPljaHzBxk7uJ0cLIdj+TRwG3Dqam8eGXg4iwhUO6ZlgslGpNla3TCbp?=
- =?us-ascii?Q?RyUyWZ44LSKnzH07WVocC65HcQuFL0xHLS3T09KIXH1/1E48lHDc14YtA1Dn?=
- =?us-ascii?Q?AylyOLNr3hp8r+bDggwVZfrw3tETL4cZU5XFCuHiCkhhAixG1/qzcTyg0aPg?=
- =?us-ascii?Q?GoFew4RGH7mwnzqIMYY57eZ4gyCTwYJJfqNYizWnL76ljYiflnv9ip9VLKTL?=
- =?us-ascii?Q?Uq6Vk8RzIMgC0hY5gMx1m+90eskK3Hs=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5f1071c-f47e-4d3f-5a32-08da19704f60
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 14:58:58.7748
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FmgDDCbUHEIIl/trq9KmLIYhLRvLTW4BpnRGGIoZSYqO9ttCtguRbWQgCcFigokkCAUVLosc8ezHpqPYDCD+iWg0wqWqZKp/lBiq/QkAyek=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1001MB2134
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.858
- definitions=2022-04-08_04:2022-04-08,2022-04-08 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 adultscore=0
- suspectscore=0 spamscore=0 mlxlogscore=999 bulkscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204080058
-X-Proofpoint-GUID: U_5GUDpeei0Qv1ft3tzo2kt2m3XKCVl4
-X-Proofpoint-ORIG-GUID: U_5GUDpeei0Qv1ft3tzo2kt2m3XKCVl4
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Fri, Apr 08, 2022 at 07:44:40AM -0700, Yihao Han wrote:
-> The check for if rtw_skb_alloc() fails is done twice and is written
-> in a confusing way.  Move the "if (!recvbuf->pskb)" right after
-> the allocation.  The "if (recvbuf->pskb)" check can now be deleted
-> and the code pulled in one tab.
-> 
-> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Yihao Han <hanyihao@vivo.com>
-> ---
-> v2: more extensive cleanup
-> v3: edit commit message
+Remove compat ALSA card, which has overlapping functionality with the
+two other cards described by the driver (HDMI and headphones)
 
-Thanks!
+This handles TODO item "Revisit multi-cards options and PCM route mixer
+control".
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+Move the S/PDIF device that was part of the compat ALSA card to the HDMI
+card.
 
-regards,
-dan carpenter
+Only enable headphones card by default, because HDMI breaks when using
+both vc4 and bcm2835-audio with HDMI card enabled.
+
+Signed-off-by: Adrien Thierry <athierry@redhat.com>
+---
+
+I was able to test PCM output on 3.5mm and HDMI on a Raspberry Pi 4.
+However, I couldn't test the HDMI S/PDIF device since I don't own a S/PDIF
+capable speaker.
+
+ .../vc04_services/bcm2835-audio/bcm2835-ctl.c | 86 ++-----------------
+ .../vc04_services/bcm2835-audio/bcm2835.c     | 33 ++-----
+ 2 files changed, 15 insertions(+), 104 deletions(-)
+
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c
+index 3703409715da..1c1f040122d7 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c
++++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c
+@@ -117,15 +117,6 @@ static const struct snd_kcontrol_new snd_bcm2835_ctl[] = {
+ 		.get = snd_bcm2835_ctl_get,
+ 		.put = snd_bcm2835_ctl_put,
+ 	},
+-	{
+-		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+-		.name = "PCM Playback Route",
+-		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
+-		.private_value = PCM_PLAYBACK_DEVICE,
+-		.info = snd_bcm2835_ctl_info,
+-		.get = snd_bcm2835_ctl_get,
+-		.put = snd_bcm2835_ctl_put,
+-	},
+ };
+ 
+ static int snd_bcm2835_spdif_default_info(struct snd_kcontrol *kcontrol,
+@@ -220,7 +211,14 @@ static int create_ctls(struct bcm2835_chip *chip, size_t size,
+ 	return 0;
+ }
+ 
+-int snd_bcm2835_new_ctl(struct bcm2835_chip *chip)
++int snd_bcm2835_new_headphones_ctl(struct bcm2835_chip *chip)
++{
++	strscpy(chip->card->mixername, "Broadcom Mixer", sizeof(chip->card->mixername));
++	return create_ctls(chip, ARRAY_SIZE(snd_bcm2835_ctl),
++			   snd_bcm2835_ctl);
++}
++
++int snd_bcm2835_new_hdmi_ctl(struct bcm2835_chip *chip)
+ {
+ 	int err;
+ 
+@@ -232,71 +230,3 @@ int snd_bcm2835_new_ctl(struct bcm2835_chip *chip)
+ 			   snd_bcm2835_spdif);
+ }
+ 
+-static const struct snd_kcontrol_new snd_bcm2835_headphones_ctl[] = {
+-	{
+-		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+-		.name = "Headphone Playback Volume",
+-		.index = 0,
+-		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
+-			  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
+-		.private_value = PCM_PLAYBACK_VOLUME,
+-		.info = snd_bcm2835_ctl_info,
+-		.get = snd_bcm2835_ctl_get,
+-		.put = snd_bcm2835_ctl_put,
+-		.count = 1,
+-		.tlv = {.p = snd_bcm2835_db_scale}
+-	},
+-	{
+-		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+-		.name = "Headphone Playback Switch",
+-		.index = 0,
+-		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
+-		.private_value = PCM_PLAYBACK_MUTE,
+-		.info = snd_bcm2835_ctl_info,
+-		.get = snd_bcm2835_ctl_get,
+-		.put = snd_bcm2835_ctl_put,
+-		.count = 1,
+-	}
+-};
+-
+-int snd_bcm2835_new_headphones_ctl(struct bcm2835_chip *chip)
+-{
+-	strscpy(chip->card->mixername, "Broadcom Mixer", sizeof(chip->card->mixername));
+-	return create_ctls(chip, ARRAY_SIZE(snd_bcm2835_headphones_ctl),
+-			   snd_bcm2835_headphones_ctl);
+-}
+-
+-static const struct snd_kcontrol_new snd_bcm2835_hdmi[] = {
+-	{
+-		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+-		.name = "HDMI Playback Volume",
+-		.index = 0,
+-		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
+-			  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
+-		.private_value = PCM_PLAYBACK_VOLUME,
+-		.info = snd_bcm2835_ctl_info,
+-		.get = snd_bcm2835_ctl_get,
+-		.put = snd_bcm2835_ctl_put,
+-		.count = 1,
+-		.tlv = {.p = snd_bcm2835_db_scale}
+-	},
+-	{
+-		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+-		.name = "HDMI Playback Switch",
+-		.index = 0,
+-		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
+-		.private_value = PCM_PLAYBACK_MUTE,
+-		.info = snd_bcm2835_ctl_info,
+-		.get = snd_bcm2835_ctl_get,
+-		.put = snd_bcm2835_ctl_put,
+-		.count = 1,
+-	}
+-};
+-
+-int snd_bcm2835_new_hdmi_ctl(struct bcm2835_chip *chip)
+-{
+-	strscpy(chip->card->mixername, "Broadcom Mixer", sizeof(chip->card->mixername));
+-	return create_ctls(chip, ARRAY_SIZE(snd_bcm2835_hdmi),
+-			   snd_bcm2835_hdmi);
+-}
+-
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
+index 628732d7bf6a..00bc898b0189 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
++++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
+@@ -10,17 +10,13 @@
+ #include "bcm2835.h"
+ 
+ static bool enable_hdmi;
+-static bool enable_headphones;
+-static bool enable_compat_alsa = true;
++static bool enable_headphones = true;
+ static int num_channels = MAX_SUBSTREAMS;
+ 
+ module_param(enable_hdmi, bool, 0444);
+ MODULE_PARM_DESC(enable_hdmi, "Enables HDMI virtual audio device");
+ module_param(enable_headphones, bool, 0444);
+ MODULE_PARM_DESC(enable_headphones, "Enables Headphones virtual audio device");
+-module_param(enable_compat_alsa, bool, 0444);
+-MODULE_PARM_DESC(enable_compat_alsa,
+-		 "Enables ALSA compatibility virtual audio device");
+ module_param(num_channels, int, 0644);
+ MODULE_PARM_DESC(num_channels, "Number of audio channels (default: 8)");
+ 
+@@ -63,19 +59,20 @@ struct bcm2835_audio_driver {
+ 	enum snd_bcm2835_route route;
+ };
+ 
+-static int bcm2835_audio_alsa_newpcm(struct bcm2835_chip *chip,
++static int bcm2835_audio_dual_newpcm(struct bcm2835_chip *chip,
+ 				     const char *name,
+ 				     enum snd_bcm2835_route route,
+ 				     u32 numchannels)
+ {
+ 	int err;
+ 
+-	err = snd_bcm2835_new_pcm(chip, "bcm2835 ALSA", 0, AUDIO_DEST_AUTO,
+-				  numchannels - 1, false);
++	err = snd_bcm2835_new_pcm(chip, name, 0, route,
++				  numchannels, false);
++
+ 	if (err)
+ 		return err;
+ 
+-	err = snd_bcm2835_new_pcm(chip, "bcm2835 IEC958/HDMI", 1, 0, 1, true);
++	err = snd_bcm2835_new_pcm(chip, "IEC958", 1, route, 1, true);
+ 	if (err)
+ 		return err;
+ 
+@@ -90,18 +87,6 @@ static int bcm2835_audio_simple_newpcm(struct bcm2835_chip *chip,
+ 	return snd_bcm2835_new_pcm(chip, name, 0, route, numchannels, false);
+ }
+ 
+-static struct bcm2835_audio_driver bcm2835_audio_alsa = {
+-	.driver = {
+-		.name = "bcm2835_alsa",
+-		.owner = THIS_MODULE,
+-	},
+-	.shortname = "bcm2835 ALSA",
+-	.longname  = "bcm2835 ALSA",
+-	.minchannels = 2,
+-	.newpcm = bcm2835_audio_alsa_newpcm,
+-	.newctl = snd_bcm2835_new_ctl,
+-};
+-
+ static struct bcm2835_audio_driver bcm2835_audio_hdmi = {
+ 	.driver = {
+ 		.name = "bcm2835_hdmi",
+@@ -110,7 +95,7 @@ static struct bcm2835_audio_driver bcm2835_audio_hdmi = {
+ 	.shortname = "bcm2835 HDMI",
+ 	.longname  = "bcm2835 HDMI",
+ 	.minchannels = 1,
+-	.newpcm = bcm2835_audio_simple_newpcm,
++	.newpcm = bcm2835_audio_dual_newpcm,
+ 	.newctl = snd_bcm2835_new_hdmi_ctl,
+ 	.route = AUDIO_DEST_HDMI
+ };
+@@ -134,10 +119,6 @@ struct bcm2835_audio_drivers {
+ };
+ 
+ static struct bcm2835_audio_drivers children_devices[] = {
+-	{
+-		.audio_driver = &bcm2835_audio_alsa,
+-		.is_enabled = &enable_compat_alsa,
+-	},
+ 	{
+ 		.audio_driver = &bcm2835_audio_hdmi,
+ 		.is_enabled = &enable_hdmi,
+
+base-commit: 1831fed559732b132aef0ea8261ac77e73f7eadf
+-- 
+2.35.1
 
