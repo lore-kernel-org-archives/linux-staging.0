@@ -1,226 +1,151 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2121.outbound.protection.outlook.com [40.107.255.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6271362
-	for <linux-staging@lists.linux.dev>; Fri,  8 Apr 2022 07:30:42 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id x17so4457041lfa.10
-        for <linux-staging@lists.linux.dev>; Fri, 08 Apr 2022 00:30:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=kBQo90N7sEL0M7e1R27tsRN751KlpZFtkEzziLKe240=;
-        b=AZ6HmJwpJmTNX4yORBpvhAQouRMvxLFnmiNg/zoCmTIGMhLnR1ytyvEjbjgusUXY/i
-         pN8Z5J53fx9/3r0vJncFHu16J02fatjvE69tn7lpz4acudwTEZm5pmhBkAx4MDYQzpR7
-         wtQk6OvkHfD7aSx6nihj2astU1PEzJtmbZHjr/8TOWLZvwFzuBrNrxvcEZCGo+3n6Hlr
-         18d9n0qfjJYmLR7oNMRJ2HZWSjaWNkxsUMVQkY2RyNo44Xvn1jIjczL808d2ukkYyH+t
-         FJERR3eeE9KP3HwZM61HCWOh12Gkj9kJUjS2ojA9kWeFndNt2mXh4AbWGjr72qwLNQl+
-         t65A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=kBQo90N7sEL0M7e1R27tsRN751KlpZFtkEzziLKe240=;
-        b=8JkFpWFr2g3L4tTxhvYcgQ11YHBrmvoxpgZq2t+ypeKfKQ7kJxw2dNzcbdNXDfZSVa
-         kpProlnimMCuD0/g7koN0xbPQMMD6gHkJCrOGQrEkKchU6FeSZQKymaVuxjak4ODkxB7
-         i8xz53H4KM4W8MAXrc1Sv6AvRIGh16p3kyHucz+xbQxXbiB1rYKHfJ03zcXxTFDuFBMm
-         sfXu9ElhFTml/bgeA/MOXxzihCIh4HMgKn1LYIRzDeEf57Uy8FwSLz16vvwyWpbbMCMb
-         3ZAyTl8f3POJXUn2ElLTmaw/vRB8zaunk9rxUgr/e15qnRlqCbBlV8LamYI98z9urfRW
-         zHeg==
-X-Gm-Message-State: AOAM531hB2YqKtC8W1RPvZPRNMC9HdgyraUNYzlRlfWsOtHZfyZoi2mz
-	ACTsdFtLBs+arjNGV6F7iH8=
-X-Google-Smtp-Source: ABdhPJxUw74C3ij570zJxqVSuzHpsuYvAZ5JxOtwqUnd7Rg+ndi6j71Pb4IXy16o5eYmKrNI11dCAw==
-X-Received: by 2002:a05:6512:33d0:b0:44a:72b2:cd36 with SMTP id d16-20020a05651233d000b0044a72b2cd36mr12241852lfg.113.1649403039787;
-        Fri, 08 Apr 2022 00:30:39 -0700 (PDT)
-Received: from crux (h-98-128-204-26.A444.priv.bahnhof.se. [98.128.204.26])
-        by smtp.gmail.com with ESMTPSA id h14-20020a0565123c8e00b0044a2ddb6694sm2382943lfv.124.2022.04.08.00.30.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 00:30:39 -0700 (PDT)
-Date: Fri, 8 Apr 2022 09:30:37 +0200
-From: Artur Bujdoso <artur.bujdoso@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ED9362
+	for <linux-staging@lists.linux.dev>; Fri,  8 Apr 2022 07:43:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KN8G1YvyxGRkePV7Vl+6of/nmY6laAQi2m+hRrY/BbTmYvPX2KnjBScrtRLCoS6BsRqLnNMPBVMgWcgaXiTPRT5YZWMHxQ/Olfv59WnDq7A4/UhXNxpWxA6cD355VPCfpqTxvA5SoI11UqMyxK2qNkkDVWHhztTq/u6TUq9IFch9+Ir50Ach0tLDsDMQtoNPZSRihsj58Y885vT+T5eAxrHE7KnY2H381HbkRZiMZEtK/Ck62lXj8PJDlW5oWCgY+eoKJAjUgGclxsh2InTmXV/VWQwD4cJUEF968h7Y7HXjnc7wq9k3BUfPsdvYrrwEafiWV5s7BJ6PpSVVGMzKGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1lxONMgke88UwmZW/Zle7cJHpoh/OU7NuGDyJ2ekzU4=;
+ b=aRBJ42+MCE0njjYypfci9uvou7s3eeXaEku0idU848gQfLfNhedGHtXTq6XNNMQZ1jE32gJ2WOhqGUG0oZXVXRnZukIWU+j82einHSsgoha6Mjc8zK7D7PTMB2zpho9iuasQtIEMLNaFW91xnOe3GR7x8Y1m4uC1dqZQy16BVo5fI4LCIfyRCNzm6Gq4GmSQ7Hl6BdfiIcFxtwrotphUqZZpVXTkfyyznVINswaxkTFWfhe4xW5Vxy08Gcgui1LLsogShdLALDWdilBpBtJ2hD5gzqGbsBeFwj9OjKU+TNCO5b0u2BCg7sJFj6jlegv2a6z2xXfJ9ImTZve3ABCmMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1lxONMgke88UwmZW/Zle7cJHpoh/OU7NuGDyJ2ekzU4=;
+ b=o3fPJ/Q2lA/xofh29WzCH84JfBANUDU3Yw8TLVzwm4S7xxqSrqByc4O+wq4r77j61xYjGk4uZltowRJtsztfL1EAEmk6BeMed7zVVbosINAuzltGimJF/8jCFbokLpWhYx337m7XIt+id7Cbb9AN3FpdCNX4TWwm38qh8uapNPU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from TYZPR06MB4173.apcprd06.prod.outlook.com (2603:1096:400:26::14)
+ by KL1PR0601MB4243.apcprd06.prod.outlook.com (2603:1096:820:7c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Fri, 8 Apr
+ 2022 07:42:59 +0000
+Received: from TYZPR06MB4173.apcprd06.prod.outlook.com
+ ([fe80::2813:af2f:32d0:7be]) by TYZPR06MB4173.apcprd06.prod.outlook.com
+ ([fe80::2813:af2f:32d0:7be%9]) with mapi id 15.20.5144.022; Fri, 8 Apr 2022
+ 07:42:58 +0000
+From: Yihao Han <hanyihao@vivo.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: octeon-usb: remove unnecessary parentheses
-Message-ID: <Yk/knRtaujd/PzK7@crux>
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	Yihao Han <hanyihao@vivo.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Xiangyang Zhang <xyz.sun.ok@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Bryan Brattlof <hello@bryanbrattlof.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: kernel@vivo.com
+Subject: [PATCH] staging: rtl8723bs: simplify if-if to if-else
+Date: Fri,  8 Apr 2022 00:42:40 -0700
+Message-Id: <20220408074245.13694-1-hanyihao@vivo.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: HK0PR03CA0102.apcprd03.prod.outlook.com
+ (2603:1096:203:b0::18) To TYZPR06MB4173.apcprd06.prod.outlook.com
+ (2603:1096:400:26::14)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 522463ea-301c-4612-6644-08da193366ed
+X-MS-TrafficTypeDiagnostic: KL1PR0601MB4243:EE_
+X-Microsoft-Antispam-PRVS:
+	<KL1PR0601MB4243F0AECD7D13007B1B8D86A2E99@KL1PR0601MB4243.apcprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	KnuJx1bZxFMdCYhpXQwXj0hf4IQoSj/yWI1sdF4LeY6eHXurYah0MW4RukMVzN94esDmP9gsMH6n2M7PijpmrFFfTxo+goAuqy4SsTjKRaj+yBPv4U6q6ARO1L2xbZsjRy+KQXaCZ8vE84hrCYzhxu93V2fpunFhXRZB2pdlTOZGl5EbPttPsHOf3s7UP2Mn7FFdoz+dMOTvQWrOsiqHzZeo9rIOBsUxjNQs+2Hdk/9PTIJAfAvq9L3grcAmyOuqq2rw1XbobtzPRdDumLOgUGLueI/GTmYgwaGt14nP3uY/dBcdvlbz1w4cswU4ndjsauco2RH+8iVIYTiqadwftzpNcKEHqWu/fGhNTWc11kGnmFLHSRDk9iqRnXZOM9j0XbzbnVp11dGyPom3A/soqhb0mLSfzCKI1OXKzqBWML1+ntXSwMpMKoFahdUVoFRPg2tuM6qVCByIFQV+juU3YWLoaPyE9xF73QjDR0o2CNy9hFMv3BkUFjJmXl3efX1GySmaDiwsaSl7j5jQbukIWigpFBRfMOgpYY2tRXGqOk0+KcQsrnpmT7oV0KLxm7PjmnMA+1a0vtR3/dQbIGNAiATt5DfBdLcW729TYibEo/LafX34J/NNUOc8UfxkWpYE9Auc2hxJDhamXSDY33IDwUldM5QzWVXwgoeB282sUDhCov1wcQMsuU+KJMF15UOcqFqzEq07SsZusJFwIO+g+5fGn5vJQJPdZXpeuZQEhvlBqiFE9pAF2UuYvkfd2RxxDBXBZTbPycMDLD8fBLF6I8QnI2d/EPu7p+kUooVbC9MC6C7BgElNQjOp6rQKAMyg
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB4173.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(966005)(36756003)(26005)(186003)(2616005)(107886003)(6666004)(66556008)(83380400001)(508600001)(110136005)(6506007)(1076003)(6512007)(52116002)(6486002)(316002)(8936002)(38100700002)(2906002)(38350700002)(921005)(8676002)(4326008)(66476007)(66946007)(86362001)(5660300002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?mritXBV7TuqW7AI1sxzWU2U2xC/1RifxrNZFPmgP5uPWh4f9Jl+84H/HrBM9?=
+ =?us-ascii?Q?Vt8h/v9jK7AUUMaR+PV1OIigE51VC2lyNLlB8/ELTqeKXHHGUr+yZGa06Cx2?=
+ =?us-ascii?Q?TKCyvHBESZK6i1hVUxNP5Pnv/BDF1s6m3t5zb0Ha9y2dbdYMIxBmQq8EPovS?=
+ =?us-ascii?Q?651vlaWGN0cKDV9fU1m10Tt5lz3udfO02py7mcufltix4TuvHAaoWw+9n3Xz?=
+ =?us-ascii?Q?eMPZ5VPLDINPj5OA07QkvsmMJBSgjgrCAN88m5T+ArhCcxuhbrJ0FTNQ8rP1?=
+ =?us-ascii?Q?mPfNyGIsKeieb1V9I67/CUSEnrpOiIuILSrr6dOlOkK15h43UFbBnXS4vp2H?=
+ =?us-ascii?Q?f/DNw0VG+Eax1FIqdMu3JvtqZTFpkFtNKQsxKT2ARI1f9GWF2kQU4B1tOeAh?=
+ =?us-ascii?Q?XVp4HwqpJmLzQvCPGENon6p8d4NIs/vsPQIgA0RTnzZc7/JKI3o1sRrmI8Ts?=
+ =?us-ascii?Q?60T/zLmdzl7F2Ypqi1slgJtbA4jdp3VXi6YQ9uvrq26bjtXenQdN8HMfQmFt?=
+ =?us-ascii?Q?aKlakWF6xZaGpe8L/yEUqW9owFqOTVYHmwBDzozxKXViYHsWQ6L+Vx+srXhg?=
+ =?us-ascii?Q?2WGv9xSOBr9Cb5dPOxqOmWqxBFyx1AFmwu0s1YGisYjLHYW8tZIXNj1tw4M+?=
+ =?us-ascii?Q?FDWCOEjBPP5vk38U6HB+/img3fuwuC3zd7h/sNBZMj6C3+FEZfR8qxBLBIyC?=
+ =?us-ascii?Q?4zL4HVRwVKrbykuBdfcZvkwShQAFigS09m8UK6Lfv3uu9/6e+jB4TIQhjP95?=
+ =?us-ascii?Q?6L4c6MEl6+SjcnEsN4wOb+LKdyyCNOvr7JJc3ZLQCB2WIVWX9Yj4QPeEZjDq?=
+ =?us-ascii?Q?Qe5Qat2QEdZbNgZpTiotPcZX73jWLeHtRR7MCx4fxsKSiLers0JUb56CInXL?=
+ =?us-ascii?Q?j0lfmKlxGq3MPxGRSLgs0FYxin9W/GNDbMVx7nCyU9Yc7MdfMu3EQPp28RJw?=
+ =?us-ascii?Q?z+4e3dp+y7aTaUrdYD5vVSE9t9U8DbntB7W/c/to2UAbJQCOjiPJRJFU/3oU?=
+ =?us-ascii?Q?9fFyn/WN7qhGrO2EpCM8D5M/A64QmDjSRENAmSjrOEUJYoH1p6gN9TOWjjda?=
+ =?us-ascii?Q?1zzpT5d9McWumgdtD/Sy8BCxdwpbbNzdl8zNvrw7YesF9TPZP/g9ANJSht5R?=
+ =?us-ascii?Q?1BTJsV2xJcLGkXApVO6mjR3LYHPoBRhfWsCkzM2QfiaDbaEyK4XS1bhor+AQ?=
+ =?us-ascii?Q?rKquUvPaDIBY+VBHqGagk8l5KXm4T1EYANXRKxX8QD7gzR3K04eMoWU2GC2I?=
+ =?us-ascii?Q?7WA2ubpV+ksNSOuoqRwo0euffUsGfP6iQL/IPGN3vrrnzo6NJs/CCh4HSYJK?=
+ =?us-ascii?Q?TvCiHTh0rMSOzh2QQYDJEPJa1oRnLnXHxjeqmSW4FMspVLunVUfSSUTbIfJ6?=
+ =?us-ascii?Q?o2uejNxfvdGeK+aUxe/TvVGD8Pb8z2A8by1NQDO5F1upCp/y/42kF4pzVA/H?=
+ =?us-ascii?Q?RKNTrXTfDV9fEEBKKj1lTBXb/6wKZ4NRe8jyqlYsr2C4e5U+NAhgaMkMokkW?=
+ =?us-ascii?Q?yHjZHd1v0m0VvjpONomjaO5ZUpDNVWYOHsZmhLJh5zj+9LyuxSPGZkWAzaJq?=
+ =?us-ascii?Q?Q/DJIQoN3meFPi1+Wf0W2Qj1rJDfp8mWDzN/qsKgfsSlsJuCs5OPIbFo+cux?=
+ =?us-ascii?Q?DsIfwcCEstwgQ7FgRflZe2pxp2cROtPzjCR1bh67P8ceum3X2/LHdk6e+p/G?=
+ =?us-ascii?Q?w71AyZWF8+i0Ia5QSVEWNAGjmRPs5fR3kZaYjD47enKHE43f/n0vcbcrlHjQ?=
+ =?us-ascii?Q?TUZbuQbrwQ=3D=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 522463ea-301c-4612-6644-08da193366ed
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB4173.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 07:42:58.8769
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t6XmIZN8JbGe3dSyDYWUOyJRq6KG8ez23xfcK+TeeS6OzH2l+i9SdoKw1NgjkoIlKii85JMaF+GMqTeirq0M3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB4243
 
-Adhere to Linux kernel coding style.
+Replace `if (!recvbuf->pskb)` with `else` for simplification and add curly
+brackets according to the kernel coding style:
 
-Reported by checkpatch:
+"Do not unnecessarily use braces where a single statement will do."
 
-CHECK:UNNECESSARY_PARENTHESES: Unnecessary parentheses
+...
 
-Signed-off-by: Artur Bujdoso <artur.bujdoso@gmail.com>
+"This does not apply if only one branch of a conditional statement is
+a single statement; in the latter case use braces in both branches"
+
+Please refer to:
+https://www.kernel.org/doc/html/v5.17-rc8/process/coding-style.html
+
+Signed-off-by: Yihao Han <hanyihao@vivo.com>
 ---
- drivers/staging/octeon-usb/octeon-hcd.c | 62 ++++++++++++-------------
- 1 file changed, 31 insertions(+), 31 deletions(-)
+ drivers/staging/rtl8723bs/hal/sdio_ops.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/octeon-usb/octeon-hcd.c b/drivers/staging/octeon-usb/octeon-hcd.c
-index a1cd81d4a114..32bcd6c582f5 100644
---- a/drivers/staging/octeon-usb/octeon-hcd.c
-+++ b/drivers/staging/octeon-usb/octeon-hcd.c
-@@ -1101,9 +1101,9 @@ static struct cvmx_usb_pipe *cvmx_usb_open_pipe(struct octeon_hcd *usb,
- 	pipe = kzalloc(sizeof(*pipe), GFP_ATOMIC);
- 	if (!pipe)
- 		return NULL;
--	if ((device_speed == CVMX_USB_SPEED_HIGH) &&
--	    (transfer_dir == CVMX_USB_DIRECTION_OUT) &&
--	    (transfer_type == CVMX_USB_TRANSFER_BULK))
-+	if (device_speed == CVMX_USB_SPEED_HIGH &&
-+	    transfer_dir == CVMX_USB_DIRECTION_OUT &&
-+	    transfer_type == CVMX_USB_TRANSFER_BULK)
- 		pipe->flags |= CVMX_USB_PIPE_FLAGS_NEED_PING;
- 	pipe->device_addr = device_addr;
- 	pipe->endpoint_num = endpoint_num;
-@@ -1319,8 +1319,8 @@ static void cvmx_usb_fill_tx_fifo(struct octeon_hcd *usb, int channel)
- 	if (!usbc_hctsiz.s.xfersize)
- 		return;
- 
--	if ((hcchar.s.eptype == CVMX_USB_TRANSFER_INTERRUPT) ||
--	    (hcchar.s.eptype == CVMX_USB_TRANSFER_ISOCHRONOUS))
-+	if (hcchar.s.eptype == CVMX_USB_TRANSFER_INTERRUPT ||
-+	    hcchar.s.eptype == CVMX_USB_TRANSFER_ISOCHRONOUS)
- 		fifo = &usb->periodic;
- 	else
- 		fifo = &usb->nonperiodic;
-@@ -1637,9 +1637,9 @@ static void cvmx_usb_start_channel(struct octeon_hcd *usb, int channel,
- 			 * begin/middle/end of the data or all
- 			 */
- 			if (!usbc_hcsplt.s.compsplt &&
--			    (pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) &&
--			    (pipe->transfer_type ==
--			     CVMX_USB_TRANSFER_ISOCHRONOUS)) {
-+			    pipe->transfer_dir == CVMX_USB_DIRECTION_OUT &&
-+			    pipe->transfer_type ==
-+			     CVMX_USB_TRANSFER_ISOCHRONOUS) {
- 				/*
- 				 * Clear the split complete frame number as
- 				 * there isn't going to be a split complete
-@@ -1813,7 +1813,7 @@ static void cvmx_usb_start_channel(struct octeon_hcd *usb, int channel,
- 		break;
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+index a545832a468e..739fea437f69 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -818,10 +818,9 @@ static struct recv_buf *sd_recv_rxfifo(struct adapter *adapter, u32 size)
+ 			tmpaddr = (SIZE_PTR)recvbuf->pskb->data;
+ 			alignment = tmpaddr & (RECVBUFF_ALIGN_SZ - 1);
+ 			skb_reserve(recvbuf->pskb, (RECVBUFF_ALIGN_SZ - alignment));
+-		}
+-
+-		if (!recvbuf->pskb)
++		} else {
+ 			return NULL;
++		}
  	}
- 	{
--		union cvmx_usbcx_hctsizx usbc_hctsiz = { .u32 =
-+			union cvmx_usbcx_hctsizx usbc_hctsiz = { .u32 =
- 			cvmx_usb_read_csr32(usb,
- 					    CVMX_USBCX_HCTSIZX(channel,
- 							       usb->index))
-@@ -1849,11 +1849,11 @@ static struct cvmx_usb_pipe *cvmx_usb_find_ready_pipe(struct octeon_hcd *usb,
- 			list_first_entry(&pipe->transactions, typeof(*t),
- 					 node);
- 		if (!(pipe->flags & CVMX_USB_PIPE_FLAGS_SCHEDULED) && t &&
--		    (pipe->next_tx_frame <= current_frame) &&
--		    ((pipe->split_sc_frame == -1) ||
--		     ((((int)current_frame - pipe->split_sc_frame) & 0x7f) <
-+		    pipe->next_tx_frame <= current_frame &&
-+		    (pipe->split_sc_frame == -1 ||
-+		     (((int)current_frame - pipe->split_sc_frame) & 0x7f <
- 		      0x40)) &&
--		    (!usb->active_split || (usb->active_split == t))) {
-+		    !usb->active_split || (usb->active_split == t)) {
- 			prefetch(t);
- 			return pipe;
- 		}
-@@ -2075,8 +2075,8 @@ static void cvmx_usb_complete(struct octeon_hcd *usb,
- 		 * If there are more ISOs pending and we succeeded, schedule the
- 		 * next one
- 		 */
--		if ((transaction->iso_number_packets > 1) &&
--		    (complete_code == CVMX_USB_STATUS_OK)) {
-+		if (transaction->iso_number_packets > 1 &&
-+		    complete_code == CVMX_USB_STATUS_OK) {
- 			/* No bytes transferred for this packet as of yet */
- 			transaction->actual_bytes = 0;
- 			/* One less ISO waiting to transfer */
-@@ -2454,8 +2454,8 @@ static void cvmx_usb_transfer_control(struct octeon_hcd *usb,
- 		}
- 		break;
- 	case CVMX_USB_STAGE_DATA_SPLIT_COMPLETE:
--		if ((buffer_space_left == 0) ||
--		    (bytes_in_last_packet < pipe->max_packet)) {
-+		if (buffer_space_left == 0 ||
-+		    bytes_in_last_packet < pipe->max_packet) {
- 			pipe->pid_toggle = 1;
- 			transaction->stage = CVMX_USB_STAGE_STATUS;
- 		} else {
-@@ -2499,12 +2499,12 @@ static void cvmx_usb_transfer_bulk(struct octeon_hcd *usb,
- 			cvmx_usb_complete(usb, pipe, transaction,
- 					  CVMX_USB_STATUS_OK);
- 	} else {
--		if ((pipe->device_speed == CVMX_USB_SPEED_HIGH) &&
--		    (pipe->transfer_dir == CVMX_USB_DIRECTION_OUT) &&
--		    (usbc_hcint.s.nak))
-+		if (pipe->device_speed == CVMX_USB_SPEED_HIGH &&
-+		    pipe->transfer_dir == CVMX_USB_DIRECTION_OUT &&
-+		    usbc_hcint.s.nak)
- 			pipe->flags |= CVMX_USB_PIPE_FLAGS_NEED_PING;
- 		if (!buffer_space_left ||
--		    (bytes_in_last_packet < pipe->max_packet))
-+		    bytes_in_last_packet < pipe->max_packet)
- 			cvmx_usb_complete(usb, pipe, transaction,
- 					  CVMX_USB_STATUS_OK);
- 	}
-@@ -2555,7 +2555,7 @@ static void cvmx_usb_transfer_isoc(struct octeon_hcd *usb,
- 			 * then this transfer is complete. Otherwise start it
- 			 * again to send the next 188 bytes
- 			 */
--			if (!buffer_space_left || (bytes_this_transfer < 188)) {
-+			if (!buffer_space_left || bytes_this_transfer < 188) {
- 				pipe->next_tx_frame += pipe->interval;
- 				cvmx_usb_complete(usb, pipe, transaction,
- 						  CVMX_USB_STATUS_OK);
-@@ -2568,8 +2568,8 @@ static void cvmx_usb_transfer_isoc(struct octeon_hcd *usb,
- 			 * We are in the incoming data phase. Keep getting data
- 			 * until we run out of space or get a small packet
- 			 */
--			if ((buffer_space_left == 0) ||
--			    (bytes_in_last_packet < pipe->max_packet)) {
-+			if (buffer_space_left == 0 ||
-+			    bytes_in_last_packet < pipe->max_packet) {
- 				pipe->next_tx_frame += pipe->interval;
- 				cvmx_usb_complete(usb, pipe, transaction,
- 						  CVMX_USB_STATUS_OK);
-@@ -2737,8 +2737,8 @@ static int cvmx_usb_poll_channel(struct octeon_hcd *usb, int channel)
- 	 * the user's data. For this reason we don't count setup data as bytes
- 	 * transferred
- 	 */
--	if ((transaction->stage == CVMX_USB_STAGE_SETUP) ||
--	    (transaction->stage == CVMX_USB_STAGE_SETUP_SPLIT_COMPLETE))
-+	if (transaction->stage == CVMX_USB_STAGE_SETUP ||
-+	    transaction->stage == CVMX_USB_STAGE_SETUP_SPLIT_COMPLETE)
- 		bytes_this_transfer = 0;
  
- 	/*
-@@ -2765,9 +2765,9 @@ static int cvmx_usb_poll_channel(struct octeon_hcd *usb, int channel)
- 	 * a ping before proceeding. If this isn't true the ACK processing below
- 	 * will clear this flag
- 	 */
--	if ((pipe->device_speed == CVMX_USB_SPEED_HIGH) &&
--	    (pipe->transfer_type == CVMX_USB_TRANSFER_BULK) &&
--	    (pipe->transfer_dir == CVMX_USB_DIRECTION_OUT))
-+	if (pipe->device_speed == CVMX_USB_SPEED_HIGH &&
-+	    pipe->transfer_type == CVMX_USB_TRANSFER_BULK &&
-+	    pipe->transfer_dir == CVMX_USB_DIRECTION_OUT)
- 		pipe->flags |= CVMX_USB_PIPE_FLAGS_NEED_PING;
- 
- 	if (WARN_ON_ONCE(bytes_this_transfer < 0)) {
-@@ -2820,8 +2820,8 @@ static int cvmx_usb_poll_channel(struct octeon_hcd *usb, int channel)
- 			 * If there is more data to go then we need to try
- 			 * again. Otherwise this transaction is complete
- 			 */
--			if ((buffer_space_left == 0) ||
--			    (bytes_in_last_packet < pipe->max_packet))
-+			if (buffer_space_left == 0 ||
-+			    bytes_in_last_packet < pipe->max_packet)
- 				cvmx_usb_complete(usb, pipe,
- 						  transaction,
- 						  CVMX_USB_STATUS_OK);
+ 	/* 3 3. read data from rxfifo */
 -- 
-2.30.2
+2.17.1
 
