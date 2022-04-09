@@ -1,102 +1,101 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5B9649
-	for <linux-staging@lists.linux.dev>; Fri,  8 Apr 2022 22:31:36 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id k23so19939757ejd.3
-        for <linux-staging@lists.linux.dev>; Fri, 08 Apr 2022 15:31:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MIEuyIQOzr7GBajh+n+UsyE5Wi+bFa0QsRrOoLXPvQs=;
-        b=oHP7fYwJCiexaqI8I+it/ifNdESNBhEUa2a5EkkGsFvbgoDOGdrPlE92AvQHwRpIDd
-         /2zBlS69RK/2kPbk2Z1sP2bWuSWKvAozNmBOfX2WC0UxKS12GpP+PTgWuSNmznBMVCgh
-         BTcggNlDq4v3L46zaP5NHvj7lpIIc7+FtoLFHX0+hfpcXogu6CwiWqwje49BvnLpMw49
-         mrFS7+KNGpdlw6+9eibEvPSalKElKm5HsN1HkC8TVP1/E0kk7d0sc7fjwN0gWKvIiCIz
-         cE7ktDUlnYWlsC9Bq54WCoZ/tskD+JFwd0njFZzQvQYrwD+R6pTKWEXHZX9SoloMJQMU
-         i7TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MIEuyIQOzr7GBajh+n+UsyE5Wi+bFa0QsRrOoLXPvQs=;
-        b=02I13sLZzGi1cDpLvrc17YvRjsxx+j1UIYHKkecFW+BsFReNfF6mU+bwWFUkRz5y8i
-         THnG/BTLpy4pvMqDB8ThtL/UQVfkuovnZc5OBnVDr5gFO2mGR63bog5PJza5kDdAfzzb
-         6HvzmeGhnq2whtPjzDeBmpVX+bX7yQ3yUatBGdRaRJeJRcSMHlIZyX1lpkIpybvtMPdb
-         CeFjNS/COCBIj+oNDJ9XFNRwSbu3MNv6Q/5L7/gGXjLmZxYgTQao2jOmYEda/z3+A2NW
-         7UaDIo93vyEDMP+z0LP/3WphQ3gCQCaZomR2jK+QaozDMQA98zIJzIJxjKvLeLD2r/xV
-         3naQ==
-X-Gm-Message-State: AOAM533zx1KQ1b5nwV10VNT418IDdIEgsx8zqooc1mzZr5TEXsrJK5qo
-	AbPMyg79o3smBHcO3+TR04Y=
-X-Google-Smtp-Source: ABdhPJwZHXUsf05CmofYgOWQixJUrHdRv1lrpE/Q183lJUyfC1JgwjV4k3etYG6TKy/yNZO0btD4Sw==
-X-Received: by 2002:a17:907:7f8d:b0:6da:b3d6:a427 with SMTP id qk13-20020a1709077f8d00b006dab3d6a427mr19782384ejc.509.1649457094569;
-        Fri, 08 Apr 2022 15:31:34 -0700 (PDT)
-Received: from localhost.localdomain (host-87-4-4-217.retail.telecomitalia.it. [87.4.4.217])
-        by smtp.gmail.com with ESMTPSA id m14-20020a056402510e00b0041d0c0942adsm2277425edd.52.2022.04.08.15.31.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Apr 2022 15:31:33 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Martiros Shakhzadyan <vrzh@vrzh.net>,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ira Weiny <ira.weiny@intel.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
-Date: Sat,  9 Apr 2022 00:31:29 +0200
-Message-Id: <20220408223129.3844-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0AE87E3
+	for <linux-staging@lists.linux.dev>; Sat,  9 Apr 2022 06:18:55 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [10.15.192.164])
+	by mail-app4 (Coremail) with SMTP id cS_KCgBHSfA8JVFiUYv3AA--.41344S2;
+	Sat, 09 Apr 2022 14:18:39 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: linux-kernel@vger.kernel.org
+Cc: linux-staging@lists.linux.dev,
+	alexander.deucher@amd.com,
+	davem@davemloft.net,
+	gregkh@linuxfoundation.org,
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH V2 04/11] drivers: staging: rtl8723bs: Fix deadlock in rtw_surveydone_event_callback()
+Date: Sat,  9 Apr 2022 14:18:35 +0800
+Message-Id: <20220409061836.60529-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:cS_KCgBHSfA8JVFiUYv3AA--.41344S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cr1Utw17GFWfKryUKrWkCrg_yoW8uw1Upr
+	W0g34YkF1jqr1293Z7G3WDZr4fua18Kr47XFs3Kws8ZrZ5ZFy3XF98t34aqF4aqFnrXwsI
+	yr18X34fAF1UCw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUka1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+	IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+	Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+	6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+	vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
+	1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
+	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+	x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgQPAVZdtZGjxwA-s8
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The use of kmap() is being deprecated in favor of kmap_local_page() where
-it is feasible. With kmap_local_page(), the mapping is per thread, CPU
-local and not globally visible.
+There is a deadlock in rtw_surveydone_event_callback(),
+which is shown below:
 
-load_and_flush_by_kmap() is a function where the use of kmap_local_page()
-in place of kmap() is correctly suited.
+   (Thread 1)                  |      (Thread 2)
+                               | _set_timer()
+rtw_surveydone_event_callback()|  mod_timer()
+ spin_lock_bh() //(1)          |  (wait a time)
+ ...                           | rtw_scan_timeout_handler()
+ del_timer_sync()              |  spin_lock_bh() //(2)
+ (wait timer to stop)          |  ...
 
-Convert load_and_flush_by_kmap() from kmap() to kmap_local_page().
+We hold pmlmepriv->lock in position (1) of thread 1 and use
+del_timer_sync() to wait timer to stop, but timer handler
+also need pmlmepriv->lock in position (2) of thread 2.
+As a result, rtw_surveydone_event_callback() will block forever.
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+This patch extracts del_timer_sync() from the protection of
+spin_lock_bh(), which could let timer handler to obtain
+the needed lock. What`s more, we change spin_lock_bh() in
+rtw_scan_timeout_handler() to spin_lock_irq(). Otherwise,
+spin_lock_bh() will also cause deadlock() in timer handler.
+
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 ---
- drivers/staging/media/atomisp/pci/hmm/hmm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in V2:
+  - Change spin_lock_bh() to spin_lock_irq() in timer handler.
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index c1cda16f2dc0..6394385b6637 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -350,7 +350,7 @@ static int load_and_flush_by_kmap(ia_css_ptr virt, void *data,
- 		idx = (virt - bo->start) >> PAGE_SHIFT;
- 		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
- 
--		src = (char *)kmap(bo->page_obj[idx].page) + offset;
-+		src = (char *)kmap_local_page(bo->page_obj[idx].page) + offset;
- 
- 		if ((bytes + offset) >= PAGE_SIZE) {
- 			len = PAGE_SIZE - offset;
-@@ -369,7 +369,7 @@ static int load_and_flush_by_kmap(ia_css_ptr virt, void *data,
- 
- 		clflush_cache_range(src, len);
- 
--		kunmap(bo->page_obj[idx].page);
-+		kunmap_local(src);
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index ed2d3b7d44d..62f140985e3 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -751,7 +751,9 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
  	}
  
- 	return 0;
+ 	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY)) {
++		spin_unlock_bh(&pmlmepriv->lock);
+ 		del_timer_sync(&pmlmepriv->scan_to_timer);
++		spin_lock_bh(&pmlmepriv->lock);
+ 		_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY);
+ 	}
+ 
+@@ -1586,11 +1588,11 @@ void rtw_scan_timeout_handler(struct timer_list *t)
+ 						  mlmepriv.scan_to_timer);
+ 	struct	mlme_priv *pmlmepriv = &adapter->mlmepriv;
+ 
+-	spin_lock_bh(&pmlmepriv->lock);
++	spin_lock_irq(&pmlmepriv->lock);
+ 
+ 	_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY);
+ 
+-	spin_unlock_bh(&pmlmepriv->lock);
++	spin_unlock_irq(&pmlmepriv->lock);
+ 
+ 	rtw_indicate_scan_done(adapter, true);
+ }
 -- 
-2.34.1
+2.17.1
 
