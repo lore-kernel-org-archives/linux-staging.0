@@ -1,9 +1,9 @@
-Received: from zju.edu.cn (spam.zju.edu.cn [61.164.42.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0AE87E3
-	for <linux-staging@lists.linux.dev>; Sat,  9 Apr 2022 06:18:55 +0000 (UTC)
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92A736B
+	for <linux-staging@lists.linux.dev>; Sat,  9 Apr 2022 06:50:04 +0000 (UTC)
 Received: from ubuntu.localdomain (unknown [10.15.192.164])
-	by mail-app4 (Coremail) with SMTP id cS_KCgBHSfA8JVFiUYv3AA--.41344S2;
-	Sat, 09 Apr 2022 14:18:39 +0800 (CST)
+	by mail-app4 (Coremail) with SMTP id cS_KCgDn76eSLFFiSuD3AA--.47632S2;
+	Sat, 09 Apr 2022 14:49:57 +0800 (CST)
 From: Duoming Zhou <duoming@zju.edu.cn>
 To: linux-kernel@vger.kernel.org
 Cc: linux-staging@lists.linux.dev,
@@ -11,14 +11,14 @@ Cc: linux-staging@lists.linux.dev,
 	davem@davemloft.net,
 	gregkh@linuxfoundation.org,
 	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH V2 04/11] drivers: staging: rtl8723bs: Fix deadlock in rtw_surveydone_event_callback()
-Date: Sat,  9 Apr 2022 14:18:35 +0800
-Message-Id: <20220409061836.60529-1-duoming@zju.edu.cn>
+Subject: [PATCH V2 06/11] drivers: staging: rtl8192bs: Fix deadlock in rtw_joinbss_event_prehandle()
+Date: Sat,  9 Apr 2022 14:49:53 +0800
+Message-Id: <20220409064953.67420-1-duoming@zju.edu.cn>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:cS_KCgBHSfA8JVFiUYv3AA--.41344S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cr1Utw17GFWfKryUKrWkCrg_yoW8uw1Upr
-	W0g34YkF1jqr1293Z7G3WDZr4fua18Kr47XFs3Kws8ZrZ5ZFy3XF98t34aqF4aqFnrXwsI
-	yr18X34fAF1UCw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:cS_KCgDn76eSLFFiSuD3AA--.47632S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tF15Zr48uF17JFyxAr4UCFg_yoW8trWfpF
+	Wjgwn3uF1kZr429a1kG3WDXF1Iva10gr1DJrWftws5Zrn5Zrn3ZFWUtrWaqF45tFnrXwsI
+	9r1kW3s3AF4UC3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUka1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
 	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
 	IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
@@ -31,71 +31,77 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7Cr1Utw17GFWfKryUKrWkCrg_yoW8uw1Upr
 	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
 	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
 	x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgQPAVZdtZGjxwA-s8
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgQPAVZdtZGjxwBMsP
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-There is a deadlock in rtw_surveydone_event_callback(),
-which is shown below:
+There is a deadlock in rtw_joinbss_event_prehandle(), which is shown
+below:
 
-   (Thread 1)                  |      (Thread 2)
-                               | _set_timer()
-rtw_surveydone_event_callback()|  mod_timer()
- spin_lock_bh() //(1)          |  (wait a time)
- ...                           | rtw_scan_timeout_handler()
- del_timer_sync()              |  spin_lock_bh() //(2)
- (wait timer to stop)          |  ...
+   (Thread 1)                |      (Thread 2)
+                             | _set_timer()
+rtw_joinbss_event_prehandle()|  mod_timer()
+ spin_lock_bh() //(1)        |  (wait a time)
+ ...                         | _rtw_join_timeout_handler()
+ del_timer_sync()            |  spin_lock_bh() //(2)
+ (wait timer to stop)        |  ...
 
-We hold pmlmepriv->lock in position (1) of thread 1 and use
-del_timer_sync() to wait timer to stop, but timer handler
+We hold pmlmepriv->lock in position (1) of thread 1 and
+use del_timer_sync() to wait timer to stop, but timer handler
 also need pmlmepriv->lock in position (2) of thread 2.
-As a result, rtw_surveydone_event_callback() will block forever.
+As a result, rtw_joinbss_event_prehandle() will block forever.
 
 This patch extracts del_timer_sync() from the protection of
 spin_lock_bh(), which could let timer handler to obtain
-the needed lock. What`s more, we change spin_lock_bh() in
-rtw_scan_timeout_handler() to spin_lock_irq(). Otherwise,
-spin_lock_bh() will also cause deadlock() in timer handler.
+the needed lock. What`s more, we change spin_lock_bh() to
+spin_lock_irq() in _rtw_join_timeout_handler() in order to
+prevent deadlock.
 
 Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 ---
 Changes in V2:
-  - Change spin_lock_bh() to spin_lock_irq() in timer handler.
+  - Change spin_lock_bh() to spin_lock_irq() in
+    _rtw_join_timeout_handler().
 
  drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index ed2d3b7d44d..62f140985e3 100644
+index 62f140985e3..24d6af886f7 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -751,7 +751,9 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
- 	}
+@@ -1240,8 +1240,10 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
  
- 	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY)) {
-+		spin_unlock_bh(&pmlmepriv->lock);
- 		del_timer_sync(&pmlmepriv->scan_to_timer);
-+		spin_lock_bh(&pmlmepriv->lock);
- 		_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY);
- 	}
+ 			spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
  
-@@ -1586,11 +1588,11 @@ void rtw_scan_timeout_handler(struct timer_list *t)
- 						  mlmepriv.scan_to_timer);
- 	struct	mlme_priv *pmlmepriv = &adapter->mlmepriv;
++			spin_unlock_bh(&pmlmepriv->lock);
+ 			/* s5. Cancel assoc_timer */
+ 			del_timer_sync(&pmlmepriv->assoc_timer);
++			spin_lock_bh(&pmlmepriv->lock);
+ 		} else {
+ 			spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
+ 		}
+@@ -1547,7 +1549,7 @@ void _rtw_join_timeout_handler(struct timer_list *t)
+ 	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
+ 		return;
  
 -	spin_lock_bh(&pmlmepriv->lock);
 +	spin_lock_irq(&pmlmepriv->lock);
  
- 	_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY);
+ 	if (rtw_to_roam(adapter) > 0) { /* join timeout caused by roaming */
+ 		while (1) {
+@@ -1575,7 +1577,7 @@ void _rtw_join_timeout_handler(struct timer_list *t)
+ 
+ 	}
  
 -	spin_unlock_bh(&pmlmepriv->lock);
 +	spin_unlock_irq(&pmlmepriv->lock);
- 
- 	rtw_indicate_scan_done(adapter, true);
  }
+ 
+ /*
 -- 
 2.17.1
 
