@@ -1,196 +1,172 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2067.outbound.protection.outlook.com [40.107.223.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E22809
-	for <linux-staging@lists.linux.dev>; Sat,  9 Apr 2022 12:06:46 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id bq8so22018684ejb.10
-        for <linux-staging@lists.linux.dev>; Sat, 09 Apr 2022 05:06:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72C07E3;
+	Sat,  9 Apr 2022 13:54:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Dp8txRNfSOjEvS3AED/jnQI6FqZXBBMTdaa9b7nh5bvC5SyPjOMIzXnnLuyGwOvWtZ8OZDfb9PAAG/hsHJglfIrIWo5ZXSqNycLgsnmmHPH0gU1U5n6gfZgp9nxUwQQjKfsW/aOulMKP5uK8/cUJr25kE67kDx/lbGyYvPsKN22ZkzBmrlLzPv0VOPvcgMrctCJo75NzQXE2miD9nOq4muO911QsiQVRJKP9fFVBkg3klwNbRm2/DJXeBibTu+6ujDGhzJuTgs3u0OUeGI3mcciVk6Z2NgFC7KH93jp/4kFGoy2Wd4881isia1MaSy0cnI2BqsqF6xw6i+jtIjrchg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KOdfg8+fDHMrxFcwbEaPl+vpiKC2hLmjsFuZLQBHiXQ=;
+ b=cKn1wYLPIHIbh6uCblUea5t4UgaN8wij+h2cV3lVgdLvd3oVamLZabNjTglvQKyOO1+XkZX1ql6OK1b/CzxXpxdDV3c8IfgyW7WEgvRJv6NmG3N65GlGs1XzH0fM4RPZhcdtzkd3fzBZvY+VKLhM2WZByCyDTXG9MtbOYEME0fONNkQtMBvJyKc5ZAKDdl9J1Fc/sqVg5xsAThJHseOVzsWTo50PZYm3tWUlEIJOhLCQtiTUo9+QrlAA178n536D+yYAqx2E01V1qQkL1kEEKwOBkNhwReW4bMLX7CCMkb953yKPNU53nSIteOgQmpGXL1tZoFrLxgxTSHHZrbi0cg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
+ dkim=pass header.d=silabs.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XCtUqRrEnchiPWI+Bdu07xbyLJ9MlyKU90+iSNkqkHY=;
-        b=XoOiZs6flNAATBJYW0ZZn1e+wtyIFq9WPmB8liXAtCxAuv+i4q45RTaqE7v3vD/WX8
-         n6Xzn0rTpRTHLMULDqMxX87HsyDZTAGeyfb+b+0RtGEwPx/t0E1ppT7oZ1k1DcQUqxQB
-         7lxwoz7OD2o1xZo4QjaEK2JyIGDx1qThT4lP+0brzaL47K2ovC0N9usyQNs+qS4YrvsR
-         fzmHQ4qKbQp8Ip/rZ4jEMXKZSiheGwURvQrZOEctGyiMmX/GXwor/3GUnM2lK5WvxDJi
-         N9xtVg6wwLqulD6x3WgtDCXpiFCsR4hDigTur5J0qQS8XlVQtoHuCPHHwhyVhTBGEbdG
-         ni8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XCtUqRrEnchiPWI+Bdu07xbyLJ9MlyKU90+iSNkqkHY=;
-        b=b/yadL3L2GjYLovmEGYaLM0k2iMKlkMo24GEMR7oTg8tJ2Qs2RMUV9ZC/XQGKpbMLG
-         3TG8GEVT0GZZG3E0SmXXmizlA2f9lTi8gEG37gF2xvUV1706EHfpWhvUV+HA2VFNKmVd
-         +NblpjZ5PK5tJg9jvTk27r+SpfjFO3lDtA4MnM5WuKo3UnaYG81MTp0F4Ct/I/oQGz9W
-         W+3f6qE7FpbIwEkmFqkS2440SlMrABccmgHEjs89jiIgz6htmFwH69mMq6JGZ9IXbz06
-         yLGYbL3906GbIeC0BUY9vn4++8W4kD9dnyhI4IpHpe71XbOlfTqlSJAJpwD5jstP9TsV
-         IdYg==
-X-Gm-Message-State: AOAM533h5oluRR4lfK6rnpxHoXGBDdh+BVZKVY43HaTFHXhAxdzMhEfY
-	NbSHSBh64BM37mn4+zoFyikIbkO6CW4=
-X-Google-Smtp-Source: ABdhPJyiLtNkrp2mgy73ZRqRIwZjT+QMcCLCpJtpQnpMSu3R92QnK5dInXKGVPT76kX4wDe0yZkOCw==
-X-Received: by 2002:a17:906:6a02:b0:6d7:cda:2cf7 with SMTP id qw2-20020a1709066a0200b006d70cda2cf7mr21560386ejc.53.1649506004464;
-        Sat, 09 Apr 2022 05:06:44 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb55.dynamic.kabel-deutschland.de. [95.90.187.85])
-        by smtp.gmail.com with ESMTPSA id z21-20020a170906435500b006e8669fae36sm1102947ejm.189.2022.04.09.05.06.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Apr 2022 05:06:43 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 4/4] staging: r8188eu: remove HW_VAR_H2C_FW_PWRMODE
-Date: Sat,  9 Apr 2022 14:06:27 +0200
-Message-Id: <20220409120627.10633-5-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220409120627.10633-1-straube.linux@gmail.com>
-References: <20220409120627.10633-1-straube.linux@gmail.com>
+ d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KOdfg8+fDHMrxFcwbEaPl+vpiKC2hLmjsFuZLQBHiXQ=;
+ b=DRy7n78yURwN/ALSkMQFvk+IFoqXKf69mNM63SZXZvD4NWlZPPjjkeNDaLtLM6D3xojZgNTgx7exDVv5fhO22kUGmo/S+aZvFWO0/OI4CteN5LJILqVPdecCHTb6utwvz1+dEriae+ARicho6QjHQJNGGAody0HQi2TPi9rVO5U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=silabs.com;
+Received: from PH0PR11MB5657.namprd11.prod.outlook.com (2603:10b6:510:ee::19)
+ by BL0PR11MB3505.namprd11.prod.outlook.com (2603:10b6:208:7d::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.27; Sat, 9 Apr
+ 2022 13:54:19 +0000
+Received: from PH0PR11MB5657.namprd11.prod.outlook.com
+ ([fe80::24bd:6fda:ce8c:191d]) by PH0PR11MB5657.namprd11.prod.outlook.com
+ ([fe80::24bd:6fda:ce8c:191d%4]) with mapi id 15.20.5144.028; Sat, 9 Apr 2022
+ 13:54:19 +0000
+From: =?ISO-8859-1?Q?J=E9r=F4me?= Pouiller <jerome.pouiller@silabs.com>
+To: Julia Lawall <julia.lawall@inria.fr>, Jaehee Park <jhpark1013@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH] staging: wfx: use container_of() to get vif
+Date: Sat, 09 Apr 2022 15:54:09 +0200
+Message-ID: <1911301.taCxCBeP46@pc-42>
+Organization: Silicon Labs
+In-Reply-To: <20220408222102.GB2511628@jaehee-ThinkPad-X1-Extreme>
+References: <20220407204128.GA1810425@jaehee-ThinkPad-X1-Extreme> <alpine.DEB.2.22.394.2204081149360.2196@hadrien> <20220408222102.GB2511628@jaehee-ThinkPad-X1-Extreme>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-ClientProxiedBy: PR0P264CA0142.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:1a::34) To PH0PR11MB5657.namprd11.prod.outlook.com
+ (2603:10b6:510:ee::19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c5c6713c-576f-468f-ac79-08da1a307152
+X-MS-TrafficTypeDiagnostic: BL0PR11MB3505:EE_
+X-Microsoft-Antispam-PRVS:
+	<BL0PR11MB3505943993FA9EF4CB9D5CF693E89@BL0PR11MB3505.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	naZaTA2n6luxr+UKEj/pJSHqrPi1RvmC1Y38Y6iuq7TD4TnqhfLK3mX6HRaVqTkuofUFxJtk3EBGJW9U/XwTbohonSYsAfzaPejhY/boYUWOlBgfeO9W+rKaEJktns8EmKcn9nIC0zA05ovtKrqWTb9ANNbJY8eCgH1aPz+N/BNqdQDsK2dPtelrjEXaE7PxmTKV2aqRf656eCc9el6WHOQsmAe745xD7AjaFpgMJyhO8nqn73B8KoeylBtL24cGbveo810Fhm2Xx7KuFgJiJzkC0fG46mN7P3W+Xf38pCE67oi7vnNFaZjaeZTEqTHGMmtCh9pf0yzZzb+SBh0JLGYQ1ztJaE1Gkl1a2QIvdPoM7R4/Tjz7tFibykt5B/wOsrtsmIJ4ygpOjA2BpRIbOnalJE9XHXG2dMwTuCCy3lqrGMQ6zwg64lpWc9pFpJlRg5g6tr47BSWJ3VNjDszHwEQDnYF1WOmR113HCcmzOJHbbU/15pA4lj17HSnY9sQQFBxBkRj1qUnAv9L2SF4bwLby+HB0Rk5M+lJpLRRqtkmHYQJWJiwFlzqssAxkZ8BDE3IPqoB9z3772pdMBZXlAsz92rAY8c/tvmzlk/JVlAZuTPgR4CyWQgHYADggV/r7PIZAcf8MW0Y+mXhDaPT6Yo6vvJju1E68jRoWI9ngqGJBJGiherFNx9gPuIbzObhci0QHjhHZoc1CkUmHyTEWCg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5657.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(6666004)(36916002)(52116002)(9686003)(6506007)(6512007)(83380400001)(186003)(33716001)(8936002)(4326008)(8676002)(2906002)(5660300002)(66476007)(6486002)(508600001)(66946007)(54906003)(66556008)(110136005)(316002)(66574015)(86362001)(38100700002)(39026012);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?LfTcAI5Z+h3FufnpPslT2GH/byFEgI9Q64k36EgECBsZ7Qk7Id0aSmECVL?=
+ =?iso-8859-1?Q?0UiApJAYZ7L2qKIKtDVsMIBzVQxAkq7bU+X49DqVm/INROndGHSFM0iSLb?=
+ =?iso-8859-1?Q?hPb6HzSHxaZFYdlYte6D6iF8dC0esbiwOuALvQlDsxugw7dgNx91uwvped?=
+ =?iso-8859-1?Q?4o0lktKMkJGVk5+n7D9ZOL1EVEkz/ScCm3+s1cyjzh8meE1xZi4+xi0UkC?=
+ =?iso-8859-1?Q?8OJaRZnA8U5AAOyMehaRxa7yOocg8eKwg7CXRzVwJkUE56CK/ippDvAgY+?=
+ =?iso-8859-1?Q?xC6PxQpcbp3d8MDqryzEGIhjllRF/3WGAQ4weNP1Iw1RjPgxtzjE9xVL8X?=
+ =?iso-8859-1?Q?JTP2N3lj7ZTEW/4xJGYvd/hF/i4jTDsxQQXuLR2Oxn3IHlsv8acBMzEuLn?=
+ =?iso-8859-1?Q?ZHZSsFA7U+lUx5weihAMHI/wTsPonElgn86SolmKv/GrsvA9W9T2HGj4W1?=
+ =?iso-8859-1?Q?ZIogbQnoGxuPaukY0DqRwRlkds+/TXkysAX5w/GKT84hrKPrQdCG49u2TW?=
+ =?iso-8859-1?Q?pj59Khrat+3Xa6Q696cAnW/RVhlFztMSzZTH83lTIIsw618Xe07YERKmk4?=
+ =?iso-8859-1?Q?QkE7d3CY5v3WKSMHxLeblnoout39Pdsp6QOO2JB5L/nnACSbWYJuKNLyfy?=
+ =?iso-8859-1?Q?gk4V05MKU0Q4AV7Hz3qPjaFWuEZpToCaDMBMy80y8gObAbI3Jz32GiWU5j?=
+ =?iso-8859-1?Q?RhdgCJHf4NRcDzsexNg9UW9UN1jDvMPGZ5KlcOnWSKLMviHQn1hcks5/Rd?=
+ =?iso-8859-1?Q?Q96yEXoctKgDXC7rfwZ3zLvNLUUSYeG6fXzaecbr5eD6aYlR7JQTrGU1m3?=
+ =?iso-8859-1?Q?gWe+Myueojuc2rXpV/EMu60QbUhfryFlAfGsc7e92Si4QTi7eM5PLCvJ5q?=
+ =?iso-8859-1?Q?YU8msh+cqfOpPky6jjLTcuVcek+IgFoxVYUuWeR4sjL20W4TFL8ETAQ9pY?=
+ =?iso-8859-1?Q?GH8v9ylWRQvzMvWNVAlQgKNOi/r6DR7eVo8+PxsKp7CCsEBFaKizoSafQk?=
+ =?iso-8859-1?Q?GZI2O4xjuKXQ1WFkkMax2G4/onSHYWJzr/BJMO0bvxOeqiJ44YSWQxmVon?=
+ =?iso-8859-1?Q?NYJchX4l7i0ES2YVd5pYBQQ3Km4KuaDvMl5YTTKRFHfKhmDtWqKghUp5Dr?=
+ =?iso-8859-1?Q?V9iQoiRTLzBYii5ZXO4d8X6F5VOXrQ8LzIidQV55tVWOP54SKVEdY2Yv/2?=
+ =?iso-8859-1?Q?XDlsBry5hXooJ41sreXq8JRBUwYuO6aP5wDrDqN0e7N7YTX9VnhxpS56y/?=
+ =?iso-8859-1?Q?Btqm6GLskIvgYbF6ZScsgrXrGa0jbPchymHbhzqC//IuSRXHHNHRPfqtKg?=
+ =?iso-8859-1?Q?tE2B6e0BflEvh2aIeZCoRGapb4ESw9dra8Lkxlrml9KPKx/C6Cg2z8uqPL?=
+ =?iso-8859-1?Q?lbyM+YExO8sWZOArqLJJ3g+gxfU+S4LO8GEbNFUnvXWgwhC7BJ55EvtqsX?=
+ =?iso-8859-1?Q?yuuEddaobzlUuphCe1BX+R+JZg8y1lwuSIOlFXqbcqW5QrVG/RbCKUu8rS?=
+ =?iso-8859-1?Q?PKL6M9ojAdckYcqA8G4397CbO2Ah9FiUweJmLrArBy1In0ZnTmPVPYTtIH?=
+ =?iso-8859-1?Q?dp15RipnQyRo/91nyaS+061lvwF/SjvAQArzLbuhvYQiSSjZw4FaVOHgcN?=
+ =?iso-8859-1?Q?m5btF5bBKYVANsB5PSNRb3c4KpISx2rcitAfxx7GAaY10aRS3QvVCl0tPR?=
+ =?iso-8859-1?Q?SK1615JF/ZHzYd8xk66nLlQqi81qJLJal+CnZm3CC/HcP1Tdj+MNRKeIDb?=
+ =?iso-8859-1?Q?Beh8XC0bAK6eEIS1V+pxlJo4sMHyDoOAY5+DNpmgvH39rO9Lb6FTZIpY28?=
+ =?iso-8859-1?Q?hRF/dHEjY3OrAtiaZ5HS2Dep/kKsB0aDqwU97CVOSyrNYU0B2lV2kUJQf8?=
+ =?iso-8859-1?Q?ri?=
+X-MS-Exchange-AntiSpam-MessageData-1: yCVt7BnEQ+KISA==
+X-OriginatorOrg: silabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5c6713c-576f-468f-ac79-08da1a307152
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5657.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2022 13:54:19.2090
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 54dbd822-5231-4b20-944d-6f4abcd541fb
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PzIDpsu+mUa0LLHCVDtofcqv+kOsbNo7bmvbDrj5drFUTm6+ujJqlDyHSetwNwqES+6MBCJc0fhvatcv08mOHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB3505
 
-Remove the HW_VAR_H2C_FW_PWRMODE case from SetHwReg8188EU() and move
-its functionality to a new function in rtw_pwrctrl.c. This is part of
-the ongoing effort to get rid of the unwanted hal layer.
+On Saturday 9 April 2022 00:21:02 CEST Jaehee Park wrote:
+> On Fri, Apr 08, 2022 at 11:49:49AM +0200, Julia Lawall wrote:
+> > On Thu, 7 Apr 2022, Jaehee Park wrote:
+> >
+> > > Use container_of() to get vif. This improves the code in two ways:
+> > > [1] it speeds up the compilation because container_of() saves steps t=
+o
+> > > retrieve vif (the representation of ieee80211_vif), and
+> >
+> > I don't understand this part.
+> >
+> > julia
+> >
+>=20
+> Thank you for your message. I revised the commit message (below)--
+> I hope it makes it clearer. I'm open to suggestions as well!
+>=20
+> Currently, upon virtual interface creation, wfx_add_interface() stores
+> a reference to the corresponding struct ieee80211_vif in private data,
+> for later usage. This is not needed when using the container_of
+> construct. This construct already has all the info it needs to retrieve
+> the reference to the corresponding struct from the offset that is
+> already available, inherent in container_of(), between its type and
+> member inputs (struct ieee80211_vif and drv_priv, respectively).
+> Remove vif (which was previously storing the reference to the struct
+> ieee80211_vif) from the struct wfx_vif, define a macro
+> wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
+> the newly defined container_of construct.
+>=20
+> Sorry if I'm putting out more information than was asked for:
+> Diagram is worth a thousand words; this one is made by Stefano when
+> he was explaining the container_of() construct:
+>=20
+> .-----------------------------------.
+> |  .------------------------------. |
+> '->| struct ieee80211_vif         | |
+>    |------------------------------| |
+>    | 1                            | |
+>    | 2                            | |
+>    |  .--------------------------.| |
+>    | 3| struct wfx_vif drv_priv   | |
+>    |  |---------------------------| |
+>    |  | ...                       | |
+>    |  |                           | |
+>    |  | struct ieee80211_vif *vif---'
+>    '------------------------------'
+> In this example, the offset is 3.
+> What I want to convey here is the compiler already knows the offset
+> of drv_priv within struct ieee80211_vif by using the container_of()
+> construct. So, it doesn't need to do extra work.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_p2p.c        |  4 ++--
- drivers/staging/r8188eu/core/rtw_pwrctrl.c    | 19 +++++++++++++++----
- drivers/staging/r8188eu/hal/usb_halinit.c     | 11 -----------
- drivers/staging/r8188eu/include/hal_intf.h    |  1 -
- drivers/staging/r8188eu/include/rtw_pwrctrl.h |  1 +
- 5 files changed, 18 insertions(+), 18 deletions(-)
+Wow, nice ascii art :)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-index 80305d128ccd..dcf828a57179 100644
---- a/drivers/staging/r8188eu/core/rtw_p2p.c
-+++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-@@ -1612,7 +1612,7 @@ void p2p_ps_wk_hdl(struct adapter *padapter, u8 p2p_ps_state)
- 		if (padapter->pwrctrlpriv.bFwCurrentInPSMode) {
- 			if (pwrpriv->smart_ps == 0) {
- 				pwrpriv->smart_ps = 2;
--				SetHwReg8188EU(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&padapter->pwrctrlpriv.pwr_mode));
-+				rtw_set_firmware_ps_mode(padapter, pwrpriv->pwr_mode);
- 			}
- 		}
- 		break;
-@@ -1623,7 +1623,7 @@ void p2p_ps_wk_hdl(struct adapter *padapter, u8 p2p_ps_state)
- 			if (pwdinfo->ctwindow > 0) {
- 				if (pwrpriv->smart_ps != 0) {
- 					pwrpriv->smart_ps = 0;
--					SetHwReg8188EU(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&padapter->pwrctrlpriv.pwr_mode));
-+					rtw_set_firmware_ps_mode(padapter, pwrpriv->pwr_mode);
- 				}
- 			}
- 			rtl8188e_set_p2p_ps_offload_cmd(padapter, p2p_ps_state);
-diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-index efdc7de49d49..f13bd5cdaa23 100644
---- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-+++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-@@ -176,6 +176,19 @@ static bool PS_RDY_CHECK(struct adapter *padapter)
- 	return true;
- }
- 
-+void rtw_set_firmware_ps_mode(struct adapter *adapter, u8 mode)
-+{
-+	struct hal_data_8188e *haldata = &adapter->haldata;
-+	struct odm_dm_struct *odmpriv = &haldata->odmpriv;
-+
-+	/* Force leave RF low power mode for 1T1R to prevent
-+	 * conflicting setting in firmware power saving sequence.
-+	 */
-+	if (mode != PS_MODE_ACTIVE)
-+		ODM_RF_Saving(odmpriv, true);
-+	rtl8188e_set_FwPwrMode_cmd(adapter, mode);
-+}
-+
- void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_ant_mode)
- {
- 	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
-@@ -193,11 +206,10 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
- 			return;
- 	}
- 
--	/* if (pwrpriv->pwr_mode == PS_MODE_ACTIVE) */
- 	if (ps_mode == PS_MODE_ACTIVE) {
- 		if (pwdinfo->opp_ps == 0) {
- 			pwrpriv->pwr_mode = ps_mode;
--			SetHwReg8188EU(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&ps_mode));
-+			rtw_set_firmware_ps_mode(padapter, ps_mode);
- 			pwrpriv->bFwCurrentInPSMode = false;
- 		}
- 	} else {
-@@ -206,14 +218,13 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
- 			pwrpriv->pwr_mode = ps_mode;
- 			pwrpriv->smart_ps = smart_ps;
- 			pwrpriv->bcn_ant_mode = bcn_ant_mode;
--			SetHwReg8188EU(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&ps_mode));
-+			rtw_set_firmware_ps_mode(padapter, ps_mode);
- 
- 			/*  Set CTWindow after LPS */
- 			if (pwdinfo->opp_ps == 1)
- 				p2p_ps_wk_cmd(padapter, P2P_PS_ENABLE, 0);
- 		}
- 	}
--
- }
- 
- static bool lps_rf_on(struct adapter *adapter)
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 62ada1790d0d..b62ebd011886 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1105,17 +1105,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 			}
- 		}
- 		break;
--	case HW_VAR_H2C_FW_PWRMODE:
--		{
--			u8 psmode = (*(u8 *)val);
--
--			/*  Forece leave RF low power mode for 1T1R to prevent conficting setting in Fw power */
--			/*  saving sequence. 2010.06.07. Added by tynli. Suggested by SD3 yschang. */
--			if (psmode != PS_MODE_ACTIVE)
--				ODM_RF_Saving(podmpriv, true);
--			rtl8188e_set_FwPwrMode_cmd(Adapter, psmode);
--		}
--		break;
- 	case HW_VAR_H2C_MEDIA_STATUS_RPT:
- 		rtl8188e_set_FwMediaStatus_cmd(Adapter, (*(__le16 *)val));
- 		break;
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index bbbdcfa253f8..26dd395c239f 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -20,7 +20,6 @@ enum hw_variables {
- 	HW_VAR_DM_FUNC_CLR,
- 	HW_VAR_AC_PARAM_BE,
- 	HW_VAR_AMPDU_FACTOR,
--	HW_VAR_H2C_FW_PWRMODE,
- 	HW_VAR_H2C_MEDIA_STATUS_RPT,
- };
- 
-diff --git a/drivers/staging/r8188eu/include/rtw_pwrctrl.h b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-index 1d7dba853c40..affaf4ca5495 100644
---- a/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-+++ b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-@@ -95,6 +95,7 @@ struct pwrctrl_priv {
- 
- void rtw_init_pwrctrl_priv(struct adapter *adapter);
- 
-+void rtw_set_firmware_ps_mode(struct adapter *adapter, u8 mode);
- void rtw_set_ps_mode(struct adapter *adapter, u8 ps_mode, u8 smart_ps,
- 		     u8 bcn_ant_mode);
- void LeaveAllPowerSaveMode(struct adapter *adapter);
--- 
-2.35.1
+I think that Julia has not understand why you said it "speeds up the
+compilation". I think you meant "speeds up the execution", don't you?
+
+
+
+--=20
+J=E9r=F4me Pouiller
+
 
