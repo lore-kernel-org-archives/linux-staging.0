@@ -1,186 +1,304 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A149B7EF
-	for <linux-staging@lists.linux.dev>; Sat,  9 Apr 2022 08:24:34 +0000 (UTC)
-Received: by mail-qv1-f50.google.com with SMTP id t9so5232195qvd.3
-        for <linux-staging@lists.linux.dev>; Sat, 09 Apr 2022 01:24:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:user-agent:mime-version;
-        bh=Xo3TDCl9lnHvYZIBx0/vWJUdhCjK+01adkajyrWwuXQ=;
-        b=RX525FW7wvM/fQtnoLRrUCOxEfdSv4b6pkSvRE9I8YHjH8Ugtn3DWS99gauhv7d3Z+
-         Qu2/Mb1DD64YKAWZXdHl8No2v5MRhuXo33AqcZRPHgRlRXIFNPL7yHPENh9SRNiWcGZG
-         B4y00Hvvko5HZYeUQFoJOkX71wwjGlnpoMjb5hPtyx3yLSAqRdiUas6XaU2+huEGI1fz
-         Sbgw3nqtL5tciFM8ZN/Wl33c0ylAdncsM+SmpIO1ErPlRQBJ4ohEubo51CiS8xtkFwco
-         u4QE0M4niFz8MykfvFTGbtX2fmkjs+nGS33qp6asCBz/jtGqfW4wQZPz9oo4KtsQuA6r
-         N6bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
-         :mime-version;
-        bh=Xo3TDCl9lnHvYZIBx0/vWJUdhCjK+01adkajyrWwuXQ=;
-        b=RfqtscCXQaoT5c1XmkP0lXTFFYo5ppqzSykdxVbLCCOXjH3fEBKFGcvqW4XawMwfQ5
-         d2UMxrjwCF91GYvLsSBwdaYAT/YvkroayLkiYwUn6kvZlUuq52ICdN3SQoISVZwodx2+
-         A6u+FwZ6thwh2fuQRWOv3v08VH2QrHxQtmyfDxunZubPcJEhEJOKz5Z3HesGJpFv6iwO
-         Fpryrc7rQlzcFetbDGEpbXQ1vsslNjbpozsskkX0k3HKCRyYnEgywrCk+3C407p/eFxd
-         xme020Iz8BC77fJqbiLN+ACV8oaHESawPv8Qc4NQTVzVmmgrHjS/b4u0SLrAX0p58Za3
-         mTNA==
-X-Gm-Message-State: AOAM533chfPEWMgeB90MvVzY9hVU4LloLr2rU66EMj5h5ngHTV5lShKI
-	VF5dLOnC+6kaPn/MaN04yss=
-X-Google-Smtp-Source: ABdhPJyq2aM+sdiiq8wKK7K+grw7q7ldBLWXM7u4NuWBICcMKk70ESqRvkDn7En4JjXHjuXQIcPKcw==
-X-Received: by 2002:a05:6214:622:b0:441:2918:ee18 with SMTP id a2-20020a056214062200b004412918ee18mr19862341qvx.118.1649492673490;
-        Sat, 09 Apr 2022 01:24:33 -0700 (PDT)
-Received: from ?IPv6:2600:100d:b149:69f7:cf8b:f19c:28ed:6dd9? ([2600:100d:b149:69f7:cf8b:f19c:28ed:6dd9])
-        by smtp.gmail.com with ESMTPSA id g5-20020ac87f45000000b002e125ef0ba3sm19972038qtk.82.2022.04.09.01.24.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Apr 2022 01:24:33 -0700 (PDT)
-Message-ID: <7cf8c5e16847aa2a9430298ba264900227a90026.camel@gmail.com>
-Subject: Staging: rtl8192e: rtllib_softmac_wx.c: Fixed multiple coding style
- issues
-From: Colton <cspur43@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: len.baker@gmx.com, linux-staging@lists.linux.dev, 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A7D7FA
+	for <linux-staging@lists.linux.dev>; Sat,  9 Apr 2022 10:06:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34014C385A0;
+	Sat,  9 Apr 2022 10:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1649498792;
+	bh=NAQtph30uEO7eC6lMY1b0zJzkFKIF/qHWGhISKIBkNI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EEqIrxRokn4rJF5NX5RrL5uyXL3YZ1vi40mZUCB7MR067JAzxX0WM4ck2hru89UXF
+	 XqBhJ1h9iElMoymaVR1ujIRuP1P5wNMKcfxMiRKJyVjJDPe5Ix5kK8HBiaVYhDSkrm
+	 weLYn08XlU+Z4EesrBRyi0bxztAgUQRTq8XW84/g=
+Date: Sat, 9 Apr 2022 12:06:29 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Colton <cspur43@gmail.com>
+Cc: len.baker@gmx.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Date: Sat, 09 Apr 2022 03:24:30 -0500
-Content-Type: multipart/mixed; boundary="=-oVFLOU8SUT0ZE0oLvJSx"
-User-Agent: Evolution 3.44.0 
+Subject: Re: Staging: rtl8192e: rtllib_softmac_wx.c: Fixed multiple coding
+ style issues
+Message-ID: <YlFapZupbQSX8c1s@kroah.com>
+References: <7cf8c5e16847aa2a9430298ba264900227a90026.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7cf8c5e16847aa2a9430298ba264900227a90026.camel@gmail.com>
 
---=-oVFLOU8SUT0ZE0oLvJSx
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sat, Apr 09, 2022 at 03:24:30AM -0500, Colton wrote:
+>     Staging: rtl8192e: rtllib_softmac_wx.c: Fixed multiple coding style issues
+>     
+>     Fixed issues  with whitespace, unbalanced braces unnecessary (int) casts, and attempted to fix alignment issue still flagged by checkpatch.pl
+>     
+>     Signed-off-by: Colton Spurgin <cspur43@gmail.com>
+> 
 
-    Staging: rtl8192e: rtllib_softmac_wx.c: Fixed multiple coding style iss=
-ues
-   =20
-    Fixed issues  with whitespace, unbalanced braces unnecessary (int) cast=
-s, and attempted to fix alignment issue still flagged by checkpatch.pl
-   =20
-    Signed-off-by: Colton Spurgin <cspur43@gmail.com>
+> From 42fd3afd5effcb667562a417e4e895fbc09cbc2c Mon Sep 17 00:00:00 2001
+> From: Colton <cspur43@gmail.com>
+> Date: Sat, 9 Apr 2022 02:46:34 -0500
+> Subject: [PATCH] Staging: rtl8192e: rtllib_softmac_wx.c: Fixed multiple coding
+>  style issues
+> 
+> Fixed issues  with whitespace, unbalanced braces unnecessary (int) casts, and attempted to fix alignment issue still flagged by checkpatch.pl
+> 
+> Signed-off-by: Colton Spurgin <cspur43@gmail.com>
+> ---
+>  drivers/staging/rtl8192e/rtllib_softmac_wx.c | 42 ++++++--------------
+>  1 file changed, 13 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> index 57a6d1130b6a..f67b829f28d1 100644
+> --- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> +++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+> @@ -12,7 +12,6 @@
+>   * own it's copyright ;-)
+>   */
+>  #include <linux/etherdevice.h>
+> -
+>  #include "rtllib.h"
+>  #include "dot11d.h"
+>  /* FIXME: add A freqs */
+> @@ -25,7 +24,6 @@ const long rtllib_wlan_frequencies[] = {
+>  };
+>  EXPORT_SYMBOL(rtllib_wlan_frequencies);
+>  
+> -
+>  int rtllib_wx_set_freq(struct rtllib_device *ieee, struct iw_request_info *a,
+>  			     union iwreq_data *wrqu, char *b)
+>  {
+> @@ -41,8 +39,8 @@ int rtllib_wx_set_freq(struct rtllib_device *ieee, struct iw_request_info *a,
+>  
+>  	/* if setting by freq convert to channel */
+>  	if (fwrq->e == 1) {
+> -		if ((fwrq->m >= (int) 2.412e8 &&
+> -		     fwrq->m <= (int) 2.487e8)) {
+> +		if ((fwrq->m >= 2.412e8 &&
+> +		     fwrq->m <= 2.487e8)) {
+>  			int f = fwrq->m / 100000;
+>  			int c = 0;
+>  
+> @@ -83,7 +81,6 @@ int rtllib_wx_set_freq(struct rtllib_device *ieee, struct iw_request_info *a,
+>  }
+>  EXPORT_SYMBOL(rtllib_wx_set_freq);
+>  
+> -
+>  int rtllib_wx_get_freq(struct rtllib_device *ieee,
+>  			     struct iw_request_info *a,
+>  			     union iwreq_data *wrqu, char *b)
+> @@ -92,7 +89,7 @@ int rtllib_wx_get_freq(struct rtllib_device *ieee,
+>  
+>  	if (ieee->current_network.channel == 0)
+>  		return -1;
+> -	fwrq->m = rtllib_wlan_frequencies[ieee->current_network.channel-1] *
+> +	fwrq->m = rtllib_wlan_frequencies[ieee->current_network.channel - 1] *
+>  		  100000;
+>  	fwrq->e = 1;
+>  	return 0;
+> @@ -128,13 +125,11 @@ int rtllib_wx_get_wap(struct rtllib_device *ieee,
+>  }
+>  EXPORT_SYMBOL(rtllib_wx_get_wap);
+>  
+> -
+>  int rtllib_wx_set_wap(struct rtllib_device *ieee,
+>  			 struct iw_request_info *info,
+>  			 union iwreq_data *awrq,
+>  			 char *extra)
+>  {
+> -
+>  	int ret = 0;
+>  	unsigned long flags;
+>  
+> @@ -164,7 +159,6 @@ int rtllib_wx_set_wap(struct rtllib_device *ieee,
+>  		goto out;
+>  	}
+>  
+> -
+>  	if (ifup)
+>  		rtllib_stop_protocol(ieee, true);
+>  
+> @@ -220,7 +214,6 @@ int rtllib_wx_get_essid(struct rtllib_device *ieee, struct iw_request_info *a,
+>  	spin_unlock_irqrestore(&ieee->lock, flags);
+>  
+>  	return ret;
+> -
+>  }
+>  EXPORT_SYMBOL(rtllib_wx_get_essid);
+>  
+> @@ -228,10 +221,9 @@ int rtllib_wx_set_rate(struct rtllib_device *ieee,
+>  			     struct iw_request_info *info,
+>  			     union iwreq_data *wrqu, char *extra)
+>  {
+> -
+>  	u32 target_rate = wrqu->bitrate.value;
+>  
+> -	ieee->rate = target_rate/100000;
+> +	ieee->rate = target_rate / 100000;
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(rtllib_wx_set_rate);
+> @@ -250,16 +242,15 @@ int rtllib_wx_get_rate(struct rtllib_device *ieee,
+>  }
+>  EXPORT_SYMBOL(rtllib_wx_get_rate);
+>  
+> -
+>  int rtllib_wx_set_rts(struct rtllib_device *ieee,
+>  			     struct iw_request_info *info,
+>  			     union iwreq_data *wrqu, char *extra)
+>  {
+>  	if (wrqu->rts.disabled || !wrqu->rts.fixed)
+>  		ieee->rts = DEFAULT_RTS_THRESHOLD;
+> -	else {
+> +	} else {
+>  		if (wrqu->rts.value < MIN_RTS_THRESHOLD ||
+> -				wrqu->rts.value > MAX_RTS_THRESHOLD)
+> +			wrqu->rts.value > MAX_RTS_THRESHOLD)
+>  			return -EINVAL;
+>  		ieee->rts = wrqu->rts.value;
+>  	}
+> @@ -268,8 +259,8 @@ int rtllib_wx_set_rts(struct rtllib_device *ieee,
+>  EXPORT_SYMBOL(rtllib_wx_set_rts);
+>  
+>  int rtllib_wx_get_rts(struct rtllib_device *ieee,
+> -			     struct iw_request_info *info,
+> -			     union iwreq_data *wrqu, char *extra)
+> +					struct iw_request_info *info,
+> +					union iwreq_data *wrqu, char *extra)
+>  {
+>  	wrqu->rts.value = ieee->rts;
+>  	wrqu->rts.fixed = 0;	/* no auto select */
+> @@ -279,7 +270,7 @@ int rtllib_wx_get_rts(struct rtllib_device *ieee,
+>  EXPORT_SYMBOL(rtllib_wx_get_rts);
+>  
+>  int rtllib_wx_set_mode(struct rtllib_device *ieee, struct iw_request_info *a,
+> -			     union iwreq_data *wrqu, char *b)
+> +						union iwreq_data *wrqu, char *b)
+>  {
+>  	int set_mode_status = 0;
+>  
+> @@ -410,7 +401,6 @@ void rtllib_wx_sync_scan_wq(void *data)
+>  
+>  out:
+>  	mutex_unlock(&ieee->wx_mutex);
+> -
+>  }
+>  
+>  int rtllib_wx_set_scan(struct rtllib_device *ieee, struct iw_request_info *a,
+> @@ -441,7 +431,6 @@ int rtllib_wx_set_essid(struct rtllib_device *ieee,
+>  			struct iw_request_info *a,
+>  			union iwreq_data *wrqu, char *extra)
+>  {
+> -
+>  	int ret = 0, len, i;
+>  	short proto_started;
+>  	unsigned long flags;
+> @@ -468,7 +457,6 @@ int rtllib_wx_set_essid(struct rtllib_device *ieee,
+>  	if (proto_started)
+>  		rtllib_stop_protocol(ieee, true);
+>  
+> -
+>  	/* this is just to be sure that the GET wx callback
+>  	 * has consistent infos. not needed otherwise
+>  	 */
+> @@ -551,11 +539,10 @@ int rtllib_wx_get_name(struct rtllib_device *ieee, struct iw_request_info *info,
+>  }
+>  EXPORT_SYMBOL(rtllib_wx_get_name);
+>  
+> -
+>  /* this is mostly stolen from hostap */
+>  int rtllib_wx_set_power(struct rtllib_device *ieee,
+> -				 struct iw_request_info *info,
+> -				 union iwreq_data *wrqu, char *extra)
+> +						struct iw_request_info *info,
+> +						union iwreq_data *wrqu, char *extra)
+>  {
+>  	int ret = 0;
+>  
+> @@ -601,19 +588,17 @@ int rtllib_wx_set_power(struct rtllib_device *ieee,
+>  	default:
+>  		ret = -EINVAL;
+>  		goto exit;
+> -
+>  	}
+>  exit:
+>  	mutex_unlock(&ieee->wx_mutex);
+>  	return ret;
+> -
+>  }
+>  EXPORT_SYMBOL(rtllib_wx_set_power);
+>  
+>  /* this is stolen from hostap */
+>  int rtllib_wx_get_power(struct rtllib_device *ieee,
+> -				 struct iw_request_info *info,
+> -				 union iwreq_data *wrqu, char *extra)
+> +						struct iw_request_info *info,
+> +						union iwreq_data *wrqu, char *extra)
+>  {
+>  	mutex_lock(&ieee->wx_mutex);
+>  
+> @@ -643,6 +628,5 @@ int rtllib_wx_get_power(struct rtllib_device *ieee,
+>  exit:
+>  	mutex_unlock(&ieee->wx_mutex);
+>  	return 0;
+> -
+>  }
+>  EXPORT_SYMBOL(rtllib_wx_get_power);
+> -- 
+> 2.35.1
+> 
+
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch breaks the build.
+
+- Your patch contains warnings and/or errors noticed by the
+  scripts/checkpatch.pl tool.
+
+- Your patch was attached, please place it inline so that it can be
+  applied directly from the email message itself.
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what is needed in order to
+  properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
 
 
---=-oVFLOU8SUT0ZE0oLvJSx
-Content-Disposition: attachment;
-	filename*0=0001-Staging-rtl8192e-rtllib_softmac_wx.c-Fixed-multiple-.pat;
-	filename*1=ch
-Content-Type: text/x-patch;
-	name="0001-Staging-rtl8192e-rtllib_softmac_wx.c-Fixed-multiple-.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
-RnJvbSA0MmZkM2FmZDVlZmZjYjY2NzU2MmE0MTdlNGU4OTVmYmMwOWNiYzJjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBDb2x0b24gPGNzcHVyNDNAZ21haWwuY29tPgpEYXRlOiBTYXQs
-IDkgQXByIDIwMjIgMDI6NDY6MzQgLTA1MDAKU3ViamVjdDogW1BBVENIXSBTdGFnaW5nOiBydGw4
-MTkyZTogcnRsbGliX3NvZnRtYWNfd3guYzogRml4ZWQgbXVsdGlwbGUgY29kaW5nCiBzdHlsZSBp
-c3N1ZXMKCkZpeGVkIGlzc3VlcyAgd2l0aCB3aGl0ZXNwYWNlLCB1bmJhbGFuY2VkIGJyYWNlcyB1
-bm5lY2Vzc2FyeSAoaW50KSBjYXN0cywgYW5kIGF0dGVtcHRlZCB0byBmaXggYWxpZ25tZW50IGlz
-c3VlIHN0aWxsIGZsYWdnZWQgYnkgY2hlY2twYXRjaC5wbAoKU2lnbmVkLW9mZi1ieTogQ29sdG9u
-IFNwdXJnaW4gPGNzcHVyNDNAZ21haWwuY29tPgotLS0KIGRyaXZlcnMvc3RhZ2luZy9ydGw4MTky
-ZS9ydGxsaWJfc29mdG1hY193eC5jIHwgNDIgKysrKysrLS0tLS0tLS0tLS0tLS0KIDEgZmlsZSBj
-aGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAyOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL3N0YWdpbmcvcnRsODE5MmUvcnRsbGliX3NvZnRtYWNfd3guYyBiL2RyaXZlcnMvc3Rh
-Z2luZy9ydGw4MTkyZS9ydGxsaWJfc29mdG1hY193eC5jCmluZGV4IDU3YTZkMTEzMGI2YS4uZjY3
-YjgyOWYyOGQxIDEwMDY0NAotLS0gYS9kcml2ZXJzL3N0YWdpbmcvcnRsODE5MmUvcnRsbGliX3Nv
-ZnRtYWNfd3guYworKysgYi9kcml2ZXJzL3N0YWdpbmcvcnRsODE5MmUvcnRsbGliX3NvZnRtYWNf
-d3guYwpAQCAtMTIsNyArMTIsNiBAQAogICogb3duIGl0J3MgY29weXJpZ2h0IDstKQogICovCiAj
-aW5jbHVkZSA8bGludXgvZXRoZXJkZXZpY2UuaD4KLQogI2luY2x1ZGUgInJ0bGxpYi5oIgogI2lu
-Y2x1ZGUgImRvdDExZC5oIgogLyogRklYTUU6IGFkZCBBIGZyZXFzICovCkBAIC0yNSw3ICsyNCw2
-IEBAIGNvbnN0IGxvbmcgcnRsbGliX3dsYW5fZnJlcXVlbmNpZXNbXSA9IHsKIH07CiBFWFBPUlRf
-U1lNQk9MKHJ0bGxpYl93bGFuX2ZyZXF1ZW5jaWVzKTsKIAotCiBpbnQgcnRsbGliX3d4X3NldF9m
-cmVxKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLCBzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICph
-LAogCQkJICAgICB1bmlvbiBpd3JlcV9kYXRhICp3cnF1LCBjaGFyICpiKQogewpAQCAtNDEsOCAr
-MzksOCBAQCBpbnQgcnRsbGliX3d4X3NldF9mcmVxKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVl
-LCBzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICphLAogCiAJLyogaWYgc2V0dGluZyBieSBmcmVxIGNv
-bnZlcnQgdG8gY2hhbm5lbCAqLwogCWlmIChmd3JxLT5lID09IDEpIHsKLQkJaWYgKChmd3JxLT5t
-ID49IChpbnQpIDIuNDEyZTggJiYKLQkJICAgICBmd3JxLT5tIDw9IChpbnQpIDIuNDg3ZTgpKSB7
-CisJCWlmICgoZndycS0+bSA+PSAyLjQxMmU4ICYmCisJCSAgICAgZndycS0+bSA8PSAyLjQ4N2U4
-KSkgewogCQkJaW50IGYgPSBmd3JxLT5tIC8gMTAwMDAwOwogCQkJaW50IGMgPSAwOwogCkBAIC04
-Myw3ICs4MSw2IEBAIGludCBydGxsaWJfd3hfc2V0X2ZyZXEoc3RydWN0IHJ0bGxpYl9kZXZpY2Ug
-KmllZWUsIHN0cnVjdCBpd19yZXF1ZXN0X2luZm8gKmEsCiB9CiBFWFBPUlRfU1lNQk9MKHJ0bGxp
-Yl93eF9zZXRfZnJlcSk7CiAKLQogaW50IHJ0bGxpYl93eF9nZXRfZnJlcShzdHJ1Y3QgcnRsbGli
-X2RldmljZSAqaWVlZSwKIAkJCSAgICAgc3RydWN0IGl3X3JlcXVlc3RfaW5mbyAqYSwKIAkJCSAg
-ICAgdW5pb24gaXdyZXFfZGF0YSAqd3JxdSwgY2hhciAqYikKQEAgLTkyLDcgKzg5LDcgQEAgaW50
-IHJ0bGxpYl93eF9nZXRfZnJlcShzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwKIAogCWlmIChp
-ZWVlLT5jdXJyZW50X25ldHdvcmsuY2hhbm5lbCA9PSAwKQogCQlyZXR1cm4gLTE7Ci0JZndycS0+
-bSA9IHJ0bGxpYl93bGFuX2ZyZXF1ZW5jaWVzW2llZWUtPmN1cnJlbnRfbmV0d29yay5jaGFubmVs
-LTFdICoKKwlmd3JxLT5tID0gcnRsbGliX3dsYW5fZnJlcXVlbmNpZXNbaWVlZS0+Y3VycmVudF9u
-ZXR3b3JrLmNoYW5uZWwgLSAxXSAqCiAJCSAgMTAwMDAwOwogCWZ3cnEtPmUgPSAxOwogCXJldHVy
-biAwOwpAQCAtMTI4LDEzICsxMjUsMTEgQEAgaW50IHJ0bGxpYl93eF9nZXRfd2FwKHN0cnVjdCBy
-dGxsaWJfZGV2aWNlICppZWVlLAogfQogRVhQT1JUX1NZTUJPTChydGxsaWJfd3hfZ2V0X3dhcCk7
-CiAKLQogaW50IHJ0bGxpYl93eF9zZXRfd2FwKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLAog
-CQkJIHN0cnVjdCBpd19yZXF1ZXN0X2luZm8gKmluZm8sCiAJCQkgdW5pb24gaXdyZXFfZGF0YSAq
-YXdycSwKIAkJCSBjaGFyICpleHRyYSkKIHsKLQogCWludCByZXQgPSAwOwogCXVuc2lnbmVkIGxv
-bmcgZmxhZ3M7CiAKQEAgLTE2NCw3ICsxNTksNiBAQCBpbnQgcnRsbGliX3d4X3NldF93YXAoc3Ry
-dWN0IHJ0bGxpYl9kZXZpY2UgKmllZWUsCiAJCWdvdG8gb3V0OwogCX0KIAotCiAJaWYgKGlmdXAp
-CiAJCXJ0bGxpYl9zdG9wX3Byb3RvY29sKGllZWUsIHRydWUpOwogCkBAIC0yMjAsNyArMjE0LDYg
-QEAgaW50IHJ0bGxpYl93eF9nZXRfZXNzaWQoc3RydWN0IHJ0bGxpYl9kZXZpY2UgKmllZWUsIHN0
-cnVjdCBpd19yZXF1ZXN0X2luZm8gKmEsCiAJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmaWVlZS0+
-bG9jaywgZmxhZ3MpOwogCiAJcmV0dXJuIHJldDsKLQogfQogRVhQT1JUX1NZTUJPTChydGxsaWJf
-d3hfZ2V0X2Vzc2lkKTsKIApAQCAtMjI4LDEwICsyMjEsOSBAQCBpbnQgcnRsbGliX3d4X3NldF9y
-YXRlKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLAogCQkJICAgICBzdHJ1Y3QgaXdfcmVxdWVz
-dF9pbmZvICppbmZvLAogCQkJICAgICB1bmlvbiBpd3JlcV9kYXRhICp3cnF1LCBjaGFyICpleHRy
-YSkKIHsKLQogCXUzMiB0YXJnZXRfcmF0ZSA9IHdycXUtPmJpdHJhdGUudmFsdWU7CiAKLQlpZWVl
-LT5yYXRlID0gdGFyZ2V0X3JhdGUvMTAwMDAwOworCWllZWUtPnJhdGUgPSB0YXJnZXRfcmF0ZSAv
-IDEwMDAwMDsKIAlyZXR1cm4gMDsKIH0KIEVYUE9SVF9TWU1CT0wocnRsbGliX3d4X3NldF9yYXRl
-KTsKQEAgLTI1MCwxNiArMjQyLDE1IEBAIGludCBydGxsaWJfd3hfZ2V0X3JhdGUoc3RydWN0IHJ0
-bGxpYl9kZXZpY2UgKmllZWUsCiB9CiBFWFBPUlRfU1lNQk9MKHJ0bGxpYl93eF9nZXRfcmF0ZSk7
-CiAKLQogaW50IHJ0bGxpYl93eF9zZXRfcnRzKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLAog
-CQkJICAgICBzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICppbmZvLAogCQkJICAgICB1bmlvbiBpd3Jl
-cV9kYXRhICp3cnF1LCBjaGFyICpleHRyYSkKIHsKIAlpZiAod3JxdS0+cnRzLmRpc2FibGVkIHx8
-ICF3cnF1LT5ydHMuZml4ZWQpCiAJCWllZWUtPnJ0cyA9IERFRkFVTFRfUlRTX1RIUkVTSE9MRDsK
-LQllbHNlIHsKKwl9IGVsc2UgewogCQlpZiAod3JxdS0+cnRzLnZhbHVlIDwgTUlOX1JUU19USFJF
-U0hPTEQgfHwKLQkJCQl3cnF1LT5ydHMudmFsdWUgPiBNQVhfUlRTX1RIUkVTSE9MRCkKKwkJCXdy
-cXUtPnJ0cy52YWx1ZSA+IE1BWF9SVFNfVEhSRVNIT0xEKQogCQkJcmV0dXJuIC1FSU5WQUw7CiAJ
-CWllZWUtPnJ0cyA9IHdycXUtPnJ0cy52YWx1ZTsKIAl9CkBAIC0yNjgsOCArMjU5LDggQEAgaW50
-IHJ0bGxpYl93eF9zZXRfcnRzKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLAogRVhQT1JUX1NZ
-TUJPTChydGxsaWJfd3hfc2V0X3J0cyk7CiAKIGludCBydGxsaWJfd3hfZ2V0X3J0cyhzdHJ1Y3Qg
-cnRsbGliX2RldmljZSAqaWVlZSwKLQkJCSAgICAgc3RydWN0IGl3X3JlcXVlc3RfaW5mbyAqaW5m
-bywKLQkJCSAgICAgdW5pb24gaXdyZXFfZGF0YSAqd3JxdSwgY2hhciAqZXh0cmEpCisJCQkJCXN0
-cnVjdCBpd19yZXF1ZXN0X2luZm8gKmluZm8sCisJCQkJCXVuaW9uIGl3cmVxX2RhdGEgKndycXUs
-IGNoYXIgKmV4dHJhKQogewogCXdycXUtPnJ0cy52YWx1ZSA9IGllZWUtPnJ0czsKIAl3cnF1LT5y
-dHMuZml4ZWQgPSAwOwkvKiBubyBhdXRvIHNlbGVjdCAqLwpAQCAtMjc5LDcgKzI3MCw3IEBAIGlu
-dCBydGxsaWJfd3hfZ2V0X3J0cyhzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwKIEVYUE9SVF9T
-WU1CT0wocnRsbGliX3d4X2dldF9ydHMpOwogCiBpbnQgcnRsbGliX3d4X3NldF9tb2RlKHN0cnVj
-dCBydGxsaWJfZGV2aWNlICppZWVlLCBzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICphLAotCQkJICAg
-ICB1bmlvbiBpd3JlcV9kYXRhICp3cnF1LCBjaGFyICpiKQorCQkJCQkJdW5pb24gaXdyZXFfZGF0
-YSAqd3JxdSwgY2hhciAqYikKIHsKIAlpbnQgc2V0X21vZGVfc3RhdHVzID0gMDsKIApAQCAtNDEw
-LDcgKzQwMSw2IEBAIHZvaWQgcnRsbGliX3d4X3N5bmNfc2Nhbl93cSh2b2lkICpkYXRhKQogCiBv
-dXQ6CiAJbXV0ZXhfdW5sb2NrKCZpZWVlLT53eF9tdXRleCk7Ci0KIH0KIAogaW50IHJ0bGxpYl93
-eF9zZXRfc2NhbihzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwgc3RydWN0IGl3X3JlcXVlc3Rf
-aW5mbyAqYSwKQEAgLTQ0MSw3ICs0MzEsNiBAQCBpbnQgcnRsbGliX3d4X3NldF9lc3NpZChzdHJ1
-Y3QgcnRsbGliX2RldmljZSAqaWVlZSwKIAkJCXN0cnVjdCBpd19yZXF1ZXN0X2luZm8gKmEsCiAJ
-CQl1bmlvbiBpd3JlcV9kYXRhICp3cnF1LCBjaGFyICpleHRyYSkKIHsKLQogCWludCByZXQgPSAw
-LCBsZW4sIGk7CiAJc2hvcnQgcHJvdG9fc3RhcnRlZDsKIAl1bnNpZ25lZCBsb25nIGZsYWdzOwpA
-QCAtNDY4LDcgKzQ1Nyw2IEBAIGludCBydGxsaWJfd3hfc2V0X2Vzc2lkKHN0cnVjdCBydGxsaWJf
-ZGV2aWNlICppZWVlLAogCWlmIChwcm90b19zdGFydGVkKQogCQlydGxsaWJfc3RvcF9wcm90b2Nv
-bChpZWVlLCB0cnVlKTsKIAotCiAJLyogdGhpcyBpcyBqdXN0IHRvIGJlIHN1cmUgdGhhdCB0aGUg
-R0VUIHd4IGNhbGxiYWNrCiAJICogaGFzIGNvbnNpc3RlbnQgaW5mb3MuIG5vdCBuZWVkZWQgb3Ro
-ZXJ3aXNlCiAJICovCkBAIC01NTEsMTEgKzUzOSwxMCBAQCBpbnQgcnRsbGliX3d4X2dldF9uYW1l
-KHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLCBzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICppbmZv
-LAogfQogRVhQT1JUX1NZTUJPTChydGxsaWJfd3hfZ2V0X25hbWUpOwogCi0KIC8qIHRoaXMgaXMg
-bW9zdGx5IHN0b2xlbiBmcm9tIGhvc3RhcCAqLwogaW50IHJ0bGxpYl93eF9zZXRfcG93ZXIoc3Ry
-dWN0IHJ0bGxpYl9kZXZpY2UgKmllZWUsCi0JCQkJIHN0cnVjdCBpd19yZXF1ZXN0X2luZm8gKmlu
-Zm8sCi0JCQkJIHVuaW9uIGl3cmVxX2RhdGEgKndycXUsIGNoYXIgKmV4dHJhKQorCQkJCQkJc3Ry
-dWN0IGl3X3JlcXVlc3RfaW5mbyAqaW5mbywKKwkJCQkJCXVuaW9uIGl3cmVxX2RhdGEgKndycXUs
-IGNoYXIgKmV4dHJhKQogewogCWludCByZXQgPSAwOwogCkBAIC02MDEsMTkgKzU4OCwxNyBAQCBp
-bnQgcnRsbGliX3d4X3NldF9wb3dlcihzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwKIAlkZWZh
-dWx0OgogCQlyZXQgPSAtRUlOVkFMOwogCQlnb3RvIGV4aXQ7Ci0KIAl9CiBleGl0OgogCW11dGV4
-X3VubG9jaygmaWVlZS0+d3hfbXV0ZXgpOwogCXJldHVybiByZXQ7Ci0KIH0KIEVYUE9SVF9TWU1C
-T0wocnRsbGliX3d4X3NldF9wb3dlcik7CiAKIC8qIHRoaXMgaXMgc3RvbGVuIGZyb20gaG9zdGFw
-ICovCiBpbnQgcnRsbGliX3d4X2dldF9wb3dlcihzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwK
-LQkJCQkgc3RydWN0IGl3X3JlcXVlc3RfaW5mbyAqaW5mbywKLQkJCQkgdW5pb24gaXdyZXFfZGF0
-YSAqd3JxdSwgY2hhciAqZXh0cmEpCisJCQkJCQlzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICppbmZv
-LAorCQkJCQkJdW5pb24gaXdyZXFfZGF0YSAqd3JxdSwgY2hhciAqZXh0cmEpCiB7CiAJbXV0ZXhf
-bG9jaygmaWVlZS0+d3hfbXV0ZXgpOwogCkBAIC02NDMsNiArNjI4LDUgQEAgaW50IHJ0bGxpYl93
-eF9nZXRfcG93ZXIoc3RydWN0IHJ0bGxpYl9kZXZpY2UgKmllZWUsCiBleGl0OgogCW11dGV4X3Vu
-bG9jaygmaWVlZS0+d3hfbXV0ZXgpOwogCXJldHVybiAwOwotCiB9CiBFWFBPUlRfU1lNQk9MKHJ0
-bGxpYl93eF9nZXRfcG93ZXIpOwotLSAKMi4zNS4xCgo=
+thanks,
 
-
---=-oVFLOU8SUT0ZE0oLvJSx--
+greg k-h's patch email bot
