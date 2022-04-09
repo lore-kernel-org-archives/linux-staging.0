@@ -1,131 +1,110 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646D9A26
-	for <linux-staging@lists.linux.dev>; Sat,  9 Apr 2022 15:16:17 +0000 (UTC)
-Received: from ipservice-092-217-091-111.092.217.pools.vodafone-ip.de ([92.217.91.111] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1ndCoq-0005k2-Vy; Sat, 09 Apr 2022 17:16:09 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 7/8] staging: r8188eu: clean up the code to set ips_deny_time
-Date: Sat,  9 Apr 2022 17:15:56 +0200
-Message-Id: <20220409151557.207980-8-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220409151557.207980-1-martin@kaiser.cx>
-References: <20220409151557.207980-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7F6A22;
+	Sat,  9 Apr 2022 15:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=qSAd225M961dn+WkBnENZ0S8iDdzBuda9tOMKouPLss=;
+  b=vOiUMr0h2cq52oDuERvHs4ZaBVcfR84QTX8JxgbvtYFZXtIYzldUuZLd
+   f+DLVg6BZd6WIFzqEOqoH32xNvKYftdU0ya9dZsLsANA1grbkK+lKKcOx
+   xXuWcRR0og+kj0YTvW3v3lBP9+CSYjIF82WZHAoT5l9Xf0rH8XzopdpGx
+   Q=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,248,1643670000"; 
+   d="scan'208";a="30916323"
+Received: from unknown (HELO hadrien) ([109.190.253.16])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2022 17:37:39 +0200
+Date: Sat, 9 Apr 2022 17:37:32 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: julia@hadrien
+To: =?ISO-8859-15?Q?J=E9r=F4me_Pouiller?= <jerome.pouiller@silabs.com>
+cc: Jaehee Park <jhpark1013@gmail.com>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+    outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH] staging: wfx: use container_of() to get vif
+In-Reply-To: <1911301.taCxCBeP46@pc-42>
+Message-ID: <alpine.DEB.2.22.394.2204091737130.2655@hadrien>
+References: <20220407204128.GA1810425@jaehee-ThinkPad-X1-Extreme> <alpine.DEB.2.22.394.2204081149360.2196@hadrien> <20220408222102.GB2511628@jaehee-ThinkPad-X1-Extreme> <1911301.taCxCBeP46@pc-42>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="8323329-1289766131-1649518660=:2655"
 
-Clean up the code in rtw_pwr_wakeup that sets pwrpriv->ips_deny_time.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Make ips_deny_time an unsigned long, this type is used by the kernel
-functions that process jiffies.
+--8323329-1289766131-1649518660=:2655
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 
-Remove the temporary variable ips_deffer_ms and use
-RTW_PWR_STATE_CHK_INTERVAL directly.
 
-There's no need to set ips_deny_time twice, it's sufficient to set it at
-the end of rtw_pwr_wakeup.
 
-Use time_before to check if ips_deny_time should be updated.
+On Sat, 9 Apr 2022, Jérôme Pouiller wrote:
 
-We can now remove rtw_ms_to_systime, this function is not used any more.
+> On Saturday 9 April 2022 00:21:02 CEST Jaehee Park wrote:
+> > On Fri, Apr 08, 2022 at 11:49:49AM +0200, Julia Lawall wrote:
+> > > On Thu, 7 Apr 2022, Jaehee Park wrote:
+> > >
+> > > > Use container_of() to get vif. This improves the code in two ways:
+> > > > [1] it speeds up the compilation because container_of() saves steps to
+> > > > retrieve vif (the representation of ieee80211_vif), and
+> > >
+> > > I don't understand this part.
+> > >
+> > > julia
+> > >
+> >
+> > Thank you for your message. I revised the commit message (below)--
+> > I hope it makes it clearer. I'm open to suggestions as well!
+> >
+> > Currently, upon virtual interface creation, wfx_add_interface() stores
+> > a reference to the corresponding struct ieee80211_vif in private data,
+> > for later usage. This is not needed when using the container_of
+> > construct. This construct already has all the info it needs to retrieve
+> > the reference to the corresponding struct from the offset that is
+> > already available, inherent in container_of(), between its type and
+> > member inputs (struct ieee80211_vif and drv_priv, respectively).
+> > Remove vif (which was previously storing the reference to the struct
+> > ieee80211_vif) from the struct wfx_vif, define a macro
+> > wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
+> > the newly defined container_of construct.
+> >
+> > Sorry if I'm putting out more information than was asked for:
+> > Diagram is worth a thousand words; this one is made by Stefano when
+> > he was explaining the container_of() construct:
+> >
+> > .-----------------------------------.
+> > |  .------------------------------. |
+> > '->| struct ieee80211_vif         | |
+> >    |------------------------------| |
+> >    | 1                            | |
+> >    | 2                            | |
+> >    |  .--------------------------.| |
+> >    | 3| struct wfx_vif drv_priv   | |
+> >    |  |---------------------------| |
+> >    |  | ...                       | |
+> >    |  |                           | |
+> >    |  | struct ieee80211_vif *vif---'
+> >    '------------------------------'
+> > In this example, the offset is 3.
+> > What I want to convey here is the compiler already knows the offset
+> > of drv_priv within struct ieee80211_vif by using the container_of()
+> > construct. So, it doesn't need to do extra work.
+>
+> Wow, nice ascii art :)
+>
+> I think that Julia has not understand why you said it "speeds up the
+> compilation". I think you meant "speeds up the execution", don't you?
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_pwrctrl.c      | 13 ++++---------
- drivers/staging/r8188eu/include/osdep_service.h |  1 -
- drivers/staging/r8188eu/include/rtw_pwrctrl.h   |  2 +-
- drivers/staging/r8188eu/os_dep/osdep_service.c  |  5 -----
- 4 files changed, 5 insertions(+), 16 deletions(-)
+Yes, that was my concern.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-index 1156a46b5de6..717a9bb26c19 100644
---- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-+++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-@@ -363,14 +363,8 @@ int rtw_pwr_wakeup(struct adapter *padapter)
- 	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	unsigned long timeout = jiffies + msecs_to_jiffies(3000);
-+	unsigned long deny_time;
- 	int ret = _SUCCESS;
--	u32 ips_deffer_ms;
--
--	/* the ms will prevent from falling into IPS after wakeup */
--	ips_deffer_ms = RTW_PWR_STATE_CHK_INTERVAL;
--
--	if (pwrpriv->ips_deny_time < jiffies + rtw_ms_to_systime(ips_deffer_ms))
--		pwrpriv->ips_deny_time = jiffies + rtw_ms_to_systime(ips_deffer_ms);
- 
- 	while (pwrpriv->ps_processing && time_before(jiffies, timeout))
- 		msleep(10);
-@@ -394,8 +388,9 @@ int rtw_pwr_wakeup(struct adapter *padapter)
- 	}
- 
- exit:
--	if (pwrpriv->ips_deny_time < jiffies + rtw_ms_to_systime(ips_deffer_ms))
--		pwrpriv->ips_deny_time = jiffies + rtw_ms_to_systime(ips_deffer_ms);
-+	deny_time = jiffies + msecs_to_jiffies(RTW_PWR_STATE_CHK_INTERVAL);
-+	if (time_before(pwrpriv->ips_deny_time, deny_time))
-+		pwrpriv->ips_deny_time = deny_time;
- 	return ret;
- }
- 
-diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index f1f3e3ba5377..1e55a8008acc 100644
---- a/drivers/staging/r8188eu/include/osdep_service.h
-+++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -78,7 +78,6 @@ void *rtw_malloc2d(int h, int w, int size);
- 	} while (0)
- 
- u32  rtw_systime_to_ms(u32 systime);
--u32  rtw_ms_to_systime(u32 ms);
- s32  rtw_get_passing_time_ms(u32 start);
- 
- void rtw_usleep_os(int us);
-diff --git a/drivers/staging/r8188eu/include/rtw_pwrctrl.h b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-index 1d7dba853c40..a5bc2f276024 100644
---- a/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-+++ b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-@@ -56,7 +56,7 @@ struct pwrctrl_priv {
- 	u8	ips_mode_req;	/*  used to accept the mode setting request,
- 				 *  will update to ipsmode later */
- 	uint bips_processing;
--	u32 ips_deny_time; /* will deny IPS when system time less than this */
-+	unsigned long ips_deny_time; /* will deny IPS when system time less than this */
- 	u8 ps_processing; /* temp used to mark whether in rtw_ps_processor */
- 
- 	u8	bLeisurePs;
-diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-index 6824a6ab2e36..7b177d50eee2 100644
---- a/drivers/staging/r8188eu/os_dep/osdep_service.c
-+++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-@@ -47,11 +47,6 @@ inline u32 rtw_systime_to_ms(u32 systime)
- 	return systime * 1000 / HZ;
- }
- 
--inline u32 rtw_ms_to_systime(u32 ms)
--{
--	return ms * HZ / 1000;
--}
--
- /*  the input parameter start use the same unit as jiffies */
- inline s32 rtw_get_passing_time_ms(u32 start)
- {
--- 
-2.30.2
-
+julia
+--8323329-1289766131-1649518660=:2655--
