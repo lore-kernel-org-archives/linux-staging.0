@@ -1,110 +1,60 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7F6A22;
-	Sat,  9 Apr 2022 15:37:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=qSAd225M961dn+WkBnENZ0S8iDdzBuda9tOMKouPLss=;
-  b=vOiUMr0h2cq52oDuERvHs4ZaBVcfR84QTX8JxgbvtYFZXtIYzldUuZLd
-   f+DLVg6BZd6WIFzqEOqoH32xNvKYftdU0ya9dZsLsANA1grbkK+lKKcOx
-   xXuWcRR0og+kj0YTvW3v3lBP9+CSYjIF82WZHAoT5l9Xf0rH8XzopdpGx
-   Q=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,248,1643670000"; 
-   d="scan'208";a="30916323"
-Received: from unknown (HELO hadrien) ([109.190.253.16])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2022 17:37:39 +0200
-Date: Sat, 9 Apr 2022 17:37:32 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: julia@hadrien
-To: =?ISO-8859-15?Q?J=E9r=F4me_Pouiller?= <jerome.pouiller@silabs.com>
-cc: Jaehee Park <jhpark1013@gmail.com>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [PATCH] staging: wfx: use container_of() to get vif
-In-Reply-To: <1911301.taCxCBeP46@pc-42>
-Message-ID: <alpine.DEB.2.22.394.2204091737130.2655@hadrien>
-References: <20220407204128.GA1810425@jaehee-ThinkPad-X1-Extreme> <alpine.DEB.2.22.394.2204081149360.2196@hadrien> <20220408222102.GB2511628@jaehee-ThinkPad-X1-Extreme> <1911301.taCxCBeP46@pc-42>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92C17F9
+	for <linux-staging@lists.linux.dev>; Sat,  9 Apr 2022 16:32:20 +0000 (UTC)
+Received: from ipservice-092-217-091-111.092.217.pools.vodafone-ip.de ([92.217.91.111] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1ndE0W-0006Rg-G6; Sat, 09 Apr 2022 18:32:16 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 00/10] staging: r8188eu: use standard timer functions
+Date: Sat,  9 Apr 2022 18:32:02 +0200
+Message-Id: <20220409163212.241122-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1289766131-1649518660=:2655"
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Make the driver-specific rtw_get_passing_time_ms function obsolete. Use
+the stardard kernel functions for timeout handling.
 
---8323329-1289766131-1649518660=:2655
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
+Martin Kaiser (10):
+  staging: r8188eu: no need for an else after return
+  staging: r8188eu: remove unnecessary rtw_get_passing_time_ms call
+  staging: r8188eu: summarize two if statements
+  staging: r8188eu: improve timeout handling in
+    rtl8188e_firmware_download
+  staging: r8188eu: improve timeout handling in rtw_check_join_candidate
+  staging: r8188eu: make LPS_RF_ON_check static
+  staging: r8188eu: improve timeout handling in LPS_RF_ON_check
+  staging: r8188eu: improve timeout handling in iol_execute
+  staging: r8188eu: improve timeout handling in
+    efuse_read_phymap_from_txpktbuf
+  staging: r8188eu: remove unused timer functions
 
+ drivers/staging/r8188eu/core/rtw_fw.c           |  6 +++---
+ drivers/staging/r8188eu/core/rtw_mlme.c         |  4 +++-
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c     | 11 ++---------
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c      |  7 +++----
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 14 ++++++--------
+ drivers/staging/r8188eu/include/osdep_service.h |  3 ---
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h   |  1 -
+ drivers/staging/r8188eu/os_dep/osdep_service.c  | 11 -----------
+ 8 files changed, 17 insertions(+), 40 deletions(-)
 
+-- 
+2.30.2
 
-On Sat, 9 Apr 2022, Jérôme Pouiller wrote:
-
-> On Saturday 9 April 2022 00:21:02 CEST Jaehee Park wrote:
-> > On Fri, Apr 08, 2022 at 11:49:49AM +0200, Julia Lawall wrote:
-> > > On Thu, 7 Apr 2022, Jaehee Park wrote:
-> > >
-> > > > Use container_of() to get vif. This improves the code in two ways:
-> > > > [1] it speeds up the compilation because container_of() saves steps to
-> > > > retrieve vif (the representation of ieee80211_vif), and
-> > >
-> > > I don't understand this part.
-> > >
-> > > julia
-> > >
-> >
-> > Thank you for your message. I revised the commit message (below)--
-> > I hope it makes it clearer. I'm open to suggestions as well!
-> >
-> > Currently, upon virtual interface creation, wfx_add_interface() stores
-> > a reference to the corresponding struct ieee80211_vif in private data,
-> > for later usage. This is not needed when using the container_of
-> > construct. This construct already has all the info it needs to retrieve
-> > the reference to the corresponding struct from the offset that is
-> > already available, inherent in container_of(), between its type and
-> > member inputs (struct ieee80211_vif and drv_priv, respectively).
-> > Remove vif (which was previously storing the reference to the struct
-> > ieee80211_vif) from the struct wfx_vif, define a macro
-> > wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
-> > the newly defined container_of construct.
-> >
-> > Sorry if I'm putting out more information than was asked for:
-> > Diagram is worth a thousand words; this one is made by Stefano when
-> > he was explaining the container_of() construct:
-> >
-> > .-----------------------------------.
-> > |  .------------------------------. |
-> > '->| struct ieee80211_vif         | |
-> >    |------------------------------| |
-> >    | 1                            | |
-> >    | 2                            | |
-> >    |  .--------------------------.| |
-> >    | 3| struct wfx_vif drv_priv   | |
-> >    |  |---------------------------| |
-> >    |  | ...                       | |
-> >    |  |                           | |
-> >    |  | struct ieee80211_vif *vif---'
-> >    '------------------------------'
-> > In this example, the offset is 3.
-> > What I want to convey here is the compiler already knows the offset
-> > of drv_priv within struct ieee80211_vif by using the container_of()
-> > construct. So, it doesn't need to do extra work.
->
-> Wow, nice ascii art :)
->
-> I think that Julia has not understand why you said it "speeds up the
-> compilation". I think you meant "speeds up the execution", don't you?
-
-Yes, that was my concern.
-
-julia
---8323329-1289766131-1649518660=:2655--
