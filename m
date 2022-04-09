@@ -1,108 +1,186 @@
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 460CA7EF
-	for <linux-staging@lists.linux.dev>; Sat,  9 Apr 2022 07:21:48 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [10.15.192.164])
-	by mail-app3 (Coremail) with SMTP id cC_KCgAXScj_M1FiXry4AQ--.49990S2;
-	Sat, 09 Apr 2022 15:21:39 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: linux-kernel@vger.kernel.org
-Cc: linux-staging@lists.linux.dev,
-	alexander.deucher@amd.com,
-	kuba@kernel.org,
-	broonie@kernel.org,
-	davem@davemloft.net,
-	gregkh@linuxfoundation.org,
-	phil@philpotter.co.uk,
-	Larry.Finger@lwfinger.net,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] drivers: staging: rtl8192eu: Fix deadlock in rtw_joinbss_event_prehandle
-Date: Sat,  9 Apr 2022 15:21:35 +0800
-Message-Id: <20220409072135.74248-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:cC_KCgAXScj_M1FiXry4AQ--.49990S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tF15Zr48urWUKFWkGw15Jwb_yoW8tF4rpF
-	Wjgr1fuF1vqr429F4kJ3WDXF13Za18WryUJFWrG3yku3s5Arn3ZFW5trWftF4aqFn7W39I
-	9r1kW3sxAF4DCw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvl1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-	IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
-	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
-	Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
-	6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-	vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28I
-	cxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJV
-	W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
-	1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
-	IIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
-	x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
-	DU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgQPAVZdtZGjxwBTsQ
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A149B7EF
+	for <linux-staging@lists.linux.dev>; Sat,  9 Apr 2022 08:24:34 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id t9so5232195qvd.3
+        for <linux-staging@lists.linux.dev>; Sat, 09 Apr 2022 01:24:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:user-agent:mime-version;
+        bh=Xo3TDCl9lnHvYZIBx0/vWJUdhCjK+01adkajyrWwuXQ=;
+        b=RX525FW7wvM/fQtnoLRrUCOxEfdSv4b6pkSvRE9I8YHjH8Ugtn3DWS99gauhv7d3Z+
+         Qu2/Mb1DD64YKAWZXdHl8No2v5MRhuXo33AqcZRPHgRlRXIFNPL7yHPENh9SRNiWcGZG
+         B4y00Hvvko5HZYeUQFoJOkX71wwjGlnpoMjb5hPtyx3yLSAqRdiUas6XaU2+huEGI1fz
+         Sbgw3nqtL5tciFM8ZN/Wl33c0ylAdncsM+SmpIO1ErPlRQBJ4ohEubo51CiS8xtkFwco
+         u4QE0M4niFz8MykfvFTGbtX2fmkjs+nGS33qp6asCBz/jtGqfW4wQZPz9oo4KtsQuA6r
+         N6bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
+         :mime-version;
+        bh=Xo3TDCl9lnHvYZIBx0/vWJUdhCjK+01adkajyrWwuXQ=;
+        b=RfqtscCXQaoT5c1XmkP0lXTFFYo5ppqzSykdxVbLCCOXjH3fEBKFGcvqW4XawMwfQ5
+         d2UMxrjwCF91GYvLsSBwdaYAT/YvkroayLkiYwUn6kvZlUuq52ICdN3SQoISVZwodx2+
+         A6u+FwZ6thwh2fuQRWOv3v08VH2QrHxQtmyfDxunZubPcJEhEJOKz5Z3HesGJpFv6iwO
+         Fpryrc7rQlzcFetbDGEpbXQ1vsslNjbpozsskkX0k3HKCRyYnEgywrCk+3C407p/eFxd
+         xme020Iz8BC77fJqbiLN+ACV8oaHESawPv8Qc4NQTVzVmmgrHjS/b4u0SLrAX0p58Za3
+         mTNA==
+X-Gm-Message-State: AOAM533chfPEWMgeB90MvVzY9hVU4LloLr2rU66EMj5h5ngHTV5lShKI
+	VF5dLOnC+6kaPn/MaN04yss=
+X-Google-Smtp-Source: ABdhPJyq2aM+sdiiq8wKK7K+grw7q7ldBLWXM7u4NuWBICcMKk70ESqRvkDn7En4JjXHjuXQIcPKcw==
+X-Received: by 2002:a05:6214:622:b0:441:2918:ee18 with SMTP id a2-20020a056214062200b004412918ee18mr19862341qvx.118.1649492673490;
+        Sat, 09 Apr 2022 01:24:33 -0700 (PDT)
+Received: from ?IPv6:2600:100d:b149:69f7:cf8b:f19c:28ed:6dd9? ([2600:100d:b149:69f7:cf8b:f19c:28ed:6dd9])
+        by smtp.gmail.com with ESMTPSA id g5-20020ac87f45000000b002e125ef0ba3sm19972038qtk.82.2022.04.09.01.24.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Apr 2022 01:24:33 -0700 (PDT)
+Message-ID: <7cf8c5e16847aa2a9430298ba264900227a90026.camel@gmail.com>
+Subject: Staging: rtl8192e: rtllib_softmac_wx.c: Fixed multiple coding style
+ issues
+From: Colton <cspur43@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: len.baker@gmx.com, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Sat, 09 Apr 2022 03:24:30 -0500
+Content-Type: multipart/mixed; boundary="=-oVFLOU8SUT0ZE0oLvJSx"
+User-Agent: Evolution 3.44.0 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
 
-There is a deadlock in rtw_joinbss_event_prehandle(), which is shown below:
+--=-oVFLOU8SUT0ZE0oLvJSx
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-   (Thread 1)                |      (Thread 2)
-                             | _set_timer()
-rtw_joinbss_event_prehandle()|  mod_timer()
- spin_lock_bh() //(1)        |  (wait a time)
- ...                         | rtw_join_timeout_handler()
-                             |  _rtw_join_timeout_handler()
- del_timer_sync()            |   spin_lock_bh() //(2)
- (wait timer to stop)        |   ...
+    Staging: rtl8192e: rtllib_softmac_wx.c: Fixed multiple coding style iss=
+ues
+   =20
+    Fixed issues  with whitespace, unbalanced braces unnecessary (int) cast=
+s, and attempted to fix alignment issue still flagged by checkpatch.pl
+   =20
+    Signed-off-by: Colton Spurgin <cspur43@gmail.com>
 
-We hold pmlmepriv->lock in position (1) of thread 1 and
-use del_timer_sync() to wait timer to stop, but timer handler
-also need pmlmepriv->lock in position (2) of thread 2.
-As a result, rtw_joinbss_event_prehandle() will block forever.
 
-This patch extracts del_timer_sync() from the protection of
-spin_lock_bh(), which could let timer handler to obtain
-the needed lock. What`s more, we change spin_lock_bh() to
-spin_lock_irq() in _rtw_join_timeout_handler() in order to
-prevent deadlock.
+--=-oVFLOU8SUT0ZE0oLvJSx
+Content-Disposition: attachment;
+	filename*0=0001-Staging-rtl8192e-rtllib_softmac_wx.c-Fixed-multiple-.pat;
+	filename*1=ch
+Content-Type: text/x-patch;
+	name="0001-Staging-rtl8192e-rtllib_softmac_wx.c-Fixed-multiple-.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
- drivers/staging/r8188eu/core/rtw_mlme.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+RnJvbSA0MmZkM2FmZDVlZmZjYjY2NzU2MmE0MTdlNGU4OTVmYmMwOWNiYzJjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBDb2x0b24gPGNzcHVyNDNAZ21haWwuY29tPgpEYXRlOiBTYXQs
+IDkgQXByIDIwMjIgMDI6NDY6MzQgLTA1MDAKU3ViamVjdDogW1BBVENIXSBTdGFnaW5nOiBydGw4
+MTkyZTogcnRsbGliX3NvZnRtYWNfd3guYzogRml4ZWQgbXVsdGlwbGUgY29kaW5nCiBzdHlsZSBp
+c3N1ZXMKCkZpeGVkIGlzc3VlcyAgd2l0aCB3aGl0ZXNwYWNlLCB1bmJhbGFuY2VkIGJyYWNlcyB1
+bm5lY2Vzc2FyeSAoaW50KSBjYXN0cywgYW5kIGF0dGVtcHRlZCB0byBmaXggYWxpZ25tZW50IGlz
+c3VlIHN0aWxsIGZsYWdnZWQgYnkgY2hlY2twYXRjaC5wbAoKU2lnbmVkLW9mZi1ieTogQ29sdG9u
+IFNwdXJnaW4gPGNzcHVyNDNAZ21haWwuY29tPgotLS0KIGRyaXZlcnMvc3RhZ2luZy9ydGw4MTky
+ZS9ydGxsaWJfc29mdG1hY193eC5jIHwgNDIgKysrKysrLS0tLS0tLS0tLS0tLS0KIDEgZmlsZSBj
+aGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAyOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9k
+cml2ZXJzL3N0YWdpbmcvcnRsODE5MmUvcnRsbGliX3NvZnRtYWNfd3guYyBiL2RyaXZlcnMvc3Rh
+Z2luZy9ydGw4MTkyZS9ydGxsaWJfc29mdG1hY193eC5jCmluZGV4IDU3YTZkMTEzMGI2YS4uZjY3
+YjgyOWYyOGQxIDEwMDY0NAotLS0gYS9kcml2ZXJzL3N0YWdpbmcvcnRsODE5MmUvcnRsbGliX3Nv
+ZnRtYWNfd3guYworKysgYi9kcml2ZXJzL3N0YWdpbmcvcnRsODE5MmUvcnRsbGliX3NvZnRtYWNf
+d3guYwpAQCAtMTIsNyArMTIsNiBAQAogICogb3duIGl0J3MgY29weXJpZ2h0IDstKQogICovCiAj
+aW5jbHVkZSA8bGludXgvZXRoZXJkZXZpY2UuaD4KLQogI2luY2x1ZGUgInJ0bGxpYi5oIgogI2lu
+Y2x1ZGUgImRvdDExZC5oIgogLyogRklYTUU6IGFkZCBBIGZyZXFzICovCkBAIC0yNSw3ICsyNCw2
+IEBAIGNvbnN0IGxvbmcgcnRsbGliX3dsYW5fZnJlcXVlbmNpZXNbXSA9IHsKIH07CiBFWFBPUlRf
+U1lNQk9MKHJ0bGxpYl93bGFuX2ZyZXF1ZW5jaWVzKTsKIAotCiBpbnQgcnRsbGliX3d4X3NldF9m
+cmVxKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLCBzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICph
+LAogCQkJICAgICB1bmlvbiBpd3JlcV9kYXRhICp3cnF1LCBjaGFyICpiKQogewpAQCAtNDEsOCAr
+MzksOCBAQCBpbnQgcnRsbGliX3d4X3NldF9mcmVxKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVl
+LCBzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICphLAogCiAJLyogaWYgc2V0dGluZyBieSBmcmVxIGNv
+bnZlcnQgdG8gY2hhbm5lbCAqLwogCWlmIChmd3JxLT5lID09IDEpIHsKLQkJaWYgKChmd3JxLT5t
+ID49IChpbnQpIDIuNDEyZTggJiYKLQkJICAgICBmd3JxLT5tIDw9IChpbnQpIDIuNDg3ZTgpKSB7
+CisJCWlmICgoZndycS0+bSA+PSAyLjQxMmU4ICYmCisJCSAgICAgZndycS0+bSA8PSAyLjQ4N2U4
+KSkgewogCQkJaW50IGYgPSBmd3JxLT5tIC8gMTAwMDAwOwogCQkJaW50IGMgPSAwOwogCkBAIC04
+Myw3ICs4MSw2IEBAIGludCBydGxsaWJfd3hfc2V0X2ZyZXEoc3RydWN0IHJ0bGxpYl9kZXZpY2Ug
+KmllZWUsIHN0cnVjdCBpd19yZXF1ZXN0X2luZm8gKmEsCiB9CiBFWFBPUlRfU1lNQk9MKHJ0bGxp
+Yl93eF9zZXRfZnJlcSk7CiAKLQogaW50IHJ0bGxpYl93eF9nZXRfZnJlcShzdHJ1Y3QgcnRsbGli
+X2RldmljZSAqaWVlZSwKIAkJCSAgICAgc3RydWN0IGl3X3JlcXVlc3RfaW5mbyAqYSwKIAkJCSAg
+ICAgdW5pb24gaXdyZXFfZGF0YSAqd3JxdSwgY2hhciAqYikKQEAgLTkyLDcgKzg5LDcgQEAgaW50
+IHJ0bGxpYl93eF9nZXRfZnJlcShzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwKIAogCWlmIChp
+ZWVlLT5jdXJyZW50X25ldHdvcmsuY2hhbm5lbCA9PSAwKQogCQlyZXR1cm4gLTE7Ci0JZndycS0+
+bSA9IHJ0bGxpYl93bGFuX2ZyZXF1ZW5jaWVzW2llZWUtPmN1cnJlbnRfbmV0d29yay5jaGFubmVs
+LTFdICoKKwlmd3JxLT5tID0gcnRsbGliX3dsYW5fZnJlcXVlbmNpZXNbaWVlZS0+Y3VycmVudF9u
+ZXR3b3JrLmNoYW5uZWwgLSAxXSAqCiAJCSAgMTAwMDAwOwogCWZ3cnEtPmUgPSAxOwogCXJldHVy
+biAwOwpAQCAtMTI4LDEzICsxMjUsMTEgQEAgaW50IHJ0bGxpYl93eF9nZXRfd2FwKHN0cnVjdCBy
+dGxsaWJfZGV2aWNlICppZWVlLAogfQogRVhQT1JUX1NZTUJPTChydGxsaWJfd3hfZ2V0X3dhcCk7
+CiAKLQogaW50IHJ0bGxpYl93eF9zZXRfd2FwKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLAog
+CQkJIHN0cnVjdCBpd19yZXF1ZXN0X2luZm8gKmluZm8sCiAJCQkgdW5pb24gaXdyZXFfZGF0YSAq
+YXdycSwKIAkJCSBjaGFyICpleHRyYSkKIHsKLQogCWludCByZXQgPSAwOwogCXVuc2lnbmVkIGxv
+bmcgZmxhZ3M7CiAKQEAgLTE2NCw3ICsxNTksNiBAQCBpbnQgcnRsbGliX3d4X3NldF93YXAoc3Ry
+dWN0IHJ0bGxpYl9kZXZpY2UgKmllZWUsCiAJCWdvdG8gb3V0OwogCX0KIAotCiAJaWYgKGlmdXAp
+CiAJCXJ0bGxpYl9zdG9wX3Byb3RvY29sKGllZWUsIHRydWUpOwogCkBAIC0yMjAsNyArMjE0LDYg
+QEAgaW50IHJ0bGxpYl93eF9nZXRfZXNzaWQoc3RydWN0IHJ0bGxpYl9kZXZpY2UgKmllZWUsIHN0
+cnVjdCBpd19yZXF1ZXN0X2luZm8gKmEsCiAJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmaWVlZS0+
+bG9jaywgZmxhZ3MpOwogCiAJcmV0dXJuIHJldDsKLQogfQogRVhQT1JUX1NZTUJPTChydGxsaWJf
+d3hfZ2V0X2Vzc2lkKTsKIApAQCAtMjI4LDEwICsyMjEsOSBAQCBpbnQgcnRsbGliX3d4X3NldF9y
+YXRlKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLAogCQkJICAgICBzdHJ1Y3QgaXdfcmVxdWVz
+dF9pbmZvICppbmZvLAogCQkJICAgICB1bmlvbiBpd3JlcV9kYXRhICp3cnF1LCBjaGFyICpleHRy
+YSkKIHsKLQogCXUzMiB0YXJnZXRfcmF0ZSA9IHdycXUtPmJpdHJhdGUudmFsdWU7CiAKLQlpZWVl
+LT5yYXRlID0gdGFyZ2V0X3JhdGUvMTAwMDAwOworCWllZWUtPnJhdGUgPSB0YXJnZXRfcmF0ZSAv
+IDEwMDAwMDsKIAlyZXR1cm4gMDsKIH0KIEVYUE9SVF9TWU1CT0wocnRsbGliX3d4X3NldF9yYXRl
+KTsKQEAgLTI1MCwxNiArMjQyLDE1IEBAIGludCBydGxsaWJfd3hfZ2V0X3JhdGUoc3RydWN0IHJ0
+bGxpYl9kZXZpY2UgKmllZWUsCiB9CiBFWFBPUlRfU1lNQk9MKHJ0bGxpYl93eF9nZXRfcmF0ZSk7
+CiAKLQogaW50IHJ0bGxpYl93eF9zZXRfcnRzKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLAog
+CQkJICAgICBzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICppbmZvLAogCQkJICAgICB1bmlvbiBpd3Jl
+cV9kYXRhICp3cnF1LCBjaGFyICpleHRyYSkKIHsKIAlpZiAod3JxdS0+cnRzLmRpc2FibGVkIHx8
+ICF3cnF1LT5ydHMuZml4ZWQpCiAJCWllZWUtPnJ0cyA9IERFRkFVTFRfUlRTX1RIUkVTSE9MRDsK
+LQllbHNlIHsKKwl9IGVsc2UgewogCQlpZiAod3JxdS0+cnRzLnZhbHVlIDwgTUlOX1JUU19USFJF
+U0hPTEQgfHwKLQkJCQl3cnF1LT5ydHMudmFsdWUgPiBNQVhfUlRTX1RIUkVTSE9MRCkKKwkJCXdy
+cXUtPnJ0cy52YWx1ZSA+IE1BWF9SVFNfVEhSRVNIT0xEKQogCQkJcmV0dXJuIC1FSU5WQUw7CiAJ
+CWllZWUtPnJ0cyA9IHdycXUtPnJ0cy52YWx1ZTsKIAl9CkBAIC0yNjgsOCArMjU5LDggQEAgaW50
+IHJ0bGxpYl93eF9zZXRfcnRzKHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLAogRVhQT1JUX1NZ
+TUJPTChydGxsaWJfd3hfc2V0X3J0cyk7CiAKIGludCBydGxsaWJfd3hfZ2V0X3J0cyhzdHJ1Y3Qg
+cnRsbGliX2RldmljZSAqaWVlZSwKLQkJCSAgICAgc3RydWN0IGl3X3JlcXVlc3RfaW5mbyAqaW5m
+bywKLQkJCSAgICAgdW5pb24gaXdyZXFfZGF0YSAqd3JxdSwgY2hhciAqZXh0cmEpCisJCQkJCXN0
+cnVjdCBpd19yZXF1ZXN0X2luZm8gKmluZm8sCisJCQkJCXVuaW9uIGl3cmVxX2RhdGEgKndycXUs
+IGNoYXIgKmV4dHJhKQogewogCXdycXUtPnJ0cy52YWx1ZSA9IGllZWUtPnJ0czsKIAl3cnF1LT5y
+dHMuZml4ZWQgPSAwOwkvKiBubyBhdXRvIHNlbGVjdCAqLwpAQCAtMjc5LDcgKzI3MCw3IEBAIGlu
+dCBydGxsaWJfd3hfZ2V0X3J0cyhzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwKIEVYUE9SVF9T
+WU1CT0wocnRsbGliX3d4X2dldF9ydHMpOwogCiBpbnQgcnRsbGliX3d4X3NldF9tb2RlKHN0cnVj
+dCBydGxsaWJfZGV2aWNlICppZWVlLCBzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICphLAotCQkJICAg
+ICB1bmlvbiBpd3JlcV9kYXRhICp3cnF1LCBjaGFyICpiKQorCQkJCQkJdW5pb24gaXdyZXFfZGF0
+YSAqd3JxdSwgY2hhciAqYikKIHsKIAlpbnQgc2V0X21vZGVfc3RhdHVzID0gMDsKIApAQCAtNDEw
+LDcgKzQwMSw2IEBAIHZvaWQgcnRsbGliX3d4X3N5bmNfc2Nhbl93cSh2b2lkICpkYXRhKQogCiBv
+dXQ6CiAJbXV0ZXhfdW5sb2NrKCZpZWVlLT53eF9tdXRleCk7Ci0KIH0KIAogaW50IHJ0bGxpYl93
+eF9zZXRfc2NhbihzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwgc3RydWN0IGl3X3JlcXVlc3Rf
+aW5mbyAqYSwKQEAgLTQ0MSw3ICs0MzEsNiBAQCBpbnQgcnRsbGliX3d4X3NldF9lc3NpZChzdHJ1
+Y3QgcnRsbGliX2RldmljZSAqaWVlZSwKIAkJCXN0cnVjdCBpd19yZXF1ZXN0X2luZm8gKmEsCiAJ
+CQl1bmlvbiBpd3JlcV9kYXRhICp3cnF1LCBjaGFyICpleHRyYSkKIHsKLQogCWludCByZXQgPSAw
+LCBsZW4sIGk7CiAJc2hvcnQgcHJvdG9fc3RhcnRlZDsKIAl1bnNpZ25lZCBsb25nIGZsYWdzOwpA
+QCAtNDY4LDcgKzQ1Nyw2IEBAIGludCBydGxsaWJfd3hfc2V0X2Vzc2lkKHN0cnVjdCBydGxsaWJf
+ZGV2aWNlICppZWVlLAogCWlmIChwcm90b19zdGFydGVkKQogCQlydGxsaWJfc3RvcF9wcm90b2Nv
+bChpZWVlLCB0cnVlKTsKIAotCiAJLyogdGhpcyBpcyBqdXN0IHRvIGJlIHN1cmUgdGhhdCB0aGUg
+R0VUIHd4IGNhbGxiYWNrCiAJICogaGFzIGNvbnNpc3RlbnQgaW5mb3MuIG5vdCBuZWVkZWQgb3Ro
+ZXJ3aXNlCiAJICovCkBAIC01NTEsMTEgKzUzOSwxMCBAQCBpbnQgcnRsbGliX3d4X2dldF9uYW1l
+KHN0cnVjdCBydGxsaWJfZGV2aWNlICppZWVlLCBzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICppbmZv
+LAogfQogRVhQT1JUX1NZTUJPTChydGxsaWJfd3hfZ2V0X25hbWUpOwogCi0KIC8qIHRoaXMgaXMg
+bW9zdGx5IHN0b2xlbiBmcm9tIGhvc3RhcCAqLwogaW50IHJ0bGxpYl93eF9zZXRfcG93ZXIoc3Ry
+dWN0IHJ0bGxpYl9kZXZpY2UgKmllZWUsCi0JCQkJIHN0cnVjdCBpd19yZXF1ZXN0X2luZm8gKmlu
+Zm8sCi0JCQkJIHVuaW9uIGl3cmVxX2RhdGEgKndycXUsIGNoYXIgKmV4dHJhKQorCQkJCQkJc3Ry
+dWN0IGl3X3JlcXVlc3RfaW5mbyAqaW5mbywKKwkJCQkJCXVuaW9uIGl3cmVxX2RhdGEgKndycXUs
+IGNoYXIgKmV4dHJhKQogewogCWludCByZXQgPSAwOwogCkBAIC02MDEsMTkgKzU4OCwxNyBAQCBp
+bnQgcnRsbGliX3d4X3NldF9wb3dlcihzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwKIAlkZWZh
+dWx0OgogCQlyZXQgPSAtRUlOVkFMOwogCQlnb3RvIGV4aXQ7Ci0KIAl9CiBleGl0OgogCW11dGV4
+X3VubG9jaygmaWVlZS0+d3hfbXV0ZXgpOwogCXJldHVybiByZXQ7Ci0KIH0KIEVYUE9SVF9TWU1C
+T0wocnRsbGliX3d4X3NldF9wb3dlcik7CiAKIC8qIHRoaXMgaXMgc3RvbGVuIGZyb20gaG9zdGFw
+ICovCiBpbnQgcnRsbGliX3d4X2dldF9wb3dlcihzdHJ1Y3QgcnRsbGliX2RldmljZSAqaWVlZSwK
+LQkJCQkgc3RydWN0IGl3X3JlcXVlc3RfaW5mbyAqaW5mbywKLQkJCQkgdW5pb24gaXdyZXFfZGF0
+YSAqd3JxdSwgY2hhciAqZXh0cmEpCisJCQkJCQlzdHJ1Y3QgaXdfcmVxdWVzdF9pbmZvICppbmZv
+LAorCQkJCQkJdW5pb24gaXdyZXFfZGF0YSAqd3JxdSwgY2hhciAqZXh0cmEpCiB7CiAJbXV0ZXhf
+bG9jaygmaWVlZS0+d3hfbXV0ZXgpOwogCkBAIC02NDMsNiArNjI4LDUgQEAgaW50IHJ0bGxpYl93
+eF9nZXRfcG93ZXIoc3RydWN0IHJ0bGxpYl9kZXZpY2UgKmllZWUsCiBleGl0OgogCW11dGV4X3Vu
+bG9jaygmaWVlZS0+d3hfbXV0ZXgpOwogCXJldHVybiAwOwotCiB9CiBFWFBPUlRfU1lNQk9MKHJ0
+bGxpYl93eF9nZXRfcG93ZXIpOwotLSAKMi4zNS4xCgo=
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 6f0bff18647..76cf6a69bf0 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1071,8 +1071,10 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
- 				rtw_indicate_connect(adapter);
- 			}
- 
-+			spin_unlock_bh(&pmlmepriv->lock);
- 			/* s5. Cancel assoc_timer */
- 			del_timer_sync(&pmlmepriv->assoc_timer);
-+			spin_lock_bh(&pmlmepriv->lock);
- 		} else {
- 			spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
- 			goto ignore_joinbss_callback;
-@@ -1310,7 +1312,7 @@ void _rtw_join_timeout_handler (struct adapter *adapter)
- 	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
- 		return;
- 
--	spin_lock_bh(&pmlmepriv->lock);
-+	spin_lock_irq(&pmlmepriv->lock);
- 
- 	if (rtw_to_roaming(adapter) > 0) { /* join timeout caused by roaming */
- 		while (1) {
-@@ -1329,7 +1331,7 @@ void _rtw_join_timeout_handler (struct adapter *adapter)
- 		rtw_indicate_disconnect(adapter);
- 		free_scanqueue(pmlmepriv);/*  */
- 	}
--	spin_unlock_bh(&pmlmepriv->lock);
-+	spin_unlock_irq(&pmlmepriv->lock);
- 
- }
- 
--- 
-2.17.1
 
+--=-oVFLOU8SUT0ZE0oLvJSx--
