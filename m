@@ -1,83 +1,53 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFC0137A
-	for <linux-staging@lists.linux.dev>; Sun, 10 Apr 2022 17:38:14 +0000 (UTC)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-dacc470e03so14919999fac.5
-        for <linux-staging@lists.linux.dev>; Sun, 10 Apr 2022 10:38:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BRJ1jNqE28imGI7c3KAwVBu2kMXYwikyn3C4D2W3iNo=;
-        b=jda4TPC9ehpKNQxn2KF6cOe16kaYExIa9GB0ZSbtjxHec21YeUFvk8JJf1r//I54Uc
-         985gz2HKIFDFtutQVg34xjYgOaWz+4GjrsFrrM9/rxzIZn2ZSrrEWfcxSQUzzAHLP6qz
-         qT5D/CHXqmjLyIVvZRkrYKolD1nXhbEPByc92Z57Lrb6MVekybMphKdub9QMij8PI8EN
-         jqpUqNSiSOOrNl7/0GxJM1D+VZiu5jD9DfPCn2G/j/uLD4UMC9hZWv8vdh35sQlIjHXy
-         YP2fMsmxpVWbMfBWlS5li9XuRZaepocmL3VqhqcuGq7q1qlOUkBUC1S6lLS6JyuOgEeP
-         ZSGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BRJ1jNqE28imGI7c3KAwVBu2kMXYwikyn3C4D2W3iNo=;
-        b=xbMoga3K4mKHVXsC9/MC+DlUvdXL35chNG2lhGDgXBxOOS6TJN8txfTOCCEVEbIvYW
-         jSic9hoOusxhnriylHzTPYxnYvsxmENFpHdEHrOFHCHlEyhrncZ1XoHlWDa/RGvpW3+K
-         aCKYGEFCjI8WN/MLLyRU2BIKSSdalAzU2p/1gXDNWnP5tOKLIBCpClufqQ4ix+yv6t8R
-         iO+7hCehmrLVTFYX4u6pP4E4pR4YgU2MoFXQSd6cb75OuOxoCpYpvkUzHhQzo9OIjOC+
-         KsVkJOObvJF+LRutnNYZl4XLhvatFFF+nUfsU4Ox08WngGKLi6/RbKWmB8PMGb72E1oi
-         Mymw==
-X-Gm-Message-State: AOAM533dicZpZ3rMMmwKhK7svRz1lm+4jvUzJH+Vf6LOzVdUdlA0eaty
-	Yb7DvJiaoGu9e3hzGztmcAD6LdaSWPwN6m9wsv8=
-X-Google-Smtp-Source: ABdhPJzwTW3uwroGYu3j+q5A853r1EPrtOF0Dmk2K+UyXmCYAbuguxdcR1kMcRILj7K91t5TJVp8ROjWnCzpKKvpfmA=
-X-Received: by 2002:a05:6870:51c9:b0:da:b3f:2b75 with SMTP id
- b9-20020a05687051c900b000da0b3f2b75mr12624326oaj.276.1649612293601; Sun, 10
- Apr 2022 10:38:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FBF1389
+	for <linux-staging@lists.linux.dev>; Sun, 10 Apr 2022 20:12:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 96911C385A4;
+	Sun, 10 Apr 2022 20:12:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1649621542;
+	bh=lXzVYyKX9kMuwe87o/UiXITPzlGmt/cZtZ4IHhprIq0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=KICWpaIRjthSiv+9yN3tOsyOPejXJ7zIF+4tqohaNMwFUs+WZtt1IiqEDEH7x0PYU
+	 BHqbOP/qWRJ9SGJaiEvKA+j4oaTkmVH4aujcLAQYMkSnsUUTWPr6npTj/KnpzJJ3Yp
+	 03xffgynchV/1IBIB/AKb/FNrf1cC+7WMFyzY0PDxrVSO0kcrT+EYXlwIQnjdjULLG
+	 0rWcPutSknqGrh+9OTNGdu1OSHS6861Eelr1GcKvOYt9hlt+tctRw7Hj7MuXhAaMe8
+	 OIefpATC/hbZIeXb6OD0cVsDXklDhZsDcUVuOYMJgl/2wxHb/TnsAcJTxE0G9aaFAB
+	 cDDOlZ97A0v0w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 847D1E8DD64;
+	Sun, 10 Apr 2022 20:12:22 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fix for 5.18-rc2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <YlLRwmx7f+fdiDuu@kroah.com>
+References: <YlLRwmx7f+fdiDuu@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <YlLRwmx7f+fdiDuu@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.18-rc2
+X-PR-Tracked-Commit-Id: 20314bacd2f9b1b8fc10895417e6db0dc85f8248
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 95aa17c36dc89bf008753217ed27f8a8eb5faf79
+Message-Id: <164962154253.385.4073204117109499480.pr-tracker-bot@kernel.org>
+Date: Sun, 10 Apr 2022 20:12:22 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20220410163117.3964-1-makvihas@gmail.com> <20220410163117.3964-2-makvihas@gmail.com>
- <783d850ce7778e9d8f203155034e432910553b1b.camel@perches.com>
-In-Reply-To: <783d850ce7778e9d8f203155034e432910553b1b.camel@perches.com>
-From: Vihas Makwana <makvihas@gmail.com>
-Date: Sun, 10 Apr 2022 23:08:02 +0530
-Message-ID: <CAH1kMwTPkPV=gLg38m=yq=n1U2Mqa4+1XNtB_5Kc2y7O0mpMpQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] staging: r8188eu: drop unnecessary wrapper rtw_free_cmd_priv
-To: Joe Perches <joe@perches.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Dan Carpenter <dan.carpenter@oracle.com>, Pavel Skripkin <paskripkin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
 
-> On Sun, 2022-04-10 at 22:01 +0530, Vihas Makwana wrote:
-> > Remove the unnecessary wrapper. The logic of rtw_free_cmd_priv can
-> > be moved to _rtw_free_cmd_priv.
->
-> If you are going to drop wrappers, my preference would be
-> to drop the underscore prefixed ones.
->
-Yes, that was my initial thought too. But there are already some init
-and free functions in the module with underscores prefixed.
-So I didn't do it that way. Maybe the developers kept it that way for
-some reason.
+The pull request you sent on Sun, 10 Apr 2022 14:46:58 +0200:
 
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.18-rc2
 
-On Sun, Apr 10, 2022 at 10:38 PM Joe Perches <joe@perches.com> wrote:
->
-> On Sun, 2022-04-10 at 22:01 +0530, Vihas Makwana wrote:
-> > Remove the unnecessary wrapper. The logic of rtw_free_cmd_priv can
-> > be moved to _rtw_free_cmd_priv.
->
-> If you are going to drop wrappers, my preference would be
-> to drop the underscore prefixed ones.
->
->
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/95aa17c36dc89bf008753217ed27f8a8eb5faf79
 
+Thank you!
 
---
-Thanks,
-Vihas
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
