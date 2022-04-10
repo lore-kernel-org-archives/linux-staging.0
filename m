@@ -1,41 +1,41 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB01ED1
-	for <linux-staging@lists.linux.dev>; Sun, 10 Apr 2022 16:32:03 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id s21so7589981pgv.13
-        for <linux-staging@lists.linux.dev>; Sun, 10 Apr 2022 09:32:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6218FED1
+	for <linux-staging@lists.linux.dev>; Sun, 10 Apr 2022 16:32:06 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id q142so12079980pgq.9
+        for <linux-staging@lists.linux.dev>; Sun, 10 Apr 2022 09:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=isbZTSF51sQ2FdPVyH6jc9Gphy+CzzvzSabiko7I6mc=;
-        b=WQ6NrFWjgSROqckS7LZwaf2sC8rup0FYK90P5hEB5nGjeUppWwR2JJCEwHYN+LsJaP
-         02tCUiWEVQaC5PpKqlM0TpO6r1hmFEWQAVAmM4k5XNhtKOxhNoj+P5BiH/Rl8oCQDPlL
-         pSM86wRl3fFr6cq/g2nj4LQeW4LiXhQyf4SDLjCAgzptOiKu3ul6+/4zlCh+lXcunRka
-         Iol3zQQxHbbaP5q4QOsjOjbT/7chZVGCFFarKZzNDf1xqF3GAgnrT4cbH9xh5PZo5c5m
-         2mYdu/UZ9UtDfRKxLx1aCS58JQzhU9+vh03RQwl4XZkCoMk864dhvFNE2NBFBZRwiG2m
-         vcTQ==
+        bh=QN6xP3dvTt8eDyyxi0GOR7k7xaEfRxM7p59jD419ae4=;
+        b=h9NPejbZZiVsyzDuJB41AHo0EZuxX1138V+yJNlXFfy50OodXO0hQP+E/YgUDwPv/e
+         NBEaq+RvL7ZBwasX+sSSXA+IGct0dw4A4fI43uBRInPJYk58MJrWy5wGyJ3LvNfzFmQB
+         fqDI1DDoidIKsZo9P6Wokl0ThG07WfVGrMSP7J7ONujW05Bz38wWC49tOUkaJXHRfFhF
+         UVZ6+EroYgo6rntyOfW90xgj7684lZBWUsrutg9yBLiYIp1TmDYtwSa4nMeLF51flP7T
+         TMk1XFhyxpFT330mI5ZuCedwWlEkfZjMfylRsBqcH9rIOP4LjrINcYZkonlx2tXcl/5l
+         KS5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=isbZTSF51sQ2FdPVyH6jc9Gphy+CzzvzSabiko7I6mc=;
-        b=XrjzK8zZsqNFQgBr6ltBIXwI9JzSupHCgbFX67bVrCB0H5dXkA4Fs2u1I15/uLqRop
-         Uh77y7MiPmmElgz03+Y+7PTnXk0/7Wgac0b4EvUCALq73jUWBt1gnc3eX8VJ2nZk5GLC
-         zRdjfuOo4kheDjM/3b7j7bEbcZLqfXSbfSd/BMevnhQ9/UUJ5SJ+nbFzUqREaBkXRh4u
-         jX/nWi5IS+GRuUfQV/7o1oeqx7lvcb09qUzUMbLeVO1lk6/TlQkfwRci1fDZljDhDAic
-         CYXkiM1s+big2WmAn2hgsDNM9wym0P4GG1Is667eZs0ZdNp5d8+fH41iBACwM0okSEJy
-         4/1Q==
-X-Gm-Message-State: AOAM5308ZHVdHhrMdgowQNr8VCNVAXOCd7y2ELlRKChgW52HopNA27uH
-	u6DwUITvKPnBZBH6UF1Rag4=
-X-Google-Smtp-Source: ABdhPJzsjuokRfZ4sVFRJ05ODDxjzY9aXs4YH+x2yITz4ZIwskSlkbJNeDFx2Fl7jlZhMBVV0LjyQA==
-X-Received: by 2002:a63:6c04:0:b0:398:54fb:5632 with SMTP id h4-20020a636c04000000b0039854fb5632mr22918201pgc.78.1649608322658;
-        Sun, 10 Apr 2022 09:32:02 -0700 (PDT)
+        bh=QN6xP3dvTt8eDyyxi0GOR7k7xaEfRxM7p59jD419ae4=;
+        b=AQId9OUQTNGg5CKvLeJj6gju42IG/x3nSO1RySSxMb6Xh1spHKHZ6kng+ZXLm0lmfG
+         lRHii+aEsRyK6yAvi4H1v3nu0agunxBNd5W1wihSY6gC3MJQlLydzGri8HIjoXT4aVxF
+         uUhJGhiUiCIXP1NK3riom280m+LjbCm5oMKDivoERdDvscCqxGJG42hOBf37mGq2ydyj
+         Xq+GoepmzcvdHL5GzWUPwkmcE0FwnNIf4EhjWjlltqwqWMM8kv5OmrnczjPq+OP6lE+4
+         CCXp2e0hs0SJbCLZT20wY8HyFthqd851xOc3F5p5CQv+6dZVt5lqA9R7VS01VRq9HQ0B
+         ZlCw==
+X-Gm-Message-State: AOAM533zHPUAuluPsYQuljDbAdEqIsERVQZXI16KlP26KoPbtXPEe3V0
+	LNnSrovTc7UAe9oxqOJgH5Y//ltwcGykMfbg
+X-Google-Smtp-Source: ABdhPJxIK56wYzdB6oyCxjj2QAgoMYhH9R78QWHe529frT47k3gqhIOYunoTMmgsb0l2DVS5E2ZNvA==
+X-Received: by 2002:a65:6951:0:b0:381:f10:ccaa with SMTP id w17-20020a656951000000b003810f10ccaamr22824522pgq.587.1649608325970;
+        Sun, 10 Apr 2022 09:32:05 -0700 (PDT)
 Received: from makvihas.localhost.com ([2405:201:202b:15:606b:10e4:2085:6825])
-        by smtp.gmail.com with ESMTPSA id f12-20020a056a001acc00b004fb37ecc6b2sm31940021pfv.29.2022.04.10.09.31.59
+        by smtp.gmail.com with ESMTPSA id f12-20020a056a001acc00b004fb37ecc6b2sm31940021pfv.29.2022.04.10.09.32.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Apr 2022 09:32:02 -0700 (PDT)
+        Sun, 10 Apr 2022 09:32:05 -0700 (PDT)
 From: Vihas Makwana <makvihas@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -46,9 +46,9 @@ Cc: linux-staging@lists.linux.dev,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Pavel Skripkin <paskripkin@gmail.com>,
 	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH 4/6] staging: r8188eu: drop unnecessary wrapper rtw_dequeue_cmd
-Date: Sun, 10 Apr 2022 22:01:15 +0530
-Message-Id: <20220410163117.3964-5-makvihas@gmail.com>
+Subject: [PATCH 5/6] staging: r8188eu: drop unnecessary wrapper rtw_init_mlme_priv
+Date: Sun, 10 Apr 2022 22:01:16 +0530
+Message-Id: <20220410163117.3964-6-makvihas@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220410163117.3964-1-makvihas@gmail.com>
 References: <20220410163117.3964-1-makvihas@gmail.com>
@@ -60,79 +60,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the unnecessary wrapper. The logic of rtw_dequeue_cmd can
-be moved to _rtw_dequeue_cmd.
+Remove the unnecessary wrapper. The logic of rtw_init_mlme_priv can
+be moved to _rtw_init_mlme_priv.
 
 Signed-off-by: Vihas Makwana <makvihas@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c    | 16 ++++------------
- drivers/staging/r8188eu/include/rtw_cmd.h |  2 +-
- 2 files changed, 5 insertions(+), 13 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c    | 11 +----------
+ drivers/staging/r8188eu/include/rtw_mlme.h |  2 +-
+ drivers/staging/r8188eu/os_dep/os_intfs.c  |  2 +-
+ 3 files changed, 3 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index ac6e710e5..9d1beca43 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -121,10 +121,11 @@ static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
- 	return _SUCCESS;
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index c90f36dee..f2a61c162 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -30,7 +30,7 @@ u8 rtw_to_roaming(struct adapter *adapter)
+ 	return adapter->mlmepriv.to_roaming;
  }
  
--static struct cmd_obj *_rtw_dequeue_cmd(struct __queue *queue)
-+struct cmd_obj *_rtw_dequeue_cmd(struct cmd_priv *pcmdpriv)
+-static int _rtw_init_mlme_priv(struct adapter *padapter)
++int _rtw_init_mlme_priv(struct adapter *padapter)
  {
- 	struct cmd_obj *obj;
- 	unsigned long flags;
-+	struct __queue *queue = &pcmdpriv->cmd_queue;
- 
- 	spin_lock_irqsave(&queue->lock, flags);
- 	if (list_empty(&queue->queue)) {
-@@ -178,15 +179,6 @@ u32 rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
- 	return res;
+ 	int	i;
+ 	u8	*pbuf;
+@@ -288,15 +288,6 @@ u8 *rtw_get_beacon_interval_from_ie(u8 *ie)
+ 	return ie + 8;
  }
  
--struct	cmd_obj	*rtw_dequeue_cmd(struct cmd_priv *pcmdpriv)
+-int rtw_init_mlme_priv(struct adapter *padapter)/* struct	mlme_priv *pmlmepriv) */
 -{
--	struct cmd_obj *cmd_obj;
+-	int	res;
 -
--	cmd_obj = _rtw_dequeue_cmd(&pcmdpriv->cmd_queue);
+-	res = _rtw_init_mlme_priv(padapter);/*  (pmlmepriv); */
 -
--	return cmd_obj;
+-	return res;
 -}
 -
- void rtw_free_cmd_obj(struct cmd_obj *pcmd)
+ void rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
  {
+ 	_rtw_free_mlme_priv(pmlmepriv);
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme.h b/drivers/staging/r8188eu/include/rtw_mlme.h
+index 1dc1fbf04..b5b1a0e10 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme.h
+@@ -438,7 +438,7 @@ int event_thread(void *context);
+ void rtw_join_timeout_handler (struct timer_list *t);
+ void _rtw_scan_timeout_handler (struct timer_list *t);
+ void rtw_free_network_queue(struct adapter *adapter, u8 isfreeall);
+-int rtw_init_mlme_priv(struct adapter *adapter);
++int _rtw_init_mlme_priv(struct adapter *adapter);
+ void rtw_free_mlme_priv (struct mlme_priv *pmlmepriv);
+ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv);
+ int rtw_set_key(struct adapter *adapter, struct security_priv *psecuritypriv,
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index f041c3d87..448ea9533 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -478,7 +478,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+ 		goto free_cmd_priv;
+ 	}
  
-@@ -230,7 +222,7 @@ int rtw_cmd_thread(void *context)
- 		    padapter->bSurpriseRemoved)
- 			break;
- 
--		pcmd = rtw_dequeue_cmd(pcmdpriv);
-+		pcmd = _rtw_dequeue_cmd(pcmdpriv);
- 		if (!pcmd)
- 			continue;
- 
-@@ -280,7 +272,7 @@ int rtw_cmd_thread(void *context)
- 
- 	/*  free all cmd_obj resources */
- 	do {
--		pcmd = rtw_dequeue_cmd(pcmdpriv);
-+		pcmd = _rtw_dequeue_cmd(pcmdpriv);
- 		if (!pcmd)
- 			break;
- 
-diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
-index 7edce0f88..d581deebb 100644
---- a/drivers/staging/r8188eu/include/rtw_cmd.h
-+++ b/drivers/staging/r8188eu/include/rtw_cmd.h
-@@ -77,7 +77,7 @@ struct c2h_evt_hdr {
- #define c2h_evt_exist(c2h_evt) ((c2h_evt)->id || (c2h_evt)->plen)
- 
- u32 rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *obj);
--struct cmd_obj *rtw_dequeue_cmd(struct cmd_priv *pcmdpriv);
-+struct cmd_obj *_rtw_dequeue_cmd(struct cmd_priv *pcmdpriv);
- void rtw_free_cmd_obj(struct cmd_obj *pcmd);
- 
- int rtw_cmd_thread(void *context);
+-	if (rtw_init_mlme_priv(padapter) == _FAIL) {
++	if (_rtw_init_mlme_priv(padapter) == _FAIL) {
+ 		dev_err(dvobj_to_dev(padapter->dvobj), "rtw_init_mlme_priv failed\n");
+ 		goto free_evt_priv;
+ 	}
 -- 
 2.30.2
 
