@@ -1,95 +1,107 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350F71848
-	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 20:34:49 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id bv19so10249618ejb.6
-        for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 13:34:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B370D1FA0
+	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 20:47:45 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id u15so14683445ejf.11
+        for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 13:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ie+QkOmFE8UTE3hyBEH9mlG+n6irl6CyrcT3wa6CMKg=;
-        b=Qm7oC3V8HC75KdBBaoCL5RO3B/cBlxpzT1hPeg1/mFEaIgkVS9QXpw8bzHXsZ/xL2c
-         wSYJp/J6Ic7hrhfKhLc8JA0Rb/tNtq/AyOVkRML6tWsW8DhXG6QoZGueu13LtGJTP8TZ
-         p5EHssQPpzS8XTe2C5v7j40cJoBREMDp1y7undUYImVQTN/Znli+fhaKabPafpdcCSfC
-         wMxVqoRuSFvXhCw+0IYrNyc00w0NV7BQd7iwTmhkHmL1ScDdGzjqMkbungHg2TgBu0CL
-         Djp8Bq7JDSGVeXCQ20FOjPWep8787Bd2ivEK7Vi+2kaHKK8fp/7pN8QRCiLtgjB3ZL1Q
-         WxQg==
+        bh=P7rcQgXVLFD1ifPCsM+7YOC0F9LP50mMo3rYRPx/Wds=;
+        b=EYTOceKt4E9wwgZ/PUoaf35jBIuAzmAY78mR+w0auBLFDLctcJyV+sgTKL3LImFqZC
+         TrFSJZVvGJwPzlyaWNxaS5VntdBEmlz6KcR4qXmaFoQ+UTqG6e/FP/KgqMJzD2N7GK/6
+         iFEUfD8yaLgtaH6+pfHox4h5mgmWNm5t8StV/c+bkbZIfWZ5GGsDuCvxlaIiY++eYgkP
+         Ur0wq/kyb7js7EN4QwlVrQsjAikS2tCxAJC6Dj1+TAZ2PnWdrP6wGfz1ufxkImrjmotL
+         gIndnYlEPqAOtQSz7/oViarWt1p1QYp5KlQSdP8b3PE4Kj7Rrh3qI68Ms/l56Ca6mFD5
+         kANA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ie+QkOmFE8UTE3hyBEH9mlG+n6irl6CyrcT3wa6CMKg=;
-        b=qsDBOJth1bgNnvH4SWZt32bkqRFiw0ZC2aEBYClvKTHRwBkHkHW32PX5QiQpCj8mqP
-         xblTNw/WS061RjYHuEPljaLq4iTj7fy+YOv3nJJgbTz4ZfYmAm89o+QgO7i4mJGm5c8k
-         SBWEVzNIzTLrpSII3UX9/jC8TsPPDf4ZqBqzUNRGCDIxBq/SwJInOrmtSIueWnoZmWbI
-         NGmdM9Ery/G0OweIqaX5BlA9In9jJ3KrO8QNjRcvEn/rRJVSS/9ctekOL1sjOySwyRuT
-         y1UgQWX5+zK+UsyxFRAIv26yPAolS3kiYAfFBs53b8+ReTJGfn08TdhrqjLtp8UjIAQS
-         EhHg==
-X-Gm-Message-State: AOAM533ShIQD3Z+Ns6s8uVF2E7gCxXh6NSLhKk08UFxBOuPeevnieULV
-	4vZw2j0FCp9tSB5UMvJQivQ=
-X-Google-Smtp-Source: ABdhPJzkd1u1sG/qXxzNgb47n0qmUolgQV4HEdfpa+StYJ95FHkUBW96eBipbqQD4S+vJvLvYfqm2w==
-X-Received: by 2002:a17:906:c282:b0:6ce:369d:3d5 with SMTP id r2-20020a170906c28200b006ce369d03d5mr31454727ejz.425.1649709287367;
-        Mon, 11 Apr 2022 13:34:47 -0700 (PDT)
+        bh=P7rcQgXVLFD1ifPCsM+7YOC0F9LP50mMo3rYRPx/Wds=;
+        b=F+VVtoeYP8pB7pDnY0T5Zqswt12JfgJRO7hFo1vHdx72ITL2XAMZOhlweB2GoYNXXK
+         xKGavleYU66fAwBlCCJvIrzB8d+CcB4OgTvyEvrHimdr8uCFk0QXYeIvQULHErZMVQEq
+         n/TRycjY7LTpErPz43Ccz7DDsDfzCgtyYfFo5chsgd4UWohsjC4Ue6IfrtdiSlQRq/cC
+         CkRE28XiIF/KqCUcXC5bEytnTH46Ji8zw6tJsKtXtMidIRxrFL4DJ9UsXzHw4wXNp8OC
+         tGAZG54NPmSEs9YSqltl3IMoP5pPfh+WgGO8iFPgqv3w3CrvmceAQJzsYOUSyE3jJzvF
+         qXbg==
+X-Gm-Message-State: AOAM533cYcaAHtGV+MsMh2Ll2gxZhsIlL7fiScGbYL6DMNJDwtn3K2dU
+	w5c30ju256U+cCRacWwE7FM=
+X-Google-Smtp-Source: ABdhPJw2BxtjsVH10kfIVX8oSWB83nTHqOfw96Ed2NBGbvoA+nRCiNCekZq61vfWMFuKxgaP6J8NrA==
+X-Received: by 2002:a17:906:a046:b0:6b9:20c:47c1 with SMTP id bg6-20020a170906a04600b006b9020c47c1mr31410731ejb.615.1649710063865;
+        Mon, 11 Apr 2022 13:47:43 -0700 (PDT)
 Received: from leap.localnet (host-82-60-208-254.retail.telecomitalia.it. [82.60.208.254])
-        by smtp.gmail.com with ESMTPSA id o5-20020a50c905000000b0041d828d0c58sm1582226edh.53.2022.04.11.13.34.45
+        by smtp.gmail.com with ESMTPSA id e9-20020a50e009000000b0041cd2e38a3bsm12031094edl.81.2022.04.11.13.47.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 13:34:46 -0700 (PDT)
+        Mon, 11 Apr 2022 13:47:42 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, Vihas Makwana <makvihas@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>, Pavel Skripkin <paskripkin@gmail.com>, Vihas Makwana <makvihas@gmail.com>
-Subject: Re: [PATCH v2 0/7] drop some unnecessary wrappers
-Date: Mon, 11 Apr 2022 22:34:44 +0200
-Message-ID: <37499399.10thIPus4b@leap>
-In-Reply-To: <20220411102136.14937-1-makvihas@gmail.com>
-References: <20220411102136.14937-1-makvihas@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Liu Junqi <liujunqi@pku.edu.cn>, "Martin K. Petersen" <martin.petersen@oracle.com>, Bart Van Assche <bvanassche@acm.org>, Leonardo Araujo <leonardo.aa88@gmail.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Jakub Kicinski <kuba@kernel.org>, sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: Remove D. Kershner from Unisys S-PAR maintainers
+Date: Mon, 11 Apr 2022 22:47:38 +0200
+Message-ID: <1946842.PIDvDuAF1L@leap>
+In-Reply-To: <YlJ3ot74ZwfGx53i@kroah.com>
+References: <20220409205857.32083-1-fmdefrancesco@gmail.com> <YlJ3ot74ZwfGx53i@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On luned=EC 11 aprile 2022 12:21:29 CEST Vihas Makwana wrote:
-> Drop some unnecessary wrappers and update all the references
-> accordingly.
-> Tested on Comfast CF-WU810N RTL8188EUS wireless adapter.
->=20
-> v1 -> v2:
-> Drop the wrapper functions with underscores prefixed.
->=20
-> Vihas Makwana (7):
->   staging: r8188eu: drop unnecessary wrapper _rtw_free_cmd_priv
->   staging: r8188eu: drop unnecessary wrapper _rtw_init_cmd_priv
->   staging: r8188eu: drop unnecessary wrapper _rtw_init_evt_priv
->   staging: r8188eu: drop unnecessary wrapper _rtw_init_mlme_priv
->   staging: r8188eu: drop unnecessary wrapper _rtw_free_mlme_priv
->   staging: r8188eu: drop unnecessary wrapper _rtw_alloc_network
->   staging: r8188eu: drop unnecessary wrapper _rtw_dequeue_cmd
->=20
->  drivers/staging/r8188eu/core/rtw_cmd.c     | 145 +++++++----------
->  drivers/staging/r8188eu/core/rtw_mlme.c    | 179 +++++++++------------
->  drivers/staging/r8188eu/include/rtw_mlme.h |   4 +-
->  3 files changed, 135 insertions(+), 193 deletions(-)
->=20
-> --=20
-> 2.30.2
->=20
-=46ormally, you are removing the wrapped functions (or helpers, if you=20
-prefer) by moving their code into the wrappers. To say that you are=20
-removing the wrappers is not correct.
+On domenica 10 aprile 2022 08:22:26 CEST Greg Kroah-Hartman wrote:
+> On Sat, Apr 09, 2022 at 10:58:57PM +0200, Fabio M. De Francesco wrote:
+> > The email address of David Kershner is no more reachable. Remove his
+> > entry from the MAINTAINERS file for UNISYS S-PAR DRIVERS.
+> > 
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >  MAINTAINERS | 1 -
+> >  1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index ba405f6ec31a..3b7497359c2b 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -20188,7 +20188,6 @@ F:	include/linux/cdrom.h
+> >  F:	include/uapi/linux/cdrom.h
+> >  
+> >  UNISYS S-PAR DRIVERS
+> > -M:	David Kershner <david.kershner@unisys.com>
+> >  L:	sparmaintainer@unisys.com (Unisys internal)
+> >  S:	Supported
+> 
+> If so, then that means this list needs to be dropped and the entry
+> changed to orphaned :(
 
-However, I'm sure this kind of formal mistake won't prevent your patches
-to be accepted. I wanted to point this out to you in case you decide to=20
-submit similar patches in the future and perhaps want to describe your=20
-changes a little more accurately.
+Sorry, you're right: the "S:" line of the entry must be changed to 
+"S: Orphan". 
+
+However,I'm not sure why you also want to drop the "L:" line. I see 
+that many "orphaned" entries have their "L:" line still there. 
+
+A couple of examples:
+
+CONEXANT ACCESSRUNNER USB DRIVER
+L:      accessrunner-general@lists.sourceforge.net
+S:      Orphan
+W:      http://accessrunner.sourceforge.net/
+F:      drivers/usb/atm/cxacru.c
+
+DENALI NAND DRIVER
+L:      linux-mtd@lists.infradead.org
+S:      Orphan
+F:      drivers/mtd/nand/raw/denali*
+
+I'll send a v2 patch. Can you please confirm that you want me to drop
+also the "L:" line?
 
 Thanks,
 
-=46abio M. De Francesco=20
-
+Fabio M. De Francesco
 
 
