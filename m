@@ -1,86 +1,115 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cross.elm.relay.mailchannels.net (cross.elm.relay.mailchannels.net [23.83.212.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA7E1FA6;
-	Mon, 11 Apr 2022 21:34:01 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id t2so17706338qtw.9;
-        Mon, 11 Apr 2022 14:34:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=uuFibF4OxkG46d8nG6S8jcUaTPc4gB8s2hmmg7deyQM=;
-        b=LgBoifsmSvUQrbTiWoGbY+jOAfZMw/mKBbqrU6fOuWtI/8mTpBb+BauLBE3fJ3ydwF
-         bh/oHnw5H1O17LYihx8QKK0oNnAarfU7RI9HM3V6bQMubfD5w2cf93KNRR6xnVJwQGZr
-         jqZ7pbTlBEmqum5MA2lzQYDngd0mTcdKZpOtzUUhlTXlOleOlihhlzL1tJVwbVaa6GAJ
-         W2ltTdONJ26K3Ov9LAQuoIHbcz1O6NNxrjc0Ms3Zcqg1YrGf+L9uRBu/mGusrknvvp4w
-         kKTeJx5invEjUN+HVsmM9RAsxVk3IqSy7r7bREQNXW7SvoUAIqLDFQ9RnXXYKKj7uIUD
-         3TDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uuFibF4OxkG46d8nG6S8jcUaTPc4gB8s2hmmg7deyQM=;
-        b=aep57XqXVkRWvcEcsRJ+4RNcqSyda9PCpb0zjwrOunbkcSE/afmVZS3nyq08/Vhh5x
-         QkkUcbAfWFZNQNLK0hQH7Mpimu54Sh/J65z7qXqR/WNQq8/cnNNTIwiRXUjb/ggAYOIu
-         HqlrIcSvPddcf2b+y4XSUfu/9o2iqcSbspOdItJpQm2N/Q7e0OVM+wFxrFyvRYiXQsKD
-         c6DfyqDMcAyP5XAJMyo9y8mgPXqkP8oHeH79nummalynP0TDK6owLoSDc4lLHXb7SfRh
-         PrCEFm0XXhDZdaYMXzL46NyFpev2+7tx249P7IG9+R4IPmwPqLU0xLWcrDzwebNOjJtF
-         68jg==
-X-Gm-Message-State: AOAM533/1likfvBuNOmClmjSH0h5w3F6O3kE5Cde5Ct/BfKN8AVoNNcp
-	fAL3ssikuw/KKI9pb5FouubdBwbfPid7vQ0c
-X-Google-Smtp-Source: ABdhPJxCi+h9KO0E/pFpbT9XItBWyZrGY6ORXyiMj9v/kcay5KHFvnl3ek7esmOrtr1BfhVWgBhJNQ==
-X-Received: by 2002:a05:622a:1c0d:b0:2ed:1335:97ba with SMTP id bq13-20020a05622a1c0d00b002ed133597bamr1029980qtb.485.1649712840949;
-        Mon, 11 Apr 2022 14:34:00 -0700 (PDT)
-Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id e15-20020ac84e4f000000b002f02b21f1b7sm704211qtw.57.2022.04.11.14.34.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 14:34:00 -0700 (PDT)
-Date: Mon, 11 Apr 2022 17:33:56 -0400
-From: Jaehee Park <jhpark1013@gmail.com>
-To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH 1/2] staging: greybus: correct typo in comment 'Atleast'
- to 'At least'
-Message-ID: <20220411213356.GA2799078@jaehee-ThinkPad-X1-Extreme>
-References: <20220411212512.GA2797956@jaehee-ThinkPad-X1-Extreme>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54061FA6
+	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 21:56:54 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 86C6380271F;
+	Mon, 11 Apr 2022 15:16:35 +0000 (UTC)
+Received: from pdx1-sub0-mail-a264.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 833F480244E;
+	Mon, 11 Apr 2022 15:16:33 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1649690193; a=rsa-sha256;
+	cv=none;
+	b=pjDYzEQoC7wxatNr4z68ngYNEKdR2E73wUrRJI4MhcKiuB5YgMN+hvUyWsRbosfvZo8ewF
+	+D/8BZtaEZxj+wJpOfrYLmiqOTqby2oiUR/53ui8C1kySqeLbTtCSoNHssipKQ9DHTbvXw
+	oeofk0vvcfjWvZ11L09LA5rmjFBG5aM6NRehb2kJbsNZaGE+jmmY96PrPAZBrJqKfEpNBd
+	OKmt6nPGvywRlGncHyl2v6qzDrRbg99UVDx1fwP3IaXWKsSpyh6XV0lCeTUjaqjs3Dx+tV
+	FN+/pm5kORG4h5yHzo2E1hYj2XYqDLtYiua85IB6K2+OZW/KzN4S+i1CGNLAIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1649690193;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=u/Daua8zVIDUkH/aA9SNGA5WhmllLNHpY2jDyAUBpVg=;
+	b=6s3LbdtTQbukBVFeOIKreN2p8SLPcByryeRPh1wVZQrVxjx8RKdGXM5ZEuhNIlQN863BfD
+	qUgLKcJOJiWIFPoY7fCfLq0lBSoHNnvIVEXpmCJINPws7/dza3g++NS4H/i6JUo4uYKRr5
+	IgjSvqPfnuxQbYeTw+L7bv/wrYsYUgRncsJCEbwZGNy+RsV7H5vmnW3QgLtocrlx927Cib
+	EpyAnQxFVJ7wtpexZOBVtc+jMYAdpALMkn56vzdXELPgv1H9PDceofuUEoxViaXDQdVhXc
+	a0lEWcUZye1+myjXHARmiIAtz+W6x0II2wUJxi+5uTL3zcFCBlACOU/kAXdwCw==
+ARC-Authentication-Results: i=1;
+	rspamd-68f9d8f9d5-ttzsm;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from pdx1-sub0-mail-a264.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.112.55.239 (trex/6.7.1);
+	Mon, 11 Apr 2022 15:16:35 +0000
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Callous-Cold: 0d8fe7c25af736a0_1649690193873_275467051
+X-MC-Loop-Signature: 1649690193873:3141922433
+X-MC-Ingress-Time: 1649690193872
+Received: from localhost.localdomain (unknown [104.36.29.104])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dave@stgolabs.net)
+	by pdx1-sub0-mail-a264.dreamhost.com (Postfix) with ESMTPSA id 4KcXWJ6976z1H;
+	Mon, 11 Apr 2022 08:16:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+	s=dreamhost; t=1649690189;
+	bh=u/Daua8zVIDUkH/aA9SNGA5WhmllLNHpY2jDyAUBpVg=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=dpRoAD7XMiEtKiRbyQP8Fqvq3W/jl4UUvb1VeqlmnB+Qq3tj83y0SRikUPZsfN+s8
+	 YXbF13xqHtO//1jK9QTQRShr1p5OPeGkdd0jRro6MqQLmiSRruSEUfjPbDHPf5mAlA
+	 5P4LKjboNY4ZZPPGsnW2TDf7AJCKz9FV6G2J1OLfW/pELqvgFG0gsh2bZ1Vr06u2mN
+	 2K2Z7utfuobrSYvfr6xAPxQ++NoCUVm4Uh5gXS+RJn4Y2/ZBzevB2JusDdLf8oZqlj
+	 CyId2q7UURcCP5XXpNhU+k/YFicZbyBi1U7kDZUnjxaYM3ffnEJERrL5bSRg2W4t69
+	 3bZraeBgoe3CA==
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	dave@stgolabs.net
+Subject: [PATCH 0/6] staging: Some tasklet removals
+Date: Mon, 11 Apr 2022 08:16:14 -0700
+Message-Id: <20220411151620.129178-1-dave@stgolabs.net>
+X-Mailer: git-send-email 2.26.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411212512.GA2797956@jaehee-ThinkPad-X1-Extreme>
+Content-Transfer-Encoding: 8bit
 
-Please ignore this patch. It was an accident. It was supposed to go in a
-patset. I'm so sorry about that.
--Jaehee
+Hi,
 
-On Mon, Apr 11, 2022 at 05:25:12PM -0400, Jaehee Park wrote:
-> Correct spelling typo.
-> 
-> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
-> ---
->  drivers/staging/greybus/arche-apb-ctrl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
-> index bbf3ba744fc4..45afa208d004 100644
-> --- a/drivers/staging/greybus/arche-apb-ctrl.c
-> +++ b/drivers/staging/greybus/arche-apb-ctrl.c
-> @@ -445,7 +445,7 @@ static int __maybe_unused arche_apb_ctrl_suspend(struct device *dev)
->  static int __maybe_unused arche_apb_ctrl_resume(struct device *dev)
->  {
->  	/*
-> -	 * Atleast for ES2 we have to meet the delay requirement between
-> +	 * At least for ES2 we have to meet the delay requirement between
->  	 * unipro switch and AP bridge init, depending on whether bridge is in
->  	 * OFF state or standby state.
->  	 *
-> -- 
-> 2.25.1
-> 
+The following are patches to further remove tasklet users out of
+staging (none of such drivers at this point should continue using
+these for async work). More complex users remain, which will be dealt
+with in future patches. Compile-tested only.
+
+Thanks!
+
+Davidlohr Bueso (6):
+  staging/most, dim2: convert dim2_tasklet to threaded irq
+  staging/wlan-ng, prism2usb: replace reaper_bh tasklet with work
+  staging/wlan-ng, prism2usb: replace completion_bh tasklet with work
+  staging/ks7010: replace SME taslet with work
+  staging/rtl8712: remove event_tasklet
+  staging/rtl8192e,ieee80211: replace ps tasklet with work
+
+ drivers/staging/ks7010/ks_hostif.c            | 21 ++++++------
+ drivers/staging/ks7010/ks_wlan.h              |  2 +-
+ drivers/staging/most/dim2/dim2.c              | 29 +++++-----------
+ drivers/staging/rtl8192e/rtllib.h             |  2 +-
+ drivers/staging/rtl8192e/rtllib_rx.c          |  2 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c     | 12 ++++---
+ .../staging/rtl8192u/ieee80211/ieee80211.h    |  2 +-
+ .../rtl8192u/ieee80211/ieee80211_softmac.c    | 15 ++++----
+ drivers/staging/rtl8712/rtl871x_cmd.h         |  1 -
+ drivers/staging/wlan-ng/hfa384x.h             |  4 +--
+ drivers/staging/wlan-ng/hfa384x_usb.c         | 34 +++++++++----------
+ drivers/staging/wlan-ng/prism2usb.c           |  8 ++---
+ 12 files changed, 63 insertions(+), 69 deletions(-)
+
+--
+2.26.2
+
