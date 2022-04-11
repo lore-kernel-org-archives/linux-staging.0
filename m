@@ -1,107 +1,94 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B370D1FA0
-	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 20:47:45 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id u15so14683445ejf.11
-        for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 13:47:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36EA1FA0
+	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 20:49:18 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id bh17so33309771ejb.8
+        for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 13:49:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=P7rcQgXVLFD1ifPCsM+7YOC0F9LP50mMo3rYRPx/Wds=;
-        b=EYTOceKt4E9wwgZ/PUoaf35jBIuAzmAY78mR+w0auBLFDLctcJyV+sgTKL3LImFqZC
-         TrFSJZVvGJwPzlyaWNxaS5VntdBEmlz6KcR4qXmaFoQ+UTqG6e/FP/KgqMJzD2N7GK/6
-         iFEUfD8yaLgtaH6+pfHox4h5mgmWNm5t8StV/c+bkbZIfWZ5GGsDuCvxlaIiY++eYgkP
-         Ur0wq/kyb7js7EN4QwlVrQsjAikS2tCxAJC6Dj1+TAZ2PnWdrP6wGfz1ufxkImrjmotL
-         gIndnYlEPqAOtQSz7/oViarWt1p1QYp5KlQSdP8b3PE4Kj7Rrh3qI68Ms/l56Ca6mFD5
-         kANA==
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=/SwEI7yeod7vIHsEt/SEyrggYWJg5pRwDInFyaB3kIM=;
+        b=DI+d/1O/q/swLPnQajtr9yBUXl7PXdVud4vQM2teEzWp8lk28m/iWlb4p9d4p3Gbjs
+         DJjgigMMlLNiNbQ4MLOVNnffviC959IVbBL0UCzoOhArUBKU2F8bHCiWrsAyd7TOZfrR
+         uK32d7uK6BmiLaB95Fgziv1CFzjzjtN+/q37xAn4OgD3Pq4GdbkSYl9z4XMz2i8aMQn0
+         +iYKCwTJ7+pA7NYdNsSWc9HLYZ2b14Hq2pUJ1qrOd5iTJWjL9+7NDG4HIDPIfm4bEoCK
+         CmqRIACDMJz9AIUBv56bzga7VyQE6XJFddOTUAcPyuCd8x0lisENB8Sy9mnqGEv/HIs8
+         Km6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=P7rcQgXVLFD1ifPCsM+7YOC0F9LP50mMo3rYRPx/Wds=;
-        b=F+VVtoeYP8pB7pDnY0T5Zqswt12JfgJRO7hFo1vHdx72ITL2XAMZOhlweB2GoYNXXK
-         xKGavleYU66fAwBlCCJvIrzB8d+CcB4OgTvyEvrHimdr8uCFk0QXYeIvQULHErZMVQEq
-         n/TRycjY7LTpErPz43Ccz7DDsDfzCgtyYfFo5chsgd4UWohsjC4Ue6IfrtdiSlQRq/cC
-         CkRE28XiIF/KqCUcXC5bEytnTH46Ji8zw6tJsKtXtMidIRxrFL4DJ9UsXzHw4wXNp8OC
-         tGAZG54NPmSEs9YSqltl3IMoP5pPfh+WgGO8iFPgqv3w3CrvmceAQJzsYOUSyE3jJzvF
-         qXbg==
-X-Gm-Message-State: AOAM533cYcaAHtGV+MsMh2Ll2gxZhsIlL7fiScGbYL6DMNJDwtn3K2dU
-	w5c30ju256U+cCRacWwE7FM=
-X-Google-Smtp-Source: ABdhPJw2BxtjsVH10kfIVX8oSWB83nTHqOfw96Ed2NBGbvoA+nRCiNCekZq61vfWMFuKxgaP6J8NrA==
-X-Received: by 2002:a17:906:a046:b0:6b9:20c:47c1 with SMTP id bg6-20020a170906a04600b006b9020c47c1mr31410731ejb.615.1649710063865;
-        Mon, 11 Apr 2022 13:47:43 -0700 (PDT)
-Received: from leap.localnet (host-82-60-208-254.retail.telecomitalia.it. [82.60.208.254])
-        by smtp.gmail.com with ESMTPSA id e9-20020a50e009000000b0041cd2e38a3bsm12031094edl.81.2022.04.11.13.47.41
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=/SwEI7yeod7vIHsEt/SEyrggYWJg5pRwDInFyaB3kIM=;
+        b=gcmggDZgHu49ADrfagmmLMzQws1nQstGZCAIHgfs3EYVH6+fHGLwTHIvVJZbxZRK/d
+         BVg6yKGeiXHJ+7HVGbJ//P4PsYfIxzCmkEH89Ye8H66dATSOhY5GfGklzKqxAEIaI3mc
+         2+hKGTNOcHCcjNVnPKKVfkw8dEVnYw1q71J3HCq+14M2yI1RSrm1/f7ZOgA+SanqfTDa
+         ItT4LrrBz+1hOsCx4oZoeZCqHr2lIvcTuaf0QmOMbbZuJMmg3L10a+4YbZkUliylN4bD
+         B6waWvG8SXsjN1MQbqJ6ZboEFW40Vij/HMEP4xELH13bS3HHVu6k5Ovbw4bcy0f49Sym
+         i7SA==
+X-Gm-Message-State: AOAM5310By3zEw915K9ger4qTBH2SnYIhXcsG4DDTQnhhpLVSRZDK5/P
+	ISWYXxGT7wRhlq79rYpVR1p2UnKzVwk=
+X-Google-Smtp-Source: ABdhPJwo/fyC6ehmNFu/hDcYp+kdDLUNQvul1Et4C1nyeW9tSG+5fgKqjn2DB+WhGLA1YveNQ5ebvw==
+X-Received: by 2002:a17:907:6093:b0:6e0:dabf:1a9f with SMTP id ht19-20020a170907609300b006e0dabf1a9fmr31797083ejc.424.1649710157027;
+        Mon, 11 Apr 2022 13:49:17 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p54a074e9.dip0.t-ipconnect.de. [84.160.116.233])
+        by smtp.gmail.com with ESMTPSA id m24-20020a170906161800b006d420027b63sm12400232ejd.18.2022.04.11.13.49.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 13:47:42 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Liu Junqi <liujunqi@pku.edu.cn>, "Martin K. Petersen" <martin.petersen@oracle.com>, Bart Van Assche <bvanassche@acm.org>, Leonardo Araujo <leonardo.aa88@gmail.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Jakub Kicinski <kuba@kernel.org>, sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Remove D. Kershner from Unisys S-PAR maintainers
-Date: Mon, 11 Apr 2022 22:47:38 +0200
-Message-ID: <1946842.PIDvDuAF1L@leap>
-In-Reply-To: <YlJ3ot74ZwfGx53i@kroah.com>
-References: <20220409205857.32083-1-fmdefrancesco@gmail.com> <YlJ3ot74ZwfGx53i@kroah.com>
+        Mon, 11 Apr 2022 13:49:16 -0700 (PDT)
+Date: Mon, 11 Apr 2022 22:49:14 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/7] staging: vt6655: Fix CamelCase in upc.h and started
+ in mac.h
+Message-ID: <cover.1649706687.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On domenica 10 aprile 2022 08:22:26 CEST Greg Kroah-Hartman wrote:
-> On Sat, Apr 09, 2022 at 10:58:57PM +0200, Fabio M. De Francesco wrote:
-> > The email address of David Kershner is no more reachable. Remove his
-> > entry from the MAINTAINERS file for UNISYS S-PAR DRIVERS.
-> > 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> >  MAINTAINERS | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index ba405f6ec31a..3b7497359c2b 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -20188,7 +20188,6 @@ F:	include/linux/cdrom.h
-> >  F:	include/uapi/linux/cdrom.h
-> >  
-> >  UNISYS S-PAR DRIVERS
-> > -M:	David Kershner <david.kershner@unisys.com>
-> >  L:	sparmaintainer@unisys.com (Unisys internal)
-> >  S:	Supported
-> 
-> If so, then that means this list needs to be dropped and the entry
-> changed to orphaned :(
+Start fix CamelCase or do-while{0} issues in macros by
+- replacing macros with command used in macros
+as CamelCase or do-while{0} are not accepted by checkpatch.pl
 
-Sorry, you're right: the "S:" line of the entry must be changed to 
-"S: Orphan". 
+---
+V1 -> V2: Merged first two patches into one.
+          Patch 6/6: changed from (macro to function) to delete macro
+          Updated cover-letter description
+V2 -> V3: Removed first two patches as they were accepted.
+          Replaced macros with command used in macros.
+          Replaced only one macro per patch
+          Updated cover-letter description        
 
-However,I'm not sure why you also want to drop the "L:" line. I see 
-that many "orphaned" entries have their "L:" line still there. 
+Tested with vt6655 on mini PCI Module
+Transferred this patch over vt6655
 
-A couple of examples:
+Philipp Hortmann (7):
+  staging: vt6655: Replace VNSvInPortB with ioread8
+  staging: vt6655: Replace VNSvInPortW with ioread16
+  staging: vt6655: Replace VNSvInPortD with ioread32
+  staging: vt6655: Replace VNSvOutPortB with iowrite8
+  staging: vt6655: Replace VNSvOutPortW with iowrite16
+  staging: vt6655: Replace VNSvOutPortD with iowrite32
+  staging: vt6655: Remove macro PCAvDelayByIO
 
-CONEXANT ACCESSRUNNER USB DRIVER
-L:      accessrunner-general@lists.sourceforge.net
-S:      Orphan
-W:      http://accessrunner.sourceforge.net/
-F:      drivers/usb/atm/cxacru.c
+ drivers/staging/vt6655/baseband.c    |  16 +--
+ drivers/staging/vt6655/card.c        |  73 ++++++--------
+ drivers/staging/vt6655/channel.c     |   6 +-
+ drivers/staging/vt6655/device_main.c |  40 +++-----
+ drivers/staging/vt6655/mac.h         | 139 ++++++++++++---------------
+ drivers/staging/vt6655/power.c       |   4 +-
+ drivers/staging/vt6655/rf.c          |  14 +--
+ drivers/staging/vt6655/rxtx.c        |   4 +-
+ drivers/staging/vt6655/srom.c        |  18 ++--
+ drivers/staging/vt6655/upc.h         |  31 ------
+ 10 files changed, 138 insertions(+), 207 deletions(-)
 
-DENALI NAND DRIVER
-L:      linux-mtd@lists.infradead.org
-S:      Orphan
-F:      drivers/mtd/nand/raw/denali*
-
-I'll send a v2 patch. Can you please confirm that you want me to drop
-also the "L:" line?
-
-Thanks,
-
-Fabio M. De Francesco
-
+-- 
+2.25.1
 
