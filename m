@@ -1,48 +1,48 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36C91FA0
-	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 20:49:32 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id s18so10871523ejr.0
-        for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 13:49:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD011FA0
+	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 20:49:37 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id z99so11369714ede.5
+        for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 13:49:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=31uCAJiyq7QrqdMYo3XU+OFlXDPDCua4Bs/5v7Ob/uo=;
-        b=EMyoI33OZNOXsnQUqwxuKbE/1kfi8pvyYRP4JJOnqqBLguymIjgREKWey3l0nWGvDX
-         e0bkvT/9nwkF1b+kCDvvRu1OK8CpzYVPj0P+EAZpkAq8EIQg0jJx7WRYxasMNJkA6wqI
-         HZ1Z9kVgu4kEbPGlKbOCK9fjua0jmgJaVOdanwbfjCtEoCky1RQhq+kEvcxRriuKX09Y
-         vYFLUx5lv5JR7G4I63cy4Zzw7R8szLmWIbYlDNsry1zM3475v+7xvhuung8JvlsN+dvt
-         CEGUo4Klppdyx/LhK9civ4v5Gudvp57ylpazZ4OqJKOAfqO+hq/YoSw2Vlv50nI6k5cj
-         l0yw==
+        bh=H2scwZEssf4kDEsnRwZq/AbY5fk4ixKF47JMY7rSlEQ=;
+        b=Ku/4xZFqcNw89GUMyDE8v8NmN83fUs9JW226tYL05IxaN2gv6Oix0IkmZlqK2Ob79g
+         90Mc7obM9F4F+Krxr/61hf129sKWBfNDd7zmLyCQRsCUUbPql61VUQoYtUO3ikyod9ip
+         ncUDKmwAO0Rft1ycbQwkUbm3keAVhUZmsGgr1KOYlTt4qVkkfAO0bAQ7NIP7VT49LuhV
+         3Ox2VPZS3fTll9jYT91ka1X5/I5V7TQw79rjaQCO8hTNvwGqs+h0wopEOe5LHKDMceTb
+         qJ6MRAXte7wa57dvQ/tyOkbeWQugR6+2Lq1FjDb3YQrB4rRFi9C6LqnmBxc0Wz5HgR9l
+         6I7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=31uCAJiyq7QrqdMYo3XU+OFlXDPDCua4Bs/5v7Ob/uo=;
-        b=OagGYmD3CB3K60uqbV34Oo5RQu8OGiy8AYfkasFaJel/2dkrxs6kCvwB1oCyeLWOz9
-         6m67tFKYxvwniSKTraxH1+rekWUWWUX3QIeRDfs6zOWBijiexp8PAIakd2ZUFr/iHfwF
-         d/jO1Iy4w1/ewmdYiJr8QA2CXxVU64bV9E9vkNvXUzFDFpmgxU4Ps7rkVJsT/LaLVih8
-         g0FWkttxXZSjhS3q3iwlToDO221m8s9FFjUSg8Gtk/AbMTktptzaZ/H5G8MJEX0ucBRB
-         S7wJG9vs0/5hBK+nu9i2iUTaPIchd6gPmYfnPqe3JqBytk+5pWn4IZy8k1upjf97+NLJ
-         6XLg==
-X-Gm-Message-State: AOAM532AkuDBZJn7B5otC9i9VhuE4hBFWr/ARLTAJTj+CuhT0EXvvOtu
-	ZyYAb/9pDuAVygHTlr507N+d9Ylk8gA=
-X-Google-Smtp-Source: ABdhPJxJodTfjny+R0IqyIY3sjWc/vYuaDggsMt+TWW/Kj586hiQH9QbVCdBx1cD1jnems7PZiFqXg==
-X-Received: by 2002:a17:907:d20:b0:6e8:4090:b9db with SMTP id gn32-20020a1709070d2000b006e84090b9dbmr20044655ejc.480.1649710170959;
-        Mon, 11 Apr 2022 13:49:30 -0700 (PDT)
+        bh=H2scwZEssf4kDEsnRwZq/AbY5fk4ixKF47JMY7rSlEQ=;
+        b=mfzSFbHlDOgEC1Th5qGRBL9TE9SkwnnxkxOnMfZJga35oau6hQ7lGiPrnNgAOUBMHy
+         owlGRonnmssG1xMg0Dw7afIkzKX6uKTnWcTK2b3ePX3bM1VRXOnUzBoS3Eswa2GE3wip
+         UQghrSKcLdJhvObqt75x3WFHfkRqHobtRG6dGw92wawxi8r3sH4q5Y4Vdd7EzrZERWZS
+         W2vZk/nbx1p1gBbyZIS1W4v6Af5G/JxC3OXzhDocZRfn/reEOTcfUcEFGW3b7c1vo7nP
+         9iKChu3IFFaax3xCSZ5eM68X7OiHXl5d7GWqaHJFCQr4J5m+F3/D2YV5YnE1CXGy6j14
+         Adww==
+X-Gm-Message-State: AOAM532whreVTIASdCAGUWiFeU81AiC0d9ce4TnuNKvxIQ/iithc1rlz
+	XKNjtApsB/OEuo2mg/4Lzcqjc5RcLAs=
+X-Google-Smtp-Source: ABdhPJyDDNL7ByIuDzNKiseRxpD8CT2H5Qt4meWcgxmNnwoJxaGuBmbyiN8+HOdDk1juM6R+lvI4Rw==
+X-Received: by 2002:a05:6402:3287:b0:41d:924e:5072 with SMTP id f7-20020a056402328700b0041d924e5072mr29525eda.43.1649710176091;
+        Mon, 11 Apr 2022 13:49:36 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p54a074e9.dip0.t-ipconnect.de. [84.160.116.233])
-        by smtp.gmail.com with ESMTPSA id e11-20020a50becb000000b0041b64129200sm16222363edk.50.2022.04.11.13.49.30
+        by smtp.gmail.com with ESMTPSA id o5-20020a170906974500b006dfc781498dsm12424639ejy.37.2022.04.11.13.49.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 13:49:30 -0700 (PDT)
-Date: Mon, 11 Apr 2022 22:49:28 +0200
+        Mon, 11 Apr 2022 13:49:35 -0700 (PDT)
+Date: Mon, 11 Apr 2022 22:49:33 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/7] staging: vt6655: Replace VNSvInPortW with ioread16
-Message-ID: <c8b0bdbe8ef47b8264acd0e1705e92d551822880.1649706687.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH v3 3/7] staging: vt6655: Replace VNSvInPortD with ioread32
+Message-ID: <9af181854cd385897db8f4f25e2f011e79d73406.1649706687.git.philipp.g.hortmann@gmail.com>
 References: <cover.1649706687.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,7 +54,7 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1649706687.git.philipp.g.hortmann@gmail.com>
 
-Replace macro VNSvInPortW with ioread16.
+Replace macro VNSvInPortD with ioread32.
 The name of macro and the arguments use CamelCase which
 is not accepted by checkpatch.pl
 
@@ -64,50 +64,157 @@ more steps are rquired to fix.
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
 V1 -> V2: This patch was 5/7 and is now 4/6
-V2 -> V3: Changed from
-          "Rename macros VNSvInPortB,W,D with CamelCase ..." to
-          Replace VNSvInPortW with ioread16
-          This patch was 4/6 and is now 2/7
+V2 -> V3: Inserted patch that was before in a different way in
+          "Rename macros VNSvInPortB,W,D with CamelCase ..."
+          This patch was part of 4/6 and is now 3/7
 ---
- drivers/staging/vt6655/mac.h | 4 ++--
- drivers/staging/vt6655/upc.h | 3 ---
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ drivers/staging/vt6655/card.c |  4 ++--
+ drivers/staging/vt6655/mac.h  | 22 +++++++++++-----------
+ drivers/staging/vt6655/rf.c   |  2 +-
+ drivers/staging/vt6655/upc.h  |  3 ---
+ 4 files changed, 14 insertions(+), 17 deletions(-)
 
+diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+index 1ccf08b1fd5c..f6d2a7fadc18 100644
+--- a/drivers/staging/vt6655/card.c
++++ b/drivers/staging/vt6655/card.c
+@@ -754,8 +754,8 @@ bool CARDbGetCurrentTSF(struct vnt_private *priv, u64 *pqwCurrTSF)
+ 	}
+ 	if (ww == W_MAX_TIMEOUT)
+ 		return false;
+-	VNSvInPortD(iobase + MAC_REG_TSFCNTR, (u32 *)pqwCurrTSF);
+-	VNSvInPortD(iobase + MAC_REG_TSFCNTR + 4, (u32 *)pqwCurrTSF + 1);
++	*((u32 *)pqwCurrTSF) = ioread32(iobase + MAC_REG_TSFCNTR);
++	*((u32 *)pqwCurrTSF + 1) = ioread32(iobase + MAC_REG_TSFCNTR + 4);
+ 
+ 	return true;
+ }
 diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 88bf5dba9b43..4e7875ff9ff3 100644
+index 4e7875ff9ff3..114d1f9c2a1a 100644
 --- a/drivers/staging/vt6655/mac.h
 +++ b/drivers/staging/vt6655/mac.h
-@@ -548,7 +548,7 @@ do {									\
- #define MACvWordRegBitsOn(iobase, byRegOfs, wBits)			\
+@@ -619,7 +619,7 @@ do {								\
+ #define MACvReceive0(iobase)						\
  do {									\
- 	unsigned short wData;						\
--	VNSvInPortW(iobase + byRegOfs, &wData);			\
-+	wData = ioread16(iobase + byRegOfs);			\
- 	VNSvOutPortW(iobase + byRegOfs, wData | (wBits));		\
+ 	unsigned long dwData;						\
+-	VNSvInPortD(iobase + MAC_REG_RXDMACTL0, &dwData);		\
++	dwData = ioread32(iobase + MAC_REG_RXDMACTL0);		\
+ 	if (dwData & DMACTL_RUN)					\
+ 		VNSvOutPortD(iobase + MAC_REG_RXDMACTL0, DMACTL_WAKE); \
+ 	else								\
+@@ -629,7 +629,7 @@ do {									\
+ #define MACvReceive1(iobase)						\
+ do {									\
+ 	unsigned long dwData;						\
+-	VNSvInPortD(iobase + MAC_REG_RXDMACTL1, &dwData);		\
++	dwData = ioread32(iobase + MAC_REG_RXDMACTL1);		\
+ 	if (dwData & DMACTL_RUN)					\
+ 		VNSvOutPortD(iobase + MAC_REG_RXDMACTL1, DMACTL_WAKE); \
+ 	else								\
+@@ -639,7 +639,7 @@ do {									\
+ #define MACvTransmit0(iobase)						\
+ do {									\
+ 	unsigned long dwData;						\
+-	VNSvInPortD(iobase + MAC_REG_TXDMACTL0, &dwData);		\
++	dwData = ioread32(iobase + MAC_REG_TXDMACTL0);		\
+ 	if (dwData & DMACTL_RUN)					\
+ 		VNSvOutPortD(iobase + MAC_REG_TXDMACTL0, DMACTL_WAKE); \
+ 	else								\
+@@ -649,7 +649,7 @@ do {									\
+ #define MACvTransmitAC0(iobase)					\
+ do {									\
+ 	unsigned long dwData;						\
+-	VNSvInPortD(iobase + MAC_REG_AC0DMACTL, &dwData);		\
++	dwData = ioread32(iobase + MAC_REG_AC0DMACTL);		\
+ 	if (dwData & DMACTL_RUN)					\
+ 		VNSvOutPortD(iobase + MAC_REG_AC0DMACTL, DMACTL_WAKE); \
+ 	else								\
+@@ -668,7 +668,7 @@ do {									\
  } while (0)
  
-@@ -562,7 +562,7 @@ do {									\
- #define MACvWordRegBitsOff(iobase, byRegOfs, wBits)			\
- do {									\
- 	unsigned short wData;						\
--	VNSvInPortW(iobase + byRegOfs, &wData);			\
-+	wData = ioread16(iobase + byRegOfs);			\
- 	VNSvOutPortW(iobase + byRegOfs, wData & ~(wBits));		\
- } while (0)
+ #define MACvReadISR(iobase, pdwValue)				\
+-	VNSvInPortD(iobase + MAC_REG_ISR, pdwValue)
++	*(pdwValue) = ioread32(iobase + MAC_REG_ISR)
  
+ #define MACvWriteISR(iobase, dwValue)				\
+ 	VNSvOutPortD(iobase + MAC_REG_ISR, dwValue)
+@@ -686,12 +686,12 @@ do {									\
+ 	VNSvOutPortB(iobase + MAC_REG_PAGE1SEL, 1)
+ 
+ #define MACvReadMIBCounter(iobase, pdwCounter)			\
+-	VNSvInPortD(iobase + MAC_REG_MIBCNTR, pdwCounter)
++	*(pdwCounter) = ioread32(iobase + MAC_REG_MIBCNTR)
+ 
+ #define MACvEnableProtectMD(iobase)					\
+ do {									\
+ 	unsigned long dwOrgValue;					\
+-	VNSvInPortD(iobase + MAC_REG_ENCFG, &dwOrgValue);		\
++	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);		\
+ 	dwOrgValue = dwOrgValue | ENCFG_PROTECTMD;			\
+ 	VNSvOutPortD(iobase + MAC_REG_ENCFG, dwOrgValue);		\
+ } while (0)
+@@ -699,7 +699,7 @@ do {									\
+ #define MACvDisableProtectMD(iobase)					\
+ do {									\
+ 	unsigned long dwOrgValue;					\
+-	VNSvInPortD(iobase + MAC_REG_ENCFG, &dwOrgValue);		\
++	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);		\
+ 	dwOrgValue = dwOrgValue & ~ENCFG_PROTECTMD;			\
+ 	VNSvOutPortD(iobase + MAC_REG_ENCFG, dwOrgValue);		\
+ } while (0)
+@@ -707,7 +707,7 @@ do {									\
+ #define MACvEnableBarkerPreambleMd(iobase)				\
+ do {									\
+ 	unsigned long dwOrgValue;					\
+-	VNSvInPortD(iobase + MAC_REG_ENCFG, &dwOrgValue);		\
++	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);		\
+ 	dwOrgValue = dwOrgValue | ENCFG_BARKERPREAM;			\
+ 	VNSvOutPortD(iobase + MAC_REG_ENCFG, dwOrgValue);		\
+ } while (0)
+@@ -715,7 +715,7 @@ do {									\
+ #define MACvDisableBarkerPreambleMd(iobase)				\
+ do {									\
+ 	unsigned long dwOrgValue;					\
+-	VNSvInPortD(iobase + MAC_REG_ENCFG, &dwOrgValue);		\
++	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);		\
+ 	dwOrgValue = dwOrgValue & ~ENCFG_BARKERPREAM;			\
+ 	VNSvOutPortD(iobase + MAC_REG_ENCFG, dwOrgValue);		\
+ } while (0)
+@@ -723,7 +723,7 @@ do {									\
+ #define MACvSetBBType(iobase, byTyp)					\
+ do {									\
+ 	unsigned long dwOrgValue;					\
+-	VNSvInPortD(iobase + MAC_REG_ENCFG, &dwOrgValue);		\
++	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);		\
+ 	dwOrgValue = dwOrgValue & ~ENCFG_BBTYPE_MASK;			\
+ 	dwOrgValue = dwOrgValue | (unsigned long)byTyp;			\
+ 	VNSvOutPortD(iobase + MAC_REG_ENCFG, dwOrgValue);		\
+diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
+index 4498c9d400f2..036f48572334 100644
+--- a/drivers/staging/vt6655/rf.c
++++ b/drivers/staging/vt6655/rf.c
+@@ -175,7 +175,7 @@ bool IFRFbWriteEmbedded(struct vnt_private *priv, unsigned long dwData)
+ 
+ 	/* W_MAX_TIMEOUT is the timeout period */
+ 	for (ww = 0; ww < W_MAX_TIMEOUT; ww++) {
+-		VNSvInPortD(iobase + MAC_REG_IFREGCTL, &dwValue);
++		dwValue = ioread32(iobase + MAC_REG_IFREGCTL);
+ 		if (dwValue & IFREGCTL_DONE)
+ 			break;
+ 	}
 diff --git a/drivers/staging/vt6655/upc.h b/drivers/staging/vt6655/upc.h
-index 44d746de6344..99bf7aeb56f7 100644
+index 99bf7aeb56f7..9617667f1a69 100644
 --- a/drivers/staging/vt6655/upc.h
 +++ b/drivers/staging/vt6655/upc.h
 @@ -20,9 +20,6 @@
  
  /* For memory mapped IO */
  
--#define VNSvInPortW(dwIOAddress, pwData) \
--	(*(pwData) = ioread16(dwIOAddress))
+-#define VNSvInPortD(dwIOAddress, pdwData) \
+-	(*(pdwData) = ioread32(dwIOAddress))
 -
- #define VNSvInPortD(dwIOAddress, pdwData) \
- 	(*(pdwData) = ioread32(dwIOAddress))
+ #define VNSvOutPortB(dwIOAddress, byData) \
+ 	iowrite8((u8)(byData), dwIOAddress)
  
 -- 
 2.25.1
