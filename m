@@ -1,187 +1,95 @@
-Received: from insect.birch.relay.mailchannels.net (insect.birch.relay.mailchannels.net [23.83.209.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5289C1840
-	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 19:43:08 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 99E6B120FEA;
-	Mon, 11 Apr 2022 15:16:32 +0000 (UTC)
-Received: from pdx1-sub0-mail-a264.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 267B51213A2;
-	Mon, 11 Apr 2022 15:16:32 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1649690192; a=rsa-sha256;
-	cv=none;
-	b=X9dWjYgRJFSKJjEJ2CwTVUDJX/MbEl9pzlqwSgBiacP/zqkCA6N/HLcc6uxBRtty5yW2C2
-	j/JocxH84EZhazlK0GgJIv7TvGV0zi08CQuxgrpwmgIomZFPTgJCuaLdJFEv39aBu7fmXF
-	8fGZOm3DH+CfS6IMtpxKLRJGqwTRGkSbr9ifVG6Me4WTCS+/XluYkfFp9VWQqo4ejzLiQt
-	VK0LZ7w3XSu0Ud7aEAXkderEdp+EeiHQ1NHLVVkqPM0WOlHsZJmQDNqR+3TCRMMHrk/t6W
-	U+Q6SW4InXgLKFgubHleGsKdXIGESBP/Ku+zGXQFvWQW3AmavMpqBCKSJRQ7YA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1649690192;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=lIguktC5KCMG4rpmY997A98Ux+1JhMsjoSX+Pjzet1E=;
-	b=Fr7+ULlg8KMNbSqtWWKJkbrDCuFFv1klE0+9h2qBuu/bJlkPFEy9LLvx/id5mJXCcUskAM
-	4Ib1McX6gqS7E7l4XLxCqJ/nvYeaZyDhjJOL/ijSsvZDe7Uub8wJtXLWxyYWSmen3oH0K+
-	0yY8VOcqNgFvA7Kxxy7ieNQ9nlUYx4wT3anzHoMW/8o9mu/uT1JpgpPprubnccozytuWKj
-	7yGR6pM+EGZxyNtryBCVJu9U1uDp9BFMTLIL2IMVm7/k2BCaiYCDCOfW+fgRO9fLWg/fvZ
-	HTrj05UJ2EGO/kN90CveS8xzSdgxT8li9Y5RGhAtpLWFLj213PFpK8rexdYzMw==
-ARC-Authentication-Results: i=1;
-	rspamd-68f9d8f9d5-2ngq6;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from pdx1-sub0-mail-a264.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.124.238.113 (trex/6.7.1);
-	Mon, 11 Apr 2022 15:16:32 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Towering-Versed: 0591524c1969835e_1649690192430_1198574487
-X-MC-Loop-Signature: 1649690192429:4073867858
-X-MC-Ingress-Time: 1649690192429
-Received: from localhost.localdomain (unknown [104.36.29.104])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dave@stgolabs.net)
-	by pdx1-sub0-mail-a264.dreamhost.com (Postfix) with ESMTPSA id 4KcXWM0wsBz1dm;
-	Mon, 11 Apr 2022 08:16:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
-	s=dreamhost; t=1649690191;
-	bh=lIguktC5KCMG4rpmY997A98Ux+1JhMsjoSX+Pjzet1E=;
-	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
-	b=IB+0+Z5hpyC3OimGXmN18sF5uF3nNuMrP2A6o+Lhf52ij2V7LpppOeqmLCqPMXSrq
-	 25IOhswIhSbqVWfn09P42ELHRMVFjZwRP8kAi1S9A+2J9bIYHGa1iFUYJEVlG2u9Ff
-	 qR5Ymhg7fyPseNysEaGnALcLqaVeWjmdl9TfigmHPbKJjZV99NYkhvK9hEn5Y8L/OH
-	 LuJYZ2BfHF4BRoHyjcyNLMhi8jZ3BxmgEVPp+aDxEq60BFDPjlnH9AunZCpUvU8Gyl
-	 V49QOzKIbXT8HIxPZQomedBvaMbyZZL7IXo4BeIxMLKn/gAzmum2Zsq24dEADXS6IF
-	 0i/waCOB9gCaw==
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	dave@stgolabs.net
-Subject: [PATCH 4/6] staging/ks7010: replace SME taslet with work
-Date: Mon, 11 Apr 2022 08:16:18 -0700
-Message-Id: <20220411151620.129178-5-dave@stgolabs.net>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220411151620.129178-1-dave@stgolabs.net>
-References: <20220411151620.129178-1-dave@stgolabs.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350F71848
+	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 20:34:49 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id bv19so10249618ejb.6
+        for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 13:34:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ie+QkOmFE8UTE3hyBEH9mlG+n6irl6CyrcT3wa6CMKg=;
+        b=Qm7oC3V8HC75KdBBaoCL5RO3B/cBlxpzT1hPeg1/mFEaIgkVS9QXpw8bzHXsZ/xL2c
+         wSYJp/J6Ic7hrhfKhLc8JA0Rb/tNtq/AyOVkRML6tWsW8DhXG6QoZGueu13LtGJTP8TZ
+         p5EHssQPpzS8XTe2C5v7j40cJoBREMDp1y7undUYImVQTN/Znli+fhaKabPafpdcCSfC
+         wMxVqoRuSFvXhCw+0IYrNyc00w0NV7BQd7iwTmhkHmL1ScDdGzjqMkbungHg2TgBu0CL
+         Djp8Bq7JDSGVeXCQ20FOjPWep8787Bd2ivEK7Vi+2kaHKK8fp/7pN8QRCiLtgjB3ZL1Q
+         WxQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ie+QkOmFE8UTE3hyBEH9mlG+n6irl6CyrcT3wa6CMKg=;
+        b=qsDBOJth1bgNnvH4SWZt32bkqRFiw0ZC2aEBYClvKTHRwBkHkHW32PX5QiQpCj8mqP
+         xblTNw/WS061RjYHuEPljaLq4iTj7fy+YOv3nJJgbTz4ZfYmAm89o+QgO7i4mJGm5c8k
+         SBWEVzNIzTLrpSII3UX9/jC8TsPPDf4ZqBqzUNRGCDIxBq/SwJInOrmtSIueWnoZmWbI
+         NGmdM9Ery/G0OweIqaX5BlA9In9jJ3KrO8QNjRcvEn/rRJVSS/9ctekOL1sjOySwyRuT
+         y1UgQWX5+zK+UsyxFRAIv26yPAolS3kiYAfFBs53b8+ReTJGfn08TdhrqjLtp8UjIAQS
+         EhHg==
+X-Gm-Message-State: AOAM533ShIQD3Z+Ns6s8uVF2E7gCxXh6NSLhKk08UFxBOuPeevnieULV
+	4vZw2j0FCp9tSB5UMvJQivQ=
+X-Google-Smtp-Source: ABdhPJzkd1u1sG/qXxzNgb47n0qmUolgQV4HEdfpa+StYJ95FHkUBW96eBipbqQD4S+vJvLvYfqm2w==
+X-Received: by 2002:a17:906:c282:b0:6ce:369d:3d5 with SMTP id r2-20020a170906c28200b006ce369d03d5mr31454727ejz.425.1649709287367;
+        Mon, 11 Apr 2022 13:34:47 -0700 (PDT)
+Received: from leap.localnet (host-82-60-208-254.retail.telecomitalia.it. [82.60.208.254])
+        by smtp.gmail.com with ESMTPSA id o5-20020a50c905000000b0041d828d0c58sm1582226edh.53.2022.04.11.13.34.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Apr 2022 13:34:46 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, Vihas Makwana <makvihas@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>, Pavel Skripkin <paskripkin@gmail.com>, Vihas Makwana <makvihas@gmail.com>
+Subject: Re: [PATCH v2 0/7] drop some unnecessary wrappers
+Date: Mon, 11 Apr 2022 22:34:44 +0200
+Message-ID: <37499399.10thIPus4b@leap>
+In-Reply-To: <20220411102136.14937-1-makvihas@gmail.com>
+References: <20220411102136.14937-1-makvihas@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="ISO-8859-1"
 
-Tasklets have long been deprecated as being too heavy on the system
-by running in irq context - and this is not a performance critical
-path. If a higher priority process wants to run, it must wait for
-the tasklet to finish before doing so.
+On luned=EC 11 aprile 2022 12:21:29 CEST Vihas Makwana wrote:
+> Drop some unnecessary wrappers and update all the references
+> accordingly.
+> Tested on Comfast CF-WU810N RTL8188EUS wireless adapter.
+>=20
+> v1 -> v2:
+> Drop the wrapper functions with underscores prefixed.
+>=20
+> Vihas Makwana (7):
+>   staging: r8188eu: drop unnecessary wrapper _rtw_free_cmd_priv
+>   staging: r8188eu: drop unnecessary wrapper _rtw_init_cmd_priv
+>   staging: r8188eu: drop unnecessary wrapper _rtw_init_evt_priv
+>   staging: r8188eu: drop unnecessary wrapper _rtw_init_mlme_priv
+>   staging: r8188eu: drop unnecessary wrapper _rtw_free_mlme_priv
+>   staging: r8188eu: drop unnecessary wrapper _rtw_alloc_network
+>   staging: r8188eu: drop unnecessary wrapper _rtw_dequeue_cmd
+>=20
+>  drivers/staging/r8188eu/core/rtw_cmd.c     | 145 +++++++----------
+>  drivers/staging/r8188eu/core/rtw_mlme.c    | 179 +++++++++------------
+>  drivers/staging/r8188eu/include/rtw_mlme.h |   4 +-
+>  3 files changed, 135 insertions(+), 193 deletions(-)
+>=20
+> --=20
+> 2.30.2
+>=20
+=46ormally, you are removing the wrapped functions (or helpers, if you=20
+prefer) by moving their code into the wrappers. To say that you are=20
+removing the wrappers is not correct.
 
-The execution of the SME event will now occur in task context. There
-are, however, changes in concurrency. Workqueues, unlike tasklets,
-are not serialized among themselves and can run concurrently
-updating sme_i.qhead. However, the current code is already exposed
-in same ways, regardless of the deferral mechanism, in that
-hostif_sme_enqueue() does unserialized enqueues updating sme_i.qtail.
+However, I'm sure this kind of formal mistake won't prevent your patches
+to be accepted. I wanted to point this out to you in case you decide to=20
+submit similar patches in the future and perhaps want to describe your=20
+changes a little more accurately.
 
-Also get rid of the bogus (power save) tasklet enabling, as it
-is never disabled to begin with.
+Thanks,
 
-Signed-off-by: Davidlohr Bueso <dave@stgolabs.net>
----
- drivers/staging/ks7010/ks_hostif.c | 21 ++++++++++-----------
- drivers/staging/ks7010/ks_wlan.h   |  2 +-
- 2 files changed, 11 insertions(+), 12 deletions(-)
+=46abio M. De Francesco=20
 
-diff --git a/drivers/staging/ks7010/ks_hostif.c b/drivers/staging/ks7010/ks_hostif.c
-index 1c63d595313d..f1aa3be4261d 100644
---- a/drivers/staging/ks7010/ks_hostif.c
-+++ b/drivers/staging/ks7010/ks_hostif.c
-@@ -84,10 +84,6 @@ static void ks_wlan_hw_wakeup_task(struct work_struct *work)
- 			return;
- 		}
- 	}
--
--	/* power save */
--	if (atomic_read(&priv->sme_task.count) > 0)
--		tasklet_enable(&priv->sme_task);
- }
- 
- static void ks_wlan_do_power_save(struct ks_wlan_private *priv)
-@@ -2200,10 +2196,13 @@ static void hostif_sme_execute(struct ks_wlan_private *priv, int event)
- 	}
- }
- 
--static
--void hostif_sme_task(struct tasklet_struct *t)
-+static void hostif_sme_work(struct work_struct *work)
- {
--	struct ks_wlan_private *priv = from_tasklet(priv, t, sme_task);
-+	struct ks_wlan_private *priv;
-+
-+	priv = container_of(work, struct ks_wlan_private, sme_work);
-+	if (!priv)
-+		return;
- 
- 	if (priv->dev_state < DEVICE_STATE_BOOT)
- 		return;
-@@ -2214,7 +2213,7 @@ void hostif_sme_task(struct tasklet_struct *t)
- 	hostif_sme_execute(priv, priv->sme_i.event_buff[priv->sme_i.qhead]);
- 	inc_smeqhead(priv);
- 	if (cnt_smeqbody(priv) > 0)
--		tasklet_schedule(&priv->sme_task);
-+	        schedule_work(&priv->sme_work);
- }
- 
- /* send to Station Management Entity module */
-@@ -2229,7 +2228,7 @@ void hostif_sme_enqueue(struct ks_wlan_private *priv, u16 event)
- 		netdev_err(priv->net_dev, "sme queue buffer overflow\n");
- 	}
- 
--	tasklet_schedule(&priv->sme_task);
-+	schedule_work(&priv->sme_work);
- }
- 
- static inline void hostif_aplist_init(struct ks_wlan_private *priv)
-@@ -2254,7 +2253,7 @@ static inline void hostif_sme_init(struct ks_wlan_private *priv)
- 	priv->sme_i.qtail = 0;
- 	spin_lock_init(&priv->sme_i.sme_spin);
- 	priv->sme_i.sme_flag = 0;
--	tasklet_setup(&priv->sme_task, hostif_sme_task);
-+	INIT_WORK(&priv->sme_work, hostif_sme_work);
- }
- 
- static inline void hostif_wpa_init(struct ks_wlan_private *priv)
-@@ -2312,5 +2311,5 @@ int hostif_init(struct ks_wlan_private *priv)
- 
- void hostif_exit(struct ks_wlan_private *priv)
- {
--	tasklet_kill(&priv->sme_task);
-+	cancel_work_sync(&priv->sme_work);
- }
-diff --git a/drivers/staging/ks7010/ks_wlan.h b/drivers/staging/ks7010/ks_wlan.h
-index 7aaf8d780939..3e9a91b5131c 100644
---- a/drivers/staging/ks7010/ks_wlan.h
-+++ b/drivers/staging/ks7010/ks_wlan.h
-@@ -449,7 +449,7 @@ struct ks_wlan_private {
- 	struct sme_info sme_i;
- 	u8 *rxp;
- 	unsigned int rx_size;
--	struct tasklet_struct sme_task;
-+	struct work_struct sme_work;
- 	struct work_struct wakeup_work;
- 	int scan_ind_count;
- 
--- 
-2.26.2
+
 
