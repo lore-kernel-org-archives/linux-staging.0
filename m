@@ -1,220 +1,52 @@
-Received: from bird.elm.relay.mailchannels.net (bird.elm.relay.mailchannels.net [23.83.212.17])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35931865
-	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 17:40:24 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 0DF182A1AA4;
-	Mon, 11 Apr 2022 15:16:32 +0000 (UTC)
-Received: from pdx1-sub0-mail-a264.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 440782A0660;
-	Mon, 11 Apr 2022 15:16:31 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1649690191; a=rsa-sha256;
-	cv=none;
-	b=R3Qy7j2CxCeHE33za07uHVO9smPjxoQPWj9jAsGI+kG6ouxaqJa+qZxL/KfKM6vZi9HaRx
-	k8qtollpAVrlK4TGC0ML64p8vUpClO87ao/eBOApECEYFoQJJUCvODMi53eUGZLCUUTt7T
-	6SK1gkzbj7hDWS2Qin6PQzs5p7rJIgr+HbZPgUd7T4Vcqfe2HTM5+E3XDwvjg7Ttu+PM1T
-	IOofzls6FNX6iwu0y6sbMo8AdK+kiPZUyR5ajviy35hQQtC+OxkMOdmv6KJKCpSuaiBVQO
-	rN7+luYcEOyPgpelT32UlZM44SyscoYHbGphXIxyCz6MgzmMS/398ILt8fDyXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1649690191;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=87rjyv1fYVQxYjTypozOdzalmHJuGl6PHh8Q3KobcEk=;
-	b=M/y+FdQ4Tc4sUtXHezQ/D44aWWrLa+s8abZdRgW6QypZIa0IAdjOrHqXGYvXHwGavVVuBC
-	PkiWc37e7fR5zeHZX38MLkRtfLUvZEQa+2QSMaApD8Oep5Vkb74YLbrI6iKMQDLfY9XGIk
-	fZROUSTQhFh0kObt1MIc292UlkMsAUA8znNfhHWQmLXr5ZU4naOqeczJ9mXceUMHtzKKw9
-	7Cl+7reZF0TeaN8+6/Dw8hyC49DGSQcvTKuPktuq7cIfE0Plb+U48V0+KmsB88O6MXqZ7X
-	ENsRBE56oJZ/ezXaMY6G9mvJvxCTG1XRFYx9r9sLpdE/95Ri0ad5qsien3oNKA==
-ARC-Authentication-Results: i=1;
-	rspamd-68f9d8f9d5-f7pqt;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from pdx1-sub0-mail-a264.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.121.210.137 (trex/6.7.1);
-	Mon, 11 Apr 2022 15:16:31 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Trail-Harbor: 66e32e3c11eaf707_1649690191792_2463292124
-X-MC-Loop-Signature: 1649690191791:3362250161
-X-MC-Ingress-Time: 1649690191791
-Received: from localhost.localdomain (unknown [104.36.29.104])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dave@stgolabs.net)
-	by pdx1-sub0-mail-a264.dreamhost.com (Postfix) with ESMTPSA id 4KcXWL3S74z1f0;
-	Mon, 11 Apr 2022 08:16:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
-	s=dreamhost; t=1649690190;
-	bh=87rjyv1fYVQxYjTypozOdzalmHJuGl6PHh8Q3KobcEk=;
-	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
-	b=fmOqCt+sUZYt4VcH9xHkIXdUKd6Ka4/vh+oG5MBfco2H3oin0Pn6BltKg4yNLjE57
-	 wQEbd+lJovFAuCNYt+qGUjW3L8vg7/Si/f9NyVBRDCox8ZVD8L21Flo3Ox2KTdD1RM
-	 vvesHy0EYAqa35/lZxB35En0dHZHt3U6bua0AhmnqBFxSL/PcijH2To1D0NrYgChZh
-	 fMkle/S5IkSjXZItDBxEnbJwlR14lR98JCujQ4pZ0Kji+vv4iySfDBdgw6uvXG4MSO
-	 saszd8+zr0v/WVznu+30WgWdSTRoNG4LzLTTNUa2iaA+EfDGRlr5sHDu76r6m0MFAm
-	 etw8BWGrH9W4A==
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	dave@stgolabs.net
-Subject: [PATCH 3/6] staging/wlan-ng, prism2usb: replace completion_bh tasklet with work
-Date: Mon, 11 Apr 2022 08:16:17 -0700
-Message-Id: <20220411151620.129178-4-dave@stgolabs.net>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220411151620.129178-1-dave@stgolabs.net>
-References: <20220411151620.129178-1-dave@stgolabs.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021B31840
+	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 18:39:31 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1ndywY-0008Nb-GI; Mon, 11 Apr 2022 20:39:18 +0200
+Date: Mon, 11 Apr 2022 20:39:18 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/8] staging: r8188eu: don't set _SUCCESS again
+Message-ID: <20220411183918.4mw5x6tatslii7mg@viti.kaiser.cx>
+References: <20220409151557.207980-1-martin@kaiser.cx>
+ <20220409151557.207980-3-martin@kaiser.cx>
+ <20220411101834.GW3293@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411101834.GW3293@kadam>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-Tasklets have long been deprecated as being too heavy on the system
-by running in irq context - and this is not a performance critical
-path. If a higher priority process wants to run, it must wait for
-the tasklet to finish before doing so.
+Thus wrote Dan Carpenter (dan.carpenter@oracle.com):
 
-The completion_bh tasklet will now run in process context and have
-further concurrency (tasklets being serialized among themselves),
-but this is done holding the ctlxq.lock, so it should be fine.
+> On Sat, Apr 09, 2022 at 05:15:51PM +0200, Martin Kaiser wrote:
+> > ret is initialized to _SUCCESS, there's no need to set it again.
 
-Signed-off-by: Davidlohr Bueso <dave@stgolabs.net>
----
- drivers/staging/wlan-ng/hfa384x.h     |  2 +-
- drivers/staging/wlan-ng/hfa384x_usb.c | 22 +++++++++++-----------
- drivers/staging/wlan-ng/prism2usb.c   |  6 +++---
- 3 files changed, 15 insertions(+), 15 deletions(-)
+> > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 
-diff --git a/drivers/staging/wlan-ng/hfa384x.h b/drivers/staging/wlan-ng/hfa384x.h
-index 7480d808e946..0611e37df6ac 100644
---- a/drivers/staging/wlan-ng/hfa384x.h
-+++ b/drivers/staging/wlan-ng/hfa384x.h
-@@ -1228,7 +1228,7 @@ struct hfa384x {
- 	struct timer_list throttle;
- 
- 	struct work_struct reaper_bh;
--	struct tasklet_struct completion_bh;
-+	struct work_struct completion_bh;
- 
- 	struct work_struct usb_work;
- 
-diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
-index 4000c321cb3a..33844526c797 100644
---- a/drivers/staging/wlan-ng/hfa384x_usb.c
-+++ b/drivers/staging/wlan-ng/hfa384x_usb.c
-@@ -191,7 +191,7 @@ static void hfa384x_usbctlx_resptimerfn(struct timer_list *t);
- 
- static void hfa384x_usb_throttlefn(struct timer_list *t);
- 
--static void hfa384x_usbctlx_completion_task(struct tasklet_struct *t);
-+static void hfa384x_usbctlx_completion_task(struct work_struct *work);
- 
- static void hfa384x_usbctlx_reaper_task(struct work_struct *work);
- 
-@@ -540,7 +540,7 @@ void hfa384x_create(struct hfa384x *hw, struct usb_device *usb)
- 	skb_queue_head_init(&hw->authq);
- 
- 	INIT_WORK(&hw->reaper_bh, hfa384x_usbctlx_reaper_task);
--	tasklet_setup(&hw->completion_bh, hfa384x_usbctlx_completion_task);
-+	INIT_WORK(&hw->completion_bh, hfa384x_usbctlx_completion_task);
- 	INIT_WORK(&hw->link_bh, prism2sta_processing_defer);
- 	INIT_WORK(&hw->usb_work, hfa384x_usb_defer);
- 
-@@ -2585,10 +2585,10 @@ void hfa384x_tx_timeout(struct wlandevice *wlandev)
- /*----------------------------------------------------------------
-  * hfa384x_usbctlx_reaper_task
-  *
-- * Deferred work to delete dead CTLX objects
-+ * Deferred work callback to delete dead CTLX objects
-  *
-  * Arguments:
-- *	data	ptr to a struct hfa384x
-+ *	work	contains ptr to a struct hfa384x
-  *
-  * Returns:
-  *
-@@ -2618,21 +2618,21 @@ static void hfa384x_usbctlx_reaper_task(struct work_struct *work)
- /*----------------------------------------------------------------
-  * hfa384x_usbctlx_completion_task
-  *
-- * Tasklet to call completion handlers for returned CTLXs
-+ * Deferred work callback to call completion handlers for returned CTLXs
-  *
-  * Arguments:
-- *	data	ptr to struct hfa384x
-+ *	work	contains ptr to a struct hfa384x
-  *
-  * Returns:
-  *	Nothing
-  *
-  * Call context:
-- *	Interrupt
-+ *      Task
-  *----------------------------------------------------------------
-  */
--static void hfa384x_usbctlx_completion_task(struct tasklet_struct *t)
-+static void hfa384x_usbctlx_completion_task(struct work_struct *work)
- {
--	struct hfa384x *hw = from_tasklet(hw, t, completion_bh);
-+	struct hfa384x *hw = container_of(work, struct hfa384x, reaper_bh);
- 	struct hfa384x_usbctlx *ctlx, *temp;
- 	unsigned long flags;
- 
-@@ -2743,7 +2743,7 @@ static int unlocked_usbctlx_cancel_async(struct hfa384x *hw,
-  * aren't active and the timers should have been stopped.
-  *
-  * The CTLX is migrated to the "completing" queue, and the completing
-- * tasklet is scheduled.
-+ * work is scheduled.
-  *
-  * Arguments:
-  *	hw		ptr to a struct hfa384x structure
-@@ -2766,7 +2766,7 @@ static void unlocked_usbctlx_complete(struct hfa384x *hw,
- 	 * queue.
- 	 */
- 	list_move_tail(&ctlx->list, &hw->ctlxq.completing);
--	tasklet_schedule(&hw->completion_bh);
-+	schedule_work(&hw->completion_bh);
- 
- 	switch (ctlx->state) {
- 	case CTLX_COMPLETE:
-diff --git a/drivers/staging/wlan-ng/prism2usb.c b/drivers/staging/wlan-ng/prism2usb.c
-index 36340f36b0cb..e13da7fadfff 100644
---- a/drivers/staging/wlan-ng/prism2usb.c
-+++ b/drivers/staging/wlan-ng/prism2usb.c
-@@ -165,8 +165,8 @@ static void prism2sta_disconnect_usb(struct usb_interface *interface)
- 		spin_unlock_irqrestore(&hw->ctlxq.lock, flags);
- 
- 		/* There's no hardware to shutdown, but the driver
--		 * might have some tasks or tasklets that must be
--		 * stopped before we can tear everything down.
-+		 * might have some tasks that must be stopped before
-+		 * we can tear everything down.
- 		 */
- 		prism2sta_ifstate(wlandev, P80211ENUM_ifstate_disable);
- 
-@@ -181,7 +181,7 @@ static void prism2sta_disconnect_usb(struct usb_interface *interface)
- 		usb_kill_urb(&hw->tx_urb);
- 		usb_kill_urb(&hw->ctlx_urb);
- 
--		tasklet_kill(&hw->completion_bh);
-+		cancel_work_sync(&hw->completion_bh);
- 		cancel_work_sync(&hw->reaper_bh);
- 
- 		cancel_work_sync(&hw->link_bh);
--- 
-2.26.2
+> I liked the original code better.  Otherwise you wonder, is it
+> intentional to return success on this path. 
 
+You're right. The original code is easier to understand. It's not
+obvious that this check should return _SUCCESS and the remaining ones
+return _FAIL.
+
+Greg, could you drop this patch or should I resend the series without
+this patch?
+
+Thanks,
+Martin
