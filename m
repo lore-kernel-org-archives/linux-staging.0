@@ -1,85 +1,83 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58628138A;
-	Mon, 11 Apr 2022 11:03:41 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id 125so13840140pgc.11;
-        Mon, 11 Apr 2022 04:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=reKHQOWkpZ4mONWwfy4XZo/3CgCm4MkPhbk06++JasU=;
-        b=XjCV4fhb8VG5yocBSZPGpyPicaHPWTu/4aMuE75lNuuv7IYMd9UnQGO5E330Omud85
-         ywh6LyxqN7qOJlXtk6GacuEe1GGKVwdiT3+yxRmyxrMI/0GzNo3MyYH1tZoDlM8IAxah
-         Dcwq3zJwDwKmyKtC3iPW3T5HdOHBZcpLtmTWwS5RPbpSvM/q57YgsnK5DKDwlE6CJLQD
-         pKhu3Im22+6X9bKqUqCOspCguy5nEW9/B+TectQPkAL3dOk4wbaKa40LgHO41sVA6Vnq
-         fAQ/+sUkNGpHbTc7lzSCgBJOl70THd4MGXVrftNTupyARYJE0NidTjr9b8ulGWKEnfvJ
-         D6ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=reKHQOWkpZ4mONWwfy4XZo/3CgCm4MkPhbk06++JasU=;
-        b=hdEltWaWlajRYSxvTkC7K9zB2IjKBpRLx43hQt06+FhoBp0oXgGMQtOBGFfGIIVIbX
-         wM2EYw+/CrwMVMxj2Wc8WKqbEDLt46tkeBl5ai864tJskzqQXWpc7sP5DmHmRSRVQWe6
-         qpAZW29Rp5ylwfzAJW6pAcZ0n7K8MTDrAe8pp/58TTrxfTdAB3ItBi/cZa7n2rU0DTgd
-         hy2U+QJ/bMQ3tYAQ0YI7pjqKQ+rBBT/bK2TeB3akhXnS4YQ8Wk49nvRciGaik4fcoVCh
-         HI3pslY8Jcc0Ub33ppJPBasavMQIOgsiHUAhr9x/7QJTASV0P9IHx4ZbQrE6RIpgZ3QR
-         a0zg==
-X-Gm-Message-State: AOAM530+803mpnLJPve2aiVWJAdjVzKMbuc5cX2CynzrdgVpwrDlWFgy
-	1DLUngdetKIZtSbXTcjzCEFUDxMRam35Mg==
-X-Google-Smtp-Source: ABdhPJwkW85fd1XVINQPV/OsVxF0/xy4t66aUDt+a7gy/6j383rbovcOLOpKLaj/kLDdDEnMrYk+rw==
-X-Received: by 2002:a05:6a00:21c2:b0:4fe:81f:46c7 with SMTP id t2-20020a056a0021c200b004fe081f46c7mr31764907pfj.5.1649675020264;
-        Mon, 11 Apr 2022 04:03:40 -0700 (PDT)
-Received: from aliyaR-laptop.domain.name ([14.139.241.88])
-        by smtp.googlemail.com with ESMTPSA id f16-20020a056a00229000b004fabe756ba6sm38219673pfe.54.2022.04.11.04.03.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 04:03:39 -0700 (PDT)
-From: aliya-rahmani <aliyarahmani786@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: gegkh@linuxfoundation.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4149F138A
+	for <linux-staging@lists.linux.dev>; Mon, 11 Apr 2022 11:30:23 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ndsFK-0005un-Cr; Mon, 11 Apr 2022 13:30:14 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ndsFK-002NLx-2z; Mon, 11 Apr 2022 13:30:12 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1ndsFI-002aYA-2S; Mon, 11 Apr 2022 13:30:12 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	Aliya Rahmani <aliyarahmani786@gmail.com>
-Subject: [PATCH v2] staging: rtl8712: efuse: code style - avoid macro argument precedence issues
-Date: Mon, 11 Apr 2022 16:32:50 +0530
-Message-Id: <20220411110250.51959-1-aliyarahmani786@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <alpine.DEB.2.22.394.2204110845280.3197@hadrien>
-References: <alpine.DEB.2.22.394.2204110845280.3197@hadrien>
+	linux-pwm@vger.kernel.org
+Subject: [PATCH v2] staging: greybus: pwm: Drop assignment to struct pwm_chip::base
+Date: Mon, 11 Apr 2022 13:30:10 +0200
+Message-Id: <20220411113010.208500-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1072; h=from:subject; bh=oYkYlGqsYivlb/FzVYP55LZaKNpBANwSA/sLpPYYLBM=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBiVBE+4+KisJHPjf5XJcTPI7dY5rbvNdFCfKPO8ulS aY+sGT2JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYlQRPgAKCRDB/BR4rcrsCS2cB/ 93dQjtVSK3TYAsOVwf6veSxDzGFLCGM1qhZYJS3RijqipJh4ytOP2ARfItQ5GLKug7ZYCbfiX84Aw8 WexJeHIUOaNGRP8JLNYHCN/7QPaLtZ2JIaULLe4TFtg3K+e6ZrR++T9vVsZF6wQ2Esu/Wut5EjUS4k LvWwA2iKTO1TFLZkiIxsenzKAvMy6jj7hwPP+XPcpodY7jdPbvHtLrvp6Z2QSeR8LYlfzcR+stMs0i 8eeO87Qymg+SlCg9uaJJs2wABvw0/+92NYrHUVH1NF+Jqn34GvuCGmSNRCYzyIK4DzQbhXfZAxNfB6 Og7KI0PXcxVQGZhjfe1XfqqdLxEZO7
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-From: Aliya Rahmani <aliyarahmani786@gmail.com>
+Since commit f9a8ee8c8bcd ("pwm: Always allocate PWM chip base ID
+dynamically") the value held in base isn't used any more in the PWM
+framework. All PMWs get assigned a dynamic ID, so the assignment is
+redundant and can be dropped.
 
-Added parentheses in 'offset' and 'word_en' to avoid macro argument
-precedence issues.
-
-Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
+Reviewed-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/staging/rtl8712/rtl8712_efuse.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hello,
 
-diff --git a/drivers/staging/rtl8712/rtl8712_efuse.h b/drivers/staging/rtl8712/rtl8712_efuse.h
-index 4969d307e978..2e1ea9d7a295 100644
---- a/drivers/staging/rtl8712/rtl8712_efuse.h
-+++ b/drivers/staging/rtl8712/rtl8712_efuse.h
-@@ -15,8 +15,8 @@
+changes since (implicit) v1: 
+
+ - Add "pwm: " to Subject
+ - Add Reviewed-by:-tag for Johan
+
+Best regards
+Uwe
+
+ drivers/staging/greybus/pwm.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/greybus/pwm.c b/drivers/staging/greybus/pwm.c
+index ad20ec24031e..3fda172239d2 100644
+--- a/drivers/staging/greybus/pwm.c
++++ b/drivers/staging/greybus/pwm.c
+@@ -297,7 +297,6 @@ static int gb_pwm_probe(struct gbphy_device *gbphy_dev,
  
- #define GET_EFUSE_OFFSET(header)	((header & 0xF0) >> 4)
- #define GET_EFUSE_WORD_EN(header)	(header & 0x0F)
--#define MAKE_EFUSE_HEADER(offset, word_en)	(((offset & 0x0F) << 4) | \
--						(word_en & 0x0F))
-+#define MAKE_EFUSE_HEADER(offset, word_en)	((((offset) & 0x0F) << 4) | \
-+						((word_en) & 0x0F))
- /*--------------------------------------------------------------------------*/
- struct PGPKT_STRUCT {
- 	u8 offset;
+ 	pwm->dev = &gbphy_dev->dev;
+ 	pwm->ops = &gb_pwm_ops;
+-	pwm->base = -1;			/* Allocate base dynamically */
+ 	pwm->npwm = pwmc->pwm_max + 1;
+ 
+ 	ret = pwmchip_add(pwm);
+
+base-commit: 3123109284176b1532874591f7c81f3837bbdc17
 -- 
-2.25.1
+2.35.1
 
