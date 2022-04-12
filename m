@@ -1,115 +1,129 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927E37B;
-	Tue, 12 Apr 2022 03:57:44 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id r25so4946997qtp.8;
-        Mon, 11 Apr 2022 20:57:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE0D7B;
+	Tue, 12 Apr 2022 04:01:28 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id x20so5974891qvl.10;
+        Mon, 11 Apr 2022 21:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=40nfkm7AJFhrLlgoTZd+KNaCMw5aAK6dNL2X6kEOaPU=;
-        b=FLUUa7pAkmcOG05Rc9OftUY87lGEUxCbrJQ7/SOliJA9Ykq6xkAcFgcbXkpMOg2kVZ
-         L8QUyRyRAgoPCmg112qYV3BMMby5ETwND3amZT9RdeVkO5CZB3iAYByCa2WpaopAnV5l
-         u/RqrlAbTp60+FI+Mi8AgP6xABq2Qd6QyD0UEa6dRNZkuTOQGHu372NpkRrMky/ah+vx
-         TWLQSVYgPs6NdL5Zh/+8Iy32yZaZZFrANBj0q+PF/1tOC1X3zo8LqX+9WWWSHF4G3bii
-         YOTtxFOLxjGtfTiH5q/dOqW+/g2MaN2q3ySZyvbnIXnp7eBkJbvxuoyweYtD1JYM+iYD
-         MKLw==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=4NRq9wUKR0Pv6QYoD5yUdpYhNg4tlKq7MmYRIVRzyYg=;
+        b=QzCANZSdJ5P0+QrETcEAa6nqQQp1jd5ilnjCvFDnDT7sdPxYaJ10EojfQFQAg69hNZ
+         pc425I6h5uZoTbN4CZVHIRffDzOOpuJennuxofR1caDO8EZAE4n/XKf8cRtK/VKaSjIA
+         uVzhZ2dKVH+8iSdQvlWf0yBGRTe4KFfS/dpFO46TdYcVOtuUYXz/a5YXgzGPXWMeHkv9
+         V20UJ6t8nLZvj253txKvxL2aMaAB616KPMuEMfUeg8WpYHCfXqnJG8dkVr09Eh8edyjW
+         f/wQweIS/rbsNs74SDT+yfLu04AAa8W1EUknm3+hS4og/ZPN8eqVz9oB6XGqfkwQiEcB
+         qggQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=40nfkm7AJFhrLlgoTZd+KNaCMw5aAK6dNL2X6kEOaPU=;
-        b=o+G5x6X9BOrieRW2P0lV61j3wQxgSaEE6DbTCdyJnTpi6KGPGmU4DNN8DN3nqRgcKU
-         LA2T38EnOihJNQ+C8lTmogBf+2MX7E/lN3trYCcaZYoXnYP7DKnFbGBcyrE31HMFLjWb
-         EGjK2Uxbu87j4uDCRO/zh9iVe7ww3qXKbCUdRu88meFWU8c1cgmHI4wHr8OVVlM9od5Q
-         NNOe9hPeOBFIhNUXaBk2vNuEkJ9xwmvItpvm5vJkDsNskAUwY63qnN/QTQLK5k+/YASK
-         75bRtSQ60BHHPgDKJoNs6ouLSwql1QEZF4Dm0Wkpy0e5XJzjTL6hWnyoxLAyZmKESy0m
-         WZWQ==
-X-Gm-Message-State: AOAM530lIx7H9yAzMXQxqd99p2LqBcX1sheJx63qq8EDJoauA/ym+GUT
-	an9mtdjnkJYw7l30KMd7lY8=
-X-Google-Smtp-Source: ABdhPJwDMrb79BrLKLc115ZZRDqdpyb645S0tJcA3zF36sWQXtHMvG9UT+hb1VJ3oa1zZQuQlFvpQg==
-X-Received: by 2002:ac8:4f57:0:b0:2ed:d8f:d0bc with SMTP id i23-20020ac84f57000000b002ed0d8fd0bcmr1926261qtw.280.1649735863414;
-        Mon, 11 Apr 2022 20:57:43 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=4NRq9wUKR0Pv6QYoD5yUdpYhNg4tlKq7MmYRIVRzyYg=;
+        b=h3snZoiYNpMNlrrWWxYShnJMoh0s7d+x1mpv5tR/HEfYdMmiB2V70EC8ygco9RMNcP
+         liwKyYB/3ECMZu1h7Ak/reL9RMuYE9Z+ZZyu3vDk/9vuLq+NknMKt2rrkHK2wagkox7c
+         HPaApRGf5EVAszf5C04cR95p4jEqREgNRVONf4zvYKoQaxGo8PyDzZh3blodvF4/zHUZ
+         dNV2cxY+x1mvESn94uy/oEZiWzT+vYt9UGAI1c/gDIbdZJapcUwBi3TF663cCodvSkqi
+         SxTPr9rB2edXW1Th9TsZgBQGqq80D2vflaHZCXBCRF4LMFEiWA4auWe0O1li3lBmD3kN
+         qprA==
+X-Gm-Message-State: AOAM533qj0Nz1NIUDCyCpbq2F6hopR8jL9plR9ziiu/HwV6ZMhL8pR2G
+	mkaG62MYGcN7/aIiMseVpuk=
+X-Google-Smtp-Source: ABdhPJzqhYzE8rSosQ1y35nYVPJCR/QBBweg90gLw/1MosTidp4k6pHMqgdf7sjn4nLxuVotsKjRUg==
+X-Received: by 2002:a05:6214:19c8:b0:444:32f0:2351 with SMTP id j8-20020a05621419c800b0044432f02351mr2073117qvc.109.1649736086971;
+        Mon, 11 Apr 2022 21:01:26 -0700 (PDT)
 Received: from jaehee-ThinkPad-X1-Extreme ([2607:fb90:50fb:900e:25ab:983d:ac30:58b5])
-        by smtp.gmail.com with ESMTPSA id 8-20020ac85948000000b002e1cd3fa142sm28152189qtz.92.2022.04.11.20.57.41
+        by smtp.gmail.com with ESMTPSA id t125-20020a372d83000000b0069c1df12422sm3349402qkh.84.2022.04.11.21.01.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 20:57:42 -0700 (PDT)
-Date: Mon, 11 Apr 2022 23:57:39 -0400
+        Mon, 11 Apr 2022 21:01:26 -0700 (PDT)
+Date: Tue, 12 Apr 2022 00:01:23 -0400
 From: Jaehee Park <jhpark1013@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
+To: Julia Lawall <julia.lawall@inria.fr>
 Cc: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [PATCH v2] staging: wfx: use container_of() to get vif
-Message-ID: <20220412035739.GA2856917@jaehee-ThinkPad-X1-Extreme>
-References: <20220408032349.GA2132476@jaehee-ThinkPad-X1-Extreme>
- <20220408061936.GP3293@kadam>
+Subject: Re: [PATCH] staging: wfx: use container_of() to get vif
+Message-ID: <20220412040123.GB2856917@jaehee-ThinkPad-X1-Extreme>
+References: <20220407204128.GA1810425@jaehee-ThinkPad-X1-Extreme>
+ <alpine.DEB.2.22.394.2204081149360.2196@hadrien>
+ <20220408222102.GB2511628@jaehee-ThinkPad-X1-Extreme>
+ <1911301.taCxCBeP46@pc-42>
+ <alpine.DEB.2.22.394.2204091737130.2655@hadrien>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220408061936.GP3293@kadam>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <alpine.DEB.2.22.394.2204091737130.2655@hadrien>
 
-On Fri, Apr 08, 2022 at 09:19:36AM +0300, Dan Carpenter wrote:
-> On Thu, Apr 07, 2022 at 11:23:49PM -0400, Jaehee Park wrote:
-> > diff --git a/drivers/staging/wfx/wfx.h b/drivers/staging/wfx/wfx.h
-> > index 6594cc647c2f..78f2a416fe4f 100644
-> > --- a/drivers/staging/wfx/wfx.h
-> > +++ b/drivers/staging/wfx/wfx.h
-> > @@ -25,6 +25,8 @@
-> >  #define USEC_PER_TXOP 32 /* see struct ieee80211_tx_queue_params */
-> >  #define USEC_PER_TU 1024
-> >  
-> > +#define wvif_to_vif(ptr)(container_of((void *)ptr, struct ieee80211_vif, drv_priv))
-> > +
+On Sat, Apr 09, 2022 at 05:37:32PM +0200, Julia Lawall wrote:
 > 
-> Better to make this a function.
 > 
+> On Sat, 9 Apr 2022, Jérôme Pouiller wrote:
+> 
+> > On Saturday 9 April 2022 00:21:02 CEST Jaehee Park wrote:
+> > > On Fri, Apr 08, 2022 at 11:49:49AM +0200, Julia Lawall wrote:
+> > > > On Thu, 7 Apr 2022, Jaehee Park wrote:
+> > > >
+> > > > > Use container_of() to get vif. This improves the code in two ways:
+> > > > > [1] it speeds up the compilation because container_of() saves steps to
+> > > > > retrieve vif (the representation of ieee80211_vif), and
+> > > >
+> > > > I don't understand this part.
+> > > >
+> > > > julia
+> > > >
+> > >
+> > > Thank you for your message. I revised the commit message (below)--
+> > > I hope it makes it clearer. I'm open to suggestions as well!
+> > >
+> > > Currently, upon virtual interface creation, wfx_add_interface() stores
+> > > a reference to the corresponding struct ieee80211_vif in private data,
+> > > for later usage. This is not needed when using the container_of
+> > > construct. This construct already has all the info it needs to retrieve
+> > > the reference to the corresponding struct from the offset that is
+> > > already available, inherent in container_of(), between its type and
+> > > member inputs (struct ieee80211_vif and drv_priv, respectively).
+> > > Remove vif (which was previously storing the reference to the struct
+> > > ieee80211_vif) from the struct wfx_vif, define a macro
+> > > wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
+> > > the newly defined container_of construct.
+> > >
+> > > Sorry if I'm putting out more information than was asked for:
+> > > Diagram is worth a thousand words; this one is made by Stefano when
+> > > he was explaining the container_of() construct:
+> > >
+> > > .-----------------------------------.
+> > > |  .------------------------------. |
+> > > '->| struct ieee80211_vif         | |
+> > >    |------------------------------| |
+> > >    | 1                            | |
+> > >    | 2                            | |
+> > >    |  .--------------------------.| |
+> > >    | 3| struct wfx_vif drv_priv   | |
+> > >    |  |---------------------------| |
+> > >    |  | ...                       | |
+> > >    |  |                           | |
+> > >    |  | struct ieee80211_vif *vif---'
+> > >    '------------------------------'
+> > > In this example, the offset is 3.
+> > > What I want to convey here is the compiler already knows the offset
+> > > of drv_priv within struct ieee80211_vif by using the container_of()
+> > > construct. So, it doesn't need to do extra work.
+> >
+> > Wow, nice ascii art :)
+> >
+> > I think that Julia has not understand why you said it "speeds up the
+> > compilation". I think you meant "speeds up the execution", don't you?
+> 
+> Yes, that was my concern.
+> 
+> julia
 
-Hi Dan, Thank you for your comments. To make sure I'm understanding your
-concerns correctly, do you mean I should define a function instead of
-using this macros here?
-
-> Stefano's comments are correct.  It would have saved space with the 80
-> limit to do a "struct ieee80211_vif *vif = wvif_to_vif();" at the start
-
-Got it. I implemented this on the next patch (v3) that I will be sending
-out soon. 
-
-> of the function.  Also dereferencing the results of a function call
-> like this, "frob(foo)->bar", without checking makes me itch.  If it's
-> at the top of the function then that's kind of different.  I normally
-> assume that the functions in the declaration block cannot fail.  From
-> analysing static checker warnings, putting functions which can fail in
-> that the declaration block is risky.
-> 
-
-The frob(foo)->bar in my case would be wvif_to_vif(wvif)->type?
-
-> It's always better to test things but this patch looks correct to me:
-> 
-> The add interface does:
-> 
-> 	struct wfx_vif *wvif = (struct wfx_vif *)vif->drv_priv
->         ...
-> 	wvif->vif = vif;
-> 
-> The remove interface does:
-> 	wvif->vif = NULL;
-> 
-> Those are the only places where ->vif is set container_of() will always
-> work.
-
-Yes this is true. The add and remove interface was the inspiration point
-for this patch.
-> 
-> regards,
-> dan carpenter
-> 
+Understood-- Thank you Julia and Jérôme for catching my mistake and clarifying! 
