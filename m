@@ -1,41 +1,41 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98FA33F0
-	for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 18:58:06 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id z12so10920193edl.2
-        for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 11:58:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCD833C0
+	for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 18:58:07 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id c64so11337144edf.11
+        for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 11:58:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BsWsL39ltA1wTpv8W1hqbPPmQmDEyFgKV3mcaWzu08c=;
-        b=deKENVLfFRR1fSZcs4ZiGvcW7ukzwIj8EfVX9z37LnXJPhxKNy3FxGIe6CQWbppQIZ
-         aUtXjcAGORu3rS41d0DFthdls3+R9BXfOayU3ZVY6alx9It4b/1sA/9Q8sW/dkT/rJ2G
-         9Ao5L5yysnSmKppJdLi3k8ZhAwWiJpjpgdWOPVfMgdGFaSfqQopk/Y1WJTZxPxt2ZDP8
-         MaY0YsabmrGjtB+Q8UuEbY+n+gncLmW/+aa4camFgK4cnumJYM+U9/uWC6sRAa64MIhh
-         Ls8lSPJ+3GTpzD1LHjG9g3DZMpo2nd7Y4COzsHpA4iu3dV0ji96ME61a5RJRK5Ze1E0Q
-         q6QA==
+        bh=hpa4N5vsb9gM4LzFPyO/7ve7HdAU0SOf4yN5lG8PbWY=;
+        b=HgVZUoTC+gx8PCPFFLnAywUZ8CUoq5mmDC3QTucWlg1VezUrWG0GdIhCuBtFLv8tyl
+         VEQDO3GSP4ox2p1SUPDaMmoPvV6L9nBPTvZEQI03+2UY4VYL62fC+Fo3VOqOzrnDJiQl
+         UOwhXzAQQAtkHZzeGIAtrEfJRLZEY0aQyPa4u134U3tWNgEV1/I2JLuOjwj+y08VmnyN
+         mPJpPc4wCZiIMrTOkWXj8wDZ3VEjGdYEj+upacu0akQ0ZXB3lwb1HBN9vVVqNat57DpJ
+         jGEbFk9l0FA+tN3qS9x6gAb/s70vTP2j/7nKwGxhMcE/3oKzNLxWpK+Wzc8uEJFhf0k8
+         vFeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BsWsL39ltA1wTpv8W1hqbPPmQmDEyFgKV3mcaWzu08c=;
-        b=TxmvKDo13JSQUeNUCKmQq5SjZZoqoymhkBhWYGKKI2WYHLuFV6Iq+f8k9x/sKBmGVt
-         /aZylQaNmbjsnifqldOBuw2/ZcfYwkbzXzzfIWf6fP9KN7XeQ+JFxNgvyfuqKzYQXPDm
-         cH5NCaCxjqFfksx0DurCl743ApVl6Vnzqyo1TyVsKnbMoVY/YnB3tM2Ru3G1MY86+h57
-         LvL8488JjIDzMCWBFp8cwpfbLgrJviC/cRwg5LOn2+LPd0zkzLqUkxl3i9PexLkgELsh
-         wAyAjE/yx/v/b+fe/6jXII2xYPpKH0eikP4wVC9DGyb8OOrYscTcE3g0mZkfhmIgwpYx
-         rQNQ==
-X-Gm-Message-State: AOAM531cYmQp9LY9XJjI2TXCnXCBd6/U0u1c8ewDuQmDNXfyI1G+jBCV
-	aXOGqU5rrhhDtzhgyS/xy8E=
-X-Google-Smtp-Source: ABdhPJxvfzcTLZbNQM0pkZ2JE75eq79nLgBBh5wlxm3gTixrxFK/X6sdt7LCtKYa6G2Wc4lkwKqYGA==
-X-Received: by 2002:aa7:d494:0:b0:41d:704f:7718 with SMTP id b20-20020aa7d494000000b0041d704f7718mr17595132edr.147.1649789885302;
-        Tue, 12 Apr 2022 11:58:05 -0700 (PDT)
+        bh=hpa4N5vsb9gM4LzFPyO/7ve7HdAU0SOf4yN5lG8PbWY=;
+        b=tqfz2NffUrFgLQSPmQ/xWnwcrXIhIfVIxjyBKv/X+t1P9JyWm406Aq14RVqik0155X
+         BrVcFkFbBsP8Tdwh+xnsYmnn97KHYpgj0vIKV6Zm3Z+z2153Xw8Ch01O1Lund9aZceUq
+         crtKdgM/GtlZi0/N6LJsDLa7Yd1LnouVb75WiEpYmWnyFrVvW0sRsHh2dqnOCw2FYSke
+         eRKI4mXgj/W39hBniUxnRGL+WimpmmLCzdiI2y30LTo5PV/IDUAwhCFGAI0V1nraNzQP
+         Q3coGs5RdRR91YDC7wlx88eO+a+HjRRcAxPyHwrKbc00xrYQ/e3x3m2jS1rvWIE0ALBH
+         250g==
+X-Gm-Message-State: AOAM531kIZZgq2wPXUUbgh8IoPOel84hXXqW2TayF1rpyA77NyMdqq5S
+	UnGDzkxHe2VumWx65eAsx3k=
+X-Google-Smtp-Source: ABdhPJxfSkH/23aJHVUbzKtMu+PEFUbtRkCS3kd4XoG51Dtd6o0rHViRyN1QxNgGj6jVF+kgF4Lm1Q==
+X-Received: by 2002:a05:6402:cac:b0:410:a920:4e90 with SMTP id cn12-20020a0564020cac00b00410a9204e90mr39599935edb.60.1649789886129;
+        Tue, 12 Apr 2022 11:58:06 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
-        by smtp.gmail.com with ESMTPSA id q22-20020a170906771600b006cf8a37ebf5sm13443482ejm.103.2022.04.12.11.58.04
+        by smtp.gmail.com with ESMTPSA id q22-20020a170906771600b006cf8a37ebf5sm13443482ejm.103.2022.04.12.11.58.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 11:58:04 -0700 (PDT)
+        Tue, 12 Apr 2022 11:58:05 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/6] staging: r8188eu: remove unneeded initializations
-Date: Tue, 12 Apr 2022 20:57:53 +0200
-Message-Id: <20220412185754.8695-6-straube.linux@gmail.com>
+Subject: [PATCH 6/6] staging: r8188eu: clean up long lines in block_write()
+Date: Tue, 12 Apr 2022 20:57:54 +0200
+Message-Id: <20220412185754.8695-7-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412185754.8695-1-straube.linux@gmail.com>
 References: <20220412185754.8695-1-straube.linux@gmail.com>
@@ -57,27 +57,65 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The variables i and offset in block_write() are set in the code
-before they are used. Remove the unneeded initializations.
+Store the address and the data pointer for calls to rtw_writeN() and
+rtw_write8() in local variables. This avoids long lines and improves
+readability.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_fw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/core/rtw_fw.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
-index b4ab050a6f23..1e930799a0b3 100644
+index 1e930799a0b3..8620f3c92b52 100644
 --- a/drivers/staging/r8188eu/core/rtw_fw.c
 +++ b/drivers/staging/r8188eu/core/rtw_fw.c
-@@ -75,7 +75,7 @@ static int block_write(struct adapter *padapter, u8 *buffer, u32 size)
+@@ -75,7 +75,8 @@ static int block_write(struct adapter *padapter, u8 *buffer, u32 size)
  {
  	int ret = _SUCCESS;
  	u32 blocks, block_size, remain;
--	u32	i = 0, offset = 0;
-+	u32 i, offset;
+-	u32 i, offset;
++	u32 i, offset, addr;
++	u8 *data;
  
  	block_size = MAX_REG_BLOCK_SIZE;
  
+@@ -83,7 +84,10 @@ static int block_write(struct adapter *padapter, u8 *buffer, u32 size)
+ 	remain = size % block_size;
+ 
+ 	for (i = 0; i < blocks; i++) {
+-		ret = rtw_writeN(padapter, (FW_8188E_START_ADDRESS + i * block_size), block_size, (buffer + i * block_size));
++		addr = FW_8188E_START_ADDRESS + i * block_size;
++		data = buffer + i * block_size;
++
++		ret = rtw_writeN(padapter, addr, block_size, data);
+ 		if (ret == _FAIL)
+ 			goto exit;
+ 	}
+@@ -96,7 +100,10 @@ static int block_write(struct adapter *padapter, u8 *buffer, u32 size)
+ 		remain = remain % block_size;
+ 
+ 		for (i = 0; i < blocks; i++) {
+-			ret = rtw_writeN(padapter, (FW_8188E_START_ADDRESS + offset + i * block_size), block_size, (buffer + offset + i * block_size));
++			addr = FW_8188E_START_ADDRESS + offset + i * block_size;
++			data = buffer + offset + i * block_size;
++
++			ret = rtw_writeN(padapter, addr, block_size, data);
+ 			if (ret == _FAIL)
+ 				goto exit;
+ 		}
+@@ -109,7 +116,10 @@ static int block_write(struct adapter *padapter, u8 *buffer, u32 size)
+ 		blocks = remain;
+ 
+ 		for (i = 0; i < blocks; i++) {
+-			ret = rtw_write8(padapter, (FW_8188E_START_ADDRESS + offset + i), *(buffer + offset + i));
++			addr = FW_8188E_START_ADDRESS + offset + i;
++			data = buffer + offset + i;
++
++			ret = rtw_write8(padapter, addr, *data);
+ 			if (ret == _FAIL)
+ 				goto exit;
+ 		}
 -- 
 2.35.1
 
