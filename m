@@ -1,80 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7DB1FC6;
-	Tue, 12 Apr 2022 15:54:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C0B4C385A1;
-	Tue, 12 Apr 2022 15:54:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1649778889;
-	bh=dbQHjtWTndQ3IhJbJ7Bf8ue3XoQqen/tZP8psUGBdro=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D0Flk52zzKTiOJtrDbgYOw3HQZfvDWYR5IKWnmBiBv05GWrNgJEFRwVa7lDxf2EDo
-	 SZIZG3XhBYGNiBN8PR23PBJWk6w73PpfhJ23BSXmSq0vypF4dM+TRah0cQD6APe0xP
-	 zZBeatO+KMyPwMoUvG1R1aTl//Qvq68wnbq4gPXw=
-Date: Tue, 12 Apr 2022 17:54:46 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bruno Moreira-Guedes <codeagain@codeagain.dev>
-Cc: Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: vme: Adjusted VME_USER in Kconfig
-Message-ID: <YlWgxjZk8kiwARtL@kroah.com>
-References: <20220401050045.3686663-1-codeagain@codeagain.dev>
- <YkaW0ThT8Ah3z0wW@kroah.com>
- <YkaXRpIElW1BwKGb@kroah.com>
- <37e5203d1efd310ea82cf91c18c6a07eea743ac7.camel@codeagain.dev>
- <Ykl/iBR+pDaaLImA@kroah.com>
- <20220412151432.zsdxrag7myyzgv6o@AN5Bruno>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4327D1FC6
+	for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 16:08:29 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id 21so9752291edv.1
+        for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 09:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=BxIANWtTHyLaMzBOBDwW4uFwacwPEAMR+3BbQd3H0Yc=;
+        b=Octrr/nWzS3t8PK5jXtNHYjE/qWyqvSpvbq6n9WwGfYF+XwATJ6FOCl0fzvobGleLK
+         7goyC0U3JGOyrxDkw4030lxH22iSbbZmC+G4u9tXfci1dQObveOEamGS8MUQazeJzR0h
+         4om2xUJHJRTj/8wwmHqYnYJd0e01jbcKDRIyu3TGfum84yzbMtrIlqo946uLUZeY/rre
+         he1m51OO6fYSIo8zEnthuWgkCQ+hmSJT8bgd+Tpg8kaz4gzDXE74NNjor0Y+XiAcDRTF
+         rypTt7fuC89jHMW+yFsSObgTAw43eU01v2OByaG1b984yLw+lRXGka4NpUF4pCY6JCYe
+         iQ2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BxIANWtTHyLaMzBOBDwW4uFwacwPEAMR+3BbQd3H0Yc=;
+        b=GGzT1Ch3dRh5tB8LIuxeo9NQtcv9OtBalDVAQj7iL7OZoa8Y+pw9vXna1H14JYomHq
+         L+V2vNOJ3qGejIr69ETXNrm1EhGXZCAW5Hza5fjb8lHd8A65biOdPbJdSy1GXhPqk0Qe
+         jrfGAWIZmTzwYxiZMou8Ylr143VFHCv1LlBVKJIT5Z9FilE9m4KZiwUNUysEfF4RrU9n
+         y/EzOSH8sYnYC2SpqtqehRx8Pt16McWVcv+WvPokVt2Kc9vOWHW5s9H2/fM2SxN6sVzP
+         8k08VQ46G+JjiDtpAcqmzW2GcjzRxAvrtiYMvLwo+czMzBh/dm/qsKOYLVQsFLl/Z/aB
+         s8Gg==
+X-Gm-Message-State: AOAM532jffNl8kj+B8xHlVhTngQomBkpCVoWt8M7Lb+eIFlw8FyeNKt3
+	kWWcjmFaNwzOhomwjrMf7/s1P3+j0Fo=
+X-Google-Smtp-Source: ABdhPJyZ/T7Rgd0BXte+iXG4x5G2LGDskFXuelLSrHY9jGVD1N8SEmHlvpoyn3STAtTNvtVPwnOYaA==
+X-Received: by 2002:aa7:cad3:0:b0:410:b188:a49a with SMTP id l19-20020aa7cad3000000b00410b188a49amr39244738edt.416.1649779707514;
+        Tue, 12 Apr 2022 09:08:27 -0700 (PDT)
+Received: from leap.localnet (host-82-60-208-254.retail.telecomitalia.it. [82.60.208.254])
+        by smtp.gmail.com with ESMTPSA id p24-20020a1709061b5800b006e88dfea127sm2938296ejg.3.2022.04.12.09.08.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Apr 2022 09:08:26 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, Vihas Makwana <makvihas@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
+Subject: Re: [PATCH v2 0/7] drop some unnecessary wrappers
+Date: Tue, 12 Apr 2022 18:08:24 +0200
+Message-ID: <3134226.AJdgDx1Vlc@leap>
+In-Reply-To: <20220412151529.GF3293@kadam>
+References: <20220411102136.14937-1-makvihas@gmail.com> <3484215.R56niFO833@leap> <20220412151529.GF3293@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220412151432.zsdxrag7myyzgv6o@AN5Bruno>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Apr 12, 2022 at 12:14:32PM -0300, Bruno Moreira-Guedes wrote:
-> On Sun, Apr 03, 2022 at 01:05:44PM +0200, Greg Kroah-Hartman wrote:
-> > 
-> >On Fri, Apr 01, 2022 at 03:21:50PM -0300, Bruno wrote:
-> >> With my tests in my, I have found two other things that I think are
-> >> remarkable to mention. First one is a missing `depends on` line for
-> >> `VME_BRIDGE` in drivers/staging/vme/devices/Kconfig, not visible
-> >> because they were in the same tree, but now unveiled. I'm fixing it,
-> >> do you think it's best to add it in the same patch?
-> > 
-> > Make that a second patch, and resend it as part of a patch series since
-> > your first patch here is gone from my queue.
+On marted? 12 aprile 2022 17:15:29 CEST Dan Carpenter wrote:
+> On Tue, Apr 12, 2022 at 11:53:42AM +0200, Fabio M. De Francesco wrote:
+> > I didn't suggest a re-write of the commit messages.
 > 
-> This patch is already sent, so I'll trim most of this message to avoid
-> duplicating the discussions. There's only one thing I'd like some input
-> first, if you don't mind.
-> 
-> >> Do you think it would be interesting for a future patch to provide
-> >> some output when drivers from the staging tree are present in the
-> >> running kernel image?
-> > 
-> > If you can figure out how to do so, that would be interesting to see.
-> I think I might have figured out. In "include/modules.h" and
-> "include/init.h" I happened to notice the driver initialization is
-> handled by some macros. After some inspection through gcc -E and looking
-> how they are defined, I figured out a scenario (when MODULE is not
-> defined) where the module_init() macro is defined as (among other
-> things) an inline initcall function that wraps the driver initialization
-> function.
-> 
-> So I thought about implementing it by creating a -DSTAGING flag in 
-> drivers/staging/Makefile, and then using this macro to make an #ifdef
-> STAGING to add a similar inline wrapping function, except that in this
-> case the function makes a pr_warning() before calling the initialization
-> function.
-> 
-> Do you think it would be a good way of solving that?
+> Yes.  That's the problem.  If you want to complain about a commit
+> message then you *should* suggest how you would re-write it.  Otherwise
+> how are we supposed to read your mind?
 
-Yes, that would be a possible way, try it and see!
+Ah, sorry. I had missed that you were asking for a re-write (literally).
 
-greg k-h
+Here it is a sort of diff on Vihas' patch:
+
+- [PATCH v2 1/7] staging: r8188eu: drop unnecessary wrapper _rtw_free_cmd_priv
++ [PATCH v2 1/7] staging: r8188eu: drop unnecessary helper _rtw_free_cmd_priv()
+
+- Drop unnecessary wrapper _rtw_free_cmd_priv and move its logic to
+- rtw_free_cmd_priv.
++ Drop unnecessary helper (wrapped function) _rtw_free_cmd_priv() and
++ move its code to the wrapper rtw_free_cmd_priv().
+
+> > I just pointed out that those messages are formally inaccurate but
+> > that these kinds of small formal inaccuracies
+> 
+> I'm so puzzled but what you mean here.  There were no "small formal
+> inaccuracies".  The patch removed unnecessary wrappers exactly as
+> described.  
+
+The patch removed unnecessary helpers.
+
+> Anyway, I haven't seen your proposed commit message so I
+> can't say.
+> 
+> regards,
+> dan carpenter
+
+Thanks,
+
+Fabio M. De Francesco 
+
+
+
+
