@@ -1,82 +1,89 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F14A1FD0
-	for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 16:21:44 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id c190-20020a1c35c7000000b0038e37907b5bso2176215wma.0
-        for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 09:21:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A101FD7;
+	Tue, 12 Apr 2022 17:18:52 +0000 (UTC)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so21428217fac.7;
+        Tue, 12 Apr 2022 10:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WQX52qYY8bg6hGfzOSBwUaKCGbHm9EJC/8UwMWYqta8=;
-        b=oGf1ai2dAr+KbSX8nBOEFBiYefkx7CVNfmTOcirjviv6oF3MDfm8t9oW+NMzK0Vhhm
-         /Op7M7jwjnfAg6bLlRUf0fPMJfYbY992TOQCEufmOqYsop2KcnWE2vRqM+4CBQbN2+no
-         Rw8cNkaHgYsXaVTtSc+2ZskUXtG6f88atEa4xmit9z+MFvYVoDr/lmARF5FpHlDYCoXM
-         6qmvmp82b6jemVOGf3jCxVW+sDjBdye+XM/5vbUcgwsnyh8DQHvZhAU2TuphI7Qg8HMw
-         8whP4GlCBAvGMJSb6YUXJrifUua5I92E2BjBSlV0G+44KPWcKbc6VEpYEPMRHSGsuG2z
-         yepA==
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=1MO+MVC56kZBEIzmrDTAZJIjtd3zPAk5txwHxsm638E=;
+        b=gZQ3Y+NeEP9WnYsHYan82XhAQmdLR4MoAYCSbsu+ev2sTjAHgsufOBM6FCGYJU6zEP
+         3/pVjKBm/n0l4n4QmRYbeKn8rcIf8jo8aU/wEdDTv2h1z0d02KAoQ9RV4vQzITsBeuyh
+         ML8muAuO9gykkVbYrJbzdXzwOHKwZElndDEDN5SKcgm4G5174MHF/izLExQEIQONlexh
+         vwdEolH6xG21PjvQA6tOxn8mvBAhzHeOA9olSMPX+2SdmH6JQevgwga4LBINfT3Yig0W
+         8I1f6cFrA6eb8XFuMqL5XMqaTIhWWS+8hWrkBXbatE9XfCc9zXOLlOAwTX3q4WcuS0hj
+         WMPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WQX52qYY8bg6hGfzOSBwUaKCGbHm9EJC/8UwMWYqta8=;
-        b=Ul98ZoyQ6mHRmeWbMUA4W7sfT+0lvPCi9vgF6rulneEE0fC8hC0VZTeOnR7LgYUiVV
-         ohL+cagT+Q9ldIvaxdULYxlUPHfKOvIlwtIf03ySNbLKPF62T1HSwXtNgkXoips6OzVn
-         YKl2uaHDCnWNtJ3OglLb2q+1NA1bMA5a6Mozi/wpBv04SWX3YiDRVx/lrVeP8wkYq+l6
-         WfSk2mxk4XgOrS+F/Tf2Uq0fys9UtH6czwpdh4mFkCfED/6KOPLPchov6rxuGL7495Y+
-         CdDY+Fhq3SfLzLsMrLL6fjzmyYIx2DYCX2GoEakpkDRFlWNj6aLrfxf4mvKXiF1jUfB9
-         4GoQ==
-X-Gm-Message-State: AOAM533f5lr/uDv7kNMOubzefVEVBPAZh+he8QSC7TFjdPc4XlijAYYm
-	HHGd4gErd7wcbv+KCzAT6Zg=
-X-Google-Smtp-Source: ABdhPJwjkMvZyqLFG0sCHtMfhXXc+rnNiU+6PHYsFUbDEQ/8Oeh3KJV3n+MLBC0VwX3mYmmysHJimw==
-X-Received: by 2002:a05:600c:3593:b0:38e:a8a2:abe3 with SMTP id p19-20020a05600c359300b0038ea8a2abe3mr4932472wmq.149.1649780502596;
-        Tue, 12 Apr 2022 09:21:42 -0700 (PDT)
-Received: from leap.localnet (host-82-60-208-254.retail.telecomitalia.it. [82.60.208.254])
-        by smtp.gmail.com with ESMTPSA id u7-20020a05600c19c700b0038cc9aac1a3sm3011747wmq.23.2022.04.12.09.21.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 09:21:41 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Liu Junqi <liujunqi@pku.edu.cn>, Bart Van Assche <bvanassche@acm.org>, "Martin K. Petersen" <martin.petersen@oracle.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Colin Ian King <colin.king@intel.com>, sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] MAINTAINERS: Remove D. Kershner from Unisys S-PAR maintainers
-Date: Tue, 12 Apr 2022 18:21:39 +0200
-Message-ID: <1683735.QkHrqEjB74@leap>
-In-Reply-To: <CAMhs-H_JJ7JVccYjdoj5opTt6R5CHRBwQ05tXPuFgenpCuyy4w@mail.gmail.com>
-References: <20220412103629.8029-1-fmdefrancesco@gmail.com> <2976258.CbtlEUcBR6@leap> <CAMhs-H_JJ7JVccYjdoj5opTt6R5CHRBwQ05tXPuFgenpCuyy4w@mail.gmail.com>
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=1MO+MVC56kZBEIzmrDTAZJIjtd3zPAk5txwHxsm638E=;
+        b=6+E9huXESr+OeXDe1coiG0AwGFFo+5O0YZLgziUDwyxOV+iDdihrsmCsDTpK1pt5W1
+         ghf6dB8PSCQpoF3Aids4cIowDIpkapUNUWLpnrFYrut5HHXbN+Nf9z76bdIcTRgGzH71
+         Igpoh++oki2RPgH/09IMS3u/5WxzJpflySh4PDqzdtDzlYhBinvk9PgGRYoM3JNpEX1F
+         OmudNAcTSH72RQ0ekvQxvxQ/rawiF1VwYAZsGWTyH91fNuHTeCrApnkNIESJp/a9qmTY
+         G5aQZRdNN9mRuDXgfIIL8CCR+W7h2Nooh6mGZcanRKakyFICzIaQy52HdTqyJffgwDhO
+         DBYg==
+X-Gm-Message-State: AOAM532IvOYuc4XEWeSJ5mAPDplYKs840NkDatDgB2gDV7aAJW0ItxDA
+	r1mmOhhTr3BQoH9hvq3ijGc=
+X-Google-Smtp-Source: ABdhPJwKWPBqgUckZLmmXiV4ZdPDvtEqvyf2VWE1hES3i003XDLdLa/VDYnij36CUwjRegV5hR17xw==
+X-Received: by 2002:a05:6870:b408:b0:dd:ed4f:b1c7 with SMTP id x8-20020a056870b40800b000dded4fb1c7mr2652911oap.41.1649783932009;
+        Tue, 12 Apr 2022 10:18:52 -0700 (PDT)
+Received: from ?IPV6:2603:8090:2005:39b3::100e? (2603-8090-2005-39b3-0000-0000-0000-100e.res6.spectrum.com. [2603:8090:2005:39b3::100e])
+        by smtp.gmail.com with ESMTPSA id z10-20020a0568301daa00b005ce0f36dd81sm13529594oti.12.2022.04.12.10.18.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Apr 2022 10:18:51 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <027acae3-29ee-ae35-4448-a56e66383849@lwfinger.net>
+Date: Tue, 12 Apr 2022 12:18:50 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] staging: r8188eu: correct multiple misspellings in driver
+ r8188eu
+Content-Language: en-US
+To: Dave Jiang <dave.jiang@intel.com>, Mahak Gupta <mahak_g@cs.iitr.ac.in>,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev
+References: <20220411205321.13109-1-mahak_g@cs.iitr.ac.in>
+ <c5fc1685-b1cc-7cfa-1ddd-e2f93105c2a5@intel.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <c5fc1685-b1cc-7cfa-1ddd-e2f93105c2a5@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sergio,
+On 4/11/22 16:28, Dave Jiang wrote:
+> Subject:
+> 
+> staging: r8188eu: fix multiple spelling errors in driver source
+> 
+> Given that it already annotated that it's the r8188eu driver, no need to add "in 
+> driver r8188eu".
+> 
+> Maybe the log can be something less terse:
+> 
+> Fix multiple spelling errors reported by checkpatch.
+> 
+> 
+> Probably doesn't hurt to fix other issues on the same line while you are at it. 
+> See below...
 
-On marted=C3=AC 12 aprile 2022 13:30:43 CEST Sergio Paracuellos wrote:
-> Hi Fabio,
->=20
-> Check this patchset [0] I sent a bit time ago removing two drivers from s=
-taging,
->=20
-> Hope this helps.
->=20
-> Regards,
->     Sergio Paracuellos
->=20
-> [0]: https://lore.kernel.org/all/20211113192045.32153-4-sergio.paracuello=
-s@gmail.com/T/
+Wrong on the first and last points. That subject is exactly what should be used 
+- it describes what is being modified.
 
-Thank you very much for the link to your patchset :)
+A given patch should fix one, and only one, problem.
 
-I have just taken a look at it. I'm pretty sure that it will be very useful
-for accomplishing the task of removing the unisys sub-tree. I've planned to
-do this work by the end of the current week.
+Yes, the commit message could be less terse, but that is not a problem.
 
-Regards,
-
-=46abio M. De Francesco
-
-
+Larry
