@@ -1,109 +1,89 @@
-Received: from m228-62.mailgun.net (m228-62.mailgun.net [159.135.228.62])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D6046AA
-	for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 07:12:30 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev; q=dns/txt;
- s=smtp; t=1649747550; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Subject: Cc: To: To: From: From: Date:
- Sender: Sender; bh=NgB4J145WK0eAdmQZ6KKPhAtsa67dfOsSoag6jWRVUs=; b=f+rjNN9oE7EGpCk0GLeXFon0eAYh2+Vm1RrTPKCS3SaqPJx+gZZt+csI9/tQq6L2ATVffgzr
- gR1k4XmOkOkzju2kOAFeZ5udbq+GKBtfHFkssry7k/7k+yu2gUyJ3ivE15nr300ztjpHjleZ
- 6+O+bxeWrQHfXJnwssnxAIG2HdpNu+Ccq6dI2VpPrem4Tv28TmROSYSPvKphknDDIEXPiQTg
- m6FdZXtByqq2PrJwHdAPyrEc3hwysUkWT8JmMc1B9HUjjk5wcWfIYXRsjXLzF84biol90fOX
- 2RV+CcJVpvAMMS3kQxld6fgjy1iY95jCQH43t9RnqH3BfbQl6V1tDg==
-X-Mailgun-Sending-Ip: 159.135.228.62
-X-Mailgun-Sid: WyI4MTlhZCIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTljNmQiXQ==
-Received: from AN5Bruno (186-250-90-1.mhnet.com.br [186.250.90.1]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 6255265d77e17d301dacc648 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Tue, 12 Apr 2022 07:12:29 GMT
-Sender: codeagain@codeagain.dev
-Date: Tue, 12 Apr 2022 04:12:19 -0300
-From: Bruno Moreira-Guedes <codeagain@codeagain.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A4C1FA1;
+	Tue, 12 Apr 2022 07:15:53 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id s137so13686120pgs.5;
+        Tue, 12 Apr 2022 00:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ytee5BXPFue//i/S5H9XW0vp//57/msLsOSPYDoD7pA=;
+        b=HWT0wuY+bs4wBailgXc8fTEGU1IYrL1BQo966ATg49Crbz7KaAeqizYOrHHpbjyeTD
+         cjoUyPKKQbOy7JJtZt1y2fDZrnjWyVt2P4n8qCFkq2PX8JWDVNeOrDjxwbwrafTENTzQ
+         38zoChLnzdTWZXYZy+XNTTPsX8dcdX99l4SzSvvEIFiVRZzjozKgGXPJuR1Rd11nBjw5
+         dCFTenCkAnzMwKD4DPj0HA3DuPNCUdhGVKWHxPP0lp+dlQl1v4AlqRqC6IwyYEmkgbw3
+         TwB8Xdu2txkZtyvYRBXy5TL3CcIC4CMjv3gAgBeVhVgQtHCNdW0ZKzwT4d3OrVUKgNyu
+         zXAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ytee5BXPFue//i/S5H9XW0vp//57/msLsOSPYDoD7pA=;
+        b=odDfO22WQYi5wqbXOfhouf4467otWG9lM96o+MpKogJT/ThtsMv/43Obvad1ndQkzg
+         NkFRhwE913BSttZoc8q6C5ZH7NYalOxl0RojjZo2i50A/gKi6tzqjOC91r4z6xht9c2c
+         3hkSyqn+r6KhsGSAl7s5901JfGNUQlyl5X/myvPjzlyeYMcKkloHYJhohk7ABidicE/T
+         0HRoMD30KfWOClRmsbOpXMConuyvYzrR0BZGODOEH6cT0bi2CW/jvjORlo4QwNhNblc+
+         jffu9RliMUL1Ni1ViupzW4JLgkAuzjXiDVpvoD1+RJN5wSWdo2BEeiSr7gy2qIDB5YrK
+         kfLw==
+X-Gm-Message-State: AOAM531s6tjOOO2lrC/SzMmMDTRJFG4rtHrO/nON1UwujQMNX78wbYMS
+	flCCTlyY9vHaghwllqLso9Q=
+X-Google-Smtp-Source: ABdhPJyKoajIN6GLvhNakduARZrxYQmKrsEnBaTRWINhHNf1z4d3cpC7qDOxmLta/u9eiTAuI8cZLA==
+X-Received: by 2002:a05:6a00:140e:b0:4e1:c81a:625c with SMTP id l14-20020a056a00140e00b004e1c81a625cmr36649535pfu.39.1649747753210;
+        Tue, 12 Apr 2022 00:15:53 -0700 (PDT)
+Received: from aliyaR-laptop.domain.name ([14.139.241.88])
+        by smtp.googlemail.com with ESMTPSA id s3-20020a056a00194300b004f6664d26eesm40384711pfk.88.2022.04.12.00.15.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Apr 2022 00:15:52 -0700 (PDT)
+From: aliya-rahmani <aliyarahmani786@gmail.com>
+To: florian.c.schilhabel@googlemail.com
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
 	outreachy@lists.linux.dev,
-	Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Cc: Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: Re: [PATCH v2 0/3] staging: vme: Restructuring menuconfig and tree
-Message-ID: <20220412071219.rapvtaxvoz2yerr5@AN5Bruno>
-References: <cover.1649721450.git.codeagain@codeagain.dev>
+	Aliya Rahmani <aliyarahmani786@gmail.com>
+Subject: [PATCH v3] staging: rtl8712: efuse: code style - avoid macro argument precedence issues
+Date: Tue, 12 Apr 2022 12:44:57 +0530
+Message-Id: <20220412071456.40980-1-aliyarahmani786@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="a4cxoghgp7wwa5tg"
-Content-Disposition: inline
-In-Reply-To: <cover.1649721450.git.codeagain@codeagain.dev>
+Content-Transfer-Encoding: 8bit
 
+From: Aliya Rahmani <aliyarahmani786@gmail.com>
 
---a4cxoghgp7wwa5tg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch fixes checkpatch warnings of precedence issues. Added parentheses
+around macro arguments 'offset' and 'word_en'.
 
-Please, disconsider some small errors in the commit message. I have sent
-the patch files generated befor updating some information, so two of the
-patches will be updated
+Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
+---
+v1 -> v2: Updated the description of the fixes.
 
-On Tue, Apr 12, 2022 at 03:53:46AM -0300, Bruno Moreira-Guedes wrote:
-> This patch series modify the vme_user driver's place in
-> menuconfig (1/3), fixes a missing `depends on` line in a Kconfig file
-> (2/3), and rearrages the directory tree for the driver allowing a more
-> straightforward comprehension of its contents (3/3).
->=20
-> Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
->=20
-> Bruno Moreira-Guedes (3):
->   staging: vme: Adjusted VME_USER in Kconfig
-This is fine as far as I noticed.
+v2 -> v3: Rework the changes and commit message.
+---
 
->   staging: vme: Fix missing `depends on` at KConfig
-This one refers to VME_BRIDGE somewhere, when it's actually VME_BUS.
-I'll fix it.
+ drivers/staging/rtl8712/rtl8712_efuse.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->   staging: vme: "drivers/staging/vme" tree cleanup
-Some changes aren't properly mentioned in the commit message here.
+diff --git a/drivers/staging/rtl8712/rtl8712_efuse.h b/drivers/staging/rtl8712/rtl8712_efuse.h
+index 4969d307e978..2e1ea9d7a295 100644
+--- a/drivers/staging/rtl8712/rtl8712_efuse.h
++++ b/drivers/staging/rtl8712/rtl8712_efuse.h
+@@ -15,8 +15,8 @@
+ 
+ #define GET_EFUSE_OFFSET(header)	((header & 0xF0) >> 4)
+ #define GET_EFUSE_WORD_EN(header)	(header & 0x0F)
+-#define MAKE_EFUSE_HEADER(offset, word_en)	(((offset & 0x0F) << 4) | \
+-						(word_en & 0x0F))
++#define MAKE_EFUSE_HEADER(offset, word_en)	((((offset) & 0x0F) << 4) | \
++						((word_en) & 0x0F))
+ /*--------------------------------------------------------------------------*/
+ struct PGPKT_STRUCT {
+ 	u8 offset;
+-- 
+2.25.1
 
->=20
->  MAINTAINERS                                          | 2 +-
-I missed to mention this update on MAINTAINERS, due to changes in the
-directory structure.
-
->  drivers/staging/Kconfig                              | 2 ++
->  drivers/staging/Makefile                             | 2 +-
->  drivers/staging/vme/Makefile                         | 2 --
->  drivers/staging/{vme/devices =3D> vme_user}/Kconfig    | 2 +-
->  drivers/staging/{vme/devices =3D> vme_user}/Makefile   | 0
->  drivers/staging/{vme/devices =3D> vme_user}/vme_user.c | 0
->  drivers/staging/{vme/devices =3D> vme_user}/vme_user.h | 0
->  drivers/vme/Kconfig                                  | 2 --
->  9 files changed, 5 insertions(+), 7 deletions(-)
->  delete mode 100644 drivers/staging/vme/Makefile
->  rename drivers/staging/{vme/devices =3D> vme_user}/Kconfig (93%)
->  rename drivers/staging/{vme/devices =3D> vme_user}/Makefile (100%)
->  rename drivers/staging/{vme/devices =3D> vme_user}/vme_user.c (100%)
->  rename drivers/staging/{vme/devices =3D> vme_user}/vme_user.h (100%)
->=20
-> --=20
-> 2.35.1
->=20
-
-
---a4cxoghgp7wwa5tg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCYlUmUwAKCRAZtd3tyEY2
-kpYTAP4veEOxVUWkbDbgVB46nEao+xSYla9M8a2WC697U2jzeAEAsCrz3rvRG13O
-Eg2WgitpLBPqjykBczHhrBWvpfEIVgo=
-=iBz5
------END PGP SIGNATURE-----
-
---a4cxoghgp7wwa5tg--
