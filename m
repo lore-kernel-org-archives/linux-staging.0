@@ -1,89 +1,96 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A101FD7;
-	Tue, 12 Apr 2022 17:18:52 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so21428217fac.7;
-        Tue, 12 Apr 2022 10:18:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=1MO+MVC56kZBEIzmrDTAZJIjtd3zPAk5txwHxsm638E=;
-        b=gZQ3Y+NeEP9WnYsHYan82XhAQmdLR4MoAYCSbsu+ev2sTjAHgsufOBM6FCGYJU6zEP
-         3/pVjKBm/n0l4n4QmRYbeKn8rcIf8jo8aU/wEdDTv2h1z0d02KAoQ9RV4vQzITsBeuyh
-         ML8muAuO9gykkVbYrJbzdXzwOHKwZElndDEDN5SKcgm4G5174MHF/izLExQEIQONlexh
-         vwdEolH6xG21PjvQA6tOxn8mvBAhzHeOA9olSMPX+2SdmH6JQevgwga4LBINfT3Yig0W
-         8I1f6cFrA6eb8XFuMqL5XMqaTIhWWS+8hWrkBXbatE9XfCc9zXOLlOAwTX3q4WcuS0hj
-         WMPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=1MO+MVC56kZBEIzmrDTAZJIjtd3zPAk5txwHxsm638E=;
-        b=6+E9huXESr+OeXDe1coiG0AwGFFo+5O0YZLgziUDwyxOV+iDdihrsmCsDTpK1pt5W1
-         ghf6dB8PSCQpoF3Aids4cIowDIpkapUNUWLpnrFYrut5HHXbN+Nf9z76bdIcTRgGzH71
-         Igpoh++oki2RPgH/09IMS3u/5WxzJpflySh4PDqzdtDzlYhBinvk9PgGRYoM3JNpEX1F
-         OmudNAcTSH72RQ0ekvQxvxQ/rawiF1VwYAZsGWTyH91fNuHTeCrApnkNIESJp/a9qmTY
-         G5aQZRdNN9mRuDXgfIIL8CCR+W7h2Nooh6mGZcanRKakyFICzIaQy52HdTqyJffgwDhO
-         DBYg==
-X-Gm-Message-State: AOAM532IvOYuc4XEWeSJ5mAPDplYKs840NkDatDgB2gDV7aAJW0ItxDA
-	r1mmOhhTr3BQoH9hvq3ijGc=
-X-Google-Smtp-Source: ABdhPJwKWPBqgUckZLmmXiV4ZdPDvtEqvyf2VWE1hES3i003XDLdLa/VDYnij36CUwjRegV5hR17xw==
-X-Received: by 2002:a05:6870:b408:b0:dd:ed4f:b1c7 with SMTP id x8-20020a056870b40800b000dded4fb1c7mr2652911oap.41.1649783932009;
-        Tue, 12 Apr 2022 10:18:52 -0700 (PDT)
-Received: from ?IPV6:2603:8090:2005:39b3::100e? (2603-8090-2005-39b3-0000-0000-0000-100e.res6.spectrum.com. [2603:8090:2005:39b3::100e])
-        by smtp.gmail.com with ESMTPSA id z10-20020a0568301daa00b005ce0f36dd81sm13529594oti.12.2022.04.12.10.18.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Apr 2022 10:18:51 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <027acae3-29ee-ae35-4448-a56e66383849@lwfinger.net>
-Date: Tue, 12 Apr 2022 12:18:50 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7671FD1;
+	Tue, 12 Apr 2022 17:18:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649783930; x=1681319930;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gqO9kiFi9h/R4QIs0wdglXcXClDXZyXTWIjL3/zjRXw=;
+  b=Mz/LieDQeXIk/xZBPv85SFJnRxrOMKbWgPB0E9ikPbFuMld/X0KKnUFv
+   wDkXwKJBO/bmiyE+Jsie0ct0n/RlkKpnhu78u8QYBC0UgllRpu/o2zaWT
+   0Qd58EjBazg8WAm7gXjESvAqWcnQf4B6KEE9nTQUJoqPlVOepm5ASyYKk
+   WQlr6zk5Qw5HL8ZzJKPUj6NpXU1M32nnSTntHhemk8bE8qTiREkeothcu
+   IWEClDO82EmuILO0vn2cMIsTOpSjjvTKRY913569Eo8j8a50lYDKdm7k4
+   JYCjWV8q9MNYmsUO8sV77a+gyDYWkpJki98UBWTE1L4PTR2Pjk4kNItSY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="262627140"
+X-IronPort-AV: E=Sophos;i="5.90,254,1643702400"; 
+   d="scan'208";a="262627140"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2022 10:16:53 -0700
+X-IronPort-AV: E=Sophos;i="5.90,254,1643702400"; 
+   d="scan'208";a="724544681"
+Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2022 10:16:52 -0700
+Date: Tue, 12 Apr 2022 10:18:49 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Bruno's Patch Watchbox <patch-reply@codeagain.dev>
+Subject: Re: [PATCH v2 0/3] staging: vme: Restructuring menuconfig and tree
+Message-ID: <20220412171849.GA1236580@alison-desk>
+References: <cover.1649721450.git.codeagain@codeagain.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] staging: r8188eu: correct multiple misspellings in driver
- r8188eu
-Content-Language: en-US
-To: Dave Jiang <dave.jiang@intel.com>, Mahak Gupta <mahak_g@cs.iitr.ac.in>,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- outreachy@lists.linux.dev
-References: <20220411205321.13109-1-mahak_g@cs.iitr.ac.in>
- <c5fc1685-b1cc-7cfa-1ddd-e2f93105c2a5@intel.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <c5fc1685-b1cc-7cfa-1ddd-e2f93105c2a5@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1649721450.git.codeagain@codeagain.dev>
 
-On 4/11/22 16:28, Dave Jiang wrote:
-> Subject:
-> 
-> staging: r8188eu: fix multiple spelling errors in driver source
-> 
-> Given that it already annotated that it's the r8188eu driver, no need to add "in 
-> driver r8188eu".
-> 
-> Maybe the log can be something less terse:
-> 
-> Fix multiple spelling errors reported by checkpatch.
-> 
-> 
-> Probably doesn't hurt to fix other issues on the same line while you are at it. 
-> See below...
+On Tue, Apr 12, 2022 at 03:53:46AM -0300, Bruno Moreira-Guedes wrote:
+> This patch series modify the vme_user driver's place in
+> menuconfig (1/3), fixes a missing `depends on` line in a Kconfig file
+> (2/3), and rearrages the directory tree for the driver allowing a more
+> straightforward comprehension of its contents (3/3).
 
-Wrong on the first and last points. That subject is exactly what should be used 
-- it describes what is being modified.
+For a patchset it (typically) is OK to put the changelog in the
+cover letter. See the first patch tutorial for how to format that.
+That give you a little less editing to do for each individual patch.
 
-A given patch should fix one, and only one, problem.
+I do see that you responded to this cover letter with clarifications.
+That is fine. Just be aware that it will probably stop reviewers from
+continuing their review, because you've already alerted them a v3 is
+in the works. I'm going to go ahead and comment on a few format things
+in this set, so maybe you can tidy them up in v3.
 
-Yes, the commit message could be less terse, but that is not a problem.
+Alison
 
-Larry
+> 
+> Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+> 
+> Bruno Moreira-Guedes (3):
+>   staging: vme: Adjusted VME_USER in Kconfig
+>   staging: vme: Fix missing `depends on` at KConfig
+>   staging: vme: "drivers/staging/vme" tree cleanup
+> 
+>  MAINTAINERS                                          | 2 +-
+>  drivers/staging/Kconfig                              | 2 ++
+>  drivers/staging/Makefile                             | 2 +-
+>  drivers/staging/vme/Makefile                         | 2 --
+>  drivers/staging/{vme/devices => vme_user}/Kconfig    | 2 +-
+>  drivers/staging/{vme/devices => vme_user}/Makefile   | 0
+>  drivers/staging/{vme/devices => vme_user}/vme_user.c | 0
+>  drivers/staging/{vme/devices => vme_user}/vme_user.h | 0
+>  drivers/vme/Kconfig                                  | 2 --
+>  9 files changed, 5 insertions(+), 7 deletions(-)
+>  delete mode 100644 drivers/staging/vme/Makefile
+>  rename drivers/staging/{vme/devices => vme_user}/Kconfig (93%)
+>  rename drivers/staging/{vme/devices => vme_user}/Makefile (100%)
+>  rename drivers/staging/{vme/devices => vme_user}/vme_user.c (100%)
+>  rename drivers/staging/{vme/devices => vme_user}/vme_user.h (100%)
+> 
+> -- 
+> 2.35.1
+> 
+
+
