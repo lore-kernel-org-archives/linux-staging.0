@@ -1,31 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61E81FBA
-	for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 13:38:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F87AC385A1;
-	Tue, 12 Apr 2022 13:38:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FC91FBA
+	for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 13:40:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5C8DC385A5;
+	Tue, 12 Apr 2022 13:40:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1649770728;
-	bh=If4KJxS1/AVf307xWkNZDRnv4N5rmqUpTEKgaBEdAsY=;
+	s=korg; t=1649770835;
+	bh=lmjMi2JL1E2d3tXC8QaScWD0jdPvNz82ZBYIoK79yxI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y7esKDYjUXe0+ELyCyQfNazoS1s5EBVql/1k7Jpr+CgQLqu6dWGk98m30pJl1klQy
-	 ON6oRW1/Eo4aCzDefZ6DUd49Y2WuuIKgbFul9C9XkctvAjZeoxxN087dlfTqM+rJ34
-	 SoSxSmpIIaF4w4SAkmXbA3C9CPO9r5/Pm3PY905s=
-Date: Tue, 12 Apr 2022 15:38:45 +0200
+	b=i2WLv5bUdYLIeaoKiAgXwsydDMqLl68I2CfQFgk/b6cUdTjIb9IVtggtAviE6uaoa
+	 BP7JAPtc5iGgI0LHYGQYGRuuVyCjxz822eCqicL/f5XYqoNr9jfBWtF/YrLvT+a0ui
+	 zQle3qVLQLc3gpwUxgR0TZXKY+WCTZYGN/+ahU58=
+Date: Tue, 12 Apr 2022 15:40:32 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Martin Kaiser <martin@kaiser.cx>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 Cc: Dan Carpenter <dan.carpenter@oracle.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
+	Forest Bond <forest@alittletooquiet.net>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/8] staging: r8188eu: don't set _SUCCESS again
-Message-ID: <YlWA5XkVDd9UJ81v@kroah.com>
-References: <20220409151557.207980-1-martin@kaiser.cx>
- <20220409151557.207980-3-martin@kaiser.cx>
- <20220411101834.GW3293@kadam>
- <20220411183918.4mw5x6tatslii7mg@viti.kaiser.cx>
+Subject: Re: [PATCH v3 4/7] staging: vt6655: Replace VNSvOutPortB with
+ iowrite8
+Message-ID: <YlWBUGBY6mdjM9iH@kroah.com>
+References: <cover.1649706687.git.philipp.g.hortmann@gmail.com>
+ <3cac1ca7000a56e82b390ea0ddbab5aa549ee7ec.1649706687.git.philipp.g.hortmann@gmail.com>
+ <20220412063731.GA3293@kadam>
+ <25a1bac5-7758-9602-7c9f-9d8b02d845e4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,27 +33,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220411183918.4mw5x6tatslii7mg@viti.kaiser.cx>
+In-Reply-To: <25a1bac5-7758-9602-7c9f-9d8b02d845e4@gmail.com>
 
-On Mon, Apr 11, 2022 at 08:39:18PM +0200, Martin Kaiser wrote:
-> Thus wrote Dan Carpenter (dan.carpenter@oracle.com):
+On Tue, Apr 12, 2022 at 08:45:53AM +0200, Philipp Hortmann wrote:
+> On 4/12/22 08:37, Dan Carpenter wrote:
+> > On Mon, Apr 11, 2022 at 10:49:39PM +0200, Philipp Hortmann wrote:
+> > > Replace macro VNSvOutPortB with iowrite8.
+> > > The name of macro and the arguments use CamelCase which
+> > > is not accepted by checkpatch.pl
+> > > 
+> > > For constants from 0 to below 0x80 the u8 cast was omitted.
+> > > For variables which are defined as unsigned char the u8 is omitted.
+> > I hate that GCC prints warnings for this.  Useless.  Horrible.  But I
+> > understand that GCC does and we haven't figured out how to disable it
+> > or who needs to approve that.
+> > 
+> > But even then I still don't understand the casting in this patch.
+> > 
+> > Shouldn't the rule be to do the minimum work arounds to silence GCC?
+> > My understand is that the the casting is only needed when you're dealing
+> > with a bitwise negated constant.  These are macros so the parameters
+> > might be constant so basically any bitwise negate gets a cast.
+> > 
 > 
-> > On Sat, Apr 09, 2022 at 05:15:51PM +0200, Martin Kaiser wrote:
-> > > ret is initialized to _SUCCESS, there's no need to set it again.
-> 
-> > > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> 
-> > I liked the original code better.  Otherwise you wonder, is it
-> > intentional to return success on this path. 
-> 
-> You're right. The original code is easier to understand. It's not
-> obvious that this check should return _SUCCESS and the remaining ones
-> return _FAIL.
-> 
-> Greg, could you drop this patch or should I resend the series without
-> this patch?
+> Please send me the compiler flags you are using.
+> I was using:
+> make "KCFLAGS=-pipe -Wall" -C . M=drivers/staging/vt6655/
 
-Please resend without this one.
+Why are you adding random flags to the build?  Just stick with the
+default ones, that's all you need.
 
 thanks,
 
