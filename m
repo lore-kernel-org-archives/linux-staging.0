@@ -1,97 +1,82 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4327D1FC6
-	for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 16:08:29 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id 21so9752291edv.1
-        for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 09:08:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F14A1FD0
+	for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 16:21:44 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id c190-20020a1c35c7000000b0038e37907b5bso2176215wma.0
+        for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 09:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BxIANWtTHyLaMzBOBDwW4uFwacwPEAMR+3BbQd3H0Yc=;
-        b=Octrr/nWzS3t8PK5jXtNHYjE/qWyqvSpvbq6n9WwGfYF+XwATJ6FOCl0fzvobGleLK
-         7goyC0U3JGOyrxDkw4030lxH22iSbbZmC+G4u9tXfci1dQObveOEamGS8MUQazeJzR0h
-         4om2xUJHJRTj/8wwmHqYnYJd0e01jbcKDRIyu3TGfum84yzbMtrIlqo946uLUZeY/rre
-         he1m51OO6fYSIo8zEnthuWgkCQ+hmSJT8bgd+Tpg8kaz4gzDXE74NNjor0Y+XiAcDRTF
-         rypTt7fuC89jHMW+yFsSObgTAw43eU01v2OByaG1b984yLw+lRXGka4NpUF4pCY6JCYe
-         iQ2w==
+        bh=WQX52qYY8bg6hGfzOSBwUaKCGbHm9EJC/8UwMWYqta8=;
+        b=oGf1ai2dAr+KbSX8nBOEFBiYefkx7CVNfmTOcirjviv6oF3MDfm8t9oW+NMzK0Vhhm
+         /Op7M7jwjnfAg6bLlRUf0fPMJfYbY992TOQCEufmOqYsop2KcnWE2vRqM+4CBQbN2+no
+         Rw8cNkaHgYsXaVTtSc+2ZskUXtG6f88atEa4xmit9z+MFvYVoDr/lmARF5FpHlDYCoXM
+         6qmvmp82b6jemVOGf3jCxVW+sDjBdye+XM/5vbUcgwsnyh8DQHvZhAU2TuphI7Qg8HMw
+         8whP4GlCBAvGMJSb6YUXJrifUua5I92E2BjBSlV0G+44KPWcKbc6VEpYEPMRHSGsuG2z
+         yepA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BxIANWtTHyLaMzBOBDwW4uFwacwPEAMR+3BbQd3H0Yc=;
-        b=GGzT1Ch3dRh5tB8LIuxeo9NQtcv9OtBalDVAQj7iL7OZoa8Y+pw9vXna1H14JYomHq
-         L+V2vNOJ3qGejIr69ETXNrm1EhGXZCAW5Hza5fjb8lHd8A65biOdPbJdSy1GXhPqk0Qe
-         jrfGAWIZmTzwYxiZMou8Ylr143VFHCv1LlBVKJIT5Z9FilE9m4KZiwUNUysEfF4RrU9n
-         y/EzOSH8sYnYC2SpqtqehRx8Pt16McWVcv+WvPokVt2Kc9vOWHW5s9H2/fM2SxN6sVzP
-         8k08VQ46G+JjiDtpAcqmzW2GcjzRxAvrtiYMvLwo+czMzBh/dm/qsKOYLVQsFLl/Z/aB
-         s8Gg==
-X-Gm-Message-State: AOAM532jffNl8kj+B8xHlVhTngQomBkpCVoWt8M7Lb+eIFlw8FyeNKt3
-	kWWcjmFaNwzOhomwjrMf7/s1P3+j0Fo=
-X-Google-Smtp-Source: ABdhPJyZ/T7Rgd0BXte+iXG4x5G2LGDskFXuelLSrHY9jGVD1N8SEmHlvpoyn3STAtTNvtVPwnOYaA==
-X-Received: by 2002:aa7:cad3:0:b0:410:b188:a49a with SMTP id l19-20020aa7cad3000000b00410b188a49amr39244738edt.416.1649779707514;
-        Tue, 12 Apr 2022 09:08:27 -0700 (PDT)
+        bh=WQX52qYY8bg6hGfzOSBwUaKCGbHm9EJC/8UwMWYqta8=;
+        b=Ul98ZoyQ6mHRmeWbMUA4W7sfT+0lvPCi9vgF6rulneEE0fC8hC0VZTeOnR7LgYUiVV
+         ohL+cagT+Q9ldIvaxdULYxlUPHfKOvIlwtIf03ySNbLKPF62T1HSwXtNgkXoips6OzVn
+         YKl2uaHDCnWNtJ3OglLb2q+1NA1bMA5a6Mozi/wpBv04SWX3YiDRVx/lrVeP8wkYq+l6
+         WfSk2mxk4XgOrS+F/Tf2Uq0fys9UtH6czwpdh4mFkCfED/6KOPLPchov6rxuGL7495Y+
+         CdDY+Fhq3SfLzLsMrLL6fjzmyYIx2DYCX2GoEakpkDRFlWNj6aLrfxf4mvKXiF1jUfB9
+         4GoQ==
+X-Gm-Message-State: AOAM533f5lr/uDv7kNMOubzefVEVBPAZh+he8QSC7TFjdPc4XlijAYYm
+	HHGd4gErd7wcbv+KCzAT6Zg=
+X-Google-Smtp-Source: ABdhPJwjkMvZyqLFG0sCHtMfhXXc+rnNiU+6PHYsFUbDEQ/8Oeh3KJV3n+MLBC0VwX3mYmmysHJimw==
+X-Received: by 2002:a05:600c:3593:b0:38e:a8a2:abe3 with SMTP id p19-20020a05600c359300b0038ea8a2abe3mr4932472wmq.149.1649780502596;
+        Tue, 12 Apr 2022 09:21:42 -0700 (PDT)
 Received: from leap.localnet (host-82-60-208-254.retail.telecomitalia.it. [82.60.208.254])
-        by smtp.gmail.com with ESMTPSA id p24-20020a1709061b5800b006e88dfea127sm2938296ejg.3.2022.04.12.09.08.25
+        by smtp.gmail.com with ESMTPSA id u7-20020a05600c19c700b0038cc9aac1a3sm3011747wmq.23.2022.04.12.09.21.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 09:08:26 -0700 (PDT)
+        Tue, 12 Apr 2022 09:21:41 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, Vihas Makwana <makvihas@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH v2 0/7] drop some unnecessary wrappers
-Date: Tue, 12 Apr 2022 18:08:24 +0200
-Message-ID: <3134226.AJdgDx1Vlc@leap>
-In-Reply-To: <20220412151529.GF3293@kadam>
-References: <20220411102136.14937-1-makvihas@gmail.com> <3484215.R56niFO833@leap> <20220412151529.GF3293@kadam>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Liu Junqi <liujunqi@pku.edu.cn>, Bart Van Assche <bvanassche@acm.org>, "Martin K. Petersen" <martin.petersen@oracle.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Colin Ian King <colin.king@intel.com>, sparmaintainer@unisys.com, linux-staging@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] MAINTAINERS: Remove D. Kershner from Unisys S-PAR maintainers
+Date: Tue, 12 Apr 2022 18:21:39 +0200
+Message-ID: <1683735.QkHrqEjB74@leap>
+In-Reply-To: <CAMhs-H_JJ7JVccYjdoj5opTt6R5CHRBwQ05tXPuFgenpCuyy4w@mail.gmail.com>
+References: <20220412103629.8029-1-fmdefrancesco@gmail.com> <2976258.CbtlEUcBR6@leap> <CAMhs-H_JJ7JVccYjdoj5opTt6R5CHRBwQ05tXPuFgenpCuyy4w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On marted? 12 aprile 2022 17:15:29 CEST Dan Carpenter wrote:
-> On Tue, Apr 12, 2022 at 11:53:42AM +0200, Fabio M. De Francesco wrote:
-> > I didn't suggest a re-write of the commit messages.
-> 
-> Yes.  That's the problem.  If you want to complain about a commit
-> message then you *should* suggest how you would re-write it.  Otherwise
-> how are we supposed to read your mind?
+Hi Sergio,
 
-Ah, sorry. I had missed that you were asking for a re-write (literally).
+On marted=C3=AC 12 aprile 2022 13:30:43 CEST Sergio Paracuellos wrote:
+> Hi Fabio,
+>=20
+> Check this patchset [0] I sent a bit time ago removing two drivers from s=
+taging,
+>=20
+> Hope this helps.
+>=20
+> Regards,
+>     Sergio Paracuellos
+>=20
+> [0]: https://lore.kernel.org/all/20211113192045.32153-4-sergio.paracuello=
+s@gmail.com/T/
 
-Here it is a sort of diff on Vihas' patch:
+Thank you very much for the link to your patchset :)
 
-- [PATCH v2 1/7] staging: r8188eu: drop unnecessary wrapper _rtw_free_cmd_priv
-+ [PATCH v2 1/7] staging: r8188eu: drop unnecessary helper _rtw_free_cmd_priv()
+I have just taken a look at it. I'm pretty sure that it will be very useful
+for accomplishing the task of removing the unisys sub-tree. I've planned to
+do this work by the end of the current week.
 
-- Drop unnecessary wrapper _rtw_free_cmd_priv and move its logic to
-- rtw_free_cmd_priv.
-+ Drop unnecessary helper (wrapped function) _rtw_free_cmd_priv() and
-+ move its code to the wrapper rtw_free_cmd_priv().
+Regards,
 
-> > I just pointed out that those messages are formally inaccurate but
-> > that these kinds of small formal inaccuracies
-> 
-> I'm so puzzled but what you mean here.  There were no "small formal
-> inaccuracies".  The patch removed unnecessary wrappers exactly as
-> described.  
-
-The patch removed unnecessary helpers.
-
-> Anyway, I haven't seen your proposed commit message so I
-> can't say.
-> 
-> regards,
-> dan carpenter
-
-Thanks,
-
-Fabio M. De Francesco 
-
-
+=46abio M. De Francesco
 
 
