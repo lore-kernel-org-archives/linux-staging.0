@@ -1,28 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B679B1FA1;
-	Tue, 12 Apr 2022 04:57:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8E10C385A1;
-	Tue, 12 Apr 2022 04:57:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A031FA1;
+	Tue, 12 Apr 2022 04:59:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66164C385A6;
+	Tue, 12 Apr 2022 04:59:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1649739434;
-	bh=L1NutSiSa9tUlI/WgF41v5kwoq1ZhvNvo0ryAQDw26s=;
+	s=korg; t=1649739584;
+	bh=7GTblpVpSQYcAVhFqTpBAzjm8SimTPaUHKg0ETvVUI0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NRN6jm7mBVoQv5Et9CeZMtG57b9+Hwynzv7QrQsDxxjbnMxox8EG3lCn0CMgiCZEF
-	 JvzezXjoB8EX7cJTszpMsBAsC0cxsE5zgmnc1TDMGsqTWOss6b8ffjIuhUeWI7PQ9R
-	 sFycCrDi8c9sEV9RnArFeAccVTVHb3Rg8kKMwbho=
-Date: Tue, 12 Apr 2022 06:57:11 +0200
+	b=bxXrb3FNHbJBnyOCUDOz2Y+T89PrBH/HRtU3ykwISXCaDAPkHd7OOsNnkZT9CkX4/
+	 x1ZnFXoudcryTVI0Ny+Tc6dlwwI/QiuphrVkXnuViw23GzN7J+Z07UICJSDp9jI4Uq
+	 VMG/Qs5IJMOXZIkBOokMJjAQnZq4pQfzqQcoRwnU=
+Date: Tue, 12 Apr 2022 06:59:42 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Jaehee Park <jhpark1013@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: replace zero-element array with
- flexible-array
-Message-ID: <YlUGp+/BzMSm3oDC@kroah.com>
-References: <20220411211411.GA2796005@jaehee-ThinkPad-X1-Extreme>
- <YlUGbFs8oNikJCcv@kroah.com>
+Cc: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH V3] wfx: use container_of() to get vif
+Message-ID: <YlUHPjw2mbhnuZCM@kroah.com>
+References: <20220412041218.GA2859599@jaehee-ThinkPad-X1-Extreme>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,75 +29,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YlUGbFs8oNikJCcv@kroah.com>
+In-Reply-To: <20220412041218.GA2859599@jaehee-ThinkPad-X1-Extreme>
 
-On Tue, Apr 12, 2022 at 06:56:12AM +0200, Greg Kroah-Hartman wrote:
-> On Mon, Apr 11, 2022 at 05:14:11PM -0400, Jaehee Park wrote:
-> > Zero-length and one-element arrays are deprecated. Flexible-array
-> > members should be used instead. Flexible-array members are
-> > recommended because this is the way the kernel expects dynamically
-> > sized trailing elements to be declared.
-> > Refer to Documentation/process/deprecated.rst.
-> > 
-> > Change the zero-length array, buf, in the struct 
-> > gb_usb_hub_control_response to a flexible array. And add wLength as a 
-> > member of the struct so that the struct is not a zero-sized struct.
-> > 
-> > Issue found by flexible_array coccinelle script.
-> > 
-> > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
-> > ---
-> > 
-> > I have a question for the authors: 
-> > I saw a fixme comment in the hub_control function in usb.c:
-> > / FIXME: handle unspecified lengths /
-> > 
-> > I was wondering why this comment was left there?
-> > 
-> > In this patch, I'm using this struct:
-> > 
-> > struct gb_usb_hub_control_response {
-> >     __le16 wLength;
-> >     u8 buf[];
-> > };
-> > 
-> > And instead of using response_size, I'm doing this:
-> > 
-> > struct gb_usb_hub_control_response *response;
-> > And using sizeof(*response) as the input to gb_operation_create.
-> > 
-> > Would the flexible array address the handling of unspecified lengths 
-> > issue (in the fixme comment)?
+On Tue, Apr 12, 2022 at 12:12:18AM -0400, Jaehee Park wrote:
+> Currently, upon virtual interface creation, wfx_add_interface() stores
+> a reference to the corresponding struct ieee80211_vif in private data,
+> for later usage. This is not needed when using the container_of
+> construct. This construct already has all the info it needs to retrieve
+> the reference to the corresponding struct from the offset that is
+> already available, inherent in container_of(), between its type and
+> member inputs (struct ieee80211_vif and drv_priv, respectively).
+> Remove vif (which was previously storing the reference to the struct
+> ieee80211_vif) from the struct wfx_vif, define a macro
+> wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
+> the newly defined container_of construct.
 > 
-> No, you can not change the format of the data on the bus without also
-> changing the firmware in the device and usually the specification as
-> well.
+> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> ---
 > 
-> >  drivers/staging/greybus/usb.c | 7 +++----
-> >  1 file changed, 3 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/staging/greybus/usb.c b/drivers/staging/greybus/usb.c
-> > index 8e9d9d59a357..d0b2422401df 100644
-> > --- a/drivers/staging/greybus/usb.c
-> > +++ b/drivers/staging/greybus/usb.c
-> > @@ -27,7 +27,8 @@ struct gb_usb_hub_control_request {
-> >  };
-> >  
-> >  struct gb_usb_hub_control_response {
-> > -	u8 buf[0];
-> > +	__le16 wLength;
-> > +	u8 buf[];
+> Changes in v3:
+> - Made edits to the commit message.
+> - Shortened the macro name from wvif_to_vif to to_vif.
+> - For functions that had more than one instance of vif, defined one 
+> reference vif at the beginning of the function and used that instead.
+> - Broke the if-statements that ran long into two lines.
+> (There are 3 lines that exceed 80 by less than 4 characters. Two of 
+> those lines of code could be shorted but it involved defining two more 
+> variables, and could potentially make the code less readable.)
 > 
-> What is wrong with buf[0] here?
+> Note: I will mail this patch to the wireless-next tree after testing.
 > 
-> You can fix this in other ways if you really understand the difference
-> between [0] and [] in C.  Please look at many of the other conversions
-> if you wish to do this.
+> 
+>  drivers/staging/wfx/wfx.h     |  2 +-
 
-And I would not recommend this as an "outreachy introduction task"
-unless you understand this.  There are much easier first patch tasks you
-can accomplish instead.
+This file is not in linux-next anymore.
 
-good luck!
-
-greg k-h
