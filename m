@@ -1,104 +1,97 @@
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293693206
-	for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 20:35:07 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id h63so23602447iof.12
-        for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 13:35:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00C43206;
+	Tue, 12 Apr 2022 20:36:02 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id bh17so39611291ejb.8;
+        Tue, 12 Apr 2022 13:36:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=M/SL6jGK0Sq77N5QBCF7FLbfokc9NofrgU/f7GHCINE=;
-        b=IGHMDTCFCmYvFcY7njXSJlq5+k0qU5W4RKrNwWjdDDtLEYgaqVaxm42hs8yzb6WHvi
-         jI5oFH9aT9H6BbgEvLkflG7LUpoXZIkVqyRoKSHvOJrnrHR68almb7jBJqmT1ydKXMmF
-         5dDrb5DB40NuvHlklLXupzunEgHfkDZC5MaS0=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=EkBcRQ3FSxoHr2CTVma7OTMsNkj+chjdnuq3vagcoSg=;
+        b=pAItBEs6qc+VnWOS8cvFja8MzCU+mPUp2b9wDr39p3iDEc+KTKl5xGVfR3H9pg5bNZ
+         +v2pc16/PHlSc8lLe/W8GA1rWIWqd/AqMVO5HSAZpF93YGFPyqBhaVLUnwS/jB413+YL
+         8LKSuXW3X2Ibg1NraGS7CqfKnjkdYj6b+8LGGM3SUbzhYYwPZWprCyIjr0jSjs7XHYT7
+         hayWKuEkvO4jbS8PNSD1suSqFZ3peirX+udmGWIrxEvcUdnRDAhOdsxb6ouNwFNTEsxd
+         Ic7uOOYSe7EVY7gKpAeWEVUdXQNsQavSpHfXfa+0U/oxR+8t2WpJvhclX0TV7Ai8AobW
+         32wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=M/SL6jGK0Sq77N5QBCF7FLbfokc9NofrgU/f7GHCINE=;
-        b=If3m0y4VUQFI5ZMRMGqDr+dL75AH9GIgEpz475FfjErOzmyT8DgmsqdZxK6RWhD7jW
-         gyeCbLN4YyDecQT2klKIGFr3O6qJNPA1hG94pqHK1/s8hbJawrzZE3nbGwKevN1xb4ly
-         wZ4uoaNWffkgJWe6SSPElQ8k1Wll9SWImWWajKohaLuiHBTotTILBD42Y2vdUAZoUCYE
-         Rdq4pJ8tbOccNeHjzdVzp+pVdh4xvm0cqNm9cXLZlaUWHeKbHxNclSCLSl7cxUQM8LGg
-         xyf5gr9vkXjtmSK2HpfcIzwHtdvd0bbdE/XLxx6nsSczA/fXv0blWV6yT9sO9g8bhkRf
-         3eSA==
-X-Gm-Message-State: AOAM531160sjHvsWDt4ZLzWtquZZRPo679neBzeCnWByblP4JUAw1hxr
-	8JrnH3QEk9ylozU0BrBNmdnzcg==
-X-Google-Smtp-Source: ABdhPJyD/kOVnJKuPO9y/dGCfdQxgbauiG7ap0jN30d4ZSdU8kjF8qORVJzxwDZAtMgQAX1lLuZ9+Q==
-X-Received: by 2002:a05:6638:380a:b0:326:3710:8ffe with SMTP id i10-20020a056638380a00b0032637108ffemr4372793jav.47.1649795706265;
-        Tue, 12 Apr 2022 13:35:06 -0700 (PDT)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id c15-20020a5d8b4f000000b00648f75d0289sm22348849iot.6.2022.04.12.13.35.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Apr 2022 13:35:05 -0700 (PDT)
-Message-ID: <a509099e-2b19-7a27-693c-b418bd2f7b28@ieee.org>
-Date: Tue, 12 Apr 2022 15:35:04 -0500
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=EkBcRQ3FSxoHr2CTVma7OTMsNkj+chjdnuq3vagcoSg=;
+        b=8LNBclc6MzO3SEx8Vhzj5HvvkbHlpvufGFk4clulSDFwI9dssmrsYoyIwy5N3iDiR9
+         EBzNmBz+gtpJb/mb42M11lUmtElzGVZ2ER149lNnG06CWm+FCRX+2sP9+MHt08lanQL+
+         SW59jHb3Qe69dTxx8jKzhPCwp1Libkk8nYsyzkfuSRdkYofY3WV/A3YFXyDajnIQP8rj
+         7XnhmGT9LKu0ocxlzJk+135HQUxyU2tDBr54erXbWAZVK2EM+PCPN6+PA+gLdp0Jzf94
+         lTJ3p0ntwAvqugOjLa19duUUXBZsqngzrszKJe8a36BXZ0BX+vDQqy+HizkqRXwfBggV
+         UlKA==
+X-Gm-Message-State: AOAM530slrI/qWuuvoW8M5gFkoxlEZO6vrMkh+GWkbTOawgsvK61Be1v
+	Nqk+2BrIjaHM0naANQMZHvE=
+X-Google-Smtp-Source: ABdhPJywyDgdZmOauAKekxXMp8ylMAfdHu/iyTZe6vmSobj3jlxlUAeuk3DQoNJqjXUW37Rr5Oqv6g==
+X-Received: by 2002:a17:907:3d87:b0:6e6:f1f3:ba7c with SMTP id he7-20020a1709073d8700b006e6f1f3ba7cmr36244569ejc.128.1649795761348;
+        Tue, 12 Apr 2022 13:36:01 -0700 (PDT)
+Received: from leap.localnet (host-82-60-208-254.retail.telecomitalia.it. [82.60.208.254])
+        by smtp.gmail.com with ESMTPSA id y13-20020a50eb8d000000b0041f112a63c4sm32207edr.52.2022.04.12.13.35.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Apr 2022 13:36:00 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: johan@kernel.org, Jaehee Park <jhpark1013@gmail.com>
+Cc: elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev, jhpark1013@gmail.com
+Subject: Re: [PATCH v2 2/2] staging: greybus: remove unneeded return
+Date: Tue, 12 Apr 2022 22:35:58 +0200
+Message-ID: <5792471.alqRGMn8q6@leap>
+In-Reply-To: <d4d01ecdabc492e52a3decebf165d1f584f3b3bf.1649793138.git.jhpark1013@gmail.com>
+References: <cover.1649793138.git.jhpark1013@gmail.com> <d4d01ecdabc492e52a3decebf165d1f584f3b3bf.1649793138.git.jhpark1013@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/2] staging: greybus: remove unneeded return
-Content-Language: en-US
-To: Jaehee Park <jhpark1013@gmail.com>, johan@kernel.org
-Cc: elder@kernel.org, gregkh@linuxfoundation.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-References: <cover.1649793138.git.jhpark1013@gmail.com>
- <d4d01ecdabc492e52a3decebf165d1f584f3b3bf.1649793138.git.jhpark1013@gmail.com>
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <d4d01ecdabc492e52a3decebf165d1f584f3b3bf.1649793138.git.jhpark1013@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="ISO-8859-1"
 
-On 4/12/22 2:59 PM, Jaehee Park wrote:
+On marted=EC 12 aprile 2022 21:59:15 CEST Jaehee Park wrote:
 > An empty function with void return type does not need an explicit
 > return. Issue found by checkpatch.
-> 
+>=20
 > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
-
-Dan's suggestion here was to simply remove this function
-entirely.  It is only used as the ->remove callback
-for the soc_codec_dev_gbaudio structure.
-
-You can see that soc_codec_dev_gbaudio is only used in the
-call to devm_snd_soc_register_component() near the end of
-"audio_codec.c".  When a sound component is registered
-that way, the ->remove callback is optional.  You can see
-that because the only place in "sound/soc/soc-component.c"
-that it is referenced is snd_soc_component_remove() (as
-Dan said), and it only calls the function if it the pointer
-is non-null.  Allowing null function pointers in places
-like this. to allow them to be optionally omitted is not
-an uncommon pattern you'll see in the kernel.
-
-Anyway, please don't just add another small patch to remove
-the function.  Just replace *this* patch with one that
-removes the function, and omits the assignment if its
-address to soc_codec_dev_gbaudio->remove.
-
-					-Alex
-
 > ---
->   drivers/staging/greybus/audio_codec.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
+>  drivers/staging/greybus/audio_codec.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/
+greybus/audio_codec.c
 > index 0f50d1e51e2c..3e3a16568def 100644
 > --- a/drivers/staging/greybus/audio_codec.c
 > +++ b/drivers/staging/greybus/audio_codec.c
-> @@ -1032,7 +1032,6 @@ static int gbcodec_probe(struct snd_soc_component *comp)
->   static void gbcodec_remove(struct snd_soc_component *comp)
->   {
->   	/* Empty function for now */
+> @@ -1032,7 +1032,6 @@ static int gbcodec_probe(struct snd_soc_component=20
+*comp)
+>  static void gbcodec_remove(struct snd_soc_component *comp)
+>  {
+>  	/* Empty function for now */
 > -	return;
->   }
->   
->   static int gbcodec_write(struct snd_soc_component *comp, unsigned int reg,
+>  }
+> =20
+>  static int gbcodec_write(struct snd_soc_component *comp, unsigned int=20
+reg,
+> --=20
+> 2.25.1
+>=20
+Hi Jaehee,
+
+If I recall it correctly, Dan Carpenter suggested to remove this empty=20
+function.=20
+
+When developers remove lines of code from a function which becomes empty
+after the removals, they also remove the resulting empty function and
+delete all the calls (if there are any left) at the same time.
+
+Thanks,
+
+=46abio M. De Francesco=20
+
+
 
