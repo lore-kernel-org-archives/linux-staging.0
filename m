@@ -1,87 +1,105 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B34928E0;
-	Wed, 13 Apr 2022 09:06:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B06128E0;
+	Wed, 13 Apr 2022 10:11:42 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id n18so1550144plg.5;
+        Wed, 13 Apr 2022 03:11:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=fmpo4z+P6w7tjunPSwr96velZhm00w3pSRaGV9No/fg=;
-  b=fsGaNr0Pmyb17ascOE1cDyC8MAvX/UXQvbZPBD9ACtPYxeeoYllEykPz
-   LSYSsU6ZHH8/opHSJuSD5rx25fMkvMKn54OV+ibHmPXZfqQoMBzy2/u+f
-   syUOHKizdhgM4kDUcUeRpCjlEsFYfDg+DJaUtZ+ORvLe7dAxFiJC9mRNp
-   M=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,256,1643670000"; 
-   d="scan'208";a="31480815"
-Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 11:06:40 +0200
-Date: Wed, 13 Apr 2022 11:06:40 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: aliya-rahmani <aliyarahmani786@gmail.com>
-cc: tomm.merciai@gmail.com, gregkh@linuxfoundation.org, 
-    linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: vt6655f: rxtx: code style - Fix Lines should
- not end with a '('
-In-Reply-To: <20220413073545.14666-1-aliyarahmani786@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2204131104030.3470@hadrien>
-References: <20220413073545.14666-1-aliyarahmani786@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fSL7W+kPVWcAC5coG2q55bMyoIj5RFlWkYvUdvK+vKI=;
+        b=AiUXj8QQiLN60RzzUdqaRGhh3OIT/jiiygYvJkBVqVn43nIHu7uEFXRkTkvM3qj3rF
+         AFmKAjajtLAntGVwauh6n5+yj5LvzyMexehYSRGLIhs1tmCTZsh4UWQwGXTaXMdwNOud
+         VMNoh9TSoqPKyL64kgN25EKShqC4zUTmZRi1073WwDPzdrK5+xDwtx190/9iGPl3BftQ
+         NHvC8CULB82UIRUmcE+Jw7VhkcUzoOg1j263wdJPUkgfi68InVxLIwCAdcTwG1rmQg33
+         aryLFjqMllAEUKih9wtNAss2qkXr1Q8eenhgFoFYHa6Cp9Y2CvPSonxMH7mUb2oQAb0d
+         /Z6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fSL7W+kPVWcAC5coG2q55bMyoIj5RFlWkYvUdvK+vKI=;
+        b=LoXAwO2VsJIPfTcnSF3r8b0qVrwvO7vxZXiQY29dVFvf8XdxPQGHsPHWiGvCAjNpYW
+         UbujAzUsXLNFw6WR93ys2x22GWkepi0+AYYKT1U1sSp1zBFPqZN+D5nSlL47Y+VR5ezH
+         V9aIZRb6R6Su2vMs/duxmKnZlaWEpaIB0EaD3wiekzUNAXGl/2ZUeyWBAPcpAAMihZlo
+         SDUEKzF2IVaVl21cNjhIvPLOl5wBL/MnqOHXMnb1gAtqAz81kBkgYug7qjOF+dMaoviX
+         APj7zTYIhCju0YWdnRzOrzcNNdPNE6eum+RTjTEixhfC+yszkRR01wXOrhzWKh3xW74W
+         ru1Q==
+X-Gm-Message-State: AOAM532JfHKK11n67mKpHMZqXoUIMW6zbFlcSQ+HIZVlTVaW0zZPQUWD
+	jbIlVdXhHZ0JlNX19WEitXHgV1oM7BZqLQ==
+X-Google-Smtp-Source: ABdhPJzZi69YhqYPN7txiMiDRu2GXrtE30MqKsVaaf0jfhSDH7A499YfUsPfEmScj00aYfztB0HWBw==
+X-Received: by 2002:a17:90a:f01:b0:1c7:ea40:93e7 with SMTP id 1-20020a17090a0f0100b001c7ea4093e7mr9981813pjy.30.1649844701957;
+        Wed, 13 Apr 2022 03:11:41 -0700 (PDT)
+Received: from aliyaR-laptop.domain.name ([14.139.241.88])
+        by smtp.googlemail.com with ESMTPSA id u3-20020a17090add4300b001ca56ea162bsm2364906pjv.33.2022.04.13.03.11.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 03:11:41 -0700 (PDT)
+From: Aliya Rahmani <aliyarahmani786@gmail.com>
+To: tomm.merciai@gmail.com
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev,
+	Aliya Rahmani <aliyarahmani786@gmail.com>
+Subject: [PATCH v2] staging: vt6655f: rxtx: code style - Fix Lines should not end with a '('
+Date: Wed, 13 Apr 2022 15:41:14 +0530
+Message-Id: <20220413101114.23992-1-aliyarahmani786@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
+Remove indentation to fix the checkpatch error that lines should not
+end with a '('.
 
+Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
+---
 
-On Wed, 13 Apr 2022, aliya-rahmani wrote:
+v1->v2: Add Indentation and remove the gap between static and void.
 
-> From: Aliya Rahmani <aliyarahmani786@gmail.com>
->
-> Removed indentation to fix the checkpatch error that lines should not
-> end with a '('.
+---
+ drivers/staging/vt6655/rxtx.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
-The log message should be in the imperative, so it would be "Remove", not
-"Removed".
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 53506e242a96..01dc83b2f4bc 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -567,19 +567,16 @@ s_uFillDataHead(
+ 	return buf->duration;
+ }
+ 
+-static
+-void
+-s_vFillRTSHead(
+-	struct vnt_private *pDevice,
+-	unsigned char byPktType,
+-	void *pvRTS,
+-	unsigned int cbFrameLength,
+-	bool bNeedAck,
+-	bool bDisCRC,
+-	struct ieee80211_hdr *hdr,
+-	unsigned short wCurrentRate,
+-	unsigned char byFBOption
+-)
++static void
++s_vFillRTSHead(struct vnt_private *pDevice,
++		unsigned char byPktType,
++		void *pvRTS,
++		unsigned int cbFrameLength,
++		bool bNeedAck,
++		bool bDisCRC,
++		struct ieee80211_hdr *hdr,
++		unsigned short wCurrentRate,
++		unsigned char byFBOption)
+ {
+ 	unsigned int uRTSFrameLen = 20;
+ 
+-- 
+2.25.1
 
-Maybe it would be nice to keep the parameters aligned, thus indent the
-others more?
-
-In another patch you could improve the variable names and the function
-name.  I'm not sure why static and void have to be on separate lines
-either.
-
-julia
-
-
->
-> Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
->
-> ---
->  drivers/staging/vt6655/rxtx.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-> index 53506e242a96..dce9d87d2363 100644
-> --- a/drivers/staging/vt6655/rxtx.c
-> +++ b/drivers/staging/vt6655/rxtx.c
-> @@ -569,8 +569,7 @@ s_uFillDataHead(
->
->  static
->  void
-> -s_vFillRTSHead(
-> -	struct vnt_private *pDevice,
-> +s_vFillRTSHead(struct vnt_private *pDevice,
->  	unsigned char byPktType,
->  	void *pvRTS,
->  	unsigned int cbFrameLength,
-> --
-> 2.25.1
->
->
->
