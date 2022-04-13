@@ -1,155 +1,77 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636BC2F32;
-	Wed, 13 Apr 2022 20:25:35 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id lc2so6214880ejb.12;
-        Wed, 13 Apr 2022 13:25:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BF82F32;
+	Wed, 13 Apr 2022 20:28:34 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id x17so5559534lfa.10;
+        Wed, 13 Apr 2022 13:28:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uV3KvzgDCA/MFdg0UvIjDT9gmeSPR5bMWj/awW6+7BY=;
-        b=j5ZthmzoP3s7KorF6lAJHItYV0eyjlfoSNGED9WLK2fpQU6EGfeMC+Ci7ByHEsMOdv
-         hPkLyJBM1A1GSulOuqM/68laweCbT5/uFUsEvEz3hARESoYhCbbhvums05WuWiR/Vzpn
-         Bcn2LSPX2uGhZAcCq26oC3nwq6Q5lv6Hw8MUh8k0cTajKJHH3IvR7DD/K1YhhBXj3v/Z
-         FxyENPweoX5dsX09wvWttdcAt2f9Om4Ovr4lOhccuzxxKB3adK58y/aug8x+Bm7iMBHW
-         LTe8gxk7ZFa2BJ+EDmiMF1OG/O6XrJA3n+aO1tyAbV1TaqXlJbLCMjXIpj71meibWdI9
-         9/Rw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=YogmsT3U/7IiGgtRupJ7l2JCvP07NCmlPwoFX7KDPtY=;
+        b=BPo2dFn3g3Gh2JwBI11FdGs4x3mRiOExHJeQ0r5erW9MSIGbZjN8Th2c967Kx/7qf0
+         5OXeYO3hDq6ZNvj20Gn+M66UP5whLZ7SNR3PT65RWwnPevdzMu8a4w12cMx99fkiyn86
+         c86oP1HLwUiOvcm0css861ol8AmuTSxmsvPXd5tnG5VaFF720ge3kMgxvcvyXbVyLC2g
+         AB9k2hJg6PAr5dKeHZybm1kcabwcp+wLYNh/hJzN6yTiUeLjNKrttW5A2KVS0E/7eiF+
+         nH3hdggmgHb4XfAU0BEPLAwmvhXclpiHl+ex4n5v3iAjbJ5z6ZUmQfywc3dd7fCBEzaf
+         lkog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uV3KvzgDCA/MFdg0UvIjDT9gmeSPR5bMWj/awW6+7BY=;
-        b=PftvBHzMI5m1iI1lD7VhRbawBYJk40BEFy3jCyLqG6DIALgpW/pluv1ZGnxlppOy9l
-         9dxpMYGPN1pN9m929gRHtWqM/hYkjMPOzqJS8wzwFmk82A9KlxDKXzj3zDP3W859C8H/
-         iRILAw1NI9q65+GDRYQGPmRyqJQLQqdn7A+f6YCGsiSmKP9K3gnEFTetQuX38CBMquA9
-         XFvjgjDaKr6H8X2LG24ylsbfJS2Te+QFp79kNecWqfLfN/3pI7hq1oivqE3SyFJCd4YY
-         RarY0c5gpFQcW5b1wIZv2hCusTdyA2ORpZUPsn19ygfMU85UAXeJeGdpvHjdZX3KdcVx
-         3X6g==
-X-Gm-Message-State: AOAM5336IbvxAhDacE/uv/hM3iqBN9H8bmqRmgyQS2Hpz5JIgHkiFkiy
-	bvKcrIMRlh6A7++15pPJpe0=
-X-Google-Smtp-Source: ABdhPJyBjOm1aBOG3txTjnnhhNj8e/guMWUGTpxorgtWscVt/9l2BYvOPLdYfU6nBTREuZn0HOn6EA==
-X-Received: by 2002:a17:907:7242:b0:6e7:f185:18e2 with SMTP id ds2-20020a170907724200b006e7f18518e2mr38726394ejc.577.1649881533555;
-        Wed, 13 Apr 2022 13:25:33 -0700 (PDT)
-Received: from leap.localnet (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
-        by smtp.gmail.com with ESMTPSA id s20-20020a056402015400b00418f9574a36sm1575622edu.73.2022.04.13.13.25.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 13:25:32 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "outreachy@lists.linux.dev" <outreachy@lists.linux.dev>
-Subject: Re: [PATCH] staging: Remove the drivers for the Unisys s-Par
-Date: Wed, 13 Apr 2022 22:25:30 +0200
-Message-ID: <3155429.AJdgDx1Vlc@leap>
-In-Reply-To: <20220413193152.GA1242449@alison-desk>
-References: <20220412215901.31046-1-fmdefrancesco@gmail.com> <7390243.EvYhyI6sBW@leap> <20220413193152.GA1242449@alison-desk>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=YogmsT3U/7IiGgtRupJ7l2JCvP07NCmlPwoFX7KDPtY=;
+        b=GSsqg8Oq2JXGior1oDSouv882MfQgnNKg31X9HeOtDYebCKCw2EerxNEPqfOpxoSEQ
+         q7T3iI8STf7OnjZPvXMSTEboFqlfwDjYZdL3Kl5XRvwkylOCjODzZk/jSldxddKDUNo1
+         DeYycOpabgpVXAT7XmQpWIYZkGTUSuSMuigrVt7BO5W832Sz3og31wvZVYE8OWjnpyMy
+         qA1SUEXoNjWbgj0BIMl+UMtWftqMJxOtRZY+ZVgdd8P1PyFlNx5imCPvRLJjehL/adEt
+         FQivRTQEqeuI8aUnS/3TpuWEeeaEhGtDnI7quuctEV0XMGAkxC2yh9HtJPCe6LTiAoMN
+         uviQ==
+X-Gm-Message-State: AOAM533B8DaAXIrlO5X/hCYSVWtTgkyZSHCD9sKl8VtLes4poHsTisOb
+	epJ7PjICygj69e2fPaPq4Rk=
+X-Google-Smtp-Source: ABdhPJx0JXqvqpQqiCaSHmJ/9FmujTfxUUTysOB33UP0zQiaykp3WYA8RUFbyQijMt5X0AQ8Snm2IQ==
+X-Received: by 2002:a05:6512:131d:b0:464:f4f7:1b2d with SMTP id x29-20020a056512131d00b00464f4f71b2dmr21530767lfu.143.1649881712569;
+        Wed, 13 Apr 2022 13:28:32 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.225.17])
+        by smtp.gmail.com with ESMTPSA id 26-20020ac24d5a000000b0046ba2c20d79sm1405438lfp.206.2022.04.13.13.28.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Apr 2022 13:28:32 -0700 (PDT)
+Message-ID: <2eab9c9e-7e56-9920-de4d-2e53b3d7e6a1@gmail.com>
+Date: Wed, 13 Apr 2022 23:28:31 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 3/6] staging: r8188eu: remove 'added by' author comments
+Content-Language: en-US
+To: Jaehee Park <jhpark1013@gmail.com>, Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ outreachy@lists.linux.dev, Alison Schofield <alison.schofield@intel.com>
+References: <cover.1649880454.git.jhpark1013@gmail.com>
+ <c0c0a0e748ad85585b65e73841d431adefe86a59.1649880454.git.jhpark1013@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <c0c0a0e748ad85585b65e73841d431adefe86a59.1649880454.git.jhpark1013@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On mercoled? 13 aprile 2022 21:31:52 CEST Alison Schofield wrote:
-> On Wed, Apr 13, 2022 at 11:57:20AM -0700, Fabio M. De Francesco wrote:
-> > On mercoled? 13 aprile 2022 17:38:24 CEST Alison Schofield wrote:
-> > > On Wed, Apr 13, 2022 at 09:35:53AM +0200, Fabio M. De Francesco 
-wrote:
-> > > > On mercoled? 13 aprile 2022 08:52:47 CEST Greg Kroah-Hartman wrote:
-> > > > > On Tue, Apr 12, 2022 at 11:59:01PM +0200, Fabio M. De Francesco 
-> > wrote:
-> > > > > > The Unisys sub-tree contains three drivers for the "Unisys 
-Secure 
-> > > > Partition"
-> > > > > > (s-Par(R)): visorhba, visorinput, visornic.
-> > > > > > 
-> > > > > > They have no maintainers, in fact the only one that is listed 
-in 
-> > > > MAINTAINERS
-> > > > > > has an unreacheable email address. During 2021 and 2022 several 
-> > patches 
-> > > > have
-> > > > > > been submitted to these drivers but nobody at Unisys cared of 
-> > reviewing 
-> > > > the
-> > > > > > changes. Probably, also the "sparmaintainer" internal list of 
-> > > > unisys.com is
-> > > > > > not anymore read by interested Unisys' engineers.
-> > > > > > 
-> > > > > > Therefore, remove the ./unisys subdirectory of staging and 
-delete 
-> > the 
-> > > > related
-> > > > > > entries in the MAINTAINERS, Kconfig, Makefile files.
-> > > > > > 
-> > > > > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > > > > ---
-> > > > > >  MAINTAINERS                                   |    8 -
-> > > > > 
-> > > > > You forgot to at least cc: the people/list on the MAINTAINERS 
-entry 
-> > that
-> > > > > you are removing here, to give them a hint that this is happening 
-in
-> > > > > case they want to speak up here (and to give us the ability to 
-point 
-> > to
-> > > > > that years later when they complain they were never notified...)
-> > > > 
-> > > > Yes, this is a good idea. I'll submit a v2 and add two "Cc:" lines, 
-one 
-> > to 
-> > > > David Kershner and the other to the "sparmaintainer" list at 
-> > unisys.com.
-> > > 
-> > > There is another contact in the TODO file (last updated 2015 though 
-;))
-> > > Ken Cox <jkc@redhat.com>
-> > 
-> > Hi Alison, Greg,
-> > 
-> > Thank you very much for noticing that other contact :) 
-> > 
-> > In the last 12 months I have sent several patches for Unisys s-Par 
-drivers 
-> > but I never noticed that other contact simply because I only ever use 
-> > scripts / get_maintainer.pl to find out who and to which lists to send 
-my 
-> > works.
-> > 
-> > @Greg: 
-> > 
-> > Do you think that we should care of a contact that is no more active 
-since 
-> > 2015 and resubmit a v3 with one more "Cc:" line? I have no problems to 
-> > resubmit, I just want to be sure that this is the right thing to do.
+Hi Jaehee,
+
+On 4/13/22 23:11, Jaehee Park wrote:
+> Author comments "Added by Albert" and "Added by Annie" are sprinkled
+> through the file. Git will keep history so these comments can be
+> removed from the code.
 > 
-> I didn't see a v2, so confused about a v3. You could simply do a group
-> reply and add the contact, that'll put a trail in lore. Not my call.
-> Guessing Greg has a protocol for such removals. 
 
-Hi Alison,
+these people are not in the git log, since this driver was added in 
+2021. I am afraid they are not even in Larry's GH repo log.
 
-The patch v2 is at https://lore.kernel.org/outreachy/
-20220413080111.13861-1-fmdefrancesco@gmail.com/T/#u
+Anyway these comments are not so useful, so patch is OK.
 
-Greg required me to send that v2 because I forgot to Cc the David Kershner  
-and the Unisys internal list. 
-
-I don't yet know if Greg's protocol for such removals requires to Cc random 
-people taken from a TODO file, people who didn't even care to add 
-themselves to MAINTAINERS, but I'm pretty sure that, if it is so, the only 
-option is to send a v3.
-
-In order to make things as Greg requires, I'd better wait for him to 
-respond to my previous email.
-
-Again, thanks,
-
-Fabio
-
-
+With regards,
+Pavel Skripkin
