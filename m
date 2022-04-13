@@ -1,44 +1,44 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488AE23AB;
-	Wed, 13 Apr 2022 20:34:19 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id k5so5608516lfg.9;
-        Wed, 13 Apr 2022 13:34:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A232CAB
+	for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 20:39:08 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id bq30so5656008lfb.3
+        for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 13:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=v/vz88+MzPaF9+gxdJjGj9X24km3lwGNweK9uHwzCBE=;
-        b=LcP3wgBirZj9Ean8yRjuduXu8kcCP+8ZJJviSlkM0WcUGQVUW9r3Beube3Q/w8167U
-         fnHJSfeViDL5ZLnwl2lHsNXTGGa/t9CWxXeKtalepowghtRZk9bEIHwhvd5q5oqJpLm7
-         VVFbNA4biJ541tbDKQ8QEPuLizcbl8zNut09yKmxiQc+gdabofYoBL8Nt/FWJIgzbD3c
-         LFVVIa5vbG8JX4fcNjf73J6MyM+b4z/Cv/+MN08wa8Qnp9GrySucokoF6dA9F2VSPVwp
-         +5jQn+c2Oe42MgA5kJyoh+SlTHli796o4nSdsTdXLAhnhdgJ8nRebGXKgVWJ73xQo/im
-         61zw==
+        bh=fYQwf1MFEi2p+ImntMeAp4Bvczx3GAneP4+zjXqea58=;
+        b=FNNt24W5RmK9/Smtd9HW3bxBLmVkJAW6x/7G0FEH0V/I0wWl9NG9yMKTtCC5X9qy7t
+         8zpOaOHX+nxIpVNUCF5wAc8kmk1bIrEYIlqzxHh67BXcUTyazwsPtyERm0WSq3SskngE
+         1scb/Ds4okAkGm9iTNRiVB5Mn8+0V9Bt/DDpG5jYGcAaOHpExQRZhyyVzXQfmg4QW44T
+         czy5q5/XNbLZx1JiQbqeudvIPcUfbkVIdQfpC/QiplVh18yqjPZUlwVNRD342OxF7OT0
+         eWHFAJxvcDs7Fj2Q4ny4EJmVKtVsvAwqnlctzRdfmYQsRwRdnSBg1LRsue/KmTv7xvsd
+         N+NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=v/vz88+MzPaF9+gxdJjGj9X24km3lwGNweK9uHwzCBE=;
-        b=xIHyGVbyjeD8PYNA63tDNil9M+ic9oR+WP7Xs/1xyiRhk+8qeOWVeL1RmSmCYrcF69
-         RT8oKBEQDxcnTK86phcsK+Ia3Uanb20K5LKwf3Osv36IewIKsbAUSbB2HJg+x5/EzE9K
-         oqbYKirjA0K8BbxZo865qUh0lQdy1sXM4tgF2SNJeu91zLnN44XrWS9p2nM2kyS3CS7y
-         nYJ6xjveONk6rrUWANTy8usSLKKkAT9gTg1QnjKSxJkR/kokDO/NZa/rJjJ1V7nvqSCj
-         XtoFTL/ywxJxO48mvplxNSplaDWbuFuArJ4piYBc3vjXhAAME10Cwg8sD1cm90QYJKV0
-         3ctQ==
-X-Gm-Message-State: AOAM533zYkHxpqd1yH+byF2Q5yvJHtdJOeYSzQxhaGnzdK9psm5pEdRi
-	nN0ebeIyN8MHN72gJaKyPcKWOiD5jPtxjw==
-X-Google-Smtp-Source: ABdhPJxN01CWnr32DOv6C3yB1Nh97ZYIuWrEWuN2tQ9CtSTD4i8eVnP0H+vGx/FX7bTWphFt6EEtuQ==
-X-Received: by 2002:a05:6512:1322:b0:44b:75d:ac8 with SMTP id x34-20020a056512132200b0044b075d0ac8mr28290383lfu.213.1649882057138;
-        Wed, 13 Apr 2022 13:34:17 -0700 (PDT)
+        bh=fYQwf1MFEi2p+ImntMeAp4Bvczx3GAneP4+zjXqea58=;
+        b=agddJ/YS/DfeBbF4frnTbnOqvR1Jc8p6cZDV3IeKbhdZd27CC6aTuyzhHQbRpBeU5I
+         6nYr9SAJBobPnFCk2YrmNiBfl1BtWN9YgWFDL5/lxIlKDHOppFgYQYZhxP0+VpkxvHCX
+         yMv71xxBwea4MPD2LrVrRHwPJ4qWEd4S+J3CpzD3gPbd0FxCXRT8DVyPLxFAuhGkKPIX
+         yGPaYMN0anV5VvANImz3mkhdObJeDsj4rGdcrOuW1joldsugGILQTZ7sU3XIvkUrDkVv
+         Jc4ZEMEbHwhh6mWjxK0+ORPntKdHEb1VWits7r0LB2unWsNY1NCbZt9j82bmSVe7wWGv
+         O82Q==
+X-Gm-Message-State: AOAM533XtGt08u67JTtNUCO5AUWmzufGKZaBIrJzLUmi3j1u74tv5dZA
+	r7szIb0r7q/s20/x96cQk6M=
+X-Google-Smtp-Source: ABdhPJyY+QSeEyckG9WkEcu2jeIkFmNEQtFmAql1ifALgjaJjdhsi26Z3XCpdC8WieZJoX2/PFi1qw==
+X-Received: by 2002:a05:6512:c18:b0:44a:9992:28bc with SMTP id z24-20020a0565120c1800b0044a999228bcmr30100438lfu.641.1649882346657;
+        Wed, 13 Apr 2022 13:39:06 -0700 (PDT)
 Received: from [192.168.1.11] ([94.103.225.17])
-        by smtp.gmail.com with ESMTPSA id e18-20020a196752000000b0046b8d3cd18csm2754lfj.55.2022.04.13.13.34.16
+        by smtp.gmail.com with ESMTPSA id p20-20020a056512329400b0046ba6832cf6sm2861lfe.155.2022.04.13.13.39.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Apr 2022 13:34:16 -0700 (PDT)
-Message-ID: <e32f1f61-127c-3e90-0f06-7b60cdca9ef7@gmail.com>
-Date: Wed, 13 Apr 2022 23:34:14 +0300
+        Wed, 13 Apr 2022 13:39:06 -0700 (PDT)
+Message-ID: <b028d269-4dd8-7165-6220-d42c1e0e588c@gmail.com>
+Date: Wed, 13 Apr 2022 23:39:04 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,56 +47,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 5/6] staging: r8188eu: replace spaces with tabs
+Subject: Re: [PATCH 2/4] staging: r8188eu: merge _mgt_dispatcher into
+ mgt_dispatcher
 Content-Language: en-US
-To: Jaehee Park <jhpark1013@gmail.com>, Larry.Finger@lwfinger.net
-Cc: phil@philpotter.co.uk, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- outreachy@lists.linux.dev
-References: <cover.1649880454.git.jhpark1013@gmail.com>
- <c2d719eba2a374be573034022218a098e4db9e77.1649880454.git.jhpark1013@gmail.com>
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220413200742.276806-1-martin@kaiser.cx>
+ <20220413200742.276806-3-martin@kaiser.cx>
 From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <c2d719eba2a374be573034022218a098e4db9e77.1649880454.git.jhpark1013@gmail.com>
+In-Reply-To: <20220413200742.276806-3-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Jaehee,
+Hi Martin,
 
-On 4/13/22 23:11, Jaehee Park wrote:
-> Use tabs instead of spaces. Issue found with checkpatch.
-> WARNING: suspect code indent for conditional statements
+On 4/13/22 23:07, Martin Kaiser wrote:
+> All that the _mgt_dispatcher function does is to call a function from
+> a function pointer. It's not worth having a separate function for this.
 > 
-> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> Merge _mgt_dispatcher into mgt_dispatcher.
+> 
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
->   drivers/staging/r8188eu/core/rtw_mlme.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-> index b943fb190e4c..7a90fe826d1d 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-> @@ -722,7 +722,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
->   			pmlmepriv->to_join = false;
->   			s_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
->   			if (s_ret == _SUCCESS) {
-> -			     _set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
-> +				_set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
->   			} else if (s_ret == 2) { /* there is no need to wait for join */
->   				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
->   				rtw_indicate_connect(adapter);
 
-Not related to your patch, but looks like `s_ret` can't be 2.
+[code snip]
 
-rtw_select_and_join_from_scanned_queue
+> +
+> +	if (ptable->func) {
+> +	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
+> +		if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
+> +		    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
+> +			return;
+> +		ptable->func(padapter, precv_frame);
+> +	}
+>   }
 
-   rtw_joinbss_cmd
+Looks like each `mlme_sta_tbl` element has `func` member initialized. I 
+think, we can remove this check.
 
-     rtw_enqueue_cmd
-       _rtw_enqueue_cmd <- always returns SUCCESS
-
-
-Other functions from calltrace may return _FAIL, but _FAIL is not equal 
-2, right?
 
 
 
