@@ -1,263 +1,378 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9B723D1
-	for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 05:46:11 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id ll10so942528pjb.5
-        for <linux-staging@lists.linux.dev>; Tue, 12 Apr 2022 22:46:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CA923D2;
+	Wed, 13 Apr 2022 06:14:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs-iitr-ac-in.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=xNLSOEaEw7kf6bfeQjVyXkvE7jCgutmejEXvvU8XWSo=;
-        b=OtDlIGYH3h0B9BRwbrV57CbPXN/vz7g6l0ySDeRFpUDbL5cQgEdhgymu21e5aKKHhj
-         fVjTUTVQCknhXOCnxmPn2+aId7q2nddEa4Z7h1GpwU3RXzvPD4YuBE1SH6o1CY7xyNM7
-         dO27XZzDcTsjwbZLZrs7GJAWANR/oSFLSAl15GsSIIxDrthvvBCu8gOWHIk7zJPPqeCN
-         xgQPh2pQbJi6d3HkQcuS1ace8umFGT4IH5R4VNLo3XcqYlsJgwOvSwdztWToA9K/h5Hw
-         2f4Db6tZwj1ErdKtIgjY8PbHY45Fdf3FDURF+uuXI89MFsRm83xrVmu7O29DRM6MQUOJ
-         Ko9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=xNLSOEaEw7kf6bfeQjVyXkvE7jCgutmejEXvvU8XWSo=;
-        b=UU7CVJoIPMQd53raIUGJc6OPdVbyTSBzRSdn7XoqYvsIC+QBIWSPSA9qAOpBTOxLks
-         3lO1WH21P3vgVnU6WDNNJke/hdA8/58PAGcWzLtJj/6ofKYLcJVXk+ZzC6Ut3Yw1aeUG
-         EghG3Km+AQoBUnpoMwcaZZYdBPWTW51HptoY3/9SZUffcIxXZgQqdu6dBS1gj60UOwJ8
-         NJjTSDa/Lk2xq4qiEgkal/vjSskWMCg9/ZnB+mY5zQwRQQISQ7BdWirJi+Xe/NLf5uCb
-         jXzqN1HoZ7xkL2H8Ztc5MLm65qGDMwARhIzISo9akzpWKfc4oucQHZZPGk4tB9Sa22T7
-         pwMQ==
-X-Gm-Message-State: AOAM531BTbeaQLdAYOVREdsZT9d581CD8w8Usf8EPk+p0/nlVO5XC2vd
-	fvgw37uq+Jz4cbbYVRKrviNtvg==
-X-Google-Smtp-Source: ABdhPJygW9JmRlMvLKBvGYQM+2FqU8G7dLTa/jwfWebLyGBNQGa8Xir5KRKYS3gHJrn/NhZtPkF/Lw==
-X-Received: by 2002:a17:90b:4f82:b0:1cd:328f:9cd with SMTP id qe2-20020a17090b4f8200b001cd328f09cdmr6152887pjb.38.1649828771166;
-        Tue, 12 Apr 2022 22:46:11 -0700 (PDT)
-Received: from mahak-Inspiron-7570.iitr.ac.in ([103.37.201.168])
-        by smtp.googlemail.com with ESMTPSA id g15-20020a056a000b8f00b004fa9dbf27desm41365867pfj.55.2022.04.12.22.46.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 22:46:10 -0700 (PDT)
-From: Mahak Gupta <mahak_g@cs.iitr.ac.in>
-To: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Cc: Mahak Gupta <mahak_g@cs.iitr.ac.in>
-Subject: [PATCH] staging: r8188eu: add space around operators
-Date: Wed, 13 Apr 2022 11:15:17 +0530
-Message-Id: <20220413054517.6343-1-mahak_g@cs.iitr.ac.in>
-X-Mailer: git-send-email 2.17.1
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=HV3gwZ+TS5A6yqQceA6HalcTeZ50B+oh/+Y2lqzFy14=;
+  b=NpKHoUoqJ/p01MU5+uvsWlxXcbFsP3R+x8810kfNX47l7uFRqsy0Ky9a
+   C0MFcwUiImTNlsziC7FblA5y8MefPH+dRKfpSHbdz/OyGxvdr5+3AlRlF
+   AIWEwMXke3TooFNg1Q0IbZW4GOQzq8v5qr5UieCNF7EvueunOfehB5bxx
+   Y=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,256,1643670000"; 
+   d="scan'208";a="11356617"
+Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 08:14:20 +0200
+Date: Wed, 13 Apr 2022 08:14:19 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Mahak Gupta <mahak_g@cs.iitr.ac.in>
+cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, 
+    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] staging: r8188eu: correct multiple misspellings in
+ the source driver
+In-Reply-To: <20220412215458.4120-1-mahak_g@cs.iitr.ac.in>
+Message-ID: <alpine.DEB.2.22.394.2204130811430.3470@hadrien>
+References: <20220412215458.4120-1-mahak_g@cs.iitr.ac.in>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-Adhere to linux coding style.
+When you send a change to a patch, the version number has to increase.
+Greg will take the patch with the largest version.  He wants there to be
+only one.
 
-Reported by checkpatch:
+In the source driver is not any more useful than in r8188eu.  Just drop
+that part.
 
-spaces preferred around that '{operator}'.
+On Wed, 13 Apr 2022, Mahak Gupta wrote:
 
-Signed-off-by: Mahak Gupta <mahak_g@cs.iitr.ac.in>
----
- drivers/staging/r8188eu/core/rtw_br_ext.c | 58 +++++++++++------------
- 1 file changed, 29 insertions(+), 29 deletions(-)
+> Fix multiple spelling errors reported by checkpatch.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index 15332f9d6fe3..e1b3e9d5250b 100644
---- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -87,19 +87,19 @@ static int skb_pull_and_merge(struct sk_buff *skb, unsigned char *src, int len)
- 	int tail_len;
- 	unsigned long end, tail;
- 
--	if ((src+len) > skb_tail_pointer(skb) || skb->len < len)
-+	if ((src + len) > skb_tail_pointer(skb) || skb->len < len)
- 		return -1;
- 
- 	tail = (unsigned long)skb_tail_pointer(skb);
--	end = (unsigned long)src+len;
-+	end = (unsigned long)src + len;
- 	if (tail < end)
- 		return -1;
- 
--	tail_len = (int)(tail-end);
-+	tail_len = (int)(tail - end);
- 	if (tail_len > 0)
--		memmove(src, src+len, tail_len);
-+		memmove(src, src + len, tail_len);
- 
--	skb_trim(skb, skb->len-len);
-+	skb_trim(skb, skb->len - len);
- 	return 0;
- }
- 
-@@ -117,7 +117,7 @@ static void __nat25_generate_ipv4_network_addr(unsigned char *networkAddr,
- 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
- 
- 	networkAddr[0] = NAT25_IPV4;
--	memcpy(networkAddr+7, (unsigned char *)ipAddr, 4);
-+	memcpy(networkAddr + 7, (unsigned char *)ipAddr, 4);
- }
- 
- static void __nat25_generate_pppoe_network_addr(unsigned char *networkAddr,
-@@ -126,8 +126,8 @@ static void __nat25_generate_pppoe_network_addr(unsigned char *networkAddr,
- 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
- 
- 	networkAddr[0] = NAT25_PPPOE;
--	memcpy(networkAddr+1, (unsigned char *)sid, 2);
--	memcpy(networkAddr+3, (unsigned char *)ac_mac, 6);
-+	memcpy(networkAddr + 1, (unsigned char *)sid, 2);
-+	memcpy(networkAddr + 3, (unsigned char *)ac_mac, 6);
- }
- 
- static  void __nat25_generate_ipv6_network_addr(unsigned char *networkAddr,
-@@ -136,17 +136,17 @@ static  void __nat25_generate_ipv6_network_addr(unsigned char *networkAddr,
- 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
- 
- 	networkAddr[0] = NAT25_IPV6;
--	memcpy(networkAddr+1, (unsigned char *)ipAddr, 16);
-+	memcpy(networkAddr + 1, (unsigned char *)ipAddr, 16);
- }
- 
- static unsigned char *scan_tlv(unsigned char *data, int len, unsigned char tag, unsigned char len8b)
- {
- 	while (len > 0) {
--		if (*data == tag && *(data+1) == len8b && len >= len8b*8)
--			return data+2;
-+		if (*data == tag && *(data + 1) == len8b && len >= len8b * 8)
-+			return data + 2;
- 
--		len -= (*(data+1))*8;
--		data += (*(data+1))*8;
-+		len -= (*(data + 1)) * 8;
-+		data += (*(data + 1)) * 8;
- 	}
- 	return NULL;
- }
-@@ -158,7 +158,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
- 
- 	if (icmphdr->icmp6_type == NDISC_ROUTER_SOLICITATION) {
- 		if (len >= 8) {
--			mac = scan_tlv(&data[8], len-8, 1, 1);
-+			mac = scan_tlv(&data[8], len - 8, 1, 1);
- 			if (mac) {
- 				memcpy(mac, replace_mac, 6);
- 				return 1;
-@@ -166,7 +166,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
- 		}
- 	} else if (icmphdr->icmp6_type == NDISC_ROUTER_ADVERTISEMENT) {
- 		if (len >= 16) {
--			mac = scan_tlv(&data[16], len-16, 1, 1);
-+			mac = scan_tlv(&data[16], len - 16, 1, 1);
- 			if (mac) {
- 				memcpy(mac, replace_mac, 6);
- 				return 1;
-@@ -174,7 +174,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
- 		}
- 	} else if (icmphdr->icmp6_type == NDISC_NEIGHBOUR_SOLICITATION) {
- 		if (len >= 24) {
--			mac = scan_tlv(&data[24], len-24, 1, 1);
-+			mac = scan_tlv(&data[24], len - 24, 1, 1);
- 			if (mac) {
- 				memcpy(mac, replace_mac, 6);
- 				return 1;
-@@ -182,7 +182,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
- 		}
- 	} else if (icmphdr->icmp6_type == NDISC_NEIGHBOUR_ADVERTISEMENT) {
- 		if (len >= 24) {
--			mac = scan_tlv(&data[24], len-24, 2, 1);
-+			mac = scan_tlv(&data[24], len - 24, 2, 1);
- 			if (mac) {
- 				memcpy(mac, replace_mac, 6);
- 				return 1;
-@@ -190,7 +190,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
- 		}
- 	} else if (icmphdr->icmp6_type == NDISC_REDIRECT) {
- 		if (len >= 40) {
--			mac = scan_tlv(&data[40], len-40, 2, 1);
-+			mac = scan_tlv(&data[40], len - 40, 2, 1);
- 			if (mac) {
- 				memcpy(mac, replace_mac, 6);
- 				return 1;
-@@ -397,7 +397,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
- 			tmp = be32_to_cpu(iph->saddr);
- 			__nat25_generate_ipv4_network_addr(networkAddr, &tmp);
- 			/* record source IP address and , source mac address into db */
--			__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
-+			__nat25_db_network_insert(priv, skb->data + ETH_ALEN, networkAddr);
- 			return 0;
- 		default:
- 			return -1;
-@@ -422,7 +422,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
- 			arp_ptr += arp->ar_hln;
- 			sender = (unsigned int *)arp_ptr;
- 			__nat25_generate_ipv4_network_addr(networkAddr, sender);
--			__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
-+			__nat25_db_network_insert(priv, skb->data + ETH_ALEN, networkAddr);
- 			return 0;
- 		default:
- 			return -1;
-@@ -459,22 +459,22 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
- 							    sizeof(tag_buf))
- 								return -1;
- 
--							memcpy(tag->tag_data+MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN,
-+							memcpy(tag->tag_data + MAGIC_CODE_LEN + RTL_RELAY_TAG_LEN,
- 								pOldTag->tag_data, old_tag_len);
- 
--							if (skb_pull_and_merge(skb, (unsigned char *)pOldTag, TAG_HDR_LEN+old_tag_len) < 0)
-+							if (skb_pull_and_merge(skb, (unsigned char *)pOldTag, TAG_HDR_LEN + old_tag_len) < 0)
- 								return -1;
- 
--							ph->length = htons(ntohs(ph->length)-TAG_HDR_LEN-old_tag_len);
-+							ph->length = htons(ntohs(ph->length) - TAG_HDR_LEN - old_tag_len);
- 						}
- 
- 						tag->tag_type = PTT_RELAY_SID;
--						tag->tag_len = htons(MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN+old_tag_len);
-+						tag->tag_len = htons(MAGIC_CODE_LEN + RTL_RELAY_TAG_LEN + old_tag_len);
- 
- 						/*  insert the magic_code+client mac in relay tag */
- 						pMagic = (__be16 *)tag->tag_data;
- 						*pMagic = htons(MAGIC_CODE);
--						memcpy(tag->tag_data+MAGIC_CODE_LEN, skb->data+ETH_ALEN, ETH_ALEN);
-+						memcpy(tag->tag_data + MAGIC_CODE_LEN, skb->data + ETH_ALEN, ETH_ALEN);
- 
- 						/* Add relay tag */
- 						if (__nat25_add_pppoe_tag(skb, tag) < 0)
-@@ -487,7 +487,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
- 							return -2;
- 
- 						if (priv->pppoe_connection_in_progress == 0)
--							memcpy(priv->pppoe_addr, skb->data+ETH_ALEN, ETH_ALEN);
-+							memcpy(priv->pppoe_addr, skb->data + ETH_ALEN, ETH_ALEN);
- 
- 						priv->pppoe_connection_in_progress = WAIT_TIME_PPPOE;
- 					}
-@@ -497,11 +497,11 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
- 			} else {	/*  session phase */
- 				__nat25_generate_pppoe_network_addr(networkAddr, skb->data, &ph->sid);
- 
--				__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
-+				__nat25_db_network_insert(priv, skb->data + ETH_ALEN, networkAddr);
- 
- 				if (!priv->ethBrExtInfo.addPPPoETag &&
- 				    priv->pppoe_connection_in_progress &&
--				    !memcmp(skb->data+ETH_ALEN, priv->pppoe_addr, ETH_ALEN))
-+				    !memcmp(skb->data + ETH_ALEN, priv->pppoe_addr, ETH_ALEN))
- 					priv->pppoe_connection_in_progress = 0;
- 			}
- 			return 0;
-@@ -549,7 +549,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
- 		case NAT25_INSERT:
- 			if (memcmp(&iph->saddr, "\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0", 16)) {
- 				__nat25_generate_ipv6_network_addr(networkAddr, (unsigned int *)&iph->saddr);
--				__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
-+				__nat25_db_network_insert(priv, skb->data + ETH_ALEN, networkAddr);
- 
- 				if (iph->nexthdr == IPPROTO_ICMPV6 &&
- 						skb->len > (ETH_HLEN +  sizeof(*iph) + 4)) {
--- 
-2.17.1
+Here you could say that all the errors are in comments.  That would remove
+any concern that the behavior of the code is changed.
 
+julia
+
+> Signed-off-by: Mahak Gupta <mahak_g@cs.iitr.ac.in>
+> ---
+> v1 -> v2: Updated the subject and description of the patch
+> ---
+>  drivers/staging/r8188eu/core/rtw_ioctl_set.c |  2 +-
+>  drivers/staging/r8188eu/core/rtw_mlme.c      | 10 +++---
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 36 ++++++++++----------
+>  drivers/staging/r8188eu/core/rtw_recv.c      |  8 ++---
+>  drivers/staging/r8188eu/core/rtw_xmit.c      |  8 ++---
+>  5 files changed, 32 insertions(+), 32 deletions(-)
+>
+> diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> index 4b78e42d180d..9df6fb122bc5 100644
+> --- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> +++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> @@ -290,7 +290,7 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
+>
+>  		if ((*pold_state == Ndis802_11Infrastructure) || (*pold_state == Ndis802_11IBSS)) {
+>  			if (check_fwstate(pmlmepriv, _FW_LINKED))
+> -				rtw_indicate_disconnect(padapter); /* will clr Linked_state; before this function, we must have chked whether  issue dis-assoc_cmd or not */
+> +				rtw_indicate_disconnect(padapter); /* will clr Linked_state; before this function, we must have checked whether  issue dis-assoc_cmd or not */
+>  	       }
+>
+>  		*pold_state = networktype;
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+> index c90f36dee1ea..a2b42779bc87 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> @@ -193,7 +193,7 @@ void _rtw_free_network_nolock(struct	mlme_priv *pmlmepriv, struct wlan_network *
+>  /*
+>  	return the wlan_network with the matching addr
+>
+> -	Shall be calle under atomic context... to avoid possible racing condition...
+> +	Shall be called under atomic context... to avoid possible racing condition...
+>  */
+>  struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+>  {
+> @@ -329,7 +329,7 @@ void rtw_free_network_queue(struct adapter *dev, u8 isfreeall)
+>  /*
+>  	return the wlan_network with the matching addr
+>
+> -	Shall be calle under atomic context... to avoid possible racing condition...
+> +	Shall be called under atomic context... to avoid possible racing condition...
+>  */
+>  struct	wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+>  {
+> @@ -912,7 +912,7 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
+>  		}
+>  		/* 	Commented by Albert 2012/07/21 */
+>  		/* 	When doing the WPS, the wps_ie_len won't equal to 0 */
+> -		/* 	And the Wi-Fi driver shouldn't allow the data packet to be tramsmitted. */
+> +		/* 	And the Wi-Fi driver shouldn't allow the data packet to be transmitted. */
+>  		if (padapter->securitypriv.wps_ie_len != 0) {
+>  			psta->ieee8021x_blocked = true;
+>  			padapter->securitypriv.wps_ie_len = 0;
+> @@ -1304,7 +1304,7 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
+>  }
+>
+>  /*
+> -* _rtw_join_timeout_handler - Timeout/faliure handler for CMD JoinBss
+> +* _rtw_join_timeout_handler - Timeout/failure handler for CMD JoinBss
+>  * @adapter: pointer to struct adapter structure
+>  */
+>  void _rtw_join_timeout_handler (struct adapter *adapter)
+> @@ -1339,7 +1339,7 @@ void _rtw_join_timeout_handler (struct adapter *adapter)
+>  }
+>
+>  /*
+> -* rtw_scan_timeout_handler - Timeout/Faliure handler for CMD SiteSurvey
+> +* rtw_scan_timeout_handler - Timeout/Failure handler for CMD SiteSurvey
+>  * @adapter: pointer to struct adapter structure
+>  */
+>  void rtw_scan_timeout_handler (struct adapter *adapter)
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index 474391bf7cb5..fd445aa09377 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -156,7 +156,7 @@ static struct rt_channel_plan_map	RTW_ChannelPlanMap[RT_CHANNEL_DOMAIN_MAX] = {
+>  	{0x03},	/* 0x41, RT_CHANNEL_DOMAIN_GLOBAL_DOAMIN_2G */
+>  };
+>
+> -static struct rt_channel_plan_map RTW_CHANNEL_PLAN_MAP_REALTEK_DEFINE = {0x03}; /* use the conbination for max channel numbers */
+> +static struct rt_channel_plan_map RTW_CHANNEL_PLAN_MAP_REALTEK_DEFINE = {0x03}; /* use the combination for max channel numbers */
+>
+>  /*
+>   * Search the @param channel_num in given @param channel_set
+> @@ -1733,7 +1733,7 @@ void issue_p2p_GO_request(struct adapter *padapter, u8 *raddr)
+>  	p2pie[p2pielen++] = 0x09;	/*	WFA P2P v1.0 */
+>
+>  	/*	Commented by Albert 20110306 */
+> -	/*	According to the P2P Specification, the group negoitation request frame should contain 9 P2P attributes */
+> +	/*	According to the P2P Specification, the group negotiation request frame should contain 9 P2P attributes */
+>  	/*	1. P2P Capability */
+>  	/*	2. Group Owner Intent */
+>  	/*	3. Configuration Timeout */
+> @@ -2088,7 +2088,7 @@ static void issue_p2p_GO_response(struct adapter *padapter, u8 *raddr, u8 *frame
+>  	p2pie[p2pielen++] = 0x09;	/*	WFA P2P v1.0 */
+>
+>  	/*	Commented by Albert 20100908 */
+> -	/*	According to the P2P Specification, the group negoitation response frame should contain 9 P2P attributes */
+> +	/*	According to the P2P Specification, the group negotiation response frame should contain 9 P2P attributes */
+>  	/*	1. Status */
+>  	/*	2. P2P Capability */
+>  	/*	3. Group Owner Intent */
+> @@ -2384,7 +2384,7 @@ static void issue_p2p_GO_confirm(struct adapter *padapter, u8 *raddr, u8 result)
+>  	p2pie[p2pielen++] = 0x09;	/*	WFA P2P v1.0 */
+>
+>  	/*	Commented by Albert 20110306 */
+> -	/*	According to the P2P Specification, the group negoitation request frame should contain 5 P2P attributes */
+> +	/*	According to the P2P Specification, the group negotiation request frame should contain 5 P2P attributes */
+>  	/*	1. Status */
+>  	/*	2. P2P Capability */
+>  	/*	3. Operating Channel */
+> @@ -4009,7 +4009,7 @@ struct xmit_frame *alloc_mgtxmitframe(struct xmit_priv *pxmitpriv)
+>
+>  /****************************************************************************
+>
+> -Following are some TX fuctions for WiFi MLME
+> +Following are some TX functions for WiFi MLME
+>
+>  *****************************************************************************/
+>
+> @@ -4611,7 +4611,7 @@ int issue_probereq_ex(struct adapter *padapter, struct ndis_802_11_ssid *pssid,
+>  	return ret;
+>  }
+>
+> -/*  if psta == NULL, indiate we are station(client) now... */
+> +/*  if psta == NULL, indicate we are station(client) now... */
+>  void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short status)
+>  {
+>  	struct xmit_frame *pmgntframe;
+> @@ -5010,7 +5010,7 @@ void issue_assocreq(struct adapter *padapter)
+>  				if (!padapter->registrypriv.wifi_spec) {
+>  					/* Commented by Kurt 20110629 */
+>  					/* In some older APs, WPS handshake */
+> -					/* would be fail if we append vender extensions informations to AP */
+> +					/* would be fail if we append vender extensions information to AP */
+>  					if (!memcmp(pIE->data, WPS_OUI, 4))
+>  						pIE->Length = 14;
+>  				}
+> @@ -5165,7 +5165,7 @@ void issue_assocreq(struct adapter *padapter)
+>  		kfree(pmlmepriv->assoc_req);
+>  }
+>
+> -/* when wait_ack is ture, this function shoule be called at process context */
+> +/* when wait_ack is true, this function should be called at process context */
+>  static int _issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned int power_mode, int wait_ack)
+>  {
+>  	int ret = _FAIL;
+> @@ -5234,7 +5234,7 @@ static int _issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned
+>  	return ret;
+>  }
+>
+> -/* when wait_ms > 0 , this function shoule be called at process context */
+> +/* when wait_ms > 0 , this function should be called at process context */
+>  /* da == NULL for station mode */
+>  int issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned int power_mode, int try_cnt, int wait_ms)
+>  {
+> @@ -5243,7 +5243,7 @@ int issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned int pow
+>  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+>  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+>
+> -	/* da == NULL, assum it's null data for sta to ap*/
+> +	/* da == NULL, assume it's null data for sta to ap*/
+>  	if (!da)
+>  		da = get_my_bssid(&pmlmeinfo->network);
+>
+> @@ -5267,7 +5267,7 @@ int issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned int pow
+>  	return ret;
+>  }
+>
+> -/* when wait_ack is ture, this function shoule be called at process context */
+> +/* when wait_ack is true, this function should be called at process context */
+>  static int _issue_qos_nulldata(struct adapter *padapter, unsigned char *da, u16 tid, int wait_ack)
+>  {
+>  	int ret = _FAIL;
+> @@ -5340,7 +5340,7 @@ static int _issue_qos_nulldata(struct adapter *padapter, unsigned char *da, u16
+>  	return ret;
+>  }
+>
+> -/* when wait_ms > 0 , this function shoule be called at process context */
+> +/* when wait_ms > 0 , this function should be called at process context */
+>  /* da == NULL for station mode */
+>  int issue_qos_nulldata(struct adapter *padapter, unsigned char *da, u16 tid, int try_cnt, int wait_ms)
+>  {
+> @@ -5349,7 +5349,7 @@ int issue_qos_nulldata(struct adapter *padapter, unsigned char *da, u16 tid, int
+>  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+>  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+>
+> -	/* da == NULL, assum it's null data for sta to ap*/
+> +	/* da == NULL, assume it's null data for sta to ap*/
+>  	if (!da)
+>  		da = get_my_bssid(&pmlmeinfo->network);
+>
+> @@ -5790,7 +5790,7 @@ void clear_beacon_valid_bit(struct adapter *adapter)
+>
+>  /****************************************************************************
+>
+> -Following are some utitity fuctions for WiFi MLME
+> +Following are some utility functions for WiFi MLME
+>
+>  *****************************************************************************/
+>
+> @@ -5888,7 +5888,7 @@ void site_survey(struct adapter *padapter)
+>  		} else {
+>  			/*  20100721:Interrupt scan operation here. */
+>  			/*  For SW antenna diversity before link, it needs to switch to another antenna and scan again. */
+> -			/*  It compares the scan result and select beter one to do connection. */
+> +			/*  It compares the scan result and select better one to do connection. */
+>  			if (AntDivBeforeLink8188E(padapter)) {
+>  				pmlmeext->sitesurvey_res.bss_cnt = 0;
+>  				pmlmeext->sitesurvey_res.channel_idx = -1;
+> @@ -6109,7 +6109,7 @@ void start_create_ibss(struct adapter *padapter)
+>  	/* update wireless mode */
+>  	update_wireless_mode(padapter);
+>
+> -	/* udpate capability */
+> +	/* update capability */
+>  	caps = rtw_get_capability((struct wlan_bssid_ex *)pnetwork);
+>  	update_capinfo(padapter, caps);
+>  	if (caps & cap_IBSS) {/* adhoc master */
+> @@ -6160,7 +6160,7 @@ void start_clnt_join(struct adapter *padapter)
+>  	/* update wireless mode */
+>  	update_wireless_mode(padapter);
+>
+> -	/* udpate capability */
+> +	/* update capability */
+>  	caps = rtw_get_capability((struct wlan_bssid_ex *)pnetwork);
+>  	update_capinfo(padapter, caps);
+>  	if (caps & cap_ESS) {
+> @@ -6740,7 +6740,7 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
+>  	/* BCN interval */
+>  	rtw_write16(padapter, REG_BCN_INTERVAL, pmlmeinfo->bcn_interval);
+>
+> -	/* udpate capability */
+> +	/* update capability */
+>  	update_capinfo(padapter, pmlmeinfo->capability);
+>
+>  	/* WMM, Update EDCA param */
+> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+> index 91a6e0f035f4..a3f71697f6d7 100644
+> --- a/drivers/staging/r8188eu/core/rtw_recv.c
+> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
+> @@ -877,7 +877,7 @@ static void validate_recv_ctrl_frame(struct adapter *padapter,
+>  			if (psta->sleepq_len == 0) {
+>  				pstapriv->tim_bitmap &= ~BIT(psta->aid);
+>
+> -				/* upate BCN for TIM IE */
+> +				/* update BCN for TIM IE */
+>  				/* update_BCNTIM(padapter); */
+>  				update_beacon(padapter, _TIM_IE_, NULL, false);
+>  			}
+> @@ -891,7 +891,7 @@ static void validate_recv_ctrl_frame(struct adapter *padapter,
+>
+>  				pstapriv->tim_bitmap &= ~BIT(psta->aid);
+>
+> -				/* upate BCN for TIM IE */
+> +				/* update BCN for TIM IE */
+>  				/* update_BCNTIM(padapter); */
+>  				update_beacon(padapter, _TIM_IE_, NULL, false);
+>  			}
+> @@ -1810,13 +1810,13 @@ void rtw_signal_stat_timer_hdl(struct timer_list *t)
+>  	} else {
+>  		if (recvpriv->signal_strength_data.update_req == 0) {/*  update_req is clear, means we got rx */
+>  			avg_signal_strength = recvpriv->signal_strength_data.avg_val;
+> -			/*  after avg_vals are accquired, we can re-stat the signal values */
+> +			/*  after avg_vals are acquired, we can re-stat the signal values */
+>  			recvpriv->signal_strength_data.update_req = 1;
+>  		}
+>
+>  		if (recvpriv->signal_qual_data.update_req == 0) {/*  update_req is clear, means we got rx */
+>  			avg_signal_qual = recvpriv->signal_qual_data.avg_val;
+> -			/*  after avg_vals are accquired, we can re-stat the signal values */
+> +			/*  after avg_vals are acquired, we can re-stat the signal values */
+>  			recvpriv->signal_qual_data.update_req = 1;
+>  		}
+>
+> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+> index 029b994e1b71..2a686b5c65b1 100644
+> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
+> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+> @@ -958,7 +958,7 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+>  		}
+>
+>  		if (bmcst) {
+> -			/*  don't do fragment to broadcat/multicast packets */
+> +			/*  don't do fragment to broadcast/multicast packets */
+>  			mem_sz = _rtw_pktfile_read(&pktfile, pframe, pattrib->pktlen);
+>  		} else {
+>  			mem_sz = _rtw_pktfile_read(&pktfile, pframe, mpdu_len);
+> @@ -1768,7 +1768,7 @@ int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct xmit_fra
+>  			pstapriv->tim_bitmap |= BIT(0);/*  */
+>  			pstapriv->sta_dz_bitmap |= BIT(0);
+>
+> -			update_beacon(padapter, _TIM_IE_, NULL, false);/* tx bc/mc packets after upate bcn */
+> +			update_beacon(padapter, _TIM_IE_, NULL, false);/* tx bc/mc packets after update bcn */
+>
+>  			ret = true;
+>  		}
+> @@ -1818,7 +1818,7 @@ int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct xmit_fra
+>  				pstapriv->tim_bitmap |= BIT(psta->aid);
+>
+>  				if (psta->sleepq_len == 1) {
+> -					/* upate BCN for TIM IE */
+> +					/* update BCN for TIM IE */
+>  					update_beacon(padapter, _TIM_IE_, NULL, false);
+>  				}
+>  			}
+> @@ -2087,7 +2087,7 @@ void xmit_delivery_enabled_frames(struct adapter *padapter, struct sta_info *pst
+>  		if ((psta->sleepq_ac_len == 0) && (!psta->has_legacy_ac) && (wmmps_ac)) {
+>  			pstapriv->tim_bitmap &= ~BIT(psta->aid);
+>
+> -			/* upate BCN for TIM IE */
+> +			/* update BCN for TIM IE */
+>  			update_beacon(padapter, _TIM_IE_, NULL, false);
+>  		}
+>  	}
+> --
+> 2.17.1
+>
+>
+>
