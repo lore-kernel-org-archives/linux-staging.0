@@ -1,41 +1,41 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BE62F3C;
-	Wed, 13 Apr 2022 20:11:46 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id z19so2212912qtw.2;
-        Wed, 13 Apr 2022 13:11:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A91C2F3C;
+	Wed, 13 Apr 2022 20:11:48 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id z16so2196802qtq.6;
+        Wed, 13 Apr 2022 13:11:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Mu1OAjP3SMnZkiz81iTb0qSVH6tSWJDl8+n68t1vXxE=;
-        b=BvJqGIXBkaxZ6cFuP/skqWxhW0WFquWrQFsXQyCwtTZDbrsG7wPCFnMl9VAo1hRimX
-         5K4rp/x3o6C2ap3DrWJculrIIVqUrjX4f2Z5EBQAzoamuHRAB5jxD3z2l0nwzgunCtwi
-         buWTwmi9fLz09m6yv/ENfSUlEwADTUpUeQesL+JCgKyT6LqcZa9yK0dRabPg67s/nLmr
-         clYqTZFuFcTn8xL31/iIhirgMMZq8/9p+j+do206zI8XSNr1a7jfRFlYteLTMK82xQtk
-         /wNUqhrx3gPIEEBhtUEXJ/bmZ9K1TIyI+0ufOFWsjpdbRnOwbxgUbpcLGPQqBqkZiEA0
-         fnWA==
+        bh=RsvCyHjEEdexsUzersCRTZshhGaPsOo9bh7mou5OagQ=;
+        b=WBa6NhY5yXEgT+Gqpg+Z7tCpNTFJgemPs7PlszxJc+y7RgCQdhK3PHMpWMCOk4HXxv
+         szv9jgCdUdjpfOHPHmysqL8OCRpRqphSnFGz4ckaxREtKkGKS18cIvQTrf8R1oOS1Pr7
+         w5ZJFzSotN/sRNntDULkFrstvVE2nyyFM080AYpX+qDRp72nu3WE+/DsTgvFIPoAWpvN
+         s2X87tdyLY4Nzi4ADA0uS5TNH29UGIEiOZxe1ciYtRVkUpeiem+yzwh5Z//7xg+g78/X
+         PARTVv5/SHKxHUGsvkGJnhpSakxSd20oenlW0nN2juDh/dbHchU2IH89ebTAdWYXp/qR
+         4EVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Mu1OAjP3SMnZkiz81iTb0qSVH6tSWJDl8+n68t1vXxE=;
-        b=yP3oaSnZ4rhxBBa0fhvgKkJm0NGP0GgcsReCxdx9eOyb1oe3pCBQah4vfUYN2Tc9+V
-         sD4+UmBWeh/WaByDrT6pnGbZ+bN4Llne+CGTH1FKIVlUBNztBwWL53Bi01VOJho1LX3P
-         Hno39QABISbureeMEdUQEV6WSf4qJ6FloZXJtDYgYDtJ3cljakKD7MW5Vl0WvDDMgNH0
-         w9lOl8jxJ/x/ZhHfMexA+C3jzW+4hWEoXxh0ZiO8+JJmlZ0kbQrwXUiSHaDt552nozNc
-         ZMyFg1k6rZ6cpQNaxt1Jox3qR5R5e+aGp6Zu/19kWttFNfC9Lns5IidRUaPFDfhoYQfQ
-         6sYQ==
-X-Gm-Message-State: AOAM530kY7l90srT2XrBB54wKFTJrxRq/t4ETGNJjW0/V3AXOZoG4hSf
-	SdObPbAR+5XsK17DsYxcsaU=
-X-Google-Smtp-Source: ABdhPJzWCouMMzzabzOWqJItVPit5N6AJ34ifKNKxlogdLuP54DDtWbfXAVgf9JrI/WQqR5+J+CISg==
-X-Received: by 2002:ac8:5f46:0:b0:2e1:da61:9734 with SMTP id y6-20020ac85f46000000b002e1da619734mr8625056qta.205.1649880705951;
-        Wed, 13 Apr 2022 13:11:45 -0700 (PDT)
+        bh=RsvCyHjEEdexsUzersCRTZshhGaPsOo9bh7mou5OagQ=;
+        b=SA6aUw7yyfBhXfl5Ikgpiz6VTzezp9lHqU/07MapvYtkSFQxbfNqgxcORgI9vDDO2C
+         W1Ch+p33ExBPdtLF0OsUM7RMcEVNVlBuLWsSMgNQcSzVQgJzb6fLOjXY9uYymarUzh3G
+         T8tG6smQpKZ1Np2QFXkM5xyxc9aZvXALqjz3U8hNatnSpQVQLKSYMmSb2j/ojeWNuT2a
+         lYaehc1bm309BsaCupRBQ8dOga4dTFOqUdeXt1yb+Ckt4TQerIj/m1yu71r0i6CrmL+b
+         jIRV8rmEYtylh8ehi8vuYS4Itsf2V+rxspCuuLdZxNLZZ8GdPKpjmgBSvqP/lVEKo+il
+         s/6A==
+X-Gm-Message-State: AOAM533/zpu1jSIzXbL5E86U9mSbjBnFuxcG0+yW9KeJxHog6DxF3LKH
+	4gmm2DC6mHLWzHKGmyYoHAc=
+X-Google-Smtp-Source: ABdhPJxaQNRyxc9Zpj6FjipuAcabNJxruD2Sgxd4BAP+w78VhMt55IcS0VntKwyV96blPz/x50H1eg==
+X-Received: by 2002:ac8:698a:0:b0:2ed:260f:b751 with SMTP id o10-20020ac8698a000000b002ed260fb751mr8403327qtq.89.1649880707276;
+        Wed, 13 Apr 2022 13:11:47 -0700 (PDT)
 Received: from jaehee-ThinkPad-X1-Extreme.wework.com ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id 7-20020a370907000000b0069c5598584esm1469827qkj.105.2022.04.13.13.11.44
+        by smtp.gmail.com with ESMTPSA id 7-20020a370907000000b0069c5598584esm1469827qkj.105.2022.04.13.13.11.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 13:11:45 -0700 (PDT)
+        Wed, 13 Apr 2022 13:11:46 -0700 (PDT)
 From: Jaehee Park <jhpark1013@gmail.com>
 To: Larry.Finger@lwfinger.net
 Cc: phil@philpotter.co.uk,
@@ -43,11 +43,10 @@ Cc: phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
-	jhpark1013@gmail.com,
-	Alison Schofield <alison.schofield@intel.com>
-Subject: [PATCH 3/6] staging: r8188eu: remove 'added by' author comments
-Date: Wed, 13 Apr 2022 16:11:31 -0400
-Message-Id: <c0c0a0e748ad85585b65e73841d431adefe86a59.1649880454.git.jhpark1013@gmail.com>
+	jhpark1013@gmail.com
+Subject: [PATCH 4/6] staging: r8188eu: place constants on the right side of tests
+Date: Wed, 13 Apr 2022 16:11:32 -0400
+Message-Id: <d2469155c37b8677a8dcbed28bc0840745d46f76.1649880454.git.jhpark1013@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1649880454.git.jhpark1013@gmail.com>
 References: <cover.1649880454.git.jhpark1013@gmail.com>
@@ -59,38 +58,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Author comments "Added by Albert" and "Added by Annie" are sprinkled
-through the file. Git will keep history so these comments can be
-removed from the code.
+To comply with the linux coding style, place constants on the right
+side of the test in comparisons. Issue found with checkpatch.
+WARNING: Comparisons should place the constant on the right side of
+the test.
 
-Suggested-by: Alison Schofield <alison.schofield@intel.com>
 Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 2cfd8e8d74a4..5adef9b9108d 100644
+index 5adef9b9108d..b943fb190e4c 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -909,7 +909,6 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
- 			memset((u8 *)&psta->dot11txpn, 0, sizeof(union pn48));
- 			memset((u8 *)&psta->dot11rxpn, 0, sizeof(union pn48));
- 		}
--		/*	Commented by Albert 2012/07/21 */
- 		/*	When doing the WPS, the wps_ie_len won't equal to 0 */
- 		/*	And the Wi-Fi driver shouldn't allow the data packet to be tramsmitted. */
- 		if (padapter->securitypriv.wps_ie_len != 0) {
-@@ -1628,9 +1627,6 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
- 	return ielength;
- }
+@@ -721,7 +721,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 			set_fwstate(pmlmepriv, _FW_UNDER_LINKING);
+ 			pmlmepriv->to_join = false;
+ 			s_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
+-			if (_SUCCESS == s_ret) {
++			if (s_ret == _SUCCESS) {
+ 			     _set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
+ 			} else if (s_ret == 2) { /* there is no need to wait for join */
+ 				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+@@ -729,7 +729,8 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 			} else {
+ 				if (rtw_to_roaming(adapter) != 0) {
+ 					if (--pmlmepriv->to_roaming == 0 ||
+-					    _SUCCESS != rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid, 1, NULL, 0)) {
++					    rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid,
++							       1, NULL, 0) != _SUCCESS) {
+ 						rtw_set_roaming(adapter, 0);
+ 						rtw_free_assoc_resources(adapter, 1);
+ 						rtw_indicate_disconnect(adapter);
+@@ -1970,7 +1971,7 @@ void rtw_issue_addbareq_cmd(struct adapter *padapter, struct xmit_frame *pxmitfr
+ 		issued = (phtpriv->agg_enable_bitmap >> priority) & 0x1;
+ 		issued |= (phtpriv->candidate_tid_bitmap >> priority) & 0x1;
  
--/*  */
--/*  Ported from 8185: IsInPreAuthKeyList(). (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.) */
--/*  Added by Annie, 2006-05-07. */
- /*  */
- /*  Search by BSSID, */
- /*  Return Value: */
+-		if (0 == issued) {
++		if (issued == 0) {
+ 			psta->htpriv.candidate_tid_bitmap |= BIT((u8)priority);
+ 			rtw_addbareq_cmd(padapter, (u8)priority, pattrib->ra);
+ 		}
+@@ -1997,19 +1998,19 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
+ 	else
+ 		pnetwork = &pmlmepriv->cur_network;
+ 
+-	if (0 < rtw_to_roaming(padapter)) {
++	if (rtw_to_roaming(padapter) > 0) {
+ 		memcpy(&pmlmepriv->assoc_ssid, &pnetwork->network.Ssid, sizeof(struct ndis_802_11_ssid));
+ 
+ 		pmlmepriv->assoc_by_bssid = false;
+ 
+ 		while (1) {
+ 			do_join_r = rtw_do_join(padapter);
+-			if (_SUCCESS == do_join_r) {
++			if (do_join_r == _SUCCESS) {
+ 				break;
+ 			} else {
+ 				pmlmepriv->to_roaming--;
+ 
+-				if (0 < pmlmepriv->to_roaming) {
++				if (pmlmepriv->to_roaming > 0) {
+ 					continue;
+ 				} else {
+ 					rtw_indicate_disconnect(padapter);
 -- 
 2.25.1
 
