@@ -1,148 +1,48 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457F22F32
-	for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 19:42:31 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id l7so6100206ejn.2
-        for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 12:42:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=FKEsAEC31s5NjW6gR7R9XH+ZD7Bj81woAOOZnXXyKBw=;
-        b=EFmIOK1fhCFyYhjY9XJTUgpu0JtHcZJ4NHOpwoDsZY0lezkatu17BwYQk/ih3GjWfB
-         ca6FbNKgL6t+xDmphtWTjIpRv7S/ihMoTWe+REiRZQOsRDZdiV2sWmdu6NjTlrsVa440
-         D0SHXFoWWC3+nqOcssyoQYZ/Ed0xE8aYwI5Bxh4F7At0Gb1eV10mTTzpblJzagQ3Bizv
-         T4+v9hqYRHS0mv+5eyKtXGWrHmI52lUiNKBAAhXJiDGPWujoSJlpZd4eng+Nyc1el2ZM
-         EepXPPrDH8CzHwgCOoVzGdG1IyMCd2L09m0kBFVXCHprNOplwt59O8byoa9JX4Qgx9Ql
-         NpZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=FKEsAEC31s5NjW6gR7R9XH+ZD7Bj81woAOOZnXXyKBw=;
-        b=u8t5rMRugrZDZLSqfNoa1L24fRlxy+8lHJy+tNcohIygMo9AoXE109lDDzijFWC0E5
-         I9Ie50JdqUMFJ1xAnUS9vXs3FFvvTSv/VYci9HmGdi4bXxZ3U7I95M6Iu1DxUxHn1MAy
-         8oAkhXok7STZJBQcvPyvt8EgZHGKKTU8fEZND7Q7Pi5J0wuONSyN5kYN/TyT8iRjrkzo
-         VQaAjjhJDraVwwA4jV6WTCux/3HQSa/1Wzzldrt/zONgQicQUEV2x1QCaOVvNwzqHky5
-         0XaQmM5yrkPBEA6+0pqgUS36XHJ4Bv+fUhjbejvvG3iRJzl/XYyB5id4Mfs3NdOp0Wdb
-         LESA==
-X-Gm-Message-State: AOAM532DUzNeylQrMBjStMvPgUoao76TzMBg1/m2bSgBWpnsO1ypTbTT
-	/lt+VlMEzTSW5CjF7jgJcc8saM4GGUs=
-X-Google-Smtp-Source: ABdhPJxkiwD6sFd4SphGvl7PDG5NDTGzem9nThMR3YuT3EUoNHMSsHy+X5AI4kRFNFLHOcTRHd8FXQ==
-X-Received: by 2002:a17:906:1e94:b0:6b9:6fcc:53fd with SMTP id e20-20020a1709061e9400b006b96fcc53fdmr40266567ejj.450.1649878949484;
-        Wed, 13 Apr 2022 12:42:29 -0700 (PDT)
-Received: from [192.168.0.253] (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
-        by smtp.gmail.com with ESMTPSA id jr16-20020a170906a99000b006e4c05e8919sm283247ejb.35.2022.04.13.12.42.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Apr 2022 12:42:29 -0700 (PDT)
-Message-ID: <86a66ea4-45e3-cfa2-9130-f698ae212bfd@gmail.com>
-Date: Wed, 13 Apr 2022 21:42:28 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF86B2F32
+	for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 20:07:52 +0000 (UTC)
+Received: from dslb-178-004-174-121.178.004.pools.vodafone-ip.de ([178.4.174.121] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1nejHI-0005wN-LP; Wed, 13 Apr 2022 22:07:48 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 0/4] staging: r8188eu: some more cleanups
+Date: Wed, 13 Apr 2022 22:07:38 +0200
+Message-Id: <20220413200742.276806-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: staging: r8188eu: struct rt_firmware_header issues
-Content-Language: en-US
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
- Greg KH <gregkh@linuxfoundation.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <94a72ecc-3acd-758b-15a4-a7d56bf03fbe@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <94a72ecc-3acd-758b-15a4-a7d56bf03fbe@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 4/13/22 18:27, Michael Straube wrote:
-> Hi all,
-> 
-> I think the rt_firmware_hdr structure in rtw_fw.c has some issues.
-> 
-> 
-> struct rt_firmware_hdr {
->      /*  8-byte alinment required */
->      /*  LONG WORD 0 ---- */
->      __le16        Signature;    /* 92C0: test chip; 92C,
->                       * 88C0: test chip; 88C1: MP A-cut;
->                       * 92C1: MP A-cut */
->      u8        Category;    /*  AP/NIC and USB/PCI */
->      u8        Function;    /*  Reserved for different FW function
->                       *  indcation, for further use when
->                       *  driver needs to download different
->                       *  FW for different conditions */
->      __le16        Version;    /*  FW Version */
->      u8        Subversion;    /*  FW Subversion, default 0x00 */
->      u16        Rsvd1;
-> 
->      /*  LONG WORD 1 ---- */
->      u8        Month;    /*  Release time Month field */
->      u8        Date;    /*  Release time Date field */
->      u8        Hour;    /*  Release time Hour field */
->      u8        Minute;    /*  Release time Minute field */
->      __le16        RamCodeSize;    /*  The size of RAM code */
->      u8        Foundry;
->      u8        Rsvd2;
-> 
->      /*  LONG WORD 2 ---- */
->      __le32        SvnIdx;    /*  The SVN entry index */
->      u32        Rsvd3;
-> 
->      /*  LONG WORD 3 ---- */
->      u32        Rsvd4;
->      u32        Rsvd5;
-> };
-> 
-> 
-> Then we have in rtl8188e_firmware_download():
-> 
-> 
->      fwhdr = (struct rt_firmware_hdr *)dvobj->firmware.data;
-> 
->      <snip>
-> 
->      if (IS_FW_HEADER_EXIST(fwhdr)) {
->          /*  Shift 32 bytes for FW header */
->          fw_data = fw_data + 32;
->          fw_size = fw_size - 32;
->      }
-> 
-> We add/sub 32 bytes but the size of struct rt_firmware_hdr is actually
-> 33 bytes. I noticed this when I wanted to replace:
-> 
->          fw_data = fw_data + 32;
->          fw_size = fw_size - 32;
-> 
-> with:
->          fw_data = fw_data + sizeof(struct rt_firmware_hdr);
->          fw_size = fw_size - sizeof(struct rt_firmware_hdr);;
-> 
-> To me it looks add/sub 32 is correct here but the struct is
-> wrong. I don't know if the firmware for this driver is so much different
-> from firmware for the drivers in drivers/net/wireless/realtek/rtlwifi.
-> They use a struct of size 32.
-> 
-> Also, souldn't the u16 and u32 variables in the struct be __le16 and
-> __le32 ?
-> 
-> I wonder if we can just use the rtlwifi_firmware_header structure from
-> drivers/net/wireless/realtek/rtlwifi/wifi.h ?
-> 
-> Comments from people with better knowledge appreciated. :)
-> 
-> regards,
-> Michael
-> 
-> 
+Here's another set of simple cleanups in the code that handles incoming
+frames.
 
-Ok, I figured it out by looking at the hexdumps of firmware files. The
-field Rsvd1 should be u8 instead of u16. I'll prepare a patch for this.
+Martin Kaiser (4):
+  staging: r8188eu: use ieee80211 helper to read the qos tid
+  staging: r8188eu: merge _mgt_dispatcher into mgt_dispatcher
+  staging: r8188eu: use ieee80211 helpers in mgt_dispatcher
+  staging: r8188eu: pkt_newalloc is not used
 
-regards,
-Michael
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 35 +++++++++------------
+ drivers/staging/r8188eu/core/rtw_recv.c     |  3 +-
+ drivers/staging/r8188eu/include/rtw_recv.h  |  1 -
+ drivers/staging/r8188eu/include/wifi.h      |  2 --
+ 4 files changed, 16 insertions(+), 25 deletions(-)
+
+-- 
+2.30.2
+
