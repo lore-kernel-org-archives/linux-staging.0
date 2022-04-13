@@ -1,109 +1,100 @@
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9B128FF
-	for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 12:48:05 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id h63so1684863iof.12
-        for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 05:48:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=9jPZG9/+m97btsIbUfBFkqEN0JQ7wZ3+b8nQQ/RX0/U=;
-        b=QBoFY5ec7cTEQSifRW8FUGrkedVgwRZQotcNk3yipnOF3lhr9Pcn4eFZ9Puuwt97s9
-         uXvcFWEzJ2ok1oCj6cpgUqFryCjxuO3hPjWQrNyMdJDmwZw2HOQrGwO1anN03ZPZZR65
-         VSUM5TcLIQTgDrKFO1rlFgqmx4H88Sn4OPrXo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=9jPZG9/+m97btsIbUfBFkqEN0JQ7wZ3+b8nQQ/RX0/U=;
-        b=5ohxRIF5IgegJXfvbh8qO6hAefoSKO9gBDcn/w/wq2zYT1o9iWcuyjMcJCUv1CDxoX
-         Wmu9loOgoYK5YT7MuroHNDvICPHeUymZVqe6pWFmhWtA32HwSBi77nDql6AWioTiWzbK
-         xacEYEmbc5/rG+W3kTDB4hdmX1QQ8V1jRKU62kI8y28SSwsyU/o8IL/0wqfSGTA6iKki
-         iibY79Bw6ol64YyaroO8iyuVpE2TXLRqOF4QF2ghscMILgTc1a82ioruh6ASJIuU5rKp
-         SbVTfi2oaYtlu1ux+W1fysGvOgW2hOHaqxAKlZyOKY1SsilplF7po0szW4F9MvFwxBCa
-         vjpA==
-X-Gm-Message-State: AOAM532kArPog0QdGJuuyN9xf7RfFGYAlL63ddMMdRBk54Ly4rsCBxk/
-	fsJYfmmnfctGLvHl2Rs1W0r6tw==
-X-Google-Smtp-Source: ABdhPJwcDwROpz/UfIELVwrdwOuvg76PG0BW+jpB2S6XlS8+0l+GjJIkxkMWI7DdRYklftWbiiTamQ==
-X-Received: by 2002:a02:271f:0:b0:326:af4:3f0c with SMTP id g31-20020a02271f000000b003260af43f0cmr11290770jaa.300.1649854085065;
-        Wed, 13 Apr 2022 05:48:05 -0700 (PDT)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id x186-20020a6bc7c3000000b00648deae6630sm24343335iof.54.2022.04.13.05.48.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Apr 2022 05:48:04 -0700 (PDT)
-Message-ID: <a4e5c567-63dd-f7de-114b-a357075444a2@ieee.org>
-Date: Wed, 13 Apr 2022 07:48:03 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C02E290C;
+	Wed, 13 Apr 2022 15:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649864189; x=1681400189;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Iq4ltTTN69V9QzH/TlL8lL1lwJpSTAOC+133meFHn4o=;
+  b=Q7xtkVCk0onK6/n8+cL4NIOvuzowSgD9wNSEpLxnq1wECfRfA19TaoML
+   yE6Vp2mLAHeppJYPj+UoFsR0bAdzvUaMJ5ZJb39t2JDhgFVCsVw1JQCh9
+   yFtRRnAVGSELHtFqmSmT2S4wACqzht/x8urUD/+Wy0Mgq1CEu8KCbdM8v
+   sh5k3l8nB72lvKSAW+VGRtllwOE/adl583+t8V2eikSI+QTM9JwVnAPLo
+   J8DrRlNGRbwcruvFsD9T8FomeHAvfq1INSkkGz0GpVnkMfW5WrhZov3Zf
+   +9vYmnRH5CSewzlwKwUxp614CDKEnNBCZYW04RG9VSz3p+tUVWM14c5wB
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="262451763"
+X-IronPort-AV: E=Sophos;i="5.90,257,1643702400"; 
+   d="scan'208";a="262451763"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 08:36:28 -0700
+X-IronPort-AV: E=Sophos;i="5.90,257,1643702400"; 
+   d="scan'208";a="526518653"
+Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 08:36:28 -0700
+Date: Wed, 13 Apr 2022 08:38:24 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: Remove the drivers for the Unisys s-Par
+Message-ID: <20220413153824.GA1241369@alison-desk>
+References: <20220412215901.31046-1-fmdefrancesco@gmail.com>
+ <YlZzP5ghZeR1AtIg@kroah.com>
+ <3988824.6PsWsQAL7t@leap>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 2/2] staging: greybus: remove empty callback function
-Content-Language: en-US
-To: Jaehee Park <jhpark1013@gmail.com>, johan@kernel.org
-Cc: elder@kernel.org, gregkh@linuxfoundation.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
- Dan Carpenter <dan.carpenter@oracle.com>
-References: <cover.1649824370.git.jhpark1013@gmail.com>
- <12037ae2502ad7d0311bcdf2178c3d2156293236.1649824370.git.jhpark1013@gmail.com>
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <12037ae2502ad7d0311bcdf2178c3d2156293236.1649824370.git.jhpark1013@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3988824.6PsWsQAL7t@leap>
 
-On 4/12/22 11:38 PM, Jaehee Park wrote:
-> Remove the optional remove callback for the soc_codec_dev_gbaudio
-> structure. The only place it is referenced is
-> snd_soc_component_remove() which is only called if the sound_component
-> pointer is non-null. The null function pointers here can be optionally
-> ommitted. When a sound component is registered this way, the remove
-> callback is optional. We can safely remove the whole gbcodec_remove
-> function, which used to be an empty function with a void return type.
-
-Now I think your description is a little long...  But that's OK.
-
-This looks good to me.  Thank you for responding to all our
-feedback.
-
-Reviewed-by: Alex Elder <elder@linaro.org>
+On Wed, Apr 13, 2022 at 09:35:53AM +0200, Fabio M. De Francesco wrote:
+> On mercoled? 13 aprile 2022 08:52:47 CEST Greg Kroah-Hartman wrote:
+> > On Tue, Apr 12, 2022 at 11:59:01PM +0200, Fabio M. De Francesco wrote:
+> > > The Unisys sub-tree contains three drivers for the "Unisys Secure 
+> Partition"
+> > > (s-Par(R)): visorhba, visorinput, visornic.
+> > > 
+> > > They have no maintainers, in fact the only one that is listed in 
+> MAINTAINERS
+> > > has an unreacheable email address. During 2021 and 2022 several patches 
+> have
+> > > been submitted to these drivers but nobody at Unisys cared of reviewing 
+> the
+> > > changes. Probably, also the "sparmaintainer" internal list of 
+> unisys.com is
+> > > not anymore read by interested Unisys' engineers.
+> > > 
+> > > Therefore, remove the ./unisys subdirectory of staging and delete the 
+> related
+> > > entries in the MAINTAINERS, Kconfig, Makefile files.
+> > > 
+> > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > ---
+> > >  MAINTAINERS                                   |    8 -
+> > 
+> > You forgot to at least cc: the people/list on the MAINTAINERS entry that
+> > you are removing here, to give them a hint that this is happening in
+> > case they want to speak up here (and to give us the ability to point to
+> > that years later when they complain they were never notified...)
 > 
-> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
-> ---
->   drivers/staging/greybus/audio_codec.c | 8 --------
->   1 file changed, 8 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
-> index 0f50d1e51e2c..dc030caa64ba 100644
-> --- a/drivers/staging/greybus/audio_codec.c
-> +++ b/drivers/staging/greybus/audio_codec.c
-> @@ -1029,12 +1029,6 @@ static int gbcodec_probe(struct snd_soc_component *comp)
->   	return 0;
->   }
->   
-> -static void gbcodec_remove(struct snd_soc_component *comp)
-> -{
-> -	/* Empty function for now */
-> -	return;
-> -}
-> -
->   static int gbcodec_write(struct snd_soc_component *comp, unsigned int reg,
->   			 unsigned int value)
->   {
-> @@ -1049,8 +1043,6 @@ static unsigned int gbcodec_read(struct snd_soc_component *comp,
->   
->   static const struct snd_soc_component_driver soc_codec_dev_gbaudio = {
->   	.probe	= gbcodec_probe,
-> -	.remove	= gbcodec_remove,
-> -
->   	.read = gbcodec_read,
->   	.write = gbcodec_write,
->   };
+> Yes, this is a good idea. I'll submit a v2 and add two "Cc:" lines, one to 
+> David Kershner and the other to the "sparmaintainer" list at unisys.com.
 
+There is another contact in the TODO file (last updated 2015 though ;))
+Ken Cox <jkc@redhat.com>
+
+> 
+> > Also, if you are in the "delete code" mood, I think drivers/staging/vme/
+> > and drivers/vme/ can probably also be deleted given that the maintainer
+> > for that has moved on to other jobs.  Ask them and see!
+> 
+> I can and will do exactly as you just suggested, but only after April 22nd 
+> (unless others want to do these tasks sooner, and in that case they are 
+> welcome :)).
+> 
+> Thanks,
+> 
+> Fabio M. De Francesco
+> 
+> 
+> 
