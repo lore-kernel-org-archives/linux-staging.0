@@ -1,222 +1,98 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139322F23
-	for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 21:26:14 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id v4so3990868edl.7
-        for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 14:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=V+de/3rFVxjb/70osv7B8X0g+dhZzorG7fYSV2qc3+Q=;
-        b=CpSwhRjsUPV7LtAZ7mAkOTPgIl9OZI3uiR1uXZejO6jU0NSoLh/gmYcAeIC1xtV1w7
-         VyCCaa3zmf0L69rqd2TiVftBbLjBySXbPKtDWDvL/JFZIiUN1sF5OGmhY+3e20GVD9wQ
-         ArPXxyndGrosMYh75OaycUrgtXtAK2FvZo9SmF/SYTJvXlt1BBkQJ5+3kKj+JmBw8u7s
-         4ZFgS67OxhfVuAdCsBtgjQO9i2osXfJNC+x2YlnaVGkJhzaCNCnILVpO9BvoTLlL+mQQ
-         FtvcmMGHYYaMxLSj58cGTXWynIiNeUfFdLi752PhPHhb3w1Ac4acHXvjLC6GVRHcCpJc
-         RBZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=V+de/3rFVxjb/70osv7B8X0g+dhZzorG7fYSV2qc3+Q=;
-        b=ZzegMQl65nG2Mh8xtKGP2gNWNqj1QV/PSxOpxdZ4M5qVeRVlY5n+osgxma75eB8oe+
-         kETk/HllvZUh/ntXOanYY/8XzFP4mkQo2WHyKOETtYlWg9PJa/RJpRPUQ3uF2K77LufH
-         1lTkps65AdPWoPti8/Fpvo052rW5MhFB9jumkvOStFNICdhwNPygxlmSZKcUgZo4nYFu
-         C1EvW2OSUhIkeS2l6WlbAo8VbcvviilIgf681bIw0pwiY7jjETwB0u6B5zyBWhhRrUKl
-         +G+LcHWOhZu+22M9INkp5urZFcv+tG/A70RFJ8uMD0lJGwbx1WY7WRANrQsVvUTo0B2W
-         rzQw==
-X-Gm-Message-State: AOAM5325q+0hsdvEvJ8lTjYJGA4rA0pARN22YSqYzx6KzASEaQtPpHUP
-	8mzXz3j32A7/a//7kGXpizM=
-X-Google-Smtp-Source: ABdhPJxPuSqTitAffOMeegBCsguAek7BLb7dfXR3wSoVOg5Vy6rerzuFEu+81q1mopOFmrCaoxwcSw==
-X-Received: by 2002:a05:6402:5146:b0:415:fd95:6afa with SMTP id n6-20020a056402514600b00415fd956afamr46054987edd.200.1649885172219;
-        Wed, 13 Apr 2022 14:26:12 -0700 (PDT)
-Received: from [192.168.0.151] (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
-        by smtp.gmail.com with ESMTPSA id n14-20020a50934e000000b0042053e79386sm29270eda.91.2022.04.13.14.26.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Apr 2022 14:26:11 -0700 (PDT)
-Message-ID: <f3063c1c-a9c4-336e-2ace-2802f707d3cb@gmail.com>
-Date: Wed, 13 Apr 2022 23:26:10 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9BC2F23;
+	Wed, 13 Apr 2022 22:24:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649888645; x=1681424645;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lQvTZgp3nYD8xLl9vXBiy5U1JTi15pjSvf2S1fGEa24=;
+  b=JoykGhWm/siIjUA6C5Qj9T96jslV85f6DjqWrcTlA/KRuSqauOuwXHxK
+   X4BoFDWtVDg4axsP3cV8Iw2Qf2sY/k1QowG/5CWGwYIX7WOTZnVtd7xKR
+   KuDFjgv4oq2eg+pR4Su+m2VIjVDHfvGW9RHmxi/RazoBZBYX3PShk9aWt
+   /QPHJOZRLpjav/+idVg6mlvhl4Sm/rmq/CgnPB0aUI/a11jwVQX5fGYhc
+   fzQwMTZ+HnD2wTqWr6NO67G+IM1iaijVxB8XKpTRNkc8lQ/CsWvwltNps
+   frPaWhg2M+k5+9MPQLejxokXOyiEfI+fHA5DiNaE/D1z5gd67aZ7S3vQD
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="261635669"
+X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
+   d="scan'208";a="261635669"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 15:24:04 -0700
+X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
+   d="scan'208";a="623854294"
+Received: from sdoyen-mobl1.amr.corp.intel.com (HELO localhost) ([10.213.179.195])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 15:24:04 -0700
+Date: Wed, 13 Apr 2022 15:24:04 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Martiros Shakhzadyan <vrzh@vrzh.net>,
+	Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in
+ hmm_set()
+Message-ID: <YldNhErgt53RqYp7@iweiny-desk3>
+References: <20220413212210.18494-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: staging: r8188eu: struct rt_firmware_header issues
-Content-Language: en-US
-To: Pavel Skripkin <paskripkin@gmail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
- Greg KH <gregkh@linuxfoundation.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <94a72ecc-3acd-758b-15a4-a7d56bf03fbe@gmail.com>
- <f819690c-b53e-4693-5de1-cc4cfa1db0da@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <f819690c-b53e-4693-5de1-cc4cfa1db0da@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220413212210.18494-1-fmdefrancesco@gmail.com>
 
-On 4/13/22 22:58, Pavel Skripkin wrote:
-> Hi Michael,
+On Wed, Apr 13, 2022 at 11:22:10PM +0200, Fabio M. De Francesco wrote:
+> The use of kmap() is being deprecated in favor of kmap_local_page()
+> where it is feasible. In file pci/hmm/hmm.c, function hmm_set() calls
+> kmap() / kunmap() where kmap_local_page() can instead do the mapping.
 > 
-> On 4/13/22 19:27, Michael Straube wrote:
->> Hi all,
->>
->> I think the rt_firmware_hdr structure in rtw_fw.c has some issues.
->>
->>
->> struct rt_firmware_hdr {
->>     /*  8-byte alinment required */
->>     /*  LONG WORD 0 ---- */
->>     __le16        Signature;    /* 92C0: test chip; 92C,
->>                      * 88C0: test chip; 88C1: MP A-cut;
->>                      * 92C1: MP A-cut */
->>     u8        Category;    /*  AP/NIC and USB/PCI */
->>     u8        Function;    /*  Reserved for different FW function
->>                      *  indcation, for further use when
->>                      *  driver needs to download different
->>                      *  FW for different conditions */
->>     __le16        Version;    /*  FW Version */
->>     u8        Subversion;    /*  FW Subversion, default 0x00 */
->>     u16        Rsvd1;
->>
->>     /*  LONG WORD 1 ---- */
->>     u8        Month;    /*  Release time Month field */
->>     u8        Date;    /*  Release time Date field */
->>     u8        Hour;    /*  Release time Hour field */
->>     u8        Minute;    /*  Release time Minute field */
->>     __le16        RamCodeSize;    /*  The size of RAM code */
->>     u8        Foundry;
->>     u8        Rsvd2;
->>
->>     /*  LONG WORD 2 ---- */
->>     __le32        SvnIdx;    /*  The SVN entry index */
->>     u32        Rsvd3;
->>
->>     /*  LONG WORD 3 ---- */
->>     u32        Rsvd4;
->>     u32        Rsvd5;
->> };
->>
->>
->> Then we have in rtl8188e_firmware_download():
->>
->>
->>     fwhdr = (struct rt_firmware_hdr *)dvobj->firmware.data;
->>
->>     <snip>
->>
->>     if (IS_FW_HEADER_EXIST(fwhdr)) {
->>         /*  Shift 32 bytes for FW header */
->>         fw_data = fw_data + 32;
->>         fw_size = fw_size - 32;
->>     }
->>
->> We add/sub 32 bytes but the size of struct rt_firmware_hdr is actually
->> 33 bytes. I noticed this when I wanted to replace:
->>
+> With kmap_local_page(), the mapping is per thread, CPU local and not
+> globally visible. Therefore, hmm_set()() is a function where the use
+> of kmap_local_page() in place of kmap() is correctly suited.
 > 
-> Looks like size of that structure is 36
+> Convert the calls of kmap() / kunmap() to kmap_local_page() /
+> kunmap_local().
 > 
-> └──$ pahole -C rt_firmware_hdr r8188eu.ko
-> struct rt_firmware_hdr {
->      __le16                     Signature;            /*     0     2 */
->      u8                         Category;             /*     2     1 */
->      u8                         Function;             /*     3     1 */
->      __le16                     Version;              /*     4     2 */
->       u8                         Subversion;           /*     6     1 */
-> 
->       /* XXX 1 byte hole, try to pack */
-> 
->       u16                        Rsvd1;                /*     8     2 */
->       u8                         Month;                /*    10     1 */
->       u8                         Date;                 /*    11     1 */
->       u8                         Hour;                 /*    12     1 */
->       u8                         Minute;               /*    13     1 */
->       __le16                     RamCodeSize;          /*    14     2 */
->       u8                         Foundry;              /*    16     1 */
->       u8                         Rsvd2;                /*    17     1 */
-> 
->       /* XXX 2 bytes hole, try to pack */
-> 
->       __le32                     SvnIdx;               /*    20     4 */
->       u32                        Rsvd3;                /*    24     4 */
->       u32                        Rsvd4;                /*    28     4 */
->       u32                        Rsvd5;                /*    32     4 */
-> 
->       /* size: 36, cachelines: 1, members: 17 */
->       /* sum members: 33, holes: 2, sum holes: 3 */
->       /* last cacheline: 36 bytes */
->   };
-> 
-> 
-> And these comments like 'LONG WORD 1' looks misleading, maybe worth 
-> removing.
-> 
-> 
->>         fw_data = fw_data + 32;
->>         fw_size = fw_size - 32;
->>
->> with:
->>         fw_data = fw_data + sizeof(struct rt_firmware_hdr);
->>         fw_size = fw_size - sizeof(struct rt_firmware_hdr);;
->>
->> To me it looks add/sub 32 is correct here but the struct is
->> wrong. I don't know if the firmware for this driver is so much different
->> from firmware for the drivers in drivers/net/wireless/realtek/rtlwifi.
->> They use a struct of size 32.
->>
-> 
-> I am not sure about 32... Why non-packed structures are passed via 
-> wires? Maybe `__packed` is missing? Is realtek fw open-source?
-> 
-> Just thoughts.
-> 
->> Also, souldn't the u16 and u32 variables in the struct be __le16 and
->> __le32 ?
->>
->> I wonder if we can just use the rtlwifi_firmware_header structure from
->> drivers/net/wireless/realtek/rtlwifi/wifi.h ?
->>
-> 
-> We _should_ use it, since its size is indeed 32 bytes.
-> 
-> └──$ pahole -s vmlinux | rg rtlwifi_firmware_header
-> rtlwifi_firmware_header    32    0
-> 
-> 
-> Looks like you have found a real bug
-> 
-> 
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 
-Hi Pavel,
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 
-I looked at the hexdump of rtl8188eufw.bin and compared it with
-rtl8188efw.bin and rtlwifi_firmware_header.
-
-The comparsion showed that Rsvd1 should be u8 instead of u16:
-
-OFFSET      rtl8188eufw.bin
-     -----------------------------------------------------------
-     0x00000000  E1 88 10 00 0B 00 01  00     01     21    11    27 30 
-36 00 00
-                                   ^   ^      ^      ^     ^     ^
-                          Subversion   Rsvd1  Month  Date  Hour  Minute
-
-So rt_firmware_hdr is wrong, but it had no effect because 32 is
-hardcoded here:
-
-	/*  Shift 32 bytes for FW header */
-	fw_data = fw_data + 32;
-	fw_size = fw_size - 32;
-
-and all fields after Subversion are not used.
-
-regards,
-Michael
+> ---
+>  drivers/staging/media/atomisp/pci/hmm/hmm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> index 6394385b6637..46ac082cd3f1 100644
+> --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> @@ -563,7 +563,7 @@ int hmm_set(ia_css_ptr virt, int c, unsigned int bytes)
+>  		idx = (virt - bo->start) >> PAGE_SHIFT;
+>  		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
+>  
+> -		des = (char *)kmap(bo->page_obj[idx].page) + offset;
+> +		des = (char *)kmap_local_page(bo->page_obj[idx].page) + offset;
+>  
+>  		if ((bytes + offset) >= PAGE_SIZE) {
+>  			len = PAGE_SIZE - offset;
+> @@ -579,7 +579,7 @@ int hmm_set(ia_css_ptr virt, int c, unsigned int bytes)
+>  
+>  		clflush_cache_range(des, len);
+>  
+> -		kunmap(bo->page_obj[idx].page);
+> +		kunmap_local(des);
+>  	}
+>  
+>  	return 0;
+> -- 
+> 2.34.1
+> 
