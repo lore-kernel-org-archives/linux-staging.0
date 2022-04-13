@@ -1,35 +1,33 @@
 Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A3D28E0;
-	Wed, 13 Apr 2022 09:03:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B34928E0;
+	Wed, 13 Apr 2022 09:06:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=p/6FirwSCVCMNaAVTS0/mDOUExThkpxHbP69SQ0S5jU=;
-  b=VzIQa38KpX96o+1RammxR9SDSFZDUFP47BCa+2MS+H+VPV56tFM69xeY
-   PgEibEMyMNZBalDWNgtdsQ9UMMWU50dKlAcb6V4TD1kgfSRVnTPO3qMNc
-   X9M7i4QtnORkBG1tiq0vA1jQcGWNe31hAseyi8jRtb7IoNqcFcAPjoDjA
+  bh=fmpo4z+P6w7tjunPSwr96velZhm00w3pSRaGV9No/fg=;
+  b=fsGaNr0Pmyb17ascOE1cDyC8MAvX/UXQvbZPBD9ACtPYxeeoYllEykPz
+   LSYSsU6ZHH8/opHSJuSD5rx25fMkvMKn54OV+ibHmPXZfqQoMBzy2/u+f
+   syUOHKizdhgM4kDUcUeRpCjlEsFYfDg+DJaUtZ+ORvLe7dAxFiJC9mRNp
    M=;
 Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="5.90,256,1643670000"; 
-   d="scan'208";a="31479824"
+   d="scan'208";a="31480815"
 Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 11:02:59 +0200
-Date: Wed, 13 Apr 2022 11:02:58 +0200 (CEST)
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 11:06:40 +0200
+Date: Wed, 13 Apr 2022 11:06:40 +0200 (CEST)
 From: Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: jll@hadrien
-To: Pavel Skripkin <paskripkin@gmail.com>
-cc: Mahak Gupta <mahak_g@cs.iitr.ac.in>, Larry.Finger@lwfinger.net, 
-    phil@philpotter.co.uk, gregkh@linuxfoundation.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: r8188eu: remove else after return and break
- statements
-In-Reply-To: <4946ce95-8692-b765-b5ea-ab4b521182fc@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2204131102300.3470@hadrien>
-References: <20220413052759.4859-1-mahak_g@cs.iitr.ac.in> <4946ce95-8692-b765-b5ea-ab4b521182fc@gmail.com>
+To: aliya-rahmani <aliyarahmani786@gmail.com>
+cc: tomm.merciai@gmail.com, gregkh@linuxfoundation.org, 
+    linux-staging@lists.linux.dev, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: vt6655f: rxtx: code style - Fix Lines should
+ not end with a '('
+In-Reply-To: <20220413073545.14666-1-aliyarahmani786@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2204131104030.3470@hadrien>
+References: <20220413073545.14666-1-aliyarahmani786@gmail.com>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -41,34 +39,49 @@ Content-Type: text/plain; charset=US-ASCII
 
 
 
-On Wed, 13 Apr 2022, Pavel Skripkin wrote:
+On Wed, 13 Apr 2022, aliya-rahmani wrote:
 
-> Hi Mahak,
+> From: Aliya Rahmani <aliyarahmani786@gmail.com>
 >
-> On 4/13/22 08:27, Mahak Gupta wrote:
-> > Else is not necessary after return and break statements, hence remove
-> > it.
-> >
-> > Reported by checkpatch:
-> >
-> > WARNING: else is not generally useful after a break or return
-> >
-> > Signed-off-by: Mahak Gupta <mahak_g@cs.iitr.ac.in>
->
-> [snip]
->
-> > -	}
-> > +	/*  could be pure B, pure G, or B/G */
-> > +	if (rtw_is_cckratesonly_included(rate))
-> > +		return WIRELESS_11B;
-> > +	else if (rtw_is_cckrates_included(rate))
-> > +		return	WIRELESS_11BG;
-> > +	else
-> > +		return WIRELESS_11G;
->
-> This 'else' is after 'return' as well, isn't it? Just wondering what's the
-> difference between this one and others in this patch
+> Removed indentation to fix the checkpatch error that lines should not
+> end with a '('.
 
-Maybe it's nice to have the three options lined up?
+The log message should be in the imperative, so it would be "Remove", not
+"Removed".
+
+Maybe it would be nice to keep the parameters aligned, thus indent the
+others more?
+
+In another patch you could improve the variable names and the function
+name.  I'm not sure why static and void have to be on separate lines
+either.
 
 julia
+
+
+>
+> Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
+>
+> ---
+>  drivers/staging/vt6655/rxtx.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+> index 53506e242a96..dce9d87d2363 100644
+> --- a/drivers/staging/vt6655/rxtx.c
+> +++ b/drivers/staging/vt6655/rxtx.c
+> @@ -569,8 +569,7 @@ s_uFillDataHead(
+>
+>  static
+>  void
+> -s_vFillRTSHead(
+> -	struct vnt_private *pDevice,
+> +s_vFillRTSHead(struct vnt_private *pDevice,
+>  	unsigned char byPktType,
+>  	void *pvRTS,
+>  	unsigned int cbFrameLength,
+> --
+> 2.25.1
+>
+>
+>
