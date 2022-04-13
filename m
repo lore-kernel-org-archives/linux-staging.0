@@ -1,25 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D264D23D6;
-	Wed, 13 Apr 2022 06:52:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C799C385A4;
-	Wed, 13 Apr 2022 06:52:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF10D23D6
+	for <linux-staging@lists.linux.dev>; Wed, 13 Apr 2022 06:53:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17D39C385A4;
+	Wed, 13 Apr 2022 06:53:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1649832769;
-	bh=IEqi4TrpG6lNCJBW66RRrnO7sFCu0A/GuxCQPlxDAAM=;
+	s=korg; t=1649832826;
+	bh=0I72LaNEy81sBYN4sBltxcvkm4ZSShxeclxpZ+4r0iM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WXTeBgqPioI0G42uxtMfVmti0ZNWls+Xr0edWGJ7b9DWXiF8ROxVDDMMeAJhp3Ns/
-	 6MiLdHqCeshWqw+OUG8toAKOUfMJUf17lLNAq9HdpS98i85grXycDHlNTCLdIHLP8m
-	 psGQpthk/ZOlsZBhf6gymq4DWqEVTXJqx6UiWR/4=
-Date: Wed, 13 Apr 2022 08:52:47 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: Remove the drivers for the Unisys s-Par
-Message-ID: <YlZzP5ghZeR1AtIg@kroah.com>
-References: <20220412215901.31046-1-fmdefrancesco@gmail.com>
+	b=1qVO0SpIxtRYnK2KxnSqScWNEnjkYkPfMXlwzV5oQtmHBH1PTvF76qA2JTcYZEWXg
+	 ISJEkpVcTbyNU7NUgjl3dAOYJztu982VlEEX9Y66UZIRvkQjXOtFosEDFL4WTSS73E
+	 sAQb9p6x9zPk1N7toJgwuxglvqpkvOERypFwdhxo=
+Date: Wed, 13 Apr 2022 08:53:44 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/6] staging: r8188eu: rename parameter of block_write()
+Message-ID: <YlZzeEOn6VC4Tmre@kroah.com>
+References: <20220412185754.8695-1-straube.linux@gmail.com>
+ <20220412185754.8695-3-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,34 +29,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220412215901.31046-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20220412185754.8695-3-straube.linux@gmail.com>
 
-On Tue, Apr 12, 2022 at 11:59:01PM +0200, Fabio M. De Francesco wrote:
-> The Unisys sub-tree contains three drivers for the "Unisys Secure Partition"
-> (s-Par(R)): visorhba, visorinput, visornic.
+On Tue, Apr 12, 2022 at 08:57:50PM +0200, Michael Straube wrote:
+> Rename the parameter buffSize of block_write() to avoid camel case.
 > 
-> They have no maintainers, in fact the only one that is listed in MAINTAINERS
-> has an unreacheable email address. During 2021 and 2022 several patches have
-> been submitted to these drivers but nobody at Unisys cared of reviewing the
-> changes. Probably, also the "sparmaintainer" internal list of unisys.com is
-> not anymore read by interested Unisys' engineers.
-> 
-> Therefore, remove the ./unisys subdirectory of staging and delete the related
-> entries in the MAINTAINERS, Kconfig, Makefile files.
-> 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
->  MAINTAINERS                                   |    8 -
+> buffSize -> size
 
-You forgot to at least cc: the people/list on the MAINTAINERS entry that
-you are removing here, to give them a hint that this is happening in
-case they want to speak up here (and to give us the ability to point to
-that years later when they complain they were never notified...)
+How about "buffSize -> buffer_size"?
 
-Also, if you are in the "delete code" mood, I think drivers/staging/vme/
-and drivers/vme/ can probably also be deleted given that the maintainer
-for that has moved on to other jobs.  Ask them and see!
+That makes more sense, right?
 
 thanks,
 
