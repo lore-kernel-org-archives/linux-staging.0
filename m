@@ -1,120 +1,62 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3119F1FD1;
-	Wed, 13 Apr 2022 06:36:00 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id r13so1897193ejd.5;
-        Tue, 12 Apr 2022 23:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Xj3NkHVQDUDdPGRvpYOra85n0Y6fiRtoa7goWufEXwA=;
-        b=IipliNokdRI0CsxMkUB9sqMWtAmv4DupWgoqxkLCSQ74xweyTK8fAwpOQVUumnb/Ps
-         RbAND6snNPJ7LjU/cKI5mR1LHnBUScPIBtY1b9LdXQZr8nXcWSAg0bah4x94O0YrRguF
-         BlgBtqBl147T4yDft3Oi7PchBTm7tXtUXSSa5S/jJTyk1L5nTAxYZT8i7KWkdZjqe6k1
-         b7FxseDFhrdniTXrMTxGi/M0yuAxT5BJf4vhhg0uuqugoY/e/ExjL0moavcwzT9WBD+R
-         0gAON8z7M3iIoccFr1CaYoVF89IfYGaExxy0PMKlakNuyAA2u35aswmnNaQ3TLB3YkpD
-         9N8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Xj3NkHVQDUDdPGRvpYOra85n0Y6fiRtoa7goWufEXwA=;
-        b=vyfoIWRSBhUK0m6ht9jfWWTJpYoQLMAGsI/u1UdLpGbh/3gPq4DMh3WLHDD8SMLNKv
-         pAd3G+Ezdn49bcMXYLRK6/+gdtLIdqvBizaR618x6RRb97ZgPGtmBsGzec1TNhM6CVni
-         hoWWPcb0melR7lFMNQ41AP3C+Q8gSg34BfyT7pmgf7pEzY4voQrt3ptRqfs7RhiXuOiB
-         t3AfiGEVK9jGKBufQeRX+1cAAvRBQqgbDBQ6LkYY5/SZ/g9vulaZhyilb+syTe1A1doL
-         qE6EgHenRogtBx1gKhfaSswbeBvk6WW5M2z8767A2NfQsh5cG+ScQcTP3irRPdk8AN1b
-         tT1A==
-X-Gm-Message-State: AOAM531196qmAdwJiRofOeAnvVo6IA8fhcyU4K16SZKHVl9wEIwQJSb2
-	nttHg25NwAo5Ti4uRz7XzA0=
-X-Google-Smtp-Source: ABdhPJx/w+TNTuJBwku63yNpMxP+dSA7e5/ZFjDNFqRpJ4GmK5rwDjIRug4tZCtYGSnIImjhTWm1dw==
-X-Received: by 2002:a17:906:1f11:b0:685:d50e:3bf9 with SMTP id w17-20020a1709061f1100b00685d50e3bf9mr39244987ejj.275.1649831758439;
-        Tue, 12 Apr 2022 23:35:58 -0700 (PDT)
-Received: from leap.localnet (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
-        by smtp.gmail.com with ESMTPSA id s2-20020a1709066c8200b006e4e1b1f875sm13226169ejr.199.2022.04.12.23.35.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 23:35:57 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: johan@kernel.org, Jaehee Park <jhpark1013@gmail.com>, elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] staging: greybus: remove unneeded return
-Date: Wed, 13 Apr 2022 08:35:55 +0200
-Message-ID: <6300782.K2JlShyGXD@leap>
-In-Reply-To: <alpine.DEB.2.22.394.2204130815020.3470@hadrien>
-References: <cover.1649793138.git.jhpark1013@gmail.com> <5792471.alqRGMn8q6@leap> <alpine.DEB.2.22.394.2204130815020.3470@hadrien>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D264D23D6;
+	Wed, 13 Apr 2022 06:52:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C799C385A4;
+	Wed, 13 Apr 2022 06:52:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1649832769;
+	bh=IEqi4TrpG6lNCJBW66RRrnO7sFCu0A/GuxCQPlxDAAM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WXTeBgqPioI0G42uxtMfVmti0ZNWls+Xr0edWGJ7b9DWXiF8ROxVDDMMeAJhp3Ns/
+	 6MiLdHqCeshWqw+OUG8toAKOUfMJUf17lLNAq9HdpS98i85grXycDHlNTCLdIHLP8m
+	 psGQpthk/ZOlsZBhf6gymq4DWqEVTXJqx6UiWR/4=
+Date: Wed, 13 Apr 2022 08:52:47 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: Remove the drivers for the Unisys s-Par
+Message-ID: <YlZzP5ghZeR1AtIg@kroah.com>
+References: <20220412215901.31046-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="ISO-8859-1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220412215901.31046-1-fmdefrancesco@gmail.com>
 
-On mercoled=EC 13 aprile 2022 08:16:20 CEST Julia Lawall wrote:
->=20
-> On Tue, 12 Apr 2022, Fabio M. De Francesco wrote:
->=20
-> > On marted=EC 12 aprile 2022 21:59:15 CEST Jaehee Park wrote:
-> > > An empty function with void return type does not need an explicit
-> > > return. Issue found by checkpatch.
-> > >
-> > > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
-> > > ---
-> > >  drivers/staging/greybus/audio_codec.c | 1 -
-> > >  1 file changed, 1 deletion(-)
-> > >
-> > > diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/
-> > greybus/audio_codec.c
-> > > index 0f50d1e51e2c..3e3a16568def 100644
-> > > --- a/drivers/staging/greybus/audio_codec.c
-> > > +++ b/drivers/staging/greybus/audio_codec.c
-> > > @@ -1032,7 +1032,6 @@ static int gbcodec_probe(struct=20
-snd_soc_component
-> > *comp)
-> > >  static void gbcodec_remove(struct snd_soc_component *comp)
-> > >  {
-> > >  	/* Empty function for now */
-> > > -	return;
-> > >  }
-> > >
-> > >  static int gbcodec_write(struct snd_soc_component *comp, unsigned=20
-int
-> > reg,
-> > > --
-> > > 2.25.1
-> > >
-> > Hi Jaehee,
-> >
-> > If I recall it correctly, Dan Carpenter suggested to remove this empty
-> > function.
-> >
-> > When developers remove lines of code from a function which becomes=20
-empty
-> > after the removals, they also remove the resulting empty function and
-> > delete all the calls (if there are any left) at the same time.
->=20
-> It's probably not relevant in this case,=20
+On Tue, Apr 12, 2022 at 11:59:01PM +0200, Fabio M. De Francesco wrote:
+> The Unisys sub-tree contains three drivers for the "Unisys Secure Partition"
+> (s-Par(R)): visorhba, visorinput, visornic.
+> 
+> They have no maintainers, in fact the only one that is listed in MAINTAINERS
+> has an unreacheable email address. During 2021 and 2022 several patches have
+> been submitted to these drivers but nobody at Unisys cared of reviewing the
+> changes. Probably, also the "sparmaintainer" internal list of unisys.com is
+> not anymore read by interested Unisys' engineers.
+> 
+> Therefore, remove the ./unisys subdirectory of staging and delete the related
+> entries in the MAINTAINERS, Kconfig, Makefile files.
+> 
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>  MAINTAINERS                                   |    8 -
 
-No, it's relevant :)
-I should have been more exhaustive :(
+You forgot to at least cc: the people/list on the MAINTAINERS entry that
+you are removing here, to give them a hint that this is happening in
+case they want to speak up here (and to give us the ability to point to
+that years later when they complain they were never notified...)
 
-> but the function could be needed
-> if it is a branch of an ifdef.  Also if it is stored in a structure field
-> and the user of the structure does not check for NULL.
+Also, if you are in the "delete code" mood, I think drivers/staging/vme/
+and drivers/vme/ can probably also be deleted given that the maintainer
+for that has moved on to other jobs.  Ask them and see!
 
-Here we have one of special cases you've mentioned. The pointer to the=20
-function is stored in a structure field _but_ we know that the user does=20
-check for NULL.
+thanks,
 
-Thanks,
-
-=46abio
-
-> julia
-
-
-
-
+greg k-h
