@@ -1,53 +1,53 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE5C3219;
-	Thu, 14 Apr 2022 19:41:24 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id d9so4920530qvm.4;
-        Thu, 14 Apr 2022 12:41:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E3D3219;
+	Thu, 14 Apr 2022 19:42:01 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id e10so4874916qka.6;
+        Thu, 14 Apr 2022 12:42:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=yL9/UIL982jnwFL4yczTgqRaZlbJCY9QhpIXC00WZqw=;
-        b=SQDCH2eXbnV6ThaqWQZY8N5NxsV2cc0btmkPWX9ZdhfGbQ8negud7uKiAMm6D0enDK
-         GtwUxBUoFT3TkdVQmK7JDQQH7UdrBoxVwwA5CT1SdTP5Fi7xuZ2Tsb4YKQh/2UioZ89d
-         a10kmA4refMtnqO9FcIb9lxA2gFAykJZqK3zqPa8eOd0vQOegR2C//dMDhhUA5y+Sz5D
-         gHmV3Bp/udHH0tUXylkdfBs7dC2BrqJW4FmFSZDGYze+F//D4l/u7AsjOvk1EWD+kdkH
-         Q5aAavNJj5WRZJGdZzJKPK2awBB4GPJmuvy4s561szrhomyBz01wS7V8DjR1iFgfeStc
-         TRXg==
+        bh=mTODUQcmfHMXq3ycnA48JyJoU23qtMYGGZvxAogIduI=;
+        b=J11JHHp+k6h93DRPv9GxhRTdkIyDSoPNvBepsNjSkaqgQd3zSice+Ln0lNLmZJ8dGy
+         L+GN12biJbCjJx5REbVAYgbFnAaDYN5xcxGgmGn/WpOezwcUTI/tsPHRgs0SwGm0Hqf5
+         oFXhdGr5dcPxt9ma+Zev9Ozawsp30U7NaR1g9Q4euZwyZKH5HXxyFeG5nX9sd9phIXOU
+         +EFNN1N+Y7ohQWKfPNApmIWSHtHct8TI02lPqsY7r14m2JiO6oDvvWxOnGq31xmX4gB6
+         CysFh3b+dr3gLqbMWh/EIlrunCFoUgPSoWhqAOqEHIYEH8xl1L8LNUfd6snJ9adbINbu
+         iI+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=yL9/UIL982jnwFL4yczTgqRaZlbJCY9QhpIXC00WZqw=;
-        b=lqOQxOhs2aZXIXVKdlaOMQKezuYLpnjeLsDqtY02hCNsKUTsJxv3zRbfcZI93Z4zlh
-         3zjG6edZXWHHRIhMp6KLbRq1/sLCWbubgwxTr9vlKGNZMR39LOzJh1ZKlrtj5QjvTqLa
-         dk7u9DtwkA18uiH0tVJlg2kO09cirZw9rHvW9ikk27KbsWyUuWRYdSTRhnOG3HBK85WT
-         BPHN5YdQR6MYAN8B056YzjYsiGSAQ7UTF4Yr6wtqqZmmQ805jYO9fsYnLYa1Q/+kCOYR
-         tIRnUuepHIN+Kb8nA6AueJQgycdn+yqaFHSicK8XIdvCkvEcwlA0lGtd2irHp5uxAPta
-         yU4w==
-X-Gm-Message-State: AOAM530vOL/cj99R4T50ln5XmOPHhQ+WDQTVWVGtEOrAfB3nKNxlZUyH
-	EpXJ15PryZ8Zn9c+nvY6fbk=
-X-Google-Smtp-Source: ABdhPJzHLQhfEnhSBmgGyGjfuvAueEwWhilK6pSHxGbK1M5Rykq8UmuXwDzGl1xLwxYzk9YF2LdIig==
-X-Received: by 2002:a05:6214:1194:b0:444:45d6:d79d with SMTP id t20-20020a056214119400b0044445d6d79dmr4847812qvv.36.1649965283442;
-        Thu, 14 Apr 2022 12:41:23 -0700 (PDT)
+        bh=mTODUQcmfHMXq3ycnA48JyJoU23qtMYGGZvxAogIduI=;
+        b=jUvJoU30Fgv7VWNw+ocJiGHzDbgAardBOWcCV8tau0JJkYMxTmggZJTMVsGVAQEEye
+         gaB0q3/6qaJhK6QjjP8qCFMSMta1bc4MsX8RIE8AREJHUH19ymzip/jPkpn22sSPcubM
+         63y+Ay9bxDtDzOqZH4cjQRNWHd5VeVdl0iIiWNTx0x+LP4BH3v5/9HChtj5sSCAcSR3e
+         Tfk1nV3BVbWHzkey30QADwvYFFehKk/D5UbycaW7/KfUW/vZRVEPQXM512F2HTzO+/pF
+         UPm2YOQ5+hOE3KANs3F2SWGGaosoJ+TuUDtVTS3ttFtBStsToUkIJW6qIKmsJD1wTpnZ
+         PpwA==
+X-Gm-Message-State: AOAM533prGLa9jR9JOdqBWErvO62Bz3NmxlW0GLERgk138PUX2x7xbDa
+	L3Onopdb7vneXsY2Vcr37lc=
+X-Google-Smtp-Source: ABdhPJyUBJLR/ybTeUMPng6XWPxe2qytprEupIR8YWUPQ7Th3wRiREJiReSp+6PuNz89uDk2494Z9g==
+X-Received: by 2002:a37:807:0:b0:69c:7f73:32f8 with SMTP id 7-20020a370807000000b0069c7f7332f8mr2469446qki.665.1649965320803;
+        Thu, 14 Apr 2022 12:42:00 -0700 (PDT)
 Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id e126-20020a376984000000b0069c86b28524sm577567qkc.19.2022.04.14.12.41.21
+        by smtp.gmail.com with ESMTPSA id t19-20020ac85893000000b002e1afa26591sm1857873qta.52.2022.04.14.12.41.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 12:41:22 -0700 (PDT)
-Date: Thu, 14 Apr 2022 15:41:18 -0400
+        Thu, 14 Apr 2022 12:41:59 -0700 (PDT)
+Date: Thu, 14 Apr 2022 15:41:55 -0400
 From: Jaehee Park <jhpark1013@gmail.com>
 To: Pavel Skripkin <paskripkin@gmail.com>
 Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
 	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH 1/6] staging: r8188eu: remove unnecessary braces in
- single statement block
-Message-ID: <20220414194118.GA4144553@jaehee-ThinkPad-X1-Extreme>
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
+	Alison Schofield <alison.schofield@intel.com>
+Subject: Re: [PATCH 3/6] staging: r8188eu: remove 'added by' author comments
+Message-ID: <20220414194155.GB4144553@jaehee-ThinkPad-X1-Extreme>
 References: <cover.1649880454.git.jhpark1013@gmail.com>
- <4a0f2a0f24321c5b2039f0f8e6132cec4a2ef068.1649880454.git.jhpark1013@gmail.com>
- <3f4a6c08-4434-1865-bc96-984152af5af1@gmail.com>
+ <c0c0a0e748ad85585b65e73841d431adefe86a59.1649880454.git.jhpark1013@gmail.com>
+ <2eab9c9e-7e56-9920-de4d-2e53b3d7e6a1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,42 +56,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3f4a6c08-4434-1865-bc96-984152af5af1@gmail.com>
+In-Reply-To: <2eab9c9e-7e56-9920-de4d-2e53b3d7e6a1@gmail.com>
 
-On Wed, Apr 13, 2022 at 11:24:46PM +0300, Pavel Skripkin wrote:
+On Wed, Apr 13, 2022 at 11:28:31PM +0300, Pavel Skripkin wrote:
 > Hi Jaehee,
 > 
 > On 4/13/22 23:11, Jaehee Park wrote:
-> > Remove braces for single statement block to minimize the number of
-> > empty lines, without loss of readability. Issue found with checkpatch.
-> > WARNING: braces {} are not necessary for single statement blocks
+> > Author comments "Added by Albert" and "Added by Annie" are sprinkled
+> > through the file. Git will keep history so these comments can be
+> > removed from the code.
 > > 
-> > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
-> > ---
-> >   drivers/staging/r8188eu/core/rtw_mlme.c | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-> > index 3e9882f89f76..d3f4d7cdfa08 100644
-> > --- a/drivers/staging/r8188eu/core/rtw_mlme.c
-> > +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-> > @@ -112,9 +112,8 @@ void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
-> >   	rtw_free_mlme_priv_ie_data(pmlmepriv);
-> > -	if (pmlmepriv) {
-> > +	if (pmlmepriv)
-> >   		vfree(pmlmepriv->free_bss_buf);
-> > -	}
 > 
-> If pmlmepriv is equal to NULL we would die in rtw_free_mlme_priv_ie_data(),
-> so this check is just redundant
+> these people are not in the git log, since this driver was added in 2021. I
+> am afraid they are not even in Larry's GH repo log.
 > 
+> Anyway these comments are not so useful, so patch is OK.
 
-Hi Pavel, thank you for your comment! If I'm removing this if statement,
-should I include vfree(pmlmepriv->free_bss_buf) in 
-rtw_free_mlme_priv_ie_data?
+Thank you, I'll update the patch log message.
 
-> 
-> 
 > 
 > With regards,
 > Pavel Skripkin
