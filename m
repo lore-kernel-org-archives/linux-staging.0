@@ -1,132 +1,112 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0803219;
-	Thu, 14 Apr 2022 19:50:55 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id b21so10898213lfb.5;
-        Thu, 14 Apr 2022 12:50:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31063219;
+	Thu, 14 Apr 2022 20:09:37 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id t2so4508157qtw.9;
+        Thu, 14 Apr 2022 13:09:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=TdxkH2djTgZuMcjVKrm/SY7bnf6WgvoV4fF2I+4K2jA=;
-        b=QNoOWdhcQK0IvmGTfBjoDqreiKJE/oFCC61Uuba9orHB8IThwi59sLhp+G9fbxfsdR
-         hgMi/+832NTkV9ghFrqA7HEJw3awgLjqF0PMatdcHBtsjp4lSETGtt5NO4bN77CnYSAp
-         njlhG6xO7L5ji202LnuM7gUPGc6d4lZ/l0Pa4Qg2DchNqN1wqin5zTge1QKDjrZYON+L
-         1rJxW+uvfm3vyVDINyuGdsEkrTbwE37as3LtFMhFbsK+vO2jawKD1zs55y7m85bz3zM/
-         cBvQ+9ZY73Nn6ZNWhUz7A1E2mVN7Tsnr1PREBOJWPWhZqxWoMJElRdAmWVl5cfCg2Xq4
-         6MLA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ReqDmd11Qgyo4MjHseNTTTXBLwUHjD3S1/AvQ91EJkw=;
+        b=TYUDXTfEPCi7/0qRwc3gBU1dXp9xf0PVKr/jLhnpt6/v/0w24wpKeoEKx6GZAfGum0
+         AGM2n+Tweb64MgqiAEEiMfQwaupsr11dXfPX2sedINXcs5bmB1S/FyUVGcn56rjrUkyW
+         Ji0CFco2+55pvR7xDFNkyDzndtMglDTXKn0fXNwSY6PH633AA8faphZ+mlyezEsmTHol
+         vzF4O6Po6QJ7tTpBicXa8667/DpFbpG7OJgSlmzhBd3gLIeZFn3e8TI+M3jQKvZ/SZE6
+         ebQ1eGAh7TaA+4c0EVYBo3BrI2kl6yScn1+Yn8B1/Ezk49Kql9lD08xRDXtiBjIQI9uW
+         XHnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=TdxkH2djTgZuMcjVKrm/SY7bnf6WgvoV4fF2I+4K2jA=;
-        b=WCyALYsC/J6828k8MvVbqtsiRPdkvusOt+a+9oLlrcKavD7FD+N/zRtpwRmtuVPiS+
-         m19FP72LhJ+DsSWh7Oiy5IoWk1VRpuZWi8/1H0CbrPSmB3XUccDP6QFymaibxD7PoONI
-         iD9s0kdmcZROpHvbTvCVWP8c4D4cXhCHTpwREvPXDwpJGqB/yQyX+jLkSQ6hVDtzh+l4
-         3QSXbGj8QKlOBsyZgYPxDwG9Y1KA+amLANPHm/XY7oEE/IuuCzCZe/eCo7AXkl2yzjzY
-         JAqMyOoSPSq3bmQhv/Nh+FzqTHwIYtVB+2b17M8LbsnhirU2K5TYyTaheqIjr9wJFWJQ
-         Ei3w==
-X-Gm-Message-State: AOAM530OuMIf2D4w/DDYLr+iI8+HLzMQGkPOvFDw6M2gqeZRC98TBupG
-	t0hdzwDmS6kP/cmv8uXTIeg=
-X-Google-Smtp-Source: ABdhPJz2ad/ZU205Y5+H2UWRdUffCIUQQJjXTSCsyj+hG1X5TVN7eGRxzHbPZg4d3fsD+DMf5/gSrA==
-X-Received: by 2002:a05:6512:2242:b0:46b:92d3:e2e9 with SMTP id i2-20020a056512224200b0046b92d3e2e9mr2828599lfu.290.1649965854054;
-        Thu, 14 Apr 2022 12:50:54 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.225.17])
-        by smtp.gmail.com with ESMTPSA id h24-20020a2eb0f8000000b0024b578bba76sm83428ljl.26.2022.04.14.12.50.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 12:50:53 -0700 (PDT)
-Message-ID: <8bd1cc3c-c28b-b30f-d9ff-04f9a3c79646@gmail.com>
-Date: Thu, 14 Apr 2022 22:50:52 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ReqDmd11Qgyo4MjHseNTTTXBLwUHjD3S1/AvQ91EJkw=;
+        b=12rd7GksvRtDg6MLI0ada8SIhwxnPbfZIKoGIk5/yDh6Q3YEXx+M8NDtIKtcn2pHZS
+         rbpHIhyKZUuOtTOBfqY9a41vR7nQFbjhvXDL2iA9uNPHC2o0wcNx60JoaYZ5oAu6829g
+         u/ekBnHsnXFOAMkpp5fG7E5VACxq6CDDEvm7wSMENtqUQNtMkdr2CM5poCFPA44Amsgm
+         BaAXPuyFA7mKHVQEQTvxlkRoaufkpAD2Zulff6PewFDZyEO6v9DjHDwY7IVjpbUJLi9A
+         UQQN++N1RKzY+XEa3jDxrDJ3OTParmqfB7tQRKCBkGuPowpoVN8VyvZ6SB0AMJENKzR4
+         vUvw==
+X-Gm-Message-State: AOAM5335qz7z+Di/8EW6aBbCKakqMH1ojtKOIcFIudsqk2+gyopCxCgJ
+	kx30pN2zN91GxdnIwiKCTRo=
+X-Google-Smtp-Source: ABdhPJzTFrsxe5mcyPkZut2F5WgLLeSHMeHjmAsaz+ewerQn6zpI5K9ngj0rs2maGdN/hPc8JkCyCg==
+X-Received: by 2002:a05:622a:6183:b0:2f1:3d3f:5bd6 with SMTP id hh3-20020a05622a618300b002f13d3f5bd6mr3170994qtb.393.1649966976773;
+        Thu, 14 Apr 2022 13:09:36 -0700 (PDT)
+Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
+        by smtp.gmail.com with ESMTPSA id bk6-20020a05620a1a0600b0069c6f52cba3sm1476232qkb.41.2022.04.14.13.09.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 13:09:36 -0700 (PDT)
+Date: Thu, 14 Apr 2022 16:09:32 -0400
+From: Jaehee Park <jhpark1013@gmail.com>
+To: Alex Elder <elder@ieee.org>
+Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH v3 2/2] staging: greybus: remove empty callback function
+Message-ID: <20220414200932.GA4147124@jaehee-ThinkPad-X1-Extreme>
+References: <cover.1649824370.git.jhpark1013@gmail.com>
+ <12037ae2502ad7d0311bcdf2178c3d2156293236.1649824370.git.jhpark1013@gmail.com>
+ <a4e5c567-63dd-f7de-114b-a357075444a2@ieee.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/6] staging: r8188eu: remove unnecessary braces in single
- statement block
-Content-Language: en-US
-To: Jaehee Park <jhpark1013@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-References: <cover.1649880454.git.jhpark1013@gmail.com>
- <4a0f2a0f24321c5b2039f0f8e6132cec4a2ef068.1649880454.git.jhpark1013@gmail.com>
- <3f4a6c08-4434-1865-bc96-984152af5af1@gmail.com>
- <20220414194118.GA4144553@jaehee-ThinkPad-X1-Extreme>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20220414194118.GA4144553@jaehee-ThinkPad-X1-Extreme>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------nB6Pa0fPnHpxIEUshLzMoYZL"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a4e5c567-63dd-f7de-114b-a357075444a2@ieee.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------nB6Pa0fPnHpxIEUshLzMoYZL
-Content-Type: multipart/mixed; boundary="------------9hX0rWtZTks0Hqcd23Ni7pPC";
- protected-headers="v1"
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Jaehee Park <jhpark1013@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Message-ID: <8bd1cc3c-c28b-b30f-d9ff-04f9a3c79646@gmail.com>
-Subject: Re: [PATCH 1/6] staging: r8188eu: remove unnecessary braces in single
- statement block
-References: <cover.1649880454.git.jhpark1013@gmail.com>
- <4a0f2a0f24321c5b2039f0f8e6132cec4a2ef068.1649880454.git.jhpark1013@gmail.com>
- <3f4a6c08-4434-1865-bc96-984152af5af1@gmail.com>
- <20220414194118.GA4144553@jaehee-ThinkPad-X1-Extreme>
-In-Reply-To: <20220414194118.GA4144553@jaehee-ThinkPad-X1-Extreme>
+On Wed, Apr 13, 2022 at 07:48:03AM -0500, Alex Elder wrote:
+> On 4/12/22 11:38 PM, Jaehee Park wrote:
+> > Remove the optional remove callback for the soc_codec_dev_gbaudio
+> > structure. The only place it is referenced is
+> > snd_soc_component_remove() which is only called if the sound_component
+> > pointer is non-null. The null function pointers here can be optionally
+> > ommitted. When a sound component is registered this way, the remove
+> > callback is optional. We can safely remove the whole gbcodec_remove
+> > function, which used to be an empty function with a void return type.
+> 
+> Now I think your description is a little long...  But that's OK.
+> 
+> This looks good to me.  Thank you for responding to all our
+> feedback.
+> 
+> Reviewed-by: Alex Elder <elder@linaro.org>
 
---------------9hX0rWtZTks0Hqcd23Ni7pPC
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+hi Greg, I saw that this was past on to staging-next already. Is it too 
+late to add Alex to the reviewed by? 
 
-SGkgSmFlaGVlLA0KDQpPbiA0LzE0LzIyIDIyOjQxLCBKYWVoZWUgUGFyayB3cm90ZToNCj4+
-ID4gQEAgLTExMiw5ICsxMTIsOCBAQCB2b2lkIF9ydHdfZnJlZV9tbG1lX3ByaXYoc3RydWN0
-IG1sbWVfcHJpdiAqcG1sbWVwcml2KQ0KPj4gPiAgIAlydHdfZnJlZV9tbG1lX3ByaXZfaWVf
-ZGF0YShwbWxtZXByaXYpOw0KPj4gPiAtCWlmIChwbWxtZXByaXYpIHsNCj4+ID4gKwlpZiAo
-cG1sbWVwcml2KQ0KPj4gPiAgIAkJdmZyZWUocG1sbWVwcml2LT5mcmVlX2Jzc19idWYpOw0K
-Pj4gPiAtCX0NCj4+IA0KPj4gSWYgcG1sbWVwcml2IGlzIGVxdWFsIHRvIE5VTEwgd2Ugd291
-bGQgZGllIGluIHJ0d19mcmVlX21sbWVfcHJpdl9pZV9kYXRhKCksDQo+PiBzbyB0aGlzIGNo
-ZWNrIGlzIGp1c3QgcmVkdW5kYW50DQo+PiANCj4gDQo+IEhpIFBhdmVsLCB0aGFuayB5b3Ug
-Zm9yIHlvdXIgY29tbWVudCEgSWYgSSdtIHJlbW92aW5nIHRoaXMgaWYgc3RhdGVtZW50LA0K
-PiBzaG91bGQgSSBpbmNsdWRlIHZmcmVlKHBtbG1lcHJpdi0+ZnJlZV9ic3NfYnVmKSBpbg0K
-PiBydHdfZnJlZV9tbG1lX3ByaXZfaWVfZGF0YT8NCj4gDQoNCkhtDQoNClNpbXBsZSBncmVw
-IHNob3dzLCB0aGF0IHRoaXMgbWVtYmVyIGlzIGp1c3QgdW51c2VkDQoNCjEgZHJpdmVycy9z
-dGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfbWxtZS5jfDY0IGNvbCAxM3wgDQpwbWxtZXByaXYt
-PmZyZWVfYnNzX2J1ZiA9IHBidWY7DQoyIGRyaXZlcnMvc3RhZ2luZy9yODE4OGV1L2NvcmUv
-cnR3X21sbWUuY3wxMTYgY29sIDIwfCANCnZmcmVlKHBtbG1lcHJpdi0+ZnJlZV9ic3NfYnVm
-KTsNCjMgZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvaW5jbHVkZS9ydHdfbWxtZS5ofDMyMiBj
-b2wgNnwgdTggKmZyZWVfYnNzX2J1ZjsNCg0Kc28gbG9va3MgbGlrZSB5b3UgY2FuIGp1c3Qg
-cmVtb3ZlIGZyZWVfYnNzX2J1ZiBhbmQgYWxsIHJlbGF0ZWQgbGluZXMuDQoNCkkgaG9wZSBJ
-IGhhdmVuJ3Qgb3Zlcmxvb2tlZCBzb21ldGhpbmcNCg0KDQoNCldpdGggcmVnYXJkcywNClBh
-dmVsIFNrcmlwa2luDQo=
-
---------------9hX0rWtZTks0Hqcd23Ni7pPC--
-
---------------nB6Pa0fPnHpxIEUshLzMoYZL
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmJYexwFAwAAAAAACgkQbk1w61LbBA0t
-DQ//TVj2tLGoN0T2zaDleQcCNigtX/Ni3eW0Nozeevmon7zqjdfs/1yNgU12AmGD5Eok6ZTnUb1e
-CC1XhxYHSvbj8Zva2h6MQDSJgzbQq7Hn4UbNgtQMDLIUlkNTjQBojzuL2XnbKHZEJBAPOkmT210I
-JHLSmDC0AATaTn8wQUNDaH+aNe9fn3G2x/YHxwUZnnsysJpRWmRB024bgJ0dMSgy0M5vBxVoAuj9
-gzBcXqEGDfxw38l1iNM/mEU4lfhjbQqikK6rnKLaQcXvc1/EeBhvzA3GWNQo4y6qu7p53Eu8rYnC
-mUVBJGTc7EY8iAElJ2z4nOfSinId/Wg/K1tVii1X0s1W4Ur5TTWvlYYNYf8Q8wKmKOtC31aFB0p/
-SLRsgmT1VQZG0W2wJasmeiFZ0nNcwdp7RUayhOtpNXu2RB/5z8uFxpXNlVxeR76/fXV8BI4EiuyA
-oiurW5TcxRUBdRZbkEKc+fssvIEpTF24KrFFB5rBtJV5SfmfWR+N/K/RRXPgoruUIpbkA/BFDD4f
-XEn+dAfTAR4fjVaFeTin/t41afwAKy5MqseZ4ohpPCzAVMpGZQ2puyCRmPXI5dHBGfartEIEP1f4
-pHpV8gaPKBxrWgMFPQIk2XzbdSdAIGJt8QmcWoM+xQnja6rEbjs+r4PcPe3WAPEdQmgnFNZgWY9B
-L4A=
-=R8Pp
------END PGP SIGNATURE-----
-
---------------nB6Pa0fPnHpxIEUshLzMoYZL--
+> > 
+> > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> > ---
+> >   drivers/staging/greybus/audio_codec.c | 8 --------
+> >   1 file changed, 8 deletions(-)
+> > 
+> > diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
+> > index 0f50d1e51e2c..dc030caa64ba 100644
+> > --- a/drivers/staging/greybus/audio_codec.c
+> > +++ b/drivers/staging/greybus/audio_codec.c
+> > @@ -1029,12 +1029,6 @@ static int gbcodec_probe(struct snd_soc_component *comp)
+> >   	return 0;
+> >   }
+> > -static void gbcodec_remove(struct snd_soc_component *comp)
+> > -{
+> > -	/* Empty function for now */
+> > -	return;
+> > -}
+> > -
+> >   static int gbcodec_write(struct snd_soc_component *comp, unsigned int reg,
+> >   			 unsigned int value)
+> >   {
+> > @@ -1049,8 +1043,6 @@ static unsigned int gbcodec_read(struct snd_soc_component *comp,
+> >   static const struct snd_soc_component_driver soc_codec_dev_gbaudio = {
+> >   	.probe	= gbcodec_probe,
+> > -	.remove	= gbcodec_remove,
+> > -
+> >   	.read = gbcodec_read,
+> >   	.write = gbcodec_write,
+> >   };
+> 
