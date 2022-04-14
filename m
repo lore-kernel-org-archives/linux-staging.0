@@ -1,99 +1,156 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D5615DD
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 08:39:16 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id l7so8706493ejn.2
-        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 01:39:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B117B;
+	Thu, 14 Apr 2022 08:40:31 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id t25so5421790edt.9;
+        Thu, 14 Apr 2022 01:40:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MKr6+nokaP5roHlN/q4ijMaD9NBWjAMlhiHPQJ7ZvGk=;
-        b=oniU/Uq3TeyE1RRKqecnWnMSlfxvLzAYhLrtXrsQi/DbEJVioabJ68fJ2fzEAONfv3
-         PTXE5o7eZtavasDpjuVTRgMYiIZpJXZw9fxA0pj6VxY/1+ZzSrYTGi0n9KnS484YReGC
-         VYzLKA4w48x2iRhJAbiI8zOq5Xj3fYPoxJsz54bx3LiuJAxzIGT3U0i/9pADtcUxs9AZ
-         +yu3p+XsitFpkVf/42TCGBtTWUrOdBUd6QsNK+dKakZNr+Vl1a+HSvQiUQWzx2v2AFfQ
-         o+gdFAJd8lFQKksN8onibvaSN65QbQWy1AQzNBkq0p1fRf/FabGKIq6Q8xfJ1ZZ0FW6I
-         xeEg==
+        bh=am1NIkz6tOpNczOlzqelfWQy0MAGLWn7F9cz1V3LtzI=;
+        b=aImOuH3f+KOJXtLNTY1AS408NTZZ9DtGBMtQLVaHok1qyR9QMQwlj6KlF1ac2u5pMg
+         AScB1kMF5Ik7pUKeH4PYqYyv+w+PKoMvaM0oCI6Heqs6y3xyawEKa5MjUWjvytM51nSh
+         V3m2tb1kGTAkacUVTWhqHRdIEp49sAbSVIWN/nDKiMrpjn0Jx1N8bN94TpwnistNmfNY
+         Stlm7YaO0NhWqXiQsW2u8vh0QEGgpDWvEuQzBZyzfzXGchOjmY2fUzPRLmXD2cezziWW
+         e4ivR3S0xUPhbMH7541wi/qarj+OGzJLkyBxxIoiw1y1I7qaTW6eOTXU/QGzUu/AUi3W
+         lD7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MKr6+nokaP5roHlN/q4ijMaD9NBWjAMlhiHPQJ7ZvGk=;
-        b=B4nseiy3p87hGltG+eL5Fc7MIG2if0d5s8Sh9GeBpqGbYR9oronWOYFiLO3FRpW+3n
-         fglY19eNBhMaMhOska00ZmSHLXI7s2IRBO4BkfZjNfp875N2JjWvy+ZPOnHISz2+pX5d
-         oKxJUwuvZThqmMyifQbVEosTng5yOJZJKSyf3gAaxoRBYkLSaoWmrz/CMhReR43jzTtJ
-         RiPoMn1OsLVeAYBWb/Ylxt0qJBOlY/xedZ0+LFegV/lG6Li5QKxDCP8jxnLqLlljFTqF
-         btPwunL8c+JBxz6pMf3hnbz8ALWnj4buOl3n1Ki/42lG4kWJnwcalBrM7O5O2PsQ5myG
-         CWSw==
-X-Gm-Message-State: AOAM531H9ya/H0NO66AXKelIZMExabqpZs5rA5JmvdvSjfjLyIKtHmkV
-	jPPog0ilrnGDFq8rfxzBHGw=
-X-Google-Smtp-Source: ABdhPJy5szr413gn7qjTFI6nqX63l6W0BasX2s06CfKfEkZH3jn5PKE+Z7W4opnLFE/sl6D9g15jqA==
-X-Received: by 2002:a17:907:3f25:b0:6b0:5e9a:83 with SMTP id hq37-20020a1709073f2500b006b05e9a0083mr1451660ejc.659.1649925554546;
-        Thu, 14 Apr 2022 01:39:14 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
-        by smtp.gmail.com with ESMTPSA id ah13-20020a1709069acd00b006e8a0b3e071sm418138ejc.110.2022.04.14.01.39.13
+        bh=am1NIkz6tOpNczOlzqelfWQy0MAGLWn7F9cz1V3LtzI=;
+        b=YeCIpNP0s2Mx9yZqPGbWuT0OzHUMAlMNsbMp4Za9jxJbgvTd3Grx6U+pPaewOdsdgq
+         SaJiEhDVsYO/VicfO45wNoj3pY26PKD7bZbC7NS1u9I8ro54naRPYH+kCM6BjXXbbx4i
+         Urk6O3SmQw7vml/0dGNanY8w4umabz/JDXEnIwrUdfYj8d+x5dQySfU1csvQFjOCDZEr
+         tLj+B0/SU80o330cgSr2LQjFVwP45oYTQSF/IhV7yPJEghLhbBR+qkxAR9poVx2CvHsr
+         Mx0cP4PVBT1uj6H6aP60Rl32jVhXpf9TOhpoNfy5bAAKZgNmbNXv6PtiVvX24Md4H5/H
+         xJAg==
+X-Gm-Message-State: AOAM531JI3mLFwiy6WGrAFEM0eS3RBFOR/LIfp+5T0KNtZSs7tv7QKix
+	RhXdvVUTgg73LLFpaDjmh0L+50BOzo8=
+X-Google-Smtp-Source: ABdhPJyV95K340bLEdgVVeTTZWMr7Zfbw8u+Zrr9DoJfHrfeW42yBcWA+KVWYLh7bs/7HTCoYdE3Ig==
+X-Received: by 2002:a05:6402:1cc1:b0:413:2b12:fc49 with SMTP id ds1-20020a0564021cc100b004132b12fc49mr1807087edb.118.1649925629784;
+        Thu, 14 Apr 2022 01:40:29 -0700 (PDT)
+Received: from leap.localnet (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
+        by smtp.gmail.com with ESMTPSA id v10-20020a170906380a00b006a68610908asm421825ejc.24.2022.04.14.01.40.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 01:39:14 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 7/7] staging: r8188eu: check firmware header existence before access
-Date: Thu, 14 Apr 2022 10:38:53 +0200
-Message-Id: <20220414083853.3422-8-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220414083853.3422-1-straube.linux@gmail.com>
-References: <20220414083853.3422-1-straube.linux@gmail.com>
+        Thu, 14 Apr 2022 01:40:28 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev, David Kershner <david.kershner@unisys.com>, sparmaintainer@unisys.com
+Subject: Re: [PATCH v2] staging: Remove the drivers for the Unisys s-Par
+Date: Thu, 14 Apr 2022 10:40:26 +0200
+Message-ID: <2100119.irdbgypaU6@leap>
+In-Reply-To: <YlfJ1UQQQeYBvTHV@kroah.com>
+References: <20220413080111.13861-1-fmdefrancesco@gmail.com> <YlfJ1UQQQeYBvTHV@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-We should access the fields of fwhdr only if the check for firmware
-header existence is true. Move the affected code into the if block
-that checks firmware header existence.
+On gioved? 14 aprile 2022 09:14:29 CEST Greg Kroah-Hartman wrote:
+> On Wed, Apr 13, 2022 at 10:01:11AM +0200, Fabio M. De Francesco wrote:
+> > The Unisys sub-tree contains three drivers for the "Unisys Secure 
+Partition"
+> > (s-Par(R)): visorhba, visorinput, visornic.
+> > 
+> > They have no maintainers, in fact the only one that is listed in 
+MAINTAINERS
+> > has an unreacheable email address. During 2021 and 2022 several patches 
+have
+> > been submitted to these drivers but nobody at Unisys cared of reviewing 
+the
+> > changes. Probably, also the "sparmaintainer" internal list of 
+unisys.com is
+> > not anymore read by interested Unisys' engineers.
+> > 
+> > Therefore, remove the ./unisys subdirectory and delete the relevant 
+entries
+> > in the MAINTAINERS, Kconfig, Makefile files.
+> > 
+> > Cc: David Kershner <david.kershner@unisys.com>
+> > Cc: sparmaintainer@unisys.com
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> > 
+> > v1->v2: Add two "Cc:" lines, one to David Kershner and the second to 
+the
+> > "sparmaintainer" list at unisys.com, as requested by Greg Kroah-
+Hartman.
+> > 
+> >  MAINTAINERS                                   |    8 -
+> >  drivers/staging/Kconfig                       |    2 -
+> >  drivers/staging/Makefile                      |    1 -
+> >  .../ABI/sysfs-platform-visorchipset           |   89 -
+> >  .../staging/unisys/Documentation/overview.txt |  337 ---
+> >  drivers/staging/unisys/Kconfig                |   16 -
+> >  drivers/staging/unisys/MAINTAINERS            |    5 -
+> >  drivers/staging/unisys/Makefile               |    7 -
+> >  drivers/staging/unisys/TODO                   |   16 -
+> >  drivers/staging/unisys/include/iochannel.h    |  571 -----
+> >  drivers/staging/unisys/visorhba/Kconfig       |   15 -
+> >  drivers/staging/unisys/visorhba/Makefile      |   10 -
+> >  .../staging/unisys/visorhba/visorhba_main.c   | 1142 ---------
+> >  drivers/staging/unisys/visorinput/Kconfig     |   16 -
+> >  drivers/staging/unisys/visorinput/Makefile    |    7 -
+> >  .../staging/unisys/visorinput/visorinput.c    |  788 ------
+> >  drivers/staging/unisys/visornic/Kconfig       |   16 -
+> >  drivers/staging/unisys/visornic/Makefile      |   10 -
+> >  .../staging/unisys/visornic/visornic_main.c   | 2131 -----------------
+> 
+> 
+> 
+> >  19 files changed, 5187 deletions(-)
+> >  delete mode 100644 drivers/staging/unisys/Documentation/ABI/sysfs-
+platform-visorchipset
+> >  delete mode 100644 drivers/staging/unisys/Documentation/overview.txt
+> >  delete mode 100644 drivers/staging/unisys/Kconfig
+> >  delete mode 100644 drivers/staging/unisys/MAINTAINERS
+> >  delete mode 100644 drivers/staging/unisys/Makefile
+> >  delete mode 100644 drivers/staging/unisys/TODO
+> >  delete mode 100644 drivers/staging/unisys/include/iochannel.h
+> >  delete mode 100644 drivers/staging/unisys/visorhba/Kconfig
+> >  delete mode 100644 drivers/staging/unisys/visorhba/Makefile
+> >  delete mode 100644 drivers/staging/unisys/visorhba/visorhba_main.c
+> >  delete mode 100644 drivers/staging/unisys/visorinput/Kconfig
+> >  delete mode 100644 drivers/staging/unisys/visorinput/Makefile
+> >  delete mode 100644 drivers/staging/unisys/visorinput/visorinput.c
+> >  delete mode 100644 drivers/staging/unisys/visornic/Kconfig
+> >  delete mode 100644 drivers/staging/unisys/visornic/Makefile
+> >  delete mode 100644 drivers/staging/unisys/visornic/visornic_main.c
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 3ed62dcd144e..a62da6d0f943 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -20183,14 +20183,6 @@ F:	drivers/cdrom/cdrom.c
+> >  F:	include/linux/cdrom.h
+> >  F:	include/uapi/linux/cdrom.h
+> >  
+> > -UNISYS S-PAR DRIVERS
+> > -M:	David Kershner <david.kershner@unisys.com>
+> > -L:	sparmaintainer@unisys.com (Unisys internal)
+> > -S:	Supported
+> > -F:	drivers/staging/unisys/
+> > -F:	drivers/visorbus/
+> 
+> You forgot to delete the files in this directory as well :(
+> 
+Sorry, that's worse than just being forgetful. I did not carefully read the
+lines I deleted in MAINTAINERS :(
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
-Do we need the IS_FW_HEADER_EXIST(fwhdr) check at all?
-The header _does_ exist in rtl8188eufw.bin and it's very
-unlikely that it ever changes _and_ the header will be
-removed.
+I will post a v3 soon. In the meantime, I'll also add between the lines
+"Cc:" that other person that Alison found in drivers/staging/unisys/TODO.
 
- drivers/staging/r8188eu/core/rtw_fw.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+Thanks,
 
-diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
-index 64963507a346..c58bce1a1856 100644
---- a/drivers/staging/r8188eu/core/rtw_fw.c
-+++ b/drivers/staging/r8188eu/core/rtw_fw.c
-@@ -249,14 +249,13 @@ int rtl8188e_firmware_download(struct adapter *padapter)
- 	fw_data = dvobj->firmware.data;
- 	fw_size = dvobj->firmware.size;
- 
--	/*  To Check Fw header. Added by tynli. 2009.12.04. */
- 	fwhdr = (struct rt_firmware_hdr *)dvobj->firmware.data;
- 
--	pr_info("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
--		DRIVER_PREFIX, le16_to_cpu(fwhdr->version), fwhdr->subversion,
--		le16_to_cpu(fwhdr->signature));
--
- 	if (IS_FW_HEADER_EXIST(fwhdr)) {
-+		pr_info("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
-+			DRIVER_PREFIX, le16_to_cpu(fwhdr->version), fwhdr->subversion,
-+			le16_to_cpu(fwhdr->signature));
-+
- 		fw_data = fw_data + sizeof(struct rt_firmware_hdr);
- 		fw_size = fw_size - sizeof(struct rt_firmware_hdr);
- 	}
--- 
-2.35.1
+Fabio M. De Francesco
+
+
 
