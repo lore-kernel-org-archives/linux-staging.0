@@ -1,118 +1,297 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF6C322F
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 22:01:38 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id e8-20020a17090a118800b001cb13402ea2so6990579pja.0
-        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 15:01:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CA93234
+	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 23:08:09 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id 12so5877191pll.12
+        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 16:08:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cs-iitr-ac-in.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+1mAXBLJMi+kcuQeqEFVkpTFAdTtHWNKfLqhzSS5OcA=;
-        b=5iZlroAPeAixTJjDn18L8Y9yKhNMqDK3hGvkINQHBuwcb5YLIBNaC3BS+j5BKTyqcR
-         cDoB0g0EuVoS+Z2ISoJRCg13dvV0F5I1pFC54oS8KBsrOWFLm0jIb24aU3IuBrppLILW
-         yEx5sNBMxh9jqaiLqI+XGwAEi9H6ecRhxUg8BqXDg6tN3D2zwDssaRceUW3qJrZt7QPI
-         lGhvRUBw1YG0lS+NdpMSdt9hDiaRpzGSYTVj+8BO6xpoS6cCW6cVDhXNLJCZDu1nG2GU
-         siCzR6BUcNY0ZQg9RZUU6LhhQsvKpu/eMPEjaNs68u0Ja6kBa6FbwLiZpim1Mq2/+U+L
-         4bdQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=GvZRAUI4B8TvnwdtYzuqjiMqNoZJy4HZ3jhXJO2vTlA=;
+        b=QrKZyKd6NBm5yFHKHY7v5DwGjN9+3cH/wf4KjS2w8xJXtD9P0O542w3fQtaV+G08Wy
+         DEjhLOJx7bFtChPat5mTfYZia1dniu7oT9trGOYc5MQBoy1Tu1oWCouSSA+Wik7pTO+9
+         Kn9RQ3iXI9ZHedXoleZWQ0uSZ/f0xvfg57WQflh5C+WpOwi5XkJTH6nzLIo7/cpxZXeR
+         ZuTDwJMTyVdfQ7fhn0n5sQc3C69Ws5Q1fg5pCd+L+HodxljfKn/1/0fUz5yhm4XS2tj7
+         yJPOKA7KFLnncHS9IocunmlTJmjvTIwJdQ79XJwqm6K3Wi3ukooemJPJH4UULLDj3tiB
+         Er7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+1mAXBLJMi+kcuQeqEFVkpTFAdTtHWNKfLqhzSS5OcA=;
-        b=zIFrDja5fTz1IEf7JLbjP4Zg7veP2xzTJkNxJp7t0fH5Czd3eo8bnnZKD3pj8qJP5a
-         znwuQqH3YpBIiOGfwee0fKT+CgatuFpTymPMnzw9uptToOyx069xAN7TXBHTrJUn7nX/
-         S/7vmOBD2j9mA7dr5Zx5+5nlLB+W0+dR0EuQem1ThcsRn2mhGZT2AMDTaXk1I6f0Nw+o
-         21AKB66mSO2r6FWoIQyKuH/h5JGYqAzEdDP9vcKrWK/9CqA8qE9YB8xFOk0GI2ZaA7wU
-         iPJgR4yZ95j2WboqcVAogBFIvvpUcCxIx9VuCWLX8sOw/j4d+XuIgqzzVPRq/4+buFLK
-         ic5A==
-X-Gm-Message-State: AOAM532mpfPRWpXSfnrvwHHiDf1EjHKpVeYWr2vu3cM7kd2KzwYg7lpy
-	S907eH8NgbRsbLVAvSmI5iYuCiQS04tsoFFLfBL69A==
-X-Google-Smtp-Source: ABdhPJzBg71n2jrzmvI+0rKVKOoXVlTxmkLk67ypF754KAV0kb2sXxy/YPgmPGRgU9H+I3xwx6rsCLK9Wr2dpN3XkYM=
-X-Received: by 2002:a17:90b:4c41:b0:1c7:3fa8:9b6a with SMTP id
- np1-20020a17090b4c4100b001c73fa89b6amr716180pjb.120.1649973697898; Thu, 14
- Apr 2022 15:01:37 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=GvZRAUI4B8TvnwdtYzuqjiMqNoZJy4HZ3jhXJO2vTlA=;
+        b=bLfZ4KgxJeA99i/gJm2Rw2Ek6hUiiNV6E455wWQKND+Olpz6Rh0NWqWtOlgz4sVHx1
+         HuFG6MGCK8xs3oLvS4ul74y30p3msTGxv6blQW9TdfSLw3U0Hglc2PYgldDRHDHhfBgx
+         0Cl5SfyX39/fD6e3ikMk1Sxo4aYDoaBxQGBqM7NWv6IUmCLqPuZilVzBPlUbZF8Ic72o
+         IlesdgdWws7CTNVYozyG7Qo50NI3u7SZbZnvfME3E5rggINg3qbIwmVu+GdZdImagFha
+         wfgTnhrUC+7/tiNnh+oeolFkDF/T3dB/vG11Klect9/Gp9sDgZN4r3usyCC69jA5kjBq
+         pYUg==
+X-Gm-Message-State: AOAM531wutdgwC3cNf/NPv2gZkPQy2aaqdvOC/8ZQDRRlx8rDr9x4uPk
+	MitS9Ofor5h8CcAkHM+Kd1gosQ==
+X-Google-Smtp-Source: ABdhPJzaXynYlh/NdWs6XWES7snVaQ9gPplu3lSmLHXCuzKQo63CK5QP9oOqaVSfWDhaO5EfR1cXmg==
+X-Received: by 2002:a17:90b:4a82:b0:1c7:8a44:e0c9 with SMTP id lp2-20020a17090b4a8200b001c78a44e0c9mr973767pjb.102.1649977688622;
+        Thu, 14 Apr 2022 16:08:08 -0700 (PDT)
+Received: from mahak-Inspiron-7570.iitr.ac.in ([103.37.201.168])
+        by smtp.googlemail.com with ESMTPSA id bm27-20020a656e9b000000b0039e5d327f78sm2874058pgb.44.2022.04.14.16.08.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 16:08:08 -0700 (PDT)
+From: Mahak Gupta <mahak_g@cs.iitr.ac.in>
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: Mahak Gupta <mahak_g@cs.iitr.ac.in>
+Subject: [PATCH] staging: r8188eu: place constants in right side in a comparison
+Date: Fri, 15 Apr 2022 04:37:57 +0530
+Message-Id: <20220414230757.19348-1-mahak_g@cs.iitr.ac.in>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20220413052759.4859-1-mahak_g@cs.iitr.ac.in> <20226182-81b2-92b9-d286-d9520a1d568b@lwfinger.net>
-In-Reply-To: <20226182-81b2-92b9-d286-d9520a1d568b@lwfinger.net>
-From: MAHAK GUPTA <mahak_g@cs.iitr.ac.in>
-Date: Fri, 15 Apr 2022 03:31:00 +0530
-Message-ID: <CANnaPbDceguo6K2FeZ1OT8Woz9-RYJyn+gptsVTXnaLstTz+zQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: remove else after return and break statements
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	outreachy@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Larry and Pavel,
-On Wed, Apr 13, 2022 at 10:21 PM Larry Finger <Larry.Finger@lwfinger.net> wrote:
->
-> On 4/13/22 00:27, Mahak Gupta wrote:
-> > Else is not necessary after return and break statements, hence remove
-> > it.
-> >
-> > Reported by checkpatch:
-> >
-> > WARNING: else is not generally useful after a break or return
-> >
-> > Signed-off-by: Mahak Gupta <mahak_g@cs.iitr.ac.in>
->
-> The commit message is redundant. I would suggest the following:
->
-> checkpatch reports the following:
->
-> WARNING: else is not generally useful after a break or return
->
-> Remove those cases.
-This patch is merged by Greg now but I'll keep this in mind for next
-patches. Thanks
+reported by checkpatch:
 
->
->
-> > ---
-> >   drivers/staging/r8188eu/core/rtw_ieee80211.c | 41 ++++++++------------
-> >   1 file changed, 17 insertions(+), 24 deletions(-)
-> >
-> > diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-> > index 5a0e42ed4a47..bb4c9bc864da 100644
-> > --- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
-> > +++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-> > @@ -97,16 +97,15 @@ bool      rtw_is_cckratesonly_included(u8 *rate)
-> >
-> >   int rtw_check_network_type(unsigned char *rate, int ratelen, int channel)
-> >   {
-> > -     if (channel > 14) {
-> > +     if (channel > 14)
-> >               return WIRELESS_INVALID;
-> > -     } else {  /*  could be pure B, pure G, or B/G */
-> > -             if (rtw_is_cckratesonly_included(rate))
-> > -                     return WIRELESS_11B;
-> > -             else if (rtw_is_cckrates_included(rate))
-> > -                     return  WIRELESS_11BG;
-> > -             else
-> > -                     return WIRELESS_11G;
-> > -     }
-> > +     /*  could be pure B, pure G, or B/G */
-> > +     if (rtw_is_cckratesonly_included(rate))
-> > +             return WIRELESS_11B;
-> > +     else if (rtw_is_cckrates_included(rate))
-> > +             return  WIRELESS_11BG;
-> > +     else
-> > +             return WIRELESS_11G;
->
-> Is this 'else' necessary?
-Yeah, we can remove this else too, sorry didn't notice it. Should I
-submit another patch removing this?
+Comparisons should place the constant on the right side of the test.
 
->
->
-> Larry
+Fix these warnings.
 
-Mahak
+Signed-off-by: Mahak Gupta <mahak_g@cs.iitr.ac.in>
+---
+ drivers/staging/r8188eu/core/rtw_ieee80211.c |  4 +--
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c |  4 +--
+ drivers/staging/r8188eu/core/rtw_iol.c       |  4 +--
+ drivers/staging/r8188eu/core/rtw_mlme.c      | 12 ++++----
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 30 ++++++++++----------
+ 5 files changed, 27 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
+index bb4c9bc864da..385a9ed8eff7 100644
+--- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
++++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
+@@ -1051,7 +1051,7 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
+ 	pbuf = rtw_get_wpa_ie(&pnetwork->network.IEs[12], &wpa_ielen, pnetwork->network.IELength - 12);
+ 
+ 	if (pbuf && (wpa_ielen > 0)) {
+-		if (_SUCCESS == rtw_parse_wpa_ie(pbuf, wpa_ielen + 2, &group_cipher, &pairwise_cipher, &is8021x)) {
++		if (rtw_parse_wpa_ie(pbuf, wpa_ielen + 2, &group_cipher, &pairwise_cipher, &is8021x) == _SUCCESS) {
+ 			pnetwork->BcnInfo.pairwise_cipher = pairwise_cipher;
+ 			pnetwork->BcnInfo.group_cipher = group_cipher;
+ 			pnetwork->BcnInfo.is_8021x = is8021x;
+@@ -1061,7 +1061,7 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
+ 		pbuf = rtw_get_wpa2_ie(&pnetwork->network.IEs[12], &wpa_ielen, pnetwork->network.IELength - 12);
+ 
+ 		if (pbuf && (wpa_ielen > 0)) {
+-			if (_SUCCESS == rtw_parse_wpa2_ie(pbuf, wpa_ielen + 2, &group_cipher, &pairwise_cipher, &is8021x)) {
++			if (rtw_parse_wpa2_ie(pbuf, wpa_ielen + 2, &group_cipher, &pairwise_cipher, &is8021x) == _SUCCESS) {
+ 				pnetwork->BcnInfo.pairwise_cipher = pairwise_cipher;
+ 				pnetwork->BcnInfo.group_cipher = group_cipher;
+ 				pnetwork->BcnInfo.is_8021x = is8021x;
+diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+index 9df6fb122bc5..06da79829622 100644
+--- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
++++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+@@ -44,7 +44,7 @@ u8 rtw_do_join(struct adapter *padapter)
+ 		    pmlmepriv->to_roaming > 0) {
+ 			/*  submit site_survey_cmd */
+ 			ret = rtw_sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid, 1, NULL, 0);
+-			if (_SUCCESS != ret)
++			if (ret != _SUCCESS)
+ 				pmlmepriv->to_join = false;
+ 		} else {
+ 			pmlmepriv->to_join = false;
+@@ -91,7 +91,7 @@ u8 rtw_do_join(struct adapter *padapter)
+ 				if (!pmlmepriv->LinkDetectInfo.bBusyTraffic ||
+ 				    pmlmepriv->to_roaming > 0) {
+ 					ret = rtw_sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid, 1, NULL, 0);
+-					if (_SUCCESS != ret)
++					if (ret != _SUCCESS)
+ 						pmlmepriv->to_join = false;
+ 				} else {
+ 					ret = _FAIL;
+diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
+index e14e3746efdd..af8e84a41b85 100644
+--- a/drivers/staging/r8188eu/core/rtw_iol.c
++++ b/drivers/staging/r8188eu/core/rtw_iol.c
+@@ -57,10 +57,10 @@ int rtw_IOL_append_cmds(struct xmit_frame *xmit_frame, u8 *IOL_cmds, u32 cmd_len
+ 
+ bool rtw_IOL_applied(struct adapter  *adapter)
+ {
+-	if (1 == adapter->registrypriv.fw_iol)
++	if (adapter->registrypriv.fw_iol == 1)
+ 		return true;
+ 
+-	if ((2 == adapter->registrypriv.fw_iol) &&
++	if ((adapter->registrypriv.fw_iol == 2) &&
+ 	    (adapter_to_dvobj(adapter)->pusbdev->speed != USB_SPEED_HIGH))
+ 		return true;
+ 
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index fff359d79493..a2ead9dc210b 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -722,7 +722,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 			set_fwstate(pmlmepriv, _FW_UNDER_LINKING);
+ 			pmlmepriv->to_join = false;
+ 			s_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
+-			if (_SUCCESS == s_ret) {
++			if (s_ret == _SUCCESS) {
+ 			     _set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
+ 			} else if (s_ret == 2) { /* there is no need to wait for join */
+ 				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+@@ -730,7 +730,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 			} else {
+ 				if (rtw_to_roaming(adapter) != 0) {
+ 					if (--pmlmepriv->to_roaming == 0 ||
+-					    _SUCCESS != rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid, 1, NULL, 0)) {
++					    rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid, 1, NULL, 0) != _SUCCESS) {
+ 						rtw_set_roaming(adapter, 0);
+ 						rtw_free_assoc_resources(adapter, 1);
+ 						rtw_indicate_disconnect(adapter);
+@@ -1975,7 +1975,7 @@ void rtw_issue_addbareq_cmd(struct adapter *padapter, struct xmit_frame *pxmitfr
+ 		issued = (phtpriv->agg_enable_bitmap >> priority) & 0x1;
+ 		issued |= (phtpriv->candidate_tid_bitmap >> priority) & 0x1;
+ 
+-		if (0 == issued) {
++		if (issued == 0) {
+ 			psta->htpriv.candidate_tid_bitmap |= BIT((u8)priority);
+ 			rtw_addbareq_cmd(padapter, (u8)priority, pattrib->ra);
+ 		}
+@@ -2002,19 +2002,19 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
+ 	else
+ 		pnetwork = &pmlmepriv->cur_network;
+ 
+-	if (0 < rtw_to_roaming(padapter)) {
++	if (rtw_to_roaming(padapter) > 0) {
+ 		memcpy(&pmlmepriv->assoc_ssid, &pnetwork->network.Ssid, sizeof(struct ndis_802_11_ssid));
+ 
+ 		pmlmepriv->assoc_by_bssid = false;
+ 
+ 		while (1) {
+ 			do_join_r = rtw_do_join(padapter);
+-			if (_SUCCESS == do_join_r) {
++			if (do_join_r == _SUCCESS) {
+ 				break;
+ 			} else {
+ 				pmlmepriv->to_roaming--;
+ 
+-				if (0 < pmlmepriv->to_roaming) {
++				if (pmlmepriv->to_roaming > 0) {
+ 					continue;
+ 				} else {
+ 					rtw_indicate_disconnect(padapter);
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 26e188264525..207250e52bcf 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -286,11 +286,11 @@ static void init_channel_list(struct adapter *padapter, struct rt_channel_info *
+ 				continue;
+ 			}
+ 
+-			if ((0 == padapter->registrypriv.ht_enable) && (8 == o->inc))
++			if ((padapter->registrypriv.ht_enable == 0) && (o->inc == 8))
+ 				continue;
+ 
+-			if ((0 == (padapter->registrypriv.cbw40_enable & BIT(1))) &&
+-			    ((BW40MINUS == o->bw) || (BW40PLUS == o->bw)))
++			if (((padapter->registrypriv.cbw40_enable & BIT(1)) == 0) &&
++			    ((o->bw == BW40MINUS) || (o->bw == BW40PLUS)))
+ 				continue;
+ 
+ 			if (!reg) {
+@@ -319,7 +319,7 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
+ 
+ 	if (padapter->registrypriv.wireless_mode & WIRELESS_11G) {
+ 		b2_4GBand = true;
+-		if (RT_CHANNEL_DOMAIN_REALTEK_DEFINE == ChannelPlan)
++		if (ChannelPlan == RT_CHANNEL_DOMAIN_REALTEK_DEFINE)
+ 			Index2G = RTW_CHANNEL_PLAN_MAP_REALTEK_DEFINE.Index2G;
+ 		else
+ 			Index2G = RTW_ChannelPlanMap[ChannelPlan].Index2G;
+@@ -329,14 +329,14 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
+ 		for (index = 0; index < RTW_ChannelPlan2G[Index2G].Len; index++) {
+ 			channel_set[chanset_size].ChannelNum = RTW_ChannelPlan2G[Index2G].Channel[index];
+ 
+-			if ((RT_CHANNEL_DOMAIN_GLOBAL_DOAMIN == ChannelPlan) ||/* Channel 1~11 is active, and 12~14 is passive */
+-			    (RT_CHANNEL_DOMAIN_GLOBAL_DOAMIN_2G == ChannelPlan)) {
++			if ((ChannelPlan == RT_CHANNEL_DOMAIN_GLOBAL_DOAMIN) ||/* Channel 1~11 is active, and 12~14 is passive */
++			    (ChannelPlan == RT_CHANNEL_DOMAIN_GLOBAL_DOAMIN_2G)) {
+ 				if (channel_set[chanset_size].ChannelNum >= 1 && channel_set[chanset_size].ChannelNum <= 11)
+ 					channel_set[chanset_size].ScanType = SCAN_ACTIVE;
+ 				else if ((channel_set[chanset_size].ChannelNum  >= 12 && channel_set[chanset_size].ChannelNum  <= 14))
+ 					channel_set[chanset_size].ScanType  = SCAN_PASSIVE;
+-			} else if (RT_CHANNEL_DOMAIN_WORLD_WIDE_13 == ChannelPlan ||
+-				   RT_CHANNEL_DOMAIN_2G_WORLD == Index2G) {/*  channel 12~13, passive scan */
++			} else if (ChannelPlan == RT_CHANNEL_DOMAIN_WORLD_WIDE_13 ||
++				   Index2G == RT_CHANNEL_DOMAIN_2G_WORLD) {/*  channel 12~13, passive scan */
+ 				if (channel_set[chanset_size].ChannelNum <= 11)
+ 					channel_set[chanset_size].ScanType = SCAN_ACTIVE;
+ 				else
+@@ -971,7 +971,7 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
+ 			status = _STATS_FAILURE_;
+ 	}
+ 
+-	if (_STATS_SUCCESSFUL_ != status)
++	if (status != _STATS_SUCCESSFUL_)
+ 		goto OnAssocReqFail;
+ 
+ 	/*  check if the supported rate is ok */
+@@ -1060,7 +1060,7 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
+ 		wpa_ie_len = 0;
+ 	}
+ 
+-	if (_STATS_SUCCESSFUL_ != status)
++	if (status != _STATS_SUCCESSFUL_)
+ 		goto OnAssocReqFail;
+ 
+ 	pstat->flags &= ~(WLAN_STA_WPS | WLAN_STA_MAYBE_WPS);
+@@ -1255,7 +1255,7 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
+ 	spin_unlock_bh(&pstapriv->asoc_list_lock);
+ 
+ 	/*  now the station is qualified to join our BSS... */
+-	if (pstat && (pstat->state & WIFI_FW_ASSOC_SUCCESS) && (_STATS_SUCCESSFUL_ == status)) {
++	if (pstat && (pstat->state & WIFI_FW_ASSOC_SUCCESS) && (status == _STATS_SUCCESSFUL_)) {
+ 		/* 1 bss_cap_update & sta_info_update */
+ 		bss_cap_update_on_sta_join(padapter, pstat);
+ 		sta_info_update(padapter, pstat);
+@@ -1431,7 +1431,7 @@ unsigned int OnDeAuth(struct adapter *padapter, struct recv_frame *precv_frame)
+ 		    (pmlmeinfo->state & WIFI_FW_ASSOC_STATE)) {
+ 			if (reason == WLAN_REASON_CLASS2_FRAME_FROM_NONAUTH_STA) {
+ 				ignore_received_deauth = 1;
+-			} else if (WLAN_REASON_PREV_AUTH_NOT_VALID == reason) {
++			} else if (reason == WLAN_REASON_PREV_AUTH_NOT_VALID) {
+ 				// TODO: 802.11r
+ 				ignore_received_deauth = 1;
+ 			}
+@@ -3651,7 +3651,7 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
+ 			pwdinfo->nego_req_info.benable = false;
+ 			result = process_p2p_group_negotation_resp(pwdinfo, frame_body, len);
+ 			issue_p2p_GO_confirm(pwdinfo->padapter, GetAddr2Ptr(pframe), result);
+-			if (P2P_STATUS_SUCCESS == result) {
++			if (result == P2P_STATUS_SUCCESS) {
+ 				if (rtw_p2p_role(pwdinfo) == P2P_ROLE_CLIENT) {
+ 					pwdinfo->p2p_info.operation_ch[0] = pwdinfo->peer_operating_ch;
+ 					pwdinfo->p2p_info.scan_op_ch_only = 1;
+@@ -3666,7 +3666,7 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
+ 		break;
+ 	case P2P_GO_NEGO_CONF:
+ 		result = process_p2p_group_negotation_confirm(pwdinfo, frame_body, len);
+-		if (P2P_STATUS_SUCCESS == result) {
++		if (result == P2P_STATUS_SUCCESS) {
+ 			if (rtw_p2p_role(pwdinfo) == P2P_ROLE_CLIENT) {
+ 				pwdinfo->p2p_info.operation_ch[0] = pwdinfo->peer_operating_ch;
+ 				pwdinfo->p2p_info.scan_op_ch_only = 1;
+@@ -7009,7 +7009,7 @@ void linked_status_chk(struct adapter *padapter)
+ 			if (pmlmeinfo->FW_sta_info[i].status == 1) {
+ 				psta = pmlmeinfo->FW_sta_info[i].psta;
+ 
+-				if (NULL == psta)
++				if (psta == NULL)
+ 					continue;
+ 				if (pmlmeinfo->FW_sta_info[i].rx_pkt == sta_rx_pkts(psta)) {
+ 					if (pmlmeinfo->FW_sta_info[i].retry < 3) {
+-- 
+2.17.1
+
