@@ -1,123 +1,167 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C127B
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 10:08:04 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id l7so9102065ejn.2
-        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 03:08:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=fxIhTmf4CWwgx4woI1aX8OoMYh4gMjGvc4MZCp2yYgw=;
-        b=YEKEdaK2CtEeQIFtsW5Q9Pc+PQj3VAR5YyF343GhApd9CcPVM5ZO9W4aORRt64cOKy
-         Ds/mV9HlUsuLDZTZ7K0DrdCW7osI8ZAk0VMdjMen+qb99ZJdTFxYrOr17AKRp/dOmhdM
-         vWhaHluFNt7+cnI1ZOz2ZjJ3OwjNMq2SM8qdQcdLda/y6/xSKElR5E0jlO6wittIJOKW
-         c2tg4tp4S1FIhuRxuSLb1udomqgKf6HFw6RkBYXF4Wj1+/IIhn+JnrUFYDXd8wybRFQx
-         imGIB2kxPw5hJ3i9nXJ2x3r20q/1cTLN7OjJGVuyboGvJF/fXZ4sULOMve5G1jjmkxSz
-         KZVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=fxIhTmf4CWwgx4woI1aX8OoMYh4gMjGvc4MZCp2yYgw=;
-        b=QpoDbol7bB40pw3p0W2zDmZiUo+nwCXi06W/xWhYRdXu4Rhe9OrEnGocFwl9RcJTOV
-         bc+cXP00E8GmPo0KxJQ8DLVmonu9cwrO2oG3tPhdcIq0zBbY/cD6qmzTnPG0OsTZEMhX
-         0WOm94jcy4/lgcty5L9TDBIZH93a7oy6Qk6kvzDAqAW1Fc1NheRn4qToIH8zg8GCNVyd
-         jiugV/GBym3JrWvSAXEvxqgNyFpesFxzp5Ty6GIT3BPlks151TrgqkENez5inmXoYWMB
-         mrloD/8QK6RnkPLVHuityNTXIb4U/XsUfBJLGS/YIc7vaRw+DmKrePIKGhs2TWmFxmNs
-         JT7A==
-X-Gm-Message-State: AOAM5332HaErfNaGfdtrus2idKLAuALCsQPfuvnfOIRJ119XTXr19pgm
-	Y6lDLiRTZon+hhLDwwH2BLY=
-X-Google-Smtp-Source: ABdhPJzETc4xu/QQjnhJjmC9SJlm5H2LrT29xVTSDmNt4irFWyS6PjTXFtlJN0fbXqk6uljkSqfdBw==
-X-Received: by 2002:a17:907:3e90:b0:6e8:7fbb:a15c with SMTP id hs16-20020a1709073e9000b006e87fbba15cmr1614234ejc.411.1649930882723;
-        Thu, 14 Apr 2022 03:08:02 -0700 (PDT)
-Received: from [192.168.0.151] (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
-        by smtp.gmail.com with ESMTPSA id qb10-20020a1709077e8a00b006e892cf471asm471890ejc.84.2022.04.14.03.08.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 03:08:02 -0700 (PDT)
-Message-ID: <a40a2a1b-a8f1-e720-be92-48858d4f6678@gmail.com>
-Date: Thu, 14 Apr 2022 12:08:01 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391E27B;
+	Thu, 14 Apr 2022 10:10:20 +0000 (UTC)
+Received: from hillosipuli.retiisi.eu (dkvn5pty0gzs3nltj987t-3.rev.dnainternet.fi [IPv6:2001:14ba:4457:9640:1e2d:1f75:a607:ef37])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 5BECA1B00330;
+	Thu, 14 Apr 2022 13:04:09 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1649930649;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GcY9Hn0kFsYZKs9iRJ4rMEvAPY/YiAmALNRWdF31xqs=;
+	b=EioSbMxzRTGOf7AOKfgY2lXah52UX+0og7pS5RzUHaJJSY5xLiYrP+Cbt2zmwgdgWAICVp
+	WChOftqZcYpL/pHOp8OHMBYKc3qwCTI/UMKM2pKfolilyeHtpLf9FFlLVaL9RSD2RpGLcb
+	LW3E+CXVjoYd7YRzcsHU8GhtoAlgEvmo+xrLLk3KcM3XA/wFAQ/poUlEvNos66d5emOgUt
+	2QsMEymzB/BFs6a3fwbcMq/6qIxwFVAjV5jSbj2qhH6uD3KAru1cJ5TqdxVqF2VNeNpZTx
+	Qqm5+9PaewIe9pM4ETwKFcV2E6Gdyq69654kQvR3No3z/ElPJ9yv1Vn3VqBDjQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D13DD634C91;
+	Thu, 14 Apr 2022 13:04:08 +0300 (EEST)
+Date: Thu, 14 Apr 2022 13:04:08 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: trix@redhat.com
+Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org, nathan@kernel.org,
+	ndesaulniers@google.com, hverkuil-cisco@xs4all.nl, vrzh@vrzh.net,
+	laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [RESEND PATCH] media: staging: atomisp: rework reading the id
+ and revision values
+Message-ID: <YlfxmADBx+xItHVJ@valkosipuli.retiisi.eu>
+References: <20220329232526.3238181-1-trix@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: staging: r8188eu: struct rt_firmware_header issues
-Content-Language: en-US
-To: David Laight <David.Laight@ACULAB.COM>,
- Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
- Greg KH <gregkh@linuxfoundation.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <94a72ecc-3acd-758b-15a4-a7d56bf03fbe@gmail.com>
- <86a66ea4-45e3-cfa2-9130-f698ae212bfd@gmail.com>
- <51e706400b914552bfda6353020da17e@AcuMS.aculab.com>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <51e706400b914552bfda6353020da17e@AcuMS.aculab.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220329232526.3238181-1-trix@redhat.com>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1649930649; a=rsa-sha256;
+	cv=none;
+	b=M8v7f23tp47ubtX9I/wBhl1zWMNisSqp49W4EpfzUxNYPDMlBoEiwL2akN8/lvB5ixU5XK
+	IQ0ycrK4yF8w14IfUox9rYv3gmJsJb87fxV2+3dG4lv90N7c7cdEMFI/WnL/Vd8HP2vots
+	6eK4EPo37hNuPw+cUeMtd14bpDGeTlzN9eY5Lr49IJ+dqOqad50lMsdumyeBDuQaVH0kdi
+	XWnh4N5oLGq4ddBVNINNmhgpmMCYpgwl59rteXPD/kVyd9bWXR8ShzhCQoztf+rBNxYE71
+	376A5TAKSj/FnJt9lXURB4Cud9XyjrFKaYSntdW40cOgQApQmwyeTyUKmeZxhA==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1649930649;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GcY9Hn0kFsYZKs9iRJ4rMEvAPY/YiAmALNRWdF31xqs=;
+	b=wcIv6A3QlIhhOPXVNxC4qJxXjFG8q4ozO0xQOnN6ln6620AueRX70JZwy4jAfMK0BOStSN
+	eMEYi+aHMkXYPupTnDgTrHGvbRdv6njF9EzgRlHZ44xffkOykIHNWhue9iewDpZD0TJXZp
+	cPhVxnTqrno7WQUz/nbm24+N7DerdH3plXb5XXFkYm4HDiWwr2+J+3kPcZCSgF+8wH961t
+	Dg0tS4envVgQB7TgMj9ZWgJanVf8Pp04AG+FU2IxYHsVlZPXLGH7Z9ATimi0+X7aQchzLS
+	wt7jpIH0dXxWASdW/Gg/PS4xQfsqPw5kNfdrAYIbAiJBB8+UL4hLtIdWIntaUg==
 
-On 4/14/22 10:41, David Laight wrote:
-> From: Michael Straube
->> Sent: 13 April 2022 20:42
->>
->> On 4/13/22 18:27, Michael Straube wrote:
->>> Hi all,
->>>
->>> I think the rt_firmware_hdr structure in rtw_fw.c has some issues.
->>>
->>>
->>> struct rt_firmware_hdr {
->>>       /*  8-byte alinment required */
+Hi Tom,
+
+On Tue, Mar 29, 2022 at 04:25:26PM -0700, trix@redhat.com wrote:
+> From: Tom Rix <trix@redhat.com>
 > 
-> Probably need an __aligned(8) at the bottom then?
-
-I don't see any reason why this is needed. Do I miss something?
-
->>>       /*  LONG WORD 0 ---- */
->>>       __le16        Signature;    /* 92C0: test chip; 92C,
->>>                        * 88C0: test chip; 88C1: MP A-cut;
->>>                        * 92C1: MP A-cut */
->>>       u8        Category;    /*  AP/NIC and USB/PCI */
->>>       u8        Function;    /*  Reserved for different FW function
->>>                        *  indcation, for further use when
->>>                        *  driver needs to download different
->>>                        *  FW for different conditions */
->>>       __le16        Version;    /*  FW Version */
->>>       u8        Subversion;    /*  FW Subversion, default 0x00 */
->>>       u16        Rsvd1;
->>>
->>>       /*  LONG WORD 1 ---- */
->>>       u8        Month;    /*  Release time Month field */
->>>       u8        Date;    /*  Release time Date field */
->>>       u8        Hour;    /*  Release time Hour field */
->>>       u8        Minute;    /*  Release time Minute field */
->>>       __le16        RamCodeSize;    /*  The size of RAM code */
->>>       u8        Foundry;
->>>       u8        Rsvd2;
->>>
->>>       /*  LONG WORD 2 ---- */
->>>       __le32        SvnIdx;    /*  The SVN entry index */
->>>       u32        Rsvd3;
->>>
->>>       /*  LONG WORD 3 ---- */
->>>       u32        Rsvd4;
->>>       u32        Rsvd5;
->>> };
-> ...
->>
->> Ok, I figured it out by looking at the hexdumps of firmware files. The
->> field Rsvd1 should be u8 instead of u16. I'll prepare a patch for this.
+> Clang static analysis reports this representative issue
+> atomisp-ov2722.c:920:3: warning: 3rd function call
+>   argument is an uninitialized value
+>   dev_err(&client->dev, "sensor_id_high = 0x%x\n", high);
+>   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > 
-> I'd also add a compile-time assert on the size.
+> high and low are only set when ov2722_read_reg() is successful.
+> Reporting the high value when there is an error is not
+> meaningful.  The later read for low is not checked.  high
+> and low are or-ed together and checked against a non zero
+> value.
+> 
+> Remove the unneeded error reporting for high.  Initialize
+> high and low to 0 and use the id check to determine if
+> the reads were successful
+> 
+> The later read for revision is not checked.  If it
+> fails the old high value will be used and the revision
+> will be misreported.
+> 
+> Since the revision is only reported and not checked or
+> stored it is not necessary to return if the read with
+> successful.  This makes the ret variable unnecessary
+> so remove it.
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  .../media/atomisp/i2c/atomisp-ov2722.c        | 20 ++++++++-----------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> index da98094d7094..d5d099ac1b70 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+> @@ -906,22 +906,17 @@ static int ov2722_get_fmt(struct v4l2_subdev *sd,
+>  static int ov2722_detect(struct i2c_client *client)
+>  {
+>  	struct i2c_adapter *adapter = client->adapter;
+> -	u16 high, low;
+> -	int ret;
+> +	u16 high = 0, low = 0;
+>  	u16 id;
+>  	u8 revision;
+>  
+>  	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C))
+>  		return -ENODEV;
+>  
+> -	ret = ov2722_read_reg(client, OV2722_8BIT,
+> -			      OV2722_SC_CMMN_CHIP_ID_H, &high);
+> -	if (ret) {
+> -		dev_err(&client->dev, "sensor_id_high = 0x%x\n", high);
+> -		return -ENODEV;
+> -	}
+> -	ret = ov2722_read_reg(client, OV2722_8BIT,
+> -			      OV2722_SC_CMMN_CHIP_ID_L, &low);
+> +	ov2722_read_reg(client, OV2722_8BIT,
+> +			OV2722_SC_CMMN_CHIP_ID_H, &high);
+> +	ov2722_read_reg(client, OV2722_8BIT,
+> +			OV2722_SC_CMMN_CHIP_ID_L, &low);
 
-I'll add a patch to the series I recently sent.
+You should check the return value as it's an entirely different problem not
+being able to access the device than reading back wrong identification
+information.
 
-thanks,
-Michael
+>  	id = (high << 8) | low;
+>  
+>  	if ((id != OV2722_ID) && (id != OV2720_ID)) {
+> @@ -929,8 +924,9 @@ static int ov2722_detect(struct i2c_client *client)
+>  		return -ENODEV;
+>  	}
+>  
+> -	ret = ov2722_read_reg(client, OV2722_8BIT,
+> -			      OV2722_SC_CMMN_SUB_ID, &high);
+> +	high = 0;
+> +	ov2722_read_reg(client, OV2722_8BIT,
+> +			OV2722_SC_CMMN_SUB_ID, &high);
+>  	revision = (u8)high & 0x0f;
+>  
+>  	dev_dbg(&client->dev, "sensor_revision = 0x%x\n", revision);
+
+This will also mean failure to read the revision is reported as revision 0.
+
+These were the problems that pre-existed the patch, so if you're willing to
+address these, please send v2 (would be nice). I can also merge this.
+
+-- 
+Kind regards,
+
+Sakari Ailus
