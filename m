@@ -1,88 +1,97 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D653219
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 19:39:36 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id t25so10837530lfg.7
-        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 12:39:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE5C3219;
+	Thu, 14 Apr 2022 19:41:24 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id d9so4920530qvm.4;
+        Thu, 14 Apr 2022 12:41:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=mOzDZgPKCeJFKlKho+EJ9pfBvN7kmckeP2vEOpMjjHs=;
-        b=Sd3ErO7OkQ9pEz0AQ+nQamORwzrUBny28QC6oShE2YXaOnXjfD6nOClX3+wYdRPM0O
-         mgNDwXW+EUFDfgFzUZXOE8/cmWB3w2fVYhV2UWB/SPJIZfrxHlXRFHMj9fFapi44c6KD
-         Zs/bYe0gBfE2Q9CIRweCHw9k6ZPIBpE5RPvO7r4zms6FC6BiCOqG2ki/mRmDoP0IsE61
-         Val1oX8jQAsEyutm+o4lfKST5KyRY71jpOpiKJrx229PwR29jYdRzsBTIa/GScFhow65
-         LsE7eVYXSypvjlLM9HXiTmL+leHYRuvhDALHFgzTcW63l09Tv5p4xTmUIPM4BaBbUPb0
-         0Dig==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=yL9/UIL982jnwFL4yczTgqRaZlbJCY9QhpIXC00WZqw=;
+        b=SQDCH2eXbnV6ThaqWQZY8N5NxsV2cc0btmkPWX9ZdhfGbQ8negud7uKiAMm6D0enDK
+         GtwUxBUoFT3TkdVQmK7JDQQH7UdrBoxVwwA5CT1SdTP5Fi7xuZ2Tsb4YKQh/2UioZ89d
+         a10kmA4refMtnqO9FcIb9lxA2gFAykJZqK3zqPa8eOd0vQOegR2C//dMDhhUA5y+Sz5D
+         gHmV3Bp/udHH0tUXylkdfBs7dC2BrqJW4FmFSZDGYze+F//D4l/u7AsjOvk1EWD+kdkH
+         Q5aAavNJj5WRZJGdZzJKPK2awBB4GPJmuvy4s561szrhomyBz01wS7V8DjR1iFgfeStc
+         TRXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=mOzDZgPKCeJFKlKho+EJ9pfBvN7kmckeP2vEOpMjjHs=;
-        b=pJ8E7ETY8E55iWUjzb2pCDXNBXSN5wmtP33inRArCBF52Me81EJpad0l3+JZY56ADG
-         LYmlu3eOCp3VCOUmBMCCdtU4O0f05Kls52ReZXmEPVtKL7xdt2VpaPghz4TnECTYd5Uy
-         QQxuVa/5w0Ta9p0uydpwiPwyQohGbBz08unwh0YS/g2IQWuEotdeeT/0tfoWsMW7WIwV
-         WTCZt2Hahxl0ZydVjl59kX7dIVf2kKAE8qewC3urku7oXeB0uGK5ifrwS5pEwhwisihQ
-         pg83rPxd22GclHqm7Yn7qtFtHrfa05E2ZZ+rxh5feM9RrPn0GeJE7kOlSFLaoUsDipnw
-         8zYQ==
-X-Gm-Message-State: AOAM532lNgxCia4uVE93EO+lPnYd++pSPr263uXTL1/L/1KAqwytY6Ll
-	EQUZPAbpHbED0FMAp3tAei0=
-X-Google-Smtp-Source: ABdhPJzkJADCjlo70EZY7IUyuhNy0vKezJgRvh3sNOAw1J3An09BX0DEPfgE0dur+JuCqrl8iOWDmg==
-X-Received: by 2002:a19:8c4b:0:b0:44a:b6a4:4873 with SMTP id i11-20020a198c4b000000b0044ab6a44873mr2753878lfj.549.1649965174316;
-        Thu, 14 Apr 2022 12:39:34 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.225.17])
-        by smtp.gmail.com with ESMTPSA id t12-20020a2e954c000000b0024b3811ab30sm76809ljh.101.2022.04.14.12.39.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Apr 2022 12:39:34 -0700 (PDT)
-Message-ID: <dec6d7fd-58f1-7504-05e8-e9c17eefdb2e@gmail.com>
-Date: Thu, 14 Apr 2022 22:39:33 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=yL9/UIL982jnwFL4yczTgqRaZlbJCY9QhpIXC00WZqw=;
+        b=lqOQxOhs2aZXIXVKdlaOMQKezuYLpnjeLsDqtY02hCNsKUTsJxv3zRbfcZI93Z4zlh
+         3zjG6edZXWHHRIhMp6KLbRq1/sLCWbubgwxTr9vlKGNZMR39LOzJh1ZKlrtj5QjvTqLa
+         dk7u9DtwkA18uiH0tVJlg2kO09cirZw9rHvW9ikk27KbsWyUuWRYdSTRhnOG3HBK85WT
+         BPHN5YdQR6MYAN8B056YzjYsiGSAQ7UTF4Yr6wtqqZmmQ805jYO9fsYnLYa1Q/+kCOYR
+         tIRnUuepHIN+Kb8nA6AueJQgycdn+yqaFHSicK8XIdvCkvEcwlA0lGtd2irHp5uxAPta
+         yU4w==
+X-Gm-Message-State: AOAM530vOL/cj99R4T50ln5XmOPHhQ+WDQTVWVGtEOrAfB3nKNxlZUyH
+	EpXJ15PryZ8Zn9c+nvY6fbk=
+X-Google-Smtp-Source: ABdhPJzHLQhfEnhSBmgGyGjfuvAueEwWhilK6pSHxGbK1M5Rykq8UmuXwDzGl1xLwxYzk9YF2LdIig==
+X-Received: by 2002:a05:6214:1194:b0:444:45d6:d79d with SMTP id t20-20020a056214119400b0044445d6d79dmr4847812qvv.36.1649965283442;
+        Thu, 14 Apr 2022 12:41:23 -0700 (PDT)
+Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
+        by smtp.gmail.com with ESMTPSA id e126-20020a376984000000b0069c86b28524sm577567qkc.19.2022.04.14.12.41.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 12:41:22 -0700 (PDT)
+Date: Thu, 14 Apr 2022 15:41:18 -0400
+From: Jaehee Park <jhpark1013@gmail.com>
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH 1/6] staging: r8188eu: remove unnecessary braces in
+ single statement block
+Message-ID: <20220414194118.GA4144553@jaehee-ThinkPad-X1-Extreme>
+References: <cover.1649880454.git.jhpark1013@gmail.com>
+ <4a0f2a0f24321c5b2039f0f8e6132cec4a2ef068.1649880454.git.jhpark1013@gmail.com>
+ <3f4a6c08-4434-1865-bc96-984152af5af1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 6/7] staging: r8188eu: always log firmware info
-Content-Language: en-US
-To: Larry Finger <Larry.Finger@lwfinger.net>,
- Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220414083853.3422-1-straube.linux@gmail.com>
- <20220414083853.3422-7-straube.linux@gmail.com>
- <80414992-a662-e884-05ca-dcc0c8b07b99@lwfinger.net>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <80414992-a662-e884-05ca-dcc0c8b07b99@lwfinger.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3f4a6c08-4434-1865-bc96-984152af5af1@gmail.com>
 
-Hi Larry,
-
-On 4/14/22 18:36, Larry Finger wrote:
-> On 4/14/22 03:38, Michael Straube wrote:
->> The local static variable log_version prevents logging the firmware
->> information more than once, e.g. when the device is unplugged and
->> plugged again. That is not necessary and complicates the code. Remove
->> it.
+On Wed, Apr 13, 2022 at 11:24:46PM +0300, Pavel Skripkin wrote:
+> Hi Jaehee,
 > 
-> I think the slight complication of the code, one static variable and one if
-> statement, is worth not spamming the logs. My recollection is that there are
-> other cases besides unplugging and replugging that lead to the firmware being
-> reloaded.
+> On 4/13/22 23:11, Jaehee Park wrote:
+> > Remove braces for single statement block to minimize the number of
+> > empty lines, without loss of readability. Issue found with checkpatch.
+> > WARNING: braces {} are not necessary for single statement blocks
+> > 
+> > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> > ---
+> >   drivers/staging/r8188eu/core/rtw_mlme.c | 3 +--
+> >   1 file changed, 1 insertion(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+> > index 3e9882f89f76..d3f4d7cdfa08 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> > @@ -112,9 +112,8 @@ void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
+> >   	rtw_free_mlme_priv_ie_data(pmlmepriv);
+> > -	if (pmlmepriv) {
+> > +	if (pmlmepriv)
+> >   		vfree(pmlmepriv->free_bss_buf);
+> > -	}
+> 
+> If pmlmepriv is equal to NULL we would die in rtw_free_mlme_priv_ie_data(),
+> so this check is just redundant
 > 
 
+Hi Pavel, thank you for your comment! If I'm removing this if statement,
+should I include vfree(pmlmepriv->free_bss_buf) in 
+rtw_free_mlme_priv_ie_data?
 
-What about pr_info_once? Anyway even with old code message printed only 
-once per driver load
-
-
-
-
-
-With regards,
-Pavel Skripkin
+> 
+> 
+> 
+> With regards,
+> Pavel Skripkin
