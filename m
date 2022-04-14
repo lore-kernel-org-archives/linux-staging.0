@@ -1,74 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40587A
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 16:21:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA412C385A5;
-	Thu, 14 Apr 2022 16:21:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1649953285;
-	bh=VfHrJD3Nz0ZjdlZiEWgIt64kysymj8lJEi2ZpJKeQCQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zIGcEsJHdFirNEXRfXkkgsn8xZbYHTC80OtiTRTWC8b8h9fB5udNZAqlHRkYFfgTm
-	 9rPCM0hVyJyhyJNlreNvcHGTH20eybGzQ2EUzNN9I7efMngHmJDDnWIPmg+tCQuW/B
-	 6LFZ5DdXC9+hg30esoB+KTtDiS0X6r4g/2MQSvi8=
-Date: Thu, 14 Apr 2022 18:21:22 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Adrien Thierry <athierry@redhat.com>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB6A320A
+	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 18:17:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1649960259;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=z5tgB23gsfb+KHanZyKg4LmdU6c+WAvLbSSi7WjMupg=;
+	b=gcQ4kO09zEPwTvOGfODc6IVZZ7CvVljyzlNdpSdlSBpwZr46lh8lxR7ySWCDHD4PhlMsdT
+	lLL/iX92/5uju9E5DQldm0akBFjutPlNBKrPeJWpHTQVAv9NJsNcE02P2BNa24KDDR/vk/
+	AFnSpIA3Cxmy35TUesY06AxF056dDoY=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-251-UuD7AYldM0uIKstKbtgQSw-1; Thu, 14 Apr 2022 14:17:38 -0400
+X-MC-Unique: UuD7AYldM0uIKstKbtgQSw-1
+Received: by mail-qk1-f197.google.com with SMTP id l20-20020a05620a28d400b0069c63137970so2940591qkp.10
+        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 11:17:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z5tgB23gsfb+KHanZyKg4LmdU6c+WAvLbSSi7WjMupg=;
+        b=zuVSDAfcVqFaGzbmZCkG0l7sSLk14kyqRgB0EKQT1wLPsKO223dxfY3mtTBcfiln5n
+         ZNKWqWxBt5bPfVK+bpMIkW7EO558QxJ5MHaxa5+KXIHEDUPNU8RqS0bw8BynczqqW12w
+         j2Hu7Sq22U8rHAdycD7xdgtkQDIU+eaFoyPDHmGAEk8XweR6Z0YfnZVeJckZtx9mw3Il
+         s6fu4TpXeePWHfW6STXDsoNRPlT/2y9glOcaocyK0upL+tvLggL1lIh5JJhM/KbFZWba
+         8JRGXtmNQBqLnxU1hZ/IoSsuvIyGcF2tcQ20UigC5upjJzEwAnrOk4DOJcubL3Y8jewZ
+         j5/A==
+X-Gm-Message-State: AOAM531Dq5CO3qwsTlaMsvS4N7ugtuNJSfwRrbgNXFfzZZnVhM4NbyzX
+	Ci1Tl0ymyZj2I5prjFMSopfjcu2vuDakKThfLcKTIN93xE+4Etmyc5Xrx5bgEv2CjXxTg6jENgK
+	ShJRdSZ0i/EFlPgOzV13cmzQSyg==
+X-Received: by 2002:a05:620a:190f:b0:69c:34f3:cdc5 with SMTP id bj15-20020a05620a190f00b0069c34f3cdc5mr2816753qkb.579.1649960258041;
+        Thu, 14 Apr 2022 11:17:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqlzxMzniXZYmYlsajFK1AyahG5bV7gnrcaBdvbFxg1rAeBX6GXs8+x5dyLKp6jcE5zMf4gQ==
+X-Received: by 2002:a05:620a:190f:b0:69c:34f3:cdc5 with SMTP id bj15-20020a05620a190f00b0069c34f3cdc5mr2816734qkb.579.1649960257805;
+        Thu, 14 Apr 2022 11:17:37 -0700 (PDT)
+Received: from fedora.redhat.com (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
+        by smtp.gmail.com with ESMTPSA id h5-20020ac85845000000b002edfd4b0503sm1701816qth.88.2022.04.14.11.17.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 11:17:37 -0700 (PDT)
+From: Adrien Thierry <athierry@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
 	Florian Fainelli <f.fainelli@gmail.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
 	bcm-kernel-feedback-list@broadcom.com,
-	Maxime Ripard <mripard@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: bcm2835-audio: fully describe config symbol
-Message-ID: <YlhKAoWCdAKMqIht@kroah.com>
-References: <20220414152340.68932-1-athierry@redhat.com>
- <20220414152340.68932-2-athierry@redhat.com>
+	Maxime Ripard <mripard@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Adrien Thierry <athierry@redhat.com>
+Subject: [PATCH v2 0/5] staging: bcm2835-audio: minor code style cleanups
+Date: Thu, 14 Apr 2022 14:16:17 -0400
+Message-Id: <20220414181622.102049-1-athierry@redhat.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220414152340.68932-2-athierry@redhat.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Thu, Apr 14, 2022 at 11:23:39AM -0400, Adrien Thierry wrote:
-> Explain SND_BCM2835 config option in more detail, especially the
-> implications of using the bcm2835-audio driver in conjunction with vc4
-> for HDMI audio.
-> 
-> Reported by checkpatch:
-> 
-> WARNING: please write a help paragraph that fully describes the config
-> symbol
-> FILE: drivers/staging/vc04_services/bcm2835-audio/Kconfig:2
-> 
-> Signed-off-by: Adrien Thierry <athierry@redhat.com>
-> ---
->  drivers/staging/vc04_services/bcm2835-audio/Kconfig | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/vc04_services/bcm2835-audio/Kconfig b/drivers/staging/vc04_services/bcm2835-audio/Kconfig
-> index d32ea348e846..7cd0b3c0cae4 100644
-> --- a/drivers/staging/vc04_services/bcm2835-audio/Kconfig
-> +++ b/drivers/staging/vc04_services/bcm2835-audio/Kconfig
-> @@ -5,5 +5,8 @@ config SND_BCM2835
->  	select SND_PCM
->  	select BCM2835_VCHIQ
->  	help
-> -	  Say Y or M if you want to support BCM2835 built in audio
-> +	  Say Y or M if you want to support BCM2835 built in audio.
-> +	  This driver handles both 3.5mm and HDMI audio. However, please
-> +	  note that when HDMI audio is enabled with this driver, the vc4
-> +	  driver cannot be used simultaneously, otherwise HDMI will break.
+This series contains minor code style cleanups to fix checkpatch warnings.
 
-"will break"?  What exactly do you mean by this?  What will fail?  How
-will it fail?  Why does this matter in a Kconfig help text?
+This handles TODO item "Fix the remaining checkpatch.pl errors and
+warnings"
 
-thanks,
+---
 
-greg k-h
+Changes since v1:
+- removed mention of vc4 in Kconfig help text
+- split patches so that each patch fixes only one checkpatch warning
+
+Adrien Thierry (5):
+  staging: bcm2835-audio: fully describe config symbol
+  staging: bcm2835-audio: fix line ending with '('
+  staging: bcm2835-audio: fix unnecessary space after cast
+  staging: bcm2835-audio: fix mutex definition without comment
+  staging: bcm2835-audio: fix mutex definition without comment
+
+ drivers/staging/vc04_services/bcm2835-audio/Kconfig         | 6 ++++--
+ drivers/staging/vc04_services/bcm2835-audio/bcm2835-pcm.c   | 5 ++---
+ drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c | 2 +-
+ drivers/staging/vc04_services/bcm2835-audio/bcm2835.h       | 2 +-
+ 4 files changed, 8 insertions(+), 7 deletions(-)
+
+
+base-commit: 194193dd06848c1839d928090cb2032eec8b2f9c
+-- 
+2.35.1
+
