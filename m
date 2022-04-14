@@ -1,84 +1,70 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from relay4.hostedemail.com (relay4.hostedemail.com [64.99.140.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7138D15A8;
-	Thu, 14 Apr 2022 01:10:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649898602; x=1681434602;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nrVy/pMBQUhIH7JlrxEFjgxSXFkQPYIxiQnDRWzKmFc=;
-  b=Av3RpB8fIwfAO8T/2QCkFWRyCwkQx6pLeaTA+dYatYuMZTKIHr64suOA
-   wBWjN09TTfDpNXrAfmJ4f60e6TaoyeN4B56IkE49Y2CuSpTRPZ1WNNNo1
-   8w/vwW0YtcCjc8omRUkJtsWVkibmZPiigm2/1fQOaHNc7Zh79LusoTAkR
-   vZM19Z0qOkZMunX1By9/gEQOys3v7ABTv6KpDWoPwHYDR+TIQ9KTyG1FA
-   JzXvhvP3HHuFtryG+Kq523qWS4H35LnbkimyMcp1QvhD9vkqZo4XO08AE
-   +et4NgLd20SYdq5vpHAiaTkv7/3OtKJxHeTNxKqcyxeL4jvnZpwEBt9by
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="349252656"
-X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
-   d="scan'208";a="349252656"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 18:10:01 -0700
-X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
-   d="scan'208";a="527176188"
-Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 18:10:01 -0700
-Date: Wed, 13 Apr 2022 18:11:56 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Aliya Rahmani <aliyarahmani786@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: sm750fb: Remove volatile
-Message-ID: <20220414011156.GA1243803@alison-desk>
-References: <20220413203914.59533-1-aliyarahmani786@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D21F15AE
+	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 01:17:12 +0000 (UTC)
+Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id 89E15184A;
+	Thu, 14 Apr 2022 01:17:05 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id 46D6336;
+	Thu, 14 Apr 2022 01:16:59 +0000 (UTC)
+Message-ID: <eda6a3a94b768f06e67581bbc4d9974b391f0651.camel@perches.com>
+Subject: Re: [PATCH 4/6] staging: r8188eu: place constants on the right side
+ of tests
+From: Joe Perches <joe@perches.com>
+To: Jaehee Park <jhpark1013@gmail.com>, Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk, gregkh@linuxfoundation.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	outreachy@lists.linux.dev
+Date: Wed, 13 Apr 2022 18:16:58 -0700
+In-Reply-To: <d2469155c37b8677a8dcbed28bc0840745d46f76.1649880454.git.jhpark1013@gmail.com>
+References: <cover.1649880454.git.jhpark1013@gmail.com>
+	 <d2469155c37b8677a8dcbed28bc0840745d46f76.1649880454.git.jhpark1013@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220413203914.59533-1-aliyarahmani786@gmail.com>
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 46D6336
+X-Spam-Status: No, score=-4.78
+X-Stat-Signature: ucutbhqknse6ajuz6ibq95hioue4rq3x
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19QSXj0Gs9SivOGdTGlKjF8xaHxB+z/K+A=
+X-HE-Tag: 1649899019-213656
 
-On Thu, Apr 14, 2022 at 02:09:15AM +0530, Aliya Rahmani wrote:
-
-Hi Aliya,
-
-Wondering why the recipient list different than this:
-
-$ perl scripts/get_maintainer.pl --nogit-fallback --no-rolestats -f drivers/staging/sm750fb/sm750.h
-Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Teddy Wang <teddy.wang@siliconmotion.com>
-Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-linux-fbdev@vger.kernel.org
-linux-staging@lists.linux.dev
-linux-kernel@vger.kernel.org
-
-
-> Remove volatile to fix checkpatch.pl warning.
-> 
-> Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
-> ---
->  drivers/staging/sm750fb/sm750.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-> index aff69661c8e6..7a11f8593596 100644
-> --- a/drivers/staging/sm750fb/sm750.h
-> +++ b/drivers/staging/sm750fb/sm750.h
-> @@ -52,7 +52,7 @@ struct lynx_accel {
->  	/* base virtual address of DPR registers */
->  	volatile unsigned char __iomem *dprBase;
->  	/* base virtual address of de data port */
-> -	volatile unsigned char __iomem *dpPortBase;
-> +	unsigned char __iomem *dpPortBase;
+On Wed, 2022-04-13 at 16:11 -0400, Jaehee Park wrote:
+> To comply with the linux coding style, place constants on the right
+> side of the test in comparisons. Issue found with checkpatch.
+> WARNING: Comparisons should place the constant on the right side of
+> the test.
+[]
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+[]
+> @@ -1997,19 +1998,19 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
+>  	else
+>  		pnetwork = &pmlmepriv->cur_network;
 >  
->  	/* function pointers */
->  	void (*de_init)(struct lynx_accel *accel);
-> -- 
-> 2.25.1
-> 
-> 
+> -	if (0 < rtw_to_roaming(padapter)) {
+> +	if (rtw_to_roaming(padapter) > 0) {
+
+Do you think this change is the same test?
+
+What happens if rtw_to_roaming returns 0?
+
+[]
+
+> -				if (0 < pmlmepriv->to_roaming) {
+> +				if (pmlmepriv->to_roaming > 0) {
+
+here too
+
+>  					continue;
+>  				} else {
+>  					rtw_indicate_disconnect(padapter);
+
+
