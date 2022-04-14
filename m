@@ -1,70 +1,140 @@
-Received: from relay4.hostedemail.com (relay4.hostedemail.com [64.99.140.35])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D21F15AE
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 01:17:12 +0000 (UTC)
-Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 89E15184A;
-	Thu, 14 Apr 2022 01:17:05 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id 46D6336;
-	Thu, 14 Apr 2022 01:16:59 +0000 (UTC)
-Message-ID: <eda6a3a94b768f06e67581bbc4d9974b391f0651.camel@perches.com>
-Subject: Re: [PATCH 4/6] staging: r8188eu: place constants on the right side
- of tests
-From: Joe Perches <joe@perches.com>
-To: Jaehee Park <jhpark1013@gmail.com>, Larry.Finger@lwfinger.net
-Cc: phil@philpotter.co.uk, gregkh@linuxfoundation.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E69115A8;
+	Thu, 14 Apr 2022 01:54:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1649901252; x=1681437252;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ue8ojU1OGz7ohSofSTg5I/S9UOIB+twveGfs8YIbCw0=;
+  b=Hs8qNEZbYNR/VSC0EMUQPD5Qo90oBIT/qAuXfiQSYfoU6EFoVj9LkEdr
+   AiPvwhGrEbIJDDESZZV1UvKXGCC5zRKtPOt6frbjxGmkjqu1gfx3wbb2D
+   AC/vwFoYpOZkW+G6D+L3NUtG6yDU9+Xl7favyS6M7jAJwFT8eNDO5fhyQ
+   NX6kPHIdjrBEZtqm1Z5DWqObyBgPHlTvYXGL4nnnVcXnWp4nNUZo6NAKy
+   25iIqnwbcikMaBMq3DKHiqlutah9zQp+zuiI3q4b9EFI9GGHpESu/uLPy
+   w717BLXxDSm5674ldh3WuBNq/GV87b2jppNEk3Jv3f+FZZzrCX4tLQz3a
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="262999800"
+X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
+   d="scan'208";a="262999800"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 18:54:11 -0700
+X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; 
+   d="scan'208";a="725156508"
+Received: from sdoyen-mobl1.amr.corp.intel.com (HELO localhost) ([10.213.179.195])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 18:54:11 -0700
+Date: Wed, 13 Apr 2022 18:54:10 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Martiros Shakhzadyan <vrzh@vrzh.net>,
+	Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev
-Date: Wed, 13 Apr 2022 18:16:58 -0700
-In-Reply-To: <d2469155c37b8677a8dcbed28bc0840745d46f76.1649880454.git.jhpark1013@gmail.com>
-References: <cover.1649880454.git.jhpark1013@gmail.com>
-	 <d2469155c37b8677a8dcbed28bc0840745d46f76.1649880454.git.jhpark1013@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in
+ hmm_store()
+Message-ID: <Yld+wpMe1C51bKU3@iweiny-desk3>
+References: <20220413225531.9425-1-fmdefrancesco@gmail.com>
+ <20220414004454.GA1243697@alison-desk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 46D6336
-X-Spam-Status: No, score=-4.78
-X-Stat-Signature: ucutbhqknse6ajuz6ibq95hioue4rq3x
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19QSXj0Gs9SivOGdTGlKjF8xaHxB+z/K+A=
-X-HE-Tag: 1649899019-213656
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220414004454.GA1243697@alison-desk>
 
-On Wed, 2022-04-13 at 16:11 -0400, Jaehee Park wrote:
-> To comply with the linux coding style, place constants on the right
-> side of the test in comparisons. Issue found with checkpatch.
-> WARNING: Comparisons should place the constant on the right side of
-> the test.
-[]
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-[]
-> @@ -1997,19 +1998,19 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
->  	else
->  		pnetwork = &pmlmepriv->cur_network;
->  
-> -	if (0 < rtw_to_roaming(padapter)) {
-> +	if (rtw_to_roaming(padapter) > 0) {
+On Wed, Apr 13, 2022 at 05:44:54PM -0700, Alison Schofield wrote:
+> On Thu, Apr 14, 2022 at 12:55:31AM +0200, Fabio M. De Francesco wrote:
+> > The use of kmap() is being deprecated in favor of kmap_local_page()
+> > where it is feasible. The same is true for kmap_atomic().
+> > 
+> > In file pci/hmm/hmm.c, function hmm_store() test if we are in atomic
+> > context and, if so, it calls kmap_atomic(), if not, it calls kmap().
+> > 
+> > First of all, in_atomic() shouldn't be used in drivers. This macro
+> > cannot always detect atomic context; in particular, it cannot know
+> > about held spinlocks in non-preemptible kernels.
+> > 
+> > Notwithstanding what it is said above, this code doesn't need to care
+> > whether or not it is executing in atomic context. It can simply use
+> > kmap_local_page() / kunmap_local() that can instead do the mapping /
+> > unmapping regardless of the context.
+> > 
+> > With kmap_local_page(), the mapping is per thread, CPU local and not
+> > globally visible. Therefore, hmm_store()() is a function where the use
+> > of kmap_local_page() in place of both kmap() and kmap_atomic() is
+> > correctly suited.
+> > 
+> > Convert the calls of kmap() / kunmap() and kmap_atomic() /
+> > kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
+> > unnecessary tests which test if the code is in atomic context.
+> > 
+> 
+> Not specifically about this patch, but more generally about all
+> such conversions - is there a 'proof' that shows this just works
 
-Do you think this change is the same test?
+Just code inspection.  Most of them that I have done have been compile tested
+only.  Part of the key is that des is a local variable and is not aliased by
+anything outside this function.
 
-What happens if rtw_to_roaming returns 0?
+> or do we need to test each one. If the latter, then how?
 
-[]
+Generally there is no test if we don't have the hardware.  Some of the more
+difficult conversions will probably need to have some testing done but that
+will need to be discussed with the subsystem maintainers at the time.
 
-> -				if (0 < pmlmepriv->to_roaming) {
-> +				if (pmlmepriv->to_roaming > 0) {
+Ira
 
-here too
-
->  					continue;
->  				} else {
->  					rtw_indicate_disconnect(padapter);
-
-
+> 
+> 
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >  drivers/staging/media/atomisp/pci/hmm/hmm.c | 14 ++------------
+> >  1 file changed, 2 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> > index 46ac082cd3f1..54188197c3dc 100644
+> > --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> > +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> > @@ -482,10 +482,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
+> >  		idx = (virt - bo->start) >> PAGE_SHIFT;
+> >  		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
+> >  
+> > -		if (in_atomic())
+> > -			des = (char *)kmap_atomic(bo->page_obj[idx].page);
+> > -		else
+> > -			des = (char *)kmap(bo->page_obj[idx].page);
+> > +		des = (char *)kmap_local_page(bo->page_obj[idx].page);
+> >  
+> >  		if (!des) {
+> >  			dev_err(atomisp_dev,
+> > @@ -512,14 +509,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
+> >  
+> >  		clflush_cache_range(des, len);
+> >  
+> > -		if (in_atomic())
+> > -			/*
+> > -			 * Note: kunmap_atomic requires return addr from
+> > -			 * kmap_atomic, not the page. See linux/highmem.h
+> > -			 */
+> > -			kunmap_atomic(des - offset);
+> > -		else
+> > -			kunmap(bo->page_obj[idx].page);
+> > +		kunmap_local(des);
+> >  	}
+> >  
+> >  	return 0;
+> > -- 
+> > 2.34.1
+> > 
+> > 
