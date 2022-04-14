@@ -1,51 +1,52 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32A017D3
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 10:43:53 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id p15so9216924ejc.7
-        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 03:43:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC0117D4
+	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 10:43:54 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id v4so5804643edl.7
+        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 03:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vkswkCkzkfuTkcC/MPeEn0SGFUoxOD74D06SLg3Ufn0=;
-        b=iWlnSum74zWq9k1VdmcjywmgcKKEeTiTo4Edj/3kWQ3mphEoEhp54slxtjXphSS4Ux
-         Tpk8EmwCVTNLptsx6NjCrpCHDZNQ6jSd3E0+BxBZKWJAwwAyueP/wF6bVeJ4QWImzNJh
-         mXraTy9ukq5tEigcDXYUDA4mmw6GMy68jysVh/0OJL6KTe0dJ4TtmnPgAUDzqLclV2ed
-         giaDgrGU8qvaCkc+qfCzSWTPLexpbph+DQdzOg2D0ZPkMl8lYFBT0J6y08Bp42oBp0jz
-         S/ArhcDel9UqRBcFQMtELR3H72iCq16zeHJhOqrC+G4idVxp8wD/7MtPIlh64Q+YLcOS
-         cN2w==
+        bh=W3gIVX2j+QmqthafxJMF0q4aG/MQAnfAXiq7/gIShys=;
+        b=XovvZG/8sCJ8k9pCBYUJ+OHgqqdde5GmmeXkHwJihA7upLfxvh1jDTUiXVdTJdBEiM
+         EJhO78fW/ewzLp554JAnUIaOjDb7usX0v7DyA77Sdret4zAliR1gVhqeQBFssBPuG2f1
+         cRxz+VtIBj3v2woVJfjYNwEVg1zBmCniR9fbfROajydNbZgo89jpvZATvTsRuUJBnC84
+         /TMCCVw8tb/zvMjBBjEdmVUA2LCRmxboea9G0iGDK65uIco0mDhdc8u0Bn30nItCgL2N
+         BLcVgiC24zVGcpOiEkXQQMk3hlQMKOsJIN+VIvT/t+cr+hnICgy9MBClrfwgqlXk77qg
+         XvRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vkswkCkzkfuTkcC/MPeEn0SGFUoxOD74D06SLg3Ufn0=;
-        b=nlig1vUWX/c2/zQvbcd42FZcxIfcvqz7yiFPBZtb7vQR4ZhuxdUpIMcw69cuevRx0b
-         5iOCv4uwXcS5H0tLGjv5JxVLf7wMgBKQX9cWIbigXH27yC6+xZEOwkYMldRpg1F0gZjH
-         Me2mO7ksgMislEfOeGl5BGSp38yUxtcgegOb3Zq650ygNF75+ZjIleBmds4T6klWi75X
-         PlKEhrcY97n8esD4U8hlLsatT09nDn9v+fCakSVCzaSqQRGczMsGNwa0Zu3++v2J2lcU
-         HyJbysENrVhVuw2WhQHus4w78swaEVBldOvb+Mf3yM83VVPaPFpMwkR5s/xIf0HDEuGv
-         +Q0g==
-X-Gm-Message-State: AOAM530I7Nj7Zpb4bZexITrDEQgGTb/PktnPGW7RkDU5zk1lg8xtnk3e
-	hBZyBA3wtamq8AU9/ZObCZU=
-X-Google-Smtp-Source: ABdhPJwSuPzquu8kUAxNyiwAm9/xkpxEyLKBIK+2FStPtDiTfsFEn7Q5tANPnti58aaRIauri31amA==
-X-Received: by 2002:a17:906:52c7:b0:6ce:a880:50a3 with SMTP id w7-20020a17090652c700b006cea88050a3mr1728945ejn.437.1649933032340;
-        Thu, 14 Apr 2022 03:43:52 -0700 (PDT)
+        bh=W3gIVX2j+QmqthafxJMF0q4aG/MQAnfAXiq7/gIShys=;
+        b=PpZntyKzgZIsdWQhI/Hmu24q/9ZckGrTC4vWecGggh6HU3r4bT4Ty5II88IgFS6Owk
+         Lb8BPuoG2J6iEMwWs+94gxl1yorCa6ULWYg0OVNoFhRghaYNSiCC2DqBgQta39lSI1Qc
+         67PGhXpiVfODbmG2Vff840UB5+lXXURwgYzAAOVmdarDzumZzPAOv3i5OAiPNMziIjlp
+         BVkiVPjSSjfBjvP6CRvgT86lhBxtgM4i9vxX2n5Saw7d1rBoJDQP9fx3S3mx+Wkg3nIX
+         duC/LpwIzRgrq0HOWXunU7P46fWUuw9RQ67HJkrolQrbnRjgw8p039JbkS4UN6AHavGs
+         LJsA==
+X-Gm-Message-State: AOAM532nUSZEE7OJiWvCyRunPbnKqNdjIVIck/thMhB3QFCO8CJgPthC
+	wYOLlQjaXb0ihmM6nSEnr70=
+X-Google-Smtp-Source: ABdhPJxVyX5PxwakbXcEFYaxnu2B2+HCic+kNvRI1uhHPcpT1aWcCf5Cp8CfvubY2cTb78IH6B5NCg==
+X-Received: by 2002:a05:6402:438d:b0:419:4550:d52b with SMTP id o13-20020a056402438d00b004194550d52bmr2219466edc.83.1649933033138;
+        Thu, 14 Apr 2022 03:43:53 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
-        by smtp.gmail.com with ESMTPSA id h9-20020aa7c949000000b0041b4d8ae50csm821318edt.34.2022.04.14.03.43.51
+        by smtp.gmail.com with ESMTPSA id h9-20020aa7c949000000b0041b4d8ae50csm821318edt.34.2022.04.14.03.43.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 03:43:51 -0700 (PDT)
+        Thu, 14 Apr 2022 03:43:52 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
 	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 7/8] staging: r8188eu: check firmware header existence before access
-Date: Thu, 14 Apr 2022 12:43:22 +0200
-Message-Id: <20220414104323.6152-8-straube.linux@gmail.com>
+	Michael Straube <straube.linux@gmail.com>,
+	David Laight <David.Laight@ACULAB.COM>
+Subject: [PATCH v2 8/8] staging: r8188eu: check rt_firmware_hdr size at compile time
+Date: Thu, 14 Apr 2022 12:43:23 +0200
+Message-Id: <20220414104323.6152-9-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220414104323.6152-1-straube.linux@gmail.com>
 References: <20220414104323.6152-1-straube.linux@gmail.com>
@@ -57,38 +58,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We should access the fields of fwhdr only if the check for firmware
-header existence is true. Move the affected code into the if block
-that checks firmware header existence.
+Check the size of struct rt_firmware_hdr at compile time since
+we rely on the size to be 32 in rtl8188e_firmware_download().
 
+Suggested-by: David Laight <David.Laight@ACULAB.COM>
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_fw.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/staging/r8188eu/core/rtw_fw.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
-index 64963507a346..c58bce1a1856 100644
+index c58bce1a1856..4417375a158d 100644
 --- a/drivers/staging/r8188eu/core/rtw_fw.c
 +++ b/drivers/staging/r8188eu/core/rtw_fw.c
-@@ -249,14 +249,13 @@ int rtl8188e_firmware_download(struct adapter *padapter)
- 	fw_data = dvobj->firmware.data;
- 	fw_size = dvobj->firmware.size;
+@@ -34,6 +34,8 @@ struct rt_firmware_hdr {
+ 	__le32	rsvd5;
+ };
  
--	/*  To Check Fw header. Added by tynli. 2009.12.04. */
- 	fwhdr = (struct rt_firmware_hdr *)dvobj->firmware.data;
- 
--	pr_info("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
--		DRIVER_PREFIX, le16_to_cpu(fwhdr->version), fwhdr->subversion,
--		le16_to_cpu(fwhdr->signature));
--
- 	if (IS_FW_HEADER_EXIST(fwhdr)) {
-+		pr_info("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
-+			DRIVER_PREFIX, le16_to_cpu(fwhdr->version), fwhdr->subversion,
-+			le16_to_cpu(fwhdr->signature));
++static_assert(sizeof(struct rt_firmware_hdr) == 32);
 +
- 		fw_data = fw_data + sizeof(struct rt_firmware_hdr);
- 		fw_size = fw_size - sizeof(struct rt_firmware_hdr);
- 	}
+ static void fw_download_enable(struct adapter *padapter, bool enable)
+ {
+ 	u8 tmp;
 -- 
 2.35.1
 
