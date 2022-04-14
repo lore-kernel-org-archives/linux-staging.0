@@ -1,47 +1,48 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA617A
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 15:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319F82F28
+	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 15:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1649949834;
+	s=mimecast20190719; t=1649949836;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dJ952WGOXndZeyhd9vxjBUmOeHfnPduqI8EF8AuKcTY=;
-	b=fTYce2oGfysGpn22xL4fm4x5aFyijJc7A03IyswqT8/laUWMFv4A1dxdI4udO4ZkcaEN7P
-	U5+w0Elj+kTwqJIuZvBYQH6xKWDKZk/Zlyih9ZKaEVu7yhSSKqTV51ox9UinwVkG7R5Ozv
-	HAdklqg/UHikEs2w08NuJNAMxd2U2AI=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IGRJLz7z/3jGasxkIFljjT/M7YCjB3xjYdcrHt5JsPY=;
+	b=Iq2G0k7sijaiAiim8BX4ZFhpFpYonhUs+OqKnpE9yF8n0S/Gd8S0poxjNvNvJYdDkK55Bc
+	5ynnxqP5zev3NpeZidE6tZlqXizmZiFlu/fXeRfkXVvbLvVTwOpD1sfINQn3wi0Q1zZcD/
+	r4KWQAeGEwa7NCy3W9/JlyMQwzt3iQA=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-EfET2_SOMi6wIjzkQxQzSQ-1; Thu, 14 Apr 2022 11:23:53 -0400
-X-MC-Unique: EfET2_SOMi6wIjzkQxQzSQ-1
-Received: by mail-qv1-f69.google.com with SMTP id z12-20020a0ce60c000000b0044632eb79b3so213755qvm.7
-        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 08:23:53 -0700 (PDT)
+ us-mta-479-TOab3pKnP4iUZhFdN87_nA-1; Thu, 14 Apr 2022 11:23:55 -0400
+X-MC-Unique: TOab3pKnP4iUZhFdN87_nA-1
+Received: by mail-qv1-f71.google.com with SMTP id 33-20020a0c8024000000b0043d17ffb0bdso4602815qva.18
+        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 08:23:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dJ952WGOXndZeyhd9vxjBUmOeHfnPduqI8EF8AuKcTY=;
-        b=L6413ABhaR7wrUSd5U5+ZEiVW7B84dbnekF6DPSKlBwfA0LzgB4sjlrB7Ct7RnKnYi
-         2w7po75n60t+vD6+sn9Xp+ftZ1eydJrGVQd0Q0Q2im5/RgiOCu0TQxuPC1maERGTzhRl
-         dhNqiWa4rvcsP2/8aT1ITZCm6L1JxOhe2rxzGeNpJtFNwNhuYZfaQMotlNPsWRfRre+h
-         er5E+Q2fO3fh5OV8Ho4u7d6j+K3q6cA23uZoYirboO9USJhcUYO4JDB6ShLJ1MVrhFMG
-         S+krb2slzDdwgPZWpBmv6ZZEvU/D/wtASuz24kAzA8Zb0E7mf79d0tCwBZTS59J58lS9
-         CRaw==
-X-Gm-Message-State: AOAM531g0eYqn6m51G5MjvJlSJ8jm9io0vo3YXXTo+dIO37htclDf1Md
-	lHiCI2wtaLHIL7zdEnnoj2jvMZxrG5A0cAEaKX/9J7t06s/WqmRzXSyd+ky7fQRbR3ILLN8pplS
-	58wjohhSnh7laByvTKOsdHnIFeQ==
-X-Received: by 2002:a0c:b2d7:0:b0:443:afac:fc60 with SMTP id d23-20020a0cb2d7000000b00443afacfc60mr3750479qvf.58.1649949833142;
-        Thu, 14 Apr 2022 08:23:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzDfFqGhctIMuMkohOJTACk8HeRnuayiX/2TbehKgCD7SAbsugdHp+eT2bykwpixK0AJIEDHg==
-X-Received: by 2002:a0c:b2d7:0:b0:443:afac:fc60 with SMTP id d23-20020a0cb2d7000000b00443afacfc60mr3750456qvf.58.1649949832926;
-        Thu, 14 Apr 2022 08:23:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=IGRJLz7z/3jGasxkIFljjT/M7YCjB3xjYdcrHt5JsPY=;
+        b=1yXXs0i1MNeiHiFVTJ488z38A5/O6Jie5CWNAJ3u18c72lDVjlIYsDRBpoun9IqY/V
+         Fv94zHV04PjrcWGl0sIDj22fPdlKDtE/Vl7imp7m5IMWDwn2Pc3asGAVXBvfZ4GYde87
+         JHYrqD5Bxc4nPjltKEqHWRO3/7qn9UJT4ghLMm+EP9AdAG9t7C07aPvOU7sj5CfXrwtY
+         bI2EMcVxnG2jlsmDu6mFRayZXfnYUtAPFnG4IJdbA+rQw3DCMH7tbKD6OLmCGib9oOkv
+         H/h/N4PtvmOvvT00lerHC4mEJjWWnIPcfsRHcIT4ybBpeN+5dhtsYAKSZQmQRfHgEZAU
+         HjZg==
+X-Gm-Message-State: AOAM530SsyAcba+6J4xj5n3YH/ZrjjkWDvLrmvxp/Y/8n8O1/7wsJkV+
+	sQ9pyVTPSliJjpVQUuouEdoX2yGxGCUgZ3iIDdNJb1UfQs1iwNk3Q7T0aq6HFH3P2DkY7O0N6FL
+	llShrgjyGQjFTWb0ggiGzOePFbg==
+X-Received: by 2002:ad4:5dc7:0:b0:443:6f15:fe32 with SMTP id m7-20020ad45dc7000000b004436f15fe32mr3852113qvh.6.1649949834648;
+        Thu, 14 Apr 2022 08:23:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxDIMnHIaFBi6EAQ93deNI9TIf/lTnkCTwd5RkyfWbj4eTfNhDjJwcfrcjQzxV8pE0w7SpAiw==
+X-Received: by 2002:ad4:5dc7:0:b0:443:6f15:fe32 with SMTP id m7-20020ad45dc7000000b004436f15fe32mr3852106qvh.6.1649949834481;
+        Thu, 14 Apr 2022 08:23:54 -0700 (PDT)
 Received: from fedora.redhat.com (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id p5-20020a378d05000000b0069beaffd5b3sm1166038qkd.4.2022.04.14.08.23.52
+        by smtp.gmail.com with ESMTPSA id p5-20020a378d05000000b0069beaffd5b3sm1166038qkd.4.2022.04.14.08.23.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 08:23:52 -0700 (PDT)
+        Thu, 14 Apr 2022 08:23:54 -0700 (PDT)
 From: Adrien Thierry <athierry@redhat.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Nicolas Saenz Julienne <nsaenz@kernel.org>,
@@ -56,10 +57,12 @@ Cc: linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Adrien Thierry <athierry@redhat.com>
-Subject: [PATCH 0/2] staging: bcm2835-audio: minor code style cleanups
-Date: Thu, 14 Apr 2022 11:23:38 -0400
-Message-Id: <20220414152340.68932-1-athierry@redhat.com>
+Subject: [PATCH 1/2] staging: bcm2835-audio: fully describe config symbol
+Date: Thu, 14 Apr 2022 11:23:39 -0400
+Message-Id: <20220414152340.68932-2-athierry@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220414152340.68932-1-athierry@redhat.com>
+References: <20220414152340.68932-1-athierry@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,23 +76,35 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-This series contains minor code style cleanups to fix checkpatch warnings.
+Explain SND_BCM2835 config option in more detail, especially the
+implications of using the bcm2835-audio driver in conjunction with vc4
+for HDMI audio.
 
-This handles TODO item "Fix the remaining checkpatch.pl errors and
-warnings"
+Reported by checkpatch:
 
-Adrien Thierry (2):
-  staging: bcm2835-audio: fully describe config symbol
-  staging: bcm2835-audio: clean code style warnings
+WARNING: please write a help paragraph that fully describes the config
+symbol
+FILE: drivers/staging/vc04_services/bcm2835-audio/Kconfig:2
 
- drivers/staging/vc04_services/bcm2835-audio/Kconfig         | 5 ++++-
- drivers/staging/vc04_services/bcm2835-audio/bcm2835-pcm.c   | 5 ++---
- drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c | 2 +-
- drivers/staging/vc04_services/bcm2835-audio/bcm2835.h       | 2 +-
- 4 files changed, 8 insertions(+), 6 deletions(-)
+Signed-off-by: Adrien Thierry <athierry@redhat.com>
+---
+ drivers/staging/vc04_services/bcm2835-audio/Kconfig | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-
-base-commit: 194193dd06848c1839d928090cb2032eec8b2f9c
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/Kconfig b/drivers/staging/vc04_services/bcm2835-audio/Kconfig
+index d32ea348e846..7cd0b3c0cae4 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/Kconfig
++++ b/drivers/staging/vc04_services/bcm2835-audio/Kconfig
+@@ -5,5 +5,8 @@ config SND_BCM2835
+ 	select SND_PCM
+ 	select BCM2835_VCHIQ
+ 	help
+-	  Say Y or M if you want to support BCM2835 built in audio
++	  Say Y or M if you want to support BCM2835 built in audio.
++	  This driver handles both 3.5mm and HDMI audio. However, please
++	  note that when HDMI audio is enabled with this driver, the vc4
++	  driver cannot be used simultaneously, otherwise HDMI will break.
+ 
 -- 
 2.35.1
 
