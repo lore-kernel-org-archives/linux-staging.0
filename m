@@ -1,116 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBA615A5;
-	Thu, 14 Apr 2022 07:14:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1249AC385A1;
-	Thu, 14 Apr 2022 07:14:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1649920472;
-	bh=6Ulq4vPvSESlovf/0Mf+v1wW/ppPfl/Olm8QJqcUudo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=weXBD1jFcrp67Qmlcl0/y/ARiIuY/V9yXtNos3KhgK3xIFr5sfdvvuAHutvXCHnap
-	 BVKmJ1kkNkeyX3+jd54gscUpuydjv6WJlOchORNfLtdm07CqAxxu1lRoMAaShaRCGc
-	 aBDWkeDC61h9NB6ACFVxuJ0O03TwWw+LkTRxrZKs=
-Date: Thu, 14 Apr 2022 09:14:29 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	David Kershner <david.kershner@unisys.com>,
-	sparmaintainer@unisys.com
-Subject: Re: [PATCH v2] staging: Remove the drivers for the Unisys s-Par
-Message-ID: <YlfJ1UQQQeYBvTHV@kroah.com>
-References: <20220413080111.13861-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C523615A5;
+	Thu, 14 Apr 2022 08:02:20 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:aefc:13d9:b947:5c76] (unknown [IPv6:2a01:e0a:120:3210:aefc:13d9:b947:5c76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3BEE71F4769C;
+	Thu, 14 Apr 2022 09:02:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649923332;
+	bh=RFbpJ1I3WcLfiaLAFsi5mngxuqlpAEWsg+scuunDdh0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=h8EFezQvks1gbQPoLnNC7+mQWwxiIL7tgJAYg1wM4DO6W3p04jUnqdzJHFuP+2Eok
+	 HBMA0Hrhu/0zDNIhPqpZHVxSXgsI19s+v5Dr94Pnmcy5fd5cqL0J2tq9arjY8o5MN8
+	 1zvdytWoIzP6jfGapogPmuJr8PCtUWUL+zUpISopHYK3HXtnrXGufbdHKk0iFNxoJl
+	 QjZxU0Wi1fANKP8G2MVXrqcZANK8NQBD+vVXHPrggQgpphrjJdUKyt1nYV3PcHgWen
+	 D2Lz5+8e5L0mM/eAUmux1YRVefz473o6bgfemDRqlY+nTDEKEoiN7stgTC/cAyw/dJ
+	 2HMUq7UZmE29A==
+Message-ID: <7a32fd89-a90f-d921-1f0b-e0eaeb9db71e@collabora.com>
+Date: Thu, 14 Apr 2022 10:02:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220413080111.13861-1-fmdefrancesco@gmail.com>
-
-On Wed, Apr 13, 2022 at 10:01:11AM +0200, Fabio M. De Francesco wrote:
-> The Unisys sub-tree contains three drivers for the "Unisys Secure Partition"
-> (s-Par(R)): visorhba, visorinput, visornic.
-> 
-> They have no maintainers, in fact the only one that is listed in MAINTAINERS
-> has an unreacheable email address. During 2021 and 2022 several patches have
-> been submitted to these drivers but nobody at Unisys cared of reviewing the
-> changes. Probably, also the "sparmaintainer" internal list of unisys.com is
-> not anymore read by interested Unisys' engineers.
-> 
-> Therefore, remove the ./unisys subdirectory and delete the relevant entries
-> in the MAINTAINERS, Kconfig, Makefile files.
-> 
-> Cc: David Kershner <david.kershner@unisys.com>
-> Cc: sparmaintainer@unisys.com
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
-> 
-> v1->v2: Add two "Cc:" lines, one to David Kershner and the second to the
-> "sparmaintainer" list at unisys.com, as requested by Greg Kroah-Hartman.
-> 
->  MAINTAINERS                                   |    8 -
->  drivers/staging/Kconfig                       |    2 -
->  drivers/staging/Makefile                      |    1 -
->  .../ABI/sysfs-platform-visorchipset           |   89 -
->  .../staging/unisys/Documentation/overview.txt |  337 ---
->  drivers/staging/unisys/Kconfig                |   16 -
->  drivers/staging/unisys/MAINTAINERS            |    5 -
->  drivers/staging/unisys/Makefile               |    7 -
->  drivers/staging/unisys/TODO                   |   16 -
->  drivers/staging/unisys/include/iochannel.h    |  571 -----
->  drivers/staging/unisys/visorhba/Kconfig       |   15 -
->  drivers/staging/unisys/visorhba/Makefile      |   10 -
->  .../staging/unisys/visorhba/visorhba_main.c   | 1142 ---------
->  drivers/staging/unisys/visorinput/Kconfig     |   16 -
->  drivers/staging/unisys/visorinput/Makefile    |    7 -
->  .../staging/unisys/visorinput/visorinput.c    |  788 ------
->  drivers/staging/unisys/visornic/Kconfig       |   16 -
->  drivers/staging/unisys/visornic/Makefile      |   10 -
->  .../staging/unisys/visornic/visornic_main.c   | 2131 -----------------
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
+ definition in v4l2_hevc_dpb_entry
+Content-Language: en-US
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, mchehab@kernel.org,
+ hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ sebastian.fricke@collabora.com
+References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
+ <20220407152940.738159-7-benjamin.gaignard@collabora.com>
+ <34f586efdd6401b509cf11fba75039d5494c4eff.camel@collabora.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <34f586efdd6401b509cf11fba75039d5494c4eff.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+Le 08/04/2022 à 18:33, Nicolas Dufresne a écrit :
+> Le jeudi 07 avril 2022 à 17:29 +0200, Benjamin Gaignard a écrit :
+>> HEVC specifications say that:
+>> "PicOrderCntVal is derived as follows:
+>> PicOrderCntVal = PicOrderCntMsb + slice_pic_order_cnt_lsb
+>> The value of PicOrderCntVal shall be in the range of −231 to 231 − 1, inclusive."
+>>
+>> To match with these definitions change __u16 pic_order_cnt[2]
+>> into __s32 pic_order_cnt_val.
+> You forgot to update the slice_params->slice_pic_order_count.
 
->  19 files changed, 5187 deletions(-)
->  delete mode 100644 drivers/staging/unisys/Documentation/ABI/sysfs-platform-visorchipset
->  delete mode 100644 drivers/staging/unisys/Documentation/overview.txt
->  delete mode 100644 drivers/staging/unisys/Kconfig
->  delete mode 100644 drivers/staging/unisys/MAINTAINERS
->  delete mode 100644 drivers/staging/unisys/Makefile
->  delete mode 100644 drivers/staging/unisys/TODO
->  delete mode 100644 drivers/staging/unisys/include/iochannel.h
->  delete mode 100644 drivers/staging/unisys/visorhba/Kconfig
->  delete mode 100644 drivers/staging/unisys/visorhba/Makefile
->  delete mode 100644 drivers/staging/unisys/visorhba/visorhba_main.c
->  delete mode 100644 drivers/staging/unisys/visorinput/Kconfig
->  delete mode 100644 drivers/staging/unisys/visorinput/Makefile
->  delete mode 100644 drivers/staging/unisys/visorinput/visorinput.c
->  delete mode 100644 drivers/staging/unisys/visornic/Kconfig
->  delete mode 100644 drivers/staging/unisys/visornic/Makefile
->  delete mode 100644 drivers/staging/unisys/visornic/visornic_main.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3ed62dcd144e..a62da6d0f943 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20183,14 +20183,6 @@ F:	drivers/cdrom/cdrom.c
->  F:	include/linux/cdrom.h
->  F:	include/uapi/linux/cdrom.h
->  
-> -UNISYS S-PAR DRIVERS
-> -M:	David Kershner <david.kershner@unisys.com>
-> -L:	sparmaintainer@unisys.com (Unisys internal)
-> -S:	Supported
-> -F:	drivers/staging/unisys/
-> -F:	drivers/visorbus/
+Thanks it will be in v6
 
-You forgot to delete the files in this directory as well :(
+Benjamin
 
-thanks,
-
-greg k-h
+>
+> Nicolas
+>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> version 5:
+>> - change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
+>>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
+>>   drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
+>>   drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
+>>   drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
+>>   include/media/hevc-ctrls.h                        | 2 +-
+>>   5 files changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> index c524af41baf5..6f3c774aa3d9 100644
+>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> @@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>>   	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
+>>   	 */
+>>   	for (i = 0; i < decode_params->num_active_dpb_entries && i < ARRAY_SIZE(cur_poc); i++) {
+>> -		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt[0];
+>> +		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt_val;
+>>   
+>>   		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
+>>   	}
+>> @@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>>   	dpb_longterm_e = 0;
+>>   	for (i = 0; i < decode_params->num_active_dpb_entries &&
+>>   	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
+>> -		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
+>> +		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val);
+>>   		if (!luma_addr)
+>>   			return -ENOMEM;
+>>   
+>> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+>> index b6ec86d03d91..fadd40768579 100644
+>> --- a/drivers/staging/media/hantro/hantro_hevc.c
+>> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+>> @@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+>>   }
+>>   
+>>   dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+>> -				   int poc)
+>> +				   s32 poc)
+>>   {
+>>   	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+>>   	int i;
+>> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>> index ed018e293ba0..a648c529662b 100644
+>> --- a/drivers/staging/media/hantro/hantro_hw.h
+>> +++ b/drivers/staging/media/hantro/hantro_hw.h
+>> @@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
+>>   	struct hantro_aux_buf tile_bsd;
+>>   	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
+>>   	struct hantro_aux_buf scaling_lists;
+>> -	int ref_bufs_poc[NUM_REF_PICTURES];
+>> +	s32 ref_bufs_poc[NUM_REF_PICTURES];
+>>   	u32 ref_bufs_used;
+>>   	struct hantro_hevc_dec_ctrls ctrls;
+>>   	unsigned int num_tile_cols_allocated;
+>> @@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+>>   void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+>>   int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+>>   int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+>> -dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+>> +dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+>>   int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+>>   void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+>>   size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> index 44f385be9f6c..d04521ffd920 100644
+>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> @@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct cedrus_ctx *ctx,
+>>   	for (i = 0; i < num_active_dpb_entries; i++) {
+>>   		int buffer_index = vb2_find_timestamp(vq, dpb[i].timestamp, 0);
+>>   		u32 pic_order_cnt[2] = {
+>> -			dpb[i].pic_order_cnt[0],
+>> -			dpb[i].pic_order_cnt[1]
+>> +			dpb[i].pic_order_cnt_val & 0xffff,
+>> +			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
+>>   		};
+>>   
+>>   		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
+>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>> index b3540167df9e..2812778b41f4 100644
+>> --- a/include/media/hevc-ctrls.h
+>> +++ b/include/media/hevc-ctrls.h
+>> @@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
+>>   	__u64	timestamp;
+>>   	__u8	flags;
+>>   	__u8	field_pic;
+>> -	__u16	pic_order_cnt[2];
+>> +	__s32	pic_order_cnt_val;
+>>   	__u8	padding[2];
+>>   };
+>>   
