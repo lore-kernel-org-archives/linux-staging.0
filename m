@@ -1,109 +1,137 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222847B
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 08:42:27 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id q19so4203796pgm.6
-        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 01:42:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828BA7B;
+	Thu, 14 Apr 2022 09:03:40 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id r13so8788463ejd.5;
+        Thu, 14 Apr 2022 02:03:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=eJD0zgkQOtvBhg3kkOLY0JJ5fnzikCWkGfIBVnyjkyw=;
-        b=SCIe2hRXByLjvsqBzSZB8ICjWmUkFlhXp81uju/X73gpEf7+GXrqi7qZaRfAvRbmmv
-         CetmkAcq0whO6+BuZ0hVskN5LnbAgMzQyQ9M5bm43arg9HMj1pRUOk0NcPK23mgMMuVH
-         vVkJL1zM47Uak2yYkRL1YAsfWYJAPWoo4xO5vN1Ni8WKsE5p5lTBYMAM1U2H5zZP0f/i
-         U+PoM13iz1cXb0Uxdo/47d/mdTvPebCo7A5WU5/bwNCIQIA2P5WwPKGHq9cVX5Gg/2np
-         H/PVeT0K1EcLLD9qzwRoXG37EOUCXnqmp1ilsYzR9yrUQSBTGjA5G8twgHwRBlH5ruVV
-         k2RA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9u7qw4yp00eYY5QfUw6RMbFSecwCVYTFJ19bEl/qjdM=;
+        b=AeKpdJKEodMNW2v4OrFzSphwYbliqKh3Sb491uSvXD6kjTpGBShcuurHxzXApjAm/7
+         9gsi/w8Quy6dIfB/9Xrn0xDLMFWRJ334ZhY+EZ0d65IRGoRmrvB/g3J4RaS/7gR/xzTC
+         Mu27Wi/qyqXdahzyu5oH3cZZckQ/sle14p3A+7JGeR6ANrPKidpJJ8ssZFfMg+1pwu/e
+         Ypiob70EBAgmGfJfpTlNyMtltBCr2EEm+isaiR6ds38HQ0L2OqdRjcjyjinOmQk8zp26
+         xfjsQlvZAL0AlS7M2KV+jVFII5qIigTJ4Fa1NBhr0umX/LlD5nQkSw8ACrUlNLDjNVca
+         JT3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=eJD0zgkQOtvBhg3kkOLY0JJ5fnzikCWkGfIBVnyjkyw=;
-        b=QZtCGnmi3cmds/OrEdHKFUJX1r1wub1Jm3A5ECmV8rB+H38ndKVzPr4Yo8jNLqAjC8
-         ixtFJbPd5gqSCUJhgJlvJRlpgZICeOxqBDTdw4By1KIMu14EZs/oCxp333dFb4kND1yi
-         c5+aBTL53viXp3MMsj/yznSUsKuIwEd2V3bSZX3tjyHKcSVoUFgB/IzcIifHq2aRufBy
-         RIp4C4u+rR7zUDtAPWBasNsViOjKvwn96CypCfdwNZ/9BSQmJROI0JI8+zsoZPpG0Tgd
-         sjWh0n615KyaZGsCYTnk1C2dRgtWno+cOBRHrBXbkmfnQ3XgZWdhk1Eomm+RxMbtQEqG
-         psuw==
-X-Gm-Message-State: AOAM5309isJgKnx0KYrLQJDyhJ+NVncUdosiQlzuQnmKJOaAC+A8esXy
-	O0mVru44mf4rbYxBmDPBbZg=
-X-Google-Smtp-Source: ABdhPJzaVPhzdnr/iDGxWIFtI6vG92JfkSadUCnYnYRQ315Q+PYJtunuyJakOXPgkdCr8swJOmxEXw==
-X-Received: by 2002:a63:e051:0:b0:382:6aff:229a with SMTP id n17-20020a63e051000000b003826aff229amr1413694pgj.493.1649925746625;
-        Thu, 14 Apr 2022 01:42:26 -0700 (PDT)
-Received: from localhost.localdomain ([119.3.119.18])
-        by smtp.googlemail.com with ESMTPSA id rm5-20020a17090b3ec500b001c7559762e9sm4977308pjb.20.2022.04.14.01.42.23
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9u7qw4yp00eYY5QfUw6RMbFSecwCVYTFJ19bEl/qjdM=;
+        b=aZi7984CDyE7B2hEV6GhhpwHa+DMowRqVU6Akc0E7UTRBzCgT7/Tq2AlAkYs7yPZfv
+         CjWdfaNAcgf2Ikc6J8Xz3WOui5q5Jrc2Yn7rdJuCKqp0gz5eL6HPt951+/E8wPgrI15H
+         Amk8UzSzIllXMiAEBH0Dv7dqJ9hq5TXnKHlfon55vXCM1YsZhDRJjanCg+q6Ig8rRpFy
+         g3IDbn5Vp7t6RuJzew2q67AX+ZaZCfdtIlzxrrdMka2YVZ1rhygIo3mn1NthPbrY6oVu
+         THTMDhCqzFElYxHR5ln+1TmgX+8Cz4IdvGdrDmlUeuN+9cePCngl9wkP9d0YcB8soTpS
+         A80A==
+X-Gm-Message-State: AOAM532dn3PIrvupF5g1TNlfahUJ6PLFhv1weWe23BH4jtZzB09Lqdkb
+	eFCkGMlzxMUL/Rpc9/+5z4M=
+X-Google-Smtp-Source: ABdhPJxClkNKCFq2g+KTlgIrqxgJ2pli/Y86+JHuXOupIt/wTAfEaxcHxqIwG0S0s6bhMpHN9LCfkQ==
+X-Received: by 2002:a17:907:6095:b0:6e7:cc3f:c33d with SMTP id ht21-20020a170907609500b006e7cc3fc33dmr1505722ejc.570.1649927018678;
+        Thu, 14 Apr 2022 02:03:38 -0700 (PDT)
+Received: from leap.localnet (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
+        by smtp.gmail.com with ESMTPSA id s4-20020a170906a18400b006db0a78bde8sm436003ejy.87.2022.04.14.02.03.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 01:42:25 -0700 (PDT)
-From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To: vaibhav.sr@gmail.com,
-	dan.carpenter@oracle.com,
-	mgreer@animalcreek.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaomeng Tong <xiam0nd.tong@gmail.com>
-Subject: [PATCH v2] greybus: audio_codec: initialize data to silence static checker warnings
-Date: Thu, 14 Apr 2022 16:42:19 +0800
-Message-Id: <20220414084219.13501-1-xiam0nd.tong@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 14 Apr 2022 02:03:37 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Ira Weiny <ira.weiny@intel.com>, Julia Lawall <julia.lawall@inria.fr>
+Cc: Alison Schofield <alison.schofield@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tsuchiya Yuto <kitakar@gmail.com>, Martiros Shakhzadyan <vrzh@vrzh.net>, Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+Date: Thu, 14 Apr 2022 11:03:35 +0200
+Message-ID: <4180675.ejJDZkT8p0@leap>
+In-Reply-To: <alpine.DEB.2.22.394.2204140902030.3023@hadrien>
+References: <20220413225531.9425-1-fmdefrancesco@gmail.com> <Yld+wpMe1C51bKU3@iweiny-desk3> <alpine.DEB.2.22.394.2204140902030.3023@hadrien>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="US-ASCII"
 
-These three declares are here:
-	struct gbaudio_data_connection *data;
+On gioved? 14 aprile 2022 09:03:40 CEST Julia Lawall wrote:
+> 
+> On Wed, 13 Apr 2022, Ira Weiny wrote:
+> 
+> > On Wed, Apr 13, 2022 at 05:44:54PM -0700, Alison Schofield wrote:
+> > > On Thu, Apr 14, 2022 at 12:55:31AM +0200, Fabio M. De Francesco 
+wrote:
+> > > > The use of kmap() is being deprecated in favor of kmap_local_page()
+> > > > where it is feasible. The same is true for kmap_atomic().
+> > > >
+> > > > In file pci/hmm/hmm.c, function hmm_store() test if we are in 
+atomic
+> > > > context and, if so, it calls kmap_atomic(), if not, it calls 
+kmap().
+> > > >
+> > > > First of all, in_atomic() shouldn't be used in drivers. This macro
+> > > > cannot always detect atomic context; in particular, it cannot know
+> > > > about held spinlocks in non-preemptible kernels.
+> > > >
+> > > > Notwithstanding what it is said above, this code doesn't need to 
+care
+> > > > whether or not it is executing in atomic context. It can simply use
+> > > > kmap_local_page() / kunmap_local() that can instead do the mapping 
+/
+> > > > unmapping regardless of the context.
+> > > >
+> > > > With kmap_local_page(), the mapping is per thread, CPU local and 
+not
+> > > > globally visible. Therefore, hmm_store()() is a function where the 
+use
+> > > > of kmap_local_page() in place of both kmap() and kmap_atomic() is
+> > > > correctly suited.
+> > > >
+> > > > Convert the calls of kmap() / kunmap() and kmap_atomic() /
+> > > > kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
+> > > > unnecessary tests which test if the code is in atomic context.
+> > > >
+> > >
+> > > Not specifically about this patch, but more generally about all
+> > > such conversions - is there a 'proof' that shows this just works
+> >
+> > Just code inspection.  Most of them that I have done have been compile 
+tested
+> > only.  Part of the key is that des is a local variable and is not 
+aliased by
+> > anything outside this function.
+> 
+> Typically, the concern about being in atomic context has to do with
+> whether GFP_KERNEL or GFP_ATOMIC should be used, ie whether allocation 
+> can sleep.  
 
-Since all three of these functions check for if the codec->module_list is
-empty at the start of the function so these are not real bugs to bypass
-'if (!data) {'. To avoid static checker warnings like Smatch, initialize
-the data with NULL.
+I'd add that the concern about being in atomic context has mainly to do 
+with calling whatever function that may sleep. 
 
-Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
----
-changes since v1:
- - not bug, but can avoid warnnings (Dan Carpenter)
+Some time ago I analyzed a calls chain which, under spinlocks and with 
+IRQ's disabled, led to console_lock() which is annotated with 
+might_sleep(). It took about 8000 ms to recover when executing in a 4 CPU / 
+8 SMT System. Linus T. suggested to make this work asynchronous (commit 
+1ee33b1ca2b8 ("tty: n_hdlc: make n_hdlc_tty_wakeup() asynchronous")).
 
-v1: https://lore.kernel.org/lkml/20220327060120.4316-1-xiam0nd.tong@gmail.com/
----
- drivers/staging/greybus/audio_codec.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> It doesn't have to do with whether some data can be shared.  
 
-diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
-index b589cf6b1d03..939e05af4dcf 100644
---- a/drivers/staging/greybus/audio_codec.c
-+++ b/drivers/staging/greybus/audio_codec.c
-@@ -397,7 +397,7 @@ static int gbcodec_hw_params(struct snd_pcm_substream *substream,
- 	u8 sig_bits, channels;
- 	u32 format, rate;
- 	struct gbaudio_module_info *module;
--	struct gbaudio_data_connection *data;
-+	struct gbaudio_data_connection *data = NULL;
- 	struct gb_bundle *bundle;
- 	struct gbaudio_codec_info *codec = dev_get_drvdata(dai->dev);
- 	struct gbaudio_stream_params *params;
-@@ -498,7 +498,7 @@ static int gbcodec_prepare(struct snd_pcm_substream *substream,
- {
- 	int ret;
- 	struct gbaudio_module_info *module;
--	struct gbaudio_data_connection *data;
-+	struct gbaudio_data_connection *data = NULL;
- 	struct gb_bundle *bundle;
- 	struct gbaudio_codec_info *codec = dev_get_drvdata(dai->dev);
- 	struct gbaudio_stream_params *params;
-@@ -562,7 +562,7 @@ static int gbcodec_prepare(struct snd_pcm_substream *substream,
- static int gbcodec_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
- {
- 	int ret;
--	struct gbaudio_data_connection *data;
-+	struct gbaudio_data_connection *data = NULL;
- 	struct gbaudio_module_info *module;
- 	struct gb_bundle *bundle;
- 	struct gbaudio_codec_info *codec = dev_get_drvdata(dai->dev);
--- 
-2.17.1
+Yes, FWIW I agree with you.
+
+> Is that the concern here?
+
+The concern here is about the locality of the pointer variable to which the 
+struct page has been mapped to. In atomic context we are not allowed to 
+kmap() (this is why in the code we had that in_atomic() test), instead we 
+can kmap_local_page() or kmap_atomic(). The latter is strongly discouraged 
+in favor of the former.
+
+Furthermore, Alison was asking if we can prove that these kinds of 
+conversions can actually work when we have not the hardware for testing. As 
+Ira wrote, code inspection is sufficient to prove it.
+
+Thanks,
+
+Fabio M. De Francesco
+
+
 
