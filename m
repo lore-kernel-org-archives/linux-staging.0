@@ -1,153 +1,77 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3574B7A
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 15:24:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1649949840;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ymoHjSbTJfTWENDrZAMakMAu3NTQlX8fnQuTkXZ1c+0=;
-	b=X/SjFsVZc4vUzF5RUlsVUjB3rfNvJDVfQAuiOxuT3sLz76TxA9pspcynJrtW03rI8ytSq3
-	CT0O++YOTtFAwe+9FmdhvbgAENlrUiJqoJXHqJOJKZJ3A7IvzKc3TGFN8xtlHAmklao0/5
-	gb6hRTCaGjLlMbs42fAQhfDpokyD6JQ=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-73-DLgNRyBzPlaNAszkMR6F4A-1; Thu, 14 Apr 2022 11:23:57 -0400
-X-MC-Unique: DLgNRyBzPlaNAszkMR6F4A-1
-Received: by mail-qv1-f71.google.com with SMTP id b9-20020a0cfe69000000b00443cff31dfaso4654393qvv.5
-        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 08:23:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF607A
+	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 15:32:38 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id z2so1392594oic.6
+        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 08:32:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=dZuoh37v+Aj6sqcMi06F2S04MGr5lZnuPaxiehoSWJs=;
+        b=BPrwFp10xhFZyfE3N65blMPhWgs1sPmtNBlG/TCafoQI2KPiIuGwSlKZ/GA/tLOKt2
+         ssjDXVuaMMigRu352gZA0pvUFXMw4qIhi9F2kVfBEsqhyWoLO+vHs16hZSkbXIB0Eleb
+         Ky8MwHcCtsbbaoEFgK6S4KXSsoU4J+nAWRg8sIrmxexLAFSyiyTpmbPYBCwL9B5Wz3YJ
+         bJZAKLRuYQvxean4yeUnPli+jXV5zzEGdLx/bMNWGAtX+f/vWWyzxCLHHebkGiYYpab2
+         wmjmqonjz8PIOm7VfZQfclUmFbnHPDANwpHb/tLCfTZm1UG673BnZhvx7V8VL6T95liY
+         5wrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ymoHjSbTJfTWENDrZAMakMAu3NTQlX8fnQuTkXZ1c+0=;
-        b=zIbBPqrml4AZwONREHOwUjARqpUsA+fgAJBUZUbppXY5/TXFtKSzyvqlWXCEjhkyqe
-         4S7RKFga1/Iq+ZmsIuiny+GbuqW8EOnqzPhwutzFlq+KN4g8alTIFngp7TNNFpCqlYDr
-         WcEmRDu5rTcZfWz9LVZcrChaqg9Ny05g5VsCcyzG3SYInK52HYU8sStasq8e1UTnRyag
-         GFYca2edH30YyM3LaREd9BvjgU8SWLB8PTAQgOVYiWMeL30/3SZexWtLIaxi2chqjA9x
-         NA9DNI3+6VF3idhTPfGiwK1qYQdDiYfOc9mz82H5lmR83s3loOOMdUTSoeOgg0Ps8UK/
-         FXfQ==
-X-Gm-Message-State: AOAM531SFi45NdRNlyeIeVdECCFQ8xpTDp6tGE0xv5g5/tlg4Y/5dxYN
-	pOpH+vhl+Yeb4BhWa6E0v4Xs36XtGxIcxEioKCwtOJ42ulvUOANUdZYGhm84GGq3/eehtjdx9Z0
-	3QRZA2/WHNOwHquAk4Anf1ZaOOw==
-X-Received: by 2002:a05:622a:1793:b0:2e1:ba41:ed2 with SMTP id s19-20020a05622a179300b002e1ba410ed2mr2180109qtk.238.1649949836593;
-        Thu, 14 Apr 2022 08:23:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzs3AjMBWvnaeFFepMGw6xBfV7UrXSMsLV3Nf+VF6QIpa+RPOmd63l8E4yiuw2decacPo8cmQ==
-X-Received: by 2002:a05:622a:1793:b0:2e1:ba41:ed2 with SMTP id s19-20020a05622a179300b002e1ba410ed2mr2180095qtk.238.1649949836406;
-        Thu, 14 Apr 2022 08:23:56 -0700 (PDT)
-Received: from fedora.redhat.com (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id p5-20020a378d05000000b0069beaffd5b3sm1166038qkd.4.2022.04.14.08.23.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 08:23:56 -0700 (PDT)
-From: Adrien Thierry <athierry@redhat.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Maxime Ripard <mripard@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Adrien Thierry <athierry@redhat.com>
-Subject: [PATCH 2/2] staging: bcm2835-audio: clean code style warnings
-Date: Thu, 14 Apr 2022 11:23:40 -0400
-Message-Id: <20220414152340.68932-3-athierry@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220414152340.68932-1-athierry@redhat.com>
-References: <20220414152340.68932-1-athierry@redhat.com>
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=dZuoh37v+Aj6sqcMi06F2S04MGr5lZnuPaxiehoSWJs=;
+        b=NpKt+HeN53xArTgKN8IAHnoNAGnU+smVpCcLJ9V2WV2tlDTIJDTU28ONIAgR6apbZB
+         gluAs39WAc1qB3I93uvqFkbN9KFUXZgsTGzM+8XJmLjQ+vce8EZFgVpLrkkDc+IhulJ4
+         sJJ+0jp9p85MtrUEenUjI4oyO0heQo6lYA/jEEbitJvblHABNPBavMIk1BIUiTGrNtTc
+         NHwDLnfFRshcWDiFj+Rrxfu2wftOHVOXyABXyMSoVGc3s6MCwcr4E8CAaps4O9gb6fM0
+         /Bt/90kxx/e9CRyKYiEkcypeqvs9vd2nErS8i3wcJRLJxQycKdkKcAcTj3Cdt4NGruYb
+         hxZg==
+X-Gm-Message-State: AOAM533lwgNDa85EuXds5laymJyufiQ4xM7R20Vhq76SWTBNuUXHmPz7
+	qDKzVNvt00LlosQp0YKG9Uo=
+X-Google-Smtp-Source: ABdhPJw5rJYiOPYo0P5iabZTEkaoF9juWNaKPcLz9NEA4zgtkNreisfMuVnRoOSWXmp+g/Bw2rxjGg==
+X-Received: by 2002:a05:6808:f8f:b0:2f9:76b9:421f with SMTP id o15-20020a0568080f8f00b002f976b9421fmr1895829oiw.281.1649950357262;
+        Thu, 14 Apr 2022 08:32:37 -0700 (PDT)
+Received: from ?IPV6:2603:8090:2005:39b3::100e? (2603-8090-2005-39b3-0000-0000-0000-100e.res6.spectrum.com. [2603:8090:2005:39b3::100e])
+        by smtp.gmail.com with ESMTPSA id b18-20020a056830105200b005e9899ae22dsm121020otp.52.2022.04.14.08.32.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Apr 2022 08:32:36 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <efbd9524-efba-c00b-e191-3e603445e9f4@lwfinger.net>
+Date: Thu, 14 Apr 2022 10:32:35 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/7] staging: r8188eu: fix struct rt_firmware_hdr
+Content-Language: en-US
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220414083853.3422-1-straube.linux@gmail.com>
+ <20220414083853.3422-2-straube.linux@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <20220414083853.3422-2-straube.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Clean a few minor code style warnings.
+On 4/14/22 03:38, Michael Straube wrote:
+> The second issue is that the u16 and u32 fields sould be __le16 and
+> __le32.
+> 
+> Change the field Rsvd1 to u8 and the u16, u32 fileds to __le16, __le32.
 
-Reported by checkpatch:
+There is a typo here.
 
-CHECK: Lines should not end with a '('
-FILE: drivers/staging/vc04_services/bcm2835-audio/bcm2835-pcm.c:85:
+Note that the various RsvdN fields are just reserving space and will never be 
+referenced, thus it does not matter if they are u32 or __le32. It is OK to 
+change them, but it is not wrong to leave them the way they are.
 
-CHECK: No space is necessary after a cast
-FILE: drivers/staging/vc04_services/bcm2835-audio/bcm2835-pcm.c:240:
-
-CHECK: struct mutex definition without comment
-FILE: drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c:14:
-
-CHECK: struct mutex definition without comment
-FILE: drivers/staging/vc04_services/bcm2835-audio/bcm2835.h:64:
-
-Signed-off-by: Adrien Thierry <athierry@redhat.com>
----
- drivers/staging/vc04_services/bcm2835-audio/bcm2835-pcm.c   | 5 ++---
- drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c | 2 +-
- drivers/staging/vc04_services/bcm2835-audio/bcm2835.h       | 2 +-
- 3 files changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-pcm.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-pcm.c
-index f2ef1d641e70..68e8d491a7ec 100644
---- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-pcm.c
-+++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-pcm.c
-@@ -82,8 +82,7 @@ void bcm2835_playback_fifo(struct bcm2835_alsa_stream *alsa_stream,
- }
- 
- /* open callback */
--static int snd_bcm2835_playback_open_generic(
--	struct snd_pcm_substream *substream, int spdif)
-+static int snd_bcm2835_playback_open_generic(struct snd_pcm_substream *substream, int spdif)
- {
- 	struct bcm2835_chip *chip = snd_pcm_substream_chip(substream);
- 	struct snd_pcm_runtime *runtime = substream->runtime;
-@@ -237,7 +236,7 @@ static void snd_bcm2835_pcm_transfer(struct snd_pcm_substream *substream,
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct bcm2835_alsa_stream *alsa_stream = runtime->private_data;
--	void *src = (void *) (substream->runtime->dma_area + rec->sw_data);
-+	void *src = (void *)(substream->runtime->dma_area + rec->sw_data);
- 
- 	bcm2835_audio_write(alsa_stream, bytes, src);
- }
-diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-index d567a2e3f70c..e429b33b4d39 100644
---- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-+++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-@@ -11,7 +11,7 @@ struct bcm2835_audio_instance {
- 	struct device *dev;
- 	unsigned int service_handle;
- 	struct completion msg_avail_comp;
--	struct mutex vchi_mutex;
-+	struct mutex vchi_mutex; /* Serialize vchiq access */
- 	struct bcm2835_alsa_stream *alsa_stream;
- 	int result;
- 	unsigned int max_packet;
-diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h
-index 51066ac8eea5..38b7451d77b2 100644
---- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h
-+++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.h
-@@ -61,7 +61,7 @@ struct bcm2835_chip {
- 
- 	unsigned int opened;
- 	unsigned int spdif_status;
--	struct mutex audio_mutex;
-+	struct mutex audio_mutex; /* Serialize chip data access */
- 
- 	struct bcm2835_vchi_ctx *vchi_ctx;
- };
--- 
-2.35.1
+Larry
 
