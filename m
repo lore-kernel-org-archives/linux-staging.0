@@ -1,52 +1,53 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D078B3219;
-	Thu, 14 Apr 2022 19:43:20 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id t207so4884764qke.2;
-        Thu, 14 Apr 2022 12:43:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0CB3219;
+	Thu, 14 Apr 2022 19:46:57 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id p1so4430991qtq.10;
+        Thu, 14 Apr 2022 12:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Kl4Gb8dibgfKBMDtgfnzoEiPtmtB9KHx9N7a+Sz0WcI=;
-        b=deJ2fNDL/pLSKKh3BMB6qBEs21CYtmEZkftWXzK34PNn312yvbZSSOBjm3M1yJFr0O
-         TS9VXo+ttltY2auH1XYw+87cgy4EBeJNkPe5mdqPKX9EREoNVktYo4OjezxSpQfYTLx9
-         wtQxwbpehmMiDomokie29JozB0G8AaQkBtbn+WGE5lgak+sfEw8lC6V4SV5M5a7+GpOx
-         IVgcCNsXTk1HgXYopktsJgdaEyFa1Zpd2sg6YyZT9AEXDyeC6FtTP/B858INzKL/sVID
-         ow9bUsclLJ3MRjdNZU3LX0Oomz0SlTBkk+3UCLU+vgQj+W8in0YlRSxuc8s6x/lZBnSx
-         REPQ==
+        bh=eHFyNRnOj/Hxzbtit9ErbPyMn3ggMxI97B8KNHlSfnA=;
+        b=XmBXwU+6Qz2sJFPbjWiAhS2IElnJo3bLBXUs7w53UyBUWGzxaImzO7bmue2bTlHVsz
+         pj86/B+0QIb+YY/CmD6qV7kvEJDg+Z3yOLNxhXEnYyRtHY7D4mfmxpdf41MN8T9dsHUu
+         qobIpJwyg2zNKQXFkCatxq9HKGiBoK7XCcpYCq3Uu+CUeCPweUX4o5yI2nngnTe0H1m0
+         FdDadaX110mnc8iUxE194XGSFM9Pmnh7lb/rmF2Ty9ISksoDfylEKFQm5x5FSYrUdjJZ
+         zjXsNx51beK0WfOU1QqZLa4+7XqMURWAl4his/iIc6KB/DQBlEjEIM8a80lM/sygYGmU
+         kihg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Kl4Gb8dibgfKBMDtgfnzoEiPtmtB9KHx9N7a+Sz0WcI=;
-        b=JXaxfyNvOUSE+AS5AkI+KHJLvH+IIsjQu9kj4+O3azOy6Oqv/IoT+m/Up+WMEVZX0G
-         ppq3gX/Z4chG7goI6Pax+QDtaSunZBxsBReULXH90JsiBDjq2S70EeNjhDzQDPVenGAB
-         lxE4FyEPFOsyVQpem1XKdkKkwDb1npNenOn90NiIEHwW/C0obSTpkK7ABxxn+VfeqKj9
-         NAeQeHIdiys6K+F21I020zIpXWOJRHsShA3vhoo85cuHAqzy7G2pL6ZqFrMuxjFcNTfm
-         Sd3gPronsa/XzBt1XPrQHmBD/5q/N+P7c75Nyp3gOdFWsPzFJZw6tfJl0SV/2Enq5oA3
-         sYHQ==
-X-Gm-Message-State: AOAM531FwgPH+lfGEzaQweZr+dCd4o/BSdwAjIeyHlzDLBfHEok8cLv+
-	ea6n733XrU8agOTS+w3p+DHeB8+qYoKriMEl
-X-Google-Smtp-Source: ABdhPJxcPhOFOpExjEr6gFnlRQU6b09MTwwMPxXLFuy+lVGN7ddULnayETUX5xQ7k6MMhBPQC9b6fQ==
-X-Received: by 2002:a37:9a57:0:b0:69b:fbce:8035 with SMTP id c84-20020a379a57000000b0069bfbce8035mr3156152qke.187.1649965399839;
-        Thu, 14 Apr 2022 12:43:19 -0700 (PDT)
+        bh=eHFyNRnOj/Hxzbtit9ErbPyMn3ggMxI97B8KNHlSfnA=;
+        b=wKHHryvGm6/TtiV82gOtFKDfBwQtiw5jp0QMzgD++zA6uEw5jNhwujL0bEa7LRF5ym
+         YC2HGVGrSITvIdItZDHP32p/MSqD3ZQllWNeC4KupQdmjoN+YcxMP0Bgc8aXtCqYIpP1
+         smNpKVUZOUNl7K1SWCW6RL2iQgDqw/TZNy6KzOP9xeHOUZnQhqeWtMMpS3qY5T5Tq+Fi
+         N1QJk7ynr/p+YGaPGnzsVYdBemjkDciLIYbCXgYZfNSy2eE5EFsJpJF3lhhYUYtWEEyI
+         QQysn1OrJRSI/80nKMYRu2yRZ+6jjfz5X0xqlmypkFlCXxhxscAyUI3jRccFHKmny7+h
+         qCdg==
+X-Gm-Message-State: AOAM530gI4LYOyZrAwVSbuM2JiXEPLpQiVta2skf/zdybhVEySO279XY
+	7ilojglcC0KMkhNzS7b0Yxo=
+X-Google-Smtp-Source: ABdhPJwwxLI+rQE00DqqustI+INL2vQrHLXTZ76110K9L8pdQP6KkWX+uyARX6v+p6R29zzFIj+D3Q==
+X-Received: by 2002:a05:622a:50a3:b0:2f1:d143:e533 with SMTP id fp35-20020a05622a50a300b002f1d143e533mr3098282qtb.208.1649965616139;
+        Thu, 14 Apr 2022 12:46:56 -0700 (PDT)
 Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id h5-20020ac85845000000b002edfd4b0503sm1829105qth.88.2022.04.14.12.43.18
+        by smtp.gmail.com with ESMTPSA id i18-20020ac85c12000000b002eea9d556c9sm1632590qti.20.2022.04.14.12.46.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 12:43:19 -0700 (PDT)
-Date: Thu, 14 Apr 2022 15:43:15 -0400
+        Thu, 14 Apr 2022 12:46:55 -0700 (PDT)
+Date: Thu, 14 Apr 2022 15:46:51 -0400
 From: Jaehee Park <jhpark1013@gmail.com>
-To: Pavel Skripkin <paskripkin@gmail.com>
+To: Joe Perches <joe@perches.com>
 Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
 	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH 5/6] staging: r8188eu: replace spaces with tabs
-Message-ID: <20220414194315.GC4144553@jaehee-ThinkPad-X1-Extreme>
+Subject: Re: [PATCH 4/6] staging: r8188eu: place constants on the right side
+ of tests
+Message-ID: <20220414194651.GD4144553@jaehee-ThinkPad-X1-Extreme>
 References: <cover.1649880454.git.jhpark1013@gmail.com>
- <c2d719eba2a374be573034022218a098e4db9e77.1649880454.git.jhpark1013@gmail.com>
- <e32f1f61-127c-3e90-0f06-7b60cdca9ef7@gmail.com>
+ <d2469155c37b8677a8dcbed28bc0840745d46f76.1649880454.git.jhpark1013@gmail.com>
+ <eda6a3a94b768f06e67581bbc4d9974b391f0651.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,53 +56,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e32f1f61-127c-3e90-0f06-7b60cdca9ef7@gmail.com>
+In-Reply-To: <eda6a3a94b768f06e67581bbc4d9974b391f0651.camel@perches.com>
 
-On Wed, Apr 13, 2022 at 11:34:14PM +0300, Pavel Skripkin wrote:
-> Hi Jaehee,
-> 
-> On 4/13/22 23:11, Jaehee Park wrote:
-> > Use tabs instead of spaces. Issue found with checkpatch.
-> > WARNING: suspect code indent for conditional statements
-> > 
-> > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
-> > ---
-> >   drivers/staging/r8188eu/core/rtw_mlme.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
+On Wed, Apr 13, 2022 at 06:16:58PM -0700, Joe Perches wrote:
+> On Wed, 2022-04-13 at 16:11 -0400, Jaehee Park wrote:
+> > To comply with the linux coding style, place constants on the right
+> > side of the test in comparisons. Issue found with checkpatch.
+> > WARNING: Comparisons should place the constant on the right side of
+> > the test.
+> []
 > > diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-> > index b943fb190e4c..7a90fe826d1d 100644
-> > --- a/drivers/staging/r8188eu/core/rtw_mlme.c
-> > +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-> > @@ -722,7 +722,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
-> >   			pmlmepriv->to_join = false;
-> >   			s_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
-> >   			if (s_ret == _SUCCESS) {
-> > -			     _set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
-> > +				_set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
-> >   			} else if (s_ret == 2) { /* there is no need to wait for join */
-> >   				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
-> >   				rtw_indicate_connect(adapter);
+> []
+> > @@ -1997,19 +1998,19 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
+> >  	else
+> >  		pnetwork = &pmlmepriv->cur_network;
+> >  
+> > -	if (0 < rtw_to_roaming(padapter)) {
+> > +	if (rtw_to_roaming(padapter) > 0) {
 > 
-> Not related to your patch, but looks like `s_ret` can't be 2.
+> Do you think this change is the same test?
 > 
-> rtw_select_and_join_from_scanned_queue
-> 
->   rtw_joinbss_cmd
-> 
->     rtw_enqueue_cmd
->       _rtw_enqueue_cmd <- always returns SUCCESS
-> 
-> 
-> Other functions from calltrace may return _FAIL, but _FAIL is not equal 2,
-> right?
+> What happens if rtw_to_roaming returns 0?
 > 
 
-Thank you for your comment. Since _rtw_enqueue_cmd cn't return 2, 
-should we replace 2 with _FAIL? I can make this change in another 
-patch. 
+Hi Joe, Thank you for your comments.
+If the roaming trying times is none it wouldn't need to associate with
+ssids. And we wouldn't need to go into this loop. 
+I think this change is the same-- am I missing something?
+Thanks,
+Jaehee
 
+> []
+> 
+> > -				if (0 < pmlmepriv->to_roaming) {
+> > +				if (pmlmepriv->to_roaming > 0) {
+> 
+> here too
+> 
+> >  					continue;
+> >  				} else {
+> >  					rtw_indicate_disconnect(padapter);
 > 
 > 
-> With regards,
-> Pavel Skripkin
