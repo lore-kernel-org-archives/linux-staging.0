@@ -1,41 +1,41 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C2015DD
-	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 08:39:14 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id s18so8762692ejr.0
-        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 01:39:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658687B
+	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 08:39:15 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id u15so8620158ejf.11
+        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 01:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=HMcu7zgQS9k0Bz6hvTLZm8qcxNG9rHsrt5l+a1uteew=;
-        b=HxxLqMTpDnGghlOJCrI6VO3kHrRfInik98yusjKYaUCi3PDZAzBVo7Cmyqj9l/M9vI
-         eM7XVIgzkTlb8JUdACCp03XO2lX9kUsMcyJ8o1ENHF07lM6tKA9RsQkHi+3Y/o7gkO1e
-         ZIJnoAcz/dnvPjbMpJaJulo125qo0mTYoh+l06i/zlm9R8BZCRhJuVmV500t7CY/lLUw
-         k5pRX/EQAZxPHDsj0Z4l4gXX1OvsRbXQ2FbeH+d+eGjlu/grZkoaNVlpe8MIW+LN3QLX
-         RbRcd6/hFa6/KXqubsywYOCC73ogDUtvKdJlnddbohT7ikSZTkLozY+mOb26PZ9BqSyl
-         tGxA==
+        bh=UqSU6uGvzefM7JqsLVkp47vheVpreBM8RRaia816jV8=;
+        b=fJxEecFFxrOn0EueDfzfdFYNkDi7VyjFuEqZA68NnzPDC5IOQ4sffH4hGLLmq+v6JF
+         bD2CrcrYFhseb01NvTx9njFY+1/vVGY8a4gcV33l7BgBHnH77viHZowL9By7aO7rRWxx
+         SSFAqSdbLT490hWUKaUMDqIiRsYj/FIW8+98fPf5xE5Pf18m7B85JkUPuKFOxE1X7Oq0
+         mKQEaQD4TFRaH5nZpv8RgQD/1bZfuXOIbZFoIMXcL7jtIhNyIDghw2Ndf8y14DNxvunv
+         VqmejS60wgWOrpaEOLBXXX6JG2g+qOIDthLzSnWeVMhSFQEmvMYREiArRbS/EVYbfyA0
+         8G7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HMcu7zgQS9k0Bz6hvTLZm8qcxNG9rHsrt5l+a1uteew=;
-        b=SwtpeRVbUhcFXPdUPjSniemXpf+xtf+g+DyLLHgn4gvMZpi4V+Ex1IJs+Hsj+qYKCg
-         loG6TIPvqq84KkNnoTrGaN2zVhc979zCHUK1jLc61TGzEGivSKgOcbiyaxSD4qClnpJe
-         f3yFgQGk5a+klkc+NiQGIii6Dvc/Uw8kMNLVoRq3dv2k/Tp1JW/V1YgjBF3K02AjBWNm
-         rvYmgfBON/gQd0i6cJ3YAE/D7F0tIlG+qD/vjm3X/JhUcc3dUl4AnUnTmYyE1sdRrEr3
-         8jqbqgoQXp/LAHeZv1Z4j1HuazNA/7mZpThCVuPTC/VRLMTJ0rzEEpb69QvZiUT/CHZu
-         1P0Q==
-X-Gm-Message-State: AOAM533gw7iCieDVkEqe/qg4NGO+yP29qE2gVtMuGYlVzZOCkW2dPUqg
-	IR1rYAkuJ2DnQbTR4iExISs=
-X-Google-Smtp-Source: ABdhPJx2hyNJ1+jIf+8bbw/F8ew0aElmPrta6mWMlt6UVwiX2Bw7bpuKF5a4nXYSP4kd//T4qqNPXQ==
-X-Received: by 2002:a17:907:d90:b0:6eb:557e:91e6 with SMTP id go16-20020a1709070d9000b006eb557e91e6mr1318440ejc.376.1649925552933;
-        Thu, 14 Apr 2022 01:39:12 -0700 (PDT)
+        bh=UqSU6uGvzefM7JqsLVkp47vheVpreBM8RRaia816jV8=;
+        b=f3J2ameDptADPcPGWicwfRCr24hsFviNlMuADbk+rdHcCrzl/Tcs5O7QCdjQgGKwKP
+         TfS9xi4ijaQ828RnKMUclTn/Pf1szzy6FU0QAkylHP1DzzJuJ/9eLwC+MvtJdPG36ZGJ
+         6pnGxnBrvGovoAWKlhFX9r+Tg8Zli9DR0uRT8QfOGR0e2jHfLHhz8YBd4lVuhgH+tzCm
+         dW1BTfrlYzJf5iMffr4ENo5eT4IeV1yg/sS0BlZT2yHvrSyOtc+mcgUBfBQT0y0xVdlw
+         7W/7OzM2AGcGsvz56Y/EsWIrqO5AxXgObsBQAMnw1bxvb9slA6WOOOFVk2lGLljL1yoN
+         KSEg==
+X-Gm-Message-State: AOAM530gS0VGE+gWFqHn6zXQRiiIH07FIgiIRqnOIc6oSCv4M9BHOsDa
+	u7BIBZM0lws+8tmUoW7Jop8=
+X-Google-Smtp-Source: ABdhPJwpaGNjqIdCer8Ui1XN0n5nWE6nuXkwc31+cYETm/IFNZdI5z9zF3n+PWmvD1dljt9eHeVfCg==
+X-Received: by 2002:a17:906:c091:b0:6db:62b6:f4cc with SMTP id f17-20020a170906c09100b006db62b6f4ccmr1413652ejz.607.1649925553721;
+        Thu, 14 Apr 2022 01:39:13 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
-        by smtp.gmail.com with ESMTPSA id ah13-20020a1709069acd00b006e8a0b3e071sm418138ejc.110.2022.04.14.01.39.12
+        by smtp.gmail.com with ESMTPSA id ah13-20020a1709069acd00b006e8a0b3e071sm418138ejc.110.2022.04.14.01.39.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 01:39:12 -0700 (PDT)
+        Thu, 14 Apr 2022 01:39:13 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/7] staging: r8188eu: remove variables from rtl8188e_firmware_download()
-Date: Thu, 14 Apr 2022 10:38:51 +0200
-Message-Id: <20220414083853.3422-6-straube.linux@gmail.com>
+Subject: [PATCH 6/7] staging: r8188eu: always log firmware info
+Date: Thu, 14 Apr 2022 10:38:52 +0200
+Message-Id: <20220414083853.3422-7-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220414083853.3422-1-straube.linux@gmail.com>
 References: <20220414083853.3422-1-straube.linux@gmail.com>
@@ -57,41 +57,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The local variables fw_version, fw_subversion, fw_signature in
-rtl8188e_firmware_download() are only used in one place. Use the
-assigned values directly and remove the variables to make the code
-shorter and cleaner.
+The local static variable log_version prevents logging the firmware
+information more than once, e.g. when the device is unplugged and
+plugged again. That is not necessary and complicates the code. Remove
+it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_fw.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/staging/r8188eu/core/rtw_fw.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
-index 94526064f29b..cbc4980bd938 100644
+index cbc4980bd938..64963507a346 100644
 --- a/drivers/staging/r8188eu/core/rtw_fw.c
 +++ b/drivers/staging/r8188eu/core/rtw_fw.c
-@@ -237,7 +237,6 @@ int rtl8188e_firmware_download(struct adapter *padapter)
- 	struct dvobj_priv *dvobj = adapter_to_dvobj(padapter);
- 	struct device *device = dvobj_to_dev(dvobj);
+@@ -239,7 +239,6 @@ int rtl8188e_firmware_download(struct adapter *padapter)
  	struct rt_firmware_hdr *fwhdr = NULL;
--	u16 fw_version, fw_subversion, fw_signature;
  	u8 *fw_data;
  	u32 fw_size;
- 	static int log_version;
-@@ -254,13 +253,10 @@ int rtl8188e_firmware_download(struct adapter *padapter)
+-	static int log_version;
+ 
+ 	if (!dvobj->firmware.data)
+ 		ret = load_firmware(&dvobj->firmware, device);
+@@ -253,10 +252,9 @@ int rtl8188e_firmware_download(struct adapter *padapter)
  	/*  To Check Fw header. Added by tynli. 2009.12.04. */
  	fwhdr = (struct rt_firmware_hdr *)dvobj->firmware.data;
  
--	fw_version = le16_to_cpu(fwhdr->version);
--	fw_subversion = fwhdr->subversion;
--	fw_signature = le16_to_cpu(fwhdr->signature);
--
- 	if (!log_version++)
- 		pr_info("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
--			DRIVER_PREFIX, fw_version, fw_subversion, fw_signature);
-+			DRIVER_PREFIX, le16_to_cpu(fwhdr->version), fwhdr->subversion,
-+			le16_to_cpu(fwhdr->signature));
+-	if (!log_version++)
+-		pr_info("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
+-			DRIVER_PREFIX, le16_to_cpu(fwhdr->version), fwhdr->subversion,
+-			le16_to_cpu(fwhdr->signature));
++	pr_info("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
++		DRIVER_PREFIX, le16_to_cpu(fwhdr->version), fwhdr->subversion,
++		le16_to_cpu(fwhdr->signature));
  
  	if (IS_FW_HEADER_EXIST(fwhdr)) {
  		fw_data = fw_data + sizeof(struct rt_firmware_hdr);
