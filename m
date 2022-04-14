@@ -1,191 +1,123 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547BB7B;
-	Thu, 14 Apr 2022 09:41:26 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id i27so8926892ejd.9;
-        Thu, 14 Apr 2022 02:41:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C127B
+	for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 10:08:04 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id l7so9102065ejn.2
+        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 03:08:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=UuOwDORBiD0z41Seqm9aBtjGmDsw1F+gRxiqyKbH2nI=;
-        b=OBGE3V9bp47DU5rd4Eq2DJhu1lFQdRlhlsn6/6VyI8H1yJagdbsz50SMeJgiQ5JRJG
-         ALM+dxzQPso8u855jkyqw6A2/J+3wx//ATplFkqxy6yypYhf8TkONTW7qlm+zYZDLgUt
-         vRNzPFR07vpJ1pEO4pfX8GnlDP4JKSAL7v/d0a25CwB5t4dNotFQ2qdyHyAsEFO+Df3r
-         P2yvJtXBY7YWSyymSzyTQ3TeIT5XGVCpp6Na/2IAB5zoycjLc66dVyFqIcReRq6e2uaf
-         +YMK2pBJ/LJ2dcUOVEV96b/o9xB8A0Tyob6oe3VpofJHqKNBREHSqXZ59X1Xti+rerkn
-         D3lQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=fxIhTmf4CWwgx4woI1aX8OoMYh4gMjGvc4MZCp2yYgw=;
+        b=YEKEdaK2CtEeQIFtsW5Q9Pc+PQj3VAR5YyF343GhApd9CcPVM5ZO9W4aORRt64cOKy
+         Ds/mV9HlUsuLDZTZ7K0DrdCW7osI8ZAk0VMdjMen+qb99ZJdTFxYrOr17AKRp/dOmhdM
+         vWhaHluFNt7+cnI1ZOz2ZjJ3OwjNMq2SM8qdQcdLda/y6/xSKElR5E0jlO6wittIJOKW
+         c2tg4tp4S1FIhuRxuSLb1udomqgKf6HFw6RkBYXF4Wj1+/IIhn+JnrUFYDXd8wybRFQx
+         imGIB2kxPw5hJ3i9nXJ2x3r20q/1cTLN7OjJGVuyboGvJF/fXZ4sULOMve5G1jjmkxSz
+         KZVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=UuOwDORBiD0z41Seqm9aBtjGmDsw1F+gRxiqyKbH2nI=;
-        b=5xpcdoBKc8iofkGV1H6IoX/2Zi/EdFGxsYqA9+UTz5aAGm06MpV3845+tk7qvSa1YQ
-         xRUuS7PDeWUmD7rxiboVeHgd/ytkUE2J1IusyNHI6dMBR/Fej+FnBGdlAkBC2VBw5ZCy
-         nE0ngxZUlen6dxD9vYUQjF/DkWvxHHaktEqkfYJfVD6ZnCoINoBBfPDEtVVP0Ybggjyf
-         8Liod0WyY5LYAqlUgyBrlyMc/8faJgz9ddw9jmP4d866ihnl5HpSIQXgeDS60AhgDLkp
-         wjpnNs04Yfx+SRNFn5WqpGQ192thiClGxJLx3tofHbQV9Q4yvt6YWs7TaKXPmcu0aRzs
-         WV6A==
-X-Gm-Message-State: AOAM530K7oTy5OVtBOLhf/xspzn/z+E3suQVRQipnUdCnXWedGi5r5A/
-	g41mgWOEMLccCwYjh53g7R0=
-X-Google-Smtp-Source: ABdhPJx+1Tz4/yVuXTwUZGZ/Dok/CFO13SwpvvKqswiflJbKV1nw9ZFx1wBOSOxAQ8h8KTehIkuOTg==
-X-Received: by 2002:a17:907:2d91:b0:6e8:abf6:c368 with SMTP id gt17-20020a1709072d9100b006e8abf6c368mr1703256ejc.124.1649929284659;
-        Thu, 14 Apr 2022 02:41:24 -0700 (PDT)
-Received: from leap.localnet (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
-        by smtp.gmail.com with ESMTPSA id ay17-20020a170906d29100b006e88f246fdbsm454878ejb.152.2022.04.14.02.41.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 02:41:23 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Ira Weiny <ira.weiny@intel.com>, Julia Lawall <julia.lawall@inria.fr>, Alison Schofield <alison.schofield@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tsuchiya Yuto <kitakar@gmail.com>, Martiros Shakhzadyan <vrzh@vrzh.net>, Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
-Date: Thu, 14 Apr 2022 11:41:21 +0200
-Message-ID: <2066056.OBFZWjSADL@leap>
-In-Reply-To: <alpine.DEB.2.22.394.2204141111250.3023@hadrien>
-References: <20220413225531.9425-1-fmdefrancesco@gmail.com> <4180675.ejJDZkT8p0@leap> <alpine.DEB.2.22.394.2204141111250.3023@hadrien>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=fxIhTmf4CWwgx4woI1aX8OoMYh4gMjGvc4MZCp2yYgw=;
+        b=QpoDbol7bB40pw3p0W2zDmZiUo+nwCXi06W/xWhYRdXu4Rhe9OrEnGocFwl9RcJTOV
+         bc+cXP00E8GmPo0KxJQ8DLVmonu9cwrO2oG3tPhdcIq0zBbY/cD6qmzTnPG0OsTZEMhX
+         0WOm94jcy4/lgcty5L9TDBIZH93a7oy6Qk6kvzDAqAW1Fc1NheRn4qToIH8zg8GCNVyd
+         jiugV/GBym3JrWvSAXEvxqgNyFpesFxzp5Ty6GIT3BPlks151TrgqkENez5inmXoYWMB
+         mrloD/8QK6RnkPLVHuityNTXIb4U/XsUfBJLGS/YIc7vaRw+DmKrePIKGhs2TWmFxmNs
+         JT7A==
+X-Gm-Message-State: AOAM5332HaErfNaGfdtrus2idKLAuALCsQPfuvnfOIRJ119XTXr19pgm
+	Y6lDLiRTZon+hhLDwwH2BLY=
+X-Google-Smtp-Source: ABdhPJzETc4xu/QQjnhJjmC9SJlm5H2LrT29xVTSDmNt4irFWyS6PjTXFtlJN0fbXqk6uljkSqfdBw==
+X-Received: by 2002:a17:907:3e90:b0:6e8:7fbb:a15c with SMTP id hs16-20020a1709073e9000b006e87fbba15cmr1614234ejc.411.1649930882723;
+        Thu, 14 Apr 2022 03:08:02 -0700 (PDT)
+Received: from [192.168.0.151] (ip5f5abb6b.dynamic.kabel-deutschland.de. [95.90.187.107])
+        by smtp.gmail.com with ESMTPSA id qb10-20020a1709077e8a00b006e892cf471asm471890ejc.84.2022.04.14.03.08.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Apr 2022 03:08:02 -0700 (PDT)
+Message-ID: <a40a2a1b-a8f1-e720-be92-48858d4f6678@gmail.com>
+Date: Thu, 14 Apr 2022 12:08:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: staging: r8188eu: struct rt_firmware_header issues
+Content-Language: en-US
+To: David Laight <David.Laight@ACULAB.COM>,
+ Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Phillip Potter <phil@philpotter.co.uk>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <94a72ecc-3acd-758b-15a4-a7d56bf03fbe@gmail.com>
+ <86a66ea4-45e3-cfa2-9130-f698ae212bfd@gmail.com>
+ <51e706400b914552bfda6353020da17e@AcuMS.aculab.com>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <51e706400b914552bfda6353020da17e@AcuMS.aculab.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On gioved? 14 aprile 2022 11:12:39 CEST Julia Lawall wrote:
+On 4/14/22 10:41, David Laight wrote:
+> From: Michael Straube
+>> Sent: 13 April 2022 20:42
+>>
+>> On 4/13/22 18:27, Michael Straube wrote:
+>>> Hi all,
+>>>
+>>> I think the rt_firmware_hdr structure in rtw_fw.c has some issues.
+>>>
+>>>
+>>> struct rt_firmware_hdr {
+>>>       /*  8-byte alinment required */
 > 
-> On Thu, 14 Apr 2022, Fabio M. De Francesco wrote:
+> Probably need an __aligned(8) at the bottom then?
+
+I don't see any reason why this is needed. Do I miss something?
+
+>>>       /*  LONG WORD 0 ---- */
+>>>       __le16        Signature;    /* 92C0: test chip; 92C,
+>>>                        * 88C0: test chip; 88C1: MP A-cut;
+>>>                        * 92C1: MP A-cut */
+>>>       u8        Category;    /*  AP/NIC and USB/PCI */
+>>>       u8        Function;    /*  Reserved for different FW function
+>>>                        *  indcation, for further use when
+>>>                        *  driver needs to download different
+>>>                        *  FW for different conditions */
+>>>       __le16        Version;    /*  FW Version */
+>>>       u8        Subversion;    /*  FW Subversion, default 0x00 */
+>>>       u16        Rsvd1;
+>>>
+>>>       /*  LONG WORD 1 ---- */
+>>>       u8        Month;    /*  Release time Month field */
+>>>       u8        Date;    /*  Release time Date field */
+>>>       u8        Hour;    /*  Release time Hour field */
+>>>       u8        Minute;    /*  Release time Minute field */
+>>>       __le16        RamCodeSize;    /*  The size of RAM code */
+>>>       u8        Foundry;
+>>>       u8        Rsvd2;
+>>>
+>>>       /*  LONG WORD 2 ---- */
+>>>       __le32        SvnIdx;    /*  The SVN entry index */
+>>>       u32        Rsvd3;
+>>>
+>>>       /*  LONG WORD 3 ---- */
+>>>       u32        Rsvd4;
+>>>       u32        Rsvd5;
+>>> };
+> ...
+>>
+>> Ok, I figured it out by looking at the hexdumps of firmware files. The
+>> field Rsvd1 should be u8 instead of u16. I'll prepare a patch for this.
 > 
-> > On gioved? 14 aprile 2022 09:03:40 CEST Julia Lawall wrote:
-> > >
-> > > On Wed, 13 Apr 2022, Ira Weiny wrote:
-> > >
-> > > > On Wed, Apr 13, 2022 at 05:44:54PM -0700, Alison Schofield wrote:
-> > > > > On Thu, Apr 14, 2022 at 12:55:31AM +0200, Fabio M. De Francesco
-> > wrote:
-> > > > > > The use of kmap() is being deprecated in favor of 
-kmap_local_page()
-> > > > > > where it is feasible. The same is true for kmap_atomic().
-> > > > > >
-> > > > > > In file pci/hmm/hmm.c, function hmm_store() test if we are in
-> > atomic
-> > > > > > context and, if so, it calls kmap_atomic(), if not, it calls
-> > kmap().
-> > > > > >
-> > > > > > First of all, in_atomic() shouldn't be used in drivers. This 
-macro
-> > > > > > cannot always detect atomic context; in particular, it cannot 
-know
-> > > > > > about held spinlocks in non-preemptible kernels.
-> > > > > >
-> > > > > > Notwithstanding what it is said above, this code doesn't need 
-to
-> > care
-> > > > > > whether or not it is executing in atomic context. It can simply 
-use
-> > > > > > kmap_local_page() / kunmap_local() that can instead do the 
-mapping
-> > /
-> > > > > > unmapping regardless of the context.
-> > > > > >
-> > > > > > With kmap_local_page(), the mapping is per thread, CPU local 
-and
-> > not
-> > > > > > globally visible. Therefore, hmm_store()() is a function where 
-the
-> > use
-> > > > > > of kmap_local_page() in place of both kmap() and kmap_atomic() 
-is
-> > > > > > correctly suited.
-> > > > > >
-> > > > > > Convert the calls of kmap() / kunmap() and kmap_atomic() /
-> > > > > > kunmap_atomic() to kmap_local_page() / kunmap_local() and drop 
-the
-> > > > > > unnecessary tests which test if the code is in atomic context.
-> > > > > >
-> > > > >
-> > > > > Not specifically about this patch, but more generally about all
-> > > > > such conversions - is there a 'proof' that shows this just works
-> > > >
-> > > > Just code inspection.  Most of them that I have done have been 
-compile
-> > tested
-> > > > only.  Part of the key is that des is a local variable and is not
-> > aliased by
-> > > > anything outside this function.
-> > >
-> > > Typically, the concern about being in atomic context has to do with
-> > > whether GFP_KERNEL or GFP_ATOMIC should be used, ie whether 
-allocation
-> > > can sleep.
-> >
-> > I'd add that the concern about being in atomic context has mainly to do
-> > with calling whatever function that may sleep.
-> >
-> > Some time ago I analyzed a calls chain which, under spinlocks and with
-> > IRQ's disabled, led to console_lock() which is annotated with
-> > might_sleep(). It took about 8000 ms to recover when executing in a 4 
-CPU /
-> > 8 SMT System. Linus T. suggested to make this work asynchronous (commit
-> > 1ee33b1ca2b8 ("tty: n_hdlc: make n_hdlc_tty_wakeup() asynchronous")).
-> >
-> > > It doesn't have to do with whether some data can be shared.
-> >
-> > Yes, FWIW I agree with you.
-> >
-> > > Is that the concern here?
-> >
-> > The concern here is about the locality of the pointer variable to which 
-the
-> > struct page has been mapped to. In atomic context we are not allowed to
-> > kmap() (this is why in the code we had that in_atomic() test), instead 
-we
-> > can kmap_local_page() or kmap_atomic(). The latter is strongly 
-discouraged
-> > in favor of the former.
-> 
-> I have the impression that you are first agreeing with me and then
-> contradicting me :).  Is your point that in general a concern about 
-atomic
-> context has to do with whether sleeping is allowed, but that the concern
-> is something else here?  I'm not familiar with these kmap functions.
+> I'd also add a compile-time assert on the size.
 
-Yes the concern is something else here (sorry for my poor English). It was 
-not my intention to contradict you :) 
+I'll add a patch to the series I recently sent.
 
-The concern for "locality" here is that if the variable is shared between 
-different functions there are cases where we cannot use kmap_local_page().
-For example, those mappings with kmap_local_page() are per thread and CPU 
-local.
-
-I think that the best means to convey what I want to express is pointing to 
-my patch to Documentation/vm/highmem.rst:
-
-https://lore.kernel.org/lkml/20220412124003.10736-1-fmdefrancesco@gmail.com/
-
-I hope that this can help to understand why we care of "locality" in this 
-specific case where we use kmap_local_page().
-
-Again, sorry for not being clear.
-
-Thanks,
-
-Fabio M. De Francesco
-
-> thanks,
-> julia
-> 
-> 
-> >
-> > Furthermore, Alison was asking if we can prove that these kinds of
-> > conversions can actually work when we have not the hardware for 
-testing. As
-> > Ira wrote, code inspection is sufficient to prove it.
-> >
-> > Thanks,
-> >
-> > Fabio M. De Francesco
-
-
-
+thanks,
+Michael
