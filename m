@@ -1,72 +1,116 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138C915A5;
-	Thu, 14 Apr 2022 07:06:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=9GK0sQaF3bhvG8x9VbwKKKzRtlt/G5M0FRr4BwsS3/0=;
-  b=aQSGGnR8w/oK3RjcRsOux+MZ+3IfdFHXTYQ2aRzOZ5Ug4vzZTq/Z7R+X
-   Sa2LYIc0vpEz9m7NDnVbVRWK+14Y4W+E2iHbqVomHZ9XMlSCV5COwtkYj
-   BWNciISGUe6vaZdYzlD0eSIgpGx3bsfm3cqGK8lneYU6asYCwveeI0UcT
-   U=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,259,1643670000"; 
-   d="scan'208";a="31626172"
-Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 09:06:27 +0200
-Date: Thu, 14 Apr 2022 09:06:26 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Aliya Rahmani <aliyarahmani786@gmail.com>
-cc: kuba@kernel.org, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: ks7010: coding style fix: use tabs for indent
-In-Reply-To: <20220413204648.60358-1-aliyarahmani786@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2204140906010.3023@hadrien>
-References: <20220413204648.60358-1-aliyarahmani786@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBA615A5;
+	Thu, 14 Apr 2022 07:14:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1249AC385A1;
+	Thu, 14 Apr 2022 07:14:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1649920472;
+	bh=6Ulq4vPvSESlovf/0Mf+v1wW/ppPfl/Olm8QJqcUudo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=weXBD1jFcrp67Qmlcl0/y/ARiIuY/V9yXtNos3KhgK3xIFr5sfdvvuAHutvXCHnap
+	 BVKmJ1kkNkeyX3+jd54gscUpuydjv6WJlOchORNfLtdm07CqAxxu1lRoMAaShaRCGc
+	 aBDWkeDC61h9NB6ACFVxuJ0O03TwWw+LkTRxrZKs=
+Date: Thu, 14 Apr 2022 09:14:29 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	David Kershner <david.kershner@unisys.com>,
+	sparmaintainer@unisys.com
+Subject: Re: [PATCH v2] staging: Remove the drivers for the Unisys s-Par
+Message-ID: <YlfJ1UQQQeYBvTHV@kroah.com>
+References: <20220413080111.13861-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220413080111.13861-1-fmdefrancesco@gmail.com>
 
-
-
-On Thu, 14 Apr 2022, Aliya Rahmani wrote:
-
-> Added tabs for indent to fix the checkpatch error.
-
-This looks like "Replace spaces by tabs".
-
-julia
-
->
-> Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
+On Wed, Apr 13, 2022 at 10:01:11AM +0200, Fabio M. De Francesco wrote:
+> The Unisys sub-tree contains three drivers for the "Unisys Secure Partition"
+> (s-Par(R)): visorhba, visorinput, visornic.
+> 
+> They have no maintainers, in fact the only one that is listed in MAINTAINERS
+> has an unreacheable email address. During 2021 and 2022 several patches have
+> been submitted to these drivers but nobody at Unisys cared of reviewing the
+> changes. Probably, also the "sparmaintainer" internal list of unisys.com is
+> not anymore read by interested Unisys' engineers.
+> 
+> Therefore, remove the ./unisys subdirectory and delete the relevant entries
+> in the MAINTAINERS, Kconfig, Makefile files.
+> 
+> Cc: David Kershner <david.kershner@unisys.com>
+> Cc: sparmaintainer@unisys.com
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > ---
->  drivers/staging/ks7010/ks_hostif.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/ks7010/ks_hostif.c b/drivers/staging/ks7010/ks_hostif.c
-> index f1aa3be4261d..d0475189607d 100644
-> --- a/drivers/staging/ks7010/ks_hostif.c
-> +++ b/drivers/staging/ks7010/ks_hostif.c
-> @@ -2213,7 +2213,7 @@ static void hostif_sme_work(struct work_struct *work)
->  	hostif_sme_execute(priv, priv->sme_i.event_buff[priv->sme_i.qhead]);
->  	inc_smeqhead(priv);
->  	if (cnt_smeqbody(priv) > 0)
-> -	        schedule_work(&priv->sme_work);
-> +		schedule_work(&priv->sme_work);
->  }
->
->  /* send to Station Management Entity module */
-> --
-> 2.25.1
->
->
->
+> 
+> v1->v2: Add two "Cc:" lines, one to David Kershner and the second to the
+> "sparmaintainer" list at unisys.com, as requested by Greg Kroah-Hartman.
+> 
+>  MAINTAINERS                                   |    8 -
+>  drivers/staging/Kconfig                       |    2 -
+>  drivers/staging/Makefile                      |    1 -
+>  .../ABI/sysfs-platform-visorchipset           |   89 -
+>  .../staging/unisys/Documentation/overview.txt |  337 ---
+>  drivers/staging/unisys/Kconfig                |   16 -
+>  drivers/staging/unisys/MAINTAINERS            |    5 -
+>  drivers/staging/unisys/Makefile               |    7 -
+>  drivers/staging/unisys/TODO                   |   16 -
+>  drivers/staging/unisys/include/iochannel.h    |  571 -----
+>  drivers/staging/unisys/visorhba/Kconfig       |   15 -
+>  drivers/staging/unisys/visorhba/Makefile      |   10 -
+>  .../staging/unisys/visorhba/visorhba_main.c   | 1142 ---------
+>  drivers/staging/unisys/visorinput/Kconfig     |   16 -
+>  drivers/staging/unisys/visorinput/Makefile    |    7 -
+>  .../staging/unisys/visorinput/visorinput.c    |  788 ------
+>  drivers/staging/unisys/visornic/Kconfig       |   16 -
+>  drivers/staging/unisys/visornic/Makefile      |   10 -
+>  .../staging/unisys/visornic/visornic_main.c   | 2131 -----------------
+
+
+
+>  19 files changed, 5187 deletions(-)
+>  delete mode 100644 drivers/staging/unisys/Documentation/ABI/sysfs-platform-visorchipset
+>  delete mode 100644 drivers/staging/unisys/Documentation/overview.txt
+>  delete mode 100644 drivers/staging/unisys/Kconfig
+>  delete mode 100644 drivers/staging/unisys/MAINTAINERS
+>  delete mode 100644 drivers/staging/unisys/Makefile
+>  delete mode 100644 drivers/staging/unisys/TODO
+>  delete mode 100644 drivers/staging/unisys/include/iochannel.h
+>  delete mode 100644 drivers/staging/unisys/visorhba/Kconfig
+>  delete mode 100644 drivers/staging/unisys/visorhba/Makefile
+>  delete mode 100644 drivers/staging/unisys/visorhba/visorhba_main.c
+>  delete mode 100644 drivers/staging/unisys/visorinput/Kconfig
+>  delete mode 100644 drivers/staging/unisys/visorinput/Makefile
+>  delete mode 100644 drivers/staging/unisys/visorinput/visorinput.c
+>  delete mode 100644 drivers/staging/unisys/visornic/Kconfig
+>  delete mode 100644 drivers/staging/unisys/visornic/Makefile
+>  delete mode 100644 drivers/staging/unisys/visornic/visornic_main.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3ed62dcd144e..a62da6d0f943 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20183,14 +20183,6 @@ F:	drivers/cdrom/cdrom.c
+>  F:	include/linux/cdrom.h
+>  F:	include/uapi/linux/cdrom.h
+>  
+> -UNISYS S-PAR DRIVERS
+> -M:	David Kershner <david.kershner@unisys.com>
+> -L:	sparmaintainer@unisys.com (Unisys internal)
+> -S:	Supported
+> -F:	drivers/staging/unisys/
+> -F:	drivers/visorbus/
+
+You forgot to delete the files in this directory as well :(
+
+thanks,
+
+greg k-h
