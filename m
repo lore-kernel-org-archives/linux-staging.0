@@ -1,108 +1,142 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76677191;
-	Fri, 15 Apr 2022 02:51:55 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id b17so5729774qvf.12;
-        Thu, 14 Apr 2022 19:51:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC55B17CA;
+	Fri, 15 Apr 2022 04:29:20 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id lc2so13497871ejb.12;
+        Thu, 14 Apr 2022 21:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=yHG4RTfLs3izK4POBBX3OO4Xti9SeDZkZKSmtbKLbz0=;
-        b=H1L8OA2uxN+e9KYvFwRTQoTkze4E6CKkRG15sEmWhV+jNE2OBN91ow1ArTufc4XnPX
-         rIxL+iEUic98cZYlVaTcp125vee1CclSoRNxW9mX4N8Upl+Vl6aPzrLzuInNOip2yGva
-         pNbq8vNlDI5cXSgUKZCj0wtwD8491AfGlNTaHyjzMxbmA6P8XG31aMig88n1hfc/j7l4
-         /xQWP4VWvtiu4IO3W6Zyc6E6QWjVq1Ff4C+FniH7tmagR+Bwmc0P7j8wI9+DWtpKFkqg
-         d2OKfbGNpqBq+b9Q8wSBJVuK/sgIAp4Qp6DCX92414hKkqKmQ8gVpduumI7ldVpCGxRy
-         AZFg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=FgxYdQH4K38jxNj0/3LE0gePenpz/atsMgD0HUgrDoY=;
+        b=e4jXfgsF5YlWiMUmnnB0B+djmpAX1cPH6imE207G8QL6ayEIlZBgagLfXWWwnJDJzv
+         FW5NzNeum50fDZBq4cYUXPV9R9VXWci0YOwdipH3e6iHXVGAHUFxy10UgqvhrtijONJY
+         jHWeW9ht6IjUVmu6r7WtuH2LKQ/KB2jekSCBi0XUQlHA3sCCf9Ztk0dD1xmQsJlZX9P5
+         rvoBGyE2xUkSy2Iihndwf/vd+tPVNMS//QsL4icjiHBJfinxfkRZRmewG9+Z+3Y8rxjD
+         oZsyf3064cyeh8/lMjDebuvCEOv9IIumzIA5qFb1Z9U4tYdJUm7bKKqn7cV7Sq/UwBCW
+         H5vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yHG4RTfLs3izK4POBBX3OO4Xti9SeDZkZKSmtbKLbz0=;
-        b=kd+bkg7DDgn/jxcfELvTnMyW7OjD4kbZwgiCUXl8z8KGeXmoI/zDFuCggR5C3/rERH
-         jkSU4zpH8kDTAczSshXbpS22peBTt8WVD36ePPMNocVLNHUR9heQ+3kzCQSXH2RP5yTE
-         UvVCmgaARDxTzagBkIK0gRR3r8G3Vca+gOyl8EJpOIM/vSVgViojcbvfrO+gCcZnpUiF
-         r4YDrC7aPyi0r+fMz6fKUC+TBuar12TYhLFpvhVAR+05AlTx5xImq8dIe/ciYyebS8PE
-         jWm+5xWu+2/qbEbY8+vmHJSeCsXp9IqLVs9IiC/+JRIdhiLyGLeynRvBjPE3pHiBwY+1
-         1k1g==
-X-Gm-Message-State: AOAM531yM/+dFEpBE3ZV7UXv476mu0VkE2Tq+dVU4KZq0AOYKxsyAja/
-	L1TXyX0QHb5thXQvNeOpok0=
-X-Google-Smtp-Source: ABdhPJxSuarSH8KOah4mgH+Moko/hRAN6yMOuAxrxP8FPMA4xiQ9fHcZjOpO6LJsWCOpGWVAHaXSfg==
-X-Received: by 2002:ad4:5948:0:b0:441:5d45:6d62 with SMTP id eo8-20020ad45948000000b004415d456d62mr5899708qvb.25.1649991114367;
-        Thu, 14 Apr 2022 19:51:54 -0700 (PDT)
-Received: from jaehee-ThinkPad-X1-Extreme ([2607:fb90:1b7a:2349:50b1:5db4:a2d5:7054])
-        by smtp.gmail.com with ESMTPSA id t198-20020a3746cf000000b0069c51337badsm1884570qka.45.2022.04.14.19.51.53
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=FgxYdQH4K38jxNj0/3LE0gePenpz/atsMgD0HUgrDoY=;
+        b=isGJFXeLfBp67nS1E3JvZaHCfD6FwwpF8V5KGhaMNnsURn9tBgdSHtczBw/i9XSm2b
+         Jne43Ysbhkwi7BWteoiiVc/cPBmTn/NBrc5NcxtB5nqrGZ9mdCook1igJoAABGO4KMK3
+         QwDmx1ykRX+uH0qp2DpIr0DyrpgnitBkHD5+EC6sDkp5IfAdOSBRHNE5HbMYvsDrdm+G
+         pgdkikid98K0lasIprGlMMjTow3m1JNy5GYrhmEwQa24E8aL1XyAI0SDujzBrPbZZsCN
+         zLQuhiuGFTk4no9xIe5f44GFYR3GOmj9bg9daAD7kXoR/LjqAP6HMpDs6kTE+TFScbZV
+         h6Sg==
+X-Gm-Message-State: AOAM533X628inm2ENQrsdotXgwbBa+hGvGumuC8C0Ja8hS9h3CN15u0z
+	e8n8bqr8/zKGxkK1rm5X3Z0=
+X-Google-Smtp-Source: ABdhPJxhIdWVi5QikpsHemiGrQkXmL48dWqnyIk/NRWOmMCNgUvcg7ZoWvSluufqF+Nb/7co/OrUKQ==
+X-Received: by 2002:a17:906:7943:b0:6df:e5b3:6553 with SMTP id l3-20020a170906794300b006dfe5b36553mr4892245ejo.398.1649996959018;
+        Thu, 14 Apr 2022 21:29:19 -0700 (PDT)
+Received: from leap.localnet (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
+        by smtp.gmail.com with ESMTPSA id e35-20020a056402332300b004209638cb94sm1960352eda.6.2022.04.14.21.29.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 19:51:53 -0700 (PDT)
-Date: Thu, 14 Apr 2022 22:51:51 -0400
-From: Jaehee Park <jhpark1013@gmail.com>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH 1/6] staging: r8188eu: remove unnecessary braces in
- single statement block
-Message-ID: <20220415025151.GA33625@jaehee-ThinkPad-X1-Extreme>
-References: <cover.1649880454.git.jhpark1013@gmail.com>
- <4a0f2a0f24321c5b2039f0f8e6132cec4a2ef068.1649880454.git.jhpark1013@gmail.com>
- <3f4a6c08-4434-1865-bc96-984152af5af1@gmail.com>
- <20220414194118.GA4144553@jaehee-ThinkPad-X1-Extreme>
- <8bd1cc3c-c28b-b30f-d9ff-04f9a3c79646@gmail.com>
+        Thu, 14 Apr 2022 21:29:17 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry.Finger@lwfinger.net, Jaehee Park <jhpark1013@gmail.com>
+Cc: phil@philpotter.co.uk, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev, jhpark1013@gmail.com, Pavel Skripkin <paskripkin@gmail.com>
+Subject: Re: [PATCH v2 1/6] staging: r8188eu: remove unused member free_bss_buf
+Date: Fri, 15 Apr 2022 06:29:15 +0200
+Message-ID: <3608313.MHq7AAxBmi@leap>
+In-Reply-To: <e41e0d3b62395d04f41d6934074074c431e7aacc.1649990500.git.jhpark1013@gmail.com>
+References: <cover.1649990500.git.jhpark1013@gmail.com> <e41e0d3b62395d04f41d6934074074c431e7aacc.1649990500.git.jhpark1013@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8bd1cc3c-c28b-b30f-d9ff-04f9a3c79646@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="ISO-8859-1"
 
-On Thu, Apr 14, 2022 at 10:50:52PM +0300, Pavel Skripkin wrote:
-> Hi Jaehee,
-> 
-> On 4/14/22 22:41, Jaehee Park wrote:
-> > > > @@ -112,9 +112,8 @@ void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
-> > > >   	rtw_free_mlme_priv_ie_data(pmlmepriv);
-> > > > -	if (pmlmepriv) {
-> > > > +	if (pmlmepriv)
-> > > >   		vfree(pmlmepriv->free_bss_buf);
-> > > > -	}
-> > > 
-> > > If pmlmepriv is equal to NULL we would die in rtw_free_mlme_priv_ie_data(),
-> > > so this check is just redundant
-> > > 
-> > 
-> > Hi Pavel, thank you for your comment! If I'm removing this if statement,
-> > should I include vfree(pmlmepriv->free_bss_buf) in
-> > rtw_free_mlme_priv_ie_data?
-> > 
-> 
-> Hm
-> 
-> Simple grep shows, that this member is just unused
-> 
-> 1 drivers/staging/r8188eu/core/rtw_mlme.c|64 col 13| pmlmepriv->free_bss_buf
-> = pbuf;
-> 2 drivers/staging/r8188eu/core/rtw_mlme.c|116 col 20|
-> vfree(pmlmepriv->free_bss_buf);
-> 3 drivers/staging/r8188eu/include/rtw_mlme.h|322 col 6| u8 *free_bss_buf;
-> 
-> so looks like you can just remove free_bss_buf and all related lines.
-> 
-> I hope I haven't overlooked something
-> 
+On venerd=EC 15 aprile 2022 04:48:32 CEST Jaehee Park wrote:
+> The free_bss_buf member of pmlmepriv is unused. Remove all related
+> lines.
+>=20
+> Suggested-by: Pavel Skripkin <paskripkin@gmail.com>
+> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> ---
+>  drivers/staging/r8188eu/include/rtw_mlme.h | 1 -
+>  drivers/staging/r8188eu/core/rtw_mlme.c    | 7 -------
+>  2 files changed, 8 deletions(-)
+>=20
+> diff --git a/drivers/staging/r8188eu/include/rtw_mlme.h b/drivers/
+staging/r8188eu/include/rtw_mlme.h
+> index 1dc1fbf049af..0f03ac43079c 100644
+> --- a/drivers/staging/r8188eu/include/rtw_mlme.h
+> +++ b/drivers/staging/r8188eu/include/rtw_mlme.h
+> @@ -319,7 +319,6 @@ struct mlme_priv {
+>  	struct list_head *pscanned;
+>  	struct __queue free_bss_pool;
+>  	struct __queue scanned_queue;
+> -	u8 *free_bss_buf;
+>  	u8	key_mask; /* use to restore wep key after hal_init */
+>  	u32	num_of_scanned;
+> =20
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/
+r8188eu/core/rtw_mlme.c
+> index 3e9882f89f76..aed868d1d47b 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> @@ -61,7 +61,6 @@ static int _rtw_init_mlme_priv(struct adapter=20
+*padapter)
+>  		res =3D _FAIL;
+>  		goto exit;
+>  	}
+> -	pmlmepriv->free_bss_buf =3D pbuf;
 
-Hi Pavel, Thank you for your review! I have sent a second version of the
-patchset.
+Hi Jaehee,
+
+"pmlmepriv->free_bss_buf" is assigned with "pbuf". The latter is a pointer=
+=20
+to virtually contiguous memory which was allocated by vmalloc() or=20
+vzalloc() (I didn't check, but the vfree() in _rtw_free_mlme_priv() tells=20
+me that indeed it was).
+
+>  	pnetwork =3D (struct wlan_network *)pbuf;
+> =20
+> @@ -109,13 +108,7 @@ void rtw_free_mlme_priv_ie_data(struct mlme_priv=20
+*pmlmepriv)
+> =20
+>  void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
+>  {
+> -
+>  	rtw_free_mlme_priv_ie_data(pmlmepriv);
+> -
+> -	if (pmlmepriv) {
+> -		vfree(pmlmepriv->free_bss_buf);
+> -	}
+
+Therefore, here you are causing a memory leak, which is something you=20
+should avoid :)=20
+
+Why did you delete that call to vfree()?=20
+
+I think that you are misunderstanding what Pavel said. Even if it were true=
+=20
+that the code makes no use of that region of memory (again, I didn't=20
+check), nevertheless, that memory was allocated somewhere and its address=20
+is now in "pmlmepriv->free_bss_buf".
+
+If you can confirm that this memory is allocated for no purpose you should=
+=20
+also remove the call to vmalloc() / vzalloc().
+
 Thanks,
-Jaehee
-> 
-> 
-> With regards,
-> Pavel Skripkin
 
+=46abio M. De Francesco =20
+
+> -
+>  }
+> =20
+>  struct	wlan_network *_rtw_alloc_network(struct	mlme_priv *pmlmepriv)/*=20
+_queue *free_queue) */
+> --=20
+> 2.25.1
+>
 
 
