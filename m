@@ -1,152 +1,70 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FB07B;
-	Fri, 15 Apr 2022 00:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649983049; x=1681519049;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NqIg0JIeL+aLq0L6edg0YyzM2lgFxJdLKtyUthSAtWE=;
-  b=nu1sm2QDGnMz6jxJA9TS8q7Jm2X44Fc0+sUvsUWFSOWyS/rfiXqEec9H
-   DtMysANV0ydTw1up9jc8MVk86TebzZs3tKpWMASDf72c2KZMiQlxdJD8t
-   bbTRqgLqD+WqwTitC4HX3dd7eCfLZ+kfEGEJGFcZNiWzG8KHeJAA+T8fF
-   AqAStQh2TcB5Q2KE8Cqu0nBM9XvTdwEw8iZE1fcKbld9tAJ6UgQEKygd/
-   WeEXXqlMVXLgrq03QzzMdAoSRhfpuK0CloIVugwqtTBneC2fQknNmwXb+
-   kuN/xRBitdBHrNwIOb+VQoEgIjhqW2HaxLu+0zACsZhVz/S9BGuDSPzLn
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="242997005"
-X-IronPort-AV: E=Sophos;i="5.90,261,1643702400"; 
-   d="scan'208";a="242997005"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 17:37:28 -0700
-X-IronPort-AV: E=Sophos;i="5.90,261,1643702400"; 
-   d="scan'208";a="508609395"
-Received: from aimeehax-mobl1.amr.corp.intel.com (HELO localhost) ([10.212.113.132])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 17:37:28 -0700
-Date: Thu, 14 Apr 2022 17:37:27 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Martiros Shakhzadyan <vrzh@vrzh.net>,
-	Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in
- hmm_store()
-Message-ID: <Yli+R7iLZKqO8kVP@iweiny-desk3>
-References: <20220413225531.9425-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B77D7B;
+	Fri, 15 Apr 2022 01:08:08 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id b24so8335004edu.10;
+        Thu, 14 Apr 2022 18:08:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Cpinv0gHO+HxVm83FVzuNg/GVVXCEmgbgcCu4WDaj7M=;
+        b=Ffg7XcD9snn2//qJljQ5v+P7ngZV1vDMeFevxj0RrIeSf2mwsp5r7LSIT9RTakX22R
+         /+RRihuzrYpU0fBPxlhWhhJh0nQfzFAUFe/W4uZCWP9kUl71jGvT4HVjATOw+D2F5YjZ
+         08sPZeDiY5ZyRiCNnK7qIt6SdwZyhD3/mHyTUstaoGgQA2AdR5YFq3X1rae38wEh0GRB
+         CAyZaEdrfdKuy1XCeOh0gHzaorLylrjd+HuYDEg0FL4GMgZjnJ41yJEKhJErkzkQhPcJ
+         2UjZZ1uQeBJEvb1c8X4sdsJldqmWk08ORVPkEECoUP+HoOwalsUvNEw+3xaZ+XSvAkqr
+         zj9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Cpinv0gHO+HxVm83FVzuNg/GVVXCEmgbgcCu4WDaj7M=;
+        b=tyjzPt8DapesdXS+d4Hbv7SVvKYDJjV9w5VvWD/6Tll7ER3BPC/ymrB5j8HCvLmUth
+         EHLdYR2GmrHbt8N47l8zJo+qrRrYF5nwKUTQSe+iUkS92Sue887cAlWIpz0enQu8HiRu
+         LNnw2AfhSdbvJl9PMTL2DXjw230yYUEy2uEkOcz2Opc7qshkERdQXEkra1/UJwq+8+OM
+         k0dNsJwT2I5vEXFOJ2tbXsaQ/9HsZA4ILwsfQPcIHq4TvD/DpQaoXkUxXOmXO/7RhaL0
+         4r6UBU6cUWkV4jcLTZDKW7/XNxDz4BTybyNIIm3Iy0kCbTNOQBNmNWrfSw2WWKkjJrZk
+         KzSQ==
+X-Gm-Message-State: AOAM531awxSzcTbU7tDGo/Ajs9H7NH1nlObjFLnIY/n8QlQDytp8ydwm
+	zJftcu4KpBgCZjoeP2mI26I=
+X-Google-Smtp-Source: ABdhPJyDjxkouJ0VBiQARUFq4JVw6eshlqNYqQSSEvzricjMxsG5DAG8olEisMcVleCmDTv66mkbeQ==
+X-Received: by 2002:a50:d087:0:b0:41d:7ea6:462a with SMTP id v7-20020a50d087000000b0041d7ea6462amr5863585edd.355.1649984886575;
+        Thu, 14 Apr 2022 18:08:06 -0700 (PDT)
+Received: from leap.localnet (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
+        by smtp.gmail.com with ESMTPSA id g24-20020a1709063b1800b006e8cf786ee8sm1134001ejf.21.2022.04.14.18.08.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 18:08:05 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tsuchiya Yuto <kitakar@gmail.com>, Martiros Shakhzadyan <vrzh@vrzh.net>, Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+Date: Fri, 15 Apr 2022 03:08:03 +0200
+Message-ID: <4415369.cEBGB3zze1@leap>
+In-Reply-To: <Yli+R7iLZKqO8kVP@iweiny-desk3>
+References: <20220413225531.9425-1-fmdefrancesco@gmail.com> <Yli+R7iLZKqO8kVP@iweiny-desk3>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220413225531.9425-1-fmdefrancesco@gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Apr 14, 2022 at 12:55:31AM +0200, Fabio M. De Francesco wrote:
-> The use of kmap() is being deprecated in favor of kmap_local_page()
-> where it is feasible. The same is true for kmap_atomic().
+On venerd? 15 aprile 2022 02:37:27 CEST Ira Weiny wrote:
+
+> Regardless now that kmap_local_page() exists, this is correct.
 > 
-> In file pci/hmm/hmm.c, function hmm_store() test if we are in atomic
-> context and, if so, it calls kmap_atomic(), if not, it calls kmap().
-> 
-> First of all, in_atomic() shouldn't be used in drivers. This macro
-> cannot always detect atomic context; in particular, it cannot know
-> about held spinlocks in non-preemptible kernels.
-> 
-> Notwithstanding what it is said above, this code doesn't need to care
-> whether or not it is executing in atomic context. It can simply use
-> kmap_local_page() / kunmap_local() that can instead do the mapping /
-> unmapping regardless of the context.
-> 
-> With kmap_local_page(), the mapping is per thread, CPU local and not
-> globally visible. Therefore, hmm_store()() is a function where the use
-> of kmap_local_page() in place of both kmap() and kmap_atomic() is
-> correctly suited.
-> 
-> Convert the calls of kmap() / kunmap() and kmap_atomic() /
-> kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
-> unnecessary tests which test if the code is in atomic context.
-> 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 
-I've had to research this a bit myself because I've not seen this pattern
-before.
+I'm pretty sure this particular patch would have had a hard time getting 
+accepted without any authoritative "Reviewed-by" tag from you or other 
+people more experienced than me.
 
-kmap_atomic() had 2 uses:
+Thank you very much!
 
-	1) a situation where the operation on the page requires pagefaults
-	   and/or preemption to be disabled
-	2) in a situation where one knows the code can't sleep
+Fabio M. De Francesco
 
-kmap_local_page() removes the second use case because kmap() is no longer the
-only alternative; from the kdoc for kmap_atomic():
 
-...
- * kmap_atomic - Atomically map a page for temporary usage - Deprecated!
-...
- * Effectively a wrapper around kmap_local_page() which disables pagefaults
- * and preemption.
-...
-
-The deprecation is because any pagefault/preemption disabling should probably
-be done explicitly from now on but allows for existing kmap_atomic() callers to
-live on.
-
-In this case, I suspect the original driver writer wanted to use kmap() but
-hmm_store() was called from various contexts.  So they incorrectly tried to
-protect against the (potentially) sleeping kmap() call.  In reality, I think
-they could have simply called kmap_atomic() and skipped 'in_atomic()' check
-altogether.
-
-Regardless now that kmap_local_page() exists, this is correct.
-
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-
-> ---
->  drivers/staging/media/atomisp/pci/hmm/hmm.c | 14 ++------------
->  1 file changed, 2 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-> index 46ac082cd3f1..54188197c3dc 100644
-> --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-> @@ -482,10 +482,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
->  		idx = (virt - bo->start) >> PAGE_SHIFT;
->  		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
->  
-> -		if (in_atomic())
-> -			des = (char *)kmap_atomic(bo->page_obj[idx].page);
-> -		else
-> -			des = (char *)kmap(bo->page_obj[idx].page);
-> +		des = (char *)kmap_local_page(bo->page_obj[idx].page);
->  
->  		if (!des) {
->  			dev_err(atomisp_dev,
-> @@ -512,14 +509,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
->  
->  		clflush_cache_range(des, len);
->  
-> -		if (in_atomic())
-> -			/*
-> -			 * Note: kunmap_atomic requires return addr from
-> -			 * kmap_atomic, not the page. See linux/highmem.h
-> -			 */
-> -			kunmap_atomic(des - offset);
-> -		else
-> -			kunmap(bo->page_obj[idx].page);
-> +		kunmap_local(des);
->  	}
->  
->  	return 0;
-> -- 
-> 2.34.1
-> 
