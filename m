@@ -1,112 +1,134 @@
-Received: from mail.meizu.com (edge01.meizu.com [14.29.68.187])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF4017E6
-	for <linux-staging@lists.linux.dev>; Fri, 15 Apr 2022 07:22:49 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
- (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 15 Apr
- 2022 15:21:39 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 15 Apr
- 2022 15:21:37 +0800
-From: Haowen Bai <baihaowen@meizu.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Haowen Bai <baihaowen@meizu.com>, <linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH V4] staging: rtl8192e: Fix signedness bug in rtllib_rx_assoc_resp()
-Date: Fri, 15 Apr 2022 15:21:35 +0800
-Message-ID: <1650007296-31508-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20220415065810.GQ3293@kadam>
-References: <20220415065810.GQ3293@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566B47B;
+	Fri, 15 Apr 2022 09:08:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=1IB+AYrMADaOCol/Ics482qObTIxCkr1TUEEibKg3ZM=;
+  b=fHSLbC+OQzDO7QbF10PsD5NMNxwvyNu3/bChaFGSYyXWM2cXeez/iLvr
+   uL+NlmjQMzvE0fzOHzREnmrGnbLPIVoIrj1196b7S8xqpD2sUdKECvnOO
+   sz33g4rvJSAeMYqXaTp8V9jhflZKdI7uF+j04GIQg7QMF6isfKUSkCwkK
+   U=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,262,1643670000"; 
+   d="scan'208";a="31846000"
+Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2022 11:08:30 +0200
+Date: Fri, 15 Apr 2022 11:08:29 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+cc: forest@alittletooquiet.net, Aliya Rahmani <aliyarahmani786@gmail.com>, 
+    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+    outreachy@lists.linux.dev
+Subject: Re: [PATCH v4] staging: vt6655f: rxtx: code style - Fix Lines should
+ not end with a '('
+In-Reply-To: <1749887.3VsfAaAtOV@leap>
+Message-ID: <alpine.DEB.2.22.394.2204151107350.3175@hadrien>
+References: <20220415051900.5801-1-aliyarahmani786@gmail.com> <1749887.3VsfAaAtOV@leap>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+Content-Type: multipart/mixed; boundary="8323329-1404162921-1650013710=:3175"
 
-The rtllib_rx_assoc_resp() function has a signedness bug because it's
-a declared as a u16 but it return -ENOMEM.  When you look at it more
-closely it returns a mix of error codes including 0xcafe, -ENOMEM, and
-a->status which is WLAN_STATUS_NOT_SUPPORTED_AUTH_ALG.  This is a mess.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Clean it up to just return standard kernel error codes.  We can print
-out the a->status before returning a regular error code.  The printks
-in the caller need to be adjusted as well.
+--8323329-1404162921-1650013710=:3175
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8BIT
 
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
-V1->V2: reduce return random value; print its own error message.
-V2->V3: change commit message; change s16 -> int.
-V3->V4: add message suggested by Dan Carpenter. If you look up what 
-a->status is, it can only be WLAN_STATUS_NOT_SUPPORTED_AUTH_ALG which 
-is not worth preserving really.
 
- drivers/staging/rtl8192e/rtllib_softmac.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 82bf05eb1cbf..38ac733c3245 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -1764,7 +1764,7 @@ static void rtllib_softmac_check_all_nets(struct rtllib_device *ieee)
- 	spin_unlock_irqrestore(&ieee->lock, flags);
- }
- 
--static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
-+static inline int auth_parse(struct net_device *dev, struct sk_buff *skb,
- 			     u8 **challenge, int *chlen)
- {
- 	struct rtllib_authentication *a;
-@@ -1773,7 +1773,7 @@ static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
- 	if (skb->len <  (sizeof(struct rtllib_authentication) -
- 	    sizeof(struct rtllib_info_element))) {
- 		netdev_dbg(dev, "invalid len in auth resp: %d\n", skb->len);
--		return 0xcafe;
-+		return -EINVAL;
- 	}
- 	*challenge = NULL;
- 	a = (struct rtllib_authentication *) skb->data;
-@@ -1787,7 +1787,13 @@ static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
- 				return -ENOMEM;
- 		}
- 	}
--	return le16_to_cpu(a->status);
-+
-+	if (a->status) {
-+		netdev_info(ieee->dev, "auth_parse() failed");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
- }
- 
- static int auth_rq_parse(struct net_device *dev, struct sk_buff *skb, u8 *dest)
-@@ -2282,7 +2288,7 @@ rtllib_rx_assoc_resp(struct rtllib_device *ieee, struct sk_buff *skb,
- 
- static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
- {
--	u16 errcode;
-+	int errcode;
- 	u8 *challenge;
- 	int chlen = 0;
- 	bool bSupportNmode = true, bHalfSupportNmode = false;
-@@ -2292,8 +2298,7 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
- 	if (errcode) {
- 		ieee->softmac_stats.rx_auth_rs_err++;
- 		netdev_info(ieee->dev,
--			    "Authentication response status code 0x%x",
--			    errcode);
-+			    "Authentication response status code %d", errcode);
- 		rtllib_associate_abort(ieee);
- 		return;
- 	}
--- 
-2.7.4
+On Fri, 15 Apr 2022, Fabio M. De Francesco wrote:
 
+> Hi Aliya,
+>
+> I think that the subject of your patch can be reduced a bit. For example,
+> why don't you remove that "code style -"?
+>
+> On venerdì 15 aprile 2022 07:19:01 CEST Aliya Rahmani wrote:
+> > Code style warnings reported by checkpatch.
+> > Improve the layout of a function header:
+> > *Put the first parameter immediately after the '(' and align the other
+> > parameters underneath it.
+>
+> You are doing two different things. Please only one logical change per
+> patch. Furthermore, why that "*" before "Put"?
+
+I think that fixing up a function header could be considered to be one
+thing?
+
+But the subject line should reflect the complete one thing.
+
+julia
+
+>
+> >
+> > Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
+> > ---
+> > v1->v2 changes: Put static and void on a single line.
+> >
+> > v2->v3->v4 changes: Rework commit description.
+> >
+> > ---
+> >  drivers/staging/vt6655/rxtx.c | 23 ++++++++++-------------
+> >  1 file changed, 10 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/
+> rxtx.c
+> > index 53506e242a96..01dc83b2f4bc 100644
+> > --- a/drivers/staging/vt6655/rxtx.c
+> > +++ b/drivers/staging/vt6655/rxtx.c
+> > @@ -567,19 +567,16 @@ s_uFillDataHead(
+> >  	return buf->duration;
+> >  }
+> >
+> > -static
+> > -void
+> > -s_vFillRTSHead(
+> > -	struct vnt_private *pDevice,
+> > -	unsigned char byPktType,
+> > -	void *pvRTS,
+> > -	unsigned int cbFrameLength,
+> > -	bool bNeedAck,
+> > -	bool bDisCRC,
+> > -	struct ieee80211_hdr *hdr,
+> > -	unsigned short wCurrentRate,
+> > -	unsigned char byFBOption
+> > -)
+> > +static void
+>
+> Why storage class and function type are on a separate line? Is it a special
+> convention for this driver?
+>
+> > +s_vFillRTSHead(struct vnt_private *pDevice,
+> > +		unsigned char byPktType,
+> > +		void *pvRTS,
+> > +		unsigned int cbFrameLength,
+> > +		bool bNeedAck,
+> > +		bool bDisCRC,
+> > +		struct ieee80211_hdr *hdr,
+> > +		unsigned short wCurrentRate,
+> > +		unsigned char byFBOption)
+> >  {
+> >  	unsigned int uRTSFrameLen = 20;
+> >
+> > --
+> > 2.25.1
+>
+> Thanks,
+>
+> Fabio M. De Francesco
+>
+>
+>
+>
+--8323329-1404162921-1650013710=:3175--
