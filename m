@@ -1,54 +1,45 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15DF320E
-	for <linux-staging@lists.linux.dev>; Fri, 15 Apr 2022 12:10:42 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id g20so9709524edw.6
-        for <linux-staging@lists.linux.dev>; Fri, 15 Apr 2022 05:10:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+YYK4vy259MFhr5syvwnMVIGmoB/m/01LjYdYR6zHbo=;
-        b=OFGsGWd+TJQk2Rg81s7SRN7EQf0lKglfkAW4B079wNdWeyzha85aIFue/NHsviVZ+J
-         6ay05JBd8VcwZ2hLEnL5YtYVvZccBRASgFbEZge7ce2xrjvrVw0uvGxuFwJgFOlos6g+
-         OZM+kvcCfM/ISazrD7xhUKazsRqdc9wHlAyqP+Dw2bJEtcs/IDH8CPHfPIgRTFb3J88s
-         50z3eg2H4ErTHA9B5wTDCLIDLYQ1tEMe8UyBY5Z2hTsLUDoU5+4JNBCy+1c7fEuTWnHE
-         r2MFv5aVzs30mI/SHsxRAJmdvdMXfclngTRfvqqVkOtI71e2USJP9RH9U3+5FtRPO4zE
-         WvhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+YYK4vy259MFhr5syvwnMVIGmoB/m/01LjYdYR6zHbo=;
-        b=RFX3gSk7203V3gWHVMxhtPkAFBMLtJex+usfXMG2U7ZiBYGBHR2nPCGpwRcUFJSRUX
-         CtPkn8RfPZ6yOQOSaP1i4TG5yheH0v4JMffb8S9EQoyC4z1nGDayf2aQ1Rzd0tjfSGWv
-         9VRQI45iH7G99OxJL9k0nHmMuCYS3cGCP/QSqdsarzElcFH2YFoOVMwUYv+PThXIayAm
-         O3NIJvX3tExHe/zdFspQ8vrhAxBd/3gQLnIzCIecmanX1x0KqO419MG5Q+mt6xeADyDx
-         1szVaV8F/x77Xf/0KlYVjFChwLrooYGeTFG5yLsZoggE4wkSlPOuAs9DeBGASmy35keK
-         WfYQ==
-X-Gm-Message-State: AOAM5321Mn6drcv29DJgKAPUMnToSE56cZeX5OBMdTeZNbcEsfYxCS29
-	c6kiia8cWVfVGyGMsv9p5ig=
-X-Google-Smtp-Source: ABdhPJxcOj8Ad1mmGtO9rNI7z9DkpThgUe4k1yRqCC+CsGPDvAZVCojKnwhqdkIjc7ALYNI+f3oXNg==
-X-Received: by 2002:a05:6402:35d6:b0:41f:95b8:a945 with SMTP id z22-20020a05640235d600b0041f95b8a945mr7974772edc.40.1650024641079;
-        Fri, 15 Apr 2022 05:10:41 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5abba5.dynamic.kabel-deutschland.de. [95.90.187.165])
-        by smtp.gmail.com with ESMTPSA id z22-20020a1709063ad600b006e8867caa5dsm1626114ejd.72.2022.04.15.05.10.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 05:10:40 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DEA3219;
+	Fri, 15 Apr 2022 15:37:17 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id ED909240006;
+	Fri, 15 Apr 2022 15:37:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1650037035;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kXBDK8xo31Siszz9mdQu0RpXYIzmlLJyUEJsWA4vLkA=;
+	b=JBhAze1ahVizW7R+goEcOR/IGfDIuv6Y3R8FisdEI09kZT8Tx81cDJIx9cUuiRpWdWc1eI
+	wynmFiji49Jmv+S6xfgFMhNJBF9l79sggXq2K40rl20ZKNLB2k2DYhvQPNwVw51/TJ7q/E
+	fagPCbQ+CplZz2d0FT9y/Fr/z3ioNZkPyXPnINbHJLkuf28n2ph6sSXvITgQIxn9tVhDP5
+	Ut/bQoDvp+J6vVY4gKE9pwFcWoPm681B3uTWhwktYK/wPzw+QkxbUUMTh6B6cYoD5uoIDG
+	oHlzA/RK36FlbXF4AbXwGoXm+ifYyg9LSIbkiz6f4lYPFCwKL7W2vnZ0z8YQ1g==
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v3 8/8] staging: r8188eu: check firmware header existence before access
-Date: Fri, 15 Apr 2022 14:10:23 +0200
-Message-Id: <20220415121023.11564-9-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220415121023.11564-1-straube.linux@gmail.com>
-References: <20220415121023.11564-1-straube.linux@gmail.com>
+	linux-staging@lists.linux.dev
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v3 0/4] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / ISP Driver
+Date: Fri, 15 Apr 2022 17:37:04 +0200
+Message-Id: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.35.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,45 +48,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We should access the fields of fwhdr only if the check for firmware
-header existence is true. Move the affected code into the if block
-that checks firmware header existence.
+This new version is an offspring from the big "Allwinner A31/A83T
+MIPI CSI-2 Support and A31 ISP Support" series, which was split into
+individual series for better clarity and handling.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
-v3:
-- no real changes,
-  just the pr_info() -> pr_info_once() from patch 7/8 is different
+This part only concerns the introduction of the new ISP driver.
 
-v2:
-- no changes
+Changes since all-in-one v2:
+- Updated Kconfig to follow the latest media-wide changes;
+- Reworked async subdev handling with a dedicated structure holding the
+  corresponding source to avoid matching in the driver;
+- Switched to clock-managed regmap mmio;
+- Used helper to get a single enabled link for an entity's pad, to replace
+  source selection at link_validate time and select the remote source at
+  stream on time instead;
+- Added mutex for mbus format serialization;
+- Used endpoint-base instead of video-interface for "internal" endpoints
+  in device-tree schema;
+- Added TODO with unstaging requirements;
+- Various cosmetic cleanups;
+- Updated copyright years;
 
- drivers/staging/r8188eu/core/rtw_fw.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+Paul Kocialkowski (4):
+  dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+  dt-bindings: media: sun6i-a31-csi: Add ISP output port
+  staging: media: Add support for the Allwinner A31 ISP
+  MAINTAINERS: Add entry for the Allwinner A31 ISP driver
 
-diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
-index 7ee72236c7f4..8b5c67780a7b 100644
---- a/drivers/staging/r8188eu/core/rtw_fw.c
-+++ b/drivers/staging/r8188eu/core/rtw_fw.c
-@@ -251,14 +251,13 @@ int rtl8188e_firmware_download(struct adapter *padapter)
- 	fw_data = dvobj->firmware.data;
- 	fw_size = dvobj->firmware.size;
- 
--	/*  To Check Fw header. Added by tynli. 2009.12.04. */
- 	fwhdr = (struct rt_firmware_hdr *)dvobj->firmware.data;
- 
--	pr_info_once("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
--		     DRIVER_PREFIX, le16_to_cpu(fwhdr->version), fwhdr->subversion,
--		     le16_to_cpu(fwhdr->signature));
--
- 	if (IS_FW_HEADER_EXIST(fwhdr)) {
-+		pr_info_once("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
-+			     DRIVER_PREFIX, le16_to_cpu(fwhdr->version), fwhdr->subversion,
-+			     le16_to_cpu(fwhdr->signature));
-+
- 		fw_data = fw_data + sizeof(struct rt_firmware_hdr);
- 		fw_size = fw_size - sizeof(struct rt_firmware_hdr);
- 	}
+ .../media/allwinner,sun6i-a31-csi.yaml        |  14 +
+ .../media/allwinner,sun6i-a31-isp.yaml        | 117 +++
+ MAINTAINERS                                   |   9 +
+ drivers/staging/media/sunxi/Kconfig           |   1 +
+ drivers/staging/media/sunxi/Makefile          |   1 +
+ drivers/staging/media/sunxi/sun6i-isp/Kconfig |  15 +
+ .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
+ .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 556 +++++++++++++
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  85 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 749 ++++++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 573 ++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 578 ++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  66 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
+ .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
+ 18 files changed, 3222 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/TODO.txt
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
+
 -- 
-2.35.1
+2.35.2
 
