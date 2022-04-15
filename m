@@ -1,42 +1,46 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450B43234;
-	Thu, 14 Apr 2022 23:43:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FB07B;
+	Fri, 15 Apr 2022 00:37:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649979833; x=1681515833;
+  t=1649983049; x=1681519049;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0IUhWj+DA/vCGWmzK8INQH8Jud0K/gNfGVfy/BfNSHA=;
-  b=UxVrGVq7s7CxYZTs3Geu5XdX80Q2cbMYxlSvnMS3EhrYjnj6JRBa5/ux
-   Vxyr1iqBdb3WFduJvgIvkmBG84WkATFGM863hBhjZ/7YFJIckamY6F0Fy
-   BL3Uw3o4wnvgkOK6Lw7Qj2/AOwItGuzuj5E/r2yvUyrhCw+rqUoqKTW40
-   ID43DIOy/isTAktsNeQqCg+G5dAEbNDCEQowDPNfg5Q5XujHGweKE82p9
-   BfmbGsaZBC9flUoeizBiyX2tUI1nKV4a6jesH3NXukDsGnE/G75uB6mAs
-   J1zU6uTwE1/Lc9J6TbiT/nRL1GRPiMpkoQA364UhY7iSNGv/JbknIZwfh
+  bh=NqIg0JIeL+aLq0L6edg0YyzM2lgFxJdLKtyUthSAtWE=;
+  b=nu1sm2QDGnMz6jxJA9TS8q7Jm2X44Fc0+sUvsUWFSOWyS/rfiXqEec9H
+   DtMysANV0ydTw1up9jc8MVk86TebzZs3tKpWMASDf72c2KZMiQlxdJD8t
+   bbTRqgLqD+WqwTitC4HX3dd7eCfLZ+kfEGEJGFcZNiWzG8KHeJAA+T8fF
+   AqAStQh2TcB5Q2KE8Cqu0nBM9XvTdwEw8iZE1fcKbld9tAJ6UgQEKygd/
+   WeEXXqlMVXLgrq03QzzMdAoSRhfpuK0CloIVugwqtTBneC2fQknNmwXb+
+   kuN/xRBitdBHrNwIOb+VQoEgIjhqW2HaxLu+0zACsZhVz/S9BGuDSPzLn
    A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="288115495"
+X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="242997005"
 X-IronPort-AV: E=Sophos;i="5.90,261,1643702400"; 
-   d="scan'208";a="288115495"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 16:43:52 -0700
+   d="scan'208";a="242997005"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 17:37:28 -0700
 X-IronPort-AV: E=Sophos;i="5.90,261,1643702400"; 
-   d="scan'208";a="591371274"
+   d="scan'208";a="508609395"
 Received: from aimeehax-mobl1.amr.corp.intel.com (HELO localhost) ([10.212.113.132])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 16:43:51 -0700
-Date: Thu, 14 Apr 2022 16:43:51 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2022 17:37:28 -0700
+Date: Thu, 14 Apr 2022 17:37:27 -0700
 From: Ira Weiny <ira.weiny@intel.com>
-To: Rebecca Mckeever <remckee0@gmail.com>
-Cc: outreachy@lists.linux.dev, Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] staging: r8188eu: use sizeof(*pvar) for allocating
- structs
-Message-ID: <Ylixt2gxhcmDJq11@iweiny-desk3>
-References: <cover.1649233201.git.remckee0@gmail.com>
- <5b526d8c178d89328de935ff4ff57651bdd8379b.1649233201.git.remckee0@gmail.com>
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Martiros Shakhzadyan <vrzh@vrzh.net>,
+	Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in
+ hmm_store()
+Message-ID: <Yli+R7iLZKqO8kVP@iweiny-desk3>
+References: <20220413225531.9425-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,302 +49,104 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5b526d8c178d89328de935ff4ff57651bdd8379b.1649233201.git.remckee0@gmail.com>
+In-Reply-To: <20220413225531.9425-1-fmdefrancesco@gmail.com>
 
-On Wed, Apr 06, 2022 at 03:31:00AM -0500, Rebecca Mckeever wrote:
-> Use sizeof(*pvar) instead of sizeof(struct var) when allocating memory.
-> This conforms to Linux kernel coding style, improves readability,
-> and decreases the opportunity for bugs if the pointer variable type is
-> changed. Issue found by checkpatch messages of the following format:
+On Thu, Apr 14, 2022 at 12:55:31AM +0200, Fabio M. De Francesco wrote:
+> The use of kmap() is being deprecated in favor of kmap_local_page()
+> where it is feasible. The same is true for kmap_atomic().
 > 
-> CHECK: Prefer kzalloc(sizeof(*pvar)...) over kzalloc(sizeof(struct var)...)
+> In file pci/hmm/hmm.c, function hmm_store() test if we are in atomic
+> context and, if so, it calls kmap_atomic(), if not, it calls kmap().
 > 
-> Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
+> First of all, in_atomic() shouldn't be used in drivers. This macro
+> cannot always detect atomic context; in particular, it cannot know
+> about held spinlocks in non-preemptible kernels.
+> 
+> Notwithstanding what it is said above, this code doesn't need to care
+> whether or not it is executing in atomic context. It can simply use
+> kmap_local_page() / kunmap_local() that can instead do the mapping /
+> unmapping regardless of the context.
+> 
+> With kmap_local_page(), the mapping is per thread, CPU local and not
+> globally visible. Therefore, hmm_store()() is a function where the use
+> of kmap_local_page() in place of both kmap() and kmap_atomic() is
+> correctly suited.
+> 
+> Convert the calls of kmap() / kunmap() and kmap_atomic() /
+> kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
+> unnecessary tests which test if the code is in atomic context.
+> 
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+
+I've had to research this a bit myself because I've not seen this pattern
+before.
+
+kmap_atomic() had 2 uses:
+
+	1) a situation where the operation on the page requires pagefaults
+	   and/or preemption to be disabled
+	2) in a situation where one knows the code can't sleep
+
+kmap_local_page() removes the second use case because kmap() is no longer the
+only alternative; from the kdoc for kmap_atomic():
+
+...
+ * kmap_atomic - Atomically map a page for temporary usage - Deprecated!
+...
+ * Effectively a wrapper around kmap_local_page() which disables pagefaults
+ * and preemption.
+...
+
+The deprecation is because any pagefault/preemption disabling should probably
+be done explicitly from now on but allows for existing kmap_atomic() callers to
+live on.
+
+In this case, I suspect the original driver writer wanted to use kmap() but
+hmm_store() was called from various contexts.  So they incorrectly tried to
+protect against the (potentially) sleeping kmap() call.  In reality, I think
+they could have simply called kmap_atomic() and skipped 'in_atomic()' check
+altogether.
+
+Regardless now that kmap_local_page() exists, this is correct.
 
 Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 
 > ---
->  drivers/staging/r8188eu/core/rtw_cmd.c | 68 +++++++++++++-------------
->  1 file changed, 34 insertions(+), 34 deletions(-)
+>  drivers/staging/media/atomisp/pci/hmm/hmm.c | 14 ++------------
+>  1 file changed, 2 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-> index f4a277e6b654..110959148648 100644
-> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
-> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-> @@ -334,11 +334,11 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
->  	if (check_fwstate(pmlmepriv, _FW_LINKED))
->  		p2p_ps_wk_cmd(padapter, P2P_PS_SCAN, 1);
+> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> index 46ac082cd3f1..54188197c3dc 100644
+> --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> @@ -482,10 +482,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
+>  		idx = (virt - bo->start) >> PAGE_SHIFT;
+>  		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
 >  
-> -	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
->  	if (!ph2c)
->  		return _FAIL;
+> -		if (in_atomic())
+> -			des = (char *)kmap_atomic(bo->page_obj[idx].page);
+> -		else
+> -			des = (char *)kmap(bo->page_obj[idx].page);
+> +		des = (char *)kmap_local_page(bo->page_obj[idx].page);
 >  
-> -	psurveyPara = kzalloc(sizeof(struct sitesurvey_parm), GFP_ATOMIC);
-> +	psurveyPara = kzalloc(sizeof(*psurveyPara), GFP_ATOMIC);
->  	if (!psurveyPara) {
->  		kfree(ph2c);
->  		return _FAIL;
-> @@ -399,13 +399,13 @@ u8 rtw_setdatarate_cmd(struct adapter *padapter, u8 *rateset)
->  	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
->  	u8	res = _SUCCESS;
+>  		if (!des) {
+>  			dev_err(atomisp_dev,
+> @@ -512,14 +509,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
 >  
-> -	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
->  	if (!ph2c) {
->  		res = _FAIL;
->  		goto exit;
+>  		clflush_cache_range(des, len);
+>  
+> -		if (in_atomic())
+> -			/*
+> -			 * Note: kunmap_atomic requires return addr from
+> -			 * kmap_atomic, not the page. See linux/highmem.h
+> -			 */
+> -			kunmap_atomic(des - offset);
+> -		else
+> -			kunmap(bo->page_obj[idx].page);
+> +		kunmap_local(des);
 >  	}
 >  
-> -	pbsetdataratepara = kzalloc(sizeof(struct setdatarate_parm), GFP_ATOMIC);
-> +	pbsetdataratepara = kzalloc(sizeof(*pbsetdataratepara), GFP_ATOMIC);
->  	if (!pbsetdataratepara) {
->  		kfree(ph2c);
->  		res = _FAIL;
-> @@ -438,7 +438,7 @@ u8 rtw_createbss_cmd(struct adapter  *padapter)
->  
->  	rtw_led_control(padapter, LED_CTL_START_TO_LINK);
->  
-> -	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	pcmd = kzalloc(sizeof(*pcmd), GFP_ATOMIC);
->  	if (!pcmd) {
->  		res = _FAIL;
->  		goto exit;
-> @@ -475,7 +475,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
->  
->  	rtw_led_control(padapter, LED_CTL_START_TO_LINK);
->  
-> -	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	pcmd = kzalloc(sizeof(*pcmd), GFP_ATOMIC);
->  	if (!pcmd) {
->  		res = _FAIL;
->  		goto exit;
-> @@ -624,12 +624,12 @@ u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infra n
->  	struct	cmd_priv   *pcmdpriv = &padapter->cmdpriv;
->  	u8	res = _SUCCESS;
->  
-> -	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
-> +	ph2c = kzalloc(sizeof(*ph2c), GFP_KERNEL);
->  	if (!ph2c) {
->  		res = false;
->  		goto exit;
->  	}
-> -	psetop = kzalloc(sizeof(struct setopmode_parm), GFP_KERNEL);
-> +	psetop = kzalloc(sizeof(*psetop), GFP_KERNEL);
->  
->  	if (!psetop) {
->  		kfree(ph2c);
-> @@ -659,20 +659,20 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, u8 *psta, u8 unicast_key)
->  	struct sta_info *sta = (struct sta_info *)psta;
->  	u8	res = _SUCCESS;
->  
-> -	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
-> +	ph2c = kzalloc(sizeof(*ph2c), GFP_KERNEL);
->  	if (!ph2c) {
->  		res = _FAIL;
->  		goto exit;
->  	}
->  
-> -	psetstakey_para = kzalloc(sizeof(struct set_stakey_parm), GFP_KERNEL);
-> +	psetstakey_para = kzalloc(sizeof(*psetstakey_para), GFP_KERNEL);
->  	if (!psetstakey_para) {
->  		kfree(ph2c);
->  		res = _FAIL;
->  		goto exit;
->  	}
->  
-> -	psetstakey_rsp = kzalloc(sizeof(struct set_stakey_rsp), GFP_KERNEL);
-> +	psetstakey_rsp = kzalloc(sizeof(*psetstakey_rsp), GFP_KERNEL);
->  	if (!psetstakey_rsp) {
->  		kfree(ph2c);
->  		kfree(psetstakey_para);
-> @@ -718,13 +718,13 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, u8 *psta, u8 entry, u8 enqueue)
->  	if (!enqueue) {
->  		clear_cam_entry(padapter, entry);
->  	} else {
-> -		ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +		ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
->  		if (!ph2c) {
->  			res = _FAIL;
->  			goto exit;
->  		}
->  
-> -		psetstakey_para = kzalloc(sizeof(struct set_stakey_parm),
-> +		psetstakey_para = kzalloc(sizeof(*psetstakey_para),
->  					  GFP_ATOMIC);
->  		if (!psetstakey_para) {
->  			kfree(ph2c);
-> @@ -732,7 +732,7 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, u8 *psta, u8 entry, u8 enqueue)
->  			goto exit;
->  		}
->  
-> -		psetstakey_rsp = kzalloc(sizeof(struct set_stakey_rsp),
-> +		psetstakey_rsp = kzalloc(sizeof(*psetstakey_rsp),
->  					 GFP_ATOMIC);
->  		if (!psetstakey_rsp) {
->  			kfree(ph2c);
-> @@ -765,13 +765,13 @@ u8 rtw_addbareq_cmd(struct adapter *padapter, u8 tid, u8 *addr)
->  	struct addBaReq_parm *paddbareq_parm;
->  	u8	res = _SUCCESS;
->  
-> -	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
->  	if (!ph2c) {
->  		res = _FAIL;
->  		goto exit;
->  	}
->  
-> -	paddbareq_parm = kzalloc(sizeof(struct addBaReq_parm), GFP_ATOMIC);
-> +	paddbareq_parm = kzalloc(sizeof(*paddbareq_parm), GFP_ATOMIC);
->  	if (!paddbareq_parm) {
->  		kfree(ph2c);
->  		res = _FAIL;
-> @@ -798,13 +798,13 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *padapter)
->  	struct cmd_priv	*pcmdpriv = &padapter->cmdpriv;
->  	u8	res = _SUCCESS;
->  
-> -	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
->  	if (!ph2c) {
->  		res = _FAIL;
->  		goto exit;
->  	}
->  
-> -	pdrvextra_cmd_parm = kzalloc(sizeof(struct drvextra_cmd_parm), GFP_ATOMIC);
-> +	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
->  	if (!pdrvextra_cmd_parm) {
->  		kfree(ph2c);
->  		res = _FAIL;
-> @@ -839,7 +839,7 @@ u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan)
->  	}
->  
->  	/* prepare cmd parameter */
-> -	setChannelPlan_param = kzalloc(sizeof(struct SetChannelPlan_param),
-> +	setChannelPlan_param = kzalloc(sizeof(*setChannelPlan_param),
->  				       GFP_KERNEL);
->  	if (!setChannelPlan_param) {
->  		res = _FAIL;
-> @@ -848,7 +848,7 @@ u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan)
->  	setChannelPlan_param->channel_plan = chplan;
->  
->  	/* need enqueue, prepare cmd_obj and enqueue */
-> -	pcmdobj = kzalloc(sizeof(struct	cmd_obj), GFP_KERNEL);
-> +	pcmdobj = kzalloc(sizeof(*pcmdobj), GFP_KERNEL);
->  	if (!pcmdobj) {
->  		kfree(setChannelPlan_param);
->  		res = _FAIL;
-> @@ -1010,13 +1010,13 @@ u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue)
->  	/*	return res; */
->  
->  	if (enqueue) {
-> -		ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +		ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
->  		if (!ph2c) {
->  			res = _FAIL;
->  			goto exit;
->  		}
->  
-> -		pdrvextra_cmd_parm = kzalloc(sizeof(struct drvextra_cmd_parm),
-> +		pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm),
->  					     GFP_ATOMIC);
->  		if (!pdrvextra_cmd_parm) {
->  			kfree(ph2c);
-> @@ -1056,13 +1056,13 @@ u8 rtw_rpt_timer_cfg_cmd(struct adapter *padapter, u16 min_time)
->  
->  	u8	res = _SUCCESS;
->  
-> -	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
->  	if (!ph2c) {
->  		res = _FAIL;
->  		goto exit;
->  	}
->  
-> -	pdrvextra_cmd_parm = kzalloc(sizeof(struct drvextra_cmd_parm),
-> +	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm),
->  				     GFP_ATOMIC);
->  	if (!pdrvextra_cmd_parm) {
->  		kfree(ph2c);
-> @@ -1109,13 +1109,13 @@ u8 rtw_antenna_select_cmd(struct adapter *padapter, u8 antenna, u8 enqueue)
->  		return res;
->  
->  	if (enqueue) {
-> -		ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
-> +		ph2c = kzalloc(sizeof(*ph2c), GFP_KERNEL);
->  		if (!ph2c) {
->  			res = _FAIL;
->  			goto exit;
->  		}
->  
-> -		pdrvextra_cmd_parm = kzalloc(sizeof(struct drvextra_cmd_parm),
-> +		pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm),
->  					     GFP_KERNEL);
->  		if (!pdrvextra_cmd_parm) {
->  			kfree(ph2c);
-> @@ -1148,13 +1148,13 @@ u8 p2p_protocol_wk_cmd(struct adapter *padapter, int intCmdType)
->  	if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE))
->  		return res;
->  
-> -	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
->  	if (!ph2c) {
->  		res = _FAIL;
->  		goto exit;
->  	}
->  
-> -	pdrvextra_cmd_parm = kzalloc(sizeof(struct drvextra_cmd_parm), GFP_ATOMIC);
-> +	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
->  	if (!pdrvextra_cmd_parm) {
->  		kfree(ph2c);
->  		res = _FAIL;
-> @@ -1182,13 +1182,13 @@ u8 rtw_ps_cmd(struct adapter *padapter)
->  
->  	u8	res = _SUCCESS;
->  
-> -	ppscmd = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	ppscmd = kzalloc(sizeof(*ppscmd), GFP_ATOMIC);
->  	if (!ppscmd) {
->  		res = _FAIL;
->  		goto exit;
->  	}
->  
-> -	pdrvextra_cmd_parm = kzalloc(sizeof(struct drvextra_cmd_parm), GFP_ATOMIC);
-> +	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
->  	if (!pdrvextra_cmd_parm) {
->  		kfree(ppscmd);
->  		res = _FAIL;
-> @@ -1253,13 +1253,13 @@ u8 rtw_chk_hi_queue_cmd(struct adapter *padapter)
->  	struct cmd_priv	*pcmdpriv = &padapter->cmdpriv;
->  	u8	res = _SUCCESS;
->  
-> -	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
->  	if (!ph2c) {
->  		res = _FAIL;
->  		goto exit;
->  	}
->  
-> -	pdrvextra_cmd_parm = kzalloc(sizeof(struct drvextra_cmd_parm), GFP_ATOMIC);
-> +	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
->  	if (!pdrvextra_cmd_parm) {
->  		kfree(ph2c);
->  		res = _FAIL;
-> @@ -1284,13 +1284,13 @@ u8 rtw_c2h_wk_cmd(struct adapter *padapter, u8 *c2h_evt)
->  	struct cmd_priv	*pcmdpriv = &padapter->cmdpriv;
->  	u8	res = _SUCCESS;
->  
-> -	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
-> +	ph2c = kzalloc(sizeof(*ph2c), GFP_ATOMIC);
->  	if (!ph2c) {
->  		res = _FAIL;
->  		goto exit;
->  	}
->  
-> -	pdrvextra_cmd_parm = kzalloc(sizeof(struct drvextra_cmd_parm), GFP_ATOMIC);
-> +	pdrvextra_cmd_parm = kzalloc(sizeof(*pdrvextra_cmd_parm), GFP_ATOMIC);
->  	if (!pdrvextra_cmd_parm) {
->  		kfree(ph2c);
->  		res = _FAIL;
+>  	return 0;
 > -- 
-> 2.32.0
+> 2.34.1
 > 
