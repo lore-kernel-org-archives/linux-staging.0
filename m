@@ -1,108 +1,92 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20817A;
-	Fri, 15 Apr 2022 05:19:28 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id q12so6515221pgj.13;
-        Thu, 14 Apr 2022 22:19:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBC87A
+	for <linux-staging@lists.linux.dev>; Fri, 15 Apr 2022 05:22:40 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id s18so13773570ejr.0
+        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 22:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IVOmrzMbF/Nd6ktwK785B49f+x/EWjY0CPmWl8meVC4=;
-        b=pc54EnVKWNfHaqAX6IHdDHZ2Hl/YDY+zX5taButPH2pjXHuqYPJQ65vnZSK8oNnFqy
-         0LsU2Ab1ja+koIhbH8r58BTvGsZjomnTPJ0kVJ3NpFt0EbNxfaqdl3MTcbYGxqBswG0M
-         lDxm7xNGgJvlvE7kqbsy0LOLut8hkvezkziPPPsgjlIduAESejVhWJqMr4n874Z/vCbu
-         lBXfX5D/NEkoHN1E9QrIMgOJ12gbCD2MKjgAPXkwBaLVdVhL7e2FrIhxtttk1pmxggMD
-         N1E/LQnjiEDAszohtljoETH002ZHfLddHrO9XFjQZrN9/GmPjgR016dKy4o8HaAdqT16
-         j7+A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2kVVWIn4+ecvL3sYl2+PczgNl0kQB4IqaH+XmO1cCTM=;
+        b=LkJ49FHDSq8yLqisCcngHd6LA8BVgBrFyzP+beFfpWfWErzakEMVHrueMnES3zpyA5
+         RZ9IqUvZrHv23ZSSiS9pOJnoMo6yJZYXT+noKo89pwmlKtWkYryEFsghwigatChoGxCE
+         3haxC4Zo+PbLew/hGx4GKMYn/mqVCcm6v6rn671/VD1obOHKsgW5oG2ieiEBRgk5F66J
+         gUBU0ZYR8rBN9LSwR4fICBUx4nuDhq4KuOn4k51UoersScuUZh3bI80mhIMWRRkGzlzh
+         24DQGVtskF8dDEUzdmHuWokRndeY851dz8DrTpx6/hojsdUmjUP89IYQRP1/Y6WkmNvv
+         /gWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=IVOmrzMbF/Nd6ktwK785B49f+x/EWjY0CPmWl8meVC4=;
-        b=nh8hG4RJzHAuC00c4cwD6dIrmUzRKcQ967P/y2Q+iz+wGP9ecz8KCeYOOkP6tT3Xgh
-         34Fl5uBkkWU99+sofjxzROcdByUXoPAcDaWbOAalxx6XJ2RVv6aMy2DzCeAY8mVpQ/CI
-         s1BR8UZygs0tHkNZ6zbBiBAOzogj2x3F1aZI/cHErgfiTQk9cOol9UA9T3J+As7QB27+
-         4Htu2i1fe3Ec5gnRjJG6gcVfD7UQNJ1Jz/3FR/GJprTcobPJ/YBkbYLTDYuVrrUNzV/D
-         rp0rdKlapHFAnZtHShlDzkqwfZK4OUVa15O0CT4yfMWyhkatR1KJgGNoayaqt20JZAdL
-         B1jw==
-X-Gm-Message-State: AOAM530j0ZQwNbliFYYYa7j3lDjppyfrjEpW3jeG/D7Q5rF6IEa1Y9nI
-	QahliwMLtacuxuPMxsNNH4rlZ4L8h8Mz4A==
-X-Google-Smtp-Source: ABdhPJzH5BvwE4XWSmRhsobGGAgV1/Oplh3QCkvZNhwI8Y5QTzck9Iz9780y6mhiDP5X1MZ93N7rVQ==
-X-Received: by 2002:a63:334c:0:b0:386:291f:3435 with SMTP id z73-20020a63334c000000b00386291f3435mr4975844pgz.264.1649999967939;
-        Thu, 14 Apr 2022 22:19:27 -0700 (PDT)
-Received: from aliyaR-laptop.domain.name ([14.139.241.88])
-        by smtp.googlemail.com with ESMTPSA id d4-20020a17090ad3c400b001c65ba76911sm7276583pjw.3.2022.04.14.22.19.25
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2kVVWIn4+ecvL3sYl2+PczgNl0kQB4IqaH+XmO1cCTM=;
+        b=MTPk4imGV55RzuFzNzVtkS9Znga2B6bxb2tolcdkm5uF8R6kDfjx2Wu5EB0yphLQbn
+         YNk5tN0Fg3oYgHqJHT/tvzV+FrIvlzovO9/fTZAC9IyTqy1c4sgA9JqDOz3NjB6KbXhV
+         rBNIFDy5daUJgrS5X4SMEgl38Nxa5R5ZnLusB8oQ/peSprXXxKxpnHEAJVFbmH0/AZF2
+         vZ0usdJ+dC0ti/lCNbKMHH2ysToT6bQPesHCGHCljjkoz8w9z5RrXe2iUFMWbsRVhgkb
+         BmKF1m7swRhs1vKOlnNBAo0kVUX7T07i8Y/17+vMRKYyqZKhAZyEHhL+fMMTaC7S8mbV
+         WCtQ==
+X-Gm-Message-State: AOAM533L/XRrZW6CZ4vtwsrCd1mJFfqD8Qo44q+B7J97oqWTX2kDYvhs
+	KoqUqkRzNaUoNBXg0Kcsf5I=
+X-Google-Smtp-Source: ABdhPJwP3dV8IYq2ZWLU3I0rvu5B/j2WfmphCivl5cktVtOZCgDduhQ3flQZo48fGOogLKNONLZx+Q==
+X-Received: by 2002:a17:906:c149:b0:6df:f047:1698 with SMTP id dp9-20020a170906c14900b006dff0471698mr5085735ejc.16.1650000159165;
+        Thu, 14 Apr 2022 22:22:39 -0700 (PDT)
+Received: from leap.localnet (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
+        by smtp.gmail.com with ESMTPSA id 22-20020a17090600d600b006dfbc46efabsm1309308eji.126.2022.04.14.22.22.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Apr 2022 22:19:27 -0700 (PDT)
-From: Aliya Rahmani <aliyarahmani786@gmail.com>
-To: forest@alittletooquiet.net
-Cc: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	outreachy@lists.linux.dev,
-	Aliya Rahmani <aliyarahmani786@gmail.com>
-Subject: [PATCH v4] staging: vt6655f: rxtx: code style - Fix Lines should not end with a '('
-Date: Fri, 15 Apr 2022 10:49:01 +0530
-Message-Id: <20220415051900.5801-1-aliyarahmani786@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 14 Apr 2022 22:22:38 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: gregkh@linuxfoundation.org, davem@davemloft.net, dan.carpenter@oracle.com, len.baker@gmx.com, dave@stgolabs.net, edumazet@google.com, Haowen Bai <baihaowen@meizu.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Haowen Bai <baihaowen@meizu.com>
+Subject: Re: [PATCH V2] staging: rtl8192e: Fix signedness bug in rtllib_rx_assoc_resp()
+Date: Fri, 15 Apr 2022 07:22:36 +0200
+Message-ID: <8973092.rMLUfLXkoz@leap>
+In-Reply-To: <1649988571-19923-1-git-send-email-baihaowen@meizu.com>
+References: <1649988571-19923-1-git-send-email-baihaowen@meizu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="ISO-8859-1"
 
-Code style warnings reported by checkpatch.
-Improve the layout of a function header:
-*Put the first parameter immediately after the '(' and align the other
-parameters underneath it.
+On venerd=EC 15 aprile 2022 04:09:31 CEST Haowen Bai wrote:
+> function rtllib_rx_assoc_resp () unsigned errcode receive auth_parse()'s
+> errcode -ENOMEM.
+>=20
+> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+> ---
+> V1->V2: reduce return random value; print its own error message.
+>=20
+>  drivers/staging/rtl8192e/rtllib_softmac.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
 
-Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
----
-v1->v2 changes: Put static and void on a single line.
+> [snip]
 
-v2->v3->v4 changes: Rework commit description.
+It looks like you are doing too many things and that those aren't even=20
+discussed in your commit message.
 
----
- drivers/staging/vt6655/rxtx.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
+> @@ -2292,8 +2292,8 @@ static void rtllib_rx_auth_resp(struct=20
+rtllib_device *ieee, struct sk_buff *skb)
+>  	if (errcode) {
+>  		ieee->softmac_stats.rx_auth_rs_err++;
+>  		netdev_info(ieee->dev,
+> -			    "Authentication response status code=20
+0x%x",
+> -			    errcode);
+> +			    "Authentication response status code %d",
+> +			    le16_to_cpu(errcode));
 
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 53506e242a96..01dc83b2f4bc 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -567,19 +567,16 @@ s_uFillDataHead(
- 	return buf->duration;
- }
- 
--static
--void
--s_vFillRTSHead(
--	struct vnt_private *pDevice,
--	unsigned char byPktType,
--	void *pvRTS,
--	unsigned int cbFrameLength,
--	bool bNeedAck,
--	bool bDisCRC,
--	struct ieee80211_hdr *hdr,
--	unsigned short wCurrentRate,
--	unsigned char byFBOption
--)
-+static void
-+s_vFillRTSHead(struct vnt_private *pDevice,
-+		unsigned char byPktType,
-+		void *pvRTS,
-+		unsigned int cbFrameLength,
-+		bool bNeedAck,
-+		bool bDisCRC,
-+		struct ieee80211_hdr *hdr,
-+		unsigned short wCurrentRate,
-+		unsigned char byFBOption)
- {
- 	unsigned int uRTSFrameLen = 20;
- 
--- 
-2.25.1
+Why did you call le16_to_cpu(errcode)?=20
+If I'm not missing something, it looks that auth_parse() already returns=20
+native endian u16 values.
+
+Thanks,
+
+=46abio M. De Francesco
+
 
