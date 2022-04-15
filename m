@@ -1,104 +1,114 @@
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D897A
-	for <linux-staging@lists.linux.dev>; Fri, 15 Apr 2022 05:50:46 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 15 Apr
- 2022 13:50:39 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 15 Apr
- 2022 13:50:38 +0800
-From: Haowen Bai <baihaowen@meizu.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Haowen Bai <baihaowen@meizu.com>, <linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH V3] staging: rtl8192e: Fix signedness bug in rtllib_rx_assoc_resp()
-Date: Fri, 15 Apr 2022 13:50:36 +0800
-Message-ID: <1650001836-25956-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20220415053116.GN3293@kadam>
-References: <20220415053116.GN3293@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38157A
+	for <linux-staging@lists.linux.dev>; Fri, 15 Apr 2022 06:06:21 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id l7so13842258ejn.2
+        for <linux-staging@lists.linux.dev>; Thu, 14 Apr 2022 23:06:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=56qZhVh84dtsVlqsQOB0RGlHkJgFs7X0oSzIvgUl4cM=;
+        b=Zhv8lF6w3NRo7aX4KNxJl2lyeuQvHNlfet3mLfGaNQdqy4VDf8kxpuTvWkiR1u2Y2k
+         KrLLEug2pYc/pt1/k7DXiRILH4FxPdQsl5Acap6HwHzt8EJ6wefrSzuNq3//QG5b1jhj
+         CHNwtrqDjj1iHc4/b8ncu1b4p9WKZ5TUrAm0VufXK7fxILqWPF12zpp7WHbbvQD04J2x
+         iEt/2vzER66jkc3ymiEpafejKMSfcf+DAOdDZOStAjxXYF+ml+3mkDZJ18/iqGlNTeTz
+         kVXpUnFypIc9+46NYj2f9NLmjrrB/LG8MOQ2jpIqAETpI8iGFm3ilU6Qie8rccUQQVWO
+         EmvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=56qZhVh84dtsVlqsQOB0RGlHkJgFs7X0oSzIvgUl4cM=;
+        b=UReEfxH+Qkrm4wKwDd3O1yKW0ZDCAvi9hV5ntw9swEimNB7JCQFintmJkG0p/auWR2
+         3j8hTuxV3Z4ra1XPZ9l/S9X3BfUgG2uZwt0qNYJkx5AKCihvc4qrjCPK9JpnA1YI3y6g
+         jAtFXpDLDR8QndX5a34S2l28k74aP7bJk0WYLCjCB0syMe2ZTvTr+0x1SXuZaIrjDEbF
+         hp3CCT2ftgrrtzn5iZA/lNVfX3FFX4C7V5UD7EI82RdrYUJgrWCWRRllLFbOY3OSKIzY
+         pTou8aHErjc7s80BLzTPM02H3+oEgv0NwEEQiVJw0QzcP7l0wNdaas1yMdEwkmH6zgbh
+         vdfA==
+X-Gm-Message-State: AOAM530ohSbSQHtZIQ0Nq8Iz0716H+8k3Q1Tm0g09SA+UeUeq1pi+zHi
+	0JHwQFeorLO5BdUBp6Tg+uAmt6iihJg=
+X-Google-Smtp-Source: ABdhPJwlz3Gd+zNTO2vXQRWSHSxBiQ2PjDL8JpdgdhlfwpW72pirIiT6AFHt18hwxU85ko3twR2x7w==
+X-Received: by 2002:a17:906:af96:b0:6e8:7765:a6d4 with SMTP id mj22-20020a170906af9600b006e87765a6d4mr5076600ejb.756.1650002780226;
+        Thu, 14 Apr 2022 23:06:20 -0700 (PDT)
+Received: from leap.localnet (host-79-43-11-75.retail.telecomitalia.it. [79.43.11.75])
+        by smtp.gmail.com with ESMTPSA id ay17-20020a170906d29100b006e88f246fdbsm1319695ejb.152.2022.04.14.23.06.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Apr 2022 23:06:19 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Haowen Bai <baihaowen@meizu.com>
+Cc: Haowen Bai <baihaowen@meizu.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3] staging: rtl8192e: Fix signedness bug in rtllib_rx_assoc_resp()
+Date: Fri, 15 Apr 2022 08:06:17 +0200
+Message-ID: <16182197.geO5KgaWL5@leap>
+In-Reply-To: <1650001836-25956-1-git-send-email-baihaowen@meizu.com>
+References: <20220415053116.GN3293@kadam> <1650001836-25956-1-git-send-email-baihaowen@meizu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="ISO-8859-1"
 
-The rtllib_rx_assoc_resp() function has a signedness bug because it's
-a declared as a u16 but it return -ENOMEM.  When you look at it more
-closely it returns a mix of error codes including 0xcafe, -ENOMEM, and
-a->status which is WLAN_STATUS_NOT_SUPPORTED_AUTH_ALG.  This is a mess.
+On venerd=EC 15 aprile 2022 07:50:36 CEST Haowen Bai wrote:
+> The rtllib_rx_assoc_resp() function has a signedness bug because it's
+> a declared as a u16 but it return -ENOMEM.  When you look at it more
+> closely it returns a mix of error codes including 0xcafe, -ENOMEM, and
+> a->status which is WLAN_STATUS_NOT_SUPPORTED_AUTH_ALG.  This is a mess.
+>=20
+> Clean it up to just return standard kernel error codes.  We can print
+> out the a->status before returning a regular error code.  The printks
+> in the caller need to be adjusted as well.
 
-Clean it up to just return standard kernel error codes.  We can print
-out the a->status before returning a regular error code.  The printks
-in the caller need to be adjusted as well.
+This commit message suggested by Dan Carpenter is much better. The previous=
+=20
+one made me think that you were doing several different logical changes.
 
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
-V1->V2: reduce return random value; print its own error message.
-V2->V3: change commit message; change s16 -> int.
+>
+> [snip]
+> =20
+>  static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct=20
+sk_buff *skb)
+>  {
+> -	u16 errcode;
+> +	int errcode;
+>  	u8 *challenge;
+>  	int chlen =3D 0;
+>  	bool bSupportNmode =3D true, bHalfSupportNmode =3D false;
+> @@ -2292,8 +2292,8 @@ static void rtllib_rx_auth_resp(struct=20
+rtllib_device *ieee, struct sk_buff *skb)
+>  	if (errcode) {
+>  		ieee->softmac_stats.rx_auth_rs_err++;
+>  		netdev_info(ieee->dev,
+> -			    "Authentication response status code=20
+0x%x",
+> -			    errcode);
+> +			    "Authentication response status code %d",
+> +			    le16_to_cpu(errcode));
 
- drivers/staging/rtl8192e/rtllib_softmac.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+This is something that I'm still missing. Why do we need that call to=20
+le16_to_cpu on "errcode"?
 
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 82bf05eb1cbf..4a1b9a94930f 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -1764,7 +1764,7 @@ static void rtllib_softmac_check_all_nets(struct rtllib_device *ieee)
- 	spin_unlock_irqrestore(&ieee->lock, flags);
- }
- 
--static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
-+static inline int auth_parse(struct net_device *dev, struct sk_buff *skb,
- 			     u8 **challenge, int *chlen)
- {
- 	struct rtllib_authentication *a;
-@@ -1773,7 +1773,7 @@ static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
- 	if (skb->len <  (sizeof(struct rtllib_authentication) -
- 	    sizeof(struct rtllib_info_element))) {
- 		netdev_dbg(dev, "invalid len in auth resp: %d\n", skb->len);
--		return 0xcafe;
-+		return -EINVAL;
- 	}
- 	*challenge = NULL;
- 	a = (struct rtllib_authentication *) skb->data;
-@@ -1787,7 +1787,7 @@ static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
- 				return -ENOMEM;
- 		}
- 	}
--	return le16_to_cpu(a->status);
-+	return a->status;
- }
- 
- static int auth_rq_parse(struct net_device *dev, struct sk_buff *skb, u8 *dest)
-@@ -2282,7 +2282,7 @@ rtllib_rx_assoc_resp(struct rtllib_device *ieee, struct sk_buff *skb,
- 
- static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
- {
--	u16 errcode;
-+	int errcode;
- 	u8 *challenge;
- 	int chlen = 0;
- 	bool bSupportNmode = true, bHalfSupportNmode = false;
-@@ -2292,8 +2292,8 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
- 	if (errcode) {
- 		ieee->softmac_stats.rx_auth_rs_err++;
- 		netdev_info(ieee->dev,
--			    "Authentication response status code 0x%x",
--			    errcode);
-+			    "Authentication response status code %d",
-+			    le16_to_cpu(errcode));
- 		rtllib_associate_abort(ieee);
- 		return;
- 	}
--- 
-2.7.4
+"errcode" is returned by auth_parse()? I see that this function already=20
+changes the endianness of the returned value.
+
+Thanks,
+
+=46abio
+
+
+>  		rtllib_associate_abort(ieee);
+>  		return;
+>  	}
+> --=20
+> 2.7.4
+>=20
+>=20
+>=20
+
+
+
 
