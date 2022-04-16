@@ -1,225 +1,79 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C5417C9;
-	Sat, 16 Apr 2022 01:59:20 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 91AF53202184;
-	Fri, 15 Apr 2022 21:59:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 15 Apr 2022 21:59:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650074358; x=
-	1650160758; bh=DsIZSVRAwE42Gn8ZixFtjn0uMkrlMndqIZ6G0Y5AI/4=; b=v
-	ofQvzTSJzQ9MkUg0exyz/hODYtwDf1fGYIm3zRStBhNtrkRlgowagO+bOWO8cUzh
-	q23DqehxcTwcrRlb4RfTk3fZO7kOhZWcRyzVf3KmVDHn3eRXjFIaBV9WLcCWbq2a
-	RU3rEmvtfGNhsbbC2LlpCuOzV2RXVIDhLCJXJ87rCIxE4KuofTPeNiJrHYVNhDsR
-	2bn378XD2Mn48LTLZMYMIc2snNQ6XeI8eIiLsvTSf09OdL67+q1WmtqZgxqA4AUn
-	QpzkdfOdaXX3ccjSqaUyqKyCfE/yDYKNctOEUoTXgr+hgnpcAXUWXNN93gZ57NZf
-	5SMLiqXmGRi2gSn/lDJyQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1650074358; x=1650160758; bh=DsIZSVRAwE42G
-	n8ZixFtjn0uMkrlMndqIZ6G0Y5AI/4=; b=bYVuTgUYBsQTNnlxU5US0jyiPBbXZ
-	mFG6lTqRrEr42liDgqrarHGFmcWTM3tAAE/8WhCz2EsgxzGoMFti1oHtWF64G3Ss
-	yrDzkMM5P3QgAeixj3hzJwfqda2x2KBtcTqjHRXxOzLIj8Y0Avio6yaJblorrK0Z
-	hS/JXCOtbLwu2ERmhWfDJagU3nMqUNctjRzGax38Shhk1yu43esCLMHYAUBzeU3w
-	2sBADRZJGDwuLDdo73dbxjpSJQLN50TL4hHfUHTc9qYXy9TWSmCPRWBpIfneQdDr
-	MMTNowdfCXZTHpc7mqr6nHzjPEYLK+trxeIGkIZ0mO66rmNll7p5zWeZA==
-X-ME-Sender: <xms:9SJaYvpc2lX9S77Y_psFb_TnC2je-Wlk1MQe_tfJyC7_IPLiPFALYw>
-    <xme:9SJaYppO8Ie-u9jC4_2nnMypdN9K32jQZk4WBnZ0E0IH8--zOEoMENqikEnDB2ExS
-    H3woy9YAY-C6rcb0A>
-X-ME-Received: <xmr:9SJaYsMrSMF-8DAbhBq7N3BcxdY-2JM88babmgpCyWtpYOf-95uQhD94IyAVSY4zj2dlSqUK7kvvis1sjTHoWyxJLelH2YcLHTFhp7WwN3AcM7PE78Az6XCE-A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeliedggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepffeigfelvdfgtdetleduveevgfdutdeiuddtveetvdfhffejlefh
-    heetjeetvdelnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhh
-    ohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:9SJaYi5As9kW734rNq9qWZhgGxtOhnvlUmZL_v-yrLAXRFHVFcrGMQ>
-    <xmx:9SJaYu5rpwcaHozDnmeQ0KRPrMDDeBN-VLpR3VTrQ_RUfKcJ04HUJA>
-    <xmx:9SJaYqhkjxHh8wMLMpeP9SJtZstFEHq2IJ6gblbyz0Gtug3ilQuXeA>
-    <xmx:9iJaYhqU14ncJuMjdwFgtppOKgNv_VuguB75Be41zWPEUje1WYVizg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 Apr 2022 21:59:16 -0400 (EDT)
-Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP bindings
- documentation
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hans.verkuil@cisco.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
- <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <19aa74b7-0096-87c5-ef2c-9a135ad5505a@sholland.org>
-Date: Fri, 15 Apr 2022 20:59:13 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6446F20F3;
+	Sat, 16 Apr 2022 06:20:29 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id bg9so9853559pgb.9;
+        Fri, 15 Apr 2022 23:20:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=mID4Q7Oy5vdVFWCrost986cUNbsemXABJB5WYtGqo7s=;
+        b=MOsQpB6P6OmUeKPIYslvJ0lIWOikcXOjyVnuW3mRJ9yPuHGk4t/d9nL1IxsDRRYnCf
+         DDhS3UW5qLDjgK/SVsboQrrF6nV8igkpEzXLlPRj5ABwqhAtbd6PfTIcTGKnLKrlayhD
+         2RG/SV4Qxo3v0T8HkCg0WhBaHiQBP41cojQiL7cqB2tTJTgaCeE0j01gz4Hp+UUdX931
+         ZSjG/HxQ1yDauGl4iVqjUmPD3i0HsIKw5MW+AHAThE1+n3n9kAgzlAORsUVSOF7kza5I
+         chpQ+Cinzer5Xb9HH90oq2lV2dnjwAugfKGIshAlQTrxRtDIl+3POJFzH6ztDtBW/z7A
+         WMWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=mID4Q7Oy5vdVFWCrost986cUNbsemXABJB5WYtGqo7s=;
+        b=Y6m064s2oVmsZ2bYT3yY33HZn09ciR50tE3ImjrvX8hLB0G+7VmK3BiEcRrdLmtdsi
+         32wddQakoqJOulADB9IijmSNOyhfDA0Zty4wDWvQIh6u8g6uwfLSdqENkTff+76LmC71
+         RphLmaq+YyYm9kaBTHDEhnsGtU/oqV+FSuxLeMsoOb+Arn/1t4pr12fp3wz53pUvkmPn
+         jgpaEzo+sUcumVnZHbqj73J9C/A3302bW+cfcuIi+jwET7OTmidOE1VM4+ffYK7d6YYq
+         2ygv4XQ3jFN7whZ14IEkTUo8/h9Kb/9ivB8Wa5yQ+Kh3hbSF+Qpv4MxTrXvSHauuv9AV
+         0iKQ==
+X-Gm-Message-State: AOAM532MAGbd9ACBF7aICUhuEGFLDIZDFQNc3lAD+hVgnzvpb30SR6ah
+	KsNeLBVqkMX2CHtOr0+dN7c=
+X-Google-Smtp-Source: ABdhPJzCBF4WLTMb+id3pXyWZx9SOAxqCcgwN3ur3pGF6UG2W+luavjOfk77uSXxP1vpp0IATQUAyg==
+X-Received: by 2002:a63:b20e:0:b0:398:5b28:e54a with SMTP id x14-20020a63b20e000000b003985b28e54amr1874512pge.443.1650090028828;
+        Fri, 15 Apr 2022 23:20:28 -0700 (PDT)
+Received: from Negi ([207.151.52.3])
+        by smtp.gmail.com with ESMTPSA id o123-20020a634181000000b0039d300c417dsm5988151pga.64.2022.04.15.23.20.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Apr 2022 23:20:28 -0700 (PDT)
+From: Soumya Negi <soumya.negi97@gmail.com>
+To: Manish Chopra <manishc@marvell.com>,
+	GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: Soumya Negi <soumya.negi97@gmail.com>
+Subject: [PATCH] staging: qlge: add blank line after struct declaration
+Date: Fri, 15 Apr 2022 23:19:36 -0700
+Message-Id: <20220416061936.957-1-soumya.negi97@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 
-On 4/15/22 10:37 AM, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the Allwinner A31 Image
-> Signal Processor (ISP).
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
->  1 file changed, 117 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> new file mode 100644
-> index 000000000000..ffca216b841f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> @@ -0,0 +1,117 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
-> +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun6i-a31-isp
-> +      - allwinner,sun8i-v3s-isp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +      - description: DRAM Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +      - const: ram
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: CSI0 input port
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: CSI1 input port
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
+Adhere to linux coding style. Reported by checkpatch:
+CHECK: Please use a blank line after function/struct/union/enum declarations
 
-Should be "const: 1".
+Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+---
+ drivers/staging/qlge/qlge.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Otherwise,
-Reviewed-by: Samuel Holland <samuel@sholland.org>
-
-> +
-> +          endpoint:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +    anyOf:
-> +      - required:
-> +        - port@0
-> +      - required:
-> +        - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> +
-> +    isp: isp@1cb8000 {
-> +        compatible = "allwinner,sun8i-v3s-isp";
-> +        reg = <0x01cb8000 0x1000>;
-> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ccu CLK_BUS_CSI>,
-> +             <&ccu CLK_CSI1_SCLK>,
-> +             <&ccu CLK_DRAM_CSI>;
-> +        clock-names = "bus", "mod", "ram";
-> +        resets = <&ccu RST_BUS_CSI>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                isp_in_csi0: endpoint {
-> +                    remote-endpoint = <&csi0_out_isp>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> 
+diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
+index 55e0ad759250..d0dd659834ee 100644
+--- a/drivers/staging/qlge/qlge.h
++++ b/drivers/staging/qlge/qlge.h
+@@ -2072,6 +2072,7 @@ struct qlge_adapter *netdev_to_qdev(struct net_device *ndev)
+ 
+ 	return ndev_priv->qdev;
+ }
++
+ /*
+  * The main Adapter structure definition.
+  * This structure has all fields relevant to the hardware.
+-- 
+2.17.1
 
