@@ -1,207 +1,82 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB5E2590
-	for <linux-staging@lists.linux.dev>; Sat, 16 Apr 2022 19:16:28 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id r13so20634595ejd.5
-        for <linux-staging@lists.linux.dev>; Sat, 16 Apr 2022 12:16:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45772590;
+	Sat, 16 Apr 2022 19:18:27 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id 125so11940091pgc.11;
+        Sat, 16 Apr 2022 12:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=zN414E1wUs5m3NDV6VHa4oOxNF3me+8yZYZGl2DDtrY=;
-        b=TGzAL/7uIzYRbvutlfTTnBRfoT7UBe3f+qcHalDuPCNYItpv9XeQRp32C3BMPfyXdC
-         9/QxTQUKYSVim/ofADgzOKOrKOhrcLy0pSSdJGTBr96c5DjRqexelQCNtcWghOpVJ63q
-         XMHDQ8licyKS8os1TZ3aL67bFr1NhDyNCcJFrQt2Le2At6tb5vLkXkDGS9EnRko0bmcG
-         rnVfq6tFfeKR769sUme98ATPGq+532a3P91ap73lCRPYEpxigeAQyeu8jEUC7aMWfxSv
-         1p9ImHNGu3sTu5CpdO59PE0Ov31/C57ZVfFjHDnc4N9yA/UA6JgLbDpCV0mL73cQaHOy
-         IrLg==
+        h=from:to:cc:subject:date:message-id;
+        bh=cEiFYO7CvfRyx2lxfp/dzLomivsTy3qKaQW3t/1AfgA=;
+        b=hjhW4uwSoiJ3c41yfoxcSod5NklVn46w57mFDsyZSSAbFNscq7GfEDF2n69+jgBU/F
+         ZhCf4FjSWojzwk+zZGwcEbar4ct/cbGfd2eveL/hB7gga5rsGJy7MENwxAGaVcc5pIo2
+         EQIUYVmcm/ZID7UwqnIIxLDG/kPCxRKGpvywa3K8oyasbskgiAfNYJJ1vOl3XlIKBeCp
+         xMdcpw05UCMjFnGsOYsm3qkFUOOyNo2QzfYIQkzYDbCxzdTC4B/dDlBNYLQW1iH5MTX8
+         LD7nBPDyLaKRH29NiZbn3WYCc/vxBJczs183CgGDAeBiBPSHBiMzYnbYaY2lHcWe0U7K
+         4iBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=zN414E1wUs5m3NDV6VHa4oOxNF3me+8yZYZGl2DDtrY=;
-        b=IUaT+gNU/GOtmC1DCl3irIxX95oIjDDbhw6JCDCodTi+USZi2wvMQvrasJSRAnX77+
-         ZlzDlIy9Wf1Wmj4vgOESkUk32U8FxGHgXlFDGwzN189meEeonrHkmFUZxfyv7EcqL8QA
-         MNIGSgVq2GmikG63oDancIiDTte6/JrYQgY6WMTpWulOndIlekwPrM00FvU4CcReKlOr
-         QN7oYJwvtHWXDfo514bZ35b3o0IhoiPjqS4Ur2ts5bBC/yCVqwU+S8q39YU1n8COFnCV
-         dm3X1NV9rmKO8u1v67KaUZVZHr8rBUgfVspUw0g+ILknMj+K3bJhI/kdgCXnP52g9g3H
-         k4kA==
-X-Gm-Message-State: AOAM530Y68KZN5yK/feHJDWGoAL5w13inDSN6ChKAQtewIz9HN70XNUq
-	JvOoeU9aNWTlWJowSWYI0VM=
-X-Google-Smtp-Source: ABdhPJw7E3vIXAdvtrqtmoykHH466O0jyZt/3xo8LRqmJT4dvruixxpc0lTuD8rvbhPIn7MV2JJDNg==
-X-Received: by 2002:a17:907:968e:b0:6db:aed5:43c8 with SMTP id hd14-20020a170907968e00b006dbaed543c8mr3584479ejc.636.1650136586575;
-        Sat, 16 Apr 2022 12:16:26 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p54a074e9.dip0.t-ipconnect.de. [84.160.116.233])
-        by smtp.gmail.com with ESMTPSA id y26-20020a1709063a9a00b006e0c272e263sm2941030ejd.71.2022.04.16.12.16.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=cEiFYO7CvfRyx2lxfp/dzLomivsTy3qKaQW3t/1AfgA=;
+        b=yK6dYEqybrmj2kOobsqSmUWnliYQQnF/AnR2BEtg2/XCCmd2wfKQc+gE7u6wtkHLvh
+         knJUWumyfrOJrlljc2BmlovMsVQT+lmRgnWretlCSBe3xhxQcv8+/svKJjHm7B0GbU4/
+         VPbQOj5QS6YCO/4pHoCCxDrZ1TnnYXAgygXaJDyMNG56GBYQcIncwz2LsHrpxXNcno7L
+         KX6vYxR7rq5DbbkWIX2nbZ3V8AyRB9WNqyWyVJ5uYdpGbK/OpXoSRTu0z9+4zCHNdid/
+         VCRXmWDTUL5w8+1CyPiFMX+298YDT9s8CXKBdWRC0O8bO6wcFxsei19eIbVSe+R4C1WC
+         oVyw==
+X-Gm-Message-State: AOAM530BNGh0dootbLruOEgi+Wrzjyi3xmc6/qoXFbAzp4VHEsk1M0y4
+	G09wkESinuT9M/lO44AxWIY=
+X-Google-Smtp-Source: ABdhPJzgLqlNi+iTW3XfsMmksrs4Si6d6BxNd3yiSJYhM4GHXT37Bc+odwKwilPJVYOUYvT/NjF8gw==
+X-Received: by 2002:a05:6a00:140f:b0:4e0:6995:9c48 with SMTP id l15-20020a056a00140f00b004e069959c48mr4780091pfu.59.1650136707150;
+        Sat, 16 Apr 2022 12:18:27 -0700 (PDT)
+Received: from Negi ([207.151.52.3])
+        by smtp.gmail.com with ESMTPSA id d5-20020a17090acd0500b001b9c05b075dsm11913701pju.44.2022.04.16.12.18.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Apr 2022 12:16:26 -0700 (PDT)
-Date: Sat, 16 Apr 2022 21:16:22 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
+        Sat, 16 Apr 2022 12:18:26 -0700 (PDT)
+From: Soumya Negi <soumya.negi97@gmail.com>
+To: Manish Chopra <manishc@marvell.com>,
+	GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: vt6655: Delete tmacro.h
-Message-ID: <20220416191622.GA11596@matrix-ESPRIMO-P710>
+	netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Cc: Soumya Negi <soumya.negi97@gmail.com>
+Subject: [PATCH v2] staging: qlge: add blank line after function declaration
+Date: Sat, 16 Apr 2022 12:17:45 -0700
+Message-Id: <20220416191745.7079-1-soumya.negi97@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Relocate the only macro MAKEWORD that is in use and remove file
-tmacro.h. File needs to be changed anyhow because of use of CamelCase
-which is not accepted by checkpatch.pl. Reduced code provides
-a better overview.
+Adhere to linux coding style. Reported by checkpatch:
+CHECK: Please use a blank line after function/struct/union/enum declarations
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
 ---
-Tested with vt6655 on mini PCI Module
-Transferred this patch over wlan connection of vt6655
+Changes in v2:
+  - Correct commit message.
 ---
- drivers/staging/vt6655/baseband.c |  1 -
- drivers/staging/vt6655/card.c     |  1 -
- drivers/staging/vt6655/key.c      |  1 -
- drivers/staging/vt6655/mac.c      |  1 -
- drivers/staging/vt6655/mac.h      |  4 ++-
- drivers/staging/vt6655/srom.c     |  1 -
- drivers/staging/vt6655/tmacro.h   | 43 -------------------------------
- 7 files changed, 3 insertions(+), 49 deletions(-)
- delete mode 100644 drivers/staging/vt6655/tmacro.h
+ drivers/staging/qlge/qlge.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-index decb55e96f02..21e691c3ea30 100644
---- a/drivers/staging/vt6655/baseband.c
-+++ b/drivers/staging/vt6655/baseband.c
-@@ -29,7 +29,6 @@
-  *
-  */
+diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
+index 55e0ad759250..d0dd659834ee 100644
+--- a/drivers/staging/qlge/qlge.h
++++ b/drivers/staging/qlge/qlge.h
+@@ -2072,6 +2072,7 @@ struct qlge_adapter *netdev_to_qdev(struct net_device *ndev)
  
--#include "tmacro.h"
- #include "mac.h"
- #include "baseband.h"
- #include "srom.h"
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 1ccf08b1fd5c..022310af5485 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -24,7 +24,6 @@
-  *
-  */
- 
--#include "tmacro.h"
- #include "card.h"
- #include "baseband.h"
- #include "mac.h"
-diff --git a/drivers/staging/vt6655/key.c b/drivers/staging/vt6655/key.c
-index f843966a3ea4..1469015eb5b4 100644
---- a/drivers/staging/vt6655/key.c
-+++ b/drivers/staging/vt6655/key.c
-@@ -11,7 +11,6 @@
-  *
-  */
- 
--#include "tmacro.h"
- #include "key.h"
- #include "mac.h"
- 
-diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
-index 80cced7dfda8..88ddd0676463 100644
---- a/drivers/staging/vt6655/mac.c
-+++ b/drivers/staging/vt6655/mac.c
-@@ -36,7 +36,6 @@
-  *
-  */
- 
--#include "tmacro.h"
- #include "mac.h"
- 
- /*
-diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 4d8496024abf..7970a42ee6e6 100644
---- a/drivers/staging/vt6655/mac.h
-+++ b/drivers/staging/vt6655/mac.h
-@@ -18,7 +18,6 @@
- #ifndef __MAC_H__
- #define __MAC_H__
- 
--#include "tmacro.h"
- #include "upc.h"
- 
- /*---------------------  Export Definitions -------------------------*/
-@@ -732,6 +731,9 @@ do {									\
- #define MACvSetRFLE_LatchBase(iobase)                                 \
- 	MACvWordRegBitsOn(iobase, MAC_REG_SOFTPWRCTL, SOFTPWRCTL_RFLEOPT)
- 
-+#define MAKEWORD(lb, hb) \
-+	((unsigned short)(((unsigned char)(lb)) | (((unsigned short)((unsigned char)(hb))) << 8)))
+ 	return ndev_priv->qdev;
+ }
 +
- bool MACbIsRegBitsOff(struct vnt_private *priv, unsigned char byRegOfs,
- 		      unsigned char byTestBits);
- 
-diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
-index 84ec9eb8cdd3..8786b55161fa 100644
---- a/drivers/staging/vt6655/srom.c
-+++ b/drivers/staging/vt6655/srom.c
-@@ -28,7 +28,6 @@
-  */
- 
- #include "upc.h"
--#include "tmacro.h"
- #include "mac.h"
- #include "srom.h"
- 
-diff --git a/drivers/staging/vt6655/tmacro.h b/drivers/staging/vt6655/tmacro.h
-deleted file mode 100644
-index 1582c03124c9..000000000000
---- a/drivers/staging/vt6655/tmacro.h
-+++ /dev/null
-@@ -1,43 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0+ */
--/*
-- * Copyright (c) 1996, 2003 VIA Networking Technologies, Inc.
-- * All rights reserved.
-- *
-- * Purpose: define basic common types and macros
-- *
-- * Author: Tevin Chen
-- *
-- * Date: May 21, 1996
-- *
-- */
--
--#ifndef __TMACRO_H__
--#define __TMACRO_H__
--
--/****** Common helper macros ***********************************************/
--
--#if !defined(LOBYTE)
--#define LOBYTE(w)           ((unsigned char)(w))
--#endif
--#if !defined(HIBYTE)
--#define HIBYTE(w)           ((unsigned char)(((unsigned short)(w) >> 8) & 0xFF))
--#endif
--
--#if !defined(LOWORD)
--#define LOWORD(d)           ((unsigned short)(d))
--#endif
--#if !defined(HIWORD)
--#define HIWORD(d)           ((unsigned short)((((unsigned long)(d)) >> 16) & 0xFFFF))
--#endif
--
--#define LODWORD(q)          ((q).u.dwLowDword)
--#define HIDWORD(q)          ((q).u.dwHighDword)
--
--#if !defined(MAKEWORD)
--#define MAKEWORD(lb, hb)    ((unsigned short)(((unsigned char)(lb)) | (((unsigned short)((unsigned char)(hb))) << 8)))
--#endif
--#if !defined(MAKEDWORD)
--#define MAKEDWORD(lw, hw)   ((unsigned long)(((unsigned short)(lw)) | (((unsigned long)((unsigned short)(hw))) << 16)))
--#endif
--
--#endif /* __TMACRO_H__ */
+ /*
+  * The main Adapter structure definition.
+  * This structure has all fields relevant to the hardware.
 -- 
-2.25.1
+2.17.1
 
