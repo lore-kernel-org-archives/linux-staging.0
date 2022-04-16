@@ -1,76 +1,85 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716087E;
-	Sat, 16 Apr 2022 07:39:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003CE7E
+	for <linux-staging@lists.linux.dev>; Sat, 16 Apr 2022 08:00:49 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id lc2so18762477ejb.12
+        for <linux-staging@lists.linux.dev>; Sat, 16 Apr 2022 01:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=lSlZ0oC8eyM75bJ8SCbn8l2oeSxIau3s/L1LVWLjE4U=;
-  b=uP8MdD5Q6dpYOhFVjgup8KVg3M8lohqEDCXqglxVNcJIgHqq2DMPOEQl
-   jKOgvSQnAMPFJX8bERuNIn7c0fV/wYoAgZ0NGgEM72+NTN5Y4IC4lO9vH
-   L4GdNL5Dia0R9p5n3+f7mtBuhyiRA7A4FMjBQkrU1u1cTj+itAFXmYSWH
-   0=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,264,1643670000"; 
-   d="scan'208";a="11683876"
-Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2022 09:39:49 +0200
-Date: Sat, 16 Apr 2022 09:39:48 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Soumya Negi <soumya.negi97@gmail.com>
-cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com, 
-    Coiby Xu <coiby.xu@gmail.com>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, netdev@vger.kernel.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: qlge: add blank line after struct declaration
-In-Reply-To: <20220416061936.957-1-soumya.negi97@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2204160939110.3501@hadrien>
-References: <20220416061936.957-1-soumya.negi97@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=Dy9NVvNam0L8zHglHXPoxAqQ3OYdtJr8sHvqtEWsj7k=;
+        b=ktsgcYkQAwOFPWBEz6P2RO8QjhkB79KJFA7pd/hA8x8lU9SHfoMz72UVoA+6/dvR+q
+         Bp6edyUgQsEaEbucpcrfRSmwO6A9hdOz1nQho3xtPSNpLov5u5KOAOKDJ/Nx1A6XnIm0
+         cnA71hN8kUY9FqYpSMpZJLkboDhAolECYQAUx03VkMylpzTXo/jQoEvl1bSc3LHhMUsx
+         xU/LfhLpz1evmpbybqR3Qe40ymNPPyuq2Mm7wy5ZST2LhZI9JAsHxZfgkSWVRYJ+wBTE
+         6g+rrtfmOKpwuWzuMUSZYWI6w0fVDpvzWGCBFZc11XiZ17oTxRQipdWm60O+ygnuTIjS
+         R5jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=Dy9NVvNam0L8zHglHXPoxAqQ3OYdtJr8sHvqtEWsj7k=;
+        b=UPjA0o4KZv/ukcdctD3JeW4pTnNu/pD2MjkpmuPsSzhUn+fx+Frcs3Xc+zSCm0Sdeb
+         NHchbp8c8FN54i4W7gyrxXPkYZfqy4HmY9HhfNk8DKbphG+8+2ODXWQ2u6djdLq/VTmv
+         sAFYmvBjZ2STHoaq9TmnkqyhEem5uJXRjnJrE7iQj++srljQvjaLKQszLTu0vFQxAyEV
+         Wo7xNBXIq/jh4hkjdyXGZNctGxMIzKl+5B+Vact7cZMzf4lrc1XfJ+XEJKqa4MY3vxPI
+         ZlR1RvXk7PE1JFngSeToomvQHAkc8aPmcTNjJiqXUaQyhDDtDK4rU6d3+3US8adEqaKE
+         YDOQ==
+X-Gm-Message-State: AOAM533SIeDDzgmCO1F7QY2ntF8OLROax8eLyEO1JcjA7lbM20pkOz9t
+	JZKuS3jLmUOad7VpJ5oaxf4=
+X-Google-Smtp-Source: ABdhPJyINHqIoWCUDaodGqw8eYSp15m+NxhmN74xmmEiqsc4AU/GpazlL2EzjDYBqDktR0Inrly8oQ==
+X-Received: by 2002:a17:907:97cc:b0:6da:a8fb:d1db with SMTP id js12-20020a17090797cc00b006daa8fbd1dbmr1993714ejc.267.1650096048164;
+        Sat, 16 Apr 2022 01:00:48 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p54a074e9.dip0.t-ipconnect.de. [84.160.116.233])
+        by smtp.gmail.com with ESMTPSA id fx3-20020a170906b74300b006daecedee44sm2413084ejb.220.2022.04.16.01.00.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Apr 2022 01:00:47 -0700 (PDT)
+Date: Sat, 16 Apr 2022 10:00:45 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] staging: vt6655: Replace macro VNSvInPortB with ioread8()
+Message-ID: <cover.1650094595.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Replace macro VNSvInPortB with ioread8. Avoid cast of the return
+value is possible with one exception.
+The name of macro and the arguments use CamelCase which
+is not accepted by checkpatch.pl
 
+The one casting exception could be removed by changing
+bb_read_embedded. Instead of having a unused return value bool
+the return value could be an unsigned char.
 
-On Fri, 15 Apr 2022, Soumya Negi wrote:
+Since there are more than one checkpatch issue per line,
+more steps are rquired to fix all issues.
 
-> Adhere to linux coding style. Reported by checkpatch:
-> CHECK: Please use a blank line after function/struct/union/enum declarations
+This patch series is new but the second patch is already in V4.
 
-The subject line talks about a struct declaration, but there doesn't seem
-to be one here.
+Tested with vt6655 on mini PCI Module
+Transferred this patch over wlan connection of vt6655
 
-julia
+Philipp Hortmann (2):
+  staging: vt6655: Replace MACvGPIOIn with VNSvInPortB
+  staging: vt6655: Replace VNSvInPortB with ioread8
 
->
-> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> ---
->  drivers/staging/qlge/qlge.h | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
-> index 55e0ad759250..d0dd659834ee 100644
-> --- a/drivers/staging/qlge/qlge.h
-> +++ b/drivers/staging/qlge/qlge.h
-> @@ -2072,6 +2072,7 @@ struct qlge_adapter *netdev_to_qdev(struct net_device *ndev)
->
->  	return ndev_priv->qdev;
->  }
-> +
->  /*
->   * The main Adapter structure definition.
->   * This structure has all fields relevant to the hardware.
-> --
-> 2.17.1
->
->
->
+ drivers/staging/vt6655/baseband.c    |  6 +++---
+ drivers/staging/vt6655/card.c        |  2 +-
+ drivers/staging/vt6655/device_main.c |  6 +++---
+ drivers/staging/vt6655/mac.h         | 27 +++++++++------------------
+ drivers/staging/vt6655/srom.c        |  6 +++---
+ drivers/staging/vt6655/upc.h         |  3 ---
+ 6 files changed, 19 insertions(+), 31 deletions(-)
+
+-- 
+2.25.1
+
