@@ -1,174 +1,225 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DA233D6
-	for <linux-staging@lists.linux.dev>; Fri, 15 Apr 2022 18:53:44 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id 12so9075212oix.12
-        for <linux-staging@lists.linux.dev>; Fri, 15 Apr 2022 11:53:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Fu1lGl7KUsvDaTbuVWYLbekm8YyPZlc63692CIkIOQ4=;
-        b=kqvea8iiRG8zzVfBOX5D9/92tO/jUsNRwm8NhE4XILL2h++pMU788D91v8CUG5ab3L
-         nQui74RKeviFn6UtUTJmy1XTkDdPkjsQAAKpkc8mZfqj9wYM6ieI2ezHfMc3zxd+UEfI
-         fjMvAA9s4ZCIEwFISUBRqPx+JXwyiI4Jzkd3AUcoirDfKqi8A8TkX0mkXsAWbykJWhYW
-         YvWh53jZM/kHtsVMCxt/0ay45rl8NFummy1hFReLcJwDUGuOEeH9M6vJPxkKGUqfFzZQ
-         LbwwcxR3kw6evTwT0B/E92PD7EuFE+0PiEJPA98/2M+XdrpITfQtwNytGrQDpy2E+gru
-         16aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Fu1lGl7KUsvDaTbuVWYLbekm8YyPZlc63692CIkIOQ4=;
-        b=1eEqzu6Zm0L4s8cFekWKfvGUC8Yrhf4j/psgJu+FSONGKwSOotkWtWO8ozU6b5clVe
-         vQbaj6GJA+wbn7XdYjYZ8AN1K4swNWApq3eSHXgRbTuENHDo4y7VjLKf9SSdwqZSrVIP
-         DO1CG4QvIKo4+VkpasW+Y0Myi+Mywjan0g9ffF0zStaCjuCedSDKq5PQ62ruBv8BglmO
-         Co10EBWWwU/5fjmKnr/HAn0X6OPIqcm8PSaKZUu1ssT4/dKc6X6B+lqMLUIi4zsy6sA3
-         uqtTuWQcwKITkyqWu/j2ZmICcWtMz6JslmWMbdfYQ7OF5oxHAxk+bKxDdsF9105xwPca
-         bv4g==
-X-Gm-Message-State: AOAM533Nx/2StKa5AtfeN7mu/+0qzWVuUhgGUsEp0TZU+MqaIxYuXkxj
-	KEDhCgzTqvdbYTauwe7WnAI=
-X-Google-Smtp-Source: ABdhPJznuDVyropBxNhH5yTKZPNKWm7Cidno3n2BjA4yf3avgq+kAyHoURBEJ50hEZGRJwJRbj5FAA==
-X-Received: by 2002:a05:6808:2023:b0:2da:5b6a:a526 with SMTP id q35-20020a056808202300b002da5b6aa526mr181185oiw.264.1650048823338;
-        Fri, 15 Apr 2022 11:53:43 -0700 (PDT)
-Received: from ?IPV6:2603:8090:2005:39b3::100e? (2603-8090-2005-39b3-0000-0000-0000-100e.res6.spectrum.com. [2603:8090:2005:39b3::100e])
-        by smtp.gmail.com with ESMTPSA id m5-20020a056870194500b000d9a0818925sm1828218oak.25.2022.04.15.11.53.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Apr 2022 11:53:42 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <dc1e02b4-1cb6-5f7c-b612-7d2dd21cbda6@lwfinger.net>
-Date: Fri, 15 Apr 2022 13:53:41 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C5417C9;
+	Sat, 16 Apr 2022 01:59:20 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 91AF53202184;
+	Fri, 15 Apr 2022 21:59:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Fri, 15 Apr 2022 21:59:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650074358; x=
+	1650160758; bh=DsIZSVRAwE42Gn8ZixFtjn0uMkrlMndqIZ6G0Y5AI/4=; b=v
+	ofQvzTSJzQ9MkUg0exyz/hODYtwDf1fGYIm3zRStBhNtrkRlgowagO+bOWO8cUzh
+	q23DqehxcTwcrRlb4RfTk3fZO7kOhZWcRyzVf3KmVDHn3eRXjFIaBV9WLcCWbq2a
+	RU3rEmvtfGNhsbbC2LlpCuOzV2RXVIDhLCJXJ87rCIxE4KuofTPeNiJrHYVNhDsR
+	2bn378XD2Mn48LTLZMYMIc2snNQ6XeI8eIiLsvTSf09OdL67+q1WmtqZgxqA4AUn
+	QpzkdfOdaXX3ccjSqaUyqKyCfE/yDYKNctOEUoTXgr+hgnpcAXUWXNN93gZ57NZf
+	5SMLiqXmGRi2gSn/lDJyQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1650074358; x=1650160758; bh=DsIZSVRAwE42G
+	n8ZixFtjn0uMkrlMndqIZ6G0Y5AI/4=; b=bYVuTgUYBsQTNnlxU5US0jyiPBbXZ
+	mFG6lTqRrEr42liDgqrarHGFmcWTM3tAAE/8WhCz2EsgxzGoMFti1oHtWF64G3Ss
+	yrDzkMM5P3QgAeixj3hzJwfqda2x2KBtcTqjHRXxOzLIj8Y0Avio6yaJblorrK0Z
+	hS/JXCOtbLwu2ERmhWfDJagU3nMqUNctjRzGax38Shhk1yu43esCLMHYAUBzeU3w
+	2sBADRZJGDwuLDdo73dbxjpSJQLN50TL4hHfUHTc9qYXy9TWSmCPRWBpIfneQdDr
+	MMTNowdfCXZTHpc7mqr6nHzjPEYLK+trxeIGkIZ0mO66rmNll7p5zWeZA==
+X-ME-Sender: <xms:9SJaYvpc2lX9S77Y_psFb_TnC2je-Wlk1MQe_tfJyC7_IPLiPFALYw>
+    <xme:9SJaYppO8Ie-u9jC4_2nnMypdN9K32jQZk4WBnZ0E0IH8--zOEoMENqikEnDB2ExS
+    H3woy9YAY-C6rcb0A>
+X-ME-Received: <xmr:9SJaYsMrSMF-8DAbhBq7N3BcxdY-2JM88babmgpCyWtpYOf-95uQhD94IyAVSY4zj2dlSqUK7kvvis1sjTHoWyxJLelH2YcLHTFhp7WwN3AcM7PE78Az6XCE-A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeliedggeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepffeigfelvdfgtdetleduveevgfdutdeiuddtveetvdfhffejlefh
+    heetjeetvdelnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhh
+    ohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:9SJaYi5As9kW734rNq9qWZhgGxtOhnvlUmZL_v-yrLAXRFHVFcrGMQ>
+    <xmx:9SJaYu5rpwcaHozDnmeQ0KRPrMDDeBN-VLpR3VTrQ_RUfKcJ04HUJA>
+    <xmx:9SJaYqhkjxHh8wMLMpeP9SJtZstFEHq2IJ6gblbyz0Gtug3ilQuXeA>
+    <xmx:9iJaYhqU14ncJuMjdwFgtppOKgNv_VuguB75Be41zWPEUje1WYVizg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 15 Apr 2022 21:59:16 -0400 (EDT)
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP bindings
+ documentation
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hans.verkuil@cisco.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
+ <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <19aa74b7-0096-87c5-ef2c-9a135ad5505a@sholland.org>
+Date: Fri, 15 Apr 2022 20:59:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 3/8] staging: r8188eu: clean up comments in struct
- rt_firmware_hdr
+In-Reply-To: <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220415121023.11564-1-straube.linux@gmail.com>
- <20220415121023.11564-4-straube.linux@gmail.com>
- <f4f8d381-9ee1-c504-c41c-97a9332066c9@lwfinger.net>
- <bd1b3310-3867-5b3c-cce1-cdb374b3d819@gmail.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <bd1b3310-3867-5b3c-cce1-cdb374b3d819@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 4/15/22 13:05, Michael Straube wrote:
-> On 4/15/22 17:44, Larry Finger wrote:
->> On 4/15/22 07:10, Michael Straube wrote:
->>> The comments in struct rt_firmware_hdr are not needed.
->>> Remove them.
->>>
->>> Signed-off-by: Michael Straube <straube.linux@gmail.com>
->>> ---
->>> v3:
->>> - no changes
->>>
->>> v2:
->>> - no changes
->>>
->>>   drivers/staging/r8188eu/core/rtw_fw.c | 37 ++++++++-------------------
->>>   1 file changed, 11 insertions(+), 26 deletions(-)
->>>
->>> diff --git a/drivers/staging/r8188eu/core/rtw_fw.c 
->>> b/drivers/staging/r8188eu/core/rtw_fw.c
->>> index 7cd08268f3b9..323e0c634c4e 100644
->>> --- a/drivers/staging/r8188eu/core/rtw_fw.c
->>> +++ b/drivers/staging/r8188eu/core/rtw_fw.c
->>> @@ -14,37 +14,22 @@
->>>       (le16_to_cpu(_fwhdr->Signature) & 0xFFF0) == 0x2300 ||    \
->>>       (le16_to_cpu(_fwhdr->Signature) & 0xFFF0) == 0x88E0)
->>> -/*  This structure must be careful with byte-ordering */
->>> -
->>>   struct rt_firmware_hdr {
->>> -    /*  8-byte alinment required */
->>> -    /*  LONG WORD 0 ---- */
->>> -    __le16        Signature;    /* 92C0: test chip; 92C,
->>> -                     * 88C0: test chip; 88C1: MP A-cut;
->>> -                     * 92C1: MP A-cut */
->>> -    u8        Category;    /*  AP/NIC and USB/PCI */
->>> -    u8        Function;    /*  Reserved for different FW function
->>> -                     *  indcation, for further use when
->>> -                     *  driver needs to download different
->>> -                     *  FW for different conditions */
->>> -    __le16        Version;    /*  FW Version */
->>> -    u8        Subversion;    /*  FW Subversion, default 0x00 */
->>> +    __le16        Signature;
->>> +    u8        Category;
->>> +    u8        Function;
->>> +    __le16        Version;
->>> +    u8        Subversion;
->>>       u8        Rsvd1;
->>> -
->>> -    /*  LONG WORD 1 ---- */
->>> -    u8        Month;    /*  Release time Month field */
->>> -    u8        Date;    /*  Release time Date field */
->>> -    u8        Hour;    /*  Release time Hour field */
->>> -    u8        Minute;    /*  Release time Minute field */
->>> -    __le16        RamCodeSize;    /*  The size of RAM code */
->>> +    u8        Month;
->>> +    u8        Date;
->>> +    u8        Hour;
->>> +    u8        Minute;
->>> +    __le16        RamCodeSize;
->>>       u8        Foundry;
->>>       u8        Rsvd2;
->>> -
->>> -    /*  LONG WORD 2 ---- */
->>> -    __le32        SvnIdx;    /*  The SVN entry index */
->>> +    __le32        SvnIdx;
->>>       __le32        Rsvd3;
->>> -
->>> -    /*  LONG WORD 3 ---- */
->>>       __le32        Rsvd4;
->>>       __le32        Rsvd5;
->>>   };
->>
->> The comments "LONG WORD" are useless, but the comments describing the fields 
->> are still useful. I do not like this patch.
->>
+On 4/15/22 10:37 AM, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
 > 
-> Hi Larry,
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
 > 
-> You are right the in-line comments are useful. I'll send v4 keeping
-> them.
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> new file mode 100644
+> index 000000000000..ffca216b841f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> @@ -0,0 +1,117 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
+> +
+> +maintainers:
+> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun6i-a31-isp
+> +      - allwinner,sun8i-v3s-isp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Bus Clock
+> +      - description: Module Clock
+> +      - description: DRAM Clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: mod
+> +      - const: ram
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: CSI0 input port
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            unevaluatedProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: CSI1 input port
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+
+Should be "const: 1".
+
+Otherwise,
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+
+> +
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            unevaluatedProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +    anyOf:
+> +      - required:
+> +        - port@0
+> +      - required:
+> +        - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> +
+> +    isp: isp@1cb8000 {
+> +        compatible = "allwinner,sun8i-v3s-isp";
+> +        reg = <0x01cb8000 0x1000>;
+> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&ccu CLK_BUS_CSI>,
+> +             <&ccu CLK_CSI1_SCLK>,
+> +             <&ccu CLK_DRAM_CSI>;
+> +        clock-names = "bus", "mod", "ram";
+> +        resets = <&ccu RST_BUS_CSI>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                isp_in_csi0: endpoint {
+> +                    remote-endpoint = <&csi0_out_isp>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
 > 
-> You only mentioned the in-line comments, just to get it right this
-> time:
-> 
-> What about the "8-byte alignment required" comment? You said in another
-> thread that the __le16 references need alignment 4. Should I make the
-> struct __aligned(8) or at least __aligned(4)?
 
-Routines cpu_to_le16() and le16_to_cpu() require two-byte alignment. Similarly, 
-the 32-bit versions need 4-byte alignment. The layout of the struct will ensure 
-that as long as the entire struct has 4-byte alignment.
-
-This struct is only used in rtl8188e_firmware_download() where it is created on 
-the stack. That means it will be 8-byte aligned for x86_64 and 4-byle aligned on 
-32-bit systems. I'm sure that Dan or GregKH will correct me if I got this wrong, 
-but that should be sufficient. Making it __aligned(8) could waste 4 bytes on the 
-stack for 32-bit systems. Using __aligned(4) would have no effect on any system.
-
-I say remove the comment.
-
-> 
-> And about "/*  This structure must be careful with byte-ordering */" ?
-> I think it's obvious because of the __le16 and __le32 fields and can be
-> removed. Do you agree on that?
-
-Using the __leNN implies little-endian, thus that comment is useless. Yes, I agree.
-
-
-Larry
