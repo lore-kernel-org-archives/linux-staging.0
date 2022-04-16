@@ -1,82 +1,78 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45772590;
-	Sat, 16 Apr 2022 19:18:27 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id 125so11940091pgc.11;
-        Sat, 16 Apr 2022 12:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=cEiFYO7CvfRyx2lxfp/dzLomivsTy3qKaQW3t/1AfgA=;
-        b=hjhW4uwSoiJ3c41yfoxcSod5NklVn46w57mFDsyZSSAbFNscq7GfEDF2n69+jgBU/F
-         ZhCf4FjSWojzwk+zZGwcEbar4ct/cbGfd2eveL/hB7gga5rsGJy7MENwxAGaVcc5pIo2
-         EQIUYVmcm/ZID7UwqnIIxLDG/kPCxRKGpvywa3K8oyasbskgiAfNYJJ1vOl3XlIKBeCp
-         xMdcpw05UCMjFnGsOYsm3qkFUOOyNo2QzfYIQkzYDbCxzdTC4B/dDlBNYLQW1iH5MTX8
-         LD7nBPDyLaKRH29NiZbn3WYCc/vxBJczs183CgGDAeBiBPSHBiMzYnbYaY2lHcWe0U7K
-         4iBg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B32533C0;
+	Sat, 16 Apr 2022 22:17:41 +0000 (UTC)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-df02f7e2c9so11014420fac.10;
+        Sat, 16 Apr 2022 15:17:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=cEiFYO7CvfRyx2lxfp/dzLomivsTy3qKaQW3t/1AfgA=;
-        b=yK6dYEqybrmj2kOobsqSmUWnliYQQnF/AnR2BEtg2/XCCmd2wfKQc+gE7u6wtkHLvh
-         knJUWumyfrOJrlljc2BmlovMsVQT+lmRgnWretlCSBe3xhxQcv8+/svKJjHm7B0GbU4/
-         VPbQOj5QS6YCO/4pHoCCxDrZ1TnnYXAgygXaJDyMNG56GBYQcIncwz2LsHrpxXNcno7L
-         KX6vYxR7rq5DbbkWIX2nbZ3V8AyRB9WNqyWyVJ5uYdpGbK/OpXoSRTu0z9+4zCHNdid/
-         VCRXmWDTUL5w8+1CyPiFMX+298YDT9s8CXKBdWRC0O8bO6wcFxsei19eIbVSe+R4C1WC
-         oVyw==
-X-Gm-Message-State: AOAM530BNGh0dootbLruOEgi+Wrzjyi3xmc6/qoXFbAzp4VHEsk1M0y4
-	G09wkESinuT9M/lO44AxWIY=
-X-Google-Smtp-Source: ABdhPJzgLqlNi+iTW3XfsMmksrs4Si6d6BxNd3yiSJYhM4GHXT37Bc+odwKwilPJVYOUYvT/NjF8gw==
-X-Received: by 2002:a05:6a00:140f:b0:4e0:6995:9c48 with SMTP id l15-20020a056a00140f00b004e069959c48mr4780091pfu.59.1650136707150;
-        Sat, 16 Apr 2022 12:18:27 -0700 (PDT)
-Received: from Negi ([207.151.52.3])
-        by smtp.gmail.com with ESMTPSA id d5-20020a17090acd0500b001b9c05b075dsm11913701pju.44.2022.04.16.12.18.26
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=7dPcFs565C9c1WFXikvbzN8qlHn8qJL0dUAk+7Q/+p0=;
+        b=I+3wwI14h4kzrKZM3h94d0NZ5lePwzG0xIRJbwdHEOsR3nQoRHNPtvI6XYnbQKVDb/
+         Zf9U15Sug+iPqZWco6Nt7P0MnyB6RK/ARF02EV+7FIAI4OfJLDUp7kCPDqY727Y7rkLS
+         1q8leWCvOOtb4qr0fq8RDaIhmn6XbLszHYieoxikTu5BkDCO26/Rt0Iw3TV4TBMnv0tj
+         /XM8StTSH6nTKuuzxiZ1jDBiYmZEwynRr4BMXC5V69Guh0oibkK0or12TAPIWDENMVJO
+         JcoHlVaRelv0s6AvkeCVwHH0cQL/fuil/Z43+apVpmwrBPFQhytni7TVlI7ZF4Q7c7ul
+         FyRA==
+X-Gm-Message-State: AOAM533G17wnjqDidvphrXZq6aJO1sRIJrc7hKtt/VNd21FekIiFltXx
+	MqSjLuqC7VnD1UAMq95jMg==
+X-Google-Smtp-Source: ABdhPJzcOBOFLYRBnjRkFKYm36bRA1+9aCycXC6AAhf5bxP7oOLONMn2t+h7bqsghdRFSNm7zPU0jg==
+X-Received: by 2002:a05:6871:58c:b0:e3:25e9:6792 with SMTP id u12-20020a056871058c00b000e325e96792mr3791936oan.147.1650147460477;
+        Sat, 16 Apr 2022 15:17:40 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id os2-20020a0568707d0200b000e42ef7cff2sm2727982oab.43.2022.04.16.15.17.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Apr 2022 12:18:26 -0700 (PDT)
-From: Soumya Negi <soumya.negi97@gmail.com>
-To: Manish Chopra <manishc@marvell.com>,
-	GR-Linux-NIC-Dev@marvell.com,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	netdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Cc: Soumya Negi <soumya.negi97@gmail.com>
-Subject: [PATCH v2] staging: qlge: add blank line after function declaration
-Date: Sat, 16 Apr 2022 12:17:45 -0700
-Message-Id: <20220416191745.7079-1-soumya.negi97@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Sat, 16 Apr 2022 15:17:40 -0700 (PDT)
+Received: (nullmailer pid 3544946 invoked by uid 1000);
+	Sat, 16 Apr 2022 22:17:39 -0000
+From: Rob Herring <robh@kernel.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Rob Herring <robh+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hans.verkuil@cisco.com>
+In-Reply-To: <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com> <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+Date: Sat, 16 Apr 2022 17:17:39 -0500
+Message-Id: <1650147459.143664.3544945.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Adhere to linux coding style. Reported by checkpatch:
-CHECK: Please use a blank line after function/struct/union/enum declarations
+On Fri, 15 Apr 2022 17:37:05 +0200, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> 
 
-Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
----
-Changes in v2:
-  - Correct commit message.
----
- drivers/staging/qlge/qlge.h | 1 +
- 1 file changed, 1 insertion(+)
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-diff --git a/drivers/staging/qlge/qlge.h b/drivers/staging/qlge/qlge.h
-index 55e0ad759250..d0dd659834ee 100644
---- a/drivers/staging/qlge/qlge.h
-+++ b/drivers/staging/qlge/qlge.h
-@@ -2072,6 +2072,7 @@ struct qlge_adapter *netdev_to_qdev(struct net_device *ndev)
- 
- 	return ndev_priv->qdev;
- }
-+
- /*
-  * The main Adapter structure definition.
-  * This structure has all fields relevant to the hardware.
--- 
-2.17.1
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml:73:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml:75:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+
+dtschema/dtc warnings/errors:
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
