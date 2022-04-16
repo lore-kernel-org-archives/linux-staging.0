@@ -1,244 +1,53 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03F37A
-	for <linux-staging@lists.linux.dev>; Sat, 16 Apr 2022 11:21:09 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id bq30so17513187lfb.3
-        for <linux-staging@lists.linux.dev>; Sat, 16 Apr 2022 04:21:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC3D2590
+	for <linux-staging@lists.linux.dev>; Sat, 16 Apr 2022 19:09:31 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id bv19so20616231ejb.6
+        for <linux-staging@lists.linux.dev>; Sat, 16 Apr 2022 12:09:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=MkmORvIL2zULObkfbkJsVQHkLyWpB1iVIjReF7hXUtw=;
-        b=AK2SOvHLW5mDBzz1jN0pHbMi/hJbTe6lyeB1udOyu8+VrB2al9YrqwA+5XFcZnPE6l
-         rx5b68FFiM5I4Itu4Rt0QoXB5J2x5cN1JcSYTh2ajTZjl/MCalQOVTlZ7SK3io4x6A0V
-         etjC+wgvRTsW36OPzwhLdT7B6Jgh5oT9VuidcUh+KqogWo+cuq79sXrORgF+IYGgrEy8
-         eF2mJmaXs7PcfrGFuAy4pe/PSf9cw/HIlLXzWw6LMfGXOk+RSC/MSlS9uNqIvsVrR6x0
-         GNG43BP2c8pDj9GfJEiM3Pip/fufgoZjnRCIvnfv5ka6VtgpmPogUJ9es63BVOj9ADF6
-         gebA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Wc5pFB9cFV9X8b0ifj+g9eVrc/4oE6DJhMyg+0grg+A=;
+        b=g6SviAzwXAp09tyT7R2XRj717VnDS6GwDtEcvKbhHtciTAYMqsQMA11jPSRytxv9XW
+         VFUNpY7EV8Y5oPQJ9ZEoGLCrgx1HKdushCUIVTi1NtwrIybOWklDz4kcdjRsSZskXWLw
+         zh1eEM9Ek3muGqX4M+Qk9UWBUD9QHNjpYj6b/i9o4VnZimj1LcebyvcDJ73l9LEG7ZxU
+         SCw0yjEdDv5IlHMOo3a4dG2ZUOsIMVRkGOJQIn8KPp7vF8MJPb5nqrTvke/VHHa5NCsG
+         2ppWyRQLDnz02tFJevSmSmYFvT/8WXGOQTEYLJNzXD70ecglJ1TRe9jwMuIf9DSxpXva
+         vaRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=MkmORvIL2zULObkfbkJsVQHkLyWpB1iVIjReF7hXUtw=;
-        b=kMh5F2wDz8wJiDq4DtS57vD6EXP/MfJyylO/G34X30cKSNRFhFwzEmUh8kke+vjtfc
-         zjGXe0qOpIi4J8MOdzjtEl4k63q8S+bM+IgJqgWM/98OjpitfcfHX0igkxT/Xio8Zlbm
-         EWDk/MVdnZoEAWLYErZPETQ/12JqOCba4OJqQijp0aJv8b5hplXimTNsui9B2enklQ0P
-         glgmRzOajtRjpZgWQA60saUQWRHM+fWoOcOBTkQlPn6wadbW1fbg79xqCeFsjlxXa9cZ
-         KJV5n92rHdAQT3auR0iX0OFtZoVfruhtt83xTPZ68qUUhGV4/SZWx7TCpsv1r6NQi6S3
-         Yckg==
-X-Gm-Message-State: AOAM532bpvNTAgiI9oGWbIXQWnLMsnoS50y7g35iQdN/dEjVWGpKhRLk
-	wIXo2Hk1plVqy+xIGMaDMp8=
-X-Google-Smtp-Source: ABdhPJz6HmqsVX9N3NnQWycGjKb8kCMfTcHXY06N+k8BoRP0nDeW0vE0IPwxjDswf9jdkRogIbYjzw==
-X-Received: by 2002:a05:6512:3a85:b0:464:f83e:f680 with SMTP id q5-20020a0565123a8500b00464f83ef680mr2122985lfu.371.1650108067718;
-        Sat, 16 Apr 2022 04:21:07 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.225.17])
-        by smtp.gmail.com with ESMTPSA id m12-20020a19710c000000b0046b985ed95esm638745lfc.100.2022.04.16.04.21.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 Apr 2022 04:21:07 -0700 (PDT)
-Message-ID: <63d56f0f-52f0-52da-675a-a18f5ce31b3d@gmail.com>
-Date: Sat, 16 Apr 2022 14:21:06 +0300
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Wc5pFB9cFV9X8b0ifj+g9eVrc/4oE6DJhMyg+0grg+A=;
+        b=r4p5IuiMW8IMeK5w7YFSvo3OaL5rDE3/3ldePGaVBWW9/WeTZQW0EAZq9rAqZ0Jh6M
+         boVbckgMcy2U0Uy1ri51+nlSya2sd8SbcyfMg3OZgzsAw5yhCK6R5Fnl+wmhjLHqHTt/
+         SVP+4aMv02p8MwBI70f3UedBMV9tHafketLaPukeISpdlzJPTkPh13ZvI7qPjbT8XgcC
+         9mIvG5ocVAxZAMmcR/Pj9zWuzFYiYds2zmhIjKJwiMgl5ldS3/4YhF+5bG1xe/PL27gY
+         yMePVrqTeDkAsjK5HyJnNZIsSOiGN1NPhQHD5wnD+zNjMIcw3+/wwEia8apF1NSiE1od
+         IXng==
+X-Gm-Message-State: AOAM530bh3wEftHuJg/hbvyP40Nw4e5lm8kH3Lxu7zocQZJwdfe0fd+a
+	YpO5b0z/zBn9dXeJKcK8hLLWM/H93NNEIP8BRGI=
+X-Google-Smtp-Source: ABdhPJy0dXUnDlNqpFSRWbTmBQ7n5zYVtmmJh0Ee6Th3tr80ERDWMczGFfIgI95tpj9HKKbOvbuOv7n6qhOInUV9gaw=
+X-Received: by 2002:a17:907:2d0f:b0:6e8:b710:a68 with SMTP id
+ gs15-20020a1709072d0f00b006e8b7100a68mr3471849ejc.510.1650136169569; Sat, 16
+ Apr 2022 12:09:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] staging: rtl8723bs: remove leftover code for other chips
-Content-Language: en-US
-To: Artur Bujdoso <artur.bujdoso@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Larry Finger <Larry.Finger@lwfinger.net>
-References: <Ylqk7RQmpRfh/RxV@crux>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <Ylqk7RQmpRfh/RxV@crux>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220225155622.585621-1-ahamedhusni73@gmail.com> <20220320163618.41054-1-ahamedhusni73@gmail.com>
+In-Reply-To: <20220320163618.41054-1-ahamedhusni73@gmail.com>
+From: Ahamed Husni <ahamedhusni73@gmail.com>
+Date: Sun, 17 Apr 2022 00:39:18 +0530
+Message-ID: <CAFjpAKqT1eP4vXDPuTG50aBJPuosWTN3qddrURgp3zFS8pCz0A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] media: av7110: fix switch indentation
+To: mchehab@kernel.org, Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Artur,
-
-On 4/16/22 14:13, Artur Bujdoso wrote:
-> Clean up unreferenced register definitons in hal headers.
-> 
-> Signed-off-by: Artur Bujdoso <artur.bujdoso@gmail.com>
-> ---
->   drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h  |  36 +--
->   drivers/staging/rtl8723bs/include/HalVerDef.h |  74 ++---
->   .../staging/rtl8723bs/include/hal_com_reg.h   | 297 +-----------------
->   3 files changed, 49 insertions(+), 358 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-> index af50674b2a65..706aafe86d0d 100644
-> --- a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-> +++ b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-> @@ -70,38 +70,34 @@ enum btc_chip_interface {
->   
->   enum {
->   	BTC_CHIP_UNDEF		= 0,
-> -	BTC_CHIP_CSR_BC4	= 1,
-> -	BTC_CHIP_CSR_BC8	= 2,
-> -	BTC_CHIP_RTL8723A	= 3,
-> -	BTC_CHIP_RTL8821	= 4,
->   	BTC_CHIP_RTL8723B	= 5,
->   	BTC_CHIP_MAX
->   };
->   
->   /*  following is for wifi link status */
-> -#define WIFI_STA_CONNECTED				BIT0
-> -#define WIFI_AP_CONNECTED				BIT1
-> -#define WIFI_HS_CONNECTED				BIT2
-> +#define WIFI_STA_CONNECTED			BIT0
-> +#define WIFI_AP_CONNECTED			BIT1
-> +#define WIFI_HS_CONNECTED			BIT2
->   #define WIFI_P2P_GO_CONNECTED			BIT3
->   #define WIFI_P2P_GC_CONNECTED			BIT4
->   
-
-Should be done in separate patch
-
->   struct btc_board_info {
->   	/*  The following is some board information */
->   	u8 btChipType;
-> -	u8 pgAntNum;	/*  pg ant number */
-> -	u8 btdmAntNum;	/*  ant number for btdm */
-> +	u8 pgAntNum;		/*  pg ant number */
-> +	u8 btdmAntNum;		/*  ant number for btdm */
->   	u8 btdmAntPos;		/* Bryant Add to indicate Antenna Position for (pgAntNum = 2) && (btdmAntNum = 1)  (DPDT+1Ant case) */
->   	u8 singleAntPath;	/*  current used for 8723b only, 1 =>s0,  0 =>s1 */
-> -	/* bool				bBtExist; */
-> +	/* bool			bBtExist; */
->   };
->   
-
-
-Should be done in separate patch
-
->   enum {
-> -	BTC_RSSI_STATE_HIGH			    = 0x0,
-> -	BTC_RSSI_STATE_MEDIUM			= 0x1,
-> -	BTC_RSSI_STATE_LOW			    = 0x2,
-> -	BTC_RSSI_STATE_STAY_HIGH		= 0x3,
-> -	BTC_RSSI_STATE_STAY_MEDIUM		= 0x4,
-> -	BTC_RSSI_STATE_STAY_LOW			= 0x5,
-> +	BTC_RSSI_STATE_HIGH		= 0x0,
-> +	BTC_RSSI_STATE_MEDIUM		= 0x1,
-> +	BTC_RSSI_STATE_LOW		= 0x2,
-> +	BTC_RSSI_STATE_STAY_HIGH	= 0x3,
-> +	BTC_RSSI_STATE_STAY_MEDIUM	= 0x4,
-> +	BTC_RSSI_STATE_STAY_LOW		= 0x5,
->   	BTC_RSSI_MAX
->   };
->   #define BTC_RSSI_HIGH(_rssi_)	((_rssi_ == BTC_RSSI_STATE_HIGH || _rssi_ == BTC_RSSI_STATE_STAY_HIGH) ? true : false)
-> @@ -122,7 +118,7 @@ enum {
->   };
->   
->   enum {
-> -	BTC_WIFI_PNP_WAKE_UP		= 0x0,
-> +	BTC_WIFI_PNP_WAKE_UP			= 0x0,
->   	BTC_WIFI_PNP_SLEEP			= 0x1,
->   	BTC_WIFI_PNP_MAX
->   };
-> @@ -211,7 +207,7 @@ enum {
->   
->   enum {
->   	BTC_DBG_DISP_COEX_STATISTICS		= 0x0,
-> -	BTC_DBG_DISP_BT_LINK_INFO			= 0x1,
-> +	BTC_DBG_DISP_BT_LINK_INFO		= 0x1,
->   	BTC_DBG_DISP_FW_PWR_MODE_CMD		= 0x2,
->   	BTC_DBG_DISP_MAX
->   };
-> @@ -235,13 +231,13 @@ enum {
->   };
->   
->   enum {
-> -	BTC_ASSOCIATE_FINISH				= 0x0,
-> +	BTC_ASSOCIATE_FINISH					= 0x0,
->   	BTC_ASSOCIATE_START					= 0x1,
->   	BTC_ASSOCIATE_MAX
->   };
->   
->   enum {
-> -	BTC_MEDIA_DISCONNECT				= 0x0,
-> +	BTC_MEDIA_DISCONNECT					= 0x0,
->   	BTC_MEDIA_CONNECT					= 0x1,
->   	BTC_MEDIA_MAX
->   };
-
-All white-space clean ups should be done in separate patch
-
-
-> diff --git a/drivers/staging/rtl8723bs/include/HalVerDef.h b/drivers/staging/rtl8723bs/include/HalVerDef.h
-> index 8f654a49fb9d..42c8ff90e824 100644
-> --- a/drivers/staging/rtl8723bs/include/HalVerDef.h
-> +++ b/drivers/staging/rtl8723bs/include/HalVerDef.h
-> @@ -9,38 +9,29 @@
->   
->   /*  hal_ic_type_e */
->   enum hal_ic_type_e { /* tag_HAL_IC_Type_Definition */
-> -	CHIP_8192S	=	0,
-> -	CHIP_8188C	=	1,
-> -	CHIP_8192C	=	2,
-> -	CHIP_8192D	=	3,
-> -	CHIP_8723A	=	4,
-> -	CHIP_8188E	=	5,
-> -	CHIP_8812	=	6,
-> -	CHIP_8821	=	7,
->   	CHIP_8723B	=	8,
-> -	CHIP_8192E	=	9,
->   };
->   
-
-Then why this enum is needed? ChipVersion.ICType looks set, but not used.
-
->   /* hal_chip_type_e */
->   enum hal_chip_type_e { /* tag_HAL_CHIP_Type_Definition */
-> -	TEST_CHIP		=	0,
-> +	TEST_CHIP	=	0,
->   	NORMAL_CHIP	=	1,
-> -	FPGA			=	2,
-> +	FPGA		=	2,
->   };
->   
-
-Again white-space clean ups
-
->   /* hal_cut_version_e */
->   enum hal_cut_version_e { /* tag_HAL_Cut_Version_Definition */
-> -	A_CUT_VERSION		=	0,
-> -	B_CUT_VERSION		=	1,
-> -	C_CUT_VERSION		=	2,
-> -	D_CUT_VERSION		=	3,
-> -	E_CUT_VERSION		=	4,
-> -	F_CUT_VERSION		=	5,
-> -	G_CUT_VERSION		=	6,
-> -	H_CUT_VERSION		=	7,
-> -	I_CUT_VERSION		=	8,
-> -	J_CUT_VERSION		=	9,
-> -	K_CUT_VERSION		=	10,
-> +	A_CUT_VERSION	=	0,
-> +	B_CUT_VERSION	=	1,
-> +	C_CUT_VERSION	=	2,
-> +	D_CUT_VERSION	=	3,
-> +	E_CUT_VERSION	=	4,
-> +	F_CUT_VERSION	=	5,
-> +	G_CUT_VERSION	=	6,
-> +	H_CUT_VERSION	=	7,
-> +	I_CUT_VERSION	=	8,
-> +	J_CUT_VERSION	=	9,
-> +	K_CUT_VERSION	=	10,
->   };
-
-and again...
-
-
-
-
-
-
-With regards,
-Pavel Skripkin
+Ping :)
