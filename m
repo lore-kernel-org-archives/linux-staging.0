@@ -1,85 +1,95 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031802C9C;
-	Sun, 17 Apr 2022 20:23:07 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id b21so21570593lfb.5;
-        Sun, 17 Apr 2022 13:23:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6DA367;
+	Sun, 17 Apr 2022 20:42:04 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id f14so543880qtq.1;
+        Sun, 17 Apr 2022 13:42:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=umLOpU+0I1iOAgBTudA/7ZDWer0bJgohRBccjT2TBm8=;
-        b=BGZfXiD7+DzTdHXLzDwTfT5VuQwbA4EiqSj0EnZgDj/7WlOXLkLUsFUVuYiR9sSX+s
-         K1MhK5dWyCahlFIjG/Cb3ODkMITf8l70gxB/Sn7vKPBqyetVndafrZq5gYmU9ihSFER+
-         rBjiVTJ5ZDRAUv+L5ZojYqEkB1mCxVWxjNkimUGLnUZ1ioGa7m29qgEbz+hEvIFxE5Yv
-         VudMY2nsIIIGHQk2w+yi57BLsfCApv6D7CXZF/3Pz49lKHiMeGEkYqvAsw/RL/Pk9+e1
-         N69TnQnKiPvJea3yxdSDNXAt/LE/MMzjGesb9gjyn5oYl87PWe9UzrtvjtLUcz6ejOPw
-         Ny4Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=siAKpMcN2i6Q5zwPWMFzdjMytkBZWIwEIG4ky16AcDE=;
+        b=POT4kupDxVMVYxPM9uQ91fxJF+fbbvfcfAK6+sd4/52H+jBSq/EHv+JVS201vbVhTI
+         58Ziu9h2KBrJMhG90YOixxlX5mFL3miqMxgkP+CWBQmQKAYw7uP7dvh/SlG/B4A6LQE5
+         4hYureZf3iXY1B2JOyjwnaECwkaY4YxS/y/iy6ffD4rXUv9jjcZDklQfkTs9VCQwltIl
+         17ZqlOOG+da029OX07OoI8PFbmvzBVo1L5bINDSoU6FvtCBbTAsJeEUYO8jr25hs0tE3
+         IJk4sYY2cm5icEDjZ9MGfZa/Sbe9xyCgf7w44s50LieRSLt1SzdelfYd4SSCWylHAear
+         YhjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=umLOpU+0I1iOAgBTudA/7ZDWer0bJgohRBccjT2TBm8=;
-        b=c4zuZ0p75lGz3r9GZGXkJ7GKW+aC89j6Uh+6pfRGfWBxYwMg+ZwSFUcLIYVqdj+Yvq
-         OXAVYWvCNYeLIPbVGKtvA/BW1xx+yauoTTnUhrYL+BbE3ZjScwaRF2fBj2I4X9mER7NK
-         tN/c/q0TBR+L7ig+769S2jSYLwzWEfKxR4yXWirxX0NXddH5WzPsZ+nTtn4Rzyjn8Mhf
-         PLzMar2G2ICyyVl7E/0WjcK2OM1Rmmf3al1U5pv/GnLtnuwmX3eP7X8nz3s1ZKUoU9OV
-         NqTR6m8c3+OrkLCM/1O3x3W6KRZDed7p9Hg3fcGmS4PulRkQBd/WZ4g8lRndFE6BhEhK
-         On0g==
-X-Gm-Message-State: AOAM532u+Dp1MRVL18YTLh1k7eLP7bAnbDrkKnRblAIorAy1N4xJe/E9
-	8/LC++d0kUyz+2H6MP741w8=
-X-Google-Smtp-Source: ABdhPJzqDTzkV1w/pnVoQAQOWVEYmGJ7tIQvYYLX/K1xknW3ohqlHF6jl3oekIxTFjE4eopmbK0//A==
-X-Received: by 2002:ac2:435a:0:b0:46b:ae5b:83e8 with SMTP id o26-20020ac2435a000000b0046bae5b83e8mr5941240lfl.485.1650226985931;
-        Sun, 17 Apr 2022 13:23:05 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.225.17])
-        by smtp.gmail.com with ESMTPSA id u18-20020a199212000000b0046ba06a6a19sm1015663lfd.143.2022.04.17.13.23.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Apr 2022 13:23:04 -0700 (PDT)
-Message-ID: <6925e230-b816-ea9a-067f-60cefecd8af7@gmail.com>
-Date: Sun, 17 Apr 2022 23:23:03 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=siAKpMcN2i6Q5zwPWMFzdjMytkBZWIwEIG4ky16AcDE=;
+        b=yQdeG6sXyeKFUYFbDcwkLgw2Y+yOftePp7ySCDEOBSr+36s0A7g5PQAkYCC/O1NHRg
+         87qQNU8B34UTuiNA7xKsfcguDUBb4eZFgP9yndKtAIcvDgcbiq7n/oD4gkcc5oD0GKYf
+         yu53n3ASee6vI/Ha8brXwVs9YeWoh1i7ZviPX8FmD1LGMoTxTeHSssgoeuOVmZXAh14P
+         XyW4TIaKP/y3frcT/gxiDH42OgLJY7mW9N8qBBlvNlr5M7iTVeDwV0gmaXNfc5Dmj6AY
+         kN1FkCNmB34jYgdwSRjqnKgBE5ICRXElzcDxFnShRlM93vkxYlNOZI/6eZnl4gIPLkPk
+         FURA==
+X-Gm-Message-State: AOAM531voSLtvRKYeBXZ/jLBFQb/LRxXkmtJdhtBqCvyVjHJKdPSL8cC
+	F/8wkSlcqjP7DgkidBRDIxZDdRlbaM8NMsW5
+X-Google-Smtp-Source: ABdhPJx0kCkCJfgKcw+kUzw+Q6cJHzf27oLCO+xIYKc13wBBsro0rB/QZNqK5Xbf9vslD4NrwrOWAg==
+X-Received: by 2002:a05:622a:1109:b0:2f1:f7e9:1b3 with SMTP id e9-20020a05622a110900b002f1f7e901b3mr3868301qty.671.1650228123726;
+        Sun, 17 Apr 2022 13:42:03 -0700 (PDT)
+Received: from jaehee-ThinkPad-X1-Extreme ([2607:fb90:50e6:61ed:4df2:ed9f:52ea:476e])
+        by smtp.gmail.com with ESMTPSA id y20-20020a05622a121400b002eefd7bf5basm6706502qtx.63.2022.04.17.13.42.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Apr 2022 13:42:02 -0700 (PDT)
+Date: Sun, 17 Apr 2022 16:42:00 -0400
+From: Jaehee Park <jhpark1013@gmail.com>
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH v2 1/6] staging: r8188eu: remove unused member
+ free_bss_buf
+Message-ID: <20220417204200.GA236965@jaehee-ThinkPad-X1-Extreme>
+References: <cover.1649990500.git.jhpark1013@gmail.com>
+ <e41e0d3b62395d04f41d6934074074c431e7aacc.1649990500.git.jhpark1013@gmail.com>
+ <3608313.MHq7AAxBmi@leap>
+ <20220417201415.GA233554@jaehee-ThinkPad-X1-Extreme>
+ <a28f445f-f088-620e-6baf-4cad3e1a8146@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 3/6] staging: r8188eu: remove 'added by' author
- comments
-Content-Language: en-US
-To: Jaehee Park <jhpark1013@gmail.com>, Larry.Finger@lwfinger.net
-Cc: phil@philpotter.co.uk, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- outreachy@lists.linux.dev, Alison Schofield <alison.schofield@intel.com>
-References: <cover.1649990500.git.jhpark1013@gmail.com>
- <c0eaa7cbc61d89967d81ef864c1a791f4adb1978.1649990500.git.jhpark1013@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <c0eaa7cbc61d89967d81ef864c1a791f4adb1978.1649990500.git.jhpark1013@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a28f445f-f088-620e-6baf-4cad3e1a8146@gmail.com>
 
-Hi Jaehee,
-
-On 4/15/22 05:48, Jaehee Park wrote:
-> Author comments "Added by Albert" and "Added by Annie" are sprinkled
-> through the file. These comments are not useful and can be removed.
+On Sun, Apr 17, 2022 at 11:16:38PM +0300, Pavel Skripkin wrote:
+> Hi Jaehee,
 > 
-> Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
+> On 4/17/22 23:14, Jaehee Park wrote:
+> > My understanding of Pavel's response is the free_bss_buf member of the
+> > pmlmepriv structure wasn't being used anywhere and that the
+> > rtw_free_mlme_riv_ie_data function frees the memory of the pmlmepriv
+> > structure so the second check is redundant.
+> > 
+> > However, as Fabio said, the free_bss_buf member is being used and pbuf
+> > memory is not being freed.
+> > So I'll revert the patch as it was originally (which was just removing
+> > the {} around the single if statement).
+> > 
+> 
+> Why just `pbuf` allocation can't be removed? This memory is just unused,
+> isn't it?
+> 
+> 
+> 
+> 
+> With regards,
+> Pavel Skripkin
 
-I don't remember giving that tag, but now I am OK with it, since patch 
-looks good
 
-Please, don't put random Reviewed-by tags in your commit message, since 
-it's not how Reviewed-by tags work
+The free_bss_buf member is unused. So it can just be removed right? 
+I guess I'm confused by what Pablo is saying about causing a memory 
+leak by getting rid of the pointer to the memory allocated by pbuf. 
+Sorry if I misunderstood. 
 
-> Suggested-by: Alison Schofield <alison.schofield@intel.com>
-> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
-
-
-
-
-With regards,
-Pavel Skripkin
+Thanks,
+Jaehee
