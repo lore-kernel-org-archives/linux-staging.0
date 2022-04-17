@@ -1,57 +1,70 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37EE7A
-	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 10:22:41 +0000 (UTC)
-Received: from dslb-188-096-140-061.188.096.pools.vodafone-ip.de ([188.96.140.61] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1ng236-0002FP-Rk; Sun, 17 Apr 2022 12:22:32 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEB1363
+	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 10:33:56 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1ng2E4-0002Nz-GJ; Sun, 17 Apr 2022 12:33:52 +0200
+Date: Sun, 17 Apr 2022 12:33:52 +0200
 From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/6] staging: r8188eu: the frame type is shifted out
-Date: Sun, 17 Apr 2022 12:22:18 +0200
-Message-Id: <20220417102221.466524-4-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220417102221.466524-1-martin@kaiser.cx>
-References: <20220417102221.466524-1-martin@kaiser.cx>
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] staging: r8188eu: merge _mgt_dispatcher into
+ mgt_dispatcher
+Message-ID: <20220417103352.jqkqpi2auxir2g6g@viti.kaiser.cx>
+References: <20220413200742.276806-1-martin@kaiser.cx>
+ <20220413200742.276806-3-martin@kaiser.cx>
+ <b028d269-4dd8-7165-6220-d42c1e0e588c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b028d269-4dd8-7165-6220-d42c1e0e588c@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-The index calculation in mgt_dispatcher does not use the frame type. The
-4-bit right shift ignores protocol version and frame type.
+Hi Pavel,
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Thus wrote Pavel Skripkin (paskripkin@gmail.com):
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index be1afabe77d1..77a14f55b743 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -408,8 +408,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
- 
- 	ptable = mlme_sta_tbl;
- 
--	index = (le16_to_cpu(hdr->frame_control) &
--		 (IEEE80211_FCTL_STYPE | IEEE80211_FCTL_FTYPE)) >> 4;
-+	index = (le16_to_cpu(hdr->frame_control) & IEEE80211_FCTL_STYPE) >> 4;
- 	if (index > 13)
- 		return;
- 	ptable += index;
--- 
-2.30.2
+> On 4/13/22 23:07, Martin Kaiser wrote:
+> > All that the _mgt_dispatcher function does is to call a function from
+> > a function pointer. It's not worth having a separate function for this.
 
+> > Merge _mgt_dispatcher into mgt_dispatcher.
+
+> > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> > ---
+
+> [code snip]
+
+> > +
+> > +	if (ptable->func) {
+> > +	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
+> > +		if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
+> > +		    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
+> > +			return;
+> > +		ptable->func(padapter, precv_frame);
+> > +	}
+> >   }
+
+> Looks like each `mlme_sta_tbl` element has `func` member initialized. I
+> think, we can remove this check.
+
+I've just sent a series to refactor mgt_dispatcher.
+
+All mlme_sta_tbl entries have a function pointer, but some of the point
+to a dummy function DoReserved. I guess we should use NULL and keep the
+check instead of calling a function that does nothing.
+
+Best regards,
+Martin
