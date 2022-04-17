@@ -1,41 +1,41 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B10A2567
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DB3258A
 	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 17:54:52 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id l7so23561555ejn.2
+Received: by mail-ej1-f44.google.com with SMTP id g18so23490448ejc.10
         for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 10:54:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kkM9doiA/i7FmCkoWkaNp3fDJvZEfu53FAG4JMLkpr4=;
-        b=RtG8TW745DqgPExo3dLdT274i4DPwhvzS6YADILJsm7uTpZLHqKUoKfyCBArXBD9Tk
-         ZTM/U4QTwmQa6Fw+KTYKGLB8uEC41qoS4ZmY8mKXmmOGDO9Zw/s+z2RVAmI7QtVCwTiA
-         Ra5O+ASfyv10lkvKOEMtoT5mj4TuSi0mfX3vOdnco50gf6bhQpGKoFZjIQZQ+RFE5LtX
-         1YpYMM/r8JPNiCrRhvDv2GGtQwHCDM1XbhJ+bHrlPLqgrb4+GA/MrWG9wHJ8r8X6k/Vt
-         TgkjNPf7deXW1c49vxFXbcETDdz3Zu+p9vXZmqakrJNFd6iiUciyU5McCiNsdWgNixNt
-         KCOA==
+        bh=KEwI6Q2gOou7SmTI/FqsvAk6CZ0LfOMwOSJ78RsRzQU=;
+        b=f1hqZGQ45cLUIX4T7+k+y5bWOaM56L8Ky5XIxmSLUcfM6j44rehlQN4I2SnvpjLWLn
+         2C8Em2U1LMqmE4jiJohYaTusIMNYtwaQ7QCKZWAmQL82bH8ivAQuc9Bdh5jQAUNkrCxX
+         ICQtx8aUKxBU29PvM9tzLb+VK4AViNQsNNnGl1vl+i4mxiYPn3uZUpSW3giLxZcrUnje
+         4PbzUYmdnS3jBGc+Az7+gBPtZOpvWeDA55kxUyCIQLXFZlRfKyyxgzG6Co/ifuPRVrOn
+         3Cu8PUTOuyDCsiydm15MK74Azo38PYXun3l996GX/YYXle7jFmHDbPW4kVbuEFBePY3D
+         vJYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kkM9doiA/i7FmCkoWkaNp3fDJvZEfu53FAG4JMLkpr4=;
-        b=jHLu6+Lsng58Bn3NWMej7GKFxWN0FEFBKHOv0AjjynoWVU+WZdKzZsykV5uTF1pBii
-         vm43P4JqhrR95b4FAMw1UvTxKYfjbi6onmJMyecma13S3BJ2mblzjUhLcgRiRtflRdHh
-         le5h6aXnNRvd2GL5CjS0UkDBdxN5vZUU2y4whrOba7RqIoCwBwDhZF0MfCXSb4PsTNtZ
-         scIOSPLi8ztRtDivsMM4MAYEkGC4jB81LeYoZSXL7YA1HkfM3cYUZ7BOARVTQsf/U5UR
-         FEhC8OV4y4xVtDVwOix/eRKVWUX6XkY3aAqIQu9IIjx0gEPwrl90I2xnRv7qctdo0RQj
-         o5/Q==
-X-Gm-Message-State: AOAM5313LAcKVS5hbZM96548qljPbypTsVTACDthiHpAfyWN+G4XEvK5
-	aA4UGQaMa6FpIMwz6AwuOtg=
-X-Google-Smtp-Source: ABdhPJzB8V3WpMAzb62sj1vfrrDR4r0Prc0w9mfdMeUWGpI6008RYHpAgn1+pXQoM3Fu0fdY3kEl0w==
-X-Received: by 2002:a17:906:3c10:b0:6e8:9e25:5156 with SMTP id h16-20020a1709063c1000b006e89e255156mr6473926ejg.703.1650218090694;
-        Sun, 17 Apr 2022 10:54:50 -0700 (PDT)
+        bh=KEwI6Q2gOou7SmTI/FqsvAk6CZ0LfOMwOSJ78RsRzQU=;
+        b=EoVo8yBi0Lax1DGbV3TaFYLxv0JPhp54UD5pEf4dmlX1UCYIXN3TLScWrCAZ8rFaOM
+         dUCLqS4doCGrftnVfVscxT5fjlFCG0lTutvNcmeNHRGqPCIDhJ/KE2wsbLukzqAUICRE
+         eiptZ/OII/dTd7BCmHlCF5Pnw8l9/64tSgr9aLHI1xDpNYdKrr13mkjfnd4mS1mDMFxp
+         iPiozATQZ4/foPokxpdxnXTlHjYE6qvR1+EXhL6cNn0OHznXAH8Ff4mJ0l+CeVGo4lZv
+         M9ImNTcPP1rj/EyUSGcFItxiy2hJ5y/0M0hYVGoINWk2xKeucUOQE6l/ZmlQUP9mScLr
+         HpNA==
+X-Gm-Message-State: AOAM533NmUWRu4oax2MV0DTokZTWgUO0/DQ2w4RvwcW8lKzv1gkUT+TU
+	V3qVPTyt11dZRH3SQ+hScKVwFx2Ddy4=
+X-Google-Smtp-Source: ABdhPJwE+VrcsnQ6WcjEACvgNW7r1oitmbIaM/2BJUEx5VgdhGMNEDE/7GOxvqEOyRIv5koX3YI3dw==
+X-Received: by 2002:a17:906:16cc:b0:6ce:e607:ff02 with SMTP id t12-20020a17090616cc00b006cee607ff02mr6117957ejd.418.1650218091437;
+        Sun, 17 Apr 2022 10:54:51 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abba5.dynamic.kabel-deutschland.de. [95.90.187.165])
-        by smtp.gmail.com with ESMTPSA id jw12-20020a17090776ac00b006e87137194esm3719409ejc.150.2022.04.17.10.54.49
+        by smtp.gmail.com with ESMTPSA id jw12-20020a17090776ac00b006e87137194esm3719409ejc.150.2022.04.17.10.54.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Apr 2022 10:54:50 -0700 (PDT)
+        Sun, 17 Apr 2022 10:54:51 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v4 4/8] staging: r8188eu: rename fields of struct rt_firmware_hdr
-Date: Sun, 17 Apr 2022 19:54:37 +0200
-Message-Id: <20220417175441.13830-5-straube.linux@gmail.com>
+Subject: [PATCH v4 5/8] staging: r8188eu: use sizeof instead of hardcoded firmware header size
+Date: Sun, 17 Apr 2022 19:54:38 +0200
+Message-Id: <20220417175441.13830-6-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220417175441.13830-1-straube.linux@gmail.com>
 References: <20220417175441.13830-1-straube.linux@gmail.com>
@@ -57,7 +57,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename the fields of struct rt_firmware_hdr to avoid camel case.
+Use sizeof() instead of hardcoding the firmware header size and add
+a compile time check to ensure struct rt_firmware_hdr has the correct
+size.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
@@ -65,92 +67,39 @@ v4:
 - no changes
 
 v3:
-- no changes
+- added the compile time size check from patch 8/8 of v2
 
 v2:
 - no changes
 
- drivers/staging/r8188eu/core/rtw_fw.c | 58 +++++++++++++--------------
- 1 file changed, 29 insertions(+), 29 deletions(-)
+ drivers/staging/r8188eu/core/rtw_fw.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
-index 0fa27b36bb8e..a80cc7fa3a53 100644
+index a80cc7fa3a53..42b36505cf8b 100644
 --- a/drivers/staging/r8188eu/core/rtw_fw.c
 +++ b/drivers/staging/r8188eu/core/rtw_fw.c
-@@ -9,34 +9,34 @@
- #define MAX_PAGE_SIZE		4096
- 
- #define IS_FW_HEADER_EXIST(_fwhdr)				\
--	((le16_to_cpu(_fwhdr->Signature) & 0xFFF0) == 0x92C0 ||	\
--	(le16_to_cpu(_fwhdr->Signature) & 0xFFF0) == 0x88C0 ||	\
--	(le16_to_cpu(_fwhdr->Signature) & 0xFFF0) == 0x2300 ||	\
--	(le16_to_cpu(_fwhdr->Signature) & 0xFFF0) == 0x88E0)
-+	((le16_to_cpu(_fwhdr->signature) & 0xFFF0) == 0x92C0 ||	\
-+	(le16_to_cpu(_fwhdr->signature) & 0xFFF0) == 0x88C0 ||	\
-+	(le16_to_cpu(_fwhdr->signature) & 0xFFF0) == 0x2300 ||	\
-+	(le16_to_cpu(_fwhdr->signature) & 0xFFF0) == 0x88E0)
- 
- struct rt_firmware_hdr {
--	__le16		Signature;	/* 92C0: test chip; 92C,
--					 * 88C0: test chip; 88C1: MP A-cut;
--					 * 92C1: MP A-cut */
--	u8		Category;	/* AP/NIC and USB/PCI */
--	u8		Function;	/* Reserved for different FW function
--					 * indcation, for further use when
--					 * driver needs to download different
--					 * FW for different conditions */
--	__le16		Version;	/* FW Version */
--	u8		Subversion;	/* FW Subversion, default 0x00 */
--	u8		Rsvd1;
--	u8		Month;		/* Release time Month field */
--	u8		Date;		/* Release time Date field */
--	u8		Hour;		/* Release time Hour field */
--	u8		Minute;		/* Release time Minute field */
--	__le16		RamCodeSize;	/* The size of RAM code */
--	u8		Foundry;
--	u8		Rsvd2;
--	__le32		SvnIdx;		/* The SVN entry index */
--	__le32		Rsvd3;
--	__le32		Rsvd4;
--	__le32		Rsvd5;
-+	__le16	signature;	/* 92C0: test chip; 92C,
-+				 * 88C0: test chip; 88C1: MP A-cut;
-+				 * 92C1: MP A-cut */
-+	u8	category;	/* AP/NIC and USB/PCI */
-+	u8	function;	/* Reserved for different FW function
-+				 * indcation, for further use when
-+				 * driver needs to download different
-+				 * FW for different conditions */
-+	__le16	version;	/* FW Version */
-+	u8	subversion;	/* FW Subversion, default 0x00 */
-+	u8	rsvd1;
-+	u8	month;		/* Release time Month field */
-+	u8	date;		/* Release time Date field */
-+	u8	hour;		/* Release time Hour field */
-+	u8	minute;		/* Release time Minute field */
-+	__le16	ramcodesize;	/* The size of RAM code */
-+	u8	foundry;
-+	u8	rsvd2;
-+	__le32	svnidx;		/* The SVN entry index */
-+	__le32	rsvd3;
-+	__le32	rsvd4;
-+	__le32	rsvd5;
+@@ -39,6 +39,8 @@ struct rt_firmware_hdr {
+ 	__le32	rsvd5;
  };
  
++static_assert(sizeof(struct rt_firmware_hdr) == 32);
++
  static void fw_download_enable(struct adapter *padapter, bool enable)
-@@ -259,9 +259,9 @@ int rtl8188e_firmware_download(struct adapter *padapter)
- 	/*  To Check Fw header. Added by tynli. 2009.12.04. */
- 	fwhdr = (struct rt_firmware_hdr *)dvobj->firmware.data;
+ {
+ 	u8 tmp;
+@@ -268,9 +270,8 @@ int rtl8188e_firmware_download(struct adapter *padapter)
+ 			DRIVER_PREFIX, fw_version, fw_subversion, fw_signature);
  
--	fw_version = le16_to_cpu(fwhdr->Version);
--	fw_subversion = fwhdr->Subversion;
--	fw_signature = le16_to_cpu(fwhdr->Signature);
-+	fw_version = le16_to_cpu(fwhdr->version);
-+	fw_subversion = fwhdr->subversion;
-+	fw_signature = le16_to_cpu(fwhdr->signature);
+ 	if (IS_FW_HEADER_EXIST(fwhdr)) {
+-		/*  Shift 32 bytes for FW header */
+-		fw_data = fw_data + 32;
+-		fw_size = fw_size - 32;
++		fw_data = fw_data + sizeof(struct rt_firmware_hdr);
++		fw_size = fw_size - sizeof(struct rt_firmware_hdr);
+ 	}
  
- 	if (!log_version++)
- 		pr_info("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
+ 	/*  Suggested by Filen. If 8051 is running in RAM code, driver should inform Fw to reset by itself, */
 -- 
 2.35.1
 
