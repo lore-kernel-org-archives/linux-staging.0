@@ -1,59 +1,91 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E97645
-	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 16:55:04 +0000 (UTC)
-Date: Sun, 17 Apr 2022 16:54:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
-	s=protonmail2; t=1650214497;
-	bh=K75n7tetrOKRlGjQ46y3bGIhPuBevmYSEPZotZ2T/p4=;
-	h=Date:To:From:Reply-To:Subject:Message-ID:From:To:Cc:Date:Subject:
-	 Reply-To:Feedback-ID:Message-ID;
-	b=lnuzA17Id2zUl0X6uo1SjV1Eag15LzOjLg62DFkbD5xanjk7IEFQsmmiD/sBqbQ8q
-	 cKASQyVQbanTZ3J/j7dNc5Y7C15IWs7kf2BgrxfroUu+JOESP9UVby6rAzOo1Lu7yJ
-	 vMuAofoapAlhCc9YLOdgYcfB3NgUtZ+nKtj9GZQdN3LMWIN/mWwTpR3OsYwV05fmjG
-	 vwFGWK9onY5Cq/+LzKC/u5E+0PQCOAyQCpnwOnRGLXLcuznvogrTU3QXJTutO8ckkc
-	 bUgekMduH369URQemqgCw+X6RHkp5LnOUM+POFrgUZ4LO4P5wviZvNWnMSyNcFoOmk
-	 q+3GnpPT9cVsQ==
-To: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, eng.alaamohamedsoliman.am@gmail.com, gregkh@linuxfoundation.org, florian.c.schilhabel@googlemail.com, Larry.Finger@lwfinger.net
-From: Solomon Tan <solomonbstoner@protonmail.ch>
-Reply-To: Solomon Tan <solomonbstoner@protonmail.ch>
-Subject: [PATCH] staging: rtl8712: Remove unnecessary int typecast
-Message-ID: <YlxGTMBsLqdOIrpC@ArchDesktop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAEC2567
+	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 17:54:49 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id v4so15343904edl.7
+        for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 10:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OILYgrcMHgfS0MAxmoEH1VbxpcKZui0oVM3USNBv13c=;
+        b=P5JmW2KvKOzg8qOf35NH2HDiMtRbk+FunpBhn4lw3vrTLmTtwn+zfCxWydq2GbZqDD
+         pv+pniNDd2S/dD7GxQkyq73AAJJMRC3xnzIBhA/5JPwOYbYL/WTEEVEnfvM9qeYANwUV
+         EQsvajbm7ra+t55FY2WbCC10lvtFqiJ4vrvGRogBav8w81z9ZHgb7VA6vi57p0fgUxC3
+         nwKUSibDC1N+eyAhY1tj/8cLwp30FSiF+hxlXaR3loHhAw/qS5RTbQeymMNwZBlWcpvB
+         0KOybdRncJsJqu7B+H8Fntd4y1iFNknSdkmOZ4x17GwBJ2KYCcbJZa7HWXJmHkJCFO91
+         Y8qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OILYgrcMHgfS0MAxmoEH1VbxpcKZui0oVM3USNBv13c=;
+        b=UiM/p3WCK2Y+jrcc4CCZTJ+uF3b45pPLVxoNQbGmVh4LNM79s7eR7JjsO9Q1gRzZpf
+         kPw6w5jDtJ8WLhead/Viy2YmYgmtXfyQCuy+c0SAeGBwlvrMj3WRQZ9IVIrUzNk+D6GD
+         bDmCrmN68IALFE9C1RCA8I+DYfIDQkO4evRg8uU3ASkvl3dOXTJtChtPKDjdb0YKYPvU
+         0vOxYv5JxZflaeE3IzIy0+gcADg2z7iXbfUFRgwYsf8WiKMWT4NuGVSaFJH41+LtdbaZ
+         XzGRPPVqou+yIjc3iyXxUkuCzAHzIeNDYKfedUj6HJk0kzpoAS2Bmgd9ovEsiYtjT+Lm
+         tZ9w==
+X-Gm-Message-State: AOAM533RFXFLhH9lW1l0tup21xQ5VEnBLpIGGJBffZ1CzemvePC+sbQe
+	OCBgzWK8QqF7n0nZkH5Fqm8=
+X-Google-Smtp-Source: ABdhPJwqZKjheh+2KqPTKOUweCixJfif8kv973dXy3667xA5l9SqWcbZHJ5+FUDWF3oeidpQTGO5Xw==
+X-Received: by 2002:aa7:ce05:0:b0:41d:6857:549e with SMTP id d5-20020aa7ce05000000b0041d6857549emr8844788edv.251.1650218087587;
+        Sun, 17 Apr 2022 10:54:47 -0700 (PDT)
+Received: from localhost.localdomain (ip5f5abba5.dynamic.kabel-deutschland.de. [95.90.187.165])
+        by smtp.gmail.com with ESMTPSA id jw12-20020a17090776ac00b006e87137194esm3719409ejc.150.2022.04.17.10.54.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Apr 2022 10:54:47 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH v4 0/8] staging: r8188eu: fix and clean up some firmware code
+Date: Sun, 17 Apr 2022 19:54:33 +0200
+Message-Id: <20220417175441.13830-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-This patch gets rid of the following error from checkpatch.pl:
-WARNING: Unnecessary typecast of c90 int constant.
+This series fixes wrong size of struct rt_firmware_hdr in the first
+patch and does some cleanups in rtl8188e_firmware_download() in the
+other patches.
 
-Signed-off-by: Solomon Tan <solomonbstoner@protonmail.ch>
----
- drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Tested on x86_64 with Inter-Tech DMG-02.
 
-diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/stagin=
-g/rtl8712/rtl871x_ioctl_linux.c
-index f1e352b7f83e..36f6904d25ab 100644
---- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-+++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
-@@ -659,8 +659,8 @@ static int r8711_wx_set_freq(struct net_device *dev,
+v4:
+- Keep the in-line comments of struct rt_firmware_hdr.
 
- /* If setting by frequency, convert to a channel */
- =09if ((fwrq->e =3D=3D 1) &&
--=09  (fwrq->m >=3D (int) 2.412e8) &&
--=09  (fwrq->m <=3D (int) 2.487e8)) {
-+=09  (fwrq->m >=3D 241200000) &&
-+=09  (fwrq->m <=3D 248700000)) {
- =09=09int f =3D fwrq->m / 100000;
- =09=09int c =3D 0;
+v3:
+- Splitted the first patch into two separate patches.
+- Added back logging the firmware version only once.
+- Included the compile time check for size of rt_firmware_hdr from
+  patch 8/8 of v2 in the patch that replaces the hardcoded size.
 
---
-2.35.3
+v2:
+- Added a patch to check size of struct rt_firmware_hdr at compile time.
 
+Michael Straube (8):
+  staging: r8188eu: fix struct rt_firmware_hdr
+  staging: r8188eu: convert u32 fields of rt_firmware_hdr to __le32
+  staging: r8188eu: clean up comments in struct rt_firmware_hdr
+  staging: r8188eu: rename fields of struct rt_firmware_hdr
+  staging: r8188eu: use sizeof instead of hardcoded firmware header size
+  staging: r8188eu: remove variables from rtl8188e_firmware_download()
+  staging: r8188eu: use pr_info_once() to log the firmware version
+  staging: r8188eu: check firmware header existence before access
+
+ drivers/staging/r8188eu/core/rtw_fw.c | 84 +++++++++++----------------
+ 1 file changed, 34 insertions(+), 50 deletions(-)
+
+-- 
+2.35.1
 
