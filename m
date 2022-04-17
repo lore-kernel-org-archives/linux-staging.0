@@ -1,43 +1,46 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8122567
-	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 18:13:15 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id bq30so21331948lfb.3
-        for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 11:13:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B412567
+	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 18:24:33 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id l9-20020a056830268900b006054381dd35so2373369otu.4
+        for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 11:24:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to;
-        bh=9701YZ/xHH6MCgb4Xa3q1CBlV3+XhybZ5TzrqerWZBw=;
-        b=CVfHZxYFYYA9CdMbeAV053SoAVCF/tXf6PcjGBQmj+0UAn2UyxiSjaNW16N89i9Mby
-         pWVpKIpPIvps0k48pK9Pdy6usX1ydhkYk05C9MDChF5bsycBtydY2mOvOHVe8Pe2uCAR
-         pfKMB713TCSx9Qan2O9xvxGiicEauozvtV1nAvy91EjHl7Xu+wa6bQhhsuu1c9Thurme
-         F2UCIrmEbWpfTJN5enLGZf9ShmLju8rWd8WqSO0mgabUys5mScKLsbqsSQh6bcSWQgXW
-         AWt5t0CfQWJ+Fu6OmOKVGLr0TnwZFuR6Pnbz+GZ0SuzZYY8sqavcwWvSOTv+nqEn9zzv
-         mpiQ==
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Z6B8K9hOSItoReJE/oEpye49sP623Gy4KHdMI2dEK/o=;
+        b=XTIDgrLuHfJw+v4YqpMsiKjUGQgAsaGcY9sTeU5OMWIM8iuTHs8MaxmoqCl1dr57/5
+         Z4uoCvPCTGo7w80vBVVcG9RuGJ6NBb2fjulczKsQJrjBsk6U6UCci+7yhAaDzHmYEqJD
+         wup4qhQwIa2qekzdbYc0FgDr4Gu5qs16WL6hbihYgkddoVOOJthoUCpt0uL0eas7BCzn
+         pwMcWzilBFMI/tMpdYz6m8uHdiMl2kYTXEYuRIVtIKNERwPMQOL6zrtednXUbD9ETGEE
+         YFV5QoKZeiGSMdHWr9YmMXKuD1dvGT18wT+7JZsJEBrLa/BEbp5ryfdwH2KSJqACX0so
+         6E9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to;
-        bh=9701YZ/xHH6MCgb4Xa3q1CBlV3+XhybZ5TzrqerWZBw=;
-        b=DdtjIYwR/bq3iqX3KgNjFXZR+f/Pf8Tz3SLvDVNx/k3tG23jc65HvGRDl5dpfwt0Zd
-         KIybhb/GXY4J6SBBYMQcqsFLSgiYCGWRJw71Tq54BElQu8HS8aS+/41KLFwC8PF8Gt0I
-         swM10SFTJPcWs/YgaHeMMgV4DlTPUwkCgZV5HnACNOBOXIz1fFb40M7oHSin5Kz+f6sj
-         jbCRkaes5ZkJpo3WEvb2BJ+Y1zXvg+xizVHEjVzTff4d72i3C8jkAsFrakIrhrFUhLc6
-         1cNskWVKnk5XlXDdJSFEsTn1jSLycqLsIHhvw3rCcaK/Oy427aPlqfREQyIbcbepBIlC
-         r39Q==
-X-Gm-Message-State: AOAM533LL6XEYLhnOJQ3Dw/CXGSH2otUIBR2kLwImR92j2vFw0pA1e97
-	XYrSMNWCCMmyK7IWJzNyuqk=
-X-Google-Smtp-Source: ABdhPJyodLEq5mywD6kQl7ZSRtLytAmtkbTeq+hLYk8AQpWYrX/cuxZ6Xzq+kXlrg5ZXscWQ9IA82A==
-X-Received: by 2002:a05:6512:b1b:b0:44a:9ae9:b9bf with SMTP id w27-20020a0565120b1b00b0044a9ae9b9bfmr5468913lfu.365.1650219193212;
-        Sun, 17 Apr 2022 11:13:13 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.225.17])
-        by smtp.gmail.com with ESMTPSA id k30-20020a192d1e000000b0046e638e6263sm964446lfj.198.2022.04.17.11.13.10
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Z6B8K9hOSItoReJE/oEpye49sP623Gy4KHdMI2dEK/o=;
+        b=CWssyUPJlU5K2mknrarAMzU+wtT3RvLqiPHAtobPhnImXmMDiN4oxDP8+oiVPXiCe7
+         J9eVdZ93hCLfDb9nbraR16qw4zgbSzxCUOyWx6s2PIqfDL3yHiBJZVj1R8wKOFXP4c5b
+         itWHzQWIqH3tHyUxWVWIUni7zj1T8ct2QVUTPBjnIdoNP3Z6hdM+FufMNrOC7X3MUNCY
+         1urTAsK7qD5k9WNw3M37nUdeEjOSM9cyQx3dG9jE9I6HtW37JaEjfP9x6AkjVfo3Xq+P
+         zyVOr+asgkb7a0Gz6JkZ8k/fPa59Efci0Rwfj927ao5OlCD63wydCJwtfJO1vmq0B6bt
+         k7uQ==
+X-Gm-Message-State: AOAM532v8OTqsgK9kuk3UwXFm7eDNPJbG+1OMaf67wS3JGyijWeJ4FX5
+	Gcf6QpUg7V3290gck3QUHvA=
+X-Google-Smtp-Source: ABdhPJy9acbYLr2W1JIQ8B141EOKx0BplVd5ADTQLstr61Lua/KAwX7BsKbQiHiwK95JKz9D3chPPg==
+X-Received: by 2002:a9d:6303:0:b0:5e8:eef2:1963 with SMTP id q3-20020a9d6303000000b005e8eef21963mr2717735otk.169.1650219872938;
+        Sun, 17 Apr 2022 11:24:32 -0700 (PDT)
+Received: from ?IPV6:2603:8090:2005:39b3::100e? (2603-8090-2005-39b3-0000-0000-0000-100e.res6.spectrum.com. [2603:8090:2005:39b3::100e])
+        by smtp.gmail.com with ESMTPSA id w11-20020a056830144b00b006054888b7a3sm1109687otp.1.2022.04.17.11.24.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Apr 2022 11:13:11 -0700 (PDT)
-Message-ID: <6c29201d-a717-9ce3-21c0-6c663fc9add3@gmail.com>
-Date: Sun, 17 Apr 2022 21:13:09 +0300
+        Sun, 17 Apr 2022 11:24:32 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <e30cf945-61d4-acb7-757f-0ffcd3035901@lwfinger.net>
+Date: Sun, 17 Apr 2022 13:24:31 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,74 +49,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] r8188eu: remove unused urbs from struct xmit_buf
+Subject: Re: [PATCH v4 0/8] staging: r8188eu: fix and clean up some firmware
+ code
 Content-Language: en-US
-To: Ivan Safonov <insafonov@gmail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michael Straube <straube.linux@gmail.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Martin Kaiser <martin@kaiser.cx>, Cai Huoqing <cai.huoqing@linux.dev>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220417163608.42917-1-insafonov@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20220417163608.42917-1-insafonov@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------28lPK9q4R0bjW0PntMF0jMZN"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------28lPK9q4R0bjW0PntMF0jMZN
-Content-Type: multipart/mixed; boundary="------------El2pSdO0kvgTFtyzX8aPf5SB";
- protected-headers="v1"
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Ivan Safonov <insafonov@gmail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michael Straube <straube.linux@gmail.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Martin Kaiser <martin@kaiser.cx>, Cai Huoqing <cai.huoqing@linux.dev>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Message-ID: <6c29201d-a717-9ce3-21c0-6c663fc9add3@gmail.com>
-Subject: Re: [PATCH] r8188eu: remove unused urbs from struct xmit_buf
-References: <20220417163608.42917-1-insafonov@gmail.com>
-In-Reply-To: <20220417163608.42917-1-insafonov@gmail.com>
-
---------------El2pSdO0kvgTFtyzX8aPf5SB
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220417175441.13830-1-straube.linux@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <20220417175441.13830-1-straube.linux@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGkgSXZhbiwNCg0KT24gNC8xNy8yMiAxOTozNiwgSXZhbiBTYWZvbm92IHdyb3RlOg0KPiBE
-cml2ZXIgYWxsb2NhdGVzIGVpZ2h0aCB1cmJzIHBlciB4bWl0X2J1ZiwgYnV0IHVzZXMgb25s
-eSBmaXJzdCB1cmIuDQo+IEFsbG9jYXRpb24gb2Ygc2V2ZW4gcmVtYWluaW5nIHVyYnMgd2Fz
-dGVzIG1lbW9yeSBmb3Igbm90aGluZy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEl2YW4gU2Fm
-b25vdiA8aW5zYWZvbm92QGdtYWlsLmNvbT4NCg0KdGhhbmtzLA0KDQpSZXZpZXdlZC1ieTog
-UGF2ZWwgU2tyaXBraW4gPHBhc2tyaXBraW5AZ21haWwuY29tPg0KDQoNCg0KV2l0aCByZWdh
-cmRzLA0KUGF2ZWwgU2tyaXBraW4NCg==
+On 4/17/22 12:54, Michael Straube wrote:
+> This series fixes wrong size of struct rt_firmware_hdr in the first
+> patch and does some cleanups in rtl8188e_firmware_download() in the
+> other patches.
+> 
+> Tested on x86_64 with Inter-Tech DMG-02.
+> 
+> v4:
+> - Keep the in-line comments of struct rt_firmware_hdr.
+> 
+> v3:
+> - Splitted the first patch into two separate patches.
+> - Added back logging the firmware version only once.
+> - Included the compile time check for size of rt_firmware_hdr from
+>    patch 8/8 of v2 in the patch that replaces the hardcoded size.
+> 
+> v2:
+> - Added a patch to check size of struct rt_firmware_hdr at compile time.
+> 
+> Michael Straube (8):
+>    staging: r8188eu: fix struct rt_firmware_hdr
+>    staging: r8188eu: convert u32 fields of rt_firmware_hdr to __le32
+>    staging: r8188eu: clean up comments in struct rt_firmware_hdr
+>    staging: r8188eu: rename fields of struct rt_firmware_hdr
+>    staging: r8188eu: use sizeof instead of hardcoded firmware header size
+>    staging: r8188eu: remove variables from rtl8188e_firmware_download()
+>    staging: r8188eu: use pr_info_once() to log the firmware version
+>    staging: r8188eu: check firmware header existence before access
+> 
+>   drivers/staging/r8188eu/core/rtw_fw.c | 84 +++++++++++----------------
+>   1 file changed, 34 insertions(+), 50 deletions(-)
 
---------------El2pSdO0kvgTFtyzX8aPf5SB--
+It has been a bit of effort, but I have no comments on this version.
 
---------------28lPK9q4R0bjW0PntMF0jMZN
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
 
------BEGIN PGP SIGNATURE-----
+Big improvement,
 
-wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmJcWLUFAwAAAAAACgkQbk1w61LbBA27
-jhAAq1+AA0R5XE1jSQZvntbGdgkcpEpP7fjX1wF5Ezp6U2/O9ywLkzk9wBM+VsfgzsKAWHL8xgmi
-eMooAxA/p/dCVTuOTpk/EV8buRHdfzpiVuSnOtmFjMNU1aP72ji5Qe0WaTZZnhln4o6smp1yWF00
-4qgCe8w3C/YXrFY4OAP+LV63gCF6XVG3EtVpw5Qc7LIDJ8/E51ls9UqImN6p4PQK3dQy26XkoWoB
-T/vNC0FFm3rBZZbbclr51tysH1ujZyF9Wg3E3AvgQr0Sb6jbt+ROv6vrNk5L+c0MPd5bsRZoo5fn
-61d/GO0spXx5mFCpXuMeKUrx/RkTw1bUMIT6b0pAO14E7X35ZUtsVo3dl32TKAlOqXul6n/Xl4mX
-G48DcWmDk49/xzTxks32ZMFkTLIV6zG1oD8G6qJcjGnfXtjAIiqd33DedWZkto005zC94eng5kWi
-Aj627U+yvDOgGTEaK4lVTbbGdURpogCI/7oTvX7O4/rcMz3+z4pn2UsnKWkYXn8s7PNc2wPhlk1p
-g40+n5dk7jlRA3KLfK8Wh/lPPq65Gix3AGwgAjVEO4Nu97/xOtqDr0xTvoIBMlxT9+QkL4hFNbP9
-9XuW/6tgkLuQZat002k5XQDwq35JB0Gwv66FN3tw01EERvyktILqi1TKIRoRO3VEc7Ky/Gw6A2RB
-09k=
-=giYe
------END PGP SIGNATURE-----
+Larry
 
---------------28lPK9q4R0bjW0PntMF0jMZN--
