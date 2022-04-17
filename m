@@ -1,165 +1,59 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF1E39E
-	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 16:37:15 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id x17so21101858lfa.10
-        for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 09:37:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nlNjJfVDWOsy0TP9UEQoWOwdHbve0Jr5Wwvo5wkDRX8=;
-        b=mbQt9dPkb+Euu4Tz7uUwlrdfIIjkZ0X1pTYkSuWlyDAbIwoj3iBfUAK6pfGUpf/ny6
-         X2c8UHHE+G4dwVOR6FFj1z1qndOER22p1QAbVwjJJ9Z9/CkffyOnMahH0K1SIyjfmsnV
-         LLkyFFwAO/Hl2mR9IdIlwEBFXWc+GZe+uMXGdjjotjJUTKYehcSJdAYElUXK395sQhXO
-         +LfdVLfk30NNLLULlYUcdug3VRwwAvMhD4bREHL+p0uN1OOurSNja19GA3gQQATevema
-         59XU5v3zdP12DPUQgCWmnZ/aV76m7ldfJSanY+RdSKcwGJD7wbcmQtlAvXgeSBQ0+KXI
-         Dizg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nlNjJfVDWOsy0TP9UEQoWOwdHbve0Jr5Wwvo5wkDRX8=;
-        b=jwOfvd0w5Z3QwHYLokjYEW+KroT9dWPmvQeTjFJONQi9Gzj+hrLfk+Blg2B6aMikVq
-         UXNruEKmf32m//SBX5+BOpap3kuSLB0bDG4nlheLQI3XnlCdbZoXjKBg7tIm4BM1jIWU
-         g19TabbGE7s2eIhs9I3hlHKe/+dTjDDFwhft8Gy0jD304TFI+ss6nBhdhmDa51p/gmPA
-         nXyJWYC+pHalY0culz7bQkcIht4zi/lHBWnW+US1/wyRYnLWBvE/EHlt4HDTKYyX1WtT
-         wz1RlkJhX1oqTUcnDw8ejvZOGYkhJ/CJBhk8rHxMPK8i3z4vPs+faPaMLKQodiCqrx1s
-         VZfA==
-X-Gm-Message-State: AOAM533mrhvMKIDP7ZuQqBWi7ncOJB8vS3raJAzpiFBfimDKK1RjMUo4
-	IM6YBxhAB9GjslHD+srMxT0=
-X-Google-Smtp-Source: ABdhPJwsJSpHa4WQtA8BOw9LsclrZXACQKL0w+C5347rniHR98jWepUqrp3Bw6RLFZLHjkd0t7M8Hw==
-X-Received: by 2002:a05:6512:3995:b0:44a:e5c8:e696 with SMTP id j21-20020a056512399500b0044ae5c8e696mr5344661lfu.539.1650213433512;
-        Sun, 17 Apr 2022 09:37:13 -0700 (PDT)
-Received: from alpha ([31.134.188.37])
-        by smtp.gmail.com with ESMTPSA id n10-20020a196f4a000000b0046c24985b33sm976997lfk.208.2022.04.17.09.37.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Apr 2022 09:37:12 -0700 (PDT)
-Received: (nullmailer pid 42936 invoked by uid 1000);
-	Sun, 17 Apr 2022 16:37:12 -0000
-From: Ivan Safonov <insafonov@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michael Straube <straube.linux@gmail.com>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, Martin Kaiser <martin@kaiser.cx>, Pavel Skripkin <paskripkin@gmail.com>, Cai Huoqing <cai.huoqing@linux.dev>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Ivan Safonov <insafonov@gmail.com>
-Subject: [PATCH] r8188eu: remove unused urbs from struct xmit_buf
-Date: Sun, 17 Apr 2022 19:36:08 +0300
-Message-Id: <20220417163608.42917-1-insafonov@gmail.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E97645
+	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 16:55:04 +0000 (UTC)
+Date: Sun, 17 Apr 2022 16:54:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
+	s=protonmail2; t=1650214497;
+	bh=K75n7tetrOKRlGjQ46y3bGIhPuBevmYSEPZotZ2T/p4=;
+	h=Date:To:From:Reply-To:Subject:Message-ID:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID;
+	b=lnuzA17Id2zUl0X6uo1SjV1Eag15LzOjLg62DFkbD5xanjk7IEFQsmmiD/sBqbQ8q
+	 cKASQyVQbanTZ3J/j7dNc5Y7C15IWs7kf2BgrxfroUu+JOESP9UVby6rAzOo1Lu7yJ
+	 vMuAofoapAlhCc9YLOdgYcfB3NgUtZ+nKtj9GZQdN3LMWIN/mWwTpR3OsYwV05fmjG
+	 vwFGWK9onY5Cq/+LzKC/u5E+0PQCOAyQCpnwOnRGLXLcuznvogrTU3QXJTutO8ckkc
+	 bUgekMduH369URQemqgCw+X6RHkp5LnOUM+POFrgUZ4LO4P5wviZvNWnMSyNcFoOmk
+	 q+3GnpPT9cVsQ==
+To: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, eng.alaamohamedsoliman.am@gmail.com, gregkh@linuxfoundation.org, florian.c.schilhabel@googlemail.com, Larry.Finger@lwfinger.net
+From: Solomon Tan <solomonbstoner@protonmail.ch>
+Reply-To: Solomon Tan <solomonbstoner@protonmail.ch>
+Subject: [PATCH] staging: rtl8712: Remove unnecessary int typecast
+Message-ID: <YlxGTMBsLqdOIrpC@ArchDesktop>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Driver allocates eighth urbs per xmit_buf, but uses only first urb.
-Allocation of seven remaining urbs wastes memory for nothing.
+This patch gets rid of the following error from checkpatch.pl:
+WARNING: Unnecessary typecast of c90 int constant.
 
-Signed-off-by: Ivan Safonov <insafonov@gmail.com>
+Signed-off-by: Solomon Tan <solomonbstoner@protonmail.ch>
 ---
- drivers/staging/r8188eu/include/rtw_xmit.h     |  2 +-
- drivers/staging/r8188eu/os_dep/usb_ops_linux.c | 16 ++++++----------
- drivers/staging/r8188eu/os_dep/xmit_linux.c    | 16 +++++-----------
- 3 files changed, 12 insertions(+), 22 deletions(-)
+ drivers/staging/rtl8712/rtl871x_ioctl_linux.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
-index b2df1480d66b..54c2bdf68acc 100644
---- a/drivers/staging/r8188eu/include/rtw_xmit.h
-+++ b/drivers/staging/r8188eu/include/rtw_xmit.h
-@@ -198,7 +198,7 @@ struct xmit_buf {
- 	u32  len;
- 	struct submit_ctx *sctx;
- 	u32	ff_hwaddr;
--	struct urb *pxmit_urb[8];
-+	struct urb *pxmit_urb;
- 	dma_addr_t dma_transfer_addr;	/* (in) dma addr for transfer_buffer */
- 	u8 bpending[8];
- 	int last[8];
-diff --git a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-index 8ca16861bfcc..0269e602b217 100644
---- a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
-@@ -140,7 +140,7 @@ u32 rtw_write_port(struct adapter *padapter, u32 addr, u32 cnt, u8 *wmem)
- 
- 	spin_unlock_irqrestore(&pxmitpriv->lock, irqL);
- 
--	purb	= pxmitbuf->pxmit_urb[0];
-+	purb	= pxmitbuf->pxmit_urb;
- 
- 	/* translate DMA FIFO addr to pipehandle */
- 	pipe = ffaddr2pipehdl(pdvobj, addr);
-@@ -178,25 +178,21 @@ u32 rtw_write_port(struct adapter *padapter, u32 addr, u32 cnt, u8 *wmem)
- 
- void rtw_write_port_cancel(struct adapter *padapter)
- {
--	int i, j;
-+	int i;
- 	struct xmit_buf *pxmitbuf = (struct xmit_buf *)padapter->xmitpriv.pxmitbuf;
- 
- 	padapter->bWritePortCancel = true;
- 
- 	for (i = 0; i < NR_XMITBUFF; i++) {
--		for (j = 0; j < 8; j++) {
--			if (pxmitbuf->pxmit_urb[j])
--				usb_kill_urb(pxmitbuf->pxmit_urb[j]);
--		}
-+		if (pxmitbuf->pxmit_urb)
-+			usb_kill_urb(pxmitbuf->pxmit_urb);
- 		pxmitbuf++;
- 	}
- 
- 	pxmitbuf = (struct xmit_buf *)padapter->xmitpriv.pxmit_extbuf;
- 	for (i = 0; i < NR_XMIT_EXTBUFF; i++) {
--		for (j = 0; j < 8; j++) {
--			if (pxmitbuf->pxmit_urb[j])
--				usb_kill_urb(pxmitbuf->pxmit_urb[j]);
--		}
-+		if (pxmitbuf->pxmit_urb)
-+			usb_kill_urb(pxmitbuf->pxmit_urb);
- 		pxmitbuf++;
- 	}
- }
-diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-index a6012cffd37e..e430c64e9068 100644
---- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-@@ -67,8 +67,6 @@ bool rtw_endofpktfile(struct pkt_file *pfile)
- 
- int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 alloc_sz)
- {
--	int i;
--
- 	pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
- 	if (!pxmitbuf->pallocated_buf)
- 		return _FAIL;
-@@ -76,21 +74,17 @@ int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitb
- 	pxmitbuf->pbuf = (u8 *)N_BYTE_ALIGMENT((size_t)(pxmitbuf->pallocated_buf), XMITBUF_ALIGN_SZ);
- 	pxmitbuf->dma_transfer_addr = 0;
- 
--	for (i = 0; i < 8; i++) {
--		pxmitbuf->pxmit_urb[i] = usb_alloc_urb(0, GFP_KERNEL);
--		if (!pxmitbuf->pxmit_urb[i])
--			return _FAIL;
--	}
-+	pxmitbuf->pxmit_urb = usb_alloc_urb(0, GFP_KERNEL);
-+	if (!pxmitbuf->pxmit_urb)
-+		return _FAIL;
-+
- 	return _SUCCESS;
- }
- 
- void rtw_os_xmit_resource_free(struct adapter *padapter,
- 			       struct xmit_buf *pxmitbuf, u32 free_sz)
- {
--	int i;
--
--	for (i = 0; i < 8; i++)
--		usb_free_urb(pxmitbuf->pxmit_urb[i]);
-+	usb_free_urb(pxmitbuf->pxmit_urb);
- 
- 	kfree(pxmitbuf->pallocated_buf);
- }
--- 
-2.35.1
+diff --git a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c b/drivers/stagin=
+g/rtl8712/rtl871x_ioctl_linux.c
+index f1e352b7f83e..36f6904d25ab 100644
+--- a/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
++++ b/drivers/staging/rtl8712/rtl871x_ioctl_linux.c
+@@ -659,8 +659,8 @@ static int r8711_wx_set_freq(struct net_device *dev,
+
+ /* If setting by frequency, convert to a channel */
+ =09if ((fwrq->e =3D=3D 1) &&
+-=09  (fwrq->m >=3D (int) 2.412e8) &&
+-=09  (fwrq->m <=3D (int) 2.487e8)) {
++=09  (fwrq->m >=3D 241200000) &&
++=09  (fwrq->m <=3D 248700000)) {
+ =09=09int f =3D fwrq->m / 100000;
+ =09=09int c =3D 0;
+
+--
+2.35.3
+
 
