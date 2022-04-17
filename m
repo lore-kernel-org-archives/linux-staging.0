@@ -1,85 +1,165 @@
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D5B4639
-	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 14:17:02 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [10.15.192.164])
-	by mail-app3 (Coremail) with SMTP id cC_KCgA35vFMIVxilmFcAg--.13118S2;
-	Sun, 17 Apr 2022 22:16:53 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: linux-kernel@vger.kernel.org
-Cc: linux-staging@lists.linux.dev,
-	akpm@linux-foundation.org,
-	broonie@kernel.org,
-	alexander.deucher@amd.com,
-	davem@davemloft.net,
-	gregkh@linuxfoundation.org,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] drivers: staging: rtl8192e: Fix deadlock in rtllib_beacons_stop()
-Date: Sun, 17 Apr 2022 22:16:41 +0800
-Message-Id: <20220417141641.124388-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:cC_KCgA35vFMIVxilmFcAg--.13118S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uF4xuw4rZF48urWfAF13Arb_yoW8Gw4rpF
-	WDWFy3AF1jvr48ua4jyw4kZryfCw42vrWDuayakw4rZ3Z7XFy5XF1jyFWYkF45JFZrtw13
-	AFn5Z3y5uFn0k3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUka1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-	w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-	IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
-	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
-	Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y
-	6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-	vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
-	1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
-	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-	x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUkrcfUUUUU=
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgoDAVZdtZOq7gASsx
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF1E39E
+	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 16:37:15 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id x17so21101858lfa.10
+        for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 09:37:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nlNjJfVDWOsy0TP9UEQoWOwdHbve0Jr5Wwvo5wkDRX8=;
+        b=mbQt9dPkb+Euu4Tz7uUwlrdfIIjkZ0X1pTYkSuWlyDAbIwoj3iBfUAK6pfGUpf/ny6
+         X2c8UHHE+G4dwVOR6FFj1z1qndOER22p1QAbVwjJJ9Z9/CkffyOnMahH0K1SIyjfmsnV
+         LLkyFFwAO/Hl2mR9IdIlwEBFXWc+GZe+uMXGdjjotjJUTKYehcSJdAYElUXK395sQhXO
+         +LfdVLfk30NNLLULlYUcdug3VRwwAvMhD4bREHL+p0uN1OOurSNja19GA3gQQATevema
+         59XU5v3zdP12DPUQgCWmnZ/aV76m7ldfJSanY+RdSKcwGJD7wbcmQtlAvXgeSBQ0+KXI
+         Dizg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nlNjJfVDWOsy0TP9UEQoWOwdHbve0Jr5Wwvo5wkDRX8=;
+        b=jwOfvd0w5Z3QwHYLokjYEW+KroT9dWPmvQeTjFJONQi9Gzj+hrLfk+Blg2B6aMikVq
+         UXNruEKmf32m//SBX5+BOpap3kuSLB0bDG4nlheLQI3XnlCdbZoXjKBg7tIm4BM1jIWU
+         g19TabbGE7s2eIhs9I3hlHKe/+dTjDDFwhft8Gy0jD304TFI+ss6nBhdhmDa51p/gmPA
+         nXyJWYC+pHalY0culz7bQkcIht4zi/lHBWnW+US1/wyRYnLWBvE/EHlt4HDTKYyX1WtT
+         wz1RlkJhX1oqTUcnDw8ejvZOGYkhJ/CJBhk8rHxMPK8i3z4vPs+faPaMLKQodiCqrx1s
+         VZfA==
+X-Gm-Message-State: AOAM533mrhvMKIDP7ZuQqBWi7ncOJB8vS3raJAzpiFBfimDKK1RjMUo4
+	IM6YBxhAB9GjslHD+srMxT0=
+X-Google-Smtp-Source: ABdhPJwsJSpHa4WQtA8BOw9LsclrZXACQKL0w+C5347rniHR98jWepUqrp3Bw6RLFZLHjkd0t7M8Hw==
+X-Received: by 2002:a05:6512:3995:b0:44a:e5c8:e696 with SMTP id j21-20020a056512399500b0044ae5c8e696mr5344661lfu.539.1650213433512;
+        Sun, 17 Apr 2022 09:37:13 -0700 (PDT)
+Received: from alpha ([31.134.188.37])
+        by smtp.gmail.com with ESMTPSA id n10-20020a196f4a000000b0046c24985b33sm976997lfk.208.2022.04.17.09.37.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Apr 2022 09:37:12 -0700 (PDT)
+Received: (nullmailer pid 42936 invoked by uid 1000);
+	Sun, 17 Apr 2022 16:37:12 -0000
+From: Ivan Safonov <insafonov@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Michael Straube <straube.linux@gmail.com>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, Martin Kaiser <martin@kaiser.cx>, Pavel Skripkin <paskripkin@gmail.com>, Cai Huoqing <cai.huoqing@linux.dev>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Ivan Safonov <insafonov@gmail.com>
+Subject: [PATCH] r8188eu: remove unused urbs from struct xmit_buf
+Date: Sun, 17 Apr 2022 19:36:08 +0300
+Message-Id: <20220417163608.42917-1-insafonov@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-There is a deadlock in rtllib_beacons_stop(), which is shown
-below:
+Driver allocates eighth urbs per xmit_buf, but uses only first urb.
+Allocation of seven remaining urbs wastes memory for nothing.
 
-   (Thread 1)              |      (Thread 2)
-                           | rtllib_send_beacon()
-rtllib_beacons_stop()      |  mod_timer()
- spin_lock_irqsave() //(1) |  (wait a time)
- ...                       | rtllib_send_beacon_cb()
- del_timer_sync()          |  spin_lock_irqsave() //(2)
- (wait timer to stop)      |  ...
-
-We hold ieee->beacon_lock in position (1) of thread 1 and
-use del_timer_sync() to wait timer to stop, but timer handler
-also need ieee->beacon_lock in position (2) of thread 2.
-As a result, rtllib_beacons_stop() will block forever.
-
-This patch extracts del_timer_sync() from the protection of
-spin_lock_irqsave(), which could let timer handler to obtain
-the needed lock.
-
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+Signed-off-by: Ivan Safonov <insafonov@gmail.com>
 ---
- drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/include/rtw_xmit.h     |  2 +-
+ drivers/staging/r8188eu/os_dep/usb_ops_linux.c | 16 ++++++----------
+ drivers/staging/r8188eu/os_dep/xmit_linux.c    | 16 +++++-----------
+ 3 files changed, 12 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 4b6c2295a3c..b5a38f0a8d7 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -651,9 +651,9 @@ static void rtllib_beacons_stop(struct rtllib_device *ieee)
- 	spin_lock_irqsave(&ieee->beacon_lock, flags);
+diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
+index b2df1480d66b..54c2bdf68acc 100644
+--- a/drivers/staging/r8188eu/include/rtw_xmit.h
++++ b/drivers/staging/r8188eu/include/rtw_xmit.h
+@@ -198,7 +198,7 @@ struct xmit_buf {
+ 	u32  len;
+ 	struct submit_ctx *sctx;
+ 	u32	ff_hwaddr;
+-	struct urb *pxmit_urb[8];
++	struct urb *pxmit_urb;
+ 	dma_addr_t dma_transfer_addr;	/* (in) dma addr for transfer_buffer */
+ 	u8 bpending[8];
+ 	int last[8];
+diff --git a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+index 8ca16861bfcc..0269e602b217 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
++++ b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+@@ -140,7 +140,7 @@ u32 rtw_write_port(struct adapter *padapter, u32 addr, u32 cnt, u8 *wmem)
  
- 	ieee->beacon_txing = 0;
--	del_timer_sync(&ieee->beacon_timer);
+ 	spin_unlock_irqrestore(&pxmitpriv->lock, irqL);
  
- 	spin_unlock_irqrestore(&ieee->beacon_lock, flags);
-+	del_timer_sync(&ieee->beacon_timer);
+-	purb	= pxmitbuf->pxmit_urb[0];
++	purb	= pxmitbuf->pxmit_urb;
  
+ 	/* translate DMA FIFO addr to pipehandle */
+ 	pipe = ffaddr2pipehdl(pdvobj, addr);
+@@ -178,25 +178,21 @@ u32 rtw_write_port(struct adapter *padapter, u32 addr, u32 cnt, u8 *wmem)
+ 
+ void rtw_write_port_cancel(struct adapter *padapter)
+ {
+-	int i, j;
++	int i;
+ 	struct xmit_buf *pxmitbuf = (struct xmit_buf *)padapter->xmitpriv.pxmitbuf;
+ 
+ 	padapter->bWritePortCancel = true;
+ 
+ 	for (i = 0; i < NR_XMITBUFF; i++) {
+-		for (j = 0; j < 8; j++) {
+-			if (pxmitbuf->pxmit_urb[j])
+-				usb_kill_urb(pxmitbuf->pxmit_urb[j]);
+-		}
++		if (pxmitbuf->pxmit_urb)
++			usb_kill_urb(pxmitbuf->pxmit_urb);
+ 		pxmitbuf++;
+ 	}
+ 
+ 	pxmitbuf = (struct xmit_buf *)padapter->xmitpriv.pxmit_extbuf;
+ 	for (i = 0; i < NR_XMIT_EXTBUFF; i++) {
+-		for (j = 0; j < 8; j++) {
+-			if (pxmitbuf->pxmit_urb[j])
+-				usb_kill_urb(pxmitbuf->pxmit_urb[j]);
+-		}
++		if (pxmitbuf->pxmit_urb)
++			usb_kill_urb(pxmitbuf->pxmit_urb);
+ 		pxmitbuf++;
+ 	}
+ }
+diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+index a6012cffd37e..e430c64e9068 100644
+--- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
++++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+@@ -67,8 +67,6 @@ bool rtw_endofpktfile(struct pkt_file *pfile)
+ 
+ int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 alloc_sz)
+ {
+-	int i;
+-
+ 	pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
+ 	if (!pxmitbuf->pallocated_buf)
+ 		return _FAIL;
+@@ -76,21 +74,17 @@ int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitb
+ 	pxmitbuf->pbuf = (u8 *)N_BYTE_ALIGMENT((size_t)(pxmitbuf->pallocated_buf), XMITBUF_ALIGN_SZ);
+ 	pxmitbuf->dma_transfer_addr = 0;
+ 
+-	for (i = 0; i < 8; i++) {
+-		pxmitbuf->pxmit_urb[i] = usb_alloc_urb(0, GFP_KERNEL);
+-		if (!pxmitbuf->pxmit_urb[i])
+-			return _FAIL;
+-	}
++	pxmitbuf->pxmit_urb = usb_alloc_urb(0, GFP_KERNEL);
++	if (!pxmitbuf->pxmit_urb)
++		return _FAIL;
++
+ 	return _SUCCESS;
  }
  
+ void rtw_os_xmit_resource_free(struct adapter *padapter,
+ 			       struct xmit_buf *pxmitbuf, u32 free_sz)
+ {
+-	int i;
+-
+-	for (i = 0; i < 8; i++)
+-		usb_free_urb(pxmitbuf->pxmit_urb[i]);
++	usb_free_urb(pxmitbuf->pxmit_urb);
+ 
+ 	kfree(pxmitbuf->pallocated_buf);
+ }
 -- 
-2.17.1
+2.35.1
 
