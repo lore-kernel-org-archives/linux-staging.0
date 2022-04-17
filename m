@@ -1,87 +1,144 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A322C9D;
-	Sun, 17 Apr 2022 20:49:54 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id e22so9820127qvf.9;
-        Sun, 17 Apr 2022 13:49:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652762C9D;
+	Sun, 17 Apr 2022 21:14:02 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id l7so24005970ejn.2;
+        Sun, 17 Apr 2022 14:14:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ofmszlcyf7yX+uAYXy8RK5mMYEQfM2GF5ksPIibzvA4=;
-        b=mQ4y6rZsU8aFE+nbIUOJM99oQjKbOER5NGwNRqBddx9G1u9vf1Ua0z4tJIYvcwKsxz
-         xbXbPWsYRFwnaKfPzn/iM7Kp6K4nx1cY1JbRLx+Ybo6H/6Y5yiyeTsyHvdNmSiG33qJB
-         GNOJKP3IX2WHx6PNMv/bffy6MtuCBNfoTE0wH9d5M17lAOCO6trcbAWRmChjzUieEKnJ
-         TYsr+t1S4i7X2yCfGmVPxevvannGkOZDt2/b2AaYoPtKNm6nDLYPTKOi1wBOAUaIVMVJ
-         /nxGPLT/RyQ9iT9Go/8n/Fy5zpJ/izXN7sXu30IsFFS99FNlQi4OLdiNjlNcNQCcq3ig
-         NIJw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=kOJ6r5szSl5hkLX0n7vAIA8roZcCn9TLBxnUP06wZtQ=;
+        b=It/o+QoA+oxBdSsLMAe3xm+uoil6gVs1TnMslbWSI9qDf8Su7tTlJ+YUuMUKobdzm+
+         coUe9LQjIBjKPuzos8Xwr7Ai1Rsf8fVRJlD3Jcjf+KaOBUHFaRe+HXi08Mk3EzWeXtS/
+         otVtI5YnMU0d+R0FPKCo3rt7/RU3sIfJGl7zwCcz4Ves5gD39UOwhiFoMj59B5PByJYF
+         v5Pm1FLcQCjr5s1thdAvfo5KyWGDQ3nXYlbWt2qLeqXJ4aLut92+NqDyoKGYVFdLPfKG
+         M9h7rVGRvjcJN4UJ60dWZ7Txgjq5osJ1KyqPE2/x2kuoLARxFsh0Zn0NSGcZ5VAZjl/p
+         mWkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ofmszlcyf7yX+uAYXy8RK5mMYEQfM2GF5ksPIibzvA4=;
-        b=kNs35xXIxLnklKffRrIEJjzjGD6oWAqf/I7yi2s0u9FWr+gVAswL6OQuoC9dTikeKE
-         lGnllPCxVhBwV4tgTKKCL1lz4qbWDnP+6Em214hVJTJ7piqlmOSHk1WPjc6xbR7V7YaJ
-         lQjA8s1zJ8UAYfFmb+wQxWTv2Ut1nGG3XgCB1Vg0HNn5Yo9p/oFLj6Seod0FlEKbqBxF
-         qFp/C/VFplDc/A4JpmtXqNyNZNPePWBnoUDP7BYSG8+XzXdeonxlIJsW+iQk1120WSZO
-         vlW5QFzhv7WIT5ETPsxi7YkHhzr4o6Jjdu2bGdSiLwUDsyN+CuSYWmmtsU7ziXDmErna
-         UOEw==
-X-Gm-Message-State: AOAM531FxrTIQq/LN0i53kWqh0pKjp7xjvt+z/EKKFluXoCxFD+31V+H
-	zpDpvgwLNPcSC4bMjHsMr4NcfsiqSH2rMSRS
-X-Google-Smtp-Source: ABdhPJyAqe9ETikkHL2arPI2VeYUke76O3gh94yEez1/EUSyYufKF2PW7+QnRLUyXwTDctursVwsxw==
-X-Received: by 2002:ad4:5969:0:b0:446:636c:9fb1 with SMTP id eq9-20020ad45969000000b00446636c9fb1mr320373qvb.88.1650228593048;
-        Sun, 17 Apr 2022 13:49:53 -0700 (PDT)
-Received: from jaehee-ThinkPad-X1-Extreme ([2607:fb90:50e6:61ed:4df2:ed9f:52ea:476e])
-        by smtp.gmail.com with ESMTPSA id o21-20020a05620a0d5500b0069c59fae1a5sm5552385qkl.96.2022.04.17.13.49.51
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=kOJ6r5szSl5hkLX0n7vAIA8roZcCn9TLBxnUP06wZtQ=;
+        b=kaes1ofdidqxRV064gz0Y1ze3A6/XAZeYBrmrEcr4GaxkPaliOLLM+nT0OVorvjeXX
+         A4Rwsp1AfJigVusCzKq8pkQ4ajBroDKP3m96iPaHzxhuzDtQhvrmzrWYsNJowoeFp/fH
+         PyPsJLdSw4uO9VFuXdotzKnyLt304j3Qkw2JXllzzPIsLZ15TAjgJJ9XykDbgE1nFKx6
+         0gb7I0mlYh3UbLF+bJgrHcmKTRNKLXjxJD67wZH+MJrkXhsH/869yVHTXmNm+9sl1Qpw
+         fSsD5XWe4zMijGQsWecdb2h6Yqm+Um00zIDSHs+BjXMR6Mg4k1OoE6vxX+5CGxuhIDFP
+         pIJg==
+X-Gm-Message-State: AOAM5322X9tbdI8gLlVmge/ntWXKe7JNhV967eJbsKAGLiu8Km6vBvFt
+	cfkNDL2qjpNY/4LmKezk/N4=
+X-Google-Smtp-Source: ABdhPJy/UDWFTTOqBrPTnleiR3Z+mIpy1hUK//Bf5wY4Q4r4oBwf1R1+8ODWJpR9EDfh4dJc8t6oRw==
+X-Received: by 2002:a17:907:720d:b0:6e8:9f19:7520 with SMTP id dr13-20020a170907720d00b006e89f197520mr6753180ejc.552.1650230040605;
+        Sun, 17 Apr 2022 14:14:00 -0700 (PDT)
+Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id c13-20020a056402100d00b0042294fdbcf9sm4125011edu.14.2022.04.17.14.13.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Apr 2022 13:49:52 -0700 (PDT)
-Date: Sun, 17 Apr 2022 16:49:49 -0400
-From: Jaehee Park <jhpark1013@gmail.com>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
-	Alison Schofield <alison.schofield@intel.com>
-Subject: Re: [PATCH v2 3/6] staging: r8188eu: remove 'added by' author
- comments
-Message-ID: <20220417204949.GA238538@jaehee-ThinkPad-X1-Extreme>
-References: <cover.1649990500.git.jhpark1013@gmail.com>
- <c0eaa7cbc61d89967d81ef864c1a791f4adb1978.1649990500.git.jhpark1013@gmail.com>
- <6925e230-b816-ea9a-067f-60cefecd8af7@gmail.com>
+        Sun, 17 Apr 2022 14:13:59 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Pavel Skripkin <paskripkin@gmail.com>, Jaehee Park <jhpark1013@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH v2 1/6] staging: r8188eu: remove unused member free_bss_buf
+Date: Sun, 17 Apr 2022 23:13:50 +0200
+Message-ID: <3164900.aeNJFYEL58@leap>
+In-Reply-To: <20220417204200.GA236965@jaehee-ThinkPad-X1-Extreme>
+References: <cover.1649990500.git.jhpark1013@gmail.com> <a28f445f-f088-620e-6baf-4cad3e1a8146@gmail.com> <20220417204200.GA236965@jaehee-ThinkPad-X1-Extreme>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6925e230-b816-ea9a-067f-60cefecd8af7@gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, Apr 17, 2022 at 11:23:03PM +0300, Pavel Skripkin wrote:
-> Hi Jaehee,
-> 
-> On 4/15/22 05:48, Jaehee Park wrote:
-> > Author comments "Added by Albert" and "Added by Annie" are sprinkled
-> > through the file. These comments are not useful and can be removed.
+On domenica 17 aprile 2022 22:42:00 CEST Jaehee Park wrote:
+> On Sun, Apr 17, 2022 at 11:16:38PM +0300, Pavel Skripkin wrote:
+> > Hi Jaehee,
 > > 
-> > Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
-> 
-> I don't remember giving that tag, but now I am OK with it, since patch looks
-> good
-> 
-> Please, don't put random Reviewed-by tags in your commit message, since it's
-> not how Reviewed-by tags work
+> > On 4/17/22 23:14, Jaehee Park wrote:
+> > > My understanding of Pavel's response is the free_bss_buf member of 
+the
+> > > pmlmepriv structure wasn't being used anywhere and that the
+> > > rtw_free_mlme_riv_ie_data function frees the memory of the pmlmepriv
+> > > structure so the second check is redundant.
+> > > 
+> > > However, as Fabio said, the free_bss_buf member is being used and 
+pbuf
+> > > memory is not being freed.
+> > > So I'll revert the patch as it was originally (which was just 
+removing
+> > > the {} around the single if statement).
 
-Got it. Thanks
+No, Jaehee. This is not what I said :)
 
+> > > 
+> > 
+> > Why just `pbuf` allocation can't be removed? This memory is just 
+unused,
+> > isn't it?
+
+What Pavel said is what I said, but using a different argumentation.
+
+> > 
+> > 
+> > With regards,
+> > Pavel Skripkin
 > 
-> > Suggested-by: Alison Schofield <alison.schofield@intel.com>
-> > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
 > 
+> The free_bss_buf member is unused.
+
+Correct.
+
+> So it can just be removed right?
+
+No.
+
+
+> I guess I'm confused by what Pablo is saying about causing a memory 
+> leak
+
+A memory leak is caused when you allocate some memory and then you lose any 
+reference to its address so that it cannot be freed. Right?
+
+> by getting rid of the pointer to the memory allocated by pbuf.
+
+No.
+ 
+> Sorry if I misunderstood. 
+
+No problem. Let's rewind...
+
+"pbuf" is assigned with the address of some memory allocated with a call to 
+vzalloc(). Since "pbuf" is a local variable, you see that the above-
+mentioned address is stored in free_bss_buf using the line "pmlmepriv-
+>free_bss_buf = pbuf". Is it clear?
+
+Well, you decided to delete the line that calls vfree(pmlmepriv-
+>free_bss_buf). At this point you have that memory leak.
+
+Pavel noted that pmlmepriv->free_bss_buf is unused, but it contains the 
+address of a region of memory that was allocated for no purpose.
+
+Therefore, a correct patch should also remove the allocation that was made 
+using kzalloc(). If you merely remove the line with vfree() you cause a 
+memory leak.
+
+Please don't revert your patch. Just fix it with a new version that also 
+delete the line where "pbuf" is assigned with the value returned by 
+kzalloc().
+
+I hope that now I've been clearer.
+
+Thanks,
+
+Fabio
+
+> Thanks,
+> Jaehee
 > 
-> 
-> 
-> With regards,
-> Pavel Skripkin
+
+
+
+
