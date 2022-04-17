@@ -1,39 +1,39 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAEC2567
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111B8258A
 	for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 17:54:49 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id v4so15343904edl.7
+Received: by mail-ej1-f45.google.com with SMTP id u15so23465582ejf.11
         for <linux-staging@lists.linux.dev>; Sun, 17 Apr 2022 10:54:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OILYgrcMHgfS0MAxmoEH1VbxpcKZui0oVM3USNBv13c=;
-        b=P5JmW2KvKOzg8qOf35NH2HDiMtRbk+FunpBhn4lw3vrTLmTtwn+zfCxWydq2GbZqDD
-         pv+pniNDd2S/dD7GxQkyq73AAJJMRC3xnzIBhA/5JPwOYbYL/WTEEVEnfvM9qeYANwUV
-         EQsvajbm7ra+t55FY2WbCC10lvtFqiJ4vrvGRogBav8w81z9ZHgb7VA6vi57p0fgUxC3
-         nwKUSibDC1N+eyAhY1tj/8cLwp30FSiF+hxlXaR3loHhAw/qS5RTbQeymMNwZBlWcpvB
-         0KOybdRncJsJqu7B+H8Fntd4y1iFNknSdkmOZ4x17GwBJ2KYCcbJZa7HWXJmHkJCFO91
-         Y8qw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=sZTBfR/A89syNfUStFLmnUWCQR/KrbeiEyXxR04D+i4=;
+        b=JbNAEqTXiQowm2n17xTXw3p55q/678/g4P2W8R2+Gq8DZeXcdqZKHqBnon1GuG6Rco
+         e+gzkl0dUhLAp/TcbnXCaju0oWLkNLeHKiTQrWVZ2ORSxBWhtPvMQgBFM7qmM7hsgsP0
+         WdADsG+v+sECo5fkpt0CapJF6C8QFMK4XmpS+2m1fcqEl9vbDMuIKrhBQk+KQ24OL21U
+         PlbPKzuwYFpsSowSiSBIusykAvZUxwvCaxt5ihrYNeimVQO4X+1reeb1I5oHP+F8aFFk
+         mCKF8hm0HWf+WVYEZnunVTD9eLk/rVRJRUoeMRiMp/IW64KXsdbvjeAPr/Mnc3yl59SF
+         ID8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OILYgrcMHgfS0MAxmoEH1VbxpcKZui0oVM3USNBv13c=;
-        b=UiM/p3WCK2Y+jrcc4CCZTJ+uF3b45pPLVxoNQbGmVh4LNM79s7eR7JjsO9Q1gRzZpf
-         kPw6w5jDtJ8WLhead/Viy2YmYgmtXfyQCuy+c0SAeGBwlvrMj3WRQZ9IVIrUzNk+D6GD
-         bDmCrmN68IALFE9C1RCA8I+DYfIDQkO4evRg8uU3ASkvl3dOXTJtChtPKDjdb0YKYPvU
-         0vOxYv5JxZflaeE3IzIy0+gcADg2z7iXbfUFRgwYsf8WiKMWT4NuGVSaFJH41+LtdbaZ
-         XzGRPPVqou+yIjc3iyXxUkuCzAHzIeNDYKfedUj6HJk0kzpoAS2Bmgd9ovEsiYtjT+Lm
-         tZ9w==
-X-Gm-Message-State: AOAM533RFXFLhH9lW1l0tup21xQ5VEnBLpIGGJBffZ1CzemvePC+sbQe
-	OCBgzWK8QqF7n0nZkH5Fqm8=
-X-Google-Smtp-Source: ABdhPJwqZKjheh+2KqPTKOUweCixJfif8kv973dXy3667xA5l9SqWcbZHJ5+FUDWF3oeidpQTGO5Xw==
-X-Received: by 2002:aa7:ce05:0:b0:41d:6857:549e with SMTP id d5-20020aa7ce05000000b0041d6857549emr8844788edv.251.1650218087587;
-        Sun, 17 Apr 2022 10:54:47 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=sZTBfR/A89syNfUStFLmnUWCQR/KrbeiEyXxR04D+i4=;
+        b=QfCszePgLthpzFoBljbUM2QWh6pkuP/XyO6EnqSuUcHKdCvNgV2HE6CyQ7fqllvhqY
+         jjpA8FE93sso2/I+ZVL/Re4R/yaDO8ylWZFSJWBWr2juOroDJ1eq9T7GyZfd5naBYCjB
+         skoo7DJPUFK9v7l2SSzbKLTFs1fJa47shpCg7Se4GWN2ZpWDXGkmM+l79ey1ggMFkVQ+
+         uwF1AHpEXLlUIku1RfK6fHah+NMx7c0JUOiK8sWtbOtbzQld3s3eDeGC4OOb7qiaDFnb
+         WFeabvdhGrHdPL7E7kOKIGe6pSNJRsPSWghVyLP4tSIl8/ExCzOuaLRVFRguMGId7gjj
+         eZmg==
+X-Gm-Message-State: AOAM530mVVaira2467A3CyUZQx/0w7F487ag1bCNlan6X8kYQ1JiG1Nx
+	rdiONGDtt9CIzp2zb1ox9kqnTC3JSeM=
+X-Google-Smtp-Source: ABdhPJwXoFfnrFhj0GsJ8c2wFNj++cwxFiLjiiIn68WECW8SJS8vyxTlSYWX4RZpIp6goCLoEzlxXA==
+X-Received: by 2002:a17:907:948b:b0:6d8:27f8:ab4a with SMTP id dm11-20020a170907948b00b006d827f8ab4amr6363899ejc.39.1650218088398;
+        Sun, 17 Apr 2022 10:54:48 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5abba5.dynamic.kabel-deutschland.de. [95.90.187.165])
-        by smtp.gmail.com with ESMTPSA id jw12-20020a17090776ac00b006e87137194esm3719409ejc.150.2022.04.17.10.54.46
+        by smtp.gmail.com with ESMTPSA id jw12-20020a17090776ac00b006e87137194esm3719409ejc.150.2022.04.17.10.54.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 17 Apr 2022 10:54:47 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v4 0/8] staging: r8188eu: fix and clean up some firmware code
-Date: Sun, 17 Apr 2022 19:54:33 +0200
-Message-Id: <20220417175441.13830-1-straube.linux@gmail.com>
+Subject: [PATCH v4 1/8] staging: r8188eu: fix struct rt_firmware_hdr
+Date: Sun, 17 Apr 2022 19:54:34 +0200
+Message-Id: <20220417175441.13830-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220417175441.13830-1-straube.linux@gmail.com>
+References: <20220417175441.13830-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,37 +57,112 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series fixes wrong size of struct rt_firmware_hdr in the first
-patch and does some cleanups in rtl8188e_firmware_download() in the
-other patches.
+The size of struct rt_firmware_hdr is 36 bytes.
 
-Tested on x86_64 with Inter-Tech DMG-02.
+$ pahole -C rt_firmware_hdr drivers/staging/r8188eu/r8188eu.o
+struct rt_firmware_hdr {
+        __le16                     Signature;            /*     0     2 */
+        u8                         Category;             /*     2     1 */
+        u8                         Function;             /*     3     1 */
+        __le16                     Version;              /*     4     2 */
+        u8                         Subversion;           /*     6     1 */
 
+        /* XXX 1 byte hole, try to pack */
+
+        u16                        Rsvd1;                /*     8     2 */
+        u8                         Month;                /*    10     1 */
+        u8                         Date;                 /*    11     1 */
+        u8                         Hour;                 /*    12     1 */
+        u8                         Minute;               /*    13     1 */
+        __le16                     RamCodeSize;          /*    14     2 */
+        u8                         Foundry;              /*    16     1 */
+        u8                         Rsvd2;                /*    17     1 */
+
+        /* XXX 2 bytes hole, try to pack */
+
+        __le32                     SvnIdx;               /*    20     4 */
+        u32                        Rsvd3;                /*    24     4 */
+        u32                        Rsvd4;                /*    28     4 */
+        u32                        Rsvd5;                /*    32     4 */
+
+        /* size: 36, cachelines: 1, members: 17 */
+        /* sum members: 33, holes: 2, sum holes: 3 */
+        /* last cacheline: 36 bytes */
+};
+
+But the header in the firmware file is only 32 bytes long.
+
+The hexdump of rtl8188eufw.bin shows that the field Rsvd1 should be u8
+instead of __le16.
+
+OFFSET      rtl8188eufw.bin
+-----------------------------------------------------------
+0x00000000  E1 88 10 00 0B 00 01 00 01 21 11 27 30 36 00 00
+0x00000010  2D 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+0x00000000  E1 88 10 00 0B 00 01  00     01     21    11    27 30 36 00 00
+                              ^   ^      ^      ^     ^     ^
+                     Subversion   Rsvd1  Month  Date  Hour  Minute
+
+With the change of field Rsvd1 from __le16 to u8 the structure has the
+correct size 32.
+
+$ pahole -C rt_firmware_hdr drivers/staging/r8188eu/r8188eu.o
+struct rt_firmware_hdr {
+        __le16                     Signature;            /*     0     2 */
+        u8                         Category;             /*     2     1 */
+        u8                         Function;             /*     3     1 */
+        __le16                     Version;              /*     4     2 */
+        u8                         Subversion;           /*     6     1 */
+        u8                         Rsvd1;                /*     7     1 */
+        u8                         Month;                /*     8     1 */
+        u8                         Date;                 /*     9     1 */
+        u8                         Hour;                 /*    10     1 */
+        u8                         Minute;               /*    11     1 */
+        __le16                     RamCodeSize;          /*    12     2 */
+        u8                         Foundry;              /*    14     1 */
+        u8                         Rsvd2;                /*    15     1 */
+        __le32                     SvnIdx;               /*    16     4 */
+        u32                        Rsvd3;                /*    20     4 */
+        u32                        Rsvd4;                /*    24     4 */
+        u32                        Rsvd5;                /*    28     4 */
+
+        /* size: 32, cachelines: 1, members: 17 */
+        /* last cacheline: 32 bytes */
+
+The wrong size had no effect because the header size is hardcoded to
+32 where it is used in the code and the fields after Subversion are
+not used.
+
+Fixes: 7884fc0a1473 ("staging: r8188eu: introduce new include dir for RTL8188eu driver")
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
 v4:
-- Keep the in-line comments of struct rt_firmware_hdr.
+- no changes
 
 v3:
-- Splitted the first patch into two separate patches.
-- Added back logging the firmware version only once.
-- Included the compile time check for size of rt_firmware_hdr from
-  patch 8/8 of v2 in the patch that replaces the hardcoded size.
+- updated the commit message
+- moved the u32 to __le32 conversions to a separate patch
 
 v2:
-- Added a patch to check size of struct rt_firmware_hdr at compile time.
+- no changes
 
-Michael Straube (8):
-  staging: r8188eu: fix struct rt_firmware_hdr
-  staging: r8188eu: convert u32 fields of rt_firmware_hdr to __le32
-  staging: r8188eu: clean up comments in struct rt_firmware_hdr
-  staging: r8188eu: rename fields of struct rt_firmware_hdr
-  staging: r8188eu: use sizeof instead of hardcoded firmware header size
-  staging: r8188eu: remove variables from rtl8188e_firmware_download()
-  staging: r8188eu: use pr_info_once() to log the firmware version
-  staging: r8188eu: check firmware header existence before access
+ drivers/staging/r8188eu/core/rtw_fw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/r8188eu/core/rtw_fw.c | 84 +++++++++++----------------
- 1 file changed, 34 insertions(+), 50 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
+index 8620f3c92b52..eb4ab11f6b28 100644
+--- a/drivers/staging/r8188eu/core/rtw_fw.c
++++ b/drivers/staging/r8188eu/core/rtw_fw.c
+@@ -29,7 +29,7 @@ struct rt_firmware_hdr {
+ 					 *  FW for different conditions */
+ 	__le16		Version;	/*  FW Version */
+ 	u8		Subversion;	/*  FW Subversion, default 0x00 */
+-	u16		Rsvd1;
++	u8		Rsvd1;
+ 
+ 	/*  LONG WORD 1 ---- */
+ 	u8		Month;	/*  Release time Month field */
 -- 
 2.35.1
 
