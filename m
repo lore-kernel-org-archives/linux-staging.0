@@ -1,78 +1,88 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D338801;
-	Mon, 18 Apr 2022 12:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8976A80F;
+	Mon, 18 Apr 2022 13:46:06 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id k22so18633242wrd.2;
+        Mon, 18 Apr 2022 06:46:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=nlZTs2EHSVsUyk1Bfx1ucHBhq1nc96y85fwK/m4VS8o=;
-  b=Ztt7IfzFy0k4GPLo5+lWjD1pdUNA//BQgMpRhdMXMTeRKWFiqkQ5s6Yc
-   t8Jzt/OY2XlpCdk1Kxb6l5CDVSGiIXObShwXElOiEWXJwzfUFxxpuEDf6
-   bIwlHANpRUE0P8LMwUlHpB3f/AL79uBMKoCG1ec3roHLgtNwdq82vuRcV
-   8=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,269,1643670000"; 
-   d="scan'208";a="11791770"
-Received: from 203.107.68.85.rev.sfr.net (HELO hadrien) ([85.68.107.203])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2022 14:11:21 +0200
-Date: Mon, 18 Apr 2022 14:11:21 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Aliya Rahmani <aliyarahmani786@gmail.com>
-cc: clabbe@baylibre.com, gregkh@linuxfoundation.org, 
-    linux-staging@lists.linux.dev, outreachy@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] staging: media: zoran: Code cleanup - else is not
- generally useful after a break or return
-In-Reply-To: <20220418115948.5456-3-aliyarahmani786@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2204181409550.11986@hadrien>
-References: <20220418115948.5456-1-aliyarahmani786@gmail.com> <20220418115948.5456-3-aliyarahmani786@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yoyp44JzkHGTT8ZqJq8l6tDNGuUOI937tn9ZpUzw9Wk=;
+        b=gh/1az9LTsIQ8Waf71s3RlA7yMXX3Mse3hATc2/up5VvELAIhgtHel3pbElJrsVo2Z
+         ekz2AFEXacg2HIbAA2Fp1xbsgwpbyk0bAfqoC2FOK0P62HXf9rb8Zmo7vAj1LTpS3iEj
+         Ixi6t4b9Pd20eV09JXiONq1W46dNqBFKz4bhgiWiBdq2AVyq4uzV/BH3bEucMunsQkiF
+         E8kaThovYTKQQnqJ4dxlKqjbJUWNMkNR497vhYUMVd3zuW+G4AoI9Gz8tzqCZOLjjWk1
+         De79kUsuZqELYp1BmokBLWJ1QBrvDibANF6ZLTZEaqs49XeQBlZVX0ADsMUjKf2KtgH2
+         iUHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yoyp44JzkHGTT8ZqJq8l6tDNGuUOI937tn9ZpUzw9Wk=;
+        b=RIjEq+k/d83Oiow3jsbdVLY+Y7yenP5L1xQUUKIJ1pT3BUOYCR3IylfkRtvgOZGl1P
+         rrpy9Uxe6SmUFJCnkSJiSrzQTQl/8pWMLdu2LfGELl6SJoFwPZGv+olZxWlDg9/4+bsf
+         POYhwffHfvuaAD10T/FWvzuwMDeYsATQko4CsN09GG6PxXWQ+ESP4f5xdCLohrk2IC05
+         eIU/UEuxWuB9vCZT3SxNFzLLJQlVq2CHYYWVhkUOGdtwfKVCXlR5nV5hiBTrETSqEC2D
+         F9BUCgyE04tMM1Ul+mujijJCus/gy7rugYL98pjGVtOPEekpdU1PxIhR1j36jUp6Bwet
+         i2rw==
+X-Gm-Message-State: AOAM533sbHPRltha19wvJMzgOqvLJwv0WtoB+u08vO50pdEhIhfU9Iz4
+	ZUs0HNyjyHkstDPDrt2Sv0s=
+X-Google-Smtp-Source: ABdhPJxAVkklnnI5HFoDgPCIommVtr6wdWI7ulYdjfDzlnh9LUgLfiMDzA4l6bYkJLTgZA9t1un9QA==
+X-Received: by 2002:a5d:67d2:0:b0:207:a5cf:c14d with SMTP id n18-20020a5d67d2000000b00207a5cfc14dmr8421376wrw.365.1650289564671;
+        Mon, 18 Apr 2022 06:46:04 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id v11-20020a056000144b00b0020a9c02f60dsm1835302wrx.50.2022.04.18.06.46.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Apr 2022 06:46:04 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] staging: iio: ad2s1210: remove redundant assignment to variable negative
+Date: Mon, 18 Apr 2022 14:46:03 +0100
+Message-Id: <20220418134603.81336-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Just say concisely what you did in the subject line.  For example, "remove
-unneeded else".  The reader can wait to see the message to find out the
-details.  "Code cleanup" takes up a lot of space, and doesn't give much
-information.
+Variable negative is being assigned a value that is never read, it is
+being re-assigned later. The assignment is redundant and can be removed.
 
-On Mon, 18 Apr 2022, Aliya Rahmani wrote:
+Cleans up clang scan build warning:
+drivers/staging/iio/resolver/ad2s1210.c:502:3: warning: Value stored
+to 'negative' is never read [deadcode.DeadStores]
 
-> Remove the else without affecting the logic. Fixes the checkpatch warning: else is not generally useful after a break or return
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/iio/resolver/ad2s1210.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Commit log messages should be limited to around 70 characters per line.
+diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
+index 74adb82f37c3..c0b2716d0511 100644
+--- a/drivers/staging/iio/resolver/ad2s1210.c
++++ b/drivers/staging/iio/resolver/ad2s1210.c
+@@ -499,7 +499,6 @@ static int ad2s1210_read_raw(struct iio_dev *indio_dev,
+ 		ret = IIO_VAL_INT;
+ 		break;
+ 	case IIO_ANGL_VEL:
+-		negative = st->rx[0] & 0x80;
+ 		vel = be16_to_cpup((__be16 *)st->rx);
+ 		vel >>= 16 - st->resolution;
+ 		if (vel & 0x8000) {
+-- 
+2.35.1
 
-julia
-
-> Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
-> ---
->  drivers/staging/media/zoran/videocodec.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/staging/media/zoran/videocodec.c b/drivers/staging/media/zoran/videocodec.c
-> index 16a1f23a7f19..19732a47c8bd 100644
-> --- a/drivers/staging/media/zoran/videocodec.c
-> +++ b/drivers/staging/media/zoran/videocodec.c
-> @@ -98,9 +98,8 @@ struct videocodec *videocodec_attach(struct videocodec_master *master)
->
->  				h->attached += 1;
->  				return codec;
-> -			} else {
-> -				kfree(codec);
->  			}
-> +			kfree(codec);
->  		}
->  		h = h->next;
->  	}
-> --
-> 2.25.1
->
->
->
