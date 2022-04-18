@@ -1,51 +1,51 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422F1A29;
-	Mon, 18 Apr 2022 17:12:58 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id j8so12815149pll.11;
-        Mon, 18 Apr 2022 10:12:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926FEA29;
+	Mon, 18 Apr 2022 17:21:07 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id u5-20020a17090a6a8500b001d0b95031ebso7675080pjj.3;
+        Mon, 18 Apr 2022 10:21:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=dTfclv02OOzOcblj7XsN4Ih/CQalStRiqrtD05ZRe5s=;
-        b=gSYHgZsHWwk2aKf0awq92l919SNMPCc9mEUPi3Jt7IHtTT9437FEJIF0N9Q5Uh9LP9
-         r4y0iVYWEn5oh+o+1so4N6hnjxuY/QrWEQfacIOhvjWPxnbeEY3lCEbbkUpyKRp/3ql4
-         VyoMeFjcQ9pO3dLoM2S2nBFkwnirK/Yj6MX8iP9nGvI2lhxk0EjCIqHs0vQQM1pY5/My
-         8/0Mg+9A7hnVLGQdt4U1r4VwzBRoE5h9vXc+qxQKRXeU14I/qKZhoCPqixtPRsdBGIqC
-         OJ1eUhmG/vLxzP5OJHBZBGdZtr5LBtfJqvSdOfyPKIzgVV+b0ixe5KZKrNW96Fg91rq2
-         Eeaw==
+        bh=iQ7zMObbxBwpwrmjodRH3jIXu53bzE9nhd/lk8gMVG0=;
+        b=N27U19zOBTYQfhc3bgkjYTIy8VPlnXYzPv3bvnCJHxVIGdoj6Dz995yQF6LlOPCvTr
+         BSsZ6cxg55iljThZtwy6r0pNbEQpmpTlAy87IBBTZdvMau1M/zmRDEh4hK1zgOBL0uge
+         VENqT2H+vNAC49WV+/Z4KPqtM4awCnGbTH7UyDkEmGNHPrn0PXFedpdb7EAn/CNfdqlh
+         247BiGGCsoUiN5RhPrOcsztxDbmWCYSrUsuMfIuqrO+cBMjYO4hw1D126HqZvf07pj3C
+         9bNgLiJENjKHtOO/4F468dhRDAhjam2oB+ydxWBy5w0zJTJCKYyRgJfqEmG2oTnafSpS
+         tKiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=dTfclv02OOzOcblj7XsN4Ih/CQalStRiqrtD05ZRe5s=;
-        b=R1oaZTcJViMNuSjdUr8/krSJ3+XBGMlZzMsD7/oyJLqH6J2xox9W+BSAlb/DhRrnOh
-         1ezS2Ing6V4HnAsXSiaFkTQDTJFTIN+1d7goFZ4NyJxllWrdGkWUICK/21selj4yWVVx
-         yUCWLsmsdzEzay87ReJrz83JzFULBFzHrVis0pe504pQx4Jgx/JLDbFsaPzlsBG0z4QX
-         0nRn7tKhGgY30BKk/W6KoLHqpkYMtSRX+G+QgJlKWDR9YINm8fzC0hhOVNasT5NaeDMc
-         pZJhfoy+9w4KDIURyQhtFWT86qHKVgr0JtCLDtnqDFKVhoeU5zu6iyKA9OcjwsSDLU8A
-         s5Ng==
-X-Gm-Message-State: AOAM530ooCraFHAo8E9yuoKWC4pfut9/Un4pzYNG+zSnQMxV6Dya4xbk
-	EFIn7ZwYYlezo1pFl9WAnHo=
-X-Google-Smtp-Source: ABdhPJz4DC4B6xU9TuyvStBcxOz4sQXJ6bzv+81lnpHQ9IuZsVmEg2TRquLbZXyBq9GzaDDLEPHvyQ==
-X-Received: by 2002:a17:903:11c7:b0:154:b936:d1d4 with SMTP id q7-20020a17090311c700b00154b936d1d4mr12090065plh.78.1650301977627;
-        Mon, 18 Apr 2022 10:12:57 -0700 (PDT)
+        bh=iQ7zMObbxBwpwrmjodRH3jIXu53bzE9nhd/lk8gMVG0=;
+        b=nf0phxPrtpO8yhV6E1cxujCpi2ys6DyO9oy8JDA8j5DmIAqTFU1RQIq6ZrKcwUH/lm
+         yfqXMgqMfok7TsPuQ2D/Q7nG7gUxzI1+XhbitQvxt0GLzZSvPMEEK8zuItDgkM6xaXll
+         ebQcjCqPoprGzoOsXIhBsR12Kl27KW1mW8Ks+7OqgdS5V6aPxkobnG4Ub5x5JABScPaN
+         ajTshDogK0LcTX8Tcdk1Cyr5/zAxw4iNeqHJmraf9Wf2/IBn3EQaJi/R8fS5mHOSxPET
+         Dc+06li4e3+An/2QLeZtCAF3XkXjTodBTcVlwDqPm4ASBknhr4tyNZFIcKCO17UjkRUF
+         Hosg==
+X-Gm-Message-State: AOAM533RpcpYE9xqD+hee21RnkiMME7YuN6Ydu1JM+GgdkUPAPyaDtkB
+	AI89UjfQGPl7c+J2Bt1A41k=
+X-Google-Smtp-Source: ABdhPJz++PL/lJOqM3fzQXj2jrTDz43c8/cBZ4e+c+pV3rnK5BSZJnTiluFjWyDif1IdjKep3RWv4w==
+X-Received: by 2002:a17:90b:1a8a:b0:1c7:c60b:f12 with SMTP id ng10-20020a17090b1a8a00b001c7c60b0f12mr13989087pjb.139.1650302467000;
+        Mon, 18 Apr 2022 10:21:07 -0700 (PDT)
 Received: from aliyar-HP-Laptop-15-da1xxx.domain.name ([14.139.241.88])
-        by smtp.gmail.com with ESMTPSA id t63-20020a625f42000000b0050a7eaff8c9sm3636063pfb.189.2022.04.18.10.12.54
+        by smtp.gmail.com with ESMTPSA id y9-20020aa78f29000000b005098201d2f5sm13041394pfr.205.2022.04.18.10.21.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 10:12:57 -0700 (PDT)
+        Mon, 18 Apr 2022 10:21:06 -0700 (PDT)
 From: Aliya Rahmani <aliyarahmani786@gmail.com>
-To: mchehab@kernel.org
+To: clabbe@baylibre.com
 Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	outreachy@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Aliya Rahmani <aliyarahmani786@gmail.com>
-Subject: [PATCH] staging: media: av7110: remove redundant space after cast
-Date: Mon, 18 Apr 2022 22:39:02 +0530
-Message-Id: <20220418170900.16725-1-aliyarahmani786@gmail.com>
+Subject: [PATCH v3 0/3] staging: media: zoran: fix warnings reported by checkpatch
+Date: Mon, 18 Apr 2022 22:44:50 +0530
+Message-Id: <20220418171453.16971-1-aliyarahmani786@gmail.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,27 +55,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the unnecessary space immediately after a cast. Identified by
-checkpatch: CHECK: No space is necessary after a cast.
+These patches address style issues found by checkpatch in the
+zoran/videocodec.c file.
 
-Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
----
- drivers/staging/media/av7110/av7110_av.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+changes since v2:
+PATCH[2/3] : Rework commit description and subject
+PATCH[3/3] : Rework commit description and subject
 
-diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
-index 91f4866c7e59..df41d2ce1ed7 100644
---- a/drivers/staging/media/av7110/av7110_av.c
-+++ b/drivers/staging/media/av7110/av7110_av.c
-@@ -93,7 +93,7 @@ int av7110_record_cb(struct dvb_filter_pes2ts *p2t, u8 *buf, size_t len)
- 
- static int dvb_filter_pes2ts_cb(void *priv, unsigned char *data)
- {
--	struct dvb_demux_feed *dvbdmxfeed = (struct dvb_demux_feed *) priv;
-+	struct dvb_demux_feed *dvbdmxfeed = (struct dvb_demux_feed *)priv;
- 
- 	dvbdmxfeed->cb.ts(data, 188, NULL, 0,
- 			  &dvbdmxfeed->feed.ts, NULL);
+Aliya Rahmani (3):
+ staging: media: zoran: use seq_puts() instead of seq_printf()
+ staging: media: zoran: else is not generally useful after a break or return
+ staging: media: zoran: avoid macro argument precedence issues
+
+drivers/staging/media/zoran/videocodec.c | 9++++-----
+1 file changed, 4 insertions(+), 5 deletions(-)
+
 -- 
 2.25.1
 
