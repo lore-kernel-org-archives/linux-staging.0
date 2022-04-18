@@ -1,161 +1,148 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F9F642;
-	Mon, 18 Apr 2022 04:49:30 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id f14so935095qtq.1;
-        Sun, 17 Apr 2022 21:49:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCEF7E0;
+	Mon, 18 Apr 2022 04:56:14 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id b189so10475780qkf.11;
+        Sun, 17 Apr 2022 21:56:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5SG/uB7T142OQUIjICdWajAAfAseL7YmThekvKPfi0E=;
-        b=admhyFNSjNGjU+ImFYKyb6KMfHgNUzv5SUhhxXB/SzMcXNf1k/qF3fp70zQsrrj6nA
-         mpR1N4IjdwoXSWHykFO/Kyn9dbXBcSwszkobPT8DnWYVm7gqnuMyfYv0fKRxC6jeoQRW
-         p9ji7B8qKMWXK0QRNqSBSSmmL2BCJbcEVcPM5+cwPN+X8KizAxvUZtCYj5DFjzavRTfa
-         oT9yT82bydSz6Wdlnja3w5ChGKkofdjSyMe2+KvRyUgxk7LwYPiS/kN+/j0Xm1/uENHr
-         gDkEM282QUxWV7dNDqsDas18ziMGsiAin4zoKk3x+QRXU5JvxDNmT0j0WIAlE5vOh+/h
-         2CPg==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=JSM9SdrFUTAovVgeSarEZ7lWJ+tUtJrb5COXjMipts8=;
+        b=hcxSBT7Y4uINQckQUhi/zVwpnO4gr1EAByktEbg3d3YSI1qAL0Q0rNhvGRwpAPWhvI
+         TRpOewOULwfm0o/Ts4jt/BErMda9nr2etp8l2NfZvKaPxxI3MkMU6D+QKj1zzEzeZYzD
+         xRzNgu1diGfVO0HOTlcskFs5nbLO2EUl8/AeQhtMz2qEvfe/thnODZWUOdwVhG5nVU5B
+         JzaTIcfaW18Tr8Xl5gQc/OP1lnOH07h4Cz0fvQplU957chgKEE7ssYOvSqABbhyUgObt
+         2Kx+ppz87+sbCE8sfDYUA1RchL2xBhI+wvkvI3lxCLF9LBER10qze1Q/hnIN1CZ2iIcy
+         gKPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5SG/uB7T142OQUIjICdWajAAfAseL7YmThekvKPfi0E=;
-        b=7ffhXuQoLghe6hCUF61axBO7OsNqTJu7PP1Al77pG73VqmAhtCmDpaElydZD0EAsJO
-         tGun87UwNq+RrI8YuubMyocVES4YezJVkxYgohFnKod8khCbDIs0QH112CN8qVuc1Vpe
-         QEFdti5FcexJpdBYpFUgZwULd+CuNoP+7MBUmB6RWr4hrUL4S9E3WQDjBR1vAyXhxwQ5
-         k6Wfd/qAlXhRI6xX3pA2SsrwmJHvi0iOS1hUlf5YGkGy/U8tvQaTSv+P/hS6+wuAzzLp
-         t9RuuzMybllNnXChceFjFbmj1/6tOXs20ZdyYJ5Q9Po8bITRDo7zDRlCOUYZJ2Ry3Poy
-         n4bw==
-X-Gm-Message-State: AOAM530PC8NVMxlkOcLCFszTEGZzSDK3otj1QbIBt5EiZihw+mUWvL1d
-	es4C8ZlgGM8nZXeDNlgrApE=
-X-Google-Smtp-Source: ABdhPJyo07c3vJzDwY9bMiuMmeLFMHPoERzSLbmTmALIlxvR18J3513T9EAM3gjgG8uT0Jj29H3hIw==
-X-Received: by 2002:ac8:5d8c:0:b0:2e1:e196:326a with SMTP id d12-20020ac85d8c000000b002e1e196326amr5962593qtx.475.1650257369079;
-        Sun, 17 Apr 2022 21:49:29 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=JSM9SdrFUTAovVgeSarEZ7lWJ+tUtJrb5COXjMipts8=;
+        b=2gyTDsHqTdnRujXc6j3RdR1i+xXPdojnvZZgbUcNGudtKQ2Pwvk03AMWoxTFSOk9Ci
+         78K4WBiTC9Buiv1I7Q94wvRmltfxIWc/rRV028ADZEZUyHvOG8SllI/f7yDnRh167Q/a
+         jWnv+IAPRlJJMeK+gqq8ByuEn7KaZcZWV1YlLxdoFEWuv6DlArsNu4jcXJYvYWIBWOZs
+         +6lP89vUl01upRSXUpC6Dl3iYwLT7MRtF6lbaetlIRIaG9jcqSNfXw3lcVjYG1R7vtJn
+         ZyLnPzFGqnHKqo8kfcL9nIH4GRJ3jBF5Ol8m982J49Q+yEK2MtgUBKsF6HhQmE83184t
+         61aQ==
+X-Gm-Message-State: AOAM532hR5iv6HEBQto8S9pQ0Lar356l6AvKV75NxJGrE1EvMfQrtldv
+	Y/9dwH6K+w/FV4P6LclPduDiAXtwgCVXG7CI
+X-Google-Smtp-Source: ABdhPJyJcJ+kx8THK/+S8yjK8H3towHv4h08lfw/sAW95LKwcrV0CSlqjiHqG3XSzTwsLREoFC1mag==
+X-Received: by 2002:a05:620a:f0d:b0:67e:1c14:bc5e with SMTP id v13-20020a05620a0f0d00b0067e1c14bc5emr5587814qkl.502.1650257773273;
+        Sun, 17 Apr 2022 21:56:13 -0700 (PDT)
 Received: from jaehee-ThinkPad-X1-Extreme ([2607:fb90:50e6:61ed:4df2:ed9f:52ea:476e])
-        by smtp.gmail.com with ESMTPSA id g4-20020ac87d04000000b002e06b4674a1sm7305955qtb.61.2022.04.17.21.49.27
+        by smtp.gmail.com with ESMTPSA id p4-20020a05620a132400b0069e9d8697b4sm1100635qkj.46.2022.04.17.21.56.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Apr 2022 21:49:28 -0700 (PDT)
-Date: Mon, 18 Apr 2022 00:49:25 -0400
+        Sun, 17 Apr 2022 21:56:12 -0700 (PDT)
+Date: Mon, 18 Apr 2022 00:56:10 -0400
 From: Jaehee Park <jhpark1013@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Pavel Skripkin <paskripkin@gmail.com>, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, gregkh@linuxfoundation.org,
+To: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH v2 1/6] staging: r8188eu: remove unused member
- free_bss_buf
-Message-ID: <20220418044925.GA1127014@jaehee-ThinkPad-X1-Extreme>
-References: <cover.1649990500.git.jhpark1013@gmail.com>
- <a28f445f-f088-620e-6baf-4cad3e1a8146@gmail.com>
- <20220417204200.GA236965@jaehee-ThinkPad-X1-Extreme>
- <3164900.aeNJFYEL58@leap>
+	outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH V3] wfx: use container_of() to get vif
+Message-ID: <20220418045610.GB1127014@jaehee-ThinkPad-X1-Extreme>
+References: <20220412041218.GA2859599@jaehee-ThinkPad-X1-Extreme>
+ <2778504.mvXUDI8C0e@pc-42>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <3164900.aeNJFYEL58@leap>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2778504.mvXUDI8C0e@pc-42>
 
-On Sun, Apr 17, 2022 at 11:13:50PM +0200, Fabio M. De Francesco wrote:
-> On domenica 17 aprile 2022 22:42:00 CEST Jaehee Park wrote:
-> > On Sun, Apr 17, 2022 at 11:16:38PM +0300, Pavel Skripkin wrote:
-> > > Hi Jaehee,
-> > > 
-> > > On 4/17/22 23:14, Jaehee Park wrote:
-> > > > My understanding of Pavel's response is the free_bss_buf member of 
-> the
-> > > > pmlmepriv structure wasn't being used anywhere and that the
-> > > > rtw_free_mlme_riv_ie_data function frees the memory of the pmlmepriv
-> > > > structure so the second check is redundant.
-> > > > 
-> > > > However, as Fabio said, the free_bss_buf member is being used and 
-> pbuf
-> > > > memory is not being freed.
-> > > > So I'll revert the patch as it was originally (which was just 
-> removing
-> > > > the {} around the single if statement).
+On Wed, Apr 13, 2022 at 09:26:45AM +0200, Jérôme Pouiller wrote:
+> Hello Jaehee,
 > 
-> No, Jaehee. This is not what I said :)
+> On Tuesday 12 April 2022 06:12:18 CEST Jaehee Park wrote:
+> > 
+> > Currently, upon virtual interface creation, wfx_add_interface() stores
+> > a reference to the corresponding struct ieee80211_vif in private data,
+> > for later usage. This is not needed when using the container_of
+> > construct. This construct already has all the info it needs to retrieve
+> > the reference to the corresponding struct from the offset that is
+> > already available, inherent in container_of(), between its type and
+> > member inputs (struct ieee80211_vif and drv_priv, respectively).
+> > Remove vif (which was previously storing the reference to the struct
+> > ieee80211_vif) from the struct wfx_vif, define a macro
+> > wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
+> > the newly defined container_of construct.
+> > 
+> > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> > ---
+> > 
+> > Changes in v3:
+> > - Made edits to the commit message.
+> > - Shortened the macro name from wvif_to_vif to to_vif.
 > 
-> > > > 
-> > > 
-> > > Why just `pbuf` allocation can't be removed? This memory is just 
-> unused,
-> > > isn't it?
+> hmm... wvif_to_vif() was fine for me (while to_vif() is a bit too
+> generic).
 > 
-> What Pavel said is what I said, but using a different argumentation.
+> > - For functions that had more than one instance of vif, defined one
+> > reference vif at the beginning of the function and used that instead.
 > 
-> > > 
-> > > 
-> > > With regards,
-> > > Pavel Skripkin
+> I suggest to declare a new variable even if there is only one instance
+> of vif. So:
+>   - the code is unified
+>   - it avoids the syntax foo(var)->bar
+> 
+> > - Broke the if-statements that ran long into two lines.
+> > (There are 3 lines that exceed 80 by less than 4 characters. Two of
+> > those lines of code could be shorted but it involved defining two more
+> > variables, and could potentially make the code less readable.)
+> > 
+> > Note: I will mail this patch to the wireless-next tree after testing.
 > > 
 > > 
-> > The free_bss_buf member is unused.
+> >  drivers/staging/wfx/wfx.h     |  2 +-
+> >  drivers/staging/wfx/data_rx.c |  5 ++--
+> >  drivers/staging/wfx/data_tx.c |  2 +-
+> >  drivers/staging/wfx/key.c     |  2 +-
+> >  drivers/staging/wfx/queue.c   |  2 +-
+> >  drivers/staging/wfx/scan.c    | 10 +++++---
+> >  drivers/staging/wfx/sta.c     | 46 +++++++++++++++++++----------------
+> >  7 files changed, 38 insertions(+), 31 deletions(-)
+> > 
+> > diff --git a/drivers/staging/wfx/wfx.h b/drivers/staging/wfx/wfx.h
+> > index 78f2a416fe4f..a07baadc5e70 100644
+> > --- a/drivers/staging/wfx/wfx.h
+> > +++ b/drivers/staging/wfx/wfx.h
+> > @@ -25,7 +25,7 @@
+> >  #define USEC_PER_TXOP 32 /* see struct ieee80211_tx_queue_params */
+> >  #define USEC_PER_TU 1024
+> > 
+> > -#define wvif_to_vif(ptr)(container_of((void *)ptr, struct ieee80211_vif, drv_priv))
+> > +#define to_vif(wvif)container_of((void *)wvif, struct ieee80211_vif, drv_priv)
 > 
-> Correct.
+> It seems you have stacked up this v3 on your v2. So this v3 does not apply
+> on any public tree. You have to merge your v2 and your v3.
 > 
-> > So it can just be removed right?
+> > 
+> >  struct wfx_hwbus_ops;
+> > 
+> > diff --git a/drivers/staging/wfx/data_rx.c b/drivers/staging/wfx/data_rx.c
+> > index 98c2223089b8..3677b3431467 100644
+> > --- a/drivers/staging/wfx/data_rx.c
+> > +++ b/drivers/staging/wfx/data_rx.c
 > 
-> No.
+> The wfx driver has moved, you have to rebase your work.
+> 
+> [...]
+> 
+> -- 
+> Jérôme Pouiller
 > 
 > 
-> > I guess I'm confused by what Pablo is saying about causing a memory 
-> > leak
-> 
-> A memory leak is caused when you allocate some memory and then you lose any 
-> reference to its address so that it cannot be freed. Right?
-> 
-> > by getting rid of the pointer to the memory allocated by pbuf.
-> 
-> No.
->  
-> > Sorry if I misunderstood. 
-> 
-> No problem. Let's rewind...
-> 
-> "pbuf" is assigned with the address of some memory allocated with a call to 
-> vzalloc(). Since "pbuf" is a local variable, you see that the above-
-> mentioned address is stored in free_bss_buf using the line "pmlmepriv-
-> >free_bss_buf = pbuf". Is it clear?
-> 
-> Well, you decided to delete the line that calls vfree(pmlmepriv-
-> >free_bss_buf). At this point you have that memory leak.
-> 
-> Pavel noted that pmlmepriv->free_bss_buf is unused, but it contains the 
-> address of a region of memory that was allocated for no purpose.
-> 
-> Therefore, a correct patch should also remove the allocation that was made 
-> using kzalloc(). If you merely remove the line with vfree() you cause a 
-> memory leak.
+>
 
-Hi Fabio, Thank you so much for explaining this so patiently!
-This makes sense. I'll remove the pbuf vzalloc. 
-I think I was having trouble because of of how pnetwork was defined
-in this function. I'll have to think a little more about how to 
-intialize it.
+Hi Jérôme, Sorry about the delay! I have sent a revised patch to the
+wireless-next mailing list for your review.
 Thanks,
 Jaehee
-
-> 
-> Please don't revert your patch. Just fix it with a new version that also 
-> delete the line where "pbuf" is assigned with the value returned by 
-> kzalloc().
-> 
-> I hope that now I've been clearer.
-> 
-> Thanks,
-> 
-> Fabio
-> 
-> > Thanks,
-> > Jaehee
-> > 
-> 
-> 
-> 
-> 
