@@ -1,41 +1,41 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3460BA29;
-	Mon, 18 Apr 2022 17:23:46 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id 12so12849303pll.12;
-        Mon, 18 Apr 2022 10:23:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D726DA29;
+	Mon, 18 Apr 2022 17:25:49 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id 203so997731pgb.3;
+        Mon, 18 Apr 2022 10:25:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=w84A5bSnfH8JPWuHmpfwhtHQL8kzzjVsgikmw3NAGNg=;
-        b=fRhwSkr30I2GH+odEqNIwtcw6Mkc0hs533hCNGNu6B733isTMyN7mgdaKJgnWGDzEl
-         uhuORa20O7wxLI2fE+KLlFcOaSk6ihk0xdw+Se0E4RwpcwCBNNsm470hU/synopNyK6a
-         pws6E8OuSufQCw6xr+gShLZC0yxbf6DEZRQGxhBlFl/uT9ybPy4/2v200xJVgdS9V3aZ
-         7JF4lfZ2lbZm6vMLIZBGdhDP7mUpgcMb0QdGJgRz7QVUotehsgBRObxX9Wusw548AHgq
-         q373jx7YHbzuvYTNCUJC6fW8z7kiHgN04Y6B1/+jto9xSuqRl/jrBAc/XVwzbTAd04Sn
-         0pgQ==
+        bh=ZKuq0wU3+JeGnDXBmVteCxHEwvafVW2Ji4siv6RJc6g=;
+        b=Xhxa5K+utu+20ev8QXD3/Lag35QKJGaCMWBrtXNdffFxd4KBEDHQdfHNXN2MAU2oNe
+         47KiHyvukhJBBbUl45qknLCBmfya/36mwjvNNiTsO1I9igy2qNvLEHgfodUUULeJvp/Q
+         xRAIP/9qMTqxk4VHxG9yuN4UKq66u+zS1rxsFeYnKmsacrVfwjQ2qr7ynbAoobvMDm6n
+         rAquBQyNzQByJy4weYuIB1ex+xEf/r4IufPrMauOHxTByzfsfB1nlztfPjFoj115xEcJ
+         D+JfZjMAn9S82aMibIZsjpZ+b0lDuBd2fODhr9T8gtEuKlc2i4MyGySi0TkaXIhiWQqU
+         I11Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=w84A5bSnfH8JPWuHmpfwhtHQL8kzzjVsgikmw3NAGNg=;
-        b=04h1l/1lKBGH0fwKnxUemlVtHodkdhnwPPa40VBj40w9XTpD84uLVgmtw5vQjT+I8h
-         hnDfkC5vq7tG70is3WWckaGK5dJSdJzqEpt9Pp4l+yWygOZV7O3CRuzkn7BLs+Rh7bAK
-         M6RlmSyJIG/P7K+5YCBrpHvEKP6bW8y7csWOv1LidhZyBK8Jpq7IPy5e1Lz8UulHr2rk
-         bwX8QbdmI7foSmezFXuEmDiXdxMcz5YuItXRnkUF0mlKo16ZMqBRUagR8a1vKGq0f7jr
-         LuB+IevPdNPALcsxpw/PSAmykg6T5ZFmp1oi+1U/vECWa+FXh3vXKkPm+FLUyc9MGDql
-         uqow==
-X-Gm-Message-State: AOAM532GxpCDXd14Jt6r8lP5EtzXZraHbZ1UqulPw3J0jZZ0Q/6DCJ5Y
-	1aTXnT95iAkvF9SguALYzQA=
-X-Google-Smtp-Source: ABdhPJzAQUrr9wPWIp/IDtWYEjrW8r1+3GdG/Kl5eQZZhBJXkcJeST2nsFkYH/qrtsTT3vQplbAPOA==
-X-Received: by 2002:a17:90b:201:b0:1cb:a159:65ce with SMTP id fy1-20020a17090b020100b001cba15965cemr19878149pjb.104.1650302625656;
-        Mon, 18 Apr 2022 10:23:45 -0700 (PDT)
+        bh=ZKuq0wU3+JeGnDXBmVteCxHEwvafVW2Ji4siv6RJc6g=;
+        b=nkj07zeysRfxBhyRrHMDgplEEzTenxZXFWoXF5meY5XoitNKZPIoJ8GYFRgl3EkgMQ
+         bBujd8hQxrmRkQKBIB2nTKjYt3kMI9Nu1ESO99xdzqzMxRIatVesWPB4THWFhA8XdSGv
+         GxDTghP5eB7uWayVo6mJVF92fWEc+afLO0dv4dQFG9rCyEcGvKtUVAwvR+tcHeD5XeVX
+         ysDvFWTGrTvrDoSaoPvtLsy/VPBdweniMFL4yEpqA96EhX9CaiaMKNgG8y+Yhmq70G3r
+         6eoKWJW73wn/GM6H760veo3WiyhD228CFAJQvEOp407y3/DdE/As6OngYw7KkZMZBJhG
+         bAjw==
+X-Gm-Message-State: AOAM533sbE6cUVuiuqXwD4f40+c/PVTh6sNG3x9IoXbFA737oZfeqKc/
+	/1GMoF7jbxiyED0NysVESho=
+X-Google-Smtp-Source: ABdhPJy3JJAfOVN7tfyfI2+4b+4P83md/k20gxaF/4DLe0/MfcqlQs9FIeOyxP5Nqj4Fe1hS3IYReg==
+X-Received: by 2002:a63:7d49:0:b0:378:907d:1fc7 with SMTP id m9-20020a637d49000000b00378907d1fc7mr11130115pgn.252.1650302749267;
+        Mon, 18 Apr 2022 10:25:49 -0700 (PDT)
 Received: from aliyar-HP-Laptop-15-da1xxx.domain.name ([14.139.241.88])
-        by smtp.gmail.com with ESMTPSA id y9-20020aa78f29000000b005098201d2f5sm13041394pfr.205.2022.04.18.10.23.42
+        by smtp.gmail.com with ESMTPSA id y9-20020aa78f29000000b005098201d2f5sm13041394pfr.205.2022.04.18.10.25.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 10:23:45 -0700 (PDT)
+        Mon, 18 Apr 2022 10:25:49 -0700 (PDT)
 From: Aliya Rahmani <aliyarahmani786@gmail.com>
 To: clabbe@baylibre.com
 Cc: gregkh@linuxfoundation.org,
@@ -43,9 +43,9 @@ Cc: gregkh@linuxfoundation.org,
 	outreachy@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Aliya Rahmani <aliyarahmani786@gmail.com>
-Subject: [PATCH v3 2/3] staging: media: zoran: else is not generally useful after a break or return
-Date: Mon, 18 Apr 2022 22:44:54 +0530
-Message-Id: <20220418171453.16971-3-aliyarahmani786@gmail.com>
+Subject: [PATCH v3 3/3] staging: media: zoran: add parentheses on macro parameter
+Date: Mon, 18 Apr 2022 22:44:56 +0530
+Message-Id: <20220418171453.16971-4-aliyarahmani786@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220418171453.16971-1-aliyarahmani786@gmail.com>
 References: <20220418171453.16971-1-aliyarahmani786@gmail.com>
@@ -57,33 +57,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the else without affecting the logic. 
-Fixes the following checkpatch warning:
- else is not generally useful after a break or return
+This patch fixes checkpatch warnings of precedence issues. Add parentheses
+around macro argument 'num'.
 
 Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
 ---
 changes since v2: Rework commit description and subject
 ---
-
- drivers/staging/media/zoran/videocodec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/media/zoran/videocodec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/zoran/videocodec.c b/drivers/staging/media/zoran/videocodec.c
-index 16a1f23a7f19..19732a47c8bd 100644
+index 19732a47c8bd..925f90fd5885 100644
 --- a/drivers/staging/media/zoran/videocodec.c
 +++ b/drivers/staging/media/zoran/videocodec.c
-@@ -98,9 +98,8 @@ struct videocodec *videocodec_attach(struct videocodec_master *master)
+@@ -22,7 +22,7 @@ MODULE_PARM_DESC(videocodec_debug, "Debug level (0-4)");
  
- 				h->attached += 1;
- 				return codec;
--			} else {
--				kfree(codec);
- 			}
-+			kfree(codec);
- 		}
- 		h = h->next;
- 	}
+ #define dprintk(num, format, args...) \
+ 	do { \
+-		if (videocodec_debug >= num) \
++		if (videocodec_debug >= (num)) \
+ 			printk(format, ##args); \
+ 	} while (0)
+ 
 -- 
 2.25.1
 
