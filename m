@@ -1,125 +1,138 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from m228-13.mailgun.net (m228-13.mailgun.net [159.135.228.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B1A3D61
-	for <linux-staging@lists.linux.dev>; Mon, 18 Apr 2022 23:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650323961; x=1681859961;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=maYb/5Ezv8tvNfB+FhmofI1/kJ1xLqRda+v3VRNJtl8=;
-  b=HfnHxhThzS9nj5AOCzPpw8tDrDnJ3IDisJH5wCuF/D4oGGCppVJhu3w/
-   YVy2dXKxVNonKPSRNgT4aAIS0GenC0X6EFuTGAArN0GSDJIz4+RjG9cIR
-   2gBJYy8VjC0CrILkazgZgMvM/33aFKxfqXbqcHfJQpj609lRFTJMW68OG
-   /TY2bzcA9u0TBxOJ3nznPBiK4FAxCAM6NiiTmds5yeqRQr3YY5zueIXu1
-   R5Y90Vo77Oc6vhGe/9e8PaNbBTNVrP50cDt/rqSj6NOYaGTOYrbC83pO7
-   SeJLqvN4wx4g0OXJ3NRR0p9vg+erE8QeoDG7tYAA84CSHRoNm9DyqloVq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10321"; a="245523437"
-X-IronPort-AV: E=Sophos;i="5.90,271,1643702400"; 
-   d="scan'208";a="245523437"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2022 16:19:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,271,1643702400"; 
-   d="scan'208";a="554441668"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 18 Apr 2022 16:19:05 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1ngae8-000554-S8;
-	Mon, 18 Apr 2022 23:19:04 +0000
-Date: Tue, 19 Apr 2022 07:19:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tom Rix <trix@redhat.com>, nsaenz@kernel.org,
-	bcm-kernel-feedback-list@broadcom.com, gregkh@linuxfoundation.org,
-	stefan.wahren@i2se.com, gascoar@gmail.com, ojaswin98@gmail.com
-Cc: kbuild-all@lists.01.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Tom Rix <trix@redhat.com>
-Subject: Re: [PATCH] staging: vchiq_arm: change vchiq_platform_init from
- global to static
-Message-ID: <202204190737.qhFLAafo-lkp@intel.com>
-References: <20220418164356.3532969-1-trix@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F413D61
+	for <linux-staging@lists.linux.dev>; Mon, 18 Apr 2022 23:29:56 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev; q=dns/txt;
+ s=smtp; t=1650324596; h=Content-Type: MIME-Version: Message-ID:
+ Subject: Subject: To: To: From: From: Date: Sender: Sender;
+ bh=vzqFYCUJwk1+an4GHI9rSJK5ONK4gma9ml5pjiRuVh8=; b=Jz7kUYqNbN2EUT2K5sXpbMJ0ozHAdAu7ru8YAMWxO/e34V6lhOfqcKH74QcqI5jTrBL5UB0W
+ GjOdMlApSNcBy8Q3ZVueAVRVkmgC91Qt4Yde1/l20GXW0DqrrQvQUKwNP7uuIVmbiexV/E2Q
+ fjqli5iEmqIjCIITbciJ9IwMS7dedh7d+cR02ecl3vX5AMlrdv1lAf6i0zbQmYcqrgWu3pvy
+ j1mYLXVZz4cxe/TAWcnMixI2jPpSm/hBfBSu+2chxwxJJojGukTymS1mQWiUz2gKTxoYIKca
+ unnPjfvANIaLmSDBy5cxELZTwt1lO3v3P1P34+UX5nmE+VzeU10U2g==
+X-Mailgun-Sending-Ip: 159.135.228.13
+X-Mailgun-Sid: WyI4MTlhZCIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTljNmQiXQ==
+Received: from AN5Bruno (186-250-90-1.mhnet.com.br [186.250.90.1]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 625df473487c9ee854f55f29 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Mon, 18 Apr 2022 23:29:55 GMT
+Sender: codeagain@codeagain.dev
+Date: Mon, 18 Apr 2022 20:29:49 -0300
+From: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Bruno's Patch Watchbox <patch-reply@codeagain.dev>
+Subject: [PATCH v3 0/3] staging: vme: Cleanup driver tree old structures
+Message-ID: <cover.1650321310.git.codeagain@codeagain.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="q2kxa542hsfldolc"
+Content-Disposition: inline
+
+
+--q2kxa542hsfldolc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220418164356.3532969-1-trix@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tom,
+This patch series modify the vme_user driver's place in
+menuconfig (1/3), fixes a missing `depends on` line in a Kconfig file
+(2/3), and rearrages the directory tree for the driver allowing a more
+straightforward comprehension of its contents (3/3).
 
-I love your patch! Perhaps something to improve:
+The 'vme_user/' driver is the only remaining vme-family driver in the
+'staging/' tree, but its structure, entry in menuconfig and building
+routines are still attached to the 'vme/' subtree now outside
+'staging/'. The present patchset fixes it.
 
-[auto build test WARNING on staging/staging-testing]
+Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+---
+CHANGE SUMMARY
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tom-Rix/staging-vchiq_arm-change-vchiq_platform_init-from-global-to-static/20220419-004611
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git bed6d200f8ca38e1ecbdd8fb7e0564884002abd1
-config: parisc-buildonly-randconfig-r004-20220417 (https://download.01.org/0day-ci/archive/20220419/202204190737.qhFLAafo-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/192ca8cdfd692f17162557c64e8d533c816eccff
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Tom-Rix/staging-vchiq_arm-change-vchiq_platform_init-from-global-to-static/20220419-004611
-        git checkout 192ca8cdfd692f17162557c64e8d533c816eccff
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=parisc SHELL=/bin/bash drivers/staging/vc04_services/
+  Version:  v1  v2  v3
+[PATCH 1/3] *   -   *
+[PATCH 2/3] -   *   *
+[PATCH 3/3] -   *   *
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+CHANGELOG
+[PATCH 0/3] staging: vme: Restructuring menuconfig and tree
+v1:
+  Created PATCH 1/3 as a single patch
+v2:
+  Added PATCH 2/3 and 3/3, turning it into a patchset
+v3:
+  Fixed and improved commit messages according to previous comments by
+  Greg and Alison (to whom I'm indebted for their kind reviews). The
+  commit titles got changed to be more specific and use the present
+  imperative tense as for Alison's suggestions. The message body got
+  fixed according to Greg formatting comments. The changelogs were moved
+  to the cover letter as per another suggestion by Alison, and I added
+  missing details (like the update in the MAINTAINERS I failed to
+  mention in v2) and made textual improvements for clarity that I also
+  noticed.
 
-All warnings (new ones prefixed by >>):
+[PATCH 1/3] staging: vme: Move vme_user to staging KConfig
+v1:
+ - Sourced "drivers/staging/vme/devices/Kconfig" in
+   "drivers/staging/Kconfig" and unsourced in "drivers/vme/Kconfig".
+v3:
+ - Modified the commit subject and text body.
 
-   In file included from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:16:
-   In function 'memcpy_to_page',
-       inlined from 'free_pagelist' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:434:4:
->> include/linux/highmem.h:353:9: warning: argument 2 null where non-null expected [-Wnonnull]
-     353 |         memcpy(to + offset, from, len);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/string.h:20,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: In function 'free_pagelist':
-   arch/parisc/include/asm/string.h:9:8: note: in a call to function 'memcpy' declared 'nonnull'
-       9 | void * memcpy(void * dest,const void *src,size_t count);
-         |        ^~~~~~
-   In file included from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:16:
-   In function 'memcpy_to_page',
-       inlined from 'free_pagelist' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:441:4:
->> include/linux/highmem.h:353:9: warning: 'memcpy' offset 0 is out of the bounds [0, 0] [-Warray-bounds]
-     353 |         memcpy(to + offset, from, len);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[PATCH 2/3] staging: vme: Add VME_BUS dependency to Kconfig
+v2:
+ - Added this patch to the patchset.
+v3:
+ - Modified the commit subject and text body.
+
+[PATCH 3/3] staging: vme: Move 'vme/devices' to 'vme_user/'
+v2:
+ - Added this patch to the patchset
+v3
+ - Modified the commit subject and text body.
+
+Bruno Moreira-Guedes (3):
+  staging: vme: Adjusted VME_USER in Kconfig
+  staging: vme: Fix missing `depends on` at KConfig
+  staging: vme: "drivers/staging/vme" tree cleanup
+
+ MAINTAINERS                                          | 2 +-
+ drivers/staging/Kconfig                              | 1 +
+ drivers/staging/Makefile                             | 2 +-
+ drivers/staging/vme/Makefile                         | 2 --
+ drivers/staging/{vme/devices =3D> vme_user}/Kconfig    | 2 +-
+ drivers/staging/{vme/devices =3D> vme_user}/Makefile   | 0
+ drivers/staging/{vme/devices =3D> vme_user}/vme_user.c | 0
+ drivers/staging/{vme/devices =3D> vme_user}/vme_user.h | 0
+ drivers/vme/Kconfig                                  | 2 --
+ 9 files changed, 4 insertions(+), 7 deletions(-)
+ delete mode 100644 drivers/staging/vme/Makefile
+ rename drivers/staging/{vme/devices =3D> vme_user}/Kconfig (93%)
+ rename drivers/staging/{vme/devices =3D> vme_user}/Makefile (100%)
+ rename drivers/staging/{vme/devices =3D> vme_user}/vme_user.c (100%)
+ rename drivers/staging/{vme/devices =3D> vme_user}/vme_user.h (100%)
+
+--=20
+2.35.3
 
 
-vim +353 include/linux/highmem.h
+--q2kxa542hsfldolc
+Content-Type: application/pgp-signature; name="signature.asc"
 
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  346  
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  347  static inline void memcpy_to_page(struct page *page, size_t offset,
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  348  				  const char *from, size_t len)
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  349  {
-61b205f579911a Ira Weiny         2021-02-09  350  	char *to = kmap_local_page(page);
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  351  
-ca18f6ea012bf3 Ira Weiny         2021-02-10  352  	VM_BUG_ON(offset + len > PAGE_SIZE);
-bb90d4bc7b6a53 Ira Weiny         2021-02-09 @353  	memcpy(to + offset, from, len);
-8dad53a11f8d94 Christoph Hellwig 2021-07-23  354  	flush_dcache_page(page);
-61b205f579911a Ira Weiny         2021-02-09  355  	kunmap_local(to);
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  356  }
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  357  
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCYl30bQAKCRAZtd3tyEY2
+kn6pAP4158LdkTRNmvunY82m1T4P60jVTXIJrPQ1wCmCMGtpPQD/aPBy5PYYyls8
+issxKcmW2UE0FFGN0+LkCpfkEIsmNAE=
+=whXS
+-----END PGP SIGNATURE-----
+
+--q2kxa542hsfldolc--
