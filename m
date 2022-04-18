@@ -1,79 +1,124 @@
-Received: from relay4.hostedemail.com (relay4.hostedemail.com [64.99.140.36])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7275C80E
-	for <linux-staging@lists.linux.dev>; Mon, 18 Apr 2022 20:38:29 +0000 (UTC)
-Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 9EE6D2466A;
-	Mon, 18 Apr 2022 19:22:38 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id 6EC2619;
-	Mon, 18 Apr 2022 19:22:37 +0000 (UTC)
-Message-ID: <24b3a1f5c1fa416ac5aed375afaa03c0c3ce2be1.camel@perches.com>
-Subject: Re: [PATCH] staging: media: av7110: remove redundant space after
- cast
-From: Joe Perches <joe@perches.com>
-To: Aliya Rahmani <aliyarahmani786@gmail.com>, mchehab@kernel.org
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	outreachy@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Mon, 18 Apr 2022 12:22:36 -0700
-In-Reply-To: <20220418170900.16725-1-aliyarahmani786@gmail.com>
-References: <20220418170900.16725-1-aliyarahmani786@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDF081E
+	for <linux-staging@lists.linux.dev>; Mon, 18 Apr 2022 22:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650322747; x=1681858747;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Qb24R7mKiVGUdMVc7ONgEkmnK/atyRN5jqb3qYtPfig=;
+  b=Ftd53XdM506ufa/F6uWwdt+xR7/ORgUXrHKlQYGkIMhBrXlXlvba0wc+
+   4XtXtTlOoZxnv9+NBvQl1UjuO9XiRLZdQ+JpEpZxYcV5WFZLNovc5k8JS
+   8Nfvc9rNC9gnIrCmg9rSEXDWI0QBcyzOpz+qZCdZz+YCWF50qVzWco83E
+   Xa0Z90LdRUdPssbqpCsA4oHC+6tPCtOxjB54nFvr/kRilwQBpCA3okXDz
+   IQqqL2yNm3cxeURjwRsm0NC6AENM/8fvTiArgtjqSSvhorc51633JWRz5
+   ps1bjNNadAp9kS7N6ikw0ZpDXukJUhgPv0IG2ycfNLeBgF5sdxtX8zMnh
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10321"; a="288722020"
+X-IronPort-AV: E=Sophos;i="5.90,271,1643702400"; 
+   d="scan'208";a="288722020"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2022 15:59:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,271,1643702400"; 
+   d="scan'208";a="647033809"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Apr 2022 15:59:04 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1ngaKl-00054C-98;
+	Mon, 18 Apr 2022 22:59:03 +0000
+Date: Tue, 19 Apr 2022 06:58:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tom Rix <trix@redhat.com>, nsaenz@kernel.org,
+	bcm-kernel-feedback-list@broadcom.com, gregkh@linuxfoundation.org,
+	stefan.wahren@i2se.com, gascoar@gmail.com, ojaswin98@gmail.com
+Cc: kbuild-all@lists.01.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Tom Rix <trix@redhat.com>
+Subject: Re: [PATCH] staging: vchiq_arm: change vchiq_platform_init from
+ global to static
+Message-ID: <202204190650.yy0x0YCl-lkp@intel.com>
+References: <20220418164356.3532969-1-trix@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.41
-X-Stat-Signature: ta1pnoj6dj87sbrqzcmi6i5ozqoac1o5
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 6EC2619
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19umMeH10kJGQ1Ot4hgxrCHJcCqVxKTlfg=
-X-HE-Tag: 1650309757-686062
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220418164356.3532969-1-trix@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Mon, 2022-04-18 at 22:39 +0530, Aliya Rahmani wrote:
-> Remove the unnecessary space immediately after a cast. Identified by
-> checkpatch: CHECK: No space is necessary after a cast.
-[]
-> diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
-[]
-> @@ -93,7 +93,7 @@ int av7110_record_cb(struct dvb_filter_pes2ts *p2t, u8 *buf, size_t len)
->  
->  static int dvb_filter_pes2ts_cb(void *priv, unsigned char *data)
->  {
-> -	struct dvb_demux_feed *dvbdmxfeed = (struct dvb_demux_feed *) priv;
-> +	struct dvb_demux_feed *dvbdmxfeed = (struct dvb_demux_feed *)priv;
+Hi Tom,
 
-It's also unnecessary to cast void pointers so the cast could be removed.
+I love your patch! Perhaps something to improve:
 
-	struct dvb_demux_feed *dvbdmxfeed = priv;
+[auto build test WARNING on staging/staging-testing]
 
-And the code here uses dvbdmxfeed and feed rather interchangeably for
-uses of a struct dvb_demux_feed *.
+url:    https://github.com/intel-lab-lkp/linux/commits/Tom-Rix/staging-vchiq_arm-change-vchiq_platform_init-from-global-to-static/20220419-004611
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git bed6d200f8ca38e1ecbdd8fb7e0564884002abd1
+config: sparc-randconfig-c004-20220417 (https://download.01.org/0day-ci/archive/20220419/202204190650.yy0x0YCl-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/192ca8cdfd692f17162557c64e8d533c816eccff
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Tom-Rix/staging-vchiq_arm-change-vchiq_platform_init-from-global-to-static/20220419-004611
+        git checkout 192ca8cdfd692f17162557c64e8d533c816eccff
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=sparc SHELL=/bin/bash drivers/staging/vc04_services/
 
-It might be better just to use feed and change the other uses too.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Do consider this just a coding exercise as the driver is for some
-hardware that is effectively dead/unavailable/non-functional.
+All warnings (new ones prefixed by >>):
 
-Look at:
+   In file included from include/linux/string.h:20,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
+   In function 'memcpy_to_page',
+       inlined from 'free_pagelist' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:434:4:
+>> arch/sparc/include/asm/string.h:15:25: warning: argument 2 null where non-null expected [-Wnonnull]
+      15 | #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/highmem.h:353:9: note: in expansion of macro 'memcpy'
+     353 |         memcpy(to + offset, from, len);
+         |         ^~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: In function 'free_pagelist':
+   arch/sparc/include/asm/string.h:15:25: note: in a call to built-in function '__builtin_memcpy'
+      15 | #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/highmem.h:353:9: note: in expansion of macro 'memcpy'
+     353 |         memcpy(to + offset, from, len);
+         |         ^~~~~~
+   In function 'memcpy_to_page',
+       inlined from 'free_pagelist' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:441:4:
+   arch/sparc/include/asm/string.h:15:25: warning: '__builtin_memcpy' offset 0 is out of the bounds [0, 0] [-Warray-bounds]
+      15 | #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/highmem.h:353:9: note: in expansion of macro 'memcpy'
+     353 |         memcpy(to + offset, from, len);
+         |         ^~~~~~
 
-commit 989cf18ed08f8b6efd1d1592d1d0108fa09b98f5
-Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Date:   Mon May 31 17:27:09 2021 +0200
 
-    media: av7110: move driver to staging
-    
-    This driver is really old, from devices that aren't
-    manufactured anymore for more than a decade.
+vim +15 arch/sparc/include/asm/string.h
 
-Maybe instead consider adding a MAINTAINERS section
-suggesting this is obsolete and/or a TODO entry in this
-directory saying "Delete this" after some time.
+70a6fcf3283a0a Al Viro 2016-01-17  13  
+70a6fcf3283a0a Al Viro 2016-01-17  14  #define __HAVE_ARCH_MEMCPY
+70a6fcf3283a0a Al Viro 2016-01-17 @15  #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+70a6fcf3283a0a Al Viro 2016-01-17  16  
 
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
