@@ -1,88 +1,74 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8976A80F;
-	Mon, 18 Apr 2022 13:46:06 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id k22so18633242wrd.2;
-        Mon, 18 Apr 2022 06:46:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8F57A;
+	Mon, 18 Apr 2022 16:27:40 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id bg9so19725989pgb.9;
+        Mon, 18 Apr 2022 09:27:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=yoyp44JzkHGTT8ZqJq8l6tDNGuUOI937tn9ZpUzw9Wk=;
-        b=gh/1az9LTsIQ8Waf71s3RlA7yMXX3Mse3hATc2/up5VvELAIhgtHel3pbElJrsVo2Z
-         ekz2AFEXacg2HIbAA2Fp1xbsgwpbyk0bAfqoC2FOK0P62HXf9rb8Zmo7vAj1LTpS3iEj
-         Ixi6t4b9Pd20eV09JXiONq1W46dNqBFKz4bhgiWiBdq2AVyq4uzV/BH3bEucMunsQkiF
-         E8kaThovYTKQQnqJ4dxlKqjbJUWNMkNR497vhYUMVd3zuW+G4AoI9Gz8tzqCZOLjjWk1
-         De79kUsuZqELYp1BmokBLWJ1QBrvDibANF6ZLTZEaqs49XeQBlZVX0ADsMUjKf2KtgH2
-         iUHw==
+        bh=Jg3I++lP3pbQpRoWlcxdvPAkXeaHQxo24ELrvPlKM/E=;
+        b=cH2GtU4LOPOi/+XBRfxwnugAfu0MPMQBxc9Wu2WamMHh0/XU0iB5aWy/x2QibxbdMz
+         jonHhv2fpMfGsFFdksSLpzTUCMwZW3YH/LkQrMxrFq6/o1NgYMv/3a4SpODk1IojLyvY
+         IYHpnEVbqsTZvSEfJSCeZAJMTEcXlse58I9/w5JeWubORPPRGql+zsoMRWU7KaWJXA6r
+         s9zRR7+JN8jVq2cZJfhsYYNiX0z7gs7nWbFIP3tyG5Ic9AGftrDTlerwTY6jj1rfzrVl
+         cueDDFT9gAbj8d2+mXLK15eFIneY7baVO3j+ySLaQ1a+tJIHrQYJZaxyhVKGs6JqoMBr
+         IbZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=yoyp44JzkHGTT8ZqJq8l6tDNGuUOI937tn9ZpUzw9Wk=;
-        b=RIjEq+k/d83Oiow3jsbdVLY+Y7yenP5L1xQUUKIJ1pT3BUOYCR3IylfkRtvgOZGl1P
-         rrpy9Uxe6SmUFJCnkSJiSrzQTQl/8pWMLdu2LfGELl6SJoFwPZGv+olZxWlDg9/4+bsf
-         POYhwffHfvuaAD10T/FWvzuwMDeYsATQko4CsN09GG6PxXWQ+ESP4f5xdCLohrk2IC05
-         eIU/UEuxWuB9vCZT3SxNFzLLJQlVq2CHYYWVhkUOGdtwfKVCXlR5nV5hiBTrETSqEC2D
-         F9BUCgyE04tMM1Ul+mujijJCus/gy7rugYL98pjGVtOPEekpdU1PxIhR1j36jUp6Bwet
-         i2rw==
-X-Gm-Message-State: AOAM533sbHPRltha19wvJMzgOqvLJwv0WtoB+u08vO50pdEhIhfU9Iz4
-	ZUs0HNyjyHkstDPDrt2Sv0s=
-X-Google-Smtp-Source: ABdhPJxAVkklnnI5HFoDgPCIommVtr6wdWI7ulYdjfDzlnh9LUgLfiMDzA4l6bYkJLTgZA9t1un9QA==
-X-Received: by 2002:a5d:67d2:0:b0:207:a5cf:c14d with SMTP id n18-20020a5d67d2000000b00207a5cfc14dmr8421376wrw.365.1650289564671;
-        Mon, 18 Apr 2022 06:46:04 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id v11-20020a056000144b00b0020a9c02f60dsm1835302wrx.50.2022.04.18.06.46.04
+        bh=Jg3I++lP3pbQpRoWlcxdvPAkXeaHQxo24ELrvPlKM/E=;
+        b=axxPNXPo1R+fRT1le+UsfSDm+I+tTnMsTmzE/P+NoZOaRPaN0QoXm83DG0WT2GPQR7
+         1GSOb4BcY5QZS6IliWe51xQ6c/Z8AUddhmUVHnvp1WxBOvPlSbt9JPjLN+l0LyWMclXw
+         9v17424JOr96w11OvEJ8USm5gKxbMLJOa7A816lM9mDUo+FmVjwMc/qx1YnB1L/HaoNI
+         /3bAN1DD/82/LaeJqCxLFq3AUv/yoE0kujQo+99fus5C1mJ1K4NagZqCyQ9qRrZTOG8+
+         RzCk9ob8gGUMmVGsqcrgJYhjvZhD/AvrLWBIxRs5Bb6FKNBc0NIYvuE6gONDLPn/OVg+
+         yZeQ==
+X-Gm-Message-State: AOAM533IkFD8BVyoY37kfRIuM4yvmLWvft+ds2foUwcuz57IAz6TXDU7
+	vYaU04wQIfL7KZZmSHRvu5I=
+X-Google-Smtp-Source: ABdhPJy/wZWcx8WwfVMjBPe1HkCVD8WdLwNDNvqg6YytGt/MvW2eDtFq6Wm1AVa01LsHpGX2s6ntKw==
+X-Received: by 2002:a05:6a00:cc4:b0:505:6998:69b8 with SMTP id b4-20020a056a000cc400b00505699869b8mr13078108pfv.19.1650299259424;
+        Mon, 18 Apr 2022 09:27:39 -0700 (PDT)
+Received: from aliyar-HP-Laptop-15-da1xxx.domain.name ([14.139.241.88])
+        by smtp.gmail.com with ESMTPSA id h18-20020a63c012000000b0039cc3c323f7sm13295602pgg.33.2022.04.18.09.27.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 06:46:04 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
+        Mon, 18 Apr 2022 09:27:39 -0700 (PDT)
+From: Aliya Rahmani <aliyarahmani786@gmail.com>
+To: clabbe@baylibre.com
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	outreachy@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH] staging: iio: ad2s1210: remove redundant assignment to variable negative
-Date: Mon, 18 Apr 2022 14:46:03 +0100
-Message-Id: <20220418134603.81336-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.35.1
+	Aliya Rahmani <aliyarahmani786@gmail.com>
+Subject: [PATCH v2 0/3] staging: media: zoran: fix warnings reported by checkpatch
+Date: Mon, 18 Apr 2022 21:52:42 +0530
+Message-Id: <20220418162244.15346-1-aliyarahmani786@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Variable negative is being assigned a value that is never read, it is
-being re-assigned later. The assignment is redundant and can be removed.
+These patches address style issues found by checkpatch in the
+zoran/videocodec.c file.
 
-Cleans up clang scan build warning:
-drivers/staging/iio/resolver/ad2s1210.c:502:3: warning: Value stored
-to 'negative' is never read [deadcode.DeadStores]
+changes since v1: Rework commit description and subject.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/staging/iio/resolver/ad2s1210.c | 1 -
- 1 file changed, 1 deletion(-)
+Aliya Rahmani (3):
+ staging: media: zoran: use seq_puts() instead of seq_printf()
+ staging: media: zoran: else is not generally useful after a break or return
+ staging: media: zoran: avoid macro argument precedence issues
 
-diff --git a/drivers/staging/iio/resolver/ad2s1210.c b/drivers/staging/iio/resolver/ad2s1210.c
-index 74adb82f37c3..c0b2716d0511 100644
---- a/drivers/staging/iio/resolver/ad2s1210.c
-+++ b/drivers/staging/iio/resolver/ad2s1210.c
-@@ -499,7 +499,6 @@ static int ad2s1210_read_raw(struct iio_dev *indio_dev,
- 		ret = IIO_VAL_INT;
- 		break;
- 	case IIO_ANGL_VEL:
--		negative = st->rx[0] & 0x80;
- 		vel = be16_to_cpup((__be16 *)st->rx);
- 		vel >>= 16 - st->resolution;
- 		if (vel & 0x8000) {
+drivers/staging/media/zoran/videocodec.c | 9++++-----
+1 file changed, 4 insertions(+), 5 deletions(-)
+
+
 -- 
-2.35.1
+2.25.1
 
