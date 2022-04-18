@@ -1,41 +1,41 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16BB7A;
-	Mon, 18 Apr 2022 16:28:41 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id t12so12738474pll.7;
-        Mon, 18 Apr 2022 09:28:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A58E7A;
+	Mon, 18 Apr 2022 16:29:42 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id t4so19772806pgc.1;
+        Mon, 18 Apr 2022 09:29:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pHmIfYdFlbEBfg1s7Ca3bU++BraBxET9LrYHIdIzDOw=;
-        b=Gt4VzL3KTmWKfLKC7W25J/xX9fzpOGWcfANQQKWSw8ZY6PBC7ECL5WDiSRu61kFUXL
-         Klgvra4BD/Sxpee4hC5tkrqL9LTGsU6tE1A09569yjOGlXZRSMwgZrN4jM7gME6rLGRX
-         lwJr/N+1uGB9mtCSwCCOkBNqgltL3MiNyLDH3FhXVZDk1E34NyCJYmygtdju6pFmYRqF
-         SpEgA+g9b8Wghl+MGkZavW6JV8NQqX7w+9sd/VBAL7iklYy3x3EFpj7nv4Eh+cZyYnkJ
-         0fLOtNohqHo5uY6TfflUaq+1G70rRypZWnQ3NRdR6KcSL3LGZizaeLc1Vb2wVVWCUGAC
-         bfzA==
+        bh=NnfylWN7MavTPT553g+jrwdoRsttSRF9ea+q5wroK2g=;
+        b=FmFMoYGTefW+n/xauP+X3a81pJmhujkSpoC6XDS2NTi1wBUImQdjOqEfN6Nay2pmVa
+         Q5fQR2dg3WNuUjHX539UdqZUfSlMEAJNGEhTU9UETcjtbMynbN+EqOJaQ6ENpO9S9hvM
+         9EeFHRcnfd+Q2kjD+POOiV8QX1j+qQZQ0kBMl8FeNh+YuQTqWQ7rL4fi986KE2zwcAnG
+         cJTGUoKsXGVGybL0pnBBKuY+dJknC+2iDSTgixvXEVwb11dHlmP55ra87TkKVbohLZY8
+         CpvSQsgBn1lU/Q7PP91uJCscANYgHSy1AXQpJqUMMXF1I4i0ek6+Vvi5DGDRWh8m2AfF
+         P+FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pHmIfYdFlbEBfg1s7Ca3bU++BraBxET9LrYHIdIzDOw=;
-        b=FNeawlC7FeIxCrvIcb/dmWtP7RRAHEDLDoJsYKLm2bPZiLvU8JSbIxGqsS/CYMgu08
-         JHwnEGdjCSMHBdtyMGtHk3lharXLXAJ0yKNI9N2QRS6uxGkhcaWVH7QkD+0iaxwPSLPv
-         en1xzlKcyAUAxlTIE3GagGngP/8O/QgjcIlBNZutwdquFE98lAVEZjY4NJwoaIVAmzY/
-         uRdPfJqWAur1CKToYTzyQOvRtz8iJEi8CV4On3alw8RlT3tDkw9VTphC8fixVlBM1n3G
-         +7AgVbdNMbofkLuVzsgKiuUI9JpLOtmzE2z2TjKlOvqp8QYUXlZlp96PPR4UmQ7jw/6T
-         7SuA==
-X-Gm-Message-State: AOAM530mB8mMkLYeY5t+6ttyGzH/4mTJBZgI98CvTF7b+sU1UibjZFwI
-	3JsOJYCw9NpU3k5XYkA3QoI=
-X-Google-Smtp-Source: ABdhPJwa0etoZ3UYp1pfmXyyzdO+3SN5JsmGZJH9apOIyhcA7TVy4ZZD9uWEe1HhMAO++LdBOtht1Q==
-X-Received: by 2002:a17:902:7c01:b0:156:17a5:a68 with SMTP id x1-20020a1709027c0100b0015617a50a68mr11433631pll.166.1650299321045;
-        Mon, 18 Apr 2022 09:28:41 -0700 (PDT)
+        bh=NnfylWN7MavTPT553g+jrwdoRsttSRF9ea+q5wroK2g=;
+        b=Iab8HJASNf45BtnFiff1hHj2iTCJqpvQEwczG2BanszZZdchkJTYzEv4HJHe04cCTh
+         oAtOte1zowhzznO5UKBkDLrqTVtRG4WYXaHfbhfu1DimHOtlhTYtDydDKEY8cFXlcfM3
+         p8Ic/dZiD/ZwsT5XCqTXxN88vtO43N2+xss4dofWxWjgO31aK9+U7mWeWggxnRH86ScB
+         /IhKg0QER/IdVi2IRh/3V74Ru+eQedxaJgoJPKqQaEfQ77Z4GdbNsXVncIEnmEiP14mQ
+         0kPn6/PZA8Ri50s5VZtGxCn9Tw1HAV2kF5byHzugfAoiAm3e56RRnoNzDvfkwkKFNetR
+         0ApQ==
+X-Gm-Message-State: AOAM532qeNoSugpcfV4EcYQwroi+l4G7PPEXyDSFsXjVyndX7b1tBAik
+	pYvgJiUFvAHJ5xWOxGvrKn0=
+X-Google-Smtp-Source: ABdhPJxA2Go+r6mKW0OHbmQH7KoacX0ohuNjA2Mpy67TbAnVASS2Blt8F6TRSKoAqkCYwryj0oWRMg==
+X-Received: by 2002:a05:6a00:218d:b0:4fd:f7a4:d4ad with SMTP id h13-20020a056a00218d00b004fdf7a4d4admr12930534pfi.83.1650299381585;
+        Mon, 18 Apr 2022 09:29:41 -0700 (PDT)
 Received: from aliyar-HP-Laptop-15-da1xxx.domain.name ([14.139.241.88])
-        by smtp.gmail.com with ESMTPSA id h18-20020a63c012000000b0039cc3c323f7sm13295602pgg.33.2022.04.18.09.28.38
+        by smtp.gmail.com with ESMTPSA id h18-20020a63c012000000b0039cc3c323f7sm13295602pgg.33.2022.04.18.09.29.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 09:28:40 -0700 (PDT)
+        Mon, 18 Apr 2022 09:29:41 -0700 (PDT)
 From: Aliya Rahmani <aliyarahmani786@gmail.com>
 To: clabbe@baylibre.com
 Cc: gregkh@linuxfoundation.org,
@@ -43,9 +43,9 @@ Cc: gregkh@linuxfoundation.org,
 	outreachy@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Aliya Rahmani <aliyarahmani786@gmail.com>
-Subject: [PATCH v2 1/3] staging: media: zoran: use seq_puts() instead of seq_printf()
-Date: Mon, 18 Apr 2022 21:52:44 +0530
-Message-Id: <20220418162244.15346-2-aliyarahmani786@gmail.com>
+Subject: [PATCH v2 2/3] staging: media: zoran: else is not generally useful after a break or return
+Date: Mon, 18 Apr 2022 21:52:46 +0530
+Message-Id: <20220418162244.15346-3-aliyarahmani786@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220418162244.15346-1-aliyarahmani786@gmail.com>
 References: <20220418162244.15346-1-aliyarahmani786@gmail.com>
@@ -57,27 +57,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace seq_printf() with seq_puts() for a constant format without
-additional arguments, reported by checkpatch.
+Remove the else without affecting the logic. Fixes the checkpatch warning: else is not generally useful after a break or return
 
 Signed-off-by: Aliya Rahmani <aliyarahmani786@gmail.com>
 ---
- drivers/staging/media/zoran/videocodec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/zoran/videocodec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/zoran/videocodec.c b/drivers/staging/media/zoran/videocodec.c
-index 3af7d02bd910..16a1f23a7f19 100644
+index 16a1f23a7f19..19732a47c8bd 100644
 --- a/drivers/staging/media/zoran/videocodec.c
 +++ b/drivers/staging/media/zoran/videocodec.c
-@@ -250,8 +250,8 @@ int videocodec_debugfs_show(struct seq_file *m)
- 	struct codec_list *h = codeclist_top;
- 	struct attached_list *a;
+@@ -98,9 +98,8 @@ struct videocodec *videocodec_attach(struct videocodec_master *master)
  
--	seq_printf(m, "<S>lave or attached <M>aster name  type flags    magic    ");
--	seq_printf(m, "(connected as)\n");
-+	seq_puts(m, "<S>lave or attached <M>aster name  type flags    magic    ");
-+	seq_puts(m, "(connected as)\n");
- 
+ 				h->attached += 1;
+ 				return codec;
+-			} else {
+-				kfree(codec);
+ 			}
++			kfree(codec);
+ 		}
+ 		h = h->next;
+ 	}
 -- 
 2.25.1
 
