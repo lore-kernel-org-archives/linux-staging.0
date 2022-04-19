@@ -1,65 +1,238 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13940ECA
-	for <linux-staging@lists.linux.dev>; Tue, 19 Apr 2022 08:58:02 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-33-Ipas3v8SM0OhygXgk1aDHg-1; Tue, 19 Apr 2022 09:58:00 +0100
-X-MC-Unique: Ipas3v8SM0OhygXgk1aDHg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.32; Tue, 19 Apr 2022 09:57:59 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.033; Tue, 19 Apr 2022 09:57:59 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Philipp Hortmann' <philipp.g.hortmann@gmail.com>, Forest Bond
-	<forest@alittletooquiet.net>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 2/2] staging: vt6655: Replace VNSvInPortB with ioread8
-Thread-Topic: [PATCH 2/2] staging: vt6655: Replace VNSvInPortB with ioread8
-Thread-Index: AQHYUWgkUiOBuaOBE0usRu+cN1OB7az28+lQ
-Date: Tue, 19 Apr 2022 08:57:59 +0000
-Message-ID: <9e33e133c7fd44258d89210d17c9fac2@AcuMS.aculab.com>
-References: <cover.1650094595.git.philipp.g.hortmann@gmail.com>
- <fd71797d9d55d53f95c5c4e2df826bf85dd4626a.1650094595.git.philipp.g.hortmann@gmail.com>
-In-Reply-To: <fd71797d9d55d53f95c5c4e2df826bf85dd4626a.1650094595.git.philipp.g.hortmann@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E8DECA;
+	Tue, 19 Apr 2022 09:49:02 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (unknown [217.70.183.195])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id B6087CE2C5;
+	Tue, 19 Apr 2022 09:46:01 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 4D35360007;
+	Tue, 19 Apr 2022 09:45:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1650361553;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wa+NcZUIxotnJCsbAXPXeRRPesDDul7PaS9PN5tlpXU=;
+	b=F+mu/1+dxtNQUTIo4OGwkL6alHXrO50riI/Oa7w+r9ei3Y70KJdjp/CVl4S5axsfz6oaV0
+	ynmmG2B8a4uKIUGZeT7r1ub3VXVTy+5dZKG1UWPUtegyL8LwuLgz6+q/LLhw0f2BApF6LN
+	KWcmiTezPV3ATNExhbwvB6khEi2Fwl12bC0BoTTc52vrsikOH19lg080rMSPPlmLFtIeNv
+	YZK1w+pxcUJH6TodoSiHrIPCV78MQa4KXzVf0Y+i8AifyhsOw6f6FQuYoDYPfBEmySRW0V
+	wOt1M2BH2kq0faBRdHz+R6MV3WSVCopN9dUBGeLlK3Tpn9c8kVGoOc3PORStVw==
+Date: Tue, 19 Apr 2022 11:45:50 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <Yl6Ezm6D7KKbE1Oa@aptenodytes>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
+ <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+ <19aa74b7-0096-87c5-ef2c-9a135ad5505a@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="rhS7v+RYfLqvo3sx"
+Content-Disposition: inline
+In-Reply-To: <19aa74b7-0096-87c5-ef2c-9a135ad5505a@sholland.org>
+
+
+--rhS7v+RYfLqvo3sx
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-From: Philipp Hortmann
-> Sent: 16 April 2022 09:01
+Hi Samuel,
+
+On Fri 15 Apr 22, 20:59, Samuel Holland wrote:
+> On 4/15/22 10:37 AM, Paul Kocialkowski wrote:
+> > This introduces YAML bindings documentation for the Allwinner A31 Image
+> > Signal Processor (ISP).
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+> >  1 file changed, 117 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
+un6i-a31-isp.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
+1-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-is=
+p.yaml
+> > new file mode 100644
+> > index 000000000000..ffca216b841f
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.y=
+aml
+> > @@ -0,0 +1,117 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree B=
+indings
+> > +
+> > +maintainers:
+> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - allwinner,sun6i-a31-isp
+> > +      - allwinner,sun8i-v3s-isp
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Bus Clock
+> > +      - description: Module Clock
+> > +      - description: DRAM Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: bus
+> > +      - const: mod
+> > +      - const: ram
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: CSI0 input port
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 0
+> > +
+> > +          endpoint:
+> > +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > +            unevaluatedProperties: false
+> > +
+> > +        additionalProperties: false
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: CSI1 input port
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 0
 >=20
-> Replace macro VNSvInPortB with ioread8. Avoid cast of the return
-> value is possible with one exception.
+> Should be "const: 1".
+>=20
+> Otherwise,
+> Reviewed-by: Samuel Holland <samuel@sholland.org>
 
-Unless the hardware might be using PCI io space (which I doubt)
-shouldn't it be using readb() not ioread8() ?
+Good catch and thanks for the review!
 
-=09David
+Cheers,
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+Paul
 
+> > +
+> > +          endpoint:
+> > +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > +            unevaluatedProperties: false
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    anyOf:
+> > +      - required:
+> > +        - port@0
+> > +      - required:
+> > +        - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - resets
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> > +
+> > +    isp: isp@1cb8000 {
+> > +        compatible =3D "allwinner,sun8i-v3s-isp";
+> > +        reg =3D <0x01cb8000 0x1000>;
+> > +        interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks =3D <&ccu CLK_BUS_CSI>,
+> > +             <&ccu CLK_CSI1_SCLK>,
+> > +             <&ccu CLK_DRAM_CSI>;
+> > +        clock-names =3D "bus", "mod", "ram";
+> > +        resets =3D <&ccu RST_BUS_CSI>;
+> > +
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +
+> > +                isp_in_csi0: endpoint {
+> > +                    remote-endpoint =3D <&csi0_out_isp>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+> >=20
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--rhS7v+RYfLqvo3sx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJehMkACgkQ3cLmz3+f
+v9GvPQf/Qh1TCRnOPD7vlG9p1n3g9h0nqX7tVg2axaXzj+bxHt+FbuOtgno4p5D5
+aUPfynnm5Ai3SmfvhfakngamqxbmBOX8kChdsAnebLBXZKUfN5MX3mBzhlLHFuz2
+EaDLP9uvvb7AGRwL4F16TQJ061IVIoA6Kcs4luBumWjQkVFdMUolyDglyMo3DLCC
+1yVTyejh23bamGUiFw2WmRUGNV/PBS7BiuBEW9XUloLS7jK/ZZZ40RU4BOA8JSkj
+HcJ0ekfcrj+ELpRbb63DTYA4VyYcG7OKa9SyaTk4RZN2gb58Rel4ha/Bl0j+p5lc
+JFYpm+cfsCLcT84m++Edz86ee856qw==
+=XHnk
+-----END PGP SIGNATURE-----
+
+--rhS7v+RYfLqvo3sx--
