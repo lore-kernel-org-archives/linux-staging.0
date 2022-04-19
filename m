@@ -1,238 +1,77 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E8DECA;
-	Tue, 19 Apr 2022 09:49:02 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (unknown [217.70.183.195])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id B6087CE2C5;
-	Tue, 19 Apr 2022 09:46:01 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 4D35360007;
-	Tue, 19 Apr 2022 09:45:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1650361553;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wa+NcZUIxotnJCsbAXPXeRRPesDDul7PaS9PN5tlpXU=;
-	b=F+mu/1+dxtNQUTIo4OGwkL6alHXrO50riI/Oa7w+r9ei3Y70KJdjp/CVl4S5axsfz6oaV0
-	ynmmG2B8a4uKIUGZeT7r1ub3VXVTy+5dZKG1UWPUtegyL8LwuLgz6+q/LLhw0f2BApF6LN
-	KWcmiTezPV3ATNExhbwvB6khEi2Fwl12bC0BoTTc52vrsikOH19lg080rMSPPlmLFtIeNv
-	YZK1w+pxcUJH6TodoSiHrIPCV78MQa4KXzVf0Y+i8AifyhsOw6f6FQuYoDYPfBEmySRW0V
-	wOt1M2BH2kq0faBRdHz+R6MV3WSVCopN9dUBGeLlK3Tpn9c8kVGoOc3PORStVw==
-Date: Tue, 19 Apr 2022 11:45:50 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP
- bindings documentation
-Message-ID: <Yl6Ezm6D7KKbE1Oa@aptenodytes>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
- <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
- <19aa74b7-0096-87c5-ef2c-9a135ad5505a@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEBAED8
+	for <linux-staging@lists.linux.dev>; Tue, 19 Apr 2022 12:15:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51361C385A7;
+	Tue, 19 Apr 2022 12:15:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1650370503;
+	bh=egk3NV7ZTPANDM1QUGV3BN2ZMc0MwzdTAMdoUxfarx0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fpm43+mezkvM6YP/nwkJWU6CBtHl+xZ4KAgQrH6K1vUjE/GyQA70B0fhT9keBk58y
+	 NvLd6s7NIbwO0Ofi0TRXxQDRzLeO91x26/8dYnfLweVVkCcHSN7Gzkrj7LqdhaWmrU
+	 m7zRgCASPhbodzPxWwKB8N864xdfxNoxC9RyzLrM=
+Date: Tue, 19 Apr 2022 14:14:59 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Tom Rix <trix@redhat.com>
+Cc: nsaenz@kernel.org, bcm-kernel-feedback-list@broadcom.com,
+	stefan.wahren@i2se.com, gascoar@gmail.com, ojaswin98@gmail.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vchiq_arm: change vchiq_platform_init from
+ global to static
+Message-ID: <Yl6nw6jbfVsVXG0c@kroah.com>
+References: <20220418164356.3532969-1-trix@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="rhS7v+RYfLqvo3sx"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <19aa74b7-0096-87c5-ef2c-9a135ad5505a@sholland.org>
+In-Reply-To: <20220418164356.3532969-1-trix@redhat.com>
 
+On Mon, Apr 18, 2022 at 12:43:56PM -0400, Tom Rix wrote:
+> Smatch reports this issue
+> vchiq_arm.c:466:5: warning: symbol 'vchiq_platform_init'
+>   was not declared. Should it be static?
 
---rhS7v+RYfLqvo3sx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Error messages can all go on one line.
 
-Hi Samuel,
+> vchiq_platform_init is only used in vchiq_arm.c.  Single
+> file variables should not be global so change
+> vchiq_platform_init's storage-class specifier to static.
 
-On Fri 15 Apr 22, 20:59, Samuel Holland wrote:
-> On 4/15/22 10:37 AM, Paul Kocialkowski wrote:
-> > This introduces YAML bindings documentation for the Allwinner A31 Image
-> > Signal Processor (ISP).
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
-> >  1 file changed, 117 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
-un6i-a31-isp.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-is=
-p.yaml
-> > new file mode 100644
-> > index 000000000000..ffca216b841f
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.y=
-aml
-> > @@ -0,0 +1,117 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree B=
-indings
-> > +
-> > +maintainers:
-> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - allwinner,sun6i-a31-isp
-> > +      - allwinner,sun8i-v3s-isp
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Bus Clock
-> > +      - description: Module Clock
-> > +      - description: DRAM Clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: bus
-> > +      - const: mod
-> > +      - const: ram
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: CSI0 input port
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 0
-> > +
-> > +          endpoint:
-> > +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> > +            unevaluatedProperties: false
-> > +
-> > +        additionalProperties: false
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: CSI1 input port
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 0
->=20
-> Should be "const: 1".
->=20
-> Otherwise,
-> Reviewed-by: Samuel Holland <samuel@sholland.org>
+You have a full 72 columns, please use them.
 
-Good catch and thanks for the review!
+> 
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 0596ac61e286..7de98655e8ec 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -463,7 +463,7 @@ free_pagelist(struct vchiq_pagelist_info *pagelistinfo,
+>  	cleanup_pagelistinfo(pagelistinfo);
+>  }
+>  
+> -int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+> +static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct vchiq_drvdata *drvdata = platform_get_drvdata(pdev);
+> -- 
+> 2.27.0
+> 
+> 
 
-Cheers,
+Always test build your patches.  To not do so is a bit rude, don't you
+think?
 
-Paul
-
-> > +
-> > +          endpoint:
-> > +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> > +            unevaluatedProperties: false
-> > +
-> > +        additionalProperties: false
-> > +
-> > +    anyOf:
-> > +      - required:
-> > +        - port@0
-> > +      - required:
-> > +        - port@1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - resets
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> > +
-> > +    isp: isp@1cb8000 {
-> > +        compatible =3D "allwinner,sun8i-v3s-isp";
-> > +        reg =3D <0x01cb8000 0x1000>;
-> > +        interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > +        clocks =3D <&ccu CLK_BUS_CSI>,
-> > +             <&ccu CLK_CSI1_SCLK>,
-> > +             <&ccu CLK_DRAM_CSI>;
-> > +        clock-names =3D "bus", "mod", "ram";
-> > +        resets =3D <&ccu RST_BUS_CSI>;
-> > +
-> > +        ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            port@0 {
-> > +                reg =3D <0>;
-> > +
-> > +                isp_in_csi0: endpoint {
-> > +                    remote-endpoint =3D <&csi0_out_isp>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
-> >=20
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---rhS7v+RYfLqvo3sx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJehMkACgkQ3cLmz3+f
-v9GvPQf/Qh1TCRnOPD7vlG9p1n3g9h0nqX7tVg2axaXzj+bxHt+FbuOtgno4p5D5
-aUPfynnm5Ai3SmfvhfakngamqxbmBOX8kChdsAnebLBXZKUfN5MX3mBzhlLHFuz2
-EaDLP9uvvb7AGRwL4F16TQJ061IVIoA6Kcs4luBumWjQkVFdMUolyDglyMo3DLCC
-1yVTyejh23bamGUiFw2WmRUGNV/PBS7BiuBEW9XUloLS7jK/ZZZ40RU4BOA8JSkj
-HcJ0ekfcrj+ELpRbb63DTYA4VyYcG7OKa9SyaTk4RZN2gb58Rel4ha/Bl0j+p5lc
-JFYpm+cfsCLcT84m++Edz86ee856qw==
-=XHnk
------END PGP SIGNATURE-----
-
---rhS7v+RYfLqvo3sx--
+{sigh}
