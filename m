@@ -1,78 +1,65 @@
-Received: from m228-13.mailgun.net (m228-13.mailgun.net [159.135.228.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FCF3D66
-	for <linux-staging@lists.linux.dev>; Mon, 18 Apr 2022 23:39:39 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev; q=dns/txt;
- s=smtp; t=1650325179; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Subject: To: To: From: From: Date:
- Sender: Sender; bh=fksJxHBbasPH0E1HIDrtxhBCh0tAufSksTmpcRK4Loo=; b=CcXdnfJ/i2loFRKqFE3cu9ey86MUX69y8rJOk9+yFs6RmDr1074Vp9iabrDd1cj7z6UiVhfp
- zskdloRTsOauN+tHcpfeaXMnF0c2nktM7Ks2L+ep2qwQnxLuxXl1LJAl8tE0Goe4x8c5jHSY
- akDS8F3cyEzIIe6H/0Pe83PwvBjtALdWC800yxl21YUzRby3pA0T/CEgBIc+iw1Irz4t2+lw
- D3/2fM9MSAXRI00lnERXmwuj347L/a2a75HhZ1mgJWbTJrjvsAIW7N1Lf/07EZmIKJHTFtgp
- WZUJMvuuLhiERU25wnFtc69haRt0fJJUAok2gFQNHiZc3DU5gC/AqA==
-X-Mailgun-Sending-Ip: 159.135.228.13
-X-Mailgun-Sid: WyI4MTlhZCIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTljNmQiXQ==
-Received: from AN5Bruno (186-250-90-1.mhnet.com.br [186.250.90.1]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 625df6bb225c469082e88b19 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Mon, 18 Apr 2022 23:39:39 GMT
-Sender: codeagain@codeagain.dev
-Date: Mon, 18 Apr 2022 20:39:29 -0300
-From: Bruno Moreira-Guedes <codeagain@codeagain.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: Re: [PATCH v2 2/3] staging: vme: Add VME_BUS dependency to Kconfig
-Message-ID: <20220418233929.zz32dil4u6hbwtqv@AN5Bruno>
-References: <cover.1650321310.git.codeagain@codeagain.dev>
- <00de5644d7c2f8c8878eccf86b761e0602732080.1650321310.git.codeagain@codeagain.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13940ECA
+	for <linux-staging@lists.linux.dev>; Tue, 19 Apr 2022 08:58:02 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-33-Ipas3v8SM0OhygXgk1aDHg-1; Tue, 19 Apr 2022 09:58:00 +0100
+X-MC-Unique: Ipas3v8SM0OhygXgk1aDHg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.32; Tue, 19 Apr 2022 09:57:59 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.033; Tue, 19 Apr 2022 09:57:59 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Philipp Hortmann' <philipp.g.hortmann@gmail.com>, Forest Bond
+	<forest@alittletooquiet.net>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 2/2] staging: vt6655: Replace VNSvInPortB with ioread8
+Thread-Topic: [PATCH 2/2] staging: vt6655: Replace VNSvInPortB with ioread8
+Thread-Index: AQHYUWgkUiOBuaOBE0usRu+cN1OB7az28+lQ
+Date: Tue, 19 Apr 2022 08:57:59 +0000
+Message-ID: <9e33e133c7fd44258d89210d17c9fac2@AcuMS.aculab.com>
+References: <cover.1650094595.git.philipp.g.hortmann@gmail.com>
+ <fd71797d9d55d53f95c5c4e2df826bf85dd4626a.1650094595.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <fd71797d9d55d53f95c5c4e2df826bf85dd4626a.1650094595.git.philipp.g.hortmann@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="asozunj7lfs2jxfg"
-Content-Disposition: inline
-In-Reply-To: <00de5644d7c2f8c8878eccf86b761e0602732080.1650321310.git.codeagain@codeagain.dev>
-
-
---asozunj7lfs2jxfg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Please, disregard the following message as there's a typo in the prefix.
-
-On Mon, Apr 18, 2022 at 08:31:09PM -0300, Bruno Moreira-Guedes wrote:
-> The KConfig file for VME_USER ('drivers/staging/vme/devices/Kconfig')
-> sourced at "drivers/vme/boards/KConfig" misses a `depends on` line for
-> VME_BUS, which is unnoticeable for menuconfig users who aren't be able
-> to select it through this interface without setting the CONFIG_VME_BUS
-> option because it's nested on VME_BUS menu entry.
-=2E..
->  	  VME windows in a manner at least semi-compatible with the interface
-> --=20
-> 2.35.3
+From: Philipp Hortmann
+> Sent: 16 April 2022 09:01
 >=20
+> Replace macro VNSvInPortB with ioread8. Avoid cast of the return
+> value is possible with one exception.
 
-It's already sent a new copy with the proper version number. Nothing's
-changed except for the message ID and the v2 typo.
+Unless the hardware might be using PCI io space (which I doubt)
+shouldn't it be using readb() not ioread8() ?
 
---asozunj7lfs2jxfg
-Content-Type: application/pgp-signature; name="signature.asc"
+=09David
 
------BEGIN PGP SIGNATURE-----
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
-iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCYl32sQAKCRAZtd3tyEY2
-kiJSAP0WSPiSATXPmE8k1yuJdqmHmM4YrWW22tlqO0FAJedghQD+KLK9QB4+YbN3
-tRPhg1KTwKnyxRsi5+O+2Q4GN/DyOQQ=
-=QUOj
------END PGP SIGNATURE-----
-
---asozunj7lfs2jxfg--
