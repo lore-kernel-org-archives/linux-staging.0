@@ -1,41 +1,41 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1B91384;
-	Tue, 19 Apr 2022 18:19:55 +0000 (UTC)
-Received: by mail-qv1-f52.google.com with SMTP id dw17so2263236qvb.9;
-        Tue, 19 Apr 2022 11:19:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF561374;
+	Tue, 19 Apr 2022 18:19:57 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id d9so13825553qvm.4;
+        Tue, 19 Apr 2022 11:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fhC3X2SyiyAl+npbfkVlNLSTyoSpgwtiZmqJs5lxBc4=;
-        b=OPKv+zXzIulJ/bChAz/N/BvFQIw/GcXNMZhcMI98zHKajTluQf7i4EbuvdfwwS2jGY
-         /buH9ZVrWciy6p8exI4Uk6zeeDkzxqbd2gpMbUMJMVIZLogmAKVkumWSjBO04KFXhSWp
-         0i0+gqMZKsS7E+F657CgSYirCWN32nFnRePZKrEm6eZEkr3MWKRLnZ3YH1Bd/JxSksvm
-         mHFl+3PrAKqLXd996WL9Ol/hSDiJfX/BWXJ0VgB/RMh9MBUe18X/1JG6IT5dlSzJAeyZ
-         nats29XlJRMqJBfBO+22dPnPArkE3TR09ZPC4WgEgA2tksfuDiNDsRCIz7Iuze/0Jf/M
-         I55A==
+        bh=tyQuLgB/CsR0aLvsOUcIg9iM46ZFr1ZTjXluFgbi8lw=;
+        b=B20wYfz4Hb1BxrL/fu4aESxQ/t/xR+m+o443keOeSDnjV4EYZheiiNJhYlrKqhzE/w
+         MvOWfD9K/i6kV7XDjTOT+BDRT9FTmdkB8a/fiYAky8GYsMX7BOMr4NAYJSyNV3EDwPg/
+         fveSD6KO/2zu7LGV4GZ6+5fNYMb/co3/HUn4xN7ng8vai1aNRx24VJcwcYzrkfzheG30
+         1/dq9xMW3haQNinqSuGFm3+RlkSckt6Cgbk9rPUssKpnzgP73OEcFggPpQ7vo/OmYATc
+         lXjgc284WdMf72s9QxrY/OQvy1L3DAskNf/2YEgLsQuA7QFapsbjkbBmBXPYCZdJ9cts
+         2kag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fhC3X2SyiyAl+npbfkVlNLSTyoSpgwtiZmqJs5lxBc4=;
-        b=IO1uL1nNSrXyioscN+b47mkhHrve5YKZVqQrxTseckRf9EyPpKuBSGpgzb6uKrPKog
-         c/ojr9v1faSNfZrM8EH7/ftwNSeVxfCZ/4MvPonOWm/jg6e5s6zXoKDhgx85R2FL+x0C
-         bZ89ZxQwEoFj/dzzg8YZFy5agOdSD8qqoprKYV8wpyGeFPiJIlUvNdQPLnW86DP9Z1o/
-         0mnnNBBVVGlkhSpj5pLwXQl3mNVmqCqR/AKAnBoEaoCGfkJC7UaJKnLI9Z6SLA+MD5lZ
-         cDyPg/7KhoU6MiQm2OZD91aSn2D4ODIcNb7fozz9+gxsSSvlvlRcHpOZYOp4gym89JvJ
-         5mvg==
-X-Gm-Message-State: AOAM530ODvwAMr3BYZm7NBhKvv33MdJFhnCm5VIkbK+Q3TLEfmWUenDO
-	U9HAbcKkcCRkKyBBKoTWHS0=
-X-Google-Smtp-Source: ABdhPJwL1/XGUDSeSF2YDZwjDMQcm7h/PtbdT22eCAuEiEDQTwr9gswRBWcSUzRdoEyWVWt7j97EsQ==
-X-Received: by 2002:a05:6214:18c4:b0:444:39f6:b328 with SMTP id cy4-20020a05621418c400b0044439f6b328mr12820589qvb.51.1650392394335;
-        Tue, 19 Apr 2022 11:19:54 -0700 (PDT)
+        bh=tyQuLgB/CsR0aLvsOUcIg9iM46ZFr1ZTjXluFgbi8lw=;
+        b=nx0KzgpWlb8zOXq/rf3LS8c0whDLGIXNV05u/HWu7q4yRIwo7hFY9Ee2dZXYCpaOid
+         ItCznInxkLy5ISnmMtVXwPzSeszRbBY0GmdavWEEx0VCgtxwi9bipszV2GN3vcmFghFd
+         dt2KnWTNggYXXhO1B7umaMG7r77VDaA1csMhIEcacaFQ0A8E8XUHVnEjGoXfvUQnZ+mm
+         oTKMPOt8Bc/Iu19HVtPsJu60/cl6Am7KwufLFzMSUfQWNFEuQ9YMTuo3WJFmNHnuoJRA
+         Lg3XKzuNrX1W7T9+cD5u9Al4F/C1FObDkEg83V3NyrGMsUhd5fb8KpKOaVpljz1UMiC+
+         oAHA==
+X-Gm-Message-State: AOAM533xhcVFnDOlBNnAeLr7VvYkgy4KXxedk4t9jklCWc6W0XbkUYuW
+	vLxSaOe2YmNSzv6NMgP0nVMD1C9uFRzowCZR
+X-Google-Smtp-Source: ABdhPJxGveIMiH2/+BpxOK75542t0CmkWxPvzYE3z6vxlXQaMUeiB4aOiBvi3H8WlyWRA3nMyPSdMA==
+X-Received: by 2002:a05:6214:29eb:b0:446:5742:1748 with SMTP id jv11-20020a05621429eb00b0044657421748mr8864930qvb.24.1650392396067;
+        Tue, 19 Apr 2022 11:19:56 -0700 (PDT)
 Received: from jaehee-ThinkPad-X1-Extreme.wework.com ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id e126-20020a376984000000b0069c86b28524sm373334qkc.19.2022.04.19.11.19.52
+        by smtp.gmail.com with ESMTPSA id e126-20020a376984000000b0069c86b28524sm373334qkc.19.2022.04.19.11.19.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Apr 2022 11:19:53 -0700 (PDT)
+        Tue, 19 Apr 2022 11:19:55 -0700 (PDT)
 From: Jaehee Park <jhpark1013@gmail.com>
 To: Larry.Finger@lwfinger.net
 Cc: phil@philpotter.co.uk,
@@ -43,10 +43,11 @@ Cc: phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
-	jhpark1013@gmail.com
-Subject: [PATCH v3 6/7] staging: r8188eu: correct typo in comments
-Date: Tue, 19 Apr 2022 14:19:37 -0400
-Message-Id: <fc808136903d360ffa2a785fdc75017ae1735d86.1650392020.git.jhpark1013@gmail.com>
+	jhpark1013@gmail.com,
+	Pavel Skripkin <paskripkin@gmail.com>
+Subject: [PATCH v3 7/7] staging: r8188eu: remove unused else condition
+Date: Tue, 19 Apr 2022 14:19:38 -0400
+Message-Id: <abbd003237836f098b4360e8208bc463cd758aff.1650392020.git.jhpark1013@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650392020.git.jhpark1013@gmail.com>
 References: <cover.1650392020.git.jhpark1013@gmail.com>
@@ -58,62 +59,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Correct misspellings in the comments. Issue found with checkpatch.
+s_ret cannot return '2' so this else condition is unused. Remove this
+unnecessary else statement.
 
+Suggested-by: Pavel Skripkin <paskripkin@gmail.com>
 Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 173754c127e3..5ada336ac723 100644
+index 5ada336ac723..e60e1903950f 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -174,7 +174,7 @@ void _rtw_free_network_nolock(struct	mlme_priv *pmlmepriv, struct wlan_network *
- /*
- 	return the wlan_network with the matching addr
- 
--	Shall be calle under atomic context... to avoid possible racing condition...
-+	Shall be called under atomic context... to avoid possible racing condition...
- */
- struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8 *addr)
- {
-@@ -310,7 +310,7 @@ void rtw_free_network_queue(struct adapter *dev, u8 isfreeall)
- /*
- 	return the wlan_network with the matching addr
- 
--	Shall be calle under atomic context... to avoid possible racing condition...
-+	Shall be called under atomic context... to avoid possible racing condition...
- */
- struct	wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
- {
-@@ -893,7 +893,7 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
- 			memset((u8 *)&psta->dot11rxpn, 0, sizeof(union pn48));
- 		}
- 		/*	When doing the WPS, the wps_ie_len won't equal to 0 */
--		/*	And the Wi-Fi driver shouldn't allow the data packet to be tramsmitted. */
-+		/*	And the Wi-Fi driver shouldn't allow the data packet to be transmitted. */
- 		if (padapter->securitypriv.wps_ie_len != 0) {
- 			psta->ieee8021x_blocked = true;
- 			padapter->securitypriv.wps_ie_len = 0;
-@@ -1287,7 +1287,7 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- }
- 
- /*
--* _rtw_join_timeout_handler - Timeout/faliure handler for CMD JoinBss
-+* _rtw_join_timeout_handler - Timeout/failure handler for CMD JoinBss
- * @adapter: pointer to struct adapter structure
- */
- void _rtw_join_timeout_handler (struct adapter *adapter)
-@@ -1322,7 +1322,7 @@ void _rtw_join_timeout_handler (struct adapter *adapter)
- }
- 
- /*
--* rtw_scan_timeout_handler - Timeout/Faliure handler for CMD SiteSurvey
-+* rtw_scan_timeout_handler - Timeout/Failure handler for CMD SiteSurvey
- * @adapter: pointer to struct adapter structure
- */
- void rtw_scan_timeout_handler (struct adapter *adapter)
+@@ -705,9 +705,6 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 			s_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
+ 			if (s_ret == _SUCCESS) {
+ 				_set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
+-			} else if (s_ret == 2) { /* there is no need to wait for join */
+-				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+-				rtw_indicate_connect(adapter);
+ 			} else {
+ 				if (rtw_to_roaming(adapter) != 0) {
+ 					if (--pmlmepriv->to_roaming == 0 ||
 -- 
 2.25.1
 
