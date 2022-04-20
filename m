@@ -1,172 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFFE184A
-	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 14:24:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6574BC385A0;
-	Wed, 20 Apr 2022 14:24:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650464655;
-	bh=eAVDAFxf8HM5+CN1ahFormwSLOTCRn3/ZAPfBK/QfRs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=joxjLbIHda9xLoK+yU5hopqfL2xtt+27KXqHtSQQridOKCWC+fy3AOnqlekVdMhPj
-	 06HqEsjjcF5OMn9vr6NzKBzHpTAMlwEUPKMKTu2aLHMDdpWjhLBs9oZNdQXAvIVuA3
-	 UNjC2g9bwGs/jKZaZGvCYTboggnSKLnbzYwa/RZY=
-Date: Wed, 20 Apr 2022 16:24:12 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
-Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-Subject: Re: [RFC] staging/vSMP: new driver
-Message-ID: <YmAXjG4jxdpTREB2@kroah.com>
-References: <PAXPR02MB73100E24FCE4E04B45F9285781129@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YjL4Y2l6oOabjmpX@kroah.com>
- <PAXPR02MB7310CEC795999B590704AF4181129@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <PAXPR02MB7310E609A200F01F77F2D2C381F59@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <Yl/tU5BDIPl9VuJw@kroah.com>
- <PAXPR02MB73103C308D5942977331A28881F59@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <Yl/xoWttIba3UdIM@kroah.com>
- <PAXPR02MB7310F3F8129ECA908C3A0B4E81F59@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <Yl/54NGq70g1QuQq@kroah.com>
- <PAXPR02MB73104582322690E1D95D1A8D81F59@PAXPR02MB7310.eurprd02.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBFA185B
+	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 14:36:17 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nhBRE-0003Xe-NM; Wed, 20 Apr 2022 16:36:12 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nhBRD-004BQJ-A6; Wed, 20 Apr 2022 16:36:09 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nhBRB-004UqT-6h; Wed, 20 Apr 2022 16:36:09 +0200
+Date: Wed, 20 Apr 2022 16:36:08 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Ian Cowan <ian@linux.cowan.aero>
+Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] Staging: fbtft: Fix style problem in header
+Message-ID: <20220420143608.yuxleiffs234dfog@pengutronix.de>
+References: <20220419192128.445023-1-ian@linux.cowan.aero>
+ <20220420064711.xuhuyhtgcrs3avhk@pengutronix.de>
+ <YmARR6+XQeVqlusK@fedora>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="f7hoyxknyagqhwtl"
 Content-Disposition: inline
-In-Reply-To: <PAXPR02MB73104582322690E1D95D1A8D81F59@PAXPR02MB7310.eurprd02.prod.outlook.com>
+In-Reply-To: <YmARR6+XQeVqlusK@fedora>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-On Wed, Apr 20, 2022 at 12:36:04PM +0000, Czerwacki, Eial wrote:
-> >From: Greg KH <gregkh@linuxfoundation.org>
-> >Sent: Wednesday, April 20, 2022 15:17
-> >To: Czerwacki, Eial <eial.czerwacki@sap.com>
-> >Cc: linux-staging@lists.linux.dev <linux-staging@lists.linux.dev>; SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-> >Subject: Re: [RFC] staging/vSMP: new driver 
-> > 
-> >On Wed, Apr 20, 2022 at 11:57:51AM +0000, Czerwacki, Eial wrote:
-> >> >From: Greg KH <gregkh@linuxfoundation.org>
-> >> >Sent: Wednesday, April 20, 2022 14:42
-> >> >To: Czerwacki, Eial <eial.czerwacki@sap.com>
-> >> >Cc: linux-staging@lists.linux.dev <linux-staging@lists.linux.dev>; SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-> >> >Subject: Re: [RFC] staging/vSMP: new driver 
-> >> > 
-> >> >On Wed, Apr 20, 2022 at 11:38:57AM +0000, Czerwacki, Eial wrote:
-> >> >> >From: Greg KH <gregkh@linuxfoundation.org>
-> >> >> >Sent: Wednesday, April 20, 2022 14:24
-> >> >> >To: Czerwacki, Eial <eial.czerwacki@sap.com>
-> >> >> >Cc: linux-staging@lists.linux.dev <linux-staging@lists.linux.dev>; SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-> >> >> >Subject: Re: [RFC] staging/vSMP: new driver 
-> >> >> > 
-> >> >> >On Wed, Apr 20, 2022 at 11:18:15AM +0000, Czerwacki, Eial wrote:
-> >> >> >> Greetings Greg,
-> >> >> >> 
-> >> >> >> >From: Czerwacki, Eial <eial.czerwacki@sap.com>
-> >> >> >> >Sent: Thursday, March 17, 2022 11:04
-> >> >> >> >To: Greg KH <gregkh@linuxfoundation.org>
-> >> >> >> >Cc: linux-staging@lists.linux.dev <linux-staging@lists.linux.dev>; SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-> >> >> >> >Subject: Re: [RFC] staging/vSMP: new driver 
-> >> >> >> >
-> >> >> >> >>On Thu, Mar 17, 2022 at 08:52:37AM +0000, Czerwacki, Eial wrote:
-> >> >> >> >>> >> >What tasks?
-> >> >> >> >>> >> support of other information bits like stats
-> >> >> >> >>> >
-> >> >> >> >>> >I have no idea what that means :)
-> >> >> >> >>> in short, the hypervisor can provide stats it collects, future implementation will export that too
-> >> >> >> >>
-> >> >> >> >>The trick will be _how_ you export this information.  Let's wait on that
-> >> >> >> >>one for now, your current api has lots of other questions to work out
-> >> >> >> >>first :)
-> >> >> >> >
-> >> >> >> >sure, thanks for all the help.
-> >> >> >> >
-> >> >> >> >Eial
-> >> >> >> 
-> >> >> >> I was wondering, after I've switched the driver flow to the pci driver one, I lost the ability to prevent vsmp.ko from loading in case no device was found.
-> >> >> >> is there a way do to so?
-> >> >> >
-> >> >> >No, that is not how drivers have worked since the 2.4 kernel days (i.e.
-> >> >> >20 years ago?)  It is fine for your driver to be loaded even if there is
-> >> >> >no device present.
-> >> >> >
-> >> >> >But, your driver will NOT be loaded automatically unless a device is
-> >> >> >found, so why would it be present in that situation?
-> >> >> >
-> >> >> >thanks,
-> >> >> >
-> >> >> >greg k-h
-> >> >> 
-> >> >> because there are other modules which depends on it.
-> >> >
-> >> >I do not understand the question.
-> >> >
-> >> >> I guess I can detect it as part of the other module's init
-> >> >
-> >> >Huh?
-> >> >
-> >> >Try it and see, the linker will properly pull in the needed modules if
-> >> >you have symbols in one module that are needed by another one.
-> >> nothing prevents a user from loading the modules even if the device is missing.
-> >> the driver's hierarchy is one api modules and two unrelated modules which depend on it.
-> >> running modprobe vsmp_logs on a system where the device doesn't exists results with a kernel trace.
-> >
-> >What exact "kernel trace" is emitted?
-> accessing the bar of an non existent device.
 
-Which is impossible to do if your driver is written properly.
+--f7hoyxknyagqhwtl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> thinking of it now, the api should return error in case the mapped region is not inited.
+Hello Ian,
 
-No, your code will just not be called if the device is not present.
+On Wed, Apr 20, 2022 at 09:57:27AM -0400, Ian Cowan wrote:
+> On Wed, Apr 20, 2022 at 08:47:11AM +0200, Uwe Kleine-K=F6nig wrote:
+> > On Tue, Apr 19, 2022 at 03:21:28PM -0400, Ian Cowan wrote:
+> > > Removed an unnecessary semicolon at the end of a macro call
+> > >=20
+> > > Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+> > > ---
+> > >  drivers/staging/fbtft/fbtft.h | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fb=
+tft.h
+> > > index 2c2b5f1c1df3..aa66760e1a9c 100644
+> > > --- a/drivers/staging/fbtft/fbtft.h
+> > > +++ b/drivers/staging/fbtft/fbtft.h
+> > > @@ -277,7 +277,7 @@ static const struct of_device_id dt_ids[] =3D {		=
+			\
+> > >  	{ .compatible =3D _compatible },						\
+> > >  	{},									\
+> > >  };										\
+> > > -MODULE_DEVICE_TABLE(of, dt_ids);
+> > > +MODULE_DEVICE_TABLE(of, dt_ids)
+> >=20
+> > In fact the ; after MODULE_DEVICE_TABLE is necessary. There is only a
+> > single instance in the kernel without a semicolon[1]. That's in
+> > drivers/pci/controller/pcie-microchip-host.c and this only works because
+> > this driver cannot be compiled as a module and so MODULE_DEVICE_TABLE
+> > evaluates to nothing. Will send a patch for that one.
 
-> >> obliviously, this is not something accepted by the community.
-> >
-> >I do not understand what is not acceptable?
-> a module crashing because a missing invariant testing
-> 
-> >
-> >> >
-> >> >But if that is the case, why split them up into different modules?
-> >> splitting the driver into three modules is purely for flexibility reasons.
-> >
-> >Flexible for whom?
-> the end user
+FTR: Patch was sent: https://lore.kernel.org/linux-pci/20220420065832.14173=
+-1-u.kleine-koenig@pengutronix.de
 
-How?
+> When I built this, it appeared to succeed. I used the command "make
+> M=3D/drivers/staging/fbtft modules". Is this incorrect? For reference this
+> is my first patch so it's highly likely I did this incorrectly.
 
-> >> e.g. on runtime a user can decide which parts of the driver to run
-> >
-> >How?  And why?  A kernel driver should "just work" no need to configure
-> >anything or only load, or not load, a specific set of drivers.  That's
-> >not how kernel modules work at all.
-> that is why I think I should merge all the modules into one
-> 
-> >
-> >> >
-> >> >I do not understand the question really.  Try it and see first and if
-> >> >you have specific problems, please post the code and we will be glad to
-> >> >review it.
-> >> maybe I just need to forgo the flexibility and add all features as a built-in which isn't configurable
-> >
-> >What exact "flexibility" are you trying to do here?
-> per feature flexibility, for example, the ability to read logs via the device and display generic information
-> each one is encapsulated inside a different module
-> 
-> >
-> >And again, nothing should be configured, it should always "just work" if
-> >the needed hardware is present.  If not, nothing should happen.
-> >
-> >Again, post your code for better answers, this is all just
-> >hand-waving...
-> I understand, I'd prefer to understand all the aspects of the issues I'm facing before I load more code for you to go through as I assume that your time is precious
+I don't know for sure, but I'd have said that the M=3D stuff is for
+out-of-tree modules only.
 
-Yes, and as such, you should submit code so that we can talk about this
-with concrete examples instead of unknown vague questions.
+I'd recommend:
 
-Please just redo the patches based on the review and resubmit.
+	make allmodconfig
+	make drivers/staging/fbtft/
 
-thanks,
+Best regards
+Uwe
 
-greg k-h
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--f7hoyxknyagqhwtl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmJgGlMACgkQwfwUeK3K
+7AkmVQf/ULc5C4BOsXhP5Yxd0efu3wQ7TGqRegYd/q3ZzvwzMwlc8g8VHCnSYBt1
+Ub1qvQ3EAzBn/vNsRfQb6zXcJxmNAB9OS999dzGLa7I0WS7/uosHvLJVLeoffXRR
+pJ0n3cmZGOBcO2abrhqBJPGOqfgTV/OMxEkFS3fRdjKrkWYMwBKl96Ckt0m/t7ai
+qbu9/771JLKH6L+vM3O8LoL53T1CA27qGrtS3JTNvhHOgNvVem9Rz1XCDQ5pTtHB
+rmBmZfhSWHyD/YFXm83L0iofqVJcOrDuysF329jBFYu1btc5h5S1X7Xk/nqeKf9N
+mNSwdVl2fdCS6r7ao2IdmdN6GGUrXQ==
+=se4c
+-----END PGP SIGNATURE-----
+
+--f7hoyxknyagqhwtl--
