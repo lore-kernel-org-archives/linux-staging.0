@@ -1,59 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963CA185B;
-	Wed, 20 Apr 2022 15:15:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AD58C385A1;
-	Wed, 20 Apr 2022 15:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650467738;
-	bh=s7kJbmHO4oxkSYmU5fDmutKf8GGc1BWHsk8DFVUqsDI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CRJXGImARYU+HNAm1q0eaA8GkeFhjY2BSnH+foEDcFW9Yyais53+e+7qXju5J55DQ
-	 c7V+G0UDQ89k0bBaMxyECji33PIijivPSB30G668zaqFUyu0B9tbuAHPwIRdGhYY9w
-	 Hb1NHqdD7rCQdzUFkph4cQLXHV/gCo48lxg3C6rc=
-Date: Wed, 20 Apr 2022 17:15:34 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jaehee Park <jhpark1013@gmail.com>
-Cc: Alex Elder <elder@ieee.org>, johan@kernel.org, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev,
-	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v3 2/2] staging: greybus: remove empty callback function
-Message-ID: <YmAjliv4DdTY+JvZ@kroah.com>
-References: <cover.1649824370.git.jhpark1013@gmail.com>
- <12037ae2502ad7d0311bcdf2178c3d2156293236.1649824370.git.jhpark1013@gmail.com>
- <a4e5c567-63dd-f7de-114b-a357075444a2@ieee.org>
- <20220414200932.GA4147124@jaehee-ThinkPad-X1-Extreme>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEE7185B
+	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 15:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1650469673;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g4zx1+iaFnljCivWLV5r3ZrNdjPIVxfvxiAee1dsRow=;
+	b=JlXBgvLJwjrsuTRhq7ihVCorAGCyCRC/KJG4MEIkoxOtzb0oWWvjMkanUKTTY4OPskIF3V
+	UWL2x/vnrZu29xv/s2SATdu/oG1MGst4Fs8q/Z04/Pp+uHTrqZIVoG4l72/XbqCsQEsn+F
+	KauwYl2rLlRs6Sh0xJCOKklIdci0wnM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-316-LJp1fBKBMDSGUZea4Yazag-1; Wed, 20 Apr 2022 11:47:52 -0400
+X-MC-Unique: LJp1fBKBMDSGUZea4Yazag-1
+Received: by mail-wm1-f69.google.com with SMTP id d6-20020a05600c34c600b0039296a2ac7cso1137009wmq.1
+        for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 08:47:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=g4zx1+iaFnljCivWLV5r3ZrNdjPIVxfvxiAee1dsRow=;
+        b=wx23KU/91STtbXmgov9gFfde3SPcog1XsQYbGR2byNqDzizdN62FOKagUd9CJa+ZH4
+         owx53rKAb5aqEjraVEpSAo4dEUhMvnoU8krfYKBYQlFUSg2KFrWbOxV0TbLF3EdBOIxa
+         hlnxLPIYn1rmHsSaNNlARzBPX0v+535aDNsbig6EBaBcVMKeC9dehim4ohi3dn0FtagG
+         1joRRtwHeNWss9eGM795i53b/zVr2Vp3WrFtmgFbi2wxYde4SM2XxtyFBE1BkH3ec7DE
+         BYT5TTXVu5odrQZCRvKtPnRP0JlkYZIxuEFNUWfodqdC1BG6XUeRZ4Dpfzj6JAkV4Jem
+         ygaA==
+X-Gm-Message-State: AOAM53366sErypdNibxI/Gg2ktWXELE4Z11nCOE/0zpUJcjXAboGaZn5
+	nAqf7DISorvs760yTIWYHy8xcEQuSlg2FCabfxV4zZr1vgOg1EZG6TAvJ0YabbQskajO0auvLTk
+	uc9YQqYbkNQqWUDDwPx6xkPxTYg==
+X-Received: by 2002:a5d:522d:0:b0:207:a11d:edf5 with SMTP id i13-20020a5d522d000000b00207a11dedf5mr16194844wra.60.1650469670964;
+        Wed, 20 Apr 2022 08:47:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8WUIYjdcVWdqmj4AO4brA33DVhgGSAEP3X+EOPWZZEYpduVkk/X5bHxcW5UEIED0Fk9af+w==
+X-Received: by 2002:a5d:522d:0:b0:207:a11d:edf5 with SMTP id i13-20020a5d522d000000b00207a11dedf5mr16194835wra.60.1650469670712;
+        Wed, 20 Apr 2022 08:47:50 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id z18-20020a5d6552000000b00207b65f745bsm152396wrv.83.2022.04.20.08.47.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Apr 2022 08:47:50 -0700 (PDT)
+Message-ID: <e4f56999-cf58-abff-edf5-ae11d024012b@redhat.com>
+Date: Wed, 20 Apr 2022 17:47:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220414200932.GA4147124@jaehee-ThinkPad-X1-Extreme>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] Staging: fbtft: Fix style problem in header
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Ian Cowan <ian@linux.cowan.aero>
+Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org
+References: <20220419192128.445023-1-ian@linux.cowan.aero>
+ <20220420064711.xuhuyhtgcrs3avhk@pengutronix.de> <YmARR6+XQeVqlusK@fedora>
+ <20220420143608.yuxleiffs234dfog@pengutronix.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220420143608.yuxleiffs234dfog@pengutronix.de>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 14, 2022 at 04:09:32PM -0400, Jaehee Park wrote:
-> On Wed, Apr 13, 2022 at 07:48:03AM -0500, Alex Elder wrote:
-> > On 4/12/22 11:38 PM, Jaehee Park wrote:
-> > > Remove the optional remove callback for the soc_codec_dev_gbaudio
-> > > structure. The only place it is referenced is
-> > > snd_soc_component_remove() which is only called if the sound_component
-> > > pointer is non-null. The null function pointers here can be optionally
-> > > ommitted. When a sound component is registered this way, the remove
-> > > callback is optional. We can safely remove the whole gbcodec_remove
-> > > function, which used to be an empty function with a void return type.
-> > 
-> > Now I think your description is a little long...  But that's OK.
-> > 
-> > This looks good to me.  Thank you for responding to all our
-> > feedback.
-> > 
-> > Reviewed-by: Alex Elder <elder@linaro.org>
+On 4/20/22 16:36, Uwe Kleine-König wrote:
+> Hello Ian,
 > 
-> hi Greg, I saw that this was past on to staging-next already. Is it too 
-> late to add Alex to the reviewed by? 
+> On Wed, Apr 20, 2022 at 09:57:27AM -0400, Ian Cowan wrote:
+>> On Wed, Apr 20, 2022 at 08:47:11AM +0200, Uwe Kleine-König wrote:
+>>> On Tue, Apr 19, 2022 at 03:21:28PM -0400, Ian Cowan wrote:
+>>>> Removed an unnecessary semicolon at the end of a macro call
+>>>>
+>>>> Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+>>>> ---
+>>>>  drivers/staging/fbtft/fbtft.h | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+>>>> index 2c2b5f1c1df3..aa66760e1a9c 100644
+>>>> --- a/drivers/staging/fbtft/fbtft.h
+>>>> +++ b/drivers/staging/fbtft/fbtft.h
+>>>> @@ -277,7 +277,7 @@ static const struct of_device_id dt_ids[] = {					\
+>>>>  	{ .compatible = _compatible },						\
+>>>>  	{},									\
+>>>>  };										\
+>>>> -MODULE_DEVICE_TABLE(of, dt_ids);
+>>>> +MODULE_DEVICE_TABLE(of, dt_ids)
+>>>
+>>> In fact the ; after MODULE_DEVICE_TABLE is necessary. There is only a
+>>> single instance in the kernel without a semicolon[1]. That's in
+>>> drivers/pci/controller/pcie-microchip-host.c and this only works because
+>>> this driver cannot be compiled as a module and so MODULE_DEVICE_TABLE
+>>> evaluates to nothing. Will send a patch for that one.
+>
 
-Yes, sorry.
+Indeed. I was curious about this so I went to look at the driver code.
+
+For this particular driver it may be not necessary, but that's just due
+how these fbtft drivers define their MODULE_DEVICE_TABLE(), using a lot
+of macro layers.
+
+As an example, drivers/staging/fbtft/fb_agm1264k-fl.c does the following:
+
+FBTFT_REGISTER_DRIVER(DRVNAME, "displaytronic,fb_agm1264k-fl", &display);
+
+which is defined as:
+
+#define FBTFT_REGISTER_DRIVER(_name, _compatible, _display)                \
+...									   \
+FBTFT_DT_TABLE(_compatible)						   \
+...
+
+which in turn is defined as:
+
+#define FBTFT_DT_TABLE(_compatible)						\
+static const struct of_device_id dt_ids[] = {					\
+	{ .compatible = _compatible },						\
+	{},									\
+};										\
+MODULE_DEVICE_TABLE(of, dt_ids);
+
+so it seems that it builds, just because the semicolon for the expression
+is the one that's after the FBTFT_REGISTER_DRIVER(); in the driver.
+
+> FTR: Patch was sent: https://lore.kernel.org/linux-pci/20220420065832.14173-1-u.kleine-koenig@pengutronix.de
+> 
+>> When I built this, it appeared to succeed. I used the command "make
+>> M=/drivers/staging/fbtft modules". Is this incorrect? For reference this
+>> is my first patch so it's highly likely I did this incorrectly.
+>
+
+You are just changing a header file though, did you also enable one of the
+fbtft drivers as a module to see if those build? But as said, by looking at
+the code it seems that should build correctly.
+
+I agree with Uwe though that is less confusing to have a semicolon after
+the MODULE_DEVICE_TABLE(), but I'm not the driver maintainer to decide.
+ 
+> I don't know for sure, but I'd have said that the M= stuff is for
+> out-of-tree modules only.
+>
+
+It does work, I use M= to build drivers in mainline that are configured
+to build as a module all the time.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
