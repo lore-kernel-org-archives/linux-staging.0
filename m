@@ -1,111 +1,169 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292D7185B;
-	Wed, 20 Apr 2022 14:48:40 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id y129so1364598qkb.2;
-        Wed, 20 Apr 2022 07:48:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50BD1185B;
+	Wed, 20 Apr 2022 14:52:40 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id z99so2629953ede.5;
+        Wed, 20 Apr 2022 07:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tkh8J2lKGPT+L0yWvNsS4Conro8aEFkfjN82mbeQ8Dk=;
-        b=e6jldbqIFDukpdn3OA8ix6XZVlZaE6MpIhoZFApQQxRp0ZZ3qC3uL0fbApVXgkI28H
-         5zJBU+17KnWrSNaPWVTaOQIxUGs/Y7s3tfCMnpLtHzUC/66qXOoQbUPp3f+OMYFeDMfA
-         vIiAdPUyyX5jHQ08epts3UIJsoEmBSVJR9Cd8ZzRyO80K+PvmY/FwG4ke78ypWttVJmK
-         jn+t80tH70XLZzplpNt0mxKPCP8RPvuTfm+LSu193TyVU0rniSOI+fzInL9nxJHb0mlf
-         zYmTESTeKRdaDedk+HM4Op9goGzR6E0ARrmyhvgJckNQikMNNPIz8FjrvKoxy2GUdlIt
-         Sv2w==
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=J17I7k1DFIqdIF/nQAjV+GrkyCMr24/svVDXLbOChlw=;
+        b=JBbWsEgOEa3GzjofmvOYyn+vCd97m5ObSyLdlSx0foS7fqFoPNa+6SVFauM0aD8VQG
+         ZSkZln+EXn10Uy0PFc1DvXI0mJ774skLlTkSQfmX8qUTSBTfT0izN9GWBg/4mN7owrRx
+         EOwUrr+vgc/soUSGSI/g6pQLR2mtSTF7WwmKIfCmHrligUM7YCu2NUK+5ggefv5ph31s
+         t+mmWJ4zbOMOsBNxJTSA2MNpwYhl3be54FHmu3aeWYbS3sq7rHHx1b6B2nc0EnAXTyH7
+         iFKhLvci/5DueD9EJOdVFOftEbybMLhnZ4QC+YlAwy2OGQUN4KQpUyyhRpMOqFh8+/0a
+         zTQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tkh8J2lKGPT+L0yWvNsS4Conro8aEFkfjN82mbeQ8Dk=;
-        b=OXNAvkKhKvMs8MGrG90Kladedad0fB4H1Q2V7EtjNkE4yLeR/w+ACHRa3F5UiCF0or
-         wCzO6bdWck5iQURltVA7x1AoH/8/eVFz8Nml4RGosl+b2fOW0LpNLjH9LVYPBU7igGpU
-         PKMFSkwrvB8RhRoM9wLUiuckwIhjvr2RrS1zqTgd/dvwJUqMm0XE5UNWi9ckSq9VHncf
-         HnFeuJsG2iniYvEg12B/kTfVTtez0nAGlqU4EbSdEWsAA8w7PQDNnlkwLo7v3QDwRNlb
-         EloPIOoO6bD6lIqEHxFE61UYLcIohldx4RUCC/NbRcXT8OCbW6LwXkhsf6/XounBNyLd
-         gb6Q==
-X-Gm-Message-State: AOAM533mN5QztDoJycwuM3xO80R03FWm0pt0NfBDLDfv5Do/gh0a3jJS
-	aIRBEte5yeTJ3BsMxEki5Tc=
-X-Google-Smtp-Source: ABdhPJxxfYZulP7IF/wJCusWEypd1WbmQMAJ786C+J9Lvl3khU2wHW7JGB/a48jCRLC4GYj7QZVRXA==
-X-Received: by 2002:a05:620a:3193:b0:69e:cbbe:d285 with SMTP id bi19-20020a05620a319300b0069ecbbed285mr4206821qkb.408.1650466118909;
-        Wed, 20 Apr 2022 07:48:38 -0700 (PDT)
-Received: from jaehee-ThinkPad-X1-Extreme ([2607:fb90:50e7:2813:48a4:4906:b926:9eef])
-        by smtp.gmail.com with ESMTPSA id l13-20020a05622a050d00b002f205ba53efsm1818254qtx.25.2022.04.20.07.48.36
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=J17I7k1DFIqdIF/nQAjV+GrkyCMr24/svVDXLbOChlw=;
+        b=n+qK8AoS8zxznuZ3K8t1ZixqYuKThaIqY0zq8cnLjXddEnjUgOj+HAWldQoCRYzVcM
+         mNxSd0+drbt8WurXjlLiJ/fkE+oxVOnBtAB7C6LL1JqC4UTM6Ifv7HZSSN6gicN7D57g
+         DnC7DhGmFqbLb9BGXx8AWewp+Eppevcyb0rke3q8wxzB2HYF/xkwhTlX7UGDjkM0QW1a
+         K7db4Llv0PV8XhVNKd4Mj11ie5vWAe1VkJ7B4ZSDwLADVpL9XYTJTCdK0ffIIQ5qVDfh
+         7V5cFC93FTNP0X+xy5+HJ60TOQMK1AJH1tx4EKzKFINOVrrRATSfKj4B/iPeW6sx/udY
+         oeIw==
+X-Gm-Message-State: AOAM531rRxxAWoKuvg5ILHXM+p3oikEsEa+RByLb38GSndGYWp5/jexw
+	G8M4TB32Cb66F4FPB9n/Gqw=
+X-Google-Smtp-Source: ABdhPJx2ZxgmXp985oW9D/tZe4ZqroM4HtirxNo5Df1BZbnJnyqyDBb/QXHmtBPvc/0fWHsstt+qIw==
+X-Received: by 2002:a05:6402:1ac4:b0:41d:83d1:9da7 with SMTP id ba4-20020a0564021ac400b0041d83d19da7mr23708711edb.272.1650466358430;
+        Wed, 20 Apr 2022 07:52:38 -0700 (PDT)
+Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id b23-20020a05640202d700b00422da9b980esm7945020edx.22.2022.04.20.07.52.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 07:48:38 -0700 (PDT)
-Date: Wed, 20 Apr 2022 10:48:34 -0400
-From: Jaehee Park <jhpark1013@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Pavel Skripkin <paskripkin@gmail.com>, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH v3 1/7] staging: r8188eu: remove unused member
- free_bss_buf
-Message-ID: <20220420144834.GA1313590@jaehee-ThinkPad-X1-Extreme>
-References: <cover.1650392020.git.jhpark1013@gmail.com>
- <3c5a510938ac395a13bb09c0de1868cce8ca3dd8.1650392020.git.jhpark1013@gmail.com>
- <32587233-0ff6-ed0f-b873-cd4f797005a9@gmail.com>
- <20220420115534.GF2951@kadam>
+        Wed, 20 Apr 2022 07:52:37 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev, Rebecca Mckeever <remckee0@gmail.com>
+Subject: Re: [PATCH] staging: rtl8192u: change get_key functions to return 0 instead of -1
+Date: Wed, 20 Apr 2022 16:52:36 +0200
+Message-ID: <3183776.G96rZvMJ2N@leap>
+In-Reply-To: <Yl/7QPKXer7YtXOs@bertie>
+References: <Yl/7QPKXer7YtXOs@bertie>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220420115534.GF2951@kadam>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Apr 20, 2022 at 02:55:34PM +0300, Dan Carpenter wrote:
-> As a kernel community, I don't think we are pro-active enough about
-> preventing bugs.  One of my co-workers and I have started a bi weekly
-> phone call to look at CVEs from the previous week and discuss how they
-> could have been prevented or detected earlier.  Of course, my solutions
-> are always centered around static analysis because that's my deal but
-> some bugs are caused by process issues, or could be detected with better
-> testing.
-> 
-> In this case there were two bugs proposed bugs.
-> 
-> 1) The memory leak that Fabio noticed.  Smatch is bad at detecting
->    memory leaks.  It's a hard problem, because in this case it's
->    across function boundaries.
-> 
-> Fabio caught the leak.  I don't know if I would have.
-> 
-> 2) The NULL dereference.
-> 
->    The "&pnetwork->list" expression is not a dereference so this is also
->    a cross function thing.  I thought I used to have an unpublished check
->    for bogus addresses like that where pnetwork is NULL.
-> 
->    Another is idea is that when you have pnetwork++ and it's a NULL
->    pointer then print an error message.  Or even potentially NULL.
->    There are various heuristics to use which mean that "A reasonable
->    person would think this could be NULL".
-> 
->    Or another idea would be that we could test patches.  Right now we
->    don't really have a way to test these.  But, of course, we wish we
->    did.
-> 
-> It's not super likely that we would have committed the NULL deref
-> patch.  I would have caught that one if you didn't and Fabio likely
-> would have as well.  But I like to remove the human error whenever I
-> can.
-> 
-> regards,
-> dan carpenter
+On mercoled=C3=AC 20 aprile 2022 14:23:28 CEST Rebecca Mckeever wrote:
+> Currently, these three get_key functions return -1 when the provided len
+> value is less a specific key length value, which can result in buffer
+> overflow depending on how the returned value is used. These functions are
+> used in three places in ieee80211/ieee80211_wx.c:
+>=20
+>   ieee80211_wx_get_encode() :
+>     The behavior of this function will be unchanged.
+>=20
+>   ieee80211_wx_get_encode_ext() :
+>     The result of the get_key function is written to ext->key_len,
+>     resulting in a buffer overflow if the result is negative.
+>=20
+>   ieee80211_wx_set_encode() :
+>     The behavior of this function will change. When len is less than the
+>     key length value, it will set a default key of all 0.
+>=20
+> Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
+> ---
+>  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c | 2 +-
+>  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c | 2 +-
+>  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c  | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 
-I'm sorry about the NULL dereference. I wasn't sure about pnetwork
-and I should've asked. I wanted to ask why pbuf should be removed
-when it was being used for pnetwork but ended up not asking and
-sent a faulty patch. Sorry again and thank you for explaining the
-errors. I will be more careful about memory leaks and dereferencing
-errors. Are there checks that I can run to detect these?
+I was not able to find the message where Dan suggested this solution.=20
+However it looks that we actually have problems in those callers when they=
+=20
+get '-1' as the return code.
+
+I didn't look at the code with much attention but I think that returning=20
+'0' to signal errors is not so good.
+
+If I'm not missing something from the context, I'd rather return '-EINVAL'=
+=20
+and change the callers to check for this specific error that would signal=20
+we have "len less than a specific len value". If so, act in accordance to=20
+the returned -EINVAL.
+
+=46or example, in a caller you may test:
+
+if (ext->key_len =3D=3D -EINVAL || <some other test, if required>)
+        <error path>
+<success path>
+
+Just my thoughts, but, as I said, I haven't checked carefully neither the=20
+callers nor the called functions. Maybe that returning '0' is the better=20
+solution, but it usually means that we have no errors.=20
+
+However, I'm 100% sure that, if Dan suggested this specific solution, there=
+=20
+must be good reasons behind. If so, your changes are good :)
 
 Thanks,
-Jaehee
+
+=46abio M. De Francesco
+
+>=20
+> diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c b/
+drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c
+> index 101c28265e91..f17d07dad56d 100644
+> --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c
+> +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c
+> @@ -362,7 +362,7 @@ static int ieee80211_ccmp_get_key(void *key, int len,=
+=20
+u8 *seq, void *priv)
+>  	struct ieee80211_ccmp_data *data =3D priv;
+> =20
+>  	if (len < CCMP_TK_LEN)
+> -		return -1;
+> +		return 0;
+> =20
+>  	if (!data->key_set)
+>  		return 0;
+> diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c b/
+drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
+> index 689d8843f538..7b120b8cb982 100644
+> --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
+> +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
+> @@ -637,7 +637,7 @@ static int ieee80211_tkip_get_key(void *key, int len,=
+=20
+u8 *seq, void *priv)
+>  	struct ieee80211_tkip_data *tkey =3D priv;
+> =20
+>  	if (len < TKIP_KEY_LEN)
+> -		return -1;
+> +		return 0;
+> =20
+>  	if (!tkey->key_set)
+>  		return 0;
+> diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c b/
+drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c
+> index 8a51ea1dd6e5..a2cdf3bfd1a4 100644
+> --- a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c
+> +++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c
+> @@ -201,7 +201,7 @@ static int prism2_wep_get_key(void *key, int len, u8=
+=20
+*seq, void *priv)
+>  	struct prism2_wep_data *wep =3D priv;
+> =20
+>  	if (len < wep->key_len)
+> -		return -1;
+> +		return 0;
+> =20
+>  	memcpy(key, wep->key, wep->key_len);
+> =20
+> --=20
+> 2.32.0
+>=20
+>=20
+>=20
+
+
+
+
