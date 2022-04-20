@@ -1,117 +1,111 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBFA185B
-	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 14:36:17 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nhBRE-0003Xe-NM; Wed, 20 Apr 2022 16:36:12 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nhBRD-004BQJ-A6; Wed, 20 Apr 2022 16:36:09 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nhBRB-004UqT-6h; Wed, 20 Apr 2022 16:36:09 +0200
-Date: Wed, 20 Apr 2022 16:36:08 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Ian Cowan <ian@linux.cowan.aero>
-Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] Staging: fbtft: Fix style problem in header
-Message-ID: <20220420143608.yuxleiffs234dfog@pengutronix.de>
-References: <20220419192128.445023-1-ian@linux.cowan.aero>
- <20220420064711.xuhuyhtgcrs3avhk@pengutronix.de>
- <YmARR6+XQeVqlusK@fedora>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292D7185B;
+	Wed, 20 Apr 2022 14:48:40 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id y129so1364598qkb.2;
+        Wed, 20 Apr 2022 07:48:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=tkh8J2lKGPT+L0yWvNsS4Conro8aEFkfjN82mbeQ8Dk=;
+        b=e6jldbqIFDukpdn3OA8ix6XZVlZaE6MpIhoZFApQQxRp0ZZ3qC3uL0fbApVXgkI28H
+         5zJBU+17KnWrSNaPWVTaOQIxUGs/Y7s3tfCMnpLtHzUC/66qXOoQbUPp3f+OMYFeDMfA
+         vIiAdPUyyX5jHQ08epts3UIJsoEmBSVJR9Cd8ZzRyO80K+PvmY/FwG4ke78ypWttVJmK
+         jn+t80tH70XLZzplpNt0mxKPCP8RPvuTfm+LSu193TyVU0rniSOI+fzInL9nxJHb0mlf
+         zYmTESTeKRdaDedk+HM4Op9goGzR6E0ARrmyhvgJckNQikMNNPIz8FjrvKoxy2GUdlIt
+         Sv2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=tkh8J2lKGPT+L0yWvNsS4Conro8aEFkfjN82mbeQ8Dk=;
+        b=OXNAvkKhKvMs8MGrG90Kladedad0fB4H1Q2V7EtjNkE4yLeR/w+ACHRa3F5UiCF0or
+         wCzO6bdWck5iQURltVA7x1AoH/8/eVFz8Nml4RGosl+b2fOW0LpNLjH9LVYPBU7igGpU
+         PKMFSkwrvB8RhRoM9wLUiuckwIhjvr2RrS1zqTgd/dvwJUqMm0XE5UNWi9ckSq9VHncf
+         HnFeuJsG2iniYvEg12B/kTfVTtez0nAGlqU4EbSdEWsAA8w7PQDNnlkwLo7v3QDwRNlb
+         EloPIOoO6bD6lIqEHxFE61UYLcIohldx4RUCC/NbRcXT8OCbW6LwXkhsf6/XounBNyLd
+         gb6Q==
+X-Gm-Message-State: AOAM533mN5QztDoJycwuM3xO80R03FWm0pt0NfBDLDfv5Do/gh0a3jJS
+	aIRBEte5yeTJ3BsMxEki5Tc=
+X-Google-Smtp-Source: ABdhPJxxfYZulP7IF/wJCusWEypd1WbmQMAJ786C+J9Lvl3khU2wHW7JGB/a48jCRLC4GYj7QZVRXA==
+X-Received: by 2002:a05:620a:3193:b0:69e:cbbe:d285 with SMTP id bi19-20020a05620a319300b0069ecbbed285mr4206821qkb.408.1650466118909;
+        Wed, 20 Apr 2022 07:48:38 -0700 (PDT)
+Received: from jaehee-ThinkPad-X1-Extreme ([2607:fb90:50e7:2813:48a4:4906:b926:9eef])
+        by smtp.gmail.com with ESMTPSA id l13-20020a05622a050d00b002f205ba53efsm1818254qtx.25.2022.04.20.07.48.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Apr 2022 07:48:38 -0700 (PDT)
+Date: Wed, 20 Apr 2022 10:48:34 -0400
+From: Jaehee Park <jhpark1013@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Pavel Skripkin <paskripkin@gmail.com>, Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: Re: [PATCH v3 1/7] staging: r8188eu: remove unused member
+ free_bss_buf
+Message-ID: <20220420144834.GA1313590@jaehee-ThinkPad-X1-Extreme>
+References: <cover.1650392020.git.jhpark1013@gmail.com>
+ <3c5a510938ac395a13bb09c0de1868cce8ca3dd8.1650392020.git.jhpark1013@gmail.com>
+ <32587233-0ff6-ed0f-b873-cd4f797005a9@gmail.com>
+ <20220420115534.GF2951@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="f7hoyxknyagqhwtl"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YmARR6+XQeVqlusK@fedora>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+In-Reply-To: <20220420115534.GF2951@kadam>
 
+On Wed, Apr 20, 2022 at 02:55:34PM +0300, Dan Carpenter wrote:
+> As a kernel community, I don't think we are pro-active enough about
+> preventing bugs.  One of my co-workers and I have started a bi weekly
+> phone call to look at CVEs from the previous week and discuss how they
+> could have been prevented or detected earlier.  Of course, my solutions
+> are always centered around static analysis because that's my deal but
+> some bugs are caused by process issues, or could be detected with better
+> testing.
+> 
+> In this case there were two bugs proposed bugs.
+> 
+> 1) The memory leak that Fabio noticed.  Smatch is bad at detecting
+>    memory leaks.  It's a hard problem, because in this case it's
+>    across function boundaries.
+> 
+> Fabio caught the leak.  I don't know if I would have.
+> 
+> 2) The NULL dereference.
+> 
+>    The "&pnetwork->list" expression is not a dereference so this is also
+>    a cross function thing.  I thought I used to have an unpublished check
+>    for bogus addresses like that where pnetwork is NULL.
+> 
+>    Another is idea is that when you have pnetwork++ and it's a NULL
+>    pointer then print an error message.  Or even potentially NULL.
+>    There are various heuristics to use which mean that "A reasonable
+>    person would think this could be NULL".
+> 
+>    Or another idea would be that we could test patches.  Right now we
+>    don't really have a way to test these.  But, of course, we wish we
+>    did.
+> 
+> It's not super likely that we would have committed the NULL deref
+> patch.  I would have caught that one if you didn't and Fabio likely
+> would have as well.  But I like to remove the human error whenever I
+> can.
+> 
+> regards,
+> dan carpenter
 
---f7hoyxknyagqhwtl
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm sorry about the NULL dereference. I wasn't sure about pnetwork
+and I should've asked. I wanted to ask why pbuf should be removed
+when it was being used for pnetwork but ended up not asking and
+sent a faulty patch. Sorry again and thank you for explaining the
+errors. I will be more careful about memory leaks and dereferencing
+errors. Are there checks that I can run to detect these?
 
-Hello Ian,
-
-On Wed, Apr 20, 2022 at 09:57:27AM -0400, Ian Cowan wrote:
-> On Wed, Apr 20, 2022 at 08:47:11AM +0200, Uwe Kleine-K=F6nig wrote:
-> > On Tue, Apr 19, 2022 at 03:21:28PM -0400, Ian Cowan wrote:
-> > > Removed an unnecessary semicolon at the end of a macro call
-> > >=20
-> > > Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
-> > > ---
-> > >  drivers/staging/fbtft/fbtft.h | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fb=
-tft.h
-> > > index 2c2b5f1c1df3..aa66760e1a9c 100644
-> > > --- a/drivers/staging/fbtft/fbtft.h
-> > > +++ b/drivers/staging/fbtft/fbtft.h
-> > > @@ -277,7 +277,7 @@ static const struct of_device_id dt_ids[] =3D {		=
-			\
-> > >  	{ .compatible =3D _compatible },						\
-> > >  	{},									\
-> > >  };										\
-> > > -MODULE_DEVICE_TABLE(of, dt_ids);
-> > > +MODULE_DEVICE_TABLE(of, dt_ids)
-> >=20
-> > In fact the ; after MODULE_DEVICE_TABLE is necessary. There is only a
-> > single instance in the kernel without a semicolon[1]. That's in
-> > drivers/pci/controller/pcie-microchip-host.c and this only works because
-> > this driver cannot be compiled as a module and so MODULE_DEVICE_TABLE
-> > evaluates to nothing. Will send a patch for that one.
-
-FTR: Patch was sent: https://lore.kernel.org/linux-pci/20220420065832.14173=
--1-u.kleine-koenig@pengutronix.de
-
-> When I built this, it appeared to succeed. I used the command "make
-> M=3D/drivers/staging/fbtft modules". Is this incorrect? For reference this
-> is my first patch so it's highly likely I did this incorrectly.
-
-I don't know for sure, but I'd have said that the M=3D stuff is for
-out-of-tree modules only.
-
-I'd recommend:
-
-	make allmodconfig
-	make drivers/staging/fbtft/
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---f7hoyxknyagqhwtl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmJgGlMACgkQwfwUeK3K
-7AkmVQf/ULc5C4BOsXhP5Yxd0efu3wQ7TGqRegYd/q3ZzvwzMwlc8g8VHCnSYBt1
-Ub1qvQ3EAzBn/vNsRfQb6zXcJxmNAB9OS999dzGLa7I0WS7/uosHvLJVLeoffXRR
-pJ0n3cmZGOBcO2abrhqBJPGOqfgTV/OMxEkFS3fRdjKrkWYMwBKl96Ckt0m/t7ai
-qbu9/771JLKH6L+vM3O8LoL53T1CA27qGrtS3JTNvhHOgNvVem9Rz1XCDQ5pTtHB
-rmBmZfhSWHyD/YFXm83L0iofqVJcOrDuysF329jBFYu1btc5h5S1X7Xk/nqeKf9N
-mNSwdVl2fdCS6r7ao2IdmdN6GGUrXQ==
-=se4c
------END PGP SIGNATURE-----
-
---f7hoyxknyagqhwtl--
+Thanks,
+Jaehee
