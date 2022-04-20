@@ -1,34 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com [209.85.160.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AB91841
-	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 12:17:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF64FC385A1;
-	Wed, 20 Apr 2022 12:17:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650457059;
-	bh=wR8epLcRwet5iLsovO7VGCtWnnusXAN+oGi5pQhPlJ4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cV8WiJwxye2iS6FnOaVBdWBk6l/9WSVIS+4u5Dcn0O736bMRazbqOpiVptnT1NAQl
-	 hi7DC5U2KmEEH4Je76iYX8aXTjAu+MoQLBFSEZtuJby2oD7bn39NY7t7SrSS08r7r3
-	 ygCzI2Hw4eiFK4ZpWSn3iElUt/Q2zqd2818L1IVk=
-Date: Wed, 20 Apr 2022 14:17:36 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
-Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-Subject: Re: [RFC] staging/vSMP: new driver
-Message-ID: <Yl/54NGq70g1QuQq@kroah.com>
-References: <PAXPR02MB7310A489D636D9BE75108CAC81129@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YjLy5wHtdYZvUU8t@kroah.com>
- <PAXPR02MB73100E24FCE4E04B45F9285781129@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <YjL4Y2l6oOabjmpX@kroah.com>
- <PAXPR02MB7310CEC795999B590704AF4181129@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <PAXPR02MB7310E609A200F01F77F2D2C381F59@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <Yl/tU5BDIPl9VuJw@kroah.com>
- <PAXPR02MB73103C308D5942977331A28881F59@PAXPR02MB7310.eurprd02.prod.outlook.com>
- <Yl/xoWttIba3UdIM@kroah.com>
- <PAXPR02MB7310F3F8129ECA908C3A0B4E81F59@PAXPR02MB7310.eurprd02.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A30B1841;
+	Wed, 20 Apr 2022 12:23:31 +0000 (UTC)
+Received: by mail-oa1-f65.google.com with SMTP id 586e51a60fabf-e5c42b6e31so1711328fac.12;
+        Wed, 20 Apr 2022 05:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=TIUNz0EBmXcqRPlOdyGN4ICv5GdtKevGFMV0dTVCKRM=;
+        b=KN1EH+ZkU67vRFXgDO4xfqUjsgFZyKpCOMKnhjRkjH16Co9PlrgjbBEy9UTyOLeelA
+         BGzYm53QGEti6u/01jPf2J8shH0+mxiJ5IrtOsWmul23Wl1NXQKn0U7MLdEs8YqUExF/
+         YlmLgtWchtqGNs5FMe7MNnrGWjh4sf8woOiql6m1NlDZG5y+gVAvno9hT/9tJBYCvh1F
+         lNegr90SmksTyexOtEt4VVCnDy1af3PNP3MYZc/FdPy/JSj25LqEdbi60G0PSWLqjSsr
+         Q2s8R9l2Vpfw/KXhycFZM3XbMkCBSU1hLhdtOlUeTOeL2BQaTWbvVebKwA7rbDLwx8q7
+         sw5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=TIUNz0EBmXcqRPlOdyGN4ICv5GdtKevGFMV0dTVCKRM=;
+        b=Nth+o8ztIXR8LGIzKtWUpz5qwI6QQA7u5P+wTq/MxhyrvrGwcp3t5fSpRrjFzyuRFD
+         QvgTASqwyXSLMQ3N8VCGiBJohNwe+1DfgNR9sk6d8HhnaKxrX+BJH6+iDmdGeURKpW6O
+         2o8ClELha8YkhR984r0xbqKpJJiDUmjoYXLct4uN4FMQiW1yyl6M2wOG6eNryUHIsXcq
+         ua8L0HdbAdQVAw1NXnaOyLcLPk1iH+snh1KsEsCB80ZjjHyEpCxZhyur1U3vESjat9oW
+         3Tm/RyDF7AAGCJNzBTSReBtdnB2ftdibtYxhUXfcIBagH6z0aQ6HfLeE0yUSNC4rS9Y/
+         YeYg==
+X-Gm-Message-State: AOAM531ZFgP7W0/UpgXHnRwDsJcnwdpVEuoKdwgw7KoVLKyHqEUQzTjh
+	y0tiUE4eL4X++T2pczIkG6RHIjatpRKcHA==
+X-Google-Smtp-Source: ABdhPJwfZfjdD7QWExbNx3daNAWGm7vWiwN/GrOXV6HfntYFHwxdgyn3VeFjMqXaPJJKA284z7plkg==
+X-Received: by 2002:a05:6870:c151:b0:e5:bf64:38d with SMTP id g17-20020a056870c15100b000e5bf64038dmr1389721oad.8.1650457410282;
+        Wed, 20 Apr 2022 05:23:30 -0700 (PDT)
+Received: from bertie (072-190-140-117.res.spectrum.com. [72.190.140.117])
+        by smtp.gmail.com with ESMTPSA id q13-20020a4ab3cd000000b0032830efe365sm6541879ooo.43.2022.04.20.05.23.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Apr 2022 05:23:29 -0700 (PDT)
+Date: Wed, 20 Apr 2022 07:23:28 -0500
+From: Rebecca Mckeever <remckee0@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: [PATCH] staging: rtl8192u: change get_key functions to return 0
+ instead of -1
+Message-ID: <Yl/7QPKXer7YtXOs@bertie>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -37,106 +51,70 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR02MB7310F3F8129ECA908C3A0B4E81F59@PAXPR02MB7310.eurprd02.prod.outlook.com>
 
-On Wed, Apr 20, 2022 at 11:57:51AM +0000, Czerwacki, Eial wrote:
-> >From: Greg KH <gregkh@linuxfoundation.org>
-> >Sent: Wednesday, April 20, 2022 14:42
-> >To: Czerwacki, Eial <eial.czerwacki@sap.com>
-> >Cc: linux-staging@lists.linux.dev <linux-staging@lists.linux.dev>; SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-> >Subject: Re: [RFC] staging/vSMP: new driver 
-> > 
-> >On Wed, Apr 20, 2022 at 11:38:57AM +0000, Czerwacki, Eial wrote:
-> >> >From: Greg KH <gregkh@linuxfoundation.org>
-> >> >Sent: Wednesday, April 20, 2022 14:24
-> >> >To: Czerwacki, Eial <eial.czerwacki@sap.com>
-> >> >Cc: linux-staging@lists.linux.dev <linux-staging@lists.linux.dev>; SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-> >> >Subject: Re: [RFC] staging/vSMP: new driver 
-> >> > 
-> >> >On Wed, Apr 20, 2022 at 11:18:15AM +0000, Czerwacki, Eial wrote:
-> >> >> Greetings Greg,
-> >> >> 
-> >> >> >From: Czerwacki, Eial <eial.czerwacki@sap.com>
-> >> >> >Sent: Thursday, March 17, 2022 11:04
-> >> >> >To: Greg KH <gregkh@linuxfoundation.org>
-> >> >> >Cc: linux-staging@lists.linux.dev <linux-staging@lists.linux.dev>; SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
-> >> >> >Subject: Re: [RFC] staging/vSMP: new driver 
-> >> >> >
-> >> >> >>On Thu, Mar 17, 2022 at 08:52:37AM +0000, Czerwacki, Eial wrote:
-> >> >> >>> >> >What tasks?
-> >> >> >>> >> support of other information bits like stats
-> >> >> >>> >
-> >> >> >>> >I have no idea what that means :)
-> >> >> >>> in short, the hypervisor can provide stats it collects, future implementation will export that too
-> >> >> >>
-> >> >> >>The trick will be _how_ you export this information.  Let's wait on that
-> >> >> >>one for now, your current api has lots of other questions to work out
-> >> >> >>first :)
-> >> >> >
-> >> >> >sure, thanks for all the help.
-> >> >> >
-> >> >> >Eial
-> >> >> 
-> >> >> I was wondering, after I've switched the driver flow to the pci driver one, I lost the ability to prevent vsmp.ko from loading in case no device was found.
-> >> >> is there a way do to so?
-> >> >
-> >> >No, that is not how drivers have worked since the 2.4 kernel days (i.e.
-> >> >20 years ago?)  It is fine for your driver to be loaded even if there is
-> >> >no device present.
-> >> >
-> >> >But, your driver will NOT be loaded automatically unless a device is
-> >> >found, so why would it be present in that situation?
-> >> >
-> >> >thanks,
-> >> >
-> >> >greg k-h
-> >> 
-> >> because there are other modules which depends on it.
-> >
-> >I do not understand the question.
-> >
-> >> I guess I can detect it as part of the other module's init
-> >
-> >Huh?
-> >
-> >Try it and see, the linker will properly pull in the needed modules if
-> >you have symbols in one module that are needed by another one.
-> nothing prevents a user from loading the modules even if the device is missing.
-> the driver's hierarchy is one api modules and two unrelated modules which depend on it.
-> running modprobe vsmp_logs on a system where the device doesn't exists results with a kernel trace.
+Currently, these three get_key functions return -1 when the provided len
+value is less a specific key length value, which can result in buffer
+overflow depending on how the returned value is used. These functions are
+used in three places in ieee80211/ieee80211_wx.c:
 
-What exact "kernel trace" is emitted?
+  ieee80211_wx_get_encode() :
+    The behavior of this function will be unchanged.
 
-> obliviously, this is not something accepted by the community.
+  ieee80211_wx_get_encode_ext() :
+    The result of the get_key function is written to ext->key_len,
+    resulting in a buffer overflow if the result is negative.
 
-I do not understand what is not acceptable?
+  ieee80211_wx_set_encode() :
+    The behavior of this function will change. When len is less than the
+    key length value, it will set a default key of all 0.
 
-> >
-> >But if that is the case, why split them up into different modules?
-> splitting the driver into three modules is purely for flexibility reasons.
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
+---
+ drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c | 2 +-
+ drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c | 2 +-
+ drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Flexible for whom?
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c
+index 101c28265e91..f17d07dad56d 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c
+@@ -362,7 +362,7 @@ static int ieee80211_ccmp_get_key(void *key, int len, u8 *seq, void *priv)
+ 	struct ieee80211_ccmp_data *data = priv;
+ 
+ 	if (len < CCMP_TK_LEN)
+-		return -1;
++		return 0;
+ 
+ 	if (!data->key_set)
+ 		return 0;
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
+index 689d8843f538..7b120b8cb982 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c
+@@ -637,7 +637,7 @@ static int ieee80211_tkip_get_key(void *key, int len, u8 *seq, void *priv)
+ 	struct ieee80211_tkip_data *tkey = priv;
+ 
+ 	if (len < TKIP_KEY_LEN)
+-		return -1;
++		return 0;
+ 
+ 	if (!tkey->key_set)
+ 		return 0;
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c
+index 8a51ea1dd6e5..a2cdf3bfd1a4 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c
+@@ -201,7 +201,7 @@ static int prism2_wep_get_key(void *key, int len, u8 *seq, void *priv)
+ 	struct prism2_wep_data *wep = priv;
+ 
+ 	if (len < wep->key_len)
+-		return -1;
++		return 0;
+ 
+ 	memcpy(key, wep->key, wep->key_len);
+ 
+-- 
+2.32.0
 
-> e.g. on runtime a user can decide which parts of the driver to run
-
-How?  And why?  A kernel driver should "just work" no need to configure
-anything or only load, or not load, a specific set of drivers.  That's
-not how kernel modules work at all.
-
-> >
-> >I do not understand the question really.  Try it and see first and if
-> >you have specific problems, please post the code and we will be glad to
-> >review it.
-> maybe I just need to forgo the flexibility and add all features as a built-in which isn't configurable
-
-What exact "flexibility" are you trying to do here?
-
-And again, nothing should be configured, it should always "just work" if
-the needed hardware is present.  If not, nothing should happen.
-
-Again, post your code for better answers, this is all just
-hand-waving...
-
-thanks,
-
-greg k-h
