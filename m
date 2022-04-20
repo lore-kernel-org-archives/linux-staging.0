@@ -1,51 +1,51 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064991373
-	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 11:07:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D85F1373
+	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 11:07:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1650452829;
+	s=mimecast20190719; t=1650452840;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UwOF3HOL5RSWCpIsMDkzBg+WBg3G3TFS0qjQ6oEuYGo=;
-	b=KXNOsqeaPhVsBfkh5ZuE8iXdkqNHu1E083AhQrRIWPG1P4tHqFTeN5IxaOeQw5hptrhmDv
-	YAyF4aIdZtItY6AAwZZn59j9d2neVNCEXLjJ0IDqllpqrs6fr7VbkKOpEp1PK1v8bl8T1y
-	lZVW9XitHSArpqMZHGx1iAD5dhpoupA=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=TUFhF3hl2SKfIxx89PLl432LqDZkfSZvjeGeXMqsrlg=;
+	b=DlP6HBVAzN85ERZBfKj73Xwblojf2/57/+XM/SD3c6wNy4SGhZq7Gxn+l5f8f9kSbqwFPU
+	E+WTyGEOO3YF2+08YLt1ldp3oWBG+mr9qvaMa1Zc+dVhGrSBOTg2mNWVykhiU5HIABNpEt
+	SbPwc5guF2k5wTDnAj2QHBl2BwHp5RM=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-KM2DbiGDNS-NsB3TsEr0wQ-1; Wed, 20 Apr 2022 07:07:07 -0400
-X-MC-Unique: KM2DbiGDNS-NsB3TsEr0wQ-1
-Received: by mail-ej1-f70.google.com with SMTP id sb12-20020a1709076d8c00b006efa121ff38so782052ejc.16
-        for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 04:07:07 -0700 (PDT)
+ us-mta-609-IJszUgjRMjqfi-D1o3wwFg-1; Wed, 20 Apr 2022 07:07:19 -0400
+X-MC-Unique: IJszUgjRMjqfi-D1o3wwFg-1
+Received: by mail-ej1-f72.google.com with SMTP id sb12-20020a1709076d8c00b006efa121ff38so782287ejc.16
+        for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 04:07:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=UwOF3HOL5RSWCpIsMDkzBg+WBg3G3TFS0qjQ6oEuYGo=;
-        b=nwpyvsaqNcNMQp6qbUDBcCECLXgVCUnUMjLe9jsKdc8M8Q93EM3ly/bJgUsM3vvOeZ
-         qeUVsvPbrvvSApAYOSq5sY6f43q+1sC175OqkV0U3KbeXusMlh64rxqevNmroZ6JOrkf
-         06MPR1RT8+ox/D9j8o6Il/Vx/VwiOtIPCJDT11iKVu/X2LMyVVf/LvZKC8ircTQdbhN+
-         a4iV6bA9op3pqrAcXXoNy3Je8LLW6aQafo8GWZZFA0M11JD0Wl1+3yp7qjinEKEADEGF
-         rC0myEjyan8RF9aDw2H/1cINwam9SWTigp2KJzCKUqkIdE8oAiAtDx0i+fZz2hUZdL9X
-         2TsQ==
-X-Gm-Message-State: AOAM532G49p7sAJOZhxH30v+E9+YQcnCBkYb8gRZVFAQagu0zOlsGk4Z
-	iof8FLX9dQyEhXUmXLqlSS4YWDdD8b0SOa3u4G5tPfta/KQui8pT4RpHxBHxz8d0epFofoW3bHc
-	Vj4ZlO8/cWsOWCpHBfPZF/qYTbA==
-X-Received: by 2002:a05:6402:608:b0:41e:ce5:f02d with SMTP id n8-20020a056402060800b0041e0ce5f02dmr22940032edv.104.1650452826547;
-        Wed, 20 Apr 2022 04:07:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKbC85ZGMPknAiJCsVTUPZVUdQiALgx50L9YEQctGci04sT/7JOLUTRhYvUOLdSGyH3zdyLg==
-X-Received: by 2002:a05:6402:608:b0:41e:ce5:f02d with SMTP id n8-20020a056402060800b0041e0ce5f02dmr22940009edv.104.1650452826359;
-        Wed, 20 Apr 2022 04:07:06 -0700 (PDT)
+        bh=TUFhF3hl2SKfIxx89PLl432LqDZkfSZvjeGeXMqsrlg=;
+        b=T3l1LKZEMP3liV7a/C8HjIj+YiD9raRCBDFlXwTeza+NYLQIpxdoq5WnUXLz1BAvMS
+         3GVqOE+RBNyQpbCcJACQT/dor3UjPTEsUYbyj/bFoTs4EqMeq3S9WsJ6RL0YQp2ePT8Q
+         OsxUw+nryotoclgqdmjZYOBIVWmDZcJhrnI+xre3AiA+Sr71eZK2DzIYAkS3CAHFz3Ve
+         SUQTSHga7kUVe8rEPjsW/VvsW0UlWfcwqvXN1S++PkZxs/pRR6Bq0O2ruCy90K7qK3go
+         OxPZPZfPGD1AViNypCquq3hX8JlP1IUtEZFa2OZe5zCRQ/mE3Ehk/4p4bButExg3VCLj
+         GwTg==
+X-Gm-Message-State: AOAM533PQpuxbIZyBo6ORHwDxoquA95ER3zu0GL0JF1hw+sKO5uJUyhh
+	9RmRNL/C1r3KrheP1TibsXDyOFOrZoWsN3xd4mdkJlP8S7tBWvWbdkm06AiDV9QKqd4Mr5/5JRr
+	9gv7MgTF1lZ3VgyWTyElBYqw5kw==
+X-Received: by 2002:aa7:d292:0:b0:41d:7933:1f00 with SMTP id w18-20020aa7d292000000b0041d79331f00mr22321197edq.237.1650452838092;
+        Wed, 20 Apr 2022 04:07:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy4xkdSFzHKfg4PBYhoD0/mOJsBUEzZ2dXQcXai1pQkf6+YZSMmE+Tg6Ubf6jiqCkiDSYI/Sw==
+X-Received: by 2002:aa7:d292:0:b0:41d:7933:1f00 with SMTP id w18-20020aa7d292000000b0041d79331f00mr22321172edq.237.1650452837920;
+        Wed, 20 Apr 2022 04:07:17 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id cw23-20020a056402229700b00421c1574f01sm9117548edb.9.2022.04.20.04.07.05
+        by smtp.gmail.com with ESMTPSA id u6-20020a170906408600b006e87d654270sm6560779ejj.44.2022.04.20.04.07.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Apr 2022 04:07:05 -0700 (PDT)
-Message-ID: <0b04ad1a-e442-1728-ef2c-bab386a4c64c@redhat.com>
-Date: Wed, 20 Apr 2022 13:07:05 +0200
+        Wed, 20 Apr 2022 04:07:17 -0700 (PDT)
+Message-ID: <2d096f20-dbaa-1d49-96e9-a7ae6c19f7fe@redhat.com>
+Date: Wed, 20 Apr 2022 13:07:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,7 +55,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
 Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in
- hmm_set()
+ hmm_store()
 To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -64,9 +64,9 @@ To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
  Martiros Shakhzadyan <vrzh@vrzh.net>, linux-media@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
  Ira Weiny <ira.weiny@intel.com>, outreachy@lists.linux.dev
-References: <20220413212210.18494-1-fmdefrancesco@gmail.com>
+References: <20220413225531.9425-1-fmdefrancesco@gmail.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220413212210.18494-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20220413225531.9425-1-fmdefrancesco@gmail.com>
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -77,17 +77,30 @@ Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 4/13/22 23:22, Fabio M. De Francesco wrote:
+On 4/14/22 00:55, Fabio M. De Francesco wrote:
 > The use of kmap() is being deprecated in favor of kmap_local_page()
-> where it is feasible. In file pci/hmm/hmm.c, function hmm_set() calls
-> kmap() / kunmap() where kmap_local_page() can instead do the mapping.
+> where it is feasible. The same is true for kmap_atomic().
+> 
+> In file pci/hmm/hmm.c, function hmm_store() test if we are in atomic
+> context and, if so, it calls kmap_atomic(), if not, it calls kmap().
+> 
+> First of all, in_atomic() shouldn't be used in drivers. This macro
+> cannot always detect atomic context; in particular, it cannot know
+> about held spinlocks in non-preemptible kernels.
+> 
+> Notwithstanding what it is said above, this code doesn't need to care
+> whether or not it is executing in atomic context. It can simply use
+> kmap_local_page() / kunmap_local() that can instead do the mapping /
+> unmapping regardless of the context.
 > 
 > With kmap_local_page(), the mapping is per thread, CPU local and not
-> globally visible. Therefore, hmm_set()() is a function where the use
-> of kmap_local_page() in place of kmap() is correctly suited.
+> globally visible. Therefore, hmm_store()() is a function where the use
+> of kmap_local_page() in place of both kmap() and kmap_atomic() is
+> correctly suited.
 > 
-> Convert the calls of kmap() / kunmap() to kmap_local_page() /
-> kunmap_local().
+> Convert the calls of kmap() / kunmap() and kmap_atomic() /
+> kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
+> unnecessary tests which test if the code is in atomic context.
 > 
 > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 
@@ -104,27 +117,37 @@ Hans
 
 
 > ---
->  drivers/staging/media/atomisp/pci/hmm/hmm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/staging/media/atomisp/pci/hmm/hmm.c | 14 ++------------
+>  1 file changed, 2 insertions(+), 12 deletions(-)
 > 
 > diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-> index 6394385b6637..46ac082cd3f1 100644
+> index 46ac082cd3f1..54188197c3dc 100644
 > --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
 > +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-> @@ -563,7 +563,7 @@ int hmm_set(ia_css_ptr virt, int c, unsigned int bytes)
+> @@ -482,10 +482,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
 >  		idx = (virt - bo->start) >> PAGE_SHIFT;
 >  		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
 >  
-> -		des = (char *)kmap(bo->page_obj[idx].page) + offset;
-> +		des = (char *)kmap_local_page(bo->page_obj[idx].page) + offset;
+> -		if (in_atomic())
+> -			des = (char *)kmap_atomic(bo->page_obj[idx].page);
+> -		else
+> -			des = (char *)kmap(bo->page_obj[idx].page);
+> +		des = (char *)kmap_local_page(bo->page_obj[idx].page);
 >  
->  		if ((bytes + offset) >= PAGE_SIZE) {
->  			len = PAGE_SIZE - offset;
-> @@ -579,7 +579,7 @@ int hmm_set(ia_css_ptr virt, int c, unsigned int bytes)
+>  		if (!des) {
+>  			dev_err(atomisp_dev,
+> @@ -512,14 +509,7 @@ int hmm_store(ia_css_ptr virt, const void *data, unsigned int bytes)
 >  
 >  		clflush_cache_range(des, len);
 >  
-> -		kunmap(bo->page_obj[idx].page);
+> -		if (in_atomic())
+> -			/*
+> -			 * Note: kunmap_atomic requires return addr from
+> -			 * kmap_atomic, not the page. See linux/highmem.h
+> -			 */
+> -			kunmap_atomic(des - offset);
+> -		else
+> -			kunmap(bo->page_obj[idx].page);
 > +		kunmap_local(des);
 >  	}
 >  
