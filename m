@@ -1,73 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE85B1867
-	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 16:47:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ED7DC385A0;
-	Wed, 20 Apr 2022 16:47:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650473223;
-	bh=4fRcsXUhyVGIx/AjQuBcKxjrSKJPAxMI3mcZszc6S1A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ns/VOAU3hEltoED5s7v6fzhSb0W6hQRhd/5yUdx1pv7ZV8nNNrxsmkd9gpybhTW4A
-	 HD0TBIT5tMO+z2aDZIf0Vh/YsMTOWynaCjKWT1cmI3Hrxbx+D0CLzMl2Y1UNWd++fK
-	 5NE2BJu1ULUgMZ9OGwE1Pz1GgJQU33dtloYIxbQg=
-Date: Wed, 20 Apr 2022 18:47:00 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Artur Bujdoso <artur.bujdoso@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove leftover code for other
- chips
-Message-ID: <YmA5BM2Fkie5xMk/@kroah.com>
-References: <Yl8bCE8Rjh/w4Ogz@crux>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9631E1867;
+	Wed, 20 Apr 2022 16:53:43 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id r13so4790230ejd.5;
+        Wed, 20 Apr 2022 09:53:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Rfm74VEUMWZeXlpuLUyC+UQS6WldzCAHTX0ZUV4DSls=;
+        b=blpgcPwCTkxucUu2qZrWjwcq7sstE9xLRf5AbMMlxE8YZrJ0K0DNZxOq4mCHEiyIyZ
+         XdoMlOsuUf/eyx3g2tt7V7BIGpKZARWCyw1YovPsqhkocExAa58e2kNc0dv0QBaUvZTa
+         ObRRFqQ4FyNMmEiFGHCCqZyPP+x7gzFpMJbnyt2QOVwKfhkFb3cu+p9W2jcva0Vxo2JL
+         lO9F9NUmdDYZfFpt3wm6+UBs1MD6omwNrsa9yUtpOxuAmZ8f7zy3kfQpG3afpx91hIaT
+         XBh/sjnCyaTmpslP6liNlZldDuaPtD9AyVqE2rsH4dciA+m8PBxfVU+bGhG2acy4lRXn
+         OzIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Rfm74VEUMWZeXlpuLUyC+UQS6WldzCAHTX0ZUV4DSls=;
+        b=5w64N4Dou1vm9ycDo6mcdmTkdf2UZuqOS8RfBEInya1P5VzVEQnkD8OTQ0NR2yOGdM
+         eNyAo/6v/ewsRkEEcTjpKLJVphDOaBc5zan6ztC+l7fmwS5zJW0iFAzkGJZGpJXbfF6G
+         cMFbBBWslI1sEr2CFq8BGbaDYCtdmgZKRyuqZeOxLkMpTtLIRCLaQ4gQTPLFs7DkuJEq
+         2GRX+Fy87AVdPzeZg8+KAezpq3YtPUvkOSRpYwy97kwcORVaCN7K0Jw4eL8UQezfOzkL
+         OHRTHAIcrkHBRlnZEr3d6WWGOMYmY0Kv/APclLtvX0vRIXjYSUXM3rUBY3zvFAxd92QE
+         7PoQ==
+X-Gm-Message-State: AOAM530nVBke09lD8KEJ0Cyr1HVOXVEb/8UzemKYnAarhB38WeJQbjVj
+	XP/nzi/YmnXsQ699OKeqoFM=
+X-Google-Smtp-Source: ABdhPJxQ3uQH39NmcFzDqchDbenZC7Dj2C9W1dhPLDuReZA2QBfhi5bpkVEuZLM9fty7klo1viKK2g==
+X-Received: by 2002:a17:907:6d96:b0:6e8:d7d9:d573 with SMTP id sb22-20020a1709076d9600b006e8d7d9d573mr19276189ejc.90.1650473621788;
+        Wed, 20 Apr 2022 09:53:41 -0700 (PDT)
+Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id ee17-20020a056402291100b0041fe1e4e342sm10006539edb.27.2022.04.20.09.53.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Apr 2022 09:53:40 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Jaehee Park <jhpark1013@gmail.com>, Kalle Valo <kvalo@kernel.org>
+Cc: =?ISO-8859-1?Q?J=E9r=F4me?= Pouiller <jerome.pouiller@silabs.com>, "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-wireless@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, outreachy@lists.linux.dev, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH] wfx: use container_of() to get vif
+Date: Wed, 20 Apr 2022 18:53:39 +0200
+Message-ID: <2258432.bcXerOTE6V@leap>
+In-Reply-To: <87y200nf0a.fsf@kernel.org>
+References: <20220418035110.GA937332@jaehee-ThinkPad-X1-Extreme> <87y200nf0a.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yl8bCE8Rjh/w4Ogz@crux>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Apr 19, 2022 at 10:26:48PM +0200, Artur Bujdoso wrote:
-> Clean up unreferenced definitions in hal headers and code.
-> 
-> Signed-off-by: Artur Bujdoso <artur.bujdoso@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h  |  11 -
->  drivers/staging/rtl8723bs/hal/hal_btcoex.c    |   8 -
->  drivers/staging/rtl8723bs/include/HalVerDef.h |  10 -
->  .../staging/rtl8723bs/include/hal_com_reg.h   | 295 ------------------
->  4 files changed, 324 deletions(-)
-> 
+On mercoled=C3=AC 20 aprile 2022 13:57:57 CEST Kalle Valo wrote:
+> Jaehee Park <jhpark1013@gmail.com> writes:
+>=20
+> > Currently, upon virtual interface creation, wfx_add_interface() stores
+> > a reference to the corresponding struct ieee80211_vif in private data,
+> > for later usage. This is not needed when using the container_of
+> > construct. This construct already has all the info it needs to retrieve
+> > the reference to the corresponding struct from the offset that is
+> > already available, inherent in container_of(), between its type and
+> > member inputs (struct ieee80211_vif and drv_priv, respectively).
+> > Remove vif (which was previously storing the reference to the struct
+> > ieee80211_vif) from the struct wfx_vif, define a function
+> > wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
+> > the newly defined container_of construct.
+> >
+> > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+>=20
+> [...]
+>=20
+> > +static inline struct ieee80211_vif *wvif_to_vif(struct wfx_vif *wvif)
+> > +{
+> > +	return container_of((void *)wvif, struct ieee80211_vif,=20
+drv_priv);
+> > +}
+>=20
+> Why the void pointer cast? Avoid casts as much possible.
 
-Hi,
+In a previous email Jaehee wrote that she could compile her changes only by=
+=20
+using that "(void *)" cast.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+I replied that probably this is a hint that something is broken, although=20
+my argument is not necessarily a "proof". Might very well be that this cast=
+=20
+was needed in this particular situation but I cannot see why.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+@Jaehee, please try to explain why this "(void *)" cast is actually=20
+necessary and why your changes cannot avoid it.
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
+Thanks,
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+=46abio M. De Francesco
 
-thanks,
 
-greg k-h's patch email bot
+
