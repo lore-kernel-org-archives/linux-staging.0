@@ -1,188 +1,129 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510A41365;
-	Wed, 20 Apr 2022 09:42:44 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23K7tqKe009605;
-	Wed, 20 Apr 2022 09:42:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=WLjW9Y+SwLC+vPiS+rMMjLgk0SIcFqTmAC2O1ddN91U=;
- b=BPyITIhqAsysyBbJdQXZrOeVMqhGiyOlAZiz1wrv4kOQ04bkILJU6lAe6nKB+pdm4LYr
- u2B8lj/3YL+B4m2PFkHoQBnS3ZDlJqxSwkl+w7lrrlCrYrwfModLWLAWkap0ArSKyXgs
- 6FVLYmglX3LBNySsKxvl0ArtILS/sgcmU6QMPi7+6dPLLTmlmL1OvVJWVXos9ajY/BBO
- MsWYI8OJs01tSf2AUlNqkfze60vNV+yICMqzSs+P/oFL1nGNyyA66fWZB65gcN0w9809
- SlNBCoMIESppG3mnVjzFmtzcYF5tRMNydYSoeYQ+CZS3ib+ApEA9Y+RQ6qaEw70Zh3PH EQ== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3ffmk2rhcq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 20 Apr 2022 09:42:42 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 23K9aXMv040699;
-	Wed, 20 Apr 2022 09:42:42 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3ffm88sgv6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 20 Apr 2022 09:42:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=leWQmvtGzyGnEqRzEBsLeUDO/9zMupTTX3PJIqn43+6yTO4HKJ0ZTKMgiGDJ0qsHuBDFkzO19rc4KuzRkLdl0mQuEBe4d80U/pLQJEmaFnCuxGRCkhhzGoGJHZY8/ONN8Mkvam5h0nPaiJRbfDqd0h8UQXQ/KzQAcirrSloQUxL9JL0w8cbbB9AOLn3l0ksbex1egCLvB3DmaVQy8krfx3Ax6QMrxZlmyONdkdQ0Zc9yrPU4xp0QmZ6iY4RsBj5qOGXCRYpRGSzzqncQbddhgxoxDOvLMJZidUd+nS5cAXYdpZnFBzhylDAjBrAAZVj5WvercrL+IM1uSaY+WkzHfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WLjW9Y+SwLC+vPiS+rMMjLgk0SIcFqTmAC2O1ddN91U=;
- b=BRpd8XwdPkhXsX0J6MLmpHQmGRHnSVX+RO3VL5H/qHeivPq0rSVHDjuf/dEM4SLMjsmfXTF8aA+2WcRO6puFjrtgv5hGMqBdGs0u8iStzYU4dRuVjRi3AFUVntv2/DmM+n7EwD54tVfnaL/9+anQXAX9D1W/CD5cXSEiv+stTwsaZWIqXzumvD9CCHGnZVtbyyg9MsjVaYI647qy3E5JcyEHXQ3uhstVHYvPBHDqS/TIxgv5kR/PTM8MN6LEHlmZDOgqtzNEZsDdoJvBB49zD1m3HHu9bj4IiYMQuA8lYuW9Q0htsRIFjHhKpGxfQr9gylUUmrTYFn5YtTtCQsUjTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WLjW9Y+SwLC+vPiS+rMMjLgk0SIcFqTmAC2O1ddN91U=;
- b=auJQh6WPCeycAC4gbARa5vwdgG/+O8Wq7TEQGeZmZLQ5aERhqXe+DWjskj2fH3i7jIhpeyNyzLONTc7yeR9SVHwjOgsb0NGY3TDsdOMiVoWDWVod+QSXA7q8q1s3PITHKo1zHkoibkXsvh3bMkXxFmH2qG2k8fh/VV5ty2qDHHo=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DM6PR10MB3612.namprd10.prod.outlook.com
- (2603:10b6:5:157::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Wed, 20 Apr
- 2022 09:42:40 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5164.025; Wed, 20 Apr 2022
- 09:42:40 +0000
-Date: Wed, 20 Apr 2022 12:42:20 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Rebecca Mckeever <remckee0@gmail.com>
-Cc: outreachy@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192u: compare strcmp result to zero
-Message-ID: <20220420094220.GD2951@kadam>
-References: <20220416102434.97567-1-remckee0@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220416102434.97567-1-remckee0@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0039.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::6)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84F01373
+	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 11:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1650452815;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nAoKseYG0ZFXZ4TIIvPqFWraz/lYMRREh5HCpMpt4SA=;
+	b=A1rIxFCjzxIKEnsurTeUa4DbsdDJhQ4fe7gUdO5Jme0ueFE5zsHwW3UawOxFLNPVZE4tHQ
+	/nfFboVnTwANjiHt+sXLfU2+RDWjkrdSz07FaFdqEw72YqJ+UKqgh8XANIHqHqetmhNc0W
+	NI11H7v7528g7X9W14vUFHoJOY/KITM=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-340-jDN7S3P4Mg203QfcMjwVcw-1; Wed, 20 Apr 2022 07:06:54 -0400
+X-MC-Unique: jDN7S3P4Mg203QfcMjwVcw-1
+Received: by mail-ej1-f70.google.com with SMTP id sb12-20020a1709076d8c00b006efa121ff38so781754ejc.16
+        for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 04:06:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=nAoKseYG0ZFXZ4TIIvPqFWraz/lYMRREh5HCpMpt4SA=;
+        b=IbZmg4vbyyX+fhdUQrtWNzVUvb+EDG3EwCYDRUOKAkTP425IVrIOT29hynNjw4ItTT
+         vbpP/p0jpHd6HkInXYI4olrCjkSQZOd5GI9snqeoejo1SxAXDwtjBYdrmpVkm9rC56h8
+         Bw2KPimX6Ik+ABv8WaHnb6+MpY3Wb4a5ySj9LdkEUohiVCXVLOMRgT3yv9v7KnEVxqP8
+         247T3G8+BCDrq+TpRGAApGdX0TuqQeABamYk3IIdI/VcwswVNk7r4AugWT+0AAZ3V7Ky
+         aMrrxt1+kjHp8Fi+exXSWxoQjNQOnxy+leknHIUY4sJtdReJWzedk3SODJSVgRkyV7Z7
+         2vJQ==
+X-Gm-Message-State: AOAM531LKIlVgvob3ok54qMqzkVfLpnMx9qgpI1Tg3qxpaLsBrnlHNyC
+	HBh3XVKBalDtT/XU2QI+LjOhbwdzFnssCBAnIcM19Onk2tNHdrprDOPn8UkB5TeicIyIunMkJqk
+	jiinCbTwsXaGBM7qD87j/1+72Zw==
+X-Received: by 2002:aa7:d553:0:b0:416:4dfc:126d with SMTP id u19-20020aa7d553000000b004164dfc126dmr22214667edr.213.1650452813008;
+        Wed, 20 Apr 2022 04:06:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw4lQnFeV1UHw8eIKZeNMMfyCfsjkXPEdIsO3tYie3sWTmFFwMJD3/SNL1PcBjG6qYKpen0OQ==
+X-Received: by 2002:aa7:d553:0:b0:416:4dfc:126d with SMTP id u19-20020aa7d553000000b004164dfc126dmr22214651edr.213.1650452812873;
+        Wed, 20 Apr 2022 04:06:52 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id yy18-20020a170906dc1200b006d6e5c75029sm6477872ejb.187.2022.04.20.04.06.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Apr 2022 04:06:52 -0700 (PDT)
+Message-ID: <b0aed731-b56f-4378-b50e-fc0cbccbdb84@redhat.com>
+Date: Wed, 20 Apr 2022 13:06:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6686e760-ccf0-415d-8beb-08da22b21bf2
-X-MS-TrafficTypeDiagnostic: DM6PR10MB3612:EE_
-X-Microsoft-Antispam-PRVS: 
-	<DM6PR10MB36124CCF42D28E07817D42BD8EF59@DM6PR10MB3612.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	NR8e5gNz5MjYcHpp9q2hlkKCs6rtTflFvEzZw7QxhBAuvCTl2r9zPzb4shhZUI05QpminfLlYK83ARWUD8+xFPqZCxQZQqSKLEM7xuqhAEjGkWdck4khkupfIdzHw3lNFrrDh6Kh/DDqiR8CpgYErcuDmzso8oacFZoucGaX4aszHGgozV5ZTSLJqaiQ0jzLdDNrfoJQJz6UVjSSK00xAhS3bQFcMBYETMqKvPwD8xGUFFKhRr8hhL2GGAHQH9TN6FVvB6DXOGFBpdM24YG/OhM21pLJG+s2fIKfCmMdQQHmLTdJtObwnUx4mrO6SD45SgGwT+fSXRGOwxc0U2iRC5mMj6I5UOg6LrK43OUL5fHaTyPGcg0AHbH79kAT7y/fkLIq0GtaNJY+fJ4ouX2A/qdCIgK5DblXUEHzb2Lun0uXGSZX2X6ztl27DHzuLHxgm8TEirsr2mUe8BWAmpBqgoBUAqUY1QEmECk5NPQgbI25wr+rKETMvXCDUQN1dMtUQi0ITguaSS7/sKEb90SXoNZdgubIZBygDpM2NDfTMmAjGFDJAoydXUYP4MrYtHiTW+vf6qvthKtHaDrKZrK8zUNSF7fopzK1rIc0hIjN5u5085qJbSX5CZZ+9XLz+6RghsR5urfNXvCzUM1wk8LX7vPy21Nh4VGmTbcy9UMjP8Xswjrssa7FqBU86Ri0gIbpvXwI8Cl6E2thWGT3ZODlL0S994Wm8hyJLmUR4Yb/CfM=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(83380400001)(66476007)(316002)(33656002)(66946007)(33716001)(6512007)(38350700002)(6486002)(52116002)(6506007)(508600001)(2906002)(6666004)(38100700002)(186003)(1076003)(26005)(4326008)(66556008)(8676002)(5660300002)(44832011)(86362001)(8936002)(6916009)(9686003)(40753002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?cy8MUN7IM8JLIifc5jAJUc6iaYDaFrnc3Gyr1EZAJ78+AisJRabnSwKIbF4I?=
- =?us-ascii?Q?jX2sFu6rQVkFbaxdE+tZsshTEnpf++ibxmvphXzr8jQFUUUNHo6aKPBtIinJ?=
- =?us-ascii?Q?61GTgh21oWMR4DEcekHBSULUVIo/wiOeqo6BMG1Wm5qBK81LQP/rBy+odrTx?=
- =?us-ascii?Q?y8Y0zhl9hLapzZQgINI0YEQbljA8xZ/eLPfyDC4tsB1CbDLGN327K8WEpPda?=
- =?us-ascii?Q?x2YGm6OETZeRYl/RMxLtiKUmpr+oFEWcWg2vdMVHSlyF9jPbZlKr7cKvClvy?=
- =?us-ascii?Q?CMoxsg+iHFQE5F6emM2dWiR2OM3mKB/RFQTEatGHgLrwdbjDOwyzy3x+jxc2?=
- =?us-ascii?Q?sf4GCgYS6TZc9s8JvkyLANJgKJakeH2CfWYNZRo9NjG6dGqUmCty7N6YkmTc?=
- =?us-ascii?Q?sPXn4FBHiGJ+e2pwcCZvylfjsOuszIqanzXpghIzOw7FnwXqS27NBIFsr0Ty?=
- =?us-ascii?Q?R6zzAt2iqhGYZpPlj/FAAqM/L7i0h0/7pibxDY9QcbljjVBThFJcWqoGfTg7?=
- =?us-ascii?Q?yJJrfguklIsLC8H0z/6/G2HyVAYISUWQNghrqJZ0HgM0r2dooU0w/Hy55jLk?=
- =?us-ascii?Q?IAsp4UUOaZSvJ3IUe55cHCNl/P2Tl4RbT1XaXEs33+bzsSN5DJBq7L6uqHS9?=
- =?us-ascii?Q?+oH/il1RI+HLGA5MEAFp6c6xMsHUj/RNQLxznflnJJ9wA3Aw66Q9sERlszfT?=
- =?us-ascii?Q?jxUxb7zQXPxVd/94gS+kVQYhGG9p5BLfXv+4/RSH9Z2UQ4eTMEePQEH9v5n1?=
- =?us-ascii?Q?u9wwXsDsj0BartNKUGjkJovs+oHn1M8jgvOiYfM5UVeuduNjS3QhxMs4z+vt?=
- =?us-ascii?Q?v9yB5AR62o5aObLD05aKKa9HeXrwZQEb0PrLsQnBqNeHCaKF3wLohsELSvdE?=
- =?us-ascii?Q?moEoWb1GSVMh/KyGjV9KnJTHfWuyN3GHd6atu0lCUPIzfu2wW1bHRgmbFHFm?=
- =?us-ascii?Q?tfPfVHqxAiQNt++06OSGIysrxUTnCnaIiww6pkgzHA2Dc9bUO/3xF4fTjF2D?=
- =?us-ascii?Q?9790+wIWweRzqYuJnJtmy3g5ZYkv9AgXKYkyyZrzefpAQvVXPSYZJTuWxBR6?=
- =?us-ascii?Q?vTzf+D4WqTo/lNYOZ/ns1BUkE+lJWqGo1Td9oKXqGyAtdI6HstRmFnu2KQ6K?=
- =?us-ascii?Q?rWfFrlaJpgJHj6/ZPLcxa/fqgBRrAHsUmMJPbUYbNpARTlDXploq2bZaPZqy?=
- =?us-ascii?Q?nFY1cjdBtP3H4/ahS/neq86RBmU/+wAa4TTSB5ZkoPTjx3edcTdsk8D6TTIF?=
- =?us-ascii?Q?Nts63/DyrZVlPhX/fkhg/KAkMMhJtmWP8wzJsm9uLyxDQ5ZV9/G+PrYwkgM/?=
- =?us-ascii?Q?7jrpM12Ph8sKtfaOiZtNkSFDODaHCZ6tyk5snMVXkBdUwitUVoivrWRkFQMZ?=
- =?us-ascii?Q?YGb8giGnrhnzegf3pUfztEO4Sm7jkDJOC8hjab2PzFlhanZ4415z2PL4KMa9?=
- =?us-ascii?Q?jhghlZF2RF1JW5BziSjNrNfo+YVbw7gI6zCj7JkabNi8yYnEnH+HXsaJ/pLJ?=
- =?us-ascii?Q?q7xwywAqhaw8dZ67OActJkOKpQ/XujLdUaXUi3SnH4ejs243vQHayxBpU1Nm?=
- =?us-ascii?Q?JSf9Amh7djs7nbmVI8vg6FJeQTsJv50DqcGTEHGYjrBxwAWOhsDTu7JSwMBp?=
- =?us-ascii?Q?JxxwBSebdzRvCLsb/b1UUrecfaQ4kk2qxbVYkSxZzv+44rTfCh2tyTnvbGXh?=
- =?us-ascii?Q?cIL0XTMEX72rTnOnQkhzjIDpot9rc5xONNdeTfjXsZcaHPtaEPuTRtDuXUWT?=
- =?us-ascii?Q?k9jvIcgQLspkogKzhdAirmr/KokAXwU=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6686e760-ccf0-415d-8beb-08da22b21bf2
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2022 09:42:40.0686
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pn1KJqG/qiuzm6MVfvDLwnZHdcgJrhlN3NygtyF1X+2RBqU7mhWq8kraRQ1RxOvW9Huz/LFzZDCtVXSJWo9GbKwtghha90NWr09q8ggt9pc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3612
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.858
- definitions=2022-04-20_02:2022-04-15,2022-04-20 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 phishscore=0
- adultscore=0 mlxlogscore=999 spamscore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204200060
-X-Proofpoint-GUID: WBEpG7BrMMJvL2Mqo3Jm2ZmbR07NZ7yp
-X-Proofpoint-ORIG-GUID: WBEpG7BrMMJvL2Mqo3Jm2ZmbR07NZ7yp
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] staging: media: atomisp: Convert kmap() to
+ kmap_local_page()
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tsuchiya Yuto <kitakar@gmail.com>,
+ Martiros Shakhzadyan <vrzh@vrzh.net>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Ira Weiny <ira.weiny@intel.com>
+References: <20220408223129.3844-1-fmdefrancesco@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220408223129.3844-1-fmdefrancesco@gmail.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Apr 16, 2022 at 05:24:34AM -0500, Rebecca Mckeever wrote:
-> Add " == 0" to the condition in both else if branches to address a
-> possible bug. strcmp returns 0 when its arguments are equal, which
-> evaluates to false, often leading to errors when used in if statements.
+Hi,
+
+On 4/9/22 00:31, Fabio M. De Francesco wrote:
+> The use of kmap() is being deprecated in favor of kmap_local_page() where
+> it is feasible. With kmap_local_page(), the mapping is per thread, CPU
+> local and not globally visible.
 > 
-> Currently, the statement in the first else if branch does not execute
-> when its arguments are equal, but it does execute when crypt->ops->name
-> equals any string other than "WEP" or "TKIP".
+> load_and_flush_by_kmap() is a function where the use of kmap_local_page()
+> in place of kmap() is correctly suited.
 > 
-> Similarly, the second else if branch does not execute when its arguments
-> are equal, and it only executes when crypt->ops->name equals "TKIP".
-> The else branch never executes.
+> Convert load_and_flush_by_kmap() from kmap() to kmap_local_page().
 > 
-> It is unlikely that this is working as intended.
-> 
-> Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+
+I've successfully tested this on both the front and back cams
+of a chuwi hi8 tablet:
+
+Tested-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
+
+
 > ---
-
-Looks good.  How did you find this bug?
-
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-> There is a similiar issue in
-> drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> but I'm not sure if it's incorrect. The strcmp on line 2847 isn't
-> negated, but the ones on lines 2851, 2853, and 2855 are.
+>  drivers/staging/media/atomisp/pci/hmm/hmm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> 2845         /* IPW HW cannot build TKIP MIC, host decryption still needed. */
-> 2846         if (!(ieee->host_encrypt || ieee->host_decrypt) &&
-> 2847             strcmp(param->u.crypt.alg, "TKIP"))
-> 2848                 goto skip_host_crypt;
-
-You're right, but also I suspect this whole if statement is wrong.
-
-The if statement is only triggered if both ->host_encrypt and
-->host_decrypt are disabled.  (Too many negatives).  I think both are
-set in alloc_ieee80211() and rtl8192_init_priv_variable() so both are
-always true and the if statement is dead code.
-
-How does the code match with the comment?
-
-Fixing this probably requires testing.  Maybe we could add this to the
-TODO list or maybe add a comment?
-
-regards,
-dan carpenter
-
-Ps:  When you have a !(foo || bar) then it's often more readable to
-write it as !foo && !bar, but in this case it doesn't really answer any
-of the core questions so don't bother.
-
+> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> index c1cda16f2dc0..6394385b6637 100644
+> --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+> @@ -350,7 +350,7 @@ static int load_and_flush_by_kmap(ia_css_ptr virt, void *data,
+>  		idx = (virt - bo->start) >> PAGE_SHIFT;
+>  		offset = (virt - bo->start) - (idx << PAGE_SHIFT);
+>  
+> -		src = (char *)kmap(bo->page_obj[idx].page) + offset;
+> +		src = (char *)kmap_local_page(bo->page_obj[idx].page) + offset;
+>  
+>  		if ((bytes + offset) >= PAGE_SIZE) {
+>  			len = PAGE_SIZE - offset;
+> @@ -369,7 +369,7 @@ static int load_and_flush_by_kmap(ia_css_ptr virt, void *data,
+>  
+>  		clflush_cache_range(src, len);
+>  
+> -		kunmap(bo->page_obj[idx].page);
+> +		kunmap_local(src);
+>  	}
+>  
+>  	return 0;
 
