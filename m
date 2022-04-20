@@ -1,108 +1,171 @@
-Received: from m228-62.mailgun.net (m228-62.mailgun.net [159.135.228.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BFB1FA5
-	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 21:13:09 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev; q=dns/txt;
- s=smtp; t=1650489189; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Subject: Cc: To: To: From: From: Date:
- Sender: Sender; bh=zRjGTGnzaVlx+b81ByZmjRuO5gTu2rGruPsHyj6hw9o=; b=CmBbwSpCOLmzoUW0uF+M/ieUfO4lTvy+Sh44pR9RjpfLn6pWJAWcDPPDBWAgGoZkKF7J2eLo
- jM12jTX+yiYuv7k9gwPf5zyU8aKYBK0m64ZIJbWDRPOYIwMeXZA7EtCJVaNLezRo1fwF2Ky+
- 5RZnzIIXnAsS+Up73OZBjgoGpX3bWtgCzBfA6KVb66RRQKy1QgT6FVpWzOb1FXUCI91/t3ys
- i7XdEQYlpfWAyzXw5A28UfnQbKfm4127U4iR5aUpJzh6sT6Uyi5qtCF8HzokMrW9cCimRwyy
- ABO/biLPWgMpF01ZVMUmgnc8LW/KEyobRQOl95pwOOD68gIaw6DmWw==
-X-Mailgun-Sending-Ip: 159.135.228.62
-X-Mailgun-Sid: WyI4MTlhZCIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTljNmQiXQ==
-Received: from AN5Bruno (dynamic-user.170.84.57.33.mhnet.com.br
- [170.84.57.33]) by smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 62607764b77b16c56e5b6d3d (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Wed, 20 Apr 2022 21:13:08 GMT
-Sender: codeagain@codeagain.dev
-Date: Wed, 20 Apr 2022 18:12:58 -0300
-From: Bruno Moreira-Guedes <codeagain@codeagain.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Martyn Welch <martyn@welchs.me.uk>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656EA185A;
+	Wed, 20 Apr 2022 22:33:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650494029; x=1682030029;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h7ss3pq1fGb/RJBq21Rmn3EWxFU3sDjJBWnaWblVCGI=;
+  b=GwYDyDpjB7nrMhbA5xhMC7Q6tlbCX8mTqXTPWoIu8vk/6HblTODiijuK
+   YQfTJv+G1JUDK53jP2dKd2IOif8RApVefuevyiKScH7Z2sYyHo95Ue0eC
+   TXQyEmGEvzcpWFInJuCnLD5iZeT9lQsKgbpblrrYjVN9+yjunsr4ZUgZK
+   XCO/EkXhUnE60T4zublLSqWZU+KpGXtT1bkmKlaCPw0TfGnXmiRZN0mYO
+   8IbQEuYQmaasUk4cQ1+GZLCQ5M0kKon6AN8E5SV4BBKEpRBjgVW27HVi7
+   luLsqJHOxYgnAxNckdf/nx4obOgWnnHzMJFEBE3lvPhS6engOPj6TL3wZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="246056025"
+X-IronPort-AV: E=Sophos;i="5.90,276,1643702400"; 
+   d="scan'208";a="246056025"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2022 15:33:48 -0700
+X-IronPort-AV: E=Sophos;i="5.90,276,1643702400"; 
+   d="scan'208";a="576833471"
+Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2022 15:33:48 -0700
+Date: Wed, 20 Apr 2022 15:35:28 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Martyn Welch <martyn@welchs.me.uk>,
 	Manohar Vanga <manohar.vanga@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
 	Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: Re: [PATCH v2 2/3] staging: vme: Add VME_BUS dependency to Kconfig
-Message-ID: <20220420211258.j23biocryjkuz3qo@AN5Bruno>
+Subject: Re: [PATCH v3 0/3] staging: vme: Cleanup driver tree old structures
+Message-ID: <20220420223528.GA1279659@alison-desk>
 References: <cover.1650321310.git.codeagain@codeagain.dev>
- <00de5644d7c2f8c8878eccf86b761e0602732080.1650321310.git.codeagain@codeagain.dev>
- <20220418233929.zz32dil4u6hbwtqv@AN5Bruno>
- <YmA4ILK5Gv/Gdaso@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="entcbfx2eyqninee"
-Content-Disposition: inline
-In-Reply-To: <YmA4ILK5Gv/Gdaso@kroah.com>
-
-
---entcbfx2eyqninee
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <cover.1650321310.git.codeagain@codeagain.dev>
 
-On Wed, Apr 20, 2022 at 06:43:12PM +0200, Greg Kroah-Hartman wrote:
-> On Mon, Apr 18, 2022 at 08:39:29PM -0300, Bruno Moreira-Guedes wrote:
-> > Please, disregard the following message as there's a typo in the prefix.
-> >=20
-> > On Mon, Apr 18, 2022 at 08:31:09PM -0300, Bruno Moreira-Guedes wrote:
-> > > The KConfig file for VME_USER ('drivers/staging/vme/devices/Kconfig')
-> > > sourced at "drivers/vme/boards/KConfig" misses a `depends on` line for
-> > > VME_BUS, which is unnoticeable for menuconfig users who aren't be able
-> > > to select it through this interface without setting the CONFIG_VME_BUS
-> > > option because it's nested on VME_BUS menu entry.
-> > ...
-> > >  	  VME windows in a manner at least semi-compatible with the interfa=
-ce
-> > > --=20
-> > > 2.35.3
-> > >=20
-> >=20
-> > It's already sent a new copy with the proper version number. Nothing's
-> > changed except for the message ID and the v2 typo.
->=20
-> I can't handle 2 v2 of this same commit, our tools get very confused (as
-> do people.)  Would you be able to unwind this if you were in my
-> position?
-I really apologize for this confusion, I really did some mistakes on my
-local branch and had to edit the patches manually to reapply them. While
-working on that I accidentally missed to change the 'v2' to 'v3'. My
-mistake.
+On Mon, Apr 18, 2022 at 08:29:49PM -0300, Bruno Moreira-Guedes wrote:
+> This patch series modify the vme_user driver's place in
+> menuconfig (1/3), fixes a missing `depends on` line in a Kconfig file
+> (2/3), and rearrages the directory tree for the driver allowing a more
+> straightforward comprehension of its contents (3/3).
+> 
+> The 'vme_user/' driver is the only remaining vme-family driver in the
+> 'staging/' tree, but its structure, entry in menuconfig and building
+> routines are still attached to the 'vme/' subtree now outside
+> 'staging/'. The present patchset fixes it.
+> 
+> Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
 
-Though, there's no 2 v2s, the new one I sent is a v3 as is the rest of
-this thread. So, would it be necessary to unwind anything anyway?=20
+Hi Bruno,
 
-If this question happens to beb a bad one, my apologies again, I'll soon
-do some effort to learn more about how things work from a maintainer's
-perspective so next time I make a mistake I'll be able to take the best
-curse of action straight away.
+I see your follow-on questions to GregKH about the 2 v2's and rolling
+this set. I imagine you are going to work with many maintainers across
+the kernel, so although understanding their processes is interesting and
+useful, at some point just keeping your submittals clean, simple, and
+straightforward is the more efficient path forward. If it were me, I think
+I could get a v4 in GregKHs mailbox quicker than going around with him
+on why his tools don't understand my oddities. (I admire your curiosity,
+seriously! I'm just in a get it done and move on mood.)
 
->=20
-> Please resubmit a v3 of this series with everything fixed up.
-Did you mean a v4 in this case? Or just post the same patch again?
+In this case - you can see that this set is confusing because of the
+v2, then v3 of a single patch. I suggest cleaning it up while GregKH is
+sleeping ;) and get a clean v4 in his mbox. 
 
->=20
-> thanks,
->=20
-> greg k-h
+Not sure your process - but if you are using git send-email, the 
+--dry-run option is how I do the final eye-balling of what I'm 
+about to send. Try that out.
 
---entcbfx2eyqninee
-Content-Type: application/pgp-signature; name="signature.asc"
+The changelog below can be more succinct. I made a suggestion below.
 
------BEGIN PGP SIGNATURE-----
+> ---
+> CHANGE SUMMARY
+> 
+>   Version:  v1  v2  v3
+> [PATCH 1/3] *   -   *
+> [PATCH 2/3] -   *   *
+> [PATCH 3/3] -   *   *
+> 
+> CHANGELOG
+> [PATCH 0/3] staging: vme: Restructuring menuconfig and tree
+> v1:
+>   Created PATCH 1/3 as a single patch
+> v2:
+>   Added PATCH 2/3 and 3/3, turning it into a patchset
+> v3:
+>   Fixed and improved commit messages according to previous comments by
+>   Greg and Alison (to whom I'm indebted for their kind reviews). The
+>   commit titles got changed to be more specific and use the present
+>   imperative tense as for Alison's suggestions. The message body got
+>   fixed according to Greg formatting comments. The changelogs were moved
+>   to the cover letter as per another suggestion by Alison, and I added
+>   missing details (like the update in the MAINTAINERS I failed to
+>   mention in v2) and made textual improvements for clarity that I also
+>   noticed.
+> 
+> [PATCH 1/3] staging: vme: Move vme_user to staging KConfig
+> v1:
+>  - Sourced "drivers/staging/vme/devices/Kconfig" in
+>    "drivers/staging/Kconfig" and unsourced in "drivers/vme/Kconfig".
+> v3:
+>  - Modified the commit subject and text body.
+> 
+> [PATCH 2/3] staging: vme: Add VME_BUS dependency to Kconfig
+> v2:
+>  - Added this patch to the patchset.
+> v3:
+>  - Modified the commit subject and text body.
+> 
+> [PATCH 3/3] staging: vme: Move 'vme/devices' to 'vme_user/'
+> v2:
+>  - Added this patch to the patchset
+> v3
+>  - Modified the commit subject and text body.
 
-iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCYmB3WgAKCRAZtd3tyEY2
-ksbKAPwPgITi8i0KAigk8iXE96aF+Bz80tV57D5e9sQtk1HRJgEA3pxLFm5GRTwv
-aHAulqmNfDatFnWis1wjkqpiUhuJPwk=
-=yp+5
------END PGP SIGNATURE-----
+Changes in v4:
+- Remove extraneous patch from set
 
---entcbfx2eyqninee--
+Changes in v3:
+- Move changelog to cover letter (Alison)
+- Update commit messages and logs (Greg, Alison)
+
+Changes in v2:
+- Add new patch to set: Move 'vme/devices' to 'vme_user/'
+- Add new patch to set: Add VME_BUS dependency to Kconfig
+
+
+**I really want you to get this accepted before the next patch
+comes along and removes the driver entirely :(.
+
+Alison
+
+> 
+> Bruno Moreira-Guedes (3):
+>   staging: vme: Adjusted VME_USER in Kconfig
+>   staging: vme: Fix missing `depends on` at KConfig
+>   staging: vme: "drivers/staging/vme" tree cleanup
+> 
+>  MAINTAINERS                                          | 2 +-
+>  drivers/staging/Kconfig                              | 1 +
+>  drivers/staging/Makefile                             | 2 +-
+>  drivers/staging/vme/Makefile                         | 2 --
+>  drivers/staging/{vme/devices => vme_user}/Kconfig    | 2 +-
+>  drivers/staging/{vme/devices => vme_user}/Makefile   | 0
+>  drivers/staging/{vme/devices => vme_user}/vme_user.c | 0
+>  drivers/staging/{vme/devices => vme_user}/vme_user.h | 0
+>  drivers/vme/Kconfig                                  | 2 --
+>  9 files changed, 4 insertions(+), 7 deletions(-)
+>  delete mode 100644 drivers/staging/vme/Makefile
+>  rename drivers/staging/{vme/devices => vme_user}/Kconfig (93%)
+>  rename drivers/staging/{vme/devices => vme_user}/Makefile (100%)
+>  rename drivers/staging/{vme/devices => vme_user}/vme_user.c (100%)
+>  rename drivers/staging/{vme/devices => vme_user}/vme_user.h (100%)
+> 
+> -- 
+> 2.35.3
+> 
+
+
