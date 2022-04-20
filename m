@@ -1,199 +1,108 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from m228-62.mailgun.net (m228-62.mailgun.net [159.135.228.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD44D1867;
-	Wed, 20 Apr 2022 18:09:37 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23KGFkMB009092;
-	Wed, 20 Apr 2022 18:09:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type :
- content-transfer-encoding : in-reply-to : mime-version; s=corp-2021-07-09;
- bh=6uX3hYIHlsEPjBW2Pdf5MDqbv1p0XWmTCU4NelSr+l8=;
- b=z3MKkFA6ZCY3JFkFgMoMuVd/Cjxe2Y/7R9/6dGmLdlFL+cDIdAs0mrcS9eheGO0PrnQ4
- n3B5FE29mwBtkKIF65WEGlvP6gJb7ne9uenXJyd2q+LRl4mEPIlMY3tTrIHCUuOBDLKx
- rGZoWxHFVLCzLpeL1nN1eHN1hb0y0vI9q4/f0BnHy957SVDpxDtH5OP6CE0ExjbuuBnS
- 3WPrhYzNQGndHebSvLC/WxJxHVsRqKFE95he/eqTLjM8QVgRkCkLhGQ8ORXLnPWgSaO7
- jExmFnYriB5uhh6s43NZnzx//Lop0364x+BeUjwEUppkslkUl8oLH0b0cWhP6TgQ+6qz IQ== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3ffmk2sx4q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 20 Apr 2022 18:09:35 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 23KI0jCN018924;
-	Wed, 20 Apr 2022 18:09:30 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2047.outbound.protection.outlook.com [104.47.73.47])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3ffm880xqt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 20 Apr 2022 18:09:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dEi8JYP/Lr6JhZ5mg1jKvfCfLQp/cuuuBnxoUkwKNHvcxl/sNtCCpayEhoGlrnhD8IlYuFg+OqXRZ6w04ZhpphuJ6/JsWiEhyU7gwtZVsmDtRs0jXG0ju1eLEXVN1K/4WlOLP9UuQnuflUlsO38bTcNU3jZfo7HGJNXf+xKOIt5jbWVnQhEMenOPmtDfXfA4BuH3FLahmU8pMUemWrszyhgRHtWnRwEQcHO5aRGTzuyhyQVdBNUU3IUTLhC0ai030idsWfYatTIz43WWrwdHNuUueAEtOKIFtIcCgf/znlkgmFE0jphwTETxMwFrGxkj5CupUbNNOgPfQNuMf98SQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rm+Tf1S4PeuhjR71hbjUdFGBC1TL7DWUYOzMcL6w2XI=;
- b=RBWuic+0xOCMPp6PIesxcnqDqdghHETIdNwgoDgMDj5E2naBuwANYRIEQYMGAfvmQgjDrsmOq139SofwMc2me1CWbeJLYdNFtQFx6Y4zuBsPFx5wbgWQzyRL3ykgvGJ3tR+701QmrB/TEXnTLc4/qxiDeUzBkUJSa6CHhkT4pTFzIRurGN9iT+TClXN+0G+S6tVE/AruuChyrKRmWX14Ilj8JvKVhra+HyGL6KWwTeZ2AfJD99t/BAejzMcKfyrv02bvJGC3rzg84s2wF70td/hMuNZbkAfTXnKEfeZ6SXcGaJYfenTIFiowcGOzeXhwhtq9rzvuWQF6JbEXbZ1P9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rm+Tf1S4PeuhjR71hbjUdFGBC1TL7DWUYOzMcL6w2XI=;
- b=wmcW267/33XKgMQ1KYZBZ69uO/E020DLoK8XPH/Ym6KCC7IJoo3b5VDgdcbTUzcY8pf4lz9NpUtlNHZF2KX+/qbYKOuk3ejtNk0tUMdvGgi77fodthh5Pjmqmy6mur+9u/Taj+5Cuh69nyt0ekB1DokG6y9q4K+wAXTEKILlzgU=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MN2PR10MB3759.namprd10.prod.outlook.com
- (2603:10b6:208:185::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Wed, 20 Apr
- 2022 18:09:28 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5164.025; Wed, 20 Apr 2022
- 18:09:28 +0000
-Date: Wed, 20 Apr 2022 21:09:03 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        outreachy@lists.linux.dev, Rebecca Mckeever <remckee0@gmail.com>
-Subject: Re: [PATCH] staging: rtl8192u: change get_key functions to return 0
- instead of -1
-Message-ID: <20220420180902.GJ2951@kadam>
-References: <Yl/7QPKXer7YtXOs@bertie>
- <3183776.G96rZvMJ2N@leap>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3183776.G96rZvMJ2N@leap>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0020.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::20)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BFB1FA5
+	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 21:13:09 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev; q=dns/txt;
+ s=smtp; t=1650489189; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Subject: Cc: To: To: From: From: Date:
+ Sender: Sender; bh=zRjGTGnzaVlx+b81ByZmjRuO5gTu2rGruPsHyj6hw9o=; b=CmBbwSpCOLmzoUW0uF+M/ieUfO4lTvy+Sh44pR9RjpfLn6pWJAWcDPPDBWAgGoZkKF7J2eLo
+ jM12jTX+yiYuv7k9gwPf5zyU8aKYBK0m64ZIJbWDRPOYIwMeXZA7EtCJVaNLezRo1fwF2Ky+
+ 5RZnzIIXnAsS+Up73OZBjgoGpX3bWtgCzBfA6KVb66RRQKy1QgT6FVpWzOb1FXUCI91/t3ys
+ i7XdEQYlpfWAyzXw5A28UfnQbKfm4127U4iR5aUpJzh6sT6Uyi5qtCF8HzokMrW9cCimRwyy
+ ABO/biLPWgMpF01ZVMUmgnc8LW/KEyobRQOl95pwOOD68gIaw6DmWw==
+X-Mailgun-Sending-Ip: 159.135.228.62
+X-Mailgun-Sid: WyI4MTlhZCIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTljNmQiXQ==
+Received: from AN5Bruno (dynamic-user.170.84.57.33.mhnet.com.br
+ [170.84.57.33]) by smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 62607764b77b16c56e5b6d3d (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Wed, 20 Apr 2022 21:13:08 GMT
+Sender: codeagain@codeagain.dev
+Date: Wed, 20 Apr 2022 18:12:58 -0300
+From: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	Bruno's Patch Watchbox <patch-reply@codeagain.dev>
+Subject: Re: [PATCH v2 2/3] staging: vme: Add VME_BUS dependency to Kconfig
+Message-ID: <20220420211258.j23biocryjkuz3qo@AN5Bruno>
+References: <cover.1650321310.git.codeagain@codeagain.dev>
+ <00de5644d7c2f8c8878eccf86b761e0602732080.1650321310.git.codeagain@codeagain.dev>
+ <20220418233929.zz32dil4u6hbwtqv@AN5Bruno>
+ <YmA4ILK5Gv/Gdaso@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ccd8945d-1bd9-4cd0-9aa4-08da22f8e90a
-X-MS-TrafficTypeDiagnostic: MN2PR10MB3759:EE_
-X-Microsoft-Antispam-PRVS: 
-	<MN2PR10MB37594BCEC53A5C4D994DDA7A8EF59@MN2PR10MB3759.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Yczi6jg9p+zso6CwD5vbmQMg3i1jziQxnqY1wPRhYzgHkGG0j5gObjyRXCVubyzN6qgKRRsZY4aap0P6fGjEIrTtsZhmp/1y6ws+L09im2whTeu2SjSAsoLSYrJ6J14TlmVKWQsVr5NnW8HtXboNHP4zlQLf7REmBNcs4iXZfCToXL8N0wWEIhph3JxrM2fAEg9A9QnWoxN6uWzOamfaKaJrGmamrpcS237lZFq68S3OOtTNGBK4Mlhinx6TmNXlFtCy9abRN48KsOAoC504dW2lgRMincWR/s8B1ht17hSv5GkBP1PlPWccC1djptMjUMFRsFVU57xeoxF9rruJGlE475Q0ro0I/uX8vCPn0kMzSwIM/5R1tcYOk2LS0iG6bOFjBpxOhV8xrxAMWHz+UA/Dlo40mjzP6fTspNeDkPBnbDdFI9ecQdkDzt5T7N9sBlXGU6iOu4hWznlsWYtba2FM5+3WBhoL9M5Ua1L7uc230mji3XiSztMa/rPqrsEE1tHU3ip0F6K9nJEmTrp2f9dS5tDjz1dZxVoRjnGzBPWhGxFO0U4TbLjbytLBE0Fn+XGJSqZe4GyJOzcmZCP6s4eVKwaKGDvEhF8OSr4/mm/u3W63sDRTh67b82IJoSxXLmJWDdGjt52Qt3XRHMBY+gfQBXzs4Yr9OKifQGYwdAD82OTm7Gostbq1Q2UL8l2HoGiDzYx1laq9iBleOxE1AA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(38100700002)(186003)(66476007)(66946007)(26005)(44832011)(83380400001)(86362001)(6666004)(52116002)(5660300002)(6916009)(2906002)(1076003)(9686003)(6506007)(54906003)(6512007)(38350700002)(316002)(66556008)(6486002)(8936002)(8676002)(4326008)(33716001)(508600001)(33656002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?iso-8859-1?Q?TfOEE5hMpgEVJ/RovWuF2Z64mOYtTbvdQJWPPD4tmC04hdRCq1ALZu0jzB?=
- =?iso-8859-1?Q?8XWOFEecrOUggEwFf6uxCAzBkDDOBmn/ToHLRO+o5Jcu27kwJtHPCY/N2Q?=
- =?iso-8859-1?Q?eRcMynLDKsA8FciWzDUxpG2OlymwGFXV+7Ap/MtGbOsmy0vJn1PReXvqqX?=
- =?iso-8859-1?Q?Z9924lKd+ozCI8U36eTvcRetCUEo4qpG6iSs419/BS1MIoOrTDFMFEWBFs?=
- =?iso-8859-1?Q?8CuWqCKZ1TpvC86uaKyp6OnJvmIuAVOsQL2Afeo6NTVLL+24pzzAvHd6r2?=
- =?iso-8859-1?Q?unV6mmhJ/xvNrBmRKOwIFl0SV36dKiv37z/rkdbXo53mu+tt6wAreEPsjx?=
- =?iso-8859-1?Q?jGDuf1U3OV6mjtQpgWBOnddPMbDX/0rgOR4Um3nsh/FbARxfeO3E6r8cIJ?=
- =?iso-8859-1?Q?QW0qn24BzFb6f+dKcWeibjlRbgGQpoYlV2LhODjDqmDBzN3Qwm4iQBO66y?=
- =?iso-8859-1?Q?LgsurUSEziSCKgJsW8bAo1ZN/VrGVI/YamoDNdRS7AxlPTLWqZ7hZg1dZJ?=
- =?iso-8859-1?Q?soFwhR5tK/c7GklMp9uhWvJ/79E44kYVglpwy8UWAhfDPfJvBvE5k2IfH2?=
- =?iso-8859-1?Q?mec3VArh8TPtUdPoZHP6qbjg6UuZFi8MlD7ORztKzV+bcUVBIDf16rfXBv?=
- =?iso-8859-1?Q?CRZvA9iWcsY5+gK1xc7JjCYpqv7sTTsXQJziS1WGXe3Bk372IXqmXa/fIi?=
- =?iso-8859-1?Q?8dmQp4QnG/bNWTZV+ugUZGDhIapsiq0BzsXOWgb/KV0rm3BiOD+EzCH148?=
- =?iso-8859-1?Q?Xb5ecj/Quw5T+sbNIxraeu07Fl2ApO/yRSajuEB0l2gIRSAcLw6jhDwbUK?=
- =?iso-8859-1?Q?EeKAKiWPm4lAVjMZ0uegHKpHHsu71kOGjS2EVPyzApwXk+aFYGGrmW0rPI?=
- =?iso-8859-1?Q?7jQIMwTIdte1tNgdhlYBBHAgNAK7N31JqqbOnxi7e9wjJh0qpnlqGDR+/n?=
- =?iso-8859-1?Q?OpS8w+saumSiyee+Iqga59GwSE/O1WarUmXnY4PnRx4FKuiwzbaSt9Ywg0?=
- =?iso-8859-1?Q?+qn0u/kKHNgudpB9eySXSmKi79OxWVhOJKKFZZDR0M9ZjIxNuAs1Bo2YSa?=
- =?iso-8859-1?Q?eJdR4J80bu+z0E4rC5ARVPyUETvA9KrDi70WrGHfFfAPWkC9SEYgpZpUSc?=
- =?iso-8859-1?Q?/CGXJaHn9bqt6UlAcL+NN70gajUjd888nBzMs9OKi46A+qcwBR+zE5TFgp?=
- =?iso-8859-1?Q?9aphf+W9r85gSDrmQ00gNvIQi3wLPG8BXq96UsDG9Necin64wc0NdpGO2h?=
- =?iso-8859-1?Q?PK2IL/Pa8NhC6Fr1E8qmiGhNkEU8G4PPFvc/Z50iCFt201LMj/2lgpFq8W?=
- =?iso-8859-1?Q?PR0Kij3P2aWnQjnUx9IvRMIerGDcBI6A79aDZZgrZsyMH0diBRoVnb/eqY?=
- =?iso-8859-1?Q?uKPK2CZ3C3RyNev1JhtOh8MfW/JdllHDikHm5TLyxxn87yHEUo7WZdynQC?=
- =?iso-8859-1?Q?HbqxVtkntjct3kyzER7KEMjezinbIHQN7//q22u9zspUbnbXFBxtUmZITD?=
- =?iso-8859-1?Q?iFX3L9OzVBJBxlQWChh8y2cS7lEsjB9xINAiTZsDqxb5CGj36iQib9Sf9Q?=
- =?iso-8859-1?Q?Ux3SMW45i/6dh8S2OoTjArBh/4GSxBWViUk1LNI7JzQDKJKWBSRTZG6364?=
- =?iso-8859-1?Q?3cMeOh0R86xty70HawfzNj82v6ru/SdJAERHKW0m/+wBLhd0C0F6zOTH6y?=
- =?iso-8859-1?Q?EE7k/9YKA+iwziUgCf2p6dJMDobm8M2BIfC1XNmdWjxmprfDQHwbG+Vlt/?=
- =?iso-8859-1?Q?9qLgswOibhaRMbaenNI1DYLIw2Bk/VnwT6lmXlWwgbncCpjzmqHFjs/ZEu?=
- =?iso-8859-1?Q?v2oalMrO4JHLrCZFzo93m7zG2UQd3EM=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccd8945d-1bd9-4cd0-9aa4-08da22f8e90a
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2022 18:09:28.5710
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QIxi2uFqOsqrADK/Ivz8PJgadhBo7c6Ou/bSICx/iHPwYO9ktBNYBO6BwdhTDnEHsf287mcIsfHzDo2C0yyoFy1faqKK7slHcZ/5zQXaMTk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3759
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.858
- definitions=2022-04-20_05:2022-04-20,2022-04-20 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=999 adultscore=0 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2204200107
-X-Proofpoint-GUID: zU-6uYvAcY0R0T_5-BTaLJ4PasXGZ6WB
-X-Proofpoint-ORIG-GUID: zU-6uYvAcY0R0T_5-BTaLJ4PasXGZ6WB
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="entcbfx2eyqninee"
+Content-Disposition: inline
+In-Reply-To: <YmA4ILK5Gv/Gdaso@kroah.com>
 
-On Wed, Apr 20, 2022 at 04:52:36PM +0200, Fabio M. De Francesco wrote:
-> On mercoledì 20 aprile 2022 14:23:28 CEST Rebecca Mckeever wrote:
-> > Currently, these three get_key functions return -1 when the provided len
-> > value is less a specific key length value, which can result in buffer
-> > overflow depending on how the returned value is used. These functions are
-> > used in three places in ieee80211/ieee80211_wx.c:
-> > 
-> >   ieee80211_wx_get_encode() :
-> >     The behavior of this function will be unchanged.
-> > 
-> >   ieee80211_wx_get_encode_ext() :
-> >     The result of the get_key function is written to ext->key_len,
-> >     resulting in a buffer overflow if the result is negative.
-> > 
-> >   ieee80211_wx_set_encode() :
-> >     The behavior of this function will change. When len is less than the
-> >     key length value, it will set a default key of all 0.
-> > 
-> > Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
-> > ---
-> >  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_ccmp.c | 2 +-
-> >  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_tkip.c | 2 +-
-> >  drivers/staging/rtl8192u/ieee80211/ieee80211_crypt_wep.c  | 2 +-
-> >  3 files changed, 3 insertions(+), 3 deletions(-)
->
-> I was not able to find the message where Dan suggested this solution. 
-> However it looks that we actually have problems in those callers when they 
-> get '-1' as the return code.
-> 
-> I didn't look at the code with much attention but I think that returning 
-> '0' to signal errors is not so good.
-> 
-> If I'm not missing something from the context, I'd rather return '-EINVAL' 
-> and change the callers to check for this specific error that would signal 
-> we have "len less than a specific len value". If so, act in accordance to 
-> the returned -EINVAL.
-> 
-> For example, in a caller you may test:
-> 
-> if (ext->key_len == -EINVAL || <some other test, if required>)
->         <error path>
-> <success path>
 
-These are valid questions.
+--entcbfx2eyqninee
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ideally the errors wouldn't happen.  Maybe they don't happen?
+On Wed, Apr 20, 2022 at 06:43:12PM +0200, Greg Kroah-Hartman wrote:
+> On Mon, Apr 18, 2022 at 08:39:29PM -0300, Bruno Moreira-Guedes wrote:
+> > Please, disregard the following message as there's a typo in the prefix.
+> >=20
+> > On Mon, Apr 18, 2022 at 08:31:09PM -0300, Bruno Moreira-Guedes wrote:
+> > > The KConfig file for VME_USER ('drivers/staging/vme/devices/Kconfig')
+> > > sourced at "drivers/vme/boards/KConfig" misses a `depends on` line for
+> > > VME_BUS, which is unnoticeable for menuconfig users who aren't be able
+> > > to select it through this interface without setting the CONFIG_VME_BUS
+> > > option because it's nested on VME_BUS menu entry.
+> > ...
+> > >  	  VME windows in a manner at least semi-compatible with the interfa=
+ce
+> > > --=20
+> > > 2.35.3
+> > >=20
+> >=20
+> > It's already sent a new copy with the proper version number. Nothing's
+> > changed except for the message ID and the v2 typo.
+>=20
+> I can't handle 2 v2 of this same commit, our tools get very confused (as
+> do people.)  Would you be able to unwind this if you were in my
+> position?
+I really apologize for this confusion, I really did some mistakes on my
+local branch and had to edit the patches manually to reapply them. While
+working on that I accidentally missed to change the 'v2' to 'v3'. My
+mistake.
 
-The error handling is copied from ieee80211_wx_get_encode_ext().  An all
-zero password (rot13 security) is better than plaintext.  So this is a
-conservative fix which potentially fixes some memory corruption and
-doesn't break anything.
+Though, there's no 2 v2s, the new one I sent is a v3 as is the rest of
+this thread. So, would it be necessary to unwind anything anyway?=20
 
-A more extensive fix would require someone who understands the code
-better or can test it.
+If this question happens to beb a bad one, my apologies again, I'll soon
+do some effort to learn more about how things work from a maintainer's
+perspective so next time I make a mistake I'll be able to take the best
+curse of action straight away.
 
-regards,
-dan carpenter
+>=20
+> Please resubmit a v3 of this series with everything fixed up.
+Did you mean a v4 in this case? Or just post the same patch again?
+
+>=20
+> thanks,
+>=20
+> greg k-h
+
+--entcbfx2eyqninee
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCYmB3WgAKCRAZtd3tyEY2
+ksbKAPwPgITi8i0KAigk8iXE96aF+Bz80tV57D5e9sQtk1HRJgEA3pxLFm5GRTwv
+aHAulqmNfDatFnWis1wjkqpiUhuJPwk=
+=yp+5
+-----END PGP SIGNATURE-----
+
+--entcbfx2eyqninee--
