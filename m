@@ -1,169 +1,46 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from mail.fixingbiz.pl (mail.fixingbiz.pl [217.61.22.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66EB10F0;
-	Wed, 20 Apr 2022 07:50:53 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 77443240002;
-	Wed, 20 Apr 2022 07:50:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1650441045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zk0UJgX+zS8uYCmoLn7JkGQ+qKIowqpPLy9PBUXizmI=;
-	b=ls8Cn19nbxV/9ffObyyoOzrBODoj+hI7TxwVZbwu4IgkYriEXLB/U3GUAIGKJF43uH9pNe
-	sRVMBO2e5Mvd4RJH93WFex2LBr6VQNSWbwaUXg36/saJtxRei+pWEcAs4XW6I4rpdTy7wz
-	IOMtkZv7IrDPYfzE5b9BbHQyhazCJVdszKOC3Gk+tOqoxL9QcTpV0/Wf9dHBRSfNm0l0v5
-	XnhYsnNmrR7Qa1LPpVKoi77DAdkRE3ueVDNSOd/koZI5gk4RLJKfZeX2rqilSGMsu74y+T
-	KcOxrvecpZYIHIMudzwTMzT3vAgb8p5K3/Y4gkW1zlyjGqKmFCtqARkiRajqtQ==
-Date: Wed, 20 Apr 2022 09:50:42 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <Yl+7UrQFyLvfKRdG@aptenodytes>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
- <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
- <20220420074249.GB2951@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F6F10F0
+	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 07:51:55 +0000 (UTC)
+Received: by mail.fixingbiz.pl (Postfix, from userid 1001)
+	id 1ED0BA1DC7; Wed, 20 Apr 2022 08:41:43 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fixingbiz.pl; s=mail;
+	t=1650440525; bh=FDuFY3XQoq0gMX1b2gxgT7Py2p4Sxl0PJZYZ4NVaPho=;
+	h=Date:From:To:Subject:From;
+	b=snpq2sJ/YvxrMZ/Khuk2n/jvmh/ZlegLMhLkYF2rMW6e7fcdw8DqWHnh69h3VCMZG
+	 DKfNITULxUo1v5I9nwYwPghHAOjh1pjIKh8wb0JeG3fPShMZSTJsy42D3xbFPa4Oh+
+	 qRq4bFkXckP6rjfQCmkcdk4Pk1S+c1t9qsXNnlCPO6sVO5Mp86hMv62DFnt2HQc94q
+	 VLYCD+8Rn3yB0rxnAHZv82UvtqlljY52SLHmkzjsdGDa5ijDbYMTADSuwM6yQ9LLuM
+	 t5aDpBFDCaHuA9X2Kemm3D4/cgoEywwVx1DBx1Z+WFU+T4MF4D8/NsouPolF9Xw8KV
+	 rgQK8gWtmNNnA==
+Received: by mail.fixingbiz.pl for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 07:40:53 GMT
+Message-ID: <20220420074501-0.1.1x.6ttk.0.r3hjx3f0fn@fixingbiz.pl>
+Date: Wed, 20 Apr 2022 07:40:53 GMT
+From: =?UTF-8?Q?"Przemys=C5=82aw_Wr=C3=B3blewski"?= <przemyslaw.wroblewski@fixingbiz.pl>
+To: <linux-staging@lists.linux.dev>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.fixingbiz.pl
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="VYpzucMrXezC+iN2"
-Content-Disposition: inline
-In-Reply-To: <20220420074249.GB2951@kadam>
-
-
---VYpzucMrXezC+iN2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Dan,
+Dzie=C5=84 dobry,
 
-On Wed 20 Apr 22, 10:42, Dan Carpenter wrote:
-> I ran Smatch on this patch.
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
 
-Thanks for doing this!
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej nawet o 90%.
 
-> On Fri, Apr 15, 2022 at 05:37:07PM +0200, Paul Kocialkowski wrote:
-> > +void sun6i_isp_capture_configure(struct sun6i_isp_device *isp_dev)
-> > +{
-> > +	unsigned int width, height;
-> > +	unsigned int stride_luma, stride_chroma =3D 0;
-> > +	unsigned int stride_luma_div4, stride_chroma_div4;
-> > +	const struct sun6i_isp_capture_format *format;
-> > +	const struct v4l2_format_info *info;
-> > +	u32 pixelformat;
-> > +
-> > +	sun6i_isp_capture_dimensions(isp_dev, &width, &height);
-> > +	sun6i_isp_capture_format(isp_dev, &pixelformat);
-> > +
-> > +	format =3D sun6i_isp_capture_format_find(pixelformat);
-> > +	if (WARN_ON(!format))
-> > +		return;
-> > +
-> > +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_SIZE_CFG_REG,
-> > +			     SUN6I_ISP_MCH_SIZE_CFG_WIDTH(width) |
-> > +			     SUN6I_ISP_MCH_SIZE_CFG_HEIGHT(height));
-> > +
-> > +	info =3D v4l2_format_info(pixelformat);
-> > +	if (WARN_ON(!info))
-> > +		return;
-> > +
-> > +	stride_luma =3D width * info->bpp[0];
-> > +	stride_luma_div4 =3D DIV_ROUND_UP(stride_luma, 4);
-> > +
-> > +	if (info->comp_planes > 1) {
-> > +		stride_chroma =3D width * info->bpp[1] / info->hdiv;
-> > +		stride_chroma_div4 =3D DIV_ROUND_UP(stride_chroma, 4);
->=20
-> stride_chroma_div4 is not intialized on the else path.
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
 
-One could say it's not an issue to put an uninitialized value in this situa=
-tion
-since the hardware won't be taking it into account but I'll initialize the =
-value
-early in the next iteration.
 
-> > +	}
-> > +
-> > +	sun6i_isp_load_write(isp_dev, SUN6I_ISP_MCH_CFG_REG,
-> > +			     SUN6I_ISP_MCH_CFG_EN |
-> > +			     SUN6I_ISP_MCH_CFG_OUTPUT_FMT(format->output_format) |
-> > +			     SUN6I_ISP_MCH_CFG_STRIDE_Y_DIV4(stride_luma_div4) |
-> > +			     SUN6I_ISP_MCH_CFG_STRIDE_UV_DIV4(stride_chroma_div4));
-> > +}
->=20
-> [ snip ]
->=20
-> > +void sun6i_isp_params_configure(struct sun6i_isp_device *isp_dev)
-> > +{
-> > +	struct sun6i_isp_params_state *state =3D &isp_dev->params.state;
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(&state->lock, flags);
-> > +
-> > +	sun6i_isp_params_configure_base(isp_dev);
-> > +
-> > +	/* Default config is only applied at the very first stream start. */
-> > +	if (state->configured)
-> > +		goto complete;
-> > +
-> > +	 sun6i_isp_params_configure_modules(isp_dev,
->         ^
-> There is an extra space character here.
-
-Good catch, thanks!
-
-> > +					    &sun6i_isp_params_config_default);
-> > +
-> > +	state->configured =3D true;
-> > +
-> > +complete:
-> > +	spin_unlock_irqrestore(&state->lock, flags);
-> > +}
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---VYpzucMrXezC+iN2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJfu1EACgkQ3cLmz3+f
-v9GROggAhvf/IrRIYswrCnaCpPLhkw4Ly73/iOp4HatHnslaoOnc2CK8KfD2bYxv
-SoNYxaxuY8pKUmTtGNOoeX4rj1MeOR5TeDPqNOJHYScFZb94ap3UveCyh+AzROnY
-n/pbj6zBGJPjxjpV+epd5LgJId+r09yM3EAlYN5Fnuz5ot9urfLXSZIUo2XJGQQs
-tBkdjG5hnqX+SgMsdMlAHSzpXA41J1Y2vLB2ngIRh2/j4fdid+65+9JlgNOYKfBo
-d6HNp6QXAsQOhdTFzJaA2aXK3h54cxt5I0Wmhsi3uHe2bQLungevWyCPnYKvaZo7
-PoBqL/Y9x73xyEIjCFcQwp8aT6rpJA==
-=Vq1E
------END PGP SIGNATURE-----
-
---VYpzucMrXezC+iN2--
+Pozdrawiam,
+Przemys=C5=82aw Wr=C3=B3blewski
