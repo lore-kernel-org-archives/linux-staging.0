@@ -1,106 +1,397 @@
-Received: from quail.birch.relay.mailchannels.net (quail.birch.relay.mailchannels.net [23.83.209.151])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B98E1399
-	for <linux-staging@lists.linux.dev>; Tue, 19 Apr 2022 21:44:14 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 68BED2119F;
-	Tue, 19 Apr 2022 19:21:45 +0000 (UTC)
-Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id DEDDD20F82;
-	Tue, 19 Apr 2022 19:21:44 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650396105; a=rsa-sha256;
-	cv=none;
-	b=Ir5Hab98+53dg6Hlj7tR19dQNsXY0t9YesuMPKllRtdPolktgsqMGio0Wy/J+UygUNQe9a
-	v7aGjrdB5cKW7r2hzgYsXmtQ9q2k3n5SEth1HWSa03bndvHnUcvauDZ57DFAe9k22knVXM
-	D2ZrF+823oehBvEDrhhFPbo4h+kUI0QeeF3/gA6LfN7p0kgBmdiG/KypThmejWa4UELPkk
-	sQZ78se1e+bX+c4GSMcanYzgyho3FMJSoSBIcfLF5aISjuW4J2iY8rzsfwPoN6ApKO9mGs
-	O+Tov3lgVujB/ae6GOzaJsnTz9MGk40XE7AzQTHqnC+yX/U5cfAkNtX53ji2HA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1650396105;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
-	bh=sVsng9DLDN55YcF0EyjuXTIIw+v25YZDIwBp8VCD4Kk=;
-	b=thfNFP6QfcS39gEn+LxjtcvNgrvyYZEBDfrhDCFsrdg+12GaBImiZeHy+nTF65tZkO9ole
-	GBK6ROqSvxq+mFdWu+0l00HEIWaod9aYrat+vlZ0yDNM0e0y2MCAyULzPAYW4TrtwnqWV+
-	BNhMx0+kkWc6UBU7em/L1dQIi4invsCwjD+//wGWf+xXIMhnueR3C9B1ShjXxcnTDpoaHu
-	Q2kbpKdvUIwnhuV9FcjnCJsAmkBt7DPseiuH6onqBUfTofrwyhu1XH5YwMqFY2rdtTnutD
-	Zd1xpYDugMJxNTfjrC/yqxTSwHv1rYGMVWBHyokWANIEQkxaHe/RRH5RNnkqCg==
-ARC-Authentication-Results: i=1;
-	rspamd-5fd5798557-4qwrk;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.107.255.147 (trex/6.7.1);
-	Tue, 19 Apr 2022 19:21:45 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MailChannels-Auth-Id: dreamhost
-X-Chemical-Tangy: 0ad2c9aa2d9bd37c_1650396105193_4083120808
-X-MC-Loop-Signature: 1650396105193:2692126077
-X-MC-Ingress-Time: 1650396105193
-Received: from localhost.localdomain (unknown [69.12.38.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ian@linux.cowan.aero)
-	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4KjYZb0vMxz1K3;
-	Tue, 19 Apr 2022 12:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
-	s=dreamhost; t=1650396103;
-	bh=sVsng9DLDN55YcF0EyjuXTIIw+v25YZDIwBp8VCD4Kk=;
-	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
-	b=4k4ye652+roz0yL8ErtX8tPc/VrX59olFJTe8E5ZQ5IkmeAu8zjt0GmQAEJcALJ0w
-	 7PZehKS6PJpfhAEtq8O+rTwJLlCIgD/JsdHFDj3cTJq7Dj66WKXZwBkPRMmxrfIrql
-	 OWe7+OCXLCDk6/CuNBsD22nU3LR4a+9VPZ3Oz/+d005yp8zk3xsE7LZ2tlh1TzJJhx
-	 1jb0Mc8iQdxmOn7GQitem3zNNGqDLSznTQgRJkTgP/PSOFk/dPY13yvFO0ZuwUCDoa
-	 xtxAubIox73LDhrMWSY9ieLZ6ns05JxkltzpttjlOoWyJSTdyYQ1ZlcborJ+YfuXdB
-	 Rjl3nUqLkL+Ig==
-From: Ian Cowan <ian@linux.cowan.aero>
-To: gregkh@linuxfoundation.org
-Cc: u.kleine-koenig@pengutronix.de,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	ian@linux.cowan.aero
-Subject: [PATCH] Staging: fbtft: Fix style problem in header
-Date: Tue, 19 Apr 2022 15:21:28 -0400
-Message-Id: <20220419192128.445023-1-ian@linux.cowan.aero>
-X-Mailer: git-send-email 2.32.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE3E10F3
+	for <linux-staging@lists.linux.dev>; Wed, 20 Apr 2022 01:32:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650418373; x=1681954373;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZW3hZx2KJcLc7kiC1IDxZPjOenLvNKBfwQoBLaD+iPk=;
+  b=D9sEJqVl56xatw2JS9/YWXWSH3aQ3z6G7PO0gTzFVIC2is/5JPkiMS3o
+   xTyVXfSOePIcRqPkb55UQQbF2oIU6WXixHF9FCkjyezOUgzvEdvW0GNDJ
+   tokkMBcmMQmFoOE5aKg/MPB/gRqS1+OUn37YUNhBjJQIT1XOJIGKdpOtc
+   brkfHr5/D/ILWXdJHwqBztuuti8W3+BHIIUHSmjAKwmo0ZcJHmG1Ay2gM
+   Zo342BN9KQqsY9C6xykuKzMAxUS9UVU74D66Tzunq2Ne/AuGe6n/ufypw
+   BGqx6A1N+iPEyOkNDg5y9ioUvoFG0jsVJo/THL0choUHQVKvmN2tJNobL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="324354353"
+X-IronPort-AV: E=Sophos;i="5.90,274,1643702400"; 
+   d="scan'208";a="324354353"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2022 18:32:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,274,1643702400"; 
+   d="scan'208";a="647476269"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Apr 2022 18:32:50 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1ngzD8-0006PO-Au;
+	Wed, 20 Apr 2022 01:32:50 +0000
+Date: Wed, 20 Apr 2022 09:32:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ian Cowan <ian@linux.cowan.aero>, gregkh@linuxfoundation.org
+Cc: kbuild-all@lists.01.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, ian@linux.cowan.aero,
+	dri-devel@lists.freedesktop.org, u.kleine-koenig@pengutronix.de
+Subject: Re: [PATCH] Staging: fbtft: Fix style problem in header
+Message-ID: <202204200954.tbOBwAKP-lkp@intel.com>
+References: <20220419192128.445023-1-ian@linux.cowan.aero>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220419192128.445023-1-ian@linux.cowan.aero>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Removed an unnecessary semicolon at the end of a macro call
+Hi Ian,
 
-Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
----
- drivers/staging/fbtft/fbtft.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for the patch! Yet something to improve:
 
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 2c2b5f1c1df3..aa66760e1a9c 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -277,7 +277,7 @@ static const struct of_device_id dt_ids[] = {					\
- 	{ .compatible = _compatible },						\
- 	{},									\
- };										\
--MODULE_DEVICE_TABLE(of, dt_ids);
-+MODULE_DEVICE_TABLE(of, dt_ids)
- 
- #define FBTFT_SPI_DRIVER(_name, _compatible, _display, _spi_ids)		\
- 										\
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Cowan/Staging-fbtft-Fix-style-problem-in-header/20220420-040428
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git bed6d200f8ca38e1ecbdd8fb7e0564884002abd1
+config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20220420/202204200954.tbOBwAKP-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/77c04f63df8342cff035e42cda5606c2c87d33db
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ian-Cowan/Staging-fbtft-Fix-style-problem-in-header/20220420-040428
+        git checkout 77c04f63df8342cff035e42cda5606c2c87d33db
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/staging/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/staging/fbtft/fb_agm1264k-fl.c:15:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_agm1264k-fl.c:435:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     435 | FBTFT_REGISTER_DRIVER(DRVNAME, "displaytronic,fb_agm1264k-fl", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_agm1264k-fl.c:435:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     435 | FBTFT_REGISTER_DRIVER(DRVNAME, "displaytronic,fb_agm1264k-fl", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/staging/fbtft/fb_bd663474.c:17:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_bd663474.c:162:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     162 | FBTFT_REGISTER_DRIVER(DRVNAME, "hitachi,bd663474", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_bd663474.c:162:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     162 | FBTFT_REGISTER_DRIVER(DRVNAME, "hitachi,bd663474", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/staging/fbtft/fb_hx8340bn.c:21:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_hx8340bn.c:216:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     216 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8340bn", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_hx8340bn.c:216:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     216 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8340bn", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/staging/fbtft/fb_hx8347d.c:15:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_hx8347d.c:174:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     174 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8347d", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_hx8347d.c:174:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     174 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8347d", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/staging/fbtft/fb_hx8353d.c:15:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_hx8353d.c:139:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     139 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8353d", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_hx8353d.c:139:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     139 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8353d", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/staging/fbtft/fb_hx8357d.c:18:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_hx8357d.c:192:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     192 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8357d", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_hx8357d.c:192:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     192 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8357d", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/staging/fbtft/fb_ili9163.c:17:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ili9163.c:251:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     251 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9163", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ili9163.c:251:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     251 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9163", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/staging/fbtft/fb_ili9320.c:14:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ili9320.c:258:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     258 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9320", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ili9320.c:258:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     258 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9320", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/staging/fbtft/fb_ili9325.c:15:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ili9325.c:252:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     252 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9325", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ili9325.c:252:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     252 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9325", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/staging/fbtft/fb_ili9340.c:14:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ili9340.c:130:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     130 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9340", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ili9340.c:130:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     130 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9340", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/staging/fbtft/fb_ili9341.c:20:
+>> drivers/staging/fbtft/fbtft.h:284:1: error: expected ',' or ';' before 'static'
+     284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+         | ^~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ili9341.c:148:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     148 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9341", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+     302 |         .probe = fbtft_driver_probe_spi,                                        \
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft.h:323:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+     323 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
+         | ^~~~~~~~~~~~~~~~
+   drivers/staging/fbtft/fb_ili9341.c:148:1: note: in expansion of macro 'FBTFT_REGISTER_DRIVER'
+     148 | FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9341", &display);
+         | ^~~~~~~~~~~~~~~~~~~~~
+..
+
+
+vim +284 drivers/staging/fbtft/fbtft.h
+
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  281  
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  282  #define FBTFT_SPI_DRIVER(_name, _compatible, _display, _spi_ids)		\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  283  										\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31 @284  static int fbtft_driver_probe_spi(struct spi_device *spi)			\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  285  {										\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  286  	return fbtft_probe_common(_display, spi, NULL);				\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  287  }										\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  288  										\
+a0386bba70934d Uwe Kleine-König 2022-01-23  289  static void fbtft_driver_remove_spi(struct spi_device *spi)			\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  290  {										\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  291  	struct fb_info *info = spi_get_drvdata(spi);				\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  292  										\
+cb08d3d2a3e4d2 Uwe Kleine-König 2021-10-12  293  	fbtft_remove_common(&spi->dev, info);					\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  294  }										\
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  295  										\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  296  static struct spi_driver fbtft_driver_spi_driver = {				\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  297  	.driver = {								\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  298  		.name = _name,							\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  299  		.of_match_table = dt_ids,					\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  300  	},									\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  301  	.id_table = _spi_ids,							\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23 @302  	.probe = fbtft_driver_probe_spi,					\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  303  	.remove = fbtft_driver_remove_spi,					\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  304  };
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  305  
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  306  #define FBTFT_REGISTER_DRIVER(_name, _compatible, _display)                \
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  307  									   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  308  static int fbtft_driver_probe_pdev(struct platform_device *pdev)           \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  309  {                                                                          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  310  	return fbtft_probe_common(_display, NULL, pdev);                   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  311  }                                                                          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  312  									   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  313  static int fbtft_driver_remove_pdev(struct platform_device *pdev)          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  314  {                                                                          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  315  	struct fb_info *info = platform_get_drvdata(pdev);                 \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  316  									   \
+cb08d3d2a3e4d2 Uwe Kleine-König 2021-10-12  317  	fbtft_remove_common(&pdev->dev, info);                             \
+cb08d3d2a3e4d2 Uwe Kleine-König 2021-10-12  318  	return 0;                                                          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  319  }                                                                          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  320  									   \
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  321  FBTFT_DT_TABLE(_compatible)						   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  322  									   \
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  323  FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)			   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  324  									   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  325  static struct platform_driver fbtft_driver_platform_driver = {             \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  326  	.driver = {                                                        \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  327  		.name   = _name,                                           \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  328  		.owner  = THIS_MODULE,                                     \
+189f39ee6ac51d Andy Shevchenko  2019-11-20  329  		.of_match_table = dt_ids,                                  \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  330  	},                                                                 \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  331  	.probe  = fbtft_driver_probe_pdev,                                 \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  332  	.remove = fbtft_driver_remove_pdev,                                \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  333  };                                                                         \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  334  									   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  335  static int __init fbtft_driver_module_init(void)                           \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  336  {                                                                          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  337  	int ret;                                                           \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  338  									   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  339  	ret = spi_register_driver(&fbtft_driver_spi_driver);               \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  340  	if (ret < 0)                                                       \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  341  		return ret;                                                \
+7d8e4c98d13b6b Uwe Kleine-König 2022-01-23  342  	ret = platform_driver_register(&fbtft_driver_platform_driver);     \
+7d8e4c98d13b6b Uwe Kleine-König 2022-01-23  343  	if (ret < 0)                                                       \
+7d8e4c98d13b6b Uwe Kleine-König 2022-01-23  344  		spi_unregister_driver(&fbtft_driver_spi_driver);           \
+7d8e4c98d13b6b Uwe Kleine-König 2022-01-23  345  	return ret;                                                        \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  346  }                                                                          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  347  									   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  348  static void __exit fbtft_driver_module_exit(void)                          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  349  {                                                                          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  350  	spi_unregister_driver(&fbtft_driver_spi_driver);                   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  351  	platform_driver_unregister(&fbtft_driver_platform_driver);         \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  352  }                                                                          \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  353  									   \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  354  module_init(fbtft_driver_module_init);                                     \
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  355  module_exit(fbtft_driver_module_exit);
+15e66fc72925a4 Heiner Kallweit  2021-12-01  356  
+15e66fc72925a4 Heiner Kallweit  2021-12-01  357  #define FBTFT_REGISTER_SPI_DRIVER(_name, _comp_vend, _comp_dev, _display)	\
+15e66fc72925a4 Heiner Kallweit  2021-12-01  358  										\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  359  FBTFT_DT_TABLE(_comp_vend "," _comp_dev)					\
+15e66fc72925a4 Heiner Kallweit  2021-12-01  360  										\
+15e66fc72925a4 Heiner Kallweit  2021-12-01 @361  static const struct spi_device_id spi_ids[] = {					\
+15e66fc72925a4 Heiner Kallweit  2021-12-01  362  	{ .name = _comp_dev },							\
+15e66fc72925a4 Heiner Kallweit  2021-12-01  363  	{},									\
+15e66fc72925a4 Heiner Kallweit  2021-12-01  364  };										\
+15e66fc72925a4 Heiner Kallweit  2021-12-01 @365  MODULE_DEVICE_TABLE(spi, spi_ids);						\
+15e66fc72925a4 Heiner Kallweit  2021-12-01  366  										\
+c222ea5d2f3361 Uwe Kleine-König 2022-01-23  367  FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)		\
+15e66fc72925a4 Heiner Kallweit  2021-12-01  368  										\
+15e66fc72925a4 Heiner Kallweit  2021-12-01  369  module_spi_driver(fbtft_driver_spi_driver);
+c296d5f9957c03 Thomas Petazzoni 2014-12-31  370  
+
 -- 
-2.32.0
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
