@@ -1,80 +1,248 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBCA3D6D
-	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 23:44:46 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id q3so7133309plg.3
-        for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 16:44:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0583D6D
+	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 23:53:31 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id s14so7142760plk.8
+        for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 16:53:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Xb/o1YoXSro4rOpc/9fDNjy0WQI2db6K4zofA5onjWE=;
-        b=fbBS9qslB4mC4FEqVvu+uErZXwLjKCng4BXLZFBxGTgyHo+5Ou/a86ZV88oAlcJHxF
-         CGakfLnXzRRf+QVcu0f/HUje5/q4SFlRtm2gMQj9xAJaHiYl4JowiwyTHu+TAfnd1MRH
-         yFq4vCLGWren79EmvXzHAt+n+vzo6N3jK4oeHxucBQ3x5Lj/F3qs8RIDFQIkQom1mGUq
-         dSbxu6S/rNdBNe9ZqRlWRAteTTlGbGnWxtgzmehIixwRuOrineCykxEF9ohdLi2C5M60
-         2hBbQPvnSFFv9XLx2LAp89CTxDVu54ZmDCUj2vGpJi28+nlNCLO13SOdGRhjS6k4PvtO
-         34HA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5FvZqIly0MqhR6NzevS5ekyPjOQj5Xg3pXSl2WXGAog=;
+        b=Ogg18t2rICAhRyRa+1/Ctr+uZB0ahi8Ixw+q8a+lWa56Jmo8mkR9D42AYlBMIVCuoC
+         kHT2PiySv87HxkRxuKAy03xfE5y5bakuV0MKkVtqerf78IqnIr+7+ZLiR/YHwe3SKIhE
+         B1Jhu+MlTA+oSZ7sBN56agL0d5dkNoyBop+ss8x5lWaqOBqPpkbW4f6qzzZT6Xs82cu2
+         IfnpryhLlHIpS/fX607dwqAF6231mjdgZNBzBZzsF/SPvGENwbt3GP/CpIF6xxZek01p
+         zKDsFkTweVo3RVxHqL/wU03987efQgDWQ0fY5LWpWYQalEeMHU3UqYrRbP+Ezd82jhwC
+         P0+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Xb/o1YoXSro4rOpc/9fDNjy0WQI2db6K4zofA5onjWE=;
-        b=21Kb/F+xf9PfbACqBaO+ulx///C17rw1tVecFfSx2FDaX+egYmBd1ssr8IkcmAwJuf
-         FVX7fMBH89tmwLOqpfQY8pnBaDpdmBDaNEYCRSfStR3hwyOY5dA2Va6e05+8BGXAZjYS
-         Ry5w1k3/SiSRDSTImnEjAyZNCT2x2iRGDGQy7+IixFju+DaKiThHxgd8TMyMixciG/kC
-         ImapbJBOVslsK/gxbutiyHxTuScj/fbnhqtl1FZrizqh7Lyjk5Zl20npsSBQKLn2xs0w
-         ZextFv2CqokuCMea8lv6zEywS5GkmJjSQqGKufsfEuOBO2fVfl1UeK6e9eNejwfek+Mq
-         H25A==
-X-Gm-Message-State: AOAM5334NHhw3lJtyyo6ImuAeyRT7tcvzTbJMu9Mvt5TtIn9DtnYm4jo
-	duEVmszGCgCQUWbl+arCV6G73H49vbg=
-X-Google-Smtp-Source: ABdhPJxkwDxhATvNMv4TbI7vaKOXz9suZHw82pJjsBVJzLyfCEoi+E2Wd576UIhZCC6VrS7cmeGYYg==
-X-Received: by 2002:a17:902:c613:b0:159:9f9:85ec with SMTP id r19-20020a170902c61300b0015909f985ecmr1856237plr.67.1650584686188;
-        Thu, 21 Apr 2022 16:44:46 -0700 (PDT)
-Received: from ArchDesktop ([14.100.36.163])
-        by smtp.gmail.com with ESMTPSA id y190-20020a62cec7000000b0050adbfee09asm212056pfg.187.2022.04.21.16.44.44
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5FvZqIly0MqhR6NzevS5ekyPjOQj5Xg3pXSl2WXGAog=;
+        b=63it4x/qcOJJKk9sntpR9KcLBuqKkzuXgU5SzjVeKLWTWzuMSSlF7ASKxbI2e+4kxO
+         SjHwDFINlvCcx/fqQewzPl33ZGD8fDkrkOUcRN396x2GC+hUukPGSZ9QMLe4PFRWkcvs
+         iPhLdINYqR0NT1uP86fi24VLFiuvpCM1wNOkPbfW3zoRTLMdjARWfQwzgGsOkObNI6gp
+         UWTD6NaDSx6AJLnIod8p0RXoLRNoSFjIX7qVzdyj/T+Ds1Vl3q5dVcQQPskfB1r+/0rN
+         GQlyQZ0T1JQ6ZzHPXkPVyqRjIx6KpxYF/ZjeKS6tuUOrRCZkhN5yqbS4Kdx6GFTSpep0
+         ymLQ==
+X-Gm-Message-State: AOAM533rWiZKa/8EKd4zuQXWmjZEctSTkrYvmgc1VoY6kjeoKqFWIdzg
+	LufYr4VqHfVA1kcF62DSyigSx9aPqek=
+X-Google-Smtp-Source: ABdhPJyC2FzBaOCosZX0rucADzwGysiHj3insxyptmDX1ZvMS6w2yTuqTvFqfGGbiHvKqXUzNBgpZA==
+X-Received: by 2002:a17:902:d5c3:b0:154:c472:de80 with SMTP id g3-20020a170902d5c300b00154c472de80mr1832018plh.87.1650585211355;
+        Thu, 21 Apr 2022 16:53:31 -0700 (PDT)
+Received: from localhost.localdomain ([14.100.36.163])
+        by smtp.gmail.com with ESMTPSA id w137-20020a62828f000000b0050adb63c6d5sm222972pfd.220.2022.04.21.16.53.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 16:44:45 -0700 (PDT)
-Date: Fri, 22 Apr 2022 07:44:42 +0800
+        Thu, 21 Apr 2022 16:53:30 -0700 (PDT)
 From: Solomon Tan <wjsota@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk
-Subject: Re: [PATCH] staging: r8188eu: use in-kernel ieee channel
-Message-ID: <YmHsannu/vcKX9Kk@ArchDesktop>
-References: <20220421015811.2745-1-wjsota@gmail.com>
- <20220421170010.GD2462@kadam>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	dan.carpenter@oracle.com
+Subject: [PATCH v2] staging: r8188eu: use in-kernel ieee channel
+Date: Fri, 22 Apr 2022 07:52:38 +0800
+Message-Id: <20220421235237.4218-1-wjsota@gmail.com>
+X-Mailer: git-send-email 2.36.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220421170010.GD2462@kadam>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 21, 2022 at 08:00:10PM +0300, Dan Carpenter wrote:
-> On Thu, Apr 21, 2022 at 09:58:12AM +0800, Solomon Tan wrote:
-> > The rtw_ieee80211_channel structure just duplicates the in-kernel
-> > ieee80211_channel structure
-> 
-> When you say that they are duplicates, I expected them to be the same
-> but they're not at all.  ieee80211_channel has a bunch more struct
-> members.
-> 
-> I don't really have a problem with the change necessarily but the commit
-> message should not have mislead me.
+Use the in-kernel structure and flags instead of defining a separate
+one. The rtw_ieee80211_channel structure and flags can be replaced by
+the ieee80211_channel defined in include/net/cfg80211.h since the flags
+serve the same purpose and the ieee80211_channel struct includes the
+elements used in the rtw_ieee80211_channel struct.
 
-Sorry about that. I will amend the commit message and send it as v2.
-Thank you for the review.
+Signed-off-by: Solomon Tan <wjsota@gmail.com>
+---
+V1 -> V2: Rephrased the commit message to not mislead.
+---
+ drivers/staging/r8188eu/core/rtw_cmd.c        |  6 ++--
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 18 +++++-----
+ drivers/staging/r8188eu/include/ieee80211.h   | 34 +------------------
+ drivers/staging/r8188eu/include/rtw_cmd.h     |  4 +--
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  2 +-
+ 5 files changed, 16 insertions(+), 48 deletions(-)
 
-> 
-> regards,
-> dan carpenter
-> 
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index f036a980ec1a..ebe2479d1402 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -320,7 +320,7 @@ int rtw_cmd_thread(void *context)
+  *	MUST TAKE CARE THAT BEFORE CALLING THIS FUNC, YOU SHOULD HAVE LOCKED pmlmepriv->lock
+  */
+ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num,
+-	struct rtw_ieee80211_channel *ch, int ch_num)
++	struct ieee80211_channel *ch, int ch_num)
+ {
+ 	u8 res = _FAIL;
+ 	struct cmd_obj		*ph2c;
+@@ -366,8 +366,8 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+ 	if (ch) {
+ 		int i;
+ 		for (i = 0; i < ch_num && i < RTW_CHANNEL_SCAN_AMOUNT; i++) {
+-			if (ch[i].hw_value && !(ch[i].flags & RTW_IEEE80211_CHAN_DISABLED)) {
+-				memcpy(&psurveyPara->ch[i], &ch[i], sizeof(struct rtw_ieee80211_channel));
++			if (ch[i].hw_value && !(ch[i].flags & IEEE80211_CHAN_DISABLED)) {
++				memcpy(&psurveyPara->ch[i], &ch[i], sizeof(struct ieee80211_channel));
+ 				psurveyPara->ch_num++;
+ 			}
+ 		}
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index db61acc914d1..bc7cf54e1c6a 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -5811,11 +5811,11 @@ void site_survey(struct adapter *padapter)
+ 		else
+ 			ScanType = SCAN_ACTIVE;
+ 	} else {
+-		struct rtw_ieee80211_channel *ch;
++		struct ieee80211_channel *ch;
+ 		if (pmlmeext->sitesurvey_res.channel_idx < pmlmeext->sitesurvey_res.ch_num) {
+ 			ch = &pmlmeext->sitesurvey_res.ch[pmlmeext->sitesurvey_res.channel_idx];
+ 			survey_channel = ch->hw_value;
+-			ScanType = (ch->flags & RTW_IEEE80211_CHAN_PASSIVE_SCAN) ? SCAN_PASSIVE : SCAN_ACTIVE;
++			ScanType = (ch->flags & IEEE80211_CHAN_NO_IR) ? SCAN_PASSIVE : SCAN_ACTIVE;
+ 		}
+ 	}
+ 
+@@ -7342,26 +7342,26 @@ u8 disconnect_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 	return	H2C_SUCCESS;
+ }
+ 
+-static int rtw_scan_ch_decision(struct adapter *padapter, struct rtw_ieee80211_channel *out,
+-	u32 out_num, struct rtw_ieee80211_channel *in, u32 in_num)
++static int rtw_scan_ch_decision(struct adapter *padapter, struct ieee80211_channel *out,
++	u32 out_num, struct ieee80211_channel *in, u32 in_num)
+ {
+ 	int i, j;
+ 	int set_idx;
+ 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+ 
+ 	/* clear out first */
+-	memset(out, 0, sizeof(struct rtw_ieee80211_channel) * out_num);
++	memset(out, 0, sizeof(struct ieee80211_channel) * out_num);
+ 
+ 	/* acquire channels from in */
+ 	j = 0;
+ 	for (i = 0; i < in_num; i++) {
+ 		set_idx = rtw_ch_set_search_ch(pmlmeext->channel_set, in[i].hw_value);
+-		if (in[i].hw_value && !(in[i].flags & RTW_IEEE80211_CHAN_DISABLED) &&
++		if (in[i].hw_value && !(in[i].flags & IEEE80211_CHAN_DISABLED) &&
+ 		    set_idx >= 0) {
+-			memcpy(&out[j], &in[i], sizeof(struct rtw_ieee80211_channel));
++			memcpy(&out[j], &in[i], sizeof(struct ieee80211_channel));
+ 
+ 			if (pmlmeext->channel_set[set_idx].ScanType == SCAN_PASSIVE)
+-				out[j].flags &= RTW_IEEE80211_CHAN_PASSIVE_SCAN;
++				out[j].flags &= IEEE80211_CHAN_NO_IR;
+ 
+ 			j++;
+ 		}
+@@ -7375,7 +7375,7 @@ static int rtw_scan_ch_decision(struct adapter *padapter, struct rtw_ieee80211_c
+ 			out[i].hw_value = pmlmeext->channel_set[i].ChannelNum;
+ 
+ 			if (pmlmeext->channel_set[i].ScanType == SCAN_PASSIVE)
+-				out[i].flags &= RTW_IEEE80211_CHAN_PASSIVE_SCAN;
++				out[i].flags &= IEEE80211_CHAN_NO_IR;
+ 
+ 			j++;
+ 		}
+diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
+index 0e37cd8974b5..c67d81409c78 100644
+--- a/drivers/staging/r8188eu/include/ieee80211.h
++++ b/drivers/staging/r8188eu/include/ieee80211.h
+@@ -8,6 +8,7 @@
+ #include "drv_types.h"
+ #include "wifi.h"
+ #include <linux/wireless.h>
++#include <net/cfg80211.h>
+ 
+ #define MGMT_QUEUE_NUM 5
+ 
+@@ -671,39 +672,6 @@ enum rtw_ieee80211_back_actioncode {
+ 
+ #define VENDOR_HT_CAPAB_OUI_TYPE 0x33 /* 00-90-4c:0x33 */
+ 
+-/**
+- * enum rtw_ieee80211_channel_flags - channel flags
+- *
+- * Channel flags set by the regulatory control code.
+- *
+- * @RTW_IEEE80211_CHAN_DISABLED: This channel is disabled.
+- * @RTW_IEEE80211_CHAN_PASSIVE_SCAN: Only passive scanning is permitted
+- *      on this channel.
+- * @RTW_IEEE80211_CHAN_NO_IBSS: IBSS is not allowed on this channel.
+- * @RTW_IEEE80211_CHAN_RADAR: Radar detection is required on this channel.
+- * @RTW_IEEE80211_CHAN_NO_HT40PLUS: extension channel above this channel
+- *      is not permitted.
+- * @RTW_IEEE80211_CHAN_NO_HT40MINUS: extension channel below this channel
+- *      is not permitted.
+- */
+-enum rtw_ieee80211_channel_flags {
+-	RTW_IEEE80211_CHAN_DISABLED	 = 1<<0,
+-	RTW_IEEE80211_CHAN_PASSIVE_SCAN     = 1<<1,
+-	RTW_IEEE80211_CHAN_NO_IBSS	  = 1<<2,
+-	RTW_IEEE80211_CHAN_RADAR	    = 1<<3,
+-	RTW_IEEE80211_CHAN_NO_HT40PLUS      = 1<<4,
+-	RTW_IEEE80211_CHAN_NO_HT40MINUS     = 1<<5,
+-};
+-
+-#define RTW_IEEE80211_CHAN_NO_HT40 \
+-	  (RTW_IEEE80211_CHAN_NO_HT40PLUS | RTW_IEEE80211_CHAN_NO_HT40MINUS)
+-
+-/* Represent channel details, subset of ieee80211_channel */
+-struct rtw_ieee80211_channel {
+-	u16 hw_value;
+-	u32 flags;
+-};
+-
+ #define CHAN_FMT \
+ 	"hw_value:%u, " \
+ 	"flags:0x%08x" \
+diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
+index 6b6d560d7143..ee15f93a5477 100644
+--- a/drivers/staging/r8188eu/include/rtw_cmd.h
++++ b/drivers/staging/r8188eu/include/rtw_cmd.h
+@@ -187,7 +187,7 @@ struct sitesurvey_parm {
+ 	u8 ssid_num;
+ 	u8 ch_num;
+ 	struct ndis_802_11_ssid ssid[RTW_SSID_SCAN_AMOUNT];
+-	struct rtw_ieee80211_channel ch[RTW_CHANNEL_SCAN_AMOUNT];
++	struct ieee80211_channel ch[RTW_CHANNEL_SCAN_AMOUNT];
+ };
+ 
+ /*
+@@ -731,7 +731,7 @@ struct TDLSoption_param
+ #define H2C_RESERVED		0x07
+ 
+ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+-		      int ssid_num, struct rtw_ieee80211_channel *ch,
++		      int ssid_num, struct ieee80211_channel *ch,
+ 		      int ch_num);
+ u8 rtw_createbss_cmd(struct adapter  *padapter);
+ u8 rtw_setstakey_cmd(struct adapter *padapter, u8 *psta, u8 unicast_key);
+diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+index dcf91e7894a5..fed8e77e512b 100644
+--- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
++++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
+@@ -200,7 +200,7 @@ struct	ss_res {
+ 	u8 ssid_num;
+ 	u8 ch_num;
+ 	struct ndis_802_11_ssid ssid[RTW_SSID_SCAN_AMOUNT];
+-	struct rtw_ieee80211_channel ch[RTW_CHANNEL_SCAN_AMOUNT];
++	struct ieee80211_channel ch[RTW_CHANNEL_SCAN_AMOUNT];
+ };
+ 
+ /* define AP_MODE				0x0C */
+-- 
+2.36.0
 
-Cheers,
-Solomon
