@@ -1,24 +1,24 @@
-Received: from m228-13.mailgun.net (m228-13.mailgun.net [159.135.228.13])
+Received: from m228-62.mailgun.net (m228-62.mailgun.net [159.135.228.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C521FC2
-	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 14:57:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114B91FC2
+	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 14:58:30 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev; q=dns/txt;
- s=smtp; t=1650553061; h=Content-Type: MIME-Version: Message-ID:
- Subject: Subject: To: To: From: From: Date: Sender: Sender;
- bh=IxYl4DcXb9pJAGg4/VecgEAwiR+sMI4uj3Y/4g9SOKI=; b=PqdpHop702XlByCMY+1K6W9r7AgPIbnI2R0+IJvs5Uk8sxWx5JCJfpNx3u0XbYA+AKk+j7kk
- fZoFEl+3iKUm1C6yq7kPPjleorxQYDYqMhkaaip8vscGKFc9WeORlUQKEKO9noNyccHgbUyi
- 0Zl1OLBr3WBe9UocAZrGZbryj/9zBEU1ImjGFFp1+Ih75X/fn4iLd8uGk0b1gilrtzf67tj5
- s0e5rJcgJC0inqnnE3dmbSN31zHjZCEzw7DsUgO7+VWWz1z+PdXs9z8HlOFwhya6EJHI3C9l
- a3JYwNi25VGqGimVTpDFd1bkJAcMd2bCC8nkllkKXlv28C8yVRPESA==
-X-Mailgun-Sending-Ip: 159.135.228.13
+ s=smtp; t=1650553111; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Subject: To: To: From: From: Date:
+ Sender: Sender; bh=U/Vuirm1Cqyi/duus9t1K0iWa5RpNfzC2Qa3t1+CPI0=; b=DVW7nbbfNSi6yIlzzPu30eEnoM7ChbeBZqyI9ULLsDOex7GUGCn1DooHCj5T0Dd42FlO9mOE
+ MDGG4BC1hEOGibhmF9MJjwTb8E7z8UGZmYx1/PNSVJVryGo0giMoVXbK/efuBcKS/M5Adl/f
+ 7TQRfWcEIbisgfV+JFnf69WZZlpOQlHmUayP7zyP8C4aKV7UMdN9cM0i5yrsE7MuKfF5H+ay
+ ZHHqNdS1y2gQwJn5qcWOeJ6S28z66j72FMHGPkjUdpAZnbO9X2EittVk6jVN6xB88Z6NO7vf
+ E6MpBRatz6I4faHY/3FKqITySJkWxCZRrsjtYBcs0oyI3DIA5dpV0A==
+X-Mailgun-Sending-Ip: 159.135.228.62
 X-Mailgun-Sid: WyI4MTlhZCIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTljNmQiXQ==
 Received: from AN5Bruno (dynamic-user.170.84.57.33.mhnet.com.br
  [170.84.57.33]) by smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 626170e3b77b16c56e3b9bb4 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Thu, 21 Apr 2022 14:57:39 GMT
+ 62617115b77b16c56e3cd5b3 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Thu, 21 Apr 2022 14:58:29 GMT
 Sender: codeagain@codeagain.dev
-Date: Thu, 21 Apr 2022 11:57:34 -0300
+Date: Thu, 21 Apr 2022 11:58:24 -0300
 From: Bruno Moreira-Guedes <codeagain@codeagain.dev>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Martyn Welch <martyn@welchs.me.uk>,
@@ -26,8 +26,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
 	Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: [PATCH v4 0/3] staging: vme: Cleanup driver tree old structures
-Message-ID: <cover.1650544175.git.codeagain@codeagain.dev>
+Subject: [PATCH v4 1/3] staging: vme: Move vme_user to staging KConfig
+Message-ID: <f6e6d1d2b02385f11848022f154007ef191181c1.1650544175.git.codeagain@codeagain.dev>
+References: <cover.1650544175.git.codeagain@codeagain.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,92 +36,79 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="k7aonxtqs75wcypj"
+	protocol="application/pgp-signature"; boundary="ph7ogsyaq3uoqzth"
 Content-Disposition: inline
+In-Reply-To: <cover.1650544175.git.codeagain@codeagain.dev>
 
 
---k7aonxtqs75wcypj
+--ph7ogsyaq3uoqzth
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-This patch series modify the vme_user driver's place in
-menuconfig (1/3), fixes a missing `depends on` line in a Kconfig file
-(2/3), and rearrages the directory tree for the driver allowing a more
-straightforward comprehension of its contents (3/3).
+Currently, the VME_USER driver is in the staging tree Kconfig, unlike
+other VME drivers already moved to the main portions of the kernel tree.
+Its configuration is, however, nested into the VME_BUS config option,
+which might be misleading.
 
-The 'vme_user/' driver is the only remaining vme-family driver in the
-'staging/' tree, but its structure, entry in menuconfig and building
-routines are still attached to the 'vme/' subtree now outside
-'staging/'. The present patchset fixes it.
+Since the staging tree "[...] is used to hold stand-alone drivers and
+filesystem that are not ready to be merged into the main portion of the
+Linux kernel tree [...]"(from=20
+https://lore.kernel.org/all/20090320172502.GA14647@kroah.com/T/),
+staging drivers should appear nested into the Main Menu -> Device
+Drivers -> Staging Drivers to make sure the user don't pick it without
+being fully aware of its staging status as it could be the case in
+Menu -> Device Drivers -> VME bridge support (the current location).
+
+With this change menuconfig users will clearly know this is not a driver
+in the main portion of the kernel tree and decide whether to build it or
+not with that clearly in mind.
+
+This change goes into the same direction of commit
+<4b4cdf3979c32fa3d042d150f49449c74d048553> ("STAGING: Move staging
+drivers back to staging-specific menu")
 
 Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
 ---
-CHANGE SUMMARY
+ drivers/staging/Kconfig | 2 ++
+ drivers/vme/Kconfig     | 2 --
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-  Version:  v1  v2  v3  v4
-[PATCH 1/3] *   -   *   -
-[PATCH 2/3] -   *   *   -
-[PATCH 3/3] -   *   *   *
-
-CHANGELOG
-v4:
-  * Remove extraneous patch from set (Greg)
-  * Improve changelog format (Alison)
-  * Update commit message in PATCH 3/3
-
-v3:
-  * Update Changelog to cover letter (Alison)
-  * Update commit messages and logs (Alison, Greg)
-  * Rename patches 2/3 and 3/3
-
-v2:
-  * Add new patch to set: 2/3
-  * Add new patch to set: 3/3
-
-OBSERVATIONS
-As Martyn confirmed the devices are still being manufactured I'll keep
-going on with this patch meanwhile.
-
-PATCHES
-[PATCH 1/3] staging: vme: Move vme_user to staging KConfig
-[PATCH 2/3] staging: vme: Add VME_BUS dependency to Kconfig
-[PATCH 3/3] staging: vme: Move 'vme/devices/' to 'vme_user/'
----
-Bruno Moreira-Guedes (3):
-  staging: vme: Move vme_user to staging KConfig
-  staging: vme: Add VME_BUS dependency to Kconfig
-  staging: vme: Move 'vme/devices/' to 'vme_user/'
-
- MAINTAINERS                                          | 2 +-
- drivers/staging/Kconfig                              | 1 +
- drivers/staging/Makefile                             | 2 +-
- drivers/staging/vme/Makefile                         | 2 --
- drivers/staging/{vme/devices =3D> vme_user}/Kconfig    | 2 +-
- drivers/staging/{vme/devices =3D> vme_user}/Makefile   | 0
- drivers/staging/{vme/devices =3D> vme_user}/vme_user.c | 0
- drivers/staging/{vme/devices =3D> vme_user}/vme_user.h | 0
- drivers/vme/Kconfig                                  | 2 --
- 9 files changed, 4 insertions(+), 7 deletions(-)
- delete mode 100644 drivers/staging/vme/Makefile
- rename drivers/staging/{vme/devices =3D> vme_user}/Kconfig (93%)
- rename drivers/staging/{vme/devices =3D> vme_user}/Makefile (100%)
- rename drivers/staging/{vme/devices =3D> vme_user}/vme_user.c (100%)
- rename drivers/staging/{vme/devices =3D> vme_user}/vme_user.h (100%)
-
+diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
+index fc274737053d..e4dcf411030d 100644
+--- a/drivers/staging/Kconfig
++++ b/drivers/staging/Kconfig
+@@ -87,4 +87,6 @@ source "drivers/staging/fieldbus/Kconfig"
+ source "drivers/staging/qlge/Kconfig"
+=20
+=20
++source "drivers/staging/vme/devices/Kconfig"
++
+ endif # STAGING
+diff --git a/drivers/vme/Kconfig b/drivers/vme/Kconfig
+index 936392ca3c8c..c13dd9d2a604 100644
+--- a/drivers/vme/Kconfig
++++ b/drivers/vme/Kconfig
+@@ -15,6 +15,4 @@ source "drivers/vme/bridges/Kconfig"
+=20
+ source "drivers/vme/boards/Kconfig"
+=20
+-source "drivers/staging/vme/devices/Kconfig"
+-
+ endif # VME
 --=20
 2.35.3
+=20
 
-
---k7aonxtqs75wcypj
+--ph7ogsyaq3uoqzth
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCYmFw3gAKCRAZtd3tyEY2
-kiVkAQDcKXdUoLot3+kaFYzScp207pt5Zls7kUn0r7OqAc1jzAEAgiTLF1mmMFXy
-PiN7xerBl6bKMe0MfXDelwxdLOUpPQ8=
-=Y80d
+iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCYmFxEAAKCRAZtd3tyEY2
+kiYGAQC0UB23/zTeMNGsmstonBCPQn7kvL+I1+TFiNqL10revgEAg3IToC3wNxPY
+noWc9tzu42u/MJUsu7ElW7Dx+j3cyQs=
+=j63k
 -----END PGP SIGNATURE-----
 
---k7aonxtqs75wcypj--
+--ph7ogsyaq3uoqzth--
