@@ -1,174 +1,127 @@
-Received: from m228-13.mailgun.net (m228-13.mailgun.net [159.135.228.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cyan.elm.relay.mailchannels.net (cyan.elm.relay.mailchannels.net [23.83.212.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4963E1FC0
-	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 14:59:46 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=codeagain.dev; q=dns/txt;
- s=smtp; t=1650553189; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Subject: To: To: From: From: Date:
- Sender: Sender; bh=2FfySmyUi61V40qd9e4vY+mMpu2WKzNDDsFY/pOvwG8=; b=CoP7FV8GEcbnnPBp8MueVz4Lbj0Fa8LEgZVqUYdriPe5TSblTh49MyAuevMBPOSZCriaUQ99
- LT8MguhMdvdFgtcsh1C1saMI8R07xiqQFJFcg3ySRBIx/Yg6sdfhw9ewzzAT152bBdFOsHsb
- 6v3xYJ7EyURaHtyvFcQ7i09bg56/qI9HLwQ4rqZzoSE400x19RVmk4aPIPgBlr5oFXO+n2+M
- 45Z2qbdHrpQWGoA8RkDwXNFRdvjHTLpavlKVaLie+IQIYyjFxeWH75Iwe4MUUx4x6sTAskaQ
- +3eHSUvh8ZuN22iWoOz+BafYq5/AK9PBldu5ZiUBx+MHYhNmD5EPIQ==
-X-Mailgun-Sending-Ip: 159.135.228.13
-X-Mailgun-Sid: WyI4MTlhZCIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTljNmQiXQ==
-Received: from AN5Bruno (dynamic-user.170.84.57.33.mhnet.com.br
- [170.84.57.33]) by smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 6261715ab77b16c56e3e69e0 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
- Thu, 21 Apr 2022 14:59:38 GMT
-Sender: codeagain@codeagain.dev
-Date: Thu, 21 Apr 2022 11:59:34 -0300
-From: Bruno Moreira-Guedes <codeagain@codeagain.dev>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: [PATCH v4 3/3] staging: vme: Move 'vme/devices/' to 'vme_user/'
-Message-ID: <2cd7de9a426c443a5ea618682d605ecfd751d798.1650544175.git.codeagain@codeagain.dev>
-References: <cover.1650544175.git.codeagain@codeagain.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3A81FC0
+	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 15:22:11 +0000 (UTC)
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 233B6121205;
+	Thu, 21 Apr 2022 15:22:04 +0000 (UTC)
+Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id A7C04120BB7;
+	Thu, 21 Apr 2022 15:22:03 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650554523; a=rsa-sha256;
+	cv=none;
+	b=0OwiDxXzeD7RW2i7GISr6ArhIi0KZ1PxkasNcGG5TG9YQd6bp853Wp0FPcgSNb3EiuFvxP
+	aZFYhY4ziLri0IKeRrB8v95gcaOov+U9pCTwnPV/IfVw+N6k0JfuHVufmEmxisbwNkf+VL
+	MKhXMgLmuRS+V4nY3iZM68AGJRuqAH/FHb1UbGTk3kIGd39elxhUiRAgWXRJwRsQH89h/C
+	U5PZE2SlIpyR45E05fq0H/og8HUjdJUlDNmX96WbxmC1LUxnQ3bURFDGkP9f1kWDJ4q/2K
+	zEijyDyh5VLRgUadUTgYnBjEMa9eByDqAd71WsrYnIOtg7X/nVnRLDGZC1W45g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1650554523;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=YpK0IB0ISdK2Q+IAE4RyhzfZLNmrH3FCsTZtzMJjiEM=;
+	b=7o9MUZJfufB2zueungao+vWZtz5Q1qA+49Fu8Eb89+B9ozdqUvA/7XeYomaoq6ctr8PHSd
+	FJp+5m6+hOQq1Q29GSqYglVc6r7R7iSdZRhFSbY8N0UFO73mqDrAtxT0mv9LiV1xMQQjVp
+	kCBg3uUrq7JRzoSmQR6ujVFh5FA14rtPUFN2KsLtz1FRq0jmaI+GJrMfnlPmwZfaqrsULc
+	0y0s2izEkh4T056ErmrR81BdJnErvRzSMF9+/UvH9DquWprKz2qdvry5h6uuZAYTCU7auT
+	OGnDNLVnJAsLgK9yPKrhB6w4K6+KyeENzuiQju8hsO+E3HHt8OpqvMJJCsTGIw==
+ARC-Authentication-Results: i=1;
+	rspamd-7968956b8c-krz2z;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Soft-Lonely: 4f2287555838409e_1650554523973_4074984897
+X-MC-Loop-Signature: 1650554523973:1017771326
+X-MC-Ingress-Time: 1650554523972
+Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.121.210.138 (trex/6.7.1);
+	Thu, 21 Apr 2022 15:22:03 +0000
+Received: from fedora (unknown [69.12.38.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4Kkh9654PMz1N9;
+	Thu, 21 Apr 2022 08:22:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1650554523;
+	bh=YpK0IB0ISdK2Q+IAE4RyhzfZLNmrH3FCsTZtzMJjiEM=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=dQDGdo94HXpqlcVZlUO2Gpcg070aN2YmnIWOsfgG5LvsBSqJsX57NZZa3Io9t43bm
+	 Z1tNy2KCcCaThMvvvwkV4GTfUjHU+C9jTpTvmkhWd1hsSnQq6S8yzgv8diKWbPAJCr
+	 IIYfHaG6eOxfQJaSe7IF4X1etJNPcedV3Y/+z4EZ7CZKCcUAF1s8iLchRVEcXvGUqc
+	 EiBGpPf8JesXgu1ZOJzBSo72ny4bJeCywDJyIrMljXlZJ5dfXiDqfCQJf4Y/gk3GpM
+	 WDLOQB5ugZ+rLBu9/6OkHfHzgEMHtXOUFjJSW1M07yTC4d+WLGytQuz7yjHK7J9owx
+	 m9uAp1TK1a4Xw==
+Date: Thu, 21 Apr 2022 11:22:00 -0400
+From: Ian Cowan <ian@linux.cowan.aero>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] media: staging: zoran: refactor printk debugging function
+Message-ID: <YmF2mM+Lqv/HOgFl@fedora>
+References: <20220421002316.873109-1-ian@linux.cowan.aero>
+ <20220421142153.GA2462@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ysqdnui3ra2l3lsk"
-Content-Disposition: inline
-In-Reply-To: <cover.1650544175.git.codeagain@codeagain.dev>
-
-
---ysqdnui3ra2l3lsk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220421142153.GA2462@kadam>
 
-In <db3b9e990e75573402cda22faf933760f076c033> ("Staging: VME: move VME=20
-drivers out of staging") the vme code, board and bridge drivers were
-moved out of the staging tree, remaining only the VME user device=20
-driver.
+On Thu, Apr 21, 2022 at 05:21:54PM +0300, Dan Carpenter wrote:
+> On Wed, Apr 20, 2022 at 08:23:16PM -0400, Ian Cowan wrote:
+> > This is a patch to refactor the zoran debugging function. This function
+> > existed in all of the changed files and they also all import the
+> > videocodec header file. This patch moves the dprintk function into the
+> > videocodec header file and out of each of the individual files.
+> > 
+> > -#define dprintk(num, format, args...) \
+> > -	do { \
+> > -		if (videocodec_debug >= num) \
+> > -			printk(format, ##args); \
+> > -	} while (0)
+> > -
+[ snip ]
+> 
+> > +/* Print debug information based on the specified level of debugging */
+> > +#define dprintk(debug, num, format, args...) \
+> > +do { \
+> > +	if (debug > num) \
+> > +		printk(format, ##args); \
+> > +} while (0)
+> > +
+> 
+> I don't like the new format.  It needs to have a KERN_DEBUG at the
+> start.  Passing the param_module is awkward.  No one knows what the
+> magic "num" things are.
 
-Since this driver is the only one remaining in staging, such multi-level
-structure confuses more than helps. The current structure is as follows:
+I was going to put KERN_DEBUG at the beginning, but it appears that some
+of the calls already include KERN_ERR, KERN_WARNING, or KERN_INFO, but
+most of them do not. Would it be better to split these into multiple
+macros or use printk in those specific spots that difer?
 
- - drivers/staging/vme/
-                       Makefile
-                       devices/
-                               Kconfig
-                               Makefile
-                               vme_user.c
-                               vme_user.h
+> Using a module parameter is old school badness.  The standard dev_dbg()
+> macros are better and more flexible.  Just use them instead.
+> 
+> regards,
+> dan carpenter
+> 
 
-The top-level Makefile has the only function of calling another Makefile
-into the devices/ subdirectory. This latter only compiles the vme_user=20
-driver, since there is no other in the staging tree.
+For using the dev_dbg() macro, do you define this in the header file
+(i.e. for this it would be videocodec.h), or where should this be
+included from?
 
-This patch removes the unnecessary Makefile from the 'vme/' dir, move
-the contents of 'vme/devices' into the 'vme/' dir, and renames it to
-'vme_user/' (the driver name), allowing a straightforward understanding
-of this driver's contents. Furthermore, it updates the MAINTAINERS file
-to properly reflect the new paths.
-
-Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
 ---
- MAINTAINERS                                          | 2 +-
- drivers/staging/Kconfig                              | 3 +--
- drivers/staging/Makefile                             | 2 +-
- drivers/staging/vme/Makefile                         | 2 --
- drivers/staging/{vme/devices =3D> vme_user}/Kconfig    | 0
- drivers/staging/{vme/devices =3D> vme_user}/Makefile   | 0
- drivers/staging/{vme/devices =3D> vme_user}/vme_user.c | 0
- drivers/staging/{vme/devices =3D> vme_user}/vme_user.h | 0
- 8 files changed, 3 insertions(+), 6 deletions(-)
- delete mode 100644 drivers/staging/vme/Makefile
- rename drivers/staging/{vme/devices =3D> vme_user}/Kconfig (100%)
- rename drivers/staging/{vme/devices =3D> vme_user}/Makefile (100%)
- rename drivers/staging/{vme/devices =3D> vme_user}/vme_user.c (100%)
- rename drivers/staging/{vme/devices =3D> vme_user}/vme_user.h (100%)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3ed62dcd144e..efc38961f792 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21010,7 +21010,7 @@ L:	linux-kernel@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git
- F:	Documentation/driver-api/vme.rst
--F:	drivers/staging/vme/
-+F:	drivers/staging/vme_user/
- F:	drivers/vme/
- F:	include/linux/vme*
-=20
-diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
-index e4dcf411030d..e117811ec832 100644
---- a/drivers/staging/Kconfig
-+++ b/drivers/staging/Kconfig
-@@ -86,7 +86,6 @@ source "drivers/staging/fieldbus/Kconfig"
-=20
- source "drivers/staging/qlge/Kconfig"
-=20
--
--source "drivers/staging/vme/devices/Kconfig"
-+source "drivers/staging/vme_user/Kconfig"
-=20
- endif # STAGING
-diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
-index 65e317922e3f..db7287de0faf 100644
---- a/drivers/staging/Makefile
-+++ b/drivers/staging/Makefile
-@@ -14,7 +14,7 @@ obj-$(CONFIG_OCTEON_ETHERNET)	+=3D octeon/
- obj-$(CONFIG_OCTEON_USB)	+=3D octeon-usb/
- obj-$(CONFIG_VT6655)		+=3D vt6655/
- obj-$(CONFIG_VT6656)		+=3D vt6656/
--obj-$(CONFIG_VME_BUS)		+=3D vme/
-+obj-$(CONFIG_VME_BUS)		+=3D vme_user/
- obj-$(CONFIG_IIO)		+=3D iio/
- obj-$(CONFIG_FB_SM750)		+=3D sm750fb/
- obj-$(CONFIG_USB_EMXX)		+=3D emxx_udc/
-diff --git a/drivers/staging/vme/Makefile b/drivers/staging/vme/Makefile
-deleted file mode 100644
-index cf2f686ccffe..000000000000
---- a/drivers/staging/vme/Makefile
-+++ /dev/null
-@@ -1,2 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--obj-y				+=3D devices/
-diff --git a/drivers/staging/vme/devices/Kconfig b/drivers/staging/vme_user=
-/Kconfig
-similarity index 100%
-rename from drivers/staging/vme/devices/Kconfig
-rename to drivers/staging/vme_user/Kconfig
-diff --git a/drivers/staging/vme/devices/Makefile b/drivers/staging/vme_use=
-r/Makefile
-similarity index 100%
-rename from drivers/staging/vme/devices/Makefile
-rename to drivers/staging/vme_user/Makefile
-diff --git a/drivers/staging/vme/devices/vme_user.c b/drivers/staging/vme_u=
-ser/vme_user.c
-similarity index 100%
-rename from drivers/staging/vme/devices/vme_user.c
-rename to drivers/staging/vme_user/vme_user.c
-diff --git a/drivers/staging/vme/devices/vme_user.h b/drivers/staging/vme_u=
-ser/vme_user.h
-similarity index 100%
-rename from drivers/staging/vme/devices/vme_user.h
-rename to drivers/staging/vme_user/vme_user.h
---=20
-2.35.3
-=20
-
---ysqdnui3ra2l3lsk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQQTUrsHCxGmQ5vyKRAZtd3tyEY2kgUCYmFxVgAKCRAZtd3tyEY2
-krlvAQDDn7lzGOuuR0sliolPWkeZtxB1Nst95cgEgmdl85zMYQD9E9OZC1NeH2NY
-/pqn13eWXlOs9OWZWrKcf26A/h57QwU=
-=JZHj
------END PGP SIGNATURE-----
-
---ysqdnui3ra2l3lsk--
+Ian Cowan
