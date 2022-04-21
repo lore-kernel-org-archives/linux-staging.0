@@ -1,41 +1,41 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C59123A1;
-	Thu, 21 Apr 2022 19:20:45 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id f14so4023647qtq.1;
-        Thu, 21 Apr 2022 12:20:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE21323A7;
+	Thu, 21 Apr 2022 19:20:46 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id d9so4418635qvm.4;
+        Thu, 21 Apr 2022 12:20:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ul9FGVJ1sqTdARK0mUZLH5+vAqXgfv1Osb8Y+BayvnA=;
-        b=PboPQS2k7qvXDrE1qoUSXr2+VaPYMTv45/YlkkbxdwUA9owtd9aItiTqTE4Wi5GvNq
-         ZrzMhUzwkihHH0iR99HRnJOBjRQECZvU01YsruDLsSV6VVimkgIKpm5W/HB64MkeScMn
-         CHpY7/80p2iqBHHRyKMrt8OfL4vwyCD83efJWF1+XlngJLKRFaY1zbfGTMsZnzDRaeq4
-         8k7Jktm+/DyQqfUO9sa+x0Ncn0GTU4gOdWtqDlGxci0MgRBDRHf913iCRLhkwD+X0I2p
-         s3YxqejLxsNu2FiRHe09Xy/N/tByUvRd2K6SkV+GIgb9VH6ZRuBp8raJgw1vSJc32qsy
-         WzXQ==
+        bh=NMYq8qcFTxh0xZzr+s+ajhPy8SCulftSg3sqVf1Tdxo=;
+        b=gFzJ2Ur0qLFC5+5sMie2YMAG4RMwHvM/T+9Lym1w/HUKyn3+4P2HF3HDL8aRGEgaI+
+         xWxwQZgyX3BlVwkzkkQeLpNsdoqHjzzj+taHP6nEWXVqEcDrE+lKIyrYOJFNXxlA+yZR
+         RmB0zt7Ox2gUE4w3cFVrXGz58rgmYG0/3HCfNAlfvbSdmLSsG1CQuBOT5ssA8XsTe4CC
+         vAFodrhA6RqD4rUtB4vUm4cJ5b4SKOQCaT0LJ+FXiQ4LuGLCnraBzQaNCzPsufKNUSdL
+         kKoilSdywFMmXb38YWpdkZ9zXEIfimwCKK67LAePMWEHWLTWCWMIGI7zzRbHZOL81WsE
+         vLfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ul9FGVJ1sqTdARK0mUZLH5+vAqXgfv1Osb8Y+BayvnA=;
-        b=ER723TLTI9B0pdIZ/ZXRWNtruyEoieeBvINo98wlfIak+VGkPU9S+W8KyB++8kWOFM
-         Ar7LuNG6c+Sd+h3NtuiLWBPeXgC8yH9PJ1XL5GGauJlJDW+k4Y3rmqeB85XtCiwlXs1Q
-         O/B8+S6Cz9ESebclp/VJsKCYS2zGemQHR9NnVo3DSG32p1aHYi+CURuaI4lwvzNs7IIz
-         +isN/tVsyuB6SD1Vj0/bG1Y9dK366tV2smHngTObos/rIFjDLZPWFKlt7i2EORGWPJDq
-         XqjboOB+/pnCuY9uXcV8uy+5GjpL0akgSwGPwLxpuSvcwSXSp3wKjJ4hdh2H28RblWzu
-         ZC9Q==
-X-Gm-Message-State: AOAM533fleL/bfEcKjrlGg315xrWsBep84N48yvZ+bSKpCfNy6/9Myaj
-	9pMGhTFlDX8c7nWWr/XyvQU=
-X-Google-Smtp-Source: ABdhPJydGXJP9BFb1WSRFH7cUBdCTIZqsh5XL7qhdz3craqFPk3UEPjmG7JCVH0Qt25hbQzNFkc5lA==
-X-Received: by 2002:a05:622a:446:b0:2e1:b95e:3b48 with SMTP id o6-20020a05622a044600b002e1b95e3b48mr758043qtx.310.1650568844562;
-        Thu, 21 Apr 2022 12:20:44 -0700 (PDT)
+        bh=NMYq8qcFTxh0xZzr+s+ajhPy8SCulftSg3sqVf1Tdxo=;
+        b=doo8G/appke6RdsCkdWWuPz9JSOv/erOrHX3YqWMCyRgazrSxbCJToyOI/9FC970bC
+         Mjm95s9kag95X8SrNWMCaj3mNWnTyr2Y7yYcDG+AUGB1IF7h+UY3rafMYEu0Zl9nkL/P
+         7iWQGuFNbjRc81sTbf9Rhbq3Nb6EmBwfPvmsqsVsHHRS8AcFV906O8+tFO9Vy3wVbUdY
+         +b+0WH0RtKv1MokJYNgUibfLimVW5yaK7p25cY0BdTgzhLAn+0iFG32WuJ9ltUZdDZs9
+         23uQQjs9mItGA7yNKJsMZpRXcGFKol+mn6XMXXkroI1XAU0p6nFxoH4lgcNLgAgJ6VTb
+         Tg7Q==
+X-Gm-Message-State: AOAM531+TdrH1zlcdLWiqo61s0VrQ9fvAZGvkPFKqDMYr0rjVFnN5Mm8
+	gqhUc2zmNfTW36k87hb+XA4=
+X-Google-Smtp-Source: ABdhPJy8ZQnVqfEMVHIa2M8cOx+4Hsi8pqtCHRwr1SURcmiQj9TJMj9Swa3206Oj/IQ5yBhQTace2w==
+X-Received: by 2002:a05:6214:c2b:b0:446:5060:2c33 with SMTP id a11-20020a0562140c2b00b0044650602c33mr811826qvd.3.1650568845665;
+        Thu, 21 Apr 2022 12:20:45 -0700 (PDT)
 Received: from jaehee-ThinkPad-X1-Extreme.wework.com ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id l9-20020a05622a174900b002f34421b01csm2567736qtk.23.2022.04.21.12.20.43
+        by smtp.gmail.com with ESMTPSA id l9-20020a05622a174900b002f34421b01csm2567736qtk.23.2022.04.21.12.20.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 12:20:44 -0700 (PDT)
+        Thu, 21 Apr 2022 12:20:45 -0700 (PDT)
 From: Jaehee Park <jhpark1013@gmail.com>
 To: Larry.Finger@lwfinger.net
 Cc: phil@philpotter.co.uk,
@@ -44,9 +44,9 @@ Cc: phil@philpotter.co.uk,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
 	jhpark1013@gmail.com
-Subject: [PATCH v4 5/7] staging: r8188eu: replace spaces with tabs
-Date: Thu, 21 Apr 2022 15:20:30 -0400
-Message-Id: <fd4a66013be081bc5adb491c6dc7774362d1ac82.1650568579.git.jhpark1013@gmail.com>
+Subject: [PATCH v4 6/7] staging: r8188eu: correct typo in comments
+Date: Thu, 21 Apr 2022 15:20:31 -0400
+Message-Id: <56b25e4394396823d52f1fe1b312c5a307aea0fc.1650568579.git.jhpark1013@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650568579.git.jhpark1013@gmail.com>
 References: <cover.1650568579.git.jhpark1013@gmail.com>
@@ -58,27 +58,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use tabs instead of spaces. Issue found with checkpatch.
-WARNING: suspect code indent for conditional statements
+Correct misspellings in the comments. Issue found with checkpatch.
 
 Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index b943fb190e4c..7a90fe826d1d 100644
+index 7a90fe826d1d..d422ce87ba7c 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -722,7 +722,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
- 			pmlmepriv->to_join = false;
- 			s_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
- 			if (s_ret == _SUCCESS) {
--			     _set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
-+				_set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
- 			} else if (s_ret == 2) { /* there is no need to wait for join */
- 				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
- 				rtw_indicate_connect(adapter);
+@@ -192,7 +192,7 @@ void _rtw_free_network_nolock(struct	mlme_priv *pmlmepriv, struct wlan_network *
+ /*
+ 	return the wlan_network with the matching addr
+ 
+-	Shall be calle under atomic context... to avoid possible racing condition...
++	Shall be called under atomic context... to avoid possible racing condition...
+ */
+ struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+ {
+@@ -328,7 +328,7 @@ void rtw_free_network_queue(struct adapter *dev, u8 isfreeall)
+ /*
+ 	return the wlan_network with the matching addr
+ 
+-	Shall be calle under atomic context... to avoid possible racing condition...
++	Shall be called under atomic context... to avoid possible racing condition...
+ */
+ struct	wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+ {
+@@ -911,7 +911,7 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
+ 			memset((u8 *)&psta->dot11rxpn, 0, sizeof(union pn48));
+ 		}
+ 		/*	When doing the WPS, the wps_ie_len won't equal to 0 */
+-		/*	And the Wi-Fi driver shouldn't allow the data packet to be tramsmitted. */
++		/*	And the Wi-Fi driver shouldn't allow the data packet to be transmitted. */
+ 		if (padapter->securitypriv.wps_ie_len != 0) {
+ 			psta->ieee8021x_blocked = true;
+ 			padapter->securitypriv.wps_ie_len = 0;
+@@ -1305,7 +1305,7 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
+ }
+ 
+ /*
+-* _rtw_join_timeout_handler - Timeout/faliure handler for CMD JoinBss
++* _rtw_join_timeout_handler - Timeout/failure handler for CMD JoinBss
+ * @adapter: pointer to struct adapter structure
+ */
+ void _rtw_join_timeout_handler (struct adapter *adapter)
+@@ -1340,7 +1340,7 @@ void _rtw_join_timeout_handler (struct adapter *adapter)
+ }
+ 
+ /*
+-* rtw_scan_timeout_handler - Timeout/Faliure handler for CMD SiteSurvey
++* rtw_scan_timeout_handler - Timeout/Failure handler for CMD SiteSurvey
+ * @adapter: pointer to struct adapter structure
+ */
+ void rtw_scan_timeout_handler (struct adapter *adapter)
 -- 
 2.25.1
 
