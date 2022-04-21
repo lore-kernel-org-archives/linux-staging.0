@@ -1,124 +1,113 @@
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96ACC468B;
-	Thu, 21 Apr 2022 01:16:17 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id a10so2643197qvm.8;
-        Wed, 20 Apr 2022 18:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=F77C2q47pYS+RE/OwYeFXyxS3AjhQn7/SR6GHq78D9o=;
-        b=gRwMUG+QIEI2kyRZlqfd4xYQieTFYWtCclx9IVQil7D/l/KhfqL9eHTcDQZrW85RRZ
-         NCOS/gGcvu7QSxwl7bXTd/fMNv/SJ6YSZZHc4vNpFMyZ4lCbneeTQ4EOCXVUANLWiVTG
-         ChFnwtlCYvS0zP6wd1SHhvBGPJ06Uc8pkDDZNAQ6TMubSEtJnZcoFO0+XkWmJh15tqau
-         26iUTw3y+zlXyvVuZ3EMyomS4rDSfkh7ZsD+BDhf1lroX2MYNcVInXnmf26Qn8AiYtn7
-         Dh95FMyps+w05SIvJp1Mxx5/9IQOm85L+lw6L1L5JwINhviclttqhCYxbYMMRDbUvgiZ
-         /zCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=F77C2q47pYS+RE/OwYeFXyxS3AjhQn7/SR6GHq78D9o=;
-        b=qgx7mYcRWU2UFPwdz5RbdfLQUzrdpKnZitSFCkTaYRfKSyNo1UUDpgIzzAdJRzHNzs
-         qdpalko3wcnjb9C+wj4FE+7mQI7kDPnauhpc8aXUCIwPv4aVajSt9wgyqbacM4nxa958
-         OHenSgUDWzDrgwdeFkYwae+rLmz3i+x/1pR7m7wErHoHEvBcmTSYV4xA2fNiBEBJ2f/Q
-         /YAIyzVTfjHOUDwYPFyNe2YSSztB3Mwv38mcNDpyVDLMf9wTvjodKes0HJ2c6zBNrsFn
-         WV9YwSkfQTum9HmMqzQXzpCgbWMw3ogdbe1NUHs7XFG5DtgktVlW2fC6gtM3y5XaLnTO
-         N4Ug==
-X-Gm-Message-State: AOAM532/IavwwJ5zJztedMH2dHb+fQ6gIpromCHtjdmnEXldMx92MfTZ
-	sh506/yy/6+/3YCd3leMGAk=
-X-Google-Smtp-Source: ABdhPJyWFnCPc/QcD8yZDwf04BFpBVFoEELlmPqp8FSOw6wNgqpdGMgMv9RczvWhkI6FT4lzgZduxg==
-X-Received: by 2002:ad4:5bef:0:b0:446:7727:efac with SMTP id k15-20020ad45bef000000b004467727efacmr7778139qvc.44.1650503776396;
-        Wed, 20 Apr 2022 18:16:16 -0700 (PDT)
-Received: from sophie ([45.134.140.168])
-        by smtp.gmail.com with ESMTPSA id s195-20020a37a9cc000000b0069ca29ab6f4sm2403427qke.26.2022.04.20.18.16.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Apr 2022 18:16:15 -0700 (PDT)
-Date: Wed, 20 Apr 2022 20:16:14 -0500
-From: Rebecca Mckeever <remckee0@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: outreachy@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192u: compare strcmp result to zero
-Message-ID: <20220421011614.GA5118@sophie>
-References: <20220416102434.97567-1-remckee0@gmail.com>
- <20220420094220.GD2951@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAF5468D
+	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 01:34:30 +0000 (UTC)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
+ (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 21 Apr
+ 2022 09:34:17 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 21 Apr
+ 2022 09:34:16 +0800
+From: Haowen Bai <baihaowen@meizu.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Haowen Bai <baihaowen@meizu.com>, <linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH V4] staging: rtl8192e: Fix signedness bug in rtllib_rx_assoc_resp()
+Date: Thu, 21 Apr 2022 09:34:14 +0800
+Message-ID: <1650504854-17576-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <YmA3ttZal8Bwlp7P@kroah.com>
+References: <YmA3ttZal8Bwlp7P@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220420094220.GD2951@kadam>
+Content-Type: text/plain
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 
-Hi Dan,
+The rtllib_rx_assoc_resp() function has a signedness bug because it's
+a declared as a u16 but it return -ENOMEM.  When you look at it more
+closely it returns a mix of error codes including 0xcafe, -ENOMEM, and
+a->status which is WLAN_STATUS_NOT_SUPPORTED_AUTH_ALG.  This is a mess.
 
-On Wed, Apr 20, 2022 at 12:42:20PM +0300, Dan Carpenter wrote:
-> On Sat, Apr 16, 2022 at 05:24:34AM -0500, Rebecca Mckeever wrote:
-> > Add " == 0" to the condition in both else if branches to address a
-> > possible bug. strcmp returns 0 when its arguments are equal, which
-> > evaluates to false, often leading to errors when used in if statements.
-> > 
-> > Currently, the statement in the first else if branch does not execute
-> > when its arguments are equal, but it does execute when crypt->ops->name
-> > equals any string other than "WEP" or "TKIP".
-> > 
-> > Similarly, the second else if branch does not execute when its arguments
-> > are equal, and it only executes when crypt->ops->name equals "TKIP".
-> > The else branch never executes.
-> > 
-> > It is unlikely that this is working as intended.
-> > 
-> > Signed-off-by: Rebecca Mckeever <remckee0@gmail.com>
-> > ---
-> 
-> Looks good.  How did you find this bug?
+Clean it up to just return standard kernel error codes.  We can print
+out the a->status before returning a regular error code.  The printks
+in the caller need to be adjusted as well.
 
-I noticed it when I was trying to understand the surrounding code when
-preparing another patch.
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+V1->V2: reduce return random value; print its own error message.
+V2->V3: change commit message; change s16 -> int.
+V3->V4: 
+1. change message suggested by Dan Carpenter;
+2. hold a->status in auth_parse() and return error code or 0 on success.
+3. print le16_to_cpu(errcode) -> int %d.
 
-> 
-> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-> 
-> > There is a similiar issue in
-> > drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-> > but I'm not sure if it's incorrect. The strcmp on line 2847 isn't
-> > negated, but the ones on lines 2851, 2853, and 2855 are.
-> > 
-> > 2845         /* IPW HW cannot build TKIP MIC, host decryption still needed. */
-> > 2846         if (!(ieee->host_encrypt || ieee->host_decrypt) &&
-> > 2847             strcmp(param->u.crypt.alg, "TKIP"))
-> > 2848                 goto skip_host_crypt;
-> 
-> You're right, but also I suspect this whole if statement is wrong.
-> 
-> The if statement is only triggered if both ->host_encrypt and
-> ->host_decrypt are disabled.  (Too many negatives).  I think both are
-> set in alloc_ieee80211() and rtl8192_init_priv_variable() so both are
-> always true and the if statement is dead code.
-> 
-> How does the code match with the comment?
-> 
-> Fixing this probably requires testing.  Maybe we could add this to the
-> TODO list or maybe add a comment?
+ drivers/staging/rtl8192e/rtllib_softmac.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-There isn't currently a TODO file for this driver. Adding a TODO file
-would probably be more effective than a comment?
-
-> 
-> regards,
-> dan carpenter
-> 
-> Ps:  When you have a !(foo || bar) then it's often more readable to
-> write it as !foo && !bar, but in this case it doesn't really answer any
-> of the core questions so don't bother.
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 82bf05eb1cbf..38ac733c3245 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -1764,7 +1764,7 @@ static void rtllib_softmac_check_all_nets(struct rtllib_device *ieee)
+ 	spin_unlock_irqrestore(&ieee->lock, flags);
+ }
  
-Yeah, I think you're right, !foo && !bar makes more sense to me.
+-static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
++static inline int auth_parse(struct net_device *dev, struct sk_buff *skb,
+ 			     u8 **challenge, int *chlen)
+ {
+ 	struct rtllib_authentication *a;
+@@ -1773,7 +1773,7 @@ static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
+ 	if (skb->len <  (sizeof(struct rtllib_authentication) -
+ 	    sizeof(struct rtllib_info_element))) {
+ 		netdev_dbg(dev, "invalid len in auth resp: %d\n", skb->len);
+-		return 0xcafe;
++		return -EINVAL;
+ 	}
+ 	*challenge = NULL;
+ 	a = (struct rtllib_authentication *) skb->data;
+@@ -1787,7 +1787,13 @@ static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
+ 				return -ENOMEM;
+ 		}
+ 	}
+-	return le16_to_cpu(a->status);
++
++	if (a->status) {
++		netdev_info(ieee->dev, "auth_parse() failed");
++		return -EINVAL;
++	}
++
++	return 0;
+ }
+ 
+ static int auth_rq_parse(struct net_device *dev, struct sk_buff *skb, u8 *dest)
+@@ -2282,7 +2288,7 @@ rtllib_rx_assoc_resp(struct rtllib_device *ieee, struct sk_buff *skb,
+ 
+ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
+ {
+-	u16 errcode;
++	int errcode;
+ 	u8 *challenge;
+ 	int chlen = 0;
+ 	bool bSupportNmode = true, bHalfSupportNmode = false;
+@@ -2292,8 +2298,7 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	if (errcode) {
+ 		ieee->softmac_stats.rx_auth_rs_err++;
+ 		netdev_info(ieee->dev,
+-			    "Authentication response status code 0x%x",
+-			    errcode);
++			    "Authentication response status code %d", errcode);
+ 		rtllib_associate_abort(ieee);
+ 		return;
+ 	}
+-- 
+2.7.4
 
-Thanks,
-Rebecca
