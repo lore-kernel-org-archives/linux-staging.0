@@ -1,41 +1,41 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0AF23A1;
-	Thu, 21 Apr 2022 19:20:41 +0000 (UTC)
-Received: by mail-qk1-f173.google.com with SMTP id j6so4311321qkp.9;
-        Thu, 21 Apr 2022 12:20:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C76E23A9;
+	Thu, 21 Apr 2022 19:20:42 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id j9so4327651qkg.1;
+        Thu, 21 Apr 2022 12:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=B8hL0jBT5xZ4aSX/GQ3ksV9bgLPofPyPWC/LZsNauFo=;
-        b=XG8SJK33BDwMiVJqw1QQx/+w1u+bNOgMSY0Tm61NDdxthwyeJVFDjL2trbkS26WY7p
-         jZL5SP/LnQPZ5kJd5XLSgnkgsncZhKVC409Hef4jfDFnY7IvAbw0Z6Jcw5ly8OpeIWvQ
-         UGM+j2W6WexEmdSC3Ank/7x641c5dvG07g0kMxV7X1pkEbmYdgybn5q+Q26uI8tDQWVQ
-         nmn/qpPE4yC3Ze4PkH0PVABDy0yahSoMSStaJFAjC060xRGBneViu6lkGSIScGSvoj1c
-         tkpOvlSUT8q2dgbTtjyc3YTrif4+V03SHSnA70t3curI6Qdf3RU+8XqLy4XWfRjB984w
-         Pjug==
+        bh=fZneH4LjchLUspCBR6Lavef7yu8zFb5eswSR3q4Bedk=;
+        b=VezwsUuuDcpjP96JaMyId6lbKh94k5PRoJc+VgRn6QMBC9LAJHOZyisA3pizrmw01f
+         T5ph+dtxqVd05uSYw2FZmC51z9oYoOHt7shNjYlmux5X8Hceji+Z6GLtMM8y+9M2Uf3i
+         j1n6U6ovQiub2n1Cc+GBkOpnyi//Rs75yS5AcnfFJfQNKsrp/macF8Li/BeYDRZrMukd
+         RaIyCU9ExBnDm5TP3ZT+RSu9TlPZNKxqzGRM+2KSWIJNmt6hh9N60CczwMTl3Al6PUgB
+         7k5i+LMpPNieFV2FKWSEcvU/p/bI5Ric1vJDvoKeVfqIFP3Vp2qD+zmf4jdYQ1YOhruT
+         mLLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=B8hL0jBT5xZ4aSX/GQ3ksV9bgLPofPyPWC/LZsNauFo=;
-        b=f7JPPmBllCNeCJ3hhPkfcuUwnhkPxnZNpKs3vE9GcijML9PyHzSDxJBDNSnvY4qmQH
-         dBF2daHiRCU2aosf+zaFjjlNqn+/nN1Mj2tu16SuwE0fPr8xNVUk3CKZ0Lygc4X3l68R
-         d5ewbIuflJ7NAGhdKncO6kQWrXT8OMMkrKHRssmTZaLObqR+bCbkUAsWgiFS4u0TCxxq
-         nDmIaNQXKZ83k8Vx51IALmtqlL0s5uHB9/l7mI6MGZS6uVOO0NlU5f/iVHvOl6lDv3+a
-         dJu56hsRq8brDnmkpHagzK4UMo6X0if1EjUnZxM1E0nFh5L7PMeofevmczLvKBD2Nmsv
-         On3g==
-X-Gm-Message-State: AOAM533ZzgLNZV3/AwHp+mnf84Z41fDGz4XqLLvUCwGDknoZA3KtP30J
-	UVDi/f1KVQBxGq1zoB5Jn24=
-X-Google-Smtp-Source: ABdhPJz06GNbdRt8kpmS3Y9/FKz328cWWogMe2wv1AFvX0xYG0jQK8O4EbxTpjClD3KlnqRuCQpBHw==
-X-Received: by 2002:a05:620a:2681:b0:67e:933e:54b6 with SMTP id c1-20020a05620a268100b0067e933e54b6mr647276qkp.428.1650568840022;
-        Thu, 21 Apr 2022 12:20:40 -0700 (PDT)
+        bh=fZneH4LjchLUspCBR6Lavef7yu8zFb5eswSR3q4Bedk=;
+        b=ybXUcyRlW8bzTeN1JP3Oi/euOVEg/ml2yTYCR+PUt09FgTMlLAGODcrDOkjwd+IHfb
+         4hG+NwQMlU4oAAeoSW0pJAgETnLraArr6uLiWUlTT7qLoDht1/Zuq8I0gHFY1zGF+rGo
+         tLcoKU7jVOQZ/nWVcHyPjsSbNaFU9XW5h4P8zZtlWp7bUEt0gnpzweqZFLsYswfxhxqf
+         aDEiW3CA5ZvBET39NruuXM+/BBFxxLDeM29oCNReXieBVHrLxePyxy+0w0kSjezh+c7K
+         oZV7hEvSMHQu8dqnLvr9DHZnUzQKClNtjq3M+Lf7eLgEGiD/cf4LbOgSOJoXzgAvCOoj
+         S7cQ==
+X-Gm-Message-State: AOAM5301XZ8qOKTVFJ6hdZzv2bklELC1vEF+3b32CfWQ8vFXv5MSGcUX
+	GKNhZE+pP1iuEbciVM29b10=
+X-Google-Smtp-Source: ABdhPJxGiRkrAoMbgBK8oGXrrEHyDpC98OxpXgGcmOOiQdDF6gJnxnFvNjVu92/aWttU1VqG1wUOwA==
+X-Received: by 2002:a05:620a:29d1:b0:69e:d2e2:b3ce with SMTP id s17-20020a05620a29d100b0069ed2e2b3cemr636184qkp.686.1650568841218;
+        Thu, 21 Apr 2022 12:20:41 -0700 (PDT)
 Received: from jaehee-ThinkPad-X1-Extreme.wework.com ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id l9-20020a05622a174900b002f34421b01csm2567736qtk.23.2022.04.21.12.20.39
+        by smtp.gmail.com with ESMTPSA id l9-20020a05622a174900b002f34421b01csm2567736qtk.23.2022.04.21.12.20.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 12:20:39 -0700 (PDT)
+        Thu, 21 Apr 2022 12:20:40 -0700 (PDT)
 From: Jaehee Park <jhpark1013@gmail.com>
 To: Larry.Finger@lwfinger.net
 Cc: phil@philpotter.co.uk,
@@ -44,9 +44,9 @@ Cc: phil@philpotter.co.uk,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
 	jhpark1013@gmail.com
-Subject: [PATCH v4 1/7] staging: r8188eu: remove unnecessary braces in single statement block
-Date: Thu, 21 Apr 2022 15:20:26 -0400
-Message-Id: <b96ae957e2ddc519e56813a1c56e770168f67a2d.1650568579.git.jhpark1013@gmail.com>
+Subject: [PATCH v4 2/7] staging: r8188eu: remove spaces before tabs
+Date: Thu, 21 Apr 2022 15:20:27 -0400
+Message-Id: <1b1e8cda03ca5d3fdf26c511da76258f7a2ab8d5.1650568579.git.jhpark1013@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650568579.git.jhpark1013@gmail.com>
 References: <cover.1650568579.git.jhpark1013@gmail.com>
@@ -58,29 +58,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove braces for single statement block to minimize the number of
-empty lines, without loss of readability. Issue found with checkpatch.
-WARNING: braces {} are not necessary for single statement blocks
+Delete spaces before tabs in the comments. Issue found with checkpatch.
+WARNING: please, no space before tabs
 
 Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 3e9882f89f76..d3f4d7cdfa08 100644
+index d3f4d7cdfa08..2cfd8e8d74a4 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -112,9 +112,8 @@ void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
+@@ -573,8 +573,8 @@ static void rtw_add_network(struct adapter *adapter,
  
- 	rtw_free_mlme_priv_ie_data(pmlmepriv);
- 
--	if (pmlmepriv) {
-+	if (pmlmepriv)
- 		vfree(pmlmepriv->free_bss_buf);
--	}
- 
- }
+ /* select the desired network based on the capability of the (i)bss. */
+ /*  check items:	(1) security */
+-/* 			(2) network_type */
+-/* 			(3) WMM */
++/*			(2) network_type */
++/*			(3) WMM */
+ /*			(4) HT */
+ /*			(5) others */
+ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwork)
+@@ -909,9 +909,9 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
+ 			memset((u8 *)&psta->dot11txpn, 0, sizeof(union pn48));
+ 			memset((u8 *)&psta->dot11rxpn, 0, sizeof(union pn48));
+ 		}
+-		/* 	Commented by Albert 2012/07/21 */
+-		/* 	When doing the WPS, the wps_ie_len won't equal to 0 */
+-		/* 	And the Wi-Fi driver shouldn't allow the data packet to be tramsmitted. */
++		/*	Commented by Albert 2012/07/21 */
++		/*	When doing the WPS, the wps_ie_len won't equal to 0 */
++		/*	And the Wi-Fi driver shouldn't allow the data packet to be tramsmitted. */
+ 		if (padapter->securitypriv.wps_ie_len != 0) {
+ 			psta->ieee8021x_blocked = true;
+ 			padapter->securitypriv.wps_ie_len = 0;
+@@ -1634,8 +1634,8 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+ /*  */
+ /*  Search by BSSID, */
+ /*  Return Value: */
+-/* 		-1		:if there is no pre-auth key in the  table */
+-/* 		>= 0		:if there is pre-auth key, and   return the entry id */
++/*		-1		:if there is no pre-auth key in the  table */
++/*		>= 0		:if there is pre-auth key, and   return the entry id */
+ /*  */
+ /*  */
  
 -- 
 2.25.1
