@@ -1,86 +1,76 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3062923A0;
-	Thu, 21 Apr 2022 19:16:08 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id v12so1202671wrv.10;
-        Thu, 21 Apr 2022 12:16:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A88523A0;
+	Thu, 21 Apr 2022 19:20:39 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id hf18so4038159qtb.0;
+        Thu, 21 Apr 2022 12:20:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PNiJSrQTI1Pt1iGSKhItPgbMNPUK9lB0wjRcg9gqMY8=;
+        b=GGaUeCDvR9QGBfQTYzXmtA2mY3jKLr6N+hQcsm5N+IJj2Z9qVCHTvvEAgdD+2L0BUm
+         gqIK1a4iB7x1C1urijc40bhG9aoWiUhAPRKE7BcUr6/2xUzhd1HZWIe7doK3WA+0PTgN
+         dtw7WX3+1dVTUCdBgSLweXtT7iMO8wBegjPHgKX66JKwF3h6z75ir/0SZyo2vNsKReQX
+         CdKiRl1kGkstvvGE6DPFC3vsFHPP8GtgrByLDExVb7cLVX8Nqb/YY4kUjma9KxGVImCo
+         jcGje/PtOQQGErsLL1jpRb4cVZhKOE/yIWQJ9bX/2Xp35KjHZyEUXlmvEvnGrRaY92iP
+         93jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=AHLP1NJzIhUuorzbDM3B2ohS7cALSRAeCoZR22VkiWU=;
-        b=BGGcjrCH4/ov0aL+uEO21oW2+L3dQ/2MVWbPExa3hZ4lyx5x5eNzPjSEHalM2VEDdc
-         ikvrayV+K2gcbpU2F3ZEtzbZ0qtxk1pPBGoGxSbjKuYyLTvjYIP5ogFusnilWZShbvo9
-         CJ+i7J2C5Zzw8bYpfIyTuokOUNucrtcfOBt+nyNEZwlsRghL+tyNXKFyqQDWi8NOk7Lx
-         7CG49LR/eNsCUWebAA5e8TququcZcIQn1WYLEVX6i8Lpl16qDzPrAmB/7Ol9X93FpZVO
-         +8SseEDt3y4pu4FQuoKwXnqJJMk9BbxQ14SdFZs7PU0MGMLb419Gok0sdvNCSXoBoV3i
-         srkg==
-X-Gm-Message-State: AOAM5326ZYST9HjNwQQhofJgTnzd9kyX7/iO1xBVmyTWuXf9kBz1D1uS
-	ikZJD44HXlLtZbn8TfALSUg=
-X-Google-Smtp-Source: ABdhPJwVWTrbptQ5HgW724jwGeCexvjlAE4JqlG/I3za3EqRCW4VVzxlGFXoXbiaA5dFfugGM/yAoQ==
-X-Received: by 2002:adf:f508:0:b0:207:a8fe:c8bd with SMTP id q8-20020adff508000000b00207a8fec8bdmr857908wro.313.1650568566220;
-        Thu, 21 Apr 2022 12:16:06 -0700 (PDT)
-Received: from ?IPv6:2a00:23c6:c31a:b300:7e32:69f8:29ae:884a? ([2a00:23c6:c31a:b300:7e32:69f8:29ae:884a])
-        by smtp.gmail.com with ESMTPSA id n42-20020a05600c3baa00b0038ffadd6e4asm2864364wms.30.2022.04.21.12.16.05
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PNiJSrQTI1Pt1iGSKhItPgbMNPUK9lB0wjRcg9gqMY8=;
+        b=vLyriYAx8pDmqDywKkCs1X5fAUEk7FYXKKWCHvP01Nh0Zq44hKIS9Je2HtNMv338JK
+         n4J97SBHh4LKLgpnveoUAdSp+lCd3yZu8GQ2cZnwk4LMx4f2XOWRQETUU6zeIqDE0OCE
+         gHRMRa8HFmj6zcaxyW7hLGl+3GqRGfKuJtCj8qqRQJvfUIJEptiIXD7oWMuw0/COEqkZ
+         1BjKW0kL/jIPlZ46ZF7xpB4mgQhuiUcj0qVoNjBhBjRd0xfXzd7CsmFSPb+MOzXQdVCG
+         w98OcW1BxnRK+euldbRVgC8yWMsi4167X1ZSxlCcmS5+Bv0ElP8e3FWHUnrPK3gGGSsW
+         eaZw==
+X-Gm-Message-State: AOAM530FDpFQDhuxVkfEDmcxoSdqMacm52NseCpvhIC4t0tMhDbAABrF
+	C/htVypoj8aYOA3aFvADcAc=
+X-Google-Smtp-Source: ABdhPJyEzmQKmC7Kb7jfogLSXyLrjxG7Woq7WKpatFjKnInpS2Bgw0GVZhkNAsnyaBMvd4lv2Y7Y7Q==
+X-Received: by 2002:a05:622a:120a:b0:2e1:c9ba:e99b with SMTP id y10-20020a05622a120a00b002e1c9bae99bmr723784qtx.685.1650568838876;
+        Thu, 21 Apr 2022 12:20:38 -0700 (PDT)
+Received: from jaehee-ThinkPad-X1-Extreme.wework.com ([4.34.18.218])
+        by smtp.gmail.com with ESMTPSA id l9-20020a05622a174900b002f34421b01csm2567736qtk.23.2022.04.21.12.20.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 12:16:05 -0700 (PDT)
-Message-ID: <3e91b72a86294b542acf460657d0fd94adeb252e.camel@welchs.me.uk>
-Subject: Re: [PATCH v3 0/3] staging: vme: Cleanup driver tree old structures
-From: Martyn Welch <martyn@welchs.me.uk>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bruno Moreira-Guedes
-	 <codeagain@codeagain.dev>
-Cc: Manohar Vanga <manohar.vanga@gmail.com>, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev, Bruno's Patch
- Watchbox <patch-reply@codeagain.dev>
-Date: Thu, 21 Apr 2022 20:16:05 +0100
-In-Reply-To: <YmA4QIRfx2QPhEJi@kroah.com>
-References: <cover.1650321310.git.codeagain@codeagain.dev>
-	 <YmA4QIRfx2QPhEJi@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0-1 
+        Thu, 21 Apr 2022 12:20:38 -0700 (PDT)
+From: Jaehee Park <jhpark1013@gmail.com>
+To: Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	jhpark1013@gmail.com
+Subject: [PATCH v4 0/7] staging: r8188eu: fix warnings reported by checkpatch
+Date: Thu, 21 Apr 2022 15:20:25 -0400
+Message-Id: <cover.1650568579.git.jhpark1013@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2022-04-20 at 18:43 +0200, Greg Kroah-Hartman wrote:
-> On Mon, Apr 18, 2022 at 08:29:49PM -0300, Bruno Moreira-Guedes wrote:
-> > This patch series modify the vme_user driver's place in
-> > menuconfig (1/3), fixes a missing `depends on` line in a Kconfig
-> > file
-> > (2/3), and rearrages the directory tree for the driver allowing a
-> > more
-> > straightforward comprehension of its contents (3/3).
-> >=20
-> > The 'vme_user/' driver is the only remaining vme-family driver in
-> > the
-> > 'staging/' tree, but its structure, entry in menuconfig and
-> > building
-> > routines are still attached to the 'vme/' subtree now outside
-> > 'staging/'. The present patchset fixes it.
-> >=20
-> > Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
->=20
-> What about deleting the vme drivers entirely?
+These patches address style issues found by checkpatch in the
+core/rtw_mlme.c file. 
 
-I assume you're suggesting deleting the "vme_user" driver from the
-staging directory?
+Jaehee Park (7):
+  staging: r8188eu: remove unnecessary braces in single statement block
+  staging: r8188eu: remove spaces before tabs
+  staging: r8188eu: remove 'added by' author comments
+  staging: r8188eu: place constants on the right side of tests
+  staging: r8188eu: replace spaces with tabs
+  staging: r8188eu: correct typo in comments
+  staging: r8188eu: remove unused else condition
 
-> Martyn, anyone still using these?
->=20
+ drivers/staging/r8188eu/core/rtw_mlme.c | 45 +++++++++++--------------
+ 1 file changed, 19 insertions(+), 26 deletions(-)
 
-I'm fairly sure that the actual VME drivers for the hardware bridges
-(the bits not in staging) are still being used based on the
-conversations I've had today. I'm just trying to find out whether the
-vme_user bit is actively being used.
-
-Martyn
-
-> thanks,
->=20
-> greg k-h
+-- 
+2.25.1
 
