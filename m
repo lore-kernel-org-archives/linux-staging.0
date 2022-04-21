@@ -1,41 +1,41 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C76E23A9;
-	Thu, 21 Apr 2022 19:20:42 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id j9so4327651qkg.1;
-        Thu, 21 Apr 2022 12:20:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D5823A1;
+	Thu, 21 Apr 2022 19:20:43 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id hf18so4038263qtb.0;
+        Thu, 21 Apr 2022 12:20:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fZneH4LjchLUspCBR6Lavef7yu8zFb5eswSR3q4Bedk=;
-        b=VezwsUuuDcpjP96JaMyId6lbKh94k5PRoJc+VgRn6QMBC9LAJHOZyisA3pizrmw01f
-         T5ph+dtxqVd05uSYw2FZmC51z9oYoOHt7shNjYlmux5X8Hceji+Z6GLtMM8y+9M2Uf3i
-         j1n6U6ovQiub2n1Cc+GBkOpnyi//Rs75yS5AcnfFJfQNKsrp/macF8Li/BeYDRZrMukd
-         RaIyCU9ExBnDm5TP3ZT+RSu9TlPZNKxqzGRM+2KSWIJNmt6hh9N60CczwMTl3Al6PUgB
-         7k5i+LMpPNieFV2FKWSEcvU/p/bI5Ric1vJDvoKeVfqIFP3Vp2qD+zmf4jdYQ1YOhruT
-         mLLA==
+        bh=jWtgrgCunJ7y2eDAedOrW5DZBPj0gqKyi2a7G2/e/4U=;
+        b=kAW26HAITAbFAGVv0mM9r7y00YX31OV1dRygPiaqLdWdJzBeBEKEZNZHIxbLx9WOkW
+         btvNY2sO6K/ieesQJ98dqudLJhtWtUUNyNSIRHfCnqZ5frxqHgAQz6NClgdRYAQRgZ6B
+         laNadyJFcCsw67vkgQzjXdGJgo1CvPOPkD+YT4g6LeIzMMhM4uAe6SKlafNpsqb70fST
+         ReP57qGKSUdcFmfRREz0jbqjLbgWoNciyjgTa1lVEnZXZHhwKHj8Hd/8NSubRJDOpl+R
+         h4D+B5Fu/rXzQEpingwJDM0VKq51WLV7pRACX42n6WGxnAr5vxzv9qVoHAgkkVUpauiv
+         eUGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fZneH4LjchLUspCBR6Lavef7yu8zFb5eswSR3q4Bedk=;
-        b=ybXUcyRlW8bzTeN1JP3Oi/euOVEg/ml2yTYCR+PUt09FgTMlLAGODcrDOkjwd+IHfb
-         4hG+NwQMlU4oAAeoSW0pJAgETnLraArr6uLiWUlTT7qLoDht1/Zuq8I0gHFY1zGF+rGo
-         tLcoKU7jVOQZ/nWVcHyPjsSbNaFU9XW5h4P8zZtlWp7bUEt0gnpzweqZFLsYswfxhxqf
-         aDEiW3CA5ZvBET39NruuXM+/BBFxxLDeM29oCNReXieBVHrLxePyxy+0w0kSjezh+c7K
-         oZV7hEvSMHQu8dqnLvr9DHZnUzQKClNtjq3M+Lf7eLgEGiD/cf4LbOgSOJoXzgAvCOoj
-         S7cQ==
-X-Gm-Message-State: AOAM5301XZ8qOKTVFJ6hdZzv2bklELC1vEF+3b32CfWQ8vFXv5MSGcUX
-	GKNhZE+pP1iuEbciVM29b10=
-X-Google-Smtp-Source: ABdhPJxGiRkrAoMbgBK8oGXrrEHyDpC98OxpXgGcmOOiQdDF6gJnxnFvNjVu92/aWttU1VqG1wUOwA==
-X-Received: by 2002:a05:620a:29d1:b0:69e:d2e2:b3ce with SMTP id s17-20020a05620a29d100b0069ed2e2b3cemr636184qkp.686.1650568841218;
-        Thu, 21 Apr 2022 12:20:41 -0700 (PDT)
+        bh=jWtgrgCunJ7y2eDAedOrW5DZBPj0gqKyi2a7G2/e/4U=;
+        b=wRNXq+pWqHD9CXoizDc9kwp0bbg/GbK1Tg2Ms398DRQMcMGfvk7CmxbBlUSk+Qg8hQ
+         vNvOFuqIPy/EXLCS4JOBh7Hiq5eOPcBVDrG4ncL9iYO0ZQNVGwjEO2+J2bmoD+/5zd14
+         nrBbKJNLcO9evjM5WnFsYMX996nzBmxUSOjNnxK9tjtW3hyoXhlAaCHxWou5aEui6I6b
+         Vg2fAwU8pZhUIChqjcBpKxN7c3jlKTkJRRRHTc5kU31LOWRb1RRzYi7YEP9N1MmMo0uV
+         K2z1r2k2roJennL8FfMp3ZEQtVYdLUMpcCm5+B9CY5G3J3OBWk+fFKXqT9n7VNATHL5V
+         fWCA==
+X-Gm-Message-State: AOAM530nQ85RsPmEFp+FYE7vsCY0DTwE6f1UUkQEuGZzizzwjUQAeWS9
+	Be3rPluUhqxPhm7yt/cMHdR1T2gqGVhhAaBO
+X-Google-Smtp-Source: ABdhPJz0Sf/4uOw6SGvqQ+a5x/bu+v79Td0Vm9arvLkFPYfsQM5zt7PHM/U9bdPm1KqkX8vXTmshvQ==
+X-Received: by 2002:ac8:5a09:0:b0:2f1:ff1d:39df with SMTP id n9-20020ac85a09000000b002f1ff1d39dfmr731992qta.453.1650568842469;
+        Thu, 21 Apr 2022 12:20:42 -0700 (PDT)
 Received: from jaehee-ThinkPad-X1-Extreme.wework.com ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id l9-20020a05622a174900b002f34421b01csm2567736qtk.23.2022.04.21.12.20.40
+        by smtp.gmail.com with ESMTPSA id l9-20020a05622a174900b002f34421b01csm2567736qtk.23.2022.04.21.12.20.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 12:20:40 -0700 (PDT)
+        Thu, 21 Apr 2022 12:20:41 -0700 (PDT)
 From: Jaehee Park <jhpark1013@gmail.com>
 To: Larry.Finger@lwfinger.net
 Cc: phil@philpotter.co.uk,
@@ -43,10 +43,11 @@ Cc: phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
-	jhpark1013@gmail.com
-Subject: [PATCH v4 2/7] staging: r8188eu: remove spaces before tabs
-Date: Thu, 21 Apr 2022 15:20:27 -0400
-Message-Id: <1b1e8cda03ca5d3fdf26c511da76258f7a2ab8d5.1650568579.git.jhpark1013@gmail.com>
+	jhpark1013@gmail.com,
+	Alison Schofield <alison.schofield@intel.com>
+Subject: [PATCH v4 3/7] staging: r8188eu: remove 'added by' author comments
+Date: Thu, 21 Apr 2022 15:20:28 -0400
+Message-Id: <dd22bbe6b018aadec620d1ef8215e19852099f7c.1650568579.git.jhpark1013@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1650568579.git.jhpark1013@gmail.com>
 References: <cover.1650568579.git.jhpark1013@gmail.com>
@@ -58,53 +59,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Delete spaces before tabs in the comments. Issue found with checkpatch.
-WARNING: please, no space before tabs
+Author comments "Added by Albert" and "Added by Annie" are sprinkled
+through the file. These comments are not useful and can be removed.
 
+Suggested-by: Alison Schofield <alison.schofield@intel.com>
 Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index d3f4d7cdfa08..2cfd8e8d74a4 100644
+index 2cfd8e8d74a4..5adef9b9108d 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -573,8 +573,8 @@ static void rtw_add_network(struct adapter *adapter,
- 
- /* select the desired network based on the capability of the (i)bss. */
- /*  check items:	(1) security */
--/* 			(2) network_type */
--/* 			(3) WMM */
-+/*			(2) network_type */
-+/*			(3) WMM */
- /*			(4) HT */
- /*			(5) others */
- static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwork)
-@@ -909,9 +909,9 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
+@@ -909,7 +909,6 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
  			memset((u8 *)&psta->dot11txpn, 0, sizeof(union pn48));
  			memset((u8 *)&psta->dot11rxpn, 0, sizeof(union pn48));
  		}
--		/* 	Commented by Albert 2012/07/21 */
--		/* 	When doing the WPS, the wps_ie_len won't equal to 0 */
--		/* 	And the Wi-Fi driver shouldn't allow the data packet to be tramsmitted. */
-+		/*	Commented by Albert 2012/07/21 */
-+		/*	When doing the WPS, the wps_ie_len won't equal to 0 */
-+		/*	And the Wi-Fi driver shouldn't allow the data packet to be tramsmitted. */
+-		/*	Commented by Albert 2012/07/21 */
+ 		/*	When doing the WPS, the wps_ie_len won't equal to 0 */
+ 		/*	And the Wi-Fi driver shouldn't allow the data packet to be tramsmitted. */
  		if (padapter->securitypriv.wps_ie_len != 0) {
- 			psta->ieee8021x_blocked = true;
- 			padapter->securitypriv.wps_ie_len = 0;
-@@ -1634,8 +1634,8 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+@@ -1628,9 +1627,6 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+ 	return ielength;
+ }
+ 
+-/*  */
+-/*  Ported from 8185: IsInPreAuthKeyList(). (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.) */
+-/*  Added by Annie, 2006-05-07. */
  /*  */
  /*  Search by BSSID, */
  /*  Return Value: */
--/* 		-1		:if there is no pre-auth key in the  table */
--/* 		>= 0		:if there is pre-auth key, and   return the entry id */
-+/*		-1		:if there is no pre-auth key in the  table */
-+/*		>= 0		:if there is pre-auth key, and   return the entry id */
- /*  */
- /*  */
- 
 -- 
 2.25.1
 
