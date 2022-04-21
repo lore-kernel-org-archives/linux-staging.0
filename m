@@ -1,79 +1,125 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CC323AF
-	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 20:08:19 +0000 (UTC)
-Received: from dslb-178-004-168-011.178.004.pools.vodafone-ip.de ([178.4.168.11] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1nhd68-0001vc-2b; Thu, 21 Apr 2022 22:08:16 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 4/4] staging: r8188eu: remove OnAction_dls
-Date: Thu, 21 Apr 2022 22:08:04 +0200
-Message-Id: <20220421200805.192083-5-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220421200805.192083-1-martin@kaiser.cx>
-References: <20220421200805.192083-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB7333FF;
+	Thu, 21 Apr 2022 23:20:35 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id y21so1506635edo.2;
+        Thu, 21 Apr 2022 16:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=mtzzvTX2FZWpYfASrGmIBlMmWHZXe5gxLBO6bskoUbk=;
+        b=Ea3mKJ1ynIyGjGgcZPbYaa07HFzGBunGsG9Z3uPHY5830yNYhIsLBolYPgzx/8wlX8
+         KdGabqf5lr9XvB7btXqspjrg5QmzRF7pipi1mdtJT120KvMfCaR5nes/dLJxJ7tpk32J
+         HmPDFUndhT9e3YE5GuUirmLo+KhITjeMidDQbAMgDU2qWZyDdA4aeb5Af6YOUo6igbZa
+         GmKzBmh8AaJNcYH7ZCnvSClGbp/HLVIFafPRPzwUv28VW37tqdSOB75FR1Giq5fo0m/k
+         Bc2Q5blxsgQREXmHjkcntLIhEBZ1STWR1wFUJCIQrf0ICT/4JDKyr7YB0dzesW/2spk7
+         sgHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=mtzzvTX2FZWpYfASrGmIBlMmWHZXe5gxLBO6bskoUbk=;
+        b=xn5Cq+BeZdzThujDmmUeahT7CVVKk1KdKEnMyMReeyixYog7Jlk4xcf3vjf90ckIVK
+         XmCvLxVRfuU+DZXb7T7RV8nPB7wEC5GfglME1XiNJ+zWMPimxmj+t5gsVsBLuaMxas8k
+         D5TbonekR+DQSzD2Q5jTF9wDMY8B4GWzJ/0iEDTvZEfDVIlUpe4xzLNUUXWwEn7zsVv0
+         9ybvus7WJFNN3xBTahoPqYmzHUAOPbo+gM3MIYQWyGROw6b3z2XA79PkOT81v/YCOELs
+         8oPpDxaLSJaz1Gjqhc827w2PGWBn4fqDrytuc/fpduLs9wp9MKEgbJ334LrMq7b/1KdP
+         PfsA==
+X-Gm-Message-State: AOAM530dDrqaQjEGGcwNDLLUrnwbUoECnB+642jYOy1rDirl2Ie//Hy8
+	YIskuH4V+IZc1O0F+3oWiC8=
+X-Google-Smtp-Source: ABdhPJyLJraznTTMFich4fGcVX7wFl4eLg7/n7BVsXkq1eMOcWRT/q8zG5C/ZU0FtXAbiQ5bnfxhvA==
+X-Received: by 2002:a50:8d09:0:b0:41c:b898:19a6 with SMTP id s9-20020a508d09000000b0041cb89819a6mr2041330eds.30.1650583233620;
+        Thu, 21 Apr 2022 16:20:33 -0700 (PDT)
+Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id br14-20020a170906d14e00b006e88db05620sm141227ejb.146.2022.04.21.16.20.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Apr 2022 16:20:31 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Jaehee Park <jhpark1013@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev, jhpark1013@gmail.com
+Subject: Re: [PATCH v4 1/7] staging: r8188eu: remove unnecessary braces in single statement block
+Date: Fri, 22 Apr 2022 01:20:29 +0200
+Message-ID: <3485895.R56niFO833@leap>
+In-Reply-To: <16185752.0ZKypZ73Fx@leap>
+References: <cover.1650568579.git.jhpark1013@gmail.com> <b96ae957e2ddc519e56813a1c56e770168f67a2d.1650568579.git.jhpark1013@gmail.com> <16185752.0ZKypZ73Fx@leap>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Remove the empty function OnAction_dls and its entry in OnAction_tbl.
+On gioved=C3=AC 21 aprile 2022 21:52:14 CEST Fabio M. De Francesco wrote:
+> On gioved=C3=AC 21 aprile 2022 21:20:26 CEST Jaehee Park wrote:
+> > Remove braces for single statement block to minimize the number of
+> > empty lines, without loss of readability. Issue found with checkpatch.
+> > WARNING: braces {} are not necessary for single statement blocks
+> >=20
+> > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> > ---
+> >  drivers/staging/r8188eu/core/rtw_mlme.c | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/
+> r8188eu/core/rtw_mlme.c
+> > index 3e9882f89f76..d3f4d7cdfa08 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> > @@ -112,9 +112,8 @@ void _rtw_free_mlme_priv(struct mlme_priv=20
+*pmlmepriv)
+> > =20
+> >  	rtw_free_mlme_priv_ie_data(pmlmepriv);
+> > =20
+> > -	if (pmlmepriv) {
+> > +	if (pmlmepriv)
+> >  		vfree(pmlmepriv->free_bss_buf);
+> > -	}
+> > =20
+> >  }
+> > =20
+> > --=20
+> > 2.25.1
+> >=20
+>=20
+> Hi Jaehee,
+>=20
+> If you just want to remove the braces, your patch is good.
+>=20
+> But... Did you ask yourself why this code needs to test if "pmlmepriv" is=
+=20
+> valid before calling vfree() on it? Actually, the code doesn't need this=
+=20
+> test, it just needs to call "vfree(pmlmepriv)" unconditionally.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 ------
- drivers/staging/r8188eu/include/ieee80211.h | 1 -
- 2 files changed, 7 deletions(-)
+When copy-pasting I overlooked a couple of things... However the argument=20
+is the same: the code doesn't need that 'if' statement before vfree().
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index ed776de064ec..f426e26341ee 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -33,7 +33,6 @@ static mlme_handler mlme_sta_tbl[] = {
- };
- 
- static struct action_handler OnAction_tbl[] = {
--	{RTW_WLAN_CATEGORY_DLS, "ACTION_DLS", &OnAction_dls},
- 	{RTW_WLAN_CATEGORY_BACK, "ACTION_BACK", &OnAction_back},
- 	{RTW_WLAN_CATEGORY_PUBLIC, "ACTION_PUBLIC", on_action_public},
- 	{RTW_WLAN_CATEGORY_HT,	"ACTION_HT",	&OnAction_ht},
-@@ -1474,11 +1473,6 @@ unsigned int OnDisassoc(struct adapter *padapter, struct recv_frame *precv_frame
- 	return _SUCCESS;
- }
- 
--unsigned int OnAction_dls(struct adapter *padapter, struct recv_frame *precv_frame)
--{
--	return _SUCCESS;
--}
--
- unsigned int OnAction_back(struct adapter *padapter, struct recv_frame *precv_frame)
- {
- 	u8 *addr;
-diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
-index 2dd1318651ff..fe2dc2a0a802 100644
---- a/drivers/staging/r8188eu/include/ieee80211.h
-+++ b/drivers/staging/r8188eu/include/ieee80211.h
-@@ -596,7 +596,6 @@ static inline int is_broadcast_mac_addr(const u8 *addr)
- 
- /* Action category code */
- enum rtw_ieee80211_category {
--	RTW_WLAN_CATEGORY_DLS = 2,
- 	RTW_WLAN_CATEGORY_BACK = 3,
- 	RTW_WLAN_CATEGORY_PUBLIC = 4, /* IEEE 802.11 public action frames */
- 	RTW_WLAN_CATEGORY_HT = 7,
--- 
-2.30.2
+I wanted to write "[] it just needs to call "vfree(pmlmepriv-
+>free_bss_buf)" unconditionally".
+
+I apologize for not reading twice before sending my email too soon after=20
+writing and moving sentences around.
+
+> OK, I know that this is not directly related to your patch or any other=20
+> that is explicitly made just for removing unnecessary braces...=20
+
+"pmlmepriv" is valid because we know it from the previous call to=20
+rtw_free_mlme_priv_ie_data(). Therefore the code can dereference=20
+"pmlmepriv".
+
+=46urthermore, even if "free_bss_buf" were NULL it wouldn't matter because=
+=20
+"vfree(pmlmepriv->free_bss_buf)" would be a no-op.
+
+Sorry if this inaccurate wording might have confused you about what I was=20
+trying to say.
+
+Thanks,
+
+=46abio=20
+
 
