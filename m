@@ -1,26 +1,24 @@
-Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
+Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
 	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7DF1FA1
-	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 08:21:28 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
- (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 21 Apr
- 2022 16:21:21 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593641FA1
+	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 09:20:48 +0000 (UTC)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
+ (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 21 Apr
+ 2022 17:20:46 +0800
 Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
  (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 21 Apr
- 2022 16:21:18 +0800
+ 2022 17:20:44 +0800
 From: Haowen Bai <baihaowen@meizu.com>
-To: <lkp@intel.com>
-CC: <baihaowen@meizu.com>, <gregkh@linuxfoundation.org>,
-	<kbuild-all@lists.01.org>, <linux-kernel@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>
-Subject: [PATCH V5] staging: rtl8192e: Fix signedness bug in rtllib_rx_assoc_resp()
-Date: Thu, 21 Apr 2022 16:21:17 +0800
-Message-ID: <1650529277-7893-1-git-send-email-baihaowen@meizu.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
+	<phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Haowen Bai <baihaowen@meizu.com>, <linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] staging: r8188eu: Drop redundant memset
+Date: Thu, 21 Apr 2022 17:20:43 +0800
+Message-ID: <1650532843-28132-1-git-send-email-baihaowen@meizu.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <202204211558.TapLZO4j-lkp@intel.com>
-References: <202204211558.TapLZO4j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,84 +30,26 @@ X-Originating-IP: [172.16.137.70]
 X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
  IT-EXMB-1-125.meizu.com (172.16.1.125)
 
-The rtllib_rx_assoc_resp() function has a signedness bug because it's
-a declared as a u16 but it return -ENOMEM.  When you look at it more
-closely it returns a mix of error codes including 0xcafe, -ENOMEM, and
-a->status which is WLAN_STATUS_NOT_SUPPORTED_AUTH_ALG.  This is a mess.
-
-Clean it up to just return standard kernel error codes.  We can print
-out the a->status before returning a regular error code.  The printks
-in the caller need to be adjusted as well.
+The region set by the call to memset is immediately overwritten by the
+subsequent call to memcpy. So we drop redundant memset.
 
 Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 ---
-V1->V2: reduce return random value; print its own error message.
-V2->V3: change commit message; change s16 -> int.
-V3->V4: 
-1. change message suggested by Dan Carpenter;
-2. hold a->status in auth_parse() and return error code or 0 on success.
-3. print le16_to_cpu(errcode) -> int %d.
-V4->V5: fix compile error.
+ drivers/staging/r8188eu/os_dep/mlme_linux.c | 1 -
+ 1 file changed, 1 deletion(-)
 
- drivers/staging/rtl8192e/rtllib_softmac.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 82bf05eb1cbf..38ac733c3245 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -1764,7 +1764,7 @@ static void rtllib_softmac_check_all_nets(struct rtllib_device *ieee)
- 	spin_unlock_irqrestore(&ieee->lock, flags);
- }
- 
--static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
-+static inline int auth_parse(struct net_device *dev, struct sk_buff *skb,
- 			     u8 **challenge, int *chlen)
- {
- 	struct rtllib_authentication *a;
-@@ -1773,7 +1773,7 @@ static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
- 	if (skb->len <  (sizeof(struct rtllib_authentication) -
- 	    sizeof(struct rtllib_info_element))) {
- 		netdev_dbg(dev, "invalid len in auth resp: %d\n", skb->len);
--		return 0xcafe;
-+		return -EINVAL;
- 	}
- 	*challenge = NULL;
- 	a = (struct rtllib_authentication *) skb->data;
-@@ -1787,7 +1787,13 @@ static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
- 				return -ENOMEM;
- 		}
- 	}
--	return le16_to_cpu(a->status);
-+
-+	if (a->status) {
-+		netdev_dbg(dev, "auth_parse() failed\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
- }
- 
- static int auth_rq_parse(struct net_device *dev, struct sk_buff *skb, u8 *dest)
-@@ -2282,7 +2288,7 @@ rtllib_rx_assoc_resp(struct rtllib_device *ieee, struct sk_buff *skb,
- 
- static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
- {
--	u16 errcode;
-+	int errcode;
- 	u8 *challenge;
- 	int chlen = 0;
- 	bool bSupportNmode = true, bHalfSupportNmode = false;
-@@ -2292,8 +2298,7 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
- 	if (errcode) {
- 		ieee->softmac_stats.rx_auth_rs_err++;
- 		netdev_info(ieee->dev,
--			    "Authentication response status code 0x%x",
--			    errcode);
-+			    "Authentication response status code %d", errcode);
- 		rtllib_associate_abort(ieee);
- 		return;
- 	}
+diff --git a/drivers/staging/r8188eu/os_dep/mlme_linux.c b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+index 72ad9700130e..899d8e9c3834 100644
+--- a/drivers/staging/r8188eu/os_dep/mlme_linux.c
++++ b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+@@ -66,7 +66,6 @@ void rtw_reset_securitypriv(struct adapter *adapter)
+ 		/*  We have to backup the PMK information for WiFi PMK Caching test item. */
+ 		/*  Backup the btkip_countermeasure information. */
+ 		/*  When the countermeasure is trigger, the driver have to disconnect with AP for 60 seconds. */
+-		memset(&backup_pmkid[0], 0x00, sizeof(struct rt_pmkid_list) * NUM_PMKID_CACHE);
+ 		memcpy(&backup_pmkid[0], &adapter->securitypriv.PMKIDList[0], sizeof(struct rt_pmkid_list) * NUM_PMKID_CACHE);
+ 		backup_index = adapter->securitypriv.PMKIDIndex;
+ 		backup_counter = adapter->securitypriv.btkip_countermeasure;
 -- 
 2.7.4
 
