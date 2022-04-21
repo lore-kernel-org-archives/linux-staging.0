@@ -1,41 +1,41 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A88523A0;
-	Thu, 21 Apr 2022 19:20:39 +0000 (UTC)
-Received: by mail-qt1-f178.google.com with SMTP id hf18so4038159qtb.0;
-        Thu, 21 Apr 2022 12:20:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0AF23A1;
+	Thu, 21 Apr 2022 19:20:41 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id j6so4311321qkp.9;
+        Thu, 21 Apr 2022 12:20:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PNiJSrQTI1Pt1iGSKhItPgbMNPUK9lB0wjRcg9gqMY8=;
-        b=GGaUeCDvR9QGBfQTYzXmtA2mY3jKLr6N+hQcsm5N+IJj2Z9qVCHTvvEAgdD+2L0BUm
-         gqIK1a4iB7x1C1urijc40bhG9aoWiUhAPRKE7BcUr6/2xUzhd1HZWIe7doK3WA+0PTgN
-         dtw7WX3+1dVTUCdBgSLweXtT7iMO8wBegjPHgKX66JKwF3h6z75ir/0SZyo2vNsKReQX
-         CdKiRl1kGkstvvGE6DPFC3vsFHPP8GtgrByLDExVb7cLVX8Nqb/YY4kUjma9KxGVImCo
-         jcGje/PtOQQGErsLL1jpRb4cVZhKOE/yIWQJ9bX/2Xp35KjHZyEUXlmvEvnGrRaY92iP
-         93jw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=B8hL0jBT5xZ4aSX/GQ3ksV9bgLPofPyPWC/LZsNauFo=;
+        b=XG8SJK33BDwMiVJqw1QQx/+w1u+bNOgMSY0Tm61NDdxthwyeJVFDjL2trbkS26WY7p
+         jZL5SP/LnQPZ5kJd5XLSgnkgsncZhKVC409Hef4jfDFnY7IvAbw0Z6Jcw5ly8OpeIWvQ
+         UGM+j2W6WexEmdSC3Ank/7x641c5dvG07g0kMxV7X1pkEbmYdgybn5q+Q26uI8tDQWVQ
+         nmn/qpPE4yC3Ze4PkH0PVABDy0yahSoMSStaJFAjC060xRGBneViu6lkGSIScGSvoj1c
+         tkpOvlSUT8q2dgbTtjyc3YTrif4+V03SHSnA70t3curI6Qdf3RU+8XqLy4XWfRjB984w
+         Pjug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PNiJSrQTI1Pt1iGSKhItPgbMNPUK9lB0wjRcg9gqMY8=;
-        b=vLyriYAx8pDmqDywKkCs1X5fAUEk7FYXKKWCHvP01Nh0Zq44hKIS9Je2HtNMv338JK
-         n4J97SBHh4LKLgpnveoUAdSp+lCd3yZu8GQ2cZnwk4LMx4f2XOWRQETUU6zeIqDE0OCE
-         gHRMRa8HFmj6zcaxyW7hLGl+3GqRGfKuJtCj8qqRQJvfUIJEptiIXD7oWMuw0/COEqkZ
-         1BjKW0kL/jIPlZ46ZF7xpB4mgQhuiUcj0qVoNjBhBjRd0xfXzd7CsmFSPb+MOzXQdVCG
-         w98OcW1BxnRK+euldbRVgC8yWMsi4167X1ZSxlCcmS5+Bv0ElP8e3FWHUnrPK3gGGSsW
-         eaZw==
-X-Gm-Message-State: AOAM530FDpFQDhuxVkfEDmcxoSdqMacm52NseCpvhIC4t0tMhDbAABrF
-	C/htVypoj8aYOA3aFvADcAc=
-X-Google-Smtp-Source: ABdhPJyEzmQKmC7Kb7jfogLSXyLrjxG7Woq7WKpatFjKnInpS2Bgw0GVZhkNAsnyaBMvd4lv2Y7Y7Q==
-X-Received: by 2002:a05:622a:120a:b0:2e1:c9ba:e99b with SMTP id y10-20020a05622a120a00b002e1c9bae99bmr723784qtx.685.1650568838876;
-        Thu, 21 Apr 2022 12:20:38 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=B8hL0jBT5xZ4aSX/GQ3ksV9bgLPofPyPWC/LZsNauFo=;
+        b=f7JPPmBllCNeCJ3hhPkfcuUwnhkPxnZNpKs3vE9GcijML9PyHzSDxJBDNSnvY4qmQH
+         dBF2daHiRCU2aosf+zaFjjlNqn+/nN1Mj2tu16SuwE0fPr8xNVUk3CKZ0Lygc4X3l68R
+         d5ewbIuflJ7NAGhdKncO6kQWrXT8OMMkrKHRssmTZaLObqR+bCbkUAsWgiFS4u0TCxxq
+         nDmIaNQXKZ83k8Vx51IALmtqlL0s5uHB9/l7mI6MGZS6uVOO0NlU5f/iVHvOl6lDv3+a
+         dJu56hsRq8brDnmkpHagzK4UMo6X0if1EjUnZxM1E0nFh5L7PMeofevmczLvKBD2Nmsv
+         On3g==
+X-Gm-Message-State: AOAM533ZzgLNZV3/AwHp+mnf84Z41fDGz4XqLLvUCwGDknoZA3KtP30J
+	UVDi/f1KVQBxGq1zoB5Jn24=
+X-Google-Smtp-Source: ABdhPJz06GNbdRt8kpmS3Y9/FKz328cWWogMe2wv1AFvX0xYG0jQK8O4EbxTpjClD3KlnqRuCQpBHw==
+X-Received: by 2002:a05:620a:2681:b0:67e:933e:54b6 with SMTP id c1-20020a05620a268100b0067e933e54b6mr647276qkp.428.1650568840022;
+        Thu, 21 Apr 2022 12:20:40 -0700 (PDT)
 Received: from jaehee-ThinkPad-X1-Extreme.wework.com ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id l9-20020a05622a174900b002f34421b01csm2567736qtk.23.2022.04.21.12.20.37
+        by smtp.gmail.com with ESMTPSA id l9-20020a05622a174900b002f34421b01csm2567736qtk.23.2022.04.21.12.20.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 12:20:38 -0700 (PDT)
+        Thu, 21 Apr 2022 12:20:39 -0700 (PDT)
 From: Jaehee Park <jhpark1013@gmail.com>
 To: Larry.Finger@lwfinger.net
 Cc: phil@philpotter.co.uk,
@@ -44,10 +44,12 @@ Cc: phil@philpotter.co.uk,
 	linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev,
 	jhpark1013@gmail.com
-Subject: [PATCH v4 0/7] staging: r8188eu: fix warnings reported by checkpatch
-Date: Thu, 21 Apr 2022 15:20:25 -0400
-Message-Id: <cover.1650568579.git.jhpark1013@gmail.com>
+Subject: [PATCH v4 1/7] staging: r8188eu: remove unnecessary braces in single statement block
+Date: Thu, 21 Apr 2022 15:20:26 -0400
+Message-Id: <b96ae957e2ddc519e56813a1c56e770168f67a2d.1650568579.git.jhpark1013@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1650568579.git.jhpark1013@gmail.com>
+References: <cover.1650568579.git.jhpark1013@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,21 +58,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These patches address style issues found by checkpatch in the
-core/rtw_mlme.c file. 
+Remove braces for single statement block to minimize the number of
+empty lines, without loss of readability. Issue found with checkpatch.
+WARNING: braces {} are not necessary for single statement blocks
 
-Jaehee Park (7):
-  staging: r8188eu: remove unnecessary braces in single statement block
-  staging: r8188eu: remove spaces before tabs
-  staging: r8188eu: remove 'added by' author comments
-  staging: r8188eu: place constants on the right side of tests
-  staging: r8188eu: replace spaces with tabs
-  staging: r8188eu: correct typo in comments
-  staging: r8188eu: remove unused else condition
+Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
- drivers/staging/r8188eu/core/rtw_mlme.c | 45 +++++++++++--------------
- 1 file changed, 19 insertions(+), 26 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 3e9882f89f76..d3f4d7cdfa08 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -112,9 +112,8 @@ void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
+ 
+ 	rtw_free_mlme_priv_ie_data(pmlmepriv);
+ 
+-	if (pmlmepriv) {
++	if (pmlmepriv)
+ 		vfree(pmlmepriv->free_bss_buf);
+-	}
+ 
+ }
+ 
 -- 
 2.25.1
 
