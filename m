@@ -1,129 +1,115 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0985C1FA1
-	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 08:10:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650528601; x=1682064601;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cLE6xmcyejVNPvTSv0CwIrdK3A7MUJeex/f7C9SJaSE=;
-  b=PDSWOyiKmWakGbxnekvrcXUnM/G72bkPu/IW+bIvWjhRBiYO9dA6JyfR
-   SlF1uBQi13yr84an7e5IJ0h1Yxg4jFQVjray9mtP1PyMvFJENPVpdDYpw
-   osn51B6lpiJdHxevaOgIpjtLoPaAb2D4s1jE28FjWkqOx6dsmFmcMuuFH
-   emygGrCQ1VTlCDXBjJyNTXt3xzXamBydgz6Cf9DV+dJLcWUfLvH+NJ0+0
-   FOMMEdwBJOyZcmv4ZfkeFBy3+6zc16qo/UOB2EbBJt277T3lq0aVe0lXj
-   ehOnVlKuPHB6RvjOfx9NOb2vEwbJn6OwF6Uc4nFunprXKfQlgvEMEOovk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="244208427"
-X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; 
-   d="scan'208";a="244208427"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2022 01:10:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; 
-   d="scan'208";a="614783287"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Apr 2022 01:09:58 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1nhRt0-00086k-7D;
-	Thu, 21 Apr 2022 08:09:58 +0000
-Date: Thu, 21 Apr 2022 16:09:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Haowen Bai <baihaowen@meizu.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kbuild-all@lists.01.org, Haowen Bai <baihaowen@meizu.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V4] staging: rtl8192e: Fix signedness bug in
- rtllib_rx_assoc_resp()
-Message-ID: <202204211558.TapLZO4j-lkp@intel.com>
-References: <1650504854-17576-1-git-send-email-baihaowen@meizu.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7DF1FA1
+	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 08:21:28 +0000 (UTC)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
+ (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 21 Apr
+ 2022 16:21:21 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 21 Apr
+ 2022 16:21:18 +0800
+From: Haowen Bai <baihaowen@meizu.com>
+To: <lkp@intel.com>
+CC: <baihaowen@meizu.com>, <gregkh@linuxfoundation.org>,
+	<kbuild-all@lists.01.org>, <linux-kernel@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>
+Subject: [PATCH V5] staging: rtl8192e: Fix signedness bug in rtllib_rx_assoc_resp()
+Date: Thu, 21 Apr 2022 16:21:17 +0800
+Message-ID: <1650529277-7893-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <202204211558.TapLZO4j-lkp@intel.com>
+References: <202204211558.TapLZO4j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1650504854-17576-1-git-send-email-baihaowen@meizu.com>
+Content-Type: text/plain
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 
-Hi Haowen,
+The rtllib_rx_assoc_resp() function has a signedness bug because it's
+a declared as a u16 but it return -ENOMEM.  When you look at it more
+closely it returns a mix of error codes including 0xcafe, -ENOMEM, and
+a->status which is WLAN_STATUS_NOT_SUPPORTED_AUTH_ALG.  This is a mess.
 
-Thank you for the patch! Yet something to improve:
+Clean it up to just return standard kernel error codes.  We can print
+out the a->status before returning a regular error code.  The printks
+in the caller need to be adjusted as well.
 
-[auto build test ERROR on v5.18-rc3]
-[also build test ERROR on next-20220421]
-[cannot apply to staging/staging-testing]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+V1->V2: reduce return random value; print its own error message.
+V2->V3: change commit message; change s16 -> int.
+V3->V4: 
+1. change message suggested by Dan Carpenter;
+2. hold a->status in auth_parse() and return error code or 0 on success.
+3. print le16_to_cpu(errcode) -> int %d.
+V4->V5: fix compile error.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haowen-Bai/staging-rtl8192e-Fix-signedness-bug-in-rtllib_rx_assoc_resp/20220421-093531
-base:    b2d229d4ddb17db541098b83524d901257e93845
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220421/202204211558.TapLZO4j-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/e1395cdafd4dea7a368f2d9599832636035a03d2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Haowen-Bai/staging-rtl8192e-Fix-signedness-bug-in-rtllib_rx_assoc_resp/20220421-093531
-        git checkout e1395cdafd4dea7a368f2d9599832636035a03d2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/staging/rtl8192e/
+ drivers/staging/rtl8192e/rtllib_softmac.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/staging/rtl8192e/rtllib_softmac.c: In function 'auth_parse':
->> drivers/staging/rtl8192e/rtllib_softmac.c:1792:29: error: 'ieee' undeclared (first use in this function)
-    1792 |                 netdev_info(ieee->dev, "auth_parse() failed");
-         |                             ^~~~
-   drivers/staging/rtl8192e/rtllib_softmac.c:1792:29: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/ieee +1792 drivers/staging/rtl8192e/rtllib_softmac.c
-
-  1766	
-  1767	static inline int auth_parse(struct net_device *dev, struct sk_buff *skb,
-  1768				     u8 **challenge, int *chlen)
-  1769	{
-  1770		struct rtllib_authentication *a;
-  1771		u8 *t;
-  1772	
-  1773		if (skb->len <  (sizeof(struct rtllib_authentication) -
-  1774		    sizeof(struct rtllib_info_element))) {
-  1775			netdev_dbg(dev, "invalid len in auth resp: %d\n", skb->len);
-  1776			return -EINVAL;
-  1777		}
-  1778		*challenge = NULL;
-  1779		a = (struct rtllib_authentication *) skb->data;
-  1780		if (skb->len > (sizeof(struct rtllib_authentication) + 3)) {
-  1781			t = skb->data + sizeof(struct rtllib_authentication);
-  1782	
-  1783			if (*(t++) == MFIE_TYPE_CHALLENGE) {
-  1784				*chlen = *(t++);
-  1785				*challenge = kmemdup(t, *chlen, GFP_ATOMIC);
-  1786				if (!*challenge)
-  1787					return -ENOMEM;
-  1788			}
-  1789		}
-  1790	
-  1791		if (a->status) {
-> 1792			netdev_info(ieee->dev, "auth_parse() failed");
-  1793			return -EINVAL;
-  1794		}
-  1795	
-  1796		return 0;
-  1797	}
-  1798	
-
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 82bf05eb1cbf..38ac733c3245 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -1764,7 +1764,7 @@ static void rtllib_softmac_check_all_nets(struct rtllib_device *ieee)
+ 	spin_unlock_irqrestore(&ieee->lock, flags);
+ }
+ 
+-static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
++static inline int auth_parse(struct net_device *dev, struct sk_buff *skb,
+ 			     u8 **challenge, int *chlen)
+ {
+ 	struct rtllib_authentication *a;
+@@ -1773,7 +1773,7 @@ static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
+ 	if (skb->len <  (sizeof(struct rtllib_authentication) -
+ 	    sizeof(struct rtllib_info_element))) {
+ 		netdev_dbg(dev, "invalid len in auth resp: %d\n", skb->len);
+-		return 0xcafe;
++		return -EINVAL;
+ 	}
+ 	*challenge = NULL;
+ 	a = (struct rtllib_authentication *) skb->data;
+@@ -1787,7 +1787,13 @@ static inline u16 auth_parse(struct net_device *dev, struct sk_buff *skb,
+ 				return -ENOMEM;
+ 		}
+ 	}
+-	return le16_to_cpu(a->status);
++
++	if (a->status) {
++		netdev_dbg(dev, "auth_parse() failed\n");
++		return -EINVAL;
++	}
++
++	return 0;
+ }
+ 
+ static int auth_rq_parse(struct net_device *dev, struct sk_buff *skb, u8 *dest)
+@@ -2282,7 +2288,7 @@ rtllib_rx_assoc_resp(struct rtllib_device *ieee, struct sk_buff *skb,
+ 
+ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
+ {
+-	u16 errcode;
++	int errcode;
+ 	u8 *challenge;
+ 	int chlen = 0;
+ 	bool bSupportNmode = true, bHalfSupportNmode = false;
+@@ -2292,8 +2298,7 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
+ 	if (errcode) {
+ 		ieee->softmac_stats.rx_auth_rs_err++;
+ 		netdev_info(ieee->dev,
+-			    "Authentication response status code 0x%x",
+-			    errcode);
++			    "Authentication response status code %d", errcode);
+ 		rtllib_associate_abort(ieee);
+ 		return;
+ 	}
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.7.4
+
