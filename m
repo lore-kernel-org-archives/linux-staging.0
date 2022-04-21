@@ -1,95 +1,86 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3750023A0
-	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 18:56:33 +0000 (UTC)
-Received: by mail-oi1-f171.google.com with SMTP id a10so6570384oif.9
-        for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 11:56:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j9sL2H/ZOCgnGpcLG1QjlGRXlzPJ6+xsVS4xIVbj648=;
-        b=U7gH6Y8/gtoBXxgZJPMG8CGv9KcR7ZrYZTq7+b3/nIpbx5kUC5y46QJc5psKZOjjnS
-         lUFUGBRoARQfa0YNrcleaNr6peO/QEZyTMSlte1wpLCHf5DcdnT0sX/LTrOUkHNR12Pf
-         reHzDhx6g6JMUfGk8bbgO0fJbV7QSFsrP6VbZcKeSk1Couwd0oPCmcwoN0sakIp32M/8
-         VQ8EhE0a8O+1Pe0LdenvWdzVOjN/IpI0oTjgcRiVP5fnNGqzmuzR4dSoyizkE/pfMzEi
-         Mrv4RuXQ1iFThF4qgPggmtXH29D2j2ZU1pcpT6Fe99K7oA04JPElztfRcharVx1Yyoun
-         V0Ww==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3062923A0;
+	Thu, 21 Apr 2022 19:16:08 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id v12so1202671wrv.10;
+        Thu, 21 Apr 2022 12:16:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j9sL2H/ZOCgnGpcLG1QjlGRXlzPJ6+xsVS4xIVbj648=;
-        b=ypqei3eoCA1pJ4N9vfuCqu/v5NVvRqgZfiCDa1REVkig3M8t3swb7pViZTVsZjBkK1
-         SgfSU6BWojchO71cQsL3UsRST8lebGVzYOoDzos/re7+6FX8Gaf8nUz8hREcBhiCarfK
-         +XmgLtfT6ZMSQ79oKoqE/QwcH8D4qDrez1fzIREHAeTZDARdnn5gk+pVFaTvUmeP49CA
-         CdNVkI+kZKXkOOkWaHugQOdoCINkRLTZHid2dAhKA3ipnVKRY3uGby43YWVmysVDAPJZ
-         HUjLmu/LxoUb+X2No3LZr/WGPh77AjIoHvAQcmozZJJVwDStXBIqrfvA2KzOxTYZyMt0
-         1gkA==
-X-Gm-Message-State: AOAM532/Fevf224CrrdHZru9geHlzk+X+T+Yf7XlWhoVw67UeuKxNQpw
-	KOBUIyz/Mgp/XS8wOel6fbs1aGBxfQi1cmf7z44=
-X-Google-Smtp-Source: ABdhPJwLdWLO/LYGJwyf3cCJC09phqh2XODcHF9eMQtvVXcbdqxWLm16Xwe+1+u9QK7jzNKWtZKhwON2O2YpO4T0fgI=
-X-Received: by 2002:aca:1306:0:b0:322:9104:6cf9 with SMTP id
- e6-20020aca1306000000b0032291046cf9mr560869oii.112.1650567392285; Thu, 21 Apr
- 2022 11:56:32 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=AHLP1NJzIhUuorzbDM3B2ohS7cALSRAeCoZR22VkiWU=;
+        b=BGGcjrCH4/ov0aL+uEO21oW2+L3dQ/2MVWbPExa3hZ4lyx5x5eNzPjSEHalM2VEDdc
+         ikvrayV+K2gcbpU2F3ZEtzbZ0qtxk1pPBGoGxSbjKuYyLTvjYIP5ogFusnilWZShbvo9
+         CJ+i7J2C5Zzw8bYpfIyTuokOUNucrtcfOBt+nyNEZwlsRghL+tyNXKFyqQDWi8NOk7Lx
+         7CG49LR/eNsCUWebAA5e8TququcZcIQn1WYLEVX6i8Lpl16qDzPrAmB/7Ol9X93FpZVO
+         +8SseEDt3y4pu4FQuoKwXnqJJMk9BbxQ14SdFZs7PU0MGMLb419Gok0sdvNCSXoBoV3i
+         srkg==
+X-Gm-Message-State: AOAM5326ZYST9HjNwQQhofJgTnzd9kyX7/iO1xBVmyTWuXf9kBz1D1uS
+	ikZJD44HXlLtZbn8TfALSUg=
+X-Google-Smtp-Source: ABdhPJwVWTrbptQ5HgW724jwGeCexvjlAE4JqlG/I3za3EqRCW4VVzxlGFXoXbiaA5dFfugGM/yAoQ==
+X-Received: by 2002:adf:f508:0:b0:207:a8fe:c8bd with SMTP id q8-20020adff508000000b00207a8fec8bdmr857908wro.313.1650568566220;
+        Thu, 21 Apr 2022 12:16:06 -0700 (PDT)
+Received: from ?IPv6:2a00:23c6:c31a:b300:7e32:69f8:29ae:884a? ([2a00:23c6:c31a:b300:7e32:69f8:29ae:884a])
+        by smtp.gmail.com with ESMTPSA id n42-20020a05600c3baa00b0038ffadd6e4asm2864364wms.30.2022.04.21.12.16.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Apr 2022 12:16:05 -0700 (PDT)
+Message-ID: <3e91b72a86294b542acf460657d0fd94adeb252e.camel@welchs.me.uk>
+Subject: Re: [PATCH v3 0/3] staging: vme: Cleanup driver tree old structures
+From: Martyn Welch <martyn@welchs.me.uk>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bruno Moreira-Guedes
+	 <codeagain@codeagain.dev>
+Cc: Manohar Vanga <manohar.vanga@gmail.com>, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, outreachy@lists.linux.dev, Bruno's Patch
+ Watchbox <patch-reply@codeagain.dev>
+Date: Thu, 21 Apr 2022 20:16:05 +0100
+In-Reply-To: <YmA4QIRfx2QPhEJi@kroah.com>
+References: <cover.1650321310.git.codeagain@codeagain.dev>
+	 <YmA4QIRfx2QPhEJi@kroah.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220411102136.14937-1-makvihas@gmail.com> <3484215.R56niFO833@leap>
- <20220412151529.GF3293@kadam> <3134226.AJdgDx1Vlc@leap> <20220413054252.GR12805@kadam>
-In-Reply-To: <20220413054252.GR12805@kadam>
-From: Vihas Makwana <makvihas@gmail.com>
-Date: Fri, 22 Apr 2022 00:26:21 +0530
-Message-ID: <CAH1kMwT0gyQNB1-j62-2ntJD9Lobsmr8-5h6n6-SJ44wykMyHQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] drop some unnecessary wrappers
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
 
-Did this patch series get lost?
-just pinging :)
+On Wed, 2022-04-20 at 18:43 +0200, Greg Kroah-Hartman wrote:
+> On Mon, Apr 18, 2022 at 08:29:49PM -0300, Bruno Moreira-Guedes wrote:
+> > This patch series modify the vme_user driver's place in
+> > menuconfig (1/3), fixes a missing `depends on` line in a Kconfig
+> > file
+> > (2/3), and rearrages the directory tree for the driver allowing a
+> > more
+> > straightforward comprehension of its contents (3/3).
+> >=20
+> > The 'vme_user/' driver is the only remaining vme-family driver in
+> > the
+> > 'staging/' tree, but its structure, entry in menuconfig and
+> > building
+> > routines are still attached to the 'vme/' subtree now outside
+> > 'staging/'. The present patchset fixes it.
+> >=20
+> > Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
+>=20
+> What about deleting the vme drivers entirely?
 
-On Wed, Apr 13, 2022 at 11:13 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Tue, Apr 12, 2022 at 06:08:24PM +0200, Fabio M. De Francesco wrote:
-> > On marted? 12 aprile 2022 17:15:29 CEST Dan Carpenter wrote:
-> > > On Tue, Apr 12, 2022 at 11:53:42AM +0200, Fabio M. De Francesco wrote:
-> > > > I didn't suggest a re-write of the commit messages.
-> > >
-> > > Yes.  That's the problem.  If you want to complain about a commit
-> > > message then you *should* suggest how you would re-write it.  Otherwise
-> > > how are we supposed to read your mind?
-> >
-> > Ah, sorry. I had missed that you were asking for a re-write (literally).
-> >
-> > Here it is a sort of diff on Vihas' patch:
-> >
-> > - [PATCH v2 1/7] staging: r8188eu: drop unnecessary wrapper _rtw_free_cmd_priv
-> > + [PATCH v2 1/7] staging: r8188eu: drop unnecessary helper _rtw_free_cmd_priv()
-> >
-> > - Drop unnecessary wrapper _rtw_free_cmd_priv and move its logic to
-> > - rtw_free_cmd_priv.
-> > + Drop unnecessary helper (wrapped function) _rtw_free_cmd_priv() and
-> > + move its code to the wrapper rtw_free_cmd_priv().
-> >
->
-> I kind of feel like the original is better.  Why would we want to remove
-> helper functions?  Helper functions are ok.  What we don't like are
-> pointless wrapper functions.  The whole motivation for the patch is to
-> remove wrapper functions and that's what it does.
->
-> regards,
-> dan carpenter
->
+I assume you're suggesting deleting the "vme_user" driver from the
+staging directory?
 
+> Martyn, anyone still using these?
+>=20
 
--- 
-Thanks,
-Vihas
+I'm fairly sure that the actual VME drivers for the hardware bridges
+(the bits not in staging) are still being used based on the
+conversations I've had today. I'm just trying to find out whether the
+vme_user bit is actively being used.
+
+Martyn
+
+> thanks,
+>=20
+> greg k-h
+
