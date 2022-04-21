@@ -1,87 +1,106 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D702A23A0;
-	Thu, 21 Apr 2022 19:20:47 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id f14so4023719qtq.1;
-        Thu, 21 Apr 2022 12:20:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4F323A0;
+	Thu, 21 Apr 2022 19:52:18 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id b19so8074733wrh.11;
+        Thu, 21 Apr 2022 12:52:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=waPvZGOg2+RC3HM/74+dHiUU2qD9NP4c44RrV5MzX3U=;
-        b=W9ybfcqWpycDEozBpfQU6LFay8XtJafMWTs7wjxBUsAiHQCiVqgK/TTf5zf9GOI2pi
-         sypB5HYbVxR6NS02HKa1y4yTaUDEZpGyl6by7caBkMBxSp7quXUzwAlbGR7eIDCb3eOS
-         8v+4VQ+TsK6VtBS5+1XHr5be7NbrKIH7M8czJl4o8/VbEU0pJIPrqdo223WjtQ/fGS7+
-         z3PMwJnGkXpW4Mhzrv/8GVLJBMUosYFa/A+c4xAfxbAhDTiUUVKD/NXCY6R22f6EYUtB
-         lhF7YS3NHcNJmEdQz1yBlB5xtJiWU2fP+ybgvnNXJbaOx34zazR+j2dbpKGJFYBOfAb+
-         mzjA==
+        bh=BQ5dyd6fs/bmeT8pS5RVio7sbjG930KgOScg6ZzdPYo=;
+        b=BbVajbWzTI9iuTT8JJXqugzc+jYRncQ2CahBLrh1s0jY529GXxKHFiDclAFH4xjuv1
+         5fMoB1rGe4LhMTtHVm01nDiM4LVubcEJKNUij/1P+Cm8oSIDB92SAJac8BryUCWv1ZCh
+         9DoIuvyNbSaxE42uLvVyUpAoEv6ufGe+ijlGiYKknamH0//ETKR9nVWmyP7N0dR/qNoY
+         ESciveBBXx8JIKKr7vEQQ7mu88IpvCZ8vz/HJUP7U2gv2bAELU1ql3thEQd7Dy2Vj7VW
+         XGaJDBWbWWWIpEGbzKleZ9vB+oWrwQacCQefiqtwztcPjK96SD+WkDSQq7OY1gvu4ISl
+         GOgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=waPvZGOg2+RC3HM/74+dHiUU2qD9NP4c44RrV5MzX3U=;
-        b=denfdL6eigMjIBHKE0bV8iQT/q7HyLw1AjzoA6w7UZ7Ehcw5yUrqVKZq2ywbrTCYzn
-         4+EKmTsYdOnqP0QL0Zq+QmuAm/VDQc+Q6PoFJIGxXXAQHj4X9Md4dYBpX657YlrxqUwH
-         LPnmcv5jz/utLDpeAK3XSbAt2xcVU6hnG95AeTjMlGjTdadAf865GJR/iCLmazy5Dkes
-         e6Kw3yx/Mr6pc4ow3S1AMPZc4F8me2IG62zquADKweb9VzW67/0ujS591OVXjOFkPpuB
-         hWvXAjCbX1+evxgH7BPLauJG+qz4Ci7VqLq146LeJlwUS4i8wysZZm++2rtZd1LoAnD1
-         R45A==
-X-Gm-Message-State: AOAM530hpQRf5/8eG2pigH57J1hQDR8IJxA8DT+VU+3vESbapuTFdTry
-	Pki5U9Ekd+KAsXXSmC1EYyE=
-X-Google-Smtp-Source: ABdhPJwh2SbVL0Zx5HMApclIxaVzYaeCo81OEwDlcihKTpvq1Bgtr7vbzN2dhgpj1kHLG+3mkF6ang==
-X-Received: by 2002:ac8:5f50:0:b0:2f2:1e88:f919 with SMTP id y16-20020ac85f50000000b002f21e88f919mr745715qta.535.1650568846914;
-        Thu, 21 Apr 2022 12:20:46 -0700 (PDT)
-Received: from jaehee-ThinkPad-X1-Extreme.wework.com ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id l9-20020a05622a174900b002f34421b01csm2567736qtk.23.2022.04.21.12.20.45
+        bh=BQ5dyd6fs/bmeT8pS5RVio7sbjG930KgOScg6ZzdPYo=;
+        b=iRBmYFKCTEFYkUbDnU8KJJLt3H3EeGrisAEgVxHd5eInis9jeOG8M01dyjTUcuzIfC
+         4u7VB//5/q1GT1MSTXl/wIoEia7RWaMsL3tvMYPydgK7Emj5R180abhM2Mk2tG91651Y
+         gOd1rc6mDzGsVgD2NTzRMc7guzAbdH9hBfYF9zctma2Clt15q4luXZGPVhB+vhgeWqwd
+         Ipq7wyryXGrAbgARdUSiVsmsAJx1a4QGuYBpeJS9MLEMuBjrR0FnYNR0PJ4UFclLqr4d
+         fWaAP5qXnNKZ/dzEXbNJt90u/Eqa7SsQ6IxmVy94QCbbXDS0nMxsd4Lh9OdrPgunvVMo
+         aYbA==
+X-Gm-Message-State: AOAM5303lN1KSIRMGDUi2zQrpMSVoAHRDgamgIgYeJXp0Ti6R7h5bezX
+	TXUYxCdPkC7t/ym9kbq6iN4=
+X-Google-Smtp-Source: ABdhPJzN6SNNtwOoCtQDCY9KQ49Aeegx8MoX9dTJFyJTMUvteQbKMvaqYB6aDL49STrkEKq4lk9FAA==
+X-Received: by 2002:a05:6000:111:b0:207:ac77:3d07 with SMTP id o17-20020a056000011100b00207ac773d07mr977069wrx.136.1650570736840;
+        Thu, 21 Apr 2022 12:52:16 -0700 (PDT)
+Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id z3-20020a1cf403000000b0037d1f4a2201sm2776214wma.21.2022.04.21.12.52.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 12:20:46 -0700 (PDT)
-From: Jaehee Park <jhpark1013@gmail.com>
-To: Larry.Finger@lwfinger.net
-Cc: phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	jhpark1013@gmail.com,
-	Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH v4 7/7] staging: r8188eu: remove unused else condition
-Date: Thu, 21 Apr 2022 15:20:32 -0400
-Message-Id: <bba338ae5f9992dbf2a64b388f7702e6b287d8c2.1650568579.git.jhpark1013@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1650568579.git.jhpark1013@gmail.com>
-References: <cover.1650568579.git.jhpark1013@gmail.com>
+        Thu, 21 Apr 2022 12:52:15 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry.Finger@lwfinger.net, Jaehee Park <jhpark1013@gmail.com>
+Cc: phil@philpotter.co.uk, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy@lists.linux.dev, jhpark1013@gmail.com
+Subject: Re: [PATCH v4 1/7] staging: r8188eu: remove unnecessary braces in single statement block
+Date: Thu, 21 Apr 2022 21:52:14 +0200
+Message-ID: <16185752.0ZKypZ73Fx@leap>
+In-Reply-To: <b96ae957e2ddc519e56813a1c56e770168f67a2d.1650568579.git.jhpark1013@gmail.com>
+References: <cover.1650568579.git.jhpark1013@gmail.com> <b96ae957e2ddc519e56813a1c56e770168f67a2d.1650568579.git.jhpark1013@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-s_ret cannot return '2' so this else condition is unused. Remove this
-unnecessary else statement.
+On gioved=C3=AC 21 aprile 2022 21:20:26 CEST Jaehee Park wrote:
+> Remove braces for single statement block to minimize the number of
+> empty lines, without loss of readability. Issue found with checkpatch.
+> WARNING: braces {} are not necessary for single statement blocks
+>=20
+> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_mlme.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/
+r8188eu/core/rtw_mlme.c
+> index 3e9882f89f76..d3f4d7cdfa08 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> @@ -112,9 +112,8 @@ void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
+> =20
+>  	rtw_free_mlme_priv_ie_data(pmlmepriv);
+> =20
+> -	if (pmlmepriv) {
+> +	if (pmlmepriv)
+>  		vfree(pmlmepriv->free_bss_buf);
+> -	}
+> =20
+>  }
+> =20
+> --=20
+> 2.25.1
+>=20
 
-Suggested-by: Pavel Skripkin <paskripkin@gmail.com>
-Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_mlme.c | 3 ---
- 1 file changed, 3 deletions(-)
+Hi Jaehee,
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index d422ce87ba7c..29b8b101180b 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -723,9 +723,6 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
- 			s_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
- 			if (s_ret == _SUCCESS) {
- 				_set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
--			} else if (s_ret == 2) { /* there is no need to wait for join */
--				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
--				rtw_indicate_connect(adapter);
- 			} else {
- 				if (rtw_to_roaming(adapter) != 0) {
- 					if (--pmlmepriv->to_roaming == 0 ||
--- 
-2.25.1
+If you just want to remove the braces, your patch is good.
+
+But... Did you ask yourself why this code needs to test if "pmlmepriv" is=20
+valid before calling vfree() on it? Actually, the code doesn't need this=20
+test, it just needs to call "vfree(pmlmepriv)" unconditionally.
+
+OK, I know that this is not directly related to your patch or any other=20
+that is explicitly made just for removing unnecessary braces...=20
+
+vfree() behaves as a no-op function on NULL pointers, therefore there is no=
+=20
+need to test whether or not "pmlmepriv" is valid.
+
+Thanks,
+
+=46abio M. De Francesco
+
+
 
