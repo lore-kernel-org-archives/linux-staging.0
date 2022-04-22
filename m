@@ -1,41 +1,41 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884B22F25
-	for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 19:32:55 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id q19so8100776pgm.6
-        for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 12:32:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D9A2F25
+	for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 19:32:58 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id c23so13013582plo.0
+        for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 12:32:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=y+doHSiz3zcutbur9voJocSmaAz48vDvOlIUUyf7FWM=;
-        b=a89x4nKawOtJHTWqZbbFoLA02HiA2GzJbSC41mQ0wwzZCECYB6TfQJyr2/Df//ex6j
-         XmT7P5B7iv2ke14uKxII/CpVdU/jGI3+z1MIfk01HgLY9e7jNF9Ef2GADrch0NvHa2Y3
-         e0KdE6OauULyRg0pbergxbJPNWhKph4DwTXjsVF841dpy6vNTRdBbFB4kG6CDGiBe/En
-         Qb0hJIxgcUjt+X3s6hrUD5N9ZqrYgaixHHLzZl+0DDb3SAg7tffEOtAZ3BhMwk+Jk8Q8
-         uA7WNM97/AFXWvlT4MeMpnEo8UMFQt1R3aNEVDwn5c6WaCgsPEVAFR101CSOBwwYA7K6
-         c4kA==
+        bh=IoveYgPzkVQxQlEHYjiT25fHGi8jPmqGfk3V2Lj3tG0=;
+        b=p0+mBZk4Xc8pDoDk7SDXGalwSRX0py90m6dqVle4PP72Tn684vhS4UbdpKP/r96uic
+         QggE8UqQZ9YOhfUPTqUM6wurtooEqpVGGKOYdIYTTBFda7K1kCjkhPPRlTSwJEI7/bQx
+         RF8co3a7PaaO39iScZ0+oV7TUYl6pz+xzKjT+4QZHmO1jDscbZe6kzeD0fARclZ+NwH/
+         bKagFH67K0/tJHT5i1YovY93R9hD/rOmbK+w3MhphPxW+8uIviqRF+DZnDi0iYH8DJnc
+         ABPx4/Pzv1/pvnwxCI29X+reSydFwhJtAXkp71IPj9v8G6yylW7NDFQD8PClhukWhS/L
+         jOVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=y+doHSiz3zcutbur9voJocSmaAz48vDvOlIUUyf7FWM=;
-        b=lzEOwa+cNtDgLds+/BbN5r7BaWJrH53Tzb57tTU+nq0n9MUP4W5G7Y3xUa6BgDYe6h
-         LoXotXWLZgQWWjcHy/P8/l39Iw7gKya25e7O2/0xT/OZQEKle5k6T85WkKlChsLUJuQ9
-         ahLLjYIwclaahWqQlii07T2po4XmXmkdU6Ktml1Bk9hW4x7aPwGdSeKJooG/Skk2Y3mf
-         9rm2CNPMyl+YQipEb1baMAyigo+fg6SZWK5UoXfbBV1e3Z3efxrI5ZPisthpEQ6UJFfg
-         7JcWL35O97Z4mpc8Tzta6OgyJoCdmQaKtSI5nYurKgrnMgWDUp4BmZ/0nioMsULeugsm
-         xy0A==
-X-Gm-Message-State: AOAM532+sn7i43b2ckLr23qgWBLhUnVBLVTnk2tYGMX5sBYWARUNla/F
-	2A934SHSCD5RskBHMuJL648=
-X-Google-Smtp-Source: ABdhPJxEUUev7ihPovjIZboLjGNyvTtHcPOY4eAutzFYv8bD3wyzHsFImEWTBe+Xfe0zGML0moa32Q==
-X-Received: by 2002:a62:a504:0:b0:50a:ceee:5f4 with SMTP id v4-20020a62a504000000b0050aceee05f4mr6608640pfm.13.1650655974887;
-        Fri, 22 Apr 2022 12:32:54 -0700 (PDT)
+        bh=IoveYgPzkVQxQlEHYjiT25fHGi8jPmqGfk3V2Lj3tG0=;
+        b=iTH1WDfenvwN9YCV+XzXfv9S04umXwvfvygMhhFf92FrQ0Uj3qUl7p91qy1Ij1lQHH
+         IE60TTMqLYpqkwDYx5uWQLKlA93Lv6zZ7tRexC7ufa0PHDZlOymy4NfBciVdxDPfxdsq
+         ztiqPphcm6ZELRBm8nSUsDBV5p9RS+vrtJd10qkx5U2BAk2kLIVNyrQyGMKqBnQ40dUH
+         vNdUiFaO0M/x+ckMq4SZPBgTd+2XFo258xsAFf1gDwAhRMvvlR5A3It5D5k/q9sueL7A
+         eAthHl2BQRxxBtfZJO3kdqMjS/uXGHzFtD0YOMWBRod3er5Ebv4qE2nVWwbwrDdc3ALD
+         0l5A==
+X-Gm-Message-State: AOAM530GPGWJa2pGpb07xNRLkxrbpsBrzLXJse2mfuNHyvJZbOETRzbP
+	yW/6QCYx/A4nC780QHMX0Yo=
+X-Google-Smtp-Source: ABdhPJxLh3K98aNfOR6TCroIxTuAyj+Djkxy+F5QWbVMM7iEsJq/MJRfBO/lMAOzuPWZcmyKGXrAzQ==
+X-Received: by 2002:a17:902:b692:b0:14c:935b:2b03 with SMTP id c18-20020a170902b69200b0014c935b2b03mr6057316pls.81.1650655978393;
+        Fri, 22 Apr 2022 12:32:58 -0700 (PDT)
 Received: from makvihas.localhost.com ([2405:201:202b:15:bfe0:e8c0:bea6:ee63])
-        by smtp.gmail.com with ESMTPSA id z5-20020a056a00240500b004e15d39f15fsm3518932pfh.83.2022.04.22.12.32.51
+        by smtp.gmail.com with ESMTPSA id z5-20020a056a00240500b004e15d39f15fsm3518932pfh.83.2022.04.22.12.32.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Apr 2022 12:32:54 -0700 (PDT)
+        Fri, 22 Apr 2022 12:32:58 -0700 (PDT)
 From: Vihas Makwana <makvihas@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -46,9 +46,9 @@ Cc: linux-staging@lists.linux.dev,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Pavel Skripkin <paskripkin@gmail.com>,
 	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH v3 6/7] staging: r8188eu: drop unnecessary wrapper _rtw_alloc_network
-Date: Sat, 23 Apr 2022 01:02:22 +0530
-Message-Id: <20220422193223.11948-7-makvihas@gmail.com>
+Subject: [PATCH v3 7/7] staging: r8188eu: drop unnecessary wrapper _rtw_dequeue_cmd
+Date: Sat, 23 Apr 2022 01:02:23 +0530
+Message-Id: <20220422193223.11948-8-makvihas@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220422193223.11948-1-makvihas@gmail.com>
 References: <20220422193223.11948-1-makvihas@gmail.com>
@@ -60,123 +60,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop unnecessary wrapper _rtw_alloc_network and move its logic to
-rtw_alloc_network.
+Drop unnecessary wrapper _rtw_dequeue_cmd and move its logic to
+rtw_dequeue_cmd.
 
 Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 Signed-off-by: Vihas Makwana <makvihas@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c     |  2 +-
- drivers/staging/r8188eu/core/rtw_mlme.c    | 59 +++++++++-------------
- drivers/staging/r8188eu/include/rtw_mlme.h |  2 +-
- 3 files changed, 27 insertions(+), 36 deletions(-)
+ drivers/staging/r8188eu/core/rtw_cmd.c | 34 ++++++++++----------------
+ 1 file changed, 13 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 512896b86..ab462eb40 100644
+index ab462eb40..06881a871 100644
 --- a/drivers/staging/r8188eu/core/rtw_cmd.c
 +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -1457,7 +1457,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 		rtw_indicate_connect(padapter);
- 	} else {
- 
--		pwlan = _rtw_alloc_network(pmlmepriv);
-+		pwlan = rtw_alloc_network(pmlmepriv);
- 		spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 		if (!pwlan) {
- 			pwlan = rtw_get_oldest_wlan_network(&pmlmepriv->scanned_queue);
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index fb64954a0..080e07385 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -53,38 +53,6 @@ void rtw_free_mlme_priv_ie_data(struct mlme_priv *pmlmepriv)
- 	rtw_free_mlme_ie_data(&pmlmepriv->p2p_assoc_req_ie, &pmlmepriv->p2p_assoc_req_ie_len);
+@@ -56,24 +56,6 @@ static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+ 	return _SUCCESS;
  }
  
--struct	wlan_network *_rtw_alloc_network(struct	mlme_priv *pmlmepriv)/* _queue *free_queue) */
+-static struct cmd_obj *_rtw_dequeue_cmd(struct __queue *queue)
 -{
--	struct	wlan_network	*pnetwork;
--	struct __queue *free_queue = &pmlmepriv->free_bss_pool;
--	struct list_head *plist = NULL;
+-	struct cmd_obj *obj;
+-	unsigned long flags;
 -
--	spin_lock_bh(&free_queue->lock);
--
--	if (list_empty(&free_queue->queue)) {
--		pnetwork = NULL;
--		goto exit;
+-	spin_lock_irqsave(&queue->lock, flags);
+-	if (list_empty(&queue->queue)) {
+-		obj = NULL;
+-	} else {
+-		obj = container_of((&queue->queue)->next, struct cmd_obj, list);
+-		list_del_init(&obj->list);
 -	}
--	plist = (&free_queue->queue)->next;
 -
--	pnetwork = container_of(plist, struct wlan_network, list);
+-	spin_unlock_irqrestore(&queue->lock, flags);
 -
--	list_del_init(&pnetwork->list);
--
--	pnetwork->network_type = 0;
--	pnetwork->fixed = false;
--	pnetwork->last_scanned = jiffies;
--	pnetwork->aid = 0;
--	pnetwork->join_res = 0;
--
--	pmlmepriv->num_of_scanned++;
--
--exit:
--	spin_unlock_bh(&free_queue->lock);
--
--	return pnetwork;
+-	return obj;
 -}
 -
- void _rtw_free_network(struct mlme_priv *pmlmepriv, struct wlan_network *pnetwork, u8 isfreeall)
+ u32	rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
  {
- 	u32 curr_time, delta_time;
-@@ -285,11 +253,34 @@ void rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
- 		vfree(pmlmepriv->free_bss_buf);
- }
+ 	u32 res = _SUCCESS;
+@@ -180,11 +162,21 @@ u32 rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
  
--static struct wlan_network *rtw_alloc_network(struct mlme_priv *pmlmepriv)
-+struct wlan_network *rtw_alloc_network(struct mlme_priv *pmlmepriv)
+ struct	cmd_obj	*rtw_dequeue_cmd(struct cmd_priv *pcmdpriv)
  {
- 	struct	wlan_network	*pnetwork;
-+	struct __queue *free_queue = &pmlmepriv->free_bss_pool;
-+	struct list_head *plist = NULL;
+-	struct cmd_obj *cmd_obj;
++	struct cmd_obj *obj;
++	struct __queue *queue = &pcmdpriv->cmd_queue;
++	unsigned long flags;
 +
-+	spin_lock_bh(&free_queue->lock);
- 
--	pnetwork = _rtw_alloc_network(pmlmepriv);
-+	if (list_empty(&free_queue->queue)) {
-+		pnetwork = NULL;
-+		goto exit;
++	spin_lock_irqsave(&queue->lock, flags);
++	if (list_empty(&queue->queue)) {
++		obj = NULL;
++	} else {
++		obj = container_of((&queue->queue)->next, struct cmd_obj, list);
++		list_del_init(&obj->list);
 +	}
-+	plist = (&free_queue->queue)->next;
-+
-+	pnetwork = container_of(plist, struct wlan_network, list);
-+
-+	list_del_init(&pnetwork->list);
-+
-+	pnetwork->network_type = 0;
-+	pnetwork->fixed = false;
-+	pnetwork->last_scanned = jiffies;
-+	pnetwork->aid = 0;
-+	pnetwork->join_res = 0;
-+
-+	pmlmepriv->num_of_scanned++;
-+
-+exit:
-+	spin_unlock_bh(&free_queue->lock);
  
- 	return pnetwork;
+-	cmd_obj = _rtw_dequeue_cmd(&pcmdpriv->cmd_queue);
++	spin_unlock_irqrestore(&queue->lock, flags);
+ 
+-	return cmd_obj;
++	return obj;
  }
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme.h b/drivers/staging/r8188eu/include/rtw_mlme.h
-index fc30793f4..e982f0615 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme.h
-@@ -560,7 +560,7 @@ void rtw_scan_timeout_handler(struct adapter *adapter);
  
- void rtw_free_mlme_priv_ie_data(struct mlme_priv *pmlmepriv);
- 
-- struct wlan_network *_rtw_alloc_network(struct mlme_priv *pmlmepriv);
-+struct wlan_network *rtw_alloc_network(struct mlme_priv *pmlmepriv);
- 
- void _rtw_free_network(struct mlme_priv *pmlmepriv,
- 		       struct wlan_network *pnetwork, u8 isfreeall);
+ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
 -- 
 2.30.2
 
