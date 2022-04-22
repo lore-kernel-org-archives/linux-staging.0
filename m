@@ -1,41 +1,41 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FEC2F25
-	for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 19:32:44 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id i63so8079293pge.11
-        for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 12:32:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563F02F25
+	for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 19:32:48 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id x191so8114772pgd.4
+        for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 12:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BUpSqOzVYiFBHHL5wyZniliWxqmPr3GRK8w6NgSpN5Y=;
-        b=XcmVK7JwNu54yeoZvUVgRE4ycDDruCjbj+O5/cIqn5LV67XjhrDem/poh9j9WGzYTq
-         LnUDaJvHfOKnKPlTahgjH/qcg22qtd5Ff1o4h3AgL+7IUtNgRfd71+gL6T35uZxuSGE/
-         0cl58yjKwbyagr1pWsEYjmcGKECgKksbTZEzCqO1gUMr8ksXXPPnbQNTSIM3eRUCdtfN
-         /Qb8DAB56KwthFkmyNNza4ZsncLT3Xlal8f6W70u74xt5+hlKR3zpY9dT+FBJOi9/3Oc
-         QvMOpyk26Nc9Q+j17urh7MTZvzuJAbyRiftOILa9thZn7wEV4+ua/tcuTjW+BZYloL5v
-         mKgw==
+        bh=WZMlpwmjON05raKFGDQgTKXed4pbMzjEU/f7GpRcKxk=;
+        b=mMjUvoeU7khCqxILg6UhdkcGTrULEYt3h6NEoR3C9tZq15DQ+u2wQJbEae0E2/OnSq
+         nXZ4Y9Sh1wtbGvU4BOWFS/FHjZiyDMDcZWFHB72m+HQPTSBmxB+kWeYyx+DQ8EvP6Udq
+         REbku2UZ9VRL294uVCkmhHlD9BNzPE3x7rTRuyx78NBtj3RWIqrvyH5S+3LHhz64Iam0
+         iqk1M9yqg+cYzFsZIOQ6o3AWIwXJPXxRulGmYgzWR+EHW4C1MYPF3x1JAWjDrZx7sbKm
+         R5UhQc6J6Xf0It0KsW3U7vwGl5KHmRUUSmGR6Pb29Vu5j54tgLX4MTvVvWtTxAOr4ztk
+         a7FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BUpSqOzVYiFBHHL5wyZniliWxqmPr3GRK8w6NgSpN5Y=;
-        b=BU1UbyooOF40+kpFFXTHAPhHUQGqIQZia5O903gd5Gs4uC233FmAlnUERHYySf4m4D
-         i1XWYt03zCiU6HLqVnObzYn7ulwANOJZ6V1CIGbLsXU3ji6MEWfcK1eK/NRPJwNaU+zA
-         rz1WaCKNvcMTaZhHIP0ZTgQYBftN+UhQlcDftqZ02awhRXVjgaTLumGCfBYPI17gQ0OP
-         Od9QpDazJf5uFkXGxxKpbwWDaJqv+yQfwn2J6kmjq+tZ6zsAAAh1NPlI3eIjwnpHG74e
-         QP/Kn9pMqzxcEGUXpWQWPsl3cXUv8gkq0tqcgXYDh93DUjMBYtOAo6DggGswIDA5CuLX
-         v4/g==
-X-Gm-Message-State: AOAM531qnQVRzldcjT/f8tUgJnZEB4scbbqJ3JJLTq/e9KfyHxl6+e9C
-	eDiED7tmd4XIlmLP19JJ2Vc/U0gSB0iu/A==
-X-Google-Smtp-Source: ABdhPJzUh4luMNplztXSuP6L7uMw2SWA7GRGbpG/TNQKBppwZ6TtQARW2I6z2+myuIpakDIbUiI0Xw==
-X-Received: by 2002:a63:2c4c:0:b0:398:997d:b5b8 with SMTP id s73-20020a632c4c000000b00398997db5b8mr5303391pgs.86.1650655964090;
-        Fri, 22 Apr 2022 12:32:44 -0700 (PDT)
+        bh=WZMlpwmjON05raKFGDQgTKXed4pbMzjEU/f7GpRcKxk=;
+        b=IzAxLojLfIXTW+9OusJEeLvXmJyfpv3RfixxWblJDByK1hltUwCbK43Y6XFRdA4ZuW
+         MF1OqN7BdJs7CLXTXI3al0CkPzi2UGCvHwO1up0pFN+qq4um00qgrJ7z0RNDJWnUyHR6
+         sDGnA3mn0adm7Sah+mDsz5pOKInsL4NLwSUeKBbuHbwfUKtKFVHwRmGdVg/2gzEhTlp2
+         uFn7a/gsc7TSySqoXcR5Z7OaZlcmBIoESSDdEt9vwesYTUtxr6/IrCRnPZwDe0+aqPd+
+         VIvt7QY+ArnUnVg6/c/cQp3hdhPP5run6T3IJnmz0ClNaAh8vFsFbtglTa6ucuorx2MH
+         AfYQ==
+X-Gm-Message-State: AOAM531rxWwjJUrWuZOEFhpEetPdagzcT7s795EybVdD4XHpWwhSwA9/
+	U8mAvWP5gbyEhBIkyiOGLLA=
+X-Google-Smtp-Source: ABdhPJwf1R9PUV4mgIvU1nqQLy0/9uBmokjqz+5KcU+gSfYHapHv5UiGBPk1nizg2H8mRtBEfoDOlA==
+X-Received: by 2002:a63:591c:0:b0:3aa:506c:b50b with SMTP id n28-20020a63591c000000b003aa506cb50bmr5219423pgb.77.1650655967838;
+        Fri, 22 Apr 2022 12:32:47 -0700 (PDT)
 Received: from makvihas.localhost.com ([2405:201:202b:15:bfe0:e8c0:bea6:ee63])
-        by smtp.gmail.com with ESMTPSA id z5-20020a056a00240500b004e15d39f15fsm3518932pfh.83.2022.04.22.12.32.41
+        by smtp.gmail.com with ESMTPSA id z5-20020a056a00240500b004e15d39f15fsm3518932pfh.83.2022.04.22.12.32.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Apr 2022 12:32:43 -0700 (PDT)
+        Fri, 22 Apr 2022 12:32:47 -0700 (PDT)
 From: Vihas Makwana <makvihas@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -46,9 +46,9 @@ Cc: linux-staging@lists.linux.dev,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Pavel Skripkin <paskripkin@gmail.com>,
 	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH v3 3/7] staging: r8188eu: drop unnecessary wrapper _rtw_init_evt_priv
-Date: Sat, 23 Apr 2022 01:02:19 +0530
-Message-Id: <20220422193223.11948-4-makvihas@gmail.com>
+Subject: [PATCH v3 4/7] staging: r8188eu: drop unnecessary wrapper _rtw_init_mlme_priv
+Date: Sat, 23 Apr 2022 01:02:20 +0530
+Message-Id: <20220422193223.11948-5-makvihas@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220422193223.11948-1-makvihas@gmail.com>
 References: <20220422193223.11948-1-makvihas@gmail.com>
@@ -60,58 +60,134 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop unnecessary wrapper _rtw_init_evt_priv and move its logic to
-rtw_init_evt_priv.
+Drop unnecessary wrapper _rtw_init_mlme_priv and move its logic to
+rtw_init_mlme_priv.
 
 Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 Signed-off-by: Vihas Makwana <makvihas@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c | 27 +++++++++-----------------
- 1 file changed, 9 insertions(+), 18 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme.c | 103 +++++++++++-------------
+ 1 file changed, 47 insertions(+), 56 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index fc955fce2..512896b86 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -17,22 +17,6 @@
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 081c02417..50a65a4e2 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -30,60 +30,6 @@ u8 rtw_to_roaming(struct adapter *adapter)
+ 	return adapter->mlmepriv.to_roaming;
+ }
  
- static void c2h_wk_callback(struct work_struct *work);
- 
--static int _rtw_init_evt_priv(struct evt_priv *pevtpriv)
+-static int _rtw_init_mlme_priv(struct adapter *padapter)
 -{
--	int res = _SUCCESS;
+-	int	i;
+-	u8	*pbuf;
+-	struct wlan_network	*pnetwork;
+-	struct mlme_priv		*pmlmepriv = &padapter->mlmepriv;
+-	int	res = _SUCCESS;
+-
+-	/*  We don't need to memset padapter->XXX to zero, because adapter is allocated by vzalloc(). */
+-
+-	pmlmepriv->nic_hdl = (u8 *)padapter;
+-
+-	pmlmepriv->pscanned = NULL;
+-	pmlmepriv->fw_state = 0;
+-	pmlmepriv->cur_network.network.InfrastructureMode = Ndis802_11AutoUnknown;
+-	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: pasive. Maybe someday we should rename this varable to "active_mode" (Jeff) */
+-
+-	spin_lock_init(&pmlmepriv->lock);
+-	rtw_init_queue(&pmlmepriv->free_bss_pool);
+-	rtw_init_queue(&pmlmepriv->scanned_queue);
+-
+-	set_scanned_network_val(pmlmepriv, 0);
+-
+-	memset(&pmlmepriv->assoc_ssid, 0, sizeof(struct ndis_802_11_ssid));
+-
+-	pbuf = vzalloc(MAX_BSS_CNT * (sizeof(struct wlan_network)));
+-
+-	if (!pbuf) {
+-		res = _FAIL;
+-		goto exit;
+-	}
+-	pmlmepriv->free_bss_buf = pbuf;
+-
+-	pnetwork = (struct wlan_network *)pbuf;
+-
+-	for (i = 0; i < MAX_BSS_CNT; i++) {
+-		INIT_LIST_HEAD(&pnetwork->list);
+-
+-		list_add_tail(&pnetwork->list, &pmlmepriv->free_bss_pool.queue);
+-
+-		pnetwork++;
+-	}
 -
 -	/* allocate DMA-able/Non-Page memory for cmd_buf and rsp_buf */
--	atomic_set(&pevtpriv->event_seq, 0);
 -
--	INIT_WORK(&pevtpriv->c2h_wk, c2h_wk_callback);
--	pevtpriv->c2h_wk_alive = false;
--	pevtpriv->c2h_queue = rtw_cbuf_alloc(C2H_QUEUE_MAX_LEN + 1);
--	if (!pevtpriv->c2h_queue)
--		res = _FAIL;
+-	rtw_clear_scan_deny(padapter);
+-
+-	rtw_init_mlme_timer(padapter);
+-
+-exit:
 -
 -	return res;
 -}
 -
- void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+ static void rtw_free_mlme_ie_data(u8 **ppie, u32 *plen)
  {
- 	cancel_work_sync(&pevtpriv->c2h_wk);
-@@ -133,9 +117,16 @@ u32	rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ 	kfree(*ppie);
+@@ -289,9 +235,54 @@ u8 *rtw_get_beacon_interval_from_ie(u8 *ie)
  
- u32 rtw_init_evt_priv(struct evt_priv *pevtpriv)
+ int rtw_init_mlme_priv(struct adapter *padapter)/* struct	mlme_priv *pmlmepriv) */
  {
 -	int	res;
-+	u32 res = _SUCCESS;
++	int	i;
++	u8	*pbuf;
++	struct wlan_network	*pnetwork;
++	struct mlme_priv		*pmlmepriv = &padapter->mlmepriv;
++	int	res = _SUCCESS;
++
++	/*  We don't need to memset padapter->XXX to zero, because adapter is allocated by vzalloc(). */
++
++	pmlmepriv->nic_hdl = (u8 *)padapter;
++
++	pmlmepriv->pscanned = NULL;
++	pmlmepriv->fw_state = 0;
++	pmlmepriv->cur_network.network.InfrastructureMode = Ndis802_11AutoUnknown;
++	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: pasive. Maybe someday we should rename this varable to "active_mode" (Jeff) */
++
++	spin_lock_init(&pmlmepriv->lock);
++	rtw_init_queue(&pmlmepriv->free_bss_pool);
++	rtw_init_queue(&pmlmepriv->scanned_queue);
++
++	set_scanned_network_val(pmlmepriv, 0);
++
++	memset(&pmlmepriv->assoc_ssid, 0, sizeof(struct ndis_802_11_ssid));
+ 
+-	res = _rtw_init_mlme_priv(padapter);/*  (pmlmepriv); */
++	pbuf = vzalloc(MAX_BSS_CNT * (sizeof(struct wlan_network)));
++
++	if (!pbuf) {
++		res = _FAIL;
++		goto exit;
++	}
++	pmlmepriv->free_bss_buf = pbuf;
++
++	pnetwork = (struct wlan_network *)pbuf;
++
++	for (i = 0; i < MAX_BSS_CNT; i++) {
++		INIT_LIST_HEAD(&pnetwork->list);
++
++		list_add_tail(&pnetwork->list, &pmlmepriv->free_bss_pool.queue);
++
++		pnetwork++;
++	}
 +
 +	/* allocate DMA-able/Non-Page memory for cmd_buf and rsp_buf */
-+	atomic_set(&pevtpriv->event_seq, 0);
- 
--	res = _rtw_init_evt_priv(pevtpriv);
-+	INIT_WORK(&pevtpriv->c2h_wk, c2h_wk_callback);
-+	pevtpriv->c2h_wk_alive = false;
-+	pevtpriv->c2h_queue = rtw_cbuf_alloc(C2H_QUEUE_MAX_LEN + 1);
-+	if (!pevtpriv->c2h_queue)
-+		res = _FAIL;
++
++	rtw_clear_scan_deny(padapter);
++
++	rtw_init_mlme_timer(padapter);
++
++exit:
  
  	return res;
  }
