@@ -1,85 +1,79 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF0023CD
-	for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 14:30:22 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id h25so5291258wrc.13
-        for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 07:30:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=3ItMjhvb1/hM2jNtzAM/HCEyjHx2yTDf8giphic99II=;
-        b=Q+bqKn2kphZ6dkI4mNlHNqszn4boae0E/d/xBKmldgHQrzrmLOUjZyXGzBd9PX2ECn
-         IYK84mP/abeHXWDoCOYulcBZO1pgSCfNJkYOr2le+FGi/Z57Q2Y5ZGItIiyJtWrL8eDG
-         KuLA6BXfrRFs7ktJ+bLAvO2a2NstJNdVQz5kYdos/hpyNlBoC0ThHhpJR536oxMUJ3Df
-         XExXODKubzBTrzjTQkJU2H3APAUCK1JS5B6B8J2fVdQyzRxQcpMXN2Q9h9VmKLrTVdhz
-         zy4FcewLm5Q1jsyHbtrO74mdXdjqTF235POz/loiWtUrHaZpO45aE/uLY16JxqvHMDxU
-         ciFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=3ItMjhvb1/hM2jNtzAM/HCEyjHx2yTDf8giphic99II=;
-        b=qJ0ukPaUJEvnbKLEW6aM4wQa5PbSinLMyvh8CP2n3lkWhawmONvD4giH3HhgYkLLhB
-         vFN3kayI7od8i29P2LqO+rAlJsSfsz+yKMI47ekeO0Y9uoj59Vf83WqqY9eDw+JUrt6i
-         taVF0Qs/i+VCe4SpmWMIvuEz1JBL7nODlrD7n99R819Xr2/bx2eSfZrjEdOgBUux9Pfi
-         m6Ywvf4++TNy6NocioUrbKSImtZxnPKNA6EQqjszzd9qU4pzQ68XXGFiZJEZG6OD9Z43
-         Ux/22nHxMwBNIERXgUC/M7g3MReVsUyZOcqTEDbOwuoIeCXuwRYB52+4YVZDfoBATEvA
-         hHSw==
-X-Gm-Message-State: AOAM530m1e+gS2OYHjNgNv0kiCmhODsUFUXyMWfh6pYKwNwNdUOe+CJv
-	7iSsnKgWEFyQu4n7sNGesXSYwg==
-X-Google-Smtp-Source: ABdhPJzO4XZzgz0MgPEnN50RQJl3TakwYabgyyn0sJV65Y1f1DF3kHXL1X/rRZ3t7Oi9mzkALEpM+A==
-X-Received: by 2002:a05:6000:249:b0:207:ab35:67eb with SMTP id m9-20020a056000024900b00207ab3567ebmr3951299wrz.222.1650637820657;
-        Fri, 22 Apr 2022 07:30:20 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id u20-20020a05600c19d400b003929c4bf23asm1730656wmq.44.2022.04.22.07.30.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Apr 2022 07:30:20 -0700 (PDT)
-Date: Fri, 22 Apr 2022 16:30:18 +0200
-From: LABBE Corentin <clabbe@baylibre.com>
-To: Aliya Rahmani <aliyarahmani786@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	outreachy@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] staging: media: zoran: fix warnings reported by
- checkpatch
-Message-ID: <YmK7+rQFwxcmMCfQ@Red>
-References: <20220418171453.16971-1-aliyarahmani786@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A665B2901
+	for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 14:40:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A66EDC385A4;
+	Fri, 22 Apr 2022 14:40:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1650638445;
+	bh=MYOgwWbfG5bkafDdMryKHBx4bZzP6zWaU7pqVa4fSeU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=2cqtaxk446CcosqemMNM2QZCQrAWhOe4SetSJj8PSVEekW2A6l/qwYlHo0Og+hrcR
+	 GjzpEwIs6WT4jzG2l/owuBWRsgqvxIvwC0e/TFmdhDocTI8pyMeDt5Vz3NetqOcxdl
+	 FGgyCm/rddtlLUpAlPoBhRcHU1NZAgk693ADHsbk=
+Date: Fri, 22 Apr 2022 16:40:42 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Adrien Thierry <athierry@redhat.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] staging: bcm2835-audio: delete TODO
+Message-ID: <YmK+aiaaVLtadGVT@kroah.com>
+References: <20220420174401.305964-1-athierry@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220418171453.16971-1-aliyarahmani786@gmail.com>
+In-Reply-To: <20220420174401.305964-1-athierry@redhat.com>
 
-Le Mon, Apr 18, 2022 at 10:44:50PM +0530, Aliya Rahmani a écrit :
-> These patches address style issues found by checkpatch in the
-> zoran/videocodec.c file.
+On Wed, Apr 20, 2022 at 01:44:00PM -0400, Adrien Thierry wrote:
+> Delete TODO since all tasks were completed:
 > 
-> changes since v2:
-> PATCH[2/3] : Rework commit description and subject
-> PATCH[3/3] : Rework commit description and subject
+> 1 - fixed here:
+> https://lore.kernel.org/all/20220408150359.26661-1-athierry@redhat.com/
 > 
-> Aliya Rahmani (3):
->  staging: media: zoran: use seq_puts() instead of seq_printf()
->  staging: media: zoran: else is not generally useful after a break or return
->  staging: media: zoran: avoid macro argument precedence issues
+> 2 - there are no remaining checkpatch.pl errors or warnings
 > 
-> drivers/staging/media/zoran/videocodec.c | 9++++-----
-> 1 file changed, 4 insertions(+), 5 deletions(-)
+> Signed-off-by: Adrien Thierry <athierry@redhat.com>
+> ---
+>  drivers/staging/vc04_services/bcm2835-audio/TODO | 10 ----------
+>  1 file changed, 10 deletions(-)
+>  delete mode 100644 drivers/staging/vc04_services/bcm2835-audio/TODO
+> 
+> diff --git a/drivers/staging/vc04_services/bcm2835-audio/TODO b/drivers/staging/vc04_services/bcm2835-audio/TODO
+> deleted file mode 100644
+> index b85451255db0..000000000000
+> --- a/drivers/staging/vc04_services/bcm2835-audio/TODO
+> +++ /dev/null
+> @@ -1,10 +0,0 @@
+> -*****************************************************************************
+> -*                                                                           *
+> -*                           TODO: BCM2835-AUDIO                             *
+> -*                                                                           *
+> -*****************************************************************************
+> -
+> -1) Revisit multi-cards options and PCM route mixer control (as per comment
+> -https://lore.kernel.org/lkml/s5hd0to5598.wl-tiwai@suse.de)
+> -
+> -2) Fix the remaining checkpatch.pl errors and warnings.
+> -- 
+> 2.35.1
+> 
 > 
 
-Thanks for your patchs
+Great, so now it can be merged to the real part of the kernel?  If not,
+what's left for that to happen?
 
-Only problem is that your patch 1 did not apply, but this was easily fixed for applying.
+thanks,
 
-The whole serie is:
-Tested-by: Corentin Labbe <clabbe@baylibre.com>
-Acked-by: Corentin Labbe <clabbe@baylibre.com>
-
-Regards
+greg k-h
