@@ -1,248 +1,107 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bee.birch.relay.mailchannels.net (bee.birch.relay.mailchannels.net [23.83.209.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0583D6D
-	for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 23:53:31 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id s14so7142760plk.8
-        for <linux-staging@lists.linux.dev>; Thu, 21 Apr 2022 16:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5FvZqIly0MqhR6NzevS5ekyPjOQj5Xg3pXSl2WXGAog=;
-        b=Ogg18t2rICAhRyRa+1/Ctr+uZB0ahi8Ixw+q8a+lWa56Jmo8mkR9D42AYlBMIVCuoC
-         kHT2PiySv87HxkRxuKAy03xfE5y5bakuV0MKkVtqerf78IqnIr+7+ZLiR/YHwe3SKIhE
-         B1Jhu+MlTA+oSZ7sBN56agL0d5dkNoyBop+ss8x5lWaqOBqPpkbW4f6qzzZT6Xs82cu2
-         IfnpryhLlHIpS/fX607dwqAF6231mjdgZNBzBZzsF/SPvGENwbt3GP/CpIF6xxZek01p
-         zKDsFkTweVo3RVxHqL/wU03987efQgDWQ0fY5LWpWYQalEeMHU3UqYrRbP+Ezd82jhwC
-         P0+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5FvZqIly0MqhR6NzevS5ekyPjOQj5Xg3pXSl2WXGAog=;
-        b=63it4x/qcOJJKk9sntpR9KcLBuqKkzuXgU5SzjVeKLWTWzuMSSlF7ASKxbI2e+4kxO
-         SjHwDFINlvCcx/fqQewzPl33ZGD8fDkrkOUcRN396x2GC+hUukPGSZ9QMLe4PFRWkcvs
-         iPhLdINYqR0NT1uP86fi24VLFiuvpCM1wNOkPbfW3zoRTLMdjARWfQwzgGsOkObNI6gp
-         UWTD6NaDSx6AJLnIod8p0RXoLRNoSFjIX7qVzdyj/T+Ds1Vl3q5dVcQQPskfB1r+/0rN
-         GQlyQZ0T1JQ6ZzHPXkPVyqRjIx6KpxYF/ZjeKS6tuUOrRCZkhN5yqbS4Kdx6GFTSpep0
-         ymLQ==
-X-Gm-Message-State: AOAM533rWiZKa/8EKd4zuQXWmjZEctSTkrYvmgc1VoY6kjeoKqFWIdzg
-	LufYr4VqHfVA1kcF62DSyigSx9aPqek=
-X-Google-Smtp-Source: ABdhPJyC2FzBaOCosZX0rucADzwGysiHj3insxyptmDX1ZvMS6w2yTuqTvFqfGGbiHvKqXUzNBgpZA==
-X-Received: by 2002:a17:902:d5c3:b0:154:c472:de80 with SMTP id g3-20020a170902d5c300b00154c472de80mr1832018plh.87.1650585211355;
-        Thu, 21 Apr 2022 16:53:31 -0700 (PDT)
-Received: from localhost.localdomain ([14.100.36.163])
-        by smtp.gmail.com with ESMTPSA id w137-20020a62828f000000b0050adb63c6d5sm222972pfd.220.2022.04.21.16.53.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 16:53:30 -0700 (PDT)
-From: Solomon Tan <wjsota@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	dan.carpenter@oracle.com
-Subject: [PATCH v2] staging: r8188eu: use in-kernel ieee channel
-Date: Fri, 22 Apr 2022 07:52:38 +0800
-Message-Id: <20220421235237.4218-1-wjsota@gmail.com>
-X-Mailer: git-send-email 2.36.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB051FCC
+	for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 00:30:35 +0000 (UTC)
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 34C6D8016BA;
+	Fri, 22 Apr 2022 00:30:29 +0000 (UTC)
+Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 940C98017AB;
+	Fri, 22 Apr 2022 00:30:28 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650587428; a=rsa-sha256;
+	cv=none;
+	b=QJc5m358nihCgV6QUeWkcIV8V/kUqeCw0xuUquEto3N8nu+MZ7RpSZ+PcPuGl3HRMOcal/
+	Lsru7dKQz4acTOWpsTBnPuyEh/lGmxVX9x3enwZj75Rrs8pnYRyZxL7JI258f0QAlAkOnK
+	wI8JsWfT4VNuVwcz21DpHNZ6wU84B6YRkxcLtZYlz7/cbQZSWYjVQOVLXox6RXRx6bvGtT
+	bZIRhTitNRk6DaDxiM0QS7VXq/3PSPrmdACiyI8JqykxsN3n6b0UiUwEnx0YFwj4CEM997
+	8m0/hN2cASX0moTnDyGkjgstdvZkeJb262DHSR3zDSzpLtpRhp2fhDG/jugsRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1650587428;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=5f+2TYzBuKPjVaWd9BBCif69ALhTyjNVbFxGPBPuCEY=;
+	b=hyn9Sp4rjGtcM8bpr4ZjoDaEiK85NXxmv7evl78FjR9hhbYDV2Ym2w1ZGJUHgIwjzyA5U3
+	2dYqKZHREcy1ejBFbFK1JupzoTcl5OiYU7gf66Em4ybgEkMnmqyaXc/Aclny7CGHsPBtQ8
+	ZUmcPUwXvJb1V1+34WD+/rBCilBB1Ha1E/V+yKvO8PrUci5Mjvp2pv+41nfzHmJoZWTj6h
+	FDQzdLUGRTlDeJGmdq5w/ulogKkSIJ9Z/GzZ0UYRfVkiYsG/9YuB2k5Jhr+YFAPQoyjwp0
+	XD9XNUIYWXvvf7jAr6XmBtdPc1Ou/ZB+GGiZj4vBhzRMVKbkBDsDL36tEnpv4g==
+ARC-Authentication-Results: i=1;
+	rspamd-7968956b8c-5vmkl;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Madly-Ruddy: 27ea94fa65877d33_1650587429008_3161149047
+X-MC-Loop-Signature: 1650587429008:980140766
+X-MC-Ingress-Time: 1650587429008
+Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.96.96.20 (trex/6.7.1);
+	Fri, 22 Apr 2022 00:30:28 +0000
+Received: from fedora (unknown [69.12.38.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4KkwKv53Thz1QX;
+	Thu, 21 Apr 2022 17:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1650587428;
+	bh=5f+2TYzBuKPjVaWd9BBCif69ALhTyjNVbFxGPBPuCEY=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=SNBNO965iC8ELI7Edq+KHcQ2QTqbzjH6VDHuEAh3LSEpj718kmbUJrjjLylDeQTEW
+	 24FUB6YTKu3r0WMOrUVGFc5TUEFGwHRFn9vPaFOuChzm7ggYkYr/nl0trzIk7tChoS
+	 GgsJcNel2RgLuMqP7vpKQJbj4fOQFWKcwsmAwapr4RYzqEhl9XlJx7oawISxtn7X/e
+	 kuw5sLFPh+eznCPw2lcQSoD6b5x1x9fRoibk49x0/v0KXCmoaynWhfpWU9PnloM9Mo
+	 Xhr3TPGDghyP/wDLlmFwMnL9gl9dnev3XGCSXqwf1e/+e0SNz4SVi4O+Jy1GR1msIm
+	 DWMRGSaeco1NQ==
+Date: Thu, 21 Apr 2022 20:30:25 -0400
+From: Ian Cowan <ian@linux.cowan.aero>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: clabbe@baylibre.com, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] media: staging: zoran: refactor printk debugging function
+Message-ID: <YmH3IZhUrvEzZlZU@fedora>
+References: <20220421002316.873109-1-ian@linux.cowan.aero>
+ <20220421142153.GA2462@kadam>
+ <YmF2mM+Lqv/HOgFl@fedora>
+ <20220421155203.GB2462@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220421155203.GB2462@kadam>
 
-Use the in-kernel structure and flags instead of defining a separate
-one. The rtw_ieee80211_channel structure and flags can be replaced by
-the ieee80211_channel defined in include/net/cfg80211.h since the flags
-serve the same purpose and the ieee80211_channel struct includes the
-elements used in the rtw_ieee80211_channel struct.
+On Thu, Apr 21, 2022 at 06:52:04PM +0300, Dan Carpenter wrote:
+> On Thu, Apr 21, 2022 at 11:22:00AM -0400, Ian Cowan wrote:
+> > 
+> > For using the dev_dbg() macro, do you define this in the header file
+> > (i.e. for this it would be videocodec.h), or where should this be
+> > included from?
+> 
+> dev_dbg() is defined in include/linux/dev_printk.h.  Look around at how
+> it's used.  pr_debug() might be an option, but I don't know if we will
+> accept that, we prefer dev_dbg().
+> 
+> regards,
+> dan carpenter
+> 
 
-Signed-off-by: Solomon Tan <wjsota@gmail.com>
+I'm about to submit the modified patch, but I went and looked and we
+cannot use dev_dbg() because these specific drivers do not have any
+association with a device struct. The best we can do is use the pr_X()
+functions which I have updated in the modified patch. That still removes
+the module params and the repetitive dprintk() definition.
+
 ---
-V1 -> V2: Rephrased the commit message to not mislead.
----
- drivers/staging/r8188eu/core/rtw_cmd.c        |  6 ++--
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 18 +++++-----
- drivers/staging/r8188eu/include/ieee80211.h   | 34 +------------------
- drivers/staging/r8188eu/include/rtw_cmd.h     |  4 +--
- .../staging/r8188eu/include/rtw_mlme_ext.h    |  2 +-
- 5 files changed, 16 insertions(+), 48 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index f036a980ec1a..ebe2479d1402 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -320,7 +320,7 @@ int rtw_cmd_thread(void *context)
-  *	MUST TAKE CARE THAT BEFORE CALLING THIS FUNC, YOU SHOULD HAVE LOCKED pmlmepriv->lock
-  */
- u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid, int ssid_num,
--	struct rtw_ieee80211_channel *ch, int ch_num)
-+	struct ieee80211_channel *ch, int ch_num)
- {
- 	u8 res = _FAIL;
- 	struct cmd_obj		*ph2c;
-@@ -366,8 +366,8 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
- 	if (ch) {
- 		int i;
- 		for (i = 0; i < ch_num && i < RTW_CHANNEL_SCAN_AMOUNT; i++) {
--			if (ch[i].hw_value && !(ch[i].flags & RTW_IEEE80211_CHAN_DISABLED)) {
--				memcpy(&psurveyPara->ch[i], &ch[i], sizeof(struct rtw_ieee80211_channel));
-+			if (ch[i].hw_value && !(ch[i].flags & IEEE80211_CHAN_DISABLED)) {
-+				memcpy(&psurveyPara->ch[i], &ch[i], sizeof(struct ieee80211_channel));
- 				psurveyPara->ch_num++;
- 			}
- 		}
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index db61acc914d1..bc7cf54e1c6a 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -5811,11 +5811,11 @@ void site_survey(struct adapter *padapter)
- 		else
- 			ScanType = SCAN_ACTIVE;
- 	} else {
--		struct rtw_ieee80211_channel *ch;
-+		struct ieee80211_channel *ch;
- 		if (pmlmeext->sitesurvey_res.channel_idx < pmlmeext->sitesurvey_res.ch_num) {
- 			ch = &pmlmeext->sitesurvey_res.ch[pmlmeext->sitesurvey_res.channel_idx];
- 			survey_channel = ch->hw_value;
--			ScanType = (ch->flags & RTW_IEEE80211_CHAN_PASSIVE_SCAN) ? SCAN_PASSIVE : SCAN_ACTIVE;
-+			ScanType = (ch->flags & IEEE80211_CHAN_NO_IR) ? SCAN_PASSIVE : SCAN_ACTIVE;
- 		}
- 	}
- 
-@@ -7342,26 +7342,26 @@ u8 disconnect_hdl(struct adapter *padapter, unsigned char *pbuf)
- 	return	H2C_SUCCESS;
- }
- 
--static int rtw_scan_ch_decision(struct adapter *padapter, struct rtw_ieee80211_channel *out,
--	u32 out_num, struct rtw_ieee80211_channel *in, u32 in_num)
-+static int rtw_scan_ch_decision(struct adapter *padapter, struct ieee80211_channel *out,
-+	u32 out_num, struct ieee80211_channel *in, u32 in_num)
- {
- 	int i, j;
- 	int set_idx;
- 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
- 
- 	/* clear out first */
--	memset(out, 0, sizeof(struct rtw_ieee80211_channel) * out_num);
-+	memset(out, 0, sizeof(struct ieee80211_channel) * out_num);
- 
- 	/* acquire channels from in */
- 	j = 0;
- 	for (i = 0; i < in_num; i++) {
- 		set_idx = rtw_ch_set_search_ch(pmlmeext->channel_set, in[i].hw_value);
--		if (in[i].hw_value && !(in[i].flags & RTW_IEEE80211_CHAN_DISABLED) &&
-+		if (in[i].hw_value && !(in[i].flags & IEEE80211_CHAN_DISABLED) &&
- 		    set_idx >= 0) {
--			memcpy(&out[j], &in[i], sizeof(struct rtw_ieee80211_channel));
-+			memcpy(&out[j], &in[i], sizeof(struct ieee80211_channel));
- 
- 			if (pmlmeext->channel_set[set_idx].ScanType == SCAN_PASSIVE)
--				out[j].flags &= RTW_IEEE80211_CHAN_PASSIVE_SCAN;
-+				out[j].flags &= IEEE80211_CHAN_NO_IR;
- 
- 			j++;
- 		}
-@@ -7375,7 +7375,7 @@ static int rtw_scan_ch_decision(struct adapter *padapter, struct rtw_ieee80211_c
- 			out[i].hw_value = pmlmeext->channel_set[i].ChannelNum;
- 
- 			if (pmlmeext->channel_set[i].ScanType == SCAN_PASSIVE)
--				out[i].flags &= RTW_IEEE80211_CHAN_PASSIVE_SCAN;
-+				out[i].flags &= IEEE80211_CHAN_NO_IR;
- 
- 			j++;
- 		}
-diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
-index 0e37cd8974b5..c67d81409c78 100644
---- a/drivers/staging/r8188eu/include/ieee80211.h
-+++ b/drivers/staging/r8188eu/include/ieee80211.h
-@@ -8,6 +8,7 @@
- #include "drv_types.h"
- #include "wifi.h"
- #include <linux/wireless.h>
-+#include <net/cfg80211.h>
- 
- #define MGMT_QUEUE_NUM 5
- 
-@@ -671,39 +672,6 @@ enum rtw_ieee80211_back_actioncode {
- 
- #define VENDOR_HT_CAPAB_OUI_TYPE 0x33 /* 00-90-4c:0x33 */
- 
--/**
-- * enum rtw_ieee80211_channel_flags - channel flags
-- *
-- * Channel flags set by the regulatory control code.
-- *
-- * @RTW_IEEE80211_CHAN_DISABLED: This channel is disabled.
-- * @RTW_IEEE80211_CHAN_PASSIVE_SCAN: Only passive scanning is permitted
-- *      on this channel.
-- * @RTW_IEEE80211_CHAN_NO_IBSS: IBSS is not allowed on this channel.
-- * @RTW_IEEE80211_CHAN_RADAR: Radar detection is required on this channel.
-- * @RTW_IEEE80211_CHAN_NO_HT40PLUS: extension channel above this channel
-- *      is not permitted.
-- * @RTW_IEEE80211_CHAN_NO_HT40MINUS: extension channel below this channel
-- *      is not permitted.
-- */
--enum rtw_ieee80211_channel_flags {
--	RTW_IEEE80211_CHAN_DISABLED	 = 1<<0,
--	RTW_IEEE80211_CHAN_PASSIVE_SCAN     = 1<<1,
--	RTW_IEEE80211_CHAN_NO_IBSS	  = 1<<2,
--	RTW_IEEE80211_CHAN_RADAR	    = 1<<3,
--	RTW_IEEE80211_CHAN_NO_HT40PLUS      = 1<<4,
--	RTW_IEEE80211_CHAN_NO_HT40MINUS     = 1<<5,
--};
--
--#define RTW_IEEE80211_CHAN_NO_HT40 \
--	  (RTW_IEEE80211_CHAN_NO_HT40PLUS | RTW_IEEE80211_CHAN_NO_HT40MINUS)
--
--/* Represent channel details, subset of ieee80211_channel */
--struct rtw_ieee80211_channel {
--	u16 hw_value;
--	u32 flags;
--};
--
- #define CHAN_FMT \
- 	"hw_value:%u, " \
- 	"flags:0x%08x" \
-diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
-index 6b6d560d7143..ee15f93a5477 100644
---- a/drivers/staging/r8188eu/include/rtw_cmd.h
-+++ b/drivers/staging/r8188eu/include/rtw_cmd.h
-@@ -187,7 +187,7 @@ struct sitesurvey_parm {
- 	u8 ssid_num;
- 	u8 ch_num;
- 	struct ndis_802_11_ssid ssid[RTW_SSID_SCAN_AMOUNT];
--	struct rtw_ieee80211_channel ch[RTW_CHANNEL_SCAN_AMOUNT];
-+	struct ieee80211_channel ch[RTW_CHANNEL_SCAN_AMOUNT];
- };
- 
- /*
-@@ -731,7 +731,7 @@ struct TDLSoption_param
- #define H2C_RESERVED		0x07
- 
- u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
--		      int ssid_num, struct rtw_ieee80211_channel *ch,
-+		      int ssid_num, struct ieee80211_channel *ch,
- 		      int ch_num);
- u8 rtw_createbss_cmd(struct adapter  *padapter);
- u8 rtw_setstakey_cmd(struct adapter *padapter, u8 *psta, u8 unicast_key);
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index dcf91e7894a5..fed8e77e512b 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -200,7 +200,7 @@ struct	ss_res {
- 	u8 ssid_num;
- 	u8 ch_num;
- 	struct ndis_802_11_ssid ssid[RTW_SSID_SCAN_AMOUNT];
--	struct rtw_ieee80211_channel ch[RTW_CHANNEL_SCAN_AMOUNT];
-+	struct ieee80211_channel ch[RTW_CHANNEL_SCAN_AMOUNT];
- };
- 
- /* define AP_MODE				0x0C */
--- 
-2.36.0
-
+Ian Cowan
