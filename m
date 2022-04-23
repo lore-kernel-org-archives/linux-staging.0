@@ -1,57 +1,78 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from purple.birch.relay.mailchannels.net (purple.birch.relay.mailchannels.net [23.83.209.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D9A2F25
-	for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 19:32:58 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id c23so13013582plo.0
-        for <linux-staging@lists.linux.dev>; Fri, 22 Apr 2022 12:32:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IoveYgPzkVQxQlEHYjiT25fHGi8jPmqGfk3V2Lj3tG0=;
-        b=p0+mBZk4Xc8pDoDk7SDXGalwSRX0py90m6dqVle4PP72Tn684vhS4UbdpKP/r96uic
-         QggE8UqQZ9YOhfUPTqUM6wurtooEqpVGGKOYdIYTTBFda7K1kCjkhPPRlTSwJEI7/bQx
-         RF8co3a7PaaO39iScZ0+oV7TUYl6pz+xzKjT+4QZHmO1jDscbZe6kzeD0fARclZ+NwH/
-         bKagFH67K0/tJHT5i1YovY93R9hD/rOmbK+w3MhphPxW+8uIviqRF+DZnDi0iYH8DJnc
-         ABPx4/Pzv1/pvnwxCI29X+reSydFwhJtAXkp71IPj9v8G6yylW7NDFQD8PClhukWhS/L
-         jOVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IoveYgPzkVQxQlEHYjiT25fHGi8jPmqGfk3V2Lj3tG0=;
-        b=iTH1WDfenvwN9YCV+XzXfv9S04umXwvfvygMhhFf92FrQ0Uj3qUl7p91qy1Ij1lQHH
-         IE60TTMqLYpqkwDYx5uWQLKlA93Lv6zZ7tRexC7ufa0PHDZlOymy4NfBciVdxDPfxdsq
-         ztiqPphcm6ZELRBm8nSUsDBV5p9RS+vrtJd10qkx5U2BAk2kLIVNyrQyGMKqBnQ40dUH
-         vNdUiFaO0M/x+ckMq4SZPBgTd+2XFo258xsAFf1gDwAhRMvvlR5A3It5D5k/q9sueL7A
-         eAthHl2BQRxxBtfZJO3kdqMjS/uXGHzFtD0YOMWBRod3er5Ebv4qE2nVWwbwrDdc3ALD
-         0l5A==
-X-Gm-Message-State: AOAM530GPGWJa2pGpb07xNRLkxrbpsBrzLXJse2mfuNHyvJZbOETRzbP
-	yW/6QCYx/A4nC780QHMX0Yo=
-X-Google-Smtp-Source: ABdhPJxLh3K98aNfOR6TCroIxTuAyj+Djkxy+F5QWbVMM7iEsJq/MJRfBO/lMAOzuPWZcmyKGXrAzQ==
-X-Received: by 2002:a17:902:b692:b0:14c:935b:2b03 with SMTP id c18-20020a170902b69200b0014c935b2b03mr6057316pls.81.1650655978393;
-        Fri, 22 Apr 2022 12:32:58 -0700 (PDT)
-Received: from makvihas.localhost.com ([2405:201:202b:15:bfe0:e8c0:bea6:ee63])
-        by smtp.gmail.com with ESMTPSA id z5-20020a056a00240500b004e15d39f15fsm3518932pfh.83.2022.04.22.12.32.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Apr 2022 12:32:58 -0700 (PDT)
-From: Vihas Makwana <makvihas@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH v3 7/7] staging: r8188eu: drop unnecessary wrapper _rtw_dequeue_cmd
-Date: Sat, 23 Apr 2022 01:02:23 +0530
-Message-Id: <20220422193223.11948-8-makvihas@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220422193223.11948-1-makvihas@gmail.com>
-References: <20220422193223.11948-1-makvihas@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878E57A
+	for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 05:18:22 +0000 (UTC)
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 10FB86C118F;
+	Sat, 23 Apr 2022 05:18:16 +0000 (UTC)
+Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 6BDF16C12FC;
+	Sat, 23 Apr 2022 05:18:15 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650691095; a=rsa-sha256;
+	cv=none;
+	b=JFQ/GIslJEc96FxvpBtC3/06bybYzyN5fEGdmy6tsgW8Q/KQdTo4vSZ9/PhoL7XX/OWeyu
+	JnNbk5uFoCQOpAJ+eV1RENpDc7qdTP2QGkO3j6d1eICzsH3YjNRefwf+q0OvTDmBzysCDc
+	miAVaJvdZNOBDvvrYkNZaX3TSPGce+HoAd29niZksnHprz+Mw1VnK9lF3a0LVo9i6KDgjq
+	hn+rhEweEkZvYuf63AFoWy1Qg2++GdZD03XLB7LZehZ4uaeOV5Ryvnuz29D8VKB+YJC9u0
+	LrUs7bSNlBxDX9wUVGRivu45Kz49W8reXm6N0rPALBODtTafuum8rcIT9U/VnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1650691095;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=YvRY4CNeqRF7m16dALP4REvqvvmQt9hrensASbsdpaw=;
+	b=qd3cnt70a0ZyGT/wA9vCxqY4H3iDw4c793yzqLetWe3OsTHt4NUvB0RtHvDHMT+/KmDU0C
+	P2vAfl4V40jDoK12dlGteuMdW2mNAImeoYmBGoPQOVlnt5Klcj+FWavj8EA5yJyT4TtpOO
+	x50PXsYdBCLroRcaTB5qPO/IL8YtwFUViTPUaeg98ZN1a/AWuqoWdk3kHrbvpIfoxSkQoL
+	s3SX+z+QBLjXz4dA8vM1zQGpdkbat6tOhBKBdhsH21hjPfN6J8608m82QbSi+c0rSH/xBq
+	y/vM1N1TVWRA0YDs69ZPkuwuP1m/0TKbym8TJ8S+ZXYHl24KpJccDkWpYlL35g==
+ARC-Authentication-Results: i=1;
+	rspamd-67b64f579b-7dcpz;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Callous-Little: 5b33745e46a05a94_1650691095798_3139912716
+X-MC-Loop-Signature: 1650691095798:3292576115
+X-MC-Ingress-Time: 1650691095798
+Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.107.255.136 (trex/6.7.1);
+	Sat, 23 Apr 2022 05:18:15 +0000
+Received: from localhost.localdomain (unknown [69.12.38.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4KlfgV1w8dz4C;
+	Fri, 22 Apr 2022 22:18:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1650691095;
+	bh=YvRY4CNeqRF7m16dALP4REvqvvmQt9hrensASbsdpaw=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=mPVRWSan2OmcapuTmkKyWBtYzz6nSnR6D6fCTUFZpMlzR5gnVD4usLMkqrGBzlRUY
+	 z0Uuo8P31zUT0P8ex0kx77ks7iaptx0XdmEl5Q5+ZkCAyfDYtxhQ+e2C9TB20a6xgi
+	 Ne+CZjjIA4kb1BmRpg5xt3i4Gxxy89Hz8zJAL9al3dJYAfKxEeZ4gPQ2doYRY4tvKa
+	 rOta6hba1HTNTvTFCJ7oo07uXUugCDSXsw+xeqoppauyu9gCTE2auBh9Bn6hp/HHGA
+	 5rGU5vfmviA+SEogi76EzmE6lqm7zTagUTG1EeqFrph+Q4vm5Izk0YCjwkaw212GzB
+	 0vm9BM0jVljIQ==
+From: Ian Cowan <ian@linux.cowan.aero>
+To: clabbe@baylibre.com
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	dan.carpenter@oracle.com,
+	mjpeg-users@lists.sourceforge.net,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	ian@linux.cowan.aero
+Subject: [PATCH 2/4] staging: media: zoran: setup videocodec header for zrdev_dbg macros
+Date: Sat, 23 Apr 2022 01:18:03 -0400
+Message-Id: <20220423051803.292908-1-ian@linux.cowan.aero>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,69 +81,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop unnecessary wrapper _rtw_dequeue_cmd and move its logic to
-rtw_dequeue_cmd.
+This adds inline functions in the videocodec header file to convert the
+videocodec and videocodec_master structs to their respective contained
+zoran struct. This will be used to pass the zoran struct to the
+zrdev_dbg() macros defined in the zoran header.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Vihas Makwana <makvihas@gmail.com>
+In the zoran header, the new include is added to ensure all variables
+can be completely defined with the zoran and videocodec includes where
+they are located.
+
+Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c | 34 ++++++++++----------------
- 1 file changed, 13 insertions(+), 21 deletions(-)
+ drivers/staging/media/zoran/videocodec.h | 15 +++++++++++++++
+ drivers/staging/media/zoran/zoran.h      |  1 +
+ 2 files changed, 16 insertions(+)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index ab462eb40..06881a871 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -56,24 +56,6 @@ static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
- 	return _SUCCESS;
- }
+diff --git a/drivers/staging/media/zoran/videocodec.h b/drivers/staging/media/zoran/videocodec.h
+index 9dea348fee40..5e6057edd339 100644
+--- a/drivers/staging/media/zoran/videocodec.h
++++ b/drivers/staging/media/zoran/videocodec.h
+@@ -307,4 +307,19 @@ extern int videocodec_unregister(const struct videocodec *);
  
--static struct cmd_obj *_rtw_dequeue_cmd(struct __queue *queue)
--{
--	struct cmd_obj *obj;
--	unsigned long flags;
--
--	spin_lock_irqsave(&queue->lock, flags);
--	if (list_empty(&queue->queue)) {
--		obj = NULL;
--	} else {
--		obj = container_of((&queue->queue)->next, struct cmd_obj, list);
--		list_del_init(&obj->list);
--	}
--
--	spin_unlock_irqrestore(&queue->lock, flags);
--
--	return obj;
--}
--
- u32	rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
- {
- 	u32 res = _SUCCESS;
-@@ -180,11 +162,21 @@ u32 rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+ int videocodec_debugfs_show(struct seq_file *m);
  
- struct	cmd_obj	*rtw_dequeue_cmd(struct cmd_priv *pcmdpriv)
- {
--	struct cmd_obj *cmd_obj;
-+	struct cmd_obj *obj;
-+	struct __queue *queue = &pcmdpriv->cmd_queue;
-+	unsigned long flags;
++#include "zoran.h"
++static inline struct zoran *videocodec_master_to_zoran(struct videocodec_master *master)
++{
++	struct zoran *zr = master->data;
 +
-+	spin_lock_irqsave(&queue->lock, flags);
-+	if (list_empty(&queue->queue)) {
-+		obj = NULL;
-+	} else {
-+		obj = container_of((&queue->queue)->next, struct cmd_obj, list);
-+		list_del_init(&obj->list);
-+	}
++	return zr;
++}
++
++static inline struct zoran *videocodec_to_zoran(struct videocodec *codec)
++{
++	struct videocodec_master *master = codec->master_data;
++
++	return videocodec_master_to_zoran(master);
++}
++
+ #endif				/*ifndef __LINUX_VIDEOCODEC_H */
+diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
+index 42b86356c022..674658154e88 100644
+--- a/drivers/staging/media/zoran/zoran.h
++++ b/drivers/staging/media/zoran/zoran.h
+@@ -20,6 +20,7 @@
  
--	cmd_obj = _rtw_dequeue_cmd(&pcmdpriv->cmd_queue);
-+	spin_unlock_irqrestore(&queue->lock, flags);
- 
--	return cmd_obj;
-+	return obj;
- }
- 
- void rtw_free_cmd_obj(struct cmd_obj *pcmd)
+ #include <linux/debugfs.h>
+ #include <linux/dev_printk.h>
++#include <linux/i2c-algo-bit.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/videobuf2-core.h>
 -- 
-2.30.2
+2.35.1
 
