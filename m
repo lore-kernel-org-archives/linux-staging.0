@@ -1,82 +1,55 @@
-Received: from dog.elm.relay.mailchannels.net (dog.elm.relay.mailchannels.net [23.83.212.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F5E7A;
-	Sat, 23 Apr 2022 18:01:27 +0000 (UTC)
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id D8D5D4C1393;
-	Sat, 23 Apr 2022 18:01:20 +0000 (UTC)
-Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id E5C7D4C1946;
-	Sat, 23 Apr 2022 18:01:19 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650736880; a=rsa-sha256;
-	cv=none;
-	b=2Vn3Fv5LQvJatxPAsAUmGnexYL1e90YCHTdRYna/QttD7ELNsKKoTkkx1Sz+MLCqZzm7JL
-	ggmSvJytl1CDAQ3ndJbVDlUwfxyiRnBBH/6PB6njICpwEsvD/q0Upk2s0RdxtgBQDjdceG
-	+yTU2TJNCe79aed12fpQfe4yeqzrGV7nvZq9gAcL5pLDRRKhj7OmRTUe3QYVlh8/MB3x5N
-	HtpILjvmG17vfW+q9ON8hmp/OLclHmX3hHyO2DOnpE+5Qq6lPB3DeAxLKXpEfdTUHxvtgq
-	NL8jeuYWhO//9Mj7joNje0J5J8vnPb2XHNQfXsjkWE8wj9O4lw6oJijb3bz6zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1650736880;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
-	bh=KROeqUDGOquU8fmdmA9JdIiToKeZSZx+X3UvjGo7Oe4=;
-	b=zCKlGEJVZwBDfwiegd5lZ+8TSBqBxSTSBMj3jGtoosNvOcN76HBs8j0DuV1SJjpcNGzVj0
-	yFYzVadYGmJqdKvxj7ZiM/d09mmpBvGCvjN0bOa8c7/HrYmMcmpNkSZibk+iKTg/hyZ8g3
-	jvFvLriwlS8BPQj1x3JQIzVfyIUQJ1bODIl5oOJo4pzbGIXXHpHzQ8jsV9+GiopkaKZ6jT
-	Oi/F0IWJJDYLJKlOjoDybROapPt3nVsXD2oGCFsstZOaAWRt6DlK54qnLItsdc6hnx5Ox+
-	VIRVeduPYVvuWcnAokOJNHvnYoJkuLKf4d1salI1Q2Dk6Jj8MVEHxzpSgZHbbQ==
-ARC-Authentication-Results: i=1;
-	rspamd-67b64f579b-chnfp;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MailChannels-Auth-Id: dreamhost
-X-Stretch-Lettuce: 06d9101737a68436_1650736880630_4253762475
-X-MC-Loop-Signature: 1650736880630:2496170403
-X-MC-Ingress-Time: 1650736880629
-Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.107.255.136 (trex/6.7.1);
-	Sat, 23 Apr 2022 18:01:20 +0000
-Received: from localhost.localdomain (unknown [69.12.38.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ian@linux.cowan.aero)
-	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4Klzby4Xmmz2g;
-	Sat, 23 Apr 2022 11:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
-	s=dreamhost; t=1650736879;
-	bh=KROeqUDGOquU8fmdmA9JdIiToKeZSZx+X3UvjGo7Oe4=;
-	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
-	b=Cc6tk2+gGqjEY00FnyCgRAA8RzjzMOIn0bczudgrJ1uTRLFK4i7g3XPO7e1ugbUNz
-	 MQqgPaA97C4x7SmlTCInBr1rou834doMyHFxfefhAX6aqvW04DplrclrvjP36dny+S
-	 AGve9Zk3hLzm2KWfRsb2I8CrRtwEitNP+byPwHVfkl7OFtOcI5No+fI7eX42obYZic
-	 0X9zvSCTvY2RGmwxEbtadffrad1sL+6KNdyoReekPo3khrfujV+l5pzMwmwOkZCYQB
-	 i/TjLelD9vgqsRQ6RF6qqcRf+w+sgH4k1DO7PrFWVKgG5UnNvp17BZQRSSM3zCKC0S
-	 BFQL31UtldOZQ==
-From: Ian Cowan <ian@linux.cowan.aero>
-To: mripard@kernel.org
-Cc: paul.kocialkowski@bootlin.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	ian@linux.cowan.aero
-Subject: [PATCH] staging: sunxi: cedrus: centralize cedrus_open exit
-Date: Sat, 23 Apr 2022 14:01:11 -0400
-Message-Id: <20220423180111.91602-1-ian@linux.cowan.aero>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55833201
+	for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 18:48:44 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id y14so10287607pfe.10
+        for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 11:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UUb+ppLFoogYwaTmCBdznH5CdpGbI76fYVRaRMz3mZY=;
+        b=LqTp+ahzDUi8OG8Tezrr0Q3SfgqNt7jmuPYJhWCTvWArypx7loPGZE8E77ri8gcwMc
+         6NSMN/Wr8C4LWJOqzcS0vbQHe6TXARhDo3QN1zMNiapcl62aFdeF7Wwuo19uoeSqJjoD
+         kQD0z6BIEyitPcu+mgCh0704ol93oXQB1f0XUqhAYaC6LO+SeW4Eg3hWeq3lUaWd9j61
+         2g3U4fh5XHV3fWgQaEUdWIRDf4fNxEuYOzJQi9TQydTX4QqjMIWe83wNP4LJQrtrL5C3
+         1humejQSw7/42jtOc+uUgQ1P9/G59M320ElSp0cdeJWQlXRxXLxElMMHNUAU6e1usr+b
+         pwfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UUb+ppLFoogYwaTmCBdznH5CdpGbI76fYVRaRMz3mZY=;
+        b=Zm8XBPuRk9oY49pl24j34HZi+VuTilHeJTiYlbR4sv4un/apewvFZ45sTx1quN46uA
+         1cwtiKIb4g8/XcZmL3jcG5YTv6+mKhJ9VUtP5uUZzjaCiWSlWJcGEcKojvWMmOu0Rgj8
+         pSBT9WV/vVu4LiVTnUBwJp0cGRHspDYMhETXRdte+Zd2HDx5DPxogOHaOEB7t4lnmsoL
+         HQl4yTCvcBaYduiha/0Z0ylZa5bTfHmb/uhgI22mlaN7VXzCdFIODWytuoj5i8spaCQB
+         +Wwbg1sFNH/9OS3ixCFdVpqiUvITxb8d35Rudg4ZEAfXlq1G63I8oPhxoBNTNmaKem+G
+         lXGg==
+X-Gm-Message-State: AOAM530NlnMZnT+qfoPUK7ioiedcEc8K3kiV8md1646TQfmP/Yk+xqhH
+	QHLrVm0jp5qOVgtm+DBduTZWH/97kpFHbg==
+X-Google-Smtp-Source: ABdhPJwqDzYgIhXoXKNro0nwo9XbCmjvIts0kZXsSLVI6Kcteoyp0FInfGeAHPBDV1Fi5EG4u0z5xw==
+X-Received: by 2002:a63:4a09:0:b0:382:597:3d0d with SMTP id x9-20020a634a09000000b0038205973d0dmr8783928pga.18.1650739724308;
+        Sat, 23 Apr 2022 11:48:44 -0700 (PDT)
+Received: from makvihas.localhost.com ([2405:201:202b:15:bc6e:cece:6009:3520])
+        by smtp.gmail.com with ESMTPSA id 124-20020a621982000000b0050a73577a37sm6529113pfz.45.2022.04.23.11.48.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Apr 2022 11:48:44 -0700 (PDT)
+From: Vihas Makwana <makvihas@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Vihas Makwana <makvihas@gmail.com>
+Subject: [PATCH] staging: r8188eu: fix a potential NULL pointer dereference
+Date: Sun, 24 Apr 2022 00:17:48 +0530
+Message-Id: <20220423184745.21134-1-makvihas@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -85,37 +58,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor the cedrus_open() function so that there is only one exit to
-the function instead of 2. This prevents a future change from preventing
-the mutex from being unlocked after a successful exit.
+recvframe_chk_defrag() performs a NULL check on psta, but if that check
+fails then it dereferences it, which it shouldn't do as psta is NULL.
 
-Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+Set pdefrag_q to NULL if above check fails and let the code after it handle
+that case.
+
+Fixes: 1cc18a22b96b ("staging: r8188eu: Add files for new driver - part 5")
+Signed-off-by: Vihas Makwana <makvihas@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/r8188eu/core/rtw_recv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 68b3dcdb5df3..5236d9e4f4e8 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -348,14 +348,14 @@ static int cedrus_open(struct file *file)
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index c1005ddaa..db54bceff 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -1244,7 +1244,7 @@ struct recv_frame *recvframe_chk_defrag(struct adapter *padapter, struct recv_fr
+ 			pdefrag_q = NULL;
+ 		}
+ 	} else {
+-		pdefrag_q = &psta->sta_recvpriv.defrag_q;
++		pdefrag_q = NULL;
+ 	}
  
- 	v4l2_fh_add(&ctx->fh);
- 
--	mutex_unlock(&dev->dev_mutex);
--
--	return 0;
-+	ret = 0;
-+	goto succ_unlock;
- 
- err_ctrls:
- 	v4l2_ctrl_handler_free(&ctx->hdl);
- err_free:
- 	kfree(ctx);
-+succ_unlock:
- 	mutex_unlock(&dev->dev_mutex);
- 
- 	return ret;
+ 	if ((ismfrag == 0) && (fragnum == 0))
 -- 
-2.35.1
+2.30.2
 
