@@ -1,79 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from cross.elm.relay.mailchannels.net (cross.elm.relay.mailchannels.net [23.83.212.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999E17A
-	for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 05:51:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D009C385A5;
-	Sat, 23 Apr 2022 05:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650693092;
-	bh=5TfSzoM0+C34kFA270DcwrDwiICarNl9PErqjvsvgTo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U89bcblhhca3nsvoaUke0u7d+3p0CiHD/UB3cZssf5WCzDou/ql9fPVJa83D0hFoD
-	 qu/IfndpWM8t7fcUzTlixos3bHPGKS4xEdiX2CkhIbCEoup8prGtUy7K43D5Pyaq5U
-	 wy0E5VQEV2yFpmX8GkqTJTmnKhRZ4nfH06s45e6A=
-Date: Sat, 23 Apr 2022 07:51:27 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ian Cowan <ian@linux.cowan.aero>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, clabbe@baylibre.com,
-	mchehab@kernel.org, mjpeg-users@lists.sourceforge.net,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: staging: zoran: refactor printk debugging function
-Message-ID: <YmOT357wfr3/DqzD@kroah.com>
-References: <20220421002316.873109-1-ian@linux.cowan.aero>
- <20220421142153.GA2462@kadam>
- <YmF2mM+Lqv/HOgFl@fedora>
- <20220421155203.GB2462@kadam>
- <YmH3IZhUrvEzZlZU@fedora>
- <YmI4yh88pYVvVE/X@kroah.com>
- <YmONU1yZ9FATroR9@fedora>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E99B7A
+	for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 05:53:42 +0000 (UTC)
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id F0F1B80161E;
+	Sat, 23 Apr 2022 05:17:57 +0000 (UTC)
+Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 67C9B8014FB;
+	Sat, 23 Apr 2022 05:17:57 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650691077; a=rsa-sha256;
+	cv=none;
+	b=XWY/q9enU7eu2PjU2cTX22W3WeHCxFHD3KkGZov9CLDcKZh4KO4VWqVv+rVD1CuRZf2NrP
+	fx2+xcz0jNP9DeavIe0kt1WdswW0SCuxv73VKBlKbBh/r7WXU7LJDJ6qqf3agJVmHn7p0K
+	UBSchDxfxEQWmQ4iRR5JMYKMBrPGw8AxHOdjioK43pMywHbUAMN/VQYdsIPmpWEgCLGcuj
+	9OsoRbuLeEwf9MeLYyHqTP++vTB4n0HfFgSlm8xlYoxTCLsgtrAUFX3vmipaxOMWyAevND
+	Y+wuzKXF1eA0qMkkNosabnXfGr48tTyvgeb7ed0leNgaXxOpNm7HW12VSdTaEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1650691077;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=O2YpLxCZX0gFzvrzeHxWNDZ4KHtQ9BZwLgJu+fxKaVc=;
+	b=7D4D08XKd+rTDsamAse+Xp5jYH5/qUzR/HELEvVE9V+yQzWgRYt3sSAlUEG3Ivcnu0A5z1
+	iIcsMWk7SjLWh7rbHGqJZdq1+JuLgYEoduaWXgXn+6nv543hfjc3MnX9HbLwSEFLkgM6hJ
+	wD2w7Y/JE1bBChrtBA33wZllem6hG1Hx1nBEYRoOVVr10kpva44LIL4gkDT7yfFbN6TtF3
+	gcEp4ExWhrMMVN6ebJYS95vQF0DoINIOh5x/3QmtBZk6ywKWvX384UZ+vxIRZZ9N2P/zZW
+	0GF2o+zGhdWupFZQdiz6D741uGxpIftRPAze/+nm43XvOPX846S4qdRCoV+k8Q==
+ARC-Authentication-Results: i=1;
+	rspamd-67b64f579b-chnfp;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Abiding-Tasty: 578c31796007b5b1_1650691077720_3305558993
+X-MC-Loop-Signature: 1650691077720:1014664239
+X-MC-Ingress-Time: 1650691077719
+Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.120.38.149 (trex/6.7.1);
+	Sat, 23 Apr 2022 05:17:57 +0000
+Received: from localhost.localdomain (unknown [69.12.38.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4Klfg82dGGz1L0;
+	Fri, 22 Apr 2022 22:17:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1650691077;
+	bh=O2YpLxCZX0gFzvrzeHxWNDZ4KHtQ9BZwLgJu+fxKaVc=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=XaBXrL0qtIETBlBIGnO4x+jXFn86bKpPQLwQL77nz+jc6k/p4JwNhjMFuV5U2EOPb
+	 nIUPQirbj036iCguQ2kwOuaNz4fTzi9GY5z4Xg8WKdQf9dLhqTOHdhFCsQN4zAxLT9
+	 M8ChCdtrXpGA5XSf5YgolpoE19MZiu7AedamotG8885kO8h3qxdPiTddPP83gh5nXr
+	 yVAnmgNeXjKmAq9VPqqLA9kxODVT83OUqI73dKeIPprK2SRc2euUiYxYgjZ4U46Jll
+	 PMjPBasFv7NQlUEg7Q60DCgkuhghSkfQXyYlNAWQEoscUB1bweWMm50e/NQ/xNsD4R
+	 VopJtLlKqsfBQ==
+From: Ian Cowan <ian@linux.cowan.aero>
+To: clabbe@baylibre.com
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	dan.carpenter@oracle.com,
+	mjpeg-users@lists.sourceforge.net,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	ian@linux.cowan.aero
+Subject: [PATCH 1/4] staging: media: zoran: add zrdev_dbg() macros
+Date: Sat, 23 Apr 2022 01:17:45 -0400
+Message-Id: <20220423051745.292683-1-ian@linux.cowan.aero>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YmONU1yZ9FATroR9@fedora>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Apr 23, 2022 at 01:23:31AM -0400, Ian Cowan wrote:
-> On Fri, Apr 22, 2022 at 07:10:34AM +0200, Greg KH wrote:
-> > On Thu, Apr 21, 2022 at 08:30:25PM -0400, Ian Cowan wrote:
-> > > On Thu, Apr 21, 2022 at 06:52:04PM +0300, Dan Carpenter wrote:
-> > > > On Thu, Apr 21, 2022 at 11:22:00AM -0400, Ian Cowan wrote:
-> > > > > 
-> > > > > For using the dev_dbg() macro, do you define this in the header file
-> > > > > (i.e. for this it would be videocodec.h), or where should this be
-> > > > > included from?
-> > > > 
-> > > > dev_dbg() is defined in include/linux/dev_printk.h.  Look around at how
-> > > > it's used.  pr_debug() might be an option, but I don't know if we will
-> > > > accept that, we prefer dev_dbg().
-> > > > 
-> > > > regards,
-> > > > dan carpenter
-> > > > 
-> > > 
-> > > I'm about to submit the modified patch, but I went and looked and we
-> > > cannot use dev_dbg() because these specific drivers do not have any
-> > > association with a device struct.
-> > 
-> > Then please fix that issue, as there is a real struct device that they
-> > are using somewhere.  That is the correct solution as drivers should
-> > never use pr_* calls directly.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
-> 
-> I just resubmitted and this time used dev_dbg() (I split the resubmitted
-> patch into 4 parts that will work if they are applied in order). There
-> were a few places that pr_debug() had to be used (or it can be changed
-> back to dprintk()) because they are cleanup functions and do not have
-> any devices available at the cleanup. If there is a better way to handle
-> that, I will go back and make a modification to that. Other than those 3
-> spots, dev_dbg() is being used.
+This adds the zrdev_dbg() (pointing to dev_dbg()), zrdev_err() (pointing
+to dev_err()), and zrdev_info() (pointing to dev_info()) macros to the
+zoran drivers. These are the preferred method for debugging and this
+will allow to extract the device from the zoran struct to make the call.
 
-Looks good, nice work!
+Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+---
+ drivers/staging/media/zoran/zoran.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
+index 654c95fa5aba..42b86356c022 100644
+--- a/drivers/staging/media/zoran/zoran.h
++++ b/drivers/staging/media/zoran/zoran.h
+@@ -19,6 +19,7 @@
+ #define _BUZ_H_
+ 
+ #include <linux/debugfs.h>
++#include <linux/dev_printk.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/videobuf2-core.h>
+@@ -301,6 +302,18 @@ static inline struct zoran *to_zoran(struct v4l2_device *v4l2_dev)
+ 
+ #endif
+ 
++/**
++ * Debugging macros
++ */
++#define zrdev_dbg(zr, format, args...) \
++	dev_dbg(&zr->video_dev->dev, format, ##args) \
++
++#define zrdev_err(zr, format, args...) \
++	dev_err(&zr->video_dev->dev, format, ##args) \
++
++#define zrdev_info(zr, format, args...) \
++	dev_info(&zr->video_dev->dev, format, ##args) \
++
+ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir);
+ void zoran_queue_exit(struct zoran *zr);
+ int zr_set_buf(struct zoran *zr);
+-- 
+2.35.1
+
