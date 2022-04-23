@@ -1,49 +1,49 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9A87C
-	for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 13:02:19 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id x80so10534469pfc.1
-        for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 06:02:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B936F7C
+	for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 13:02:21 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id h5so9534526pgc.7
+        for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 06:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+3gUIKqgjIoqwfyRdl1gl0gu9sfmeEdgyuQbdCNe5BA=;
-        b=LN46w5S3b44hmyqlW8bleygWumr9HpM35L/IWvTsW2aVpra7CrkWWp7so/GivC7wS4
-         K9iUcT4o8T+bZXihS+zOeHAmcmoTBKE0otsLwcElfTrewYuDDKDbNBRwLoutCrt/de0W
-         8We+i7z52FruY7VU3uCd5NXYM5sa2Qx4H+VCEDgkyMOfHOGoL4Ym1IbuNDbt0CuXOB2X
-         DtlVR+fgZWKYWiNjmYrIECen7dFpfqG8zAEGwlktMSZP3W3WEVVKwMTOd1zlxK76TUzf
-         S/xfImg2o2KaLtfuNhtAw8GjMahPILScWywueuVqyvYpbWABvLcZpNTYrnD1Cxt6NSVB
-         L8OA==
+        bh=idFLEuhhRBrIFoG+4fgFrk263hwBaKFKAvkJX1uSpV4=;
+        b=CLTrwpUjDt+EKT+A/MFKftljZ9OzVlZE2pp2sby4IndormmslmJ5PLAJN0UOFDtsEM
+         Npa1g78QMW3mZXiJPRcPffpGQ0b0kutjXFtRLwM1+aDJzN8IY0EcFeRHrm733GGxL9Lh
+         /JrljX9pSLx0N6TYE9pvD64LrOH+nTRea4kah5f0wuBJ9yk5+sDmfGXOVW5ZVNrEtiBA
+         icbEtpH+QSgeiUzPFdJz8WCXTGTsZ2dF9Q2jLqoSt5f7QmCtYfTVCRxz8UwVoVLtaSGi
+         xYempN0Y0tFejWmxD69oF0aKJMcT8M0Bak9JPyLLr/xPiLPaFrQe2kIJz+rAaql98T+7
+         ztAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+3gUIKqgjIoqwfyRdl1gl0gu9sfmeEdgyuQbdCNe5BA=;
-        b=psHO5trhOetVeiGoztyJ8tQzuW4OoXDpumT49Gev13xA8ftJWLhzrC2JRBnF+fnNJZ
-         R5zZMwfawOUI8LDnXncgX2uQTbVEUOwonPVG+5ZoSDHqLTb9jRPrjd4iQrVAxtxq1JVY
-         OBVq7t+Sb2lcxv+my50EeIO5FfyaWufXrAEHPlUJyeQcz1M+H4yjJ9IsZJlhLfzp62Nw
-         XskWlC4FGZ1tKg6RbDw9s1c8ULHUk5HXrvvmm2JdyMX8s6jH4/nEw1i8ulmlfqOtwICN
-         9w2KRllHqe/orx6ia+Evf6l82BE3AWTzTUyEDr7VFrjAyKqZHenmwoM2mQ2WowOjbSLI
-         tlgA==
-X-Gm-Message-State: AOAM533mUSCQJnCR37LYwh8/Xs7n4ZrUfz5N2ZOHE+q9PbMx3waOQxqS
-	vkUfN8TlxQ4HV8qJl68roIs=
-X-Google-Smtp-Source: ABdhPJzLZyrXSGRaOPPlqezEIm/raJzvDqC2gZAi8gNTlVurCBybd2ZOdD+ntz/RHhOcwoeeuMs3Tw==
-X-Received: by 2002:a05:6a00:2186:b0:4f7:5544:1cc9 with SMTP id h6-20020a056a00218600b004f755441cc9mr9719631pfi.62.1650718937763;
-        Sat, 23 Apr 2022 06:02:17 -0700 (PDT)
+        bh=idFLEuhhRBrIFoG+4fgFrk263hwBaKFKAvkJX1uSpV4=;
+        b=dxIrPuOAaD8fpP6eNr9NbxZ9fvaozoE0y0KZzMna1NHUIv0Fnum6gavRnIiI6wS6Mo
+         gavO9mX54Gra+eRRUGrIkHqEKk4rs8ZDrDmAeAIwCYLDZQb/ivBvZyLhCpllXykJp7UK
+         rw5YRiwXHeMczZ1VWPwZCJ0IfONv8+iZ1bT6knZJUybyHgpKWLK3rBZyNWYdzstt8r8N
+         yXLyIa09x1VdbphM443OfyxA7zddnIY2hoVW1Q9OHIU48z3O3JUF3JLayhfqfOCWmIWc
+         4CiBlRPmg6+X2EPbC0250L0qi3zYBCR7mNeRK8rpy+DMpisKxDdJQTkCp9BUyDmvf7Yp
+         FOMA==
+X-Gm-Message-State: AOAM533W2TY4FsLm0kXXTVDD03hm1Lb7PnO6Sdf6VdjkPr86Lrrxws93
+	I+9LUZcPWQM/R9PCZuWlUMk=
+X-Google-Smtp-Source: ABdhPJwTT7gagDiYTgzLspQB+d5xn7GjsnscQCajwVcnKJALZvPy3m2pmp1QV5tQ7VYSXk31mXQYFQ==
+X-Received: by 2002:a05:6a00:a0e:b0:4fd:fa6e:95fc with SMTP id p14-20020a056a000a0e00b004fdfa6e95fcmr10043915pfh.17.1650718941187;
+        Sat, 23 Apr 2022 06:02:21 -0700 (PDT)
 Received: from localhost.localdomain ([14.100.36.163])
-        by smtp.gmail.com with ESMTPSA id c139-20020a624e91000000b005060cdff4ffsm5808994pfb.129.2022.04.23.06.02.16
+        by smtp.gmail.com with ESMTPSA id c139-20020a624e91000000b005060cdff4ffsm5808994pfb.129.2022.04.23.06.02.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Apr 2022 06:02:17 -0700 (PDT)
+        Sat, 23 Apr 2022 06:02:20 -0700 (PDT)
 From: Solomon Tan <wjsota@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	dan.carpenter@oracle.com
-Subject: [PATCH 3/7] staging: rtl8192e: Remove unnecessary u8 cast in comparison
-Date: Sat, 23 Apr 2022 21:01:46 +0800
-Message-Id: <20220423130150.161903-4-wjsota@gmail.com>
+Subject: [PATCH 4/7] staging: rtl8192e: Remove unnecessary u16 assignment cast
+Date: Sat, 23 Apr 2022 21:01:47 +0800
+Message-Id: <20220423130150.161903-5-wjsota@gmail.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220423130150.161903-1-wjsota@gmail.com>
 References: <20220423130150.161903-1-wjsota@gmail.com>
@@ -55,42 +55,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since the macro VERSION_8190_BD is defined to be 0x3, and the structure
-members card_8192_version and IC_Cut are both u8, an explicit u8 cast is
+Remove the explicit casts in assignment statements for u16 variables.
+Because these variables are declared as u16, there is implicit
+conversion to u16 during the assignment, so an explicit cast is
 unnecessary.
 
 Signed-off-by: Solomon Tan <wjsota@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
- drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c | 2 +-
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c    | 5 ++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c
+index c5e44bbe997c..cd8bbc358d01 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_cmdpkt.c
+@@ -58,7 +58,7 @@ bool rtl92e_send_cmd_pkt(struct net_device *dev, u32 type, const void *data,
+ 			memset(pTxFwInfo, 0, sizeof(struct tx_fwinfo_8190pci));
+ 			memset(pTxFwInfo, 0x12, 8);
+ 		} else {
+-			tcb_desc->txbuf_size = (u16)frag_length;
++			tcb_desc->txbuf_size = frag_length;
+ 		}
+ 
+ 		seg_ptr = skb_put(skb, frag_length);
 diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index 4fe806eae5b7..b608540c036c 100644
+index b608540c036c..feddb15bccbe 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -811,7 +811,7 @@ bool rtl92e_start_adapter(struct net_device *dev)
+@@ -1225,7 +1225,7 @@ void  rtl92e_fill_tx_desc(struct net_device *dev, struct tx_desc *pdesc,
+ 	pdesc->LINIP = 0;
+ 	pdesc->CmdInit = 1;
+ 	pdesc->Offset = sizeof(struct tx_fwinfo_8190pci) + 8;
+-	pdesc->PktSize = (u16)skb->len-sizeof(struct tx_fwinfo_8190pci);
++	pdesc->PktSize = skb->len - sizeof(struct tx_fwinfo_8190pci);
  
- 	rtl92e_config_mac(dev);
+ 	pdesc->SecCAMID = 0;
+ 	pdesc->RATid = cb_desc->RATRIndex;
+@@ -1298,8 +1298,7 @@ void  rtl92e_fill_tx_cmd_desc(struct net_device *dev, struct tx_desc_cmd *entry,
  
--	if (priv->card_8192_version > (u8)VERSION_8190_BD) {
-+	if (priv->card_8192_version > VERSION_8190_BD) {
- 		rtl92e_get_tx_power(dev);
- 		rtl92e_set_tx_power(dev, priv->chan);
- 	}
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-index 1b70c12be365..b7bdbd895e7b 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_phy.c
-@@ -919,7 +919,7 @@ static u8 _rtl92e_phy_switch_channel_step(struct net_device *dev, u8 channel,
- 				continue;
- 			switch (CurrentCmd->CmdID) {
- 			case CmdID_SetTxPowerLevel:
--				if (priv->IC_Cut > (u8)VERSION_8190_BD)
-+				if (priv->IC_Cut > VERSION_8190_BD)
- 					_rtl92e_set_tx_power_level(dev,
- 								   channel);
- 				break;
+ 		entry_tmp->CmdInit = DESC_PACKET_TYPE_NORMAL;
+ 		entry_tmp->Offset = sizeof(struct tx_fwinfo_8190pci) + 8;
+-		entry_tmp->PktSize = (u16)(cb_desc->pkt_size +
+-				      entry_tmp->Offset);
++		entry_tmp->PktSize = cb_desc->pkt_size + entry_tmp->Offset;
+ 		entry_tmp->QueueSelect = QSLT_CMD;
+ 		entry_tmp->TxFWInfoSize = 0x08;
+ 		entry_tmp->RATid = DESC_PACKET_TYPE_INIT;
 -- 
 2.36.0
 
