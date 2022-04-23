@@ -1,52 +1,82 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dog.elm.relay.mailchannels.net (dog.elm.relay.mailchannels.net [23.83.212.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F497C
-	for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 13:02:30 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id k4so5175696plk.7
-        for <linux-staging@lists.linux.dev>; Sat, 23 Apr 2022 06:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=p8rAqTMQ2XWjal/ekmPzbpXL4sv2yzkmbXk/WYInG0Q=;
-        b=J6Aeym90Qy7VvagYHJbWEoIg+d2WadfzFnKyUGz0cxZRSxhvpDAkZjUZ7Tz0RdjTe+
-         V2gHk2sQmmEJJc6KSe7SXmlQ5yjByo+Ts95qXsXhYzFwvBt4L/vPOdjb5LVKnLmcfK5x
-         HcfNqM+4BTydL8FplyHJQfRopqpOr8xicBNxYtC/V3YBnrBA9zBDKPw3EDY8ePH2CJlP
-         JFyZ3SNEJH338tHvdh21LKXbLDAim5DyDlcO8upRXgOiJa9wwhXLx8yy/5T9IbQFfoC7
-         nyE+L/9mAm8uodApvvqHxti+ZLS3wXdXJEWp8sSCJlqVINKpYgI8fTvMFRNZCU2ftZVc
-         m2cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=p8rAqTMQ2XWjal/ekmPzbpXL4sv2yzkmbXk/WYInG0Q=;
-        b=RsEJET7oggQMzj2Us/6OxXQvxzn32R1aq1U9rlk2wGj7kY9s/T3NY5v/oeGz1OOi2d
-         1EmP1Cfr8bad7AVawViDQdz2lU9bH4nXX65l3c8Ih17kCL/z1mQQeANoDMzn+3iw5A0e
-         jpKSuBQKjLjXZul3fSYTPukRGx3Aa5kqLj+52Jn4oAoajSrQmsWFIVJuWxwaFCLFGAWD
-         CKyEfGPEY8iMNUseiR1qfRbt3rzQWV29pJqhoS9nsw8wJ4HgS5SLMpptvllIM7sDZdF1
-         XQihhHxNyuS4BneoC81yygWN0U6NrxN2nnRVZU7yY5c6yqOw0WcdRkbiphQ/TLsl+21o
-         cRvw==
-X-Gm-Message-State: AOAM533a2C8c3Kd+pIJgy4TMIdMvfWgnno1c8TXaf/oUp4sHKNmK694U
-	1wNcM56UYwci/gHwX6XBOmY=
-X-Google-Smtp-Source: ABdhPJwAIIyfCLGQZTmPZl143X0zqHT/wc9wmMavCCX3LYvhAQteaMrULWE7fGph3+AgK9ezAIRCdA==
-X-Received: by 2002:a17:90b:3c51:b0:1d6:aabd:6a3b with SMTP id pm17-20020a17090b3c5100b001d6aabd6a3bmr10729005pjb.241.1650718950431;
-        Sat, 23 Apr 2022 06:02:30 -0700 (PDT)
-Received: from localhost.localdomain ([14.100.36.163])
-        by smtp.gmail.com with ESMTPSA id c139-20020a624e91000000b005060cdff4ffsm5808994pfb.129.2022.04.23.06.02.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Apr 2022 06:02:30 -0700 (PDT)
-From: Solomon Tan <wjsota@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	dan.carpenter@oracle.com
-Subject: [PATCH 7/7] staging: rtl8192e: Remove u16 cast for u16 return value
-Date: Sat, 23 Apr 2022 21:01:50 +0800
-Message-Id: <20220423130150.161903-8-wjsota@gmail.com>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220423130150.161903-1-wjsota@gmail.com>
-References: <20220423130150.161903-1-wjsota@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F5E7A;
+	Sat, 23 Apr 2022 18:01:27 +0000 (UTC)
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id D8D5D4C1393;
+	Sat, 23 Apr 2022 18:01:20 +0000 (UTC)
+Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id E5C7D4C1946;
+	Sat, 23 Apr 2022 18:01:19 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650736880; a=rsa-sha256;
+	cv=none;
+	b=2Vn3Fv5LQvJatxPAsAUmGnexYL1e90YCHTdRYna/QttD7ELNsKKoTkkx1Sz+MLCqZzm7JL
+	ggmSvJytl1CDAQ3ndJbVDlUwfxyiRnBBH/6PB6njICpwEsvD/q0Upk2s0RdxtgBQDjdceG
+	+yTU2TJNCe79aed12fpQfe4yeqzrGV7nvZq9gAcL5pLDRRKhj7OmRTUe3QYVlh8/MB3x5N
+	HtpILjvmG17vfW+q9ON8hmp/OLclHmX3hHyO2DOnpE+5Qq6lPB3DeAxLKXpEfdTUHxvtgq
+	NL8jeuYWhO//9Mj7joNje0J5J8vnPb2XHNQfXsjkWE8wj9O4lw6oJijb3bz6zA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1650736880;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=KROeqUDGOquU8fmdmA9JdIiToKeZSZx+X3UvjGo7Oe4=;
+	b=zCKlGEJVZwBDfwiegd5lZ+8TSBqBxSTSBMj3jGtoosNvOcN76HBs8j0DuV1SJjpcNGzVj0
+	yFYzVadYGmJqdKvxj7ZiM/d09mmpBvGCvjN0bOa8c7/HrYmMcmpNkSZibk+iKTg/hyZ8g3
+	jvFvLriwlS8BPQj1x3JQIzVfyIUQJ1bODIl5oOJo4pzbGIXXHpHzQ8jsV9+GiopkaKZ6jT
+	Oi/F0IWJJDYLJKlOjoDybROapPt3nVsXD2oGCFsstZOaAWRt6DlK54qnLItsdc6hnx5Ox+
+	VIRVeduPYVvuWcnAokOJNHvnYoJkuLKf4d1salI1Q2Dk6Jj8MVEHxzpSgZHbbQ==
+ARC-Authentication-Results: i=1;
+	rspamd-67b64f579b-chnfp;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Stretch-Lettuce: 06d9101737a68436_1650736880630_4253762475
+X-MC-Loop-Signature: 1650736880630:2496170403
+X-MC-Ingress-Time: 1650736880629
+Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.107.255.136 (trex/6.7.1);
+	Sat, 23 Apr 2022 18:01:20 +0000
+Received: from localhost.localdomain (unknown [69.12.38.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4Klzby4Xmmz2g;
+	Sat, 23 Apr 2022 11:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1650736879;
+	bh=KROeqUDGOquU8fmdmA9JdIiToKeZSZx+X3UvjGo7Oe4=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=Cc6tk2+gGqjEY00FnyCgRAA8RzjzMOIn0bczudgrJ1uTRLFK4i7g3XPO7e1ugbUNz
+	 MQqgPaA97C4x7SmlTCInBr1rou834doMyHFxfefhAX6aqvW04DplrclrvjP36dny+S
+	 AGve9Zk3hLzm2KWfRsb2I8CrRtwEitNP+byPwHVfkl7OFtOcI5No+fI7eX42obYZic
+	 0X9zvSCTvY2RGmwxEbtadffrad1sL+6KNdyoReekPo3khrfujV+l5pzMwmwOkZCYQB
+	 i/TjLelD9vgqsRQ6RF6qqcRf+w+sgH4k1DO7PrFWVKgG5UnNvp17BZQRSSM3zCKC0S
+	 BFQL31UtldOZQ==
+From: Ian Cowan <ian@linux.cowan.aero>
+To: mripard@kernel.org
+Cc: paul.kocialkowski@bootlin.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	ian@linux.cowan.aero
+Subject: [PATCH] staging: sunxi: cedrus: centralize cedrus_open exit
+Date: Sat, 23 Apr 2022 14:01:11 -0400
+Message-Id: <20220423180111.91602-1-ian@linux.cowan.aero>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,28 +85,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove explicit u16 cast of the function Mk16 return value.
-The variable hi does not need to be casted explicitly to u16 as it will
-already be casted implicitly.
+Refactor the cedrus_open() function so that there is only one exit to
+the function instead of 2. This prevents a future change from preventing
+the mutex from being unlocked after a successful exit.
 
-Signed-off-by: Solomon Tan <wjsota@gmail.com>
+Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
 ---
- drivers/staging/rtl8192e/rtllib_crypt_tkip.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-index a305b79c53e7..8bc95651e384 100644
---- a/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-+++ b/drivers/staging/rtl8192e/rtllib_crypt_tkip.c
-@@ -136,7 +136,7 @@ static inline u16 Hi16(u32 val)
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 68b3dcdb5df3..5236d9e4f4e8 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -348,14 +348,14 @@ static int cedrus_open(struct file *file)
  
- static inline u16 Mk16(u8 hi, u8 lo)
- {
--	return lo | (((u16)hi) << 8);
-+	return lo | (hi << 8);
- }
+ 	v4l2_fh_add(&ctx->fh);
  
+-	mutex_unlock(&dev->dev_mutex);
+-
+-	return 0;
++	ret = 0;
++	goto succ_unlock;
  
+ err_ctrls:
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+ err_free:
+ 	kfree(ctx);
++succ_unlock:
+ 	mutex_unlock(&dev->dev_mutex);
+ 
+ 	return ret;
 -- 
-2.36.0
+2.35.1
 
