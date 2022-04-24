@@ -1,44 +1,44 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6C97C
-	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 18:53:12 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id l19so2804516ljb.7
-        for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 11:53:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C3D7C
+	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 19:00:14 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id 16so285309lju.13
+        for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 12:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=FC/8yLdSqiq2IyvCXByJ/UPgQYfMYiDtun4dRAazNxU=;
-        b=Q78roLaBQBx0gfXmK715idh3BO84YfUpV+y9xmJ5vf/qCZ6phRouk4OLl1ZVPxD/lc
-         i2eh2l3J5ZYsGpGFPJVPmWsurzpr540+spGY2f6ikvXipHnjkeMVTyD81Jd7Kg6T4KP7
-         g0W+nUb1rbm6HX1h/tlcI8aVwRf4lsMJzX8w5SA0B1w1nxf9pFK4AGSfHDGY0G5r4eqG
-         Noe8KRdZUjEXnEGIRwNFzjsVw+VwfHQwwirwkilemBQ716SMj6UFDeaxVB7NxbkbbHH1
-         2PekuhxRCBhDnAT84Z+97/q2YPpdHBn29KvVUBOUDQCLX6O/6LUs6537AvBtkuWJ6NuW
-         ZSqA==
+        bh=Ba1Aw9kjvnX8uBMGIJqvqtuzJCenFMSeGdyyYUkepxk=;
+        b=NFnMcysY/M74wUOTLWsJ3sFRyqsdUE+AYkgczwqIpA6rDA3a+wfKXXF+YsKp6AWVNt
+         jKC59xVvScndOiyOSQAqeq8AFPvwMod/EFfPZi6ZCg3L+JuGjbUM2Fu29yCzP5wDlWGH
+         K0nMWgoxo1T+1cldA5F2+qyOG8X1RIldYE9q0yGmPa0qyoRbqcoNZHLoIjQ7dWZXeGeD
+         D6U0pvddImO/Zwzm4YiDoyUh97jqszNsheMb/PJFNtBPBUGg6j8D7eyDj9cIwYVG+YFk
+         kH3y4L9dWxKPMOhcNYnVt3lindfG+TazDXNmfvHxgyYNG6yTifwbxPL6WYaL3x1XqIbN
+         2ItA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=FC/8yLdSqiq2IyvCXByJ/UPgQYfMYiDtun4dRAazNxU=;
-        b=FJ/Gi+aBZJgAzt08g0kEem8qQGS/NBdVN1GsiPB+Z9qmtShxCY88+TwmjiG5HIxP+x
-         QfKLFYDUvLdrBbUOV8P11HNXUNize+xkSgQFqOGDFPWFnk/goLd+dSx18DHIAlXOAxvi
-         tckZ6gYWSQRI9iL7xwgex1E7CJxeECGR0IytmylMBkfysYgwCTzXJUHcAKmn0Plk8Jc2
-         yvZwPt/o4FF1dEzD+uvydYG5VLmTv6V+X6K/FlfGrX2R9uMoBWL+ITdU+HKxiRSEJ003
-         QdXk8s68fmm2Gl0/ccTY2aCKf2qze9oojOZzvci4k64kipDrKrb+PjjbOJILuPmSGA+Y
-         YQBg==
-X-Gm-Message-State: AOAM532HlGTKMveEhpRGbt+0izy2jpDaf28Zk3XJeHu0PpMDZpues3SQ
-	/lClbGKtCz0u//rEaf46J/s=
-X-Google-Smtp-Source: ABdhPJybHN9XnQZfI3riHPEAJN67QQsQUACTyDDu6Fl0+w3A3H5LdF/DAlyKBRYxsi8w/Wmc31Ubfg==
-X-Received: by 2002:a05:651c:17a3:b0:245:f39e:f2d2 with SMTP id bn35-20020a05651c17a300b00245f39ef2d2mr9346694ljb.490.1650826390054;
-        Sun, 24 Apr 2022 11:53:10 -0700 (PDT)
+        bh=Ba1Aw9kjvnX8uBMGIJqvqtuzJCenFMSeGdyyYUkepxk=;
+        b=sBbi8OZROR62rxIKTf4l7KboD/+IPzSsh3JjSt0jDDpjt6RiG4Xrd2HuXqZVbpCu3s
+         TSOEsMVfsnPaumTJizzwdP8oq7ciJzzE0qDsoV+c0k7mE7NBdOTFCHKxTR80KHTbkMZD
+         ipapQe05cyegzOBxCsaimB9ygYS8X8lDlKEp1HK+jAaHcj2b9pwLskGbiJJQSzkuvXd4
+         VkX23S+DcIVzrD6avs9tJR+OXcdaFQes1Pcq82IYgQVmSTGph4hjLDbuEH0Uk0ynam3h
+         ZGB8UBSgD44AEQ9GKL8R4n8BrppwlzRIMWzUdoRwd/GoP3jSxOZZQ8b6IWltEXbaaJue
+         +AoA==
+X-Gm-Message-State: AOAM533buan6CudfqiN4bhJ2m96nHGQEW90VCXtxG7rW5PMcQHA26bPN
+	nZXCPyLfeeDWZ4iid9qW+dE=
+X-Google-Smtp-Source: ABdhPJzl1hVYcrCRpTkY9tsTwBZLAxRGlAQCUsllOHHecXAYYp9U31ke66oM5c4aKPk+1VzlO1zUmw==
+X-Received: by 2002:a2e:83c9:0:b0:24d:a95d:7b7a with SMTP id s9-20020a2e83c9000000b0024da95d7b7amr9100632ljh.254.1650826812966;
+        Sun, 24 Apr 2022 12:00:12 -0700 (PDT)
 Received: from [192.168.1.11] ([94.103.225.17])
-        by smtp.gmail.com with ESMTPSA id l26-20020a2e701a000000b0024f0d5fb1b0sm340283ljc.94.2022.04.24.11.53.08
+        by smtp.gmail.com with ESMTPSA id f9-20020ac24989000000b0046f5d523564sm1107014lfl.84.2022.04.24.12.00.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Apr 2022 11:53:09 -0700 (PDT)
-Message-ID: <85f946c9-235e-cc69-4d19-1ebf972cd935@gmail.com>
-Date: Sun, 24 Apr 2022 21:53:07 +0300
+        Sun, 24 Apr 2022 12:00:11 -0700 (PDT)
+Message-ID: <2e4fa41d-cd06-75e4-17ac-120127fe9b2a@gmail.com>
+Date: Sun, 24 Apr 2022 22:00:10 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,8 +47,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 2/3] staging: r8188eu: fix null check in
- _rtw_enqueue_recvframe
+Subject: Re: [PATCH 3/3] staging: r8188eu: fix null check in
+ _rtw_free_mlme_priv
 Content-Language: en-US
 To: Vihas Makwana <makvihas@gmail.com>,
  Larry Finger <Larry.Finger@lwfinger.net>,
@@ -58,49 +58,59 @@ To: Vihas Makwana <makvihas@gmail.com>,
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
  Dan Carpenter <dan.carpenter@oracle.com>
 References: <20220424163132.37007-1-makvihas@gmail.com>
- <20220424163132.37007-3-makvihas@gmail.com>
+ <20220424163132.37007-4-makvihas@gmail.com>
 From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20220424163132.37007-3-makvihas@gmail.com>
+In-Reply-To: <20220424163132.37007-4-makvihas@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi Vihas,
 
 On 4/24/22 19:31, Vihas Makwana wrote:
-> There's a NULL check on padapter in rtw_recv.c:189 which makes no sense as
-> rtw_recv.c:184 dereferences it unconditionally and it would have already
-> crashed at this point.
-> Fix this by moving the dereference line inside the check.
+> There's a NULL check on pmlmepriv in rtw_mlme.c:112 which makes no sense
+> as rtw_free_mlme_priv_ie_data() dereferences it unconditionally and it
+> would have already crashed at this point.
+> Fix this by moving rtw_free_mlme_priv_ie_data() inside the check.
 > 
 > Signed-off-by: Vihas Makwana <makvihas@gmail.com>
+
+That's good catch, but looks like the check is just redundant
+
+This function is called only from it's wrapper called 
+rtw_free_mlme_priv() and rtw_free_mlme_priv() is called from 2 places:
+
+4 drivers/staging/r8188eu/os_dep/os_intfs.c|531 col 2| 
+rtw_free_mlme_priv(&padapter->mlmepriv);
+5 drivers/staging/r8188eu/os_dep/os_intfs.c|579 col 2| 
+rtw_free_mlme_priv(&padapter->mlmepriv);
+
+_Very_ unlikely that `&padapter->mlmepriv` expression will become NULL.
+
+
 > ---
->   drivers/staging/r8188eu/core/rtw_recv.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   drivers/staging/r8188eu/core/rtw_mlme.c | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-> index 4cf9b4b8f..7d306a3c6 100644
-> --- a/drivers/staging/r8188eu/core/rtw_recv.c
-> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-> @@ -181,12 +181,13 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
->   int _rtw_enqueue_recvframe(struct recv_frame *precvframe, struct __queue *queue)
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+> index 081c02417..87c754462 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> @@ -109,12 +109,10 @@ void rtw_free_mlme_priv_ie_data(struct mlme_priv *pmlmepriv)
+>   
+>   void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
 >   {
->   	struct adapter *padapter = precvframe->adapter;
-> -	struct recv_priv *precvpriv = &padapter->recvpriv;
-> +	struct recv_priv *precvpriv;
-
-Actually, `&padapter->recvpriv` is not a de-reference, it's just address 
-calculation, so in case of padapder being NULL precvpriv will contain 
-offsetof(struct adapter, recvpriv).
-
+> -
+> -	rtw_free_mlme_priv_ie_data(pmlmepriv);
+> -
+> -	if (pmlmepriv)
+> +	if (pmlmepriv) {
+> +		rtw_free_mlme_priv_ie_data(pmlmepriv);
+>   		vfree(pmlmepriv->free_bss_buf);
+> -
+> +	}
+>   }
 >   
->   	list_del_init(&precvframe->list);
->   	list_add_tail(&precvframe->list, get_list_head(queue));
->   
->   	if (padapter) {
-> +		precvpriv = &padapter->recvpriv;
->   		if (queue == &precvpriv->free_recv_queue)
->   			precvpriv->free_recvframe_cnt++;
->   	}
+>   struct	wlan_network *_rtw_alloc_network(struct	mlme_priv *pmlmepriv)/* _queue *free_queue) */
 
 
 
