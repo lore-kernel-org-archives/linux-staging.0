@@ -1,223 +1,121 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3338517F5
-	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 07:44:33 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id q7so9044703wrm.5
-        for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 00:44:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B867A
+	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 09:27:57 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id m11so3215735oib.11
+        for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 02:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=au6OP3T7ZHPNQ6sb5Bz2kPDT8OBTWIe8DZ+Sd+EF8Zg=;
-        b=RpXgfDr75l0KG5N7VzfongQHJpB2IOknQOb7Uj5LjF0aia36fEVDu+v9Jag41s+g77
-         oe0yfTOeflvymZv1qtSL1aDmZK0BqIJhUxtq2erwMDF3ocW2+R+M96yF2qOJPhkj2Wjx
-         to05ZLcJjnsLYwPQrBAeD9j0p3LlBUAp/oZdGyXPLDt5RMEPQ46blHYhbhTFUcbPQ94P
-         s4drH8NtY/Ap49j++1I0qeqf72RvB2GvMCaNTWjBG/27swKdQ2g3PlaOu8GwV0G1TdWC
-         /r2JQWje+e2QO+IY9qGu4uLmtTeX+qy8LSCRiAKSbhyZdvnHi3HeX5TcWekyYIOHL8DY
-         OFEA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XGfh8EfUa/71STJGMxPbCQwj50vcBi6lUdptORUuTtU=;
+        b=mOtSMeD38hB1Ln7QFmLgtxBBGD+oQPSf+iLUc0NLLkNszOpB4d6EIwNHyK6pMorfDG
+         VlN6HWzqk/URRT4/BniBP4yYUJopdj+TaE7K3WxsvxyWPffaITFSDpBFo096T+gju3gM
+         jOBHEQtSibpdc3wyHviWgCgWXnnDZegdNSA4QgAJq2tW0w4uHtwz+zXhTu7BSBq30P2A
+         /VFuZ9ABGC2gJaxlaGEpQHjJFserKQJ4jw189wwQ6o12mD0VA5QrU4SCm/jKm2em4+py
+         D7P24V1bYW1ktQJ4zFDUSr8FAo4grAZdXf1t/MDSuY2tagSVbrzoYARsr4MIEmTHY2Tk
+         Hugg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=au6OP3T7ZHPNQ6sb5Bz2kPDT8OBTWIe8DZ+Sd+EF8Zg=;
-        b=d+E8xqwOLWsuEHyYZjOXqGmPl6aejKFr3qVAe/5f1OFMUaZjzuMaJvbPOocmO/gPay
-         po2JNn8Hg+wj1sD2D+/Mk8OukVFgSLsUxMp7fEblxIyt538HkWL8sYHgP9UvOmMPKwhP
-         FHLrY236GZ+z1Q0F1XBea0h+yCi4D1Co0S3izilI51DxvTNNEffYqQWapUb1zWQ2U7kK
-         ca0bxCj0kStEv/N7ZFIORfhuvfDgAsca/yzFjLQ1T8TLzzy4Wc49jnhTLdRWoAy3KQat
-         MQfP5d6we+LKJgyh2w0BFpEPyPlb18fUQwCGYQ//m+v48Y633LTSghnKbw6T6MdREtau
-         DWKA==
-X-Gm-Message-State: AOAM5312qdDndhdfG29pl5/LmLMU5E3MABaSUfdv2PB0mIdXWhRqaoLX
-	G9zB8k7MpZgDh03pYThJ9EU=
-X-Google-Smtp-Source: ABdhPJzcP+psa1Rt93JzRrM3x/qcATxeuWZMvRVKksGiGP90W5+5brCHpdpm4HEOy7uYutCjVf1kSA==
-X-Received: by 2002:a05:6000:18a8:b0:20a:8a58:1639 with SMTP id b8-20020a05600018a800b0020a8a581639mr9781511wri.483.1650786271519;
-        Sun, 24 Apr 2022 00:44:31 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p54a074e9.dip0.t-ipconnect.de. [84.160.116.233])
-        by smtp.gmail.com with ESMTPSA id o38-20020a05600c512600b00393ead99c5bsm490109wms.26.2022.04.24.00.44.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 00:44:31 -0700 (PDT)
-Date: Sun, 24 Apr 2022 09:44:28 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] staging: vt6655: Replace VNSvInPortD with ioread32
-Message-ID: <e02a0d78937204b41eec48d31eb4908c4bc8cac8.1650784817.git.philipp.g.hortmann@gmail.com>
-References: <cover.1650784817.git.philipp.g.hortmann@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XGfh8EfUa/71STJGMxPbCQwj50vcBi6lUdptORUuTtU=;
+        b=MAV91Z1pLfekN7vvspVpoaLh9T8eHa+Su4n7a0yvW9tXz7s6W7QnrUhDmW4Y3ZM5O6
+         Mm2CN1pqwj28kTE+4udXaiLNNwabwJA7+ZOsb1J7TONi4c0blZb4h+MelM1QJ6N2pb47
+         NqH6zwtyvdxdwRnCkbM7KHrQRqdQ9b+vLrHox0GK5fqY5pcJRNNuUYSHv2PgCiLcyaz8
+         OJcmcGIQdCbtuJTQz4cXYKsn9F6yiNUfVI1GOgLtJpwjdA7CvGpqOua+NSdCT8cMnKTs
+         A+Rcpv9+HRs8bSkbEw99XHB+knq+ytC7Bsu22sm0ppmO42sVYcZFjK1w4eE5QQV6CVUL
+         TdZA==
+X-Gm-Message-State: AOAM532c9+wgOXlABXhhBQi1nY5K3zZ91yDxd2oVcKzW+OM584MTzFvR
+	8zC51BZQgPpQn5QP9ZF4ERSFNInhCIBf1DFmnTk=
+X-Google-Smtp-Source: ABdhPJxIgM5ZYlj0ri3lZjBQqBO255sXOTD9eqpLJg58/ifArO33kJJn4O9Ihzjqf7GCRyRX6ude2mgb8KMuEc2T3BA=
+X-Received: by 2002:aca:1306:0:b0:322:9104:6cf9 with SMTP id
+ e6-20020aca1306000000b0032291046cf9mr5701436oii.112.1650792476305; Sun, 24
+ Apr 2022 02:27:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1650784817.git.philipp.g.hortmann@gmail.com>
+References: <20220423184745.21134-1-makvihas@gmail.com> <3607997.MHq7AAxBmi@leap>
+In-Reply-To: <3607997.MHq7AAxBmi@leap>
+From: Vihas Makwana <makvihas@gmail.com>
+Date: Sun, 24 Apr 2022 14:57:45 +0530
+Message-ID: <CAH1kMwSZbogptqDdiJVoiLcZamY_PmX_p0oXPZguoAnY=dibug@mail.gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: fix a potential NULL pointer dereference
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Dan Carpenter <dan.carpenter@oracle.com>, Pavel Skripkin <paskripkin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Replace macro VNSvInPortD with ioread32.
-The name of macro and the arguments use CamelCase which
-is not accepted by checkpatch.pl
+On Sun, Apr 24, 2022 at 5:17 AM Fabio M. De Francesco
+<fmdefrancesco@gmail.com> wrote:
+>
+> On sabato 23 aprile 2022 20:47:48 CEST Vihas Makwana wrote:
+> > recvframe_chk_defrag() performs a NULL check on psta, but if that check
+> > fails then it dereferences it, which it shouldn't do as psta is NULL.
+> >
+> > Set pdefrag_q to NULL if above check fails and let the code after it
+> handle
+> > that case.
+> >
+> > Fixes: 1cc18a22b96b ("staging: r8188eu: Add files for new driver - part
+> 5")
+> > Signed-off-by: Vihas Makwana <makvihas@gmail.com>
+> > ---
+> >  drivers/staging/r8188eu/core/rtw_recv.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/
+> r8188eu/core/rtw_recv.c
+> > index c1005ddaa..db54bceff 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_recv.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_recv.c
+> > @@ -1244,7 +1244,7 @@ struct recv_frame *recvframe_chk_defrag(struct
+> adapter *padapter, struct recv_fr
+> >                       pdefrag_q = NULL;
+> >               }
+> >       } else {
+> > -             pdefrag_q = &psta->sta_recvpriv.defrag_q;
+> > +             pdefrag_q = NULL;
+>
+> Hi Vihas,
+>
+> To me the code looks like this...
+>
+>         struct sta_info *psta;
+>         ...
+>         psta = rtw_get_stainfo(pstapriv, psta_addr);
+>         /* The code is about to test if "psta" is a valid pointer */
+>         if (!psta) {
+>                 /* "psta" is NULL */
+>                 ...
+>         } else {
+>                 /* "psta" is not NULL */
+>                 ...
+>
+> >       }
+> >
+>
+> Also, even if "psta" were NULL (but it isn't), your change would still be
+> no good.
+>
+> Please be very careful with these types of changes next time :)
+>
+> Thanks,
+>
+> Fabio M. De Francesco
+>
+> >       if ((ismfrag == 0) && (fragnum == 0))
+> > --
+Oh yea, sorry about this. I don't know how I missed this.
+Thanks for clarification Fabio. Will take care next time.
 
-Since there are more than one checkpatch issue per line,
-more steps are rquired to fix.
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-V1 -> V2: This patch was 5/7 and is now 4/6
-V2 -> V3: Inserted patch that was before in a different way in
-          "Rename macros VNSvInPortB,W,D with CamelCase ..."
-          This patch was part of 4/6 and is now 3/7
-V3 -> V4: Removed casting of the output variable
----
- drivers/staging/vt6655/device_main.c |  6 +++---
- drivers/staging/vt6655/mac.h         | 18 +++++++++---------
- drivers/staging/vt6655/rf.c          |  2 +-
- drivers/staging/vt6655/upc.h         |  3 ---
- 4 files changed, 13 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index c21787f32252..12fd825c23fe 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -1029,7 +1029,7 @@ static void vnt_interrupt_process(struct vnt_private *priv)
- 	u32 isr;
- 	unsigned long flags;
- 
--	VNSvInPortD(priv->port_offset + MAC_REG_ISR, &isr);
-+	isr = ioread32(priv->port_offset + MAC_REG_ISR);
- 
- 	if (isr == 0)
- 		return;
-@@ -1042,7 +1042,7 @@ static void vnt_interrupt_process(struct vnt_private *priv)
- 	spin_lock_irqsave(&priv->lock, flags);
- 
- 	/* Read low level stats */
--	VNSvInPortD(priv->port_offset + MAC_REG_MIBCNTR, &mib_counter);
-+	mib_counter = ioread32(priv->port_offset + MAC_REG_MIBCNTR);
- 
- 	low_stats->dot11RTSSuccessCount += mib_counter & 0xff;
- 	low_stats->dot11RTSFailureCount += (mib_counter >> 8) & 0xff;
-@@ -1116,7 +1116,7 @@ static void vnt_interrupt_process(struct vnt_private *priv)
- 		    ieee80211_queue_stopped(priv->hw, 0))
- 			ieee80211_wake_queues(priv->hw);
- 
--		VNSvInPortD(priv->port_offset + MAC_REG_ISR, &isr);
-+		isr = ioread32(priv->port_offset + MAC_REG_ISR);
- 
- 		MACvReceive0(priv->port_offset);
- 		MACvReceive1(priv->port_offset);
-diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 5aaa0de20e67..5b684194745c 100644
---- a/drivers/staging/vt6655/mac.h
-+++ b/drivers/staging/vt6655/mac.h
-@@ -618,7 +618,7 @@ do {								\
- #define MACvReceive0(iobase)						\
- do {									\
- 	unsigned long dwData;						\
--	VNSvInPortD(iobase + MAC_REG_RXDMACTL0, &dwData);		\
-+	dwData = ioread32(iobase + MAC_REG_RXDMACTL0);			\
- 	if (dwData & DMACTL_RUN)					\
- 		VNSvOutPortD(iobase + MAC_REG_RXDMACTL0, DMACTL_WAKE); \
- 	else								\
-@@ -628,7 +628,7 @@ do {									\
- #define MACvReceive1(iobase)						\
- do {									\
- 	unsigned long dwData;						\
--	VNSvInPortD(iobase + MAC_REG_RXDMACTL1, &dwData);		\
-+	dwData = ioread32(iobase + MAC_REG_RXDMACTL1);			\
- 	if (dwData & DMACTL_RUN)					\
- 		VNSvOutPortD(iobase + MAC_REG_RXDMACTL1, DMACTL_WAKE); \
- 	else								\
-@@ -638,7 +638,7 @@ do {									\
- #define MACvTransmit0(iobase)						\
- do {									\
- 	unsigned long dwData;						\
--	VNSvInPortD(iobase + MAC_REG_TXDMACTL0, &dwData);		\
-+	dwData = ioread32(iobase + MAC_REG_TXDMACTL0);			\
- 	if (dwData & DMACTL_RUN)					\
- 		VNSvOutPortD(iobase + MAC_REG_TXDMACTL0, DMACTL_WAKE); \
- 	else								\
-@@ -648,7 +648,7 @@ do {									\
- #define MACvTransmitAC0(iobase)					\
- do {									\
- 	unsigned long dwData;						\
--	VNSvInPortD(iobase + MAC_REG_AC0DMACTL, &dwData);		\
-+	dwData = ioread32(iobase + MAC_REG_AC0DMACTL);			\
- 	if (dwData & DMACTL_RUN)					\
- 		VNSvOutPortD(iobase + MAC_REG_AC0DMACTL, DMACTL_WAKE); \
- 	else								\
-@@ -684,7 +684,7 @@ do {									\
- #define MACvEnableProtectMD(iobase)					\
- do {									\
- 	unsigned long dwOrgValue;					\
--	VNSvInPortD(iobase + MAC_REG_ENCFG, &dwOrgValue);		\
-+	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);			\
- 	dwOrgValue = dwOrgValue | ENCFG_PROTECTMD;			\
- 	VNSvOutPortD(iobase + MAC_REG_ENCFG, dwOrgValue);		\
- } while (0)
-@@ -692,7 +692,7 @@ do {									\
- #define MACvDisableProtectMD(iobase)					\
- do {									\
- 	unsigned long dwOrgValue;					\
--	VNSvInPortD(iobase + MAC_REG_ENCFG, &dwOrgValue);		\
-+	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);			\
- 	dwOrgValue = dwOrgValue & ~ENCFG_PROTECTMD;			\
- 	VNSvOutPortD(iobase + MAC_REG_ENCFG, dwOrgValue);		\
- } while (0)
-@@ -700,7 +700,7 @@ do {									\
- #define MACvEnableBarkerPreambleMd(iobase)				\
- do {									\
- 	unsigned long dwOrgValue;					\
--	VNSvInPortD(iobase + MAC_REG_ENCFG, &dwOrgValue);		\
-+	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);			\
- 	dwOrgValue = dwOrgValue | ENCFG_BARKERPREAM;			\
- 	VNSvOutPortD(iobase + MAC_REG_ENCFG, dwOrgValue);		\
- } while (0)
-@@ -708,7 +708,7 @@ do {									\
- #define MACvDisableBarkerPreambleMd(iobase)				\
- do {									\
- 	unsigned long dwOrgValue;					\
--	VNSvInPortD(iobase + MAC_REG_ENCFG, &dwOrgValue);		\
-+	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);			\
- 	dwOrgValue = dwOrgValue & ~ENCFG_BARKERPREAM;			\
- 	VNSvOutPortD(iobase + MAC_REG_ENCFG, dwOrgValue);		\
- } while (0)
-@@ -716,7 +716,7 @@ do {									\
- #define MACvSetBBType(iobase, byTyp)					\
- do {									\
- 	unsigned long dwOrgValue;					\
--	VNSvInPortD(iobase + MAC_REG_ENCFG, &dwOrgValue);		\
-+	dwOrgValue = ioread32(iobase + MAC_REG_ENCFG);			\
- 	dwOrgValue = dwOrgValue & ~ENCFG_BBTYPE_MASK;			\
- 	dwOrgValue = dwOrgValue | (unsigned long)byTyp;			\
- 	VNSvOutPortD(iobase + MAC_REG_ENCFG, dwOrgValue);		\
-diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
-index 4498c9d400f2..036f48572334 100644
---- a/drivers/staging/vt6655/rf.c
-+++ b/drivers/staging/vt6655/rf.c
-@@ -175,7 +175,7 @@ bool IFRFbWriteEmbedded(struct vnt_private *priv, unsigned long dwData)
- 
- 	/* W_MAX_TIMEOUT is the timeout period */
- 	for (ww = 0; ww < W_MAX_TIMEOUT; ww++) {
--		VNSvInPortD(iobase + MAC_REG_IFREGCTL, &dwValue);
-+		dwValue = ioread32(iobase + MAC_REG_IFREGCTL);
- 		if (dwValue & IFREGCTL_DONE)
- 			break;
- 	}
-diff --git a/drivers/staging/vt6655/upc.h b/drivers/staging/vt6655/upc.h
-index 4d09cf18ebe0..a5b74aaadcd3 100644
---- a/drivers/staging/vt6655/upc.h
-+++ b/drivers/staging/vt6655/upc.h
-@@ -20,9 +20,6 @@
- 
- /* For memory mapped IO */
- 
--#define VNSvInPortD(dwIOAddress, pdwData) \
--	(*(pdwData) = ioread32(dwIOAddress))
--
- #define VNSvOutPortB(dwIOAddress, byData) \
- 	iowrite8((u8)(byData), dwIOAddress)
- 
 -- 
-2.25.1
-
+Thanks,
+Vihas
