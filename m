@@ -1,53 +1,25 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD26E7C
-	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 12:11:34 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id s14so21010353plk.8
-        for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 05:11:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=IL/vyz5qrTlppVho9+70kMyfzlTej7WAY5KSj2y4EyI=;
-        b=erpCEIfyoXzHme9/PUZhCvhjhWeyN7F+Rp3dbt53zb0Skvff4fz74bpfaL1ooYJgNc
-         dSZWWD609Lh3Oh8Ql2J7wr62b7iE/nUr6idAp4vE4o9dRUgX2RuoORGKQsXdmOtX+3x9
-         OhYEFZoJAIDfjIynceRGpnB5l0yMJvlt/7/fvBcUAuHFPwKYkBFxAiChEoEanyp669E4
-         PL9L1PVvXK7W0bQbrZeXPs1yKg0qa0RQd9xP43lbT5/1pHrfmSaAQuVQE/kDYQ8C4PuT
-         ELmxTLxt1oU8hyIgsBj8rqHPVoY4E9FCTIdUkwvEZ407MdUDqojfxMmCotrbODJigT+k
-         Iy7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IL/vyz5qrTlppVho9+70kMyfzlTej7WAY5KSj2y4EyI=;
-        b=Gz1ZH8U3ymlcdCORz5qyRVEmhLhc9H6jeQOCeZ4ISxEaKCQOXBjq4vSaur3GNzkOfR
-         uQCiCBXLJPTDJMn425Azmc1RQIzj4isVbUp1p7i9eEmWIwpQCYqQwTL+7LhIBiUmNjUx
-         sZnyM16g4zsuq5ZjMhlc2caJTyObvRrAvSN40RK1dh3Ers0wQpzDLu6N0YqdNK7sATUU
-         3q/HeNhBpf76X+kAbVWrDJgDAZ9ul03rWp/8paydD/iotb3PW2R194DvEQZKcc9y8nh6
-         vLjJBo65f7tt9CHRq5qkPtPbxoy6HgphsY5rVQxkVoXwMU/7g37WKEWrWH+RIG/lvMeS
-         ZUSw==
-X-Gm-Message-State: AOAM533mBUcbVfL7ZMuny9J7QWrqf10JrI0Y38iiNhDGnAaJG5/zHc/9
-	l5/vu+xrmC3pvUjwISp+Rqo=
-X-Google-Smtp-Source: ABdhPJyVAIYGajv6yXgDInlOxdYxEVaIrodUqjo9KXUdb/sF7Fyop5UJJ4ktxGhp9UxALK7O1fhqVg==
-X-Received: by 2002:a17:902:d5cd:b0:156:6263:bbc7 with SMTP id g13-20020a170902d5cd00b001566263bbc7mr13834602plh.160.1650802294179;
-        Sun, 24 Apr 2022 05:11:34 -0700 (PDT)
-Received: from ArchDesktop ([14.100.36.163])
-        by smtp.gmail.com with ESMTPSA id x184-20020a6286c1000000b0050ad3051f53sm8776436pfd.147.2022.04.24.05.11.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 05:11:33 -0700 (PDT)
-Date: Sun, 24 Apr 2022 20:11:30 +0800
-From: Solomon Tan <wjsota@gmail.com>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [BUG] staging: r8188eu: KASAN: slab-out-of-bounds in
- rtw_cmd_thread
-Message-ID: <YmU+cqEZfrGz5XsT@ArchDesktop>
-References: <67e2d10b-7f0f-9c5a-ce31-376b83ffba9e@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE073201
+	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 13:40:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E021AC385A7;
+	Sun, 24 Apr 2022 13:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1650807633;
+	bh=NJHwsmdod2sEs6NV0oCllmI57q/kiPU7WmbXQmvuAzg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gz5LDvCtUpl/CgpkWSOvP09uwwGfzBKkYjPyaf3K2Wz7yPmVNSNwy3/7asl9D7BcE
+	 JcxxBJ2ZVY5ZXkOj74iHtisVAeB+EArVQA2CVN47F3bz2sYVKn+pSTRCZ/GRofU8Db
+	 zx1xuav2bB+0RnBYfTkgJssB77hNI2vKME2RKZ5o=
+Date: Sun, 24 Apr 2022 15:40:30 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
+Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
+Subject: Re: [RFC V2] drivers/virt/vSMP: new driver
+Message-ID: <YmVTTvQBSd5nzN3k@kroah.com>
+References: <PAXPR02MB7310EA802697DCDE90EF187581F99@PAXPR02MB7310.eurprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,138 +28,298 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <67e2d10b-7f0f-9c5a-ce31-376b83ffba9e@gmail.com>
+In-Reply-To: <PAXPR02MB7310EA802697DCDE90EF187581F99@PAXPR02MB7310.eurprd02.prod.outlook.com>
 
-On Sun, Apr 24, 2022 at 12:00:12PM +0200, Michael Straube wrote:
-> Hi,
-> 
-> It looks like
-> commit 0afaa121813e ("staging: r8188eu: use in-kernel ieee channel")
-> intoduced a. See KASAN output below.
-> 
-> That commit replaced the use of struct rtw_ieee80211_channel with struct
-> ieee80211_channel.
-> 
-> There are several calls to memcpy that used sizeof(struct
-> rtw_ieee80211_channel)
-> and now use sizeof(struct ieee80211_channel) but the sizes of these two
-> structures are not equal.
-> 
+On Sun, Apr 24, 2022 at 11:44:33AM +0000, Czerwacki, Eial wrote:
+> Introducing the vSMP guest driver which allows interaction with the vSMP control device when
+> running a Linux OS atop of the vSMP hypervisor.
+> vSMP is a resource aggregation hypervisor from SAP.
 
-Oh no. When does this issue get triggered?
-
-> regards,
-> Michael
-> 
-> dmesg:
-> 
->  ==================================================================
-> [  422.214237] BUG: KASAN: slab-out-of-bounds in rtw_cmd_thread+0x1e8/0x430
-> [r8188eu]
-> [  422.214277] Write of size 3600 at addr ffff8881e149d200 by task
-> RTW_CMD_THREAD/2563
-> 
-> [  422.214289] CPU: 11 PID: 2563 Comm: RTW_CMD_THREAD Tainted: G C OE
-> 5.18.0-rc2-staging+ #47 94e3ca73bebf5b7fec506721475e4fff2a023bb9
-> [  422.214301] Hardware name: Gigabyte Technology Co., Ltd. B550M S2H/B550M
-> S2H, BIOS F15a 02/16/2022
-> [  422.214309] Call Trace:
-> [  422.214313]  <TASK>
-> [  422.214317]  dump_stack_lvl+0x45/0x5b
-> [  422.214327]  print_report.cold+0x5e/0x5dc
-> [  422.214335]  ? kasan_set_track+0x21/0x30
-> [  422.214342]  ? kasan_set_free_info+0x20/0x40
-> [  422.214349]  ? rtw_cmd_thread+0x1e8/0x430 [r8188eu
-> 91924fe1575bf49b9b37985ffde2c585d847446d]
-> [  422.214386]  kasan_report+0xab/0x120
-> [  422.214394]  ? rtw_cmd_thread+0x1e8/0x430 [r8188eu
-> 91924fe1575bf49b9b37985ffde2c585d847446d]
-> [  422.214430]  kasan_check_range+0xf6/0x1d0
-> [  422.214436]  memcpy+0x39/0x60
-> [  422.214442]  rtw_cmd_thread+0x1e8/0x430 [r8188eu
-> 91924fe1575bf49b9b37985ffde2c585d847446d]
-> [  422.214479]  ? rtw_setassocsta_cmdrsp_callback+0xd0/0xd0 [r8188eu
-> 91924fe1575bf49b9b37985ffde2c585d847446d]
-> [  422.214516]  kthread+0x15d/0x190
-> [  422.214523]  ? kthread_complete_and_exit+0x20/0x20
-> [  422.214531]  ret_from_fork+0x22/0x30
-> [  422.214540]  </TASK>
-
-Sorry, I am not familiar with KASAN. How should I interpret this output?
-I see the paragraph above has references to rtw_cmd_thread. I assume
-that is its way of indicating that rtw_cmd_thread is the cause of the
-problem, but the one below refers to other functions. I'm not sure where
-I should start looking. I would start looking at `rtw_sitesurvey_cmd` and
-`rtw_scan_ch_decision`, which call the memcpy on the
-rtw_ieee80211_channel structure, but they are not on the call trace.
+Please properly wrap your lines at 72 columns like git asks you to.
 
 > 
-> [  422.214546] Allocated by task 2522:
-> [  422.214551]  kasan_save_stack+0x1e/0x40
-> [  422.214555]  __kasan_kmalloc+0xa9/0xe0
-> [  422.214559]  rtw_init_cmd_priv+0xd6/0x1b0 [r8188eu]
-> [  422.214589]  rtw_init_drv_sw+0x21/0x370 [r8188eu]
-> [  422.214619]  rtw_drv_init+0x3a6/0x4f0 [r8188eu]
-> [  422.214649]  usb_probe_interface+0x155/0x340 [usbcore]
-> [  422.214705]  really_probe.part.0+0x11f/0x320
-> [  422.214709]  __driver_probe_device+0xe0/0x180
-> [  422.214712]  driver_probe_device+0x4d/0x170
-> [  422.214715]  __driver_attach+0x110/0x250
-> [  422.214718]  bus_for_each_dev+0xe7/0x140
-> [  422.214721]  bus_add_driver+0x25a/0x2b0
-> [  422.214723]  driver_register+0x10f/0x190
-> [  422.214726]  usb_register_driver+0x10e/0x1e0 [usbcore]
-> [  422.214780]  do_one_initcall+0x8a/0x2a0
-> [  422.214784]  do_init_module+0xe4/0x3b0
-> [  422.214787]  load_module+0x41c4/0x4650
-> [  422.214789]  __do_sys_finit_module+0x111/0x190
-> [  422.214791]  do_syscall_64+0x5c/0x80
-> [  422.214795]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> the driver comprises of 3 modules, vsmp which includes all the api needed to interact with the
+> control driver, vsmp_logs which allows reading logs from the hypervisor and vsmp_common_info which
+> allows reading generic information the hypervisor exposes, currently only the version is exposed.
+
+
+Should this be one patch per module?
+
 > 
-> [  422.214802] Last potentially related work creation:
-> [  422.214807]  kasan_save_stack+0x1e/0x40
-> [  422.214810]  __kasan_record_aux_stack+0xb1/0xc0
-> [  422.214813]  call_rcu+0xb5/0xfc0
-> [  422.214817]  netlink_release+0x791/0xa40
-> [  422.214820]  __sock_release+0x72/0x120
-> [  422.214824]  sock_close+0x11/0x20
-> [  422.214828]  __fput+0x10c/0x400
-> [  422.214831]  task_work_run+0x8b/0xc0
-> [  422.214834]  do_exit+0x5a4/0x10e0
-> [  422.214837]  do_group_exit+0x58/0x100
-> [  422.214840]  __x64_sys_exit_group+0x28/0x30
-> [  422.214843]  do_syscall_64+0x5c/0x80
-> [  422.214846]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> Signed-off-by: Eial Czerwacki <eial.czerwacki@sap.com>
 > 
-> [  422.214852] The buggy address belongs to the object at ffff8881e149d000
->                 which belongs to the cache kmalloc-2k of size 2048
-> [  422.214862] The buggy address is located 512 bytes inside of
->                 2048-byte region [ffff8881e149d000, ffff8881e149d800)
+> v1 -> v2:
+> 	- fix multiple rejects pointed out by Greg KH
+> 	- fix multiple rejects pointed out by Dan Carpenter
+> 	- fix multiple rejects pointed out by Randy Dunlap
+
+You you didn't cc: any of us?
+
+> ---
+>  .../ABI/stable/sysfs-driver-vsmp_common_info  |   5 +
+>  .../ABI/stable/sysfs-driver-vsmp_logs         |   5 +
+>  drivers/virt/vsmp/Kconfig                     |  14 +
+>  drivers/virt/vsmp/Makefile                    |   7 +
+>  drivers/virt/vsmp/api.c                       | 416 ++++++++++++++++++
+>  drivers/virt/vsmp/api.h                       |  61 +++
+>  drivers/virt/vsmp/common/Kconfig              |  11 +
+>  drivers/virt/vsmp/common/Makefile             |   7 +
+>  drivers/virt/vsmp/common/common.c             |  66 +++
+>  drivers/virt/vsmp/common/common.h             |  27 ++
+>  drivers/virt/vsmp/common/version.c            | 117 +++++
+>  drivers/virt/vsmp/logs/Kconfig                |  10 +
+>  drivers/virt/vsmp/logs/Makefile               |   7 +
+>  drivers/virt/vsmp/logs/active_logs.c          | 121 +++++
+>  drivers/virt/vsmp/registers.h                 |  16 +
+
+linux-staging@ is not the proper list for this to go to.  Please run
+scripts/get_maintainer.pl on your patch and resend it.
+
+>  15 files changed, 890 insertions(+)
+>  create mode 100644 Documentation/ABI/stable/sysfs-driver-vsmp_common_info
+>  create mode 100644 Documentation/ABI/stable/sysfs-driver-vsmp_logs
+>  create mode 100644 drivers/virt/vsmp/Kconfig
+>  create mode 100644 drivers/virt/vsmp/Makefile
+>  create mode 100644 drivers/virt/vsmp/api.c
+>  create mode 100644 drivers/virt/vsmp/api.h
+>  create mode 100644 drivers/virt/vsmp/common/Kconfig
+>  create mode 100644 drivers/virt/vsmp/common/Makefile
+>  create mode 100644 drivers/virt/vsmp/common/common.c
+>  create mode 100644 drivers/virt/vsmp/common/common.h
+>  create mode 100644 drivers/virt/vsmp/common/version.c
+>  create mode 100644 drivers/virt/vsmp/logs/Kconfig
+>  create mode 100644 drivers/virt/vsmp/logs/Makefile
+>  create mode 100644 drivers/virt/vsmp/logs/active_logs.c
+>  create mode 100644 drivers/virt/vsmp/registers.h
 > 
-> [  422.214874] The buggy address belongs to the physical page:
-> [  422.214879] page:000000003f187866 refcount:1 mapcount:0
-> mapping:0000000000000000 index:0x0 pfn:0x1e1498
-> [  422.214883] head:000000003f187866 order:3 compound_mapcount:0
-> compound_pincount:0
-> [  422.214885] flags:
-> 0x17ffffc0010200(slab|head|node=0|zone=2|lastcpupid=0x1fffff)
-> [  422.214891] raw: 0017ffffc0010200 ffffea0004f1ca00 dead000000000002
-> ffff888100042f00
-> [  422.214894] raw: 0000000000000000 0000000000080008 00000001ffffffff
-> 0000000000000000
-> [  422.214896] page dumped because: kasan: bad access detected
-> 
-> [  422.214900] Memory state around the buggy address:
-> [  422.214905]  ffff8881e149d500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00
-> [  422.214914]  ffff8881e149d580: 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00
-> [  422.214921] >ffff8881e149d600: fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> fc fc
-> [  422.214927]                    ^
-> [  422.214932]  ffff8881e149d680: fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> fc fc
-> [  422.214939]  ffff8881e149d700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> fc fc
-> [  422.214946]
-> ==================================================================
+> diff --git a/Documentation/ABI/stable/sysfs-driver-vsmp_common_info b/Documentation/ABI/stable/sysfs-driver-vsmp_common_info
+> new file mode 100644
+> index 000000000000..a8a6afe417f3
+> --- /dev/null
+> +++ b/Documentation/ABI/stable/sysfs-driver-vsmp_common_info
+> @@ -0,0 +1,5 @@
+> +What:           /sys/hypervisor/vsmp/version
+> +Date:           Apr 2022
+> +Contact:        Eial Czerwacki <eial.czerwacki@sap.com>
+> +		linux-vsmp@sap.com
+> +Description:    Shows the full version of the vSMP hypervisor
+> diff --git a/Documentation/ABI/stable/sysfs-driver-vsmp_logs b/Documentation/ABI/stable/sysfs-driver-vsmp_logs
+> new file mode 100644
+> index 000000000000..a863898f5356
+> --- /dev/null
+> +++ b/Documentation/ABI/stable/sysfs-driver-vsmp_logs
+> @@ -0,0 +1,5 @@
+> +What:           /sys/hypervisor/vsmp/logs
+
+All of the vsmp/ sysfs api files should be in the same file, no need to
+spread them around.
+
+> +Date:           Apr 2022
+> +Contact:        Eial Czerwacki <eial.czerwacki@sap.com>
+> +		linux-vsmp@sap.com
+
+Why a mix of tabs and spaces?  Please just use tabs.
+
+> +Description:    Dumps the logs of the current session from the vSMP hypervisor
+> diff --git a/drivers/virt/vsmp/Kconfig b/drivers/virt/vsmp/Kconfig
+> new file mode 100644
+> index 000000000000..e75879435769
+> --- /dev/null
+> +++ b/drivers/virt/vsmp/Kconfig
+> @@ -0,0 +1,14 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +menuconfig VSMP
+> +	tristate "vSMP Guest Support"
+> +	depends on SYS_HYPERVISOR && X86_64 && PCI
+> +	help
+> +	  Support for vSMP Guest Driver.
+> +
+> +	  This driver allows information gathering of data from the vSMP hypervisor when
+> +	  running on top of a vSMP-based hypervisor.
+> +
+> +	  If unsure, say no.
+> +
+> +source "drivers/virt/vsmp/common/Kconfig"
+> +source "drivers/virt/vsmp/logs/Kconfig"
+> diff --git a/drivers/virt/vsmp/Makefile b/drivers/virt/vsmp/Makefile
+> new file mode 100644
+> index 000000000000..88625cd3707d
+> --- /dev/null
+> +++ b/drivers/virt/vsmp/Makefile
+> @@ -0,0 +1,7 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Makefile for vSMP Guest drivers.
+> +#
+> +
+> +obj-$(CONFIG_VSMP)	+= vsmp.o common/ logs/
+> +vsmp-y			:= api.o
+> diff --git a/drivers/virt/vsmp/api.c b/drivers/virt/vsmp/api.c
+> new file mode 100644
+> index 000000000000..57c345eaaa0c
+> --- /dev/null
+> +++ b/drivers/virt/vsmp/api.c
+> @@ -0,0 +1,416 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * vSMP api
+> + * Copyright (C) 2022 SAP.
+> + */
+> +
+> +#include <linux/init.h>
+> +#include <linux/module.h>
+> +#include <linux/moduleparam.h>
+> +#include <linux/pci_regs.h>
+> +#include <linux/pci.h>
+> +#include <linux/kobject.h>
+> +#include <linux/kernel.h>
+> +
+> +#include <asm/io.h>
+> +
+> +#include "api.h"
+> +
+> +#define DEVICE_NAME "vsmp"
+
+KBUILD_MODNAME?
+
+> +#define DRIVER_LICENSE "GPL v2"
+> +#define DRIVER_AUTHOR "Eial Czerwacki <eial.czerwacki@sap.com>"
+> +#define DRIVER_DESC "vSMP api driver"
+> +#define DRIVER_VERSION "0.1"
+
+In-kernel drivers do not need a version, please remove.
+
+> +
+> +#define PCI_DEVICE_ID_SAP_FLX_VSMP_CTL 0x1011
+> +#define VSMP_CTL_MAX_PCI_BARS 2
+> +
+> +/* modules info */
+> +MODULE_LICENSE(DRIVER_LICENSE);
+> +MODULE_AUTHOR(DRIVER_AUTHOR);
+> +MODULE_DESCRIPTION(DRIVER_DESC);
+> +MODULE_VERSION(DRIVER_VERSION);
+> +
+> +static unsigned int vsmp_bus;
+> +static unsigned short vsmp_dev = 0x1f;
+> +static unsigned char vsmp_func;
+> +static bool vsmp_bdf_static = false;
+> +static char *vsmp_ctrl_pci_addr = "";
+> +module_param(vsmp_ctrl_pci_addr, charp, 0660);
+> +
+> +/* defines */
+> +// copied from arch/x86/pci/direct.c
+> +#define PCI_CONF1_ADDRESS(bus, devfn, reg) (0x80000000 | ((reg & 0xF00) << 16) | (bus << 16) \
+> +	   | (devfn << 8) | (reg & 0xFC))
+
+You should never need this type of thing, why not use the normal pci
+apis?
+
+> +
+> +/* global vars */
+> +void __iomem *cfg_addr;
+
+Horrible global symbol name :(
+
+> +static struct kobject *vsmp_sysfs_kobj;
+> +static struct pci_dev *vsmp_dev_obj;
+
+static variables are not global :)
+
+And you should not need this, again, use the proper PCI api insted.
+
+> +
+> +static const struct pci_device_id vsmp_pci_tbl[] = {
+> +	{ PCI_VDEVICE(SCALEMP, PCI_DEVICE_ID_SAP_FLX_VSMP_CTL), 0, },
+> +	{ 0, },			/* terminate list */
+> +};
+> +
+> +static struct {
+> +	uint64_t start;
+> +	uint64_t len;
+
+u64 is the proper kernel type, uint* is for userspace code.
+
+> +} mapped_bars[VSMP_CTL_MAX_PCI_BARS] = { 0 };
+> +
+> +/* internal functions */
+> +
+> +/*
+> + * parses the pci address of a given address where the vSMP
+> + * pci device is found
+> + */
+> +static void parse_vsmp_ctrl_pci_addr(void)
+> +{
+> +	unsigned int bus;
+> +	unsigned short dev;
+> +	unsigned char func;
+> +
+> +	if (!strlen(vsmp_ctrl_pci_addr))
+
+Do not use global data for anything, that's a huge hint that your driver
+is incorrectly written.
+
+> +		return;
+
+No error reporting?
+
+
+> +
+> +	if (sscanf(vsmp_ctrl_pci_addr, "%04x:%02hx.%1hhx", &bus, &dev, &func) < 3)
+> +		return;
+> +
+> +	vsmp_bus = bus;
+> +	vsmp_dev = dev;
+> +	vsmp_func = func;
+> +	vsmp_bdf_static = true;
+> +}
+> +
+> +/*
+> + * queries as specific device in order to determine if it is a vSMP PCI device
+> + */
+> +static void query_pci_bus_for_vsmp_directly(void)
+> +					    
+
+Always run checkpatch on your patches before sending them out.
+
+> +{
+> +	unsigned int devfn = PCI_DEVFN(vsmp_dev, vsmp_func);
+> +	printk(KERN_INFO
+> +	       "vSMP pci controller not found in devices tree, trying directly at %x:%x.%x...\n",
+> +	       vsmp_bus, vsmp_dev, vsmp_func);
+
+Drivers use dev_* calls, not "raw" printk().  Please fix.
+
+And when drivers work properly, they are totally quiet.
+
+> +
+> +	outl(PCI_CONF1_ADDRESS(vsmp_bus, devfn, PCI_BASE_ADDRESS_0), 0xcf8);
+> +	mapped_bars[0].start = inl(0xcfc);
+> +
+> +	// define a knwon value which might be enough and backwars compataible
+> +	mapped_bars[0].len = 0x100000;
+
+Again, drop the global variables.
+
+> +}
+> +
+> +/*
+> + * scan all the devices on the system in order to locate the
+> + * vSMP PCI device for a given dev end func is provided
+> + */
+> +static void scan_pci_devs_list_for_static_vsmp(unsigned int static_devfn)
+> +{
+> +	struct pci_dev *pdev = NULL;
+> +
+> +	for_each_pci_dev(pdev) {
+
+No, this is not allowed, please just bind to the pci device that you
+control.  Your probe() function will be called when it is present.  If
+it is not present, your code will never be loaded or called at all.
+It's been this way for a very long time, you should never scan the pci
+bus (hint, this way of doing it is also broken, it will not work
+properly even if you wanted to do it.)
+
+Again, please move this code to be a proper pci driver and all will be
+good and much much simpler.
+
+greg k-h
