@@ -1,123 +1,141 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DD517EA;
-	Sun, 24 Apr 2022 14:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1650811305; x=1682347305;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3qakcHWEZbb/tE6ZLoH7UT+OIS/LUOLJ19s9X3V6mpY=;
-  b=chyphFfvpz3jGI5k+b4nN+ERECMEWjWpWeK54j5+hW0ioAe65C/gL8Hv
-   THuqWiPJaOl0gBV4WSzpECc5M5Ur6KAvJMlhgwCN96540K7VGwWKYeNcu
-   YYg0dkLF+XahRiyulOKunIrKJdA59PvbIS+n40RhgcHWwzgPC82ylbpEC
-   eOo24nDLafKLKWg140LtiMd4P+zkuEhqfMAsr8iqHSmz8zK0ergiOeYcY
-   dfw6PJ3PJEr5DCnq9guH8ktMzukSvPsEaA2jz81m0gosiuRlxuNmj0suW
-   UTwLrLIj+byyF3ZEZQbSWKRvnnC65LiIk4VMewG5I1ktecFaIuG8r3TH6
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10326"; a="263899695"
-X-IronPort-AV: E=Sophos;i="5.90,286,1643702400"; 
-   d="scan'208";a="263899695"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2022 07:41:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,286,1643702400"; 
-   d="scan'208";a="704223679"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Apr 2022 07:41:42 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1nidQk-0001Wr-6u;
-	Sun, 24 Apr 2022 14:41:42 +0000
-Date: Sun, 24 Apr 2022 22:40:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org
-Subject: Re: [PATCH 4/5] staging: vt6655: Replace two VNSvInPortD with
- ioread64_lo_hi
-Message-ID: <202204242226.Y6Amb3he-lkp@intel.com>
-References: <db5ba681cea27de815b172f8b93a8fd1efa30e99.1650784817.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE1F2F2F
+	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 15:06:35 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id h3so17447357lfu.8
+        for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 08:06:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Ax4NjK8XwA1ohbPa662SFas+biBOwlGNHqnQ69auqV8=;
+        b=jhpgXc8M4iR38j4MFOGx8d5eDvEq3d+VuBEvwo2EztQHHj2bj+D9qzwstMclvxVwRN
+         uYkx3lSRd+6ubulZs90LexcOLSZShC9rmUOZgWZcT0UCjSkJ5Eq+RjzIh4KEjtbIoIjT
+         qteh+kIfUou7KM1tm6cOpxe3DjDBmoucooGVIPE3xNPsc6NdnmVungrN22yq1P9DxHga
+         fLiJFStM280kt7i1sEKTjgFjL8/2PNyCYHp8Ww92vJNWzcKK6+hysz5eXlJHF5awRLAT
+         yxYH8kffX37VA1d2lXMaJfn1y5Cb782qoqOaGjPZDjlPST9pymngixKZiS0H1u5iFuly
+         RmxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Ax4NjK8XwA1ohbPa662SFas+biBOwlGNHqnQ69auqV8=;
+        b=UZn52Z6IZdQq8yV88hU+QnTbDHD3A0DNuJ/pJiblSYDRzzLi+Xxc5KVM4ySI1JMdDj
+         5+XpHCxQUnf3Q5u+GeAvp40T56pYEh5qg6BY534Rl7iA9zFYd1Q0i6B59Q0YNVbEJRI2
+         +J6Yc1ZZxl85cLDe83iNJeYEUMKhx6a3hlwzZwF+krP/4oZMxzZM9F6Mh4UZcD/4tRRC
+         UdyqN93T1IhIljh7/BJzzXxtrZubezYS0Nn707wDDfLgGWiwEwZAr5ifHw0xSmfOvmHb
+         AcjGZ7nv3SiJCzxl7x3sujpG+yjN2C+zshbeEb0SP+w1IGq5LMcYbwojCkMldB/gng9e
+         L8qw==
+X-Gm-Message-State: AOAM531APnvXyprnqtIw9upzX4o3kzMDhnsSmmhOEl6hxcW9j2Mk8c9H
+	jHuC64xCnzthP7MVxnObGhQ=
+X-Google-Smtp-Source: ABdhPJzIC/OMqVHYwx3wVPo6mHHn8DnIt0notOSFzK1CVHndztLcHi5iYrH7PqPv1mdEHa0jjrk78A==
+X-Received: by 2002:a05:6512:6c5:b0:472:3b6:a980 with SMTP id u5-20020a05651206c500b0047203b6a980mr1476934lff.542.1650812793457;
+        Sun, 24 Apr 2022 08:06:33 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.225.17])
+        by smtp.gmail.com with ESMTPSA id y37-20020a0565123f2500b0044a1e1c6b37sm1043084lfa.53.2022.04.24.08.06.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Apr 2022 08:06:33 -0700 (PDT)
+Message-ID: <c2296090-2e9b-fafb-35da-e01b025b53b7@gmail.com>
+Date: Sun, 24 Apr 2022 18:06:32 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <db5ba681cea27de815b172f8b93a8fd1efa30e99.1650784817.git.philipp.g.hortmann@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [BUG] staging: r8188eu: KASAN: slab-out-of-bounds in
+ rtw_cmd_thread
+Content-Language: en-US
+To: Solomon Tan <wjsota@gmail.com>, Michael Straube <straube.linux@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <67e2d10b-7f0f-9c5a-ce31-376b83ffba9e@gmail.com>
+ <YmU+cqEZfrGz5XsT@ArchDesktop>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <YmU+cqEZfrGz5XsT@ArchDesktop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Philipp,
+Hi Solomon,
 
-Thank you for the patch! Yet something to improve:
+On 4/24/22 15:11, Solomon Tan wrote:
+> On Sun, Apr 24, 2022 at 12:00:12PM +0200, Michael Straube wrote:
+>> Hi,
+>> 
+>> It looks like
+>> commit 0afaa121813e ("staging: r8188eu: use in-kernel ieee channel")
+>> intoduced a. See KASAN output below.
+>> 
+>> That commit replaced the use of struct rtw_ieee80211_channel with struct
+>> ieee80211_channel.
+>> 
+>> There are several calls to memcpy that used sizeof(struct
+>> rtw_ieee80211_channel)
+>> and now use sizeof(struct ieee80211_channel) but the sizes of these two
+>> structures are not equal.
+>> 
+> 
+> Oh no. When does this issue get triggered?
+> 
+>> regards,
+>> Michael
+>> 
+>> dmesg:
+>> 
+>>  ==================================================================
+>> [  422.214237] BUG: KASAN: slab-out-of-bounds in rtw_cmd_thread+0x1e8/0x430
+>> [r8188eu]
+>> [  422.214277] Write of size 3600 at addr ffff8881e149d200 by task
+>> RTW_CMD_THREAD/2563
+>> 
+>> [  422.214289] CPU: 11 PID: 2563 Comm: RTW_CMD_THREAD Tainted: G C OE
+>> 5.18.0-rc2-staging+ #47 94e3ca73bebf5b7fec506721475e4fff2a023bb9
+>> [  422.214301] Hardware name: Gigabyte Technology Co., Ltd. B550M S2H/B550M
+>> S2H, BIOS F15a 02/16/2022
+>> [  422.214309] Call Trace:
+>> [  422.214313]  <TASK>
+>> [  422.214317]  dump_stack_lvl+0x45/0x5b
+>> [  422.214327]  print_report.cold+0x5e/0x5dc
+>> [  422.214335]  ? kasan_set_track+0x21/0x30
+>> [  422.214342]  ? kasan_set_free_info+0x20/0x40
+>> [  422.214349]  ? rtw_cmd_thread+0x1e8/0x430 [r8188eu
+>> 91924fe1575bf49b9b37985ffde2c585d847446d]
+>> [  422.214386]  kasan_report+0xab/0x120
+>> [  422.214394]  ? rtw_cmd_thread+0x1e8/0x430 [r8188eu
+>> 91924fe1575bf49b9b37985ffde2c585d847446d]
+>> [  422.214430]  kasan_check_range+0xf6/0x1d0
+>> [  422.214436]  memcpy+0x39/0x60
+>> [  422.214442]  rtw_cmd_thread+0x1e8/0x430 [r8188eu
+>> 91924fe1575bf49b9b37985ffde2c585d847446d]
+>> [  422.214479]  ? rtw_setassocsta_cmdrsp_callback+0xd0/0xd0 [r8188eu
+>> 91924fe1575bf49b9b37985ffde2c585d847446d]
+>> [  422.214516]  kthread+0x15d/0x190
+>> [  422.214523]  ? kthread_complete_and_exit+0x20/0x20
+>> [  422.214531]  ret_from_fork+0x22/0x30
+>> [  422.214540]  </TASK>
+> 
+> Sorry, I am not familiar with KASAN. How should I interpret this output?
+> I see the paragraph above has references to rtw_cmd_thread. I assume
+> that is its way of indicating that rtw_cmd_thread is the cause of the
+> problem, but the one below refers to other functions. I'm not sure where
+> I should start looking. I would start looking at `rtw_sitesurvey_cmd` and
+> `rtw_scan_ch_decision`, which call the memcpy on the
+> rtw_ieee80211_channel structure, but they are not on the call trace.
+> 
 
-[auto build test ERROR on staging/staging-testing]
+drivers/staging/r8188eu/core/rtw_cmd.c:276: memcpy() call.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Hortmann/staging-vt6655-Replace-macro-VNSvInPortW-D-with-ioread16-32/20220424-154730
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 1efba7ef1d7da5944493728c5375fef5b2130de4
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20220424/202204242226.Y6Amb3he-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcfdc3c683b393df1a5c9063252eb60e52818)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6e7e66f536e6d9d9eef8e7786de652b2702e1ee8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Philipp-Hortmann/staging-vt6655-Replace-macro-VNSvInPortW-D-with-ioread16-32/20220424-154730
-        git checkout 6e7e66f536e6d9d9eef8e7786de652b2702e1ee8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/vt6655/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/staging/vt6655/card.c:757:16: error: call to undeclared function 'ioread64_lo_hi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           *pqwCurrTSF = ioread64_lo_hi(iobase + MAC_REG_TSFCNTR);
-                         ^
-   1 error generated.
+As Michael said the sizes of structures do not mach and the memcpy 
+writes below allocated buffer.
 
 
-vim +/ioread64_lo_hi +757 drivers/staging/vt6655/card.c
 
-   730	
-   731	/*
-   732	 * Description: Read NIC TSF counter
-   733	 *              Get local TSF counter
-   734	 *
-   735	 * Parameters:
-   736	 *  In:
-   737	 *      priv         - The adapter to be read
-   738	 *  Out:
-   739	 *      qwCurrTSF       - Current TSF counter
-   740	 *
-   741	 * Return Value: true if success; otherwise false
-   742	 */
-   743	bool CARDbGetCurrentTSF(struct vnt_private *priv, u64 *pqwCurrTSF)
-   744	{
-   745		void __iomem *iobase = priv->port_offset;
-   746		unsigned short ww;
-   747		unsigned char data;
-   748	
-   749		MACvRegBitsOn(iobase, MAC_REG_TFTCTL, TFTCTL_TSFCNTRRD);
-   750		for (ww = 0; ww < W_MAX_TIMEOUT; ww++) {
-   751			data = ioread8(iobase + MAC_REG_TFTCTL);
-   752			if (!(data & TFTCTL_TSFCNTRRD))
-   753				break;
-   754		}
-   755		if (ww == W_MAX_TIMEOUT)
-   756			return false;
- > 757		*pqwCurrTSF = ioread64_lo_hi(iobase + MAC_REG_TSFCNTR);
-   758	
-   759		return true;
-   760	}
-   761	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+With regards,
+Pavel Skripkin
