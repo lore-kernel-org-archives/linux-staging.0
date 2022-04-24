@@ -1,109 +1,112 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5886A7C
-	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 19:01:33 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id v4so3277685ljd.10
-        for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 12:01:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770957C
+	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 19:17:26 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id m15-20020a7bca4f000000b0038fdc1394b1so11259380wml.2
+        for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 12:17:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=+tusk1aAliVBnk698Wzreusezn6ixz2Ndj0yD2FT6oc=;
-        b=IJ3yiYTbx1PS6R8J/dzPgtTLTnGNzwwOcXou8Z3ksezDlwUWJs6VmBY+p1ftGw7tSl
-         mjZ9rwHSjgcfX5WknNLLAq1VLL8pB5N+rSDR5sXPk6a/ZbekHE3gxKK3gLkVMzFXnD28
-         Ewz2+k9IMYx/Evk2TXQ6evAdofCjh1Ha/V3juheITvbC7/KcJ8mxQ3fBFGBbks+ko0zH
-         j8D5MXMN1/M7z0yZO5B7Rba/qvyyhtmw+CgcL28eTchETC03Fj+7sP2a1pYzK4Ojg8oW
-         0vMe0S3KxO8oj5nbZ/FPdDnx4cJSaFPmNca27EAZ8Swd3UMA4OmEA5hbI8pk9OiabUHK
-         TKdw==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=TAcvEbQ4Hi/Z0gz3UjE0i+qjlqG34Q9luvJnqApGvbA=;
+        b=D/ADx9khHILYQpQIWtOdHIN6aldQ/ty9pW+eLDL0qrnHBF9ARTTrdJqiJTxn2BABWB
+         gQWV0cOA5moixUEIyB4iOCp418tlodOVDVtVipfO9d+sijOSxoLDX2EzOpE/zrPSjL7p
+         KbrLLdaOS5936HyM/1sVrEU39q/MhbI6w7w1wpXY4DOvcCvmv/wcDsiEiJSN38oEDWBt
+         8hXn1JvxpMutRFc+EQe/w5BYU0EZfDwgSWfrrGt9fwteSoSYFauqVZNEAIRfAf6jUjcR
+         OKuK4BrKMPzJQPfwNfqgrcDFGHNEMDRhAQD4uL36r/SqQV19ggfyGM7JYF7aL0TWNcXj
+         /xqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=+tusk1aAliVBnk698Wzreusezn6ixz2Ndj0yD2FT6oc=;
-        b=McHWlDH9qJkSKgBUb8lPQN/ioqavGGqqt7TqUFvrNgaYpT/5X5FUVf9bvRtiM5zn2/
-         tLxFzSgHprNqydwlg6vnPTBI1frXc19fe2WCHp5q/MhJzzyyNQgIY0N88w+Lp6gvjYO2
-         UDnsEjeUSpAb2P8GGt2lomB92Q0Z9W+v/eaaBwF8bfExWZF0XIxRbIWQC5F37t8LzXdm
-         gFg1aGYYhGjKyHIzdbkTc1Jms8ZRZQi+iYcmWBa8XzgtDNLuHY2/6gfTm4RThfNWPafv
-         jq4KyCDyUk8xh26c9StzZwKCksfNtj+y2S/1kGDDnVMnLz+xgDUeBsXEvoorG09FN5og
-         S7ng==
-X-Gm-Message-State: AOAM5309jkR3MA30Yd/l2YPq4sm+u1V/vPUYRm/Vm+0ktdWIVdwlt+aj
-	z2jXHix6c2q9S2FwJsx/Ev0=
-X-Google-Smtp-Source: ABdhPJy6nfIi6y1OenfKsFPHIu8uWbc7mMPb+DsfPiY5lIpUSHJ15Zj0P3YBXEC0akZH5wGrwWh0yg==
-X-Received: by 2002:a2e:9e19:0:b0:247:deb7:cd9f with SMTP id e25-20020a2e9e19000000b00247deb7cd9fmr8622396ljk.261.1650826891258;
-        Sun, 24 Apr 2022 12:01:31 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.225.17])
-        by smtp.gmail.com with ESMTPSA id x16-20020a19e010000000b0046bb663f05csm1113153lfg.99.2022.04.24.12.01.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Apr 2022 12:01:30 -0700 (PDT)
-Message-ID: <88d617e4-419c-0d57-b0e2-f743d208c766@gmail.com>
-Date: Sun, 24 Apr 2022 22:01:29 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=TAcvEbQ4Hi/Z0gz3UjE0i+qjlqG34Q9luvJnqApGvbA=;
+        b=JsAKiVp2UxS1IQ+O0UPbEsJbVvhliocGq8W80z4UCid2LndCP1nOZVw+Zv3lNvv401
+         NzeR0R27/srrLEFeORuUU5C5lRk9dmb6fVVet+xDkd1UF2bzVKlmJXgvDZNd3giorx90
+         iITVrSoVuRlHFjLdNOmT7HiXhKRDCPbXob7ZgaLSKnpQw+iX1VjddAQjUW2Io9Cl4TCt
+         4Fk5nRAyyBnGNJ54tP6xPwnTrbDSCq91aRQJW+6DCVabLhSbskGUinsgcgyNpltSOo8C
+         Q5a6/txaOVmsokYm6+s9tFWbUgXMxDVzvdWFjXjNNlY5N8v7k3uE8fPITYbOcyTTL1Ns
+         VPDw==
+X-Gm-Message-State: AOAM530ZTVW4sst2MOQjJWwkjgEvs8jlezoHVkQS3q/2YAE3PsC3oEOD
+	LvyO76EtJiiY0O8u2Ics9AqEIg==
+X-Google-Smtp-Source: ABdhPJwQPYtw9aEjA/OKMsrIT2eP69V9xi4HGkzFtFs5y52dVv9etB+hmue427mZ/Ag2IPb/B3593w==
+X-Received: by 2002:a05:600c:a0b:b0:389:dd65:66f1 with SMTP id z11-20020a05600c0a0b00b00389dd6566f1mr13267425wmp.95.1650827844718;
+        Sun, 24 Apr 2022 12:17:24 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id r6-20020a1c4406000000b0039229d3c4eesm6954825wma.12.2022.04.24.12.17.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Apr 2022 12:17:24 -0700 (PDT)
+Date: Sun, 24 Apr 2022 21:17:22 +0200
+From: LABBE Corentin <clabbe@baylibre.com>
+To: Ian Cowan <ian@linux.cowan.aero>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
+	dan.carpenter@oracle.com, mjpeg-users@lists.sourceforge.net,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/4] staging: media: zoran: add zrdev_dbg() macros
+Message-ID: <YmWiQsrPj0uIpZ7w@Red>
+References: <20220423051745.292683-1-ian@linux.cowan.aero>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/3] staging: r8188eu: fix null check in
- rtw_free_recvframe
-Content-Language: en-US
-To: Vihas Makwana <makvihas@gmail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Michael Straube <straube.linux@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Dan Carpenter <dan.carpenter@oracle.com>
-References: <20220424163132.37007-1-makvihas@gmail.com>
- <20220424163132.37007-2-makvihas@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20220424163132.37007-2-makvihas@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220423051745.292683-1-ian@linux.cowan.aero>
 
-Hi Vihas,
-
-On 4/24/22 19:31, Vihas Makwana wrote:
-> There's a NULL check on padapter in rtw_recv.c:170 which makes no sense as
-> rtw_recv.c:152 dereferences it unconditionally and it would have already
-> crashed at this point.
-> Fix this by moving the dereference line inside the check.
+Le Sat, Apr 23, 2022 at 01:17:45AM -0400, Ian Cowan a écrit :
+> This adds the zrdev_dbg() (pointing to dev_dbg()), zrdev_err() (pointing
+> to dev_err()), and zrdev_info() (pointing to dev_info()) macros to the
+> zoran drivers. These are the preferred method for debugging and this
+> will allow to extract the device from the zoran struct to make the call.
 > 
-> Signed-off-by: Vihas Makwana <makvihas@gmail.com>
+> Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
 > ---
->   drivers/staging/r8188eu/core/rtw_recv.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/media/zoran/zoran.h | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-> index c1005ddaa..4cf9b4b8f 100644
-> --- a/drivers/staging/r8188eu/core/rtw_recv.c
-> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-> @@ -154,7 +154,6 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
->   	if (!precvframe)
->   		return _FAIL;
->   	padapter = precvframe->adapter;
-> -	precvpriv = &padapter->recvpriv;
+> diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
+> index 654c95fa5aba..42b86356c022 100644
+> --- a/drivers/staging/media/zoran/zoran.h
+> +++ b/drivers/staging/media/zoran/zoran.h
+> @@ -19,6 +19,7 @@
+>  #define _BUZ_H_
+>  
+>  #include <linux/debugfs.h>
+> +#include <linux/dev_printk.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/videobuf2-core.h>
+> @@ -301,6 +302,18 @@ static inline struct zoran *to_zoran(struct v4l2_device *v4l2_dev)
+>  
+>  #endif
+>  
+> +/**
+> + * Debugging macros
+> + */
+> +#define zrdev_dbg(zr, format, args...) \
+> +	dev_dbg(&zr->video_dev->dev, format, ##args) \
+> +
+> +#define zrdev_err(zr, format, args...) \
+> +	dev_err(&zr->video_dev->dev, format, ##args) \
+> +
+> +#define zrdev_info(zr, format, args...) \
+> +	dev_info(&zr->video_dev->dev, format, ##args) \
+> +
+>  int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir);
+>  void zoran_queue_exit(struct zoran *zr);
+>  int zr_set_buf(struct zoran *zr);
+> -- 
+> 2.35.1
+> 
 
-This expression just an addr calculation, so it does not lead to panic 
-in case of padapter being NULL
+Hello
 
->   	if (precvframe->pkt) {
->   		dev_kfree_skb_any(precvframe->pkt);/* free skb by driver */
->   		precvframe->pkt = NULL;
-> @@ -169,6 +168,7 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
->   	list_add_tail(&precvframe->list, get_list_head(pfree_recv_queue));
->   
->   	if (padapter) {
-> +		precvpriv = &padapter->recvpriv;
->   		if (pfree_recv_queue == &precvpriv->free_recv_queue)
->   				precvpriv->free_recvframe_cnt++;
->   	}
+Thanks for your patchs, removing dprintk is a good idea.
+Please use pci_xxx() instead of dev_xxx() to be consistent with the rest of the driver.
+The comment title is misleading, zrdev_err is not about debugging. What about Logging macros ?
 
-
-
-
-With regards,
-Pavel Skripkin
+Regards
