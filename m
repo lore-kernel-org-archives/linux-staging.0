@@ -1,325 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2048.outbound.protection.outlook.com [40.107.104.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE073201
-	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 13:40:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E021AC385A7;
-	Sun, 24 Apr 2022 13:40:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650807633;
-	bh=NJHwsmdod2sEs6NV0oCllmI57q/kiPU7WmbXQmvuAzg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gz5LDvCtUpl/CgpkWSOvP09uwwGfzBKkYjPyaf3K2Wz7yPmVNSNwy3/7asl9D7BcE
-	 JcxxBJ2ZVY5ZXkOj74iHtisVAeB+EArVQA2CVN47F3bz2sYVKn+pSTRCZ/GRofU8Db
-	 zx1xuav2bB+0RnBYfTkgJssB77hNI2vKME2RKZ5o=
-Date: Sun, 24 Apr 2022 15:40:30 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Czerwacki, Eial" <eial.czerwacki@sap.com>
-Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	SAP vSMP Linux Maintainer <linux.vsmp@sap.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6686B3201
+	for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 14:16:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CA8XyCMf1sM2NN8ZUlc/BRZLqmNIPbfTQLiqvBGQ2TKLUWxXYFXjhbUAdlXeYNuu4Sf3EbwKfZLnxaryA8qIPZdQ3YG8KxoCSomz7ANMC4QyIUWqoyfpk2G0WodOKgouwNwT7pbS45IG/+PiPF8muM4K1L0Iq8j5vDSuY4Vby5Rd3L6GXkJk/IfQNRfYIovvHF5lTyvSp7okQTy5cW6N2Ps0Cw8/bBuni1SwtycvOqoWkDFQUOCXy7a3texincfAonkmC344unYuSjLZWmzlkxIHEJHOLfjTVKYIBR0gyWaaaSJsGYFusI0M8xMX4jQOFZ012sR5THEly8QSO7dzUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wXMu2wnAjzIAz+1OQe/g2joL+x4HWu9ujXa+12dI7mQ=;
+ b=jgrizgHj/ESufwi+59ZJx6BK2OrkcO7l3DP3YnQj9a4Tn23hN8AzvI886LIprbYpRN3wSZOhx33Z6ShRuxPD2DJbn8x2o//xKikBS1RLD4/G38+d3omTRiN2osRSwULYLGfi4SJTBddGvWjhdcmQluseadFbSft8GzG0pPnR2fZVypzm9blC3Q4Uv/09DyeX1eM2vcUiPiKbz3rcC/K2UKnpFcvxlpJ0zIhXnO5iZP9rsXDgdNQIOWh+B83qyasU18LPvFKogqLoB/XmeP3sMFAUqMAcVR8rWUt3gnG6JH+d+XKFMCPeM+8mQkijEC4iHy3hEM7r/ME3PYDojTwAcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=sap.com; dmarc=pass action=none header.from=sap.com; dkim=pass
+ header.d=sap.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sap.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wXMu2wnAjzIAz+1OQe/g2joL+x4HWu9ujXa+12dI7mQ=;
+ b=Lvx9QSjMdEBUBXlrskrSq3R4VfVzcGAjU+5DhIBl8Eq2uxx/lLf+6nJlWuMpUq7HjNU/vpVLYIo5fV2l2RZKZVmroyT9zGU4QifliU7EjbPEJfOuBHFi0Sm/6e/tuecSbATI9Ae7s1IdSqKb4CyDRk8R5jrFstRdY+UXJkH2lYhUGrDtcAfu3H1UWDLsfn3qh5H3sNdu6b89LbBxv+c9WvxUlM7LHJZQr7nsKellNKxPKdHXom6MxftKvbleqLy8akoduj/f+UD5cUSQ8V0t9J72ZQhi+doFo+JmL/9f/141lmjUubvlSg5GZPAc13sCfHSnNR2x2fz7wnMaJVGK3Q==
+Received: from PAXPR02MB7310.eurprd02.prod.outlook.com (2603:10a6:102:1c5::10)
+ by VI1PR02MB5808.eurprd02.prod.outlook.com (2603:10a6:803:132::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.20; Sun, 24 Apr
+ 2022 14:16:49 +0000
+Received: from PAXPR02MB7310.eurprd02.prod.outlook.com
+ ([fe80::e53e:603a:5c35:72b6]) by PAXPR02MB7310.eurprd02.prod.outlook.com
+ ([fe80::e53e:603a:5c35:72b6%3]) with mapi id 15.20.5186.020; Sun, 24 Apr 2022
+ 14:16:49 +0000
+From: "Czerwacki, Eial" <eial.czerwacki@sap.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, SAP vSMP
+ Linux Maintainer <linux.vsmp@sap.com>
 Subject: Re: [RFC V2] drivers/virt/vSMP: new driver
-Message-ID: <YmVTTvQBSd5nzN3k@kroah.com>
-References: <PAXPR02MB7310EA802697DCDE90EF187581F99@PAXPR02MB7310.eurprd02.prod.outlook.com>
+Thread-Topic: [RFC V2] drivers/virt/vSMP: new driver
+Thread-Index: AQHYV8TvbsysO1IV902JKnQurGWPjKz/EjAAgAAJmOg=
+Date: Sun, 24 Apr 2022 14:16:49 +0000
+Message-ID:
+ <PAXPR02MB7310591DFEF6E1417E535D3181F99@PAXPR02MB7310.eurprd02.prod.outlook.com>
+References:
+ <PAXPR02MB7310EA802697DCDE90EF187581F99@PAXPR02MB7310.eurprd02.prod.outlook.com>
+ <YmVTTvQBSd5nzN3k@kroah.com>
+In-Reply-To: <YmVTTvQBSd5nzN3k@kroah.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+suggested_attachment_session_id: 3de6e1aa-c103-da05-45ae-8ca6f7ad227a
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=sap.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0d05655b-4316-4104-ae0e-08da25fd129d
+x-ms-traffictypediagnostic: VI1PR02MB5808:EE_
+x-microsoft-antispam-prvs:
+ <VI1PR02MB580836FA3730FA364874BB2F81F99@VI1PR02MB5808.eurprd02.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ XNetFMOR/5x/IsoEvJe3DPO6YSDwMBsVdJAwCzs9cAeHJDcI6fOUd8BcUCZQFrx9kmKwMZv9SNYbDVDw4zmgT5YHGe9OwSZDVwiyG9gFQDqcqzVwJeqLCk47ktL0uIRlLV6QaLtZw8ES0NzwrJ8X+7R/aCak0qr/aXsnJI7Ve4uUCv0Y9O8zKE+Mrg/ixZ7Z6rEX/GFA9llHnnOR1g1aPbU270S6O4CcMKZoH6tZMXjlh2RMwwGQAgAWjLTJEmWnU6Y3eonD4Q5P+TD00mXmg8XWrsmCunbaYfNfCoBtA/HnEoqBkWefvScdtKfir5XtADKlopXVy1oApZrQBHt30aDlL7sbaUPK3x5frLzU6mHcG4kFvZ9nN7oIw9dlVpKxERxqaMDjPgZatf8JDETkqk1v753O7b53/Xg62s8GE9QNC2wirI8wAka8x6VX83+8KHMNeD3eDpwyvpXidNuKkBqXWimHVUfQMUbwoLrv2bVAk3shkzmh/b1zSPGJVE6ukneaYEK/xYtsyaUazfEvrX/r17ZhP9V3EezVxqydAYiT88bREwrOiLgRVny/+y/4F+uMuXVoS9lfmgE+hVfOmRtDTwixDvrdOdUaolFynYme86S295EbHkbH99xayz29lT+Cvib7erQsYLjyMs7b1G5n3RqHgvmHyoL55BYWOLkUOdxskBrfzYuxK+unfCYDBqrpp1c1sSmppPVS6BYMjg==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR02MB7310.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8936002)(26005)(122000001)(186003)(4744005)(66476007)(54906003)(38100700002)(66946007)(5660300002)(76116006)(38070700005)(9686003)(7696005)(82960400001)(316002)(6506007)(91956017)(6916009)(2906002)(33656002)(86362001)(55016003)(4326008)(508600001)(66446008)(64756008)(8676002)(66556008)(71200400001)(52536014);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?bmmYNe9Kky/mDhD2e1IyBLhyoj1OJ/F7CZY7BniuaOvJ12d1/sphT6SOh3?=
+ =?iso-8859-1?Q?Lrj+MxrqMo2RdgxZXahsa5snuork/gH6YegvVhCKUFuPCRDRIwyIWXgjB9?=
+ =?iso-8859-1?Q?EUR/zKvpj5+g/bj/TKq5FFqGFYLapSzt7IQaxcMmYzyhXBdjMAO6L1y/yL?=
+ =?iso-8859-1?Q?V1fYwdpni8pvbKoRUe5Onk/DIO1i7+3YkmtOxhUMZTb3f9yWyGsgt3UHhW?=
+ =?iso-8859-1?Q?TkR2HjSBsSWJZZHd1rMKZgX5dC/hURKSzVVBNpwS/zzuZP5IQJMHYPsD9b?=
+ =?iso-8859-1?Q?h4l4DeR06P88Hnq52XaPjUD1+HDCBcg5ZsHEvYuIT4NIdt+TikjcPWH3s2?=
+ =?iso-8859-1?Q?suV+ozJF4AvXyrjgsDT2pELy5cKEFfgyZgadrKACSJdT23qX1wVLKR2q4j?=
+ =?iso-8859-1?Q?PLN/EBXxWTXBLTyq6oNN2wRORRR4612UnViK1AVJpSwtaSYrt+oMZm/Nrh?=
+ =?iso-8859-1?Q?BupMf6a7V2sgxXyqJ0xXtbhEpExGWlUv+rpVe7jklfb27Bj7tjbDjIFVlN?=
+ =?iso-8859-1?Q?7BXkSchsBJoFYlhiTTaDTqtDj3AjFzIsMMnViz0MnfEz3kYCaT9ZsJtGCI?=
+ =?iso-8859-1?Q?D7k9eS51bcMBDfPUlL7WF3KFDkIIdMgwoSsPTrSlu6vTp/EmZKuHfwdkSi?=
+ =?iso-8859-1?Q?bd7x2bBNsfMvcVS5EIcD6/b6LHRkALWt5iMjE79RNR4X0bGUv8oeQTDgIe?=
+ =?iso-8859-1?Q?Bwh4HvIvJX4HcM7HZ8c6lcWGxhKO8AhAeZl0YylbFR1INWiuNhceP0guXQ?=
+ =?iso-8859-1?Q?Zyy17GPhniqoYgfQ/MhFxutmvwx2A5T3+NYOL/Whd9eZgylbcNWKyZXTaa?=
+ =?iso-8859-1?Q?606QKpUMA54Uh6Pw6/kGD0qV+YcZFTZVaj5Z2945m3APuX1QoXdHZfTtUu?=
+ =?iso-8859-1?Q?lDaCqh6Ch+BrISXkof1bjXndXVkyMRhxhqHsh0/qRfthPy+uI7KaesYznf?=
+ =?iso-8859-1?Q?c9IRL9kjxjMSK/IbzFlIcnXA85im2va5iMsA3IobgGzpAAga0BuZ7ptwKG?=
+ =?iso-8859-1?Q?0gMtoBKeGsKxSUz10AuXrxGZdgtXlb4wTNZu3Yn1GJ3bDikA6csiDvNYH/?=
+ =?iso-8859-1?Q?l17nQ10S7DDYf719ffd1kzYOuCFmV75iTpu8MtBdIKQsAkZ2yeg8xloCsJ?=
+ =?iso-8859-1?Q?32ugL+DHvJ1voLOLBMYQr6gwY/fn8LsX/w8A0VzImXV2eb1AkNCeDuRdya?=
+ =?iso-8859-1?Q?aLPazFstW1yXqW1lYaBYgYJskkV0hnQk6k7hVGubPtOiT7C8dJkyREh7QX?=
+ =?iso-8859-1?Q?Aaa5DgYXKJvE9ZsQzLXurIKOe6pOAzv9em5qrvCwim5AE8BRHvNX1yXOUz?=
+ =?iso-8859-1?Q?fUM9iNkqOHKwPIfFHWhUS08HvHn9XH2Gs+d9gmk0VS69c1xp39AJlZ2WTE?=
+ =?iso-8859-1?Q?7TiddD0TnY8ksYTRYgowp4G6pB/cboogjUh8ZpsNR6bLx0ZeXpg/W/sRV5?=
+ =?iso-8859-1?Q?i5NfABQsJJFF/tS2LVi/j1iGpMWnq6JcNjK8wsuOCqN77NW9LpiZkbatvq?=
+ =?iso-8859-1?Q?5vS5BfXcFOUgsAHu/HatpVIiclEErsA6sSA5ab0lGua5SxBYjPpNBth18s?=
+ =?iso-8859-1?Q?vPD25dhIhcZ7Aq7OjnSnl/FET6ALg3gk646kQi45LE0b8zYSZqDokoocs2?=
+ =?iso-8859-1?Q?J65O7QOolKbsYsFFEENpt99SDisV/PShevBeZQQXNG1cbNRnFEJ+HbRWH6?=
+ =?iso-8859-1?Q?W1s0H54+ranEBlqBddIxU+VZhKWi3DnrxB+VCSpOgzqCTL7D+azEwKyT7L?=
+ =?iso-8859-1?Q?Inm4FdeaB9M6hVP13x5V/pC7p42MhzsELhdu4zoG98iLsDdJxEtA58VBy6?=
+ =?iso-8859-1?Q?EV/SkpPcCA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR02MB7310EA802697DCDE90EF187581F99@PAXPR02MB7310.eurprd02.prod.outlook.com>
+X-OriginatorOrg: sap.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR02MB7310.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d05655b-4316-4104-ae0e-08da25fd129d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2022 14:16:49.5311
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 42f7676c-f455-423c-82f6-dc2d99791af7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tD0h0DrnWHZDFZYbS4mzVpHUIE8KoDxbEbdBJ2Vp+NjpLggiMxvq55cY6s7DF0larLgBWZoVQOsT5/JUHjtAiA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR02MB5808
 
-On Sun, Apr 24, 2022 at 11:44:33AM +0000, Czerwacki, Eial wrote:
-> Introducing the vSMP guest driver which allows interaction with the vSMP control device when
-> running a Linux OS atop of the vSMP hypervisor.
-> vSMP is a resource aggregation hypervisor from SAP.
-
-Please properly wrap your lines at 72 columns like git asks you to.
-
-> 
-> the driver comprises of 3 modules, vsmp which includes all the api needed to interact with the
-> control driver, vsmp_logs which allows reading logs from the hypervisor and vsmp_common_info which
-> allows reading generic information the hypervisor exposes, currently only the version is exposed.
-
-
-Should this be one patch per module?
-
-> 
-> Signed-off-by: Eial Czerwacki <eial.czerwacki@sap.com>
-> 
-> v1 -> v2:
-> 	- fix multiple rejects pointed out by Greg KH
-> 	- fix multiple rejects pointed out by Dan Carpenter
-> 	- fix multiple rejects pointed out by Randy Dunlap
-
-You you didn't cc: any of us?
-
-> ---
->  .../ABI/stable/sysfs-driver-vsmp_common_info  |   5 +
->  .../ABI/stable/sysfs-driver-vsmp_logs         |   5 +
->  drivers/virt/vsmp/Kconfig                     |  14 +
->  drivers/virt/vsmp/Makefile                    |   7 +
->  drivers/virt/vsmp/api.c                       | 416 ++++++++++++++++++
->  drivers/virt/vsmp/api.h                       |  61 +++
->  drivers/virt/vsmp/common/Kconfig              |  11 +
->  drivers/virt/vsmp/common/Makefile             |   7 +
->  drivers/virt/vsmp/common/common.c             |  66 +++
->  drivers/virt/vsmp/common/common.h             |  27 ++
->  drivers/virt/vsmp/common/version.c            | 117 +++++
->  drivers/virt/vsmp/logs/Kconfig                |  10 +
->  drivers/virt/vsmp/logs/Makefile               |   7 +
->  drivers/virt/vsmp/logs/active_logs.c          | 121 +++++
->  drivers/virt/vsmp/registers.h                 |  16 +
-
-linux-staging@ is not the proper list for this to go to.  Please run
-scripts/get_maintainer.pl on your patch and resend it.
-
->  15 files changed, 890 insertions(+)
->  create mode 100644 Documentation/ABI/stable/sysfs-driver-vsmp_common_info
->  create mode 100644 Documentation/ABI/stable/sysfs-driver-vsmp_logs
->  create mode 100644 drivers/virt/vsmp/Kconfig
->  create mode 100644 drivers/virt/vsmp/Makefile
->  create mode 100644 drivers/virt/vsmp/api.c
->  create mode 100644 drivers/virt/vsmp/api.h
->  create mode 100644 drivers/virt/vsmp/common/Kconfig
->  create mode 100644 drivers/virt/vsmp/common/Makefile
->  create mode 100644 drivers/virt/vsmp/common/common.c
->  create mode 100644 drivers/virt/vsmp/common/common.h
->  create mode 100644 drivers/virt/vsmp/common/version.c
->  create mode 100644 drivers/virt/vsmp/logs/Kconfig
->  create mode 100644 drivers/virt/vsmp/logs/Makefile
->  create mode 100644 drivers/virt/vsmp/logs/active_logs.c
->  create mode 100644 drivers/virt/vsmp/registers.h
-> 
-> diff --git a/Documentation/ABI/stable/sysfs-driver-vsmp_common_info b/Documentation/ABI/stable/sysfs-driver-vsmp_common_info
-> new file mode 100644
-> index 000000000000..a8a6afe417f3
-> --- /dev/null
-> +++ b/Documentation/ABI/stable/sysfs-driver-vsmp_common_info
-> @@ -0,0 +1,5 @@
-> +What:           /sys/hypervisor/vsmp/version
-> +Date:           Apr 2022
-> +Contact:        Eial Czerwacki <eial.czerwacki@sap.com>
-> +		linux-vsmp@sap.com
-> +Description:    Shows the full version of the vSMP hypervisor
-> diff --git a/Documentation/ABI/stable/sysfs-driver-vsmp_logs b/Documentation/ABI/stable/sysfs-driver-vsmp_logs
-> new file mode 100644
-> index 000000000000..a863898f5356
-> --- /dev/null
-> +++ b/Documentation/ABI/stable/sysfs-driver-vsmp_logs
-> @@ -0,0 +1,5 @@
-> +What:           /sys/hypervisor/vsmp/logs
-
-All of the vsmp/ sysfs api files should be in the same file, no need to
-spread them around.
-
-> +Date:           Apr 2022
-> +Contact:        Eial Czerwacki <eial.czerwacki@sap.com>
-> +		linux-vsmp@sap.com
-
-Why a mix of tabs and spaces?  Please just use tabs.
-
-> +Description:    Dumps the logs of the current session from the vSMP hypervisor
-> diff --git a/drivers/virt/vsmp/Kconfig b/drivers/virt/vsmp/Kconfig
-> new file mode 100644
-> index 000000000000..e75879435769
-> --- /dev/null
-> +++ b/drivers/virt/vsmp/Kconfig
-> @@ -0,0 +1,14 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +menuconfig VSMP
-> +	tristate "vSMP Guest Support"
-> +	depends on SYS_HYPERVISOR && X86_64 && PCI
-> +	help
-> +	  Support for vSMP Guest Driver.
-> +
-> +	  This driver allows information gathering of data from the vSMP hypervisor when
-> +	  running on top of a vSMP-based hypervisor.
-> +
-> +	  If unsure, say no.
-> +
-> +source "drivers/virt/vsmp/common/Kconfig"
-> +source "drivers/virt/vsmp/logs/Kconfig"
-> diff --git a/drivers/virt/vsmp/Makefile b/drivers/virt/vsmp/Makefile
-> new file mode 100644
-> index 000000000000..88625cd3707d
-> --- /dev/null
-> +++ b/drivers/virt/vsmp/Makefile
-> @@ -0,0 +1,7 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Makefile for vSMP Guest drivers.
-> +#
-> +
-> +obj-$(CONFIG_VSMP)	+= vsmp.o common/ logs/
-> +vsmp-y			:= api.o
-> diff --git a/drivers/virt/vsmp/api.c b/drivers/virt/vsmp/api.c
-> new file mode 100644
-> index 000000000000..57c345eaaa0c
-> --- /dev/null
-> +++ b/drivers/virt/vsmp/api.c
-> @@ -0,0 +1,416 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * vSMP api
-> + * Copyright (C) 2022 SAP.
-> + */
-> +
-> +#include <linux/init.h>
-> +#include <linux/module.h>
-> +#include <linux/moduleparam.h>
-> +#include <linux/pci_regs.h>
-> +#include <linux/pci.h>
-> +#include <linux/kobject.h>
-> +#include <linux/kernel.h>
-> +
-> +#include <asm/io.h>
-> +
-> +#include "api.h"
-> +
-> +#define DEVICE_NAME "vsmp"
-
-KBUILD_MODNAME?
-
-> +#define DRIVER_LICENSE "GPL v2"
-> +#define DRIVER_AUTHOR "Eial Czerwacki <eial.czerwacki@sap.com>"
-> +#define DRIVER_DESC "vSMP api driver"
-> +#define DRIVER_VERSION "0.1"
-
-In-kernel drivers do not need a version, please remove.
-
-> +
-> +#define PCI_DEVICE_ID_SAP_FLX_VSMP_CTL 0x1011
-> +#define VSMP_CTL_MAX_PCI_BARS 2
-> +
-> +/* modules info */
-> +MODULE_LICENSE(DRIVER_LICENSE);
-> +MODULE_AUTHOR(DRIVER_AUTHOR);
-> +MODULE_DESCRIPTION(DRIVER_DESC);
-> +MODULE_VERSION(DRIVER_VERSION);
-> +
-> +static unsigned int vsmp_bus;
-> +static unsigned short vsmp_dev = 0x1f;
-> +static unsigned char vsmp_func;
-> +static bool vsmp_bdf_static = false;
-> +static char *vsmp_ctrl_pci_addr = "";
-> +module_param(vsmp_ctrl_pci_addr, charp, 0660);
-> +
-> +/* defines */
-> +// copied from arch/x86/pci/direct.c
-> +#define PCI_CONF1_ADDRESS(bus, devfn, reg) (0x80000000 | ((reg & 0xF00) << 16) | (bus << 16) \
-> +	   | (devfn << 8) | (reg & 0xFC))
-
-You should never need this type of thing, why not use the normal pci
-apis?
-
-> +
-> +/* global vars */
-> +void __iomem *cfg_addr;
-
-Horrible global symbol name :(
-
-> +static struct kobject *vsmp_sysfs_kobj;
-> +static struct pci_dev *vsmp_dev_obj;
-
-static variables are not global :)
-
-And you should not need this, again, use the proper PCI api insted.
-
-> +
-> +static const struct pci_device_id vsmp_pci_tbl[] = {
-> +	{ PCI_VDEVICE(SCALEMP, PCI_DEVICE_ID_SAP_FLX_VSMP_CTL), 0, },
-> +	{ 0, },			/* terminate list */
-> +};
-> +
-> +static struct {
-> +	uint64_t start;
-> +	uint64_t len;
-
-u64 is the proper kernel type, uint* is for userspace code.
-
-> +} mapped_bars[VSMP_CTL_MAX_PCI_BARS] = { 0 };
-> +
-> +/* internal functions */
-> +
-> +/*
-> + * parses the pci address of a given address where the vSMP
-> + * pci device is found
-> + */
-> +static void parse_vsmp_ctrl_pci_addr(void)
-> +{
-> +	unsigned int bus;
-> +	unsigned short dev;
-> +	unsigned char func;
-> +
-> +	if (!strlen(vsmp_ctrl_pci_addr))
-
-Do not use global data for anything, that's a huge hint that your driver
-is incorrectly written.
-
-> +		return;
-
-No error reporting?
-
-
-> +
-> +	if (sscanf(vsmp_ctrl_pci_addr, "%04x:%02hx.%1hhx", &bus, &dev, &func) < 3)
-> +		return;
-> +
-> +	vsmp_bus = bus;
-> +	vsmp_dev = dev;
-> +	vsmp_func = func;
-> +	vsmp_bdf_static = true;
-> +}
-> +
-> +/*
-> + * queries as specific device in order to determine if it is a vSMP PCI device
-> + */
-> +static void query_pci_bus_for_vsmp_directly(void)
-> +					    
-
-Always run checkpatch on your patches before sending them out.
-
-> +{
-> +	unsigned int devfn = PCI_DEVFN(vsmp_dev, vsmp_func);
-> +	printk(KERN_INFO
-> +	       "vSMP pci controller not found in devices tree, trying directly at %x:%x.%x...\n",
-> +	       vsmp_bus, vsmp_dev, vsmp_func);
-
-Drivers use dev_* calls, not "raw" printk().  Please fix.
-
-And when drivers work properly, they are totally quiet.
-
-> +
-> +	outl(PCI_CONF1_ADDRESS(vsmp_bus, devfn, PCI_BASE_ADDRESS_0), 0xcf8);
-> +	mapped_bars[0].start = inl(0xcfc);
-> +
-> +	// define a knwon value which might be enough and backwars compataible
-> +	mapped_bars[0].len = 0x100000;
-
-Again, drop the global variables.
-
-> +}
-> +
-> +/*
-> + * scan all the devices on the system in order to locate the
-> + * vSMP PCI device for a given dev end func is provided
-> + */
-> +static void scan_pci_devs_list_for_static_vsmp(unsigned int static_devfn)
-> +{
-> +	struct pci_dev *pdev = NULL;
-> +
-> +	for_each_pci_dev(pdev) {
-
-No, this is not allowed, please just bind to the pci device that you
-control.  Your probe() function will be called when it is present.  If
-it is not present, your code will never be loaded or called at all.
-It's been this way for a very long time, you should never scan the pci
-bus (hint, this way of doing it is also broken, it will not work
-properly even if you wanted to do it.)
-
-Again, please move this code to be a proper pci driver and all will be
-good and much much simpler.
-
-greg k-h
+On Sun, Apr 24, 2022 at 11:44:33AM +0000, Czerwacki, Eial wrote:=0A=
+> Introducing the vSMP guest driver which allows interaction with the vSMP =
+control device when=0A=
+> running a Linux OS atop of the vSMP hypervisor.=0A=
+> vSMP is a resource aggregation hypervisor from SAP.=0A=
+> [snip]=0A=
+>=0A=
+>Again, please move this code to be a proper pci driver and all will be=0A=
+>good and much much simpler.=0A=
+>=0A=
+>greg k-h=0A=
+=0A=
+will fix and send again.=0A=
+=0A=
+Thanks,=0A=
+=0A=
+Eial=
