@@ -1,200 +1,107 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DE02585;
-	Mon, 25 Apr 2022 16:17:06 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:ad99:4ace:ca31:d49f] (unknown [IPv6:2a01:e0a:120:3210:ad99:4ace:ca31:d49f])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 08BEC1F43619;
-	Mon, 25 Apr 2022 17:17:03 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1650903423;
-	bh=ZpTwJbZZr/H9CBIUyh/kt4kicHgBjDQHTZ78dC5HfK8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=odGIJtNP+8Zz/7Wax6JrQlecZqRXdMDyXDjds01M8hauYBjD3EXyIaJavSWYYnMR2
-	 iLWpZUaT4vvysowt5EAInE88aOX6O3vBt4E9aUbkbxjZT2E29WWHu7B55yBHeZFyyx
-	 c0AOrlQ53vAfBTi9QPVml5IM+O5Oft5kf39mEANqqwJ5kHva5xIWH/ug6c+MhRUM/0
-	 mSyBlIkYRXUVksE7PR6/JS8cxS2dP+i+QIoKHWtxHKlj1J/Ko+8tsoqEGid5ukCNx+
-	 iDjCKFIbiIHMw8f7R2PWogez/UmGUn/Tvhjz69jqzrQe0TJ75/0fmgnNiqHwf0CeUH
-	 GtwY59Xvr2RWg==
-Message-ID: <d1ba4e57-2f13-ab3b-f79a-dc812cd4c2bf@collabora.com>
-Date: Mon, 25 Apr 2022 18:16:59 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED337E
+	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 17:47:37 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id x22-20020a4aca96000000b00338fbaf797bso2921735ooq.10
+        for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 10:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=m21FEJxNvF+ScKNVrQB2zjxzVrh9tftainj7QUwtfio=;
+        b=bKSmgB4uNcLImMcLm04M81HS6AbvME1OHxdry0sHNt+CPp7FhCj+aZMsKORP3RqiM6
+         ciGUKuuqTUU1NcZhKRglQt9V5L0fd2piqGMhfnAVnl7eG86JUNrbt6Hn/Rni3i9nWuc4
+         oVBI9ignz5nDa4wqhYH2zQfXyBKsBqLLWlo4JvbL13pezeqGgufxksdnf6tAcR92EmLT
+         eVMhItywFnc3Y3AR2qH44CvO0UsE8QYu25ybvd8ScZ+mhIaOWbl0qlzOtZDyITYJ2S6+
+         CN9YPyvClh+zevOpK5SzqoW3pfDpzLf5heRc1BVndaDx2omKtZvjxrfNhcR4M0iZGN6v
+         4qhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m21FEJxNvF+ScKNVrQB2zjxzVrh9tftainj7QUwtfio=;
+        b=FTESMm792BhXI8/16tpI5Z4cCKwd/0L1TIYQPw9sUX5FOfLUFzhv+zNKCnG0kluIb+
+         LkAf1sp/3m7ss+s/xjYo4FHYbndZk0zg9Nt7o393xhkFxT81cuGhrqvND9EznodFoiFb
+         E2qj0Moo54wKnSjElhfmPXRxzMjFJ71QMsdNXoRBWOvN4OYHWXvVplE8JarGP7AcbD4g
+         kVJQ1E5UK3CWSaQKJRdGbMnhHCYeX3WuO1Tw9D9kwMAh+RCnadUDxDglM+2iyetnDkUp
+         wNOtlY3iMPLSDxXb7MD14p+8UP5MHG4G1/4MAAoerKof6wNJ/HzZbny42Uk5i1oZ7oP9
+         SiqA==
+X-Gm-Message-State: AOAM5304jwJSVNtC35733eJAZQ88DOWygGkA4d9fP1Somomi0Xes/SPO
+	V6NbNGlKL+HGQLH/HBv/dDmdwAVTpxxz/eWdtrU=
+X-Google-Smtp-Source: ABdhPJxX43gYEJBSlIIAHRVesXis2DaOfUdo3u4PZEMOqQKg4mXGDJALqDKFDYk6BPQ6mFrw9Zmagh3Fjh4pkMvq8M4=
+X-Received: by 2002:a4a:a2cd:0:b0:33a:49a9:6d46 with SMTP id
+ r13-20020a4aa2cd000000b0033a49a96d46mr6818911ool.46.1650908856172; Mon, 25
+ Apr 2022 10:47:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 04/17] media: uapi: HEVC: Add missing fields in HEVC
- controls
-Content-Language: en-US
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, nicolas.dufresne@collabora.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
- <20220407152940.738159-5-benjamin.gaignard@collabora.com>
- <20220425135449.oapsrqqyq34s2ii3@basti-XPS-13-9310>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20220425135449.oapsrqqyq34s2ii3@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220424163132.37007-1-makvihas@gmail.com> <20220424163132.37007-3-makvihas@gmail.com>
+ <85f946c9-235e-cc69-4d19-1ebf972cd935@gmail.com>
+In-Reply-To: <85f946c9-235e-cc69-4d19-1ebf972cd935@gmail.com>
+From: Vihas Makwana <makvihas@gmail.com>
+Date: Mon, 25 Apr 2022 23:17:25 +0530
+Message-ID: <CAH1kMwQ+vAcqcbsimB2Rr8gyhLtjPEQYi11uVi48Rm5PQRmpoA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] staging: r8188eu: fix null check in _rtw_enqueue_recvframe
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+
+On Mon, Apr 25, 2022 at 12:23 AM Pavel Skripkin <paskripkin@gmail.com> wrote:
+>
+> Hi Vihas,
+>
+> On 4/24/22 19:31, Vihas Makwana wrote:
+> > There's a NULL check on padapter in rtw_recv.c:189 which makes no sense as
+> > rtw_recv.c:184 dereferences it unconditionally and it would have already
+> > crashed at this point.
+> > Fix this by moving the dereference line inside the check.
+> >
+> > Signed-off-by: Vihas Makwana <makvihas@gmail.com>
+> > ---
+> >   drivers/staging/r8188eu/core/rtw_recv.c | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+> > index 4cf9b4b8f..7d306a3c6 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_recv.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_recv.c
+> > @@ -181,12 +181,13 @@ int rtw_free_recvframe(struct recv_frame *precvframe, struct __queue *pfree_recv
+> >   int _rtw_enqueue_recvframe(struct recv_frame *precvframe, struct __queue *queue)
+> >   {
+> >       struct adapter *padapter = precvframe->adapter;
+> > -     struct recv_priv *precvpriv = &padapter->recvpriv;
+> > +     struct recv_priv *precvpriv;
+>
+> Actually, `&padapter->recvpriv` is not a de-reference, it's just address
+> calculation, so in case of padapder being NULL precvpriv will contain
+> offsetof(struct adapter, recvpriv).
+>
+Oh, I see.
+> >
+> >       list_del_init(&precvframe->list);
+> >       list_add_tail(&precvframe->list, get_list_head(queue));
+> >
+> >       if (padapter) {
+> > +             precvpriv = &padapter->recvpriv;
+> >               if (queue == &precvpriv->free_recv_queue)
+> >                       precvpriv->free_recvframe_cnt++;
+> >       }
+>
+>
+>
+>
+> With regards,
+> Pavel Skripkin
 
 
-Le 25/04/2022 à 15:54, Sebastian Fricke a écrit :
-> On 07.04.2022 17:29, Benjamin Gaignard wrote:
->> Complete the HEVC controls with missing fields from H.265 
->> specifications.
->> Even if these fields aren't used by the current mainlined drivers
->> they will be need for (at least) rkvdec driver.
->
-> s/be need/be required/
-> or
-> s/be need/be needed/
->
-> s/rkvdec/the rkvdec/
->
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->> .../media/v4l/ext-ctrls-codec.rst             | 19 +++++++++++++++++++
->> include/media/hevc-ctrls.h                    |  6 +++++-
->> 2 files changed, 24 insertions(+), 1 deletion(-)
->>
->> diff --git 
->> a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
->> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index 4cd7c541fc30..dbb08603217b 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -2661,6 +2661,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>     :stub-columns: 0
->>     :widths:       1 1 2
->>
->> +    * - __u8
->> +      - ``video_parameter_set_id``
->> +      - Specifies the value of the vps_video_parameter_set_id of the 
->> active VPS
->> +        as descibed in section "7.4.3.2.1 General sequence parameter 
->> set RBSP semantics"
->> +        of H.265 specifications.
->> +    * - __u8
->> +      - ``seq_parameter_set_id``
->> +      - Provides an identifier for the SPS for reference by other 
->> syntax elements
->> +        as descibed in section "7.4.3.2.1 General sequence parameter 
->> set RBSP semantics"
->> +        of H.265 specifications.
->>     * - __u16
->>       - ``pic_width_in_luma_samples``
->>       -
->> @@ -2800,6 +2810,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>     :stub-columns: 0
->>     :widths:       1 1 2
->>
->> +    * - __u8
->> +      - ``pic_parameter_set_id``
->> +      - Identifies the PPS for reference by other syntax elements.
->>     * - __u8
->>       - ``num_extra_slice_header_bits``
->>       -
->> @@ -3026,6 +3039,12 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>     * - __u8
->>       - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
->>       - The list of L1 reference elements as indices in the DPB.
->> +    * - __u16
->> +      - ``short_term_ref_pic_set_size``
->> +      - Specifies the size of short-term reference pictures set 
->> included in the SPS.
->
-> s/size of/size of the/
->
-> Section 7.4.8 depicts that the st_ref_pic_set syntax
-> structure can be part of the SPS or the slice header.
->
-> I think we should mention that we talk about the size of the 
-> st_ref_pic_set
-> syntax structure from section 7.4.8 of the specification.
->> +    * - __u16
->> +      - ``long_term_ref_pic_set_size``
->> +      - Specifies the size of long-term reference pictures set 
->> include in the SPS.
->
-> s/size of/size of the/
->
-> Can we make this a bit more helpful? The specification doesn't contain
-> a similar structure to `st_ref_pic_set` for long term pictures. So, as a
-> programmer this leaves me guessing:
-> - Which syntax structure's size are we talking about?
-> - Does this correlate to any of the existing sections of the
-> specification?
-> Because in the end, I feel like this documentation should be able to
-> help a programmer to provide the correct data for the uABI.
 
-I will reword it like that:
-
-   * - __u16
-     - ``short_term_ref_pic_set_size``
-     - Specifies the size, in bits, of the short-term reference pictures set, described as st_ref_pic_set()
-       in the specification, included in the slice header (section 7.3.6.1).
-
-  * - __u16
-    - ``long_term_ref_pic_set_size``
-    - Specifies the size, in bits, of the long-term reference pictures set include in the slice header.
-      It is the number of bits in the conditional block if( long_term_ref_pics_present_flag ) {...}
-      in section 7.3.6.1 of the specification.
-
-Benjamin
-
-
->
-> Greetings,
-> Sebastian
->
->>     * - __u8
->>       - ``padding``
->>       - Applications and drivers must set this to zero.
->> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->> index 01ccda48d8c5..a329e086a89a 100644
->> --- a/include/media/hevc-ctrls.h
->> +++ b/include/media/hevc-ctrls.h
->> @@ -58,6 +58,8 @@ enum v4l2_mpeg_video_hevc_start_code {
->> /* The controls are not stable at the moment and will likely be 
->> reworked. */
->> struct v4l2_ctrl_hevc_sps {
->>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
->> +    __u8    video_parameter_set_id;
->> +    __u8    seq_parameter_set_id;
->>     __u16    pic_width_in_luma_samples;
->>     __u16    pic_height_in_luma_samples;
->>     __u8    bit_depth_luma_minus8;
->> @@ -108,6 +110,7 @@ struct v4l2_ctrl_hevc_sps {
->>
->> struct v4l2_ctrl_hevc_pps {
->>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
->> +    __u8    pic_parameter_set_id;
->>     __u8    num_extra_slice_header_bits;
->>     __u8    num_ref_idx_l0_default_active_minus1;
->>     __u8    num_ref_idx_l1_default_active_minus1;
->> @@ -199,7 +202,8 @@ struct v4l2_ctrl_hevc_slice_params {
->>     __u32    slice_segment_addr;
->>     __u8    ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>     __u8    ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->> -
->> +    __u16    short_term_ref_pic_set_size;
->> +    __u16    long_term_ref_pic_set_size;
->>     __u8    padding;
->>
->>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction 
->> parameter */
->> -- 
->> 2.32.0
->>
+-- 
+Thanks,
+Vihas
