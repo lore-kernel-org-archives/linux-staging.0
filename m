@@ -1,61 +1,128 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bumble.birch.relay.mailchannels.net (bumble.birch.relay.mailchannels.net [23.83.209.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5857C
-	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 01:19:49 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id s14so23585634plk.8
-        for <linux-staging@lists.linux.dev>; Sun, 24 Apr 2022 18:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UC3UUz3+3Li+KSXitsNBzOD/5C0DEIQhctDbkXoSxco=;
-        b=Z7rboODG/yWX8bCEnoh6B7AguUHh2w+BdLUv1l6MHxHitsLsTr1vaekb/aXKsHftt+
-         g5rnbjq1gN5Z2noUFol5RLkEVQRutGiXnKaQFunhyxa2JgGt6WPZoF5/msdQJianTXVv
-         nRcAoXcZf+Xy3/UTBNOpy2fjVR7mxgv51/51R6IJJBhrdmKAoOCmhRwH3lPsKUlZcQia
-         rreoDsZXbuQrOYPTymAdqR6E/shpOMIPKpr0E6u1+cvU9D0JV4Qkt5xjRrkpKzGBChFU
-         kxdr4I3Mc5fKYd2JQ7HUg74A0+T7jeJYHNYuDd0HQo4HUZ/sR60he1eICFQl1ZnqGWqn
-         zKUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UC3UUz3+3Li+KSXitsNBzOD/5C0DEIQhctDbkXoSxco=;
-        b=L4CEgkn/egdbc2FllVEFOkrX7D0e33dJaiBmrycmf4tcObmfA4uUuRtY7ZcWDHfee8
-         XuiW2OhEL+8L7Hl4RBa37f8umaZAYRV2FJDsInFLBOvfuL2v7dV4FEDtTPIaTSeC9mjJ
-         9SODbzXzEHnCFL6Rw539JG3RoMz4WwhCEHpEdZ13AEXX59KK942vE9fcnTda3FEtqeTt
-         pfVivwZzRCue6P8XdvwLaavdR2Cr0zGl7C3rfPxOAx97n1uc4ajlX3a1qBgtOBHROfic
-         v9XqkVFunjPVqZ0vXKIUJiRDg7lEAzes2yquA1cOW0vTRXWN8kuAYRavBx8mJldbXzZe
-         cU4g==
-X-Gm-Message-State: AOAM532a6jM6XsJzlcFCs2fL5LsGYCy7gatlaz2XYnUcvHaam0UGNpnV
-	hJXWM3AcDgQXp8Q/MdXnZYw=
-X-Google-Smtp-Source: ABdhPJwu0pHVzic4N9d0cQf/8eWFhfTH4BXxnUjj0DLOSheOLv6NcJlGfGcXfNZUfAvWCSoBUMEPgA==
-X-Received: by 2002:a17:903:32c5:b0:158:f6bb:fae0 with SMTP id i5-20020a17090332c500b00158f6bbfae0mr15689329plr.62.1650849589122;
-        Sun, 24 Apr 2022 18:19:49 -0700 (PDT)
-Received: from ArchDesktop ([14.100.36.163])
-        by smtp.gmail.com with ESMTPSA id q9-20020a056a00088900b004fe1a045e97sm9483399pfj.118.2022.04.24.18.19.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 18:19:48 -0700 (PDT)
-Date: Mon, 25 Apr 2022 09:19:45 +0800
-From: Solomon Tan <wjsota@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	straube.linux@gmail.com
-Subject: Re: [PATCH] Revert "staging: r8188eu: use in-kernel ieee channel"
-Message-ID: <YmX3MYF2dAaARwFc@ArchDesktop>
-References: <20220425002735.112666-1-wjsota@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6227C
+	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 01:26:40 +0000 (UTC)
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id D5FC6801B70;
+	Mon, 25 Apr 2022 01:26:33 +0000 (UTC)
+Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 35B6A801A4A;
+	Mon, 25 Apr 2022 01:26:31 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650849991; a=rsa-sha256;
+	cv=none;
+	b=iRRJFa1e/JA+9YzA3x+wb3FEMytBTLDQ+5EXv21unfUDQA25oxtUOo7dEo0gp6aFacLqvO
+	R7MDTX7x7BCrhOxRCK5YkY1wpcqsMWO44sod03NvgYXnUsvxX0Kb4hhV7dFqLQFjGaMtL2
+	uPYGHfo7ur8aJ4dveSWJoW5s0q1bkAwpuT92rKhplSKyxibKwaVflSYPgJrzIISi8+qEgF
+	n9v/U1dq4/HRU1hQ+36JAywcny6IH9Rqgn48y5UYKbO0SGm1cqJChAR2Hhi9O0FxHgusVs
+	IbpR1YMSOdeik2cDWx6xIu0yaw5pfyfFkfXc2GRjSW5miKjNXZ6WBk5TuwtxBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1650849991;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=03zhN+hBW8OaOUeJAmtwzMX7G3KCH/6OA0MvZT3k0A8=;
+	b=nuAgkgp7Pg+Z3fN13uwNt1MdqXTy+X3VGumLIHT7D88iSV0AiMgM7j56H6GvNBm1LEV3vS
+	b875xM//hAf4dW2acvVuJISV2AhehBuTllfX1r3DohJzsfN9IixRbMyJ+Ay4G/IIXctlE+
+	KhcGkNtaJwyvHbEu2QjUDWbQ3UZ+OB9Tah+xCuvMFU2Br1GrCotf+7x0GtCPHIiI2b/LeA
+	ieKKzNGR1V0P5LD3GKMSeIYsu7BaEx+LVRHtQrL0fRST6cK9+A0ESYlkkoe6MTqxNN95Hd
+	8y6zr0aghBdElbaP9yLrCCtlqKhAncRBj95Fw8cj+dc3tkSvPrJYlBc8Z23MZg==
+ARC-Authentication-Results: i=1;
+	rspamd-67b64f579b-chnfp;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Daffy-Grain: 201401b6165c6f65_1650849993595_2915795923
+X-MC-Loop-Signature: 1650849993595:373555036
+X-MC-Ingress-Time: 1650849993595
+Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.112.55.255 (trex/6.7.1);
+	Mon, 25 Apr 2022 01:26:33 +0000
+Received: from localhost.localdomain (unknown [69.12.38.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4KmnRB1WCMznZ;
+	Sun, 24 Apr 2022 18:26:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1650849991;
+	bh=03zhN+hBW8OaOUeJAmtwzMX7G3KCH/6OA0MvZT3k0A8=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=vchpmPZdFA4Ks5K5zDB+4D5GE7YuOWIy/yeW8O6dmBFHGJvUvKo5E3aj0PUxtg9nq
+	 hpzyyOkVqBdbdtj1T8ah7ZWokZKZ/SSEuh8mf6dQA70c0we0Bnh0RPS79yeyvC2vo8
+	 x7Og8PNrPqWHttmHw7hmBnODVGYnNZmzcazk4dG7uH/Q03Fxv8zklmF+A5FMrS+1E/
+	 gKuMA0deqXuHcz5YeyTGJOlGZ+t+ZTX54IE4row92B8WClQjrPO3F0e87DU8/afBB7
+	 AXQcMum/2mia6ZJrxVBS2fSv9iUKcnAI9OUH4UjwD3VGTz8FPxsVtAHSZLg697EuN4
+	 UrluQzBMa50zQ==
+From: Ian Cowan <ian@linux.cowan.aero>
+To: Corentin Labbe <clabbe@baylibre.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	mjpeg-users@lists.sourceforge.net,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ian Cowan <ian@linux.cowan.aero>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH 1/4] staging: media: zoran: add logging macros
+Date: Sun, 24 Apr 2022 21:26:18 -0400
+Message-Id: <20220425012618.440474-1-ian@linux.cowan.aero>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220425002735.112666-1-wjsota@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 25, 2022 at 08:27:36AM +0800, Solomon Tan wrote:
-> rtw_ieee80211_channel to ieee802_channel causes a memcpy bug as reported
+This adds the zrdev_dbg() (pointing to pci_dbg()), zrdev_err() (pointing
+to pci_err()), and zrdev_info() (pointing to pci_info()) macros to the
+zoran drivers. These are the preferred method for debugging and this
+will allow to extract the device from the zoran struct to make the call.
 
-Apologies for the spelling error. It should be ieee80211_channel instead
-of ieee802_channel. I will amend the commit message and send it as v2.
+Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+---
+ drivers/staging/media/zoran/zoran.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
+index 654c95fa5aba..4f7f71d8e93c 100644
+--- a/drivers/staging/media/zoran/zoran.h
++++ b/drivers/staging/media/zoran/zoran.h
+@@ -19,6 +19,7 @@
+ #define _BUZ_H_
+ 
+ #include <linux/debugfs.h>
++#include <linux/pci.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/videobuf2-core.h>
+@@ -301,6 +302,18 @@ static inline struct zoran *to_zoran(struct v4l2_device *v4l2_dev)
+ 
+ #endif
+ 
++/**
++ * Debugging macros
++ */
++#define zrdev_dbg(zr, format, args...) \
++	pci_dbg(zr->pci_dev, format, ##args) \
++
++#define zrdev_err(zr, format, args...) \
++	pci_err(zr->pci_dev, format, ##args) \
++
++#define zrdev_info(zr, format, args...) \
++	pci_info(zr->pci_dev, format, ##args) \
++
+ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir);
+ void zoran_queue_exit(struct zoran *zr);
+ int zr_set_buf(struct zoran *zr);
+-- 
+2.35.1
+
