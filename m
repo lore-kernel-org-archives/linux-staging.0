@@ -1,22 +1,22 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF95629AA
-	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 19:00:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E9129AA
+	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 19:04:32 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(Authenticated sender: nicolas)
-	with ESMTPSA id 1E5471F43028
+	with ESMTPSA id 328231F42FFC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1650913214;
-	bh=bg3UhcnZlvv3RfrkW9O8KrBoXkIZozgniP3zQSLLpV8=;
+	s=mail; t=1650912919;
+	bh=UeDlmqQj8a7ajqfg6WiA/qN0a19sf47WMImO06/MAHQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=d5YlbhJaQYcd9qYuNgr2Vyn2VsGsbRYC+8jKl1De+8+TUvzBWleYXbUZ1AG9OitPd
-	 pvSYmNX2z65O2svMCx6vRTO2M3XGqYWk9d12Dm2rR1vuzt9nWfxnUeJ52SMO5WAxcq
-	 DBLxwG/cdHjqnCEdgXPehtCkD82vJFeJJBnOZ9ObNg7IKsw29i+lFh5pcLiK72Uowj
-	 mwUbQMLl3JxPvmfppZHKAQoXmOt6vmduM9KXDgV0TOte/RjBDdzt4+5inUiymAi3CZ
-	 IXCCeNZsVUEwvI6kuZjy/9sEaHiZ1uqj4K90d6rwWCs8OoRCFzRPCO1MA9JwgrSwHG
-	 aSK8R5YCKraVg==
-Message-ID: <bd0b59212d16af5b54c1ad5d89de5ba7b8794fac.camel@collabora.com>
+	b=bfRYX0DKAOr83SgdDu+dNiIGZNolkLDWunS2dPJPcoNGKDvOBzhMm9e5czLmV8KRW
+	 EcAmqFXa16zRv57Ue0x/rPB/sPH1BJtCdNNf3oEeUcK/0jTfpMsrXMjquR+pVECaM7
+	 H55o0X7+E8wwXqq3KNC/C08+cUSBPgNJbh4baJ/GdFh3bCdT53eQuYaYIY3J10EyTH
+	 QdBiDm/xxABXYxKgd6wphCB1MvrEoGORZiGkgUGzmvBhvXwi56pPlx7CFisBa1lITs
+	 wo6l1tmHjA/LSK/di44KHjdQLPIMsaoO2KrmTh8qS/KuKP8OfXLJLue1RKa3obJm3+
+	 iBJqo/Lt647qw==
+Message-ID: <0780cc3ddd985f580a5513e5222cdde852e6aaab.camel@collabora.com>
 Subject: Re: [PATCH v3 17/24] media: rkvdec: h264: Fix reference frame_num
  wrap for second field
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
@@ -27,12 +27,11 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, Jonas Karlman
  <jonas@kwiboo.se>, Ezequiel Garcia <ezequiel@collabora.com>, Sebastian
  Fricke <sebastian.fricke@collabora.com>, linux-media@vger.kernel.org, 
  linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
-Date: Mon, 25 Apr 2022 15:00:02 -0400
-In-Reply-To: <0780cc3ddd985f580a5513e5222cdde852e6aaab.camel@collabora.com>
+Date: Mon, 25 Apr 2022 14:55:04 -0400
+In-Reply-To: <8f6c8a5c-200d-fbbd-0b8a-966d94467aad@xs4all.nl>
 References: <20220405204426.259074-1-nicolas.dufresne@collabora.com>
 	 <20220405204426.259074-18-nicolas.dufresne@collabora.com>
 	 <8f6c8a5c-200d-fbbd-0b8a-966d94467aad@xs4all.nl>
-	 <0780cc3ddd985f580a5513e5222cdde852e6aaab.camel@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
@@ -43,99 +42,82 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-Le lundi 25 avril 2022 =C3=A0 14:55 -0400, Nicolas Dufresne a =C3=A9crit=C2=
+Le vendredi 22 avril 2022 =C3=A0 09:43 +0200, Hans Verkuil a =C3=A9crit=C2=
 =A0:
-> Le vendredi 22 avril 2022 =C3=A0 09:43 +0200, Hans Verkuil a =C3=A9crit=
-=C2=A0:
-> > On 05/04/2022 22:44, Nicolas Dufresne wrote:
-> > > From: Jonas Karlman <jonas@kwiboo.se>
-> > >=20
-> > > When decoding the second field in a complementary field pair the seco=
-nd
-> > > field is sharing the same frame_num with the first field.
-> > >=20
-> > > Currently the frame_num for the first field is wrapped when it matche=
-s the
-> > > field being decoded, this cause issues to decode the second field in =
-a
+> On 05/04/2022 22:44, Nicolas Dufresne wrote:
+> > From: Jonas Karlman <jonas@kwiboo.se>
 > >=20
-> > cause issues to decode -> caused issues decoding
+> > When decoding the second field in a complementary field pair the second
+> > field is sharing the same frame_num with the first field.
 > >=20
-> > > complementary field pair.
-> > >=20
-> > > Fix this by using inclusive comparison, less than or equal.
-> >=20
-> > I would change this last sentence to:
-> >=20
-> > 	Fix this by using inclusive comparison: 'less than or equal'.
-> >=20
-> > It makes it a bit easier to parse.
-> >=20
-> > >=20
-> > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > > Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> > > ---
-> > >  drivers/staging/media/rkvdec/rkvdec-h264.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/sta=
-ging/media/rkvdec/rkvdec-h264.c
-> > > index f081b476340f..60eaf06b6e25 100644
-> > > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > > @@ -781,7 +781,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ct=
-x,
-> > >  			continue;
-> > > =20
-> > >  		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
-> > > -		    dpb[i].frame_num < dec_params->frame_num) {
-> > > +		    dpb[i].frame_num <=3D dec_params->frame_num) {
-> >=20
-> > I wonder if a comment should be added here, explaining the reason for '=
-<=3D'.
-> >=20
-> > It doesn't seem obvious to me. Up to you, though.
+> > Currently the frame_num for the first field is wrapped when it matches =
+the
+> > field being decoded, this cause issues to decode the second field in a
 >=20
-> I guess I could, the algo for wrapping in the spec is (formula 8-27):
+> cause issues to decode -> caused issues decoding
 >=20
->     if( FrameNum > frame_num )
->         FrameNumWrap =3D FrameNum =E2=88=92 MaxFrameNum
->     else
->         FrameNumWrap =3D FrameNum
+> > complementary field pair.
+> >=20
+> > Fix this by using inclusive comparison, less than or equal.
 >=20
-> Our implementation has the branch condition flip over, and the flipped ve=
-rsion of that is:
+> I would change this last sentence to:
 >=20
->     if( FrameNum <=3D frame_num )
->         FrameNumWrap =3D FrameNum
->     else
->         FrameNumWrap =3D FrameNum =E2=88=92 MaxFrameNum
+> 	Fix this by using inclusive comparison: 'less than or equal'.
 >=20
-> There is no deeper rationale since we simply follow the recipe described =
-in the
-> spec. This is done so that we can share that condition with that long ter=
-m
-> reference handling.
+> It makes it a bit easier to parse.
+>=20
+> >=20
+> > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> > ---
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
+ng/media/rkvdec/rkvdec-h264.c
+> > index f081b476340f..60eaf06b6e25 100644
+> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > @@ -781,7 +781,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
+> >  			continue;
+> > =20
+> >  		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
+> > -		    dpb[i].frame_num < dec_params->frame_num) {
+> > +		    dpb[i].frame_num <=3D dec_params->frame_num) {
+>=20
+> I wonder if a comment should be added here, explaining the reason for '<=
+=3D'.
+>=20
+> It doesn't seem obvious to me. Up to you, though.
 
-Now I come to realize that in patch "[v3,19/24] media: rkvdec-h264: Add fie=
-ld
-decoding support" all this code is removed. This is because the wrapping is
-already done by the ref-builder, so while enabling field decoding, I now us=
-e the
-wrapped value from the ref builder. I'm mostly keeping the patch so that th=
-is
-fix is well documented. I will leave it like this then.
+I guess I could, the algo for wrapping in the spec is (formula 8-27):
+
+    if( FrameNum > frame_num )
+        FrameNumWrap =3D FrameNum =E2=88=92 MaxFrameNum
+    else
+        FrameNumWrap =3D FrameNum
+
+Our implementation has the branch condition flip over, and the flipped vers=
+ion of that is:
+
+    if( FrameNum <=3D frame_num )
+        FrameNumWrap =3D FrameNum
+    else
+        FrameNumWrap =3D FrameNum =E2=88=92 MaxFrameNum
+
+There is no deeper rationale since we simply follow the recipe described in=
+ the
+spec. This is done so that we can share that condition with that long term
+reference handling.
 
 >=20
-> >=20
-> > >  			p[i] =3D dpb[i].frame_num;
-> > >  			continue;
-> > >  		}
-> >=20
-> > Regards,
-> >=20
-> > 	Hans
+> >  			p[i] =3D dpb[i].frame_num;
+> >  			continue;
+> >  		}
 >=20
+> Regards,
+>=20
+> 	Hans
 
