@@ -1,69 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939B22562
-	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 15:47:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD159C385A9;
-	Mon, 25 Apr 2022 15:47:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650901659;
-	bh=WdBpjD1yXyhDqEeK8iUgg7PB1JkPjFb/f8Rj8q1+YVA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GufuiX2xN4lpzB8yU5JWUuH6udR+3LpyuyBAxrtcJGeslF/K+R6tnD/rcP4uhYv+S
-	 qb91942DVN08p8ZOPuCmLeUO89IYRyTelLeG4q3p0Gfq8M5N8CwN2MISEMv7TZ8TYM
-	 xN1hzAsqXkG1QEl0vZs4t46N9n/+ZLW7Kox25LwA=
-Date: Mon, 25 Apr 2022 17:47:35 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ian Cowan <ian@linux.cowan.aero>
-Cc: Sven Van Asbroeck <TheSven73@gmail.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fieldbus: remove unnecessary double negation
-Message-ID: <YmbClxXo5lwgHYxo@kroah.com>
-References: <20220425145440.146891-1-ian@linux.cowan.aero>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844882562;
+	Mon, 25 Apr 2022 15:52:53 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id p4so3348861edx.0;
+        Mon, 25 Apr 2022 08:52:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9Oa5NtzGoFrsnzBgz2IkcumAm6ed+VSYE7BO1a3Ir24=;
+        b=EigDBthRvJnsJo+9WGyQqWjg7PowmmzypMiC8CAR7LXfVN0PErUQdRx1RjTfiw4gyH
+         Ee/9Tz8scBrSxmd2kS0fEhDXXWDoDEXtwtrlfZHv6FCexExa+hC+Y28nXmIh1BH4NQiZ
+         38rCs5GLxbskzJ2hxkt/Idpb8OIRHdqQiNUcHNyGr09IzFxDdD6ZjtDzxbNGVScxWxA8
+         gbqfgrntqMiIo1NzquxXzc6b6pQii5YbFQG3SACzOxfdYDrb1dgpTgZu8qP8qYVrJxcD
+         XCqcowMpwzVkbsgRfIg8Ygnkkbq/iRf0jNQpNVZ5yWMp9ezfC1mrJWjd9sikNFP5kGHr
+         ILFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9Oa5NtzGoFrsnzBgz2IkcumAm6ed+VSYE7BO1a3Ir24=;
+        b=U+lT3ahzMUBtNRuGk8woVC0HPLpn4QoLuTIl3bk5Dg9mpfZKJfySaU/FSQ6je5voKC
+         ymvGe/+89dqYJ+bv+Efcs2yjY3k9q2KOxBqgzSA4lnRp3i1OiyPxYGM6OAy6ENxoMD3W
+         IJ1iRTmUprbXqczjF8yY1evbbxviiwmpkUpKT/X4Qxm7Y4K0YHUwOYYNa52NPOAIc3RY
+         3jLTu3zACPSpD0lljIO+0NzoH6bmgNvogIrGUq3uI3rgFdoRp09i+5KzSLIyWhLhwn7T
+         ChCAI4Bk8vPrC0sRqjvzJyadJNR/0XSjxzA9oRGV/Vb7HlQKgn98POmq9I6Bg7QPmBSC
+         3aiw==
+X-Gm-Message-State: AOAM530fFO+Kuzd5ueZ2RUNdBtwkc/VBEwrip5DzY5qUhSGOqPH6Gu8k
+	Z/6xYE5gfZOFuZD6JR+byrg=
+X-Google-Smtp-Source: ABdhPJzY0KqwmNprJw4wgl5ETDVJprVLMo9vqPy+8A0f/235e2cgQsITwXEEgGimRqQZseTw0/tsbg==
+X-Received: by 2002:a05:6402:5189:b0:425:d7ca:caa4 with SMTP id q9-20020a056402518900b00425d7cacaa4mr10535349edd.177.1650901971712;
+        Mon, 25 Apr 2022 08:52:51 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id d6-20020a170906304600b006ef5da1b1besm3739347ejd.221.2022.04.25.08.52.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Apr 2022 08:52:51 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, Ian Cowan <ian@linux.cowan.aero>
+Cc: paul.kocialkowski@bootlin.com, mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, ian@linux.cowan.aero
+Subject: Re: [PATCH] staging: sunxi: cedrus: centralize cedrus_open exit
+Date: Mon, 25 Apr 2022 17:52:50 +0200
+Message-ID: <22617338.6Emhk5qWAg@kista>
+In-Reply-To: <20220423180111.91602-1-ian@linux.cowan.aero>
+References: <20220423180111.91602-1-ian@linux.cowan.aero>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220425145440.146891-1-ian@linux.cowan.aero>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Apr 25, 2022 at 10:54:40AM -0400, Ian Cowan wrote:
-> Remove the double negation (!!) from the code since this does nothing
-> and may create confusion on whether or not those values are negated.
+Hi Ian,
+
+Dne sobota, 23. april 2022 ob 20:01:11 CEST je Ian Cowan napisal(a):
+> Refactor the cedrus_open() function so that there is only one exit to
+> the function instead of 2. This prevents a future change from preventing
+> the mutex from being unlocked after a successful exit.
 > 
 > Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+
+If this patch would be part of series and "future" would mean next patch, I 
+would be ok with that. However, in current form I don't see any benefit in 
+changing it. Doing another hop lessens readability IMO. Let us worry about the 
+future when/if it comes.
+
+Best regards,
+Jernej
+
 > ---
->  drivers/staging/fieldbus/dev_core.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/fieldbus/dev_core.c b/drivers/staging/fieldbus/dev_core.c
-> index 5aab734606ea..6766b2b13482 100644
-> --- a/drivers/staging/fieldbus/dev_core.c
-> +++ b/drivers/staging/fieldbus/dev_core.c
-> @@ -28,7 +28,7 @@ static ssize_t online_show(struct device *dev, struct device_attribute *attr,
->  {
->  	struct fieldbus_dev *fb = dev_get_drvdata(dev);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/
+media/sunxi/cedrus/cedrus.c
+> index 68b3dcdb5df3..5236d9e4f4e8 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -348,14 +348,14 @@ static int cedrus_open(struct file *file)
 >  
-> -	return sprintf(buf, "%d\n", !!fb->online);
-> +	return sprintf(buf, "%d\n", fb->online);
->  }
->  static DEVICE_ATTR_RO(online);
+>  	v4l2_fh_add(&ctx->fh);
 >  
-> @@ -39,7 +39,7 @@ static ssize_t enabled_show(struct device *dev, struct device_attribute *attr,
+> -	mutex_unlock(&dev->dev_mutex);
+> -
+> -	return 0;
+> +	ret = 0;
+> +	goto succ_unlock;
 >  
->  	if (!fb->enable_get)
->  		return -EINVAL;
-> -	return sprintf(buf, "%d\n", !!fb->enable_get(fb));
-> +	return sprintf(buf, "%d\n", fb->enable_get(fb));
+>  err_ctrls:
+>  	v4l2_ctrl_handler_free(&ctx->hdl);
+>  err_free:
+>  	kfree(ctx);
+> +succ_unlock:
+>  	mutex_unlock(&dev->dev_mutex);
+>  
+>  	return ret;
+> -- 
+> 2.35.1
+> 
+> 
 
-This is a common pattern to turn any value into a boolean (0/1).  The
-fact that this is a boolean to start with makes this change not affect
-anything.  So you should say that in the changelog, the values are
-obviously not negated.
 
-thanks,
-
-greg k-h
