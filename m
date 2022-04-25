@@ -1,230 +1,228 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9499F2562
-	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 15:42:00 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23PDT9DH027852;
-	Mon, 25 Apr 2022 15:41:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=Sd/TUge6l3lSjLcovFH5ZzD4GmIUvtEUB34erOi2jeY=;
- b=tqDf9qYNk4eH1vqrKtm+BERqIy0ZYSnxJWfbeRoIT9a37Mec1hN9jEVDwfTZ8fJfR0TA
- XxrvpyxwlTIFddqqti2gRzAIh8EOFUUtUyBA5RYlW9LLeSWyPZvcAiB+qRDza8R1DhRI
- zPJ3g17yDjYABvroEBloVzM+2WIp71Vuhj2bNsAnPs7638yrK3iPlQh3fGAQ6Xm+mZeR
- 8PU7IsIp9qsAGwljpigsyP7dj5CXftAZRNjnLEE0gn1yuPe+1QggQb2Qu6M+HCXJ3USP
- zCcuAIboPXgmtF2uB+nMrEgXvs/7ayU8NK3Lu88Yj8akWwKt08igPE1CRX/4A9CMp8iz Hw== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmb9akjt3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 25 Apr 2022 15:41:54 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 23PFe5Qt011961;
-	Mon, 25 Apr 2022 15:41:53 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3fm7w2r15r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 25 Apr 2022 15:41:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ALQvjOlLQs6C/m7QrzfHHbm61ZiA5i1T75kBNxC4f/rtCqpf4HrTQuFAHhB9RosRIdGUx2yLrafiFZ1g/YI7ZUBIubfiHvVQOk+kEYwQJn/j2NE3gf4YG0mGwkBEUIs80Cms/JBSou2zD4oyUVYPlq3x4EKYTRlRsiCwvg3o3GD0Qj6Ml0Y0eFmP2HIW8AFDCw4yUXjx0tSw4yvWr/cb3Fd+bPtjHOGqDxgb2UxdCR6YJFvg3E7ypoFJBxCgAxzEmYsQ9MEezfA3Jgh9DgRbsupBM1CUSpaDZtr4Oh1gwqFx+lPcpvJ/NG6Ffm8OdnTY8hRwkmF6bz78oo1KmlY42g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Sd/TUge6l3lSjLcovFH5ZzD4GmIUvtEUB34erOi2jeY=;
- b=JWDkZSbkgRUmdmcI0d4Zs8NsPJ7VPVkjME2YwL/tefjuVjN8Qst0XQ4RqRtguZGroR56nq4Y7NK/zjR5UvEGWThcGhckeBFMUQ3GY0TdG8xdMmx5BersLs9gkQRGhWliXCPIFkz4QOowDB57PcZlZVi8X7XOxploOetl00mKqMDftEieai+d+iVh9irE5W/fa3KmqIs6O6DbIkpn2U9EusW9R+bARpXiB3CHMMUzKuMCK1BbAFU8XA3FRaBEPUnRwQ3/P4YVbdMFMK53lIddyp7NkKLt1BrGWCEeRuE+BVBDMxffmb3m+MBsEs0bVEjlFBDyv8VkMJDb+Zxet5sfwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D072562
+	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 15:47:17 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id g6so7615336ejw.1
+        for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 08:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Sd/TUge6l3lSjLcovFH5ZzD4GmIUvtEUB34erOi2jeY=;
- b=C7ooa8bWMaZToyb782V+qt7qU6fBzdLWs7opZklsylzl/Qg7m1iXcFnjUK/CF74TkNBU4V43uaz84pmdXOm4Y4yu5JJei7x1gVr2HB84LgTaohPjfbTzYaBe2z0spnpS5/qDShOO9+X8t5mE+qn28W8ykbf3byr19k+qpCfPpRI=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BL0PR10MB2851.namprd10.prod.outlook.com
- (2603:10b6:208:7b::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.13; Mon, 25 Apr
- 2022 15:41:51 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5164.025; Mon, 25 Apr 2022
- 15:41:51 +0000
-Date: Mon, 25 Apr 2022 18:41:38 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Solomon Tan <wjsota@gmail.com>, Michael Straube <straube.linux@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [BUG] staging: r8188eu: KASAN: slab-out-of-bounds in
- rtw_cmd_thread
-Message-ID: <20220425154138.GQ2462@kadam>
-References: <67e2d10b-7f0f-9c5a-ce31-376b83ffba9e@gmail.com>
- <YmU+cqEZfrGz5XsT@ArchDesktop>
- <c2296090-2e9b-fafb-35da-e01b025b53b7@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c2296090-2e9b-fafb-35da-e01b025b53b7@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MR2P264CA0163.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:501:1::26) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5KITNKAeusqSJT+zGPV95UI61fvHf3AksSLlo//4H/Q=;
+        b=d7uAgAim/QSjpWLL4BURUV2Si8I60jzsnYs2S3tONGckunmoXtdjA902DjChkWq72c
+         rLwZOZmIce/HQITo2GaeS/xFbW4v2Tq6mkph1dTXANmave6YJy6TmWlJmHSxyN8MZ7qu
+         XjhOwxiHG+LSZN3ygBiCtnD5Hv+YqIwvQenwihMzSBaumjllUhtO9S30C9hxEZMDQeiV
+         Dq+7WIH01DSmv5R7svnr15yQW2D4Z9Ks5W6lh6rkbKFg+lXGaXUR3yWEdlaXlXAi8++I
+         pwsg3w8TRb3MXeiBovxikYA02bC1yMObEFYkyRTJdqXO93mODKzGuHYYWTybG9zqxCIn
+         TbDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5KITNKAeusqSJT+zGPV95UI61fvHf3AksSLlo//4H/Q=;
+        b=gGyzDlQV+mvfXONXN/VXuYlYs3FDip26/aX6FBlnoHI04yL6miiH6BZ19bI22tRPMK
+         La+y/nkgE3fsqGcLC+cpcNP585pmWE2ny5YQ57OUTuAXc3OSe82EqcIp9ZEUujuCcKwI
+         2FsSrTEXi6hC5QUuimtZBSLqhaMmqsqizI7CG+ORfaUZhxzFAFp7b7UH16ceEgLPnL8G
+         kL1FJzRL1IuNeWSGPduxtX4kbvnfdXqOcZ/Yj3TCTFxKr4R/2L0SqIKk+M1zS2SVBBn2
+         7x55iDMckpe9RIC/cimovJ4CM73QETUrrwg2EnPbq064cYJJ90MnZ9Qfq3jO5w9cAOlR
+         3+FA==
+X-Gm-Message-State: AOAM532mWpp1BDewf4k+A9vaAN53gtb0na85FPxJ94OPP0In+7jrAEkm
+	BnTGetZd1d8mYvNRchkibzybFypOZSZ62z8DJ0U=
+X-Google-Smtp-Source: ABdhPJxnpP2VO5mNc14SXisGfERyPGY2gcFajNEbPhdVi7a7lKySSEX3vu6h8QfBzgmg3c6qhkbSumGBtJ0kug5rh48=
+X-Received: by 2002:a17:907:7704:b0:6cf:48ac:b4a8 with SMTP id
+ kw4-20020a170907770400b006cf48acb4a8mr16675736ejc.305.1650901636036; Mon, 25
+ Apr 2022 08:47:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9b3b0f05-65a8-4802-f0fd-08da26d21d9e
-X-MS-TrafficTypeDiagnostic: BL0PR10MB2851:EE_
-X-Microsoft-Antispam-PRVS: 
-	<BL0PR10MB2851CC41E6FEC6D10B7AB4828EF89@BL0PR10MB2851.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	MgAWPWtzp2UlgjR1VvlizoXV+gScAwHyCXl8j2qWKm/04Q1H72LslEHGMTqYUEeQVkSdQOu8sdrbUP7UVLw16oI9JoLx17+EuCFUc1/+Lc/MoFyIWXH1LHhwekFOATgG5DIm+7nSnq27HSaDSymKYSARlTvaaNGFYV+Yye1gKEORduQwOF5DI7Zh+l3neLx1eZX9PSuteq71SR6QgWOXAY+RzQdaSL8dD+WIw/ds/RZJTOnTR/jFt6c3kMFmxZ1wyudyTosPxB9Kp9iRMzwQ/167ZgGkoUUiVe/c2127WO5syU3rD4iFdi9E0P4nZlIW6iA+cXgkFDvLJhks/SrvKZ1IU/ejRkeI9BVs3TKoh0u+X0NSBszIGrShCUwrqupOKN/nkUAoPXPukHKs+S9+Ka9TfauZZzqElcq8SYQG2QRUza2C6/4TEni/tzPC2STrLreTt9iA2HjjTpkrOYyByiw5+uZdPRliMAfW4em7nD+x+wTOY+/UZwYMffl9gvrQIaCc+jolhcE9Sq1nb8Id02vdKwtFPuBgQ9gMcZOdKK2KL9+bDQuIL0+qFkQZH2kEbEOdZ1VxMumg8a6d2hMGAsx8bCK/sRTddGkc+O1AXP3KH0zE1SccYw8ZxfW7zKsdb1GA+UfzcywuYHPAChTJa+jfV09B5NuHjT3knB3eoiiVFCKKQTSs0a9HqmMQQppTez/3nr4MOoFKtmhzzDecyQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(83380400001)(1076003)(66476007)(54906003)(6486002)(66946007)(66556008)(5660300002)(4326008)(8676002)(316002)(6916009)(44832011)(86362001)(53546011)(52116002)(508600001)(8936002)(186003)(33716001)(38350700002)(38100700002)(6506007)(6666004)(9686003)(6512007)(26005)(33656002)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?LGjycM9bXL3ULKHWpAkjRL1rNRpNue9Bh1bGxdsZZznI9Dd1VCGeSWpdcycF?=
- =?us-ascii?Q?+iLai4GmepV6AamAaIFl9QQy0TC/8/1QcHsGLU8FV/j1gFDGMlcZ+ghJbIXx?=
- =?us-ascii?Q?GUYpXefcIe0oTrIKQy5MlqautfUZerD5LTwLqKQTY8MgPBvs1xdSClU+/s2H?=
- =?us-ascii?Q?hpUCno+F98KjU+JSuE8EsNrAjUrUt4E+LD6c/PGKmX42YrrgQTn7hA1IX+PZ?=
- =?us-ascii?Q?8cR4D/Z1ZMwGyqVXws0r5R3zOQL3LCMUJKSk2uQaehtyreklTypRkUYY5HLX?=
- =?us-ascii?Q?6jsW0AdgT22C2hWEti+sNkS2lNN+eN0MNbBbcFbyBkIzrRq8CKZ52+eHMMjY?=
- =?us-ascii?Q?O783Exxyuna3tOY1ijjOFBafd4OB5M4YQzJpEhJm+S+gGyazNfk6qcDY4kP9?=
- =?us-ascii?Q?BRQv+hVcxCr+nDWf6SDt8lp51PuSEHHW4jLIszgDI3RV09UDJSwoPCT8ZXKU?=
- =?us-ascii?Q?TNa2SG1B59nGYM0ahAxm4XXvBlgJ3VQKAfVc29rIyn12828ftRh0Q1Ln7ong?=
- =?us-ascii?Q?TDH1IInpL/yVpmwZdlwioLa0DYDgx15DndJ6/3mnNlT1BaaHcGfZm/a8+72H?=
- =?us-ascii?Q?FjPDUQDcbbt/XZBD8O/Mo6uaK0GRxI+MgrqyWE10bbh0ak86XnQEkKDiX6Yo?=
- =?us-ascii?Q?VhNqV4soWqTHPjZqHunm3KPFDDO+ElVtDhfYmoKvmbMuNqkgNINpo7h9BCho?=
- =?us-ascii?Q?24PloUfXBXydRWlgF7HfoDNhjZJsV3Y+Z3d7sjFrrrlGxFmTUAN0ZHEqECnV?=
- =?us-ascii?Q?+QqMr7miwG8VSLClXUCiec54JT6+A9xFKVb1XFU7fPvbxSAa7xhOgnlV6gUa?=
- =?us-ascii?Q?aefEdc4C27yTl8maUCDWamnoJgUJNRB90QJK/aoorFIpRh/SQUi19mxolfGj?=
- =?us-ascii?Q?2J4pJdh9tIYHWiLd8EktsPJ+DgumdTSxkpXfj3nKWftgrrY9oCS1R7c0oGZs?=
- =?us-ascii?Q?C27Z0KWk9JR03YpOjD418Ex8Ax8H9oSLDRErGc/TtsZlO4c/xiIx5l13Yhtm?=
- =?us-ascii?Q?p9mVZKDwmpNhfIe1jAJwUdF/NSV4cbwSaOK1/OvnfNkzNPyMyegjmsrRaY6f?=
- =?us-ascii?Q?QQok/nFZRRrNu8k5JjM1NNdUAGsDN9g9lFg2eHUhMw4Axyflnp97QHu2U29K?=
- =?us-ascii?Q?z9q2BmMPyvPvK3Py2QdmV+KZ0sQXyzLKVBdV1mzBG/d/wg/+/sM+0nYMU3mH?=
- =?us-ascii?Q?x1j/RZ2rPZ1MkRhJaWoi1YAEFqnnxCZGyxl6Lxz4Wa6MSMGQkylS6b8t9MF9?=
- =?us-ascii?Q?ymbOGcTEsphoecJXciV9l77mvu4VoBwz4QH7KzW0oygH1x1iv1HxinKnr+f5?=
- =?us-ascii?Q?HTXKvMQKfr02FGWodBmWwPMfbgrEyvnnOovM13MG+jc2I1mbbCjpYBp/X9Ll?=
- =?us-ascii?Q?MWfG2JhdysPgs1pu7h1p95FwSZIh2rGx3hPsEjsCVRNT6CHwPtCmUZ+U9XXB?=
- =?us-ascii?Q?eIkNI3nuU94trp0RGV4xkFOyhLXRn3/Pe1lt6I7xHLzgpBosxUJz2aN/U4zY?=
- =?us-ascii?Q?RtiSZTtk6v+wR9RRfLE+96OJ/rtLiYPI00SVf6WbY0K1OOon0Q1zGOedNOdK?=
- =?us-ascii?Q?wdW7Onqu6RJbfz7/qDMVaZTbLN1Oy2Ns7FsGr79FkLXje9zbAb9BgwJbWIZa?=
- =?us-ascii?Q?8oTR4Cp4pWVyRlcCP7fwWw6JxzEGyNP1kvmVL7tsVbz9B4RWfFOX7p7cxgng?=
- =?us-ascii?Q?Ij3gQ+96YzZDCoFiJy+YGZdJaljEA0k0ncMPtalqaVdzJ3Tz4sZSodvX1Fuc?=
- =?us-ascii?Q?8Nhv65i0OCqiLsfD6ho/uyZSi8ZxaM8=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b3b0f05-65a8-4802-f0fd-08da26d21d9e
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2022 15:41:51.1883
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P3qT1pAU45LDKVWoZ2HHFt4MU9a2HmXZJcD1cey+qdyyjwgMYLRXkooskWU2jP5SxA7sibWOoumGOihZAN5jDvUDnSQ9RpjeifDDwCSrNgI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR10MB2851
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.858
- definitions=2022-04-25_06:2022-04-25,2022-04-25 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999
- suspectscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204250069
-X-Proofpoint-ORIG-GUID: XD_NeoFxydOixGpvVROCvDC-XUQAV42B
-X-Proofpoint-GUID: XD_NeoFxydOixGpvVROCvDC-XUQAV42B
+References: <20220125171129.472775-1-aford173@gmail.com> <20220125171129.472775-8-aford173@gmail.com>
+ <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm> <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
+In-Reply-To: <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 25 Apr 2022 10:47:04 -0500
+Message-ID: <CAHCN7xKEWT=-ujUD0KC9O=VUyCDSGzwbB1_dC51_k=Hx3i6+bg@mail.gmail.com>
+Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2 VPU's
+ with vpu-blk-ctrl
+To: Lucas Stach <l.stach@pengutronix.de>
+Cc: Martin Kepplinger <martin.kepplinger@puri.sm>, linux-media <linux-media@vger.kernel.org>, 
+	Adam Ford-BE <aford@beaconembedded.com>, Chris Healy <cphealy@gmail.com>, 
+	kernel test robot <lkp@intel.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"open list:HANTRO VPU CODEC DRIVER" <linux-rockchip@lists.infradead.org>, 
+	devicetree <devicetree@vger.kernel.org>, arm-soc <linux-arm-kernel@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Apr 24, 2022 at 06:06:32PM +0300, Pavel Skripkin wrote:
-> Hi Solomon,
-> 
-> On 4/24/22 15:11, Solomon Tan wrote:
-> > On Sun, Apr 24, 2022 at 12:00:12PM +0200, Michael Straube wrote:
-> > > Hi,
-> > > 
-> > > It looks like
-> > > commit 0afaa121813e ("staging: r8188eu: use in-kernel ieee channel")
-> > > intoduced a. See KASAN output below.
-> > > 
-> > > That commit replaced the use of struct rtw_ieee80211_channel with struct
-> > > ieee80211_channel.
-> > > 
-> > > There are several calls to memcpy that used sizeof(struct
-> > > rtw_ieee80211_channel)
-> > > and now use sizeof(struct ieee80211_channel) but the sizes of these two
-> > > structures are not equal.
-> > > 
-> > 
-> > Oh no. When does this issue get triggered?
-> > 
-> > > regards,
-> > > Michael
-> > > 
-> > > dmesg:
-> > > 
-> > >  ==================================================================
-> > > [  422.214237] BUG: KASAN: slab-out-of-bounds in rtw_cmd_thread+0x1e8/0x430
-> > > [r8188eu]
-> > > [  422.214277] Write of size 3600 at addr ffff8881e149d200 by task
-> > > RTW_CMD_THREAD/2563
-> > > 
-> > > [  422.214289] CPU: 11 PID: 2563 Comm: RTW_CMD_THREAD Tainted: G C OE
-> > > 5.18.0-rc2-staging+ #47 94e3ca73bebf5b7fec506721475e4fff2a023bb9
-> > > [  422.214301] Hardware name: Gigabyte Technology Co., Ltd. B550M S2H/B550M
-> > > S2H, BIOS F15a 02/16/2022
-> > > [  422.214309] Call Trace:
-> > > [  422.214313]  <TASK>
-> > > [  422.214317]  dump_stack_lvl+0x45/0x5b
-> > > [  422.214327]  print_report.cold+0x5e/0x5dc
-> > > [  422.214335]  ? kasan_set_track+0x21/0x30
-> > > [  422.214342]  ? kasan_set_free_info+0x20/0x40
-> > > [  422.214349]  ? rtw_cmd_thread+0x1e8/0x430 [r8188eu
-> > > 91924fe1575bf49b9b37985ffde2c585d847446d]
-> > > [  422.214386]  kasan_report+0xab/0x120
-> > > [  422.214394]  ? rtw_cmd_thread+0x1e8/0x430 [r8188eu
-> > > 91924fe1575bf49b9b37985ffde2c585d847446d]
-> > > [  422.214430]  kasan_check_range+0xf6/0x1d0
-> > > [  422.214436]  memcpy+0x39/0x60
-> > > [  422.214442]  rtw_cmd_thread+0x1e8/0x430 [r8188eu
-> > > 91924fe1575bf49b9b37985ffde2c585d847446d]
-> > > [  422.214479]  ? rtw_setassocsta_cmdrsp_callback+0xd0/0xd0 [r8188eu
-> > > 91924fe1575bf49b9b37985ffde2c585d847446d]
-> > > [  422.214516]  kthread+0x15d/0x190
-> > > [  422.214523]  ? kthread_complete_and_exit+0x20/0x20
-> > > [  422.214531]  ret_from_fork+0x22/0x30
-> > > [  422.214540]  </TASK>
-> > 
-> > Sorry, I am not familiar with KASAN. How should I interpret this output?
-> > I see the paragraph above has references to rtw_cmd_thread. I assume
-> > that is its way of indicating that rtw_cmd_thread is the cause of the
-> > problem, but the one below refers to other functions. I'm not sure where
-> > I should start looking. I would start looking at `rtw_sitesurvey_cmd` and
-> > `rtw_scan_ch_decision`, which call the memcpy on the
-> > rtw_ieee80211_channel structure, but they are not on the call trace.
-> > 
-> 
-> drivers/staging/r8188eu/core/rtw_cmd.c:276: memcpy() call.
-> 
+On Mon, Apr 25, 2022 at 10:34 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+>
+> Hi Martin,
+>
+> Am Montag, dem 25.04.2022 um 17:22 +0200 schrieb Martin Kepplinger:
+> > Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
+> > > With the Hantro G1 and G2 now setup to run independently, update
+> > > the device tree to allow both to operate.  This requires the
+> > > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
+> > > certain clock enabled to handle the gating of the G1 and G2
+> > > fuses, the clock-parents and clock-rates for the various VPU's
+> > > to be moved into the pgc_vpu because they cannot get re-parented
+> > > once enabled, and the pgc_vpu is the highest in the chain.
+> > >
+> > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> > >
+> > > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > index 2df2510d0118..549b2440f55d 100644
+> > > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
+> > >                                         pgc_vpu: power-domain@6 {
+> > >                                                 #power-domain-cells =
+> > > <0>;
+> > >                                                 reg =
+> > > <IMX8M_POWER_DOMAIN_VPU>;
+> > > -                                               clocks = <&clk
+> > > IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > > +                                               clocks = <&clk
+> > > IMX8MQ_CLK_VPU_DEC_ROOT>,
+> > > +                                                        <&clk
+> > > IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > +                                                        <&clk
+> > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > +                                               assigned-clocks =
+> > > <&clk IMX8MQ_CLK_VPU_G1>,
+> > > +
+> > > <&clk IMX8MQ_CLK_VPU_G2>,
+> > > +
+> > > <&clk IMX8MQ_CLK_VPU_BUS>,
+> > > +
+> > > <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> > > +                                               assigned-clock-
+> > > parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> > > +
+> > >     <&clk IMX8MQ_VPU_PLL_OUT>,
+> > > +
+> > >     <&clk IMX8MQ_SYS1_PLL_800M>,
+> > > +
+> > >     <&clk IMX8MQ_VPU_PLL>;
+> > > +                                               assigned-clock-rates
+> > > = <600000000>,
+> > > +
+> > >   <600000000>,
+> > > +
+> > >   <800000000>,
+> > > +
+> > >   <0>;
+> > >                                         };
+> > >
+> > >                                         pgc_disp: power-domain@7 {
+> > > @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
+> > >                         status = "disabled";
+> > >                 };
+> > >
+> > > -               vpu: video-codec@38300000 {
+> > > -                       compatible = "nxp,imx8mq-vpu";
+> > > -                       reg = <0x38300000 0x10000>,
+> > > -                             <0x38310000 0x10000>,
+> > > -                             <0x38320000 0x10000>;
+> > > -                       reg-names = "g1", "g2", "ctrl";
+> > > -                       interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> > > -                                    <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> > > -                       interrupt-names = "g1", "g2";
+> > > +               vpu_g1: video-codec@38300000 {
+> > > +                       compatible = "nxp,imx8mq-vpu-g1";
+> > > +                       reg = <0x38300000 0x10000>;
+> > > +                       interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> > > +                       clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
+> > > +                       power-domains = <&vpu_blk_ctrl
+> > > IMX8MQ_VPUBLK_PD_G1>;
+> > > +               };
+> > > +
+> > > +               vpu_g2: video-codec@38310000 {
+> > > +                       compatible = "nxp,imx8mq-vpu-g2";
+> > > +                       reg = <0x38310000 0x10000>;
+> > > +                       interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> > > +                       clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > +                       power-domains = <&vpu_blk_ctrl
+> > > IMX8MQ_VPUBLK_PD_G2>;
+> > > +               };
+> > > +
+> > > +               vpu_blk_ctrl: blk-ctrl@38320000 {
+> > > +                       compatible = "fsl,imx8mq-vpu-blk-ctrl";
+> > > +                       reg = <0x38320000 0x100>;
+> > > +                       power-domains = <&pgc_vpu>, <&pgc_vpu>,
+> > > <&pgc_vpu>;
+> > > +                       power-domain-names = "bus", "g1", "g2";
+> > >                         clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > -                                <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+> > > -                                <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > > -                       clock-names = "g1", "g2", "bus";
+> > > -                       assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
+> > > -                                         <&clk IMX8MQ_CLK_VPU_G2>,
+> > > -                                         <&clk IMX8MQ_CLK_VPU_BUS>,
+> > > -                                         <&clk
+> > > IMX8MQ_VPU_PLL_BYPASS>;
+> > > -                       assigned-clock-parents = <&clk
+> > > IMX8MQ_VPU_PLL_OUT>,
+> > > -                                                <&clk
+> > > IMX8MQ_VPU_PLL_OUT>,
+> > > -                                                <&clk
+> > > IMX8MQ_SYS1_PLL_800M>,
+> > > -                                                <&clk
+> > > IMX8MQ_VPU_PLL>;
+> > > -                       assigned-clock-rates = <600000000>,
+> > > <600000000>,
+> > > -                                              <800000000>, <0>;
+> > > -                       power-domains = <&pgc_vpu>;
+> > > +                                <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > +                       clock-names = "g1", "g2";
+> > > +                       #power-domain-cells = <1>;
+> > >                 };
+> > >
+> > >                 pcie0: pcie@33800000 {
+> >
+> > With this update, when testing suspend to ram on imx8mq, I get:
+> >
+> > buck4: failed to disable: -ETIMEDOUT
+> >
+> > where buck4 is power-supply of pgc_vpu. And thus the transition to
+> > suspend (and resuming) fails.
+> >
+> > Have you tested system suspend after the imx8m-blk-ctrl update on
+> > imx8mq?
+>
+> I haven't tested system suspend, don't know if anyone else did. However
+> I guess that this is just uncovering a preexisting issue in the system
+> suspend sequencing, which you would also hit if the video decoders were
+> active at system suspend time.
 
-What git hash are you on?  Is that the line:
+I have not tested it either.
 
-	memcpy(&psurveyPara->ch[i], &ch[i], sizeof(struct ieee80211_channel));
+>
+> My guess is that the regulator disable fails, due to the power domains
+> being disabled quite late in the suspend sequence, where i2c
+> communication with the PMIC is no longer possible due to i2c being
+> suspended already or something like that. Maybe you can dig in a bit on
+> the actual sequence on your system and we can see how we can rework
+> things to suspend the power domains at a time where communication with
+> the PMIC is still possible?
 
-Are you sure that's the line which crashes?  According to Smatch and my
-simple grep that's dead code because "ch" is always NULL.
+In the meantime, should we mark the regulator with regulator-always-on
+so it doesn't attempt to power it down?  It might not be ideal,but it
+might be enough to let it suspend.
 
-> As Michael said the sizes of structures do not mach and the memcpy writes
-> below allocated buffer.
-
-I feel a bit bad for not spotting this in review because I was looking
-for that kind of bug.  I still don't immediately spot where the bug is.
-
-regards,
-dan carpenter
+adam
+>
+> Regards,
+> Lucas
+>
