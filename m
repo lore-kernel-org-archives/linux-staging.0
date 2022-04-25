@@ -1,99 +1,124 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF39E7E
-	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 12:12:33 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id el3so13320752edb.11
-        for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 05:12:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=u8jWkC3uGhpIesYWEXYlUoa6QOg8WMwc/6eHbmnOET0=;
-        b=z8IQnKw/QCUVdEhGIPQl+8KO75rfqTMoiKMA3BB9sFazxr+viuAmkDtOFAjYYeqiOc
-         BICBVB5W2S7RFYNSYuiQ6npvOUj18cyj24dNXTVDLHF+Df1i3nrw0JfwTe3/UGJ4/wUE
-         Qca2+w5QoifM49TBcyBSRvgIievMdF2gdAJds31r60IivrAwNdzi3MI849ffzBimYtZG
-         vwDiY04IZruTc3NDSAl4XfavEBJ1vfBwMPdlEkYSVfnOVY15MH9gH0F7JHLbs43U8yMf
-         h/8JO4jyVbPJnAS414pRuAsGdZ9Da+iWc9gku4zBIfYqxQSrDaaccKm2crCoDnSsiUne
-         u/Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=u8jWkC3uGhpIesYWEXYlUoa6QOg8WMwc/6eHbmnOET0=;
-        b=D2W2nugebBl7ZHuI8+Qm4K5nVfWp8ruVYCUAWOB6KtFkPnLXyRVXD/Zo+/VsQullt+
-         QJpAxxbjdbC0VHmvVp73aMw36MD98njcO0q6gXInyesFFO22BKmLgMzkXLk2e38ij4L8
-         UQNKKQ2t+jKUfT4quDH4HDXuN+oN5SdpQl0dnWP4GYNQL3OxJttRRsPCS+DtgS5Po69+
-         sI5yEXmR7sHuhQUZ3V4vnUfO2bYGDs02HdjnD3bNkxfAs5uhfzmc4zZ5kY6mvnhLUmza
-         O3TmU2nOTEucer4OYNA9gBhonSGAvFCUWpS0TcJ/BepBqFQUrgQ/MvFCQj0BQHZCpt77
-         +s+A==
-X-Gm-Message-State: AOAM531tvQ52Sc3LpOnloX21SRVMIuj19Wv9+uVRqicn5BDEYtppkIDp
-	gcfoZVoNafPYB9JFxas0igSEYPgPDP6cWnaa9Jpkbg==
-X-Google-Smtp-Source: ABdhPJyaFAHnaHfcxF9oK2zzYsY2EtPh/uGq+12bC7Ho7eUw/yPfwKq2bJmWpg53blCYTMA1ROMhpC7iIBK74ygqh2U=
-X-Received: by 2002:aa7:c789:0:b0:413:605d:8d17 with SMTP id
- n9-20020aa7c789000000b00413605d8d17mr18351707eds.100.1650888752051; Mon, 25
- Apr 2022 05:12:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C80D7E
+	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 12:26:24 +0000 (UTC)
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4Kn3vf5SJfz4wxyy
+	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 14:18:38 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:c150:c4b6:d197:3811])
+	by xavier.telenet-ops.be with bizsmtp
+	id P0JU270033M22MD010JUHG; Mon, 25 Apr 2022 14:18:31 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1nixff-0026ck-Ci; Mon, 25 Apr 2022 14:18:27 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1nixfe-006ZU1-UT; Mon, 25 Apr 2022 14:18:26 +0200
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH] staging: vc04_services: Re-add dependency on HAS_DMA to BCM2835_VCHIQ
+Date: Mon, 25 Apr 2022 14:18:25 +0200
+Message-Id: <da55bd87eebf1a969dc8ccd807843319833f6c40.1650888813.git.geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220425105346.324864-1-benjamin.gaignard@collabora.com>
-In-Reply-To: <20220425105346.324864-1-benjamin.gaignard@collabora.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Mon, 25 Apr 2022 09:12:20 -0300
-Message-ID: <CAAEAJfA2K2-YOruDMUjHixaPa1wfTSwpb3K5A-y_i3H6BF7oKQ@mail.gmail.com>
-Subject: Re: [PATCH] media: hantro: HEVC: unconditionnaly set
- pps_{cb/cr}_qp_offset values
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>, linux-media <linux-media@vger.kernel.org>, 
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, jon@nanocrew.net, 
-	Adam Ford <aford173@gmail.com>, Collabora Kernel ML <kernel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 25, 2022 at 7:53 AM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
-> Always set pps_cb_qp_offset and pps_cr_qp_offset values in Hantro/G2
-> register whatever is V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT
-> flag value.
-> This fix a couple of tests in fluster.
->
+Thanks to stubs for the NO_DMA=y case, drivers that use the DMA API can
+be compile-tested on systems that do not support DMA.  Hence the
+dependency of BCM2835_VCHIQ on HAS_DMA was dropped to increase compile
+coverage.
 
-Which tests?
+Unfortunately compilers became smarter, leading to new failures.
+E.g. for a CONFIG_SUN3=y allmodconfig kernel with gcc 9.4.0:
 
-Thanks,
-Ezequiel
+    drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c: In function ‘free_pagelist’:
+    arch/m68k/include/asm/string.h:72:25: warning: argument 2 null where non-null expected [-Wnonnull]
+       72 | #define memcpy(d, s, n) __builtin_memcpy(d, s, n)
+	  |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+    drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c:614:4: note: in expansion of macro ‘memcpy’
+      614 |    memcpy((char *)kmap(pages[0]) +
+	  |    ^~~~~~
+    arch/m68k/include/asm/string.h:72:25: note: in a call to built-in function ‘__builtin_memcpy’
+       72 | #define memcpy(d, s, n) __builtin_memcpy(d, s, n)
+	  |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+    drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c:614:4: note: in expansion of macro ‘memcpy’
+      614 |    memcpy((char *)kmap(pages[0]) +
+	  |    ^~~~~~
 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> index 2c8eb0720db8..bb512389c1a5 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> @@ -194,13 +194,8 @@ static void set_params(struct hantro_ctx *ctx)
->                 hantro_reg_write(vpu, &g2_max_cu_qpd_depth, 0);
->         }
->
-> -       if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
-> -               hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
-> -               hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
-> -       } else {
-> -               hantro_reg_write(vpu, &g2_cb_qp_offset, 0);
-> -               hantro_reg_write(vpu, &g2_cr_qp_offset, 0);
-> -       }
-> +       hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
-> +       hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
->
->         hantro_reg_write(vpu, &g2_filt_offset_beta, pps->pps_beta_offset_div2);
->         hantro_reg_write(vpu, &g2_filt_offset_tc, pps->pps_tc_offset_div2);
-> --
-> 2.32.0
->
+This happens because the compiler can trace back the source pointer to a
+allocation by dma_alloc_attrs(), which always returns NULL if NO_DMA=y.
+
+Avoid this reinstating the dependency of the BCM2835_VCHIQ symbol on
+HAS_DMA, and by restricting the selection of BCM2835_VCHIQ.
+
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+ drivers/staging/vc04_services/Kconfig                | 1 +
+ drivers/staging/vc04_services/bcm2835-audio/Kconfig  | 2 +-
+ drivers/staging/vc04_services/bcm2835-camera/Kconfig | 4 ++--
+ 3 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_services/Kconfig
+index cb7c82403dbf22cb..31e58c9d1a110441 100644
+--- a/drivers/staging/vc04_services/Kconfig
++++ b/drivers/staging/vc04_services/Kconfig
+@@ -13,6 +13,7 @@ if BCM_VIDEOCORE
+ 
+ config BCM2835_VCHIQ
+ 	tristate "BCM2835 VCHIQ"
++	depends on HAS_DMA
+ 	imply VCHIQ_CDEV
+ 	help
+ 		Broadcom BCM2835 and similar SoCs have a VPU called VideoCore. This config
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/Kconfig b/drivers/staging/vc04_services/bcm2835-audio/Kconfig
+index d32ea348e846f2c0..5a3a5279551eb702 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/Kconfig
++++ b/drivers/staging/vc04_services/bcm2835-audio/Kconfig
+@@ -3,7 +3,7 @@ config SND_BCM2835
+ 	tristate "BCM2835 Audio"
+ 	depends on (ARCH_BCM2835 || COMPILE_TEST) && SND
+ 	select SND_PCM
+-	select BCM2835_VCHIQ
++	select BCM2835_VCHIQ if HAS_DMA
+ 	help
+ 	  Say Y or M if you want to support BCM2835 built in audio
+ 
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/Kconfig b/drivers/staging/vc04_services/bcm2835-camera/Kconfig
+index dcda565f9b38090f..870c9afb223a220b 100644
+--- a/drivers/staging/vc04_services/bcm2835-camera/Kconfig
++++ b/drivers/staging/vc04_services/bcm2835-camera/Kconfig
+@@ -3,8 +3,8 @@ config VIDEO_BCM2835
+ 	tristate "BCM2835 Camera"
+ 	depends on MEDIA_SUPPORT
+ 	depends on VIDEO_DEV && (ARCH_BCM2835 || COMPILE_TEST)
+-	select BCM2835_VCHIQ
+-	select BCM2835_VCHIQ_MMAL
++	select BCM2835_VCHIQ if HAS_DMA
++	select BCM2835_VCHIQ_MMAL if HAS_DMA
+ 	select VIDEOBUF2_VMALLOC
+ 	select BTREE
+ 	help
+-- 
+2.25.1
+
