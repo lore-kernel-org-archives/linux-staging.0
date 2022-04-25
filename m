@@ -1,123 +1,115 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from bird.elm.relay.mailchannels.net (bird.elm.relay.mailchannels.net [23.83.212.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E9129AA
-	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 19:04:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: nicolas)
-	with ESMTPSA id 328231F42FFC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1650912919;
-	bh=UeDlmqQj8a7ajqfg6WiA/qN0a19sf47WMImO06/MAHQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=bfRYX0DKAOr83SgdDu+dNiIGZNolkLDWunS2dPJPcoNGKDvOBzhMm9e5czLmV8KRW
-	 EcAmqFXa16zRv57Ue0x/rPB/sPH1BJtCdNNf3oEeUcK/0jTfpMsrXMjquR+pVECaM7
-	 H55o0X7+E8wwXqq3KNC/C08+cUSBPgNJbh4baJ/GdFh3bCdT53eQuYaYIY3J10EyTH
-	 QdBiDm/xxABXYxKgd6wphCB1MvrEoGORZiGkgUGzmvBhvXwi56pPlx7CFisBa1lITs
-	 wo6l1tmHjA/LSK/di44KHjdQLPIMsaoO2KrmTh8qS/KuKP8OfXLJLue1RKa3obJm3+
-	 iBJqo/Lt647qw==
-Message-ID: <0780cc3ddd985f580a5513e5222cdde852e6aaab.camel@collabora.com>
-Subject: Re: [PATCH v3 17/24] media: rkvdec: h264: Fix reference frame_num
- wrap for second field
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, Jonas Karlman
- <jonas@kwiboo.se>, Ezequiel Garcia <ezequiel@collabora.com>, Sebastian
- Fricke <sebastian.fricke@collabora.com>, linux-media@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
-Date: Mon, 25 Apr 2022 14:55:04 -0400
-In-Reply-To: <8f6c8a5c-200d-fbbd-0b8a-966d94467aad@xs4all.nl>
-References: <20220405204426.259074-1-nicolas.dufresne@collabora.com>
-	 <20220405204426.259074-18-nicolas.dufresne@collabora.com>
-	 <8f6c8a5c-200d-fbbd-0b8a-966d94467aad@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248E433D6
+	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 22:25:44 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 413BB8011DB;
+	Mon, 25 Apr 2022 22:25:38 +0000 (UTC)
+Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id CB72980109A;
+	Mon, 25 Apr 2022 22:25:37 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650925537; a=rsa-sha256;
+	cv=none;
+	b=F/wx94kfenO3fjgrOI4AwghZ2n50+gkSoBpcoeuKVOps8GDk/wksfJdK1gTo2o/YmR10Zl
+	snTx6m4Kk4VkkWXmZWDC0s0U44l2lS5+Vhao2g/AJQrM7wllhzFMWmBZvcEKfSF/r0vc7W
+	cZg37BUMYP9x2YUcKLTImQ3X66KNobn5eFvtr35hBQFAAyTPowk54+ermY6ljgGLCUqJtY
+	0pqXbHe1ifwz1zht4xPlnUkP1lR7Ci8JU51OofmGHp8Adk7YICEpODyjKiUO2ViYuoppON
+	ZvasyIC2KVZordPsG/W65YvA2Mq/K6onTpG0cF+kziSuOBCtBLyoyrODXSgNMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1650925537;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=qrIAaUSjnb2wlp86fkBj4QhxXpIqPeoU2r+zy2bjOXo=;
+	b=ndFeoIBj6LZ+Q528R9oyeR+sLkyYniiI7odjOr8tJ8WsYZCs16YDLJUWckkVWO0ZFdkBMR
+	YxnRqq7WYWLkBVnzXAX6tZ0yOhTeF0034tSieTmivsnvV+UNO8N29pE5QGQiBPmbBeHqdG
+	02U9KQIoF6rOKTtvay2YUoxEZ/qnFNuSfS/UNu47ZAGpjvLimSFP3Jy3HwbsVumQSlJolP
+	Axj0kT4pul4C7I3AX7Qf1iIpCvCNWK9FbVNiTcCk4I32aHONRzTpPcsPNTq2zAD/LPiGwM
+	bGH6DLQ2uYgH8CPFFNK92f/RKnBDoFR3oVoxAhw26nTqdHiu1NLwspFXpqTk5w==
+ARC-Authentication-Results: i=1;
+	rspamd-67b64f579b-dhxks;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
+Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.96.96.48 (trex/6.7.1);
+	Mon, 25 Apr 2022 22:25:38 +0000
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Irritate-Descriptive: 173270db09277b4f_1650925538102_2579386843
+X-MC-Loop-Signature: 1650925538102:2428176500
+X-MC-Ingress-Time: 1650925538101
+Received: from localhost.localdomain (unknown [69.12.38.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4KnKMz0bNjz3D;
+	Mon, 25 Apr 2022 15:25:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1650925535;
+	bh=qrIAaUSjnb2wlp86fkBj4QhxXpIqPeoU2r+zy2bjOXo=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=wi/qHUUa+5Xgij1xZFcQcG1fs5arzExUI+HRyTxGN2Nk/QU2JwZ7ORPGbWbJ1BpSv
+	 2EwTOsm49ZxieGyjmaJFIInkv6cozpBjXdI1qvl5papF9GCgK7zn3DvbOeeyk/hnop
+	 zoyr9hZopx0pqhOxGAzst6NCCHfxX2ldeNWTI8a6Ijstkup5/n4QmQKlppPeIIy7Us
+	 9ECXa4NtwFuavYKBE9lZKI3n+t/x9rd4njCFQwwB5pjR7gIXSyjozt+3tGJKn9mINV
+	 obNmq40tZTQwQVFoh5uO7M5v04jwsRhSnicqpX6SfZmEkWjnqBYiGjU2VdY22GFkKU
+	 7lOZGNKKNR2cQ==
+From: Ian Cowan <ian@linux.cowan.aero>
+To: Sven Van Asbroeck <TheSven73@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ian Cowan <ian@linux.cowan.aero>
+Subject: [PATCH v2] staging: fieldbus: remove unnecessary double negation
+Date: Mon, 25 Apr 2022 18:25:26 -0400
+Message-Id: <20220425222526.6023-1-ian@linux.cowan.aero>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Le vendredi 22 avril 2022 =C3=A0 09:43 +0200, Hans Verkuil a =C3=A9crit=C2=
-=A0:
-> On 05/04/2022 22:44, Nicolas Dufresne wrote:
-> > From: Jonas Karlman <jonas@kwiboo.se>
-> >=20
-> > When decoding the second field in a complementary field pair the second
-> > field is sharing the same frame_num with the first field.
-> >=20
-> > Currently the frame_num for the first field is wrapped when it matches =
-the
-> > field being decoded, this cause issues to decode the second field in a
->=20
-> cause issues to decode -> caused issues decoding
->=20
-> > complementary field pair.
-> >=20
-> > Fix this by using inclusive comparison, less than or equal.
->=20
-> I would change this last sentence to:
->=20
-> 	Fix this by using inclusive comparison: 'less than or equal'.
->=20
-> It makes it a bit easier to parse.
->=20
-> >=20
-> > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> > ---
-> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
-ng/media/rkvdec/rkvdec-h264.c
-> > index f081b476340f..60eaf06b6e25 100644
-> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > @@ -781,7 +781,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
-> >  			continue;
-> > =20
-> >  		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
-> > -		    dpb[i].frame_num < dec_params->frame_num) {
-> > +		    dpb[i].frame_num <=3D dec_params->frame_num) {
->=20
-> I wonder if a comment should be added here, explaining the reason for '<=
-=3D'.
->=20
-> It doesn't seem obvious to me. Up to you, though.
+The values that are being double negated in this case are booleans to begin
+with, so the double negation has no effect on the result.
 
-I guess I could, the algo for wrapping in the spec is (formula 8-27):
+Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+---
+ drivers/staging/fieldbus/dev_core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-    if( FrameNum > frame_num )
-        FrameNumWrap =3D FrameNum =E2=88=92 MaxFrameNum
-    else
-        FrameNumWrap =3D FrameNum
-
-Our implementation has the branch condition flip over, and the flipped vers=
-ion of that is:
-
-    if( FrameNum <=3D frame_num )
-        FrameNumWrap =3D FrameNum
-    else
-        FrameNumWrap =3D FrameNum =E2=88=92 MaxFrameNum
-
-There is no deeper rationale since we simply follow the recipe described in=
- the
-spec. This is done so that we can share that condition with that long term
-reference handling.
-
->=20
-> >  			p[i] =3D dpb[i].frame_num;
-> >  			continue;
-> >  		}
->=20
-> Regards,
->=20
-> 	Hans
+diff --git a/drivers/staging/fieldbus/dev_core.c b/drivers/staging/fieldbus/dev_core.c
+index 5aab734606ea..6766b2b13482 100644
+--- a/drivers/staging/fieldbus/dev_core.c
++++ b/drivers/staging/fieldbus/dev_core.c
+@@ -28,7 +28,7 @@ static ssize_t online_show(struct device *dev, struct device_attribute *attr,
+ {
+ 	struct fieldbus_dev *fb = dev_get_drvdata(dev);
+ 
+-	return sprintf(buf, "%d\n", !!fb->online);
++	return sprintf(buf, "%d\n", fb->online);
+ }
+ static DEVICE_ATTR_RO(online);
+ 
+@@ -39,7 +39,7 @@ static ssize_t enabled_show(struct device *dev, struct device_attribute *attr,
+ 
+ 	if (!fb->enable_get)
+ 		return -EINVAL;
+-	return sprintf(buf, "%d\n", !!fb->enable_get(fb));
++	return sprintf(buf, "%d\n", fb->enable_get(fb));
+ }
+ 
+ static ssize_t enabled_store(struct device *dev, struct device_attribute *attr,
+-- 
+2.35.1
 
