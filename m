@@ -1,28 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BC67E
-	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 04:45:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9B70C385A7;
-	Mon, 25 Apr 2022 04:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073B77E
+	for <linux-staging@lists.linux.dev>; Mon, 25 Apr 2022 04:45:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EB36C385A4;
+	Mon, 25 Apr 2022 04:45:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650861917;
-	bh=2gZLH75MhvXmgXdEDwAZDudUMeUiaWw1yA8c9fQX3BI=;
+	s=korg; t=1650861937;
+	bh=WfUDenzRqSwN+2AH8dGvIQOwxPGHWP2uyfmC+8Ufc7s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nu/2lXmc6Av6YAwdkfyQIuYYY1h8pQ22d5pz6yqUKpwZetniiPnxYrwwP6wEqirRZ
-	 8JPDyZDPEWuJroM8bB50DdgNOUxWC7RheMpX1Yeq4ZRkvhK5MYRMHFTnYzLxtVJuMR
-	 SHBQnTCcB5beTmU+G1T8sZ/2qhAabYmMYiZ7K9y4=
-Date: Mon, 25 Apr 2022 06:45:09 +0200
+	b=MpqNSxAFm6ZPMthlxgGs7DN919OioAO5tKDtC8Q4Q5ZJku+Yq99/NIrjpcbx1JcTq
+	 eHzNF//Em+O77zNpc0CU3vIEYCoz8OrpaDndn24lbDHDAPOBAR8d3DRb1KUljfSN/g
+	 pnRwmGb+mJGV0bNhfBRyJzBnUJd7WXxd8TkLof2w=
+Date: Mon, 25 Apr 2022 06:45:32 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Ian Cowan <ian@linux.cowan.aero>
-Cc: LABBE Corentin <clabbe@baylibre.com>, mchehab@kernel.org,
-	dan.carpenter@oracle.com, mjpeg-users@lists.sourceforge.net,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/4] staging: media: zoran: add zrdev_dbg() macros
-Message-ID: <YmYnVfYPrWkcee1m@kroah.com>
-References: <20220423051745.292683-1-ian@linux.cowan.aero>
- <YmWiQsrPj0uIpZ7w@Red>
- <YmX31vg+lCx6rsKF@fedora>
+To: Solomon Tan <wjsota@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	straube.linux@gmail.com
+Subject: Re: [PATCH v2] Revert "staging: r8188eu: use in-kernel ieee channel"
+Message-ID: <YmYnbKeqce5TZuM1@kroah.com>
+References: <20220425011612.113664-1-wjsota@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,28 +28,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YmX31vg+lCx6rsKF@fedora>
+In-Reply-To: <20220425011612.113664-1-wjsota@gmail.com>
 
-On Sun, Apr 24, 2022 at 09:22:30PM -0400, Ian Cowan wrote:
-> On Sun, Apr 24, 2022 at 09:17:22PM +0200, LABBE Corentin wrote:
-> > Hello
-> > 
-> > Thanks for your patchs, removing dprintk is a good idea.
-> > Please use pci_xxx() instead of dev_xxx() to be consistent with the rest of the driver.
-> > The comment title is misleading, zrdev_err is not about debugging. What about Logging macros ?
-> > 
-> > Regards
-> > 
+On Mon, Apr 25, 2022 at 09:16:13AM +0800, Solomon Tan wrote:
+> This reverts commit 0afaa121813ed602bd203759c339cb639493f8c2 as changing
+> rtw_ieee80211_channel to ieee80211_channel causes a memcpy bug as reported
+> in
+> https://lore.kernel.org/linux-staging/67e2d10b-7f0f-9c5a-ce31-376b83ffba9e@gmail.com/
+> due to their size differences.
 > 
-> I have made those modifications, and I will resubmit patches 1 and 2
-> shortly. Those are the only patches that affected by this change; 3 and
-> 4 will not change.
+> Signed-off-by: Solomon Tan <wjsota@gmail.com>
 
-You should send a whole new series, properly versioned as the
-documentation in the kernel asks you to.  Otherwise it is impossible for
-reviewers and maintainers to know what is the "latest" version to
-accept.
+No "Reported-by:" tag?
 
-thanks,
-
-greg k-h
