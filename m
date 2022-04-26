@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FA0625
-	for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 09:31:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA17C385A0;
-	Tue, 26 Apr 2022 09:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F34625
+	for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 09:38:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AF85C385AC;
+	Tue, 26 Apr 2022 09:38:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650965483;
-	bh=trwF575pYSLNdADLXboEnkiFT7sbPelL37v2hFvpbzI=;
+	s=korg; t=1650965936;
+	bh=FdzOrQvu6++ib5497R4Q/t3fH8Hdc4IvABGbNTHGKD0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N5QQluvliT4xXWHkl4HwQKbaHVwIHco1MakflFU6x+4jNj9VjicqIx6vWpaCTg1Cl
-	 PuGKGfXFRhGaoLccBOJia/W+0zDcs+feKYFvuCRX2iGVY2PSoe9yeb3F1hNM9BDmYj
-	 JxXTf/LN6aAxJc/Pi9fKZ7V0lnqsYGADy0eX5P4o=
-Date: Tue, 26 Apr 2022 11:31:20 +0200
+	b=v+MU+Cjd4eesuiIinuoZTHr+o7j2+bx94ceCitEXGWDobcfG+sszcaZdghJhMwptr
+	 Er7AkoVhe/hjOp/o4en29iCBis3I2920BLtqGqeXRY4yeRSMcOF7LO4STOWZ7R8cqq
+	 rQFvfAawxhOEI1nlpye5MtJBEEGghYp2lHC0SQsI=
+Date: Tue, 26 Apr 2022 11:38:53 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] staging: vt6655: Replace two VNSvInPortD with
- ioread64_lo_hi
-Message-ID: <Yme76Pxt0y0GxFEx@kroah.com>
+Subject: Re: [PATCH 2/5] staging: vt6655: Replace MACvReadMIBCounter with
+ VNSvInPortD
+Message-ID: <Yme9rVZfELAECY7Z@kroah.com>
 References: <cover.1650784817.git.philipp.g.hortmann@gmail.com>
- <db5ba681cea27de815b172f8b93a8fd1efa30e99.1650784817.git.philipp.g.hortmann@gmail.com>
+ <2a50f3e99b15db2100f93e1e1a2b5cbc13b82882.1650784817.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,12 +30,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <db5ba681cea27de815b172f8b93a8fd1efa30e99.1650784817.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <2a50f3e99b15db2100f93e1e1a2b5cbc13b82882.1650784817.git.philipp.g.hortmann@gmail.com>
 
-On Sun, Apr 24, 2022 at 09:44:22AM +0200, Philipp Hortmann wrote:
-> Replace two macros VNSvInPortD (32 Bit reads) with one ioread64_lo_hi.
+On Sun, Apr 24, 2022 at 09:44:11AM +0200, Philipp Hortmann wrote:
+> Replace macro MACvReadMIBCounter with VNSvInPortD.
+> Last patch within this patch series will replace all macros
+> VNSvInPortD with ioread32. The names of macros and the arguments
+> use CamelCase which is not accepted by checkpatch.pl
 
-I would stick to the 2 reads just to ensure that it works properly.
+No need to say "last patch" as that will not make sense when these are
+in the tree, right?
+
+> 
+> Since there are more than one checkpatch issue per line,
+> more steps are rquired to fix.
+
+This sentance also is not needed.
+
+So the changelog can just say:
+
+	Replace macro MACvReadMIBCounter with VNSvInPortD and as it was
+	the only user, it can now be removed.
+
+Same comments on the other changes in this series, but I did take the
+first patch, it made sense on its own.
 
 thanks,
 
