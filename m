@@ -1,21 +1,21 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85AF63D
-	for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 12:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960FC63D
+	for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 12:58:32 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(Authenticated sender: nicolas)
-	with ESMTPSA id 1C6751F43996
+	with ESMTPSA id F359F1F43999
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1650977909;
-	bh=Obrg+kliljhQBVbkjHH9eqyMF1KK1PscTQElBfjHqLA=;
+	s=mail; t=1650977911;
+	bh=mlmVguJcq18q2C5FsZYpROZPrzKGkqiR80YOa10U0rQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=M/Su31vKdsLjJViMlDV+oZDM2lWGxhUOrM0xafZj4XX9GRff9fgOXPSG4OMAc1QAs
-	 B5qSVl8w3PC38ceehO0XjfkGqsCHvh4k940A679PTb+LHLTOx3rrilS9Sp2Exzrkoq
-	 ij85Gh4X8ovJXGy0mCiByNyHOjNK0/xSni3J/R+PkETo4Hy0Yqi1agSZBU8bzvqRff
-	 gBE+vPFCxcz2wg3bZN0kte+59S6ty4xTRoc04YP6VwCQSuRwFbDEKWby7uO2+0SfCE
-	 OLgllG/q6s3WF7qFY103nMu47ObqYHVano4sby24zZQCO/SzPVbi64lxCNU86vSSC9
-	 Hm2TfZqLLoO/w==
+	b=R4DhZD/ZO/ZdN80EgBWl3CS/bbfNmq0mGNkaXtVKCew0b+SnrGkmV0GdkFy2zQZzj
+	 /J1QimWglAQnyxDyECg5tgducpujBvM7Jgn9I+pVNQ17xK0KLQKLq1NyZ2LjHJZizs
+	 0IxLhE91L+gsPFTfB4BrsOoanpy/oB9V+TZ76QqbIX2qZ2FeSc3Hikz3TUBtukHukW
+	 gGactiPcwUwSMCxq6Fg2Ryr+iijk6a/spxFCBeAF9sv0CLB+igDPaGCO+51/9V0shg
+	 NIOuXwDbLBdLSIN6xt60BecfrAGk4xZHH0HggzrLiGP4//WTfbNVeNSYTmRwhrpE0b
+	 GDecRSL1kCfpQ==
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -23,14 +23,13 @@ To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 Cc: nicolas@ndufresne.ca,
 	Jonas Karlman <jonas@kwiboo.se>,
 	linux-media@vger.kernel.org,
-	Ezequiel Garcia <ezequiel@collabora.com>,
 	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 17/24] media: rkvdec: h264: Fix reference frame_num wrap for second field
-Date: Tue, 26 Apr 2022 08:57:43 -0400
-Message-Id: <20220426125751.108293-18-nicolas.dufresne@collabora.com>
+Subject: [PATCH v4 18/24] media: rkvdec: Ensure decoded resolution fit coded resolution
+Date: Tue, 26 Apr 2022 08:57:44 -0400
+Message-Id: <20220426125751.108293-19-nicolas.dufresne@collabora.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426125751.108293-1-nicolas.dufresne@collabora.com>
 References: <20220426125751.108293-1-nicolas.dufresne@collabora.com>
@@ -44,36 +43,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Jonas Karlman <jonas@kwiboo.se>
 
-When decoding the second field in a complementary field pair the second
-field is sharing the same frame_num with the first field.
-
-Currently the frame_num for the first field is wrapped when it matches the
-field being decoded, this caused issues decoding the second field in a
-complementary field pair.
-
-Fix this by using inclusive comparison: 'less than or equal'.
+Ensure decoded CAPTURE buffer resolution is larger or equal to the coded
+OUTPUT buffer resolution.
 
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 ---
- drivers/staging/media/rkvdec/rkvdec-h264.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index d5ac0285f36f..7011b66c1aab 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -782,7 +782,7 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
- 			continue;
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index e3d44d5b35f3..2bc4b1a40989 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -257,6 +257,8 @@ static int rkvdec_try_capture_fmt(struct file *file, void *priv,
+ 		pix_mp->pixelformat = coded_desc->decoded_fmts[0];
  
- 		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM ||
--		    dpb[i].frame_num < dec_params->frame_num) {
-+		    dpb[i].frame_num <= dec_params->frame_num) {
- 			p[i] = dpb[i].frame_num;
- 			continue;
- 		}
+ 	/* Always apply the frmsize constraint of the coded end. */
++	pix_mp->width = max(pix_mp->width, ctx->coded_fmt.fmt.pix_mp.width);
++	pix_mp->height = max(pix_mp->height, ctx->coded_fmt.fmt.pix_mp.height);
+ 	v4l2_apply_frmsize_constraints(&pix_mp->width,
+ 				       &pix_mp->height,
+ 				       &coded_desc->frmsize);
 -- 
 2.34.1
 
