@@ -1,362 +1,251 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD1B7E
-	for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 06:30:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B2A5C385A0;
-	Tue, 26 Apr 2022 06:30:15 +0000 (UTC)
-Message-ID: <075dc19b-d7f5-3939-f736-766ed0aaad84@xs4all.nl>
-Date: Tue, 26 Apr 2022 08:30:13 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CFC7E
+	for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 07:38:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id E166EDFCDD;
+	Tue, 26 Apr 2022 00:38:36 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lnssaegXnrv3; Tue, 26 Apr 2022 00:38:36 -0700 (PDT)
+Message-ID: <c11a58ecc5da2e206fc2b942980223a04a103f19.camel@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+	t=1650958716; bh=dTWe+d0dFVklVrAgAChAw0FE5y1BBpVvo//lxX4HxkE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=oaiUBpyZ2GF98CABd1zQjAmoGCryt1LzZH1RthGVWgoJNudGOLt46HWmzoA+z9BbJ
+	 ggKwFSKAhWi/TnMos4DZ73a7dXRzUJOco3F2py9Io88PXaOvfOzYJ+PjiYqcKGlSta
+	 s4l1Cbyx7BvkK5M4aSdW5JMeDI2MSDWrYhZl8Y7lop8G47KuEvXOJID6v8Q8a05ALh
+	 1702lc6bzwuio+ir9Z6Q1VaMVD3Ynxqs781rh9vnt4uGGiwb+Vi/Imq/RhsykO9dU2
+	 BGs34TQ1+d+j1BSVg12L1ENzkQAf0xV1LU6AVh8LQ4vXdh+wafTS6RAmPiieyCKIdy
+	 ruc1yanbdFBgg==
+Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2
+ VPU's with vpu-blk-ctrl
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: Lucas Stach <l.stach@pengutronix.de>, Adam Ford <aford173@gmail.com>, 
+	linux-media@vger.kernel.org
+Cc: aford@beaconembedded.com, cphealy@gmail.com, kernel test robot
+ <lkp@intel.com>,  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
+ <linux-imx@nxp.com>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev
+Date: Tue, 26 Apr 2022 09:38:28 +0200
+In-Reply-To: <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
+References: <20220125171129.472775-1-aford173@gmail.com>
+	 <20220125171129.472775-8-aford173@gmail.com>
+	 <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm>
+	 <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v7 0/6] staging: media: wave5: add wave5 codec driver
-Content-Language: en-US
-To: Nas Chung <nas.chung@chipsnmedia.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "dafna3@gmail.com" <dafna3@gmail.com>,
- "bob.beckett@collabora.com" <bob.beckett@collabora.com>,
- "kiril.bicevski@collabora.com" <kiril.bicevski@collabora.com>,
- "lafley.kim" <lafley.kim@chipsnmedia.com>,
- Scott Woo <scott.woo@chipsnmedia.com>,
- "olivier.crete@collabora.com" <olivier.crete@collabora.com>,
- "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
- "rdunlap@infradead.org" <rdunlap@infradead.org>,
- "daniel@0x0f.com" <daniel@0x0f.com>
-References: <SL2P216MB1246AED88587FF94698653D9FBF89@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <SL2P216MB1246AED88587FF94698653D9FBF89@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Nas,
+Am Montag, dem 25.04.2022 um 17:34 +0200 schrieb Lucas Stach:
+> Hi Martin,
+> 
+> Am Montag, dem 25.04.2022 um 17:22 +0200 schrieb Martin Kepplinger:
+> > Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
+> > > With the Hantro G1 and G2 now setup to run independently, update
+> > > the device tree to allow both to operate.  This requires the
+> > > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
+> > > certain clock enabled to handle the gating of the G1 and G2
+> > > fuses, the clock-parents and clock-rates for the various VPU's
+> > > to be moved into the pgc_vpu because they cannot get re-parented
+> > > once enabled, and the pgc_vpu is the highest in the chain.
+> > > 
+> > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> > > 
+> > > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > index 2df2510d0118..549b2440f55d 100644
+> > > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
+> > >                                         pgc_vpu: power-domain@6 {
+> > >                                                 #power-domain-
+> > > cells =
+> > > <0>;
+> > >                                                 reg =
+> > > <IMX8M_POWER_DOMAIN_VPU>;
+> > > -                                               clocks = <&clk
+> > > IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > > +                                               clocks = <&clk
+> > > IMX8MQ_CLK_VPU_DEC_ROOT>,
+> > > +                                                        <&clk
+> > > IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > +                                                        <&clk
+> > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > +                                               assigned-clocks =
+> > > <&clk IMX8MQ_CLK_VPU_G1>,
+> > > +                                                                
+> > > <&clk IMX8MQ_CLK_VPU_G2>,
+> > > +                                                                
+> > > <&clk IMX8MQ_CLK_VPU_BUS>,
+> > > +                                                                
+> > > <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> > > +                                               assigned-clock-
+> > > parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> > > +                                                                
+> > >     
+> > >     <&clk IMX8MQ_VPU_PLL_OUT>,
+> > > +                                                                
+> > >     
+> > >     <&clk IMX8MQ_SYS1_PLL_800M>,
+> > > +                                                                
+> > >     
+> > >     <&clk IMX8MQ_VPU_PLL>;
+> > > +                                               assigned-clock-
+> > > rates
+> > > = <600000000>,
+> > > +                                                                
+> > >     
+> > >   <600000000>,
+> > > +                                                                
+> > >     
+> > >   <800000000>,
+> > > +                                                                
+> > >     
+> > >   <0>;
+> > >                                         };
+> > >  
+> > >                                         pgc_disp: power-domain@7
+> > > {
+> > > @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
+> > >                         status = "disabled";
+> > >                 };
+> > >  
+> > > -               vpu: video-codec@38300000 {
+> > > -                       compatible = "nxp,imx8mq-vpu";
+> > > -                       reg = <0x38300000 0x10000>,
+> > > -                             <0x38310000 0x10000>,
+> > > -                             <0x38320000 0x10000>;
+> > > -                       reg-names = "g1", "g2", "ctrl";
+> > > -                       interrupts = <GIC_SPI 7
+> > > IRQ_TYPE_LEVEL_HIGH>,
+> > > -                                    <GIC_SPI 8
+> > > IRQ_TYPE_LEVEL_HIGH>;
+> > > -                       interrupt-names = "g1", "g2";
+> > > +               vpu_g1: video-codec@38300000 {
+> > > +                       compatible = "nxp,imx8mq-vpu-g1";
+> > > +                       reg = <0x38300000 0x10000>;
+> > > +                       interrupts = <GIC_SPI 7
+> > > IRQ_TYPE_LEVEL_HIGH>;
+> > > +                       clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
+> > > +                       power-domains = <&vpu_blk_ctrl
+> > > IMX8MQ_VPUBLK_PD_G1>;
+> > > +               };
+> > > +
+> > > +               vpu_g2: video-codec@38310000 {
+> > > +                       compatible = "nxp,imx8mq-vpu-g2";
+> > > +                       reg = <0x38310000 0x10000>;
+> > > +                       interrupts = <GIC_SPI 8
+> > > IRQ_TYPE_LEVEL_HIGH>;
+> > > +                       clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > +                       power-domains = <&vpu_blk_ctrl
+> > > IMX8MQ_VPUBLK_PD_G2>;
+> > > +               };
+> > > +
+> > > +               vpu_blk_ctrl: blk-ctrl@38320000 {
+> > > +                       compatible = "fsl,imx8mq-vpu-blk-ctrl";
+> > > +                       reg = <0x38320000 0x100>;
+> > > +                       power-domains = <&pgc_vpu>, <&pgc_vpu>,
+> > > <&pgc_vpu>;
+> > > +                       power-domain-names = "bus", "g1", "g2";
+> > >                         clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > -                                <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+> > > -                                <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > > -                       clock-names = "g1", "g2", "bus";
+> > > -                       assigned-clocks = <&clk
+> > > IMX8MQ_CLK_VPU_G1>,
+> > > -                                         <&clk
+> > > IMX8MQ_CLK_VPU_G2>,
+> > > -                                         <&clk
+> > > IMX8MQ_CLK_VPU_BUS>,
+> > > -                                         <&clk
+> > > IMX8MQ_VPU_PLL_BYPASS>;
+> > > -                       assigned-clock-parents = <&clk
+> > > IMX8MQ_VPU_PLL_OUT>,
+> > > -                                                <&clk
+> > > IMX8MQ_VPU_PLL_OUT>,
+> > > -                                                <&clk
+> > > IMX8MQ_SYS1_PLL_800M>,
+> > > -                                                <&clk
+> > > IMX8MQ_VPU_PLL>;
+> > > -                       assigned-clock-rates = <600000000>,
+> > > <600000000>,
+> > > -                                              <800000000>, <0>;
+> > > -                       power-domains = <&pgc_vpu>;
+> > > +                                <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > +                       clock-names = "g1", "g2";
+> > > +                       #power-domain-cells = <1>;
+> > >                 };
+> > >  
+> > >                 pcie0: pcie@33800000 {
+> > 
+> > With this update, when testing suspend to ram on imx8mq, I get:
+> > 
+> > buck4: failed to disable: -ETIMEDOUT
+> > 
+> > where buck4 is power-supply of pgc_vpu. And thus the transition to
+> > suspend (and resuming) fails.
+> > 
+> > Have you tested system suspend after the imx8m-blk-ctrl update on
+> > imx8mq?
+> 
+> I haven't tested system suspend, don't know if anyone else did.
+> However
+> I guess that this is just uncovering a preexisting issue in the
+> system
+> suspend sequencing, which you would also hit if the video decoders
+> were
+> active at system suspend time.
+> 
+> My guess is that the regulator disable fails, due to the power
+> domains
+> being disabled quite late in the suspend sequence, where i2c
+> communication with the PMIC is no longer possible due to i2c being
+> suspended already or something like that. Maybe you can dig in a bit
+> on
+> the actual sequence on your system and we can see how we can rework
+> things to suspend the power domains at a time where communication
+> with
+> the PMIC is still possible?
 
-On 25/04/2022 12:16, Nas Chung wrote:
-> The wave5 codec is a stateful encoder/decoder.
-> It is found on the J721S2 SoC, JH7100 SoC, ssd202d SoC. Etc..
-> But current test report is based on J721S2 SoC.
-> 
-> The driver currently supports V4L2_PIX_FMT_HEVC, V4L2_PIX_FMT_H264.
-> 
-> This driver has so far been tested on J721S2 EVM board and pre-silicon FPGA.
-> 
-> Testing on J721S2 EVM board shows it working fine both decoder and encoder.
-> The driver is successfully working with gstreamer v4l2 good-plugin without any modification.
-> 
-> Testing on FPGA also shows it working fine, though the FPGA uses polled interrupts and copied buffers between the host and it's on board RAM.
-> 
-> The wave5 driver will be updated to support various EXT_CTRL encoder interface.
+What exactly would you like to see? Here's all gpcv2 regulators
+disabling on suspend. (gpu (domain 5) is disabled by runtime pm often):
 
-Please note that for some unknown reason neither v6 nor v7 ever reached the
-linux-media mailinglist. Can you try to repost, this time just to the mailinglist
-and with a CC to me?
+[   47.138700] imx-pgc imx-pgc-domain.5: disabling regulator
+[   47.298071] Freezing user space processes ... (elapsed 0.008
+seconds) done.
+[   47.313432] OOM killer disabled.
+[   47.316670] Freezing remaining freezable tasks ... (elapsed 2.221
+seconds) done.
+[   49.672052] imx8m-blk-ctrl 38320000.blk-ctrl: imx8m_blk_ctrl_suspend
+start
+[   49.704417] imx-pgc imx-pgc-domain.0: disabling regulator
+[   49.711114] imx-pgc imx-pgc-domain.6: disabling regulator
+[   49.819064] buck4: failed to disable: -ETIMEDOUT
 
-I have seen this problem before but it was never clear why linux-media would
-reject it. If you have an alternative email address you can email from, then
-you can try that as well.
+The stack looks pretty much the same for all of them, from pm_suspend()
+over genpd_suspend_noiry().
+
+And as a reminder, power-domain nr 0=mipi, 5=gpu, 6=vpu.
 
 > 
-> v4l2-compliance tests from J721S2:
+> Regards,
+> Lucas
 > 
-> # v4l2-compliance -d0
-> v4l2-compliance SHA: not available, 64 bits
 
-You must compile v4l2-compliance from the v4l-utils git repo. You can tell because
-the SHA will be shown. That way I can be certain you tested with the latest
-v4l2-compliance.
-
-> 
-> Compliance test for vpu-dec device /dev/video0:
-> 
-> Driver Info:
->         Driver name      : vpu-dec
->         Card type        : vpu-dec
->         Bus info         : platform:vpu-dec
->         Driver version   : 5.10.100
-
-5.10 is really quite old, is it possible to test with a newer kernel?
-
-Regards,
-
-	Hans
-
->         Capabilities     : 0x84204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->         Detected Stateful Decoder
-> 
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video0 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->         test VIDIOC_G/S_CTRL: OK
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 2 Private Controls: 1
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC_G/S_PARM: OK (Not Supported)
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK (Not Supported)
->         test Composing: OK
->         test Scaling: OK
-> 
-> Codec ioctls:
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK
-> 
-> Buffer ioctls:
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
-> 
-> Total for vpu-dec device /dev/video0: 44, Succeeded: 44, Failed: 0, Warnings: 0
-> 
-> # v4l2-compliance -d1
-> v4l2-compliance SHA: not available, 64 bits
-> 
-> Compliance test for vpu-enc device /dev/video1:
-> 
-> Driver Info:
->         Driver name      : vpu-enc
->         Card type        : vpu-enc
->         Bus info         : platform:vpu-enc
->         Driver version   : 5.10.100
->         Capabilities     : 0x84204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->         Detected Stateful Encoder
-> 
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video1 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->         test VIDIOC_G/S_CTRL: OK
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 15 Private Controls: 0
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->                 warn: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-formats.cpp(1320): S_PARM is supported for buftype 2, but not for ENUM_FRAMEINTERVALS
->                 warn: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-formats.cpp(1320): S_PARM is supported for buftype 10, but not for ENUM_FRAMEINTERVALS
->         test VIDIOC_G/S_PARM: OK
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK
->         test Composing: OK (Not Supported)
->         test Scaling: OK
-> 
-> Codec ioctls:
->         test VIDIOC_(TRY_)ENCODER_CMD: OK
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
-> 
-> Total for vpu-enc device /dev/video1: 44, Succeeded: 44, Failed: 0, Warnings: 2
-> 
-> changes since v6:
-> 
-> * update TODO file
-> * get sram info from device tree
-> 
-> changes since v5:
-> 
-> * support NV12/NV21 pixelformat for encoder and decoder
-> * handle adnormal exit and EOS
-> 
-> changes since v4:
-> 
-> * refactor functions in wave5-hw and fix bug reported by Daniel Palmer
-> * rename functions and variables to better names
-> * change variable types such as replacing s32 with u32 and int with bool as appropriate
-> 
-> changes since v3:
-> 
-> * Fixing all issues commented by Dan Carpenter
-> * Change file names to have wave5- prefix
-> * In wave5_vpu_probe, enable the clocks before reading registers, as commented from Daniel Palmer
-> * Add more to the TODO list,
-> 
-> changes since v2:
-> 
-> Main fixes includes:
-> * change the yaml and dirver code to support up to 4 clks (instead of one)
-> * fix Kconfig format
-> * remove unneeded cast,
-> * change var types
-> * change var names, func names
-> * checkpatch fixes
-> 
-> changes since v1:
-> 
-> Fix chanes due to comments from Ezequiel and Dan Carpenter. Main fixes inclueds:
-> * move all files to one dir 'wave5'
-> * replace private error codes with standart error codes
-> * fix extra spaces
-> * various checkpatch fixes
-> * replace private 'DPRINTK' macro with standart 'dev_err/dbg ..'
-> * fix error handling
-> * add more possible fixes to the TODO file
-> 
-> 
-> Dafna Hirschfeld (1):
->   staging: media: wave5: Add the vdi layer
-> 
-> Nas Chung (3):
->   staging: media: wave5: Add vpuapi layer
->   staging: media: wave5: Add the v4l2 layer
->   staging: media: wave5: Add TODO file
-> 
-> Robert Beckett (2):
->   dt-bindings: media: staging: wave5: add yaml devicetree bindings
->   media: wave5: Add wave5 driver to maintainers file
-> 
->  .../bindings/staging/media/cnm,wave.yaml      |   73 +
->  MAINTAINERS                                   |    9 +
->  drivers/staging/media/Kconfig                 |    2 +
->  drivers/staging/media/Makefile                |    1 +
->  drivers/staging/media/wave5/Kconfig           |   12 +
->  drivers/staging/media/wave5/Makefile          |   10 +
->  drivers/staging/media/wave5/TODO              |   34 +
->  drivers/staging/media/wave5/wave5-hw.c        | 3405 +++++++++++++++++
->  drivers/staging/media/wave5/wave5-regdefine.h |  655 ++++
->  drivers/staging/media/wave5/wave5-vdi.c       |  260 ++
->  drivers/staging/media/wave5/wave5-vdi.h       |   81 +
->  drivers/staging/media/wave5/wave5-vpu-dec.c   | 1385 +++++++
->  drivers/staging/media/wave5/wave5-vpu-enc.c   | 1532 ++++++++
->  drivers/staging/media/wave5/wave5-vpu.c       |  381 ++
->  drivers/staging/media/wave5/wave5-vpu.h       |   73 +
->  drivers/staging/media/wave5/wave5-vpuapi.c    | 1049 +++++
->  drivers/staging/media/wave5/wave5-vpuapi.h    | 1144 ++++++
->  drivers/staging/media/wave5/wave5-vpuconfig.h |   91 +
->  drivers/staging/media/wave5/wave5-vpuerror.h  |  455 +++
->  drivers/staging/media/wave5/wave5.h           |   82 +
->  20 files changed, 10734 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
->  create mode 100644 drivers/staging/media/wave5/Kconfig
->  create mode 100644 drivers/staging/media/wave5/Makefile
->  create mode 100644 drivers/staging/media/wave5/TODO
->  create mode 100644 drivers/staging/media/wave5/wave5-hw.c
->  create mode 100644 drivers/staging/media/wave5/wave5-regdefine.h
->  create mode 100644 drivers/staging/media/wave5/wave5-vdi.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vdi.h
->  create mode 100644 drivers/staging/media/wave5/wave5-vpu-dec.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vpu-enc.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vpu.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vpu.h
->  create mode 100644 drivers/staging/media/wave5/wave5-vpuapi.c
->  create mode 100644 drivers/staging/media/wave5/wave5-vpuapi.h
->  create mode 100644 drivers/staging/media/wave5/wave5-vpuconfig.h
->  create mode 100644 drivers/staging/media/wave5/wave5-vpuerror.h
->  create mode 100644 drivers/staging/media/wave5/wave5.h
-> 
 
