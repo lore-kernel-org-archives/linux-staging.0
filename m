@@ -1,27 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F34625
-	for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 09:38:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AF85C385AC;
-	Tue, 26 Apr 2022 09:38:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40904625
+	for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 09:40:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B48FC385AE;
+	Tue, 26 Apr 2022 09:40:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1650965936;
-	bh=FdzOrQvu6++ib5497R4Q/t3fH8Hdc4IvABGbNTHGKD0=;
+	s=korg; t=1650966047;
+	bh=UN8z2B0f1uixgrTjJ4GuWq66nLJBNSlOCFUejl7xRG0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=v+MU+Cjd4eesuiIinuoZTHr+o7j2+bx94ceCitEXGWDobcfG+sszcaZdghJhMwptr
-	 Er7AkoVhe/hjOp/o4en29iCBis3I2920BLtqGqeXRY4yeRSMcOF7LO4STOWZ7R8cqq
-	 rQFvfAawxhOEI1nlpye5MtJBEEGghYp2lHC0SQsI=
-Date: Tue, 26 Apr 2022 11:38:53 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/5] staging: vt6655: Replace MACvReadMIBCounter with
- VNSvInPortD
-Message-ID: <Yme9rVZfELAECY7Z@kroah.com>
-References: <cover.1650784817.git.philipp.g.hortmann@gmail.com>
- <2a50f3e99b15db2100f93e1e1a2b5cbc13b82882.1650784817.git.philipp.g.hortmann@gmail.com>
+	b=vRyA9LmX87bAOFVLGVgpQdlLBmlF1yysxasr2dXDjlU1FuDA3gKIYpSzQhJyjc1jN
+	 zAbpGKMxQfEazx0Ly+jhnTYqk0TYre0bCdoabvuodL0yFkWhS2+gPwLHgR5jwdmrx+
+	 6eV+LPnM1HGKYF3O1uXOrLPnuKW0+eUKSyKbiaSw=
+Date: Tue, 26 Apr 2022 11:40:44 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: xkernel.wang@foxmail.com
+Cc: paskripkin@gmail.com, Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] staging: r8188eu: fix potential memory leak in
+ _rtw_init_xmit_priv()
+Message-ID: <Yme+HFZ6u2gvMbfz@kroah.com>
+References: <tencent_06FCFF1B2086CCD7B9C51C7C1490E1D64A08@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,30 +29,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2a50f3e99b15db2100f93e1e1a2b5cbc13b82882.1650784817.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <tencent_06FCFF1B2086CCD7B9C51C7C1490E1D64A08@qq.com>
 
-On Sun, Apr 24, 2022 at 09:44:11AM +0200, Philipp Hortmann wrote:
-> Replace macro MACvReadMIBCounter with VNSvInPortD.
-> Last patch within this patch series will replace all macros
-> VNSvInPortD with ioread32. The names of macros and the arguments
-> use CamelCase which is not accepted by checkpatch.pl
-
-No need to say "last patch" as that will not make sense when these are
-in the tree, right?
-
+On Fri, Apr 08, 2022 at 09:37:10AM +0800, xkernel.wang@foxmail.com wrote:
+> From: Xiaoke Wang <xkernel.wang@foxmail.com>
 > 
-> Since there are more than one checkpatch issue per line,
-> more steps are rquired to fix.
+> In _rtw_init_xmit_priv(), there are several error paths for allocation
+> failures just jump to the `exit` section. However, there is no action
+> will be performed, so the allocated resources are not properly released,
+> which leads to various memory leaks.
+> 
+> To properly release them, this patch unifies the error handling code and
+> several error handling paths are added.
+> According to the allocation sequence, if the validation fails, it will
+> jump to its corresponding error tag to release the resources.
+> 
+> Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+> ---
+> ChangeLog:
+> v1->v2 update the description and adjust the sequence of patches.
+> v2->v3 None to this patch, but some to another pathch in this series.
+>  drivers/staging/r8188eu/core/rtw_xmit.c | 32 ++++++++++++++++++-------
+>  1 file changed, 24 insertions(+), 8 deletions(-)
 
-This sentance also is not needed.
+I still have 12 patches in my queue from you, yet no idea which order
+they belong in at all, nor which is the latest versions :(
 
-So the changelog can just say:
-
-	Replace macro MACvReadMIBCounter with VNSvInPortD and as it was
-	the only user, it can now be removed.
-
-Same comments on the other changes in this series, but I did take the
-first patch, it made sense on its own.
+Please rebase and resubmit them ALL as a single patch series so I can
+have a hint as to what to do here.
 
 thanks,
 
