@@ -1,40 +1,50 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4ABF7E
-	for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 13:50:44 +0000 (UTC)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:8ccc:428d:6d90:c434])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D48CF1F43AFF;
-	Tue, 26 Apr 2022 14:50:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1650981043;
-	bh=CCDHj7pQZvESZdZWN4cCNttODXVw+AkYBsGRVPKNBSI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=g5sJ06ErarEfsR+65HFsTR/u0T8G7iZ8X0qaQ8rwAjfugnHDiQPv3OGLnQ89gF1Uw
-	 Z/FZL4XZvK+vlQW2B+VBHyaq3nn6SvPofdyGl8W9P7xGDJXAUDSzf/SbeIy02IX0KE
-	 XGJpgaulJImaaLHQwnHXMFs6CFOT63MlzvVbiS/q1Rb8v0uukUuL/QE839madZ+k3X
-	 eS3B0Rfy3vAX4Y84P6vAL8rByNpZeg+tj8m2gTk3dBzJ0QzY4avPpHAKHWmp3vEltm
-	 aniSFOqb/zvsOOmY/50QjHRIDX2o2O5Dw5Z+4ikidntoTcBriOEJK3YWGiEMiZVaYk
-	 RhPvk0FcLViRg==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474067E
+	for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 13:53:27 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id ay36-20020a05600c1e2400b0038ebc885115so1118623wmb.1
+        for <linux-staging@lists.linux.dev>; Tue, 26 Apr 2022 06:53:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EnYpaxkZav5f4TJAXC67BWjjIGhseiAu51rAnrYK/5U=;
+        b=lI7BSk8KWqBYCpdh38+sEuQTXEGVto0akFD9ogV65L+lfxpWNY7YCAxoHhi3rzbMIW
+         ILIDW18W5OozzGvqzIAj1v9qW97xKuPduSfceDbSlqsZRRdWX5fWyJJpwE86dYJqanuQ
+         2kluTJmxGisJIgE4Q6bSwOxsvOWImJhvoMKbKdyMTrCSXoPcXDlWPZffdgbf2HISfxPE
+         RLnjfkD1OnvoorEv4m6Dy+6oxrG87bDJnyQo9flX4+dxOZh2bSYkpldS3vZMEH1KXHRw
+         bLTON0Q1ofUBLNum6tgAxItyw7XCA7dQrDXcm8juB1pC3bGOWv0yXpnNdi+Qo48l05eP
+         eyFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EnYpaxkZav5f4TJAXC67BWjjIGhseiAu51rAnrYK/5U=;
+        b=cygWCazQPmSFGPVBV4zSDrMafFPgu1PI511rLXcqSEnep7KliauuoLz3U1YGNB9PaF
+         m/c0krtK4K8Ocxl8yALF38gKNe+F0QmYnomTDrKaaGDxApKodLe/XFED6WFCmOyyt6+Y
+         mfXAcGVm/0IT+sl04l1yDNP3iwgmdtZ4O1yKTtZXLMsQBHPiB/PAK3i+zN0zMEu6v7g9
+         e9+uuLFzvW0H61NqhuFz2X6vC2exeBTH5dfjYBGi496mUkuNasdCaZM+4oiAGgWcq/0w
+         +QML+oMNK1ZleOQEPMxWKij4QtKJFvm1FWN4/Iv5j+J8lwQIqRsMlcGZ1TLFD7+MSjHe
+         nvSQ==
+X-Gm-Message-State: AOAM531lXhBlic2RE4NVssBF+ip0GRskwHfQW6IMKNoMp2f287zCQWOq
+	MXveic6QDGZJuZudVvZJgQU=
+X-Google-Smtp-Source: ABdhPJy7jim0MQqG6FtfP8lrRE796ANDund2SRO/1IO4nMn3uKtHCXimtboj+/N76RJ90r5YSwfnSA==
+X-Received: by 2002:a1c:6a01:0:b0:37f:1b18:6b17 with SMTP id f1-20020a1c6a01000000b0037f1b186b17mr30518474wmc.146.1650981205489;
+        Tue, 26 Apr 2022 06:53:25 -0700 (PDT)
+Received: from ubuntu.fritz.box ([2a02:908:4b20:9740:f9ba:b974:8a6:43e6])
+        by smtp.googlemail.com with ESMTPSA id z6-20020a1c4c06000000b00392b49c7ad4sm11224925wmf.3.2022.04.26.06.53.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Apr 2022 06:53:24 -0700 (PDT)
+From: Noah Tschirner <noahtschirner@gmail.com>
+To: jerome.pouiller@silabs.com
+Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	jon@nanocrew.net,
-	aford173@gmail.com,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2] media: hantro: HEVC: unconditionnaly set pps_{cb/cr}_qp_offset values
-Date: Tue, 26 Apr 2022 15:50:34 +0200
-Message-Id: <20220426135034.694655-1-benjamin.gaignard@collabora.com>
+	Noah Tschirner <noahtschirner@gmail.com>
+Subject: [PATCH] Staging: wfx: Fixed a space coding style issue.
+Date: Tue, 26 Apr 2022 15:51:48 +0200
+Message-Id: <20220426135148.29785-1-noahtschirner@gmail.com>
 X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -44,36 +54,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Always set pps_cb_qp_offset and pps_cr_qp_offset values in Hantro/G2
-register whatever is V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT
-flag value.
-This fix CAINIT_G_SHARP_3 test in fluster.
+Fixed a space coding style issue.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Signed-off-by: Noah Tschirner <noahtschirner@gmail.com>
 ---
- drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/staging/wfx/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index 6deb31b7b993..503f4b028bc5 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -194,13 +194,8 @@ static void set_params(struct hantro_ctx *ctx)
- 		hantro_reg_write(vpu, &g2_max_cu_qpd_depth, 0);
- 	}
+diff --git a/drivers/staging/wfx/main.c b/drivers/staging/wfx/main.c
+index b93b16b900c8..e575a81ca2ca 100644
+--- a/drivers/staging/wfx/main.c
++++ b/drivers/staging/wfx/main.c
+@@ -170,7 +170,7 @@ bool wfx_api_older_than(struct wfx_dev *wdev, int major, int minor)
+  *
+  * The PDS file is an array of Time-Length-Value structs.
+  */
+- int wfx_send_pds(struct wfx_dev *wdev, u8 *buf, size_t len)
++int wfx_send_pds(struct wfx_dev *wdev, u8 *buf, size_t len)
+ {
+ 	int ret, chunk_type, chunk_len, chunk_num = 0;
  
--	if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
--		hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
--		hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
--	} else {
--		hantro_reg_write(vpu, &g2_cb_qp_offset, 0);
--		hantro_reg_write(vpu, &g2_cr_qp_offset, 0);
--	}
-+	hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
-+	hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
- 
- 	hantro_reg_write(vpu, &g2_filt_offset_beta, pps->pps_beta_offset_div2);
- 	hantro_reg_write(vpu, &g2_filt_offset_tc, pps->pps_tc_offset_div2);
 -- 
 2.32.0
 
