@@ -1,109 +1,90 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6A97B;
-	Wed, 27 Apr 2022 16:24:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651076671; x=1682612671;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xbVkhqUprSffI6k9578RyOtKLKT5PDGpfnHI0RkdbJg=;
-  b=TA0/ftZoB/ez/G1Tt5STYHdZczL9VAOTHnWcnLWPUHPPVSf7m3rPWRKR
-   fu3G8BiQHDT5jt6g/uaPP7FuP0Dmnyi0v38KEg6qtIGmM2gNA+/FcVHmH
-   8Ttl7VxwjSaAWLOmtKScPC9eSZ/qb3IVADXZNzZgQaPgYvIvbm9DnLcUt
-   OOBC7DlsjWBZkQ3zFFeu8t65q2ZMCAwde6NS+2XpzQ3A1BRa1H99xJ7vj
-   HuRTCkdH16NG9XheL2ndBwudCf0PW0ewgBaf5rsx4mjxRRIkz05fJlryY
-   i4+MpaexPYiNu/MsytyryVv+ECmZkCbqlamzqJMD7wllwibfqi7orsniw
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="266151257"
-X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; 
-   d="scan'208";a="266151257"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2022 09:15:06 -0700
-X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; 
-   d="scan'208";a="533293590"
-Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2022 09:15:06 -0700
-Date: Wed, 27 Apr 2022 09:16:33 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Bruno Moreira-Guedes <codeagain@codeagain.dev>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: Re: [PATCH v3 0/3] staging: vme: Cleanup driver tree old structures
-Message-ID: <20220427161633.GA1314857@alison-desk>
-References: <cover.1650321310.git.codeagain@codeagain.dev>
- <YmA4QIRfx2QPhEJi@kroah.com>
- <3e91b72a86294b542acf460657d0fd94adeb252e.camel@welchs.me.uk>
- <YmJNqMjXEc4KGrJ8@kroah.com>
- <20220427121851.4e2rjbbabw5sh3lk@AN5Bruno>
- <Ymk3qimGl1tTjpSL@kroah.com>
- <20220427124114.woiiuxr6pnxvadwg@AN5Bruno>
- <YmlA1w124Ws2z/RV@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB602F49
+	for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 16:58:42 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id z5-20020a17090a468500b001d2bc2743c4so2257622pjf.0
+        for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 09:58:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y/JwM83vEyJYw4lhNwuusBWh1f+jSke6lCkPjly6Ebc=;
+        b=cjLxjZ5pPM/pB7JnFzLZXYKAccowQfJbaFGPyDuax5hjiGW8t39TNg6rtkpShjEIC2
+         iRsEDGwejDrW222GwsVt6E7/hz/MnB1FhiKwFYq/WAZTB0G5fpqWzXTbgVOLU95jUwo9
+         V1XdeM2tBzhDz1Lw5jRcxLTi/4iKhiDorhwJApIT2fzfEBE/4PEmjHRlR/hK6pdN3Fbf
+         byTeUyjzVC24F0W48i7MkUCL/a1VebVEQG/AVZ4cXq/iU2wg+LNWvkI85IahkpnrUjhm
+         G+Yt3nFRy6+OfAujsvis2Gy2DVEO1lpMRDGFPXmCsbutYWOO+3TdY4A08SEksQ7NByyw
+         faTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=y/JwM83vEyJYw4lhNwuusBWh1f+jSke6lCkPjly6Ebc=;
+        b=SKEflgfBSLVbIDQKJxaqrhgClQLnQAUdnryZ/zX+k0adkv5KaM3Ad9GxiOWIBVZqKp
+         uk+mXux1AipUXGSVvy7N0TyXQ6GZl3Xl8Y4nDp4nUvuwIf1p0OBXbQeVZU7uVf6Sjp0a
+         mbV3GcA/MDFWHI6k721dN50B5AoY047xSc6ZNcGAhm6Xe/1hLb2l1JhFDN4rTHvAm/sP
+         wFiM70NfgP5WVt34KNlisycLSAshGst+BS07t+rSIpEdm5lrk+0xFlmShAvnLhCPNMrB
+         fa8azf890z1dx/vJfBxmJCWzD31dNiCVDkamQNfHmjJtORkYo6y34YufBfl/bGJxlPkf
+         QzJg==
+X-Gm-Message-State: AOAM5303yV00WPOkgE1aUh/xLKbs1PVFYp1f77cT4DaxndiLs+usSo2q
+	6iRscg71JyPAfq/4LoBr3ls=
+X-Google-Smtp-Source: ABdhPJzrsOeX9sw7o07/w+XFOTLhvPc45yPbOC5DIw81qtPrtiKqiDsXw9GVHNrIhLFVqpN37G6Hww==
+X-Received: by 2002:a17:90a:d584:b0:1bc:e520:91f2 with SMTP id v4-20020a17090ad58400b001bce52091f2mr45201814pju.192.1651078721541;
+        Wed, 27 Apr 2022 09:58:41 -0700 (PDT)
+Received: from makvihas.localhost.com ([2405:201:202b:15:e0d6:603e:265d:6bf])
+        by smtp.gmail.com with ESMTPSA id t15-20020a62d14f000000b0050d3846c538sm13050483pfl.57.2022.04.27.09.58.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Apr 2022 09:58:41 -0700 (PDT)
+From: Vihas Makwana <makvihas@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Vihas Makwana <makvihas@gmail.com>
+Subject: [PATCH v2] staging: r8188eu: drop redundant check in _rtw_free_mlme_priv
+Date: Wed, 27 Apr 2022 22:27:49 +0530
+Message-Id: <20220427165748.10584-1-makvihas@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YmlA1w124Ws2z/RV@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 27, 2022 at 03:10:47PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Apr 27, 2022 at 09:41:14AM -0300, Bruno Moreira-Guedes wrote:
-> > On Wed, Apr 27, 2022 at 02:31:38PM +0200, Greg Kroah-Hartman wrote:
-> > > On Wed, Apr 27, 2022 at 09:18:51AM -0300, Bruno Moreira-Guedes wrote:
-> > > > Hello,
-> > > > 
-> > > > On Fri, Apr 22, 2022 at 08:39:36AM +0200, Greg Kroah-Hartman wrote:
-> > > > > On Thu, Apr 21, 2022 at 08:16:05PM +0100, Martyn Welch wrote:
-> > > > > > On Wed, 2022-04-20 at 18:43 +0200, Greg Kroah-Hartman wrote:
-> > > > > > > On Mon, Apr 18, 2022 at 08:29:49PM -0300, Bruno Moreira-Guedes wrote:
-> > > > > > > > This patch series modify the vme_user driver's place in
-> > > > > > > > menuconfig (1/3), fixes a missing `depends on` line in a Kconfig
-> > > > > > > > file
-> > > > > > > > (2/3), and rearrages the directory tree for the driver allowing a
-> > > > > > > > more
-> > > > > > > > straightforward comprehension of its contents (3/3).
-> > > > > > > > 
-> > > > > > > > The 'vme_user/' driver is the only remaining vme-family driver in
-> > > > > > > > the
-> > > > > > > > 'staging/' tree, but its structure, entry in menuconfig and
-> > > > > > > > building
-> > > > > > > > routines are still attached to the 'vme/' subtree now outside
-> > > > > > > > 'staging/'. The present patchset fixes it.
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
-> > > > > > > 
-> > > > > > > What about deleting the vme drivers entirely?
-> > > > > > 
-> > > > > > I assume you're suggesting deleting the "vme_user" driver from the
-> > > > > > staging directory?
-> > > > > 
-> > > > > Yes, at the very least given that no one has tried to fix it up and get
-> > > > > it out of staging in many years.
-> > > > 
-> > > > While I cannot comment anything on that regard, I imagine the v4 I sent
-> > > > a couple of days ago will wait for that decision, right?
-> > > 
-> > > I do not know what you are referring to, sorry.  My staging patch queue
-> > > is empty right now.
-> > Ohhh, okay, no problem, I have sent a v4 around 6 days ago and thought
-> > you were waiting on this definition.
+There's a NULL check on pmlmepriv in rtw_mlme.c:112 which makes no sense
+as rtw_free_mlme_priv_ie_data() dereferences it unconditionally and it
+would have already crashed at this point.
+Remove this redundant check.
 
-Bruno - I see your patches was applied to staging-testing
-https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/log/?h=staging-testing
+Signed-off-by: Vihas Makwana <makvihas@gmail.com>
+---
+ v2 -> v1:
+    drop the redundant check
+ drivers/staging/r8188eu/core/rtw_mlme.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 080e07385..353f3eaed 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -248,9 +248,7 @@ int rtw_init_mlme_priv(struct adapter *padapter)/* struct	mlme_priv *pmlmepriv)
+ void rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
+ {
+ 	rtw_free_mlme_priv_ie_data(pmlmepriv);
+-
+-	if (pmlmepriv)
+-		vfree(pmlmepriv->free_bss_buf);
++	vfree(pmlmepriv->free_bss_buf);
+ }
+ 
+ struct wlan_network *rtw_alloc_network(struct mlme_priv *pmlmepriv)
+-- 
+2.30.2
 
-> 
-> If I did not take it, please resend.
-> 
-> thanks,
-> 
-> greg k-h
-> 
