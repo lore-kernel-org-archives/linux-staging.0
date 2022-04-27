@@ -1,90 +1,93 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6A73D60
+	for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 17:38:33 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:2c00:b769:f52a:a984] (unknown [IPv6:2a01:e0a:120:3210:2c00:b769:f52a:a984])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB602F49
-	for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 16:58:42 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id z5-20020a17090a468500b001d2bc2743c4so2257622pjf.0
-        for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 09:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=y/JwM83vEyJYw4lhNwuusBWh1f+jSke6lCkPjly6Ebc=;
-        b=cjLxjZ5pPM/pB7JnFzLZXYKAccowQfJbaFGPyDuax5hjiGW8t39TNg6rtkpShjEIC2
-         iRsEDGwejDrW222GwsVt6E7/hz/MnB1FhiKwFYq/WAZTB0G5fpqWzXTbgVOLU95jUwo9
-         V1XdeM2tBzhDz1Lw5jRcxLTi/4iKhiDorhwJApIT2fzfEBE/4PEmjHRlR/hK6pdN3Fbf
-         byTeUyjzVC24F0W48i7MkUCL/a1VebVEQG/AVZ4cXq/iU2wg+LNWvkI85IahkpnrUjhm
-         G+Yt3nFRy6+OfAujsvis2Gy2DVEO1lpMRDGFPXmCsbutYWOO+3TdY4A08SEksQ7NByyw
-         faTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=y/JwM83vEyJYw4lhNwuusBWh1f+jSke6lCkPjly6Ebc=;
-        b=SKEflgfBSLVbIDQKJxaqrhgClQLnQAUdnryZ/zX+k0adkv5KaM3Ad9GxiOWIBVZqKp
-         uk+mXux1AipUXGSVvy7N0TyXQ6GZl3Xl8Y4nDp4nUvuwIf1p0OBXbQeVZU7uVf6Sjp0a
-         mbV3GcA/MDFWHI6k721dN50B5AoY047xSc6ZNcGAhm6Xe/1hLb2l1JhFDN4rTHvAm/sP
-         wFiM70NfgP5WVt34KNlisycLSAshGst+BS07t+rSIpEdm5lrk+0xFlmShAvnLhCPNMrB
-         fa8azf890z1dx/vJfBxmJCWzD31dNiCVDkamQNfHmjJtORkYo6y34YufBfl/bGJxlPkf
-         QzJg==
-X-Gm-Message-State: AOAM5303yV00WPOkgE1aUh/xLKbs1PVFYp1f77cT4DaxndiLs+usSo2q
-	6iRscg71JyPAfq/4LoBr3ls=
-X-Google-Smtp-Source: ABdhPJzrsOeX9sw7o07/w+XFOTLhvPc45yPbOC5DIw81qtPrtiKqiDsXw9GVHNrIhLFVqpN37G6Hww==
-X-Received: by 2002:a17:90a:d584:b0:1bc:e520:91f2 with SMTP id v4-20020a17090ad58400b001bce52091f2mr45201814pju.192.1651078721541;
-        Wed, 27 Apr 2022 09:58:41 -0700 (PDT)
-Received: from makvihas.localhost.com ([2405:201:202b:15:e0d6:603e:265d:6bf])
-        by smtp.gmail.com with ESMTPSA id t15-20020a62d14f000000b0050d3846c538sm13050483pfl.57.2022.04.27.09.58.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 09:58:41 -0700 (PDT)
-From: Vihas Makwana <makvihas@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH v2] staging: r8188eu: drop redundant check in _rtw_free_mlme_priv
-Date: Wed, 27 Apr 2022 22:27:49 +0530
-Message-Id: <20220427165748.10584-1-makvihas@gmail.com>
-X-Mailer: git-send-email 2.30.2
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3F3731F44BC0;
+	Wed, 27 Apr 2022 18:38:31 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1651081111;
+	bh=DKHT+3N2E30sQ+PZIQ0blxIyuVP2/Uome7ooaaXpxNA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mmK1gZ/wxcjHozltOtbc3hRng/GwOYfuG/Pnj9Xq2dBsnswthlPxyldLcJrowabzC
+	 Fi2JheDigb5BfzflWWDexy2+1gNIzpebO8BOM0jyt2vE3ZbyeN4C2DApqp1yizIS14
+	 BUkQ2WHtPfKs1OUbtPKyAEtO/7G86oBDY3rVmrnUhijupep3tM+jdelh0pDyG+afgx
+	 KL8ri5g+NpURL3VN4zEMCS5suUjcnTXLs+eHPj+D5ZWH0uXyUN3rNnO5I52WfiFRpm
+	 PN8Cy5Zeo13kMm8gUuvfUZpXXIOfh8U9PFxrO9n9UH9sosfGWBuy2zVGjfQz+yVu9m
+	 0cbzH8JuILEbw==
+Message-ID: <5091e44e-6b44-be2e-f53e-29368009f30d@collabora.com>
+Date: Wed, 27 Apr 2022 19:38:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] media: hantro: HEVC: Fix tile info buffer value
+ computation
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ mchehab@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, jon@nanocrew.net, aford173@gmail.com,
+ kernel@collabora.com
+References: <20220427135517.381959-1-benjamin.gaignard@collabora.com>
+ <20220427142233.GS2462@kadam>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20220427142233.GS2462@kadam>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-There's a NULL check on pmlmepriv in rtw_mlme.c:112 which makes no sense
-as rtw_free_mlme_priv_ie_data() dereferences it unconditionally and it
-would have already crashed at this point.
-Remove this redundant check.
 
-Signed-off-by: Vihas Makwana <makvihas@gmail.com>
----
- v2 -> v1:
-    drop the redundant check
- drivers/staging/r8188eu/core/rtw_mlme.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Le 27/04/2022 à 16:22, Dan Carpenter a écrit :
+> On Wed, Apr 27, 2022 at 03:55:17PM +0200, Benjamin Gaignard wrote:
+>> Use pps->column_width_minus1[j] + 1 as value for the tile info buffer
+>> instead of pps->column_width_minus1[j + 1].
+>> The patch fix DBLK_E_VIXS_2, DBLK_F_VIXS_2, DBLK_G_VIXS_2,
+>> SAO_B_MediaTek_5, TILES_A_Cisco_2 and TILES_B_Cisco_1 tests in fluster.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Fixes: cb5dd5a0fa51 ("media: hantro: Introduce G2/HEVC decoder")
+>
+>> ---
+>>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> index bb512389c1a5..ffeb2fbeefd2 100644
+>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> @@ -74,7 +74,7 @@ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
+>>   					no_chroma = 1;
+>>   				for (j = 0, tmp_w = 0; j < num_tile_cols - 1; j++) {
+>                                                                          ^^^^
+> Is this "- 1" still required?  I would have assumed the "- 1" here was
+> connected with the [j + 1].  What is stored in the last element of the
+> ->column_width_minus1 array?
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 080e07385..353f3eaed 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -248,9 +248,7 @@ int rtw_init_mlme_priv(struct adapter *padapter)/* struct	mlme_priv *pmlmepriv)
- void rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
- {
- 	rtw_free_mlme_priv_ie_data(pmlmepriv);
--
--	if (pmlmepriv)
--		vfree(pmlmepriv->free_bss_buf);
-+	vfree(pmlmepriv->free_bss_buf);
- }
- 
- struct wlan_network *rtw_alloc_network(struct mlme_priv *pmlmepriv)
--- 
-2.30.2
+No "- 1" comes from the definition of the field in H.265 which is pps->num_tile_columns_minus1
+We add 1 to fill the registers so we need the "- 1" in the loop.
+Data ordering isn't documented anywhere so that part is directly inspired by
+Hantro/G2 proprietary stack.
 
+Regards,
+Benjamin
+
+>
+>>   					tmp_w += pps->column_width_minus1[j] + 1;
+>> -					*p++ = pps->column_width_minus1[j + 1];
+>                                                                          ^^^^^
+>
+>> +					*p++ = pps->column_width_minus1[j] + 1;
+>>   					*p++ = h;
+>>   					if (i == 0 && h == 1 && ctb_size == 16)
+>>   						no_chroma = 1;
+> regards,
+> dan carpenter
