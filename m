@@ -1,87 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F977E1;
-	Wed, 27 Apr 2022 13:10:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6848C385AC;
-	Wed, 27 Apr 2022 13:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1651065051;
-	bh=+XL1/pmjJfKpo6NH3R6GZKWySie+sXzNve8evJAXkxU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NQ3p4YhmGkdA9T4JUgl6tUfv5uZfcF8eWjkqjLRu84AAtOkd1ChGYmvaFI8YZWWWg
-	 kJi1m+oxgElN9Kx32RefgzDdhbafu6n4x19KHa441+i74cRCCZtNFQG2xgLkVwgoDQ
-	 44rxGyQlHUjO9NDaqAU8eGDypZDOwNoJoF0cs+No=
-Date: Wed, 27 Apr 2022 15:10:47 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bruno Moreira-Guedes <codeagain@codeagain.dev>
-Cc: Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev,
-	Bruno's Patch Watchbox <patch-reply@codeagain.dev>
-Subject: Re: [PATCH v3 0/3] staging: vme: Cleanup driver tree old structures
-Message-ID: <YmlA1w124Ws2z/RV@kroah.com>
-References: <cover.1650321310.git.codeagain@codeagain.dev>
- <YmA4QIRfx2QPhEJi@kroah.com>
- <3e91b72a86294b542acf460657d0fd94adeb252e.camel@welchs.me.uk>
- <YmJNqMjXEc4KGrJ8@kroah.com>
- <20220427121851.4e2rjbbabw5sh3lk@AN5Bruno>
- <Ymk3qimGl1tTjpSL@kroah.com>
- <20220427124114.woiiuxr6pnxvadwg@AN5Bruno>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE55A3B
+	for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 13:55:34 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:a50b:1f6f:4fce:a4b])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C71DF1F44800;
+	Wed, 27 Apr 2022 14:55:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1651067727;
+	bh=ipCjbGKYkux+/ojU36BdkoNBWKXYuJDGrkOmJsKx1ig=;
+	h=From:To:Cc:Subject:Date:From;
+	b=M0xTcz5QKH9w9GcgU87+Ap9lLq4wMXK4YxTmePcmhfJ2I65J9GcKNr1KEFijMb3zS
+	 UKzUjI5tmVRGjiOEjdaiyvhJgRFX83YPdhjjbXjjYLFlOfkmytXhXLNJFycFojKOAN
+	 L4uN88LYRYTn88d4ioqVpoVXwjjx9Dg1aLV5rvksRlf0GB66V2QgaLMr6eYV4pCROM
+	 N8eRwZAj3cZm6w948CeiHYClXCKR+a4YgVciGvG2AkXnYbFwRA7YAht6oj1Y7lwf4k
+	 RXgPsDQGy+fkoEV2/WWVI5PgA/AQIr5lYXx2Vya5m0+/En1p+VRMJeUIc09tozF1EO
+	 yJSi+Z5+ZmFVg==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	jon@nanocrew.net,
+	aford173@gmail.com,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH] media: hantro: HEVC: Fix tile info buffer value computation
+Date: Wed, 27 Apr 2022 15:55:17 +0200
+Message-Id: <20220427135517.381959-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220427124114.woiiuxr6pnxvadwg@AN5Bruno>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 27, 2022 at 09:41:14AM -0300, Bruno Moreira-Guedes wrote:
-> On Wed, Apr 27, 2022 at 02:31:38PM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Apr 27, 2022 at 09:18:51AM -0300, Bruno Moreira-Guedes wrote:
-> > > Hello,
-> > > 
-> > > On Fri, Apr 22, 2022 at 08:39:36AM +0200, Greg Kroah-Hartman wrote:
-> > > > On Thu, Apr 21, 2022 at 08:16:05PM +0100, Martyn Welch wrote:
-> > > > > On Wed, 2022-04-20 at 18:43 +0200, Greg Kroah-Hartman wrote:
-> > > > > > On Mon, Apr 18, 2022 at 08:29:49PM -0300, Bruno Moreira-Guedes wrote:
-> > > > > > > This patch series modify the vme_user driver's place in
-> > > > > > > menuconfig (1/3), fixes a missing `depends on` line in a Kconfig
-> > > > > > > file
-> > > > > > > (2/3), and rearrages the directory tree for the driver allowing a
-> > > > > > > more
-> > > > > > > straightforward comprehension of its contents (3/3).
-> > > > > > > 
-> > > > > > > The 'vme_user/' driver is the only remaining vme-family driver in
-> > > > > > > the
-> > > > > > > 'staging/' tree, but its structure, entry in menuconfig and
-> > > > > > > building
-> > > > > > > routines are still attached to the 'vme/' subtree now outside
-> > > > > > > 'staging/'. The present patchset fixes it.
-> > > > > > > 
-> > > > > > > Signed-off-by: Bruno Moreira-Guedes <codeagain@codeagain.dev>
-> > > > > > 
-> > > > > > What about deleting the vme drivers entirely?
-> > > > > 
-> > > > > I assume you're suggesting deleting the "vme_user" driver from the
-> > > > > staging directory?
-> > > > 
-> > > > Yes, at the very least given that no one has tried to fix it up and get
-> > > > it out of staging in many years.
-> > > 
-> > > While I cannot comment anything on that regard, I imagine the v4 I sent
-> > > a couple of days ago will wait for that decision, right?
-> > 
-> > I do not know what you are referring to, sorry.  My staging patch queue
-> > is empty right now.
-> Ohhh, okay, no problem, I have sent a v4 around 6 days ago and thought
-> you were waiting on this definition.
+Use pps->column_width_minus1[j] + 1 as value for the tile info buffer
+instead of pps->column_width_minus1[j + 1].
+The patch fix DBLK_E_VIXS_2, DBLK_F_VIXS_2, DBLK_G_VIXS_2,
+SAO_B_MediaTek_5, TILES_A_Cisco_2 and TILES_B_Cisco_1 tests in fluster.
 
-If I did not take it, please resend.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index bb512389c1a5..ffeb2fbeefd2 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -74,7 +74,7 @@ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
+ 					no_chroma = 1;
+ 				for (j = 0, tmp_w = 0; j < num_tile_cols - 1; j++) {
+ 					tmp_w += pps->column_width_minus1[j] + 1;
+-					*p++ = pps->column_width_minus1[j + 1];
++					*p++ = pps->column_width_minus1[j] + 1;
+ 					*p++ = h;
+ 					if (i == 0 && h == 1 && ctb_size == 16)
+ 						no_chroma = 1;
+-- 
+2.32.0
 
-greg k-h
