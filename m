@@ -1,102 +1,106 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392503D93
-	for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 21:59:20 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-59-t9skdaEmPgSzXS7t39lYbQ-1; Wed, 27 Apr 2022 22:59:18 +0100
-X-MC-Unique: t9skdaEmPgSzXS7t39lYbQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.32; Wed, 27 Apr 2022 22:59:17 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.033; Wed, 27 Apr 2022 22:59:17 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Philipp Hortmann' <philipp.g.hortmann@gmail.com>
-CC: Forest Bond <forest@alittletooquiet.net>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, 'Greg Kroah-Hartman'
-	<gregkh@linuxfoundation.org>
-Subject: RE: [PATCH v3 3/3] staging: vt6655: Replace VNSvInPortD with ioread32
-Thread-Topic: [PATCH v3 3/3] staging: vt6655: Replace VNSvInPortD with
- ioread32
-Thread-Index: AQHYWftqR1H/yljgC0KSKJflip6fA60DZMOggACrU4CAADmJ0A==
-Date: Wed, 27 Apr 2022 21:59:17 +0000
-Message-ID: <0b6873bcd7c54d71b1f0b84a61561261@AcuMS.aculab.com>
-References: <cover.1651036713.git.philipp.g.hortmann@gmail.com>
- <7a5f7f98379fb2af2741f613f5ddda53e5d4813e.1651036713.git.philipp.g.hortmann@gmail.com>
- <Ymjaxby2vDJYz6KA@kroah.com>
- <b8853bc9a9d041009103b76bd02ce08d@AcuMS.aculab.com>
- <748780b1-12ba-34d0-1ce3-36b74b1b90b7@gmail.com>
-In-Reply-To: <748780b1-12ba-34d0-1ce3-36b74b1b90b7@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D9E7B
+	for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 22:45:14 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id k23so6152545ejd.3
+        for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 15:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ULuEHFX75GMwmo8k2GzRUntcH3yDcucdCP1qTc/I1I4=;
+        b=ml8uzSNJMVs1/c6qGisCf+ClB3pqZe7KZtcX9j50z3ZpwAqed+4ReF/LBsDS6MEa13
+         fcf1XXRgzmoNG60h+AX1FFwo1w3N5Tx84W0KYKYDSSlXYm07xf9MyW27uXcw47ArSttb
+         y5ZNDJXdKgUbVHtLIUGnhraNOoSizkDT6oyHxJX+vTNrze3tUJbsrpWdGv5SHa+rfhV/
+         HjrKmJlCwBbH1WMxtq8+MV4qOvHavNuK4UhqXC+SW5rIgSNenYyv/tofybFkaLG466bw
+         ogRBcnYhJHXDhZWM0nAClK0PTcjEZnd5XEPs5//E5udmm8/hj3ueTWnesQsv/zssDiFp
+         GLdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ULuEHFX75GMwmo8k2GzRUntcH3yDcucdCP1qTc/I1I4=;
+        b=R3LfRYCEdYkjUcsJWz7NIikGYfg640q+dBfXMJSToOiH4jmHV14zUJaHTQOgbLTP9T
+         grqlv8I3nkZf/okR+s53zT5Uzgxns6IG9OSESKFdHzCfjV+CV5DNugYAF0mu1Rkpb8Xq
+         8sJNSNIa6AMJeBhmuzU3N0pWTgVkI3fOdRLvZ5vxgkMUpP1g2xJM61lNuUlvUoMwicZf
+         lLpqX9Ef9ykNzpKTY4/TVQkdjy+xhQykBB1LSd+bl91BHPGspIVz5I/ASNbD3ChHiWeq
+         Owgyrl5UdpnO51pPynJq/p3vOJWJ9WI1CBHhHCEYq7rQrFf//XD8gARgeAt5dYixGl6n
+         oSog==
+X-Gm-Message-State: AOAM532/Er7uoe/c4HWryvpMBJQPzOH4XjMWkZxAT0Kn+HZMa222yfNj
+	5IZ/QhUsYbftEG9COuWnn8k=
+X-Google-Smtp-Source: ABdhPJw/kmkRb4ECwQsyT2nZLTfzWQIwaBKXnJ04SiQk3nK6jZlCQaiwz131OR/BDU6OGu6woJ2hCg==
+X-Received: by 2002:a17:907:c06:b0:6e0:9149:8047 with SMTP id ga6-20020a1709070c0600b006e091498047mr27930716ejc.765.1651099513153;
+        Wed, 27 Apr 2022 15:45:13 -0700 (PDT)
+Received: from localhost.localdomain (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id t27-20020a1709063e5b00b006f3a94f5194sm3762594eji.77.2022.04.27.15.45.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Apr 2022 15:45:12 -0700 (PDT)
+From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Geis <pgwipeout@gmail.com>,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	Liang Chen <cl@rock-chips.com>
+Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 0/3] Enable JPEG Encoder on RK3566/RK3568
+Date: Thu, 28 Apr 2022 00:44:35 +0200
+Message-Id: <20220427224438.335327-1-frattaroli.nicolas@gmail.com>
+X-Mailer: git-send-email 2.36.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-RnJvbTogUGhpbGlwcCBIb3J0bWFubg0KPiBTZW50OiAyNyBBcHJpbCAyMDIyIDIwOjEwDQo+IA0K
-PiBPbiA0LzI3LzIyIDEwOjAxLCBEYXZpZCBMYWlnaHQgd3JvdGU6DQo+ID4gQWN0dWFsbHkgSSBz
-dXNwZWN0IHRoYXQgJ2lvYmFzZScgc2hvdWxkIGJlIGFuIF9faW9tZW0gc3RydWN0dXJlDQo+ID4g
-cG9pbnRlciwgcHF3Q3VyclRTRiBhIHBvaW50IG9mIHRoZSBzYW1lIHR5cGUgYW5kIE1BQ19SRUdf
-eHh4eA0KPiA+IHN0cnVjdHVyZSBtZW1iZXJzLg0KPiA+DQo+ID4gVGhlbiB0aGUgY29kZSBzaG91
-bGQgYmUgdXNpbmcgcmVhZGwoKSBub3QgaW9yZWFkMzIoKS4NCj4gPiBJIHZlcnkgbXVjaCBkb3Vi
-dCB0aGF0ICdpb2Jhc2UnIGlzIGluIFBDSSBJTyBzcGFjZS4NCj4gDQo+IEhpIERhdmlkLA0KPiAN
-Cj4gaGVyZSBzb21lIGluZm9zIGFuZCBxdWVzdGlvbnM6DQo+IA0KPiAkIHN1ZG8gbHNwY2kgLXMg
-MDE6MDUuMCAtdnZ2DQo+IDAxOjA1LjAgTmV0d29yayBjb250cm9sbGVyOiBWSUEgVGVjaG5vbG9n
-aWVzLCBJbmMuIFZUNjY1NSBXaUZpIEFkYXB0ZXIsIDgwMi4xMWEvYi9nDQo+IAlTdWJzeXN0ZW06
-IFZJQSBUZWNobm9sb2dpZXMsIEluYy4gVlQ2NjU1IFdpRmkgQWRhcHRlciwgODAyLjExYS9iL2cN
-Ci4uLg0KPiAJUmVnaW9uIDA6IE1lbW9yeSBhdCBmN2MwMDAwMCAoMzItYml0LCBub24tcHJlZmV0
-Y2hhYmxlKSBbc2l6ZT0yNTZdDQo+IAlSZWdpb24gMTogSS9PIHBvcnRzIGF0IGUwMDAgW3NpemU9
-MjU2XQ0KLi4uDQo+IC0tLS0gSW4gZmlsZSBkZXZpY2VfbWFpbi5jIGxpbmUgMTY5OQ0KPiAJcHJp
-di0+bWVtYWRkciA9IHBjaV9yZXNvdXJjZV9zdGFydChwY2lkLCAwKTsNCj4gCXByaXYtPmlvYWRk
-ciA9IHBjaV9yZXNvdXJjZV9zdGFydChwY2lkLCAxKTsNCj4gCXByaXYtPnBvcnRfb2Zmc2V0ID0g
-aW9yZW1hcChwcml2LT5tZW1hZGRyICYgUENJX0JBU0VfQUREUkVTU19NRU1fTUFTSywgMjU2KTsN
-Cg0KV1RGIGlzIHRoYXQgbWFzaz8NClRoZSBkcml2ZXIgY29kZSBJJ3ZlIGdvdCBqdXN0IHVzZXMg
-cGNpX2lvbWFwKHBjaV9kZXYsIGJhcl9udW1iZXIsIGxlbmd0aCk7DQpJdCB0aGVuIHVzZXMgcGNp
-X2lvdW5tYXAocGNpX2RldiwgdmFkZHIpIHRvIGZyZWUgaXQuDQoNCj4gCWRldl9pbmZvKCZwY2lk
-LT5kZXYsICJ2dDY2NTVfcHJvYmUgcHJpdi0+bWVtYWRkcjogJXggcHJpdi0+aW9hZGRyOiAleCIs
-DQo+IHByaXYtPm1lbWFkZHIsIHByaXYtPmlvYWRkcik7DQo+IA0KPiAtLS0tLSBPdXRwdXQ6DQo+
-IFsgICswLjAwMDAxOF0gdnQ2NjU1IDAwMDA6MDE6MDUuMDogdnQ2NjU1X3Byb2JlIHByaXYtPm1l
-bWFkZHI6IGY3YzAwMDAwDQo+IHByaXYtPmlvYWRkcjogZTAwMA0KPiANCj4gDQo+IFNvIHBvcnRf
-b2Zmc2V0IGlzIGRlcml2ZWQgZnJvbSBtZW1hZGRyLg0KPiANCj4gDQo+IC0tLS0tIEluIGZpbGUg
-Y2FyZC5jIGxpbmUgNzQyDQo+IGJvb2wgQ0FSRGJHZXRDdXJyZW50VFNGKHN0cnVjdCB2bnRfcHJp
-dmF0ZSAqcHJpdiwgdTY0ICpwcXdDdXJyVFNGKQ0KPiB7DQo+IAl2b2lkIF9faW9tZW0gKmlvYmFz
-ZSA9IHByaXYtPnBvcnRfb2Zmc2V0Ow0KPiAuLi4NCj4gCVZOU3ZJblBvcnREKGlvYmFzZSArIE1B
-Q19SRUdfVFNGQ05UUiwgKHUzMiAqKXBxd0N1cnJUU0YpOw0KPiANCj4gUGxlYXNlIHRlbGwgbWUg
-aWYgeW91IG5lZWQgZnVydGhlciBpbmZvcyB0byBzZWUgaWYgaXQgaXMgUENJIElPIHNwYWNlLg0K
-PiBJIHRoaW5rIGl0IGlzIG1lbW9yeS1tYXBwZWQuDQoNCkJBUiAwIGlzIG1lbW9yeSwgQkFSIDEg
-SS9PLCBib3RoIGFsbW9zdCBjZXJ0YWlubHkgcmVmZXIgdG8gdGhlDQpzYW1lIHBoeXNpY2FsIGRl
-dmljZSByZWdpc3RlcnMuDQpCYXNpY2FsbHkgUENJKGUpIEkvTyBzcGFjZSBpcyAobW9zdGx5KSBk
-ZXByZWNhdGVkLg0KSXQgKHNvcnQgb2YpIGV4aXN0cyBzbyB0aGF0IFBDSSBoYXJkd2FyZSBjb3Vs
-ZCByZXBsYWNlIHZlcnkgb2xkDQooZWcgSVNBKSBoYXJkd2FyZSB3aXRob3V0IHJlcXVpcmluZyBk
-cml2ZXIgY2hhbmdlcy4NCg0KPiBTbyBpcyBpb3JlYWQzMiB3cm9uZywgcmlnaHQgb3IgY2FuIGl0
-IGJlIHVzZWQ/DQoNCihBc3N1bWluZyB4ODYpDQppb3JlYWQzMigpIGhhcyB0byBjb250YWluIGEg
-dGVzdCB0byBzZWUgd2hldGhlciB0aGUgYWRkcmVzcw0KaXMgYW4gJ2lvIGFkZHJlc3MnIG9yIGEg
-J21lbW9yeSBhZGRyZXNzJy4NCkZvciB0aGUgZm9ybWVyIGFuICdpbncnIGluc3RydWN0aW9uIGlz
-IGV4ZWN1dGVkIGZvciB0aGUgbGF0dGVyDQphIG5vcm1hbCBtZW1vcnkgYWNjZXNzIGluc3RydWN0
-aW9uLg0KT1RPSCByZWFkbCgpIGlzIGp1c3QgYSBtZW1vcnkgYWNjZXNzICh3aXRoIGNvbXBpbGVy
-IGJhcnJpZXJzKQ0KYW5kIGlzIGlubGluZWQgaW50byB0aGUgZHJpdmVyIG9iamVjdC4NCg0KU28g
-aWYgeW91IHVzZWQgcHJpdi0+aW9hZGRyIHlvdSdkIGhhdmUgdG8gdXNlIGlvcmVhZDMyKCkuDQpT
-aW5jZSB5b3UgYXJlIHVzaW5nIHRoZSBtZW1vcnkgc3BhY2UgYWRkcmVzc2VzIGZyb20gQkFSIDAN
-CnlvdSBjYW4gdXNlIGlvcmVhZDMyKCkgYnV0IGl0IGlzIG1vcmUgZWZmaWNpZW50IHRvIHVzZSBy
-ZWFkbCgpLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFt
-bGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3Ry
-YXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+Hello,
+
+the following series adds support for and enables the hardware JPEG
+encoder on the RK3566 and RK3568 line of SoCs by Rockchip.
+
+The JPEG encoder is its own little Hantro instance with seemingly just
+the encode functionality.
+
+The first patch modifies the bindings with a new compatible, and adds
+the ability to just have a vepu interrupt without a vdpu interrupt.
+
+The second patch makes the actual driver changes to support this variant.
+
+The third and final patch makes the necessary device tree changes for
+the rk356x device tree file to add both the node for the encoder and
+its MMU.
+
+The series has been tested on a PINE64 Quartz64 Model A with an RK3566
+SoC using GStreamer.
+
+Regards,
+Nicolas Frattaroli
+
+Nicolas Frattaroli (3):
+  dt-bindings: media: rockchip-vpu: Add RK3568 JPEG compatible
+  media: hantro: Add support for RK356x JPEG encoder
+  arm64: dts: rockchip: Add JPEG encoder node to rk356x
+
+ .../bindings/media/rockchip-vpu.yaml          |  2 +
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi      | 21 +++++++
+ drivers/staging/media/hantro/hantro_drv.c     |  1 +
+ drivers/staging/media/hantro/hantro_hw.h      |  1 +
+ .../staging/media/hantro/rockchip_vpu_hw.c    | 62 +++++++++++++++++++
+ 5 files changed, 87 insertions(+)
+
+-- 
+2.36.0
 
