@@ -1,78 +1,84 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456277B
-	for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 14:46:30 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a02:3030:0:1e3e:2277:ba57:a2c0:4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 58FD21F40898;
-	Wed, 27 Apr 2022 15:46:28 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1651070788;
-	bh=uPnBJqA7/3gJZoazRFRY0NtvrjeKFWjy3algIjYxiJ4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Kb/UkQ70CysqS726R9AKoHGmM2vrUsQj4301/n25YMFbnt8gVDogsJWgBYF0P4N+S
-	 CtMFfmQJExEjX/w3NGl0Hk+PGJkIsit+NgRt5rKj5/GK19XRjMNpdnuI5UkuNml3m5
-	 4CC33j4iQ/ONoUKoQL5rkSz+BaYb2B4p5DCqaDD35NAl3lEaL/LfD5FLmLEIluG5q+
-	 vmpzVa6sfhojxQ55yQ6SpRnYAQNH40HC/oJspHik+EFWgywbsiSE+B4JTcUGoLlVTz
-	 n5HOzibcc3Rtg/ceBDKRV8PX1Xc/RaW4hDJ88TrzK+nIoPqHCm6IcWM7Arsnk2d1Z5
-	 kS4ILsXt1lGTw==
-Date: Wed, 27 Apr 2022 16:46:24 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-	mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E348C7B
+	for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 15:32:08 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id i2so1520954qke.12
+        for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 08:32:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=cyrolNltUUpbs4yZr4ZZ4cVcFuuThjMYIy0lsDeAp/M=;
+        b=ga7PA3xJYU6LHhoM5kPggCpCEGKJ5eM6EcSGUEXJtH4FpksmzO2XBrq+/HeMYvYFj8
+         X3BoK8dWB5ySh81Nftik79G1npYH1rdTU87BqwpYU6iRheaSm46R4tt+Tyd+S7WusV5m
+         2280iBykRrNhWzK5CQQqzsqBE/sjQVg88IMabVMIz8rGHyKZjNplv8KS0P/oNK9cshYI
+         niTk4ChR7fCfNGXiD6KVwZYcQSyWReXYe/PRoRKVM0L9GU1dw/z72QxGlS4nLHJKFs+N
+         hKrAM2Rbj+1XmZpHMKsXQ1w0NaOZP7eMRS118X7QN0OoxCIKzTkWLU260dQfAn0CI70o
+         7PoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=cyrolNltUUpbs4yZr4ZZ4cVcFuuThjMYIy0lsDeAp/M=;
+        b=HinF1GwymJzUd+6IUAFAg4jjI96g5y6T4oXFwXiH3WX9Y7zXNc0wPNz3RUqjuvL24H
+         jJ3tpKbdo+H/2H1tKl9VOo6QEt21Ou1oy2UvgBAXPqIOKJUNOAbHBCesvgE+keFmnVgc
+         IRz+HuIU4wsUl4Hin5ng7pJI4KeguZkM/oBo+IFWzhPaCxe4fIZEQFbkKp6WFoKcp9gu
+         0D/K0gN36SsdMfPP42ugh5lSXP2nTo26BbfT5bOGjqB0jSVQjJYQjqx3qdXIZ8qQFXuI
+         3oirNKUefJTQoIi2KX2qpXmF5hOG2QRkm4HP6Jy2+SXyhR6hIn4L8b6NVzxR5iZdHTG/
+         H78w==
+X-Gm-Message-State: AOAM531+l6zARHS6HfiHyv6EN7Ybhbt8Kr53NmfHWbw/9REicm5fDWFD
+	Rhi0WzUCv/HgWnrkGCBf/gE=
+X-Google-Smtp-Source: ABdhPJzKwLjFN7Ly4bvVQUi+eZxIcuebllqbHq6gOW3POQq235Srnx5TCcRCVB9tKQ65UO6DO/3ZwQ==
+X-Received: by 2002:a37:a853:0:b0:69f:7f28:d90f with SMTP id r80-20020a37a853000000b0069f7f28d90fmr4672410qke.385.1651073527688;
+        Wed, 27 Apr 2022 08:32:07 -0700 (PDT)
+Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
+        by smtp.gmail.com with ESMTPSA id x9-20020a05622a000900b002f37b3537eesm3085759qtw.1.2022.04.27.08.32.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Apr 2022 08:32:07 -0700 (PDT)
+Date: Wed, 27 Apr 2022 11:32:03 -0400
+From: Jaehee Park <jhpark1013@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	jon@nanocrew.net, aford173@gmail.com, kernel@collabora.com
-Subject: Re: [PATCH] media: hantro: HEVC: Fix tile info buffer value
- computation
-Message-ID: <20220427144624.vtbdlczmykflccut@basti-XPS-13-9310>
-References: <20220427135517.381959-1-benjamin.gaignard@collabora.com>
+	jhpark1013@gmail.com
+Subject: [PATCH v2] staging: r8188eu: remove unused else condition
+Message-ID: <20220427153203.GA503502@jaehee-ThinkPad-X1-Extreme>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220427135517.381959-1-benjamin.gaignard@collabora.com>
 
-Hey Benjamin,
+rtw_select_and_join_from_scanned_queue() cannot return '2' so this
+else condition is unused. Remove this unnecessary else statement.
 
-On 27.04.2022 15:55, Benjamin Gaignard wrote:
->Use pps->column_width_minus1[j] + 1 as value for the tile info buffer
->instead of pps->column_width_minus1[j + 1].
->The patch fix DBLK_E_VIXS_2, DBLK_F_VIXS_2, DBLK_G_VIXS_2,
+Suggested-by: Pavel Skripkin <paskripkin@gmail.com>
+Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+---
+patch v2:
+- fixed the patch message 
 
-s/fix/fixes/
+ drivers/staging/r8188eu/core/rtw_mlme.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Greetings,
-Sebastian
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index d422ce87ba7c..29b8b101180b 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -723,9 +723,6 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 			s_ret = rtw_select_and_join_from_scanned_queue(pmlmepriv);
+ 			if (s_ret == _SUCCESS) {
+ 				_set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
+-			} else if (s_ret == 2) { /* there is no need to wait for join */
+-				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+-				rtw_indicate_connect(adapter);
+ 			} else {
+ 				if (rtw_to_roaming(adapter) != 0) {
+ 					if (--pmlmepriv->to_roaming == 0 ||
+-- 
+2.25.1
 
->SAO_B_MediaTek_5, TILES_A_Cisco_2 and TILES_B_Cisco_1 tests in fluster.
->
->Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->---
-> drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->index bb512389c1a5..ffeb2fbeefd2 100644
->--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->@@ -74,7 +74,7 @@ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
-> 					no_chroma = 1;
-> 				for (j = 0, tmp_w = 0; j < num_tile_cols - 1; j++) {
-> 					tmp_w += pps->column_width_minus1[j] + 1;
->-					*p++ = pps->column_width_minus1[j + 1];
->+					*p++ = pps->column_width_minus1[j] + 1;
-> 					*p++ = h;
-> 					if (i == 0 && h == 1 && ctb_size == 16)
-> 						no_chroma = 1;
->-- 
->2.32.0
->
