@@ -1,93 +1,77 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6A73D60
-	for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 17:38:33 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:2c00:b769:f52a:a984] (unknown [IPv6:2a01:e0a:120:3210:2c00:b769:f52a:a984])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4E23D60
+	for <linux-staging@lists.linux.dev>; Wed, 27 Apr 2022 17:39:44 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:2c00:b769:f52a:a984])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3F3731F44BC0;
-	Wed, 27 Apr 2022 18:38:31 +0100 (BST)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EC0611F446E5;
+	Wed, 27 Apr 2022 18:39:42 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1651081111;
-	bh=DKHT+3N2E30sQ+PZIQ0blxIyuVP2/Uome7ooaaXpxNA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mmK1gZ/wxcjHozltOtbc3hRng/GwOYfuG/Pnj9Xq2dBsnswthlPxyldLcJrowabzC
-	 Fi2JheDigb5BfzflWWDexy2+1gNIzpebO8BOM0jyt2vE3ZbyeN4C2DApqp1yizIS14
-	 BUkQ2WHtPfKs1OUbtPKyAEtO/7G86oBDY3rVmrnUhijupep3tM+jdelh0pDyG+afgx
-	 KL8ri5g+NpURL3VN4zEMCS5suUjcnTXLs+eHPj+D5ZWH0uXyUN3rNnO5I52WfiFRpm
-	 PN8Cy5Zeo13kMm8gUuvfUZpXXIOfh8U9PFxrO9n9UH9sosfGWBuy2zVGjfQz+yVu9m
-	 0cbzH8JuILEbw==
-Message-ID: <5091e44e-6b44-be2e-f53e-29368009f30d@collabora.com>
-Date: Wed, 27 Apr 2022 19:38:28 +0200
+	s=mail; t=1651081183;
+	bh=wubek6jsK6/qsanCIGdPiaJ1o3gzVzBo/gvth1wB/vo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Y79/wIxYTbOwPYixAGTaBBZNRB8zmd3SZGjCnvJfsNZuvLmEbWYnslZK5M6WvQ6P5
+	 JxK16BOcFIrkY3jGUv26y92R6MejCsgD6c6Z/mAZRflie9cpLpzuBvFPmWI17ul61U
+	 wr4M23odwjjKx+6B9eajZykjqQNi76CmliFGZpQpO1PWoTT7udjFd2SgYuP4y4yw6O
+	 gPLpFcV0XJME9s8onFeTdEdGiA3KcpSVdbXDj9cfU99FU9QqAPEc9tPhE2UbWZI8Wg
+	 TZxQUY4ak+HCJ5SHRwoOqJcWStTzGg9nitn/dWyrlaJDKieEbVyloWjjzLpA/Jyh4w
+	 Bow5OUVMSEyIQ==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	jon@nanocrew.net,
+	aford173@gmail.com,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v2] media: hantro: HEVC: Fix tile info buffer value computation
+Date: Wed, 27 Apr 2022 19:39:36 +0200
+Message-Id: <20220427173936.17092-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] media: hantro: HEVC: Fix tile info buffer value
- computation
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- mchehab@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, jon@nanocrew.net, aford173@gmail.com,
- kernel@collabora.com
-References: <20220427135517.381959-1-benjamin.gaignard@collabora.com>
- <20220427142233.GS2462@kadam>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20220427142233.GS2462@kadam>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Use pps->column_width_minus1[j] + 1 as value for the tile info buffer
+instead of pps->column_width_minus1[j + 1].
+The patch fixes DBLK_E_VIXS_2, DBLK_F_VIXS_2, DBLK_G_VIXS_2,
+SAO_B_MediaTek_5, TILES_A_Cisco_2 and TILES_B_Cisco_1 tests in fluster.
 
-Le 27/04/2022 à 16:22, Dan Carpenter a écrit :
-> On Wed, Apr 27, 2022 at 03:55:17PM +0200, Benjamin Gaignard wrote:
->> Use pps->column_width_minus1[j] + 1 as value for the tile info buffer
->> instead of pps->column_width_minus1[j + 1].
->> The patch fix DBLK_E_VIXS_2, DBLK_F_VIXS_2, DBLK_G_VIXS_2,
->> SAO_B_MediaTek_5, TILES_A_Cisco_2 and TILES_B_Cisco_1 tests in fluster.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Fixes: cb5dd5a0fa51 ("media: hantro: Introduce G2/HEVC decoder")
->
->> ---
->>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> index bb512389c1a5..ffeb2fbeefd2 100644
->> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> @@ -74,7 +74,7 @@ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
->>   					no_chroma = 1;
->>   				for (j = 0, tmp_w = 0; j < num_tile_cols - 1; j++) {
->                                                                          ^^^^
-> Is this "- 1" still required?  I would have assumed the "- 1" here was
-> connected with the [j + 1].  What is stored in the last element of the
-> ->column_width_minus1 array?
+Fixes: cb5dd5a0fa51 ("media: hantro: Introduce G2/HEVC decoder")
 
-No "- 1" comes from the definition of the field in H.265 which is pps->num_tile_columns_minus1
-We add 1 to fill the registers so we need the "- 1" in the loop.
-Data ordering isn't documented anywhere so that part is directly inspired by
-Hantro/G2 proprietary stack.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+version 2:
+- Add Fixes tag, thanks Dan
 
-Regards,
-Benjamin
+ drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
->>   					tmp_w += pps->column_width_minus1[j] + 1;
->> -					*p++ = pps->column_width_minus1[j + 1];
->                                                                          ^^^^^
->
->> +					*p++ = pps->column_width_minus1[j] + 1;
->>   					*p++ = h;
->>   					if (i == 0 && h == 1 && ctb_size == 16)
->>   						no_chroma = 1;
-> regards,
-> dan carpenter
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index bb512389c1a5..ffeb2fbeefd2 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -74,7 +74,7 @@ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
+ 					no_chroma = 1;
+ 				for (j = 0, tmp_w = 0; j < num_tile_cols - 1; j++) {
+ 					tmp_w += pps->column_width_minus1[j] + 1;
+-					*p++ = pps->column_width_minus1[j + 1];
++					*p++ = pps->column_width_minus1[j] + 1;
+ 					*p++ = h;
+ 					if (i == 0 && h == 1 && ctb_size == 16)
+ 						no_chroma = 1;
+-- 
+2.32.0
+
