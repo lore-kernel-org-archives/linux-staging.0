@@ -1,318 +1,136 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299D61365
-	for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 09:52:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 20B98DF653;
-	Fri, 29 Apr 2022 02:52:19 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hbKJT36Pj-0Y; Fri, 29 Apr 2022 02:52:18 -0700 (PDT)
-Message-ID: <7ecd4575c4702217141ebde059887b5938abdcff.camel@puri.sm>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
-	t=1651225938; bh=ZgGix2F2Sn/TSNDXA4kdVYqPvzE5HeGdUQPm0srQjRc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=lkc2wxs1yiQjlRGWDAOCU8T7k3ETCu1/ZF84rGQNvv739mlgV18RTRfXudyPgu91m
-	 I7qw6Z+WX9eObPAHMT7JHvRkfgIQf3bzIfBEcQW8DbGH0EXj7NuKULQMungs1FLsI/
-	 ptN+p/PCpyfZZkA7sI3YQrc1DK73FLO/rAu2fSyLdPO41Qto2DQKDu5+hF4QMvuphe
-	 pg1nGM0EreuFCyJ0LeD1YujQPD8UQG1ZTHjsHH85htu+UrJ+iJS4knhTjTvlmIwVvW
-	 JlZt9jjW5AMGbF/mJ0Shhgxq+TV6Dqr3A8ijqDiQRD00LeO3jMfVZY2DJCe9QkPbSS
-	 d8xsVdNXi80UQ==
-Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2
- VPU's with vpu-blk-ctrl
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: Lucas Stach <l.stach@pengutronix.de>, Adam Ford <aford173@gmail.com>, 
-	linux-media@vger.kernel.org
-Cc: aford@beaconembedded.com, cphealy@gmail.com, kernel test robot
- <lkp@intel.com>,  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp
- Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
- <linux-imx@nxp.com>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev
-Date: Fri, 29 Apr 2022 11:52:10 +0200
-In-Reply-To: <17c5ef22479cfea3f43dce1885f6613f1bef8064.camel@pengutronix.de>
-References: <20220125171129.472775-1-aford173@gmail.com>
-	 <20220125171129.472775-8-aford173@gmail.com>
-	 <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm>
-	 <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
-	 <c11a58ecc5da2e206fc2b942980223a04a103f19.camel@puri.sm>
-	 <17c5ef22479cfea3f43dce1885f6613f1bef8064.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222807B;
+	Fri, 29 Apr 2022 13:46:52 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id w4so10837344wrg.12;
+        Fri, 29 Apr 2022 06:46:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9pEwUBKjRBpllrJk5qaKlRO87d8MdZtCNEWbpI2fUcw=;
+        b=RHg27f73kpzQwZCijceWAxtRf7NJ/MfOEliQkAcG6IKKEG3bJ2iJ72vuKT23LtPKgp
+         W39omxgefKec1a3gWl7NItN8E1BWvGvrXckVmWHfOkBmoRUseHw0Xb43g2I7Pbg08vmg
+         JIc0JqeBoIFIRU8LKe/iWJW4iZA4YcCXFUZ+uESPmBjFEnagrO6ArqnGbiGmsdsoCRxq
+         o/GRbaoEsQpxaDbUUkUIazJwUAFGTa+JqTLseu/IKoy1hDA7qdHqMyKWoPY+HAvxtn6a
+         o4ZrmUK+ojeSa68029GNCGe8HU0iqoIJyqAJM44zYf1xGbMk9ETtlQw9d2oArBB6bhFf
+         6I6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9pEwUBKjRBpllrJk5qaKlRO87d8MdZtCNEWbpI2fUcw=;
+        b=5jEwJVFzTETLtZc5owKtJXA1oGKUIMPyMlxgetJ+YFe6s/0d83f2Qe5I4a2yYcYW7P
+         UYtWw38Ro8z5om2vt4NmBzp82ieG8AD9dxrca8Q7o9SpEZS8/wE415YuJlSwAPUR3t5u
+         95TZGgmyurPYpVDm1xv8zwBJzx+PCwYDqn+rCeo6IUkZUoMYAGDwf92N6+UAQvVaR2iL
+         Y3Hrss3qYZ56XsI7bWvUZE2oUDCY3DU5JIWnhc6APQcnCs1IOEJebstgAkBFrNH7MrrN
+         QoyuBKmMU/UcFaxNtx1kAKca6ioFyXaX3izDkvCKJHTpJerdmEYrppQYTGasoP0wBnx5
+         Zb1A==
+X-Gm-Message-State: AOAM530TkjFmGd38vTmyaKETL12EHBNCFxIhrWg+6kvKfaalh5ydhFaH
+	JraFc+zMuTJ1IMf1E8CBy20=
+X-Google-Smtp-Source: ABdhPJxa6pGhZpFL51hmMw5AI1Jzp/w/JJRYmnitE4sEb0pj0428bQOYutQJOfW3tIM0R+gCvJn32A==
+X-Received: by 2002:a05:6000:1f03:b0:20c:4d9e:7400 with SMTP id bv3-20020a0560001f0300b0020c4d9e7400mr1133227wrb.257.1651240010362;
+        Fri, 29 Apr 2022 06:46:50 -0700 (PDT)
+Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
+        by smtp.gmail.com with ESMTPSA id n2-20020a1ca402000000b003942429cd1esm853641wme.10.2022.04.29.06.46.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Apr 2022 06:46:49 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Tsuchiya Yuto <kitakar@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Martiros Shakhzadyan <vrzh@vrzh.net>, Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+Date: Fri, 29 Apr 2022 15:46:47 +0200
+Message-ID: <3664993.kQq0lBPeGt@leap>
+In-Reply-To: <2181693.iZASKD2KPV@leap>
+References: <20220413225531.9425-1-fmdefrancesco@gmail.com> <2181693.iZASKD2KPV@leap>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Am Dienstag, dem 26.04.2022 um 12:43 +0200 schrieb Lucas Stach:
-> Am Dienstag, dem 26.04.2022 um 09:38 +0200 schrieb Martin Kepplinger:
-> > Am Montag, dem 25.04.2022 um 17:34 +0200 schrieb Lucas Stach:
-> > > Hi Martin,
-> > > 
-> > > Am Montag, dem 25.04.2022 um 17:22 +0200 schrieb Martin
-> > > Kepplinger:
-> > > > Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
-> > > > > With the Hantro G1 and G2 now setup to run independently,
-> > > > > update
-> > > > > the device tree to allow both to operate.  This requires the
-> > > > > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
-> > > > > certain clock enabled to handle the gating of the G1 and G2
-> > > > > fuses, the clock-parents and clock-rates for the various
-> > > > > VPU's
-> > > > > to be moved into the pgc_vpu because they cannot get re-
-> > > > > parented
-> > > > > once enabled, and the pgc_vpu is the highest in the chain.
-> > > > > 
-> > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> > > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> > > > > 
-> > > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > index 2df2510d0118..549b2440f55d 100644
-> > > > > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > > > > @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
-> > > > >                                         pgc_vpu: power-
-> > > > > domain@6 {
-> > > > >                                                 #power-
-> > > > > domain-
-> > > > > cells =
-> > > > > <0>;
-> > > > >                                                 reg =
-> > > > > <IMX8M_POWER_DOMAIN_VPU>;
-> > > > > -                                               clocks =
-> > > > > <&clk
-> > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
-> > > > > +                                               clocks =
-> > > > > <&clk
-> > > > > IMX8MQ_CLK_VPU_DEC_ROOT>,
-> > > > > +                                                       
-> > > > > <&clk
-> > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
-> > > > > +                                                       
-> > > > > <&clk
-> > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > > +                                               assigned-
-> > > > > clocks =
-> > > > > <&clk IMX8MQ_CLK_VPU_G1>,
-> > > > > +                                                            
-> > > > >     
-> > > > > <&clk IMX8MQ_CLK_VPU_G2>,
-> > > > > +                                                            
-> > > > >     
-> > > > > <&clk IMX8MQ_CLK_VPU_BUS>,
-> > > > > +                                                            
-> > > > >     
-> > > > > <&clk IMX8MQ_VPU_PLL_BYPASS>;
-> > > > > +                                               assigned-
-> > > > > clock-
-> > > > > parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-> > > > > +                                                            
-> > > > >     
-> > > > >     
-> > > > >     <&clk IMX8MQ_VPU_PLL_OUT>,
-> > > > > +                                                            
-> > > > >     
-> > > > >     
-> > > > >     <&clk IMX8MQ_SYS1_PLL_800M>,
-> > > > > +                                                            
-> > > > >     
-> > > > >     
-> > > > >     <&clk IMX8MQ_VPU_PLL>;
-> > > > > +                                               assigned-
-> > > > > clock-
-> > > > > rates
-> > > > > = <600000000>,
-> > > > > +                                                            
-> > > > >     
-> > > > >     
-> > > > >   <600000000>,
-> > > > > +                                                            
-> > > > >     
-> > > > >     
-> > > > >   <800000000>,
-> > > > > +                                                            
-> > > > >     
-> > > > >     
-> > > > >   <0>;
-> > > > >                                         };
-> > > > >  
-> > > > >                                         pgc_disp:
-> > > > > power-domain@7
-> > > > > {
-> > > > > @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
-> > > > >                         status = "disabled";
-> > > > >                 };
-> > > > >  
-> > > > > -               vpu: video-codec@38300000 {
-> > > > > -                       compatible = "nxp,imx8mq-vpu";
-> > > > > -                       reg = <0x38300000 0x10000>,
-> > > > > -                             <0x38310000 0x10000>,
-> > > > > -                             <0x38320000 0x10000>;
-> > > > > -                       reg-names = "g1", "g2", "ctrl";
-> > > > > -                       interrupts = <GIC_SPI 7
-> > > > > IRQ_TYPE_LEVEL_HIGH>,
-> > > > > -                                    <GIC_SPI 8
-> > > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > > -                       interrupt-names = "g1", "g2";
-> > > > > +               vpu_g1: video-codec@38300000 {
-> > > > > +                       compatible = "nxp,imx8mq-vpu-g1";
-> > > > > +                       reg = <0x38300000 0x10000>;
-> > > > > +                       interrupts = <GIC_SPI 7
-> > > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > > +                       clocks = <&clk
-> > > > > IMX8MQ_CLK_VPU_G1_ROOT>;
-> > > > > +                       power-domains = <&vpu_blk_ctrl
-> > > > > IMX8MQ_VPUBLK_PD_G1>;
-> > > > > +               };
-> > > > > +
-> > > > > +               vpu_g2: video-codec@38310000 {
-> > > > > +                       compatible = "nxp,imx8mq-vpu-g2";
-> > > > > +                       reg = <0x38310000 0x10000>;
-> > > > > +                       interrupts = <GIC_SPI 8
-> > > > > IRQ_TYPE_LEVEL_HIGH>;
-> > > > > +                       clocks = <&clk
-> > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > > +                       power-domains = <&vpu_blk_ctrl
-> > > > > IMX8MQ_VPUBLK_PD_G2>;
-> > > > > +               };
-> > > > > +
-> > > > > +               vpu_blk_ctrl: blk-ctrl@38320000 {
-> > > > > +                       compatible = "fsl,imx8mq-vpu-blk-
-> > > > > ctrl";
-> > > > > +                       reg = <0x38320000 0x100>;
-> > > > > +                       power-domains = <&pgc_vpu>,
-> > > > > <&pgc_vpu>,
-> > > > > <&pgc_vpu>;
-> > > > > +                       power-domain-names = "bus", "g1",
-> > > > > "g2";
-> > > > >                         clocks = <&clk
-> > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
-> > > > > -                                <&clk
-> > > > > IMX8MQ_CLK_VPU_G2_ROOT>,
-> > > > > -                                <&clk
-> > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
-> > > > > -                       clock-names = "g1", "g2", "bus";
-> > > > > -                       assigned-clocks = <&clk
-> > > > > IMX8MQ_CLK_VPU_G1>,
-> > > > > -                                         <&clk
-> > > > > IMX8MQ_CLK_VPU_G2>,
-> > > > > -                                         <&clk
-> > > > > IMX8MQ_CLK_VPU_BUS>,
-> > > > > -                                         <&clk
-> > > > > IMX8MQ_VPU_PLL_BYPASS>;
-> > > > > -                       assigned-clock-parents = <&clk
-> > > > > IMX8MQ_VPU_PLL_OUT>,
-> > > > > -                                                <&clk
-> > > > > IMX8MQ_VPU_PLL_OUT>,
-> > > > > -                                                <&clk
-> > > > > IMX8MQ_SYS1_PLL_800M>,
-> > > > > -                                                <&clk
-> > > > > IMX8MQ_VPU_PLL>;
-> > > > > -                       assigned-clock-rates = <600000000>,
-> > > > > <600000000>,
-> > > > > -                                              <800000000>,
-> > > > > <0>;
-> > > > > -                       power-domains = <&pgc_vpu>;
-> > > > > +                                <&clk
-> > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
-> > > > > +                       clock-names = "g1", "g2";
-> > > > > +                       #power-domain-cells = <1>;
-> > > > >                 };
-> > > > >  
-> > > > >                 pcie0: pcie@33800000 {
-> > > > 
-> > > > With this update, when testing suspend to ram on imx8mq, I get:
-> > > > 
-> > > > buck4: failed to disable: -ETIMEDOUT
-> > > > 
-> > > > where buck4 is power-supply of pgc_vpu. And thus the transition
-> > > > to
-> > > > suspend (and resuming) fails.
-> > > > 
-> > > > Have you tested system suspend after the imx8m-blk-ctrl update
-> > > > on
-> > > > imx8mq?
-> > > 
-> > > I haven't tested system suspend, don't know if anyone else did.
-> > > However
-> > > I guess that this is just uncovering a preexisting issue in the
-> > > system
-> > > suspend sequencing, which you would also hit if the video
-> > > decoders
-> > > were
-> > > active at system suspend time.
-> > > 
-> > > My guess is that the regulator disable fails, due to the power
-> > > domains
-> > > being disabled quite late in the suspend sequence, where i2c
-> > > communication with the PMIC is no longer possible due to i2c
-> > > being
-> > > suspended already or something like that. Maybe you can dig in a
-> > > bit
-> > > on
-> > > the actual sequence on your system and we can see how we can
-> > > rework
-> > > things to suspend the power domains at a time where communication
-> > > with
-> > > the PMIC is still possible?
-> > 
-> > What exactly would you like to see? Here's all gpcv2 regulators
-> > disabling on suspend. (gpu (domain 5) is disabled by runtime pm
-> > often):
-> > 
-> > [   47.138700] imx-pgc imx-pgc-domain.5: disabling regulator
-> > [   47.298071] Freezing user space processes ... (elapsed 0.008
-> > seconds) done.
-> > [   47.313432] OOM killer disabled.
-> > [   47.316670] Freezing remaining freezable tasks ... (elapsed
-> > 2.221
-> > seconds) done.
-> > [   49.672052] imx8m-blk-ctrl 38320000.blk-ctrl:
-> > imx8m_blk_ctrl_suspend
-> > start
-> > [   49.704417] imx-pgc imx-pgc-domain.0: disabling regulator
-> > [   49.711114] imx-pgc imx-pgc-domain.6: disabling regulator
-> > [   49.819064] buck4: failed to disable: -ETIMEDOUT
-> > 
-> > The stack looks pretty much the same for all of them, from
-> > pm_suspend()
-> > over genpd_suspend_noiry().
-> 
-> So the GPU domain is already suspended before the system suspend,
-> probably due to short runtime PM timeouts.
-> 
-> Can you please check at which point the i2c subsystem is suspended? I
-> think we are already past that point when running the PM domain
-> suspend
-> from a _noirq callback. I'll take a look on how we can properly
-> change
-> this ordering.
+On luned=C3=AC 25 aprile 2022 20:29:03 CEST Fabio M. De Francesco wrote:
+> On gioved=C3=AC 14 aprile 2022 00:55:31 CEST Fabio M. De Francesco wrote:
+> > The use of kmap() is being deprecated in favor of kmap_local_page()
+> > where it is feasible. The same is true for kmap_atomic().
+> >=20
+> > In file pci/hmm/hmm.c, function hmm_store() test if we are in atomic
+> > context and, if so, it calls kmap_atomic(), if not, it calls kmap().
+> >=20
+> > First of all, in_atomic() shouldn't be used in drivers. This macro
+> > cannot always detect atomic context; in particular, it cannot know
+> > about held spinlocks in non-preemptible kernels.
+> >=20
+> > Notwithstanding what it is said above, this code doesn't need to care
+> > whether or not it is executing in atomic context. It can simply use
+> > kmap_local_page() / kunmap_local() that can instead do the mapping /
+> > unmapping regardless of the context.
+> >=20
+> > With kmap_local_page(), the mapping is per thread, CPU local and not
+> > globally visible. Therefore, hmm_store()() is a function where the use
+> > of kmap_local_page() in place of both kmap() and kmap_atomic() is
+> > correctly suited.
+> >=20
+> > Convert the calls of kmap() / kunmap() and kmap_atomic() /
+> > kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
+> > unnecessary tests which test if the code is in atomic context.
+> >=20
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >  drivers/staging/media/atomisp/pci/hmm/hmm.c | 14 ++------------
+> >  1 file changed, 2 insertions(+), 12 deletions(-)
+>=20
+> Hi Mauro,
+>=20
+> I'm writing for just a gentle ping for this and two other staging/
+atomisp/=20
+> patches that still seem to be waiting to be applied.
+>=20
+> In the meantime I would like to remind you that Hans de Goede has=20
+> successfully tested this patch and the other two on both the front and=20
+back=20
+> cams of a chuwi hi8 tablet.
 
-hi Lucas, when I just add the same system suspend hook you added to
-gpcv2 (pm_runtime_get()), I get the same timeout:
+Hi Mauro,
 
-[  366.100154] Freezing remaining freezable tasks ... (elapsed 2.863
-seconds) done.
-[  369.228387] imx-i2c 30a50000.i2c: pm_runtime get.
-[  369.234204] imx-i2c 30a40000.i2c: pm_runtime get.
-[  369.239834] imx-i2c 30a30000.i2c: pm_runtime get.
-[  369.247417] imx-i2c 30a20000.i2c: pm_runtime get.
-[  369.277838] imx-pgc imx-pgc-domain.0: disable regulator now
-[  369.284758] imx-pgc imx-pgc-domain.6: disable regulator now
-[  369.394954] buck4: failed to disable: -ETIMEDOUT
+In my previous message I forgot to remind you that two of these three=20
+patches have also been reviewed by Ira Weiny (Intel).
 
-do you have an idea?
+I'd like to ask you again if there is still something left which prevents=20
+these three patches from being accepted. The first of the three patches was=
+=20
+submitted on April 9, 2022.
 
-                              martin
+=46or you convenience here are the links to the patches, the "Reviewed-by:"=
+=20
+and "Tested-by:" tags:
+
+[PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
+https://lore.kernel.org/lkml/20220413225531.9425-1-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/Yli+R7iLZKqO8kVP@iweiny-desk3/
+https://lore.kernel.org/lkml/2d096f20-dbaa-1d49-96e9-a7ae6c19f7fe@redhat.co=
+m/
+
+[PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_set()
+https://lore.kernel.org/lkml/20220413212210.18494-1-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/YldNhErgt53RqYp7@iweiny-desk3/
+https://lore.kernel.org/lkml/0b04ad1a-e442-1728-ef2c-bab386a4c64c@redhat.co=
+m/
+
+[PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
+https://lore.kernel.org/lkml/20220408223129.3844-1-fmdefrancesco@gmail.com/
+https://lore.kernel.org/lkml/b0aed731-b56f-4378-b50e-fc0cbccbdb84@redhat.co=
+m/
+
+Thanks,
+
+=46abio M. De Francesco
+
+P.S.: Do you want me to resend them all and add the above-mentioned tags?
+
 
 
