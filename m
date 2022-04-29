@@ -1,173 +1,318 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E585810EB
-	for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 08:43:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1651221805;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GpZJ4wX7kOe8KNr9fDnXvQai/0Kn9GYbVZ0gMqgfC8g=;
-	b=EeHbs3aSCCzObZh/rw56+Wwp5YUjKd3A6Pp8nd+K2QtXOPYVg8HQhZV30SxXzd4vv/GpVL
-	nOSMNqLeB+PmX67cc2IeDFiflxbBYbX6js5aoU4L8WP3ndXl6K4g0+S+wcoUYcfDTT/JzT
-	2a6VifPaL1DIffw4JiZZi5r4M/cfY4U=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-PbXEQqRpPhO2P1fz6fiJyQ-1; Fri, 29 Apr 2022 04:43:24 -0400
-X-MC-Unique: PbXEQqRpPhO2P1fz6fiJyQ-1
-Received: by mail-wr1-f70.google.com with SMTP id p10-20020adfaa0a000000b0020c4829af5fso568647wrd.16
-        for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 01:43:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GpZJ4wX7kOe8KNr9fDnXvQai/0Kn9GYbVZ0gMqgfC8g=;
-        b=1Rl0rwzIHw5uDGOVn88FFy+biCnji1O4vcua6V/Il1VfhY4SxNX/W12EV8792fVANz
-         OFBGDrxgLXbI8bSKdA7NQ6SDrQLa8mWa/Q+dBasj8VLHzcv3vUvM6CK7KYXE8auGPsQ1
-         mGfWOea7f4wr5pQcwTVjxOgPpWQO7ZEibm648KcfWyC9z851/hDgiNBr3MuHsqxyMs6h
-         LWVHPGoDlfBMXgqipbTGRYoex7d3Eqh2kWaWYt9BWHjJqzmowItM93iYW/OJLjfK+ROl
-         YQsvctK7CLf+8SK7NzOvz2QydiLfNybbdCSv2hFBPCTCHwP/YKUcfSA+9aqcxlmTK7fD
-         HCuA==
-X-Gm-Message-State: AOAM532OnU+6oZc24DdiDd5qdCMjUL6yfppuW7uLBoi9PraSd9bzljQJ
-	D2UcqeeiPvt+XpT3qmG7CttovbXmhghoWP40g3qUynbR/Ub9ZwIUlH6CfkPsEQpg6mwakvdRhHl
-	Um+oTF8kVlZe1HgVq4tcSM+b+WQ==
-X-Received: by 2002:a05:600c:4ec6:b0:394:1f35:4c69 with SMTP id g6-20020a05600c4ec600b003941f354c69mr1752563wmq.61.1651221802216;
-        Fri, 29 Apr 2022 01:43:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwhmIBm7Rgju2BXAxf7jfHuCnxn2Uoy7l4mQ/iKVv2qM/3Q7Bt+zoSMdfHM0/61ANAlGkIsNA==
-X-Received: by 2002:a05:600c:4ec6:b0:394:1f35:4c69 with SMTP id g6-20020a05600c4ec600b003941f354c69mr1752548wmq.61.1651221802012;
-        Fri, 29 Apr 2022 01:43:22 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id f7-20020a05600c4e8700b00393f1393abfsm7199256wmq.41.2022.04.29.01.43.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 01:43:21 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	kernel test robot <lkp@intel.com>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
-	linux-staging@lists.linux.dev,
-	Daniel Vetter <daniel.vetter@intel.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Helge Deller <deller@gmx.de>,
-	Matthew Wilcox <willy@infradead.org>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Zhen Lei <thunder.leizhen@huawei.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Xiyu Yang <xiyuyang19@fudan.edu.cn>,
-	linux-fbdev@vger.kernel.org,
-	Zheyu Ma <zheyuma97@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Changcheng Deng <deng.changcheng@zte.com.cn>
-Subject: [RFC PATCH v4 11/11] fbdev: Make registered_fb[] private to fbmem.c
-Date: Fri, 29 Apr 2022 10:42:53 +0200
-Message-Id: <20220429084253.1085911-12-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220429084253.1085911-1-javierm@redhat.com>
-References: <20220429084253.1085911-1-javierm@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299D61365
+	for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 09:52:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 20B98DF653;
+	Fri, 29 Apr 2022 02:52:19 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hbKJT36Pj-0Y; Fri, 29 Apr 2022 02:52:18 -0700 (PDT)
+Message-ID: <7ecd4575c4702217141ebde059887b5938abdcff.camel@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+	t=1651225938; bh=ZgGix2F2Sn/TSNDXA4kdVYqPvzE5HeGdUQPm0srQjRc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=lkc2wxs1yiQjlRGWDAOCU8T7k3ETCu1/ZF84rGQNvv739mlgV18RTRfXudyPgu91m
+	 I7qw6Z+WX9eObPAHMT7JHvRkfgIQf3bzIfBEcQW8DbGH0EXj7NuKULQMungs1FLsI/
+	 ptN+p/PCpyfZZkA7sI3YQrc1DK73FLO/rAu2fSyLdPO41Qto2DQKDu5+hF4QMvuphe
+	 pg1nGM0EreuFCyJ0LeD1YujQPD8UQG1ZTHjsHH85htu+UrJ+iJS4knhTjTvlmIwVvW
+	 JlZt9jjW5AMGbF/mJ0Shhgxq+TV6Dqr3A8ijqDiQRD00LeO3jMfVZY2DJCe9QkPbSS
+	 d8xsVdNXi80UQ==
+Subject: Re: [PATCH V4 07/11] arm64: dts: imx8mq: Enable both G1 and G2
+ VPU's with vpu-blk-ctrl
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: Lucas Stach <l.stach@pengutronix.de>, Adam Ford <aford173@gmail.com>, 
+	linux-media@vger.kernel.org
+Cc: aford@beaconembedded.com, cphealy@gmail.com, kernel test robot
+ <lkp@intel.com>,  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
+ <linux-imx@nxp.com>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev
+Date: Fri, 29 Apr 2022 11:52:10 +0200
+In-Reply-To: <17c5ef22479cfea3f43dce1885f6613f1bef8064.camel@pengutronix.de>
+References: <20220125171129.472775-1-aford173@gmail.com>
+	 <20220125171129.472775-8-aford173@gmail.com>
+	 <d6c5c5663f8ae904d409240063295cf516e17dd1.camel@puri.sm>
+	 <4b958892ba788a0e9e73a9135c305aacbe33294d.camel@pengutronix.de>
+	 <c11a58ecc5da2e206fc2b942980223a04a103f19.camel@puri.sm>
+	 <17c5ef22479cfea3f43dce1885f6613f1bef8064.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Am Dienstag, dem 26.04.2022 um 12:43 +0200 schrieb Lucas Stach:
+> Am Dienstag, dem 26.04.2022 um 09:38 +0200 schrieb Martin Kepplinger:
+> > Am Montag, dem 25.04.2022 um 17:34 +0200 schrieb Lucas Stach:
+> > > Hi Martin,
+> > > 
+> > > Am Montag, dem 25.04.2022 um 17:22 +0200 schrieb Martin
+> > > Kepplinger:
+> > > > Am Dienstag, dem 25.01.2022 um 11:11 -0600 schrieb Adam Ford:
+> > > > > With the Hantro G1 and G2 now setup to run independently,
+> > > > > update
+> > > > > the device tree to allow both to operate.  This requires the
+> > > > > vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
+> > > > > certain clock enabled to handle the gating of the G1 and G2
+> > > > > fuses, the clock-parents and clock-rates for the various
+> > > > > VPU's
+> > > > > to be moved into the pgc_vpu because they cannot get re-
+> > > > > parented
+> > > > > once enabled, and the pgc_vpu is the highest in the chain.
+> > > > > 
+> > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+> > > > > 
+> > > > > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > index 2df2510d0118..549b2440f55d 100644
+> > > > > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > > > @@ -737,7 +737,21 @@ pgc_gpu: power-domain@5 {
+> > > > >                                         pgc_vpu: power-
+> > > > > domain@6 {
+> > > > >                                                 #power-
+> > > > > domain-
+> > > > > cells =
+> > > > > <0>;
+> > > > >                                                 reg =
+> > > > > <IMX8M_POWER_DOMAIN_VPU>;
+> > > > > -                                               clocks =
+> > > > > <&clk
+> > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > > > > +                                               clocks =
+> > > > > <&clk
+> > > > > IMX8MQ_CLK_VPU_DEC_ROOT>,
+> > > > > +                                                       
+> > > > > <&clk
+> > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > > > +                                                       
+> > > > > <&clk
+> > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > > > +                                               assigned-
+> > > > > clocks =
+> > > > > <&clk IMX8MQ_CLK_VPU_G1>,
+> > > > > +                                                            
+> > > > >     
+> > > > > <&clk IMX8MQ_CLK_VPU_G2>,
+> > > > > +                                                            
+> > > > >     
+> > > > > <&clk IMX8MQ_CLK_VPU_BUS>,
+> > > > > +                                                            
+> > > > >     
+> > > > > <&clk IMX8MQ_VPU_PLL_BYPASS>;
+> > > > > +                                               assigned-
+> > > > > clock-
+> > > > > parents = <&clk IMX8MQ_VPU_PLL_OUT>,
+> > > > > +                                                            
+> > > > >     
+> > > > >     
+> > > > >     <&clk IMX8MQ_VPU_PLL_OUT>,
+> > > > > +                                                            
+> > > > >     
+> > > > >     
+> > > > >     <&clk IMX8MQ_SYS1_PLL_800M>,
+> > > > > +                                                            
+> > > > >     
+> > > > >     
+> > > > >     <&clk IMX8MQ_VPU_PLL>;
+> > > > > +                                               assigned-
+> > > > > clock-
+> > > > > rates
+> > > > > = <600000000>,
+> > > > > +                                                            
+> > > > >     
+> > > > >     
+> > > > >   <600000000>,
+> > > > > +                                                            
+> > > > >     
+> > > > >     
+> > > > >   <800000000>,
+> > > > > +                                                            
+> > > > >     
+> > > > >     
+> > > > >   <0>;
+> > > > >                                         };
+> > > > >  
+> > > > >                                         pgc_disp:
+> > > > > power-domain@7
+> > > > > {
+> > > > > @@ -1457,30 +1471,31 @@ usb3_phy1: usb-phy@382f0040 {
+> > > > >                         status = "disabled";
+> > > > >                 };
+> > > > >  
+> > > > > -               vpu: video-codec@38300000 {
+> > > > > -                       compatible = "nxp,imx8mq-vpu";
+> > > > > -                       reg = <0x38300000 0x10000>,
+> > > > > -                             <0x38310000 0x10000>,
+> > > > > -                             <0x38320000 0x10000>;
+> > > > > -                       reg-names = "g1", "g2", "ctrl";
+> > > > > -                       interrupts = <GIC_SPI 7
+> > > > > IRQ_TYPE_LEVEL_HIGH>,
+> > > > > -                                    <GIC_SPI 8
+> > > > > IRQ_TYPE_LEVEL_HIGH>;
+> > > > > -                       interrupt-names = "g1", "g2";
+> > > > > +               vpu_g1: video-codec@38300000 {
+> > > > > +                       compatible = "nxp,imx8mq-vpu-g1";
+> > > > > +                       reg = <0x38300000 0x10000>;
+> > > > > +                       interrupts = <GIC_SPI 7
+> > > > > IRQ_TYPE_LEVEL_HIGH>;
+> > > > > +                       clocks = <&clk
+> > > > > IMX8MQ_CLK_VPU_G1_ROOT>;
+> > > > > +                       power-domains = <&vpu_blk_ctrl
+> > > > > IMX8MQ_VPUBLK_PD_G1>;
+> > > > > +               };
+> > > > > +
+> > > > > +               vpu_g2: video-codec@38310000 {
+> > > > > +                       compatible = "nxp,imx8mq-vpu-g2";
+> > > > > +                       reg = <0x38310000 0x10000>;
+> > > > > +                       interrupts = <GIC_SPI 8
+> > > > > IRQ_TYPE_LEVEL_HIGH>;
+> > > > > +                       clocks = <&clk
+> > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > > > +                       power-domains = <&vpu_blk_ctrl
+> > > > > IMX8MQ_VPUBLK_PD_G2>;
+> > > > > +               };
+> > > > > +
+> > > > > +               vpu_blk_ctrl: blk-ctrl@38320000 {
+> > > > > +                       compatible = "fsl,imx8mq-vpu-blk-
+> > > > > ctrl";
+> > > > > +                       reg = <0x38320000 0x100>;
+> > > > > +                       power-domains = <&pgc_vpu>,
+> > > > > <&pgc_vpu>,
+> > > > > <&pgc_vpu>;
+> > > > > +                       power-domain-names = "bus", "g1",
+> > > > > "g2";
+> > > > >                         clocks = <&clk
+> > > > > IMX8MQ_CLK_VPU_G1_ROOT>,
+> > > > > -                                <&clk
+> > > > > IMX8MQ_CLK_VPU_G2_ROOT>,
+> > > > > -                                <&clk
+> > > > > IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > > > > -                       clock-names = "g1", "g2", "bus";
+> > > > > -                       assigned-clocks = <&clk
+> > > > > IMX8MQ_CLK_VPU_G1>,
+> > > > > -                                         <&clk
+> > > > > IMX8MQ_CLK_VPU_G2>,
+> > > > > -                                         <&clk
+> > > > > IMX8MQ_CLK_VPU_BUS>,
+> > > > > -                                         <&clk
+> > > > > IMX8MQ_VPU_PLL_BYPASS>;
+> > > > > -                       assigned-clock-parents = <&clk
+> > > > > IMX8MQ_VPU_PLL_OUT>,
+> > > > > -                                                <&clk
+> > > > > IMX8MQ_VPU_PLL_OUT>,
+> > > > > -                                                <&clk
+> > > > > IMX8MQ_SYS1_PLL_800M>,
+> > > > > -                                                <&clk
+> > > > > IMX8MQ_VPU_PLL>;
+> > > > > -                       assigned-clock-rates = <600000000>,
+> > > > > <600000000>,
+> > > > > -                                              <800000000>,
+> > > > > <0>;
+> > > > > -                       power-domains = <&pgc_vpu>;
+> > > > > +                                <&clk
+> > > > > IMX8MQ_CLK_VPU_G2_ROOT>;
+> > > > > +                       clock-names = "g1", "g2";
+> > > > > +                       #power-domain-cells = <1>;
+> > > > >                 };
+> > > > >  
+> > > > >                 pcie0: pcie@33800000 {
+> > > > 
+> > > > With this update, when testing suspend to ram on imx8mq, I get:
+> > > > 
+> > > > buck4: failed to disable: -ETIMEDOUT
+> > > > 
+> > > > where buck4 is power-supply of pgc_vpu. And thus the transition
+> > > > to
+> > > > suspend (and resuming) fails.
+> > > > 
+> > > > Have you tested system suspend after the imx8m-blk-ctrl update
+> > > > on
+> > > > imx8mq?
+> > > 
+> > > I haven't tested system suspend, don't know if anyone else did.
+> > > However
+> > > I guess that this is just uncovering a preexisting issue in the
+> > > system
+> > > suspend sequencing, which you would also hit if the video
+> > > decoders
+> > > were
+> > > active at system suspend time.
+> > > 
+> > > My guess is that the regulator disable fails, due to the power
+> > > domains
+> > > being disabled quite late in the suspend sequence, where i2c
+> > > communication with the PMIC is no longer possible due to i2c
+> > > being
+> > > suspended already or something like that. Maybe you can dig in a
+> > > bit
+> > > on
+> > > the actual sequence on your system and we can see how we can
+> > > rework
+> > > things to suspend the power domains at a time where communication
+> > > with
+> > > the PMIC is still possible?
+> > 
+> > What exactly would you like to see? Here's all gpcv2 regulators
+> > disabling on suspend. (gpu (domain 5) is disabled by runtime pm
+> > often):
+> > 
+> > [   47.138700] imx-pgc imx-pgc-domain.5: disabling regulator
+> > [   47.298071] Freezing user space processes ... (elapsed 0.008
+> > seconds) done.
+> > [   47.313432] OOM killer disabled.
+> > [   47.316670] Freezing remaining freezable tasks ... (elapsed
+> > 2.221
+> > seconds) done.
+> > [   49.672052] imx8m-blk-ctrl 38320000.blk-ctrl:
+> > imx8m_blk_ctrl_suspend
+> > start
+> > [   49.704417] imx-pgc imx-pgc-domain.0: disabling regulator
+> > [   49.711114] imx-pgc imx-pgc-domain.6: disabling regulator
+> > [   49.819064] buck4: failed to disable: -ETIMEDOUT
+> > 
+> > The stack looks pretty much the same for all of them, from
+> > pm_suspend()
+> > over genpd_suspend_noiry().
+> 
+> So the GPU domain is already suspended before the system suspend,
+> probably due to short runtime PM timeouts.
+> 
+> Can you please check at which point the i2c subsystem is suspended? I
+> think we are already past that point when running the PM domain
+> suspend
+> from a _noirq callback. I'll take a look on how we can properly
+> change
+> this ordering.
 
-Well except when the olpc dcon fbdev driver is enabled, that thing
-digs around in there in rather unfixable ways.
+hi Lucas, when I just add the same system suspend hook you added to
+gpcv2 (pm_runtime_get()), I get the same timeout:
 
-Cc oldc_dcon maintainers as fyi.
+[  366.100154] Freezing remaining freezable tasks ... (elapsed 2.863
+seconds) done.
+[  369.228387] imx-i2c 30a50000.i2c: pm_runtime get.
+[  369.234204] imx-i2c 30a40000.i2c: pm_runtime get.
+[  369.239834] imx-i2c 30a30000.i2c: pm_runtime get.
+[  369.247417] imx-i2c 30a20000.i2c: pm_runtime get.
+[  369.277838] imx-pgc imx-pgc-domain.0: disable regulator now
+[  369.284758] imx-pgc imx-pgc-domain.6: disable regulator now
+[  369.394954] buck4: failed to disable: -ETIMEDOUT
 
-v2: I typoed the config name (0day)
+do you have an idea?
 
-Cc: kernel test robot <lkp@intel.com>
-Cc: Jens Frederich <jfrederich@gmail.com>
-Cc: Jon Nettleton <jon.nettleton@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Zhen Lei <thunder.leizhen@huawei.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-Cc: linux-fbdev@vger.kernel.org
-Cc: Zheyu Ma <zheyuma97@gmail.com>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+                              martin
 
-(no changes since v1)
-
- drivers/video/fbdev/core/fbmem.c | 8 ++++++--
- include/linux/fb.h               | 7 +++----
- 2 files changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 7583296481b0..1ce5b0f3abd4 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -50,10 +50,14 @@
- static DEFINE_MUTEX(registration_lock);
- 
- struct fb_info *registered_fb[FB_MAX] __read_mostly;
--EXPORT_SYMBOL(registered_fb);
--
- int num_registered_fb __read_mostly;
-+#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
-+EXPORT_SYMBOL(registered_fb);
- EXPORT_SYMBOL(num_registered_fb);
-+#endif
-+#define for_each_registered_fb(i)		\
-+	for (i = 0; i < FB_MAX; i++)		\
-+		if (!registered_fb[i]) {} else
- 
- bool fb_center_logo __read_mostly;
- 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index b781bc721113..208bca693b33 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -623,16 +623,15 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
- extern int fb_get_options(const char *name, char **option);
- extern int fb_new_modelist(struct fb_info *info);
- 
-+#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
- extern struct fb_info *registered_fb[FB_MAX];
-+
- extern int num_registered_fb;
-+#endif
- extern bool fb_center_logo;
- extern int fb_logo_count;
- extern struct class *fb_class;
- 
--#define for_each_registered_fb(i)		\
--	for (i = 0; i < FB_MAX; i++)		\
--		if (!registered_fb[i]) {} else
--
- static inline void lock_fb_info(struct fb_info *info)
- {
- 	mutex_lock(&info->lock);
--- 
-2.35.1
 
