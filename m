@@ -1,187 +1,229 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E605A1869
-	for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 21:04:57 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id k27so10386463edk.4
-        for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 14:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=8eQTSMEoSGParygVoj3+ymgdpI1EExa13g8W+3smNRQ=;
-        b=Pe6qjHiq/KndCD4eNCz7kgpWna8U8HFs4oQuyqdwSECfPbK42UoiO8vMZbFqqH+ZFg
-         jyUBKsaAZY0adoytfGsJKMDo5/6AVezc6dPFFuq2bKU7VW8260VdWtxP056DXmYHO3rk
-         n1wg+eJ/mCLDnynsUGLnAXMgGA2m+ET6Gh+i+FIhmR4ORZ34AtoRrcihsqOUVr1FhaqX
-         g8xvNVIrgIQA4qQq4UQk8rVV5WCAXN2cflPr31mkTRuEvToE/9CGCJ/Q4acnFRwLpOoQ
-         e7bx9/+8clMWtH8lhR44fQNPgleL/6GkFTAbzxdYfnZJFfgN86KpjHz5e/l1R5ahaJJ/
-         gN7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=8eQTSMEoSGParygVoj3+ymgdpI1EExa13g8W+3smNRQ=;
-        b=y1Rhue+9JV4ZVie1d+AwII8tUOvzUAECNgG3gkRNw+3O5L8NgOolJDHfQYmUCzDxeU
-         wUN1o37hcg42YUnlf4aatYYDAQPBSuZKNGda8urdQ/AttEulUZsFpKhGneLs5hV3IKL9
-         iIhyW1VBxh7S8FkrfZ4BL5kODpEi1oDbs1LTFXU2pS6LIcpd2wyqZznyk2uGbWzXbyRK
-         XTPN5mMnzRG4DSp95qYzjs9tKocbJj7y87zdUixl+2fBJjKOCv1tjcGNAYTUNtnfsqDL
-         mQk03EiroBWQORS4nFitE9WH39jv21QwhNQw5gNrOi8lDtq+/70URZvuMo8Cx8z58hQ8
-         L1yw==
-X-Gm-Message-State: AOAM533PLahg+Ogl/HcWFFxCjD83r8DJNnY8xaD6ISV/ZyCB/uu3iJr7
-	qC5g6JhjN3zUNE3nHL5YuYg=
-X-Google-Smtp-Source: ABdhPJxESK6FmohgVL7cp3cjAcet0xca07E/Xf1MtSyRGC6+6faU4Gf+oVV2j+Tmg4a6pxRJDU49aA==
-X-Received: by 2002:a50:f69b:0:b0:425:e693:5d1f with SMTP id d27-20020a50f69b000000b00425e6935d1fmr1194047edn.272.1651266296123;
-        Fri, 29 Apr 2022 14:04:56 -0700 (PDT)
-Received: from ?IPV6:2003:c7:8f1b:f037:a74b:9b9a:fe0c:be7d? (p200300c78f1bf037a74b9b9afe0cbe7d.dip0.t-ipconnect.de. [2003:c7:8f1b:f037:a74b:9b9a:fe0c:be7d])
-        by smtp.gmail.com with ESMTPSA id zd7-20020a17090698c700b006f3ef214dfesm988062ejb.100.2022.04.29.14.04.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Apr 2022 14:04:55 -0700 (PDT)
-Message-ID: <6ecca4d7-8b1f-7476-da4b-b1d94995b0e8@gmail.com>
-Date: Fri, 29 Apr 2022 23:04:54 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD281FAA
+	for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 23:21:23 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1nkZuw-0002MG-FN; Sat, 30 Apr 2022 01:20:54 +0200
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1nkZup-0004od-7p; Sat, 30 Apr 2022 01:20:47 +0200
+Date: Sat, 30 Apr 2022 01:20:47 +0200
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Geis <pgwipeout@gmail.com>,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	Liang Chen <cl@rock-chips.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Kever Yang <kever.yang@rock-chips.com>
+Subject: Re: [PATCH 0/3] Enable JPEG Encoder on RK3566/RK3568
+Message-ID: <20220429232047.GG7671@pengutronix.de>
+References: <20220427224438.335327-1-frattaroli.nicolas@gmail.com>
+ <198ce3981ad15844627581f9519cab67ed2a81c1.camel@ndufresne.ca>
+ <2438841.KJ31GcehEG@archbook>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 3/3] staging: vt6655: Replace VNSvInPortD with ioread32
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, David Laight <David.Laight@ACULAB.COM>
-References: <cover.1651036713.git.philipp.g.hortmann@gmail.com>
- <7a5f7f98379fb2af2741f613f5ddda53e5d4813e.1651036713.git.philipp.g.hortmann@gmail.com>
- <Ymjaxby2vDJYz6KA@kroah.com> <b3d6b773-4ca1-a72e-933b-455c5d2b91c9@gmail.com>
- <YmwDZi3mmWRHzKAT@kroah.com>
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <YmwDZi3mmWRHzKAT@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9Iq5ULCa7nGtWwZS"
+Content-Disposition: inline
+In-Reply-To: <2438841.KJ31GcehEG@archbook>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 00:27:06 up 30 days, 10:56, 58 users,  load average: 0.04, 0.10,
+ 0.09
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-On 4/29/22 17:25, Greg Kroah-Hartman wrote:
-> On Fri, Apr 29, 2022 at 05:18:28PM +0200, Philipp Hortmann wrote:
->> On 4/27/22 07:55, Greg Kroah-Hartman wrote:
->>>> MACvRegBitsOn(iobase, MAC_REG_TFTCTL, TFTCTL_TSFCNTRRD);
->>>>    	for (ww = 0; ww < W_MAX_TIMEOUT; ww++) {
->>>> @@ -753,8 +754,9 @@ bool CARDbGetCurrentTSF(struct vnt_private *priv, u64 *pqwCurrTSF)
->>>>    	}
->>>>    	if (ww == W_MAX_TIMEOUT)
->>>>    		return false;
->>>> -	VNSvInPortD(iobase + MAC_REG_TSFCNTR, (u32 *)pqwCurrTSF);
->>>> -	VNSvInPortD(iobase + MAC_REG_TSFCNTR + 4, (u32 *)pqwCurrTSF + 1);
->>>> +	low = ioread32(iobase + MAC_REG_TSFCNTR);
->>>> +	high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
->>>> +	*pqwCurrTSF = low + ((u64)high << 32);
->>> Are you_sure_  this is doing the same thing?
->>>
->> To compare I used the following code:
->> VNSvInPortD(iobase + MAC_REG_TSFCNTR, (u32 *)pqwCurrTSF);
->> VNSvInPortD(iobase + MAC_REG_TSFCNTR + 4, (u32 *)pqwCurrTSF + 1);
->> dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF *pqwCurrTSF: %llx",
->> *pqwCurrTSF);
->> low = ioread32(iobase + MAC_REG_TSFCNTR);
->> high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
->> dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF low/high: %llx", low +
->> ((u64)high << 32));
+
+--9Iq5ULCa7nGtWwZS
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Fri, Apr 29, 2022 at 05:28:35PM +0200, Nicolas Frattaroli wrote:
+>On Freitag, 29. April 2022 16:46:01 CEST Nicolas Dufresne wrote:
+>> Le jeudi 28 avril 2022 =E0 00:44 +0200, Nicolas Frattaroli a =E9crit :
+>> > the following series adds support for and enables the hardware JPEG
+>> > encoder on the RK3566 and RK3568 line of SoCs by Rockchip.
+>> >
+>> > The JPEG encoder is its own little Hantro instance with seemingly just
+>> > the encode functionality.
 >>
->> Output:
->> vt6655 0000:01:05.0: CARDbGetCurrentTSF *pqwCurrTSF: 1155ba
->> vt6655 0000:01:05.0: CARDbGetCurrentTSF low/high:    1155ba
->> vt6655 0000:01:05.0: CARDbGetCurrentTSF *pqwCurrTSF: 35d7cbd7c
->> vt6655 0000:01:05.0: CARDbGetCurrentTSF low/high:    35d7cbd7c
->> vt6655 0000:01:05.0: CARDbGetCurrentTSF *pqwCurrTSF: 35d7cbd8a
->> vt6655 0000:01:05.0: CARDbGetCurrentTSF low/high:    35d7cbd8a
+>> I'm a little suspicious about this statement. I believe the Hantro combo=
+ is
+>> identical to RK3399 and that you are confusing with Rockchip JPEG encode=
+r here.
+>> Here's the source of my suspicion:
 >>
->> So no different results for numbers larger than 32 Bit.
-> And for a big endian system?  Do you get the same result?
-> 
+>> https://github.com/JeffyCN/rockchip_mirrors/blob/mpp/osal/mpp_soc.cpp#L6=
+37
+>>
+>> As this get burnt into DT, we really need to get this right. Perhaps we =
+need to
+>> run the reference software to verify ? Ping me if you need help with tha=
+t.
+>
+>I believe there's three separate questions here:
+>
+>A) is this a Hantro instance with more than just JPEG encoding?
+>B) is this the same as the other[1] Hantro instance, just with a bigger
+>   offset for the encoder?
+>C) if A is true and B is false, does this also have decoders?
+>
+>I think I can only answer B). I do not think fdee0000 is the same hardware
+>instance as fdea0400. They are in different power domains (yes, this one
+>being in the RGA PD is correct according to downstream code, TRM and my
+>own testing). They also have their own MMU each.
 
-Using ioread32be to simulate output of the big endian computer.
+>Your findings point towards A) being true. I'd love to be able to just
+>throw a mainline VP8 or H.264 driver at it to check, but that sadly does
+>not exist yet.
 
-Code:
-	u32 *temp = (u32 *)pqwCurrTSF;	
-	
-	VNSvInPortD(iobase + MAC_REG_TSFCNTR, (u32 *)pqwCurrTSF);
-	VNSvInPortD(iobase + MAC_REG_TSFCNTR + 4, (u32 *)pqwCurrTSF + 1);
-	dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF *pqwCurrTSF: 
-0x%016llx", *pqwCurrTSF);
+Not Mainline, but for the the RK3399 Encoder there is some initial work
+available made by bootlin.
 
-	temp++;
-	*temp = ioread32be(iobase + MAC_REG_TSFCNTR);
-	temp--;
-	*temp = ioread32be(iobase + MAC_REG_TSFCNTR + 4);
-	dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF big-endian: 
-0x%016llx", *pqwCurrTSF);
+https://github.com/bootlin/linux bootlin/hantro/h264-encoding-v5.11
 
-	*temp = ioread32(iobase + MAC_REG_TSFCNTR);
-	temp++;
-	*temp = ioread32(iobase + MAC_REG_TSFCNTR + 4);
-	dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF little endian: 
-0x%016llx", *pqwCurrTSF);
+They also implemented some initial userspace tool to test this.
 
-Output:
-[21250.521826] vt6655 0000:01:05.0: CARDbGetCurrentTSF *pqwCurrTSF: 
-0x00 00 00 05 f8 55 1d 9b
-[21250.521831] vt6655 0000:01:05.0: CARDbGetCurrentTSF big-endian: 
-0x9b 1d 55 f8 05 00 00 00
-[21250.521835] vt6655 0000:01:05.0: CARDbGetCurrentTSF little endian: 
-0x00 00 00 05 f8 55 1d 9b
+https://github.com/bootlin/v4l2-hantro-h264-encoder
 
-Code 2:
-	u32 high, low;
-	
-	VNSvInPortD(iobase + MAC_REG_TSFCNTR, (u32 *)pqwCurrTSF);
-	VNSvInPortD(iobase + MAC_REG_TSFCNTR + 4, (u32 *)pqwCurrTSF + 1);
-	dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF *pqwCurrTSF: 
-0x%016llx", *pqwCurrTSF);
+If you have some time on your hands, it would be great if we could test
+this on the RK3568 with the VEPU121 core.
 
-	low = ioread32be(iobase + MAC_REG_TSFCNTR);
-	high = ioread32be(iobase + MAC_REG_TSFCNTR + 4);
-	dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF big-endian: 
-0x%016llx", high + ((u64)low << 32));
+>Upon checking the TRM again, it seems it documents registers for H.264 as =
+well.
 
-	low = ioread32(iobase + MAC_REG_TSFCNTR);
-	high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
-	dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF little endian: 
-0x%016llx", low + ((u64)high << 32));
+I would like to describe the whole sitation a little bit more in detail.
 
-Output 2:
-[21996.659694] vt6655 0000:01:05.0: CARDbGetCurrentTSF *pqwCurrTSF: 
-0x00 00 00 06 24 cd 8d 91
-[21996.659698] vt6655 0000:01:05.0: CARDbGetCurrentTSF big-endian: 
-0x91 8d cd 24 06 00 00 00
-[21996.659701] vt6655 0000:01:05.0: CARDbGetCurrentTSF little endian: 
-0x00 00 00 06 24 cd 8d 91
+In the Datasheet of the RK3568 there are several decoder and encoder
+entities documented. This encoder instance is called VEPU121 in the
+TRM.
 
-[22453.448296] vt6655 0000:01:05.0: CARDbGetCurrentTSF *pqwCurrTSF: 
-0x00 00 00 06 40 07 dd a3
-[22453.448300] vt6655 0000:01:05.0: CARDbGetCurrentTSF big-endian: 
-0xa3 dd 07 40 06 00 00 00
-[22453.448304] vt6655 0000:01:05.0: CARDbGetCurrentTSF little endian: 
-0x00 00 00 06 40 07 dd a3
+RK3568:
+-------
 
-I am assuming that in case the big endian computer is used the ioread32 
-will be automatically converted to ioread32be. So I have only to care 
-about the u32 to be exchanged. That is easier with the second example.
+Look into "Chapter 10 Multi-format Video Encoder and Decoder" (Page 463)
+of RK3568 TRM Part2.
 
-Code:
-	low = ioread32(iobase + MAC_REG_TSFCNTR);
-	high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
+https://dl.radxa.com/rock3/docs/hw/datasheet/Rockchip%20RK3568%20TRM%20Part=
+2%20V1.1-20210301.pdf
 
-#ifdef __BIG_ENDIAN
-	*pqwCurrTSF = high + ((u64)low << 32);
-#else
-	*pqwCurrTSF = low + ((u64)high << 32);
-#endif
+We also find some mentionioning of JPEG encoding in the RK3399
+datasheet.
 
-Comments are welcome.
+RK3399:
+-------
 
-This is the article that helped me a lot:
-https://en.wikipedia.org/wiki/Endianness#Bit_endianness
-Especially the "Endian example" picture
+Look into "Chapter 5 Multi-format Video Decoder And Encoder" (Page 297)
+of RK3399 TRM Part 3.
 
-Thanks,
-Bye Philipp
+http://www.netbsd.org/~mrg/rk3399/Rockchip%20RK3399TRM%20V1.1%20Part3%20201=
+60728.pdf
+
+* Supports encoding of the following standards:
+  * H.264: up to HP level 4.1
+  * JPEG: Baseline (DCT sequential)
+
+Which probably refers to the core that is also available on the RK3399.
+
+
+Comparing the register layout of VEPU121 of the RK3568 with the
+encoder part in RK3399 we find nearly the same register description.
+
+10.5.21 VEPU121 Detail Registers Description (Page 704 of RK3568 TRM Part2)
+
+vs.
+
+5.5.4 VEPU Registers Summary (Page 443 of RK3399 TRM Part3)
+
+However this is just the documentation, this could mean nothing to
+the real world. Getting the core tested with the bootlin stack
+or getting feedback from Kever would probably tell the whole story.
+
+>However I can do this to answer C), and I will once I get the time.
+>It would be somewhat surprising if there was a hidden third H.264
+>decoder on this chip.
+
+The corresponding decoder world on the RK3568 is also very unclear.
+
+It supports RKVDEC (referd as VDPU346 in the TRM), that is probably also
+supported by the mainline code you can find in drivers/staging/media/rkvdec=
+/.
+
+Then there is VDPU121 which seems to be just the same G1 as in RK3399,
+regarding to these patches:
+
+https://lore.kernel.org/all/20220213195316.4149106-3-piotr.oniszczuk@gmail.=
+com/T/
+
+The last Core you probably refer to is called VDPU720 JPEG Decoder
+located at 0xFDED0000. I also really don't know where to put this in
+at the moment.
+
+>I'll also CC Kever Yang from rockchip, maybe he can shine some light on
+>this.
+
+Since the RK3568 seems to get more and more of attention at the moment
+I would like to ask if somebody is planning to write support the RKVENC
+in mainline. That is the VEPU540 core refered to in the RK3568 TRM.
+
+I would start with that in the next weeks, taking the bootlin H1 support
+as an reference to handle the request_api for the encoder part. Which is
+currently completely untouched in mainline AFAIK.
+
+Regards,
+Michael
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--9Iq5ULCa7nGtWwZS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmJscsoACgkQC+njFXoe
+LGSbiRAAwCISPC4Va5HEdBHABLuRteCTtHhDhkuYj8/IMqOrN8S8vIYEpo+TRY2+
+hkt0QkY06mgDwmcUhiw3plaMGnAMMgvZMSQwS4YTS5LelpsbugQS3gSaznQq7cc5
+zvznuZlNFfY85Kz7HrPrtWiCHbZOyRNb3IH42uwFB0c4dqAr58C/eA1bMuoxj4jN
+xxQ8e2lU8h8BpvNSvy1GwkojITWK4S3U4t52ZnfeQCXImy332kIWBcXmPC+8JSnT
+SgU2t2F94E0v5l5HSbm+FGqugn/ALt3PWF+PFin4Ux5KSUnLiYWhOp28HC8wMIiw
+3LCWjqknc3PUL6MKw2/7PqIlXB0uPVgpR9my+aXn3dpHoFRLkM4rQ+FxvjnRzW1H
+CRhgvoUukFDQsYwT5UndJhEMHPBnG+4n+6aE7AqI2HKjPdnSoXaEqpz1Qij1Jgb4
+BQ0S9R5oa1WZk7GMA/9WCgIevOtn4bGFGCTZQPAWAqubVZQ9SvBEuTjPsDQX0F6l
+Dt03o+hUzL3yYFJZjhWUBcf9rs4dG4oKwdPbqz72IPzfb/xxc9iZLR12cqzgwwci
+lYdH/5VVDrTFbjCnLrMahw+EHN3OXqtP97fjTgfHkyAyzw5ksjnTqzJ6QFdVO4BI
+Nth/At4dnJeCPAWrEiOFd6XY1q06YHxgOBvnzE8KIURGBHeUdFU=
+=OhKV
+-----END PGP SIGNATURE-----
+
+--9Iq5ULCa7nGtWwZS--
