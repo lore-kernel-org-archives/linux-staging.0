@@ -1,67 +1,164 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72731852
-	for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 15:02:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=FWCGga2NwFtl2WJVRbR0+x5nY0E6GFEiFEIQiEh0aDI=; b=nd0C0YhSkMyx/VBQxvNGDviF35
-	b4hcz/MDiayfv5OMOwHlMLqrdxLyiopVPrSBCUV3hcRluZw2OXonnN/JE7Xec2kXWDlJJKfxpE5Vr
-	JY6z1zQFxlB9DeUZB7BShcOFFqfzvowQiekvk8OGmTXQZLSrl4uOQbIwfwZcABkvc0Jd3yneVopit
-	jVz9FcQM+iPF1WUBDfQFMSdkt0Nr1Bf2a/4fdSmkCrbZ5Ic9zy84ZNxcGXqPwpIpIhdtnb936B410
-	cI2AJ/uPCj1pCUrbDhnJFi18oyOScAjfpoLCGyep1fytQ5prukL7IiVtTC5Lx0xrSL+ozLQOceWa9
-	6wHE0rkQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nkS8H-00BhoU-W1; Fri, 29 Apr 2022 15:02:10 +0000
-Date: Fri, 29 Apr 2022 08:02:09 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	kernel test robot <lkp@intel.com>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
-	linux-staging@lists.linux.dev,
-	Daniel Vetter <daniel.vetter@intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>,
-	Matthew Wilcox <willy@infradead.org>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Zhen Lei <thunder.leizhen@huawei.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Xiyu Yang <xiyuyang19@fudan.edu.cn>, linux-fbdev@vger.kernel.org,
-	Zheyu Ma <zheyuma97@gmail.com>, Guenter Roeck <linux@roeck-us.net>,
-	Changcheng Deng <deng.changcheng@zte.com.cn>
-Subject: Re: [RFC PATCH v4 11/11] fbdev: Make registered_fb[] private to
- fbmem.c
-Message-ID: <Ymv98Y85rW/2r9m8@infradead.org>
-References: <20220429084253.1085911-1-javierm@redhat.com>
- <20220429084253.1085911-12-javierm@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EAD1855
+	for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 15:18:31 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id a1so9463957edt.3
+        for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 08:18:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=L79R3XQb+oKIBDk5QLBANm8jHmQJdwsv7/GUkSR/Ukc=;
+        b=T/U+K1XPO96WhjUEjO2ZLIKqq6qaepXAj+Le6156YlAJW/ifIOnb9lTvlIllFjEOdk
+         ld4KvQVcGoDXhFH5pxmyBrPLLVS7oX95lB5AiuidrJDLiNk77H8X+oRsuOoxUf1dnaHH
+         +37rbtz5HVmuNqi2Ku8urOyh4h13LuvFR+x5FMss7UinZOZi5REbjNlkssOo2OIh7mU/
+         Ej5TQRjjIOOUArL1Aoe2RSl6VkgmB7OesmWlLETlqIKLL6L0IQgI6f+LWIEnN2OV50Eq
+         OAeo40EXdw+2uYCs6Ewtn0rTVpD94+M425jg8UZsPP4mDlKZKfm1FulKgS6tK7O7CThX
+         +Uzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=L79R3XQb+oKIBDk5QLBANm8jHmQJdwsv7/GUkSR/Ukc=;
+        b=G+CfE0Dti8VkRdn0/bLj5YKO5Mj2Z+nn11jk6jFjCooU+qnESU/Ikr8QYnOhG1U5KQ
+         VvEd9dg37GYt1HpJJrFOGwEPyYnUS+g7e7jRlSv/EbYLAFXwlFrV0PtJ3W/+AUUrPtJA
+         RUM0WPYDJf2DXIiItVwsxQMhSvRVwxFXZuDOJmORAWC8Gnp+SZWa4MmYsUxHjWis1O2l
+         vt8u+Itzo3tXGAQs0e71LMLVCJsfZkOqdmdMuotCx7Gs6vUIwsqDc4JFiv/vlFMNs31U
+         /HBr/gwjAVZBodE90cGiXZBqikOIiE5+zfHeQngNnw8nmxM8Iq7YjccUxEAcUKMwUIan
+         0zJA==
+X-Gm-Message-State: AOAM533eD3mYYtV11+BLcsEOdn6b6hJ2pidtlhC9bSQ8ThqTiL/qf+We
+	ZsA452qMi24rhqSqINl+cNF+jucDyBaw3w==
+X-Google-Smtp-Source: ABdhPJy09sOXJ3F1bVAlPC+pNd5wtB3fBDT2vPPbBZVhhTO9lbw8Iz6+g872TvqG0WDb9Ir3J8I6zw==
+X-Received: by 2002:a05:6402:d5:b0:41d:6518:86e4 with SMTP id i21-20020a05640200d500b0041d651886e4mr41847942edu.322.1651245510037;
+        Fri, 29 Apr 2022 08:18:30 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f1b:f037:b0af:cce5:5488:7b95? (p200300c78f1bf037b0afcce554887b95.dip0.t-ipconnect.de. [2003:c7:8f1b:f037:b0af:cce5:5488:7b95])
+        by smtp.gmail.com with ESMTPSA id g7-20020aa7d1c7000000b0042617ba63b1sm3093989edp.59.2022.04.29.08.18.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Apr 2022 08:18:29 -0700 (PDT)
+Message-ID: <b3d6b773-4ca1-a72e-933b-455c5d2b91c9@gmail.com>
+Date: Fri, 29 Apr 2022 17:18:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220429084253.1085911-12-javierm@redhat.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 3/3] staging: vt6655: Replace VNSvInPortD with ioread32
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <cover.1651036713.git.philipp.g.hortmann@gmail.com>
+ <7a5f7f98379fb2af2741f613f5ddda53e5d4813e.1651036713.git.philipp.g.hortmann@gmail.com>
+ <Ymjaxby2vDJYz6KA@kroah.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <Ymjaxby2vDJYz6KA@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 29, 2022 at 10:42:53AM +0200, Javier Martinez Canillas wrote:
-> From: Daniel Vetter <daniel.vetter@ffwll.ch>
+On 4/27/22 07:55, Greg Kroah-Hartman wrote:
+>> MACvRegBitsOn(iobase, MAC_REG_TFTCTL, TFTCTL_TSFCNTRRD);
+>>   	for (ww = 0; ww < W_MAX_TIMEOUT; ww++) {
+>> @@ -753,8 +754,9 @@ bool CARDbGetCurrentTSF(struct vnt_private *priv, u64 *pqwCurrTSF)
+>>   	}
+>>   	if (ww == W_MAX_TIMEOUT)
+>>   		return false;
+>> -	VNSvInPortD(iobase + MAC_REG_TSFCNTR, (u32 *)pqwCurrTSF);
+>> -	VNSvInPortD(iobase + MAC_REG_TSFCNTR + 4, (u32 *)pqwCurrTSF + 1);
+>> +	low = ioread32(iobase + MAC_REG_TSFCNTR);
+>> +	high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
+>> +	*pqwCurrTSF = low + ((u64)high << 32);
+> Are you_sure_  this is doing the same thing?
 > 
-> Well except when the olpc dcon fbdev driver is enabled, that thing
-> digs around in there in rather unfixable ways.
-> 
-> Cc oldc_dcon maintainers as fyi.
-> 
-> v2: I typoed the config name (0day)
 
-We should not keep broken code and/or core code ifdefs around for
-staging drivers.  Just disable the driver if it is in such a bad
-state.
+To compare I used the following code:
+VNSvInPortD(iobase + MAC_REG_TSFCNTR, (u32 *)pqwCurrTSF);
+VNSvInPortD(iobase + MAC_REG_TSFCNTR + 4, (u32 *)pqwCurrTSF + 1);
+dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF *pqwCurrTSF: %llx", 
+*pqwCurrTSF);
+low = ioread32(iobase + MAC_REG_TSFCNTR);
+high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
+dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF low/high: %llx", low + 
+((u64)high << 32));
+
+Output:
+vt6655 0000:01:05.0: CARDbGetCurrentTSF *pqwCurrTSF: 1155ba
+vt6655 0000:01:05.0: CARDbGetCurrentTSF low/high:    1155ba
+vt6655 0000:01:05.0: CARDbGetCurrentTSF *pqwCurrTSF: 35d7cbd7c
+vt6655 0000:01:05.0: CARDbGetCurrentTSF low/high:    35d7cbd7c
+vt6655 0000:01:05.0: CARDbGetCurrentTSF *pqwCurrTSF: 35d7cbd8a
+vt6655 0000:01:05.0: CARDbGetCurrentTSF low/high:    35d7cbd8a
+
+So no different results for numbers larger than 32 Bit.
+
+The pqwCurrTSF is a microsecond counter running in the WLAN Router:
+At a later Measurement I got the following values:
+269 seconds later: 0x3 6d89 fd91 -> 269.30 seconds
+15 minutes later: 0x3 6d89 fd91 -> 15.54 minutes
+8:38 hours later: 0xa 9787 ad91 -> 8.62 hours
+
+So both methods work on a AMD64 processor.
+
+> Adding 1 to a u64 pointer increments it by a full u64.  So I guess the
+> cast to u32 * moves it only by a u32?  Hopefully?  That's messy.
+
+That is the reason why I wanted to change this.
+
+> Why not keep the current mess and do:
+> 	pqwCurrTSF = ioread32(iobase + MAC_REG_TSFCNTR);
+> 	((u32 *)pqwCurTSF + 1) = ioread32(iobase + MAC_REG_TSFCNTR + 4);
+> Or does that not compile?  
+
+drivers/staging/vt6655/card.c:760:13: warning: assignment to ‘u64 *’ 
+{aka ‘long long unsigned int *’} from ‘unsigned int’ makes pointer from 
+integer without a cast [-Wint-conversion]
+   760 |  pqwCurrTSF = ioread32(iobase + MAC_REG_TSFCNTR);
+       |             ^
+drivers/staging/vt6655/card.c:761:26: error: lvalue required as left 
+operand of assignment
+   761 |  ((u32 *)pqwCurrTSF + 1) = ioread32(iobase + MAC_REG_TSFCNTR + 4);
+       |                          ^
+
+This compiles:
+	*(u32 *)pqwCurrTSF = ioread32(iobase + MAC_REG_TSFCNTR);
+	*((u32 *)pqwCurrTSF + 1) = ioread32(iobase + MAC_REG_TSFCNTR + 4);
+
+Log:
+vt6655 0000:01:05.0: CARDbGetCurrentTSF *pqwCurrTSF: 178f41d90
+vt6655 0000:01:05.0: CARDbGetCurrentTSF with ioread: 178f41d90
+
+Ick, how about:
+> 	u32 *temp = (u32 *)pqwCurTSF;
+> 
+> 	temp = ioread32(iobase + MAC_REG_TSFCNTR);
+> 	temp++;
+> 	temp = ioread32(iobase + MAC_REG_TSFCNTR + 4);
+
+This is working:
+	u32 *temp = (u32 *)pqwCurrTSF;
+
+	*temp = ioread32(iobase + MAC_REG_TSFCNTR);
+	temp++;
+	*temp = ioread32(iobase + MAC_REG_TSFCNTR + 4);
+
+> As that duplicates the current code a bit better.
+> 
+> I don't know, it's like polishing dirt, in the end, it's still dirt...
+> 
+> How about looking at the caller of this to see what it expects to do
+> with this information?  Unwind the mess from there?
+>
+
+I will propose something for that.
+
+> thanks,
+> 
+> greg k-h
+
+Thanks
+
+Bye Philipp
