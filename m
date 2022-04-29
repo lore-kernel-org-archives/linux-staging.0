@@ -1,136 +1,108 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222807B;
-	Fri, 29 Apr 2022 13:46:52 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id w4so10837344wrg.12;
-        Fri, 29 Apr 2022 06:46:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9pEwUBKjRBpllrJk5qaKlRO87d8MdZtCNEWbpI2fUcw=;
-        b=RHg27f73kpzQwZCijceWAxtRf7NJ/MfOEliQkAcG6IKKEG3bJ2iJ72vuKT23LtPKgp
-         W39omxgefKec1a3gWl7NItN8E1BWvGvrXckVmWHfOkBmoRUseHw0Xb43g2I7Pbg08vmg
-         JIc0JqeBoIFIRU8LKe/iWJW4iZA4YcCXFUZ+uESPmBjFEnagrO6ArqnGbiGmsdsoCRxq
-         o/GRbaoEsQpxaDbUUkUIazJwUAFGTa+JqTLseu/IKoy1hDA7qdHqMyKWoPY+HAvxtn6a
-         o4ZrmUK+ojeSa68029GNCGe8HU0iqoIJyqAJM44zYf1xGbMk9ETtlQw9d2oArBB6bhFf
-         6I6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9pEwUBKjRBpllrJk5qaKlRO87d8MdZtCNEWbpI2fUcw=;
-        b=5jEwJVFzTETLtZc5owKtJXA1oGKUIMPyMlxgetJ+YFe6s/0d83f2Qe5I4a2yYcYW7P
-         UYtWw38Ro8z5om2vt4NmBzp82ieG8AD9dxrca8Q7o9SpEZS8/wE415YuJlSwAPUR3t5u
-         95TZGgmyurPYpVDm1xv8zwBJzx+PCwYDqn+rCeo6IUkZUoMYAGDwf92N6+UAQvVaR2iL
-         Y3Hrss3qYZ56XsI7bWvUZE2oUDCY3DU5JIWnhc6APQcnCs1IOEJebstgAkBFrNH7MrrN
-         QoyuBKmMU/UcFaxNtx1kAKca6ioFyXaX3izDkvCKJHTpJerdmEYrppQYTGasoP0wBnx5
-         Zb1A==
-X-Gm-Message-State: AOAM530TkjFmGd38vTmyaKETL12EHBNCFxIhrWg+6kvKfaalh5ydhFaH
-	JraFc+zMuTJ1IMf1E8CBy20=
-X-Google-Smtp-Source: ABdhPJxa6pGhZpFL51hmMw5AI1Jzp/w/JJRYmnitE4sEb0pj0428bQOYutQJOfW3tIM0R+gCvJn32A==
-X-Received: by 2002:a05:6000:1f03:b0:20c:4d9e:7400 with SMTP id bv3-20020a0560001f0300b0020c4d9e7400mr1133227wrb.257.1651240010362;
-        Fri, 29 Apr 2022 06:46:50 -0700 (PDT)
-Received: from leap.localnet (host-79-50-86-254.retail.telecomitalia.it. [79.50.86.254])
-        by smtp.gmail.com with ESMTPSA id n2-20020a1ca402000000b003942429cd1esm853641wme.10.2022.04.29.06.46.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 06:46:49 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Tsuchiya Yuto <kitakar@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Martiros Shakhzadyan <vrzh@vrzh.net>, Hans de Goede <hdegoede@redhat.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
-Date: Fri, 29 Apr 2022 15:46:47 +0200
-Message-ID: <3664993.kQq0lBPeGt@leap>
-In-Reply-To: <2181693.iZASKD2KPV@leap>
-References: <20220413225531.9425-1-fmdefrancesco@gmail.com> <2181693.iZASKD2KPV@leap>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227BE7B
+	for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 13:51:54 +0000 (UTC)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23TBRfht016696;
+	Fri, 29 Apr 2022 13:51:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=JaB+L6/l7HEX0hSHTIZHlZVNT/65KYSwvbIKPXAaA0c=;
+ b=kEhUFcE5eqWaUZaKGoK3gEhWR+2SNKyKX/nWiAmc+7uRb6h4/T1AprTRg9FFBuoQ9Ieo
+ h5ar81qms3DOcM7M8BUz1GNoGilHcqhlA/Ug/hLpm4oPS4nn5h52WX1gFmw5wCYabjB1
+ RDE/Jy9yDwptWNA3CHID9qLzkQ8URoHTtpGpKQDmVoiG60Xbm8tOqqPgfPun885Qp40k
+ yDK0qS2dlCWoAiw/SHIiu3CruL9JxdkpWP47zt37K9WcwKXJji9LJs4a8gVAzNqJQVRC
+ 62TFrOl0epNmeOUIMZkk1tk2kIX1d1svHteRH73vL1OzB0ucIfIlXjCfPRrkes1a+w7q wQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fr27h16bj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Apr 2022 13:51:44 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23TCp742019029;
+	Fri, 29 Apr 2022 13:51:43 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com [159.122.73.72])
+	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3fr27h16av-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Apr 2022 13:51:43 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+	by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23TDRlGR011851;
+	Fri, 29 Apr 2022 13:51:41 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+	by ppma06fra.de.ibm.com with ESMTP id 3fm8qhqaw3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Apr 2022 13:51:41 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+	by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 23TDplAD22479358
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 29 Apr 2022 13:51:47 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C62EF4C046;
+	Fri, 29 Apr 2022 13:51:38 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6AFF24C044;
+	Fri, 29 Apr 2022 13:51:38 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Fri, 29 Apr 2022 13:51:38 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-pci@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Teddy Wang <teddy.wang@siliconmotion.com>,
+        linux-fbdev@vger.kernel.org (open list:STAGING - SILICON MOTION SM750 FRAME BUFFER DRIVER),
+        linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM)
+Subject: [PATCH 28/37] staging: sm750fb: add HAS_IOPORT dependencies
+Date: Fri, 29 Apr 2022 15:50:48 +0200
+Message-Id: <20220429135108.2781579-51-schnelle@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220429135108.2781579-1-schnelle@linux.ibm.com>
+References: <20220429135108.2781579-1-schnelle@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: rwgkemXJQjlHZGtm1d6FO1L7W_MDB4-F
+X-Proofpoint-GUID: 1rwW-ssktKhGp1DUKorPt95eRU5hJLcw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-29_06,2022-04-28_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ clxscore=1011 adultscore=0 priorityscore=1501 mlxlogscore=921
+ suspectscore=0 malwarescore=0 spamscore=0 phishscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204290078
 
-On luned=C3=AC 25 aprile 2022 20:29:03 CEST Fabio M. De Francesco wrote:
-> On gioved=C3=AC 14 aprile 2022 00:55:31 CEST Fabio M. De Francesco wrote:
-> > The use of kmap() is being deprecated in favor of kmap_local_page()
-> > where it is feasible. The same is true for kmap_atomic().
-> >=20
-> > In file pci/hmm/hmm.c, function hmm_store() test if we are in atomic
-> > context and, if so, it calls kmap_atomic(), if not, it calls kmap().
-> >=20
-> > First of all, in_atomic() shouldn't be used in drivers. This macro
-> > cannot always detect atomic context; in particular, it cannot know
-> > about held spinlocks in non-preemptible kernels.
-> >=20
-> > Notwithstanding what it is said above, this code doesn't need to care
-> > whether or not it is executing in atomic context. It can simply use
-> > kmap_local_page() / kunmap_local() that can instead do the mapping /
-> > unmapping regardless of the context.
-> >=20
-> > With kmap_local_page(), the mapping is per thread, CPU local and not
-> > globally visible. Therefore, hmm_store()() is a function where the use
-> > of kmap_local_page() in place of both kmap() and kmap_atomic() is
-> > correctly suited.
-> >=20
-> > Convert the calls of kmap() / kunmap() and kmap_atomic() /
-> > kunmap_atomic() to kmap_local_page() / kunmap_local() and drop the
-> > unnecessary tests which test if the code is in atomic context.
-> >=20
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> >  drivers/staging/media/atomisp/pci/hmm/hmm.c | 14 ++------------
-> >  1 file changed, 2 insertions(+), 12 deletions(-)
->=20
-> Hi Mauro,
->=20
-> I'm writing for just a gentle ping for this and two other staging/
-atomisp/=20
-> patches that still seem to be waiting to be applied.
->=20
-> In the meantime I would like to remind you that Hans de Goede has=20
-> successfully tested this patch and the other two on both the front and=20
-back=20
-> cams of a chuwi hi8 tablet.
+In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
+not being declared. We thus need to add HAS_IOPORT as dependency for
+those drivers using them.
 
-Hi Mauro,
+Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ drivers/staging/sm750fb/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In my previous message I forgot to remind you that two of these three=20
-patches have also been reviewed by Ira Weiny (Intel).
-
-I'd like to ask you again if there is still something left which prevents=20
-these three patches from being accepted. The first of the three patches was=
-=20
-submitted on April 9, 2022.
-
-=46or you convenience here are the links to the patches, the "Reviewed-by:"=
-=20
-and "Tested-by:" tags:
-
-[PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_store()
-https://lore.kernel.org/lkml/20220413225531.9425-1-fmdefrancesco@gmail.com/
-https://lore.kernel.org/lkml/Yli+R7iLZKqO8kVP@iweiny-desk3/
-https://lore.kernel.org/lkml/2d096f20-dbaa-1d49-96e9-a7ae6c19f7fe@redhat.co=
-m/
-
-[PATCH] staging: media: atomisp: Use kmap_local_page() in hmm_set()
-https://lore.kernel.org/lkml/20220413212210.18494-1-fmdefrancesco@gmail.com/
-https://lore.kernel.org/lkml/YldNhErgt53RqYp7@iweiny-desk3/
-https://lore.kernel.org/lkml/0b04ad1a-e442-1728-ef2c-bab386a4c64c@redhat.co=
-m/
-
-[PATCH] staging: media: atomisp: Convert kmap() to kmap_local_page()
-https://lore.kernel.org/lkml/20220408223129.3844-1-fmdefrancesco@gmail.com/
-https://lore.kernel.org/lkml/b0aed731-b56f-4378-b50e-fc0cbccbdb84@redhat.co=
-m/
-
-Thanks,
-
-=46abio M. De Francesco
-
-P.S.: Do you want me to resend them all and add the above-mentioned tags?
-
-
+diff --git a/drivers/staging/sm750fb/Kconfig b/drivers/staging/sm750fb/Kconfig
+index 8c0d8a873d5b..73781c5bf03a 100644
+--- a/drivers/staging/sm750fb/Kconfig
++++ b/drivers/staging/sm750fb/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config FB_SM750
+ 	tristate "Silicon Motion SM750 framebuffer support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_MODE_HELPERS
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+-- 
+2.32.0
 
