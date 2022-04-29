@@ -1,143 +1,75 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D1F1852
-	for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 15:28:38 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id a21so9495157edb.1
-        for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 08:28:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4701852
+	for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 15:32:08 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id m20so16109838ejj.10
+        for <linux-staging@lists.linux.dev>; Fri, 29 Apr 2022 08:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uQV4T/D00CJ/ygzy9sj7P/AoFBwXwhKdzgdcMmOX8Rs=;
-        b=HK6WZvw87L2O6eO4hpnri/TbkekIUuPquNkJEEJEcnJrYjYHyc5VQvUSr80v8RCJOr
-         365W7Y0B4vVvAJoj3fOVXCofI2R9mbv4kpQs6HVu0zTfZr/+2Lzoh4cdnuEKs+qRJg6Z
-         lpCVzU/GCsJRdOyfYd4LOukvGBRywOQgPKndBLCOJ+UrnJ/rw3AoHPUlkhXZCmi3Va4V
-         UO8AiQqizbkuRPUBdrzoNmlQKrCuA1Oy34y1ngpd5/MjhTct3Eqw8qfK5eVGeocqLUmv
-         WUjjZtT8DvDIVrawPP8l+W26QkVJzyBtBkrYk1U9fhy+GejP5g1EBDnMLnwyQENG2F4G
-         dWeg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=CxIK2BS66/XSrDJiP6Yt7UmjlXDbEsdmBMV4jeqTYB4=;
+        b=E5xcQzYCJinBkCqDCJVbzR36vn+R6S5qJXxBDi05rs0AtaIMp8rBilIkCDLnzVla8V
+         Qknclo5HZRmCxpMm3hF6nueKWM4Ti58SZd5W6cyWpmh4OYGj73Y8H5+jaA7mIKZ7Zs4U
+         X2bjBgB/dD2+htc7DRqx+Ox6AxfEBfH+OcFyYlzuidkzvdxFJ9yBiNqErUsugCP3YBj4
+         ZNUeTM1MRHfetBK4/yX6cXH9bMqRLighqwBkrhZ99tiArSDwP6Dzgb6y8pzSlZS3rTmJ
+         2f7psuE0ktpEuV8IZIYPCkHr0VAu8blptRWIttRsvQkWpwxPiiv0X2qEKKk6TTHQtJfV
+         Q1uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uQV4T/D00CJ/ygzy9sj7P/AoFBwXwhKdzgdcMmOX8Rs=;
-        b=Sy4zJMjPnc9Nrwdfn0yLzDz8ysnUy9p/ufI9ANrKlVu/qgg1zcrIi9ZQ2Shw1hwkJS
-         gtBbSiclkTkZH6GE0VU6dFRX2mE0dhdu9EDFB21HCr4UD16ivSRfUGbxkkmqi1e40Htn
-         jZ3wWeIWZPkoMv6vixHoRaxdbhicir0YmDtj+6IQufyIWTxGHUIBbORiu6FtFuyvIdDu
-         FdHvq1/qONpwYonWHrDzDUzIRxuIc8JmVtX0XuQoeqALb+R3Bn6AWsewytd4P7QExGIp
-         Zl3JTYMKtpUi9GJCKoxmB+iQyzQnLe9veCltaPqnDtI1rYDMCUbeEnQ9FbBxUsyqtJQ/
-         FnIA==
-X-Gm-Message-State: AOAM5338JAkE+rIwY5ebX6JuymBokIsTzbQcFKdWdfR5yuPzmhp2r486
-	CVoJyLZSK7raFfpGhY+Gj50=
-X-Google-Smtp-Source: ABdhPJzAa9xFpERdrvjYh23on+WS7Qi0ovrUCS3EkiR6XULJ/lZhvMKLOJYvPu9iXKvt01ZXIA8eUg==
-X-Received: by 2002:a05:6402:e:b0:423:d5ff:8fce with SMTP id d14-20020a056402000e00b00423d5ff8fcemr41453209edu.407.1651246117121;
-        Fri, 29 Apr 2022 08:28:37 -0700 (PDT)
-Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
-        by smtp.gmail.com with ESMTPSA id e13-20020a170906844d00b006f3ef214dc3sm737910ejy.41.2022.04.29.08.28.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Apr 2022 08:28:36 -0700 (PDT)
-From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Geis <pgwipeout@gmail.com>, Michael Riesch <michael.riesch@wolfvision.net>, Liang Chen <cl@rock-chips.com>, Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Kever Yang <kever.yang@rock-chips.com>
-Subject: Re: [PATCH 0/3] Enable JPEG Encoder on RK3566/RK3568
-Date: Fri, 29 Apr 2022 17:28:35 +0200
-Message-ID: <2438841.KJ31GcehEG@archbook>
-In-Reply-To: <198ce3981ad15844627581f9519cab67ed2a81c1.camel@ndufresne.ca>
-References: <20220427224438.335327-1-frattaroli.nicolas@gmail.com> <198ce3981ad15844627581f9519cab67ed2a81c1.camel@ndufresne.ca>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=CxIK2BS66/XSrDJiP6Yt7UmjlXDbEsdmBMV4jeqTYB4=;
+        b=DIRDFalJ/3NSs/jx75sxW8lN21yw0Ya3Cq/fHTV72joQ7rrZu21eobWlwBoh8hueuS
+         mopKMX6cQpGsNLJk1xnxNHgavUeG6TTfTQAlHJwapu0PebR0pYDBCpPynOEoOu1ipWSc
+         89tCfN7yj5wyC6q9pVvqw+q4/Swlp64ZGSN4/q2Ut1HOgxlCHquQVtHWcZS/gqW0FG+Y
+         N2BTVYfg1to9HqPlaDImFM2wepX3+PTOUy/DOD3ehpi38B/MBkPH7k1scLKOq6TqJIim
+         QY5onZWlSi2GFf3qD2oT3hmB5Laj/ySfl7W3yxllWNuirwwGkh5Ebb41fIkdE8m2yO7/
+         eS3g==
+X-Gm-Message-State: AOAM532YHejTScykxP4cSB0izQ4/OZeeydrGw1yP3UkiexObaKxWYpNx
+	tMAjvUJBBl/40fxK1Ul73xw=
+X-Google-Smtp-Source: ABdhPJx2xpS59apduiN7PTuBQBoynkI/bvGG3RrPNY8RNFnaEKFAq5lC9hn1Rb9whfcDv/OzqZWHZQ==
+X-Received: by 2002:a17:906:b50:b0:6f3:ce99:3c39 with SMTP id v16-20020a1709060b5000b006f3ce993c39mr12005703ejg.52.1651246327030;
+        Fri, 29 Apr 2022 08:32:07 -0700 (PDT)
+Received: from ?IPV6:2003:c7:8f1b:f037:b0af:cce5:5488:7b95? (p200300c78f1bf037b0afcce554887b95.dip0.t-ipconnect.de. [2003:c7:8f1b:f037:b0af:cce5:5488:7b95])
+        by smtp.gmail.com with ESMTPSA id qp24-20020a170907a21800b006f3ef214dfbsm736419ejc.97.2022.04.29.08.32.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Apr 2022 08:32:06 -0700 (PDT)
+Message-ID: <1d70d285-c839-8e5a-e3f8-d5184acdf769@gmail.com>
+Date: Fri, 29 Apr 2022 17:32:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 3/3] staging: vt6655: Replace VNSvInPortD with ioread32
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <cover.1651036713.git.philipp.g.hortmann@gmail.com>
+ <7a5f7f98379fb2af2741f613f5ddda53e5d4813e.1651036713.git.philipp.g.hortmann@gmail.com>
+ <Ymjaxby2vDJYz6KA@kroah.com> <b3d6b773-4ca1-a72e-933b-455c5d2b91c9@gmail.com>
+ <YmwDZi3mmWRHzKAT@kroah.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <YmwDZi3mmWRHzKAT@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Freitag, 29. April 2022 16:46:01 CEST Nicolas Dufresne wrote:
-> Le jeudi 28 avril 2022 =E0 00:44 +0200, Nicolas Frattaroli a =E9crit :
-> > Hello,
-> >=20
-> > the following series adds support for and enables the hardware JPEG
-> > encoder on the RK3566 and RK3568 line of SoCs by Rockchip.
-> >=20
-> > The JPEG encoder is its own little Hantro instance with seemingly just
-> > the encode functionality.
->=20
-> I'm a little suspicious about this statement. I believe the Hantro combo =
-is
-> identical to RK3399 and that you are confusing with Rockchip JPEG encoder=
- here.
-> Here's the source of my suspicion:
->=20
-> https://github.com/JeffyCN/rockchip_mirrors/blob/mpp/osal/mpp_soc.cpp#L637
->=20
-> As this get burnt into DT, we really need to get this right. Perhaps we n=
-eed to
-> run the reference software to verify ? Ping me if you need help with that.
+On 4/29/22 17:25, Greg Kroah-Hartman wrote:
+> And for a big endian system?  Do you get the same result?
 
-I believe there's three separate questions here:
+Just looking if I can buy one.
 
-A) is this a Hantro instance with more than just JPEG encoding?
-B) is this the same as the other[1] Hantro instance, just with a bigger
-   offset for the encoder?
-C) if A is true and B is false, does this also have decoders?
+Can you propose a low cost big endian system with PCI bus?
 
-I think I can only answer B). I do not think fdee0000 is the same hardware
-instance as fdea0400. They are in different power domains (yes, this one
-being in the RGA PD is correct according to downstream code, TRM and my
-own testing). They also have their own MMU each.
+Thanks for your support.
 
-Your findings point towards A) being true. I'd love to be able to just
-throw a mainline VP8 or H.264 driver at it to check, but that sadly does
-not exist yet. Upon checking the TRM again, it seems it documents
-registers for H.264 as well.
-
-However I can do this to answer C), and I will once I get the time.
-It would be somewhat surprising if there was a hidden third H.264
-decoder on this chip.
-
-I'll also CC Kever Yang from rockchip, maybe he can shine some light on
-this.
-
-Regards,
-Nicolas Frattaroli
-
-[1]: https://patchwork.kernel.org/project/linux-rockchip/patch/202202142129=
-55.1178947-2-piotr.oniszczuk@gmail.com/
-
->=20
-> >=20
-> > The first patch modifies the bindings with a new compatible, and adds
-> > the ability to just have a vepu interrupt without a vdpu interrupt.
-> >=20
-> > The second patch makes the actual driver changes to support this varian=
-t.
-> >=20
-> > The third and final patch makes the necessary device tree changes for
-> > the rk356x device tree file to add both the node for the encoder and
-> > its MMU.
-> >=20
-> > The series has been tested on a PINE64 Quartz64 Model A with an RK3566
-> > SoC using GStreamer.
-> >=20
-> > Regards,
-> > Nicolas Frattaroli
-> >=20
-> > Nicolas Frattaroli (3):
-> >   dt-bindings: media: rockchip-vpu: Add RK3568 JPEG compatible
-> >   media: hantro: Add support for RK356x JPEG encoder
-> >   arm64: dts: rockchip: Add JPEG encoder node to rk356x
-> >=20
-> >  .../bindings/media/rockchip-vpu.yaml          |  2 +
-> >  arch/arm64/boot/dts/rockchip/rk356x.dtsi      | 21 +++++++
-> >  drivers/staging/media/hantro/hantro_drv.c     |  1 +
-> >  drivers/staging/media/hantro/hantro_hw.h      |  1 +
-> >  .../staging/media/hantro/rockchip_vpu_hw.c    | 62 +++++++++++++++++++
-> >  5 files changed, 87 insertions(+)
-> >=20
->=20
->=20
-
-
+Bye Philipp
 
 
