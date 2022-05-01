@@ -1,59 +1,48 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3D629AD
-	for <linux-staging@lists.linux.dev>; Sat, 30 Apr 2022 23:01:42 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 65C2A32000CC;
-	Sat, 30 Apr 2022 19:01:41 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sat, 30 Apr 2022 19:01:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cason.dev; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
-	1651359700; x=1651446100; bh=N/xeKdPiEGiMGCUIqrcz5n0qw0xVZiMTqUU
-	GOCEZfzc=; b=H8UoztDdES/iObmUIaqWkf6EgKg+N0hBgJJpKyFPMRqrKIWOHcw
-	cRVnyX3zUCg/DKY5UiuxcGR6/PxkiLgN1t+fRuF+GDAxix+Ojz/833acfYUZWqdT
-	rGrcry1ab80iRUUBonSe9/nvUnOe61MjfMR1NyKUi1EfVDOS8OJ2hAxeC1gQucMo
-	ngWk7dNP0qqeEr0mbIO+8+1wMzJ3gAycnA3NJkcuSvZqF6FDHOl7nVw7c+pTZnqq
-	rwue4igYcNsIu+Gsql5974uwKaDyERg6BPtYuCl3wLl9wpPHZRPXwoe3M8FiUGXd
-	KTo4C7z3jMhtg2Sd2Qu1FJQOEMVPJDO5fbg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1651359700; x=1651446100; bh=N/xeKdPiEGiMG
-	CUIqrcz5n0qw0xVZiMTqUUGOCEZfzc=; b=O/ofyBUmAYq6TOE8LOhlp2WFjqVBU
-	93nfmZ0C9UKu0h9TdPUEW81BdvQRWagFl19aEQcUfxCo7zleVxP/SZ4JWT4UcUWY
-	6niaGQznhT5WBqnF+UumoL6MB8QPl8pSd4sUDDxK7pBqzs2jnADjpEOu+o4CE7GP
-	m3zNqKcsh/rceIGHKP9nhzswOuGVFKsh0bj79Prr3dsUFQsQ0yFpsykTX0rh9Maa
-	ynoJz0KSRfDqmJXlJzV/IUpNC64GtOTzvdTE6IAJ7XxYw2QUNKDH8vEqBcSHS4qv
-	o29TdBZfMoL8IlLz2ukTwCMhU2pqd8Q2slnmx9Y7GvYt4bZTPlEDN4vOw==
-X-ME-Sender: <xms:1L9tYrwcDEHNDa-HeNZyHWN3ulf2lsx3YdOjE6TdnmTEWl5KYu6hwQ>
-    <xme:1L9tYjRAP2Ep-EXbdUBVVHMRRHoMDtziYQnZOBtJRhthRwJzluXdaZRudKJIfVevI
-    3_Rl0hs6qJ-ZQe9Mng>
-X-ME-Received: <xmr:1L9tYlVm7XoZofLypOihyXh2-av7C4cRMi9cGrXJJwN-76-Vf1c-zBv8KXx2>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvgdduhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkgggtugesthdtredttd
-    dtvdenucfhrhhomheppfhitghkrghlrghsucevrghsohhnuceonhhitghkrghlrghssegt
-    rghsohhnrdguvghvqeenucggtffrrghtthgvrhhnpedtudeihfdtffdutdejleelvdefhf
-    ekuedtledvjedukeffueetheetfeejjeevleenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehnihgtkhgrlhgrshestggrshhonhdruggvvh
-X-ME-Proxy: <xmx:1L9tYlhcRPJa4uTFqj86awSizIit4aHgIQeMrZ0nG0tAlpPoSh_M5g>
-    <xmx:1L9tYtAldj83_iaosVXKpt3qCplAXmyphINP6YAQ_I48IrR2x5wk2A>
-    <xmx:1L9tYuKV7ecOzhbo7vNWWSfPewLqZtmSRTl2EDbVQWL2LE9beAZtmA>
-    <xmx:1L9tYg6e9FaxS6kH8NHq0BKru4Dz-ilBRsNtfOC8WQtaoBcajQyo-A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 30 Apr 2022 19:01:40 -0400 (EDT)
-Date: Sat, 30 Apr 2022 19:01:39 -0400
-From: Nickalas Cason <nickalas@cason.dev>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	greybus-dev@lists.linaro.org, hvaibhav.linux@gmail.com,
-	johan@kernel.org, elder@kernel.org
-Subject: [PATCH] staging: greybus: correct typo in comment
-Message-ID: <20220430230139.7i772mvejlhevamn@desktop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4C823C7
+	for <linux-staging@lists.linux.dev>; Sun,  1 May 2022 16:37:02 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id t5so3643929edw.11
+        for <linux-staging@lists.linux.dev>; Sun, 01 May 2022 09:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=cHz2Chb4WauAyCgl7HzeNesuAPLoMUd1ln+Xeg1BqlU=;
+        b=eIICAgahx1Pi255U+g/Kk9Q7E5jEghl2OH+0vD0b58A9Qf9WLKIXcSVkxW3MxGQE/V
+         iifLdPlHOgbvsQ4jkFjZG5oI4vZWjpKsXXs9oowHCCCELnPzNZsQpgZSKxxcDH4rE2x9
+         b8CGqLFBfHniTLTO3c5XT+ocNkkO4dahCO6AbwQwjSMch3TAWaH5jWKGm2zWZA9jyNTE
+         feFklMibUOADm9SjVMl5vEs+XRB6Q4pYlLIXPCsHqPz1pUTLOpdwAJuJFNwHE6fXaSef
+         u9nUoiNecC55Zkv+5dy31XOhkzXoSLHQF4BLSWqwWb+uVve6qQbMWxV7GaScdQbMfiIl
+         9mkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=cHz2Chb4WauAyCgl7HzeNesuAPLoMUd1ln+Xeg1BqlU=;
+        b=hPuTOxqR1YGehpxSFg1YBNF6bYKBTz12zX87e5/r8QiMfKvvMSNnDzMukTOqXwR28Q
+         xftlKeagfIXZ9eHGh68Mahr57Qq9gCPkWJfSorfzMAWvuRSLKZU77m58uDAolT/ETWLv
+         4D+bZL4TzYfEWqBIqwt1mRFlnxXzvV7/F7C7c8X7Mhe8/eCBC4RRSZsLR470Uv2a8wII
+         SJjRWimPWr9drGI2Gw5igmzRTEBolK8hCe1IXPVnZLmu93POns2940nYySCIc++6gNqu
+         f5FPTwhIYbO4hmzl3urNxRbmzx9HDO3/kCUCLEK1zml/yXRFkDHveaQ4z1PSbY+Mp9zQ
+         bXfA==
+X-Gm-Message-State: AOAM5322A2Y65C//qzrdnB9e/zSE9EFFmEnhrCBiD9uhmx+4sSIBx7OG
+	rFtduPkiqZJHGJvkITCzDrU=
+X-Google-Smtp-Source: ABdhPJz4KRMo8eAqZm23yzk/ee5LqUPVku/+0DMinYuo7KtVI/w2jd5IdlzNDGxF29rOKpZtADHcNw==
+X-Received: by 2002:aa7:d708:0:b0:427:b5ee:b8f2 with SMTP id t8-20020aa7d708000000b00427b5eeb8f2mr4594397edq.404.1651423021044;
+        Sun, 01 May 2022 09:37:01 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p54a074e9.dip0.t-ipconnect.de. [84.160.116.233])
+        by smtp.gmail.com with ESMTPSA id u5-20020a056402064500b0042617ba63a0sm5551023edx.42.2022.05.01.09.36.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 May 2022 09:37:00 -0700 (PDT)
+Date: Sun, 1 May 2022 18:36:48 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] staging: vt6655: Fix name and return value of
+ CARDbGetCurrentTSF
+Message-ID: <cover.1651422181.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,26 +52,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Correct misspelling in comment. Issue found with checkpatch.
+Fix name of the function that uses CamelCase which
+is not accepted by checkpatch.pl
 
-Signed-off-by: Nickalas Cason <nickalas@cason.dev>
----
- drivers/staging/greybus/arche-platform.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Replace unused return value.
 
-diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-index e374dfc0c92f..fcbd5f71eff2 100644
---- a/drivers/staging/greybus/arche-platform.c
-+++ b/drivers/staging/greybus/arche-platform.c
-@@ -591,7 +591,7 @@ static __maybe_unused int arche_platform_suspend(struct device *dev)
- static __maybe_unused int arche_platform_resume(struct device *dev)
- {
- 	/*
--	 * Atleast for ES2 we have to meet the delay requirement between
-+	 * At least for ES2 we have to meet the delay requirement between
- 	 * unipro switch and AP bridge init, depending on whether bridge is in
- 	 * OFF state or standby state.
- 	 *
+Tested with vt6655 on mini PCI Module
+Transferred this patch over wlan connection of vt6655
+
+Philipp Hortmann (2):
+  staging: vt6655: Rename function CARDbGetCurrentTSF
+  staging: vt6655: Replace unused return value of card_get_current_tsf
+
+ drivers/staging/vt6655/card.c        | 22 ++++++++++------------
+ drivers/staging/vt6655/card.h        |  2 +-
+ drivers/staging/vt6655/device_main.c |  2 +-
+ 3 files changed, 12 insertions(+), 14 deletions(-)
+
 -- 
-2.35.1
+2.25.1
 
