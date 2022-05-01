@@ -1,27 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A0C2907
-	for <linux-staging@lists.linux.dev>; Sun,  1 May 2022 16:53:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96444C385A9;
-	Sun,  1 May 2022 16:53:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1651423989;
-	bh=nkjHtAJ4XLlAFk1INlv36kPJqLeaDiFCFeY0oL7x8Vo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QJRCCCNcwfEFyUnEvQxuaGu3PICioUHQah5L43GkUUnMidPPm3E9+9Vtc4rVE3gRw
-	 kgRaFov0/mgd1zze/UrFCQYvRl5ZTYmVatfetoAFnwtXm8cX/wWFm2Z/vmBgHBjLek
-	 PMtdoXRsF1uzAd0BJA1ECjQMvazKGkPIkYX5o1dI=
-Date: Sun, 1 May 2022 18:53:02 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: vt6655: Replace unused return value of
- card_get_current_tsf
-Message-ID: <Ym667tWcJtK08lm5@kroah.com>
-References: <cover.1651422181.git.philipp.g.hortmann@gmail.com>
- <2533d7e6b64660e0c23e495a56737fc35b2f916b.1651422181.git.philipp.g.hortmann@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787B52918
+	for <linux-staging@lists.linux.dev>; Sun,  1 May 2022 19:12:21 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id k27so14519297edk.4
+        for <linux-staging@lists.linux.dev>; Sun, 01 May 2022 12:12:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=bu36tlVzH2TzQVlLJMW7gM0JgO8yhlXPH5ve+Eml/9U=;
+        b=hmYvXCw0SPn2D5pLbRsmDBrttlEMEi3SyjZe51wsnm3Gx8MYMhiq0mXwWzm4+9mXY5
+         cWqQnP5fFpsE+fKvZ2bL2OrS+6NOsIslMll7vPefhQc8W3UtB/AyboUDjm77WGTaqUvN
+         I01c/VZNroCUv8/junbHfHmQWhBHQzJE/G4qzCxOWs9d8gWXSU9oi/6smvtLz3FNsbsw
+         keoZa8LXjEIynemMVlpLVcg6vS9o8J/e1+tGowFv0PHHR6Obik3oK0Yif1H1kxKzyISn
+         rYdBmleBKGSRjR6/+tWZuxDAIp9tcJKgMGRMiV4d6KLg4iEhx64cavEqS5kVa9iavVYb
+         dwWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=bu36tlVzH2TzQVlLJMW7gM0JgO8yhlXPH5ve+Eml/9U=;
+        b=W+W2wDivch0KL50pzo+FWEuHWEGluTcW3++RaK0FLgfOwuL/pwFLnNNou8oji0BqKa
+         1RFKVCNrPLtuCwGWtyOULLrpUhGyzcuU3bor5aRb+Yy5yryCGFdBnljQSm7WnktH1TBK
+         ZP5JuUVUGmbdorNSE21JEErCfluzwjx+/2LSs+vWhKYQhg7gFJe1STuB49pQbifG/LHv
+         Z4Xpk1xNFW+jki2ZMWVYNeGUkjxSk7gtmYr7BhhyhSfNfg3IB5mw3x2LvKrYTE1a+WFY
+         xU/nqxoRYgdCiz2c0CzzUINDSs2+t1332ADFP4EIkCFrNmQXPGROqYqggyYZSkYf/3/a
+         Y2TQ==
+X-Gm-Message-State: AOAM532z5J9dFWSDbF3yfL/otPrswiRJ9KPEKVst2uxc22JQ+q6IocAT
+	bIXiZcb+gkdDApkpJ8KV3Ys=
+X-Google-Smtp-Source: ABdhPJxt2AONBLjn4RBEEiYGSXxfpWEW4Kqt75rIEjmMDyOyywhy6NhiYFtTaIGkYemOHbIkHxORlA==
+X-Received: by 2002:a05:6402:154:b0:423:dba8:c7fc with SMTP id s20-20020a056402015400b00423dba8c7fcmr10080821edu.346.1651432339643;
+        Sun, 01 May 2022 12:12:19 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p54a074e9.dip0.t-ipconnect.de. [84.160.116.233])
+        by smtp.gmail.com with ESMTPSA id e16-20020a50fb90000000b0042617ba63d7sm5626288edq.97.2022.05.01.12.12.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 May 2022 12:12:19 -0700 (PDT)
+Date: Sun, 1 May 2022 21:12:17 +0200
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	David Laight <David.Laight@ACULAB.COM>
+Subject: [PATCH v5 0/2] staging: vt6655: Replace macro VNSvInPortD with
+ ioread32()
+Message-ID: <cover.1651431640.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,104 +52,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2533d7e6b64660e0c23e495a56737fc35b2f916b.1651422181.git.philipp.g.hortmann@gmail.com>
 
-On Sun, May 01, 2022 at 06:37:11PM +0200, Philipp Hortmann wrote:
-> Replace unused return value with u64 to increase readability,
-> reduce address and dereference operators and omit pqwCurrTSF that
-> uses CamelCase which is not accepted by checkpatch.pl
-> 
-> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-> ---
-> Diffs for testing:
->         u64 qwNextTBTT;
-> 
->         qwNextTBTT = card_get_current_tsf(priv); /* Get Local TSF counter */
-> +       dev_info(&priv->pcid->dev, "CARDbSetBeaconPeriod 0x%016llx", qwNextTBTT);
+Replace macro VNSvInPortD with ioread32.
+Avoid cast of the return value as much as possible.
+The name of macro and the arguments use CamelCase which
+is not accepted by checkpatch.pl
 
-Don't put a diff in a diff please, git _should_ handle it, but I know
-other tools that will choke on it.
+Added missing big-endian support in CARDbGetCurrentTSF.
 
->         qwNextTBTT = CARDqGetNextTBTT(qwNextTBTT, wBeaconInterval);
-> 
->         /* set HW beacon interval */
-> @@ -810,7 +810,7 @@ void CARDvSetFirstNextTBTT(struct vnt_private *priv,
->         u64 qwNextTBTT;
-> 
->         qwNextTBTT = card_get_current_tsf(priv); /* Get Local TSF counter */
-> +       dev_info(&priv->pcid->dev, "CARDvSetFirstNextTBTT 0x%016llx", qwNextTBTT);
->         qwNextTBTT = CARDqGetNextTBTT(qwNextTBTT, wBeaconInterval);
->         /* Set NextTBTT */
->         VNSvOutPortD(iobase + MAC_REG_NEXTTBTT, (u32)qwNextTBTT);
-> Log:
-> vt6655 0000:01:05.0: CARDbSetBeaconPeriod  0x00 00 00 01 4a 89 52 c4
-> vt6655 0000:01:05.0: CARDvSetFirstNextTBTT 0x00 00 00 01 4a 89 52 dc
-> ---
->  drivers/staging/vt6655/card.c        | 20 +++++++++-----------
->  drivers/staging/vt6655/card.h        |  2 +-
->  drivers/staging/vt6655/device_main.c |  2 +-
->  3 files changed, 11 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-> index d1dfd96e13b7..50d70ebff83a 100644
-> --- a/drivers/staging/vt6655/card.c
-> +++ b/drivers/staging/vt6655/card.c
-> @@ -288,7 +288,7 @@ bool CARDbUpdateTSF(struct vnt_private *priv, unsigned char byRxRate,
->  	u64 local_tsf;
->  	u64 qwTSFOffset = 0;
->  
-> -	card_get_current_tsf(priv, &local_tsf);
-> +	local_tsf = card_get_current_tsf(priv);
+Tested with vt6655 on mini PCI Module
+Transferred this patch over wlan connection of vt6655
 
-{sigh}  I should read all patches in the series before complaining about
-previous ones, sorry about that.
+V1 -> V2: Removed patch "staging: vt6655: Replace VNSvInPortW with ioread16"
+          as it was already accepted.
+          Joint patch "Replace two VNSvInPortD with ioread64_lo_hi" with 
+          patch "Replace VNSvInPortD with ioread32" and changed ioread64 to 
+          two ioread32 as ioread64 does not work with 32 Bit computers.
+          Shorted and simplified patch descriptions.          
+V2 -> V3: Added missing version in subject lines
+          Added change history in cover letter
+          Removed remark in cover letter "This patch series is new.."
+          as it is obsolet.
+V3 -> V4: Added patch: "Added missing BE support in CARDbGetCurrentTSF"
+          Removed testing example from cover letter and placed it to the
+          patches.
+V4 -> V5: Corrected patch: "Added missing BE support in CARDbGetCurrentTSF"
+          from #ifdef __BIG_ENDIAN to le64_to_cpu()
 
-Looks much better, except for the function name.
+Philipp Hortmann (2):
+  staging: vt6655: Replace VNSvInPortD with ioread32
+  staging: vt6655: Added missing BE support in CARDbGetCurrentTSF
 
+ drivers/staging/vt6655/card.c        |  6 ++++--
+ drivers/staging/vt6655/device_main.c |  6 +++---
+ drivers/staging/vt6655/mac.h         | 18 +++++++++---------
+ drivers/staging/vt6655/rf.c          |  2 +-
+ drivers/staging/vt6655/upc.h         |  3 ---
+ 5 files changed, 17 insertions(+), 18 deletions(-)
 
+-- 
+2.25.1
 
->  
->  	if (qwBSSTimestamp != local_tsf) {
->  		qwTSFOffset = CARDqGetTSFOffset(byRxRate, qwBSSTimestamp,
-> @@ -320,9 +320,9 @@ bool CARDbUpdateTSF(struct vnt_private *priv, unsigned char byRxRate,
->  bool CARDbSetBeaconPeriod(struct vnt_private *priv,
->  			  unsigned short wBeaconInterval)
->  {
-> -	u64 qwNextTBTT = 0;
-> +	u64 qwNextTBTT;
->  
-> -	card_get_current_tsf(priv, &qwNextTBTT); /* Get Local TSF counter */
-> +	qwNextTBTT = card_get_current_tsf(priv); /* Get Local TSF counter */
->  
->  	qwNextTBTT = CARDqGetNextTBTT(qwNextTBTT, wBeaconInterval);
->  
-> @@ -739,7 +739,7 @@ u64 CARDqGetTSFOffset(unsigned char byRxRate, u64 qwTSF1, u64 qwTSF2)
->   *
->   * Return Value: true if success; otherwise false
->   */
-> -bool card_get_current_tsf(struct vnt_private *priv, u64 *pqwCurrTSF)
-> +u64 card_get_current_tsf(struct vnt_private *priv)
->  {
->  	void __iomem *iobase = priv->port_offset;
->  	unsigned short ww;
-> @@ -753,16 +753,14 @@ bool card_get_current_tsf(struct vnt_private *priv, u64 *pqwCurrTSF)
->  			break;
->  	}
->  	if (ww == W_MAX_TIMEOUT)
-> -		return false;
-> +		return 0;
->  	low = ioread32(iobase + MAC_REG_TSFCNTR);
->  	high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
->  #ifdef __BIG_ENDIAN
-
-Note, this #ifdef really should never be in kernel code if you are doing
-things properly.  There are functions to handle this correctly...
-
-Things get "fun" when you have devices in one endian running on busses
-of other endian.  Hopefully this driver never has to deal with that, but
-for many others we do, so please stick with the normal functions to
-handle this whenever possible.
-
-thanks,
-
-greg k-h
