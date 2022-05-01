@@ -1,26 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769742907
-	for <linux-staging@lists.linux.dev>; Sun,  1 May 2022 16:50:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F682C385AA;
-	Sun,  1 May 2022 16:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A0C2907
+	for <linux-staging@lists.linux.dev>; Sun,  1 May 2022 16:53:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96444C385A9;
+	Sun,  1 May 2022 16:53:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1651423854;
-	bh=UuPQPRcvBuddGzSocSImJOFLMKh6Eo2G60SPZFrwkNA=;
+	s=korg; t=1651423989;
+	bh=nkjHtAJ4XLlAFk1INlv36kPJqLeaDiFCFeY0oL7x8Vo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Dvrw/CiftCprwtwgCxWY+XOi4xKcPdJFYVHYV8AB4qxzZoX8CWDIgCdjNrx3Ej6gK
-	 0LMAPMl8v4kZEkcFHERHruK22hk7XPo+o8cw5h73mPI/aIrATsn10DbKDYVU/hTRxM
-	 VA3TcwIMo+LHzj+YiW5TXqUelL/BwF7XceTxX1hc=
-Date: Sun, 1 May 2022 18:50:15 +0200
+	b=QJRCCCNcwfEFyUnEvQxuaGu3PICioUHQah5L43GkUUnMidPPm3E9+9Vtc4rVE3gRw
+	 kgRaFov0/mgd1zze/UrFCQYvRl5ZTYmVatfetoAFnwtXm8cX/wWFm2Z/vmBgHBjLek
+	 PMtdoXRsF1uzAd0BJA1ECjQMvazKGkPIkYX5o1dI=
+Date: Sun, 1 May 2022 18:53:02 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 Cc: Forest Bond <forest@alittletooquiet.net>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: vt6655: Rename function CARDbGetCurrentTSF
-Message-ID: <Ym66R9hpFgRikNx7@kroah.com>
+Subject: Re: [PATCH 2/2] staging: vt6655: Replace unused return value of
+ card_get_current_tsf
+Message-ID: <Ym667tWcJtK08lm5@kroah.com>
 References: <cover.1651422181.git.philipp.g.hortmann@gmail.com>
- <1f38006d7eb18426a2336b7666d385021bf81faf.1651422181.git.philipp.g.hortmann@gmail.com>
+ <2533d7e6b64660e0c23e495a56737fc35b2f916b.1651422181.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,48 +30,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1f38006d7eb18426a2336b7666d385021bf81faf.1651422181.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <2533d7e6b64660e0c23e495a56737fc35b2f916b.1651422181.git.philipp.g.hortmann@gmail.com>
 
-On Sun, May 01, 2022 at 06:37:05PM +0200, Philipp Hortmann wrote:
-> The name of the function uses CamelCase which
-> is not accepted by checkpatch.pl
+On Sun, May 01, 2022 at 06:37:11PM +0200, Philipp Hortmann wrote:
+> Replace unused return value with u64 to increase readability,
+> reduce address and dereference operators and omit pqwCurrTSF that
+> uses CamelCase which is not accepted by checkpatch.pl
 > 
 > Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 > ---
->  drivers/staging/vt6655/card.c        | 10 +++++-----
+> Diffs for testing:
+>         u64 qwNextTBTT;
+> 
+>         qwNextTBTT = card_get_current_tsf(priv); /* Get Local TSF counter */
+> +       dev_info(&priv->pcid->dev, "CARDbSetBeaconPeriod 0x%016llx", qwNextTBTT);
+
+Don't put a diff in a diff please, git _should_ handle it, but I know
+other tools that will choke on it.
+
+>         qwNextTBTT = CARDqGetNextTBTT(qwNextTBTT, wBeaconInterval);
+> 
+>         /* set HW beacon interval */
+> @@ -810,7 +810,7 @@ void CARDvSetFirstNextTBTT(struct vnt_private *priv,
+>         u64 qwNextTBTT;
+> 
+>         qwNextTBTT = card_get_current_tsf(priv); /* Get Local TSF counter */
+> +       dev_info(&priv->pcid->dev, "CARDvSetFirstNextTBTT 0x%016llx", qwNextTBTT);
+>         qwNextTBTT = CARDqGetNextTBTT(qwNextTBTT, wBeaconInterval);
+>         /* Set NextTBTT */
+>         VNSvOutPortD(iobase + MAC_REG_NEXTTBTT, (u32)qwNextTBTT);
+> Log:
+> vt6655 0000:01:05.0: CARDbSetBeaconPeriod  0x00 00 00 01 4a 89 52 c4
+> vt6655 0000:01:05.0: CARDvSetFirstNextTBTT 0x00 00 00 01 4a 89 52 dc
+> ---
+>  drivers/staging/vt6655/card.c        | 20 +++++++++-----------
 >  drivers/staging/vt6655/card.h        |  2 +-
 >  drivers/staging/vt6655/device_main.c |  2 +-
->  3 files changed, 7 insertions(+), 7 deletions(-)
+>  3 files changed, 11 insertions(+), 13 deletions(-)
 > 
 > diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-> index ec6fd185d3fd..d1dfd96e13b7 100644
+> index d1dfd96e13b7..50d70ebff83a 100644
 > --- a/drivers/staging/vt6655/card.c
 > +++ b/drivers/staging/vt6655/card.c
-> @@ -11,7 +11,7 @@
->   *      CARDbAddBasicRate - Add to BasicRateSet
->   *      CARDbIsOFDMinBasicRate - Check if any OFDM rate is in BasicRateSet
->   *      CARDqGetTSFOffset - Calculate TSFOffset
-> - *      CARDbGetCurrentTSF - Read Current NIC TSF counter
-> + *      card_get_current_tsf - Read Current NIC TSF counter
->   *      CARDqGetNextTBTT - Calculate Next Beacon TSF counter
->   *      CARDvSetFirstNextTBTT - Set NIC Beacon time
->   *      CARDvUpdateNextTBTT - Sync. NIC Beacon time
 > @@ -288,7 +288,7 @@ bool CARDbUpdateTSF(struct vnt_private *priv, unsigned char byRxRate,
 >  	u64 local_tsf;
 >  	u64 qwTSFOffset = 0;
 >  
-> -	CARDbGetCurrentTSF(priv, &local_tsf);
-> +	card_get_current_tsf(priv, &local_tsf);
+> -	card_get_current_tsf(priv, &local_tsf);
+> +	local_tsf = card_get_current_tsf(priv);
 
-Why is the value being passed as a reference and the error value (if
-any), is not checked at all?
+{sigh}  I should read all patches in the series before complaining about
+previous ones, sorry about that.
 
-Shouldn't this just return the value as it obviously must always work?
-(retorical question, something is wrong here...)
+Looks much better, except for the function name.
 
-And this is a horrible global function name, can you prefix it with the
-driver name to give us a chance to keep the global namespace sane?
-vt6655_get_current_tsf() would be better.
+
+
+>  
+>  	if (qwBSSTimestamp != local_tsf) {
+>  		qwTSFOffset = CARDqGetTSFOffset(byRxRate, qwBSSTimestamp,
+> @@ -320,9 +320,9 @@ bool CARDbUpdateTSF(struct vnt_private *priv, unsigned char byRxRate,
+>  bool CARDbSetBeaconPeriod(struct vnt_private *priv,
+>  			  unsigned short wBeaconInterval)
+>  {
+> -	u64 qwNextTBTT = 0;
+> +	u64 qwNextTBTT;
+>  
+> -	card_get_current_tsf(priv, &qwNextTBTT); /* Get Local TSF counter */
+> +	qwNextTBTT = card_get_current_tsf(priv); /* Get Local TSF counter */
+>  
+>  	qwNextTBTT = CARDqGetNextTBTT(qwNextTBTT, wBeaconInterval);
+>  
+> @@ -739,7 +739,7 @@ u64 CARDqGetTSFOffset(unsigned char byRxRate, u64 qwTSF1, u64 qwTSF2)
+>   *
+>   * Return Value: true if success; otherwise false
+>   */
+> -bool card_get_current_tsf(struct vnt_private *priv, u64 *pqwCurrTSF)
+> +u64 card_get_current_tsf(struct vnt_private *priv)
+>  {
+>  	void __iomem *iobase = priv->port_offset;
+>  	unsigned short ww;
+> @@ -753,16 +753,14 @@ bool card_get_current_tsf(struct vnt_private *priv, u64 *pqwCurrTSF)
+>  			break;
+>  	}
+>  	if (ww == W_MAX_TIMEOUT)
+> -		return false;
+> +		return 0;
+>  	low = ioread32(iobase + MAC_REG_TSFCNTR);
+>  	high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
+>  #ifdef __BIG_ENDIAN
+
+Note, this #ifdef really should never be in kernel code if you are doing
+things properly.  There are functions to handle this correctly...
+
+Things get "fun" when you have devices in one endian running on busses
+of other endian.  Hopefully this driver never has to deal with that, but
+for many others we do, so please stick with the normal functions to
+handle this whenever possible.
 
 thanks,
 
