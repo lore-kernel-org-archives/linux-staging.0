@@ -1,98 +1,91 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F81F2918
-	for <linux-staging@lists.linux.dev>; Sun,  1 May 2022 19:12:33 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id k27so14519572edk.4
-        for <linux-staging@lists.linux.dev>; Sun, 01 May 2022 12:12:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757352918
+	for <linux-staging@lists.linux.dev>; Sun,  1 May 2022 19:44:55 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id i27so24426877ejd.9
+        for <linux-staging@lists.linux.dev>; Sun, 01 May 2022 12:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=fPAKDdmXBdJMtKsOYAMIgR2qPey6myfkQrqj9b4T7kQ=;
-        b=mquq9QDLG4YQOQw2YK+tNZ2CxsDVKs3CmJhirS48PnPHpp38tJ0nAO/MIqZSdSui91
-         6i5LHa/1z8+17KK9I3vtIn9xbWcl1QobgNjyK1oQMbhAJ3s+i2oJ7eg3zRSyIVsC6dbe
-         1sjDsWDM5Bb3Jjv/b1NgU76wlZLdR0E7Pxz/xTafM0eGhdTtAvqXePltZ+GUVEpkUv5c
-         h3z/Ic1/FcfXR8ry9H+38muP0OVNSU7tixPCkb7ufDrNB+ZiiMY8lTBBvuqkzepM3fV5
-         TZuffIg9iBV1Lh2koMDFCFBScJxfIOHBHL9QdzjuBAaXaZwNz8D3E1gp3yT/S7N9psph
-         eXYA==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=lSkWyJ22j/Gy1+rBPKEz6ICjIB7fl5dNRWyogOjMNiA=;
+        b=F9jEL0m5dCExabt9JtdIhocs1L9i3dnwB2TDZqj2ap6Lq+zXvHZ6rHaxGaMOzJDjvI
+         kMMdgwzfDyl3DBbW7dmg8TRcHv3hwSG1wTbl8jHJvHExvCr4azznQuC0sT5XTFE+mI/a
+         2NT2CkJpVfMdv2oyovIOLaojlIf7wM4Iw6WTvb/mHTgEd1k2QSHOoZzmgDr3uNwyo64y
+         aOlVwJEmJasp4nv1V46RVWkxbEwG79jS99v+Sq+5CALFlisDqdlWJy3n/CYcIVD2FWBh
+         YHEz0/GiK25AjEBGws1JygK+td5Kfq8pu98IqWQHVbzgCYKCXGAG6XrcLLqkYNFsylEF
+         3CEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=fPAKDdmXBdJMtKsOYAMIgR2qPey6myfkQrqj9b4T7kQ=;
-        b=cRpWREkd+TfjnCm201hk55ZohGnU2iYJW5VqOndezq2Uo6KaJydpXYmmiAuy5Pumni
-         0NTJIP9jmFiHgXNap/hV+F2gMoA0RnJHUEaWBSRsnt3Q7g/+FIfcOGSqZ5OQ+wlJ/j7N
-         gaPI+1Qu7q6iT4V2Q4HkFl7DkNWkSFX+zle4R2OQNpPLR+s0awpubBYg0hzPvmsM4qXC
-         XlljEHmePWMPH8QOFbTcTcW6Whaa2ruMZ3hpif3totH8ifNnzZ2VJSvT7zVBufx1ftWI
-         FA3VcemYPkD0Cm1QVGWXjoffal/QbL/rgaaUerSwDxW7l/w0UspBPTh5oUKNhAk9GNUj
-         xorg==
-X-Gm-Message-State: AOAM532KpyIyviz7xwnvxZoZKMnXolJ6/j152OFUR/SV8ZvXX6WAcKsB
-	tZwwYc1hsdsF6dGLFGWQ21o=
-X-Google-Smtp-Source: ABdhPJxaCrSAlgVDTRM9GNIuugZBy6CEehr31k/z44uPq8PcEaHBQ1LTDi8j/KGg1Glqfh/ocGQs4w==
-X-Received: by 2002:a05:6402:27c9:b0:427:ba7f:6288 with SMTP id c9-20020a05640227c900b00427ba7f6288mr4332277ede.416.1651432351503;
-        Sun, 01 May 2022 12:12:31 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p54a074e9.dip0.t-ipconnect.de. [84.160.116.233])
-        by smtp.gmail.com with ESMTPSA id hv6-20020a17090760c600b006f3ef214e34sm2833206ejc.154.2022.05.01.12.12.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 May 2022 12:12:31 -0700 (PDT)
-Date: Sun, 1 May 2022 21:12:29 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Laight <David.Laight@ACULAB.COM>
-Subject: [PATCH v5 2/2] staging: vt6655: Added missing BE support in
- CARDbGetCurrentTSF
-Message-ID: <25c80e3eb889ef2e530f26b4a97a9f5fe88e01ab.1651431640.git.philipp.g.hortmann@gmail.com>
-References: <cover.1651431640.git.philipp.g.hortmann@gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=lSkWyJ22j/Gy1+rBPKEz6ICjIB7fl5dNRWyogOjMNiA=;
+        b=lOkwgY2fhVSr2E/lKg5HG+KTnw7JUuamDTNahQI31G+z2R/hkt0AF3FPCG3u0GH001
+         TccNZCY1ULs/27RgRc/DcECgWF3sLGFqoWO6hj/FU4Zjxv6yOcrCssmAcbbOtSnTr8qr
+         cJOmvWEjvNcyWw/6eYAh8udMwHEeS7ozopPQ/FR6FjvCozqRNzLg3G3QP3HRzcn4+eOM
+         lPt3Ikj7RF6Y9PNxpcNbhCDmXPKFUdqUTJWAKHEDpGP3O/wQdzHMw98+IvoMP9n8ENjN
+         xpL89Cl4jA+4ZZYA5lzmDPSU5qNkNE+4DGbZd8AqfvXH35Sc6asrVRvDTc5Ei3iWlwoW
+         nR1A==
+X-Gm-Message-State: AOAM531OxhoXfrvlg1eEOLYOvY7e243Kk1XN0mc22e3pFqAu8+ZiUhBK
+	eVg4nFT5CR3vM/yirKchxHCQQEKUr6y14L0klJvhDDwhaTU=
+X-Google-Smtp-Source: ABdhPJwzwsI+XJN31grZYG7NyEU0V0hcG4a1Fj6YmOYwOlEwwGACzdjSwvtwWqOAYxPX3hRzUK5vgehrAuAUhgD0cgY=
+X-Received: by 2002:a17:907:7815:b0:6ce:5242:1280 with SMTP id
+ la21-20020a170907781500b006ce52421280mr8716226ejc.217.1651434293566; Sun, 01
+ May 2022 12:44:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1651431640.git.philipp.g.hortmann@gmail.com>
+From: Ozgur Kara <zgrieee@gmail.com>
+Date: Sun, 1 May 2022 23:44:42 +0400
+Message-ID: <CAOFRbG=mGdbR72moLtW87ZQW_T1HkhZtcpHRGzZy3NZ7afGVqQ@mail.gmail.com>
+Subject: [5.18.0-rc4+] report: kernel compile
+To: linux-staging@lists.linux.dev, ozgurk@ieee.org
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	torvalds@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-Added missing big-endian support in CARDbGetCurrentTSF.
+Hi,
 
-Reported-by: David Laight <David.Laight@ACULAB.COM>
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-V1 -> V2: Replaced #ifdef __BIG_ENDIAN with le64_to_cpu()
-          Updated below example
+The v5.18.0-rc4+ kernel was automatically tested.
 
-Code for testing:
-low = ioread32(iobase + MAC_REG_TSFCNTR);
-high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
-*pqwCurrTSF = le64_to_cpu(low + ((u64)high << 32));
-dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF little endian: 0x%016llx", *pqwCurrTSF);
-dev_info(&priv->pcid->dev, "CARDbGetCurrentTSF big-endian:    0x%016llx", be64_to_cpu(low + ((u64)high << 32)));
+Hardware:
 
-Log of the microsecond counter:
-vt6655 0000:01:05.0: CARDbGetCurrentTSF little endian: 0x00 00 00 03 6a ce 0d 7d
-vt6655 0000:01:05.0: CARDbGetCurrentTSF big-endian:    0x7d 0d ce 6a 03 00 00 00
-vt6655 0000:01:05.0: CARDbGetCurrentTSF little endian: 0x00 00 00 03 6a ce 0d 89
-vt6655 0000:01:05.0: CARDbGetCurrentTSF big-endian:    0x89 0d ce 6a 03 00 00 00
----
- drivers/staging/vt6655/card.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Asus TUF Gaming (notebook) - PASS
+Samsung RC530 (notebook) - FAIL (1)
+HP Compaq 8100 Elite (Workstation) - PASS
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 0dd13e475d6b..431890e6b8d2 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -756,7 +756,7 @@ bool CARDbGetCurrentTSF(struct vnt_private *priv, u64 *pqwCurrTSF)
- 		return false;
- 	low = ioread32(iobase + MAC_REG_TSFCNTR);
- 	high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
--	*pqwCurrTSF = low + ((u64)high << 32);
-+	*pqwCurrTSF = le64_to_cpu(low + ((u64)high << 32));
- 
- 	return true;
- }
--- 
-2.25.1
+Intel(R) Core(TM) i7-2630QM - PASS
+AMD Ryzen 5 3550H with Radeon Vega Mobile Gfx - PASS
+Intel(R) Core(TM) i3 CPU 550 - PASS
 
+NVIDIA:
+
+1650 - PASS
+1660 TI - PASS
+1080 - PASS
+1080 TI - PASS
+2060 - PASS
+2060 Super - PASS
+2070 Super - PASS
+2080 - PASS
+2080 TI - PASS
+3060 TI - PASS
+3070 - PASS
+
+Motherboard:
+
+MSI Z170A GAMING M7 (SSD, latest BIOS) - PASS
+ASUSTeK PRIME Z270-A (SSD latest BIOS) - PASS
+Gigabyte Z370 HD3-CF (SSD latest BIOS) - PASS
+ASUSTeK PRIME H270-PLUS (SSD latest BIOS) - PASS
+
+Architectures:
+
+Raspberry PI Model B - FAIL (2)
+
+Fail Log:
+
++ nvidia driver fail.
++ scripts/Makefile.build:497: recipe for target 'arch/arm/kernel' failed
