@@ -1,178 +1,120 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E612C9E
-	for <linux-staging@lists.linux.dev>; Sun,  1 May 2022 20:25:45 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id i19so24486945eja.11
-        for <linux-staging@lists.linux.dev>; Sun, 01 May 2022 13:25:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8A32C9E
+	for <linux-staging@lists.linux.dev>; Sun,  1 May 2022 20:29:34 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id bn33so16356729ljb.6
+        for <linux-staging@lists.linux.dev>; Sun, 01 May 2022 13:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BIvoiMNV2suMEQS65MP5bpJiVeZk0XLREaqe1qAhSxU=;
-        b=gyzFpCRv/U6BNSYqzAmCRmCXWJU6HqVl/ku7gQ61xyhMJsArJx68IDOG31jkezrlos
-         1R/jwbqbLWMw7I6d75FW1q5rcXnDuQso+Ei3JisvY3j7Wslf/xLHy4wGSFsP9cNMxLTK
-         oPSz030zyXEmhcDe3m4MOM2yqTQPXpcQVPyRwfvPZYz8g9dOg3+1zLHCr3pQITztg5cZ
-         qG77J0GKonbJWBTxi7vJ+MUqLjG114PwsYF5ZumdP83N73xnkPI6/AO7SWUg5I+UPgx3
-         MyOZx14ori+Si0YY4+j1jNUTOBeeHJ8RByp7TNVeO/27XYHSi5gWyh12npjf+aGgdyHE
-         Zl7A==
+        d=ieee.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0WCdfVPEiIZbfwmSuN4pUHlfdRjDkBGXXq+S9mIzLMw=;
+        b=aBHtGzDZ4qi+VE9Rk91uFJa58dwO9qAdJDh6FRARUFdk71fL/zPNFxPSkRoP9NeGmh
+         s9YO/oxx/Ryl4lRK21Q6tW951kP/GrzfpZH1lTBoQ7lbQzLLSuxJCp6C7aOPJXlCO6Ne
+         mDj53KCXjFDgtdoxLNONkrBR+GF1izY1YvzO4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BIvoiMNV2suMEQS65MP5bpJiVeZk0XLREaqe1qAhSxU=;
-        b=ve7BpqcIVTFR5Wx7I9VuAt0SyT4fTkrf1/tMzrtkIz844RTULiEj8rw8i99YJfZV7B
-         wtqqML2pN1Grs4zIO1SDqDtty8edmuBHzyKM/sjBRBPDVK5ikmcdI876IniCZxjiYko6
-         oppzOMRaXNZDz5qdd9ynZIGEF4tim3vSdrTCZaxVDkEDVLdlIyilKGrCxI2tvcChnozh
-         lkfMqTJWikHESg0vjCw+6EAHsHpe+9zFEYEU/I9lvFSjnHPECL2TwiOVPrd/gwgn8IS6
-         wKJOgf/KDCh4utofG/akZnB6jnTbvbmDQ8U4L265apBdTwJx/LB3WGAC4bxgz1y/KyWr
-         W2ZA==
-X-Gm-Message-State: AOAM532/D2Q5epGAIdpdbDapJRHoQn41lssWU3MXs9r8UanqCTrfUrtB
-	1d7j0qCQv+kR+Tuw5gvDp2A=
-X-Google-Smtp-Source: ABdhPJwQ4YAhxPfsb4bkGuMLmzKYYXZmbLqsnhQuJiuw1zmdbo5kMZZSOTBa/RxC1eR570ihEAwpHA==
-X-Received: by 2002:a17:906:5d08:b0:6da:b4ea:937 with SMTP id g8-20020a1709065d0800b006dab4ea0937mr8849505ejt.446.1651436743984;
-        Sun, 01 May 2022 13:25:43 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p54a074e9.dip0.t-ipconnect.de. [84.160.116.233])
-        by smtp.gmail.com with ESMTPSA id gx10-20020a1709068a4a00b006f3ef214e6bsm2829254ejc.209.2022.05.01.13.25.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 May 2022 13:25:43 -0700 (PDT)
-Date: Sun, 1 May 2022 22:25:41 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] staging vt6655: Replace unused return value of
- vt6655_get_current_tsf
-Message-ID: <62c83d78627196ec0ce2f5a562cb080a1c87a05a.1651435890.git.philipp.g.hortmann@gmail.com>
-References: <cover.1651435890.git.philipp.g.hortmann@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0WCdfVPEiIZbfwmSuN4pUHlfdRjDkBGXXq+S9mIzLMw=;
+        b=hprySmWQqCHci05P1D7mEqZ9Pzx2zykc1Ms7AeGlDQ7I/HpvpheutnKeJQUySD8iNI
+         U7KSshseQfBqRfKY8Z+yYzuAkP9VnHLHWvaEyeKJiruJeB4IJRmtxgN94mO042offhcQ
+         GQQiEKkJwOyaTLf4vrtx9vUIdFZCp2Ntbj6GrbaSZpaFotqvIcprlF3m73KKH+laQWPY
+         gjwS4IbC6GlWXEGdO5QJflAJtxGUOBkSHqxPB1TDCvbMD3KwAceYzTEWdkJu1CXWps0e
+         nCjKujZMMt8teX/OjJcHnngbU3mk81rqhw7xcOprR/wBLJKY8WdZmX9TNWg85B9npyZD
+         485w==
+X-Gm-Message-State: AOAM531HJY/SDStBpuW/xsNq+4iag8CgkDp5ZrlCqTpLZ/SPwnfBeW2c
+	7uMXb2J7SijWuU61tUp10beaN7vlQIW3xPMauEcOZQ==
+X-Google-Smtp-Source: ABdhPJwq0bqP3CIpf7H7b5QMwov+3I4DdcADmIkwqdINAd18fkcLIrD4+yERs89l89xgBUyELXGd+WMuVUjSjvUU+fA=
+X-Received: by 2002:a05:651c:890:b0:248:5819:b949 with SMTP id
+ d16-20020a05651c089000b002485819b949mr6240103ljq.476.1651436973033; Sun, 01
+ May 2022 13:29:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1651435890.git.philipp.g.hortmann@gmail.com>
+References: <CAOFRbG=mGdbR72moLtW87ZQW_T1HkhZtcpHRGzZy3NZ7afGVqQ@mail.gmail.com>
+ <CAHk-=whXp7Ps9ML5ThsX1tvdRg6SKRH3r6MM1-EA_Y8-n+6v2A@mail.gmail.com>
+In-Reply-To: <CAHk-=whXp7Ps9ML5ThsX1tvdRg6SKRH3r6MM1-EA_Y8-n+6v2A@mail.gmail.com>
+From: Ozgur Karatas <ozgurk@ieee.org>
+Date: Mon, 2 May 2022 00:29:21 +0400
+Message-ID: <CAADfD8wdze1z4UX4w54hkumziwD0huJTxYVY+ojkOAXuVa1E=Q@mail.gmail.com>
+Subject: Re: [5.18.0-rc4+] report: kernel compile
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Ozgur Kara <zgrieee@gmail.com>, linux-staging@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Replace unused return value with u64 to increase readability,
-reduce address and dereference operators and omit pqwCurrTSF that
-uses CamelCase which is not accepted by checkpatch.pl
+On Mon, May 2, 2022 at 12:13 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Sun, May 1, 2022 at 12:44 PM Ozgur Kara <zgrieee@gmail.com> wrote:
+> >
+> > Samsung RC530 (notebook) - FAIL (1)
+> > Raspberry PI Model B - FAIL (2)
+> >
+> > Fail Log:
+> >
+> > + nvidia driver fail.
+> > + scripts/Makefile.build:497: recipe for target 'arch/arm/kernel' failed
+>
+> Is there full information available somewhere?
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-V1 -> V2: Updated this patch from changes of previous ones
-          Updated below test
+Hi Linus,
 
-Code for testing:
-void CARDvSetFirstNextTBTT(struct vnt_private *priv,
-			   unsigned short wBeaconInterval)
-	...
-	qwNextTBTT = vt6655_get_current_tsf(priv); /* Get Local TSF counter */
-	dev_info(&priv->pcid->dev, "CARDvSetFirstNextTBTT 0x%016llx", qwNextTBTT);
+this was an e-mail that automatically tests and informs on existing
+hardware now i'm interested understanding issues because i wanted to
+see if its kernel related or not, both seem to be caused by drivers
+and in both of them driver was used with dkms (nvidia and rtl8812au
+wireless).
 
-bool CARDbSetBeaconPeriod(struct vnt_private *priv,
-			  unsigned short wBeaconInterval)
-	...
-	qwNextTBTT = vt6655_get_current_tsf(priv); /* Get Local TSF counter */
-	dev_info(&priv->pcid->dev, "CARDbSetBeaconPeriod  0x%016llx", qwNextTBTT);
+I will be setting up the bot to send mail with details only in the
+perpetrator and perpetrator logs.
+Sorry, Regards.
 
-Log of the microsecond counter:
-vt6655 0000:01:05.0: CARDbSetBeaconPeriod  0x00 00 00 04 65 9f 75 d8
-vt6655 0000:01:05.0: CARDvSetFirstNextTBTT 0x00 00 00 04 65 9f 75 e4
----
- drivers/staging/vt6655/card.c        | 18 ++++++++----------
- drivers/staging/vt6655/card.h        |  2 +-
- drivers/staging/vt6655/device_main.c |  2 +-
- 3 files changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index c8372701bf43..d3c47b37ad3b 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -288,7 +288,7 @@ bool CARDbUpdateTSF(struct vnt_private *priv, unsigned char byRxRate,
- 	u64 local_tsf;
- 	u64 qwTSFOffset = 0;
- 
--	vt6655_get_current_tsf(priv, &local_tsf);
-+	local_tsf = vt6655_get_current_tsf(priv);
- 
- 	if (qwBSSTimestamp != local_tsf) {
- 		qwTSFOffset = CARDqGetTSFOffset(byRxRate, qwBSSTimestamp,
-@@ -320,9 +320,9 @@ bool CARDbUpdateTSF(struct vnt_private *priv, unsigned char byRxRate,
- bool CARDbSetBeaconPeriod(struct vnt_private *priv,
- 			  unsigned short wBeaconInterval)
- {
--	u64 qwNextTBTT = 0;
-+	u64 qwNextTBTT;
- 
--	vt6655_get_current_tsf(priv, &qwNextTBTT); /* Get Local TSF counter */
-+	qwNextTBTT = vt6655_get_current_tsf(priv); /* Get Local TSF counter */
- 
- 	qwNextTBTT = CARDqGetNextTBTT(qwNextTBTT, wBeaconInterval);
- 
-@@ -739,7 +739,7 @@ u64 CARDqGetTSFOffset(unsigned char byRxRate, u64 qwTSF1, u64 qwTSF2)
-  *
-  * Return Value: true if success; otherwise false
-  */
--bool vt6655_get_current_tsf(struct vnt_private *priv, u64 *pqwCurrTSF)
-+u64 vt6655_get_current_tsf(struct vnt_private *priv)
- {
- 	void __iomem *iobase = priv->port_offset;
- 	unsigned short ww;
-@@ -753,12 +753,10 @@ bool vt6655_get_current_tsf(struct vnt_private *priv, u64 *pqwCurrTSF)
- 			break;
- 	}
- 	if (ww == W_MAX_TIMEOUT)
--		return false;
-+		return 0;
- 	low = ioread32(iobase + MAC_REG_TSFCNTR);
- 	high = ioread32(iobase + MAC_REG_TSFCNTR + 4);
--	*pqwCurrTSF = le64_to_cpu(low + ((u64)high << 32));
--
--	return true;
-+	return le64_to_cpu(low + ((u64)high << 32));
- }
- 
- /*
-@@ -805,9 +803,9 @@ void CARDvSetFirstNextTBTT(struct vnt_private *priv,
- 			   unsigned short wBeaconInterval)
- {
- 	void __iomem *iobase = priv->port_offset;
--	u64 qwNextTBTT = 0;
-+	u64 qwNextTBTT;
- 
--	vt6655_get_current_tsf(priv, &qwNextTBTT); /* Get Local TSF counter */
-+	qwNextTBTT = vt6655_get_current_tsf(priv); /* Get Local TSF counter */
- 
- 	qwNextTBTT = CARDqGetNextTBTT(qwNextTBTT, wBeaconInterval);
- 	/* Set NextTBTT */
-diff --git a/drivers/staging/vt6655/card.h b/drivers/staging/vt6655/card.h
-index 340516b329e3..22dc359a6565 100644
---- a/drivers/staging/vt6655/card.h
-+++ b/drivers/staging/vt6655/card.h
-@@ -46,7 +46,7 @@ void CARDvSetFirstNextTBTT(struct vnt_private *priv,
- 			   unsigned short wBeaconInterval);
- void CARDvUpdateNextTBTT(struct vnt_private *priv, u64 qwTSF,
- 			 unsigned short wBeaconInterval);
--bool vt6655_get_current_tsf(struct vnt_private *priv, u64 *pqwCurrTSF);
-+u64 vt6655_get_current_tsf(struct vnt_private *priv);
- u64 CARDqGetNextTBTT(u64 qwTSF, unsigned short wBeaconInterval);
- u64 CARDqGetTSFOffset(unsigned char byRxRate, u64 qwTSF1, u64 qwTSF2);
- unsigned char CARDbyGetPktType(struct vnt_private *priv);
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index bb8a30eefc74..4f26f5c7e84f 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -1603,7 +1603,7 @@ static u64 vnt_get_tsf(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
- 	struct vnt_private *priv = hw->priv;
- 	u64 tsf;
- 
--	vt6655_get_current_tsf(priv, &tsf);
-+	tsf = vt6655_get_current_tsf(priv);
- 
- 	return tsf;
- }
--- 
-2.25.1
+  NVIDIA driver fail output:
 
+nvidia-legacy-390xx-uvm.ko:
+ - Uninstallation
+   - Deleting from: /lib/modules/5.10.0-13-amd64/updates/dkms/
+ - Original module
+   - No original module was found for this module on this kernel.
+   - Use the dkms install command to reinstall any previous module version.
+
+depmod....
+
+DKMS: uninstall completed.
+
+------------------------------
+Deleting module version: 390.144
+completely from the DKMS tree.
+------------------------------
+Done.
+Loading new nvidia-legacy-390xx-390.144 DKMS files...
+Building for 5.18.0-rc4+
+Building initial module for 5.18.0-rc4+
+Error! Bad return status for module build on kernel: 5.18.0-rc4+ (x86_64)
+Consult /var/lib/dkms/nvidia-legacy-390xx/390.144/build/make.log for
+more information
+
+   Raspberry PI fail output:
+
+dkms build -m 8812au -v 5.6.4.2_35491.20191025
+
+Kernel preparation unnecessary for this kernel. Skipping...
+
+Building module:
+cleaning build area...
+'make' -j4 KVER=5.18.0-rc4+
+KSRC=/lib/modules/5.18.0.-rc4+/build..........................................(bad
+exit status: 2)
+Error! Bad return status for module build on kernel: 5.18.0-rc4+
+make: *** [Makefile:2304: dkms_install] Error 10
+
+>
+>             Linus
