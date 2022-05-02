@@ -1,116 +1,115 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C8D17D3
-	for <linux-staging@lists.linux.dev>; Mon,  2 May 2022 12:20:53 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id j9so11206535qkg.1
-        for <linux-staging@lists.linux.dev>; Mon, 02 May 2022 05:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=Fw3WDxeowbTLWz6Ru6lKfna8BJhR9uyUJgU4i6Lx6eE=;
-        b=qazHzdbUqUY+JBu1L+Ghkx2BTsogAGkFnOfCjITzugw4bwFjFAMpAJeURp89Vky6/U
-         Wq7NNkCMaTSrbP+3ogAErVWWIxYFqqYm+Jv9G8bZp4BmrqTTCEAZtyl3a4p+w5DGCTh4
-         IECTzPPzm6l92yy6uxNjRJof9h9SyQVIefJ7gKeY0XV3znaycUFYZcOPUsxl2B3GjQl3
-         JRvOynsTsnYdth7qlIWJwStg5aqAR1kGQ1O7D3CDlg6qUqjMVlvS/Nb14OCY+OKBrqGN
-         RcAXOllGP+KY4GDsFM0yzL9RhybPRIXscxNdnS8zDVAs8qrhmqi+6dCKdsgOC5rEJvVP
-         aovQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=Fw3WDxeowbTLWz6Ru6lKfna8BJhR9uyUJgU4i6Lx6eE=;
-        b=vcwBPy7KZ8E/eHOYtK5wrXxAFg4O6ghKYq33bof3hXUxfJ7nL6izWXvFx9p9knwg6u
-         H9P53oiQ5FuGR/uhXP6vSgEdpiwtL6EKN5uk1doLZAVXeSskkMFOp27wzobHxt9//Kl0
-         grD5QVSVOlBc56FvwgjbOXSoJ1zqypIJICFjVsrUpZNIL8SRgm7V1iKMRz7skLWWUGN6
-         apNk1yUbuT8h25csAsFqAnFOocGPSZDiAXX4V1uyuKphv9U/E9T5YZBL0pco1a3uoLiT
-         BjLzMnw/RXLZiSDU7OhWST5lSF9rkzSYa+8ZuyivfrILTvGoUNId0oqNJTLSigQBI21E
-         5daw==
-X-Gm-Message-State: AOAM5334CK8g5cbMGeTVcIeFyHjxYf6EK25Ctmx3w3uHVFlJYGs16EPf
-	g4PLlg+5CXnoOxQHHuAgnUjb4A==
-X-Google-Smtp-Source: ABdhPJxumv3g/uljydEcUe9WMgnkePrW46ByZPAaB9YOkcVTpD1uHYDXYtz9wtMJ8bQiOeA++8nw2g==
-X-Received: by 2002:a05:620a:44c8:b0:69f:e71f:7a02 with SMTP id y8-20020a05620a44c800b0069fe71f7a02mr2463437qkp.253.1651494052548;
-        Mon, 02 May 2022 05:20:52 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id d188-20020a379bc5000000b0069fc347ef5dsm4060820qke.74.2022.05.02.05.20.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 05:20:51 -0700 (PDT)
-Message-ID: <0414bb0816eef95961fe47de96f97f925d29228f.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/3] Enable JPEG Encoder on RK3566/RK3568
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Michael Grzeschik <mgr@pengutronix.de>, Nicolas Frattaroli
-	 <frattaroli.nicolas@gmail.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel
- <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob
- Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Geis
- <pgwipeout@gmail.com>, Michael Riesch <michael.riesch@wolfvision.net>,
- Liang Chen <cl@rock-chips.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org,  devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, Kever Yang <kever.yang@rock-chips.com>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Date: Mon, 02 May 2022 08:20:50 -0400
-In-Reply-To: <20220429232047.GG7671@pengutronix.de>
-References: <20220427224438.335327-1-frattaroli.nicolas@gmail.com>
-	 <198ce3981ad15844627581f9519cab67ed2a81c1.camel@ndufresne.ca>
-	 <2438841.KJ31GcehEG@archbook> <20220429232047.GG7671@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFDFB2908
+	for <linux-staging@lists.linux.dev>; Mon,  2 May 2022 15:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651506100; x=1683042100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dtpuVPkQosFhnNZt5DpSIn/618logEfRhrZLF3ipPIw=;
+  b=RUrQYA7jst4zRNfgJQMrC4OvHfGhaE5PHEYDXuU2qcNkBkO2Vtj1hhN8
+   Jinc3NaDkyHhdOWxaQOcAffxLqiZDwL84egBDSSkIO9XDqDFBbKG50jEk
+   /k3kGKMLeYJVDCC2zJY2gMNnv6J38VrLvVJmoY7emqdTrtt4oN5ShB7OU
+   xXxaMQ8+UwmwFQHGb3xtdTyY+40qRtzDkxTh2+uVNc9TLcIuLZoQi5uXi
+   EqfuFmHK5zJmd1J9zUW2Bnahs6gEe8LU5d0NKojKjPYvWsKQ0qrM4JcN+
+   zq72WA7tsDkoKVqK8C/V/8LhBfZrmW5H6LTWCuwVqlfO70gIpnU4Am6+0
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="264832361"
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; 
+   d="scan'208";a="264832361"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2022 08:41:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,192,1647327600"; 
+   d="scan'208";a="535898306"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 02 May 2022 08:41:37 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1nlYB1-0009ed-FV;
+	Mon, 02 May 2022 15:41:31 +0000
+Date: Mon, 2 May 2022 23:40:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Gaston Gonzalez <gascoar@gmail.com>, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: kbuild-all@lists.01.org, Florian Fainelli <f.fainelli@gmail.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>
+Subject: Re: [PATCH v1 1/1] staging: vc04_services: Re-use generic struct
+ s32_fract
+Message-ID: <202205022340.RcyzPlQJ-lkp@intel.com>
+References: <20220502120355.84334-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220502120355.84334-1-andriy.shevchenko@linux.intel.com>
 
-Hi Michael,
+Hi Andy,
 
-Le samedi 30 avril 2022 =C3=A0 01:20 +0200, Michael Grzeschik a =C3=A9crit=
-=C2=A0:
-> Since the RK3568 seems to get more and more of attention at the moment
-> I would like to ask if somebody is planning to write support the RKVENC
-> in mainline. That is the VEPU540 core refered to in the RK3568 TRM.
->=20
-> I would start with that in the next weeks, taking the bootlin H1 support
-> as an reference to handle the request_api for the encoder part. Which is
-> currently completely untouched in mainline AFAIK.
+I love your patch! Yet something to improve:
 
-I'm very happy to ear you'd be interest in helping with this. I'm adding An=
-drzej
-in CC, as he started some base work using VP8 encoder on RK3399 (same HW fo=
-und
-on other RK SoC) to make this possible. Note that these are a new type of
-encoders and a specification is needed to ensure they all have a coherent w=
-ork-
-flow. The first step was obviously to have working prototype, Bootlin start=
-ed
-with H264 (but never posted anything on the mailing list). I'm under the
-impression they have abandoned it. Andrzej have decided to use VP8 as it is
-simpler. The prototype should help understand the basic flow of an encoder =
-and
-produce a specification for this.
+[auto build test ERROR on staging/staging-testing]
 
-From there, the "easy" part is to make per codec controls, to configure the
-encoder. Demonstrating fixed QP, this is about were I believe Bootlin stopp=
-ed.
-And I personally believe some OSS userland (not just tests) that can handle
-multiple reference, perhaps more advance GOP pattern and some basic rate co=
-ntrol
-would help build confidence in the uAPI. Let us know how we can help, we sh=
-ould
-avoid doing the same thing, as this is already quite a large project that c=
-an
-easily take over a year to become mainline ready.
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/staging-vc04_services-Re-use-generic-struct-s32_fract/20220502-200543
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 5fe7856ad59afc56a6ff35d091bfaddd1d4f4bce
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220502/202205022340.RcyzPlQJ-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c0fbdbd092e007c2567a367389e86df9d1cd7ee3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andy-Shevchenko/staging-vc04_services-Re-use-generic-struct-s32_fract/20220502-200543
+        git checkout c0fbdbd092e007c2567a367389e86df9d1cd7ee3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
-regards,
-Nicolas
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
->=20
-> Regards,
-> Michael
->=20
+All errors (new ones prefixed by >>):
 
+   drivers/staging/vc04_services/bcm2835-camera/controls.c: In function 'ctrl_set_rational':
+>> drivers/staging/vc04_services/bcm2835-camera/controls.c:162:24: error: 'struct s32_fract' has no member named 'numumerator'; did you mean 'numerator'?
+     162 |         rational_value.numumerator = ctrl->val;
+         |                        ^~~~~~~~~~~
+         |                        numerator
+
+
+vim +162 drivers/staging/vc04_services/bcm2835-camera/controls.c
+
+   152	
+   153	static int ctrl_set_rational(struct bcm2835_mmal_dev *dev,
+   154				     struct v4l2_ctrl *ctrl,
+   155				     const struct bcm2835_mmal_v4l2_ctrl *mmal_ctrl)
+   156	{
+   157		struct s32_fract rational_value;
+   158		struct vchiq_mmal_port *control;
+   159	
+   160		control = &dev->component[COMP_CAMERA]->control;
+   161	
+ > 162		rational_value.numumerator = ctrl->val;
+   163		rational_value.denominator = 100;
+   164	
+   165		return vchiq_mmal_port_parameter_set(dev->instance, control,
+   166						     mmal_ctrl->mmal_id,
+   167						     &rational_value,
+   168						     sizeof(rational_value));
+   169	}
+   170	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
