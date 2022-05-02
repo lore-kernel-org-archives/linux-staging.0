@@ -1,140 +1,83 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34A92F2A
-	for <linux-staging@lists.linux.dev>; Mon,  2 May 2022 17:06:20 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id be20so17303273edb.12
-        for <linux-staging@lists.linux.dev>; Mon, 02 May 2022 10:06:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=mU7fapiops2WWyU9yZMpO4lszXyDUOiq/JT8oV30im8=;
-        b=pIi350sSVm8g4pJHGyg5Juv8HDt3n0XwppTtUoq1Aagl1OwmzaiFKgcc63O9DB0fWm
-         OWuHb/a/zf2CPJvEPS52tqPMkpw1m5LFJXrbZEbYLnuTq2Wm/TEIM3EGohRTBrJL/EKd
-         JkrPTMCETNd7Z/7D+Cm42x7KWm54l9teeHjHtqQYqtj+eA0S8oZmOdQu2oOcpuZtErx1
-         xvgWlfe/Hi8ePHcjK1+88chdVYstEHB33bFZ/oVOUcE4d8bVyO07U727ISfeX963a2XC
-         aH0ZgYkovd3IPaWC1ZFUuTYkwHJjC8A2pUOS8JnEVsLRn2iDSWISrPpW7ROFF0ta4UKU
-         bNrg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1892F2A
+	for <linux-staging@lists.linux.dev>; Mon,  2 May 2022 17:08:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1651511330;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vUwB/ObsvhfAeYdc94J/vluBprubJpnzEDKGgG5UEn8=;
+	b=FRd6+pJdhtZon64Y3NeRLl/sjZU/Zcvy55kots7U3fXU1kRqEfhVdHbeB4kiZikXT59A0l
+	rCqc0YUD2KAL/3FJMa9soBYbIXwAbvB0fQM7GDzHXkXNI4ZhrdGjF7Cxzb1r6bVQBKPwpm
+	urhKWn0nALXGGVSg7Jjz4ZfuOwBRkBk=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-541-4HcbxnhYO3Oi3VNt_3QPDw-1; Mon, 02 May 2022 13:08:49 -0400
+X-MC-Unique: 4HcbxnhYO3Oi3VNt_3QPDw-1
+Received: by mail-qt1-f198.google.com with SMTP id a24-20020ac81098000000b002e1e06a72aeso11394513qtj.6
+        for <linux-staging@lists.linux.dev>; Mon, 02 May 2022 10:08:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=mU7fapiops2WWyU9yZMpO4lszXyDUOiq/JT8oV30im8=;
-        b=u4H+j6sTbVqFv8BIXpplr0ZsHxFP6PamOb3Xnx49u2fJtPnfHZ16nIBKkplF0kTbMK
-         vujXLOa64BB+Y5O/Z0Ezm4z+Cn5R++XmuahEs2Xp7DiFdLOFii5G6oPS7flOe8HRaBle
-         fnHVh0vKv0aws04+FzTiTOU/Aqhlyf1xHt5PY3od/hvdhCSEPBrBL5I9zuvnYf2lfVxD
-         Y/m2MR/KzB1xfIjTBu2FZNV3D8BMRljjB8KGzf9SL8D37SjD6iN5iqlEP5we+0r+SMW+
-         6eGVWFcepUm4vkQ87xO2M6GKEq4YQ1q95dZc7LuSo1SKVCxG3+aEah9iemZPaUV6cGbo
-         fG1w==
-X-Gm-Message-State: AOAM531nvUBBqa8GuvyIS/QrtcxQyPCQDVEfHwJ1ZLvRB9PBKpuMYraI
-	ICRh4Sho1ZRZJydeGz/qNZDsaGMS4JbgUPjBAjx9dPex9xE=
-X-Google-Smtp-Source: ABdhPJxZphI/AtyVmN3sXaZFd1yCFFSdDJTAznd81vzNonPun1KLBi2QnRnfq0PmbHVVbCoBGSNczkYeKqo/HSCTZk0=
-X-Received: by 2002:a05:6402:518b:b0:427:ae8b:a400 with SMTP id
- q11-20020a056402518b00b00427ae8ba400mr11770436edd.52.1651511179135; Mon, 02
- May 2022 10:06:19 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vUwB/ObsvhfAeYdc94J/vluBprubJpnzEDKGgG5UEn8=;
+        b=5MpMywB1VM9Uj3SfZZBaAZe2/HswdNIMMXmFfpucPijFEX1bnh0btQUkjknlnf9BhD
+         T95G8kzCNohd87oPRGEpeZ49m6AHZkD+GzP/jxC6JKdHp9OBNI8a0FYsF9W26xNRr+vl
+         BS/TWCiW9dsv3IkY2/7EA4rDpLMwcyDotEv0AFiAMFtbv6KOOLY/U5GNLjIulB+nNTI8
+         Q4KxPJu7pqRjo9R4Ca9DgdlkwCl/rIsjtT/a6VB8Vu9Bgi81bG2g6U3dRkchCFl0n0GW
+         7poSDrKxbVJNN7EWkBc2R60GddDFUbMMDCwLT55pzsNvuk3OsmHOeX1nHKL7lr4Zf/XB
+         iCnw==
+X-Gm-Message-State: AOAM531Udg4BV0JhtHMBvrPH+8Psr9JdHk+naQGeWQ8gYtNRkFoZ270n
+	qoKJkCJ5dSu0YCfddTJcG+S73qwcbrQSJ5ue4qVH9DANikjXeyHyOUCk4ONFmOBBctdsj9xgDPs
+	7PEipgPqhK7Til8NPICRSnsj81Q==
+X-Received: by 2002:a05:622a:1012:b0:2e1:e7f3:5c89 with SMTP id d18-20020a05622a101200b002e1e7f35c89mr11191079qte.550.1651511328922;
+        Mon, 02 May 2022 10:08:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1uiEQOy0AttuZWwuG2nj7JekcJUIdCT/k4msCkxiX30JIboupy20ctm7seHGiEzL9f5Z53A==
+X-Received: by 2002:a05:622a:1012:b0:2e1:e7f3:5c89 with SMTP id d18-20020a05622a101200b002e1e7f35c89mr11191046qte.550.1651511328621;
+        Mon, 02 May 2022 10:08:48 -0700 (PDT)
+Received: from fedora (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
+        by smtp.gmail.com with ESMTPSA id bq34-20020a05620a46a200b0069fc13ce248sm4606429qkb.121.2022.05.02.10.08.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 May 2022 10:08:48 -0700 (PDT)
+Date: Mon, 2 May 2022 13:08:46 -0400
+From: Adrien Thierry <athierry@redhat.com>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] staging: vchiq_arm: use standard print helpers
+Message-ID: <YnAQHjPVSIAh6hOj@fedora>
+References: <20220428150550.261499-1-athierry@redhat.com>
+ <3b57224b-41a2-6393-51b8-a9c3435fa4d1@i2se.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Test Bot <zgrieee@gmail.com>
-Date: Mon, 2 May 2022 21:06:08 +0400
-Message-ID: <CAOFRbGkEKemtiU=fSSv5UxcjNfST7E51_XYXEePfM2xkgG=MVw@mail.gmail.com>
-Subject: [ERROR] skb: realtek rtw88
-To: netdev@vger.kernel.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <3b57224b-41a2-6393-51b8-a9c3435fa4d1@i2se.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Hi Greg, Stefan,
 
-The v5.18.0-rc4+ kernel was automatically tested.
+Thanks for your feedback! I will submit a new version that addresses it.
 
-Hardware:
-ASUSTeK TUF Gaming FX505DT
+While rewriting the patch, I realized it might be easier and less
+error-prone to remove some global variables before tackling the logging
+functions. So, I will submit a new series for this first, and after that
+I'll send a v3 for the logging functions.
 
-+ wireless driver fail.
+Best regards,
+Adrien
 
-Fail Log:
-
-[   17.271683] ------------[ cut here ]------------
-[   17.271685] purge skb(s) not reported by firmware
-[   17.271713] WARNING: CPU: 1 PID: 0 at
-drivers/net/wireless/realtek/rtw88/tx.c:161
-rtw_tx_report_purge_timer+0x20/0x50 [rtw88_core]
-[   17.271714] Modules linked in: ctr ccm rfcomm cmac algif_hash
-algif_skcipher af_alg bnep btusb btrtl btbcm btintel bluetooth
-jitterentropy_rng usbhid edac_mce_amd rtw88_8821ce kvm_amd rtw88_8821c
-uvcvideo rtw88_pci rtw88_core videobuf2_vmalloc videobuf2_memops
-videobuf2_v4l2 kvm videobuf2_common drbg videodev
-snd_hda_codec_realtek ansi_cprng snd_hda_codec_generic ecdh_generic
-mac80211 irqbypass mc ledtrig_audio snd_hda_codec_hdmi ecc
-snd_hda_intel snd_intel_dspcfg nvidia_drm(POE) ccp soundwire_intel
-soundwire_generic_allocation joydev ghash_clmulni_intel snd_soc_core
-cfg80211 nls_ascii nls_cp437 snd_compress nvidia_modeset(POE)
-soundwire_cadence aesni_intel snd_hda_codec asus_nb_wmi asus_wmi
-libaes vfat crypto_simd fat snd_hda_core cryptd glue_helper snd_hwdep
-soundwire_bus rapl snd_pcm snd_timer serio_raw sp5100_tco tpm_crb
-pcspkr snd sparse_keymap efi_pstore wmi_bmof hid_multitouch rfkill
-tpm_tis k10temp soundcore libarc4 watchdog tpm_tis_core tpm rng_core
-ac evdev asus_wireless
-[   17.271766]  acpi_cpufreq nvidia(POE) msr parport_pc ppdev lp
-parport fuse configfs efivarfs ip_tables x_tables autofs4 ext4 crc16
-mbcache jbd2 crc32c_generic amdgpu dm_mod gpu_sched i2c_algo_bit ttm
-drm_kms_helper xhci_pci nvme xhci_hcd nvme_core r8169 cec t10_pi
-realtek hid_generic crc_t10dif mdio_devres crct10dif_generic drm
-usbcore crct10dif_pclmul crc32_pclmul crc32c_intel i2c_hid libphy
-i2c_piix4 usb_common crct10dif_common wmi hid video battery button
-[   17.271798] CPU: 1 PID: 0 Comm: swapper/1 Tainted: P           OE
-  5.10.0-13-amd64 #1 Debian 5.10.106-1
-[   17.271800] Hardware name: ASUSTeK COMPUTER INC. TUF Gaming
-FX505DT_FX505DT/FX505DT, BIOS FX505DT.316 01/28/2021
-[   17.271805] RIP: 0010:rtw_tx_report_purge_timer+0x20/0x50 [rtw88_core]
-[   17.271808] Code: 0f 1f 84 00 00 00 00 00 66 90 0f 1f 44 00 00 8b
-47 f0 85 c0 75 01 c3 41 54 55 53 48 89 fb 48 c7 c7 f8 a4 43 c3 e8 bf
-93 a5 d2 <0f> 0b 4c 8d 63 d8 4c 89 e7 e8 02 ea a9 d2 48 8d 7b e0 48 89
-c5 e8
-[   17.271809] RSP: 0018:ffffade60007ced0 EFLAGS: 00010286
-[   17.271811] RAX: 0000000000000000 RBX: ffff9356482f62e8 RCX: ffff93575725ca08
-[   17.271812] RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI: ffff93575725ca00
-[   17.271812] RBP: ffff9356482f62e8 R08: 0000000000000000 R09: ffffade60007ccf0
-[   17.271813] R10: ffffade60007cce8 R11: ffffffff96ccb408 R12: ffffffffc3427c00
-[   17.271814] R13: dead000000000122 R14: 0000000000000000 R15: ffff935757260c40
-[   17.271816] FS:  0000000000000000(0000) GS:ffff935757240000(0000)
-knlGS:0000000000000000
-[   17.271817] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   17.271818] CR2: 00007fc3777fcf08 CR3: 0000000105f9c000 CR4: 00000000003506e0
-[   17.271819] Call Trace:
-[   17.271821]  <IRQ>
-[   17.271828]  ? rtw_tx_write_data_h2c_get+0x90/0x90 [rtw88_core]
-[   17.271831]  call_timer_fn+0x29/0xf0
-[   17.271833]  __run_timers.part.0+0x1d3/0x240
-[   17.271837]  ? recalibrate_cpu_khz+0x10/0x10
-[   17.271839]  ? ktime_get+0x38/0xa0
-[   17.271842]  ? native_x2apic_icr_read+0x10/0x10
-[   17.271844]  ? lapic_next_event+0x1d/0x20
-[   17.271846]  ? clockevents_program_event+0x8d/0xf0
-[   17.271848]  run_timer_softirq+0x26/0x50
-[   17.271851]  __do_softirq+0xc5/0x275
-[   17.271853]  asm_call_irq_on_stack+0x12/0x20
-[   17.271854]  </IRQ>
-[   17.271857]  do_softirq_own_stack+0x37/0x40
-[   17.271860]  irq_exit_rcu+0x8e/0xc0
-[   17.271863]  sysvec_apic_timer_interrupt+0x36/0x80
-[   17.271864]  asm_sysvec_apic_timer_interrupt+0x12/0x20
-[   17.271868] RIP: 0010:cpuidle_enter_state+0xc7/0x350
-[   17.271869] Code: 8b 3d 1d 23 37 6a e8 28 d8 a1 ff 49 89 c5 0f 1f
-44 00 00 31 ff e8 39 e3 a1 ff 45 84 ff 0f 85 fa 00 00 00 fb 66 0f 1f
-44 00 00 <45> 85 f6 0f 88 06 01 00 00 49 63 c6 4c 2b 2c 24 48 8d 14 40
-48 8d
-[   17.271870] RSP: 0018:ffffade60013fea8 EFLAGS: 00000246
-[   17.271871] RAX: ffff93575726fcc0 RBX: 0000000000000001 RCX: 000000000000001f
-[   17.271872] RDX: 0000000000000000 RSI: 000000003d112200 RDI: 0000000000000000
-[   17.271873] RBP: ffff935660d58400 R08: 000000040578d501 R09: 0000000000000018
-[   17.271874] R10: 0000000000000282 R11: 00000000000000b1 R12: ffffffff96db9180
-[   17.271875] R13: 000000040578d501 R14: 0000000000000001 R15: 0000000000000000
-[   17.271878]  ? cpuidle_enter_state+0xb7/0x350
-[   17.271880]  cpuidle_enter+0x29/0x40
-[   17.271882]  do_idle+0x1ef/0x2b0
-[   17.271884]  cpu_startup_entry+0x19/0x20
-[   17.271887]  secondary_startup_64_no_verify+0xb0/0xbb
-[   17.271889] ---[ end trace 0336ae1c9c67abd1 ]---
