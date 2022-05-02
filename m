@@ -1,128 +1,140 @@
-Received: from cyan.ash.relay.mailchannels.net (cyan.ash.relay.mailchannels.net [23.83.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87D229A0
-	for <linux-staging@lists.linux.dev>; Mon,  2 May 2022 15:44:19 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id A2BA581420;
-	Mon,  2 May 2022 15:44:10 +0000 (UTC)
-Received: from pdx1-sub0-mail-a256.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 7687F80EAE;
-	Mon,  2 May 2022 15:44:08 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1651506249; a=rsa-sha256;
-	cv=none;
-	b=AUyKsLyIulI6A+RrAleC9bQFM8KSE/rNRH6UFQwL4ceQ4hf3y+lI1GRQzh+w+aa1blj13t
-	s55eE/ybqMAyQHgRrzqz7K0f7PQ/F75+Sd4fsnJYFjSPWzyFcT8yq5w4yAETftE02y3qmW
-	5kLEu1yy/Q/IAr/LXGM1HOp4scd6pg+Buk12WJCRy2c5bUC+MxfES3Ph26wqA1PObhx9Vg
-	B4ZBNeDnr3KXIoB8B+w1o0QbCKCv7qlHt3ok61XpRn9Pzu+X6ziuQ6Dyv7BHZWAguow5LO
-	N2xbRf8vDW1XO9SIi1xo82LXk4m1E9QK1GvPfz5xFmmIqUAmXTTosPFvpCG3gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1651506249;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=DkkNoiMLnVInXzgUkNe6nyHj/tovdEiyha32sZWWqmk=;
-	b=newsTZguUDOcKrehNA2BezEuPGnY9xuG0F1bArXt8LpUhidgkX4iLMjO1afQ3CR2WJw8NZ
-	G19tSVKLbmfKVLzGWEw2WP5XjRj8qOArY5LQFOElpyqJYJ6MRyLmQzEbbzkHRBnFS85U2N
-	fdH4R96ihudS02L83HFq/DSJrMpBN+wp/5t+UE9rTbEeAyh3p1U42N4EXJBuJ0TXnDaiv9
-	jA2aUgIQjPPs3sOX/Amnt+UdT0qSklI1LZq9vxhyF1N8b6pny/XqE6l0muNqOOxhDme0AE
-	1IZXJQQ00hNzVDVR+hgf9Ld67vjIg4GScxhvnjC05mdKTVvFCOse8t0JlDP4Yg==
-ARC-Authentication-Results: i=1;
-	rspamd-847dd8955c-6489d;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MailChannels-Auth-Id: dreamhost
-X-Whispering-Language: 2cac419402377a6f_1651506250135_1661352001
-X-MC-Loop-Signature: 1651506250135:2295873110
-X-MC-Ingress-Time: 1651506250135
-Received: from pdx1-sub0-mail-a256.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.116.106.76 (trex/6.7.1);
-	Mon, 02 May 2022 15:44:10 +0000
-Received: from fedora (unknown [69.12.38.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ian@linux.cowan.aero)
-	by pdx1-sub0-mail-a256.dreamhost.com (Postfix) with ESMTPSA id 4KsS7W0pS0z1fC;
-	Mon,  2 May 2022 08:44:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
-	s=dreamhost; t=1651506248;
-	bh=DkkNoiMLnVInXzgUkNe6nyHj/tovdEiyha32sZWWqmk=;
-	h=Date:From:To:Cc:Subject:Content-Type;
-	b=RelqvMKrLPKmvxXgVjKMzXSD/ttT9x/slpwkXqdlBHX3DFYX/xSumWYHtIJ0d3Og2
-	 +VfI+YsUG8wTiG3pf+IDq/sX7TeNhWZSifZ9Jj21nYUdUgJo2ewJefRt84RXJjIUMl
-	 E0RhCfK9OOBImqnpoJnvGI50Owqnio895fcXaZsl5P/t/o9xZjoOrPTind8rFzR3op
-	 vljg2vWCTVmOz0MrjNhf+LH7hms4XohVuNYvnE+NiIJeExPrjWymUncqt3kiEhknYr
-	 Sz8TazASWfXKjJLWpQ4Vc8e4kr/Ri9x1xoT8fDy8qxcx71DrjcaJK3KkPFxRE7tL+X
-	 zmqdPNXVEUXEQ==
-Date: Mon, 2 May 2022 11:44:05 -0400
-From: Ian Cowan <ian@linux.cowan.aero>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Corentin Labbe <clabbe@baylibre.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v2 4/4] staging: media: zoran: replace dprintk with new
- debugging macros
-Message-ID: <Ym/8RQy0HyCZ9KRx@fedora>
-References: <20220425144110.133316-1-ian@linux.cowan.aero>
- <3270dd49-0d68-5b60-d766-940b39aa463e@xs4all.nl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34A92F2A
+	for <linux-staging@lists.linux.dev>; Mon,  2 May 2022 17:06:20 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id be20so17303273edb.12
+        for <linux-staging@lists.linux.dev>; Mon, 02 May 2022 10:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=mU7fapiops2WWyU9yZMpO4lszXyDUOiq/JT8oV30im8=;
+        b=pIi350sSVm8g4pJHGyg5Juv8HDt3n0XwppTtUoq1Aagl1OwmzaiFKgcc63O9DB0fWm
+         OWuHb/a/zf2CPJvEPS52tqPMkpw1m5LFJXrbZEbYLnuTq2Wm/TEIM3EGohRTBrJL/EKd
+         JkrPTMCETNd7Z/7D+Cm42x7KWm54l9teeHjHtqQYqtj+eA0S8oZmOdQu2oOcpuZtErx1
+         xvgWlfe/Hi8ePHcjK1+88chdVYstEHB33bFZ/oVOUcE4d8bVyO07U727ISfeX963a2XC
+         aH0ZgYkovd3IPaWC1ZFUuTYkwHJjC8A2pUOS8JnEVsLRn2iDSWISrPpW7ROFF0ta4UKU
+         bNrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=mU7fapiops2WWyU9yZMpO4lszXyDUOiq/JT8oV30im8=;
+        b=u4H+j6sTbVqFv8BIXpplr0ZsHxFP6PamOb3Xnx49u2fJtPnfHZ16nIBKkplF0kTbMK
+         vujXLOa64BB+Y5O/Z0Ezm4z+Cn5R++XmuahEs2Xp7DiFdLOFii5G6oPS7flOe8HRaBle
+         fnHVh0vKv0aws04+FzTiTOU/Aqhlyf1xHt5PY3od/hvdhCSEPBrBL5I9zuvnYf2lfVxD
+         Y/m2MR/KzB1xfIjTBu2FZNV3D8BMRljjB8KGzf9SL8D37SjD6iN5iqlEP5we+0r+SMW+
+         6eGVWFcepUm4vkQ87xO2M6GKEq4YQ1q95dZc7LuSo1SKVCxG3+aEah9iemZPaUV6cGbo
+         fG1w==
+X-Gm-Message-State: AOAM531nvUBBqa8GuvyIS/QrtcxQyPCQDVEfHwJ1ZLvRB9PBKpuMYraI
+	ICRh4Sho1ZRZJydeGz/qNZDsaGMS4JbgUPjBAjx9dPex9xE=
+X-Google-Smtp-Source: ABdhPJxZphI/AtyVmN3sXaZFd1yCFFSdDJTAznd81vzNonPun1KLBi2QnRnfq0PmbHVVbCoBGSNczkYeKqo/HSCTZk0=
+X-Received: by 2002:a05:6402:518b:b0:427:ae8b:a400 with SMTP id
+ q11-20020a056402518b00b00427ae8ba400mr11770436edd.52.1651511179135; Mon, 02
+ May 2022 10:06:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3270dd49-0d68-5b60-d766-940b39aa463e@xs4all.nl>
+From: Test Bot <zgrieee@gmail.com>
+Date: Mon, 2 May 2022 21:06:08 +0400
+Message-ID: <CAOFRbGkEKemtiU=fSSv5UxcjNfST7E51_XYXEePfM2xkgG=MVw@mail.gmail.com>
+Subject: [ERROR] skb: realtek rtw88
+To: netdev@vger.kernel.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 28, 2022 at 10:15:03AM +0200, Hans Verkuil wrote:
-> Hi Ian,
-> 
-> On 25/04/2022 16:41, Ian Cowan wrote:
-> > This replaces all of the dprintk() macro calls to the zrdev_dbg(),
-> > zrdev_info(), or zrdev_err() calls as appropriate. This allows for the
-> > removal of the dprintk() macro from each file it is defined in, along
-> > with removal of the module params that track the debugging level.
-> > 
-> > In the case that a debugging level was used in a comparison, this has
-> > been replaced with checking the console level debugging and making a
-> > decision from there. If the console debugging level is at least the
-> > KERN_ debugging level equivalent, then the comparison will evaluate as
-> > true.
-> > 
-> > There are a few instances where pr_debug() must be used over the
-> > zrdev_dbg(). These occur in the module cleanup functions because there
-> > should be no devices defined once we get to those modules, so we have no
-> > devices to pass to zrdev_dbg().
-> 
-> When I compiled this patch series with smatch I got these warnings:
-> 
-> zoran/videocodec.c:45 videocodec_attach() warn: variable dereferenced before check 'master' (see line 40)
-> zoran/videocodec.c:115 videocodec_detach() warn: variable dereferenced before check 'codec' (see line 111)
-> zoran/videocodec.c:168 videocodec_register() warn: variable dereferenced before check 'codec' (see line 166)
-> zoran/videocodec.c:200 videocodec_unregister() warn: variable dereferenced before check 'codec' (see line 198)
-> 
-> And I also got this warning when checking the kerneldoc:
-> 
-> zoran/zoran.h:307: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-> 
-> Can you fix this and post a v3?
-> 
-> Thanks!
-> 
-> 	Hans
+Hi,
 
-I will go through and fix these later today. Thanks!
+The v5.18.0-rc4+ kernel was automatically tested.
 
-Ian
+Hardware:
+ASUSTeK TUF Gaming FX505DT
+
++ wireless driver fail.
+
+Fail Log:
+
+[   17.271683] ------------[ cut here ]------------
+[   17.271685] purge skb(s) not reported by firmware
+[   17.271713] WARNING: CPU: 1 PID: 0 at
+drivers/net/wireless/realtek/rtw88/tx.c:161
+rtw_tx_report_purge_timer+0x20/0x50 [rtw88_core]
+[   17.271714] Modules linked in: ctr ccm rfcomm cmac algif_hash
+algif_skcipher af_alg bnep btusb btrtl btbcm btintel bluetooth
+jitterentropy_rng usbhid edac_mce_amd rtw88_8821ce kvm_amd rtw88_8821c
+uvcvideo rtw88_pci rtw88_core videobuf2_vmalloc videobuf2_memops
+videobuf2_v4l2 kvm videobuf2_common drbg videodev
+snd_hda_codec_realtek ansi_cprng snd_hda_codec_generic ecdh_generic
+mac80211 irqbypass mc ledtrig_audio snd_hda_codec_hdmi ecc
+snd_hda_intel snd_intel_dspcfg nvidia_drm(POE) ccp soundwire_intel
+soundwire_generic_allocation joydev ghash_clmulni_intel snd_soc_core
+cfg80211 nls_ascii nls_cp437 snd_compress nvidia_modeset(POE)
+soundwire_cadence aesni_intel snd_hda_codec asus_nb_wmi asus_wmi
+libaes vfat crypto_simd fat snd_hda_core cryptd glue_helper snd_hwdep
+soundwire_bus rapl snd_pcm snd_timer serio_raw sp5100_tco tpm_crb
+pcspkr snd sparse_keymap efi_pstore wmi_bmof hid_multitouch rfkill
+tpm_tis k10temp soundcore libarc4 watchdog tpm_tis_core tpm rng_core
+ac evdev asus_wireless
+[   17.271766]  acpi_cpufreq nvidia(POE) msr parport_pc ppdev lp
+parport fuse configfs efivarfs ip_tables x_tables autofs4 ext4 crc16
+mbcache jbd2 crc32c_generic amdgpu dm_mod gpu_sched i2c_algo_bit ttm
+drm_kms_helper xhci_pci nvme xhci_hcd nvme_core r8169 cec t10_pi
+realtek hid_generic crc_t10dif mdio_devres crct10dif_generic drm
+usbcore crct10dif_pclmul crc32_pclmul crc32c_intel i2c_hid libphy
+i2c_piix4 usb_common crct10dif_common wmi hid video battery button
+[   17.271798] CPU: 1 PID: 0 Comm: swapper/1 Tainted: P           OE
+  5.10.0-13-amd64 #1 Debian 5.10.106-1
+[   17.271800] Hardware name: ASUSTeK COMPUTER INC. TUF Gaming
+FX505DT_FX505DT/FX505DT, BIOS FX505DT.316 01/28/2021
+[   17.271805] RIP: 0010:rtw_tx_report_purge_timer+0x20/0x50 [rtw88_core]
+[   17.271808] Code: 0f 1f 84 00 00 00 00 00 66 90 0f 1f 44 00 00 8b
+47 f0 85 c0 75 01 c3 41 54 55 53 48 89 fb 48 c7 c7 f8 a4 43 c3 e8 bf
+93 a5 d2 <0f> 0b 4c 8d 63 d8 4c 89 e7 e8 02 ea a9 d2 48 8d 7b e0 48 89
+c5 e8
+[   17.271809] RSP: 0018:ffffade60007ced0 EFLAGS: 00010286
+[   17.271811] RAX: 0000000000000000 RBX: ffff9356482f62e8 RCX: ffff93575725ca08
+[   17.271812] RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI: ffff93575725ca00
+[   17.271812] RBP: ffff9356482f62e8 R08: 0000000000000000 R09: ffffade60007ccf0
+[   17.271813] R10: ffffade60007cce8 R11: ffffffff96ccb408 R12: ffffffffc3427c00
+[   17.271814] R13: dead000000000122 R14: 0000000000000000 R15: ffff935757260c40
+[   17.271816] FS:  0000000000000000(0000) GS:ffff935757240000(0000)
+knlGS:0000000000000000
+[   17.271817] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   17.271818] CR2: 00007fc3777fcf08 CR3: 0000000105f9c000 CR4: 00000000003506e0
+[   17.271819] Call Trace:
+[   17.271821]  <IRQ>
+[   17.271828]  ? rtw_tx_write_data_h2c_get+0x90/0x90 [rtw88_core]
+[   17.271831]  call_timer_fn+0x29/0xf0
+[   17.271833]  __run_timers.part.0+0x1d3/0x240
+[   17.271837]  ? recalibrate_cpu_khz+0x10/0x10
+[   17.271839]  ? ktime_get+0x38/0xa0
+[   17.271842]  ? native_x2apic_icr_read+0x10/0x10
+[   17.271844]  ? lapic_next_event+0x1d/0x20
+[   17.271846]  ? clockevents_program_event+0x8d/0xf0
+[   17.271848]  run_timer_softirq+0x26/0x50
+[   17.271851]  __do_softirq+0xc5/0x275
+[   17.271853]  asm_call_irq_on_stack+0x12/0x20
+[   17.271854]  </IRQ>
+[   17.271857]  do_softirq_own_stack+0x37/0x40
+[   17.271860]  irq_exit_rcu+0x8e/0xc0
+[   17.271863]  sysvec_apic_timer_interrupt+0x36/0x80
+[   17.271864]  asm_sysvec_apic_timer_interrupt+0x12/0x20
+[   17.271868] RIP: 0010:cpuidle_enter_state+0xc7/0x350
+[   17.271869] Code: 8b 3d 1d 23 37 6a e8 28 d8 a1 ff 49 89 c5 0f 1f
+44 00 00 31 ff e8 39 e3 a1 ff 45 84 ff 0f 85 fa 00 00 00 fb 66 0f 1f
+44 00 00 <45> 85 f6 0f 88 06 01 00 00 49 63 c6 4c 2b 2c 24 48 8d 14 40
+48 8d
+[   17.271870] RSP: 0018:ffffade60013fea8 EFLAGS: 00000246
+[   17.271871] RAX: ffff93575726fcc0 RBX: 0000000000000001 RCX: 000000000000001f
+[   17.271872] RDX: 0000000000000000 RSI: 000000003d112200 RDI: 0000000000000000
+[   17.271873] RBP: ffff935660d58400 R08: 000000040578d501 R09: 0000000000000018
+[   17.271874] R10: 0000000000000282 R11: 00000000000000b1 R12: ffffffff96db9180
+[   17.271875] R13: 000000040578d501 R14: 0000000000000001 R15: 0000000000000000
+[   17.271878]  ? cpuidle_enter_state+0xb7/0x350
+[   17.271880]  cpuidle_enter+0x29/0x40
+[   17.271882]  do_idle+0x1ef/0x2b0
+[   17.271884]  cpu_startup_entry+0x19/0x20
+[   17.271887]  secondary_startup_64_no_verify+0xb0/0xbb
+[   17.271889] ---[ end trace 0336ae1c9c67abd1 ]---
