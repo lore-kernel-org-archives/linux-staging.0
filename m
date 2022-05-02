@@ -1,63 +1,63 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF902F32
-	for <linux-staging@lists.linux.dev>; Mon,  2 May 2022 18:30:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482DB2F32
+	for <linux-staging@lists.linux.dev>; Mon,  2 May 2022 18:30:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1651516251;
+	s=mimecast20190719; t=1651516254;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=rguDjv+d49kqJjpBxJsrbZOSzE2Lv6ZdoiYYlDDf/aM=;
-	b=cE5h7CB+fIMSrWZ7aMmVTDjiKNpiVM9XULojE/BZL3Z/PSHPUNqsCq8IhyqIrvgcvS+ulX
-	zcXB3vnDAVJEnE3s2wR6S03tcqX45WauLkQurzTfwP2VlujZYJCW3p7ic8IRUah9hC0CFv
-	PoC/q98fdjfDCg18ASltXRgg0nLeARY=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2jB/3zr/hOAAqCnoexjZJZZ3VWJxDNXF2l2/CCgwTtU=;
+	b=X8zRNr8Mr8H47ACj8LRXp5na3OH0TKUvD6lUCViZej0k2bchSAidMr38gWEeyZXV9Vxaz3
+	coiWk+FkN7vSiBd7ZsjXuNVK1nyJhxhxv5x7IDFPeSlgiFWHe2Xb5XhDVBI1ju8NdmIbyL
+	DXjBmYdTAb5Bz/IafNwFUy6AdBEsYV8=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-529-VR6oFrZQO4GQcfiCszxLXw-1; Mon, 02 May 2022 14:30:50 -0400
-X-MC-Unique: VR6oFrZQO4GQcfiCszxLXw-1
-Received: by mail-qt1-f200.google.com with SMTP id a20-20020a05622a02d400b002f390c55f36so8639344qtx.16
-        for <linux-staging@lists.linux.dev>; Mon, 02 May 2022 11:30:50 -0700 (PDT)
+ us-mta-114-Fi5zc30QMmK4qNcwdQpmfw-1; Mon, 02 May 2022 14:30:52 -0400
+X-MC-Unique: Fi5zc30QMmK4qNcwdQpmfw-1
+Received: by mail-qv1-f71.google.com with SMTP id 30-20020a0c80a1000000b00446218e1bcbso11619320qvb.23
+        for <linux-staging@lists.linux.dev>; Mon, 02 May 2022 11:30:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rguDjv+d49kqJjpBxJsrbZOSzE2Lv6ZdoiYYlDDf/aM=;
-        b=Nx64dQmBQS1WIttxOPRURA6OYN3g0mkLM143KD322PZmblHutmbSfm6GiBl/7te2kf
-         YjOJZJST6K2T3AaKFQCC6AOHVoRG8Njk7y7M83kRD+s0053G7kBQMn73PkFKZUYnkJyl
-         59G0XejPiVp2AIkxspOReOXnGg2ug+jTTl1mO+HFGtWxeItoqKDnoTCfTOSMdCgAZTs4
-         VVI+5QSxvdVcI4ucuBamx/ucVfdFp//5Tdv7p4bexGhR8Gc3W9VezT0rMuUKpay8DbVa
-         s9CiWqDmbvoDktFHron8Zrd3xuOx5s+wivfwxRfbKf+lA8yfnIdTmKg9Tw5WiXxFB8CR
-         qttA==
-X-Gm-Message-State: AOAM533GFyUnqIdYqDbBq1uJGouEPHR59wfs2DLvl9Qr9++PXXtW7Ymg
-	jyQkTSfQaWwUPpRYR2nMuT9ow+OrW+gG6sg+rcm+NNFUsECGMJV8LrJoKkYuWdGX2ocSncJjsNY
-	9zQ1woKflpbfTj/SN0BWKLBnbdg==
-X-Received: by 2002:a37:b1c7:0:b0:67d:6a17:cdcf with SMTP id a190-20020a37b1c7000000b0067d6a17cdcfmr9049120qkf.402.1651516250097;
-        Mon, 02 May 2022 11:30:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwzGMrpuLrvTmxx8frRpTf9Qu2IQ5cz1FrI776CpFn8PKTAz9yYy6P2/rkP71HE8n8rRrh6LQ==
-X-Received: by 2002:a37:b1c7:0:b0:67d:6a17:cdcf with SMTP id a190-20020a37b1c7000000b0067d6a17cdcfmr9049093qkf.402.1651516249729;
-        Mon, 02 May 2022 11:30:49 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2jB/3zr/hOAAqCnoexjZJZZ3VWJxDNXF2l2/CCgwTtU=;
+        b=ZktKEk5ND6I9u/tAyy1s0lKquF/Ph0s0unhenjM8k4jAHYw8mcw5m3noACLHXhNbbO
+         /KLSGUgTtB2/Xim0+WrKenjKMIUnAbp2BoahhNvkQL6e2FvesSsRezD9IhGrOQYcdqL7
+         k+dkBIuY762i7w6zrEUSGjjHh2YiIhOK5ksjwnu5fNscgZmKIWjXpNvpWoCxSed+kuLo
+         IAT0X69NlUFp8sQbn0nrNYnim5vw3P1ERC5QkO7JMCkVvc1Z65wUe2KUIfHSR7ycHQ8j
+         Aa6tcgJn/O9OeZN/DgPolEK1GWJh2dRWUb3C5NN4lCCMmJoWQWagJWI1a2xhGBqCkt/r
+         7wVA==
+X-Gm-Message-State: AOAM531y+xo0R4aE7sK6Pbuhkwhcad52Mmd7IAv98vJEmVUf/6okClV4
+	PqF0c7GNp22X2f4SVPMZdFPPdvKygxRn5tfpZFwzH+kMVtMpqYYoev41wByPb+xX+HJWenNP1np
+	tWLJblo2x5cutRXJV8+5mEbvBpQ==
+X-Received: by 2002:a05:620a:1902:b0:5f1:8f5d:b0f2 with SMTP id bj2-20020a05620a190200b005f18f5db0f2mr9595647qkb.60.1651516252182;
+        Mon, 02 May 2022 11:30:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3CJBU92TjpturzqseBQ/Q0w/mIcCijpWAzznSsZQjXuIVQUluXrP1ZKrWbC/jmzJriC7Z4w==
+X-Received: by 2002:a05:620a:1902:b0:5f1:8f5d:b0f2 with SMTP id bj2-20020a05620a190200b005f18f5db0f2mr9595627qkb.60.1651516251874;
+        Mon, 02 May 2022 11:30:51 -0700 (PDT)
 Received: from fedora.hitronhub.home (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id h12-20020ac846cc000000b002f39b99f68esm4412204qto.40.2022.05.02.11.30.48
+        by smtp.gmail.com with ESMTPSA id h12-20020ac846cc000000b002f39b99f68esm4412204qto.40.2022.05.02.11.30.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 11:30:49 -0700 (PDT)
+        Mon, 02 May 2022 11:30:51 -0700 (PDT)
 From: Adrien Thierry <athierry@redhat.com>
-To: bcm-kernel-feedback-list@broadcom.com,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>
+To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Adrien Thierry <athierry@redhat.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
+	bcm-kernel-feedback-list@broadcom.com,
 	linux-rpi-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 0/3] staging: vchiq_arm: remove some unnecessary global
-Date: Mon,  2 May 2022 14:30:39 -0400
-Message-Id: <20220502183045.206519-1-athierry@redhat.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] staging: vchiq_arm: add reference to vchiq device in vchiq_state
+Date: Mon,  2 May 2022 14:30:40 -0400
+Message-Id: <20220502183045.206519-2-athierry@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220502183045.206519-1-athierry@redhat.com>
+References: <20220502183045.206519-1-athierry@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,28 +71,73 @@ X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-This patch series aims at removing some unnecessary global structures in
-order to make the driver more robust. This is part of an effort to address
-TODO item "Get rid of all non essential global structures and create a
-proper per device structure".
+Add a reference to the vchiq device in the vchiq_state structure. This
+allows the device structure to be passed around, which will be useful in
+order to get rid of the global g_dev structure.
 
-Adrien Thierry (3):
-  staging: vchiq_arm: add reference to vchiq device in vchiq_state
-  staging: vchiq_arm: get rid of global device structure
-  staging: vchiq_arm: get rid of global vchiq_states array
+Signed-off-by: Adrien Thierry <athierry@redhat.com>
+---
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c    | 4 +++-
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h    | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
- .../bcm2835-audio/bcm2835-vchiq.c             | 40 +++++---
- .../include/linux/raspberrypi/vchiq.h         | 49 +++++-----
- .../interface/vchiq_arm/vchiq_arm.c           | 94 +++++++++---------
- .../interface/vchiq_arm/vchiq_arm.h           |  8 +-
- .../interface/vchiq_arm/vchiq_core.c          | 98 ++++++++++---------
- .../interface/vchiq_arm/vchiq_core.h          | 38 +++----
- .../interface/vchiq_arm/vchiq_dev.c           | 40 ++++----
- .../vc04_services/vchiq-mmal/mmal-vchiq.c     | 63 ++++++------
- 8 files changed, 218 insertions(+), 212 deletions(-)
-
-
-base-commit: 5fe7856ad59afc56a6ff35d091bfaddd1d4f4bce
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 0596ac61e286..e6e0737c85fc 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -519,7 +519,7 @@ int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+ 	*(char **)&g_fragments_base[i * g_fragments_size] = NULL;
+ 	sema_init(&g_free_fragments_sema, MAX_FRAGMENTS);
+ 
+-	err = vchiq_init_state(state, vchiq_slot_zero);
++	err = vchiq_init_state(state, vchiq_slot_zero, dev);
+ 	if (err)
+ 		return err;
+ 
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 8f99272dbd6f..0d5c39d7c6e2 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -2142,7 +2142,7 @@ vchiq_init_slots(void *mem_base, int mem_size)
+ }
+ 
+ int
+-vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero)
++vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero, struct device *dev)
+ {
+ 	struct vchiq_shared_state *local;
+ 	struct vchiq_shared_state *remote;
+@@ -2169,6 +2169,8 @@ vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero)
+ 
+ 	memset(state, 0, sizeof(struct vchiq_state));
+ 
++	state->dev = dev;
++
+ 	/*
+ 	 * initialize shared state pointers
+ 	 */
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 82b7bd7b54b2..352017ff5309 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -315,6 +315,7 @@ struct vchiq_slot_zero {
+ };
+ 
+ struct vchiq_state {
++	struct device *dev;
+ 	int id;
+ 	int initialised;
+ 	enum vchiq_connstate conn_state;
+@@ -458,7 +459,7 @@ extern struct vchiq_slot_zero *
+ vchiq_init_slots(void *mem_base, int mem_size);
+ 
+ extern int
+-vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero);
++vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero, struct device *dev);
+ 
+ extern enum vchiq_status
+ vchiq_connect_internal(struct vchiq_state *state, struct vchiq_instance *instance);
 -- 
 2.35.1
 
