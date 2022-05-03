@@ -1,65 +1,90 @@
-Received: from mail.megasoftsol.com (mail.megasoftsol.com [43.231.250.141])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752E43204
-	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 15:01:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.megasoftsol.com (Postfix) with ESMTP id 9F3FB90DA37
-	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 20:17:06 +0530 (IST)
-Received: from mail.megasoftsol.com ([127.0.0.1])
-	by localhost (mail.megasoftsol.com [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id Ia7gHx3RPjQI for <linux-staging@lists.linux.dev>;
-	Tue,  3 May 2022 20:17:06 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.megasoftsol.com (Postfix) with ESMTP id 2F2E390D996
-	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 20:17:06 +0530 (IST)
-X-Virus-Scanned: amavisd-new at megasoftsol.com
-Received: from mail.megasoftsol.com ([127.0.0.1])
-	by localhost (mail.megasoftsol.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id BRkVlcqwn_iI for <linux-staging@lists.linux.dev>;
-	Tue,  3 May 2022 20:17:06 +0530 (IST)
-Received: from asda.co.uk (unknown [20.97.211.134])
-	(Authenticated sender: admin)
-	by mail.megasoftsol.com (Postfix) with ESMTPSA id 5CF1D90D959
-	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 20:17:05 +0530 (IST)
-Reply-To: sales@asdaa.uk
-From: ASDA Stores Limited <Hanes.Thomas23877@asda.co.uk>
-To: linux-staging@lists.linux.dev
-Subject: 2nd Quater puchase request
-Date: 03 May 2022 14:49:33 +0000
-Message-ID: <20220503092157.2CC70E21C463B16E@asda.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3E63204
+	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 15:19:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: benjamin.gaignard)
+	with ESMTPSA id A99681F43FFB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1651591175;
+	bh=Lzclz0U3PP1cu2Zk2o7bgbp4dAMVqW5utV/LmtxRt/8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=No+GYtV7o4MzLGjC8LKJubPV8clRjS7feBQujvJ4NGgRzHhV+lf68pxiYSotIiQbh
+	 4qz6KfqEnD4DoCvAQg66QA2ysWV2wWaYMyzyv/Do+3SfucSYp7G4U1bZNBOqI6bC7O
+	 ABgqCgJuOA/+0tSxLTUNhMGOcZaEtpxBiBGMEnxkGSFAd+XzFhxGGHrL/w8gfl2IDh
+	 7GqLB81jS6KJO/dZKrnauPLzmG+pf9z61YcuQHgdVgJv0MpKYFSOfS+2XjrB7jj5ZR
+	 g8DX4a1zeh4eGdD336KDNAhixfR6gBKCJzQIJH4q7jX47PYvqrZFavOVbxbYvd9Onf
+	 8MgcZuAeSB40g==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	jon@nanocrew.net,
+	aford173@gmail.com,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v4] media: hantro: HEVC: unconditionnaly set pps_{cb/cr}_qp_offset values
+Date: Tue,  3 May 2022 17:19:20 +0200
+Message-Id: <20220503151920.802417-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Dear linux-staging
+Always set pps_cb_qp_offset and pps_cr_qp_offset values in Hantro/G2
+register whatever is V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT
+flag value.
+The vendor code does the same to set these values.
+This fixes conformance test CAINIT_G_SHARP_3.
 
-We are interested in having some of your hot selling product in=20
-our stores and outlets spread all over United Kingdom, Northern=20
-Island and Africa. ASDA Stores Limited is one of the highest-
-ranking Wholesale & Retail outlets in the United Kingdom. 
-=20=20
-We shall furnish our detailed company profile in our next=20
-correspondent. However, it would be appreciated if you can send=20
-us your catalog through email to learn more about your company's=20
-products and wholesale quote. It is hopeful that we can start a=20
-viable long-lasting business relationship (partnership) with you.=20=20
-  
-=20=20
-Your prompt response would be delightfully appreciated. 
-=20=20
-Best Wishes=20
-  
-=20=20
-Hanes S. Thomas=20
-Procurement Office.=20
-ASDA Stores Limited=20
-Tel:  + 44 - 7451271650=20
-WhatsApp: + 44 =E2=80=93 7441440360=20
-Website: www.asda.co.uk
+Fluster HEVC score is increase by one with this patch.
+
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+---
+This patch has been tested with these branches:
+- GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
+- Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/WIP_HEVC_UAPI_V6
+
+It is the setup used to prepare version 6 of the patches to move HEVC
+uAPI to stable.
+
+Fluster score was 77/147 before these series of patches and is now
+124/147.
+
+ drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index 6deb31b7b993..503f4b028bc5 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -194,13 +194,8 @@ static void set_params(struct hantro_ctx *ctx)
+ 		hantro_reg_write(vpu, &g2_max_cu_qpd_depth, 0);
+ 	}
+ 
+-	if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
+-		hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+-		hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+-	} else {
+-		hantro_reg_write(vpu, &g2_cb_qp_offset, 0);
+-		hantro_reg_write(vpu, &g2_cr_qp_offset, 0);
+-	}
++	hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
++	hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+ 
+ 	hantro_reg_write(vpu, &g2_filt_offset_beta, pps->pps_beta_offset_div2);
+ 	hantro_reg_write(vpu, &g2_filt_offset_tc, pps->pps_tc_offset_div2);
+-- 
+2.32.0
+
