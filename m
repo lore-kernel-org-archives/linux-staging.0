@@ -1,44 +1,42 @@
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC6517E9
-	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 07:04:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47FA17E9
+	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 07:04:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1651561446;
-	bh=h/u8mB+P2I1PeYBUyXJQEYLg+PcOwclXueD7WQy5lFA=;
+	s=s201512; t=1651561469;
+	bh=z7k7wTsvrI8fXqJLaHdr3/8X38tXovOFrYAX07qVmJk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=pybSkNBJub80Tx3OEfsEiRdMPv9oMJAYUlzdp4u53UiaWwdBgVaAXWvh2jPM0DfYd
-	 C0SKefwPhC7Fnt5jq6cGQ+0Uryh4/QV1FuFXfyZI/z8ru4RwQUSeJcaaAWLgVBpScF
-	 DmPh/UR/LkcN/8/+ectk6Ej/6utV3n+AwDofGRSE=
+	b=nSSGsoUadKs78HbB04Psb8nlFPYoG9C1zYJFLgDnjWMnTAwJsbcdwk5dSgPLwpw+p
+	 //I2Df3/sNLhJ8kjUoljDA21VqJjaLXVLkGQQ8hskBwdLia3olBjtZcj7g+DE369yS
+	 fVifAQvYDrGfnbgMzzOXJSj3LyJ/Y5N/XWgmrsyk=
 Received: from localhost.localdomain ([59.172.176.242])
-	by newxmesmtplogicsvrszb6.qq.com (NewEsmtp) with SMTP
-	id B78109E; Tue, 03 May 2022 15:02:55 +0800
-X-QQ-mid: xmsmtpt1651561375tmbgzldl9
-Message-ID: <tencent_702C3C4AA9F65F0EE48859211795E3800205@qq.com>
-X-QQ-XMAILINFO: NhUkPfKlCtQwc4l6nqpQb1iMLkQctnwhVMfSaVNQH3tIKaOtuOrS2GkY1bdbOA
-	 d8ivVbHxH890WZrwNDxxhmvYF2wq/kNNfSD1eRsXRQkK3U2DVkdFc0rYxe5ZSpk729KMxyJ8gqsj
-	 8WjKwFdyXECu7d/tL6jihMwl2dk5PES+ZhCPDbSOORzEk9ntGdM2lXalXaBQQnQTg/S+Ovt8kU68
-	 Rn58N78PRC0cGH+7Wich1/JDSmwLD/AOOj/PQkHYyfjwxo0wBNaikvUzx6fTW+u9BI/R2Uyp5ySs
-	 w+iDexUlkz8fQZagX8lMboOBhmtrAdASyu+hgJe1ZwbQw2qKoK9TIpLY38SkPBVK5Y8OBiuigk68
-	 gHzFhdd7iHTw6m6NTEGDo6S4gp6RVk73/OxJGUInWrnr7oN0s/9Co4CQRUIo0Clx83FIpouCfgM1
-	 xYd5m2RsuFKQhB0aVJSkLjKDv8XKj47RcKXj6bnYNTUyYI/Rh/qKwhJmF8GFKf05qVqg/OIgYqSX
-	 HMKWM4Itb9L2msmhWv9HRUOPyLzAJY4UVn769bgw+7RoW6DesaopPp9eYb5gT75B/EHLm+7aNzOs
-	 x3g87NB2XjGgwZ56zZ8oEXLPoAd7McZJZ3YRN7ncSFvXce5zLBCchSsd4Jn2av/R2V0Owo26E9xs
-	 3GLCeEprFtDpjJYUI5wrsCaWLDh4c4rhNkn4kcT1dkQBNX3BInSGd3bwWN4mtZDLhRf76eWy9Gzf
-	 m2C+Uy69N88+tYRDK16L0LvBFuBIyZxZg2jp3/QoMKD6yVASKjiQPRWvWhzEVt8YBzVdS8bvsTYp
-	 UzDBJQcdtSIgIdCLMctwl/PqmsqV2MylmiN06pPUhlgaEjO2Tonz70UoZ+gAaE9igN6O7dNnLbU5
-	 Xv5Zz/ZTUhSXjgqI3IEJRy1lqQXtIA9kAhfb0D9XD9add/MIFok7L9MIH1Y8JrXM9KDzeuR/PVvx
-	 R4VZFV69Tcn9s98Mv+l9EIaCO3OjHRDUvt09JfHeg2CWEJUZaLNKAe4hW8BQ3w
+	by newxmesmtplogicsvrszb7.qq.com (NewEsmtp) with SMTP
+	id 47B2A2E; Tue, 03 May 2022 15:01:07 +0800
+X-QQ-mid: xmsmtpt1651561267tyfxpeng7
+Message-ID: <tencent_9F682882C21F9576FFA9407C989373913809@qq.com>
+X-QQ-XMAILINFO: OCzxluqIaPHWvIXZHtlLtD7iWT1bC1Lh8aJmKj9qLArGKHdwufoP//lHCAaMd8
+	 K5GSnOZOlDOL8hgkCkXL+Q+WIfvUSA14pBo9X5UVbos7ZBAd/Qu+7Gy9+Tg6pQ8oMJ0NQGURqyeL
+	 5wQ1M5h/d2sJlcsUbLvoWuSjuTUnjJ4KspaTuzQA8EerXazMLyV60k2Wc6PdAej7q9A4OsYfD8aj
+	 WoPLsm3mX/M//RlzkQxdTaovwWEWOhES5yd3NwEVD/gkmjOHghgFZsziSRSakrUGkDuzdQUwzxLr
+	 Y2xP5EACCr8FLOSmkHB04cfCIjqXpzy862FUWwkQb0000YFI/OsOMIE8UKeGCY8s/fMRNhCCsc+K
+	 8D5nBOR+HqLRUoDLnMEfVFk4a/nRa7g9QKsL6+JyVjKnXd0BOLXcuPQyQSdwZNN9AI//kjwDZwpy
+	 kmaZ2m4EzmbFxCKfB3drmARBmM7lHFtiPptER6mNrrG1xJdujU5/W6SdYsgbpuKabc7QqBmK0N/5
+	 +qt8EYJP7scz/HUGgEZR63M3Eiv77ofFTeGY3eYE4kRVXMFgWyASU/yVsQZ0oAfQXp2eyk2eODsA
+	 ElGL68ZP7Xbh05fl4+iqc5i2qgmIkWvNODfkFBU3dUgW1hoKj+A8nWVsXmQjyhO8bHy829ooWqbl
+	 CpWHSd7tuzmQlFIo/lM2t+AEgQvCi7Dq4viNHfa11tsM64qfC9xAbtNKGJLgEN84k4h3AdJDJzrc
+	 0ALIM6vPrX8cLv2iGGELaPmOB8ZpmEj0s7aYtbLU9bFUQO1I8fuzXpNocgkiSweBm3rcntcP9zcn
+	 gfiyN56KbeD6E19ucV9isyIzv9Pf/5wqM4uwTgeTSnH7u22l/mMEcskW8ut/Bo5F3kXLnPPrSlPQ
+	 gjQ2WZ3xnDMPSE2xulbe261sGh5FWko9BqPHYGeHmTabqTl3fUtkma+LN3dqrgK9vwh4kwDYYJox
+	 JNTunyMqNxSk5Gl3DyDAwNfcRiz9ofHny4rL4hQF8oIKZBEoHT2Bc92am8I85P
 From: xkernel.wang@foxmail.com
-To: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH 12/12] staging: r8188eu: check the return of kzalloc()
-Date: Tue,  3 May 2022 15:02:46 +0800
-X-OQ-MSGID: <20220503070246.3411-1-xkernel.wang@foxmail.com>
+Subject: [PATCH 08/12] staging: rtl8723bs: fix potential memory leak in rtw_init_drv_sw()
+Date: Tue,  3 May 2022 15:00:57 +0800
+X-OQ-MSGID: <20220503070057.3325-1-xkernel.wang@foxmail.com>
 In-Reply-To: <tencent_A80380E4306BE7BA73E450F084232B4DFC0A@qq.com>
 References: <tencent_A80380E4306BE7BA73E450F084232B4DFC0A@qq.com>
 Precedence: bulk
@@ -51,75 +49,114 @@ Content-Transfer-Encoding: 8bit
 
 From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-kzalloc() is a memory allocation function which can return NULL when
-some internal memory errors happen. So it is better to handle the return
-of it to prevent potential wrong memory access.
+In rtw_init_drv_sw(), there are various init functions are called to
+populate the padapter structure and some checks for their return value.
+However, except for the first one error path, the other five error paths
+do not properly release the previous allocated resources, which leads to
+various memory leaks.
 
-Besides, to propagate the error to the caller, the type of
-rtw_alloc_hwxmits() is changed to `int` and another check is added to
-its caller.
-Then if kzalloc() fails, the caller will properly jump to the
-corresponding error hanlding code.
+This patch fixes this and keeps the success and error separate.
 
 Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_xmit.c    | 10 ++++++++--
- drivers/staging/r8188eu/include/rtw_xmit.h |  2 +-
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 60 +++++++++++----------
+ 1 file changed, 31 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index 4c54647..7d1fa52 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -176,7 +176,9 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index 380d8c9..68bba3c 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -664,51 +664,36 @@ void rtw_reset_drv_sw(struct adapter *padapter)
  
- 	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
- 
--	rtw_alloc_hwxmits(padapter);
-+	res = rtw_alloc_hwxmits(padapter);
-+	if (res == _FAIL)
-+		goto free_xmit_extbuf;
- 	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
- 
- 	for (i = 0; i < 4; i++)
-@@ -1487,7 +1489,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
- 	return res;
- }
- 
--void rtw_alloc_hwxmits(struct adapter *padapter)
-+int rtw_alloc_hwxmits(struct adapter *padapter)
+ u8 rtw_init_drv_sw(struct adapter *padapter)
  {
- 	struct hw_xmit *hwxmits;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
-@@ -1495,6 +1497,8 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
- 	pxmitpriv->hwxmit_entry = HWXMIT_ENTRY;
+-	u8 ret8 = _SUCCESS;
+-
+ 	rtw_init_default_value(padapter);
  
- 	pxmitpriv->hwxmits = kzalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry, GFP_KERNEL);
-+	if (!pxmitpriv->hwxmits)
+ 	rtw_init_hal_com_default_value(padapter);
+ 
+-	if (rtw_init_cmd_priv(&padapter->cmdpriv)) {
+-		ret8 = _FAIL;
+-		goto exit;
+-	}
++	if (rtw_init_cmd_priv(&padapter->cmdpriv))
 +		return _FAIL;
  
- 	hwxmits = pxmitpriv->hwxmits;
+ 	padapter->cmdpriv.padapter = padapter;
  
-@@ -1511,6 +1515,8 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
- 		hwxmits[3] .sta_queue = &pxmitpriv->bk_pending;
- 	} else {
- 	}
-+
+-	if (rtw_init_evt_priv(&padapter->evtpriv)) {
+-		ret8 = _FAIL;
+-		goto exit;
+-	}
++	if (rtw_init_evt_priv(&padapter->evtpriv))
++		goto free_cmd_priv;
+ 
+-
+-	if (rtw_init_mlme_priv(padapter) == _FAIL) {
+-		ret8 = _FAIL;
+-		goto exit;
+-	}
++	if (rtw_init_mlme_priv(padapter) == _FAIL)
++		goto free_evt_priv;
+ 
+ 	init_mlme_ext_priv(padapter);
+ 
+-	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL) {
+-		ret8 = _FAIL;
+-		goto exit;
+-	}
++	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL)
++		goto free_mlme_ext;
+ 
+-	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL) {
+-		ret8 = _FAIL;
+-		goto exit;
+-	}
++	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL)
++		goto free_xmit_priv;
+ 	/*  add for CONFIG_IEEE80211W, none 11w also can use */
+ 	spin_lock_init(&padapter->security_key_mutex);
+ 
+ 	/*  We don't need to memset padapter->XXX to zero, because adapter is allocated by vzalloc(). */
+ 	/* memset((unsigned char *)&padapter->securitypriv, 0, sizeof (struct security_priv)); */
+ 
+-	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL) {
+-		ret8 = _FAIL;
+-		goto exit;
+-	}
++	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL)
++		goto free_recv_priv;
+ 
+ 	padapter->stapriv.padapter = padapter;
+ 	padapter->setband = GHZ24_50;
+@@ -719,9 +704,26 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+ 
+ 	rtw_hal_dm_init(padapter);
+ 
+-exit:
 +	return _SUCCESS;
++
++free_recv_priv:
++	_rtw_free_recv_priv(&padapter->recvpriv);
++
++free_xmit_priv:
++	_rtw_free_xmit_priv(&padapter->xmitpriv);
++
++free_mlme_ext:
++	free_mlme_ext_priv(&padapter->mlmeextpriv);
+ 
+-	return ret8;
++	rtw_free_mlme_priv(&padapter->mlmepriv);
++
++free_evt_priv:
++	rtw_free_evt_priv(&padapter->evtpriv);
++
++free_cmd_priv:
++	rtw_free_cmd_priv(&padapter->cmdpriv);
++
++	return _FAIL;
  }
  
- void rtw_free_hwxmits(struct adapter *padapter)
-diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
-index 54c2bdf..034a9f8 100644
---- a/drivers/staging/r8188eu/include/rtw_xmit.h
-+++ b/drivers/staging/r8188eu/include/rtw_xmit.h
-@@ -341,7 +341,7 @@ s32 rtw_txframes_sta_ac_pending(struct adapter *padapter,
- void rtw_init_hwxmits(struct hw_xmit *phwxmit, int entry);
- s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter);
- void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv);
--void rtw_alloc_hwxmits(struct adapter *padapter);
-+int rtw_alloc_hwxmits(struct adapter *padapter);
- void rtw_free_hwxmits(struct adapter *padapter);
- s32 rtw_xmit(struct adapter *padapter, struct sk_buff **pkt);
- 
+ void rtw_cancel_all_timer(struct adapter *padapter)
 -- 
