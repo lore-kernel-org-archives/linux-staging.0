@@ -1,34 +1,34 @@
 Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2243117E9
-	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 07:02:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC6517E9
+	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 07:04:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1651561361;
-	bh=OWbtuVJZ9U3e0kRU290fgZR2YK74JKN66/5fnkRXd4k=;
+	s=s201512; t=1651561446;
+	bh=h/u8mB+P2I1PeYBUyXJQEYLg+PcOwclXueD7WQy5lFA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Bxp2ySyKe8TeHcYoW1UpwlLThIkUUA0P7eL/K88InUuJ8jCQvRYiebXeQ1geYxyGO
-	 rB+kmoObNQp8295wAqMtEyH24EnDFoTeHEdJX6au3I6p22YyFP6JJisVqWHJmlrqMi
-	 LrGSf6z/6CQsMhtRqtePLt01mZvI+R8Tmjz9+sDs=
+	b=pybSkNBJub80Tx3OEfsEiRdMPv9oMJAYUlzdp4u53UiaWwdBgVaAXWvh2jPM0DfYd
+	 C0SKefwPhC7Fnt5jq6cGQ+0Uryh4/QV1FuFXfyZI/z8ru4RwQUSeJcaaAWLgVBpScF
+	 DmPh/UR/LkcN/8/+ectk6Ej/6utV3n+AwDofGRSE=
 Received: from localhost.localdomain ([59.172.176.242])
-	by newxmesmtplogicsvrsza5.qq.com (NewEsmtp) with SMTP
-	id 5E3F88A; Tue, 03 May 2022 15:01:30 +0800
-X-QQ-mid: xmsmtpt1651561290trm599m8a
-Message-ID: <tencent_EA8B79235780C38F022D9C4389E75F0B6405@qq.com>
-X-QQ-XMAILINFO: M4iqtcQzl/9FsP2jsSxfmBTxVNr75GrLeDtc6JEsSF1TQO8IGkorOBz3GyRok8
-	 3AlThxfdybKWWZwIWOBrp4tArX69z4B0vHujyewfAZr/aU/evMUFMu8GqaozxBVgnd1REfN5k3eY
-	 Zad0f05O8+5EMBKj6Uy9X+L3sKjIbv+UZOUbgRo+aaVnxYBFnqoneEytpThF+UYGqih9Quk8xDR/
-	 RkuZMnfErt35actBwPx+V5651XS7r3IEVabbSHGtdatFB7GNaYNCheoO9lc7YCP5R1ts1CwyVY0A
-	 Gb/qydxdFVMb153M7MtFoaR9E9pP81lsaXQoi2We7dkqC13WZyKhbBL80lAKkXnZEutfapVzgfvS
-	 q+z24mGjawqjMNrafHMW/Q+ckp05y9H4l3YbILRDCmmOqwp+zn2paEYSA1LVwjyXhvxLYXKxgEzM
-	 0G8cFTwtY5VnZRB6/lP8ALLqBR7684vkHIa7RjZMgo32lSGIm6kt02t1I6ghbhC6t4rlTPSonv0k
-	 IFahdY9ZYyPDNHPhSmvEihpIqAMXcU1Nwq5qJPKa/5//bCk0oi8iYAYDlbcvzs3sL+qZ7vava70s
-	 xA9nSswIf9yLE02i/4xsR+W3PpupbxO3ydKKzBavGoDGhDrfloGWKPFUMAvAd/n/8ES4RwnwBz0b
-	 R99qRTtAeLKtfDv8ZTKwYNuJV+i46WoFwr526uD9mu7iT6DDq5uANYsipEREI+ua6jJ3Dv78YYUA
-	 +/+bNTlWWYi8ZkIIs8+c2DFMICrcwB0ypas+cyUE97tRosBW6sqFb3IhVNquQC6Y85mUR+yTKnCM
-	 ns9DEkhr8jU6cy7s9m48aO++mk++72AesIYsOwbMrHoXcx58shu6eVUbqEZjRYjEA9uBBJiOEVkp
-	 Kr7nRCxcdn1sPLjFVKeWTnYYoJi5jnc5WaIawQ4lzNL50Y5+1uRDQrDm5ZLIV8978+YQvx4fSfVZ
-	 YCWGV5KycvuK2+bZ8fe+UNabaYp7Osedu27I87k8cDTDZr/rPL3sR9ZHJ+hYLMAkGvTIgFnWs=
+	by newxmesmtplogicsvrszb6.qq.com (NewEsmtp) with SMTP
+	id B78109E; Tue, 03 May 2022 15:02:55 +0800
+X-QQ-mid: xmsmtpt1651561375tmbgzldl9
+Message-ID: <tencent_702C3C4AA9F65F0EE48859211795E3800205@qq.com>
+X-QQ-XMAILINFO: NhUkPfKlCtQwc4l6nqpQb1iMLkQctnwhVMfSaVNQH3tIKaOtuOrS2GkY1bdbOA
+	 d8ivVbHxH890WZrwNDxxhmvYF2wq/kNNfSD1eRsXRQkK3U2DVkdFc0rYxe5ZSpk729KMxyJ8gqsj
+	 8WjKwFdyXECu7d/tL6jihMwl2dk5PES+ZhCPDbSOORzEk9ntGdM2lXalXaBQQnQTg/S+Ovt8kU68
+	 Rn58N78PRC0cGH+7Wich1/JDSmwLD/AOOj/PQkHYyfjwxo0wBNaikvUzx6fTW+u9BI/R2Uyp5ySs
+	 w+iDexUlkz8fQZagX8lMboOBhmtrAdASyu+hgJe1ZwbQw2qKoK9TIpLY38SkPBVK5Y8OBiuigk68
+	 gHzFhdd7iHTw6m6NTEGDo6S4gp6RVk73/OxJGUInWrnr7oN0s/9Co4CQRUIo0Clx83FIpouCfgM1
+	 xYd5m2RsuFKQhB0aVJSkLjKDv8XKj47RcKXj6bnYNTUyYI/Rh/qKwhJmF8GFKf05qVqg/OIgYqSX
+	 HMKWM4Itb9L2msmhWv9HRUOPyLzAJY4UVn769bgw+7RoW6DesaopPp9eYb5gT75B/EHLm+7aNzOs
+	 x3g87NB2XjGgwZ56zZ8oEXLPoAd7McZJZ3YRN7ncSFvXce5zLBCchSsd4Jn2av/R2V0Owo26E9xs
+	 3GLCeEprFtDpjJYUI5wrsCaWLDh4c4rhNkn4kcT1dkQBNX3BInSGd3bwWN4mtZDLhRf76eWy9Gzf
+	 m2C+Uy69N88+tYRDK16L0LvBFuBIyZxZg2jp3/QoMKD6yVASKjiQPRWvWhzEVt8YBzVdS8bvsTYp
+	 UzDBJQcdtSIgIdCLMctwl/PqmsqV2MylmiN06pPUhlgaEjO2Tonz70UoZ+gAaE9igN6O7dNnLbU5
+	 Xv5Zz/ZTUhSXjgqI3IEJRy1lqQXtIA9kAhfb0D9XD9add/MIFok7L9MIH1Y8JrXM9KDzeuR/PVvx
+	 R4VZFV69Tcn9s98Mv+l9EIaCO3OjHRDUvt09JfHeg2CWEJUZaLNKAe4hW8BQ3w
 From: xkernel.wang@foxmail.com
 To: Larry.Finger@lwfinger.net,
 	phil@philpotter.co.uk,
@@ -36,9 +36,9 @@ To: Larry.Finger@lwfinger.net,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH 09/12] staging: r8188eu: fix a potential memory leak in _rtw_init_cmd_priv()
-Date: Tue,  3 May 2022 15:01:17 +0800
-X-OQ-MSGID: <20220503070117.3346-1-xkernel.wang@foxmail.com>
+Subject: [PATCH 12/12] staging: r8188eu: check the return of kzalloc()
+Date: Tue,  3 May 2022 15:02:46 +0800
+X-OQ-MSGID: <20220503070246.3411-1-xkernel.wang@foxmail.com>
 In-Reply-To: <tencent_A80380E4306BE7BA73E450F084232B4DFC0A@qq.com>
 References: <tencent_A80380E4306BE7BA73E450F084232B4DFC0A@qq.com>
 Precedence: bulk
@@ -51,66 +51,75 @@ Content-Transfer-Encoding: 8bit
 
 From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-In _rtw_init_cmd_priv(), if `pcmdpriv->rsp_allocated_buf` is allocated
-in failure, then `pcmdpriv->cmd_allocated_buf` will not be properly
-released. Besides, considering there are only two error paths and the
-first one can directly return, we do not need to implicitly jump to the
-`exit` tag to execute the error handling code.
+kzalloc() is a memory allocation function which can return NULL when
+some internal memory errors happen. So it is better to handle the return
+of it to prevent potential wrong memory access.
 
-So this patch added `kfree(pcmdpriv->cmd_allocated_buf);` on the error
-path to release the resource and simplified the return logic of
-_rtw_init_cmd_priv().
+Besides, to propagate the error to the caller, the type of
+rtw_alloc_hwxmits() is changed to `int` and another check is added to
+its caller.
+Then if kzalloc() fails, the caller will properly jump to the
+corresponding error hanlding code.
 
 Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+ drivers/staging/r8188eu/core/rtw_xmit.c    | 10 ++++++++--
+ drivers/staging/r8188eu/include/rtw_xmit.h |  2 +-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 06523d9..37b68a9 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -58,8 +58,6 @@ static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 4c54647..7d1fa52 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -176,7 +176,9 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
  
- u32	rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ 	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
+ 
+-	rtw_alloc_hwxmits(padapter);
++	res = rtw_alloc_hwxmits(padapter);
++	if (res == _FAIL)
++		goto free_xmit_extbuf;
+ 	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
+ 
+ 	for (i = 0; i < 4; i++)
+@@ -1487,7 +1489,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 	return res;
+ }
+ 
+-void rtw_alloc_hwxmits(struct adapter *padapter)
++int rtw_alloc_hwxmits(struct adapter *padapter)
  {
--	u32 res = _SUCCESS;
--
- 	init_completion(&pcmdpriv->enqueue_cmd);
- 	/* sema_init(&(pcmdpriv->cmd_done_sema), 0); */
- 	init_completion(&pcmdpriv->start_cmd_thread);
-@@ -74,27 +72,25 @@ u32	rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
- 	pcmdpriv->cmd_allocated_buf = kzalloc(MAX_CMDSZ + CMDBUFF_ALIGN_SZ,
- 					      GFP_KERNEL);
+ 	struct hw_xmit *hwxmits;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+@@ -1495,6 +1497,8 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
+ 	pxmitpriv->hwxmit_entry = HWXMIT_ENTRY;
  
--	if (!pcmdpriv->cmd_allocated_buf) {
--		res = _FAIL;
--		goto exit;
--	}
-+	if (!pcmdpriv->cmd_allocated_buf)
+ 	pxmitpriv->hwxmits = kzalloc(sizeof(struct hw_xmit) * pxmitpriv->hwxmit_entry, GFP_KERNEL);
++	if (!pxmitpriv->hwxmits)
 +		return _FAIL;
  
- 	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((size_t)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ - 1));
+ 	hwxmits = pxmitpriv->hwxmits;
  
- 	pcmdpriv->rsp_allocated_buf = kzalloc(MAX_RSPSZ + 4, GFP_KERNEL);
- 
- 	if (!pcmdpriv->rsp_allocated_buf) {
--		res = _FAIL;
--		goto exit;
-+		kfree(pcmdpriv->cmd_allocated_buf);
-+		pcmdpriv->cmd_allocated_buf = NULL;
-+		return _FAIL;
+@@ -1511,6 +1515,8 @@ void rtw_alloc_hwxmits(struct adapter *padapter)
+ 		hwxmits[3] .sta_queue = &pxmitpriv->bk_pending;
+ 	} else {
  	}
- 
- 	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf  +  4 - ((size_t)(pcmdpriv->rsp_allocated_buf) & 3);
- 
- 	pcmdpriv->cmd_done_cnt = 0;
- 	pcmdpriv->rsp_cnt = 0;
--exit:
- 
--	return res;
++
 +	return _SUCCESS;
  }
  
- u32 rtw_init_evt_priv(struct evt_priv *pevtpriv)
+ void rtw_free_hwxmits(struct adapter *padapter)
+diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
+index 54c2bdf..034a9f8 100644
+--- a/drivers/staging/r8188eu/include/rtw_xmit.h
++++ b/drivers/staging/r8188eu/include/rtw_xmit.h
+@@ -341,7 +341,7 @@ s32 rtw_txframes_sta_ac_pending(struct adapter *padapter,
+ void rtw_init_hwxmits(struct hw_xmit *phwxmit, int entry);
+ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter);
+ void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv);
+-void rtw_alloc_hwxmits(struct adapter *padapter);
++int rtw_alloc_hwxmits(struct adapter *padapter);
+ void rtw_free_hwxmits(struct adapter *padapter);
+ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **pkt);
+ 
 -- 
