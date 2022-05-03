@@ -1,110 +1,79 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from out203-205-221-210.mail.qq.com (out203-205-221-210.mail.qq.com [203.205.221.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3DB17E9
-	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 07:15:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCAB17E9
+	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 08:23:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1651562119;
-	bh=iygDSVmD2rO3aPLIauGKAEgow3E9H/+Nk01MuNwOB7Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=A461XtdFIaRJ7IAvFMtSR4GAUD7znJZ4VSs1AMRiHr9adyufFtVj+p0uXhZmkhz5h
-	 hUwen8ozo4K9jXOHPsN2GvizKaaKyRxgAdpNZOz9GqVaO9UBMinfKMsuyaIGKYu5PG
-	 R7KU+cCZGB8AQOSNTZIXiAK4yC8scXXhqm2J5Flk=
-Received: from localhost.localdomain ([59.172.176.242])
-	by newxmesmtplogicsvrszc8.qq.com (NewEsmtp) with SMTP
-	id EE829C5E; Tue, 03 May 2022 14:59:40 +0800
-X-QQ-mid: xmsmtpt1651561180tckx37ojz
-Message-ID: <tencent_F01FE1394A78FF022020CC24B9791C3E1408@qq.com>
-X-QQ-XMAILINFO: N7h1OCCDntujr0eDvl4RIM37LF5WbctDAUAuch4K4VI10nc6BJWPdf1GGBbVmm
-	 YfHC5WBMiiSWz6TjBqSJOlPhcxS2SGg9ZAdo93uTRtHmOrsXEUSciQ89cxJN/Amv6M8dph/P0y7e
-	 m/P4pH4dJejfD3dciC+Yc38/cvWIuMAV22bicxfzPeV5l2LCOrAl7ay+OC33s2x5ixbrCfL7h4oF
-	 TxGZVueL4Ea94ttGzA03U9/gRvsIjCqaGiXIQJvmMaZsb7MQmsMyTo8wHP7S3EwafEv0oED+DmaA
-	 JQo9QOx9QJpb93uAK9zyGkOhW0nYHjP5MgPVnYvkwfDXCktSbts4ZbaIbE6tGAURGxdcbueUbpvD
-	 5nzAAl9/YV5GuHHlmy5IJ2eJW8gnniz7XIw4XmeE3AOe75J+W5l0Z/cW7Tv8lcY+Xt8OeXHUtSU8
-	 QRHsAQ+FW9zbVTudiZyxpzEN/pP4rh76wd7amiE2x05j4M1l1VifKs2ENlKxdz8Noemwp+rwEJnC
-	 LVzFT+ADdns16EUUdwlS/VcmOLoQdALT1ESvCITYVfiJoJT+GdnNRe31PChhvuYo+FlLNZOUy8Hz
-	 4ogfy3kEQNR8pQcgF8azvZmvRM69CGVmE7n9kAbxBR5tCdF+CuY30eVAFb18mbLFHfpF36v1HnH+
-	 eLEXN/j0TwBeYVGf9twW+Q2XEXYIEpWA9hN1IBW0Sg42phnn0C48BcLybSB1+QvN0rOLJ0JVdEPR
-	 j6lAEXyjLT3t1Ci0Y4N3FuEnPEMn8cCz/Cy3d/4aral3Yvtooqb9+rfQV2L3v61ud/cKw9VfqI8G
-	 vPRxX46bLMojVtBzNKH4wNVJqbNBV0G0DKEzePRR+RH8mFHyZyqQ1ef4ALwzbTclLZ+hdbUXAnxt
-	 kQA7FXcELkC8elYoPOMMuuPjvrjPK4q41fNCp03k3/b+MplsL5JNRPRADIFQAiqqB5RkWN3uuojN
-	 ZyBdrLmN8OK3vMR4LliwFvL6FKLAAGC6RUqyjEKogYg0+NxeJcvjm83V/W1vPt
-From: xkernel.wang@foxmail.com
-To: Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaoke Wang <xkernel.wang@foxmail.com>
-Subject: [PATCH 04/12] staging: rtl8712: change the type of _r8712_init_recv_priv()
-Date: Tue,  3 May 2022 14:59:21 +0800
-X-OQ-MSGID: <20220503065921.3239-1-xkernel.wang@foxmail.com>
-In-Reply-To: <tencent_A80380E4306BE7BA73E450F084232B4DFC0A@qq.com>
-References: <tencent_A80380E4306BE7BA73E450F084232B4DFC0A@qq.com>
+	s=s201512; t=1651566212;
+	bh=NJIAh5guHFYvIB8e0zXNUzDaqjoEDhd3vxvk7zdlYu0=;
+	h=From:To:Cc:References:In-Reply-To:Subject:Date;
+	b=x7g10ICQWAuATr6EdxqrBO3GkHyhDccrRdJC3PZez9NRgwmFQjr0qLSCcaW4SxyVr
+	 MDb0WgE5msBLsVXU1ddAGqmYQ7tpGVRY7fFKkxJT+1fT/MgtOp0lHXrAM5bTAF3mZQ
+	 ek4zF4Qa4Lz2/8Te4UJzyiMlCBDZi5Av7VnkJPPE=
+Received: from helloworld ([59.172.176.225])
+	by newxmesmtplogicsvrsza8.qq.com (NewEsmtp) with SMTP
+	id 59505804; Tue, 03 May 2022 16:22:21 +0800
+X-QQ-mid: xmsmtpt1651566141t4gamjj7h
+Message-ID: <tencent_8C37B90E1C06149CE1844A8CFF232048CC08@qq.com>
+X-QQ-XMAILINFO: NQR8mRxMnur98GHdWRxeREKHoJraU6N7Zpu3RFXNrcHFmccrfKmKpRC0aSHajM
+	 0xoCCao+zyW5Uwxq05ouYTpTy4mORa4CSZ73BTVwSuh8KBADSalcwJmEmo1lkjcCzAgjXJzcQbed
+	 0c9EssZQc+9847elFZsSqyS1aSWB4nQuQt/O3VFLQ8jl9ECsxw9PFqvEyAeCti4dbefwiXS3DuM/
+	 oACOplW5fiO2gEEFyhdNJe3fMPjILtH2uUQjAHmV89iAHo2GjJev5x9H+7lAjUUFmP+Pb1UzF8Sf
+	 VPNFSnFQaLvi1+02Wbq3GFoeQ4NR1es5W2UAeWYvJHLY2xojObIyLLv3HgpY7LiTHhl6r+jgWZhH
+	 gSiVX8mUDNVb1CnbruIOei+U5rj4CUot2YIZzoAlZP3FvfAIkZ8CjH95iTPA8MEXSOoQ8G/3prxA
+	 azMeUIvM77R0faPsduJnRTFz5IMfGeTP4WbwogDU2MqY4hk4F+ZHF21LvEHW3UV4OYgP5joa9zIQ
+	 TZlCgyEZJUagZ05Ht+LO3m3H+IM/WEehCHe6FZEpDwYKumekzHzfW5vU8+iwwVJgTYi2JzloyKgr
+	 UVzof+3wOzwnUgHtVTK+BHcdNXwl70ejCnwzjPjVU5KPzTyuf0OmwIw99U7wbxDOBaGcw9FOLdls
+	 7ciaUJKPI9g3Zp0F9orOzkabEScBxEhlz2oFX75av8DHtb0xeY4yrxnmYOX7XXcvey8UGI1llNeT
+	 2ZJ4T752ljbVOsnXuInNx0qDsG7qpola0EyOTUBKgixN1ccJTPeSJB1NwTM2SiyHJE4+XbrLPlLH
+	 bE6tqvWbC3MgNTGTjTVIhwBm4+2ufrtWBqFjMzwPyDqfZik+dWuS5OU6VialilmR4j8Lh3Ze/rZ9
+	 AlNUJfAuil0bnanKPiJ6pH+oQpishDGJf9mI2vTD60ViifHnO2+UqgHKb4cwKTOn7kuy8fZ9DZFD
+	 jWFre1zJixtyhK5hcWjjAnop6Gkkc4Iml9Jzp2kNeFyz9fSIDqiqlLnun1jkCZ
+From: <xkernel.wang@foxmail.com>
+To: <joe@perches.com>
+Cc: <Larry.Finger@lwfinger.net>,
+	<phil@philpotter.co.uk>,
+	<gregkh@linuxfoundation.org>,
+	<linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+References: <tencent_A80380E4306BE7BA73E450F084232B4DFC0A@qq.com>	 <tencent_702C3C4AA9F65F0EE48859211795E3800205@qq.com> <f6421e8f75a030222bf9cc7ef191648f7495a511.camel@perches.com>
+In-Reply-To: <f6421e8f75a030222bf9cc7ef191648f7495a511.camel@perches.com>
+Subject: Re: [PATCH 12/12] staging: r8188eu: check the return of kzalloc()
+Date: Tue, 3 May 2022 16:22:21 +0800
+X-OQ-MSGID: <000701d85ec6$ea14b1f0$be3e15d0$@foxmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIV0YZsN+y1sjhn79f1inyeXg2RTwLRgsQJAVYDQBuscJ1dsA==
+Content-Language: zh-cn
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+On Tuesday, May 3, 2022 3:09 PM +0800, joe@perches.com wrote:
+> It'd be better to use the typical error returns
 
-There is a memory allocation in _r8712_init_recv_priv().
-However, since the original type of this function is `void`, its error
-status can not be feedbacked to its caller.
-Therefore, to make the error of allocation failures propagate to its
-caller easily, this patch changes the type of this function to `int`.
+Hi Joe,
 
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
- drivers/staging/rtl8712/recv_osdep.h   | 2 +-
- drivers/staging/rtl8712/rtl871x_recv.c | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Thank you for your suggestion. The typical error returns will make these
+codes unified with the code in other places.
+But now we can not directly do that in this patch, otherwise, the original
+functionality will be affected:
 
-diff --git a/drivers/staging/rtl8712/recv_osdep.h b/drivers/staging/rtl8712/recv_osdep.h
-index d8c1fa7..f5b97c5 100644
---- a/drivers/staging/rtl8712/recv_osdep.h
-+++ b/drivers/staging/rtl8712/recv_osdep.h
-@@ -18,7 +18,7 @@
- #include "drv_types.h"
- #include <linux/skbuff.h>
- 
--void _r8712_init_recv_priv(struct recv_priv *precvpriv,
-+int _r8712_init_recv_priv(struct recv_priv *precvpriv,
- 			   struct _adapter *padapter);
- void _r8712_free_recv_priv(struct recv_priv *precvpriv);
- void r8712_recv_entry(union recv_frame *precv_frame);
-diff --git a/drivers/staging/rtl8712/rtl871x_recv.c b/drivers/staging/rtl8712/rtl871x_recv.c
-index de9a568..e814c07 100644
---- a/drivers/staging/rtl8712/rtl871x_recv.c
-+++ b/drivers/staging/rtl8712/rtl871x_recv.c
-@@ -44,7 +44,7 @@ void _r8712_init_sta_recv_priv(struct sta_recv_priv *psta_recvpriv)
- 	_init_queue(&psta_recvpriv->defrag_q);
- }
- 
--void _r8712_init_recv_priv(struct recv_priv *precvpriv,
-+int _r8712_init_recv_priv(struct recv_priv *precvpriv,
- 			   struct _adapter *padapter)
- {
- 	sint i;
-@@ -60,8 +60,7 @@ void _r8712_init_recv_priv(struct recv_priv *precvpriv,
- 				sizeof(union recv_frame) + RXFRAME_ALIGN_SZ,
- 				GFP_ATOMIC);
- 	if (!precvpriv->pallocated_frame_buf)
--		return;
--	kmemleak_not_leak(precvpriv->pallocated_frame_buf);
-+		return -ENOMEM;
- 	precvpriv->precv_frame_buf = precvpriv->pallocated_frame_buf +
- 				    RXFRAME_ALIGN_SZ -
- 				    ((addr_t)(precvpriv->pallocated_frame_buf) &
-@@ -77,6 +76,7 @@ void _r8712_init_recv_priv(struct recv_priv *precvpriv,
- 	}
- 	precvpriv->rx_pending_cnt = 1;
- 	r8712_init_recv_priv(precvpriv, padapter);
-+	return 0;
- }
- 
- void _r8712_free_recv_priv(struct recv_priv *precvpriv)
--- 
+Apart from the returns of the error paths in _rtw_init_xmit_priv itself,
+the functions on its call chain such as rtw_init_drv_sw() in
+staging/r8188eu/os_dep/os_intfs.c are also sensitive to _SUCCESS or _FAIL.
+If we want to unify all of them, there are a lot of changes need to do
+which I think is at least beyond the purpose of this patch.
+
+So I just keeps the form of error returns consistent with the original
+logic.
+
+Regards,
+Xiaoke Wang
+
+
