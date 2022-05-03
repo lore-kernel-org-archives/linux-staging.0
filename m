@@ -1,124 +1,125 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from out203-205-221-155.mail.qq.com (out203-205-221-155.mail.qq.com [203.205.221.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE03E15AB
-	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 03:08:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651547298; x=1683083298;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QhCZIg9TqfRkZJDSFzHBxZAoXeT7GzvUzfL6hRZHXoc=;
-  b=bLvaBn6Epi9U+KZ/TAdpiDajqoQVjvffnnoaauBVl1joNIWhAF9aBRLe
-   AlS3t5A6G/+xQ9kjQ3jnqWHVHaN+eH2v4D52VAyqkvdL+r4eS1cN2tjTF
-   P3jsmwuZdRG5dTpaW4FLByR0VUQM2zUkpqfaKpz8wnG8vYsEAkLJ+/z14
-   dP2EKj9zrmpOhc9BDrHG3CBieVAOMGNUeOa2Lrn2yjZslH2H99tJ18YJy
-   T1kVuyGN2N8YY58y9qrF5ZkOr7iwgSqfJVjPt77LDV4DYl59L7L7ZK0cV
-   xMMxzQ6xcqKFetlwkVhryhLnNcWiqNOgboROaeuf/j4yFsi1mX5kZGEAP
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10335"; a="292570965"
-X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; 
-   d="scan'208";a="292570965"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2022 20:08:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,193,1647327600"; 
-   d="scan'208";a="733744061"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 02 May 2022 20:08:15 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1nlita-000A6W-Gk;
-	Tue, 03 May 2022 03:08:14 +0000
-Date: Tue, 3 May 2022 11:07:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tom Rix <trix@redhat.com>, nsaenz@kernel.org,
-	bcm-kernel-feedback-list@broadcom.com, gregkh@linuxfoundation.org,
-	stefan.wahren@i2se.com, gascoar@gmail.com, ojaswin98@gmail.com
-Cc: kbuild-all@lists.01.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Tom Rix <trix@redhat.com>
-Subject: Re: [PATCH v2] staging: vchiq_arm: change vchiq_platform_init from
- global to static
-Message-ID: <202205031150.FRdwOUbC-lkp@intel.com>
-References: <20220419133616.544255-1-trix@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5252C17E9
+	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 06:58:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1651561126;
+	bh=/491qJnYzSclNx1vERDyC1WZC311I5DFUd7ijjksBNU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=opJDHinVmKF5hviz1hvvfdCj8WbAvHMREHgVKL4KbGqJL/f2B2TWzJ7Bm3S97Yv5V
+	 VLfxxNDFfEvHR5XQ24MyTUpfwn+sUFZ8qKRSXryaiwV991A5Iyhi1jMLbiAH0kvKKy
+	 sxHHTIZ3vjknO2LCayDyF5GIBLy0+qO5+s7m9epY=
+Received: from localhost.localdomain ([59.172.176.242])
+	by newxmesmtplogicsvrsza5.qq.com (NewEsmtp) with SMTP
+	id EAB98809; Tue, 03 May 2022 14:58:43 +0800
+X-QQ-mid: xmsmtpt1651561123tdijbcf3b
+Message-ID: <tencent_6B192577806397022B9C51A9E1DF16849005@qq.com>
+X-QQ-XMAILINFO: MfWa+adQHcqucyr49FpslnDIquvVRalojMY8HACh1qeXkkS/ij/iPp1GO3UBPz
+	 Kpgqjb6Hg6z2Xcd9usN3OqDFLrBzmWtvyrXf4zNbKSWTX/A9Hg8tssY9eJBAyntzf24RyCbFulVB
+	 bGZxBB26xq/TqbPcADHI7rQLSl+wtIfCZd8XJV+p/g0WlxJdjLb0zjbWJ8C4Djfs8I9o+IUENk1/
+	 JCKn52bCuvTH3GN4BktJ3/9uOrZ8BfACHPaPUET7wcIxIXn0nt1V4IXjrz+oAjhFrW/8ivAipo77
+	 pPrVaVdD+ehazJHH8c6yRQnRHiiAdUVhHTEeSFqeu+o7zBOHTBulyUvLtdjAdKYM/5E4jhweuO5e
+	 yyIzCGs/KbW/rGFm0by5hZme6aLQu1O3KBhJdIavt94FxXdi4wAVE3YHu3L/eoHK0iW1kOjFxlwZ
+	 wNfpJqBfHmD+eTsknJC4c2mVAki1GyfnBEbNonFv+7QOqTwcTrb5RPTLuX5ZUaegO4yNLcVU7GZy
+	 RapZuFrmRei4/8pkEc86jULPdd81relznW0mlgvintDFqhE6nir2+UUh1O6Kcbe91tXhdK+3dx2x
+	 dF4nDhxVllRzc3pjKeWvteCUdkO2E/lffnjFmvpQEJcOmkKEYQVBflHLrJh6izd12ugweITcYe3D
+	 cqxfovrMntlUUgT6fdGRHtL4KpSlBuYiaSlNOXmilDr4uG9cGtibnU+OYZWFQ0d3vn3gJGIJIVzx
+	 U+S5PIiscceT/DE68l0S/SBPpVtT6S/u1A5SI0moleJVenJtZoO1B2+CcNoMnc+PNcuhR2w6Vy1V
+	 eAF0t7/YbVn9V9udAgN1IL/mQChK7jQ1dbSq9OYs4ivcAbvWWd+p/pFavD7RKD1YcdZOxfyo1Pnh
+	 0l96B+RVj7q1zY2vyrz2vJhJ5n9A4yru0JqsNuzEksr9WsXf+nJhUKmCteAT3A9jilyysvgMr+CV
+	 I8APbsg2Si+YWAWX1PfhMrHPoyvlg2
+From: xkernel.wang@foxmail.com
+To: Larry.Finger@lwfinger.net,
+	florian.c.schilhabel@googlemail.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Xiaoke Wang <xkernel.wang@foxmail.com>
+Subject: [PATCH 02/12] staging: rtl8712: fix potential memory leak in _r8712_init_xmit_priv()
+Date: Tue,  3 May 2022 14:58:29 +0800
+X-OQ-MSGID: <20220503065829.3197-1-xkernel.wang@foxmail.com>
+In-Reply-To: <tencent_A80380E4306BE7BA73E450F084232B4DFC0A@qq.com>
+References: <tencent_A80380E4306BE7BA73E450F084232B4DFC0A@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419133616.544255-1-trix@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Tom,
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-I love your patch! Perhaps something to improve:
+In _r8712_init_xmit_priv(), if `pxmitbuf->pallocated_buf` is allocated in
+failure or `r8712_xmit_resource_alloc(padapter, pxmitbuf)` fails, then it
+just returns -ENOMEM but not releases the previous allocated resources,
+which leads to various memory leaks.
 
-[auto build test WARNING on staging/staging-testing]
+To fix the memory leaks, this patch unifies the error handler in
+_r8712_init_xmit_priv().
+Note that if `r8712_xmit_resource_alloc(padapter, pxmitbuf)` fails, we
+should call `kfree(pxmitbuf->pallocated_buf);` before goto the error
+section so that we do not need to concern the failed item.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tom-Rix/staging-vchiq_arm-change-vchiq_platform_init-from-global-to-static/20220419-213849
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git bed6d200f8ca38e1ecbdd8fb7e0564884002abd1
-config: openrisc-buildonly-randconfig-r003-20220501 (https://download.01.org/0day-ci/archive/20220503/202205031150.FRdwOUbC-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/36525447e8cdf4a25d5217bffc548768c0f7cec1
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Tom-Rix/staging-vchiq_arm-change-vchiq_platform_init-from-global-to-static/20220419-213849
-        git checkout 36525447e8cdf4a25d5217bffc548768c0f7cec1
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/staging/vc04_services/
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+---
+ drivers/staging/rtl8712/rtl871x_xmit.c | 27 ++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:16:
-   In function 'memcpy_to_page',
-       inlined from 'free_pagelist' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:434:4:
->> include/linux/highmem.h:353:9: warning: argument 2 null where non-null expected [-Wnonnull]
-     353 |         memcpy(to + offset, from, len);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/string.h:20,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:8:
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: In function 'free_pagelist':
-   arch/openrisc/include/asm/string.h:9:14: note: in a call to function 'memcpy' declared 'nonnull'
-       9 | extern void *memcpy(void *dest, __const void *src, __kernel_size_t n);
-         |              ^~~~~~
-   In file included from drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:16:
-   In function 'memcpy_to_page',
-       inlined from 'free_pagelist' at drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:441:4:
->> include/linux/highmem.h:353:9: warning: 'memcpy' offset 0 is out of the bounds [0, 0] [-Warray-bounds]
-     353 |         memcpy(to + offset, from, len);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +353 include/linux/highmem.h
-
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  346  
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  347  static inline void memcpy_to_page(struct page *page, size_t offset,
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  348  				  const char *from, size_t len)
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  349  {
-61b205f579911a Ira Weiny         2021-02-09  350  	char *to = kmap_local_page(page);
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  351  
-ca18f6ea012bf3 Ira Weiny         2021-02-10  352  	VM_BUG_ON(offset + len > PAGE_SIZE);
-bb90d4bc7b6a53 Ira Weiny         2021-02-09 @353  	memcpy(to + offset, from, len);
-8dad53a11f8d94 Christoph Hellwig 2021-07-23  354  	flush_dcache_page(page);
-61b205f579911a Ira Weiny         2021-02-09  355  	kunmap_local(to);
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  356  }
-bb90d4bc7b6a53 Ira Weiny         2021-02-09  357  
-
+diff --git a/drivers/staging/rtl8712/rtl871x_xmit.c b/drivers/staging/rtl8712/rtl871x_xmit.c
+index 090345b..dcf3f76 100644
+--- a/drivers/staging/rtl8712/rtl871x_xmit.c
++++ b/drivers/staging/rtl8712/rtl871x_xmit.c
+@@ -117,11 +117,8 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 	_init_queue(&pxmitpriv->pending_xmitbuf_queue);
+ 	pxmitpriv->pallocated_xmitbuf =
+ 		kmalloc(NR_XMITBUFF * sizeof(struct xmit_buf) + 4, GFP_ATOMIC);
+-	if (!pxmitpriv->pallocated_xmitbuf) {
+-		kfree(pxmitpriv->pallocated_frame_buf);
+-		pxmitpriv->pallocated_frame_buf = NULL;
+-		return -ENOMEM;
+-	}
++	if (!pxmitpriv->pallocated_xmitbuf)
++		goto free_frame_buf;
+ 	pxmitpriv->pxmitbuf = pxmitpriv->pallocated_xmitbuf + 4 -
+ 			      ((addr_t)(pxmitpriv->pallocated_xmitbuf) & 3);
+ 	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
+@@ -130,12 +127,14 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 		pxmitbuf->pallocated_buf =
+ 			kmalloc(MAX_XMITBUF_SZ + XMITBUF_ALIGN_SZ, GFP_ATOMIC);
+ 		if (!pxmitbuf->pallocated_buf)
+-			return -ENOMEM;
++			goto free_xmitbuf;
+ 		pxmitbuf->pbuf = pxmitbuf->pallocated_buf + XMITBUF_ALIGN_SZ -
+ 				 ((addr_t) (pxmitbuf->pallocated_buf) &
+ 				 (XMITBUF_ALIGN_SZ - 1));
+-		if (r8712_xmit_resource_alloc(padapter, pxmitbuf))
+-			return -ENOMEM;
++		if (r8712_xmit_resource_alloc(padapter, pxmitbuf)) {
++			kfree(pxmitbuf->pallocated_buf);
++			goto free_xmitbuf;
++		}
+ 		list_add_tail(&pxmitbuf->list,
+ 				 &(pxmitpriv->free_xmitbuf_queue.queue));
+ 		pxmitbuf++;
+@@ -146,6 +145,18 @@ int _r8712_init_xmit_priv(struct xmit_priv *pxmitpriv,
+ 	init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
+ 	tasklet_setup(&pxmitpriv->xmit_tasklet, r8712_xmit_bh);
+ 	return 0;
++
++free_xmitbuf:
++	pxmitbuf = (struct xmit_buf *)pxmitpriv->pxmitbuf;
++	while (i-- > 0) {
++		r8712_xmit_resource_free(padapter, pxmitbuf);
++		kfree(pxmitbuf->pallocated_buf);
++		pxmitbuf++;
++	}
++	kfree(pxmitpriv->pallocated_xmitbuf);
++free_frame_buf:
++	kfree(pxmitpriv->pallocated_frame_buf);
++	return -ENOMEM;
+ }
+ 
+ void _free_xmit_priv(struct xmit_priv *pxmitpriv)
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
