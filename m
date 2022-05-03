@@ -1,51 +1,52 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB1918D
-	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 14:40:29 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id q8so17949412oif.13
-        for <linux-staging@lists.linux.dev>; Tue, 03 May 2022 07:40:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74373204
+	for <linux-staging@lists.linux.dev>; Tue,  3 May 2022 14:48:44 +0000 (UTC)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-e2fa360f6dso17415676fac.2
+        for <linux-staging@lists.linux.dev>; Tue, 03 May 2022 07:48:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=viN1JYge3+LHciwoVBbOpqiLqa/EK2bPoOneumYYZLg=;
-        b=b50ZOtv06fY2ONdrxcFWf5Z0AFhe0E8sPjWlPc2xcHNe+ho1Wa8O8HfHI9hkthqr5s
-         4qqs1/GvXQFR4ml032gxWR9Tkknovy0PW5jebzxJbNjpIHXhorpY3dEa86pD0bwGmXxd
-         gQXPtCU2diExYL9iZgBEgC7vE0uBL3YqHSYA1f0uyRE2ADJZ4f6ZaClA5lQxToA7RZLO
-         EfP+PFqTsWfY1D7v9R/5xQyZd2ENdUzzWIKYWlrAYMfWf3oqr6XdV1pPNrpxjJN5fpUR
-         fTAl1C+sQsIkoKN++lVkAfccK0vcbmoIiqQgyC5vVDXkLl2f5QW/TTnehL2uQGZvpRHa
-         t9OQ==
+        bh=BV1kdgg88h2dApOYl3eT3CssciiSPlxmubonwKG/mW4=;
+        b=Vx/Eytelo3ZiPPIy6BcMf32X6UZdSEmR2nLRg7aKVjYWa7pjN6x+UjOE23jnBGqj9p
+         FfpfY/XBM2izLWMN0zBVjzfA1nOFDXyofVQlbQQJPYLs37IFoQgPFvTmSB5CDRmtClm1
+         pOUI23aiupAropgM3Gl6CubKEvmi+klBwX9WT/1/4FpSMSSeWyGTYO6Y335hCKOvxLWz
+         Ez5GYoCEp90H2hIEn7+7gw1w8Dg9eqdYPK0LCWpq4IL2h7oK67NZMxxVCeLPWyvBBtmE
+         L0+ootPlnamYUz5j9A//vbWoR2OGnh8whYJOFapzsjAQsN52HkmzMegDRaB4xKM6qZee
+         2uPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=viN1JYge3+LHciwoVBbOpqiLqa/EK2bPoOneumYYZLg=;
-        b=H6lIA/lvHJe6+CQ34zeqTs10UD2wKBTbk1Fsu5T8RNwHIlGOcayDBNlZi5muFGgSUv
-         VbA3z9l1+HR95hnbwsZWswcmnTHyfMM5/we9/KAPQQBT8r61qK7YEoU8v2kVuUSn38bv
-         C2k8QQ0cDYcH8ySrxJWNP0yXSLQZCEoEu5A9QBvQQj6e6Ym6YT39lU9iqKHHEBvMWgYD
-         0WKudoRlP4MkdIM0LAc3Lu5BSoq3UgNCQc5hBAsPono9y1DNk778ahihv1gtQMpwDvjg
-         TEvdKS8QbjSFj/egtEYMnyjF9KeMii8k2r2l59+N3nqe9Wazn3IO/lY/MM34xVAfKG5M
-         Azbw==
-X-Gm-Message-State: AOAM532MoZ+qmeELnQjlu8upQFOTo2lXLD/e/67/9E7q/1PqfMUq/6W0
-	cVlwI67t7+7nBLnqJ6jf//na7Q==
-X-Google-Smtp-Source: ABdhPJxsY5i8IkdgwMEIWLtrRmICgIPPpYv3zOcomHxIHyRk5iJSqb0tgtnLbyk9Hfosv2RiIv0gkw==
-X-Received: by 2002:a05:6808:1a22:b0:325:be76:f246 with SMTP id bk34-20020a0568081a2200b00325be76f246mr1904502oib.74.1651588828558;
-        Tue, 03 May 2022 07:40:28 -0700 (PDT)
+        bh=BV1kdgg88h2dApOYl3eT3CssciiSPlxmubonwKG/mW4=;
+        b=eCAqG9vs4K0TzbJ1m8ToYb/mAp8rj8/Yqhd4xOJUgufz5KVC1alCmdPQwt/RewPWRq
+         O37vIrRl+kJz0rwSJIbdh8wdTQV/BeSSQmlURHs9XB5UcqgQWmDlDT0s0dhdf522qSWy
+         rJuIFo3KZsEQcEfk/HwaVX8fkME2f00W5DOTh9/vhL4PNqT6DbhtKHPgjl9IYSnkHabZ
+         Fx9vxScfZlXQ42Wrrtp/0dci8ufI35Zu4a2crFjVcfZw9b27lzwIPMBuRJIXaBWScKNK
+         lA8H100JXxv/rqtrerimKpkr9IcU3TPCyxbPOXgm3rbANCZ8V6Y+soDB/G6AQ7Es2a/0
+         pX6A==
+X-Gm-Message-State: AOAM532uS81CuLE8cEG8xuPS/XCKPaNfnbNZUOni1f3DQiZq6ZoZT5+A
+	yo+c+r3OqVpeOL5zUckuooJysw==
+X-Google-Smtp-Source: ABdhPJygheLeJdTY7mT0oFr+XZcbBbO/9r9tZYoCSHRNY4qLm/p0Vf9K92aaEDaOY9HSjhTd/4OnKA==
+X-Received: by 2002:a05:6870:d186:b0:ed:a737:8ae4 with SMTP id a6-20020a056870d18600b000eda7378ae4mr1832370oac.25.1651589324016;
+        Tue, 03 May 2022 07:48:44 -0700 (PDT)
 Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
-        by smtp.gmail.com with ESMTPSA id x6-20020a4ae786000000b0035eb4e5a6c1sm4980824oov.23.2022.05.03.07.40.25
+        by smtp.gmail.com with ESMTPSA id d11-20020a0568301b6b00b0060603221265sm4045559ote.53.2022.05.03.07.48.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 07:40:27 -0700 (PDT)
-Date: Tue, 3 May 2022 11:40:22 -0300
+        Tue, 03 May 2022 07:48:43 -0700 (PDT)
+Date: Tue, 3 May 2022 11:48:37 -0300
 From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc: p.zabel@pengutronix.de, mchehab@kernel.org, gregkh@linuxfoundation.org,
 	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	jon@nanocrew.net, aford173@gmail.com, kernel@collabora.com
-Subject: Re: [PATCH v2] media: hantro: HEVC: Fix reference frames management
-Message-ID: <YnE+1mgOnWxaVpfg@eze-laptop>
-References: <20220503135138.678677-1-benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v3] media: hantro: HEVC: unconditionnaly set
+ pps_{cb/cr}_qp_offset values
+Message-ID: <YnFAxRFWXT6oHywm@eze-laptop>
+References: <20220503135529.683474-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,129 +55,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220503135138.678677-1-benjamin.gaignard@collabora.com>
+In-Reply-To: <20220503135529.683474-1-benjamin.gaignard@collabora.com>
 
-On Tue, May 03, 2022 at 03:51:38PM +0200, Benjamin Gaignard wrote:
-> PoC shall be int the range of -2^31 to 2^31 -1
-> (HEVC spec section 8.3.1 Decoding process for picture order count).
-> The current way to know if an entry in reference picture array is free
-> is to test if PoC = UNUSED_REF. Since UNUSED_REF is defined as '-1' that
-> could lead to decode issue if one PoC also equal '-1'.
-> PoC with value = '-1' exists in conformance test SLIST_B_Sony_9.
+On Tue, May 03, 2022 at 03:55:29PM +0200, Benjamin Gaignard wrote:
+> Always set pps_cb_qp_offset and pps_cr_qp_offset values in Hantro/G2
+> register whatever is V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT
+> flag value.
+> The vendor code does the case to set these values.
+
+s/case/same
+
+> This fix conformance test CAINIT_G_SHARP_3.
 > 
-> Change the way unused entries are managed in reference pictures array to
-> avoid using PoC to detect then.
+> Fluster HEVC score is increase by one with this patch.
 > 
-> This patch doesn't change fluster HEVC score.
-> 
+
+Saying "score is increased by one" is not all that useful.
+
+I still believe seeing the Fluster score would be adding real
+information.
+
+The score you have without this patch, and using upstream GStreamer
+is the "current" score. Then the score you get with the patch applied,
+is the score you get after the fix.
+
+And this is actually good as you would also give more information
+by clarifying the score is the result of GStreamer (commit $sha)
+plus Linux.
+
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-Good catch!
+Patch looks fine, but I believe you still have some challenges on the commit
+descriptions, and so we iterate a lot on them.
 
-Thanks,
+How about you proof-read them first (or you ask colleagues to proof-read
+them)?
+
+A useful tip I've profit from is to let patches sit for a few days,
+then re-read and amend the commit before sending them.
 
 Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
+Thanks!
+Ezequiel
+
 > ---
->  .../staging/media/hantro/hantro_g2_hevc_dec.c |  6 ++---
->  drivers/staging/media/hantro/hantro_hevc.c    | 27 +++----------------
->  drivers/staging/media/hantro/hantro_hw.h      |  2 +-
->  3 files changed, 6 insertions(+), 29 deletions(-)
+>  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 > 
 > diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> index 0a8c01ff2fa7..b7835bbf5e98 100644
+> index 6deb31b7b993..503f4b028bc5 100644
 > --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
 > +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> @@ -473,8 +473,8 @@ static int set_ref(struct hantro_ctx *ctx)
+> @@ -194,13 +194,8 @@ static void set_params(struct hantro_ctx *ctx)
+>  		hantro_reg_write(vpu, &g2_max_cu_qpd_depth, 0);
+>  	}
 >  
->  	set_ref_pic_list(ctx);
->  
-> -	/* We will only keep the references picture that are still used */
-> -	ctx->hevc_dec.ref_bufs_used = 0;
-> +	/* We will only keep the references pictures that are still used */
-> +	hantro_hevc_ref_init(ctx);
->  
->  	/* Set up addresses of DPB buffers */
->  	dpb_longterm_e = 0;
-> @@ -515,8 +515,6 @@ static int set_ref(struct hantro_ctx *ctx)
->  	hantro_write_addr(vpu, G2_OUT_CHROMA_ADDR, chroma_addr);
->  	hantro_write_addr(vpu, G2_OUT_MV_ADDR, mv_addr);
->  
-> -	hantro_hevc_ref_remove_unused(ctx);
-> -
->  	for (; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
->  		hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), 0);
->  		hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), 0);
-> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
-> index 7d4b1d72255c..7fdec50dc853 100644
-> --- a/drivers/staging/media/hantro/hantro_hevc.c
-> +++ b/drivers/staging/media/hantro/hantro_hevc.c
-> @@ -25,15 +25,11 @@
->  #define MAX_TILE_COLS 20
->  #define MAX_TILE_ROWS 22
->  
-> -#define UNUSED_REF	-1
-> -
-> -static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
-> +void hantro_hevc_ref_init(struct hantro_ctx *ctx)
->  {
->  	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
-> -	int i;
->  
-> -	for (i = 0;  i < NUM_REF_PICTURES; i++)
-> -		hevc_dec->ref_bufs_poc[i] = UNUSED_REF;
-> +	hevc_dec->ref_bufs_used = 0;
->  }
->  
->  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
-> @@ -60,7 +56,7 @@ int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
->  
->  	/* Add a new reference buffer */
->  	for (i = 0; i < NUM_REF_PICTURES; i++) {
-> -		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF) {
-> +		if (!(hevc_dec->ref_bufs_used & 1 << i)) {
->  			hevc_dec->ref_bufs_used |= 1 << i;
->  			hevc_dec->ref_bufs_poc[i] = poc;
->  			hevc_dec->ref_bufs[i].dma = addr;
-> @@ -71,23 +67,6 @@ int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr)
->  	return -EINVAL;
->  }
->  
-> -void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx)
-> -{
-> -	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
-> -	int i;
-> -
-> -	/* Just tag buffer as unused, do not free them */
-> -	for (i = 0;  i < NUM_REF_PICTURES; i++) {
-> -		if (hevc_dec->ref_bufs_poc[i] == UNUSED_REF)
-> -			continue;
-> -
-> -		if (hevc_dec->ref_bufs_used & (1 << i))
-> -			continue;
-> -
-> -		hevc_dec->ref_bufs_poc[i] = UNUSED_REF;
+> -	if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
+> -		hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+> -		hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+> -	} else {
+> -		hantro_reg_write(vpu, &g2_cb_qp_offset, 0);
+> -		hantro_reg_write(vpu, &g2_cr_qp_offset, 0);
 > -	}
-> -}
-> -
->  static int tile_buffer_reallocate(struct hantro_ctx *ctx)
->  {
->  	struct hantro_dev *vpu = ctx->dev;
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index 9f31cce609d6..5de558386179 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -337,9 +337,9 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
->  void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
->  int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
->  int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
-> +void hantro_hevc_ref_init(struct hantro_ctx *ctx);
->  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
->  int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
-> -void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+> +	hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
+> +	hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
 >  
->  static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
->  {
+>  	hantro_reg_write(vpu, &g2_filt_offset_beta, pps->pps_beta_offset_div2);
+>  	hantro_reg_write(vpu, &g2_filt_offset_tc, pps->pps_tc_offset_div2);
 > -- 
 > 2.32.0
 > 
