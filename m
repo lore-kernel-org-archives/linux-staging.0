@@ -1,339 +1,236 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81BD2110
-	for <linux-staging@lists.linux.dev>; Wed,  4 May 2022 09:29:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1651656559; x=1683192559;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HF6/toeKJzY3vv0eTRFPw9nkYRPugh+z7iO7/NTEyJc=;
-  b=exH2uyGY96mLwCGgjqF6GihiZe45TGaywyHUWtrdKNsoxYJxUplBkzQU
-   CTWh5VfI+iEPdwblbQS09p5jiedaynJUAauOZK4XnZW+a1ST9DeXjzI2M
-   cJOkgCuBsEdiUZsyUhrIOc5V5flcRQXIQClatBxtH/B/P2j7CR8H5S2vU
-   ujUAO1I68BiGPGcqM4Tj1HjQOLXkiwNHsD4Uy1ba65SNtfCcDuXZMdNHA
-   jMJxC0VmTM3gz+Jpb5b4L5q/h/WYIV56kPrX+Vjhhha1/MzlhDfmkZLmq
-   9lDkd7855pMnT3hUQuMEv9j1/cd8BSE/vzsWg61AW1o5fmIU7wcckaB0C
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10336"; a="354149583"
-X-IronPort-AV: E=Sophos;i="5.91,197,1647327600"; 
-   d="scan'208";a="354149583"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2022 02:29:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,197,1647327600"; 
-   d="scan'208";a="548531298"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 04 May 2022 02:29:16 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 57F5D1A5; Wed,  4 May 2022 12:29:17 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gaston Gonzalez <gascoar@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Broadcom Kernel Team <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>
-Subject: [PATCH v2 1/1] staging: vc04_services: Re-use generic struct s32_fract
-Date: Wed,  4 May 2022 12:29:15 +0300
-Message-Id: <20220504092915.72021-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70B72110;
+	Wed,  4 May 2022 09:34:21 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2448iEg4018740;
+	Wed, 4 May 2022 09:34:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type :
+ content-transfer-encoding : in-reply-to : mime-version; s=corp-2021-07-09;
+ bh=pgIDFrs54Z5WFDPfKxd7eaM7t6U//WOGz4FF425C2+M=;
+ b=oKkfik+WMuRKzopxoKYwSSpubdWLV85GK67Lj4jkcMkIGwTUtTSrdv2wLHnp/OJw3Orp
+ +XATsZkDpc8RDMv17yk/DQU3PSZ23XHpBq1zbSkrMAsNjvpfzg26zLLK5qDcBy2M9taQ
+ 7E2LpN33qzApf9355aTxbjAR+NhtBOX494IEoaK5K5AWTAQis2r7neRP/USUFBn+dfR4
+ zQjIcUdv+cZmvaESXk1wfTE+wwyp9GxMvh/c7V2JJ1in/P42vv3y+GVBTd2cQBbLqB4O
+ ONLGo2d0/ssIEHQ/Ntcn/PgQE4dKkXG2IjK02JzvbiqVxaq3xphAiD7bZd+7FgstawJX Bw== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3frwnt7x7s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 04 May 2022 09:34:04 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 2449Vf7Y021366;
+	Wed, 4 May 2022 09:34:03 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3fsvbn696a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 04 May 2022 09:34:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I27pnPw7Mu3cIl+uxoVbzyP8+WlDWahmPBAc3om7EJzUulnNLvXzhh2EDOiShnASj3lSxWMZCUJzfL4EZ6RWhuk1CGPaIG7sBL7q6RGPGVLfP6b0uh0aVJVPOyS2zW97GcEizE7sMbd7rUwp4J3T8cjRqTMi7teLmh2qnUqK60YiYK/oudcHai5vx0N6vqOeTolGc1gaJT/NtvKhkoTXvnVZWlkabjo/+OM3kEi84mln2W7nhO+cQVYC1BU1YkGaAwCjhR5UqsTEjGuldBiuVQWQv7BTMC6XLtRuk6N8PQbBP0cS/P1diWlUwJCdfuW+hfGxPC1I+BntQcmaDxUTIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pgIDFrs54Z5WFDPfKxd7eaM7t6U//WOGz4FF425C2+M=;
+ b=B0CfFLTyYJx2DDcrVX0bApFPH7i+1HE4S1JPw1o2cacEPSuOMNn5xJQrfXsD/HM2UheSdhQHMClKCaYiz6E923706vKRXONb3Dzwl5g2I8RBiApQMFrhshoNmWDlWWSMNNe3v+DtbTmjVqetsqYGMUE3I3i2iHgo5pe3uBZNTJSWLCUhHuEG1Y0Cq59VCEcLulBR4NBJV85HBgbOzcIEn88X1h7vpoCpYj6GMwDqzKgOwsi40p3RiLcAr8ZIup2RToXGUfZmW2ETUVvExBAsWt+ebZOPDrgwfv/yOgSu0xnUObilyAUQbjjancEeDWZd1Lz9/09A7m5iBt6nXplvmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pgIDFrs54Z5WFDPfKxd7eaM7t6U//WOGz4FF425C2+M=;
+ b=fvtI1J2pUM3mYV+RXxuFu+D4viOpxnkJ4TUhwGb6rtP4qFwMprxLwWD30ZMnSIvEX32nzXQwdlKtdYic1mzD8Kvph8zR0BIWvzKpnpq47WGM63J3x6q12o8Cf3WkuFPahxwgEPi7MUAJ2G6z5bEQj452/Dujin9cMeKrjcDZ11k=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by DM6PR10MB3834.namprd10.prod.outlook.com
+ (2603:10b6:5:1d4::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.24; Wed, 4 May
+ 2022 09:34:00 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5164.025; Wed, 4 May 2022
+ 09:34:00 +0000
+Date: Wed, 4 May 2022 12:33:48 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Jaehee <jhpark1013@gmail.com>
+Cc: Kalle Valo <kvalo@kernel.org>,
+        =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Outreachy Linux Kernel <outreachy@lists.linux.dev>,
+        Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH] wfx: use container_of() to get vif
+Message-ID: <20220504093347.GB4009@kadam>
+References: <20220418035110.GA937332@jaehee-ThinkPad-X1-Extreme>
+ <87y200nf0a.fsf@kernel.org>
+ <CAA1TwFCOEEwnayexnJin8T=Fc2HEgHC9jyfj5HxfiWybjUi9GA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAA1TwFCOEEwnayexnJin8T=Fc2HEgHC9jyfj5HxfiWybjUi9GA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MR1P264CA0064.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:3e::29) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9705d73e-e691-49ce-8976-08da2db137fb
+X-MS-TrafficTypeDiagnostic: DM6PR10MB3834:EE_
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR10MB3834F40528F5C102A8136D6C8EC39@DM6PR10MB3834.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	KtVg3MYUqQWe2HJJhiygdl5IkNam2AZGZVggRbyNvUIMY64mr5YwN3y5i/vTTqcZq49/4TrYNNMMX53DTdO/iqfxm2f9m5E8f8ULUbT8fJcXCT3TzmZAXNHVVtSxiZGxAicWJa/LW/OLjW3DBbYuSb59DT+sTh2y41Ce827Qm2HqeK9FGjOov7gfiPD6gvXHo5SQfdkYj8AYpitLS9HwsLaZ666gWqB5gWJf7aG9cFaLWWQGiJh8SRbmXjF+l3V11NI/phrAck7sDmVix4PJRu2D9hIzeW3YF/OpW6F84brLHeRmgoP7koOxi5rScOzyQP39zIYWGJgIWCqbIUIyU4z9XBV50syxQ62jSdNYJoVtGgPOs4iAFSPreZccgNbDxRcAqV7mCn+7X3P/86FuWMZfOvXF/DBb/2EtJt+LCivxk6CtUBTJI7+/KJNQlAQOhKOcpSaAAD0dhjQkdDLl5ouUV2fhezOj7DlhpKkc+7ac2D4Hi5tl+82Tv6nRDPPLboTZykLYVbnBi3vblwY2IV6JXQkkPfLHJfchIB4klS1RbY5q9yIFCwr5ssfGKmf1N3ystsSUh9KviIahb7mGSXEUSW/VOhTKA01/aL2u5XYsU9v93SujC8yixfqbieI6sMaW1WNk0CStw4AGL8EBoUtmnsx6KcB64/hdnFwZVXY7mRDN7J8vPzcNNkW4xzCY8/+KblG3C3IKCfHz5Buudg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(6916009)(54906003)(38350700002)(6486002)(508600001)(52116002)(2906002)(6666004)(38100700002)(6506007)(53546011)(316002)(33656002)(44832011)(26005)(6512007)(9686003)(33716001)(7416002)(8676002)(4326008)(5660300002)(1076003)(186003)(8936002)(66946007)(66556008)(83380400001)(86362001)(66476007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?bkZnOVJWc3hCSnltaVlwUURKR2NwNE94Y1JLbGhyTHdtU00wZ0oxd25FQSs4?=
+ =?utf-8?B?TE9XSUJxb2tETlFjcGFlVExHRUZGTFNGcy82QVlLZDhPZWhEQXF0SVBhY0Fv?=
+ =?utf-8?B?bmNBNG9IbXBPbUk1Z1RtdmFWb3Fuc1hHMjB1Z2xZajFzRm4rZGlmdk5MaXdU?=
+ =?utf-8?B?NWt5bDY3UC9TdVUvaDNjWmVEaWMrVFBiY3p1NXpFYytRU2lpSkVscVIxWFF1?=
+ =?utf-8?B?Z0V2dTF2cm1YZUljZ2IxS2p6WmhONEdWdWtqOHdZUkJsalBKV2o5ZUpGVk04?=
+ =?utf-8?B?b2FiN1hzN2NPQTcyenkvOEpBUlhoRmtGOFJKWlRvS2FUYUJHS2g2eDlmSjhz?=
+ =?utf-8?B?K0F3eVRSeThWWitTcTliZ2lYWVFJSlpURFlvZy9JZ3d4WlMwK3BueGJFNzZm?=
+ =?utf-8?B?Ny9wOG9tenNrUjFYa0dubWl3bEkrQWRPdUZabGtkakIxeVlhbTQxdUU4U1h0?=
+ =?utf-8?B?WmVlNUVYd3FrYXg2UlBVZTg0UERkakVQTVZENWgvRHF4UG1KYXFSZEVyQmVx?=
+ =?utf-8?B?KzdHWGxBVzVzSkpKYm1tWFltZ0d6emRpcjlYd1pBVVRyUzF0YmVKd0ZteHpp?=
+ =?utf-8?B?REZyZDRMc3ZvWEg4dldvZFpJKzdGUnNieTJ0cWt2MUZ0SmppUE11b3lVS0hs?=
+ =?utf-8?B?OGI4M095S0VMbHhxTndSb1BDR2U1cmtDRitwamxXVGRWaUl3eC9aWGdaTG5W?=
+ =?utf-8?B?VU9lWSt0MnYrRE9HWnI2eklPR3pPU3hOVEVGbm5hT2xRa0JmUEJVV1dCUHYv?=
+ =?utf-8?B?dU0rVEZtQlZzdGM4UFpoMm8wMWpUQnp0SHo4c0tibmFJUHlITWZvaXMzSmt3?=
+ =?utf-8?B?eitMaWpXbTdWbC9vdWJiWUU1N0lRSC9KK0VoRGRSczhRK0UrcFZxZHl1SHRi?=
+ =?utf-8?B?UVRFZTlRdHQ5RFlYK2hEQUtyVDZDOS9aOU1La2t3V016UUtqNTRldzNNbDlU?=
+ =?utf-8?B?NzgrRnVPREp1ZGF1aTBId00rT3U4VWRWRFJLemY1bmk5UHpZVWc1OFNOa1dZ?=
+ =?utf-8?B?T3VEcVZ4ZStOU2hkS0ErZ3VGaVE4QTZPbzZOZUJNL1kzNWliTVlDeC9YTkhx?=
+ =?utf-8?B?VUxJNzdWQ2RiSjlhbFZYUFZJem94Rm9PcThtd3dUdzdkOHdZNVZzWTN2RnFN?=
+ =?utf-8?B?cVMvTWFUZy9SUEN1L0Vsam00RlRHYWRQNTBtVzhZVUk5c0NiSnd2Z2RpN0Vu?=
+ =?utf-8?B?VEhIL1dGTk80bmx0dnVuUmV4bTJkS01obm1EOStpdzZSdnY3cjBhR1htNzZ3?=
+ =?utf-8?B?d2dWb3pIYU1KRGdvVHJMeWJBZzN3RGxwV0hPdDFuencvNmtWY3hPY2NOZngz?=
+ =?utf-8?B?VmdVaGpNM1lLaTk2ZWE3VVRBazBYT3o3NFBudVdUbnhVOHFqVUowVGtTbm94?=
+ =?utf-8?B?MFVjQ2Naa2NUcFZ4dmVjcDhFOEVxL0wvM3ZsOWZ3akhhMlBaWHZPMmdwZlhs?=
+ =?utf-8?B?d254NENMS1NPVURTREV1NkJDRTk5bk9ZcDd6aEw1bUFkTzB1K25WQVQ4SW5m?=
+ =?utf-8?B?S2RibXNpUFQyZjJxckswZTY1cm1DdHd3ZUZyMlkzTFZNLzlNU1c0OUpHY09T?=
+ =?utf-8?B?V05TaWc3Z1RjaDNTL2dlWk5PaDFPYktTdlBadjUwaTcrQm5Sb1hnVVVaU2cy?=
+ =?utf-8?B?cnhFaURmZUZtdThFYkExa2htYzI4eDdCck9rempFYnBtcG5BS0NselJ1Z3du?=
+ =?utf-8?B?UlQ4MktMVTBQb1N6YjkxY0RMQU1vVHk0czU3dkRrSzR0dFlvbXR1dUJtdE1C?=
+ =?utf-8?B?NkpkOWRHNEFqVG9WanF3WS92TkI0TDJuN1N4akdJQWovRnlRYW0xRkpzZXVL?=
+ =?utf-8?B?ZHA5RlVoVkRSR3NEclZxK3Q4alZ0dndzanJvcW00R0QyQnhYMVhJVnM2UlFG?=
+ =?utf-8?B?Zkg4QXNPczMxUzBXdk9oczE4NFMzUnlEa0xSTWpjdEpKd0tVODczT0VKSmJ3?=
+ =?utf-8?B?VUpMM2x1MmxtbW5ZKzUrRnZNUWV5SDB6VzNBeGVLUkszWGV5SmpZWEJINUtT?=
+ =?utf-8?B?WndTZnUzSHo2OUxpNVFtV0VEdkRqTElHWk9DREEreXhKRWlvenBSeUlGdVNZ?=
+ =?utf-8?B?ZzZEWHFmbVU2K0xTcy96N3d6L21DK1g3SmFFajI3QUh3b2haU3F6aXQ0VlVn?=
+ =?utf-8?B?M1RkVlNwM3E4aFgrNkdBYVp3VGIwdHI4dWtKbmVPM3I2bjAyN0VMNDRFRDda?=
+ =?utf-8?B?cUNnL2tMM1FDemg5Vmw5NVN1STNRdkdRZGQ3Vnczc3RmNVpTUU1PQmZEZTll?=
+ =?utf-8?B?ZGJlNmZGTjhIY3htYW9yTS9ndUxlWWZuUHpGdytkSTF2MXlleEJXck9HWE9h?=
+ =?utf-8?B?RnBoaitSNFBDUDJLV1E4OUROYVAxMTBiNjdTVlo5eE9lK0lFKzNsRTAzMGZW?=
+ =?utf-8?Q?XFQDPT4dI/fiwjY0=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9705d73e-e691-49ce-8976-08da2db137fb
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 09:34:00.3507
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rffes3zVLj/RNKmjYSVi0nfrk4z7BCDIWlsJPaIdQ3lUG2Qx4esRE+bE3Docx5QrxOn5/ahw9rY6Ip5vQXLuVzMkdI0iRRLl6nkLPuMi1yw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3834
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.858
+ definitions=2022-05-04_03:2022-05-02,2022-05-04 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 adultscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205040063
+X-Proofpoint-ORIG-GUID: 06-oWn5R3Jfwl1Qf_67eKQLe-kYsExD0
+X-Proofpoint-GUID: 06-oWn5R3Jfwl1Qf_67eKQLe-kYsExD0
 
-Instead of custom data type re-use generic struct s32_fract.
-No changes intended.
+On Mon, May 02, 2022 at 02:10:07PM -0400, Jaehee wrote:
+> On Wed, Apr 20, 2022 at 7:58 AM Kalle Valo <kvalo@kernel.org> wrote:
+> >
+> > Jaehee Park <jhpark1013@gmail.com> writes:
+> >
+> > > Currently, upon virtual interface creation, wfx_add_interface() stores
+> > > a reference to the corresponding struct ieee80211_vif in private data,
+> > > for later usage. This is not needed when using the container_of
+> > > construct. This construct already has all the info it needs to retrieve
+> > > the reference to the corresponding struct from the offset that is
+> > > already available, inherent in container_of(), between its type and
+> > > member inputs (struct ieee80211_vif and drv_priv, respectively).
+> > > Remove vif (which was previously storing the reference to the struct
+> > > ieee80211_vif) from the struct wfx_vif, define a function
+> > > wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
+> > > the newly defined container_of construct.
+> > >
+> > > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> >
+> > [...]
+> >
+> > > +static inline struct ieee80211_vif *wvif_to_vif(struct wfx_vif *wvif)
+> > > +{
+> > > +     return container_of((void *)wvif, struct ieee80211_vif, drv_priv);
+> > > +}
+> >
+> > Why the void pointer cast? Avoid casts as much possible.
+> >
+> 
+> Hi Kalle,
+> 
+> Sorry for the delay in getting back to you about why the void pointer
+> cast was used.
+> 
+> In essence, I'm taking private data with a driver-specific pointer
+> and that needs to be resolved back to a generic pointer.
+> 
+> The private data (drv_priv) is declared as a generic u8 array in struct
+> ieee80211_vif, but wvif is a more specific type.
+> 
+> I wanted to also point to existing, reasonable examples such as:
+> static void iwl_mvm_tcm_uapsd_nonagg_detected_wk(struct work_struct *wk)
+> {
+>         struct iwl_mvm *mvm;
+>         struct iwl_mvm_vif *mvmvif;
+>         struct ieee80211_vif *vif;
+> 
+>         mvmvif = container_of(wk, struct iwl_mvm_vif,
+>                               uapsd_nonagg_detected_wk.work);
+>         vif = container_of((void *)mvmvif, struct ieee80211_vif, drv_priv);
+> 
+> in drivers/net/wireless$ less intel/iwlwifi/mvm/utils.c, which does the
+> same thing.
+> 
+> There are fifteen of them throughout:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v2: fixed typo (LKP)
- .../bcm2835-camera/bcm2835-camera.c           | 24 +++++++-------
- .../vc04_services/bcm2835-camera/controls.c   | 33 ++++++++++---------
- .../vchiq-mmal/mmal-msg-common.h              |  7 ++--
- .../vchiq-mmal/mmal-msg-format.h              |  6 ++--
- .../vchiq-mmal/mmal-parameters.h              | 15 ++++-----
- .../vc04_services/vchiq-mmal/mmal-vchiq.c     | 10 +++---
- 6 files changed, 46 insertions(+), 49 deletions(-)
+The cast is fine, but this email is frustrating.
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index 88b1878854e0..fd456d1f7061 100644
---- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -1033,9 +1033,9 @@ static int mmal_setup_video_component(struct bcm2835_mmal_dev *dev,
- 	preview_port->es.video.crop.y = 0;
- 	preview_port->es.video.crop.width = f->fmt.pix.width;
- 	preview_port->es.video.crop.height = f->fmt.pix.height;
--	preview_port->es.video.frame_rate.num =
-+	preview_port->es.video.frame_rate.numerator =
- 				  dev->capture.timeperframe.denominator;
--	preview_port->es.video.frame_rate.den =
-+	preview_port->es.video.frame_rate.denominator =
- 				  dev->capture.timeperframe.numerator;
- 	ret = vchiq_mmal_port_set_format(dev->instance, preview_port);
- 
-@@ -1084,9 +1084,9 @@ static int mmal_setup_encode_component(struct bcm2835_mmal_dev *dev,
- 	port->es.video.crop.y = 0;
- 	port->es.video.crop.width = f->fmt.pix.width;
- 	port->es.video.crop.height = f->fmt.pix.height;
--	port->es.video.frame_rate.num =
-+	port->es.video.frame_rate.numerator =
- 		  dev->capture.timeperframe.denominator;
--	port->es.video.frame_rate.den =
-+	port->es.video.frame_rate.denominator =
- 		  dev->capture.timeperframe.numerator;
- 
- 	port->format.encoding = mfmt->mmal;
-@@ -1225,8 +1225,8 @@ static int mmal_setup_components(struct bcm2835_mmal_dev *dev,
- 	camera_port->es.video.crop.y = 0;
- 	camera_port->es.video.crop.width = f->fmt.pix.width;
- 	camera_port->es.video.crop.height = f->fmt.pix.height;
--	camera_port->es.video.frame_rate.num = 0;
--	camera_port->es.video.frame_rate.den = 1;
-+	camera_port->es.video.frame_rate.numerator = 0;
-+	camera_port->es.video.frame_rate.denominator = 1;
- 	camera_port->es.video.color_space = MMAL_COLOR_SPACE_JPEG_JFIF;
- 
- 	ret = vchiq_mmal_port_set_format(dev->instance, camera_port);
-@@ -1629,8 +1629,8 @@ static int mmal_init(struct bcm2835_mmal_dev *dev)
- 	format->es->video.crop.y = 0;
- 	format->es->video.crop.width = 1024;
- 	format->es->video.crop.height = 768;
--	format->es->video.frame_rate.num = 0; /* Rely on fps_range */
--	format->es->video.frame_rate.den = 1;
-+	format->es->video.frame_rate.numerator = 0; /* Rely on fps_range */
-+	format->es->video.frame_rate.denominator = 1;
- 
- 	format = &camera->output[CAM_PORT_VIDEO].format;
- 
-@@ -1643,8 +1643,8 @@ static int mmal_init(struct bcm2835_mmal_dev *dev)
- 	format->es->video.crop.y = 0;
- 	format->es->video.crop.width = 1024;
- 	format->es->video.crop.height = 768;
--	format->es->video.frame_rate.num = 0; /* Rely on fps_range */
--	format->es->video.frame_rate.den = 1;
-+	format->es->video.frame_rate.numerator = 0; /* Rely on fps_range */
-+	format->es->video.frame_rate.denominator = 1;
- 
- 	format = &camera->output[CAM_PORT_CAPTURE].format;
- 
-@@ -1656,8 +1656,8 @@ static int mmal_init(struct bcm2835_mmal_dev *dev)
- 	format->es->video.crop.y = 0;
- 	format->es->video.crop.width = 2592;
- 	format->es->video.crop.height = 1944;
--	format->es->video.frame_rate.num = 0; /* Rely on fps_range */
--	format->es->video.frame_rate.den = 1;
-+	format->es->video.frame_rate.numerator = 0; /* Rely on fps_range */
-+	format->es->video.frame_rate.denominator = 1;
- 
- 	dev->capture.width = format->es->video.width;
- 	dev->capture.height = format->es->video.height;
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/drivers/staging/vc04_services/bcm2835-camera/controls.c
-index eb722f16fb91..5644d1d457b9 100644
---- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
-@@ -154,13 +154,13 @@ static int ctrl_set_rational(struct bcm2835_mmal_dev *dev,
- 			     struct v4l2_ctrl *ctrl,
- 			     const struct bcm2835_mmal_v4l2_ctrl *mmal_ctrl)
- {
--	struct mmal_parameter_rational rational_value;
-+	struct s32_fract rational_value;
- 	struct vchiq_mmal_port *control;
- 
- 	control = &dev->component[COMP_CAMERA]->control;
- 
--	rational_value.num = ctrl->val;
--	rational_value.den = 100;
-+	rational_value.numerator = ctrl->val;
-+	rational_value.denominator = 100;
- 
- 	return vchiq_mmal_port_parameter_set(dev->instance, control,
- 					     mmal_ctrl->mmal_id,
-@@ -489,9 +489,10 @@ static int ctrl_set_awb_gains(struct bcm2835_mmal_dev *dev,
- 	else if (ctrl->id == V4L2_CID_BLUE_BALANCE)
- 		dev->blue_gain = ctrl->val;
- 
--	gains.r_gain.num = dev->red_gain;
--	gains.b_gain.num = dev->blue_gain;
--	gains.r_gain.den = gains.b_gain.den = 1000;
-+	gains.r_gain.numerator = dev->red_gain;
-+	gains.r_gain.denominator = 1000;
-+	gains.b_gain.numerator = dev->blue_gain;
-+	gains.b_gain.denominator = 1000;
- 
- 	return vchiq_mmal_port_parameter_set(dev->instance, control,
- 					     mmal_ctrl->mmal_id,
-@@ -1271,26 +1272,26 @@ int set_framerate_params(struct bcm2835_mmal_dev *dev)
- 	struct mmal_parameter_fps_range fps_range;
- 	int ret;
- 
--	fps_range.fps_high.num = dev->capture.timeperframe.denominator;
--	fps_range.fps_high.den = dev->capture.timeperframe.numerator;
-+	fps_range.fps_high.numerator = dev->capture.timeperframe.denominator;
-+	fps_range.fps_high.denominator = dev->capture.timeperframe.numerator;
- 
- 	if ((dev->exposure_mode_active != MMAL_PARAM_EXPOSUREMODE_OFF) &&
- 	    (dev->exp_auto_priority)) {
- 		/* Variable FPS. Define min FPS as 1fps. */
--		fps_range.fps_low.num = 1;
--		fps_range.fps_low.den = 1;
-+		fps_range.fps_low.numerator = 1;
-+		fps_range.fps_low.denominator = 1;
- 	} else {
- 		/* Fixed FPS - set min and max to be the same */
--		fps_range.fps_low.num = fps_range.fps_high.num;
--		fps_range.fps_low.den = fps_range.fps_high.den;
-+		fps_range.fps_low.numerator = fps_range.fps_high.numerator;
-+		fps_range.fps_low.denominator = fps_range.fps_high.denominator;
- 	}
- 
- 	v4l2_dbg(1, bcm2835_v4l2_debug, &dev->v4l2_dev,
- 		 "Set fps range to %d/%d to %d/%d\n",
--		 fps_range.fps_low.num,
--		 fps_range.fps_low.den,
--		 fps_range.fps_high.num,
--		 fps_range.fps_high.den);
-+		 fps_range.fps_low.numerator,
-+		 fps_range.fps_low.denominator,
-+		 fps_range.fps_high.numerator,
-+		 fps_range.fps_high.denominator);
- 
- 	ret = vchiq_mmal_port_parameter_set(dev->instance,
- 					    &dev->component[COMP_CAMERA]->output[CAM_PORT_PREVIEW],
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-common.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-common.h
-index d77e15f25dda..492d4c5dca08 100644
---- a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-common.h
-+++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-common.h
-@@ -14,6 +14,8 @@
- #ifndef MMAL_MSG_COMMON_H
- #define MMAL_MSG_COMMON_H
- 
-+#include <linux/types.h>
-+
- enum mmal_msg_status {
- 	MMAL_MSG_STATUS_SUCCESS = 0, /**< Success */
- 	MMAL_MSG_STATUS_ENOMEM,      /**< Out of memory */
-@@ -40,9 +42,4 @@ struct mmal_rect {
- 	s32 height; /**< height */
- };
- 
--struct mmal_rational {
--	s32 num;    /**< Numerator */
--	s32 den;    /**< Denominator */
--};
--
- #endif /* MMAL_MSG_COMMON_H */
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-format.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-format.h
-index 1e996d8cd283..5569876d8c7d 100644
---- a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-format.h
-+++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-format.h
-@@ -14,6 +14,8 @@
- #ifndef MMAL_MSG_FORMAT_H
- #define MMAL_MSG_FORMAT_H
- 
-+#include <linux/math.h>
-+
- #include "mmal-msg-common.h"
- 
- /* MMAL_ES_FORMAT_T */
-@@ -30,8 +32,8 @@ struct mmal_video_format {
- 	u32 width;		/* Width of frame in pixels */
- 	u32 height;		/* Height of frame in rows of pixels */
- 	struct mmal_rect crop;	/* Visible region of the frame */
--	struct mmal_rational frame_rate;	/* Frame rate */
--	struct mmal_rational par;		/* Pixel aspect ratio */
-+	struct s32_fract frame_rate;	/* Frame rate */
-+	struct s32_fract par;		/* Pixel aspect ratio */
- 
- 	/*
- 	 * FourCC specifying the color space of the video stream. See the
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h
-index 2277e05b1e31..a0cdd28101f2 100644
---- a/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h
-+++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h
-@@ -22,6 +22,8 @@
- #ifndef MMAL_PARAMETERS_H
- #define MMAL_PARAMETERS_H
- 
-+#include <linux/math.h>
-+
- /** Common parameter ID group, used with many types of component. */
- #define MMAL_PARAMETER_GROUP_COMMON		(0 << 16)
- /** Camera-specific parameter ID group. */
-@@ -223,11 +225,6 @@ enum mmal_parameter_camera_type {
- 	MMAL_PARAMETER_CUSTOM_AWB_GAINS,
- };
- 
--struct mmal_parameter_rational {
--	s32 num;    /**< Numerator */
--	s32 den;    /**< Denominator */
--};
--
- enum mmal_parameter_camera_config_timestamp_mode {
- 	MMAL_PARAM_TIMESTAMP_MODE_ZERO = 0, /* Always timestamp frames as 0 */
- 	MMAL_PARAM_TIMESTAMP_MODE_RAW_STC,  /* Use the raw STC value
-@@ -243,9 +240,9 @@ enum mmal_parameter_camera_config_timestamp_mode {
- 
- struct mmal_parameter_fps_range {
- 	/**< Low end of the permitted framerate range */
--	struct mmal_parameter_rational	fps_low;
-+	struct s32_fract	fps_low;
- 	/**< High end of the permitted framerate range */
--	struct mmal_parameter_rational	fps_high;
-+	struct s32_fract	fps_high;
- };
- 
- /* camera configuration parameter */
-@@ -350,8 +347,8 @@ enum MMAL_PARAM_FLICKERAVOID {
- };
- 
- struct mmal_parameter_awbgains {
--	struct mmal_parameter_rational r_gain;	/**< Red gain */
--	struct mmal_parameter_rational b_gain;	/**< Blue gain */
-+	struct s32_fract r_gain;	/**< Red gain */
-+	struct s32_fract b_gain;	/**< Blue gain */
- };
- 
- /** Manner of video rate control */
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-index 249dd3e30c2f..845b20e4d05a 100644
---- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-+++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-@@ -744,9 +744,9 @@ static void dump_port_info(struct vchiq_mmal_port *port)
- 			 port->es.video.crop.y,
- 			 port->es.video.crop.width, port->es.video.crop.height);
- 		pr_debug("		 : framerate %d/%d  aspect %d/%d\n",
--			 port->es.video.frame_rate.num,
--			 port->es.video.frame_rate.den,
--			 port->es.video.par.num, port->es.video.par.den);
-+			 port->es.video.frame_rate.numerator,
-+			 port->es.video.frame_rate.denominator,
-+			 port->es.video.par.numerator, port->es.video.par.denominator);
- 	}
- }
- 
-@@ -1549,8 +1549,8 @@ int vchiq_mmal_port_connect_tunnel(struct vchiq_mmal_instance *instance,
- 	dst->es.video.crop.y = src->es.video.crop.y;
- 	dst->es.video.crop.width = src->es.video.crop.width;
- 	dst->es.video.crop.height = src->es.video.crop.height;
--	dst->es.video.frame_rate.num = src->es.video.frame_rate.num;
--	dst->es.video.frame_rate.den = src->es.video.frame_rate.den;
-+	dst->es.video.frame_rate.numerator = src->es.video.frame_rate.numerator;
-+	dst->es.video.frame_rate.denominator = src->es.video.frame_rate.denominator;
- 
- 	/* set new format */
- 	ret = port_info_set(instance, dst);
--- 
-2.35.1
+It sounds like you are saying that you copied it from other code and
+that's not a good answer...  :/  It's easiest if you just copy and paste
+the build error and we can figure out why the cast is need for our
+selves...
+
+drivers/net/wireless/silabs/wfx/data_rx.c: In function ‘wvif_to_vif’:
+./include/linux/build_bug.h:78:41: error: static assertion failed: "pointer type mismatch in container_of()"
+   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+      |                                         ^~~~~~~~~~~~~~
+./include/linux/build_bug.h:77:34: note: in expansion of macro ‘__static_assert’
+   77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+      |                                  ^~~~~~~~~~~~~~~
+./include/linux/container_of.h:19:9: note: in expansion of macro ‘static_assert’
+   19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+      |         ^~~~~~~~~~~~~
+drivers/net/wireless/silabs/wfx/data_rx.c:20:16: note: in expansion of macro ‘container_of’
+   20 |         return container_of(wvif, struct ieee80211_vif, drv_priv);
+      |                ^~~~~~~~~~~~
+
+regards,
+dan carpenter
 
