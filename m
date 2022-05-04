@@ -1,156 +1,159 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0771F2569
-	for <linux-staging@lists.linux.dev>; Wed,  4 May 2022 11:51:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1651665067;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tavZwp8BQxfV8UeYb9Xzxs1vfyyi2W9B0pF5sD/TmHM=;
-	b=WI5pX6tG4lNc7dxOy93ZoXp5L7SbxxBiHZTdWQ7MpkZ7AVZDNgiBAGXnOzNLJig3OzuJsv
-	vYreRLanyHBZijceZxPN3ixLSrVDkK2ZBqPvePrO+9xf/S1FrYaE9EAdPP7tnmPq9aLKjs
-	q7fXdz0qdMlw6d19gDNG1i61E+ET5j8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-I92bNWMMPHeYcaf2XyGiwQ-1; Wed, 04 May 2022 07:51:06 -0400
-X-MC-Unique: I92bNWMMPHeYcaf2XyGiwQ-1
-Received: by mail-ej1-f69.google.com with SMTP id i14-20020a17090639ce00b006dabe6a112fso688306eje.13
-        for <linux-staging@lists.linux.dev>; Wed, 04 May 2022 04:51:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=tavZwp8BQxfV8UeYb9Xzxs1vfyyi2W9B0pF5sD/TmHM=;
-        b=oYs5R33VFIqla2BtPwJh1Nn654dPznx82uIIhvd61rvX9gFtEAw/ict1946e1qdQ61
-         rmF0+gpSfp09vkaG5Ez1eZQzV2/N4Q3NLX7qVz6gF2esIQK5jCf3pmh5nbtmHI9Ve7cz
-         FtNW+peHUSCALXoRVrXdP6iSKH59wMdGXGerSVykxH/RLOD8eHtPqSb1lTKiACc1mqZe
-         2qDMBArGrWwa9szuxUg3lgNtZ/kZggx0Gf7FEPfAFSMpvGfFJ78E8UblPOQr5OpeKPnv
-         7HK5mxR4jAopgYt7J3b14/3zYJyQc7ZsXBMPldbntpLdmdLon5jq2paK66xPqmtdmrKe
-         vMuA==
-X-Gm-Message-State: AOAM5312Nnei6UCoL6k76tGRDXoL8kUmq1n0yQFL8YozJx2sr0BwCpq8
-	FOGg5Z+WbPWKatDAA9iQ3WY9um8FRp0WFtsIpVibEyNxVrEkDjWLRpxcxAaszyvygDn7ycUO8/p
-	vh2PVmufO41XLOu4/dEixTJ8FNg==
-X-Received: by 2002:a17:906:3fd1:b0:6ef:606f:e5c5 with SMTP id k17-20020a1709063fd100b006ef606fe5c5mr19216835ejj.441.1651665065700;
-        Wed, 04 May 2022 04:51:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyfylvO+VKVVbzY5ASXCx0ehCojnDyP/xtWqHiM66c5/brxEnt1fwNb2R3LeYpLzPIIxvzLhQ==
-X-Received: by 2002:a17:906:3fd1:b0:6ef:606f:e5c5 with SMTP id k17-20020a1709063fd100b006ef606fe5c5mr19216817ejj.441.1651665065489;
-        Wed, 04 May 2022 04:51:05 -0700 (PDT)
-Received: from maya.cloud.tilaa.com (maya.cloud.tilaa.com. [2a02:2770:5:0:21a:4aff:fe98:d313])
-        by smtp.gmail.com with ESMTPSA id el8-20020a170907284800b006f3ef214e12sm5674426ejc.120.2022.05.04.04.51.04
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 04 May 2022 04:51:04 -0700 (PDT)
-Date: Wed, 4 May 2022 13:50:59 +0200
-From: Stefano Brivio <sbrivio@redhat.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90E97F;
+	Wed,  4 May 2022 13:26:21 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 244BY6kd029440;
+	Wed, 4 May 2022 13:26:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=t4iaqOSmIxImHRpjcjZEQ8JaaqkHEUwtVV7WOK2Fjcw=;
+ b=k3N9bB506Em69/IMvj7cARh0X1mc+6rpLYN8pDShamY5KNpbexceLrKIL7m2oFB7KOHy
+ WHeSipu5Gg2xvkKxhtuC65fcf8RV96NQaXZWm85+AqwRZfKtxx/F0rL6oaabz86cGSTl
+ JD0maIApGzRvqC2cG62Uzi60LHZjEZsmyyZeQsW+d9H1q9Cry97HaHBDGTD7pmo5BDTd
+ RQbBlAIo5DRQxvVIglhYHfIXQ12WkSlymYuhDhEQIoNCEtPNhwxfrjqW66kTB8TyPq3X
+ eM2mbbJRYA8qv6F4n2c6Fw75uqq8IIdIxnyDENblbQLcEprbHuqAfNgAuS8lCPkfDLXx Kw== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fruq0gfpr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 04 May 2022 13:26:15 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 244DATMq011414;
+	Wed, 4 May 2022 13:26:15 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3fruj3cxdu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 04 May 2022 13:26:15 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ov7w5gHlumAP5/zVSLQ71IODzBuHT4mLLykQDorsvCX4l+bKss9mCZr0viyFEZ8nU2bdGUYz4yDIWZke6C3BNjJnD0nWc2YgJrA/jN36W224BrZFh+tVF2B5ofMI/KycVKoNsHOvOCu2aL+5+IcYaboM3Uf1fzMXnDWYyl/y5fmd8Fd30s96JGmycVL1t5L+3R4jG4tROf7PCtEK4bwl74y11Eu1cTMSlNz6tL8Z0x0VFTC+uSuK0Oqd3bJ06RN35gOs92LWdxd6ztxGPknHyPgUgkuwIYkJR9OLDifLxsAJ2u0E08of7t44mdlHYWt/0dqUQPkh5Db/1OUZOuvEsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t4iaqOSmIxImHRpjcjZEQ8JaaqkHEUwtVV7WOK2Fjcw=;
+ b=FdhVH4EfLW/DQ2hJUVZskeWJFnF85OFXWA+To/HJxkb+drfwJjHAexGy2LgyjBVnQDIJA2y+vR826LV2ahx6+TRKbchpGBls7RGaemRI+OCYRKnQP+MjVkXkKb8SZ3HX68UP3HiP0SsAlm8PJVLexr8PNXI+I8QDQRcJ/HR74IOU/ismRWoehygWh2vPiiTp0KSZlm71aJAFY7mEVBO1HMzOf7ey7SRYK7h0uzvUMirQHx24eP5O6950agFrU9h8iSciz0moTV5MAsk5dIBMNc+8rkSa5Kpp46zZ5yRU5X0eiHyHNkOkoM0w2HBgrtiqlGWyqvXIfLhoL6d0T1T7Uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t4iaqOSmIxImHRpjcjZEQ8JaaqkHEUwtVV7WOK2Fjcw=;
+ b=a5Q1U4QImu43etnw85Xktg+lVRFyM1BIuohnzOOhbsy1VmeZqH+EK+YyOh5GkeE54rkxg459E4Lx0xIFiZrmEECK7LplTnFeXTauX6Xbdx+YIfbq+K+L9+99yDDjgSt3LD8otulnM0YDoyJkPheObQeBZDpNpa49wliSXR6bM2M=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by SJ0PR10MB5632.namprd10.prod.outlook.com
+ (2603:10b6:a03:3df::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.13; Wed, 4 May
+ 2022 13:26:12 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5164.025; Wed, 4 May 2022
+ 13:26:12 +0000
+Date: Wed, 4 May 2022 16:25:51 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Stefano Brivio <sbrivio@redhat.com>
 Cc: Jaehee <jhpark1013@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- =?UTF-8?B?SsOpcsO0bWU=?= Pouiller <jerome.pouiller@silabs.com>, "David S.
- Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, Outreachy Linux Kernel
- <outreachy@lists.linux.dev>
+        =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        Outreachy Linux Kernel <outreachy@lists.linux.dev>
 Subject: Re: [PATCH] wfx: use container_of() to get vif
-Message-ID: <20220504135059.7132b2b6@elisabeth>
-In-Reply-To: <20220504093347.GB4009@kadam>
+Message-ID: <20220504132551.GD4009@kadam>
 References: <20220418035110.GA937332@jaehee-ThinkPad-X1-Extreme>
-	<87y200nf0a.fsf@kernel.org>
-	<CAA1TwFCOEEwnayexnJin8T=Fc2HEgHC9jyfj5HxfiWybjUi9GA@mail.gmail.com>
-	<20220504093347.GB4009@kadam>
-Organization: Red Hat
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ <87y200nf0a.fsf@kernel.org>
+ <CAA1TwFCOEEwnayexnJin8T=Fc2HEgHC9jyfj5HxfiWybjUi9GA@mail.gmail.com>
+ <20220504093347.GB4009@kadam>
+ <20220504135059.7132b2b6@elisabeth>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220504135059.7132b2b6@elisabeth>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0006.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::18)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sbrivio@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5a1019d6-917c-4081-ca83-08da2dd1a887
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5632:EE_
+X-Microsoft-Antispam-PRVS: 
+	<SJ0PR10MB5632D801491B95E518C590F48EC39@SJ0PR10MB5632.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	egH5XqNlNE348hbXZgUJKrzCnjMWI8QaMLcWLTc4rVTVXHcMVGEqPICL8gWn1K4kqrPioBUiAHKbf8BM0n8U5lOpgy3hYzYnIW0iege/ZU3CtXsTGv/WaTjWS/MJDG3eHQFVIKZfQaoRELT6rnfcQApzi8HpZffGH0Lfs+vsBQQEtRrajIlRhuSKgMI1D99572R5l1L5dcRKRSOxnWFIm8WnOpohLwHyWcAJ4sJiJslotbfvXEXB6YeFF1hLJ9Q1leqNU78D4xkqFpfaBaghznN+MSXRFHAs7TLfmwa+G8BGO2V7wRceNlsmuXbBDbsOL6X4bKiJYGfLFOFjjKtmTAWRdwZztVp4dueLo4TFNX3//vw4vSRXsy8oHi0eoSFF9hVzb3ahh0o2QLUyJIUbeNAn2YHRXjLI5UhriwnK6rT1WMv14OQgBqTdVOs0XCpG5Kv9Xvp0ctAqXOvO3mqIffGEwXCy5eaOv0PpWobjruTqh5rrt0ph3SdANv7xwJ4fCsDjxYCpqYghTs4nqdWLTT/Cnp6LDUDvvwWi/qO8lUafMZnyGAwJ6OQa6Y0ZHSyGVTXw8mPUg//RzUxF882HRmguhr/E7sggEb593wApXCb/gLOVcA28tc/FZiZoY3A2diY87c+avT+QHic6dQHnqyu6gXE54DXOuH4XaglafIniRWPpYwlubDPvTdQpAwtlowoVIqbuD6ulyqWGCF4y7A==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(186003)(1076003)(33656002)(9686003)(52116002)(2906002)(26005)(6512007)(4744005)(44832011)(5660300002)(6666004)(83380400001)(8936002)(7416002)(54906003)(6506007)(508600001)(6486002)(4326008)(66946007)(33716001)(66476007)(8676002)(66556008)(86362001)(316002)(6916009)(38350700002)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?aNr/Vyia9lPs7nwzu/lGufE8hc0ra4ecE0o/E8tbAHjzQPoAHHkkzLFFVY8I?=
+ =?us-ascii?Q?8B4KdypiZErLe6eWsNH4YV4G0modmf4nIQm4rKVdRh/tjxazuKHsKiKh0NSJ?=
+ =?us-ascii?Q?+otTyXFiEyTQjyHk+wju6ncSL+FM78QrvHxzi5pXDl/8G4Vb6PvxxnRBxfJG?=
+ =?us-ascii?Q?ZeU723AUCI6XHFQJfYUuFTE2a27+2BGT0NI92ONsgLr2Y+PdhoTwsvFRXq5x?=
+ =?us-ascii?Q?rwtBbQVOxqcQlfz4q7EZUJq5MQl/JvcHAB8eZtM/PD947CPiazO+EmK9MMZl?=
+ =?us-ascii?Q?OmNDlZQRSvbKiTcOW73Vmb8gxHtgRqWzihxl+75NrSTB6LzGfTJBy81/u620?=
+ =?us-ascii?Q?+KTRcb//JtYM6KNsihLIMQZWOtj72bGuWKIF6NOoO6nsrpb5Q7zfH3AgSE1y?=
+ =?us-ascii?Q?svzLHfGiV7O8VEkzjAwMH4H7U1rngZ0vuB5/YP2qo5EiM8CJVz5BoxqTdNGH?=
+ =?us-ascii?Q?Ggcl2++WMfJ03rYoAGXgOtjS0hP3XKiKhmRF6QPXdIfcOVU8lVAqPl0wD8Cq?=
+ =?us-ascii?Q?47FHgf29T4x2FjonAx5eSdWonr2UzgsTDvqTdNzcZyo7vmyIbhxsUO8P2uhi?=
+ =?us-ascii?Q?WzmNUngDa7S1OLRlI/MNYDv4hW9RxIACGQiMPuC11omNvX9hu/UHW8p5WwHU?=
+ =?us-ascii?Q?SsjVI11vCEakonGrmUTVGe08JhwlXtyYJyzjKb4m9ZGvOs6PUJaadTewruuF?=
+ =?us-ascii?Q?AjxTu3QbZXvW3+/XztswvcTSFJDS0nwrCIs/PQyHzRBFt+LTxErQALXAGm6J?=
+ =?us-ascii?Q?qWGYHHFc5r2xt/Ut6Uf3YqVjXYuTxb2jSGKzBAdYCqVW860g06VEDJf3yls3?=
+ =?us-ascii?Q?k/u6wKb4pmf6PTkdMPY3A9QNhqIAk+1B0HV65sH2cxp9ZZniSizxGQFrC1Vs?=
+ =?us-ascii?Q?ogIwfgZ+pkN4PDI0HNdTzPUTlFMcdlsNAyuZGnh3B5La0wYlQunKqYHGJgUx?=
+ =?us-ascii?Q?PuOqXzuT823Je+oKGlrNrDVGGCqSlGlJ9so1nlj3gyZ1u5ddL3iz+7XVPows?=
+ =?us-ascii?Q?XiwjkOZs/2oDsq6XxDvwXQMQqzOhNpPqvdrX9l5vMG7CTmnXngDkqPQXDzPB?=
+ =?us-ascii?Q?1iCwRtFhV0PK64EKLbAZngOJs1bU9whyO0TRRlnJHCDkSSY3w0yW/BVWb8u9?=
+ =?us-ascii?Q?ANpzq6JJhdofYsddVd0acjaUBRLPS36far2BDME0lEOZKwzUiSaCyTV8z6Ls?=
+ =?us-ascii?Q?K7K9AvJqNWgwFBuukzMoTS/gaxlYlgtmh0CNtB5w0VgLzXb9kEsNiI2mln+G?=
+ =?us-ascii?Q?o4SS0eUTJjnJy+O1ynR/yrq16CKOmTAwY0uTw789qtszr2QC1xSkUqFGOjvl?=
+ =?us-ascii?Q?R89MPtuuQ1TH4ALfMA0S/OPfy5uhCoOJUzoVC4RH3V++t9n1t2wCgO3kbQ6Q?=
+ =?us-ascii?Q?L+0iEYwek7OH7wy3FTt2DQLMA//Cdky7zhA/OQVlG0BYnL80uaDbl2JUXt7l?=
+ =?us-ascii?Q?BTGW43BGtYbFUEamHe7F28Z7IMpWjQMzOx5N8pW5vo+2BXVZwqAbHu2kx8D8?=
+ =?us-ascii?Q?Kix8y/0nphXZvX/YHKf4ExQVFw30Hfo4XL7nWwGohNRr1/T4xpAb7h9ZOGDn?=
+ =?us-ascii?Q?jDUwHH9XCgpH0Cu8Ot7yP/v9BZVxpfsftqTsibFwV8hYF7sEWuE0393Nf2As?=
+ =?us-ascii?Q?pjMGfl3uUxipb0tm5/NZ/Zi09xPswe7UcAL+1Q0NiJBfs6N8AZ/NXCtkwrIV?=
+ =?us-ascii?Q?juuUl8J53AKem7DJCv/hjo1/FQwFX3pzk0ERoSiCPhk4rEMY24NMnH9mIxp1?=
+ =?us-ascii?Q?frwi/2b8VtGEOp7BoIwaNaDPdl17/JU=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a1019d6-917c-4081-ca83-08da2dd1a887
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 13:26:12.7420
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ippmVmAc1/+KRZLd5TYzNS2IMCd2Rxh+7YlYP1chWbZHxmJJz6/7TljaVqsgZQJ3zMs4VMJsa6NevmYMMjApIJ43wXwpXLJ2QZ5T+Rq265Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5632
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.858
+ definitions=2022-05-04_04:2022-05-04,2022-05-04 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 mlxscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205040085
+X-Proofpoint-ORIG-GUID: mXdSOyF_xKPnOPUGmQoLEIXxNHlnqx38
+X-Proofpoint-GUID: mXdSOyF_xKPnOPUGmQoLEIXxNHlnqx38
 
-Hi Dan,
+On Wed, May 04, 2022 at 01:50:59PM +0200, Stefano Brivio wrote:
+> And that it's *obvious* that container_of() would trigger warnings
+> otherwise. Well, obvious just for me, it seems.
 
-On Wed, 4 May 2022 12:33:48 +0300
-Dan Carpenter <dan.carpenter@oracle.com> wrote:
+:P
 
-> On Mon, May 02, 2022 at 02:10:07PM -0400, Jaehee wrote:
-> > On Wed, Apr 20, 2022 at 7:58 AM Kalle Valo <kvalo@kernel.org> wrote:  
-> > >
-> > > Jaehee Park <jhpark1013@gmail.com> writes:
-> > >  
-> > > > Currently, upon virtual interface creation, wfx_add_interface() stores
-> > > > a reference to the corresponding struct ieee80211_vif in private data,
-> > > > for later usage. This is not needed when using the container_of
-> > > > construct. This construct already has all the info it needs to retrieve
-> > > > the reference to the corresponding struct from the offset that is
-> > > > already available, inherent in container_of(), between its type and
-> > > > member inputs (struct ieee80211_vif and drv_priv, respectively).
-> > > > Remove vif (which was previously storing the reference to the struct
-> > > > ieee80211_vif) from the struct wfx_vif, define a function
-> > > > wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
-> > > > the newly defined container_of construct.
-> > > >
-> > > > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>  
-> > >
-> > > [...]
-> > >  
-> > > > +static inline struct ieee80211_vif *wvif_to_vif(struct wfx_vif *wvif)
-> > > > +{
-> > > > +     return container_of((void *)wvif, struct ieee80211_vif, drv_priv);
-> > > > +}  
-> > >
-> > > Why the void pointer cast? Avoid casts as much possible.
-> > >  
-> > 
-> > Hi Kalle,
-> > 
-> > Sorry for the delay in getting back to you about why the void pointer
-> > cast was used.
-> > 
-> > In essence, I'm taking private data with a driver-specific pointer
-> > and that needs to be resolved back to a generic pointer.
-> > 
-> > The private data (drv_priv) is declared as a generic u8 array in struct
-> > ieee80211_vif, but wvif is a more specific type.
-> > 
-> > I wanted to also point to existing, reasonable examples such as:
-> > static void iwl_mvm_tcm_uapsd_nonagg_detected_wk(struct work_struct *wk)
-> > {
-> >         struct iwl_mvm *mvm;
-> >         struct iwl_mvm_vif *mvmvif;
-> >         struct ieee80211_vif *vif;
-> > 
-> >         mvmvif = container_of(wk, struct iwl_mvm_vif,
-> >                               uapsd_nonagg_detected_wk.work);
-> >         vif = container_of((void *)mvmvif, struct ieee80211_vif, drv_priv);
-> > 
-> > in drivers/net/wireless$ less intel/iwlwifi/mvm/utils.c, which does the
-> > same thing.
-> > 
-> > There are fifteen of them throughout:  
-> 
-> The cast is fine, but this email is frustrating.
-> 
-> It sounds like you are saying that you copied it from other code and
-> that's not a good answer...  :/  It's easiest if you just copy and paste
-> the build error and we can figure out why the cast is need for our
-> selves...
+Apparently it wasn't obvious to Kalle and me.  My guess is that you saw
+the build error.  Either that or Kalle and I are geezers who haven't
+looked at container_of() since before the BUILD_BUG_ON() was added five
+years ago.
 
-...my bad, then.
-
-I suggested to Jaehee she would *also* point out that there are already
-a pile of usages (which I grepped for myself, by the way).
-
-And that it's *obvious* that container_of() would trigger warnings
-otherwise. Well, obvious just for me, it seems.
-
--- 
-Stefano
+regards,
+dan carpenter
 
