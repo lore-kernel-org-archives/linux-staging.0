@@ -1,479 +1,173 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2080.outbound.protection.outlook.com [40.107.237.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8532B7F;
-	Tue,  3 May 2022 18:21:52 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id fu47so14172577qtb.5;
-        Tue, 03 May 2022 11:21:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D312101;
+	Wed,  4 May 2022 07:21:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SzEb43ABQ3ddRTHXyR9mkGSYD3j/thZkYuAjW3DedRosbbvZ/NNF7Bk180txwhxH4NwpJh0LGZViF7OMqMg7KBQLXLvyBlHsxAZGJIw2P+ooQ7alXYQnbkOJTTasOkyQsLARtX6I2kt5S4pBgOm2BMvIWuj/7DjT7+qXM7/rB+gRCsvkWlxPHgfKrVjY6SYjPZmzWQoyOB1nvakheUxxY6w2JyLlM7SELaueiH6/hd8h/+ac0LFNpoZwBYxnEwsfiBhIyLmzHwcGSiy7IV40TrPyMAsbUetF5rob1sAGOGzgi+hlzewuLpPOEQhm/PxfmKaGLinNlq0rwWrLZ8NzVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=60YjqTa2+342NhJqstej3/N9FKl3FxD9uzekDxGCKik=;
+ b=F73Q/fhkjPQ+ZHbbTvQkiCP1+nOa/dbZsYbDT2viTxxfiy56p00KjARpfGQzb7QEuYaGdQJY/N+Uf4mxSxIqQbiro64fdZu3PGz7k+NvCvA0KbFHFq6FKt/x+ZAAM/160Zj6Exb4bR3YRb1BCv1fEIrLww/jMNo1Vuhk41suGmQ8FUK05vFJSg4xUgxcJ+NiUOSe9LQp1a9Y8ASO1u5mMPkFOzKI+EuaLUh09Wvmot/jvH+mf1y5BLP5XJ2OecoDSW5wPnYo9iDCSLHeSW559CT+6ZU/DcDZrd/k38QVbpTWIL52StuxMQNZJHoz3nR1DprsUUd9iI4O4eVSMSvqOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
+ dkim=pass header.d=silabs.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=A89bvHB9/skk71qzGzTfssrjF18Iiz/7j6n3+qkIBy8=;
-        b=iU+3Zhhd/DrAcxiHzEY43mr4ru/G+LZtwZwhjSKkifli96ucX9lTtI5zTADMC9FObB
-         U1X/iJJTgBNA3fLlTlF/Rnfn/h95T9IamuSivAIKAZSYCz0cHNNyp7gXOPg8bq9DaALY
-         5KSHepbeaWP3EnQm4XJBf2nmabZsA7u+5uYhGZc/xJSh8Z33UOoz8KQKcn54wcVbHj1F
-         czahJGUmn0EMLWAkbPVNvp683k+52XCI4NC2retrM0LB0s3aXfVCgmj2t308d42/aXzT
-         4tN3UHTZqhnNIOnslAoigaw1RQI/okjnUQxVNB8vQJr/Qn9ifPiXohXvkqjnheiSc8R0
-         qSjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=A89bvHB9/skk71qzGzTfssrjF18Iiz/7j6n3+qkIBy8=;
-        b=CK56SSSjZHzx/cnyIM4ApdpdH27WcIUq9hcywwUyjkW9XC7Ff1JQ0FExd/SE9wc9Ws
-         FUasHRq9bASI2Ng4dxRbgh6cLdcAsktjkbFDBrRf4bPPwck0uMSZTkGlp2CKP5xn0EGZ
-         4mR6XwVf6wWKQnjlOjmfloF86ULg4AFWhDnUoP7vBHcDVtq9TnIy9zJ15xRSFQuLPCiC
-         sd0k4lycT4brOnBbNpTnWI9G7GDJdm+fvqK+gVOoDMiAD3Ubcif19nAutRxWPyfhHvui
-         RcsRr29n6pIAHwyUWziAtKRSd5d14O3hUaKNtINgyhjaiFatfs9ih/rj+jvGTXkZdCbs
-         U9AQ==
-X-Gm-Message-State: AOAM533/DD/acUF5L+iMJ8yLIUb20z8JBWj5CwIFBH5s7JZsoPynbPlY
-	F2kLFFfbC99WA7I2Ex4U+yg=
-X-Google-Smtp-Source: ABdhPJzx6kc4UQEFMO5pSI4M/TK1mqo0S11x3lgerW4bJUKLmXQcu/ZgSHxqOhqOozBG7MJfZGJe2Q==
-X-Received: by 2002:ac8:7d01:0:b0:2f3:a7b1:586f with SMTP id g1-20020ac87d01000000b002f3a7b1586fmr8072489qtb.23.1651602111278;
-        Tue, 03 May 2022 11:21:51 -0700 (PDT)
-Received: from jaehee-ThinkPad-X1-Extreme ([4.34.18.218])
-        by smtp.gmail.com with ESMTPSA id z13-20020ac875cd000000b002f39b99f6a1sm6155166qtq.59.2022.05.03.11.21.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 11:21:50 -0700 (PDT)
-Date: Tue, 3 May 2022 14:21:46 -0400
-From: Jaehee Park <jhpark1013@gmail.com>
-To: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	outreachy@lists.linux.dev, Jaehee Park <jhpark1013@gmail.com>,
-	Stefano Brivio <sbrivio@redhat.com>
-Subject: [PATCH v5] wfx: use container_of() to get vif
-Message-ID: <20220503182146.GA886740@jaehee-ThinkPad-X1-Extreme>
+ d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=60YjqTa2+342NhJqstej3/N9FKl3FxD9uzekDxGCKik=;
+ b=Usv2ePNeNloLLwYt5VFrsnVG3eG5ZAG+QUx4nHOR6mni+G9qgXfn1ctYji0Upe9ziWcRk6Gh7iH4/XS6FcXdm2KpLeJhrLo2EPJFUlRXNjzqk+xp1So84bQcfv1XEwN8JBeby4ay7Qolzfz2ndlEdaUrhcCNZi87bqJRRYBW84c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=silabs.com;
+Received: from CO6PR11MB5650.namprd11.prod.outlook.com (2603:10b6:5:35a::9) by
+ BN6PR11MB1521.namprd11.prod.outlook.com (2603:10b6:405:e::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5206.13; Wed, 4 May 2022 07:21:27 +0000
+Received: from CO6PR11MB5650.namprd11.prod.outlook.com
+ ([fe80::f4a6:5ef8:6a66:3251]) by CO6PR11MB5650.namprd11.prod.outlook.com
+ ([fe80::f4a6:5ef8:6a66:3251%8]) with mapi id 15.20.5206.024; Wed, 4 May 2022
+ 07:21:27 +0000
+From: =?ISO-8859-1?Q?J=E9r=F4me?= Pouiller <jerome.pouiller@silabs.com>
+To: Kalle Valo <kvalo@kernel.org>, "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-wireless@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, outreachy@lists.linux.dev, Jaehee Park <jhpark1013@gmail.com>, Stefano Brivio <sbrivio@redhat.com>, Jaehee Park <jhpark1013@gmail.com>
+Subject: Re: [PATCH v5] wfx: use container_of() to get vif
+Date: Wed, 04 May 2022 09:21:21 +0200
+Message-ID: <16415431.geO5KgaWL5@pc-42>
+Organization: Silicon Labs
+In-Reply-To: <20220503182146.GA886740@jaehee-ThinkPad-X1-Extreme>
+References: <20220503182146.GA886740@jaehee-ThinkPad-X1-Extreme>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-ClientProxiedBy: SA1P222CA0027.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:22c::11) To CO6PR11MB5650.namprd11.prod.outlook.com
+ (2603:10b6:5:35a::9)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3974d25f-be9c-4daf-9c45-08da2d9eb3c9
+X-MS-TrafficTypeDiagnostic: BN6PR11MB1521:EE_
+X-Microsoft-Antispam-PRVS:
+	<BN6PR11MB1521FE342151F4C5DD97B1B093C39@BN6PR11MB1521.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	rcQQ9LS8NDiZsar5UtySNh2W2ugFWOQjU3qT8Kpb1VY9sdYfOSI1oxG7gdCT6rVCct1X0LiPCAB2qwpahtkwNaMBkGY7HpaaU36GbP+1QBCBL7FLh89hqwVVRf0rmGjQfdb1hiX1nj1RT3g/Sj7hzSfQ594CCj+K/GAvaPjKh11lt/ukWalYq6zDymZMDY3DKJAjVMV1ZHNNo16BSY6bNljjtzRoG/riue610nzbZefZInOt2b1TLDHhAkRp7IPE048MhKeeTgcvNrqD35um2yhpeBd7Ay2h+cLT7s7mkRj2jqDlmFQi37JIWues+U7b8BOqHmko4wl2pRNSxkZ1pGPMMcEuN2I3WoJiWJH2PebUg9jtwSWjzp6FJh6QKJRZUB/+cmauEdAZ8EaygbTD8FtVHfpJX8dkNaMzBGlXqCDg2zM4D3hQoacqqZ5l9zuxpyV0CjvsaN0YHYZuzuL9VUGVWKx9JLxfXXG2uIQp+4yZ5omh3uSNvMSIyNXG7uAdgQBLeAtG2XxpzyQ8QctDS1RdfoTZLZbiCiFX6/6pkz9FwyGqJd9GgtuurhRVCkA0l051PaIAgxM0imyQZpgHW4ny8jE84sWamZjTQqHwwaBfvymWsqL9xJG1lKpEUQBX6PEsAYVg7qGwskQfV391VHiEhuJ6XC4ozhec4wfFCNcsEOGopQ5KCt7cwFlmQXregsKODlJA0MKbFzjNYurFvQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5650.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(52116002)(5660300002)(33716001)(7416002)(36916002)(66476007)(66946007)(66556008)(508600001)(8936002)(8676002)(921005)(6506007)(316002)(6666004)(38100700002)(2906002)(6486002)(110136005)(83380400001)(6512007)(9686003)(186003)(86362001)(66574015)(39026012);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?QXLNWOu0w3s72ekf2ht//bFtQvb5diDgeWnVJc5FqNnlmEu8eBzcO6r5wl?=
+ =?iso-8859-1?Q?ltIZ1NHGXjIMfsTxO1751Ig+2wHpdjKmjK7bRyqrZfrkEI0nJrpjjK36+S?=
+ =?iso-8859-1?Q?HGBEKGKGERhn5Ev7RFOd6K/HPwp2CwCFgbx0SauVTDefc0n3CTYv9CVhDZ?=
+ =?iso-8859-1?Q?VSazdhBhJ9vzFMhgNlBVVvdVkabjjo4VVpwTa2ACdWBOWenK0fdPcRmcgv?=
+ =?iso-8859-1?Q?EIYVu/e/8R1pk/4cwR0oXGkZlu2j2/0xeB7ByaB5Cijfiur6JbwSFK/2PC?=
+ =?iso-8859-1?Q?/8mIuRjbMH01+PGALI2v8vbujtwbeNDvtFrSXNbNrVmZOGvRUyj4D0OQr4?=
+ =?iso-8859-1?Q?kVR0xCXYVI0SmPWGMQBXqMjqQpa6eJJ6XAtbSo1RJ04RaQmCyu6OfjnWPG?=
+ =?iso-8859-1?Q?DLJCE0L3cMBTcDxAkB2QOk5EOmvO4hlOm0s4tCrqvgPsJeiFQMSFFOOxuo?=
+ =?iso-8859-1?Q?PUYneJYPp91Juv8Kmf+/K69oHCMM4QNGSHnOMy7mvU0xAtiw8F/z7tFEXe?=
+ =?iso-8859-1?Q?Ub6t53MnH+2i7Y+P3NGpi4lLHhsIUpxouKjfdc6snII1MmdbswoAdFk2/P?=
+ =?iso-8859-1?Q?42/79H9UI1zByplhg6ds0fCtO898UkXOnIogAzKsAGSsRgGaQtBFVFMN+T?=
+ =?iso-8859-1?Q?N6jArqXRt/63MxXbpsDa0/OGxgFRdhHkE9p6CXG/fSrHkNivcACApfermK?=
+ =?iso-8859-1?Q?E9ndiKV7nJYWtwo1zIjlSWbDrA/anfRFmba/S6bHpQdlhZ8TFuLDghdgUM?=
+ =?iso-8859-1?Q?yYp+uT+VlPRx/Ngk7mslNZ8OhJMppfrLHwdjS+7edEGzwZiLvwMzcE4XM/?=
+ =?iso-8859-1?Q?UKOEDEBtWTSqZ0ALBqyTrDFWvTXkYEeh1U0y4kgHkx18Ka57pZPzCha2/Q?=
+ =?iso-8859-1?Q?wmJCH+7+xHbdpfoFMdELNyG8qyWPRdR7JQLugfrhBBJrO5p6fEy1Y10lo1?=
+ =?iso-8859-1?Q?mO88lX6M2ykgWjhY5wS7KOzxeU3svGPhMLMuNrKDkpGBdM7PEQmXym+DvH?=
+ =?iso-8859-1?Q?c0LW5BLwYOiw75kyMxo31RLLUsidW4wTi3VDdYAvoItIser13bkgh/A5fo?=
+ =?iso-8859-1?Q?OLKo0NN01rW9901gfWY4/7GwuNtsVigF4PMusTDNGMBGiiWDwjylkCnS4s?=
+ =?iso-8859-1?Q?aD71GR8MIdl95eUQsRGspTrVf/10/NYIzFRWSpSse+XJd4GYzMV6lgWMsE?=
+ =?iso-8859-1?Q?UfdKL35ErWGBf2JQEfOzXIE31cuF+5H0LiQcsJMhen+GAUaS7egEjPTSsc?=
+ =?iso-8859-1?Q?ZSikngGTkWsb9Bkbn9Q7ijT8KNMji4bZSlda15Vun+MpO18vHRDTG7TQw2?=
+ =?iso-8859-1?Q?L2yegZ2X6zTjeWPvihxexStI40jMecqluYtwjZKlfuc88dbB79kKZ8Y7Jb?=
+ =?iso-8859-1?Q?WE5IfSYhg1sGdY3MTYzJJ+1yovmEw1lwJX175R4xuwL+d2ExqiYBcqBDpG?=
+ =?iso-8859-1?Q?8iyrc/fXCKk3I5zhQDzfUM5oj5fiVXqZThIKNwNfS7EwmVDrzR1XR/Vn26?=
+ =?iso-8859-1?Q?1qxG8zTHqP3+3Amp14ITE9RJgAxYVLPLnHDb01WJllayRYlFCS3Rp0Vpcq?=
+ =?iso-8859-1?Q?eEF4wwaq7mf/g2UD1vLspzAlhPGWcttO59Ai1GyFr5v1Y77uJcacngrm0y?=
+ =?iso-8859-1?Q?uYUjlGKZ/lSXWDzcjpe708ZSu/1Yrqz/KGwYCnWagl9hqtRrsQa2KCWnJp?=
+ =?iso-8859-1?Q?Sq3OdTZsxcqLJqwjGnLfkdr4LpEpObyM2J5StZKiug0bLYy39eBhhMONP5?=
+ =?iso-8859-1?Q?wK7mU8dSab1Bl8jw+V779joEND/qiB3ikfQt+znQ0Aced/vf8LVS1c1kAo?=
+ =?iso-8859-1?Q?F3KDE26QlYxnX0aF/FCHndjiwI4zJkqLjZaX++9tnCg3704nxmoCGg/V4O?=
+ =?iso-8859-1?Q?Qy?=
+X-MS-Exchange-AntiSpam-MessageData-1: BqzBol5WKt7J9A==
+X-OriginatorOrg: silabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3974d25f-be9c-4daf-9c45-08da2d9eb3c9
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5650.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2022 07:21:27.3419
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 54dbd822-5231-4b20-944d-6f4abcd541fb
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Aomd2tuGN2i0z7gdexZj6zBpudofVx3oFGQK7mfRM0MuqFRT6CZSJvV45k1Q7LmSFLFIyzIpy3RXDR3lmDi2iQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1521
 
-Currently, upon virtual interface creation, wfx_add_interface() stores
-a reference to the corresponding struct ieee80211_vif in private data,
-for later usage. This is not needed when using the container_of
-construct. This construct already has all the info it needs to retrieve
-the reference to the corresponding struct from the offset that is
-already available, inherent in container_of(), between its type and
-member inputs (struct ieee80211_vif and drv_priv, respectively).
-Remove vif (which was previously storing the reference to the struct
-ieee80211_vif) from the struct wfx_vif, define a function
-wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
-the newly defined container_of construct.
+On Tuesday 3 May 2022 20:21:46 CEST Jaehee Park wrote:
+> Currently, upon virtual interface creation, wfx_add_interface() stores
+> a reference to the corresponding struct ieee80211_vif in private data,
+> for later usage. This is not needed when using the container_of
+> construct. This construct already has all the info it needs to retrieve
+> the reference to the corresponding struct from the offset that is
+> already available, inherent in container_of(), between its type and
+> member inputs (struct ieee80211_vif and drv_priv, respectively).
+> Remove vif (which was previously storing the reference to the struct
+> ieee80211_vif) from the struct wfx_vif, define a function
+> wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
+> the newly defined container_of construct.
+>=20
+> Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> ---
+> v2
+> - Sequenced the wfx.h file (with the new defines) to show up first on
+> the diff, which makes the ordering of the diff more logical.
+>=20
+> v3
+> - Made edits to the commit message.
+> - Shortened the macro name from wvif_to_vif to to_vif.
+> - For functions that had more than one instance of vif, defined one
+> reference vif at the beginning of the function and used that instead.
+> - Broke the if-statements that ran long into two lines.
+>=20
+> v4
+> - Changed macro into function and named it back to wvif_to_vif
+> - Fit all lines in patch to 80 columns
+> - Decared a reference to vif at the beginning of all the functions
+> where it's being used
+>=20
+> v5
+> - Placed longest declarations first
+>=20
+>=20
+>  drivers/net/wireless/silabs/wfx/wfx.h     |  6 +-
+>  drivers/net/wireless/silabs/wfx/data_rx.c |  5 +-
+>  drivers/net/wireless/silabs/wfx/data_tx.c |  3 +-
+>  drivers/net/wireless/silabs/wfx/key.c     |  4 +-
+>  drivers/net/wireless/silabs/wfx/queue.c   |  3 +-
+>  drivers/net/wireless/silabs/wfx/scan.c    | 11 ++--
+>  drivers/net/wireless/silabs/wfx/sta.c     | 71 ++++++++++++++---------
+>  7 files changed, 65 insertions(+), 38 deletions(-)
+>=20
+[...]
+> diff --git a/drivers/net/wireless/silabs/wfx/sta.c b/drivers/net/wireless=
+/silabs/wfx/sta.c
+> index 3297d73c327a..040d1f9fb03a 100644
+> --- a/drivers/net/wireless/silabs/wfx/sta.c
+> +++ b/drivers/net/wireless/silabs/wfx/sta.c
+> @@ -101,6 +101,7 @@ void wfx_configure_filter(struct ieee80211_hw *hw, un=
+signed int changed_flags,
+>         struct wfx_vif *wvif =3D NULL;
+>         struct wfx_dev *wdev =3D hw->priv;
+>         bool filter_bssid, filter_prbreq, filter_beacon;
+> +       struct ieee80211_vif *vif =3D wvif_to_vif(wvif);
 
-Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
----
-v2
-- Sequenced the wfx.h file (with the new defines) to show up first on 
-the diff, which makes the ordering of the diff more logical.
- 
-v3
-- Made edits to the commit message.
-- Shortened the macro name from wvif_to_vif to to_vif.
-- For functions that had more than one instance of vif, defined one
-reference vif at the beginning of the function and used that instead.
-- Broke the if-statements that ran long into two lines.
-
-v4
-- Changed macro into function and named it back to wvif_to_vif
-- Fit all lines in patch to 80 columns
-- Decared a reference to vif at the beginning of all the functions
-where it's being used
-
-v5
-- Placed longest declarations first 
+wvif is modified later in the function, so this one is not correct.
 
 
- drivers/net/wireless/silabs/wfx/wfx.h     |  6 +-
- drivers/net/wireless/silabs/wfx/data_rx.c |  5 +-
- drivers/net/wireless/silabs/wfx/data_tx.c |  3 +-
- drivers/net/wireless/silabs/wfx/key.c     |  4 +-
- drivers/net/wireless/silabs/wfx/queue.c   |  3 +-
- drivers/net/wireless/silabs/wfx/scan.c    | 11 ++--
- drivers/net/wireless/silabs/wfx/sta.c     | 71 ++++++++++++++---------
- 7 files changed, 65 insertions(+), 38 deletions(-)
+--=20
+J=E9r=F4me Pouiller
 
-diff --git a/drivers/net/wireless/silabs/wfx/wfx.h b/drivers/net/wireless/silabs/wfx/wfx.h
-index 6594cc647c2f..718693a4273d 100644
---- a/drivers/net/wireless/silabs/wfx/wfx.h
-+++ b/drivers/net/wireless/silabs/wfx/wfx.h
-@@ -61,7 +61,6 @@ struct wfx_dev {
- 
- struct wfx_vif {
- 	struct wfx_dev             *wdev;
--	struct ieee80211_vif       *vif;
- 	struct ieee80211_channel   *channel;
- 	int                        id;
- 
-@@ -91,6 +90,11 @@ struct wfx_vif {
- 	struct completion          set_pm_mode_complete;
- };
- 
-+static inline struct ieee80211_vif *wvif_to_vif(struct wfx_vif *wvif)
-+{
-+	return container_of((void *)wvif, struct ieee80211_vif, drv_priv);
-+}
-+
- static inline struct wfx_vif *wdev_to_wvif(struct wfx_dev *wdev, int vif_id)
- {
- 	if (vif_id >= ARRAY_SIZE(wdev->vif)) {
-diff --git a/drivers/net/wireless/silabs/wfx/data_rx.c b/drivers/net/wireless/silabs/wfx/data_rx.c
-index a4b5ffe158e4..e099a9e65bae 100644
---- a/drivers/net/wireless/silabs/wfx/data_rx.c
-+++ b/drivers/net/wireless/silabs/wfx/data_rx.c
-@@ -15,6 +15,7 @@
- 
- static void wfx_rx_handle_ba(struct wfx_vif *wvif, struct ieee80211_mgmt *mgmt)
- {
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 	int params, tid;
- 
- 	if (wfx_api_older_than(wvif->wdev, 3, 6))
-@@ -24,12 +25,12 @@ static void wfx_rx_handle_ba(struct wfx_vif *wvif, struct ieee80211_mgmt *mgmt)
- 	case WLAN_ACTION_ADDBA_REQ:
- 		params = le16_to_cpu(mgmt->u.action.u.addba_req.capab);
- 		tid = (params & IEEE80211_ADDBA_PARAM_TID_MASK) >> 2;
--		ieee80211_start_rx_ba_session_offl(wvif->vif, mgmt->sa, tid);
-+		ieee80211_start_rx_ba_session_offl(vif, mgmt->sa, tid);
- 		break;
- 	case WLAN_ACTION_DELBA:
- 		params = le16_to_cpu(mgmt->u.action.u.delba.params);
- 		tid = (params &  IEEE80211_DELBA_PARAM_TID_MASK) >> 12;
--		ieee80211_stop_rx_ba_session_offl(wvif->vif, mgmt->sa, tid);
-+		ieee80211_stop_rx_ba_session_offl(vif, mgmt->sa, tid);
- 		break;
- 	}
- }
-diff --git a/drivers/net/wireless/silabs/wfx/data_tx.c b/drivers/net/wireless/silabs/wfx/data_tx.c
-index e07381b2ff4d..6a5e52a96d18 100644
---- a/drivers/net/wireless/silabs/wfx/data_tx.c
-+++ b/drivers/net/wireless/silabs/wfx/data_tx.c
-@@ -212,11 +212,12 @@ static u8 wfx_tx_get_link_id(struct wfx_vif *wvif, struct ieee80211_sta *sta,
- 			     struct ieee80211_hdr *hdr)
- {
- 	struct wfx_sta_priv *sta_priv = sta ? (struct wfx_sta_priv *)&sta->drv_priv : NULL;
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 	const u8 *da = ieee80211_get_DA(hdr);
- 
- 	if (sta_priv && sta_priv->link_id)
- 		return sta_priv->link_id;
--	if (wvif->vif->type != NL80211_IFTYPE_AP)
-+	if (vif->type != NL80211_IFTYPE_AP)
- 		return 0;
- 	if (is_multicast_ether_addr(da))
- 		return 0;
-diff --git a/drivers/net/wireless/silabs/wfx/key.c b/drivers/net/wireless/silabs/wfx/key.c
-index 8f23e8d42bd4..196d64ef68f3 100644
---- a/drivers/net/wireless/silabs/wfx/key.c
-+++ b/drivers/net/wireless/silabs/wfx/key.c
-@@ -156,6 +156,7 @@ static int wfx_add_key(struct wfx_vif *wvif, struct ieee80211_sta *sta,
- 	struct wfx_dev *wdev = wvif->wdev;
- 	int idx = wfx_alloc_key(wvif->wdev);
- 	bool pairwise = key->flags & IEEE80211_KEY_FLAG_PAIRWISE;
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 
- 	WARN(key->flags & IEEE80211_KEY_FLAG_PAIRWISE && !sta, "inconsistent data");
- 	ieee80211_get_key_rx_seq(key, 0, &seq);
-@@ -174,7 +175,7 @@ static int wfx_add_key(struct wfx_vif *wvif, struct ieee80211_sta *sta,
- 			k.type = fill_tkip_pair(&k.key.tkip_pairwise_key, key, sta->addr);
- 		else
- 			k.type = fill_tkip_group(&k.key.tkip_group_key, key, &seq,
--						 wvif->vif->type);
-+						 vif->type);
- 	} else if (key->cipher == WLAN_CIPHER_SUITE_CCMP) {
- 		if (pairwise)
- 			k.type = fill_ccmp_pair(&k.key.aes_pairwise_key, key, sta->addr);
-@@ -224,4 +225,3 @@ int wfx_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd, struct ieee80211_
- 	mutex_unlock(&wvif->wdev->conf_mutex);
- 	return ret;
- }
--
-diff --git a/drivers/net/wireless/silabs/wfx/queue.c b/drivers/net/wireless/silabs/wfx/queue.c
-index 729825230db2..37f492e5d3be 100644
---- a/drivers/net/wireless/silabs/wfx/queue.c
-+++ b/drivers/net/wireless/silabs/wfx/queue.c
-@@ -205,9 +205,10 @@ unsigned int wfx_pending_get_pkt_us_delay(struct wfx_dev *wdev, struct sk_buff *
- 
- bool wfx_tx_queues_has_cab(struct wfx_vif *wvif)
- {
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 	int i;
- 
--	if (wvif->vif->type != NL80211_IFTYPE_AP)
-+	if (vif->type != NL80211_IFTYPE_AP)
- 		return false;
- 	for (i = 0; i < IEEE80211_NUM_ACS; ++i)
- 		/* Note: since only AP can have mcast frames in queue and only one vif can be AP,
-diff --git a/drivers/net/wireless/silabs/wfx/scan.c b/drivers/net/wireless/silabs/wfx/scan.c
-index 7f34f0d322f9..16f619ed22e0 100644
---- a/drivers/net/wireless/silabs/wfx/scan.c
-+++ b/drivers/net/wireless/silabs/wfx/scan.c
-@@ -23,9 +23,11 @@ static void wfx_ieee80211_scan_completed_compat(struct ieee80211_hw *hw, bool ab
- 
- static int update_probe_tmpl(struct wfx_vif *wvif, struct cfg80211_scan_request *req)
- {
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 	struct sk_buff *skb;
- 
--	skb = ieee80211_probereq_get(wvif->wdev->hw, wvif->vif->addr, NULL, 0, req->ie_len);
-+	skb = ieee80211_probereq_get(wvif->wdev->hw, vif->addr, NULL, 0,
-+				     req->ie_len);
- 	if (!skb)
- 		return -ENOMEM;
- 
-@@ -37,8 +39,9 @@ static int update_probe_tmpl(struct wfx_vif *wvif, struct cfg80211_scan_request
- 
- static int send_scan_req(struct wfx_vif *wvif, struct cfg80211_scan_request *req, int start_idx)
- {
--	int i, ret;
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 	struct ieee80211_channel *ch_start, *ch_cur;
-+	int i, ret;
- 
- 	for (i = start_idx; i < req->n_channels; i++) {
- 		ch_start = req->channels[start_idx];
-@@ -75,8 +78,8 @@ static int send_scan_req(struct wfx_vif *wvif, struct cfg80211_scan_request *req
- 	} else {
- 		ret = wvif->scan_nb_chan_done;
- 	}
--	if (req->channels[start_idx]->max_power != wvif->vif->bss_conf.txpower)
--		wfx_hif_set_output_power(wvif, wvif->vif->bss_conf.txpower);
-+	if (req->channels[start_idx]->max_power != vif->bss_conf.txpower)
-+		wfx_hif_set_output_power(wvif, vif->bss_conf.txpower);
- 	wfx_tx_unlock(wvif->wdev);
- 	return ret;
- }
-diff --git a/drivers/net/wireless/silabs/wfx/sta.c b/drivers/net/wireless/silabs/wfx/sta.c
-index 3297d73c327a..040d1f9fb03a 100644
---- a/drivers/net/wireless/silabs/wfx/sta.c
-+++ b/drivers/net/wireless/silabs/wfx/sta.c
-@@ -101,6 +101,7 @@ void wfx_configure_filter(struct ieee80211_hw *hw, unsigned int changed_flags,
- 	struct wfx_vif *wvif = NULL;
- 	struct wfx_dev *wdev = hw->priv;
- 	bool filter_bssid, filter_prbreq, filter_beacon;
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 
- 	/* Notes:
- 	 *   - Probe responses (FIF_BCN_PRBRESP_PROMISC) are never filtered
-@@ -132,7 +133,7 @@ void wfx_configure_filter(struct ieee80211_hw *hw, unsigned int changed_flags,
- 			filter_bssid = true;
- 
- 		/* In AP mode, chip can reply to probe request itself */
--		if (*total_flags & FIF_PROBE_REQ && wvif->vif->type == NL80211_IFTYPE_AP) {
-+		if (*total_flags & FIF_PROBE_REQ && vif->type == NL80211_IFTYPE_AP) {
- 			dev_dbg(wdev->dev, "do not forward probe request in AP mode\n");
- 			*total_flags &= ~FIF_PROBE_REQ;
- 		}
-@@ -152,19 +153,28 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
- {
- 	struct ieee80211_channel *chan0 = NULL, *chan1 = NULL;
- 	struct ieee80211_conf *conf = &wvif->wdev->hw->conf;
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 
--	WARN(!wvif->vif->bss_conf.assoc && enable_ps,
-+	WARN(!vif->bss_conf.assoc && enable_ps,
- 	     "enable_ps is reliable only if associated");
--	if (wdev_to_wvif(wvif->wdev, 0))
--		chan0 = wdev_to_wvif(wvif->wdev, 0)->vif->bss_conf.chandef.chan;
--	if (wdev_to_wvif(wvif->wdev, 1))
--		chan1 = wdev_to_wvif(wvif->wdev, 1)->vif->bss_conf.chandef.chan;
--	if (chan0 && chan1 && wvif->vif->type != NL80211_IFTYPE_AP) {
-+	if (wdev_to_wvif(wvif->wdev, 0)) {
-+		struct wfx_vif *wvif_ch0 = wdev_to_wvif(wvif->wdev, 0);
-+		struct ieee80211_vif *vif_ch0 = wvif_to_vif(wvif_ch0);
-+
-+		chan0 = vif_ch0->bss_conf.chandef.chan;
-+	}
-+	if (wdev_to_wvif(wvif->wdev, 1)) {
-+		struct wfx_vif *wvif_ch1 = wdev_to_wvif(wvif->wdev, 1);
-+		struct ieee80211_vif *vif_ch1 = wvif_to_vif(wvif_ch1);
-+
-+		chan1 = vif_ch1->bss_conf.chandef.chan;
-+	}
-+	if (chan0 && chan1 && vif->type != NL80211_IFTYPE_AP) {
- 		if (chan0->hw_value == chan1->hw_value) {
- 			/* It is useless to enable PS if channels are the same. */
- 			if (enable_ps)
- 				*enable_ps = false;
--			if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
-+			if (vif->bss_conf.assoc && vif->bss_conf.ps)
- 				dev_info(wvif->wdev->dev, "ignoring requested PS mode");
- 			return -1;
- 		}
-@@ -177,8 +187,8 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
- 			return 30;
- 	}
- 	if (enable_ps)
--		*enable_ps = wvif->vif->bss_conf.ps;
--	if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
-+		*enable_ps = vif->bss_conf.ps;
-+	if (vif->bss_conf.assoc && vif->bss_conf.ps)
- 		return conf->dynamic_ps_timeout;
- 	else
- 		return -1;
-@@ -186,10 +196,11 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
- 
- int wfx_update_pm(struct wfx_vif *wvif)
- {
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 	int ps_timeout;
- 	bool ps;
- 
--	if (!wvif->vif->bss_conf.assoc)
-+	if (!vif->bss_conf.assoc)
- 		return 0;
- 	ps_timeout = wfx_get_ps_timeout(wvif, &ps);
- 	if (!ps)
-@@ -215,7 +226,8 @@ int wfx_conf_tx(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
- 	mutex_lock(&wdev->conf_mutex);
- 	assign_bit(queue, &wvif->uapsd_mask, params->uapsd);
- 	wfx_hif_set_edca_queue_params(wvif, queue, params);
--	if (wvif->vif->type == NL80211_IFTYPE_STATION && old_uapsd != wvif->uapsd_mask) {
-+	if (vif->type == NL80211_IFTYPE_STATION &&
-+	    old_uapsd != wvif->uapsd_mask) {
- 		wfx_hif_set_uapsd_info(wvif, wvif->uapsd_mask);
- 		wfx_update_pm(wvif);
- 	}
-@@ -238,24 +250,26 @@ void wfx_event_report_rssi(struct wfx_vif *wvif, u8 raw_rcpi_rssi)
- 	/* RSSI: signed Q8.0, RCPI: unsigned Q7.1
- 	 * RSSI = RCPI / 2 - 110
- 	 */
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 	int rcpi_rssi;
- 	int cqm_evt;
- 
- 	rcpi_rssi = raw_rcpi_rssi / 2 - 110;
--	if (rcpi_rssi <= wvif->vif->bss_conf.cqm_rssi_thold)
-+	if (rcpi_rssi <= vif->bss_conf.cqm_rssi_thold)
- 		cqm_evt = NL80211_CQM_RSSI_THRESHOLD_EVENT_LOW;
- 	else
- 		cqm_evt = NL80211_CQM_RSSI_THRESHOLD_EVENT_HIGH;
--	ieee80211_cqm_rssi_notify(wvif->vif, cqm_evt, rcpi_rssi, GFP_KERNEL);
-+	ieee80211_cqm_rssi_notify(vif, cqm_evt, rcpi_rssi, GFP_KERNEL);
- }
- 
- static void wfx_beacon_loss_work(struct work_struct *work)
- {
- 	struct wfx_vif *wvif = container_of(to_delayed_work(work), struct wfx_vif,
- 					    beacon_loss_work);
--	struct ieee80211_bss_conf *bss_conf = &wvif->vif->bss_conf;
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
-+	struct ieee80211_bss_conf *bss_conf = &vif->bss_conf;
- 
--	ieee80211_beacon_loss(wvif->vif);
-+	ieee80211_beacon_loss(vif);
- 	schedule_delayed_work(to_delayed_work(work), msecs_to_jiffies(bss_conf->beacon_int));
- }
- 
-@@ -321,15 +335,16 @@ int wfx_sta_remove(struct ieee80211_hw *hw, struct ieee80211_vif *vif, struct ie
- 
- static int wfx_upload_ap_templates(struct wfx_vif *wvif)
- {
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 	struct sk_buff *skb;
- 
--	skb = ieee80211_beacon_get(wvif->wdev->hw, wvif->vif);
-+	skb = ieee80211_beacon_get(wvif->wdev->hw, vif);
- 	if (!skb)
- 		return -ENOMEM;
- 	wfx_hif_set_template_frame(wvif, skb, HIF_TMPLT_BCN, API_RATE_INDEX_B_1MBPS);
- 	dev_kfree_skb(skb);
- 
--	skb = ieee80211_proberesp_get(wvif->wdev->hw, wvif->vif);
-+	skb = ieee80211_proberesp_get(wvif->wdev->hw, vif);
- 	if (!skb)
- 		return -ENOMEM;
- 	wfx_hif_set_template_frame(wvif, skb, HIF_TMPLT_PRBRES, API_RATE_INDEX_B_1MBPS);
-@@ -339,7 +354,8 @@ static int wfx_upload_ap_templates(struct wfx_vif *wvif)
- 
- static void wfx_set_mfp_ap(struct wfx_vif *wvif)
- {
--	struct sk_buff *skb = ieee80211_beacon_get(wvif->wdev->hw, wvif->vif);
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
-+	struct sk_buff *skb = ieee80211_beacon_get(wvif->wdev->hw, vif);
- 	const int ieoffset = offsetof(struct ieee80211_mgmt, u.beacon.variable);
- 	const u16 *ptr = (u16 *)cfg80211_find_ie(WLAN_EID_RSN, skb->data + ieoffset,
- 						 skb->len - ieoffset);
-@@ -388,12 +404,13 @@ void wfx_stop_ap(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
- 
- static void wfx_join(struct wfx_vif *wvif)
- {
--	int ret;
--	struct ieee80211_bss_conf *conf = &wvif->vif->bss_conf;
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
-+	struct ieee80211_bss_conf *conf = &vif->bss_conf;
- 	struct cfg80211_bss *bss = NULL;
- 	u8 ssid[IEEE80211_MAX_SSID_LEN];
- 	const u8 *ssidie = NULL;
- 	int ssidlen = 0;
-+	int ret;
- 
- 	wfx_tx_lock_flush(wvif->wdev);
- 
-@@ -420,7 +437,7 @@ static void wfx_join(struct wfx_vif *wvif)
- 	wvif->join_in_progress = true;
- 	ret = wfx_hif_join(wvif, conf, wvif->channel, ssid, ssidlen);
- 	if (ret) {
--		ieee80211_connection_loss(wvif->vif);
-+		ieee80211_connection_loss(vif);
- 		wfx_reset(wvif);
- 	} else {
- 		/* Due to beacon filtering it is possible that the AP's beacon is not known for the
-@@ -434,13 +451,14 @@ static void wfx_join(struct wfx_vif *wvif)
- 
- static void wfx_join_finalize(struct wfx_vif *wvif, struct ieee80211_bss_conf *info)
- {
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 	struct ieee80211_sta *sta = NULL;
- 	int ampdu_density = 0;
- 	bool greenfield = false;
- 
- 	rcu_read_lock(); /* protect sta */
- 	if (info->bssid && !info->ibss_joined)
--		sta = ieee80211_find_sta(wvif->vif, info->bssid);
-+		sta = ieee80211_find_sta(vif, info->bssid);
- 	if (sta && sta->deflink.ht_cap.ht_supported)
- 		ampdu_density = sta->deflink.ht_cap.ampdu_density;
- 	if (sta && sta->deflink.ht_cap.ht_supported &&
-@@ -561,11 +579,13 @@ void wfx_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
- 
- static int wfx_update_tim(struct wfx_vif *wvif)
- {
-+	struct ieee80211_vif *vif = wvif_to_vif(wvif);
- 	struct sk_buff *skb;
- 	u16 tim_offset, tim_length;
- 	u8 *tim_ptr;
- 
--	skb = ieee80211_beacon_get_tim(wvif->wdev->hw, wvif->vif, &tim_offset, &tim_length);
-+	skb = ieee80211_beacon_get_tim(wvif->wdev->hw, vif, &tim_offset,
-+				       &tim_length);
- 	if (!skb)
- 		return -ENOENT;
- 	tim_ptr = skb->data + tim_offset;
-@@ -707,8 +727,6 @@ int wfx_add_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
- 		return -EOPNOTSUPP;
- 	}
- 
--	/* FIXME: prefer use of container_of() to get vif */
--	wvif->vif = vif;
- 	wvif->wdev = wdev;
- 
- 	wvif->link_id_map = 1; /* link-id 0 is reserved for multicast */
-@@ -767,7 +785,6 @@ void wfx_remove_interface(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
- 
- 	cancel_delayed_work_sync(&wvif->beacon_loss_work);
- 	wdev->vif[wvif->id] = NULL;
--	wvif->vif = NULL;
- 
- 	mutex_unlock(&wdev->conf_mutex);
- 
--- 
-2.25.1
 
