@@ -1,74 +1,98 @@
-Received: from tk2-214-16531.vs.sakura.ne.jp (tk2-214-16531.vs.sakura.ne.jp [160.16.76.35])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654D7632
-	for <linux-staging@lists.linux.dev>; Thu,  5 May 2022 13:22:08 +0000 (UTC)
-Received: from localhost.localdomain (localhost [IPv6:::1])
-	by tk2-214-16531.vs.sakura.ne.jp (Postfix) with ESMTP id 1629412B5C1
-	for <linux-staging@lists.linux.dev>; Thu,  5 May 2022 22:13:27 +0900 (JST)
-Date: Thu, 05 May 2022 22:13:27 +0900
-From: info@carchsclub.com
-To: linux-staging@lists.linux.dev
-Message-ID: <6273cd77150df_42032b022c50dc889581167@tk2-214-16531.vs.sakura.ne.jp.mail>
-Subject: =?UTF-8?Q?=E3=80=90=E3=82=AB=E3=83=BC=E3=83=81=E3=82=B9=E5=80=B6=E6=A5=BD=E9=83=A8=E3=80=91=E3=80=8C=E3=81=8F=E3=82=8B=E3=81=BE=E5=A3=B2=E3=82=8A=E9=9A=8A=EF=BC=81=E3=80=8D=E3=81=8A=E7=94=B3=E3=81=97=E8=BE=BC=E3=81=BF=E3=81=82=E3=82=8A=E3=81=8C=E3=81=A8=E3=81=86=E3=81=94=E3=81=96=E3=81=84=E3=81=BE=E3=81=99?=
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.133.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ED729AA
+	for <linux-staging@lists.linux.dev>; Thu,  5 May 2022 18:11:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1651774274;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kLRudaiszTccdqB1Vd77KpaI2iWJChA3O1GYOzzQuoc=;
+	b=VFIs+if8/Jo09Ye/qt8En1bHfTLtyA3UW6kcMVDzIY21J9rucG6cBg3m1kpSAT0xg5tL1d
+	I9JXF8I1MIK/uuNO/4QGsYtsPkKJLrSfbViFkxGOUHsmtwmVXZ31D6sWsYaO4d2QH5vbgc
+	HGLpb/uClCHYmncYDX/eZflD+ZLYrJ4=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-556-Fk5B15pjO-KojuwyTGd7eQ-1; Thu, 05 May 2022 14:11:13 -0400
+X-MC-Unique: Fk5B15pjO-KojuwyTGd7eQ-1
+Received: by mail-qv1-f71.google.com with SMTP id kj4-20020a056214528400b0044399a9bb4cso3828645qvb.15
+        for <linux-staging@lists.linux.dev>; Thu, 05 May 2022 11:11:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kLRudaiszTccdqB1Vd77KpaI2iWJChA3O1GYOzzQuoc=;
+        b=L5UYpkWzt4o32ibpf2CDvYWx+lc+bEuAIES4Z4ArVv3bJgGfQU0HTJta0to7Lvvjfs
+         I+CDC6z7CXTY/S0Eb/9oeWYkttppcL7F6k8smijnX069SWN+h/8Ub7LRW1GOareAoLj3
+         QIbvd1+u5e93YPXTMQypFIxe9DkFEBnb9oxDYFBWtBsra1cbf9qpyJeszFxoued6qnEa
+         kiAhK6qEiAI2Ngb+BXpLlWENf3o92/1tLuZHrREy2QhX63v3V5xZr6rCGr8vAKxNZc8R
+         2zHfVZh/lEq8yA7OJm54Yf/oWUBe7/Vk4mYQucoysM+BjwbPDnVbTqDAbK5JwHO9N0wv
+         bP2A==
+X-Gm-Message-State: AOAM532MXQIQDys9W0MOiNvyzW9l6MeZvIqVritBkub2G4WT5xk613C6
+	JVTL23GN1NKHGSczHfW7VewqLULMBiSAoEGGuFxeO3Jbfw5Mp4KlsHFEPnHvsanpz5GsbIv+GTr
+	QOEKyYLNSEB2ifUMs77QxJVZlhw==
+X-Received: by 2002:a05:622a:20f:b0:2f3:4e5c:3271 with SMTP id b15-20020a05622a020f00b002f34e5c3271mr25103845qtx.44.1651774272660;
+        Thu, 05 May 2022 11:11:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwODdZVXSmIrr3XKHkaq4AMOb8tfd+YHR41zI+HxWst1xMd12GMM8tAoRhnMZaQTl0FAyFWCg==
+X-Received: by 2002:a05:622a:20f:b0:2f3:4e5c:3271 with SMTP id b15-20020a05622a020f00b002f34e5c3271mr25103826qtx.44.1651774272473;
+        Thu, 05 May 2022 11:11:12 -0700 (PDT)
+Received: from fedora (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
+        by smtp.gmail.com with ESMTPSA id d9-20020ac85349000000b002f39b99f68bsm1167214qto.37.2022.05.05.11.11.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 May 2022 11:11:12 -0700 (PDT)
+Date: Thu, 5 May 2022 14:11:10 -0400
+From: Adrien Thierry <athierry@redhat.com>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] staging: vchiq_arm: get rid of global device
+ structure
+Message-ID: <YnQTPmNAvpbQl5Ws@fedora>
+References: <20220502183045.206519-1-athierry@redhat.com>
+ <20220502183045.206519-3-athierry@redhat.com>
+ <8483a250-da97-1875-4ea3-598f46ae96ce@i2se.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=UTF-8
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+In-Reply-To: <8483a250-da97-1875-4ea3-598f46ae96ce@i2se.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd
-77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd
-77yd77yd77ydCuOAgOOCq+ODvOODgeOCueWAtualvemDqOOAjOOBj+OCi+OB
-vuWjsuOCiumaiu+8geOAjeOBruWPl+S7mOOBjOWujOS6huOBl+OBvuOBl+OB
-n+OAggrvvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3v
-vJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3v
-vJ3vvJ3vvJ3vvJ3vvJ0KCvCfmI0gTWFyaWEgd2FudCB0byBtZWV0IHlvdSEg
-Q2xpY2sgaGVyZTogaHR0cDovL2lueC5sdi9HUzFSP2g4MzRwIPCfmI0g8J+Y
-jSBNYXJpYSB3YW50IHRvIG1lZXQgeW91ISBDbGljayBoZXJlOiBodHRwOi8v
-aW54Lmx2L0dTMVI/aDgzNHAg8J+YjSDmp5gKCuOBk+OBruW6puOBr+OCq+OD
-vOODgeOCueWAtualvemDqOOBruOAjOOBj+OCi+OBvuWjsuOCiumaiu+8geOA
-jeOBq+OBiueUs+OBl+i+vOOBv+OBhOOBn+OBoOOBjeOAgeiqoOOBq+OBguOC
-iuOBjOOBqOOBhuOBlOOBluOBhOOBvuOBmeOAggrkuIvoqJjjgYrnlLPjgZfo
-vrzjgb/lhoXlrrnjgavjgYrplpPpgZXjgYTjgYzjgarjgYTjgYvjgZTnorro
-qo3jgY/jgaDjgZXjgYTjgIIKCuaLheW9k+iAheOBjOWGheWuueOCkueiuuiq
-jeW+jOOAgeODoeODvOODq+OBvuOBn+OBr+OBiumbu+ipseOBq+OBpuOBlOmA
-o+e1oeOBhOOBn+OBl+OBvuOBmeOBruOBp+OAgQrjgoLjgYbjgZfjgbDjgonj
-gY/jgYrlvoXjgaHjgY/jgaDjgZXjgYTjgIIKCj09PT09PT09PT09PT09PT09
-PT09PTw8IOWfuuacrOaDheWgsSA+Pj09PT09PT09PT09PT09PT09PT09CuS8
-muekvuWQjeOAgOOAgOOAgOOAgOOAgDrwn5iNIE1hcmlhIHdhbnQgdG8gbWVl
-dCB5b3UhIENsaWNrIGhlcmU6IGh0dHA6Ly9pbngubHYvR1MxUj9oODM0cCDw
-n5iNCuWQjeWJjeOAgOOAgOOAgOOAgOOAgOOAgDrwn5iNIE1hcmlhIHdhbnQg
-dG8gbWVldCB5b3UhIENsaWNrIGhlcmU6IGh0dHA6Ly9pbngubHYvR1MxUj9o
-ODM0cCDwn5iNCumDteS+v+eVquWPt+OAgOOAgOOAgOOAgDoyMzU4NDIxMjEw
-MjgK5L2P5omA44CA44CA44CA44CA44CA44CAOvCfmI0gTWFyaWEgd2FudCB0
-byBtZWV0IHlvdSEgQ2xpY2sgaGVyZTogaHR0cDovL2lueC5sdi9HUzFSP2g4
-MzRwIPCfmI0K6Zu76Kmx55Wq5Y+344CA44CA44CA44CAOjIzNTg0MjEyMTAy
-OArjg5XjgqHjg4Pjgq/jgrnjgIDjgIDjgIA6MjM1ODQyMTIxMDI4CkVtYWls
-44CA44CA44CA44CA44CAOmxpbnV4LXN0YWdpbmdAbGlzdHMubGludXguZGV2
-CuWCmeiAg+OAgOOAgOOAgOOAgOOAgOOAgDoKCj09PT09PT09PT09PT09PT09
-PT09PTw8IOeUs+OBl+i+vOOBv+aDheWgsSA+Pj09PT09PT09PT09PT09PT09
-CuODoeODvOOCq+ODvOOAgOOAgOOAgOOAgDpvdGhlcmZvcmVpZ24K6LuK44CA
-44CA56iu44CA44CA44CA44CAOvCfmI0gTWFyaWEgd2FudCB0byBtZWV0IHlv
-dSEgQ2xpY2sgaGVyZTogaHR0cDovL2lueC5sdi9HUzFSP2g4MzRwIPCfmI0K
-44Kw44Os44O844OJ44CA44CA44CA44CAOgrlubTjgIDjgIDlvI/jgIDjgIDj
-gIDjgIA6MTk5MuW5tC/lubPmiJA05bm0Cui1sOihjOi3nembouOAgOOAgOOA
-gOOAgDo5NSwwMDF+MTAwLDAwMOOCreODrQrjgrfjg5Xjg4jjgIDjgIDjgIDj
-gIDjgIA6TVQK6Imy44CA44CA44CA44CA44CA44CA44CAOuODr+OCpOODswrm
-iYvmlL7jgZfmmYLmnJ/jgIDjgIDjgIA68J+YjSBNYXJpYSB3YW50IHRvIG1l
-ZXQgeW91ISBDbGljayBoZXJlOiBodHRwOi8vaW54Lmx2L0dTMVI/aDgzNHAg
-8J+YjQroh6rnpL7lnKjluqvjgIDjgIDjgIDjgIA644GE44GE44GICuOCouOD
-lOODvOODq+ODneOCpOODs+ODiDoKPT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cgoq44GT44Gu44Oh44O8
-44Or44Gr5b+D5b2T44KK44GM44Gq44GE5pa544CB44G+44Gf44Gv44GU5LiN
-5piO44Gq54K544GM44GC44KL5pa544Gv5LiL6KiY44G+44Gn44GK5ZWP44GE
-5ZCI44KP44Gb44GP44Gg44GV44GE44CCCgrilqAg44GK5ZWP44GE5ZCI44KP
-44Gb5YWICi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tCuagquW8j+S8muekvuOCq+ODvOODgeOCuQrmnbHkuqzp
-g73ljYPku6PnlLDljLrntIDlsL7kupXnlLo055WqMeWPt+OAgOaWsOe0gOWw
-vuS6leeUuuODk+ODqzJGClRFTDowMTIwLTU1LTAwMTAo5bmz5pelODowMO+9
-njIxOjAwKQpNQUlMOiBjdXN0b21lckBjYXJjaHMuY29tCldFQjogaHR0cDov
-L3d3dy5jYXJjaHMuY29tCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tCg==
+Hi Stefan,
+
+Thanks for your feedback.
+
+> i understand the motivation, but could you please explain more in detail
+> why you decided to add vchiq_instance instead of device reference? I
+> think vchiq_instance is a more internal structure which should be
+> avoided in kernel consumers like bcm2835-audio or mmal.
+
+I used the vchiq_instance instead of the device reference because in order
+to get rid of the vchiq_states array (patch 3/3 [1]), I needed another way
+to access the vchiq_state in the 'handle_to_service' function. So I passed
+the vchiq_instance to it (I could also have passed the state directly
+instead of the instance), and this propagated in the caller chain all the
+way up to 'vchiq_bulk_transmit' and friends which are used in the
+bcm2835-audio consumer.  Please let me know if you see a better way of
+doing this :)
+
+Thanks,
+
+Adrien
+
+[1] https://lore.kernel.org/all/20220502183045.206519-4-athierry@redhat.com/
+
