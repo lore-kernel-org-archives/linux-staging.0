@@ -1,84 +1,91 @@
-Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.129.74])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3422729AA
-	for <linux-staging@lists.linux.dev>; Thu,  5 May 2022 18:13:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1651774416;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vIQ6rERKH4luifLFHwoZPkiKhXSs2wHfoxIuk8Um0/k=;
-	b=MUkgau/iPIGmR5T8wR9kJQlezpmo1KenFRWZQbltq7uC5dIhFIrsjAtH3DNSKBzjOb3gJt
-	SyUz3P8JcdvU6F+63KGcn/XJrKXpyupTCMHh6UAMqzZ4Cv6McsGVUWN+xgQV070J/r6DR+
-	N8Au6MymMYyPbOC0ALNXAtDBYkoz6Jw=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-JkWjf9_qMOGpOLWv4H09Tg-1; Thu, 05 May 2022 14:13:32 -0400
-X-MC-Unique: JkWjf9_qMOGpOLWv4H09Tg-1
-Received: by mail-qv1-f70.google.com with SMTP id d13-20020a05621421cd00b0045a99874ae5so3842979qvh.14
-        for <linux-staging@lists.linux.dev>; Thu, 05 May 2022 11:13:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=vIQ6rERKH4luifLFHwoZPkiKhXSs2wHfoxIuk8Um0/k=;
-        b=kJWZCJTfcQPQ3dVa0wSQEq/eiHZDQWzR6beR5Bl7hD640bH/RYWVGvrcim5rZgCHIh
-         cXZt9Fvn5VpM08gWuxwV88GW9ve5KlUdGmPB/icBnpIRJTUlBkwmY7sbKbImrzRyezo7
-         rzI+cbD3/8cpKyDCRdUc4wh3AJ18eueIk8cN4HcY3w6mEwjwB5JJvzUMUymtUB6WOOpS
-         NV8J/89dYXASiwI5K+/Z51pJQ4VxlEXJCzm7Y5cU9gW+pi9y5MAG31WsR0QWav755CPV
-         EGipCZnz0+NSrHd3es1QBikhMSES4bQQuYK0knrL3aJG/0FhJMXGlQFjKD+RA+JIXom+
-         ArYQ==
-X-Gm-Message-State: AOAM531oKkee8uf5ms33B8GCrezin9QmmfbfjLawHp6FyNvGVFN77nyB
-	MZEnFYNEiD4zL3DTsidqDWn2TWhxyrJCSt5ZY1oV9DqNiLGCe7uzL7hvpaWz4SFwIxmbM5fy3rk
-	9zPrXfv+2QvOtO7ws5g74KAW50g==
-X-Received: by 2002:a37:9342:0:b0:69f:b0b9:b60d with SMTP id v63-20020a379342000000b0069fb0b9b60dmr21180457qkd.728.1651774412135;
-        Thu, 05 May 2022 11:13:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZDVSrYF0/IHka2CQ1470+9YJmZLCgwnZ+Aoo3cSeAePgqRTe09cEGUHwjWj3klSG0nnBjLg==
-X-Received: by 2002:a37:9342:0:b0:69f:b0b9:b60d with SMTP id v63-20020a379342000000b0069fb0b9b60dmr21180443qkd.728.1651774411955;
-        Thu, 05 May 2022 11:13:31 -0700 (PDT)
-Received: from fedora (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id i22-20020ac871d6000000b002f3ad89629dsm1230752qtp.2.2022.05.05.11.13.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 11:13:31 -0700 (PDT)
-Date: Thu, 5 May 2022 14:13:29 -0400
-From: Adrien Thierry <athierry@redhat.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/3] staging: vchiq_arm: add reference to vchiq device in
- vchiq_state
-Message-ID: <YnQTyS+37rTkvQ4/@fedora>
-References: <20220502183045.206519-1-athierry@redhat.com>
- <20220502183045.206519-2-athierry@redhat.com>
- <60a0ad1e-92d5-5032-7672-3da9ea606348@i2se.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5CC7F
+	for <linux-staging@lists.linux.dev>; Thu,  5 May 2022 22:34:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06947C385A8;
+	Thu,  5 May 2022 22:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1651790086;
+	bh=WI8QLFqK75r2HXo5FfrBnTLOY0nctWS77VW+kxLMDnU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tl/wYOGsIhkZwOn4lj4ydl9gkmOXb87kvwJhPZ9VU3wgCKZcZjh0zEwjLKRd6RpRP
+	 ZOsS2j7ItAW0I87QNLAGl5I5QuKpeEBCxn2OY0tJ2A+IoJBfMUMFAO3l3Fc8iGhmFm
+	 FAfEoeaOzhiPyARTeQQry3VnMBIclBAcNZZi1BFA=
+Date: Thu, 5 May 2022 23:16:15 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Artur Bujdoso <artur.bujdoso@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: octeon-usb: remove unnecessary parentheses
+Message-ID: <YnQ+n2+nYVLns2r+@kroah.com>
+References: <Yk/knRtaujd/PzK7@crux>
+ <Yk/uxoi4VUaR9OpO@kroah.com>
+ <YmqFGS2e45SEUbe/@crux>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <60a0ad1e-92d5-5032-7672-3da9ea606348@i2se.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <YmqFGS2e45SEUbe/@crux>
 
-Hi Stefan,
+On Thu, Apr 28, 2022 at 02:14:17PM +0200, Artur Bujdoso wrote:
+> On Fri, Apr 08, 2022 at 10:13:58AM +0200, Greg Kroah-Hartman wrote:
+> > On Fri, Apr 08, 2022 at 09:30:37AM +0200, Artur Bujdoso wrote:
+> > > Adhere to Linux kernel coding style.
+> > > 
+> > > Reported by checkpatch:
+> > > 
+> > > CHECK:UNNECESSARY_PARENTHESES: Unnecessary parentheses
+> > > 
+> > > Signed-off-by: Artur Bujdoso <artur.bujdoso@gmail.com>
+> > > ---
+> > >  drivers/staging/octeon-usb/octeon-hcd.c | 62 ++++++++++++-------------
+> > >  1 file changed, 31 insertions(+), 31 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/octeon-usb/octeon-hcd.c b/drivers/staging/octeon-usb/octeon-hcd.c
+> > > index a1cd81d4a114..32bcd6c582f5 100644
+> > > --- a/drivers/staging/octeon-usb/octeon-hcd.c
+> > > +++ b/drivers/staging/octeon-usb/octeon-hcd.c
+> > > @@ -1101,9 +1101,9 @@ static struct cvmx_usb_pipe *cvmx_usb_open_pipe(struct octeon_hcd *usb,
+> > >  	pipe = kzalloc(sizeof(*pipe), GFP_ATOMIC);
+> > >  	if (!pipe)
+> > >  		return NULL;
+> > > -	if ((device_speed == CVMX_USB_SPEED_HIGH) &&
+> > > -	    (transfer_dir == CVMX_USB_DIRECTION_OUT) &&
+> > > -	    (transfer_type == CVMX_USB_TRANSFER_BULK))
+> > > +	if (device_speed == CVMX_USB_SPEED_HIGH &&
+> > > +	    transfer_dir == CVMX_USB_DIRECTION_OUT &&
+> > > +	    transfer_type == CVMX_USB_TRANSFER_BULK)
+> > >  		pipe->flags |= CVMX_USB_PIPE_FLAGS_NEED_PING;
+> > 
+> > Nah, the original is fine, no need to change this.
+> > 
+> > Unless, do you have this hardware?  If so, getting this out of staging
+> > would be nice to have happen one day.
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> Hi,
+> 
+> So I do have the hardware, an Ubiquiti Edgerouter POE. This has a Cavium Octeon+ SoC and a single USB port.
+> This is used for booting and for rootfs (in a form of a squasfs image) and configuration.
+> 
+> I cross-compiled an unmodified kernel with a sufficient configuration - with the octeon-usb driver added - to get to user space.
+> I am not sure how should I present it - sorry in advance if it's not the right way - so here is the boot log as it happened. 
+> 
+> I should note that I tried to plug in other devices such as usb pendrives, wifi dongles, a hub and even an Elgato card, all showed up.
+> Partitions were also detected on all usb drives, all of them had some sort of FAT partitions with MBR.
+> 
+> What else can I help with to get this driver out of staging?
 
-> the patch looks good to me. It would be nice to mention that with adding
-> the device reference it would possible to introduce common kernel logging.
+Is it checkpatch and sparse clean?  If so, then propose a patch that
+adds it to the proper place in the kernel tree and we can go from there.
 
-Sure, I can mention this in the next version.
+thanks,
 
-Thanks,
-
-Adrien
-
+greg k-h
