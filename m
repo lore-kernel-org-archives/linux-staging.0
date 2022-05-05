@@ -1,86 +1,74 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52665369
-	for <linux-staging@lists.linux.dev>; Thu,  5 May 2022 00:42:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: dmitry.osipenko)
-	with ESMTPSA id 5D6FE1F40A4D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1651711327;
-	bh=MyOm9L9WGRdUCHRglVPQ6r+0Az2kPrdmLi4U0cgQB+M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OzGMoesSvl76vDw/rGqLDlidJ30q+2p8JVEemntpZj/HiFybMjDA64LAQlAuBXCDv
-	 ddHuD/R0AiRd0qGdMOQU3IKMpL6cUYyiB31hXaFcPGYOYx15QobmdbztD8c/AXll9M
-	 lYER4eSv4WHNv/f/509FCX0O9Ua8VzNlrO6VQRjlHwPvWSWIsgIebs3WMHvGbp8N7o
-	 0lFvG17/neKrcP9HzEJoUMcWLxIwEsnUcmqyLhU9MLmB+usJiGbxRms1is1I5UqkFm
-	 jgzYyWq1GtDPthuLF7d3zG6wxigGxTqKdnuXjSx809hL8eBmphREbxwV2r+4VMyHZx
-	 Q8lrF5JxdXuTw==
-Message-ID: <dfda7666-7325-f4a1-69b1-6b3cb9701b62@collabora.com>
-Date: Thu, 5 May 2022 03:42:03 +0300
+Received: from tk2-214-16531.vs.sakura.ne.jp (tk2-214-16531.vs.sakura.ne.jp [160.16.76.35])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654D7632
+	for <linux-staging@lists.linux.dev>; Thu,  5 May 2022 13:22:08 +0000 (UTC)
+Received: from localhost.localdomain (localhost [IPv6:::1])
+	by tk2-214-16531.vs.sakura.ne.jp (Postfix) with ESMTP id 1629412B5C1
+	for <linux-staging@lists.linux.dev>; Thu,  5 May 2022 22:13:27 +0900 (JST)
+Date: Thu, 05 May 2022 22:13:27 +0900
+From: info@carchsclub.com
+To: linux-staging@lists.linux.dev
+Message-ID: <6273cd77150df_42032b022c50dc889581167@tk2-214-16531.vs.sakura.ne.jp.mail>
+Subject: =?UTF-8?Q?=E3=80=90=E3=82=AB=E3=83=BC=E3=83=81=E3=82=B9=E5=80=B6=E6=A5=BD=E9=83=A8=E3=80=91=E3=80=8C=E3=81=8F=E3=82=8B=E3=81=BE=E5=A3=B2=E3=82=8A=E9=9A=8A=EF=BC=81=E3=80=8D=E3=81=8A=E7=94=B3=E3=81=97=E8=BE=BC=E3=81=BF=E3=81=82=E3=82=8A=E3=81=8C=E3=81=A8=E3=81=86=E3=81=94=E3=81=96=E3=81=84=E3=81=BE=E3=81=99?=
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v4 05/24] media: h264: Use v4l2_h264_reference for reflist
-Content-Language: en-US
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heiko Stuebner <heiko@sntech.de>, Matthias Brugger <matthias.bgg@gmail.com>
-Cc: nicolas@ndufresne.ca, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20220426125751.108293-1-nicolas.dufresne@collabora.com>
- <20220426125751.108293-6-nicolas.dufresne@collabora.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220426125751.108293-6-nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On 4/26/22 15:57, Nicolas Dufresne wrote:
->  static int tegra_vde_wait_mbe(struct tegra_vde *vde)
-> @@ -768,7 +768,7 @@ static int tegra_vde_h264_setup_frames(struct tegra_ctx *ctx,
->  	struct h264_reflists reflists;
->  	struct vb2_buffer *ref;
->  	unsigned int i;
-> -	u8 *dpb_id;
-> +	struct v4l2_h264_reference *dpb_id;
-
-nit: will be nice to preserve to reverse Xmas coding style, but only if
-you'll need to make v5 with more important changes
-
->  	int err;
->  
->  	/*
-> @@ -811,14 +811,16 @@ static int tegra_vde_h264_setup_frames(struct tegra_ctx *ctx,
->  	}
->  
->  	for (i = 0; i < b.num_valid; i++) {
-> -		ref = get_ref_buf(ctx, dst, dpb_id[i]);
-> +		int dpb_idx = dpb_id[i].index;
->  
-> -		err = tegra_vde_h264_setup_frame(ctx, h264, &b, ref, dpb_id[i],
-> +		ref = get_ref_buf(ctx, dst, dpb_idx);
-> +
-> +		err = tegra_vde_h264_setup_frame(ctx, h264, &b, ref, dpb_idx,
->  						 h264->dpb_frames_nb++);
->  		if (err)
->  			return err;
->  
-> -		if (b.refs[dpb_id[i]].pic_order_count < b.cur_pic_order_count)
-> +		if (b.refs[dpb_idx].top_field_order_cnt < b.cur_pic_order_count)
->  			h264->dpb_ref_frames_with_earlier_poc_nb++;
-
-Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd
+77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd77yd
+77yd77yd77ydCuOAgOOCq+ODvOODgeOCueWAtualvemDqOOAjOOBj+OCi+OB
+vuWjsuOCiumaiu+8geOAjeOBruWPl+S7mOOBjOWujOS6huOBl+OBvuOBl+OB
+n+OAggrvvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3v
+vJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3vvJ3v
+vJ3vvJ3vvJ3vvJ3vvJ0KCvCfmI0gTWFyaWEgd2FudCB0byBtZWV0IHlvdSEg
+Q2xpY2sgaGVyZTogaHR0cDovL2lueC5sdi9HUzFSP2g4MzRwIPCfmI0g8J+Y
+jSBNYXJpYSB3YW50IHRvIG1lZXQgeW91ISBDbGljayBoZXJlOiBodHRwOi8v
+aW54Lmx2L0dTMVI/aDgzNHAg8J+YjSDmp5gKCuOBk+OBruW6puOBr+OCq+OD
+vOODgeOCueWAtualvemDqOOBruOAjOOBj+OCi+OBvuWjsuOCiumaiu+8geOA
+jeOBq+OBiueUs+OBl+i+vOOBv+OBhOOBn+OBoOOBjeOAgeiqoOOBq+OBguOC
+iuOBjOOBqOOBhuOBlOOBluOBhOOBvuOBmeOAggrkuIvoqJjjgYrnlLPjgZfo
+vrzjgb/lhoXlrrnjgavjgYrplpPpgZXjgYTjgYzjgarjgYTjgYvjgZTnorro
+qo3jgY/jgaDjgZXjgYTjgIIKCuaLheW9k+iAheOBjOWGheWuueOCkueiuuiq
+jeW+jOOAgeODoeODvOODq+OBvuOBn+OBr+OBiumbu+ipseOBq+OBpuOBlOmA
+o+e1oeOBhOOBn+OBl+OBvuOBmeOBruOBp+OAgQrjgoLjgYbjgZfjgbDjgonj
+gY/jgYrlvoXjgaHjgY/jgaDjgZXjgYTjgIIKCj09PT09PT09PT09PT09PT09
+PT09PTw8IOWfuuacrOaDheWgsSA+Pj09PT09PT09PT09PT09PT09PT09CuS8
+muekvuWQjeOAgOOAgOOAgOOAgOOAgDrwn5iNIE1hcmlhIHdhbnQgdG8gbWVl
+dCB5b3UhIENsaWNrIGhlcmU6IGh0dHA6Ly9pbngubHYvR1MxUj9oODM0cCDw
+n5iNCuWQjeWJjeOAgOOAgOOAgOOAgOOAgOOAgDrwn5iNIE1hcmlhIHdhbnQg
+dG8gbWVldCB5b3UhIENsaWNrIGhlcmU6IGh0dHA6Ly9pbngubHYvR1MxUj9o
+ODM0cCDwn5iNCumDteS+v+eVquWPt+OAgOOAgOOAgOOAgDoyMzU4NDIxMjEw
+MjgK5L2P5omA44CA44CA44CA44CA44CA44CAOvCfmI0gTWFyaWEgd2FudCB0
+byBtZWV0IHlvdSEgQ2xpY2sgaGVyZTogaHR0cDovL2lueC5sdi9HUzFSP2g4
+MzRwIPCfmI0K6Zu76Kmx55Wq5Y+344CA44CA44CA44CAOjIzNTg0MjEyMTAy
+OArjg5XjgqHjg4Pjgq/jgrnjgIDjgIDjgIA6MjM1ODQyMTIxMDI4CkVtYWls
+44CA44CA44CA44CA44CAOmxpbnV4LXN0YWdpbmdAbGlzdHMubGludXguZGV2
+CuWCmeiAg+OAgOOAgOOAgOOAgOOAgOOAgDoKCj09PT09PT09PT09PT09PT09
+PT09PTw8IOeUs+OBl+i+vOOBv+aDheWgsSA+Pj09PT09PT09PT09PT09PT09
+CuODoeODvOOCq+ODvOOAgOOAgOOAgOOAgDpvdGhlcmZvcmVpZ24K6LuK44CA
+44CA56iu44CA44CA44CA44CAOvCfmI0gTWFyaWEgd2FudCB0byBtZWV0IHlv
+dSEgQ2xpY2sgaGVyZTogaHR0cDovL2lueC5sdi9HUzFSP2g4MzRwIPCfmI0K
+44Kw44Os44O844OJ44CA44CA44CA44CAOgrlubTjgIDjgIDlvI/jgIDjgIDj
+gIDjgIA6MTk5MuW5tC/lubPmiJA05bm0Cui1sOihjOi3nembouOAgOOAgOOA
+gOOAgDo5NSwwMDF+MTAwLDAwMOOCreODrQrjgrfjg5Xjg4jjgIDjgIDjgIDj
+gIDjgIA6TVQK6Imy44CA44CA44CA44CA44CA44CA44CAOuODr+OCpOODswrm
+iYvmlL7jgZfmmYLmnJ/jgIDjgIDjgIA68J+YjSBNYXJpYSB3YW50IHRvIG1l
+ZXQgeW91ISBDbGljayBoZXJlOiBodHRwOi8vaW54Lmx2L0dTMVI/aDgzNHAg
+8J+YjQroh6rnpL7lnKjluqvjgIDjgIDjgIDjgIA644GE44GE44GICuOCouOD
+lOODvOODq+ODneOCpOODs+ODiDoKPT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cgoq44GT44Gu44Oh44O8
+44Or44Gr5b+D5b2T44KK44GM44Gq44GE5pa544CB44G+44Gf44Gv44GU5LiN
+5piO44Gq54K544GM44GC44KL5pa544Gv5LiL6KiY44G+44Gn44GK5ZWP44GE
+5ZCI44KP44Gb44GP44Gg44GV44GE44CCCgrilqAg44GK5ZWP44GE5ZCI44KP
+44Gb5YWICi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tCuagquW8j+S8muekvuOCq+ODvOODgeOCuQrmnbHkuqzp
+g73ljYPku6PnlLDljLrntIDlsL7kupXnlLo055WqMeWPt+OAgOaWsOe0gOWw
+vuS6leeUuuODk+ODqzJGClRFTDowMTIwLTU1LTAwMTAo5bmz5pelODowMO+9
+njIxOjAwKQpNQUlMOiBjdXN0b21lckBjYXJjaHMuY29tCldFQjogaHR0cDov
+L3d3dy5jYXJjaHMuY29tCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tCg==
