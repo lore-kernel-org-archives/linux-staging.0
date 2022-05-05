@@ -1,70 +1,69 @@
-Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.133.74])
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.129.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ED729AA
-	for <linux-staging@lists.linux.dev>; Thu,  5 May 2022 18:11:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3422729AA
+	for <linux-staging@lists.linux.dev>; Thu,  5 May 2022 18:13:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1651774274;
+	s=mimecast20190719; t=1651774416;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kLRudaiszTccdqB1Vd77KpaI2iWJChA3O1GYOzzQuoc=;
-	b=VFIs+if8/Jo09Ye/qt8En1bHfTLtyA3UW6kcMVDzIY21J9rucG6cBg3m1kpSAT0xg5tL1d
-	I9JXF8I1MIK/uuNO/4QGsYtsPkKJLrSfbViFkxGOUHsmtwmVXZ31D6sWsYaO4d2QH5vbgc
-	HGLpb/uClCHYmncYDX/eZflD+ZLYrJ4=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=vIQ6rERKH4luifLFHwoZPkiKhXSs2wHfoxIuk8Um0/k=;
+	b=MUkgau/iPIGmR5T8wR9kJQlezpmo1KenFRWZQbltq7uC5dIhFIrsjAtH3DNSKBzjOb3gJt
+	SyUz3P8JcdvU6F+63KGcn/XJrKXpyupTCMHh6UAMqzZ4Cv6McsGVUWN+xgQV070J/r6DR+
+	N8Au6MymMYyPbOC0ALNXAtDBYkoz6Jw=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-Fk5B15pjO-KojuwyTGd7eQ-1; Thu, 05 May 2022 14:11:13 -0400
-X-MC-Unique: Fk5B15pjO-KojuwyTGd7eQ-1
-Received: by mail-qv1-f71.google.com with SMTP id kj4-20020a056214528400b0044399a9bb4cso3828645qvb.15
-        for <linux-staging@lists.linux.dev>; Thu, 05 May 2022 11:11:13 -0700 (PDT)
+ us-mta-561-JkWjf9_qMOGpOLWv4H09Tg-1; Thu, 05 May 2022 14:13:32 -0400
+X-MC-Unique: JkWjf9_qMOGpOLWv4H09Tg-1
+Received: by mail-qv1-f70.google.com with SMTP id d13-20020a05621421cd00b0045a99874ae5so3842979qvh.14
+        for <linux-staging@lists.linux.dev>; Thu, 05 May 2022 11:13:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=kLRudaiszTccdqB1Vd77KpaI2iWJChA3O1GYOzzQuoc=;
-        b=L5UYpkWzt4o32ibpf2CDvYWx+lc+bEuAIES4Z4ArVv3bJgGfQU0HTJta0to7Lvvjfs
-         I+CDC6z7CXTY/S0Eb/9oeWYkttppcL7F6k8smijnX069SWN+h/8Ub7LRW1GOareAoLj3
-         QIbvd1+u5e93YPXTMQypFIxe9DkFEBnb9oxDYFBWtBsra1cbf9qpyJeszFxoued6qnEa
-         kiAhK6qEiAI2Ngb+BXpLlWENf3o92/1tLuZHrREy2QhX63v3V5xZr6rCGr8vAKxNZc8R
-         2zHfVZh/lEq8yA7OJm54Yf/oWUBe7/Vk4mYQucoysM+BjwbPDnVbTqDAbK5JwHO9N0wv
-         bP2A==
-X-Gm-Message-State: AOAM532MXQIQDys9W0MOiNvyzW9l6MeZvIqVritBkub2G4WT5xk613C6
-	JVTL23GN1NKHGSczHfW7VewqLULMBiSAoEGGuFxeO3Jbfw5Mp4KlsHFEPnHvsanpz5GsbIv+GTr
-	QOEKyYLNSEB2ifUMs77QxJVZlhw==
-X-Received: by 2002:a05:622a:20f:b0:2f3:4e5c:3271 with SMTP id b15-20020a05622a020f00b002f34e5c3271mr25103845qtx.44.1651774272660;
-        Thu, 05 May 2022 11:11:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwODdZVXSmIrr3XKHkaq4AMOb8tfd+YHR41zI+HxWst1xMd12GMM8tAoRhnMZaQTl0FAyFWCg==
-X-Received: by 2002:a05:622a:20f:b0:2f3:4e5c:3271 with SMTP id b15-20020a05622a020f00b002f34e5c3271mr25103826qtx.44.1651774272473;
-        Thu, 05 May 2022 11:11:12 -0700 (PDT)
+        bh=vIQ6rERKH4luifLFHwoZPkiKhXSs2wHfoxIuk8Um0/k=;
+        b=kJWZCJTfcQPQ3dVa0wSQEq/eiHZDQWzR6beR5Bl7hD640bH/RYWVGvrcim5rZgCHIh
+         cXZt9Fvn5VpM08gWuxwV88GW9ve5KlUdGmPB/icBnpIRJTUlBkwmY7sbKbImrzRyezo7
+         rzI+cbD3/8cpKyDCRdUc4wh3AJ18eueIk8cN4HcY3w6mEwjwB5JJvzUMUymtUB6WOOpS
+         NV8J/89dYXASiwI5K+/Z51pJQ4VxlEXJCzm7Y5cU9gW+pi9y5MAG31WsR0QWav755CPV
+         EGipCZnz0+NSrHd3es1QBikhMSES4bQQuYK0knrL3aJG/0FhJMXGlQFjKD+RA+JIXom+
+         ArYQ==
+X-Gm-Message-State: AOAM531oKkee8uf5ms33B8GCrezin9QmmfbfjLawHp6FyNvGVFN77nyB
+	MZEnFYNEiD4zL3DTsidqDWn2TWhxyrJCSt5ZY1oV9DqNiLGCe7uzL7hvpaWz4SFwIxmbM5fy3rk
+	9zPrXfv+2QvOtO7ws5g74KAW50g==
+X-Received: by 2002:a37:9342:0:b0:69f:b0b9:b60d with SMTP id v63-20020a379342000000b0069fb0b9b60dmr21180457qkd.728.1651774412135;
+        Thu, 05 May 2022 11:13:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZDVSrYF0/IHka2CQ1470+9YJmZLCgwnZ+Aoo3cSeAePgqRTe09cEGUHwjWj3klSG0nnBjLg==
+X-Received: by 2002:a37:9342:0:b0:69f:b0b9:b60d with SMTP id v63-20020a379342000000b0069fb0b9b60dmr21180443qkd.728.1651774411955;
+        Thu, 05 May 2022 11:13:31 -0700 (PDT)
 Received: from fedora (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id d9-20020ac85349000000b002f39b99f68bsm1167214qto.37.2022.05.05.11.11.11
+        by smtp.gmail.com with ESMTPSA id i22-20020ac871d6000000b002f3ad89629dsm1230752qtp.2.2022.05.05.11.13.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 11:11:12 -0700 (PDT)
-Date: Thu, 5 May 2022 14:11:10 -0400
+        Thu, 05 May 2022 11:13:31 -0700 (PDT)
+Date: Thu, 5 May 2022 14:13:29 -0400
 From: Adrien Thierry <athierry@redhat.com>
 To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	bcm-kernel-feedback-list@broadcom.com,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] staging: vchiq_arm: get rid of global device
- structure
-Message-ID: <YnQTPmNAvpbQl5Ws@fedora>
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/3] staging: vchiq_arm: add reference to vchiq device in
+ vchiq_state
+Message-ID: <YnQTyS+37rTkvQ4/@fedora>
 References: <20220502183045.206519-1-athierry@redhat.com>
- <20220502183045.206519-3-athierry@redhat.com>
- <8483a250-da97-1875-4ea3-598f46ae96ce@i2se.com>
+ <20220502183045.206519-2-athierry@redhat.com>
+ <60a0ad1e-92d5-5032-7672-3da9ea606348@i2se.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <8483a250-da97-1875-4ea3-598f46ae96ce@i2se.com>
+In-Reply-To: <60a0ad1e-92d5-5032-7672-3da9ea606348@i2se.com>
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -74,25 +73,12 @@ Content-Disposition: inline
 
 Hi Stefan,
 
-Thanks for your feedback.
+> the patch looks good to me. It would be nice to mention that with adding
+> the device reference it would possible to introduce common kernel logging.
 
-> i understand the motivation, but could you please explain more in detail
-> why you decided to add vchiq_instance instead of device reference? I
-> think vchiq_instance is a more internal structure which should be
-> avoided in kernel consumers like bcm2835-audio or mmal.
-
-I used the vchiq_instance instead of the device reference because in order
-to get rid of the vchiq_states array (patch 3/3 [1]), I needed another way
-to access the vchiq_state in the 'handle_to_service' function. So I passed
-the vchiq_instance to it (I could also have passed the state directly
-instead of the instance), and this propagated in the caller chain all the
-way up to 'vchiq_bulk_transmit' and friends which are used in the
-bcm2835-audio consumer.  Please let me know if you see a better way of
-doing this :)
+Sure, I can mention this in the next version.
 
 Thanks,
 
 Adrien
-
-[1] https://lore.kernel.org/all/20220502183045.206519-4-athierry@redhat.com/
 
