@@ -1,49 +1,81 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from caracal.ash.relay.mailchannels.net (caracal.ash.relay.mailchannels.net [23.83.222.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B4B620
-	for <linux-staging@lists.linux.dev>; Fri,  6 May 2022 03:16:07 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id p12so5239457pfn.0
-        for <linux-staging@lists.linux.dev>; Thu, 05 May 2022 20:16:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nLavEAR5Aau9+5bXqJeGR1zfvkVlJijBBWww/pFaBdg=;
-        b=RHFW7PR2ybJs1cy+WdEB+4lpWd2eFOMHKJZmV0VPnQ3dOQti4MvfAH0xOn7GBQwjvS
-         YHzBwCTXh/ZMbjYw17lZW/f38S4m59xyaANd7N8pm/HSa+HuWReiLi19cEwVyr+nYMBt
-         XgduYTfzuSR4yxsrqf19hnfQNgXLlBzb5ztyalWYNSHe54H6HfOHurJMY30C0k0UiJH4
-         d+yxSdfJmMzKN+H4IGCBLgq+80EegYaNK6EMHUa0Ix8A0VwDZZEmRN3ZqIu5bK3/ci6Q
-         jYXXxillsD0hm0AOQ+uecBN9rBLVdjqXaVTPxH0FOGGJOxsPGivhEYmJxOZhjrPnFzBh
-         Dmfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nLavEAR5Aau9+5bXqJeGR1zfvkVlJijBBWww/pFaBdg=;
-        b=atbsiWNsvzEazA11CSCDYXmU4BQJN9yVQumO+ScZCfb1pzBI3m5NlytqIyYnyfFkQ4
-         keltu6h3+37I9snwKnhSLud0BdaC7soiBGplaypVaO/d7W7vDQ5k3YrUHWJUNQLaz/bp
-         JT9B2CgtezrumvmrnQtTJXOenssJFSwdQUCHHZoJ6JjHZTEhMMNkjV5Fsmf9+oi5xgcb
-         Q3J9TScTSeceBDO0hr0pv0O7NvwohfY0BchVRMuvj6FMbwOs4CcWIxvh9LC3Ho+CwSZ6
-         4KBipHAeBvBAzX0AJoJO26jCSyBcwOUIQ8mqP+DHVv/VM9SKd0RUTDbMMNWf8/igZooL
-         w2QA==
-X-Gm-Message-State: AOAM533njtl0w5fT9WwEcb2dmzdin3HQCTzU553SIfwlgOcCnnOVge0Y
-	jtke0j5tiTLY9F4jGGiW8+k=
-X-Google-Smtp-Source: ABdhPJwAL9SNpzXTVp1tdxwwhH5G/VLDLEVuxCj8LbB+YdJbzhyKNyWGXs9xQgWc6JvYAu5gDUR13Q==
-X-Received: by 2002:a05:6a00:a94:b0:4fd:c14b:21cb with SMTP id b20-20020a056a000a9400b004fdc14b21cbmr1245258pfl.53.1651806967551;
-        Thu, 05 May 2022 20:16:07 -0700 (PDT)
-Received: from localhost ([152.70.90.187])
-        by smtp.gmail.com with ESMTPSA id q135-20020a632a8d000000b003c1c906048csm2084829pgq.88.2022.05.05.20.16.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 May 2022 20:16:07 -0700 (PDT)
-Date: Fri, 6 May 2022 11:16:02 +0800
-From: Wang Cheng <wanngchenng@gmail.com>
-To: dan.carpenter@oracle.com, paskripkin@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] staging: rtl8712: fix uninit-value in
- r871xu_drv_init()
-Message-ID: <14c3886173dfa4597f0704547c414cfdbcd11d16.1651760402.git.wanngchenng@gmail.com>
-References: <cover.1651760402.git.wanngchenng@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1067E2
+	for <linux-staging@lists.linux.dev>; Fri,  6 May 2022 05:38:54 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id D0FDF560D71;
+	Fri,  6 May 2022 05:30:17 +0000 (UTC)
+Received: from pdx1-sub0-mail-a243.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 275C15608D3;
+	Fri,  6 May 2022 05:30:15 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1651815017; a=rsa-sha256;
+	cv=none;
+	b=kfCDl5RbpTt7rP1hGCIe4GZj++v9M4lEZ23DVfnmpR2crAgJsCkp+VaFroL3WomIexGDtk
+	ercZUd1BFYtBwSWgvF9UpgbJdnEGrw4yHnSYPT6yQU7z1EmzdjOTG4qy6vVZkyCCitRK06
+	OjP71CvXYO+IpsDot6357Qser7IJQ+ShKmQcgnnRw7L17g1IJb4vLmS7W7Le4QA8BYYxDM
+	WPeI54kl4HtpfagmrhY0OA8PXV+ttxd8MRnXAd0BYKCIki5dlUcvZNN/qz/v9N9M9gGQZn
+	qlkV1oFrm9A7GA6+eNOfDyGFvL3eexZEnkE/N/f/K5TbZ5r6BKZudX/E+1iB7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1651815017;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=EVkr9CmxaYXCctU93BalOMVfkfCCgbUETz9MHNKsnlw=;
+	b=o/Rr+9JgaZsxLlwgZpQ2Kntifve8C7TDJTTj3dt2ZvaOtcvlIs0AV7srvcvN727N5psjli
+	hD69qn+hDZGQ2+BMJ0voKc0WMLFP0i5kUjIpOqb1Yw0ORc46uVITHTnSPGJ1jXpTpfxwFp
+	8/wESprHOCRgusN4snhaD/wVUJ0mVP51CesuuLHd/P+CNLFdjec7tSIkaOMn5Z/WfYkYnI
+	5WyF8a8d5tLJ6KclSzPa7KZPSlnkZxvxuLqfDwbmqbIX3Q2NCScWMDfaAkwQYA11Lfl6tH
+	rkx0uYJVBK2HmDSSHMxj3GeHmp0eWJDIqeaWavz2z/+04ayerwW2/yBzcA1BGQ==
+ARC-Authentication-Results: i=1;
+	rspamd-847dd8955c-cpsmn;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Cure-Shrill: 6b76dc7a0e7105ae_1651815017690_445065697
+X-MC-Loop-Signature: 1651815017690:1202526960
+X-MC-Ingress-Time: 1651815017689
+Received: from pdx1-sub0-mail-a243.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.125.123.55 (trex/6.7.1);
+	Fri, 06 May 2022 05:30:17 +0000
+Received: from fedora (unknown [69.12.38.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a243.dreamhost.com (Postfix) with ESMTPSA id 4KvfKL0w4qz2M;
+	Thu,  5 May 2022 22:30:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1651815014;
+	bh=EVkr9CmxaYXCctU93BalOMVfkfCCgbUETz9MHNKsnlw=;
+	h=Date:From:To:Cc:Subject:Content-Type;
+	b=YuPu14i4PP4uV68df3aQmHwWCPiNeJcK816rvUa4cBW60kor8hdrREsSTu5BXXthB
+	 pf8WPHDY9KGd4PfzwtQB/jHSjiaSdki86oZFaxDEpx+cUGebxSkzEDsOhZWzLUYOcz
+	 9jYonuD3ahADRP4RjJ3Ve8E8CtGnxnyldJO2OOkIKkEKYe9bYglocuNQm5RqVjeI3w
+	 pMQF/iIXwfLTrQGtgiaFe6itL/RlMEHYJgPq7zEryFpPgPjaxeqFQ6rshnGgm7ezUJ
+	 BB+UqjXopCTtRF84HHSUMed/S4BxcNdmLadDcSdWlT5knSvP7uFkHwttdIkbFBbIki
+	 E7RxdS9hAZumg==
+Date: Fri, 6 May 2022 01:30:12 -0400
+From: Ian Cowan <ian@linux.cowan.aero>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Corentin Labbe <clabbe@baylibre.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH v2 4/4] staging: media: zoran: replace dprintk with new
+ debugging macros
+Message-ID: <YnSyZEF8n7luVvHM@fedora>
+References: <20220425144110.133316-1-ian@linux.cowan.aero>
+ <3270dd49-0d68-5b60-d766-940b39aa463e@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,76 +84,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1651760402.git.wanngchenng@gmail.com>
+In-Reply-To: <3270dd49-0d68-5b60-d766-940b39aa463e@xs4all.nl>
 
-When 'tmpU1b' returns from r8712_read8(padapter, EE_9346CR) is 0,
-'mac[6]' will not be initialized.
+On Thu, Apr 28, 2022 at 10:15:03AM +0200, Hans Verkuil wrote:
+> Hi Ian,
+> 
+> When I compiled this patch series with smatch I got these warnings:
+> 
+> zoran/videocodec.c:45 videocodec_attach() warn: variable dereferenced before check 'master' (see line 40)
+> zoran/videocodec.c:115 videocodec_detach() warn: variable dereferenced before check 'codec' (see line 111)
+> zoran/videocodec.c:168 videocodec_register() warn: variable dereferenced before check 'codec' (see line 166)
+> zoran/videocodec.c:200 videocodec_unregister() warn: variable dereferenced before check 'codec' (see line 198)
+> 
+> And I also got this warning when checking the kerneldoc:
+> 
+> zoran/zoran.h:307: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+> 
+> Can you fix this and post a v3?
+> 
+> Thanks!
+> 
+> 	Hans
 
-BUG: KMSAN: uninit-value in r871xu_drv_init+0x2d54/0x3070 drivers/staging/rtl8712/usb_intf.c:541
- r871xu_drv_init+0x2d54/0x3070 drivers/staging/rtl8712/usb_intf.c:541
- usb_probe_interface+0xf19/0x1600 drivers/usb/core/driver.c:396
- really_probe+0x653/0x14b0 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:752
- driver_probe_device drivers/base/dd.c:782 [inline]
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:899
- bus_for_each_drv+0x2d6/0x3f0 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:970
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1017
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487
- device_add+0x1fff/0x26e0 drivers/base/core.c:3405
- usb_set_configuration+0x37e9/0x3ed0 drivers/usb/core/message.c:2170
- usb_generic_driver_probe+0x13c/0x300 drivers/usb/core/generic.c:238
- usb_probe_device+0x309/0x570 drivers/usb/core/driver.c:293
- really_probe+0x653/0x14b0 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:752
- driver_probe_device drivers/base/dd.c:782 [inline]
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:899
- bus_for_each_drv+0x2d6/0x3f0 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:970
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1017
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487
- device_add+0x1fff/0x26e0 drivers/base/core.c:3405
- usb_new_device+0x1b8e/0x2950 drivers/usb/core/hub.c:2566
- hub_port_connect drivers/usb/core/hub.c:5358 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5502 [inline]
- port_event drivers/usb/core/hub.c:5660 [inline]
- hub_event+0x58e3/0x89e0 drivers/usb/core/hub.c:5742
- process_one_work+0xdb6/0x1820 kernel/workqueue.c:2307
- worker_thread+0x10b3/0x21e0 kernel/workqueue.c:2454
- kthread+0x3c7/0x500 kernel/kthread.c:377
- ret_from_fork+0x1f/0x30
+I just resubmitted v3.
 
-Local variable mac created at:
- r871xu_drv_init+0x1771/0x3070 drivers/staging/rtl8712/usb_intf.c:394
- usb_probe_interface+0xf19/0x1600 drivers/usb/core/driver.c:396
+What did you use to see these issues? When I ran the checkpatch script
+and compiled, I did not see any of this.
 
-Reported-and-tested-by: syzbot+6f5ecd144854c0d8580b@syzkaller.appspotmail.com
-Signed-off-by: Wang Cheng <wanngchenng@gmail.com>
----
- drivers/staging/rtl8712/usb_intf.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
-index ee4c61f85a07..50dcd3ecb685 100644
---- a/drivers/staging/rtl8712/usb_intf.c
-+++ b/drivers/staging/rtl8712/usb_intf.c
-@@ -538,13 +538,13 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,
- 		} else {
- 			AutoloadFail = false;
- 		}
--		if (((mac[0] == 0xff) && (mac[1] == 0xff) &&
-+		if ((!AutoloadFail) ||
-+		    ((mac[0] == 0xff) && (mac[1] == 0xff) &&
- 		     (mac[2] == 0xff) && (mac[3] == 0xff) &&
- 		     (mac[4] == 0xff) && (mac[5] == 0xff)) ||
- 		    ((mac[0] == 0x00) && (mac[1] == 0x00) &&
- 		     (mac[2] == 0x00) && (mac[3] == 0x00) &&
--		     (mac[4] == 0x00) && (mac[5] == 0x00)) ||
--		     (!AutoloadFail)) {
-+		     (mac[4] == 0x00) && (mac[5] == 0x00))) {
- 			mac[0] = 0x00;
- 			mac[1] = 0xe0;
- 			mac[2] = 0x4c;
--- 
-2.33.1
-
+Thanks!
+Ian
