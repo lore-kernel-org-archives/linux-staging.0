@@ -1,48 +1,48 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597E0807
-	for <linux-staging@lists.linux.dev>; Fri,  6 May 2022 12:00:07 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id d25so6063535pfo.10
-        for <linux-staging@lists.linux.dev>; Fri, 06 May 2022 05:00:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BD8807
+	for <linux-staging@lists.linux.dev>; Fri,  6 May 2022 12:01:51 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id t11-20020a17090ad50b00b001d95bf21996so10638024pju.2
+        for <linux-staging@lists.linux.dev>; Fri, 06 May 2022 05:01:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=nLavEAR5Aau9+5bXqJeGR1zfvkVlJijBBWww/pFaBdg=;
-        b=DeEyjUY/AE4zdNZnPtis7a7XGLtDDO3d/lJzBjqrUsP9rcMTrXZBtw+hwaySnho1Fh
-         jrngQRa8MGUKkyTvWSQPHeUWHpai58VlWs0CzkvL9r4rhBQFX+4LJDXxvIm+KxfjQhgj
-         zBBE+TUgiT8YlED78tDChevr6U/iNmpKQq0DzNGtXVe5BnkuFcr+zX30CXxTVGXiq7xi
-         otEGboTuUFFtpY5K3ed8WZ6ncFyMOvcvMfbfqlcVc2+zaGW3YBLDuObRJeBMyWccOxZm
-         GQpR+FSAVBBQJ/AGHPOn+6SDjVlq3cSkkcrbnIAb3bJ5ADvUTxMbethyv1Sti66/oMIy
-         z4dg==
+        bh=i9PJvhEX8P9EwLto+E+6JAbwn0v8MnYujSttxKDDDe0=;
+        b=lksT/n19/JYsn93CnYdttA/s6P7bMZJpP+Ms209BI2CObc+AMkQUlT6IubqMu1Mahp
+         O8nRm01qDnsw8e1hE+kYJW6jLabXrejT8hGuB9BWDMm+x1QX9rmAulxyWM3O047U6X4t
+         mjDRY4NnhMooqkdMRULWbQnVaHGlvSF+wooVC1frMAzJ9ou4UQ4uEKtdG36GKAptCFEx
+         KLcwmJcoNIN4rbNWlMJLTbSB+zINy9WGFSEpYjnAk2dODhQCljiii+pFFgAMINIIrbam
+         Bhly8p9NLnSHX1pA8yHLAppMyHH49XGBRqxTfYZr58rLfLH7/gyW3BRRH6N2/ok4VFAw
+         XPxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=nLavEAR5Aau9+5bXqJeGR1zfvkVlJijBBWww/pFaBdg=;
-        b=HzCZRd1h8V5kCwqZdyHktUyOViWfr5uOaM4wzqffdSBfghsr2a8/eMz8KHSxeqSTyh
-         vjiGukhOFGv4edCM4I6qkrFBuAGsnpkOBmU1kdluwYuCYNCvGWuZlDwAcp8vByH2FRsB
-         9T2edx5T53m2EC2WOz/Xc8iaHXJXrqHggaFP70+hlWCIrRlzXhuui/uQKMRdfh4zYScF
-         MqFM8a3JU19EMYQjRWTFVSZcMX75OSoMQAwseBAo3mGLKGZdMiEwi3LxzFztmRlWtKTO
-         3chK25xzwBMgPXdX/p3ULrN+30vIV0Tl+/T9Il3JcRG6zt66xxg5lpkIbfpjpVq9EGlM
-         nhPw==
-X-Gm-Message-State: AOAM530rJB5hDyDvLZnde6LNTqokuBGIIETC7eSZHyrV9wqsBtMZ23xR
-	H1mMrkA1vB9PiIfdUHxwPuq4mayXtxQ=
-X-Google-Smtp-Source: ABdhPJwg4XY20f0zcCWhvaiidVQyvulZHkhF/Z7tytzmQiJbJ12b4Fi553fBIbXUhmdMDZsdj2rzZQ==
-X-Received: by 2002:a63:8542:0:b0:3ab:4911:ec35 with SMTP id u63-20020a638542000000b003ab4911ec35mr2503523pgd.356.1651838406739;
-        Fri, 06 May 2022 05:00:06 -0700 (PDT)
+        bh=i9PJvhEX8P9EwLto+E+6JAbwn0v8MnYujSttxKDDDe0=;
+        b=IVhgVxPxNe52krl3Q5m8c9LJj2UVY8TYlHrUvHOI8vwJHUOCt6fnWtqVj3NxSS6RlR
+         guFCqYz1Gk7ue5R1HEgnAmSzRu9Cds5pYbUoW1OiR5hSE7k/AscZnHCFECY7pWiwAwvl
+         Mze52nsPKy48OHV2gGkQ3lXdPDEacJ2Cb8Wx/AqwetLSgrAH2kaGD7ffRNNH+XW7Khm1
+         iDKedu8PcTosk2U1e8dT6NYlTTtjC1dxsOt/rAARewj+uqLH5K7HgGFW29QDvqqBUAJb
+         KrOKtl1t0NcAstNfzIi7Ad78ktwNqVUUuSiLYz1Bmhj4axt+z1Aunx1v67HpWh1oSUhB
+         PfAA==
+X-Gm-Message-State: AOAM530tRk6vnm+l4ucORDIU5cQp65Ct1sDjfCV6raYaSmojpCGMrlVW
+	/0eqSP4aVuMm1lLYKyZyrI0=
+X-Google-Smtp-Source: ABdhPJwdf1n78F/MCPW8uBDH56G1BwkHvo3AmYJjlhLXlgtLLi3HlnNHA2E1gJPWALUl/vmWJMJpSg==
+X-Received: by 2002:a17:902:e808:b0:15e:b27b:9302 with SMTP id u8-20020a170902e80800b0015eb27b9302mr3326522plg.54.1651838511019;
+        Fri, 06 May 2022 05:01:51 -0700 (PDT)
 Received: from localhost ([152.70.90.187])
-        by smtp.gmail.com with ESMTPSA id be12-20020a056a001f0c00b0050dc76281basm3233819pfb.148.2022.05.06.05.00.05
+        by smtp.gmail.com with ESMTPSA id q27-20020a056a0002bb00b0050dc76281ebsm3169785pfs.197.2022.05.06.05.01.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 May 2022 05:00:06 -0700 (PDT)
-Date: Fri, 6 May 2022 19:59:59 +0800
+        Fri, 06 May 2022 05:01:50 -0700 (PDT)
+Date: Fri, 6 May 2022 20:01:44 +0800
 From: Wang Cheng <wanngchenng@gmail.com>
 To: dan.carpenter@oracle.com, paskripkin@gmail.com
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/3] staging: rtl8712: fix uninit-value in
- r871xu_drv_init()
-Message-ID: <14c3886173dfa4597f0704547c414cfdbcd11d16.1651833575.git.wanngchenng@gmail.com>
+Subject: [PATCH v3 3/3] staging: rtl8712: add error handler in
+ r8712_usbctrl_vendorreq()
+Message-ID: <e33ea53d36c422fbe7eabec5bd9eecb0ebce1bc5.1651833575.git.wanngchenng@gmail.com>
 References: <cover.1651833575.git.wanngchenng@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,74 +54,48 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1651833575.git.wanngchenng@gmail.com>
 
-When 'tmpU1b' returns from r8712_read8(padapter, EE_9346CR) is 0,
-'mac[6]' will not be initialized.
+When 'status' returned from usb_control_msg() is not equal to 'len',
+that usb_control_msg() is on partial failure, r8712_usbctrl_vendorreq()
+will treat partial reads as success.
 
-BUG: KMSAN: uninit-value in r871xu_drv_init+0x2d54/0x3070 drivers/staging/rtl8712/usb_intf.c:541
- r871xu_drv_init+0x2d54/0x3070 drivers/staging/rtl8712/usb_intf.c:541
- usb_probe_interface+0xf19/0x1600 drivers/usb/core/driver.c:396
- really_probe+0x653/0x14b0 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:752
- driver_probe_device drivers/base/dd.c:782 [inline]
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:899
- bus_for_each_drv+0x2d6/0x3f0 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:970
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1017
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487
- device_add+0x1fff/0x26e0 drivers/base/core.c:3405
- usb_set_configuration+0x37e9/0x3ed0 drivers/usb/core/message.c:2170
- usb_generic_driver_probe+0x13c/0x300 drivers/usb/core/generic.c:238
- usb_probe_device+0x309/0x570 drivers/usb/core/driver.c:293
- really_probe+0x653/0x14b0 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:752
- driver_probe_device drivers/base/dd.c:782 [inline]
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:899
- bus_for_each_drv+0x2d6/0x3f0 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:970
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1017
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487
- device_add+0x1fff/0x26e0 drivers/base/core.c:3405
- usb_new_device+0x1b8e/0x2950 drivers/usb/core/hub.c:2566
- hub_port_connect drivers/usb/core/hub.c:5358 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5502 [inline]
- port_event drivers/usb/core/hub.c:5660 [inline]
- hub_event+0x58e3/0x89e0 drivers/usb/core/hub.c:5742
- process_one_work+0xdb6/0x1820 kernel/workqueue.c:2307
- worker_thread+0x10b3/0x21e0 kernel/workqueue.c:2454
- kthread+0x3c7/0x500 kernel/kthread.c:377
- ret_from_fork+0x1f/0x30
-
-Local variable mac created at:
- r871xu_drv_init+0x1771/0x3070 drivers/staging/rtl8712/usb_intf.c:394
- usb_probe_interface+0xf19/0x1600 drivers/usb/core/driver.c:396
-
-Reported-and-tested-by: syzbot+6f5ecd144854c0d8580b@syzkaller.appspotmail.com
 Signed-off-by: Wang Cheng <wanngchenng@gmail.com>
 ---
- drivers/staging/rtl8712/usb_intf.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8712/usb_ops_linux.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
-index ee4c61f85a07..50dcd3ecb685 100644
---- a/drivers/staging/rtl8712/usb_intf.c
-+++ b/drivers/staging/rtl8712/usb_intf.c
-@@ -538,13 +538,13 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,
- 		} else {
- 			AutoloadFail = false;
- 		}
--		if (((mac[0] == 0xff) && (mac[1] == 0xff) &&
-+		if ((!AutoloadFail) ||
-+		    ((mac[0] == 0xff) && (mac[1] == 0xff) &&
- 		     (mac[2] == 0xff) && (mac[3] == 0xff) &&
- 		     (mac[4] == 0xff) && (mac[5] == 0xff)) ||
- 		    ((mac[0] == 0x00) && (mac[1] == 0x00) &&
- 		     (mac[2] == 0x00) && (mac[3] == 0x00) &&
--		     (mac[4] == 0x00) && (mac[5] == 0x00)) ||
--		     (!AutoloadFail)) {
-+		     (mac[4] == 0x00) && (mac[5] == 0x00))) {
- 			mac[0] = 0x00;
- 			mac[1] = 0xe0;
- 			mac[2] = 0x4c;
+diff --git a/drivers/staging/rtl8712/usb_ops_linux.c b/drivers/staging/rtl8712/usb_ops_linux.c
+index f984a5ab2c6f..b2181e1e2d38 100644
+--- a/drivers/staging/rtl8712/usb_ops_linux.c
++++ b/drivers/staging/rtl8712/usb_ops_linux.c
+@@ -495,14 +495,21 @@ int r8712_usbctrl_vendorreq(struct intf_priv *pintfpriv, u8 request, u16 value,
+ 	}
+ 	status = usb_control_msg(udev, pipe, request, reqtype, value, index,
+ 				 pIo_buf, len, 500);
+-	if (status > 0) {  /* Success this control transfer. */
+-		if (requesttype == 0x01) {
+-			/* For Control read transfer, we have to copy the read
+-			 * data from pIo_buf to pdata.
+-			 */
+-			memcpy(pdata, pIo_buf,  status);
+-		}
++	if (status < 0)
++		goto free;
++	if (status != len) {
++		status = -EREMOTEIO;
++		goto free;
++	}
++	/* Success this control transfer. */
++	if (requesttype == 0x01) {
++		/* For Control read transfer, we have to copy the read
++		 * data from pIo_buf to pdata.
++		 */
++		memcpy(pdata, pIo_buf, status);
+ 	}
++
++free:
+ 	kfree(palloc_buf);
+ 	return status;
+ }
 -- 
 2.33.1
 
