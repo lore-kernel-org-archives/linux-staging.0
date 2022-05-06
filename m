@@ -1,141 +1,145 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C37373
-	for <linux-staging@lists.linux.dev>; Fri,  6 May 2022 12:35:09 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id l19so9083447ljb.7
-        for <linux-staging@lists.linux.dev>; Fri, 06 May 2022 05:35:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD84A5B;
+	Fri,  6 May 2022 16:50:43 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id gh6so15603836ejb.0;
+        Fri, 06 May 2022 09:50:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language
-         :from:to:cc:references:in-reply-to;
-        bh=liCHqqDBpZMTi3vrfIOE5FXF4Xt6Thg/t+huQqOBdF8=;
-        b=fW6DSwVrERaLyBwiCWLdUfOp9J0+5xgM9SBhcEWuGXzpAx0MrQrzsnifFRcJGMBX51
-         RH6Ugj1JKwetlrcfiwiFfUyY1qmFlqWcvQQEfdS5yC6V9Tak1IUo9yQKvL4SF3rW7WRD
-         twcQ95xxAfgFn4v2p0t/rYfezGOhYEpVfuImXP+JuO479PLKyJODy1Zrx6N8+QJADKsu
-         +tGb86pxGts+icATt1VPqfLhg0DC5iL0HaPEnHbvKJ9gT1mBWBLl+Fuw6WcXjEaIjVbK
-         v6UrkaDAvaB/32KXGPnGtvm2Sy4+M8ivQyFpVZINd61Me2mF88acig/e7cg0d1eoT+rD
-         0Bug==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=kUvr4fMP2elRfDyGqxMyfJTTNp+E8ksaw8Lx5Viwtkc=;
+        b=HF/DeaGJK5NSYoN64s/08h6x8B2rWgCMQQ+RA6RbZGQQmXGGQMSlunQ3xqaAdCYb7X
+         pr/wPiGO9jDBXZhNQQG2dwtDUQUUhCwZ/FxADiY5usIK9V7FromCFGIuRt7ZVlMSgVgN
+         vDYkAb7zu0JlfkxHRGxA3FBwNFf+vFaz2VLeLVdSjS0uEfSHiVdHYAOaIGf5ZQ9i/4d/
+         crqkVJ27Wi5yI33qMjQ5wIswLFfPiVqVDn5sWN6s4AAlkhOPB17Aqq3H7z3ng/OuurS8
+         eC9g0xOMt5S6r7BsBOP5gBc8+WFQQ8rBaeTewH7DWla3dgwGLsyVxjPeNvpij2qLdiGd
+         4SlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:from:to:cc:references:in-reply-to;
-        bh=liCHqqDBpZMTi3vrfIOE5FXF4Xt6Thg/t+huQqOBdF8=;
-        b=yqC61pXprX2otbOIRQ0wI/lJLLEkF2fn0g5hNK64/ZaVZwX5GmEC7jSbU3kpq05k7G
-         XShkTnQkcNJ2QOhmS9VwezLuuu5NjdDi0KtSebauxvizB9lDHmwOwFSOHawwUPmq84j2
-         dHFehS5xg/NI66MlVqbzBDozk5hZCXXhXXa4tgUqE/hWvE1IZgw6AB6pVqCvE/15A59D
-         ucPpsIAVrXia9ED8352W8LuyfKOnVAOiY79HTRHwVdl0ICNN95nmGtTrf1CvN1smDmCy
-         Zdq29jLV/+Rxvf+4SLyF9QMMPewu1KacHcYVpXzMFvTROzxWka1EbatulVBYnMeaAjKt
-         9aFA==
-X-Gm-Message-State: AOAM531c6LCLnnt+Mk4C7c31k3pUWRWs0TsRo/8MMhsL6KUtHvSu6zie
-	kr6xfGLt9IDW1xsPQcBO6cI=
-X-Google-Smtp-Source: ABdhPJwRPyHT+4RjlEQ1/Z85UO3Q/IkIdKETIgN3+ehXAMmVlJvDLVjWZInM/KcEIV8ana4lCjrR3g==
-X-Received: by 2002:a2e:8554:0:b0:24f:2b8e:f26e with SMTP id u20-20020a2e8554000000b0024f2b8ef26emr1922539ljj.487.1651840507234;
-        Fri, 06 May 2022 05:35:07 -0700 (PDT)
-Received: from [192.168.1.11] ([217.117.246.114])
-        by smtp.gmail.com with ESMTPSA id c9-20020a197609000000b0047255d210e4sm673893lff.19.2022.05.06.05.35.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 May 2022 05:35:06 -0700 (PDT)
-Message-ID: <972ec318-680d-e13c-4aac-07c2c039706c@gmail.com>
-Date: Fri, 6 May 2022 15:35:05 +0300
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kUvr4fMP2elRfDyGqxMyfJTTNp+E8ksaw8Lx5Viwtkc=;
+        b=aT+N1qm+shZgJz840SR8lbWjHyOM2EYdGVLpscOErgsIMkuCzwWG6+QTOx/nss61Lk
+         DudCCN/nsN2xQqAqAhzh+iyNtf/lOciFkrmvUzS7RIJby1cOve0Na7qszfdyxpZElTY7
+         xVjC/pEYNAgvQLeenRpNfJjuJgy/3xi1x/y+IPL2PWVOrvEO9n3tgE+bxA4xAfW0K1i6
+         KeiT7EGPM2saWtn7NafwqaxifQNa2vfo1l3+aNuiqfCV5xgsdHt7siprC8aIVarHtYBF
+         HnzYrwfEdr0P/Kdg8Q03PJybFcC1rgUEY+iudcR9WWPEV/sD14YCxJCVUhCFVMfo4sZn
+         vziQ==
+X-Gm-Message-State: AOAM531R7JHxe3axMgXk9/EMc4N0MC9YhKnT8zPZc72+XMcYUlKYvPL3
+	UR20qse9IzUdJFDG6YrHjxZXQEdsG1vPtgjP/Mg=
+X-Google-Smtp-Source: ABdhPJx7dHmK9oHkI0ldCdTpG8JoA202u7A6O8PxK+0IKd3axIqD/BvP9TCwb5gbbinYDuTCGCQ7kW6WouY2cQdEOEs=
+X-Received: by 2002:a17:907:86a7:b0:6f7:ea6:1acb with SMTP id
+ qa39-20020a17090786a700b006f70ea61acbmr698109ejc.413.1651855841749; Fri, 06
+ May 2022 09:50:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 2/3] staging: rtl8712: fix uninit-value in
- r871xu_drv_init()
-Content-Language: en-US
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Wang Cheng <wanngchenng@gmail.com>, dan.carpenter@oracle.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1651833575.git.wanngchenng@gmail.com>
- <14c3886173dfa4597f0704547c414cfdbcd11d16.1651833575.git.wanngchenng@gmail.com>
- <9f0bf5e0-87e8-ce27-7c2d-8e247e7b5f4f@gmail.com>
-In-Reply-To: <9f0bf5e0-87e8-ce27-7c2d-8e247e7b5f4f@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------K5IrKYjXwmIhR00iOPLTa9hZ"
+References: <20220503182146.GA886740@jaehee-ThinkPad-X1-Extreme>
+ <16415431.geO5KgaWL5@pc-42> <20220504170816.GB970146@jaehee-ThinkPad-X1-Extreme>
+In-Reply-To: <20220504170816.GB970146@jaehee-ThinkPad-X1-Extreme>
+From: Jaehee <jhpark1013@gmail.com>
+Date: Fri, 6 May 2022 12:50:30 -0400
+Message-ID: <CAA1TwFBr=6P=ydfqr3hqcO-gLuSYreOME-yUkSL6==pLuzastw@mail.gmail.com>
+Subject: Re: [PATCH v5] wfx: use container_of() to get vif
+To: =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>
+Cc: Kalle Valo <kvalo@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-wireless@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, 
+	Outreachy Linux Kernel <outreachy@lists.linux.dev>, Stefano Brivio <sbrivio@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------K5IrKYjXwmIhR00iOPLTa9hZ
-Content-Type: multipart/mixed; boundary="------------c958OhEGTSYp2fSZDZ6BnswN";
- protected-headers="v1"
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Wang Cheng <wanngchenng@gmail.com>, dan.carpenter@oracle.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Message-ID: <972ec318-680d-e13c-4aac-07c2c039706c@gmail.com>
-Subject: Re: [PATCH v3 2/3] staging: rtl8712: fix uninit-value in
- r871xu_drv_init()
-References: <cover.1651833575.git.wanngchenng@gmail.com>
- <14c3886173dfa4597f0704547c414cfdbcd11d16.1651833575.git.wanngchenng@gmail.com>
- <9f0bf5e0-87e8-ce27-7c2d-8e247e7b5f4f@gmail.com>
-In-Reply-To: <9f0bf5e0-87e8-ce27-7c2d-8e247e7b5f4f@gmail.com>
+On Wed, May 4, 2022 at 1:08 PM Jaehee Park <jhpark1013@gmail.com> wrote:
+>
+> On Wed, May 04, 2022 at 09:21:21AM +0200, J=C3=A9r=C3=B4me Pouiller wrote=
+:
+> > On Tuesday 3 May 2022 20:21:46 CEST Jaehee Park wrote:
+> > > Currently, upon virtual interface creation, wfx_add_interface() store=
+s
+> > > a reference to the corresponding struct ieee80211_vif in private data=
+,
+> > > for later usage. This is not needed when using the container_of
+> > > construct. This construct already has all the info it needs to retrie=
+ve
+> > > the reference to the corresponding struct from the offset that is
+> > > already available, inherent in container_of(), between its type and
+> > > member inputs (struct ieee80211_vif and drv_priv, respectively).
+> > > Remove vif (which was previously storing the reference to the struct
+> > > ieee80211_vif) from the struct wfx_vif, define a function
+> > > wvif_to_vif(wvif) for container_of(), and replace all wvif->vif with
+> > > the newly defined container_of construct.
+> > >
+> > > Signed-off-by: Jaehee Park <jhpark1013@gmail.com>
+> > > ---
+> > > v2
+> > > - Sequenced the wfx.h file (with the new defines) to show up first on
+> > > the diff, which makes the ordering of the diff more logical.
+> > >
+> > > v3
+> > > - Made edits to the commit message.
+> > > - Shortened the macro name from wvif_to_vif to to_vif.
+> > > - For functions that had more than one instance of vif, defined one
+> > > reference vif at the beginning of the function and used that instead.
+> > > - Broke the if-statements that ran long into two lines.
+> > >
+> > > v4
+> > > - Changed macro into function and named it back to wvif_to_vif
+> > > - Fit all lines in patch to 80 columns
+> > > - Decared a reference to vif at the beginning of all the functions
+> > > where it's being used
+> > >
+> > > v5
+> > > - Placed longest declarations first
+> > >
+> > >
+> > >  drivers/net/wireless/silabs/wfx/wfx.h     |  6 +-
+> > >  drivers/net/wireless/silabs/wfx/data_rx.c |  5 +-
+> > >  drivers/net/wireless/silabs/wfx/data_tx.c |  3 +-
+> > >  drivers/net/wireless/silabs/wfx/key.c     |  4 +-
+> > >  drivers/net/wireless/silabs/wfx/queue.c   |  3 +-
+> > >  drivers/net/wireless/silabs/wfx/scan.c    | 11 ++--
+> > >  drivers/net/wireless/silabs/wfx/sta.c     | 71 ++++++++++++++-------=
+--
+> > >  7 files changed, 65 insertions(+), 38 deletions(-)
+> > >
+> > [...]
+> > > diff --git a/drivers/net/wireless/silabs/wfx/sta.c b/drivers/net/wire=
+less/silabs/wfx/sta.c
+> > > index 3297d73c327a..040d1f9fb03a 100644
+> > > --- a/drivers/net/wireless/silabs/wfx/sta.c
+> > > +++ b/drivers/net/wireless/silabs/wfx/sta.c
+> > > @@ -101,6 +101,7 @@ void wfx_configure_filter(struct ieee80211_hw *hw=
+, unsigned int changed_flags,
+> > >         struct wfx_vif *wvif =3D NULL;
+> > >         struct wfx_dev *wdev =3D hw->priv;
+> > >         bool filter_bssid, filter_prbreq, filter_beacon;
+> > > +       struct ieee80211_vif *vif =3D wvif_to_vif(wvif);
+> >
+> > wvif is modified later in the function, so this one is not correct.
+> >
+>
+> Hi Jerome, I'm so sorry about this. I'll check more carefully and
+> correct for any other occurrences.
+>
 
---------------c958OhEGTSYp2fSZDZ6BnswN
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Hi Jerome,
 
-SGkgUGF2ZWwsDQoNCk9uIDUvNi8yMiAxNToyNywgUGF2ZWwgU2tyaXBraW4gd3JvdGU6DQo+
-IEhpIFdhbmcsDQo+IA0KPiBPbiA1LzYvMjIgMTQ6NTksIFdhbmcgQ2hlbmcgd3JvdGU6DQo+
-PiBSZXBvcnRlZC1hbmQtdGVzdGVkLWJ5OiBzeXpib3QrNmY1ZWNkMTQ0ODU0YzBkODU4MGJA
-c3l6a2FsbGVyLmFwcHNwb3RtYWlsLmNvbQ0KPj4gU2lnbmVkLW9mZi1ieTogV2FuZyBDaGVu
-ZyA8d2FubmdjaGVubmdAZ21haWwuY29tPg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvc3RhZ2lu
-Zy9ydGw4NzEyL3VzYl9pbnRmLmMgfCA2ICsrKy0tLQ0KPj4gICAxIGZpbGUgY2hhbmdlZCwg
-MyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPj4gDQo+PiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9zdGFnaW5nL3J0bDg3MTIvdXNiX2ludGYuYyBiL2RyaXZlcnMvc3RhZ2luZy9y
-dGw4NzEyL3VzYl9pbnRmLmMNCj4+IGluZGV4IGVlNGM2MWY4NWEwNy4uNTBkY2QzZWNiNjg1
-IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL3J0bDg3MTIvdXNiX2ludGYuYw0K
-Pj4gKysrIGIvZHJpdmVycy9zdGFnaW5nL3J0bDg3MTIvdXNiX2ludGYuYw0KPj4gQEAgLTUz
-OCwxMyArNTM4LDEzIEBAIHN0YXRpYyBpbnQgcjg3MXh1X2Rydl9pbml0KHN0cnVjdCB1c2Jf
-aW50ZXJmYWNlICpwdXNiX2ludGYsDQo+PiAgIAkJfSBlbHNlIHsNCj4+ICAgCQkJQXV0b2xv
-YWRGYWlsID0gZmFsc2U7DQo+PiAgIAkJfQ0KPj4gLQkJaWYgKCgobWFjWzBdID09IDB4ZmYp
-ICYmIChtYWNbMV0gPT0gMHhmZikgJiYNCj4+ICsJCWlmICgoIUF1dG9sb2FkRmFpbCkgfHwN
-Cj4+ICsJCSAgICAoKG1hY1swXSA9PSAweGZmKSAmJiAobWFjWzFdID09IDB4ZmYpICYmDQo+
-PiAgIAkJICAgICAobWFjWzJdID09IDB4ZmYpICYmIChtYWNbM10gPT0gMHhmZikgJiYNCj4+
-ICAgCQkgICAgIChtYWNbNF0gPT0gMHhmZikgJiYgKG1hY1s1XSA9PSAweGZmKSkgfHwNCj4+
-ICAgCQkgICAgKChtYWNbMF0gPT0gMHgwMCkgJiYgKG1hY1sxXSA9PSAweDAwKSAmJg0KPj4g
-ICAJCSAgICAgKG1hY1syXSA9PSAweDAwKSAmJiAobWFjWzNdID09IDB4MDApICYmDQo+PiAt
-CQkgICAgIChtYWNbNF0gPT0gMHgwMCkgJiYgKG1hY1s1XSA9PSAweDAwKSkgfHwNCj4+IC0J
-CSAgICAgKCFBdXRvbG9hZEZhaWwpKSB7DQo+PiArCQkgICAgIChtYWNbNF0gPT0gMHgwMCkg
-JiYgKG1hY1s1XSA9PSAweDAwKSkpIHsNCj4+ICAgCQkJbWFjWzBdID0gMHgwMDsNCj4+ICAg
-CQkJbWFjWzFdID0gMHhlMDsNCj4+ICAgCQkJbWFjWzJdID0gMHg0YzsNCj4gDQo+IEhtbSwN
-Cj4gDQo+IHRoZSB3aG9sZSByODcxeHVfZHJ2X2luaXQoKSBsb29rcyBvZGQsIGJ1dCBpdCdz
-IHVucmVsYXRlZC4NCj4gDQo+IEkgc2VlIHRoYXQgdGhpcyBwYXRjaCBkb2VzIG5vdCBoZWxw
-IHdpdGggYmVsb3cga2VybmVsIHBhdGgNCj4gDQo+IHI4NzF4dV9kcnZfaW5pdCgpDQo+ICAg
-ICBpZiAodG1wVTFiICYgX0VFUFJPTV9FTikgPC0gdHJ1ZSBbMV0NCj4gCWlmICghcjg3MTJf
-aW5pdG1hYyB8fCAhbWFjX3B0b24ocjg3MTJfaW5pdG1hYywgbWFjKSkgPC0gKCopDQo+IAkJ
-aWYgKCghQXV0b2xvYWRGYWlsKSB8fAk8LSBmYWxzZSwgc2luY2UgWzFdIGJyYW5jaCB0YWtl
-bg0KPiAJCQlbY29kZSB0b3VjaGVzIHN0YWNrIGRhdGFdDQo+IA0KPiAoKikgZmFsc2UgYmVj
-YXVzZSBvZiByODcxMl9pbml0bWFjIGlzIGVxdWFsIHRvIE5VTEwNCj4gDQoNCk9vcHMsIEkg
-YW0gYmxpbmQsIGlnbm9yZSB0aGF0IG9uZSwgcGxlYXNlLiBUaGUgd2hvbGUgaWRlYSBpcyB3
-cm9uZy4NCg0KSSBuZWVkIHRvIGdvIHRvIHNsZWVwIGVhcmxpZXIgdG9kYXkNCg0Kc29ycnkg
-YWJvdXQgdGhhdCwNCg0KDQpXaXRoIHJlZ2FyZHMsDQpQYXZlbCBTa3JpcGtpbg0K
+Thank you for catching the mistake! I think this is the only place
+where vif was set prematurely, but I could have missed something.
 
---------------c958OhEGTSYp2fSZDZ6BnswN--
+I will send a revised patch (now v6) with this edit today.
 
---------------K5IrKYjXwmIhR00iOPLTa9hZ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Thanks,
+Jaehee
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmJ1FfkFAwAAAAAACgkQbk1w61LbBA3w
-ZA//aeRovqtd9j/JNUn0uCdomKPvlQkHzASLdmoKIrURF1vbUOTl3XzXYXX3cI40JK1EdfgH1svF
-TEly8K1+xJCJYsip9+fIUjhlknlZD4+enbILj32q5uGXrqjj+pSnyQm3cxQXK/Y2+TYOzsCssAB+
-o38znZkNzEb+zHSnA/ejUWRGnDg6u1XadeavWguw6wbFMIEkA3TUOAyHb5p/V472LIOviKXJD7eP
-sQm7YUAxBBvDWgnqcNDdl4MTsyXfvefnNkaWOCSTlBgcuxxvtxZmcg2xccc6PfWsl8YfunAv7YYI
-aquqGldPsu4rsgqb3crOujbWufjoir4S69N7egZMNeq03C4PYcCDZ6NlxIpeMxjpI4ffINDlTzJ2
-06xHsBz+Tl1cmIV3Izze/M7gt3MEXWED7ru4dQKmTf7/eSlZjnOPUUK+NzGT3195BsYvdYnVquQz
-5XXHODjDjK21eJ3WLgE08IQwQBQHArChJOc287GwHobUn5euzUpMntg6705W5zYitSQnnplBgjRx
-98wqNAU4Z3oXVuN/T7frUvAue1YF8HilB/q03sfxpPCJw07IG/hh2oKqPlGQZQIM78/npVyTLZgW
-DLU2Mz6AzFL4zq5BodBErB5NXB/XZcberkg0wD04hVEdU4F/7GvugCO0ifLmoDB7MKOEAC7ldl2J
-zxg=
-=Nmxq
------END PGP SIGNATURE-----
-
---------------K5IrKYjXwmIhR00iOPLTa9hZ--
+> >
+> > --
+> > J=C3=A9r=C3=B4me Pouiller
+> >
+> >
