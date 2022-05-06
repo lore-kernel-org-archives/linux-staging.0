@@ -1,107 +1,129 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cyan.ash.relay.mailchannels.net (cyan.ash.relay.mailchannels.net [23.83.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7A97E8
-	for <linux-staging@lists.linux.dev>; Fri,  6 May 2022 07:41:22 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id p10so11173422lfa.12
-        for <linux-staging@lists.linux.dev>; Fri, 06 May 2022 00:41:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/nebMqVfT+54zsFtvKohJbYf+QR1kkUWhZbfriasr58=;
-        b=OroYPBv6tDt222Zrkqx2eB3zMfsQ3LD8gGdxVqOuIp7Klct/n0Q9UDLe9rDcUaTRvA
-         y5srW3JLT1UVXGlrrDt9uEWSl6x0AhPjgXzCARhQ8iRM6u85SC7td3+aiPd2cIdh3+OD
-         MHGkA37r+Wo5NxNMmXo8uTYnMICTylbSvEFBQdbHiiO1ctrp5ygMnfpp6Ym92F9YFVbh
-         LSksaGVz8sQDxh3M3qR8h6qLpe/9tm1w+NktYZXbHEQrUUwcaeXlffaPQKoIwsEEFQDa
-         LK461sWoOujgfAvtowg/IXrpRJQtXjYJg94/aKWHp/ywIrpSQ3D3yv/GdTnhA8MCBQ0b
-         LjEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=/nebMqVfT+54zsFtvKohJbYf+QR1kkUWhZbfriasr58=;
-        b=Yp6wARfpi3KdRoxJ2oFmEQv7/93tHWdL80K27XgpBDN0XnzHCLYHBSjlEYCLcwfzto
-         RAztYPDT3+G9AzorgFT6QGP7TiGhSNt2Gt58gt7bqTlze6K2YtXRnzRuyVEFi0FstL3g
-         ypIMlymqDm3zHaOXR6O1lVrwOsl+s11JrZuoujMm9FOez38Tv2pOnjdJXNdvjnyPnXpd
-         EQPABzpSxCOW//FPz1sJP/AVZDEotShmDp793Xy35TDhlauJ7OC2ad4zzT5mkJm4Ykyy
-         YTccoHUJZzcYBQUJoDOSX9g+w5cu3tk+BVbrGuVFAYEzq2odROY5AlZWv6M3ax+Z3iQE
-         SvEg==
-X-Gm-Message-State: AOAM533eVp4K5THbevghaXHsTLua0Jj4cG1vghxRkXC2FB8vTwfQLkuM
-	k6ie2wtHzGYrN1+ZcfzKjQc=
-X-Google-Smtp-Source: ABdhPJz8zlQiMb55eBpfZxzaMpDiMUi7EpuQODK+4Q6oV9xgysymwHt2dbOXi4olkQzPMsEemBYvwg==
-X-Received: by 2002:ac2:4e14:0:b0:473:bdfa:e48e with SMTP id e20-20020ac24e14000000b00473bdfae48emr1567859lfr.230.1651822880808;
-        Fri, 06 May 2022 00:41:20 -0700 (PDT)
-Received: from [192.168.1.11] ([217.117.246.114])
-        by smtp.gmail.com with ESMTPSA id p21-20020a05651212d500b0047255d211dbsm567937lfg.266.2022.05.06.00.41.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 May 2022 00:41:20 -0700 (PDT)
-Message-ID: <46b89616-5ec7-fb04-f561-2647efd968c4@gmail.com>
-Date: Fri, 6 May 2022 10:41:19 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6588A7E8
+	for <linux-staging@lists.linux.dev>; Fri,  6 May 2022 07:51:49 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 61A432C0E70;
+	Fri,  6 May 2022 05:28:13 +0000 (UTC)
+Received: from pdx1-sub0-mail-a243.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id D74002C0F78;
+	Fri,  6 May 2022 05:28:12 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1651814893; a=rsa-sha256;
+	cv=none;
+	b=Yg2xDVG4lFNdurDew2nkCoScQvcbN35P1j5R/YWLJE6ExSrTmSs70Fzf5Kd5/cBsc+yaeX
+	Lz53rDTT89uralHWOz5MBChAwv9eE8yWcCCHR88MGTOKIvHN/r0yHFmG2J4/7ydyW5zED3
+	OdTZGXJN/mxWZ38f80kkaUO9TbSqypT+8sjtQt4sXGI2Ice7t//DI2nYoAt43Qs4IQYQfo
+	bnULBIyxlwIeiCTwRiX9oudSuX9j7iZI7y8bnAa/2rL/sVs9j3ezS8BneRkZNHEEYZRVr6
+	dS7tQ42GXP+Yz6u4eP5Pup9enTny24GaziL+n1Noc85YJoArv17Vlor7esJohg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1651814893;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=0dA6jT+EL40ZJ+80iJLHF2mzSScBCF9xe9/bVhB5W28=;
+	b=Dh8FTbUJUdfjHUmULAI8Q3XT9xaJ/G7D2xy476UYUEB3Ao9ezd8gjMW6VCtlyZN479r5WG
+	EmphkvekoGLp3bDrnVABGZGEgc9gKsYMBBb2sdihg1pAmKcvqUPfeMWbAQbT6Vw4axav3M
+	RkYo8se9/AP0RNVEmfO0cqZxwGrHPmoW5fTFTeAIqlcw1jpM7qIrkI1q9wVC4xp5m++WFJ
+	RJdKvKkVUiMLyKDCKyZOVCWsiUdKsT/YwIZVRcITe1PjT0ft7x1fsuk6x82pgfvTjSXcSD
+	613P213oAcZREPlSKmJxvWbIEmtjxtaoyZaWpNOzPNCX3kVZt89JI9JrztidyQ==
+ARC-Authentication-Results: i=1;
+	rspamd-fdd564cbf-jzqrc;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Bored-Descriptive: 396a819c38b86c9f_1651814893244_2034114551
+X-MC-Loop-Signature: 1651814893244:2277536638
+X-MC-Ingress-Time: 1651814893244
+Received: from pdx1-sub0-mail-a243.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.120.38.172 (trex/6.7.1);
+	Fri, 06 May 2022 05:28:13 +0000
+Received: from localhost.localdomain (unknown [69.12.38.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a243.dreamhost.com (Postfix) with ESMTPSA id 4KvfH003mrz2M;
+	Thu,  5 May 2022 22:28:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1651814892;
+	bh=0dA6jT+EL40ZJ+80iJLHF2mzSScBCF9xe9/bVhB5W28=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=1gMNUGpJqSsaK7jLCkEZAv7l8lp1tF5c3N7tvJIPR4rI6v/QBZGWT0hOMbyl5RZT9
+	 s9N8oSmmkEiULdzfQPPXEhfMfxwmrtjDx3/j3wycroJAJ3+YGXNSJiQgQ2vCACEcfB
+	 /7NbMQ00PiyoKnMD5EV/AQnQXRlhxWZYVceNQRyclWvbk3sR3cA00O4xghsMPii1tF
+	 8oGmgkzeIH6Ng79NODYjuiuvVo7MxCFVGtJ27P7z1GW2sVZe96xAmJX4sBdR9CwVPP
+	 Uo/zcyF6p18eObAr7fxeiouZydyFErMm6Z6SaeCpJ9DKeKA1ipI0/WvcRHUE5zL+TA
+	 WMu3LPWlPfgbQ==
+From: Ian Cowan <ian@linux.cowan.aero>
+To: Corentin Labbe <clabbe@baylibre.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	mjpeg-users@lists.sourceforge.net,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ian Cowan <ian@linux.cowan.aero>
+Subject: [PATCH v3 1/4] staging: media: zoran: add logging macros
+Date: Fri,  6 May 2022 01:28:00 -0400
+Message-Id: <20220506052800.191910-1-ian@linux.cowan.aero>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/2] staging: rtl8712: fix uninit-value in
- r871xu_drv_init()
-Content-Language: en-US
-To: Wang Cheng <wanngchenng@gmail.com>, dan.carpenter@oracle.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1651760402.git.wanngchenng@gmail.com>
- <14c3886173dfa4597f0704547c414cfdbcd11d16.1651760402.git.wanngchenng@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <14c3886173dfa4597f0704547c414cfdbcd11d16.1651760402.git.wanngchenng@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Wang,
+This adds the zrdev_dbg() (pointing to pci_dbg()), zrdev_err() (pointing
+to pci_err()), and zrdev_info() (pointing to pci_info()) macros to the
+zoran drivers. These are the preferred method for debugging and this
+will allow to extract the device from the zoran struct to make the call.
 
-On 5/6/22 06:16, Wang Cheng wrote:
+Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+---
+ drivers/staging/media/zoran/zoran.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-[snip]
+diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
+index 654c95fa5aba..4f7f71d8e93c 100644
+--- a/drivers/staging/media/zoran/zoran.h
++++ b/drivers/staging/media/zoran/zoran.h
+@@ -19,6 +19,7 @@
+ #define _BUZ_H_
+ 
+ #include <linux/debugfs.h>
++#include <linux/pci.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/videobuf2-core.h>
+@@ -301,6 +302,18 @@ static inline struct zoran *to_zoran(struct v4l2_device *v4l2_dev)
+ 
+ #endif
+ 
++/*
++ * Debugging macros
++ */
++#define zrdev_dbg(zr, format, args...) \
++	pci_dbg(zr->pci_dev, format, ##args) \
++
++#define zrdev_err(zr, format, args...) \
++	pci_err(zr->pci_dev, format, ##args) \
++
++#define zrdev_info(zr, format, args...) \
++	pci_info(zr->pci_dev, format, ##args) \
++
+ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir);
+ void zoran_queue_exit(struct zoran *zr);
+ int zr_set_buf(struct zoran *zr);
+-- 
+2.35.1
 
-> 
-> Reported-and-tested-by: syzbot+6f5ecd144854c0d8580b@syzkaller.appspotmail.com
-> Signed-off-by: Wang Cheng <wanngchenng@gmail.com>
-> ---
->   drivers/staging/rtl8712/usb_intf.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
-> index ee4c61f85a07..50dcd3ecb685 100644
-> --- a/drivers/staging/rtl8712/usb_intf.c
-> +++ b/drivers/staging/rtl8712/usb_intf.c
-> @@ -538,13 +538,13 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,
->   		} else {
->   			AutoloadFail = false;
->   		}
-> -		if (((mac[0] == 0xff) && (mac[1] == 0xff) &&
-> +		if ((!AutoloadFail) ||
-> +		    ((mac[0] == 0xff) && (mac[1] == 0xff) &&
->   		     (mac[2] == 0xff) && (mac[3] == 0xff) &&
->   		     (mac[4] == 0xff) && (mac[5] == 0xff)) ||
->   		    ((mac[0] == 0x00) && (mac[1] == 0x00) &&
->   		     (mac[2] == 0x00) && (mac[3] == 0x00) &&
-> -		     (mac[4] == 0x00) && (mac[5] == 0x00)) ||
-> -		     (!AutoloadFail)) {
-> +		     (mac[4] == 0x00) && (mac[5] == 0x00))) {
-
-
-That looks ugly. I mean mac checks. Can we, please, use sane kernel API 
-like is_valid_ether_addr()?
-
-
->   			mac[0] = 0x00;
->   			mac[1] = 0xe0;
->   			mac[2] = 0x4c;
-
-
-
-
-With regards,
-Pavel Skripkin
