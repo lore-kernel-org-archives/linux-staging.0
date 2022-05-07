@@ -1,121 +1,80 @@
-Received: from cyan.ash.relay.mailchannels.net (cyan.ash.relay.mailchannels.net [23.83.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E200233C3
-	for <linux-staging@lists.linux.dev>; Fri,  6 May 2022 20:50:04 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 1EF5676116A;
-	Fri,  6 May 2022 20:50:00 +0000 (UTC)
-Received: from pdx1-sub0-mail-a267.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 866987611B8;
-	Fri,  6 May 2022 20:49:59 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1651870199; a=rsa-sha256;
-	cv=none;
-	b=n6dTuqe0V3FJ3aRB9KvPOEzKNB9dUS+P1xMLRoDk1mgAJCRfDL0mwolk6oOKAAHk1nVzO/
-	/GywrCz8wmPZ5M71rtUGiX5SWdtqAg2xbeVf8MboCI+6bvGfe0U+vDQJCKfKl4IwD3kqZY
-	gXBM2tSlS2Zx+jglhLtSIUVbSUPhjHkRc4iOBunU+mM3bKXidXGZ0kVchi1LxREGqXSJKv
-	9ScgVEyk+MiWZhSzl0S1jTCI3+cqya3054oRvHrRVtu8tnbxIaNSOeyQyQxRPEJ2zi7sQk
-	85NoUR5iO39DPk7wYQZTj4fVRAvS/xGPu27J/uHO3Axw35yAYDpsv0A2Zfep7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1651870199;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=C+3kDtZyTEFcDrjJVXV0xCqHGqid0l8Y5T5jgapYTQ4=;
-	b=VNQTEsQOLV0/WFoc/YlZNgVKg8G2++ug6oWR+T6Wu5GnPOqubgpj9TBXOt9DCS0AxngXRd
-	tOz1si/aVyfzBGJb0MyK94Vsx/YRNVKPKaLjb9ghhE3ULysberKKe56Z1bSXf1yKdvraHo
-	vF72/STgiGCU21ke7NcR9b7VVwDa+62UY1mKZIcfU6EbFVxAdWVOcC5nWJN1HDkkG/qOwD
-	gjAyqkwij98To29TDzbTpWUaH/L31UUoSKIQGqg/b0VjOSl60EBeI+6FYbKSqfai5QWBUn
-	aJd6G3JcP8CmUxNQ6k5LncYdUAonKI8hclZUsLGr2gj9uZE7YGk45aaDBobCLQ==
-ARC-Authentication-Results: i=1;
-	rspamd-c4dc5ff8f-qm9bp;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MailChannels-Auth-Id: dreamhost
-X-Gusty-Imminent: 088f61e760f53c4d_1651870199940_3946215459
-X-MC-Loop-Signature: 1651870199940:1452148033
-X-MC-Ingress-Time: 1651870199940
-Received: from pdx1-sub0-mail-a267.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.115.45.49 (trex/6.7.1);
-	Fri, 06 May 2022 20:49:59 +0000
-Received: from fedora (unknown [69.12.38.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ian@linux.cowan.aero)
-	by pdx1-sub0-mail-a267.dreamhost.com (Postfix) with ESMTPSA id 4Kw2kY6smCz3V;
-	Fri,  6 May 2022 13:49:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
-	s=dreamhost; t=1651870198;
-	bh=C+3kDtZyTEFcDrjJVXV0xCqHGqid0l8Y5T5jgapYTQ4=;
-	h=Date:From:To:Cc:Subject:Content-Type;
-	b=aZ2JeXQk/iWcH5lnZ4lU6SoqriVdbAipjKJ1WCOI0+irhIU76G6/f+mn2UP2Tt1Gl
-	 RK4vJPKozshbE8CCvNzwAKEr0SXVky/gSC3Ssezw+ofrvx4J5Zil2Wrh3QHvrgdpbu
-	 BXhoyUN97urARPKUoNkN23aI77DTIvwI+gNwNuZ5djpEqCe0AEEfVAQfXM727zcIjc
-	 ekYtJbyYbcE4FOAs8hY0Jp9BT25wknzvAEtlsWCHVwaF7j8ZbGoQEYqktNtndmiXWa
-	 98LlAwSSWyFJ1nBnwW627X9Vt4Xdlf9NayVJqRPEXeDQtlqUzWMFv6n7LQinlhiPJ2
-	 opfS8r0C6I6BA==
-Date: Fri, 6 May 2022 16:49:56 -0400
-From: Ian Cowan <ian@linux.cowan.aero>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Corentin Labbe <clabbe@baylibre.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] staging: media: zoran: replace dprintk with new
- debugging macros
-Message-ID: <YnWJ9M19t57yqRz/@fedora>
-References: <20220425144110.133316-1-ian@linux.cowan.aero>
- <3270dd49-0d68-5b60-d766-940b39aa463e@xs4all.nl>
- <YnSyZEF8n7luVvHM@fedora>
- <20220506071455.GC4031@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510F6EC1
+	for <linux-staging@lists.linux.dev>; Sat,  7 May 2022 18:34:17 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id v12so14072074wrv.10
+        for <linux-staging@lists.linux.dev>; Sat, 07 May 2022 11:34:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KQVod+LIsL2dmZvlmndlBF3HF+IRF2gal3cYOuUcsuc=;
+        b=gg9+N19hUZK3SAO4/zkjI2MpjxT8l7+NWmXgp6ZIrrIliOLEmfkhEp2njPbvxW3HXP
+         5RgqjdntbRCvqxXSjgpS+N5ncB0a90TkZ6dNXFZWXjnLWBhYYXyNmRCJ+Nk0VSfbtJqr
+         4kOXP4DctvbayOMWwdeeGvriYKLxnTuIhhNCNdmVzPuFIvBK17CEXew3eeS91z0lw7Nf
+         6bX0YVuf76r+h7/ybhvAyjBK+QBMQv3AHK+KzqxP9iioRPziS9Dh6d1MkIPBoBo9bvyh
+         uYqreKxigjgO+srtGQaFVZIa7A+jedUVZlQ+qw2j/8HgVQkn3dOVdDDdHYVXLpDiUsxV
+         bMdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KQVod+LIsL2dmZvlmndlBF3HF+IRF2gal3cYOuUcsuc=;
+        b=ayfoXziEzdkYKk7T45VXudPVEvEUogy/6x9t0uKAyFmdENbG8B+z4YKLtcgaw5eYHU
+         6zxkMBJ5XLLRUjC2zzQ9NbDOZ9mAPRxXcDGATH6k6eLbmO6O/cCxesONarvfn+ZHUJQ4
+         a1C7z4WC2uGbpsFXgILs5LrdIlqGjgudNRlJVCtQrLpEosF8oZuTIZzuEdlgPGmAemVu
+         wZ1nnxJVms3FLquG3N2ID/uc6m/6dD1wHDKlIoqzKbg8jgGktnOK3jyt8Pc/QapqN8dF
+         HzqDm6wQrqkmxhHBSzZm9BIGfOC3Cea+5dgYUwF07/2iIzgHuYC+1lczAkuHsKGeNKyW
+         oD0w==
+X-Gm-Message-State: AOAM533pjXWThzM9U2U+x9wifFRZk7N8m8c01oSUNvaOacloQ/TYUgjt
+	FD9ydHTF+jPPtZkEVG/r/Uc=
+X-Google-Smtp-Source: ABdhPJx3Q40DD0GCOXiXnFeZWHGSMIzWaLXzzWc0Le3e9YjapKmr+0+wCmccOvPBxyqn0axEooEe6w==
+X-Received: by 2002:a5d:5846:0:b0:20c:7407:5fa1 with SMTP id i6-20020a5d5846000000b0020c74075fa1mr7368426wrf.116.1651948455622;
+        Sat, 07 May 2022 11:34:15 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id n18-20020a05600c465200b003942a244f4esm11726417wmo.39.2022.05.07.11.34.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 May 2022 11:34:15 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8192u: make const array queuetopipe const, reduces object code size
+Date: Sat,  7 May 2022 19:34:14 +0100
+Message-Id: <20220507183414.26633-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220506071455.GC4031@kadam>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 06, 2022 at 10:14:55AM +0300, Dan Carpenter wrote:
-> On Fri, May 06, 2022 at 01:30:12AM -0400, Ian Cowan wrote:
-> > On Thu, Apr 28, 2022 at 10:15:03AM +0200, Hans Verkuil wrote:
-> > > Hi Ian,
-> > > 
-> > > When I compiled this patch series with smatch I got these warnings:
-> > > 
-> > > zoran/videocodec.c:45 videocodec_attach() warn: variable dereferenced before check 'master' (see line 40)
-> > > zoran/videocodec.c:115 videocodec_detach() warn: variable dereferenced before check 'codec' (see line 111)
-> > > zoran/videocodec.c:168 videocodec_register() warn: variable dereferenced before check 'codec' (see line 166)
-> > > zoran/videocodec.c:200 videocodec_unregister() warn: variable dereferenced before check 'codec' (see line 198)
-> > > 
-> > > And I also got this warning when checking the kerneldoc:
-> > > 
-> > > zoran/zoran.h:307: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-> > >
-> > What did you use to see these issues? When I ran the checkpatch script
-> > and compiled, I did not see any of this.
-> > 
-> 
-> I have written a blog entry about checking kernel code with Smatch:
-> 
-> https://staticthinking.wordpress.com/2022/04/25/how-to-run-smatch-on-your-code/
-> 
-> regards,
-> dan carpenter
-> 
+Don't populate the const array queuetopipe on the stack, instead make it
+static.  Also makes the object code smaller.
 
-Fantastic, I'll give that a read.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/rtl8192u/r8192U_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks!
-Ian
+diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
+index ce807c9d4219..2ca925f35830 100644
+--- a/drivers/staging/rtl8192u/r8192U_core.c
++++ b/drivers/staging/rtl8192u/r8192U_core.c
+@@ -2537,7 +2537,7 @@ static short rtl8192_init(struct net_device *dev)
+ 	}
+ #else
+ 	{
+-		const u8 queuetopipe[] = {3, 2, 1, 0, 4, 4, 0, 4, 4};
++		static const u8 queuetopipe[] = {3, 2, 1, 0, 4, 4, 0, 4, 4};
+ 
+ 		memcpy(priv->txqueue_to_outpipemap, queuetopipe, 9);
+ 	}
+-- 
+2.35.1
+
