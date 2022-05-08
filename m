@@ -1,470 +1,268 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9754C7E
-	for <linux-staging@lists.linux.dev>; Sun,  8 May 2022 19:30:07 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id e24so16765127wrc.9
-        for <linux-staging@lists.linux.dev>; Sun, 08 May 2022 12:30:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA6F7E
+	for <linux-staging@lists.linux.dev>; Sun,  8 May 2022 20:25:49 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id y3so23240396ejo.12
+        for <linux-staging@lists.linux.dev>; Sun, 08 May 2022 13:25:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ieVlxjoMYTv3Cb34BiI6Rfab/LVZI52IXtHOAIyIJlc=;
-        b=a5qojSM5JMY/wNMCyj2NyvNi6ZGNh2O7VcZwGXxiR9pCLjnQY0jJ5lwUwlFvzJAJsm
-         ACtibIkagi5se/t5dSOjjUlmAmYFfCVBnb//IMNnz8SmJOoJDj5zi9aF8gKibcipIj9U
-         XkPhIDkuwotF2JhwmNASo7oQCPg0IUbfg2pyXzjPP2bezj1XdVPsgI2yZQG2Y6Nshc/8
-         sP6GaPUHgIT194CuRrh4KV7oXJObvPen+g0HAocKMWHlQKQJTv7FYgj5Uc31KxitOzMK
-         HDQ6tIc8TmTtsxocynrWwx4m7xBUPdaBrk35zPdnX9hKo2+/tRURL1t0WndhV5/cc5Fd
-         Pn6A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3NOFbdT3mNIgyFAIKrwcDEJuF9jKNTCP//3ahUJPp78=;
+        b=WyO4/C36wM9968QwGY5RgZRzNbhVS3krMRQtFcvJbMqaTv1uvtZPVg7kLKhY0S43NZ
+         EL9r7mOUAQFaa9GdsUJVahcIt59a50I4K+V+8KSgk/W9Fhrf+WjkHJ03SAHQLMYvpzjw
+         eUfO/jE3oYC0uzLfBeVB2cj3TAyAGiOsClPEBlkOgVZwWJiR8em5NnLJxpFHzO/KJ/I2
+         qwg1Y9ECSYOFf7bZuKTkN86diialKoZTMQMTHyWA7wb2p1YTv4MXFh77nOYXJD5ZtaD9
+         yIcBdwzAkUS2d/eAeVaS1yx4+L/2lKPpf1bTxb8YWqaBOLUrLPmm0Zn8RrD4T42uMJGd
+         uiFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ieVlxjoMYTv3Cb34BiI6Rfab/LVZI52IXtHOAIyIJlc=;
-        b=1pSBDdzSaC9XOCDD5szsXiXsrykO48Vp/9+eaY5phoUx6HBpQtyhfnkrOea4GHfmo7
-         sxsrfR7OwZIxw/NQADNHi2E1JrBgYNZ7qZ9yuIg99KZ/xGqM0jgF9IMS5PfRpcay/3jv
-         E+vEmopTH34I/RMYKiv1TyCy9zPymdTgLNtIaopPkHG+ekbL3QbKdahbfp5+jbrDP5/O
-         57SqE9bVRz6C3ZkAKu7V+itLXwDLUq6CcdmXbYxMn66rzpRN9ioKgtQn1KsFE3y1CcUS
-         xpXM3r/yzdKXK/0JPG598fsIgaMEFZ3xzbfbyCM6DvaLDGwNU3r5zSmCL17FLtKs5VM8
-         wQJg==
-X-Gm-Message-State: AOAM532gIrO/aTKeCtYC1ofy4MCXxIWxOT6KHqARMGJQglvUsEVhD/0P
-	VsZSO1OFCyxDeIkLeH2tzt0=
-X-Google-Smtp-Source: ABdhPJwJjHxMYYfsRxJ8iIroHPLN/aj9ocEW6j3Ia3g3WJc7l6w+nsFUIW6HfbUL4Ax2DR5XZ4P8Jw==
-X-Received: by 2002:a5d:6806:0:b0:20a:db0b:ad9b with SMTP id w6-20020a5d6806000000b0020adb0bad9bmr10952343wru.294.1652038205724;
-        Sun, 08 May 2022 12:30:05 -0700 (PDT)
-Received: from matrix-ESPRIMO-P710 (p200300c78f3ed42031f51b0dd5fb7060.dip0.t-ipconnect.de. [2003:c7:8f3e:d420:31f5:1b0d:d5fb:7060])
-        by smtp.gmail.com with ESMTPSA id p33-20020a05600c1da100b0038ec8b633fesm10106299wms.1.2022.05.08.12.30.05
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3NOFbdT3mNIgyFAIKrwcDEJuF9jKNTCP//3ahUJPp78=;
+        b=1sKQUb/WgZY2Ctq3zREPbs/qtUqhMibrFHH2K8xlgZKn6V/sQO7e4sKq6SI3O8p69r
+         /BxLlfIcQaZntG++5XHvmSJaYEp510IIS8kIb4EPZ36UTk+CUI3x2vsMUfrTibdi3Ul8
+         rYvb0QwoRb9aeiQUPpgjjbR32IN/R+SjGtHEHXbv0VEZlt+K8+bjMzHnwnAIMZKbbQBq
+         9D5hTKu+TE0N6jcTafLYtkCRmOXN1SdyZrKnpc6hFJdsXBb0wBUsSBpJ+LpbkM754S1q
+         s5dyQmJSy7ScDp0xCbPvp3/jDQ3PC07c+jHf984VsX+E6iMsYBLIHeRMIqG3fbVAB3rO
+         JaAA==
+X-Gm-Message-State: AOAM532fwPRp443+7Axna8ZDLSyfZXG9CU5fws1lA+sAQpiD43LmRScF
+	QcBypIuaWJqTqdL+WkD0cVA=
+X-Google-Smtp-Source: ABdhPJysbxv09e76DYl7jtFHVmOuBwQvAMBUFtHcjvEtdkVaMifCLWkVHXJPBMHiZu6T+34pBfv+TQ==
+X-Received: by 2002:a17:906:c102:b0:6f8:d325:bb82 with SMTP id do2-20020a170906c10200b006f8d325bb82mr5638687ejc.197.1652041548125;
+        Sun, 08 May 2022 13:25:48 -0700 (PDT)
+Received: from localhost.localdomain (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id eo10-20020a1709069b0a00b006f3ef214e1esm4341459ejc.132.2022.05.08.13.25.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 May 2022 12:30:05 -0700 (PDT)
-Date: Sun, 8 May 2022 21:30:03 +0200
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] staging: vt6655: Replace VNSvOutPortB with iowrite8
-Message-ID: <38611512677a18f63d9266cde1d20758c0feeb6e.1651957741.git.philipp.g.hortmann@gmail.com>
-References: <cover.1651957741.git.philipp.g.hortmann@gmail.com>
+        Sun, 08 May 2022 13:25:47 -0700 (PDT)
+From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Peter Geis <pgwipeout@gmail.com>,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	Liang Chen <cl@rock-chips.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v2 0/3] Enable JPEG Encoder on RK3566/RK3568
+Date: Sun,  8 May 2022 22:25:41 +0200
+Message-Id: <20220508202544.501981-1-frattaroli.nicolas@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1651957741.git.philipp.g.hortmann@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Replace macro VNSvOutPortB with iowrite8 because it replaces
-just one line.
-The name of macro and the arguments use CamelCase which
-is not accepted by checkpatch.pl
+Hello,
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-Code for testing of written BSSIDAddress:
-added in file mac.h
-'#define MACvReadBSSIDAddress(iobase, pbyEtherAddr)		\
-do {								\
-	iowrite8(1, iobase + MAC_REG_PAGE1SEL);			\
-	pbyEtherAddr[0] = ioread8(iobase + MAC_REG_BSSID0);	\
-	pbyEtherAddr[1] = ioread8(iobase + MAC_REG_BSSID0 + 1);	\
-	pbyEtherAddr[2] = ioread8(iobase + MAC_REG_BSSID0 + 2);	\
-	pbyEtherAddr[3] = ioread8(iobase + MAC_REG_BSSID0 + 3);	\
-	pbyEtherAddr[4] = ioread8(iobase + MAC_REG_BSSID0 + 4);	\
-	pbyEtherAddr[5] = ioread8(iobase + MAC_REG_BSSID0 + 5);	\
-	iowrite8(0, iobase + MAC_REG_PAGE1SEL);			\
-} while (0)
+the following series adds support for and enables one of the hardware
+video encoders on the RK3566 and RK3568 line of SoCs by Rockchip,
+initially just for the JPEG format in line with what the kernel supports.
 
-added in file device_main.c
-static void vnt_bss_info_changed(struct ieee80211_hw *hw,
-...
-unsigned char tmp[6] __attribute__((aligned(2)));
-...
-	dev_info(&priv->pcid->dev, "conf->bssid: MAC=%pM\n", conf->bssid);
-	MACvWriteBSSIDAddress(priv->port_offset, conf->bssid);
-	MACvReadBSSIDAddress(priv->port_offset, tmp);
-	dev_info(&priv->pcid->dev, "tmp: MAC=%pM\n", tmp);
+The encoder block is separate from the Hantro decoder instance, as they
+are in different power domains and have wildly different memory addresses
+as well.
 
-Log:
-vt6655 0000:01:05.0: conf->bssid: MAC=f4:ec:38:e9:c5:1c
-vt6655 0000:01:05.0: tmp: MAC=f4:ec:38:e9:c5:1c
----
- drivers/staging/vt6655/baseband.c    |  8 +++----
- drivers/staging/vt6655/card.c        | 11 ++++-----
- drivers/staging/vt6655/channel.c     |  6 ++---
- drivers/staging/vt6655/device_main.c | 24 ++++++++-----------
- drivers/staging/vt6655/mac.h         | 36 ++++++++++++----------------
- drivers/staging/vt6655/rf.c          |  8 +++----
- drivers/staging/vt6655/rxtx.c        |  6 ++---
- drivers/staging/vt6655/srom.c        | 10 ++++----
- drivers/staging/vt6655/upc.h         |  3 ---
- 9 files changed, 48 insertions(+), 64 deletions(-)
+The encoder hardware seemingly also supports VP8 and H.264 in addition
+to just JPEG, as is evident from both the downstream vendor stack and the
+register listing in the TRM. The hantro driver in Linux, however, does
+not yet support encoding these formats.
 
-diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-index 21e691c3ea30..577a38fae369 100644
---- a/drivers/staging/vt6655/baseband.c
-+++ b/drivers/staging/vt6655/baseband.c
-@@ -1909,7 +1909,7 @@ bool bb_read_embedded(struct vnt_private *priv, unsigned char by_bb_addr,
- 	unsigned char by_value;
+The first patch modifies the bindings with a new compatible, and adds
+the ability to just have a vepu interrupt without a vdpu interrupt.
+
+The second patch makes the actual driver changes to support this variant.
+
+The third and final patch makes the necessary device tree changes for
+the rk356x device tree file to add both the node for the encoder and
+its MMU.
+
+The series has been tested on a PINE64 Quartz64 Model A with an RK3566
+SoC using GStreamer.
+
+Below you'll also find an interdiff against V1, which falsely assumed
+this encoder instance only did JPEG.
+
+Regards,
+Nicolas Frattaroli
+
+Changes in v2:
+ - rename compatible as it's not JPEG only
+ - rename device tree nodes as it's not JPEG only
+ - reword commits as it's not JPEG only
+ - get rid of a whole bunch of redundant struct definitions, as, you
+   guessed it, it's not JPEG only
+
+Nicolas Frattaroli (3):
+  dt-bindings: media: rockchip-vpu: Add RK3568 VEPU compatible
+  media: hantro: Add support for RK356x encoder
+  arm64: dts: rockchip: Add Hantro encoder node to rk356x
+
+ .../bindings/media/rockchip-vpu.yaml          |  2 ++
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi      | 21 ++++++++++++++++
+ drivers/staging/media/hantro/hantro_drv.c     |  1 +
+ drivers/staging/media/hantro/hantro_hw.h      |  1 +
+ .../staging/media/hantro/rockchip_vpu_hw.c    | 25 +++++++++++++++++++
+ 5 files changed, 50 insertions(+)
+
+Interdiff against v1:
+diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+index cd62b44c34c3..4045f107ca4e 100644
+--- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+@@ -22,7 +22,7 @@ properties:
+           - rockchip,rk3288-vpu
+           - rockchip,rk3328-vpu
+           - rockchip,rk3399-vpu
+-          - rockchip,rk3568-jpeg-vepu
++          - rockchip,rk3568-vepu
+           - rockchip,px30-vpu
+       - items:
+           - const: rockchip,rk3188-vpu
+diff --git a/arch/arm64/boot/dts/rockchip/rk356x.dtsi b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+index 276b76d5f3fb..2e3c9e1887e3 100644
+--- a/arch/arm64/boot/dts/rockchip/rk356x.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk356x.dtsi
+@@ -508,18 +508,18 @@ gpu: gpu@fde60000 {
+ 		status = "disabled";
+ 	};
  
- 	/* BB reg offset */
--	VNSvOutPortB(iobase + MAC_REG_BBREGADR, by_bb_addr);
-+	iowrite8(by_bb_addr, iobase + MAC_REG_BBREGADR);
+-	vepu_jpeg: video-codec@fdee0000 {
+-		compatible = "rockchip,rk3568-jpeg-vepu";
++	vepu: video-codec@fdee0000 {
++		compatible = "rockchip,rk3568-vepu";
+ 		reg = <0x0 0xfdee0000 0x0 0x800>;
+ 		interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
+ 		interrupt-names = "vepu";
+ 		clocks = <&cru ACLK_JENC>, <&cru HCLK_JENC>;
+ 		clock-names = "aclk", "hclk";
+-		iommus = <&vepu_jpeg_mmu>;
++		iommus = <&vepu_mmu>;
+ 		power-domains = <&power RK3568_PD_RGA>;
+ 	};
  
- 	/* turn on REGR */
- 	MACvRegBitsOn(iobase, MAC_REG_BBREGCTL, BBREGCTL_REGR);
-@@ -1952,9 +1952,9 @@ bool bb_write_embedded(struct vnt_private *priv, unsigned char by_bb_addr,
- 	unsigned char by_value;
+-	vepu_jpeg_mmu: iommu@fdee0800 {
++	vepu_mmu: iommu@fdee0800 {
+ 		compatible = "rockchip,rk3568-iommu";
+ 		reg = <0x0 0xfdee0800 0x0 0x40>;
+ 		interrupts = <GIC_SPI 63 IRQ_TYPE_LEVEL_HIGH>;
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 3add9babd7bb..0b38b41136e2 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -628,7 +628,7 @@ static const struct of_device_id of_hantro_match[] = {
+ 	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
+ 	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
+ 	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+-	{ .compatible = "rockchip,rk3568-jpeg-vepu", .data = &rk3568_jpeg_vepu_variant, },
++	{ .compatible = "rockchip,rk3568-vepu", .data = &rk3568_vepu_variant, },
+ #endif
+ #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+ 	{ .compatible = "nxp,imx8mm-vpu-g1", .data = &imx8mm_vpu_g1_variant, },
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index dd7f1edfacf2..b312da654d38 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -300,7 +300,7 @@ extern const struct hantro_variant rk3066_vpu_variant;
+ extern const struct hantro_variant rk3288_vpu_variant;
+ extern const struct hantro_variant rk3328_vpu_variant;
+ extern const struct hantro_variant rk3399_vpu_variant;
+-extern const struct hantro_variant rk3568_jpeg_vepu_variant;
++extern const struct hantro_variant rk3568_vepu_variant;
+ extern const struct hantro_variant sama5d4_vdec_variant;
+ extern const struct hantro_variant sunxi_vpu_variant;
  
- 	/* BB reg offset */
--	VNSvOutPortB(iobase + MAC_REG_BBREGADR, by_bb_addr);
-+	iowrite8(by_bb_addr, iobase + MAC_REG_BBREGADR);
- 	/* set BB data */
--	VNSvOutPortB(iobase + MAC_REG_BBREGDATA, by_data);
-+	iowrite8(by_data, iobase + MAC_REG_BBREGDATA);
+diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+index 10d3ea92a954..a97a4ea8ede4 100644
+--- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
++++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+@@ -204,43 +204,6 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
+ 	},
+ };
  
- 	/* turn on BBREGCTL_REGW */
- 	MACvRegBitsOn(iobase, MAC_REG_BBREGCTL, BBREGCTL_REGW);
-@@ -2053,7 +2053,7 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 				byVT3253B0_AGC[ii][0],
- 				byVT3253B0_AGC[ii][1]);
- 
--		VNSvOutPortB(iobase + MAC_REG_ITRTMSET, 0x23);
-+		iowrite8(0x23, iobase + MAC_REG_ITRTMSET);
- 		MACvRegBitsOn(iobase, MAC_REG_PAPEDELAY, BIT(0));
- 
- 		priv->abyBBVGA[0] = 0x14;
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index d3c47b37ad3b..2cde0082fc03 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -238,26 +238,25 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
- 
- 	if (priv->bySIFS != bySIFS) {
- 		priv->bySIFS = bySIFS;
--		VNSvOutPortB(priv->port_offset + MAC_REG_SIFS, priv->bySIFS);
-+		iowrite8(priv->bySIFS, priv->port_offset + MAC_REG_SIFS);
- 	}
- 	if (priv->byDIFS != byDIFS) {
- 		priv->byDIFS = byDIFS;
--		VNSvOutPortB(priv->port_offset + MAC_REG_DIFS, priv->byDIFS);
-+		iowrite8(priv->byDIFS, priv->port_offset + MAC_REG_DIFS);
- 	}
- 	if (priv->byEIFS != C_EIFS) {
- 		priv->byEIFS = C_EIFS;
--		VNSvOutPortB(priv->port_offset + MAC_REG_EIFS, priv->byEIFS);
-+		iowrite8(priv->byEIFS, priv->port_offset + MAC_REG_EIFS);
- 	}
- 	if (priv->bySlot != bySlot) {
- 		priv->bySlot = bySlot;
--		VNSvOutPortB(priv->port_offset + MAC_REG_SLOT, priv->bySlot);
-+		iowrite8(priv->bySlot, priv->port_offset + MAC_REG_SLOT);
- 
- 		bb_set_short_slot_time(priv);
- 	}
- 	if (priv->byCWMaxMin != byCWMaxMin) {
- 		priv->byCWMaxMin = byCWMaxMin;
--		VNSvOutPortB(priv->port_offset + MAC_REG_CWMAXMIN0,
--			     priv->byCWMaxMin);
-+		iowrite8(priv->byCWMaxMin, priv->port_offset + MAC_REG_CWMAXMIN0);
- 	}
- 
- 	priv->byPacketType = CARDbyGetPktType(priv);
-diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
-index abe867814dc8..652dcaf61169 100644
---- a/drivers/staging/vt6655/channel.c
-+++ b/drivers/staging/vt6655/channel.c
-@@ -118,11 +118,9 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
- 		/* set HW default power register */
- 		MACvSelectPage1(priv->port_offset);
- 		RFbSetPower(priv, RATE_1M, priv->byCurrentCh);
--		VNSvOutPortB(priv->port_offset + MAC_REG_PWRCCK,
--			     priv->byCurPwr);
-+		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWRCCK);
- 		RFbSetPower(priv, RATE_6M, priv->byCurrentCh);
--		VNSvOutPortB(priv->port_offset + MAC_REG_PWROFDM,
--			     priv->byCurPwr);
-+		iowrite8(priv->byCurPwr, priv->port_offset + MAC_REG_PWROFDM);
- 		MACvSelectPage0(priv->port_offset);
- 
- 		spin_unlock_irqrestore(&priv->lock, flags);
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 1ab7c1c3644d..afaf331fe125 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -334,8 +334,7 @@ static void device_init_registers(struct vnt_private *priv)
- 	if (priv->local_id > REV_ID_VT3253_B1) {
- 		MACvSelectPage1(priv->port_offset);
- 
--		VNSvOutPortB(priv->port_offset + MAC_REG_MSRCTL + 1,
--			     (MSRCTL1_TXPWR | MSRCTL1_CSAPAREN));
-+		iowrite8(MSRCTL1_TXPWR | MSRCTL1_CSAPAREN, priv->port_offset + MAC_REG_MSRCTL + 1);
- 
- 		MACvSelectPage0(priv->port_offset);
- 	}
-@@ -349,9 +348,9 @@ static void device_init_registers(struct vnt_private *priv)
- 	MACvSetLongRetryLimit(priv, priv->byLongRetryLimit);
- 
- 	/* reset TSF counter */
--	VNSvOutPortB(priv->port_offset + MAC_REG_TFTCTL, TFTCTL_TSFCNTRST);
-+	iowrite8(TFTCTL_TSFCNTRST, priv->port_offset + MAC_REG_TFTCTL);
- 	/* enable TSF counter */
--	VNSvOutPortB(priv->port_offset + MAC_REG_TFTCTL, TFTCTL_TSFCNTREN);
-+	iowrite8(TFTCTL_TSFCNTREN, priv->port_offset + MAC_REG_TFTCTL);
- 
- 	/* initialize BBP registers */
- 	bb_vt3253_init(priv);
-@@ -406,8 +405,7 @@ static void device_init_registers(struct vnt_private *priv)
- 	MACvReceive1(priv->port_offset);
- 
- 	/* start the adapter */
--	VNSvOutPortB(priv->port_offset + MAC_REG_HOSTCR,
--		     (HOSTCR_MACEN | HOSTCR_RXON | HOSTCR_TXON));
-+	iowrite8(HOSTCR_MACEN | HOSTCR_RXON | HOSTCR_TXON, priv->port_offset + MAC_REG_HOSTCR);
- }
- 
- static void device_print_info(struct vnt_private *priv)
-@@ -1061,7 +1059,7 @@ static void vnt_interrupt_process(struct vnt_private *priv)
- 
- 		if (isr & ISR_FETALERR) {
- 			pr_debug(" ISR_FETALERR\n");
--			VNSvOutPortB(priv->port_offset + MAC_REG_SOFTPWRCTL, 0);
-+			iowrite8(0, priv->port_offset + MAC_REG_SOFTPWRCTL);
- 			VNSvOutPortW(priv->port_offset +
- 				     MAC_REG_SOFTPWRCTL, SOFTPWRCTL_SWPECTI);
- 			device_error(priv, isr);
-@@ -1408,7 +1406,7 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
- 
- 		spin_lock_irqsave(&priv->lock, flags);
- 
--		MACvWriteBSSIDAddress(priv->port_offset, (u8 *)conf->bssid);
-+		MACvWriteBSSIDAddress(priv->port_offset, conf->bssid);
- 
- 		spin_unlock_irqrestore(&priv->lock, flags);
- 	}
-@@ -1478,10 +1476,8 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
- 
- 			CARDvSetFirstNextTBTT(priv, conf->beacon_int);
- 		} else {
--			VNSvOutPortB(priv->port_offset + MAC_REG_TFTCTL,
--				     TFTCTL_TSFCNTRST);
--			VNSvOutPortB(priv->port_offset + MAC_REG_TFTCTL,
--				     TFTCTL_TSFCNTREN);
-+			iowrite8(TFTCTL_TSFCNTRST, priv->port_offset + MAC_REG_TFTCTL);
-+			iowrite8(TFTCTL_TSFCNTREN, priv->port_offset + MAC_REG_TFTCTL);
- 		}
- 	}
- }
-@@ -1562,7 +1558,7 @@ static void vnt_configure(struct ieee80211_hw *hw,
- 			rx_mode |= RCR_BSSID;
- 	}
- 
--	VNSvOutPortB(priv->port_offset + MAC_REG_RCR, rx_mode);
-+	iowrite8(rx_mode, priv->port_offset + MAC_REG_RCR);
- 
- 	dev_dbg(&priv->pcid->dev, "rx mode out= %x\n", rx_mode);
- }
-@@ -1622,7 +1618,7 @@ static void vnt_reset_tsf(struct ieee80211_hw *hw, struct ieee80211_vif *vif)
- 	struct vnt_private *priv = hw->priv;
- 
- 	/* reset TSF counter */
--	VNSvOutPortB(priv->port_offset + MAC_REG_TFTCTL, TFTCTL_TSFCNTRST);
-+	iowrite8(TFTCTL_TSFCNTRST, priv->port_offset + MAC_REG_TFTCTL);
- }
- 
- static const struct ieee80211_ops vnt_mac_ops = {
-diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 89fad233bbc6..57ae3bdbdb2d 100644
---- a/drivers/staging/vt6655/mac.h
-+++ b/drivers/staging/vt6655/mac.h
-@@ -541,7 +541,7 @@
- do {									\
- 	unsigned char byData;						\
- 	byData = ioread8(iobase + byRegOfs);				\
--	VNSvOutPortB(iobase + byRegOfs, byData | (byBits));		\
-+	iowrite8(byData | (byBits), iobase + byRegOfs);			\
- } while (0)
- 
- #define MACvWordRegBitsOn(iobase, byRegOfs, wBits)			\
-@@ -555,7 +555,7 @@ do {									\
- do {									\
- 	unsigned char byData;						\
- 	byData = ioread8(iobase + byRegOfs);				\
--	VNSvOutPortB(iobase + byRegOfs, byData & ~(byBits));		\
-+	iowrite8(byData & ~(byBits), iobase + byRegOfs);		\
- } while (0)
- 
- #define MACvWordRegBitsOff(iobase, byRegOfs, wBits)			\
-@@ -577,32 +577,26 @@ do {									\
- 
- #define MACvWriteBSSIDAddress(iobase, pbyEtherAddr)		\
- do {								\
--	VNSvOutPortB(iobase + MAC_REG_PAGE1SEL, 1);		\
--	VNSvOutPortB(iobase + MAC_REG_BSSID0,			\
--		     *(pbyEtherAddr));				\
--	VNSvOutPortB(iobase + MAC_REG_BSSID0 + 1,		\
--		     *(pbyEtherAddr + 1));			\
--	VNSvOutPortB(iobase + MAC_REG_BSSID0 + 2,		\
--		     *(pbyEtherAddr + 2));			\
--	VNSvOutPortB(iobase + MAC_REG_BSSID0 + 3,		\
--		     *(pbyEtherAddr + 3));			\
--	VNSvOutPortB(iobase + MAC_REG_BSSID0 + 4,		\
--		     *(pbyEtherAddr + 4));			\
--	VNSvOutPortB(iobase + MAC_REG_BSSID0 + 5,		\
--		     *(pbyEtherAddr + 5));			\
--	VNSvOutPortB(iobase + MAC_REG_PAGE1SEL, 0);		\
-+	iowrite8(1, iobase + MAC_REG_PAGE1SEL);			\
-+	iowrite8(pbyEtherAddr[0], iobase + MAC_REG_BSSID0);	\
-+	iowrite8(pbyEtherAddr[1], iobase + MAC_REG_BSSID0 + 1);	\
-+	iowrite8(pbyEtherAddr[2], iobase + MAC_REG_BSSID0 + 2);	\
-+	iowrite8(pbyEtherAddr[3], iobase + MAC_REG_BSSID0 + 3);	\
-+	iowrite8(pbyEtherAddr[4], iobase + MAC_REG_BSSID0 + 4);	\
-+	iowrite8(pbyEtherAddr[5], iobase + MAC_REG_BSSID0 + 5);	\
-+	iowrite8(0, iobase + MAC_REG_PAGE1SEL);			\
- } while (0)
- 
- #define MACvReadEtherAddress(iobase, pbyEtherAddr)		\
- do {								\
--	VNSvOutPortB(iobase + MAC_REG_PAGE1SEL, 1);		\
-+	iowrite8(1, iobase + MAC_REG_PAGE1SEL);			\
- 	pbyEtherAddr[0] = ioread8(iobase + MAC_REG_PAR0);	\
- 	pbyEtherAddr[1] = ioread8(iobase + MAC_REG_PAR0 + 1);	\
- 	pbyEtherAddr[2] = ioread8(iobase + MAC_REG_PAR0 + 2);	\
- 	pbyEtherAddr[3] = ioread8(iobase + MAC_REG_PAR0 + 3);	\
- 	pbyEtherAddr[4] = ioread8(iobase + MAC_REG_PAR0 + 4);	\
- 	pbyEtherAddr[5] = ioread8(iobase + MAC_REG_PAR0 + 5);	\
--	VNSvOutPortB(iobase + MAC_REG_PAGE1SEL, 0);		\
-+	iowrite8(0, iobase + MAC_REG_PAGE1SEL);			\
- } while (0)
- 
- #define MACvRx0PerPktMode(iobase)					\
-@@ -656,7 +650,7 @@ do {									\
- 	unsigned char byOrgValue;					\
- 	byOrgValue = ioread8(iobase + MAC_REG_STICKHW);			\
- 	byOrgValue = byOrgValue & 0xFC;					\
--	VNSvOutPortB(iobase + MAC_REG_STICKHW, byOrgValue);		\
-+	iowrite8(byOrgValue, iobase + MAC_REG_STICKHW);			\
- } while (0)
- 
- #define MACvWriteISR(iobase, dwValue)				\
-@@ -669,10 +663,10 @@ do {									\
- 	VNSvOutPortD(iobase + MAC_REG_IMR, 0)
- 
- #define MACvSelectPage0(iobase)				\
--		VNSvOutPortB(iobase + MAC_REG_PAGE1SEL, 0)
-+	iowrite8(0, iobase + MAC_REG_PAGE1SEL)
- 
- #define MACvSelectPage1(iobase)				\
--	VNSvOutPortB(iobase + MAC_REG_PAGE1SEL, 1)
-+	iowrite8(1, iobase + MAC_REG_PAGE1SEL)
- 
- #define MACvEnableProtectMD(iobase)					\
- do {									\
-diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
-index 036f48572334..ee5e2e0d9a8c 100644
---- a/drivers/staging/vt6655/rf.c
-+++ b/drivers/staging/vt6655/rf.c
-@@ -207,7 +207,7 @@ static bool RFbAL2230Init(struct vnt_private *priv)
- 	ret = true;
- 
- 	/* 3-wire control for normal mode */
--	VNSvOutPortB(iobase + MAC_REG_SOFTPWRCTL, 0);
-+	iowrite8(0, iobase + MAC_REG_SOFTPWRCTL);
- 
- 	MACvWordRegBitsOn(iobase, MAC_REG_SOFTPWRCTL, (SOFTPWRCTL_SWPECTI  |
- 							 SOFTPWRCTL_TXPEINV));
-@@ -238,7 +238,7 @@ static bool RFbAL2230Init(struct vnt_private *priv)
- 							 SOFTPWRCTL_TXPEINV));
- 
- 	/* 3-wire control for power saving mode */
--	VNSvOutPortB(iobase + MAC_REG_PSPWRSIG, (PSSIG_WPE3 | PSSIG_WPE2)); /* 1100 0000 */
-+	iowrite8(PSSIG_WPE3 | PSSIG_WPE2, iobase + MAC_REG_PSPWRSIG);
- 
- 	return ret;
- }
-@@ -254,10 +254,10 @@ static bool RFbAL2230SelectChannel(struct vnt_private *priv, unsigned char byCha
- 	ret &= IFRFbWriteEmbedded(priv, al2230_channel_table1[byChannel - 1]);
- 
- 	/* Set Channel[7] = 0 to tell H/W channel is changing now. */
--	VNSvOutPortB(iobase + MAC_REG_CHANNEL, (byChannel & 0x7F));
-+	iowrite8(byChannel & 0x7F, iobase + MAC_REG_CHANNEL);
- 	MACvTimer0MicroSDelay(priv, SWITCH_CHANNEL_DELAY_AL2230);
- 	/* Set Channel[7] = 1 to tell H/W channel change is done. */
--	VNSvOutPortB(iobase + MAC_REG_CHANNEL, (byChannel | 0x80));
-+	iowrite8(byChannel | 0x80, iobase + MAC_REG_CHANNEL);
- 
- 	return ret;
- }
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 14feff4f2e70..71cbfa607d96 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -1426,7 +1426,7 @@ static int vnt_beacon_xmit(struct vnt_private *priv,
- 	/* Set auto Transmit on */
- 	MACvRegBitsOn(priv->port_offset, MAC_REG_TCR, TCR_AUTOBCNTX);
- 	/* Poll Transmit the adapter */
--	VNSvOutPortB(priv->port_offset + MAC_REG_BCNDMACTL, BEACON_READY);
-+	iowrite8(BEACON_READY, priv->port_offset + MAC_REG_BCNDMACTL);
- 
- 	return 0;
- }
-@@ -1450,9 +1450,9 @@ int vnt_beacon_make(struct vnt_private *priv, struct ieee80211_vif *vif)
- int vnt_beacon_enable(struct vnt_private *priv, struct ieee80211_vif *vif,
- 		      struct ieee80211_bss_conf *conf)
- {
--	VNSvOutPortB(priv->port_offset + MAC_REG_TFTCTL, TFTCTL_TSFCNTRST);
-+	iowrite8(TFTCTL_TSFCNTRST, priv->port_offset + MAC_REG_TFTCTL);
- 
--	VNSvOutPortB(priv->port_offset + MAC_REG_TFTCTL, TFTCTL_TSFCNTREN);
-+	iowrite8(TFTCTL_TSFCNTREN, priv->port_offset + MAC_REG_TFTCTL);
- 
- 	CARDvSetFirstNextTBTT(priv, conf->beacon_int);
- 
-diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
-index 8786b55161fa..722a2cc9a473 100644
---- a/drivers/staging/vt6655/srom.c
-+++ b/drivers/staging/vt6655/srom.c
-@@ -67,13 +67,13 @@ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
- 	byData = 0xFF;
- 	byOrg = ioread8(iobase + MAC_REG_I2MCFG);
- 	/* turn off hardware retry for getting NACK */
--	VNSvOutPortB(iobase + MAC_REG_I2MCFG, (byOrg & (~I2MCFG_NORETRY)));
-+	iowrite8(byOrg & (~I2MCFG_NORETRY), iobase + MAC_REG_I2MCFG);
- 	for (wNoACK = 0; wNoACK < W_MAX_I2CRETRY; wNoACK++) {
--		VNSvOutPortB(iobase + MAC_REG_I2MTGID, EEP_I2C_DEV_ID);
--		VNSvOutPortB(iobase + MAC_REG_I2MTGAD, byContntOffset);
-+		iowrite8(EEP_I2C_DEV_ID, iobase + MAC_REG_I2MTGID);
-+		iowrite8(byContntOffset, iobase + MAC_REG_I2MTGAD);
- 
- 		/* issue read command */
--		VNSvOutPortB(iobase + MAC_REG_I2MCSR, I2MCSR_EEMR);
-+		iowrite8(I2MCSR_EEMR, iobase + MAC_REG_I2MCSR);
- 		/* wait DONE be set */
- 		for (wDelay = 0; wDelay < W_MAX_TIMEOUT; wDelay++) {
- 			byWait = ioread8(iobase + MAC_REG_I2MCSR);
-@@ -87,7 +87,7 @@ unsigned char SROMbyReadEmbedded(void __iomem *iobase,
- 		}
- 	}
- 	byData = ioread8(iobase + MAC_REG_I2MDIPT);
--	VNSvOutPortB(iobase + MAC_REG_I2MCFG, byOrg);
-+	iowrite8(byOrg, iobase + MAC_REG_I2MCFG);
- 	return byData;
- }
- 
-diff --git a/drivers/staging/vt6655/upc.h b/drivers/staging/vt6655/upc.h
-index a5b74aaadcd3..2a47f5782b71 100644
---- a/drivers/staging/vt6655/upc.h
-+++ b/drivers/staging/vt6655/upc.h
-@@ -20,9 +20,6 @@
- 
- /* For memory mapped IO */
- 
--#define VNSvOutPortB(dwIOAddress, byData) \
--	iowrite8((u8)(byData), dwIOAddress)
+-static const struct hantro_fmt rk3568_jpeg_vepu_enc_fmts[] = {
+-	{
+-		.fourcc = V4L2_PIX_FMT_YUV420M,
+-		.codec_mode = HANTRO_MODE_NONE,
+-		.enc_fmt = ROCKCHIP_VPU_ENC_FMT_YUV420P,
+-	},
+-	{
+-		.fourcc = V4L2_PIX_FMT_NV12M,
+-		.codec_mode = HANTRO_MODE_NONE,
+-		.enc_fmt = ROCKCHIP_VPU_ENC_FMT_YUV420SP,
+-	},
+-	{
+-		.fourcc = V4L2_PIX_FMT_YUYV,
+-		.codec_mode = HANTRO_MODE_NONE,
+-		.enc_fmt = ROCKCHIP_VPU_ENC_FMT_YUYV422,
+-	},
+-	{
+-		.fourcc = V4L2_PIX_FMT_UYVY,
+-		.codec_mode = HANTRO_MODE_NONE,
+-		.enc_fmt = ROCKCHIP_VPU_ENC_FMT_UYVY422,
+-	},
+-	{
+-		.fourcc = V4L2_PIX_FMT_JPEG,
+-		.codec_mode = HANTRO_MODE_JPEG_ENC,
+-		.max_depth = 2,
+-		.header_size = JPEG_HEADER_SIZE,
+-		.frmsize = {
+-			.min_width = 96,
+-			.max_width = 8192,
+-			.step_width = MB_DIM,
+-			.min_height = 32,
+-			.max_height = 8192,
+-			.step_height = MB_DIM,
+-		},
+-	},
+-};
 -
- #define VNSvOutPortW(dwIOAddress, wData) \
- 	iowrite16((u16)(wData), dwIOAddress)
+ static irqreturn_t rockchip_vpu1_vepu_irq(int irq, void *dev_id)
+ {
+ 	struct hantro_dev *vpu = dev_id;
+@@ -484,7 +447,7 @@ static const struct hantro_irq rockchip_vpu2_irqs[] = {
+ 	{ "vdpu", rockchip_vpu2_vdpu_irq },
+ };
  
+-static const struct hantro_irq rk3568_jpeg_vepu_irqs[] = {
++static const struct hantro_irq rk3568_vepu_irqs[] = {
+ 	{ "vepu", rockchip_vpu2_vepu_irq },
+ };
+ 
+@@ -594,14 +557,14 @@ const struct hantro_variant rk3399_vpu_variant = {
+ 	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
+ };
+ 
+-const struct hantro_variant rk3568_jpeg_vepu_variant = {
++const struct hantro_variant rk3568_vepu_variant = {
+ 	.enc_offset = 0x0,
+-	.enc_fmts = rk3568_jpeg_vepu_enc_fmts,
+-	.num_enc_fmts = ARRAY_SIZE(rk3568_jpeg_vepu_enc_fmts),
++	.enc_fmts = rockchip_vpu_enc_fmts,
++	.num_enc_fmts = ARRAY_SIZE(rockchip_vpu_enc_fmts),
+ 	.codec = HANTRO_JPEG_ENCODER,
+ 	.codec_ops = rk3568_jpeg_enc_codec_ops,
+-	.irqs = rk3568_jpeg_vepu_irqs,
+-	.num_irqs = ARRAY_SIZE(rk3568_jpeg_vepu_irqs),
++	.irqs = rk3568_vepu_irqs,
++	.num_irqs = ARRAY_SIZE(rk3568_vepu_irqs),
+ 	.init = rockchip_vpu_hw_init,
+ 	.clk_names = rockchip_vpu_clk_names,
+ 	.num_clocks = ARRAY_SIZE(rockchip_vpu_clk_names)
 -- 
-2.25.1
+2.36.0
 
