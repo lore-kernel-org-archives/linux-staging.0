@@ -1,48 +1,49 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC867E
-	for <linux-staging@lists.linux.dev>; Sun,  8 May 2022 19:29:57 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id u3so16774840wrg.3
-        for <linux-staging@lists.linux.dev>; Sun, 08 May 2022 12:29:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997C07E
+	for <linux-staging@lists.linux.dev>; Sun,  8 May 2022 19:30:02 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id i20-20020a05600c355400b0039456976dcaso5303746wmq.1
+        for <linux-staging@lists.linux.dev>; Sun, 08 May 2022 12:30:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=9QFfIJ0zp70wh1r3yoFEFoWLM1BFKqSY/ZHhqFBuEHU=;
-        b=K0B2dbK50dmNsQRADIawwixlc0oGeFyei7luQ72eUhwixypxD7XDnpB+5MCas5ERSL
-         MagCpv6cGyCJmsdb2VOFklkryezDNP0miWtTEoAE9ATIagrv4AK4+0ytgQqUC0p8hzM/
-         05RDoGQovT+ApFN48lVRi7RdQKXViVbRG6CsJMpN8ahlqcx6GPAm3kxWs+cD6fMGnZZj
-         j8kXANGYE3rueiecDUId4qE2McsElMuuflrYK7LU5DtjfrB9A0Xuvyl6cUPfl9RHAXOc
-         w/GD8b/rhNH1tptwNTRTdbgmRr016UR/jvkv8twd9AKR0uXTBu7ypGc6wfjhfDrS52Xl
-         gduw==
+        bh=DNNfm64Fzck7HZ+kpn5zl++XhRLhmj2A5Ac4BEuoyfs=;
+        b=ZE0EGGr4/KNSvWhvZ1ZbwN0IFJmzqYiNKAguMnkGzX1LabvrpM8DZYkuuQdgFmb2GH
+         v5emtNJZanTqvl/iQw4NSaeOwLwHqQWPSXMi73ouzZ8nS9FHQuaWvX07BTYQhp+EG3ls
+         12XXfOe0UTl1e+lsGPHPkgrx4vCMMukCrm1OBuhbKHdskbyb9IKXI7d2qu6XYyGRpO2H
+         G9rmtUMXCjB5rPj2Oju8C6ikTGU6yVb4Qe+dgmY3ZQEqdIdFRA38Jjlw1DXBq5M8FOY3
+         HDCa5KVm9atX+WId8gc4kX/TPAYAPdSKvJBJw/G/7Fv/ZD6AZk87c8Gv9hk6s1S1Zsap
+         vo8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=9QFfIJ0zp70wh1r3yoFEFoWLM1BFKqSY/ZHhqFBuEHU=;
-        b=L+KPgV2tkW+HsEX3xQ/gQoiSa+mfYBIbSvlnbfa69MsSsDFs3tSB9aKjw8hIh/8CZs
-         VXh8VPMFOy+k+EFIgT3CFeyt65hNYmDNYsJuJN6PWFXn7fD2ilL2pWGTGWCeVz/g0ITV
-         PPgRMH0gVYadArnhG7B64JRsvnP/IAEjpQRi0e8noKF1PlalF/OSiLzregOX63JlwIad
-         m+xppPF9+0alB1+7x1/zHdUwTWon69N64kkWTXDbv+t5ZIk7lZ74TjGButLyAKklUqn3
-         HSwYzRuZ67k/JMh5BepJ12BJ8QcHg7Hikw0qSxKPQMWeXXOxhP1aNxSAtmhVdOysU7zV
-         Xt/Q==
-X-Gm-Message-State: AOAM532vZtWiMGEjS/bzJvccDGnyGrvCQJ0WUk6z5SY66zhySInu9Ra4
-	TzHQVL0xYcp3ECD9wffjhhE=
-X-Google-Smtp-Source: ABdhPJzBhvpRzlaZ+zFniePfD11YbZVWuBlYVqhc6u53QLgiVzaD5tnNP1PQe2Ry12pW+OgxzDE/yw==
-X-Received: by 2002:a5d:414a:0:b0:20a:d5f9:8b62 with SMTP id c10-20020a5d414a000000b0020ad5f98b62mr11303133wrq.492.1652038195747;
-        Sun, 08 May 2022 12:29:55 -0700 (PDT)
+        bh=DNNfm64Fzck7HZ+kpn5zl++XhRLhmj2A5Ac4BEuoyfs=;
+        b=4Askoz9eN9bd3lzNZwyGdKdM+EmcrAMrOoHz+wOCEx+2hvs7UnEWygTSKD/ppoqLbm
+         U92QUnwB1FzjGiD7z9BiKtHyAJfZdu3q6KFduKwtD8WFmA1s68KrYkFZkiTADJ92V7lm
+         u0so0blJ/zm35HN6ENFyIb8zTNOZHMkgwZa3VbvTBscMglcR6K3CizmAnCEF+LVxeNQp
+         vjdG9INizUEEuERTTT2z/3TaJAXawfbWgEtPT5TYCUaz8NjW3IsBvLSmrwl319A0sWfb
+         J8GIkkV8w68FGYvKK+tENUviIzSrNRAAQDF1DD/F2+Dr4V0ZuoxM36xKbEHyws6yYs3c
+         JEPg==
+X-Gm-Message-State: AOAM531UD3AirDKeCGJhXWwMGvRneD+HLdpHN1YIpLe11XRqbbjqsMU7
+	8b7utZkcOC2ESYDsbuMHi/s=
+X-Google-Smtp-Source: ABdhPJw81OhtuXuoKmMUWTfoMPYbMpZkHfdboo8+1XVbOeTdDB9P0ID9Oq8TTRY7tgRVpK0e6t/tgQ==
+X-Received: by 2002:a7b:ce82:0:b0:394:2514:6f07 with SMTP id q2-20020a7bce82000000b0039425146f07mr12965709wmj.56.1652038200875;
+        Sun, 08 May 2022 12:30:00 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p200300c78f3ed42031f51b0dd5fb7060.dip0.t-ipconnect.de. [2003:c7:8f3e:d420:31f5:1b0d:d5fb:7060])
-        by smtp.gmail.com with ESMTPSA id bv7-20020a0560001f0700b0020c5253d8d7sm8840402wrb.35.2022.05.08.12.29.55
+        by smtp.gmail.com with ESMTPSA id e10-20020adff34a000000b0020c7ec0fdf4sm10460160wrp.117.2022.05.08.12.30.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 May 2022 12:29:55 -0700 (PDT)
-Date: Sun, 8 May 2022 21:29:53 +0200
+        Sun, 08 May 2022 12:30:00 -0700 (PDT)
+Date: Sun, 8 May 2022 21:29:58 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] staging: vt6655: Replace MACvStart with VNSvOutPortB
-Message-ID: <d998305b4dec2827b0e13e49938e68a32517c487.1651957741.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 2/3] staging: vt6655: Replace MACvTransmitBCN with
+ VNSvOutPortB
+Message-ID: <698ce973d92065846a9db4339f017cd9e094706e.1651957741.git.philipp.g.hortmann@gmail.com>
 References: <cover.1651957741.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,44 +55,42 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1651957741.git.philipp.g.hortmann@gmail.com>
 
-Replace macro MACvStart with VNSvOutPortB and as it
+Replace macro MACvTransmitBCN with VNSvOutPortB and as it
 was the only user, it can now be removed.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
- drivers/staging/vt6655/device_main.c | 3 ++-
- drivers/staging/vt6655/mac.h         | 4 ----
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ drivers/staging/vt6655/mac.h  | 3 ---
+ drivers/staging/vt6655/rxtx.c | 2 +-
+ 2 files changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 4f26f5c7e84f..1ab7c1c3644d 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -406,7 +406,8 @@ static void device_init_registers(struct vnt_private *priv)
- 	MACvReceive1(priv->port_offset);
- 
- 	/* start the adapter */
--	MACvStart(priv->port_offset);
-+	VNSvOutPortB(priv->port_offset + MAC_REG_HOSTCR,
-+		     (HOSTCR_MACEN | HOSTCR_RXON | HOSTCR_TXON));
- }
- 
- static void device_print_info(struct vnt_private *priv)
 diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 5b684194745c..3a32a0146c85 100644
+index 3a32a0146c85..89fad233bbc6 100644
 --- a/drivers/staging/vt6655/mac.h
 +++ b/drivers/staging/vt6655/mac.h
-@@ -605,10 +605,6 @@ do {								\
- 	VNSvOutPortB(iobase + MAC_REG_PAGE1SEL, 0);		\
+@@ -651,9 +651,6 @@ do {									\
+ 		VNSvOutPortD(iobase + MAC_REG_AC0DMACTL, DMACTL_RUN); \
  } while (0)
  
--#define MACvStart(iobase)						\
--	VNSvOutPortB(iobase + MAC_REG_HOSTCR,				\
--		     (HOSTCR_MACEN | HOSTCR_RXON | HOSTCR_TXON))
+-#define MACvTransmitBCN(iobase)					\
+-	VNSvOutPortB(iobase + MAC_REG_BCNDMACTL, BEACON_READY)
 -
- #define MACvRx0PerPktMode(iobase)					\
- 	VNSvOutPortD(iobase + MAC_REG_RXDMACTL0, RX_PERPKT)
+ #define MACvClearStckDS(iobase)					\
+ do {									\
+ 	unsigned char byOrgValue;					\
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 53506e242a96..14feff4f2e70 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -1426,7 +1426,7 @@ static int vnt_beacon_xmit(struct vnt_private *priv,
+ 	/* Set auto Transmit on */
+ 	MACvRegBitsOn(priv->port_offset, MAC_REG_TCR, TCR_AUTOBCNTX);
+ 	/* Poll Transmit the adapter */
+-	MACvTransmitBCN(priv->port_offset);
++	VNSvOutPortB(priv->port_offset + MAC_REG_BCNDMACTL, BEACON_READY);
  
+ 	return 0;
+ }
 -- 
 2.25.1
 
