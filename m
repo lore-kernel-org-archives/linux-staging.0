@@ -1,56 +1,46 @@
-Received: from slot0.agrovet-zm.co (slot0.agrovet-zm.co [2.58.149.124])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA487F
-	for <linux-staging@lists.linux.dev>; Sat,  7 May 2022 23:32:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=agrovet-zm.co;
- h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=info@agrovet-zm.co;
- bh=pKtmZ7/rE9FlGR10tezlj6R+KPU=;
- b=cD3MohXYMN1BdOTfYzsSHmJBuV3ol28PP14v4522WwyA/P1JI9S00S42pz8j5d4sgmwmq8P/P29a
-   iPwu/9JhtEOeuiTJrDNnTaBjs8jnRDTBNxtgPfHKDPUJasR9qMPwZ4ovWVO7O/IxB+NLKTEsGZYI
-   6iUiJLhMCU9uB8oYcwGyP9mYUdA7Szt0Tk00G5MtNt//3ZX2FvAYsebV+uCmmnrc9d6b2fsw15fS
-   OMiG9eamvwHzZCdJ2DPdCrrxM8j/QSt15EOI/HcI/MshJQY349NoHIQzoldF25/vrUnz3WshDoQr
-   bqcOpc+OnF3S1qIWmX9z2U36EejZ8O06OZXEIg==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=agrovet-zm.co;
- b=cc9KEZyBgdU4E+ztuL71y/WZhSRosa06mg8BhyohqmGTWXQicg5nUZkyH3HZrAI2LAkA7mF07RVO
-   5ZZVSc8q5SF0PhN85wOw0GxP7N+6OtnQq8PpILZrx5mfnU5+NEzrBv95pSCTHij1aMxLclllZZw2
-   xFD9/N2zUAD+MCekZL2/j8B3RgqKxE+AMlHWSBIVsyhUMOaqExymYh2NPvOWpDhUTmYeV1XBgJ1u
-   kOZQwMnMNuFs8+4xFhk0UX//ApjEyfFs29yyn4XZnEOxx8tatAMmy1UQ35Im+9DZNZBjni9r/K8Q
-   u5scf/GjgPDtwK4jJlBypVTsJknjyiXBw61XUQ==;
-Reply-To: info@krrombacher.com
-From: "Bernhard"<info@agrovet-zm.co>
-To: linux-staging@lists.linux.dev
-Subject: Inquriy
-Date: 7 May 2022 16:02:32 -0700
-Message-ID: <20220507160232.8CDAB5686B31D634@agrovet-zm.co>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE6C184D
+	for <linux-staging@lists.linux.dev>; Sun,  8 May 2022 16:15:06 +0000 (UTC)
+Received: from dslb-094-219-036-010.094.219.pools.vodafone-ip.de ([94.219.36.10] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1nnjYd-00045H-RC; Sun, 08 May 2022 18:14:55 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 0/5] staging: r8188eu: start cleaning up OnAction_back
+Date: Sun,  8 May 2022 18:14:46 +0200
+Message-Id: <20220508161451.115847-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Greetings sir/madam
+Add a struct ieee80211_mgmt variable to OnAction_back, simplify the
+parsing of the received management frame.
 
+Martin Kaiser (5):
+  staging: r8188eu: read addr2 from ieee80211_mgmt
+  staging: r8188eu: don't check the category in OnAction_back
+  staging: r8188eu: read destination address from ieee80211_mgmt
+  staging: r8188eu: use back action codes from ieee80211.h
+  staging: r8188eu: read back action code from ieee80211_mgmt
 
-Krombacher Brauerei is one of the largest privately owned=20
-breweries in Germany and ranks number 2 among Germany's best=20
-selling beers.
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 84 ++++++++++-----------
+ 1 file changed, 40 insertions(+), 44 deletions(-)
 
-We have got your contact from our Agent and we are in need of=20
-your product as we wish to establish a business relationship with=20
-your humble firm.
-Kindly provide us with your updated catalog and prices for our=20
-preview.
-Please indicate your payment terms for our review.
-We will get back to you with order details
+-- 
+2.30.2
 
-
-Bernhard Schadeberg
-Executive Purchase
-Phone: +49 2732 880880
- www.krombacher.com
-E-MAIL: info@krrombacher.com
