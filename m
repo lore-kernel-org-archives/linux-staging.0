@@ -1,45 +1,51 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C182F25
-	for <linux-staging@lists.linux.dev>; Wed, 11 May 2022 17:17:34 +0000 (UTC)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-e2fa360f6dso3628228fac.2
-        for <linux-staging@lists.linux.dev>; Wed, 11 May 2022 10:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:content-language:to
-         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
-        bh=6KyyMkeo+AlJ0nOsy4nLJ1EEoBetcYQI533KSovi9IQ=;
-        b=dqHlKdpugl+Lt+eshvhbrTej6F20MWqj4mrStBx72ebHKnocMaiudq80COa4hILLwu
-         w/d+K0syWHZgajRyt7DlYED6M1B1nw37ql3s2sRPfJ64eDweK7OGG9uk4TgqWazhKWQK
-         IG27Aee4rt/8VZpRSd/EhpQhTwpWJg1wd3Y9vjkVccsf1PBM8o+NWcKoosMT1UrmVhtm
-         wx7ZAW212rJ6tl84HSUcrFCbtwqIPe0q4duIKxagafA8pQnfUcqXtiR9gws8g+4hJ5w+
-         MctGYYbiI+Y+7DLR32NWAdj0ywJ4RtDuuZ0vh9OBHRl3YPfmAMhnsNuCCv0xoHrPY1G7
-         pGgQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724152F25
+	for <linux-staging@lists.linux.dev>; Wed, 11 May 2022 17:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1652290484;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i8Xj3Dw4/gCq/23hJZh6ANAQmyEIEWC62NCXFqWSvVM=;
+	b=DX/lDQxtqAFwclx/1dFmefJH51j/1t1W46UDZEaegMceXLEk2YODAVYWPRTvs5CrxqmDha
+	LEIhhjc2YXctTRdEPsvn3gGYzcPML53lzdRk5kYsSuSZ0OynOypkQmLTm0XA1C3MhDcLJc
+	nJ/Kd8V8WwAxMgRNwE0MnTKLyvuXxbE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-461-2EBnwFdROu2xbpimrDV6mg-1; Wed, 11 May 2022 13:34:41 -0400
+X-MC-Unique: 2EBnwFdROu2xbpimrDV6mg-1
+Received: by mail-wr1-f70.google.com with SMTP id w20-20020adfd1b4000000b0020cbb4347e6so1104048wrc.17
+        for <linux-staging@lists.linux.dev>; Wed, 11 May 2022 10:34:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:subject:in-reply-to
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=6KyyMkeo+AlJ0nOsy4nLJ1EEoBetcYQI533KSovi9IQ=;
-        b=UpGqH39fLcFU/f0BBiNXE+9s1to/sCamJR7W4mQFXRyenrXjnl8xbgc8e1eAcXODsO
-         FHa5XKfO2D8bHRJ8wXKenIDtxEQPMAleSCS8+uTFEg0/HP2uUC+Yzk63iPs2fywUuzhL
-         1Kfh94Eyk49g/4Wu3oSGCjBc1u5ld5mvNXlSpGEalKrpIAnHlTvqLx4fSK+vPeyNUEHL
-         kO+Q0iSE0jRGo3ThN6nh7Bsj9QS/1obX5cTQ9igxZYQCsM89DxafsB4wvOy1Ebq+0+1A
-         nAQ151yOeYJLS2uin1+Rfz+W+pAnH88n2RHCj5ojgE5yJxQMQ0uIhoowGMGN7T3tbvw9
-         9aLg==
-X-Gm-Message-State: AOAM531WFbnp67jxCxXuP8m4YWWgVOBQttqX4fl1BElUX8sSA+KWPyUR
-	YE7pPUTHMccCoU3JCBR/ajU=
-X-Google-Smtp-Source: ABdhPJxR6N0xVPBDvw47sZ2LDM5btOtf+0ie7Vjo27VUnR+DXIE9tDW6vaoMtPS6MoeLN7FLvAa+8w==
-X-Received: by 2002:a05:6870:1781:b0:e2:f30d:3a6c with SMTP id r1-20020a056870178100b000e2f30d3a6cmr3288738oae.142.1652289454084;
-        Wed, 11 May 2022 10:17:34 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p132-20020aca5b8a000000b00325cda1ff9fsm946219oib.30.2022.05.11.10.17.31
+        bh=i8Xj3Dw4/gCq/23hJZh6ANAQmyEIEWC62NCXFqWSvVM=;
+        b=q0yn95LSTluev3hw5qEavyhp8TGSiQnwYZxLlcqBX0E1HWO4KzR1NlbTbqkszGIjwr
+         98bKjSb5d9iYWNxdXW0tQ4ic0zbExP6wYlMbZ6KQvG2J6Dj3ARfgM7HLpiXNjOBtWNHj
+         yDOCU4UTs1UlJOFJaPHszp5Qdl0Ktbuo2Q3P1buh+NhDmOKuUqhrp0t0IsW8NU70/Znm
+         92CptCD/EM5IwsH6VqR6Joq+I7pg0YBwAr7o2MK60hdO+fzdTqybsLMm89jalUQXtGsO
+         fl70xFdsOSW4C6KM/y2VmEjiLLriF+3waNDmHeOI+LkdW9XKt+O995n25eeQMMbxHxDR
+         OHlg==
+X-Gm-Message-State: AOAM532cpZdAVkeKncQp5z8vpAjuztGgRyEEkb5hfWrENJe3PRTsw+0Q
+	n+s49gGZFTw7u3WwLJydpvVdd5f4U2g7PxjNu5OqqhhI3By084jmfHGXCE+osPVCfpFPtOKM1Ns
+	ZhJ7nLAbGQBQ4IO3wd+EpshSg4A==
+X-Received: by 2002:a05:6000:1d90:b0:20c:9efd:bd6b with SMTP id bk16-20020a0560001d9000b0020c9efdbd6bmr24725767wrb.605.1652290480061;
+        Wed, 11 May 2022 10:34:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMcxwINjwFHTGmrXrt5Rnjg0TtWgmfEnHBfAnBCyS2Fe9WQndQMx9qSymE6rAgB6QbCz2//w==
+X-Received: by 2002:a05:6000:1d90:b0:20c:9efd:bd6b with SMTP id bk16-20020a0560001d9000b0020c9efdbd6bmr24725736wrb.605.1652290479835;
+        Wed, 11 May 2022 10:34:39 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id g17-20020adfe411000000b0020c5253d91esm2156204wrm.106.2022.05.11.10.34.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 May 2022 10:17:33 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <8c84428c-2740-4046-74c9-298b854944d0@roeck-us.net>
-Date: Wed, 11 May 2022 10:17:30 -0700
+        Wed, 11 May 2022 10:34:39 -0700 (PDT)
+Message-ID: <48f164af-99d2-9e74-e307-003be0677384@redhat.com>
+Date: Wed, 11 May 2022 19:34:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,10 +53,9 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Content-Language: en-US
-To: Sam Ravnborg <sam@ravnborg.org>,
- Javier Martinez Canillas <javierm@redhat.com>
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v5 7/7] fbdev: Make registered_fb[] private to fbmem.c
+To: Guenter Roeck <linux@roeck-us.net>, Sam Ravnborg <sam@ravnborg.org>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
  Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -65,92 +70,64 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  <xiyuyang19@fudan.edu.cn>, Zheyu Ma <zheyuma97@gmail.com>
 References: <20220511112438.1251024-1-javierm@redhat.com>
  <20220511113230.1252910-1-javierm@redhat.com> <YnvrxICnisXU6I1y@ravnborg.org>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v5 7/7] fbdev: Make registered_fb[] private to fbmem.c
-In-Reply-To: <YnvrxICnisXU6I1y@ravnborg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <8c84428c-2740-4046-74c9-298b854944d0@roeck-us.net>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <8c84428c-2740-4046-74c9-298b854944d0@roeck-us.net>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 5/11/22 10:00, Sam Ravnborg wrote:
-> Hi Javier.
-> 
-> On Wed, May 11, 2022 at 01:32:30PM +0200, Javier Martinez Canillas wrote:
->> From: Daniel Vetter <daniel.vetter@ffwll.ch>
->>
->> Well except when the olpc dcon fbdev driver is enabled, that thing
->> digs around in there in rather unfixable ways.
->>
->> Cc oldc_dcon maintainers as fyi.
-> 
-> Another way to fix this is to mark FB_OLPC_DCON and add a TODO entry to
-> fix this. We are really not supposed to carry such special code around
-> to keep staging working.
-> 
-> I know this may not be a popular viewpoint, but just look at the ugly
-> workarounds required here.
-> 
-> 	Sam
-> 
-> 
->>
->> v2: I typoed the config name (0day)
->>
->> Cc: kernel test robot <lkp@intel.com>
->> Cc: Jens Frederich <jfrederich@gmail.com>
->> Cc: Jon Nettleton <jon.nettleton@gmail.com>
->> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Cc: linux-staging@lists.linux.dev
->> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: Helge Deller <deller@gmx.de>
->> Cc: Matthew Wilcox <willy@infradead.org>
->> Cc: Sam Ravnborg <sam@ravnborg.org>
->> Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
->> Cc: Zhen Lei <thunder.leizhen@huawei.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
->> Cc: linux-fbdev@vger.kernel.org
->> Cc: Zheyu Ma <zheyuma97@gmail.com>
->> Cc: Guenter Roeck <linux@roeck-us.net>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> ---
->>
->> (no changes since v1)
->>
->>   drivers/video/fbdev/core/fbmem.c | 8 ++++++--
->>   include/linux/fb.h               | 7 +++----
->>   2 files changed, 9 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
->> index 265efa189bcc..6cab5f4c1fb3 100644
->> --- a/drivers/video/fbdev/core/fbmem.c
->> +++ b/drivers/video/fbdev/core/fbmem.c
->> @@ -50,10 +50,14 @@
->>   static DEFINE_MUTEX(registration_lock);
->>   
->>   struct fb_info *registered_fb[FB_MAX] __read_mostly;
->> -EXPORT_SYMBOL(registered_fb);
->> -
->>   int num_registered_fb __read_mostly;
->> +#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
->> +EXPORT_SYMBOL(registered_fb);
->>   EXPORT_SYMBOL(num_registered_fb);
->> +#endif
-> 
-> It is stuff like this I refer to as "ugly" in the comment above.
-> 
+Hello Guenter,
 
-My "solution" for that kind of thing is to use a namespace,
-such as
+On 5/11/22 19:17, Guenter Roeck wrote:
+> On 5/11/22 10:00, Sam Ravnborg wrote:
 
-EXPORT_SYMBOL_NS(registered_fb, FB_OLPC_DCON);
-EXPORT_SYMBOL_NS(num_registered_fb, FB_OLPC_DCON);
+[snip]
 
-and import it from the offending code. That avoids ifdefs
-while at the same time limiting the use of the symbols
-to the expected scope. Of course that could be abused but
-that abuse would be obvious.
+>>>   struct fb_info *registered_fb[FB_MAX] __read_mostly;
+>>> -EXPORT_SYMBOL(registered_fb);
+>>> -
+>>>   int num_registered_fb __read_mostly;
+>>> +#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
+>>> +EXPORT_SYMBOL(registered_fb);
+>>>   EXPORT_SYMBOL(num_registered_fb);
+>>> +#endif
+>>
+>> It is stuff like this I refer to as "ugly" in the comment above.
+>>
+> 
+> My "solution" for that kind of thing is to use a namespace,
+> such as
+> 
+> EXPORT_SYMBOL_NS(registered_fb, FB_OLPC_DCON);
+> EXPORT_SYMBOL_NS(num_registered_fb, FB_OLPC_DCON);
+>
 
-Guenter
+Using a namespace in this case is indeed a great idea I think.
+
+I've used in the past to limit the export of a symbol for within a driver
+that could be scattered across different compilations units, but it never
+occurred to me using it to limit symbols exported by core code.
+ 
+> and import it from the offending code. That avoids ifdefs
+> while at the same time limiting the use of the symbols
+> to the expected scope. Of course that could be abused but
+> that abuse would be obvious.
+>
+
+Agreed. For the next revision, besides using an namespaced export symbol
+as you suggested, I'll include a comment to make clear that it shouldn't
+by any other driver and FB_OLPC_DCON fixed instead.
+
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
