@@ -1,148 +1,163 @@
-Received: from m1522.mail.126.com (m1522.mail.126.com [220.181.15.22])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F17C28F9
-	for <linux-staging@lists.linux.dev>; Wed, 11 May 2022 12:55:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=NzGyS
-	dDkg2hI6k1IFP0p5UJxdT58EC2bkNs6SgU0wNc=; b=jEuKkGFgLg42vyyMnpdYX
-	YyTNhmPm/QjEGJF9V+6EZg8F3dPmU0TAOInPdKLOymE86kRXR+F3R9HC57U1xNgW
-	obHsggP0RVLu9CN5RepJBGDnI11tjsfUWRiZiNxREnTCXuI9V2Joeix/gF8cOzug
-	IipqIdDsmmtbcEptyQKRlo=
-Received: from zhaojunkui2008$126.com ( [58.213.83.157] ) by
- ajax-webmail-wmsvr22 (Coremail) ; Wed, 11 May 2022 20:22:15 +0800 (CST)
-X-Originating-IP: [58.213.83.157]
-Date: Wed, 11 May 2022 20:22:15 +0800 (CST)
-From: z  <zhaojunkui2008@126.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: "Larry Finger" <Larry.Finger@lwfinger.net>, 
-	"Florian Schilhabel" <florian.c.schilhabel@googlemail.com>, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	"Bernard Zhao" <bernard@vivo.com>
-Subject: Re:Re: [PATCH] staging/rtl8712: fix potential memory leak
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 126com
-In-Reply-To: <YnuhYuYq62y4HR9r@kroah.com>
-References: <20220511112147.753316-1-zhaojunkui2008@126.com>
- <YnuhYuYq62y4HR9r@kroah.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4192F43
+	for <linux-staging@lists.linux.dev>; Wed, 11 May 2022 15:53:30 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id j6so4895935ejc.13
+        for <linux-staging@lists.linux.dev>; Wed, 11 May 2022 08:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ChBlo8JgQztQyDOjW7CP34CCFtQT8Hz2+dkYQmQof/E=;
+        b=nS/TpcRwwFbflyet94bFc5CcjxVk6t+j5NOxzBIdlm7hFfnejEQ8BOzTywqf4YVfAu
+         m2A/gL/WWUrYgsduw7j6fczHanwiY8cEZorN6VhHQ1fGKx1ZBrZ6I1LcwYufNn7CqR8U
+         /HHJQrGPO9Lx/xcdmPoGwbKUtbcZ1V+ToVFnBHHq75nGjZ6s1oF4fH4WUS0G+AmFOCub
+         pD1qQCaNC2yCwS2gSNfVTvr70v98+/W58T4G9hQajqW70Gnj5ivXCs650AtLPwoZxLSA
+         S1pspjYl3XFJsIxwdmGD115D0QyHJIjAmb4dDTUFlkZ+ov8Q1w+7zOUBOdxKUHl6sznT
+         20uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ChBlo8JgQztQyDOjW7CP34CCFtQT8Hz2+dkYQmQof/E=;
+        b=ecjfRu9ckZ/od0MziBm4tzn9covaGL9ecoehHgyipHrZCIuSq2gE3KJE5UPcju2D9n
+         KqJvSAawuGSiy1lMbBTP03bvVNiwLnlynNGYRyktcQZyvLwrHF0cSpWhIzAGtFmuaVoU
+         oGqqLcHlZ1xYC0XB+UV7RxrAVFhsKyrOPOktkAUEJNlyLAClPvVyBZbI3qAh2T7Z2PGC
+         LMAVUJk32aaV41QQmtS8Wwd1zs88OVwBiO2JNXyBdITk43FTOlk59n03YMJct6Eso1o9
+         Qb1F6JvvNoPbwsciX8T8Zz4glA5EPDYMYx5HK97iKfl3+3PU9s+5nQeCv7ktK74VhpO5
+         rYfw==
+X-Gm-Message-State: AOAM533K9FYHvdpminE18uqDeoUrF7VgBdIb36u8GiIryf4eDMcY5Q35
+	8nlfU3kEA+byP2AcnRsqpys=
+X-Google-Smtp-Source: ABdhPJx+gLv9qZMLtZ6TZVHw/+QL36jRAthkyIcW+H3mR5CsVPUeHqXkxzrfYIjIcR+1soMD/SYmlQ==
+X-Received: by 2002:a17:906:4313:b0:6b8:b3e5:a46 with SMTP id j19-20020a170906431300b006b8b3e50a46mr24525324ejm.417.1652284408880;
+        Wed, 11 May 2022 08:53:28 -0700 (PDT)
+Received: from localhost.localdomain (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id fb21-20020a1709073a1500b006f3ef214e1fsm1072458ejc.133.2022.05.11.08.53.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 May 2022 08:53:28 -0700 (PDT)
+From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Peter Geis <pgwipeout@gmail.com>,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	Liang Chen <cl@rock-chips.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v3 0/3] Enable JPEG Encoder on RK3566/RK3568
+Date: Wed, 11 May 2022 17:53:05 +0200
+Message-Id: <20220511155309.2637-1-frattaroli.nicolas@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <2831ff27.6685.180b311e22b.Coremail.zhaojunkui2008@126.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:FsqowADHz2N4qntiNIEpAA--.11598W
-X-CM-SenderInfo: p2kd0y5xqn3xasqqmqqrswhudrp/1tbiuRr9qlpD86LSsAABsf
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
 
-CkF0IDIwMjItMDUtMTEgMTk6NDM6MzAsICJHcmVnIEtyb2FoLUhhcnRtYW4iIDxncmVna2hAbGlu
-dXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6Cj5PbiBXZWQsIE1heSAxMSwgMjAyMiBhdCAwNDoyMTo0
-NEFNIC0wNzAwLCBCZXJuYXJkIFpoYW8gd3JvdGU6Cj4+IFRoaXMgYnVnIGlzIGZvdW5kIGJ5IGdv
-b2dsZSBzeXpib3QsIHRoZSBsaW5rIGlzOgo+PiBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNv
-bS9idWc/aWQ9M2EzMjViODM4OWZjNDFjMWJjOTRkZTBmNGFjNDM3ZWQxM2NjZTU4NAo+PiBtZW1v
-cnkgbGVhayBsb2c6Cj4+IEJVRzogbWVtb3J5IGxlYWsKPj4gdW5yZWZlcmVuY2VkIG9iamVjdCAw
-eGZmZmY4ODgxMGZmOWIzYzAgKHNpemUgMTkyKToKPj4gICBjb21tICJrd29ya2VyLzA6MiIsIHBp
-ZCAzNjUzLCBqaWZmaWVzIDQyOTQ5NDIyMjggKGFnZSA4LjI1MHMpCj4+ICAgaGV4IGR1bXAgKGZp
-cnN0IDMyIGJ5dGVzKToKPj4gICAgIDAxIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAw
-IDAwIDAwIDAwIDAwICAuLi4uLi4uLi4uLi4uLi4uCj4+ICAgICAwMCAwMCAwMCAwMCAwMCAwMCAw
-MCAwMCBkOCBiMyBmOSAwZiA4MSA4OCBmZiBmZiAgLi4uLi4uLi4uLi4uLi4uLgo+PiAgIGJhY2t0
-cmFjZToKPj4gICAgIFs8MDAwMDAwMDBlMDc0OGViNz5dIHVzYl9hbGxvY191cmIrMHg2Ni8weGUw
-Cj4+ICAgICBbPDAwMDAwMDAwZmU1YTk0MzI+XSByODcxMl9vc19yZWN2YnVmX3Jlc291cmNlX2Fs
-bG9jKzB4MWIvMHg4MAo+PiAgICAgWzwwMDAwMDAwMDkyM2ZlZDcyPl0gcjg3MTJfaW5pdF9yZWN2
-X3ByaXYrMHg5Ni8weDIxMAo+PiAgICAgWzwwMDAwMDAwMDAwMzg1MTJmPl0gX3I4NzEyX2luaXRf
-cmVjdl9wcml2KzB4MTM0LzB4MTUwCj4+ICAgICBbPDAwMDAwMDAwNjZlNzBhNGU+XSByODcxMl9p
-bml0X2Rydl9zdysweGEwLzB4MWQwCj4+ICAgICBbPDAwMDAwMDAwMWQyOTc0YzA+XSByODcxeHVf
-ZHJ2X2luaXQuY29sZCsweDEwNC8weDdkMQo+PiAgICAgWzwwMDAwMDAwMDFkNDQ5Y2UyPl0gdXNi
-X3Byb2JlX2ludGVyZmFjZSsweDE3Ny8weDM3MAo+PiAgICAgWzwwMDAwMDAwMGNkMTIzZDM0Pl0g
-cmVhbGx5X3Byb2JlKzB4MTU5LzB4NGEwCj4+ICAgICBbPDAwMDAwMDAwMzY0NTg1Y2M+XSBkcml2
-ZXJfcHJvYmVfZGV2aWNlKzB4ODQvMHgxMDAKPj4gICAgIFs8MDAwMDAwMDA0OGI3NGJkZT5dIF9f
-ZGV2aWNlX2F0dGFjaF9kcml2ZXIrMHhlZS8weDExMAo+PiAgICAgWzwwMDAwMDAwMGMzNThhYjE1
-Pl0gYnVzX2Zvcl9lYWNoX2RydisweGI3LzB4MTAwCj4+ICAgICBbPDAwMDAwMDAwYmZhOWIwNzY+
-XSBfX2RldmljZV9hdHRhY2grMHgxMjIvMHgyNTAKPj4gICAgIFs8MDAwMDAwMDA0OGZlMzAyYT5d
-IGJ1c19wcm9iZV9kZXZpY2UrMHhjNi8weGUwCj4+ICAgICBbPDAwMDAwMDAwMmNlYWUxNzU+XSBk
-ZXZpY2VfYWRkKzB4NWJlLzB4YzMwCj4+ICAgICBbPDAwMDAwMDAwZTQ4MTNhMGQ+XSB1c2Jfc2V0
-X2NvbmZpZ3VyYXRpb24rMHg5ZDkvMHhiOTAKPj4gICAgIFs8MDAwMDAwMDBjYmI4Yzk4Zj5dIHVz
-Yl9nZW5lcmljX2RyaXZlcl9wcm9iZSsweDhjLzB4YzAKPj4gCj4+IEZvciB0aGlzIGlzc3Vlo6xJ
-IHNlZSB0aGF0IHRoZSBmb2xsb3dpbmcgY2FsbCBzZXF1ZW5jZSBjYXVzaW5nCj4+IHNvbWUgbWVt
-b3J5IGxlYWtzOgo+PiB1c2JfcHJvYmVfaW50ZXJmYWNlCj4+ICByODcxeHVfZHJ2X2luaXQKPj4g
-ICByODcxMl9pbml0X2Rydl9zdwo+PiAgICBfcjg3MTJfaW5pdF9yZWN2X3ByaXYKPj4gICAgIHI4
-NzEyX2luaXRfcmVjdl9wcml2Ly92b2lkIHR5cGUgZnVuY3Rpb24KPj4gICAgICBmb3IgKGkgPSAw
-OyBpIDwgTlJfUkVDVkJVRkY7Cj4+ICAgICAgIGlmIChyODcxMl9vc19yZWN2YnVmX3Jlc291cmNl
-X2FsbG9jKHBhZGFwdGVyLCBwcmVjdmJ1ZikpCj4+ICAgICAgICByODcxMl9vc19yZWN2YnVmX3Jl
-c291cmNlX2FsbG9jCj4+ICAgICAgICAgcHJlY3ZidWYtPnB1cmIgPSB1c2JfYWxsb2NfdXJiCj4+
-ICAgICAgICAgIGttYWxsb2MKPj4gCj4+ICAgICAgICBicmVhazsvLyBpZiBlcnJvciBicmFuY2gu
-IEhlcmUgbWF5IGJlIHNvbWUgbWVtb3J5IGxlYWssCj4+ICAgICAgICAgICAgICAvLyBicmVhayBk
-aXJlY3RseSBhZnRlciByODcxMl9vc19yZWN2YnVmX3Jlc291cmNlX2FsbG9jCj4+ICAgICAgICAg
-ICAgICAvLyBmYWlsLCBhbmQgbm8gY2xlYW51cCBvcGVyYXRpb24gaXMgZG9uZS4KPj4gCj4+IEFu
-ZCBhbHNvIHRoZSBzaXplIG9mIHRoZSBtZW1vcnkgbGVhayBjYW4gYmUgc2VlbiBpbiB0aGUgbG9n
-IGlzCj4+IDE5MiBieXRlcywgSSBjaGVjayB0aGUgc2l6ZSBvZiB0aGUgdXNiX2FsbG9jX3VyYiBh
-cHBsaWNhdGlvbiBpcwo+PiB1c2JfYWxsb2NfdXJiKDAsCj4+ICAtPiBrbWFsbG9jKHN0cnVjdF9z
-aXplKHVyYiwgaXNvX2ZyYW1lX2Rlc2MsIGlzb19wYWNrZXRzKSkKPj4gICAtPiBzaXplb2Yoc3Ry
-dWN0IHVyYikraXNvX3BhY2tldHMqc2l6ZW9mKHN0cnVjdCBpc29fZnJhbWVfZGVzYykKPj4gaXNv
-X3BhY2tldHMgaXMgMCwgc28gdGhlIHNpemUgb2YgdGhlIGFjdHVhbCBhcHBsaWNhdGlvbiBpcwo+
-PiBzaXplb2Yoc3RydWN0IHVyYikgLT4gdGhlIGNhbGN1bGF0aW9uIHJlc3VsdCBpcyAxOTIsIHdo
-aWNoIG1hdGNoZXMKPj4gdGhlIHNpemUgb2YgdGhlIGxlYWsgcG9pbnQuCj4+IAo+PiBBZnRlciB0
-aGF0IGNsZWFudXAsIHRoZSBwcmVjdmJ1Zi0+cHVyYiBtYXliZSB1c2VkIGZvciBsb25nIHRpbWUK
-Pj4gU28gSSBhZGQga21lbWxlYWtfbm90X2xlYWsgdG8gYXZvaWQgZmFsc2UgcG9zaXRpdmUgcmVw
-b3J0Lgo+PiAKPj4gVGhpcyBwYXRjaCBzeXpib3QgdGVzdCBPSzoKPj4gMjAyMi8wNS8xMSAwNjox
-NSAxNG0gemhhb2p1bmt1aTIwMDhAMTI2LmNvbSBwYXRjaCB1cHN0cmVhbSBPSwo+PiAKPj4gU2ln
-bmVkLW9mZi1ieTogQmVybmFyZCBaaGFvIDx6aGFvanVua3VpMjAwOEAxMjYuY29tPgo+PiBTaWdu
-ZWQtb2ZmLWJ5OiBCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5jb20+Cj4KPllvdSBjYW4gbm90
-IHNpZ24gb2ZmIG9uIHRoZSBzYW1lIHBhdGNoIGJ5IHRoZSBzYW1lIHBlcnNvbiBtdWx0aXBsZSB0
-aW1lcwo+YXMgdGhpcyBpcyBhIGxlZ2FsIHN0YXRlbWVudC4KSGkgZ3JlZyBrLWg6CgpUaGFua3Mg
-Zm9yIHBvaW50aW5nIG91dCBteSBtaXN0YWtlLCBJIHdpbGwgY29ycmVjdCBpdCBpbiBteSBmdXR1
-cmUgc3VibWlzc2lvbnMuCgo+PiAtLS0KPj4gIGRyaXZlcnMvc3RhZ2luZy9ydGw4NzEyL3J0bDg3
-MTJfcmVjdi5jIHwgMTEgKysrKysrKysrKy0KPj4gIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRp
-b25zKCspLCAxIGRlbGV0aW9uKC0pCj4+IAo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5n
-L3J0bDg3MTIvcnRsODcxMl9yZWN2LmMgYi9kcml2ZXJzL3N0YWdpbmcvcnRsODcxMi9ydGw4NzEy
-X3JlY3YuYwo+PiBpbmRleCAwZmZiMzBmMWFmN2UuLjhiZjhlNmQ1YjAwNSAxMDA2NDQKPj4gLS0t
-IGEvZHJpdmVycy9zdGFnaW5nL3J0bDg3MTIvcnRsODcxMl9yZWN2LmMKPj4gKysrIGIvZHJpdmVy
-cy9zdGFnaW5nL3J0bDg3MTIvcnRsODcxMl9yZWN2LmMKPj4gQEAgLTE5LDYgKzE5LDcgQEAKPj4g
-ICNpbmNsdWRlIDxsaW51eC9pZl9ldGhlci5oPgo+PiAgI2luY2x1ZGUgPGxpbnV4L2lwLmg+Cj4+
-ICAjaW5jbHVkZSA8bmV0L2NmZzgwMjExLmg+Cj4+ICsjaW5jbHVkZSA8bGludXgva21lbWxlYWsu
-aD4KPj4gIAo+PiAgI2luY2x1ZGUgIm9zZGVwX3NlcnZpY2UuaCIKPj4gICNpbmNsdWRlICJkcnZf
-dHlwZXMuaCIKPj4gQEAgLTUxLDEyICs1MiwyMCBAQCB2b2lkIHI4NzEyX2luaXRfcmVjdl9wcml2
-KHN0cnVjdCByZWN2X3ByaXYgKnByZWN2cHJpdiwKPj4gIAlmb3IgKGkgPSAwOyBpIDwgTlJfUkVD
-VkJVRkY7IGkrKykgewo+PiAgCQlJTklUX0xJU1RfSEVBRCgmcHJlY3ZidWYtPmxpc3QpOwo+PiAg
-CQlzcGluX2xvY2tfaW5pdCgmcHJlY3ZidWYtPnJlY3ZidWZfbG9jayk7Cj4+IC0JCWlmIChyODcx
-Ml9vc19yZWN2YnVmX3Jlc291cmNlX2FsbG9jKHBhZGFwdGVyLCBwcmVjdmJ1ZikpCj4+ICsJCWlm
-IChyODcxMl9vc19yZWN2YnVmX3Jlc291cmNlX2FsbG9jKHBhZGFwdGVyLCBwcmVjdmJ1ZikpIHsK
-Pj4gKwkJCWludCBqID0gaTsKPj4gKwo+PiArCQkJd2hpbGUgKGotLSA+IDApIHsKPj4gKwkJCQly
-ODcxMl9vc19yZWN2YnVmX3Jlc291cmNlX2ZyZWUocGFkYXB0ZXIsIHByZWN2YnVmKTsKPj4gKwkJ
-CQlwcmVjdmJ1Zi0tOwo+PiArCQkJfQo+PiAgCQkJYnJlYWs7Cj4+ICsJCX0KPj4gIAkJcHJlY3Zi
-dWYtPnJlZl9jbnQgPSAwOwo+PiAgCQlwcmVjdmJ1Zi0+YWRhcHRlciA9IHBhZGFwdGVyOwo+PiAg
-CQlsaXN0X2FkZF90YWlsKCZwcmVjdmJ1Zi0+bGlzdCwKPj4gIAkJCSAgICAgICYocHJlY3Zwcml2
-LT5mcmVlX3JlY3ZfYnVmX3F1ZXVlLnF1ZXVlKSk7Cj4+ICsJCWttZW1sZWFrX25vdF9sZWFrKHBy
-ZWN2YnVmLT5wdXJiKTsKPgo+VGhpcyBzaG91bGQgbm90IGJlIG5lZWRlZCwgdGhhdCdzIGFuIGlu
-ZGljYXRpb24gdGhhdCBzb21ldGhpbmcgaXMgcmVhbGx5Cj53cm9uZyBpbiB0aGUgZHJpdmVyLiAg
-V2hlcmUgaXMgdGhlIHVyYiByZWFsbHkgZnJlZWQ/Cj4KPllvdSBzaG91bGQgbm90IGhhdmUgdG8g
-c2F5IHRoYXQgdGhpcyB1cmIgaGFzIG5vdCBsZWFrZWQgaWYgaXQgcmVhbGx5IGhhcwo+bm90IGxl
-YWtlZC4gIENsZWFuIGl0IHVwIHByb3Blcmx5IGlmIGl0IG5lZWRzIHRvIGJlIGNsZWFuZWQgdXAg
-aGVyZSwgYnV0Cj50aGF0J3Mgbm90IHVzdWFsbHkgd2hlcmUgYW4gdXJiIGlzIGNsZWFuZWQgdXAg
-YXQgYWxsLgo+ClRoZSByZWFsbHkgZnJlZSBjYWxsIHNlcXVlbmNlIGlzIGRvbmUgaW4gcjg3MTJf
-ZnJlZV9kcnZfc3csIGxpa2UgdGhlIGZvbGxvdyBlcnJvciBicmFuY2g6CnI4NzF4dV9kcnZfaW5p
-dAoJaWYgKHN0YXR1cykKCQlnb3RvIGR2b2JqX2RlaW5pdAoJCQlyODcxMl9mcmVlX2Rydl9zdwog
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF9yODcxMl9mcmVlX3JlY3ZfcHJpdgoJICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgcjg3MTJfZnJlZV9yZWN2X3ByaXYKCQkgICAgICAgICAgICAg
-ICAgICAgICAgICAgZm9yIChpID0gMDsgaSA8IE5SX1JFQ1ZCVUZGOyBpKyspCgkJCSAgICAgICAg
-ICAgICAgICAgICAgICAgIHI4NzEyX29zX3JlY3ZidWZfcmVzb3VyY2VfZnJlZQoJCQkJICAgICAg
-ICAgICAgICAgIGlmIChwcmVjdmJ1Zi0+cHNrYikKCQkJCQkgICAgICAgICAgICAgIGRldl9rZnJl
-ZV9za2JfYW55KHByZWN2YnVmLT5wc2tiKQoJCQkJICAgICAgICAgICAgICAgIGlmIChwcmVjdmJ1
-Zi0+cHVyYikKCQkJCQkgICAgICAgICAgICAgIHVzYl9raWxsX3VyYihwcmVjdmJ1Zi0+cHVyYikK
-CQkJCQkgICAgICAgICAgICAgIHVzYl9mcmVlX3VyYihwcmVjdmJ1Zi0+cHVyYikKSSBjaGVja2Vk
-IHRoZSAgY2FsbGVyJ3MgZXJyb3IgYnJhbmNoLCB0aGV5IGNhbGwgcjg3MTJfZnJlZV9kcnZfc3cg
-dG8gZG8gdGhlIGNsZWFudXAgam9iLCBpIHRocm91Z2h0IHRoZSBjYWxsZXIgaXMgT0suCkFuZCBt
-eSB0ZXN0IGZyb20gc3lzYm90IHNob3dzIHRoYXQ6CkJlZm9yZSBpIGFkZCBmb2xsb3cgY29kZSwg
-dGhlIG1lbWxlYWsgaXMgYWxtb3N0IDYyIHRpbWVzLGFmdGVyIG15IGNoYW5nZSwgdGhlIG1lbWxl
-YWsgbnVtYmVyIGNoYW5nZSB0byA3LgpiZWZvcmUKWyAgIDkzLjA3MDA4OV1bVDEwODQ3XSBrbWVt
-bGVhazogNjIgbmV3IHN1c3BlY3RlZCBtZW1vcnkgbGVha3MgKHNlZSAvc3lzL2tlcm5lbC9kZWJ1
-Zy9rbWVtbGVhaykKYWZ0ZXIgZml4OgpbICAgNzcuNTU3MzU1XVsgVDQwOThdIGttZW1sZWFrOiA3
-IG5ldyBzdXNwZWN0ZWQgbWVtb3J5IGxlYWtzIChzZWUgL3N5cy9rZXJuZWwvZGVidWcva21lbWxl
-YWspCgpJIHRocm91Z2h0IHRoZSByZW1haW4gNyBpcyB0aGUgcmlnaHQgdXNlLCBzbyBpIGFkZCBr
-bWVtbGVha19ub3RfbGVhay4KSSBhbSBub3Qgc3VyZSBpZiB0aGVyZSBpcyBzb21lIGdhcC4KS2lu
-ZGx5IGhlbHAgdG8gY29ycmVjdCBtZSBpZiBJJ20gbWlzc2luZyBzb21ldGhpbmcsIHRoYW5rcyEK
-CkJSLy9CZXJuYXJkCj5UaGlzIGZlZWxzIHdyb25nLCBzb3JyeS4KPgo+dGhhbmtzLAo+Cj5ncmVn
-IGstaAo=
+Hello,
+
+the following series adds support for and enables one of the hardware
+video encoders on the RK3566 and RK3568 line of SoCs by Rockchip,
+initially just for the JPEG format in line with what the kernel supports.
+
+The encoder block is separate from the Hantro decoder instance, as they
+are in different power domains and have wildly different memory addresses
+as well.
+
+The encoder hardware seemingly also supports VP8 and H.264 in addition
+to just JPEG, as is evident from both the downstream vendor stack and the
+register listing in the TRM. The hantro driver in Linux, however, does
+not yet support encoding these formats.
+
+The first patch modifies the bindings with a new compatible, and adds
+the ability to just have a vepu interrupt without a vdpu interrupt.
+
+The second patch makes the actual driver changes to support this variant.
+
+The third and final patch makes the necessary device tree changes for
+the rk356x device tree file to add both the node for the encoder and
+its MMU.
+
+The series has been tested on a PINE64 Quartz64 Model A with an RK3566
+SoC using GStreamer.
+
+Below you'll also find an interdiff against V2.
+
+Regards,
+Nicolas Frattaroli
+
+Changes in v3:
+ - bindings: change consts to an enum
+ - bindings: add check to make sure devices with a -vepu compatible only
+   have the vepu interrupt
+
+Changes in v2:
+ - rename compatible as it's not JPEG only
+ - rename device tree nodes as it's not JPEG only
+ - reword commits as it's not JPEG only
+ - get rid of a whole bunch of redundant struct definitions, as, you
+   guessed it, it's not JPEG only
+
+Nicolas Frattaroli (3):
+  dt-bindings: media: rockchip-vpu: Add RK3568 VEPU compatible
+  media: hantro: Add support for RK356x encoder
+  arm64: dts: rockchip: Add Hantro encoder node to rk356x
+
+ .../bindings/media/rockchip-vpu.yaml          | 17 ++++++++++++-
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi      | 21 ++++++++++++++++
+ drivers/staging/media/hantro/hantro_drv.c     |  1 +
+ drivers/staging/media/hantro/hantro_hw.h      |  1 +
+ .../staging/media/hantro/rockchip_vpu_hw.c    | 25 +++++++++++++++++++
+ 5 files changed, 64 insertions(+), 1 deletion(-)
+
+Interdiff against v2:
+diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+index 4045f107ca4e..965ca80b5cea 100644
+--- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+@@ -40,8 +40,9 @@ properties:
+ 
+   interrupt-names:
+     oneOf:
+-      - const: vdpu
+-      - const: vepu
++      - enum:
++          - vdpu
++          - vepu
+       - items:
+           - const: vepu
+           - const: vdpu
+@@ -78,6 +79,18 @@ required:
+ 
+ additionalProperties: false
+ 
++allOf:
++  # compatibles that end in -vepu should only have the vepu interrupt
++  - if:
++      properties:
++        compatible:
++          contains:
++            pattern: "^[a-zA-Z0-9\\-,_.]+\\-vepu$"
++    then:
++      properties:
++        interrupt-names:
++          const: vepu
++
+ examples:
+   - |
+         #include <dt-bindings/clock/rk3288-cru.h>
+-- 
+2.36.1
+
