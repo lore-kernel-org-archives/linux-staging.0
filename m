@@ -1,40 +1,110 @@
-Received: from eki-net.com (unknown [152.32.156.133])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB5D517D2
-	for <linux-staging@lists.linux.dev>; Thu, 12 May 2022 05:49:28 +0000 (UTC)
-Message-ID: <20220512111929837637@eki-net.com>
-From: =?utf-8?B?44GI44GN44Gt44Gj44Go?= <kxecjt@eki-net.com>
-To: <linux-staging@lists.linux.dev>
-Subject: =?utf-8?B?44CQ44GI44GN44Gt44Gj44Go44CR56K66KqN44GV44KM44Gf5oOF5aCx?=
-Date: Thu, 12 May 2022 11:19:24 +0530
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D22D17EE
+	for <linux-staging@lists.linux.dev>; Thu, 12 May 2022 18:33:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=rsa1;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=O8SS8tR6KzBteRzzV4PMFZxsbdP8o7OvOren4W79nuw=;
+	b=h7ZNvfc9avhDt9okNYnG1IgGZnDItoaBEkXyNthysrfKmHtpKX7wDWuLH5KG3Iywu8NOqH+7WLZuQ
+	 MnpkF89PW8JzZGoE9JLyR4KdVe9+bAIYLiQD136jCrzGp1k40JxdtVhEBk+nwb0x05k3DYqZbisrtN
+	 j7e8ukhv08m6oq7+6e997j5AUB/8ZG9VCcIwetPEOJ79RTTWLJN5BJVTJ8vu0jjAIAoUQDxxRoisSM
+	 N9jq5+4/VB+uvogOuIBEU7O4qJ6SWpuYQfYfWmyBsnBRbTuI/CKD25yCMVv/UqT9ugfVLoLuE/snxf
+	 nLO3Tp7gs3zv/RGajEZVV0pxKdWv1hw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=ravnborg.org; s=ed1;
+	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+	 from:date:from;
+	bh=O8SS8tR6KzBteRzzV4PMFZxsbdP8o7OvOren4W79nuw=;
+	b=F+p45EAMDelLJaqsvbV923D4aMqVja+yHAlwwJJfG5Uvo2AxRvdFs4aw7v7EuZqlp1V4TsAC7Wad2
+	 dnMPZyUAg==
+X-HalOne-Cookie: 9bbbb5e34672ef539628ef080ed8275be782a0a2
+X-HalOne-ID: d92e617e-d221-11ec-822c-d0431ea8bb10
+Received: from mailproxy3.cst.dirpod3-cph3.one.com (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id d92e617e-d221-11ec-822c-d0431ea8bb10;
+	Thu, 12 May 2022 18:32:16 +0000 (UTC)
+Date: Thu, 12 May 2022 20:32:14 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Helge Deller <deller@gmx.de>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kernel test robot <lkp@intel.com>,
+	Jens Frederich <jfrederich@gmail.com>,
+	Jon Nettleton <jon.nettleton@gmail.com>,
+	linux-staging@lists.linux.dev,
+	Daniel Vetter <daniel.vetter@intel.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Matthew Wilcox <willy@infradead.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Xiyu Yang <xiyuyang19@fudan.edu.cn>, Zheyu Ma <zheyuma97@gmail.com>
+Subject: Re: [PATCH v5 7/7] fbdev: Make registered_fb[] private to fbmem.c
+Message-ID: <Yn1SrtRHIjapcIjp@ravnborg.org>
+References: <20220511112438.1251024-1-javierm@redhat.com>
+ <20220511113230.1252910-1-javierm@redhat.com>
+ <YnvrxICnisXU6I1y@ravnborg.org>
+ <8c84428c-2740-4046-74c9-298b854944d0@roeck-us.net>
+ <48f164af-99d2-9e74-e307-003be0677384@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-X-mailer: Teiwhtoufz 3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <48f164af-99d2-9e74-e307-003be0677384@redhat.com>
 
-44CM44GI44GN44Gt44Gj44Go44CN44Gu44Ki44Kr44Km44Oz44OI44Gv5Yi26ZmQ44GV44KM44Gm
-44GE44G+44GZ44CC6YCa5bi444Gu5L2/55So44Gr5b2x6Z+/44KS5LiO44GI44Gq44GE44KI44GG
-44Gr44CB5LiL44Gu44Oq44Oz44Kv44KS44Kv44Oq44OD44Kv44GX44Gm6Zai6YCj5oOF5aCx44KS
-44Gn44GN44KL44Gg44GR5pep44GP56K66KqN44GX44Gm44GP44Gg44GV44GE44CCMTLmmYLplpPk
-u6XlhoXjgavnlLPjgZfovrzjgb/jgYzlsYrjgYvjgarjgYTloLTlkIjjgIHjgqLjgqvjgqbjg7Pj
-g4jjga/luLjjgavjgZTkuI3kvr/jgpLjgYrjgYvjgZHjgZfjgabnlLPjgZfoqLPjgZTjgZbjgYTj
-gb7jgZvjgpPjgIINCi0tLS0tLS0tLS0tLS0tDQoNCuOAkOeiuuiqjeOBleOCjOOBn+aDheWgseOA
-kQ0KaHR0cHM6Ly9zLnlhbS5jb20vaVF3a3oNCi0tLS0tLS0tLS0tLS0tLS0tLS0tDQrjgYrllY/j
-gYTlkIjjgo/jgZvlhYgNCiDjgYjjgY3jga3jgaPjgajjgrXjg53jg7zjg4jjgrvjg7Pjgr/jg7wN
-CiBURUwgMDUwLTIwMTYtNTAwMA0KIOWPl+S7mOaZgumWkyA45pmCMDDliIbvvZ4yMuaZgjAw5YiG
-DQog44K144Kk44OI6YGL5Za244O7566h55CGDQogSlLmnbHml6XmnKzjg43jg4Pjg4jjgrnjg4bj
-g7zjgrfjg6fjg7MNCi0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNCuOBk+OBruODoeODvOODq+OBr+OA
-jOOBiOOBjeOBreOBo+OBqOOAjeOCiOOCiuiHquWLlemFjeS/oeOBleOCjOOBpuOBhOOBvuOBmeOA
-gg0K6L+U5L+h44GE44Gf44Gg44GN44G+44GX44Gm44KC5a++5b+c6Ie044GX44GL44Gt44G+44GZ
-44Gu44Gn44CB44GC44KJ44GL44GY44KB44GU5LqG5om/44GP44Gg44GV44GE44CCDQoNCuOBiuW/
-g+W9k+OBn+OCiuOBruOBquOBhOaWueOBr+OAgeiqoOOBq+aBkOOCjOWFpeOCiuOBvuOBmeOBjOOB
-k+OBruODoeODvOODq+OBruWJiumZpOOCkuOBiumhmOOBhOOBhOOBn+OBl+OBvuOBmeOAgg0K44GU
-5LiN5piO44Gq54K544Gu44GC44KL5pa544Gv44CB44GI44GN44Gt44Gj44Go44K144Od44O844OI
-44K744Oz44K/44O844G+44Gn44GU6YCj57Wh44GP44Gg44GV44GE44CCDQogDQo=
+On Wed, May 11, 2022 at 07:34:38PM +0200, Javier Martinez Canillas wrote:
+> Hello Guenter,
+> 
+> On 5/11/22 19:17, Guenter Roeck wrote:
+> > On 5/11/22 10:00, Sam Ravnborg wrote:
+> 
+> [snip]
+> 
+> >>>   struct fb_info *registered_fb[FB_MAX] __read_mostly;
+> >>> -EXPORT_SYMBOL(registered_fb);
+> >>> -
+> >>>   int num_registered_fb __read_mostly;
+> >>> +#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
+> >>> +EXPORT_SYMBOL(registered_fb);
+> >>>   EXPORT_SYMBOL(num_registered_fb);
+> >>> +#endif
+> >>
+> >> It is stuff like this I refer to as "ugly" in the comment above.
+> >>
+> > 
+> > My "solution" for that kind of thing is to use a namespace,
+> > such as
+> > 
+> > EXPORT_SYMBOL_NS(registered_fb, FB_OLPC_DCON);
+> > EXPORT_SYMBOL_NS(num_registered_fb, FB_OLPC_DCON);
+> >
+> 
+> Using a namespace in this case is indeed a great idea I think.
+> 
+> I've used in the past to limit the export of a symbol for within a driver
+> that could be scattered across different compilations units, but it never
+> occurred to me using it to limit symbols exported by core code.
+>  
+> > and import it from the offending code. That avoids ifdefs
+> > while at the same time limiting the use of the symbols
+> > to the expected scope. Of course that could be abused but
+> > that abuse would be obvious.
+> >
+> 
+> Agreed. For the next revision, besides using an namespaced export symbol
+> as you suggested, I'll include a comment to make clear that it shouldn't
+> by any other driver and FB_OLPC_DCON fixed instead.
+A very nice compromise, thanks Guenter and Javier.
 
-
+	Sam
