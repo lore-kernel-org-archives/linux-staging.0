@@ -1,110 +1,152 @@
-Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D22D17EE
-	for <linux-staging@lists.linux.dev>; Thu, 12 May 2022 18:33:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F62E360
+	for <linux-staging@lists.linux.dev>; Fri, 13 May 2022 02:56:27 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id q76so6261963pgq.10
+        for <linux-staging@lists.linux.dev>; Thu, 12 May 2022 19:56:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa1;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=O8SS8tR6KzBteRzzV4PMFZxsbdP8o7OvOren4W79nuw=;
-	b=h7ZNvfc9avhDt9okNYnG1IgGZnDItoaBEkXyNthysrfKmHtpKX7wDWuLH5KG3Iywu8NOqH+7WLZuQ
-	 MnpkF89PW8JzZGoE9JLyR4KdVe9+bAIYLiQD136jCrzGp1k40JxdtVhEBk+nwb0x05k3DYqZbisrtN
-	 j7e8ukhv08m6oq7+6e997j5AUB/8ZG9VCcIwetPEOJ79RTTWLJN5BJVTJ8vu0jjAIAoUQDxxRoisSM
-	 N9jq5+4/VB+uvogOuIBEU7O4qJ6SWpuYQfYfWmyBsnBRbTuI/CKD25yCMVv/UqT9ugfVLoLuE/snxf
-	 nLO3Tp7gs3zv/RGajEZVV0pxKdWv1hw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed1;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=O8SS8tR6KzBteRzzV4PMFZxsbdP8o7OvOren4W79nuw=;
-	b=F+p45EAMDelLJaqsvbV923D4aMqVja+yHAlwwJJfG5Uvo2AxRvdFs4aw7v7EuZqlp1V4TsAC7Wad2
-	 dnMPZyUAg==
-X-HalOne-Cookie: 9bbbb5e34672ef539628ef080ed8275be782a0a2
-X-HalOne-ID: d92e617e-d221-11ec-822c-d0431ea8bb10
-Received: from mailproxy3.cst.dirpod3-cph3.one.com (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
-	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id d92e617e-d221-11ec-822c-d0431ea8bb10;
-	Thu, 12 May 2022 18:32:16 +0000 (UTC)
-Date: Thu, 12 May 2022 20:32:14 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Helge Deller <deller@gmx.de>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel test robot <lkp@intel.com>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=OGgDMvpY/n5VX5vYctev+tzQH6piKUfUzgYoN8lHPK8=;
+        b=OUR7fAJxJRCdgVA79xpMHkngYG/aXvMdppYHbPGcaOU99EAuvmPd1kShMCPzLUUVcu
+         GiX3Zsu33E//VV1DnOeopUCtD+bc1iG87XLMvc4vF0bmjbLMSBUOXm766o9CZey5UaWy
+         wxuioIw1csCRj9SZRD3ItoLE5LscG6tOFMdMyP14Fs/GxeFOaiQWKcVnXTMaBuqyRsL0
+         G6DUkVEALRHFSvDpR2YYsGd9jfMtOlTGRL0zMfmFp9hJkfD3P1cKqgZFOqap4lx5jJsT
+         ECzwby0l8NXYomdcbDee8Ce9otXjhcccz89br1sNsj8Nb9yVBg5PVn3GNdgStyCODGF2
+         C6DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=OGgDMvpY/n5VX5vYctev+tzQH6piKUfUzgYoN8lHPK8=;
+        b=sVLb6uAxrjaogXbn1M4u8BcL+/S3d736AVKhMVboUucloB/FUVM+Afi+xJATFiiEKs
+         R3qWSprwQJ97my0rkDPi/KQGsHHm6qTPY2aanREdiAvi/XfCAUktLr/a7qy8PxVUShkY
+         6wjDF5ifp/xUDmfrH+Ppi415XpIHDTLtKoIjwItRuGjPRICgutyzdeBZrdZkHzqUr139
+         LQKgC6wOShVabGfrNeN5hifGZL+OhERnbUrt+I4ypD1v9q8ZmhNdtxcRw7p8FDTwM1WY
+         O42klIM4d7PSWz6VofhFc4PX3V/tzA95vwOEpSYGmrnTDizh7SXRmBhn2d/8dguktjGD
+         fz5g==
+X-Gm-Message-State: AOAM5322qFIOyRMC78V/WkAcufBpSqQq0W8E9/XT+Azx0EloPOwtbswk
+	ytTBfZB6407l4JB0HwrapaukqkWW7Zd6jQ==
+X-Google-Smtp-Source: ABdhPJw0m4Ce6/qaZpm58tHclY9RoVfekRzhloooOMpO4pVQGqAEPgLhzdE6QQPpFBtECoNJc9BytQ==
+X-Received: by 2002:a63:e108:0:b0:3db:11bb:7345 with SMTP id z8-20020a63e108000000b003db11bb7345mr2153825pgh.502.1652410586489;
+        Thu, 12 May 2022 19:56:26 -0700 (PDT)
+Received: from Negi ([207.151.52.3])
+        by smtp.gmail.com with ESMTPSA id y4-20020a17090ad0c400b001d95cdb62d4sm2449444pjw.33.2022.05.12.19.56.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 May 2022 19:56:25 -0700 (PDT)
+From: Soumya Negi <soumya.negi97@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Soumya Negi <soumya.negi97@gmail.com>,
 	linux-staging@lists.linux.dev,
-	Daniel Vetter <daniel.vetter@intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Matthew Wilcox <willy@infradead.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Zhen Lei <thunder.leizhen@huawei.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Xiyu Yang <xiyuyang19@fudan.edu.cn>, Zheyu Ma <zheyuma97@gmail.com>
-Subject: Re: [PATCH v5 7/7] fbdev: Make registered_fb[] private to fbmem.c
-Message-ID: <Yn1SrtRHIjapcIjp@ravnborg.org>
-References: <20220511112438.1251024-1-javierm@redhat.com>
- <20220511113230.1252910-1-javierm@redhat.com>
- <YnvrxICnisXU6I1y@ravnborg.org>
- <8c84428c-2740-4046-74c9-298b854944d0@roeck-us.net>
- <48f164af-99d2-9e74-e307-003be0677384@redhat.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: Fix alignment to match open parenthesis
+Date: Thu, 12 May 2022 19:55:53 -0700
+Message-Id: <20220513025553.13634-1-soumya.negi97@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <48f164af-99d2-9e74-e307-003be0677384@redhat.com>
 
-On Wed, May 11, 2022 at 07:34:38PM +0200, Javier Martinez Canillas wrote:
-> Hello Guenter,
-> 
-> On 5/11/22 19:17, Guenter Roeck wrote:
-> > On 5/11/22 10:00, Sam Ravnborg wrote:
-> 
-> [snip]
-> 
-> >>>   struct fb_info *registered_fb[FB_MAX] __read_mostly;
-> >>> -EXPORT_SYMBOL(registered_fb);
-> >>> -
-> >>>   int num_registered_fb __read_mostly;
-> >>> +#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
-> >>> +EXPORT_SYMBOL(registered_fb);
-> >>>   EXPORT_SYMBOL(num_registered_fb);
-> >>> +#endif
-> >>
-> >> It is stuff like this I refer to as "ugly" in the comment above.
-> >>
-> > 
-> > My "solution" for that kind of thing is to use a namespace,
-> > such as
-> > 
-> > EXPORT_SYMBOL_NS(registered_fb, FB_OLPC_DCON);
-> > EXPORT_SYMBOL_NS(num_registered_fb, FB_OLPC_DCON);
-> >
-> 
-> Using a namespace in this case is indeed a great idea I think.
-> 
-> I've used in the past to limit the export of a symbol for within a driver
-> that could be scattered across different compilations units, but it never
-> occurred to me using it to limit symbols exported by core code.
->  
-> > and import it from the offending code. That avoids ifdefs
-> > while at the same time limiting the use of the symbols
-> > to the expected scope. Of course that could be abused but
-> > that abuse would be obvious.
-> >
-> 
-> Agreed. For the next revision, besides using an namespaced export symbol
-> as you suggested, I'll include a comment to make clear that it shouldn't
-> by any other driver and FB_OLPC_DCON fixed instead.
-A very nice compromise, thanks Guenter and Javier.
+Adhere to Linux coding style. Fixes checkpatch warnings:
+CHECK: Alignment should match open parenthesis
+CHECK: line length of 101 exceeds 100 columns
 
-	Sam
+Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 5478188be991..d30d6e6bcd07 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -520,12 +520,12 @@ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
+ 
+ 		/*  B0 Config LDPC Coding Capability */
+ 		if (TEST_FLAG(phtpriv_ap->ldpc_cap, LDPC_HT_ENABLE_TX) &&
+-			      GET_HT_CAPABILITY_ELE_LDPC_CAP((u8 *)(&phtpriv_sta->ht_cap)))
++		    GET_HT_CAPABILITY_ELE_LDPC_CAP((u8 *)(&phtpriv_sta->ht_cap)))
+ 			SET_FLAG(cur_ldpc_cap, (LDPC_HT_ENABLE_TX | LDPC_HT_CAP_TX));
+ 
+ 		/*  B7 B8 B9 Config STBC setting */
+ 		if (TEST_FLAG(phtpriv_ap->stbc_cap, STBC_HT_ENABLE_TX) &&
+-			      GET_HT_CAPABILITY_ELE_RX_STBC((u8 *)(&phtpriv_sta->ht_cap)))
++		    GET_HT_CAPABILITY_ELE_RX_STBC((u8 *)(&phtpriv_sta->ht_cap)))
+ 			SET_FLAG(cur_stbc_cap, (STBC_HT_ENABLE_TX | STBC_HT_CAP_TX));
+ 	} else {
+ 		phtpriv_sta->ampdu_enable = false;
+@@ -1065,10 +1065,12 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 		);
+ 
+ 		if ((psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_CCMP) ||
+-		     (psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_CCMP)) {
+-			pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY & (0x07 << 2));
++		    (psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_CCMP)) {
++			pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY &
++						       (0x07 << 2));
+ 		} else {
+-			pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY & 0x00);
++			pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY &
++						       0x00);
+ 		}
+ 
+ 		rtw_hal_get_def_var(
+@@ -1116,7 +1118,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 	pmlmepriv->htpriv.ht_option = false;
+ 
+ 	if ((psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_TKIP) ||
+-	     (psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_TKIP)) {
++	    (psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_TKIP)) {
+ 		/* todo: */
+ 		/* ht_cap = false; */
+ 	}
+@@ -1725,7 +1727,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 			pmlmepriv->num_sta_no_short_preamble--;
+ 
+ 			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+-				(pmlmepriv->num_sta_no_short_preamble == 0)) {
++			    (pmlmepriv->num_sta_no_short_preamble == 0)) {
+ 				beacon_updated = true;
+ 				update_beacon(padapter, 0xFF, NULL, true);
+ 			}
+@@ -1763,7 +1765,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 			pmlmepriv->num_sta_no_short_slot_time++;
+ 
+ 			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+-				 (pmlmepriv->num_sta_no_short_slot_time == 1)) {
++			    (pmlmepriv->num_sta_no_short_slot_time == 1)) {
+ 				beacon_updated = true;
+ 				update_beacon(padapter, 0xFF, NULL, true);
+ 			}
+@@ -1775,7 +1777,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 			pmlmepriv->num_sta_no_short_slot_time--;
+ 
+ 			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+-				 (pmlmepriv->num_sta_no_short_slot_time == 0)) {
++			    (pmlmepriv->num_sta_no_short_slot_time == 0)) {
+ 				beacon_updated = true;
+ 				update_beacon(padapter, 0xFF, NULL, true);
+ 			}
+@@ -2024,7 +2026,7 @@ void rtw_ap_restore_network(struct adapter *padapter)
+ 	start_bss_network(padapter);
+ 
+ 	if ((padapter->securitypriv.dot11PrivacyAlgrthm == _TKIP_) ||
+-		(padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)) {
++	    (padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)) {
+ 		/* restore group key, WEP keys is restored in ips_leave() */
+ 		rtw_set_key(
+ 			padapter,
+@@ -2062,7 +2064,7 @@ void rtw_ap_restore_network(struct adapter *padapter)
+ 			/* pairwise key */
+ 			/* per sta pairwise key and settings */
+ 			if ((psecuritypriv->dot11PrivacyAlgrthm == _TKIP_) ||
+-				(psecuritypriv->dot11PrivacyAlgrthm == _AES_)) {
++			    (psecuritypriv->dot11PrivacyAlgrthm == _AES_)) {
+ 				rtw_setstakey_cmd(padapter, psta, true, false);
+ 			}
+ 		}
+-- 
+2.17.1
+
