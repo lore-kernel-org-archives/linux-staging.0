@@ -1,38 +1,34 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB66F7A
-	for <linux-staging@lists.linux.dev>; Fri, 13 May 2022 20:29:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868C17A
+	for <linux-staging@lists.linux.dev>; Fri, 13 May 2022 20:29:53 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(Authenticated sender: nicolas)
-	with ESMTPSA id B4FE31F46489
+	with ESMTPSA id 098C41F46484
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1652473790;
-	bh=lIxlnphkLCaVBUiFzEyVrDZH6uoUDfUFIWUVGXdyJKU=;
+	s=mail; t=1652473792;
+	bh=/HUm+2tIimTRRFVj71OaFyqc2Gk4HBundroiAuGI1EY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VqNNO9dpmcXgsqSoG08E/e4ANf6VIO0SS4tqU/u1KEPXwTpJERV+/ZKV39worJ/Ik
-	 EhhzeGw9ektnLCaFKZZoVh/ov4dW1HN3Pl/mjsaVhtSZb8u7j0l1YQnXBJmEAuL+YO
-	 qK96ZpUc1cFJOR2fjrOiqBMi/JuYcjQQ5Mc97EZYhIM5kGujK0nsMRGGAXwnf/8IJa
-	 Dy5jYKWOlG057qgtsqTConC6avwGnh2A+0nb+gzMwMZczHRgUyQT6MpcVCB3f4Rf46
-	 YroY+kNaa97PiU91F/GlX/lNJdDVEyQpTpUKwDhXeLuMC3dPe3zDCBwFaMvywATF98
-	 mCB9fD+/Q2cDQ==
+	b=iZUI2QrUdNrjgYRKH8Evuj3VNdhydoESdxJ0hiTMRmlNUijZoRZfLwt6Bb++CbrZC
+	 GNNaE3CEmKeSdOajaCYNS6ECqplCV/2Jms6LFKRgXtoCW6TktozZiDkZqXkbnKlsUp
+	 CY5boNhczvZfmK2jkzLEuvp7+NutQRnY17z6jTj9Gy9zrhxrxxk1nDopkA/RxJFA5d
+	 P3CFHHQQj8/Lrn5zYVTk/aLO7zj9QGBgM2WZLrVAxY9O5WAphypJrPjHMx0Ik4ZjHT
+	 uLGxlWw+GiCWDF+DjkMR6FU5sfWbQdtxvLpObdewkrX3T/v0I4P9vNl1YFS8+a0zOj
+	 o6AYUdJCO739g==
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Boris Brezillon <boris.brezillon@collabora.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: nicolas@ndufresne.ca,
-	Jonas Karlman <jonas@kwiboo.se>,
 	linux-media@vger.kernel.org,
-	Ezequiel Garcia <ezequiel@collabora.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 10/20] media: rkvdec: h264: Fix bit depth wrap in pps packet
-Date: Fri, 13 May 2022 16:29:12 -0400
-Message-Id: <20220513202922.13846-11-nicolas.dufresne@collabora.com>
+Subject: [PATCH v5 11/20] media: rkvdec: Move H264 SPS validation in rkvdec-h264
+Date: Fri, 13 May 2022 16:29:13 -0400
+Message-Id: <20220513202922.13846-12-nicolas.dufresne@collabora.com>
 X-Mailer: git-send-email 2.34.3
 In-Reply-To: <20220513202922.13846-1-nicolas.dufresne@collabora.com>
 References: <20220513202922.13846-1-nicolas.dufresne@collabora.com>
@@ -44,39 +40,102 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jonas Karlman <jonas@kwiboo.se>
+No functional change, this moves H264 specific validation into the H264
+specific code. This is in preparation of improving this validation and
+reusing it when VIDIOC_STREAMON is called.
 
-The luma and chroma bit depth fields in the pps packet are 3 bits wide.
-8 is wrongly added to the bit depth values written to these 3 bit fields.
-Because only the 3 LSB are written, the hardware was configured
-correctly.
-
-Correct this by not adding 8 to the luma and chroma bit depth value.
-
-Fixes: cd33c830448ba ("media: rkvdec: Add the rkvdec driver")
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/staging/media/rkvdec/rkvdec-h264.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 23 ++++++++++++++++++++++
+ drivers/staging/media/rkvdec/rkvdec.c      | 23 ++++++----------------
+ drivers/staging/media/rkvdec/rkvdec.h      |  1 +
+ 3 files changed, 30 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index bcde37d72244..8d44a884a52e 100644
+index 8d44a884a52e..0dcbcb1bac80 100644
 --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
 +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -662,8 +662,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
- 	WRITE_PPS(0xff, PROFILE_IDC);
- 	WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
- 	WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
--	WRITE_PPS(sps->bit_depth_luma_minus8 + 8, BIT_DEPTH_LUMA);
--	WRITE_PPS(sps->bit_depth_chroma_minus8 + 8, BIT_DEPTH_CHROMA);
-+	WRITE_PPS(sps->bit_depth_luma_minus8, BIT_DEPTH_LUMA);
-+	WRITE_PPS(sps->bit_depth_chroma_minus8, BIT_DEPTH_CHROMA);
- 	WRITE_PPS(0, QPPRIME_Y_ZERO_TRANSFORM_BYPASS_FLAG);
- 	WRITE_PPS(sps->log2_max_frame_num_minus4, LOG2_MAX_FRAME_NUM_MINUS4);
- 	WRITE_PPS(sps->max_num_ref_frames, MAX_NUM_REF_FRAMES);
+@@ -1137,9 +1137,32 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+ 	return 0;
+ }
+ 
++static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
++{
++	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
++		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
++		/*
++		 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
++		 * but it's currently broken in the driver.
++		 * Reject them for now, until it's fixed.
++		 */
++		if (sps->chroma_format_idc > 1)
++			/* Only 4:0:0 and 4:2:0 are supported */
++			return -EINVAL;
++		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
++			/* Luma and chroma bit depth mismatch */
++			return -EINVAL;
++		if (sps->bit_depth_luma_minus8 != 0)
++			/* Only 8-bit is supported */
++			return -EINVAL;
++	}
++	return 0;
++}
++
+ const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
+ 	.adjust_fmt = rkvdec_h264_adjust_fmt,
+ 	.start = rkvdec_h264_start,
+ 	.stop = rkvdec_h264_stop,
+ 	.run = rkvdec_h264_run,
++	.try_ctrl = rkvdec_h264_try_ctrl,
+ };
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index 2df8cf4883e2..e3d44d5b35f3 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -29,23 +29,12 @@
+ 
+ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+ {
+-	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+-		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+-		/*
+-		 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
+-		 * but it's currently broken in the driver.
+-		 * Reject them for now, until it's fixed.
+-		 */
+-		if (sps->chroma_format_idc > 1)
+-			/* Only 4:0:0 and 4:2:0 are supported */
+-			return -EINVAL;
+-		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+-			/* Luma and chroma bit depth mismatch */
+-			return -EINVAL;
+-		if (sps->bit_depth_luma_minus8 != 0)
+-			/* Only 8-bit is supported */
+-			return -EINVAL;
+-	}
++	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
++	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
++
++	if (desc->ops->try_ctrl)
++		return desc->ops->try_ctrl(ctx, ctrl);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+index 2f4ea1786b93..9df0fba799a4 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.h
++++ b/drivers/staging/media/rkvdec/rkvdec.h
+@@ -72,6 +72,7 @@ struct rkvdec_coded_fmt_ops {
+ 	void (*done)(struct rkvdec_ctx *ctx, struct vb2_v4l2_buffer *src_buf,
+ 		     struct vb2_v4l2_buffer *dst_buf,
+ 		     enum vb2_buffer_state result);
++	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+ };
+ 
+ struct rkvdec_coded_fmt_desc {
 -- 
 2.34.3
 
