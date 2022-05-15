@@ -1,59 +1,235 @@
-Received: from relay5.hostedemail.com (relay5.hostedemail.com [64.99.140.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5718B2577
-	for <linux-staging@lists.linux.dev>; Sat, 14 May 2022 18:00:57 +0000 (UTC)
-Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay12.hostedemail.com (Postfix) with ESMTP id 90D7412094E;
-	Sat, 14 May 2022 17:54:47 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf14.hostedemail.com (Postfix) with ESMTPA id 2F51D2D;
-	Sat, 14 May 2022 17:54:46 +0000 (UTC)
-Message-ID: <b69cd7d3f0e3b62c5ef12cd1b98eac45f56022a4.camel@perches.com>
-Subject: Re: [PATCH 4/7] staging: r8188eu: replace if with ternary operator
-From: Joe Perches <joe@perches.com>
-To: Martin Kaiser <martin@kaiser.cx>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
-	 <phil@philpotter.co.uk>, Michael Straube <straube.linux@gmail.com>, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Sat, 14 May 2022 10:54:45 -0700
-In-Reply-To: <20220514164740.282552-5-martin@kaiser.cx>
-References: <20220514164740.282552-1-martin@kaiser.cx>
-	 <20220514164740.282552-5-martin@kaiser.cx>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A953806
+	for <linux-staging@lists.linux.dev>; Sun, 15 May 2022 10:49:29 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id bd25-20020a05600c1f1900b0039485220e16so6830189wmb.0
+        for <linux-staging@lists.linux.dev>; Sun, 15 May 2022 03:49:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V8DJTPE3mkzI/piGEgq+ZgV9Tn8rXucT6hxx4Y+0548=;
+        b=brfFMUT8ZA9fONQ4fAAg0//gZoGYwLz8pTnPJ+zgqZnRCifaB6S1eCl5pt4RwEKPEQ
+         1rS59KdDo6qNUfBt4VnQAGlGUJuOdB9puAExtduhYHcumJ+eqTReQXREx8bNy/xJ/Qoy
+         DfMfemgoZlannOj5KwJaMT4QLxF1wQmhwE9ULkx47bv94dmA7OoSCbjXWVsrwza6+f7e
+         zhYrOt3TenLXxkmbwN1ERXamReNWEGcW72x1kRTW1YFQLpvZRYimr38XzgI7r5NcNK3U
+         KRMF0Y1q31ZFsxExPwWfINfeFZqhZSEt4WwQyvy7APCX5rEFBp+E0v/w/e2FmOt92890
+         CwbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V8DJTPE3mkzI/piGEgq+ZgV9Tn8rXucT6hxx4Y+0548=;
+        b=U6LkuGs/J9oiAmW1taF4aMp8uYYfnsRJsGs8Oe3aB0g5AmIMKHDafTyw/Lv4voLSNG
+         Nb8rZaZhwgM9xDOy+/sK5A2B1V8THgE5cVbbAaHLDzEvybUG2QdCYU2zugPRNBNmMNLO
+         VbLM+A2GD0zNDPeBnd7syrcBaSPWimUkAqCVG/N2zymjUXV8337dnD/0Ms9v61gF2kWP
+         wPG+1s7TndfnkrEvrweNMJuaw8oUTWK55YIQW0DHhdK8gz40oXHxHzCsSxyt/Sp7qCey
+         jysAxl9JHxi/H/++ndTu7Lc+ZbnVYoxzFuJttcMDX7d5vgILE0FtSSm/NZd3eyyyIRiS
+         Uotg==
+X-Gm-Message-State: AOAM530SmScNgn6LX0whIRl77/GofoTtoAbzdOl1AP1Rn3lFVgXsPPnK
+	jqp1MBvYuN/CJq+8H1Yz3cE=
+X-Google-Smtp-Source: ABdhPJx3RiXG3f1aAh1G9zId5ilOjHFDNRgdWwch+DExHemvpgkIGRFpTg/3GdoruGll8enhFwFzxA==
+X-Received: by 2002:a05:600c:ad3:b0:394:46ae:549b with SMTP id c19-20020a05600c0ad300b0039446ae549bmr22760589wmr.113.1652611767542;
+        Sun, 15 May 2022 03:49:27 -0700 (PDT)
+Received: from localhost.localdomain ([78.187.39.231])
+        by smtp.gmail.com with ESMTPSA id c65-20020a1c3544000000b003949dbc3790sm7282462wma.18.2022.05.15.03.49.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 May 2022 03:49:27 -0700 (PDT)
+From: =?UTF-8?q?Ya=C5=9Far=20Arabac=C4=B1?= <yasar11732@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: paulo.miguel.almeida.rodenas@gmail.com,
+	dan.carpenter@oracle.com,
+	alexandre.belloni@bootlin.com,
+	realwakka@gmail.com,
+	u.kleine-koenig@pengutronix.de,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Ya=C5=9Far=20Arabac=C4=B1?= <yasar11732@gmail.com>
+Subject: [PATCH] Staging: pi433: Don't use ioctl for per-client configuration
+Date: Sun, 15 May 2022 13:47:11 +0300
+Message-Id: <20220515104711.94567-1-yasar11732@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: of6njk9kz39zwsw47omzsej8oneyxy4w
-X-Rspamd-Server: rspamout06
-X-Rspamd-Queue-Id: 2F51D2D
-X-Spam-Status: No, score=1.40
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/9dge58uXWeAVx2Yd3Zdw4G+hZcBv5j64=
-X-HE-Tag: 1652550886-835860
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2022-05-14 at 18:47 +0200, Martin Kaiser wrote:
-> Replace an if statement with a ternary operator, making the code a tiny
-> bit shorter.
-[]
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-[]
-> @@ -1503,10 +1503,8 @@ unsigned int OnAction_back(struct adapter *padapter, struct recv_frame *precv_fr
->  		preorder_ctrl->indicate_seq = 0xffff;
->  		preorder_ctrl->enable = pmlmeinfo->bAcceptAddbaReq;
->  
-> -		if (pmlmeinfo->bAcceptAddbaReq)
-> -			issue_action_BA(padapter, mgmt->sa, WLAN_ACTION_ADDBA_RESP, 0);
-> -		else
-> -			issue_action_BA(padapter, mgmt->sa, WLAN_ACTION_ADDBA_RESP, 37);/* reject ADDBA Req */
-> +		issue_action_BA(padapter, mgmt->sa, WLAN_ACTION_ADDBA_RESP,
-> +				pmlmeinfo->bAcceptAddbaReq ? 0 : 37);
+Currently this driver uses ioctl for reading/writing per-device and
+per-client configuration. Per-client configuration can be handled by
+usespace and sent to driver with each write() call. Doing so does not
+introduce extra overhead because we copy tx config to fifo for each
+transmit anyway. This way, we don't have to introduce new ioctl's.
 
-Seems like magic numbers.  Maybe add/use defines?
+This has not been tested as I don't have access to hardware.
 
+Signed-off-by: Yaşar Arabacı <yasar11732@gmail.com>
+---
+ drivers/staging/pi433/pi433_if.c | 63 ++++++--------------------------
+ drivers/staging/pi433/pi433_if.h |  7 +---
+ 2 files changed, 13 insertions(+), 57 deletions(-)
+
+diff --git a/drivers/staging/pi433/pi433_if.c b/drivers/staging/pi433/pi433_if.c
+index 941aaa7eab2e..07cd9054560a 100644
+--- a/drivers/staging/pi433/pi433_if.c
++++ b/drivers/staging/pi433/pi433_if.c
+@@ -109,10 +109,6 @@ struct pi433_device {
+ 
+ struct pi433_instance {
+ 	struct pi433_device	*device;
+-	struct pi433_tx_cfg	tx_cfg;
+-
+-	/* control flags */
+-	bool			tx_cfg_initialized;
+ };
+ 
+ /*-------------------------------------------------------------------------*/
+@@ -574,12 +570,6 @@ static int pi433_tx_thread(void *data)
+ 		if (kthread_should_stop())
+ 			return 0;
+ 
+-		/*
+-		 * get data from fifo in the following order:
+-		 * - tx_cfg
+-		 * - size of message
+-		 * - message
+-		 */
+ 		retval = kfifo_out(&device->tx_fifo, &tx_cfg, sizeof(tx_cfg));
+ 		if (retval != sizeof(tx_cfg)) {
+ 			dev_dbg(device->dev,
+@@ -588,13 +578,7 @@ static int pi433_tx_thread(void *data)
+ 			continue;
+ 		}
+ 
+-		retval = kfifo_out(&device->tx_fifo, &size, sizeof(size_t));
+-		if (retval != sizeof(size_t)) {
+-			dev_dbg(device->dev,
+-				"reading msg size from fifo failed: got %d, expected %d\n",
+-				retval, (unsigned int)sizeof(size_t));
+-			continue;
+-		}
++		size = tx_cfg.payload_size;
+ 
+ 		/* use fixed message length, if requested */
+ 		if (tx_cfg.fixed_message_length != 0)
+@@ -811,6 +795,7 @@ pi433_write(struct file *filp, const char __user *buf,
+ 	    size_t count, loff_t *f_pos)
+ {
+ 	struct pi433_instance	*instance;
++	struct pi433_tx_cfg *tx_cfg;
+ 	struct pi433_device	*device;
+ 	int                     retval;
+ 	unsigned int		required, available, copied;
+@@ -822,18 +807,16 @@ pi433_write(struct file *filp, const char __user *buf,
+ 	 * check, whether internal buffer (tx thread) is big enough
+ 	 * for requested size
+ 	 */
+-	if (count > MAX_MSG_SIZE)
++	if (unlikely(count > MAX_MSG_SIZE))
+ 		return -EMSGSIZE;
+ 
+-	/*
+-	 * check if tx_cfg has been initialized otherwise we won't be able to
+-	 * config the RF trasmitter correctly due to invalid settings
+-	 */
+-	if (!instance->tx_cfg_initialized) {
+-		dev_notice_once(device->dev,
+-				"write: failed due to unconfigured tx_cfg (see PI433_IOC_WR_TX_CFG)\n");
+-		return -EINVAL;
+-	}
++	if (unlikely(count < sizeof(struct pi433_tx_cfg)))
++		return -EMSGSIZE;
++
++	tx_cfg = (struct pi433_tx_cfg *)buf;
++
++	if (unlikely(count != sizeof(struct pi433_tx_cfg)) + tx_cfg->payload_size)
++		return -EMSGSIZE;
+ 
+ 	/*
+ 	 * write the following sequence into fifo:
+@@ -843,24 +826,14 @@ pi433_write(struct file *filp, const char __user *buf,
+ 	 */
+ 	mutex_lock(&device->tx_fifo_lock);
+ 
+-	required = sizeof(instance->tx_cfg) + sizeof(size_t) + count;
+ 	available = kfifo_avail(&device->tx_fifo);
+-	if (required > available) {
++	if (count > available) {
+ 		dev_dbg(device->dev, "write to fifo failed: %d bytes required but %d available\n",
+ 			required, available);
+ 		mutex_unlock(&device->tx_fifo_lock);
+ 		return -EAGAIN;
+ 	}
+ 
+-	retval = kfifo_in(&device->tx_fifo, &instance->tx_cfg,
+-			  sizeof(instance->tx_cfg));
+-	if (retval != sizeof(instance->tx_cfg))
+-		goto abort;
+-
+-	retval = kfifo_in(&device->tx_fifo, &count, sizeof(size_t));
+-	if (retval != sizeof(size_t))
+-		goto abort;
+-
+ 	retval = kfifo_from_user(&device->tx_fifo, buf, count, &copied);
+ 	if (retval || copied != count)
+ 		goto abort;
+@@ -884,7 +857,6 @@ static long pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ {
+ 	struct pi433_instance	*instance;
+ 	struct pi433_device	*device;
+-	struct pi433_tx_cfg	tx_cfg;
+ 	void __user *argp = (void __user *)arg;
+ 
+ 	/* Check type and command number */
+@@ -898,19 +870,6 @@ static long pi433_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+ 		return -ESHUTDOWN;
+ 
+ 	switch (cmd) {
+-	case PI433_IOC_RD_TX_CFG:
+-		if (copy_to_user(argp, &instance->tx_cfg,
+-				 sizeof(struct pi433_tx_cfg)))
+-			return -EFAULT;
+-		break;
+-	case PI433_IOC_WR_TX_CFG:
+-		if (copy_from_user(&tx_cfg, argp, sizeof(struct pi433_tx_cfg)))
+-			return -EFAULT;
+-		mutex_lock(&device->tx_fifo_lock);
+-		memcpy(&instance->tx_cfg, &tx_cfg, sizeof(struct pi433_tx_cfg));
+-		instance->tx_cfg_initialized = true;
+-		mutex_unlock(&device->tx_fifo_lock);
+-		break;
+ 	case PI433_IOC_RD_RX_CFG:
+ 		if (copy_to_user(argp, &device->rx_cfg,
+ 				 sizeof(struct pi433_rx_cfg)))
+diff --git a/drivers/staging/pi433/pi433_if.h b/drivers/staging/pi433/pi433_if.h
+index 25ee0b77a32c..5dd2a3c6e661 100644
+--- a/drivers/staging/pi433/pi433_if.h
++++ b/drivers/staging/pi433/pi433_if.h
+@@ -75,6 +75,8 @@ struct pi433_tx_cfg {
+ 
+ 	__u8			sync_pattern[8];
+ 	__u8			address_byte;
++	__u32			payload_size;
++	__u8			payload[];
+ };
+ 
+ /**
+@@ -135,11 +137,6 @@ struct pi433_rx_cfg {
+ 
+ #define PI433_IOC_MAGIC	'r'
+ 
+-#define PI433_IOC_RD_TX_CFG                                             \
+-	_IOR(PI433_IOC_MAGIC, PI433_TX_CFG_IOCTL_NR, char[sizeof(struct pi433_tx_cfg)])
+-#define PI433_IOC_WR_TX_CFG                                             \
+-	_IOW(PI433_IOC_MAGIC, PI433_TX_CFG_IOCTL_NR, char[sizeof(struct pi433_tx_cfg)])
+-
+ #define PI433_IOC_RD_RX_CFG                                             \
+ 	_IOR(PI433_IOC_MAGIC, PI433_RX_CFG_IOCTL_NR, char[sizeof(struct pi433_rx_cfg)])
+ #define PI433_IOC_WR_RX_CFG                                             \
+-- 
+2.36.1
 
