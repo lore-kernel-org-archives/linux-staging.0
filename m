@@ -1,47 +1,22 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794C3ED1;
-	Mon, 16 May 2022 13:10:26 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id j12so18538419oie.1;
-        Mon, 16 May 2022 06:10:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=CaF92eBKzl8YhqaTS1Tzg7cnBN+wgBVFhVH+tqOT7PI=;
-        b=q0OW4Ll0d1esJg4Bsi1gSdlTXNns+dyRXpjhWwy3TYP4n4qr8/NV4nZJZKjjduBKRi
-         cA/1ac5Z/Sme7x9B3srXyZPtmX5SKG2ovm3cO9mWg1RmnkOoPJ3oT1jhhOpvYVxSxOtK
-         EETC7rAwge3lFdAza0DWk9nk5BgdUO+u4Mgw7bEh4ZYJNK3Aeh9oPPg2Ig7eRjDoosqU
-         UzYV1++XIwCfe0WO0MlnNE9IF9nupMaem9yK2ia5n1v/9WBmbIxEnxV0yjVXGEaFXtPd
-         F/Q36d9JPkZFcTSysTH5PQ0es9AeN0p4TfoGPkBlB9oAT02H+Hc1mjA9INBnW3qT0TLE
-         TCwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=CaF92eBKzl8YhqaTS1Tzg7cnBN+wgBVFhVH+tqOT7PI=;
-        b=15BGK3THufYmJ0Xoz4alc+eUkawIwvw3ei3kp8UP7njKNLLjxsq+PYFPjwJF0WMwa5
-         diAtyu6cGhON8KCOL/+f4IZWpswvlF+Vqc1d49lq37MvVWE2XV4NsmtgI5dgK6RrGeAJ
-         B0/fAFD7Had21V+Yh31OXxUL3uUcSNdGNAfX4DWuRbRXzErWAax+nTQaUbS5/bpaX1gj
-         QbKsN0hcvm+A2+d6uA0cj3O8DcKP0CB3vOuz5fnQDy4zi6FO/H/isKsUE+ke8fXQG502
-         3jCy65wsUBszJJbiJr4H4L7xnYk2sKJ7/hEIrDbGUhAynwkAe8YtSLu0qpwQme1op20c
-         SjHw==
-X-Gm-Message-State: AOAM530n0AOq5cqEv9HvndJs6zPilyu+EjU62CyWIVJOQWEGGXftKc5b
-	Wjnx6SAMLyJo/TwAsAtporM=
-X-Google-Smtp-Source: ABdhPJzuSlHddEfPdlSooNCiKn9gKqW9iethwrrpTKVRacgUq5xfLq0fJvrzlLVkrWbJmB72AUE4Hw==
-X-Received: by 2002:a05:6808:148a:b0:326:c71a:f33c with SMTP id e10-20020a056808148a00b00326c71af33cmr12758233oiw.153.1652706625572;
-        Mon, 16 May 2022 06:10:25 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id r3-20020acac103000000b00325cda1ff95sm3795450oif.20.2022.05.16.06.10.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 06:10:24 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 16 May 2022 06:10:23 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2524ED1;
+	Mon, 16 May 2022 13:31:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE183C385AA;
+	Mon, 16 May 2022 13:31:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1652707866;
+	bh=ptJJdl6/90C/9ngs0R9TLu4hatZEKH+NyjqZBwan/o8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DZdQ9mfTQBflmQWi4epCej7EPYBxF8pZ7ebsvN/YIJF+sYxkmOOFEk2UPrsR8cEht
+	 3uUxwAXuxDSNr9DxG7VT5s0In462yrkGVBwDmjy5o3BYTodwXeF+/Aae318fGsFIdD
+	 i6z511NzSGuxWHwP1TkBEGg+0ZsPsSzYb/5QWego=
+Date: Mon, 16 May 2022 15:31:03 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	Masahiro Yamada <masahiroy@kernel.org>, llvm@lists.linux.dev,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -55,9 +30,10 @@ Cc: linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
 	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
 	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-Message-ID: <20220516131023.GA2329080@roeck-us.net>
+Subject: Re: [greybus-dev] Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+Message-ID: <YoJSF8T5K9pPx3Ap@kroah.com>
 References: <20220228103142.3301082-1-arnd@kernel.org>
+ <20220516131023.GA2329080@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,23 +43,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220228103142.3301082-1-arnd@kernel.org>
+In-Reply-To: <20220516131023.GA2329080@roeck-us.net>
 
-On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, May 16, 2022 at 06:10:23AM -0700, Guenter Roeck wrote:
+> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> > 
+> > During a patch discussion, Linus brought up the option of changing
+> > the C standard version from gnu89 to gnu99, which allows using variable
+> > declaration inside of a for() loop. While the C99, C11 and later standards
+> > introduce many other features, most of these are already available in
+> > gnu89 as GNU extensions as well.
 > 
-> During a patch discussion, Linus brought up the option of changing
-> the C standard version from gnu89 to gnu99, which allows using variable
-> declaration inside of a for() loop. While the C99, C11 and later standards
-> introduce many other features, most of these are already available in
-> gnu89 as GNU extensions as well.
+> The downside is that backporting affected patches to older kernel branches
+> now fails with error messages such as
+> 
+> mm/kfence/core.c: In function ‘kfence_init_pool’:
+> mm/kfence/core.c:595:2: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+> 
+> Just something to keep in mind when writing patches.
 
-The downside is that backporting affected patches to older kernel branches
-now fails with error messages such as
+I just ran across this very issue on this commit.  It's an easy fixup
+for 5.17.y to make this work, so I did that in my tree.  If this gets to
+be too much, we might need to reconsider adding c11 to older stable
+kernels.
 
-mm/kfence/core.c: In function ‘kfence_init_pool’:
-mm/kfence/core.c:595:2: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+thanks,
 
-Just something to keep in mind when writing patches.
-
-Guenter
+greg k-h
