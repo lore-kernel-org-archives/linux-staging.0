@@ -1,56 +1,53 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDAE1843
-	for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 22:18:42 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id v66so20376371oib.3
-        for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 15:18:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BE829A1
+	for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 22:46:43 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id f2so15332329wrc.0
+        for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 15:46:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=BwvFqRaw7/r31nlcL9DNcUXufOMLxk6prSBHpW93H5Q=;
-        b=jNc9CU9UeoxHPfaoqHA4vz+jPpf6dXwvFB9lYhkodQpraa3a/2lAdJiPDodG7S/Ls1
-         3+a+rWG32LsATfLlIKmM6Jf/r8BnVmy6+PW+McQy7Yu9gk/f3PUZKUYQIZNoG/UQSPAq
-         gyVUW6V7wNgjwLQQ4vUYvFGtXMrZBbWOGtp26clpY4FX7qfA7298KlrvPDwrERe5y2XM
-         halg/UdntPdWzHFrFQ4zXfYlFbIk9L1Ryb7AkZMeSpPwl1/smplwgh8bZhGmitY4udzU
-         K2VfzEMfv4meE+XskWCpLLMpNcCatVRL7RUl7EBs+rHphCLb8CvaQRyPnDTy7EDLZhaM
-         nyGw==
+        bh=lh2NE58HUp3+dx2zo/APxmvSgiWw0DhpDrtBDl4weqo=;
+        b=og5ptlwnfLZjthK1xxE6OxhJo/p8z71qQPUppM7tBZ9x/bQouRP+H57IR+c0+WOuhi
+         zM+iD3VbwPIbfQwv1yA834gO6QMrPPqVy9pxiNuwdFyGBIWa0964AHKagmliKtyy/hv/
+         xRPZbkfm+op4cDNEBBrjIfNXvIK5nJgyr59As0C5Sa6zAiD2Nu8H744Vs6tzNA1A4e2H
+         84LrepSvO8Apv+43F2KEyI5FhiZVnIlw5Hy6jkgDMbuJ3IOZmDe5fK2fblgOEDnFCtBg
+         SGAstorLJxDQhRofOwGA3MIgADUA+Wk3r4fcPxY97udkKLzCUJoy49H8jq8mGueHLCBW
+         3BmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=BwvFqRaw7/r31nlcL9DNcUXufOMLxk6prSBHpW93H5Q=;
-        b=oeYLLC+Cg5RXjOm38HJVLCRpn3qTohch6w13f8n4OIVoj9WbkNd2aR3ws/FLFYqzUr
-         gMDKKIJY1aN6lUcng5tW7Ti1xieZXYWASHqI4cJppdEsvqhOg8MuRb+wUpNY3kbZ8zyB
-         VMsFhqyptHBgd6XC/FAmo/lS9KpTvk+W3LLJiFYo/+gUEgxXZfIG4W4s/Ue41ycZQcMP
-         +iBG0+YSxQmIadeypmtqR/JGikmNypi5K9wemGu6/oeXKNY1ufR/qzfcnd/dgi/UKBLW
-         TZ9AcG6nFjoNM4VJOYDN7BDlmLlttHUYYl5+Ot6gXb8UDHCVsFZqxBGVVIQZwFguvL8r
-         QKKQ==
-X-Gm-Message-State: AOAM5307iRN+X8yu6Mwew/uw4q095DC6He2qcvhfw0rfra0H9oWnG8G+
-	9zi2KagVKZnXdaX/YbQ8VLj6iUt6Csw=
-X-Google-Smtp-Source: ABdhPJxugFpWlbrLMnohwSEDLTAViWqjB+7KQrp3qJpAsRmic64cD+V2heGtaSZX/oIA5AxMQRJLHQ==
-X-Received: by 2002:a05:6808:188d:b0:326:bd47:687c with SMTP id bi13-20020a056808188d00b00326bd47687cmr9292697oib.25.1652739521625;
-        Mon, 16 May 2022 15:18:41 -0700 (PDT)
-Received: from localhost.localdomain ([191.84.230.150])
-        by smtp.gmail.com with ESMTPSA id t22-20020a056871055600b000e686d1389csm5721349oal.54.2022.05.16.15.18.39
+        bh=lh2NE58HUp3+dx2zo/APxmvSgiWw0DhpDrtBDl4weqo=;
+        b=CO9fuLircwsZaty+hQvah5cQ5j5oYo1NlyiimyZ01QrBzQZ7ybLACu11Xyjt3nFV1C
+         3pK3+Alch8cwvBmjHJGoFHj09rd9pTqaQhUQQ6yD6zsYk0TVpUYmdhX/6AHiD8K+dNuT
+         2qg7nVjufBuB7vNV/Z/8j/RO77bG17ZcdXL2fKqs0HIzXnyQ1SOKrVaag6M2WKwnKeJL
+         IWVCwGkFCPyTWepxVxCfX/03S+rfiAX6VjrsJvnmL2GvxvRuVS0LzCJhswsYrkLBDlpr
+         4YO/xcqmHQQFmWvJ7sl6cG8yzR3NQGlsNTidU9+XX7Mvan6q5fR4TMjXTMDGAZ/Jitn3
+         J95A==
+X-Gm-Message-State: AOAM530q7upG+3UxZs66j5V0isrmNiYr4ip09IfU3dsq+O1Q851sQnG5
+	h6nDuEbVObzrxuoBVllql4CCFg==
+X-Google-Smtp-Source: ABdhPJwFUVZ7umGIeVSc9HIFSGGuVIErhKoX55pyukPHyt9eB44vFmeAD96iOfnDjrxMM1WEf4N5lQ==
+X-Received: by 2002:adf:ed07:0:b0:20d:e591:4ae8 with SMTP id a7-20020adfed07000000b0020de5914ae8mr530189wro.357.1652741202239;
+        Mon, 16 May 2022 15:46:42 -0700 (PDT)
+Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
+        by smtp.gmail.com with ESMTPSA id l27-20020adfa39b000000b0020dcea1be26sm345588wrb.97.2022.05.16.15.46.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 15:18:41 -0700 (PDT)
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	nsaenz@kernel.org,
-	stefan.wahren@i2se.com,
-	ojaswin98@gmail.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	gascoar@gmail.com
-Subject: [PATCH] staging: vc04_services: remove unused macro
-Date: Mon, 16 May 2022 19:17:41 -0300
-Message-Id: <20220516221741.1015814-1-gascoar@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        Mon, 16 May 2022 15:46:41 -0700 (PDT)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com,
+	martin@kaiser.cx,
+	saurav.girepunje@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: remove _drv_ defines from include/rtw_debug.h
+Date: Mon, 16 May 2022 23:46:40 +0100
+Message-Id: <20220516224640.90973-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,25 +56,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-BITSET_CLR is not used. Remove the define.
+Remove the following defines:
+_drv_always_
+_drv_emerg_
+_drv_alert_
+_drv_crit_
+_drv_err_
+_drv_warning_
+_drv_notice_
+_drv_info_
+_drv_debug_
 
-Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+from include/rtw_debug.h, as they are no longer used anywhere in the
+driver, and are unlikely to be ever again with the removal of the old
+debugging/logging code.
+
+Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/r8188eu/include/rtw_debug.h | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index 82b7bd7b54b2..1ddc661642a9 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -79,7 +79,6 @@
- #define BITSET_BIT(b)         (1 << (b & 31))
- #define BITSET_IS_SET(bs, b)  (bs[BITSET_WORD(b)] & BITSET_BIT(b))
- #define BITSET_SET(bs, b)     (bs[BITSET_WORD(b)] |= BITSET_BIT(b))
--#define BITSET_CLR(bs, b)     (bs[BITSET_WORD(b)] &= ~BITSET_BIT(b))
+diff --git a/drivers/staging/r8188eu/include/rtw_debug.h b/drivers/staging/r8188eu/include/rtw_debug.h
+index 01a7d987d6cc..84ec068596e7 100644
+--- a/drivers/staging/r8188eu/include/rtw_debug.h
++++ b/drivers/staging/r8188eu/include/rtw_debug.h
+@@ -7,16 +7,6 @@
+ #include "osdep_service.h"
+ #include "drv_types.h"
  
- enum {
- 	DEBUG_ENTRIES,
+-#define _drv_always_			1
+-#define _drv_emerg_			2
+-#define _drv_alert_			3
+-#define _drv_crit_			4
+-#define _drv_err_			5
+-#define	_drv_warning_			6
+-#define _drv_notice_			7
+-#define _drv_info_			8
+-#define	_drv_debug_			9
+-
+ #define _module_rtl871x_xmit_c_		BIT(0)
+ #define _module_xmit_osdep_c_		BIT(1)
+ #define _module_rtl871x_recv_c_		BIT(2)
 -- 
-2.36.1
+2.35.3
 
