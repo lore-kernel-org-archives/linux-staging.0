@@ -1,154 +1,78 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA7C10E0
-	for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 15:31:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652715098; x=1684251098;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ZWRS3tXKRPVHeGH9vSAu21uCI1IHYONEyb+H9e2Oa2s=;
-  b=MU+qTjR7xcnJxB0sbgL91VhK8opa6MWeu1H2ExnhzHbZRNNtdJGxR4YL
-   M31SMCnRIsCjPT8/SzRNFdUInbPZt7per7dFnQsoaWUE0U9Cs5qAiC2u7
-   8ZT5cFbZpkIWo3VkQahdhS1pyBeaagizm4LUZ1XgtFo0xJ9aYFCyF3aFs
-   R53ZJhKwIpiCUB6lrbSiCb0Y5JpSNgsAKNWvmRPqIHJYstuQ1RUfLHfpN
-   n5lv6wbIPJgWh3xJ409u7kyzDbJqxPGegGdLcJ0dd3KxL0DkNo22QvXx6
-   a20Bki4jOsriCdE0uBjZ+3KrGRwFgPTvViQJDe1VGJtndtxNNPAS1Uz54
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="269696841"
-X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; 
-   d="scan'208";a="269696841"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 08:31:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; 
-   d="scan'208";a="522498262"
-Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 16 May 2022 08:31:35 -0700
-Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1nqch4-000096-Ag;
-	Mon, 16 May 2022 15:31:34 +0000
-Date: Mon, 16 May 2022 23:30:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?utf-8?B?WWHFn2FyIEFyYWJhY8Sx?= <yasar11732@gmail.com>,
-	gregkh@linuxfoundation.org
-Cc: kbuild-all@lists.01.org, paulo.miguel.almeida.rodenas@gmail.com,
-	dan.carpenter@oracle.com, alexandre.belloni@bootlin.com,
-	realwakka@gmail.com, u.kleine-koenig@pengutronix.de,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	=?utf-8?B?WWHFn2FyIEFyYWJhY8Sx?= <yasar11732@gmail.com>
-Subject: Re: [PATCH] Staging: pi433: Don't use ioctl for per-client
- configuration
-Message-ID: <202205162305.tBuUiz79-lkp@intel.com>
-References: <20220515104711.94567-1-yasar11732@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525C81361
+	for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 17:04:28 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id q4so15010695plr.11
+        for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 10:04:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SmD1Y3FuSgJFnbljMkxDOtUVVLs24UFlNCPaPsg6xOY=;
+        b=Mh07LbtqoTeCVzsFhz/vKKMlTjLn+MMrEPpLv1VuUjVqt9ON/ZoDq8BYXo3v5jo1tL
+         oYA1O2VagGZBN1lbL2YkJaprYSqCCRuz5ZbgJPNGipo3WRNXOHhM8eJy7AZoBtGIarG3
+         bGQzjnFQGbGYnbZSdd029qdmApixmfnf+RM/x5eUDavFmJ9jgMi/MtJJsNqGCLtHVbW2
+         Ro/Z5fknq8ACOysBGTQTYZbXiVn8R7uAV8Sv4OENewlkgnL97Bn7qj7sGELUipW5kDX+
+         ERVkix+JnxgcJE/aYHzyu3c8x95TuyG3OmWebaxj8xS9cseMOa1ENN81qBrHRCDYqsvh
+         mhOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SmD1Y3FuSgJFnbljMkxDOtUVVLs24UFlNCPaPsg6xOY=;
+        b=5T3zjF2JRTwcUNnxyIFDn8j5U86rkzCvdnCZUBy7bbuQy5ebetydaWZ75r6eSxedno
+         2k+AUN9R8cWMdKIuLhR05jmAfRGeANshxtma2Pj49imnjdgIOEFhHrAHVVOj4urItGjS
+         ATpJMJEL5DRLn1+gx76hVUqwpuINsPQzyzx8T1Py3G609hSMBJPh8G6o/XUh6Di543vF
+         lYRE7Gb+F28bsayB5gbQCAF1DKvTl2hFZMEmCUtmAhGP524CPhWQvRY9NNMK2fg8mcU4
+         sC5GjIpZvvb43a7PIXkRWgUEJYZLS1xaojB4uxdMX3kPm3N1wHcwcZY1awF5g+ctUu3f
+         hlNQ==
+X-Gm-Message-State: AOAM5306IzHMGfx0fMIq6T0R8vv5MA2bSjCIPj3EJ+qvyGwB3I8l49mk
+	PQDc1Yt5sM76+sPBPW/WeoU=
+X-Google-Smtp-Source: ABdhPJzXz7U3mrkdPNE1Q6j+ppNQpbTwg9CnxGJza60znNlJ2sutBjB/gEyoPenHlCLbbPgLCv0k7w==
+X-Received: by 2002:a17:90a:4fe1:b0:1de:fc11:331e with SMTP id q88-20020a17090a4fe100b001defc11331emr16790099pjh.145.1652720667833;
+        Mon, 16 May 2022 10:04:27 -0700 (PDT)
+Received: from makvihas.localhost.com ([2405:201:202b:1:6465:4732:de67:bb26])
+        by smtp.gmail.com with ESMTPSA id b190-20020a621bc7000000b0050dc762819csm7141292pfb.118.2022.05.16.10.04.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 May 2022 10:04:27 -0700 (PDT)
+From: Vihas Makwana <makvihas@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Vihas Makwana <makvihas@gmail.com>
+Subject: [PATCH 0/3] staging: r8188eu: fix checkpatch.pl warnings
+Date: Mon, 16 May 2022 22:33:03 +0530
+Message-Id: <20220516170306.6008-1-makvihas@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220515104711.94567-1-yasar11732@gmail.com>
 
-Hi "Yaşar,
+This patchset fixes following checkpatch warning:
+    WARNING: Comparisons should place the constant on the right side of the test
 
-Thank you for the patch! Perhaps something to improve:
+Compiled tested only.
 
-[auto build test WARNING on staging/staging-testing]
+Vihas Makwana (3):
+  staging: r8188eu: fix checkpatch warnings in rtw_p2p
+  staging: r8188eu: fix checkpatch warnings in rtw_pwrctrl
+  staging: r8188eu: fix checkpatch warnings in rtw_wlan_util
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ya-ar-Arabac/Staging-pi433-Don-t-use-ioctl-for-per-client-configuration/20220515-185057
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git e41f7a5521d7f03dca99e3207633df71740569dd
-config: x86_64-randconfig-s022-20220516 (https://download.01.org/0day-ci/archive/20220516/202205162305.tBuUiz79-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/0cfbff215eb0e9e558af6b491d319fc736a927c6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ya-ar-Arabac/Staging-pi433-Don-t-use-ioctl-for-per-client-configuration/20220515-185057
-        git checkout 0cfbff215eb0e9e558af6b491d319fc736a927c6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/pi433/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/staging/pi433/pi433_if.c:816:19: sparse: sparse: cast removes address space '__user' of expression
-
-vim +/__user +816 drivers/staging/pi433/pi433_if.c
-
-   792	
-   793	static ssize_t
-   794	pi433_write(struct file *filp, const char __user *buf,
-   795		    size_t count, loff_t *f_pos)
-   796	{
-   797		struct pi433_instance	*instance;
-   798		struct pi433_tx_cfg *tx_cfg;
-   799		struct pi433_device	*device;
-   800		int                     retval;
-   801		unsigned int		required, available, copied;
-   802	
-   803		instance = filp->private_data;
-   804		device = instance->device;
-   805	
-   806		/*
-   807		 * check, whether internal buffer (tx thread) is big enough
-   808		 * for requested size
-   809		 */
-   810		if (unlikely(count > MAX_MSG_SIZE))
-   811			return -EMSGSIZE;
-   812	
-   813		if (unlikely(count < sizeof(struct pi433_tx_cfg)))
-   814			return -EMSGSIZE;
-   815	
- > 816		tx_cfg = (struct pi433_tx_cfg *)buf;
-   817	
-   818		if (unlikely(count != sizeof(struct pi433_tx_cfg)) + tx_cfg->payload_size)
-   819			return -EMSGSIZE;
-   820	
-   821		/*
-   822		 * write the following sequence into fifo:
-   823		 * - tx_cfg
-   824		 * - size of message
-   825		 * - message
-   826		 */
-   827		mutex_lock(&device->tx_fifo_lock);
-   828	
-   829		available = kfifo_avail(&device->tx_fifo);
-   830		if (count > available) {
-   831			dev_dbg(device->dev, "write to fifo failed: %d bytes required but %d available\n",
-   832				required, available);
-   833			mutex_unlock(&device->tx_fifo_lock);
-   834			return -EAGAIN;
-   835		}
-   836	
-   837		retval = kfifo_from_user(&device->tx_fifo, buf, count, &copied);
-   838		if (retval || copied != count)
-   839			goto abort;
-   840	
-   841		mutex_unlock(&device->tx_fifo_lock);
-   842	
-   843		/* start transfer */
-   844		wake_up_interruptible(&device->tx_wait_queue);
-   845		dev_dbg(device->dev, "write: generated new msg with %d bytes.\n", copied);
-   846	
-   847		return copied;
-   848	
-   849	abort:
-   850		dev_warn(device->dev,
-   851			 "write to fifo failed, non recoverable: 0x%x\n", retval);
-   852		mutex_unlock(&device->tx_fifo_lock);
-   853		return -EAGAIN;
-   854	}
-   855	
+ drivers/staging/r8188eu/core/rtw_p2p.c       |  8 ++++----
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c   | 12 ++++++------
+ drivers/staging/r8188eu/core/rtw_wlan_util.c |  2 +-
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.30.2
+
