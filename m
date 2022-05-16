@@ -1,87 +1,157 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704F91361
-	for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 17:04:38 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id pq9-20020a17090b3d8900b001df622bf81dso2595153pjb.3
-        for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 10:04:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730E21361
+	for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 17:23:38 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id k30so8762701wrd.5
+        for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 10:23:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TNdJuu/j5yzS384N3qJa/cn4HaocjvrZKpgiycrMSE8=;
-        b=PZlOUNOXNlmBxzG7nR6dSG+2VCKRNkVBKqtPYaplvKqer51/5O8yOBuJDF6tJPh4iX
-         xajX0cn/4BdAdNtEIlpFvRFG8OOJatpQsMUyZqPOqwGwrv2LJu1A4vYIQ1ypDYeb7vcT
-         rm2RqpbGUExYba7PU+ZtWt4o1UKRGebNz3O0ExulG6Re7IsHiFQQUlBMTfAYbEid2oc6
-         VDBCDCSsGCBom/jUp7PAW6kM3wYWuBR9w5mOGRzPPoKyZssyxIlVBZj6s0LQaajU1QSC
-         UCnJWDstWbNYvJiSsHPUslpdEcNy1NCOOK0SuZTuTzH+/9WL5Ky+CIW44A2BRioLCy3U
-         k0Hw==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=iWVGJvbXTQviSVV/WecI92gq1SolbxE/JB6eptTqhB4=;
+        b=KLGfWLLdefYI/c/2I/0BXVxCLS0XdXGcnSRQ50BO01GSFrH8jOXJCYIGkJRojxOYfr
+         vL3uLvv9sHQkfM9qL/O2SAyVI/4Ei06hko3G47Oyf3oXKJxqU5xitRanleOjESzo0QHR
+         9/L9FFooeLwk56MyQdPu3Z0sQ5THVozTkCwvhFY0cLsHtZRSQLkkYBkTRkiH8ASsp68Y
+         rEKZWOejM0Mbt6WYhO43HrPFu3omN+FJRogE2ki583naZXs/vbmnyd6n01Y9Qdg9ENcI
+         d8tNWGW47/1e+BjWAJjeAGfg3pdcACHoYNhreWUJ22L+VjRf29Xyuc7ivX6AHnPyQiYW
+         8EbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TNdJuu/j5yzS384N3qJa/cn4HaocjvrZKpgiycrMSE8=;
-        b=QYMrMKWtcDotAK1qURHCidv1eqZYRcN9/HFY5Xq8qsIAXgcLTX9t7dKIbJZK04Q/pP
-         nwhhL6n8rdciPZ+mst56dQGG7EoFQxa7lBdzLCiqxgqscxj+WQosx1ll46NPFwIvDhe4
-         FzjlqjgmfvbM9C0dLzffylMCSn4Z24VeRc9GUjCaZax0zZnUfUIK1yiQXDrjD3xrf2dy
-         3MZADe7DiYSH0fUSn9SLE5Hk0SNhJRAlzSOAT/yrWcyJ7EmiyekwiLvbuHZTwQBg3cQb
-         nvqsTD1Ln1zVFPSH3GyT+exrASpfgbrqeRhLrzwtGsiWT8N7Ixk7XJlBIvrxr8VF/lZG
-         Q7og==
-X-Gm-Message-State: AOAM531jHxGpjLyhoJvO13QiWVZi3Y7D/zi+lZswBvNd1LjUYDdEXv1q
-	1GtALSBBYwM/te/uGi6ROeIzF9BOJbEXOQ==
-X-Google-Smtp-Source: ABdhPJz/4b2AS2O4bLSWm2ww2lQNwPjfQEwn1NaT0WLvPrZ/c6u4o9dib0dEG4WtvDLYdNYiEDWD9w==
-X-Received: by 2002:a17:903:244d:b0:15e:a3a2:5a6f with SMTP id l13-20020a170903244d00b0015ea3a25a6fmr18106103pls.72.1652720677944;
-        Mon, 16 May 2022 10:04:37 -0700 (PDT)
-Received: from makvihas.localhost.com ([2405:201:202b:1:6465:4732:de67:bb26])
-        by smtp.gmail.com with ESMTPSA id b190-20020a621bc7000000b0050dc762819csm7141292pfb.118.2022.05.16.10.04.35
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=iWVGJvbXTQviSVV/WecI92gq1SolbxE/JB6eptTqhB4=;
+        b=3nJbftdqMqK0YxXwlSFuW8kS2bGtwVS5W/G7p5fh4f2j/i0eOOlJkLq2Gfkr/IDfSd
+         YAtduitl7EGYbPTEObLbpDyGH+UDQLCD7OAHC99xRtIdUBzE1NVj8Q2lXR1a7a3luulg
+         Q4aV1Scb9sIBp+wu3l3y7uJSSXnCi2qCrlLp1JT9vuOyEH5Th2SOW9a9x5sUWwDTl4g5
+         aZIiaWtvCQawX6NYJ5IDGjpckkXF3ggbfXwttoGMKEKc4gmF4fefpMdYLi3zaIICUNHp
+         DcXwTTIhwMZwjyCpcL9vS7z/K5AKwWCzQB6eWbZdhE3E/wPSkvFftqr0FappLcSRSm1B
+         4VkA==
+X-Gm-Message-State: AOAM533omexse6gkPtlNee1kLq9YhL3rjRWz9BjhIT5VcJkZKXMKh3Q7
+	KjFcUp3PbSV4LsY5obZDm0c=
+X-Google-Smtp-Source: ABdhPJx1fOPMSHY9qfSl5JhzQGkIfyH5Tj+3hvYraG4h/Qp0/wK4zGWt8EsnzkDaJybzzqb10g3UbQ==
+X-Received: by 2002:a5d:4c4e:0:b0:20a:d006:79f8 with SMTP id n14-20020a5d4c4e000000b0020ad00679f8mr14510248wrt.600.1652721816613;
+        Mon, 16 May 2022 10:23:36 -0700 (PDT)
+Received: from [192.168.1.51] ([78.187.39.231])
+        by smtp.gmail.com with ESMTPSA id n5-20020adfc605000000b0020c6a524fe0sm10081158wrg.98.2022.05.16.10.23.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 10:04:37 -0700 (PDT)
-From: Vihas Makwana <makvihas@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH 3/3] staging: r8188eu: fix checkpatch.pl warnings in rtw_wlan_util
-Date: Mon, 16 May 2022 22:33:06 +0530
-Message-Id: <20220516170306.6008-4-makvihas@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220516170306.6008-1-makvihas@gmail.com>
-References: <20220516170306.6008-1-makvihas@gmail.com>
+        Mon, 16 May 2022 10:23:36 -0700 (PDT)
+Message-ID: <a04dce894f7ebee18807467c4f914d88069ab86c.camel@gmail.com>
+Subject: Re: [PATCH] Staging: pi433: Don't use ioctl for per-client
+ configuration
+From: =?UTF-8?Q?Ya=C5=9Far_Arabac=C4=B1?= <yasar11732@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, paulo.miguel.almeida.rodenas@gmail.com, 
+	alexandre.belloni@bootlin.com, realwakka@gmail.com, 
+	u.kleine-koenig@pengutronix.de, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 16 May 2022 20:23:34 +0300
+In-Reply-To: <20220516073329.GJ4009@kadam>
+References: <20220515104711.94567-1-yasar11732@gmail.com>
+	 <20220516073329.GJ4009@kadam>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Refactor the code to fix following warnings:
-    WARNING: Comparisons should place the constant on the right side of the test
-    CHECK: Comparison to NULL could be written "p"
+Pzt, 2022-05-16 tarihinde 10:33 +0300 saatinde, Dan Carpenter yazd=C4=B1:
+> On Sun, May 15, 2022 at 01:47:11PM +0300, Ya=C5=9Far Arabac=C4=B1 wrote:
+> > Currently this driver uses ioctl for reading/writing per-device and
+> > per-client configuration. Per-client configuration can be handled
+> > by
+> > usespace and sent to driver with each write() call. Doing so does
+> > not
+> > introduce extra overhead because we copy tx config to fifo for each
+> > transmit anyway. This way, we don't have to introduce new ioctl's.
+> >=20
+> > This has not been tested as I don't have access to hardware.
+> >=20
+> > Signed-off-by: Ya=C5=9Far Arabac=C4=B1 <yasar11732@gmail.com>
+>=20
+> This commit is confusing and does a number of unrelated things.  It's
+> not explained well what the motivation is for the patch.
+>=20
+> If I remember this correctly, the current API is broken.  It used a
+> too small type or something?  People wanted fix it by making
+> incompatible changes which would have broken user space.  I had said
+> that the right thing would be to not using ioctls at all but instead
+> use
+> sysfs.
+>=20
+> So I kind of remember that there was a motivation to get rid of the
+> ioctl, but I don't remember what it was and it's not explained here.
+>=20
 
-Signed-off-by: Vihas Makwana <makvihas@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_wlan_util.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Motivation for this patch is also to get rid of ioctl in favor of more
+suitable interfaces.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index 27035eac6..3f4456901 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -962,7 +962,7 @@ int rtw_check_bcn_info(struct adapter  *Adapter, u8 *pframe, u32 packet_len)
- 	else
- 		hidden_ssid = false;
- 
--	if ((NULL != p) && (false == hidden_ssid && (*(p + 1)))) {
-+	if (p && (!hidden_ssid && (*(p + 1)))) {
- 		memcpy(bssid->Ssid.Ssid, (p + 2), *(p + 1));
- 		bssid->Ssid.SsidLength = *(p + 1);
- 	} else {
--- 
-2.30.2
+Currently, driver manages two different kinds of configurations. Per
+device configuration is kept inside rx_cfg member of struct
+pi433_device. These are parameters for recieving data. They are shared
+by all clients using the device. Per-client configuration is kept under
+private_data member of struct file. These parameters control
+transmitting side of things. They are created for each call to open().
 
+For reading and writing both kinds of configurations, ioctl commands
+are used. It would be more fitting to use sysfs for per-device
+configuration. On the other hand, using sysfs for per-client
+congiguration feels wrong, as it is commonly used for global settings.
+Therefore, user space is correct place to handle these in my opinion.
+By using sysfs for per-device configuration, and letting user space
+handle per-client configuration, we don't have to introduce new ioctl.
+This patch does not touch per-device configuration case. It only
+attempts to remove ioctl for per-client case.
+
+Currently, when user calls write(), we write 3 things to tx queue.
+
+- Per-client configuration (which is kept in kernel space)
+- size of the payload (we get this from size of write call)
+- payload itself (we get this from user space buffer)
+
+My proposed solution is for user space to send all of these together
+for each call to write() function. It should be trivial to implement
+this behaviour as user space library function. This way, we don't have
+to manage these on kernel, so it is one less thing to worry about.
+Moreover, reading/writing configuration this way does not involve
+seperate syscalls.
+
+> I had imagined adding the sysfs configuration along side the ioctl to
+> start with and then deleting the ioctl when userspace was updated.=20
+> If
+> you're saying that we don't need any configuration at all then that's
+> great but that has to come from someone who has tested the code.
+>=20
+
+Configuration is still needed, just handled differently. I agree that
+these should be tested. This patch could possibly be used as starting
+point for anyone who has means/desire to test and experiment.
+
+> What is this part of the commit for?
+>=20
+> > --- a/drivers/staging/pi433/pi433_if.h
+> > +++ b/drivers/staging/pi433/pi433_if.h
+> > @@ -75,6 +75,8 @@ struct pi433_tx_cfg {
+> > =20
+> >         __u8                    sync_pattern[8];
+> >         __u8                    address_byte;
+> > +       __u32                   payload_size;
+> > +       __u8                    payload[];
+> >  };
+>=20
+
+Since my proposed implementation expects (config,payload_size,payload)
+to be sent together with each write(), I added these here.
+
+As a final note, replacing ioctl with something else would require
+breaking changes at some point. If you think it is too much suffering
+for too little to gain, I don't think it is absolutely necessary to do
+so. But if people are interested I can make a better patch with less
+unrelated changes and more explanations.
+
+Best Regards,
+Ya=C5=9Far Arabac=C4=B1
