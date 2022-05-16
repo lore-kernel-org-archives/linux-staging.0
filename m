@@ -1,101 +1,154 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78668ED1;
-	Mon, 16 May 2022 14:19:58 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id j12so18782397oie.1;
-        Mon, 16 May 2022 07:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Mpj75KaCiBDC1z0Gq3wmQiK0bCjZ+/g+r2qV0jF0QRs=;
-        b=h7hGFYuETN0Js7lA4HRVafJbtT3J3KaiOp2PQl9zOveXQ58rogRbhMTVG+EEvFEUGm
-         mgiDgExHRSy3NmnDXGWIG/eqz8sOxhVtpQ6zdEtd6pXK3aHPuSX8NvSDLFQn8q3SxzKn
-         qPbJoCpOhtLyQtknnmObrNRPcp65M/9lc5+nMQH9EZ6DJ9zvyrxEPJUqB4ZpHgN65UT/
-         pZ6wxDTkwgT5vkbieo6BPojGLMCZK/KMf51dzWWT6GmojtBDWnBo2DB6cb2VCY+ARVbR
-         DGTOsgB1Jn3+eY0XLFzfo/yyoRwisMfFzPLHaOR+iwIgr/tYqlQaBS1PasQQKYWGO8WS
-         WSEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Mpj75KaCiBDC1z0Gq3wmQiK0bCjZ+/g+r2qV0jF0QRs=;
-        b=mPXVz/6osvibmdiS/nPcczzIgJi9ay6xh+HUwFXFFHZ1MUBjbOApvIVTQsbtoyoZfb
-         H4TInTYSNW91o0A+CtTS4QUUx1DBHwSFOGeKlg+qV2jQJ5cmadXSclXjsygrSN4facwY
-         ojJ5QBAKbGrdgW9c2ci0vW8DLi3QeRQwTih+oj8C9tQeNyMl/1e9V36GAMNH99rPU6c5
-         RtRp+ggARL81cMJlZc8TKTIWug/4pj+pwvEyK1ur3m8fQXdu/UyMpXfn8dnebX4+Rm8h
-         I4RRnHJjBOEIh+ESZE3oxhjak/gwBskpTtUvHONkWcwLrsX+LzMGMxquC9q2KPTDt182
-         iGGA==
-X-Gm-Message-State: AOAM531L5u2mQBp5KN1YEkBFlNouf2PzD5x2PBYha2MRNO/7N7Qxkp0p
-	0sKUPJrJMcAwaze09WXB+Ig=
-X-Google-Smtp-Source: ABdhPJzHIEB8K5ECnXXfF0FVsk0B1nV5R/BR/kSU8cshU+jwA1/3rjPaKr6PQiWtdpcKDnk1QewaaA==
-X-Received: by 2002:a05:6808:a11:b0:325:e5c1:5912 with SMTP id n17-20020a0568080a1100b00325e5c15912mr8321388oij.204.1652710797515;
-        Mon, 16 May 2022 07:19:57 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id i1-20020a9d6241000000b005b22a0d826csm3916917otk.1.2022.05.16.07.19.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 May 2022 07:19:56 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <9510474d-5555-42b3-5a9c-90e3078df499@roeck-us.net>
-Date: Mon, 16 May 2022 07:19:53 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA7C10E0
+	for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 15:31:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1652715098; x=1684251098;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZWRS3tXKRPVHeGH9vSAu21uCI1IHYONEyb+H9e2Oa2s=;
+  b=MU+qTjR7xcnJxB0sbgL91VhK8opa6MWeu1H2ExnhzHbZRNNtdJGxR4YL
+   M31SMCnRIsCjPT8/SzRNFdUInbPZt7per7dFnQsoaWUE0U9Cs5qAiC2u7
+   8ZT5cFbZpkIWo3VkQahdhS1pyBeaagizm4LUZ1XgtFo0xJ9aYFCyF3aFs
+   R53ZJhKwIpiCUB6lrbSiCb0Y5JpSNgsAKNWvmRPqIHJYstuQ1RUfLHfpN
+   n5lv6wbIPJgWh3xJ409u7kyzDbJqxPGegGdLcJ0dd3KxL0DkNo22QvXx6
+   a20Bki4jOsriCdE0uBjZ+3KrGRwFgPTvViQJDe1VGJtndtxNNPAS1Uz54
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10349"; a="269696841"
+X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; 
+   d="scan'208";a="269696841"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2022 08:31:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,230,1647327600"; 
+   d="scan'208";a="522498262"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 16 May 2022 08:31:35 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1nqch4-000096-Ag;
+	Mon, 16 May 2022 15:31:34 +0000
+Date: Mon, 16 May 2022 23:30:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?utf-8?B?WWHFn2FyIEFyYWJhY8Sx?= <yasar11732@gmail.com>,
+	gregkh@linuxfoundation.org
+Cc: kbuild-all@lists.01.org, paulo.miguel.almeida.rodenas@gmail.com,
+	dan.carpenter@oracle.com, alexandre.belloni@bootlin.com,
+	realwakka@gmail.com, u.kleine-koenig@pengutronix.de,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	=?utf-8?B?WWHFn2FyIEFyYWJhY8Sx?= <yasar11732@gmail.com>
+Subject: Re: [PATCH] Staging: pi433: Don't use ioctl for per-client
+ configuration
+Message-ID: <202205162305.tBuUiz79-lkp@intel.com>
+References: <20220515104711.94567-1-yasar11732@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [greybus-dev] Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Linus Torvalds
- <torvalds@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
- llvm@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
- Federico Vaga <federico.vaga@vaga.pv.it>, Alex Shi <alexs@kernel.org>,
- Hu Haowen <src.res@email.cn>, Michal Marek <michal.lkml@markovi.net>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc-tw-discuss@lists.sourceforge.net,
- linux-arm-kernel@lists.infradead.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org
-References: <20220228103142.3301082-1-arnd@kernel.org>
- <20220516131023.GA2329080@roeck-us.net> <YoJSF8T5K9pPx3Ap@kroah.com>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <YoJSF8T5K9pPx3Ap@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220515104711.94567-1-yasar11732@gmail.com>
 
-On 5/16/22 06:31, Greg KH wrote:
-> On Mon, May 16, 2022 at 06:10:23AM -0700, Guenter Roeck wrote:
->> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
->>> From: Arnd Bergmann <arnd@arndb.de>
->>>
->>> During a patch discussion, Linus brought up the option of changing
->>> the C standard version from gnu89 to gnu99, which allows using variable
->>> declaration inside of a for() loop. While the C99, C11 and later standards
->>> introduce many other features, most of these are already available in
->>> gnu89 as GNU extensions as well.
->>
->> The downside is that backporting affected patches to older kernel branches
->> now fails with error messages such as
->>
->> mm/kfence/core.c: In function ‘kfence_init_pool’:
->> mm/kfence/core.c:595:2: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
->>
->> Just something to keep in mind when writing patches.
-> 
-> I just ran across this very issue on this commit.  It's an easy fixup
-> for 5.17.y to make this work, so I did that in my tree.  If this gets to
-> be too much, we might need to reconsider adding c11 to older stable
-> kernels.
-> 
+Hi "Yaşar,
 
-I think I'll do just that for ChromeOS; I don't want to have to deal
-with the backports, and we are using recent compilers anyway.
+Thank you for the patch! Perhaps something to improve:
 
-Guenter
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ya-ar-Arabac/Staging-pi433-Don-t-use-ioctl-for-per-client-configuration/20220515-185057
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git e41f7a5521d7f03dca99e3207633df71740569dd
+config: x86_64-randconfig-s022-20220516 (https://download.01.org/0day-ci/archive/20220516/202205162305.tBuUiz79-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-20) 11.2.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/0cfbff215eb0e9e558af6b491d319fc736a927c6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ya-ar-Arabac/Staging-pi433-Don-t-use-ioctl-for-per-client-configuration/20220515-185057
+        git checkout 0cfbff215eb0e9e558af6b491d319fc736a927c6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/pi433/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/staging/pi433/pi433_if.c:816:19: sparse: sparse: cast removes address space '__user' of expression
+
+vim +/__user +816 drivers/staging/pi433/pi433_if.c
+
+   792	
+   793	static ssize_t
+   794	pi433_write(struct file *filp, const char __user *buf,
+   795		    size_t count, loff_t *f_pos)
+   796	{
+   797		struct pi433_instance	*instance;
+   798		struct pi433_tx_cfg *tx_cfg;
+   799		struct pi433_device	*device;
+   800		int                     retval;
+   801		unsigned int		required, available, copied;
+   802	
+   803		instance = filp->private_data;
+   804		device = instance->device;
+   805	
+   806		/*
+   807		 * check, whether internal buffer (tx thread) is big enough
+   808		 * for requested size
+   809		 */
+   810		if (unlikely(count > MAX_MSG_SIZE))
+   811			return -EMSGSIZE;
+   812	
+   813		if (unlikely(count < sizeof(struct pi433_tx_cfg)))
+   814			return -EMSGSIZE;
+   815	
+ > 816		tx_cfg = (struct pi433_tx_cfg *)buf;
+   817	
+   818		if (unlikely(count != sizeof(struct pi433_tx_cfg)) + tx_cfg->payload_size)
+   819			return -EMSGSIZE;
+   820	
+   821		/*
+   822		 * write the following sequence into fifo:
+   823		 * - tx_cfg
+   824		 * - size of message
+   825		 * - message
+   826		 */
+   827		mutex_lock(&device->tx_fifo_lock);
+   828	
+   829		available = kfifo_avail(&device->tx_fifo);
+   830		if (count > available) {
+   831			dev_dbg(device->dev, "write to fifo failed: %d bytes required but %d available\n",
+   832				required, available);
+   833			mutex_unlock(&device->tx_fifo_lock);
+   834			return -EAGAIN;
+   835		}
+   836	
+   837		retval = kfifo_from_user(&device->tx_fifo, buf, count, &copied);
+   838		if (retval || copied != count)
+   839			goto abort;
+   840	
+   841		mutex_unlock(&device->tx_fifo_lock);
+   842	
+   843		/* start transfer */
+   844		wake_up_interruptible(&device->tx_wait_queue);
+   845		dev_dbg(device->dev, "write: generated new msg with %d bytes.\n", copied);
+   846	
+   847		return copied;
+   848	
+   849	abort:
+   850		dev_warn(device->dev,
+   851			 "write to fifo failed, non recoverable: 0x%x\n", retval);
+   852		mutex_unlock(&device->tx_fifo_lock);
+   853		return -EAGAIN;
+   854	}
+   855	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
