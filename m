@@ -1,41 +1,41 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6211383
-	for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 14:06:44 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id q18so17407431pln.12
-        for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 07:06:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9297E1383
+	for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 14:06:47 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id q15so1038692pgr.4
+        for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 07:06:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9jbHJ9DXcGeuMwC9N2+XOhDP8Q1hP8OkPUBuzaHRk2o=;
-        b=mEtBJuL5JpPfCz/fsT72F/BXMH9APCBPy4vh4OwNqvGqLJHaGdANAD9yqZKWyhWfBj
-         I4905TUU9lxSKducmMkVlzy60McBD3OJvIHVStyJ3sHxSb6K6XjOZoyS+sgs0jGkbook
-         nlGZ9W3l+2pZEwUoscmhTYlOOJtDI6jXR3GWZvOkP47UwzrmdeVryBPgQuuLenFO0jPh
-         ItWThTh6uMMJdbyiPolHCJERIDyBX7cXhFysESwVG1Vx+hO138UzdTA1N4dw1Xr9HwuX
-         Aq1x7BwnBOh/Xr6sJhTd+xS07QlPvZohne+sf6swqkUIVQiNOc4SUIXkzdHWTP+yW8xt
-         zI3w==
+        bh=TNdJuu/j5yzS384N3qJa/cn4HaocjvrZKpgiycrMSE8=;
+        b=NMICY8qO480E8MtNAZa+IURSCN4xcvsbZJ4Lew2+Md4VhJq9ThZkFwdm0p2EVy5pKR
+         QqwjeR/Bsc5uinknc8OYbIfL4WUhvIWZT+mHqHRthGwidkzWWRJ4h98mcAns6aUtFKRs
+         dvNkS9G3AcznYLU8fS1UebfoWq/kI+USfdIY6eG5zqt+MtI7YaZCum8KBDhqJJv+lxqc
+         kmjUM6230WefSl5gT3Qcls4NwZ0lYvmWYJQ4XOd5BqO2gSZFWMow6zun97o2nIshaXDP
+         fSRHhluP5JNq9lP7yCcPz3WtdPspKkcLFBP67rWar3bAyoKukDR8VxK3/ZAzFu8QbzHw
+         KP+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9jbHJ9DXcGeuMwC9N2+XOhDP8Q1hP8OkPUBuzaHRk2o=;
-        b=cZWdVOOe6Erv7b2Aq7rBRe5nY4i28wtfeeS6jWrXPthXF5FicwnE2ENZ1SqogQssf0
-         0RMTTvzDRQt47QsS5fqZkC1sE0amVxs3m37X8Qgomf0t5yYjkeNQpCPf4+zBy6DszCO3
-         WljO5Godt4OzzgE7WAN6K29PvmAjm3B8qUJa+bl1SaBd8rlhqh9kiBLWnUrYpRCvtf5b
-         DWR60JY2qzL9PpQNBnJnDy5t+yMrHjkwwNJdJcbmP1q40/zrY9JcB1eH3QmlmpbaP4u5
-         dB/5H7/p6qIP2x8HJo0IeOSVlWSh+8oCUdYdFn31RGz1LjwG2JkFyhwIWLe6sSKCv6iE
-         G9DQ==
-X-Gm-Message-State: AOAM531aG6SveJSRmBBfFUCyQzV+uL2Cia11jFvgiwgFoic+54wI8FLt
-	3R1O9ksQ8H5MjYAhBUNErbI=
-X-Google-Smtp-Source: ABdhPJy/VZiv2rzW3k1La/4pQZltsRDHxnKk0dW4ieUxLZTpSUD3iwWMktfDCqvQkvRay5UFQYqY1w==
-X-Received: by 2002:a17:902:e0d4:b0:161:74ba:9def with SMTP id e20-20020a170902e0d400b0016174ba9defmr10852821pla.28.1652796403676;
-        Tue, 17 May 2022 07:06:43 -0700 (PDT)
+        bh=TNdJuu/j5yzS384N3qJa/cn4HaocjvrZKpgiycrMSE8=;
+        b=PhRTJQ3VHCI345BbG92qTIzxwXpgMTGb/SuqNmEmWGqxiKV7LLEi44R5eZIFb2S1Iz
+         Mxq0FtZYYXRptfNacsvzQWDvdU9TuzE0mZZdv210kzijROTg5CCnnCaDiFJMpU4XJ52u
+         D31f+ujlA/z6MRXj7HyDcw/iaq7T7ynjKhGC9E183OBvcYHbNyI5sh//AEwxn86lv1a4
+         6Poynm39E5bmlvQY2sTW4sCkp5LIIFmlq98i+c1UOi1VYMpfiE7wZplj+2eRIGE/nq+X
+         Ck4MWTlGUDH+indYJUm2IhzANyyZ6VEkvCwB0DRgE0rlNvrbXMU16ERNfXF4iYw596Mu
+         YRGA==
+X-Gm-Message-State: AOAM531Z8l6kstZ3EIsfkwtBW5zud2egmAYsZjPHzp1T/+0sqJJrqDQk
+	D/AuSzxtlV19/0Q3ilwQwN/QFLI1A+9FJQ==
+X-Google-Smtp-Source: ABdhPJxX9ileI2WmqX6uf7SYTsGgUhniZrweG7+ql+M+jKSmO4li39cSDPQsAxQEEU8bOCBcvx1ZuA==
+X-Received: by 2002:a05:6a00:1494:b0:50e:23d:831c with SMTP id v20-20020a056a00149400b0050e023d831cmr22872210pfu.31.1652796407136;
+        Tue, 17 May 2022 07:06:47 -0700 (PDT)
 Received: from makvihas.localhost.com ([2405:201:202b:1:3174:ae5c:a49e:4e77])
-        by smtp.gmail.com with ESMTPSA id z34-20020a631922000000b003f27f91135asm3113289pgl.76.2022.05.17.07.06.40
+        by smtp.gmail.com with ESMTPSA id z34-20020a631922000000b003f27f91135asm3113289pgl.76.2022.05.17.07.06.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 07:06:43 -0700 (PDT)
+        Tue, 17 May 2022 07:06:46 -0700 (PDT)
 From: Vihas Makwana <makvihas@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -46,9 +46,9 @@ Cc: linux-staging@lists.linux.dev,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Pavel Skripkin <paskripkin@gmail.com>,
 	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH v2 2/3] staging: r8188eu: fix warnings in rtw_pwrctrl
-Date: Tue, 17 May 2022 19:36:25 +0530
-Message-Id: <20220517140626.3716-3-makvihas@gmail.com>
+Subject: [PATCH v2 3/3] staging: r8188eu: fix warnings in rtw_wlan_util
+Date: Tue, 17 May 2022 19:36:26 +0530
+Message-Id: <20220517140626.3716-4-makvihas@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220517140626.3716-1-makvihas@gmail.com>
 References: <20220517140626.3716-1-makvihas@gmail.com>
@@ -62,67 +62,26 @@ Content-Transfer-Encoding: 8bit
 
 Refactor the code to fix following warnings:
     WARNING: Comparisons should place the constant on the right side of the test
+    CHECK: Comparison to NULL could be written "p"
 
 Signed-off-by: Vihas Makwana <makvihas@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_pwrctrl.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/r8188eu/core/rtw_wlan_util.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-index 6990808ef..a54d47ba8 100644
---- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-+++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-@@ -59,7 +59,7 @@ int ips_leave(struct adapter *padapter)
- 			pwrpriv->rf_pwrstate = rf_on;
- 		}
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index 27035eac6..3f4456901 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -962,7 +962,7 @@ int rtw_check_bcn_info(struct adapter  *Adapter, u8 *pframe, u32 packet_len)
+ 	else
+ 		hidden_ssid = false;
  
--		if ((_WEP40_ == psecuritypriv->dot11PrivacyAlgrthm) || (_WEP104_ == psecuritypriv->dot11PrivacyAlgrthm)) {
-+		if ((psecuritypriv->dot11PrivacyAlgrthm == _WEP40_) || (psecuritypriv->dot11PrivacyAlgrthm == _WEP104_)) {
- 			set_channel_bwmode(padapter, padapter->mlmeextpriv.cur_channel, HAL_PRIME_CHNL_OFFSET_DONT_CARE, HT_CHANNEL_WIDTH_20);
- 			for (keyid = 0; keyid < 4; keyid++) {
- 				if (pmlmepriv->key_mask & BIT(keyid)) {
-@@ -198,7 +198,7 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
- 		return;
- 
- 	if (pwrpriv->pwr_mode == ps_mode) {
--		if (PS_MODE_ACTIVE == ps_mode)
-+		if (ps_mode == PS_MODE_ACTIVE)
- 			return;
- 
- 		if ((pwrpriv->smart_ps == smart_ps) &&
-@@ -356,7 +356,7 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
- 
- 	pwrctrlpriv->LpsIdleCount = 0;
- 	pwrctrlpriv->power_mgnt = padapter->registrypriv.power_mgnt;/*  PS_MODE_MIN; */
--	pwrctrlpriv->bLeisurePs = PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt;
-+	pwrctrlpriv->bLeisurePs = pwrctrlpriv->power_mgnt != PS_MODE_ACTIVE;
- 
- 	pwrctrlpriv->bFwCurrentInPSMode = false;
- 
-@@ -409,12 +409,12 @@ int rtw_pm_set_lps(struct adapter *padapter, u8 mode)
- 
- 	if (mode < PS_MODE_NUM) {
- 		if (pwrctrlpriv->power_mgnt != mode) {
--			if (PS_MODE_ACTIVE == mode)
-+			if (mode == PS_MODE_ACTIVE)
- 				LeaveAllPowerSaveMode(padapter);
- 			else
- 				pwrctrlpriv->LpsIdleCount = 2;
- 			pwrctrlpriv->power_mgnt = mode;
--			pwrctrlpriv->bLeisurePs = PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt;
-+			pwrctrlpriv->bLeisurePs = pwrctrlpriv->power_mgnt != PS_MODE_ACTIVE;
- 		}
+-	if ((NULL != p) && (false == hidden_ssid && (*(p + 1)))) {
++	if (p && (!hidden_ssid && (*(p + 1)))) {
+ 		memcpy(bssid->Ssid.Ssid, (p + 2), *(p + 1));
+ 		bssid->Ssid.SsidLength = *(p + 1);
  	} else {
- 		ret = -EINVAL;
-@@ -432,7 +432,7 @@ int rtw_pm_set_ips(struct adapter *padapter, u8 mode)
- 		return 0;
- 	} else if (mode == IPS_NONE) {
- 		rtw_ips_mode_req(pwrctrlpriv, mode);
--		if ((padapter->bSurpriseRemoved == 0) && (_FAIL == rtw_pwr_wakeup(padapter)))
-+		if ((padapter->bSurpriseRemoved == 0) && (rtw_pwr_wakeup(padapter) == _FAIL))
- 			return -EFAULT;
- 	} else {
- 		return -EINVAL;
 -- 
 2.30.2
 
