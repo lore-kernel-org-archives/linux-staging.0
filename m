@@ -1,21 +1,21 @@
 Received: from mail.wantyapps.xyz (unknown [66.135.5.160])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2221874
-	for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 21:39:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC94187F
+	for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 22:27:32 +0000 (UTC)
 Received: from localhost (bzq-79-183-83-88.red.bezeqint.net [79.183.83.88])
-	by mail.wantyapps.xyz (Postfix) with ESMTPSA id 416AF7D632;
-	Tue, 17 May 2022 21:33:09 +0000 (UTC)
+	by mail.wantyapps.xyz (Postfix) with ESMTPSA id 758997D63E;
+	Tue, 17 May 2022 22:27:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=wantyapps.xyz;
-	s=mail; t=1652823189;
-	bh=77TXRvsh7hWaErTGymOW8BHXjkBr9MyPIBb/1lV4nz4=;
+	s=mail; t=1652826451;
+	bh=pd6Vee+X5bKnfkJoQvuv34sp7wFRIFqhfKwqf22xJJE=;
 	h=From:To:Cc:Subject:Date:From;
-	b=pMNaTGFYXkBbzqBR4ubjPKA7zfgD4zYfUvj1SE7As1PbnFh7XB3Owi4Rs34pL8+ay
-	 1v5gDAaSI00IEEWLkGRjq56Z8HGATGDr4Rx1HQNh8tA9q1T+SDs6E1tPnHoqoiAqmt
-	 iq5ZUPecBIv9YV+AiqnevFZHeU8WqKRZAm5s6cav5W0+z8ImBXqHt6UI4t8yARG+V6
-	 qqPoICzto2NMz9j4EMTUAE3wX8f9m28VD8wElew1fIT+fl90SPmz+VtR+pdbM2lpon
-	 QGLOk8q1nObTij2r6PZNYVxIteRbphoErZRwGExyw1SCw+9r0G8rtIcFnSgtsv5YFQ
-	 3+lx1sMlvg0vg==
+	b=cuxxKNrIYB+sbARwoyzCbW2VM8FAjR+hQgkceYmIpqe4rZZDjvYuo5bxABWkx8LUc
+	 VrQgIaJ5hgv58AvoAY/ouXv28gmZDHD3s4KJ8CleUZpyyhL5EtK/ma+WsuENP2P0Tj
+	 PpFWhKg5zpIKnxD2ePWdACHDCwYbpLXNZT5+vcn4QqYEDKgRlCJbVB2NTkPhxXdsaE
+	 znffAar84pz6SOYYjsl4Rubz/genEvSAMXsscdJSfVQRhBEybNGUWf9kZsDkIObukk
+	 fYXDnY52A4FN58lX700DcwqVfRyEkT8bTQPF0rt02XU+gnhKxpAP0aSu9DJ6I6B+wh
+	 WHDwhkI0ipSmA==
 From: Uri Arev <me@wantyapps.xyz>
 To: 
 Cc: Uri Arev <me@wantyapps.xyz>,
@@ -23,9 +23,9 @@ Cc: Uri Arev <me@wantyapps.xyz>,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: axis-fifo: fix indentation according to checkpatch.pl
-Date: Wed, 18 May 2022 00:33:01 +0300
-Message-Id: <20220517213302.671148-1-me@wantyapps.xyz>
+Subject: [PATCH v2] staging: axis-fifo: fix indentation according to checkpatch.pl
+Date: Wed, 18 May 2022 01:27:09 +0300
+Message-Id: <20220517222710.678033-1-me@wantyapps.xyz>
 X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -38,7 +38,7 @@ Content-Transfer-Encoding: 8bit
 (My first patch!)
 
 scripts/checkpatch.pl warned about an indentation problem in
-the axix-fifo.c file.
+the axis-fifo.c file.
 
 Checkpatch warning:
 	CHECK: Alignment should match open parenthesis
