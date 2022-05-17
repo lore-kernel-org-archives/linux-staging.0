@@ -1,41 +1,41 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5631383
-	for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 14:06:37 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id nk9-20020a17090b194900b001df2fcdc165so2603995pjb.0
-        for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 07:06:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F416D1383
+	for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 14:06:40 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id j6so16948170pfe.13
+        for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 07:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nQgF3isZDKLWuH4ifhpSCAZBSH+rYxzOtBZkOg2gi8U=;
-        b=IKPT3GX934EYxIcfasHxe3tTubPIVtfAnAYWZyhpW6GwiiQm8Q6EvrP2+PB8BY19Uq
-         z+jk5+9YM1zPXzRO5OQ7YUIp53As19xlDBYBdy/uEzcOAzGRVrhjAkq966jbCHsoAuKA
-         tOWVI/NRZcv3Z4czEtGycQ0WEj+LhunFeJpIocarnusiOo+7JDpn55cQKQjKPbzbPzda
-         jtCH5gPbtVtnb+8C5U+OuKDP8CPrGLOgJgPa4aUyWbfiH1obfiNEQufp5X5lHBqLDJoU
-         cdKP0lDpxewvCjYEm23e5/TfGWuFdwVpYaXJDFtfOQhzGYQhxMDHhnS4EUfrHf+vXMm4
-         fi5w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=hvUgUjmvE7sy7yIPoGJaEuswuZK60S9OzDycOOYXOCw=;
+        b=LdPgp9viGlgUoy+Z2wq8QytcD4XRoYj1OTfGDEdNPB2AkOFpjOVE5KjgnQUFn/tQeV
+         gnsYTY4ORDpAmWJf/2cxZAyz+o5eP1TR78crD6oi+oaNmaQEfDK8HGzToaIGHxutC5gd
+         e+4iGkYyqGasM/GUH2ZNqugg/RL57wjcVFPfnopdK1Tw9sg1E3J+BeuKJL4MSajoNQNS
+         8heGUqM7PTZ3R1HGBc6RAMCQrNmemvItVLdgkjApwNo6T3HXcL/Fiv8Y78wKLnZZ5M8A
+         CImuTuRUMEJQ5YeHDHXsXVQgp6V/+mp/SwRxQzkmnKjHqWP9x6dXCJ2P7X6nQA3O6Fhn
+         103g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nQgF3isZDKLWuH4ifhpSCAZBSH+rYxzOtBZkOg2gi8U=;
-        b=RyYNE7bT2QHHtO+HA6bzblikSaE7CAwlcFJWpKdO6iXXu0PXZgcuY/f9bbovHvewMQ
-         UMqu7Kn7dG3040D0XnRALxDRWJzgeLg14Mm058wFbXplG5feHd0KWME7dw+3VPDojkGh
-         esB6UD0bihFL+UY2puYeBzJR4LnrUaWKQ+JEOgdRsoV6Pw2JXjAjF6zyv2WE3vOWZ4vz
-         e7v7Rsu+lqCzz++MfrNpS2gPTOUK1QVw6+SAeBhQoXRZuV0mnxkXB6dUuJ7/hDW3+eub
-         sVo27CjSb2GJ2KxWDsy74oZH1EyRgpOqKx2nD1886iB2qhlYhtkD1pNBI19rZChlgCnx
-         iNYQ==
-X-Gm-Message-State: AOAM530LdfLDcDcpviRw0zS/sfftO7XWs2r6JIKTGB+NgsaTzgErmon0
-	7n6R6Ad4rNNgxjFZLnGzfLs=
-X-Google-Smtp-Source: ABdhPJwg4wnpKRIv3claIbAuADoipHj0NqvZyKT11KCxorFdy2PIfBueO5522lxLSA+hZo/YBz6iVA==
-X-Received: by 2002:a17:90b:1651:b0:1dc:aec3:c17 with SMTP id il17-20020a17090b165100b001dcaec30c17mr25037491pjb.43.1652796396778;
-        Tue, 17 May 2022 07:06:36 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hvUgUjmvE7sy7yIPoGJaEuswuZK60S9OzDycOOYXOCw=;
+        b=t5SbU+gUGWwdSLntpnYxC+6Zcw1po8p89am1KbatAgNIuRilEp4zXXF6ZQRBYeuxYH
+         2yC0AEPpmGYN8BDh8dIEhGnFhfV4aaXaAZUsqWeb2H4quheW8k8TcIakTekOCl17Wytm
+         00tajCLdE9XheezV+rYc756LaYPmoYiTBQ7ck5TL1HmcwiHjYN+BfHq4TR9R9vyGWleI
+         Eum8/kcIAQ721XGFZIux2q972v2B7COjujinsea5dPHVHRmgbhSnZs14UZYCrZZISFX+
+         72L/sJgDxrFod7UaL4ueJirK3JBIfIH5rOnOSbJzi+YVSzD/nhqsmqptyA73aRMhpVCk
+         6FBw==
+X-Gm-Message-State: AOAM531tHpx7GoVhxb6Va5cxPvpFk5ZAGRQp+CgRo926PrzAKJ3PYK0i
+	i6GFIu2/+bgvg3tcuHiA6Vk=
+X-Google-Smtp-Source: ABdhPJwWX8ZDtaSXGxc5BTr7f/mCM9/dBnBR2fUupGrZ+WO9omjidQc6rPELYuVINkcwPmhTzPk+lA==
+X-Received: by 2002:a65:428c:0:b0:3db:822e:2163 with SMTP id j12-20020a65428c000000b003db822e2163mr19232498pgp.466.1652796400301;
+        Tue, 17 May 2022 07:06:40 -0700 (PDT)
 Received: from makvihas.localhost.com ([2405:201:202b:1:3174:ae5c:a49e:4e77])
-        by smtp.gmail.com with ESMTPSA id z34-20020a631922000000b003f27f91135asm3113289pgl.76.2022.05.17.07.06.33
+        by smtp.gmail.com with ESMTPSA id z34-20020a631922000000b003f27f91135asm3113289pgl.76.2022.05.17.07.06.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 07:06:36 -0700 (PDT)
+        Tue, 17 May 2022 07:06:39 -0700 (PDT)
 From: Vihas Makwana <makvihas@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -46,10 +46,12 @@ Cc: linux-staging@lists.linux.dev,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Pavel Skripkin <paskripkin@gmail.com>,
 	Vihas Makwana <makvihas@gmail.com>
-Subject: [PATCH v2 0/3] staging: r8188eu: fix some warnings 
-Date: Tue, 17 May 2022 19:36:23 +0530
-Message-Id: <20220517140626.3716-1-makvihas@gmail.com>
+Subject: [PATCH v2 1/3] staging: r8188eu: fix warnings in rtw_p2p
+Date: Tue, 17 May 2022 19:36:24 +0530
+Message-Id: <20220517140626.3716-2-makvihas@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220517140626.3716-1-makvihas@gmail.com>
+References: <20220517140626.3716-1-makvihas@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,24 +60,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset fixes following checkpatch warning:
+Refactor the code to fix following warning:
     WARNING: Comparisons should place the constant on the right side of the test
 
-Compiled tested only.
+Signed-off-by: Vihas Makwana <makvihas@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_p2p.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-v1 -> v2:
-  Fixed subject line and removed extra spaces.
-
-Vihas Makwana (3):
-  staging: r8188eu: fix warnings in rtw_p2p
-  staging: r8188eu: fix warnings in rtw_pwrctrl
-  staging: r8188eu: fix warnings in rtw_wlan_util
-
- drivers/staging/r8188eu/core/rtw_p2p.c       |  8 ++++----
- drivers/staging/r8188eu/core/rtw_pwrctrl.c   | 12 ++++++------
- drivers/staging/r8188eu/core/rtw_wlan_util.c |  2 +-
- 3 files changed, 11 insertions(+), 11 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
+index 59bb1bd12..c3884c49b 100644
+--- a/drivers/staging/r8188eu/core/rtw_p2p.c
++++ b/drivers/staging/r8188eu/core/rtw_p2p.c
+@@ -872,7 +872,7 @@ u32 process_assoc_req_p2p_ie(struct wifidirect_info *pwdinfo, u8 *pframe, uint l
+ 				}
+ 
+ 				psta->dev_name_len = 0;
+-				if (WPS_ATTR_DEVICE_NAME == be16_to_cpu(*(__be16 *)pattr_content)) {
++				if (be16_to_cpu(*(__be16 *)pattr_content) == WPS_ATTR_DEVICE_NAME) {
+ 					dev_name_len = be16_to_cpu(*(__be16 *)(pattr_content + 2));
+ 
+ 					psta->dev_name_len = (sizeof(psta->dev_name) < dev_name_len) ? sizeof(psta->dev_name) : dev_name_len;
+@@ -1213,7 +1213,7 @@ u8 process_p2p_group_negotation_resp(struct wifidirect_info *pwdinfo, u8 *pframe
+ 				if (attr_content == P2P_STATUS_SUCCESS) {
+ 					/*	Do nothing. */
+ 				} else {
+-					if (P2P_STATUS_FAIL_INFO_UNAVAILABLE == attr_content) {
++					if (attr_content == P2P_STATUS_FAIL_INFO_UNAVAILABLE) {
+ 						rtw_p2p_set_state(pwdinfo, P2P_STATE_RX_INFOR_NOREADY);
+ 					} else {
+ 						rtw_p2p_set_state(pwdinfo, P2P_STATE_GONEGO_FAIL);
+@@ -1891,7 +1891,7 @@ int rtw_p2p_enable(struct adapter *padapter, enum P2P_ROLE role)
+ 
+ 	if (role == P2P_ROLE_DEVICE || role == P2P_ROLE_CLIENT || role == P2P_ROLE_GO) {
+ 		/* leave IPS/Autosuspend */
+-		if (_FAIL == rtw_pwr_wakeup(padapter)) {
++		if (rtw_pwr_wakeup(padapter) == _FAIL) {
+ 			ret = _FAIL;
+ 			goto exit;
+ 		}
+@@ -1905,7 +1905,7 @@ int rtw_p2p_enable(struct adapter *padapter, enum P2P_ROLE role)
+ 		init_wifidirect_info(padapter, role);
+ 
+ 	} else if (role == P2P_ROLE_DISABLE) {
+-		if (_FAIL == rtw_pwr_wakeup(padapter)) {
++		if (rtw_pwr_wakeup(padapter) == _FAIL) {
+ 			ret = _FAIL;
+ 			goto exit;
+ 		}
 -- 
 2.30.2
 
