@@ -1,90 +1,81 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A9F1383
-	for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 13:51:59 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id w123so22338686oiw.5
-        for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 06:51:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5631383
+	for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 14:06:37 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id nk9-20020a17090b194900b001df2fcdc165so2603995pjb.0
+        for <linux-staging@lists.linux.dev>; Tue, 17 May 2022 07:06:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dqs07Jep3liZKF0qlg72VGmG+rgWTVuefUqFlS6fV4E=;
-        b=DiyJpaLtLiYYlr+WkATrplEODo5bpr5osxh2vS/3wvBAVDg1+JkKE+BoRb/ttsfyxR
-         oyGcWzpr8/ipWcCIG1yqypp3VD5SCK5bpCmQ8+b0t/LwlQQ1LRSzngujpNhBVwqW0qlN
-         yI4eubrQloteLw4cIuZ4Uvom4nlBVe0o8aM4W6lG/RTxYc/HFY1yvowv9/qGN4I09tEk
-         4aeEaBU3bCgsrByt+TIHgA6Ig/WKhID3AuRuRmrK9FzIHkZKm8p4s0osfPr9hwLfegpm
-         QfzFD8+BNwyg+FWKLL3TAH6bEtftK+2esD3jqnRtviYJ/lZTlhvbJFLu7JTZxUN+dBKY
-         vnmw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nQgF3isZDKLWuH4ifhpSCAZBSH+rYxzOtBZkOg2gi8U=;
+        b=IKPT3GX934EYxIcfasHxe3tTubPIVtfAnAYWZyhpW6GwiiQm8Q6EvrP2+PB8BY19Uq
+         z+jk5+9YM1zPXzRO5OQ7YUIp53As19xlDBYBdy/uEzcOAzGRVrhjAkq966jbCHsoAuKA
+         tOWVI/NRZcv3Z4czEtGycQ0WEj+LhunFeJpIocarnusiOo+7JDpn55cQKQjKPbzbPzda
+         jtCH5gPbtVtnb+8C5U+OuKDP8CPrGLOgJgPa4aUyWbfiH1obfiNEQufp5X5lHBqLDJoU
+         cdKP0lDpxewvCjYEm23e5/TfGWuFdwVpYaXJDFtfOQhzGYQhxMDHhnS4EUfrHf+vXMm4
+         fi5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dqs07Jep3liZKF0qlg72VGmG+rgWTVuefUqFlS6fV4E=;
-        b=NMao3C9YC68DoNbc8lC/TGvYtjAmhgA10jjCYy/zpjrLpBP8JePd15CS00Ue6huSn4
-         Eu41zv/RlcdQiWJESObqxcaVlmrl0egdwFdsaR1uVij5uYsrNpJ2dnIGFI2qwR7Dwjbl
-         mcrtGfAoQVDDveSUerASW4aqULmhmoA0UAwocKa5gjtbq3A++50vjNpyU5Jm47pXoP+l
-         BJyFfg8uY9BmO7M/WWbFl+IcRasg0PmVARZDKNamwDr7pc/A2AzecEz9MLOvxRNkepey
-         73abzFmEbNGlnLUryyGzC0LqPBDMupZGPa2puQZhxdhFC7+dSJVfJ7szQ+Fzw13sGjUb
-         H2HQ==
-X-Gm-Message-State: AOAM5318CMEcXaK00YkE4GQOBhrvKqSWD+l5q7rLwR+vHPAUPw2RU3ST
-	BVhkMpInPVcNjN44F9yZyIpBHvpa4/b5VF2iapU=
-X-Google-Smtp-Source: ABdhPJwryDf71vdU031pJAEI8zXEOUflzmYA497rKIyES5J2JKlDPPLwnq9rb0Qv4oal9+7ZDUMhhtoygFYY1XXmzsY=
-X-Received: by 2002:aca:39d5:0:b0:326:b279:592 with SMTP id
- g204-20020aca39d5000000b00326b2790592mr16218328oia.276.1652795518396; Tue, 17
- May 2022 06:51:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nQgF3isZDKLWuH4ifhpSCAZBSH+rYxzOtBZkOg2gi8U=;
+        b=RyYNE7bT2QHHtO+HA6bzblikSaE7CAwlcFJWpKdO6iXXu0PXZgcuY/f9bbovHvewMQ
+         UMqu7Kn7dG3040D0XnRALxDRWJzgeLg14Mm058wFbXplG5feHd0KWME7dw+3VPDojkGh
+         esB6UD0bihFL+UY2puYeBzJR4LnrUaWKQ+JEOgdRsoV6Pw2JXjAjF6zyv2WE3vOWZ4vz
+         e7v7Rsu+lqCzz++MfrNpS2gPTOUK1QVw6+SAeBhQoXRZuV0mnxkXB6dUuJ7/hDW3+eub
+         sVo27CjSb2GJ2KxWDsy74oZH1EyRgpOqKx2nD1886iB2qhlYhtkD1pNBI19rZChlgCnx
+         iNYQ==
+X-Gm-Message-State: AOAM530LdfLDcDcpviRw0zS/sfftO7XWs2r6JIKTGB+NgsaTzgErmon0
+	7n6R6Ad4rNNgxjFZLnGzfLs=
+X-Google-Smtp-Source: ABdhPJwg4wnpKRIv3claIbAuADoipHj0NqvZyKT11KCxorFdy2PIfBueO5522lxLSA+hZo/YBz6iVA==
+X-Received: by 2002:a17:90b:1651:b0:1dc:aec3:c17 with SMTP id il17-20020a17090b165100b001dcaec30c17mr25037491pjb.43.1652796396778;
+        Tue, 17 May 2022 07:06:36 -0700 (PDT)
+Received: from makvihas.localhost.com ([2405:201:202b:1:3174:ae5c:a49e:4e77])
+        by smtp.gmail.com with ESMTPSA id z34-20020a631922000000b003f27f91135asm3113289pgl.76.2022.05.17.07.06.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 May 2022 07:06:36 -0700 (PDT)
+From: Vihas Makwana <makvihas@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Vihas Makwana <makvihas@gmail.com>
+Subject: [PATCH v2 0/3] staging: r8188eu: fix some warnings 
+Date: Tue, 17 May 2022 19:36:23 +0530
+Message-Id: <20220517140626.3716-1-makvihas@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220516170306.6008-1-makvihas@gmail.com> <20220516170306.6008-3-makvihas@gmail.com>
- <7b926f43-8c6b-6eae-edc6-02dc16376eb0@gmail.com>
-In-Reply-To: <7b926f43-8c6b-6eae-edc6-02dc16376eb0@gmail.com>
-From: Vihas Makwana <makvihas@gmail.com>
-Date: Tue, 17 May 2022 19:21:47 +0530
-Message-ID: <CAH1kMwTM9oT+wr7D7km68LXYWxs1TvsjhsFizq9Bm2juvQpJyg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] staging: r8188eu: fix checkpatch.pl warnings in rtw_pwrctrl
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 17, 2022 at 1:15 AM Pavel Skripkin <paskripkin@gmail.com> wrote:
->
-> Hi Vihas,
->
-> On 5/16/22 20:03, Vihas Makwana wrote:
-> > Refactor the code to fix following warnings:
-> >      WARNING: Comparisons should place the constant on the right side of the test
-> >
-> > Signed-off-by: Vihas Makwana <makvihas@gmail.com>
-> > ---
->
-> [code snip]
->
-> >               if ((pwrpriv->smart_ps == smart_ps) &&
-> > @@ -356,7 +356,7 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
-> >
-> >       pwrctrlpriv->LpsIdleCount = 0;
-> >       pwrctrlpriv->power_mgnt = padapter->registrypriv.power_mgnt;/*  PS_MODE_MIN; */
-> > -     pwrctrlpriv->bLeisurePs = PS_MODE_ACTIVE != pwrctrlpriv->power_mgnt;
-> > +     pwrctrlpriv->bLeisurePs =  pwrctrlpriv->power_mgnt != PS_MODE_ACTIVE;
-> >
->
-> Please remove extra space
->
-Oh sorry, my bad. Will submit a v2.
->
->
-> With regards,
-> Pavel Skripkin
+This patchset fixes following checkpatch warning:
+    WARNING: Comparisons should place the constant on the right side of the test
 
+Compiled tested only.
 
+v1 -> v2:
+  Fixed subject line and removed extra spaces.
+
+Vihas Makwana (3):
+  staging: r8188eu: fix warnings in rtw_p2p
+  staging: r8188eu: fix warnings in rtw_pwrctrl
+  staging: r8188eu: fix warnings in rtw_wlan_util
+
+ drivers/staging/r8188eu/core/rtw_p2p.c       |  8 ++++----
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c   | 12 ++++++------
+ drivers/staging/r8188eu/core/rtw_wlan_util.c |  2 +-
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
 -- 
-Thanks,
-Vihas
+2.30.2
+
