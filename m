@@ -1,102 +1,341 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BE829A1
-	for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 22:46:43 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id f2so15332329wrc.0
-        for <linux-staging@lists.linux.dev>; Mon, 16 May 2022 15:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lh2NE58HUp3+dx2zo/APxmvSgiWw0DhpDrtBDl4weqo=;
-        b=og5ptlwnfLZjthK1xxE6OxhJo/p8z71qQPUppM7tBZ9x/bQouRP+H57IR+c0+WOuhi
-         zM+iD3VbwPIbfQwv1yA834gO6QMrPPqVy9pxiNuwdFyGBIWa0964AHKagmliKtyy/hv/
-         xRPZbkfm+op4cDNEBBrjIfNXvIK5nJgyr59As0C5Sa6zAiD2Nu8H744Vs6tzNA1A4e2H
-         84LrepSvO8Apv+43F2KEyI5FhiZVnIlw5Hy6jkgDMbuJ3IOZmDe5fK2fblgOEDnFCtBg
-         SGAstorLJxDQhRofOwGA3MIgADUA+Wk3r4fcPxY97udkKLzCUJoy49H8jq8mGueHLCBW
-         3BmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lh2NE58HUp3+dx2zo/APxmvSgiWw0DhpDrtBDl4weqo=;
-        b=CO9fuLircwsZaty+hQvah5cQ5j5oYo1NlyiimyZ01QrBzQZ7ybLACu11Xyjt3nFV1C
-         3pK3+Alch8cwvBmjHJGoFHj09rd9pTqaQhUQQ6yD6zsYk0TVpUYmdhX/6AHiD8K+dNuT
-         2qg7nVjufBuB7vNV/Z/8j/RO77bG17ZcdXL2fKqs0HIzXnyQ1SOKrVaag6M2WKwnKeJL
-         IWVCwGkFCPyTWepxVxCfX/03S+rfiAX6VjrsJvnmL2GvxvRuVS0LzCJhswsYrkLBDlpr
-         4YO/xcqmHQQFmWvJ7sl6cG8yzR3NQGlsNTidU9+XX7Mvan6q5fR4TMjXTMDGAZ/Jitn3
-         J95A==
-X-Gm-Message-State: AOAM530q7upG+3UxZs66j5V0isrmNiYr4ip09IfU3dsq+O1Q851sQnG5
-	h6nDuEbVObzrxuoBVllql4CCFg==
-X-Google-Smtp-Source: ABdhPJwFUVZ7umGIeVSc9HIFSGGuVIErhKoX55pyukPHyt9eB44vFmeAD96iOfnDjrxMM1WEf4N5lQ==
-X-Received: by 2002:adf:ed07:0:b0:20d:e591:4ae8 with SMTP id a7-20020adfed07000000b0020de5914ae8mr530189wro.357.1652741202239;
-        Mon, 16 May 2022 15:46:42 -0700 (PDT)
-Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id l27-20020adfa39b000000b0020dcea1be26sm345588wrb.97.2022.05.16.15.46.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 15:46:41 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	straube.linux@gmail.com,
-	martin@kaiser.cx,
-	saurav.girepunje@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: remove _drv_ defines from include/rtw_debug.h
-Date: Mon, 16 May 2022 23:46:40 +0100
-Message-Id: <20220516224640.90973-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.35.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7697F;
+	Tue, 17 May 2022 07:38:33 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: benjamin.gaignard)
+	with ESMTPSA id 7B3DE1F406C2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1652773112;
+	bh=PrOSYchtvOtnu1XD3vC8v5VlIMGHC7gbriARXUxqLqI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HE4jcu3ZEh2zbapBrQjyFr2+YYRoRlTYI2rLHiuLg/nUXGTKNrCMNLjdzCMnkHDi7
+	 5dlwJhg6JOshYrhOGQPh7bXyIFaccayezzeBWtSUJz4HVSpG7kCBbY7ieCgoHvaaoS
+	 u8MYqlAFj1lF47iBlIdvDz6P/vADHx+ekDTkMyq+IiRvFYtOuSntGBt77Lo52jRkhh
+	 3MmT1627/Jk+7YLnQG8Z+E8IatARPUy/4EzX9POUs32C/oC8tzS78Hl7SBqZ9phUvl
+	 c/wqiIhS6sshIJhC+QuNxvwUk724pjN1St/iuRw+ptHMS2FhH/XKbqJQ5mIoGcIvpG
+	 rGxShtxwLRqGg==
+Message-ID: <14c53bc3-b136-f8a3-3d43-d59e2f3a8791@collabora.com>
+Date: Tue, 17 May 2022 09:38:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] media: hantro: Be more accurate on pixel formats
+ step_width constraints
+Content-Language: en-US
+To: Nicolas Dufresne <nicolas@ndufresne.ca>, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de, mchehab@kernel.org, gregkh@linuxfoundation.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, heiko@sntech.de, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org
+Cc: kernel@pengutronix.de, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, kernel@collabora.com
+References: <20220516141142.591549-1-benjamin.gaignard@collabora.com>
+ <bff48ad7ec42344d81b930babda7777615171148.camel@ndufresne.ca>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <bff48ad7ec42344d81b930babda7777615171148.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Remove the following defines:
-_drv_always_
-_drv_emerg_
-_drv_alert_
-_drv_crit_
-_drv_err_
-_drv_warning_
-_drv_notice_
-_drv_info_
-_drv_debug_
 
-from include/rtw_debug.h, as they are no longer used anywhere in the
-driver, and are unlikely to be ever again with the removal of the old
-debugging/logging code.
+Le 16/05/2022 à 21:08, Nicolas Dufresne a écrit :
+> Hi Benjamin,
+>
+> thanks for your patch, but see below, perhaps something you could improve...
+>
+> Le lundi 16 mai 2022 à 16:11 +0200, Benjamin Gaignard a écrit :
+>> On Hantro G2 decoder on IMX8MQ strides requirements aren't the same
+>> for NV12_4L4 and NV12 pixel formats. The first one use a 4 bytes padding
+>> while the last one needs 8 bytes.
+>> To be sure to provide the correct stride in all cases we need:
+>> - to relax the constraints on codec formats so set step_width to 4
+>> - use capture queue format and not the output queue format when applying
+>>    the pixel format constraints.
+>> - put the correct step_width constraints on each pixel format.
+>  From v4l2_apply_frmsize_constraints() point of view, 8 bytes is a sub-set of 4
+> bytes. The application can request larger then coded size width/height after
+> this change and you'd still get a broken render. The reason is that it looks
+> like the tile mode has more constraints then what
+> v4l2_apply_frmsize_constraints(). It seems like from your description that the
+> width/height must match the coded size (+plus the alignment). For this reason, I
+> think you need when using tile mode validate the that the width/height passed to
+> v4l2_apply_frmsize_constraints() matched the coded size from the header
+> structure rather then user provided size passed in S_FMT.
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/r8188eu/include/rtw_debug.h | 10 ----------
- 1 file changed, 10 deletions(-)
+Gstreamer plugins set and get pixel formats on capture and output queues without
+sending a header when they want to test the driver before register the decoder
+element. If I do want you want that will be broken and not only for HEVC but for
+all other codecs.
 
-diff --git a/drivers/staging/r8188eu/include/rtw_debug.h b/drivers/staging/r8188eu/include/rtw_debug.h
-index 01a7d987d6cc..84ec068596e7 100644
---- a/drivers/staging/r8188eu/include/rtw_debug.h
-+++ b/drivers/staging/r8188eu/include/rtw_debug.h
-@@ -7,16 +7,6 @@
- #include "osdep_service.h"
- #include "drv_types.h"
- 
--#define _drv_always_			1
--#define _drv_emerg_			2
--#define _drv_alert_			3
--#define _drv_crit_			4
--#define _drv_err_			5
--#define	_drv_warning_			6
--#define _drv_notice_			7
--#define _drv_info_			8
--#define	_drv_debug_			9
--
- #define _module_rtl871x_xmit_c_		BIT(0)
- #define _module_xmit_osdep_c_		BIT(1)
- #define _module_rtl871x_recv_c_		BIT(2)
--- 
-2.35.3
+Benjamin
 
+>
+> regards,
+> Nicolas
+>
+>> With this SAODBLK_A_MainConcept_4 and SAODBLK_B_MainConcept_4 conformance
+>> tests files are correctly decoded with both NV12 and NV12_4L4 pixel formats.
+>> These two files have a resolution of 1016x760.
+>> If step_width = 16 for the both pixel formats the selected capture
+>> resolution is 1024x768 which is wrong for NV12_4L4 (which expect 1016x760)
+>> on Hantro G2 on IMX8MQ (but correct for NV12).
+>>
+>> For other variants than Hantro G2 on IMX8M keep the same step_width to avoid
+>> regressions.
+>>
+>> Fluster HEVC test score is now 128/147 vs 126/147 with the both pixel
+>> formats as decoder output.
+>> Fluster VP9 test score stay at 147/303.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   drivers/staging/media/hantro/hantro_v4l2.c    |  2 +-
+>>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 40 +++++++++++++++++--
+>>   .../staging/media/hantro/rockchip_vpu_hw.c    | 32 +++++++++++++++
+>>   .../staging/media/hantro/sama5d4_vdec_hw.c    | 16 ++++++++
+>>   drivers/staging/media/hantro/sunxi_vpu_hw.c   | 16 ++++++++
+>>   5 files changed, 101 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+>> index 71a6279750bf..93d0dcf69f4a 100644
+>> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+>> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+>> @@ -260,7 +260,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+>>   	} else if (ctx->is_encoder) {
+>>   		vpu_fmt = ctx->vpu_dst_fmt;
+>>   	} else {
+>> -		vpu_fmt = ctx->vpu_src_fmt;
+>> +		vpu_fmt = fmt;
+>>   		/*
+>>   		 * Width/height on the CAPTURE end of a decoder are ignored and
+>>   		 * replaced by the OUTPUT ones.
+>> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> index 9802508bade2..b6b2bf65e56d 100644
+>> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+>> @@ -83,6 +83,14 @@ static const struct hantro_fmt imx8m_vpu_postproc_fmts[] = {
+>>   		.fourcc = V4L2_PIX_FMT_YUYV,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>>   		.postprocessed = true,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 3840,
+>> +			.step_width = MB_DIM,
+>> +			.min_height = 48,
+>> +			.max_height = 2160,
+>> +			.step_height = MB_DIM,
+>> +		},
+>>   	},
+>>   };
+>>   
+>> @@ -90,6 +98,14 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_NV12,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 3840,
+>> +			.step_width = MB_DIM,
+>> +			.min_height = 48,
+>> +			.max_height = 2160,
+>> +			.step_height = MB_DIM,
+>> +		},
+>>   	},
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
+>> @@ -137,6 +153,14 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
+>>   		.fourcc = V4L2_PIX_FMT_NV12,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>>   		.postprocessed = true,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 3840,
+>> +			.step_width = MB_DIM,
+>> +			.min_height = 48,
+>> +			.max_height = 2160,
+>> +			.step_height = MB_DIM,
+>> +		},
+>>   	},
+>>   };
+>>   
+>> @@ -144,6 +168,14 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_NV12_4L4,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 3840,
+>> +			.step_width = 4,
+>> +			.min_height = 48,
+>> +			.max_height = 2160,
+>> +			.step_height = 4,
+>> +		},
+>>   	},
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
+>> @@ -152,10 +184,10 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+>>   		.frmsize = {
+>>   			.min_width = 48,
+>>   			.max_width = 3840,
+>> -			.step_width = MB_DIM,
+>> +			.step_width = 4,
+>>   			.min_height = 48,
+>>   			.max_height = 2160,
+>> -			.step_height = MB_DIM,
+>> +			.step_height = 4,
+>>   		},
+>>   	},
+>>   	{
+>> @@ -165,10 +197,10 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+>>   		.frmsize = {
+>>   			.min_width = 48,
+>>   			.max_width = 3840,
+>> -			.step_width = MB_DIM,
+>> +			.step_width = 4,
+>>   			.min_height = 48,
+>>   			.max_height = 2160,
+>> -			.step_height = MB_DIM,
+>> +			.step_height = 4,
+>>   		},
+>>   	},
+>>   };
+>> diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+>> index fc96501f3bc8..efba7fcdf207 100644
+>> --- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
+>> +++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+>> @@ -63,6 +63,14 @@ static const struct hantro_fmt rockchip_vpu1_postproc_fmts[] = {
+>>   		.fourcc = V4L2_PIX_FMT_YUYV,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>>   		.postprocessed = true,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 1920,
+>> +			.step_width = MB_DIM,
+>> +			.min_height = 48,
+>> +			.max_height = 1088,
+>> +			.step_height = MB_DIM,
+>> +		},
+>>   	},
+>>   };
+>>   
+>> @@ -70,6 +78,14 @@ static const struct hantro_fmt rk3066_vpu_dec_fmts[] = {
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_NV12,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 1920,
+>> +			.step_width = MB_DIM,
+>> +			.min_height = 48,
+>> +			.max_height = 1088,
+>> +			.step_height = MB_DIM,
+>> +		},
+>>   	},
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+>> @@ -116,6 +132,14 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_NV12,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 4096,
+>> +			.step_width = MB_DIM,
+>> +			.min_height = 48,
+>> +			.max_height = 2304,
+>> +			.step_height = MB_DIM,
+>> +		},
+>>   	},
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+>> @@ -162,6 +186,14 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_NV12,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 1920,
+>> +			.step_width = MB_DIM,
+>> +			.min_height = 48,
+>> +			.max_height = 1088,
+>> +			.step_height = MB_DIM,
+>> +		},
+>>   	},
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+>> diff --git a/drivers/staging/media/hantro/sama5d4_vdec_hw.c b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+>> index b2fc1c5613e1..07ee804e706b 100644
+>> --- a/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+>> +++ b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+>> @@ -16,6 +16,14 @@ static const struct hantro_fmt sama5d4_vdec_postproc_fmts[] = {
+>>   		.fourcc = V4L2_PIX_FMT_YUYV,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>>   		.postprocessed = true,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 1280,
+>> +			.step_width = MB_DIM,
+>> +			.min_height = 48,
+>> +			.max_height = 720,
+>> +			.step_height = MB_DIM,
+>> +		},
+>>   	},
+>>   };
+>>   
+>> @@ -23,6 +31,14 @@ static const struct hantro_fmt sama5d4_vdec_fmts[] = {
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_NV12,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 1280,
+>> +			.step_width = MB_DIM,
+>> +			.min_height = 48,
+>> +			.max_height = 720,
+>> +			.step_height = MB_DIM,
+>> +		},
+>>   	},
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
+>> diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
+>> index c0edd5856a0c..c2392c08febb 100644
+>> --- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
+>> +++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
+>> @@ -14,6 +14,14 @@ static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
+>>   		.fourcc = V4L2_PIX_FMT_NV12,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>>   		.postprocessed = true,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 3840,
+>> +			.step_width = 32,
+>> +			.min_height = 48,
+>> +			.max_height = 2160,
+>> +			.step_height = 32,
+>> +		},
+>>   	},
+>>   };
+>>   
+>> @@ -21,6 +29,14 @@ static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_NV12_4L4,
+>>   		.codec_mode = HANTRO_MODE_NONE,
+>> +		.frmsize = {
+>> +			.min_width = 48,
+>> +			.max_width = 3840,
+>> +			.step_width = 32,
+>> +			.min_height = 48,
+>> +			.max_height = 2160,
+>> +			.step_height = 32,
+>> +		},
+>>   	},
+>>   	{
+>>   		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
