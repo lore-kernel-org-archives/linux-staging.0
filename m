@@ -1,134 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76E41FD4
-	for <linux-staging@lists.linux.dev>; Wed, 18 May 2022 19:12:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1652901137;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3kHmkFKa8N/b7P5EPu8Whry0f5IeaDhnc3ZXcXoC+G4=;
-	b=AEAQMvuzUXTTWHs1wYstQrZmicdx+P+ZrHuHxOcDeaeoBqt1/cYTe48GDhMXugsgckHk3O
-	Owc2som4kv0kKkgo0O2ufv3jucJZYrhr2nujRKgVYmBYp6NLfFxM1rV4+dnXYDaILlqUaV
-	h/T3xkZ4g/AbrrhsT9s5OJnAY6Uti0Q=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-f61yYfRLMl-T1yEKlPsvLw-1; Wed, 18 May 2022 15:12:14 -0400
-X-MC-Unique: f61yYfRLMl-T1yEKlPsvLw-1
-Received: by mail-qk1-f197.google.com with SMTP id a5-20020ae9e805000000b006a034b31384so2257737qkg.8
-        for <linux-staging@lists.linux.dev>; Wed, 18 May 2022 12:12:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8621C2CA8
+	for <linux-staging@lists.linux.dev>; Wed, 18 May 2022 22:11:50 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id v8so4027225lfd.8
+        for <linux-staging@lists.linux.dev>; Wed, 18 May 2022 15:11:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=np9qQNRe/434uUffTp5fkNq//+6BgIG1Jqjo8T2tQq4=;
+        b=mVXnIcfDowm0H9W6YJlJel6lMFCikH4arwUrKuuRIFQ8GsrMRKn8vO7Utj9nZZj0tw
+         TrO4FkvAxS9v1u2dxjdX4iDxqjM0MY7Sjif/BiSYGOvVmV9p1jMqgHTkxt1JiaLn6QfJ
+         u559aOYqgsjSAiTFHJ8E9/cAb5nQIsGwYYaJuX79GkleImiovIqjuuDBvBheReQimeRv
+         t/0WMxJ88K0b94eBFgMMKxSNm9GsRG4eMBjUhhdR3pP5sP4UiU1c+2YnP8UPeiUKxNcB
+         Rue2SSQ64bFEEi3WNcbu4a3lw6FY/EjWCt8s2w2y4v/BqdXLZbX4pfnzTH5NecD/knzh
+         wwwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3kHmkFKa8N/b7P5EPu8Whry0f5IeaDhnc3ZXcXoC+G4=;
-        b=Y4JCgBFpPCC1HnUUx7fH57sJtcqSy41G//iJ/ExxSJIS8T1cCFRxiwTa5uZvZ5iMe/
-         Xzvba6jLllW4L5PMkgNu0ixVUFooi5Uys7QJkPcGS6M7VIhHvFbiY0iLRS46R0k5gRa/
-         dJjVqAClczLYaScW5LeZvSGMBwI5i3wixGI1gRYDPyYNGsXkUDiGR1h/Ya05i8sbTvxC
-         +I6YaSQuNNoJc9oLF86vTZI/2NKJ2Etc9vYFGePjqQDeiaSos6naYrAs+ACrR1kmZK8U
-         FjWh5V+J5/vKMUUuvsl1YWOOpUpEWQ8Dplt3eb6yT/v3zC3SGImRXaJ5zd5q+unAcAn3
-         KJvQ==
-X-Gm-Message-State: AOAM533yTFy3KAvi+IveygsJs4L4VU/NinE09ufjmqGvANJu5JQYxGo6
-	QlyYlhqs89mioahtwgLo1jETEQVbm4k8zX5OE9JFcK2qOx+zi8mEPSvNXJtrnYHvwmxZqMAIlHL
-	ogkJ68dLDkI1QPVPekdQRxr1lJg==
-X-Received: by 2002:a05:622a:4d4:b0:2f3:c529:5f89 with SMTP id q20-20020a05622a04d400b002f3c5295f89mr1212227qtx.158.1652901133746;
-        Wed, 18 May 2022 12:12:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDTpVg+9NwiSLmevtf5g+Ysj1N5cOOcjxsuXhAJ6Go3ij17Z9lOG95DL7dwjCExXMq08rimA==
-X-Received: by 2002:a05:622a:4d4:b0:2f3:c529:5f89 with SMTP id q20-20020a05622a04d400b002f3c5295f89mr1212210qtx.158.1652901133568;
-        Wed, 18 May 2022 12:12:13 -0700 (PDT)
-Received: from fedora.hitronhub.home (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id z190-20020a37b0c7000000b006a32d491f92sm39183qke.39.2022.05.18.12.12.12
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=np9qQNRe/434uUffTp5fkNq//+6BgIG1Jqjo8T2tQq4=;
+        b=ingdBK5PjMJzXK/8m1H4y7nHQ5/eB6+WWyuXA7vRuq+1Ry1ugwePgbuNC+nu0kuLhi
+         cLj/MRmHt6+x+bcRvZITswyltq5xzgqMWauDX70jddNbpErS87yiVf9qs5cRJR808Y4A
+         NtbFf5nH7a9YNTeGm/rw2vp5knMIXGrvWYpKCGekK87TFf2IzDQhXxsAAzw0DNFcnvfN
+         z/BvzDelvZstQNQyHDr8EL+1PxF2fqOtWPtBHPEUOX82I+Sby4QY4dRR3i3IueGvNypD
+         wiMyePyKrQZQSDowdDJNWylW6nU77WEm1SoTx8d4JZeHuiuc4QAb+D2HP5UTIPXwyKvS
+         PcHA==
+X-Gm-Message-State: AOAM531ikzwbszq9wtCQznFCcEGXwJw4bVAAgSK8vvh9emEKl1b3v5KN
+	TdpTgWM4VXTV10TW5GTxHRc=
+X-Google-Smtp-Source: ABdhPJySSMcW9Cf36RqzFKxgy2nAY+ds7Cn6Au7dGczI6ytJbTCgPr59yAnHTD3DkEgvGCHe3pFq1w==
+X-Received: by 2002:a05:6512:3341:b0:44a:eb29:c59c with SMTP id y1-20020a056512334100b0044aeb29c59cmr1056155lfd.596.1652911908406;
+        Wed, 18 May 2022 15:11:48 -0700 (PDT)
+Received: from localhost.localdomain ([46.235.67.4])
+        by smtp.gmail.com with ESMTPSA id v21-20020a197415000000b004742009e038sm67500lfe.126.2022.05.18.15.11.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 12:12:13 -0700 (PDT)
-From: Adrien Thierry <athierry@redhat.com>
-To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2 8/9] staging: vchiq_arm: use state from vchiq instance
-Date: Wed, 18 May 2022 15:11:19 -0400
-Message-Id: <20220518191126.60396-9-athierry@redhat.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220518191126.60396-1-athierry@redhat.com>
-References: <20220518191126.60396-1-athierry@redhat.com>
+        Wed, 18 May 2022 15:11:47 -0700 (PDT)
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: gregkh@linuxfoundation.org,
+	Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	straube.linux@gmail.com,
+	dan.carpenter@oracle.com,
+	fmdefrancesco@gmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Pavel Skripkin <paskripkin@gmail.com>
+Subject: [PATCH 0/4] staging: r8188eu: add error handling of usb read errors
+Date: Thu, 19 May 2022 01:11:43 +0300
+Message-Id: <cover.1652911343.git.paskripkin@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-In 'handle_to_service', access the vchiq state from the vchiq instance
-instead of the global 'vchiq_states' array. This will allow getting rid
-of the global 'vchiq_states' array.
+Hi,
 
-Signed-off-by: Adrien Thierry <athierry@redhat.com>
----
- .../vc04_services/interface/vchiq_arm/vchiq_core.c   |  7 +++++++
- .../vc04_services/interface/vchiq_arm/vchiq_core.h   | 12 +-----------
- 2 files changed, 8 insertions(+), 11 deletions(-)
+it's reincarnation of my old series for adding sane error handling in
+r8818eu.
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index be2ee84686b7..cd23d18f8b3c 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -13,6 +13,7 @@
- #include <linux/rcupdate.h>
- #include <linux/sched/signal.h>
- 
-+#include "vchiq_arm.h"
- #include "vchiq_core.h"
- 
- #define VCHIQ_SLOT_HANDLER_STACK 8192
-@@ -234,6 +235,12 @@ set_service_state(struct vchiq_service *service, int newstate)
- 	service->srvstate = newstate;
- }
- 
-+struct vchiq_service *handle_to_service(struct vchiq_instance *instance, unsigned int handle)
-+{
-+	int idx = handle & (VCHIQ_MAX_SERVICES - 1);
-+
-+	return rcu_dereference(instance->state->services[idx]);
-+}
- struct vchiq_service *
- find_service_by_handle(struct vchiq_instance *instance, unsigned int handle)
- {
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index 07c3a82e6084..f87b4b9b3596 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -509,17 +509,7 @@ extern void
- request_poll(struct vchiq_state *state, struct vchiq_service *service,
- 	     int poll_type);
- 
--static inline struct vchiq_service *
--handle_to_service(struct vchiq_instance *instance, unsigned int handle)
--{
--	int idx = handle & (VCHIQ_MAX_SERVICES - 1);
--	struct vchiq_state *state = vchiq_states[(handle / VCHIQ_MAX_SERVICES) &
--		(VCHIQ_MAX_STATES - 1)];
--
--	if (!state)
--		return NULL;
--	return rcu_dereference(state->services[idx]);
--}
-+struct vchiq_service *handle_to_service(struct vchiq_instance *instance, unsigned int handle);
- 
- extern struct vchiq_service *
- find_service_by_handle(struct vchiq_instance *instance, unsigned int handle);
+*Problem*
+
+Old code was returning just stack variable in case of read error. It's
+not the best approach, since passing around stack data might cause
+device misconfiguration or even kernel data leakage
+
+To solve this I've changed rtw_read{8,16,32} prototypes to return an error via
+return value and data via passed pointer. Some work should be done to
+propogate an error down to calltrace, but it's good way to at least
+start doing sane I/O error handling
+
+Tested locally on qemu with TP-Link TL-WN722N v2/v3 [Realtek RTL8188EUS]
+device. More testing is welcomed, of course :)
+
+Series is based on top of staging-testing branch
+
+Pavel Skripkin (4):
+  staging: r8188eu: add error handling of rtw_read8
+  staging: r8188eu: add error handling of rtw_read16
+  staging: r8188eu: add error handling of rtw_read32
+  MAINTAINERS: add myself as r8188eu reviewer
+
+ MAINTAINERS                                   |   1 +
+ drivers/staging/r8188eu/core/rtw_cmd.c        |  15 +-
+ drivers/staging/r8188eu/core/rtw_efuse.c      |  32 ++-
+ drivers/staging/r8188eu/core/rtw_fw.c         |  62 ++++-
+ drivers/staging/r8188eu/core/rtw_led.c        |  20 +-
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  62 ++++-
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    |   9 +-
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  |  20 +-
+ .../r8188eu/hal/Hal8188ERateAdaptive.c        |  21 +-
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |  20 +-
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   9 +-
+ drivers/staging/r8188eu/hal/hal_com.c         |  24 +-
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  37 ++-
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   6 +-
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 117 +++++++--
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  30 ++-
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 239 +++++++++++++++---
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |  33 ++-
+ drivers/staging/r8188eu/include/rtw_io.h      |   6 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  61 ++++-
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  19 +-
+ 21 files changed, 681 insertions(+), 162 deletions(-)
+
 -- 
-2.35.3
+2.36.1
 
