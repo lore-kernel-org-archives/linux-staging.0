@@ -1,189 +1,135 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782CD7A;
-	Wed, 18 May 2022 13:21:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: benjamin.gaignard)
-	with ESMTPSA id D52411F450A3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1652880076;
-	bh=QwUtZ0MlTuyD+kVFho3tPCQtHU2Givu7vatYONjked0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=PTQ+51j+Sfhs+k6XBL27swuBTeZdnYk2vb6hvfwVBIjsO04Fk+wu+LwCabRDYcYo2
-	 G362puEVZI21RLHZWwF5UnF/bF/tLvqok86cDY2ernlFdVm2+7CcYAQBZyxr0CnBV0
-	 xUmFV75fVWju0y/kipSfLWAD/4S4gV3nHcR9YEyBRnfBmyvhZlWa8ZC4/qk+xGh38N
-	 cRJjEQgo3rmBjna2bSFY+BJl8vx63oeHFswQ8sjbrzmllBrwwy4D3cERuSsyIlNARR
-	 OgWHSGN8pqfKmdE+SSPwo16FdpMtZdzzLQo74Rx9iU6zVCHV4z7YxDwKe9B1BQio1t
-	 Qphsm5/psb2lQ==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	heiko@sntech.de,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org
-Cc: kernel@pengutronix.de,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v4] media: Add P010 video format
-Date: Wed, 18 May 2022 15:21:05 +0200
-Message-Id: <20220518132105.629797-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47C17A;
+	Wed, 18 May 2022 14:07:36 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id e189so2739448oia.8;
+        Wed, 18 May 2022 07:07:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:content-language:to
+         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=44Xgt+EUBiutauBulnIHgR1NZC7VLz+1d73CrLpoSuA=;
+        b=EE+Ok5Q3AOQEWrEsMLQ8bJwxLj5JWKC0uRQavySm46LGHksaEXSJblszKsh1MvsIVQ
+         sDPRJcb4u60eXiklTNwE2U+LD49Wb+WD9qcumnXXeQJnMUEh+Cprmc8yCFMWDDAx/laZ
+         tSGFznxKpbQzHqnKFUn6Obmd3DZeEhLOmDwgdK5v2kgO5opVsh+5I61QnC6uyCbqRb+P
+         h2C/Fnjhf4h05p6b5Q8AMg4jSgBqBTEFQHak8Fh8GP7YqlfCZ9bfj2PBgjyDMGe6fFi6
+         v1tCilE06OSMQ2Ap/40R6GV7SfyLOFpw0XtrB50yxlMyw4CFBhcTVnu1K1CJBROjIYsQ
+         b0Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=44Xgt+EUBiutauBulnIHgR1NZC7VLz+1d73CrLpoSuA=;
+        b=WzTuI+G51MiTpQ64MYRGG6Vw/AEfS+p6QiDiC22EhOazLVdLSq4ddUv4h0j6d/85kI
+         oG7FXbscr6hT6IGRfvAlkmVrJtm4uHrLoo2wQ38MCvN6c1oCDUcCIkKZ1w3a5ZLrS0/y
+         cclinVWM8zIOoMdOZQaN4LqKlOKDrqETiBfFLhHz0A8OoeDPYGFEZm+H/Sj8fppHhNsI
+         mHlvrzNkcZuEs8YtUZcLcgG/2tjQDqvVTy1bw/AptgujfYhBdSlke80cbSxQ1Uu6MoMl
+         MKOKt0eIs8/1zOdBkFrhZ10ktEmwseoh1LDCs1DMwt6bVNeQFP8/FQBJGHRK73yiIknz
+         zZzw==
+X-Gm-Message-State: AOAM533WXOqt+bSNvnGs6/fyMksV68oEIUNkmQ8wP0f0g32P5yUx3nOC
+	SOihJvxIwWlTvgobgNhaguI=
+X-Google-Smtp-Source: ABdhPJyXPBsJSPb3qsIt30kakP/1viqje/dN0om/JEDZ69uJP4Erfc4CCzg7BfUTauTabr0j1dC5fA==
+X-Received: by 2002:a05:6808:23d2:b0:326:979a:46f3 with SMTP id bq18-20020a05680823d200b00326979a46f3mr12917oib.207.1652882855862;
+        Wed, 18 May 2022 07:07:35 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id v8-20020a056830140800b0060603221267sm782203otp.55.2022.05.18.07.07.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 May 2022 07:07:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <47c64195-6629-ba2b-4533-b0fe37518da0@roeck-us.net>
+Date: Wed, 18 May 2022 07:07:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Content-Language: en-US
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ clang-built-linux <llvm@lists.linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Alex Shi <alexs@kernel.org>,
+ Hu Haowen <src.res@email.cn>, Michal Marek <michal.lkml@markovi.net>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-doc-tw-discuss@lists.sourceforge.net,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-btrfs <linux-btrfs@vger.kernel.org>
+References: <20220228103142.3301082-1-arnd@kernel.org>
+ <20220516131023.GA2329080@roeck-us.net> <YoJSF8T5K9pPx3Ap@kroah.com>
+ <9510474d-5555-42b3-5a9c-90e3078df499@roeck-us.net>
+ <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [greybus-dev] Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+In-Reply-To: <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-P010 is a YUV format with 16-bits per pixel with interleaved UV.
+On 5/18/22 00:46, Arnd Bergmann wrote:
+> On Mon, May 16, 2022 at 3:19 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 5/16/22 06:31, Greg KH wrote:
+>>> On Mon, May 16, 2022 at 06:10:23AM -0700, Guenter Roeck wrote:
+>>>> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
+>>>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>>>
+>>>>> During a patch discussion, Linus brought up the option of changing
+>>>>> the C standard version from gnu89 to gnu99, which allows using variable
+>>>>> declaration inside of a for() loop. While the C99, C11 and later standards
+>>>>> introduce many other features, most of these are already available in
+>>>>> gnu89 as GNU extensions as well.
+>>>>
+>>>> The downside is that backporting affected patches to older kernel branches
+>>>> now fails with error messages such as
+>>>>
+>>>> mm/kfence/core.c: In function ‘kfence_init_pool’:
+>>>> mm/kfence/core.c:595:2: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+>>>>
+>>>> Just something to keep in mind when writing patches.
+>>>
+>>> I just ran across this very issue on this commit.  It's an easy fixup
+>>> for 5.17.y to make this work, so I did that in my tree.  If this gets to
+>>> be too much, we might need to reconsider adding c11 to older stable
+>>> kernels.
+>>>
+>>
+>> I think I'll do just that for ChromeOS; I don't want to have to deal
+>> with the backports, and we are using recent compilers anyway.
+> 
+> I think it would be better not to have the --std=gnu11 change in the older
+> stable kernels by default, as this has introduced build warnings and other
+> smaller issues, as well as raising the minimum compiler version.
+> 
+> The users that are stuck on older kernels for some reason tend to
+> overlap with those on older compilers. One example here is Android,
+> which used to ship with a gcc-4.9 build as the only non-clang toolchain,
+> and was using this for building their kernels. If someone wants to
+> pull in stable updates into an older Android, this would fail with
+> -std=gnu11. Others may be in the same situation.
+> 
+> Changing some of the 5.x stable branches to -std=gnu11 is probably
+> less of a problem, but I would not know where to draw the line exactly.
+> Maybe check with the Android team to see what the newest kernel is
+> that they expect to be built with the old gcc-4.9.
+> 
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
-version 4:
-- Fix 10-bits per components wording.
+I don't think they still build anything with gcc. We (ChromeOS) only
+need it for test builds of chromeos-4.4 (sigh), and that will hopefully
+be gone in a couple of months.
 
-version 3:
-- remove LE suffix
-- rebased on media_tree_master branch
+We already enabled -std=gnu11 in chromeos-5.10 and chromeos-5.15.
+We'll see if that is possible with chromeos-5.4 as well.
+We won't bother with older kernel branches, but those should not
+get many patches from upstream outside stable release merges,
+so it is less of a problem.
 
- .../media/v4l/pixfmt-yuv-planar.rst           | 54 +++++++++++++++++++
- drivers/media/v4l2-core/v4l2-common.c         |  1 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
- include/uapi/linux/videodev2.h                |  1 +
- 4 files changed, 57 insertions(+)
-
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-index 8dff5906639b..a900ff66911a 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-@@ -109,6 +109,13 @@ All components are stored with the same number of bits per component.
-       - Cb, Cr
-       - No
-       - 16x16 tiles
-+    * - V4L2_PIX_FMT_P010
-+      - 'P010'
-+      - 10
-+      - 4:2:0
-+      - Cb, Cr
-+      - Yes
-+      - Linear
-     * - V4L2_PIX_FMT_NV16
-       - 'NV16'
-       - 8
-@@ -171,6 +178,7 @@ horizontally.
- .. _V4L2-PIX-FMT-NV21:
- .. _V4L2-PIX-FMT-NV12M:
- .. _V4L2-PIX-FMT-NV21M:
-+.. _V4L2-PIX-FMT-P010:
- 
- NV12, NV21, NV12M and NV21M
- ---------------------------
-@@ -519,6 +527,52 @@ number of lines as the luma plane.
-       - Cb\ :sub:`33`
-       - Cr\ :sub:`33`
- 
-+.. _V4L2_PIX_FMT_P010:
-+
-+P010
-+----
-+
-+Like NV12 with 10 bits per component, expanded to 16 bits.
-+Data in the 10 high bits, zeros in the 6 low bits, arranged in little endian order.
-+
-+.. flat-table:: Sample 4x4 P010 Image
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - start + 0:
-+      - Y'\ :sub:`00`
-+      - Y'\ :sub:`01`
-+      - Y'\ :sub:`02`
-+      - Y'\ :sub:`03`
-+    * - start + 8:
-+      - Y'\ :sub:`10`
-+      - Y'\ :sub:`11`
-+      - Y'\ :sub:`12`
-+      - Y'\ :sub:`13`
-+    * - start + 16:
-+      - Y'\ :sub:`20`
-+      - Y'\ :sub:`21`
-+      - Y'\ :sub:`22`
-+      - Y'\ :sub:`23`
-+    * - start + 24:
-+      - Y'\ :sub:`30`
-+      - Y'\ :sub:`31`
-+      - Y'\ :sub:`32`
-+      - Y'\ :sub:`33`
-+    * - start + 32:
-+      - Cb\ :sub:`00`
-+      - Cr\ :sub:`00`
-+      - Cb\ :sub:`01`
-+      - Cr\ :sub:`01`
-+    * - start + 40:
-+      - Cb\ :sub:`10`
-+      - Cr\ :sub:`10`
-+      - Cb\ :sub:`11`
-+      - Cr\ :sub:`11`
-+
-+.. raw:: latex
-+
-+    \endgroup
- 
- Fully Planar YUV Formats
- ========================
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index df34b2a283bc..1e38ad8906a2 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -266,6 +266,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
- 		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
- 
- 		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
- 		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index e2636539c9db..536aaeb4df82 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1305,6 +1305,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
- 	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
- 	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
-+	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CrCb 4:2:0"; break;
- 	case V4L2_PIX_FMT_NV12_4L4:	descr = "Y/CbCr 4:2:0 (4x4 Linear)"; break;
- 	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
- 	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 6d465dc443b7..311f106bbdf5 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -601,6 +601,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
- #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
- #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
-+#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 16  Y/CbCr 4:2:0 16-bit per pixel */
- 
- /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
- #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
--- 
-2.32.0
-
+Guenter
