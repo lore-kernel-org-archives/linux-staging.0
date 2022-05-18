@@ -1,155 +1,709 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B571646AC
-	for <linux-staging@lists.linux.dev>; Wed, 18 May 2022 08:14:19 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24I7RUmP023077;
-	Wed, 18 May 2022 08:13:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=fWIlhl3xtPBE4856KhgEcJD/qAiZtdTHnUeRoEBc39A=;
- b=Dce57V4SY+yIfyfy6B3n639qoRFWvCZEjvR1K6miT1wj6ncB9Cbp9sPJt2IGyGvhfLgh
- 2Tcu5s0WXTM8RRTrr5N52omMj7MCgY4/4SlalG+3OLloXds094W9yPTyb6djY1l9jDV4
- Au9fkndrKlTlCWJtVBLzZLDxr8d45XHW8qK95ObDWZaBrOynnhoSDRPWANviwDqKbga/
- 76pe2MpGAzVXkjZ6/O378EvACugpoFR0mx+0SwK9VItzSfMZKYXX8uR+kXm+DZPHrZr0
- qju1l+cLYGbCrs5Cw9CRARKQaUHsdzH9ekVcra2PusUkkuN8tZpzlEQw1tVpIQSre3q5 jQ== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g241s8gdk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 18 May 2022 08:13:54 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 24I8Bn1X006302;
-	Wed, 18 May 2022 08:13:51 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3g22v44c6u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 18 May 2022 08:13:51 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L+Arwre6adfZH2Q0z7WRePkOf2Ir+Yf+n2PWle6jRrvYOqfSG3dFbFkoFFRNlzNco2zCer9P1LROfgHJfRnYcs+SIixdyEIJZx5QQ+5HE9FqXPgFKCcVB63plksET0om+XMqGfjebaRZsViLKbSVS4vwoxluHoZDx5OL1Im3zHbpn8B5C9wlKbnEdbxwvnFUurH1msH2DkAJERjqKa77IVDh+Tsj+6jaAl+ddJhgK+4vh2/hXEClf0slWSJIG5eGV9IMY566BF/DFfgq/cE5q4Fl5AFigSakRQ9xvYlO+m68lys8ycEvNZSscHhKWJjbbDY7T5d+WHiv/cZqlBL1NQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fWIlhl3xtPBE4856KhgEcJD/qAiZtdTHnUeRoEBc39A=;
- b=VD90jO0dzZtSUqm0SILwfbGJw6omGWFf5jEr4rgmk1oyDISEzI0EvTC/Sq6V/Wl/kNFF3HhiYpzf+p5ppcTRlL8/r4kergkKVBiM1TbXxtD9yK1H7xOyjgDdFDgZXMgB7Rh++IdI4HfmwhTsCW4PBcKK9N4/fSh64svOAkDgxFtX7pHZJaGQ+gC3ImXanr/J2XB4bUxOYIYr/R3MpOc/8ALxHj3uSWCAZiNzcZ3bnIyOwnhc10CVZr3g/KKhKgz3+nNG+0Nj1Ths9h9KJjzyZUHifVpff1lRED79pzKsreu3DKnXFkWlN8wlcqWa6GpoRGlsdfa+tfs3k8q/CmmeCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fWIlhl3xtPBE4856KhgEcJD/qAiZtdTHnUeRoEBc39A=;
- b=m8jh1w2SB6LtGlTOkFlRPpje7X/NwexoXOnlmTIId40852TvOuoWqmixtISc9HykI9anwgHZSk0HxWrobRI8gGpEncPf7A/thpJfcLUW7hxvI0HYWwAmNj7wtQD7ChfmxTB4J0udIC47VgivtbdwGUbMqHx1UoWb+93ij+1o5/Y=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by PH0PR10MB4710.namprd10.prod.outlook.com
- (2603:10b6:510:3e::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14; Wed, 18 May
- 2022 08:13:49 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e%2]) with mapi id 15.20.5273.014; Wed, 18 May 2022
- 08:13:49 +0000
-Date: Wed, 18 May 2022 11:13:35 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-        gregkh@linuxfoundation.org, straube.linux@gmail.com,
-        fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: r8188eu: add check for kzalloc
-Message-ID: <20220518081335.GR4009@kadam>
-References: <20220518075957.514603-1-jiasheng@iscas.ac.cn>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220518075957.514603-1-jiasheng@iscas.ac.cn>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MR2P264CA0181.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501::20)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D297F;
+	Wed, 18 May 2022 08:54:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: benjamin.gaignard)
+	with ESMTPSA id 557141F44BC0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1652864038;
+	bh=JifAgMNLUTZbPqUGkfiNvKXoY8wZoQRTWULFSM0LprU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cToarhiglI2kF+yH1p6lzPuXjlsuv2gwG13DhdmxkQUvsa60eK2K66yWVhWKSP1W0
+	 nkDpNGlXB+iykBUInDP+9lRI5WAHyhydgHnDGAvCMrxHt5sgSL3UIfzMuFHKnwbHqF
+	 YC/MCpqF5w/zoNPQHnAowPbwXvrocx2M1fCePdRekR+7uCNrvI0SfHqMwkD4zG2fyR
+	 O7sKCaRcNikaACbLkJEKPvszSHr4RlmLKKHnvFZppnX+vgHaULf5O7yMg6sal9kAfJ
+	 vzSIC+Er93ndAI3Fh+6Rh3zrDjjLMSH+Gkt0vCDKfuU29LA+7KciqFnDtGpSRrbJRx
+	 S+Iml/YnsXSXw==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	heiko@sntech.de,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: kernel@pengutronix.de,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v3] media: hantro: Be more accurate on pixel formats step_width constraints
+Date: Wed, 18 May 2022 10:53:49 +0200
+Message-Id: <20220518085349.290701-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1e08536c-950e-44a6-f8bf-08da38a65689
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4710:EE_
-X-Microsoft-Antispam-PRVS: 
-	<PH0PR10MB4710ACA4A3EF2DDE41114E568ED19@PH0PR10MB4710.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	6/h4cQq/5Sv4A98pJfJbwJlc3+L5fUwbpn6OjBhgA7LUOUaB3B8E3P5QLsrC3hyvTRvTlPfrudlpaz5PFED24dzMj7T/LcEWdadPRtdkcr4bKHDbV9rtyQ4CeF2ux4ahZoqqgTrZT04cowBUzDBUhRukjiPs56TRT2utFWP8rh9WPgp8m8tDpU4unUxUenMZSs67Oa8aUjTuh95HkGs9XSogq0Y3HIlsyCrSj7CspdqBWTAOuyopvkOq0gZYFDb1IJg675mL89EGw6mO39+DmGbtZDjNOPRtZUjZ2ulrg3wD2kn2YbBzc6YVj5hz4WnrzsICS5eFkPiMP+zBblx2ahCvbjZd9AqrbFo1wICZoPDX7psx4n+O026fhq+FJojA/2IiOg12GF9cYjSv7eDcSvyOxq4lwuV4APC9ruwRhX1KyRMTc4d+pwzAikXEK6B0Be5eC/nggG2uJiQb8zQbaxpMPmStaFUitic0kflwtPRSnL6ZEVu5b8EM1jyE6XVULV6wSq58p38Ylg5jdm/ELqZw3O1zs6DqHujikq1a781qohNyc0EJg31aFLvRfmStS3OTUdf3D40R/vIWIcqBCQQrCqzu95OOQpy0884Vgmw0UD5dKc3wlnPuv8ibuMH/kyr+/4xv6oVAGvElPggHLVG4aFW3u+KSnoI06RddLJFi5V3k2zp1IX99Xenalf7RNQ2s5k3hm5aVJnNyToWP2w==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(52116002)(26005)(6666004)(8936002)(33716001)(508600001)(4744005)(6506007)(9686003)(38350700002)(38100700002)(2906002)(1076003)(6486002)(66946007)(86362001)(6916009)(6512007)(44832011)(33656002)(186003)(66556008)(66476007)(4326008)(8676002)(316002)(5660300002)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?KhnyjJ06dYIHVcjijC2xkczN7r65ifIOeSKpsqu4kMlYPiPKSRemN83S5uwz?=
- =?us-ascii?Q?WO6Gm0/Hs8f30hgZFc9NQLz73xSogRozB7LbWZu/mV4dUyPZUcrGJUy3HZYj?=
- =?us-ascii?Q?UNLflwOEV7WQ+Y5D5GV7dzopzJoOHsE/3iOQoDCR+Mus2xrxHrarFXpzREng?=
- =?us-ascii?Q?SdhtYaHOjekjt7oduxePkP8Tf/pX7aEhKAN8znHDBChi6NuiCiAC+pX+BQAF?=
- =?us-ascii?Q?K1/tkT92wdibh1i99IrxsMSTU/xuhsox59lT1O9Db4z2mS1rUo7IaqtD433s?=
- =?us-ascii?Q?NN7mH+JXaS2hFWY3UlfZro2OTdZzOmbQU5f4zqrjBXQ61Rav9psBgF9zFZwN?=
- =?us-ascii?Q?cTx+OiUOD7r0i9O13+c7D44K4bz/5Xp2P+qSlzNSRbaqvlxl7ObKO35EPPIj?=
- =?us-ascii?Q?sDPHIyiI8Q/i/nCpeg3goB+4EhdTgEffn925I4jGL114weRVEmdNqb+1bFow?=
- =?us-ascii?Q?NrBzdliEtoE1+k0pJK5nLzUolX+cBkNbuYw4Q/vTS6fBU2gHwuvxrc2ZrKUX?=
- =?us-ascii?Q?4Dd64SA5Km/9bAbG118cgyl3bxpGqIIECsXzAuf8Ep6qWuNMf390KHArZppd?=
- =?us-ascii?Q?0ozcrwxHsisazcfhLtEegXVAmHG0m6ma3e/F2V3BciTEKFyYz03PpKUrqbLf?=
- =?us-ascii?Q?TP0mUE32B9BRDl2Jt3Q+KQlCl7hkigN2JhV5KrpLJYpbnKPj0qh7Qg11YOIW?=
- =?us-ascii?Q?z984EwQdY0px38wjXVuzxKbHbDE7dbKxCSijOTD/Rs6O1OMvLkoX8Snw9a/D?=
- =?us-ascii?Q?42CQsVjjcmA1OUGwuoVT9iX+S3ZI+kh7e+p7QxHovwbjLz2WKN/X83+ZS4/1?=
- =?us-ascii?Q?gOY4b3N1EQvEC9HvxiOE3ccAHNU9Ce9RJc1CNGso+bG0+3Wc4njzFKs7NtWK?=
- =?us-ascii?Q?Pa90m9fhqG7eqM344/CtAq5eu9bhKHPX2FSgClfQpcj+6fWIqVFCvsYBbzis?=
- =?us-ascii?Q?jvg8YXdTwByDSVMjqJgmAvndwy0qnApqCxCsEH+GNY2Fqyl9As0PL0hfacbv?=
- =?us-ascii?Q?xthMmWyKL8duGdsoqHx9KRsljds1hrfGuSZM/TJsnLF/lxHm6u7XgcT8Vb1R?=
- =?us-ascii?Q?IZ6HV5EsRM04Bus8vqN2Ba4z4p2WaZ6U7ASMgmIVRQ1kXiHF615i26lbNJ0D?=
- =?us-ascii?Q?2nl3hjAdEuh9RHmSBOPlKWNI5Pj5uhEohP5hfmpmrRR7HeKEqO228G5KhFm+?=
- =?us-ascii?Q?uVYqODnfTvhT2trc3DcFyW5iNuRATid6xxnj2BBaAJuoxuBKRsq0YO611xlI?=
- =?us-ascii?Q?giX5k6kSSBcClm3dyrNZv8QfzCP9zrpVnU36g7P6cCQwBKTq8D391ZpMv37l?=
- =?us-ascii?Q?hC2N1zq8KLrCo8+uUH/61IM+iZX2nkHN3suK2FCFACsbb2mjrb4OP63sLRjV?=
- =?us-ascii?Q?SrpeDqfLZ9DVoNSv8RcAoIriUpR/aFwo/QNKUxcR/34V6gn79J3aBrWJb16Y?=
- =?us-ascii?Q?EvDF1b5Qz/XC+VbdIu9JBgVlWAyieP5MYwc2kXj/pzWv9KBOXgS9SdlLcjsE?=
- =?us-ascii?Q?V6zjEfaptvGNEXfXIYlW0q9HqVSvJO5PO1CqpgFLbdx9VeIloZQKarVotJwP?=
- =?us-ascii?Q?fmKBedQd3eULM/ZFNMBWa9jbWxe4Clnvy1HLYIoR1J5bWStsZuUNvi3IPQnc?=
- =?us-ascii?Q?/Xq/K8dWDZUx7kLHdjCIpfBO5j3Phs5tJI48NjZT3ah3U1sG8/mLTph8ntyA?=
- =?us-ascii?Q?8pkDrruaHrZ4OgLW8RQhAenqvaPa9jBrPJ4M+Ud1QN1SvW50pUlqv7ogl/S8?=
- =?us-ascii?Q?2SGQBIpWQD7XjzDlmULjK410UdPshnY=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e08536c-950e-44a6-f8bf-08da38a65689
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 08:13:49.5674
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I/oXwYlrU/eLIF4Y0q85TSQLL51rYPCUwZdhwGcDITk8tL3utAPsnMn8pn3/AN93BcqG2802QupzJeJGYg3HmYjYbjwCSGhtiYGMhPVqnQk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4710
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.874
- definitions=2022-05-18_02:2022-05-17,2022-05-18 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
- mlxlogscore=999 spamscore=0 suspectscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2205180041
-X-Proofpoint-GUID: oBbOwswWG9DzkcV67Sc1Ybj694-3p6eb
-X-Proofpoint-ORIG-GUID: oBbOwswWG9DzkcV67Sc1Ybj694-3p6eb
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 18, 2022 at 03:59:57PM +0800, Jiasheng Jiang wrote:
-> As kzalloc() may return null pointer, it should be better to
-> check the return value and return error if fails in order
-> to avoid dereference of null pointer.
-> Moreover, the return value of rtw_alloc_hwxmits() should also
-> be dealt with.
-> 
-> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+On Hantro G2 decoder on IMX8MQ strides requirements aren't the same
+for NV12_4L4 and NV12 pixel formats. The first one use a 4 bytes padding
+while the last one needs 16 bytes.
+To be sure to provide the correct stride in all cases we need:
+- to relax the constraints on codec formats so set step_width to 4
+- use capture queue format and not the output queue format when applying
+  the pixel format constraints.
+- put the correct step_width constraints on each pixel format.
 
-Looks good!
+Move HEVC SPS validation in hantro_hevc.c to be able to perform it
+when setting sps control and when starting to decode the bitstream.
+Add a new test in HEVC SPS validation function to check if resolution
+is still matching the hardware constraints.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+With this SAODBLK_A_MainConcept_4 and SAODBLK_B_MainConcept_4 conformance
+tests files are correctly decoded with both NV12 and NV12_4L4 pixel formats.
+These two files have a resolution of 1016x760.
 
-regards,
-dan carpenter
+Add defines for the various used resolutions.
+For other variants than Hantro G2 on IMX8M keep the same step_width to avoid
+regressions.
+
+Fluster HEVC test score is now 128/147 vs 126/147 with the both pixel
+formats as decoder output.
+Fluster VP9 test score stay at 147/303.
+
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+version 3:
+- Add define for the various used resolutions.
+- Reword commit message.
+
+version 2:
+- Add a HEVC SPS validation function to be used when
+  setting the control and start decoding.
+  I hope that is what Nicolas expects in his remark on v1.
+
+ drivers/staging/media/hantro/hantro_drv.c     |  12 +-
+ drivers/staging/media/hantro/hantro_hevc.c    |  28 +++++
+ drivers/staging/media/hantro/hantro_hw.h      |  14 +++
+ drivers/staging/media/hantro/hantro_v4l2.c    |   2 +-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |  80 ++++++++++----
+ .../staging/media/hantro/rockchip_vpu_hw.c    | 104 ++++++++++++------
+ .../staging/media/hantro/sama5d4_vdec_hw.c    |  40 +++++--
+ drivers/staging/media/hantro/sunxi_vpu_hw.c   |  24 +++-
+ 8 files changed, 221 insertions(+), 83 deletions(-)
+
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 377dcc1d19de..5aac3a090480 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -253,6 +253,11 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+ 
+ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ {
++	struct hantro_ctx *ctx;
++
++	ctx = container_of(ctrl->handler,
++			   struct hantro_ctx, ctrl_handler);
++
+ 	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+ 		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+ 
+@@ -268,12 +273,7 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+ 	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
+ 		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
+ 
+-		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+-			/* Luma and chroma bit depth mismatch */
+-			return -EINVAL;
+-		if (sps->bit_depth_luma_minus8 != 0)
+-			/* Only 8-bit is supported */
+-			return -EINVAL;
++		return hantro_hevc_validate_sps(ctx, sps);
+ 	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+ 		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
+ 
+diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+index 7fdec50dc853..6abef810b285 100644
+--- a/drivers/staging/media/hantro/hantro_hevc.c
++++ b/drivers/staging/media/hantro/hantro_hevc.c
+@@ -154,6 +154,30 @@ static int tile_buffer_reallocate(struct hantro_ctx *ctx)
+ 	return -ENOMEM;
+ }
+ 
++int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps)
++{
++	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
++		/* Luma and chroma bit depth mismatch */
++		return -EINVAL;
++	if (sps->bit_depth_luma_minus8 != 0)
++		/* Only 8-bit is supported */
++		return -EINVAL;
++
++	/* for tile pixel format check if the width and height match
++	 * hardware constraints */
++	if (ctx->vpu_dst_fmt->fourcc == V4L2_PIX_FMT_NV12_4L4) {
++		if (ctx->dst_fmt.width !=
++		    ALIGN(sps->pic_width_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_width))
++			return -EINVAL;
++
++		if (ctx->dst_fmt.height !=
++		    ALIGN(sps->pic_height_in_luma_samples, ctx->vpu_dst_fmt->frmsize.step_height))
++			return -EINVAL;
++	}
++
++	return 0;
++}
++
+ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_hevc_dec_hw_ctx *hevc_ctx = &ctx->hevc_dec;
+@@ -177,6 +201,10 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx)
+ 	if (WARN_ON(!ctrls->sps))
+ 		return -EINVAL;
+ 
++	ret = hantro_hevc_validate_sps(ctx, ctrls->sps);
++	if (ret)
++		return ret;
++
+ 	ctrls->pps =
+ 		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_HEVC_PPS);
+ 	if (WARN_ON(!ctrls->pps))
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 994547fe41b9..457eb8bb6dc2 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -18,9 +18,21 @@
+ #define DEC_8190_ALIGN_MASK	0x07U
+ 
+ #define MB_DIM			16
++#define TILE_MB_DIM		4
+ #define MB_WIDTH(w)		DIV_ROUND_UP(w, MB_DIM)
+ #define MB_HEIGHT(h)		DIV_ROUND_UP(h, MB_DIM)
+ 
++#define FMT_MIN_WIDTH		48
++#define FMT_MIN_HEIGHT		48
++#define FMT_HD_WIDTH		1280
++#define FMT_HD_HEIGHT		720
++#define FMT_FHD_WIDTH		1920
++#define FMT_FHD_HEIGHT		1088
++#define FMT_UHD_WIDTH		3840
++#define FMT_UHD_HEIGHT		2160
++#define FMT_4K_WIDTH		4096
++#define FMT_4K_HEIGHT		2304
++
+ #define NUM_REF_PICTURES	(V4L2_HEVC_DPB_ENTRIES_NUM_MAX + 1)
+ 
+ struct hantro_dev;
+@@ -341,6 +353,8 @@ int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+ void hantro_hevc_ref_init(struct hantro_ctx *ctx);
+ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+ int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
++int hantro_hevc_validate_sps(struct hantro_ctx *ctx, const struct v4l2_ctrl_hevc_sps *sps);
++
+ 
+ static inline unsigned short hantro_vp9_num_sbs(unsigned short dimension)
+ {
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index 71a6279750bf..93d0dcf69f4a 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -260,7 +260,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+ 	} else if (ctx->is_encoder) {
+ 		vpu_fmt = ctx->vpu_dst_fmt;
+ 	} else {
+-		vpu_fmt = ctx->vpu_src_fmt;
++		vpu_fmt = fmt;
+ 		/*
+ 		 * Width/height on the CAPTURE end of a decoder are ignored and
+ 		 * replaced by the OUTPUT ones.
+diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+index 9802508bade2..77f574fdfa77 100644
+--- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
++++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+@@ -83,6 +83,14 @@ static const struct hantro_fmt imx8m_vpu_postproc_fmts[] = {
+ 		.fourcc = V4L2_PIX_FMT_YUYV,
+ 		.codec_mode = HANTRO_MODE_NONE,
+ 		.postprocessed = true,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = MB_DIM,
++		},
+ 	},
+ };
+ 
+@@ -90,17 +98,25 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = MB_DIM,
++		},
+ 	},
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
+ 		.codec_mode = HANTRO_MODE_MPEG2_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 1920,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 1088,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -109,11 +125,11 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_VP8_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 3840,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 2160,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -122,11 +138,11 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_H264_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 3840,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 2160,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -137,6 +153,14 @@ static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] = {
+ 		.fourcc = V4L2_PIX_FMT_NV12,
+ 		.codec_mode = HANTRO_MODE_NONE,
+ 		.postprocessed = true,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = MB_DIM,
++		},
+ 	},
+ };
+ 
+@@ -144,18 +168,26 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12_4L4,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = TILE_MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = TILE_MB_DIM,
++		},
+ 	},
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
+ 		.codec_mode = HANTRO_MODE_HEVC_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 3840,
+-			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 2160,
+-			.step_height = MB_DIM,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = TILE_MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = TILE_MB_DIM,
+ 		},
+ 	},
+ 	{
+@@ -163,12 +195,12 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_VP9_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 3840,
+-			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 2160,
+-			.step_height = MB_DIM,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = TILE_MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = TILE_MB_DIM,
+ 		},
+ 	},
+ };
+diff --git a/drivers/staging/media/hantro/rockchip_vpu_hw.c b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+index fc96501f3bc8..098486b9ec27 100644
+--- a/drivers/staging/media/hantro/rockchip_vpu_hw.c
++++ b/drivers/staging/media/hantro/rockchip_vpu_hw.c
+@@ -63,6 +63,14 @@ static const struct hantro_fmt rockchip_vpu1_postproc_fmts[] = {
+ 		.fourcc = V4L2_PIX_FMT_YUYV,
+ 		.codec_mode = HANTRO_MODE_NONE,
+ 		.postprocessed = true,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
++			.step_height = MB_DIM,
++		},
+ 	},
+ };
+ 
+@@ -70,17 +78,25 @@ static const struct hantro_fmt rk3066_vpu_dec_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
++			.step_height = MB_DIM,
++		},
+ 	},
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+ 		.codec_mode = HANTRO_MODE_H264_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 1920,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 1088,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -89,11 +105,11 @@ static const struct hantro_fmt rk3066_vpu_dec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_MPEG2_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 1920,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 1088,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -102,11 +118,11 @@ static const struct hantro_fmt rk3066_vpu_dec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_VP8_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 1920,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 1088,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -116,17 +132,25 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_4K_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_4K_HEIGHT,
++			.step_height = MB_DIM,
++		},
+ 	},
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+ 		.codec_mode = HANTRO_MODE_H264_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 4096,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_4K_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 2304,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_4K_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -135,11 +159,11 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_MPEG2_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 1920,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 1088,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -148,11 +172,11 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_VP8_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 3840,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 2160,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -162,17 +186,25 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
++			.step_height = MB_DIM,
++		},
+ 	},
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+ 		.codec_mode = HANTRO_MODE_H264_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 1920,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 1088,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -181,11 +213,11 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_MPEG2_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 1920,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_FHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 1088,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_FHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -194,11 +226,11 @@ static const struct hantro_fmt rk3399_vpu_dec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_VP8_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 3840,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 2160,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+diff --git a/drivers/staging/media/hantro/sama5d4_vdec_hw.c b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+index b2fc1c5613e1..b205e2db5b04 100644
+--- a/drivers/staging/media/hantro/sama5d4_vdec_hw.c
++++ b/drivers/staging/media/hantro/sama5d4_vdec_hw.c
+@@ -16,6 +16,14 @@ static const struct hantro_fmt sama5d4_vdec_postproc_fmts[] = {
+ 		.fourcc = V4L2_PIX_FMT_YUYV,
+ 		.codec_mode = HANTRO_MODE_NONE,
+ 		.postprocessed = true,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_HD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_HD_HEIGHT,
++			.step_height = MB_DIM,
++		},
+ 	},
+ };
+ 
+@@ -23,17 +31,25 @@ static const struct hantro_fmt sama5d4_vdec_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_HD_WIDTH,
++			.step_width = MB_DIM,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_HD_HEIGHT,
++			.step_height = MB_DIM,
++		},
+ 	},
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
+ 		.codec_mode = HANTRO_MODE_MPEG2_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 1280,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_HD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 720,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_HD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -42,11 +58,11 @@ static const struct hantro_fmt sama5d4_vdec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_VP8_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 1280,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_HD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 720,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_HD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -55,11 +71,11 @@ static const struct hantro_fmt sama5d4_vdec_fmts[] = {
+ 		.codec_mode = HANTRO_MODE_H264_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 1280,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_HD_WIDTH,
+ 			.step_width = MB_DIM,
+-			.min_height = 48,
+-			.max_height = 720,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_HD_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
+index c0edd5856a0c..fbeac81e59e1 100644
+--- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
++++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
+@@ -14,6 +14,14 @@ static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
+ 		.fourcc = V4L2_PIX_FMT_NV12,
+ 		.codec_mode = HANTRO_MODE_NONE,
+ 		.postprocessed = true,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = 32,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = 32,
++		},
+ 	},
+ };
+ 
+@@ -21,17 +29,25 @@ static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_NV12_4L4,
+ 		.codec_mode = HANTRO_MODE_NONE,
++		.frmsize = {
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
++			.step_width = 32,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
++			.step_height = 32,
++		},
+ 	},
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
+ 		.codec_mode = HANTRO_MODE_VP9_DEC,
+ 		.max_depth = 2,
+ 		.frmsize = {
+-			.min_width = 48,
+-			.max_width = 3840,
++			.min_width = FMT_MIN_WIDTH,
++			.max_width = FMT_UHD_WIDTH,
+ 			.step_width = 32,
+-			.min_height = 48,
+-			.max_height = 2160,
++			.min_height = FMT_MIN_HEIGHT,
++			.max_height = FMT_UHD_HEIGHT,
+ 			.step_height = 32,
+ 		},
+ 	},
+-- 
+2.32.0
 
