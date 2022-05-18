@@ -1,175 +1,108 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E72E1852
-	for <linux-staging@lists.linux.dev>; Wed, 18 May 2022 07:01:27 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24I2lUpd008024;
-	Wed, 18 May 2022 07:01:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=fTZIl7ju36S+z0kX/Ppjpx6v4edkkJJ/982bi7Dx6aY=;
- b=oXEXlZrXRoPfYcET9j6E2W9jySPDiRA6qvY09K4wCwOi4sJrcLQTMb1LNrNkovEkUeeT
- jGOamP6FYIR1XY4ObrxMtGUZPTmJ8zpuZz7RCbXZj0LMgh6h0dh79hcvNKl9tUjHUQ+u
- xELHxO0AYdSckNESItxL2XJdJJBb58TuWVMO9MnVu009cHFoHlggWw2FSwe+tihkvKN2
- WFBQLYGE94AbheY6DegTymL8pSaitFjrj+FgnFSV5bkW2gTbZWaomBd9tFi5p3+ftez6
- MDv/6lEcnj9Vc9MkEs02yk8jVk9o605HKwA7/KXi7SMbEpV+tbHJVRCOv7+3WP/3Ady5 8A== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g22uc854c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 18 May 2022 07:01:25 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 24I6tYA3029638;
-	Wed, 18 May 2022 07:01:25 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2103.outbound.protection.outlook.com [104.47.55.103])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3g22v3qgwb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 18 May 2022 07:01:24 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TMqbpTDEqmq5xWeVOCJFOIW67bJr4SkUsHQjuEY8KeZuIRDRkPCnapUVBEm66faUhCzl3t9xwhkG61Hus3TumGBD1yrtHuEpxmZ1HA3ICkCUZi9D2rg3Nl0uYwkTdFtLPNAi2T8Jbo3gyLngX9ByHmxcNfekVAucNOR4FoIX6cS7ILZK7r0gbFPYw/2/Yb2qHw+US7zK/EaPVe3yHteZWl6hvoFHmZ6U7gYb3BEMu+6eRebARebkYQGi6Guc+2WXeeWifoISIpfxSkQ+JuBeTk6fSVorrOM6RppP3Aih3nd7BZgrObPeCRhfSVLdBPRFTHacvMMNDe2IIA6bQYjszg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fTZIl7ju36S+z0kX/Ppjpx6v4edkkJJ/982bi7Dx6aY=;
- b=HpasIQ9/a22TkyZ8M1BBdg6Kznvhgk3Ex0n4wQ0NK+xK53BWI2lk/idp9GKM8UGbkBVS4bPDwpVnKerihBjMZcmhcPWI4qmud5SjhtBgjkQJwTBTqH/bAWX+OyHkJ4Qp/M5ggHSyhKRl6IMlwsZr7ZPkCTcl00sZMjJFx5G3FnSsZLlvIEhEyyVyMRIZ++CAANO6EXaZtbxVot6Giro6qb7olXcvh13BQYZQJOH7WRJL7Z28vCQxCTZWBTvYNu/rRyQe0PXcoIQLSq5D+OetfQ69Kl8NrTz0t6dkSEImt+xaKscjtXD71+koVdYAYMZiPOsbr5ijoMJohxrnOrtixQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fTZIl7ju36S+z0kX/Ppjpx6v4edkkJJ/982bi7Dx6aY=;
- b=UmZQe/gNNKTI9/LoIYvgvG63OEE/lsvRwLPrKgbWQ8gHWjUJVyKv6JipiAknweBuR2L6PpiF1dsPotTf+XsskpTRvpFkw6om8yNzSL2gicu/5y1XO0nPxOzr/r+5sCkt15uWmm5R9Z1/GmQJ7xhatDJzwV8qRdc6MFDk+ABKstk=
-Received: from SJ0PR10MB4638.namprd10.prod.outlook.com (2603:10b6:a03:2d8::18)
- by BN8PR10MB3393.namprd10.prod.outlook.com (2603:10b6:408:ca::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.14; Wed, 18 May
- 2022 07:01:22 +0000
-Received: from SJ0PR10MB4638.namprd10.prod.outlook.com
- ([fe80::2162:a766:29eb:1d5c]) by SJ0PR10MB4638.namprd10.prod.outlook.com
- ([fe80::2162:a766:29eb:1d5c%7]) with mapi id 15.20.5273.014; Wed, 18 May 2022
- 07:01:22 +0000
-From: Denis Efremov <denis.e.efremov@oracle.com>
-To: Larry.Finger@lwfinger.net
-Cc: Denis Efremov <denis.e.efremov@oracle.com>, phil@philpotter.co.uk,
-        gregkh@linuxfoundation.org, dan.carpenter@oracle.com,
-        straube.linux@gmail.com, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        stable <stable@vger.kernel.org>
-Subject: [PATCH] staging: r8188eu: prevent ->Ssid overflow in rtw_wx_set_scan()
-Date: Wed, 18 May 2022 11:00:52 +0400
-Message-Id: <20220518070052.108287-1-denis.e.efremov@oracle.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <YEHymwsnHewzoam7@mwanda>
-References: <YEHymwsnHewzoam7@mwanda>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: DXXP273CA0003.AREP273.PROD.OUTLOOK.COM
- (2603:1086:300:2::15) To SJ0PR10MB4638.namprd10.prod.outlook.com
- (2603:10b6:a03:2d8::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EF81852;
+	Wed, 18 May 2022 07:46:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE5DC385AA;
+	Wed, 18 May 2022 07:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1652860005;
+	bh=KUl7JvGgqkc1DfGhPQMhcKNc6+xW1iqiAC34dWUYIYI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dkK2VuiRazUYy/0raeMMGlNR4Tax1p2NGjBr/nBjKum21oFxmslWmUCU0VzoRu+cO
+	 HmrzPveZdQjdv+cTPBR2V9tak/jiomNUfYBj5sw2dX2dKoC9xH7uM57L8jH4xYiIuM
+	 08YqMdtOguRYHRonbNsRBlTLvM52Q+3TpvkwtUExXHPUUphUHyK569lWDbMs10HDjU
+	 DyH3Js5U9VM/fgDmVN0asWG655mirLaZZDwLq2xvJajzBmBVBbWSRTWp5U0pCUQtsS
+	 fyTFbdmkyAv0lZigt1Yr/42MgLcInpjxDL0ApYmAeUaT9QZgryC0kOix45ZHLnTsUi
+	 zGfw+Eb+H8wvA==
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2fedd26615cso15185367b3.7;
+        Wed, 18 May 2022 00:46:45 -0700 (PDT)
+X-Gm-Message-State: AOAM530zK0NWYFIfu77IvkOy5pLWe1uGiXsmc/AWeou8wqSoatpyvSz0
+	TmjJ1Fd2ucYzysuBvsHCGyViAQojBoeT2CMh6aw=
+X-Google-Smtp-Source: ABdhPJyhm2Dj408LoUWWmvAqhkBhAYE1RnSkeixOEh3zciq1RMr7OwAYsEs1iONJHOBW1KRcCiA1jSuvrZOus+J3c4c=
+X-Received: by 2002:a0d:cd06:0:b0:2f8:f39c:4cfc with SMTP id
+ p6-20020a0dcd06000000b002f8f39c4cfcmr29636586ywd.495.1652860004199; Wed, 18
+ May 2022 00:46:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e8b46a19-e64f-4b8a-0050-08da389c36d6
-X-MS-TrafficTypeDiagnostic: BN8PR10MB3393:EE_
-X-Microsoft-Antispam-PRVS: 
-	<BN8PR10MB3393253D4DEA13006A6F52FFD3D19@BN8PR10MB3393.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	TqBn32FvkGDf1N9Nko2TKe9sf+7EdelKiDfJLDhZdF4HlRS0mcEQwQQ6okTxGthJA/ls0H+62Yi8UkzRpRN3pWRpFlIB85tGZYsQNteCOXrF5xaMxi/140taUYEChk7lFo0rApjGQXP4KmBTSVQxBJddl9DLohpQzutVkmlrZfAR2GYsg2YfaXM0GLO8l+zACTD3QewlMpzlDR7mjH/jJWoIehF6Uu0p2QIkkZXCYnk/RJaOiyKj1JnAfu2ZEuX/di2KE2zlmKV04jr/XtTFysZtj4au+oJVOSjfvVZDvvpVSQN9I52vAlMQ5+pbcWHe6B/nvaUehi0YYkAtxbfFVjqdl9l2Feu5ejrifSMjGz68OZl5pZVhg1V9GAwiHzAHRswWzE58S2MogSqUwXDVymxLS4H5hTaZg0GDABA44rt2sOAR7F2qaFQcMGsnwtq712Y+7G+6P2MZK097b/Rq4p+xT/Qqf1juaXRzLUzWOgCMF5rmoeNAsL9cNx7KDVkPO1X9SIh9WgX/Aoj3RTYC55aWFTU3t5YfN7qfTcA2EMzifvt6S8EMdIMSqSDE0mainwFCfn6M95+5VkhB6BUrVQGmmDw/GGKv0XJeWoQDxhc5y5WFgz1erMt/O4EEWHAEZD9tFTbs6Pui0Dq+etJYyQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR10MB4638.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(26005)(5660300002)(8676002)(6506007)(4326008)(2906002)(6512007)(6916009)(36756003)(6666004)(86362001)(66946007)(186003)(66476007)(54906003)(316002)(38100700002)(66556008)(508600001)(6486002)(1076003)(2616005)(8936002)(103116003)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ssXNxNNRazykBgYWJtcvXgPAT3DfL6LKJgUx0vRFpH3LXZmJUbyC30h7ArRL?=
- =?us-ascii?Q?cUlQ+UgL1tTsPszc4rDXWBtd/qB9Db8jWfqQ1JW+cvRYeSDcJVxh4yK617sT?=
- =?us-ascii?Q?88oWDdVrqfS/yrId+Ev90RkDUHIgAqVnlvhACeULgW/lbsqT4toRoUtu4G2W?=
- =?us-ascii?Q?TBEx339bJVmYkfgUCFSFDy3oYUmQvhHMCmmXkKGY4LUJJheDpFJlKQXlbu6W?=
- =?us-ascii?Q?HdCPLLK7/eXRc9ZxEeSBk9yANecUvjvthzEjxcnWNZD1a2S0OETGpgU9HGKT?=
- =?us-ascii?Q?+lmS/p3vU/lwmDQf7GpDE7JWU1uxEgcyRclHAffew6C2wEI9GQdNsApM3uwx?=
- =?us-ascii?Q?VLqi9xS5exjGrii7r4G0emuJn9OlbOI9ZHwHEkBWBF0kKIY95RT76QOiZj7R?=
- =?us-ascii?Q?gpxsjXwaCWClSmCHrH2a4oHANOnVi2SsMG231WXaygGDxW/KNgsEcFMPY7Ja?=
- =?us-ascii?Q?ulg8FLp0dxgeii+Wza0cueEJ8Gjf+0/rCt3D2epqGJ9F9HRr+njy8B6+FExA?=
- =?us-ascii?Q?AiYOg4CGLsnFimoEgvL9536ao2AY8NhnBjZ1HaDp8tDKK5vsznk3Wi/DY5eu?=
- =?us-ascii?Q?PMpUBhYBRaiGQPcSEnAv+w2RbiLn16Xv0NXVuYXazrfDfGZnBk1ceoNZCCNb?=
- =?us-ascii?Q?MAgOk8rQeRfYfxmOk83NmzrRnHERGPJJAADEDoXT30V+L9oy46eC7/V0duzy?=
- =?us-ascii?Q?YbUKgqWXArgR5I9x+sQk22U2MTwr0oVl36KcwW6sg1HyNsIM6IglJ3JzJkF4?=
- =?us-ascii?Q?Qb+zsn0w/FWBpJYMQ/mYp4WlrT/kXRoSFiFw6uUKA+wBfrb+BiurGp7OT9cu?=
- =?us-ascii?Q?Gq+erpp7YdIUFYOl/p4BUdbXnzMpO+oVdVuOI6gmZIoIv4Xp1lXRzUZtgEWA?=
- =?us-ascii?Q?wvuRAH+Ri57VpLruwY2D0mzSF8Qh+/E1q67lCOAxW6XMaX/H+Z6WLDDaw//2?=
- =?us-ascii?Q?Rqym3UbfXt0ChJdkyZoeZXH8SaWZUstDnj2+DCM9Uk+8EVq9EhxAOC8gH7X2?=
- =?us-ascii?Q?IjBdSs/yzbzme501mW9xq0id36mu5ilxxekf+aGidat2DNomWhbAyJR233N3?=
- =?us-ascii?Q?wVk4uTNs1kHXGLqu1lJ+UwyTPYn7XV2M0vbeBDGKKs/pmX9Tbvu2IwKTuFVt?=
- =?us-ascii?Q?O025VqbvTHZ6llJAEfzojcaEz7WUVa8ZlPvlumfBPXn7grUDct2n6v6lWxzg?=
- =?us-ascii?Q?n6BwA2Vibe2Dyx8hi0P00lsLtrpMozyAGA0VnmF0dp+gvZnr//Uv6fVYNKl1?=
- =?us-ascii?Q?0Zweqqz2rxiLTogeoi5KKEAM8JPu3rC3lXGrPMLxutA0/DsI9TDLATzilGOS?=
- =?us-ascii?Q?vv+eN2JeAd9KxO9lLfk0i810uOf+NFPxSPFjin80VKf/Ai+hCM0r/IlD7hkd?=
- =?us-ascii?Q?pD1Ykc7bScZSFvc82F5Mmq2ZvXGyt7Pzeo8ZwLA9KjZ0JoQrrYHcaIMWkt+v?=
- =?us-ascii?Q?YARcgq2QMXSErD70CEgQHU907fPV19OU3sBHS5F2cTu9Qjc1KxpmRd9EXOKi?=
- =?us-ascii?Q?qZNOS3nH3yC5k1D4Uvlqo2sJuNGVpyuICUPHCx86S5eUADIOdSMOBthfHqqR?=
- =?us-ascii?Q?DB9pdJHg2no9rwSNywi4v9wP8oRjhGGgURdInqJ0LjnIcQsPfA4QivfIbRbP?=
- =?us-ascii?Q?NnnY7wR+IFSxltJPFvLSPMZuyt1eWdMzhpSQHKOUekFe3JW8Na1pB/X8r5eD?=
- =?us-ascii?Q?dWb//PLKXr3qgNwDvzaCjaN8OC3Mj+Mf7o+15zPlyWQz6AjI33OjKe2FY/om?=
- =?us-ascii?Q?yEVi7Whs0Qu3vMZDkc+i+My0iu9tmRI=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8b46a19-e64f-4b8a-0050-08da389c36d6
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB4638.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 07:01:22.3332
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8p/2SuECRIhEWBS9aLXIIIuGTuDY8RmYe4WGWUmEl1Ib0wSERklBolr3Z1xiI9eIk+GaHmaS/i8vTPc+QiQmI/Bmf96zFKh/4ArP22uZHuE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR10MB3393
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.874
- definitions=2022-05-18_02:2022-05-17,2022-05-18 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 suspectscore=0
- phishscore=0 bulkscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2205180036
-X-Proofpoint-GUID: DGkfysnRvqk2Q0mgVagQI8-ud--WNIgj
-X-Proofpoint-ORIG-GUID: DGkfysnRvqk2Q0mgVagQI8-ud--WNIgj
+References: <20220228103142.3301082-1-arnd@kernel.org> <20220516131023.GA2329080@roeck-us.net>
+ <YoJSF8T5K9pPx3Ap@kroah.com> <9510474d-5555-42b3-5a9c-90e3078df499@roeck-us.net>
+In-Reply-To: <9510474d-5555-42b3-5a9c-90e3078df499@roeck-us.net>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Wed, 18 May 2022 08:46:45 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
+Message-ID: <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
+Subject: Re: [greybus-dev] Re: [PATCH] [v2] Kbuild: move to -std=gnu11
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Greg KH <gregkh@linuxfoundation.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	clang-built-linux <llvm@lists.linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Federico Vaga <federico.vaga@vaga.pv.it>, Alex Shi <alexs@kernel.org>, 
+	Hu Haowen <src.res@email.cn>, Michal Marek <michal.lkml@markovi.net>, 
+	Nick Desaulniers <ndesaulniers@google.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc-tw-discuss@lists.sourceforge.net, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Intel Graphics <intel-gfx@lists.freedesktop.org>, 
+	dri-devel <dri-devel@lists.freedesktop.org>, greybus-dev@lists.linaro.org, 
+	linux-staging@lists.linux.dev, linux-btrfs <linux-btrfs@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This code has a check to prevent read overflow but it needs another
-check to prevent writing beyond the end of the ->Ssid[] array.
+On Mon, May 16, 2022 at 3:19 PM Guenter Roeck <linux@roeck-us.net> wrote:
+> On 5/16/22 06:31, Greg KH wrote:
+> > On Mon, May 16, 2022 at 06:10:23AM -0700, Guenter Roeck wrote:
+> >> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
+> >>> From: Arnd Bergmann <arnd@arndb.de>
+> >>>
+> >>> During a patch discussion, Linus brought up the option of changing
+> >>> the C standard version from gnu89 to gnu99, which allows using variab=
+le
+> >>> declaration inside of a for() loop. While the C99, C11 and later stan=
+dards
+> >>> introduce many other features, most of these are already available in
+> >>> gnu89 as GNU extensions as well.
+> >>
+> >> The downside is that backporting affected patches to older kernel bran=
+ches
+> >> now fails with error messages such as
+> >>
+> >> mm/kfence/core.c: In function =E2=80=98kfence_init_pool=E2=80=99:
+> >> mm/kfence/core.c:595:2: error: =E2=80=98for=E2=80=99 loop initial decl=
+arations are only allowed in C99 or C11 mode
+> >>
+> >> Just something to keep in mind when writing patches.
+> >
+> > I just ran across this very issue on this commit.  It's an easy fixup
+> > for 5.17.y to make this work, so I did that in my tree.  If this gets t=
+o
+> > be too much, we might need to reconsider adding c11 to older stable
+> > kernels.
+> >
+>
+> I think I'll do just that for ChromeOS; I don't want to have to deal
+> with the backports, and we are using recent compilers anyway.
 
-Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
-Cc: stable <stable@vger.kernel.org>
-Signed-off-by: Denis Efremov <denis.e.efremov@oracle.com>
----
+I think it would be better not to have the --std=3Dgnu11 change in the olde=
+r
+stable kernels by default, as this has introduced build warnings and other
+smaller issues, as well as raising the minimum compiler version.
 
-This patch is a copy of Dan's 74b6b20df8cf (CVE-2021-28660).
-Drivers r8188eu and rtl8188eu share the same code.
+The users that are stuck on older kernels for some reason tend to
+overlap with those on older compilers. One example here is Android,
+which used to ship with a gcc-4.9 build as the only non-clang toolchain,
+and was using this for building their kernels. If someone wants to
+pull in stable updates into an older Android, this would fail with
+-std=3Dgnu11. Others may be in the same situation.
 
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Changing some of the 5.x stable branches to -std=3Dgnu11 is probably
+less of a problem, but I would not know where to draw the line exactly.
+Maybe check with the Android team to see what the newest kernel is
+that they expect to be built with the old gcc-4.9.
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index eb9375b0c660..a2692ce02bc2 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -1131,9 +1131,11 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
- 						break;
- 					}
- 					sec_len = *(pos++); len -= 1;
--					if (sec_len > 0 && sec_len <= len) {
-+					if (sec_len > 0 &&
-+					    sec_len <= len &&
-+					    sec_len <= 32) {
- 						ssid[ssid_index].SsidLength = sec_len;
--						memcpy(ssid[ssid_index].Ssid, pos, ssid[ssid_index].SsidLength);
-+						memcpy(ssid[ssid_index].Ssid, pos, sec_len);
- 						ssid_index++;
- 					}
- 					pos += sec_len;
--- 
-2.35.3
-
+         Arnd
