@@ -1,135 +1,148 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47C17A;
-	Wed, 18 May 2022 14:07:36 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id e189so2739448oia.8;
-        Wed, 18 May 2022 07:07:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:content-language:to
-         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
-        bh=44Xgt+EUBiutauBulnIHgR1NZC7VLz+1d73CrLpoSuA=;
-        b=EE+Ok5Q3AOQEWrEsMLQ8bJwxLj5JWKC0uRQavySm46LGHksaEXSJblszKsh1MvsIVQ
-         sDPRJcb4u60eXiklTNwE2U+LD49Wb+WD9qcumnXXeQJnMUEh+Cprmc8yCFMWDDAx/laZ
-         tSGFznxKpbQzHqnKFUn6Obmd3DZeEhLOmDwgdK5v2kgO5opVsh+5I61QnC6uyCbqRb+P
-         h2C/Fnjhf4h05p6b5Q8AMg4jSgBqBTEFQHak8Fh8GP7YqlfCZ9bfj2PBgjyDMGe6fFi6
-         v1tCilE06OSMQ2Ap/40R6GV7SfyLOFpw0XtrB50yxlMyw4CFBhcTVnu1K1CJBROjIYsQ
-         b0Rg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A346D1FCE
+	for <linux-staging@lists.linux.dev>; Wed, 18 May 2022 19:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1652901113;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZYl5My+boABlwBkdtI4YSYtJJMplcDoxFVjF4RinUQo=;
+	b=Qx2Qzyvr2ILqIvEQuZuBndqyXg5pmfl/8I6OIpOkqpyKK5LVS57L8MQfUyktF22KIvJe8L
+	HbjHRo8jY527KPu0JkBPMAYz4ApArvwvHg9M/ZEFWu6oEyiSwEdM2smOeIvot3KxE9gYpf
+	j91fVrEYIoR59q7HaV8xbkik3eaMXG0=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-100-D12P9bw_OYGwR_SEA8mwMw-1; Wed, 18 May 2022 15:11:52 -0400
+X-MC-Unique: D12P9bw_OYGwR_SEA8mwMw-1
+Received: by mail-qv1-f69.google.com with SMTP id 11-20020a0562140d0b00b0045aac32023fso2310530qvh.19
+        for <linux-staging@lists.linux.dev>; Wed, 18 May 2022 12:11:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:subject:in-reply-to
-         :content-transfer-encoding;
-        bh=44Xgt+EUBiutauBulnIHgR1NZC7VLz+1d73CrLpoSuA=;
-        b=WzTuI+G51MiTpQ64MYRGG6Vw/AEfS+p6QiDiC22EhOazLVdLSq4ddUv4h0j6d/85kI
-         oG7FXbscr6hT6IGRfvAlkmVrJtm4uHrLoo2wQ38MCvN6c1oCDUcCIkKZ1w3a5ZLrS0/y
-         cclinVWM8zIOoMdOZQaN4LqKlOKDrqETiBfFLhHz0A8OoeDPYGFEZm+H/Sj8fppHhNsI
-         mHlvrzNkcZuEs8YtUZcLcgG/2tjQDqvVTy1bw/AptgujfYhBdSlke80cbSxQ1Uu6MoMl
-         MKOKt0eIs8/1zOdBkFrhZ10ktEmwseoh1LDCs1DMwt6bVNeQFP8/FQBJGHRK73yiIknz
-         zZzw==
-X-Gm-Message-State: AOAM533WXOqt+bSNvnGs6/fyMksV68oEIUNkmQ8wP0f0g32P5yUx3nOC
-	SOihJvxIwWlTvgobgNhaguI=
-X-Google-Smtp-Source: ABdhPJyXPBsJSPb3qsIt30kakP/1viqje/dN0om/JEDZ69uJP4Erfc4CCzg7BfUTauTabr0j1dC5fA==
-X-Received: by 2002:a05:6808:23d2:b0:326:979a:46f3 with SMTP id bq18-20020a05680823d200b00326979a46f3mr12917oib.207.1652882855862;
-        Wed, 18 May 2022 07:07:35 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id v8-20020a056830140800b0060603221267sm782203otp.55.2022.05.18.07.07.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 May 2022 07:07:34 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <47c64195-6629-ba2b-4533-b0fe37518da0@roeck-us.net>
-Date: Wed, 18 May 2022 07:07:31 -0700
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZYl5My+boABlwBkdtI4YSYtJJMplcDoxFVjF4RinUQo=;
+        b=yiCA5ieXWFt57LLwqd2JJQEiE2Z76CDRHHqrX0tyqjA9R4hqeKRumUGnEgQYdZoe7s
+         4cstfkJA0sLr+au4iQmHNbN7S5sXVSyNrde9J1NBa9aw+cCS8KumEV/iKma3okZ0wti2
+         6GBLNO0CN2Np3PLBX3LDtwwsK5JZgK5OBm87W+TgHC+GTU/hq3SVrpj2nidf+H+d0vBL
+         9+ziLOJ2yg3Snqg7s4Bf4jkfBs9ZbcJoc9432b4ACt99NeWPAhOXo+OGpu/OZbzTaZRM
+         h6c8LyAm6f4PyGs/0l12DgU1f75T9iTQ9qCdqOM00F81+arMzvoXzY2FxdvW6dPq3cyU
+         1T6w==
+X-Gm-Message-State: AOAM533WR2Yb42K0gxebCiCBoJWSv7M5iDAhwBRKSuTf8HRzTkmeTLzs
+	5HWCNPqPO7yzDpvtnGl7FzeQUQ3OEgGxblef+qteOLOY6e7COrSr1SZD5NYUW9BaqtOdCDHH7c2
+	Cwo19q6lgdcavrXrQC80wfiH1qQ==
+X-Received: by 2002:a05:620a:20c1:b0:6a0:4217:b2cc with SMTP id f1-20020a05620a20c100b006a04217b2ccmr727823qka.280.1652901111966;
+        Wed, 18 May 2022 12:11:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwlcy622B6oNjP/prwulbM4e6dmSbgOzdw8xUrP7TW1MBXOvQTd9IJCEvG4gI3cVvBklIrMNA==
+X-Received: by 2002:a05:620a:20c1:b0:6a0:4217:b2cc with SMTP id f1-20020a05620a20c100b006a04217b2ccmr727803qka.280.1652901111774;
+        Wed, 18 May 2022 12:11:51 -0700 (PDT)
+Received: from fedora.hitronhub.home (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
+        by smtp.gmail.com with ESMTPSA id z190-20020a37b0c7000000b006a32d491f92sm39183qke.39.2022.05.18.12.11.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 May 2022 12:11:51 -0700 (PDT)
+From: Adrien Thierry <athierry@redhat.com>
+To: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 1/9] staging: vchiq_arm: add reference to vchiq device in vchiq_state
+Date: Wed, 18 May 2022 15:11:12 -0400
+Message-Id: <20220518191126.60396-2-athierry@redhat.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20220518191126.60396-1-athierry@redhat.com>
+References: <20220518191126.60396-1-athierry@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Linus Torvalds
- <torvalds@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
- clang-built-linux <llvm@lists.linux.dev>, Jonathan Corbet <corbet@lwn.net>,
- Federico Vaga <federico.vaga@vaga.pv.it>, Alex Shi <alexs@kernel.org>,
- Hu Haowen <src.res@email.cn>, Michal Marek <michal.lkml@markovi.net>,
- Nick Desaulniers <ndesaulniers@google.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-doc-tw-discuss@lists.sourceforge.net,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-btrfs <linux-btrfs@vger.kernel.org>
-References: <20220228103142.3301082-1-arnd@kernel.org>
- <20220516131023.GA2329080@roeck-us.net> <YoJSF8T5K9pPx3Ap@kroah.com>
- <9510474d-5555-42b3-5a9c-90e3078df499@roeck-us.net>
- <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [greybus-dev] Re: [PATCH] [v2] Kbuild: move to -std=gnu11
-In-Reply-To: <CAK8P3a1GmRqPTXFCoLH9h1sP76a-bVRsGYP-YvczoXM4Na3OVQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On 5/18/22 00:46, Arnd Bergmann wrote:
-> On Mon, May 16, 2022 at 3:19 PM Guenter Roeck <linux@roeck-us.net> wrote:
->> On 5/16/22 06:31, Greg KH wrote:
->>> On Mon, May 16, 2022 at 06:10:23AM -0700, Guenter Roeck wrote:
->>>> On Mon, Feb 28, 2022 at 11:27:43AM +0100, Arnd Bergmann wrote:
->>>>> From: Arnd Bergmann <arnd@arndb.de>
->>>>>
->>>>> During a patch discussion, Linus brought up the option of changing
->>>>> the C standard version from gnu89 to gnu99, which allows using variable
->>>>> declaration inside of a for() loop. While the C99, C11 and later standards
->>>>> introduce many other features, most of these are already available in
->>>>> gnu89 as GNU extensions as well.
->>>>
->>>> The downside is that backporting affected patches to older kernel branches
->>>> now fails with error messages such as
->>>>
->>>> mm/kfence/core.c: In function ‘kfence_init_pool’:
->>>> mm/kfence/core.c:595:2: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
->>>>
->>>> Just something to keep in mind when writing patches.
->>>
->>> I just ran across this very issue on this commit.  It's an easy fixup
->>> for 5.17.y to make this work, so I did that in my tree.  If this gets to
->>> be too much, we might need to reconsider adding c11 to older stable
->>> kernels.
->>>
->>
->> I think I'll do just that for ChromeOS; I don't want to have to deal
->> with the backports, and we are using recent compilers anyway.
-> 
-> I think it would be better not to have the --std=gnu11 change in the older
-> stable kernels by default, as this has introduced build warnings and other
-> smaller issues, as well as raising the minimum compiler version.
-> 
-> The users that are stuck on older kernels for some reason tend to
-> overlap with those on older compilers. One example here is Android,
-> which used to ship with a gcc-4.9 build as the only non-clang toolchain,
-> and was using this for building their kernels. If someone wants to
-> pull in stable updates into an older Android, this would fail with
-> -std=gnu11. Others may be in the same situation.
-> 
-> Changing some of the 5.x stable branches to -std=gnu11 is probably
-> less of a problem, but I would not know where to draw the line exactly.
-> Maybe check with the Android team to see what the newest kernel is
-> that they expect to be built with the old gcc-4.9.
-> 
+Add a reference to the vchiq device in the vchiq_state structure. This
+allows the device structure to be passed around, which will be useful in
+order to get rid of the global g_dev structure. This change will also
+make it possible to use standard kernel logging macros instead of the
+custom ones.
 
-I don't think they still build anything with gcc. We (ChromeOS) only
-need it for test builds of chromeos-4.4 (sigh), and that will hopefully
-be gone in a couple of months.
+Signed-off-by: Adrien Thierry <athierry@redhat.com>
+---
+Changes since v1:
+- added more info to commit message
 
-We already enabled -std=gnu11 in chromeos-5.10 and chromeos-5.15.
-We'll see if that is possible with chromeos-5.4 as well.
-We won't bother with older kernel branches, but those should not
-get many patches from upstream outside stable release merges,
-so it is less of a problem.
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c    | 4 +++-
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h    | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-Guenter
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 0596ac61e286..e6e0737c85fc 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -519,7 +519,7 @@ int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+ 	*(char **)&g_fragments_base[i * g_fragments_size] = NULL;
+ 	sema_init(&g_free_fragments_sema, MAX_FRAGMENTS);
+ 
+-	err = vchiq_init_state(state, vchiq_slot_zero);
++	err = vchiq_init_state(state, vchiq_slot_zero, dev);
+ 	if (err)
+ 		return err;
+ 
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 8f99272dbd6f..0d5c39d7c6e2 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -2142,7 +2142,7 @@ vchiq_init_slots(void *mem_base, int mem_size)
+ }
+ 
+ int
+-vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero)
++vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero, struct device *dev)
+ {
+ 	struct vchiq_shared_state *local;
+ 	struct vchiq_shared_state *remote;
+@@ -2169,6 +2169,8 @@ vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero)
+ 
+ 	memset(state, 0, sizeof(struct vchiq_state));
+ 
++	state->dev = dev;
++
+ 	/*
+ 	 * initialize shared state pointers
+ 	 */
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 82b7bd7b54b2..352017ff5309 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -315,6 +315,7 @@ struct vchiq_slot_zero {
+ };
+ 
+ struct vchiq_state {
++	struct device *dev;
+ 	int id;
+ 	int initialised;
+ 	enum vchiq_connstate conn_state;
+@@ -458,7 +459,7 @@ extern struct vchiq_slot_zero *
+ vchiq_init_slots(void *mem_base, int mem_size);
+ 
+ extern int
+-vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero);
++vchiq_init_state(struct vchiq_state *state, struct vchiq_slot_zero *slot_zero, struct device *dev);
+ 
+ extern enum vchiq_status
+ vchiq_connect_internal(struct vchiq_state *state, struct vchiq_instance *instance);
+-- 
+2.35.3
+
