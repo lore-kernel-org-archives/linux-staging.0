@@ -1,64 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11032904
-	for <linux-staging@lists.linux.dev>; Thu, 19 May 2022 17:36:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0477C385AA;
-	Thu, 19 May 2022 17:36:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1652981810;
-	bh=tomQ0qDGj4ULRGU5hAAEzRh9FfcnE05twNEaADV8Vc8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YVBJxjDge+rULCmuCAuXyO7D1T/FassimWpQdsrFKh88haTw4yMWD9uf/DxVGJdFQ
-	 pmLhEko51YkTA0RVT4rZdHBXdyUccfNps8k3t3fJ4mUAs9gjCcgn15HPsn3hQY7IeC
-	 78sRSE1hbUDwTr7MjiaHIPKUZSwvVUUZGzccshJs=
-Date: Thu, 19 May 2022 19:36:47 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Denis Efremov <denis.e.efremov@oracle.com>, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org, stable <stable@vger.kernel.org>
-Subject: Re: [PATCH] staging: r8188eu: prevent ->Ssid overflow in
- rtw_wx_set_scan()
-Message-ID: <YoaAL2+blNORtC4V@kroah.com>
-References: <YEHymwsnHewzoam7@mwanda>
- <20220518070052.108287-1-denis.e.efremov@oracle.com>
- <YoZmG98rI7oK5qgf@kroah.com>
- <20220519171628.GW4009@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B80291A
+	for <linux-staging@lists.linux.dev>; Thu, 19 May 2022 18:44:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20673C34100;
+	Thu, 19 May 2022 18:44:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1652985851;
+	bh=LV7LTnAH/p1rCGESk6oys94gfkqXoBT21ZKPBvHkVag=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PJntBITtl+Ix70J0sB1XcPAphJMOsg4aFBWMHvc0SY2z73uU+bdYPDEbFBi+d1k76
+	 ysN5otvLvJDv0wXhWJUhkShJ6y0IswWrsq/4D0zNAN/gjfwPvXK6nuH5Fo5/HvjFsM
+	 DcteBtGl6sEhkNPBAN1XO2L3TUlpiYC03t69XjLY=
+Date: Thu, 19 May 2022 11:44:10 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: kernel test robot <lkp@intel.com>, linux-staging@lists.linux.dev,
+ linux-omap@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-hwmon@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Linux Memory Management List
+ <linux-mm@kvack.org>, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 736ee37e2e8eed7fe48d0a37ee5a709514d478b3
+Message-Id: <20220519114410.638baa38ab2067884600cb72@linux-foundation.org>
+In-Reply-To: <0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
+References: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
+	<0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220519171628.GW4009@kadam>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 19, 2022 at 08:16:28PM +0300, Dan Carpenter wrote:
-> On Thu, May 19, 2022 at 05:45:31PM +0200, Greg KH wrote:
-> > On Wed, May 18, 2022 at 11:00:52AM +0400, Denis Efremov wrote:
-> > > This code has a check to prevent read overflow but it needs another
-> > > check to prevent writing beyond the end of the ->Ssid[] array.
-> > > 
-> > > Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
-> > > Cc: stable <stable@vger.kernel.org>
-> > > Signed-off-by: Denis Efremov <denis.e.efremov@oracle.com>
-> > > ---
-> > > 
-> > > This patch is a copy of Dan's 74b6b20df8cf (CVE-2021-28660).
-> > > Drivers r8188eu and rtl8188eu share the same code.
+On Wed, 18 May 2022 20:41:27 -0700 Guenter Roeck <linux@roeck-us.net> wrote:
+
+> On 5/18/22 17:55, kernel test robot wrote:
+> > tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > branch HEAD: 736ee37e2e8eed7fe48d0a37ee5a709514d478b3  Add linux-next specific files for 20220518
 > > 
-> > This does not apply to my tree at all. This file is not present anymore,
-> > what tree did you make it against?
+> > Error/Warning reports:
 > > 
+> > https://lore.kernel.org/linux-mm/202204291924.vTGZmerI-lkp@intel.com
+> > https://lore.kernel.org/linux-mm/202205041248.WgCwPcEV-lkp@intel.com
+> > https://lore.kernel.org/linux-mm/202205122113.uLKzd3SZ-lkp@intel.com
+> > https://lore.kernel.org/linux-mm/202205172344.3GFeaum1-lkp@intel.com
+> > https://lore.kernel.org/linux-mm/202205190527.o9wVEvHI-lkp@intel.com
+> > 
+> > Error/Warning: (recently discovered and may have been fixed)
+> > 
+> [ .. ]
+> > drivers/hwmon/nct6775-platform.c:199:9: sparse:    unsigned char
+> > drivers/hwmon/nct6775-platform.c:199:9: sparse:    void
 > 
-> That's weird.  It applies fine for me on today's linux-next.
+> This is getting tiresome. Every driver using outb() on m68k will
+> experience that "problem". As far as I can see, it is caused by
+> 
+> #define out_8(addr,b) (void)((*(__force volatile u8 *) (unsigned long)(addr)) = (b))
+> 
+> in arch/m68k/include/asm/raw_io.h. I have no idea what the
+> "(void)" is for, but removing it "fixes" the problem.
+> Either case, this is not a problem with the nct6775 driver,
+> nor is it a new problem.
 
-Ok, really wierd, it worked this time.  I'll blame my email setup
-somehow, I was churning through lots of patches at once...
-
-thanks for checking.
-
-greg k-h
+(cc Geert)
