@@ -1,165 +1,131 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAECD23AC
-	for <linux-staging@lists.linux.dev>; Thu, 19 May 2022 05:46:41 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24IMImiK007814;
-	Thu, 19 May 2022 05:46:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=TqjdaCZOb4lWpVsNnfQ/6xOy/2gqwj8DhfENbswVA3U=;
- b=TJ+uB2LhugRXzu9szx2kpR7pRlmQHCgbNDPgMqeKuwNRxuOjgHXsBqgpz5v5OEL3FzFY
- UKNs1sJvXrzk/K5KB04/4rv70zIPnJDXaeXUTW90ZrIB/GdjDewa5ghGxjaUIzOu9rD3
- dXC/K5YIGJZzOUqH7MAR0kvZXmc/Tf9KxtjlejpQV9TMpXA1QdO2fDnCdSyqaD99HTwa
- iPZGg89I/vSGB44tt3ncS/PFnA8Z09fcY/nS2hxOlHgPvqH6N4x99+XtSg7Wc9GbVcSy
- X87JGXKqWnzmWfKHyePmk1wg0ZtoUeQl0R7C8SXG8fPR8Sy2sNJELSDZ50sY6Pa2ngoD MA== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g22ucawdw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 19 May 2022 05:46:40 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 24J5Q2rf033350;
-	Thu, 19 May 2022 05:46:39 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3g22vaeu6m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 19 May 2022 05:46:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cKvjq8deANBBZphwc3WWOs8qbQgcDJ1W/KZMVnnprIaffvfQKRj2Et5eOZ24Ekv9C+UeVJ7tSxpdZoxm9GHQrJt3YjAShCetuU4f9jI1a8nHRsGERUFmPvQS8LtMVwZ3EUb2CF9gTHau1aVNMpIsk3ZqWY9mKY5eCtcIC9t9WL0NMO/nA5zDq96nhf515jiXhk1x36gb9roABnlYBSCe19HgGWUvOa2Ad21peLrTkJLDURFNJMmyuDNlj1San1UWafQDi0Mq2ZbfVYlObL6dxtsNfAuokqw56jjkeBsco4tPKz3WI7HF/pBrPtr8Cwf7Uh/ael9oVk1L8JFcqoBDtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TqjdaCZOb4lWpVsNnfQ/6xOy/2gqwj8DhfENbswVA3U=;
- b=LhDcLvq0bNVyva5sNmuyHvuTAxw3eRys+6Pd4RPQokHYdfaDkVKNwLfmfyA4NXXPMdQqC60dN52zfxofCxOszt924Lyp19U7uFurhjegbIpCCAX/2iCjPLU6BzgKVfNwG/k9n1lu05NNR76y0L2rmNj4Zd9UeYh1QiXOsJX6RK98SHNAwBUiZIkHphQBdSvuORTbhDfi3zWjDZCI267whF5WJD2CzmtRJ/FptinZzrnljunbWNXD1iQklu321q9HDpwWalfmtZdCjvUg0/y3dMNlEbYf21WfKpuUiMbt8KGV4GvO+HAI2w6wlmeIDsB9tcB1dK0lc7PSwBk7MFNpfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E844923AC
+	for <linux-staging@lists.linux.dev>; Thu, 19 May 2022 05:49:01 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id p4so5840204lfg.4
+        for <linux-staging@lists.linux.dev>; Wed, 18 May 2022 22:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TqjdaCZOb4lWpVsNnfQ/6xOy/2gqwj8DhfENbswVA3U=;
- b=Cjboe3oIBgnF5KDxzJarJQ2STA4oz03gkmeLTwEhsLo3O/ai3WqIg5gVjq+Rj/a1oYN46IkLVUuY37A+tgfQ1Rn3DIG/apUa+bahV2gRQo8QaSQafCJvEfGhXasjWAeUyoi/E/guPhA0DWa4bXy0yYS87w9ijI9CNJ0YbHWiTNY=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CY4PR10MB1543.namprd10.prod.outlook.com
- (2603:10b6:903:2e::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.18; Thu, 19 May
- 2022 05:46:37 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e%2]) with mapi id 15.20.5273.014; Thu, 19 May 2022
- 05:46:37 +0000
-Date: Thu, 19 May 2022 08:46:02 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-        phil@philpotter.co.uk, straube.linux@gmail.com,
-        fmdefrancesco@gmail.com, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 4/4] MAINTAINERS: add myself as r8188eu reviewer
-Message-ID: <20220519054602.GV4009@kadam>
-References: <cover.1652911343.git.paskripkin@gmail.com>
- <42559eab6dd1a69c3fb11ee6ed1f33337041817d.1652911343.git.paskripkin@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <42559eab6dd1a69c3fb11ee6ed1f33337041817d.1652911343.git.paskripkin@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0018.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::23)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to;
+        bh=peOhkg9g/SR7ONyeisgfjz80C4clFhjwNajd1oZKUZc=;
+        b=STnFvKRFRQ/s/FF7doanQ1jN8sXXfkhYbn5lO3GJdogCN118rhknAi04n10M8M2sHd
+         NpyekZmFeNMFUz1Lpm6vv6AkVyBOpUHL2A7ya/r0m0iOczFSH4fU9KUZgEOhjqkifWH8
+         GA5W3xqR8cZ/Fek8vZaXxzLS1D7iT3TeMArp9U2PkmMa6FhN9ca1C8qFcp2J4Gndc4KH
+         KBuCbjYj7mB7WvTq5zRUEya99fTDQ38/0SQl0p5QpF5GeJ5e7GAGozjybkQYRiGOwbW5
+         HSBB2n4aibKVQZUq7UHGT4ew2segq4Vynr9Su1Dz1uNzbo3Cd+8pQgBXjM2ZvLUUk39C
+         I1Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to;
+        bh=peOhkg9g/SR7ONyeisgfjz80C4clFhjwNajd1oZKUZc=;
+        b=nCamApsdj7nM77E2scuFQIStX6yy4+U3IdGnpUQliGTZkxA5qAYqsyrxZdCRmvXw61
+         gS2nrPxVa4aj5V0wJfajF/eOHPMg7rsI6RXmMghcTbVbdLoazgMPVyEK0d6kj15omN15
+         CBZWw635d1wUZiHy+TEaz38yW2osIp26ZaZZwO2mZByVKxSF4W8+lDU4tEFhK0u11Gze
+         /BEWNy6yh+XK/VZyoAYCsjOowNOnQsMsMwEVrHSkSsWNFWqI0aKs1j5ZL1OMa7TTinNt
+         7vCJcWFSNTsfP/wGxrm5Gp32USiZscp6TXAFgtyk0/7GyepyS8WknlsdXTcq8vAA0XsB
+         SCIw==
+X-Gm-Message-State: AOAM531qFxxQlIK56JG1ZH62u7RDBDPePQxy9xaXhGqgikuRMEzDlD1m
+	PdkyCLm9SZW1jtdrv7rU50Y=
+X-Google-Smtp-Source: ABdhPJxyhShYeSNt1m6fN5CYIh6TCQwZuH+LL4Y01DzU+ZEf1TsUbjN5UekG3cAjSpwDIDdbGIxRMg==
+X-Received: by 2002:ac2:4a78:0:b0:472:2106:4b94 with SMTP id q24-20020ac24a78000000b0047221064b94mr2072494lfp.632.1652939339945;
+        Wed, 18 May 2022 22:48:59 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.4])
+        by smtp.gmail.com with ESMTPSA id b10-20020ac247ea000000b00477b2fa5d30sm159300lfp.96.2022.05.18.22.48.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 May 2022 22:48:59 -0700 (PDT)
+Message-ID: <46d39974-05ae-193a-7602-556fbf28fa48@gmail.com>
+Date: Thu, 19 May 2022 08:48:58 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ebb54a76-a12b-4ec5-3515-08da395aefe5
-X-MS-TrafficTypeDiagnostic: CY4PR10MB1543:EE_
-X-Microsoft-Antispam-PRVS: 
-	<CY4PR10MB1543667255D23A133DCB99828ED09@CY4PR10MB1543.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	cEst3TpsZMMOLIgQMbTZpMBptlh1cHnldxgHugwzkviTPWvSE99aSmSsWGyt9W73TSs6lJ4cRXmJ6QgE5OfHwB0+n3ld5camRCcVqueXK3nFyhRaQau3YWPQa3QkE24S6yF1NRZFHZ9hYcKvRzVyCyzvEfBv4E1wwqeeYYe3Z8nroqAXJzNBS13t5S1NNi6Pu2EpqNogkQSi2Rmu9XO5/uneaUDKi0N+c4JUPyKJU8SwJxtWGa+/ZwLZKIVnHeq7ouBgasCxyh/7rNPQF0LXfMPK97sGEBpBjGDLFZSLqmt0a22vBc0X3aVdoZ8TYOgr0gylfT+786mdscoqkKJSaz58dw3MBiNtdpBj+uZcBK/3XjB42MDZjxz8iuvZNJ2R6UMwSHD8wyUpLrlemogiTiKQxFCN1O8zj1yXhIq3nUUpuvFpiLydBhby26i+UvW2nsn2VamOVUBaho/Jn3w3x01/iuZpg0Sg6rVWtZ9oIZAHZtG280YGfDWTfVcxi/BhKc5lFTyG5eDduRflpDY612UbPVx1g0zNUHK7ppsQDdXZRWRejrO4LfhCoXexRQUZKnDJDtdS1y9+pVrinEQ1HHH0MjkWSmHdZ05satQKQjMD3gNrhidzDHPkVuqybB5n7CLHYFf4CHF+Ny5JyKgJ+ibaLr49bqfByw+q0SiVobhsvp4MvfeD+HyexZuMkI7mpNNSgNSQTn7iHcdq+phPqw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(6486002)(316002)(186003)(6512007)(52116002)(8936002)(33716001)(66476007)(8676002)(66556008)(4326008)(86362001)(4744005)(33656002)(1076003)(26005)(6916009)(6666004)(9686003)(508600001)(38100700002)(38350700002)(6506007)(5660300002)(2906002)(44832011)(66946007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2HtuIOqN073bsFp5XPAp36i7m3D18kmeWHIaprzpk/MdD8Emq4TbAHvbPEOb?=
- =?us-ascii?Q?GiIuUpKavBZsrvAVqzHCf9PAXLXtypy6dQP+XeKfrVLq4DfONez9c2VWbrH7?=
- =?us-ascii?Q?R0JhXC6oIKpQkp6zTwFqDfauCACsc9yVdwyGY7if0FyCFydQiuDMX1DEgHb7?=
- =?us-ascii?Q?FgelXFnhn2EJPDq+0Iwl5qDFZo30ZwwFUxbgCmwibzPmaNTQGH4ufesnddIR?=
- =?us-ascii?Q?APtbjcPUG9QgZhZWq32iVorddZsaOyo5d7QgPuzm9AKrxIkGS+R2XaFiJJ35?=
- =?us-ascii?Q?QuNGDHALp9ukI+T+80omVtJ3a9SiyqpoVNA8B699RAq2cRTisGcm0vN7qOj3?=
- =?us-ascii?Q?4HvCJpj37hffIuzjZ7DkE3L/Q+mDkVX4ycCgkEe/KLwxENQXU3kGtM+8Depv?=
- =?us-ascii?Q?lYM2NSE4pFvpf1FA3pTyk3TJvbTSO1dxx5g0ERUOHtVRXnPKUj5pOF5QvMoB?=
- =?us-ascii?Q?TlMjV2tBaXzTv8amoN7t0Um84mD6Nj+ZqeHBhPU6d3lYvBWlOOAffxK8tvtQ?=
- =?us-ascii?Q?TN/+PLlA1EJgsw+5BEaYvgjV8r/yttMthwPVFse3P163eO7LbtvjgvIlHpY4?=
- =?us-ascii?Q?eBzR1WSiGUs3cU0qkjQJtEshNGMk7jhkmSvZx5jckDS+RvdO39e2bgAhucRe?=
- =?us-ascii?Q?NaG1R6r8nntkTZhkDRohHNhhQWctLquTy011TCGdZheHDrXGVOiX0wzqWkp4?=
- =?us-ascii?Q?8HGu9XpLvOqGhNc/g6I4AB94qP19pXkCj2iR/NNF6FUm8MF/XY7uGUIrLRmp?=
- =?us-ascii?Q?cRC8nW/1KwtiitTrS141AsoVBlqzcl2TMzK3MTJCGI+d7dnASqt5frRnfduL?=
- =?us-ascii?Q?d5HZCXMBfSvgJV9ERo4Aic/d7s6SEHtazdMoeqdShXsEKh90h5HPLYZyGb1U?=
- =?us-ascii?Q?hsBtpujWarLjswZytYm6djX4j+hY3l6r5U7zSHLMDJUiNZHs1U1PbAuMpV0o?=
- =?us-ascii?Q?tOlFXZKOmkQDHY7QOakTNkppYYvIQyIzOJQc1IZTMY2QfldrEbxpRGXU7SHs?=
- =?us-ascii?Q?lYlnRsvhOjjEMhj+MoouwEBAl5Ti6rWKooQovJGU2diLfr86Yxusey8YTM1F?=
- =?us-ascii?Q?uiht+/ZRldDJlFcH+FXuA2Dn7p9K0j0eoBIzzDT+tHQAj7Lht45GS7MtVu68?=
- =?us-ascii?Q?ZbOd9vJJziWf8zwsC8jWRz5wDzYQGaXzikBsgXl5A6d9KAnLEWHdRze2eXNj?=
- =?us-ascii?Q?Ku8QY6D1/QDIufSXiKMe/JjJv/BS4h1ahAV7TG9cB+DLgjAAwqRGgE/jkHvP?=
- =?us-ascii?Q?N7asqZ7PzbTwBMGpzFb7pqRua5pS/Jpd8OSJJzzBjesyal/gqJcbHVuy5FQV?=
- =?us-ascii?Q?EhHGDzD+fpbjg9e/uQ/ytghSKkgJvx6OC/UrPXruLvKOhj1gOjLayOQtxI1b?=
- =?us-ascii?Q?cs7sU1ZEjidhYr29AtMfxvEuwg3Pa7Iyp98l2XJupFfD2DzJ3RYckK6QY4y6?=
- =?us-ascii?Q?wJPz4HM8kIVRt5L53NC+kZp6z383keJZxXJTcB3Iqyqs8+tzWGw/LzbmqTJ4?=
- =?us-ascii?Q?IQR4aPx9aBgy7d2iumrxoR072QcY6AvArF1R84PcBYGBzsKBNlRPCOHmpxnv?=
- =?us-ascii?Q?A+yCPPwCWbZQ5rtZ0lvy31Cdtx0dYaKz3hFIfph6dzaofL1VrQlGWI7X8yRc?=
- =?us-ascii?Q?iifJq2OM+s+OsC+z5Ub0jQW0fhgFr3PR7VNUGyOAHPd4b8DD/mBV0X83wXV7?=
- =?us-ascii?Q?SdxJf3It7ZWTaYUpp3AV/tcybNaks5+kMMmpwJb3RT74q8Hb77VJjc50wEcS?=
- =?us-ascii?Q?r/V8YiMQHpdoY1MyayHQbVxaS7t3Xx4=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebb54a76-a12b-4ec5-3515-08da395aefe5
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2022 05:46:36.9086
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2RobFCqA+HqMPa0FbJuBsIOYmhxcw/TEqgwWP+tDeAvDp4Ndx3xlcKMizBGzRHKFXl6N8VHGqqJDCGcaiLODUCbFFUDZwAdCh1QFV4UOXzk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1543
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.874
- definitions=2022-05-18_09:2022-05-17,2022-05-18 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0 mlxscore=0
- phishscore=0 suspectscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2205190035
-X-Proofpoint-GUID: 9n0JKjeDm4AhWwQY1G3ay54qAtW6h-ga
-X-Proofpoint-ORIG-GUID: 9n0JKjeDm4AhWwQY1G3ay54qAtW6h-ga
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 3/4] staging: r8188eu: add error handling of rtw_read32
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, straube.linux@gmail.com, fmdefrancesco@gmail.com,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <cover.1652911343.git.paskripkin@gmail.com>
+ <5cab10528fed7d440ee57f93183d18c9de998adb.1652911343.git.paskripkin@gmail.com>
+ <20220519054356.GU4009@kadam>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20220519054356.GU4009@kadam>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------8I26OPU0qP7r9K9JYyPaS9dr"
 
-On Thu, May 19, 2022 at 01:12:06AM +0300, Pavel Skripkin wrote:
-> I was reviewing r8188eu patches for a while, but I am missing some of
-> them, since I am not in CC list. I want to be CC'ed to help reviewing
-> and testing more patches.
-> 
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0a635f2ae5b9..bd38a2e465cc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -18716,6 +18716,7 @@ F:	drivers/staging/olpc_dcon/
->  STAGING - REALTEK RTL8188EU DRIVERS
->  M:	Larry Finger <Larry.Finger@lwfinger.net>
->  M:	Phillip Potter <phil@philpotter.co.uk>
-> +R:	Pavel Skripkin <paskripkin@gmail.com>
->  S:	Supported
->  F:	drivers/staging/r8188eu/
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------8I26OPU0qP7r9K9JYyPaS9dr
+Content-Type: multipart/mixed; boundary="------------7QQ376naFXwNyWnyQwu5yHNl";
+ protected-headers="v1"
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, straube.linux@gmail.com, fmdefrancesco@gmail.com,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Message-ID: <46d39974-05ae-193a-7602-556fbf28fa48@gmail.com>
+Subject: Re: [PATCH 3/4] staging: r8188eu: add error handling of rtw_read32
+References: <cover.1652911343.git.paskripkin@gmail.com>
+ <5cab10528fed7d440ee57f93183d18c9de998adb.1652911343.git.paskripkin@gmail.com>
+ <20220519054356.GU4009@kadam>
+In-Reply-To: <20220519054356.GU4009@kadam>
 
-Acked-by: Dan Carpenter <dan.carpenter@oracle.com>
+--------------7QQ376naFXwNyWnyQwu5yHNl
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-regards,
-dan carpenter
+SGkgRGFuLA0KDQpPbiA1LzE5LzIyIDA4OjQzLCBEYW4gQ2FycGVudGVyIHdyb3RlOg0KPiBP
+biBUaHUsIE1heSAxOSwgMjAyMiBhdCAwMToxMjowMUFNICswMzAwLCBQYXZlbCBTa3JpcGtp
+biB3cm90ZToNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3Jl
+L3J0d19lZnVzZS5jIGIvZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfZWZ1c2Uu
+Yw0KPj4gaW5kZXggYTI2OTFjN2Y5NmY2Li43MTA1MTIyYzJiYTAgMTAwNjQ0DQo+PiAtLS0g
+YS9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0d19lZnVzZS5jDQo+PiArKysgYi9k
+cml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0d19lZnVzZS5jDQo+PiBAQCAtNDcsOSAr
+NDcsMTggQEAgUmVhZEVGdXNlQnl0ZSgNCj4+ICANCj4+ICAJLyogQ2hlY2sgYml0IDMyIHJl
+YWQtcmVhZHkgKi8NCj4+ICAJcmV0cnkgPSAwOw0KPj4gLQl2YWx1ZTMyID0gcnR3X3JlYWQz
+MihBZGFwdGVyLCBFRlVTRV9DVFJMKTsNCj4+IC0Jd2hpbGUgKCEoKCh2YWx1ZTMyID4+IDI0
+KSAmIDB4ZmYpICYgMHg4MCkgICYmIChyZXRyeSA8IDEwMDAwKSkgew0KPj4gLQkJdmFsdWUz
+MiA9IHJ0d19yZWFkMzIoQWRhcHRlciwgRUZVU0VfQ1RSTCk7DQo+PiArCXJlcyA9IHJ0d19y
+ZWFkMzIoQWRhcHRlciwgRUZVU0VfQ1RSTCwgJnZhbHVlMzIpOw0KPj4gKwlpZiAocmVzKQ0K
+Pj4gKwkJcmV0dXJuOw0KPj4gKw0KPj4gKwl3aGlsZSAocmV0cnkgPCAxMDAwMCkgew0KPj4g
+KwkJcmVzID0gcnR3X3JlYWQzMihBZGFwdGVyLCBFRlVTRV9DVFJMLCAmdmFsdWUzMik7DQo+
+PiArCQlpZiAocmVzKQ0KPj4gKwkJCWNvbnRpbnVlOw0KPiANCj4gRm9yZXZlciBsb29wLiAg
+QWx3YXlzIHB1dCB0aGUgKysgaW4gc2lkZSB0aGUgd2hpbGUgKCkuICBBcHBhcmVudGx5LA0K
+PiBTbWF0Y2ggZG9lcyBub3QgY2F0Y2ggdGhpcy4gICNJZGVhICNPcHB1cnR1bml0eQ0KPiAN
+Cg0KSSBoYXZlIG1pc3NlZCBpdCBldmVyeSBzaW5nbGUgbG9vcC4uLiA6KA0KDQpUaGF0J3Mg
+d2h5IEkgZG9uJ3QgbGlrZSAnd2hpbGUnIGxvb3BzLCAnZm9yJyBzdWl0cyBtdWNoIGJldHRl
+ciBmb3IgdGhpcyANCmtpbmQgb2YgdGhpbmdzLg0KDQoNClRoYW5rcyB5b3UgZm9yIHlvdXIg
+cmV2aWV3ISBXaWxsIGFkZHJlc3MgeW91ciBjb21tZW50cyBpbiBuZXh0IHZlcnNpb24NCg0K
+DQoNCg0KV2l0aCByZWdhcmRzLA0KUGF2ZWwgU2tyaXBraW4NCg==
+
+--------------7QQ376naFXwNyWnyQwu5yHNl--
+
+--------------8I26OPU0qP7r9K9JYyPaS9dr
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmKF2koFAwAAAAAACgkQbk1w61LbBA0U
+Wg/+O/hoj2xPE7uEVscF462XvyCZJXaJqdsYCEJPE7+SBviieh1pcx13O7YhIHNhQXDVLHObD6mX
+JcLJgUcHVJBZpJJ0Mw1rhhbbnEbmjtILNRNgXK+FAfPpkqAW4rdc+3AnHLLY3v9oGdUMh/GdTeeg
+kM6O/W1XMAqwiAVM0280vZPNYEAiEralWRa0FH5vE2lAqHXF5Z5/BhCdeVZy+c7htyJTPQzt/4xK
+5/aGNEFKVT9Yio/8keWqkOtXKBGFDlh76C95fzIoJdsrJmxa5w53ZGHRhv84C9TZKNPL3IrlKxlQ
+oTkuiJEh9w4BV+qfLbfQoeC7R3LaKOxX7eJV9wxmQKBVrpnQVeqB2zreNpt8ix31tGOGadFg3koU
+6RldGSXyUcfj1FXw7MuTsdHllj674aqHsOX9Gxs27H7KVSvm2JBDdRYzm3IUV1WluHEo93ddoc/x
+/9TQkBv8xT2DVNFVbTJYFqKAGawn50jPv18QLURFh5MW5/9shMhtY4pSwla3MHKdI2h7DXhjbE0F
+fLPgzyMosmn+KP97Xld9eQip+bp2H/tB4iXVvZK2TBo8HPzibtexa8Jdb3Zlz3YE/wEgf+DnVLhw
+jqmNwuU2uirTNOGy7lvD+Dtd8sUvsXN6e9nadByGDe2bWr0MSElEMUi/TE/X6+4cRE48XjMR5NC4
+oH4=
+=p/Hs
+-----END PGP SIGNATURE-----
+
+--------------8I26OPU0qP7r9K9JYyPaS9dr--
