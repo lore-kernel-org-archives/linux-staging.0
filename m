@@ -1,80 +1,64 @@
-Received: from mail.wantyapps.xyz (unknown [66.135.5.160])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27CC2904
-	for <linux-staging@lists.linux.dev>; Thu, 19 May 2022 17:25:29 +0000 (UTC)
-Received: from localhost (bzq-79-183-83-88.red.bezeqint.net [79.183.83.88])
-	by mail.wantyapps.xyz (Postfix) with ESMTPSA id 41DC57D654;
-	Thu, 19 May 2022 17:25:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=wantyapps.xyz;
-	s=mail; t=1652981122;
-	bh=bwIKlOGYkL2L4Ao4onVXBZ5fa9b9XMy3wOyD2HdryOQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=oQUhwKS+DczDCMjN3HbYDbECzhCixVy+OoQ5gWsypv1yLI2z+K/H/Thbk8xn8nEbF
-	 45G8ezHEH3zy0jk9t3w76n96o7YtAM4cCOiorLVmsK+U7/HPTdxDb4YS2b1Scgdl8s
-	 SkHbRRdGryTQORDrCUDksuCfncEgXMCl9gXskbpENN4v5auzz1TrWZh5FCersqOZS6
-	 Q0W8NWdHL9sdiGX3MIVmIHlacYbJ09fcAM3aMIcNyKqnHSsqmeJ5SODukMgRhlBxYX
-	 6t+GvpZVoCCSkqwTWTOdfX2ZiX6s/IalCK+9+UlaaHZ8H1vY01bMvajC27p5Qsi1Eq
-	 fH1XgkGos0Vxw==
-From: Uri Arev <me@wantyapps.xyz>
-To: 
-Cc: Uri Arev <me@wantyapps.xyz>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Len Baker <len.baker@gmx.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Srivathsa Dara <srivathsa729.8@gmail.com>,
-	=?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: fbtft: fix checkpatch.pl struct should normally be const
-Date: Thu, 19 May 2022 20:25:01 +0300
-Message-Id: <20220519172503.10821-1-me@wantyapps.xyz>
-X-Mailer: git-send-email 2.36.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11032904
+	for <linux-staging@lists.linux.dev>; Thu, 19 May 2022 17:36:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0477C385AA;
+	Thu, 19 May 2022 17:36:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1652981810;
+	bh=tomQ0qDGj4ULRGU5hAAEzRh9FfcnE05twNEaADV8Vc8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YVBJxjDge+rULCmuCAuXyO7D1T/FassimWpQdsrFKh88haTw4yMWD9uf/DxVGJdFQ
+	 pmLhEko51YkTA0RVT4rZdHBXdyUccfNps8k3t3fJ4mUAs9gjCcgn15HPsn3hQY7IeC
+	 78sRSE1hbUDwTr7MjiaHIPKUZSwvVUUZGzccshJs=
+Date: Thu, 19 May 2022 19:36:47 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Denis Efremov <denis.e.efremov@oracle.com>, Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk, straube.linux@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org, stable <stable@vger.kernel.org>
+Subject: Re: [PATCH] staging: r8188eu: prevent ->Ssid overflow in
+ rtw_wx_set_scan()
+Message-ID: <YoaAL2+blNORtC4V@kroah.com>
+References: <YEHymwsnHewzoam7@mwanda>
+ <20220518070052.108287-1-denis.e.efremov@oracle.com>
+ <YoZmG98rI7oK5qgf@kroah.com>
+ <20220519171628.GW4009@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220519171628.GW4009@kadam>
 
-This simple patch fixes a checkpatch.pl warning in `fbtft/fbtft-core.c`.
+On Thu, May 19, 2022 at 08:16:28PM +0300, Dan Carpenter wrote:
+> On Thu, May 19, 2022 at 05:45:31PM +0200, Greg KH wrote:
+> > On Wed, May 18, 2022 at 11:00:52AM +0400, Denis Efremov wrote:
+> > > This code has a check to prevent read overflow but it needs another
+> > > check to prevent writing beyond the end of the ->Ssid[] array.
+> > > 
+> > > Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
+> > > Cc: stable <stable@vger.kernel.org>
+> > > Signed-off-by: Denis Efremov <denis.e.efremov@oracle.com>
+> > > ---
+> > > 
+> > > This patch is a copy of Dan's 74b6b20df8cf (CVE-2021-28660).
+> > > Drivers r8188eu and rtl8188eu share the same code.
+> > 
+> > This does not apply to my tree at all. This file is not present anymore,
+> > what tree did you make it against?
+> > 
+> 
+> That's weird.  It applies fine for me on today's linux-next.
 
-Reported by Checkpatch:
-WARNING: struct fb_ops should normally be const
+Ok, really wierd, it worked this time.  I'll blame my email setup
+somehow, I was churning through lots of patches at once...
 
-Signed-off-by: Uri Arev <me@wantyapps.xyz>
----
- drivers/staging/fbtft/fbtft-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+thanks for checking.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 9c4d797e7ae4..9ff2b8230caf 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -539,7 +539,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- {
- 	struct fb_info *info;
- 	struct fbtft_par *par;
--	struct fb_ops *fbops = NULL;
-+	const struct fb_ops *fbops = NULL;
- 	struct fb_deferred_io *fbdefio = NULL;
- 	u8 *vmem = NULL;
- 	void *txbuf = NULL;
-@@ -614,7 +614,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 	if (!vmem)
- 		goto alloc_fail;
- 
--	fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
-+	const fbops = devm_kzalloc(dev, sizeof(struct fb_ops), GFP_KERNEL);
- 	if (!fbops)
- 		goto alloc_fail;
- 
--- 
-2.36.1
-
+greg k-h
