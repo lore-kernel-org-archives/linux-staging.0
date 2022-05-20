@@ -1,267 +1,109 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B507E;
-	Fri, 20 May 2022 15:01:50 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 231F6C14BA;
-	Fri, 20 May 2022 14:57:48 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 417914000F;
-	Fri, 20 May 2022 14:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653058659;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pejjagd04uhGPBvwZNzDzgti8YXBTsaNP9vyEjKnY7U=;
-	b=R8lUCqKdq6VkpW+RkJQqRfPxOtgyJmB7MgNyodMsLkrlpUMLgjXJMWh1XK77oaZagjKEW3
-	fkMRmlBi2mx8JovhnmEme+9fbyxNvN1gTkwWpVjzxq5tfgk8hy96lBfN0EmosDEuFnhwMa
-	X+bcS9mOVAZYt9bSaFZPdBdQJjrzXpAk8xOiCMI0ZjtB9gSks84DJvxwTUPRsVaZiDiuo+
-	S4hU42KH18PCDdxKVQnR+VsfpyXJtez1Znh+8Cjmi0MPL1TvuuGRq4zkRRvIeBdRIfRACK
-	0SlFu1D+rrHSxujdVNkvfLXbi0c+xIg7NtB+9Qz+NwkHMmEsruV97ljBWXnnCg==
-Date: Fri, 20 May 2022 16:57:35 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <YoesXywA4yzBDSwU@aptenodytes>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
- <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
- <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
- <Ymqk89e+mn/1kLLx@aptenodytes>
- <YmsCJicyzf+Bz98y@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D372FAF
+	for <linux-staging@lists.linux.dev>; Fri, 20 May 2022 21:04:57 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id r3so4061032ljd.7
+        for <linux-staging@lists.linux.dev>; Fri, 20 May 2022 14:04:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=HaUZAl6YfbHEQXiaIPa4mpZAp8nomzN9ZpQ9paddnxg=;
+        b=P19vffmlkG1iJCTLs0sNasiEJUWVb3TPMdRDwEmxSbxScZ2NxMpIWzrSVF4JHrBPRe
+         s3uiuRHwGScr2zQfomAlm9XfmvNZpibBT26naIE1Rb45EHMNr6oHnwNUuF0UthIpwSI5
+         EKjtnFKrkm4CpDAjx+5OpK+zFIualtjiWo+cd+fprvcDWNnPEsvWBqsFYr/v7vfwMnYK
+         ldO1b4TnQUeWbMKpAjsM+0jNft5X2r4HTHd59xA12FlwSTfBDEJPqkpOUfDr/fRipPgX
+         HOK7tm0w4e3B9sTT1Mz67tQCxm0GCbZpoIPPNGcIKmZSxcWKRbjjKht7/be0pXDhTJLS
+         rmEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=HaUZAl6YfbHEQXiaIPa4mpZAp8nomzN9ZpQ9paddnxg=;
+        b=PIn5JNyPCnygjJihTqv3zI8hhdDO+A+48c01CZXypVpHUYQP9cf8y1INpFy7wrr4DB
+         eA6HLZ9yTYwe3g8G6zvSZwKydp+sxrhWF9M6kn6nhyywA2iXPSC701/3bfhd/xIzN24L
+         3e2kRqhkOxcz6gWE1xTbjA63y9JFydQTbe+03D02+oWe31h+1wPgfxkdQHLDGIBZojH8
+         FEjg3vmPvh4Nt4YkojTUcJ7CKtu/Z2l4a8cd03zWIbHa7Qpvwxz0iHDfE9QXt8f0wjKQ
+         0ngC/ksIGYn4sSXwtAgz9CI/Rx2kexPsQ/q8FSWLCdiXkQ0UaM1B/cV7PSek8DCy+iwk
+         +/Zw==
+X-Gm-Message-State: AOAM530T2c7r6o9/cFdpBxKobaiSlP7l9jtdcciK4OVzh5uAzHu2gb10
+	sFWJe0ezP8Ym9dYvcQV7Ze0=
+X-Google-Smtp-Source: ABdhPJxmM9jEolg3xExHgCFocx8NEIVlwbyAXz0ed+AqfNbI+CV310rzPcZkV8LG0jxUerhnAQ+R4A==
+X-Received: by 2002:a2e:a810:0:b0:253:cb18:9058 with SMTP id l16-20020a2ea810000000b00253cb189058mr6528817ljq.12.1653080696019;
+        Fri, 20 May 2022 14:04:56 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.4])
+        by smtp.gmail.com with ESMTPSA id i19-20020a056512007300b0047255d210d5sm791887lfo.4.2022.05.20.14.04.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 May 2022 14:04:55 -0700 (PDT)
+Message-ID: <44d12b0f-3ce0-42d2-a475-31d70dd4d699@gmail.com>
+Date: Sat, 21 May 2022 00:04:54 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="FAoW3tsaHuiF93BU"
-Content-Disposition: inline
-In-Reply-To: <YmsCJicyzf+Bz98y@valkosipuli.retiisi.eu>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] staging: r8188eu: remove include/rtw_debug.h
+Content-Language: en-US
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: straube.linux@gmail.com, martin@kaiser.cx, saurav.girepunje@gmail.com,
+ abdun.nihaal@gmail.com, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20220519221047.6940-1-phil@philpotter.co.uk>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20220519221047.6940-1-phil@philpotter.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Hi Phillip,
+
+On 5/20/22 01:10, Phillip Potter wrote:
+> Remove include/rtw_debug.h, as all it now has are:
+> 
+> (1) A load of unused preprocessor definitions that expand to BIT(x)
+>      variants.
+> (2) A preprocessor definition that expands to the name of the driver
+>      and is only used in one place inside a pr_info_once call in
+>      core/rtw_fw.c.
+> 
+> It is now surplus to requirements after fixing up the few places that
+> include the file.
+> 
+> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> ---
+>   drivers/staging/r8188eu/core/rtw_fw.c        |  4 +-
+>   drivers/staging/r8188eu/include/drv_types.h  |  1 -
+>   drivers/staging/r8188eu/include/rtw_debug.h  | 45 --------------------
+>   drivers/staging/r8188eu/os_dep/ioctl_linux.c |  1 -
+>   4 files changed, 2 insertions(+), 49 deletions(-)
+>   delete mode 100644 drivers/staging/r8188eu/include/rtw_debug.h
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_fw.c b/drivers/staging/r8188eu/core/rtw_fw.c
+> index bf077876ed3d..0451e5177644 100644
+> --- a/drivers/staging/r8188eu/core/rtw_fw.c
+> +++ b/drivers/staging/r8188eu/core/rtw_fw.c
+> @@ -259,8 +259,8 @@ int rtl8188e_firmware_download(struct adapter *padapter)
+>   	fwhdr = (struct rt_firmware_hdr *)dvobj->firmware.data;
+>   
+>   	if (IS_FW_HEADER_EXIST(fwhdr)) {
+> -		pr_info_once("%sFirmware Version %d, SubVersion %d, Signature 0x%x\n",
+> -			     DRIVER_PREFIX, le16_to_cpu(fwhdr->version), fwhdr->subversion,
+> +		pr_info_once("R8188EU: Firmware Version %d, SubVersion %d, Signature 0x%x\n",
+> +			     le16_to_cpu(fwhdr->version), fwhdr->subversion,
+>   			     le16_to_cpu(fwhdr->signature));
+>   
+
+What about converting this macro to dev_info_once()? IMO, looks cleaner:
+
+[   27.985218] r8188eu 2-1:1.0: Firmware Version 11, SubVersion 1, 
+Signature 0x88e1
 
 
---FAoW3tsaHuiF93BU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
 
-On Fri 29 Apr 22, 00:07, Sakari Ailus wrote:
-> Hi Paul,
->=20
-> On Thu, Apr 28, 2022 at 04:30:11PM +0200, Paul Kocialkowski wrote:
-> > Hi Sakari,
-> >=20
-> > On Thu 28 Apr 22, 15:14, Sakari Ailus wrote:
-> > > Hi Paul,
-> > >=20
-> > > Thanks for the set.
-> > >=20
-> > > A few comments below.
-> >=20
-> > Thanks a lot for your review!
->=20
-> You're welcome!
->=20
-> ...
->=20
-> > > I understand this is an online ISP. How do you schedule the video buf=
-fer
-> > > queues? Say, what happens if it's time to set up buffers for a frame =
-and
-> > > there's a buffer queued in the parameter queue but not in the image d=
-ata
-> > > queue? Or the other way around?
-> >=20
-> > The ISP works in a quite atypical way, with a DMA buffer that is used to
-> > hold upcoming parameters (including buffer addresses) and a bit in a "d=
-irect"
-> > register to schedule the update of the parameters at next vsync.
-> >=20
-> > The update (setting the bit) is triggered whenever new parameters are
-> > submitted via the params video device or whenever there's a capture buf=
-fer
-> > available in the capture video device.
-> >=20
-> > So you don't particularly need to have one parameter buffer matching a =
-capture
-> > buffer, the two can be updated independently. Of course, a capture buff=
-er will
-> > only be returned after another buffer becomes active.
->=20
-> This also means it's not possible to associate a capture buffer to a
-> parameter buffer by other means than timing --- which is unreliable. The
-> request API would allow that but it's not free of issues either.
-
-Yes the request API seems like a good fit for this. Note that the returned
-sequence number in dequeued buffers for the capture and meta video devices
-should match though, so userspace still has a way to know which captured bu=
-ffer
-used parameters from which meta params buffer.
-
-> Alternatively, I think in this case you could always require the capture
-> buffer and grab a parameter buffer when it's available. As ISPs are
-> generally requiring device specific control software, this shouldn't be a
-> problem really.
-
-I think this is pretty much what happens already.
-
-> I wonder what Laurent thinks.
->=20
-> >=20
-> > I hope this answers your concern!
-> >=20
-> > [...]
-> >=20
-> > > > +static int sun6i_isp_tables_setup(struct sun6i_isp_device *isp_dev)
-> > > > +{
-> > > > +	struct sun6i_isp_tables *tables =3D &isp_dev->tables;
-> > > > +	int ret;
-> > > > +
-> > > > +	/* Sizes are hardcoded for now but actually depend on the platfor=
-m. */
-> > >=20
-> > > Would it be cleaner to have them defined in a platform-specific way, =
-e.g.
-> > > in a struct you obtain using device_get_match_data()?
-> >=20
-> > Absolutely! I didn't do it at this stage since only one platform is sup=
-ported
-> > but we could just as well introduce a variant structure already for the=
- table
-> > sizes.
->=20
-> I think that would be nice already, especially if you know these are going
-> to be different. Otherwise macros could be an option.
-
-Understood!
-
-> ...
->=20
-> > > > +	ret =3D v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
-> > >=20
-> > > I suppose you intend to add controls later on?
-> >=20
-> > I might be wrong but I thought this was necessary to expose sensor cont=
-rols
-> > registered by subdevs that end up attached to this v4l2 device.
-> >=20
-> > I doubt the drivers itself will expose controls otherwise.
->=20
-> Now that this is an MC-enabled driver, the subdev controls should be
-> accessed through the subdev nodes only. Adding them to the video device's
-> control handler is quite hackish and not guaranteed to even work (as e.g.
-> multiple subdevs can have the same control).
-
-Yes I was wondering what would happen in that case. I'll drop the ctrls
-handling in the next iteration then.
-
-Paul
-
-> ...
->=20
-> > > > +{
-> > > > +	struct sun6i_isp_device *isp_dev =3D video_drvdata(file);
-> > > > +	struct video_device *video_dev =3D &isp_dev->capture.video_dev;
-> > > > +	struct mutex *lock =3D &isp_dev->capture.lock;
-> > > > +	int ret;
-> > > > +
-> > > > +	if (mutex_lock_interruptible(lock))
-> > > > +		return -ERESTARTSYS;
-> > > > +
-> > > > +	ret =3D v4l2_pipeline_pm_get(&video_dev->entity);
-> > >=20
-> > > Do you need this?
-> > >=20
-> > > Drivers should primarily depend on runtime PM, this is only needed for
-> > > compatibility reasons. Instead I'd like to see sensor drivers being m=
-oved
-> > > to runtime PM.
-> >=20
-> > Yes it's still needed to support sensor drivers that don't use rpm yet.
->=20
-> To that I suggested adding runtime PM support for the affected sensors.
-> This doesn't seem to get done otherwise. E.g. ipu3-cio2 driver does not
-> call s_power() on sensor subdevs.
->=20
-> ...
->=20
-> > > > +	ret =3D video_register_device(video_dev, VFL_TYPE_VIDEO, -1);
-> > > > +	if (ret) {
-> > > > +		v4l2_err(v4l2_dev, "failed to register video device: %d\n",
-> > > > +			 ret);
-> > > > +		goto error_media_entity;
-> > > > +	}
-> > > > +
-> > > > +	v4l2_info(v4l2_dev, "device %s registered as %s\n", video_dev->na=
-me,
-> > > > +		  video_device_node_name(video_dev));
-> > >=20
-> > > This isn't really driver specific. I'd drop it.
-> >=20
-> > I agree but I see that many drivers are doing it and the information can
-> > actually be quite useful at times.
->=20
-> You can get that information using media-ctl -e 'entity name'.
->=20
-> I guess this could be also added to video_register_device() on debug leve=
-l.
->=20
-> > > > +struct sun6i_isp_params_config_bdnf {
-> > > > +	__u8	in_dis_min; // 8
-> > > > +	__u8	in_dis_max; // 10
-> > >=20
-> > > Are these default values or something else? Better documentation was =
-in the
-> > > TODO.txt file already.
-> >=20
-> > Yes that's the default register values, but these comments are and over=
-look on
-> > my side and should be removed.
->=20
-> I'm fine leaving these here. Just wondering. Up to you.
->=20
-> --=20
-> Kind regards,
->=20
-> Sakari Ailus
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---FAoW3tsaHuiF93BU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmKHrF8ACgkQ3cLmz3+f
-v9HhUggAlMjbtLYEq3V4Mz0xX1XuzbkyKEzMNadNg6z6gQ4YaVnXpvpyFH4M35Zq
-aK+9CBzhgAy7OPfzxZ7SLijO27vEApEjQsxF79cI+VAb6TsTxcdT0wvYW3DyPVV7
-CM8qYR6k7r1TrbPP2S2tpm2e0o2vgMAg3YIYvs183GelA3KO+XAAlKiNf/hxvcPX
-jZ9x2twYZxuw5SdKU+HwVwKJqGxF6cbJ82VSuO6vBp3McxB+GP6C5lXR360UJNcN
-TDxgvMYYqruqriEcxQubPYwV6ndB6l1LZDo0PJMi9FmdYL4T2K0oc5J0IqpiKu/a
-Ax3F0ID+oBjpErydkMbGHXrEN/aLug==
-=+4MT
------END PGP SIGNATURE-----
-
---FAoW3tsaHuiF93BU--
+With regards,
+Pavel Skripkin
