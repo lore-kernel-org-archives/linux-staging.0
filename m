@@ -1,88 +1,147 @@
-Received: from azure-sdnproxy-3.icoremail.net (azure-sdnproxy.icoremail.net [20.232.28.96])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id A752315A9
-	for <linux-staging@lists.linux.dev>; Fri, 20 May 2022 06:16:29 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [124.236.130.193])
-	by mail-app4 (Coremail) with SMTP id cS_KCgAnkCMOModigzl+AA--.18742S2;
-	Fri, 20 May 2022 14:15:51 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org
-Cc: davem@davemloft.net,
-	kuba@kernel.org,
-	alexander.deucher@amd.com,
-	broonie@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] staging: rtl8192u: Fix sleep in atomic context bug in dm_fsync_timer_callback
-Date: Fri, 20 May 2022 14:15:41 +0800
-Message-Id: <20220520061541.14785-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:cS_KCgAnkCMOModigzl+AA--.18742S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7trWftF15CF13ur18Xw47Jwb_yoW8Aw1UpF
-	WkC3WDCF48tFnF9w1kAw4vvryFk3Z7Ca4xGF9rZ345u3s5t3WUWFWYyFy0yr4UA3y5CFWF
-	vFyYkr13Zr4DCr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkS14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
-	JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GF1l
-	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
-	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAK
-	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
-	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
-	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUndb1UUUUU
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAgAQAVZdtZyoSgAEsX
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07A17E
+	for <linux-staging@lists.linux.dev>; Fri, 20 May 2022 07:43:59 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24K5TjgU029971;
+	Fri, 20 May 2022 07:43:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=SRezQuOFrQ9mctEN1rSidiqhUuxmniK896656qtDmRY=;
+ b=f10lOixIpw7HiHnxmQJKsLuJZHJbQiDTXKljkXF0O8KHxlFHH0shMJdQf7we/Wo5fwk/
+ iwgBW1LzaVxekNdt7GW+6P3gpZr3T99cfJELxfm/nc22NhDlc+zlDLTXrn8fa9XccSLQ
+ GRU4dQKood86a5Ba8XVCTX0G6nWr7a5BjiOTPrbP1sm0DWLGZvWW01sd1WGq5UUuBQTZ
+ F+DC+34QoXg+Vv87c9T2LctplV4zQ0fqv6hwCKwLrTF3/Jx7dNjL2fsyAbTISIUdGkws
+ nlzLZvUSwnqrNgfivJpsMM5VAAuBS6Yan2H1hA1XG8fWxR+GDQ4Ar/aXN1uLBVlfoiwq Zw== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g2310xa13-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 20 May 2022 07:43:51 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 24K7Z8mx006803;
+	Fri, 20 May 2022 07:43:49 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2040.outbound.protection.outlook.com [104.47.57.40])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3g22v62dtd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 20 May 2022 07:43:49 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F37t5SdR9sds723xrFALixVxDpDb5jBq6HGlLQLKWzwBAYFdyMxgqnksCSEoWt/h4euAhptO9fY1fSni9ixEdrbfMWa9q13sqx5r8m0mPw+ODPtlWnOhSwPXPb+nO59W0UiveHpzUF3QTXswhSggZV58mzmYRPchrjKuMSrKmZu5VhkVhMXfwfXQgHntCqu+nS+Q9CEXdxrqVbRSfX8OGC8jCxh/cmRslohnqKjAft5D99E+zRCUb13YXN+/OM0XG7kgo7B805jfcWCkSpV1rIqZpips5avXUk6oYMFUZiJ1tJ+Z6QMj+4Adp5GVkoFkVLvMUwXTzammxNFv6zmpGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SRezQuOFrQ9mctEN1rSidiqhUuxmniK896656qtDmRY=;
+ b=lia7Bddrk67Z3LYcZvZRywRXMrj3FfLSxJKtb1cR9bzZixmqTsCxVGFa+nFNEzTHx75Zl2QPb2czDaquhoXK5/7y8b2StQl2V0MCUU7EjZuKX5XSPxJ6UH36r89b5jlH3YVGQfTH0CTHgNxNY6Zce0Blh/uDI1bZreRS4m9yaDBubuwDQJ0FYoha8wri6aUw1PLZ3x8JcmTvbwZ1yChIrme+WBOllMegpfiVLVNsSTaoV3EYubnem7Z4oV3bjbXXDowAilYG0VOJ6eR/X0nXM0b4D0vY7z1kfjOAYnI8389xvofrh9xIG0nPZP6d0Sb3whaqJizVTukbEda2NYv3BQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SRezQuOFrQ9mctEN1rSidiqhUuxmniK896656qtDmRY=;
+ b=Vkvx7uqtP0pbZCBBbTygIzEg2qPE3N6WLwVYWAIcD0w2VKBlQxaSWRQUMHkdZ7CmyeeD0pHRu7pkmjTsVF9FWke6YWI70nphGTlVVuEyaOpQtBvUWNXjaT8joxaB6LfXg5NaWFCmfRhxdEQua47oSOd2GSpaHetL0GeXE/HStRA=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by SJ0PR10MB4669.namprd10.prod.outlook.com
+ (2603:10b6:a03:2ae::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.16; Fri, 20 May
+ 2022 07:43:48 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::86f:81ba:9951:5a7e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::86f:81ba:9951:5a7e%2]) with mapi id 15.20.5273.014; Fri, 20 May 2022
+ 07:43:47 +0000
+Date: Fri, 20 May 2022 10:43:36 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+        phil@philpotter.co.uk, straube.linux@gmail.com,
+        fmdefrancesco@gmail.com, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 0/4] staging: r8188eu: add error handling of usb read
+ errors
+Message-ID: <20220520074335.GZ4009@kadam>
+References: <cover.1652994483.git.paskripkin@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1652994483.git.paskripkin@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MR2P264CA0020.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:500:1::32) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ed860909-a40f-420a-5dfe-08da3a347942
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB4669:EE_
+X-Microsoft-Antispam-PRVS: 
+	<SJ0PR10MB46698D091E640B1825E8DDC48ED39@SJ0PR10MB4669.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	VLzMhC9jHUNIruKyqOG1GOxRnQjGCRtVDaSO4ZeBRgGucwGIPYdOxpHITUfPjpiIxy0HKissjHPeyY94rFqyWmOHCy4spf4ErGcsfIS6Nq/81iUX/lXxfvLvQrnRERBooh4zo0YlVQ20eehDyRAEJwlJIbKNhKP+o/b8SrQEoV/53K1m+rma2Lu+YeTNHqt3jI88kWj2yg0yp70kgUpLH/E9lR+El/a0mKn03MfAqSO+xRr3xaLk91OzIJ0dOA5aNfGylgul6JOn4tBcUCso38/RG8kmOUeBQ4CLvb9gr2k2MCRtbvaXnu5yXjdkl3xUq+LLstZ8qC7XZA/t+OEHklgap7tLVsxwkbYF1qZ6yYphoBDlRs/UOElXjY7Q/S0JmOKk3W5IXhVLT4JYwbvzHmWAQtSfbqJ+qGyhAIRx6OQV9bUDOvQBHGhMbzTOxTyJFO3t/nLAMMgKKWeQvSq4CWFsVd+9H0ZYi0tsEGKYX2NldYBQx42tnTb9Nt0WDaMuf7pjZEtF48LCcCjXuN8Dd8Ec/gFUwMxghhzN/FKXGjgjw7gAu+kJVDiZUJnCEQPyMkTkKK7qYce706baA8oragxEu7KKN9dPnCERsOmf/TRu2VlWQxVibJEMZgLGTA3F1l+vAkuRzoYvSsb1fQkaqIFiSGkjJjd8TCrfYC+m8ANH+kgQcZg5dnhsXScxzsNW75Gyla/XKEV5rs6oiFJW2A==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(66556008)(66476007)(186003)(6916009)(66946007)(4326008)(8676002)(8936002)(5660300002)(1076003)(316002)(9686003)(6512007)(6506007)(86362001)(2906002)(38100700002)(558084003)(38350700002)(6486002)(33656002)(33716001)(6666004)(44832011)(52116002)(26005)(508600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Nzc6H+CVIzEy1FF0tKLuMUH12XBD+iA5d/gbXidNpyUCdBzBOvHWaqRsGAoA?=
+ =?us-ascii?Q?UB2duPO8r0iVp5VkZeV2AazSqS/4i8u577Og+uC3FxJGBtQhYnFi70bQiE1K?=
+ =?us-ascii?Q?FGY8KW5fIsp17Xh4942+EmcoXK8a5cN07b7zkAXwEJkdRdzEAgC0bTFEb8h4?=
+ =?us-ascii?Q?yE2vAF1aykZrT3M3RYSimQkXiKesqxVUOrT3Rh8T61mhTKQ8wj94YMhLML8e?=
+ =?us-ascii?Q?K6UNgqYkXAOK1hzox0CgwzUcE/C7UKF1I+gBwiuk/8kvzO0M6Ps2K5uSYNdI?=
+ =?us-ascii?Q?C5AYEhgoGPyAcc2UB86t4mRf6vvLvFnjlsMqWNw5TgsFweSbYvAT8ygJEOIs?=
+ =?us-ascii?Q?xhhadqDDXMWQWLYnDdQAEmM41JLTdhTJq0Fy81BGaQVy7EdWSvodzoYYhIb1?=
+ =?us-ascii?Q?8054BwhUVjnDWSaC9CEmzWaSSWgHoRTRhTdyHD+a1peYBQt/1kFTflYQAG9v?=
+ =?us-ascii?Q?Kjk8I3TzeNWG/m3G+03fgy3zJr3ZtljdgOiPE7JO0LDnneGkoboc0fU1Rbud?=
+ =?us-ascii?Q?/Ky3AXnzE+PxKRmkrqTIEgrV3cVB8J/E/SXmQI0KxlEnBm1N0JGyv6JVvzjb?=
+ =?us-ascii?Q?iC/rY8b30Xp9oW3p3AUIBFpBbGT3ol0Yo/CYxQA/Bqj0i0Q2VOz6tnHj1DUX?=
+ =?us-ascii?Q?m3yKqxKldJpparxn5sw5ZrJSbbhyMpppeHFW6h8UQHGCuTQ3hvfofH2E3APN?=
+ =?us-ascii?Q?5A4o2COv68EvbBKYm6MAkE8nKqqO2aTC550DiXkCEvYbxAkNc9oJ0ZZTtbFC?=
+ =?us-ascii?Q?OioCwhP9tIGaFuHMmIUheDRGEBDvDn0LNkYsm4Wztk9yNFlFUDyeuFapaMK3?=
+ =?us-ascii?Q?EnzGxqqJO2H5gBvLsrCEJxcbM2zSmp9/7IoJwWJA3WvXzFLM7dMcKEUZIZ3P?=
+ =?us-ascii?Q?GOlHRATdV6Ox28yiMwxM7APEM89MEEKTUxVj5xMB2YS+RiAwaGKnd2YFPD3a?=
+ =?us-ascii?Q?5Yx3Up1ZLhNm6qjJC9CeXARGTsICJqYdPD65+UBxRh9a7lCLHaKRtq+14lBf?=
+ =?us-ascii?Q?KNfojAIoxL6TiEYUt5muCcv2dZosQaD9spKI1OHLHgcOIB60aWaFLWPZvQfl?=
+ =?us-ascii?Q?Ohj6aYxqmpHRXU/XoHQdXFO07eDyH7TVxN12aR3sAXn6gZtAI9zsc8/JDcwW?=
+ =?us-ascii?Q?etY7Io+2mRyykkEdxNjgGoM/nx/be8g9DzWgj0AHy9T9d5108a5zkaVuIMvv?=
+ =?us-ascii?Q?sTP0gYspTobIiY7JeQauGMVJDiDnhyiw8dcDTy1PgXjkfYyGoRREwEKPO3SL?=
+ =?us-ascii?Q?q2P+7efVaoR6MZB5Sc7QYUZ7UIDV8i5BdjPfmeFGGwrbX/uAPRR57+EhHZ7U?=
+ =?us-ascii?Q?dNxMW5z3fJPWVFq4MVrQYmhqc5Mc5zSyv28EOJxUM/c3wCsUAOvzxCVhJPBE?=
+ =?us-ascii?Q?yiLI0iqBGHbCjBN07KF8XFNQRsW4hS0lOJmyhC7inRNqcu14J5qmHnhBVQVI?=
+ =?us-ascii?Q?UDLTA6T/nxXFTXsSBc/273khqzudYmW1I+sVwkn9HfXyjkMlwCiG+wa/MLLq?=
+ =?us-ascii?Q?sk5OP482KPgl/4TAwjna2SytTGSkTmfVYDdHzwONrsTzLNuQS2vHga0pA9Sn?=
+ =?us-ascii?Q?ln/Tbfnw11IlnF/uABe9gvlAWo7wIYFI+qsxoDVjDW3D81pIqxDKJGRkaGko?=
+ =?us-ascii?Q?dzV18gFGmrDDDmnqNGXrX+gc11ot2geCKcmxPyzFGWo5GiHClpHkDpPhsiQf?=
+ =?us-ascii?Q?YoQlADPGyJX3k+JKcd7yf66hO1PwznhLAjIIMuaCjHXmQ8wQEOCQCAb5He21?=
+ =?us-ascii?Q?WV5wrVI6JHlyoSWXhOyVIMDy21wahdk=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed860909-a40f-420a-5dfe-08da3a347942
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2022 07:43:47.8292
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OHdUEoyem0AJEY7dlbX01B+euOPdNMBabnOEXUhyjJbvvhN4jv+ExAP3cBOcy+G6JubX4pT7ec6nFip0m8qqFyoUpnhdmOHS9L2EgQdv6jk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4669
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.874
+ definitions=2022-05-20_02:2022-05-19,2022-05-20 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=999 adultscore=0 phishscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2205200056
+X-Proofpoint-ORIG-GUID: ZTv8hZ-pI3TbJUGYz8DLqNTYeh_1SaoB
+X-Proofpoint-GUID: ZTv8hZ-pI3TbJUGYz8DLqNTYeh_1SaoB
 
-There are sleep in atomic context bugs when dm_fsync_timer_callback is
-executing. The root cause is that the memory allocation functions with
-GFP_KERNEL parameter are called in dm_fsync_timer_callback which is a
-timer handler. The call paths that could trigger bugs are shown below:
+This looks okay to me now.  Thanks!
 
-    (interrupt context)
-dm_fsync_timer_callback
-  write_nic_byte
-    kzalloc(sizeof(data), GFP_KERNEL); //may sleep
-  write_nic_dword
-    kzalloc(sizeof(data), GFP_KERNEL); //may sleep
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-This patch changes allocation mode from GFP_KERNEL to GFP_ATOMIC
-in order to prevent atomic context sleeping. The GFP_ATOMIC flag
-makes memory allocation operation could be used in atomic context.
-
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
- drivers/staging/rtl8192u/r8192U_core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-index ce807c9d421..679c362baad 100644
---- a/drivers/staging/rtl8192u/r8192U_core.c
-+++ b/drivers/staging/rtl8192u/r8192U_core.c
-@@ -267,7 +267,7 @@ int write_nic_byte(struct net_device *dev, int indx, u8 data)
- 
- 	struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
- 	struct usb_device *udev = priv->udev;
--	u8 *usbdata = kzalloc(sizeof(data), GFP_KERNEL);
-+	u8 *usbdata = kzalloc(sizeof(data), GFP_ATOMIC);
- 
- 	if (!usbdata)
- 		return -ENOMEM;
-@@ -319,7 +319,7 @@ int write_nic_dword(struct net_device *dev, int indx, u32 data)
- 
- 	struct r8192_priv *priv = (struct r8192_priv *)ieee80211_priv(dev);
- 	struct usb_device *udev = priv->udev;
--	u32 *usbdata = kzalloc(sizeof(data), GFP_KERNEL);
-+	u32 *usbdata = kzalloc(sizeof(data), GFP_ATOMIC);
- 
- 	if (!usbdata)
- 		return -ENOMEM;
--- 
-2.17.1
+regards,
+dan carpenter
 
