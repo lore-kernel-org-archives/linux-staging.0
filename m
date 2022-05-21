@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DE63209
-	for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 15:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F883210
+	for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 15:38:40 +0000 (UTC)
 Received: from dslb-188-096-138-194.188.096.pools.vodafone-ip.de ([188.96.138.194] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1nsRBb-0007XY-Kt; Sat, 21 May 2022 17:38:35 +0200
+	id 1nsRBc-0007XY-Cn; Sat, 21 May 2022 17:38:36 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 09/12] staging: r8188eu: use mgmt to set the timeout
-Date: Sat, 21 May 2022 17:38:21 +0200
-Message-Id: <20220521153824.218196-10-martin@kaiser.cx>
+Subject: [PATCH 10/12] staging: r8188eu: use ieee80211 to set addba capabilities
+Date: Sat, 21 May 2022 17:38:22 +0200
+Message-Id: <20220521153824.218196-11-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220521153824.218196-1-martin@kaiser.cx>
 References: <20220521153824.218196-1-martin@kaiser.cx>
@@ -31,38 +31,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the mgmt structure in issue_action_BA to set the timeout in the
-outgoing frame.
+Use the mgmt structure and defines from ieee80211.h to set the
+capabilities field of an addba request.
+
+If issue_action_BA is called with action == WLAN_ACTION_ADDBA_REQ, the
+status parameter contains the tid.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index bd74a8460ab3..d4dff434b19c 100644
+index d4dff434b19c..089baa78a28a 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -5368,7 +5368,6 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 	u16 start_seq;
- 	u16 BA_para_set;
- 	u16 reason_code;
--	u16 BA_timeout_value;
- 	__le16	le_tmp;
- 	u16 BA_starting_seqctrl = 0;
- 	struct xmit_frame *pmgntframe;
-@@ -5426,9 +5425,8 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 		le_tmp = cpu_to_le16(BA_para_set);
- 		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&le_tmp, &pattrib->pktlen);
+@@ -5381,6 +5381,7 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct registry_priv *pregpriv = &padapter->registrypriv;
+ 	struct ieee80211_mgmt *mgmt;
++	u16 capab;
  
--		BA_timeout_value = 5000;/*  5ms */
--		le_tmp = cpu_to_le16(BA_timeout_value);
+ 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+ 	if (!pmgntframe)
+@@ -5421,9 +5422,12 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
+ 		mgmt->u.action.u.addba_req.dialog_token = pmlmeinfo->dialogToken;
+ 		pattrib->pktlen++;
+ 
+-		BA_para_set = (0x1002 | ((status & 0xf) << 2)); /* immediate ack & 64 buffer size */
+-		le_tmp = cpu_to_le16(BA_para_set);
 -		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&le_tmp, &pattrib->pktlen);
-+		mgmt->u.action.u.addba_req.timeout = cpu_to_le16(5000); /* 5 ms */
++		/* immediate ack & 64 buffer size */
++		capab = u16_encode_bits(64, IEEE80211_ADDBA_PARAM_BUF_SIZE_MASK);
++		capab |= u16_encode_bits(1, IEEE80211_ADDBA_PARAM_POLICY_MASK);
++		capab |= u16_encode_bits(status, IEEE80211_ADDBA_PARAM_TID_MASK);
++		mgmt->u.action.u.addba_req.capab = cpu_to_le16(capab);
 +		pattrib->pktlen += 2;
  
- 		psta = rtw_get_stainfo(pstapriv, raddr);
- 		if (psta) {
+ 		mgmt->u.action.u.addba_req.timeout = cpu_to_le16(5000); /* 5 ms */
+ 		pattrib->pktlen += 2;
 -- 
 2.30.2
 
