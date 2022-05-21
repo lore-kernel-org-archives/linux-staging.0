@@ -1,44 +1,46 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A1D33CE
-	for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 21:05:37 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id c19so6540946lfv.5
-        for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 14:05:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D789E33CE
+	for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 21:57:21 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-f189b07f57so14064924fac.1
+        for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 14:57:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=EkmajMsiYUhXvdrsUvmOT04jWZKTsPHdMPmsBMpezRw=;
-        b=HnpXN/wSHlv/VEmQGhFVZKncoGfope+/brDTF6S+FoYf38JOPI4PUWKS7X66g5CUpI
-         e168lzIxSSQw7MwsAk9amI/I5INXpyDzGztfYnmKODOuR+0BLjwICH+BO6IF8SAcI4OP
-         S+RXXC4uOK3C6sBqkhNrv0HBUpTpDcnQQunaFKthy7J8sUQbxBORbQNULb5XfaXYBIiY
-         KpEXuemSs7JU2JBDYzNvcHFQbCnE/m//B+7P6nPCkUZzakVFlYpvX3d4fp1cXcEgxiLN
-         i4IKuKgAmhDGHsmztaI1DmyDuNEHOuFPOIXMrRHXmg89gxpsBhyqPPJuqo8qulCjs8Fs
-         FJvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+        h=sender:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=EkmajMsiYUhXvdrsUvmOT04jWZKTsPHdMPmsBMpezRw=;
-        b=h9dcU9FJ3JUonLf1O+Ybg2OfUo3R/tzVhH++kj/15F2V5hkBDlZMWIAQuWUS56VIuB
-         wkfpkgP+s+ClYBhQMuFSzyQjbwNper6fYDKiVnfztNQ/VqbOA3+014axJ50ll6Vux7b/
-         84jFy4FDCxfIF1eFA4l4a52er8r/XA0sl9L4VB1nz1NDUFL/tEjABBqwUL1S7iAVpIB2
-         CCXGeM9y/ieQ8YAWGXPYdULL2SbGN0TlvE95SXc6P/6rUH1l7fMNGycX2HaXI6ggOM7A
-         yHWg7eZB7BHsJt7bVPZriybzLrvgzCIsvLgY3PIJC3qrxBrFRtgjw/8aAwV1vnK/rII9
-         ee5A==
-X-Gm-Message-State: AOAM530mOfoZXjYUhsKo2w1VkfLNn33PRDAKLDLb3RUXi1c7p4IAN771
-	YmasH1LAfFt8uzMwW1Oxxng=
-X-Google-Smtp-Source: ABdhPJymc3KO6kebafKYNGTa/JzoZ5/Pot2UgArE7micAEnyJ3ghlHSadFTf1pLFKRQjJ+s4ajxoQw==
-X-Received: by 2002:a05:6512:4007:b0:474:2df9:573d with SMTP id br7-20020a056512400700b004742df9573dmr11524539lfb.166.1653167135821;
-        Sat, 21 May 2022 14:05:35 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.4])
-        by smtp.gmail.com with ESMTPSA id o27-20020a198c1b000000b00478509b44e6sm805221lfd.84.2022.05.21.14.05.34
+        bh=gAITwp43a4w30vT1uOOmJoUF5xFm7wkkasuEdQTf/Fk=;
+        b=bNkZRhnXoZZ5uhXo92mBOu73mygo/R5GNLxg5obG3gOyW7/ORTAmhTscXQcbfLNEQ1
+         QtgbRC9m0DSk/EXOho8u69FZK13Ea6S9b1Xmc2oHdMYWJ10lu4x+F5nCMLzEtSfJKJVi
+         Dy0xuYMXQo//jUgiFURvGWJawZzN69S9XbraN9tn75SF1FB0Z7nrAEo9bkfwRpoBOD4a
+         mDQYGWzKb5ERrU6YxR/cZvZMASYIYzjOH9loLCEzEzgEUSH+9XIDHx+o+MgPJPRhb74d
+         EcN6hyAirMWVFhDj7s8PLXOuRuM1z7BuHO8C5lVzKCs7mWQKem6/2OayIgUeQhI69C8A
+         Bo+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=gAITwp43a4w30vT1uOOmJoUF5xFm7wkkasuEdQTf/Fk=;
+        b=JuWnQHpd73nr2nrFVdPZFM4zmesPDxrENGlbVjNxMj51KW/lQ/GlCcc+9cnn1bYngP
+         7na/LDVv6AvP8GvnNt52frez08AEv0Z4BmGmc84aC8ac+4XXuV5UD5epFJ0Wi+luI/Ct
+         pJp025AZEJvTlOOnjVGMLgNiQC2oopMAlUVMAt3uYsBsjFCC0omuhong+blpAyGhzdn9
+         aosYswqcvdGAkFrUK1u/21PcuxRtCwujxNmeMwLSFTP4Ud/h4WRQLp8ZNlp64sYVy+0w
+         4qWCpoxjQyUv4tuFNAS7YCrFrhBxXk4IZ21755c4EygGSc7jofSESfnyD2zeaeU/WcmJ
+         uzlQ==
+X-Gm-Message-State: AOAM530DT/x86xHZQFv5orpZsgik4oHWLk6k4ByHoepfLVNs3kVkXUnJ
+	53itpA/lMwLSyeg45qy9V/g=
+X-Google-Smtp-Source: ABdhPJzltjAK+2MQ+KnlkH5rxNWyy/EZlDTj21LQ1U22Fyp6iyU7Bt80iI2IPVBUOEdsF1/h8AgAzQ==
+X-Received: by 2002:a05:6870:5487:b0:f1:98a6:6f79 with SMTP id f7-20020a056870548700b000f198a66f79mr8996604oan.221.1653170240847;
+        Sat, 21 May 2022 14:57:20 -0700 (PDT)
+Received: from ?IPV6:2603:8090:2005:39b3::100e? (2603-8090-2005-39b3-0000-0000-0000-100e.res6.spectrum.com. [2603:8090:2005:39b3::100e])
+        by smtp.gmail.com with ESMTPSA id m129-20020aca3f87000000b00325cda1ff99sm2617026oia.24.2022.05.21.14.57.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 May 2022 14:05:35 -0700 (PDT)
-Message-ID: <3e4761a4-5ee8-0ba0-d64c-fe8798f2f010@gmail.com>
-Date: Sun, 22 May 2022 00:05:34 +0300
+        Sat, 21 May 2022 14:57:20 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <b922eaa2-303a-69da-03ec-e053092c8682@lwfinger.net>
+Date: Sat, 21 May 2022 16:57:17 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,44 +51,49 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
 Subject: Re: [PATCH v3] staging: r8188eu: add check for kzalloc
 Content-Language: en-US
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Martin Kaiser <lists@kaiser.cx>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- dan.carpenter@oracle.com, Larry.Finger@lwfinger.net,
+To: Pavel Skripkin <paskripkin@gmail.com>, Martin Kaiser <lists@kaiser.cx>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Cc: dan.carpenter@oracle.com, phil@philpotter.co.uk,
  gregkh@linuxfoundation.org, straube.linux@gmail.com,
  fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20220518075957.514603-1-jiasheng@iscas.ac.cn>
  <20220521155017.7jjz7prdnspm2276@viti.kaiser.cx>
- <8fb49b5b-106b-3346-a75d-d54e0a065587@gmail.com> <YolRut+PJ68J9mcM@KernelVM>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <YolRut+PJ68J9mcM@KernelVM>
+ <8fb49b5b-106b-3346-a75d-d54e0a065587@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <8fb49b5b-106b-3346-a75d-d54e0a065587@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Phillip,
-
-On 5/21/22 23:56, Phillip Potter wrote:
-> Hi Pavel,
+On 5/21/22 15:26, Pavel Skripkin wrote:
+> Hi Martin,
 > 
-> I agree with you totally - we should change these semantics to reflect
-> how the rest of the kernel generally does things. That said, that is a
-> bigger patch set and I noticed the driver was broken before I read this
-> thread, so I've submitted a patch already just to fix the breakage for
-> now.
+> On 5/21/22 18:50, Martin Kaiser wrote:
+>>
+>>>      for (i = 0; i < 4; i++)
+>>> @@ -1474,7 +1479,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, 
+>>> struct xmit_frame *pxmitframe)
+>>
+>>
+>> res is still 0 here - but the caller of _rtw_init_xmit_priv compares
+>> this return value with _SUCCESS (1) or _FAIL (0) and interprets it as
+>> _FAIL.
+>>
 > 
-> Changing these semantics is a bigger patch/patchset and I wanted to get
-> this out in the meantime - if you are looking at doing this conversion I
-> will by all means leave that alone as no desire to tread on anyones
-> toes :-)
+> I think, it's time to make
 > 
+> s/_SUCCESS/0/
+> s/_FAIL/-1
+> 
+> since developers from outside of staging are confused.
+> The main problem will be with functions that return an int (or s32).
+> 
+> Will take a look.
 
-I think, redoing more then 500 place will take quite a long time, but 
-driver should be fixed ASAP.
-
-So let's apply your patch and then someone (maybe me) will cook a patch.
+I agree; however, this change will likely break a lot of pending patches.
 
 
+@GregKH: Could you apply all pending patches in preparation for this patch? If 
+so, then Pavel could make this transformation while the list is relatively idle.
 
-
-With regards,
-Pavel Skripkin
+Larry
