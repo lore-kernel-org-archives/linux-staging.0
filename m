@@ -1,21 +1,49 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDA03205
-	for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 15:50:26 +0000 (UTC)
-Received: from martin by viti.kaiser.cx with local (Exim 4.89)
-	(envelope-from <martin@viti.kaiser.cx>)
-	id 1nsRMv-0007kO-Vo; Sat, 21 May 2022 17:50:17 +0200
-Date: Sat, 21 May 2022 17:50:17 +0200
-From: Martin Kaiser <lists@kaiser.cx>
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc: dan.carpenter@oracle.com, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, gregkh@linuxfoundation.org,
-	straube.linux@gmail.com, fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: r8188eu: add check for kzalloc
-Message-ID: <20220521155017.7jjz7prdnspm2276@viti.kaiser.cx>
-References: <20220518075957.514603-1-jiasheng@iscas.ac.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B797B19F
+	for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 17:17:32 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id u35so10004593qtc.13
+        for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 10:17:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=74iO+k+sU+IlzNDs66QrJFNFWlpeGF1yqzPnmcyjvug=;
+        b=IPhtJwQmg55AQ5MR3CMDAvg0X/FBkZk0NlrudtKCYsGrUebzd1wvxucMqzhUcA78ZP
+         /VMSvU1UhJL4KchU6QDD0kSHiQARx6GEl6z1qiH2T+3rsx2yDAusXMdgeU1DXqhsfkQq
+         h7fCGA+QxQyquYRyOtl877z8vWQHlMdGiJBTw0DvL8rZjuupASwiwq8rv/RVBOXiA9FF
+         jAGmGYfTuHa4e3oFv863P1r2CUa5TnnJPTgRfd3LFwcsU6Ef+pCeyxGfyklWumRmbTjQ
+         gBYv0zqYbrEr+GuRm8JL/qGjJ3tWPgXHmqdCmb6OuzoMSaddrSwijuE4xx45ibfw15ts
+         AEiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=74iO+k+sU+IlzNDs66QrJFNFWlpeGF1yqzPnmcyjvug=;
+        b=TwcG7TZZBu+SBU35sAbuKTL4l72PKDt0hlAlmJpvacLHxGuGbJgmeFew4KKIDz+/hh
+         dNRhdl3qoGj/QES4yNPnCTJtUIDtXLxjnjzModKU09qjLUnzPXyGZlCijjOCqkFaceyX
+         C2xFR3gpvHTcW/aqXuKQOp5/+pfpxjytiUhQVZlow5nf5N+AYcQBkpXKRiNWHOf2v3Kc
+         x7A3aNFZnGHt15qmZ2DjjrCjm7+iCYmDBbhc29EipUGaKDIDSuSQslAHmNz/u4GWh0dR
+         lYx62+F+OVmfrGusdOMvCRtCJ2ANCDm2wMPpBL6mxyTdrvOmE0C1n4nMNdvMFGWDOpq8
+         gtAQ==
+X-Gm-Message-State: AOAM53025P1RN+yairZjNvK9sbd2InCseCkLZFHblvmRgjh88hhYCmQl
+	I4zzp7mfNAtnkzzP0Fzcg/U=
+X-Google-Smtp-Source: ABdhPJzu5VPLWE4gUydCnutp3VfDrZj4RVAyEI6T/ckAbtcD9w2Uln7AVuEtHBzYknrd7GMoqCL7ig==
+X-Received: by 2002:a05:622a:1214:b0:2f3:c1a4:231c with SMTP id y20-20020a05622a121400b002f3c1a4231cmr11635501qtx.72.1653153451677;
+        Sat, 21 May 2022 10:17:31 -0700 (PDT)
+Received: from Sassy (bras-base-oshwon9563w-grc-26-142-113-132-114.dsl.bell.ca. [142.113.132.114])
+        by smtp.gmail.com with ESMTPSA id v13-20020a05622a144d00b002f92b74ba99sm218706qtx.13.2022.05.21.10.17.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 May 2022 10:17:31 -0700 (PDT)
+Date: Sat, 21 May 2022 13:17:29 -0400
+From: Srivathsan Sivakumar <sri.skumar05@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: rts5208: spi.c: clean up dynamic debug code
+Message-ID: <YokeqRl/N2m9Nui7@Sassy>
+References: <Yojg1nXXTIL3G82l@Sassy>
+ <YojnC+kQXcxTMrua@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -24,72 +52,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220518075957.514603-1-jiasheng@iscas.ac.cn>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Sender: Martin Kaiser <martin@viti.kaiser.cx>
+In-Reply-To: <YojnC+kQXcxTMrua@kroah.com>
 
-Thus wrote Jiasheng Jiang (jiasheng@iscas.ac.cn):
+On Sat, May 21, 2022 at 03:20:11PM +0200, Greg Kroah-Hartman wrote:
+> On Sat, May 21, 2022 at 08:53:42AM -0400, Srivathsan Sivakumar wrote:
+> > I've condensed the three dev_dbg() lines into one as you requested in the
+> > previous patch thread; and sent them all as a singular patch.
+> 
+> This does not need to be in a changelog text.
+> 
+> > fix the following checkpatch.pl warning:
+> > WARNING: Unnecessary ftrace-like logging - prefer using ftrace
+> > 
+> > Signed-off-by: Srivathsan Sivakumar <sri.skumar05@gmail.com>
+> > 
+> > Changes in v2:
+> >         - Condense three dev_dbg() code lines into one
+> > ---
+> 
+> The --- line needs to be right below the signed-off-by line as that is
+> where git will cut the changelog at.  You don't want the changelog in
+> the commit.
+> 
+> >  drivers/staging/rts5208/spi.c | 5 +----
+> >  1 file changed, 1 insertion(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/rts5208/spi.c b/drivers/staging/rts5208/spi.c
+> > index f1e9e80044ed..ea736a73e58c 100644
+> > --- a/drivers/staging/rts5208/spi.c
+> > +++ b/drivers/staging/rts5208/spi.c
+> > @@ -460,10 +460,7 @@ int spi_set_parameter(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+> >  	spi->clk_div = ((u16)(srb->cmnd[4]) << 8) | srb->cmnd[5];
+> >  	spi->write_en = srb->cmnd[6];
+> >  
+> > -	dev_dbg(rtsx_dev(chip), "%s: ", __func__);
+> > -	dev_dbg(rtsx_dev(chip), "spi_clock = %d, ", spi->spi_clock);
+> > -	dev_dbg(rtsx_dev(chip), "clk_div = %d, ", spi->clk_div);
+> > -	dev_dbg(rtsx_dev(chip), "write_en = %d\n", spi->write_en);
+> > +	dev_dbg(rtsx_dev(chip), "spi_clock = %d, clk_div = %d, write_en = %d\n ",                               spi->spi_clock, spi->clk_div, spi->write_en);
+> 
+> You might want to verify that you really meant to put that many spaces
+> in this line :(
+> 
+> thanks,
+> 
+> greg k-h
 
-> As kzalloc() may return null pointer, it should be better to
-> check the return value and return error if fails in order
-> to avoid dereference of null pointer.
-> Moreover, the return value of rtw_alloc_hwxmits() should also
-> be dealt with.
+Apologies for the errors, I'll make sure to follow the guidelines more
+strictly.
 
-> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
-> Changelog
+I'll implement your remarks and resend the patch soon.
 
-> v1 -> v2:
+Thanks, 
 
-> *Change 1. Make rtw_alloc_hwxmits() return -ENOMEM on failure
-> and zero on success.
-
-> v2 -> v3
-
-> *Change 1. Add "res = _FAIL".
-> ---
->  drivers/staging/r8188eu/core/rtw_xmit.c    | 13 +++++++++++--
->  drivers/staging/r8188eu/include/rtw_xmit.h |  2 +-
->  2 files changed, 12 insertions(+), 3 deletions(-)
-
-> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-> index c2a550e7250e..2ee92bbe66a0 100644
-> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
-> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-> @@ -178,7 +178,12 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
-
->  	pxmitpriv->free_xmit_extbuf_cnt = num_xmit_extbuf;
-
-> -	rtw_alloc_hwxmits(padapter);
-> +	res = rtw_alloc_hwxmits(padapter);
-
-This commit introduces a regression.
-
-res is now 0 if the allocation succeeds.
-
-> +	if (res) {
-> +		res = _FAIL;
-> +		goto exit;
-> +	}
-> +
->  	rtw_init_hwxmits(pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
-
->  	for (i = 0; i < 4; i++)
-> @@ -1474,7 +1479,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
-
-
-res is still 0 here - but the caller of _rtw_init_xmit_priv compares
-this return value with _SUCCESS (1) or _FAIL (0) and interprets it as
-_FAIL.
-
-[ 3893.464932] r8188eu: module is from the staging directory, the quality is unknown, you have been warned.
-[ 3893.543204] Chip Version Info: CHIP_8188E_Normal_Chip_TSMC_D_CUT_1T1R_RomVer(0)
-[ 3893.713123] EEPROM ID = 0x8129
-[ 3893.719205] r8188eu 1-1.5:1.0: _rtw_init_xmit_priv failed
-[ 3893.823102] usb 1-1.5: reset full-speed USB device number 4 using ci_hdrc
-[ 3893.986936] usbcore: registered new interface driver r8188eu
-
->  	return res;
->  }
+Sri
