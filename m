@@ -1,90 +1,202 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29803210
-	for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 20:26:59 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id br17so7235846lfb.2
-        for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 13:26:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=rFZPrpZu3gCblZ0S2r/HLOnWi7BksfWkFQaou0zer6Q=;
-        b=Hh5iMIFPohMgn1+pPdJ9rp8ZM8CCFYxsJ0AABPJqPB4xv/NY1rYh/zxd+RhsBINswB
-         +w7f2RvBTSOB32E6OJLabSjRqCrCUzmQI9rU1+HakAXfQmWa/CEg/zCZ7PRYR3knUVu4
-         8xltIFArO/sNUIZ+7+L44AYTKN6+kMH190bvG5MUQFU5T/dJ1+Rk4WsCRwxY92TGg0F6
-         a6/mQTFp0QXjEKbJZBt7GzYpVEk4lzdKJ7t0BeqNrYR//Ts+JPnc5s4iToXzmI5RMz/D
-         NKJQZzS9XNb1WQAR3VnRZxZjIIZ5zGbDRbL0cmYdQcI5VFikBfNF9gh+2P1bN70CEsbr
-         s3BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=rFZPrpZu3gCblZ0S2r/HLOnWi7BksfWkFQaou0zer6Q=;
-        b=bY4gAKqAT7/4ykV89QtNCA+AotUjQKtDAObidbSkCdZSzaig9AuKF1cl0kXlOXCxZc
-         uP/t2aH3pUpsjH0WIglRAgQgVEhUoicKWZZZipbhzISfQjcIQCEUBzs6UAnVxCuWOwhP
-         MFzfrj+6FezJ7vkiunNhWXChi17vZxAHH4uMEG5sWz0I2LfjmKqCopBl5K3YQ+tVQ4il
-         dPm/Q++RDecUL53idryIoW/2xvgiaBYBTNPE7NNuajwUGy4ZAnld8ADhsngaLpZwjplA
-         FFy6DlxhgBA40G2F7t/Fn9AMPd9oSrYSq0/B+/bJu2rlI0sPSJxZYDV0JpuePdMtBX62
-         974A==
-X-Gm-Message-State: AOAM533K1ygkMaZLWOzNqaod0Tw+2UmixhiHsaGk2hozzWutm582u69R
-	v5tjjUHNdBzAEHatkq0Ia4g=
-X-Google-Smtp-Source: ABdhPJyURZ4TeVQzybWTSxvy0p0IGHn2v0MTIp9h5YROf1N0HyWyi0URQBLXHUFKb2a3HshJc1xjpA==
-X-Received: by 2002:a05:6512:2625:b0:478:5a51:7fe3 with SMTP id bt37-20020a056512262500b004785a517fe3mr4702884lfb.158.1653164817623;
-        Sat, 21 May 2022 13:26:57 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.4])
-        by smtp.gmail.com with ESMTPSA id a16-20020a05651c011000b0024cac53a82csm859433ljb.0.2022.05.21.13.26.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 May 2022 13:26:57 -0700 (PDT)
-Message-ID: <8fb49b5b-106b-3346-a75d-d54e0a065587@gmail.com>
-Date: Sat, 21 May 2022 23:26:55 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2047F28E3
+	for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 20:44:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653165896; x=1684701896;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rOfTKvK0UmtLZVyJidSDNdqOlFGh4soKUNHTuYlPYps=;
+  b=DLFwsaVaOSoVqb+S74vE8/o17MPwqgshtgG6zKSWWblshpCAMUUKQos/
+   G+KSvq7NDv+K3H/vh0evPzWE3ZdyuUQnX98qEtgJEx0OV+hbVcuYQVPvK
+   AiweMZqXN7Sw6q+SLHFQuFlxGJ8taDOuOxtlAMsYe2IwY3EvEZ8/O7VQX
+   z84go88BbytT2VzblYzNc6tAMJiNuO0oMtFH0ilJUW0MuggEntGyMkHZe
+   +x2TnOWyABAlP4dYJbKg35Feq7HBugv1cCqdqfZoAPgN/vyHM0t0j4+hh
+   l95rCf0ZPG2aTwAdBfOq+1Tnruhkrx8RzYitpSVcTERqIiVZczk7NAs/Y
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10354"; a="252784266"
+X-IronPort-AV: E=Sophos;i="5.91,243,1647327600"; 
+   d="scan'208";a="252784266"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2022 13:44:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,243,1647327600"; 
+   d="scan'208";a="558004391"
+Received: from lkp-server02.sh.intel.com (HELO 242b25809ac7) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 21 May 2022 13:44:52 -0700
+Received: from kbuild by 242b25809ac7 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1nsVxz-0006bc-NA;
+	Sat, 21 May 2022 20:44:51 +0000
+Date: Sun, 22 May 2022 04:44:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Martin Kaiser <martin@kaiser.cx>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kbuild-all@lists.01.org, Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: Re: [PATCH 05/12] staging: r8188eu: use mgmt to set the sequence
+ number
+Message-ID: <202205220408.1gEq5pSp-lkp@intel.com>
+References: <20220521153824.218196-6-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3] staging: r8188eu: add check for kzalloc
-Content-Language: en-US
-To: Martin Kaiser <lists@kaiser.cx>, Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc: dan.carpenter@oracle.com, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org, straube.linux@gmail.com,
- fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220518075957.514603-1-jiasheng@iscas.ac.cn>
- <20220521155017.7jjz7prdnspm2276@viti.kaiser.cx>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20220521155017.7jjz7prdnspm2276@viti.kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220521153824.218196-6-martin@kaiser.cx>
 
 Hi Martin,
 
-On 5/21/22 18:50, Martin Kaiser wrote:
-> 
->>  	for (i = 0; i < 4; i++)
->> @@ -1474,7 +1479,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, struct xmit_frame *pxmitframe)
-> 
-> 
-> res is still 0 here - but the caller of _rtw_init_xmit_priv compares
-> this return value with _SUCCESS (1) or _FAIL (0) and interprets it as
-> _FAIL.
-> 
+Thank you for the patch! Perhaps something to improve:
 
-I think, it's time to make
+[auto build test WARNING on staging/staging-testing]
 
-s/_SUCCESS/0/
-s/_FAIL/-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Kaiser/staging-r8188eu-start-cleaning-up-issue_action_BA/20220521-234202
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 6a31a95135da0bb2c5349e49e37d76e9909ab7ea
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20220522/202205220408.1gEq5pSp-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-1) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/d2cf0b366868a18d3237f29c55e8c2f3a95a433f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Martin-Kaiser/staging-r8188eu-start-cleaning-up-issue_action_BA/20220521-234202
+        git checkout d2cf0b366868a18d3237f29c55e8c2f3a95a433f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/r8188eu/
 
-since developers from outside of staging are confused.
-The main problem will be with functions that return an int (or s32).
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Will take a look.
+All warnings (new ones prefixed by >>):
+
+   drivers/staging/r8188eu/core/rtw_mlme_ext.c: In function 'issue_action_BA':
+>> drivers/staging/r8188eu/core/rtw_mlme_ext.c:5378:31: warning: variable 'pwlanhdr' set but not used [-Wunused-but-set-variable]
+    5378 |         struct ieee80211_hdr *pwlanhdr;
+         |                               ^~~~~~~~
 
 
+vim +/pwlanhdr +5378 drivers/staging/r8188eu/core/rtw_mlme_ext.c
 
-With regards,
-Pavel Skripkin
+15865124feed88 Phillip Potter  2021-07-28  5365  
+15865124feed88 Phillip Potter  2021-07-28  5366  void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned char action, unsigned short status)
+15865124feed88 Phillip Potter  2021-07-28  5367  {
+64c62b697f7612 Martin Kaiser   2022-05-02  5368  	u8 category = WLAN_CATEGORY_BACK;
+15865124feed88 Phillip Potter  2021-07-28  5369  	u16 start_seq;
+15865124feed88 Phillip Potter  2021-07-28  5370  	u16 BA_para_set;
+15865124feed88 Phillip Potter  2021-07-28  5371  	u16 reason_code;
+15865124feed88 Phillip Potter  2021-07-28  5372  	u16 BA_timeout_value;
+15865124feed88 Phillip Potter  2021-07-28  5373  	__le16	le_tmp;
+15865124feed88 Phillip Potter  2021-07-28  5374  	u16 BA_starting_seqctrl = 0;
+15865124feed88 Phillip Potter  2021-07-28  5375  	struct xmit_frame *pmgntframe;
+15865124feed88 Phillip Potter  2021-07-28  5376  	struct pkt_attrib *pattrib;
+15865124feed88 Phillip Potter  2021-07-28  5377  	u8 *pframe;
+9dc9653c8501b9 Michael Straube 2022-04-18 @5378  	struct ieee80211_hdr *pwlanhdr;
+3b522a11b50476 Michael Straube 2021-08-09  5379  	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+3b522a11b50476 Michael Straube 2021-08-09  5380  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+3b522a11b50476 Michael Straube 2021-08-09  5381  	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+15865124feed88 Phillip Potter  2021-07-28  5382  	struct sta_info *psta;
+15865124feed88 Phillip Potter  2021-07-28  5383  	struct sta_priv *pstapriv = &padapter->stapriv;
+15865124feed88 Phillip Potter  2021-07-28  5384  	struct registry_priv *pregpriv = &padapter->registrypriv;
+106e8dfa1c07a9 Martin Kaiser   2022-05-21  5385  	struct ieee80211_mgmt *mgmt;
+15865124feed88 Phillip Potter  2021-07-28  5386  
+15865124feed88 Phillip Potter  2021-07-28  5387  	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+552838fdcaef2c Michael Straube 2021-08-01  5388  	if (!pmgntframe)
+15865124feed88 Phillip Potter  2021-07-28  5389  		return;
+15865124feed88 Phillip Potter  2021-07-28  5390  
+15865124feed88 Phillip Potter  2021-07-28  5391  	/* update attribute */
+15865124feed88 Phillip Potter  2021-07-28  5392  	pattrib = &pmgntframe->attrib;
+15865124feed88 Phillip Potter  2021-07-28  5393  	update_mgntframe_attrib(padapter, pattrib);
+15865124feed88 Phillip Potter  2021-07-28  5394  
+15865124feed88 Phillip Potter  2021-07-28  5395  	memset(pmgntframe->buf_addr, 0, WLANHDR_OFFSET + TXDESC_OFFSET);
+15865124feed88 Phillip Potter  2021-07-28  5396  
+15865124feed88 Phillip Potter  2021-07-28  5397  	pframe = (u8 *)(pmgntframe->buf_addr) + TXDESC_OFFSET;
+9dc9653c8501b9 Michael Straube 2022-04-18  5398  	pwlanhdr = (struct ieee80211_hdr *)pframe;
+106e8dfa1c07a9 Martin Kaiser   2022-05-21  5399  	mgmt = (struct ieee80211_mgmt *)pframe;
+15865124feed88 Phillip Potter  2021-07-28  5400  
+106e8dfa1c07a9 Martin Kaiser   2022-05-21  5401  	mgmt->frame_control = cpu_to_le16(IEEE80211_STYPE_ACTION | IEEE80211_FTYPE_MGMT);
+15865124feed88 Phillip Potter  2021-07-28  5402  
+35f6cf522c478c Martin Kaiser   2022-05-21  5403  	memcpy(mgmt->da, raddr, ETH_ALEN);
+35f6cf522c478c Martin Kaiser   2022-05-21  5404  	memcpy(mgmt->sa, myid(&padapter->eeprompriv), ETH_ALEN);
+35f6cf522c478c Martin Kaiser   2022-05-21  5405  	memcpy(mgmt->bssid, get_my_bssid(&pmlmeinfo->network), ETH_ALEN);
+15865124feed88 Phillip Potter  2021-07-28  5406  
+d2cf0b366868a1 Martin Kaiser   2022-05-21  5407  	mgmt->seq_ctrl = cpu_to_le16(pmlmeext->mgnt_seq);
+15865124feed88 Phillip Potter  2021-07-28  5408  	pmlmeext->mgnt_seq++;
+15865124feed88 Phillip Potter  2021-07-28  5409  
+9dc9653c8501b9 Michael Straube 2022-04-18  5410  	pframe += sizeof(struct ieee80211_hdr_3addr);
+9dc9653c8501b9 Michael Straube 2022-04-18  5411  	pattrib->pktlen = sizeof(struct ieee80211_hdr_3addr);
+15865124feed88 Phillip Potter  2021-07-28  5412  
+3b522a11b50476 Michael Straube 2021-08-09  5413  	pframe = rtw_set_fixed_ie(pframe, 1, &(category), &pattrib->pktlen);
+3b522a11b50476 Michael Straube 2021-08-09  5414  	pframe = rtw_set_fixed_ie(pframe, 1, &(action), &pattrib->pktlen);
+15865124feed88 Phillip Potter  2021-07-28  5415  
+15865124feed88 Phillip Potter  2021-07-28  5416  	switch (action) {
+84aee42a485b38 Martin Kaiser   2022-05-21  5417  	case WLAN_ACTION_ADDBA_REQ:
+15865124feed88 Phillip Potter  2021-07-28  5418  		do {
+15865124feed88 Phillip Potter  2021-07-28  5419  			pmlmeinfo->dialogToken++;
+15865124feed88 Phillip Potter  2021-07-28  5420  		} while (pmlmeinfo->dialogToken == 0);
+3b522a11b50476 Michael Straube 2021-08-09  5421  		pframe = rtw_set_fixed_ie(pframe, 1, &pmlmeinfo->dialogToken, &pattrib->pktlen);
+15865124feed88 Phillip Potter  2021-07-28  5422  
+15865124feed88 Phillip Potter  2021-07-28  5423  		BA_para_set = (0x1002 | ((status & 0xf) << 2)); /* immediate ack & 64 buffer size */
+15865124feed88 Phillip Potter  2021-07-28  5424  		le_tmp = cpu_to_le16(BA_para_set);
+3b522a11b50476 Michael Straube 2021-08-09  5425  		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&le_tmp, &pattrib->pktlen);
+15865124feed88 Phillip Potter  2021-07-28  5426  
+15865124feed88 Phillip Potter  2021-07-28  5427  		BA_timeout_value = 5000;/*  5ms */
+15865124feed88 Phillip Potter  2021-07-28  5428  		le_tmp = cpu_to_le16(BA_timeout_value);
+3b522a11b50476 Michael Straube 2021-08-09  5429  		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&le_tmp, &pattrib->pktlen);
+15865124feed88 Phillip Potter  2021-07-28  5430  
+15865124feed88 Phillip Potter  2021-07-28  5431  		psta = rtw_get_stainfo(pstapriv, raddr);
+552838fdcaef2c Michael Straube 2021-08-01  5432  		if (psta) {
+15865124feed88 Phillip Potter  2021-07-28  5433  			start_seq = (psta->sta_xmitpriv.txseq_tid[status & 0x07] & 0xfff) + 1;
+15865124feed88 Phillip Potter  2021-07-28  5434  
+15865124feed88 Phillip Potter  2021-07-28  5435  			psta->BA_starting_seqctrl[status & 0x07] = start_seq;
+15865124feed88 Phillip Potter  2021-07-28  5436  
+15865124feed88 Phillip Potter  2021-07-28  5437  			BA_starting_seqctrl = start_seq << 4;
+15865124feed88 Phillip Potter  2021-07-28  5438  		}
+15865124feed88 Phillip Potter  2021-07-28  5439  		le_tmp = cpu_to_le16(BA_starting_seqctrl);
+3b522a11b50476 Michael Straube 2021-08-09  5440  		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&le_tmp, &pattrib->pktlen);
+15865124feed88 Phillip Potter  2021-07-28  5441  		break;
+84aee42a485b38 Martin Kaiser   2022-05-21  5442  	case WLAN_ACTION_ADDBA_RESP:
+3b522a11b50476 Michael Straube 2021-08-09  5443  		pframe = rtw_set_fixed_ie(pframe, 1, &pmlmeinfo->ADDBA_req.dialog_token, &pattrib->pktlen);
+3b522a11b50476 Michael Straube 2021-08-09  5444  		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&status, &pattrib->pktlen);
+15865124feed88 Phillip Potter  2021-07-28  5445  		BA_para_set = le16_to_cpu(pmlmeinfo->ADDBA_req.BA_para_set) & 0x3f;
+15865124feed88 Phillip Potter  2021-07-28  5446  		BA_para_set |= 0x1000; /* 64 buffer size */
+15865124feed88 Phillip Potter  2021-07-28  5447  
+15865124feed88 Phillip Potter  2021-07-28  5448  		if (pregpriv->ampdu_amsdu == 0)/* disabled */
+15865124feed88 Phillip Potter  2021-07-28  5449  			BA_para_set = BA_para_set & ~BIT(0);
+15865124feed88 Phillip Potter  2021-07-28  5450  		else if (pregpriv->ampdu_amsdu == 1)/* enabled */
+15865124feed88 Phillip Potter  2021-07-28  5451  			BA_para_set = BA_para_set | BIT(0);
+15865124feed88 Phillip Potter  2021-07-28  5452  		le_tmp = cpu_to_le16(BA_para_set);
+15865124feed88 Phillip Potter  2021-07-28  5453  
+3b522a11b50476 Michael Straube 2021-08-09  5454  		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&le_tmp, &pattrib->pktlen);
+3b522a11b50476 Michael Straube 2021-08-09  5455  		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&pmlmeinfo->ADDBA_req.BA_timeout_value, &pattrib->pktlen);
+15865124feed88 Phillip Potter  2021-07-28  5456  		break;
+84aee42a485b38 Martin Kaiser   2022-05-21  5457  	case WLAN_ACTION_DELBA:
+15865124feed88 Phillip Potter  2021-07-28  5458  		BA_para_set = (status & 0x1F) << 3;
+15865124feed88 Phillip Potter  2021-07-28  5459  		le_tmp = cpu_to_le16(BA_para_set);
+3b522a11b50476 Michael Straube 2021-08-09  5460  		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&le_tmp, &pattrib->pktlen);
+15865124feed88 Phillip Potter  2021-07-28  5461  
+15865124feed88 Phillip Potter  2021-07-28  5462  		reason_code = 37;/* Requested from peer STA as it does not want to use the mechanism */
+15865124feed88 Phillip Potter  2021-07-28  5463  		le_tmp = cpu_to_le16(reason_code);
+3b522a11b50476 Michael Straube 2021-08-09  5464  		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&le_tmp, &pattrib->pktlen);
+15865124feed88 Phillip Potter  2021-07-28  5465  		break;
+15865124feed88 Phillip Potter  2021-07-28  5466  	default:
+15865124feed88 Phillip Potter  2021-07-28  5467  		break;
+15865124feed88 Phillip Potter  2021-07-28  5468  	}
+15865124feed88 Phillip Potter  2021-07-28  5469  
+15865124feed88 Phillip Potter  2021-07-28  5470  	pattrib->last_txcmdsz = pattrib->pktlen;
+15865124feed88 Phillip Potter  2021-07-28  5471  
+15865124feed88 Phillip Potter  2021-07-28  5472  	dump_mgntframe(padapter, pmgntframe);
+15865124feed88 Phillip Potter  2021-07-28  5473  }
+15865124feed88 Phillip Potter  2021-07-28  5474  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
