@@ -1,48 +1,48 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB18033E3
-	for <linux-staging@lists.linux.dev>; Sun, 22 May 2022 19:49:31 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id i27so24740081ejd.9
-        for <linux-staging@lists.linux.dev>; Sun, 22 May 2022 12:49:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC10533E3
+	for <linux-staging@lists.linux.dev>; Sun, 22 May 2022 19:49:37 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id s3so16676652edr.9
+        for <linux-staging@lists.linux.dev>; Sun, 22 May 2022 12:49:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=MLW54pUDQeelw1+w5KQ4Wc3ocZ3VALhByO07hnMjaHs=;
-        b=Nn+PAzEcVQe8/826opqMJc389ynDSlB4yWocPjyJI5pwzuUHszrXBRxhs0+oiqu2Lu
-         b/9ccX5jnZbBBklK4mWPI9Ln1YnjOU9Gjc9sCYUSSSGv12A8/Wr0BpyHVI1F3acCd6YN
-         vz5muMIhD6P89g+nXnr09+bFZxZ3zoxq5qXXRNTo+VFRYsw7PO1GdbGUbS0GxolGqB16
-         SSJj7kZPA8qAbLkG9KAOC1w/UKxRiWC/g24snx4mV+DD1uJw/bAvg+upG1E+hCxX8Gop
-         1HdrsDm8pbVc2ovw1faM/m9oBSNZqOw3nUU5Rhu+Z1C0P8o35TTZQD1+zoyaAQLDQKoW
-         l4ZQ==
+        bh=eultuTEo5w5eygrW9gVkDvFHvAk3bhGxWLnJbMnNQas=;
+        b=dmk5A5Gk2wv1TJq84Ek34IX1JOsZb9SGnbiTbrmaPhS1PU5mIki4hE6pBQ2uRPJXWH
+         29SLdEoR98gF7l3bvjtPoXekV/57Gz+49xU/p5mNkpS7SfkoMNhC1fITQOPO8CM1xXWo
+         Axg+ibMEkqjczg7HjvYMQ2FD/4dugG8Jh6OWAu1BzXoo7sO4Ph/rfAbPkZ+715sJU4Pa
+         9nnQqywU1bLkUe+aFOPDNNcxHZ+F73J5C+6RsfJQPcQyA2A+swbS6CH7IhFSXtPNlYl9
+         rAq6rOpv9PY3KZFUslCkUCH68Pysw2Ada47K9dBlj2Frpl70gsSexlWLyIuB49m40oql
+         S9eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=MLW54pUDQeelw1+w5KQ4Wc3ocZ3VALhByO07hnMjaHs=;
-        b=NItaOJMPGe/k2XoyHrrMakBffEu6Eu82fNQpKRP6PpcJ0bkmktb8yBo3VhTiOTKPXC
-         BDv6Pa4J6R4aXZpfbCPUHBTGkwMNjItajFFqLL+kIiVhnMFiqeVKH8MFoTEYgm89o2jg
-         1elyDxSCkQYnBre44zL4AxoE+d8kNQFjrMkDsDyQeCkvyu3kSXH4F04Bhu+wCPFvINGR
-         qGPU2SeR3rfU4tBWbaLmnaLUC3la7KhKJWVDzXelKXNWz16NNnitI8hmuQ46W9Et2+t/
-         ywGs8Zp1URxUGPWbnG9hycBuFhColCk1phhRbi/dmahP34ae3pjAxjfeVobeZjwoiqsK
-         5FHA==
-X-Gm-Message-State: AOAM530fa5fRrTJEzuIVWNhfS69N1/1zZIk1WJPH+8rHUmLJzW+H52EU
-	To/3GZYG6t6HJPWqnJDfVHM=
-X-Google-Smtp-Source: ABdhPJwA4HcJDgqFzMHMJ3RV9hG9NTHYfNGhNfMFaMFUIdABxVnvg06BGdOiO9GDbMrkjMBKwWJZcg==
-X-Received: by 2002:a17:906:7751:b0:6ce:e3c:81a6 with SMTP id o17-20020a170906775100b006ce0e3c81a6mr16228737ejn.278.1653248971392;
-        Sun, 22 May 2022 12:49:31 -0700 (PDT)
+        bh=eultuTEo5w5eygrW9gVkDvFHvAk3bhGxWLnJbMnNQas=;
+        b=pdlHip+IM/xUzTBW0sjbMWd6F7UNRqQET98/4nCQ3QGnDL3ra2CBcPS573Q3Mf+l0L
+         V+17XYxCq96/I8MAxvPeuoFV/LAESu8n1nQkHxyrwgYzycvItqf7lMPQ5kJQ7pIJVKK+
+         eWo3vtnbLYLtFfe0ZE1zlmnZHmDPQfF5sXvf8dEwv6mZGRvg2BJDoGzoKK/3nAbeOSQb
+         ESgykazzaETtHqWqRzxbsLvaJjOCGavF44AUGA7HNG2Q4efME3tDmzm1AejLJSkpiNQx
+         8+z7dC+fGhuK5EqCMQDLI3Y6fZ0PZi7GfwyYNlddpMPG0aNjdA8l3+Ra8tjJbcgfPou/
+         duYQ==
+X-Gm-Message-State: AOAM5330v/VtQ+mUndrtJkyNMz6tqxQPZmJDifnoVkKrvNyQ8CDerJPh
+	q0VAXMTDs5BvOGM6WGdg6Vg=
+X-Google-Smtp-Source: ABdhPJzyzizf2j0e6lvnG9ZsB8qqhd+6+XCsDStsjRAhRnG39LAWsBq7ksCgTulvxbX57X6ZomwNxg==
+X-Received: by 2002:a05:6402:2815:b0:420:c32e:ebe2 with SMTP id h21-20020a056402281500b00420c32eebe2mr21065747ede.1.1653248976241;
+        Sun, 22 May 2022 12:49:36 -0700 (PDT)
 Received: from matrix-ESPRIMO-P710 (p57935774.dip0.t-ipconnect.de. [87.147.87.116])
-        by smtp.gmail.com with ESMTPSA id wc6-20020a170907124600b006fec8e8eff6sm1217645ejb.176.2022.05.22.12.49.30
+        by smtp.gmail.com with ESMTPSA id 6-20020a170906024600b006f3ef214e70sm5318456ejl.214.2022.05.22.12.49.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 May 2022 12:49:31 -0700 (PDT)
-Date: Sun, 22 May 2022 21:49:28 +0200
+        Sun, 22 May 2022 12:49:35 -0700 (PDT)
+Date: Sun, 22 May 2022 21:49:33 +0200
 From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 To: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/11] staging: vt6655: Add missing BE support on 2x iowrite32
-Message-ID: <974ef7a9244e7caeafd8c176c7b53a6de3c20219.1653203927.git.philipp.g.hortmann@gmail.com>
+Subject: [PATCH 11/11] staging: vt6655: Delete upc.h
+Message-ID: <b553095c618e7885af5c3e42f9b9b39d95127a44.1653203927.git.philipp.g.hortmann@gmail.com>
 References: <cover.1653203927.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -54,74 +54,77 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1653203927.git.philipp.g.hortmann@gmail.com>
 
-Add missing big-endian support when using two times iowrite32
-to write 64 Bit.
+Delete upc.h as all macros have been removed from upc.h.
 
 Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
 ---
-Code for testing:
-dev_info(&priv->pcid->dev, "CARDbUpdateTSF little endian before con.: 0x%016llx", qwTSFOffset);
-qwTSFOffset =  le64_to_cpu(qwTSFOffset);
-dev_info(&priv->pcid->dev, "CARDbUpdateTSF little endian after con. : 0x%016llx", qwTSFOffset);
-dev_info(&priv->pcid->dev, "CARDbUpdateTSF big endian:                0x%016llx", be64_to_cpu(qwTSFOffset));
+ drivers/staging/vt6655/mac.h  |  2 +-
+ drivers/staging/vt6655/srom.c |  2 +-
+ drivers/staging/vt6655/upc.h  | 29 -----------------------------
+ 3 files changed, 2 insertions(+), 31 deletions(-)
+ delete mode 100644 drivers/staging/vt6655/upc.h
 
-Log
-vt6655 0000:01:05.0: CARDbUpdateTSF little endian before con.: 0xff ff ff ff fd b7 d5 fc
-vt6655 0000:01:05.0: CARDbUpdateTSF little endian after con. : 0xff ff ff ff fd b7 d5 fc
-vt6655 0000:01:05.0: CARDbUpdateTSF big endian:                0xfc d5 b7 fd ff ff ff ff
----
- drivers/staging/vt6655/card.c        | 4 ++++
- drivers/staging/vt6655/device_main.c | 1 +
- 2 files changed, 5 insertions(+)
-
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 7a4a8b3f164e..abc74a5633c7 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -293,6 +293,7 @@ bool CARDbUpdateTSF(struct vnt_private *priv, unsigned char byRxRate,
- 		qwTSFOffset = CARDqGetTSFOffset(byRxRate, qwBSSTimestamp,
- 						local_tsf);
- 		/* adjust TSF, HW's TSF add TSF Offset reg */
-+		qwTSFOffset =  le64_to_cpu(qwTSFOffset);
- 		iowrite32((u32)qwTSFOffset, priv->port_offset + MAC_REG_TSFOFST);
- 		iowrite32((u32)(qwTSFOffset >> 32), priv->port_offset + MAC_REG_TSFOFST + 4);
- 		MACvRegBitsOn(priv->port_offset, MAC_REG_TFTCTL,
-@@ -327,6 +328,7 @@ bool CARDbSetBeaconPeriod(struct vnt_private *priv,
- 	iowrite16(wBeaconInterval, priv->port_offset + MAC_REG_BI);
- 	priv->wBeaconInterval = wBeaconInterval;
- 	/* Set NextTBTT */
-+	qwNextTBTT =  le64_to_cpu(qwNextTBTT);
- 	iowrite32((u32)qwNextTBTT, priv->port_offset + MAC_REG_NEXTTBTT);
- 	iowrite32((u32)(qwNextTBTT >> 32), priv->port_offset + MAC_REG_NEXTTBTT + 4);
- 	MACvRegBitsOn(priv->port_offset, MAC_REG_TFTCTL, TFTCTL_TBTTSYNCEN);
-@@ -795,6 +797,7 @@ void CARDvSetFirstNextTBTT(struct vnt_private *priv,
+diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
+index 71de3aa7e7c5..102e575c965d 100644
+--- a/drivers/staging/vt6655/mac.h
++++ b/drivers/staging/vt6655/mac.h
+@@ -18,7 +18,7 @@
+ #ifndef __MAC_H__
+ #define __MAC_H__
  
- 	qwNextTBTT = CARDqGetNextTBTT(qwNextTBTT, wBeaconInterval);
- 	/* Set NextTBTT */
-+	qwNextTBTT =  le64_to_cpu(qwNextTBTT);
- 	iowrite32((u32)qwNextTBTT, iobase + MAC_REG_NEXTTBTT);
- 	iowrite32((u32)(qwNextTBTT >> 32), iobase + MAC_REG_NEXTTBTT + 4);
- 	MACvRegBitsOn(iobase, MAC_REG_TFTCTL, TFTCTL_TBTTSYNCEN);
-@@ -821,6 +824,7 @@ void CARDvUpdateNextTBTT(struct vnt_private *priv, u64 qwTSF,
+-#include "upc.h"
++#include "device.h"
  
- 	qwTSF = CARDqGetNextTBTT(qwTSF, wBeaconInterval);
- 	/* Set NextTBTT */
-+	qwTSF =  le64_to_cpu(qwTSF);
- 	iowrite32((u32)qwTSF, iobase + MAC_REG_NEXTTBTT);
- 	iowrite32((u32)(qwTSF >> 32), iobase + MAC_REG_NEXTTBTT + 4);
- 	MACvRegBitsOn(iobase, MAC_REG_TFTCTL, TFTCTL_TBTTSYNCEN);
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index c32c0328b602..204994692c90 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -1529,6 +1529,7 @@ static void vnt_configure(struct ieee80211_hw *hw,
- 			} else {
- 				MACvSelectPage1(priv->port_offset);
+ /*---------------------  Export Definitions -------------------------*/
+ /* Registers in the MAC */
+diff --git a/drivers/staging/vt6655/srom.c b/drivers/staging/vt6655/srom.c
+index 722a2cc9a473..ee5ca4db74dc 100644
+--- a/drivers/staging/vt6655/srom.c
++++ b/drivers/staging/vt6655/srom.c
+@@ -27,7 +27,7 @@
+  *
+  */
  
-+				multicast =  le64_to_cpu(multicast);
- 				iowrite32((u32)multicast, priv->port_offset +  MAC_REG_MAR0);
- 				iowrite32((u32)(multicast >> 32),
- 					  priv->port_offset + MAC_REG_MAR0 + 4);
+-#include "upc.h"
++#include "device.h"
+ #include "mac.h"
+ #include "srom.h"
+ 
+diff --git a/drivers/staging/vt6655/upc.h b/drivers/staging/vt6655/upc.h
+deleted file mode 100644
+index c7966a638fde..000000000000
+--- a/drivers/staging/vt6655/upc.h
++++ /dev/null
+@@ -1,29 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0+ */
+-/*
+- * Copyright (c) 1996, 2003 VIA Networking Technologies, Inc.
+- * All rights reserved.
+- *
+- * Purpose: Macros to access device
+- *
+- * Author: Tevin Chen
+- *
+- * Date: Mar 17, 1997
+- *
+- */
+-
+-#ifndef __UPC_H__
+-#define __UPC_H__
+-
+-#include "device.h"
+-
+-/*---------------------  Export Definitions -------------------------*/
+-
+-/* For memory mapped IO */
+-
+-/*---------------------  Export Classes  ----------------------------*/
+-
+-/*---------------------  Export Variables  --------------------------*/
+-
+-/*---------------------  Export Functions  --------------------------*/
+-
+-#endif /* __UPC_H__ */
 -- 
 2.25.1
 
