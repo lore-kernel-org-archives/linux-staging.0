@@ -1,99 +1,161 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D789E33CE
-	for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 21:57:21 +0000 (UTC)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-f189b07f57so14064924fac.1
-        for <linux-staging@lists.linux.dev>; Sat, 21 May 2022 14:57:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F238211F
+	for <linux-staging@lists.linux.dev>; Sun, 22 May 2022 11:44:22 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id m20so23380305ejj.10
+        for <linux-staging@lists.linux.dev>; Sun, 22 May 2022 04:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=gAITwp43a4w30vT1uOOmJoUF5xFm7wkkasuEdQTf/Fk=;
-        b=bNkZRhnXoZZ5uhXo92mBOu73mygo/R5GNLxg5obG3gOyW7/ORTAmhTscXQcbfLNEQ1
-         QtgbRC9m0DSk/EXOho8u69FZK13Ea6S9b1Xmc2oHdMYWJ10lu4x+F5nCMLzEtSfJKJVi
-         Dy0xuYMXQo//jUgiFURvGWJawZzN69S9XbraN9tn75SF1FB0Z7nrAEo9bkfwRpoBOD4a
-         mDQYGWzKb5ERrU6YxR/cZvZMASYIYzjOH9loLCEzEzgEUSH+9XIDHx+o+MgPJPRhb74d
-         EcN6hyAirMWVFhDj7s8PLXOuRuM1z7BuHO8C5lVzKCs7mWQKem6/2OayIgUeQhI69C8A
-         Bo+w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=BOcP7c+b/aIig+wDwK1ySXDPQYBqPco/XJdaO5tL43M=;
+        b=HbiWaat1vy9fqglT1AQ5mQ5JjCpkhO+E8jnEtRhzPiif0qrvDKKdx8B95OMkJtx62f
+         50z5Sn4S5OQoHLNAGBGDcg/pM3dJVc3FeOKAJ33h9DBUzBryUmLfBVNeEMKJeo3lBUaX
+         xorGA9zq+QsM0EimtbURXWG1azBOZqa655UGvWWFRHq2vv0bEgZ9hUSxdC7AyrZSM0K1
+         gmpjbX5Ksc66SeqRZbC++YgqZxATC9x3cgK6OQg6EKrLFj22uin13ycLwqXmbpFKdEyk
+         gTfnlwyzGuksJcevZj0OkBT28KA9vQfDd/xROApkgmO1+q7Yd8+18f+ljXPwZEs2QkaW
+         cj4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=gAITwp43a4w30vT1uOOmJoUF5xFm7wkkasuEdQTf/Fk=;
-        b=JuWnQHpd73nr2nrFVdPZFM4zmesPDxrENGlbVjNxMj51KW/lQ/GlCcc+9cnn1bYngP
-         7na/LDVv6AvP8GvnNt52frez08AEv0Z4BmGmc84aC8ac+4XXuV5UD5epFJ0Wi+luI/Ct
-         pJp025AZEJvTlOOnjVGMLgNiQC2oopMAlUVMAt3uYsBsjFCC0omuhong+blpAyGhzdn9
-         aosYswqcvdGAkFrUK1u/21PcuxRtCwujxNmeMwLSFTP4Ud/h4WRQLp8ZNlp64sYVy+0w
-         4qWCpoxjQyUv4tuFNAS7YCrFrhBxXk4IZ21755c4EygGSc7jofSESfnyD2zeaeU/WcmJ
-         uzlQ==
-X-Gm-Message-State: AOAM530DT/x86xHZQFv5orpZsgik4oHWLk6k4ByHoepfLVNs3kVkXUnJ
-	53itpA/lMwLSyeg45qy9V/g=
-X-Google-Smtp-Source: ABdhPJzltjAK+2MQ+KnlkH5rxNWyy/EZlDTj21LQ1U22Fyp6iyU7Bt80iI2IPVBUOEdsF1/h8AgAzQ==
-X-Received: by 2002:a05:6870:5487:b0:f1:98a6:6f79 with SMTP id f7-20020a056870548700b000f198a66f79mr8996604oan.221.1653170240847;
-        Sat, 21 May 2022 14:57:20 -0700 (PDT)
-Received: from ?IPV6:2603:8090:2005:39b3::100e? (2603-8090-2005-39b3-0000-0000-0000-100e.res6.spectrum.com. [2603:8090:2005:39b3::100e])
-        by smtp.gmail.com with ESMTPSA id m129-20020aca3f87000000b00325cda1ff99sm2617026oia.24.2022.05.21.14.57.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 May 2022 14:57:20 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <b922eaa2-303a-69da-03ec-e053092c8682@lwfinger.net>
-Date: Sat, 21 May 2022 16:57:17 -0500
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=BOcP7c+b/aIig+wDwK1ySXDPQYBqPco/XJdaO5tL43M=;
+        b=qyBakubDYz/vwCnkTvlImCqhvnyKsaXE03jy+72s8Cqk1MumfKawE/Sqi56AXpSEd/
+         VzDcdjpnHSlX+ZNIPqFB38MBXj3GMYz8puMB7nrt/HO8M/GCnXInHHllTdp45/L2YzSY
+         lTRAtlXXKOQo5CM2D66LnGiKgTDQbdF0SMfMYANDVpfS7sUgneeebbr813ItGIW9R702
+         1PpJPq9X3ZGx5I6sLS3dE8XZxZZPQTsHMWkxL5N6fTPMrQkw89ccorlT34sg8rZti67L
+         Kjo3H08RPx3qJDsXwupNvllrnt05bfipjJJnRlFe2TGw4Ziy5/JekRHLQ0MI7txWGC6F
+         aGYg==
+X-Gm-Message-State: AOAM530+j16EyMPF3HU01e3wXoL9n9h3hj6siMk+ex8vS0v8xi1rmD3A
+	lPNfLCM4G263BH3HN5S0Qs8=
+X-Google-Smtp-Source: ABdhPJzRfCqhzI7QwnogN+fhYc0fh38naDmT7SQjDe2PeOI83f57DAXoKHZfwtI5G/K8ujCSqBK8Kw==
+X-Received: by 2002:a17:907:6d98:b0:6fe:b83f:802d with SMTP id sb24-20020a1709076d9800b006feb83f802dmr6984772ejc.182.1653219860369;
+        Sun, 22 May 2022 04:44:20 -0700 (PDT)
+Received: from mail (239.125-180-91.adsl-dyn.isp.belgacom.be. [91.180.125.239])
+        by smtp.gmail.com with ESMTPSA id 5-20020a170906024500b006fe8bf56f53sm4766942ejl.43.2022.05.22.04.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 May 2022 04:44:19 -0700 (PDT)
+Date: Sun, 22 May 2022 13:44:18 +0200
+From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, kernel test robot <lkp@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-staging@lists.linux.dev,
+	"open list:TI ETHERNET SWITCH DRIVER (CPSW)" <linux-omap@vger.kernel.org>,
+	linux-nvme@lists.infradead.org, linux-hwmon@vger.kernel.org,
+	Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+	KVM list <kvm@vger.kernel.org>,
+	DRI Development <dri-devel@lists.freedesktop.org>,
+	amd-gfx list <amd-gfx@lists.freedesktop.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-sparse@vger.kernel.org,
+	linux-m68k <linux-m68k@lists.linux-m68k.org>
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 736ee37e2e8eed7fe48d0a37ee5a709514d478b3
+Message-ID: <20220522114418.vcirenoehfx4efas@mail>
+References: <6285958d.+Z2aDZ4O1Y9eiazd%lkp@intel.com>
+ <0530d502-1291-23f3-64ac-97bd38a26bd4@roeck-us.net>
+ <CAMuHMdU3SYOwE5ftDwymQpVwWmpbC=1Ytyp0Y9GaeUS2i1cP+A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3] staging: r8188eu: add check for kzalloc
-Content-Language: en-US
-To: Pavel Skripkin <paskripkin@gmail.com>, Martin Kaiser <lists@kaiser.cx>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc: dan.carpenter@oracle.com, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, straube.linux@gmail.com,
- fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220518075957.514603-1-jiasheng@iscas.ac.cn>
- <20220521155017.7jjz7prdnspm2276@viti.kaiser.cx>
- <8fb49b5b-106b-3346-a75d-d54e0a065587@gmail.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <8fb49b5b-106b-3346-a75d-d54e0a065587@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdU3SYOwE5ftDwymQpVwWmpbC=1Ytyp0Y9GaeUS2i1cP+A@mail.gmail.com>
 
-On 5/21/22 15:26, Pavel Skripkin wrote:
-> Hi Martin,
+On Fri, May 20, 2022 at 02:40:20PM +0200, Geert Uytterhoeven wrote:
+> Hi Günter
 > 
-> On 5/21/22 18:50, Martin Kaiser wrote:
->>
->>>      for (i = 0; i < 4; i++)
->>> @@ -1474,7 +1479,7 @@ s32 rtw_xmit_classifier(struct adapter *padapter, 
->>> struct xmit_frame *pxmitframe)
->>
->>
->> res is still 0 here - but the caller of _rtw_init_xmit_priv compares
->> this return value with _SUCCESS (1) or _FAIL (0) and interprets it as
->> _FAIL.
->>
-> 
-> I think, it's time to make
-> 
-> s/_SUCCESS/0/
-> s/_FAIL/-1
-> 
-> since developers from outside of staging are confused.
-> The main problem will be with functions that return an int (or s32).
-> 
-> Will take a look.
+> On Thu, May 19, 2022 at 8:48 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> > This is getting tiresome. Every driver using outb() on m68k will
+> > experience that "problem". As far as I can see, it is caused by
+> >
+> > #define out_8(addr,b) (void)((*(__force volatile u8 *) (unsigned long)(addr)) = (b))
 
-I agree; however, this change will likely break a lot of pending patches.
+Not directly related to the root cause but the cast on the LHS is over-complex.
+*) If the types are correct, 'addr' should always be a 'u8 __iomem *'. Casting
+   it to an unsigned long will throw away all type checking: pointers of
+   any size, of any address space, any kind of integer, any scalar value will
+   be silently be accepted.
+*) Then, when casting an integer to a pointer '__force' is unneeded because
+   it's meaningless (because the integer has no type info about the pointee).
 
+The most correct way to write the above would be:
+	static inline void out_8(u8 __iomem *addr, ... b)
+	{
+		*((__force volatile u8 *)addr) = b;
+	}
+this way, you can typecheck 'addr' (but maybe it's the idea/the argument is
+not always type clean?).
+Otherwise, if the cast to unsigned long is kept, '__force' can be removed.
+ 
+> 
+> Indeed.
+> 
+> For the sparse people:
+> 
+> The full error is:
+> 
+>         drivers/net/appletalk/cops.c:382:17: error: incompatible types
+> in conditional expression (different base types):
+>         drivers/net/appletalk/cops.c:382:17:    unsigned char
+>         drivers/net/appletalk/cops.c:382:17:    void
+> 
+> Basically, sparse doesn't like "a ? b : c", if the return types of
+> b and c don't match, even if the resulting value is not used.
 
-@GregKH: Could you apply all pending patches in preparation for this patch? If 
-so, then Pavel could make this transformation while the list is relatively idle.
+Well, you know that the motivation for sparse was to be stricter than GCC.
+In this case it's simply what is required by the standard:
+	    
+    n1570 (C11) 6.5.15
+	One of the following shall hold for the second and third operands:
+	— both operands have arithmetic type;
+	— both operands have the same structure or union type;
+	— both operands have void type;
+	— both operands are pointers to qualified or unqualified versions
+          of compatible types;
+	— one operand is a pointer and the other is a null pointer constant; or
+	— one operand is a pointer to an object type and the other is a
+          pointer to a qualified or unqualified version of void.
 
-Larry
+Also, yes, the type checking is independent from the fact of being used
+or not (because the type of an expression must be know before any kind
+of processing can be done on its value).
+
+> E.g. outb() on m68k:
+> 
+>     #define outb(val, port) (((port) < 1024 && ISA_TYPE ==
+> ISA_TYPE_ENEC) ? isa_rom_outb((val), (port)) : isa_outb((val),
+> (port)))
+> 
+> where isa_rom_outb() leads to rom_out_8() returning u8, while
+> isa_outb() leads to the out_8() that includes the cast to void.
+> 
+> So the best solution seems to be to add more "(void)" casts, to e.g.
+> rom_out_8() and friends?
+
+I kinda think so, yes (I suppose that rom_out_8() is never used as
+returning a non-void value). But in truth, I think it's the excessive use
+of relatively complex macros that is the real problem (an using a conditional
+expression not for its value but for its side-effects). Can't outb() be
+written as something like:
+	static inline void outb(....) {
+		if (port < 1024 && ISA_TYPE == ISA_TYPE_ENEC)
+			isa_rom_outb(val, port);
+		else
+			isa_outb(val, port);
+	}
+
+With this you have better type checking, no trickery, no need for extra
+casts, no problems with double evaluation, it's more readable (to me), ...
+But yes, I suppose it's not really simple to convert all this. Sorry for
+no being more helpful.
+
+Best regards,
+-- Luc
