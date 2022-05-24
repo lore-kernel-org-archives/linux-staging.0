@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3CA7F9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC28804
 	for <linux-staging@lists.linux.dev>; Tue, 24 May 2022 09:01:06 +0000 (UTC)
 Received: from 162.sub194.ddfr.nl ([83.136.194.162] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1ntQPQ-0006Y3-W9; Tue, 24 May 2022 11:00:57 +0200
+	id 1ntQPW-0006Y3-6j; Tue, 24 May 2022 11:01:02 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,11 +16,10 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Pavel Skripkin <paskripkin@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v2 05/12] staging: r8188eu: use mgmt to set the sequence number
-Date: Tue, 24 May 2022 11:00:22 +0200
-Message-Id: <20220524090029.242584-6-martin@kaiser.cx>
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH v2 12/12] staging: r8188eu: calculate the addba request length
+Date: Tue, 24 May 2022 11:00:29 +0200
+Message-Id: <20220524090029.242584-13-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220524090029.242584-1-martin@kaiser.cx>
 References: <20220521153824.218196-1-martin@kaiser.cx>
@@ -33,49 +32,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the mgmt structure in issue_action_BA to set the sequence number of
-the outgoing frame.
+When issue_action_BA compiles an addba request, it does not add any
+extensions. start_seq_num is the last field of the addba request.
 
-pwlanhdr is now unused, it can be removed.
+The length of the request is the offset of the end of start_seq_num in the
+struct ieee80211_mgmt that defines the message.
 
-Reported-by: kernel test robot <lkp@intel.com>
+Use offsetofend to calculate this offset and drop the intermediate pktlen
+increments as we add addba request components. (We have to keep the
+increments for other message types until we use offsetofend for them as
+well.)
+
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
-v2:
-- remove pwlanhdr, it's not used any more
-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index f08521cb1ff7..e64f2a0ec626 100644
+index 408aa0a28382..5446e19d8d09 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -5375,7 +5375,6 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 	struct xmit_frame *pmgntframe;
- 	struct pkt_attrib *pattrib;
- 	u8 *pframe;
--	struct ieee80211_hdr *pwlanhdr;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
-@@ -5395,7 +5394,6 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 	memset(pmgntframe->buf_addr, 0, WLANHDR_OFFSET + TXDESC_OFFSET);
+@@ -5413,22 +5413,18 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
+ 	switch (action) {
+ 	case WLAN_ACTION_ADDBA_REQ:
+ 		mgmt->u.action.u.addba_req.action_code = WLAN_ACTION_ADDBA_REQ;
+-		pattrib->pktlen++;
+ 		do {
+ 			pmlmeinfo->dialogToken++;
+ 		} while (pmlmeinfo->dialogToken == 0);
+ 		mgmt->u.action.u.addba_req.dialog_token = pmlmeinfo->dialogToken;
+-		pattrib->pktlen++;
  
- 	pframe = (u8 *)(pmgntframe->buf_addr) + TXDESC_OFFSET;
--	pwlanhdr = (struct ieee80211_hdr *)pframe;
- 	mgmt = (struct ieee80211_mgmt *)pframe;
+ 		/* immediate ack & 64 buffer size */
+ 		capab = u16_encode_bits(64, IEEE80211_ADDBA_PARAM_BUF_SIZE_MASK);
+ 		capab |= u16_encode_bits(1, IEEE80211_ADDBA_PARAM_POLICY_MASK);
+ 		capab |= u16_encode_bits(status, IEEE80211_ADDBA_PARAM_TID_MASK);
+ 		mgmt->u.action.u.addba_req.capab = cpu_to_le16(capab);
+-		pattrib->pktlen += 2;
  
- 	mgmt->frame_control = cpu_to_le16(IEEE80211_STYPE_ACTION | IEEE80211_FTYPE_MGMT);
-@@ -5404,7 +5402,7 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 	memcpy(mgmt->sa, myid(&padapter->eeprompriv), ETH_ALEN);
- 	memcpy(mgmt->bssid, get_my_bssid(&pmlmeinfo->network), ETH_ALEN);
+ 		mgmt->u.action.u.addba_req.timeout = cpu_to_le16(5000); /* 5 ms */
+-		pattrib->pktlen += 2;
  
--	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
-+	mgmt->seq_ctrl = cpu_to_le16(pmlmeext->mgnt_seq);
- 	pmlmeext->mgnt_seq++;
- 
- 	pframe += sizeof(struct ieee80211_hdr_3addr);
+ 		psta = rtw_get_stainfo(pstapriv, raddr);
+ 		if (psta) {
+@@ -5439,7 +5435,9 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
+ 			BA_starting_seqctrl = start_seq << 4;
+ 		}
+ 		mgmt->u.action.u.addba_req.start_seq_num = cpu_to_le16(BA_starting_seqctrl);
+-		pattrib->pktlen += 2;
++
++		pattrib->pktlen = offsetofend(struct ieee80211_mgmt,
++					      u.action.u.addba_req.start_seq_num);
+ 		break;
+ 	case WLAN_ACTION_ADDBA_RESP:
+ 		mgmt->u.action.u.addba_resp.action_code = WLAN_ACTION_ADDBA_RESP;
 -- 
 2.30.2
 
