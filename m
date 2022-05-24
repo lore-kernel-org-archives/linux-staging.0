@@ -1,29 +1,24 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from out199-13.us.a.mail.aliyun.com (out199-13.us.a.mail.aliyun.com [47.90.199.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA040803
-	for <linux-staging@lists.linux.dev>; Tue, 24 May 2022 09:01:07 +0000 (UTC)
-Received: from 162.sub194.ddfr.nl ([83.136.194.162] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1ntQPR-0006Y3-NP; Tue, 24 May 2022 11:00:57 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D857C
+	for <linux-staging@lists.linux.dev>; Tue, 24 May 2022 10:40:50 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0VEHDH-Y_1653381556;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0VEHDH-Y_1653381556)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 24 May 2022 16:39:28 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 06/12] staging: r8188eu: use mgmt to set the category
-Date: Tue, 24 May 2022 11:00:23 +0200
-Message-Id: <20220524090029.242584-7-martin@kaiser.cx>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220524090029.242584-1-martin@kaiser.cx>
-References: <20220521153824.218196-1-martin@kaiser.cx>
- <20220524090029.242584-1-martin@kaiser.cx>
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH] staging: r8188eu: Fix kernel-doc
+Date: Tue, 24 May 2022 16:39:14 +0800
+Message-Id: <20220524083914.68736-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,41 +27,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the mgmt structure in issue_action_BA to set the category of the
-outgoing frame. Remove the rtw_set_fixed_ie call.
+Fix the following W=1 kernel warnings:
 
-We can now use the define directly, the category variable can be removed.
+drivers/staging/r8188eu/hal/rtl8188e_phycfg.c:291: warning: expecting
+prototype for Function(). Prototype was for rtl8188e_PHY_SetRFReg()
+instead.
 
-rtw_set_fixed_ie increments pattrib->pktlen, we have to do this ourselves
-now (until we use a proper way to calculate the packet length).
+drivers/staging/r8188eu/hal/rtl8188e_phycfg.c:257: warning: expecting
+prototype for Function(). Prototype was for rtl8188e_PHY_QueryRFReg()
+instead.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 4 ++--
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index e64f2a0ec626..d693e0a1396b 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -5365,7 +5365,6 @@ int issue_deauth_ex(struct adapter *padapter, u8 *da, unsigned short reason, int
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+index 4864dafd887b..6342befec5e0 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+@@ -239,7 +239,7 @@ phy_RFSerialWrite(
+ }
  
- void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned char action, unsigned short status)
- {
--	u8 category = WLAN_CATEGORY_BACK;
- 	u16 start_seq;
- 	u16 BA_para_set;
- 	u16 reason_code;
-@@ -5408,7 +5407,8 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 	pframe += sizeof(struct ieee80211_hdr_3addr);
- 	pattrib->pktlen = sizeof(struct ieee80211_hdr_3addr);
+ /**
+-* Function:	PHY_QueryRFReg
++* Function:	rtl8188e_PHY_QueryRFReg()
+ *
+ * OverView:	Query "Specific bits" to RF register (page 8~)
+ *
+@@ -265,7 +265,7 @@ u32 rtl8188e_PHY_QueryRFReg(struct adapter *Adapter, u32 RegAddr, u32 BitMask)
+ }
  
--	pframe = rtw_set_fixed_ie(pframe, 1, &(category), &pattrib->pktlen);
-+	mgmt->u.action.category = WLAN_CATEGORY_BACK;
-+	pattrib->pktlen++;
- 	pframe = rtw_set_fixed_ie(pframe, 1, &(action), &pattrib->pktlen);
- 
- 	switch (action) {
+ /**
+-* Function:	PHY_SetRFReg
++* Function:	rtl8188e_PHY_SetRFReg()
+ *
+ * OverView:	Write "Specific bits" to RF register (page 8~)
+ *
 -- 
-2.30.2
+2.20.1.7.g153144c
 
