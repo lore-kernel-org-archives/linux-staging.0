@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541517FA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585F4803
 	for <linux-staging@lists.linux.dev>; Tue, 24 May 2022 09:01:06 +0000 (UTC)
 Received: from 162.sub194.ddfr.nl ([83.136.194.162] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1ntQPQ-0006Y3-9b; Tue, 24 May 2022 11:00:56 +0200
+	id 1ntQPP-0006Y3-Jn; Tue, 24 May 2022 11:00:55 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 04/12] staging: r8188eu: use mgmt to set the addresses
-Date: Tue, 24 May 2022 11:00:21 +0200
-Message-Id: <20220524090029.242584-5-martin@kaiser.cx>
+Subject: [PATCH v2 03/12] staging: r8188eu: use ieee80211_mgmt in issue_action_BA
+Date: Tue, 24 May 2022 11:00:20 +0200
+Message-Id: <20220524090029.242584-4-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220524090029.242584-1-martin@kaiser.cx>
 References: <20220521153824.218196-1-martin@kaiser.cx>
@@ -32,8 +32,10 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the mgmt structure in issue_action_BA to set the three addresses of
-the outgoing frame.
+Define a struct ieee80211_mgmt variable in issue_action_BA, this will make
+it much simpler to populate the fields of the outoing frame.
+
+Use the new mgmt variable to set the type and subtype of the frame.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
@@ -41,23 +43,44 @@ Signed-off-by: Martin Kaiser <martin@kaiser.cx>
  1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index eec716fea41c..f08521cb1ff7 100644
+index 0265784368e2..eec716fea41c 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -5400,10 +5400,9 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
+@@ -5376,13 +5376,13 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
+ 	struct pkt_attrib *pattrib;
+ 	u8 *pframe;
+ 	struct ieee80211_hdr *pwlanhdr;
+-	__le16 *fctrl;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct sta_info *psta;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct registry_priv *pregpriv = &padapter->registrypriv;
++	struct ieee80211_mgmt *mgmt;
  
- 	mgmt->frame_control = cpu_to_le16(IEEE80211_STYPE_ACTION | IEEE80211_FTYPE_MGMT);
+ 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+ 	if (!pmgntframe)
+@@ -5396,9 +5396,9 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
  
--	/* memcpy(pwlanhdr->addr1, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN); */
--	memcpy(pwlanhdr->addr1, raddr, ETH_ALEN);
--	memcpy(pwlanhdr->addr2, myid(&padapter->eeprompriv), ETH_ALEN);
--	memcpy(pwlanhdr->addr3, get_my_bssid(&pmlmeinfo->network), ETH_ALEN);
-+	memcpy(mgmt->da, raddr, ETH_ALEN);
-+	memcpy(mgmt->sa, myid(&padapter->eeprompriv), ETH_ALEN);
-+	memcpy(mgmt->bssid, get_my_bssid(&pmlmeinfo->network), ETH_ALEN);
+ 	pframe = (u8 *)(pmgntframe->buf_addr) + TXDESC_OFFSET;
+ 	pwlanhdr = (struct ieee80211_hdr *)pframe;
++	mgmt = (struct ieee80211_mgmt *)pframe;
+ 
+-	fctrl = &pwlanhdr->frame_control;
+-	*(fctrl) = 0;
++	mgmt->frame_control = cpu_to_le16(IEEE80211_STYPE_ACTION | IEEE80211_FTYPE_MGMT);
+ 
+ 	/* memcpy(pwlanhdr->addr1, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN); */
+ 	memcpy(pwlanhdr->addr1, raddr, ETH_ALEN);
+@@ -5407,7 +5407,6 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
  
  	SetSeqNum(pwlanhdr, pmlmeext->mgnt_seq);
  	pmlmeext->mgnt_seq++;
+-	SetFrameSubType(pframe, WIFI_ACTION);
+ 
+ 	pframe += sizeof(struct ieee80211_hdr_3addr);
+ 	pattrib->pktlen = sizeof(struct ieee80211_hdr_3addr);
 -- 
 2.30.2
 
