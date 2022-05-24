@@ -1,21 +1,21 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C0A7C
-	for <linux-staging@lists.linux.dev>; Tue, 24 May 2022 11:52:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51337C
+	for <linux-staging@lists.linux.dev>; Tue, 24 May 2022 11:59:53 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(Authenticated sender: benjamin.gaignard)
-	with ESMTPSA id 77A331F43D78
+	with ESMTPSA id 010CB1F43E41
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1653393142;
-	bh=ALAqMrfW8Y9IKBszQmPYt8RTPIp0NQCV0UbgRyOpuc8=;
+	s=mail; t=1653393592;
+	bh=+BemnG7IWyoEHXSpYjscGO1bMMzKPeDF+hhkBNitIBM=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Om7aAl9CKiGbjRYF0vV47sdFVmoVIiOOnYKWD51j3BX5Qu3kJo7s/lVW6dP9PKjyH
-	 0Ht6OZx34gUywRVmJyhQHZEDF+3tTT0syN+Q8KF9TS8XwTQYSbJHjpIZGoKRDzUUkE
-	 Q3WHA3UkZsmYSP0rDUFRExKUbERFxXE8PI+CE9CpzJhe3zQxvj5TsPR1Oci/mksQU5
-	 0Ppgf5/sO0uRM7ZrZMdNYy9lM4rYJ4+IKojoZMQ6vc+4HSZxIeIkWEbiagiR5mXj/K
-	 F4nnJc9osgWPUOPjUuScs4TJMjPO3DV5tvKhppwhu4R9XgWkZE67rsaZ+BZ42JV7BJ
-	 mDxFgBJZRFBxA==
+	b=K3+bhaI6Q5Q/I4eji0874puJaOxxq0oWYPZy7M43IM3f1rN31peZG0mu5pkFh27nB
+	 RoKA4hbPU0534Khatc8OXkyXPK2BVRM/QW4QWXudiYOZ1m6YAx3xtGECwLUaNRgYUK
+	 9W/0jmJkZP4TUQZ2DWWmTifeIor2KTlzcouE0m9TuE08CiymG6eb7hXqxuaYkwGIde
+	 rG38f1I8Uzz+sEL1p7Mj0BDW+Vep5ZvFlV3hOZXMJf86/RUMO0v6sQeUFPo2uveETL
+	 P22K3uQ+D1Q624Qd/THbySbnPhPTD1+VVXaUHWShBWXxi8opTb0hqV8QO0toEJwHBt
+	 iFZUz4eEGz4Dg==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: ezequiel@vanguardiasur.com.ar,
 	p.zabel@pengutronix.de,
@@ -26,9 +26,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH] media: Hantro: Correct G2 init qp field
-Date: Tue, 24 May 2022 13:52:12 +0200
-Message-Id: <20220524115212.2284908-1-benjamin.gaignard@collabora.com>
+Subject: [PATCH v2] media: Hantro: Correct G2 init qp field
+Date: Tue, 24 May 2022 13:59:45 +0200
+Message-Id: <20220524115945.2294015-1-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -45,10 +45,14 @@ Change the field mask to be able to set 7 bits and not only 6 of them.
 Conformance test INITQP_B_Main10_Sony_1 decoding is OK with this
 patch.
 
+Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
 With this patch and the patches needed for 10-bit support
-Fluster HEVC score is 138/147
+Fluster HEVC score is 137/147
+
+version 2:
+- Add Fixes tag
 
  drivers/staging/media/hantro/hantro_g2_regs.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
