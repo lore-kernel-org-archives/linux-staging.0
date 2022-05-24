@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28927FA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1309E7F8
 	for <linux-staging@lists.linux.dev>; Tue, 24 May 2022 09:01:04 +0000 (UTC)
 Received: from 162.sub194.ddfr.nl ([83.136.194.162] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1ntQPU-0006Y3-GM; Tue, 24 May 2022 11:01:00 +0200
+	id 1ntQPT-0006Y3-3Z; Tue, 24 May 2022 11:00:59 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -17,9 +17,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 10/12] staging: r8188eu: use ieee80211 to set addba capabilities
-Date: Tue, 24 May 2022 11:00:27 +0200
-Message-Id: <20220524090029.242584-11-martin@kaiser.cx>
+Subject: [PATCH v2 08/12] staging: r8188eu: use mgmt to set the dialog token
+Date: Tue, 24 May 2022 11:00:25 +0200
+Message-Id: <20220524090029.242584-9-martin@kaiser.cx>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220524090029.242584-1-martin@kaiser.cx>
 References: <20220521153824.218196-1-martin@kaiser.cx>
@@ -32,45 +32,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the mgmt structure and defines from ieee80211.h to set the
-capabilities field of an addba request.
-
-If issue_action_BA is called with action == WLAN_ACTION_ADDBA_REQ, the
-status parameter contains the tid.
+Use the mgmt structure in issue_action_BA to set the dialog token.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index da0c0363eb4d..823c54837364 100644
+index aa73afc6e36a..ce6327dbc534 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -5380,6 +5380,7 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct registry_priv *pregpriv = &padapter->registrypriv;
- 	struct ieee80211_mgmt *mgmt;
-+	u16 capab;
+@@ -5417,7 +5417,8 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
+ 		do {
+ 			pmlmeinfo->dialogToken++;
+ 		} while (pmlmeinfo->dialogToken == 0);
+-		pframe = rtw_set_fixed_ie(pframe, 1, &pmlmeinfo->dialogToken, &pattrib->pktlen);
++		mgmt->u.action.u.addba_req.dialog_token = pmlmeinfo->dialogToken;
++		pattrib->pktlen++;
  
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
- 	if (!pmgntframe)
-@@ -5419,9 +5420,12 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 		mgmt->u.action.u.addba_req.dialog_token = pmlmeinfo->dialogToken;
- 		pattrib->pktlen++;
- 
--		BA_para_set = (0x1002 | ((status & 0xf) << 2)); /* immediate ack & 64 buffer size */
--		le_tmp = cpu_to_le16(BA_para_set);
--		pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)&le_tmp, &pattrib->pktlen);
-+		/* immediate ack & 64 buffer size */
-+		capab = u16_encode_bits(64, IEEE80211_ADDBA_PARAM_BUF_SIZE_MASK);
-+		capab |= u16_encode_bits(1, IEEE80211_ADDBA_PARAM_POLICY_MASK);
-+		capab |= u16_encode_bits(status, IEEE80211_ADDBA_PARAM_TID_MASK);
-+		mgmt->u.action.u.addba_req.capab = cpu_to_le16(capab);
-+		pattrib->pktlen += 2;
- 
- 		mgmt->u.action.u.addba_req.timeout = cpu_to_le16(5000); /* 5 ms */
- 		pattrib->pktlen += 2;
+ 		BA_para_set = (0x1002 | ((status & 0xf) << 2)); /* immediate ack & 64 buffer size */
+ 		le_tmp = cpu_to_le16(BA_para_set);
 -- 
 2.30.2
 
