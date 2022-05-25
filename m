@@ -1,23 +1,23 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0F31388;
-	Wed, 25 May 2022 19:10:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7B77C;
+	Wed, 25 May 2022 19:10:38 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id C2D57FF807;
-	Wed, 25 May 2022 19:10:34 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 2D63AFF808;
+	Wed, 25 May 2022 19:10:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505836;
+	t=1653505837;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ic4Z+/krrrXoUq/8Or9zuDCsaZbJZP5j2JTRkSFwPEU=;
-	b=cW7fiybAuTX8LGRslwtNtVkPpvhJwN7F7KQjJsR77p0N+0b/jMYEDByebBC2gaJpcJOdYr
-	OIjuKXBE8PAVSmJN3CYUFaPCwV8sZ4WmkGml4v+Hguh9b8B/xpyfd1VmIb7tSM0Afmxovs
-	kZv/KqECmknFRIf2B8PAop452ous88lA/uxXsjtLfy2MWlVYByaIxpqgckUixZfLcf+1Nk
-	ofDGqoBigQZ/NmB6Ek5dBvlUMu02JnYF4XMnLEDQYD7w6vqejRb6Jy4N7yRA/hbLM33TdP
-	tNnxxrhDplAx92wUiuhbaUcJxkHEzQwrz24hNy9fLfPaAhZTgsDTXho8eQdybA==
+	bh=DIgZtkvccsLXsMN8UO3+9DFmHNkKzDJVDrinkhB+3Tw=;
+	b=B5VZZkU6EgqpmHCi3F4QkuyU+Azm1IxmCKGZbwIRarSZjQSv7lX554CyFMq4srCZl+lpqa
+	+GQfyw3l38uv9e9AmGZAmj9VUu2EaxfeLoLyhW0W8ILh8Fs2j6fee/EjRQRRJxHOiqbFBy
+	BLq4Iot2QwU42JvYaJxz45nTC39IQTWoIBwOEymySKimFLF2T86ihHG13TAHAI3SoR2LgX
+	p2SUjLkWX220pTPkb4gb5HcAVvAhzSdIMuAhS4Ji4Ph6PnuJ0RaC8Wzf0xrlk6rAt0AtNd
+	dHlyA/1DE4xLlu7/dBjSP65LvXo2GV2mHS6HLDJoLMkLs8cN7TQy0tTTe+K+qA==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -37,9 +37,9 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v4 1/6] dt-bindings: media: Add Allwinner A31 ISP bindings documentation
-Date: Wed, 25 May 2022 21:10:21 +0200
-Message-Id: <20220525191026.696636-2-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v4 2/6] dt-bindings: media: sun6i-a31-csi: Add ISP output port
+Date: Wed, 25 May 2022 21:10:22 +0200
+Message-Id: <20220525191026.696636-3-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
 References: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
@@ -51,118 +51,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This introduces YAML bindings documentation for the Allwinner A31 Image
-Signal Processor (ISP).
+Some Allwinner devices come with an Image Signal Processor (ISP) that
+allows processing camera data to produce good-looking images,
+especially from raw bayer representations.
+
+The ISP does not have a dedicated capture path: it is fed directly by
+one of the CSI controllers, which can be selected at run-time.
+
+Represent this possibility as a graph connection between the CSI
+controller and the ISP in the device-tree bindings.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
- 1 file changed, 97 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+ .../devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml    | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-new file mode 100644
-index 000000000000..d190fe95ac5b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-@@ -0,0 +1,97 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
-+
-+maintainers:
-+  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - allwinner,sun6i-a31-isp
-+      - allwinner,sun8i-v3s-isp
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Bus Clock
-+      - description: Module Clock
-+      - description: DRAM Clock
-+
-+  clock-names:
-+    items:
-+      - const: bus
-+      - const: mod
-+      - const: ram
-+
-+  resets:
-+    maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+index 8551c4a711dc..54eb80e517e3 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+@@ -73,6 +73,10 @@ properties:
+         $ref: /schemas/graph.yaml#/properties/port
+         description: MIPI CSI-2 bridge input port
+ 
++      port@2:
 +        $ref: /schemas/graph.yaml#/properties/port
-+        description: CSI0 input port
++        description: ISP output port
 +
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: CSI1 input port
-+
-+    anyOf:
-+      - required:
-+        - port@0
-+      - required:
-+        - port@1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-+    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-+
-+    isp: isp@1cb8000 {
-+        compatible = "allwinner,sun8i-v3s-isp";
-+        reg = <0x01cb8000 0x1000>;
-+        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&ccu CLK_BUS_CSI>,
-+             <&ccu CLK_CSI1_SCLK>,
-+             <&ccu CLK_DRAM_CSI>;
-+        clock-names = "bus", "mod", "ram";
-+        resets = <&ccu RST_BUS_CSI>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+
-+                isp_in_csi0: endpoint {
-+                    remote-endpoint = <&csi0_out_isp>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
+     anyOf:
+       - required:
+           - port@0
 -- 
 2.36.1
 
