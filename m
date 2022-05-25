@@ -1,23 +1,23 @@
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7B77C;
-	Wed, 25 May 2022 19:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039BC138D;
+	Wed, 25 May 2022 19:10:41 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2D63AFF808;
-	Wed, 25 May 2022 19:10:36 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 1B152FF802;
+	Wed, 25 May 2022 19:10:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505837;
+	t=1653505840;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DIgZtkvccsLXsMN8UO3+9DFmHNkKzDJVDrinkhB+3Tw=;
-	b=B5VZZkU6EgqpmHCi3F4QkuyU+Azm1IxmCKGZbwIRarSZjQSv7lX554CyFMq4srCZl+lpqa
-	+GQfyw3l38uv9e9AmGZAmj9VUu2EaxfeLoLyhW0W8ILh8Fs2j6fee/EjRQRRJxHOiqbFBy
-	BLq4Iot2QwU42JvYaJxz45nTC39IQTWoIBwOEymySKimFLF2T86ihHG13TAHAI3SoR2LgX
-	p2SUjLkWX220pTPkb4gb5HcAVvAhzSdIMuAhS4Ji4Ph6PnuJ0RaC8Wzf0xrlk6rAt0AtNd
-	dHlyA/1DE4xLlu7/dBjSP65LvXo2GV2mHS6HLDJoLMkLs8cN7TQy0tTTe+K+qA==
+	bh=taQKtDiBFXoMw1o5YMVceTmmfMDzx4WZqdksAL3a6pc=;
+	b=dTo4nstYS7AXtxFsftPNig8tIbJRGyKt9VxmiK661ISNlOaMX9elwhJkm4fcMIKkGLRn5e
+	Psp8p2YnWLwvEqC9dxTwl9ggNMhECAz73VuDpKYKGqJMaus2YvjCt0wHZu7eATl7jg9bQy
+	k5mc0cWkXBKjeQOAL1vxwrqV+w8OvInYBiVosTM9KnvFzzuipibrRt2dbTyDYcTZIwZpD3
+	vBTjDdOlqSsZq7nvgCxII2NE/MqJ4tf/zDux9/G48wHVTsDYWcvAENmf4iy2kQzqHUEYz6
+	vEQmRUBt6DxK1ehWmXzhTQRIhjaYeQajMhXRljyUhPSdxKAk8DSL32UaQifbMQ==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -37,9 +37,9 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v4 2/6] dt-bindings: media: sun6i-a31-csi: Add ISP output port
-Date: Wed, 25 May 2022 21:10:22 +0200
-Message-Id: <20220525191026.696636-3-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v4 4/6] MAINTAINERS: Add entry for the Allwinner A31 ISP driver
+Date: Wed, 25 May 2022 21:10:24 +0200
+Message-Id: <20220525191026.696636-5-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
 References: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
@@ -51,36 +51,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some Allwinner devices come with an Image Signal Processor (ISP) that
-allows processing camera data to produce good-looking images,
-especially from raw bayer representations.
-
-The ISP does not have a dedicated capture path: it is fed directly by
-one of the CSI controllers, which can be selected at run-time.
-
-Represent this possibility as a graph connection between the CSI
-controller and the ISP in the device-tree bindings.
+Add myself as maintainer of the Allwinner A31 ISP media driver.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- .../devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml    | 4 ++++
- 1 file changed, 4 insertions(+)
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-index 8551c4a711dc..54eb80e517e3 100644
---- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-+++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-@@ -73,6 +73,10 @@ properties:
-         $ref: /schemas/graph.yaml#/properties/port
-         description: MIPI CSI-2 bridge input port
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d18e671f2516..73d579aa7c62 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -771,6 +771,15 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+ F:	drivers/media/platform/sunxi/sun6i-csi/
  
-+      port@2:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: ISP output port
++ALLWINNER A31 ISP DRIVER
++M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
++F:	drivers/staging/media/sunxi/sun6i-isp/
++F:	drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
 +
-     anyOf:
-       - required:
-           - port@0
+ ALLWINNER A31 MIPI CSI-2 BRIDGE DRIVER
+ M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+ L:	linux-media@vger.kernel.org
 -- 
 2.36.1
 
