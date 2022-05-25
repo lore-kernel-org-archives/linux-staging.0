@@ -1,329 +1,87 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA34B810;
-	Tue, 24 May 2022 12:37:42 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 960BF40018;
-	Tue, 24 May 2022 12:37:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653395854;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6TmRvXMBXKzvHnQeIS3dP+SHVdrOjsDZ1s/a3SWwHws=;
-	b=TlhQ9+91r4lJZTfdlIaV8PxM5C2m21D8wmvVhnZZ2GFWlzYESUcYoKKZyS33NyYRu7yHP8
-	Ey0PCjcFYeBUQak/3Lm2ltpuVoS3uwbHR5wyc+6xY1Omdssy8cxbSewgU5QlZwbkQ63hps
-	VcwXSaHoFKbwoE+MQs5cYGZsH0PKQGSftrlu3Tz5IPAyn+6vvXjlv+BV3Hi5EkJIYklWcH
-	ou1rD6ELM2X0tIlgNCzjW1aLJoLi+czfQ1fdKnJWG3gTENGCWwH7kLUIkJgCVvqC0Zykar
-	OSpMkoldOFwFMtRHtR6PfBpxXivEqezaykvbX9lI1lQRpl7j04uWCb//jtYCuw==
-Date: Tue, 24 May 2022 14:37:30 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <YozRiiN7LM0dzbjq@aptenodytes>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
- <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
- <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
- <Ymqk89e+mn/1kLLx@aptenodytes>
- <YmsCJicyzf+Bz98y@valkosipuli.retiisi.eu>
- <YoesXywA4yzBDSwU@aptenodytes>
- <Yop0DGOo1ky2dfnv@pendragon.ideasonboard.com>
- <YouDa3mE9+SkKJg/@aptenodytes>
- <YouLusf4sWK9W2J7@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC452A47
+	for <linux-staging@lists.linux.dev>; Wed, 25 May 2022 06:05:47 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id hh4so16283906qtb.10
+        for <linux-staging@lists.linux.dev>; Tue, 24 May 2022 23:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=ZLmsI3mFDmtOtF3aT52i4MAWs/hALcyNzI74HA0AHXU=;
+        b=nW5NkqlXQqJQSkIWq131BVqt9j5lP6Vh2bxie0rjYK2YPa3xLWnTVOiL+snKfXPxco
+         Ha0w5XgZukM1po5iYj7B5jXXzFcZ7kPHUwyczDtjJtmvR1ElM59sCWRiMYUltN5X96jg
+         6Y/7djVpJ6GgscmokreryJvB03okmPiy6UXFcDkcFlTK8aW0CRmsuImJlttIa9u36TdQ
+         fXYcDJ4Nkj9T0fJItIIKSg34GTEA8u6FnI6MqOG+NRUzYY6WvUydFbAcosL2QuIJ8ChR
+         /iEwn6yNqiBUBsWCW5dKHJDGObRvgGWNmihlyxyTP1F+fGkGC8EiOlCEVMP/P9V4q3GJ
+         buqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=ZLmsI3mFDmtOtF3aT52i4MAWs/hALcyNzI74HA0AHXU=;
+        b=YA3+6UemHyq1p0qYqDA9q1YI2ZZBi7sOzk+LfOySIm7q0/Ep82Gnm1cecS9M8M5xfa
+         0yZlYK1+ZUpsb5S7KfMmuan3xtZpUaTB4P5/DcuoJdp4zur7uwKrY4z06sunW+sXJ2A7
+         wfcjCGnKSOGE0xHsQntgqHtdK037dBIoU2q9ijBe1VqyUBv5ADtKLotQBnk5ZxSRbVZ9
+         ukzwva+KYFPUYOaom1vuF849dwiYZN0MrCOFuhXEbM/Xv89XmjCdVn2PeUKIZxosaDKV
+         FU1Ej957REvenHjenZOgfe9uW9UR941APdRM9ddoLHAyNHoEsv4TH13/IetxFnwyGscs
+         YggQ==
+X-Gm-Message-State: AOAM532ZzoIC884pJ/8j9YvszHW4K5rXlCVCvSXRNBhnWm4JBepZtdhw
+	cweVBAD7R4ZuuPkJB9yhVNg=
+X-Google-Smtp-Source: ABdhPJzosTULADrwpgytKjBnG14NrIocdJqp3oU360L+0BI1Dz73+N8+mjt+C0N4hLmQvJiMRdlcTg==
+X-Received: by 2002:a05:622a:cc:b0:2f9:e34:ead7 with SMTP id p12-20020a05622a00cc00b002f90e34ead7mr23351217qtw.581.1653458746699;
+        Tue, 24 May 2022 23:05:46 -0700 (PDT)
+Received: from Sassy (bras-base-oshwon9563w-grc-26-142-113-132-114.dsl.bell.ca. [142.113.132.114])
+        by smtp.gmail.com with ESMTPSA id cj23-20020a05622a259700b002f39b99f689sm954363qtb.35.2022.05.24.23.05.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 May 2022 23:05:46 -0700 (PDT)
+Date: Wed, 25 May 2022 02:05:44 -0400
+From: Srivathsan Sivakumar <sri.skumar05@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] staging: rts5208: spi.c: fix codestyle error in dynamic
+ debug code
+Message-ID: <Yo3HOPPKnWHez7ES@Sassy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="JFVjsol0NsyPDSxX"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YouLusf4sWK9W2J7@pendragon.ideasonboard.com>
 
+reduce number of spaces in dev_dbg() code
+format the commit and changelog more clearly
 
---JFVjsol0NsyPDSxX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Srivathsan Sivakumar <sri.skumar05@gmail.com>
+---
+Changes since v2:
+ - Condense three dev_dbg() code lines into one
 
-Hi Laurent,
+Changes since v1:
+ - Remove unneccesary ftrace like logging
+---
+ drivers/staging/rts5208/spi.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-On Mon 23 May 22, 16:27, Laurent Pinchart wrote:
-> Hi Paul,
->=20
-> On Mon, May 23, 2022 at 02:51:55PM +0200, Paul Kocialkowski wrote:
-> > On Sun 22 May 22, 20:34, Laurent Pinchart wrote:
-> > > On Fri, May 20, 2022 at 04:57:35PM +0200, Paul Kocialkowski wrote:
-> > > > On Fri 29 Apr 22, 00:07, Sakari Ailus wrote:
-> > > > > On Thu, Apr 28, 2022 at 04:30:11PM +0200, Paul Kocialkowski wrote:
-> > > > > > Hi Sakari,
-> > > > > >=20
-> > > > > > On Thu 28 Apr 22, 15:14, Sakari Ailus wrote:
-> > > > > > > Hi Paul,
-> > > > > > >=20
-> > > > > > > Thanks for the set.
-> > > > > > >=20
-> > > > > > > A few comments below.
-> > > > > >=20
-> > > > > > Thanks a lot for your review!
-> > > > >=20
-> > > > > You're welcome!
-> > > > >=20
-> > > > > ...
-> > > > >=20
-> > > > > > > I understand this is an online ISP. How do you schedule the v=
-ideo buffer
-> > > > > > > queues? Say, what happens if it's time to set up buffers for =
-a frame and
-> > > > > > > there's a buffer queued in the parameter queue but not in the=
- image data
-> > > > > > > queue? Or the other way around?
-> > > > > >=20
-> > > > > > The ISP works in a quite atypical way, with a DMA buffer that i=
-s used to
-> > > > > > hold upcoming parameters (including buffer addresses) and a bit=
- in a "direct"
-> > > > > > register to schedule the update of the parameters at next vsync.
-> > > > > >=20
-> > > > > > The update (setting the bit) is triggered whenever new paramete=
-rs are
-> > > > > > submitted via the params video device or whenever there's a cap=
-ture buffer
-> > > > > > available in the capture video device.
-> > > > > >=20
-> > > > > > So you don't particularly need to have one parameter buffer mat=
-ching a capture
-> > > > > > buffer, the two can be updated independently. Of course, a capt=
-ure buffer will
-> > > > > > only be returned after another buffer becomes active.
-> > > > >=20
-> > > > > This also means it's not possible to associate a capture buffer t=
-o a
-> > > > > parameter buffer by other means than timing --- which is unreliab=
-le. The
-> > > > > request API would allow that but it's not free of issues either.
-> > > >=20
-> > > > Yes the request API seems like a good fit for this. Note that the r=
-eturned
-> > > > sequence number in dequeued buffers for the capture and meta video =
-devices
-> > > > should match though, so userspace still has a way to know which cap=
-tured buffer
-> > > > used parameters from which meta params buffer.
-> > > >=20
-> > > > > Alternatively, I think in this case you could always require the =
-capture
-> > > > > buffer and grab a parameter buffer when it's available. As ISPs a=
-re
-> > > > > generally requiring device specific control software, this should=
-n't be a
-> > > > > problem really.
-> > > >=20
-> > > > I think this is pretty much what happens already.
-> > > >=20
-> > > > > I wonder what Laurent thinks.
-> > >=20
-> > > If parameters buffers are optional, I think the request API should be
-> > > used, otherwise we won't be able to ensure per-frame control. The
-> > > alternative is to make the parameter buffer mandatory for every frame,
-> > > even if no parameters have changed. Or maybe that's the case already ?
-> >=20
-> > Currently the parameters are not mandatory (there is a default state set
-> > by the driver) and queued parameter buffers are applied in the order th=
-ey
-> > are submitted.
-> >=20
-> > The request API would make per-frame control possible, but I don't think
-> > there is a point in making it mandatory. It seems that the situation is=
- very
-> > similar to what already exists with the rkisp1 driver.
->=20
-> You mentioned that the parameter buffers contain buffer addresses, is
-> that the DMA address of the image buffers (input and output) ? If so,
-> how does that work, does the kernel patch the parameters buffer provided
-> by userspace to fill the DMA addresses in placeholders ?
+diff --git a/drivers/staging/rts5208/spi.c b/drivers/staging/rts5208/spi.c
+index f1e9e80044ed..e88fe1a998f8 100644
+--- a/drivers/staging/rts5208/spi.c
++++ b/drivers/staging/rts5208/spi.c
+@@ -460,10 +460,8 @@ int spi_set_parameter(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 	spi->clk_div = ((u16)(srb->cmnd[4]) << 8) | srb->cmnd[5];
+ 	spi->write_en = srb->cmnd[6];
+ 
+-	dev_dbg(rtsx_dev(chip), "%s: ", __func__);
+-	dev_dbg(rtsx_dev(chip), "spi_clock = %d, ", spi->spi_clock);
+-	dev_dbg(rtsx_dev(chip), "clk_div = %d, ", spi->clk_div);
+-	dev_dbg(rtsx_dev(chip), "write_en = %d\n", spi->write_en);
++	dev_dbg(rtsx_dev(chip), "spi_clock = %d, clk_div = %d, write_en = %d\n",
++		spi->spi_clock, spi->clk_div, spi->write_en);
+ 
+ 	return STATUS_SUCCESS;
+ }
+-- 
+2.34.1
 
-Ah there might be a misunderstanding here: the hardware has a notion of
-"parameters buffer" which a DMA buffer that holds the next values of most of
-the registers (including the DMA adresses of dst buffers).
-
-However the parameters buffers for configuring the ISP are uAPI structures
-which are distinct from the registers of the hardware. It's these structures
-that are provided to the driver via a dedicated meta-output video device,
-by userspace. Of course the values from the uAPI parameters buffers also en=
-d up
-in the hardware parameters.
-
-I hope this clarifies things a bit!
-
-Paul
-
-> > > > > > I hope this answers your concern!
-> > > > > >=20
-> > > > > > [...]
-> > > > > >=20
-> > > > > > > > +static int sun6i_isp_tables_setup(struct sun6i_isp_device =
-*isp_dev)
-> > > > > > > > +{
-> > > > > > > > +	struct sun6i_isp_tables *tables =3D &isp_dev->tables;
-> > > > > > > > +	int ret;
-> > > > > > > > +
-> > > > > > > > +	/* Sizes are hardcoded for now but actually depend on the=
- platform. */
-> > > > > > >=20
-> > > > > > > Would it be cleaner to have them defined in a platform-specif=
-ic way, e.g.
-> > > > > > > in a struct you obtain using device_get_match_data()?
-> > > > > >=20
-> > > > > > Absolutely! I didn't do it at this stage since only one platfor=
-m is supported
-> > > > > > but we could just as well introduce a variant structure already=
- for the table
-> > > > > > sizes.
-> > > > >=20
-> > > > > I think that would be nice already, especially if you know these =
-are going
-> > > > > to be different. Otherwise macros could be an option.
-> > > >=20
-> > > > Understood!
-> > > >=20
-> > > > > ...
-> > > > >=20
-> > > > > > > > +	ret =3D v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
-> > > > > > >=20
-> > > > > > > I suppose you intend to add controls later on?
-> > > > > >=20
-> > > > > > I might be wrong but I thought this was necessary to expose sen=
-sor controls
-> > > > > > registered by subdevs that end up attached to this v4l2 device.
-> > > > > >=20
-> > > > > > I doubt the drivers itself will expose controls otherwise.
-> > > > >=20
-> > > > > Now that this is an MC-enabled driver, the subdev controls should=
- be
-> > > > > accessed through the subdev nodes only. Adding them to the video =
-device's
-> > > > > control handler is quite hackish and not guaranteed to even work =
-(as e.g.
-> > > > > multiple subdevs can have the same control).
-> > > >=20
-> > > > Yes I was wondering what would happen in that case. I'll drop the c=
-trls
-> > > > handling in the next iteration then.
-> > > >=20
-> > > > Paul
-> > > >=20
-> > > > > ...
-> > > > >=20
-> > > > > > > > +{
-> > > > > > > > +	struct sun6i_isp_device *isp_dev =3D video_drvdata(file);
-> > > > > > > > +	struct video_device *video_dev =3D &isp_dev->capture.vide=
-o_dev;
-> > > > > > > > +	struct mutex *lock =3D &isp_dev->capture.lock;
-> > > > > > > > +	int ret;
-> > > > > > > > +
-> > > > > > > > +	if (mutex_lock_interruptible(lock))
-> > > > > > > > +		return -ERESTARTSYS;
-> > > > > > > > +
-> > > > > > > > +	ret =3D v4l2_pipeline_pm_get(&video_dev->entity);
-> > > > > > >=20
-> > > > > > > Do you need this?
-> > > > > > >=20
-> > > > > > > Drivers should primarily depend on runtime PM, this is only n=
-eeded for
-> > > > > > > compatibility reasons. Instead I'd like to see sensor drivers=
- being moved
-> > > > > > > to runtime PM.
-> > > > > >=20
-> > > > > > Yes it's still needed to support sensor drivers that don't use =
-rpm yet.
-> > > > >=20
-> > > > > To that I suggested adding runtime PM support for the affected se=
-nsors.
-> > > > > This doesn't seem to get done otherwise. E.g. ipu3-cio2 driver do=
-es not
-> > > > > call s_power() on sensor subdevs.
-> > > > >=20
-> > > > > ...
-> > > > >=20
-> > > > > > > > +	ret =3D video_register_device(video_dev, VFL_TYPE_VIDEO, =
--1);
-> > > > > > > > +	if (ret) {
-> > > > > > > > +		v4l2_err(v4l2_dev, "failed to register video device: %d\=
-n",
-> > > > > > > > +			 ret);
-> > > > > > > > +		goto error_media_entity;
-> > > > > > > > +	}
-> > > > > > > > +
-> > > > > > > > +	v4l2_info(v4l2_dev, "device %s registered as %s\n", video=
-_dev->name,
-> > > > > > > > +		  video_device_node_name(video_dev));
-> > > > > > >=20
-> > > > > > > This isn't really driver specific. I'd drop it.
-> > > > > >=20
-> > > > > > I agree but I see that many drivers are doing it and the inform=
-ation can
-> > > > > > actually be quite useful at times.
-> > > > >=20
-> > > > > You can get that information using media-ctl -e 'entity name'.
-> > > > >=20
-> > > > > I guess this could be also added to video_register_device() on de=
-bug level.
-> > > > >=20
-> > > > > > > > +struct sun6i_isp_params_config_bdnf {
-> > > > > > > > +	__u8	in_dis_min; // 8
-> > > > > > > > +	__u8	in_dis_max; // 10
-> > > > > > >=20
-> > > > > > > Are these default values or something else? Better documentat=
-ion was in the
-> > > > > > > TODO.txt file already.
-> > > > > >=20
-> > > > > > Yes that's the default register values, but these comments are =
-and overlook on
-> > > > > > my side and should be removed.
-> > > > >=20
-> > > > > I'm fine leaving these here. Just wondering. Up to you.
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---JFVjsol0NsyPDSxX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmKM0YoACgkQ3cLmz3+f
-v9G+Ogf7B1TmIO1K4sACLe/AMewXZ771xdAEhH55RqAjbRvriNNH7aF05wYXLa9D
-3B1gi7maOrrFR5Fn2VzMcZk9tGAIb80tt4AkbcQ0Acv3UgiZ0raEYWjH9mv5zJLv
-5kJ6SgXpSt0k3JP1u5E8/r+YjFnfGKP5yaEr2AYIhYx3rqANCUbXzaQ834jPogUE
-bxQAAGS1R8MOQTSIKMt+V4TmrcoTG3l31IAtW8bX+3T+/KbLVJE78TAF/I2j9H5w
-LMrOwVe+nlPbnWIwJtjciXTPXig+Do6YOU5SFgOkRFuFyIJzCx1PXZuqFJIR9uFY
-t5j8F2P7EA/nvoAc98QhXVGrDdj6vg==
-=osVl
------END PGP SIGNATURE-----
-
---JFVjsol0NsyPDSxX--
