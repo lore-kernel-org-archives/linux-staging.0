@@ -1,362 +1,427 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0786E138B;
-	Wed, 25 May 2022 19:10:44 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id F08B3FF80B;
-	Wed, 25 May 2022 19:10:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505843;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8iEmMnjQgpOlv9nc6jRUvLuaZa/9ZUyEsSKWVC5QtjY=;
-	b=X6sMa7gEERUtpWPbxnmfXbFYTxkG0p9wUFu/iVpebU2DdTbKURIjCqwOYn4x8RmnY3TlFn
-	o5708hWZQJFa2xRHAXK/YZ7XVM59yuaGX3pOoUg4eIU4rpD5SkO4nnbr9k7INsKtUdXtUy
-	71EJOHn0LPrY9p64bQiR4sATPxiMycL3o84YgEKaLczzwu/nCgrz9Wt3v+Cy5DzR4M58IS
-	hm6pxSfBUu8T0gXIC7PcIh9uu5XtRwWdGieIM37EeM882zWnMsONrE0Io3ag43vAwiej/M
-	bqLp7ryEmYoK+jQIr8rohPeMAAdduz9IunNPCySPmMzcXvNHZnE6GgFF6pyRSg==
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v4 6/6] media: sun6i-csi: Add support for hooking to the isp devices
-Date: Wed, 25 May 2022 21:10:26 +0200
-Message-Id: <20220525191026.696636-7-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
-References: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B0B2566
+	for <linux-staging@lists.linux.dev>; Wed, 25 May 2022 21:36:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653514598; x=1685050598;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=p2xIr7qIJQysFb3ESgxRnboAHXPwDgkY8y4Y8EPMgTo=;
+  b=iLul9jrfgqZOWMNXO1TN+lZcXXwdlgc/jqwd0ZjEk/eCegO8Y6Q+tc5F
+   anMs9o2/dgOkK5Rh2gJ1FG5mZxTXDqvHvdk0d9sgrYYAlttV7uO5kBN0T
+   k2yhBuryNIlOc34z0/P1NmWBCi16ShfIjJ8UdyR6pNJJUJg0SbZVtjTpU
+   i7nq5/RfyjGr0bGJU6ioMBgbY93eHJDX0j0wYXp/heNTi1CmmGrDBolBg
+   9QK45x96IkivEd047XefmKQi8WhOjEkPk7muBWXf2hFvnl50Pw0bk1S5m
+   CzTfWol7ReKD3Pm5rP/eCdDKONWUqnLw+D++hfHQvNMHMzZOTewhUkjcP
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="253813125"
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; 
+   d="scan'208";a="253813125"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2022 14:36:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; 
+   d="scan'208";a="717928351"
+Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 25 May 2022 14:36:17 -0700
+Received: from kbuild by db63a1be7222 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1ntyfw-0003KS-WB;
+	Wed, 25 May 2022 21:36:17 +0000
+Date: Thu, 26 May 2022 05:35:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-riscv@lists.infradead.org,
+ linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-parport@lists.infradead.org, linux-omap@vger.kernel.org,
+ linux-mm@kvack.org, linux-fbdev@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bpf@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, alsa-devel@alsa-project.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 8cb8311e95e3bb58bd84d6350365f14a718faa6d
+Message-ID: <628ea118.wJYf60YnZco0hs9o%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-In order to use the isp and csi together, both devices need to be
-parented to the same v4l2 and media devices. We use the isp as
-top-level device and let the csi code hook to its v4l2 and media
-devices when async subdev registration takes place.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 8cb8311e95e3bb58bd84d6350365f14a718faa6d  Add linux-next specific files for 20220525
 
-As a result v4l2/media device setup is only called when the ISP
-is missing and the capture device is registered after the devices
-are hooked. The bridge subdev and its notifier are registered
-without any device when the ISP is available. Top-level pointers
-for the devices are introduced to either redirect to the hooked ones
-(isp available) or the registered ones (isp missing).
+Error/Warning reports:
 
-Also keep track of whether the capture node was setup or not to
-avoid cleaning up resources when it wasn't.
+https://lore.kernel.org/linux-mm/202204291924.vTGZmerI-lkp@intel.com
+https://lore.kernel.org/linux-mm/202205031017.4TwMan3l-lkp@intel.com
+https://lore.kernel.org/linux-mm/202205041248.WgCwPcEV-lkp@intel.com
+https://lore.kernel.org/linux-mm/202205150051.3RzuooAG-lkp@intel.com
+https://lore.kernel.org/linux-mm/202205150117.sd6HzBVm-lkp@intel.com
+https://lore.kernel.org/lkml/202205100617.5UUm3Uet-lkp@intel.com
+https://lore.kernel.org/llvm/202205251645.gusu3spL-lkp@intel.com
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 45 +++++++++++++++----
- .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  7 +++
- .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 32 +++++++++++--
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 19 ++++++--
- .../sunxi/sun6i-csi/sun6i_csi_capture.h       |  1 +
- 5 files changed, 89 insertions(+), 15 deletions(-)
+Error/Warning: (recently discovered and may have been fixed)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index b16166cba2ef..0bac89d8112f 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -26,6 +26,18 @@
- 
- /* ISP */
- 
-+int sun6i_csi_isp_complete(struct sun6i_csi_device *csi_dev,
-+			   struct v4l2_device *v4l2_dev)
-+{
-+	if (csi_dev->v4l2_dev && csi_dev->v4l2_dev != v4l2_dev)
-+		return -EINVAL;
-+
-+	csi_dev->v4l2_dev = v4l2_dev;
-+	csi_dev->media_dev = v4l2_dev->mdev;
-+
-+	return sun6i_csi_capture_setup(csi_dev);
-+}
-+
- static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
- {
- 	struct device *dev = csi_dev->dev;
-@@ -95,6 +107,9 @@ static int sun6i_csi_v4l2_setup(struct sun6i_csi_device *csi_dev)
- 		goto error_media;
- 	}
- 
-+	csi_dev->v4l2_dev = v4l2_dev;
-+	csi_dev->media_dev = media_dev;
-+
- 	return 0;
- 
- error_media:
-@@ -323,17 +338,27 @@ static int sun6i_csi_probe(struct platform_device *platform_dev)
- 	if (ret)
- 		goto error_resources;
- 
--	ret = sun6i_csi_v4l2_setup(csi_dev);
--	if (ret)
--		goto error_resources;
-+	/*
-+	 * Register our own v4l2 and media devices when there is no ISP around.
-+	 * Otherwise the ISP will use async subdev registration with our bridge,
-+	 * which will provide v4l2 and media devices that are used to register
-+	 * the video interface.
-+	 */
-+	if (!csi_dev->isp_available) {
-+		ret = sun6i_csi_v4l2_setup(csi_dev);
-+		if (ret)
-+			goto error_resources;
-+	}
- 
- 	ret = sun6i_csi_bridge_setup(csi_dev);
- 	if (ret)
- 		goto error_v4l2;
- 
--	ret = sun6i_csi_capture_setup(csi_dev);
--	if (ret)
--		goto error_bridge;
-+	if (!csi_dev->isp_available) {
-+		ret = sun6i_csi_capture_setup(csi_dev);
-+		if (ret)
-+			goto error_bridge;
-+	}
- 
- 	return 0;
- 
-@@ -341,7 +366,8 @@ static int sun6i_csi_probe(struct platform_device *platform_dev)
- 	sun6i_csi_bridge_cleanup(csi_dev);
- 
- error_v4l2:
--	sun6i_csi_v4l2_cleanup(csi_dev);
-+	if (!csi_dev->isp_available)
-+		sun6i_csi_v4l2_cleanup(csi_dev);
- 
- error_resources:
- 	sun6i_csi_resources_cleanup(csi_dev);
-@@ -355,7 +381,10 @@ static int sun6i_csi_remove(struct platform_device *pdev)
- 
- 	sun6i_csi_capture_cleanup(csi_dev);
- 	sun6i_csi_bridge_cleanup(csi_dev);
--	sun6i_csi_v4l2_cleanup(csi_dev);
-+
-+	if (!csi_dev->isp_available)
-+		sun6i_csi_v4l2_cleanup(csi_dev);
-+
- 	sun6i_csi_resources_cleanup(csi_dev);
- 
- 	return 0;
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-index 8e232cd91ebe..bc3f0dae35df 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-@@ -36,6 +36,8 @@ struct sun6i_csi_v4l2 {
- 
- struct sun6i_csi_device {
- 	struct device			*dev;
-+	struct v4l2_device		*v4l2_dev;
-+	struct media_device		*media_dev;
- 
- 	struct sun6i_csi_v4l2		v4l2;
- 	struct sun6i_csi_bridge		bridge;
-@@ -53,4 +55,9 @@ struct sun6i_csi_variant {
- 	unsigned long	clock_mod_rate;
- };
- 
-+/* ISP */
-+
-+int sun6i_csi_isp_complete(struct sun6i_csi_device *csi_dev,
-+			   struct v4l2_device *v4l2_dev);
-+
- #endif
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-index 8e9eded0df28..9624c3f683ee 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-@@ -654,6 +654,7 @@ sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
- 	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
- 	struct sun6i_csi_bridge_source *source = bridge_async_subdev->source;
- 	bool enabled;
-+	int ret;
- 
- 	switch (source->endpoint.base.port) {
- 	case SUN6I_CSI_PORT_PARALLEL:
-@@ -668,6 +669,16 @@ sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
- 
- 	source->subdev = remote_subdev;
- 
-+	if (csi_dev->isp_available) {
-+		/*
-+		 * Hook to the first available remote subdev to get v4l2 and
-+		 * media devices and register the capture device then.
-+		 */
-+		ret = sun6i_csi_isp_complete(csi_dev, remote_subdev->v4l2_dev);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
- 				     remote_subdev, enabled);
- }
-@@ -680,6 +691,9 @@ sun6i_csi_bridge_notifier_complete(struct v4l2_async_notifier *notifier)
- 			     bridge.notifier);
- 	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
- 
-+	if (csi_dev->isp_available)
-+		return 0;
-+
- 	return v4l2_device_register_subdev_nodes(v4l2_dev);
- }
- 
-@@ -753,7 +767,7 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
- {
- 	struct device *dev = csi_dev->dev;
- 	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
--	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-+	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
- 	struct v4l2_subdev *subdev = &bridge->subdev;
- 	struct v4l2_async_notifier *notifier = &bridge->notifier;
- 	struct media_pad *pads = bridge->pads;
-@@ -794,7 +808,11 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
- 
- 	/* V4L2 Subdev */
- 
--	ret = v4l2_device_register_subdev(v4l2_dev, subdev);
-+	if (csi_dev->isp_available)
-+		ret = v4l2_async_register_subdev(subdev);
-+	else
-+		ret = v4l2_device_register_subdev(v4l2_dev, subdev);
-+
- 	if (ret) {
- 		dev_err(dev, "failed to register v4l2 subdev: %d\n", ret);
- 		goto error_media_entity;
-@@ -811,7 +829,10 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
- 	sun6i_csi_bridge_source_setup(csi_dev, &bridge->source_mipi_csi2,
- 				      SUN6I_CSI_PORT_MIPI_CSI2, NULL);
- 
--	ret = v4l2_async_nf_register(v4l2_dev, notifier);
-+	if (csi_dev->isp_available)
-+		ret = v4l2_async_subdev_nf_register(subdev, notifier);
-+	else
-+		ret = v4l2_async_nf_register(v4l2_dev, notifier);
- 	if (ret) {
- 		dev_err(dev, "failed to register v4l2 async notifier: %d\n",
- 			ret);
-@@ -823,7 +844,10 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
- error_v4l2_async_notifier:
- 	v4l2_async_nf_cleanup(notifier);
- 
--	v4l2_device_unregister_subdev(subdev);
-+	if (csi_dev->isp_available)
-+		v4l2_async_unregister_subdev(subdev);
-+	else
-+		v4l2_device_unregister_subdev(subdev);
- 
- error_media_entity:
- 	media_entity_cleanup(&subdev->entity);
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index c9e7526b84c4..69ea1cbaea0c 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -570,7 +570,7 @@ static int sun6i_csi_capture_buffer_prepare(struct vb2_buffer *buffer)
- {
- 	struct sun6i_csi_device *csi_dev = vb2_get_drv_priv(buffer->vb2_queue);
- 	struct sun6i_csi_capture *capture = &csi_dev->capture;
--	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-+	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
- 	struct vb2_v4l2_buffer *v4l2_buffer = to_vb2_v4l2_buffer(buffer);
- 	unsigned long size = capture->format.fmt.pix.sizeimage;
- 
-@@ -889,7 +889,7 @@ static int sun6i_csi_capture_link_validate(struct media_link *link)
- 	struct video_device *video_dev =
- 		media_entity_to_video_device(link->sink->entity);
- 	struct sun6i_csi_device *csi_dev = video_get_drvdata(video_dev);
--	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-+	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
- 	const struct sun6i_csi_capture_format *capture_format;
- 	const struct sun6i_csi_bridge_format *bridge_format;
- 	unsigned int capture_width, capture_height;
-@@ -971,7 +971,7 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- {
- 	struct sun6i_csi_capture *capture = &csi_dev->capture;
- 	struct sun6i_csi_capture_state *state = &capture->state;
--	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-+	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
- 	struct v4l2_subdev *bridge_subdev = &csi_dev->bridge.subdev;
- 	struct video_device *video_dev = &capture->video_dev;
- 	struct vb2_queue *queue = &capture->queue;
-@@ -980,6 +980,10 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- 	struct v4l2_pix_format *pix_format = &format->fmt.pix;
- 	int ret;
- 
-+	/* This may happen with multiple bridge notifier bound calls. */
-+	if (state->setup)
-+		return 0;
-+
- 	/* State */
- 
- 	INIT_LIST_HEAD(&state->queue);
-@@ -1055,6 +1059,7 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- 	ret = media_create_pad_link(&bridge_subdev->entity,
- 				    SUN6I_CSI_BRIDGE_PAD_SOURCE,
- 				    &video_dev->entity, 0,
-+				    csi_dev->isp_available ? 0 :
- 				    MEDIA_LNK_FL_ENABLED |
- 				    MEDIA_LNK_FL_IMMUTABLE);
- 	if (ret < 0) {
-@@ -1065,6 +1070,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- 		goto error_video_device;
- 	}
- 
-+	state->setup = true;
-+
- 	return 0;
- 
- error_video_device:
-@@ -1083,7 +1090,13 @@ void sun6i_csi_capture_cleanup(struct sun6i_csi_device *csi_dev)
- 	struct sun6i_csi_capture *capture = &csi_dev->capture;
- 	struct video_device *video_dev = &capture->video_dev;
- 
-+	/* This may happen if async registration failed to complete. */
-+	if (!capture->state.setup)
-+		return;
-+
- 	vb2_video_unregister_device(video_dev);
- 	media_entity_cleanup(&video_dev->entity);
- 	mutex_destroy(&capture->lock);
-+
-+	capture->state.setup = false;
- }
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-index 29893cf96f6b..3ee5ccefbd10 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-@@ -45,6 +45,7 @@ struct sun6i_csi_capture_state {
- 
- 	unsigned int			sequence;
- 	bool				streaming;
-+	bool				setup;
- };
- 
- struct sun6i_csi_capture {
+drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:1364:5: warning: no previous prototype for 'amdgpu_discovery_get_mall_info' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/soc21.c:171:6: warning: no previous prototype for 'soc21_grbm_select' [-Wmissing-prototypes]
+drivers/gpu/drm/solomon/ssd130x-spi.c:154:35: warning: 'ssd130x_spi_table' defined but not used [-Wunused-const-variable=]
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1093:9: warning: 'CAUSE' macro redefined [-Wmacro-redefined]
+drivers/video/fbdev/omap/hwa742.c:492:5: warning: no previous prototype for 'hwa742_update_window_async' [-Wmissing-prototypes]
+fs/buffer.c:2254:5: warning: stack frame size (2144) exceeds limit (1024) in 'block_read_full_folio' [-Wframe-larger-than]
+fs/ntfs/aops.c:378:12: warning: stack frame size (2216) exceeds limit (1024) in 'ntfs_read_folio' [-Wframe-larger-than]
+
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+.__mulsi3.o.cmd: No such file or directory
+Makefile:686: arch/h8300/Makefile: No such file or directory
+Makefile:765: arch/h8300/Makefile: No such file or directory
+arch/Kconfig:10: can't open file "arch/h8300/Kconfig"
+arch/riscv/purgatory/kexec-purgatory.c:1860:9: sparse: sparse: trying to concatenate 29720-character string (8191 bytes max)
+drivers/gpu/drm/bridge/adv7511/adv7511.h:229:17: warning: 'ADV7511_REG_CEC_RX_FRAME_HDR' defined but not used [-Wunused-const-variable=]
+drivers/gpu/drm/bridge/adv7511/adv7511.h:235:17: warning: 'ADV7511_REG_CEC_RX_FRAME_LEN' defined but not used [-Wunused-const-variable=]
+drivers/infiniband/hw/hns/hns_roce_hw_v2.c:309:9: sparse: sparse: dubious: x & !y
+drivers/pinctrl/meson/pinctrl-meson8-pmx.c:60:25: warning: Value stored to 'func' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+drivers/staging/vt6655/card.c:758:16: sparse: sparse: cast to restricted __le64
+drivers/vhost/vdpa.c:595 vhost_vdpa_unlocked_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
+kernel/bpf/helpers.c:1468:29: sparse: sparse: symbol 'bpf_dynptr_from_mem_proto' was not declared. Should it be static?
+kernel/bpf/helpers.c:1490:29: sparse: sparse: symbol 'bpf_dynptr_from_mem_proto' was not declared. Should it be static?
+kernel/bpf/helpers.c:1516:29: sparse: sparse: symbol 'bpf_dynptr_read_proto' was not declared. Should it be static?
+kernel/bpf/helpers.c:1542:29: sparse: sparse: symbol 'bpf_dynptr_write_proto' was not declared. Should it be static?
+kernel/bpf/helpers.c:1569:29: sparse: sparse: symbol 'bpf_dynptr_data_proto' was not declared. Should it be static?
+make[1]: *** No rule to make target 'arch/h8300/Makefile'.
+mm/shmem.c:1948 shmem_getpage_gfp() warn: should '(((1) << 12) / 512) << folio_order(folio)' be a 64 bit type?
+sound/soc/intel/avs/ipc.c:87:5-24: atomic_dec_and_test variation before object free at line 88.
+{standard input}:3488: Error: unknown pseudo-op: `.l28'
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|-- arm-allmodconfig
+|   |-- arch-arm-mach-omap2-dma.c:Unneeded-variable:errata-Return-on-line
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|   |-- drivers-video-fbdev-omap-hwa742.c:warning:no-previous-prototype-for-hwa742_update_window_async
+|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
+|-- arm-allyesconfig
+|   |-- arch-arm-mach-omap2-dma.c:Unneeded-variable:errata-Return-on-line
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|   |-- drivers-video-fbdev-omap-hwa742.c:warning:no-previous-prototype-for-hwa742_update_window_async
+|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
+|-- arm64-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- arm64-allyesconfig
+|   |-- arch-arm64-kernel-signal.c:sparse:sparse:dereference-of-noderef-expression
+|   |-- arch-arm64-kernel-signal.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-user_ctxs-noderef-__user-user-got-struct-user_ctxs
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
+|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
+|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
+|   `-- kernel-stackleak.c:sparse:sparse:symbol-stackleak_erase_off_task_stack-was-not-declared.-Should-it-be-static
+|-- csky-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- csky-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- csky-randconfig-s032-20220524
+|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_data_proto-was-not-declared.-Should-it-be-static
+|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
+|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
+|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
+|-- h8300-allmodconfig
+|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
+|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
+|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
+|-- h8300-allyesconfig
+|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
+|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
+|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
+|-- h8300-buildonly-randconfig-r004-20220524
+|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
+|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
+|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
+|-- h8300-randconfig-r033-20220524
+|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
+|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
+|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
+|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
+|   `-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:ssd13_spi_table-defined-but-not-used
+|-- i386-randconfig-a012
+|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
+|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
+|-- i386-randconfig-a014
+|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
+|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
+|-- i386-randconfig-m021
+|   `-- mm-shmem.c-shmem_getpage_gfp()-warn:should-((()-)-)-folio_order(folio)-be-a-bit-type
+|-- ia64-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- ia64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- ia64-randconfig-r036-20220524
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- m68k-allyesconfig
+|   |-- drivers-block-paride-bpck.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-block-paride-comm.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-block-paride-dstr.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-block-paride-epat.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-block-paride-epia.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-block-paride-friq.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-block-paride-frpw.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-block-paride-kbic.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-block-paride-on26.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-block-paride-ppc6lnx.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-comedi-drivers-aio_aio12_8.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-comedi-drivers-das16m1.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-comedi-drivers-ni_at_ao.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-comedi-drivers-ni_daq_700.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-net-ethernet-apne.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-net-ethernet-xircom-xirc2ps_cs.c:sparse:sparse:cast-to-restricted-__le16
+|   |-- drivers-tty-ipwireless-hardware.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-restricted-__le16-usertype-raw_data-got-int
+|   `-- drivers-tty-ipwireless-hardware.c:sparse:sparse:incorrect-type-in-initializer-(different-base-types)-expected-unsigned-short-unused-usertype-__v-got-restricted-__le16-assigned-usertype-raw_data
+|-- microblaze-randconfig-m031-20220524
+|   `-- drivers-vhost-vdpa.c-vhost_vdpa_unlocked_ioctl()-warn:maybe-return-EFAULT-instead-of-the-bytes-remaining
+|-- mips-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|-- mips-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|   `-- sound-soc-intel-avs-ipc.c:atomic_dec_and_test-variation-before-object-free-at-line-.
+|-- openrisc-randconfig-s032-20220524
+|   `-- __mulsi3.o.cmd:No-such-file-or-directory
+|-- parisc-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- parisc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- powerpc-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|-- powerpc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   `-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|-- riscv-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- riscv-allyesconfig
+|   |-- arch-riscv-kernel-machine_kexec.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-got-void-noderef-__user-buf
+|   |-- arch-riscv-purgatory-kexec-purgatory.c:sparse:sparse:trying-to-concatenate-character-string-(-bytes-max)
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|   |-- kernel-fork.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-atomic_t-usertype-lock-got-struct-atomic_t-noderef-__rcu
+|   `-- kernel-seccomp.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-struct-atomic_t-usertype-lock-got-struct-atomic_t-noderef-__rcu
+|-- riscv-randconfig-r042-20220524
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- s390-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
+|   `-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|-- s390-randconfig-r014-20220524
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|-- sh-buildonly-randconfig-r003-20220524
+|   `-- standard-input:Error:unknown-pseudo-op:l28
+|-- sparc-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
+|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
+|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
+|-- sparc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-infiniband-hw-hns-hns_roce_hw_v2.c:sparse:sparse:dubious:x-y
+|   |-- drivers-pci-pci.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-pci_power_t-assigned-usertype-state-got-int
+|   |-- drivers-staging-vt6655-card.c:sparse:sparse:cast-to-restricted-__le64
+|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_from_mem_proto-was-not-declared.-Should-it-be-static
+|   |-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_read_proto-was-not-declared.-Should-it-be-static
+|   `-- kernel-bpf-helpers.c:sparse:sparse:symbol-bpf_dynptr_write_proto-was-not-declared.-Should-it-be-static
+|-- x86_64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   |-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
+|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
+|   `-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:ssd13_spi_table-defined-but-not-used
+|-- x86_64-randconfig-a011
+|   |-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_HDR-defined-but-not-used
+|   `-- drivers-gpu-drm-bridge-adv7511-adv7511.h:warning:ADV7511_REG_CEC_RX_FRAME_LEN-defined-but-not-used
+|-- xtensa-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+|   `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+`-- xtensa-allyesconfig
+    |-- drivers-gpu-drm-amd-amdgpu-amdgpu_discovery.c:warning:no-previous-prototype-for-amdgpu_discovery_get_mall_info
+    `-- drivers-gpu-drm-amd-amdgpu-soc21.c:warning:no-previous-prototype-for-soc21_grbm_select
+
+clang_recent_errors
+|-- arm-randconfig-c002-20220524
+|   `-- drivers-pinctrl-meson-pinctrl-meson8-pmx.c:warning:Value-stored-to-func-during-its-initialization-is-never-read-clang-analyzer-deadcode.DeadStores
+|-- hexagon-randconfig-r011-20220524
+|   `-- fs-buffer.c:warning:stack-frame-size-()-exceeds-limit-()-in-block_read_full_folio
+|-- hexagon-randconfig-r035-20220524
+|   |-- fs-buffer.c:warning:stack-frame-size-()-exceeds-limit-()-in-block_read_full_folio
+|   `-- fs-ntfs-aops.c:warning:stack-frame-size-()-exceeds-limit-()-in-ntfs_read_folio
+`-- mips-randconfig-r022-20220524
+    `-- drivers-net-wireless-intel-iwlwifi-pcie-trans.c:warning:CAUSE-macro-redefined
+
+elapsed time: 858m
+
+configs tested: 94
+configs skipped: 3
+
+gcc tested configs:
+arm                              allmodconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+arm                                 defconfig
+arm64                               defconfig
+mips                             allyesconfig
+riscv                            allyesconfig
+um                           x86_64_defconfig
+riscv                            allmodconfig
+um                             i386_defconfig
+mips                             allmodconfig
+powerpc                          allmodconfig
+s390                             allmodconfig
+m68k                             allmodconfig
+powerpc                          allyesconfig
+s390                             allyesconfig
+m68k                             allyesconfig
+sparc                            allyesconfig
+parisc                           allyesconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+m68k                            mac_defconfig
+arc                 nsimosci_hs_smp_defconfig
+sh                              ul2_defconfig
+mips                    maltaup_xpa_defconfig
+xtensa                          iss_defconfig
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                                defconfig
+nios2                               defconfig
+alpha                               defconfig
+csky                                defconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+parisc                              defconfig
+parisc64                            defconfig
+s390                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+powerpc                           allnoconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+riscv                randconfig-r042-20220524
+arc                  randconfig-r043-20220524
+s390                 randconfig-r044-20220524
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+riscv                             allnoconfig
+riscv                    nommu_k210_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-syz
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
+
+clang tested configs:
+mips                        bcm63xx_defconfig
+mips                       lemote2f_defconfig
+mips                         tb0287_defconfig
+arm                          ep93xx_defconfig
+arm                     am200epdkit_defconfig
+powerpc                     tqm5200_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+hexagon              randconfig-r045-20220524
+hexagon              randconfig-r041-20220524
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+
 -- 
-2.36.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
