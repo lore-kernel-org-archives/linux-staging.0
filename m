@@ -1,24 +1,24 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368427C
-	for <linux-staging@lists.linux.dev>; Thu, 26 May 2022 12:05:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ED4EC385A9;
-	Thu, 26 May 2022 12:05:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407577C
+	for <linux-staging@lists.linux.dev>; Thu, 26 May 2022 12:06:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF603C34113;
+	Thu, 26 May 2022 12:06:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1653566747;
-	bh=6IIqdaMyOsaDmPdt2FaPZqPre5iH1Gd6eRwwKlrVFZY=;
+	s=korg; t=1653566762;
+	bh=F8mZ3sGUtmV3a6/X0fT3XukKvyXrWkK5TlslR8ZHtEA=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=lywPxjTfD360E1u1cU3/72U+NWk3hsuRd2MokjODDCJPhXc6zKRhmGhIZWrjuWIdg
-	 u8MqKwuE0DmefEVXd9WE05gj6wQUJ5ZAgoPivsV5rz5raFErxdhSqmoLvDpWNrnLPG
-	 bXkoUelmrgBH6527dAPsPyeQz0MdwkdhWKXgHwcY=
-Subject: Patch "staging: rtl8723bs: prevent ->Ssid overflow in rtw_wx_set_scan()" has been added to the 4.19-stable tree
+	b=nDLo9noyAe633YvkDBFLMZE5vuSaD7Ad8ks90/qY1W0U5IktvDnCDQjgNTMCQMZr7
+	 Y8WppA6ITuZ5ZfQs87q+aCyCp0hnHpbVHeOqJXxVIs0doMbKooyLgcwc0XZaxltMsF
+	 kUOImkYTSvXGfH2Nao27a2awaNybI3aTHRll7T34=
+Subject: Patch "staging: rtl8723bs: prevent ->Ssid overflow in rtw_wx_set_scan()" has been added to the 5.4-stable tree
 To: Larry.Finger@lwfinger.net,dan.carpenter@oracle.com,efremov@linux.com,gregkh@linuxfoundation.org,linux-staging@lists.linux.dev,phil@philpotter.co.uk,straube.linux@gmail.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 26 May 2022 14:05:36 +0200
+Date: Thu, 26 May 2022 14:05:47 +0200
 In-Reply-To: <20220523173943.12486-1-efremov@linux.com>
-Message-ID: <165356673612931@kroah.com>
+Message-ID: <165356674721493@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,12 +35,12 @@ This is a note to let you know that I've just added the patch titled
 
     staging: rtl8723bs: prevent ->Ssid overflow in rtw_wx_set_scan()
 
-to the 4.19-stable tree which can be found at:
+to the 5.4-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      staging-rtl8723bs-prevent-ssid-overflow-in-rtw_wx_set_scan.patch
-and it can be found in the queue-4.19 subdirectory.
+and it can be found in the queue-5.4 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -69,7 +69,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
 +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-@@ -1359,9 +1359,11 @@ static int rtw_wx_set_scan(struct net_de
+@@ -1351,9 +1351,11 @@ static int rtw_wx_set_scan(struct net_de
  
  					sec_len = *(pos++); len-= 1;
  
@@ -87,4 +87,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from efremov@linux.com are
 
-queue-4.19/staging-rtl8723bs-prevent-ssid-overflow-in-rtw_wx_set_scan.patch
+queue-5.4/staging-rtl8723bs-prevent-ssid-overflow-in-rtw_wx_set_scan.patch
