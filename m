@@ -1,57 +1,70 @@
-Received: from out30-57.freemail.mail.aliyun.com (out30-57.freemail.mail.aliyun.com [115.124.30.57])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D2210EB
-	for <linux-staging@lists.linux.dev>; Thu, 26 May 2022 12:53:52 +0000 (UTC)
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VESIaaa_1653569624;
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VESIaaa_1653569624)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 26 May 2022 20:53:44 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: Larry.Finger@lwfinger.net
-Cc: phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Yang Li <yang.lee@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] staging: r8188eu: Fix one kernel-doc comment
-Date: Thu, 26 May 2022 20:53:42 +0800
-Message-Id: <20220526125342.78264-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D451389
+	for <linux-staging@lists.linux.dev>; Thu, 26 May 2022 14:28:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=k7apNoi1g1YhGHKMlKvo5ejDwWGQrfqPL3Ty5xTWm5Q=; b=jt2D3c7xgVZUKhGsBafhmm2sFE
+	7iHXpIRdAmkRqKCTrByt8vvIu4Y3EGktUCpnmPTFxq5LEtvIgLU7neTQ7C/IsI99LeEY7HaXKuYy7
+	5ZrEicxpMCl0i/enkPZwHxhNQ3wSCLz0PWMpopuxkJst9ua3Mey2ATEpeisJ/smtNzknhVcxsQdkT
+	dSKtJhfNJpH19fcWEk13NeBfTP6RD6LPE68nShdvuaPUklK12w19DAh/i1OVAzpUZ0A5rCLZKasUp
+	WeWqziAdu0JgzoPn8WlmbMtIWF1JBvKksSw7KZdNfdrklRu0O6zxydJrgJF+gvKG7sfmTWPCyIS6G
+	yc+jDrmg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nuETR-001JAt-Fo; Thu, 26 May 2022 14:28:25 +0000
+Date: Thu, 26 May 2022 15:28:25 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jessica Clarke <jrtc27@jrtc27.com>,
+	kernel test robot <lkp@intel.com>,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-parport@lists.infradead.org, linux-omap@vger.kernel.org,
+	linux-mm@kvack.org, linux-fbdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, bpf@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, alsa-devel@alsa-project.org
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 8cb8311e95e3bb58bd84d6350365f14a718faa6d
+Message-ID: <Yo+OiR6abzVksVTM@casper.infradead.org>
+References: <628ea118.wJYf60YnZco0hs9o%lkp@intel.com>
+ <20220525145056.953631743a4c494aabf000dc@linux-foundation.org>
+ <F0E25DFF-8256-48FF-8B88-C0E3730A3E5E@jrtc27.com>
+ <20220525152006.e87d3fa50aca58fdc1b43b6a@linux-foundation.org>
+ <Yo7U8kglHlcvQ0Ri@casper.infradead.org>
+ <20220526084832.GC2146@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220526084832.GC2146@kadam>
 
-Remove one warning found by running scripts/kernel-doc,
-which is caused by using 'make W=1'.
+On Thu, May 26, 2022 at 11:48:32AM +0300, Dan Carpenter wrote:
+> On Thu, May 26, 2022 at 02:16:34AM +0100, Matthew Wilcox wrote:
+> > Bizarre this started showing up now.  The recent patch was:
+> > 
+> > -       info->alloced += compound_nr(page);
+> > -       inode->i_blocks += BLOCKS_PER_PAGE << compound_order(page);
+> > +       info->alloced += folio_nr_pages(folio);
+> > +       inode->i_blocks += BLOCKS_PER_PAGE << folio_order(folio);
+> > 
+> > so it could tell that compound_order() was small, but folio_order()
+> > might be large?
+> 
+> The old code also generates a warning on my test system.  Smatch thinks
+> both compound_order() and folio_order() are 0-255.  I guess because of
+> the "unsigned char compound_order;" in the struct page.
 
-drivers/staging/r8188eu/core/rtw_ieee80211.c:720: warning: expecting
-prototype for ieee802_11_parse_elems(). Prototype was for
-rtw_ieee802_11_parse_elems() instead
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/staging/r8188eu/core/rtw_ieee80211.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-index 385a9ed8eff7..781819478403 100644
---- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
-+++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-@@ -707,7 +707,7 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
- }
- 
- /**
-- * ieee802_11_parse_elems - Parse information elements in management frames
-+ * rtw_ieee802_11_parse_elems - Parse information elements in management frames
-  * @start: Pointer to the start of IEs
-  * @len: Length of IE buffer in octets
-  * @elems: Data structure for parsed elements
--- 
-2.20.1.7.g153144c
-
+It'd be nice if we could annotate that as "contains a value between
+1 and BITS_PER_LONG - PAGE_SHIFT".  Then be able to optionally enable
+a checker that ensures that's true on loads/stores.  Maybe we need a
+language that isn't C :-P  Ada can do this ... I don't think Rust can.
