@@ -1,190 +1,313 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF664139E
-	for <linux-staging@lists.linux.dev>; Thu, 26 May 2022 15:03:47 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24QEIbqw023102;
-	Thu, 26 May 2022 15:03:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=A9gYVVzNysph+up9zBB3jlC53MHMwEss4RNCPYTZk/A=;
- b=tlwaHAtWRPD5G1vTjq/lcbCk/m6n32uiYJUF+MurUHIRneTBYSKdLdjN4SZ33NCvbvkL
- ssPcKDtbwCaUj62jR7N9qsZAPj73QGvsV4jon0cHMzgruNI1/fPG5VUJmYGKYHEY1B4n
- RETQSeFy5GmXe407YZTAsBF7aHUkPW8lekOG7c1ZJHLPMKeEnwhUKGbMlX2Ol0DvT4lG
- /cRrdDolcFeSPkf78um+ugFNqeTpTGslHEclOW3imH8KTgzW3RiidLxHwH79Yaonmhgm
- B4uy1xSnxfdapJy718JT8unGHsD/Yhpu/0bRYqw0ZPIp6RIcCDf+CpCc/cm3Q8WXXEvk 0A== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g93t9w2w1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 26 May 2022 15:03:24 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 24QExMFr012302;
-	Thu, 26 May 2022 15:03:23 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2045.outbound.protection.outlook.com [104.47.51.45])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3g93wxe0mc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 26 May 2022 15:03:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bh6AW3CZ5bFVjgTD0/+NJG+gmsLH8f5bXnpKFKduDc+3O+WHXiuz1lOszsQkejMxnsW8qrbR9GD8Aehxkd+5XW+CCVAdHnwy8lmvmda//2Cg8tFJ02RFypkB4WyOiMsWBsgk4V/UeEUN8r3QPMjgB7ULCHcXH8bq0MIiy68fzHoVBCDSzjCbAE+HsrsZ6BmxzlGi8TGnLbJF4yJvrAA1KInTu1VYXmkS17oIfLamXTKVJAT+8N6EdkfIQVdGbJlCYcDONrslJIRRO+yqy2F/Cgzaj94xhViW0c6u0t3E5lQDdERZSs2pZHV3dqU3DQ88FOAHjVcpbQ6+nfW9dNiKCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A9gYVVzNysph+up9zBB3jlC53MHMwEss4RNCPYTZk/A=;
- b=K+Osf9mLOPZkyngjkYuPAdna3mPifM/kxHWIBsj6s8bShF5IrC36QnT0RWd08J6ZzxRc3UGtwixSMZwpWm/+x9O48qnn6XbnZZBsSkSUnk2QRxNxuce+dPbbtHtYPMkBsysg9fLpYaTg39V0gPG+CuHC266rLx0AOM0I/sPpo9FjDtDpiJcaOuVmzYATJW3FRryqprpgIHLmkTlnKYJYSeCPuyoggdZD6gm3r7cZDRox2BHafeP6CfM58AyJkQrtkZXlhQJmbsR/NcWTLHVQRRRacw+s6hfVX+dO4f7NafBUcOtoiNE7ODL9KYvdUuaAE4d141qoJRCzQKPdUzDr1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A9gYVVzNysph+up9zBB3jlC53MHMwEss4RNCPYTZk/A=;
- b=R1U1gp1GvF1gDYJBl4zBnx/CmNZbv9oRmOVU7WIL5E0Fix87GdHnCeAEnCFUmRuvAHbcwHhK8Gu5Y6hR+/cbOWVaOcZy6fcqdvtJ3RB/PEq+Ix7pSZVU44/N63XGncVxhclYURNWLVJutD/lyFmBKJjTOtM+BObMyIatq8b5VQE=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by DS7PR10MB4864.namprd10.prod.outlook.com
- (2603:10b6:5:3a2::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Thu, 26 May
- 2022 15:03:21 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e%2]) with mapi id 15.20.5293.013; Thu, 26 May 2022
- 15:03:20 +0000
-Date: Thu, 26 May 2022 18:03:05 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Jessica Clarke <jrtc27@jrtc27.com>, kernel test robot <lkp@intel.com>,
-        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-riscv@lists.infradead.org,
-        linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-parport@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-mm@kvack.org, linux-fbdev@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, bpf@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, alsa-devel@alsa-project.org
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 8cb8311e95e3bb58bd84d6350365f14a718faa6d
-Message-ID: <20220526150305.GH2168@kadam>
-References: <628ea118.wJYf60YnZco0hs9o%lkp@intel.com>
- <20220525145056.953631743a4c494aabf000dc@linux-foundation.org>
- <F0E25DFF-8256-48FF-8B88-C0E3730A3E5E@jrtc27.com>
- <20220525152006.e87d3fa50aca58fdc1b43b6a@linux-foundation.org>
- <Yo7U8kglHlcvQ0Ri@casper.infradead.org>
- <20220526084832.GC2146@kadam>
- <Yo+OiR6abzVksVTM@casper.infradead.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yo+OiR6abzVksVTM@casper.infradead.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MR2P264CA0027.FRAP264.PROD.OUTLOOK.COM (2603:10a6:500::15)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57587C
+	for <linux-staging@lists.linux.dev>; Fri, 27 May 2022 06:14:02 +0000 (UTC)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.53])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4L8ZGM0Gknz1JCD4;
+	Fri, 27 May 2022 14:12:27 +0800 (CST)
+Received: from dggpemm500018.china.huawei.com (7.185.36.111) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 27 May 2022 14:13:59 +0800
+Received: from localhost.localdomain (10.175.112.125) by
+ dggpemm500018.china.huawei.com (7.185.36.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 27 May 2022 14:13:59 +0800
+From: keliu <liuke94@huawei.com>
+To: <vaibhav.sr@gmail.com>, <mgreer@animalcreek.com>, <johan@kernel.org>,
+	<elder@kernel.org>, <gregkh@linuxfoundation.org>, <vireshk@kernel.org>,
+	<pure.logic@nexus-software.ie>, <greybus-dev@lists.linaro.org>,
+	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: keliu <liuke94@huawei.com>
+Subject: [PATCH] staging: greybus: Directly use ida_alloc()/free()
+Date: Fri, 27 May 2022 06:35:28 +0000
+Message-ID: <20220527063528.2356712-1-liuke94@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ae00354d-9cee-4d24-b13d-08da3f28df67
-X-MS-TrafficTypeDiagnostic: DS7PR10MB4864:EE_
-X-Microsoft-Antispam-PRVS: 
-	<DS7PR10MB4864C5CC12C33A44ECC1124E8ED99@DS7PR10MB4864.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	tnPiCPFlzY6jwItTS5pncvpPP9j2kGbohE1gfbCuVzJLRDhTIYFn7fv+WaVVzEGhXwPjdjmpSd/eEFDwYInnDSWzTGdECtu4V27JJHfgwd+ybhOXLHFp3naKVuL9jCy1g9A9ZvnDBfUmKX94iklJvj2NexaYoKCSeZgn0zXrWS3c8L9bR5Y4bzPYHTSspxneXCxPOxPs9Jct6bmTKYJFfXg5q7/jJXgMFBq93B9nz22i+sxuA5NbChg4IYcb/9TnhPCqPx86jVxZTehk503U3wSi2m/Zk9u8cdkoUExO+AsYnU/D8g7WCZYYqwivg+syFkt6mZubs2UUI3F2T5knPOIFWhFcE+wgX4CxDIzVG3NOZjEHd5pkjbfH6MwI68LOczkkL6g6ePP5at+Yjv7lEOOrfnZs58lYp0WLr9nHBPNWqqVwbTkSvB/23FoHbJ5gr/3d/9/Kei9Dj1QVi5mpJvO2xGU8iHxXOWWMHLmwyvYeezHfeJuHmnDO4VGUZCsQ5ETx75lk7E5ka/JcAf0TmFKhGkUDRK/Ak3EJ7nTdVpcFhaeP1U2i5sczwH6Y3+hPAh59EjX5CCKiYMU11RFnLGHwCJogLdZM+dH0mrmMzU8sBquMpDDPLm1psNm1mVuuqDI1xOEXU9uxvgbJH2w3LfYZ+LCTp8TYoDyft0qGoO/3UQhnNgdzdxnOl8reLNhCBVw1TH6e4HrrWassZg80Jnl7ixcfVi0XNvdX2rws6kq1iXd6MW3CuwgjVyhol3IWKWn6B7lRADKgFzjCPI8662+YVeY5nkqX8t9ThSS1VRk=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(38100700002)(316002)(6666004)(38350700002)(8936002)(83380400001)(6486002)(1076003)(2906002)(966005)(186003)(6916009)(54906003)(7416002)(4326008)(66946007)(52116002)(8676002)(44832011)(6506007)(66556008)(9686003)(6512007)(66476007)(26005)(86362001)(33656002)(5660300002)(508600001)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?raDkuo2GVu/vCS1uFW/R2WZ5j1q+7rFgh3rRfhEpouijlHkoPITumDK9PExl?=
- =?us-ascii?Q?h5rDl/J51xrdlvJ2pb02djgwYXxg9HN+ZRYYzbaEDhbmEPDa65Skt96sduVo?=
- =?us-ascii?Q?bcopJyo6L2akldrQQ4QacN4aZJiVndcWzi/9L2CxamgdGQSIkyB/+dajnX6E?=
- =?us-ascii?Q?bFsGAfl1vTVdVervMjOexFv/lRRRm6btefxO0xUI+mBVxmz8xhIIy18kt14m?=
- =?us-ascii?Q?Eq/ESWG3Nzyb0x6vCmAz8VqUbNYyxVCwheNEWb7Dz7o0nOYYCWjFIzGM/W0I?=
- =?us-ascii?Q?AMTbh9c5/5qz2BY6eNZTg6JlLAgI2q05H6OqEPfcbODUqnKbCRc7w5AujwqS?=
- =?us-ascii?Q?+71xJhyUpfQwN4DYbqa5sbLLUJocjql+wYI88+zkfVP/fTmTjTWAyHipCtTX?=
- =?us-ascii?Q?OTMGW3pTG9GpHLK6T72zfr1xtTkusMYYimQlUt7brFjKzKAX54fT1fd1MrVg?=
- =?us-ascii?Q?B4Kj9shNeN8Y1IUDCkIntK6MUu2oQieON+Tcz17LbtXY9MMJxgjgsS/hXGgs?=
- =?us-ascii?Q?VUnLPzLJv+RAQPAtjXrwQOjR3GJAUrAA3Y0FwiI7bWGOygbZbjefnz0VZZOQ?=
- =?us-ascii?Q?vu+4rnSFNFtYojd/sUUcEpsNowrmsO8Z9IErUWtiKrhhTYe3kE8DeMgdZ99B?=
- =?us-ascii?Q?tj5J1hFpZxIlkl3ttC9FGGsLsko+TaeDKhHArvwWN+vpUdXsKS7vXcAOpO0t?=
- =?us-ascii?Q?4b3mOIF9gS0RZV+6WJJiGQbrXxc+d41cqg9k7TqjJ0CFlFx1rX9bj7aHAEl5?=
- =?us-ascii?Q?9aPRZHJz4vlwlmrT+8TY93GquGGtl4gvk2ZNQAC0SQ+YoXyz+T6CV7v8UWtn?=
- =?us-ascii?Q?LtOGDFStAvLZ1VcbTLnQctZj/RPiesGSNYJ817skT/A1p496LU9dhktOkd6A?=
- =?us-ascii?Q?QOQunxSZzZGuH7xPvvzRM5ht2NOyK1mXZ8Y/QNd51NPpCePhYvfeaL0xBNkQ?=
- =?us-ascii?Q?J4AkBxJ4ulLRGu1Yi7znAiErsuUiWY8fhKySRqzQwWsq4Ns+JAPyjfWW1z+a?=
- =?us-ascii?Q?AbBdKpeYprbor9UMUriDUshW6lKI7hDdh72PciNYtYKAFJkihtJfVoUVKa+f?=
- =?us-ascii?Q?zUe6hSXDXFOTC6VkItxJ0gYH3HJr7iVyo9vd96BRBEX0d30ejWiZ4k0oK/X2?=
- =?us-ascii?Q?Ycnvdn/HJyvlTqrXP054PBevBh0/cmXQ1jvubJBtaXST9pUIJ/yU29zUKXG6?=
- =?us-ascii?Q?j++3GJB3H8Ap+aInIMPC1Drnb6Srm057zjLLFTZuZcF/uo74elHnNaE2O5ht?=
- =?us-ascii?Q?/nKJkJSRic5PBdedrlIX6i+dCE7HPa4i7pGxrdOL+t/4P2+g7aQMYg4RkPjy?=
- =?us-ascii?Q?REi3LcLUX0me2c6JCO+X/WZuLI8E1IseZ/X6LqmdIR4WktLFf4nBEEfLjpDJ?=
- =?us-ascii?Q?f8IOETtntmlBGtfMPxt8zJ45UTXedAvMEDkGJMKrknqvnGURUMhMzhx1OXc2?=
- =?us-ascii?Q?Wfx+gsZDQQhaLk80nUOYF3k4BSx+fgNAC5ECgz0SA7Dq8oyA7w50vTwB6474?=
- =?us-ascii?Q?27LB6OLJ1c/3pLLrVrZVL8GGe9MWW2kI3iX1uyetIq2WvqLrlpFuwSyM3krd?=
- =?us-ascii?Q?+TDT/wEqbB+yJ1l8m0lfFhL/5iQAl6r4YO7klAEFhagXGNV8DILAs7as1I90?=
- =?us-ascii?Q?cyMJ6WqQ/BtfDPDwwxzgVaRLIPyOhOi7xTESelCHfbtMR5eJy/PtFp5qjOc2?=
- =?us-ascii?Q?MrnZkzal/sItYgK4gGFiDuJNs68NK7mFD79lzmZorc00xtLhkmRKdTHRUXU7?=
- =?us-ascii?Q?RYLx7Whnci5bGG0hG0tz2gf2Kt0Z1B4=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae00354d-9cee-4d24-b13d-08da3f28df67
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2022 15:03:20.6952
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vg+ASQsPLS7+2Re+X6SaTzi8KmZj7NDR9lCqb6gz3y2vYDcj76ldNQCmWVtDXAJcXstJCVw0rDAbH/sggJveA9AcutWqbIrl8keD6Okqqts=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB4864
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.874
- definitions=2022-05-26_06:2022-05-25,2022-05-26 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 mlxscore=0
- phishscore=0 spamscore=0 mlxlogscore=865 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2205260072
-X-Proofpoint-ORIG-GUID: 0oDiZ2vguk5fK6cCtV9ekvcyzyyGmwt5
-X-Proofpoint-GUID: 0oDiZ2vguk5fK6cCtV9ekvcyzyyGmwt5
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.125]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500018.china.huawei.com (7.185.36.111)
+X-CFilter-Loop: Reflected
 
-On Thu, May 26, 2022 at 03:28:25PM +0100, Matthew Wilcox wrote:
-> On Thu, May 26, 2022 at 11:48:32AM +0300, Dan Carpenter wrote:
-> > On Thu, May 26, 2022 at 02:16:34AM +0100, Matthew Wilcox wrote:
-> > > Bizarre this started showing up now.  The recent patch was:
-> > > 
-> > > -       info->alloced += compound_nr(page);
-> > > -       inode->i_blocks += BLOCKS_PER_PAGE << compound_order(page);
-> > > +       info->alloced += folio_nr_pages(folio);
-> > > +       inode->i_blocks += BLOCKS_PER_PAGE << folio_order(folio);
-> > > 
-> > > so it could tell that compound_order() was small, but folio_order()
-> > > might be large?
-> > 
-> > The old code also generates a warning on my test system.  Smatch thinks
-> > both compound_order() and folio_order() are 0-255.  I guess because of
-> > the "unsigned char compound_order;" in the struct page.
-> 
-> It'd be nice if we could annotate that as "contains a value between
-> 1 and BITS_PER_LONG - PAGE_SHIFT".  Then be able to optionally enable
-> a checker that ensures that's true on loads/stores.  Maybe we need a
-> language that isn't C :-P  Ada can do this ... I don't think Rust can.
+Use ida_alloc()/ida_free() instead of deprecated
+ida_simple_get()/ida_simple_remove() .
 
-Machine Parsable Comments.  It's a matter of figuring out the best
-format and writing the code.
+Signed-off-by: keliu <liuke94@huawei.com>
+---
+ drivers/staging/greybus/audio_manager.c  |  8 ++++----
+ drivers/staging/greybus/authentication.c |  4 ++--
+ drivers/staging/greybus/fw-download.c    |  4 ++--
+ drivers/staging/greybus/fw-management.c  | 12 ++++++------
+ drivers/staging/greybus/gbphy.c          |  4 ++--
+ drivers/staging/greybus/loopback.c       |  6 +++---
+ drivers/staging/greybus/raw.c            |  6 +++---
+ drivers/staging/greybus/vibrator.c       |  6 +++---
+ 8 files changed, 25 insertions(+), 25 deletions(-)
 
-In Smatch, I have table of hard coded return values in the format:
-<function> <old return> <new hard coded return>
-https://github.com/error27/smatch/blob/master/smatch_data/db/kernel.return_fixes
-I don't have code to handle something like BITS_PER_LONG or PAGE_SHIFT.
-To be honest, Smatch code always assumes that PAGE_SIZE is 4096 but I
-should actually look it up...  It's not impossible to do.  The GFP_KERNEL
-values changed enough so that I eventually made that look up the actual
-defines.
+diff --git a/drivers/staging/greybus/audio_manager.c b/drivers/staging/greybus/audio_manager.c
+index 9a3f7c034ab4..fa43d35bbcec 100644
+--- a/drivers/staging/greybus/audio_manager.c
++++ b/drivers/staging/greybus/audio_manager.c
+@@ -44,14 +44,14 @@ int gb_audio_manager_add(struct gb_audio_manager_module_descriptor *desc)
+ 	int id;
+ 	int err;
+ 
+-	id = ida_simple_get(&module_id, 0, 0, GFP_KERNEL);
++	id = ida_alloc(&module_id, GFP_KERNEL);
+ 	if (id < 0)
+ 		return id;
+ 
+ 	err = gb_audio_manager_module_create(&module, manager_kset,
+ 					     id, desc);
+ 	if (err) {
+-		ida_simple_remove(&module_id, id);
++		ida_free(&module_id, id);
+ 		return err;
+ 	}
+ 
+@@ -78,7 +78,7 @@ int gb_audio_manager_remove(int id)
+ 	list_del(&module->list);
+ 	kobject_put(&module->kobj);
+ 	up_write(&modules_rwsem);
+-	ida_simple_remove(&module_id, id);
++	ida_free(&module_id, id);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(gb_audio_manager_remove);
+@@ -92,7 +92,7 @@ void gb_audio_manager_remove_all(void)
+ 
+ 	list_for_each_entry_safe(module, next, &modules_list, list) {
+ 		list_del(&module->list);
+-		ida_simple_remove(&module_id, module->id);
++		ida_free(&module_id, module->id);
+ 		kobject_put(&module->kobj);
+ 	}
+ 
+diff --git a/drivers/staging/greybus/authentication.c b/drivers/staging/greybus/authentication.c
+index 297e69f011c7..01dd1cd958ea 100644
+--- a/drivers/staging/greybus/authentication.c
++++ b/drivers/staging/greybus/authentication.c
+@@ -348,7 +348,7 @@ int gb_cap_connection_init(struct gb_connection *connection)
+ err_del_cdev:
+ 	cdev_del(&cap->cdev);
+ err_remove_ida:
+-	ida_simple_remove(&cap_minors_map, minor);
++	ida_free(&cap_minors_map, minor);
+ err_connection_disable:
+ 	gb_connection_disable(connection);
+ err_list_del:
+@@ -372,7 +372,7 @@ void gb_cap_connection_exit(struct gb_connection *connection)
+ 
+ 	device_destroy(cap_class, cap->dev_num);
+ 	cdev_del(&cap->cdev);
+-	ida_simple_remove(&cap_minors_map, MINOR(cap->dev_num));
++	ida_free(&cap_minors_map, MINOR(cap->dev_num));
+ 
+ 	/*
+ 	 * Disallow any new ioctl operations on the char device and wait for
+diff --git a/drivers/staging/greybus/fw-download.c b/drivers/staging/greybus/fw-download.c
+index 543692c567f9..83652cb04d53 100644
+--- a/drivers/staging/greybus/fw-download.c
++++ b/drivers/staging/greybus/fw-download.c
+@@ -63,7 +63,7 @@ static void fw_req_release(struct kref *kref)
+ 	 * just hope that it never happens.
+ 	 */
+ 	if (!fw_req->timedout)
+-		ida_simple_remove(&fw_req->fw_download->id_map,
++		ida_free(&fw_req->fw_download->id_map,
+ 				  fw_req->firmware_id);
+ 
+ 	kfree(fw_req);
+@@ -212,7 +212,7 @@ static struct fw_request *find_firmware(struct fw_download *fw_download,
+ 	return fw_req;
+ 
+ err_free_id:
+-	ida_simple_remove(&fw_download->id_map, fw_req->firmware_id);
++	ida_free(&fw_download->id_map, fw_req->firmware_id);
+ err_free_req:
+ 	kfree(fw_req);
+ 
+diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
+index 687c6405c65b..a386a5607c7e 100644
+--- a/drivers/staging/greybus/fw-management.c
++++ b/drivers/staging/greybus/fw-management.c
+@@ -177,7 +177,7 @@ static int fw_mgmt_load_and_validate_operation(struct fw_mgmt *fw_mgmt,
+ 				GB_FW_MGMT_TYPE_LOAD_AND_VALIDATE_FW, &request,
+ 				sizeof(request), NULL, 0);
+ 	if (ret) {
+-		ida_simple_remove(&fw_mgmt->id_map,
++		ida_free(&fw_mgmt->id_map,
+ 				  fw_mgmt->intf_fw_request_id);
+ 		fw_mgmt->intf_fw_request_id = 0;
+ 		dev_err(fw_mgmt->parent,
+@@ -217,7 +217,7 @@ static int fw_mgmt_interface_fw_loaded_operation(struct gb_operation *op)
+ 		return -ENODEV;
+ 	}
+ 
+-	ida_simple_remove(&fw_mgmt->id_map, fw_mgmt->intf_fw_request_id);
++	ida_free(&fw_mgmt->id_map, fw_mgmt->intf_fw_request_id);
+ 	fw_mgmt->intf_fw_request_id = 0;
+ 	fw_mgmt->intf_fw_status = request->status;
+ 	fw_mgmt->intf_fw_major = le16_to_cpu(request->major);
+@@ -327,7 +327,7 @@ static int fw_mgmt_backend_fw_update_operation(struct fw_mgmt *fw_mgmt,
+ 				GB_FW_MGMT_TYPE_BACKEND_FW_UPDATE, &request,
+ 				sizeof(request), NULL, 0);
+ 	if (ret) {
+-		ida_simple_remove(&fw_mgmt->id_map,
++		ida_free(&fw_mgmt->id_map,
+ 				  fw_mgmt->backend_fw_request_id);
+ 		fw_mgmt->backend_fw_request_id = 0;
+ 		dev_err(fw_mgmt->parent,
+@@ -366,7 +366,7 @@ static int fw_mgmt_backend_fw_updated_operation(struct gb_operation *op)
+ 		return -ENODEV;
+ 	}
+ 
+-	ida_simple_remove(&fw_mgmt->id_map, fw_mgmt->backend_fw_request_id);
++	ida_free(&fw_mgmt->id_map, fw_mgmt->backend_fw_request_id);
+ 	fw_mgmt->backend_fw_request_id = 0;
+ 	fw_mgmt->backend_fw_status = request->status;
+ 
+@@ -642,7 +642,7 @@ int gb_fw_mgmt_connection_init(struct gb_connection *connection)
+ err_del_cdev:
+ 	cdev_del(&fw_mgmt->cdev);
+ err_remove_ida:
+-	ida_simple_remove(&fw_mgmt_minors_map, minor);
++	ida_free(&fw_mgmt_minors_map, minor);
+ err_connection_disable:
+ 	gb_connection_disable(connection);
+ err_list_del:
+@@ -666,7 +666,7 @@ void gb_fw_mgmt_connection_exit(struct gb_connection *connection)
+ 
+ 	device_destroy(fw_mgmt_class, fw_mgmt->dev_num);
+ 	cdev_del(&fw_mgmt->cdev);
+-	ida_simple_remove(&fw_mgmt_minors_map, MINOR(fw_mgmt->dev_num));
++	ida_free(&fw_mgmt_minors_map, MINOR(fw_mgmt->dev_num));
+ 
+ 	/*
+ 	 * Disallow any new ioctl operations on the char device and wait for
+diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
+index 5a5c17a4519b..751d1d580982 100644
+--- a/drivers/staging/greybus/gbphy.c
++++ b/drivers/staging/greybus/gbphy.c
+@@ -46,7 +46,7 @@ static void gbphy_dev_release(struct device *dev)
+ {
+ 	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
+ 
+-	ida_simple_remove(&gbphy_id, gbphy_dev->id);
++	ida_free(&gbphy_id, gbphy_dev->id);
+ 	kfree(gbphy_dev);
+ }
+ 
+@@ -231,7 +231,7 @@ static struct gbphy_device *gb_gbphy_create_dev(struct gb_bundle *bundle,
+ 
+ 	gbphy_dev = kzalloc(sizeof(*gbphy_dev), GFP_KERNEL);
+ 	if (!gbphy_dev) {
+-		ida_simple_remove(&gbphy_id, id);
++		ida_free(&gbphy_id, id);
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+ 
+diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+index 2471448ba42a..fca69aff9abf 100644
+--- a/drivers/staging/greybus/loopback.c
++++ b/drivers/staging/greybus/loopback.c
+@@ -1029,7 +1029,7 @@ static int gb_loopback_probe(struct gb_bundle *bundle,
+ 	gb->file = debugfs_create_file(name, S_IFREG | 0444, gb_dev.root, gb,
+ 				       &gb_loopback_dbgfs_latency_fops);
+ 
+-	gb->id = ida_simple_get(&loopback_ida, 0, 0, GFP_KERNEL);
++	gb->id = ida_alloc(&loopback_ida, GFP_KERNEL);
+ 	if (gb->id < 0) {
+ 		retval = gb->id;
+ 		goto out_debugfs_remove;
+@@ -1080,7 +1080,7 @@ static int gb_loopback_probe(struct gb_bundle *bundle,
+ out_connection_disable:
+ 	gb_connection_disable(connection);
+ out_ida_remove:
+-	ida_simple_remove(&loopback_ida, gb->id);
++	ida_free(&loopback_ida, gb->id);
+ out_debugfs_remove:
+ 	debugfs_remove(gb->file);
+ out_connection_destroy:
+@@ -1122,7 +1122,7 @@ static void gb_loopback_disconnect(struct gb_bundle *bundle)
+ 	spin_unlock_irqrestore(&gb_dev.lock, flags);
+ 
+ 	device_unregister(gb->dev);
+-	ida_simple_remove(&loopback_ida, gb->id);
++	ida_free(&loopback_ida, gb->id);
+ 
+ 	gb_connection_destroy(gb->connection);
+ 	kfree(gb);
+diff --git a/drivers/staging/greybus/raw.c b/drivers/staging/greybus/raw.c
+index 2a375f407d38..cfaa7ab42ffc 100644
+--- a/drivers/staging/greybus/raw.c
++++ b/drivers/staging/greybus/raw.c
+@@ -178,7 +178,7 @@ static int gb_raw_probe(struct gb_bundle *bundle,
+ 	raw->connection = connection;
+ 	greybus_set_drvdata(bundle, raw);
+ 
+-	minor = ida_simple_get(&minors, 0, 0, GFP_KERNEL);
++	minor = ida_alloc(&minors, GFP_KERNEL);
+ 	if (minor < 0) {
+ 		retval = minor;
+ 		goto error_connection_destroy;
+@@ -211,7 +211,7 @@ static int gb_raw_probe(struct gb_bundle *bundle,
+ 	gb_connection_disable(connection);
+ 
+ error_remove_ida:
+-	ida_simple_remove(&minors, minor);
++	ida_free(&minors, minor);
+ 
+ error_connection_destroy:
+ 	gb_connection_destroy(connection);
+@@ -232,7 +232,7 @@ static void gb_raw_disconnect(struct gb_bundle *bundle)
+ 	device_destroy(raw_class, raw->dev);
+ 	cdev_del(&raw->cdev);
+ 	gb_connection_disable(connection);
+-	ida_simple_remove(&minors, MINOR(raw->dev));
++	ida_free(&minors, MINOR(raw->dev));
+ 	gb_connection_destroy(connection);
+ 
+ 	mutex_lock(&raw->list_lock);
+diff --git a/drivers/staging/greybus/vibrator.c b/drivers/staging/greybus/vibrator.c
+index 0e2b188e5ca3..ccc409280fb5 100644
+--- a/drivers/staging/greybus/vibrator.c
++++ b/drivers/staging/greybus/vibrator.c
+@@ -154,7 +154,7 @@ static int gb_vibrator_probe(struct gb_bundle *bundle,
+ 	 * there is a "real" device somewhere in the kernel for this, but I
+ 	 * can't find it at the moment...
+ 	 */
+-	vib->minor = ida_simple_get(&minors, 0, 0, GFP_KERNEL);
++	vib->minor = ida_alloc(&minors, GFP_KERNEL);
+ 	if (vib->minor < 0) {
+ 		retval = vib->minor;
+ 		goto err_connection_disable;
+@@ -174,7 +174,7 @@ static int gb_vibrator_probe(struct gb_bundle *bundle,
+ 	return 0;
+ 
+ err_ida_remove:
+-	ida_simple_remove(&minors, vib->minor);
++	ida_free(&minors, vib->minor);
+ err_connection_disable:
+ 	gb_connection_disable(connection);
+ err_connection_destroy:
+@@ -198,7 +198,7 @@ static void gb_vibrator_disconnect(struct gb_bundle *bundle)
+ 		turn_off(vib);
+ 
+ 	device_unregister(vib->dev);
+-	ida_simple_remove(&minors, vib->minor);
++	ida_free(&minors, vib->minor);
+ 	gb_connection_disable(vib->connection);
+ 	gb_connection_destroy(vib->connection);
+ 	kfree(vib);
+-- 
+2.25.1
 
-I also have a table in the database where I could edit the values of
-(struct page)->compound_order.
-
-regards,
-dan carpenter
