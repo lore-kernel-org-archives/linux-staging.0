@@ -1,27 +1,48 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698BE7C
-	for <linux-staging@lists.linux.dev>; Fri, 27 May 2022 06:28:13 +0000 (UTC)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4L8Z7g2rQmz1JBcS;
-	Fri, 27 May 2022 14:06:39 +0800 (CST)
-Received: from dggpemm500018.china.huawei.com (7.185.36.111) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 27 May 2022 14:08:12 +0800
-Received: from localhost.localdomain (10.175.112.125) by
- dggpemm500018.china.huawei.com (7.185.36.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 27 May 2022 14:08:11 +0800
-From: keliu <liuke94@huawei.com>
-To: <TheSven73@gmail.com>, <gregkh@linuxfoundation.org>,
-	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: keliu <liuke94@huawei.com>
-Subject: [PATCH] staging: fieldbus: Directly use ida_alloc()/free()
-Date: Fri, 27 May 2022 06:29:38 +0000
-Message-ID: <20220527062938.2356319-1-liuke94@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE1C1FA6;
+	Fri, 27 May 2022 14:31:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: benjamin.gaignard)
+	with ESMTPSA id 027051F462A3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1653661910;
+	bh=v/Qj9dkCpC1sNaB07KNbLhoqv0M/1payaJLdzsZJWFE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=hSpzQTUD7GbDWhQ6P3w12aJJD7KjeJqgWVor4wHAMScUfmdnxTJZRp7EJnM2qo1nF
+	 wblXUcXOst5PNXkDovVWjntaxNFS22DhHU1G0BTGqnz/uWJ6hN5VhUCT7nEGaKkaTi
+	 X4SxlIW+LCyiDbpzdDQITZmMDTpk5makhhCfTv0Z9D4ZNdYy1eaiV1N/ilsyrI99LU
+	 1ify4NevfXs571caels53uzg/tcd1oQe81kgXY9QjwSnQrjk72S00q6qsQDzjyRof2
+	 +7Gs88cAukuBuCw1r2n4CY6pOBx3Jzyim03l+50KIZygOSMESZjzZxQlX2dlfdAOSm
+	 IY1tM2llGsvRA==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	nicolas.dufresne@collabora.com,
+	andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v6 01/17] videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+Date: Fri, 27 May 2022 16:31:18 +0200
+Message-Id: <20220527143134.3360174-2-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,74 +50,59 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500018.china.huawei.com (7.185.36.111)
-X-CFilter-Loop: Reflected
 
-Use ida_alloc()/ida_free() instead of deprecated
-ida_simple_get()/ida_simple_remove() .
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Signed-off-by: keliu <liuke94@huawei.com>
+Add a new flag that indicates that this control is a dynamically sized
+array. Also document this flag.
+
+Currently dynamically sized arrays are limited to one dimensional arrays,
+but that might change in the future if there is a need for it.
+
+The initial use-case of dynamic arrays are stateless codecs. A frame
+can be divided in many slices, so you want to provide an array containing
+slice information for each slice. Typically the number of slices is small,
+but the standard allow for hundreds or thousands of slices. Dynamic arrays
+are a good solution since sizing the array for the worst case would waste
+substantial amounts of memory.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/staging/fieldbus/anybuss/arcx-anybus.c | 6 +++---
- drivers/staging/fieldbus/dev_core.c            | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ .../userspace-api/media/v4l/vidioc-queryctrl.rst          | 8 ++++++++
+ include/uapi/linux/videodev2.h                            | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/drivers/staging/fieldbus/anybuss/arcx-anybus.c b/drivers/staging/fieldbus/anybuss/arcx-anybus.c
-index 9af2e63050d1..381d710aa6ce 100644
---- a/drivers/staging/fieldbus/anybuss/arcx-anybus.c
-+++ b/drivers/staging/fieldbus/anybuss/arcx-anybus.c
-@@ -282,7 +282,7 @@ static int controller_probe(struct platform_device *pdev)
- 		}
- 	}
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+index 88f630252d98..a20dfa2a933b 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+@@ -625,6 +625,14 @@ See also the examples in :ref:`control`.
+ 	``V4L2_CTRL_FLAG_GRABBED`` flag when buffers are allocated or
+ 	streaming is in progress since most drivers do not support changing
+ 	the format in that case.
++    * - ``V4L2_CTRL_FLAG_DYNAMIC_ARRAY``
++      - 0x0800
++      - This control is a dynamically sized 1-dimensional array. It
++        behaves the same as a regular array, except that the number
++	of elements as reported by the ``elems`` field is between 1 and
++	``dims[0]``. So setting the control with a differently sized
++	array will change the ``elems`` field when the control is
++	queried afterwards.
  
--	id = ida_simple_get(&controller_index_ida, 0, 0, GFP_KERNEL);
-+	id = ida_alloc(&controller_index_ida, GFP_KERNEL);
- 	if (id < 0) {
- 		err = id;
- 		goto out_reset;
-@@ -315,7 +315,7 @@ static int controller_probe(struct platform_device *pdev)
- out_dev:
- 	put_device(cd->class_dev);
- out_ida:
--	ida_simple_remove(&controller_index_ida, id);
-+	ida_free(&controller_index_ida, id);
- out_reset:
- 	gpiod_set_value_cansleep(cd->reset_gpiod, 1);
- 	return err;
-@@ -327,7 +327,7 @@ static int controller_remove(struct platform_device *pdev)
- 	int id = cd->class_dev->id;
+ Return Value
+ ============
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 5311ac4fde35..9018aa984db3 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1890,6 +1890,7 @@ struct v4l2_querymenu {
+ #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
+ #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
+ #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
++#define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
  
- 	device_unregister(cd->class_dev);
--	ida_simple_remove(&controller_index_ida, id);
-+	ida_free(&controller_index_ida, id);
- 	gpiod_set_value_cansleep(cd->reset_gpiod, 1);
- 	return 0;
- }
-diff --git a/drivers/staging/fieldbus/dev_core.c b/drivers/staging/fieldbus/dev_core.c
-index 5aab734606ea..b5e55890001e 100644
---- a/drivers/staging/fieldbus/dev_core.c
-+++ b/drivers/staging/fieldbus/dev_core.c
-@@ -251,7 +251,7 @@ static void __fieldbus_dev_unregister(struct fieldbus_dev *fb)
- 		return;
- 	device_destroy(&fieldbus_class, fb->cdev.dev);
- 	cdev_del(&fb->cdev);
--	ida_simple_remove(&fieldbus_ida, fb->id);
-+	ida_free(&fieldbus_ida, fb->id);
- }
- 
- void fieldbus_dev_unregister(struct fieldbus_dev *fb)
-@@ -294,7 +294,7 @@ static int __fieldbus_dev_register(struct fieldbus_dev *fb)
- err_dev_create:
- 	cdev_del(&fb->cdev);
- err_cdev:
--	ida_simple_remove(&fieldbus_ida, fb->id);
-+	ida_free(&fieldbus_ida, fb->id);
- 	return err;
- }
- 
+ /*  Query flags, to be ORed with the control ID */
+ #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
 -- 
-2.25.1
+2.32.0
 
