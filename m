@@ -1,98 +1,121 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F271FC8
-	for <linux-staging@lists.linux.dev>; Fri, 27 May 2022 20:05:53 +0000 (UTC)
-Received: by mail-qv1-f46.google.com with SMTP id l1so4824120qvh.1
-        for <linux-staging@lists.linux.dev>; Fri, 27 May 2022 13:05:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2EF57C
+	for <linux-staging@lists.linux.dev>; Fri, 27 May 2022 22:53:52 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id q15so7015058edb.11
+        for <linux-staging@lists.linux.dev>; Fri, 27 May 2022 15:53:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=g+pQqkTih63Ty7gF/Ucw70pNIC+bNdQYXn1gaDTT7SA=;
-        b=WlnE80aTu92PLPbZ8osuq8WBerY2I3HSbhRn+z867J97rIIA85Ry4iA5BpjdmP00ex
-         wxzSChNoikfGwEZ1dj67BEwk8h7YmPKgmOw5XbozDe9A07ZOUzv/MZkfkNmxsbWG+CA0
-         QyTVH8LCridQvqfaQcmLtlO55WfXw7Tv6lpe3S4/0IGxKnZrKLFHSE/5KG3EXT3uGiLx
-         8/UZFkE+xtpFJnSO/d44ROEE9E5VRl/GSgJofucWRmxZ7/SDt6WipmFuFNss+EtaW2LP
-         Q9IN7CMbhA+MCr+dqBoOh4O+xFe9mNhR3y+J7ISHF1sxajfMZu8awUL8CvsQKrIHgrzZ
-         SjdA==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=hP5/xUyD7yW6cvIyRkoeePUvJc0jXic9WcbLUxigB40=;
+        b=RtFIrUQp2WIbvXh5KekjWJD1NIOKq8nVs0YGApK2nMqngdwnUMYAJIVoTtFBRRNUou
+         IaLblgNvd1QTfcDLwS+kesv/ZORUtM10mjGRwyVPqZE8OBSgsVQEBospFrzBKgQ8Y0bv
+         lK4l581kiWyxxVu4C4t2NviB/6LVaEdBpuoTYuEoEtoYZb+4tsoOSi09kyDT64iz9a0n
+         N1BFixAP2vGL86aNDvt7K/dcjjVc1DAxORMLPy4BDD9NM2Btt0OX04n3UAwHDwSZIdnA
+         mb5y1M07KfoGtwHUuJW6LXO9gckrEuDiIBiyRgjS60n8FI9GRFhjOcHzELlYIzUCC6PB
+         mp+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=g+pQqkTih63Ty7gF/Ucw70pNIC+bNdQYXn1gaDTT7SA=;
-        b=LecTyfaH0Hj/+bNYNU2Nrh4iI7fGdhcBz1ZQ1uNml1pAo91SzDN+Ktbsc6kjGfaiFb
-         9N/yiV1PxkmCf1KnqDBBwAAv8ajipt5OMxy5390cn0l7HhEfiICCl9OBzk7kMHbzygEA
-         c3of8vprZB87KB1n+Ja5874syDy03MJ2YmRDsxXjVBG8nOx+2Q82g5mMEVSl30Ln8d8T
-         p+M4Q7rOi6I9sbDTTdgnlXK8VVjpxoHMJVGfn7gVP+DOswkUwgfLEg/uA7V+2bSwGtIq
-         YD959acQUnKQWN64qA/+oBK2UTkSR4OsolXCdwoTuB0IxgLw7fkUtRZ0hnYH/GoKj2Er
-         gP3Q==
-X-Gm-Message-State: AOAM530nauoxR1TKrqX2FkRK7AozBGbqernILVYpYgnsooR3DHPFKbbd
-	EQDqMuPx40Nam57PNe9Yllu3JA==
-X-Google-Smtp-Source: ABdhPJypfwKyW9QIJgtPwkcsv3L6wbUSugzXr5toVyTpByWMXC9eJMXmJf8swe/WfITuwBOtB1P+8A==
-X-Received: by 2002:ad4:5944:0:b0:462:310a:b54c with SMTP id eo4-20020ad45944000000b00462310ab54cmr24814360qvb.41.1653681952811;
-        Fri, 27 May 2022 13:05:52 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id k25-20020ac84759000000b002fcb0d95f65sm2425544qtp.90.2022.05.27.13.05.51
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=hP5/xUyD7yW6cvIyRkoeePUvJc0jXic9WcbLUxigB40=;
+        b=aK3j849CTOMho6y1/81M/ZBxLV4tlVpHStvKx8D21zAsXQp8gIGzs7dzIvx/wYQiKK
+         lRAGEZwt7JsHeN3V2NDhlHLG/1qrBlFyRCBxPLSxnYolxESscLXvqU0OSm4k6cmXlXed
+         lI8OP8uNjdPBbXC5UZZwGDIU5gQGbOUOyTUB4EKS/kKDFe9H9dknDx5tPuVUigJ1ymj0
+         knDwScmq9KpXoiIb3CqzMSKewjyMHlf4s9dxzqUEHEtcSSzYvffpNNY+yXhbHWV9w9t6
+         iRdPEoixkovuzJKEZaFd7+GQkLRn8joJWBrVXV+WWy4OEU7ny2ggMowH8SlR3zb/g9hc
+         XFCg==
+X-Gm-Message-State: AOAM533Vwe0O9qUHHpNBqx77bQzaUMiDKg6oOrTlW3uxCUiTnrPWacRz
+	8ii3HpbYXO22aEsGCN+ty/U=
+X-Google-Smtp-Source: ABdhPJw3+sf7/q9knV+x05CL4/Yby+9GQ2EEHXSBNOh+rlPfovbZlZoz4hpOgUN6SwECEi0pU0J/3A==
+X-Received: by 2002:a05:6402:2712:b0:42b:476b:6c71 with SMTP id y18-20020a056402271200b0042b476b6c71mr34964679edd.413.1653692031032;
+        Fri, 27 May 2022 15:53:51 -0700 (PDT)
+Received: from nam-dell ([2a02:8109:afbf:ed88:4971:2aa6:72b5:e75])
+        by smtp.gmail.com with ESMTPSA id n24-20020a170906689800b006f3ef214e72sm1816390ejr.216.2022.05.27.15.53.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 May 2022 13:05:52 -0700 (PDT)
-Message-ID: <fd8c9ef48b48e014c468fe8cf61cd44062d14b1d.camel@ndufresne.ca>
-Subject: Re: [PATCH v2] media: Hantro: Correct G2 init qp field
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, mchehab@kernel.org, 
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Fri, 27 May 2022 16:05:51 -0400
-In-Reply-To: <20220524115945.2294015-1-benjamin.gaignard@collabora.com>
-References: <20220524115945.2294015-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+        Fri, 27 May 2022 15:53:50 -0700 (PDT)
+Date: Sat, 28 May 2022 00:53:50 +0200
+From: Nam Cao <namcaov@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH] staging: sm750fb: fix camelCase function name
+Message-ID: <20220527225350.GA220436@nam-dell>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Le mardi 24 mai 2022 =C3=A0 13:59 +0200, Benjamin Gaignard a =C3=A9crit=C2=
-=A0:
-> Documentation said that g2 init_qp field use bits 24 to 30 of
-> the 8th register.
-> Change the field mask to be able to set 7 bits and not only 6 of them.
->=20
-> Conformance test INITQP_B_Main10_Sony_1 decoding is OK with this
-> patch.
->=20
-> Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Change camelCase function name sii164GetVendorID to sii164_get_vendor_id
+as suggested by checkpatch.pl
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Nam Cao <namcaov@gmail.com>
+---
+ drivers/staging/sm750fb/ddk750_dvi.c    | 2 +-
+ drivers/staging/sm750fb/ddk750_sii164.c | 6 +++---
+ drivers/staging/sm750fb/ddk750_sii164.h | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-> ---
-> With this patch and the patches needed for 10-bit support
-> Fluster HEVC score is 137/147
->=20
-> version 2:
-> - Add Fixes tag
->=20
->  drivers/staging/media/hantro/hantro_g2_regs.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/stag=
-ing/media/hantro/hantro_g2_regs.h
-> index 877d663a8181..82606783591a 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_regs.h
-> +++ b/drivers/staging/media/hantro/hantro_g2_regs.h
-> @@ -107,7 +107,7 @@
-> =20
->  #define g2_start_code_e		G2_DEC_REG(10, 31, 0x1)
->  #define g2_init_qp_old		G2_DEC_REG(10, 25, 0x3f)
-> -#define g2_init_qp		G2_DEC_REG(10, 24, 0x3f)
-> +#define g2_init_qp		G2_DEC_REG(10, 24, 0x7f)
->  #define g2_num_tile_cols_old	G2_DEC_REG(10, 20, 0x1f)
->  #define g2_num_tile_cols	G2_DEC_REG(10, 19, 0x1f)
->  #define g2_num_tile_rows_old	G2_DEC_REG(10, 15, 0x1f)
+diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
+index 029d9acec47d..e0c7ff3352bf 100644
+--- a/drivers/staging/sm750fb/ddk750_dvi.c
++++ b/drivers/staging/sm750fb/ddk750_dvi.c
+@@ -15,7 +15,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
+ #ifdef DVI_CTRL_SII164
+ 	{
+ 		.init = sii164InitChip,
+-		.get_vendor_id = sii164GetVendorID,
++		.get_vendor_id = sii164_get_vendor_id,
+ 		.get_device_id = sii164GetDeviceID,
+ #ifdef SII164_FULL_FUNCTIONS
+ 		.reset_chip = sii164ResetChip,
+diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
+index 73e0e9f41ec5..3da1796cd7aa 100644
+--- a/drivers/staging/sm750fb/ddk750_sii164.c
++++ b/drivers/staging/sm750fb/ddk750_sii164.c
+@@ -29,13 +29,13 @@ static char *gDviCtrlChipName = "Silicon Image SiI 164";
+ #endif
+ 
+ /*
+- *  sii164GetVendorID
++ *  sii164_get_vendor_id
+  *      This function gets the vendor ID of the DVI controller chip.
+  *
+  *  Output:
+  *      Vendor ID
+  */
+-unsigned short sii164GetVendorID(void)
++unsigned short sii164_get_vendor_id(void)
+ {
+ 	unsigned short vendorID;
+ 
+@@ -140,7 +140,7 @@ long sii164InitChip(unsigned char edge_select,
+ #endif
+ 
+ 	/* Check if SII164 Chip exists */
+-	if ((sii164GetVendorID() == SII164_VENDOR_ID) &&
++	if ((sii164_get_vendor_id() == SII164_VENDOR_ID) &&
+ 	    (sii164GetDeviceID() == SII164_DEVICE_ID)) {
+ 		/*
+ 		 *  Initialize SII164 controller chip.
+diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
+index d940cb729066..ca330f6a43e2 100644
+--- a/drivers/staging/sm750fb/ddk750_sii164.h
++++ b/drivers/staging/sm750fb/ddk750_sii164.h
+@@ -27,7 +27,7 @@ long sii164InitChip(unsigned char edgeSelect,
+ 		    unsigned char pllFilterEnable,
+ 		    unsigned char pllFilterValue);
+ 
+-unsigned short sii164GetVendorID(void);
++unsigned short sii164_get_vendor_id(void);
+ unsigned short sii164GetDeviceID(void);
+ 
+ #ifdef SII164_FULL_FUNCTIONS
+-- 
+2.25.1
 
