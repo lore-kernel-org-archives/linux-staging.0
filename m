@@ -1,17 +1,17 @@
 Received: from sender2-op-o12.zoho.com.cn (sender2-op-o12.zoho.com.cn [163.53.93.243])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105872908
-	for <linux-staging@lists.linux.dev>; Sun, 29 May 2022 15:39:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1653838743;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3172908
+	for <linux-staging@lists.linux.dev>; Sun, 29 May 2022 15:39:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1653838739;
 	s=zohomail; d=mykernel.net; i=cgxu519@mykernel.net;
 	h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=X/Nq01tIJiL66k1gHdv7dx/ePbQHb3DUAurLiy4DtgY=;
-	b=Fxu+1huBl4/KM9ltkTR62MbYdabZL04hTFCByM3kfUr9KQF+biVFQn04SW5kP1Q1
-	d5FpcnH+HjpXz3YGGZs8hNGV7vmMhcINJN8I3dyyTu3u5GPC3BA13oZEbKWyod0tHYM
-	x4zAoZp93gXnnqBdI3yIffL8VH3rnYxVVye1HRYM=
+	bh=flOcGigG3FIhki9qeUJuXud/Jj5FC8Aqn+kS5ocOzLs=;
+	b=X4RH1B7ofe8dHWlERs3xxOmDu+/sW1EEAwStAQN53r5SnJGMtxh74ympVLOMKv7x
+	oI3VWb6X/J6NMTl41V372KRFn/38NmGBUjwh+MpbpqtE8NfXMcWHVi91nfkec/3uyE3
+	TQjOh4CwX4n/YR7fYiL0tK5cRdY5vno4I9xvVe18=
 Received: from localhost.localdomain (81.71.33.115 [81.71.33.115]) by mx.zoho.com.cn
-	with SMTPS id 1653838741319791.7650617890589; Sun, 29 May 2022 23:39:01 +0800 (CST)
+	with SMTPS id 1653838736850922.0717547158011; Sun, 29 May 2022 23:38:56 +0800 (CST)
 From: Chengguang Xu <cgxu519@mykernel.net>
 To: netdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
@@ -19,9 +19,9 @@ To: netdev@vger.kernel.org,
 	linux-samsung-soc@vger.kernel.org,
 	linux-media@vger.kernel.org
 Cc: Chengguang Xu <cgxu519@mykernel.net>
-Message-ID: <20220529153456.4183738-6-cgxu519@mykernel.net>
-Subject: [PATCH 5/6] scsi: pmcraid: fix missing resource cleanup in error case
-Date: Sun, 29 May 2022 23:34:55 +0800
+Message-ID: <20220529153456.4183738-3-cgxu519@mykernel.net>
+Subject: [PATCH 2/6] staging: vt6655: fix missing resource cleanup in error cases
+Date: Sun, 29 May 2022 23:34:52 +0800
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220529153456.4183738-1-cgxu519@mykernel.net>
 References: <20220529153456.4183738-1-cgxu519@mykernel.net>
@@ -35,28 +35,58 @@ Content-Transfer-Encoding: quoted-printable
 X-ZohoCNMailClient: External
 Content-Type: text/plain; charset=utf8
 
-Fix missing resource cleanup(when '(--i) =3D=3D 0') for error case in
-pmcraid_register_interrupt_handler().
+Fix missing resource cleanup(when '(--i) =3D=3D 0') for error cases
 
 Signed-off-by: Chengguang Xu <cgxu519@mykernel.net>
 ---
- drivers/scsi/pmcraid.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/vt6655/device_main.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/scsi/pmcraid.c b/drivers/scsi/pmcraid.c
-index 3d5cd337a2a6..0007a8a993a1 100644
---- a/drivers/scsi/pmcraid.c
-+++ b/drivers/scsi/pmcraid.c
-@@ -4031,7 +4031,7 @@ pmcraid_register_interrupt_handler(struct pmcraid_ins=
-tance *pinstance)
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/=
+device_main.c
+index 897d70cf32b8..cf8d92e785e6 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -565,7 +565,7 @@ static int device_init_rd0_ring(struct vnt_private *pri=
+v)
+ =09kfree(desc->rd_info);
+=20
+ err_free_desc:
+-=09while (--i) {
++=09while (--i >=3D 0) {
+ =09=09desc =3D &priv->aRD0Ring[i];
+ =09=09device_free_rx_buf(priv, desc);
+ =09=09kfree(desc->rd_info);
+@@ -611,7 +611,7 @@ static int device_init_rd1_ring(struct vnt_private *pri=
+v)
+ =09kfree(desc->rd_info);
+=20
+ err_free_desc:
+-=09while (--i) {
++=09while (--i >=3D 0) {
+ =09=09desc =3D &priv->aRD1Ring[i];
+ =09=09device_free_rx_buf(priv, desc);
+ =09=09kfree(desc->rd_info);
+@@ -676,7 +676,7 @@ static int device_init_td0_ring(struct vnt_private *pri=
+v)
  =09return 0;
 =20
- out_unwind:
--=09while (--i > 0)
-+=09while (--i >=3D 0)
- =09=09free_irq(pci_irq_vector(pdev, i), &pinstance->hrrq_vector[i]);
- =09pci_free_irq_vectors(pdev);
- =09return rc;
+ err_free_desc:
+-=09while (--i) {
++=09while (--i >=3D 0) {
+ =09=09desc =3D &priv->apTD0Rings[i];
+ =09=09kfree(desc->td_info);
+ =09}
+@@ -716,7 +716,7 @@ static int device_init_td1_ring(struct vnt_private *pri=
+v)
+ =09return 0;
+=20
+ err_free_desc:
+-=09while (--i) {
++=09while (--i >=3D 0) {
+ =09=09desc =3D &priv->apTD1Rings[i];
+ =09=09kfree(desc->td_info);
+ =09}
 --=20
 2.27.0
 
