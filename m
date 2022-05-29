@@ -1,17 +1,17 @@
 Received: from sender2-op-o12.zoho.com.cn (sender2-op-o12.zoho.com.cn [163.53.93.243])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0BF2905
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB0F2907
 	for <linux-staging@lists.linux.dev>; Sun, 29 May 2022 15:39:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1653838744;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1653838737;
 	s=zohomail; d=mykernel.net; i=cgxu519@mykernel.net;
 	h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=xGbv7HlqU9NUiVmKFFfWHWJ7GjiXkmgNU5UawXCQxn8=;
-	b=CEiWwOtlT6bd2aVw4bG73jCv97mRPVBdqfemmSl/LrQoOQJuysu1DOyLp9C6hlcb
-	l2D8QE9ga+kYz/ATTtLgF0EOURGdgn332FlVJoPf6/C9LyQkbp8oe5lGo+4xeIauouw
-	7C7pRqm4BnKd9PBU8/vgPBg4yEo7o44a99YUBhJg=
+	bh=b9EOAZEtMeMOw4CE+ljgRiq8Y/E5wl6YtfwQ/Y/g9fY=;
+	b=K9iFG7haZUnGl1ACKH9GvvKesKECfbzX0cWBpwodvG6BRLJaHls0JImr3+HAEmHm
+	+uXvCiCjRePe+nObZGZ1d8VfQOOPYWwOdhdmUaZpfa4neNxZWqzjfP1RRtS6NR27ONk
+	ReifQ7gUfj5xi9TRzz/Qulfxi6GMfkwK0JwzVfaI=
 Received: from localhost.localdomain (81.71.33.115 [81.71.33.115]) by mx.zoho.com.cn
-	with SMTPS id 1653838743051746.6363796456236; Sun, 29 May 2022 23:39:03 +0800 (CST)
+	with SMTPS id 1653838735065952.2650944013579; Sun, 29 May 2022 23:38:55 +0800 (CST)
 From: Chengguang Xu <cgxu519@mykernel.net>
 To: netdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
@@ -19,9 +19,9 @@ To: netdev@vger.kernel.org,
 	linux-samsung-soc@vger.kernel.org,
 	linux-media@vger.kernel.org
 Cc: Chengguang Xu <cgxu519@mykernel.net>
-Message-ID: <20220529153456.4183738-7-cgxu519@mykernel.net>
-Subject: [PATCH 6/6] media: platform: fix missing/incorrect resource cleanup in error case
-Date: Sun, 29 May 2022 23:34:56 +0800
+Message-ID: <20220529153456.4183738-2-cgxu519@mykernel.net>
+Subject: [PATCH 1/6] netlink: fix missing destruction of rhash table in error case
+Date: Sun, 29 May 2022 23:34:51 +0800
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220529153456.4183738-1-cgxu519@mykernel.net>
 References: <20220529153456.4183738-1-cgxu519@mykernel.net>
@@ -35,37 +35,27 @@ Content-Transfer-Encoding: quoted-printable
 X-ZohoCNMailClient: External
 Content-Type: text/plain; charset=utf8
 
-In error case of s5p_mfc_power_on() we should call
-clk_disable_unprepare() for the
-clocks(from pm->clocks[0] to pm->clocks[i-1]).
+Fix missing destruction(when '(--i) =3D=3D 0') for error case in
+netlink_proto_init().
 
 Signed-off-by: Chengguang Xu <cgxu519@mykernel.net>
 ---
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ net/netlink/af_netlink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.c b/drivers/=
-media/platform/samsung/s5p-mfc/s5p_mfc_pm.c
-index 72a901e99450..187849841a28 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_pm.c
-@@ -88,7 +88,6 @@ int s5p_mfc_power_on(void)
- =09=09if (ret < 0) {
- =09=09=09mfc_err("clock prepare failed for clock: %s\n",
- =09=09=09=09pm->clk_names[i]);
--=09=09=09i++;
- =09=09=09goto err;
- =09=09}
- =09}
-@@ -98,7 +97,7 @@ int s5p_mfc_power_on(void)
-=20
- =09return 0;
- err:
--=09while (--i > 0)
-+=09while (--i >=3D 0)
- =09=09clk_disable_unprepare(pm->clocks[i]);
- =09pm_runtime_put(pm->device);
- =09return ret;
+diff --git a/net/netlink/af_netlink.c b/net/netlink/af_netlink.c
+index 0cd91f813a3b..bd0b090a378b 100644
+--- a/net/netlink/af_netlink.c
++++ b/net/netlink/af_netlink.c
+@@ -2887,7 +2887,7 @@ static int __init netlink_proto_init(void)
+ =09for (i =3D 0; i < MAX_LINKS; i++) {
+ =09=09if (rhashtable_init(&nl_table[i].hash,
+ =09=09=09=09    &netlink_rhashtable_params) < 0) {
+-=09=09=09while (--i > 0)
++=09=09=09while (--i >=3D 0)
+ =09=09=09=09rhashtable_destroy(&nl_table[i].hash);
+ =09=09=09kfree(nl_table);
+ =09=09=09goto panic;
 --=20
 2.27.0
 
