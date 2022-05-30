@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9C72F38
-	for <linux-staging@lists.linux.dev>; Mon, 30 May 2022 13:36:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85931C3411E;
-	Mon, 30 May 2022 13:36:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D282F38
+	for <linux-staging@lists.linux.dev>; Mon, 30 May 2022 13:37:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93623C3411E;
+	Mon, 30 May 2022 13:37:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653917781;
-	bh=S8nu9Wrj80nFqvcHMwSeosMnoFWh1xZotRyH4pzSSZw=;
+	s=k20201202; t=1653917847;
+	bh=lyG/J14veE4PPv7P93S7wmHZ8PtfDwL4ePf9On8nxYM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LaOnXRWhKfNePUJ0Ci3hGaa5HDF7YbNJfdO4WChUp6oLfl425ItnixNf5IskiXFQ2
-	 9YIhAqaQsq33D54l/uMAGIvgc2AqHfHB3vL6xaEfm6DiAkffLjbZQFJ+K1lScZkmqz
-	 30JAID1qlyiZnKDupaZ+PEzDJPfwu/VKWS/5cH+gvchFkQyQh2VMFABWZPeSvF6ChP
-	 hdZ6lZWbKW9YXAo2wD+bqqDKdYtXVCp213vFO02Bg03igmS66Onu9yKN/onkgm9IvV
-	 sDdAoFbEDqnJCF/fEuWxoz5yYP/FTamGQ3M1SYjyDjNzwqFxxFDL8AEWkRtWn7BWfD
-	 0Ufae3XCpYEzQ==
+	b=bDjXLFF3b9ceSuQ34IdFVWnrlZ9O7/xnKQROKweiXn+06XvkmEKKYZz/HzIrb/bnt
+	 6lWuhiU+20HsX1tfEUclydHFDl8RgW8ouVZUthWwXUnrfOH7vHMsak1EqCGtLTPW9X
+	 vK/pDrGV0rDP8lYlAtzqXUfk3Uyw5Oyikp3zF9nhNps5r5l97ycvFvwZn549beZnCz
+	 RXMvtXun8Mtl1atKhPoZqPTrZQhZhpqnwItQWfvf7TZrQxSMwczWP03g9XtXAVGi+U
+	 8rJ26/l9nHeDJTe1xrgHsilN6rnpSfxOPKt5oNtwAKXV29faxNKO/lDoXgKWaX+m1X
+	 TWUTNggGCSPPQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	ezequiel@vanguardiasur.com.ar,
 	p.zabel@pengutronix.de,
 	gregkh@linuxfoundation.org,
 	linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.17 095/135] media: hantro: HEVC: unconditionnaly set pps_{cb/cr}_qp_offset values
-Date: Mon, 30 May 2022 09:30:53 -0400
-Message-Id: <20220530133133.1931716-95-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 114/135] media: hantro: Stop using H.264 parameter pic_num
+Date: Mon, 30 May 2022 09:31:12 -0400
+Message-Id: <20220530133133.1931716-114-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220530133133.1931716-1-sashal@kernel.org>
 References: <20220530133133.1931716-1-sashal@kernel.org>
@@ -44,47 +45,40 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-[ Upstream commit 46c836569196f377f87a3657b330cffaf94bd727 ]
+[ Upstream commit 831410700909f4e29d5af1ef26b8c59fc2d1988e ]
 
-Always set pps_cb_qp_offset and pps_cr_qp_offset values in Hantro/G2
-register whatever is V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT
-flag value.
-The vendor code does the same to set these values.
-This fixes conformance test CAINIT_G_SHARP_3.
+The hardware expects FrameNumWrap or long_term_frame_idx. Picture
+numbers are per field, and are mostly used during the memory
+management process, which is done in userland. This fixes two
+ITU conformance tests:
 
-Fluster HEVC score is increase by one with this patch.
+  - MR6_BT_B
+  - MR8_BT_B
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Reviewed-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/staging/media/hantro/hantro_h264.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index 99d8ea7543da..fab326389261 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -180,13 +180,8 @@ static void set_params(struct hantro_ctx *ctx)
- 		hantro_reg_write(vpu, &g2_max_cu_qpd_depth, 0);
- 	}
+diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+index 0b4d2491be3b..228629fb3cdf 100644
+--- a/drivers/staging/media/hantro/hantro_h264.c
++++ b/drivers/staging/media/hantro/hantro_h264.c
+@@ -354,8 +354,6 @@ u16 hantro_h264_get_ref_nbr(struct hantro_ctx *ctx, unsigned int dpb_idx)
  
--	if (pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT) {
--		hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
--		hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
--	} else {
--		hantro_reg_write(vpu, &g2_cb_qp_offset, 0);
--		hantro_reg_write(vpu, &g2_cr_qp_offset, 0);
--	}
-+	hantro_reg_write(vpu, &g2_cb_qp_offset, pps->pps_cb_qp_offset);
-+	hantro_reg_write(vpu, &g2_cr_qp_offset, pps->pps_cr_qp_offset);
+ 	if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+ 		return 0;
+-	if (dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+-		return dpb->pic_num;
+ 	return dpb->frame_num;
+ }
  
- 	hantro_reg_write(vpu, &g2_filt_offset_beta, pps->pps_beta_offset_div2);
- 	hantro_reg_write(vpu, &g2_filt_offset_tc, pps->pps_tc_offset_div2);
 -- 
 2.35.1
 
