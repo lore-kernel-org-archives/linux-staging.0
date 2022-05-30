@@ -1,67 +1,289 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5570C7A
-	for <linux-staging@lists.linux.dev>; Mon, 30 May 2022 20:19:31 +0000 (UTC)
-Received: from [192.168.1.107] ([37.4.249.170]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MG9To-1o1G3D0NOG-00GcUg; Mon, 30 May 2022 22:19:15 +0200
-Message-ID: <e9d2cf9a-c4f0-997f-72f5-1b10379dc126@i2se.com>
-Date: Mon, 30 May 2022 22:19:14 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFC33234;
+	Mon, 30 May 2022 21:24:46 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id q21so23116509ejm.1;
+        Mon, 30 May 2022 14:24:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=CE58DyVsFpj1+2/hyAZSSQtjoW8T3CW+eJ7jWuJZvgg=;
+        b=Iw4lsRwvQS7PQ4uSFhO6pnlkBU/2pxGh67h4gxpCa1TN0bGK1RRzg6jfX8QiIW0X2z
+         dZojQHMJeCH19SaB1N4wLlVv4phDp8xqRvav5elYuMjvGIKTrxWom5gHPRTr7ejeaApU
+         OSx1pvMl9z8BUL9TN2TYsJJCoaZjXrFH1B6P+9qqxYmoduJWbzYcxzQ4G11ziYuUEjlk
+         0gXR4XnrtOUJxCO+T1m+fsYc6WcJjelUZQx+oCdY1niS0pXFtYcirl75GCHZL4zEPQ2D
+         jFoPm9TyaqhcAEy+H3F3VkANMTPkWHVMfZmb8brYHV0JY5Cd47/TgenQnev00Dwy/PxS
+         6iXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=CE58DyVsFpj1+2/hyAZSSQtjoW8T3CW+eJ7jWuJZvgg=;
+        b=Xz6PmfbJWTEFw9Qg30WSLA0casc/PIiXnJ7hev4dayffbk41sBbJzQjEDEh+GgdHtz
+         eB+3wI12Tpi3BHr5cR41pv3muM0s0FanMdOLwVSCn9IQTiQBKmnsK2l6klzguz+4xnmN
+         ocX2sftUf5vhskwMv6krUbcxR9EhdBkp6ciIHuwQr5GjpBoj3lirfacQ+QTKrtxpo9JV
+         2krJgglOooN5RvqTz4L1S9fBkSECCfnXShR+iGWTqHkSvQbZheKgi+d/1/puvxV4PiXp
+         /zVW8VGO1OBxftkC08yBI5rl9sqW/Zer/E44O420aKDB5HxYCXw+SUBrGl0xlQjjyTmD
+         IeTg==
+X-Gm-Message-State: AOAM531mSQ4F9NiAKwsPpXD9rlVCELbs4qcgB4ORARKkmt7qDyF5PJRI
+	mbNPd/7fChl3HNSrDLUZxnE=
+X-Google-Smtp-Source: ABdhPJwGS3A1Qmp0+vGUdObvEPcZ7zMJAXqBix8pd9sLBcoG4Rxhn+fBrxg/1jlRdhbKvSTCzipA+A==
+X-Received: by 2002:a17:907:720a:b0:6ff:2e1c:f22f with SMTP id dr10-20020a170907720a00b006ff2e1cf22fmr17953781ejc.16.1653945884756;
+        Mon, 30 May 2022 14:24:44 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id b16-20020a50b410000000b0042b5cf75d6esm7032775edh.97.2022.05.30.14.24.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 May 2022 14:24:44 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com
+Subject: Re: Re: [PATCH v6 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Date: Mon, 30 May 2022 23:24:42 +0200
+Message-ID: <5824953.lOV4Wx5bFT@kista>
+In-Reply-To: <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl>
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com> <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl> <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 0/9] staging: vchiq_arm: remove some unnecessary global
- variables
-Content-Language: en-US
-To: Adrien Thierry <athierry@redhat.com>,
- bcm-kernel-feedback-list@broadcom.com,
- Florian Fainelli <f.fainelli@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>
-Cc: linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-References: <20220518191126.60396-1-athierry@redhat.com>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20220518191126.60396-1-athierry@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:L94GrfvqtcCLd4FbKrBt3vo7XEvIun3e554ZNY1T0Gu2Afm9jQT
- JEHScpoBYu1ziKyPRlFJjKzbPf8R0B9LYzmR+LIzcpwokkJwYYSCVzGc8hcmGDZLkA+p57H
- EdvZbc7RYkoER6GBicmnHsj9S8Clplgtb+M/eky2VyLI0vTpINS27Kz7RV5Rax7+h35s0LW
- EXlQhk6GNBt6nfFMsVXNw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QsJrd3WJrb4=:SSseRzR301lR/QMOjMNoQP
- kqxVCAvC83TNsYJEAyd23AqaBFn24DO03gdYA+T5zpZVAdqQUqzgml87cc29n/aSrHwJ/Kq7t
- vKoKZjF3VEqj6AqmeLoSIj+zNOcriv3BhzM+HETGXhKAEdcs6PSHT2kMHbWeEWA1dlHsS6lc0
- s6rEhR9y2mw7+1QQQwTEJM48ckm3r9nHHBf2rgfngfERlLPKGmsARoqHIsY11xpHgbcMJZ3Ij
- QCMndHVRCOvePYbjmx7Jsp4zDMU9uVVBvCeHsiPjEb2jX2rZGqr6VAVqKdE/+sxprIu2XTJ5W
- FKQXjRFJsolCJK0jI29/h1+fnj4j/ualk9b/eLQEjN+1Csz4hgLoPX0LhR9YbG8CIDK8fq/iA
- vJ2RapxaGnVg3gYuDof5D/aeRSl5FCChMfBHpMFCnVNvldLewUEb+Aoe4mTVq/dE9ZIGJt83N
- i3dY23xGJYvLjV/fw7E5uXYCBL2OqKoM5GHgt0INyvnTfsyJWoFNY/D2QELGgdvUBUbruoiYG
- ObaFQBEpMLh9N0/2nxdyRDiChmWFfN70YV19ZpZbttHBQicZ968tF34CkRFliJNzg7iaRMUa3
- qhHwWSjbJDECw/ypzIp1PcCwIHMRnRdQxHJkvklL9m9IZzhm86DzvQVKch6ZcDeOOY5wDLRtW
- juHgRrH1hHE0pPbEdJh0kCbSQtNkhglAe+hoAlrmdQTjJRq3zCQSqg2IJKHYGyGyAIhbgYVLw
- N4DRKd67Si32TLplPmnFdx2MHddtKx66JqaZ+xEcmOcVfycrMt+4wXe09eg=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Adrien,
+Dne ponedeljek, 30. maj 2022 ob 15:49:57 CEST je Hans Verkuil napisal(a):
+> On 30/05/2022 11:18, Hans Verkuil wrote:
+> > On 29/05/2022 08:40, Jernej =C5=A0krabec wrote:
+> >> Hi!
+> >>
+> >> This series looks very good and I plan to test it shortly on Cedrus, b=
+ut=20
+I=20
+> >> have one major concern below.
+> >>
+> >> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard napisal(=
+a):
+> >>> The number of 'entry point offset' can be very variable.
+> >>> Instead of using a large static array define a v4l2 dynamic array
+> >>> of U32 (V4L2_CTRL_TYPE_U32).
+> >>> The number of entry point offsets is reported by the elems field
+> >>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+> >>> field.
+> >>
+> >> Slice control by itself is variable length array, so you would actuall=
+y=20
+need=20
+> >> 2D variable array for entry points which is not supported. However, ea=
+sy=20
+> >> workaround for that is to flatten 2D array to 1D and either have anoth=
+er=20
+slice=20
+> >> control field which would tell first entry point index for convenience=
+ or=20
+let=20
+> >> driver calculate it by adding up all num_entry_point_offsets of previo=
+us=20
+> >> slices.
+> >>
+> >> Hans, what do you think?
+> >=20
+> > If I would support 2D variable array sizes, wouldn't that be more elega=
+nt?
+> >=20
+> > The current implementation doesn't support that, but as the commit log =
+for
+> > patch 1/17 says:
+> >=20
+> > "Currently dynamically sized arrays are limited to one dimensional arra=
+ys,
+> > but that might change in the future if there is a need for it."
+> >=20
+> > Let me know if you agree, and I'll try to implement this. It's been a=20
+while
+> > since I last looked at this, so I'm not sure how much work it is, but i=
+t=20
+is
+> > probably worth a shot.
+>=20
+> Digging more into this made me realize that this doesn't actually help fo=
+r=20
+this
+> particular case.
+>=20
+> I would lean towards your second suggestion of adding up all=20
+num_entry_point_offsets
+> of previous slices.
 
-Am 18.05.22 um 21:11 schrieb Adrien Thierry:
-> This patch series aims at removing some unnecessary global structures
-> (namely, 'g_dev' and 'vchiq_states'), in order to make the driver more
-> robust. This is part of an effort to address TODO item "Get rid of all non
-> essential global structures and create a proper per device structure".
+Just one question/clarification about dynamic arrays - does driver need to=
+=20
+reserve maximum amount of memory for dynamic array control at initializatio=
+n=20
+time? If so, this would still be problematic, since there cound be a huge=20
+amount of entry points in theory.
 
-sorry for the delay, but i was fighting with some platform regressions 
-in Linux 5.18.
+Best regards,
+Jernej
 
-So except of my comments, this series is:
+>=20
+> Regards,
+>=20
+> 	Hans
+>=20
+> >=20
+> > Regards,
+> >=20
+> > 	Hans
+> >=20
+> >>
+> >> Note, it seems that H265 decoding on Cedrus still works without entry=
+=20
+points,=20
+> >> so this problem can be solved later. I'm not sure what we lose with th=
+at=20
+but=20
+> >> it was suggested that this could influence speed or error resilience o=
+r=20
+both.=20
+> >> However, I think we're close to solve it, so I'd like to do that now.
+> >>
+> >> Best regards,
+> >> Jernej
+> >>
+> >>>
+> >>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >>> ---
+> >>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 +++++++++=
+++
+> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
+> >>>  include/media/hevc-ctrls.h                            |  5 ++++-
+> >>>  3 files changed, 20 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rs=
+t b/
+> >> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>> index 0796b1563daa..05228e280f66 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >>>      * - __u32
+> >>>        - ``data_bit_offset``
+> >>>        - Offset (in bits) to the video data in the current slice data.
+> >>> +    * - __u32
+> >>> +      - ``num_entry_point_offsets``
+> >>> +      - Specifies the number of entry point offset syntax elements i=
+n the=20
+> >> slice header.
+> >>>      * - __u8
+> >>>        - ``nal_unit_type``
+> >>>        - Specifies the coding type of the slice (B, P or I).
+> >>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
+ -
+> >>> =20
+> >>>      \normalsize
+> >>> =20
+> >>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+> >>> +    Specifies entry point offsets in bytes.
+> >>> +    This control is a dynamically sized array. The number of entry=20
+point
+> >>> +    offsets is reported by the ``elems`` field.
+> >>> +    This bitstream parameter is defined according to :ref:`hevc`.
+> >>> +    They are described in section 7.4.7.1 "General slice segment hea=
+der
+> >>> +    semantics" of the specification.
+> >>> +
+> >>>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+> >>>      Specifies the HEVC scaling matrix parameters used for the scalin=
+g=20
+> >> process
+> >>>      for transform coefficients.
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/medi=
+a/
+v4l2-
+> >> core/v4l2-ctrls-defs.c
+> >>> index d594efbcbb93..e22921e7ea61 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return=20
+> >> "HEVC Decode Parameters";
+> >>>  	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return=20
+> >> "HEVC Decode Mode";
+> >>>  	case V4L2_CID_STATELESS_HEVC_START_CODE:		return=20
+> >> "HEVC Start Code";
+> >>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return=20
+> >> "HEVC Entry Point Offsets";
+> >>> =20
+> >>>  	/* Colorimetry controls */
+> >>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h!=20
+> >> */
+> >>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name,=
+=20
+enum=20
+> >> v4l2_ctrl_type *type,
+> >>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+> >>>  		*type =3D V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+> >>>  		break;
+> >>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+> >>> +		*type =3D V4L2_CTRL_TYPE_U32;
+> >>> +		*flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> >>> +		break;
+> >>>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+> >>>  		*type =3D V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+> >>>  		break;
+> >>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> >>> index a3c829ef531a..1319cb99ae3f 100644
+> >>> --- a/include/media/hevc-ctrls.h
+> >>> +++ b/include/media/hevc-ctrls.h
+> >>> @@ -20,6 +20,7 @@
+> >>>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE=20
+> >> + 1012)
+> >>>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE=20
++ 1015)
+> >>>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 10=
+16)
+> >>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_=
+BASE=20
++=20
+> >> 1017)
+> >>> =20
+> >>>  /* enum v4l2_ctrl_type type values */
+> >>>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> >>> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
+> >>>   *
+> >>>   * @bit_size: size (in bits) of the current slice data
+> >>>   * @data_bit_offset: offset (in bits) to the video data in the curre=
+nt=20
+slice=20
+> >> data
+> >>> + * @num_entry_point_offsets: specifies the number of entry point off=
+set=20
+syntax
+> >>> + *			     elements in the slice header.
+> >>>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+> >>>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier f=
+or=20
+the=20
+> >> NAL unit
+> >>>   * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+> >>> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
+> >>>  struct v4l2_ctrl_hevc_slice_params {
+> >>>  	__u32	bit_size;
+> >>>  	__u32	data_bit_offset;
+> >>> -
+> >>> +	__u32	num_entry_point_offsets;
+> >>>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+> >>>  	__u8	nal_unit_type;
+> >>>  	__u8	nuh_temporal_id_plus1;
+> >>> --=20
+> >>> 2.32.0
+> >>>
+> >>>
+> >>
+> >>
+> >=20
+>=20
+>=20
 
-Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
 
