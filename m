@@ -1,12 +1,13 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2352F38;
-	Mon, 30 May 2022 13:50:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E60E8C3411C;
-	Mon, 30 May 2022 13:49:59 +0000 (UTC)
-Message-ID: <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl>
-Date: Mon, 30 May 2022 15:49:57 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384C77A
+	for <linux-staging@lists.linux.dev>; Mon, 30 May 2022 19:27:19 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.170]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mzhzd-1nZfr33Eyf-00vdih; Mon, 30 May 2022 21:27:00 +0200
+Message-ID: <ea262d34-954b-aa3d-bb12-cc608bec136a@i2se.com>
+Date: Mon, 30 May 2022 21:26:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -14,197 +15,190 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v6 11/17] media: uapi: Add
- V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 3/9] staging: vchiq_arm: pass vchiq instance to service
+ callbacks
 Content-Language: en-US
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org,
- nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- kernel@collabora.com
-References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
- <20220527143134.3360174-12-benjamin.gaignard@collabora.com>
- <2102641.irdbgypaU6@kista> <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl>
-In-Reply-To: <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Adrien Thierry <athierry@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>, bcm-kernel-feedback-list@broadcom.com
+Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20220518191126.60396-1-athierry@redhat.com>
+ <20220518191126.60396-4-athierry@redhat.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20220518191126.60396-4-athierry@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:vFkK1yfd6jpmjLSKmmiAU7etS+PJqIMhmLSDjQ2I03PaQT99Wri
+ g89whuyOg6+SzfGbFWqEK2xbAOEVzl463uYr6aRi5ZrqEu6cmUTekVuZVr5k+lo3J4J4cjG
+ +sH9L76pL8xmi0uZU2qj3JH17XSahsDm0mVm7KxlcrOf+fRU0+fnrpBqqtf+yG5SjHk4k4S
+ yVJUyuKQboXX7YRzwsfVA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2hgkBlpS17k=:sAe7AqLIY7jx+OP08fDhdg
+ eCATXBZb14jXdaaPZHE3XunQiUOZQMR4N0OKi5gOaGreYNchOSJ0PETxhCt+KBVnOmLs7WV21
+ sFL3sAzlfk2GfJHuzgUY2WhYMHxK0yE6hRGm5HTaSevvQMwAvlQVryI+ZI+5bDj0i2AnrOAbl
+ 6ognx9ItSEYYqXzzmyErLa4ukv/IY2Z1Q4ZtxUpqW8pqRuwBKyYRVWy76j7G51o7OHtCaTj/f
+ ObBGAZhUw+bGTdXPRJm7VmsxJlCLUsS2+RgIg2vLT/qL2TERIuKmWRJdulRsW4ChveSCwmN1m
+ NWlN/mMr0ya/DLqveYQV4sU4rSin8LpzobbgE+dFkIgnW4ED1a3QsChhzDWjgE7Bo4mVzTQPc
+ LOpP1yTy0xTyO5N2YhilwFgYHiBb5bVp0s+Ys/XQGvpv9VHEOvtWq9ulFDVtTtkDSA+j8Sbmt
+ V+qGY2Fq3QsamuEnlPxztjfaRfrv1wHh8nI6bHnKLUdYIxHlbcj8uWl9eBsBKt4UlD2wpE210
+ eDvFSbIjvxP+vwDt4tYmdM7384ARjiT2MEPqebYuOnUuUPmAPuloL6N+a3SvYqBGPm1a/njex
+ pbXPxTTECiJzj7OmVQP3y5kLXwgvEB8s6XXOlSb3Ntxr8D/23Pbd3S0gnNmQdNgNkqrr6Hz9r
+ Tb/sADOeRWkDnboF/yJahK15vB0G18jjqxgXnfkzCGQOM/Jjyp29PPhjOso54eYuqf0C73hdy
+ ra5OaSlpdxoK8Hi+7ps2l+mRX5vj1+L6+vhbARoKQZGpq4CbaduEbcl5nqg=
 
-On 30/05/2022 11:18, Hans Verkuil wrote:
-> On 29/05/2022 08:40, Jernej Škrabec wrote:
->> Hi!
->>
->> This series looks very good and I plan to test it shortly on Cedrus, but I 
->> have one major concern below.
->>
->> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard napisal(a):
->>> The number of 'entry point offset' can be very variable.
->>> Instead of using a large static array define a v4l2 dynamic array
->>> of U32 (V4L2_CTRL_TYPE_U32).
->>> The number of entry point offsets is reported by the elems field
->>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
->>> field.
->>
->> Slice control by itself is variable length array, so you would actually need 
->> 2D variable array for entry points which is not supported. However, easy 
->> workaround for that is to flatten 2D array to 1D and either have another slice 
->> control field which would tell first entry point index for convenience or let 
->> driver calculate it by adding up all num_entry_point_offsets of previous 
->> slices.
->>
->> Hans, what do you think?
-> 
-> If I would support 2D variable array sizes, wouldn't that be more elegant?
-> 
-> The current implementation doesn't support that, but as the commit log for
-> patch 1/17 says:
-> 
-> "Currently dynamically sized arrays are limited to one dimensional arrays,
-> but that might change in the future if there is a need for it."
-> 
-> Let me know if you agree, and I'll try to implement this. It's been a while
-> since I last looked at this, so I'm not sure how much work it is, but it is
-> probably worth a shot.
+Hi Adrien,
 
-Digging more into this made me realize that this doesn't actually help for this
-particular case.
-
-I would lean towards your second suggestion of adding up all num_entry_point_offsets
-of previous slices.
-
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>
->> Note, it seems that H265 decoding on Cedrus still works without entry points, 
->> so this problem can be solved later. I'm not sure what we lose with that but 
->> it was suggested that this could influence speed or error resilience or both. 
->> However, I think we're close to solve it, so I'd like to do that now.
->>
->> Best regards,
->> Jernej
->>
->>>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 +++++++++++
->>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
->>>  include/media/hevc-ctrls.h                            |  5 ++++-
->>>  3 files changed, 20 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
->> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> index 0796b1563daa..05228e280f66 100644
->>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>      * - __u32
->>>        - ``data_bit_offset``
->>>        - Offset (in bits) to the video data in the current slice data.
->>> +    * - __u32
->>> +      - ``num_entry_point_offsets``
->>> +      - Specifies the number of entry point offset syntax elements in the 
->> slice header.
->>>      * - __u8
->>>        - ``nal_unit_type``
->>>        - Specifies the coding type of the slice (B, P or I).
->>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>  
->>>      \normalsize
->>>  
->>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
->>> +    Specifies entry point offsets in bytes.
->>> +    This control is a dynamically sized array. The number of entry point
->>> +    offsets is reported by the ``elems`` field.
->>> +    This bitstream parameter is defined according to :ref:`hevc`.
->>> +    They are described in section 7.4.7.1 "General slice segment header
->>> +    semantics" of the specification.
->>> +
->>>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->>>      Specifies the HEVC scaling matrix parameters used for the scaling 
->> process
->>>      for transform coefficients.
->>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-
->> core/v4l2-ctrls-defs.c
->>> index d594efbcbb93..e22921e7ea61 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return 
->> "HEVC Decode Parameters";
->>>  	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return 
->> "HEVC Decode Mode";
->>>  	case V4L2_CID_STATELESS_HEVC_START_CODE:		return 
->> "HEVC Start Code";
->>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return 
->> "HEVC Entry Point Offsets";
->>>  
->>>  	/* Colorimetry controls */
->>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! 
->> */
->>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum 
->> v4l2_ctrl_type *type,
->>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
->>>  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->>>  		break;
->>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
->>> +		*type = V4L2_CTRL_TYPE_U32;
->>> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
->>> +		break;
->>>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
->>>  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
->>>  		break;
->>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->>> index a3c829ef531a..1319cb99ae3f 100644
->>> --- a/include/media/hevc-ctrls.h
->>> +++ b/include/media/hevc-ctrls.h
->>> @@ -20,6 +20,7 @@
->>>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE 
->> + 1012)
->>>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
->>>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
->>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE + 
->> 1017)
->>>  
->>>  /* enum v4l2_ctrl_type type values */
->>>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->>> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
->>>   *
->>>   * @bit_size: size (in bits) of the current slice data
->>>   * @data_bit_offset: offset (in bits) to the video data in the current slice 
->> data
->>> + * @num_entry_point_offsets: specifies the number of entry point offset syntax
->>> + *			     elements in the slice header.
->>>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
->>>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the 
->> NAL unit
->>>   * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
->>> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
->>>  struct v4l2_ctrl_hevc_slice_params {
->>>  	__u32	bit_size;
->>>  	__u32	data_bit_offset;
->>> -
->>> +	__u32	num_entry_point_offsets;
->>>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->>>  	__u8	nal_unit_type;
->>>  	__u8	nuh_temporal_id_plus1;
->>> -- 
->>> 2.32.0
->>>
->>>
->>
->>
-> 
-
+Am 18.05.22 um 21:11 schrieb Adrien Thierry:
+> In order to remove the 'vchiq_states' global array, we need to pass the
+> vchiq_instance reference to the 'handle_to_service' function, as well as
+> to all functions that call 'handle_to_service'. This will allow
+> accessing the vchiq state through the vchiq instance instead of through
+> the global array.
+>
+> 'handle_to_service' is called by 'service_callback'. Therefore, pass the
+> vchiq instance reference to 'service_callback'. This also requires
+> adding the vchiq instance reference to the service callbacks prototype,
+> and update all other callbacks accordingly.
+>
+> Signed-off-by: Adrien Thierry <athierry@redhat.com>
+> ---
+>   .../staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c  | 3 ++-
+>   .../vc04_services/include/linux/raspberrypi/vchiq.h      | 8 ++++++--
+>   .../vc04_services/interface/vchiq_arm/vchiq_arm.c        | 9 ++++-----
+>   .../vc04_services/interface/vchiq_arm/vchiq_arm.h        | 4 ++--
+>   .../vc04_services/interface/vchiq_arm/vchiq_core.c       | 3 ++-
+>   drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c    | 3 ++-
+>   6 files changed, 18 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
+> index 701abe430877..c32c8c93a615 100644
+> --- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
+> +++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
+> @@ -89,7 +89,8 @@ static int bcm2835_audio_send_simple(struct bcm2835_audio_instance *instance,
+>   	return bcm2835_audio_send_msg(instance, &m, wait);
+>   }
+>   
+> -static enum vchiq_status audio_vchi_callback(enum vchiq_reason reason,
+> +static enum vchiq_status audio_vchi_callback(struct vchiq_instance *vchiq_instance,
+> +					     enum vchiq_reason reason,
+>   					     struct vchiq_header *header,
+>   					     unsigned int handle, void *userdata)
+>   {
+> diff --git a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+> index 715f02e7f1e1..97537d3b1d28 100644
+> --- a/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+> +++ b/drivers/staging/vc04_services/include/linux/raspberrypi/vchiq.h
+> @@ -53,9 +53,12 @@ struct vchiq_element {
+>   	unsigned int size;
+>   };
+>   
+> +struct vchiq_instance;
+as far i can see this struct was already declared in this header 
+somewhere below. So please avoid multiple declarations.
+> +
+>   struct vchiq_service_base {
+>   	int fourcc;
+> -	enum vchiq_status (*callback)(enum vchiq_reason reason,
+> +	enum vchiq_status (*callback)(struct vchiq_instance *instance,
+> +				      enum vchiq_reason reason,
+>   				      struct vchiq_header *header,
+>   				      unsigned int handle,
+>   				      void *bulk_userdata);
+> @@ -71,7 +74,8 @@ struct vchiq_completion_data_kernel {
+>   
+>   struct vchiq_service_params_kernel {
+>   	int fourcc;
+> -	enum vchiq_status (*callback)(enum vchiq_reason reason,
+> +	enum vchiq_status (*callback)(struct vchiq_instance *instance,
+> +				      enum vchiq_reason reason,
+>   				      struct vchiq_header *header,
+>   				      unsigned int handle,
+>   				      void *bulk_userdata);
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 3b447c635c3f..ffb24298e26b 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -1041,8 +1041,8 @@ add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
+>   }
+>   
+>   enum vchiq_status
+> -service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+> -		 unsigned int handle, void *bulk_userdata)
+> +service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
+> +		 struct vchiq_header *header, unsigned int handle, void *bulk_userdata)
+>   {
+>   	/*
+>   	 * How do we ensure the callback goes to the right client?
+> @@ -1052,7 +1052,6 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+>   	 */
+>   	struct user_service *user_service;
+>   	struct vchiq_service *service;
+> -	struct vchiq_instance *instance;
+>   	bool skip_completion = false;
+>   
+>   	DEBUG_INITIALISE(g_state.local);
+> @@ -1067,7 +1066,6 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+>   	}
+>   
+>   	user_service = (struct user_service *)service->base.userdata;
+> -	instance = user_service->instance;
+>   
+>   	if (!instance || instance->closing) {
+>   		rcu_read_unlock();
+> @@ -1313,7 +1311,8 @@ vchiq_get_state(void)
+>    */
+>   
+>   static enum vchiq_status
+> -vchiq_keepalive_vchiq_callback(enum vchiq_reason reason,
+> +vchiq_keepalive_vchiq_callback(struct vchiq_instance *instance,
+> +			       enum vchiq_reason reason,
+>   			       struct vchiq_header *header,
+>   			       unsigned int service_user, void *bulk_user)
+>   {
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> index 2aa46b119a46..f671c3976ab7 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+> @@ -138,8 +138,8 @@ static inline int vchiq_register_chrdev(struct device *parent) { return 0; }
+>   #endif /* IS_ENABLED(CONFIG_VCHIQ_CDEV) */
+>   
+>   extern enum vchiq_status
+> -service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+> -		 unsigned int handle, void *bulk_userdata);
+> +service_callback(struct vchiq_instance *vchiq_instance, enum vchiq_reason reason,
+> +		 struct vchiq_header *header, unsigned int handle, void *bulk_userdata);
+>   
+>   extern void
+>   free_bulk_waiter(struct vchiq_instance *instance);
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index 04eec18835da..547af55d3859 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -466,7 +466,8 @@ make_service_callback(struct vchiq_service *service, enum vchiq_reason reason,
+>   	vchiq_log_trace(vchiq_core_log_level, "%d: callback:%d (%s, %pK, %pK)",
+>   			service->state->id, service->localport, reason_names[reason],
+>   			header, bulk_userdata);
+> -	status = service->base.callback(reason, header, service->handle, bulk_userdata);
+> +	status = service->base.callback(service->instance, reason, header, service->handle,
+> +					bulk_userdata);
+>   	if (status == VCHIQ_ERROR) {
+>   		vchiq_log_warning(vchiq_core_log_level,
+>   				  "%d: ignoring ERROR from callback to service %x",
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+> index 145021af93b2..55f290b64d6a 100644
+> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+> @@ -548,7 +548,8 @@ static void bulk_abort_cb(struct vchiq_mmal_instance *instance,
+>   }
+>   
+>   /* incoming event service callback */
+> -static enum vchiq_status service_callback(enum vchiq_reason reason,
+> +static enum vchiq_status service_callback(struct vchiq_instance *vchiq_instance,
+> +					  enum vchiq_reason reason,
+>   					  struct vchiq_header *header,
+>   					  unsigned int handle, void *bulk_ctx)
+>   {
