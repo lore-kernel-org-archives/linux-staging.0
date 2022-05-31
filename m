@@ -1,177 +1,87 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C61D2119
-	for <linux-staging@lists.linux.dev>; Tue, 31 May 2022 11:26:22 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24VBFcfZ017680;
-	Tue, 31 May 2022 11:26:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=IOC4f5e4yp24KgLZQ6zcVPNmJFJdhkDQp8FgH+UxCeg=;
- b=hsJuD7Wkh7jpzUHaeqxr2csidPzHNb/jGcqiNfOJA4qCNJAK9KyJew+Bz31oYPqSrzNI
- /G/3DmBjN4dSK5sy5xPEkaJos36vOJtEx1bwlPG5A6wgsCHP73YdWKEfat0X3WNnkHnT
- sr2WnX00Jz1l5wWUK4KlDybjcbMFpqH9ChY6UZpeIICBhT5TRi/OcRkPm2FQOaxGqaZN
- qU+4n/Wcs1SzoR+GGiESYopr1iN82/P1oVlPDiqEvTfY49I17aZP4c/CTqFpwf0n4iZp
- EddMcOGLN8Dj/SI52dIa20/mwjdnctwyDJHg4YNz/44nxwwJERLnMOOkT8x3AwjHjoBH pw== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gbcaumvfk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 31 May 2022 11:26:16 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 24VBGlOv001444;
-	Tue, 31 May 2022 11:26:14 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gc8kh5mtp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 31 May 2022 11:26:14 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BfjNTulVvMQYwT8p3b6zcewSVTctDvyIHygvH6o11d1hiI493+lXTi/AU4Y8KdP9ghnKesJtnb1B7/bwTRO0xdXSygaPDV5Cj/zQemQsxHSGZMwLH4ovGZCGGW7df4/8GZaMnoCLZZbHyY/o7lrQ6zurRZhZs/aGL+zWwCoXy2tJZGGCw+XwIxBYRiGIdJ9g2T2UCqNo45ohQwA3gt8UxEjykyvhT2cbJ9xOMRlFSKrLGAfS1LxkY8XEvqnXYkAkpkn6Ux5Ap04Lgd2v2s6qBq+Se8GkMESQ+Z4gVj/5gHMu+FXUQd0G6BRv8bg7axrNl3Q0JFHS1QHqHE+jyjTzlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IOC4f5e4yp24KgLZQ6zcVPNmJFJdhkDQp8FgH+UxCeg=;
- b=no5EWgjU6fjus5VC1+GpCmvqIHbt70iiDVFjgLovMpFQS/joPD+EmToJN6V96HDRUbnrfBWd+GMygS5OLZYOcZLUPcen/RdFWRufnK6oa+4zTukCgd+9057y3w4brW4Ux41MT8UQKUjQr9RTv+W4bYwW7zOOqIBG9KDDpzIOPK3GUm4Y6I8r/Akljp7PM7woAt8qenm506QTEhmWWl6qDfGdQKIsuFUU8UfO3st0o+hhqnY5rNppgV/KVj8x4lnl/qIX2+HTtNA+ZNX6iMajTREW3yLCrseENqrK7CnkxecHKf0iIW/x01vGRiuev/Pnw8GMMzcvwZ69IkE+H7HU0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136777E
+	for <linux-staging@lists.linux.dev>; Tue, 31 May 2022 17:17:01 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id e11-20020a9d6e0b000000b0060afcbafa80so10036649otr.3
+        for <linux-staging@lists.linux.dev>; Tue, 31 May 2022 10:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IOC4f5e4yp24KgLZQ6zcVPNmJFJdhkDQp8FgH+UxCeg=;
- b=Du8u39d4Gx2C+A5FHsRVwL83dCB7N82AbxYq5sNTfjfYPPBCNzdMXW2zD17i5z+qmrVkUWeQj6yIi2XGsJex4xCQdsliAKOBbzxLMSDDpc1mGz3XUyl+0qYLGzr0epXEjlzwH/6FlhbGQalyJISShgdvbjxFD6zbqrYXYXWJ0RA=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BL0PR10MB2788.namprd10.prod.outlook.com
- (2603:10b6:208:79::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.13; Tue, 31 May
- 2022 11:26:12 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::86f:81ba:9951:5a7e%2]) with mapi id 15.20.5293.019; Tue, 31 May 2022
- 11:26:12 +0000
-Date: Tue, 31 May 2022 14:25:51 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Chengguang Xu <cgxu519@mykernel.net>, netdev@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/6] netlink: fix missing destruction of rhash table in
- error case
-Message-ID: <20220531112551.GT2146@kadam>
-References: <20220529153456.4183738-1-cgxu519@mykernel.net>
- <20220529153456.4183738-2-cgxu519@mykernel.net>
- <e530dc2021d43a29b64f985d7365319eab0d5595.camel@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e530dc2021d43a29b64f985d7365319eab0d5595.camel@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNXP275CA0001.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::13)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=p/oEfQcvC4y8mbzff9uEi91rnRRVUl2cW2LAWQsIYNE=;
+        b=fZwluBYEsdK3ua48/g8/ZChC0JNS/Fcer/NXU7xb4xHNzAta8PD8F2U1e98Ngva2oF
+         TY29/D0cMb4tlYMr01HnlxS+mXLzE7Vdr8FlCIqEwnHIBPpXlNNWDG+epPbP0rRtps7I
+         dvI5RRafkmqXJaWHxIxKFUc/8KScC1a2pEMpiCHluLnmrjehwrqmKEgz9e+qSGF3undM
+         GDP/Sd11QDMXX6D7JEqXAvbXa3BFGUecwYX/lQ9S0su3CTRRTTtWRdeL5uegmkwEPOT9
+         i04VjpDr3A82Pon3rpzm4ns/RCYYat6s0LkWdtgGTPhEgqgmPMSnDyeHgs4JxSl22isP
+         DrOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=p/oEfQcvC4y8mbzff9uEi91rnRRVUl2cW2LAWQsIYNE=;
+        b=2dsdXDVURTmJqE2L7AY5s+beuyDGIIGtbYvbVlSt2rItKyllYDJ8LQ4nxF8IOr80jO
+         77s4mtzpvke2nqAcD2FuDk0RnIfG8WOFCRAM4Z/wfbTf/o28je+OntpFdhsk5uToiEUL
+         F4KPVPNikmbDGhye7PQ9GZH9HdHgNCiJtWsZE2UCDIqZJCN6Fv576jCev8pTZeRKIC8X
+         RYFRlnwfQe7nrEnzzlZ+ZchEdZ7Qz7DP/tWmr7cHcX/WRj0lO/CA8t/yCJY83n1Ptsq8
+         aqckGOKCiZQEXFhvAPot0djxkp/tedUC/kXtbNbhZYSLrIvXHjeIShjwCVe9QmsXjImG
+         MrZw==
+X-Gm-Message-State: AOAM533EpJRygj2JO/r6B5uDNXem7Aq2zi3lZz6M75mmhil1pbxB4irf
+	rXX1Ku2MUH76RVUWtE1Qfho=
+X-Google-Smtp-Source: ABdhPJyX8H5+oOd23XoDfjmAhlDXuYwuGHrqKF5xqWC8wTN5E+0m9Yx8UDiclqcHAdhJacwyqXL7lQ==
+X-Received: by 2002:a05:6830:348e:b0:60b:f4b:c306 with SMTP id c14-20020a056830348e00b0060b0f4bc306mr16910221otu.297.1654017421098;
+        Tue, 31 May 2022 10:17:01 -0700 (PDT)
+Received: from ?IPV6:2603:8090:2005:39b3::100e? (2603-8090-2005-39b3-0000-0000-0000-100e.res6.spectrum.com. [2603:8090:2005:39b3::100e])
+        by smtp.gmail.com with ESMTPSA id v1-20020a056830090100b00605fd407259sm6438194ott.3.2022.05.31.10.16.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 May 2022 10:17:00 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <bf78b567-5c69-c968-3dc4-6c94eeb8d77a@lwfinger.net>
+Date: Tue, 31 May 2022 12:16:58 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 76507558-00d7-40fb-0630-08da42f85d76
-X-MS-TrafficTypeDiagnostic: BL0PR10MB2788:EE_
-X-Microsoft-Antispam-PRVS: 
-	<BL0PR10MB2788468E04996EB0EB1E25248EDC9@BL0PR10MB2788.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	AjUHdMoipoZEJ/lpNCyGRYRiO/fLFwkBqpRuS+93mvxTemhFSlsXkmbTiukobXdSHsSFXbgRcM/ZgMQ0Z4U7plB9GqE5ZT0vdWzMtubde7EuRAq7yq1MhU0AtlMkDKWYxsFlwD6chbkyKyRDYxJvitQtRM9SWweZ+asDAFJZjxMDSi0hJI882JuNBn9YTMjXJ3yKiFrf7DfQHnNU4u9mn3KM6LivuGD3hCmNxVabcE7seD6smE9FWgXUWySH94vFceOy21i8fHScQH/8jsgCRA4HQ7rtP5IIubO8Va1whIkNiAWrhkunQoaAV2/pEPMNWfOF8N5bwkNT1XDC5zrNhANOTcDdrPewQff5N5FW2x19OtOkmtbUMQ16UYcub650+MvvAX32qoPOQT7YBneUJ/zdqMq7NNu9jS6dZzn90cxN1Mppypd4eAZtPdVv8l+NCtk8gkpZG+IltwNONSAeWNaHDzSp4pSbjl8tk0yTc6wMv/PEOpCNdCn1Zf0yUt8yOjy1y2QwyqWjwoJbsKfDZ22YLon4EWfuyKizn4q4xLOhwB49QqOM4omyhp7AzcXDNBHGoSNmP61WbDQtT+eulFug4yGB+Q5wlHX7yMZGXeiYqy13FklS6Ev7+HQJAORA0nwbOhG0naZjeyToeVjSmCeWZpTYccR049auvCd5NGsqEWWa8NJ3wSH5aCsg2pxxIdo80auBneQi/N6PaqHelQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(66556008)(86362001)(44832011)(2906002)(66946007)(66476007)(33716001)(38350700002)(8936002)(38100700002)(5660300002)(6666004)(6916009)(52116002)(9686003)(6506007)(26005)(6486002)(6512007)(508600001)(8676002)(4326008)(83380400001)(316002)(186003)(33656002)(1076003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?1advguOHXZremp7Y2KEKkO9KuZH1QSIt99FvZbriC1BeRnHPFWp+SZaVpgZ/?=
- =?us-ascii?Q?tcqWpE5Z/hLpx/ctbMXR1lbo2BMr9AZldyF52A1h6VbKXzITjUe1AxykIp5j?=
- =?us-ascii?Q?l5I/oAB1oNcVhgWTIC3fpZAAy+vy3sq9xhLni147S7kmuLYJn6JMlP2sggbx?=
- =?us-ascii?Q?fNPbY5nfZlHlqBAFqb5VAl1PihGvS2nYP7v6QV0mZ4PbT6QLq33oVkfuT/IA?=
- =?us-ascii?Q?HtR6L2V583y4Kc71h6ZYIMVktnSz/yI1rp+Jf/G29S1Sw82UGPxVDR4WlgZo?=
- =?us-ascii?Q?9I0M5el1rreGj+OtVmVfRxA7YywX+wszVQh4hQ8T8C9pR4z6ilnBPffBpXl7?=
- =?us-ascii?Q?m9PVDGrTSUWCRconQ06FMDXxsEKZrIjbOESJl8qFI8r8gOk1l3WBj9NdtCW0?=
- =?us-ascii?Q?xId03fpUKSd5sL4aFxFaxGrZs1n7Ovowt33njuLB9CcGiSbHvCYPTfYG/8JL?=
- =?us-ascii?Q?AMqiDSD6jr4OSmPXp8bVSFTjG+HJiUAZVC4VYg1EvHvXT6ayjCKeDFVftdzV?=
- =?us-ascii?Q?OLtSMsvAbEgtF3TLT+PgqaX0tYsoM5CFtRGlRPrYyZlMYZRPxi+aGUcYDBQS?=
- =?us-ascii?Q?Nt+QsdUj2OSy+uJWetQQ7D0IMhOOVn2PqpcJqeX6GL8kll/zLRaF2Gw31pSN?=
- =?us-ascii?Q?qBCTPHd8NWTQb25YV1NXnduzCB16n7pc19p2KL3JpdxanddeFbejVXs0JasT?=
- =?us-ascii?Q?bNLV+yEKoOYo+Ady8WnNIBQ5cU2iTETJ4oqxZpQpwoIFe9sRfsGzvlmCjPQl?=
- =?us-ascii?Q?ypM6yfLyDY1MTOAmAQlHxcSf32et/QIOKpPjJLKYmbLwztmsTnf8cOKDQYf3?=
- =?us-ascii?Q?81Tpyitc8pMzDajhreGmB+bq6BRCFAAv/Ua9LCR9l5VwUUbwSpXQplcDt0MF?=
- =?us-ascii?Q?dafNypt6pud9zVUnMgNe/RjgAnGlCBvOrqtnuD6onYRuKbjYbHGdnwCEo45T?=
- =?us-ascii?Q?2K8kx48EFS9MABScZuV0/r4qKa32RDmcln+V5eT9gQvpge+HFg+kEwEF7vio?=
- =?us-ascii?Q?0j2xGn137OVtpsAkQ5XqR81LAeXW7Z6/psAaaJPMwUBh2lb2+9Mh6qPm9f1a?=
- =?us-ascii?Q?g6ymO2ZyjLkEj9K2D10InHwrrYVVeqVzFnS3ViAMlC5HddWm38rxbfrR3BHJ?=
- =?us-ascii?Q?KR5My8NWYpO7dwxWaJxpqZGlmcXDmfztoODECHUiFD9AmfDRWP2VpsAgVu+X?=
- =?us-ascii?Q?Ol88sTggLHo0ITaswp04PiySjPiTaFAY9oplMaEv7XHRWPlEyiZlZyATwnAo?=
- =?us-ascii?Q?UOpsK/NaEREdENPZK4zL1u0T3+sNQJWH9ifywPpqbl0R+T9TVopnWHH+2QlX?=
- =?us-ascii?Q?PWhJvTwZB0h5cIbaZZcmzZ9hOXNiesLBR/GtnyLxJ3QuD3UoVzU3BMyInFPV?=
- =?us-ascii?Q?04Lzv3zqynQpwn6/KTqN3LaxH+mEdf3qo9eEHNy/nWeSkcANnk7XQgUIwPiX?=
- =?us-ascii?Q?lTPtadSIbcdldyFXk6KaKe5qvMz55a26yep8CpI3q4bB6PCevGdgpUYtzF+5?=
- =?us-ascii?Q?oZl0Qsj5YMnYPcZcl2CKeisK8iozWghpP/oog/AU78/i4jZAsiAR4F0aRJmi?=
- =?us-ascii?Q?zOfJ93ifBIDf77bfGmVgl/HqFvKuobesS31ZyeYt6FfzGpHqJsEJ4VlBFMGR?=
- =?us-ascii?Q?mWPVTEGjyv9+ndDm+9OfjK722q/Kn+1PdHb1k+yEddBTQ9g56Wz098RiF0yh?=
- =?us-ascii?Q?vymXXZh90VqByFG/o2oGq/y9TEKYYpeJG1TIihYtUpvCrrEGzLe2zQUmQaiD?=
- =?us-ascii?Q?+0XRg9JXxJRZq9a2HMKr1ofQgHAZjGY=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76507558-00d7-40fb-0630-08da42f85d76
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2022 11:26:12.3215
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VmDZZDNTYESsu9rJhLIHss9FQCnN+lwydNTfM40ODiHa0mScAqlq1cog/I14c/lKubjVDtrwhz6PsY/PuCIpL72mZVV9lFEAhUOZRYnnlhs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR10MB2788
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
- definitions=2022-05-31_04:2022-05-30,2022-05-31 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0
- malwarescore=0 mlxscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2205310059
-X-Proofpoint-ORIG-GUID: rUGgWoV7vPLCpacYteClb4WUotAXGvKD
-X-Proofpoint-GUID: rUGgWoV7vPLCpacYteClb4WUotAXGvKD
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 0/2] Fix some compile warnings in v5.18+
+Content-Language: en-US
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>
+References: <20220531013103.2175-1-Larry.Finger@lwfinger.net>
+ <YpW4WKxKIIgY0l7m@equinox>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <YpW4WKxKIIgY0l7m@equinox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 31, 2022 at 10:43:09AM +0200, Paolo Abeni wrote:
-> Hello,
+On 5/31/22 01:40, Phillip Potter wrote:
 > 
-> On Sun, 2022-05-29 at 23:34 +0800, Chengguang Xu wrote:
-> > Fix missing destruction(when '(--i) == 0') for error case in
-> > netlink_proto_init().
-> > 
-> > Signed-off-by: Chengguang Xu <cgxu519@mykernel.net>
-> > ---
-> >  net/netlink/af_netlink.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/net/netlink/af_netlink.c b/net/netlink/af_netlink.c
-> > index 0cd91f813a3b..bd0b090a378b 100644
-> > --- a/net/netlink/af_netlink.c
-> > +++ b/net/netlink/af_netlink.c
-> > @@ -2887,7 +2887,7 @@ static int __init netlink_proto_init(void)
-> >  	for (i = 0; i < MAX_LINKS; i++) {
-> >  		if (rhashtable_init(&nl_table[i].hash,
-> >  				    &netlink_rhashtable_params) < 0) {
-> > -			while (--i > 0)
-> > +			while (--i >= 0)
-> >  				rhashtable_destroy(&nl_table[i].hash);
-> >  			kfree(nl_table);
-> >  			goto panic;
+> Hi Larry,
 > 
-> The patch looks correct to me, but it looks like each patch in this
-> series is targeting a different tree. I suggest to re-send, splitting
-> the series into individual patches, and sending each of them to the
-> appropriate tree. You can retain Dan's Review tag.
+> Both patches look good to me, however I've already submitted a patch 10
+> days ago that does exactly what your rtw_xmit.c patch does, in
+> addition to fixing the changed error handling semantics for the relevant
+> function (in f94b47c6bde6) which broke the driver.
 
-Since it looks like you're going to be resending these then could you
-add Fixes tags?  Please keep my Review tag.
+Phil,
 
-regards,
-dan carpenter
+Sorry I missed your patch. I have been really busy the past month on another 
+problem, and I was not paying much attention to r8188eu.
+
+When I built a mainline kernel in the middle of the merge from 5.18 to 5.19, 
+those two warnings stood out.
+
+Your patch should be ahead of mine in Greg's queue, thus mine should fail, and I 
+will get the "does not apply" message. At that time, I will send the other 
+patch. As both of us missed the 5.19 merge, the build warnings will persist 
+until 5.20, but no harm.
+
+Larry
 
