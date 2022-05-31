@@ -1,88 +1,253 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC2620FC
-	for <linux-staging@lists.linux.dev>; Tue, 31 May 2022 06:40:28 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id q7so6288160wrg.5
-        for <linux-staging@lists.linux.dev>; Mon, 30 May 2022 23:40:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=hWi8+sNMetrYMzLc34VlHt3OhXmn2b5I8FlnJI4POXE=;
-        b=UFL9N9JhTYW/Wh36Zwj142mdG1eXYyqsPf0pCsMhKDQtPljFB78+hO04ngET8qF0X9
-         wBE4eIGDlQomlKtwgY1OJ95nl9vGvsbherAOFGH4r6VmmAwv+HVQs5JtTVId3i/8nlVn
-         uzJqH8fYXZkT4XdCAT1+PZWz4eeumQaG1JwQJYdDVNip8v2nnvbxBDMAMp+ezPITWU07
-         2DLYCJSoyLsv7S+D6jM4CrHvzjhy4E0mf6lnuoFwHzvJ2JkT9vQr/kxPItKB1wdSF+HG
-         GCsFGYGbgUzDThj+IjDCjYo0gTsUhSppwHgE3rEE1brg69vYSwfmw2NmbJMJ0iyaMyvV
-         dIVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hWi8+sNMetrYMzLc34VlHt3OhXmn2b5I8FlnJI4POXE=;
-        b=aYyMs6ak+vT5J7ertPKuFSE1DBvF7ElvLIv9zGxXg+lBSomwXVHEtEeGWiiDDkldt1
-         zLZeFD/fdDcOYGagI0Pqvf1tdR4IA6n52+l82ZqL2qQX8VN25jAQ5GyRWcYeo+YSNvyc
-         hOg4S0HUl8vJ4nXjxaIlhRDGaQVd7NN4/gx31drRHUSV9zwL5vV2b3ThwW8/B7evDgrQ
-         U1O1oUUrMk1YUww7g8d74GhfxLD0qFfYD94z9FzvRC0uJJyFR8bcIyOqpaW1KRKSKz62
-         lOp6g761nGignx0HJHn3SvuFiiiXoBdsckskgEBOli9axFB2xctHREAxiNcmQ8jUPLhi
-         UGXQ==
-X-Gm-Message-State: AOAM531FKXKmrhqu6NijZnNf6tyYXVJA8fr7jTzXrD0hHfbJ2WGBXiaI
-	+/dr5Pln948HrPzuaV07Tpqx5Q==
-X-Google-Smtp-Source: ABdhPJwMqIF0KI6J8fO9BDzZJ9VYbRVfEIjt23H4x15ky9FdtzN9fcbpJxoV7hzlDtt3RwVHgKaJIQ==
-X-Received: by 2002:a5d:47a1:0:b0:20f:ecc4:7f6c with SMTP id 1-20020a5d47a1000000b0020fecc47f6cmr30560217wrb.236.1653979226621;
-        Mon, 30 May 2022 23:40:26 -0700 (PDT)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id l6-20020adff486000000b0020c5253d907sm10671844wro.83.2022.05.30.23.40.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 May 2022 23:40:26 -0700 (PDT)
-Date: Tue, 31 May 2022 07:40:24 +0100
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v3 0/2] Fix some compile warnings in v5.18+
-Message-ID: <YpW4WKxKIIgY0l7m@equinox>
-References: <20220531013103.2175-1-Larry.Finger@lwfinger.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B435720FC;
+	Tue, 31 May 2022 06:58:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: benjamin.gaignard)
+	with ESMTPSA id 20D641F434F5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1653980329;
+	bh=/YdiAxkbFFsJPIbUNtx17mCUZumnLJTtjHWjlaPVPpA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fOihRgNRYJpayg+EAICytygYOQ5MRP2tdgwYWmHMyoZ1pdood/Y6r6wtpvBCuXRHY
+	 Q0UpPtUk65r63U5/V7viFwdlAW1D9gyKNLvgsfeXncx2zGFbjwl7YfGWJ3/rTZDlTb
+	 dPo62pJsxSQ1E8+UMrl7PPGkMT9yPtYAm0NHe4ya0f/MjqZOC5mk0RjmJHgYjgT+1F
+	 ZpG9k0zP8aLKu75wy2NcXtivZXEe8BFyn6jXv2XJsfZ5aUWAmL0+bJD+M6G5KptwXr
+	 b7G+bLg2fj5aKOm31YRtwZ+bcWYWZQkVAMWr9fpD6F1pWYfxDSArYcj/kyGiP64jhU
+	 NNgBeFFjc+akA==
+Message-ID: <b398272b-daf8-7499-b4fd-8a6f2af30053@collabora.com>
+Date: Tue, 31 May 2022 08:58:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220531013103.2175-1-Larry.Finger@lwfinger.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v6 11/17] media: uapi: Add
+ V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Content-Language: en-US
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org,
+ nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+ Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ kernel@collabora.com
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
+ <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl>
+ <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl> <5824953.lOV4Wx5bFT@kista>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <5824953.lOV4Wx5bFT@kista>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 30, 2022 at 08:31:01PM -0500, Larry Finger wrote:
-> Building driver r8188eu in staging with -warray-bounds exposes two places
-> where arrays are too small.
-> 
-> Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
-> ---
-> v2 - get proper To and Cc
-> v3 - Use Dan Carpenter's suggestion for correct patch.
-> 
-> Larry Finger (2):
->   staging: r8188eu: Fix undersized array in rtw_xmit.c
->   staging: r8188eu: Fix warning of array overflow in ioctl_linux.c
-> 
->  drivers/staging/r8188eu/core/rtw_xmit.c      | 17 ++++-------------
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c |  2 +-
->  2 files changed, 5 insertions(+), 14 deletions(-)
-> 
-> -- 
-> 2.36.1
-> 
 
-Hi Larry,
+Le 30/05/2022 à 23:24, Jernej Škrabec a écrit :
+> Dne ponedeljek, 30. maj 2022 ob 15:49:57 CEST je Hans Verkuil napisal(a):
+>> On 30/05/2022 11:18, Hans Verkuil wrote:
+>>> On 29/05/2022 08:40, Jernej Škrabec wrote:
+>>>> Hi!
+>>>>
+>>>> This series looks very good and I plan to test it shortly on Cedrus, but
+> I
+>>>> have one major concern below.
+>>>>
+>>>> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard napisal(a):
+>>>>> The number of 'entry point offset' can be very variable.
+>>>>> Instead of using a large static array define a v4l2 dynamic array
+>>>>> of U32 (V4L2_CTRL_TYPE_U32).
+>>>>> The number of entry point offsets is reported by the elems field
+>>>>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+>>>>> field.
+>>>> Slice control by itself is variable length array, so you would actually
+> need
+>>>> 2D variable array for entry points which is not supported. However, easy
+>>>> workaround for that is to flatten 2D array to 1D and either have another
+> slice
+>>>> control field which would tell first entry point index for convenience or
+> let
+>>>> driver calculate it by adding up all num_entry_point_offsets of previous
+>>>> slices.
+>>>>
+>>>> Hans, what do you think?
+>>> If I would support 2D variable array sizes, wouldn't that be more elegant?
+>>>
+>>> The current implementation doesn't support that, but as the commit log for
+>>> patch 1/17 says:
+>>>
+>>> "Currently dynamically sized arrays are limited to one dimensional arrays,
+>>> but that might change in the future if there is a need for it."
+>>>
+>>> Let me know if you agree, and I'll try to implement this. It's been a
+> while
+>>> since I last looked at this, so I'm not sure how much work it is, but it
+> is
+>>> probably worth a shot.
+>> Digging more into this made me realize that this doesn't actually help for
+> this
+>> particular case.
+>>
+>> I would lean towards your second suggestion of adding up all
+> num_entry_point_offsets
+>> of previous slices.
+> Just one question/clarification about dynamic arrays - does driver need to
+> reserve maximum amount of memory for dynamic array control at initialization
+> time? If so, this would still be problematic, since there cound be a huge
+> amount of entry points in theory.
 
-Both patches look good to me, however I've already submitted a patch 10
-days ago that does exactly what your rtw_xmit.c patch does, in
-addition to fixing the changed error handling semantics for the relevant
-function (in f94b47c6bde6) which broke the driver.
+When adding the control the driver could set .dims field to specify
+the max number of accepted slices.
+I have added '#define V4L2_HEVC_SLICE_MAX_COUNT 600' that you could use
+for this field. It is the value we have found when using slices with RKVDEC
+driver.
 
 Regards,
-Phil
+Benjamin
+
+>
+> Best regards,
+> Jernej
+>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> Regards,
+>>>
+>>> 	Hans
+>>>
+>>>> Note, it seems that H265 decoding on Cedrus still works without entry
+> points,
+>>>> so this problem can be solved later. I'm not sure what we lose with that
+> but
+>>>> it was suggested that this could influence speed or error resilience or
+> both.
+>>>> However, I think we're close to solve it, so I'd like to do that now.
+>>>>
+>>>> Best regards,
+>>>> Jernej
+>>>>
+>>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>>>> ---
+>>>>>   .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 +++++++++++
+>>>>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
+>>>>>   include/media/hevc-ctrls.h                            |  5 ++++-
+>>>>>   3 files changed, 20 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
+>>>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>> index 0796b1563daa..05228e280f66 100644
+>>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>>>>       * - __u32
+>>>>>         - ``data_bit_offset``
+>>>>>         - Offset (in bits) to the video data in the current slice data.
+>>>>> +    * - __u32
+>>>>> +      - ``num_entry_point_offsets``
+>>>>> +      - Specifies the number of entry point offset syntax elements in the
+>>>> slice header.
+>>>>>       * - __u8
+>>>>>         - ``nal_unit_type``
+>>>>>         - Specifies the coding type of the slice (B, P or I).
+>>>>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>>>>   
+>>>>>       \normalsize
+>>>>>   
+>>>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>>>>> +    Specifies entry point offsets in bytes.
+>>>>> +    This control is a dynamically sized array. The number of entry
+> point
+>>>>> +    offsets is reported by the ``elems`` field.
+>>>>> +    This bitstream parameter is defined according to :ref:`hevc`.
+>>>>> +    They are described in section 7.4.7.1 "General slice segment header
+>>>>> +    semantics" of the specification.
+>>>>> +
+>>>>>   ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>>>>>       Specifies the HEVC scaling matrix parameters used for the scaling
+>>>> process
+>>>>>       for transform coefficients.
+>>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/
+> v4l2-
+>>>> core/v4l2-ctrls-defs.c
+>>>>> index d594efbcbb93..e22921e7ea61 100644
+>>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>>>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return
+>>>> "HEVC Decode Parameters";
+>>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return
+>>>> "HEVC Decode Mode";
+>>>>>   	case V4L2_CID_STATELESS_HEVC_START_CODE:		return
+>>>> "HEVC Start Code";
+>>>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return
+>>>> "HEVC Entry Point Offsets";
+>>>>>   
+>>>>>   	/* Colorimetry controls */
+>>>>>   	/* Keep the order of the 'case's the same as in v4l2-controls.h!
+>>>> */
+>>>>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name,
+> enum
+>>>> v4l2_ctrl_type *type,
+>>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+>>>>>   		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>>>>>   		break;
+>>>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+>>>>> +		*type = V4L2_CTRL_TYPE_U32;
+>>>>> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+>>>>> +		break;
+>>>>>   	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>>>>>   		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>>>>>   		break;
+>>>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>>>>> index a3c829ef531a..1319cb99ae3f 100644
+>>>>> --- a/include/media/hevc-ctrls.h
+>>>>> +++ b/include/media/hevc-ctrls.h
+>>>>> @@ -20,6 +20,7 @@
+>>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE
+>>>> + 1012)
+>>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE
+> + 1015)
+>>>>>   #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+>>>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE
+> +
+>>>> 1017)
+>>>>>   
+>>>>>   /* enum v4l2_ctrl_type type values */
+>>>>>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+>>>>> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
+>>>>>    *
+>>>>>    * @bit_size: size (in bits) of the current slice data
+>>>>>    * @data_bit_offset: offset (in bits) to the video data in the current
+> slice
+>>>> data
+>>>>> + * @num_entry_point_offsets: specifies the number of entry point offset
+> syntax
+>>>>> + *			     elements in the slice header.
+>>>>>    * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+>>>>>    * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for
+> the
+>>>> NAL unit
+>>>>>    * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+>>>>> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
+>>>>>   struct v4l2_ctrl_hevc_slice_params {
+>>>>>   	__u32	bit_size;
+>>>>>   	__u32	data_bit_offset;
+>>>>> -
+>>>>> +	__u32	num_entry_point_offsets;
+>>>>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>>>>>   	__u8	nal_unit_type;
+>>>>>   	__u8	nuh_temporal_id_plus1;
+>>>>> -- 
+>>>>> 2.32.0
+>>>>>
+>>>>>
+>>>>
+>>
+>
