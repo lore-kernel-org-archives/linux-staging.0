@@ -1,253 +1,148 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B435720FC;
-	Tue, 31 May 2022 06:58:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: benjamin.gaignard)
-	with ESMTPSA id 20D641F434F5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1653980329;
-	bh=/YdiAxkbFFsJPIbUNtx17mCUZumnLJTtjHWjlaPVPpA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fOihRgNRYJpayg+EAICytygYOQ5MRP2tdgwYWmHMyoZ1pdood/Y6r6wtpvBCuXRHY
-	 Q0UpPtUk65r63U5/V7viFwdlAW1D9gyKNLvgsfeXncx2zGFbjwl7YfGWJ3/rTZDlTb
-	 dPo62pJsxSQ1E8+UMrl7PPGkMT9yPtYAm0NHe4ya0f/MjqZOC5mk0RjmJHgYjgT+1F
-	 ZpG9k0zP8aLKu75wy2NcXtivZXEe8BFyn6jXv2XJsfZ5aUWAmL0+bJD+M6G5KptwXr
-	 b7G+bLg2fj5aKOm31YRtwZ+bcWYWZQkVAMWr9fpD6F1pWYfxDSArYcj/kyGiP64jhU
-	 NNgBeFFjc+akA==
-Message-ID: <b398272b-daf8-7499-b4fd-8a6f2af30053@collabora.com>
-Date: Tue, 31 May 2022 08:58:46 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50D620FC
+	for <linux-staging@lists.linux.dev>; Tue, 31 May 2022 07:25:45 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24UNv0We032624;
+	Tue, 31 May 2022 07:25:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=X+YZ18uuhNdD9BNc6jCiFvj0BtDe/0JkIzRzaxWQLcw=;
+ b=C1HlpY7sYC5JW8avHaEgNEWaegdJEiIMJ31K0tsXfD0iUj9YqDNehJyk6A6DPkix6aMA
+ fXy1GxJPkDdOONNBsg8dQH1PVsUno+qZSXEYgPzRg14xS13mjqC277BYUVdw1S6ZB0Cg
+ EEwVHiOYWaSHnNi59sVdqKeMaeVUXnPaMmnR/A46zClp8KHcnpzXHyHlCjOsPjiRHfbU
+ Vm0rZwjOcgXWJXqey8O4LEc5UvifWZ6PiCkw9enwhp68IGaeH27xArKbNPIDyhpgL+m/
+ +CtIhdD8lNyC/O9FT/8nC8c4OJ0pzAiI8MZxpuYCrCzKAuY+owY2JVyos18V6kVEsTZL VQ== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gbcahm985-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 31 May 2022 07:25:43 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 24V7BVYh014586;
+	Tue, 31 May 2022 07:25:42 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gc8kh04cs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 31 May 2022 07:25:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S856WHRr9TSHY92cubBfJWSDYj58/6HL7EYbwCJ43EsINNYMN0jaYrkXVM4v+Z9MhQR89mTONtSSQyZj24qQj6Z88OD99LBM9uZP7J623PaQqhSBqtHvva7xAhXmyN7gWsVPLVr7iFqQNplj8JDfJLHWV8O3VxiTL/UIYjJgeM/MP4r/0aq0/a5ZyoH27Hv/zGbAgQaLrEnx357IlvTWsNF/8mSTkrhxCrA0uhLjLspClhHYR57I7KzVL5bUaLXunClKtq/pePYtnifHotZ7y9SBKSTc3+YkZfICQ7lZgTyCkZpcu5MUdWDG6kB1kk7T4baqbeRinGKLUgYgo02rJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X+YZ18uuhNdD9BNc6jCiFvj0BtDe/0JkIzRzaxWQLcw=;
+ b=YYgOfYY4k/ZcEo953a84YhEZzE+Aw4Ukj6Be51CD7SHQs1vdYnDSjBZNqNVnlsLB9SLFwOvTolAF1ka87CBna6hpP2tA9MQeHn1pi74cj6kJchUwmNfXKEu3mHl0Oi6ZImvXFG/oqKs0QJt0nFg0yFKRK4GeqY2ufVlFYwFabX3tvYNBmNACwNTMeJJZlHzxBcEuKBbwhDQngLlUdOneEIXRJRiOFQll4xlAaIxOa3pHWFois7o6k9DMH+0S+FJCT3QcjvkDgWCEcQ2hVoYwyiknCvOgWUXSlydOF3z0KkFQjTwCUHt6eK3CRNIY6nZQ+yxVqdJ4IzX3fD+k3xYN4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X+YZ18uuhNdD9BNc6jCiFvj0BtDe/0JkIzRzaxWQLcw=;
+ b=FTUYqkw+uOGraDZ+f+3Qp5gTEc4rI51jI2bLN5argirrGZtCXwjZ+N58SRp+M1ADB0N541suB447QhlZmwGkMtgs1p94kYINJk6evuanQVph3RcAOuZcbNg44CrmaQxroBjIzWhwKzpcs92HCznkAvrBvR2n7zjGgA+vYPoiO+Q=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CY4PR1001MB2293.namprd10.prod.outlook.com
+ (2603:10b6:910:44::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5293.19; Tue, 31 May
+ 2022 07:25:41 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::86f:81ba:9951:5a7e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::86f:81ba:9951:5a7e%2]) with mapi id 15.20.5293.019; Tue, 31 May 2022
+ 07:25:40 +0000
+Date: Tue, 31 May 2022 10:25:23 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: gregkh@linuxfoundation.org, phil@philpotter.co.uk,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] staging: r8188eu: Fix undersized array in
+ rtw_xmit.c
+Message-ID: <20220531072523.GR2146@kadam>
+References: <20220531013103.2175-1-Larry.Finger@lwfinger.net>
+ <20220531013103.2175-2-Larry.Finger@lwfinger.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220531013103.2175-2-Larry.Finger@lwfinger.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0020.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::32)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v6 11/17] media: uapi: Add
- V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org,
- nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- kernel@collabora.com
-References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
- <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl>
- <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl> <5824953.lOV4Wx5bFT@kista>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <5824953.lOV4Wx5bFT@kista>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6bfaea5e-9c27-4e3c-6896-08da42d6c41e
+X-MS-TrafficTypeDiagnostic: CY4PR1001MB2293:EE_
+X-Microsoft-Antispam-PRVS: 
+	<CY4PR1001MB2293B4882191FF09361DACE78EDC9@CY4PR1001MB2293.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	pL7puhbfNMMUPjt7fiSRSSuqWK9Mcw4ValD6pJ7Lt2dSuBL1bpLnF7cPAPKRVc+WZRNl3z42p5zePAUWi5x2bYCQ5uI3ko2QuI2gB46VFsf56QieaotKPnEmpvtc3xZmCq/Q2sqfu8G80RCnrfInl22DjNcbpErYqWUr/akK5NRHdeVbeXqKU1zFT2r0xfi4KMiw05tozVuvF7PHBLltxhFucq788DV7evnUn+G/j/+pP2eXBJcNUNYwE1K178xGGnotV5Map32v3W3aKf8PbWQTrExdgw7zGJm3JmAKU+MyN31VQ8UzBVj6S7r8NvTdRJeLrlvTSM8cK3urxryzBB/2IywyBz5DREJBLcX18O9VIwmFWGZFs4OiswCeaXzwZPCQVUCwH5XMeUn8sMbueIAAs7nAFvb99JAYTjYWP/g0hUaphafpVQ3enmm2+Cr3MU7YHn0QFNVXP63P3Y/jN5XJjhp8WG5VLilNfuAHhbp2u2EotoEbBW03z7XB0YYGP7c8mVx8razwLexqFXb37GCk5GFqRtHqdCGCrDR+KL70IwbIdLbZTBNZjY/EkiDqw1pThL9uXCUUEzY3qRwKAUhMX7/bJwopd2HSR6dt+LR5KUnahf9zhFiAZi11TomgTdt5WgjnU5DDzuZ1ti8HYicJOUn3scdAKtLl4TfJxG6IYkKAdau/6s/4vxM7GeL5J1l5upBbw0W0xU3MRYVYsg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(8936002)(33716001)(86362001)(1076003)(9686003)(26005)(6512007)(508600001)(6486002)(5660300002)(6666004)(38350700002)(33656002)(2906002)(52116002)(186003)(6506007)(558084003)(44832011)(4326008)(66476007)(8676002)(66556008)(66946007)(38100700002)(6916009)(316002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?iTqw2knOtuuBV4I+HNjqeZhX7R0ZiAxbEpK9ZMhCyTI4zus120hgnzyDuhMx?=
+ =?us-ascii?Q?wMx8HV/qBiV6aPmfgWSuh6WPOfYWp1uLUT/lNx9hFg8r5XfWmba5J8mZ8zmJ?=
+ =?us-ascii?Q?LAtfaqXbObmp44is0RcAmZOsExv5PkknsZ//azSlbZC8FIaVsNJArPc+CfWH?=
+ =?us-ascii?Q?pn53lnDjkmfrhpONb67l3cZVBe6rHYpNCDcBAXHNRdk6y/7S4KEhpKLT2E8d?=
+ =?us-ascii?Q?VU3Er6S96c8HRIJLs/5e9C2ObZvY5dF+t4AUd6iU6qnw6kodMKIf2QhknoU6?=
+ =?us-ascii?Q?9E0P01pCinp2glOYzHciJw1ufeGIKGEnr3v4LmWmD8vfZVg8H0w70kX3DAKZ?=
+ =?us-ascii?Q?eExZ9tAb3EPY9TtJTHRcU7sn8lbFhUhFy5NzCEg9lw+0+GW/0+mi3Z0jNSYE?=
+ =?us-ascii?Q?BCY92q646ymyUtfR5/VzQul08INKqEYbIQlNVWUqtM2OK8Mbsk4qEyOBK68e?=
+ =?us-ascii?Q?EZyHoFQQBM1j4whE4Zf5PtmJ3ZDE9CRqcZPxh5vJhfX2zXnzS0RWaMctkQEO?=
+ =?us-ascii?Q?TijR/WL144f5pQ0G7JD1ocANI1foi0kPcd5Jz4dZ4c5l1AQmFFptNQRgWbtb?=
+ =?us-ascii?Q?qVz8EjLD/df2uuFOW7TaeccTtjSYqwShHapI2O1YSZNiy2NOU/7Lf4PFfYP0?=
+ =?us-ascii?Q?gexP+UTuYqpYK4y2sHXZtMmegHmRgjDz73wsPInwKmnjBp8xDnL11FdfWkk3?=
+ =?us-ascii?Q?33CJWBpcReFqT8cT7UH99O3eb/GY8Ehh8qw6D7gvJPEtPiKGsDALCl7pIh9P?=
+ =?us-ascii?Q?fpP5VMhC+2sbo3aVvBi63SHUzviEjbMdNXp+I/SMSz9a6S+hj01M25UzBaAa?=
+ =?us-ascii?Q?4AGWWzA85n+ukIXpJIgjlGQw+ED7o/KcjEzWJl3u5oi0avA7R4kSDheJcsQl?=
+ =?us-ascii?Q?YNEp8AmJmMS1DQ4/DqhulLt0AaZNB0Gx4Nk0XajS7VhXnAOFxHWL+UsYrgCI?=
+ =?us-ascii?Q?5xAID0t7h2jxt8s6l5HeBnQfKuzRHqM6ZByCHbUL5LVkMgqjA7Uur8HSx57p?=
+ =?us-ascii?Q?saXRY5u050nzeDWnSlX/lVlNLpG/7LL0gigtIhTqv7tUFg4X4/Sp0yvqx5xK?=
+ =?us-ascii?Q?1HMHVXD5c8YBxrls4E7HQTbQK2lUSNrgTFh5uvpynSt81bVsowkDR7rsL4R0?=
+ =?us-ascii?Q?8JbwCbAYv7rg4zaO64K1CKCFWM6kvTWjDzvQVTbw3M46fZNcSLbjBwNoWdZ0?=
+ =?us-ascii?Q?dCOAeMWZ1zxWABtE6JMoANOsaFTLnufA+7+r5A0VsgJcUDU1IRaub+VntUmV?=
+ =?us-ascii?Q?LtIH+1mJG8qqf+iUkeieeX4Zc0eo272nq1EyxLOMQEA/qmQK8ddPd5wP86au?=
+ =?us-ascii?Q?R5qeufpsiat1g3ie0oy0/JKrwLuJRZMzSEqCYOsTsFqASMDrdgh4ymqRujaQ?=
+ =?us-ascii?Q?xKs2JCioFM1f2O4TAuXj0VcgH2QaWJAS+MlY5p9WrtrKzOWiIgYOGSSHX5zG?=
+ =?us-ascii?Q?uXXX56VDZyLcMtJ0506voULKvdxdv6crP/et9kyNTDPL0dI8xgKI8BD6jpN8?=
+ =?us-ascii?Q?21gO4wGPw3aQGauromj31I/hFv1xG6hFDMxhG6oDO5k9CpgOATkE73yHk/mn?=
+ =?us-ascii?Q?FvKehWjjeuEBVcLhZkVyEYgD7VCyaQUrm60QhdgypU6u05lC0G781lmeP8Ib?=
+ =?us-ascii?Q?lkoR5kbcseQa8RyfHgIy6aUpAfuIM8Msohx68tzznFgls5Y7ICY0To8vArC1?=
+ =?us-ascii?Q?vb8LDRlD82dtlk4SeCidtSkaOGLpCEZuVfwy0jl2mUC7VZF5KjE+Dm0bbull?=
+ =?us-ascii?Q?q2Pg9Vo8D5BuGYAxgKDVy0g27RmX2eU=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bfaea5e-9c27-4e3c-6896-08da42d6c41e
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2022 07:25:40.8670
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dooeCrgBSUkRK+RsYjpHGjMf3RQZx0t6TBSjq8+ZQZh17n1l5SIjRGxQ/bn37uT5QQ4SzUQl2T6v4VcbGTvCD53nRvjc6NdDpPR4UrXJcOI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1001MB2293
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
+ definitions=2022-05-31_02:2022-05-30,2022-05-31 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0
+ malwarescore=0 mlxscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2205310037
+X-Proofpoint-ORIG-GUID: ncmQYSl3pICADk2UuDoGdJPBzxI2f5x3
+X-Proofpoint-GUID: ncmQYSl3pICADk2UuDoGdJPBzxI2f5x3
 
+On Mon, May 30, 2022 at 08:31:02PM -0500, Larry Finger wrote:
+> --
+> v2 - get proper To and Cc
+> v3 - Use Dan Carpenter's suggestion for correct fix
 
-Le 30/05/2022 à 23:24, Jernej Škrabec a écrit :
-> Dne ponedeljek, 30. maj 2022 ob 15:49:57 CEST je Hans Verkuil napisal(a):
->> On 30/05/2022 11:18, Hans Verkuil wrote:
->>> On 29/05/2022 08:40, Jernej Škrabec wrote:
->>>> Hi!
->>>>
->>>> This series looks very good and I plan to test it shortly on Cedrus, but
-> I
->>>> have one major concern below.
->>>>
->>>> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard napisal(a):
->>>>> The number of 'entry point offset' can be very variable.
->>>>> Instead of using a large static array define a v4l2 dynamic array
->>>>> of U32 (V4L2_CTRL_TYPE_U32).
->>>>> The number of entry point offsets is reported by the elems field
->>>>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
->>>>> field.
->>>> Slice control by itself is variable length array, so you would actually
-> need
->>>> 2D variable array for entry points which is not supported. However, easy
->>>> workaround for that is to flatten 2D array to 1D and either have another
-> slice
->>>> control field which would tell first entry point index for convenience or
-> let
->>>> driver calculate it by adding up all num_entry_point_offsets of previous
->>>> slices.
->>>>
->>>> Hans, what do you think?
->>> If I would support 2D variable array sizes, wouldn't that be more elegant?
->>>
->>> The current implementation doesn't support that, but as the commit log for
->>> patch 1/17 says:
->>>
->>> "Currently dynamically sized arrays are limited to one dimensional arrays,
->>> but that might change in the future if there is a need for it."
->>>
->>> Let me know if you agree, and I'll try to implement this. It's been a
-> while
->>> since I last looked at this, so I'm not sure how much work it is, but it
-> is
->>> probably worth a shot.
->> Digging more into this made me realize that this doesn't actually help for
-> this
->> particular case.
->>
->> I would lean towards your second suggestion of adding up all
-> num_entry_point_offsets
->> of previous slices.
-> Just one question/clarification about dynamic arrays - does driver need to
-> reserve maximum amount of memory for dynamic array control at initialization
-> time? If so, this would still be problematic, since there cound be a huge
-> amount of entry points in theory.
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-When adding the control the driver could set .dims field to specify
-the max number of accepted slices.
-I have added '#define V4L2_HEVC_SLICE_MAX_COUNT 600' that you could use
-for this field. It is the value we have found when using slices with RKVDEC
-driver.
+regards,
+dan carpenter
 
-Regards,
-Benjamin
-
->
-> Best regards,
-> Jernej
->
->> Regards,
->>
->> 	Hans
->>
->>> Regards,
->>>
->>> 	Hans
->>>
->>>> Note, it seems that H265 decoding on Cedrus still works without entry
-> points,
->>>> so this problem can be solved later. I'm not sure what we lose with that
-> but
->>>> it was suggested that this could influence speed or error resilience or
-> both.
->>>> However, I think we're close to solve it, so I'd like to do that now.
->>>>
->>>> Best regards,
->>>> Jernej
->>>>
->>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>>> ---
->>>>>   .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 +++++++++++
->>>>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
->>>>>   include/media/hevc-ctrls.h                            |  5 ++++-
->>>>>   3 files changed, 20 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
->>>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> index 0796b1563daa..05228e280f66 100644
->>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>>>       * - __u32
->>>>>         - ``data_bit_offset``
->>>>>         - Offset (in bits) to the video data in the current slice data.
->>>>> +    * - __u32
->>>>> +      - ``num_entry_point_offsets``
->>>>> +      - Specifies the number of entry point offset syntax elements in the
->>>> slice header.
->>>>>       * - __u8
->>>>>         - ``nal_unit_type``
->>>>>         - Specifies the coding type of the slice (B, P or I).
->>>>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>>>   
->>>>>       \normalsize
->>>>>   
->>>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
->>>>> +    Specifies entry point offsets in bytes.
->>>>> +    This control is a dynamically sized array. The number of entry
-> point
->>>>> +    offsets is reported by the ``elems`` field.
->>>>> +    This bitstream parameter is defined according to :ref:`hevc`.
->>>>> +    They are described in section 7.4.7.1 "General slice segment header
->>>>> +    semantics" of the specification.
->>>>> +
->>>>>   ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->>>>>       Specifies the HEVC scaling matrix parameters used for the scaling
->>>> process
->>>>>       for transform coefficients.
->>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/
-> v4l2-
->>>> core/v4l2-ctrls-defs.c
->>>>> index d594efbcbb93..e22921e7ea61 100644
->>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->>>>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return
->>>> "HEVC Decode Parameters";
->>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return
->>>> "HEVC Decode Mode";
->>>>>   	case V4L2_CID_STATELESS_HEVC_START_CODE:		return
->>>> "HEVC Start Code";
->>>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return
->>>> "HEVC Entry Point Offsets";
->>>>>   
->>>>>   	/* Colorimetry controls */
->>>>>   	/* Keep the order of the 'case's the same as in v4l2-controls.h!
->>>> */
->>>>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name,
-> enum
->>>> v4l2_ctrl_type *type,
->>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
->>>>>   		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->>>>>   		break;
->>>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
->>>>> +		*type = V4L2_CTRL_TYPE_U32;
->>>>> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
->>>>> +		break;
->>>>>   	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
->>>>>   		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
->>>>>   		break;
->>>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->>>>> index a3c829ef531a..1319cb99ae3f 100644
->>>>> --- a/include/media/hevc-ctrls.h
->>>>> +++ b/include/media/hevc-ctrls.h
->>>>> @@ -20,6 +20,7 @@
->>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE
->>>> + 1012)
->>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE
-> + 1015)
->>>>>   #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
->>>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE
-> +
->>>> 1017)
->>>>>   
->>>>>   /* enum v4l2_ctrl_type type values */
->>>>>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->>>>> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
->>>>>    *
->>>>>    * @bit_size: size (in bits) of the current slice data
->>>>>    * @data_bit_offset: offset (in bits) to the video data in the current
-> slice
->>>> data
->>>>> + * @num_entry_point_offsets: specifies the number of entry point offset
-> syntax
->>>>> + *			     elements in the slice header.
->>>>>    * @nal_unit_type: specifies the coding type of the slice (B, P or I)
->>>>>    * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for
-> the
->>>> NAL unit
->>>>>    * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
->>>>> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
->>>>>   struct v4l2_ctrl_hevc_slice_params {
->>>>>   	__u32	bit_size;
->>>>>   	__u32	data_bit_offset;
->>>>> -
->>>>> +	__u32	num_entry_point_offsets;
->>>>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->>>>>   	__u8	nal_unit_type;
->>>>>   	__u8	nuh_temporal_id_plus1;
->>>>> -- 
->>>>> 2.32.0
->>>>>
->>>>>
->>>>
->>
->
