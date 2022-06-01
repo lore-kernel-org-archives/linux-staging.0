@@ -1,81 +1,55 @@
-Received: from sender2-op-o12.zoho.com.cn (sender2-op-o12.zoho.com.cn [163.53.93.243])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.meizu.com (edge01.meizu.com [14.29.68.187])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6438362
-	for <linux-staging@lists.linux.dev>; Wed,  1 Jun 2022 07:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654069632;
-	s=zohomail; d=mykernel.net; i=cgxu519@mykernel.net;
-	h=Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:Message-ID:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=9TczPh2ye+CJ8GtYFJSne4FSC2NTbNH+NU7EnCqZ18w=;
-	b=D35LycFD+mvLMX83hWZ9dF2BUC1OWf7Rra5au3PiApuEwyrB3MPc0aAHS1eZ8Es/
-	ak0aU+6ZQLZ4U221uENcEwkb4FyIx20T5ZctmyeOIGTos9RxfnPN9cVgzoosumJbZEH
-	FShu5qOOLisxjDvMcGeksJuDFoEG9zVvkLocy2sc=
-Received: from [192.168.255.10] (113.108.77.71 [113.108.77.71]) by mx.zoho.com.cn
-	with SMTPS id 1654069629528896.3577145683946; Wed, 1 Jun 2022 15:47:09 +0800 (CST)
-Date: Wed, 1 Jun 2022 15:47:07 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D357E
+	for <linux-staging@lists.linux.dev>; Wed,  1 Jun 2022 09:30:33 +0000 (UTC)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail04.meizu.com
+ (172.16.1.16) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 1 Jun 2022
+ 17:30:29 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 1 Jun
+ 2022 17:30:24 +0800
+From: Haowen Bai <baihaowen@meizu.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
+	<phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Haowen Bai <baihaowen@meizu.com>, <linux-staging@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] staging: r8188eu: Drop redundant memset
+Date: Wed, 1 Jun 2022 17:30:22 +0800
+Message-ID: <1654075823-9154-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/6] netlink: fix missing destruction of rhash table in
- error case
-To: Dan Carpenter <dan.carpenter@oracle.com>, Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-scsi@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <20220529153456.4183738-1-cgxu519@mykernel.net>
- <20220529153456.4183738-2-cgxu519@mykernel.net>
- <e530dc2021d43a29b64f985d7365319eab0d5595.camel@redhat.com>
- <20220531112551.GT2146@kadam>
-From: Chengguang Xu <cgxu519@mykernel.net>
-Message-ID: <5a5d847c-f8e6-48a7-85ad-75e76105122d@mykernel.net>
-In-Reply-To: <20220531112551.GT2146@kadam>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ZohoCNMailClient: External
+Content-Type: text/plain
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
 
-=E5=9C=A8 2022/5/31 19:25, Dan Carpenter =E5=86=99=E9=81=93:
-> On Tue, May 31, 2022 at 10:43:09AM +0200, Paolo Abeni wrote:
->> Hello,
->>
->> On Sun, 2022-05-29 at 23:34 +0800, Chengguang Xu wrote:
->>> Fix missing destruction(when '(--i) =3D=3D 0') for error case in
->>> netlink_proto_init().
->>>
->>> Signed-off-by: Chengguang Xu <cgxu519@mykernel.net>
->>> ---
->>>   net/netlink/af_netlink.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/net/netlink/af_netlink.c b/net/netlink/af_netlink.c
->>> index 0cd91f813a3b..bd0b090a378b 100644
->>> --- a/net/netlink/af_netlink.c
->>> +++ b/net/netlink/af_netlink.c
->>> @@ -2887,7 +2887,7 @@ static int __init netlink_proto_init(void)
->>>   =09for (i =3D 0; i < MAX_LINKS; i++) {
->>>   =09=09if (rhashtable_init(&nl_table[i].hash,
->>>   =09=09=09=09    &netlink_rhashtable_params) < 0) {
->>> -=09=09=09while (--i > 0)
->>> +=09=09=09while (--i >=3D 0)
->>>   =09=09=09=09rhashtable_destroy(&nl_table[i].hash);
->>>   =09=09=09kfree(nl_table);
->>>   =09=09=09goto panic;
->> The patch looks correct to me, but it looks like each patch in this
->> series is targeting a different tree. I suggest to re-send, splitting
->> the series into individual patches, and sending each of them to the
->> appropriate tree. You can retain Dan's Review tag.
-> Since it looks like you're going to be resending these then could you
-> add Fixes tags?  Please keep my Review tag.
->
+The region set by the call to memset is immediately overwritten by the
+subsequent call to memcpy. So we drop redundant memset.
 
-OK, no problem.
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+---
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Thanks,
-Chengguang
-
-
+diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+index 7ba75f73e47e..17f6bcbeebf4 100644
+--- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
++++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+@@ -71,7 +71,6 @@ u8 rtw_do_join(struct adapter *padapter)
+ 
+ 				pibss = padapter->registrypriv.dev_network.MacAddress;
+ 
+-				memset(&pdev_network->Ssid, 0, sizeof(struct ndis_802_11_ssid));
+ 				memcpy(&pdev_network->Ssid, &pmlmepriv->assoc_ssid, sizeof(struct ndis_802_11_ssid));
+ 
+ 				rtw_update_registrypriv_dev_network(padapter);
+-- 
+2.7.4
 
