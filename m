@@ -1,83 +1,165 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D355A256F
-	for <linux-staging@lists.linux.dev>; Wed,  1 Jun 2022 14:12:02 +0000 (UTC)
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 251C1ME9017371;
-	Wed, 1 Jun 2022 12:59:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=66cj72qWa420n6emi4QsTozK10KFr6QW/aMACc/IsC4=;
- b=k0PE2oVRwYewMMl4r6pCh7MAesrPiH9lRca2UeyBjzgp5ci7Wa3uqkAPiEDQXEvBgvEu
- 4yfWXnlY5ta0DPt2Wjr/YSTr5jCnwz9i+a0o3rDtggOTHZ54DeXQusWcf61tDQcfgwYB
- 7N9HZBXN4/zjRCNqaeeC0VDGOn23xlfVohO+WB+EJWLOJzK4/gnYrbarR/SB3ph0f9IW
- 42b5y9me3cTlW1YqdXkT5ypuEXOKRKmQVfZ4CspHa6MB7oFfy+rBZJMntNEnGVNDDkOE
- dp2XhMxAbarrVPNtU1rAfIgXhakNHJ6Xvc51keCJVXXHXfE+fy3U/khAWilQRa/2bvjF lg== 
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
-	by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ge5aevc8x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jun 2022 12:59:18 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
-	by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 251CoiPA021220;
-	Wed, 1 Jun 2022 12:59:18 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com [9.57.198.26])
-	by ppma02dal.us.ibm.com with ESMTP id 3gd1ad0au9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jun 2022 12:59:18 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com [9.57.199.107])
-	by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 251CxHO67013306
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 1 Jun 2022 12:59:17 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4BCE1124058;
-	Wed,  1 Jun 2022 12:59:17 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B12AD124053;
-	Wed,  1 Jun 2022 12:59:16 +0000 (GMT)
-Received: from [9.211.56.150] (unknown [9.211.56.150])
-	by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
-	Wed,  1 Jun 2022 12:59:16 +0000 (GMT)
-Message-ID: <d4ee8702-46c7-2419-40f7-b8d9709741df@linux.vnet.ibm.com>
-Date: Wed, 1 Jun 2022 07:59:16 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB562562;
+	Wed,  1 Jun 2022 15:43:16 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id rq11so4620008ejc.4;
+        Wed, 01 Jun 2022 08:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=eExjNr6fs8mRydGKpSFoBAs8yn0OjvvcMBEWL8NYO50=;
+        b=QeReasI5nzyoYwf2HE7Um3WaNjpgzi3+hs2cEneet2shfyHEcSAHMZIM5CDltIicgj
+         9trv5RBkl+Qwg6C5l4NSIYsZGROSeBalRbv/xmfvI2l5JNHo0ZDFEL2VEVqQoTdah8aU
+         IpvV17x4HdV+PHg2mOSKRk4+sPyzfcZ/hPpEr5H6IUl/kHtp4rCxAyRY5NykWyVqHYdu
+         BuE1bLInE6xolADRW15X0ZFlMJZ5lXWdO8fFe9bBMaUaVMEzvLm4F5d41EtnLadU54jL
+         wf4tjgEEIHg9B5ccnUw39SyOgaxNm6CA3xYc8avFezur+ZmsJ6wvKUdBSQhJxCQg+pBV
+         wYNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=eExjNr6fs8mRydGKpSFoBAs8yn0OjvvcMBEWL8NYO50=;
+        b=8BEH2rTz0dqm8koGZrKlvpE4NgL8Y8yCbB7MPo39Loue+/dFOHq6g90mohsJHj1jvo
+         ++hMbh5ykeHv8R/rZtrZv/EvTHHVtJlIYr2l+MKmi71GVfKpFyxFFRRXCL2wcD8hKJmz
+         aKXIzLi+XAORMjQhNZycyDfKzH6hzndGTL+rJGR+wEbIApJgrSQAwUmlksYW9goSQY58
+         ahG9445OB7kRxIh7V5WvkwDQ+dS2k0qRyfOH9RmWX9ghOEtFnFOwBSEhIwCokkIKZxfC
+         oG2vIg8oXTQJQorvpGNaw+9YmgQhlvkh8PUP54O5Y2keh9mX1qFf24j8/LUX0iByB1Tz
+         wK/w==
+X-Gm-Message-State: AOAM532D7ruzxt/uKNfzdAB145iT2WWrbiDfCLU6SHA34935sn2km3f/
+	A4mbP53ck72tFXHaACSrzbQ=
+X-Google-Smtp-Source: ABdhPJw7dHJzyhHVwkls8V0XWmtPtkUmYRDHSLb69EOifEu5t+2w0RzoTsPyS4kP1QriRFySeTgQlg==
+X-Received: by 2002:a17:907:7f26:b0:6ff:ab8:e85 with SMTP id qf38-20020a1709077f2600b006ff0ab80e85mr98874ejc.281.1654098194360;
+        Wed, 01 Jun 2022 08:43:14 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id w20-20020a17090652d400b006f3ef214e22sm861447ejn.136.2022.06.01.08.43.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jun 2022 08:43:13 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: Re: [PATCH v6 09/17] media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a dynamic array
+Date: Wed, 01 Jun 2022 17:43:12 +0200
+Message-ID: <8069971.T7Z3S40VBb@kista>
+In-Reply-To: <2630478.mvXUDI8C0e@kista>
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com> <20220527143134.3360174-10-benjamin.gaignard@collabora.com> <2630478.mvXUDI8C0e@kista>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 3/6] scsi: ipr: fix missing/incorrect resource cleanup in
- error case
-Content-Language: en-US
-To: Chengguang Xu <cgxu519@mykernel.net>, netdev@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org
-References: <20220529153456.4183738-1-cgxu519@mykernel.net>
- <20220529153456.4183738-4-cgxu519@mykernel.net>
-From: Brian King <brking@linux.vnet.ibm.com>
-In-Reply-To: <20220529153456.4183738-4-cgxu519@mykernel.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 2erhlMD9EfkOHm_SO_Xt_703KUfPLYW3
-X-Proofpoint-ORIG-GUID: 2erhlMD9EfkOHm_SO_Xt_703KUfPLYW3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-01_03,2022-06-01_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1011
- malwarescore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 phishscore=0
- adultscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=944
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206010057
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Acked-by: Brian King <brking@linux.vnet.ibm.com>
+Dne nedelja, 29. maj 2022 ob 11:19:12 CEST je Jernej =C5=A0krabec napisal(a=
+):
+> Dne petek, 27. maj 2022 ob 16:31:26 CEST je Benjamin Gaignard napisal(a):
+> > Make explicit that V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control is
+> > a dynamic array control type.
+> > Some drivers may be able to receive multiple slices in one control
+> > to improve decoding performance.
+> >=20
+> > Define the max size of the dynamic that can driver can set in .dims =3D=
+ {}.
+> >=20
+> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > ---
+> > version 6:
+> > - Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
+> >   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
+> > - Add a define for max slices count
+> >=20
+> >  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 1 +
+> >  include/media/hevc-ctrls.h                                | 5 +++++
+> >  3 files changed, 8 insertions(+)
+> >=20
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
+b/
+> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > index 06b967de140c..0796b1563daa 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > @@ -2986,6 +2986,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >      These bitstream parameters are defined according to :ref:`hevc`.
+> >      They are described in section 7.4.7 "General slice segment header
+> >      semantics" of the specification.
+> > +    This control is a dynamically sized 1-dimensional array,
+> > +    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+> > =20
+> >  .. c:type:: v4l2_ctrl_hevc_slice_params
+> > =20
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/
+v4l2-
+> core/v4l2-ctrls-defs.c
+> > index 9f55503cd3d6..d594efbcbb93 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -1510,6 +1510,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, en=
+um=20
+> v4l2_ctrl_type *type,
+> >  		break;
+> >  	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
+> >  		*type =3D V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
+> > +		*flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+>=20
+> This change breaks Cedrus. I'll check what needs to be changed.
 
+Please include the change bellow to keep Cedrus working. I'll expand suppor=
+t=20
+for more slices later.
 
--- 
-Brian King
-Power Linux I/O
-IBM Linux Technology Center
+ Best regards,
+ Jernej
+
+=2D-- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -178,6 +178,7 @@ static const struct cedrus_control cedrus_controls[] =
+=3D {
+        {
+                .cfg =3D {
+                        .id     =3D V4L2_CID_STATELESS_HEVC_SLICE_PARAMS,
++                       .dims   =3D { 1 },
+                },
+                .codec          =3D CEDRUS_CODEC_H265,
+        },
+=20
+> >  		break;
+> >  	case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
+> >  		*type =3D V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
+> > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> > index 0dbd5d681c28..140151609c96 100644
+> > --- a/include/media/hevc-ctrls.h
+> > +++ b/include/media/hevc-ctrls.h
+> > @@ -311,9 +311,14 @@ struct v4l2_hevc_pred_weight_table {
+> >  #define=20
+V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED=20
+> (1ULL << 8)
+> >  #define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL <<=20
+> 9)
+> > =20
+> > +#define V4L2_HEVC_SLICE_MAX_COUNT	600
+> > +
+> >  /**
+> >   * v4l2_ctrl_hevc_slice_params - HEVC slice parameters
+> >   *
+> > + * This control is a dynamically sized 1-dimensional array,
+> > + * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+> > + *
+> >   * @bit_size: size (in bits) of the current slice data
+> >   * @data_bit_offset: offset (in bits) to the video data in the current=
+=20
+slice=20
+> data
+> >   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+> > --=20
+> > 2.32.0
+> >=20
+> >=20
+>=20
+>=20
+>=20
+
 
