@@ -1,58 +1,41 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5893D65
-	for <linux-staging@lists.linux.dev>; Wed,  1 Jun 2022 22:12:41 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id k187so4455562oif.1
-        for <linux-staging@lists.linux.dev>; Wed, 01 Jun 2022 15:12:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=318Q6Qczrs0gaZiueUE6sUN9b6V2tRNRKs1HyuCzOGk=;
-        b=C6dZge6VD1zZvM0YtKvIiVLmQ7J/We3MzW1RTuREpnwqvBmkZH4M9bZjDjWzaCHXuZ
-         tdz4k+Qj7W4IJLla2OfxWB+82I5GIoW5q5EKpYSjAPIOeEN/YMTllVRN+7ZqhbH2AsfA
-         F68Z+tLqlYKcACwMyi70JcigwgYGEMTcBNXJK3qNd1HxxilFqzFWIlak3EIUZ4kIAnfP
-         BglauYfoXYrkl4XaZ+G726c8iiQRkH/SVq9aeJLgeUOvqP1PhGmdoECKd4hJVdgGX4Pt
-         0l/L8gkQ1Wc/4yIVuneUBpRlqBmpr6UUcWUk/tvOJkeB163GhviNRn90/3w4FWIl2asp
-         eNHg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610CAA53;
+	Thu,  2 Jun 2022 14:51:08 +0000 (UTC)
+Received: by mail-oo1-f48.google.com with SMTP id v33-20020a4a9764000000b0035f814bb06eso942340ooi.11;
+        Thu, 02 Jun 2022 07:51:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=318Q6Qczrs0gaZiueUE6sUN9b6V2tRNRKs1HyuCzOGk=;
-        b=2tKfZbAy9Q+Mo5PeN5RT9DQmB0UMU1Rj+HBLIDQtAJlsKGj7kJnr1HdAyWVj6DwfYD
-         naTUFQCnH9tAxNg4l1gD4CSWijociNZVxpCGjOkoJBgmlQJNMZEWyT78rV2LipBV4GAv
-         7LcEb2/2MhKXAn49WfoMxv9GS8urqjvSeKCIExwlmOLIV20fi36NmKIxdnl4jQbsG+c1
-         gOik7p4eJ/6kA1IiELIMVlZn65KNRSvNiZyMfygQJOiWTd18uxG49P0uhjcSaKq0PzBB
-         JBO+yKnff0GuRKyDoaXPsgtGlNP9Inx2BTGz9ImpZEyfhXwdw+7wsEsjRPFmriUAkD+R
-         /SeA==
-X-Gm-Message-State: AOAM532Eap3zdB9CzP2C28pg7PgRNOeo/Q7dd3a6x+InArBVaY0UV7/4
-	/rNvy7RIF4SAEj/E7a7sULY=
-X-Google-Smtp-Source: ABdhPJw4ktQR7P/PaDPAYpiOW/vAzHiblXT65I34anjdP8AE6MefNddWmPUI3vfpDLud0LXJk7wUBA==
-X-Received: by 2002:a05:6808:1912:b0:32b:1c01:3ca4 with SMTP id bf18-20020a056808191200b0032b1c013ca4mr991388oib.0.1654121560777;
-        Wed, 01 Jun 2022 15:12:40 -0700 (PDT)
-Received: from debian-BULLSEYE-live-builder-AMD64 ([191.84.230.38])
-        by smtp.gmail.com with ESMTPSA id c90-20020a9d27e3000000b006060322124esm1327782otb.30.2022.06.01.15.12.37
+        bh=1E/3KWBubmd3TEa7PIO3GoA5fzjc3dGvE7ZiPQxDE7c=;
+        b=C2tA48d/QTs5v3Ml6bJBb8fqU8wxQ4LG0OEJvCXaegv0e3TnmLH9WqQJyvCwgGszw7
+         U6POPNXoLxfcNs0IlQCCsBzzDwmakUtzsVVjo0JPIBjft67rt1pPd8M7FgYrsGzqXsNe
+         jdvTjcNQ71wWZZLFSZ0DsRB21Q62uUgdWT2O68KaOMVhX+U/vBBa4sd5hA71sx6cFXhP
+         4/pgehjwsEhLdWqrZBogSMvL01u/xzP1LG49DUsIjZvIYqxHZ0Xi6EC5jFBq24pUW4uH
+         K51qhp1KmQjypiZPEbBuqXaByKe2253DBJt2JoHtmzPv6U1M42u7CHCeT0LhV7mDbHTT
+         2v8w==
+X-Gm-Message-State: AOAM532hEs5dLzfEJzYDyo0BZYU6d2PyhUz38Yc+0ZhM6PQ+H1Y8Zxmo
+	RPF1GGKMrO9KMfFsfdlEjA==
+X-Google-Smtp-Source: ABdhPJx/W2nQKKhkMKZ/abujq/Z3ImQBTqczfZI8YQDqn9Fpzc1f8SxvzBCup7RNWtudJZXcjiRXyg==
+X-Received: by 2002:a4a:97c3:0:b0:35b:29f9:a212 with SMTP id x3-20020a4a97c3000000b0035b29f9a212mr2200527ooi.50.1654181467373;
+        Thu, 02 Jun 2022 07:51:07 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id l3-20020a4a94c3000000b0040e5ff4a737sm2325045ooi.26.2022.06.02.07.51.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jun 2022 15:12:40 -0700 (PDT)
-Date: Wed, 1 Jun 2022 19:12:28 -0300
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Adrien Thierry <athierry@redhat.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	gascoar@gmail.com
-Subject: Re: [PATCH v2 0/9] staging: vchiq_arm: remove some unnecessary
- global variables
-Message-ID: <20220601221228.cffvvnwm37b7q3xf@debian-BULLSEYE-live-builder-AMD64>
-References: <20220518191126.60396-1-athierry@redhat.com>
- <e9d2cf9a-c4f0-997f-72f5-1b10379dc126@i2se.com>
+        Thu, 02 Jun 2022 07:51:06 -0700 (PDT)
+Received: (nullmailer pid 2299234 invoked by uid 1000);
+	Thu, 02 Jun 2022 14:51:05 -0000
+Date: Thu, 2 Jun 2022 09:51:05 -0500
+From: Rob Herring <robh@kernel.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hans.verkuil@cisco.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 1/6] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <20220602145105.GA2298322-robh@kernel.org>
+References: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
+ <20220525191026.696636-2-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,35 +44,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e9d2cf9a-c4f0-997f-72f5-1b10379dc126@i2se.com>
+In-Reply-To: <20220525191026.696636-2-paul.kocialkowski@bootlin.com>
 
-On Mon, May 30, 2022 at 10:19:14PM +0200, Stefan Wahren wrote:
-> Hi Adrien,
+On Wed, May 25, 2022 at 09:10:21PM +0200, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
 > 
-> Am 18.05.22 um 21:11 schrieb Adrien Thierry:
-> > This patch series aims at removing some unnecessary global structures
-> > (namely, 'g_dev' and 'vchiq_states'), in order to make the driver more
-> > robust. This is part of an effort to address TODO item "Get rid of all non
-> > essential global structures and create a proper per device structure".
-> 
-> sorry for the delay, but i was fighting with some platform regressions in
-> Linux 5.18.
-> 
-> So except of my comments, this series is:
-> 
-> Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
-> 
->
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
 
-Hi Stefan,
+With the indentation fixed,
 
-Not directly related to these patches, but if you don't mind I would
-like to know what tests in specific are necessary to tag a Tested-by on
-a vchiq patch?
-
-For instance, running the userland vchiq_test -f on a RPi 3B would be
-enough?
-
-thanks,
-
-Gaston
+Reviewed-by: Rob Herring <robh@kernel.org>
