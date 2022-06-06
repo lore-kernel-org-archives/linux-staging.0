@@ -1,167 +1,115 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA8523BD
-	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 14:36:32 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2569PRh9003664;
-	Mon, 6 Jun 2022 13:06:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=GgUvU25WpTQsojfrvl4ZhuQNvODwpEJm48neXaCol7M=;
- b=kSua8pbEXLBL5VVWeLJsWufGesFtxAoAdQyaTGAqx18X9b1UmMtD+AInWfPTPsuOKX2E
- EP9ouxLb4eYQO9Sx/53dNvXWJfN5Nl6CLMHVQu5wCZsDsjhCziyPVObG1uEd2ouhgHZj
- EuXg3gKhC8gNNuXfeW8zZcRFxyJVFI+W2uqDZxI5cbYdM7cQ09EvPZgHdaP9H63+FnKM
- tVA52LBTEUWoTKhbKKEUWAqNu1OyRih/Pvbgt7J78QzuNrMJ+9BwsxZpJznpDDNSumC3
- gvl9ooHwFr9RFNBC6AYFrCEjpUHcgDhA4UW8Y6JGdQM4pr1ImRxar3I25qOBSVzIka3P 5Q== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ghexe8duc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 06 Jun 2022 13:06:48 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 256D0T2p036598;
-	Mon, 6 Jun 2022 13:06:47 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu1ghv2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 06 Jun 2022 13:06:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AlLMDof6XhP8LjDM7t77PiQ+EjzjGG6dAGcIR7Qe/r8jhAe+jeJSezak1d/MY79JXP7P7eJh7wFC3B1vEyucQafPEx6qG1JGD1QbUsT4Oei0hBptabTZM2q46Sn766E8xiaA48Av1Vt8QSMZGnO+lAHE/wv3qnmOucrDmddd0W2OlpX+jPbeuuukaqoXCJAIjJq1BUPzMUZhLIKLm05MMPKkQ1/KnypDDiThjBv/0AYp/3ExWeRJfGor4OHDPnxFKH3vmnvgF3bJbDZLF7DRhZgUWJ7MhhX/MRrgi5vCuf6vOMfCiXEGD9WF1YosBaOK9attOtKB+OmwWQk7Bn/avQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GgUvU25WpTQsojfrvl4ZhuQNvODwpEJm48neXaCol7M=;
- b=Xs1gTGbF61jJkqHEWd2ZnC32H01uzyqQpAcoNeY2zc8MOEm+18DXyk0DdLFjFxFQpc4E4J61teI3/3kDg6amfe26S4nQkcNG+0v+DwVtlNSKTGSJtiuiRf9JAfr8XExnDopP4Y4w4d+/e+xsBJtMiXLPkVgaIAjn/nQJyjhSjQiG9mF+EM96c18w+9PnEfdMA1dBnnLHP+X0yTT56qXvHFTWpVBNE2F9QM6qkQjjIoMvNxIt+zLULitZiPA327JxFbYkH1PRrHA8kmSocLq7qxsv/BgJN3qYKd6rrbYgIyVNK0h3p0naOPgO64I5CWYZAjD8qjrW7b79EYJ0GUQi+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622257E
+	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 18:57:37 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id a2so18637115lfg.5
+        for <linux-staging@lists.linux.dev>; Mon, 06 Jun 2022 11:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GgUvU25WpTQsojfrvl4ZhuQNvODwpEJm48neXaCol7M=;
- b=tqERSY9GrjyxXcfdknFyk3AQlVX20azt13vXOkCcQi47OfjB1EAJpUR5qsDOk9QoMLYaqN8SwhvnmiBp7gIlEpcQA0Rrlfh38QKwtofvqLN9EXrHSKed16ZY0vwiU7YF9Swp/Tu/peaGa+25E8aIEH+iusGEfhZrs9F460CAaRA=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by BY5PR10MB4161.namprd10.prod.outlook.com
- (2603:10b6:a03:213::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12; Mon, 6 Jun
- 2022 13:06:45 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5314.019; Mon, 6 Jun 2022
- 13:06:45 +0000
-Date: Mon, 6 Jun 2022 16:06:26 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Jared Kangas <kangas.jd@gmail.com>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, elder@kernel.org,
-        gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-        johan@kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: audio: fix loop cursor use after
- iteration
-Message-ID: <20220606130626.GX2146@kadam>
-References: <20220605231806.720085-1-kangas.jd@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220605231806.720085-1-kangas.jd@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0055.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::11)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=nIz93hX2PQ4fhuhp1jMpyp0wJt0SBYcIreMeL3lWdNY=;
+        b=PRIGkpN6xE0WkLxBRa2NL7ikMvENhq0/W55wukWNbpiU5svpBNZQqC3XEupJcPPfWc
+         8oppZyUKGVgquZiSnv7aXlI71ZyA1ATmq3KM6WsUkuXABCAhWKZgSHOmOsT4/8+npwnV
+         dm1E6BMsMN8PeZlNbmP2wTeSsOYhopNqqKCjafSDXtQgKgvFDV8TnCLqvTVYHJQqCgiw
+         UnfNTnPTzdEFtr9VD2VM3K1a/ylB90PlmfekQovRqINRFzVjmOJVDycsUy0URUX0P+Io
+         MVdDg8BuazsCqpyUpeO3UtMWBfNuLkCaFmWyhwje5onPTPKLjkC67pyPAQYWfiQmYOdD
+         rebw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=nIz93hX2PQ4fhuhp1jMpyp0wJt0SBYcIreMeL3lWdNY=;
+        b=q7xsUrF7tPKDtNRGQoGMudeGJUZrlWlZjd45UhVee6hOPzQEdMG9fPVdq2/xQxvIk5
+         WNArDw690QEwxSdatJxCx+Ng+vX4amJzvAKhBDJR9B1N1D5cg/085RMK3TL7Rp05jlh6
+         wRovOSKPzj7CFgVvJomU0jusrNXHGhSHCJ9e0Ih0OTViAmg08MzlttH0CAqknB5XRdgG
+         LR3AZzpxxoG3g8/EKhdM6z5UUF4vNuWvI8+Fi3j0IfO5iWU6Qu0zOggC2QngzGODo2H6
+         ORxgY5t9bBMKjDhq4fowXTdccCqC6AbQpISmy0zGOnLJOuZymh0iN0jXMK5MCRiYi37P
+         E2jA==
+X-Gm-Message-State: AOAM533IVN4Ruv4b0U04z3ez9iYAmTZl1Emon5aZELI/mIlOIiwVEfWx
+	PfMZAEzxLWcfQ61chv9icHE=
+X-Google-Smtp-Source: ABdhPJzx4OHSkLUGA6dbuYoqvNRaBXgj04jBulDxf8sYwpXbDWn+W3PyS0m2Ljm3XH7+T+DHSX6jhw==
+X-Received: by 2002:a05:6512:e90:b0:477:cc44:9813 with SMTP id bi16-20020a0565120e9000b00477cc449813mr16943484lfb.226.1654541855259;
+        Mon, 06 Jun 2022 11:57:35 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.229.27])
+        by smtp.gmail.com with ESMTPSA id w10-20020ac2442a000000b0047255d211b2sm2953285lfl.225.2022.06.06.11.57.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jun 2022 11:57:34 -0700 (PDT)
+Message-ID: <5d57d0f5-06bd-5e3a-2cb9-d8ae531e453e@gmail.com>
+Date: Mon, 6 Jun 2022 21:57:32 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1c2acea5-ec06-4fef-5c87-08da47bd681d
-X-MS-TrafficTypeDiagnostic: BY5PR10MB4161:EE_
-X-Microsoft-Antispam-PRVS: 
-	<BY5PR10MB4161CB36E9D032487E1E84718EA29@BY5PR10MB4161.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	/ZuLM5lBG8PukGvmcWcFZP6Q8PtV7FmdkIP25xGvtrP7eoVOZCNRl/tQPg20VEwICBFUyKUhhipC3UyFl9AyseyRVODWDYaXFzevnbxcbSl4yf7tI3B94s92IqOV0Lfc1tscUM16fwvnDflcEbBNXlgaSuF1YqtyIGZel3HiIFsa8s5d6uPUwodTQVCbPSQ2Q5BKUfpg5eVj71lZ2PYCIWrSh2up9VrJWVqmsE4RZRISDEZehbhQEaTANM6xGFjdww1GYjOKfoYo82fnWPrhbG1QBFPDU2/ENTHr6whS/h/BWyEpQtTBt5KGY9Mr88wowZ00KdSqh2MxDLZumh/cm20h4lEGJYc9rs5PQUcoosXxLF9Dw2eovrDH8pPWaVT7oKmvd/BysL22S3Wy7ckN7aApbykG1KZPd4zKGfmEyJAMZE6CDMoztL25Jbh9o7tPlMpfawMo747JnQR0h0CT4sxisjZEmAt6kyabl+uvYGIDOBUcr9RF+cIsoQZnKCqGb4LdR01IDxo258FpK7YApVSo6TPifRw+xz7BiImO5EfrDlmjIW49vqIblM4dIX6xhgzBSqZmwYzP04vfxy42i4LvYDckVmn1/W35d3SJqXt57MTyMaYr9USHH/ctE2QxKoEJ+TGz9Mjs3ZTli7Y1HpvAMeNFKBXGzrQ9IDt14MZ/xllFARsfVGqUgsNR87KncgUiHgyGjhvA4qREGOR1jg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(38100700002)(52116002)(6666004)(38350700002)(6916009)(83380400001)(44832011)(4744005)(6506007)(2906002)(86362001)(5660300002)(4326008)(33656002)(316002)(8676002)(33716001)(1076003)(508600001)(186003)(6486002)(66556008)(8936002)(66476007)(66946007)(26005)(9686003)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?SBUYx3MEpYc0orCOMmui1tOt7lGxEP2GYUQpJqKO3rt7jLy4Zh1B8Frl452k?=
- =?us-ascii?Q?y8BUBXY6VeENaGnaNp+1JHT1QyPI6xo5LFOFbmreLVRywFmZWo5/j+mlz90n?=
- =?us-ascii?Q?GGntMC9x+SGSjPqt2iU7DL5yXQ2z66QTLYz58qD8L1TFoqe661saTN/UvlOx?=
- =?us-ascii?Q?zYs0tN3VivuCvFfIoU/CWEzVTDe8IUaA/Y42RmHB4r22yZiAh8wC8YPmVOSS?=
- =?us-ascii?Q?Ki2KwGTp3Uw1ZNR8F9X/fzj2tDwR1hqK8j2dmmg3XrOw4sBRi0NrH+kOiIt/?=
- =?us-ascii?Q?4Hviw/jZm5Cv8x2cZ3qft4JHw5tni3/7HKEU+nuZFd92GU4rhg5+eCXT6DEN?=
- =?us-ascii?Q?XVU6o7pTxYYpmOjHZd7Yy/tw/VJlbXI3I6Tlv1Tt/jWkL6exAtnGac1mif+W?=
- =?us-ascii?Q?jgwx/UlwYpGN1dY5DjohZV6a6vI6D+aIAvWsPjBjDxqdZB2OI/sJom0AXpHQ?=
- =?us-ascii?Q?Iip7QI2DOrIQQMka8mfVXKCLFryLKSTyqKhnBeFCowPkgwBBf+DMXORZVRYy?=
- =?us-ascii?Q?S+nKTP1gACXtq4QZfgrmnFyYAKri/kyPHJcFlQqAXccM22+UBTj2bcaG2azK?=
- =?us-ascii?Q?Rt9Py9/Ua5HSRxeXKl/ZLxzTN2CDo/RKC8eNQiabaoNhl1CC4jFhoCQnzm2S?=
- =?us-ascii?Q?BJ70M6OWwM28VhvjyhKxfVadRnIgeK/eHgYGvG6/z759WjAqfIKFziWKMPb3?=
- =?us-ascii?Q?ctXvlk1ClGv/UhrfIohFaWjxeIjDHKP9K73zfGqykIJOGnW7+WEIzU0tAy3w?=
- =?us-ascii?Q?3nW7SEsK4H2TSYZA+Ts5hKmMOMImKzL8ap1D1335G3vDnMW3UcKgNNSCHAag?=
- =?us-ascii?Q?zxqkZQnXNoI2ZYDXTppZVbcd04+vOASYuEzp0Vn0JK6hnVEBRnvuCaZk8PvK?=
- =?us-ascii?Q?WABKL6KDeGCPIx4yy2PgzGMxfK9A3/jucLeEcXQIAPJFd8uTuypOKUAFlSLm?=
- =?us-ascii?Q?wXmmipPjoadnPOzwr2gB728HXsjV05CjqfIiWX/KFOqbJbMWBPLSiriECg50?=
- =?us-ascii?Q?22u0Od9dKimO4wBkQ3ONnrWPvtqKON6NXqjnedP/qfYaUbIj/4+67p49SsIn?=
- =?us-ascii?Q?OQsA50B79Z1TrRlN3oQyfHBi3Mb0hAiiRtOQLCCEnOaxhTTtg5rlDbkWP5dd?=
- =?us-ascii?Q?l2ODaNtgo1wmIuI4G+JYqp18BEoLg71opVnAvuWYlMmVru8IEpxquq9IMx7B?=
- =?us-ascii?Q?/UB1GErgwCFDmU7/YeTA8QJ5XA1C9+hR2WGPl1j6Cce+QbdZR/DUk3sJoPWw?=
- =?us-ascii?Q?tVAV0+k8SzRjeEOoweMgk1ju/TTcIXfJktLrtuxR2m6rxtdBr/FsQeJLDv2w?=
- =?us-ascii?Q?tUuvy45K2cIC6VdXoUZ2vaSxqtkreB3g+e+K91yi5pn0pr7qzDvPL095lgmc?=
- =?us-ascii?Q?hnrDbNA8uEfz7p6ugryrhynvRFXEXM3xDl1UwORBLEcRoY+o+feNv9B2odFf?=
- =?us-ascii?Q?ovWyktBNDMrdznz/fXSTusbdg27DyPTBsLnqhus5J/XKDVwraPTubppP1n7+?=
- =?us-ascii?Q?43MkyVCP5CoD7MfuO30uTeE5VCxX9vZh3DCK47Wizt/gQSsHyF9sxbZ1OQ4d?=
- =?us-ascii?Q?lqd8mIIHflgcVfGVFI/dkN+RX82eQzA3juFLEVLSxfHgm2Vr2ZnUUang4Ap+?=
- =?us-ascii?Q?eCzGL4W+ibbRnbdV10KeZ4FSaEn/GU4m4WHsJik0krSup2dX/Kd5iZTVnDy0?=
- =?us-ascii?Q?WemE5bhJKjYzlknimsv50i0JgbiqJfKwvKAN9tE9LPtp/Wm21WVJ2Zhj13Mq?=
- =?us-ascii?Q?WAaLI/d8OB1K3FUIKek/rgejFtgmGz0=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c2acea5-ec06-4fef-5c87-08da47bd681d
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2022 13:06:45.1710
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WGR7C+apgRf0rwbbMp+Kqr5y3v1lhPm6kANDhgxgGUEaIjx46bOV4uZcDitTOmLDh5ClggsjFD49LV38P5Lsr/mcc4KjJUkKaiOtTfbRFNQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4161
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
- definitions=2022-06-06_04:2022-06-02,2022-06-06 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=744 spamscore=0
- adultscore=0 suspectscore=0 malwarescore=0 phishscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206060060
-X-Proofpoint-GUID: B05ZPBcFPjZmrChMFSF0a6OEIbUCL-YK
-X-Proofpoint-ORIG-GUID: B05ZPBcFPjZmrChMFSF0a6OEIbUCL-YK
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2 1/4] staging: r8188eu: add error handling of rtw_read8
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ straube.linux@gmail.com, dan.carpenter@oracle.com, fmdefrancesco@gmail.com,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <cover.1652994483.git.paskripkin@gmail.com>
+ <541ab3341093a8f6bff1cf8e8aa0c7e247ff4833.1652994483.git.paskripkin@gmail.com>
+ <Yp2VMecmrET9Mu3P@kroah.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <Yp2VMecmrET9Mu3P@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jun 05, 2022 at 04:18:06PM -0700, Jared Kangas wrote:
-> gbaudio_dapm_free_controls() iterates over widgets using
-> list_for_each_entry_safe(), which leaves the loop cursor pointing to a
-> meaningless structure if it completes a traversal of the list. The
-> cursor was set to NULL at the end of the loop body, but would be
-> overwritten by the final loop cursor update.
+Hi Greg,
+
+On 6/6/22 08:48, Greg KH wrote:
+>> -	rtw_read8(padapter, REG_FMETHR);
+>> +	/* FIXME: should this read be removed? */
+>> +	res = rtw_read8(padapter, REG_FMETHR, &reg);
+>> +	(void)res;
 > 
-> Because of this behavior, the widget could be non-null after the loop
-> even if the widget wasn't found, and the cleanup logic would treat the
-> pointer as a valid widget to free.
+> What is that?  We don't do "empty" lines like this in the kernel for no
+> good reason.  If the return value must be checked, then that's fine, but
+> don't do it this way.  Shouldn't the function itself return an error?
 > 
-> To fix this, introduce a temporary variable to act as the loop cursor
-> and copy it to a variable that can be accessed after the loop finishes.
+> And reading a value is sometimes required by hardware in order to have
+> the write call go through.  But that's for PCI devices, not normally USB
+> devices, but we could be wrong.  I wouldn't put a FIXME in here unless
+> you have some plan for how to eventually solve it, otherwise someone
+> might just drop it without knowing why the FIXME was ever added.
 > 
-> This was detected with the help of Coccinelle.
 > 
 
-This needs a Fixes tag.
+Ok, I will just make this function return an error. Thanks
 
-Fixes: 510e340efe0c ("staging: greybus: audio: Add helper APIs for dynamic audio modules")
+[snip]
 
-Otherwise, looks good!
+>>  
+>> diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+>> index b944c8071a3b..a5b7980dfcee 100644
+>> --- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+>> +++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+>> @@ -463,6 +463,7 @@ void _PHY_SaveADDARegisters(struct adapter *adapt, u32 *ADDAReg, u32 *ADDABackup
+>>  	}
+>>  }
+>>  
+>> +/* FIXME: return an error to caller */
+> 
+> When are these FIXME going to be resolved?  I don't like adding them for
+> no good reason.
+> 
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+After this series will go in. I really don't want to make this series 
+huge, since ideally read errors should be passed up to callers. This 
+driver has a lot of very deep call-chains, so fixing them in one series 
+is just unreal
 
-regards,
-dan carpenter
+I have a plan to address these FIXMEs, that's why I've planted them.
 
+
+thanks for review,
+
+
+With regards,
+Pavel Skripkin
