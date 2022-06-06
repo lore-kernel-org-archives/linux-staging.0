@@ -1,104 +1,123 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2177.outbound.protection.outlook.com [40.92.62.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E135223B6
-	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 07:59:00 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id s68so12292979pgs.10
-        for <linux-staging@lists.linux.dev>; Mon, 06 Jun 2022 00:59:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=yXfk+pV14N8uRHKyKDyfNelIYS7BHAUOLYy6g/CrD/Q=;
-        b=oN5ZTX/u0mjNJXsVTHRx05wP3sAoWHsew7muqi3kK4IDOlcQe79pIP7h7A5UEJS4uZ
-         lCI/GOCyaU1c+i8rQ4Jv204cN9b+vi8F6PbG/oqlB05fUs2jKfiUEu8FZktISIeJe+vf
-         g2dAMBWeIVMfdoS6xZSdMo3JS6jiRnRPAK9RCWYZd9lFCZF4Xyls2EoejoOcidxuZOKz
-         TP6P9mZponxwgy2Rrr74FTy2wY75EXwO4a+zC0QCiB1cw1vCiP4e610fgDBez+rEbOo0
-         cKd6feG6sNOiv8P/aFOUmCLZMlag6MqwSu7GVQMf5sCqZcgGblXbnnnKlgayw+2eeWEu
-         zo7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yXfk+pV14N8uRHKyKDyfNelIYS7BHAUOLYy6g/CrD/Q=;
-        b=bqpmvJNmX74HuOV0/vr7R25oPMOmTNvJBr5AyzJtyqO7FQ6l4/jUnIb3+uEVOhUy+Y
-         OscOoBFYdAUvR8RlYOd2hn7GQQlMaEnbRUKCstKzP2JqM15PjC855fu0bbsgGp6VKWcp
-         56eMEDutw0iE4FK2WB0LXGq3XZ9H6H/hmjiEQLGFEd7zPw8K2blxjo3OrKZhA7nL294E
-         gRqAUBplDYx//cU/pFntgq6PDPOTgRUNQaSmkmoPTSnau05NzImPBIYrCRe6j/OdyhvS
-         3YQa5glSULzkTAcIAAy1K+r5xf9rEcU+2GVYr6qIEdddd5QBqgCIpUPhxil+tR9zVtmJ
-         beDw==
-X-Gm-Message-State: AOAM5338JgLzeWoQSQ2mfR4hih7ocKP2f8Eihpb6HeBl5WFh0e2yL2eW
-	k3RatQQgp8KfXSbUh+ldddk=
-X-Google-Smtp-Source: ABdhPJw/2S40bNMLgP5EwoSMIjOlqJNvRgzfhEdg6IHM/ugfgOyuCvD/EKx0isk4ffOnTccP0LokEw==
-X-Received: by 2002:a65:694a:0:b0:3fb:9d3b:431b with SMTP id w10-20020a65694a000000b003fb9d3b431bmr20359002pgq.276.1654502340347;
-        Mon, 06 Jun 2022 00:59:00 -0700 (PDT)
-Received: from localhost (subs03-180-214-233-76.three.co.id. [180.214.233.76])
-        by smtp.gmail.com with ESMTPSA id y189-20020a6264c6000000b0050dc762814asm10020438pfb.36.2022.06.06.00.58.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 00:58:59 -0700 (PDT)
-Date: Mon, 6 Jun 2022 14:58:56 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH] staging: r8188eu: Fix kernel-doc
-Message-ID: <Yp2zwBqn6uDvGNWN@debian.me>
-References: <20220524083914.68736-1-jiapeng.chong@linux.alibaba.com>
- <Yp2WPrOz85/70CZx@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F8A23BD
+	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 09:58:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iUQtgGccuvwtbAe9Cs+uXD3VWp+80upfkYCG9zX9yb3gRbqNv/FWJwsw8XAn26+xWKHqP1N/OQR5FER0Gj7xtLptqy1kYjHsjtzdkMRX2PdhAbwu+mgs7RNNa5FJuUiuIl9ozrWPXCpFOOFIZhntn8s3N4EqHCDk/QAxI0gPpHuOGpL5FFa7Hr9L+K00WgdIpRZozTGHfWC0CSMjKnbIB5lRaxvjX7dHCNk/UTtVradZxwiJFqKY8yUF7LPMFiN9IFRg60bB0/Fk25tilWxhy1CzIUt5ba5+RT6P2+/E0eW6r5CrzBmWZKQ07W+GtcQq+RJ5zOx6j95dbGkBLnDUFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pswtmc59qrQSCydRNRa7Q/5GhmN5mEFEKVAE95htj3M=;
+ b=ms2ugAPo+tlHUBMqJtWVN/7v2u34uLOtZvWrFyVOqsmrTHjVkodGebta/hnzIVWMyLq2uIfc1zshFXzjclsQx23JxcUQwYPemlQJ5GxKiIydGamhKStRBlTBcRAhjVYkT5VsyUEmr2tPmAT9jT3AoR76CZ2TP++zN+jiDbqs/zlSfSUnrG4+kfoZ7odXiJLNfPynfnvHF/0v4zJ4VyS2xabxMGUf6lRfUlaMq4E4LCgctPviX9BGKltV2Ef1GES8rT8VXFUMkVfjxpKR9J/MiWezqYakQubP3gy6xFAAL1w5w89PT8QnshtfupQsXALFIVe+Fwt0hkW0UqlMvf3/4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pswtmc59qrQSCydRNRa7Q/5GhmN5mEFEKVAE95htj3M=;
+ b=PuFU9PpgUhSGF+3BC3pl8ifsSNJleCatwD/Rf1tN7IIidgascZkLcQsowHYM2IbH8Fo0jPR1s92tNGfIjf6SsohIfhHk86pvh+VKM1GfJ3vbzxjqSptvBMmKDpVqoyrLzzOH3/wYumQRX1693uzxNz5EkzyDEerqyY70Di7YKwzHYf1nk3bEWjFEFCA2O7SCMq85jiLIvoSLJRtP64smNIDVjHSNJzFYnwGWpWVhaewDTFZlVh+0Kf3JryRIJUB5BNUPjJC5xdoqIpWdrqe0fEokvk70iMtDsV0N97GUIdEem2USINIHojDPFewl0C/N/jHfsfOoYslVYp+TN47GwQ==
+Received: from SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:1b1::5) by
+ SYCP282MB0400.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:81::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5314.13; Mon, 6 Jun 2022 09:58:35 +0000
+Received: from SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::f832:43e3:9778:bebc]) by SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::f832:43e3:9778:bebc%5]) with mapi id 15.20.5314.019; Mon, 6 Jun 2022
+ 09:58:35 +0000
+From: Steve Lemuel <wlemuel@hotmail.com>
+To: "Bryan O'Donoghue" <pure.logic@nexus-software.ie>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: greybus: loopback: fix a spelling error.
+Date: Mon,  6 Jun 2022 17:57:45 +0800
+Message-ID:
+ <SYBP282MB347864E247D2EC70BF46F9A3A0A29@SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.36.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [mXxHHddzlHKRUz4JNTMj8n45tXdInbuF]
+X-ClientProxiedBy: SG2PR04CA0183.apcprd04.prod.outlook.com
+ (2603:1096:4:14::21) To SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:1b1::5)
+X-Microsoft-Original-Message-ID:
+ <20220606095745.1815144-1-wlemuel@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yp2WPrOz85/70CZx@kroah.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0b1423ce-9d5c-438e-56ed-08da47a31f17
+X-MS-TrafficTypeDiagnostic: SYCP282MB0400:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	6tex61Ao7KvzgrjZ12miTMOyMmMxvI1PBj7KQDIU04iC0jh6CXEuNEYVXrGGj4V4PKaBAcBvQKqT19aAYA8RYyQZEGCeMFma7dEPbDFZwDn4DLiDOYgtzidnyFn3t+80mWDmdwWLkRab7FTp6Q5wraZp1T+touUckrrIXuyBRzSOnn5LE8pPw594tG/mmiYdb02tcHhMhdLBECSbpZbdHhCNWadmjYlb0hrLFcHWbEtsXG3DQ3fgcfmfjoCGBh416ptwEsdXZTZxNnv9DSzbkHmvkmy5bCPlC4e2xsCDw/Sb/f0Z0adSIKfaP8qiwZm7wS8QlQ6K19m5WJhpvkDDGs9pI5UvORH/2Yhj8OdCia9plWdRviB7jielJMzYYArPAcx9mcBcRG17Y69x05YoxhXER2Y8eagL9eHtGLbMw57gmUJFl63o3CZa+8ZfvNuYJXM4Nxfgh889LGZafeqRifxI+286wtjkhyIYfMWXi9TaHb3y/tgEUdZTtYjJaSGxeKQMQ6FFC3soKPlILZU65ov5fhK7753p2SmV4aQUuu5KLp4IYHgsyZ9Jtbow9D92etPTXvSoibXnA7ZIIUly+g==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3ibOi+uZItYc+D9ZbCyI2Tq2GzIinek3glWZX3hsRRuVCXXP7cRQskLzfrjQ?=
+ =?us-ascii?Q?0kDIC16wWruEGVFUIfrS8R9SqBfN9M70dvJUm+x8PNS+zPkKo6O/YTnIP0q8?=
+ =?us-ascii?Q?qHaU/OOAkQwzOFyEMY5fPeAY0KQiOMnvT34mqgieSKCNcsGo7dfF1WyzAQFB?=
+ =?us-ascii?Q?fXFKCUFzOJgiqnOpUIYpMjId01lfOGwXRxKeSEW/PbkUOqct/UxKLlwh5idv?=
+ =?us-ascii?Q?iLcivYJGMftIZL9UYQ+ETgAvl0rHl344FEy4ufoEjHqcWFPJYAI1PtGI2PsG?=
+ =?us-ascii?Q?bdqPOLkKllHOAXhkGHhtmIgGbYiaknocSxmr4GF5Pzdl9V7WKq/MIYbaZKpi?=
+ =?us-ascii?Q?cBrbFhCsmZyZm8bYFLJokZZOaeWOpE55ludow9OJfHH74JUxO61TMDcD04nx?=
+ =?us-ascii?Q?1V4k85PU6kWlvPeM2eGKOwBTfGaqCaDqCnPqB0/J1VmILYgEDnTD1wUqrCUA?=
+ =?us-ascii?Q?zA2JJLUycCXmVbe2SY4bmDc4W+gOrKW2Fwybif8nkreZlbAzCGxdRrDBuoVE?=
+ =?us-ascii?Q?E2mJOMDldfh+nM45/wNZ5tpaxoO8JmeQAfn7xds6l5aYEW3XaNg+Gh9F2BMO?=
+ =?us-ascii?Q?dKShnYnMsAtmilBv763mTytbTct1RCEFX2VxE3c4yt/+6XkrCzuu3CbC/umO?=
+ =?us-ascii?Q?Mhspo1pI4tVrUfyl5Lg6OmJ9QjJ0uUfLFvu+LhESr95GADjEvBI0QOQOes/x?=
+ =?us-ascii?Q?dyKQq8sotGhL/mYKfCp7wSB1b+wmfKusKJXISAsM6AIiX2+VB6yPBT9Z3zDw?=
+ =?us-ascii?Q?Qhcg79cpph+/vJ8hJi0mgaktd0Xt776Qh73QvXWpfJVuRlPIOJl3Net9DZnd?=
+ =?us-ascii?Q?f5KlVd32OUSmdqDOBsKFdI0mMDNFRNRIvlBcYhvH40wU2QAo2nON/say+APv?=
+ =?us-ascii?Q?VLZjJD7stpGW6Ir6M5r3CgDBggvBC7NTL2C29abXpuxhTU5F9kiOURIPkoxF?=
+ =?us-ascii?Q?P9fF/GFtSbgvpnkVEVIsq4ujFqeCHGN6cvYi3gplgIy2VMT/iwfrU6IOG2nF?=
+ =?us-ascii?Q?fYxXOckmeqNlDWrz0+Pa3DblKQgUuNUkDr59kOd1CggaypugFBwf8DZ0lHit?=
+ =?us-ascii?Q?kvSLNCK3uUJw0eGzidFq/n2/zMXdSCqyyvidwsw2rULAnxU2F5E26D4t2lZq?=
+ =?us-ascii?Q?dq6Qw7LERSWF+MKnROuppj5bFZoO7gH5lp7JlkRUwTyf2k4qeizLeYKfD/54?=
+ =?us-ascii?Q?TWpvgDVu1193BwwmNu9pBOxZOl/7tGb03UQmqPsTLb/Qs9sfhyh8D7lfLXYQ?=
+ =?us-ascii?Q?/muH9M/tKyLqVcXWJu84K1wSWtAH6YVX7dQRQ/ukHYkistZZ/6GeNL7wviyn?=
+ =?us-ascii?Q?at+ZqwvRf5rytPb9/RsIWMwnOg/UfblMnN3KswVyuCARU0EfnFGXO4TF+Vjr?=
+ =?us-ascii?Q?Ba3+9HYkLCyB729uS41oczhRuRqgCRaKYkLGVN1Bjs9RI2BX3B1mGki9LzD8?=
+ =?us-ascii?Q?utO3dsrnMfQ=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b1423ce-9d5c-438e-56ed-08da47a31f17
+X-MS-Exchange-CrossTenant-AuthSource: SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2022 09:58:35.4929
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SYCP282MB0400
 
-On Mon, Jun 06, 2022 at 07:53:02AM +0200, Greg KH wrote:
-> On Tue, May 24, 2022 at 04:39:14PM +0800, Jiapeng Chong wrote:
-> > Fix the following W=1 kernel warnings:
-> > 
-> > drivers/staging/r8188eu/hal/rtl8188e_phycfg.c:291: warning: expecting
-> > prototype for Function(). Prototype was for rtl8188e_PHY_SetRFReg()
-> > instead.
-> > 
-> > drivers/staging/r8188eu/hal/rtl8188e_phycfg.c:257: warning: expecting
-> > prototype for Function(). Prototype was for rtl8188e_PHY_QueryRFReg()
-> > instead.
-> 
-> Please put build warning lines all on one line.
-> 
-> > 
-> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> 
-> No, gcc reported this, not a robot, right?
-> 
-> You have read Documentation/process/researcher-guidelines.rst for how to
-> properly document patches that are created by research tools like this,
-> right?  Please fix this commit up to follow those requirements please.
-> 
+asynchronus -> asynchronous
 
-Hi Greg and Jiapeng,
+Signed-off-by: Steve Lemuel <wlemuel@hotmail.com>
+---
+ drivers/staging/greybus/loopback.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-First, IMO this is not research tool (in the sense of academic purposes),
-but development bot used in corporate environment, kinda like kernel
-test robot <lkp@intel.com>. When the bot reports any build warnings,
-these will be followed up by developers proposing fixes.
+diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+index 2471448ba42a..1a61fce98056 100644
+--- a/drivers/staging/greybus/loopback.c
++++ b/drivers/staging/greybus/loopback.c
+@@ -870,7 +870,7 @@ static int gb_loopback_fn(void *data)
+ 		if (gb->send_count == gb->iteration_max) {
+ 			mutex_unlock(&gb->mutex);
 
-What I see in the patch message is just "Fix this warning..." without
-saying why there is the warning.
+-			/* Wait for synchronous and asynchronus completion */
++			/* Wait for synchronous and asynchronous completion */
+ 			gb_loopback_async_wait_all(gb);
 
-Second, gcc DOESN'T, again DOESN'T, report "expecting prototype"
-warnings. These are from scripts/kernel-doc, which enabled these
-warnings on W=1 build.
+ 			/* Mark complete unless user-space has poked us */
+--
+2.36.1
 
-So the underlying problem is mismatching function name in kernel-doc
-comment and actual function.
-
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
