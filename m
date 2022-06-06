@@ -1,123 +1,167 @@
-Received: from AUS01-SY4-obe.outbound.protection.outlook.com (mail-sy4aus01olkn2177.outbound.protection.outlook.com [40.92.62.177])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F8A23BD
-	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 09:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA8523BD
+	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 14:36:32 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2569PRh9003664;
+	Mon, 6 Jun 2022 13:06:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=GgUvU25WpTQsojfrvl4ZhuQNvODwpEJm48neXaCol7M=;
+ b=kSua8pbEXLBL5VVWeLJsWufGesFtxAoAdQyaTGAqx18X9b1UmMtD+AInWfPTPsuOKX2E
+ EP9ouxLb4eYQO9Sx/53dNvXWJfN5Nl6CLMHVQu5wCZsDsjhCziyPVObG1uEd2ouhgHZj
+ EuXg3gKhC8gNNuXfeW8zZcRFxyJVFI+W2uqDZxI5cbYdM7cQ09EvPZgHdaP9H63+FnKM
+ tVA52LBTEUWoTKhbKKEUWAqNu1OyRih/Pvbgt7J78QzuNrMJ+9BwsxZpJznpDDNSumC3
+ gvl9ooHwFr9RFNBC6AYFrCEjpUHcgDhA4UW8Y6JGdQM4pr1ImRxar3I25qOBSVzIka3P 5Q== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ghexe8duc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 06 Jun 2022 13:06:48 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 256D0T2p036598;
+	Mon, 6 Jun 2022 13:06:47 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu1ghv2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 06 Jun 2022 13:06:47 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iUQtgGccuvwtbAe9Cs+uXD3VWp+80upfkYCG9zX9yb3gRbqNv/FWJwsw8XAn26+xWKHqP1N/OQR5FER0Gj7xtLptqy1kYjHsjtzdkMRX2PdhAbwu+mgs7RNNa5FJuUiuIl9ozrWPXCpFOOFIZhntn8s3N4EqHCDk/QAxI0gPpHuOGpL5FFa7Hr9L+K00WgdIpRZozTGHfWC0CSMjKnbIB5lRaxvjX7dHCNk/UTtVradZxwiJFqKY8yUF7LPMFiN9IFRg60bB0/Fk25tilWxhy1CzIUt5ba5+RT6P2+/E0eW6r5CrzBmWZKQ07W+GtcQq+RJ5zOx6j95dbGkBLnDUFg==
+ b=AlLMDof6XhP8LjDM7t77PiQ+EjzjGG6dAGcIR7Qe/r8jhAe+jeJSezak1d/MY79JXP7P7eJh7wFC3B1vEyucQafPEx6qG1JGD1QbUsT4Oei0hBptabTZM2q46Sn766E8xiaA48Av1Vt8QSMZGnO+lAHE/wv3qnmOucrDmddd0W2OlpX+jPbeuuukaqoXCJAIjJq1BUPzMUZhLIKLm05MMPKkQ1/KnypDDiThjBv/0AYp/3ExWeRJfGor4OHDPnxFKH3vmnvgF3bJbDZLF7DRhZgUWJ7MhhX/MRrgi5vCuf6vOMfCiXEGD9WF1YosBaOK9attOtKB+OmwWQk7Bn/avQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pswtmc59qrQSCydRNRa7Q/5GhmN5mEFEKVAE95htj3M=;
- b=ms2ugAPo+tlHUBMqJtWVN/7v2u34uLOtZvWrFyVOqsmrTHjVkodGebta/hnzIVWMyLq2uIfc1zshFXzjclsQx23JxcUQwYPemlQJ5GxKiIydGamhKStRBlTBcRAhjVYkT5VsyUEmr2tPmAT9jT3AoR76CZ2TP++zN+jiDbqs/zlSfSUnrG4+kfoZ7odXiJLNfPynfnvHF/0v4zJ4VyS2xabxMGUf6lRfUlaMq4E4LCgctPviX9BGKltV2Ef1GES8rT8VXFUMkVfjxpKR9J/MiWezqYakQubP3gy6xFAAL1w5w89PT8QnshtfupQsXALFIVe+Fwt0hkW0UqlMvf3/4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
+ bh=GgUvU25WpTQsojfrvl4ZhuQNvODwpEJm48neXaCol7M=;
+ b=Xs1gTGbF61jJkqHEWd2ZnC32H01uzyqQpAcoNeY2zc8MOEm+18DXyk0DdLFjFxFQpc4E4J61teI3/3kDg6amfe26S4nQkcNG+0v+DwVtlNSKTGSJtiuiRf9JAfr8XExnDopP4Y4w4d+/e+xsBJtMiXLPkVgaIAjn/nQJyjhSjQiG9mF+EM96c18w+9PnEfdMA1dBnnLHP+X0yTT56qXvHFTWpVBNE2F9QM6qkQjjIoMvNxIt+zLULitZiPA327JxFbYkH1PRrHA8kmSocLq7qxsv/BgJN3qYKd6rrbYgIyVNK0h3p0naOPgO64I5CWYZAjD8qjrW7b79EYJ0GUQi+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pswtmc59qrQSCydRNRa7Q/5GhmN5mEFEKVAE95htj3M=;
- b=PuFU9PpgUhSGF+3BC3pl8ifsSNJleCatwD/Rf1tN7IIidgascZkLcQsowHYM2IbH8Fo0jPR1s92tNGfIjf6SsohIfhHk86pvh+VKM1GfJ3vbzxjqSptvBMmKDpVqoyrLzzOH3/wYumQRX1693uzxNz5EkzyDEerqyY70Di7YKwzHYf1nk3bEWjFEFCA2O7SCMq85jiLIvoSLJRtP64smNIDVjHSNJzFYnwGWpWVhaewDTFZlVh+0Kf3JryRIJUB5BNUPjJC5xdoqIpWdrqe0fEokvk70iMtDsV0N97GUIdEem2USINIHojDPFewl0C/N/jHfsfOoYslVYp+TN47GwQ==
-Received: from SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:1b1::5) by
- SYCP282MB0400.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:81::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5314.13; Mon, 6 Jun 2022 09:58:35 +0000
-Received: from SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM
- ([fe80::f832:43e3:9778:bebc]) by SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM
- ([fe80::f832:43e3:9778:bebc%5]) with mapi id 15.20.5314.019; Mon, 6 Jun 2022
- 09:58:35 +0000
-From: Steve Lemuel <wlemuel@hotmail.com>
-To: "Bryan O'Donoghue" <pure.logic@nexus-software.ie>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: greybus: loopback: fix a spelling error.
-Date: Mon,  6 Jun 2022 17:57:45 +0800
-Message-ID:
- <SYBP282MB347864E247D2EC70BF46F9A3A0A29@SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.36.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [mXxHHddzlHKRUz4JNTMj8n45tXdInbuF]
-X-ClientProxiedBy: SG2PR04CA0183.apcprd04.prod.outlook.com
- (2603:1096:4:14::21) To SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:1b1::5)
-X-Microsoft-Original-Message-ID:
- <20220606095745.1815144-1-wlemuel@hotmail.com>
+ bh=GgUvU25WpTQsojfrvl4ZhuQNvODwpEJm48neXaCol7M=;
+ b=tqERSY9GrjyxXcfdknFyk3AQlVX20azt13vXOkCcQi47OfjB1EAJpUR5qsDOk9QoMLYaqN8SwhvnmiBp7gIlEpcQA0Rrlfh38QKwtofvqLN9EXrHSKed16ZY0vwiU7YF9Swp/Tu/peaGa+25E8aIEH+iusGEfhZrs9F460CAaRA=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BY5PR10MB4161.namprd10.prod.outlook.com
+ (2603:10b6:a03:213::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12; Mon, 6 Jun
+ 2022 13:06:45 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5314.019; Mon, 6 Jun 2022
+ 13:06:45 +0000
+Date: Mon, 6 Jun 2022 16:06:26 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Jared Kangas <kangas.jd@gmail.com>
+Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, elder@kernel.org,
+        gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+        johan@kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: audio: fix loop cursor use after
+ iteration
+Message-ID: <20220606130626.GX2146@kadam>
+References: <20220605231806.720085-1-kangas.jd@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220605231806.720085-1-kangas.jd@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0055.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::11)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0b1423ce-9d5c-438e-56ed-08da47a31f17
-X-MS-TrafficTypeDiagnostic: SYCP282MB0400:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1c2acea5-ec06-4fef-5c87-08da47bd681d
+X-MS-TrafficTypeDiagnostic: BY5PR10MB4161:EE_
+X-Microsoft-Antispam-PRVS: 
+	<BY5PR10MB4161CB36E9D032487E1E84718EA29@BY5PR10MB4161.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	6tex61Ao7KvzgrjZ12miTMOyMmMxvI1PBj7KQDIU04iC0jh6CXEuNEYVXrGGj4V4PKaBAcBvQKqT19aAYA8RYyQZEGCeMFma7dEPbDFZwDn4DLiDOYgtzidnyFn3t+80mWDmdwWLkRab7FTp6Q5wraZp1T+touUckrrIXuyBRzSOnn5LE8pPw594tG/mmiYdb02tcHhMhdLBECSbpZbdHhCNWadmjYlb0hrLFcHWbEtsXG3DQ3fgcfmfjoCGBh416ptwEsdXZTZxNnv9DSzbkHmvkmy5bCPlC4e2xsCDw/Sb/f0Z0adSIKfaP8qiwZm7wS8QlQ6K19m5WJhpvkDDGs9pI5UvORH/2Yhj8OdCia9plWdRviB7jielJMzYYArPAcx9mcBcRG17Y69x05YoxhXER2Y8eagL9eHtGLbMw57gmUJFl63o3CZa+8ZfvNuYJXM4Nxfgh889LGZafeqRifxI+286wtjkhyIYfMWXi9TaHb3y/tgEUdZTtYjJaSGxeKQMQ6FFC3soKPlILZU65ov5fhK7753p2SmV4aQUuu5KLp4IYHgsyZ9Jtbow9D92etPTXvSoibXnA7ZIIUly+g==
+X-Microsoft-Antispam-Message-Info: 
+	/ZuLM5lBG8PukGvmcWcFZP6Q8PtV7FmdkIP25xGvtrP7eoVOZCNRl/tQPg20VEwICBFUyKUhhipC3UyFl9AyseyRVODWDYaXFzevnbxcbSl4yf7tI3B94s92IqOV0Lfc1tscUM16fwvnDflcEbBNXlgaSuF1YqtyIGZel3HiIFsa8s5d6uPUwodTQVCbPSQ2Q5BKUfpg5eVj71lZ2PYCIWrSh2up9VrJWVqmsE4RZRISDEZehbhQEaTANM6xGFjdww1GYjOKfoYo82fnWPrhbG1QBFPDU2/ENTHr6whS/h/BWyEpQtTBt5KGY9Mr88wowZ00KdSqh2MxDLZumh/cm20h4lEGJYc9rs5PQUcoosXxLF9Dw2eovrDH8pPWaVT7oKmvd/BysL22S3Wy7ckN7aApbykG1KZPd4zKGfmEyJAMZE6CDMoztL25Jbh9o7tPlMpfawMo747JnQR0h0CT4sxisjZEmAt6kyabl+uvYGIDOBUcr9RF+cIsoQZnKCqGb4LdR01IDxo258FpK7YApVSo6TPifRw+xz7BiImO5EfrDlmjIW49vqIblM4dIX6xhgzBSqZmwYzP04vfxy42i4LvYDckVmn1/W35d3SJqXt57MTyMaYr9USHH/ctE2QxKoEJ+TGz9Mjs3ZTli7Y1HpvAMeNFKBXGzrQ9IDt14MZ/xllFARsfVGqUgsNR87KncgUiHgyGjhvA4qREGOR1jg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(38100700002)(52116002)(6666004)(38350700002)(6916009)(83380400001)(44832011)(4744005)(6506007)(2906002)(86362001)(5660300002)(4326008)(33656002)(316002)(8676002)(33716001)(1076003)(508600001)(186003)(6486002)(66556008)(8936002)(66476007)(66946007)(26005)(9686003)(6512007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3ibOi+uZItYc+D9ZbCyI2Tq2GzIinek3glWZX3hsRRuVCXXP7cRQskLzfrjQ?=
- =?us-ascii?Q?0kDIC16wWruEGVFUIfrS8R9SqBfN9M70dvJUm+x8PNS+zPkKo6O/YTnIP0q8?=
- =?us-ascii?Q?qHaU/OOAkQwzOFyEMY5fPeAY0KQiOMnvT34mqgieSKCNcsGo7dfF1WyzAQFB?=
- =?us-ascii?Q?fXFKCUFzOJgiqnOpUIYpMjId01lfOGwXRxKeSEW/PbkUOqct/UxKLlwh5idv?=
- =?us-ascii?Q?iLcivYJGMftIZL9UYQ+ETgAvl0rHl344FEy4ufoEjHqcWFPJYAI1PtGI2PsG?=
- =?us-ascii?Q?bdqPOLkKllHOAXhkGHhtmIgGbYiaknocSxmr4GF5Pzdl9V7WKq/MIYbaZKpi?=
- =?us-ascii?Q?cBrbFhCsmZyZm8bYFLJokZZOaeWOpE55ludow9OJfHH74JUxO61TMDcD04nx?=
- =?us-ascii?Q?1V4k85PU6kWlvPeM2eGKOwBTfGaqCaDqCnPqB0/J1VmILYgEDnTD1wUqrCUA?=
- =?us-ascii?Q?zA2JJLUycCXmVbe2SY4bmDc4W+gOrKW2Fwybif8nkreZlbAzCGxdRrDBuoVE?=
- =?us-ascii?Q?E2mJOMDldfh+nM45/wNZ5tpaxoO8JmeQAfn7xds6l5aYEW3XaNg+Gh9F2BMO?=
- =?us-ascii?Q?dKShnYnMsAtmilBv763mTytbTct1RCEFX2VxE3c4yt/+6XkrCzuu3CbC/umO?=
- =?us-ascii?Q?Mhspo1pI4tVrUfyl5Lg6OmJ9QjJ0uUfLFvu+LhESr95GADjEvBI0QOQOes/x?=
- =?us-ascii?Q?dyKQq8sotGhL/mYKfCp7wSB1b+wmfKusKJXISAsM6AIiX2+VB6yPBT9Z3zDw?=
- =?us-ascii?Q?Qhcg79cpph+/vJ8hJi0mgaktd0Xt776Qh73QvXWpfJVuRlPIOJl3Net9DZnd?=
- =?us-ascii?Q?f5KlVd32OUSmdqDOBsKFdI0mMDNFRNRIvlBcYhvH40wU2QAo2nON/say+APv?=
- =?us-ascii?Q?VLZjJD7stpGW6Ir6M5r3CgDBggvBC7NTL2C29abXpuxhTU5F9kiOURIPkoxF?=
- =?us-ascii?Q?P9fF/GFtSbgvpnkVEVIsq4ujFqeCHGN6cvYi3gplgIy2VMT/iwfrU6IOG2nF?=
- =?us-ascii?Q?fYxXOckmeqNlDWrz0+Pa3DblKQgUuNUkDr59kOd1CggaypugFBwf8DZ0lHit?=
- =?us-ascii?Q?kvSLNCK3uUJw0eGzidFq/n2/zMXdSCqyyvidwsw2rULAnxU2F5E26D4t2lZq?=
- =?us-ascii?Q?dq6Qw7LERSWF+MKnROuppj5bFZoO7gH5lp7JlkRUwTyf2k4qeizLeYKfD/54?=
- =?us-ascii?Q?TWpvgDVu1193BwwmNu9pBOxZOl/7tGb03UQmqPsTLb/Qs9sfhyh8D7lfLXYQ?=
- =?us-ascii?Q?/muH9M/tKyLqVcXWJu84K1wSWtAH6YVX7dQRQ/ukHYkistZZ/6GeNL7wviyn?=
- =?us-ascii?Q?at+ZqwvRf5rytPb9/RsIWMwnOg/UfblMnN3KswVyuCARU0EfnFGXO4TF+Vjr?=
- =?us-ascii?Q?Ba3+9HYkLCyB729uS41oczhRuRqgCRaKYkLGVN1Bjs9RI2BX3B1mGki9LzD8?=
- =?us-ascii?Q?utO3dsrnMfQ=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-746f3.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b1423ce-9d5c-438e-56ed-08da47a31f17
-X-MS-Exchange-CrossTenant-AuthSource: SYBP282MB3478.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?SBUYx3MEpYc0orCOMmui1tOt7lGxEP2GYUQpJqKO3rt7jLy4Zh1B8Frl452k?=
+ =?us-ascii?Q?y8BUBXY6VeENaGnaNp+1JHT1QyPI6xo5LFOFbmreLVRywFmZWo5/j+mlz90n?=
+ =?us-ascii?Q?GGntMC9x+SGSjPqt2iU7DL5yXQ2z66QTLYz58qD8L1TFoqe661saTN/UvlOx?=
+ =?us-ascii?Q?zYs0tN3VivuCvFfIoU/CWEzVTDe8IUaA/Y42RmHB4r22yZiAh8wC8YPmVOSS?=
+ =?us-ascii?Q?Ki2KwGTp3Uw1ZNR8F9X/fzj2tDwR1hqK8j2dmmg3XrOw4sBRi0NrH+kOiIt/?=
+ =?us-ascii?Q?4Hviw/jZm5Cv8x2cZ3qft4JHw5tni3/7HKEU+nuZFd92GU4rhg5+eCXT6DEN?=
+ =?us-ascii?Q?XVU6o7pTxYYpmOjHZd7Yy/tw/VJlbXI3I6Tlv1Tt/jWkL6exAtnGac1mif+W?=
+ =?us-ascii?Q?jgwx/UlwYpGN1dY5DjohZV6a6vI6D+aIAvWsPjBjDxqdZB2OI/sJom0AXpHQ?=
+ =?us-ascii?Q?Iip7QI2DOrIQQMka8mfVXKCLFryLKSTyqKhnBeFCowPkgwBBf+DMXORZVRYy?=
+ =?us-ascii?Q?S+nKTP1gACXtq4QZfgrmnFyYAKri/kyPHJcFlQqAXccM22+UBTj2bcaG2azK?=
+ =?us-ascii?Q?Rt9Py9/Ua5HSRxeXKl/ZLxzTN2CDo/RKC8eNQiabaoNhl1CC4jFhoCQnzm2S?=
+ =?us-ascii?Q?BJ70M6OWwM28VhvjyhKxfVadRnIgeK/eHgYGvG6/z759WjAqfIKFziWKMPb3?=
+ =?us-ascii?Q?ctXvlk1ClGv/UhrfIohFaWjxeIjDHKP9K73zfGqykIJOGnW7+WEIzU0tAy3w?=
+ =?us-ascii?Q?3nW7SEsK4H2TSYZA+Ts5hKmMOMImKzL8ap1D1335G3vDnMW3UcKgNNSCHAag?=
+ =?us-ascii?Q?zxqkZQnXNoI2ZYDXTppZVbcd04+vOASYuEzp0Vn0JK6hnVEBRnvuCaZk8PvK?=
+ =?us-ascii?Q?WABKL6KDeGCPIx4yy2PgzGMxfK9A3/jucLeEcXQIAPJFd8uTuypOKUAFlSLm?=
+ =?us-ascii?Q?wXmmipPjoadnPOzwr2gB728HXsjV05CjqfIiWX/KFOqbJbMWBPLSiriECg50?=
+ =?us-ascii?Q?22u0Od9dKimO4wBkQ3ONnrWPvtqKON6NXqjnedP/qfYaUbIj/4+67p49SsIn?=
+ =?us-ascii?Q?OQsA50B79Z1TrRlN3oQyfHBi3Mb0hAiiRtOQLCCEnOaxhTTtg5rlDbkWP5dd?=
+ =?us-ascii?Q?l2ODaNtgo1wmIuI4G+JYqp18BEoLg71opVnAvuWYlMmVru8IEpxquq9IMx7B?=
+ =?us-ascii?Q?/UB1GErgwCFDmU7/YeTA8QJ5XA1C9+hR2WGPl1j6Cce+QbdZR/DUk3sJoPWw?=
+ =?us-ascii?Q?tVAV0+k8SzRjeEOoweMgk1ju/TTcIXfJktLrtuxR2m6rxtdBr/FsQeJLDv2w?=
+ =?us-ascii?Q?tUuvy45K2cIC6VdXoUZ2vaSxqtkreB3g+e+K91yi5pn0pr7qzDvPL095lgmc?=
+ =?us-ascii?Q?hnrDbNA8uEfz7p6ugryrhynvRFXEXM3xDl1UwORBLEcRoY+o+feNv9B2odFf?=
+ =?us-ascii?Q?ovWyktBNDMrdznz/fXSTusbdg27DyPTBsLnqhus5J/XKDVwraPTubppP1n7+?=
+ =?us-ascii?Q?43MkyVCP5CoD7MfuO30uTeE5VCxX9vZh3DCK47Wizt/gQSsHyF9sxbZ1OQ4d?=
+ =?us-ascii?Q?lqd8mIIHflgcVfGVFI/dkN+RX82eQzA3juFLEVLSxfHgm2Vr2ZnUUang4Ap+?=
+ =?us-ascii?Q?eCzGL4W+ibbRnbdV10KeZ4FSaEn/GU4m4WHsJik0krSup2dX/Kd5iZTVnDy0?=
+ =?us-ascii?Q?WemE5bhJKjYzlknimsv50i0JgbiqJfKwvKAN9tE9LPtp/Wm21WVJ2Zhj13Mq?=
+ =?us-ascii?Q?WAaLI/d8OB1K3FUIKek/rgejFtgmGz0=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c2acea5-ec06-4fef-5c87-08da47bd681d
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2022 09:58:35.4929
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2022 13:06:45.1710
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SYCP282MB0400
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WGR7C+apgRf0rwbbMp+Kqr5y3v1lhPm6kANDhgxgGUEaIjx46bOV4uZcDitTOmLDh5ClggsjFD49LV38P5Lsr/mcc4KjJUkKaiOtTfbRFNQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4161
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
+ definitions=2022-06-06_04:2022-06-02,2022-06-06 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=744 spamscore=0
+ adultscore=0 suspectscore=0 malwarescore=0 phishscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206060060
+X-Proofpoint-GUID: B05ZPBcFPjZmrChMFSF0a6OEIbUCL-YK
+X-Proofpoint-ORIG-GUID: B05ZPBcFPjZmrChMFSF0a6OEIbUCL-YK
 
-asynchronus -> asynchronous
+On Sun, Jun 05, 2022 at 04:18:06PM -0700, Jared Kangas wrote:
+> gbaudio_dapm_free_controls() iterates over widgets using
+> list_for_each_entry_safe(), which leaves the loop cursor pointing to a
+> meaningless structure if it completes a traversal of the list. The
+> cursor was set to NULL at the end of the loop body, but would be
+> overwritten by the final loop cursor update.
+> 
+> Because of this behavior, the widget could be non-null after the loop
+> even if the widget wasn't found, and the cleanup logic would treat the
+> pointer as a valid widget to free.
+> 
+> To fix this, introduce a temporary variable to act as the loop cursor
+> and copy it to a variable that can be accessed after the loop finishes.
+> 
+> This was detected with the help of Coccinelle.
+> 
 
-Signed-off-by: Steve Lemuel <wlemuel@hotmail.com>
----
- drivers/staging/greybus/loopback.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This needs a Fixes tag.
 
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index 2471448ba42a..1a61fce98056 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -870,7 +870,7 @@ static int gb_loopback_fn(void *data)
- 		if (gb->send_count == gb->iteration_max) {
- 			mutex_unlock(&gb->mutex);
+Fixes: 510e340efe0c ("staging: greybus: audio: Add helper APIs for dynamic audio modules")
 
--			/* Wait for synchronous and asynchronus completion */
-+			/* Wait for synchronous and asynchronous completion */
- 			gb_loopback_async_wait_all(gb);
+Otherwise, looks good!
 
- 			/* Mark complete unless user-space has poked us */
---
-2.36.1
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+regards,
+dan carpenter
 
