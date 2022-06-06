@@ -1,98 +1,124 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5887E
-	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 19:01:02 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id y32so24768623lfa.6
-        for <linux-staging@lists.linux.dev>; Mon, 06 Jun 2022 12:01:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506117E
+	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 19:36:52 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id a2so24928961lfc.2
+        for <linux-staging@lists.linux.dev>; Mon, 06 Jun 2022 12:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=HsF6PFNjQdhI9fkMmd1jzJRlQO2RX9NPxQwW7vOOtf8=;
-        b=Sg3b8LiXhFBmypAGCEZfcuogUken/zA0HLogif/U2MAEvxh0B9zlPTD4Up8IMLnbTW
-         TNlcxZXJpZI526Qx0At0s6m4kJ7wuSO/pIeC5VB9IzGP/u59Q0shLPzQEggb6iD9YMkD
-         gmJRb/aV6HKsRED0qmERbpIKux9tgvD8Pktl2OExMHX2NH+TjFzb5Zj5al96PMxFhHBm
-         xrsylH8TuDbfzYsjySWHy5eQ9/qYsHpjrQTVWgU41VXCc+4QGOORStu5qEkrNYwieg5z
-         kNC46PE403d4EOvyhhFsKu8Q9lS6QCuNValXUtMngO4WRyvjU0JWf2uWg+kuz26HOMzN
-         ygDQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ocE4xdI2Ps5J5GJU8d4YixiKjR69pIIldx4ffv9ni2c=;
+        b=dSgm0J+kU8mOPlOycUV4NGLJBqwoFt1vRSHeQmhgpBNK2dFapFO7pjvXtv3708T7zn
+         0dx8XJFjcHy2H8tYq0aB/f49XzmWbEkCABFK4GqxnSxs4fRx3NRufQiU5VW1YIOKiX/H
+         9imtXgzpzHAGMm6+n3uhhWvFDDAVfRJfpVzubECh8u1BIg2KayMX8SWrTtqaEJOviJy4
+         XkmOl7bJ24r7OmrisaRblYC+PHBgPgPgqmrCq8yp41mze3qLSu6kDQyVSCWLSU2eXpl2
+         JKhZaKJ7T993IKlQ2ryNqGxSU05rG4V56rW8SmkFHc+ai/AtsJv3Tz0aaWN8dRbl4/zk
+         UpCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=HsF6PFNjQdhI9fkMmd1jzJRlQO2RX9NPxQwW7vOOtf8=;
-        b=vavLA3xWN0Agaj9HA1t4LmGJe0JES1pYRR4HiOS448dr7jje2LGFIoqEqzwvm/WqaH
-         Zcuz8kJ7bQeU/8TKHDPiDUjniMRJW7cpucRx52cG+wcM/+zz2FpHlVhH+93vqpPuDPLe
-         eAWs8sDcdWlRjfZj6Hs7daAbZWWM7HLkhJe/iDBWQje2bSS5lXLjJhN60xcO1w/twwg5
-         JOBr/tOYf3vqJMgnuUbIJpuoBljwmW2+M0ARaChreDOSzy48ZaP3N6ahrCIqLNI5lGP3
-         YFJ1AODjDJ/uGD0+ftG3iK09vTMjAhnQnR3VTMR31CLpWuVJdGE5jrgWt4PrhxSlo6Y0
-         gEtg==
-X-Gm-Message-State: AOAM530sUKR7Y/WsCTIXxlsFKKnfHBC7aE1e+PXl7AqnNeCTi2yVMWVe
-	jM8GV667QjZynTSRptS6enU=
-X-Google-Smtp-Source: ABdhPJyuzwqiwPI3WZiPgTWZqjXJg4VSREuSpZTNo6Em9hBq8mQr6C68Yd5ODYKNHfij3P27ZL1plw==
-X-Received: by 2002:a05:6512:1293:b0:479:4bbb:f785 with SMTP id u19-20020a056512129300b004794bbbf785mr3950971lfs.170.1654542060100;
-        Mon, 06 Jun 2022 12:01:00 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.229.27])
-        by smtp.gmail.com with ESMTPSA id g28-20020a2eb5dc000000b00253dfbe2522sm2485503ljn.100.2022.06.06.12.00.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jun 2022 12:00:59 -0700 (PDT)
-Message-ID: <774c3d04-4c02-ed52-f545-73acbffde561@gmail.com>
-Date: Mon, 6 Jun 2022 22:00:58 +0300
+        bh=ocE4xdI2Ps5J5GJU8d4YixiKjR69pIIldx4ffv9ni2c=;
+        b=aEIxCWm7Xrx5acla+4g7cMtrQM5PU+Sapw/DJP1AM66cozIW27ToWmboFpi33+fbSV
+         oC76r6qAJ+yg4H8oWNqL0skcpXkU6dgHuCphOT7nEXbDv1kdCDE2j+99EDnbJpV31Q2z
+         W8TBSaaFM0q4gZwCTmvj3KTIDV4BeUfqGcEiHFqC/ILpNPblduLVfxhrDhCB1FU7EGsS
+         FnrmOYgICMbupPwR8qn+7s9bcw/5Z0VErrQjbvJgIOeK7rIFLyJtOmuLT7+eXh1g7GF4
+         28MjTxvwYSW2W5T8FT6R30XOVk8KbM/3RAp3j42lql66uH9sClrZw4cRO0Yd406ihE0R
+         J3eg==
+X-Gm-Message-State: AOAM531z4k16xwRgyxUFoFRWaQ980D15zfFqGaNaMf2t+pY3nPgGDvlv
+	U2dqoG0fEAyNUDxcQWrDduc=
+X-Google-Smtp-Source: ABdhPJxCSp/6uMa99wsCN0iUq6WWebYMaS87eW+3AfWRWIRd4tPDAvfHnLN4enGA4KhzlO/FAFt/KA==
+X-Received: by 2002:a05:6512:c07:b0:479:2e0f:9a06 with SMTP id z7-20020a0565120c0700b004792e0f9a06mr7626550lfu.687.1654544210301;
+        Mon, 06 Jun 2022 12:36:50 -0700 (PDT)
+Received: from localhost.localdomain ([94.103.229.27])
+        by smtp.gmail.com with ESMTPSA id l10-20020a056512110a00b004791c4858e0sm1656662lfg.114.2022.06.06.12.36.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jun 2022 12:36:49 -0700 (PDT)
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: gregkh@linuxfoundation.org,
+	Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	straube.linux@gmail.com,
+	dan.carpenter@oracle.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Pavel Skripkin <paskripkin@gmail.com>
+Subject: [PATCH v3 0/4] staging: r8188eu: add error handling of usb read errors
+Date: Mon,  6 Jun 2022 22:36:46 +0300
+Message-Id: <cover.1654543286.git.paskripkin@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2 2/4] staging: r8188eu: add error handling of rtw_read16
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- straube.linux@gmail.com, dan.carpenter@oracle.com, fmdefrancesco@gmail.com,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-References: <cover.1652994483.git.paskripkin@gmail.com>
- <fd10125ab8f4a64572742ec01d3202af2a79b1d0.1652994483.git.paskripkin@gmail.com>
- <Yp2VQU9G1xVw9lHE@kroah.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <Yp2VQU9G1xVw9lHE@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+Hi,
 
-On 6/6/22 08:48, Greg KH wrote:
->> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
->> index e67ecbd1ba79..6662ebc30f7b 100644
->> --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
->> +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
->> @@ -249,11 +249,14 @@ static void efuse_read_phymap_from_txpktbuf(
->>  		hi32 = cpu_to_le32(rtw_read32(adapter, REG_PKTBUF_DBG_DATA_H));
->>  
->>  		if (i == 0) {
->> +			u16 reg;
->> +
->>  			/* Although lenc is only used in a debug statement,
->>  			 * do not remove it as the rtw_read16() call consumes
->>  			 * 2 bytes from the EEPROM source.
->>  			 */
->> -			rtw_read16(adapter, REG_PKTBUF_DBG_DATA_L);
->> +			res = rtw_read16(adapter, REG_PKTBUF_DBG_DATA_L, &reg);
->> +			(void)res;
-> 
-> Same here, that line isn't ok.
-> 
-hm, that place is not obvious.
+it's reincarnation of my old series for adding sane error handling in
+r8818eu.
 
-I guess, on-chip EEPROM acts like a FIFO, so this read must be completed 
-w/o any errors, so I will simply propagate an error to callers
+*Problem*
 
-And will place another "FIXME" for further work :)
+Old code was returning just stack variable in case of read error. It's
+not the best approach, since passing around stack data might cause
+device misconfiguration or even kernel data leakage
 
-thanks,
+To solve this I've changed rtw_read{8,16,32} prototypes to return an error via
+return value and data via passed pointer. Some work should be done to
+propogate an error down to calltrace, but it's good way to at least
+start doing sane I/O error handling
 
+Tested locally on qemu with TP-Link TL-WN722N v2/v3 [Realtek RTL8188EUS]
+device. More testing is welcomed, of course :)
 
-With regards,
-Pavel Skripkin
+_NOTE_
+Series is based on top of staging-testing branch.
+
+Changes since v2:
+    get rid of `(void)res` and return an error from function instead of
+    hiding it
+
+Changes since v1:
+    addresses issues found by Dan and self review. Mostly related to returning
+    _FAIL instead of -errno, since callers expect _FAIL/_SUCCESS
+
+v1: https://lore.kernel.org/linux-staging/cover.1652911343.git.paskripkin@gmail.com/
+v2: https://lore.kernel.org/linux-staging/cover.1652994483.git.paskripkin@gmail.com/
+
+Pavel Skripkin (4):
+  staging: r8188eu: add error handling of rtw_read8
+  staging: r8188eu: add error handling of rtw_read16
+  staging: r8188eu: add error handling of rtw_read32
+  MAINTAINERS: add myself as r8188eu reviewer
+
+ MAINTAINERS                                   |   1 +
+ drivers/staging/r8188eu/core/rtw_cmd.c        |  15 +-
+ drivers/staging/r8188eu/core/rtw_efuse.c      |  33 ++-
+ drivers/staging/r8188eu/core/rtw_fw.c         |  72 +++--
+ drivers/staging/r8188eu/core/rtw_led.c        |  16 +-
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  62 ++++-
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    |   9 +-
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  |  20 +-
+ .../r8188eu/hal/Hal8188ERateAdaptive.c        |  21 +-
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |  21 +-
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   9 +-
+ drivers/staging/r8188eu/hal/hal_com.c         |  27 +-
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  37 ++-
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   6 +-
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 136 +++++++---
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  30 ++-
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 251 +++++++++++++++---
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |  33 ++-
+ drivers/staging/r8188eu/include/rtw_io.h      |   6 +-
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  47 +++-
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  19 +-
+ 21 files changed, 693 insertions(+), 178 deletions(-)
+
+-- 
+2.36.1
+
