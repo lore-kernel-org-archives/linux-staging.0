@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D417B23A0
-	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 05:48:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 414E3C341CA;
-	Mon,  6 Jun 2022 05:48:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1249323A0
+	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 05:49:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51EE3C385A9;
+	Mon,  6 Jun 2022 05:49:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1654494532;
-	bh=Dvz2wGZ0SUD3hGXKJv7F+hdhAS0fs0Hbg/vlNnnbu04=;
+	s=korg; t=1654494568;
+	bh=bvq1JRPilmHtlKkjFDH6DUlt2t9c+LWSpYiZiLwBmsc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m+z3WMkQml0kACZBfXKVHiwEluGjiPMXHHkh1Xsjlju7rllZb+S/QgR2iofAO3pkk
-	 FZ8Pw6HwSSXZsb0Y5vzhy27dNt8fR2BWo4+mMVsZat2i3t2QNjsk5uDCxyu2vzsvL0
-	 mCf/j5jWCzNrqIRGwJ3k3c8HnXP9ta2KQycdobsU=
-Date: Mon, 6 Jun 2022 07:48:49 +0200
+	b=taW66KvRj6AIi30v46IlXtETnYb24uA43Fe6oFUn4ZV8732w13Ica+/dv5tzlWuBJ
+	 lHn+x1L4lesdvnTLqVx4yrei5ixU98wzoho/BRqzBgH5bsmK6H75CuB0zrKOsvn2gA
+	 4WwEVo34B6KKzydPVGwrZ+vXKbaMa85N9A/fJYOg=
+Date: Mon, 6 Jun 2022 07:49:26 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Pavel Skripkin <paskripkin@gmail.com>
 Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
 	straube.linux@gmail.com, dan.carpenter@oracle.com,
 	fmdefrancesco@gmail.com, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 2/4] staging: r8188eu: add error handling of rtw_read16
-Message-ID: <Yp2VQU9G1xVw9lHE@kroah.com>
-References: <cover.1652994483.git.paskripkin@gmail.com>
- <fd10125ab8f4a64572742ec01d3202af2a79b1d0.1652994483.git.paskripkin@gmail.com>
+Subject: Re: [PATCH v2 4/4] MAINTAINERS: add myself as r8188eu reviewer
+Message-ID: <Yp2VZkfEv2pemEDi@kroah.com>
+References: <cover.1652993983.git.paskripkin@gmail.com>
+ <7656c9eb3d430524373f4826714f7d205480c3e2.1652993983.git.paskripkin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,51 +31,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fd10125ab8f4a64572742ec01d3202af2a79b1d0.1652994483.git.paskripkin@gmail.com>
+In-Reply-To: <7656c9eb3d430524373f4826714f7d205480c3e2.1652993983.git.paskripkin@gmail.com>
 
-On Fri, May 20, 2022 at 12:09:55AM +0300, Pavel Skripkin wrote:
-> rtw_read16() reads data from device via USB API which may fail. In case
-> of any failure previous code returned stack data to callers, which is
-> wrong.
+On Fri, May 20, 2022 at 12:10:08AM +0300, Pavel Skripkin wrote:
+> I was reviewing r8188eu patches for a while, but I am missing some of
+> them, since I am not in CC list. I want to be CC'ed to help reviewing
+> and testing more patches.
 > 
-> Fix it by changing rtw_read16() prototype and prevent caller from
-> touching random stack data
-> 
+> Acked-by: Dan Carpenter <dan.carpenter@oracle.com>
 > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 > ---
 > 
 > Changes since v1:
-> 	- Fixed style issue
+> 	- Added Dan's Ack. Thanks to Dan! :)
 > 
 > ---
->  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 21 ++++++++++++---
->  drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  8 ++++--
->  drivers/staging/r8188eu/hal/usb_halinit.c     | 27 ++++++++++++++++---
->  drivers/staging/r8188eu/hal/usb_ops_linux.c   | 13 ++++++---
->  drivers/staging/r8188eu/include/rtw_io.h      |  2 +-
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  9 ++++---
->  drivers/staging/r8188eu/os_dep/os_intfs.c     |  6 ++++-
->  7 files changed, 67 insertions(+), 19 deletions(-)
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> index e67ecbd1ba79..6662ebc30f7b 100644
-> --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> @@ -249,11 +249,14 @@ static void efuse_read_phymap_from_txpktbuf(
->  		hi32 = cpu_to_le32(rtw_read32(adapter, REG_PKTBUF_DBG_DATA_H));
->  
->  		if (i == 0) {
-> +			u16 reg;
-> +
->  			/* Although lenc is only used in a debug statement,
->  			 * do not remove it as the rtw_read16() call consumes
->  			 * 2 bytes from the EEPROM source.
->  			 */
-> -			rtw_read16(adapter, REG_PKTBUF_DBG_DATA_L);
-> +			res = rtw_read16(adapter, REG_PKTBUF_DBG_DATA_L, &reg);
-> +			(void)res;
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 0a635f2ae5b9..bd38a2e465cc 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -18716,6 +18716,7 @@ F:	drivers/staging/olpc_dcon/
+>  STAGING - REALTEK RTL8188EU DRIVERS
+>  M:	Larry Finger <Larry.Finger@lwfinger.net>
+>  M:	Phillip Potter <phil@philpotter.co.uk>
+> +R:	Pavel Skripkin <paskripkin@gmail.com>
 
-Same here, that line isn't ok.
+For obvious reasons, I can't take changes like this unless the
+maintainers agree with it.
 
 thanks,
 
