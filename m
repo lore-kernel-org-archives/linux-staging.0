@@ -1,106 +1,104 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F3F7E
-	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 07:50:04 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id h62-20020a1c2141000000b0039aa4d054e2so9575447wmh.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 Jun 2022 00:50:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E135223B6
+	for <linux-staging@lists.linux.dev>; Mon,  6 Jun 2022 07:59:00 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id s68so12292979pgs.10
+        for <linux-staging@lists.linux.dev>; Mon, 06 Jun 2022 00:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=+jmhoqJpyhhqIncv/yIeyyd/Y7l7QLXlTo6Fm8J66hI=;
-        b=lXwodVqB/aZL/jAQr9I+EKcA0rIfagTQm795hCwZ3uihpRIm57OwyCNbL/9W7PWT2g
-         rclgEfmrPiF17ujHyQaz+gePe8WfKfwJSu/U2hzTMj6wyogPV+MCBhSODc6a3BZdK0vf
-         P89gvCJgacyuYx6FG6qeenmabsljmIhffnDiXBhQNYLyEd3dv3eWh38zOWCYeGdNM1r3
-         U7+pqIfLhIxzXvEyBd3oD6TRxq7xA8XROTzWZUrhn0sMYZskSWYy3i7C09Q5rYN59M74
-         w2Kp0CQvwVO+y+udKWWFlroWWqCrRMpGUjJhHuWA8ddw3SMD9+m9935pquMDog+Vgw9n
-         YN/A==
+        bh=yXfk+pV14N8uRHKyKDyfNelIYS7BHAUOLYy6g/CrD/Q=;
+        b=oN5ZTX/u0mjNJXsVTHRx05wP3sAoWHsew7muqi3kK4IDOlcQe79pIP7h7A5UEJS4uZ
+         lCI/GOCyaU1c+i8rQ4Jv204cN9b+vi8F6PbG/oqlB05fUs2jKfiUEu8FZktISIeJe+vf
+         g2dAMBWeIVMfdoS6xZSdMo3JS6jiRnRPAK9RCWYZd9lFCZF4Xyls2EoejoOcidxuZOKz
+         TP6P9mZponxwgy2Rrr74FTy2wY75EXwO4a+zC0QCiB1cw1vCiP4e610fgDBez+rEbOo0
+         cKd6feG6sNOiv8P/aFOUmCLZMlag6MqwSu7GVQMf5sCqZcgGblXbnnnKlgayw+2eeWEu
+         zo7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=+jmhoqJpyhhqIncv/yIeyyd/Y7l7QLXlTo6Fm8J66hI=;
-        b=CnYmOO8h+Ngg+5U93VlidyNvDo6zIhES3ew/bykuIXlR5iv1ZzNc6JeAj+qbwqk317
-         Y6dK3kqDBKFJ5dadr7Ed0FdAsC54xDFdAHOm4g2b7w/DmTz9yajVJV18Zw6rFb1ZhNmY
-         +xnAZworHs9R/mmVWOB/qDysO+cMIVzLYsSogCPwIkbZ/JmpMcNjBOUSNCGsRxLchrhL
-         e6wsHPKj9fyPX34ahiKtlm3v4z4kz/IWoz+xAlFq5vyYRvpHKTQzy7iMtN+sjipFbTzh
-         JglRQt4XfY4+AN3+JjiilPQTJx8G+fTZoR4d3MnKmdc9xNcdobp9n1Q251O15aKllP9e
-         hxuw==
-X-Gm-Message-State: AOAM533heRXWKuK7rPt0xEji7DiVcM9cC9/w0ZEwPh0OfkLQipx08fX+
-	aaPpg28xZPTVxDMkSTOMiJPu2A==
-X-Google-Smtp-Source: ABdhPJyjhHhqqIjiug39zbvUZTfTFIhox6OzAP8wB57IDE4bopJh028VRe5fS0Vu78RrZ4AitIopZQ==
-X-Received: by 2002:a7b:cd84:0:b0:39c:3620:301c with SMTP id y4-20020a7bcd84000000b0039c3620301cmr18421247wmj.19.1654501802906;
-        Mon, 06 Jun 2022 00:50:02 -0700 (PDT)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id p5-20020adfce05000000b002102739add8sm17766251wrn.54.2022.06.06.00.50.01
+        bh=yXfk+pV14N8uRHKyKDyfNelIYS7BHAUOLYy6g/CrD/Q=;
+        b=bqpmvJNmX74HuOV0/vr7R25oPMOmTNvJBr5AyzJtyqO7FQ6l4/jUnIb3+uEVOhUy+Y
+         OscOoBFYdAUvR8RlYOd2hn7GQQlMaEnbRUKCstKzP2JqM15PjC855fu0bbsgGp6VKWcp
+         56eMEDutw0iE4FK2WB0LXGq3XZ9H6H/hmjiEQLGFEd7zPw8K2blxjo3OrKZhA7nL294E
+         gRqAUBplDYx//cU/pFntgq6PDPOTgRUNQaSmkmoPTSnau05NzImPBIYrCRe6j/OdyhvS
+         3YQa5glSULzkTAcIAAy1K+r5xf9rEcU+2GVYr6qIEdddd5QBqgCIpUPhxil+tR9zVtmJ
+         beDw==
+X-Gm-Message-State: AOAM5338JgLzeWoQSQ2mfR4hih7ocKP2f8Eihpb6HeBl5WFh0e2yL2eW
+	k3RatQQgp8KfXSbUh+ldddk=
+X-Google-Smtp-Source: ABdhPJw/2S40bNMLgP5EwoSMIjOlqJNvRgzfhEdg6IHM/ugfgOyuCvD/EKx0isk4ffOnTccP0LokEw==
+X-Received: by 2002:a65:694a:0:b0:3fb:9d3b:431b with SMTP id w10-20020a65694a000000b003fb9d3b431bmr20359002pgq.276.1654502340347;
+        Mon, 06 Jun 2022 00:59:00 -0700 (PDT)
+Received: from localhost (subs03-180-214-233-76.three.co.id. [180.214.233.76])
+        by smtp.gmail.com with ESMTPSA id y189-20020a6264c6000000b0050dc762814asm10020438pfb.36.2022.06.06.00.58.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 00:50:02 -0700 (PDT)
-Date: Mon, 6 Jun 2022 08:49:59 +0100
-From: Phillip Potter <phil@philpotter.co.uk>
+        Mon, 06 Jun 2022 00:58:59 -0700 (PDT)
+Date: Mon, 6 Jun 2022 14:58:56 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Pavel Skripkin <paskripkin@gmail.com>, Larry.Finger@lwfinger.net,
-	straube.linux@gmail.com, dan.carpenter@oracle.com,
-	fmdefrancesco@gmail.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 4/4] MAINTAINERS: add myself as r8188eu reviewer
-Message-ID: <Yp2xpxkbvaKLGvvC@equinox>
-References: <cover.1652993983.git.paskripkin@gmail.com>
- <7656c9eb3d430524373f4826714f7d205480c3e2.1652993983.git.paskripkin@gmail.com>
- <Yp2VZkfEv2pemEDi@kroah.com>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH] staging: r8188eu: Fix kernel-doc
+Message-ID: <Yp2zwBqn6uDvGNWN@debian.me>
+References: <20220524083914.68736-1-jiapeng.chong@linux.alibaba.com>
+ <Yp2WPrOz85/70CZx@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Yp2VZkfEv2pemEDi@kroah.com>
+In-Reply-To: <Yp2WPrOz85/70CZx@kroah.com>
 
-On Mon, Jun 06, 2022 at 07:49:26AM +0200, Greg KH wrote:
-> On Fri, May 20, 2022 at 12:10:08AM +0300, Pavel Skripkin wrote:
-> > I was reviewing r8188eu patches for a while, but I am missing some of
-> > them, since I am not in CC list. I want to be CC'ed to help reviewing
-> > and testing more patches.
+On Mon, Jun 06, 2022 at 07:53:02AM +0200, Greg KH wrote:
+> On Tue, May 24, 2022 at 04:39:14PM +0800, Jiapeng Chong wrote:
+> > Fix the following W=1 kernel warnings:
 > > 
-> > Acked-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> > ---
+> > drivers/staging/r8188eu/hal/rtl8188e_phycfg.c:291: warning: expecting
+> > prototype for Function(). Prototype was for rtl8188e_PHY_SetRFReg()
+> > instead.
 > > 
-> > Changes since v1:
-> > 	- Added Dan's Ack. Thanks to Dan! :)
-> > 
-> > ---
-> >  MAINTAINERS | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 0a635f2ae5b9..bd38a2e465cc 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -18716,6 +18716,7 @@ F:	drivers/staging/olpc_dcon/
-> >  STAGING - REALTEK RTL8188EU DRIVERS
-> >  M:	Larry Finger <Larry.Finger@lwfinger.net>
-> >  M:	Phillip Potter <phil@philpotter.co.uk>
-> > +R:	Pavel Skripkin <paskripkin@gmail.com>
+> > drivers/staging/r8188eu/hal/rtl8188e_phycfg.c:257: warning: expecting
+> > prototype for Function(). Prototype was for rtl8188e_PHY_QueryRFReg()
+> > instead.
 > 
-> For obvious reasons, I can't take changes like this unless the
-> maintainers agree with it.
+> Please put build warning lines all on one line.
 > 
-> thanks,
+> > 
+> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 > 
-> greg k-h
+> No, gcc reported this, not a robot, right?
+> 
+> You have read Documentation/process/researcher-guidelines.rst for how to
+> properly document patches that are created by research tools like this,
+> right?  Please fix this commit up to follow those requirements please.
+> 
 
-Hi Greg,
+Hi Greg and Jiapeng,
 
-Speaking only for myself of course, I would be happy for Pavel to be
-added as a reviewer in MAINTAINERS.
+First, IMO this is not research tool (in the sense of academic purposes),
+but development bot used in corporate environment, kinda like kernel
+test robot <lkp@intel.com>. When the bot reports any build warnings,
+these will be followed up by developers proposing fixes.
 
-He is helpful and skilful at what he does, and certainly makes up for the
-small amount of time I get to spend looking at r8188eu :-)
+What I see in the patch message is just "Fix this warning..." without
+saying why there is the warning.
 
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
+Second, gcc DOESN'T, again DOESN'T, report "expecting prototype"
+warnings. These are from scripts/kernel-doc, which enabled these
+warnings on W=1 build.
 
-Many thanks,
-Phil
+So the underlying problem is mismatching function name in kernel-doc
+comment and actual function.
+
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
