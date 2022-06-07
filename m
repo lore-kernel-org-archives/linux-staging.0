@@ -1,38 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EE07F
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 17:58:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 469F3C34115;
-	Tue,  7 Jun 2022 17:58:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3059D7F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 17:59:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA313C34115;
+	Tue,  7 Jun 2022 17:59:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654624726;
-	bh=rPBvgnCvPO1NeOvOJ7gzKr0pzqOpITX4+dk7Nn1SKeQ=;
+	s=k20201202; t=1654624743;
+	bh=Af1Twr37yZkIfi9hel/4jCo9eqfsFUDhK9Nk8JM5iS8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NFvDTBGHxGMQUiwSqTiHfAd7JhUWsMVij4Cn8BIewnx5k+D9RFAFiTMDeCftor6Mm
-	 Xk78EiHS6enVDUCXIMHQqJOwtyTE04yaQl0iyoaTtnZY+3N6v0P7N5x1Yf0VSXT7It
-	 aBABIb2fkfcJGVUn6Fr7uFL78hxYumUX0r//DMKS8SzcBmk3wiYNcuIXoLviwYKVh6
-	 c6TFIeG4y80WKg9XCy0PriMAFkZaTcSXZ4kmVKl5DENRbW7YcIO3/k2uPA3j7rjCW/
-	 ro0yAteqlgN4L8KBD/P1fngokrro2/OL8mOWgDEUSIN6RxkZnA67fRISkO8+eUfHcl
-	 RBhljy+dh/FeQ==
+	b=tpGUGLRxDEv0mnWLp9MpbQNCAY2BH/N/uyjmywFERQHdHBIk/g3wpZ8KzHtJLIaF4
+	 ljK0Xlcg6x5NnGp/0IkPGqSUl6EG66mv3wAs+taDP1vY/HNRlXC6CzZPqsKAmuSNxS
+	 WpDLgJu3pZSt/nL4jitpqVKGXB3LTT3qVwrAy0/O5eWJD2fEGxrS7G5pED/Xo9tWfd
+	 u3EbS+2c7x8tf5Z4qJJTXAMGiPPmChVP6HZ++sflaQYViyj3sUpNgLWm6n9PMIDF4S
+	 r1Go239othAj2xS7doHfYy3E9v1Etr0QEqEHzC/xfO4hZsfgblk1q45pbFb9Es//eE
+	 g1aKxcQOps/ZQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Xiaoke Wang <xkernel.wang@foxmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
+Cc: Duoming Zhou <duoming@zju.edu.cn>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
-	Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	kuba@kernel.org,
+	baihaowen@meizu.com,
+	wangborong@cdjrlc.com,
+	dave@stgolabs.net,
 	len.baker@gmx.com,
-	paskripkin@gmail.com,
-	wanngchenng@gmail.com,
-	skumark1902@gmail.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 02/38] staging: rtl8712: fix a potential memory leak in r871xu_drv_init()
-Date: Tue,  7 Jun 2022 13:57:57 -0400
-Message-Id: <20220607175835.480735-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 07/38] drivers: staging: rtl8192u: Fix deadlock in ieee80211_beacons_stop()
+Date: Tue,  7 Jun 2022 13:58:02 -0400
+Message-Id: <20220607175835.480735-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220607175835.480735-1-sashal@kernel.org>
 References: <20220607175835.480735-1-sashal@kernel.org>
@@ -46,79 +42,52 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+From: Duoming Zhou <duoming@zju.edu.cn>
 
-[ Upstream commit 7288ff561de650d4139fab80e9cb0da9b5b32434 ]
+[ Upstream commit 806c7b53414934ba2a39449b31fd1a038e500273 ]
 
-In r871xu_drv_init(), if r8712_init_drv_sw() fails, then the memory
-allocated by r8712_alloc_io_queue() in r8712_usb_dvobj_init() is not
-properly released as there is no action will be performed by
-r8712_usb_dvobj_deinit().
-To properly release it, we should call r8712_free_io_queue() in
-r8712_usb_dvobj_deinit().
+There is a deadlock in ieee80211_beacons_stop(), which is shown below:
 
-Besides, in r871xu_dev_remove(), r8712_usb_dvobj_deinit() will be called
-by r871x_dev_unload() under condition `padapter->bup` and
-r8712_free_io_queue() is called by r8712_free_drv_sw().
-However, r8712_usb_dvobj_deinit() does not rely on `padapter->bup` and
-calling r8712_free_io_queue() in r8712_free_drv_sw() is negative for
-better understading the code.
-So I move r8712_usb_dvobj_deinit() into r871xu_dev_remove(), and remove
-r8712_free_io_queue() from r8712_free_drv_sw().
+   (Thread 1)              |      (Thread 2)
+                           | ieee80211_send_beacon()
+ieee80211_beacons_stop()   |  mod_timer()
+ spin_lock_irqsave() //(1) |  (wait a time)
+ ...                       | ieee80211_send_beacon_cb()
+ del_timer_sync()          |  spin_lock_irqsave() //(2)
+ (wait timer to stop)      |  ...
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
-Link: https://lore.kernel.org/r/tencent_B8048C592777830380A23A7C4409F9DF1305@qq.com
+We hold ieee->beacon_lock in position (1) of thread 1 and use
+del_timer_sync() to wait timer to stop, but timer handler
+also need ieee->beacon_lock in position (2) of thread 2.
+As a result, ieee80211_beacons_stop() will block forever.
+
+This patch extracts del_timer_sync() from the protection of
+spin_lock_irqsave(), which could let timer handler to obtain
+the needed lock.
+
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
+Link: https://lore.kernel.org/r/20220417135407.109536-1-duoming@zju.edu.cn
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/rtl8712/os_intfs.c | 1 -
- drivers/staging/rtl8712/usb_intf.c | 6 +++---
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
-index 2214aca09730..daa3180dfde3 100644
---- a/drivers/staging/rtl8712/os_intfs.c
-+++ b/drivers/staging/rtl8712/os_intfs.c
-@@ -332,7 +332,6 @@ void r8712_free_drv_sw(struct _adapter *padapter)
- 	r8712_free_evt_priv(&padapter->evtpriv);
- 	r8712_DeInitSwLeds(padapter);
- 	r8712_free_mlme_priv(&padapter->mlmepriv);
--	r8712_free_io_queue(padapter);
- 	_free_xmit_priv(&padapter->xmitpriv);
- 	_r8712_free_sta_priv(&padapter->stapriv);
- 	_r8712_free_recv_priv(&padapter->recvpriv);
-diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
-index fed96d4251bf..77f090bdd36e 100644
---- a/drivers/staging/rtl8712/usb_intf.c
-+++ b/drivers/staging/rtl8712/usb_intf.c
-@@ -266,6 +266,7 @@ static uint r8712_usb_dvobj_init(struct _adapter *padapter)
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+index 690b664df8fa..56a447651644 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+@@ -528,9 +528,9 @@ static void ieee80211_beacons_stop(struct ieee80211_device *ieee)
+ 	spin_lock_irqsave(&ieee->beacon_lock, flags);
  
- static void r8712_usb_dvobj_deinit(struct _adapter *padapter)
- {
-+	r8712_free_io_queue(padapter);
+ 	ieee->beacon_txing = 0;
+-	del_timer_sync(&ieee->beacon_timer);
+ 
+ 	spin_unlock_irqrestore(&ieee->beacon_lock, flags);
++	del_timer_sync(&ieee->beacon_timer);
  }
  
- void rtl871x_intf_stop(struct _adapter *padapter)
-@@ -303,9 +304,6 @@ void r871x_dev_unload(struct _adapter *padapter)
- 			rtl8712_hal_deinit(padapter);
- 		}
- 
--		/*s6.*/
--		if (padapter->dvobj_deinit)
--			padapter->dvobj_deinit(padapter);
- 		padapter->bup = false;
- 	}
- }
-@@ -610,6 +608,8 @@ static void r871xu_dev_remove(struct usb_interface *pusb_intf)
- 	/* Stop driver mlme relation timer */
- 	r8712_stop_drv_timers(padapter);
- 	r871x_dev_unload(padapter);
-+	if (padapter->dvobj_deinit)
-+		padapter->dvobj_deinit(padapter);
- 	r8712_free_drv_sw(padapter);
- 	free_netdev(pnetdev);
- 
+ void ieee80211_stop_send_beacons(struct ieee80211_device *ieee)
 -- 
 2.35.1
 
