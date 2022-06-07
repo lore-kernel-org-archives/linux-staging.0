@@ -1,153 +1,122 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3A77C
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 18:39:54 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 257F9Q7h010564;
-	Tue, 7 Jun 2022 18:39:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=n0t/o05B8ULNOSmNZOVwHI54TDanTcDkem3xBt/a3GA=;
- b=B4uzPKjSuRaBRdishKtGbE/Cl25CEzpBxuwXOn7dZ5Ve2146cNT2XuWy+3+oc1UARUoV
- 5aMOygajQ1Y9M5ELNNSCui4hhqCT/mlV+LMSUZEwojVegXsK9n5F3P3BbEfqlFqYsjO1
- W0JKcRc2BZLHwHFhvS2fBXYvwUHU3nSA0wWPgvy9LeGaUjh4x0+ESSqfG4MUi3VyO/Pp
- DBKeey7MARcAEQmCk381wy34sxT5jLfghGReZZNOVckp2alFWKTO70t0IZMpXIQZTcil
- dxZ3QPAGf4fMb4x0brcI1y8uF/TbJtU2y54IAZe0s5NJ0XupqPlngvaZjpUd2jhryNJS dg== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ghvs3a1q7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 07 Jun 2022 18:39:40 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 257IGHLN031478;
-	Tue, 7 Jun 2022 18:39:39 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu3ah08-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 07 Jun 2022 18:39:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y8WwILqVadIXZomS/KygpvPJlzxP7zfqZ7JFLtOp48LvjX9X+C5OaS/mvsierGdqITskMoHayY1B0pK6cEKe6zTNzf+uhQCqblO4VsYRmu8DB4f8BVYa3LhLKFcCVC+evElTn2iMpm34gpoYa2uD5akY9mlqxeZxHaK9q3tkOzomr2nnv8H0CPlemrZ2yrCZ6ioI7yUELqe/VfhT+lJD+804kky3jGWXHLbeOdRpV30KSj3lbqk+PG+D32C1TnQAOmstlal9i+qviAHN3O9QeOeV3w20lGTbl0AKXaVa03XWFVCueVF91zzoEWFtM7osv9MtbaqBM3LD9zjZLUZqsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n0t/o05B8ULNOSmNZOVwHI54TDanTcDkem3xBt/a3GA=;
- b=WHSHLkSi3CELw5nTILQ1VbgMuYgKxp7n7z/zP/QrVGCwM0r1A3hyWGadprYs4wco60tf3Sqm/38TFC498GB9Ih1qI+heIxF9w62ztDPGJZm74hdern90evGGSF0XS23eJM+mDsjC4LAL8S5h2qCwBLrlHau7hiZY3MMysCySx+0/zTYfhfSWea0FUhHFwJ9hjar1RR4uCPJvVBEMt/kcgG7MLs3MTj+XYx/gNLGaJgKKpvwW6Twz3OLf7ldUh5neY19vVwYrrCsm1DTC5iR3K5anORUhS4D0Q52l98sasfbOaDWtd/z1fnN/YlAKikJi3dlRynoioHBCvrlvHOXXNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068E97C
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 19:05:01 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id b7so7738755ljr.6
+        for <linux-staging@lists.linux.dev>; Tue, 07 Jun 2022 12:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n0t/o05B8ULNOSmNZOVwHI54TDanTcDkem3xBt/a3GA=;
- b=YKJzbyI1jKYzZroZL6NzWGfqt1WLZmd9YuXrGZGUyyZwDIjkqZd0GcV2ZoO4qrXHWhJO1arR2UF5HRfdb0nEkIrNpx53jMCvdg22VQpcrCHNpCwjldvNuWM8p/0b7NMOrUS3Et2KYT85+0M3oeulMsDsRsafs69s6NJEKr1XxnU=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CY4PR10MB1400.namprd10.prod.outlook.com
- (2603:10b6:903:22::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.17; Tue, 7 Jun
- 2022 18:39:32 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
- 18:39:32 +0000
-Date: Tue, 7 Jun 2022 21:39:21 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Jared Kangas <kangas.jd@gmail.com>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, elder@kernel.org,
-        gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-        johan@kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: audio: fix loop cursor use after
- iteration
-Message-ID: <20220607183921.GQ2168@kadam>
-References: <20220605231806.720085-1-kangas.jd@gmail.com>
- <20220606130626.GX2146@kadam>
- <Yp9/kqBUzpArfPdn@fedora>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yp9/kqBUzpArfPdn@fedora>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: MR2P264CA0097.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:500:33::13) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to;
+        bh=evvAT7jllA+4Aw94OYgqJpyiRgNgkFxHbYmh9rBab4s=;
+        b=BzeiGn7i1N6+YP6ivkPWs3Fk2hG/0/FaKfHAuwfQk49h0hCi504CWK7PIrZbVHZglO
+         HPIT9L/KYjam275Ok7UfkpjVFLGlUDk2CAor9Uc4Alfn7xbyaw/Dl2UFET4AjDl13TKH
+         talO8NZ0rOg/ePEEYhBb+AaJGDE43OTvyahOfCvH6AkB8pI8UW9d7x/Kr6oWQfHZP1o9
+         w4O4sCUmYlCeUOsQKJuAGZPaeARKqaYI6KEgnG9Z2qn7dpUd1XGLbUpa28/GWZqSWpCr
+         rRM2UcFX4hf9m4dXJd0FJACO7SVj5vh40hoR/PP99hxFExPBnp1An2K5wHn/ZfnHFsG7
+         4cuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to;
+        bh=evvAT7jllA+4Aw94OYgqJpyiRgNgkFxHbYmh9rBab4s=;
+        b=qV233PaVf21a9myxZeuTaPrOo3NoafIAuk/xbtDJ7/cGYW8CQuzT7r+5LQIiiQ1dDT
+         V/N4VeGUVpNTzH80bAUKZfLiyFGsRlCIkirWoqNrJDCpEOJYMKUpUO2qOlyajuOXprWS
+         hPVWDsGy8z6c9P2xWt1YaMPmB8HsavVQHAQu6EEVKamxY4NcjXbCi0k0ywDCZH58kOA/
+         LUr5+Fh5a8bDFfCE2nAT5qeo62xYS1dBJzDhKKO1CKYPEi9ZCwQ5xZk72TdkRvsCV/6Z
+         irnfqISuVx7rCEAfyT/OPcOXB8SeJ3lheSAY86dT4c9Fr6Cr7auVol9HQ67KM6ptsPj3
+         yo6A==
+X-Gm-Message-State: AOAM5322f7U1pUPUbtwr8oGDD3mdrMe4q+pX+eJKc5fe2udizaVd5Mwi
+	sRbNxUJWGrsGSb68h3z1obs=
+X-Google-Smtp-Source: ABdhPJxyRICHVp12VyRxAS6Bj6zHE4Zy2bCjHysRUvaAtTsBqvZfH8CWHLO/BsM+jTWq4TyT8pyh9w==
+X-Received: by 2002:a2e:96ca:0:b0:255:bc31:b200 with SMTP id d10-20020a2e96ca000000b00255bc31b200mr1573848ljj.241.1654628699733;
+        Tue, 07 Jun 2022 12:04:59 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.229.27])
+        by smtp.gmail.com with ESMTPSA id o14-20020ac25e2e000000b0047255d210d6sm3395990lfg.5.2022.06.07.12.04.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jun 2022 12:04:57 -0700 (PDT)
+Message-ID: <f2cdd4ae-f273-0510-9a58-1ed56f456893@gmail.com>
+Date: Tue, 7 Jun 2022 22:04:56 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e3c026ed-8758-4c98-c78f-08da48b51041
-X-MS-TrafficTypeDiagnostic: CY4PR10MB1400:EE_
-X-Microsoft-Antispam-PRVS: 
-	<CY4PR10MB14000D734CF4E959A4CF50918EA59@CY4PR10MB1400.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Io7+VLBZ/OE4PVEsn5T3lZndzSjcBCFMK0RelDAndj91iKjtNv7p7dvaGYCJo/1jUkHUm0Xrte4Xvuq54+fC+Vkr8/GK/69QnYEBscUYNkU/d+QYsxKwyoZC03EZJdsIDJFWxKu7Yl+/WElRxZiS1om/iJMMeQP+N7jpXshpd8oP/C5UvCnfgVIDC2FDZBNFIKYyQrMcWOBp4SyGZ+MApcLm7BCyvabmyv/qnFaQ9VFxEVeZxbKVumabycEm84CvQpA/tbKWhnc/t+3HGkft2qNVsrbzkN05bcZED3zCqOvOLJwuAkPohjYv/FPMPDbbY23h403hYYLLyUXWPZtfHGov/IvL+1MTbleKkB17bw1Q36Z5SrfgZm2l0wLoGrYbZZUzH0pU2L23Q8/qiX/IFvJaI8kHw9hkbgDX2RuhQwT19PpFUzQUnCYy1Sf7Kdr1oRgqK9XP55zBh099JJ3D96sxyFzl7Vs/X5Ox+dSyL0WTp4WhnqOO43khsKMPQyRMo0CP8hZ+TitQ7BrK/3/lvQp4F/UTLLGDjXDs8lM3UtBFnqs4XpNmgSqMYUMsTI2n7DFhCXXTAJGejJxwnVeFGyy08VMsaUqBaHxCEARxskzqCond0rDjcEgi+HTn9QRLFokt7ApmKtCgER90z9MUuiDvYLQU2/YT7b3gKy7m5060YtWJWwaVGrpx/aYHLon2FLahzj0OFMceJdYAQhoomg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(86362001)(2906002)(38350700002)(508600001)(38100700002)(4744005)(8936002)(9686003)(52116002)(6512007)(5660300002)(26005)(316002)(6506007)(6486002)(1076003)(44832011)(6666004)(6916009)(8676002)(66556008)(66946007)(66476007)(4326008)(186003)(33716001)(33656002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?YbtHq6W6ODYP75zMx7kj1gEON3/QTjv0Amvpj0c4kjSbcEe1sDu2gWzm/Q85?=
- =?us-ascii?Q?pcS2Y7A7j9sEYR86fMvNmKrP1wb8/umJ18bkr0tF1Yx0ft5SpalQsvFcVija?=
- =?us-ascii?Q?aOezUvSts3hcngWdl7E/Ncr+22hUPWbwGRFbWm/fodyY5f0GxxhpNXOIQN1g?=
- =?us-ascii?Q?PAe5I2pmpDqdzbk98hIlt9b1e8yCykj5gNPJMSx+BjURzv1D+VnanU6pYkf7?=
- =?us-ascii?Q?ghJHsFKFLm0bukOGeLzHQgwDXfbKSU50p8BCpZ775nWOJrULuGmnzV1tKmnm?=
- =?us-ascii?Q?3QV8tpqtkjcRvksW3ggaTIkcJENGJFV2wE/KYjsdNb7jgNib+z2x9bzuL0DS?=
- =?us-ascii?Q?Xc1KmDkLTL4Hvai4KQ7Uey4lcQXfNXC//TWN6q0DZ2tJX8KLUrIwvUo1x7fL?=
- =?us-ascii?Q?Irivdgjc5SGIOXeuNATYTE/Rz/rgHAgk1jwkd9QBxzrSvQ+GRt+9f36386ih?=
- =?us-ascii?Q?F4THf64wSLu6vbLIxPkTqMfsQTwg0Y7x8ro1Uu1UW1X1A/aRa1EpuASsvsxF?=
- =?us-ascii?Q?Z+Ja3jOO5OAI1bZGo9hISyvEOGVIUBXb1NxyIA6IiDGSzuCfxA0/WH3qH7TH?=
- =?us-ascii?Q?SwCsEp3XUrSlIVR/7xhoxrgshPMh15KQR0Ia1MVZjyrghd2ONYAl37H4vWK1?=
- =?us-ascii?Q?gm7DLnIgGU19XB74K74bmibXm6YysoXrAFvSW92B8Q2qWj8Bj1EMIaYDXt6F?=
- =?us-ascii?Q?6qOhGlX/7bXls/kOlqmjCx16xsrob66YxVkwr/DCvVbg4Qp911n7KU4U+zpg?=
- =?us-ascii?Q?3g2nBOl2+KqwS58kNc+bRr5kTXN4wYUUVKFsuFeheqb8Q4l9Oay2EXkT/WqH?=
- =?us-ascii?Q?OkJkTFfyEtQ3tfnTlZDhAFshuD27LmLySybvuG3hVL28ONzS5lWqOZpnL2Ff?=
- =?us-ascii?Q?jP5DvN42+U9nti8sXxvCbwjFS0E4csFEFzuycLk+e8jQa9hwQViKQFT962+q?=
- =?us-ascii?Q?gn3RlMezsK9lM0COGNh3f3Emeh4/Pnj63sFm/PELUSnM/svtDpeWg52S53wD?=
- =?us-ascii?Q?v1uiKW4jHr4JTEgvF5Kim1lVCfCMNa5xDEmEe8UWI3j3+snRN2k3SmY+FJbl?=
- =?us-ascii?Q?AgERP40ExeOm+PBmLGQmoVdZ9pqsi8/tbtHGm8PB8faYlAXfcN1sDIdDPyN2?=
- =?us-ascii?Q?s4oRIUZ2ep9bBsNN+huiYip+dchArXDmJXKp+alI9JpY0YtzankDOKO52iDV?=
- =?us-ascii?Q?N1tBMS+FOW5dIxd+iDU5ChrVrLpELJoiAp6Q+h/QbdImAy0EujgxBX3/16CY?=
- =?us-ascii?Q?ssOCFYobzSpNA1Oxad1bKL4fyeG5Zix4ijf3/Pjvsh0jzuYzUWaeLzuCsElo?=
- =?us-ascii?Q?fEBOWSbdBkIqHM5b5A1JeP8/bhD22lClU8tF+tbLJ/vn1JjTm68K2dRyBfiQ?=
- =?us-ascii?Q?4m5mP35qRi8O9KF1liEiUJkhIW3BTM3qF0wIKt9ykGYF9+7G9AaSFHYZg5bR?=
- =?us-ascii?Q?XAnBUd/VL70OfrfylJ7iUdcrrWUnh+qS4tHzBMZuV4whSC1dSLhxLAfGMtQ9?=
- =?us-ascii?Q?DBlTHIhrJdytLug2C+0VOu/UR02rRJiCP7rK1IGLmSNehSsqGVAHw9NumA7l?=
- =?us-ascii?Q?Spe6kPR6PnlW0v8pxs7CeaXA0rlSc8RLAIkNL9UFbumEtqLw+Ea+sZ0HzaHR?=
- =?us-ascii?Q?FSz8nNq/EDVKCTdADkCKfJrARgiwAZSLEm5LJXJCglc+N2Yq1lAD2ffOpnCM?=
- =?us-ascii?Q?0VSpeOfb91WBiEIR8A7Cs8P4rEairprWznYy78nuxhrHxWUwlTYSSlyN+uZK?=
- =?us-ascii?Q?21PsfJazOVr1Y/K3cmTZp1xERtqjp44=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3c026ed-8758-4c98-c78f-08da48b51041
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 18:39:32.7248
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lr450dseS3rjOeZfc/ac9RpihGjCyYygmnICqihLf3oE4DXtGQnsNmA6fcShs8a44bk/iTj7b9FTzCQJjQy1ciZcujlCpu/y308FL+D5RnE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1400
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
- definitions=2022-06-07_08:2022-06-07,2022-06-07 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 bulkscore=0
- malwarescore=0 phishscore=0 adultscore=0 suspectscore=0 mlxlogscore=519
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206070076
-X-Proofpoint-ORIG-GUID: Xw2o78V-rqyT5R0TJEUBMl8M6d6_a3vK
-X-Proofpoint-GUID: Xw2o78V-rqyT5R0TJEUBMl8M6d6_a3vK
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 0/4] staging: r8188eu: add error handling of usb read
+ errors
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ straube.linux@gmail.com, dan.carpenter@oracle.com,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+References: <cover.1654543286.git.paskripkin@gmail.com>
+ <Yp8xezHITGrxv47H@kroah.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <Yp8xezHITGrxv47H@kroah.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------TxZoTQhvn8HfeZ0cwzX26M3g"
 
-On Tue, Jun 07, 2022 at 09:40:50AM -0700, Jared Kangas wrote:
-> Thanks for catching that! Is there anything I need to do to add the
-> 'Fixes:' tag to the patch? From my understanding, adding tags is done by
-> a maintainer later on, but I'm new to the patch submission process so I
-> want to make sure I'm not missing anything.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------TxZoTQhvn8HfeZ0cwzX26M3g
+Content-Type: multipart/mixed; boundary="------------iBK0aRRty3uHOj0TId0Taeg0";
+ protected-headers="v1"
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ straube.linux@gmail.com, dan.carpenter@oracle.com,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Message-ID: <f2cdd4ae-f273-0510-9a58-1ed56f456893@gmail.com>
+Subject: Re: [PATCH v3 0/4] staging: r8188eu: add error handling of usb read
+ errors
+References: <cover.1654543286.git.paskripkin@gmail.com>
+ <Yp8xezHITGrxv47H@kroah.com>
+In-Reply-To: <Yp8xezHITGrxv47H@kroah.com>
 
-No, it's up to the person sending the patch to add the fixes tag.
+--------------iBK0aRRty3uHOj0TId0Taeg0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-regards,
-dan carpenter
+SGkgR3JlZywNCg0KT24gNi83LzIyIDE0OjA3LCBHcmVnIEtIIHdyb3RlOg0KPiBBZnRlciBh
+cHBseWluZywgSSBnZXQgdGhlIGZvbGxvd2luZyBidWlsZCB3YXJuaW5nIHdoaWNoIGJyZWFr
+cyB0aGUNCj4gYnVpbGQ6DQo+IA0KPiBkcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0
+d19tbG1lX2V4dC5jOjY4MjY6MTM6IGVycm9yOiB1bnVzZWQgdmFyaWFibGUg4oCYcmVz4oCZ
+IFstV2Vycm9yPXVudXNlZC12YXJpYWJsZV0NCj4gICA2ODI2IHwgICAgICAgICBpbnQgcmVz
+Ow0KPiAgICAgICAgfCAgICAgICAgICAgICBefn4NCj4gDQo+IFBsZWFzZSB0ZXN0LWJ1aWxk
+IHlvdXIgcGF0Y2hlcyBiZWZvcmUgc2VuZGluZyB0aGVtIG91dCA6KA0KPiANCg0KV2FzIGN1
+cmlvdXMgYWJvdXQgd2h5IG15IGNvbXBpbGVyIGRpZG4ndCB5ZWxsIGF0IG1lIGFib3V0IHRo
+YXQgaXNzdWUsIA0Kc2luY2UgSSd2ZSBkb25lIG5vdCBvbmx5IGJ1aWxkIHRlc3QsIGJ1dCBh
+bHNvIHRlc3RlZCBvbiByZWFsIGh3Li4uDQoNCkJ1aWxkIGZhaWx1cmUgb2NjdXJzIHdoaWxl
+IGFwcGx5aW5nIDEvNCwgYnV0IDMvNCBmaXhlcyBpdCwgdGhhdCdzIHdoeSBJIA0KbWlzc2Vk
+IHRoYXQgYnVpbGQgZXJyb3INCg0KQW55d2F5LCBpdCdzIG9ubHkgbXkgYmFkLiBTb3JyeSBh
+Ym91dCB0aGF0LCB3aWxsIGZpeCB1cCBpbiBuZXh0IHZlcnNpb24uDQoNCg0KDQoNCldpdGgg
+cmVnYXJkcywNClBhdmVsIFNrcmlwa2luDQo=
 
+--------------iBK0aRRty3uHOj0TId0Taeg0--
+
+--------------TxZoTQhvn8HfeZ0cwzX26M3g
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEER3XL3TplLQE8Qi40bk1w61LbBA0FAmKfoVgFAwAAAAAACgkQbk1w61LbBA1m
+uw//T2hXSY2RUsTo2+mmCiFIHGXap9QQnVuNiQLdxc1jTRkuFKpcs58VWx3Gcc3lhnWfLg0ATYqw
+epip20G+YAG3hMUjT1Z3VmZx34S+SINdTuiYeXlp55lu08JnNnoeB62gXR5SOvL3Bl+wVFMOTJ/M
+d1oYnmn3CHlJDOGUv7pgJ45mVpcwOXGmoqf2ChOsRYfufwUlgJPcWPJPnD6gXMcNDtSfYPVBVDbO
+CV3rH5zMFz9zCz/RvuSuzM6JDlYJj3mQIK8gme1G10zMAymq3/nxmX9xjvDRXUHYwevDsRngRnN+
+Cv0y7uJkpf1XA5hJIeRHHXvd9FHwthqKsZPeKH0UR2fef0ris+HDs6s5/OEsnmh0Qh8mYos1PUrm
+K1w8IvQ87PMWEUaY3vh9eCWBS1CfNJq5SOyBZ+eRjO7VOS3sD+47OCk3ySZDG7hlsVgrfFZtbC33
+OCnLf5RnVxJyMMN/88Yp2wg07oF92cpY3V01vIvOGfvFX1UisvTXALhdusrZU0gaGZrs/BQhFJ9v
+oiYNpX8DNm78BcQXAr3dFQxDxdoXfUR1ZgVS5thBpWqftVpQOOVXuxnXh1V/AaSNo1cJmbtVJpov
+bTwZ8gDMZ3xJ18lT9IzqtMcEyqTtbExdfdfHM7Fzs29h2ggZqTaR+QzRwGE2Ck3CUZaghtZv4i61
+nEc=
+=Os/W
+-----END PGP SIGNATURE-----
+
+--------------TxZoTQhvn8HfeZ0cwzX26M3g--
