@@ -1,33 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB377F
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 16:36:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5726AC385A5;
-	Tue,  7 Jun 2022 16:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654619796;
-	bh=8i5haULdeB2Ou8xLNgGyaqjpMUp/nNMdFFzefBtFQus=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YJOYP5lV5TwG9gnAjthINUaJCRhaAv5ayjybpS0BpNazzoGwVMj1SxQg/skv+eP2j
-	 efB3JHODISGBtLWUuzpgVu+c7ki/+9fNOmc/qm31lf8ENLQGu6USScXIR7Zd28pTdR
-	 I7xQe05KIYnjlzNRc9/HGJCmoftFlmEgqMYyxEpLsOT44uN6EThAx4V3w78k8oEVLl
-	 Mg/nn5b6OJwEzh6oB1f2a94OudqtGDnidgkmdmRttS3p3DWqamPeIm2veizy34Wt+b
-	 BYJXF201xvI3qlVaiD4trtkK1XnW2mq9C9RymqaGNWW8XM8nl6LEyESSq45YPdZeDL
-	 AsE7PUYfzdm3w==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1nycBz-0002GQ-7u; Tue, 07 Jun 2022 18:36:31 +0200
-Date: Tue, 7 Jun 2022 18:36:31 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Jared Kangas <kangas.jd@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631DA7F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 16:40:53 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id 129so16376294pgc.2
+        for <linux-staging@lists.linux.dev>; Tue, 07 Jun 2022 09:40:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=W8rwN3Jx6kG6W0OrIJ1jYETqFXWQxvnr8RKgWWTrkqM=;
+        b=XMHL4/Jkz5kuNpGJNXQ/Bo9VoJybfxuND8WBmMI71IqhCvC7buvP65oeqaka6UadH9
+         5UqxLIR28QxB/gb5tpJ2llJeXyrNvOeT44QmE31thANjqX/QoVR5cnjd3xsId4TERasE
+         iPXSvqb8WxlFGHgLqVvERupW83X2FEpTTGyuH2ZxPA7MO1uTRmmn1Bqj36ufVYuoRPn5
+         ZLvNIwuEBcm9X+rOovVNraALF/yN03+I7A/VkjMnHvD1Aj2t4Kg//FZGzQZKB2Nss2Oc
+         bV74X/eDXR2ZbuvmkpfHaZC90iU2l6teCb1Js+KcbJQOAjeyHu0xq6HUZXFXmQoktJcU
+         lBVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=W8rwN3Jx6kG6W0OrIJ1jYETqFXWQxvnr8RKgWWTrkqM=;
+        b=MqsGjxVSmAP30T/ZTwTP8rLM7MsMgLr5WBa8jdZr2V23REKhgS7AHIF3r/hiE5IDaP
+         0PfPAonRrqWW6chWqQRw/yM/fb43geP2hRNdyDsLgvjvWZhhL4O5aMssNqCSq10dL6J+
+         oTkVaYCzjbjCAB6C/8Y5GM0gv0hGmt/d1tAX1jxHdZhlpEUDx5kG7iQ34V77cIyJ3SF3
+         A5oaSXsJwEK1KhaeNJ41ZusF40xpY9EgMJ/mA8EIqn3w0mYRiLMjxhufpFdYD//X3fmZ
+         5ScvHVrsA2bwszDUNgh6CBqFWVMCpzMjtVhtauMR+D8NOuVbKweqauHp64riM09lfo4s
+         Z7xQ==
+X-Gm-Message-State: AOAM531qqpS3Na5zxwja/y8lSAmqgdqe8idFUR8nWE+qHShM1R0vQAac
+	YTgmJ13UIwnSAsYO/r93MxA=
+X-Google-Smtp-Source: ABdhPJyccfA+r17Q/AS9I4VBKNAtHMpjPjAethjyWPjji/o+/dd2tRPjIEWVlBmmMSWdhKxzby/1cQ==
+X-Received: by 2002:a63:84c3:0:b0:3fc:87ff:cdfa with SMTP id k186-20020a6384c3000000b003fc87ffcdfamr25671860pgd.460.1654620052837;
+        Tue, 07 Jun 2022 09:40:52 -0700 (PDT)
+Received: from fedora ([2601:1c1:4202:28a0::ec2b])
+        by smtp.gmail.com with ESMTPSA id y9-20020a1709027c8900b0016782c55790sm3877042pll.232.2022.06.07.09.40.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jun 2022 09:40:52 -0700 (PDT)
+Date: Tue, 7 Jun 2022 09:40:50 -0700
+From: Jared Kangas <kangas.jd@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
 Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, elder@kernel.org,
 	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	johan@kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
 Subject: Re: [PATCH] staging: greybus: audio: fix loop cursor use after
  iteration
-Message-ID: <Yp9+j7xrjDQWkem3@hovoldconsulting.com>
+Message-ID: <Yp9/kqBUzpArfPdn@fedora>
 References: <20220605231806.720085-1-kangas.jd@gmail.com>
+ <20220606130626.GX2146@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,69 +56,11 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220605231806.720085-1-kangas.jd@gmail.com>
+In-Reply-To: <20220606130626.GX2146@kadam>
 
-On Sun, Jun 05, 2022 at 04:18:06PM -0700, Jared Kangas wrote:
-> gbaudio_dapm_free_controls() iterates over widgets using
-> list_for_each_entry_safe(), which leaves the loop cursor pointing to a
-> meaningless structure if it completes a traversal of the list. The
-> cursor was set to NULL at the end of the loop body, but would be
-> overwritten by the final loop cursor update.
-> 
-> Because of this behavior, the widget could be non-null after the loop
-> even if the widget wasn't found, and the cleanup logic would treat the
-> pointer as a valid widget to free.
-> 
-> To fix this, introduce a temporary variable to act as the loop cursor
-> and copy it to a variable that can be accessed after the loop finishes.
-> 
-> This was detected with the help of Coccinelle.
+Thanks for catching that! Is there anything I need to do to add the
+'Fixes:' tag to the patch? From my understanding, adding tags is done by
+a maintainer later on, but I'm new to the patch submission process so I
+want to make sure I'm not missing anything.
 
-Please add the missing Fixes tag and a CC stable tag here as Dan
-mentioned.
-
-> Signed-off-by: Jared Kangas <kangas.jd@gmail.com>
-> ---
->  drivers/staging/greybus/audio_helper.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/audio_helper.c b/drivers/staging/greybus/audio_helper.c
-> index 843760675876..07461a5d97c7 100644
-> --- a/drivers/staging/greybus/audio_helper.c
-> +++ b/drivers/staging/greybus/audio_helper.c
-> @@ -115,7 +115,7 @@ int gbaudio_dapm_free_controls(struct snd_soc_dapm_context *dapm,
->  			       int num)
->  {
->  	int i;
-> -	struct snd_soc_dapm_widget *w, *next_w;
-> +	struct snd_soc_dapm_widget *w, *next_w, *tmp_w;
->  #ifdef CONFIG_DEBUG_FS
->  	struct dentry *parent = dapm->debugfs_dapm;
->  	struct dentry *debugfs_w = NULL;
-> @@ -124,13 +124,14 @@ int gbaudio_dapm_free_controls(struct snd_soc_dapm_context *dapm,
->  	mutex_lock(&dapm->card->dapm_mutex);
->  	for (i = 0; i < num; i++) {
->  		/* below logic can be optimized to identify widget pointer */
-> -		list_for_each_entry_safe(w, next_w, &dapm->card->widgets,
-> +		w = NULL;
-> +		list_for_each_entry_safe(tmp_w, next_w, &dapm->card->widgets,
-
-This should be list_for_each_entry() as w is not unlinked in this loop.
-
->  					 list) {
-> -			if (w->dapm != dapm)
-> -				continue;
-> -			if (!strcmp(w->name, widget->name))
-> +			if (tmp_w->dapm == dapm &&
-> +			    !strcmp(tmp_w->name, widget->name)) {
-> +				w = tmp_w;
->  				break;
-> -			w = NULL;
-> +			}
->  		}
->  		if (!w) {
->  			dev_err(dapm->dev, "%s: widget not found\n",
-
-Looks good otherwise:
-
-Reviewed-by: Johan Hovold <johan@kernel.org>
+Jared
