@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812E47F
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 17:50:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8214C385A5;
-	Tue,  7 Jun 2022 17:50:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F677F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 17:53:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FB58C34119;
+	Tue,  7 Jun 2022 17:53:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654624247;
-	bh=O81XcMlN/TnTWCUyaNqzBZdDsQkHdCrUlFjxtCxOq20=;
+	s=k20201202; t=1654624388;
+	bh=Dw/3gXXoXHY7mgJ/HZYNJmtxF73sLdFYSq0budvTY5M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Jm5qaEMeKiFayEde/8zolbMgOqgiuZaJGFdLVij/auvwKO4Ie8zkUpAF+Pi27nFHt
-	 BaCMnFM/cS/5+esy/xDORSroZmy6qwcrjUDSKVRulQFX7cF2CDyAZFvm9jVBOv1y8d
-	 uIJAunt4xEu0DnB1gTv+X+Bk66mr2iVciSTS1fvcp0I8QZgQZ7QR1UqmaROuFl7nPE
-	 IlKcmS/3mjEo4fKOj4zrr4FsB0a6cKr1UNc5XBsju3ORFjurs9vqUUomoOrWSd8mk7
-	 8PbML7ZJKoXg54JDnOHOb+nRsdtWv3dHmlvdHo0v7AuZ/x44RGasmIvdkG31zx4Mya
-	 qGCUsEJbR4mPw==
+	b=qcVXcK0Inet0+x1u3i8ZRl9+430WUEEA/66aA3xokSSSlrOsMoYKZ3BZDx5C9ZPIH
+	 kSGx9GXnmhU2C737vhyJyhQiU0XDnOQbs+NxtivplSIiHqhxXNn/optpYTcAjmXpeN
+	 iQTQvjVha0VyN9f5s3fULIq05DS2/axlbv4ANNJ0xxOj34BlYdD2ZQiuu7FwG7yYLt
+	 cJHvDrh+NtYodXP9Cslp/az+hl+BvgMOHS5daknoxmo0D+itbMoCR2/u6PQtXRolqD
+	 nwOnEnxD9gbYiJXBPKVRhv/E1ZWs6ZSvyd/QAwxekJQH0fycxtLe1FPy23hg3dl/GX
+	 xnsh9iRPUj8vw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Wang Cheng <wanngchenng@gmail.com>,
-	syzbot+6f5ecd144854c0d8580b@syzkaller.appspotmail.com,
+Cc: Xiaoke Wang <xkernel.wang@foxmail.com>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	Larry.Finger@lwfinger.net,
 	florian.c.schilhabel@googlemail.com,
-	paskripkin@gmail.com,
-	skumark1902@gmail.com,
 	kuba@kernel.org,
-	xkernel.wang@foxmail.com,
+	paskripkin@gmail.com,
+	len.baker@gmx.com,
+	fmdefrancesco@gmail.com,
+	skumark1902@gmail.com,
+	wanngchenng@gmail.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.18 29/68] staging: rtl8712: fix uninit-value in r871xu_drv_init()
-Date: Tue,  7 Jun 2022 13:47:55 -0400
-Message-Id: <20220607174846.477972-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 02/60] staging: rtl8712: fix a potential memory leak in r871xu_drv_init()
+Date: Tue,  7 Jun 2022 13:51:59 -0400
+Message-Id: <20220607175259.478835-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
-References: <20220607174846.477972-1-sashal@kernel.org>
+In-Reply-To: <20220607175259.478835-1-sashal@kernel.org>
+References: <20220607175259.478835-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,86 +47,79 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Wang Cheng <wanngchenng@gmail.com>
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-[ Upstream commit 0458e5428e5e959d201a40ffe71d762a79ecedc4 ]
+[ Upstream commit 7288ff561de650d4139fab80e9cb0da9b5b32434 ]
 
-When 'tmpU1b' returns from r8712_read8(padapter, EE_9346CR) is 0,
-'mac[6]' will not be initialized.
+In r871xu_drv_init(), if r8712_init_drv_sw() fails, then the memory
+allocated by r8712_alloc_io_queue() in r8712_usb_dvobj_init() is not
+properly released as there is no action will be performed by
+r8712_usb_dvobj_deinit().
+To properly release it, we should call r8712_free_io_queue() in
+r8712_usb_dvobj_deinit().
 
-BUG: KMSAN: uninit-value in r871xu_drv_init+0x2d54/0x3070 drivers/staging/rtl8712/usb_intf.c:541
- r871xu_drv_init+0x2d54/0x3070 drivers/staging/rtl8712/usb_intf.c:541
- usb_probe_interface+0xf19/0x1600 drivers/usb/core/driver.c:396
- really_probe+0x653/0x14b0 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:752
- driver_probe_device drivers/base/dd.c:782 [inline]
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:899
- bus_for_each_drv+0x2d6/0x3f0 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:970
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1017
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487
- device_add+0x1fff/0x26e0 drivers/base/core.c:3405
- usb_set_configuration+0x37e9/0x3ed0 drivers/usb/core/message.c:2170
- usb_generic_driver_probe+0x13c/0x300 drivers/usb/core/generic.c:238
- usb_probe_device+0x309/0x570 drivers/usb/core/driver.c:293
- really_probe+0x653/0x14b0 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:752
- driver_probe_device drivers/base/dd.c:782 [inline]
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:899
- bus_for_each_drv+0x2d6/0x3f0 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:970
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1017
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487
- device_add+0x1fff/0x26e0 drivers/base/core.c:3405
- usb_new_device+0x1b8e/0x2950 drivers/usb/core/hub.c:2566
- hub_port_connect drivers/usb/core/hub.c:5358 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5502 [inline]
- port_event drivers/usb/core/hub.c:5660 [inline]
- hub_event+0x58e3/0x89e0 drivers/usb/core/hub.c:5742
- process_one_work+0xdb6/0x1820 kernel/workqueue.c:2307
- worker_thread+0x10b3/0x21e0 kernel/workqueue.c:2454
- kthread+0x3c7/0x500 kernel/kthread.c:377
- ret_from_fork+0x1f/0x30
+Besides, in r871xu_dev_remove(), r8712_usb_dvobj_deinit() will be called
+by r871x_dev_unload() under condition `padapter->bup` and
+r8712_free_io_queue() is called by r8712_free_drv_sw().
+However, r8712_usb_dvobj_deinit() does not rely on `padapter->bup` and
+calling r8712_free_io_queue() in r8712_free_drv_sw() is negative for
+better understading the code.
+So I move r8712_usb_dvobj_deinit() into r871xu_dev_remove(), and remove
+r8712_free_io_queue() from r8712_free_drv_sw().
 
-Local variable mac created at:
- r871xu_drv_init+0x1771/0x3070 drivers/staging/rtl8712/usb_intf.c:394
- usb_probe_interface+0xf19/0x1600 drivers/usb/core/driver.c:396
-
-KMSAN: uninit-value in r871xu_drv_init
-https://syzkaller.appspot.com/bug?id=3cd92b1d85428b128503bfa7a250294c9ae00bd8
-
-Reported-by: <syzbot+6f5ecd144854c0d8580b@syzkaller.appspotmail.com>
-Tested-by: <syzbot+6f5ecd144854c0d8580b@syzkaller.appspotmail.com>
 Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Wang Cheng <wanngchenng@gmail.com>
-Link: https://lore.kernel.org/r/14c3886173dfa4597f0704547c414cfdbcd11d16.1652618244.git.wanngchenng@gmail.com
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+Link: https://lore.kernel.org/r/tencent_B8048C592777830380A23A7C4409F9DF1305@qq.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
+ drivers/staging/rtl8712/os_intfs.c | 1 -
  drivers/staging/rtl8712/usb_intf.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
+index d15d52c0d1a7..003e97205124 100644
+--- a/drivers/staging/rtl8712/os_intfs.c
++++ b/drivers/staging/rtl8712/os_intfs.c
+@@ -332,7 +332,6 @@ void r8712_free_drv_sw(struct _adapter *padapter)
+ 	r8712_free_evt_priv(&padapter->evtpriv);
+ 	r8712_DeInitSwLeds(padapter);
+ 	r8712_free_mlme_priv(&padapter->mlmepriv);
+-	r8712_free_io_queue(padapter);
+ 	_free_xmit_priv(&padapter->xmitpriv);
+ 	_r8712_free_sta_priv(&padapter->stapriv);
+ 	_r8712_free_recv_priv(&padapter->recvpriv);
 diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
-index 56450ede9f23..1ff3e2658e77 100644
+index ee4c61f85a07..56450ede9f23 100644
 --- a/drivers/staging/rtl8712/usb_intf.c
 +++ b/drivers/staging/rtl8712/usb_intf.c
-@@ -536,13 +536,13 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,
- 		} else {
- 			AutoloadFail = false;
+@@ -265,6 +265,7 @@ static uint r8712_usb_dvobj_init(struct _adapter *padapter)
+ 
+ static void r8712_usb_dvobj_deinit(struct _adapter *padapter)
+ {
++	r8712_free_io_queue(padapter);
+ }
+ 
+ void rtl871x_intf_stop(struct _adapter *padapter)
+@@ -302,9 +303,6 @@ void r871x_dev_unload(struct _adapter *padapter)
+ 			rtl8712_hal_deinit(padapter);
  		}
--		if (((mac[0] == 0xff) && (mac[1] == 0xff) &&
-+		if ((!AutoloadFail) ||
-+		    ((mac[0] == 0xff) && (mac[1] == 0xff) &&
- 		     (mac[2] == 0xff) && (mac[3] == 0xff) &&
- 		     (mac[4] == 0xff) && (mac[5] == 0xff)) ||
- 		    ((mac[0] == 0x00) && (mac[1] == 0x00) &&
- 		     (mac[2] == 0x00) && (mac[3] == 0x00) &&
--		     (mac[4] == 0x00) && (mac[5] == 0x00)) ||
--		     (!AutoloadFail)) {
-+		     (mac[4] == 0x00) && (mac[5] == 0x00))) {
- 			mac[0] = 0x00;
- 			mac[1] = 0xe0;
- 			mac[2] = 0x4c;
+ 
+-		/*s6.*/
+-		if (padapter->dvobj_deinit)
+-			padapter->dvobj_deinit(padapter);
+ 		padapter->bup = false;
+ 	}
+ }
+@@ -607,6 +605,8 @@ static void r871xu_dev_remove(struct usb_interface *pusb_intf)
+ 	/* Stop driver mlme relation timer */
+ 	r8712_stop_drv_timers(padapter);
+ 	r871x_dev_unload(padapter);
++	if (padapter->dvobj_deinit)
++		padapter->dvobj_deinit(padapter);
+ 	r8712_free_drv_sw(padapter);
+ 	free_netdev(pnetdev);
+ 
 -- 
 2.35.1
 
