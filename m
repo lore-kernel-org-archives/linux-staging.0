@@ -1,176 +1,153 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69437F
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 18:23:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1654626234;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P4f3wHn7jIrIURtw341a5ADfTmzk5i8t59cyMFQz5Qc=;
-	b=ZXcp5JOvzCI0VYPfzLt77WWjJvPlVrG0a9uxlABOLKS4XO82WjZEe5ccZw+so/YuACnh2A
-	eeN/kFfDGMOdsnyI3K6KoN4ZgQoBV09VI9wV7lrei9HxJo3ptLMGuO2Y5WyR1ZLhNHbz6I
-	4EffH7WBI7u+88eE8aUa+uB1/LMEncM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-142-UucN6eZEPBCBKX_XTZVtVg-1; Tue, 07 Jun 2022 14:23:53 -0400
-X-MC-Unique: UucN6eZEPBCBKX_XTZVtVg-1
-Received: by mail-wr1-f69.google.com with SMTP id r13-20020adff10d000000b002160e9d64f8so2720184wro.0
-        for <linux-staging@lists.linux.dev>; Tue, 07 Jun 2022 11:23:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=P4f3wHn7jIrIURtw341a5ADfTmzk5i8t59cyMFQz5Qc=;
-        b=rQ842MBLDLdsL68zVxGkH1oZeTVk7MaMnUHjio/IDfpRJinCKFNii4Qpqax7K1zyvF
-         jII0ebobMeTXwnz/N92ovYBZ6s5JQnYf56eW0K4bBFCpVtCpht4CeAYE/8BL39ZXdV1M
-         n35G5087qMyvT42PgyOIusoeOOM1+mgoyT+p77sqHEuPweC0JyTYbZvkqMvKlPjacZm6
-         S7x9hnbmto5CHoDF4VFJZF7LZR+6gIS30KBRRZZC1yCjrCq3SHAICnOwPLfEdO2Sbhr9
-         zqek5kKoSQoAWpbvKEYDo0yWfCIWHp1e3udAtayheEipslBH3iabFIk8wpBr98t7Pafn
-         ngjw==
-X-Gm-Message-State: AOAM532XwIPrYRdkmfvyxG8PantmKz/kZJo6jX7aARzk6IMJT6wDvau1
-	pi7fmDwqQmkQjixod/LESzqavkgg9qNnsQSghyX6UWJSUNGCpnu8g6gK9MIuiL5Jl7YQfMmCvu3
-	Ki9TWqEgYGg1FT0hEe0HmnHQSNA==
-X-Received: by 2002:a05:6000:711:b0:217:371e:b7ff with SMTP id bs17-20020a056000071100b00217371eb7ffmr16261819wrb.127.1654626232063;
-        Tue, 07 Jun 2022 11:23:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/N4WjMmddIXMJgSScZ/qUGCGSnIp6UQDq474dS3NmqfffRft8Ws4ePchj9FzlpDpPJ0DOSA==
-X-Received: by 2002:a05:6000:711:b0:217:371e:b7ff with SMTP id bs17-20020a056000071100b00217371eb7ffmr16261787wrb.127.1654626231742;
-        Tue, 07 Jun 2022 11:23:51 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id m8-20020a05600c4f4800b003942a244f51sm28267502wmq.42.2022.06.07.11.23.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 11:23:51 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Laszlo Ersek <lersek@redhat.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	kvm@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	kernel test robot <lkp@intel.com>,
-	Jens Frederich <jfrederich@gmail.com>,
-	Jon Nettleton <jon.nettleton@gmail.com>,
-	linux-staging@lists.linux.dev,
-	Daniel Vetter <daniel.vetter@intel.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Helge Deller <deller@gmx.de>,
-	Matthew Wilcox <willy@infradead.org>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Zhen Lei <thunder.leizhen@huawei.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Xiyu Yang <xiyuyang19@fudan.edu.cn>,
-	linux-fbdev@vger.kernel.org,
-	Zheyu Ma <zheyuma97@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH v6 5/5] fbdev: Make registered_fb[] private to fbmem.c
-Date: Tue,  7 Jun 2022 20:23:38 +0200
-Message-Id: <20220607182338.344270-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220607182338.344270-1-javierm@redhat.com>
-References: <20220607182338.344270-1-javierm@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3A77C
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 18:39:54 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 257F9Q7h010564;
+	Tue, 7 Jun 2022 18:39:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=n0t/o05B8ULNOSmNZOVwHI54TDanTcDkem3xBt/a3GA=;
+ b=B4uzPKjSuRaBRdishKtGbE/Cl25CEzpBxuwXOn7dZ5Ve2146cNT2XuWy+3+oc1UARUoV
+ 5aMOygajQ1Y9M5ELNNSCui4hhqCT/mlV+LMSUZEwojVegXsK9n5F3P3BbEfqlFqYsjO1
+ W0JKcRc2BZLHwHFhvS2fBXYvwUHU3nSA0wWPgvy9LeGaUjh4x0+ESSqfG4MUi3VyO/Pp
+ DBKeey7MARcAEQmCk381wy34sxT5jLfghGReZZNOVckp2alFWKTO70t0IZMpXIQZTcil
+ dxZ3QPAGf4fMb4x0brcI1y8uF/TbJtU2y54IAZe0s5NJ0XupqPlngvaZjpUd2jhryNJS dg== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ghvs3a1q7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 07 Jun 2022 18:39:40 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 257IGHLN031478;
+	Tue, 7 Jun 2022 18:39:39 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu3ah08-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 07 Jun 2022 18:39:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y8WwILqVadIXZomS/KygpvPJlzxP7zfqZ7JFLtOp48LvjX9X+C5OaS/mvsierGdqITskMoHayY1B0pK6cEKe6zTNzf+uhQCqblO4VsYRmu8DB4f8BVYa3LhLKFcCVC+evElTn2iMpm34gpoYa2uD5akY9mlqxeZxHaK9q3tkOzomr2nnv8H0CPlemrZ2yrCZ6ioI7yUELqe/VfhT+lJD+804kky3jGWXHLbeOdRpV30KSj3lbqk+PG+D32C1TnQAOmstlal9i+qviAHN3O9QeOeV3w20lGTbl0AKXaVa03XWFVCueVF91zzoEWFtM7osv9MtbaqBM3LD9zjZLUZqsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n0t/o05B8ULNOSmNZOVwHI54TDanTcDkem3xBt/a3GA=;
+ b=WHSHLkSi3CELw5nTILQ1VbgMuYgKxp7n7z/zP/QrVGCwM0r1A3hyWGadprYs4wco60tf3Sqm/38TFC498GB9Ih1qI+heIxF9w62ztDPGJZm74hdern90evGGSF0XS23eJM+mDsjC4LAL8S5h2qCwBLrlHau7hiZY3MMysCySx+0/zTYfhfSWea0FUhHFwJ9hjar1RR4uCPJvVBEMt/kcgG7MLs3MTj+XYx/gNLGaJgKKpvwW6Twz3OLf7ldUh5neY19vVwYrrCsm1DTC5iR3K5anORUhS4D0Q52l98sasfbOaDWtd/z1fnN/YlAKikJi3dlRynoioHBCvrlvHOXXNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n0t/o05B8ULNOSmNZOVwHI54TDanTcDkem3xBt/a3GA=;
+ b=YKJzbyI1jKYzZroZL6NzWGfqt1WLZmd9YuXrGZGUyyZwDIjkqZd0GcV2ZoO4qrXHWhJO1arR2UF5HRfdb0nEkIrNpx53jMCvdg22VQpcrCHNpCwjldvNuWM8p/0b7NMOrUS3Et2KYT85+0M3oeulMsDsRsafs69s6NJEKr1XxnU=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CY4PR10MB1400.namprd10.prod.outlook.com
+ (2603:10b6:903:22::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.17; Tue, 7 Jun
+ 2022 18:39:32 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
+ 18:39:32 +0000
+Date: Tue, 7 Jun 2022 21:39:21 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Jared Kangas <kangas.jd@gmail.com>
+Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, elder@kernel.org,
+        gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+        johan@kernel.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: audio: fix loop cursor use after
+ iteration
+Message-ID: <20220607183921.GQ2168@kadam>
+References: <20220605231806.720085-1-kangas.jd@gmail.com>
+ <20220606130626.GX2146@kadam>
+ <Yp9/kqBUzpArfPdn@fedora>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yp9/kqBUzpArfPdn@fedora>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: MR2P264CA0097.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:500:33::13) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e3c026ed-8758-4c98-c78f-08da48b51041
+X-MS-TrafficTypeDiagnostic: CY4PR10MB1400:EE_
+X-Microsoft-Antispam-PRVS: 
+	<CY4PR10MB14000D734CF4E959A4CF50918EA59@CY4PR10MB1400.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Io7+VLBZ/OE4PVEsn5T3lZndzSjcBCFMK0RelDAndj91iKjtNv7p7dvaGYCJo/1jUkHUm0Xrte4Xvuq54+fC+Vkr8/GK/69QnYEBscUYNkU/d+QYsxKwyoZC03EZJdsIDJFWxKu7Yl+/WElRxZiS1om/iJMMeQP+N7jpXshpd8oP/C5UvCnfgVIDC2FDZBNFIKYyQrMcWOBp4SyGZ+MApcLm7BCyvabmyv/qnFaQ9VFxEVeZxbKVumabycEm84CvQpA/tbKWhnc/t+3HGkft2qNVsrbzkN05bcZED3zCqOvOLJwuAkPohjYv/FPMPDbbY23h403hYYLLyUXWPZtfHGov/IvL+1MTbleKkB17bw1Q36Z5SrfgZm2l0wLoGrYbZZUzH0pU2L23Q8/qiX/IFvJaI8kHw9hkbgDX2RuhQwT19PpFUzQUnCYy1Sf7Kdr1oRgqK9XP55zBh099JJ3D96sxyFzl7Vs/X5Ox+dSyL0WTp4WhnqOO43khsKMPQyRMo0CP8hZ+TitQ7BrK/3/lvQp4F/UTLLGDjXDs8lM3UtBFnqs4XpNmgSqMYUMsTI2n7DFhCXXTAJGejJxwnVeFGyy08VMsaUqBaHxCEARxskzqCond0rDjcEgi+HTn9QRLFokt7ApmKtCgER90z9MUuiDvYLQU2/YT7b3gKy7m5060YtWJWwaVGrpx/aYHLon2FLahzj0OFMceJdYAQhoomg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(86362001)(2906002)(38350700002)(508600001)(38100700002)(4744005)(8936002)(9686003)(52116002)(6512007)(5660300002)(26005)(316002)(6506007)(6486002)(1076003)(44832011)(6666004)(6916009)(8676002)(66556008)(66946007)(66476007)(4326008)(186003)(33716001)(33656002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?YbtHq6W6ODYP75zMx7kj1gEON3/QTjv0Amvpj0c4kjSbcEe1sDu2gWzm/Q85?=
+ =?us-ascii?Q?pcS2Y7A7j9sEYR86fMvNmKrP1wb8/umJ18bkr0tF1Yx0ft5SpalQsvFcVija?=
+ =?us-ascii?Q?aOezUvSts3hcngWdl7E/Ncr+22hUPWbwGRFbWm/fodyY5f0GxxhpNXOIQN1g?=
+ =?us-ascii?Q?PAe5I2pmpDqdzbk98hIlt9b1e8yCykj5gNPJMSx+BjURzv1D+VnanU6pYkf7?=
+ =?us-ascii?Q?ghJHsFKFLm0bukOGeLzHQgwDXfbKSU50p8BCpZ775nWOJrULuGmnzV1tKmnm?=
+ =?us-ascii?Q?3QV8tpqtkjcRvksW3ggaTIkcJENGJFV2wE/KYjsdNb7jgNib+z2x9bzuL0DS?=
+ =?us-ascii?Q?Xc1KmDkLTL4Hvai4KQ7Uey4lcQXfNXC//TWN6q0DZ2tJX8KLUrIwvUo1x7fL?=
+ =?us-ascii?Q?Irivdgjc5SGIOXeuNATYTE/Rz/rgHAgk1jwkd9QBxzrSvQ+GRt+9f36386ih?=
+ =?us-ascii?Q?F4THf64wSLu6vbLIxPkTqMfsQTwg0Y7x8ro1Uu1UW1X1A/aRa1EpuASsvsxF?=
+ =?us-ascii?Q?Z+Ja3jOO5OAI1bZGo9hISyvEOGVIUBXb1NxyIA6IiDGSzuCfxA0/WH3qH7TH?=
+ =?us-ascii?Q?SwCsEp3XUrSlIVR/7xhoxrgshPMh15KQR0Ia1MVZjyrghd2ONYAl37H4vWK1?=
+ =?us-ascii?Q?gm7DLnIgGU19XB74K74bmibXm6YysoXrAFvSW92B8Q2qWj8Bj1EMIaYDXt6F?=
+ =?us-ascii?Q?6qOhGlX/7bXls/kOlqmjCx16xsrob66YxVkwr/DCvVbg4Qp911n7KU4U+zpg?=
+ =?us-ascii?Q?3g2nBOl2+KqwS58kNc+bRr5kTXN4wYUUVKFsuFeheqb8Q4l9Oay2EXkT/WqH?=
+ =?us-ascii?Q?OkJkTFfyEtQ3tfnTlZDhAFshuD27LmLySybvuG3hVL28ONzS5lWqOZpnL2Ff?=
+ =?us-ascii?Q?jP5DvN42+U9nti8sXxvCbwjFS0E4csFEFzuycLk+e8jQa9hwQViKQFT962+q?=
+ =?us-ascii?Q?gn3RlMezsK9lM0COGNh3f3Emeh4/Pnj63sFm/PELUSnM/svtDpeWg52S53wD?=
+ =?us-ascii?Q?v1uiKW4jHr4JTEgvF5Kim1lVCfCMNa5xDEmEe8UWI3j3+snRN2k3SmY+FJbl?=
+ =?us-ascii?Q?AgERP40ExeOm+PBmLGQmoVdZ9pqsi8/tbtHGm8PB8faYlAXfcN1sDIdDPyN2?=
+ =?us-ascii?Q?s4oRIUZ2ep9bBsNN+huiYip+dchArXDmJXKp+alI9JpY0YtzankDOKO52iDV?=
+ =?us-ascii?Q?N1tBMS+FOW5dIxd+iDU5ChrVrLpELJoiAp6Q+h/QbdImAy0EujgxBX3/16CY?=
+ =?us-ascii?Q?ssOCFYobzSpNA1Oxad1bKL4fyeG5Zix4ijf3/Pjvsh0jzuYzUWaeLzuCsElo?=
+ =?us-ascii?Q?fEBOWSbdBkIqHM5b5A1JeP8/bhD22lClU8tF+tbLJ/vn1JjTm68K2dRyBfiQ?=
+ =?us-ascii?Q?4m5mP35qRi8O9KF1liEiUJkhIW3BTM3qF0wIKt9ykGYF9+7G9AaSFHYZg5bR?=
+ =?us-ascii?Q?XAnBUd/VL70OfrfylJ7iUdcrrWUnh+qS4tHzBMZuV4whSC1dSLhxLAfGMtQ9?=
+ =?us-ascii?Q?DBlTHIhrJdytLug2C+0VOu/UR02rRJiCP7rK1IGLmSNehSsqGVAHw9NumA7l?=
+ =?us-ascii?Q?Spe6kPR6PnlW0v8pxs7CeaXA0rlSc8RLAIkNL9UFbumEtqLw+Ea+sZ0HzaHR?=
+ =?us-ascii?Q?FSz8nNq/EDVKCTdADkCKfJrARgiwAZSLEm5LJXJCglc+N2Yq1lAD2ffOpnCM?=
+ =?us-ascii?Q?0VSpeOfb91WBiEIR8A7Cs8P4rEairprWznYy78nuxhrHxWUwlTYSSlyN+uZK?=
+ =?us-ascii?Q?21PsfJazOVr1Y/K3cmTZp1xERtqjp44=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3c026ed-8758-4c98-c78f-08da48b51041
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 18:39:32.7248
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lr450dseS3rjOeZfc/ac9RpihGjCyYygmnICqihLf3oE4DXtGQnsNmA6fcShs8a44bk/iTj7b9FTzCQJjQy1ciZcujlCpu/y308FL+D5RnE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1400
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
+ definitions=2022-06-07_08:2022-06-07,2022-06-07 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 adultscore=0 suspectscore=0 mlxlogscore=519
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206070076
+X-Proofpoint-ORIG-GUID: Xw2o78V-rqyT5R0TJEUBMl8M6d6_a3vK
+X-Proofpoint-GUID: Xw2o78V-rqyT5R0TJEUBMl8M6d6_a3vK
 
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+On Tue, Jun 07, 2022 at 09:40:50AM -0700, Jared Kangas wrote:
+> Thanks for catching that! Is there anything I need to do to add the
+> 'Fixes:' tag to the patch? From my understanding, adding tags is done by
+> a maintainer later on, but I'm new to the patch submission process so I
+> want to make sure I'm not missing anything.
 
-Well except when the olpc dcon fbdev driver is enabled, that thing
-digs around in there in rather unfixable ways.
+No, it's up to the person sending the patch to add the fixes tag.
 
-Cc oldc_dcon maintainers as fyi.
-
-v2: I typoed the config name (0day)
-
-Cc: kernel test robot <lkp@intel.com>
-Cc: Jens Frederich <jfrederich@gmail.com>
-Cc: Jon Nettleton <jon.nettleton@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Zhen Lei <thunder.leizhen@huawei.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-Cc: linux-fbdev@vger.kernel.org
-Cc: Zheyu Ma <zheyuma97@gmail.com>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
-
-(no changes since v1)
-
- drivers/video/fbdev/core/fbmem.c | 8 ++++++--
- include/linux/fb.h               | 7 +++----
- 2 files changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index e0720fef0ee6..bdb08b665b43 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -50,10 +50,14 @@
- static DEFINE_MUTEX(registration_lock);
- 
- struct fb_info *registered_fb[FB_MAX] __read_mostly;
--EXPORT_SYMBOL(registered_fb);
--
- int num_registered_fb __read_mostly;
-+#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
-+EXPORT_SYMBOL(registered_fb);
- EXPORT_SYMBOL(num_registered_fb);
-+#endif
-+#define for_each_registered_fb(i)		\
-+	for (i = 0; i < FB_MAX; i++)		\
-+		if (!registered_fb[i]) {} else
- 
- bool fb_center_logo __read_mostly;
- 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index bbe1e4571899..c563e24b6293 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -632,16 +632,15 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
- extern int fb_get_options(const char *name, char **option);
- extern int fb_new_modelist(struct fb_info *info);
- 
-+#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
- extern struct fb_info *registered_fb[FB_MAX];
-+
- extern int num_registered_fb;
-+#endif
- extern bool fb_center_logo;
- extern int fb_logo_count;
- extern struct class *fb_class;
- 
--#define for_each_registered_fb(i)		\
--	for (i = 0; i < FB_MAX; i++)		\
--		if (!registered_fb[i]) {} else
--
- static inline void lock_fb_info(struct fb_info *info)
- {
- 	mutex_lock(&info->lock);
--- 
-2.36.1
+regards,
+dan carpenter
 
