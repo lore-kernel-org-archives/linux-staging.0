@@ -1,37 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5597F
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 17:53:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22E3DC34115;
-	Tue,  7 Jun 2022 17:53:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7827F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 17:54:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3043C385A5;
+	Tue,  7 Jun 2022 17:54:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654624415;
-	bh=iBHXIOeiRVVBCYsNK7bbGrVtLssRBgvab2AS9555VOM=;
+	s=k20201202; t=1654624445;
+	bh=9Lp2n8TAUiczV7Wk1h+S5aJI43ikGeidpwIOf4ToTRI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Fi8edBvqk33KSdm7Pc9tkji8oh6OrclmIJUB/djPT8hHhaAtLM+6ynqInF+9hReMj
-	 yrEiuDCcqk5A28Ri+/E8K5StfgQK3DK8AIGIt73DFgJ6E642hOD55FCrHGTxT8/GGE
-	 ZAVFlVePYdzICMDgpeU1m8iW71HCvCKuCb/8+IQlvUWr57pxbk35SzR7ydaKGex9RM
-	 sLrSBxzEVX4c2ieK1+gokzILTxMYmUxwyRmESyHreFBYPO+pxeFAqCar6Ewi1X5K5R
-	 8zB3Nl3IOZtC1R4v0JlFhc/pz4ztj6+zPp1WPGXkDidBOu5agOEiZTXPSDgbAn1quO
-	 kSodWxbcGt70Q==
+	b=sORthj8t5dSUSDrucIx9hIAyc4pwOtP7mwFVW5LXGLxZUxeKeMcKLOFVHcazVgVJw
+	 3dKF/sMUIaTuzpvIRNwhmvJklV+AkznlRppqq3R58qb+kdBDgEJvnlGInVTldWXv2H
+	 oSgvCYlv9cQvFzEaB+vLVg1sSRpP9KXhqwFRWdicjzhIjX4efTc6AFjo9MuCMiiFw1
+	 Oa6FFrgujmxzLcrfAahqZ6GeyYzlxQZn5/zqUjtz9RHq9DQ2KWqXSNGAD9b9wTEJdS
+	 pOoef2yB0RbYKdnch9wCPCmXno6Uwca8vSZZwZzyTy0p4VutyuKWgB6R0Kr5V3cwog
+	 RPzwp8zcb6oVw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Duoming Zhou <duoming@zju.edu.cn>,
+Cc: Soumya Negi <soumya.negi97@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
-	dan.carpenter@oracle.com,
-	baihaowen@meizu.com,
-	dave@stgolabs.net,
-	yangyingliang@huawei.com,
-	wjsota@gmail.com,
-	edumazet@google.com,
-	len.baker@gmx.com,
+	fabioaiuto83@gmail.com,
+	hdegoede@redhat.com,
+	straube.linux@gmail.com,
+	linux@roeck-us.net,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.17 11/60] drivers: staging: rtl8192e: Fix deadlock in rtllib_beacons_stop()
-Date: Tue,  7 Jun 2022 13:52:08 -0400
-Message-Id: <20220607175259.478835-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 25/60] staging: rtl8723bs: Fix alignment to match open parenthesis
+Date: Tue,  7 Jun 2022 13:52:22 -0400
+Message-Id: <20220607175259.478835-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220607175259.478835-1-sashal@kernel.org>
 References: <20220607175259.478835-1-sashal@kernel.org>
@@ -45,53 +42,111 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Duoming Zhou <duoming@zju.edu.cn>
+From: Soumya Negi <soumya.negi97@gmail.com>
 
-[ Upstream commit 9b6bdbd9337de3917945847bde262a34a87a6303 ]
+[ Upstream commit f722d67fad290b0c960f27062adc8cf59488d0a7 ]
 
-There is a deadlock in rtllib_beacons_stop(), which is shown
-below:
+Adhere to Linux coding style. Fixes checkpatch warnings:
+CHECK: Alignment should match open parenthesis
+CHECK: line length of 101 exceeds 100 columns
 
-   (Thread 1)              |      (Thread 2)
-                           | rtllib_send_beacon()
-rtllib_beacons_stop()      |  mod_timer()
- spin_lock_irqsave() //(1) |  (wait a time)
- ...                       | rtllib_send_beacon_cb()
- del_timer_sync()          |  spin_lock_irqsave() //(2)
- (wait timer to stop)      |  ...
-
-We hold ieee->beacon_lock in position (1) of thread 1 and
-use del_timer_sync() to wait timer to stop, but timer handler
-also need ieee->beacon_lock in position (2) of thread 2.
-As a result, rtllib_beacons_stop() will block forever.
-
-This patch extracts del_timer_sync() from the protection of
-spin_lock_irqsave(), which could let timer handler to obtain
-the needed lock.
-
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-Link: https://lore.kernel.org/r/20220417141641.124388-1-duoming@zju.edu.cn
+Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+Link: https://lore.kernel.org/r/20220513025553.13634-1-soumya.negi97@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 4b6c2295a3cf..b5a38f0a8d79 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -651,9 +651,9 @@ static void rtllib_beacons_stop(struct rtllib_device *ieee)
- 	spin_lock_irqsave(&ieee->beacon_lock, flags);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 5478188be991..d30d6e6bcd07 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -520,12 +520,12 @@ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
  
- 	ieee->beacon_txing = 0;
--	del_timer_sync(&ieee->beacon_timer);
+ 		/*  B0 Config LDPC Coding Capability */
+ 		if (TEST_FLAG(phtpriv_ap->ldpc_cap, LDPC_HT_ENABLE_TX) &&
+-			      GET_HT_CAPABILITY_ELE_LDPC_CAP((u8 *)(&phtpriv_sta->ht_cap)))
++		    GET_HT_CAPABILITY_ELE_LDPC_CAP((u8 *)(&phtpriv_sta->ht_cap)))
+ 			SET_FLAG(cur_ldpc_cap, (LDPC_HT_ENABLE_TX | LDPC_HT_CAP_TX));
  
- 	spin_unlock_irqrestore(&ieee->beacon_lock, flags);
-+	del_timer_sync(&ieee->beacon_timer);
+ 		/*  B7 B8 B9 Config STBC setting */
+ 		if (TEST_FLAG(phtpriv_ap->stbc_cap, STBC_HT_ENABLE_TX) &&
+-			      GET_HT_CAPABILITY_ELE_RX_STBC((u8 *)(&phtpriv_sta->ht_cap)))
++		    GET_HT_CAPABILITY_ELE_RX_STBC((u8 *)(&phtpriv_sta->ht_cap)))
+ 			SET_FLAG(cur_stbc_cap, (STBC_HT_ENABLE_TX | STBC_HT_CAP_TX));
+ 	} else {
+ 		phtpriv_sta->ampdu_enable = false;
+@@ -1065,10 +1065,12 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 		);
  
- }
+ 		if ((psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_CCMP) ||
+-		     (psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_CCMP)) {
+-			pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY & (0x07 << 2));
++		    (psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_CCMP)) {
++			pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY &
++						       (0x07 << 2));
+ 		} else {
+-			pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY & 0x00);
++			pht_cap->ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY &
++						       0x00);
+ 		}
  
+ 		rtw_hal_get_def_var(
+@@ -1116,7 +1118,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 	pmlmepriv->htpriv.ht_option = false;
+ 
+ 	if ((psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_TKIP) ||
+-	     (psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_TKIP)) {
++	    (psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_TKIP)) {
+ 		/* todo: */
+ 		/* ht_cap = false; */
+ 	}
+@@ -1725,7 +1727,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 			pmlmepriv->num_sta_no_short_preamble--;
+ 
+ 			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+-				(pmlmepriv->num_sta_no_short_preamble == 0)) {
++			    (pmlmepriv->num_sta_no_short_preamble == 0)) {
+ 				beacon_updated = true;
+ 				update_beacon(padapter, 0xFF, NULL, true);
+ 			}
+@@ -1763,7 +1765,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 			pmlmepriv->num_sta_no_short_slot_time++;
+ 
+ 			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+-				 (pmlmepriv->num_sta_no_short_slot_time == 1)) {
++			    (pmlmepriv->num_sta_no_short_slot_time == 1)) {
+ 				beacon_updated = true;
+ 				update_beacon(padapter, 0xFF, NULL, true);
+ 			}
+@@ -1775,7 +1777,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 			pmlmepriv->num_sta_no_short_slot_time--;
+ 
+ 			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+-				 (pmlmepriv->num_sta_no_short_slot_time == 0)) {
++			    (pmlmepriv->num_sta_no_short_slot_time == 0)) {
+ 				beacon_updated = true;
+ 				update_beacon(padapter, 0xFF, NULL, true);
+ 			}
+@@ -2024,7 +2026,7 @@ void rtw_ap_restore_network(struct adapter *padapter)
+ 	start_bss_network(padapter);
+ 
+ 	if ((padapter->securitypriv.dot11PrivacyAlgrthm == _TKIP_) ||
+-		(padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)) {
++	    (padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)) {
+ 		/* restore group key, WEP keys is restored in ips_leave() */
+ 		rtw_set_key(
+ 			padapter,
+@@ -2062,7 +2064,7 @@ void rtw_ap_restore_network(struct adapter *padapter)
+ 			/* pairwise key */
+ 			/* per sta pairwise key and settings */
+ 			if ((psecuritypriv->dot11PrivacyAlgrthm == _TKIP_) ||
+-				(psecuritypriv->dot11PrivacyAlgrthm == _AES_)) {
++			    (psecuritypriv->dot11PrivacyAlgrthm == _AES_)) {
+ 				rtw_setstakey_cmd(padapter, psta, true, false);
+ 			}
+ 		}
 -- 
 2.35.1
 
