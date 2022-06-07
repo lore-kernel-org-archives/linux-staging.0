@@ -1,87 +1,121 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE7C7C
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 19:26:37 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id a29so1334091lfk.2
-        for <linux-staging@lists.linux.dev>; Tue, 07 Jun 2022 12:26:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7a/Vr1nOHr0fdDem7DkzJVpMhvssXRRyxw7xup5e79I=;
-        b=DfruFfsNeZwf5QHWRX3tl2wx4WCbK5YG3dRedjaUTJcnKKzbeWm3OI+O6GWuK1V8WZ
-         R2cVADOtKEjE6rwstxA/aSOEX84upsZTEltFqI1i4cDc9pt32h9ZI2ZTikTBmoANe6rQ
-         Fe9AQ4otShRqgXhtohsBeMtR/tJktVZhA+HpLrvI3D/5g08qT8vExdO4ei/rWac7lDND
-         8hZS3mL6zwKyrdiK13QeXtpqKCYXJ6gEMpG+duT/YJ3HGrHk18KGzw9M1c5QSmzYRCXx
-         sAhtBQvKehi2NrqQdfTFSzkitswebZAXA9ycCxWqPcPSY0t5z2DrqoVAX1ByApVeS7Qi
-         g6ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7a/Vr1nOHr0fdDem7DkzJVpMhvssXRRyxw7xup5e79I=;
-        b=lT6GYIE66tuS81izvHc6BrOi4f22JA1V/fBi76uCt3+MzIXcXLJfcXLyC26N1EwvpX
-         vTymIYA8vJi6x5dn++Ld0mPWcYr1zl00iB65sM6hj8zBZMksjnCRuj4rNNhmQ9u/Nqq2
-         zNsyCbDqB3omjPnSGSvjPYTwNv5q4hB0KVmsK5MvDYko/SQiw+T+2c2eR1l86R4vWWRB
-         Hjxwxl9k/oNPcoUknuZ/7Pjy+hYGLzJflIle7WCO3qGQra9kpYYP6xUMukXFNCNaslv/
-         sbwMVCzGF/VByNhWz5N+7Mmx4BVegQLI5LQhMDXktGGtcje21oAsTnJCT17ReBvR2rmW
-         3RQg==
-X-Gm-Message-State: AOAM5313SnM1fAoN78sfARNXIa7UUxQwvF/gkS0bkyLyZcEWyExOEw4W
-	NLsHGMbdmBNEdU36JZP3zQLjnzPMSh5Ofg==
-X-Google-Smtp-Source: ABdhPJwrX47Y3YIqgEzQI+Z6/heU8hdGTYhoZaqHpiJucG3APs43e/cTPUq4MmfmFa90H7KIPhnkew==
-X-Received: by 2002:ac2:488b:0:b0:479:2674:f1b0 with SMTP id x11-20020ac2488b000000b004792674f1b0mr11586089lfc.118.1654629996066;
-        Tue, 07 Jun 2022 12:26:36 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.229.27])
-        by smtp.gmail.com with ESMTPSA id t28-20020a05651c205c00b00253b24a90b6sm2982603ljo.17.2022.06.07.12.26.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 12:26:35 -0700 (PDT)
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: gregkh@linuxfoundation.org,
-	Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	straube.linux@gmail.com,
-	dan.carpenter@oracle.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH v4 4/4] MAINTAINERS: add myself as r8188eu reviewer
-Date: Tue,  7 Jun 2022 22:26:31 +0300
-Message-Id: <d6f6420a0d5ceff6bb50d268023f7d2e117027c5.1654629778.git.paskripkin@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1654629778.git.paskripkin@gmail.com>
-References: <cover.1654629778.git.paskripkin@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B5D2F48
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 20:35:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654634127; x=1686170127;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=7V/VA70lsYPB2rHKj1GQNpN5bDhVdxSUPtPF7P0+zbo=;
+  b=YJ1Nc94UyywhEkjGu/YBtSTz8EIXLAOkJncoeXW8zhIguQy33HD/nzG8
+   LANkIxYhrgCPvPIWOPEjE48q0bCfTylWd0aiUI9j3sKIDbp/Bz+PsV+zc
+   l/qgSdY5lpSh/ojlKIiBge36AcDj6lu0/GxyA5D2KJjnW/aLfC/Gnj20n
+   hbGZZ1uBZKRHNwbyGNc8gq92QXWsgyuCkljpYzLFWrjJCmcYIzuIkFHHA
+   34DM+aGqNdmi33fJsZWGhINXmoBiO9B13YOkpHFx88a2m0U/kTwZpyOGG
+   FDX9C4BxTNJCrsbxwczvQot2RKGGRHrnWCBLdoS+RSIyOmF8yRPwhMati
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="265372633"
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; 
+   d="scan'208";a="265372633"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2022 13:16:50 -0700
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; 
+   d="scan'208";a="648216227"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2022 13:16:48 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1nyfd6-000W7i-N9;
+	Tue, 07 Jun 2022 23:16:44 +0300
+Date: Tue, 7 Jun 2022 23:16:44 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Stephen Kitt <steve@sk2.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Len Baker <len.baker@gmx.com>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: ftbft: Use backlight helper
+Message-ID: <Yp+yLJNq70U3Z7AZ@smile.fi.intel.com>
+References: <20220607185516.1129900-1-steve@sk2.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220607185516.1129900-1-steve@sk2.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-I was reviewing r8188eu patches for a while, but I am missing some of
-them, since I am not in CC list. I want to be CC'ed to help reviewing
-and testing more patches.
+On Tue, Jun 07, 2022 at 08:55:16PM +0200, Stephen Kitt wrote:
+> backlight_properties.fb_blank is deprecated. The states it represents
+> are handled by other properties; but instead of accessing those
+> properties directly, drivers should use the helpers provided by
+> backlight.h.
+> 
+> Instead of manually checking the power state in struct
+> backlight_properties, use backlight_is_blank().
 
-Acked-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a6d3bd9d2a8d..60e5e4007844 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18920,6 +18920,7 @@ F:	drivers/staging/olpc_dcon/
- STAGING - REALTEK RTL8188EU DRIVERS
- M:	Larry Finger <Larry.Finger@lwfinger.net>
- M:	Phillip Potter <phil@philpotter.co.uk>
-+R:	Pavel Skripkin <paskripkin@gmail.com>
- S:	Supported
- F:	drivers/staging/r8188eu/
- 
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Noralf Trønnes" <noralf@tronnes.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Len Baker <len.baker@gmx.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-staging@lists.linux.dev
+> ---
+>  drivers/staging/fbtft/fb_ssd1351.c | 3 +--
+>  drivers/staging/fbtft/fbtft-core.c | 3 +--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+> index 6fd549a424d5..b8d55aa8c5c7 100644
+> --- a/drivers/staging/fbtft/fb_ssd1351.c
+> +++ b/drivers/staging/fbtft/fb_ssd1351.c
+> @@ -196,8 +196,7 @@ static int update_onboard_backlight(struct backlight_device *bd)
+>  		      "%s: power=%d, fb_blank=%d\n",
+>  		      __func__, bd->props.power, bd->props.fb_blank);
+>  
+> -	on = (bd->props.power == FB_BLANK_UNBLANK) &&
+> -	     (bd->props.fb_blank == FB_BLANK_UNBLANK);
+> +	on = !backlight_is_blank(bd);
+>  	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
+>  	write_reg(par, 0xB5, on ? 0x03 : 0x02);
+>  
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index 60b2278d8b16..9b3eaed80cdd 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -137,8 +137,7 @@ static int fbtft_backlight_update_status(struct backlight_device *bd)
+>  		      "%s: polarity=%d, power=%d, fb_blank=%d\n",
+>  		      __func__, polarity, bd->props.power, bd->props.fb_blank);
+>  
+> -	if ((bd->props.power == FB_BLANK_UNBLANK) &&
+> -	    (bd->props.fb_blank == FB_BLANK_UNBLANK))
+> +	if (!backlight_is_blank(bd))
+>  		gpiod_set_value(par->gpio.led[0], polarity);
+>  	else
+>  		gpiod_set_value(par->gpio.led[0], !polarity);
+> 
+> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+> -- 
+> 2.30.2
+> 
+
 -- 
-2.36.1
+With Best Regards,
+Andy Shevchenko
+
 
