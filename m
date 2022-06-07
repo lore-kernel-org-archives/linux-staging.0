@@ -1,80 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91E17F
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 11:01:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ED93C34115;
-	Tue,  7 Jun 2022 11:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5DA7F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 11:07:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E60F3C34114;
+	Tue,  7 Jun 2022 11:07:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1654599693;
-	bh=D+6gnkjQuTp/gT1kk2TY3BFGoRR4S4mcAsiWxpLdG2g=;
+	s=korg; t=1654600077;
+	bh=hxoefO8ek43ItzGRofz5rRQ5aC3GlUmtAAZnQJJjjwQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=yu2gyUxFwJrx6gWlqtUlxYiXkJg+NrVJ5zSq4Xm5uTof1R1kd2bPRaVoCJa0iS95B
-	 i1ef7reb9rxUO/WVQV+9LfSU9SosySoVqH6YtD+sWJo8nTq0DpdglQtRPGFrsZUIOZ
-	 zSFUFjASwBNzTBV+Mm4lc6Qy2xgYx++l+AckcEJ4=
-Date: Tue, 7 Jun 2022 13:01:26 +0200
+	b=wXVU1aU0wezKSSm9Y12+6GLH4j2cgjcjeg2g5oBQbwvl7sFUjfZAg30wzTmCdwuak
+	 vqUj8CBmZe4QHTxM1P3OUAzpnmzax0Q89MM4Rh/Bs3SVYbV7Pb3i/5NXZF0yB2eNoS
+	 mwGtCB1wuyvfzUsVeaUBZr+cLFfeaQub4C5v000Q=
+Date: Tue, 7 Jun 2022 13:07:39 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: duoming@zju.edu.cn
-Cc: linux-staging@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
-	alexander.deucher@amd.com, broonie@kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8192u: Fix sleep in atomic context bug in
- dm_fsync_timer_callback
-Message-ID: <Yp8wBoXH+k9k7Jg+@kroah.com>
-References: <20220520061541.14785-1-duoming@zju.edu.cn>
- <Yp2T7xSM8YX7lX0/@kroah.com>
- <6c014f68.52c9b.18137daddd9.Coremail.duoming@zju.edu.cn>
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	straube.linux@gmail.com, dan.carpenter@oracle.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 0/4] staging: r8188eu: add error handling of usb read
+ errors
+Message-ID: <Yp8xezHITGrxv47H@kroah.com>
+References: <cover.1654543286.git.paskripkin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6c014f68.52c9b.18137daddd9.Coremail.duoming@zju.edu.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1654543286.git.paskripkin@gmail.com>
 
-On Mon, Jun 06, 2022 at 03:11:39PM +0800, duoming@zju.edu.cn wrote:
-> Hello,
+On Mon, Jun 06, 2022 at 10:36:46PM +0300, Pavel Skripkin wrote:
+> Hi,
 > 
-> On Mon, 6 Jun 2022 07:43:11 +0200 greg k-h wrote:
+> it's reincarnation of my old series for adding sane error handling in
+> r8818eu.
 > 
-> > On Fri, May 20, 2022 at 02:15:41PM +0800, Duoming Zhou wrote:
-> > > There are sleep in atomic context bugs when dm_fsync_timer_callback is
-> > > executing. The root cause is that the memory allocation functions with
-> > > GFP_KERNEL parameter are called in dm_fsync_timer_callback which is a
-> > > timer handler. The call paths that could trigger bugs are shown below:
-> > > 
-> > >     (interrupt context)
-> > > dm_fsync_timer_callback
-> > >   write_nic_byte
-> > >     kzalloc(sizeof(data), GFP_KERNEL); //may sleep
-> > >   write_nic_dword
-> > >     kzalloc(sizeof(data), GFP_KERNEL); //may sleep
-> > > 
-> > > This patch changes allocation mode from GFP_KERNEL to GFP_ATOMIC
-> > > in order to prevent atomic context sleeping. The GFP_ATOMIC flag
-> > > makes memory allocation operation could be used in atomic context.
-> > > 
-> > > Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-> > 
-> > What commit id does this fix?
+> *Problem*
 > 
-> Thanks for your time and reply! 
-> The commit id this patch fix is 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging").
->  
-> > And how did you find this issue?  Did you run the code to verify it
-> > still works properly?
+> Old code was returning just stack variable in case of read error. It's
+> not the best approach, since passing around stack data might cause
+> device misconfiguration or even kernel data leakage
 > 
-> I find this issue by writing codeql query. I am trying to use usb raw-gadget to simulate
-> rtl8192u card in order to test this code.
+> To solve this I've changed rtw_read{8,16,32} prototypes to return an error via
+> return value and data via passed pointer. Some work should be done to
+> propogate an error down to calltrace, but it's good way to at least
+> start doing sane I/O error handling
 > 
-> What`s more, I found the usb_control_msg() with GFP_NOIO parameter in write_nic_byte() 
-> and write_nic_dword() may also sleep. So I think use the delayed queue to replace timer
-> is better. 
+> Tested locally on qemu with TP-Link TL-WN722N v2/v3 [Realtek RTL8188EUS]
+> device. More testing is welcomed, of course :)
+> 
+> _NOTE_
+> Series is based on top of staging-testing branch.
+> 
+> Changes since v2:
+>     get rid of `(void)res` and return an error from function instead of
+>     hiding it
+> 
+> Changes since v1:
+>     addresses issues found by Dan and self review. Mostly related to returning
+>     _FAIL instead of -errno, since callers expect _FAIL/_SUCCESS
+> 
+> v1: https://lore.kernel.org/linux-staging/cover.1652911343.git.paskripkin@gmail.com/
+> v2: https://lore.kernel.org/linux-staging/cover.1652994483.git.paskripkin@gmail.com/
+> 
+> Pavel Skripkin (4):
+>   staging: r8188eu: add error handling of rtw_read8
+>   staging: r8188eu: add error handling of rtw_read16
+>   staging: r8188eu: add error handling of rtw_read32
+>   MAINTAINERS: add myself as r8188eu reviewer
+> 
+>  MAINTAINERS                                   |   1 +
+>  drivers/staging/r8188eu/core/rtw_cmd.c        |  15 +-
+>  drivers/staging/r8188eu/core/rtw_efuse.c      |  33 ++-
+>  drivers/staging/r8188eu/core/rtw_fw.c         |  72 +++--
+>  drivers/staging/r8188eu/core/rtw_led.c        |  16 +-
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  62 ++++-
+>  drivers/staging/r8188eu/core/rtw_pwrctrl.c    |   9 +-
+>  drivers/staging/r8188eu/core/rtw_wlan_util.c  |  20 +-
+>  .../r8188eu/hal/Hal8188ERateAdaptive.c        |  21 +-
+>  drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |  21 +-
+>  drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   9 +-
+>  drivers/staging/r8188eu/hal/hal_com.c         |  27 +-
+>  drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  37 ++-
+>  drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   6 +-
+>  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 136 +++++++---
+>  drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  30 ++-
+>  drivers/staging/r8188eu/hal/usb_halinit.c     | 251 +++++++++++++++---
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c   |  33 ++-
+>  drivers/staging/r8188eu/include/rtw_io.h      |   6 +-
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  47 +++-
+>  drivers/staging/r8188eu/os_dep/os_intfs.c     |  19 +-
+>  21 files changed, 693 insertions(+), 178 deletions(-)
 
-Please explain all of this in the changelog text when you resend this.
+After applying, I get the following build warning which breaks the
+build:
 
-thanks,
+drivers/staging/r8188eu/core/rtw_mlme_ext.c:6826:13: error: unused variable ‘res’ [-Werror=unused-variable]
+ 6826 |         int res;
+      |             ^~~
+
+Please test-build your patches before sending them out :(
 
 greg k-h
