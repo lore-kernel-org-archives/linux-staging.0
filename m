@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587737F
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 17:49:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3833C34115;
-	Tue,  7 Jun 2022 17:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148ED7F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 17:50:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CD20C34115;
+	Tue,  7 Jun 2022 17:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654624198;
-	bh=ux7IuVmMI8o15RzsRZcZNkGPWCqiFNkdIdCURxZuwdY=;
+	s=k20201202; t=1654624205;
+	bh=iBHXIOeiRVVBCYsNK7bbGrVtLssRBgvab2AS9555VOM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Hb2JWkdYUoW+4CZMRPNQl9J8JRm2lKaC1C8GrYr2jr6eEj5TmOTFdeB//PrD2lecc
-	 NWQ8UJIN1E9BhXwxlVDH0j48oxymf+Xt4wmvUV+5Kt3ZpOSstst9oIUIA2DXJ1ujII
-	 /b3M/q/b1Fgw5gGGu0A2MpQ8OIeEG05wmnoxh8J2vJPIzZ7qwIPUsqoC543GaPCLwP
-	 Toh6GIJkYa3x6ES01TnrNqjEEHitId3xItUDyy4zl4gMRH0S9vWOP69/jAvIt7Hw2N
-	 kzDGAM5KqAo/6p6v18CObhe7uXW1aA45f1DC4TttAIhrbJlUxm337+Ilm3AyM01GGK
-	 tbz3nJSO4RuGg==
+	b=dHtcMydmV0YrSBB3YK0pPrF7IKKPHRFCGKJ+NaKr72ypz2DjK/5CVkTbMrHfUHK1B
+	 PvJyNBNFgkY5T396yAOTOuuH1duNcMJjXi9dEa+JDTXhScZ7Xfn6JFZa07iaJZaLga
+	 FutKE4zwvJJ6xVpf1NaOWzGrXE8NfDXWMfElkI7vVnYy0j312jPrFOx3ch5dHxBc7d
+	 L+uf1VsVIpp1HPDJJjbIhmMqI3Ef6sHSsqP/eTvaXz8yiEQ60sjPxQ6q0btL29cyU0
+	 tiz7i8Qn5G43/izNpsdswuOMQKi1oUxy1sxHYL8HQPLClB9AmpGGhHKWBTuNNyU1Co
+	 KVdWmVBg3k+7g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -22,13 +22,16 @@ Cc: Duoming Zhou <duoming@zju.edu.cn>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	baihaowen@meizu.com,
-	dave@stgolabs.net,
+	dan.carpenter@oracle.com,
+	wjsota@gmail.com,
 	len.baker@gmx.com,
-	wangborong@cdjrlc.com,
+	dave@stgolabs.net,
+	edumazet@google.com,
+	yangyingliang@huawei.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.18 11/68] drivers: staging: rtl8192u: Fix deadlock in ieee80211_beacons_stop()
-Date: Tue,  7 Jun 2022 13:47:37 -0400
-Message-Id: <20220607174846.477972-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 12/68] drivers: staging: rtl8192e: Fix deadlock in rtllib_beacons_stop()
+Date: Tue,  7 Jun 2022 13:47:38 -0400
+Message-Id: <20220607174846.477972-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
 References: <20220607174846.477972-1-sashal@kernel.org>
@@ -44,40 +47,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Duoming Zhou <duoming@zju.edu.cn>
 
-[ Upstream commit 806c7b53414934ba2a39449b31fd1a038e500273 ]
+[ Upstream commit 9b6bdbd9337de3917945847bde262a34a87a6303 ]
 
-There is a deadlock in ieee80211_beacons_stop(), which is shown below:
+There is a deadlock in rtllib_beacons_stop(), which is shown
+below:
 
    (Thread 1)              |      (Thread 2)
-                           | ieee80211_send_beacon()
-ieee80211_beacons_stop()   |  mod_timer()
+                           | rtllib_send_beacon()
+rtllib_beacons_stop()      |  mod_timer()
  spin_lock_irqsave() //(1) |  (wait a time)
- ...                       | ieee80211_send_beacon_cb()
+ ...                       | rtllib_send_beacon_cb()
  del_timer_sync()          |  spin_lock_irqsave() //(2)
  (wait timer to stop)      |  ...
 
-We hold ieee->beacon_lock in position (1) of thread 1 and use
-del_timer_sync() to wait timer to stop, but timer handler
+We hold ieee->beacon_lock in position (1) of thread 1 and
+use del_timer_sync() to wait timer to stop, but timer handler
 also need ieee->beacon_lock in position (2) of thread 2.
-As a result, ieee80211_beacons_stop() will block forever.
+As a result, rtllib_beacons_stop() will block forever.
 
 This patch extracts del_timer_sync() from the protection of
 spin_lock_irqsave(), which could let timer handler to obtain
 the needed lock.
 
 Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-Link: https://lore.kernel.org/r/20220417135407.109536-1-duoming@zju.edu.cn
+Link: https://lore.kernel.org/r/20220417141641.124388-1-duoming@zju.edu.cn
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-index 1a43979939a8..79f3fbe25556 100644
---- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-+++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
-@@ -528,9 +528,9 @@ static void ieee80211_beacons_stop(struct ieee80211_device *ieee)
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
+index 4b6c2295a3cf..b5a38f0a8d79 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac.c
+@@ -651,9 +651,9 @@ static void rtllib_beacons_stop(struct rtllib_device *ieee)
  	spin_lock_irqsave(&ieee->beacon_lock, flags);
  
  	ieee->beacon_txing = 0;
@@ -85,9 +89,9 @@ index 1a43979939a8..79f3fbe25556 100644
  
  	spin_unlock_irqrestore(&ieee->beacon_lock, flags);
 +	del_timer_sync(&ieee->beacon_timer);
+ 
  }
  
- void ieee80211_stop_send_beacons(struct ieee80211_device *ieee)
 -- 
 2.35.1
 
