@@ -1,25 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0038C28FB
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 15:57:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B988C385A5;
-	Tue,  7 Jun 2022 15:57:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1654617468;
-	bh=iLKqDYEYhp+eqcsdWfLEMP2XRbwgCOgGlSNWpiGM/P4=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB377F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 16:36:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5726AC385A5;
+	Tue,  7 Jun 2022 16:36:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654619796;
+	bh=8i5haULdeB2Ou8xLNgGyaqjpMUp/nNMdFFzefBtFQus=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rp+hwJ7lBcWIuwUeHzey8vwqNYVhq24ImKpakJ/D2RkF/zlJ/8w8vsCidTwGMuUH2
-	 y/msJ314ityDrOSfi/pSz5jq51O6b8RYhgKTMrR+cwrrbjrPUuieogDndoD/ID4ELh
-	 UYHu6m+1OFv0JxvjeA78Cdvu0rGS/zxyywTp8444=
-Date: Tue, 7 Jun 2022 17:57:46 +0200
-From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To: Paris Andrea <aparis@student.ethz.ch>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH] staging: r8188eu: add multiple blank lines
-Message-ID: <Yp91ev9Yj/X+72zC@kroah.com>
-References: <f2e69da1c2f14a03bf11e775a3140f5c@student.ethz.ch>
+	b=YJOYP5lV5TwG9gnAjthINUaJCRhaAv5ayjybpS0BpNazzoGwVMj1SxQg/skv+eP2j
+	 efB3JHODISGBtLWUuzpgVu+c7ki/+9fNOmc/qm31lf8ENLQGu6USScXIR7Zd28pTdR
+	 I7xQe05KIYnjlzNRc9/HGJCmoftFlmEgqMYyxEpLsOT44uN6EThAx4V3w78k8oEVLl
+	 Mg/nn5b6OJwEzh6oB1f2a94OudqtGDnidgkmdmRttS3p3DWqamPeIm2veizy34Wt+b
+	 BYJXF201xvI3qlVaiD4trtkK1XnW2mq9C9RymqaGNWW8XM8nl6LEyESSq45YPdZeDL
+	 AsE7PUYfzdm3w==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan@kernel.org>)
+	id 1nycBz-0002GQ-7u; Tue, 07 Jun 2022 18:36:31 +0200
+Date: Tue, 7 Jun 2022 18:36:31 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Jared Kangas <kangas.jd@gmail.com>
+Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, elder@kernel.org,
+	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: audio: fix loop cursor use after
+ iteration
+Message-ID: <Yp9+j7xrjDQWkem3@hovoldconsulting.com>
+References: <20220605231806.720085-1-kangas.jd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,82 +36,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f2e69da1c2f14a03bf11e775a3140f5c@student.ethz.ch>
+In-Reply-To: <20220605231806.720085-1-kangas.jd@gmail.com>
 
-On Tue, Jun 07, 2022 at 01:36:16PM +0000, Paris  Andrea wrote:
-> This patch adds a blank line after three different variable declarations
+On Sun, Jun 05, 2022 at 04:18:06PM -0700, Jared Kangas wrote:
+> gbaudio_dapm_free_controls() iterates over widgets using
+> list_for_each_entry_safe(), which leaves the loop cursor pointing to a
+> meaningless structure if it completes a traversal of the list. The
+> cursor was set to NULL at the end of the loop body, but would be
+> overwritten by the final loop cursor update.
 > 
-> in the file rtw_cmd.c in order to fix three related checkpatch warnings.
+> Because of this behavior, the widget could be non-null after the loop
+> even if the widget wasn't found, and the cleanup logic would treat the
+> pointer as a valid widget to free.
 > 
+> To fix this, introduce a temporary variable to act as the loop cursor
+> and copy it to a variable that can be accessed after the loop finishes.
 > 
-> Signed-off-by: Andrea Paris <aparis@ethz.ch>
-> 
+> This was detected with the help of Coccinelle.
+
+Please add the missing Fixes tag and a CC stable tag here as Dan
+mentioned.
+
+> Signed-off-by: Jared Kangas <kangas.jd@gmail.com>
 > ---
-> Added three blank lines, fixed checkpatch warning
+>  drivers/staging/greybus/audio_helper.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 > 
->  drivers/staging/r8188eu/core/rtw_cmd.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-> index 06523d91939a..92d5e4534087 100644
-> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
-> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-> @@ -25,6 +25,7 @@ void rtw_free_evt_priv(struct evt_priv *pevtpriv)
-> 
->          while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
->                  void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
-> +
->                  if (c2h && c2h != (void *)pevtpriv)
->                          kfree(c2h);
->          }
-> @@ -323,6 +324,7 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
->          /* prepare ssid list */
->          if (ssid) {
->                  int i;
-> +
->                  for (i = 0; i < ssid_num && i < RTW_SSID_SCAN_AMOUNT; i++) {
->                          if (ssid[i].SsidLength) {
->                                  memcpy(&psurveyPara->ssid[i], &ssid[i], sizeof(struct ndis_802_11_ssid));
-> @@ -334,6 +336,7 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
->          /* prepare channel list */
->          if (ch) {
->                  int i;
-> +
->                  for (i = 0; i < ch_num && i < RTW_CHANNEL_SCAN_AMOUNT; i++) {
->                          if (ch[i].hw_value && !(ch[i].flags & RTW_IEEE80211_CHAN_DISABLED)) {
->                                  memcpy(&psurveyPara->ch[i], &ch[i], sizeof(struct rtw_ieee80211_channel));
-> --
-> 2.25.1
+> diff --git a/drivers/staging/greybus/audio_helper.c b/drivers/staging/greybus/audio_helper.c
+> index 843760675876..07461a5d97c7 100644
+> --- a/drivers/staging/greybus/audio_helper.c
+> +++ b/drivers/staging/greybus/audio_helper.c
+> @@ -115,7 +115,7 @@ int gbaudio_dapm_free_controls(struct snd_soc_dapm_context *dapm,
+>  			       int num)
+>  {
+>  	int i;
+> -	struct snd_soc_dapm_widget *w, *next_w;
+> +	struct snd_soc_dapm_widget *w, *next_w, *tmp_w;
+>  #ifdef CONFIG_DEBUG_FS
+>  	struct dentry *parent = dapm->debugfs_dapm;
+>  	struct dentry *debugfs_w = NULL;
+> @@ -124,13 +124,14 @@ int gbaudio_dapm_free_controls(struct snd_soc_dapm_context *dapm,
+>  	mutex_lock(&dapm->card->dapm_mutex);
+>  	for (i = 0; i < num; i++) {
+>  		/* below logic can be optimized to identify widget pointer */
+> -		list_for_each_entry_safe(w, next_w, &dapm->card->widgets,
+> +		w = NULL;
+> +		list_for_each_entry_safe(tmp_w, next_w, &dapm->card->widgets,
 
-Hi,
+This should be list_for_each_entry() as w is not unlinked in this loop.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+>  					 list) {
+> -			if (w->dapm != dapm)
+> -				continue;
+> -			if (!strcmp(w->name, widget->name))
+> +			if (tmp_w->dapm == dapm &&
+> +			    !strcmp(tmp_w->name, widget->name)) {
+> +				w = tmp_w;
+>  				break;
+> -			w = NULL;
+> +			}
+>  		}
+>  		if (!w) {
+>  			dev_err(dapm->dev, "%s: widget not found\n",
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Looks good otherwise:
 
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file, Documentation/SubmittingPatches
-  for how to do this correctly.
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Reviewed-by: Johan Hovold <johan@kernel.org>
