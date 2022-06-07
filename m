@@ -1,131 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC007F
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 18:03:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3C01C34119;
-	Tue,  7 Jun 2022 18:03:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654625027;
-	bh=sXA8eHrhDiaMO3chv+YN3qGZ4+qj4uRNBHrPjyUh5X0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nU4/wa8VCeld53oE5Wsqg2E3hCH+sIcC0pCoe76hR/y+cVU+fDnT8jYLMOPWSA516
-	 EXgKxLMgpBZayFp6k/rPS6fZQYQT0kR6iow0F7SShIwsVnG3x0BaMsS2y6RklAkua3
-	 bQGp413ScPF3H+yJyo3pbpCW9Ggigux0AWAc87ImGR6o/E14TK/Bmn+xQCPNtHsn28
-	 W4n4clVHuXHbEkqmoro39XhenMMloCaOx+mTjLSPEgyB8kVnjhaGraHyrOFYbvpg04
-	 xu+1alIJZxUHnFIYi9sZrGQve1Y3ilHyvwVMQtEVOkJHQ5OA9CB/xr+ctBYS+4sqiM
-	 C+z+kAh3paRhQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Wang Cheng <wanngchenng@gmail.com>,
-	syzbot+6f5ecd144854c0d8580b@syzkaller.appspotmail.com,
-	Dan Carpenter <dan.carpenter@oracle.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69437F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 18:23:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1654626234;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P4f3wHn7jIrIURtw341a5ADfTmzk5i8t59cyMFQz5Qc=;
+	b=ZXcp5JOvzCI0VYPfzLt77WWjJvPlVrG0a9uxlABOLKS4XO82WjZEe5ccZw+so/YuACnh2A
+	eeN/kFfDGMOdsnyI3K6KoN4ZgQoBV09VI9wV7lrei9HxJo3ptLMGuO2Y5WyR1ZLhNHbz6I
+	4EffH7WBI7u+88eE8aUa+uB1/LMEncM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-142-UucN6eZEPBCBKX_XTZVtVg-1; Tue, 07 Jun 2022 14:23:53 -0400
+X-MC-Unique: UucN6eZEPBCBKX_XTZVtVg-1
+Received: by mail-wr1-f69.google.com with SMTP id r13-20020adff10d000000b002160e9d64f8so2720184wro.0
+        for <linux-staging@lists.linux.dev>; Tue, 07 Jun 2022 11:23:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=P4f3wHn7jIrIURtw341a5ADfTmzk5i8t59cyMFQz5Qc=;
+        b=rQ842MBLDLdsL68zVxGkH1oZeTVk7MaMnUHjio/IDfpRJinCKFNii4Qpqax7K1zyvF
+         jII0ebobMeTXwnz/N92ovYBZ6s5JQnYf56eW0K4bBFCpVtCpht4CeAYE/8BL39ZXdV1M
+         n35G5087qMyvT42PgyOIusoeOOM1+mgoyT+p77sqHEuPweC0JyTYbZvkqMvKlPjacZm6
+         S7x9hnbmto5CHoDF4VFJZF7LZR+6gIS30KBRRZZC1yCjrCq3SHAICnOwPLfEdO2Sbhr9
+         zqek5kKoSQoAWpbvKEYDo0yWfCIWHp1e3udAtayheEipslBH3iabFIk8wpBr98t7Pafn
+         ngjw==
+X-Gm-Message-State: AOAM532XwIPrYRdkmfvyxG8PantmKz/kZJo6jX7aARzk6IMJT6wDvau1
+	pi7fmDwqQmkQjixod/LESzqavkgg9qNnsQSghyX6UWJSUNGCpnu8g6gK9MIuiL5Jl7YQfMmCvu3
+	Ki9TWqEgYGg1FT0hEe0HmnHQSNA==
+X-Received: by 2002:a05:6000:711:b0:217:371e:b7ff with SMTP id bs17-20020a056000071100b00217371eb7ffmr16261819wrb.127.1654626232063;
+        Tue, 07 Jun 2022 11:23:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/N4WjMmddIXMJgSScZ/qUGCGSnIp6UQDq474dS3NmqfffRft8Ws4ePchj9FzlpDpPJ0DOSA==
+X-Received: by 2002:a05:6000:711:b0:217:371e:b7ff with SMTP id bs17-20020a056000071100b00217371eb7ffmr16261787wrb.127.1654626231742;
+        Tue, 07 Jun 2022 11:23:51 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id m8-20020a05600c4f4800b003942a244f51sm28267502wmq.42.2022.06.07.11.23.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jun 2022 11:23:51 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Laszlo Ersek <lersek@redhat.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	kvm@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Larry.Finger@lwfinger.net,
-	florian.c.schilhabel@googlemail.com,
-	paskripkin@gmail.com,
-	kuba@kernel.org,
-	skumark1902@gmail.com,
-	xkernel.wang@foxmail.com,
-	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.9 13/19] staging: rtl8712: fix uninit-value in r871xu_drv_init()
-Date: Tue,  7 Jun 2022 14:03:08 -0400
-Message-Id: <20220607180317.482354-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220607180317.482354-1-sashal@kernel.org>
-References: <20220607180317.482354-1-sashal@kernel.org>
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	kernel test robot <lkp@intel.com>,
+	Jens Frederich <jfrederich@gmail.com>,
+	Jon Nettleton <jon.nettleton@gmail.com>,
+	linux-staging@lists.linux.dev,
+	Daniel Vetter <daniel.vetter@intel.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Helge Deller <deller@gmx.de>,
+	Matthew Wilcox <willy@infradead.org>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Zhen Lei <thunder.leizhen@huawei.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+	linux-fbdev@vger.kernel.org,
+	Zheyu Ma <zheyuma97@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH v6 5/5] fbdev: Make registered_fb[] private to fbmem.c
+Date: Tue,  7 Jun 2022 20:23:38 +0200
+Message-Id: <20220607182338.344270-6-javierm@redhat.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220607182338.344270-1-javierm@redhat.com>
+References: <20220607182338.344270-1-javierm@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-From: Wang Cheng <wanngchenng@gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-[ Upstream commit 0458e5428e5e959d201a40ffe71d762a79ecedc4 ]
+Well except when the olpc dcon fbdev driver is enabled, that thing
+digs around in there in rather unfixable ways.
 
-When 'tmpU1b' returns from r8712_read8(padapter, EE_9346CR) is 0,
-'mac[6]' will not be initialized.
+Cc oldc_dcon maintainers as fyi.
 
-BUG: KMSAN: uninit-value in r871xu_drv_init+0x2d54/0x3070 drivers/staging/rtl8712/usb_intf.c:541
- r871xu_drv_init+0x2d54/0x3070 drivers/staging/rtl8712/usb_intf.c:541
- usb_probe_interface+0xf19/0x1600 drivers/usb/core/driver.c:396
- really_probe+0x653/0x14b0 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:752
- driver_probe_device drivers/base/dd.c:782 [inline]
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:899
- bus_for_each_drv+0x2d6/0x3f0 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:970
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1017
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487
- device_add+0x1fff/0x26e0 drivers/base/core.c:3405
- usb_set_configuration+0x37e9/0x3ed0 drivers/usb/core/message.c:2170
- usb_generic_driver_probe+0x13c/0x300 drivers/usb/core/generic.c:238
- usb_probe_device+0x309/0x570 drivers/usb/core/driver.c:293
- really_probe+0x653/0x14b0 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:752
- driver_probe_device drivers/base/dd.c:782 [inline]
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:899
- bus_for_each_drv+0x2d6/0x3f0 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:970
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1017
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487
- device_add+0x1fff/0x26e0 drivers/base/core.c:3405
- usb_new_device+0x1b8e/0x2950 drivers/usb/core/hub.c:2566
- hub_port_connect drivers/usb/core/hub.c:5358 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5502 [inline]
- port_event drivers/usb/core/hub.c:5660 [inline]
- hub_event+0x58e3/0x89e0 drivers/usb/core/hub.c:5742
- process_one_work+0xdb6/0x1820 kernel/workqueue.c:2307
- worker_thread+0x10b3/0x21e0 kernel/workqueue.c:2454
- kthread+0x3c7/0x500 kernel/kthread.c:377
- ret_from_fork+0x1f/0x30
+v2: I typoed the config name (0day)
 
-Local variable mac created at:
- r871xu_drv_init+0x1771/0x3070 drivers/staging/rtl8712/usb_intf.c:394
- usb_probe_interface+0xf19/0x1600 drivers/usb/core/driver.c:396
-
-KMSAN: uninit-value in r871xu_drv_init
-https://syzkaller.appspot.com/bug?id=3cd92b1d85428b128503bfa7a250294c9ae00bd8
-
-Reported-by: <syzbot+6f5ecd144854c0d8580b@syzkaller.appspotmail.com>
-Tested-by: <syzbot+6f5ecd144854c0d8580b@syzkaller.appspotmail.com>
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Wang Cheng <wanngchenng@gmail.com>
-Link: https://lore.kernel.org/r/14c3886173dfa4597f0704547c414cfdbcd11d16.1652618244.git.wanngchenng@gmail.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Cc: kernel test robot <lkp@intel.com>
+Cc: Jens Frederich <jfrederich@gmail.com>
+Cc: Jon Nettleton <jon.nettleton@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+Cc: linux-fbdev@vger.kernel.org
+Cc: Zheyu Ma <zheyuma97@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/staging/rtl8712/usb_intf.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
-index d0ba42dfafeb..7b7cb2a7db60 100644
---- a/drivers/staging/rtl8712/usb_intf.c
-+++ b/drivers/staging/rtl8712/usb_intf.c
-@@ -569,13 +569,13 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,
- 		} else {
- 			AutoloadFail = false;
- 		}
--		if (((mac[0] == 0xff) && (mac[1] == 0xff) &&
-+		if ((!AutoloadFail) ||
-+		    ((mac[0] == 0xff) && (mac[1] == 0xff) &&
- 		     (mac[2] == 0xff) && (mac[3] == 0xff) &&
- 		     (mac[4] == 0xff) && (mac[5] == 0xff)) ||
- 		    ((mac[0] == 0x00) && (mac[1] == 0x00) &&
- 		     (mac[2] == 0x00) && (mac[3] == 0x00) &&
--		     (mac[4] == 0x00) && (mac[5] == 0x00)) ||
--		     (!AutoloadFail)) {
-+		     (mac[4] == 0x00) && (mac[5] == 0x00))) {
- 			mac[0] = 0x00;
- 			mac[1] = 0xe0;
- 			mac[2] = 0x4c;
+(no changes since v1)
+
+ drivers/video/fbdev/core/fbmem.c | 8 ++++++--
+ include/linux/fb.h               | 7 +++----
+ 2 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index e0720fef0ee6..bdb08b665b43 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -50,10 +50,14 @@
+ static DEFINE_MUTEX(registration_lock);
+ 
+ struct fb_info *registered_fb[FB_MAX] __read_mostly;
+-EXPORT_SYMBOL(registered_fb);
+-
+ int num_registered_fb __read_mostly;
++#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
++EXPORT_SYMBOL(registered_fb);
+ EXPORT_SYMBOL(num_registered_fb);
++#endif
++#define for_each_registered_fb(i)		\
++	for (i = 0; i < FB_MAX; i++)		\
++		if (!registered_fb[i]) {} else
+ 
+ bool fb_center_logo __read_mostly;
+ 
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index bbe1e4571899..c563e24b6293 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -632,16 +632,15 @@ extern int fb_get_color_depth(struct fb_var_screeninfo *var,
+ extern int fb_get_options(const char *name, char **option);
+ extern int fb_new_modelist(struct fb_info *info);
+ 
++#if IS_ENABLED(CONFIG_FB_OLPC_DCON)
+ extern struct fb_info *registered_fb[FB_MAX];
++
+ extern int num_registered_fb;
++#endif
+ extern bool fb_center_logo;
+ extern int fb_logo_count;
+ extern struct class *fb_class;
+ 
+-#define for_each_registered_fb(i)		\
+-	for (i = 0; i < FB_MAX; i++)		\
+-		if (!registered_fb[i]) {} else
+-
+ static inline void lock_fb_info(struct fb_info *info)
+ {
+ 	mutex_lock(&info->lock);
 -- 
-2.35.1
+2.36.1
 
