@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0D27F
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 17:49:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77A9AC385A5;
-	Tue,  7 Jun 2022 17:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587737F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 17:49:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3833C34115;
+	Tue,  7 Jun 2022 17:49:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654624186;
-	bh=jCgpnnoSkDT54evi1luL+K6mgNflbygqRCA4lF4dyvI=;
+	s=k20201202; t=1654624198;
+	bh=ux7IuVmMI8o15RzsRZcZNkGPWCqiFNkdIdCURxZuwdY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BhtoUAXG3nImu3KnPpsY7vapoDpJ/2Bmsyli5HK3oI/EDkdm0Yv7bFjTojdv1W9Ao
-	 8DsB1juM9G9NIzuOYn4mYQYoFPrrgkAZ4KaKUeOe5kuV23zNCpnoBY490zXQd1mRgT
-	 znKja4FXYo0+e8i++QxVhksS8y7IlIzLnotNKxQtjVKjb0KQ1eLAJ7VWZe5xbEovFX
-	 We2RK4WbeIo6akkKi0DESVrvtMZOdeJzJURLk9BQSjynl6lgl26RjDGsvRZaqN4lCe
-	 3na2vmKjht4UxFZAQPnIW4+29jzUp3oIET/VApt50LHZD3sJ3MQIccD0D53sHHoS/u
-	 nSvqe8ysfb6aw==
+	b=Hb2JWkdYUoW+4CZMRPNQl9J8JRm2lKaC1C8GrYr2jr6eEj5TmOTFdeB//PrD2lecc
+	 NWQ8UJIN1E9BhXwxlVDH0j48oxymf+Xt4wmvUV+5Kt3ZpOSstst9oIUIA2DXJ1ujII
+	 /b3M/q/b1Fgw5gGGu0A2MpQ8OIeEG05wmnoxh8J2vJPIzZ7qwIPUsqoC543GaPCLwP
+	 Toh6GIJkYa3x6ES01TnrNqjEEHitId3xItUDyy4zl4gMRH0S9vWOP69/jAvIt7Hw2N
+	 kzDGAM5KqAo/6p6v18CObhe7uXW1aA45f1DC4TttAIhrbJlUxm337+Ilm3AyM01GGK
+	 tbz3nJSO4RuGg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Duoming Zhou <duoming@zju.edu.cn>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
-	Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	straube.linux@gmail.com,
-	martin@kaiser.cx,
-	jhpark1013@gmail.com,
+	baihaowen@meizu.com,
+	dave@stgolabs.net,
+	len.baker@gmx.com,
+	wangborong@cdjrlc.com,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.18 07/68] drivers: staging: rtl8192eu: Fix deadlock in rtw_joinbss_event_prehandle
-Date: Tue,  7 Jun 2022 13:47:33 -0400
-Message-Id: <20220607174846.477972-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 11/68] drivers: staging: rtl8192u: Fix deadlock in ieee80211_beacons_stop()
+Date: Tue,  7 Jun 2022 13:47:37 -0400
+Message-Id: <20220607174846.477972-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
 References: <20220607174846.477972-1-sashal@kernel.org>
@@ -45,71 +44,50 @@ Content-Transfer-Encoding: 8bit
 
 From: Duoming Zhou <duoming@zju.edu.cn>
 
-[ Upstream commit 0fcddf9c7c10202946d5b19409efbdff744fba88 ]
+[ Upstream commit 806c7b53414934ba2a39449b31fd1a038e500273 ]
 
-There is a deadlock in rtw_joinbss_event_prehandle(), which is shown below:
+There is a deadlock in ieee80211_beacons_stop(), which is shown below:
 
-   (Thread 1)                |      (Thread 2)
-                             | _set_timer()
-rtw_joinbss_event_prehandle()|  mod_timer()
- spin_lock_bh() //(1)        |  (wait a time)
- ...                         | rtw_join_timeout_handler()
-                             |  _rtw_join_timeout_handler()
- del_timer_sync()            |   spin_lock_bh() //(2)
- (wait timer to stop)        |   ...
+   (Thread 1)              |      (Thread 2)
+                           | ieee80211_send_beacon()
+ieee80211_beacons_stop()   |  mod_timer()
+ spin_lock_irqsave() //(1) |  (wait a time)
+ ...                       | ieee80211_send_beacon_cb()
+ del_timer_sync()          |  spin_lock_irqsave() //(2)
+ (wait timer to stop)      |  ...
 
-We hold pmlmepriv->lock in position (1) of thread 1 and
-use del_timer_sync() to wait timer to stop, but timer handler
-also need pmlmepriv->lock in position (2) of thread 2.
-As a result, rtw_joinbss_event_prehandle() will block forever.
+We hold ieee->beacon_lock in position (1) of thread 1 and use
+del_timer_sync() to wait timer to stop, but timer handler
+also need ieee->beacon_lock in position (2) of thread 2.
+As a result, ieee80211_beacons_stop() will block forever.
 
 This patch extracts del_timer_sync() from the protection of
-spin_lock_bh(), which could let timer handler to obtain
-the needed lock. What`s more, we change spin_lock_bh() to
-spin_lock_irq() in _rtw_join_timeout_handler() in order to
-prevent deadlock.
+spin_lock_irqsave(), which could let timer handler to obtain
+the needed lock.
 
 Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
-Link: https://lore.kernel.org/r/20220409072135.74248-1-duoming@zju.edu.cn
+Link: https://lore.kernel.org/r/20220417135407.109536-1-duoming@zju.edu.cn
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 6f0bff186477..76cf6a69bf0f 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1071,8 +1071,10 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
- 				rtw_indicate_connect(adapter);
- 			}
+diff --git a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+index 1a43979939a8..79f3fbe25556 100644
+--- a/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
++++ b/drivers/staging/rtl8192u/ieee80211/ieee80211_softmac.c
+@@ -528,9 +528,9 @@ static void ieee80211_beacons_stop(struct ieee80211_device *ieee)
+ 	spin_lock_irqsave(&ieee->beacon_lock, flags);
  
-+			spin_unlock_bh(&pmlmepriv->lock);
- 			/* s5. Cancel assoc_timer */
- 			del_timer_sync(&pmlmepriv->assoc_timer);
-+			spin_lock_bh(&pmlmepriv->lock);
- 		} else {
- 			spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
- 			goto ignore_joinbss_callback;
-@@ -1310,7 +1312,7 @@ void _rtw_join_timeout_handler (struct adapter *adapter)
- 	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
- 		return;
+ 	ieee->beacon_txing = 0;
+-	del_timer_sync(&ieee->beacon_timer);
  
--	spin_lock_bh(&pmlmepriv->lock);
-+	spin_lock_irq(&pmlmepriv->lock);
- 
- 	if (rtw_to_roaming(adapter) > 0) { /* join timeout caused by roaming */
- 		while (1) {
-@@ -1329,7 +1331,7 @@ void _rtw_join_timeout_handler (struct adapter *adapter)
- 		rtw_indicate_disconnect(adapter);
- 		free_scanqueue(pmlmepriv);/*  */
- 	}
--	spin_unlock_bh(&pmlmepriv->lock);
-+	spin_unlock_irq(&pmlmepriv->lock);
- 
+ 	spin_unlock_irqrestore(&ieee->beacon_lock, flags);
++	del_timer_sync(&ieee->beacon_timer);
  }
  
+ void ieee80211_stop_send_beacons(struct ieee80211_device *ieee)
 -- 
 2.35.1
 
