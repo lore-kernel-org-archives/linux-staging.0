@@ -1,76 +1,81 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613A97C
-	for <linux-staging@lists.linux.dev>; Wed,  8 Jun 2022 02:28:08 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 257NfeKx014363;
-	Wed, 8 Jun 2022 02:28:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2021-07-09;
- bh=tzFAQqmTFkqGsbHjDHQsRsNbCV384tWaHO9lvOcIrVs=;
- b=Ye+YGeenYcBmScBViqtGQxdm8aYdrLc1wFf4SWxFxyM9LDqk7CgodqnhhtPMD8AGjrBP
- ZOyb10NoJv1+xYfcVuhBBfIuPl18rTGGpRrZNwbOJoeHXK+Lt+R7pOqjie+yXcmmAbjF
- s/JNFhHDkaSqfY446cIx2gs5DrmtM+QRAcprkntZZti3vYGorY+8NQlI/93/Apx0DmJc
- qZczfSQlOacWc7e4w3xarGhw9uFKFxcdKJc2/8eQSogzOWZl/JFUVkVFRCU67qdyz4Oh
- H0ZugGbLmfu1Hd3aTo9JhrhAXrIbxa8OZuND3cDzv3qLvrE6OPgPg68VbtLaUc5TCXoN Kg== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ggvxmwff6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 08 Jun 2022 02:28:00 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 2582ATYg037917;
-	Wed, 8 Jun 2022 02:28:00 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu3349h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 08 Jun 2022 02:27:59 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 2582RxlP032073;
-	Wed, 8 Jun 2022 02:27:59 GMT
-Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu33499-1;
-	Wed, 08 Jun 2022 02:27:59 +0000
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        Chengguang Xu <cgxu519@mykernel.net>, linux-media@vger.kernel.org
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>
-Subject: Re: [PATCH 0/6] fix a common error of while loop condition in error path
-Date: Tue,  7 Jun 2022 22:27:53 -0400
-Message-Id: <165465514543.8982.16992682001018007600.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.35.2
-In-Reply-To: <20220529153456.4183738-1-cgxu519@mykernel.net>
-References: <20220529153456.4183738-1-cgxu519@mykernel.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66F97B
+	for <linux-staging@lists.linux.dev>; Wed,  8 Jun 2022 02:38:46 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id a8-20020a05683012c800b0060c027c8afdso3988388otq.10
+        for <linux-staging@lists.linux.dev>; Tue, 07 Jun 2022 19:38:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=seHIkk6akkyF7CqpwiNW+0WVZl9SkWhR+b/C+2qe9G4=;
+        b=YOK0HcWAA90YodJ2nL05eBhKnHKJXgatVghFjMzOLBeY1sO5XlswkS3tJx5kaP+cq8
+         suzLXkqWriK1TtM5RyuKk7dlUms0biHQSVFubv9pd/lZ4ICHLX3jIZcWhj5dQRY7KOhQ
+         4ygfWNfkBaNSLhxl7blJ1A/0MP4kSfJFSYzACHbNWt2lBMuPcRdWGA+7kyGqaV+qkk8b
+         3Y3UCQA39cbugLFYyUAdFWpFsju0CFIyOO9TY/V5nRn/NjvSkDKyFtG6k8deDQ+DLl+i
+         /h1JDHTv1Zf2WN6KHBMakK3bufIDewRW1DlTP+qPYaNmZHSbiKPRQEdDs6XsKe8vDfJ6
+         3Xow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=seHIkk6akkyF7CqpwiNW+0WVZl9SkWhR+b/C+2qe9G4=;
+        b=ze2mKs4QNr9N7vF4a9z781WX961oTMyt/occTDzgp+TVW1E/UXBE2ZlRBi4QIL0tI/
+         84WBjjGda7nzFUEcLeprLyXq18ng8P1ozshjJOEUZHR3n0wuMTKaTp35hSGjs5RxjLpZ
+         MNNZ6biPFUAQMWSdihwFkb620N58a8jWFBcZoGkT0XRFNVQaI9wie7l4U4pUQsw/F+VG
+         IZvMamd1fPPM+frYqIrapje+ALAQMkG4NKMlwG/E/m9IwOYtvFvD7QcobzNZRnt8Fyr7
+         K+KAuEF0XRc+Z4F7kXmhTioTdOj7+VPHhXjNBn5ezt7EvFZj701kPCOSXlX3cARDK/eX
+         3fBw==
+X-Gm-Message-State: AOAM533a9eynBaZYHP8Ti54gN3mGbIv5QDozmm7nsMzq8FJ6GBgQ2g+4
+	LxCOtzpCvYz2avmQzCJo86A=
+X-Google-Smtp-Source: ABdhPJwN579Dw9mL+NEXRXZaW2uFpTDJdVCKJLuPfabUSx+mjo9tNzxNHAigIK7k4SvU6sPAnbQIKg==
+X-Received: by 2002:a05:6830:919:b0:60a:fe63:e321 with SMTP id v25-20020a056830091900b0060afe63e321mr13208882ott.227.1654655925801;
+        Tue, 07 Jun 2022 19:38:45 -0700 (PDT)
+Received: from debianmain ([190.236.207.56])
+        by smtp.gmail.com with ESMTPSA id eg21-20020a056870989500b000f31e826f15sm9015107oab.24.2022.06.07.19.38.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jun 2022 19:38:45 -0700 (PDT)
+Date: Tue, 7 Jun 2022 21:38:43 -0500
+From: Rommel Rodriguez Perez <alrodperez@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: Add blank line after declarations
+Message-ID: <YqALs/7VkGsYUngw@debianmain.debian.pc.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 41BhbBr77pfcU9Yr9dVAy-63i_lQGxSG
-X-Proofpoint-ORIG-GUID: 41BhbBr77pfcU9Yr9dVAy-63i_lQGxSG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 29 May 2022 23:34:50 +0800, Chengguang Xu wrote:
+This patch adds a blank line after the variable declarations,
+it should remove a checkpatch.pl warning and improve readability.
 
-> There is a common error of while loop condition which misses
-> the case '(--i) == 0' in error path. This patch series just
-> tries to fix it in several driver's code.
-> 
-> Note: I'm not specialist of specific drivers so just compile tested
-> for the fixes.
-> 
-> [...]
+checkpatch output:
 
-Applied to 5.19/scsi-fixes, thanks!
+WARNING: Missing a blank line after declarations
 
-[3/6] scsi: ipr: fix missing/incorrect resource cleanup in error case
-      https://git.kernel.org/mkp/scsi/c/d64c49191132
-[5/6] scsi: pmcraid: fix missing resource cleanup in error case
-      https://git.kernel.org/mkp/scsi/c/ec1e8adcbdf6
+Signed-off-by: Rommel Rodriguez Perez <alrodperez@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_ieee80211.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
+index 385a9ed8eff7..bc8543ea2e66 100644
+--- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
++++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
+@@ -1048,6 +1048,7 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
+ 	unsigned char *pbuf;
+ 	int group_cipher = 0, pairwise_cipher = 0, is8021x = 0;
+ 	int ret = _FAIL;
++
+ 	pbuf = rtw_get_wpa_ie(&pnetwork->network.IEs[12], &wpa_ielen, pnetwork->network.IELength - 12);
+ 
+ 	if (pbuf && (wpa_ielen > 0)) {
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.30.2
+
