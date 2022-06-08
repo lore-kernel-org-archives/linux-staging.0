@@ -1,100 +1,76 @@
-Received: from 5.mo561.mail-out.ovh.net (5.mo561.mail-out.ovh.net [87.98.178.36])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D7B7C
-	for <linux-staging@lists.linux.dev>; Wed,  8 Jun 2022 00:53:08 +0000 (UTC)
-Received: from player738.ha.ovh.net (unknown [10.109.138.180])
-	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 319A224710
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jun 2022 18:55:35 +0000 (UTC)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-	(Authenticated sender: steve@sk2.org)
-	by player738.ha.ovh.net (Postfix) with ESMTPSA id 98BE12B7105E6;
-	Tue,  7 Jun 2022 18:55:22 +0000 (UTC)
-Authentication-Results:garm.ovh; auth=pass (GARM-97G002c3165992-545e-42a9-9988-75529117242b,
-                    38FB55E0ED6224772C245AF554E1AE62085133ED) smtp.auth=steve@sk2.org
-X-OVh-ClientIp:82.65.25.201
-From: Stephen Kitt <steve@sk2.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Len Baker <len.baker@gmx.com>
-Cc: linux-kernel@vger.kernel.org,
-	Stephen Kitt <steve@sk2.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: ftbft: Use backlight helper
-Date: Tue,  7 Jun 2022 20:55:16 +0200
-Message-Id: <20220607185516.1129900-1-steve@sk2.org>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613A97C
+	for <linux-staging@lists.linux.dev>; Wed,  8 Jun 2022 02:28:08 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 257NfeKx014363;
+	Wed, 8 Jun 2022 02:28:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2021-07-09;
+ bh=tzFAQqmTFkqGsbHjDHQsRsNbCV384tWaHO9lvOcIrVs=;
+ b=Ye+YGeenYcBmScBViqtGQxdm8aYdrLc1wFf4SWxFxyM9LDqk7CgodqnhhtPMD8AGjrBP
+ ZOyb10NoJv1+xYfcVuhBBfIuPl18rTGGpRrZNwbOJoeHXK+Lt+R7pOqjie+yXcmmAbjF
+ s/JNFhHDkaSqfY446cIx2gs5DrmtM+QRAcprkntZZti3vYGorY+8NQlI/93/Apx0DmJc
+ qZczfSQlOacWc7e4w3xarGhw9uFKFxcdKJc2/8eQSogzOWZl/JFUVkVFRCU67qdyz4Oh
+ H0ZugGbLmfu1Hd3aTo9JhrhAXrIbxa8OZuND3cDzv3qLvrE6OPgPg68VbtLaUc5TCXoN Kg== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ggvxmwff6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 08 Jun 2022 02:28:00 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 2582ATYg037917;
+	Wed, 8 Jun 2022 02:28:00 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu3349h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 08 Jun 2022 02:27:59 +0000
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 2582RxlP032073;
+	Wed, 8 Jun 2022 02:27:59 GMT
+Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gfwu33499-1;
+	Wed, 08 Jun 2022 02:27:59 +0000
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: linux-staging@lists.linux.dev, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        Chengguang Xu <cgxu519@mykernel.net>, linux-media@vger.kernel.org
+Cc: "Martin K . Petersen" <martin.petersen@oracle.com>
+Subject: Re: [PATCH 0/6] fix a common error of while loop condition in error path
+Date: Tue,  7 Jun 2022 22:27:53 -0400
+Message-Id: <165465514543.8982.16992682001018007600.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.35.2
+In-Reply-To: <20220529153456.4183738-1-cgxu519@mykernel.net>
+References: <20220529153456.4183738-1-cgxu519@mykernel.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 11468134978585724588
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddthedgudefudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhephfevveeuhfduuedvteduheduveekveekkeduteduiedvkeejgeelveeuffetteetnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrjeefkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheeiud
+X-Proofpoint-GUID: 41BhbBr77pfcU9Yr9dVAy-63i_lQGxSG
+X-Proofpoint-ORIG-GUID: 41BhbBr77pfcU9Yr9dVAy-63i_lQGxSG
 
-backlight_properties.fb_blank is deprecated. The states it represents
-are handled by other properties; but instead of accessing those
-properties directly, drivers should use the helpers provided by
-backlight.h.
+On Sun, 29 May 2022 23:34:50 +0800, Chengguang Xu wrote:
 
-Instead of manually checking the power state in struct
-backlight_properties, use backlight_is_blank().
+> There is a common error of while loop condition which misses
+> the case '(--i) == 0' in error path. This patch series just
+> tries to fix it in several driver's code.
+> 
+> Note: I'm not specialist of specific drivers so just compile tested
+> for the fixes.
+> 
+> [...]
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Noralf Trønnes" <noralf@tronnes.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Len Baker <len.baker@gmx.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: linux-staging@lists.linux.dev
----
- drivers/staging/fbtft/fb_ssd1351.c | 3 +--
- drivers/staging/fbtft/fbtft-core.c | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+Applied to 5.19/scsi-fixes, thanks!
 
-diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-index 6fd549a424d5..b8d55aa8c5c7 100644
---- a/drivers/staging/fbtft/fb_ssd1351.c
-+++ b/drivers/staging/fbtft/fb_ssd1351.c
-@@ -196,8 +196,7 @@ static int update_onboard_backlight(struct backlight_device *bd)
- 		      "%s: power=%d, fb_blank=%d\n",
- 		      __func__, bd->props.power, bd->props.fb_blank);
- 
--	on = (bd->props.power == FB_BLANK_UNBLANK) &&
--	     (bd->props.fb_blank == FB_BLANK_UNBLANK);
-+	on = !backlight_is_blank(bd);
- 	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
- 	write_reg(par, 0xB5, on ? 0x03 : 0x02);
- 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 60b2278d8b16..9b3eaed80cdd 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -137,8 +137,7 @@ static int fbtft_backlight_update_status(struct backlight_device *bd)
- 		      "%s: polarity=%d, power=%d, fb_blank=%d\n",
- 		      __func__, polarity, bd->props.power, bd->props.fb_blank);
- 
--	if ((bd->props.power == FB_BLANK_UNBLANK) &&
--	    (bd->props.fb_blank == FB_BLANK_UNBLANK))
-+	if (!backlight_is_blank(bd))
- 		gpiod_set_value(par->gpio.led[0], polarity);
- 	else
- 		gpiod_set_value(par->gpio.led[0], !polarity);
+[3/6] scsi: ipr: fix missing/incorrect resource cleanup in error case
+      https://git.kernel.org/mkp/scsi/c/d64c49191132
+[5/6] scsi: pmcraid: fix missing resource cleanup in error case
+      https://git.kernel.org/mkp/scsi/c/ec1e8adcbdf6
 
-base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
 -- 
-2.30.2
-
+Martin K. Petersen	Oracle Linux Engineering
