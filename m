@@ -1,81 +1,165 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66F97B
-	for <linux-staging@lists.linux.dev>; Wed,  8 Jun 2022 02:38:46 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id a8-20020a05683012c800b0060c027c8afdso3988388otq.10
-        for <linux-staging@lists.linux.dev>; Tue, 07 Jun 2022 19:38:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=seHIkk6akkyF7CqpwiNW+0WVZl9SkWhR+b/C+2qe9G4=;
-        b=YOK0HcWAA90YodJ2nL05eBhKnHKJXgatVghFjMzOLBeY1sO5XlswkS3tJx5kaP+cq8
-         suzLXkqWriK1TtM5RyuKk7dlUms0biHQSVFubv9pd/lZ4ICHLX3jIZcWhj5dQRY7KOhQ
-         4ygfWNfkBaNSLhxl7blJ1A/0MP4kSfJFSYzACHbNWt2lBMuPcRdWGA+7kyGqaV+qkk8b
-         3Y3UCQA39cbugLFYyUAdFWpFsju0CFIyOO9TY/V5nRn/NjvSkDKyFtG6k8deDQ+DLl+i
-         /h1JDHTv1Zf2WN6KHBMakK3bufIDewRW1DlTP+qPYaNmZHSbiKPRQEdDs6XsKe8vDfJ6
-         3Xow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=seHIkk6akkyF7CqpwiNW+0WVZl9SkWhR+b/C+2qe9G4=;
-        b=ze2mKs4QNr9N7vF4a9z781WX961oTMyt/occTDzgp+TVW1E/UXBE2ZlRBi4QIL0tI/
-         84WBjjGda7nzFUEcLeprLyXq18ng8P1ozshjJOEUZHR3n0wuMTKaTp35hSGjs5RxjLpZ
-         MNNZ6biPFUAQMWSdihwFkb620N58a8jWFBcZoGkT0XRFNVQaI9wie7l4U4pUQsw/F+VG
-         IZvMamd1fPPM+frYqIrapje+ALAQMkG4NKMlwG/E/m9IwOYtvFvD7QcobzNZRnt8Fyr7
-         K+KAuEF0XRc+Z4F7kXmhTioTdOj7+VPHhXjNBn5ezt7EvFZj701kPCOSXlX3cARDK/eX
-         3fBw==
-X-Gm-Message-State: AOAM533a9eynBaZYHP8Ti54gN3mGbIv5QDozmm7nsMzq8FJ6GBgQ2g+4
-	LxCOtzpCvYz2avmQzCJo86A=
-X-Google-Smtp-Source: ABdhPJwN579Dw9mL+NEXRXZaW2uFpTDJdVCKJLuPfabUSx+mjo9tNzxNHAigIK7k4SvU6sPAnbQIKg==
-X-Received: by 2002:a05:6830:919:b0:60a:fe63:e321 with SMTP id v25-20020a056830091900b0060afe63e321mr13208882ott.227.1654655925801;
-        Tue, 07 Jun 2022 19:38:45 -0700 (PDT)
-Received: from debianmain ([190.236.207.56])
-        by smtp.gmail.com with ESMTPSA id eg21-20020a056870989500b000f31e826f15sm9015107oab.24.2022.06.07.19.38.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 19:38:45 -0700 (PDT)
-Date: Tue, 7 Jun 2022 21:38:43 -0500
-From: Rommel Rodriguez Perez <alrodperez@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: Add blank line after declarations
-Message-ID: <YqALs/7VkGsYUngw@debianmain.debian.pc.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4857B
+	for <linux-staging@lists.linux.dev>; Wed,  8 Jun 2022 04:19:22 +0000 (UTC)
+Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 656FF20FE2;
+	Wed,  8 Jun 2022 00:04:12 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf14.hostedemail.com (Postfix) with ESMTPA id F305D34;
+	Wed,  8 Jun 2022 00:04:09 +0000 (UTC)
+Message-ID: <ff5d5283af74576f65545399851a40cb4f16a85c.camel@perches.com>
+Subject: Re: [PATCH AUTOSEL 5.15 24/51] staging: rtl8723bs: Fix alignment to
+ match open parenthesis
+From: Joe Perches <joe@perches.com>
+To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Cc: Soumya Negi <soumya.negi97@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, fabioaiuto83@gmail.com, hdegoede@redhat.com, 
+ straube.linux@gmail.com, linux@roeck-us.net, linux-staging@lists.linux.dev
+Date: Tue, 07 Jun 2022 17:04:08 -0700
+In-Reply-To: <20220607175552.479948-24-sashal@kernel.org>
+References: <20220607175552.479948-1-sashal@kernel.org>
+	 <20220607175552.479948-24-sashal@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: F305D34
+X-Spam-Status: No, score=-1.30
+X-Stat-Signature: pnfos8g8zpnt97ykr4brkpj7d7bm7d1h
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18P40btaGeuEf3McqHiLYo0TAdcxzePTJw=
+X-HE-Tag: 1654646649-63006
 
-This patch adds a blank line after the variable declarations,
-it should remove a checkpatch.pl warning and improve readability.
+On Tue, 2022-06-07 at 13:55 -0400, Sasha Levin wrote:
+> From: Soumya Negi <soumya.negi97@gmail.com>
+>=20
+> [ Upstream commit f722d67fad290b0c960f27062adc8cf59488d0a7 ]
+>=20
+> Adhere to Linux coding style. Fixes checkpatch warnings:
+> CHECK: Alignment should match open parenthesis
+> CHECK: line length of 101 exceeds 100 columns
 
-checkpatch output:
+why should this be backported?  It's only whitespace changes.
 
-WARNING: Missing a blank line after declarations
+And beyond that, it's incomplete as it only realigns the second line of
+statements that span 3 lines.
 
-Signed-off-by: Rommel Rodriguez Perez <alrodperez@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_ieee80211.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-index 385a9ed8eff7..bc8543ea2e66 100644
---- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
-+++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-@@ -1048,6 +1048,7 @@ static int rtw_get_cipher_info(struct wlan_network *pnetwork)
- 	unsigned char *pbuf;
- 	int group_cipher = 0, pairwise_cipher = 0, is8021x = 0;
- 	int ret = _FAIL;
-+
- 	pbuf = rtw_get_wpa_ie(&pnetwork->network.IEs[12], &wpa_ielen, pnetwork->network.IELength - 12);
- 
- 	if (pbuf && (wpa_ielen > 0)) {
--- 
-2.30.2
+>=20
+> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+> Link: https://lore.kernel.org/r/20220513025553.13634-1-soumya.negi97@gmai=
+l.com
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_ap.c | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rt=
+l8723bs/core/rtw_ap.c
+> index 6064dd6a76b4..43cd90dc9017 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> @@ -519,12 +519,12 @@ void update_sta_info_apmode(struct adapter *padapte=
+r, struct sta_info *psta)
+> =20
+>  		/*  B0 Config LDPC Coding Capability */
+>  		if (TEST_FLAG(phtpriv_ap->ldpc_cap, LDPC_HT_ENABLE_TX) &&
+> -			      GET_HT_CAPABILITY_ELE_LDPC_CAP((u8 *)(&phtpriv_sta->ht_cap)))
+> +		    GET_HT_CAPABILITY_ELE_LDPC_CAP((u8 *)(&phtpriv_sta->ht_cap)))
+>  			SET_FLAG(cur_ldpc_cap, (LDPC_HT_ENABLE_TX | LDPC_HT_CAP_TX));
+> =20
+>  		/*  B7 B8 B9 Config STBC setting */
+>  		if (TEST_FLAG(phtpriv_ap->stbc_cap, STBC_HT_ENABLE_TX) &&
+> -			      GET_HT_CAPABILITY_ELE_RX_STBC((u8 *)(&phtpriv_sta->ht_cap)))
+> +		    GET_HT_CAPABILITY_ELE_RX_STBC((u8 *)(&phtpriv_sta->ht_cap)))
+>  			SET_FLAG(cur_stbc_cap, (STBC_HT_ENABLE_TX | STBC_HT_CAP_TX));
+>  	} else {
+>  		phtpriv_sta->ampdu_enable =3D false;
+> @@ -1064,10 +1064,12 @@ int rtw_check_beacon_data(struct adapter *padapte=
+r, u8 *pbuf,  int len)
+>  		);
+> =20
+>  		if ((psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_CCMP) ||
+> -		     (psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_CCMP)) {
+> -			pht_cap->ampdu_params_info |=3D (IEEE80211_HT_CAP_AMPDU_DENSITY & (0x=
+07 << 2));
+> +		    (psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_CCMP)) {
+> +			pht_cap->ampdu_params_info |=3D (IEEE80211_HT_CAP_AMPDU_DENSITY &
+> +						       (0x07 << 2));
+>  		} else {
+> -			pht_cap->ampdu_params_info |=3D (IEEE80211_HT_CAP_AMPDU_DENSITY & 0x0=
+0);
+> +			pht_cap->ampdu_params_info |=3D (IEEE80211_HT_CAP_AMPDU_DENSITY &
+> +						       0x00);
+>  		}
+> =20
+>  		rtw_hal_get_def_var(
+> @@ -1115,7 +1117,7 @@ int rtw_check_beacon_data(struct adapter *padapter,=
+ u8 *pbuf,  int len)
+>  	pmlmepriv->htpriv.ht_option =3D false;
+> =20
+>  	if ((psecuritypriv->wpa2_pairwise_cipher & WPA_CIPHER_TKIP) ||
+> -	     (psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_TKIP)) {
+> +	    (psecuritypriv->wpa_pairwise_cipher & WPA_CIPHER_TKIP)) {
+>  		/* todo: */
+>  		/* ht_cap =3D false; */
+>  	}
+> @@ -1724,7 +1726,7 @@ void bss_cap_update_on_sta_join(struct adapter *pad=
+apter, struct sta_info *psta)
+>  			pmlmepriv->num_sta_no_short_preamble--;
+> =20
+>  			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+> -				(pmlmepriv->num_sta_no_short_preamble =3D=3D 0)) {
+> +			    (pmlmepriv->num_sta_no_short_preamble =3D=3D 0)) {
+>  				beacon_updated =3D true;
+>  				update_beacon(padapter, 0xFF, NULL, true);
+>  			}
+> @@ -1762,7 +1764,7 @@ void bss_cap_update_on_sta_join(struct adapter *pad=
+apter, struct sta_info *psta)
+>  			pmlmepriv->num_sta_no_short_slot_time++;
+> =20
+>  			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+> -				 (pmlmepriv->num_sta_no_short_slot_time =3D=3D 1)) {
+> +			    (pmlmepriv->num_sta_no_short_slot_time =3D=3D 1)) {
+>  				beacon_updated =3D true;
+>  				update_beacon(padapter, 0xFF, NULL, true);
+>  			}
+> @@ -1774,7 +1776,7 @@ void bss_cap_update_on_sta_join(struct adapter *pad=
+apter, struct sta_info *psta)
+>  			pmlmepriv->num_sta_no_short_slot_time--;
+> =20
+>  			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+> -				 (pmlmepriv->num_sta_no_short_slot_time =3D=3D 0)) {
+> +			    (pmlmepriv->num_sta_no_short_slot_time =3D=3D 0)) {
+>  				beacon_updated =3D true;
+>  				update_beacon(padapter, 0xFF, NULL, true);
+>  			}
+> @@ -2023,7 +2025,7 @@ void rtw_ap_restore_network(struct adapter *padapte=
+r)
+>  	start_bss_network(padapter);
+> =20
+>  	if ((padapter->securitypriv.dot11PrivacyAlgrthm =3D=3D _TKIP_) ||
+> -		(padapter->securitypriv.dot11PrivacyAlgrthm =3D=3D _AES_)) {
+> +	    (padapter->securitypriv.dot11PrivacyAlgrthm =3D=3D _AES_)) {
+>  		/* restore group key, WEP keys is restored in ips_leave() */
+>  		rtw_set_key(
+>  			padapter,
+> @@ -2061,7 +2063,7 @@ void rtw_ap_restore_network(struct adapter *padapte=
+r)
+>  			/* pairwise key */
+>  			/* per sta pairwise key and settings */
+>  			if ((psecuritypriv->dot11PrivacyAlgrthm =3D=3D _TKIP_) ||
+> -				(psecuritypriv->dot11PrivacyAlgrthm =3D=3D _AES_)) {
+> +			    (psecuritypriv->dot11PrivacyAlgrthm =3D=3D _AES_)) {
+>  				rtw_setstakey_cmd(padapter, psta, true, false);
+>  			}
+>  		}
 
