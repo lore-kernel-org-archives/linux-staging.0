@@ -1,48 +1,63 @@
-Received: from mail.puregrowthonline.pl (mail.puregrowthonline.pl [51.38.124.91])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B637C
-	for <linux-staging@lists.linux.dev>; Wed,  8 Jun 2022 08:18:18 +0000 (UTC)
-Received: by mail.puregrowthonline.pl (Postfix, from userid 1002)
-	id EA811A2B83; Wed,  8 Jun 2022 08:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puregrowthonline.pl;
-	s=mail; t=1654675851;
-	bh=CSKXLMgcdpWkXuTgJn5+jsCVobtU9JEF4vCnS5z6McM=;
-	h=Date:From:To:Subject:From;
-	b=mmSOOrvKuprscqbX8HIMvt/1AC9hbzGH+gZtoF20qQ68Wc5jDcpsrgVDxKOkdyYGy
-	 Ovi059/2l9RA6nug4UzIB39EcFhbCPQhKlMOwxpFyUA4x98ipKFQo6JIUkO2plwWEK
-	 GSA/7uOmtwd/oH9Jc/L4/ehdu2WsFPsTb5MgqlDbLLgat3ZcRjGHKhHbnMvAx4BWqX
-	 ccbmLzVQQwti3ZXiLi5WkW85/eR4FkUusDEZIOKZQeBCjda1SdEV2659dm3BD7QtLz
-	 hkJFnmRuTswLaKTxIJx/9iMdsvBRtUdPpSi59u+IaWSw34KXt25iFHgAotdjeK3Tkh
-	 6z2Voa1W9hG3g==
-Received: by mail.puregrowthonline.pl for <linux-staging@lists.linux.dev>; Wed,  8 Jun 2022 08:10:14 GMT
-Message-ID: <20220608064500-0.1.41.cyn8.0.cev2qq071b@puregrowthonline.pl>
-Date: Wed,  8 Jun 2022 08:10:14 GMT
-From: "Wiktor Nurek" <wiktor.nurek@puregrowthonline.pl>
-To: <linux-staging@lists.linux.dev>
-Subject: =?UTF-8?Q?Nap=C5=82yw_Klient=C3=B3w_ze_strony?=
-X-Mailer: mail.puregrowthonline.pl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989B47B
+	for <linux-staging@lists.linux.dev>; Wed,  8 Jun 2022 09:27:43 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1nyryN-00080S-Cs; Wed, 08 Jun 2022 11:27:31 +0200
+Date: Wed, 8 Jun 2022 11:27:31 +0200
+From: Martin Kaiser <lists@kaiser.cx>
+To: Michael Straube <straube.linux@gmail.com>, phil@philpotter.co.uk
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] staging: r8188eu: driver stopped working with commit
+ ("staging: r8188eu: add check for kzalloc")
+Message-ID: <20220608092731.hz26q37fhmrhipmj@viti.kaiser.cx>
+References: <20220606064055.12565-1-straube.linux@gmail.com>
+ <ded4b3f5-a9bc-4612-33cc-68bd85cb92fe@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ded4b3f5-a9bc-4612-33cc-68bd85cb92fe@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-Dzie=C5=84 dobry,
+Hi Michael & Phil,
 
-chcia=C5=82bym poinformowa=C4=87 Pa=C5=84stwa o mo=C5=BCliwo=C5=9Bci pozy=
-skania nowych zlece=C5=84 ze strony www.
+Thus wrote Michael Straube (straube.linux@gmail.com):
 
-Widzimy zainteresowanie potencjalnych Klient=C3=B3w Pa=C5=84stwa firm=C4=85=
-, dlatego ch=C4=99tnie pomo=C5=BCemy Pa=C5=84stwu dotrze=C4=87 z ofert=C4=
-=85 do wi=C4=99kszego grona odbiorc=C3=B3w poprzez efektywne metody pozyc=
-jonowania strony w Google.
+> The driver does not work anymore on my system. In dmesg there is:
 
-Czy m=C3=B3g=C5=82bym liczy=C4=87 na kontakt zwrotny?
+> "r8188eu 1-4:1.0: _rtw_init_xmit_priv failed"
 
+> I bisected it to commit f94b47c6bde ("staging: r8188eu: add check for
+> kzalloc").
 
-Pozdrawiam serdecznie,
-Wiktor Nurek
+> ~/kernels/staging> git bisect bad
+> f94b47c6bde624d6c07f43054087607c52054a95 is the first bad commit
+
+> At the moment I have no time to look further into it.
+
+See also
+
+https://lore.kernel.org/linux-staging/YoyU4zXf45UpF1Tq@kroah.com/T/#mb5e56a285b8eb1ebb0e798462fc388cb02b4a7cc
+
+Phil said in
+
+https://lore.kernel.org/linux-staging/YoyU4zXf45UpF1Tq@kroah.com/T/#m7a21d460b2569f6b59965ecc3298a6337fa3458a
+
+that he has submitted a patch to fix this issue for now until we
+get around to changing the _SUCCESS and _FAIL values.
+
+Phil, did you really send this out? I don't see it.
+If you don't have anything ready, I can try a simple fix.
+
+Thanks & best regards,
+
+   Martin
