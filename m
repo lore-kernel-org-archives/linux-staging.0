@@ -1,77 +1,107 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490D03210
-	for <linux-staging@lists.linux.dev>; Thu,  9 Jun 2022 15:31:49 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id ea7so16757548qvb.12
-        for <linux-staging@lists.linux.dev>; Thu, 09 Jun 2022 08:31:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662D47A
+	for <linux-staging@lists.linux.dev>; Thu,  9 Jun 2022 17:01:31 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id k4so10988712qth.8
+        for <linux-staging@lists.linux.dev>; Thu, 09 Jun 2022 10:01:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4U9tS0TY3KQZ435ts/jOG5/NkA8FDER6JfA1XuwruEc=;
-        b=GO/ZD7nJmNNk5znGqfkplygLhVlLFll4LrMSC3aMHrJN95dIQM47T+WK6Hf358NNed
-         pkdfFs2NnoU/a1wY9wkHSerQRTWEZ6TVrSReqSDEKcPt1Xj+pcqsWG10+o0ynboeLcef
-         /ffECQsZZuozFGNsarwsPNyJmCb4YrfRV6ELPYtc1q5AoU3Qd4crtNBUv5ICZhONtUC8
-         o3ZkfFIN6IWLKEjvkYvTMiihc/uFcaQfN+CwpNJgvah3wG+IUUe73IwABrsE5RON9zQh
-         22jK5e/NEByz4FYpel0RBOOC6cqBmcTMdHKhQr3fojpEpTzIrIBMSQfHw/nHyr2e4EW+
-         8YCA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jnwjuzj3MrO/cwr2OIkDIAaSQBe3BajVFxJznUYian0=;
+        b=KXqRhtXyWnfMMh67/l7UqFNSak6iRPazY7CXKZ8kXMQ28xL6ZgU/jokUz5eYFK4Fmf
+         RSP4C1zwYfySDnFihTA+aG73lcyhQC2oUpja4Q0z5PZNdMPTSBVEYPXBzvrR3kLqDuUg
+         ER3zClQ+6tt0BFGJmHXW9WWL6C/D68LHpXXhtEzC4d0A960OviV85LsphNuoMihi4fFT
+         YicoSQdctm46hGSz4YgrEhYfyp1IhVjilwY7hZWzC9CLWNXUqD5eVMJb2GoUnLVzr3b2
+         DRSDlDXTuIhIt3SoJuqetEdNDvg+rkRNVFpE574dSoUVTyyg9zOKm2gnPxvyT2p3csIP
+         iHXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4U9tS0TY3KQZ435ts/jOG5/NkA8FDER6JfA1XuwruEc=;
-        b=tgwS0lgeICocfLLqgk/0En/02KISpH61xAaUnRegQXkkFLcKrbKfsUFbbZs7cyr4Hf
-         VC3Fyp+4WP+rcwMJWold5QlctDHB/1wohyGYmWwP4jNcACXzcv5qepDHeOuqn4x9YgXm
-         Am1hXPEQ49r54ZyHbR3W/+CkFfZQmxVI/WVH6tNcPRXSvkWi+8PdyoKwGXKCL1a3OVei
-         ep28Kp9uJjMQcz1f+x9SQtgBhGRPVi0KISCPHDWQKYlCYcXhmQXsCmTj33Eph4qwy39s
-         gPSAthswbB9OEhK7Rd75KMt5ZRwDrTgDfUz9NmSdGr4y0erXP/2lCBkgOXk4zc5Y8lKu
-         6QCQ==
-X-Gm-Message-State: AOAM530Zc5Q2UlXvrID0mQigIoHvniKmkg+4QtGcadXwNUdFD5cH+WJH
-	us8XlONmg/Q1eOtqg2az+uQKhQeDfKCLNsJC
-X-Google-Smtp-Source: ABdhPJyGw3HPEdkBQ1FLH0cDnMy0u+XWLFOapa7dgKtiV7lxnCmyJZfpfNO1C2KgxZU2qzih8jwhTg==
-X-Received: by 2002:a05:6214:ccd:b0:46b:b0ee:bece with SMTP id 13-20020a0562140ccd00b0046bb0eebecemr13867099qvx.114.1654788707834;
-        Thu, 09 Jun 2022 08:31:47 -0700 (PDT)
-Received: from Agam.hsd1.mi.comcast.net ([2601:402:4500:22e0::e952])
-        by smtp.gmail.com with ESMTPSA id gb3-20020a05622a598300b002f93554c009sm16795726qtb.59.2022.06.09.08.31.46
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jnwjuzj3MrO/cwr2OIkDIAaSQBe3BajVFxJznUYian0=;
+        b=VruF3CKu3WdQznKrqJ7+CJkvzkEINo8RjDfWniPOxEaoEdBo4URgC7zqZHvNV7kH0H
+         1Rk/iTnuG7UmnWw/4x9nlzCtMLbKwlr2yDuqPpGfgQm1ofv6cu5yZSjDLEsRaJzeOSkB
+         JIkFD77WnvA1TQ4ZC3b3FXbGOTvSws5COkK8J2VQK7Uu6UewoZqg3FI4uTr8Xcd5AiHC
+         MQTf0FHUJ34R4UOT7+gzdHpxCltAN00bPOLsike6NrBJtA8R5wYwv8D9w0MU+ILzl1tP
+         7DLCYnM1YPPdSnVOgdl+6mXHhuFRLBH0Xog/9fm1VrNkghIkPw+WuM2U4BkRRfKA6zDw
+         hM+Q==
+X-Gm-Message-State: AOAM532Z4F3faX6YSKI6Dr4fEDN1UdTCG5A3AFNNRCj6NFhOvAsz7S7B
+	nZ2PO+CKoduW/blDyEQHuyI=
+X-Google-Smtp-Source: ABdhPJxUnc6jx6BU5l82GJ9gkvxlowGGDi71/wPGyxGzCs8eaISpn9agirY+M5cMSde/PUqXlbAjrw==
+X-Received: by 2002:ac8:5a11:0:b0:304:bab8:66f3 with SMTP id n17-20020ac85a11000000b00304bab866f3mr32399696qta.388.1654794089992;
+        Thu, 09 Jun 2022 10:01:29 -0700 (PDT)
+Received: from Sassy (bras-base-oshwon9563w-grc-26-142-113-132-114.dsl.bell.ca. [142.113.132.114])
+        by smtp.gmail.com with ESMTPSA id w17-20020a05620a445100b006a7137330e2sm4046161qkp.132.2022.06.09.10.01.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 08:31:46 -0700 (PDT)
-From: Agam Kohli <agamkohli9@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Agam Kohli <agamkohli9@gmail.com>
-Subject: [PATCH] Staging: rts5208: spi: Removed unnecessary ftrace-like logging
-Date: Thu,  9 Jun 2022 11:31:44 -0400
-Message-Id: <20220609153144.11803-1-agamkohli9@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        Thu, 09 Jun 2022 10:01:29 -0700 (PDT)
+Date: Thu, 9 Jun 2022 13:01:27 -0400
+From: Srivathsan Sivakumar <sri.skumar05@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: qlge: qlge_main.c: convert do-while loops to for
+ loops
+Message-ID: <YqInZ/KNEJFN9kNS@Sassy>
+References: <YqIOp+cPXNxLAnui@Sassy>
+ <20220609152653.GZ2146@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220609152653.GZ2146@kadam>
 
-Coding Style Fix
+On Thu, Jun 09, 2022 at 06:26:53PM +0300, Dan Carpenter wrote:
+> On Thu, Jun 09, 2022 at 11:15:51AM -0400, Srivathsan Sivakumar wrote:
+> > diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+> > index 8c35d4c4b851..308e8b621185 100644
+> > --- a/drivers/staging/qlge/qlge_main.c
+> > +++ b/drivers/staging/qlge/qlge_main.c
+> > @@ -3006,13 +3006,13 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+> >  		cqicb->flags |= FLAGS_LL;	/* Load lbq values */
+> >  		tmp = (u64)rx_ring->lbq.base_dma;
+> >  		base_indirect_ptr = rx_ring->lbq.base_indirect;
+> > -		page_entries = 0;
+> > -		do {
+> > -			*base_indirect_ptr = cpu_to_le64(tmp);
+> > -			tmp += DB_PAGE_SIZE;
+> > -			base_indirect_ptr++;
+> > -			page_entries++;
+> > -		} while (page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN));
+> > +
+> > +		for (page_entries = 0; page_entries <
+> > +			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++) {
+> > +				*base_indirect_ptr = cpu_to_le64(tmp);
+> > +				tmp += DB_PAGE_SIZE;
+> > +				base_indirect_ptr++;
+> > +		}
+> 
+> It's better than the original, but wouldn't it be better yet to write
+> something like this (untested):
+> 
+> 		for (i = 0; i <	MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); i++)
+> 			base_indirect_ptr[i] = cpu_to_le64(tmp + (i * DB_PAGE_SIZE));
+> 
+> Same with the other as well, obviously.
+> 
+> regards,
+> dan carpenter
+> 
 
-Signed-off-by: Agam Kohli <agamkohli9@gmail.com>
----
- drivers/staging/rts5208/spi.c | 1 -
- 1 file changed, 1 deletion(-)
+Hello Dan,
 
-diff --git a/drivers/staging/rts5208/spi.c b/drivers/staging/rts5208/spi.c
-index f1e9e80044ed..0d2d065508d3 100644
---- a/drivers/staging/rts5208/spi.c
-+++ b/drivers/staging/rts5208/spi.c
-@@ -460,7 +460,6 @@ int spi_set_parameter(struct scsi_cmnd *srb, struct rtsx_chip *chip)
- 	spi->clk_div = ((u16)(srb->cmnd[4]) << 8) | srb->cmnd[5];
- 	spi->write_en = srb->cmnd[6];
- 
--	dev_dbg(rtsx_dev(chip), "%s: ", __func__);
- 	dev_dbg(rtsx_dev(chip), "spi_clock = %d, ", spi->spi_clock);
- 	dev_dbg(rtsx_dev(chip), "clk_div = %d, ", spi->clk_div);
- 	dev_dbg(rtsx_dev(chip), "write_en = %d\n", spi->write_en);
--- 
-2.36.1
+Thanks for your input
 
+wouldn't base_indirect_ptr point at a different endian value if tmp is
+added with (i * DB_PAGE_SIZE)?
+
+Thanks,
+Srivathsan
