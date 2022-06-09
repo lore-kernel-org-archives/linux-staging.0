@@ -1,64 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322D87C
-	for <linux-staging@lists.linux.dev>; Thu,  9 Jun 2022 13:55:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3C7CC34114;
-	Thu,  9 Jun 2022 13:55:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654782944;
-	bh=QaBH8RWuw9ExX/N1zYuNgWYtWQet8otWyR1xJziRo1c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XQUZBApnf27nuYzHbSmZsjnL8+u1qFeX32GbHQVDPDnlZze2Uu+VwipiH2xFBtrH7
-	 YpRYYp0L3BPuAtTQvdgPgzhCcFSXtjklFfpVTSD2X2JSMqXjRvOkgrKTTfcNp7Cemq
-	 ei5SlMr+6nNWg72BsN/GKbTcyW16etVPvOA3iYGf2IF13AvTXbtR/kiF47gPYeJeHH
-	 nhjOwazCNTMEvWCbHhT1XIcvL8U8+QkY4F2gLcE4MUsAOUR3LtNtiO1sAGaldHGp5o
-	 nweTIV3kii67GhMHCmoT6MTfq4yYHYPptwIebL5EXYzd29kvFTwnFrHdNtKgw7rE9a
-	 KRlqcVLlLI5Mw==
-Date: Thu, 9 Jun 2022 09:55:43 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Soumya Negi <soumya.negi97@gmail.com>,
-	fabioaiuto83@gmail.com, hdegoede@redhat.com,
-	straube.linux@gmail.com, linux@roeck-us.net,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH AUTOSEL 5.15 24/51] staging: rtl8723bs: Fix alignment to
- match open parenthesis
-Message-ID: <YqH73xeDpPJki3hM@sashalap>
-References: <20220607175552.479948-1-sashal@kernel.org>
- <20220607175552.479948-24-sashal@kernel.org>
- <ff5d5283af74576f65545399851a40cb4f16a85c.camel@perches.com>
- <YqA+mOYUNcYj59Cy@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06DA2F23
+	for <linux-staging@lists.linux.dev>; Thu,  9 Jun 2022 15:15:53 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id s23so22424575iog.13
+        for <linux-staging@lists.linux.dev>; Thu, 09 Jun 2022 08:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=XjDcxc7sQfpXSZ1klfFIU0xeG3PIJolrhiT/911tClE=;
+        b=fppqyvuMKJGHBPZhOK9EHVChnvSGKHOdURrkPjnlsrlvdZKmkYaOIaxbtFXgTCyHqJ
+         s4nXebMun2v4vxvvUiYsTwNPFRrv/FceI9cL+qXIFGy9o2eK6PSIClX1cIP38yUCUQuM
+         gE8/+tDPpMivdu8kZIgr4kpEu1ISRqDBT7MP6aEG0nKEvT6mYqRgKIn8nAbGv2zFszzy
+         WPZ9u+0lR6Pl1uSMkZURCgEQ39zUJ5tsZ3nJaiwinfN4Rr6hKZ1Jo9CvyS6Rne3Zf4zW
+         WRH+oqkVprKah3fNVLiDbGMMUFagBUWSmYdVcDqp0O3M8yaoYJ1Nr/xnHkxpwGPhTClg
+         Dpkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=XjDcxc7sQfpXSZ1klfFIU0xeG3PIJolrhiT/911tClE=;
+        b=hSPO0qRWmHloKyYX+N3oOyJmY2sjATo4E8fOmIs7QlMvE2fnHw01JXN8ASqKnVTl4g
+         7qVgh0ziqNWsnQQWrFgcGjlOlwMAxvPGwbemB94SuTdbqU2v9M/hyZbYmNzoj4YX7r4y
+         R02+1dUMSzI8foj3Wq1xn+Ez5wgp1ZB9tX0FCh3H+YqF/oyv+D7Hp88t0hXnOEE/oqbN
+         LywQIgPFYPGhtvqzTSQ0dAymDTU/PRF4rf98erHfsbvx+b205/rQjjPdxsGhJXupCRyS
+         bnqM3KHKzl+O8OuKRiwn+w5+PRFx1OnuQ6VfPYQ3M25ynhlJ+TeWTirLvZOoHhzAAtOl
+         EiaQ==
+X-Gm-Message-State: AOAM5309YvP3L8+4qdfTJjIZeIlHYDpexC9xMDZmyNN+ptvm2cOXQ548
+	jyB+ps5aozj0bLyvZssdedk=
+X-Google-Smtp-Source: ABdhPJxb727WnXl7RLk2R1XnZfkIyBiIPHdm6AHrJyUkzWugSsolcX3iq7utyu5mjGz2i5myr/aG6g==
+X-Received: by 2002:a02:a313:0:b0:331:7bfc:9830 with SMTP id q19-20020a02a313000000b003317bfc9830mr17152543jai.2.1654787752977;
+        Thu, 09 Jun 2022 08:15:52 -0700 (PDT)
+Received: from Sassy (bras-base-oshwon9562w-grc-61-184-146-75-18.dsl.bell.ca. [184.146.75.18])
+        by smtp.gmail.com with ESMTPSA id i131-20020a6bb889000000b00669ae49f762sm1008064iof.19.2022.06.09.08.15.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jun 2022 08:15:52 -0700 (PDT)
+Date: Thu, 9 Jun 2022 11:15:51 -0400
+From: Srivathsan Sivakumar <sri.skumar05@gmail.com>
+To: Manish Chopra <manishc@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: qlge: qlge_main.c: convert do-while loops to for
+ loops
+Message-ID: <YqIOp+cPXNxLAnui@Sassy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YqA+mOYUNcYj59Cy@kroah.com>
 
-On Wed, Jun 08, 2022 at 08:15:52AM +0200, Greg Kroah-Hartman wrote:
->On Tue, Jun 07, 2022 at 05:04:08PM -0700, Joe Perches wrote:
->> On Tue, 2022-06-07 at 13:55 -0400, Sasha Levin wrote:
->> > From: Soumya Negi <soumya.negi97@gmail.com>
->> >
->> > [ Upstream commit f722d67fad290b0c960f27062adc8cf59488d0a7 ]
->> >
->> > Adhere to Linux coding style. Fixes checkpatch warnings:
->> > CHECK: Alignment should match open parenthesis
->> > CHECK: line length of 101 exceeds 100 columns
->>
->> why should this be backported?  It's only whitespace changes.
->
->Good catch, it should not.
+simplify do-while loops to for loops
 
-It shouldn't :/
+Signed-off-by: Srivathsan Sivakumar <sri.skumar05@gmail.com>
+---
+ drivers/staging/qlge/qlge_main.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-Dropped, thanks!
-
+diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
+index 8c35d4c4b851..308e8b621185 100644
+--- a/drivers/staging/qlge/qlge_main.c
++++ b/drivers/staging/qlge/qlge_main.c
+@@ -3006,13 +3006,13 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+ 		cqicb->flags |= FLAGS_LL;	/* Load lbq values */
+ 		tmp = (u64)rx_ring->lbq.base_dma;
+ 		base_indirect_ptr = rx_ring->lbq.base_indirect;
+-		page_entries = 0;
+-		do {
+-			*base_indirect_ptr = cpu_to_le64(tmp);
+-			tmp += DB_PAGE_SIZE;
+-			base_indirect_ptr++;
+-			page_entries++;
+-		} while (page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN));
++
++		for (page_entries = 0; page_entries <
++			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++) {
++				*base_indirect_ptr = cpu_to_le64(tmp);
++				tmp += DB_PAGE_SIZE;
++				base_indirect_ptr++;
++		}
+ 		cqicb->lbq_addr = cpu_to_le64(rx_ring->lbq.base_indirect_dma);
+ 		cqicb->lbq_buf_size =
+ 			cpu_to_le16(QLGE_FIT16(qdev->lbq_buf_size));
+@@ -3023,13 +3023,13 @@ static int qlge_start_rx_ring(struct qlge_adapter *qdev, struct rx_ring *rx_ring
+ 		cqicb->flags |= FLAGS_LS;	/* Load sbq values */
+ 		tmp = (u64)rx_ring->sbq.base_dma;
+ 		base_indirect_ptr = rx_ring->sbq.base_indirect;
+-		page_entries = 0;
+-		do {
+-			*base_indirect_ptr = cpu_to_le64(tmp);
+-			tmp += DB_PAGE_SIZE;
+-			base_indirect_ptr++;
+-			page_entries++;
+-		} while (page_entries < MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN));
++
++		for (page_entries = 0; page_entries <
++			MAX_DB_PAGES_PER_BQ(QLGE_BQ_LEN); page_entries++) {
++				*base_indirect_ptr = cpu_to_le64(tmp);
++				tmp += DB_PAGE_SIZE;
++				base_indirect_ptr++;
++		}
+ 		cqicb->sbq_addr =
+ 			cpu_to_le64(rx_ring->sbq.base_indirect_dma);
+ 		cqicb->sbq_buf_size = cpu_to_le16(SMALL_BUFFER_SIZE);
 -- 
-Thanks,
-Sasha
+2.34.1
+
