@@ -1,116 +1,193 @@
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52267A
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 20:23:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa1;
-	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
-	 message-id:subject:cc:to:from:date:from;
-	bh=yEmxF5RyuM6RMfQHFf2TezZ0ZiQABnpS17ZaJPl6EqQ=;
-	b=UAlFAD+ztWpTSVLTfAmDWbBZA+lPMct5ZeW+J2r/zjpZjfTNkcpjkmd3+zhT533zk8+qqQHbAnzqH
-	 cpeh7Oqi5k/hJcmWnrTKUPGfaIIihgCAUzdGOvFeD6KSU0UiXs1zsPUF5JIpCjHTehsIZel9F32l2G
-	 p67o/JErEFUoBuNjwfWTugwxHUZJdcSdl+HzNVqOgPykUYPrQKChzxphisQcve/2IaZlRc4flQhYvY
-	 o1BDzGOaZR+j6nsA4HZ3QHWFpEs4+3eiaaqW+d5A8C4jEFgxNzuKnW5NGd5/jYTo0SHBtZJ0nakHRD
-	 hOgbfvxcaQulThqQcO2O87NiDLHNoJg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed1;
-	h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
-	 message-id:subject:cc:to:from:date:from;
-	bh=yEmxF5RyuM6RMfQHFf2TezZ0ZiQABnpS17ZaJPl6EqQ=;
-	b=Bl5CmF92iCOPaPPyQ2cIKsX1hMi/8oNriRyNnnQge7Ka7GakBmWpIsz8MeF5JDATkE2tbgS5tlwQ1
-	 K1xrDLYDQ==
-X-HalOne-Cookie: 66b84489637b8b1ca6e0e2c3baf32dd9c570f798
-X-HalOne-ID: 1ff957ae-e8fb-11ec-a6c0-d0431ea8a283
-Received: from mailproxy2.cst.dirpod4-cph3.one.com (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
-	by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id 1ff957ae-e8fb-11ec-a6c0-d0431ea8a283;
-	Fri, 10 Jun 2022 20:23:01 +0000 (UTC)
-Date: Fri, 10 Jun 2022 22:22:59 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Stephen Kitt <steve@sk2.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Len Baker <len.baker@gmx.com>, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] staging: ftbft: Use backlight helper
-Message-ID: <YqOoI6g6GVw0Z1s/@ravnborg.org>
-References: <20220607185516.1129900-1-steve@sk2.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6D5257D
+	for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 20:45:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1654893954; x=1686429954;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/X8Jowue4dS3V4PnRhIOqkh+gcpMPb4kTivYj+0YL/s=;
+  b=jKKfNH1CWfyyOV4wmMos+gdA9l9BxIUlqs6UC4u2AeL8BWlra6e18bta
+   5FJW5qleqXtcabYD87RvOEYiHgUWFQ9gNE1ywR43aEXQVWVuD9qt9sRya
+   wRI5+GC5P1KnEC9k6PVmGptqZnnqqmJOY1Gfrv7HpQRPygpddwVv3rRip
+   SzQvQ5941bpt1scTKP2Y6oVabL3CSF1XgLHB9kJsgZW4hO50iUrD01jeI
+   Ic1FQOqr/qSc91/5yVZPHX2HUdYxScQ321oEFMQjHJCtFd0Sg4SmPlqMR
+   VTqds0OqrJzD2HumcjvXqxGBkHRLnndQ0Z+4R3UF1nrPiQq0391ZuPV/d
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10374"; a="257576857"
+X-IronPort-AV: E=Sophos;i="5.91,291,1647327600"; 
+   d="scan'208";a="257576857"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2022 13:45:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,291,1647327600"; 
+   d="scan'208";a="534224595"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 10 Jun 2022 13:45:51 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1nzlVv-000IG5-3L;
+	Fri, 10 Jun 2022 20:45:51 +0000
+Date: Sat, 11 Jun 2022 04:45:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-staging@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 6d0c806803170f120f8cb97b321de7bd89d3a791
+Message-ID: <62a3ad70.TorcQosfTdYPgOzL%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220607185516.1129900-1-steve@sk2.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Hi Stephen,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 6d0c806803170f120f8cb97b321de7bd89d3a791  Add linux-next specific files for 20220610
 
-On Tue, Jun 07, 2022 at 08:55:16PM +0200, Stephen Kitt wrote:
-> backlight_properties.fb_blank is deprecated. The states it represents
-> are handled by other properties; but instead of accessing those
-> properties directly, drivers should use the helpers provided by
-> backlight.h.
-> 
-> Instead of manually checking the power state in struct
-> backlight_properties, use backlight_is_blank().
-> 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Noralf Trønnes" <noralf@tronnes.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Len Baker <len.baker@gmx.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: linux-staging@lists.linux.dev
-> ---
->  drivers/staging/fbtft/fb_ssd1351.c | 3 +--
->  drivers/staging/fbtft/fbtft-core.c | 3 +--
->  2 files changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-> index 6fd549a424d5..b8d55aa8c5c7 100644
-> --- a/drivers/staging/fbtft/fb_ssd1351.c
-> +++ b/drivers/staging/fbtft/fb_ssd1351.c
-> @@ -196,8 +196,7 @@ static int update_onboard_backlight(struct backlight_device *bd)
->  		      "%s: power=%d, fb_blank=%d\n",
->  		      __func__, bd->props.power, bd->props.fb_blank);
-Could you try to kill this use of props.fb_blank too?      ^^^^^^
-A local variable should do the trick.
+Error/Warning reports:
 
-	Sam
+https://lore.kernel.org/llvm/202205220805.wrw5woEk-lkp@intel.com
 
->  
-> -	on = (bd->props.power == FB_BLANK_UNBLANK) &&
-> -	     (bd->props.fb_blank == FB_BLANK_UNBLANK);
-> +	on = !backlight_is_blank(bd);
->  	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
->  	write_reg(par, 0xB5, on ? 0x03 : 0x02);
->  
-> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-> index 60b2278d8b16..9b3eaed80cdd 100644
-> --- a/drivers/staging/fbtft/fbtft-core.c
-> +++ b/drivers/staging/fbtft/fbtft-core.c
-> @@ -137,8 +137,7 @@ static int fbtft_backlight_update_status(struct backlight_device *bd)
->  		      "%s: polarity=%d, power=%d, fb_blank=%d\n",
->  		      __func__, polarity, bd->props.power, bd->props.fb_blank);
->  
-> -	if ((bd->props.power == FB_BLANK_UNBLANK) &&
-> -	    (bd->props.fb_blank == FB_BLANK_UNBLANK))
-> +	if (!backlight_is_blank(bd))
->  		gpiod_set_value(par->gpio.led[0], polarity);
->  	else
->  		gpiod_set_value(par->gpio.led[0], !polarity);
-> 
-> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
-> -- 
-> 2.30.2
+Error/Warning: (recently discovered and may have been fixed)
+
+arch/riscv/include/asm/pgtable-64.h:215:2: error: invalid input constraint '0' in asm
+arch/riscv/include/asm/pgtable.h:257:2: error: invalid input constraint '0' in asm
+drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:130:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
+drivers/misc/cardreader/rts5261.c:406:13: warning: variable 'setting_reg2' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+drivers/staging/rtl8723bs/hal/hal_btcoex.c:1182:30: warning: variable 'pHalData' set but not used [-Wunused-but-set-variable]
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arc-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arm-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arm-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arm64-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-include-ddc_service_types.h:warning:DP_SINK_BRANCH_DEV_NAME_7580-defined-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- ia64-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- m68k-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- m68k-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- mips-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- mips-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- nios2-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- parisc-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- powerpc-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- powerpc-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- riscv-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- riscv-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- sh-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- sparc-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- x86_64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-include-ddc_service_types.h:warning:DP_SINK_BRANCH_DEV_NAME_7580-defined-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+`-- xtensa-allyesconfig
+    `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+
+clang_recent_errors
+|-- i386-randconfig-a013
+|   `-- drivers-misc-cardreader-rts5261.c:warning:variable-setting_reg2-is-used-uninitialized-whenever-if-condition-is-false
+`-- riscv-randconfig-r013-20220610
+    |-- arch-riscv-include-asm-pgtable-.h:error:invalid-input-constraint-in-asm
+    `-- arch-riscv-include-asm-pgtable.h:error:invalid-input-constraint-in-asm
+
+elapsed time: 873m
+
+configs tested: 61
+configs skipped: 3
+
+gcc tested configs:
+arm                                 defconfig
+arm                              allmodconfig
+arm                              allyesconfig
+arm64                               defconfig
+arm64                            allyesconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+nios2                               defconfig
+arc                              allyesconfig
+alpha                               defconfig
+csky                                defconfig
+nios2                            allyesconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+parisc64                            defconfig
+s390                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+sparc                            allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                            allmodconfig
+riscv                    nommu_k210_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                         rhel-8.3-kunit
+x86_64                           rhel-8.3-syz
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+
+clang tested configs:
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
