@@ -1,25 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B1E7A
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 07:01:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FE37C3411B;
-	Fri, 10 Jun 2022 07:01:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB727A
+	for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 07:03:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27FE1C34114;
+	Fri, 10 Jun 2022 07:03:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1654844515;
-	bh=M6EuY9oN0LZN9afnalEpOzjuWTpDRjltWbC0UqJViuM=;
+	s=korg; t=1654844632;
+	bh=0jlkKf2s0caH8OvKLKXE1cL1pY8S6j9klqHId/wUOMk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=waLjTEv9RnDloT0kKZ1mohHPRUuP1+2C3VNrZC1ujQS3ZjMQFP5rQvKKchwhSLHjQ
-	 ucDqxOtvGEk/6pnIv6ewMYGb/X99A0U19rfazqyiq3N3IvsDO1ycSeD4QTjgKHJlwA
-	 +j+VJgIyw4ctd6cdk5GTnunnmF8QM1v6Z+crrvnA=
-Date: Fri, 10 Jun 2022 09:01:52 +0200
+	b=ry7nXPgqFTviWovAv6SJiTN9X2eyDob/Dmlk7C/Ts2VZh3JXhXB8YdcgkNa+mMu3y
+	 6G98/vXHN+NFPdkr5yyl3MWCpXyF1byrK/famTi28HsPfUSPda6ENm9Vh9yQLLrhMu
+	 SNO9IHSrUb73gewYB4kUNazMbMxPHP/UiUEBtySY=
+Date: Fri, 10 Jun 2022 09:03:49 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Agam Kohli <agamkohli9@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: rts5208: spi: Removed unnecessary ftrace-like
- logging
-Message-ID: <YqLsYKSgLOk4jKGS@kroah.com>
-References: <20220609153144.11803-1-agamkohli9@gmail.com>
+To: Jared Kangas <kangas.jd@gmail.com>
+Cc: vaibhav.sr@gmail.com, elder@kernel.org, greybus-dev@lists.linaro.org,
+	johan@kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, linux-staging@lists.linux.dev,
+	mgreer@animalcreek.com, Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH v2] staging: greybus: audio: fix loop cursor use after
+ iteration
+Message-ID: <YqLs1YlUrlLy8B3x@kroah.com>
+References: <20220609214517.85661-1-kangas.jd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,32 +31,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220609153144.11803-1-agamkohli9@gmail.com>
+In-Reply-To: <20220609214517.85661-1-kangas.jd@gmail.com>
 
-On Thu, Jun 09, 2022 at 11:31:44AM -0400, Agam Kohli wrote:
-> Coding Style Fix
+On Thu, Jun 09, 2022 at 02:45:18PM -0700, Jared Kangas wrote:
+> gbaudio_dapm_free_controls() iterates over widgets using the
+> list_for_each_entry*() family of macros from <linux/list.h>, which
+> leaves the loop cursor pointing to a meaningless structure if it
+> completes a traversal of the list. The cursor was set to NULL at the end
+> of the loop body, but would be overwritten by the final loop cursor
+> update.
 > 
-> Signed-off-by: Agam Kohli <agamkohli9@gmail.com>
+> Because of this behavior, the widget could be non-null after the loop
+> even if the widget wasn't found, and the cleanup logic would treat the
+> pointer as a valid widget to free.
+> 
+> To fix this, introduce a temporary variable to act as the loop cursor
+> and copy it to a variable that can be accessed after the loop finishes.
+> Due to not removing any list elements, use list_for_each_entry() instead
+> of list_for_each_entry_safe() in the revised loop.
+> 
+> This was detected with the help of Coccinelle.
+> 
+> Fixes: 510e340efe0c ("staging: greybus: audio: Add helper APIs for dynamic audio modules")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Reviewed-by: Johan Hovold <johan@kernel.org>
+> Signed-off-by: Jared Kangas <kangas.jd@gmail.com>
 > ---
->  drivers/staging/rts5208/spi.c | 1 -
->  1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rts5208/spi.c b/drivers/staging/rts5208/spi.c
-> index f1e9e80044ed..0d2d065508d3 100644
-> --- a/drivers/staging/rts5208/spi.c
-> +++ b/drivers/staging/rts5208/spi.c
-> @@ -460,7 +460,6 @@ int spi_set_parameter(struct scsi_cmnd *srb, struct rtsx_chip *chip)
->  	spi->clk_div = ((u16)(srb->cmnd[4]) << 8) | srb->cmnd[5];
->  	spi->write_en = srb->cmnd[6];
->  
-> -	dev_dbg(rtsx_dev(chip), "%s: ", __func__);
->  	dev_dbg(rtsx_dev(chip), "spi_clock = %d, ", spi->spi_clock);
->  	dev_dbg(rtsx_dev(chip), "clk_div = %d, ", spi->clk_div);
->  	dev_dbg(rtsx_dev(chip), "write_en = %d\n", spi->write_en);
+> Changes since v1:
+>  * Removed safe list iteration as suggested by Johan Hovold <johan@kernel.org>
+>  * Updated patch changelog to explain the list iteration change
+>  * Added tags to changelog based on feedback (Cc:, Fixes:, Reviewed-by:)
+> 
+>  drivers/staging/greybus/audio_helper.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_helper.c b/drivers/staging/greybus/audio_helper.c
+> index 843760675876..05e91e6bc2a0 100644
+> --- a/drivers/staging/greybus/audio_helper.c
+> +++ b/drivers/staging/greybus/audio_helper.c
+> @@ -115,7 +115,7 @@ int gbaudio_dapm_free_controls(struct snd_soc_dapm_context *dapm,
+>  			       int num)
+>  {
+>  	int i;
+> -	struct snd_soc_dapm_widget *w, *next_w;
+> +	struct snd_soc_dapm_widget *w, *tmp_w;
+>  #ifdef CONFIG_DEBUG_FS
+>  	struct dentry *parent = dapm->debugfs_dapm;
+>  	struct dentry *debugfs_w = NULL;
+> @@ -124,13 +124,13 @@ int gbaudio_dapm_free_controls(struct snd_soc_dapm_context *dapm,
+>  	mutex_lock(&dapm->card->dapm_mutex);
+>  	for (i = 0; i < num; i++) {
+>  		/* below logic can be optimized to identify widget pointer */
+> -		list_for_each_entry_safe(w, next_w, &dapm->card->widgets,
+> -					 list) {
+> -			if (w->dapm != dapm)
+> -				continue;
+> -			if (!strcmp(w->name, widget->name))
+> +		w = NULL;
+> +		list_for_each_entry(tmp_w, &dapm->card->widgets, list) {
+> +			if (tmp_w->dapm == dapm &&
+> +			    !strcmp(tmp_w->name, widget->name)) {
+> +				w = tmp_w;
+>  				break;
+> -			w = NULL;
+> +			}
+>  		}
+>  		if (!w) {
+>  			dev_err(dapm->dev, "%s: widget not found\n",
 > -- 
-> 2.36.1
+> 2.34.3
 > 
 > 
+
 
 Hi,
 
