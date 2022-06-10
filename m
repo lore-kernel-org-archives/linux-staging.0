@@ -1,75 +1,82 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED277C
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 10:08:58 +0000 (UTC)
-Received: from fsav413.sakura.ne.jp (fsav413.sakura.ne.jp [133.242.250.112])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 25AA8lfX091580;
-	Fri, 10 Jun 2022 19:08:47 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav413.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav413.sakura.ne.jp);
- Fri, 10 Jun 2022 19:08:47 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav413.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 25AA8kYL091576
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 10 Jun 2022 19:08:46 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <a973969d-cfd0-adc8-2651-d299199dbd7b@I-love.SAKURA.ne.jp>
-Date: Fri, 10 Jun 2022 19:08:43 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785117A
+	for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 12:52:42 +0000 (UTC)
+Received: from whitebuilder.lan (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 45E776601723;
+	Fri, 10 Jun 2022 13:52:33 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1654865554;
+	bh=p58BGLd7hMm8p/2ISuy3Dy0LlqXqYJNmYcWNBWGs/eo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=k/12mt8TUAGfUMKdUILYc1U9Q0mcOKvYLKWOvKQehdBhmZwNiUxJswfiOfpoooU6Y
+	 K7SyrWEXe2qjxHIqPHedkJ37gilThxf4XJm1pghTKSzfqIS5CJyy/DGRM6cwux/56x
+	 BJC76p7e5Fq2jAX5N9L4Q+7mVubr9Jjllr2y0C1llKCJP6kL7yxELDiubw4W84nWK5
+	 y2J3cAIz0OPwwKlQj8IYtTfQsYgJi0tzCounvyIkiAzE3Nbynsh4HGqqJjeLMjn96a
+	 wnXDKPIFQARXVZqpvN92Lkf+CAUBKMooUOkILCPvyNcXkpfILLtadGlIz7x/dGu5lp
+	 QNoDgEhEwkwOA==
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: linux-media@vger.kernel.org,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	kernel@collabora.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/5] media: rkvdec: Disable H.264 error detection
+Date: Fri, 10 Jun 2022 08:52:11 -0400
+Message-Id: <20220610125215.240539-2-nicolas.dufresne@collabora.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
+References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: [PATCH v2] staging: olpc_dcon: Replace flush_scheduled_work() with
- flush_work().
-Content-Language: en-US
-To: Jens Frederich <jfrederich@gmail.com>,
-        Jon Nettleton <jon.nettleton@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev
-References: <faaabb8b-1d69-9ee6-e593-aaa3dc52e05b@I-love.SAKURA.ne.jp>
- <YqLr2psGA7Fp/oby@kroah.com>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <YqLr2psGA7Fp/oby@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Since "struct dcon_priv" is per a device struct, I assume that
-dcon_set_source_sync() needs to wait for only one work associated with
-that device. Therefore, wait for only that work using flush_work().
+Quite often, the HW get stuck in error condition if a stream error
+was detected. As documented, the HW should stop immediately and self
+reset. There is likely a problem or a miss-understanding of the self
+self reset mechanism, as unless we make a long pause, the next command
+will then report an error even if there is no error in it.
 
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Disabling error detection fixes the issue, and let the decoder continue
+after an error. This patch is safe for backport into older kernels.
+
+Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
-Please see commit c4f135d643823a86 ("workqueue: Wrap flush_workqueue()
-using a macro") for background.
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Changes in v2:
-  Don't try to save lines by merging dcon_set_source() and dcon_set_source_sync(),
-  suggested by Greg Kroah-Hartman <gregkh@linuxfoundation.org>.
-
- drivers/staging/olpc_dcon/olpc_dcon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/olpc_dcon/olpc_dcon.c b/drivers/staging/olpc_dcon/olpc_dcon.c
-index 7284cb4ac395..71c8992114b4 100644
---- a/drivers/staging/olpc_dcon/olpc_dcon.c
-+++ b/drivers/staging/olpc_dcon/olpc_dcon.c
-@@ -383,7 +383,7 @@ static void dcon_set_source(struct dcon_priv *dcon, int arg)
- static void dcon_set_source_sync(struct dcon_priv *dcon, int arg)
- {
- 	dcon_set_source(dcon, arg);
--	flush_scheduled_work();
-+	flush_work(&dcon->switch_source);
- }
+diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+index 2992fb87cf72..55596ce6bb6e 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
++++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+@@ -1175,8 +1175,8 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
  
- static ssize_t dcon_mode_show(struct device *dev,
+ 	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
+ 
+-	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+-	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
++	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
++	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+ 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
+ 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
+ 
 -- 
-2.18.4
+2.36.1
 
