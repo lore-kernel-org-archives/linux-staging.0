@@ -1,146 +1,95 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E7A7C
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 15:01:15 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id w27so35597671edl.7
-        for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 08:01:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OggQGH3JFL5ahsTo7JoWuxdxGSf5+8oOFLpQy3dNZQ8=;
-        b=7lpFSL12bsBNaRh7q0pTG9aeYANeTQiHYeDDBIbKVvHfNiupsRv6sSyeTL1ED3TRTm
-         fD4DScMlcz1E0oO4sOKKOm2UnK/j/Q07MWRzG5WqJGe78trRMEXD3IlGiReRdVDRgY+Q
-         q88onBuV8uBffs7Q2Undhja9z7r58hmz1Iam4zYH/x8Wpw9c7QNW9Gyo5bk/SYnrXJYk
-         1hhc3d1yXfTKi9nhtn6o1yiDg1LHyEc0wZ9Ev/nkONRf/W3j3nCwJ5JQX4DZsd1LWoWC
-         hTfs0Og5+uHgmKkdd6RhpiS5s6ptg5vZbBLpZw5WczvJnlMUN6ZzOE+X+SueGBJiLkAy
-         pJvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OggQGH3JFL5ahsTo7JoWuxdxGSf5+8oOFLpQy3dNZQ8=;
-        b=5rNrTIWqtDZ9ibA9w+J5ctfpmo2hWOWZdDL9rZLTWznoX+WXf0iJ/EdtfqMfu5EbeO
-         EXjelJHuLDJctJhwJO7ghcdXxQjNyKSdJwVbGs8XhawSINPGN9FfhUIWNO5xhWKFumLz
-         HldhX1W9DKDzste/ma1GpbUpVw/EBuv7l/6WPA97HyIsxmIUgAV1urKtCJQ2h/P92KVZ
-         l9zRPOC08oxjp29oR2e9sXR0oSTVBQiwboI4rWn/x3dG33AYsXYwJqjMyLRgh+h3W8J/
-         MnOlKoK14rUNJ/8abBSP14sTLS/G8RJfsgeHgO+TWfwWc/Z8t9SPjOW/4/m39Xk1AVbM
-         Ty9Q==
-X-Gm-Message-State: AOAM530nG5Xq62vTFL9NMjyXrvq20qvBYM3umJ8bNNr8hWvjzTojYLYa
-	99PJ15iShJe/pvBJdO/v0LayfinWUr30uaCkBKvPLw==
-X-Google-Smtp-Source: ABdhPJyHMm+/l9sH3f1xDzionQtAY8B4EnWdmrPlKZ1BS7nTmX/iJBt4fOyzp+FvReB5TwqwrUlmgtmbusNNM3xIHG0=
-X-Received: by 2002:aa7:d14c:0:b0:42d:bbab:43d6 with SMTP id
- r12-20020aa7d14c000000b0042dbbab43d6mr52168093edo.15.1654873273595; Fri, 10
- Jun 2022 08:01:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E34A7C
+	for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 16:24:01 +0000 (UTC)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C97136601721;
+	Fri, 10 Jun 2022 17:23:58 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1654878239;
+	bh=PeNEbNWV7aaaxpnftZb7IJf8mfoEQ3cPkieNnhAQIW4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=hnH4stMAEriCwFmQZtGarrd55Yj+jXr4HpYuP/lvuHrC+WxKRtQgBz6qV+XoZgZOn
+	 W0+ly466O4b8d8WEG//Retrz6r4kJdwDZEHX9D0DxZXQuajfKd42GythaKD30XvLso
+	 FzGuTFrYW/02f5h94a9ID9cGh130lzlEDyFjGNVL+cpPoDW/DtRn20+DL7tUDz0kd/
+	 w3ZSZ39kJ7BehSEvURr0BxQZQ34UaOMfpoNNljQpFHLB1kKlG4D1S3y1LLH8s9cW1I
+	 VwKjYX/zX18HsyZLs7cTquvigMVH77WXNTPKOeOEIU6Pjji9Z7KQRHEUb9erqkZq59
+	 wEEwzlgY0CIdg==
+Message-ID: <0e2c5d37398eeb04576af3ca5012161255464b21.camel@collabora.com>
+Subject: Re: [PATCH v1 4/5] media: rkvdec: Re-enable H.264 error detection
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-media@vger.kernel.org, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>,  Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ kernel@collabora.com, linux-rockchip@lists.infradead.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Fri, 10 Jun 2022 12:23:49 -0400
+In-Reply-To: <20220610132017.GD2146@kadam>
+References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
+	 <20220610125215.240539-5-nicolas.dufresne@collabora.com>
+	 <20220610132017.GD2146@kadam>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220610125215.240539-1-nicolas.dufresne@collabora.com> <20220610125215.240539-5-nicolas.dufresne@collabora.com>
-In-Reply-To: <20220610125215.240539-5-nicolas.dufresne@collabora.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Fri, 10 Jun 2022 12:01:02 -0300
-Message-ID: <CAAEAJfAdPt59oCi4wPybwn0a4zHq_3x66L5mRSQ54yQezz+ZZA@mail.gmail.com>
-Subject: Re: [PATCH v1 4/5] media: rkvdec: Re-enable H.264 error detection
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Collabora Kernel ML <kernel@collabora.com>, 
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Nicolas,
+Le vendredi 10 juin 2022 =C3=A0 16:20 +0300, Dan Carpenter a =C3=A9crit=C2=
+=A0:
+> On Fri, Jun 10, 2022 at 08:52:14AM -0400, Nicolas Dufresne wrote:
+> > This re-enables H.264 error detection, but using the other error mode.
+> > In that mode, the decoder will skip over the error macro-block or
+> > slices and complete the decoding. As a side effect, the error status
+> > is not set in the interrupt status register, and instead errors are
+> > detected per format. Using this mode workaround the issue that the
+> > HW get stuck in error stated and allow reporting that some corruption
+> > may be present in the buffer returned to userland.
+> >=20
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > ---
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
+> >  1 file changed, 20 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
+ng/media/rkvdec/rkvdec-h264.c
+> > index 55596ce6bb6e..60a89918e2c1 100644
+> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> > @@ -1175,14 +1175,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *c=
+tx)
+> > =20
+> >  	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000))=
+;
+> > =20
+> > -	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> > -	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+> > +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> > +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+>=20
+> This reverts the changes in patch 1/5.  Could we just skip patch 1/5
+> instead?
 
-Great stuff! See below for some ideas how to expose errors.
+As documented, this is for back-porting purpose. The first patch is what ha=
+s
+been running for 7 years in Chromebook, so I'm fully confident it is safe t=
+o
+backport it into our stable kernel. The second is like a new feature, which=
+ I'm
+confident works, but didn't get as much testing as I just wrote it. So what=
+ I'm
+doing here is giving a same thing to backport, and a better fix for the nex=
+t
+kernel. You are otherwise right that this will revert it.
 
-On Fri, Jun 10, 2022 at 9:52 AM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> This re-enables H.264 error detection, but using the other error mode.
-> In that mode, the decoder will skip over the error macro-block or
-> slices and complete the decoding. As a side effect, the error status
-> is not set in the interrupt status register, and instead errors are
-> detected per format. Using this mode workaround the issue that the
-> HW get stuck in error stated and allow reporting that some corruption
-> may be present in the buffer returned to userland.
->
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> index 55596ce6bb6e..60a89918e2c1 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -1175,14 +1175,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
->
->         schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
->
-> -       writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> -       writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
-> +       writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> +       writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
->         writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
->         writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
->
->         /* Start decoding! */
->         writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
-> -              RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
-> +              RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
-> +              RKVDEC_H264ORVP9_ERR_MODE,
->                rkvdec->regs + RKVDEC_REG_INTERRUPT);
->
->         return 0;
-> @@ -1196,10 +1197,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
->         return 0;
->  }
->
-> +static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
-> +{
-> +       struct rkvdec_dev *rkvdec = ctx->dev;
-> +       int err;
-> +
-> +       err = readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
-> +       if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
-> +               pr_debug("Decoded picture have %i/%i slices with errors.\n",
-> +                        RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(err));
+Nicolas
 
-It's more useful friendly to just keep a counter somewhere. In the past,
-we've created a user control, which has the advantage of leveraging
-an existing mechanism, and already being per-fd.
-
-See:
-
-commit b2d3bef1aa7858b2ae5e0d01adb214121ba00b9f
-"media: coda: Add a V4L2 user for control error macroblocks count".
-
-I would drop the pr_debug, or if you think it's really useful for users
-and developers, go with v4l2_dbg. In which case, how do you ensure
-a corrupted stream won't flood the logs?
-
-Thanks,
-Ezequiel
-
-
-> +               return VB2_BUF_STATE_ERROR;
-> +       }
-> +
-> +       return VB2_BUF_STATE_DONE;
-> +}
-> +
->  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
->         .adjust_fmt = rkvdec_h264_adjust_fmt,
->         .start = rkvdec_h264_start,
->         .stop = rkvdec_h264_stop,
->         .run = rkvdec_h264_run,
->         .try_ctrl = rkvdec_h264_try_ctrl,
-> +       .check_error_info = rkvdec_h264_check_error_info,
->  };
-> --
-> 2.36.1
->
