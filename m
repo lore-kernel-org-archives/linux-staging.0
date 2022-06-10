@@ -1,25 +1,25 @@
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F92643
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C5B7A
 	for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 12:52:46 +0000 (UTC)
 Received: from whitebuilder.lan (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id A335D6601728;
-	Fri, 10 Jun 2022 13:52:43 +0100 (BST)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id A15526601724;
+	Fri, 10 Jun 2022 13:52:37 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1654865564;
-	bh=wWMofSJhxz35wCMoU0gFvStbDROWmB6gJh3rFolZ2b8=;
+	s=mail; t=1654865558;
+	bh=y4VN0AML4mJdPo0xkn5rxhw/upvGXg3kQ19JexvXyQc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Sc39kUqXVm4NpX5ToqnvUXuwpqC5ysWHcXBhNGwEcuZ0ijPuZch7WdS5d+zyUfYmT
-	 Z/PFJEJ6RCd1P2d0ABRqYmkU9fpa5Wv27TtRl8Mp5wr9FPZ4VnbHi570Q2NuhqyB1K
-	 UHoijm+nq8uZxz84O21B1pMgEBrO2ZlU4gJcdKv6dyDpMDkqjnyjbCgb/OOliSUCl6
-	 p0y3f4l7pMV7l26qQSDHjy3hAC6KRE8n/X7y7kC0M6BQwc9+UebCL9UtsbaKxabNuh
-	 g6KaqdvHXfsX4/pjANaI+CeTlINqejMqVudTtAmQjhgDMMbMb8sfSi3pjOw/Pz2Sz/
-	 op8PksAsAQC8Q==
+	b=UI3Skr/92kfXBj52tMYRIZ6FWRT/l4PEhIYivbCO05yNRyVcPNbvgF58uk6e6+iQj
+	 Kt3JacKtz/oSASW2AH5I/QH7vXPMz6wOCiOsyncXJ936xqn4AZ5m3kmiw1X/W6tlmu
+	 xf/VPUEhR65CHI4yAG+aF1fRIK9gY//Rd+U5uh/A86dr2fmKKu+XaIBn3mGETMSOdv
+	 Rd2KKU96sZayrHVHhRJo4EvEmomy08l8/miShcx1rPDAlwdt5i4tK1OPwfYD2RCAkv
+	 iQrqhZCJU60bytKOvheg2H2SuLwBfmgt8jjNdeG7jG5sm0OqBOvTtsnLFCAPOLaSKM
+	 ZvnQuhht3iQVQ==
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: linux-media@vger.kernel.org,
 	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
@@ -30,9 +30,9 @@ Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 4/5] media: rkvdec: Re-enable H.264 error detection
-Date: Fri, 10 Jun 2022 08:52:14 -0400
-Message-Id: <20220610125215.240539-5-nicolas.dufresne@collabora.com>
+Subject: [PATCH v1 2/5] media: rkvdec: Add an ops to check for decode errors
+Date: Fri, 10 Jun 2022 08:52:12 -0400
+Message-Id: <20220610125215.240539-3-nicolas.dufresne@collabora.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
 References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
@@ -44,69 +44,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This re-enables H.264 error detection, but using the other error mode.
-In that mode, the decoder will skip over the error macro-block or
-slices and complete the decoding. As a side effect, the error status
-is not set in the interrupt status register, and instead errors are
-detected per format. Using this mode workaround the issue that the
-HW get stuck in error stated and allow reporting that some corruption
-may be present in the buffer returned to userland.
+This optional internal ops allow each codec to do their own
+error status checking. The presence of an error is reported
+using the ERROR buffer state. This patch have no functional
+changes.
 
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++----
+ drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index 55596ce6bb6e..60a89918e2c1 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -1175,14 +1175,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index 7bab7586918c..7e76f8b72885 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -950,6 +950,7 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *rkvdec)
+ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+ {
+ 	struct rkvdec_dev *rkvdec = priv;
++	struct rkvdec_ctx *ctx;
+ 	enum vb2_buffer_state state;
+ 	u32 status;
  
- 	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
+@@ -958,12 +959,13 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+ 		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
  
--	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
--	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
-+	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-+	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
- 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
- 	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
+ 	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
+-	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
+-		struct rkvdec_ctx *ctx;
++	ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
  
- 	/* Start decoding! */
- 	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
--	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
-+	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
-+	       RKVDEC_H264ORVP9_ERR_MODE,
- 	       rkvdec->regs + RKVDEC_REG_INTERRUPT);
+-		ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
++	if (ctx->coded_fmt_desc->ops->check_error_info)
++		state = ctx->coded_fmt_desc->ops->check_error_info(ctx);
++
++	if (cancel_delayed_work(&rkvdec->watchdog_work))
+ 		rkvdec_job_finish(ctx, state);
+-	}
  
- 	return 0;
-@@ -1196,10 +1197,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
- 	return 0;
+ 	return IRQ_HANDLED;
  }
- 
-+static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
-+{
-+	struct rkvdec_dev *rkvdec = ctx->dev;
-+	int err;
-+
-+	err = readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
-+	if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
-+		pr_debug("Decoded picture have %i/%i slices with errors.\n",
-+			 RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(err));
-+		return VB2_BUF_STATE_ERROR;
-+	}
-+
-+	return VB2_BUF_STATE_DONE;
-+}
-+
- const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
- 	.adjust_fmt = rkvdec_h264_adjust_fmt,
- 	.start = rkvdec_h264_start,
- 	.stop = rkvdec_h264_stop,
- 	.run = rkvdec_h264_run,
- 	.try_ctrl = rkvdec_h264_try_ctrl,
-+	.check_error_info = rkvdec_h264_check_error_info,
+diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+index 633335ebb9c4..4ae8e6c6b03c 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.h
++++ b/drivers/staging/media/rkvdec/rkvdec.h
+@@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+ 		     struct vb2_v4l2_buffer *dst_buf,
+ 		     enum vb2_buffer_state result);
+ 	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
++	/* called from IRQ handler */
++	int (*check_error_info)(struct rkvdec_ctx *ctx);
  };
+ 
+ struct rkvdec_coded_fmt_desc {
 -- 
 2.36.1
 
