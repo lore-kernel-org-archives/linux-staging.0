@@ -1,115 +1,140 @@
-Received: from 7.mo583.mail-out.ovh.net (7.mo583.mail-out.ovh.net [178.32.124.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF937C
-	for <linux-staging@lists.linux.dev>; Sat, 11 Jun 2022 06:18:13 +0000 (UTC)
-Received: from player696.ha.ovh.net (unknown [10.111.208.192])
-	by mo583.mail-out.ovh.net (Postfix) with ESMTP id 8D39421B87
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jun 2022 20:43:26 +0000 (UTC)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-	(Authenticated sender: steve@sk2.org)
-	by player696.ha.ovh.net (Postfix) with ESMTPSA id BB97B2147BC18;
-	Fri, 10 Jun 2022 20:43:13 +0000 (UTC)
-Authentication-Results:garm.ovh; auth=pass (GARM-110S004e6fa79bf-d8bb-4492-9659-0d8f13915340,
-                    3EA6D779A65D7DCBA15D92F127CD72011C01B2E3) smtp.auth=steve@sk2.org
-X-OVh-ClientIp:82.65.25.201
-Date: Fri, 10 Jun 2022 22:43:06 +0200
-From: Stephen Kitt <steve@sk2.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Noralf =?UTF-8?B?VHI=?=
- =?UTF-8?B?w7hubmVz?= <noralf@tronnes.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>, Len Baker
- <len.baker@gmx.com>, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] staging: ftbft: Use backlight helper
-Message-ID: <20220610224306.325a6c91@heffalump.sk2.org>
-In-Reply-To: <YqOoI6g6GVw0Z1s/@ravnborg.org>
-References: <20220607185516.1129900-1-steve@sk2.org>
-	<YqOoI6g6GVw0Z1s/@ravnborg.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B42D7C
+	for <linux-staging@lists.linux.dev>; Sat, 11 Jun 2022 12:08:09 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id o10so1932147edi.1
+        for <linux-staging@lists.linux.dev>; Sat, 11 Jun 2022 05:08:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=MBpWW3Rm0qHu8VKriKsz69J9U1fr852JTooAqUcIBSs=;
+        b=JGka//OtRrj4t/9GKYq/cGyzcLKCd9fNKHwtrSi+iMrLBxCIe2vjiURLMrjDKJLb9i
+         JhDL2oISE5D3tswqByIX9F9OkKCv+psJVaNkSsMpoEpwjp7Praxnsf0QO4whgqiCKqft
+         e0sxcPfUYpCiP5T0+JCyneRANM0HE00abZtoi6vIYFQs36/pfjFaifVK9MFkCoxsC9Sj
+         7LQeB/O2d0URJ+CkxOWYEryOmn3HbV+vcBBzYthTuyExaOtWnEWO3ON1H/NYb68rQnRB
+         ca0/ss9BbrMan95qXWzhv5iec3hRIsVXq7Y62uVTXM2BqZfuFDb5QvbyoyPPibnlfu3z
+         c1zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=MBpWW3Rm0qHu8VKriKsz69J9U1fr852JTooAqUcIBSs=;
+        b=JW7Z0OPsUCwpEKEsILASdfgtWnjZbiN6JJy3qXzjeovb2OBvRPD3hcHdl/2L2lBRdR
+         g6cfEPO3dtYsvx/T5a8+lApd9MSD8YtQOX+Dxy+MWuFxMeJxaQO3FdXxB0MwdG0KU1xP
+         NcUWxZZ7m4WD+Ng0UMpKSaPbBtIEfGbFbhOyw+ixk2P/qgwO3v1Sjhm4XTKVXa40yNTd
+         OFFgtxRYRhFgAqFwBwDCf8+bSV5udDJXJKXdsJAOXk2FFnPk8YNjXd2gkCU8CFqD18SC
+         WW3LOyCumE16tF6uL8zqPu9EFP7siS5BbZaQJeUIzqUzMWLATMi7l/WkgrNF+0Wn10dG
+         sbtg==
+X-Gm-Message-State: AOAM532OKBGb+Jn4gt3aMuL5bZ79XSFGusrFi+kd223LVcga3bal3/Na
+	+Lec6GbHb5Y4IhreDURZUQ==
+X-Google-Smtp-Source: ABdhPJzUrTZfe/FzjHAMv8CZN44ZkvnDaQwFgVdQHT0CWx1GHxFj7YcfX0sdZb0Bk6zZ3I6MW6m/Tg==
+X-Received: by 2002:a05:6402:228d:b0:42d:e319:7297 with SMTP id cw13-20020a056402228d00b0042de3197297mr56166642edb.79.1654949287554;
+        Sat, 11 Jun 2022 05:08:07 -0700 (PDT)
+Received: from ?IPV6:2001:9e8:b963:4d00:eb2a:1586:942f:ce9f? ([2001:9e8:b963:4d00:eb2a:1586:942f:ce9f])
+        by smtp.gmail.com with ESMTPSA id q4-20020a50aa84000000b0042617ba638esm1318458edc.24.2022.06.11.05.08.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Jun 2022 05:08:06 -0700 (PDT)
+Message-ID: <8efa6811-ee17-4dd2-23a7-e0471af8c0a6@gmail.com>
+Date: Sat, 11 Jun 2022 14:08:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/P4JAIYCU.yYfgTXqhIkbYUV";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Ovh-Tracer-Id: 12460897219021866630
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddgudehtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtsehgtderreertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeiheevvdeugeejffefteffvefhieegjeevhfekjeejvdelgfefkeehhfdufffhjeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrheileeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghvpdfovfetjfhoshhtpehmohehkeef
-
---Sig_/P4JAIYCU.yYfgTXqhIkbYUV
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v1 4/5] media: rkvdec: Re-enable H.264 error detection
+Content-Language: en-US
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ linux-media@vger.kernel.org, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@collabora.com, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
+ <20220610125215.240539-5-nicolas.dufresne@collabora.com>
+From: Alex Bee <knaerzche@gmail.com>
+In-Reply-To: <20220610125215.240539-5-nicolas.dufresne@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Hi Sam,
+Am 10.06.22 um 14:52 schrieb Nicolas Dufresne:
+> This re-enables H.264 error detection, but using the other error mode.
+> In that mode, the decoder will skip over the error macro-block or
+> slices and complete the decoding. As a side effect, the error status
+> is not set in the interrupt status register, and instead errors are
+> detected per format. Using this mode workaround the issue that the
+> HW get stuck in error stated and allow reporting that some corruption
+> may be present in the buffer returned to userland.
+> 
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> index 55596ce6bb6e..60a89918e2c1 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> @@ -1175,14 +1175,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
+>  
+>  	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
+>  
+> -	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> -	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+> +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+>  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
+>  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
+>  
+>  	/* Start decoding! */
+>  	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
+> -	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
+> +	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
+> +	       RKVDEC_H264ORVP9_ERR_MODE,
+>  	       rkvdec->regs + RKVDEC_REG_INTERRUPT);
+>  
+>  	return 0;
+> @@ -1196,10 +1197,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
+>  	return 0;
+>  }
+>  
+> +static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
+> +{
+> +	struct rkvdec_dev *rkvdec = ctx->dev;
+> +	int err;
+> +
+> +	err = readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
+> +	if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
+> +		pr_debug("Decoded picture have %i/%i slices with errors.\n",
+> +			 RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(err));
+> +		return VB2_BUF_STATE_ERROR;
+> +	}
+> +
+> +	return VB2_BUF_STATE_DONE;
+> +}
+> +
+>  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
+>  	.adjust_fmt = rkvdec_h264_adjust_fmt,
+>  	.start = rkvdec_h264_start,
+>  	.stop = rkvdec_h264_stop,
+>  	.run = rkvdec_h264_run,
+>  	.try_ctrl = rkvdec_h264_try_ctrl,
+> +	.check_error_info = rkvdec_h264_check_error_info,
+>  };
 
-On Fri, 10 Jun 2022 22:22:59 +0200, Sam Ravnborg <sam@ravnborg.org> wrote:
-> On Tue, Jun 07, 2022 at 08:55:16PM +0200, Stephen Kitt wrote:
-> > backlight_properties.fb_blank is deprecated. The states it represents
-> > are handled by other properties; but instead of accessing those
-> > properties directly, drivers should use the helpers provided by
-> > backlight.h.
-> >=20
-> > Instead of manually checking the power state in struct
-> > backlight_properties, use backlight_is_blank().
-> >=20
-> > Signed-off-by: Stephen Kitt <steve@sk2.org>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Cc: Javier Martinez Canillas <javierm@redhat.com>
-> > Cc: Len Baker <len.baker@gmx.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linux-fbdev@vger.kernel.org
-> > Cc: linux-staging@lists.linux.dev
-> > ---
-> >  drivers/staging/fbtft/fb_ssd1351.c | 3 +--
-> >  drivers/staging/fbtft/fbtft-core.c | 3 +--
-> >  2 files changed, 2 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/fbtft/fb_ssd1351.c
-> > b/drivers/staging/fbtft/fb_ssd1351.c index 6fd549a424d5..b8d55aa8c5c7
-> > 100644 --- a/drivers/staging/fbtft/fb_ssd1351.c
-> > +++ b/drivers/staging/fbtft/fb_ssd1351.c
-> > @@ -196,8 +196,7 @@ static int update_onboard_backlight(struct
-> > backlight_device *bd) "%s: power=3D%d, fb_blank=3D%d\n",
-> >  		      __func__, bd->props.power, bd->props.fb_blank); =20
-> Could you try to kill this use of props.fb_blank too?      ^^^^^^
-> A local variable should do the trick.
+Actually I'm not sure I fully understand what you are expecting the
+userspace to do with the information that there was an (HW!) error,
+which might or might not be bitstrean related. Resending the
+corrupted(?) frame until the HW fully hangs?
+As the interrupt reports an HW error it should (at least also) be
+handled driver-side and the HW is known not to be able to fully reset
+itself in case of an error.
+I think this will make behavior worse than it is now (for real-life
+users) where errors are eventually just ignored.
 
-I have a pending patch changing this to show props.state instead, that way
-the debug info shows all the backlight-relevant information from props. How
-does that sound?
-
-Regards,
-
-Stephen
-
---Sig_/P4JAIYCU.yYfgTXqhIkbYUV
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmKjrNoACgkQgNMC9Yht
-g5xQdg/+Orvis6KeWgiLd8jL6lqXH9XOKSzUodRrAYjprDDP0ZJq0NCh7JbJW+q3
-OYkz1CNJ4/vsMOFU7lYPEPDRZqX+VHj2XBR11YZWTzUVi1f+ivSw/kDd5jzGe5xs
-opvDdvBTlUniPy3LAs84Z1unuX0P6JgTwvKX3oiBMgww1ym8b9B3Ha2nswe3yUI2
-kjOUfz+Zv86RtoPF3R/LBPv4aP1UmVL3/Bgg1Qnb2llzb3L3JlUq6V5BtUuxj+CC
-vie/Wsfgsx9KXPa+GZUCaxm1q9uVUV21zHvZ3mCA5gew9jLg5wEFHmySony+2n+C
-wAd+0MY7tlL+YjfV9Ccgvvo39CHe0Wan10HpWWQNwfAQgdpTHmeI8cZ+Uho85sb2
-QF3+Jz/mrnlSjHG4lqPLs0bXGb/rpVsDPbiivOWzamJGQyOx14VvrUrKyLUpLh4A
-BcB88hAvQ9z4pz8o3rkzfqi70KbDjbBpxQrpCXcwmBICUpfsm0ufteHA/7lSNEwq
-EXlDYFA66tyohK0IGuDUOf7wvDuuQjyqO8/Kc5+/xBDdlTPts3eDqmIaAF9ydTpZ
-5+pgEJITNAcHm/ig5/Kjxkye4q6DAWKEX10FUBWmm6lpc90i3NuWHGDTpC7Ru3yl
-C5F9TZVMLyarmt00UEPhkARbBJrzOXqHGXQDWyiNxGCg1OB+GTc=
-=EB3v
------END PGP SIGNATURE-----
-
---Sig_/P4JAIYCU.yYfgTXqhIkbYUV--
+Alex
