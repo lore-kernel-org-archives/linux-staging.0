@@ -1,156 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A5AA42
-	for <linux-staging@lists.linux.dev>; Sun, 12 Jun 2022 04:57:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A46F3C34115;
-	Sun, 12 Jun 2022 04:57:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1655009821;
-	bh=6n7SpCFndiSPCmzPBF8JaXynaNVK28eEuvgyLIxMrUw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K9eFDnF98RsRAaGn5eNwM9ngABujmBcqHzCxb4p8c0yHku2dmwTCmdHM9JElvKFes
-	 TvIItOeBsBr2ckU4iJk4vYvLcJRi7zVtLkABUXqTiWmbvuJaorozYqEXMzvwcJ4n7Q
-	 EuX/zBCWhF53xEWCnQ++l6tMWaxhY9QpJD6DOs5c=
-Date: Sun, 12 Jun 2022 06:56:58 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nam Cao <namcaov@gmail.com>
-Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: r8188eu: simplify some macros
-Message-ID: <YqVyGuACfuroV5ti@kroah.com>
-References: <cover.1654994517.git.namcaov@gmail.com>
- <a3438e13cf2c117ad74432cdca4be97e731e9b21.1654994517.git.namcaov@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81707A52
+	for <linux-staging@lists.linux.dev>; Sun, 12 Jun 2022 08:12:41 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id u12so5613808eja.8
+        for <linux-staging@lists.linux.dev>; Sun, 12 Jun 2022 01:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ocwZVHrRKMoztdMbvtaOW28DDsmAtKFXVot7oqF9910=;
+        b=jNGvPiVjyqeVn91lEE66F5UcOu4G13hbpWEepARwjR9v+ldBUKRoLG907i3v2DNV4D
+         rSdNin946G3J9XOdVJ425w6ElU88tjvmUC2wgrMYlTMfc4+oxf598xZxw3VyAXMGzueP
+         cd0h+DEu3cqe/qGibY8wjNzJGvGzL+r94Rb6nsykRXRG14CeluL1wvovqtmKHvR/qeRg
+         MOtGsr4fTDwfYJtdYc0hHtDB9naSV6U0kbv8CcXbcyfgmNNWZPHXwucaiOEOr6g5h1pf
+         15PJhHmZkkqJs0tHxgSTRrXjz4ESev7cbqlu9m2CxTXTLXuYqSiUJ6cRkZBhuPm5Hw88
+         sZaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ocwZVHrRKMoztdMbvtaOW28DDsmAtKFXVot7oqF9910=;
+        b=HLPBn83h8QlHGemp7AokxUoPTYahZirY6X0Sj1AdUTEdDBEXnBdOdEZbc67lbWpWcE
+         7eD7xKMV3mXMpPJ8dXvjB5kD0AVmiAknDRTBT4WHdrPd0+kORMVVpH4u1i1wKkyOfGAQ
+         I6djt6PdCq5LDeL047iAmimauNHOgIufeXrexypvfIlj7zc6D+0WnHfRcyb+SlfiMyPV
+         SBxbc8/5HqtyYzeDiZojqQraqYXXhAJUfWOPqmPzfNgrvTEUPxTEM5gOGll7H0+vKfpe
+         xKZQeJbPlYj3/q0LscvG4KSjrkgnl+gTLF8y1ynU4F4UyCyoAzoE3vsUWWAM8Lm/rBDH
+         lTDw==
+X-Gm-Message-State: AOAM5318HtELiHUnK4kWHMde/HnoDotvsHNMfdL2lesQUjhVkSuhhujE
+	jJ//I38gqLO3jqMpsFM6C4E=
+X-Google-Smtp-Source: ABdhPJwyG8oM8ujn3e2d4TE1meBi8hyymtnPTtiqlHGv6uZFZRYCMLSfqIIsK7j8Gvv0fO++gO8szg==
+X-Received: by 2002:a17:907:971b:b0:711:dc09:fde1 with SMTP id jg27-20020a170907971b00b00711dc09fde1mr26157725ejc.749.1655021559696;
+        Sun, 12 Jun 2022 01:12:39 -0700 (PDT)
+Received: from nam-dell.fritz.box ([2a02:8109:afbf:ed88:bcf1:6e8b:57bb:87f1])
+        by smtp.gmail.com with ESMTPSA id o18-20020a17090608d200b006ff802baf5dsm2130637eje.54.2022.06.12.01.12.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jun 2022 01:12:39 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	namcaov@gmail.com,
+	phil@philpotter.co.uk
+Subject: [PATCH v2 0/2] staging: r8188eu: simplify some macros
+Date: Sun, 12 Jun 2022 10:11:42 +0200
+Message-Id: <cover.1655019752.git.namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <YqVyGuACfuroV5ti@kroah.com>
+References: <YqVyGuACfuroV5ti@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a3438e13cf2c117ad74432cdca4be97e731e9b21.1654994517.git.namcaov@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jun 12, 2022 at 03:05:13AM +0200, Nam Cao wrote:
-> There are some macros which are not really useful, but make the code
-> harder to read. Replace these with clearer codes.
-> 
-> Signed-off-by: Nam Cao <namcaov@gmail.com>
-> ---
->  .../r8188eu/include/Hal8188ERateAdaptive.h    | 10 +++---
->  drivers/staging/r8188eu/include/basic_types.h | 31 -------------------
->  2 files changed, 5 insertions(+), 36 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h b/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
-> index 20d73ca781e8..79e4210c6b65 100644
-> --- a/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
-> +++ b/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
-> @@ -26,15 +26,15 @@
->  #define GET_TX_REPORT_TYPE1_RERTY_0(__paddr)			\
->  	le16_get_bits(*(__le16 *)__paddr, GENMASK(15, 0))
->  #define GET_TX_REPORT_TYPE1_RERTY_1(__paddr)			\
-> -	LE_BITS_TO_1BYTE(__paddr + 2, 0, 8)
-> +	((u8 *)__paddr)[2]
->  #define GET_TX_REPORT_TYPE1_RERTY_2(__paddr)			\
-> -	LE_BITS_TO_1BYTE(__paddr + 3, 0, 8)
-> +	((u8 *)__paddr)[3]
->  #define GET_TX_REPORT_TYPE1_RERTY_3(__paddr)			\
-> -	LE_BITS_TO_1BYTE(__paddr + 4, 0, 8)
-> +	((u8 *)__paddr)[4]
->  #define GET_TX_REPORT_TYPE1_RERTY_4(__paddr)			\
-> -	LE_BITS_TO_1BYTE(__paddr + 5, 0, 8)
-> +	((u8 *)__paddr)[5]
->  #define GET_TX_REPORT_TYPE1_DROP_0(__paddr)			\
-> -	LE_BITS_TO_1BYTE(__paddr + 6, 0, 8)
-> +	((u8 *)__paddr)[6]
->  /*  End rate adaptive define */
->  
->  int ODM_RAInfo_Init_all(struct odm_dm_struct *dm_odm);
-> diff --git a/drivers/staging/r8188eu/include/basic_types.h b/drivers/staging/r8188eu/include/basic_types.h
-> index ffb21170e898..c4b08fb82200 100644
-> --- a/drivers/staging/r8188eu/include/basic_types.h
-> +++ b/drivers/staging/r8188eu/include/basic_types.h
-> @@ -15,37 +15,6 @@ typedef void (*proc_t)(void *);
->  /*  TODO: Macros Below are Sync from SD7-Driver. It is necessary
->   * to check correctness */
->  
-> -/*
-> - *	Call endian free function when
-> - *		1. Read/write packet content.
-> - *		2. Before write integer to IO.
-> - *		3. After read integer from IO.
-> -*/
-> -
-> -/* Convert little data endian to host ordering */
-> -#define EF1BYTE(_val)		\
-> -	((u8)(_val))
-> -
-> -/* Create a bit mask  */
-> -#define BIT_LEN_MASK_8(__bitlen) \
-> -	(0xFF >> (8 - (__bitlen)))
-> -
-> -/*Description:
-> - * Return 4-byte value in host byte ordering from
-> - * 4-byte pointer in little-endian system.
-> - */
-> -#define LE_P1BYTE_TO_HOST_1BYTE(__pstart) \
-> -	(EF1BYTE(*((u8 *)(__pstart))))
-> -
-> -/*Description:
-> -Translate subfield (continuous bits in little-endian) of 4-byte
-> -value to host byte ordering.*/
-> -#define LE_BITS_TO_1BYTE(__pstart, __bitoffset, __bitlen) \
-> -	( \
-> -		(LE_P1BYTE_TO_HOST_1BYTE(__pstart) >> (__bitoffset)) & \
-> -		BIT_LEN_MASK_8(__bitlen) \
-> -	)
-> -
->  #define	N_BYTE_ALIGMENT(__value, __aligment) ((__aligment == 1) ? \
->  	(__value) : (((__value + __aligment - 1) / __aligment) * __aligment))
->  
-> -- 
-> 2.25.1
-> 
-> 
+There are some bit manipulation macros in r8188eu, but are only
+ever used for reading single bytes. Remove them.
 
-Hi,
+V2:
+  - Split into smaller commits so that it's easier to review
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Nam Cao (2):
+  staging: r8188eu: replace LE_BITS_TO_1BYTE with clearer codes
+  staging: r8188eu: remove unused macros
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+ .../r8188eu/include/Hal8188ERateAdaptive.h    | 10 +++---
+ drivers/staging/r8188eu/include/basic_types.h | 31 -------------------
+ 2 files changed, 5 insertions(+), 36 deletions(-)
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
+-- 
+2.25.1
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
