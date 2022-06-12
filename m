@@ -1,140 +1,71 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B42D7C
-	for <linux-staging@lists.linux.dev>; Sat, 11 Jun 2022 12:08:09 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id o10so1932147edi.1
-        for <linux-staging@lists.linux.dev>; Sat, 11 Jun 2022 05:08:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEEA17C
+	for <linux-staging@lists.linux.dev>; Sun, 12 Jun 2022 01:05:26 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id o7so4788439eja.1
+        for <linux-staging@lists.linux.dev>; Sat, 11 Jun 2022 18:05:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=MBpWW3Rm0qHu8VKriKsz69J9U1fr852JTooAqUcIBSs=;
-        b=JGka//OtRrj4t/9GKYq/cGyzcLKCd9fNKHwtrSi+iMrLBxCIe2vjiURLMrjDKJLb9i
-         JhDL2oISE5D3tswqByIX9F9OkKCv+psJVaNkSsMpoEpwjp7Praxnsf0QO4whgqiCKqft
-         e0sxcPfUYpCiP5T0+JCyneRANM0HE00abZtoi6vIYFQs36/pfjFaifVK9MFkCoxsC9Sj
-         7LQeB/O2d0URJ+CkxOWYEryOmn3HbV+vcBBzYthTuyExaOtWnEWO3ON1H/NYb68rQnRB
-         ca0/ss9BbrMan95qXWzhv5iec3hRIsVXq7Y62uVTXM2BqZfuFDb5QvbyoyPPibnlfu3z
-         c1zA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eaJ9A311TrSfFnoNHlPLqCJLl63tuzS6qi1yW9Cp5w8=;
+        b=kTQHVU0bpZYPKroMPjv6y78xV/6snZ6DHzneUBLVERu3DtZRvjpU/FYrmEcT8qombK
+         BVdXn0Wm7BouKKZ8jsgpDceZcCvo+AXYhKzWEMt5onU9HS5HRZA2R5FjJVzwoGOBeQ0w
+         aFDhgV6O+zuM7BEu3gUFUGyQ0PCpZqhG9i+DxX+E/l5farDku9r0xAq3jS/ZALdMWTvb
+         pSJubGLKy458RbjnBvarQtaHeznQR2kC/DI33H4eoYLt9j4NySaJNOdOAAk8gm6HDgnr
+         IuqCCU8PoDSGFI+Jcw9GIf04BC4X9R3aME9HWnenv5lHaIkafttu3UBhPoGSMp2VmpSW
+         WPiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MBpWW3Rm0qHu8VKriKsz69J9U1fr852JTooAqUcIBSs=;
-        b=JW7Z0OPsUCwpEKEsILASdfgtWnjZbiN6JJy3qXzjeovb2OBvRPD3hcHdl/2L2lBRdR
-         g6cfEPO3dtYsvx/T5a8+lApd9MSD8YtQOX+Dxy+MWuFxMeJxaQO3FdXxB0MwdG0KU1xP
-         NcUWxZZ7m4WD+Ng0UMpKSaPbBtIEfGbFbhOyw+ixk2P/qgwO3v1Sjhm4XTKVXa40yNTd
-         OFFgtxRYRhFgAqFwBwDCf8+bSV5udDJXJKXdsJAOXk2FFnPk8YNjXd2gkCU8CFqD18SC
-         WW3LOyCumE16tF6uL8zqPu9EFP7siS5BbZaQJeUIzqUzMWLATMi7l/WkgrNF+0Wn10dG
-         sbtg==
-X-Gm-Message-State: AOAM532OKBGb+Jn4gt3aMuL5bZ79XSFGusrFi+kd223LVcga3bal3/Na
-	+Lec6GbHb5Y4IhreDURZUQ==
-X-Google-Smtp-Source: ABdhPJzUrTZfe/FzjHAMv8CZN44ZkvnDaQwFgVdQHT0CWx1GHxFj7YcfX0sdZb0Bk6zZ3I6MW6m/Tg==
-X-Received: by 2002:a05:6402:228d:b0:42d:e319:7297 with SMTP id cw13-20020a056402228d00b0042de3197297mr56166642edb.79.1654949287554;
-        Sat, 11 Jun 2022 05:08:07 -0700 (PDT)
-Received: from ?IPV6:2001:9e8:b963:4d00:eb2a:1586:942f:ce9f? ([2001:9e8:b963:4d00:eb2a:1586:942f:ce9f])
-        by smtp.gmail.com with ESMTPSA id q4-20020a50aa84000000b0042617ba638esm1318458edc.24.2022.06.11.05.08.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Jun 2022 05:08:06 -0700 (PDT)
-Message-ID: <8efa6811-ee17-4dd2-23a7-e0471af8c0a6@gmail.com>
-Date: Sat, 11 Jun 2022 14:08:05 +0200
+        bh=eaJ9A311TrSfFnoNHlPLqCJLl63tuzS6qi1yW9Cp5w8=;
+        b=qEpG8W+v1ZcqkPmXdc7I1dA//oeS79p92XOj/+91c5mtx0kf1VNHJPUrRQDiS0wFgE
+         8tnbi4R2Nm5j1RtyADg6U+Q/6DKdjixqm+tgoxUZ2LHGIP7f6dSr1VjvR4vlkdXEzzmQ
+         gIBvwPYW232yHNPy2k11i9KUQCn5NJy+ZGgy1uG6Ge145CEKczFKYQDlQBBg0Xze0xx7
+         ettBuAr+oQXLYSqnph5zRyITp9imPaq00z5o3gZOeehqUifzeJm/AiGY1LB6g6qPNYlD
+         XW0Pk3je9capnP0bXsmH5qClruf8G/QIq9vm8pjsY5T+bRvCmqEMBXyo9GF5KjI2rdia
+         whhg==
+X-Gm-Message-State: AOAM530N4lHuStUN2ZEMB4O/yYf4cgKT4b61q5mtcQaZUlJHRNB/OLEQ
+	0RpYwh+xbL6KNJS9MXzZcrk=
+X-Google-Smtp-Source: ABdhPJzxFval4Qok9pFwMRhEYeMibBtrQ4zyJ0h+CNNl8lq5obSDpSrDc91u949sx/WfmEzXFK7EQg==
+X-Received: by 2002:a17:906:5352:b0:712:3916:e92 with SMTP id j18-20020a170906535200b0071239160e92mr6681677ejo.756.1654995925004;
+        Sat, 11 Jun 2022 18:05:25 -0700 (PDT)
+Received: from nam-dell.fritz.box ([2a02:8109:afbf:ed88:b802:84b6:a3f8:7c89])
+        by smtp.gmail.com with ESMTPSA id u20-20020a509514000000b0042dd1d3d571sm2312297eda.26.2022.06.11.18.05.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Jun 2022 18:05:24 -0700 (PDT)
+From: Nam Cao <namcaov@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nam Cao <namcaov@gmail.com>
+Subject: [PATCH 0/2] Clean up some macros
+Date: Sun, 12 Jun 2022 03:05:12 +0200
+Message-Id: <cover.1654994517.git.namcaov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v1 4/5] media: rkvdec: Re-enable H.264 error detection
-Content-Language: en-US
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- linux-media@vger.kernel.org, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel@collabora.com, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
- <20220610125215.240539-5-nicolas.dufresne@collabora.com>
-From: Alex Bee <knaerzche@gmail.com>
-In-Reply-To: <20220610125215.240539-5-nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Am 10.06.22 um 14:52 schrieb Nicolas Dufresne:
-> This re-enables H.264 error detection, but using the other error mode.
-> In that mode, the decoder will skip over the error macro-block or
-> slices and complete the decoding. As a side effect, the error status
-> is not set in the interrupt status register, and instead errors are
-> detected per format. Using this mode workaround the issue that the
-> HW get stuck in error stated and allow reporting that some corruption
-> may be present in the buffer returned to userland.
-> 
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> index 55596ce6bb6e..60a89918e2c1 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -1175,14 +1175,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
->  
->  	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
->  
-> -	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> -	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
-> +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
->  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
->  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
->  
->  	/* Start decoding! */
->  	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
-> -	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
-> +	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
-> +	       RKVDEC_H264ORVP9_ERR_MODE,
->  	       rkvdec->regs + RKVDEC_REG_INTERRUPT);
->  
->  	return 0;
-> @@ -1196,10 +1197,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
->  	return 0;
->  }
->  
-> +static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
-> +{
-> +	struct rkvdec_dev *rkvdec = ctx->dev;
-> +	int err;
-> +
-> +	err = readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
-> +	if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
-> +		pr_debug("Decoded picture have %i/%i slices with errors.\n",
-> +			 RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(err));
-> +		return VB2_BUF_STATE_ERROR;
-> +	}
-> +
-> +	return VB2_BUF_STATE_DONE;
-> +}
-> +
->  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
->  	.adjust_fmt = rkvdec_h264_adjust_fmt,
->  	.start = rkvdec_h264_start,
->  	.stop = rkvdec_h264_stop,
->  	.run = rkvdec_h264_run,
->  	.try_ctrl = rkvdec_h264_try_ctrl,
-> +	.check_error_info = rkvdec_h264_check_error_info,
->  };
+Replace some macros with standard ones. Remove some useless macros.
 
-Actually I'm not sure I fully understand what you are expecting the
-userspace to do with the information that there was an (HW!) error,
-which might or might not be bitstrean related. Resending the
-corrupted(?) frame until the HW fully hangs?
-As the interrupt reports an HW error it should (at least also) be
-handled driver-side and the HW is known not to be able to fully reset
-itself in case of an error.
-I think this will make behavior worse than it is now (for real-life
-users) where errors are eventually just ignored.
+Nam Cao (2):
+  staging: r8188eu: simplify some macros
+  staging: r8188eu: replace FIELD_OFFSET with offsetof
 
-Alex
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  4 +--
+ .../r8188eu/include/Hal8188ERateAdaptive.h    | 10 +++---
+ drivers/staging/r8188eu/include/basic_types.h | 33 -------------------
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  4 +--
+ 4 files changed, 9 insertions(+), 42 deletions(-)
+
+-- 
+2.25.1
+
