@@ -1,172 +1,167 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5709A1376
-	for <linux-staging@lists.linux.dev>; Mon, 13 Jun 2022 13:10:14 +0000 (UTC)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 042A26601651;
-	Mon, 13 Jun 2022 14:10:04 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1655125806;
-	bh=6vF8s+UbRt6Gj72cipVKdeSnrHKaavGuFSFrj0y8Qyk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=gYaFL4YV1hbahCLrfOYCLs8VE06FaI00oHYOg6l67EH7Rewz9HUMeeSqjs3TbBJVD
-	 GQwgzsplZ26MDGkDPqZhpu0EPDWNTQuBRDj6WZrF1QgzQXJwBMo3CL/nUARBREV5ij
-	 55L2ycdQJGmu7hopOtMCu+6yJ8+opBNMTneFL11TuJLQccJ3TiRgav7HXWq5nG8273
-	 7uw7HPR8U02+ctrUfm/x7mdok6xl0eIrfSsFgDRVdadclxMklgqHhXV4Y9OMje6yLO
-	 luAQqoXEK+aUl25/rtqiycd9L4Y2rPj4OkoU2npTPAva5+DAXGTinIy2AZjSODVKQ8
-	 wfpm2F3Pn/Xng==
-Message-ID: <c9ecb36f3490326f67ff84515a8aee4d264e4361.camel@collabora.com>
-Subject: Re: [PATCH v1 4/5] media: rkvdec: Re-enable H.264 error detection
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Alex Bee <knaerzche@gmail.com>, linux-media@vger.kernel.org, Ezequiel
- Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel@collabora.com, linux-rockchip@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Mon, 13 Jun 2022 09:09:56 -0400
-In-Reply-To: <8efa6811-ee17-4dd2-23a7-e0471af8c0a6@gmail.com>
-References: <20220610125215.240539-1-nicolas.dufresne@collabora.com>
-	 <20220610125215.240539-5-nicolas.dufresne@collabora.com>
-	 <8efa6811-ee17-4dd2-23a7-e0471af8c0a6@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996C61376
+	for <linux-staging@lists.linux.dev>; Mon, 13 Jun 2022 13:46:37 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DDYiDK015684;
+	Mon, 13 Jun 2022 13:46:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=zFMfGMkq+cxHqPgN8RM7yemRXHvxRjVpVtqtigPtVjU=;
+ b=oBHluQ62ZsrjC698gtJ/cqx/YWLJNLV1KcjnKn6DQSEmBXzmAOoFGjGwAOw4OglO+22c
+ Mx49mtspK3ntlUihvERawMhuv9oO5ailqkSkdEdbQNzX+XhurlMQf9HS1y9rBDFxb8MR
+ gOAzAK1XXRCcRrastKPXJj67hpLj5Lfkr5Pt2wyxv3g7wA0kwLUDJu6tQQfPMjTYt4R/
+ YA8wK6OM+ubjydaim788tCn98QS4n107/ho0kYz8bP6XCXXvymFsqJVp82GSOCh55fRp
+ U67RZhVDhHnONcUpjcKCjDMWWyXP68Tzz1MuxbICHMIol/IE1pjK1NHNoYdvAdxQBQas yQ== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmhn0b629-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Jun 2022 13:46:17 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25DDaFWx038566;
+	Mon, 13 Jun 2022 13:46:02 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gp5yv8rps-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Jun 2022 13:46:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k3Nkx3dCQ+a/XX3yc8c7a40IGCqDZUhhiAuFHyzLld2dNnrxpMfBgJL6DrEcTHu6onv/jjen3gxFwhu9Wq7im+NfWvA9wXmh3ksGqR+RA7QEJOYgfAavWp+ocOJA1JmPv4Xm/a0gcYvN9YatqxnJmt44vjxRpjWTDlwxBchjO6Z/G7UfDaGWygDlmIGRtizAsVjZyKRTzQ0tDz5lOR9SPDFax/fT3vZzPHRpmGbGcI8c+V3W6V40lltxg+iJpABBXSyUFYhMFNqDvKNPE+s6F072X6fWAa23f/F4VEYwCiUA76riYVTgJdP+r4FIM4+u8t4k0Jo0MH8ywTS7Kixn8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zFMfGMkq+cxHqPgN8RM7yemRXHvxRjVpVtqtigPtVjU=;
+ b=Dkv9CjruyNGmgZIUuR3RRx1//OS+gU9/atUJ6uf58tC/su8gSht+bFkSpUqcsf9QiGl6zX5LbCqi7BN4ojnbE3f09Yf3f0H8ORvsJYl0Ei5QMaLOFUYYscmRs4OGGsqb8amjniJNt3h0sPTUz0wkfhyPR4sfqWel+Qxldgw1/DiUOmLmIAknw25cWnKy6jawgd6QGMz2eT0DddRdaoqsQOJk9q8zuGDXullKKmCOQtzGzE697MVfATNCLGt4eJkrWrnFl6wESEwfxY29dRnC4l+2MGLJ0+IrHCIYHFD8tgosqoXnkfKuMTSITANOlhUT5gnsBGCao4kEvvJK7b9JXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zFMfGMkq+cxHqPgN8RM7yemRXHvxRjVpVtqtigPtVjU=;
+ b=PfBRJFb456QFWNlo2ZjvfLnSQjZkEpCf40mv2kIBIs11+rIiw9/r58hJ8gPafZnYi5JvMgxsy3suGcLv3LFmqCuoCsIfWdCxLdSqnr4HxHRhx8GJkX5Y++Oxc3UT1BzAzeBopJSa319rpwINzP/VIb5hzwAxDziLFKMW78ejxdY=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by SJ1PR10MB5932.namprd10.prod.outlook.com
+ (2603:10b6:a03:489::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.19; Mon, 13 Jun
+ 2022 13:40:21 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5332.020; Mon, 13 Jun 2022
+ 13:40:21 +0000
+Date: Mon, 13 Jun 2022 16:40:09 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: athierry@redhat.com
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Subject: [bug report] staging: vchiq_arm: pass vchiq instance to
+ 'handle_to_service'
+Message-ID: <Yqc+Oavmh0zMRVPQ@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-ClientProxiedBy: ZR0P278CA0144.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:40::23) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 722e443c-e6e0-411b-1849-08da4d4242bd
+X-MS-TrafficTypeDiagnostic: SJ1PR10MB5932:EE_
+X-Microsoft-Antispam-PRVS: 
+	<SJ1PR10MB5932BCA41EFCE366A69DCDE58EAB9@SJ1PR10MB5932.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	czkn6MTohx63NTCCK/vCsDJpcylrMoAAHMOnmvrE/qopNji/0D62zQ7YI863F1NZAUrNKgt9gKzpX8QDQaItuqYzNuQpDgkjN94D48rO/0R5o7diKM5LiqP/OQlHj6+Bb1ZkwzhsRCeKISvcP5ig/cCZ5GUwbKcgoti3EtM1jGslQXS5gKXEa1g4++TrFYrel71saHIwwtyMXdBvVLIGYZcc6ljpiwmRg9ajnGhbDrEQr7uxLVZnsbcFQuFsCLp0LA95/zqiBnqthZOwQFvvoYy5i1ySyrLUxjH54ygX7JQYZ6KgSDaNyVgbo7gIcnsfIQU7zpAWsG7sb+9E/HtYGsPbEKDjSJLaYI9GfpxbOzpcKonaZ+w5p3uYWIdPLPuXS++XqnTsPsuaZKKBXClZBT36FoeUPlRzstjGohmm9Q4hDaiGsVldJGUYIiq6VipDvh20U9QKrWoirHYuAwfmS1OvlApYf6DYlhT7YeOnmmxSkQBYegyyJaPyIElcHFUrkKSv30Daw+mltOCguV8u+zNWqBHedsX5FlmjYFxnlSlxtVYH66PHaZASb97rgpRGpEpMIJzghO35atDvEkmvhvFSp2fSxpj3LvE/moi7hGA5gQFdM6cHHAwuIb9gzp5EzurqqL1tYYlzlhyFh2u6M0vE/nz0fGJzTcggHV6gNFA8QdGye9KTunArYLEMO1f1YP9o7nIybqoe8pwoakg9C1+wXJceXUpcVs24GUPOCkM=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(366004)(66946007)(66556008)(66476007)(4326008)(186003)(4744005)(5660300002)(9686003)(8676002)(86362001)(33716001)(26005)(2906002)(8936002)(6506007)(83380400001)(6666004)(508600001)(6486002)(6916009)(38100700002)(44832011)(38350700002)(52116002)(6512007)(316002)(67856001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?ZWnIsODdQ54TWUqXuShK90w365pJ1Pt/pa77siQuSYkdPqlWPr1Quy2+UE86?=
+ =?us-ascii?Q?dZ9T6ntrdftVWiwFJaZsu3waJRJgg3dIaDDlAqhXZEyZAaSpVbdiSETc6AUt?=
+ =?us-ascii?Q?D6KvY+1AhnswZ5V0kn85Mj/QBCmIigZzIAbu+eMQR8kxVrA0dV/+XCs2RzL1?=
+ =?us-ascii?Q?uVNAPi12vwVmyOIquwDwPrCzXlzAb601kuKTqoIJnf+A+BC1obaWbhII6egU?=
+ =?us-ascii?Q?bPZFhewRdoaU+xLqzA2K9V/v8AoKKk6CD3s9feYoZLqRdksw6VuYglY+NG9T?=
+ =?us-ascii?Q?QF929k8L0TZYeDmon/VDxu5BM8rzbj16D2+dkHA3Pyyn2jaslNQQYqsJVcai?=
+ =?us-ascii?Q?NaVtbLrvTWmnskcRciVKWSOKS17m6XYAqUXuO5pR1wc7tvi/0FchYG+jugoq?=
+ =?us-ascii?Q?ag6z8gDEa4/quhiykHJHRyL+KA9vDBm836RxOuvx9Hur5HmIx3GtGctEGYnI?=
+ =?us-ascii?Q?GHdiWu/vCEHq3gNni2Cm37HSRcvmU3H/1e3Ro+6+/Pz5YZZ4G105HGHmWCKX?=
+ =?us-ascii?Q?BQB9rUcm1F0v5gtzIG/eFoq5r9NCdn4bXPWEMuVkr1a+QxgL2QmjEO87jI61?=
+ =?us-ascii?Q?UcWnd3EBYXZ/pkF1Lz62V+OISelVCRY3EQv1daO0dJulqVz2ptCnGy9Gnyjb?=
+ =?us-ascii?Q?pT0WwkAaXB65q2PiXSRA4FgJIEbDXXiFNov9RbaYiP09CREp1C4r/nQN0HwO?=
+ =?us-ascii?Q?NG1PBAvEnxMg/ni/JAgV59fQrlgTPQzzF23KY/Qws6iWF5i9Iv/l7c0B0Rjt?=
+ =?us-ascii?Q?Mt1KTV7n8FRND8pu9g477nhjyndjk6Ft+ZlcV4+0ld7MYt1n3O5Iu6oMH8jT?=
+ =?us-ascii?Q?TyUEkT8nfnRY4b0KXKDpLvX/qzh9FkiKSBAGowCLtNTjAOHWb7ofBKUiCAaW?=
+ =?us-ascii?Q?vFKBoFnNCmbc4KfgLadpusXHrYdwyJ/Pwf3lhjSgChKNw4SF8hyR5F0KlxkG?=
+ =?us-ascii?Q?5P1TMDqXEtVs3TRC3e6MidacIA326ZlkBIR0MC02yz6OZk1WPpc27KmmmwGH?=
+ =?us-ascii?Q?Yeis10uKM5A8gucLrIxIyYt9klbcjt7/vbrFFQzmNiF5+a78tzejpaGkZtFB?=
+ =?us-ascii?Q?vrQp2qfC8VeW8soMY9dEE3PeR+hCbbibQrQMAA6jvgLmdAKZClyGIhnsmtFL?=
+ =?us-ascii?Q?FVrzrZqPHAZybOAJHdpkzwTx6YsJwCygkkwgXpIxdxmZ8Dn/r4RO3bzBqa1x?=
+ =?us-ascii?Q?7FD7JhpdmUUFYxP7GYIK+XR6pzRqZln9hAL10p2XBOKHcE1cUo4hSaOP3HAb?=
+ =?us-ascii?Q?nyrPDvHCFemMjoM0nfIQtFkk96HVBFaL2IQIUv6uzIlwmHgFzXd+22aFU7D8?=
+ =?us-ascii?Q?E+WlfUrlhnQcU1Zrpsed6oyuLYb1q7QpOGQnIGav1I4VQkcaNGGXzv5eZEF0?=
+ =?us-ascii?Q?bNkEifB74i3f1VqSbToCxC1p/Q07Y5lreEUFdYDlNqXPKXaD7RHgtE8l9UiT?=
+ =?us-ascii?Q?AQj3ZKwE/vWJ7Hv/G4lS3J6cWtQylLOCA8VdNKvKk/zud++pyuevcF1RdjLn?=
+ =?us-ascii?Q?xXwOqr3X/QtG+BwogdvSKmVNo5MHGW8g+wonLPdbihnp9w7j8gUGBvb2eiBx?=
+ =?us-ascii?Q?D1bOJPmh4o2rmmg024YW7YOXD0spXU4wRBngro6NntV2h8MtH3jC4qNJO7ha?=
+ =?us-ascii?Q?3fJ0Cjg8IAUx+yJIoZhP+LrKRSlc+5d23i21gO0gx0O7/ZV6BPKU/hFcOOMU?=
+ =?us-ascii?Q?9k8Xc5Q66WK4PnhhSDGJm2RYq4BrP3b6hZCbf9fvdBnn+c1AmVJONd2+yTRL?=
+ =?us-ascii?Q?mfKuPMedj6qOmnfHKukWmG7ykDp0VPQ=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 722e443c-e6e0-411b-1849-08da4d4242bd
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2022 13:40:21.2965
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4frDYfdt8dAb0MKx/9W9+gRFWt+nvRudAOvruRhT1+lBdyl16Hhhxp8ZD99jsvRi32CL6w1WdFhk70qPIk54CY1s6em+AFJRMPZQKa0g8LY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR10MB5932
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.874
+ definitions=2022-06-13_06:2022-06-13,2022-06-13 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0 spamscore=0
+ malwarescore=0 adultscore=0 phishscore=0 bulkscore=0 mlxlogscore=626
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206130061
+X-Proofpoint-GUID: yaGcurlhLftD7Df4lYp_nlKDJeYJJ6Xw
+X-Proofpoint-ORIG-GUID: yaGcurlhLftD7Df4lYp_nlKDJeYJJ6Xw
 
-Le samedi 11 juin 2022 =C3=A0 14:08 +0200, Alex Bee a =C3=A9crit=C2=A0:
-> Am 10.06.22 um 14:52 schrieb Nicolas Dufresne:
-> > This re-enables H.264 error detection, but using the other error mode.
-> > In that mode, the decoder will skip over the error macro-block or
-> > slices and complete the decoding. As a side effect, the error status
-> > is not set in the interrupt status register, and instead errors are
-> > detected per format. Using this mode workaround the issue that the
-> > HW get stuck in error stated and allow reporting that some corruption
-> > may be present in the buffer returned to userland.
-> >=20
-> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > ---
-> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 23 +++++++++++++++++++---
-> >  1 file changed, 20 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/stagi=
-ng/media/rkvdec/rkvdec-h264.c
-> > index 55596ce6bb6e..60a89918e2c1 100644
-> > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > @@ -1175,14 +1175,15 @@ static int rkvdec_h264_run(struct rkvdec_ctx *c=
-tx)
-> > =20
-> >  	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000))=
-;
-> > =20
-> > -	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> > -	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
-> > +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-> > +	writel(0xffffffff, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
-> >  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_LUMA_CACHE_COMMAND);
-> >  	writel(1, rkvdec->regs + RKVDEC_REG_PREF_CHR_CACHE_COMMAND);
-> > =20
-> >  	/* Start decoding! */
-> >  	writel(RKVDEC_INTERRUPT_DEC_E | RKVDEC_CONFIG_DEC_CLK_GATE_E |
-> > -	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E,
-> > +	       RKVDEC_TIMEOUT_E | RKVDEC_BUF_EMPTY_E |
-> > +	       RKVDEC_H264ORVP9_ERR_MODE,
-> >  	       rkvdec->regs + RKVDEC_REG_INTERRUPT);
-> > =20
-> >  	return 0;
-> > @@ -1196,10 +1197,26 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_c=
-tx *ctx, struct v4l2_ctrl *ctrl)
-> >  	return 0;
-> >  }
-> > =20
-> > +static int rkvdec_h264_check_error_info(struct rkvdec_ctx *ctx)
-> > +{
-> > +	struct rkvdec_dev *rkvdec =3D ctx->dev;
-> > +	int err;
-> > +
-> > +	err =3D readl(rkvdec->regs + RKVDEC_REG_H264_ERRINFO_NUM);
-> > +	if (err & RKVDEC_STRMD_DECT_ERR_FLAG) {
-> > +		pr_debug("Decoded picture have %i/%i slices with errors.\n",
-> > +			 RKVDEC_ERR_PKT_NUM(err), RKVDEC_SLICEDEC_NUM(err));
-> > +		return VB2_BUF_STATE_ERROR;
-> > +	}
-> > +
-> > +	return VB2_BUF_STATE_DONE;
-> > +}
-> > +
-> >  const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops =3D {
-> >  	.adjust_fmt =3D rkvdec_h264_adjust_fmt,
-> >  	.start =3D rkvdec_h264_start,
-> >  	.stop =3D rkvdec_h264_stop,
-> >  	.run =3D rkvdec_h264_run,
-> >  	.try_ctrl =3D rkvdec_h264_try_ctrl,
-> > +	.check_error_info =3D rkvdec_h264_check_error_info,
-> >  };
->=20
-> Actually I'm not sure I fully understand what you are expecting the
-> userspace to do with the information that there was an (HW!) error,
-> which might or might not be bitstrean related. Resending the
-> corrupted(?) frame until the HW fully hangs?
-> As the interrupt reports an HW error it should (at least also) be
-> handled driver-side and the HW is known not to be able to fully reset
-> itself in case of an error.
-> I think this will make behavior worse than it is now (for real-life
-> users) where errors are eventually just ignored.
+Hello Adrien Thierry,
 
-I've changed the decoding mode, see bit 19 or swreg1. In that mode, the dec=
-oder
-will behave just like if error detection was off. It will just keep going a=
-nd
-produce "something". With the set of corrupted streams we had, we found tha=
-t the
-decoder no longer get stuck, and we are aware of the possibly corrupted buf=
-fers.
-In current mode, the decoder tries to stop as soon as an error is met, whic=
-h
-most of the time means nothing is every written to the buffer. And as you
-mention, it often fail at "self reset".
+This is a semi-automatic email about new static checker warnings.
 
-In streaming there is two style of handling corrupted buffers, one is to sk=
-ip
-until valid state, and the other is to show them even if corrupted. In stac=
-k
-like GStreamer we just flag the corrupted frames based on the ERROR flag (u=
-nless
-payload size is 0) and let the user chose to drop them or not.
+The patch 6d02150cdf76: "staging: vchiq_arm: pass vchiq instance to 
+'handle_to_service'" from May 18, 2022, leads to the following Smatch 
+complaint:
 
+    drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1070 service_callback()
+    warn: variable dereferenced before check 'instance' (see line 1062)
 
-> I think this will make behavior worse than it is now (for real-life users=
-)
-where errors are eventually just ignored.
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+  1061		rcu_read_lock();
+  1062		service = handle_to_service(instance, handle);
+                                            ^^^^^^^^
+New dereference
 
-Just ignoring the errors is way better then an infinite row of errors. At t=
-he
-moment, FFMPEG/Chromium and GStreamer ignores errors indeed. I got some wor=
-k in
-progress patch in GStreamer I've used to test this, but its not ready yet. =
-In
-the current behaviour, if you hit an error, you basically have 9 chances ou=
-t of
-10 to keep replaying ancient buffers in loop till the end of time. This is
-because the self reset never completes, and you get the same error over and=
- over
-regardless what you pass to the decoder.
+  1063		if (WARN_ON(!service)) {
+  1064			rcu_read_unlock();
+  1065			return VCHIQ_SUCCESS;
+  1066		}
+  1067	
+  1068		user_service = (struct user_service *)service->base.userdata;
+  1069	
+  1070		if (!instance || instance->closing) {
+                     ^^^^^^^^
+Existing code checked for NULL
+
+  1071			rcu_read_unlock();
+  1072			return VCHIQ_SUCCESS;
 
 regards,
-Nicolas
-
-p.s. the tests should land (if not already) in ChromeOS taste suite.
-
->=20
-> Alex
-
+dan carpenter
