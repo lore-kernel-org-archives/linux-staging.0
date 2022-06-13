@@ -1,7 +1,7 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2D27C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CE01871
 	for <linux-staging@lists.linux.dev>; Mon, 13 Jun 2022 19:52:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	s=mimecast20190719; t=1655149968;
@@ -9,23 +9,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GVCUuAPx13J/edY6RlmG+VcE5YVud1g2ONG3F/9qLtg=;
-	b=Hwt0fi540Kwom4SNXVWMmeoLNB+LJCfesbeOM7t/ElGwGwllmyqYHpdBK6fr4F0qF6fYXg
-	TSEACEp64G9rl35vn69/XI6eyCfgzOac+Epk7X0ZPIeHIoTNsX+AFeiMZVn655jHj9RdEE
-	R4Wa+hPaKASd4IcbYJ3v3oyTfqb8QCw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=hSZMBNxnsB7j5qv9ISB5RFR/JfrygUvTPg3f4GiAdI0=;
+	b=At3mdL6klFLrHYXO6292uLrO3CtjPEDk2eJq8D5XnKZuzbOwB1vaYRlOk3YqB4IRHuCK/j
+	Vdx/C6lCUnFjj+2NFRJU4Tyzp3UZpTlh46+4e5X8wO4iFufLvVudNAWJHUB5FqEdlmkCZB
+	pBaQrlExpu88wajqjpfNuRVgI/hLoao=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-O79ukws1OQKpz9BLp9f_7w-1; Mon, 13 Jun 2022 15:52:42 -0400
-X-MC-Unique: O79ukws1OQKpz9BLp9f_7w-1
+ us-mta-230-1I88YryNN2Ciswob3Yr-7A-1; Mon, 13 Jun 2022 15:52:44 -0400
+X-MC-Unique: 1I88YryNN2Ciswob3Yr-7A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F21DD299E746;
-	Mon, 13 Jun 2022 19:52:41 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DFE0F801755;
+	Mon, 13 Jun 2022 19:52:43 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.42])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6805F2166B26;
-	Mon, 13 Jun 2022 19:52:40 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 326792166B29;
+	Mon, 13 Jun 2022 19:52:42 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 35/40] media: atomisp: add error logging to atomisp_destroy_pipes_stream_force()
-Date: Mon, 13 Jun 2022 21:51:32 +0200
-Message-Id: <20220613195137.8117-36-hdegoede@redhat.com>
+Subject: [PATCH 36/40] media: atomisp: use atomisp_create_pipes_stream() in more places
+Date: Mon, 13 Jun 2022 21:51:33 +0200
+Message-Id: <20220613195137.8117-37-hdegoede@redhat.com>
 In-Reply-To: <20220613195137.8117-1-hdegoede@redhat.com>
 References: <20220613195137.8117-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,32 +52,67 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 
-__destroy_streams() and __destroy_pipes() may return an error.
-Log a warning when either of them fails.
+Use atomisp_create_pipes_stream() in 2 more places,
+instead of open coding it.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 28 +++----------------
+ 1 file changed, 4 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 6375cfb839d4..358ef29f27ba 100644
+index 358ef29f27ba..76dab48cea67 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -581,8 +581,11 @@ static int __destroy_pipes(struct atomisp_sub_device *asd, bool force)
+@@ -810,7 +810,6 @@ int atomisp_create_pipes_stream(struct atomisp_sub_device *asd)
  
- void atomisp_destroy_pipes_stream_force(struct atomisp_sub_device *asd)
+ int atomisp_css_update_stream(struct atomisp_sub_device *asd)
  {
--	__destroy_streams(asd, true);
--	__destroy_pipes(asd, true);
-+	if (__destroy_streams(asd, true))
-+		dev_warn(asd->isp->dev, "destroy stream failed.\n");
-+
-+	if (__destroy_pipes(asd, true))
-+		dev_warn(asd->isp->dev, "destroy pipe failed.\n");
+-	int ret;
+ 	struct atomisp_device *isp = asd->isp;
+ 
+ 	if (__destroy_streams(asd, true))
+@@ -819,20 +818,7 @@ int atomisp_css_update_stream(struct atomisp_sub_device *asd)
+ 	if (__destroy_pipes(asd, true))
+ 		dev_warn(isp->dev, "destroy pipe failed.\n");
+ 
+-	ret = __create_pipes(asd);
+-	if (ret) {
+-		dev_err(isp->dev, "create pipe failed %d.\n", ret);
+-		return -EIO;
+-	}
+-
+-	ret = __create_streams(asd);
+-	if (ret) {
+-		dev_warn(isp->dev, "create stream failed %d.\n", ret);
+-		__destroy_pipes(asd, true);
+-		return -EIO;
+-	}
+-
+-	return 0;
++	return atomisp_create_pipes_stream(asd);
  }
  
- static void __apply_additional_pipe_config(
+ int atomisp_css_init(struct atomisp_device *isp)
+@@ -1150,15 +1136,9 @@ int atomisp_css_start(struct atomisp_sub_device *asd,
+ 	 * recreated in the next stream on.
+ 	 */
+ 	if (!asd->stream_prepared) {
+-		if (__create_pipes(asd)) {
+-			dev_err(isp->dev, "create pipe error.\n");
+-			return -EINVAL;
+-		}
+-		if (__create_streams(asd)) {
+-			dev_err(isp->dev, "create stream error.\n");
+-			ret = -EINVAL;
+-			goto stream_err;
+-		}
++		ret = atomisp_create_pipes_stream(asd);
++		if (ret)
++			return ret;
+ 	}
+ 	/*
+ 	 * SP can only be started one time
 -- 
 2.36.0
 
