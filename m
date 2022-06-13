@@ -1,31 +1,31 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB54A1873
-	for <linux-staging@lists.linux.dev>; Mon, 13 Jun 2022 19:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6911872
+	for <linux-staging@lists.linux.dev>; Mon, 13 Jun 2022 19:52:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1655149940;
+	s=mimecast20190719; t=1655149943;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fWw8SdHuZ2LXCO9Fh9Kuq3IJ6S020mmRixqNYtYJ8EQ=;
-	b=GNjODhpsBPNmSjmXhM6yV3/LxUAzsehUOKp8x8/b5FLPKsIT+/TVDL8O/uCOqvfRUvOzJB
-	WJBANRN4UasohtUBWu3sRfDbyk1BlFgAQ6TvAxvPZv0HBA18kv67Ws6blDgsLiFSE0micK
-	m+jCA6gmVBE1hYRKs4Aot7UfUswPiQI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=gDcddNsrEyPkiLmIrObCxvniF30MCiHnZ91KDKHbwX8=;
+	b=DCNRn/mB3YjwbMGIhMrML3CRe6FMZGkaOID00Y7t33x4LtqFkM7FPhvzwGl6IhCUHG1I+f
+	R6GBFfou/+JUwUGoWBHDgB3Zqw53bibIHlM7tBozdbSDq8ZIM7ZT3Jo5k0p56nz0vHa8+6
+	onWRe2UpotI9fZL3BDyE3VZ2qwp2Ljw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-410-9eOp9qEGMPmJgxhk4TYoAQ-1; Mon, 13 Jun 2022 15:52:19 -0400
-X-MC-Unique: 9eOp9qEGMPmJgxhk4TYoAQ-1
+ us-mta-604-19BecnXXMYCvqng4frXSiA-1; Mon, 13 Jun 2022 15:52:17 -0400
+X-MC-Unique: 19BecnXXMYCvqng4frXSiA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE6A7801E6B;
-	Mon, 13 Jun 2022 19:52:18 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.42])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 711262166B26;
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A8BA3C021A6;
 	Mon, 13 Jun 2022 19:52:17 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.42])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A8B1A2166B26;
+	Mon, 13 Jun 2022 19:52:15 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -38,9 +38,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 22/40] media: atomisp: remove no longer used atomisp_css_acc_done() function
-Date: Mon, 13 Jun 2022 21:51:19 +0200
-Message-Id: <20220613195137.8117-23-hdegoede@redhat.com>
+Subject: [PATCH 21/40] media: atomisp: asc.acc.pipeline is always NULL
+Date: Mon, 13 Jun 2022 21:51:18 +0200
+Message-Id: <20220613195137.8117-22-hdegoede@redhat.com>
 In-Reply-To: <20220613195137.8117-1-hdegoede@redhat.com>
 References: <20220613195137.8117-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -52,59 +52,76 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 
-atomisp_css_acc_done() is no longer used anywhere, remove it.
+With the removal of the ACC ioctls and atomisp_acc.c asc.acc.pipeline
+never gets set, so it is always NULL.
+
+Remove asc.acc.pipeline and drop checks for it being NULL / !NULL.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_compat.h       | 2 --
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 5 -----
- drivers/staging/media/atomisp/pci/atomisp_subdev.h       | 4 ----
- 3 files changed, 11 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c          | 3 ---
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 3 +--
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c        | 6 ------
+ drivers/staging/media/atomisp/pci/atomisp_subdev.h       | 1 -
+ 4 files changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-index 07569f47498d..809f1a8c9974 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-@@ -442,8 +442,6 @@ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
- 
- int atomisp_css_update_stream(struct atomisp_sub_device *asd);
- 
--void atomisp_css_acc_done(struct atomisp_sub_device *asd);
--
- struct atomisp_acc_fw;
- int atomisp_css_set_acc_parameters(struct atomisp_acc_fw *acc_fw);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 18f063393433..d8b3896a267a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1888,9 +1888,6 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
+ 		    && isp->sw_contex.file_input)
+ 			v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
+ 					 video, s_stream, 1);
+-		/* FIXME! FIX ACC implementation */
+-		if (asd->acc.pipeline && css_pipe_done[asd->index])
+-			atomisp_css_acc_done(asd);
+ 	}
+ 	dev_dbg(isp->dev, "<%s\n", __func__);
  
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 646404a71d18..6e91654ce5da 100644
+index 51b31e6c4811..646404a71d18 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -3823,11 +3823,6 @@ void atomisp_css_set_cont_prev_start_time(struct atomisp_device *isp,
- 	return;
+@@ -3857,8 +3857,7 @@ static struct atomisp_sub_device *__get_atomisp_subdev(
+ 
+ 	for (i = 0; i < isp->num_of_streams; i++) {
+ 		asd = &isp->asd[i];
+-		if (asd->streaming == ATOMISP_DEVICE_STREAMING_DISABLED &&
+-		    !asd->acc.pipeline)
++		if (asd->streaming == ATOMISP_DEVICE_STREAMING_DISABLED)
+ 			continue;
+ 		for (j = 0; j < ATOMISP_INPUT_STREAM_NUM; j++) {
+ 			stream_env = &asd->stream_env[j];
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 69deeb55613f..725b3b1562b1 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -626,12 +626,6 @@ unsigned int atomisp_streaming_count(struct atomisp_device *isp)
+ 
+ unsigned int atomisp_is_acc_enabled(struct atomisp_device *isp)
+ {
+-	unsigned int i;
+-
+-	for (i = 0; i < isp->num_of_streams; i++)
+-		if (isp->asd[i].acc.pipeline)
+-			return 1;
+-
+ 	return 0;
  }
  
--void atomisp_css_acc_done(struct atomisp_sub_device *asd)
--{
--	complete(&asd->acc.acc_done);
--}
--
- /* Set the ACC binary arguments */
- int atomisp_css_set_acc_parameters(struct atomisp_acc_fw *acc_fw)
- {
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index f611fd47b85d..798a93793a9a 100644
+index f1e87c3a9dfa..f611fd47b85d 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
 +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -322,10 +322,6 @@ struct atomisp_sub_device {
- 
+@@ -323,7 +323,6 @@ struct atomisp_sub_device {
  	struct v4l2_ctrl *disable_dz;
  
--	struct {
--		struct completion acc_done;
--	} acc;
--
- 	struct atomisp_subdev_params params;
+ 	struct {
+-		struct ia_css_pipe *pipeline;
+ 		struct completion acc_done;
+ 	} acc;
  
- 	struct atomisp_stream_env stream_env[ATOMISP_INPUT_STREAM_NUM];
 -- 
 2.36.0
 
