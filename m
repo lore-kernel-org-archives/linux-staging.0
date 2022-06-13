@@ -1,195 +1,209 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF07A2D;
-	Sun, 12 Jun 2022 20:40:33 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id m20so7498527ejj.10;
-        Sun, 12 Jun 2022 13:40:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BB97C
+	for <linux-staging@lists.linux.dev>; Mon, 13 Jun 2022 02:05:40 +0000 (UTC)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-fe15832ce5so6698039fac.8
+        for <linux-staging@lists.linux.dev>; Sun, 12 Jun 2022 19:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2jytHVm8ZuiwCARiy/dgP+cTcJmeud+YGOQOnyEwcxA=;
-        b=GpY4ALNkJzEvUaHFW/O5CIpcZsTIXpDVZP49i7FVo8bGurcfZHFS9t7IT8KP9iu1Cc
-         2oqJhTvsTHDyd7l5Y25IjiUe1oyaPBnKpQHELKvVywXrIU5eGWBZe15fDoHYrvmhnG1r
-         7Rkga5RTqsYOL2tbtR0CL3PZ/ov0mJVD6UyCE8YyoDy11C8yfY01RFCM6sObulEkEPEl
-         qvxRj4HiZxCrYp+Lpq/z3uE1v2/U8f0rHdG17VoMn1SmqKkLKBKKGrDXgjfHQR8K+wrO
-         AOm65KD4tdozQl1dd+ICTBWfvRbwPAG60k800Nt7fIdHIex/14wPtFgE0MFhZXBEmQA0
-         ovpA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e46J6YpvZlo2yGMzk6PY6sq3v309vZF6FtZnu8zauLo=;
+        b=iJBQxF2Wl8xxK/rALoNpaCDWo3V4BFLqvJPHSBKd+7wAbQVgGZOGN6oaw8AoVgfAO2
+         kacOO+OTX7lzg2LAvn+n1wMfeLtg5vtSuRqsFvoUqtsD/E+8Zfj+PWUSnp1gQRFX55+V
+         ugDYSdtx/pX5N0b3Rzk2R1X0n1Q7bLh/QNEhIbXz8h11K6c2UvpOub/rddfitIN6XLGF
+         fn7YG6cUzDDw+wgoIJJQLCWkyBC6H8cJqbdj4G1DjgcouBGe+iBpQMQ+Hun8+wevETDi
+         suvR2BriwLgGym/UvWSy+NCXBqma/WYQxesdN/8RF7M1YfiX4TSaitFsHIQcPGwz4PBy
+         ZzJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2jytHVm8ZuiwCARiy/dgP+cTcJmeud+YGOQOnyEwcxA=;
-        b=I68uhlyGMuHR6WoaeS7tg0aB7JSdZqr5nkK0tifJUSMegaQdLtq2zUGe/E/46X8nw3
-         1oe01rgndq5VwMr2ee6PATwSGrJshx2qnzrFbzty17GaI/+Vzo6/uX+9JHpzdosLmrnC
-         dp/rtebD8oDN4nt/d6cKGVnXpmfWRJbok6FkvP5sVtgMfLRPs9RQWbIcdttU7MKWYWp5
-         H5+4tmmFwX1OzJez5AaK/sygP3XHtvSS+j9zKpB0q+mDS6/A3tRVIKOwf4lJ4DXGZKGY
-         CurOkHqjw8OG3DbwFOkPSMejMVoZ/h+gKZjmYwwXCN79WNhUITcQEhrTa8jjgqNqM/Pq
-         QE2g==
-X-Gm-Message-State: AOAM531hSysymgUV7IKD8Tj+ON18MkDy8YuhvI8h2prB6KknNnAGaKzm
-	2cek8lfkZe/njfJlv2jOIIE=
-X-Google-Smtp-Source: ABdhPJyZMq8l4+8JswvBLfHVqVHIy5eA61rvmP1XRt/vBtLQl8KZ0Q089dGMem6tMX5+in5sWOeZkg==
-X-Received: by 2002:a17:907:971f:b0:6ff:2d30:4b37 with SMTP id jg31-20020a170907971f00b006ff2d304b37mr49917948ejc.7.1655066431322;
-        Sun, 12 Jun 2022 13:40:31 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id b10-20020a170906d10a00b006f4c557b7d2sm2853979ejz.203.2022.06.12.13.40.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jun 2022 13:40:30 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com
-Subject: Re: Re: [PATCH v6 16/17] media: uapi: Change data_bit_offset definition
-Date: Sun, 12 Jun 2022 22:40:29 +0200
-Message-ID: <11997092.O9o76ZdvQC@kista>
-In-Reply-To: <c330e3e1-e10c-5930-2d1d-6260cb8d64b8@collabora.com>
-References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com> <7385576.EvYhyI6sBW@kista> <c330e3e1-e10c-5930-2d1d-6260cb8d64b8@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=e46J6YpvZlo2yGMzk6PY6sq3v309vZF6FtZnu8zauLo=;
+        b=cNRXhvR63xa/Dugu5dnFnNBVluIhr+++m4gNMJO53ldo61rwJmOYjkKGvZp/pA70yr
+         pZ4hUHOxYw1IiUtBNVDARLFJoQXcbdZF/c7qMSLNLBhi7suM2MeLOaMtNdlW92gSWz1K
+         7CpwcaeS8G6zvbGr6ekER8vmJjF08sUCSV6/a/WlhDAqyw+vV9KbMyikymzKsFTYyZmH
+         eNu0cnA6vl2uwXRSoSh59gajfF8Gl56xcw9WwX5SUCS1wuuYypJPDqnIL8I9g1DzBmIS
+         ZPrvkZCNNkk0r+2EIiAivhh5ifx6vIxEhT66CezEvDPdUAYWJ7I1Xw16KaiQZ2xw5WHE
+         DABw==
+X-Gm-Message-State: AOAM532OFd6rFn6duNloLD/SVMyij+J3iU0bQaDuH+gfR3PVzzTYBKJA
+	uZQkMtN8STz2vfCHSCaYIcILrBSUA+fReU9hqyk=
+X-Google-Smtp-Source: ABdhPJwz5UGAyOrgXcceDNDm0wdsu410WRWWGrrkAgaIqwJLEpLVqHsAtKdij4lra+lyQ0P01s8Oj7xw9CpeCe+QygU=
+X-Received: by 2002:a05:6870:d582:b0:fe:4131:6dbb with SMTP id
+ u2-20020a056870d58200b000fe41316dbbmr6421526oao.76.1655085939878; Sun, 12 Jun
+ 2022 19:05:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <62a3ad70.TorcQosfTdYPgOzL%lkp@intel.com>
+In-Reply-To: <62a3ad70.TorcQosfTdYPgOzL%lkp@intel.com>
+From: Souptick Joarder <jrdr.linux@gmail.com>
+Date: Mon, 13 Jun 2022 07:35:27 +0530
+Message-ID: <CAFqt6zaL=QBkS5PJNKV9D81uGmwGwjjsa0w90ohGjJkB2qEu4g@mail.gmail.com>
+Subject: Re: [linux-next:master] BUILD REGRESSION 6d0c806803170f120f8cb97b321de7bd89d3a791
+To: kernel test robot <lkp@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-staging@lists.linux.dev, 
+	amd-gfx@lists.freedesktop.org, 
+	Linux Memory Management List <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Dne sreda, 01. junij 2022 ob 18:33:22 CEST je Benjamin Gaignard napisal(a):
->=20
-> Le 01/06/2022 =C3=A0 18:17, Jernej =C5=A0krabec a =C3=A9crit :
-> > Dne nedelja, 29. maj 2022 ob 08:45:57 CEST je Jernej =C5=A0krabec napis=
-al(a):
-> >> Dne petek, 27. maj 2022 ob 16:31:33 CEST je Benjamin Gaignard napisal(=
-a):
-> >>> 'F.7.3.6.1 General slice segment header syntax' section of HEVC
-> >>> specification describes that a slice header always end aligned on
-> >>> byte boundary, therefore we only need to provide the data offset in=20
-bytes.
-> >>>
-> >>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> >>> ---
-> >>>   Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
-> >>>   drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
-> >>>   include/media/hevc-ctrls.h                                | 4 ++--
-> >>>   3 files changed, 5 insertions(+), 5 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rs=
-t b/
-> >> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>> index 48a8825a001b..37079581c661 100644
-> >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>> @@ -3008,8 +3008,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-> >>>         - ``bit_size``
-> >>>         - Size (in bits) of the current slice data.
-> >>>       * - __u32
-> >>> -      - ``data_bit_offset``
-> >>> -      - Offset (in bits) to the video data in the current slice data.
-> >>> +      - ``data_byte_offset``
-> >>> +      - Offset (in bytes) to the video data in the current slice dat=
-a.
-> >>>       * - __u32
-> >>>         - ``num_entry_point_offsets``
-> >>>         - Specifies the number of entry point offset syntax elements =
-in=20
-the
-> >> slice header.
-> >>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drive=
-rs/
-> >> staging/media/sunxi/cedrus/cedrus_h265.c
-> >>> index 411601975124..835454239f73 100644
-> >>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> >>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> >>> @@ -405,7 +405,7 @@ static void cedrus_h265_setup(struct cedrus_ctx=20
-*ctx,
-> >>>   	/* Initialize bitstream access. */
-> >>>   	cedrus_write(dev, VE_DEC_H265_TRIGGER,
-> >> VE_DEC_H265_TRIGGER_INIT_SWDEC);
-> >>>  =20
-> >>> -	cedrus_h265_skip_bits(dev, slice_params->data_bit_offset);
-> >>> +	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8);
-> >> While it's true that actual data starts on 8-bit aligned address, Cedr=
-us=20
-for
-> >> some reason needs offset which points at the end of the header, before
-> >> alignment. There is very simple way to determine that, but unfortunate=
-ly
-> > this
-> >> means reading source buffer.
-> >>
-> >> In short, above code won't work. I'll provide a fix.
-> > Please include following fix http://ix.io/3Z8x otherwise Cedrus will fa=
-il=20
-to
-> > decode slice.
+On Sat, Jun 11, 2022 at 2:16 AM kernel test robot <lkp@intel.com> wrote:
+>
+> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> branch HEAD: 6d0c806803170f120f8cb97b321de7bd89d3a791  Add linux-next specific files for 20220610
+>
+> Error/Warning reports:
+>
+> https://lore.kernel.org/llvm/202205220805.wrw5woEk-lkp@intel.com
+>
+> Error/Warning: (recently discovered and may have been fixed)
+>
+> arch/riscv/include/asm/pgtable-64.h:215:2: error: invalid input constraint '0' in asm
+> arch/riscv/include/asm/pgtable.h:257:2: error: invalid input constraint '0' in asm
+> drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:130:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
 
-=46luster testing show that this patch isn't completely fine. I also have s=
-ome=20
-other issues, which need control values comparisons. It would be best, if y=
-ou=20
-can wait until I finish comparison. Old, hackish HEVC patches have high flu=
-ster=20
-score whereas new, based on stable uAPI, has low and CPU also locks up...
-
-Best regards,
-Jernej
-
-> >
-> > Other than fix in previous e-mail and this one, code looks good and I'l=
-l be
-> > able to add missing functionality to Cedrus without much trouble in fol=
-low=20
-up
-> > series.
->=20
-> Thanks for the patch it will be in version 7.
->=20
-> Regards,
-> Benjamin
->=20
-> >
-> > Best regards,
-> > Jernej
-> >
-> >>>  =20
-> >>>   	/* Bitstream parameters. */
-> >>>  =20
-> >>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> >>> index 9abca1a75bd4..936ff693967b 100644
-> >>> --- a/include/media/hevc-ctrls.h
-> >>> +++ b/include/media/hevc-ctrls.h
-> >>> @@ -312,7 +312,7 @@ struct v4l2_hevc_pred_weight_table {
-> >>>    * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
-> >>>    *
-> >>>    * @bit_size: size (in bits) of the current slice data
-> >>> - * @data_bit_offset: offset (in bits) to the video data in the curre=
-nt
-> > slice
-> >> data
-> >>> + * @data_byte_offset: offset (in bytes) to the video data in the cur=
-rent
-> >> slice data
-> >>>    * @num_entry_point_offsets: specifies the number of entry point of=
-fset
-> > syntax
-> >>>    *			     elements in the slice header.
-> >>>    * @nal_unit_type: specifies the coding type of the slice (B, P or =
-I)
-> >>> @@ -356,7 +356,7 @@ struct v4l2_hevc_pred_weight_table {
-> >>>    */
-> >>>   struct v4l2_ctrl_hevc_slice_params {
-> >>>   	__u32	bit_size;
-> >>> -	__u32	data_bit_offset;
-> >>> +	__u32	data_byte_offset;
-> >>>   	__u32	num_entry_point_offsets;
-> >>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
-> >>>   	__u8	nal_unit_type;
-> >>> --=20
-> >>> 2.32.0
-> >>>
-> >>>
-> >>
-> >>
-> >
->=20
+This is a False warning.
+0 ddc_service_types.h <global>                    130 static const u8
+DP_SINK_BRANCH_DEV_NAME_7580[] = "7580\x80u";
+1 dc_link.c           detect_link_and_local_sink 1106
+memcmp(&link->dpcd_caps.branch_dev_name, DP_SINK_BRANCH_DEV_NAME_7580,
 
 
+> drivers/misc/cardreader/rts5261.c:406:13: warning: variable 'setting_reg2' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+I think, code wise this looks correct and can be excluded.
+
+> drivers/staging/rtl8723bs/hal/hal_btcoex.c:1182:30: warning: variable 'pHalData' set but not used [-Wunused-but-set-variable]
+>
+> Error/Warning ids grouped by kconfigs:
+>
+> gcc_recent_errors
+> |-- alpha-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- arc-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- arm-allmodconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- arm-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- arm64-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- i386-allyesconfig
+> |   |-- drivers-gpu-drm-amd-amdgpu-..-display-include-ddc_service_types.h:warning:DP_SINK_BRANCH_DEV_NAME_7580-defined-but-not-used
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- ia64-allmodconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- m68k-allmodconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- m68k-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- mips-allmodconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- mips-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- nios2-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- parisc-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- powerpc-allmodconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- powerpc-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- riscv-allmodconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- riscv-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- sh-allmodconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- sparc-allyesconfig
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> |-- x86_64-allyesconfig
+> |   |-- drivers-gpu-drm-amd-amdgpu-..-display-include-ddc_service_types.h:warning:DP_SINK_BRANCH_DEV_NAME_7580-defined-but-not-used
+> |   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+> `-- xtensa-allyesconfig
+>     `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+>
+> clang_recent_errors
+> |-- i386-randconfig-a013
+> |   `-- drivers-misc-cardreader-rts5261.c:warning:variable-setting_reg2-is-used-uninitialized-whenever-if-condition-is-false
+> `-- riscv-randconfig-r013-20220610
+>     |-- arch-riscv-include-asm-pgtable-.h:error:invalid-input-constraint-in-asm
+>     `-- arch-riscv-include-asm-pgtable.h:error:invalid-input-constraint-in-asm
+>
+> elapsed time: 873m
+>
+> configs tested: 61
+> configs skipped: 3
+>
+> gcc tested configs:
+> arm                                 defconfig
+> arm                              allmodconfig
+> arm                              allyesconfig
+> arm64                               defconfig
+> arm64                            allyesconfig
+> um                             i386_defconfig
+> um                           x86_64_defconfig
+> ia64                                defconfig
+> ia64                             allmodconfig
+> ia64                             allyesconfig
+> m68k                                defconfig
+> m68k                             allyesconfig
+> m68k                             allmodconfig
+> nios2                               defconfig
+> arc                              allyesconfig
+> alpha                               defconfig
+> csky                                defconfig
+> nios2                            allyesconfig
+> alpha                            allyesconfig
+> h8300                            allyesconfig
+> arc                                 defconfig
+> sh                               allmodconfig
+> xtensa                           allyesconfig
+> parisc                              defconfig
+> s390                             allmodconfig
+> parisc                           allyesconfig
+> s390                             allyesconfig
+> parisc64                            defconfig
+> s390                                defconfig
+> i386                   debian-10.3-kselftests
+> i386                              debian-10.3
+> i386                                defconfig
+> i386                             allyesconfig
+> sparc                               defconfig
+> sparc                            allyesconfig
+> mips                             allyesconfig
+> mips                             allmodconfig
+> powerpc                           allnoconfig
+> powerpc                          allmodconfig
+> powerpc                          allyesconfig
+> i386                          randconfig-a014
+> i386                          randconfig-a012
+> i386                          randconfig-a016
+> riscv                             allnoconfig
+> riscv                            allyesconfig
+> riscv                            allmodconfig
+> riscv                    nommu_k210_defconfig
+> riscv                          rv32_defconfig
+> riscv                    nommu_virt_defconfig
+> riscv                               defconfig
+> x86_64                              defconfig
+> x86_64                           allyesconfig
+> x86_64                                  kexec
+> x86_64                               rhel-8.3
+> x86_64                         rhel-8.3-kunit
+> x86_64                           rhel-8.3-syz
+> x86_64                          rhel-8.3-func
+> x86_64                    rhel-8.3-kselftests
+>
+> clang tested configs:
+> i386                          randconfig-a013
+> i386                          randconfig-a011
+> i386                          randconfig-a015
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://01.org/lkp
+>
