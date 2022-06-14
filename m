@@ -1,115 +1,237 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116EC1FB0
-	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 18:26:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1655231184;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=+2ghUAqq8tV/t933HP/EAr/vq6kVXtlGVMho/GYXXI4=;
-	b=SGxFNxSVhpk8ToY2dSoTMFN1wuUCA9fCdP5RYN7Nzrn54fc6RmHfnlOSXCMVqgXhqjrPyz
-	N9vo7ejG7j5rDcvTAPTOq2CVNzl0rgcNQfgGqcITeV4Q2xbwAs1pQLacLCqOyOb+AXtR06
-	tTv7ad2OYUwNqQP/+L3irvYh7Jd3qdg=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-FnIT8_3MMEyVdpP7AtFPqQ-1; Tue, 14 Jun 2022 14:26:23 -0400
-X-MC-Unique: FnIT8_3MMEyVdpP7AtFPqQ-1
-Received: by mail-qk1-f197.google.com with SMTP id o10-20020a05620a2a0a00b006a77a64cd23so6962320qkp.21
-        for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 11:26:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+2ghUAqq8tV/t933HP/EAr/vq6kVXtlGVMho/GYXXI4=;
-        b=j+bhKf37K4PQ4Mei6hd+ySyCz2xqRa5W0WYKqU3MUYG37/ANoVYszR2j1PwDqCzdpI
-         1I4SYSziqdJSrJmgvJx/nC1fu/zVrJ+agsB2kqE7f7NebEysNSMCwNIgb4gLcbvVdzG3
-         IqPOj+m6bEeVQaj0dM1Mp11FAUSQseRLoxp4U3mVSQmYaSLhe19H6zeiefwB0eqVAwBq
-         1vLwn7k6nu3DZzIJAnX0mgtIs3bV5Fo6Xlxdv5jGEq2fzbYU5eu7Q99aFWPZpXqZ0G0B
-         k+qXBtVRmMVWUwKK7OC4o+wndtOVvvtljRN1VrTGhjYFQTY/LqKSusQit7NE40PenYvP
-         I+BQ==
-X-Gm-Message-State: AJIora+YhVL2KuW+jzNElw6++Dyi1T4at1HqoogVY3A7+DYzlyI7o9x8
-	Uav6yxYtc5XYEiRuAC72MvVr76W4VChLrwWThGXcbCkJ2YrV0BucS+RtMRk0FwG2o9f8s47Cghn
-	2nCd5ziRCmDXdf0ykbrfgukJFhQ==
-X-Received: by 2002:ad4:5c66:0:b0:464:67f7:7fa6 with SMTP id i6-20020ad45c66000000b0046467f77fa6mr4765302qvh.39.1655231182686;
-        Tue, 14 Jun 2022 11:26:22 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uzQsD1blOZeQyV34RqpAWS2lJj/DpXWIAfN92HwdNW4hTCj3v7/yXuU/npHeWWIfzrRCm8lw==
-X-Received: by 2002:ad4:5c66:0:b0:464:67f7:7fa6 with SMTP id i6-20020ad45c66000000b0046467f77fa6mr4765288qvh.39.1655231182449;
-        Tue, 14 Jun 2022 11:26:22 -0700 (PDT)
-Received: from fedora.hitronhub.home (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
-        by smtp.gmail.com with ESMTPSA id c20-20020ac853d4000000b00304e38fb3dasm7590260qtq.35.2022.06.14.11.26.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 11:26:22 -0700 (PDT)
-From: Adrien Thierry <athierry@redhat.com>
-To: Florian Fainelli <f.fainelli@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>,
-	Adrien Thierry <athierry@redhat.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: vchiq_arm: check vchiq_instance for NULL before dereferencing
-Date: Tue, 14 Jun 2022 14:25:44 -0400
-Message-Id: <20220614182544.690630-1-athierry@redhat.com>
-X-Mailer: git-send-email 2.35.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8669B46A5
+	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 18:44:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655232290; x=1686768290;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Ixr3mhKtmM5RFZXlc02iEkQAHMNIxZ03wnoAUFG9cx8=;
+  b=LOIO7w8xPA/+/QyJhtd4oKAu4kVVZsUeov/678g+eUHiVIpvvKZt1VAv
+   3duqf13MaRunO38+7C+tjHcZZPQmY2TeLLZ6FURnUMtrrpY3gypgjt/pR
+   hanY21+Fgs4qFgz7ePjpZGFFGDVDpxxqeF0sPDK9tF29+veFZfdjkJIo1
+   8dcFE/+fQUGrPF6yBpfL+8Akv/6XpnhLxcLG9fTXiC6Fi6olk4z2NNp1x
+   KPITP5pwFxA90pu7RndTe4kIZar1brR53yeI7CXej0+wHSUCSvGEZIMgc
+   aN7qiqUgHu9MscIrFmxfsyoY3kJzMpTy34d7DTE72AgiTN3y2X1tiOtCB
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="259164520"
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
+   d="scan'208";a="259164520"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2022 11:44:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; 
+   d="scan'208";a="535692441"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 14 Jun 2022 11:44:47 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1o1BWw-000MCp-U1;
+	Tue, 14 Jun 2022 18:44:46 +0000
+Date: Wed, 15 Jun 2022 02:44:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-staging@lists.linux.dev,
+ linux-f2fs-devel@lists.sourceforge.net, amd-gfx@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 35d872b9ea5b3ad784d7479ea728dcb688df2db7
+Message-ID: <62a8d6fe.l9kTY7EU3b9NXYOz%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-In service_callback(), the vchiq_instance is checked for NULL after
-dereferencing it. Switch the order of those operations.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 35d872b9ea5b3ad784d7479ea728dcb688df2db7  Add linux-next specific files for 20220614
 
-This was reported by https://lore.kernel.org/all/Yqc+Oavmh0zMRVPQ@kili/
+Error/Warning: (recently discovered and may have been fixed)
 
-I moved the NULL check before the call to rcu_read_lock() since access
-to the vchiq_instance is not RCU-protected (the RCU is only used to
-access the vchiq_service).
+drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:130:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
 
-Signed-off-by: Adrien Thierry <athierry@redhat.com>
----
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 3bcb893d14a1..ba1f86799b7f 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1058,6 +1058,9 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
- 
- 	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
- 
-+	if (!instance || instance->closing)
-+		return VCHIQ_SUCCESS;
-+
- 	rcu_read_lock();
- 	service = handle_to_service(instance, handle);
- 	if (WARN_ON(!service)) {
-@@ -1067,11 +1070,6 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
- 
- 	user_service = (struct user_service *)service->base.userdata;
- 
--	if (!instance || instance->closing) {
--		rcu_read_unlock();
--		return VCHIQ_SUCCESS;
--	}
--
- 	/*
- 	 * As hopping around different synchronization mechanism,
- 	 * taking an extra reference results in simpler implementation.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:9139:27: warning: variable 'abo' set but not used [-Wunused-but-set-variable]
+drivers/staging/vme_user/vme.c:662:20: warning: dereference of NULL 'bridge' [CWE-476] [-Wanalyzer-null-dereference]
+fs/f2fs/data.c:136:33: error: too many arguments to function 'f2fs_end_read_compressed_page'
+fs/f2fs/data.c:138:25: error: too many arguments to function 'f2fs_put_page_dic'
 
-base-commit: de9257ae1d3b0d8856955045d194e3ff4f278394
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arc-randconfig-r015-20220613
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|-- arm-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- arm-randconfig-c002-20220612
+|   `-- drivers-staging-vme_user-vme.c:warning:dereference-of-NULL-bridge-CWE
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- i386-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- i386-debian-10.3
+|   |-- fs-f2fs-data.c:error:too-many-arguments-to-function-f2fs_end_read_compressed_page
+|   `-- fs-f2fs-data.c:error:too-many-arguments-to-function-f2fs_put_page_dic
+|-- i386-debian-10.3-kselftests
+|   |-- fs-f2fs-data.c:error:too-many-arguments-to-function-f2fs_end_read_compressed_page
+|   `-- fs-f2fs-data.c:error:too-many-arguments-to-function-f2fs_put_page_dic
+|-- ia64-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- ia64-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- m68k-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- m68k-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- m68k-randconfig-r005-20220613
+|   |-- fs-f2fs-data.c:error:too-many-arguments-to-function-f2fs_end_read_compressed_page
+|   `-- fs-f2fs-data.c:error:too-many-arguments-to-function-f2fs_put_page_dic
+|-- mips-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- mips-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- nios2-allyesconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- parisc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- powerpc-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- powerpc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- riscv-allmodconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- riscv-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- s390-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|-- sh-allmodconfig
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- sparc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- x86_64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-include-ddc_service_types.h:warning:DP_SINK_BRANCH_DEV_NAME_7580-defined-but-not-used
+|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+|-- x86_64-rhel-8.3-kunit
+|   |-- fs-f2fs-data.c:error:too-many-arguments-to-function-f2fs_end_read_compressed_page
+|   `-- fs-f2fs-data.c:error:too-many-arguments-to-function-f2fs_put_page_dic
+`-- xtensa-allyesconfig
+    |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-abo-set-but-not-used
+    `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
+
+clang_recent_errors
+`-- riscv-randconfig-r035-20220613
+    `-- arch-riscv-kernel-cpufeature.c:warning:variable-cpu_apply_feature-set-but-not-used
+
+elapsed time: 727m
+
+configs tested: 72
+configs skipped: 3
+
+gcc tested configs:
+arm                              allmodconfig
+arm                              allyesconfig
+arm64                            allyesconfig
+arm                                 defconfig
+arm64                               defconfig
+ia64                                defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+alpha                               defconfig
+csky                                defconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+arc                                 defconfig
+h8300                            allyesconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+parisc64                            defconfig
+s390                                defconfig
+s390                             allyesconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+sparc                            allyesconfig
+mips                             allmodconfig
+mips                             allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+x86_64               randconfig-a014-20220613
+x86_64               randconfig-a012-20220613
+x86_64               randconfig-a011-20220613
+x86_64               randconfig-a015-20220613
+x86_64               randconfig-a013-20220613
+x86_64               randconfig-a016-20220613
+i386                 randconfig-a013-20220613
+i386                 randconfig-a011-20220613
+i386                 randconfig-a012-20220613
+i386                 randconfig-a016-20220613
+i386                 randconfig-a015-20220613
+i386                 randconfig-a014-20220613
+arc                  randconfig-r043-20220613
+riscv                randconfig-r042-20220613
+s390                 randconfig-r044-20220613
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                            allmodconfig
+riscv                    nommu_k210_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+x86_64                           rhel-8.3-syz
+
+clang tested configs:
+hexagon              randconfig-r041-20220613
+hexagon              randconfig-r045-20220613
+
 -- 
-2.35.3
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
