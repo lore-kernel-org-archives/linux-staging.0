@@ -1,206 +1,115 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2581FB7
-	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 17:50:40 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id h19so9033700wrc.12
-        for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 10:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=x63h/c1BGVusV25ZT0fkdjHSGcrp+du01iw2pt40ZiY=;
-        b=wC2k+b0KHPpw9d+uXu4XTg8ogHhDCwtZpfR40+2PQfGRRBsqMojV22iXjFCOch/cT3
-         xw/T7iXOTdS/PrAX/Zsaj1o3TbbFQqxJZQIUxj+7Y31I/IEuvUv7OqSAbbAI1shq6DWa
-         HBNOJiHl9ztLGL5Vs2c16KPnqGPiC0m11MRD4Bv/iQNjIbVIVghhimmepwZCO2ovAZsf
-         r5Yc3DVnG5DW2LGbQaQmzYZuzu+Kupw+QtfhjZ/sXjSUvHMP4Sljtsdz2FrdxVGljNFC
-         IA1ZajZI5Hn63JfA6oIxVJDAcflZt36ayzw9IBG01Fo9D4AckSwYz/ZGgXkT5C6r7pOF
-         8IVQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116EC1FB0
+	for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 18:26:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1655231184;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+2ghUAqq8tV/t933HP/EAr/vq6kVXtlGVMho/GYXXI4=;
+	b=SGxFNxSVhpk8ToY2dSoTMFN1wuUCA9fCdP5RYN7Nzrn54fc6RmHfnlOSXCMVqgXhqjrPyz
+	N9vo7ejG7j5rDcvTAPTOq2CVNzl0rgcNQfgGqcITeV4Q2xbwAs1pQLacLCqOyOb+AXtR06
+	tTv7ad2OYUwNqQP/+L3irvYh7Jd3qdg=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-13-FnIT8_3MMEyVdpP7AtFPqQ-1; Tue, 14 Jun 2022 14:26:23 -0400
+X-MC-Unique: FnIT8_3MMEyVdpP7AtFPqQ-1
+Received: by mail-qk1-f197.google.com with SMTP id o10-20020a05620a2a0a00b006a77a64cd23so6962320qkp.21
+        for <linux-staging@lists.linux.dev>; Tue, 14 Jun 2022 11:26:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=x63h/c1BGVusV25ZT0fkdjHSGcrp+du01iw2pt40ZiY=;
-        b=YtJ1NdZO6N+jPFkceHY3Tls+1OBrANimYUVKXEdvoPdgkMCFNyhyg+EEajp6QTtCxw
-         63jTZUA/VAMu07b+HgZKoTVnFmkXmhlaPJi73gqZG4nNcHaIrrLWKzJslVMlhHIRmHG6
-         EoGn6LWQbPmUz4Yr1Z+R1AAe4sx43EK8WPzQoWGe7FmqfA0TbW/wZ1T1wcXFxe5S+HeO
-         /oimJg96Q1vhtOPeJweehrmhQ6k6ebTN0quF1OVxRPQF37fD6BtWgK9GOtu7eofpljIE
-         hLQClQDmBWP+mxgKjmF2y4s9QNcOhsdsryaWLBBJck8YaCSfcQnwy4GXMjFCT5Gcipda
-         XPeA==
-X-Gm-Message-State: AJIora/TQBJo/0pLEG2XKWH/iNALtMWMpVIeUEAQL59Xlve30PNlyfBs
-	wxfnpY2j/z5ZPbPC2QlQcmhPGw==
-X-Google-Smtp-Source: AGRyM1vtyiXwWVIL9MMf4TgYpUoAn9bBTXR+rnlA9ZEo4F4daQXCmIIAXO7sujqKVZGPndgDzp1Efg==
-X-Received: by 2002:adf:978c:0:b0:219:e4e7:7057 with SMTP id s12-20020adf978c000000b00219e4e77057mr5959106wrb.568.1655229038553;
-        Tue, 14 Jun 2022 10:50:38 -0700 (PDT)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id bh8-20020a05600c3d0800b003942a244ee6sm13732418wmb.43.2022.06.14.10.50.37
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Tue, 14 Jun 2022 10:50:37 -0700 (PDT)
-From: John Cox <jc@kynesim.co.uk>
-To: =?utf-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com
-Subject: Re: [PATCH v8 09/17] media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a dynamic array
-Date: Tue, 14 Jun 2022 18:50:36 +0100
-Message-ID: <cgihahl6gu9089b1ph9tj4vobftaoatbjt@4ax.com>
-References: <20220614083614.240641-1-benjamin.gaignard@collabora.com> <20220614083614.240641-10-benjamin.gaignard@collabora.com> <e16c48e0-39ab-80db-0d14-2b3f97079823@xs4all.nl> <2830572.e9J7NaK4W3@kista>
-In-Reply-To: <2830572.e9J7NaK4W3@kista>
-User-Agent: ForteAgent/8.00.32.1272
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+2ghUAqq8tV/t933HP/EAr/vq6kVXtlGVMho/GYXXI4=;
+        b=j+bhKf37K4PQ4Mei6hd+ySyCz2xqRa5W0WYKqU3MUYG37/ANoVYszR2j1PwDqCzdpI
+         1I4SYSziqdJSrJmgvJx/nC1fu/zVrJ+agsB2kqE7f7NebEysNSMCwNIgb4gLcbvVdzG3
+         IqPOj+m6bEeVQaj0dM1Mp11FAUSQseRLoxp4U3mVSQmYaSLhe19H6zeiefwB0eqVAwBq
+         1vLwn7k6nu3DZzIJAnX0mgtIs3bV5Fo6Xlxdv5jGEq2fzbYU5eu7Q99aFWPZpXqZ0G0B
+         k+qXBtVRmMVWUwKK7OC4o+wndtOVvvtljRN1VrTGhjYFQTY/LqKSusQit7NE40PenYvP
+         I+BQ==
+X-Gm-Message-State: AJIora+YhVL2KuW+jzNElw6++Dyi1T4at1HqoogVY3A7+DYzlyI7o9x8
+	Uav6yxYtc5XYEiRuAC72MvVr76W4VChLrwWThGXcbCkJ2YrV0BucS+RtMRk0FwG2o9f8s47Cghn
+	2nCd5ziRCmDXdf0ykbrfgukJFhQ==
+X-Received: by 2002:ad4:5c66:0:b0:464:67f7:7fa6 with SMTP id i6-20020ad45c66000000b0046467f77fa6mr4765302qvh.39.1655231182686;
+        Tue, 14 Jun 2022 11:26:22 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uzQsD1blOZeQyV34RqpAWS2lJj/DpXWIAfN92HwdNW4hTCj3v7/yXuU/npHeWWIfzrRCm8lw==
+X-Received: by 2002:ad4:5c66:0:b0:464:67f7:7fa6 with SMTP id i6-20020ad45c66000000b0046467f77fa6mr4765288qvh.39.1655231182449;
+        Tue, 14 Jun 2022 11:26:22 -0700 (PDT)
+Received: from fedora.hitronhub.home (modemcable200.11-22-96.mc.videotron.ca. [96.22.11.200])
+        by smtp.gmail.com with ESMTPSA id c20-20020ac853d4000000b00304e38fb3dasm7590260qtq.35.2022.06.14.11.26.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jun 2022 11:26:22 -0700 (PDT)
+From: Adrien Thierry <athierry@redhat.com>
+To: Florian Fainelli <f.fainelli@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>,
+	Adrien Thierry <athierry@redhat.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: vchiq_arm: check vchiq_instance for NULL before dereferencing
+Date: Tue, 14 Jun 2022 14:25:44 -0400
+Message-Id: <20220614182544.690630-1-athierry@redhat.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=athierry@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Hi
+In service_callback(), the vchiq_instance is checked for NULL after
+dereferencing it. Switch the order of those operations.
 
->Dne torek, 14. junij 2022 ob 15:50:23 CEST je Hans Verkuil napisal(a):
->> On 6/14/22 10:36, Benjamin Gaignard wrote:
->> > Make explicit that V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control is
->> > a dynamic array control type.
->> > Some drivers may be able to receive multiple slices in one control
->> > to improve decoding performance.
->> >=20
->> > Define the max size of the dynamic that can driver can set in .dims =
-=3D {}.
->> >=20
->> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> > ---
->> > version 7:
->> > - Add Jernej patch to set array dims for Cedrus
->> >=20
->> > version 6:
->> > - Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
->> >   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
->> > - Add a define for max slices count
->> >=20
->> >  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
->> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 1 +
->> >  drivers/staging/media/sunxi/cedrus/cedrus.c               | 1 +
->> >  include/media/hevc-ctrls.h                                | 5 +++++
->> >  4 files changed, 9 insertions(+)
->> >=20
->> > diff --git =
-a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
->Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> > index 06b967de140c..0796b1563daa 100644
->> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> > @@ -2986,6 +2986,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
- -
->> >      These bitstream parameters are defined according to =
-:ref:`hevc`.
->> >      They are described in section 7.4.7 "General slice segment =
-header
->> >      semantics" of the specification.
->> > +    This control is a dynamically sized 1-dimensional array,
->> > +    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
->> > =20
->> >  .. c:type:: v4l2_ctrl_hevc_slice_params
->> > =20
->> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c =
-b/drivers/media/
->v4l2-core/v4l2-ctrls-defs.c
->> > index 9f55503cd3d6..d594efbcbb93 100644
->> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> > @@ -1510,6 +1510,7 @@ void v4l2_ctrl_fill(u32 id, const char **name,=
- enum=20
->v4l2_ctrl_type *type,
->> >  		break;
->> >  	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
->> >  		*type =3D V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
->> > +		*flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
->> >  		break;
->> >  	case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
->> >  		*type =3D V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
->> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c =
-b/drivers/staging/
->media/sunxi/cedrus/cedrus.c
->> > index 87be975a72b6..f3391c7c811c 100644
->> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
->> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
->> > @@ -178,6 +178,7 @@ static const struct cedrus_control =
-cedrus_controls[] =3D=20
->{
->> >  	{
->> >  		.cfg =3D {
->> >  			.id	=3D=20
->V4L2_CID_STATELESS_HEVC_SLICE_PARAMS,
->> > +			.dims   =3D { 1 },
->>=20
->> So cedrus HW supports only a single SLICE_PARAMS struct? Perhaps add =
-that
->> as a comment.
->
->Yes, for now. I have WIP patch which will remove this limitation.
->
->Please corrrect me if I'm wrong, but this dimension represents maximum =
-allowed=20
->array length? If so, this is a bit awkward for cases where there is =
-really no=20
->limit. Like in this case. Cedrus can process only one slice which means =
-that=20
->driver will have to loop over all submitted slices, one by one. Thus, =
-there is=20
->no real limitation. It could be set to 10, 1000 or even more. Any =
-suggestion=20
->for appropriate upper limit is appreciated.
+This was reported by https://lore.kernel.org/all/Yqc+Oavmh0zMRVPQ@kili/
 
-Likewise for Pi there is no real upper limit.
+I moved the NULL check before the call to rcu_read_lock() since access
+to the vchiq_instance is not RCU-protected (the RCU is only used to
+access the vchiq_service).
 
-Regards
+Signed-off-by: Adrien Thierry <athierry@redhat.com>
+---
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-John Cox
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 3bcb893d14a1..ba1f86799b7f 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -1058,6 +1058,9 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
+ 
+ 	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+ 
++	if (!instance || instance->closing)
++		return VCHIQ_SUCCESS;
++
+ 	rcu_read_lock();
+ 	service = handle_to_service(instance, handle);
+ 	if (WARN_ON(!service)) {
+@@ -1067,11 +1070,6 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
+ 
+ 	user_service = (struct user_service *)service->base.userdata;
+ 
+-	if (!instance || instance->closing) {
+-		rcu_read_unlock();
+-		return VCHIQ_SUCCESS;
+-	}
+-
+ 	/*
+ 	 * As hopping around different synchronization mechanism,
+ 	 * taking an extra reference results in simpler implementation.
 
->Best regards,
->Jernej
->
->>=20
->> >  		},
->> >  		.codec		=3D CEDRUS_CODEC_H265,
->> >  	},
->> > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->> > index 0dbd5d681c28..140151609c96 100644
->> > --- a/include/media/hevc-ctrls.h
->> > +++ b/include/media/hevc-ctrls.h
->> > @@ -311,9 +311,14 @@ struct v4l2_hevc_pred_weight_table {
->> >  #define=20
->V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED =
-(1ULL <<=20
->8)
->> >  #define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL =
-<<=20
->9)
->> > =20
->> > +#define V4L2_HEVC_SLICE_MAX_COUNT	600
->> > +
->>=20
->> I would drop this define. It is not used at the moment, and I think it
->> is the driver that should set this through the dims field (as cedrus
->> does above). It is likely to be limited by hardware anyway (just my =
-guess).
->>=20
->> If it is needed in the future, it can always be added.
->>=20
->> Regards,
->>=20
->> 	Hans
->>=20
->> >  /**
->> >   * v4l2_ctrl_hevc_slice_params - HEVC slice parameters
->> >   *
->> > + * This control is a dynamically sized 1-dimensional array,
->> > + * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
->> > + *
->> >   * @bit_size: size (in bits) of the current slice data
->> >   * @data_bit_offset: offset (in bits) to the video data in the =
-current=20
->slice data
->> >   * @nal_unit_type: specifies the coding type of the slice (B, P or =
-I)
->>=20
->>=20
->
+base-commit: de9257ae1d3b0d8856955045d194e3ff4f278394
+-- 
+2.35.3
+
